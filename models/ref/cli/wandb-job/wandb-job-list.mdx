@@ -1,30 +1,53 @@
 ---
-title: "wandb job list"
+title: wandb job-list
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-job-list.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbJobList from "/snippets/en/_includes/cli/wandb-job-list.mdx";
-
-<WandbJobList/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 List jobs in a project
 
 ## Usage
 
-```bash
+```shell
 wandb job list [OPTIONS]
 ```
 
+
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | The project you want to list jobs from. |
-| `--entity`, `-e` | The entity the jobs belong to (default: models) |
+### `project`
+
+The project you want to list jobs from.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` | None | STRING |
+
+### `entity`
+
+The entity the jobs belong to                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` | models | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: job list [OPTIONS]
+
+  List jobs in a project
+
+Options:
+  -p, --project TEXT  The project you want to list jobs from.
+  -e, --entity TEXT   The entity the jobs belong to
+  --help              Show this message and exit.
+```
+

@@ -1,23 +1,52 @@
 ---
-title: "wandb server stop"
+title: wandb server-stop
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-server-stop.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbServerStop from "/snippets/en/_includes/cli/wandb-server-stop.mdx";
 
-<WandbServerStop/>
+Stop a running local W&B server.
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+    Stops the Docker container named ``wandb-local`` that was started
+    by ``wandb server start``. Requires Docker to be installed.
 
-Stop a local W&B server
+    Examples:
+
+    ```bash
+    wandb server stop
+    ```
+    
 
 ## Usage
 
-```bash
-wandb server stop
+```shell
+wandb server stop [OPTIONS]
 ```
+
+
+## Options
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: server stop [OPTIONS]
+
+  Stop a running local W&B server.
+
+  Stops the Docker container named ``wandb-local`` that was started by ``wandb
+  server start``. Requires Docker to be installed.
+
+  Examples:
+
+  ```bash wandb server stop ```
+
+Options:
+  --help  Show this message and exit.
+```
+

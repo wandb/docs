@@ -1,39 +1,94 @@
 ---
-title: "wandb launch-sweep"
+title: wandb launch-sweep
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-launch-sweep.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbLaunchSweep from "/snippets/en/_includes/cli/wandb-launch-sweep.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbLaunchSweep/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1273" />
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Run a W&B launch sweep (Experimental).
 
 ## Usage
 
-```bash
-wandb launch-sweep [CONFIG] [OPTIONS]
+```shell
+wandb launch-sweep [OPTIONS] [CONFIG]
 ```
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `CONFIG` | No description available | No |
+### `config`
+
+| Name | Default | Type |
+|------|---------|------|
+| `config` | None | File Path |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--queue`, `-q` | The name of a queue to push the sweep to |
-| `--project`, `-p` | Name of the project which the agent will watch. If passed in, will override the project value passed in using a config file |
-| `--entity`, `-e` | The entity to use. Defaults to current logged-in user |
-| `--resume_id`, `-r` | Resume a launch sweep by passing an 8-char sweep id. Queue required |
-| `--prior_run`, `-R` | ID of an existing run to add to this sweep |
+### `queue`
+
+The name of a queue to push the sweep to                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-q, --queue` | None | STRING |
+
+### `project`
+
+Name of the project which the agent will watch. If passed in, will override the project value passed in using a config file                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` | None | STRING |
+
+### `entity`
+
+The entity to use. Defaults to current logged-in user                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` | None | STRING |
+
+### `resume_id`
+
+Resume a launch sweep by passing an 8-char sweep id. Queue required                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-r, --resume_id` | None | STRING |
+
+### `prior_runs`
+
+ID of an existing run to add to this sweep                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-R, --prior_run` | None | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: launch-sweep [OPTIONS] [CONFIG]
+
+  Run a W&B launch sweep (Experimental).
+
+Options:
+  -q, --queue TEXT      The name of a queue to push the sweep to
+  -p, --project TEXT    Name of the project which the agent will watch. If
+                        passed in, will override the project value passed in
+                        using a config file
+  -e, --entity TEXT     The entity to use. Defaults to current logged-in user
+  -r, --resume_id TEXT  Resume a launch sweep by passing an 8-char sweep id.
+                        Queue required
+  -R, --prior_run TEXT  ID of an existing run to add to this sweep
+  --help                Show this message and exit.
+```
+

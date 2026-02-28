@@ -1,66 +1,207 @@
 ---
-title: "wandb beta sync"
+title: wandb beta-sync
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-sync.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbBetaSync from "/snippets/en/_includes/cli/wandb-beta-sync.mdx";
-
-<WandbBetaSync/>
-
-  The snippet will be auto-detected on the next regeneration.
-*/}
 
 Upload .wandb files specified by PATHS.
 
-This is a beta re-implementation of `wandb sync`. It is not feature complete, not guaranteed to work, and may change in backward-incompatible ways in any release of wandb.
+    This is a beta re-implementation of `wandb sync`.
+    It is not feature complete, not guaranteed to work, and may change
+    in backward-incompatible ways in any release of wandb.
 
-PATHS can include .wandb files, run directories containing .wandb files, and "wandb" directories containing run directories.
+    PATHS can include .wandb files, run directories containing .wandb files,
+    and "wandb" directories containing run directories.
 
-For example, to sync all runs in a directory:
+    For example, to sync all runs in a directory:
 
-```bash
-wandb beta sync ./wandb
-```
+        wandb beta sync ./wandb
 
-To sync a specific run:
+    To sync a specific run:
 
-```bash
-wandb beta sync ./wandb/run-20250813_124246-n67z9ude
-```
+        wandb beta sync ./wandb/run-20250813_124246-n67z9ude
 
-Or equivalently:
+    Or equivalently:
 
-```bash
-wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
-```
+        wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+    
 
 ## Usage
 
-```bash
-wandb beta sync [PATHS] [OPTIONS]
+```shell
+wandb beta sync [OPTIONS] [PATHS]...
 ```
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `PATHS` | No description available | No |
+### `paths`
+
+| Name | Default | Type |
+|------|---------|------|
+| `paths` | None | File Path |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--live` | Sync a run while it's still being logged. This may hang if the process generating the run crashes uncleanly. (default: False) |
-| `-e`, `--entity` | An entity override to use for all runs being synced. (default: ) |
-| `-p`, `--project` | A project override to use for all runs being synced. (default: ) |
-| `--id` | A run ID override to use for all runs being synced. If setting this and syncing multiple files (with the same entity and project), the files will be synced in order of start time. This is intended to work with syncing multiple resumed fragments of the same run. (default: ) |
-| `--job-type` | A job type override for all runs being synced. (default: ) |
-| `--replace-tags` | Rename tags using the format 'old1=new1,old2=new2'. (default: ) |
-| `--skip-synced` | Skip runs that have already been synced with this command. (default: True) |
-| `--dry-run` | Print what would happen without uploading anything. (default: False) |
-| `-v`, `--verbose` | Print more information. (default: False) |
-| `-n` | Max number of runs to sync at a time. When syncing multiple files that are part of the same run, the files are synced sequentially in order of start time regardless of this setting. This happens for resumed runs or when using the --id parameter. (default: 5) |
+### `live`
+
+Sync a run while it's still being logged.
+
+This may hang if the process generating the run crashes uncleanly.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--live` | False | BOOL |
+
+### `entity`
+
+An entity override to use for all runs being synced.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-e, --entity` |  | STRING |
+
+### `project`
+
+A project override to use for all runs being synced.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-p, --project` |  | STRING |
+
+### `run_id`
+
+A run ID override to use for all runs being synced.
+
+If setting this and syncing multiple files (with the same entity
+and project), the files will be synced in order of start time.
+This is intended to work with syncing multiple resumed fragments
+of the same run.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--id` |  | STRING |
+
+### `job_type`
+
+A job type override for all runs being synced.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--job-type` |  | STRING |
+
+### `replace_tags`
+
+Rename tags using the format 'old1=new1,old2=new2'.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--replace-tags` |  | STRING |
+
+### `skip_synced`
+
+Skip runs that have already been synced with this command.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--skip-synced` | True | BOOL |
+
+### `dry_run`
+
+Print what would happen without uploading anything.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--dry-run` | False | BOOL |
+
+### `verbose`
+
+Print more information.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-v, --verbose` | False | BOOL |
+
+### `n`
+
+Max number of runs to sync at a time.
+
+When syncing multiple files that are part of the same run,
+the files are synced sequentially in order of start time
+regardless of this setting. This happens for resumed runs
+or when using the --id parameter.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `-n` | 5 | INT |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: beta sync [OPTIONS] [PATHS]...
+
+  Upload .wandb files specified by PATHS.
+
+  This is a beta re-implementation of `wandb sync`. It is not feature
+  complete, not guaranteed to work, and may change in backward-incompatible
+  ways in any release of wandb.
+
+  PATHS can include .wandb files, run directories containing .wandb files, and
+  "wandb" directories containing run directories.
+
+  For example, to sync all runs in a directory:
+
+      wandb beta sync ./wandb
+
+  To sync a specific run:
+
+      wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+
+  Or equivalently:
+
+      wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+
+Options:
+  --live                          Sync a run while it's still being logged.
+                                  
+                                  This may hang if the process generating the
+                                  run crashes uncleanly.
+  -e, --entity TEXT               An entity override to use for all runs being
+                                  synced.
+  -p, --project TEXT              A project override to use for all runs being
+                                  synced.
+  --id TEXT                       A run ID override to use for all runs being
+                                  synced.
+                                  
+                                  If setting this and syncing multiple files
+                                  (with the same entity and project), the
+                                  files will be synced in order of start time.
+                                  This is intended to work with syncing
+                                  multiple resumed fragments of the same run.
+  --job-type TEXT                 A job type override for all runs being
+                                  synced.
+  --replace-tags TEXT             Rename tags using the format
+                                  'old1=new1,old2=new2'.
+  --skip-synced / --no-skip-synced
+                                  Skip runs that have already been synced with
+                                  this command.
+  --dry-run                       Print what would happen without uploading
+                                  anything.
+  -v, --verbose                   Print more information.
+  -n INTEGER                      Max number of runs to sync at a time.
+                                  
+                                  When syncing multiple files that are part of
+                                  the same run, the files are synced
+                                  sequentially in order of start time
+                                  regardless of this setting. This happens for
+                                  resumed runs or when using the --id
+                                  parameter.
+  --help                          Show this message and exit.
+```
+

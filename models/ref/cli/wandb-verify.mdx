@@ -1,18 +1,115 @@
 ---
-title: "wandb verify"
+title: wandb verify
 ---
-import WandbVerify from "/snippets/en/_includes/cli/wandb-verify.mdx";
 
-<WandbVerify/>
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3588" />
+
+
+Run integration checks against a self-hosted W&B instance.
+
+    Validate that a self-hosted or dedicated cloud W&B deployment is configured
+    and operating correctly. Do not run this command against the public W&B
+    cloud at `api.wandb.ai`.
+
+    The following checks are run in order:
+    1. Host check - Verify the host is not `api.wandb.ai`.
+    2. Login check - Verify the API key authenticates successfully.
+    3. Secure requests check - Verify requests use HTTPS.
+    4. Large payload check - Verify the instance handles large payloads (~10MB).
+    5. Secure requests check - Verify signed URL requests use HTTPS.
+    6. CORS configuration - Verify the object store allows GET and PUT requests
+        from the W&B instance.
+    7. W&B version - Verify the installed W&B package is compatible with the instance.
+    8. Run check - Log metrics, save files, and download files to verify runs
+        are recorded and accessible.
+    9. Artifact check - Save and download artifacts to verify artifact storage
+        and retrieval work correctly.
+    10. Sweeps check - Create and execute a random sweep to verify the sweep
+        system functions correctly.
+
+    Exits with `code 1` if any critical check fails.
+
+    Examples:
+
+    Verify the currently configured W&B instance.
+
+    ```bash
+    wandb verify --host https://my-wandb-instance.com
+    ```
+
+    Verify a specific self-hosted instance.
+
+    ```bash
+    wandb verify --host https://my-wandb-server.example.com 
+    ```
+
 
 ## Usage
 
-```bash
+```shell
 wandb verify [OPTIONS]
 ```
 
+
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--host` | Test a specific instance of W&B |
+### `host`
+
+Target a specific W&B instance URL. Default to configured base URL.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--host` | None | STRING |
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: verify [OPTIONS]
+
+  Run integration checks against a self-hosted W&B instance.
+
+  Validate that a self-hosted or dedicated cloud W&B deployment is configured
+  and operating correctly. Do not run this command against the public W&B
+  cloud at `api.wandb.ai`.
+
+  The following checks are run in order: 1. Host check - Verify the host is
+  not `api.wandb.ai`. 2. Login check - Verify the API key authenticates
+  successfully. 3. Secure requests check - Verify requests use HTTPS. 4. Large
+  payload check - Verify the instance handles large payloads (~10MB). 5.
+  Secure requests check - Verify signed URL requests use HTTPS. 6. CORS
+  configuration - Verify the object store allows GET and PUT requests     from
+  the W&B instance. 7. W&B version - Verify the installed W&B package is
+  compatible with the instance. 8. Run check - Log metrics, save files, and
+  download files to verify runs     are recorded and accessible. 9. Artifact
+  check - Save and download artifacts to verify artifact storage     and
+  retrieval work correctly. 10. Sweeps check - Create and execute a random
+  sweep to verify the sweep     system functions correctly.
+
+  Exits with `code 1` if any critical check fails.
+
+  Examples:
+
+  Verify the currently configured W&B instance.
+
+  ```bash wandb verify --host https://my-wandb-instance.com ```
+
+  Verify a specific self-hosted instance.
+
+  ```bash wandb verify --host https://my-wandb-server.example.com  ```
+
+Options:
+  --host TEXT  Target a specific W&B instance URL. Default to configured base
+               URL.
+  --help       Show this message and exit.
+```
+

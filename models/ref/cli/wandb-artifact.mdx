@@ -1,20 +1,45 @@
 ---
-title: "wandb artifact"
+title: wandb artifact
 ---
 
-Commands for interacting with artifacts
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2820" />
+
+
+Upload, download, and manage W&B artifacts.
 
 ## Usage
 
-```bash
-wandb artifact COMMAND [ARGS]...
+```shell
+wandb artifact [OPTIONS] COMMAND [ARGS]...
 ```
 
-## Commands
 
-| Command | Description |
-| :--- | :--- |
-| [cache](/models/ref/cli/wandb-artifact/wandb-artifact-cache) | Commands for interacting with the artifact cache |
-| [get](/models/ref/cli/wandb-artifact/wandb-artifact-get) | Download an artifact from wandb |
-| [ls](/models/ref/cli/wandb-artifact/wandb-artifact-ls) | List all artifacts in a wandb project |
-| [put](/models/ref/cli/wandb-artifact/wandb-artifact-put) | Upload an artifact to wandb |
+## Options
+
+### `help`
+
+Show this message and exit.                
+
+| Flag | Default | Type | 
+|------|---------|------|
+| `--help` | False | BOOL |
+
+## CLI Help
+
+```
+Usage: artifact [OPTIONS] COMMAND [ARGS]...
+
+  Upload, download, and manage W&B artifacts.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  cache  Manage the local artifact cache.
+  get    Download an artifact from W&B by its path.
+  ls     List all artifacts in a W&B project.
+  put    Upload an artifact to W&B.
+```
+
