@@ -44,6 +44,10 @@ Now you can [create an automation](#create-a-webhook-automation) that uses the w
 ## Create an automation
 After you [configure a webhook](#create-a-webhook), select **Registry** or **Project**, then follow these steps to create an automation that triggers the webhook.
 
+<Note>
+To create an automation programmatically, use [`api.create_automation`](/models/ref/python/public-api/api#method-api-create-automation).
+</Note>
+
 <Tabs>
 <Tab title="Registry">
 A Registry admin can create automations in that registry. Registry automations are applied to all collections in the registry, including those added in the future.
@@ -93,6 +97,13 @@ A W&B admin can create automations in a project.
 </Tabs>
 
 ## View and manage automations
+
+<Note>
+To view, manage, or delete automations programmatically, use these Python SDK methods:
+- [`Api.automations`](/models/ref/python/public-api/api#method-api-automations)
+- [`Api.update_automation`](/models/ref/python/public-api/api#method-api-update-automation)
+- [`Api.delete_automation`](/models/ref/python/public-api/api#method-api-delete-automation)
+</Note>
 <Tabs>
 <Tab title="Registry">
 Manage a registry's automations from the registry's **Automations** tab.
