@@ -805,6 +805,7 @@
                           "weave/guides/integrations/autogen",
                           "weave/guides/integrations/verdict",
                           "weave/guides/integrations/verifiers",
+                          "weave/guides/integrations/trl",
                           "weave/guides/integrations/js"
                         ]
                       },
