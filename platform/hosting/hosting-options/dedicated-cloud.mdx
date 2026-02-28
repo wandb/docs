@@ -3,15 +3,19 @@ description: Deploy W&B Dedicated Cloud in production
 title: Dedicated Cloud
 ---
 
-W&B Dedicated Cloud is a single-tenant, fully managed platform deployed in W&B's AWS, Google Cloud, or Azure cloud accounts. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances. Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services. 
+W&B Dedicated Cloud is a single-tenant, fully managed platform deployed in W&B's AWS, Google Cloud, or Azure cloud accounts. Each Dedicated Cloud instance has its own isolated network, compute and storage from other W&B Dedicated Cloud instances. Your W&B specific metadata and data is stored in an isolated cloud storage and is processed using isolated cloud compute services.
 
-W&B Dedicated Cloud is available in [multiple global regions for each cloud provider](./dedicated_regions)
+W&B Dedicated Cloud is available in [multiple global regions for each cloud provider](./dedicated-cloud/regions)
+
+## Rate limits
+
+W&B applies default rate limits on Dedicated Cloud to maintain instance stability. See [Rate limits](/platform/hosting/hosting-options/dedicated-cloud/rate-limits) for default values, how limits are enforced, and how to request higher limits when you scale up training.
 
 ## Compliance
-- **SOC 2**: W&B Dedicated Cloud's hosting platform meets the requirements of the [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), published by the [Auditing Standards Board of the American Institute of Certified Public Accountants (AICPA)](https://www.aicpa-cima.com/home). A SOC 2 report evaluates a service organization’s controls for security, availability, processing integrity, confidentiality, and privacy. W&B Dedicated Cloud is subject to periodic internal and external audits to verify continued compliance. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the SOC 2 report and other security and compliance documents.
+- **SOC 2**: W&B Dedicated Cloud's hosting platform meets the requirements of the [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), published by the [Auditing Standards Board of the American Institute of Certified Public Accountants (AICPA)](https://www.aicpa-cima.com/home). A SOC 2 report evaluates a service organization's controls for security, availability, processing integrity, confidentiality, and privacy. W&B Dedicated Cloud is subject to periodic internal and external audits to verify continued compliance. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the SOC 2 report and other security and compliance documents.
 - **HIPAA**: When configured appropriately, W&B Dedicated Cloud meets the requirements of the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). Compliance with HIPAA is a shared responsibility that involves W&B, the customer, and any third-party services involved in the deployment. Organizations subject to HIPAA must have a **Business Associate Agreement** on file with W&B. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request more information.
 
-## Data security 
+## Data security
 
 You can bring your own bucket (BYOB) using the [secure storage connector](/platform/hosting/data-security/secure-storage-connector) at the [instance and team levels](/platform/hosting/data-security/secure-storage-connector#configuration-options) to store your files such as models, datasets, and more.
 
@@ -21,7 +25,7 @@ Similar to W&B Multi-tenant Cloud, you can configure a single bucket for multipl
     <img src="/images/hosting/dedicated_cloud_arch.png" alt="Dedicated Cloud architecture diagram"  />
 </Frame>
 
-In addition to BYOB with secure storage connector, you can use [IP allowlisting](/platform/hosting/data-security/ip-allowlisting) to restrict access to your Dedicated Cloud instance from only trusted network locations. 
+In addition to BYOB with secure storage connector, you can use [IP allowlisting](/platform/hosting/data-security/ip-allowlisting) to restrict access to your Dedicated Cloud instance from only trusted network locations.
 
 You can connect privately to your Dedicated Cloud instance using [cloud provider's secure connectivity solution](/platform/hosting/data-security/private-connectivity).
 
