@@ -56,7 +56,7 @@ Select a tab to see Python and TypeScript-specific code.
     import * as weave from 'weave';
 
     // Initialize Weave
-    await weave.init('intro-example');
+    const client = await weave.init('intro-example');
 
     // Create a dataset
     const dataset = new weave.Dataset({
@@ -69,10 +69,18 @@ Select a tab to see Python and TypeScript-specific code.
     });
 
     // Publish the dataset
-    await dataset.save();
+    const ref = await dataset.save();
+
+    // Retrieve the dataset
+    const retrievedDataset = await client.get(ref);
+
+    // Alternatively, retrieve using a URI string
+    const datasetUri = 'weave:///my-entity/intro-example/object/grammar:abc123def456';
+    const refFromUri = weave.ObjectRef.fromUri(datasetUri);
+    const retrievedDatasetFromUri = await client.get(refFromUri);
 
     // Access a specific example
-    const exampleLabel = datasetRef.getRow(2).sentence;
+    const exampleLabel = retrievedDataset.getRow(2).sentence;
     ```
 
   </Tab>
