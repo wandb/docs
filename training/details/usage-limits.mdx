@@ -1,0 +1,11 @@
+---
+title: Limits
+description: Understand pricing, usage limits, and account restrictions for W&B Serverless RL
+---
+
+
+## Limits
+
+* **Inference concurrency limits**: By default, Serverless RL currently supports up to 2000 concurrent requests per user and 6000 per project. If you exceed your rate limit, the Inference API returns a `429 Concurrency limit reached for requests` response. To avoid this error, reduce the number of concurrent requests your training job or production workload makes at once. If you need a higher rate limit, you can request one at support@wandb.com.
+
+* **Geographic restrictions**: Serverless RL is only available in supported geographic locations. For more information, see the [Terms of Service](https://site.wandb.ai/terms/).
