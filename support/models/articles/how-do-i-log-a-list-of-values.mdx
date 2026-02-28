@@ -1,0 +1,42 @@
+---
+title: "How do I log a list of values?"
+sidebarTitle: "How do I log a list of values?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+These examples show logging losses a couple of different ways using [`wandb.Run.log()`](/models/ref/python/experiments/run/#method-runlog/).
+
+<Tabs>
+<Tab title="Using a dictionary">
+```python
+import wandb
+
+# Initialize a new run
+with wandb.init(project="log-list-values", name="log-dict") as run:
+    # Log losses as a dictionary
+    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+    run.log({"losses": losses})
+    run.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
+```
+</Tab>
+<Tab title="As a histogram">
+```python
+import wandb
+
+# Initialize a new run
+with wandb.init(project="log-list-values", name="log-hist") as run:
+    # Log losses as a histogram
+    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+    run.log({"losses": wandb.Histogram(losses)})
+```
+</Tab>
+</Tabs>
+
+For more, see [the documentation on logging](/models/track/log/).
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>

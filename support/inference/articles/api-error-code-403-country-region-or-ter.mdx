@@ -1,0 +1,45 @@
+---
+title: "API error code 403 - Country, region, or territory not supported"
+sidebarTitle: "API error code 403 - Country, region, or territory not supported"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+A 403 error with the message "Country, region, or territory not supported" means you're accessing W&B Inference from an unsupported location.
+
+## Why this happens
+
+W&B Inference has geographic restrictions due to compliance and regulatory requirements. The service is only accessible from supported geographic locations.
+
+## What you can do
+
+1. **Check the geographic restrictions**
+   - Review the [geographic restrictions](/inference/usage-limits/#geographic-restrictions) for the current list of supported locations
+
+2. **Use from a supported location**
+   - Access the service when in a supported country or region
+   - Consider using your organization's resources in supported locations
+
+3. **Contact your account team**
+   - Enterprise customers can discuss options with their account executive
+   - Some organizations may have special arrangements
+
+## Error details
+
+When you see this error:
+```
+{
+  "error": {
+    "code": 403,
+    "message": "Country, region, or territory not supported"
+  }
+}
+```
+
+This is determined by your IP address location at the time of the API request.
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/support/inference/tags/inference)</Badge><Badge stroke shape="pill" color="orange" size="md">[API Errors](/support/inference/tags/api-errors)</Badge>

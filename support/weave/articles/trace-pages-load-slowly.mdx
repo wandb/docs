@@ -1,0 +1,22 @@
+---
+title: "Trace pages load slowly"
+sidebarTitle: "Trace pages load slowly"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+If trace pages are loading slowly, reduce the number of rows displayed to improve load time. The default value is `50`. You can either reduce the number of rows via the UI, or using query parameters.
+
+### Adjust via the UI (recommended)
+
+Use the **Per page** control at the bottom-right of the Traces page to adjust the number of rows displayed. In addition to the default of `50`, you can also set to `10`, `25`, or `100`.
+
+### Use query parameters
+
+If you prefer a manual approach, you can modify the `pageSize` query parameter in your query URL to a value less than the maximum of `100`.
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Troubleshooting](/support/weave/tags/troubleshooting)</Badge>
