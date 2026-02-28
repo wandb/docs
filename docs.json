@@ -180,6 +180,7 @@
             "icon": "/icons/cropped-models.svg",
             "pages": [
               "models",
+              "models/marimo",
               "models/quickstart",
               "models/models_quickstart",
               {
