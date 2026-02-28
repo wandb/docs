@@ -1,16 +1,16 @@
 ---
 title: "Track and version objects"
-description: "Track and version any JSON-serializable object in Weave"
+description: "Track and version any JSON-serializable object in W&B Weave"
 ---
 ## Objects
 
-An **Object** is versioned, serializable data. Weave automatically versions objects when they change, creating an immutable history. Objects include:
+An **Object** is versioned, serializable data. Weave automatically versions objects when they change and creates an immutable history. Objects include:
 
 - **Datasets**: Collections of examples for evaluation
 - **Models**: Configurations and parameters for your LLM logic
 - **Prompts**: Versioned prompt templates
 
-```python
+```python lines
 dataset = weave.Dataset(
     name="test-cases",
     rows=[
@@ -53,9 +53,9 @@ Weave's serialization layer saves and versions objects.
   </Tab>
 </Tabs>
 
-Saving an object with a name will create the first version of that object if it doesn't exist.
+When you save an object with a name, Weave creates the first version of that object if it does not exist.
 
-## Getting an object back
+## Get an object back
 
 <Tabs>
   <Tab title="Python">
@@ -70,13 +70,13 @@ Saving an object with a name will create the first version of that object if it 
 
   </Tab>
   <Tab title="TypeScript">
-    ```plaintext
+    ```plaintext lines
     This feature is not available in TypeScript yet.
     ```
   </Tab>
 </Tabs>
 
-## Deleting an object
+## Delete an object
 
 <Tabs>
   <Tab title="Python">
@@ -88,7 +88,7 @@ Saving an object with a name will create the first version of that object if it 
     cat_names_ref.delete()
     ```
 
-    Trying to access a deleted object will result in an error. Resolving an object that has a reference to a deleted object will return a `DeletedRef` object in place of the deleted object.
+    Accessing a deleted object returns an error. Resolving an object that has a reference to a deleted object returns a `DeletedRef` in place of the deleted object.
 
   </Tab>
   <Tab title="TypeScript">
@@ -111,8 +111,8 @@ weave://<entity>/<project>/object/<object_name>:<object_version>
 - _object_name_: object name
 - _object_version_: either a version hash, a string like v0, v1..., or an alias like ":latest". All objects have the ":latest" alias.
 
-Refs can be constructed with a few different styles
+You can construct refs with a few different styles.
 
-- `weave.ref(<name>)`: requires `weave.init(<project>)` to have been called. Refers to the ":latest" version
+- `weave.ref(<name>)`: requires `weave.init(<project>)` to have been called. Refers to the ":latest" version.
 - `weave.ref(<name>:<version>)`: requires `weave.init(<project>)` to have been called.
-- `weave.ref(<fully_qualified_ref_uri>)`: can be constructed without calling weave.init
+- `weave.ref(<fully_qualified_ref_uri>)`: can be constructed without calling weave.init.
