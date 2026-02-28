@@ -1,0 +1,12 @@
+---
+title: CoreWeave 인프라 알림 시각화
+description: 
+---
+
+W&amp;B에 로깅하는 머신 러닝 실험 동안 GPU 오류, 온도 이상 등 인프라 알림을 확인할 수 있습니다. [W&amp;B run](/ko/models/runs) 동안 [CoreWeave Mission Control](https://coreweave.com/mission-control)은 연산 인프라를 모니터링합니다.
+
+<Note>
+  이 기능은 현재 프리뷰 상태이며 CoreWeave 클러스터에서 트레이닝할 때만 사용할 수 있습니다. 액세스 권한을 받으려면 W&amp;B 담당자에게 문의하세요.
+</Note>
+
+오류가 발생하면 CoreWeave는 해당 정보를 W&amp;B로 전송합니다. W&amp;B는 인프라 정보를 프로젝트 Workspace의 run 플롯에 표시합니다. CoreWeave는 일부 문제를 자동으로 해결하려고 시도하며, W&amp;B는 해당 정보를 run 페이지에 표시합니다.

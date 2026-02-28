@@ -1,14 +1,17 @@
 ---
-title: 오디오
+title: Audio
 namespace: python_sdk_data_type
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
 
+
 ## <kbd>class</kbd> `Audio`
-오디오 클립을 위한 W&B 클래스입니다.
+
+오디오 클립용 W&B 클래스입니다. 
 
 ### <kbd>method</kbd> `Audio.__init__`
 
@@ -20,15 +23,16 @@ __init__(
 )
 ```
 
-오디오 파일의 경로 또는 오디오 데이터의 numpy 배열을 허용합니다.
+오디오 파일의 경로 또는 오디오 데이터가 담긴 NumPy 배열을 인수로 받습니다.
 
-**Args:**
+**인자:**
 
- - `data_or_path`: 오디오 파일의 경로 또는 오디오 데이터의 NumPy 배열입니다.
- - `sample_rate`: 샘플 레이트입니다. 원시(raw) NumPy 배열 형태의 오디오 데이터를 전달할 때 필수적으로 필요합니다.
- - `caption`: 오디오와 함께 표시될 캡션입니다.
+* `data_or_path`:  오디오 파일 경로 또는 오디오 데이터가 담긴 NumPy 배열.
+* `sample_rate`:  원시 NumPy 배열 형태의 오디오 데이터를 전달할 때 필요한 샘플 레이트.
+* `caption`:  오디오와 함께 표시할 캡션.
 
----
+***
+
 
 ### <kbd>classmethod</kbd> `Audio.durations`
 
@@ -36,9 +40,10 @@ __init__(
 durations(audio_list)
 ```
 
-오디오 파일의 재생 시간을 계산합니다.
+오디오 파일의 지속 시간을 계산합니다.
 
----
+***
+
 
 ### <kbd>classmethod</kbd> `Audio.sample_rates`
 
@@ -46,6 +51,6 @@ durations(audio_list)
 sample_rates(audio_list)
 ```
 
-오디오 파일의 샘플 레이트를 가져옵니다.
+오디오 파일의 샘플링 레이트를 가져옵니다.
 
----
+***

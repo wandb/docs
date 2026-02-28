@@ -1,27 +1,52 @@
 ---
 title: 레지스트리 항목 찾기
+description: "W&B Registry에서 전역 검색 바 또는 쿼리를 사용해 레지스트리, 컬렉션, 아티팩트 버전을 검색하는 방법을 알아보세요."
 ---
 
-W&B Registry 의 [글로벌 검색 바](./search_registry#레지스트리-항목-검색)를 사용하여 레지스트리, 컬렉션, artifact 버전 태그, 컬렉션 태그 또는 에일리어스를 찾을 수 있습니다. W&B Python SDK 를 사용하여 특정 기준에 따라 [레지스트리, 컬렉션 및 artifact 버전을 필터링](./search_registry#query-registry-items-with-mongodb-style-queries)하기 위해 MongoDB 스타일의 쿼리를 사용할 수 있습니다.
+[W&amp;B Registry의 전역 검색 바](./search_registry#search-for-registry-items)를 사용하여 레지스트리, 컬렉션, 아티팩트 버전 태그, 컬렉션 태그 또는 별칭을 찾을 수 있습니다. W&amp;B Python SDK를 사용해 특정 기준에 따라 [레지스트리, 컬렉션, 아티팩트 버전을 필터링](/ko/models/registry/search_registry#query-registry-items)하는 쿼리를 작성할 수 있습니다.
 
-사용자가 볼 수 있는 권한이 있는 항목만 검색 결과에 나타납니다.
+<Info>
+  W&amp;B Registry를 쿼리할 때 사용할 수 있는 문법과 연산자는 MongoDB 쿼리와 유사하지만, 완전히 동일하지는 않습니다.
+</Info>
 
-## 레지스트리 항목 검색
+검색 결과에는 사용 권한이 있는 항목만 표시됩니다.
 
-레지스트리 항목을 검색하려면 다음을 수행하세요:
+<div id="search-for-registry-items">
+  ## 레지스트리 항목 검색
+</div>
 
-1. W&B Registry 로 이동합니다.
-2. 페이지 상단의 검색 바에 검색어를 입력합니다. Enter 를 눌러 검색합니다.
+W&amp;B 앱을 사용해 레지스트리 항목을 검색합니다:
 
-지정한 검색어가 기존 레지스트리, 컬렉션 이름, artifact 버전 태그, 컬렉션 태그 또는 에일리어스와 일치하면 검색 바 아래에 검색 결과가 나타납니다.
+1. W&amp;B Registry로 이동합니다.
+2. 페이지 상단의 검색 창에 검색어를 입력합니다. Enter 키를 눌러 검색합니다.
+
+입력한 검색어가 기존 레지스트리, 컬렉션 이름, 아티팩트 버전 태그, 컬렉션 태그 또는 별칭과 일치하면 검색 결과가 검색 창 아래에 표시됩니다.
 
 <Frame>
-    <img src="/images/registry/search_registry.gif" alt="Searching within a Registry"  />
+  <img src="/images/registry/search_registry.gif" alt="Registry 내에서 검색하기" />
 </Frame>
 
-## MongoDB 스타일 쿼리로 레지스트리 항목 쿼리
+<div id="query-registry-items">
+  ## 레지스트리 항목 쿼리하기
+</div>
 
-[`wandb.Api().registries()`](/models/ref/python/public-api/api#registries) 와 [쿼리 서술어 (query predicates)](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate)를 사용하여 하나 이상의 [MongoDB 스타일 쿼리](https://www.mongodb.com/docs/compass/current/query/filter/)를 기반으로 레지스트리, 컬렉션 및 artifact 버전을 필터링할 수 있습니다.
+[`wandb.Api().registries()`](/ko/models/ref/python/public-api/api#registries)와 *쿼리 프레디킷(query predicate)*을 사용해 레지스트리, 컬렉션, 아티팩트 버전을 필터링할 수 있습니다. 쿼리 프레디킷은 반환되는 항목이 충족해야 하는 기준을 지정하는 조건입니다.
+
+쿼리 프레디킷을 생성하려면 [query name](/ko/models/registry/search_registry#filterable-fields), 하나 이상의 [operators](/ko/models/registry/search_registry#supported-operators), 그리고 값들로 구성된 JSON 유사 형태의 사전을 사용합니다. 다음 코드 스니펫은 쿼리 프레디킷의 일반적인 구조를 보여줍니다:
+
+```python
+{
+    "query_name": {
+        "operator": value
+    }
+}
+```
+
+다음 섹션에서는 레지스트리에서 사용할 수 있는 [쿼리 이름](/ko/models/registry/search_registry#filterable-fields), [지원되는 연산자](/ko/models/registry/search_registry#supported-operators), 그리고 [쿼리 예시](/ko/models/registry/search_registry#example-queries)를 설명합니다.
+
+<div id="filterable-fields">
+  ### 필터 가능한 필드
+</div>
 
 다음 표는 필터링하려는 항목 유형에 따라 사용할 수 있는 쿼리 이름을 나열합니다:
 
@@ -31,9 +56,53 @@ W&B Registry 의 [글로벌 검색 바](./search_registry#레지스트리-항목
 | collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
 | versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
 
+<div id="supported-operators">
+  ### 지원되는 연산자
+</div>
+
+W&amp;B에서는 레지스트리 항목을 필터링할 때 다음과 같은 비교 연산자와 논리 연산자를 지원합니다:
+
+<div id="comparison-operators">
+  #### 비교 연산자
+</div>
+
+| Operator | 설명 |
+| ----- | ----- |
+| `$eq` | 같음 |
+| `$ne` | 같지 않음 |
+| `$gt` | 보다 큼 |
+| `$gte` | 크거나 같음 |
+| `$lt` | 보다 작음 |
+| `$lte` | 작거나 같음 |
+
+<div id="logical-operators">
+  #### 논리 연산자
+</div>
+
+| Operator | Description |
+| ----- | ----- |
+| `$and` | 하나 이상의 조건에 [AND](https://en.wikipedia.org/wiki/Logical_conjunction) 논리를 적용합니다 |
+| `$or` | 하나 이상의 조건에 [OR](https://en.wikipedia.org/wiki/Logical_disjunction) 논리를 적용합니다 |
+| `$nor` | 하나 이상의 조건에 [NOR](https://en.wikipedia.org/wiki/Logical_NOR) 논리를 적용합니다 |
+| `$not` | 한 조건에 [NOT](https://en.wikipedia.org/wiki/Negation) 논리를 적용합니다 |
+
+<div id="other-operators">
+  #### 기타 연산자
+</div>
+
+| Operator | Description |
+| ----- | ----- |
+| `$regex` | 정규 표현식 패턴 매칭 |
+| `$exists` | 필드의 존재 여부 |
+| `$contains` | 문자열이 값을 포함하는지 여부 |
+
+<div id="example-queries">
+  ### 예시 쿼리
+</div>
+
 다음 코드 예제는 몇 가지 일반적인 검색 시나리오를 보여줍니다.
 
-`wandb.Api().registries()` 메소드를 사용하려면 먼저 W&B Python SDK ([`wandb`](/models/ref/python/)) 라이브러리를 임포트하세요:
+`wandb.Api().registries()` 메서드를 사용하려면 먼저 W&amp;B Python SDK([`wandb`](/ko/models/ref/python/)) 라이브러리를 임포트해야 합니다:
 
 ```python
 import wandb
@@ -42,55 +111,55 @@ import wandb
 api = wandb.Api()
 ```
 
-`model` 문자열을 포함하는 모든 레지스트리 필터링:
+`model` 문자열을 포함하는 모든 레지스트리를 필터링합니다:
 
 ```python
-# `model` 문자열을 포함하는 모든 레지스트리 필터링
+# 문자열 `model`을 포함하는 모든 레지스트리 필터링
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# 필터와 일치하는 모든 레지스트리의 반복 가능한 객체(iterable)를 반환합니다
+# 필터와 일치하는 모든 레지스트리의 이터러블을 반환
 registries = api.registries(filter=registry_filters)
 ```
 
-레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 포함된 모든 컬렉션 필터링:
+레지스트리와 상관없이, 컬렉션 이름에 문자열 `yolo`가 포함된 모든 컬렉션을 필터링합니다:
 
 ```python
-# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 
-# 포함된 모든 컬렉션을 필터링합니다
+# 레지스트리에 관계없이 컬렉션 이름에 문자열 `yolo`를 포함하는
+# 모든 컬렉션을 필터링합니다
 collection_filters = {
     "name": {"$regex": "yolo"}
 }
 
-# 필터와 일치하는 모든 컬렉션의 반복 가능한 객체를 반환합니다
+# 필터와 일치하는 모든 컬렉션의 이터러블을 반환합니다
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 포함되어 있고 `cnn` 태그를 보유한 모든 컬렉션 필터링:
+레지스트리와 상관없이 컬렉션 이름에 문자열 `yolo`가 포함되고 태그 `cnn`을 가진 모든 컬렉션을 필터링합니다:
 
 ```python
-# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 포함되어 있고 
-# `cnn` 태그를 보유한 모든 컬렉션을 필터링합니다
+# 레지스트리에 관계없이 컬렉션 이름에 `yolo` 문자열이 포함되고
+# `cnn` 태그를 가진 모든 컬렉션 필터링
 collection_filters = {
     "name": {"$regex": "yolo"},
     "tag": "cnn"
 }
 
-# 필터와 일치하는 모든 컬렉션의 반복 가능한 객체를 반환합니다
+# 필터와 일치하는 모든 컬렉션의 이터러블 반환
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-`model` 문자열을 포함하고 `image-classification` 태그 또는 `latest` 에일리어스를 가진 모든 artifact 버전 찾기:
+문자열 `model`을 포함하고, 태그 `image-classification` 또는 별칭 `latest` 중 하나가 있는 모든 아티팩트 버전을 찾습니다:
 
 ```python
-# `model` 문자열을 포함하고 `image-classification` 태그 또는 
-# `latest` 에일리어스를 가진 모든 artifact 버전을 찾습니다
+# 문자열 `model`을 포함하고 태그 `image-classification` 또는 `latest` 별칭을 가진
+# 모든 아티팩트 버전을 찾습니다
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# 논리적 $or 연산자를 사용하여 artifact 버전을 필터링합니다
+# 논리 연산자 $or를 사용하여 아티팩트 버전을 필터링합니다
 version_filters = {
     "$or": [
         {"tag": "image-classification"},
@@ -98,39 +167,37 @@ version_filters = {
     ]
 }
 
-# 필터와 일치하는 모든 artifact 버전의 반복 가능한 객체를 반환합니다
+# 필터와 일치하는 모든 아티팩트 버전의 이터러블을 반환합니다
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
 
-논리 쿼리 연산자에 대한 자세한 내용은 [MongoDB 문서](https://www.mongodb.com/docs/manual/reference/operator/query-logical/)를 참조하세요.
-
-이전 코드조각의 `artifacts` 반복 가능한 객체에 있는 각 항목은 `Artifact` 클래스의 인스턴스입니다. 즉, `name`, `collection`, `aliases`, `tags`, `created_at` 등과 같은 각 artifact 의 속성에 엑세스할 수 있습니다:
+이전 코드 스니펫에서 `artifacts` 이터러블의 각 항목은 `Artifact` 클래스의 인스턴스입니다. 즉, 각 아티팩트의 `name`, `collection`, `aliases`, `tags`, `created_at` 등의 속성에 접근할 수 있습니다.
 
 ```python
 for art in artifacts:
-    print(f"artifact name: {art.name}")
-    print(f"collection artifact belongs to: { art.collection.name}")
-    print(f"artifact aliases: {art.aliases}")
-    print(f"tags attached to artifact: {art.tags}")
-    print(f"artifact created at: {art.created_at}\n")
+    print(f"아티팩트 이름: {art.name}")
+    print(f"아티팩트가 속한 컬렉션: { art.collection.name}")
+    print(f"아티팩트 별칭: {art.aliases}")
+    print(f"아티팩트에 연결된 태그: {art.tags}")
+    print(f"아티팩트 생성 시각: {art.created_at}\n")
 ```
 
-artifact 오브젝트 속성의 전체 목록은 API 레퍼런스 문서의 [Artifacts Class](/models/ref/python/experiments/artifact/)를 참조하세요.
+아티팩트 객체의 전체 속성 목록은 API Reference 문서의 [Artifacts Class](/ko/models/ref/python/experiments/artifact/)에서 확인할 수 있습니다.
 
-레지스트리나 컬렉션에 관계없이 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 artifact 버전 필터링:
+다음은 레지스트리나 컬렉션과 관계없이 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 아티팩트 버전을 필터링하는 예입니다:
 
 ```python
-# 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 artifact 버전을 찾습니다.
+# 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 아티팩트 버전을 찾습니다. 
 
 artifact_filters = {
     "alias": "latest",
     "created_at" : {"$gte": "2024-01-08", "$lte": "2025-03-04 13:10:00"},
 }
 
-# 필터와 일치하는 모든 artifact 버전의 반복 가능한 객체를 반환합니다
+# 필터와 일치하는 모든 아티팩트 버전의 이터러블을 반환합니다
 artifacts = api.registries().collections().versions(filter=artifact_filters)
 ```
 
-날짜와 시간을 `YYYY-MM-DD HH:MM:SS` 형식으로 지정하세요. 날짜로만 필터링하려면 시, 분, 초를 생략할 수 있습니다.
-
-[쿼리 서술어](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/logical/)에 대한 자세한 내용은 MongoDB 문서를 참조하세요.
+<Note>
+  `created_at` 및 `updated_at` 쿼리에는 날짜와 시간을 `YYYY-MM-DD HH:MM:SS` 형식으로 지정하세요. 날짜만으로 필터링하려면 시, 분, 초는 생략할 수 있습니다.
+</Note>

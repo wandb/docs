@@ -3,12 +3,15 @@ title: Run
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
 
+
 ## <kbd>class</kbd> `Run`
-특정 Entity 및 Project와 연결된 단일 Run입니다.
+
+엔티티 및 프로젝트와 연관된 단일 run입니다.
 
 ### <kbd>method</kbd> `Run.__init__`
 
@@ -25,173 +28,202 @@ __init__(
 )
 ```
 
-**Args:**
- 
- - `client`: W&B API 클라이언트입니다. 
- - `entity`: Run과 연결된 Entity입니다. 
- - `project`: Run과 연결된 Project입니다. 
- - `run_id`: Run의 고유 식별자입니다. 
- - `attrs`: Run의 속성입니다. 
- - `include_sweeps`: Run에 Sweeps를 포함할지 여부입니다. 
+**인자:**
 
-**Attributes:**
- 
- - `tags` ([str]): Run과 연결된 태그 리스트 
- - `url` (str): 이 Run의 URL 
- - `id` (str): Run의 고유 식별자 (기본값은 8자) 
- - `name` (str): Run의 이름 
- - `state` (str): 다음 중 하나: running, finished, crashed, killed, preempting, preempted 
- - `config` (dict): Run과 연결된 하이퍼파라미터 딕셔너리 
- - `created_at` (str): Run이 시작된 ISO 타임스탬프 
- - `system_metrics` (dict): Run에 대해 기록된 최신 시스템 메트릭 
- - `summary` (dict): 현재 요약을 보유하는 가변(mutable) 딕셔너리 형태의 속성입니다. update를 호출하면 변경 사항이 유지됩니다. 
- - `project` (str): Run과 연결된 Project 
- - `entity` (str): Run과 연결된 Entity 이름 
- - `project_internal_id` (int): Project의 내부 ID 
- - `user` (str): Run을 생성한 Users 이름 
- - `path` (str): 고유 식별자 [entity]/[project]/[run_id] 
- - `notes` (str): Run에 대한 메모 
- - `read_only` (boolean): Run의 편집 가능 여부 
- - `history_keys` (str): `wandb.Run.log({"key": "value"})`로 기록된 History 메트릭 키 
- - `metadata` (str): wandb-metadata.json에서 가져온 Run 관련 메타데이터 
+* `client`:  W&amp;B API 클라이언트.
+* `entity`:  run과 연결된 엔티티.
+* `project`:  run과 연결된 프로젝트.
+* `run_id`:  run의 고유 식별자.
+* `attrs`:  run의 속성.
+* `include_sweeps`:  run에 스윕을 포함할지 여부.
 
-Run 오브젝트를 초기화합니다. 
+**속성:**
 
-Run은 항상 `api`가 `wandb.Api`의 인스턴스인 `api.runs()`를 호출하여 초기화됩니다. 
+* `tags` ([str]):  run과 연결된 태그 목록
+* `url` (str):  이 run의 URL
+* `id` (str):  run의 고유 식별자(기본값은 8자)
+* `name` (str):  run의 이름
+* `state` (str):  running, finished, crashed, killed, preempting, preempted 중 하나
+* `config` (dict):  run과 연결된 하이퍼파라미터 딕셔너리
+* `created_at` (str):  run이 시작된 시점의 ISO 타임스탬프
+* `system_metrics` (dict):  run에 대해 기록된 최신 시스템 메트릭
+* `summary` (dict):  현재 요약 정보를 보관하는 변경 가능한 dict 유사 속성입니다. update를 호출하면 모든 변경 사항이 영구 저장됩니다.
+* `project` (str):  run과 연결된 프로젝트
+* `entity` (str):  run과 연결된 엔티티의 이름
+* `project_internal_id` (int):  프로젝트의 내부 ID
+* `user` (str):  run을 생성한 사용자의 이름
+* `path` (str):  고유 식별자 [entity]/[project]/[run&#95;id]
+* `notes` (str):  run에 대한 메모
+* `read_only` (boolean):  run이 편집 가능한지 여부
+* `history_keys` (str):  `wandb.Run.log({"key": "value"})`로 로깅된 히스토리 메트릭 키
+* `metadata` (str):  wandb-metadata.json에서 가져온 run의 메타데이터
 
----
+Run 객체를 초기화합니다.
+
+Run은 항상 wandb.Api 인스턴스인 api에서 api.runs()를 호출하여 초기화됩니다.
+
+***
+
 
 ### <kbd>property</kbd> Run.config
 
-Run config를 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+run 구성(config)을 가져옵니다. lazy 모드일 때 전체 데이터를 자동으로 불러옵니다. 
 
-**Returns:**
- - `dict[str, Any]`: config 속성 값.
+**반환값:**
+
+- `dict[str, Any]`: config 프로퍼티 값입니다.
 ---
 
 ### <kbd>property</kbd> Run.entity
 
-Run과 연결된 Entity입니다. 
+run과 연관된 entity입니다. 
 
-**Returns:**
- - `str`: entity 속성 값.
+**반환값:**
+
+- `str`: entity 속성 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.id
 
-Run의 고유 식별자입니다. 
+run의 고유 식별자입니다. 
 
-**Returns:**
- - `str`: id 속성 값.
+**반환값:**
+
+- `str`: id 속성 값입니다.
+
 ---
-
 
 ### <kbd>property</kbd> Run.lastHistoryStep
 
-Run history에 기록된 마지막 스텝을 반환합니다. 
+run history에 기록된 마지막 step을 반환합니다. 
 
-**Returns:**
- - `int`: lastHistoryStep 속성 값.
+**반환값:**
+
+- `int`: lastHistoryStep 속성 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.metadata
 
-wandb-metadata.json에서 가져온 Run 관련 메타데이터입니다. 
+wandb-metadata.json에서 가져온 run에 대한 메타데이터입니다. 
 
-메타데이터에는 Run의 설명, 태그, 시작 시간, 메모리 사용량 등이 포함됩니다. 
+메타데이터에는 run의 설명, 태그, 시작 시간, 메모리 사용량 등 다양한 정보가 포함됩니다. 
 
-**Returns:**
- - `dict[str, Any] | None`: metadata 속성 값.
+**반환값:**
+
+- `dict[str, Any] | None`: metadata 프로퍼티 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.name
 
-Run의 이름입니다. 
+run의 이름입니다. 
 
-**Returns:**
- - `str | None`: name 속성 값.
+**반환값:**
+
+- `str | None`: name 속성의 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.path
 
-Run의 경로입니다. 경로는 entity, project, run_id를 포함하는 리스트입니다. 
+run의 경로를 나타냅니다. 이 경로는 entity, 프로젝트, run_id로 구성된 리스트입니다. 
 
-**Returns:**
- - `list[str]`: path 속성 값.
+**반환 값:**
+
+- `list[str]`: path 프로퍼티 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.rawconfig
 
-내부 키를 포함한 원본 Run config를 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+내부 키를 포함하는 원시 run config를 반환합니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
 
-**Returns:**
- - `dict[str, Any]`: rawconfig 속성 값.
+**반환값:**
+
+- `dict[str, Any]`: rawconfig 프로퍼티 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.state
 
-Run의 상태입니다. Finished, Failed, Crashed, Running 중 하나일 수 있습니다. 
+run 상태입니다. Finished, Failed, Crashed, Running 중 하나입니다. 
 
 **Returns:**
- - `str`: state 속성 값.
+
+- `str`: state 속성 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.storage_id
 
-Run의 고유 저장소 식별자입니다. 
+run의 고유 스토리지 식별자입니다. 
 
-**Returns:**
- - `str`: storage_id 속성 값.
+**반환값:**
+
+- `str`: storage_id 속성 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.summary
 
-Run summary 메트릭을 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+run의 요약 메트릭을 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
 
-**Returns:**
- - `HTTPSummary`: summary 속성 값.
+**반환값:**
+
+- `HTTPSummary`: summary 프로퍼티의 값.
 ---
 
 ### <kbd>property</kbd> Run.summary_metrics
 
-Run summary 메트릭을 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+run의 요약 메트릭을 가져옵니다. lazy 모드일 경우 전체 데이터를 자동으로 로드합니다. 
 
-**Returns:**
- - `dict[str, Any]`: summary_metrics 속성 값.
+**반환값:**
+
+- `dict[str, Any]`: summary_metrics 속성 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.sweep_name
 
-Sweep 이름을 가져옵니다. sweepName은 경량 프래그먼트에 포함되어 있으므로 항상 사용 가능합니다. 
+스윕 이름을 가져옵니다. `sweepName`은 lightweight fragment에 포함되어 있기 때문에 항상 사용할 수 있습니다. 
 
-**Returns:**
- - `str | None`: sweep_name 속성 값.
+**반환값:**
+
+- `str | None`: `sweep_name` 속성 값.
 ---
 
 ### <kbd>property</kbd> Run.system_metrics
 
-Run 시스템 메트릭을 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
+run의 시스템 메트릭을 가져옵니다. lazy 모드인 경우 전체 데이터를 자동으로 로드합니다. 
 
-**Returns:**
- - `dict[str, Any]`: system_metrics 속성 값.
+**반환값:**
+
+- `dict[str, Any]`: system_metrics 프로퍼티 값입니다.
+
 ---
 
 ### <kbd>property</kbd> Run.url
 
-Run의 URL입니다. 
+run의 URL입니다. 
 
-Run URL은 entity, project, run_id로 생성됩니다. SaaS 사용자의 경우 `https://wandb.ai/entity/project/run_id` 형식을 갖습니다. 
+run URL은 entity, 프로젝트, 그리고 run_id로부터 생성됩니다. SaaS 사용자의 경우 `https://wandb.ai/entity/project/run_id` 형식입니다. 
 
-**Returns:**
- - `str`: url 속성 값.
+**반환값:**
+
+- `str`: URL 속성 값입니다.
+ 
 ---
 
 ### <kbd>property</kbd> Run.username
 
-이 API는 더 이상 사용되지 않습니다(deprecated). 대신 `entity`를 사용하세요. 
+이 API는 더 이상 사용되지 않습니다. 대신 `entity`를 사용하세요. 
 
-**Returns:**
- - `str`: username 속성 값.
+**반환값:**
+
+- `str`: username 속성 값입니다.
+
 ---
 
 ### <kbd>method</kbd> `Run.beta_scan_history`
@@ -206,22 +238,23 @@ beta_scan_history(
 ) → public.BetaHistoryScan
 ```
 
-Run의 모든 history 레코드에 대한 반복 가능한 컬렉션을 반환합니다. 
+run의 모든 history 레코드를 담은 이터러블 컬렉션을 반환합니다.
 
-이 함수는 아직 개발 중이며 예상대로 작동하지 않을 수 있습니다. wandb-core를 사용하여 로컬에 내보낸 Run의 parquet history에서 history를 읽습니다. 
+이 함수는 아직 개발 중인 기능이며, 예상대로 동작하지 않을 수 있습니다. 로컬에 내보낸 run의 parquet history를 읽기 위해 wandb-core를 사용합니다.
 
 **Args:**
- 
- - `keys`: Run history에서 읽을 메트릭 리스트입니다. 키가 제공되지 않으면 모든 메트릭이 반환됩니다. 
- - `page_size`: 한 번에 읽을 history 레코드 수입니다. 
- - `min_step`: history 읽기를 시작할 최소 스텝(포함)입니다. 
- - `max_step`: history를 읽을 최대 스텝(제외)입니다. 
- - `use_cache`: True로 설정하면 WANDB_CACHE_DIR에서 Run history를 확인합니다. 캐시에서 Run history를 찾을 수 없는 경우 서버에서 다운로드합니다. False로 설정하면 매번 Run history를 다운로드합니다. 
+
+* `keys`:  run의 history에서 읽을 메트릭 목록입니다.  keys를 지정하지 않으면 모든 메트릭이 반환됩니다.
+* `page_size`:  한 번에 읽을 history 레코드 수입니다.
+* `min_step`:  history를 읽기 시작할 최소 step(포함)입니다.
+* `max_step`:  history를 읽을 최대 step(미포함)입니다.
+* `use_cache`:  True로 설정하면 WANDB&#95;CACHE&#95;DIR에서 run history를 확인합니다.  캐시에서 run history를 찾을 수 없으면 서버에서 다운로드합니다.  False로 설정하면 매번 run history를 서버에서 다운로드합니다.
 
 **Returns:**
- history 레코드를 순회할 수 있는 BetaHistoryScan 오브젝트입니다. 
+BetaHistoryScan object로, 이터레이터로 사용하여 history 레코드를 가져올 수 있습니다.
 
----
+***
+
 
 ### <kbd>classmethod</kbd> `Run.create`
 
@@ -235,42 +268,101 @@ create(
 ) → Self
 ```
 
-주어진 Project에 대한 Run을 생성합니다. 
+지정된 프로젝트에 대한 run을 생성합니다.
 
----
+대부분의 경우에는 `wandb.init()`을 사용하십시오. `wandb.init()`은 run을 생성하고 업데이트하기 위한 더 견고한 로직을 제공합니다. `wandb.apis.public.Run.create`는 스케줄링되지 않을 수 있는 잡(예: GPU가 부족하거나 경쟁이 심한 Kubernetes 클러스터의 잡)에 대해 &quot;pending&quot; 상태의 run을 생성하는 등의 특정 시나리오를 위해 설계되었습니다. 이렇게 생성된 pending run은 나중에 재개하여 W&amp;B로 추적할 수 있습니다.
 
-### <kbd>method</kbd> `Run.delete`
+이 메서드로 생성된 run은 기능이 제한적입니다. 이렇게 생성된 run에서 `update()`를 호출하면 예상과 다르게 동작할 수 있습니다.
+
+**Args:**
+
+* `api`:  W&amp;B API 인스턴스.
+* `run_id`:  선택적 run ID. 제공하지 않으면 무작위 ID가 생성됩니다.
+* `project`:  선택적 프로젝트 이름. API 설정의 프로젝트 또는 &quot;uncategorized&quot;가 기본값입니다.
+* `entity`:  선택적 엔티티(사용자 또는 팀) 이름.
+* `state`:  run의 초기 상태. 나중에 재개할 run에는 &quot;pending&quot;을, 즉시 실행할 run에는 &quot;running&quot;을 사용하십시오.
+
+**Returns:**
+생성된 run을 나타내는 Run 객체.
+
+**Example:**
+나중에 실행하기 위한 pending run 생성
+
+```python
+import wandb
+
+api = wandb.Api()
+
+run_name = "my-pending-run"
+
+run = Run.create(
+    api=api,
+    project="project",
+    entity="entity",
+    state="pending",
+    run_id=run_name,
+)
+```
+
+***
+
+
+### <kbd>메서드</kbd> `Run.delete`
 
 ```python
 delete(delete_artifacts: 'bool' = False) → None
 ```
 
-wandb 백엔드에서 해당 Run을 삭제합니다. 
+wandb 백엔드에서 지정된 run을 삭제합니다.
+
+**인수:**
+
+* `delete_artifacts` (bool, optional): run과 연결된 아티팩트를 삭제할지 여부입니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.download_history_exports`
+
+```python
+download_history_exports(
+    download_dir: 'pathlib.Path | str',
+    require_complete_history: 'bool' = True
+) → DownloadHistoryResult
+```
+
+run에 대한 모든 parquet 형식의 히스토리 파일을 지정한 디렉터리로 다운로드합니다.
 
 **Args:**
- 
- - `delete_artifacts` (bool, 선택 사항): Run과 연결된 Artifacts를 삭제할지 여부입니다. 
 
----
+* `download_dir`:  히스토리 파일을 다운로드할 디렉터리입니다.
+* `require_complete_history`:  전체 히스토리가 모두 다운로드되어야 하는지 여부입니다. true인 경우, run에 아직 parquet 파일로 내보내지 않은 데이터가 포함되어 있으면 IncompleteRunHistoryError가 발생합니다.
 
-### <kbd>method</kbd> `Run.file`
+**Returns:**
+DownloadHistoryResult를 반환합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.file`
 
 ```python
 file(name: 'str') → public.File
 ```
 
-Artifact 내의 지정된 이름을 가진 파일 경로를 반환합니다. 
+아티팩트에서 지정한 이름을 가진 파일의 경로를 반환합니다.
 
 **Args:**
- 
- - `name` (str): 요청된 파일의 이름. 
+
+* `name` (str): 요청한 파일의 이름입니다.
 
 **Returns:**
- name 인수와 일치하는 `File` 오브젝트. 
+`name` 인자와 이름이 일치하는 `File`입니다.
 
----
+***
 
-### <kbd>method</kbd> `Run.files`
+
+### <kbd>메서드</kbd> `Run.files`
 
 ```python
 files(
@@ -280,22 +372,23 @@ files(
 ) → public.Files
 ```
 
-주어진 기준과 일치하는 Run의 모든 파일에 대한 `Files` 오브젝트를 반환합니다. 
+지정된 조건과 일치하는 run 내 모든 파일에 대한 `Files` 객체를 반환합니다.
 
-일치시킬 정확한 파일 이름 리스트 또는 일치시킬 패턴을 지정할 수 있습니다. 둘 다 제공되는 경우 패턴은 무시됩니다. 
+정확히 일치시킬 파일 이름 목록을 지정하거나, 매칭에 사용할 패턴을 지정할 수 있습니다. 둘 다 제공된 경우 패턴은 무시됩니다.
 
-**Args:**
- 
- - `names` (list): 요청된 파일의 이름들, 비어 있으면 모든 파일을 반환합니다. 
- - `pattern` (str, 선택 사항): W&B에서 파일을 반환할 때 일치시킬 패턴입니다. 이 패턴은 mySQL의 LIKE 구문을 사용하므로 .json으로 끝나는 모든 파일을 매칭하려면 "%.json"이 됩니다. names와 pattern이 모두 제공되면 ValueError가 발생합니다. 
- - `per_page` (int): 페이지당 결과 수. 
+**인자(Args):**
 
-**Returns:**
- `File` 오브젝트를 순회하는 반복자인 `Files` 오브젝트. 
+* `names` (list):  요청된 파일의 이름 목록입니다. 비어 있으면 모든 파일을 반환합니다.
+* `pattern` (str, optional):  W&amp;B에서 파일을 반환할 때 사용할 패턴입니다. 이 패턴은 mySQL의 LIKE 구문을 사용하므로, .json으로 끝나는 모든 파일을 매칭하려면 &quot;%.json&quot;을 사용합니다. `names`와 `pattern`이 모두 제공되면 ValueError가 발생합니다.
+* `per_page` (int):  페이지당 결과 개수입니다.
 
----
+**반환값(Returns):**
+`File` 객체들에 대한 이터레이터인 `Files` 객체를 반환합니다.
 
-### <kbd>method</kbd> `Run.history`
+***
+
+
+### <kbd>메서드</kbd> `Run.history`
 
 ```python
 history(
@@ -307,34 +400,36 @@ history(
 ) → list[dict[str, Any]] | pd.DataFrame
 ```
 
-Run에 대해 샘플링된 history 메트릭을 반환합니다. 
+run에 대해 샘플링된 히스토리 메트릭을 반환합니다.
 
-history 레코드가 샘플링되어도 괜찮다면 이 방법이 더 간단하고 빠릅니다. 
+히스토리 레코드가 샘플링되는 것이 괜찮다면, 이 방식이 더 단순하고 빠릅니다.
 
 **Args:**
- 
- - `samples`: (int, 선택 사항) 반환할 샘플 수 
- - `pandas`: (bool, 선택 사항) pandas 데이터프레임 반환 여부 
- - `keys`: (list, 선택 사항) 특정 키에 대한 메트릭만 반환 
- - `x_axis`: (str, 선택 사항) xAxis로 사용할 메트릭, 기본값은 _step 
- - `stream`: (str, 선택 사항) 메트릭의 경우 "default", 머신 메트릭의 경우 "system" 
+
+* `samples `:  (int, optional) 반환할 샘플 개수
+* `pandas `:  (bool, optional) pandas DataFrame을 반환할지 여부
+* `keys `:  (list, optional) 지정한 키에 대한 메트릭만 반환
+* `x_axis `:  (str, optional) 이 메트릭을 x축으로 사용합니다. 기본값은 &#95;step입니다.
+* `stream `:  (str, optional) 메트릭의 경우 &quot;default&quot;, 머신 메트릭의 경우 &quot;system&quot;
 
 **Returns:**
- 
- - `pandas.DataFrame`: pandas=True인 경우 history 메트릭의 `pandas.DataFrame`을 반환합니다. 
- - `list of dicts`: pandas=False인 경우 history 메트릭의 딕셔너리 리스트를 반환합니다. 
 
----
+* `pandas.DataFrame`:  pandas=True이면 히스토리 메트릭의 `pandas.DataFrame`을 반환합니다.
+* `list of dicts`:  pandas=False이면 히스토리 메트릭의 dict 목록(list)을 반환합니다.
 
-### <kbd>method</kbd> `Run.load`
+***
+
+
+### <kbd>메서드</kbd> `Run.load`
 
 ```python
 load(force: 'bool' = False) → dict[str, Any]
 ```
 
-lazy 모드에 기반한 적절한 프래그먼트를 사용하여 Run 데이터를 로드합니다. 
+lazy 모드 설정에 따라 적절한 프래그먼트를 사용해 run 데이터를 로드합니다.
 
----
+***
+
 
 ### <kbd>method</kbd> `Run.load_full_data`
 
@@ -342,18 +437,19 @@ lazy 모드에 기반한 적절한 프래그먼트를 사용하여 Run 데이터
 load_full_data(force: 'bool' = False) → dict[str, Any]
 ```
 
-config, systemMetrics, summaryMetrics와 같은 무거운 필드를 포함한 전체 Run 데이터를 로드합니다. 
+config, systemMetrics, summaryMetrics 같은 대용량 필드를 포함해 전체 run 데이터를 로드합니다.
 
-이 메소드는 처음에 Run 리스트를 가져오기 위해 lazy=True를 사용했지만, 특정 Run에 대한 전체 데이터 액세스가 필요한 경우 유용합니다. 
+이 메서드는 처음에 run 목록을 조회할 때 `lazy=True`를 사용했지만, 특정 run에 대해 전체 데이터에 접근해야 하는 경우에 유용합니다.
 
-**Args:**
- 
- - `force`: 데이터가 이미 로드되어 있더라도 강제로 다시 로드합니다. 
+**인자:**
 
-**Returns:**
- 로드된 Run 속성들 
+* `force`:  데이터가 이미 로드된 경우에도 강제로 다시 로드할지 여부
 
----
+**반환값:**
+로드된 run 속성
+
+***
+
 
 ### <kbd>method</kbd> `Run.log_artifact`
 
@@ -365,38 +461,40 @@ log_artifact(
 ) → wandb.Artifact
 ```
 
-Artifact를 Run의 출력으로 선언합니다. 
+run의 출력으로 사용할 아티팩트를 선언합니다.
 
 **Args:**
- 
- - `artifact` (`Artifact`): `wandb.Api().artifact(name)`에서 반환된 Artifact. 
- - `aliases` (list, 선택 사항): 이 Artifact에 적용할 에일리어스. 
- - `tags`: (list, 선택 사항) 이 Artifact에 적용할 태그(있는 경우). 
+
+* `artifact` (`Artifact`):  `wandb.Api().artifact(name)`에서 반환된 아티팩트입니다.
+* `aliases` (list, optional):  이 아티팩트에 적용할 별칭 목록입니다.
+* `tags`:  (list, optional) 이 아티팩트에 적용할 태그 목록입니다(있는 경우).
 
 **Returns:**
- `Artifact` 오브젝트. 
+`Artifact` 객체입니다.
 
----
+***
 
-### <kbd>method</kbd> `Run.logged_artifacts`
+
+### <kbd>메서드</kbd> `Run.logged_artifacts`
 
 ```python
 logged_artifacts(per_page: 'int' = 100) → public.RunArtifacts
 ```
 
-이 Run에 의해 로깅된 모든 Artifacts를 가져옵니다. 
+이 run에서 로깅된 모든 아티팩트를 가져옵니다.
 
-Run 중에 로깅된 모든 출력 Artifacts를 검색합니다. 반복하거나 단일 리스트로 수집할 수 있는 페이지네이션된 결과를 반환합니다. 
+run 동안 출력으로 로깅된 모든 아티팩트를 가져옵니다. 페이지네이션된 결과를 반환하며, 이 결과는 순회하거나 하나의 리스트로 모을 수 있습니다.
 
 **Args:**
- 
- - `per_page`: API 요청당 가져올 Artifacts 수. 
+
+* `per_page`:  API 요청당 가져올 아티팩트 개수.
 
 **Returns:**
- 이 Run 중에 출력으로 로깅된 모든 Artifact 오브젝트의 반복 가능한 컬렉션. 
+이 run 동안 출력으로 로깅된 모든 Artifact 객체에 대한 이터러블 컬렉션.
 
 **Example:**
- ```python
+
+```python
 import wandb
 import tempfile
 
@@ -415,21 +513,23 @@ finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
 
 for logged_artifact in finished_run.logged_artifacts():
     print(logged_artifact.name)
-``` 
+```
 
----
+***
 
-### <kbd>method</kbd> `Run.save`
+
+### <kbd>메서드</kbd> `Run.save`
 
 ```python
 save() → None
 ```
 
-Run 오브젝트의 변경 사항을 W&B 백엔드에 유지합니다. 
+run 객체의 변경 내용을 W&amp;B 백엔드에 반영합니다.
 
----
+***
 
-### <kbd>method</kbd> `Run.scan_history`
+
+### <kbd>메서드</kbd> `Run.scan_history`
 
 ```python
 scan_history(
@@ -440,28 +540,29 @@ scan_history(
 ) → Iterator[dict[str, Any]]
 ```
 
-Run의 모든 history 레코드에 대한 반복 가능한 컬렉션을 반환합니다. 
+run의 모든 history 레코드에 대한 이터러블 컬렉션을 반환합니다.
 
 **Args:**
- 
- - `keys` ([str], 선택 사항): 이 키들만 가져오고, 모든 키가 정의된 행만 가져옵니다. 
- - `page_size` (int, 선택 사항): api에서 가져올 페이지 크기. 
- - `min_step` (int, 선택 사항): 한 번에 스캔할 최소 페이지 수. 
- - `max_step` (int, 선택 사항): 한 번에 스캔할 최대 페이지 수. 
+
+* `keys` ([str], optional):  해당 키들만 가져오며, 지정된 모든 키가 정의된 행만 가져옵니다.
+* `page_size` (int, optional):  API에서 가져올 페이지의 크기입니다.
+* `min_step` (int, optional):  한 번에 스캔할 최소 페이지 수입니다.
+* `max_step` (int, optional):  한 번에 스캔할 최대 페이지 수입니다.
 
 **Returns:**
- history 레코드(dict)에 대한 반복 가능한 컬렉션. 
+history 레코드(dict)에 대한 이터러블 컬렉션.
 
 **Example:**
- 예제 Run의 모든 loss 값을 내보냅니다. 
+예시 run에 대한 모든 loss 값을 내보냅니다.
 
 ```python
 run = api.run("entity/project-name/run-id")
 history = run.scan_history(keys=["Loss"])
 losses = [row["Loss"] for row in history]
-``` 
+```
 
----
+***
+
 
 ### <kbd>method</kbd> `Run.to_html`
 
@@ -469,37 +570,64 @@ losses = [row["Loss"] for row in history]
 to_html(height: 'int' = 420, hidden: 'bool' = False) → str
 ```
 
-이 Run을 표시하는 iframe을 포함한 HTML을 생성합니다. 
+이 run을 표시하는 iframe이 포함된 HTML을 생성합니다.
 
----
+***
 
-### <kbd>method</kbd> `Run.update`
+
+### <kbd>메서드</kbd> `Run.update`
 
 ```python
 update() → None
 ```
 
-Run 오브젝트의 변경 사항을 wandb 백엔드에 유지합니다. 
+run 객체의 변경 내용을 wandb 백엔드에 저장합니다.
 
----
+***
 
-### <kbd>method</kbd> `Run.upload_file`
+
+### <kbd>method</kbd> `Run.update_state`
+
+```python
+update_state(state: "Literal['pending']") → bool
+```
+
+run의 상태를 업데이트합니다.
+
+run을 &#39;failed&#39; 또는 &#39;crashed&#39;에서 &#39;pending&#39;으로 전환할 수 있습니다.
+
+**Args:**
+
+* `state`:  대상 run 상태입니다. `"pending"`만 지원됩니다.
+
+**Returns:**
+상태가 성공적으로 업데이트되면 `True`를 반환합니다.
+
+**Raises:**
+
+* `wandb.Error`:  요청한 상태 전환이 허용되지 않거나, 서버가 이 작업을 지원하지 않는 경우 발생합니다.
+
+***
+
+
+### <kbd>메서드</kbd> `Run.upload_file`
 
 ```python
 upload_file(path: 'str', root: 'str' = '.') → public.File
 ```
 
-로컬 파일을 W&B에 업로드하고 이 Run과 연결합니다. 
+로컬 파일을 현재 run과 연결하여 W&amp;B에 업로드합니다.
 
 **Args:**
- 
- - `path` (str): 업로드할 파일의 경로. 절대 경로 또는 상대 경로일 수 있습니다. 
- - `root` (str): 파일을 저장할 기준이 되는 루트 경로입니다. 예를 들어, 현재 "my_dir"에 있고 파일을 Run에 "my_dir/file.txt"로 저장하려면 root를 "../"로 설정합니다. 기본값은 현재 디렉토리(".")입니다. 
+
+* `path` (str):  업로드할 파일의 경로입니다. 절대 경로나 상대 경로 모두 사용할 수 있습니다.
+* `root` (str):  파일을 저장할 때 기준이 되는 루트 경로입니다. 예를 들어, run 내에서 파일이 &quot;my&#95;dir/file.txt&quot;로 저장되기를 원하고 현재 디렉터리가 &quot;my&#95;dir&quot;이라면, root를 &quot;../&quot;로 설정하면 됩니다. 기본값은 현재 디렉터리(&quot;.&quot;)입니다.
 
 **Returns:**
- 업로드된 파일을 나타내는 `File` 오브젝트. 
+업로드된 파일을 나타내는 `File` 객체입니다.
 
----
+***
+
 
 ### <kbd>method</kbd> `Run.use_artifact`
 
@@ -510,37 +638,39 @@ use_artifact(
 ) → wandb.Artifact
 ```
 
-Artifact를 Run의 입력으로 선언합니다. 
+run의 입력으로 사용할 아티팩트를 선언합니다.
 
-**Args:**
- 
- - `artifact` (`Artifact`): `wandb.Api().artifact(name)`에서 반환된 Artifact 
- - `use_as` (string, 선택 사항): 스크립트에서 Artifact가 어떻게 사용되는지 식별하는 문자열입니다. 베타 버전인 wandb launch 기능의 Artifact 스와핑 기능을 사용할 때 Run에서 사용되는 Artifacts를 쉽게 구분하기 위해 사용됩니다. 
+**인자:**
 
-**Returns:**
- `Artifact` 오브젝트. 
+* `artifact` (`Artifact`): `wandb.Api().artifact(name)`에서 반환된 아티팩트
+* `use_as` (string, 선택 사항): 스크립트에서 아티팩트를 어떻게 사용하는지 식별하는 문자열입니다. 베타 기능인 wandb Launch의 아티팩트 스와핑 기능을 사용할 때 run에서 사용된 아티팩트를 쉽게 구분하는 데 사용됩니다.
 
----
+**반환값:**
+`Artifact` 객체.
 
-### <kbd>method</kbd> `Run.used_artifacts`
+***
+
+
+### <kbd>메서드</kbd> `Run.used_artifacts`
 
 ```python
 used_artifacts(per_page: 'int' = 100) → public.RunArtifacts
 ```
 
-이 Run에서 명시적으로 사용된 Artifacts를 가져옵니다. 
+이 run에서 명시적으로 사용된 아티팩트를 가져옵니다.
 
-일반적으로 `run.use_artifact()`를 통해 Run 중에 명시적으로 사용된 것으로 선언된 입력 Artifacts만 검색합니다. 반복하거나 단일 리스트로 수집할 수 있는 페이지네이션된 결과를 반환합니다. 
+일반적으로 `run.use_artifact()`을 통해 run 동안 사용되었다고 명시적으로 선언된 입력 아티팩트만을 가져옵니다. 반복(iteration)하거나 단일 리스트로 수집할 수 있는 페이징된 결과를 반환합니다.
 
 **Args:**
- 
- - `per_page`: API 요청당 가져올 Artifacts 수. 
+
+* `per_page`:  API 요청당 가져올 아티팩트 개수입니다.
 
 **Returns:**
- 이 Run에서 입력으로 명시적으로 사용된 Artifact 오브젝트의 반복 가능한 컬렉션. 
+이 run에서 명시적으로 입력으로 사용된 Artifact 객체로 구성된 이터러블 컬렉션입니다.
 
 **Example:**
- ```python
+
+```python
 import wandb
 
 run = wandb.init(project="artifact-example")
@@ -552,9 +682,10 @@ finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
 for used_artifact in finished_run.used_artifacts():
     print(used_artifact.name)
 test_artifact
-``` 
+```
 
----
+***
+
 
 ### <kbd>method</kbd> `Run.wait_until_finished`
 
@@ -562,4 +693,4 @@ test_artifact
 wait_until_finished() → None
 ```
 
-Run이 완료될 때까지 Run의 상태를 확인합니다.
+run이 완료될 때까지 해당 run의 상태를 확인합니다.

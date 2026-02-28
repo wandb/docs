@@ -1,39 +1,47 @@
 ---
-title: wandb restore
+title: "wandb restore"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-restore.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  이 명령어에 대한 도입부 내용을 추가하려면:
+  1. 다음 경로에 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-restore.mdx
+  2. 해당 파일에 도입부 내용을 추가합니다
+  3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남겨둡니다:
 
-import WandbRestore from "/snippets/en/_includes/cli/wandb-restore.mdx";
+  import WandbRestore from "/snippets/_includes/cli/wandb-restore.mdx";
 
-<WandbRestore/>
+  <WandbRestore/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  스니펫은 다음 번 재생성 시 자동으로 감지됩니다.
+  */}
 
-Run 의 코드, config 및 docker 상태를 복구합니다. `wandb.save()` 또는 `wandb.init(save_code=True)`를 통해 코드가 저장되지 않은 경우, 마지막 커밋에서 코드를 가져옵니다.
+run의 코드, 설정, Docker 상태를 복원합니다. 코드가 `wandb.save()` 또는 `wandb.init(save_code=True)`로 저장되지 않은 경우 최신 커밋에서 코드를 가져옵니다.
 
-## Usage
+
+<div id="usage">
+  ## 사용 방법
+</div>
 
 ```bash
 wandb restore RUN [OPTIONS]
 ```
 
-## Arguments
+
+<div id="arguments">
+  ## 인수
+</div>
 
 | 인수 | 설명 | 필수 여부 |
 | :--- | :--- | :--- |
-| `RUN` | 설명 없음 | Yes |
+| `RUN` | 설명이 제공되지 않습니다 | 예 |
 
-## Options
+<div id="options">
+  ## 옵션
+</div>
 
 | 옵션 | 설명 |
 | :--- | :--- |
-| `--no-git` | git 상태를 복구하지 않습니다 (기본값: False) |
-| `--branch` | 브랜치를 생성할지 또는 detached 상태로 체크아웃할지 여부 (기본값: True) |
-| `--project`, `-p` | 업로드할 Projects 를 지정합니다. |
-| `--entity`, `-e` | 리스트를 조회할 Entities 를 지정합니다. |
+| `--no-git` | git 상태를 복원하지 않습니다 (기본값: False) |
+| `--branch` | 브랜치를 생성할지 또는 분리(detached) 체크아웃을 할지 여부입니다 (기본값: True) |
+| `--project`, `-p` | 업로드할 프로젝트입니다. |
+| `--entity`, `-e` | 목록 범위를 지정할 entity입니다. |

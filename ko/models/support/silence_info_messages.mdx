@@ -1,37 +1,36 @@
 ---
-title: W&B 안내 메시지를 어떻게 숨길 수 있나요?
+title: W&B 정보 메시지를 숨기려면 어떻게 하나요?
 ---
 
-노트북에서 다음과 같은 로그 메시지를 숨기려면:
+노트북에서 다음과 같은 로그 메시지 출력을 억제하려면:
 
 ```
 INFO SenderThread:11484 [sender.py:finish():979]
-``` 
+```
 
-로그 레벨을 `logging.ERROR`로 설정하여 에러만 표시하고 안내(info) 레벨의 로그 출력은 억제하십시오.
+로그 레벨을 `logging.ERROR`로 설정하면 에러만 출력되고, info 레벨 로그 출력은 억제됩니다.
 
 ```python
 import logging
 
-# wandb 로거 가져오기
 logger = logging.getLogger("wandb")
-# 로그 레벨을 ERROR로 설정
 logger.setLevel(logging.ERROR)
 ```
 
-로그 출력을 대폭 줄이려면 `WANDB_QUIET` 환경 변수를 `True`로 설정하십시오. 로그 출력을 완전히 끄려면 `WANDB_SILENT` 환경 변수를 `True`로 설정하십시오. 노트북에서는 `wandb.login`을 실행하기 전에 `WANDB_QUIET` 또는 `WANDB_SILENT`를 설정해야 합니다.
+로그 출력을 크게 줄이려면 `WANDB_QUIET` 환경 변수를 `True`로 설정하세요. 로그 출력을 완전히 끄려면 `WANDB_SILENT` 환경 변수를 `True`로 설정하세요. 노트북 환경에서는 `wandb.login`을 실행하기 전에 `WANDB_QUIET` 또는 `WANDB_SILENT`를 설정하세요:
 
 <Tabs>
-<Tab title="Notebook">
-```python
-%env WANDB_SILENT=True
-```
-</Tab>
-<Tab title="Python">
-```python
-import os
+  <Tab title="Notebook">
+    ```python
+    %env WANDB_SILENT=True
+    ```
+  </Tab>
 
-os.environ["WANDB_SILENT"] = "True"
-```
-</Tab>
+  <Tab title="Python">
+    ```python
+    import os
+
+    os.environ["WANDB_SILENT"] = "True"
+    ```
+  </Tab>
 </Tabs>

@@ -1,22 +1,24 @@
 ---
-title: 코드에 W&B (wandb) 추가하기
-description: 파이썬 코드 스크립트 또는 Jupyter Notebook 에 W&B 를 추가하세요.
+description: Python 스크립트 또는 Jupyter Notebook에 W&B를 추가하는 방법을 안내합니다.
+title: 코드에 W&B(wandb) 추가하기
 ---
 
-이 가이드는 하이퍼파라미터 탐색 최적화를 위해 Python 트레이닝 스크립트 또는 노트북에 W&B를 통합하는 방법에 대한 권장 사항을 제공합니다.
+이 가이드는 하이퍼파라미터 탐색을 최적화하기 위해 Python 트레이닝 스크립트 또는 노트북에 W&amp;B를 통합하는 방법을 안내합니다.
 
-## 기존 트레이닝 스크립트
+<div id="original-training-script">
+  ## 원본 트레이닝 스크립트
+</div>
 
-모델을 학습시키는 Python 스크립트가 있다고 가정해 보겠습니다 (아래 참조). 목표는 검증 정확도 (`val_acc`)를 최대화하는 하이퍼파라미터를 찾는 것입니다.
+아래와 같이 모델을 트레이닝하는 Python 스크립트가 있다고 가정해 보자. 목표는 검증 정확도(`val_acc`)를 최대화하는 하이퍼파라미터를 찾는 것이다.
 
-Python 스크립트에서 `train_one_epoch`와 `evaluate_one_epoch`라는 두 가지 함수를 정의합니다. `train_one_epoch` 함수는 한 에포크 동안의 트레이닝을 시뮬레이션하고 트레이닝 정확도와 손실을 반환합니다. `evaluate_one_epoch` 함수는 검증 데이터 세트에서 모델을 평가하는 것을 시뮬레이션하고 검증 정확도와 손실을 반환합니다.
+Python 스크립트에서는 `train_one_epoch`와 `evaluate_one_epoch` 두 개의 함수를 정의한다. `train_one_epoch` 함수는 한 에포크 동안의 트레이닝을 시뮬레이션하고 트레이닝 정확도와 손실 값을 반환한다. `evaluate_one_epoch` 함수는 검증 데이터셋에 대해 모델을 평가하는 과정을 시뮬레이션하고 검증 정확도와 손실 값을 반환한다.
 
-학습률 (`lr`), 배치 크기 (`batch_size`), 에포크 수 (`epochs`)와 같은 하이퍼파라미터 값을 포함하는 설정 사전 (`config`)을 정의합니다. 설정 사전의 값은 트레이닝 프로세스를 제어합니다. 
+학습률(`lr`), 배치 크기(`batch_size`), 에포크 수(`epochs`)와 같은 하이퍼파라미터 값을 포함하는 설정 사전(`config`)을 정의한다. 설정 사전에 있는 값들은 트레이닝 과정을 제어한다.
 
-다음으로 일반적인 트레이닝 루프를 모방한 `main` 함수를 정의합니다. 각 에포크마다 트레이닝 및 검증 데이터 세트에 대해 정확도와 손실이 계산됩니다.
+그 다음 일반적인 트레이닝 루프를 흉내 내는 `main` 함수를 정의한다. 각 에포크마다 트레이닝 및 검증 데이터셋에 대해 정확도와 손실이 계산된다.
 
 <Note>
-이 코드는 가상 트레이닝 스크립트입니다. 모델을 실제로 학습시키지는 않지만, 무작위 정확도와 손실 값을 생성하여 트레이닝 프로세스를 시뮬레이션합니다. 이 코드의 목적은 W&B를 트레이닝 스크립트에 통합하는 방법을 보여주는 것입니다.
+  이 코드는 모의 트레이닝 스크립트다. 실제로 모델을 트레이닝하지 않고, 무작위 정확도와 손실 값을 생성해 트레이닝 과정을 시뮬레이션한다. 이 코드의 목적은 트레이닝 스크립트에 W&amp;B를 어떻게 통합하는지 보여 주는 것이다.
 </Note>
 
 ```python
@@ -33,7 +35,7 @@ def evaluate_one_epoch(epoch):
     loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
     return acc, loss
 
-# 하이퍼파라미터 값을 가진 config 변수
+# 하이퍼파라미터 값을 담은 config 변수
 config = {"lr": 0.0001, "batch_size": 16, "epochs": 5}
 
 def main():
@@ -53,230 +55,232 @@ if __name__ == "__main__":
     main()
 ```
 
-다음 섹션에서는 트레이닝 중에 하이퍼파라미터와 메트릭을 추적하기 위해 Python 스크립트에 W&B를 추가할 것입니다. W&B를 사용하여 검증 정확도 (`val_acc`)를 최대화하는 최적의 하이퍼파라미터를 찾고자 합니다.
+다음 섹션에서는 트레이닝 중 하이퍼파라미터와 메트릭을 추적하도록 Python 스크립트에 W&amp;B를 추가합니다. 검증 정확도(`val_acc`)를 최대화하는 최적의 하이퍼파라미터를 찾기 위해 W&amp;B를 사용할 것입니다.
 
+<div id="add-wb-to-your-training-script">
+  ## 트레이닝 스크립트에 W&amp;B 추가하기
+</div>
 
-## 트레이닝 스크립트에 W&B 추가하기
+트레이닝 스크립트에 W&amp;B를 사용하도록 수정하세요. Python 스크립트나 노트북에 W&amp;B를 통합하는 방법은 스윕을 어떻게 관리하는지에 따라 달라집니다.
 
-W&B를 포함하도록 트레이닝 스크립트를 업데이트하세요. Python 스크립트 또는 노트북에 W&B를 통합하는 방법은 Sweeps를 어떻게 관리하느냐에 따라 달라집니다. 
-
-W&B Python SDK를 사용하여 Sweeps를 시작, 중지 및 관리하려면 **Python script or notebook** 탭의 지침을 따르세요. 대신 W&B CLI를 사용하려면 **CLI** 탭의 지침을 따르세요.
+W&amp;B Python SDK를 사용하여 스윕을 시작, 중지 및 관리하려면 **Python script or notebook** 탭의 안내를 따르세요. 대신 W&amp;B CLI를 사용하려면 **CLI** 탭의 안내를 따르세요.
 
 <Tabs>
-<Tab title="CLI">
-스윕 구성이 포함된 YAML 설정 파일을 만듭니다. 이 설정 파일에는 sweep이 탐색하길 원하는 하이퍼파라미터가 포함됩니다. 다음 예시에서는 각 sweep 과정 동안 배치 크기 (`batch_size`), 에포크 (`epochs`), 학습률 (`lr`) 하이퍼파라미터가 변경됩니다.
+  <Tab title="CLI">
+    스윕 설정이 포함된 YAML 설정 파일을 생성합니다. 이 설정 파일에는 스윕이 탐색할 하이퍼파라미터가 들어 있습니다. 다음 예시에서는 배치 크기(`batch_size`), 에포크(`epochs`), 학습률(`lr`) 하이퍼파라미터를 스윕마다 다르게 설정합니다.
 
-```yaml
-# config.yaml
-program: train.py
-method: random
-name: sweep
-metric:
-  goal: maximize
-  name: val_acc
-parameters:
-  batch_size:
-    values: [16, 32, 64]
-  lr:
-    min: 0.0001
-    max: 0.1
-  epochs:
-    values: [5, 10, 15]
-```
+    ```yaml
+    # config.yaml
+    program: train.py
+    method: random
+    name: sweep
+    metric:
+      goal: maximize
+      name: val_acc
+    parameters:
+      batch_size:
+        values: [16, 32, 64]
+      lr:
+        min: 0.0001
+        max: 0.1
+      epochs:
+        values: [5, 10, 15]
+    ```
 
-W&B Sweep 구성을 만드는 방법에 대한 자세한 내용은 [Define sweep configuration](/models/sweeps/define-sweep-configuration/)을 참조하세요.
+    W&amp;B Sweep 설정을 생성하는 방법에 대한 자세한 내용은 [Define sweep configuration](/ko/models/sweeps/define-sweep-configuration/)을 참고하세요.
 
-YAML 파일의 `program` 키에 Python 스크립트의 이름을 제공해야 합니다.
+    YAML 파일에서 `program` 키에 Python 스크립트 이름을 지정해야 합니다.
 
-다음으로, 코드 예제에 다음 내용을 추가합니다:
+    다음으로, 예제 코드에 아래 내용을 추가하세요:
 
-1. W&B Python SDK (`wandb`)와 PyYAML (`yaml`)을 임포트합니다. PyYAML은 YAML 설정 파일을 읽는 데 사용됩니다.
-2. 설정 파일을 읽어옵니다.
-3. [`wandb.init()`](/models/ref/python/functions/init)을 사용하여 데이터를 동기화하고 [W&B Run](/models/ref/python/experiments/run)으로 로그를 남기는 백그라운드 프로세스를 시작합니다. config 오브젝트를 config 파라미터에 전달합니다.
-4. 하드 코딩된 값 대신 `wandb.Run.config`에서 하이퍼파라미터 값을 정의합니다.
-5. [`wandb.Run.log()`](/models/ref/python/experiments/run.md/#method-runlog)를 사용하여 최적화하려는 메트릭을 로그합니다. 설정에 정의된 메트릭을 로그해야 합니다. 설정 사전 (이 예제에서는 `sweep_configuration`) 내에서 `val_acc` 값을 최대화하도록 sweep을 정의합니다.
+    1. W&amp;B Python SDK(`wandb`)와 PyYAML(`yaml`)을 임포트합니다. PyYAML은 YAML 설정 파일을 읽는 데 사용됩니다.
+    2. 설정 파일을 읽습니다.
+    3. [`wandb.init()`](/ko/models/ref/python/functions/init)을 사용해 백그라운드 프로세스를 시작하여 데이터를 [W&amp;B Run](/ko/models/ref/python/experiments/run)으로 동기화하고 로깅합니다. `config` 객체를 `config` 파라미터로 전달합니다.
+    4. 하드코딩된 값을 사용하는 대신 `wandb.Run.config`에서 하이퍼파라미터 값을 정의합니다.
+    5. [`wandb.Run.log()`](/ko/models/ref/python/experiments/run.md/#method-runlog)를 사용해 최적화할 메트릭을 로그합니다. 설정에서 정의한 메트릭을 반드시 로그해야 합니다. 설정 사전(이 예제에서는 `sweep_configuration`) 내에서 스윕이 최대화할 값으로 `val_acc`를 정의합니다.
 
-```python
-import wandb
-import yaml
-import random
-import numpy as np
-
-
-def train_one_epoch(epoch, lr, batch_size):
-    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
-    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
-    return acc, loss
+    ```python
+    import wandb
+    import yaml
+    import random
+    import numpy as np
 
 
-def evaluate_one_epoch(epoch):
-    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
-    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
-    return acc, loss
+    def train_one_epoch(epoch, lr, batch_size):
+        acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+        loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
+        return acc, loss
 
 
-def main():
-    # 기본 하이퍼파라미터 설정
-    with open("./config.yaml") as file:
-        config = yaml.load(file, Loader=yaml.FullLoader)
-
-    with wandb.init(config=config) as run:
-        for epoch in np.arange(1, run.config['epochs']):
-            train_acc, train_loss = train_one_epoch(epoch, run.config['lr'], run.config['batch_size'])
-            val_acc, val_loss = evaluate_one_epoch(epoch)
-            run.log(
-                {
-                    "epoch": epoch,
-                    "train_acc": train_acc,
-                    "train_loss": train_loss,
-                    "val_acc": val_acc,
-                    "val_loss": val_loss,
-                }
-            )
-
-# main 함수 호출
-main()
-```
-
-CLI에서 sweep 에이전트가 시도할 최대 Runs 수를 설정합니다. 이는 선택 사항입니다. 이 예제에서는 최대 수를 5로 설정합니다.
-
-```bash
-NUM=5
-```
-
-다음으로, [`wandb sweep`](/models/ref/cli/wandb-sweep) 코맨드로 sweep을 초기화합니다. YAML 파일의 이름을 제공하세요. 선택적으로 프로젝트 플래그 (`--project`)에 프로젝트 이름을 제공할 수 있습니다:
-
-```bash
-wandb sweep --project sweep-demo-cli config.yaml
-```
-
-이 코맨드는 sweep ID를 반환합니다. sweep 초기화에 대한 자세한 내용은 [Initialize sweeps](./initialize-sweeps)를 참조하세요.
-
-sweep ID를 복사하고 다음 코드조각의 `sweepID`를 대체하여 [`wandb agent`](/models/ref/cli/wandb-agent) 코맨드로 sweep 작업을 시작합니다:
-
-```bash
-wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
-```
-
-자세한 내용은 [Start sweep jobs](./start-sweep-agents)를 참조하세요.
-</Tab>
-<Tab title="Python script or notebook">
-Python 스크립트에 W&B를 추가하려면 다음 단계를 따르세요:
-
-1. 키-값 쌍으로 [스윕 구성](/models/sweeps/define-sweep-configuration/)을 정의하는 사전 오브젝트를 생성합니다. 스윕 구성은 W&B가 대신 탐색하길 원하는 하이퍼파라미터와 최적화하려는 메트릭을 정의합니다. 이전 예제에 이어서 배치 크기 (`batch_size`), 에포크 (`epochs`), 학습률 (`lr`)이 각 sweep 동안 변경될 하이퍼파라미터입니다. 검증 점수의 정확도를 최대화하려고 하므로 `"goal": "maximize"`와 최적화하려는 변수 이름, 이 경우 `val_acc` (`"name": "val_acc"`)를 설정합니다.
-2. 스윕 구성 사전을 [`wandb.sweep()`](/models/ref/python/functions/sweep)에 전달합니다. 이렇게 하면 sweep이 초기화되고 sweep ID (`sweep_id`)가 반환됩니다. 자세한 내용은 [Initialize sweeps](./initialize-sweeps)를 참조하세요.
-3. 스크립트 상단에서 W&B Python SDK (`wandb`)를 임포트합니다.
-4. `main` 함수 내에서 [`wandb.init()`](/models/ref/python/functions/init)을 사용하여 데이터를 동기화하고 [W&B Run](/models/ref/python/experiments/run)으로 로그를 남기는 백그라운드 프로세스를 생성합니다. 프로젝트 이름을 `wandb.init()` 메소드의 파라미터로 전달합니다. 프로젝트 이름을 전달하지 않으면 W&B는 기본 프로젝트 이름을 사용합니다.
-5. `wandb.Run.config` 오브젝트에서 하이퍼파라미터 값을 가져옵니다. 이를 통해 하드 코딩된 값 대신 스윕 구성 사전에 정의된 하이퍼파라미터 값을 사용할 수 있습니다.
-6. [`wandb.Run.log()`](/models/ref/python/experiments/run.md/#method-runlog)를 사용하여 최적화하려는 메트릭을 W&B에 로그합니다. 설정에 정의된 메트릭을 로그해야 합니다. 예를 들어, 최적화할 메트릭을 `val_acc`로 정의했다면 반드시 `val_acc`를 로그해야 합니다. 메트릭을 로그하지 않으면 W&B는 무엇을 최적화해야 할지 알 수 없습니다. 설정 사전 (이 예제에서는 `sweep_configuration`) 내에서 `val_acc` 값을 최대화하도록 sweep을 정의합니다.
-7. [`wandb.agent()`](/models/ref/python/functions/agent)로 sweep을 시작합니다. sweep ID와 sweep이 실행할 함수의 이름 (`function=main`)을 제공하고, 시도할 최대 run 수를 4개로 지정합니다 (`count=4`).
+    def evaluate_one_epoch(epoch):
+        acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+        loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
+        return acc, loss
 
 
-이 모든 것을 종합하면 스크립트는 다음과 비슷할 것입니다:
+    def main():
+        # 기본 하이퍼파라미터를 설정합니다
+        with open("./config.yaml") as file:
+            config = yaml.load(file, Loader=yaml.FullLoader)
 
-```python
-import wandb # W&B Python SDK 임포트
-import numpy as np
-import random
-import argparse
+        with wandb.init(config=config) as run:
+            for epoch in np.arange(1, run.config['epochs']):
+                train_acc, train_loss = train_one_epoch(epoch, run.config['lr'], run.config['batch_size'])
+                val_acc, val_loss = evaluate_one_epoch(epoch)
+                run.log(
+                    {
+                        "epoch": epoch,
+                        "train_acc": train_acc,
+                        "train_loss": train_loss,
+                        "val_acc": val_acc,
+                        "val_loss": val_loss,
+                    }
+                )
 
-def train_one_epoch(epoch, lr, batch_size):
-    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
-    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
-    return acc, loss
+    # main 함수를 호출합니다.
+    main()
+    ```
 
-def evaluate_one_epoch(epoch):
-    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
-    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
-    return acc, loss
+    CLI에서 스윕 에이전트가 시도할 최대 run 개수를 설정합니다. 이는 선택 사항입니다. 이 예제에서는 최대 개수를 5로 설정합니다.
 
-def main(args=None):
-    # sweep 에이전트에 의해 호출될 때 args는 None이 되므로,
-    # sweep config의 프로젝트를 사용합니다.
-    project = args.project if args else None
-    
-    with wandb.init(project=project) as run:
-        # `wandb.Run.config` 오브젝트에서 하이퍼파라미터 값을 가져옵니다
-        lr = run.config["lr"]
-        batch_size = run.config["batch_size"]
-        epochs = run.config["epochs"]
+    ```bash
+    NUM=5
+    ```
 
-        # 트레이닝 루프를 실행하고 성능 값을 W&B에 로그합니다
-        for epoch in np.arange(1, epochs):
-            train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
-            val_acc, val_loss = evaluate_one_epoch(epoch)
-            run.log(
-                {
-                    "epoch": epoch,
-                    "train_acc": train_acc,
-                    "train_loss": train_loss,
-                    "val_acc": val_acc, # 최적화된 메트릭
-                    "val_loss": val_loss,
-                }
-            )
+    다음으로 [`wandb sweep`](/ko/models/ref/cli/wandb-sweep) 명령어로 스윕을 초기화합니다. YAML 파일 이름을 지정하세요. 필요에 따라 `--project` 플래그에 사용할 프로젝트 이름을 추가로 지정할 수 있습니다:
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--project", type=str, default="sweep-example", help="W&B 프로젝트 이름")
-    args = parser.parse_args()
+    ```bash
+    wandb sweep --project sweep-demo-cli config.yaml
+    ```
 
-    # sweep config 사전 정의
-    sweep_configuration = {
-        "method": "random",
-        "name": "sweep",
-        # 최적화하려는 메트릭
-        # 예를 들어, 검증 정확도를 최대화하려면 
-        # "goal": "maximize"로 설정하고 최적화하려는 
-        # 변수 이름(이 경우 "val_acc")을 설정합니다.
-        "metric": {
-            "goal": "maximize",
-            "name": "val_acc"
+    이 명령은 스윕 ID를 반환합니다. 스윕을 초기화하는 방법에 대한 자세한 내용은
+    [Initialize sweeps](./initialize-sweeps)를 참조하세요.
+
+    스윕 ID를 복사한 다음, 아래 코드 스니펫에서 `sweepID`를 해당 값으로 바꿔
+    [`wandb agent`](/ko/models/ref/cli/wandb-agent) 명령으로 스윕 작업을 시작합니다:
+
+    ```bash
+    wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
+    ```
+
+    자세한 내용은 [스윕 작업 시작](./start-sweep-agents) 문서를 참조하세요.
+  </Tab>
+
+  <Tab title="파이썬 스크립트 또는 노트북">
+    다음 단계에 따라 Python 스크립트에 W&amp;B를 추가하세요:
+
+    1. 키-값 쌍이 [sweep configuration](/ko/models/sweeps/define-sweep-configuration/)을 정의하도록 사전 객체를 만드세요. sweep 설정은 W&amp;B가 대신 탐색할 하이퍼파라미터와 최적화할 메트릭을 정의합니다. 이전 예제를 이어서, 배치 크기(`batch_size`), 에포크(`epochs`), 학습률(`lr`)이 각 스윕에서 변경할 하이퍼파라미터입니다. 검증 점수의 정확도를 최대화하려고 하므로 `"goal": "maximize"`로 설정하고, 최적화하려는 변수의 이름을 지정합니다. 이 예제에서는 `val_acc`이므로 `"name": "val_acc"`로 설정합니다.
+    2. 스윕 설정 사전을 [`wandb.sweep()`](/ko/models/ref/python/functions/sweep)에 전달합니다. 이를 통해 스윕이 초기화되고 스윕 ID(`sweep_id`)가 반환됩니다. 자세한 내용은 [스윕 초기화](./initialize-sweeps)를 참조하세요.
+    3. 스크립트 상단에서 W&amp;B Python SDK(`wandb`)를 임포트합니다.
+    4. `main` 함수 내부에서 [`wandb.init()`](/ko/models/ref/python/functions/init)를 사용해 백그라운드 프로세스를 시작하고 데이터를 [W&amp;B Run](/ko/models/ref/python/experiments/run)으로 동기화하고 기록합니다. `wandb.init()` 메서드의 매개변수로 프로젝트 이름을 전달하세요. 프로젝트 이름을 전달하지 않으면 W&amp;B는 기본 프로젝트 이름을 사용합니다.
+    5. `wandb.Run.config` 객체에서 하이퍼파라미터 값을 가져옵니다. 이렇게 하면 하드코딩된 값 대신 스윕 설정 사전에서 정의한 하이퍼파라미터 값을 사용할 수 있습니다.
+    6. [`wandb.Run.log()`](/ko/models/ref/python/experiments/run.md/#method-runlog)을 사용하여 최적화에 사용할 메트릭을 W&amp;B에 로깅하세요. 설정에서 정의한 메트릭은 반드시 로깅해야 합니다. 예를 들어, 최적화할 메트릭을 `val_acc`로 정의했다면 `val_acc`를 로깅해야 합니다. 메트릭을 로깅하지 않으면 W&amp;B는 무엇을 최적화해야 하는지 알 수 없습니다. 설정 사전(이 예시에서는 `sweep_configuration`)에서 스윕이 `val_acc` 값을 최대화하도록 정의합니다.
+    7. [`wandb.agent()`](/ko/models/ref/python/functions/agent)를 사용하여 스윕을 시작합니다. 스윕 ID와 스윕이 실행할 함수 이름(`function=main`)을 지정하고, 시도할 run의 최대 개수를 4개로 설정합니다(`count=4`).
+
+    이 모든 내용을 종합하면, 스크립트는 다음과 같은 형태가 됩니다:
+
+    ```python
+    import wandb # W&B Python SDK 가져오기
+    import numpy as np
+    import random
+    import argparse
+
+    def train_one_epoch(epoch, lr, batch_size):
+        acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+        loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
+        return acc, loss
+
+    def evaluate_one_epoch(epoch):
+        acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+        loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
+        return acc, loss
+
+    def main(args=None):
+        # 스윕 에이전트에 의해 호출될 때 args는 None이므로,
+        # 스윕 설정의 프로젝트를 사용합니다
+        project = args.project if args else None
+        
+        with wandb.init(project=project) as run:
+            # `wandb.Run.config` 객체에서 하이퍼파라미터 값을 가져옵니다
+            lr = run.config["lr"]
+            batch_size = run.config["batch_size"]
+            epochs = run.config["epochs"]
+
+            # 트레이닝 루프를 실행하고 성능 값을 W&B에 기록합니다
+            for epoch in np.arange(1, epochs):
+                train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
+                val_acc, val_loss = evaluate_one_epoch(epoch)
+                run.log(
+                    {
+                        "epoch": epoch,
+                        "train_acc": train_acc,
+                        "train_loss": train_loss,
+                        "val_acc": val_acc, # 최적화할 메트릭
+                        "val_loss": val_loss,
+                    }
+                )
+
+    if __name__ == "__main__":
+        parser = argparse.ArgumentParser()
+        parser.add_argument("--project", type=str, default="sweep-example", help="W&B 프로젝트 이름")
+        args = parser.parse_args()
+
+        # 스윕 설정 사전 정의
+        sweep_configuration = {
+            "method": "random",
+            "name": "sweep",
+            # 최적화할 메트릭
+            # 예를 들어, 검증 정확도를 최대화하려면
+            # "goal": "maximize"로 설정하고 최적화할 변수의
+            # 이름을 지정합니다. 이 경우 "val_acc"
+            "metric": {
+                "goal": "maximize",
+                "name": "val_acc"
+                },
+            "parameters": {
+                "batch_size": {"values": [16, 32, 64]},
+                "epochs": {"values": [5, 10, 15]},
+                "lr": {"max": 0.1, "min": 0.0001},
             },
-        "parameters": {
-            "batch_size": {"values": [16, 32, 64]},
-            "epochs": {"values": [5, 10, 15]},
-            "lr": {"max": 0.1, "min": 0.0001},
-        },
-    }
+        }
 
-    # 설정 사전을 전달하여 sweep 초기화
-    sweep_id = wandb.sweep(sweep=sweep_configuration, project=args.project)
+        # 설정 사전을 전달하여 스윕을 초기화합니다
+        sweep_id = wandb.sweep(sweep=sweep_configuration, project=args.project)
 
-    # sweep 작업 시작
-    wandb.agent(sweep_id, function=main, count=4)
-```
-</Tab>
+        # 스윕 작업을 시작합니다
+        wandb.agent(sweep_id, function=main, count=4)
+    ```
+  </Tab>
 </Tabs>
 
-
 <Note>
-**sweep에서 W&B로 메트릭 로그하기**
+  **스윕에서 W&amp;B로 메트릭 로깅하기**
 
-스윕 구성과 `wandb.Run.log()` 모두에서 정의하고 최적화하려는 메트릭을 로그해야 합니다. 예를 들어, 스윕 구성 내에서 최적화할 메트릭을 `val_acc`로 정의했다면 W&B에도 `val_acc`를 로그해야 합니다. 메트릭을 로그하지 않으면 W&B는 무엇을 최적화해야 할지 알 수 없습니다.
+  스윕 설정과 `wandb.Run.log()` 모두에 최적화 대상으로 정의한 메트릭을 로깅해야 합니다. 예를 들어 스윕 설정에서 최적화할 메트릭을 `val_acc`로 정의했다면, `val_acc`를 W&amp;B에도 로깅해야 합니다. 메트릭을 로깅하지 않으면 W&amp;B는 무엇을 최적화해야 하는지 알 수 없습니다.
 
-```python
-with wandb.init() as run:
-    val_loss, val_acc = train()
-    run.log(
-        {
-            "val_loss": val_loss,
-            "val_acc": val_acc
-            }
-        )
-```
+  ```python
+  with wandb.init() as run:
+      val_loss, val_acc = train()
+      run.log(
+          {
+              "val_loss": val_loss,
+              "val_acc": val_acc
+              }
+          )
+  ```
 
-다음은 W&B에 메트릭을 로그하는 잘못된 예입니다. 스윕 구성에서 최적화하려는 메트릭은 `val_acc`이지만, 코드는 `validation` 키 아래의 중첩된 사전에 `val_acc`를 로그하고 있습니다. 메트릭은 중첩된 사전 내부가 아니라 직접 로그해야 합니다.
+  아래는 W&amp;B에 메트릭을 잘못 로깅한 예시입니다. 스윕 설정에서 최적화하는 메트릭은 `val_acc`이지만, 코드에서는 `val_acc`를 키 `validation` 아래에 있는 중첩된 사전 안에 로깅하고 있습니다. 메트릭은 중첩된 사전 안이 아니라, 반드시 최상위 수준에서 직접 로깅해야 합니다.
 
-```python
-with wandb.init() as run:
-    val_loss, val_acc = train()
-    run.log(
-        {
-            "validation": {
-                "val_loss": val_loss, 
-                "val_acc": val_acc
-                }
-            }
-        )
-```
+  ```python
+  with wandb.init() as run:
+      val_loss, val_acc = train()
+      run.log(
+          {
+              "validation": {
+                  "val_loss": val_loss, 
+                  "val_acc": val_acc
+                  }
+              }
+          )
+  ```
 </Note>

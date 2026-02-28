@@ -1,47 +1,51 @@
 ---
-title: Weave를 사용한 Audio
-description: W&B Weave를 사용하여 오디오 데이터를 활용하는 방법을 알아보세요.
+title: "Weave에서 오디오 사용하기"
+description: "W&B Weave에서 오디오를 사용하는 방법을 알아보세요"
 ---
 
 <Note>
-이 노트북은 인터랙티브 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+이 노트북은 인터랙티브 노트북입니다. 로컬에서 실행하거나 아래 링크 중 하나를 사용하세요:
 - [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
 - [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
 </Note>
 
 ## 
 
-# 오디오 데이터에 Weave 사용하기: OpenAI 예제
+<div id="how-to-use-weave-with-audio-data-an-openai-example">
+  # 오디오 데이터와 함께 Weave를 사용하는 방법: OpenAI 예제
+</div>
 
-이 데모에서는 OpenAI chat completions API와 GPT 4o Audio Preview를 사용하여 텍스트 프롬프트에 대한 오디오 응답을 생성하고 이를 Weave에서 추적하는 방법을 보여줍니다.
+이 데모에서는 OpenAI Chat Completions API와 GPT 4o Audio Preview를 사용해 텍스트 프롬프트에 대한 오디오 응답을 생성하고, 이를 Weave에서 추적합니다.
 
-<img src="https://i.imgur.com/OUfsZ2x.png"></img>
+<img src="https://i.imgur.com/OUfsZ2x.png" alt="GPT 4o Audio Preview 인테그레이션과 오디오 응답 생성 워크플로우가 포함된 OpenAI Chat Completions API 인터페이스" />
 
-심화 유스 케이스로는 OpenAI Realtime API를 활용하여 실시간으로 오디오를 스트리밍합니다. 비디오 데모를 보려면 다음 썸네일을 클릭하거나 [여기](https://www.youtube.com/watch?v=lnnd73xDElw)를 클릭하세요.
+고급 예제에서는 OpenAI Realtime API를 활용해 오디오를 실시간으로 스트리밍합니다. 다음 썸네일을 클릭해 동영상 데모를 보거나, [여기](https://www.youtube.com/watch?v=lnnd73xDElw)를 클릭하세요.
 
 [![Everything Is AWESOME](https://img.youtube.com/vi/lnnd73xDElw/0.jpg)](https://www.youtube.com/watch?v=lnnd73xDElw "Everything Is AWESOME")
 
-## 설정
+<div id="setup">
+  ## 설정
+</div>
 
-먼저 OpenAI (`openai`)와 Weave (`weave`) 종속성, 그리고 API 키 관리를 위한 `set-env`를 설치합니다.
+먼저 OpenAI (`openai`)와 Weave (`weave`) 의존성을 설치하고, API 키 관리를 위한 `set-env` 의존성도 설치합니다.
 
 ```python lines
 %%capture
 !pip install openai
 !pip install weave
-!pip install set-env-colab-kaggle-dotenv -q # 환경 변수 설정을 위해 사용
+!pip install set-env-colab-kaggle-dotenv -q # 환경 변수용
 python
 %%capture
-# openai의 버그를 해결하기 위한 임시 우회책:
+# openai 버그 수정을 위한 임시 해결 방법:
 # TypeError: Client.__init__() got an unexpected keyword argument 'proxies'
 # 참고: https://community.openai.com/t/error-with-openai-1-56-0-client-init-got-an-unexpected-keyword-argument-proxies/1040332/15
 !pip install "httpx<0.28"
 ```
 
-다음으로 OpenAI와 Weave에 필요한 API 키를 로드합니다. 여기서는 Google Colab의 secret keys manager와 호환되는 `set_env`를 사용하며, 이는 Colab 전용인 `google.colab.userdata`를 대체할 수 있는 대안입니다. 사용법은 [여기](https://pypi.org/project/set-env-colab-kaggle-dotenv/)를 참조하세요.
+다음으로 OpenAI와 Weave에 필요한 API 키를 로드합니다. 여기서는 Google Colab의 시크릿 키 관리자와 호환되는 set&#95;env를 사용하며, Colab의 전용 `google.colab.userdata`를 대신할 수 있는 방법입니다. 사용 방법은 [여기](https://pypi.org/project/set-env-colab-kaggle-dotenv/)를 참고하세요.
 
 ```python lines
-# 환경 변수 설정
+# 환경 변수를 설정합니다.
 from set_env import set_env
 
 _ = set_env("OPENAI_API_KEY")
@@ -63,9 +67,12 @@ from openai import OpenAI
 import weave
 ```
 
-## 오디오 스트리밍 및 저장 예제
 
-이제 오디오 모달리티가 활성화된 OpenAI completions 엔드포인트 호출을 설정하겠습니다. 먼저 OpenAI 클라이언트를 생성하고 Weave 프로젝트를 시작합니다.
+<div id="audio-streaming-and-storage-example">
+  ## 오디오 스트리밍 및 저장 예제
+</div>
+
+이제 오디오 모달리티를 활성화한 상태에서 OpenAI의 completions 엔드포인트를 호출하도록 설정해 보겠습니다. 먼저 OpenAI 클라이언트를 생성하고 Weave 프로젝트를 초기화합니다.
 
 ```python lines
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
@@ -74,16 +81,16 @@ weave.init("openai-audio-chat")
 
 이제 OpenAI completions 요청을 정의하고 Weave 데코레이터(op)를 추가하겠습니다.
 
-여기서는 `prompt_endpont_and_log_trace` 함수를 정의합니다. 이 함수는 세 가지 주요 단계로 구성됩니다:
+여기서는 함수 `prompt_endpont_and_log_trace`를 정의합니다. 이 함수는 세 가지 주요 단계로 구성됩니다:
 
-1. 텍스트 및 오디오 입출력을 지원하는 `GPT 4o Audio Preview` 모델을 사용하여 completion 오브젝트를 생성합니다.
+1. 텍스트와 오디오 입력/출력을 지원하는 `GPT 4o Audio Preview` 모델을 사용해 completion 객체를 만듭니다.
 
-   - 모델이 다양한 억양으로 천천히 13까지 세도록 프롬프트를 작성합니다.
-   - completion을 "stream"으로 설정합니다.
+   * 모델에 다양한 억양으로 천천히 13까지 세도록 프롬프트를 제공합니다.
+   * completion을 &quot;stream&quot;으로 설정합니다.
 
-2. 스트리밍된 데이터가 청크별로 기록될 새로운 출력 파일을 엽니다.
+2. 스트리밍된 데이터가 청크 단위로 기록될 새 출력 파일을 엽니다.
 
-3. Weave가 trace에 오디오 데이터를 로그할 수 있도록 오디오 파일의 파일 핸들러를 반환합니다.
+3. 오디오 파일에 대한 열린 파일 핸들러를 반환하여 Weave가 트레이스에 오디오 데이터를 로그로 남기도록 합니다.
 
 ```python lines
 SAMPLE_RATE = 22050
@@ -94,7 +101,7 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
         system_prompt = "You're the fastest counter in the world"
     if not user_prompt:
         user_prompt = "Count to 13 super super slow, enunciate each number with a dramatic flair, changing up accents as you go along. British, French, German, Spanish, etc."
-    # 오디오 모달리티를 사용한 OpenAI API 요청
+    # 오디오 모달리티를 사용하여 OpenAI API에 요청
     completion = client.chat.completions.create(
         model="gpt-4o-audio-preview",
         modalities=["text", "audio"],
@@ -109,10 +116,10 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
     # 쓰기용 wave 파일 열기
     with wave.open("./output.wav", "wb") as wav_file:
         wav_file.setnchannels(1)  # 모노
-        wav_file.setsampwidth(2)  # 16-bit
-        wav_file.setframerate(SAMPLE_RATE)  # 샘플 레이트 (필요시 조정)
+        wav_file.setsampwidth(2)  # 16비트
+        wav_file.setframerate(SAMPLE_RATE)  # 샘플 레이트 (필요 시 조정)
 
-        # API에서 스트리밍되는 청크를 순차적으로 기록
+        # API에서 스트리밍되는 청크를 순서대로 기록
         for chunk in completion:
             if (
                 hasattr(chunk, "choices")
@@ -131,48 +138,55 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
     return wave.open("output.wav", "rb")
 ```
 
-## 테스트
 
-다음 셀을 실행하세요. 시스템 및 사용자 프롬프트와 출력 오디오가 Weave trace에 저장됩니다.
-셀 실행 후, "🍩" 이모지 옆의 링크를 클릭하여 trace를 확인하세요.
+<div id="testing">
+  ## 테스트
+</div>
+
+다음 셀을 실행하세요. 시스템 프롬프트와 사용자 프롬프트는 출력 오디오와 함께 Weave trace에 저장됩니다.
+셀을 실행한 다음, 🍩 이모지 옆에 있는 링크를 클릭해 trace를 확인하세요.
 
 ```python lines
 from IPython.display import Audio
 
-# 오디오 스트림을 기록하는 함수 호출
+# 오디오 스트림을 작성하는 함수 호출
 prompt_endpoint_and_log_trace(
     system_prompt="You're the fastest counter in the world",
     user_prompt="Count to 13 super super slow, enunciate each number with a dramatic flair, changing up accents as you go along. British, French, German, Spanish, etc.",
 )
 
-# 업데이트된 오디오 스트림 재생
+# 업데이트된 오디오 스트림 표시
 display(Audio("output.wav", rate=SAMPLE_RATE, autoplay=True))
 ```
 
-# 심화 사용법: Weave와 함께 Realtime Audio API 사용하기
 
-<img src="https://i.imgur.com/ZiW3IVu.png"/>
-<details>
-<summary> (심화) Weave와 함께 Realtime Audio API 사용하기 </summary>
-OpenAI의 Realtime API는 실시간 오디오 및 텍스트 어시스턴트를 구축하기 위한 기능이 뛰어나고 신뢰할 수 있는 대화형 API입니다.
+<div id="advanced-usage-realtime-audio-api-with-weave">
+  ## 고급 사용법: Weave와 함께 사용하는 Realtime Audio API
+</div>
 
-참고 사항:
+<img src="https://i.imgur.com/ZiW3IVu.png" alt="Weave와 Realtime Audio API 인테그레이션 및 스트리밍 오디오 대화 인터페이스" />
 
-- [마이크 설정](#openai-realtime-api-스키마-구현) 섹션의 셀을 검토하세요.
-- Google Colab 실행 환경의 제한으로 인해, **이 코드는 반드시 호스트 머신에서** Jupyter Notebook으로 실행해야 합니다. 브라우저에서는 실행할 수 없습니다.
-  - MacOS에서는 Pyaudio 작동을 위해 Brew를 통해 `portaudio`를 설치해야 합니다 ([여기](https://formulae.brew.sh/formula/portaudio) 참조).
-- OpenAI의 Python SDK는 아직 Realtime API를 지원하지 않습니다. 가독성을 위해 Pydantic으로 전체 OAI Realtime API 스키마를 구현했으며, 공식 지원이 출시되면 지원이 중단될 수 있습니다.
-- `enable_audio_playback` 토글은 어시스턴트의 출력 오디오 재생 여부를 결정합니다. **이 기능을 켜는 경우 에코 감지가 매우 복잡하므로 반드시 헤드폰을 착용해야 합니다**.
+OpenAI의 realtime API는 실시간 오디오·텍스트 어시스턴트를 구축하기 위한 고기능·고신뢰 대화형 API입니다.
 
-## 요구 사항 설정
+다음 사항을 유의하세요:
+
+- [Microphone Configuration](#microphone-configuration)의 셀을 검토하세요.
+- Google Colab 실행 환경의 제한으로 인해 **반드시 호스트 머신에서** Jupyter Notebook으로 실행해야 합니다. 브라우저에서는 실행할 수 없습니다.
+  - MacOS에서는 Pyaudio가 동작하도록 Brew를 통해 `portaudio`를 설치해야 합니다(자세한 내용은 [여기](https://formulae.brew.sh/formula/portaudio) 참조).
+- OpenAI의 Python SDK는 아직 Realtime API를 지원하지 않습니다. 더 높은 가독성을 위해 Pydantic에서 전체 OAI Realtime API 스키마를 구현했으며, 공식 지원이 출시되면 이 구현은 더 이상 사용되지 않을 수 있습니다.
+- `enable_audio_playback` 토글을 활성화하면 어시스턴트가 출력한 오디오가 재생됩니다. **이 옵션을 활성화한 경우 반드시 헤드폰을 사용해야** 하며, 에코를 감지하려면 매우 복잡한 구현이 필요합니다.
+
+<div id="requirements-setup">
+  ## 필수 구성 요소 설정
+</div>
 
 ```python lines
 %%capture
 !pip install numpy==2.0
 !pip install weave
-!pip install pyaudio # Mac의 경우, brew install portaudio로 먼저 portaudio를 설치해야 할 수 있습니다.
+!pip install pyaudio # Mac에서는 먼저 `brew install portaudio`로 portaudio를 설치해야 할 수 있습니다
 !pip install websocket-client
-!pip install set-env-colab-kaggle-dotenv -q # 환경 변수 설정용
+!pip install set-env-colab-kaggle-dotenv -q # 환경 변수용
 !pip install resampy
 python
 import io
@@ -188,18 +202,21 @@ from set_env import set_env
 
 import weave
 python
-# 환경 변수 설정
-# 사용법은 https://pypi.org/project/set-env-colab-kaggle-dotenv/ 를 참조하세요.
+# 환경 변수를 설정합니다.
+# 사용 방법은 https://pypi.org/project/set-env-colab-kaggle-dotenv/ 를 참조하세요.
 _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
-## 마이크 설정
 
-사용 가능한 모든 오디오 장치를 찾으려면 다음 셀을 실행하세요. 그런 다음 나열된 장치를 기반으로 `INPUT_DEVICE_INDEX`와 `OUTPUT_DEVICE_INDEX`를 입력하세요. 입력 장치는 최소 1개의 입력 채널을 가져야 하며, 출력 장치는 최소 1개의 출력 채널을 가져야 합니다.
+<div id="microphone-configuration">
+  ## 마이크 설정
+</div>
+
+사용 가능한 모든 오디오 장치를 확인하려면 다음 셀을 실행하세요. 그런 다음 표시된 장치를 기준으로 `INPUT_DEVICE_INDEX`와 `OUTPUT_DEVICE_INDEX` 값을 설정하세요. 입력 장치는 입력 채널이 최소 1개 이상, 출력 장치는 출력 채널이 최소 1개 이상이어야 합니다.
 
 ```python lines
-# 다음 셀 설정을 위해 pyaudio에서 장치 목록 가져오기
+# 다음 셀을 구성할 수 있도록 pyaudio에서 장치 목록을 가져옵니다
 p = pyaudio.PyAudio()
 devices_data = {i: p.get_device_info_by_index(i) for i in range(p.get_device_count())}
 for i, device in devices_data.items():
@@ -207,32 +224,36 @@ for i, device in devices_data.items():
         f"Found device @{i}: {device['name']} with sample rate: {device['defaultSampleRate']} and input channels: {device['maxInputChannels']} and output channels: {device['maxOutputChannels']}"
     )
 python
-INPUT_DEVICE_INDEX = 3  # @param                                                 # 위 장치 목록에서 선택하세요. 입력 채널이 0보다 큰 장치여야 합니다.
-OUTPUT_DEVICE_INDEX = 12  # @param                                                # 위 장치 목록에서 선택하세요. 출력 채널이 0보다 큰 장치여야 합니다.
-enable_audio_playback = True  # @param {type:"boolean"}                           # 어시스턴트 오디오 재생 토글. 헤드폰 사용 필수.
+INPUT_DEVICE_INDEX = 3  # @param                                                 # 위의 장치 목록을 기반으로 선택하세요. 장치의 입력 채널이 0보다 많은지 확인하세요.
+OUTPUT_DEVICE_INDEX = 12  # @param                                                # 위의 장치 목록을 기반으로 선택하세요. 장치의 출력 채널이 0보다 많은지 확인하세요.
+enable_audio_playback = True  # @param {type:"boolean"}                           # 어시스턴트 오디오 재생을 켜거나 끕니다. 헤드폰이 필요합니다.
 
 # 오디오 녹음 및 스트리밍 파라미터
 INPUT_DEVICE_CHANNELS = devices_data[INPUT_DEVICE_INDEX][
     "maxInputChannels"
-]  # 위 장치 목록에서 가져옴
+]  # 위의 장치 목록에서 가져옴
 SAMPLE_RATE = int(
     devices_data[INPUT_DEVICE_INDEX]["defaultSampleRate"]
-)  # 위 장치 목록에서 가져옴
+)  # 위의 장치 목록에서 가져옴
 CHUNK = int(SAMPLE_RATE / 10)  # 프레임당 샘플 수
-SAMPLE_WIDTH = p.get_sample_size(pyaudio.paInt16)  # 포맷에 대한 프레임당 샘플 너비
-CHUNK_DURATION = 0.3  # OAI API로 전송되는 청크당 오디오 시간(초)
+SAMPLE_WIDTH = p.get_sample_size(pyaudio.paInt16)  # 해당 포맷의 프레임당 샘플 수
+CHUNK_DURATION = 0.3  # OAI API로 전송되는 청크당 오디오 길이(초)
 OAI_SAMPLE_RATE = (
-    24000  # OAI 샘플 레이트는 24kHz이며, 어시스턴트 오디오 재생 또는 저장에 필요합니다.
+    24000  # OAI 샘플 레이트는 24kHz이며, 어시스턴트 오디오를 재생하거나 저장하려면 이 값이 필요합니다
 )
 OUTPUT_DEVICE_CHANNELS = 1  # 모노 출력을 위해 1로 설정
 ```
 
-## OpenAI Realtime API 스키마 구현
 
-OpenAI Python SDK는 아직 Realtime API를 지원하지 않습니다. 가독성을 위해 Pydantic으로 전체 OAI Realtime API 스키마를 구현했으며, 공식 지원이 출시되면 지원이 중단될 수 있습니다.
+<div id="openai-realtime-api-schema-implementation">
+  ## OpenAI Realtime API 스키마 구현
+</div>
 
-<details>
-<summary> OpenAI Realtime API를 위한 Pydantic 스키마 (OpenAI SDK의 Realtime API 지원 부족 보완) </summary>
+OpenAI Python SDK는 아직 Realtime API를 지원하지 않습니다. 여기서는 가독성을 높이기 위해 전체 OAI Realtime API 스키마를 Pydantic으로 구현했으며, 공식 지원이 제공되면 이 구현은 폐기될 수 있습니다.
+
+<div id="pydantic-schema-for-openai-realtime-api">
+  ### OpenAI Realtime API용 Pydantic 스키마
+</div>
 
 ```python lines
 from enum import Enum
@@ -242,10 +263,10 @@ from pydantic import BaseModel, Field, ValidationError
 
 class BaseEvent(BaseModel):
     type: Union["ClientEventTypes", "ServerEventTypes"]
-    event_id: Optional[str] = None  # 모든 이벤트에 선택적 필드로 event_id 추가
+    event_id: Optional[str] = None  # Add event_id as an optional field for all events
 
     # def model_dump_json(self, *args, **kwargs):
-    #     # None이 아닌 필드만 포함
+    #     # Only include non-None fields
     #     return super().model_dump_json(*args, exclude_none=True, **kwargs)
 
 class ChatMessage(BaseModel):
@@ -253,7 +274,7 @@ class ChatMessage(BaseModel):
     content: str
     timestamp: float
 
-""" 클라이언트 이벤트 """
+""" CLIENT EVENTS """
 
 class ClientEventTypes(str, Enum):
     SESSION_UPDATE = "session.update"
@@ -267,7 +288,7 @@ class ClientEventTypes(str, Enum):
     INPUT_AUDIO_BUFFER_CLEAR = "input_audio_buffer.clear"
     ERROR = "error"
 
-#### 세션 업데이트
+#### Session Update
 class TurnDetection(BaseModel):
     type: Literal["server_vad"]
     threshold: float = Field(..., ge=0.0, le=1.0)
@@ -308,7 +329,7 @@ class SessionUpdate(BaseEvent):
     type: Literal[ClientEventTypes.SESSION_UPDATE] = ClientEventTypes.SESSION_UPDATE
     session: Session
 
-#### 오디오 버퍼
+#### Audio Buffers
 class InputAudioBufferAppend(BaseEvent):
     type: Literal[ClientEventTypes.INPUT_AUDIO_BUFFER_APPEND] = (
         ClientEventTypes.INPUT_AUDIO_BUFFER_APPEND
@@ -325,7 +346,7 @@ class InputAudioBufferClear(BaseEvent):
         ClientEventTypes.INPUT_AUDIO_BUFFER_CLEAR
     )
 
-#### 메시지
+#### Messages
 class MessageContent(BaseModel):
     type: Literal["input_audio"]
     audio: str
@@ -377,14 +398,14 @@ class ConversationItemDelete(BaseEvent):
     )
     item_id: str
 
-#### 응답
+#### Responses
 class ResponseCreate(BaseEvent):
     type: Literal[ClientEventTypes.RESPONSE_CREATE] = ClientEventTypes.RESPONSE_CREATE
 
 class ResponseCancel(BaseEvent):
     type: Literal[ClientEventTypes.RESPONSE_CANCEL] = ClientEventTypes.RESPONSE_CANCEL
 
-# 모든 이벤트 유형을 포함하도록 Event 유니온 업데이트
+# Update the Event union to include all event types
 ClientEvent = Union[
     SessionUpdate,
     InputAudioBufferAppend,
@@ -397,7 +418,7 @@ ClientEvent = Union[
     ResponseCancel,
 ]
 
-""" 서버 이벤트 """
+""" SERVER EVENTS """
 
 class ServerEventTypes(str, Enum):
     ERROR = "error"
@@ -433,7 +454,7 @@ class ServerEventTypes(str, Enum):
     RESPONSE_FUNCTION_CALL_ARGUMENTS_DONE = "response.function_call_arguments.done"
     RATE_LIMITS_UPDATED = "rate_limits.updated"
 
-#### 오류
+#### Errors
 class ErrorDetails(BaseModel):
     type: Optional[str] = None
     code: Optional[str] = None
@@ -444,7 +465,7 @@ class ErrorEvent(BaseEvent):
     type: Literal[ServerEventTypes.ERROR] = ServerEventTypes.ERROR
     error: ErrorDetails
 
-#### 세션
+#### Session
 class SessionCreated(BaseEvent):
     type: Literal[ServerEventTypes.SESSION_CREATED] = ServerEventTypes.SESSION_CREATED
     session: Session
@@ -453,7 +474,7 @@ class SessionUpdated(BaseEvent):
     type: Literal[ServerEventTypes.SESSION_UPDATED] = ServerEventTypes.SESSION_UPDATED
     session: Session
 
-#### 대화
+#### Conversation
 class Conversation(BaseModel):
     id: str
     object: Literal["realtime.conversation"]
@@ -501,7 +522,7 @@ class ConversationItemDeleted(BaseEvent):
     )
     item_id: str
 
-#### 응답
+#### Response
 class ResponseUsage(BaseModel):
     total_tokens: int
     input_tokens: int
@@ -589,7 +610,7 @@ class ResponseContentPartDone(BaseEvent):
     content_index: int
     part: ResponseContentPart
 
-#### 응답 텍스트
+#### Response Text
 class ResponseTextDelta(BaseEvent):
     type: Literal[ServerEventTypes.RESPONSE_TEXT_DELTA] = (
         ServerEventTypes.RESPONSE_TEXT_DELTA
@@ -610,7 +631,7 @@ class ResponseTextDone(BaseEvent):
     content_index: int
     text: str
 
-#### 응답 오디오
+#### Response Audio
 class ResponseAudioTranscriptDone(BaseEvent):
     type: Literal[ServerEventTypes.RESPONSE_AUDIO_TRANSCRIPT_DONE] = (
         ServerEventTypes.RESPONSE_AUDIO_TRANSCRIPT_DONE
@@ -667,7 +688,7 @@ class InputAudioBufferSpeechStopped(BaseEvent):
     audio_end_ms: int
     item_id: str
 
-#### 함수 호출
+#### Function Calls
 class ResponseFunctionCallArgumentsDelta(BaseEvent):
     type: Literal[ServerEventTypes.RESPONSE_FUNCTION_CALL_ARGUMENTS_DELTA] = (
         ServerEventTypes.RESPONSE_FUNCTION_CALL_ARGUMENTS_DELTA
@@ -688,7 +709,7 @@ class ResponseFunctionCallArgumentsDone(BaseEvent):
     call_id: str
     arguments: str
 
-#### 속도 제한 (Rate Limits)
+#### Rate Limits
 class RateLimit(BaseModel):
     name: str
     limit: int
@@ -773,13 +794,13 @@ def parse_server_event(event_data: dict) -> ServerEvent:
         raise ValueError(f"Failed to parse event of type {event_type}: {str(e)}") from e
 ```
 
-</details>
-
-## 오디오 스트림 라이터 (디스크 및 메모리)
+<div id="audio-stream-writer-to-disk-and-in-memory">
+  ## 오디오 스트림 라이터 (디스크 및 메모리 기록)
+</div>
 
 ```python lines
 class StreamingWavWriter:
-    """오디오 정수 또는 바이트 배열 청크를 WAV 파일로 작성합니다."""
+    """오디오 정수 또는 바이트 배열 청크를 WAV 파일에 씁니다."""
 
     wav_file = None
     buffer = None
@@ -819,35 +840,45 @@ class StreamingWavWriter:
         return self.buffer
 ```
 
-## Realtime Audio 모델
 
-Realtime(RT) 오디오 모델은 웹소켓을 사용하여 OpenAI의 Realtime 오디오 API에 이벤트를 보냅니다. 작동 방식은 다음과 같습니다:
+<div id="realtime-audio-model">
+  ## 실시간 오디오 모델
+</div>
 
-1.  **init:** 로컬 버퍼(입력 오디오)와 스트림(어시스턴트 재생 스트림, 사용자 오디오 디스크 라이터 스트림)을 초기화하고 Realtime API에 대한 연결을 엽니다.
-2.  **receive_messages_thread**: API로부터 메시지를 수신하는 스레드를 관리합니다. 네 가지 주요 이벤트 유형을 처리합니다:
-        - RESPONSE_AUDIO_TRANSCRIPT_DONE:
-            서버가 어시스턴트의 응답이 완료되었음을 알리고 대본(transcript)을 제공합니다.
+실시간(RT) 오디오 모델은 웹소켓을 사용해 OpenAI의 Realtime audio API로 이벤트를 전송합니다. 동작 방식은 다음과 같습니다.
+
+1.  **init:** 로컬 버퍼(입력 오디오)와 스트림(assistant 응답 재생 스트림, 사용자 오디오를 디스크에 기록하는 스트림)을 초기화하고 Realtime API에 대한 연결을 엽니다.
+2.  **receive_messages_thread**: 하나의 스레드가 API로부터 메시지를 수신하는 일을 처리합니다. 네 가지 주요 이벤트 유형을 처리합니다: - RESPONSE_AUDIO_TRANSCRIPT_DONE:
+
+            서버가 assistant 응답이 완료되었음을 알리고 전사본을 제공합니다.
+
         - CONVERSATION_ITEM_INPUT_AUDIO_TRANSCRIPTION_COMPLETED:
-            서버가 사용자의 오디오가 전사(transcription)되었음을 알리고 사용자 오디오의 대본을 보냅니다. 이 대본을 Weave에 로그하고 사용자에게 출력합니다.
+
+            서버가 사용자의 오디오 전사가 완료되었음을 알리고, 사용자의 오디오 전사본을 전송합니다. 이 전사본을 Weave에 기록하고 사용자에게 출력합니다.
+
         - RESPONSE_AUDIO_DELTA:
-            서버가 어시스턴트 응답 오디오의 새로운 청크를 보냅니다. 이를 응답 ID를 통해 진행 중인 응답 데이터에 추가하고 재생을 위해 출력 스트림에 더합니다.
+
+            서버가 새로운 assistant 응답 오디오 청크를 전송합니다. 이를 응답 ID를 기준으로 진행 중인 응답 데이터에 이어 붙이고, 재생을 위해 출력 스트림에 추가합니다.
+
         - RESPONSE_DONE:
-            서버가 어시스턴트 응답의 완료를 알립니다. 해당 응답과 관련된 모든 오디오 청크 및 대본을 가져와 Weave에 로그합니다.
-3.  **send_audio**: 핸들러가 사용자 오디오 청크를 버퍼에 추가하고, 오디오 버퍼가 일정 크기에 도달하면 오디오 청크를 전송합니다.
+
+            서버가 assistant 응답이 완료되었음을 알립니다. 해당 응답과 연관된 모든 오디오 청크와 전사본을 가져와 Weave에 기록합니다.
+
+    3.**send_audio**: 핸들러가 사용자 오디오 청크를 버퍼에 추가하고, 오디오 버퍼가 특정 크기에 도달하면 오디오 청크를 전송합니다.
 
 ```python lines
 class RTAudioModel(weave.Model):
-    """Whisper 사용자 전사 로깅 기능이 포함된 실시간 e2e 오디오 OpenAI 모델 상호작용을 위한 모델 클래스입니다."""
+    """로깅을 위한 Whisper 사용자 전사 기능을 포함한 실시간 e2e 오디오 OpenAI 모델 상호작용을 위한 모델 클래스."""
 
-    realtime_model_name: str = "gpt-4o-realtime-preview-2024-10-01"  # 실시간 e2e 오디오 전용 모델
+    realtime_model_name: str = "gpt-4o-realtime-preview-2024-10-01"  # 실시간 e2e 오디오 전용 모델 상호작용
 
-    stop_event: Optional[threading.Event] = threading.Event()  # 모델 중지 이벤트
-    ws: Optional[websocket.WebSocket] = None  # OpenAI 통신용 웹소켓
+    stop_event: Optional[threading.Event] = threading.Event()  # 모델을 중지하기 위한 이벤트
+    ws: Optional[websocket.WebSocket] = None  # OpenAI 통신을 위한 웹소켓
 
     user_wav_writer: Optional[StreamingWavWriter] = (
-        None  # 사용자 출력을 파일로 쓰기 위한 스트림
+        None  # 사용자 출력을 파일에 쓰기 위한 스트림
     )
-    input_audio_buffer: Optional[np.ndarray] = None  # 사용자 오디오 청크용 버퍼
+    input_audio_buffer: Optional[np.ndarray] = None  # 사용자 오디오 청크 버퍼
     assistant_outputs: dict[str, StreamingWavWriter] = (
         None  # Weave로 전송하기 위해 집계된 어시스턴트 출력
     )
@@ -865,7 +896,7 @@ class RTAudioModel(weave.Model):
         self.ws = websocket.WebSocket()
         self.assistant_outputs = {}
 
-        # 재생이 활성화된 경우 어시스턴트 오디오 재생 스트림 열기
+        # 활성화된 경우 어시스턴트 오디오 재생 스트림 열기
         if enable_audio_playback:
             self.playback_stream = pyaudio.PyAudio().open(
                 format=pyaudio.paInt16,
@@ -891,7 +922,7 @@ class RTAudioModel(weave.Model):
                     modalities=["text", "audio"],  # 사용할 모달리티
                     input_audio_transcription=InputAudioTranscription(
                         model="whisper-1"
-                    ),  # 전사용 whisper-1
+                    ),  # 전사를 위한 whisper-1
                     turn_detection=TurnDetection(
                         type="server_vad",
                         threshold=0.3,
@@ -909,7 +940,7 @@ class RTAudioModel(weave.Model):
             websocket_thread.start()
 
         except Exception as e:
-            print(f"Error connecting to WebSocket: {e}")
+            print(f"웹소켓 연결 오류: {e}")
 
     ##### Weave 인테그레이션 및 메시지 핸들러 #####
     def handle_assistant_response_audio_delta(self, data: ResponseAudioDelta):
@@ -935,7 +966,7 @@ class RTAudioModel(weave.Model):
             "assistant_audio": wave.open(wave_file_stream.get_wav_buffer(), "rb"),
             "assistant_transcript": data.response.output[0]
             .content[0]
-            .get("transcript", "Transcript Unavailable."),
+            .get("transcript", "전사를 사용할 수 없습니다."),
         }
         return weave_payload
 
@@ -945,7 +976,7 @@ class RTAudioModel(weave.Model):
     ):
         return {"user_transcript": data.transcript}
 
-    ##### 메시지 수신 및 송신 #####
+    ##### 메시지 수신기 및 발신기 #####
     def receive_messages_thread(self):
         while not self.stop_event.is_set():
             try:
@@ -955,12 +986,12 @@ class RTAudioModel(weave.Model):
                 parsed_event = parse_server_event(data)
 
                 if parsed_event.type == ServerEventTypes.RESPONSE_AUDIO_TRANSCRIPT_DONE:
-                    print("Assistant: ", parsed_event.transcript)
+                    print("어시스턴트: ", parsed_event.transcript)
                 elif (
                     parsed_event.type
                     == ServerEventTypes.CONVERSATION_ITEM_INPUT_AUDIO_TRANSCRIPTION_COMPLETED
                 ):
-                    print("User: ", parsed_event.transcript)
+                    print("사용자: ", parsed_event.transcript)
                     self.handle_user_transcription_done(parsed_event)
                 elif parsed_event.type == ServerEventTypes.RESPONSE_AUDIO_DELTA:
                     self.handle_assistant_response_audio_delta(parsed_event)
@@ -968,15 +999,15 @@ class RTAudioModel(weave.Model):
                     self.handle_assistant_response_done(parsed_event)
                 elif parsed_event.type == ServerEventTypes.ERROR:
                     print(
-                        f"\nError from server: {parsed_event.error.model_dump_json(exclude_none=True)}"
+                        f"\n서버 오류: {parsed_event.error.model_dump_json(exclude_none=True)}"
                     )
             except websocket.WebSocketConnectionClosedException:
-                print("\nWebSocket connection closed")
+                print("\n웹소켓 연결이 닫혔습니다")
                 break
             except json.JSONDecodeError:
                 continue
             except Exception as e:
-                print(f"\nError in receive_messages: {e}")
+                print(f"\nreceive_messages 오류: {e}")
                 break
 
     def send_audio(self, audio_chunk):
@@ -986,7 +1017,7 @@ class RTAudioModel(weave.Model):
             )
             if len(self.input_audio_buffer) >= SAMPLE_RATE * CHUNK_DURATION:
                 try:
-                    # 오디오를 OAI 샘플 레이트로 리샘플링
+                    # OAI 샘플 레이트로 오디오 리샘플링
                     resampled_audio = (
                         resampy.resample(
                             self.input_audio_buffer, SAMPLE_RATE, OAI_SAMPLE_RATE
@@ -995,7 +1026,7 @@ class RTAudioModel(weave.Model):
                         else self.input_audio_buffer
                     )
 
-                    # 오디오 청크를 OAI API로 전송
+                    # OAI API로 오디오 청크 전송
                     audio_event = InputAudioBufferAppend(
                         audio=base64.b64encode(
                             resampled_audio.astype(np.int16).tobytes()
@@ -1008,13 +1039,13 @@ class RTAudioModel(weave.Model):
                 finally:
                     self.user_wav_writer.append_int16_chunk(self.input_audio_buffer)
 
-                    # 오디오 버퍼 비우기
+                    # 오디오 버퍼 초기화
                     self.input_audio_buffer = np.array([], dtype=np.int16)
         else:
-            print("Error sending audio: websocket not initialized.")
+            print("오디오 전송 오류: 웹소켓이 초기화되지 않았습니다.")
 
     ##### 일반 유틸리티 함수 #####
-    def log_ws_message(self, message, direction="Received"):
+    def log_ws_message(self, message, direction="수신됨"):
         with open("websocket_log.txt", "a") as log_file:
             log_file.write(
                 f"{time.strftime('%Y-%m-%d %H:%M:%S')} - {direction}: {message}\n"
@@ -1029,14 +1060,16 @@ class RTAudioModel(weave.Model):
         self.user_wav_writer.close()
 ```
 
-## 오디오 레코더
+<div id="audio-recorder">
+  ## 오디오 레코더
+</div>
 
-RTAudio 모델의 `send_audio` 메소드에 연결된 핸들러와 함께 pyaudio 입력 스트림을 사용합니다. 프로그램 종료 시 안전하게 빠져나올 수 있도록 스트림을 메인 스레드에 반환합니다.
+RTAudio 모델의 `send_audio` 메서드에 연결된 핸들러와 함께 PyAudio 입력 스트림을 사용합니다. 이 스트림은 프로그램이 종료될 때 안전하게 종료할 수 있도록 메인 스레드로 반환됩니다.
 
 ```python lines
 # 오디오 캡처 스트림
 def record_audio(realtime_model: RTAudioModel) -> pyaudio.Stream:
-    """Pyaudio 입력 스트림을 설정하고 데이터 스트리밍을 위한 콜백으로 RTAudioModel을 사용합니다."""
+    """Pyaudio 입력 스트림을 설정하고 RTAudioModel을 스트리밍 데이터의 콜백으로 사용합니다."""
 
     def audio_callback(in_data, frame_count, time_info, status):
         realtime_model.send_audio(in_data)
@@ -1054,13 +1087,16 @@ def record_audio(realtime_model: RTAudioModel) -> pyaudio.Stream:
     )
     stream.start_stream()
 
-    print("Recording started. Please begin speaking to your personal assistant...")
+    print("녹음이 시작되었습니다. 개인 어시스턴트에게 말씀해 주세요...")
     return stream
 ```
 
-## 메인 스레드 (실행!)
 
-메인 스레드는 Weave가 통합된 Realtime Audio 모델을 시작합니다. 그런 다음 녹음이 시작되고 사용자의 키보드 인터럽트(keyboard interrupt)를 기다립니다.
+<div id="main-thread-run-me">
+  ## 메인 스레드 (Run me!)
+</div>
+
+메인 스레드는 Weave가 통합된 실시간 오디오 모델을 초기화합니다. 이어서 녹음을 시작하고, 사용자로부터 키보드 인터럽트가 발생할 때까지 대기합니다.
 
 ```python lines
 weave.init(project_name="realtime-oai-audio-testing")
@@ -1091,5 +1127,3 @@ else:
         "WebSocket connection failed. Please check your API key and internet connection."
     )
 ```
-
-</details>

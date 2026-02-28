@@ -1,43 +1,51 @@
 ---
-title: wandb artifact put
+title: "wandb artifact put"
 ---
 
 {/*
-  이 코맨드에 대한 도입 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-artifact-put.mdx
-  2. 해당 파일에 도입 내용을 추가하세요
-  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 남겨두세요:
+  이 명령에 대한 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-artifact-put.mdx
+  2. 해당 파일에 소개 내용을 추가합니다.
+  3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남깁니다:
 
-import WandbArtifactPut from "/snippets/en/_includes/cli/wandb-artifact-put.mdx";
+  import WandbArtifactPut from "/snippets/_includes/cli/wandb-artifact-put.mdx";
 
-<WandbArtifactPut/>
+  <WandbArtifactPut/>
 
-  스니펫은 다음 재생성 시 자동으로 감지됩니다.
-*/}
+  이 스니펫은 다음 재생성 시 자동으로 감지됩니다.
+  */}
 
-Artifacts 를 wandb에 업로드합니다.
+wandb에 아티팩트 업로드하기
 
-## Usage
+
+<div id="usage">
+  ## 사용 방법
+</div>
 
 ```bash
 wandb artifact put PATH [OPTIONS]
 ```
 
-## Arguments
 
-| Argument | Description | Required |
+<div id="arguments">
+  ## 인수
+</div>
+
+| 인수 | 설명 | 필수 여부 |
 | :--- | :--- | :--- |
-| `PATH` | 설명 없음 | Yes |
+| `PATH` | 설명이 없습니다 | 예 |
 
-## Options
+<div id="options">
+  ## 옵션
+</div>
 
 | Option | Description |
 | :--- | :--- |
-| `--name`, `-n` | 푸시할 Artifact 의 이름: project/artifact_name |
-| `--description`, `-d` | 이 Artifact 에 대한 설명 |
-| `--type`, `-t` | Artifact 의 타입 (기본값: dataset) |
-| `--alias`, `-a` | 이 Artifact 에 적용할 에일리어스 (기본값: ['latest']) |
-| `--id` | 업로드하려는 대상 Run 입니다. |
-| `--resume` | 현재 디렉토리의 마지막 Run 을 재개합니다. |
-| `--skip_cache` | Artifact 파일을 업로드하는 동안 캐싱을 건너뜁니다. (기본값: False) |
-| `--policy` | Artifact 파일을 업로드하는 동안 스토리지 정책을 설정합니다. (기본값: mutable) |
+| `--name`, `-n` | 푸시할 아티팩트의 이름: project/artifact_name |
+| `--description`, `-d` | 이 아티팩트에 대한 설명 |
+| `--type`, `-t` | 아티팩트의 유형 (기본값: 데이터셋) |
+| `--alias`, `-a` | 이 아티팩트에 적용할 별칭 (기본값: ['latest']) |
+| `--id` | 아티팩트를 업로드할 run입니다. |
+| `--resume` | 현재 디렉터리에서 마지막 run을 재개합니다. |
+| `--skip_cache` | 아티팩트 파일을 업로드하는 동안 캐싱을 건너뜁니다. (기본값: False) |
+| `--policy` | 아티팩트 파일을 업로드하는 동안 스토리지 정책을 설정합니다. (기본값: mutable) |

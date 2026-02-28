@@ -4,7 +4,7 @@ description: Manage a team's members, avatar, alerts, and privacy settings with 
 title: Manage team settings
 ---
 
-import EnterpriseOnly from "/snippets/en/_includes/enterprise-only.mdx";
+import EnterpriseOnly from "/snippets/_includes/enterprise-only.mdx";
 
 # Team settings
 
@@ -36,7 +36,7 @@ Toggle the switch next to the event type you want to receive alerts from. Weight
 * **Runs finished**: whether a Weights and Biases run successfully finished.
 * **Run crashed**: if a run has failed to finish.
 
-For more information about how to set up and manage alerts, see [Send alerts with `wandb.Run.alert()`](/models/evaluate-models/).
+For more information about how to set up and manage alerts, see [Send alerts with `wandb.Run.alert()`](/models/runs/alert).
 
 ## Slack notifications
 Configure Slack destinations where your team's [automations](/models/automations/) can send notifications when an event occurs in a Registry or a project, such as when a new artifact is created or when a run metric meets a defined threshold. Refer to [Create a Slack automation](/models/automations/create-automations/slack/).

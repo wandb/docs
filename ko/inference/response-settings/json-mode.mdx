@@ -1,11 +1,11 @@
 ---
-title: JSON 모드 활성화
+title: "JSON 모드 활성화"
 description: W&B Inference에서 JSON 모드를 사용하는 방법
 ---
 
-JSON 모드를 활성화하면 모델이 응답을 유효한 JSON 형식으로 반환하도록 지시합니다. 하지만 응답의 스키마가 일관되지 않거나 특정 구조를 따르지 않을 수 있습니다. 일관된 구조의 JSON 응답이 필요한 경우, 가능한 한 [structured output](/inference/response-settings/structured-output)을 사용하는 것을 권장합니다.
+JSON 모드를 활성화하면 모델이 유효한 JSON 형식으로 응답을 반환하도록 설정합니다. 다만 응답의 스키마가 항상 일관되거나 특정 구조를 따르지는 않을 수 있습니다. 일관된 구조의 JSON 응답이 필요하다면, 가능하면 [structured output](/ko/inference/response-settings/structured-output)을 사용하는 것을 권장합니다.
 
-JSON 모드를 활성화하려면 요청 시 "response_format"을 다음과 같이 지정하세요:
+JSON 모드를 활성화하려면 요청에서 &quot;response&#95;format&quot;을 다음과 같이 지정합니다:
 
 <Tabs>
   <Tab title="Python">
@@ -15,7 +15,7 @@ JSON 모드를 활성화하려면 요청 시 "response_format"을 다음과 같�
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # https://wandb.ai/settings 에서 API 키를 생성하세요
+        api_key="<your-api-key>",  # https://wandb.ai/settings에서 API 키를 생성하세요
     )
 
     response = client.chat.completions.create(
@@ -24,7 +24,7 @@ JSON 모드를 활성화하려면 요청 시 "response_format"을 다음과 같�
             {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
             {"role": "user", "content": "Give me a list of three fruits with their colors."},
         ],
-        response_format={"type": "json_object"}  # JSON 모드를 활성화합니다
+        response_format={"type": "json_object"}  # 이 설정이 JSON 모드를 활성화합니다
     )
 
     content = response.choices[0].message.content
@@ -32,6 +32,7 @@ JSON 모드를 활성화하려면 요청 시 "response_format"을 다음과 같�
     print(parsed)
     ```
   </Tab>
+
   <Tab title="Bash">
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \

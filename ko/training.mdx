@@ -1,15 +1,18 @@
 ---
-title: W&B 트레이닝
-description: 강화학습을 사용하여 모델 사후 학습 (Post-train) 하기
+title: W&B Training
+description: 강화 학습과 지도 파인튜닝을 사용해 모델을 포스트 트레이닝하기
 mode: wide
 ---
 
-현재 퍼블릭 프리뷰로 제공되는 W&B Training은 거대 언어 모델(LLM)의 포스트 트레이닝(post-training)을 위한 서버리스 강화학습(reinforcement learning)을 제공합니다. 이를 통해 모델이 멀티 턴(multi-turn) 및 에이전트(agent) 중심의 작업을 수행할 때의 신뢰성을 높이는 동시에, 속도 향상과 비용 절감을 실현합니다. 강화학습(RL)은 모델이 자신의 출력값에 대한 피드백을 통해 행동(behavior)을 개선하는 트레이닝 기법입니다.
+현재 퍼블릭 프리뷰로 제공되는 W&amp;B Training은 대규모 언어 모델(LLM)에 대해 서버리스 포스트 트레이닝을 제공하며, 강화 학습(RL)과 지도 파인튜닝(SFT)을 모두 지원합니다.
 
-W&B Training은 다음과 같은 솔루션과 인테그레이션(integration)을 지원합니다:
+* **[Serverless RL](/ko/training/serverless-rl)**: 멀티턴 에이전트형 작업을 수행할 때 속도를 높이고 비용을 줄이면서 모델의 신뢰성을 향상합니다. RL은 모델이 출력에 대한 피드백을 통해 동작을 개선하도록 학습하는 트레이닝 기법입니다.
+* **[Serverless SFT](/ko/training/sft-training)**: 지식 증류, 출력 스타일 및 형식 학습, 또는 RL 전 워밍업을 위해 선별된 데이터셋을 사용해 모델을 파인튜닝합니다.
 
-* [ART](https://art.openpipe.ai/getting-started/about): 유연한 RL 파인튜닝 프레임워크.
-* [RULER](https://openpipe.ai/blog/ruler): 범용 검증 도구(universal verifier).
-* [CoreWeave Cloud](https://docs.coreweave.com/docs/platform)의 풀 매니지드 백엔드.
+W&amp;B Training에는 다음과 같은 인테그레이션이 포함됩니다:
 
-시작하려면 [사전 요구 사항](/training/prerequisites)을 충족하여 서비스 사용을 준비한 후, [OpenPipe의 서버리스 RL 퀵스타트](https://art.openpipe.ai/getting-started/quick-start)를 참조하여 모델의 포스트 트레이닝 방법을 알아보세요.
+* 유연한 파인튜닝 프레임워크인 [ART](https://art.openpipe.ai/getting-started/about)
+* 범용 검증기인 [RULER](https://openpipe.ai/blog/ruler)
+* [CoreWeave Cloud](https://docs.coreweave.com/docs/platform)에서 제공되는 완전 관리형 백엔드
+
+시작하려면 먼저 서비스 사용을 위한 [사전 필수 조건](/ko/training/prerequisites)을 충족한 다음, 모델을 포스트 트레이닝하는 방법을 알아보기 위해 [Serverless RL 퀵스타트](https://art.openpipe.ai/getting-started/quick-start) 또는 [Serverless SFT 문서](https://art.openpipe.ai/fundamentals/sft-training)를 참조하세요.

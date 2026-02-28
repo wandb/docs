@@ -261,7 +261,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         # Add import and include the snippet
         # Convert command name to PascalCase for the component name
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -269,12 +269,12 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
         # Add commented-out template for adding intro content later
         lines.append("{/*")
         lines.append(f"  To add introductory content for this command:")
-        lines.append(f"  1. Create the snippet file: /snippets/en/_includes/cli/{command_name}.mdx")
+        lines.append(f"  1. Create the snippet file: /snippets/_includes/cli/{command_name}.mdx")
         lines.append(f"  2. Add your intro content to that file")
         lines.append(f"  3. Delete this entire comment block and keep only the two lines below:")
         lines.append("")
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -412,7 +412,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         # Add import and include the snippet
         # Convert command name to PascalCase for the component name
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -420,12 +420,12 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
         # For main CLI page only, show commented template when no snippet exists
         lines.append("{/*")
         lines.append(f"  To add introductory content for this command:")
-        lines.append(f"  1. Create the snippet file: /snippets/en/_includes/cli/{command_name}.mdx")
+        lines.append(f"  1. Create the snippet file: /snippets/_includes/cli/{command_name}.mdx")
         lines.append(f"  2. Add your intro content to that file")
         lines.append(f"  3. Delete this entire comment block and keep only the two lines below:")
         lines.append("")
         component_name = ''.join(word.capitalize() for word in command_name.split('-'))
-        lines.append(f'import {component_name} from "/snippets/en/_includes/cli/{command_name}.mdx";')
+        lines.append(f'import {component_name} from "/snippets/_includes/cli/{command_name}.mdx";')
         lines.append("")
         lines.append(f"<{component_name}/>")
         lines.append("")
@@ -728,7 +728,7 @@ def main():
     if output_dir.exists() and any(output_dir.iterdir()):
         if args.interactive:
             print(f"⚠️  Warning: This will regenerate documentation in {output_dir}")
-            print("   Note: Manual content should be in snippet files (/snippets/en/_includes/cli/*.mdx)")
+            print("   Note: Manual content should be in snippet files (/snippets/_includes/cli/*.mdx)")
             response = input("Continue? (y/N): ")
             if response.lower() != 'y':
                 print("Aborted.")

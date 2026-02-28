@@ -1,14 +1,17 @@
 ---
-title: Image
+title: 이미지
 namespace: python_sdk_data_type
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py" />
 
+
 ## <kbd>class</kbd> `Image`
-W&B에 이미지를 log 하기 위한 클래스입니다.
+
+이미지를 W&B에 로깅하는 클래스입니다. 
 
 ### <kbd>method</kbd> `Image.__init__`
 
@@ -26,52 +29,47 @@ __init__(
 ) → None
 ```
 
-`wandb.Image` 오브젝트를 초기화합니다.
+`wandb.Image` 객체를 초기화합니다.
 
-이 클래스는 다양한 이미지 데이터 포맷을 처리하며, 필요한 경우 픽셀 값을 [0, 255] 범위로 자동 정규화하여 W&B 백엔드와의 호환성을 보장합니다.
+이 클래스는 다양한 이미지 데이터 포맷을 처리하며, 필요할 경우 픽셀 값을 [0, 255] 범위로 자동 정규화하여 W&amp;B 백엔드와의 호환성을 보장합니다.
 
-* [0, 1] 범위의 데이터는 255를 곱하고 uint8로 변환됩니다.
-* [-1, 1] 범위의 데이터는 -1을 0으로, 1을 255로 매핑하여 [0, 255]로 리스케일링한 후 uint8로 변환됩니다.
-* [-1, 1] 외부에 있지만 [0, 255] 범위에 있지 않은 데이터는 [0, 255]로 클리핑(clipping)되고 uint8로 변환됩니다 (값이 [0, 255] 범위를 벗어날 경우 경고가 발생합니다).
-* 이미 [0, 255] 범위에 있는 데이터는 수정 없이 uint8로 변환됩니다.
+* [0, 1] 범위의 데이터는 255를 곱한 후 uint8로 변환됩니다 * [-1, 1] 범위의 데이터는 [-1, 1]에서 [0, 255]로 재조정되며,
+  -1은 0에, 1은 255에 매핑한 뒤 uint8로 변환됩니다 * [-1, 1] 바깥이지만 [0, 255]에도 속하지 않는 데이터는 [0, 255]로 클리핑한 뒤 uint8로 변환됩니다 (값이 [0, 255] 범위를 벗어나는 경우 경고가 발생합니다) * 이미 [0, 255] 범위에 있는 데이터는 수정 없이 uint8로 변환됩니다
 
 **Args:**
 
- - `data_or_path`: 이미지 데이터의 NumPy 배열/PyTorch 텐서, PIL 이미지 오브젝트 또는 이미지 파일의 경로를 받습니다. NumPy 배열이나 PyTorch 텐서가 제공되면, 이미지 데이터는 지정된 파일 타입으로 저장됩니다. `normalize` 가 `False` 로 설정되지 않은 한, 값이 [0, 255] 범위에 없거나 모든 값이 [0, 1] 범위에 있는 경우 이미지 픽셀 값은 [0, 255] 범위로 정규화됩니다.
-    - PyTorch 텐서는 (channel, height, width) 형식이어야 합니다.
-    - NumPy 배열은 (height, width, channel) 형식이어야 합니다.
- - `mode`: 이미지의 PIL 모드입니다. 가장 일반적인 값은 "L", "RGB", "RGBA"입니다.
- - 자세한 내용은 Full Pillow docs를 참조하세요: https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes
- - `caption`: 이미지 표시를 위한 라벨입니다.
- - `grouping`: 이미지의 그룹화 번호입니다.
- - `classes`: 바운딩 박스 및 이미지 마스크 라벨링에 사용되는 이미지의 클래스 정보 리스트입니다.
- - `boxes`: 이미지의 바운딩 박스 정보를 포함하는 사전입니다.
- - https://docs.wandb.ai/ref/python/data-types/boundingboxes2d/ 를 참조하세요.
- - `masks`: 이미지의 마스크 정보를 포함하는 사전입니다.
- - https://docs.wandb.ai/ref/python/data-types/imagemask/ 를 참조하세요.
- - `file_type`: 이미지를 저장할 파일 타입입니다. `data_or_path` 가 이미지 파일 경로인 경우에는 이 파라미터가 적용되지 않습니다.
- - `normalize`: `True` 인 경우, 이미지 픽셀 값을 [0, 255] 범위 내에 오도록 정규화합니다. 정규화는 `data_or_path` 가 NumPy 배열이나 PyTorch 텐서인 경우에만 적용됩니다.
+* `data_or_path`:  이미지 데이터의 NumPy 배열/pytorch 텐서, PIL 이미지 객체, 또는 이미지 파일 경로를 받습니다. NumPy 배열이나 pytorch 텐서가 제공되면, 이미지 데이터는 지정된 파일 타입으로 저장됩니다. 값이 [0, 255] 범위에 있지 않거나 모든 값이 [0, 1] 범위에 있는 경우, `normalize` 가 `False` 로 설정되지 않는 한 이미지 픽셀 값은 [0, 255] 범위로 정규화됩니다.
+  * pytorch 텐서는 (channel, height, width) 형식이어야 합니다
+  * NumPy 배열은 (height, width, channel) 형식이어야 합니다
+* `mode`:  이미지의 PIL 모드입니다. 가장 일반적인 값은 &quot;L&quot;, &quot;RGB&quot;, &quot;RGBA&quot; 입니다.
+* `Full Pillow docs for more information https`: //pillow.readthedocs.io/en/stable/handbook/concepts.html#modes 에서 자세한 내용을 확인하세요.
+* `caption`:  이미지 표시용 레이블입니다.
+* `grouping`:  이미지의 그룹 번호입니다.
+* `classes`:  이미지에 대한 클래스 정보를 담은 리스트로, 바운딩 박스와 이미지 마스크에 레이블을 붙이는 데 사용됩니다.
+* `boxes`:  이미지에 대한 바운딩 박스 정보를 담은 사전입니다.
+* `see https`: //docs.wandb.ai/ref/python/data-types/boundingboxes2d/ 를 참조하세요.
+* `masks`:  이미지에 대한 마스크 정보를 담은 사전입니다.
+* `see https`: //docs.wandb.ai/ref/python/data-types/imagemask/ 를 참조하세요.
+* `file_type`:  이미지를 저장할 파일 타입입니다.  `data_or_path` 가 이미지 파일 경로인 경우 이 매개변수는 아무런 영향을 미치지 않습니다.
+* `normalize`:  `True` 인 경우, 이미지 픽셀 값을 [0, 255] 범위로 정규화합니다.  정규화는 `data_or_path` 가 numpy 배열 또는 pytorch 텐서일 때만 적용됩니다.
 
 **Examples:**
-NumPy 배열에서 wandb.Image 생성하기
+NumPy 배열에서 wandb.Image 생성
 
 ```python
 import numpy as np
 import wandb
 
-# run 초기화
 with wandb.init() as run:
     examples = []
     for i in range(3):
-         # 랜덤한 픽셀 데이터 생성
          pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
          image = wandb.Image(pixels, caption=f"random field {i}")
          examples.append(image)
-    # 이미지 리스트를 로그에 기록
     run.log({"examples": examples})
 ```
 
-PILImage에서 wandb.Image 생성하기
+PILImage에서 wandb.Image 생성
 
 ```python
 import numpy as np
@@ -84,14 +82,14 @@ with wandb.init() as run:
          pixels = np.random.randint(
              low=0, high=256, size=(100, 100, 3), dtype=np.uint8
          )
-         # NumPy 배열에서 PIL 이미지 생성
          pil_image = PILImage.fromarray(pixels, mode="RGB")
          image = wandb.Image(pil_image, caption=f"random field {i}")
          examples.append(image)
     run.log({"examples": examples})
 ```
 
-기본값인 .png 대신 .jpg로 log 기록하기
+.png(기본값) 대신 .jpg를 로깅합니다
+
 
 ```python
 import numpy as np
@@ -101,7 +99,6 @@ with wandb.init() as run:
     examples = []
     for i in range(3):
          pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
-         # file_type을 "jpg"로 지정
          image = wandb.Image(
              pixels, caption=f"random field {i}", file_type="jpg"
          )
@@ -109,7 +106,8 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
----
+***
+
 
 ### <kbd>property</kbd> Image.image
 

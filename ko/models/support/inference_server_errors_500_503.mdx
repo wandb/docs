@@ -1,28 +1,38 @@
 ---
-title: W&B Inference 에서 발생하는 서버 에러 (500, 503) 를 어떻게 해결하나요?
+title: W&B Inference 서버 오류(500, 503)는 어떻게 해결하나요?
 ---
 
-서버 에러는 W&B Inference 서비스의 일시적인 문제를 나타냅니다.
+서버 오류는 W&B Inference 서비스에 일시적인 장애가 발생했음을 나타냅니다.
 
-## 에러 유형
+<div id="error-types">
+  ## 오류 유형
+</div>
 
-### 500 - Internal Server Error
-**메시지:** "The server had an error while processing your request"
+<div id="500-internal-server-error">
+  ### 500 - Internal Server Error
+</div>
 
-이것은 서버 측의 일시적인 내부 에러입니다.
+**Message:** "요청을 처리하던 중 서버에서 오류가 발생했습니다"
 
-### 503 - Service Overloaded
-**메시지:** "The engine is currently overloaded, please try again later"
+이는 일시적으로 발생한 서버 내부 오류입니다.
 
-서비스에 트래픽이 몰리고 있습니다.
+<div id="503-service-overloaded">
+  ### 503 - 서비스 과부하
+</div>
 
-## 서버 에러 해결 방법
+**Message:** "현재 서비스가 과부하 상태입니다. 잠시 후 다시 시도해 주세요."
 
-1. **재시도 전 대기**
-   - 500 에러: 30-60초 대기
-   - 503 에러: 60-120초 대기
+서비스에 요청이 몰리고 있습니다.
 
-2. **지수 백오프(Exponential backoff) 사용**
+<div id="how-to-handle-server-errors">
+  ## 서버 오류를 처리하는 방법
+</div>
+
+1. **다시 시도하기 전에 기다리기**
+   - 500 오류: 30~60초 대기
+   - 503 오류: 60~120초 대기
+
+2. **지수 백오프 사용하기**
    ```python
    import time
    import openai
@@ -37,7 +47,6 @@ title: W&B Inference 에서 발생하는 서버 에러 (500, 503) 를 어떻게 
            except Exception as e:
                if "500" in str(e) or "503" in str(e):
                    if attempt < max_retries - 1:
-                       # 지수 백오프 적용
                        wait_time = min(60, (2 ** attempt))
                        time.sleep(wait_time)
                    else:
@@ -46,19 +55,23 @@ title: W&B Inference 에서 발생하는 서버 에러 (500, 503) 를 어떻게 
                    raise
    ```
 
-3. **적절한 타임아웃 설정**
-   - HTTP 클라이언트의 타임아웃 값을 늘리세요.
-   - 더 효율적인 처리를 위해 비동기(async) 작업을 고려하세요.
+3. **적절한 타임아웃 설정하기**
+   - HTTP 클라이언트의 타임아웃 값을 늘리기
+   - 더 안정적인 처리를 위해 비동기 작업을 고려하기
 
-## 고객 지원에 문의해야 하는 경우
+<div id="when-to-contact-support">
+  ## 지원팀에 문의해야 할 때
+</div>
 
-다음과 같은 경우 고객 지원팀에 문의하세요:
-- 에러가 10분 이상 지속될 때
-- 특정 시간대에 반복적으로 실패가 발생할 때
-- 에러 메시지에 추가 세부 정보가 포함되어 있을 때
+다음과 같은 경우에는 지원팀에 문의하세요:
 
-제공 정보:
-- 에러 메시지 및 에러 코드
-- 에러 발생 시간
-- 사용 중인 코드조각 ( API 키 는 제거하세요)
-- W&B Entities 및 Projects 이름
+- 오류가 10분 이상 지속되는 경우
+- 특정 시간에 반복적으로 실패가 발생하는 패턴이 보이는 경우
+- 오류 메시지에 추가 정보가 포함된 경우
+
+다음을 제공해 주세요:
+
+- 오류 메시지와 코드
+- 오류가 발생한 시각
+- 코드 스니펫 (API 키는 제거)
+- W&B Entity 및 프로젝트 이름

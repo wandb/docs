@@ -3,9 +3,11 @@ title: bar()
 namespace: python_sdk_custom_charts
 python_object_type: function
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py" />
+
 
 ### <kbd>function</kbd> `bar`
 
@@ -19,19 +21,19 @@ bar(
 ) → CustomChart
 ```
 
-wandb.Table 데이터를 사용하여 막대형 차트(bar chart)를 생성합니다.
+wandb.Table 데이터를 기반으로 막대 차트를 생성합니다.
 
 **Args:**
 
- - `table`: 막대형 차트에 사용할 데이터가 포함된 테이블입니다.
- - `label`: 각 막대의 레이블로 사용할 컬럼의 이름입니다.
- - `value`: 각 막대의 값으로 사용할 컬럼의 이름입니다.
- - `title`: 막대형 차트의 제목입니다.
- - `split_table`: W&B UI에서 테이블을 별도의 섹션으로 분리할지 여부입니다. `True`인 경우, 테이블은 "Custom Chart Tables"라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+* `table`:  막대 차트에 사용할 데이터를 포함한 테이블입니다.
+* `label`:  각 막대의 레이블로 사용할 열의 이름입니다.
+* `value`:  각 막대의 값으로 사용할 열의 이름입니다.
+* `title`:  막대 차트의 제목입니다.
+* `split_table`:  테이블을 W&amp;B UI에서 별도의 섹션으로 분할할지 여부입니다. `True`이면 테이블은 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
 
 **Returns:**
 
- - `CustomChart`: W&B에 로그를 남길 수 있는 커스텀 차트 오브젝트입니다. 차트를 로그하려면 `wandb.log()`에 전달하세요.
+* `CustomChart`:  W&amp;B에 로그할 수 있는 사용자 지정 차트 객체입니다. 차트를 로그하려면 `wandb.log()`에 전달합니다.
 
 **Example:**
 
@@ -39,7 +41,7 @@ wandb.Table 데이터를 사용하여 막대형 차트(bar chart)를 생성합�
 import random
 import wandb
 
-# 테이블을 위한 랜덤 데이터 생성
+# 테이블에 사용할 임의 데이터 생성
 data = [
     ["car", random.uniform(0, 1)],
     ["bus", random.uniform(0, 1)],
@@ -47,12 +49,12 @@ data = [
     ["person", random.uniform(0, 1)],
 ]
 
-# 데이터와 함께 테이블 생성
+# 데이터로 테이블 생성
 table = wandb.Table(data=data, columns=["class", "accuracy"])
 
-# W&B run을 초기화하고 막대형 차트를 로그합니다
+# W&B run을 초기화하고 막대 그래프 기록
 with wandb.init(project="bar_chart") as run:
-    # 테이블로부터 막대형 차트 생성
+    # 테이블에서 막대 그래프 생성
     bar_plot = wandb.plot.bar(
          table=table,
          label="class",
@@ -60,6 +62,6 @@ with wandb.init(project="bar_chart") as run:
          title="Object Classification Accuracy",
     )
 
-    # W&B에 막대형 차트 로그
+    # W&B에 막대 차트 기록
     run.log({"bar_plot": bar_plot})
 ```

@@ -1,14 +1,17 @@
 ---
-title: 알림보내기
+title: SendNotification
 namespace: automations_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/actions.py" />
 
+
 ## <kbd>class</kbd> `SendNotification`
-(Slack) 알림을 보내는 자동화 액션을 정의합니다.
+
+Slack 알림을 보내는 자동화 작업을 정의합니다.
 
 ### <kbd>method</kbd> `SendNotification.__init__`
 
@@ -22,16 +25,17 @@ __init__(
 ) → None
 ```
 
-**Args:**
+**인자:**
 
- - `integration_id` (str): 알림을 보내는 데 사용될 Slack 인테그레이션의 ID입니다.
- - `title` (str): 전송될 알림의 제목입니다.
- - `message` (str): 전송될 알림의 메시지 본문입니다.
- - `severity` (AlertSeverity): 전송될 알림의 심각도 (`INFO`, `WARN`, `ERROR`)입니다.
- - `action_type` (Literal[NOTIFICATION]): 
+* `integration_id` (str): 알림을 보내는 데 사용할 Slack 인테그레이션의 ID입니다.
+* `title` (str): 전송되는 알림의 제목입니다.
+* `message` (str): 전송되는 알림의 메시지 본문입니다.
+* `severity` (AlertSeverity): 전송되는 알림의 심각도 수준(`INFO`, `WARN`, `ERROR`)입니다.
+* `action_type` (Literal[NOTIFICATION]):
 
-**Returns:**
- `SendNotification` 오브젝트를 반환합니다.
+**반환값:**
+`SendNotification` 객체를 반환합니다.
+
 
 ### <kbd>classmethod</kbd> `SendNotification.from_integration`
 
@@ -44,4 +48,4 @@ from_integration(
 ) → Self
 ```
 
-지정된 (Slack) 인테그레이션으로 알림을 보내는 액션을 정의합니다.
+지정된 Slack 인테그레이션으로 알림을 전송하는 작업을 정의합니다.

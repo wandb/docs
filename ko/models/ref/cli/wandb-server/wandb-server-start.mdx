@@ -1,32 +1,38 @@
 ---
-title: wandb 서버 시작
+title: "wandb server start"
 ---
 
 {/*
-  이 코맨드에 대한 도입 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-server-start.mdx
-  2. 해당 파일에 도입 내용을 추가하세요
-  3. 이 주석 블록 전체를 삭제하고 아래의 두 줄만 남겨두세요:
+  이 명령의 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-server-start.mdx
+  2. 해당 파일에 소개 내용을 추가합니다.
+  3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제합니다:
 
-import WandbServerStart from "/snippets/en/_includes/cli/wandb-server-start.mdx";
+  import WandbServerStart from "/snippets/_includes/cli/wandb-server-start.mdx";
 
-<WandbServerStart/>
+  <WandbServerStart/>
 
-  다음 재생성 시 스니펫이 자동으로 감지됩니다.
-*/}
+  스니펫은 다음 재생성 시 자동으로 감지됩니다.
+  */}
 
-로컬 W&B 서버를 시작합니다.
+로컬 W&amp;B 서버 시작
 
-## 사용법
+
+<div id="usage">
+  ## 사용법
+</div>
 
 ```bash
 wandb server start [OPTIONS]
 ```
 
-## 옵션
+
+<div id="options">
+  ## 옵션
+</div>
 
 | 옵션 | 설명 |
 | :--- | :--- |
-| `--port`, `-p` | W&B 서버를 바인딩할 호스트 포트 (기본값: 8080) |
-| `--env`, `-e` | wandb/local에 전달할 환경 변수 (기본값: []) |
-| `--daemon` | 데몬 모드 실행 여부 설정 (기본값: True) |
+| `--port`, `-p` | W&B 서버를 바인딩할 호스트 포트 번호 (기본값: 8080) |
+| `--env`, `-e` | wandb/local에 전달할 환경 변수들 (기본값: []) |
+| `--daemon` | 데몬 모드로 실행할지 여부 (기본값: True) |

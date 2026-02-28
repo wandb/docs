@@ -1,24 +1,28 @@
 ---
-title: 저장된 뷰(views) 생성 및 관리
-description: 추적된 함수 호출 및 평가와의 상호작용 방식을 사용자 정의하세요
+title: "저장된 뷰 생성 및 관리"
+description: "트레이스된 함수 호출과 평가와 상호작용하는 방식을 사용자 지정합니다"
 ---
 
-Weave에서 _saved views_ 를 사용하면 추적된 함수 호출 및 평가와 상호작용하는 방식을 맞춤 설정할 수 있습니다. 저장된 뷰를 정의하여 필터, 정렬 및 열 가시성을 설정함으로써 관련 데이터에 신속하게 엑세스할 수 있습니다.
+Weave에서 _Saved View_를 사용하면 트레이스된 함수 호출과 평가와 상호작용하는 방식을 사용자 지정할 수 있습니다. Saved View를 정의하면 필터, 정렬, 열 표시 여부를 설정하여 관련 데이터를 빠르게 조회할 수 있습니다.
 
-Weave Python SDK 또는 UI를 통해 직접 뷰를 생성, 수정 및 저장할 수 있습니다. Python SDK는 프로그래밍 방식의 필터링 및 쿼리를 위한 세밀한 제어를 제공하며, UI를 사용하면 **Traces** 및 **Evals** 탭에서 다양한 테이블 구성을 쉽게 탐색하고 저장할 수 있습니다.
+Weave Python SDK나 UI에서 직접 뷰를 생성, 수정, 저장할 수 있습니다. Python SDK는 프로그래밍 방식의 필터링과 쿼리에 대한 세밀한 제어를 제공하고, UI는 **Traces** 및 **Evals** 탭에서 서로 다른 테이블 설정을 탐색하고 저장하기 쉽게 해 줍니다.
 
 이 가이드에서는 다음 내용을 다룹니다:
 
-- [Python SDK에서 Saved Views를 생성하고 수정하는 방법](#saved-views-in-the-python-sdk)
-- [Weave UI에서 Saved Views를 생성하고 상호작용하는 방법](#saved-views-in-the-ui)
+- [Python SDK에서 Saved Views를 생성하고 수정하는 방법](#saved-views-in-the-python-sdk).
+- [Weave UI에서 Saved Views를 생성하고 사용하는 방법](#saved-views-in-the-ui).
 
-## Saved views in the Python SDK
+<div id="saved-views-in-the-python-sdk">
+  ## Python SDK의 Saved views
+</div>
 
-Weave의 `SavedView` 클래스는 추적 및 evals 데이터의 뷰를 저장, 필터링, 정렬 및 맞춤 설정하는 방법을 제공합니다.
+Weave의 `SavedView` 클래스는 trace 및 evals 데이터에 대한 뷰를 저장하고, 필터링하고, 정렬하고, 사용자 정의할 수 있는 기능을 제공합니다. 
 
-### `SavedView` 초기화
+<div id="initialize-a-savedview">
+  ### `SavedView` 초기화하기
+</div>
 
-Weave 프로젝트에서 `SavedView` 인스턴스를 초기화합니다:
+Weave 프로젝트에서 `SavedView` 인스턴스를 초기화하세요:
 
 ```python lines
 import weave
@@ -27,162 +31,206 @@ client = weave.init(<my_project>)
 view = weave.SavedView()
 ```
 
-### `SavedView`를 그리드로 시각화
 
-`.to_grid()`를 사용하여 저장된 뷰를 그리드로 표현합니다. `limit`으로 표시할 최대 행 수를 지정합니다.
+<div id="visualize-the-savedview-as-a-grid">
+  ### `SavedView`를 그리드로 시각화하기
+</div>
+
+`.to_grid()`를 사용해 `SavedView`를 그리드 형태로 표시합니다. `limit`으로 표시할 최대 행 수를 지정합니다.
 
 ```python lines
 view.to_grid(limit=5)
 ```
 
-`.show()`를 사용하여 그리드 표현을 표시합니다:
+`.show()`를 호출해 그리드를 표시합니다:
 
 ```python lines
 view.to_grid().show()
 ```
 
-### 표시 열 설정
 
-`.set_columns()`를 사용하여 뷰에 표시할 열을 설정합니다. 하나 이상의 표시할 열을 지정합니다.
+<div id="set-displayed-columns">
+  ### 표시할 컬럼 설정
+</div>
+
+`.set_columns()`를 사용해 뷰에서 표시할 컬럼을 설정합니다. 표시할 컬럼을 하나 이상 지정하세요.
 
 ```python lines
 view.set_columns("id", "op_name")
 ```
 
-### 열 추가
 
-`.add_column()`을 사용하여 뷰에 하나 이상의 새로운 열을 추가합니다. 추가할 열을 하나 이상 지정합니다.
+<div id="add-columns">
+  ### 열 추가
+</div>
+
+`.add_column()`을 사용하여 뷰에 한 개 이상의 새 열을 추가합니다. 추가할 열을 한 개 이상 지정하세요.
 
 ```python lines
-# 필드 지정자와 "Created"라는 레이블로 열을 추가합니다.
+# 필드 지정자와 레이블 "Created"로 열 추가
 view.add_column("Created")
-# 선택적으로, 두 번째 인수를 추가하여 새 열에 대해 다른 레이블 이름을 지정할 수 있습니다. 기본적으로는 필드 지정자가 레이블로 사용됩니다.
+# 선택 사항으로, 두 번째 인수를 추가하여 새 열에 다른 레이블 이름을 지정할 수 있습니다. 기본적으로 필드 지정자가 레이블로 사용됩니다.
 ```
 
-### 열 정렬
 
-`.sort_by()`를 사용하여 특정 열을 기준으로 결과를 정렬합니다. 정렬할 열 이름과 정렬 순서(`asc` 또는 `desc`)를 지정합니다.
+<div id="sort-columns">
+  ### 열 정렬
+</div>
+
+`.sort_by()`를 사용해 특정 열을 기준으로 결과를 정렬하세요. 정렬 기준이 될 열 이름과 정렬 방향(`asc` 또는 `desc`)을 지정합니다.
 
 ```python lines
 view.sort_by("started_at", "desc")
 ```
 
-### 작업 이름으로 필터링
 
-Weave에서 모든 추적 또는 eval은 작업 이름(operation name)과 연결됩니다.
-`.filter_op()`를 사용하여 해당 특정 작업이 실행된 호출만 포함하도록 `SavedView`를 필터링합니다.
+<div id="filter-by-operation-name">
+  ### 오퍼레이션 이름으로 필터링
+</div>
+
+Weave에서는 모든 trace 또는 eval이 오퍼레이션 이름과 연관됩니다.
+`.filter_op()`을 사용하여 해당 오퍼레이션이 실행된 호출만 포함하도록 `SavedView`를 필터링하세요.
 
 ```python lines
 view.filter_op("Evaluation.predict_and_score")
 ```
 
-### 연산자 및 조건으로 필터링
 
-`.add_filter()`를 사용하여 뷰에 사용자 정의 필터를 적용합니다. [지원되는 필터 연산자](#filter-operators) 중 하나와 조건을 사용하여 필터를 정의합니다.
+<div id="filter-by-operator-and-condition">
+  ### 연산자와 조건으로 필터링
+</div>
+
+`.add_filter()`를 사용해 뷰에 커스텀 필터를 적용합니다. 필터는 [지원되는 필터 연산자](#filter-operators) 중 하나와 조건을 사용해 정의합니다.
 
 ```python lines
 view.add_filter("output.model_latency", ">=", 5)
 ```
 
-#### 필터 연산자
 
-| 연산자 | 설명 | 예시 |
+<div id="filter-operators">
+  #### 필터 연산자
+</div>
+
+| Operator | Description | Example |
 |----------|-------------|---------|
-| `"contains"` | 문자열에 하위 문자열이 포함되어 있는지 확인합니다. | `view.add_filter("output.status", "contains", "error")` |
-| `"equals"` | 문자열이 주어진 값과 정확히 일치하는지 확인합니다. | `view.add_filter("input.category", "equals", "Alice")` |
-| `"in"` | 문자열이 값 목록에 있는지 확인합니다. | `view.add_filter("category", "in", ["A", "B", "C"])` |
-| `"="` | 숫자가 값과 같은지 확인합니다. | `view.add_filter("output.score", "=", 80)` |
-| `"≠", "!="` | 숫자가 값과 같지 않은지 확인합니다. | `view.add_filter("metrics.loss", "!=", 0.5)` |
-| `"<"` | 숫자가 값보다 작은지 확인합니다. | `view.add_filter("age", "<", 30)` |
-| `"≤", "<="` | 숫자가 값보다 작거나 같은지 확인합니다. | `view.add_filter("metric.value", "<=", 100)` |
-| `">"` | 숫자가 값보다 큰지 확인합니다. | `view.add_filter("output.score", ">", 90)` |
-| `"≥", ">="` | 숫자가 값보다 크거나 같은지 확인합니다. | `view.add_filter("output.model_latency", ">=", 5)` |
+| `"contains"` | 문자열에 특정 부분 문자열이 포함되어 있는지 확인합니다. | `view.add_filter("output.status", "contains", "error")` |
+| `"equals"` | 문자열이 지정된 값과 정확히 같은지 확인합니다. | `view.add_filter("input.category", "equals", "Alice")` |
+| `"in"` | 문자열이 값 목록에 포함되어 있는지 확인합니다. | `view.add_filter("category", "in", ["A", "B", "C"])` |
+| `"="` | 숫자가 지정된 값과 같은지 확인합니다. | `view.add_filter("output.score", "=", 80)` |
+| `"≠", "!="` | 숫자가 지정된 값과 같지 않은지 확인합니다. | `view.add_filter("metrics.loss", "!=", 0.5)` |
+| `"<"` | 숫자가 지정된 값보다 작은지 확인합니다. | `view.add_filter("age", "<", 30)` |
+| `"≤", "<="` | 숫자가 지정된 값보다 작거나 같은지 확인합니다. | `view.add_filter("metric.value", "<=", 100)` |
+| `">"` | 숫자가 지정된 값보다 큰지 확인합니다. | `view.add_filter("output.score", ">", 90)` |
+| `"≥", ">="` | 숫자가 지정된 값보다 크거나 같은지 확인합니다. | `view.add_filter("output.model_latency", ">=", 5)` |
 | `"is"` | 불리언 필드가 `True` 또는 `False`인지 확인합니다. | `view.add_filter("is_active", "is", True)` |
-| `"after"` | 날짜가 주어진 타임스탬프 이후인지 확인합니다. | `view.add_filter("started_at", "after", "2024-01-01")` |
-| `"before"` | 날짜가 주어진 타임스탬프 이전인지 확인합니다. | `view.add_filter("ended_at", "before", "2024-12-31")` |
+| `"after"` | 날짜가 지정된 타임스탬프 이후인지 확인합니다. | `view.add_filter("started_at", "after", "2024-01-01")` |
+| `"before"` | 날짜가 지정된 타임스탬프 이전인지 확인합니다. | `view.add_filter("ended_at", "before", "2024-12-31")` |
 | `"is empty"` | 필드가 비어 있는지(`None` 또는 `""`) 확인합니다. | `view.add_filter("comments", "is empty", None)` |
 | `"is not empty"` | 필드가 비어 있지 않은지 확인합니다. | `view.add_filter("attachments", "is not empty", None)` |
 
-### 필터 제거
+<div id="remove-filters">
+  ### 필터 제거
+</div>
 
-`.remove_filter()`를 사용하여 인덱스 또는 필드 이름으로 뷰에서 특정 필터를 제거합니다.
+`.remove_filter()`를 사용하여 인덱스나 필드 이름으로 뷰에서 특정 필터를 제거합니다.
 
 ```python lines
 view.remove_filter("output.model_latency")
 ```
 
-`.remove_filters()`를 사용하여 모든 필터를 제거합니다.
+`.remove_filters()`를 사용해 모든 필터를 제거합니다.
 
 ```python lines
 view.remove_filters()
 ```
 
-### `SavedView` 저장
 
-`.save()`를 사용하여 저장된 뷰를 Weave에 게시합니다.
+<div id="save-the-savedview">
+  ### `SavedView` 저장하기
+</div>
+
+`.save()`를 사용해 `SavedView`를 Weave에 게시합니다.
 
 ```python lines
 view.save()
 ```
 
-### 함수 호출 가져오기
 
-`.get_calls()`를 사용하여 저장된 뷰의 필터와 일치하는 함수 호출을 검색합니다. `limit` 및 `offset`과 같은 선택적 파라미터를 지정할 수 있습니다.
+<div id="retrieve-function-calls">
+  ### 함수 호출 가져오기
+</div>
+
+저장된 뷰에 설정된 필터와 일치하는 함수 호출을 가져오려면 `.get_calls()`를 사용합니다. `limit` 및 `offset`과 같은 선택적 매개변수를 지정할 수 있습니다.
 
 ```python lines
 calls = view.get_calls(limit=10)
 ```
 
-## Saved views in the UI
 
-Weave UI에서 저장된 뷰를 생성, 로드, 이름 변경 및 편집할 수 있습니다. 세밀한 제어를 원하시면 [Python SDK](#saved-views-in-the-python-sdk)를 사용하세요.
+<div id="saved-views-in-the-ui">
+  ## UI의 저장된 뷰
+</div>
 
-### 저장된 뷰 생성하기
+Weave UI에서 저장된 뷰를 생성, 불러오기, 이름 변경 및 편집할 수 있습니다. 보다 세밀한 제어가 필요하면 [Python SDK](#saved-views-in-the-python-sdk)를 사용하세요.
+
+<div id="create-a-saved-view">
+  ### 저장된 뷰 만들기
+</div>
 
 1. **Traces** 또는 **Evals** 탭으로 이동합니다.
-2. 테이블 설정에서 다음 변수 중 하나를 조정합니다:
+2. 테이블 설정에서 다음 항목 중 원하는 값을 조정합니다:
    - 필터
    - 정렬 순서
    - 페이지 크기
-   - 열 가시성
+   - 열 표시 여부
    - 열 고정
-3. 다음 두 가지 옵션 중 하나를 사용하여 뷰를 저장합니다:
-   - 우측 상단에서 **Save view**를 클릭합니다.
-   - **Save view** 왼쪽의 햄버거 메뉴를 클릭합니다. 드롭다운 메뉴에서 **+ Save as new view**를 클릭합니다.
+3. 다음 두 가지 방법 중 하나로 뷰를 저장합니다:
+   - 오른쪽 상단에서 **Save view**를 클릭합니다. 
+   - **Save view** 왼쪽에 있는 햄버거 메뉴를 클릭한 다음, 드롭다운 메뉴에서 **+ Save as new view**를 클릭합니다.
 
-### 저장된 뷰 로드하기
+<div id="load-a-saved-view">
+  ### 저장된 뷰 불러오기
+</div>
 
 1. **Traces** 또는 **Evals** 탭으로 이동합니다.
-2. 탭 제목 왼쪽의 햄버거 메뉴를 클릭합니다. 모든 저장된 뷰를 보여주는 드롭다운 메뉴가 나타납니다.
-3. 액세스하려는 뷰를 클릭합니다. 저장된 뷰가 **Traces** 또는 **Evals** 탭에 표시됩니다.
+2. 탭 제목 왼쪽에 있는 햄버거 메뉴를 클릭합니다. 저장된 모든 뷰가 나열된 드롭다운 메뉴가 표시됩니다. 
+3. 원하는 뷰를 클릭합니다. 선택한 저장된 뷰가 **Traces** 또는 **Evals** 탭에 표시됩니다. 
 
-### 저장된 뷰 이름 변경하기
+<div id="rename-a-saved-view">
+  ### 저장된 뷰 이름 바꾸기
+</div>
 
-1. [저장된 뷰 로드하기](#저장된-뷰-로드하기)에 설명된 단계를 따릅니다.
-2. **Traces** 또는 **Evals** 탭의 좌측 상단에서 뷰 이름을 클릭합니다.
-3. 뷰의 새 이름을 입력합니다.
-4. 새 뷰 이름을 저장하려면 **Enter**를 누릅니다.
+1. [저장된 뷰 불러오기](#load-a-saved-view)에 설명된 단계를 따르세요.
+2. **Traces** 또는 **Evals** 탭의 왼쪽 상단에서 뷰 이름을 클릭하세요.
+3. 새 뷰 이름을 입력하세요.
+4. 새 뷰 이름을 저장하려면 **Enter** 키를 누르세요.
 
-### 저장된 뷰 편집하기
+<div id="edit-a-saved-view">
+  ### 저장된 뷰 편집하기
+</div>
 
-1. [저장된 뷰 로드하기](#저장된-뷰-로드하기)에 설명된 단계를 따릅니다.
-2. 테이블 구성을 조정합니다.
-3. 우측 상단에서 **Save view**를 클릭합니다.
+1. [저장된 뷰 불러오기](#load-a-saved-view)에 설명된 단계를 따릅니다.
+2. 테이블 설정을 변경합니다.
+3. 오른쪽 상단에서 **Save view**를 클릭합니다. 
 
-### 저장된 뷰 삭제하기
+<div id="delete-a-saved-view">
+  ### 저장된 뷰 삭제하기
+</div>
 
 <Warning>
-해당 뷰가 자신이나 팀에게 더 이상 유용하지 않다고 판단되면 뷰를 삭제할 수 있습니다. 이 작업은 되돌릴 수 없습니다.
+본인과 팀에게 더 이상 유용하지 않다고 판단되는 뷰는 삭제할 수 있습니다. 이 작업은 되돌릴 수 없습니다.
 </Warning>
 
 1. **Traces** 또는 **Evals** 탭으로 이동합니다.
-2. 삭제하려는 [뷰를 로드](#저장된-뷰-로드하기)합니다.
-3. **Save view** 왼쪽의 햄버거 메뉴를 클릭합니다.
+2. 삭제하려는 [뷰를 불러옵니다](#load-a-saved-view).
+3. **Save view** 왼쪽에 있는 햄버거 메뉴를 클릭합니다. 
 4. 드롭다운 메뉴에서 **Delete view**를 클릭합니다.
-5. 팝업 모달에서 **Delete view**를 클릭하여 확인합니다. 또는 삭제를 중단하려면 **Cancel**을 클릭합니다.
+5. 팝업 창에서 **Delete view**를 클릭해 삭제를 확인합니다. 또는 **Cancel**을 클릭해 삭제를 취소합니다.
 
-### 기본 뷰로 돌아가기
+<div id="return-to-the-default-view">
+  ### 기본 보기로 돌아가기
+</div>
 
 1. **Traces** 또는 **Evals** 탭으로 이동합니다.
-2. **Traces** 또는 **Evals** 탭 오른쪽의 햄버거 메뉴를 클릭합니다. 모든 저장된 뷰를 보여주는 드롭다운 메뉴가 나타납니다.
-3. 메뉴 하단에서 **Traces** 또는 **Evals**를 클릭합니다. 기본 뷰가 표시됩니다.
+2. **Traces** 또는 **Evals** 탭 오른쪽의 햄버거 메뉴를 클릭합니다. 저장된 모든 보기가 표시된 드롭다운 메뉴가 나타납니다. 
+3. 메뉴 하단에서 **Traces** 또는 **Evals**를 클릭합니다. 기본 보기가 표시됩니다.

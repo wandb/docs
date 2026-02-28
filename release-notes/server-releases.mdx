@@ -3,7 +3,7 @@ title: "Supported W&B Server releases"
 sidebarTitle: "Supported releases"
 rss: true
 ---
-import EolReminder from '/snippets/en/_includes/release-notes-support-eol-reminder.mdx';
+import EolReminder from '/snippets/_includes/release-notes-support-eol-reminder.mdx';
 
 This page includes release notes for supported releases of W&B Server.
 - For releases that are no longer supported, see [Archived Server releases](/release-notes/server-releases-archived).
@@ -601,7 +601,7 @@ v0.68.0 introduced a bug, fixed in [v0.68.1](#0_68_1), that could prevent media 
 </Note>
 
 ## Features
-- Registry admins can define and assign [*protected aliases*](/models/registry/model_registry/access_controls/#add-protected-aliases) to represent key stages of your development pipeline. A protected alias can be assigned only by a registry admin. W&B blocks other users from adding or removing protected aliases from versions in a registry using the API or UI.
+- Registry admins can define and assign [*protected aliases*](/models/registry/aliases#protected-aliases) to represent key stages of your development pipeline. A protected alias can be assigned only by a registry admin. W&B blocks other users from adding or removing protected aliases from versions in a registry using the API or UI.
 - You can now filter console logs based on a run's `x_label` value. During [distributed training](/models/track/log/distributed-training/#track-all-processes-to-a-single-run), this optional parameter tracks the node that logged the run.
 - You can now move runs between `Groups`, one by one or in bulk. Also, you can now create new `Groups` after the initial logging time.
 - Line plots now support **synchronized zooming** mode, where zooming to a given range on one plot automatically zooms into the same range on all other line plots with a common x-axis. Turn this on in the [workspace display settings for line plots](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace).

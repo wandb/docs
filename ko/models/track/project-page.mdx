@@ -1,412 +1,453 @@
 ---
+description: 모델의 여러 버전을 비교하고, 임시 워크스페이스에서 결과를 탐색한 뒤,
+  리포트로 내보내 메모와 시각화를 저장합니다
 title: Projects
-description: 모델의 여러 버전을 비교하고, scratch 워크스페이스에서 결과를 탐색하며, 발견한 내용을 리포트로 내보내서 노트와 시각화
-  자료를 저장하세요.
 ---
 
-import ProjectVisibilitySettings from "/snippets/en/_includes/project-visibility-settings.mdx";
+import ProjectVisibilitySettings from "/snippets/ko/_includes/project-visibility-settings.mdx";
 
-
-*project*는 결과를 시각화하고, 실험을 비교하며, Artifacts를 확인 및 다운로드하고, 자동화를 생성하는 등의 작업을 수행하는 중심 공간입니다. 
+A *프로젝트*는 결과를 시각화하고 실험을 비교하며 아티팩트를 확인·다운로드하고 Automation을 생성하는 등 다양한 작업을 수행할 수 있는 중앙 위치입니다.
 
 <Note>
-각 프로젝트에는 액세스 권한을 결정하는 공개 범위 설정이 있습니다. 프로젝트 액세스 권한에 대한 자세한 내용은 [Project visibility](/platform/hosting/iam/access-management/restricted-projects)를 참조하세요.
+  각 프로젝트에는 누가 액세스할 수 있는지를 결정하는 공개 범위 설정이 있습니다. 프로젝트에 누가 액세스할 수 있는지에 대한 자세한 내용은 [Project visibility](/ko/platform/hosting/iam/access-management/restricted-projects)를 참조하세요.
 </Note>
 
-각 프로젝트는 다음 탭들로 구성됩니다:
+각 프로젝트에는 다음과 같은 탭이 있습니다:
 
-* [Overview](/models/track/project-page/#overview-tab): 프로젝트의 스냅샷
-* [Workspace](/models/track/project-page/#workspace-tab): 개인용 시각화 샌드박스
-* [Runs](#runs-tab): 프로젝트의 모든 Runs 목록을 보여주는 테이블
-* [Automations](#automations-tab): 프로젝트에 구성된 자동화 설정
-* [Sweeps](/models/sweeps/): 자동화된 탐색 및 최적화
-* [Reports](/models/track/project-page/#reports-tab): 저장된 노트, Runs, 그래프의 스냅샷
-* [Artifacts](#artifacts-tab): 모든 Runs와 해당 run에 연결된 Artifacts 포함
+* [Overview](/ko/models/track/project-page/#overview-tab): 프로젝트의 스냅샷
+* [Workspace](/ko/models/track/project-page/#workspace-tab): 개인용 시각화 샌드박스
+* [Runs](#runs-tab): 프로젝트의 모든 run이 나열된 표
+* [Automations](#automations-tab): 프로젝트에 설정된 Automation
+* [Sweeps](/ko/models/sweeps): 자동화된 탐색 및 최적화
+* [Reports](/ko/models/track/project-page/#reports-tab): 노트, run, 그래프의 저장된 스냅샷
+* [Artifacts](#artifacts-tab): 모든 run과 해당 run과 연관된 아티팩트를 포함합니다
 
-## Overview tab
-W&B는 `wandb.init()` 호출 시 프로젝트 필드에 제공한 이름으로 프로젝트를 자동으로 생성합니다.
+<div id="overview-tab">
+  ## Overview 탭
+</div>
+
+W&amp;B는 run을 초기화할 때 `project` 필드에 입력한 이름으로 프로젝트를 생성합니다.
 
 **Overview** 탭에서 프로젝트 이름을 확인하고 프로젝트를 관리할 수 있습니다.
-- 프로젝트 이름, 설명 또는 팀을 변경하려면 오른쪽 상단의 **Edit**을 클릭하세요.
-- 최근에 삭제된 Runs를 복구하려면 오른쪽 상단의 **...**을 클릭한 다음 **Undelete recently deleted runs**를 클릭하세요.
-- 프로젝트를 삭제하려면 오른쪽 상단의 **...**을 클릭한 다음 **Delete project**를 클릭하세요. 확인 대화 상자의 안내를 따르세요. 프로젝트 삭제는 되돌릴 수 없습니다.
 
-**Overview** 페이지의 나머지 부분은 **Details**와 **Project Roles** 탭으로 나뉩니다.
+* 프로젝트의 이름, 설명 또는 팀을 변경하려면 오른쪽 상단의 **Edit**을 클릭합니다.
+* 최근에 삭제된 run을 복구하려면 오른쪽 상단의 **...**을 클릭한 다음 **Undelete recently deleted runs**를 클릭합니다.
+* 프로젝트를 삭제하려면 오른쪽 상단의 **...**을 클릭한 다음 **Delete project**를 클릭합니다. 확인 대화 상자의 내용을 읽고 안내에 따르세요. 프로젝트 삭제는 되돌릴 수 없습니다.
 
-### Details
+**Overview** 페이지의 나머지 영역은 **Details**와 **Project Roles** 탭으로 구성됩니다.
+
+<div id="details">
+  ### 세부 정보
+</div>
+
 프로젝트에 대한 세부 정보는 다음과 같습니다:
 
-* **Project visibility**: 프로젝트의 공개 범위입니다. 누가 액세스할 수 있는지 결정하는 설정입니다. 자세한 내용은 [Project visibility](/platform/hosting/iam/access-management/restricted-projects)를 참조하세요.
-* **Last active**: 이 프로젝트에 마지막으로 데이터가 로그된 타임스탬프
-* **Contributors**: 이 프로젝트에 기여한 Users 수
-* **Total runs**: 이 프로젝트의 전체 Runs 수
-* **Total compute**: 프로젝트 내 모든 Runs의 실행 시간을 합산한 총계
+* **Project visibility**: 프로젝트의 공개 범위입니다. 누가 이 프로젝트에 액세스할 수 있는지를 결정하는 공개 설정입니다. 자세한 내용은 [Project visibility](/ko/platform/hosting/iam/access-management/restricted-projects)를 참조하세요.
+* **Last active**: 이 프로젝트에 마지막으로 데이터가 로깅된 시점의 타임스탬프
+* **Contributors**: 이 프로젝트에 기여한 사용자 수
+* **Total runs**: 이 프로젝트에 포함된 총 run 수
+* **Total compute**: 이 프로젝트에 있는 모든 run의 실행 시간을 합산해 계산한 값
 
-**Details** 탭에는 프로젝트 데이터 및 메트릭에 액세스하고 내보내는 방법, Sweep에서 가장 우수한 모델을 다운로드하는 방법 등에 대한 가이드도 포함되어 있습니다. 
+**Details** 탭에는 프로젝트의 데이터와 메트릭에 액세스하고 내보내는 방법, 스윕에서 최고 성능의 모델을 다운로드하는 방법 등에 대한 안내도 포함됩니다.
 
-[라이브 예시 프로젝트 보기](https://app.wandb.ai/example-team/sweep-demo/overview)
-
-<Frame>
-    <img src="/images/track/overview_tab_image.png" alt="Project overview tab"  />
-</Frame>
-
-**Overview** 탭에서 프로젝트의 공개 범위를 변경하는 방법:
-
-<ProjectVisibilitySettings/>
-
-### Project roles
-**Project roles** 탭은 프로젝트 소유자와 **Admin** 역할을 가진 사용자에게만 보입니다. 프로젝트에 액세스 권한이 있는 사용자를 나열 및 검색하거나 멤버의 역할을 변경할 수 있습니다.
-
-## Workspace tab
-
-프로젝트의 *workspace*는 실험을 비교할 수 있는 개인 샌드박스를 제공합니다. 서로 다른 아키텍처, 하이퍼파라미터, 데이터셋, 전처리 등을 사용하여 동일한 문제를 해결하려는 모델들을 정리하고 비교하는 데 프로젝트를 활용하세요.
-
-
-**Runs 사이드바**: 프로젝트의 모든 Runs 목록입니다.
-
-* **점 메뉴(Dot menu)**: 사이드바의 행에 마우스를 올리면 왼쪽에 메뉴가 나타납니다. 이 메뉴를 사용하여 run의 이름을 바꾸거나 삭제하고, 활성 중인 run을 중지할 수 있습니다.
-* **가시성 아이콘(Visibility icon)**: 눈 모양 아이콘을 클릭하여 그래프에서 run의 표시 여부를 전환할 수 있습니다.
-* **색상(Color)**: run의 색상을 프리셋이나 사용자 정의 색상으로 변경할 수 있습니다.
-* **검색(Search)**: 이름으로 run을 검색합니다. 이는 플롯에 표시되는 runs도 필터링합니다.
-* **필터(Filter)**: 사이드바 필터를 사용하여 표시되는 runs 세트를 좁힐 수 있습니다.
-* **그룹(Group)**: 설정 컬럼을 선택하여 runs를 동적으로 그룹화할 수 있습니다 (예: 아키텍처별). 그룹화하면 플롯에 평균값을 나타내는 선과 분산을 나타내는 음영 영역이 표시됩니다.
-* **정렬(Sort)**: 가장 낮은 손실(loss)이나 가장 높은 정확도(accuracy) 등 특정 값을 기준으로 runs를 정렬합니다. 정렬은 그래프에 어떤 runs가 나타날지 영향을 줍니다.
-* **확장 버튼(Expand button)**: 사이드바를 전체 테이블로 확장합니다.
-* **Run 카운트**: 상단 괄호 안의 숫자는 프로젝트의 전체 Runs 수입니다. (N visualized) 숫자는 눈 아이콘이 켜져 있어 시각화가 가능한 runs의 수입니다. 아래 예시에서 그래프는 183개의 runs 중 처음 10개만 보여주고 있습니다. 그래프를 편집하여 시각화할 최대 runs 수를 늘릴 수 있습니다.
-
-[Runs 탭](#runs-tab)에서 컬럼을 고정, 숨김 또는 순서 변경하면 Runs 사이드바에도 이러한 사용자 정의가 반영됩니다.
-
-**Panels 레이아웃**: 이 공간을 활용해 결과를 탐색하고, 차트를 추가 또는 삭제하며, 다양한 메트릭을 기반으로 모델 버전을 비교할 수 있습니다.
-
-[라이브 예시 보기](https://app.wandb.ai/example-team/sweep-demo)
+[라이브 예제 프로젝트 보기](https://wandb.ai/example-team/sweep-demo/overview)
 
 <Frame>
-    <img src="/images/app_ui/workspace_tab_example.png" alt="Project workspace"  />
+  <img src="/images/track/overview_tab_image.png" alt="Project overview tab" />
 </Frame>
 
+**Overview** 탭에서 프로젝트의 공개 범위를 변경하려면:
 
-### 패널 섹션 추가하기
+<ProjectVisibilitySettings />
 
-섹션 드롭다운 메뉴를 클릭하고 "Add section"을 클릭하여 새 패널 섹션을 만듭니다. 섹션 이름을 바꾸고, 드래그하여 순서를 변경하거나, 섹션을 펼치고 접을 수 있습니다.
+<div id="project-roles">
+  ### 프로젝트 역할
+</div>
+
+**프로젝트 역할** 탭은 프로젝트 소유자와 **Admin** 역할을 가진 사람에게만 표시됩니다. 프로젝트에 대한 액세스 권한이 있는 사용자를 목록에서 확인하고 검색하거나, 구성원의 역할을 변경할 수 있습니다.
+
+<div id="workspace-tab">
+  ## Workspace 탭
+</div>
+
+프로젝트의 *워크스페이스*는 실험을 비교하기 위한 개인 샌드박스를 제공합니다. 프로젝트를 사용해 같은 문제를 다른 아키텍처, 하이퍼파라미터, 데이터셋, 전처리 방식 등으로 실험한 모델들을 정리하고 비교할 수 있습니다.
+
+**Runs Sidebar**: 프로젝트의 모든 run 목록입니다.
+
+* **점 3개 메뉴**: 사이드바의 한 행 위에 마우스를 올리면 왼쪽에 메뉴가 나타납니다. 이 메뉴를 사용해 run 이름을 바꾸거나, run을 삭제하거나, 활성 run을 중지할 수 있습니다.
+* **가시성 아이콘**: 그래프에서 run을 켜고 끄려면 눈 모양 아이콘을 클릭합니다.
+* **색상**: run 색상을 미리 설정된 색 또는 커스텀 색으로 변경합니다.
+* **검색**: 이름으로 run을 검색합니다. 이 검색은 플롯에 표시되는 run도 함께 필터링합니다.
+* **필터**: 사이드바 필터를 사용해 표시되는 run 집합을 좁힙니다.
+* **그룹**: 아키텍처와 같이 run을 동적으로 그룹화할 설정(config) 컬럼을 선택합니다. 그룹화를 사용하면 플롯에 평균값을 잇는 선과, 그래프 상 값의 분산을 나타내는 음영 영역이 표시됩니다.
+* **정렬**: 예를 들어 손실이 가장 낮거나 정확도가 가장 높은 run처럼, run을 정렬할 기준 값을 선택합니다. 정렬은 그래프에 어떤 run이 표시될지에 영향을 줍니다.
+* **확장 버튼**: 사이드바를 전체 테이블로 확장합니다.
+* **run 개수**: 맨 위 괄호 안 숫자는 프로젝트의 전체 run 개수입니다. 뒤의 `(N visualized)` 숫자는 눈 아이콘이 켜져 있어 각 플롯에서 시각화 가능한 run 개수입니다. 아래 예시에서는 그래프가 183개의 run 중 처음 10개만 보여줍니다. 그래프를 편집해 표시 가능한 run의 최대 개수를 늘릴 수 있습니다.
+
+[Runs 탭](#runs-tab)에서 컬럼을 고정(pinning)하거나 숨기거나 순서를 바꾸면, Runs Sidebar에도 이러한 사용자 지정 내용이 반영됩니다.
+
+**Panels 레이아웃**: 이 임시 작업 공간을 사용해 결과를 탐색하고, 차트를 추가/삭제하며, 서로 다른 메트릭을 기준으로 모델 버전을 비교합니다.
+
+[라이브 예시 보기](https://wandb.ai/example-team/sweep-demo)
+
+<Frame>
+  <img src="/images/app_ui/workspace_tab_example.png" alt="프로젝트 워크스페이스" />
+</Frame>
+
+<div id="add-a-section-of-panels">
+  ### 패널 섹션 추가하기
+</div>
+
+섹션 드롭다운 메뉴를 클릭한 다음 &quot;Add section&quot;을 클릭해서 패널을 위한 새 섹션을 만듭니다. 섹션 이름을 바꾸고, 드래그해서 순서를 변경하고, 섹션을 펼치거나 접을 수 있습니다.
 
 각 섹션의 오른쪽 상단에는 다음과 같은 옵션이 있습니다:
 
-* **Add section**: 드롭다운 메뉴에서 위 또는 아래에 섹션을 추가하거나, 페이지 하단의 버튼을 클릭하여 새 섹션을 추가합니다.
+* **Add section**: 드롭다운 메뉴에서 위나 아래에 섹션을 추가하거나, 페이지 하단의 버튼을 클릭해서 새 섹션을 추가합니다.
 * **Rename section**: 섹션의 제목을 변경합니다.
-* **Export section to report**: 이 패널 섹션을 새 Report로 저장합니다.
-* **Delete section**: 섹션 전체와 모든 차트를 삭제합니다. 이는 워크스페이스 바 하단의 실행 취소 버튼으로 되돌릴 수 있습니다.
-* **Add panel**: 플러스 버튼을 클릭하여 섹션에 패널을 추가합니다.
+* **Export section to report**: 이 섹션의 패널을 새 리포트로 저장합니다.
+* **Delete section**: 전체 섹션과 모든 차트를 제거합니다. 이 작업은 워크스페이스 바의 페이지 하단에 있는 실행 취소 버튼으로 되돌릴 수 있습니다.
+* **Add panel**: 더하기(+) 버튼을 클릭해서 섹션에 패널을 추가합니다.
 
-### 섹션 간 패널 이동하기
+<div id="move-panels-between-sections">
+  ### 섹션 간 패널 이동
+</div>
 
-패널을 드래그 앤 드롭하여 순서를 바꾸거나 섹션별로 정리하세요. 패널 오른쪽 상단의 "Move" 버튼을 클릭하여 이동할 섹션을 선택할 수도 있습니다.
-
-<Frame>
-    <img src="/images/app_ui/move-panel.png" alt="Moving panels between sections"  />
-</Frame>
-
-### 패널 크기 조정하기
-
-모든 패널은 동일한 크기를 유지하며, 패널 페이지가 존재합니다. 
-섹션의 오른쪽 하단 모서리를 클릭하고 드래그하여 크기를 조정하세요. 마우스를 올리면 모서리 아이콘이 나타납니다.
+패널을 드래그 앤 드롭하여 순서를 변경하고 섹션별로 정리할 수 있습니다. 패널 오른쪽 상단의 &quot;Move&quot; 버튼을 클릭해 패널을 이동할 섹션을 선택할 수도 있습니다.
 
 <Frame>
-    <img src="/images/app_ui/resize-panel.png" alt="Resizing panels"  />
+  <img src="/images/app_ui/move-panel.png" alt="섹션 간 패널 이동" />
 </Frame>
 
-### 메트릭 검색하기
+<div id="resize-panels">
+  ### 패널 크기 조절
+</div>
 
-워크스페이스의 검색창을 사용하여 패널을 필터링하세요. 이 검색은 시각화된 메트릭의 이름인 패널 제목과 일치하는 항목을 찾습니다.
+모든 패널은 동일한 크기를 유지하며, 여러 페이지에 걸쳐 표시됩니다.
+섹션의 오른쪽 아래 모서리에 마우스를 올리면 모서리 아이콘이 표시되며, 이 지점을 클릭하고 드래그하여 섹션 크기를 조절할 수 있습니다.
 
 <Frame>
-    <img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace search"  />
+  <img src="/images/app_ui/resize-panel.png" alt="Resizing panels" />
 </Frame>
 
-## Runs tab
-{/* Keep this in sync with /guide/models/track/runs/_index.md */}
-Runs 탭을 사용하여 runs를 필터링, 그룹화 및 정렬하세요.
+<div id="search-for-metrics">
+  ### 메트릭 검색
+</div>
+
+워크스페이스의 검색 상자를 사용해 패널을 필터링합니다. 검색은 패널 제목을 기준으로 이뤄지며, 패널 제목은 기본적으로 시각화된 메트릭의 이름입니다.
 
 <Frame>
-    <img src="/images/runs/run-table-example.png" alt="Runs table"  />
+  <img src="/images/app_ui/search_in_the_workspace.png" alt="Workspace search" />
 </Frame>
 
-다음 탭들에서는 Runs 탭에서 수행할 수 있는 일반적인 작업들을 설명합니다.
+<div id="runs-tab">
+  ## Runs 탭
+</div>
+
+{/* /guide/models/track/runs/_index.md와 내용을 일치시키세요 */}
+
+Use the Runs tab to filter, group, and sort your runs.
+
+<Frame>
+  <img src="/images/runs/run-table-example.png" alt="Runs 테이블" />
+</Frame>
+
+The proceeding tabs demonstrate some common actions you can take in the Runs tab.
 
 <Tabs>
-<Tab title="컬럼 사용자 정의">
-Runs 탭은 프로젝트 내 runs에 대한 세부 정보를 보여줍니다. 기본적으로 많은 수의 컬럼이 표시됩니다.
+  <Tab title="Customize columns">
+    Runs 탭에서는 해당 프로젝트의 run에 대한 세부 정보를 보여 줍니다. 기본적으로 매우 많은 열이 표시됩니다.
 
-<Note>
-Runs 탭을 사용자 정의하면 [Workspace 탭](#workspace-tab)의 **Runs** 선택기에도 해당 설정이 반영됩니다.
-</Note>
+    <Note>
+      Runs 탭을 사용자 지정하면, 이 변경 사항은 [Workspace 탭](#workspace-tab)의 **Runs** 선택기에도 반영됩니다.
+    </Note>
 
-- 모든 표시된 컬럼을 보려면 페이지를 가로로 스크롤하세요.
-- 컬럼 순서를 바꾸려면 컬럼을 왼쪽이나 오른쪽으로 드래그하세요.
-- 컬럼을 고정하려면 컬럼 이름에 마우스를 올리고 나타나는 액션 메뉴 `...`를 클릭한 다음 **Pin column**을 선택하세요. 고정된 컬럼은 **Name** 컬럼 뒤, 페이지 왼쪽에 나타납니다. 고정을 해제하려면 **Unpin column**을 선택하세요.
-- 컬럼을 숨기려면 컬럼 이름에 마우스를 올리고 나타나는 액션 메뉴 `...`를 클릭한 다음 **Hide column**을 선택하세요. 현재 숨겨진 모든 컬럼을 보려면 **Columns**를 클릭하세요.
-- 여러 컬럼을 한 번에 표시, 숨김, 고정 및 고정 해제하려면 **Columns**를 클릭하세요.
-  - 숨겨진 컬럼 이름을 클릭하면 다시 표시됩니다.
-  - 표시된 컬럼 이름을 클릭하면 숨겨집니다.
-  - 표시된 컬럼 옆의 핀 아이콘을 클릭하면 고정됩니다.
-</Tab>
-<Tab title="정렬">
-다음 옵션 중 하나를 사용하여 특정 컬럼의 값을 기준으로 테이블의 모든 행을 정렬할 수 있습니다:
+    * 보이는 모든 열을 확인하려면 페이지를 수평으로 스크롤하십시오.
+    * 열의 순서를 변경하려면 열을 좌우로 드래그하십시오.
+    * 열을 고정하려면 열 이름 위에 마우스를 올린 뒤 표시되는 `...` 액션 메뉴를 클릭하고 **Pin column**을 선택하십시오. 고정된 열은 페이지 왼쪽, **Name** 열 다음에 표시됩니다. 고정 해제하려면 **Unpin column**을 선택하십시오.
+    * 열을 숨기려면 열 이름 위에 마우스를 올린 뒤 표시되는 `...` 액션 메뉴를 클릭하고 **Hide column**을 선택하십시오. 현재 숨겨져 있는 모든 열을 보려면 **Columns**를 클릭하십시오.
+    * 여러 열을 한 번에 표시, 숨기기, 고정, 고정 해제하려면 **Columns**를 클릭하십시오.
+      * 숨겨진 열의 이름을 클릭하면 다시 표시됩니다.
+      * 표시 중인 열의 이름을 클릭하면 숨겨집니다.
+      * 표시 중인 열 옆의 핀 아이콘을 클릭하면 해당 열이 고정됩니다.
+  </Tab>
 
-1. 컬럼 헤더에 마우스를 올렸을 때 나타나는 케밥(세 개의 세로 점) 메뉴를 클릭하여 해당 컬럼 값으로 테이블을 빠르게 정렬합니다.
-1. **Sort** 버튼을 클릭하고 드롭다운에서 원하는 컬럼을 선택합니다. 이 패널을 사용하여 여러 컬럼을 우선순위에 따라 정렬할 수 있습니다. 
+  <Tab title="Sort">
+    다음 옵션 중 하나를 사용하여 특정 열의 값을 기준으로 Table의 모든 행을 정렬할 수 있습니다.
 
-<Frame>
-    <img src="/images/data_vis/data_vis_sort_kebob.png" alt="Configuring a run table sort"  />
-</Frame>
+    1. 아무 열 헤더에 마우스를 올렸을 때 나타나는 케밥 메뉴(세로 점 세 개)를 클릭하여 해당 열의 값으로 테이블을 빠르게 정렬합니다.
+    2. **Sort** 버튼을 클릭하고 드롭다운에서 원하는 열을 선택합니다. 이 패널을 사용하면 우선순위 순서대로 여러 열을 기준으로 정렬할 수 있습니다.
 
-위 이미지는 `val_acc`라는 테이블 컬럼의 정렬 옵션을 확인하는 방법을 보여줍니다.
-</Tab>
-<Tab title="필터">
-대시보드 왼쪽 상단의 **Filter** 버튼을 사용하여 표현식으로 모든 행을 필터링합니다. 
+    <Frame>
+      <img src="/images/data_vis/data_vis_sort_kebob.png" alt="run 테이블 정렬 구성" />
+    </Frame>
 
-**New filter**를 클릭하여 행에 하나 이상의 필터를 추가합니다. 
-필터 구성을 위한 세 개의 드롭다운 메뉴가 나타납니다.
-왼쪽부터 컬럼 이름, 연산자, 필터 값 순입니다.
+    위 이미지는 `val_acc`라는 Table 열에 대해 정렬 옵션을 확인하는 방법을 보여 줍니다.
+  </Tab>
 
-<Frame>
-    <img src="/images/data_vis/filter.png" alt="Configuring a run table filter"  />
-</Frame>
+  <Tab title="Filter">
+    대시보드 왼쪽 상단의 **Filter** 버튼을 사용해 표현식을 기준으로 모든 행을 필터링할 수 있습니다.
 
-</Tab>
-<Tab title="그룹">
-테이블 상단의 **Group** 버튼을 클릭하여 특정 컬럼의 값을 기준으로 모든 행을 그룹화합니다. runs 그룹화에 대한 자세한 내용은 [Organize runs into groups](/models/runs/grouping)를 참조하세요.
+    **New filter**를 클릭하여 행에 하나 이상의 필터를 추가하십시오.
+    필터를 설정할 수 있는 세 개의 드롭다운 메뉴가 나타납니다.
+    왼쪽에서 오른쪽 순서로 각각 열 이름, 연산자, 필터 값입니다.
 
-</Tab>
+    <Frame>
+      <img src="/images/data_vis/filter.png" alt="run 테이블 필터 구성" />
+    </Frame>
+  </Tab>
+
+  <Tab title="Group">
+    테이블 위의 **Group** 버튼을 클릭하여 특정 열의 값을 기준으로 모든 행을 그룹화하십시오. run을 그룹화하는 방법에 대한 자세한 내용은 [Organize runs into groups](/ko/models/runs/grouping)를 참조하십시오.
+  </Tab>
 </Tabs>
 
+{/* ## Automations 탭 */}
 
-{/* ## Automations tab */}
+<div id="automations-tab">
+  ## Automations 탭
+</div>
 
-## Automations tab
-Artifacts 버전 관리를 위한 후속 작업을 자동화합니다. 자동화를 생성하려면 트리거 이벤트와 그에 따른 액션을 정의하세요. 액션에는 웹훅 실행이나 W&B Job 런칭 등이 포함됩니다. 자세한 내용은 [Automations](/models/automations/)를 참조하세요.
+아티팩트 버전 관리를 위한 후속 작업을 자동화합니다. 자동화를 생성하려면 트리거 이벤트와 이에 따른 동작을 정의하세요. 동작에는 웹훅 실행 또는 W&amp;B 잡 실행이 포함됩니다. 자세한 내용은 [Automations](/ko/models/automations)을(를) 참고하세요.
 
-## Sweeps tab
+<div id="sweeps-tab">
+  ## Sweeps 탭
+</div>
 
-프로젝트에서 새로운 [sweep](/models/sweeps/)을 시작하세요.
-
-<Frame>
-    <img src="/images/app_ui/sweeps-tab.png" alt="Sweeps tab"  />
-</Frame>
-
-## Reports tab
-
-결과의 모든 스냅샷을 한곳에서 확인하고 팀과 발견한 내용(findings)을 공유하세요.
+프로젝트에서 새 [스윕](/ko/models/sweeps)을 시작하세요.
 
 <Frame>
-    <img src="/images/app_ui/reports-tab.png" alt="Reports tab"  />
+  <img src="/images/app_ui/sweeps-tab.png" alt="Sweeps 탭" />
 </Frame>
 
-리포트를 보려면 프로젝트 사이드바에서 **Reports** 탭을 선택한 다음 목록에서 리포트를 선택하세요.
+<div id="reports-tab">
+  ## Reports 탭
+</div>
 
-## Artifacts tab
-
-트레이닝 데이터셋과 [파인튜닝된 모델](/models/registry/)부터 [메트릭 및 미디어 테이블](/models/tables/tables-walkthrough/)까지, 프로젝트와 관련된 모든 [Artifacts](/models/artifacts/)를 확인하세요.
-
-
-### Metadata 패널
+결과 스냅샷을 한 곳에서 모두 확인하고, 팀과 발견 사항을 공유하세요.
 
 <Frame>
-    <img src="/images/app_ui/metadata_panel.png" alt="Artifact metadata panel"  />
+  <img src="/images/app_ui/reports-tab.png" alt="Reports 탭" />
 </Frame>
 
-메타데이터 패널은 Artifacts의 메타데이터에 대한 액세스를 제공합니다. 이 메타데이터에는 아티팩트 재구성에 필요한 구성 인수, 추가 정보를 찾을 수 있는 URL, 또는 아티팩트를 로그한 run 중에 생성된 메트릭 등이 포함될 수 있습니다.
-아티팩트를 생성한 run의 설정과 히스토리 메트릭을 확인하세요.
+리포트를 보려면 프로젝트 사이드바에서 **Reports** 탭을 선택한 다음, 목록에서 리포트를 선택하세요.
 
-Artifacts의 메타데이터를 확인하는 방법:
+<div id="artifacts-tab">
+  ## Artifacts 탭
+</div>
+
+프로젝트에 연결된 모든 [아티팩트](/ko/models/artifacts)를 확인할 수 있습니다. 여기에는 트레이닝 데이터셋, [파인튜닝된 모델](/ko/models/registry), [메트릭 및 미디어 테이블](/ko/models/tables/tables-walkthrough) 등이 포함됩니다.
+
+<div id="metadata-panel">
+  ### 메타데이터 패널
+</div>
+
+<Frame>
+  <img src="/images/app_ui/metadata_panel.png" alt="Artifact metadata panel" />
+</Frame>
+
+메타데이터 패널에서는 아티팩트의 메타데이터를 확인할 수 있습니다. 이 메타데이터에는 아티팩트를 재구성하는 데 필요한 설정 매개변수, 추가 정보를 확인할 수 있는 URL, 아티팩트를 로깅한 run 동안 생성된 메트릭 등이 포함될 수 있습니다. 또한 아티팩트를 생성한 run의 설정과 기록 메트릭을 함께 확인할 수 있습니다.
+
+아티팩트의 메타데이터를 보려면:
 
 1. 프로젝트 사이드바에서 **Artifacts** 탭을 선택합니다.
-2. 목록에서 아티팩트를 선택하여 해당 아티팩트의 최신 버전에 대한 세부 정보 페이지를 엽니다.
-3. **Metadata** 탭을 선택하여 해당 아티팩트와 관련된 메타데이터를 확인합니다.
+2. 목록에서 아티팩트를 선택해 해당 아티팩트의 최신 버전 상세 페이지를 엽니다.
+3. **Metadata** 탭을 선택해 해당 아티팩트와 연관된 메타데이터를 확인합니다.
 
-### Usage 패널
+<div id="usage-panel">
+  ### Usage panel
+</div>
 
 <Frame>
-    <img src="/images/app_ui/usage_panel.png" alt="Artifact usage panel"  />
+  <img src="/images/app_ui/usage_panel.png" alt="Artifact usage panel" />
 </Frame>
 
-Usage 패널은 웹 앱 외부(예: 로컬 머신)에서 사용하기 위해 아티팩트를 다운로드할 수 있는 코드 조각을 제공합니다. 또한 이 섹션은 아티팩트를 출력한 run과 해당 아티팩트를 입력으로 사용하는 모든 runs를 표시하고 링크합니다.
+Usage 패널에서는 웹 앱 외부, 예를 들어 로컬 머신에서 아티팩트를 사용할 수 있도록 다운로드하는 코드 스니펫을 제공합니다. 이 섹션에는 아티팩트를 생성한 run과 이 아티팩트를 입력으로 사용하는 run으로 이동할 수 있는 링크도 표시됩니다.
 
-아티팩트 사용법을 확인하려면:
+아티팩트 사용 정보를 보려면
 
 1. 프로젝트 사이드바에서 **Artifacts** 탭을 선택합니다.
-2. 목록에서 아티팩트를 선택하여 해당 아티팩트의 최신 버전에 대한 세부 정보 페이지를 엽니다.
-3. **Usage** 탭을 선택하여 코드 조각과 관련 runs를 확인합니다.
+2. 목록에서 아티팩트를 선택하여 해당 아티팩트의 최신 버전 상세 페이지를 봅니다.
+3. **Usage** 탭을 선택하여 코드 스니펫과 관련 run을 확인합니다.
 
-### Files 패널
+<div id="files-panel">
+  ### Files 패널
+</div>
 
 <Frame>
-    <img src="/images/app_ui/files_panel.png" alt="Artifact files panel"  />
+  <img src="/images/app_ui/files_panel.png" alt="Artifact files panel" />
 </Frame>
 
-Files 패널은 아티팩트와 관련된 파일 및 폴더 목록을 보여줍니다. W&B는 run에 대해 특정 파일들을 자동으로 업로드합니다. 예를 들어, `requirements.txt`는 run에서 사용된 각 라이브러리의 버전을 보여주며, `wandb-metadata.json` 및 `wandb-summary.json`은 run에 대한 정보를 포함합니다. run의 설정에 따라 Artifacts나 미디어와 같은 다른 파일들도 업로드될 수 있습니다.
+Files 패널에는 아티팩트와 연관된 파일과 폴더가 나열됩니다. W&amp;B는 run에 대해 일부 파일을 자동으로 업로드합니다. 예를 들어 `requirements.txt`에는 run이 사용한 각 라이브러리의 버전이 표시되며, `wandb-metadata.json`과 `wandb-summary.json`에는 run에 대한 정보가 포함됩니다. run의 설정에 따라 아티팩트나 미디어와 같은 다른 파일들도 업로드될 수 있습니다.
 
-
-아티팩트에 로그된 파일을 확인하려면:
+아티팩트에 로깅된 파일을 보려면 다음을 수행합니다:
 
 1. 프로젝트 사이드바에서 **Artifacts** 탭을 선택합니다.
-2. 목록에서 아티팩트를 선택하여 해당 아티팩트의 최신 버전에 대한 세부 정보 페이지를 엽니다.
-3. **Files** 탭을 선택하여 해당 아티팩트와 관련된 모든 파일을 확인합니다.
+2. 목록에서 아티팩트를 선택하여 해당 아티팩트 최신 버전의 상세 페이지를 엽니다.
+3. **Files** 탭을 선택하여 해당 아티팩트와 연관된 모든 파일을 확인합니다.
 
-### Lineage 패널
-
-<Frame>
-    <img src="/images/app_ui/lineage_panel.png" alt="Artifact lineage"  />
-</Frame>
-
-Lineage 패널은 프로젝트와 관련된 모든 Artifacts와 이들을 서로 연결하는 runs의 뷰를 제공합니다. run 유형은 블록으로, Artifacts는 원으로 표시되며, 특정 유형의 run이 특정 유형의 아티팩트를 소비하거나 생성할 때 화살표로 표시됩니다. 왼쪽 컬럼에서 선택한 특정 아티팩트의 유형이 강조 표시됩니다.
-
-Explode 토글을 클릭하면 모든 개별 아티팩트 버전과 이들을 연결하는 구체적인 runs를 볼 수 있습니다.
-
-
-### Versions 탭
+<div id="lineage-panel">
+  ### Lineage 패널
+</div>
 
 <Frame>
-    <img src="/images/app_ui/versions_tab.png" alt="Artifact versions tab"  />
+  <img src="/images/app_ui/lineage_panel.png" alt="Artifact lineage" />
 </Frame>
 
-Versions 탭은 아티팩트의 모든 버전을 보여줍니다. 특정 버전을 선택하여 해당 버전에 대한 세부 정보를 확인하세요. 
+Lineage 패널은 프로젝트와 연결된 모든 아티팩트와, 이들을 서로 연결하는 run을 한눈에 보여 줍니다. run 유형은 블록으로, 아티팩트는 원으로 표시되며, 특정 유형의 run이 특정 유형의 아티팩트를 사용하거나 생성할 때는 화살표로 나타냅니다. 왼쪽 열에서 선택한 아티팩트의 유형은 강조 표시됩니다.
+
+모든 개별 아티팩트 버전과 이들을 연결하는 구체적인 run을 보려면 Explode 토글을 클릭하세요.
+
+<div id="versions-tab">
+  ### Versions 탭
+</div>
+
+<Frame>
+  <img src="/images/app_ui/versions_tab.png" alt="Artifact versions 탭" />
+</Frame>
+
+Versions 탭에는 아티팩트의 모든 버전이 표시됩니다. 특정 버전에 대한 세부 정보를 보려면 아티팩트를 선택합니다.
 
 1. 프로젝트 사이드바에서 **Artifacts** 탭을 선택합니다.
-2. 목록에서 아티팩트를 선택하여 해당 아티팩트의 최신 버전에 대한 세부 정보 페이지를 엽니다.
-3. **Versions** 탭을 선택하여 해당 아티팩트의 모든 버전을 확인합니다.
-4. 아티팩트 이름 옆의 드롭다운에서 **All Versions**를 선택합니다. 
+2. 목록에서 아티팩트를 선택해 해당 아티팩트의 최신 버전에 대한 세부 정보 페이지를 엽니다.
+3. **Versions** 탭을 선택해 해당 아티팩트의 모든 버전을 확인합니다.
+4. 드롭다운(아티팩트 이름 옆)에서 **All Versions**를 선택합니다.
 
+예를 들어, 위 이미지는 `"zoo-wyhak4p0"`라는 이름의 모델 아티팩트에 대해 서로 다른 버전의 모델 아티팩트를 보여줍니다.
 
-예를 들어, 이전 이미지는 `"zoo-wyhak4p0"`라는 이름의 모델 아티팩트에 대한 다양한 버전들을 보여줍니다.
+<div id="create-a-project">
+  ## 프로젝트 생성
+</div>
 
-
-## 프로젝트 생성하기
-W&B 앱에서 프로젝트를 생성하거나 `wandb.init()` 호출 시 프로젝트를 지정하여 프로그래밍 방식으로 생성할 수 있습니다.
+프로젝트는 W&amp;B App에서 생성하거나, `wandb.init()` 호출 시 `project`를 지정해서 프로그래밍 방식으로 생성할 수 있습니다.
 
 <Tabs>
-<Tab title="W&B App">
-W&B 앱에서는 **Projects** 페이지나 팀의 랜딩 페이지에서 프로젝트를 생성할 수 있습니다.
+  <Tab title="W&B 앱">
+    W&amp;B App에서는 **Projects** 페이지나 팀 랜딩 페이지에서 프로젝트를 생성할 수 있습니다.
 
-**Projects** 페이지에서 생성하기:
-1. 왼쪽 상단의 글로벌 네비게이션 아이콘을 클릭합니다. 네비게이션 사이드바가 열립니다.
-1. 네비게이션의 **Projects** 섹션에서 **View all**을 클릭하여 프로젝트 개요 페이지를 엽니다.
-1. **Create new project**를 클릭합니다.
-1. **Team**을 프로젝트를 소유할 팀 이름으로 설정합니다.
-1. **Name** 필드에 프로젝트 이름을 지정합니다. 
-1. **Project visibility**를 설정합니다 (기본값은 **Team**).
-1. 선택 사항으로 **Description**을 입력합니다.
-1. **Create project**를 클릭합니다.
+    **Projects** 페이지에서:
 
-팀 랜딩 페이지에서 생성하기:
-1. 왼쪽 상단의 글로벌 네비게이션 아이콘을 클릭합니다. 네비게이션 사이드바가 열립니다.
-1. 네비게이션의 **Teams** 섹션에서 팀 이름을 클릭하여 랜딩 페이지를 엽니다.
-1. 랜딩 페이지에서 **Create new project**를 클릭합니다.
-1. **Team**은 현재 보고 있는 랜딩 페이지의 소유 팀으로 자동 설정됩니다. 필요한 경우 팀을 변경하세요.
-1. **Name** 필드에 프로젝트 이름을 지정합니다. 
-1. **Project visibility**를 설정합니다 (기본값은 **Team**).
-1. 선택 사항으로 **Description**을 입력합니다.
-1. **Create project**를 클릭합니다.
-</Tab>
-<Tab title="Python SDK">
-프로그래밍 방식으로 프로젝트를 생성하려면 `wandb.init()` 호출 시 `project`를 지정하세요. 프로젝트가 아직 존재하지 않는 경우 자동으로 생성되며 지정된 entity가 소유하게 됩니다. 예시:
+    1. 왼쪽 상단의 글로벌 내비게이션 아이콘을 클릭합니다. 프로젝트 사이드바가 열립니다.
+    2. 내비게이션의 **Projects** 섹션에서 **View all**을 클릭해 프로젝트 개요 페이지를 엽니다.
+    3. **Create new project**를 클릭합니다.
+    4. **Team**을 이 프로젝트를 소유할 팀 이름으로 설정합니다.
+    5. **Name** 필드에 프로젝트 이름을 입력합니다.
+    6. 기본값이 **Team**인 **Project visibility**를 설정합니다.
+    7. 필요하다면 **Description**을 입력합니다.
+    8. **Create project**를 클릭합니다.
 
-```python
-import wandb
-# wandb.init을 사용하여 프로젝트를 초기화합니다
-with wandb.init(entity="<entity>", project="<project_name>") as run:
-    run.log({"accuracy": .95})
-```
+    팀 랜딩 페이지에서:
 
-[`wandb.init()` API 레퍼런스](/models/ref/python/functions/init/#examples)를 참조하세요.
-</Tab>
+    1. 왼쪽 상단의 글로벌 내비게이션 아이콘을 클릭합니다. 프로젝트 사이드바가 열립니다.
+    2. 내비게이션의 **Teams** 섹션에서 팀 이름을 클릭해 해당 팀의 랜딩 페이지를 엽니다.
+    3. 랜딩 페이지에서 **Create new project**를 클릭합니다.
+    4. **Team**은 현재 보고 있는 랜딩 페이지를 소유한 팀으로 자동 설정됩니다. 필요하면 팀을 변경합니다.
+    5. **Name** 필드에 프로젝트 이름을 입력합니다.
+    6. 기본값이 **Team**인 **Project visibility**를 설정합니다.
+    7. 필요하다면 **Description**을 입력합니다.
+    8. **Create project**를 클릭합니다.
+  </Tab>
+
+  <Tab title="Python SDK">
+    프로그래밍 방식으로 프로젝트를 생성하려면 `wandb.init()`을 호출할 때 `project`를 지정합니다. 해당 프로젝트가 아직 존재하지 않으면 지정한 entity를 소유자로 하여 자동으로 생성됩니다. 예를 들면 다음과 같습니다:
+
+    ```python
+    import wandb with wandb.init(entity="<entity>", project="<project_name>") as run: run.log({"accuracy": .95})
+    ```
+
+    [`wandb.init()` API reference](/ko/models/ref/python/functions/init/#examples)를 참조하세요.
+  </Tab>
 </Tabs>
 
-## 프로젝트 즐겨찾기(Star)
+<div id="star-a-project">
+  ## 프로젝트에 별표 표시하기
+</div>
 
-프로젝트에 별표를 추가하여 중요 프로젝트로 표시하세요. 귀하와 귀하의 팀이 별표로 중요하게 표시한 프로젝트는 조직의 홈 페이지 상단에 나타납니다.
+프로젝트에 별표를 추가하여 해당 프로젝트를 중요한 프로젝트로 표시할 수 있습니다. 여러분과 팀이 별표로 중요하다고 표시한 프로젝트는 조직 홈 페이지 맨 위에 표시됩니다.
 
+예를 들어, 다음 이미지는 중요하다고 표시된 두 개의 프로젝트 `zoo_experiment`와 `registry_demo`를 보여 줍니다. 두 프로젝트 모두 조직 홈 페이지 상단의 **Starred projects** 섹션에 나타납니다.
 
-예를 들어, 다음 이미지는 중요하게 표시된 두 프로젝트 `zoo_experiment`와 `registry_demo`를 보여줍니다. 두 프로젝트 모두 조직 홈 페이지 상단의 **Starred projects** 섹션에 표시됩니다.
 <Frame>
-    <img src="/images/track/star-projects.png" alt="Starred projects section"  />
+  <img src="/images/track/star-projects.png" alt="Starred projects 섹션" />
 </Frame>
 
-
-프로젝트를 중요하게 표시하는 방법은 프로젝트의 Overview 탭이나 팀의 프로필 페이지 두 가지가 있습니다.
+프로젝트를 중요하다고 표시하는 방법은 두 가지입니다. 프로젝트의 Overview 탭에서 하거나 팀 프로필 페이지에서 할 수 있습니다.
 
 <Tabs>
-<Tab title="Project overview">
-1. W&B 앱에서 `https://wandb.ai/<team>/<project-name>` 경로의 프로젝트로 이동합니다.
+  <Tab title="Project overview">
+    1. `https://wandb.ai/<team>/<project-name>`에서 W&amp;B App의 W&amp;B 프로젝트로 이동합니다.
+    2. 프로젝트 사이드바에서 **Overview** 탭을 선택합니다.
+    3. 오른쪽 상단에서 **Edit** 버튼 옆에 있는 별 아이콘을 선택합니다.
+
+    <Frame>
+      <img src="/images/track/star-project-overview-tab.png" alt="Overview에서 프로젝트에 별표 표시" />
+    </Frame>
+  </Tab>
+
+  <Tab title="Team profile">
+    1. `https://wandb.ai/<team>/projects`에서 팀의 프로필 페이지로 이동합니다.
+    2. **Projects** 탭을 선택합니다.
+    3. 별표를 추가하려는 프로젝트 옆에 마우스를 올립니다. 나타나는 별 아이콘을 클릭합니다.
+
+    예를 들어, 다음 이미지는 &quot;Compare&#95;Zoo&#95;Models&quot; 프로젝트 옆의 별 아이콘을 보여 줍니다.
+
+    <Frame>
+      <img src="/images/track/star-project-team-profile-page.png" alt="팀 페이지에서 프로젝트에 별표 표시" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+앱 왼쪽 상단에서 조직 이름을 클릭하여 프로젝트가 조직 랜딩 페이지에 표시되는지 확인합니다.
+
+<div id="delete-a-project">
+  ## 프로젝트 삭제하기
+</div>
+
+오버뷰 탭 오른쪽에 있는 점 세 개 아이콘을 클릭해서 프로젝트를 삭제할 수 있습니다.
+
+1. W&amp;B 프로젝트로 이동합니다.
 2. 프로젝트 사이드바에서 **Overview** 탭을 선택합니다.
-3. 오른쪽 상단 **Edit** 버튼 옆의 별표 아이콘을 선택합니다.
-
-<Frame>
-    <img src="/images/track/star-project-overview-tab.png" alt="Star project from overview"  />
-</Frame>
-</Tab>
-<Tab title="Team profile">
-1. 팀 프로필 페이지 `https://wandb.ai/<team>/projects`로 이동합니다.
-2. **Projects** 탭을 선택합니다.
-3. 즐겨찾기하려는 프로젝트 옆에 마우스를 올립니다. 나타나는 별표 아이콘을 클릭합니다.
-
-예를 들어, 위 이미지는 "Compare_Zoo_Models" 프로젝트 옆의 별표 아이콘을 보여줍니다.
-<Frame>
-    <img src="/images/track/star-project-team-profile-page.png" alt="Star project from team page"  />
-</Frame>
-</Tab>
-</Tabs>
-
-
-
-
-
-앱의 왼쪽 상단에 있는 조직 이름을 클릭하여 조직 랜딩 페이지에 프로젝트가 나타나는지 확인하세요.
-
-
-## 프로젝트 삭제하기
-
-Overview 탭 오른쪽의 점 세 개 아이콘을 클릭하여 프로젝트를 삭제할 수 있습니다.
-
-1. W&B 프로젝트로 이동합니다.
-2. 프로젝트 사이드바에서 **Overview** 탭을 선택합니다.
-3. 오른쪽 상단 모서리의 점 메뉴를 선택합니다.
+3. 오른쪽 상단 모서리에 있는 점 세 개 메뉴를 선택합니다.
 4. 드롭다운 메뉴에서 **Delete project**를 선택합니다.
 
-
 <Frame>
-    <img src="/images/app_ui/delete_project.png"  />
+  <img src="/images/app_ui/delete_project.png" alt="드롭다운에서 프로젝트 삭제 옵션이 표시된 프로젝트 오버뷰 메뉴" />
 </Frame>
 
 <Warning>
-프로젝트를 삭제해도 활성 상태인 [Sweeps](/models/sweeps)나 에이전트는 종료되지 않습니다.
+  프로젝트를 삭제해도 W&amp;B는 활성 상태인 [Sweeps](/ko/models/sweeps)나 에이전트를 종료하지 않습니다.
 </Warning>
 
-## 프로젝트에 노트 추가하기
+<div id="add-notes-to-a-project">
+  ## 프로젝트에 노트 추가하기
+</div>
 
-프로젝트에 설명을 개요 형식으로 추가하거나 워크스페이스 내에 마크다운 패널로 노트를 추가할 수 있습니다.
+프로젝트에 노트를 추가하려면 프로젝트에 대한 설명 개요를 작성하거나 워크스페이스 내에서 마크다운 패널로 추가할 수 있습니다.
 
-### 프로젝트에 설명 개요 추가하기
+<div id="add-description-overview-to-a-project">
+  ### 프로젝트에 Overview 설명 추가하기
+</div>
 
-페이지에 추가한 설명은 프로필의 **Overview** 탭에 나타납니다.
+페이지에 추가한 설명은 프로필의 **Overview** 탭에 표시됩니다.
 
-1. W&B 프로젝트로 이동합니다.
+1. W&amp;B 프로젝트로 이동합니다.
 2. 프로젝트 사이드바에서 **Overview** 탭을 선택합니다.
-3. 오른쪽 상단 모서리의 Edit을 선택합니다.
-4. **Description** 필드에 노트를 추가합니다.
-5. **Save** 버튼을 선택합니다.
+3. 오른쪽 상단의 **Edit**를 클릭합니다.
+4. **Description** 필드에 메모를 추가합니다.
+5. **Save** 버튼을 클릭합니다.
 
 <Note>
-**Runs를 비교하는 서술형 노트를 작성하려면 리포트를 생성하세요**
+  **run 비교용 설명 메모는 Reports에서 작성하세요**
 
-W&B 리포트를 생성하여 플롯과 마크다운을 나란히 배치할 수 있습니다. 서로 다른 섹션을 사용하여 다양한 runs를 보여주고 작업 내용에 대한 이야기를 전달하세요.
+  W&amp;B Report를 만들어 플롯과 마크다운을 나란히 추가할 수도 있습니다. 서로 다른 섹션을 사용해 서로 다른 run을 보여 주고, 작업 내용에 대한 이야기를 구성해 보세요.
 </Note>
 
+<div id="add-notes-to-run-workspace">
+  ### run 워크스페이스에 메모 추가
+</div>
 
-### Run 워크스페이스에 노트 추가하기
-
-1. W&B 프로젝트로 이동합니다.
+1. W&amp;B 프로젝트로 이동합니다.
 2. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다.
-3. 오른쪽 상단 모서리의 **Add panels** 버튼을 선택합니다.
-4. 나타나는 모달에서 **TEXT AND CODE** 드롭다운을 선택합니다.
+3. 오른쪽 상단의 **Add panels** 버튼을 선택합니다.
+4. 표시되는 모달에서 **TEXT AND CODE** 드롭다운 메뉴를 선택합니다.
 5. **Markdown**을 선택합니다.
-6. 워크스페이스에 나타나는 마크다운 패널에 노트를 추가합니다.
+6. 워크스페이스에 표시되는 마크다운 패널에 메모를 작성합니다.

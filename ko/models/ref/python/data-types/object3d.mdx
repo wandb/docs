@@ -1,16 +1,19 @@
 ---
-title: 오브젝트3D
+title: Object3D
 namespace: python_sdk_data_type
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
 
-## <kbd>class</kbd> `Object3D`
-3D point clouds 를 위한 W&B 클래스입니다.
 
-### <kbd>method</kbd> `Object3D.__init__`
+## <kbd>class</kbd> `Object3D`
+
+3D 포인트 클라우드용 W&B 클래스입니다. 
+
+### <kbd>메서드</kbd> `Object3D.__init__`
 
 ```python
 __init__(
@@ -20,20 +23,20 @@ __init__(
 ) → None
 ```
 
-W&B `Object3D` 오브젝트를 생성합니다.
+W&amp;B Object3D 객체를 생성합니다.
 
 **Args:**
- 
- - `data_or_path`:  `Object3D` 는 파일 또는 numpy array로부터 초기화될 수 있습니다.
- - `caption`:  표시용 오브젝트와 관련된 캡션입니다.
+
+* `data_or_path`:  파일 또는 numpy 배열에서 Object3D를 초기화할 수 있습니다.
+* `caption`:  화면에 표시될 객체와 연결된 캡션입니다.
 
 **Examples:**
- numpy array의 형태는 다음 중 하나여야 합니다.
+numpy 배열의 shape은 다음 중 하나여야 합니다.
 
 ```text
 [[x y z],       ...] nx3
-[[x y z c],     ...] nx4 여기서 c는 지원되는 범위 [1, 14] 사이의 카테고리입니다.
-[[x y z r g b], ...] nx6 여기서 rgb는 색상입니다.
-``` 
+[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
+[[x y z r g b], ...] nx6 where is rgb is color
+```
 
----
+***

@@ -1,165 +1,280 @@
 ---
-title: Line plots 개요
-description: 메트릭 시각화, 축 사용자 정의 및 플롯에서 여러 라인 비교하기
+description: 메트릭을 시각화하고 축을 사용자 지정하며 하나의 플롯에서 여러 선을 비교합니다
+title: 라인 플롯 개요
 ---
 
-Line plots는 기본적으로 `wandb.Run.log()`를 통해 기록된 메트릭을 시간에 따라 표시합니다. 여러 라인을 비교하거나, 커스텀 축을 계산하고, 레이블 이름을 변경하도록 Line plot을 사용자 정의할 수 있습니다.
+import LinePlotCaptureGroups from "/snippets/ko/_includes/line-plot-capture-groups.mdx";
+
+라인 플롯은 `wandb.Run.log()`으로 기록한 메트릭이 시간에 따라 기본적으로 표시됩니다. 라인 플롯은 여러 메트릭을 동시에 플로팅하고, 사용자 정의 축을 계산하는 등 다양한 기능을 지원합니다.
+
+이 페이지에서는 [Workspace](/ko/models/track/workspaces)에서 라인 플롯을 생성, 구성 및 관리하는 방법을 설명합니다.
 
 <Frame>
-    <img src="/images/app_ui/line_plot_example.png" alt="Line plot example"  />
+  <img src="/images/app_ui/line_plot_example.png" alt="라인 플롯 예시" />
 </Frame>
 
 <Tip>
-[CoreWeave](https://coreweave.com) 인프라에서 실행되는 [Runs](/models/runs)의 경우, [CoreWeave Mission Control](https://www.coreweave.com/mission-control)이 컴퓨팅 인프라를 모니터링합니다. 오류가 발생하면 W&B는 해당 프로젝트의 Workspace에 있는 Run의 플롯에 인프라 정보를 채웁니다. 자세한 내용은 [Visualize CoreWeave infrastructure alerts](/models/runs#visualize-coreweave-infrastructure-alerts)를 참조하세요.
+  [CoreWeave](https://coreweave.com) 인프라에서 실행되는 [runs](/ko/models/runs)의 경우, [CoreWeave Mission Control](https://www.coreweave.com/mission-control)이 컴퓨트 인프라를 모니터링합니다. 오류가 발생하면 W&amp;B가 프로젝트의 Workspace에 있는 run의 플롯에 인프라 정보를 표시합니다. 자세한 내용은 [CoreWeave 인프라 경고 시각화](/ko/models/runs/infrastructure-alerts)를 참조하세요.
 </Tip>
 
-## Line plot 설정 편집
+<div id="add-a-line-plot">
+  ## 선 그래프 추가
+</div>
 
-이 섹션에서는 개별 Line plot 패널, 섹션 내의 모든 Line plot 패널 또는 Workspace 전체의 모든 Line plot 패널에 대한 설정을 편집하는 방법을 설명합니다. Line plot 설정에 대한 포괄적인 상세 정보는 [Line plot reference](/models/app/features/panels/line-plot/reference)를 참조하세요.
+이 섹션에서는 단일 메트릭 또는 여러 메트릭에 대한 선 그래프를 생성하는 방법을 설명합니다.
 
-### 개별 Line plot
-개별 Line plot의 설정은 섹션 또는 Workspace의 Line plot 설정보다 우선 적용됩니다. Line plot을 사용자 정의하려면 다음 단계를 따르세요:
+<Tabs>
+  <Tab title="단일 메트릭 라인 플롯">
+    [automatic workspace](/ko/models/app/features/panels#workspace-modes)에서는 기록된 각 메트릭마다 단일 메트릭 라인 플롯이 자동으로 생성됩니다. automatic workspace에서 삭제된 라인 플롯을 다시 추가하거나 manual workspace에 라인 플롯을 추가하려면 다음 단계를 따르세요.
 
-1. 패널 위로 마우스를 가져간 후 기어 아이콘을 클릭합니다.
-1. 나타나는 사이드 메뉴에서 탭을 선택하여 설정을 편집합니다.
-1. **Apply**를 클릭합니다.
+    1. 해당 Workspace로 이동합니다.
+    2. Workspace 전체에 라인 플롯을 추가하려면 패널 검색 필드 근처의 컨트롤 바에서 **Add panels**를 클릭합니다.
 
-Line plot 설정은 다음과 같은 탭으로 구성됩니다:
-* **Data**: x축, y축, 샘플링 방법, 스무딩, 아웃라이어 및 차트 유형을 설정합니다.
-* **Grouping**: 플롯에서 Runs를 그룹화하고 집계할지 여부와 방법을 설정합니다.
-* **Chart**: 패널 및 축의 제목을 지정하고 범례(legend)의 표시 여부와 위치를 설정합니다.
-* **Legend**: 패널 범례의 모양과 내용을 사용자 정의합니다.
-* **Expressions**: 축에 대해 커스텀 계산식을 추가합니다.
+       대신 특정 섹션에 직접 라인 플롯을 추가하려면 섹션의 작업 `...` 메뉴를 클릭한 다음 **+ Add panels**를 클릭합니다.
+    3. 기본 설정으로 단일 메트릭 플롯을 추가하려면 **Quick panel builder**를 클릭합니다.
+       1. **Single-key panels** 탭에서 메트릭 위에 마우스를 올린 후 **Add**를 클릭합니다. 추가하려는 각 패널에 대해 이 단계를 반복합니다.
+       2. **Create &lt;number&gt; panels**를 클릭합니다.
+    4. 사용자 지정 라인 플롯을 추가하려면 **Line plot**을 클릭합니다.
+       1. 해당 탭을 사용해 라인 플롯의 데이터, 그룹화, 표시 설정을 구성합니다. 자세한 내용은 [Edit line plot settings](#edit-line-plot-settings)를 참조하세요.
+       2. x축 또는 y축에 계산된 표현식을 추가하려면 **Expressions**를 클릭합니다. [JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp)를 지원합니다.
+          추가할 패널 유형(예: 차트)을 선택합니다. 선택된 기본값과 함께 패널의 설정 세부 정보가 표시됩니다.
+    5. 필요에 따라 패널과 표시 설정을 사용자 지정합니다. 설정 옵션은 선택한 패널 유형에 따라 달라집니다. 각 패널 유형의 옵션에 대한 자세한 내용은 [Line plots](/ko/models/app/features/panels/line-plot/) 또는 [Bar plots](/ko/models/app/features/panels/bar-plot/)와 같은 아래의 관련 섹션을 참조하세요.
+    6. **Apply**를 클릭합니다.
+  </Tab>
 
-각 설정에 대한 자세한 정보는 [Line plot reference](/models/app/features/panels/line-plot/reference)를 확인하세요.
+  <Tab title="다중 메트릭 라인 플롯">
+    <Note>
+      이 기능은 초대받은 사용자에게만 제공되는 프리뷰 단계입니다. 사용 신청을 하려면 [support](mailto:support@wandb.com)에 문의하거나 담당 AISE에게 연락하세요.
+    </Note>
 
-### 섹션 내 모든 Line plots
+    [자동 Workspace](/ko/models/app/features/panels#workspace-modes)에서는 기록된 각 메트릭마다 단일 메트릭 라인 플롯이 자동으로 생성됩니다. 이 섹션에서는 JavaScript 정규식을 사용해 여러 메트릭을 함께 보여 주는 단일 라인 플롯을 만드는 방법을 설명합니다. 선택적으로 여러 개의 단일 메트릭 플롯을 하나의 멀티 메트릭 플롯으로 통합할 수 있습니다. 이렇게 하면 많은 메트릭이 기록된 워크스페이스의 성능을 개선하고, run 결과를 효율적으로 분석하는 데 도움이 됩니다.
 
-섹션 내의 모든 Line plot에 대한 기본 설정을 사용자 정의하여 Workspace의 Line plot 설정을 덮어쓰려면 다음 단계를 따르세요:
-1. 섹션의 기어 아이콘을 클릭하여 설정을 엽니다.
-1. 나타나는 사이드 메뉴에서 **Data** 또는 **Display preferences** 탭을 선택하여 섹션의 기본 설정을 구성합니다. 각 **Data** 설정에 대한 자세한 내용은 [Line plot reference](/models/app/features/panels/line-plot/reference)를 참조하세요. 각 디스플레이 기본 설정에 대한 자세한 내용은 [Configure section layout](../#configure-section-layout)을 참조하세요.
+    1. 워크스페이스로 이동합니다.
+    2. 워크스페이스 전체에 라인 플롯을 추가하려면 패널 검색 필드 근처의 컨트롤 바에서 **Add panels**를 클릭합니다.
 
-### Workspace 내 모든 Line plots 
-Workspace 내의 모든 Line plot에 대한 기본 설정을 사용자 정의하려면 다음 단계를 따르세요:
-1. **Settings** 레이블이 있는 기어 아이콘인 Workspace 설정을 클릭합니다.
-1. **Line plots**를 클릭합니다.
-1. 나타나는 사이드 메뉴에서 **Data** 또는 **Display preferences** 탭을 선택하여 Workspace의 기본 설정을 구성합니다.
-    - 각 **Data** 설정에 대한 자세한 내용은 [Line plot reference](/models/app/features/panels/line-plot/reference)를 참조하세요.
-    - 각 **Display preferences** 섹션에 대한 자세한 내용은 [Workspace display preferences](../#configure-workspace-layout)를 참조하세요. Workspace 레벨에서 Line plot의 기본 **Zooming** behavior를 설정할 수 있습니다. 이 설정은 일치하는 x축 키를 가진 Line plot들 간에 줌을 동기화할지 여부를 제어합니다. 기본값은 비활성화되어 있습니다.
+       대신 특정 섹션에 직접 라인 플롯을 추가하려면 섹션의 `...` 작업 메뉴를 클릭한 다음 **+ Add panels**를 클릭합니다.
+    3. **Quick panel builder**를 클릭한 다음 **Multi-metric panels** 탭을 클릭합니다.
+    4. **Regex**에 [JavaScript 정규 표현식](https://www.w3schools.com/js/js_regexp.asp) 형식의 표현식을 입력합니다. 입력하는 동안 어떤 메트릭이 해당 표현식과 일치하는지 UI에 표시됩니다. 기본적으로 플롯 이름에는 해당 플롯에서 사용된 정규식이 표시됩니다. 플롯에는 표현식과 일치하는 모든 메트릭(향후에 기록되는 메트릭 포함)의 선이 포함됩니다.
+    5. 멀티 메트릭 플롯을 생성할 때 중복된 단일 메트릭 패널을 선택적으로 제거하려면 **Clean up auto-generated panels**를 토글합니다. 어떤 패널이 정리될지 미리 보기가 표시됩니다. <Note>이 옵션을 켜면 표현식과 일치하는 새로 기록된 메트릭에 대해서는 단일 메트릭 플롯이 생성되지 않습니다. 대신 이 멀티 메트릭 플롯에만 포함됩니다.</Note>
+    6. **Create &lt;number&gt; panels**를 클릭합니다.
 
+    ### 멀티 메트릭 정규식에 대한 추가 정보
 
-## 플롯에서 평균값 시각화하기
+    멀티 메트릭 라인 플롯은 [JavaScript 정규 표현식](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions)을 사용해 메트릭 이름을 매칭합니다. 이 섹션에서는 일반적인 사용 사례를 몇 가지 보여 주고, 캡처 그룹이 생성되는 패널에 어떤 영향을 미치는지 등 정규식이 동작하는 방식에 대해 더 자세히 설명합니다.
 
-여러 다른 실험이 있고 플롯에서 그 값들의 평균을 보고 싶다면 테이블의 Grouping 기능을 사용할 수 있습니다. Run 테이블 상단의 "Group"을 클릭하고 "All"을 선택하면 그래프에 평균값이 표시됩니다.
+    #### 일반적인 사용 사례
 
-평균을 내기 전의 그래프 모습입니다:
+    이 섹션에서는 멀티 메트릭 패널을 사용해 실험 결과를 분석하는 몇 가지 방법을 설명합니다.
+
+    **레이어 또는 모델 컴포넌트별 메트릭 비교**
+    각 레이어의 메트릭마다 별도의 패널을 만드는 대신 하나의 패널에서 함께 볼 수 있습니다. 예를 들어, 다음 Python 예제 코드처럼 `layer_0_loss`, `layer_1_loss`, `layer_2_loss`와 같이 일관된 이름으로 메트릭을 기록하는 경우, `layer_\d+_loss` 정규식을 사용해 모든 레이어의 loss를 하나의 플롯에 표시할 수 있습니다.
+
+    ```python
+    with wandb.init(project="multi-layer-model") as run:
+        for step in range(100):
+            run.log({
+                "layer_0_loss": loss_0,
+                "layer_1_loss": loss_1,
+                "layer_2_loss": loss_2,
+                "step": step
+            })
+    ```
+
+    **관련된 메트릭을 접두사나 접미사로 그룹화하기**
+    공통된 이름 패턴을 공유하는 모든 메트릭을 매칭합니다. 예를 들어:
+
+    * `train_.*`는 `train_loss`, `train_accuracy`, `train_f1_score`와 같은 모든 트레이닝 메트릭과 일치합니다.
+    * `.*_accuracy`는 `train_accuracy`, `val_accuracy`, `test_accuracy`처럼 서로 다른 데이터셋 전반의 accuracy 메트릭과 일치합니다.
+
+    **특정 메트릭 변형만 매칭하기**
+    OR(또는) 연산자를 사용해 원하는 메트릭만 매칭합니다. 예를 들어, non-capturing 그룹 `(?:layer_0|layer_10)_loss`는 중간 레이어를 제외하고 첫 번째와 열 번째 레이어의 loss만 매칭합니다.
+
+    #### 캡처 그룹 이해하기
+
+    <LinePlotCaptureGroups />
+  </Tab>
+</Tabs>
+
+<div id="edit-line-plot-settings">
+  ## 라인 플롯 설정 수정
+</div>
+
+이 섹션에서는 개별 라인 플롯 패널, 섹션 내의 모든 라인 플롯 패널, 또는 Workspace의 모든 라인 플롯 패널 설정을 수정하는 방법을 설명합니다. 라인 플롯 설정에 대한 자세한 내용은 [라인 플롯 참조](/ko/models/app/features/panels/line-plot/reference)를 참고하세요.
+
+<div id="individual-line-plot">
+  ### 개별 라인 플롯
+</div>
+
+개별 라인 플롯 설정은 섹션 또는 워크스페이스 수준의 라인 플롯 설정보다 우선합니다. 라인 플롯을 사용자 지정하려면:
+
+1. 워크스페이스로 이동합니다.
+2. 패널 위에 마우스를 올린 다음 톱니바퀴 아이콘을 클릭합니다.
+3. 나타나는 드로어에서 설정을 편집할 탭을 선택합니다.
+4. **Apply**를 클릭합니다.
+
+라인 플롯 설정은 다음과 같은 탭으로 구성됩니다:
+
+* **Data**: x축, y축, 샘플링 방법, 스무딩, 이상치, 차트 유형을 구성합니다.
+* **Grouping**: 플롯에서 run을 어떻게 그룹화하고 집계할지 설정합니다.
+* **Chart**: 패널과 축의 제목을 지정하고, 범례의 표시 여부와 위치를 구성합니다.
+* **Legend**: 패널 범례의 모양과 내용을 사용자 지정합니다.
+* **Expressions**: 축에 사용할 사용자 정의 계산식을 추가합니다.
+
+각 설정에 대한 자세한 내용은 [Line plot reference](/ko/models/app/features/panels/line-plot/reference)를 참조하세요.
+
+<div id="all-line-plots-in-a-section">
+  ### 섹션의 모든 라인 플롯
+</div>
+
+섹션의 모든 라인 플롯에 대한 기본 설정을 사용자 지정하여, 라인 플롯에 대한 워크스페이스 설정을 재정의하려면:
+
+1. 워크스페이스로 이동합니다.
+2. 섹션의 톱니바퀴 아이콘을 클릭하여 설정을 엽니다.
+3. 나타나는 드로어에서 **Data** 또는 **Display preferences** 탭을 선택해 섹션의 기본 설정을 설정합니다. 각 **Data** 설정에 대한 자세한 내용은 [Line plot reference](/ko/models/app/features/panels/line-plot/reference)를 참조하세요. 각 표시 환경설정에 대한 자세한 내용은 [Configure section layout](../#configure-section-layout)을 참조하세요.
+
+<div id="all-line-plots-in-a-workspace">
+  ### 워크스페이스의 모든 선형 플롯
+</div>
+
+워크스페이스의 모든 선형 플롯에 대한 기본 설정을 변경하려면 다음을 수행하세요:
+
+1. 워크스페이스로 이동합니다.
+2. 기어 아이콘과 **Settings** 레이블이 있는 워크스페이스 설정 아이콘을 클릭합니다.
+3. **Line plots**를 클릭합니다.
+4. 표시되는 드로어에서 **Data** 또는 **Display preferences** 탭을 선택하여 워크스페이스의 기본 설정을 구성합니다.
+   * 각 **Data** 설정에 대한 자세한 내용은 [Line plot reference](/ko/models/app/features/panels/line-plot/reference)를 참조하세요.
+   * 각 **Display preferences** 섹션에 대한 자세한 내용은 [Workspace display preferences](../#configure-workspace-layout)를 참조하세요. 워크스페이스 수준에서 선형 플롯에 대한 기본 **Zooming** 동작을 구성할 수 있습니다. 이 설정은 x-축 키가 동일한 선형 플롯 간에 확대/축소를 동기화할지 여부를 제어합니다. 기본값은 사용 안 함입니다.
+
+<div id="visualize-average-values-on-a-plot">
+  ## 플롯에서 평균값 시각화하기
+</div>
+
+여러 개의 서로 다른 실험이 있고 플롯에서 값들의 평균을 보고 싶다면, 테이블의 Grouping 기능을 사용할 수 있습니다. run 테이블 위의 &quot;Group&quot;을 클릭하고 &quot;All&quot;을 선택하면 그래프에 평균값이 표시됩니다.
+
+다음은 평균을 내기 전 그래프의 모습입니다.
 
 <Frame>
-    <img src="/images/app_ui/demo_precision_lines.png" alt="Individual precision lines"  />
+  <img src="/images/app_ui/demo_precision_lines.png" alt="개별 precision 선" />
 </Frame>
 
-다음 이미지는 그룹화된 라인을 사용하여 여러 Runs의 평균값을 나타내는 그래프를 보여줍니다.
+다음 이미지는 그룹화된 선을 사용해 run 전체에 대한 평균값을 나타내는 그래프입니다.
 
 <Frame>
-    <img src="/images/app_ui/demo_average_precision_lines.png" alt="Averaged precision lines"  />
+  <img src="/images/app_ui/demo_average_precision_lines.png" alt="평균화된 precision 선" />
 </Frame>
 
-## 플롯에서 NaN 값 시각화하기
+<div id="visualize-nan-value-on-a-plot">
+  ## 플롯에서 NaN 값 시각화하기
+</div>
 
-`wandb.Run.log()`를 사용하여 PyTorch 텐서를 포함한 `NaN` 값을 Line plot에 그릴 수도 있습니다. 예시:
+`wandb.Run.log()`을 사용하면 PyTorch 텐서를 포함한 `NaN` 값도 선 그래프에 시각화할 수 있습니다. 예를 들어:
 
 ```python
 with wandb.init() as run:
-    # NaN 값 로그 기록
+    # NaN 값 로깅
     run.log({"test": float("nan")})
 ```
 
 <Frame>
-    <img src="/images/app_ui/visualize_nan.png" alt="NaN value handling"  />
+  <img src="/images/app_ui/visualize_nan.png" alt="NaN 값 처리" />
 </Frame>
 
-## 하나의 차트에서 여러 메트릭 비교하기
+<div id="compare-multiple-metrics-on-one-chart">
+  ## 하나의 차트에서 여러 메트릭 비교하기
+</div>
 
 <Frame>
-    <img src="/images/app_ui/visualization_add.gif" alt="Adding visualization panels"  />
+  <img src="/images/app_ui/visualization_add.gif" alt="Adding visualization panels" />
 </Frame>
 
-1. 페이지 오른쪽 상단 모서리에 있는 **Add panels** 버튼을 선택합니다.
-2. 나타나는 왼쪽 패널에서 Evaluation 드롭다운을 확장합니다.
-3. **Run comparer**를 선택합니다.
+1. 워크스페이스로 이동합니다.
+2. 페이지 오른쪽 상단에서 **Add panels** 버튼을 선택합니다.
+3. 나타나는 드로어에서 Evaluation 드롭다운을 펼칩니다.
+4. **Run comparer**를 선택합니다.
 
+<div id="change-the-colors-of-the-lines">
+  ## 선들의 색상 변경하기
+</div>
 
-## Line plots 색상 변경하기
-
-가끔 Runs의 기본 색상이 비교에 도움이 되지 않을 때가 있습니다. 이를 해결하기 위해 W&B는 수동으로 색상을 변경할 수 있는 두 가지 방법을 제공합니다.
+기본 run 색상이 비교에 도움이 되지 않을 때가 있습니다. 이를 위해 wandb는 색상을 수동으로 변경할 수 있는 두 가지 방법을 제공합니다.
 
 <Tabs>
-<Tab title="Run 테이블에서 변경">
-각 Run은 초기화 시 기본적으로 랜덤한 색상이 부여됩니다.
+  <Tab title="run 테이블에서 변경하기">
+    각 run은 초기화 시 기본적으로 무작위 색상이 지정됩니다.
 
-  <Frame>
-    <img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Random colors given to runs"  />
-</Frame>
+    <Frame>
+      <img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="run에 무작위로 지정된 색상" />
+    </Frame>
 
-  색상을 클릭하면 수동으로 원하는 색상을 선택할 수 있는 컬러 팔레트가 나타납니다.
+    색상 중 하나를 클릭하면 색상 팔레트가 나타나며, 여기에서 원하는 색상을 수동으로 선택할 수 있습니다.
 
-  <Frame>
-    <img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="The color palette"  />
-</Frame>
-</Tab>
-<Tab title="차트 범례 설정에서 변경">
-1. 설정을 편집하려는 패널 위로 마우스를 가져갑니다.
-2. 나타나는 연필 아이콘을 선택합니다.
-3. **Legend** 탭을 선택합니다.
+    <Frame>
+      <img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="색상 팔레트" />
+    </Frame>
+  </Tab>
 
-<Frame>
-    <img src="/images/app_ui/plot_style_line_plot_legend.png" alt="Line plot legend settings"  />
-</Frame>
-</Tab>
+  <Tab title="차트 범례 설정에서 변경하기">
+    1. 워크스페이스로 이동합니다.
+    2. 설정을 변경하려는 패널 위로 마우스를 가져갑니다.
+    3. 나타나는 연필 아이콘을 선택합니다.
+    4. **Legend** 탭을 선택합니다.
+
+    <Frame>
+      <img src="/images/app_ui/plot_style_line_plot_legend.png" alt="선 그래프 범례 설정" />
+    </Frame>
+  </Tab>
 </Tabs>
 
-## 다른 x축으로 시각화하기
+<div id="visualize-on-different-x-axes">
+  ## 다른 x축으로 시각화하기
+</div>
 
-실험에 소요된 절대 시간이나 실험이 실행된 날짜를 보고 싶다면 x축을 전환할 수 있습니다. 다음은 step에서 relative time으로, 다시 wall time으로 전환하는 예시입니다.
+실험에 소요된 절대 시간을 보거나, 실험이 어떤 날짜에 실행되었는지 확인하고 싶다면 x축을 변경할 수 있습니다. 아래는 스텝에서 상대 시간으로, 다시 wall time(실제 시간)으로 전환하는 예시입니다.
 
 <Frame>
-    <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="X-axis time options"  />
+  <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="X-axis time options" />
 </Frame>
 
-커스텀 x축을 사용하려면, y축을 로그하는 것과 동일한 `wandb.Run.log()` 호출에서 메트릭을 로그하세요. 예시:
+커스텀 x축을 사용하려면 y축을 로깅하는 것과 같은 `wandb.Run.log()` 호출에서 해당 메트릭을 함께 로깅하십시오. 예를 들면 다음과 같습니다:
 
 ```python
 with wandb.init() as run:
     for i in range(100):
-        # y축인 accuracy와 커스텀 x축인 custom_x를 함께 로그
         run.log({"accuracy": acc, "custom_x": i * 10})
 ```
 
-자세한 내용은 [Customize log axes](/models/track/log/customize-logging-axes#customize-log-axes)를 참조하세요.
+자세한 내용은 [로그 축 사용자 지정](/ko/models/track/log/customize-logging-axes#customize-log-axes)을 참고하세요.
 
+<div id="zoom">
+  ## 확대/축소
+</div>
 
-## Zoom
-
-직사각형을 클릭하고 드래그하여 수직 및 수평으로 동시에 줌을 할 수 있습니다. 이렇게 하면 x축과 y축의 줌이 변경됩니다.
-
-<Frame>
-    <img src="/images/app_ui/line_plots_zoom.gif" alt="Plot zoom functionality"  />
-</Frame>
-
-## 차트 범례 숨기기
-
-간단한 토글을 사용하여 Line plot의 범례를 끌 수 있습니다:
+차트 위에서 드래그해 사각형을 그리면 세로와 가로 방향을 동시에 확대/축소할 수 있습니다. 이렇게 하면 x축과 y축의 확대/축소가 함께 변경됩니다.
 
 <Frame>
-    <img src="/images/app_ui/demo_hide_legend.gif" alt="Hide legend toggle"  />
+  <img src="/images/app_ui/line_plots_zoom.gif" alt="Plot zoom functionality" />
 </Frame>
 
-## Run 메트릭 알림 생성하기
-[Automations](/models/automations/)을 사용하여 Run 메트릭이 지정한 조건을 충족할 때 팀에 알림을 보냅니다. Automation은 Slack 채널에 포스트하거나 webhook을 실행할 수 있습니다.
+<div id="hide-chart-legend">
+  ## 차트 범례 숨기기
+</div>
 
-Line plot에서 해당 플롯이 보여주는 메트릭에 대한 [run metrics notification](/models/automations/automation-events/#run-events)을 빠르게 생성할 수 있습니다:
+이 간단한 토글을 사용해 선 그래프에서 범례를 숨길 수 있습니다:
 
-1. 패널 위로 마우스를 가져간 후 종 모양 아이콘을 클릭합니다.
-1. 기본 또는 고급 설정 컨트롤을 사용하여 Automation을 구성합니다. 예를 들어, Automation의 범위를 제한하기 위해 Run 필터를 적용하거나 절대 임계값을 설정할 수 있습니다.
+<Frame>
+  <img src="/images/app_ui/demo_hide_legend.gif" alt="범례 숨기기 토글" />
+</Frame>
 
-[Automations](/models/automations/)에 대해 자세히 알아보세요.
+<div id="create-a-run-metrics-notification">
+  ## run 메트릭 알림 만들기
+</div>
+
+[Automations](/ko/models/automations/)를 사용하여 지정한 조건을 run 메트릭이 만족하면 팀에 알림을 보낼 수 있습니다. Automation은 Slack 채널에 게시하거나 웹훅을 실행할 수 있습니다.
+
+라인 플롯에서 플롯에 표시된 메트릭에 대해 바로 [run 메트릭 알림](/ko/models/automations/automation-events/#run-events)을 생성할 수 있습니다:
+
+1. 워크스페이스로 이동합니다.
+2. 패널 위에 마우스를 올린 다음 종 모양 아이콘을 클릭합니다.
+3. 기본 또는 고급 설정 컨트롤을 사용하여 automation을 설정합니다. 예를 들어 automation의 범위를 제한하기 위해 run 필터를 적용하거나, 절대 임계값을 설정할 수 있습니다.
+
+[Automations](/ko/models/automations/)에 대해 더 알아보세요.

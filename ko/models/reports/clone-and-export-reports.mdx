@@ -1,29 +1,33 @@
 ---
+description: W&B Report를 PDF 또는 LaTeX로 내보내기.
 title: Reports 복제 및 내보내기
-description: W&B Reports 를 PDF 또는 LaTeX로 내보내기.
 ---
 
 <Note>
-W&B Report 및 Workspace API는 현재 퍼블릭 프리뷰 단계입니다.
+W&B Report 및 Workspace API는 Public Preview 단계에 있습니다.
 </Note>
 
-## Reports 내보내기
+<div id="export-reports">
+  ## 리포트 내보내기
+</div>
 
-Reports를 PDF 또는 LaTeX 형식으로 내보낼 수 있습니다. Report 내에서 케밥 아이콘을 클릭하여 드롭다운 메뉴를 확장합니다. **Download**를 선택한 후 PDF 또는 LaTeX 출력 형식을 선택하세요.
+리포트를 PDF 또는 LaTeX 형식으로 내보낼 수 있습니다. 리포트 안에서 케밥 아이콘을 선택해 드롭다운 메뉴를 연 다음 **Download**를 선택하고, PDF 또는 LaTeX 출력 형식 중 하나를 선택합니다.
 
-## Reports 복제하기
+<div id="cloning-reports">
+  ## 리포트 복제
+</div>
 
 <Tabs>
 <Tab title="W&B App">
-Report 내에서 케밥 아이콘을 클릭하여 드롭다운 메뉴를 확장합니다. **Clone this report** 버튼을 선택하세요. 모달 창에서 복제된 Report를 저장할 대상을 선택한 뒤, **Clone report**를 클릭합니다.
+리포트에서 케밥 아이콘을 선택해 드롭다운 메뉴를 펼칩니다. **Clone this report** 버튼을 선택합니다. 모달에서 복제된 리포트의 대상 위치를 선택합니다. **Clone report**를 선택합니다.
 
 <Frame>
-    <img src="/images/reports/clone_reports.gif" alt="Cloning reports"  />
+    <img src="/images/reports/clone_reports.gif" alt="리포트 복제"  />
 </Frame>
 
-프로젝트의 템플릿과 형식을 재사용하려면 Report를 복제하세요. Team 계정 내에서 프로젝트를 복제하면 팀원들이 해당 프로젝트를 볼 수 있습니다. 개인 계정 내에서 복제된 프로젝트는 해당 User에게만 보입니다.
+리포트를 복제하면 해당 프로젝트의 템플릿과 형식을 재사용할 수 있습니다. 팀 계정 내에서 프로젝트를 복제하면 복제된 프로젝트는 팀 구성원에게 표시됩니다. 개인 계정 내에서 복제된 프로젝트는 해당 사용자에게만 표시됩니다.
 </Tab>
-<Tab title="Report and Workspace API">
+<Tab title="Report 및 Workspace API">
 URL에서 Report를 로드하여 템플릿으로 사용합니다.
 
 ```python
@@ -34,7 +38,7 @@ report.save()  # 저장
 new_report = wr.Report.from_url(report.url)  # 로드
 ```
 
-`new_report.blocks` 내의 콘텐츠를 편집합니다.
+`new_report.blocks` 안의 내용을 수정합니다.
 
 ```python
 pg = wr.PanelGrid(
