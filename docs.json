@@ -757,7 +757,14 @@
                   {
                     "group": "Monitor and collect feedback",
                     "pages": [
-                      "weave/guides/tracking/feedback",
+                      {
+                        "group": "Annotate",
+                        "pages": [
+                          "weave/guides/tracking/annotation-queues",
+                          "weave/guides/tracking/annotation-review",
+                          "weave/guides/tracking/feedback"
+                        ]
+                      },
                       "weave/guides/tracking/redact-pii",
                       "weave/guides/evaluation/monitors",
                       "weave/guides/evaluation/guardrails",
