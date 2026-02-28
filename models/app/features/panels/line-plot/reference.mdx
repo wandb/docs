@@ -113,9 +113,9 @@ Define a template for the legend name.
 1. Expand **Advanced legend**, then specify the legend template.
 1. Click **Apply**.
 
-Example:
+{/* Example:
 
-`${run:displayName} - ${config:dropout}` produces a legend name like `royal-sweep - 0.5`, where `royal-sweep` is the run name and `0.5` is the config parameter named `dropout`.
+`${run:displayName} - ${config:dropout}` produces a legend name like `royal-sweep - 0.5`, where `royal-sweep` is the run name and `0.5` is the config parameter named `dropout`. */}
 
 ### Point-specific values
 
@@ -126,7 +126,7 @@ Set values inside `[[ ]]` to display point-specific values in the crosshair when
 1. At the bottom of the tab, configure point-specific values for one or more of the plot's metrics.
 1. Click **Apply**.
 
-Example: `[[ $x: $y ($original) ]]` displays something like "2: 3 (2.9)"
+{/* Example: `[[ $x: $y ($original) ]]` displays something like "2: 3 (2.9)" */}
 
 Supported values inside `[[ ]]`:
 
@@ -143,9 +143,29 @@ Supported values inside `[[ ]]`:
 
 ## Expressions
 
-Add custom calculated expressions to create derived metrics.
+Form math expressions to create or transform line plots from your logged metrics, config values, and summary statistics. For example, you can compute the difference between two metrics, rescale a metric by a config value, or plot the logarithm of a metric. Expressions are evaluated at each step that you logged.
 
-### Y-axis expressions
+The next section describes how to reference values in expressions, followed by available operators and functions you can use to create custom expressions. You can apply expressions to both the x and y axes of your line plots.
+
+See the [Example expressions](#example-expressions) section below for common use cases and example expressions.
+
+### Create new line plots with expressions
+
+1. Navigate to your project's workspace.
+1. Click the **+ Add panel** button and select **Line plot**.
+1. Click the **Data** tab. Select the data you want to plot on the line plot for both the x and y axes.
+1. Click on the **Expressions** tab.
+1. In the **Y-axis** field or **X-axis** field, enter your expression.
+1. Click **Apply** to save your settings and view the line plot.
+
+### Transform existing line plots with expressions
+1. Open the line plot you want to transform.
+1. Click the gear icon in the upper right corner of the plot to edit the panel.
+1. Click on the **Expressions** tab.
+1. In the **Y-axis** field or **X-axis** field, enter your expression.
+1. Click **Apply** to save your settings and view the updated line plot.
+
+{/* ### Y-axis expressions
 
 Plot values derived from metrics. For example, calculate `1-accuracy` or other arithmetic expressions. Currently only works when plotting a single metric.
 
@@ -159,7 +179,234 @@ Rescale the x-axis using calculated values with custom expressions.
 
 Useful variables:
 * `_step`: The default x-axis value.
-* `${summary:value}`: Reference summary values.
+* `${summary:value}`: Reference summary values. */}
+
+
+### Referencing values
+
+The following table describes how to reference logged metrics, config parameters, and summary statistics in line plot expressions.
+
+
+| Type             | Syntax                                | Description                            | Examples                               |
+| ---------------- |---------------------------------------|----------------------------------------| -------------------------------------- |
+| Metric           | `${metric_name}`                      | Reference a logged metric by name.                     | `${val/accuracy}`, `${"accuracy"}` |
+| Config parameter | `${config:param_name}`                | Reference config values using the `${config:}` prefix. | `${config:lr}`, `${config:batch_size}` |
+| Summary statistic | `${summary:stat_name}`               | Reference summary fields using the `summary: prefix`   | `${summary:final_accuracy}`, `${summary:best_loss}` |
+
+
+Use `${...}` to escape any metric name, config parameter, or summary field that includes special characters or spaces such as `/`, `-`, or spaces. 
+
+For example, if you log a metric named `val/accuracy`, reference it as `${val/accuracy}` to avoid confusion with the division operator. If you log a config parameter named `dropout-rate`, reference it as `${config:dropout-rate}`. If you log a summary field named `best loss`, reference it as `${summary:best loss}`.
+
+
+#### Nested configs
+
+Acccess nested config values using dot notation and the following syntax: 
+
+```javascript
+${config:parent.child.grandchild}
+```
+
+Where `parent`, `child`, and `grandchild` are the keys in the nested config dictionary.
+
+For example, suppose you log the following config with nested dictionaries:
+
+```python
+config = {
+    "model": {
+        "type": "resnet",
+        "layers": 50
+    },
+    "training": {
+        "batch_size": 32,
+        "learning_rate": 0.001
+    }
+}
+
+with wandb.init(project="my-project", config=config) as run:
+    ...
+```
+
+You can reference the model type with: `${config:model.type}`. Reference the batch size with: `${config:training.batch_size}`.
+
+As another example, consider the following config with nested dictionaries:
+
+```json Config parameters 
+config:
+  optimizer:
+    value:
+      lr: 0.001
+      weight_decay: 0.01
+  model:
+    value:
+      hidden_size: 768
+```
+
+Reference the learning rate with `${config:optimizer.value.lr}`, the model's hidden size with `${config:model.value.hidden_size}`, or the weight decay with `${config:optimizer.value.weight_decay}`.
+
+### Available operators
+
+W&B supports the following operators for line plot expressions:
+  
+|  Category        |            Operators                  |
+| ---------------- |------------------------------------------|
+| Arithmetic       | `+`, `-`, `*`, `/`, `%` (modulo), `**` (exponent) |
+| Comparison       | `==`, `!=`, `===`, `!==`, `<`, `>`, `<=`, `>=` |
+| Bitwise          | `\|`, `^`, `&`, `<<`, `>>`, `>>>`       |
+| Logical          | `\|\|` , `&&`                           |
+
+
+### Math constants and functions
+
+All JavaScript math functions and constants are supported. For more details, see the [MDN Math documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math). The following tables summarize the most commonly used functions and constants for line plot expressions.
+
+#### Math constants
+
+| Constant | Description |
+| -------- | ----------- |
+| `e` | Euler's number |
+| `pi` | Pi |
+| `ln2` | Natural logarithm of 2 |
+| `ln10` | Natural logarithm of 10 |
+| `log2e` | Base-2 logarithm of e |
+| `log10e` | Base-10 logarithm of e |
+| `sqrt2` | Square root of 2 |
+| `sqrt1_2` | Square root of 1/2 |
+
+
+#### Arithmetic and statistical functions
+
+The following table describes available arithmetic and statistical functions:
+
+| Function | Description |
+| -------- | ----------- |
+| abs(x) | Absolute value |
+| ceil(x) | Ceiling function (round up to nearest integer) |
+| floor(x) | Floor function (round down to nearest integer) |
+| round(x) | Round to nearest integer |
+| min(x, y, ...) | Minimum value |
+| max(x, y, ...) | Maximum value |
+| sqrt(x) | Square root |
+
+#### Logarithmic and exponential functions
+
+The following table describes available logarithmic and exponential functions:
+
+| Function | Description |
+| -------- | ----------- |
+| log(x) | Natural logarithm (base e) |
+| log10(x) | Base-10 logarithm |
+| log2(x) | Base-2 logarithm |
+| exp(x) | Exponential function (e^x) |
+| pow(x, y) | Power function (x^y) |
+
+#### Trigonometric functions
+
+The following table describes available trigonometric functions:
+
+| Function | Description |
+| -------- | ----------- |
+| sin(x) | Sine |
+| cos(x) | Cosine |
+| tan(x) | Tangent |
+| asin(x) | Arc sine (inverse sine) |
+| acos(x) | Arc cosine (inverse cosine) |
+| atan(x) | Arc tangent (inverse tangent) |
+| atan2(y, x) | Two-argument arc tangent |
+
+#### Hyperbolic functions
+
+The following table describes available hyperbolic functions:
+
+| Function | Description |
+| -------- | ----------- |
+| sinh(x) | Hyperbolic sine |
+| cosh(x) | Hyperbolic cosine |
+| tanh(x) | Hyperbolic tangent |
+
+### Example expressions
+
+The following are example expressions for line plot axes. These examples are for illustrative purposes. You can use any combination of operators and functions described in the previous sections to create complex expressions that suit your needs.
+
+For the following examples, suppose your [summary metrics](/models/track/log/log-summary#log-summary-metrics) include `accuracy` and `loss` with the following values:
+
+```json Summary metrics
+{
+  "accuracy": 0.7829240801794489,
+  "loss": 0.2194763318905079
+}
+```
+
+And suppose your config looks like this:
+
+```json Config parameters
+config = {
+    "epochs": 100,
+    "optimizer": {
+        "value": {
+            "lr": 0.001,
+            "weight_decay": 0.01
+        }
+    }
+}
+```
+
+Vertically shift the accuracy metric by adding a constant value. In the following example, shift the accuracy up by 1:
+
+```javascript
+1 - accuracy
+```
+
+Vertically shift a metric by a constant value, in this case the learning rate (`lr`):
+
+```javascript
+accuracy+${config:optimizer.value.lr}
+```
+
+Compute the sine of a metric. In the following example, compute the sine of the loss metric:
+
+```javascript
+sin(loss)
+```
+
+Phase shift a metric by applying a sine function. For example, apply a sine function and phase shift the loss metric by 2:
+
+```javascript
+sin(loss - 2)
+```
+
+Rescale the accuracy metric by a config parameter named `batch_size`:
+
+```javascript
+${accuracy} / ${config:batch_size}
+```
+
+Compute the minimum of two metrics. In the following example, compute the minimum of loss and accuracy:
+
+```javascript
+min(loss, accuracy)
+```
+
+Compute the square root of the sum of squares of two metrics. In the following example, compute the square root of the sum of squares of loss and accuracy:
+
+```javascript
+sqrt(loss ** 2 + accuracy ** 2)
+```
+
+Compute the exponential of the loss. In the following example, compute the exponential of the loss metric:
+
+```javascript
+sqrt(loss*100)+sqrt(loss*100000)
+```
+
+<Note>
+You can also refer to summary metric values with `${summary:metric_name}` syntax in expressions. For example:
+
+```javascript
+sqrt(${summary:loss}*100)+sqrt(${summary:loss}*100000)
+```
+</Note>
+
 
 ### Multi-metric panel expressions
 Use a regular expression to create a single line plot that shows multiple metrics together (including matching metrics logged in the future). For detailed instructions, see [Add a line plot](/models/app/features/panels/line-plot#multi-metric-line-plot).
