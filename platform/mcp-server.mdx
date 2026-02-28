@@ -67,19 +67,19 @@ You can install the W&B server in Cursor automatically using a [one-click instal
 3. In the Installed MCP Servers section, select **Add Custom MCP**. This opens the `mcp.json` configuration file.
 4. In the configuration file, in the `mcpServers` JSON object, add the following `wandb` object:
 
-```json
-{
-  "mcpServers": {
-    "wandb": {
-      "transport": "http",
-      "url": "https://mcp.withwandb.com/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_WANDB_API_KEY",
-        "Accept": "application/json, text/event-stream"
+  ```json
+  {
+    "mcpServers": {
+      "wandb": {
+        "transport": "http",
+        "url": "https://mcp.withwandb.com/mcp",
+        "headers": {
+          "Authorization": "Bearer <your-wandb-api-key>",
+          "Accept": "application/json, text/event-stream"
+        }
       }
     }
   }
-}
 ```
 
 5. Restart Cursor to make the changes take effect.
@@ -94,7 +94,7 @@ To add the W&B MCP server to Claude Code, update the following command's `Author
 
 ```bash
 claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
-  --header "Authorization: Bearer <your-api-key-here>"
+  --header "Authorization: Bearer <your-wandb-api-key>"
 ```
 
 Add `--scope user` for a global configuration, or omit it to configure for the current project only.
@@ -107,8 +107,8 @@ For more detailed information, see [Claude Code's documentation](https://docs.an
 To add the W&B MCP server to Codex, update the following command's `--bearer-token-env-var` argument with the environment variable containing your W&B API key, then run it in your terminal:
 
 ```bash
-export WANDB_API_KEY=<your-api-key>
-codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var WANDB_API_KEY
+export WANDB_API_KEY=<your-wandb-api-key>
+codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <your-wandb-api-key-environment-variable>
 ```
 
 </Tab>
@@ -128,7 +128,7 @@ resp = client.responses.create(
         "server_label": "wandb",
         "server_description": "Query W&B data",
         "server_url": "https://mcp.withwandb.com/mcp",
-        "authorization": os.getenv("WANDB_API_KEY"),
+        "authorization": os.getenv("<your-wandb-api-key>"),
         "require_approval": "never",
     }],
     input="List the projects in my W&B account.",
@@ -142,10 +142,10 @@ To add the W&B MCP server to Gemini CLI:
 
 1. Install the W&B MCP extension with a single command:
 
-  ```bash
-  # Install the extension
-  gemini extensions install https://github.com/wandb/wandb-mcp-server
-  ```
+    ```bash
+    # Install the extension
+    gemini extensions install https://github.com/wandb/wandb-mcp-server
+    ```
 2. Once installed, restart the Gemini CLI.
 3. Verify that the chat agent has access to the W&B MCP server by entering the prompt "List the projects in my W&B account."
 
@@ -180,7 +180,7 @@ If you need to run the MCP server locally for W&B Self-Managed deployments, deve
 
 * A W&B API key. You can create a new one at [wandb.ai/authorize](https://wandb.ai/authorize).
 * Set your key as an environment variable named `WANDB_API_KEY`.
-* Set the `WANDB_BASE_URL` environment variable if you are using [W&B dedicated or on-prem instances](/platform/hosting/hosting-options/self-managed).
+* Set the `WANDB_BASE_URL` environment variable if you are using [W&B Self-Managed](/platform/hosting/hosting-options/self-managed).
 * Python 3.10 or higher
 * [uv](https://docs.astral.sh/uv/) (recommended) or pip
 
@@ -188,7 +188,9 @@ See uv's docs for [installation instructions](https://docs.astral.sh/uv/getting-
 
 ### Install and configure the MCP server
 
-To install the W&B MCP server on your local machine, use one of the following `uv` or `pip` commands:
+To install the MPC server locally:
+
+To install the W&B MCP server on your local machine, use one of the following installation commands:
  
 <Tabs>
 <Tab title="uv">
@@ -208,7 +210,7 @@ pip install git+https://github.com/wandb/wandb-mcp-server
 </Tab>
 </Tabs>
 
-Once you have installed the MCP server locally, configure your MCP client to use it. Select an MCP client to continue.
+Once you have installed the MCP server locally, configure your MCP client to use it. Select an MCP client to continue:
 
 <Tabs>
 <Tab title="Cursor">
@@ -226,7 +228,7 @@ Add the following to your `mcp.json` configuration:
         "wandb_mcp_server"
       ],
       "env": {
-        "WANDB_API_KEY": "YOUR_API_KEY",
+        "WANDB_API_KEY": "<your-wandb-api-key>",
         "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
       }
     }
@@ -250,7 +252,7 @@ Add the following to your `.vscode/mcp.json` or global MCP configuration:
         "wandb_mcp_server"
       ],
       "env": {
-        "WANDB_API_KEY": "YOUR_API_KEY",
+        "WANDB_API_KEY": "<your-wandb-api-key>",
         "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
       }
     }
@@ -301,7 +303,7 @@ Add the following to your JSON object to your Claude config file. Use the full p
         "wandb_mcp_server"
       ],
       "env": {
-        "WANDB_API_KEY": "YOUR_API_KEY",
+        "WANDB_API_KEY": "<your-wandb-api-key>",
         "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
       }
     }
@@ -314,7 +316,7 @@ Restart Claude Desktop to activate the new configuration.
 </Tab>
 </Tabs>
 
-3. For web-based clients or testing, run the server with HTTP transport:
+For web-based clients or testing, run the server with HTTP transport:
 
 ```bash
 uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
@@ -327,7 +329,7 @@ uvx wandb_mcp_server --transport http --port 8080
 
 # In another terminal, expose with ngrok
 ngrok http 8080
-```
+    ```
 
 If you expose the server using `ngrok`, update your MCP client configuration to use the `ngrok` URL.
 
