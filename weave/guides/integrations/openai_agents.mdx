@@ -99,6 +99,7 @@ const getWeather = tool({
 async function main() {
   // UPDATE to your project info.
   await weave.init("your-team-name/your-project-name");
+  await weave.instrumentOpenAIAgents();
 
   const agent = new Agent({
     name: "Hello world",
@@ -116,6 +117,7 @@ main();
 
 ```
 
+
 ### Manual instrumentation
 
 In most cases, automatic instrumentation handles everything. If you need manual control, for example when using dynamic imports or bundlers that bypass module hooks, you can call `instrumentOpenAIAgents()` explicitly:
@@ -127,18 +129,17 @@ await weave.init("openai-agents");
 await weave.instrumentOpenAIAgents();
 ```
 
-Alternatively, for full control over the tracing processor, create and register one manually:
+For full control over the tracing processor, such as for custom processor configuration or conditional registration, create and register one manually:
 
 ```typescript
 import { addTraceProcessor } from "@openai/agents";
 import { createOpenAIAgentsTracingProcessor } from "weave";
 
+...
+
 const processor = createOpenAIAgentsTracingProcessor();
 addTraceProcessor(processor);
 ```
 
-## View traces
-
-When the above code sample is run, a link to the Weave dashboard is generated. To see what happened during your agent execution, follow the link to see your agent traces.
 </Tab>
 </Tabs>
