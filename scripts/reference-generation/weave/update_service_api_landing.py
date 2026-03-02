@@ -22,9 +22,10 @@ def fetch_openapi_spec() -> dict:
         with open(local_spec, 'r') as f:
             return json.load(f)
     
-    # Fallback to remote
-    print("  Fetching remote OpenAPI spec from https://trace.wandb.ai/openapi.json")
-    response = requests.get("https://trace.wandb.ai/openapi.json")
+    # Fallback to remote (Inference API)
+    fallback_url = "https://api.inference.wandb.ai/v1/openapi.json"
+    print(f"  Fetching remote OpenAPI spec from {fallback_url}")
+    response = requests.get(fallback_url)
     response.raise_for_status()
     return response.json()
 
