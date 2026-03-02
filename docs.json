@@ -928,7 +928,9 @@
                       {
                         "group": "Functions",
                         "pages": [
+                          "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "weave/reference/typescript-sdk/functions/init",
+                          "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
                           "weave/reference/typescript-sdk/functions/op",
                           "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",

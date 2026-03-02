@@ -1,0 +1,78 @@
+---
+title: "instrumentOpenAIAgents"
+description: "TypeScript SDK reference"
+---
+
+# instrumentOpenAIAgents
+
+▸ **instrumentOpenAIAgents**(): `Promise`\<`boolean`\>
+
+Manually register Weave tracing with OpenAI Agents if the package is available.
+
+**Note: You typically don't need to call this function!** OpenAI Agents is automatically
+instrumented via module loader hooks when you import Weave. This function is provided for
+edge cases where automatic instrumentation doesn't work (e.g., dynamic imports, bundlers
+that bypass hooks).
+
+This function attempts to dynamically import @openai/agents from the consumer's node_modules
+and registers a TracingProcessor. If the package is not installed, it returns false without
+throwing an error.
+
+#### Returns
+
+`Promise`\<`boolean`\>
+
+Promise<boolean> - true if registration succeeded, false if @openai/agents not available
+
+`Example`
+
+```typescript
+// ✅ Recommended: Just import Weave - instrumentation happens automatically!
+import * as weave from 'weave';
+await weave.init('my-project');
+
+// OpenAI Agents is already instrumented via hooks - no manual setup needed
+import { Agent } from '@openai/agents';
+const agent = new Agent({ ... });
+await agent.run(input); // Automatically traced in Weave
+```
+
+`Example`
+
+```typescript
+// ⚠️ Only needed for edge cases where automatic hooks don't work
+import { instrumentOpenAIAgents } from 'weave';
+
+const registered = await instrumentOpenAIAgents();
+if (!registered) {
+  console.log('OpenAI Agents not found - install @openai/agents to enable tracing');
+}
+```
+
+`Remarks`
+
+**How automatic instrumentation works**: When you import Weave, it registers module loader
+hooks via `addCJSInstrumentation()` and `addESMInstrumentation()`. When your code later
+imports `@openai/agents`, these hooks intercept the import and automatically patch the
+module to add Weave tracing. This happens transparently - no action required from you!
+
+**When to use this function**: Only use this if automatic instrumentation fails, such as:
+- Using dynamic imports that bypass module hooks
+- Bundlers that don't support import-in-the-middle
+- Need explicit control over when instrumentation happens
+
+**Alternative for custom processor logic**: If you need custom tracing behavior,
+use `createOpenAIAgentsTracingProcessor()` and register it manually:
+```typescript
+import { addTraceProcessor } from '@openai/agents';
+import { createOpenAIAgentsTracingProcessor } from 'weave';
+
+const processor = createOpenAIAgentsTracingProcessor();
+addTraceProcessor(processor);
+```
+
+#### Defined in
+
+[integrations/openai.agent.ts:674](https://github.com/wandb/weave/blob/e1c78048d5177d4307db5a8cfc1d64e80c448831/sdks/node/src/integrations/openai.agent.ts#L674)
+
+___
