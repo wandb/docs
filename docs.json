@@ -1170,6 +1170,7 @@
             "pages": [
               "ko/index",
               "ko/get-started",
+              "ko/platform/mcp-server",
               {
                 "group": "배포 옵션",
                 "pages": [
@@ -1213,7 +1214,7 @@
                     ]
                   },
                   {
-                    "group": "Identity and Access Management (IAM)",
+                    "group": "ID 및 액세스 관리(IAM)",
                     "pages": [
                       "ko/platform/hosting/iam/org_team_struct",
                       {
@@ -1226,7 +1227,7 @@
                         ]
                       },
                       {
-                        "group": "접근 관리",
+                        "group": "액세스 관리",
                         "pages": [
                           "ko/platform/hosting/iam/access-management-intro",
                           "ko/platform/hosting/iam/access-management/manage-organization",
@@ -1261,7 +1262,7 @@
                 ]
               },
               {
-                "group": "리소스",
+                "group": "정의되지 않음",
                 "pages": [
                   "ko/pricing",
                   "ko/blog",
