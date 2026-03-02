@@ -6,15 +6,15 @@ description: >
 
 [Cline](https://cline.bot) is an AI-powered coding assistant. This tutorial demonstrates how to configure Cline to use models provided by W&B Inference.
 
-The Cline agent is available as a command line tool or as an integration with many IDEs. This page will show configuration with the Cline CLI and with Cline as a Visual Studio Code extension; configuration in other IDEs should be similar.
+The Cline agent is available as a command line tool or as an integration with many IDEs. This page will show configuration with the Cline CLI and with Cline as a Visual Studio Code extension, but configuration in other IDEs should be similar.
 
 ## Prerequisites
 
 You will need your [W&B API key](../prerequisites#set-up-your-wb-account-and-project).
 
-## Cline CLI
+## Set up Cline in the command line
 
-Install the [Cline CLI](https://docs.cline.bot/cline-cli/installation) as needed.
+Install the [Cline CLI](https://docs.cline.bot/cline-cli/installation).
 
 ```
 npm install -g cline
@@ -24,13 +24,13 @@ See [Cline's installation instructions](https://docs.cline.bot/cline-cli/install
 
 These instructions were tested with Cline CLI version `2.5.1`. You can run `cline version` to verify what you have installed.
 
-Run the following command, substituting in your W&B API key.
+Run the following command, substituting `<your_api_key>` with your W&B API key.
 
 ```
 cline auth -k <your_api_key> -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
 ```
 
-This will configure Cline to use W&B Inference's OpenAI-compatible endpoint and the Kimi K2.5 model. See [our model catalog](https://wandb.ai/inference) for model availability and pricing.
+This will configure Cline to use W&B Inference's OpenAI-compatible endpoint and the Kimi K2.5 model. For model availability and pricing, see [our model catalog](https://wandb.ai/inference).
 
 Run a simple test to verify everything is working:
 
@@ -40,15 +40,17 @@ cline "What is 2 + 2?"
 
 If Cline responds with an answer, your installation and authentication are complete.
 
-See the [Cline Quickstart](https://docs.cline.bot/cline-cli/installation#quick-start) for next steps.
+For more information on using the Cline CLI, see the [Cline Quickstart](https://docs.cline.bot/cline-cli/installation#quick-start).
 
-## Cline in Visual Studio Code
 
-Install Cline as a Visual Studio Code Extension. You can find it by searching the VS Code Extension marketplace or [clicking here](vscode:extension/saoudrizwan.claude-dev). Click the "Install" button.
+## Set up Cline in Visual Studio Code
+You can also install Cline as a Visual Studio Code extension. Search for **Cline** in the VS Code Extensions Marketplace, or install it from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev). 
+
+Click the `Install` button.
 
 <Frame>![VS Code extension installation](/images/inference/inference-tutorial-cline-install.png)</Frame>
 
-Click the newly added Cline icon in your Activity Bar to open the Cline sidebar.
+Click the newly added Cline icon in your Activity Bar to open the Cline sidebar.  If the Cline icon is not showing in the Activity Bar, click the dropdown to see more options.
 
 <img
   src="/images/inference/inference-tutorial-cline-activity-bar.png"
@@ -56,7 +58,7 @@ Click the newly added Cline icon in your Activity Bar to open the Cline sidebar.
   style={{width: "60px"}}
 />
 
-Select "Bring my own API key" and press the Continue button.
+Select "Bring my own API key" and press the `Continue` button.
 
 <img
   src="/images/inference/inference-tutorial-cline-byok.png"
@@ -64,7 +66,7 @@ Select "Bring my own API key" and press the Continue button.
   style={{width: "300px"}}
 />
 
-Specify the following values, substituting in your W&B API key.
+Specify the following values, substituting `<your_api_key>` with your W&B API key:
 
 | Setting                        | Value                               |
 | ------------------------------ | ----------------------------------- |
@@ -73,9 +75,9 @@ Specify the following values, substituting in your W&B API key.
 | OpenAI Compatible API Key       | `<your_api_key>`                    |
 | Model ID                       | moonshotai/Kimi-K2.5              |
 
-Pricing can be specified by expanding Model Configuration, see [our model catalog](https://wandb.ai/inference) for costs and alternate model choices.
+Pricing can be specified by expanding Model Configuration. For model availability and pricing, see [our model catalog](https://wandb.ai/inference).
 
-Click the Continue button.
+Click the `Continue` button.
 
 Try submitting a prompt like "Write a Python program to compute the first 10 Fibonacci Numbers".
 
@@ -85,4 +87,4 @@ Try submitting a prompt like "Write a Python program to compute the first 10 Fib
   style={{width: "300px"}}
 />
 
-See the [Cline Docs](https://docs.cline.bot) for next steps.
+For more information on using Cline, see the [Cline Documentation](https://docs.cline.bot).
