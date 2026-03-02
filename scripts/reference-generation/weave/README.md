@@ -21,7 +21,7 @@ The system generates three types of documentation:
 These scripts are intended for development/CI use only, not production environments:
 
 1. **Python Dependencies**: We use minimal dependencies (`requests` and `lazydocs`) with pinned versions
-2. **Network Access**: Scripts download from trusted sources (pypi.org, npm registry, trace.wandb.ai)
+2. **Network Access**: Scripts download from trusted sources (pypi.org, npm registry, api.inference.wandb.ai, trace.wandb.ai)
 3. **File System**: Scripts write only to the local `weave/` directory structure
 4. **No Sensitive Data**: Scripts don't handle authentication or sensitive information
 
@@ -163,7 +163,7 @@ Then navigate to the reference documentation sections to verify the output.
 The Service API documentation uses a multi-step process:
 
 1. **`sync_openapi_spec.py`**:
-   - Downloads the latest OpenAPI spec from https://trace.wandb.ai/openapi.json
+   - Downloads the latest OpenAPI spec (GitHub first, then https://api.inference.wandb.ai/v1/openapi.json)
    - Compares with local copy to detect changes
    - Saves to `weave/reference/service-api/openapi.json`
    - Can switch between local and remote spec in docs.json

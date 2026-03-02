@@ -84,7 +84,7 @@ jobs:
           This PR updates the Service API documentation based on the latest OpenAPI specification.
           
           **Generated on**: ${{ steps.timestamp.outputs.timestamp }}
-          **OpenAPI spec source**: https://trace.wandb.ai/openapi.json
+          **OpenAPI spec source**: https://api.inference.wandb.ai/v1/openapi.json
           
           ### Changes
           - Synced latest OpenAPI specification from the Weave service

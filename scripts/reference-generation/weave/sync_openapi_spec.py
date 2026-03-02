@@ -18,17 +18,21 @@ import sys
 from typing import Optional, Tuple
 
 # Remote OpenAPI spec URL
+# We fetch the spec from the Inference API (api.inference.wandb.ai/v1) so that the full
+# Inference APIs are included (e.g. OpenRouter models), instead of the filtered set
+# exposed via trace.wandb.ai/inference/v1.
 # Primary: GitHub raw URL (if available in wandb/core repo - more stable, version-controlled)
-# Fallback: Live service URL (may change frequently)
+# Fallback: Live Inference API URL
 GITHUB_SPEC_URL = "https://raw.githubusercontent.com/wandb/core/master/services/weave-trace/openapi.json"
-LIVE_SPEC_URL = "https://trace.wandb.ai/openapi.json"
+LIVE_SPEC_URL = "https://api.inference.wandb.ai/v1/openapi.json"
 REMOTE_SPEC_URL = GITHUB_SPEC_URL  # Try GitHub first, fallback to live service in fetch_remote_spec
 
 
-def fetch_remote_spec(url: str = None) -> dict:
+def fetch_remote_spec(url: str = None) -> Optional[dict]:
     """Fetch the OpenAPI spec from the remote service.
     
-    Tries GitHub first (more stable), falls back to live service if GitHub fails.
+    Tries GitHub first (more stable), falls back to live Inference API
+    (api.inference.wandb.ai/v1) if GitHub fails.
     For private repos, uses GITHUB_TOKEN or GITHUB_PAT from environment if available.
     """
     if url is None:
@@ -47,11 +51,12 @@ def fetch_remote_spec(url: str = None) -> dict:
             response.raise_for_status()
             return response.json()
         except requests.RequestException as e:
-            if response.status_code == 404 and not github_token:
-                print(f"  ⚠ GitHub spec not available (404 - may require authentication for private repo): {e}")
+            err_msg = str(e)
+            if not github_token and "404" in err_msg:
+                print(f"  GitHub spec not available (404 - may require authentication for private repo): {e}")
             else:
-                print(f"  ⚠ GitHub spec not available: {e}")
-            print(f"  Falling back to live service: {LIVE_SPEC_URL}...")
+                print(f"  GitHub spec not available: {e}")
+            print(f"  Falling back to Inference API: {LIVE_SPEC_URL}...")
             url = LIVE_SPEC_URL
     
     print(f"  Fetching remote spec from {url}...")
@@ -60,7 +65,7 @@ def fetch_remote_spec(url: str = None) -> dict:
         response.raise_for_status()
         return response.json()
     except requests.RequestException as e:
-        print(f"  ✗ Failed to fetch remote spec: {e}")
+        print(f"  Failed to fetch remote spec: {e}")
         return None
 
 
