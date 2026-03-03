@@ -1,10 +1,18 @@
-# Ignore .md and .txt files, Mintlify supports only .mdx
-*.md
-*.txt
+# Root-level Markdown (avoids publishing /AGENTS, /CODE_OF_CONDUCT, /SECURITY, etc.)
+# Mintlify already ignores README.md, CONTRIBUTING.md, CHANGELOG.md, LICENSE.md by default.
+/*.md
 
-# Ignore other plaintext files
-LICENSE
+# Repo and ops directories (not part of published docs)
+scripts/
+runbooks/
 
-# Ignore non-content directories
-runbooks/*
-scripts/*
+# Top-level config and assets (not doc pages)
+/*.js
+/*.css
+/*.yaml
+/*.toml
+/*.txt
+/package.json
+/package-lock.json
+/LICENSE
+/THIRD-PARTY-NOTICES.txt
