@@ -31,7 +31,7 @@ This release includes security enhancements to API keys, streamlined navigation 
 
 ## Support and end of life
 
-- W&B Server v0.65 and below will reach end of life on January 30, 2026.
+- W&B Server v0.65 has reached end of life.
 
 Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
 
@@ -143,8 +143,7 @@ W&B v0.76 delivers a major boost to experiment insight and productivity, introdu
 
 ## Support and end of life
 
-- W&B Server v0.63 and below reached end of life on November 20, 2025.
-- W&B Server v0.65 is scheduled to reach end of life on January 30, 2026.
+- W&B Server v0.63 has reached end of life.
 
 ## Features
 
@@ -205,8 +204,7 @@ W&B v0.76 delivers a major boost to experiment insight and productivity, introdu
 W&B v0.75 enhances Registry with a new Restricted Viewer role, the ability to star registries, and programmatic Registry access control over SCIM. The new automation execution history view helps you to understand and debug your automations. Visualize config-driven effects with semantic coloring by config properties such as hyperparameters, view full-fidelity plots for system metrics, and more.
 
 ## Support and end of life
-- W&B Server v0.61 and below reached end of life on October 28, 2025.
-- W&B Server v0.63 is scheduled to reach end of life on November 26, 2025.
+- W&B Server v0.61 has reached end of life.
 
 Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
 
@@ -277,8 +275,7 @@ Part of this change is included in Server v0.75: the left sidebar now indicates 
 W&B v0.74 delivers SCIM API improvements for enterprise identity management, including automated group sync with Okta, streamlined user role configuration, and more. In Dedicated Cloud, a powerful new full-screen image browser helps you inspect and compare images within and between runs. Weave enhancements include in-Playground LLM judge evaluations, better visibility into multi-turn Thread tool calls, DSPy improvements, and a new integration with the Verifiers library for Reinforcement Learning workflows. W&B Inference adds support for the [Z.AI](https://z.ai/) GLM v4.5 hybrid reasoning model.
 
 ## Support and end of life
-- W&B Server v0.60 and below reached end of life on October 2, 2025.
-- W&B Server v0.61 is scheduled to reach end of life on October 28, 2025.
+- W&B Server v0.60 has reached end of life.
 
 ## Features
 - The SCIM API has been enhanced:
@@ -379,6 +376,9 @@ In v0.73.0, resizing or reordering workspace panels may not be reflected in save
 <Update label="v0.72.0" description="August 6, 2025">
 W&B 0.72 includes fixes for line plots and media panels, as well as improvements to Weave integrations for OpenTelemetry and Google Agent Development Kit.
 
+## Support and end of life
+- W&B Server v0.58 has reached end of life.
+
 ## Upcoming changes
 - We’re optimizing our rendering behavior in the workspace to provide faster loading in workspaces with many panels, as well as more responsive and accurate drag-and-drop of panels in workspaces. **As part of this, we plan to remove the “Custom grid” layout in workspace sections in the next (0.73) release.** Custom grids will remain available in Reports. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions or concerns.
 - In an upcoming release, we will align multi-run and single-run workspace views, so when you drill into a single run, you’ll see the same layout and configuration of panels as you’ve configured for the multi-run view, including any custom charts, layouts, and settings. The goal is help you stay in context and avoid re-work around configuring your views. However, this will remove the ability to customize unique single-run views, isolated from the rest of the workspace. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions about the migration.
@@ -395,10 +395,7 @@ W&B 0.72 includes fixes for line plots and media panels, as well as improvements
 With W&B Server 0.71, Registry is turned on by default for all organizations. For more details about the staged Registry rollout, see the relevant note in Features. This release brings several improvements and fixes to workspaces: Keep media panels with a common step slider in sync, navigate through through full-screen panels more efficiently, and find more details about a run’s total duration and time actively running. in the Run Overview page. Automations have been enhanced, and you can now trigger an automation based on an artifact version’s tags. {/* more */}
 
 ## Support and end of life
-<ul>
-  <li>W&B Server v0.57 and below reached end of life on July 29, 2025.</li>
-  <li>W&B Server v0.58 is scheduled to reach end of life on September 2, 2025.</li>
-</ul>{/* This is in HTML to fix the admonition included below showing up as a child of the second item */}
+- W&B Server v0.57 has reached end of life.
 
 ## Upcoming changes
 - We’re optimizing our rendering behavior in the workspace to provide faster loading in workspaces with many panels, as well as more responsive and accurate drag-and-drop of panels in workspaces. **As part of this, we plan to remove the “Custom grid” layout in workspace sections in the next (0.72) release.** Custom grids will remain available in Reports. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions or concerns.
@@ -469,6 +466,9 @@ These bugs were introduced in v0.70.0.
 <Update label="v0.70.0" description="July 7, 2025">
 W&B Server v0.70 includes features, enhancements, and performance improvements to help you gain and share insights more efficiently. For example:
 
+## Support and end of life
+- W&B Server v0.56 has reached end of life.
+
 ## Upcoming changes
 - In an upcoming release, we will align multi-run and single-run workspace views, so when you drill into a single run, you’ll see the same layout and configuration of panels as you’ve configured for the multi-run view, including any custom charts, layouts, and settings. The goal is help you stay in context and avoid re-work around configuring your views. However, this will remove the ability to customize unique single-run views, isolated from the rest of the workspace. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions about the migration.
 - Over the next several releases, we will migrate existing team-level Model Registry W&B Registry. For details and a timeline, see the [W&B Registry GA announcement](#registry_ga_announcement) below.
@@ -523,6 +523,9 @@ W&B Server v0.70 includes features, enhancements, and performance improvements t
 </Update>
 
 <Update label="v0.69.0" description="May 28, 2025">
+## Support and end of life
+- W&B Server v0.56 has reached end of life.
+
 ## Upgrading
 To [upgrade](/platform/hosting/server-upgrade-process/#update-with-helm) to W&B v0.69.x, you must use v0.31.4+ of the `operator-wandb` Helm chart. Otherwise, after the upgrade, the `weave-cache-clear` container can fail to start. Ensure that your deployment uses these values:
 
@@ -706,13 +709,4 @@ Private preview features are available by invitation only. To request enrollment
 ## Security
 - Limited the maximum depth for a GraphQL document to 20.
 - Upgraded pyarrow to v17.0.0.
-</Update>
-
-<Update label="v0.65.0" description="January 30, 2025">
-## Features
-- From a registry's **Settings**, you can now update the owner to a different user with the Admin role. Select **Owner** from the user's **Role** menu.
-- You can now move a run to a different group in the same project. Hover over a run in the run list, click the three-vertical-dots menu, and choose **Move to another group**.
-- You can now configure whether the **Log Scale setting** for line plots is enabled by default at the level of the workspace or section. 
-  - To configure the behavior for a workspace, click the action `...` menu for the workspace, click **Line plots**, then toggle **Log scale** for the X or Y axis.
-  - To configure the behavior for a section, click the gear icon for the section, then toggle **Log scale** for the X or Y axis.
 </Update>
