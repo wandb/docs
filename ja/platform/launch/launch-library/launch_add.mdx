@@ -48,10 +48,9 @@ launch_add(
 | `docker_image`       | run に使用する Docker イメージの名前。                                                                                    |
 | `resource_args`      | リモートバックエンド上で run を起動するためのリソース関連引数。構築される Launch 設定上の `resource_args` に保存される。                                  |
 | `run_id`             | 起動された run の ID を示す任意の文字列。                                                                                    |
-| `build`              | 省略可能なフラグでデフォルトは false。build する場合は queue の指定が必須。イメージを作成し、job アーティファクトを作成し、その job アーティファクトへの参照を queue にプッシュする。 |
+| `build`              | 省略可能なフラグでデフォルトは false。build する場合は queue の指定が必須。イメージを作成し、job Artifacts を作成し、その job Artifacts への参照を queue にプッシュする。 |
 | `repository`         | レジストリにイメージをプッシュする際に使用される、リモートリポジトリ名を制御するための任意の文字列。                                                           |
 | `project_queue`      | queue 用のプロジェクト名を制御するための任意の文字列。主にプロジェクトスコープ queue との後方互換性のために使用。                                              |
-
 
 <div id="example">
   #### 例：

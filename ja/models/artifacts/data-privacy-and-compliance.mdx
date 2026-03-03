@@ -1,17 +1,17 @@
 ---
 description: 既定で W&B のファイルがどこに保存されるか、機密情報を保存・管理する方法について説明します。
-title: アーティファクトのデータプライバシーとコンプライアンス
+title: Artifacts のデータプライバシーとコンプライアンス
 ---
 
-ファイルは、アーティファクトをログするときに W&amp;B が管理する Google Cloud バケットにアップロードされます。バケットの内容は、保存時および転送中の両方で暗号化されます。アーティファクトファイルは、対応するプロジェクトにアクセス権を持つユーザーにのみ表示されます。
+ファイルは、 Artifacts をログするときに W&amp;B が管理する Google Cloud バケットにアップロードされます。バケットの内容は、保存時および転送中の両方で暗号化されます。 Artifacts ファイルは、対応するプロジェクトにアクセス権を持つユーザーにのみ表示されます。
 
 <Frame>
   <img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B クライアントサーバー図" />
 </Frame>
 
-アーティファクトのバージョンを削除すると、それは W&amp;B のデータベースでソフト削除としてマークされ、ストレージコストからは除外されます。アーティファクト全体を削除すると、完全削除の対象としてキューに登録され、その内容はすべて W&amp;B バケットから削除されます。ファイル削除に関して特別な要件がある場合は、[Customer Support](mailto:support@wandb.com) までお問い合わせください。
+Artifacts のバージョンを削除すると、それは W&amp;B のデータベースでソフト削除としてマークされ、ストレージコストからは除外されます。 Artifacts 全体を削除すると、完全削除の対象としてキューに登録され、その内容はすべて W&amp;B バケットから削除されます。ファイル削除に関して特別な要件がある場合は、[Customer Support](mailto:support@wandb.com) までお問い合わせください。
 
-既定では、削除されたアーティファクトは 7 日間保持され、この期間中であれば復元できます。この保持期間は Dedicated Cloud では設定可能です。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud#data-retention-policy) のデータ保持について詳しくはそれぞれのページを参照してください。
+既定では、削除された Artifacts は 7 日間保持され、この期間中であれば復元できます。この保持期間は Dedicated Cloud では設定可能です。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud#data-retention-policy) のデータ保持について詳しくはそれぞれのページを参照してください。
 
 マルチテナント環境に配置できない機密性の高いデータセットについては、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [reference artifacts](/ja/models/artifacts/track-external-files) を使用できます。reference artifacts は、ファイルの内容を W&amp;B に送信することなく、プライベートバケットへの参照を追跡します。reference artifacts は、お使いのバケットまたはサーバー上のファイルへのリンクを保持します。W&amp;B はファイルそのものではなく、ファイルに関連付けられたメタデータのみを追跡します。
 

@@ -18,7 +18,7 @@ description: W&B Inference でストリーミング出力を使用する方法
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # https://wandb.ai/settings で APIキーを作成
+        api_key="<your-api-key>",  # https://wandb.ai/settings で API キーを作成
     )
 
     stream = client.chat.completions.create(

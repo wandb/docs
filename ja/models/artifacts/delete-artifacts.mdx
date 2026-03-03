@@ -1,38 +1,38 @@
 ---
-description: W&amp;B App の UI を使って対話的に、または W&amp;B Python SDK を使ってプログラム的にアーティファクトを削除します。
-title: アーティファクトを削除する
+description: W&amp;B App の UI を使って対話的に、または W&amp;B Python SDK を使ってプログラム的に Artifacts を削除します。
+title: Artifacts を削除する
 ---
 
-W&amp;B App を使って対話的に、または W&amp;B Python SDK を使ってプログラム的にアーティファクトを削除できます。アーティファクトを削除すると、W&amp;B はそのアーティファクトを *ソフト削除* としてマークします。つまり、アーティファクトは削除対象としてマークされますが、ファイルはすぐにはストレージから削除されません。
+W&amp;B App を使って対話的に、または W&amp;B Python SDK を使ってプログラム的に Artifacts を削除できます。 Artifacts を削除すると、W&amp;B はその Artifacts を *ソフト削除* としてマークします。つまり、 Artifacts は削除対象としてマークされますが、ファイルはすぐにはストレージから削除されません。
 
-アーティファクトは、定期的に実行されるガベージコレクション プロセスが削除対象としてマークされたすべてのアーティファクトを確認するまで、ソフト削除、つまり削除保留状態のままです。ガベージコレクション プロセスは、そのアーティファクトおよび関連ファイルが前後のアーティファクトのバージョンで使用されていない場合、関連ファイルをストレージから削除します。
+Artifacts は、定期的に実行されるガベージコレクション プロセスが削除対象としてマークされたすべての Artifacts を確認するまで、ソフト削除、つまり削除保留状態のままです。ガベージコレクション プロセスは、その Artifacts および関連ファイルが前後の Artifacts のバージョンで使用されていない場合、関連ファイルをストレージから削除します。
 
 <div id="artifact-garbage-collection-workflow">
-  ## アーティファクト ガベージコレクションのワークフロー
+  ## Artifacts ガベージコレクションのワークフロー
 </div>
 
-次の図は、アーティファクト ガベージコレクションの全体的な処理フローを示しています。
+次の図は、 Artifacts ガベージコレクションの全体的な処理フローを示しています。
 
 ```mermaid
 graph TB
-    Start([アーティファクト削除開始]) --> DeleteMethod{削除方法}
+    Start([Artifacts 削除開始]) --> DeleteMethod{削除方法}
     
     DeleteMethod -->|UI| UIDelete[W&B App から削除]
     DeleteMethod -->|SDK| SDKDelete[W&B Python SDK から削除]
     DeleteMethod -->|TTL| TTLDelete[TTL ポリシーの有効期限切れ]
     
-    UIDelete --> SoftDelete[アーティファクトが<br/>'ソフト削除' としてマーク]
+    UIDelete --> SoftDelete[Artifacts が<br/>'ソフト削除' としてマーク]
     SDKDelete --> SoftDelete
     TTLDelete --> SoftDelete
     
     SoftDelete --> GCWait[(ガベージコレクション<br/>プロセスを<br/>待機)]
     
-    GCWait --> GCRun[ガベージコレクション<br/>プロセス実行<br/><br/>- ソフト削除済みアーティファクトをすべて確認<br/>- ファイルの依存関係を確認]
+    GCWait --> GCRun[ガベージコレクション<br/>プロセス実行<br/><br/>- ソフト削除済み Artifacts をすべて確認<br/>- ファイルの依存関係を確認]
     
-    GCRun --> CheckUsage{ファイルは他の<br/>アーティファクトバージョンで<br/>使用されているか？}
+    GCRun --> CheckUsage{ファイルは他の<br/>Artifacts バージョンで<br/>使用されているか？}
     
-    CheckUsage -->|Yes| KeepFiles[ファイルをストレージに保持<br/><br/>- アーティファクトは削除済みとしてマーク<br/>- ファイルは他のバージョン用に保持]
-    CheckUsage -->|No| DeleteFiles[ファイルをストレージから削除<br/><br/>- アーティファクトを完全に削除<br/>- ストレージ容量を解放]
+    CheckUsage -->|Yes| KeepFiles[ファイルをストレージに保持<br/><br/>- Artifacts は削除済みとしてマーク<br/>- ファイルは他のバージョン用に保持]
+    CheckUsage -->|No| DeleteFiles[ファイルをストレージから削除<br/><br/>- Artifacts を完全に削除<br/>- ストレージ容量を解放]
     
     KeepFiles --> End([終了])
     DeleteFiles --> End
@@ -45,58 +45,58 @@ graph TB
     style End fill:#e0e0e0,stroke:#333,stroke-width:2px,color:#000
 ```
 
-W&amp;B のアーティファクトを削除するタイミングは、TTL ポリシーでスケジュールできます。詳細については、[Artifact TTL ポリシーによるデータ保持の管理](./ttl) を参照してください。
+W&amp;B の Artifacts を削除するタイミングは、TTL ポリシーでスケジュールできます。詳細については、[Artifact TTL ポリシーによるデータ保持の管理](./ttl) を参照してください。
 
 <Note>
-  TTL ポリシー、W&amp;B Python SDK、または W&amp;B App によって削除されたアーティファクトは、最初にソフトデリートされます。ソフトデリートされたアーティファクトは、その後ガーベジコレクションの対象となり、最終的に完全に削除されます。
+  TTL ポリシー、W&amp;B Python SDK、または W&amp;B App によって削除された Artifacts は、最初にソフトデリートされます。ソフトデリートされた Artifacts は、その後ガーベジコレクションの対象となり、最終的に完全に削除されます。
 </Note>
 
 <Note>
-  Entity、プロジェクト、またはアーティファクト コレクションを削除すると、このページで説明しているアーティファクト削除プロセスが開始されます。run を削除するときに関連付けられたアーティファクトも削除することを選択した場合、それらのアーティファクトも同じソフトデリートとガーベジコレクションのワークフローに従います。
+  Entity、プロジェクト、または Artifacts コレクションを削除すると、このページで説明している Artifacts 削除プロセスが開始されます。run を削除するときに関連付けられた Artifacts も削除することを選択した場合、それらの Artifacts も同じソフトデリートとガーベジコレクションのワークフローに従います。
 </Note>
 
 <div id="delete-an-artifact-version">
-  ## アーティファクトのバージョンを削除する
+  ## Artifacts のバージョンを削除する
 </div>
 
-アーティファクトのバージョンは、W&amp;B App を使って対話的に、または W&amp;B Python SDK を使ってプログラムで削除できます。
+Artifacts のバージョンは、W&amp;B App を使って対話的に、または W&amp;B Python SDK を使ってプログラムで削除できます。
 
 <Tabs>
   <Tab title="W&B App" value="ui">
-    アーティファクトのバージョンを削除するには、次の手順を実行します。
+    Artifacts のバージョンを削除するには、次の手順を実行します。
 
-    1. 削除したいアーティファクトのバージョンを含むプロジェクトに移動します。
+    1. 削除したい Artifacts のバージョンを含むプロジェクトに移動します。
     2. **Artifacts** タブを選択します。
-    3. アーティファクトの種類一覧から、削除したいバージョンを含むアーティファクトの種類を選択します。
-    4. 削除したいアーティファクトのバージョンの横にある三点リーダー アイコン（`...`）をクリックします。
+    3. Artifacts の種類一覧から、削除したいバージョンを含む Artifacts の種類を選択します。
+    4. 削除したい Artifacts のバージョンの横にある三点リーダー アイコン（`...`）をクリックします。
     5. ドロップダウン メニューから **Delete Version** を選択します。
   </Tab>
 
   <Tab title="W&B Python SDK" value="sdk">
-    [wandb.Artifact.delete()](/ja/models/ref/python/experiments/artifact#delete) メソッドを使って、アーティファクトのバージョンをプログラムで削除できます。アーティファクトのフルネームを指定します。フルネームは `<entity>/<project>/<artifact_name>:<version>` という形式です。`delete_aliases` パラメーターを `True` に設定すると、1 つ以上のエイリアスが関連付けられているアーティファクトでも削除できます。
+    [wandb.Artifact.delete()](/ja/models/ref/python/experiments/artifact#delete) メソッドを使って、 Artifacts のバージョンをプログラムで削除できます。 Artifacts のフルネームを指定します。フルネームは `<entity>/<project>/<artifact_name>:<version>` という形式です。`delete_aliases` パラメーターを `True` に設定すると、1 つ以上のエイリアスが関連付けられている Artifacts でも削除できます。
 
     ```python
     import wandb
 
     api = wandb.Api()
 
-    # パスからアーティファクトを取得
+    # パスから Artifacts を取得
     artifact = api.artifact("<entity>/<project>/<artifact_name>:<version>")
 
-    # エイリアスも含めてアーティファクトのバージョンを削除
+    # エイリアスも含めて Artifacts のバージョンを削除
     artifact.delete(delete_aliases=True)
     ```
   </Tab>
 </Tabs>
 
 <div id="delete-multiple-artifact-versions">
-  ## 複数のアーティファクトバージョンを削除する
+  ## 複数の Artifacts バージョンを削除する
 </div>
 
-次のコード例は、複数のアーティファクトバージョンを削除する方法を示します。`wandb.Api.run()` に、アーティファクトを作成した entity、プロジェクト名、run ID を引数として指定します。これにより、その run が作成したすべてのアーティファクトバージョンにアクセスできる run オブジェクトが返されます。次に、アーティファクトバージョンを順に処理し、条件に一致するものを削除します。
+次のコード例は、複数の Artifacts バージョンを削除する方法を示します。`wandb.Api.run()` に、 Artifacts を作成した entity、プロジェクト名、run ID を引数として指定します。これにより、その run が作成したすべての Artifacts バージョンにアクセスできる run オブジェクトが返されます。次に、 Artifacts バージョンを順に処理し、条件に一致するものを削除します。
 
 <Tip>
-  `delete_aliases` パラメーターを `True`（`wandb.Artifact.delete(delete_aliases=True)`）に設定すると、アーティファクトバージョンと、それに関連付けられたすべてのエイリアスを削除できます。
+  `delete_aliases` パラメーターを `True`（`wandb.Artifact.delete(delete_aliases=True)`）に設定すると、 Artifacts バージョンと、それに関連付けられたすべてのエイリアスを削除できます。
 </Tip>
 
 `<entity>`、`<project>`、`<run_id>`、`<artifact_name>` のプレースホルダーを、ご自身の値に置き換えてください：
@@ -110,23 +110,23 @@ api = wandb.Api()
 # パスで run を取得する。<entity>/<project>/<run_id> で構成される
 run = api.run("<entity>/<project>/<run_id>")
 
-# バージョンを削除するアーティファクト名を指定する
+# バージョンを削除する Artifacts 名を指定する
 artifact_name = "<artifact_name>"
 
-# 指定した名前のアーティファクトバージョンを検索して削除する
+# 指定した名前の Artifacts バージョンを検索して削除する
 for artifact in run.logged_artifacts():
     print(f"Found artifact: {artifact.name}") # 例: run_4dfbufgq_model:v0
-    # split() を使ってバージョンを除いたアーティファクト名のみを取得する
+    # split() を使ってバージョンを除いた Artifacts 名のみを取得する
     if artifact.name.split(":")[0] == artifact_name:
-        print(f"アーティファクトバージョンを削除中: {artifact.name}")
+        print(f"Artifacts バージョンを削除中: {artifact.name}")
         artifact.delete(delete_aliases=True)
 ```
 
 <div id="delete-multiple-artifact-versions-with-a-specific-alias">
-  ## 特定のエイリアスを持つ複数のアーティファクトバージョンを削除する
+  ## 特定のエイリアスを持つ複数の Artifacts バージョンを削除する
 </div>
 
-次のコードは、特定のエイリアスを持つ複数のアーティファクトバージョンを削除する方法を示します。
+次のコードは、特定のエイリアスを持つ複数の Artifacts バージョンを削除する方法を示します。
 
 `<entity>`、`<project>`、`<run_id>`、`<artifact_name>`、`<alias>` のプレースホルダーをそれぞれ適切な値に置き換えてください：
 
@@ -139,13 +139,13 @@ api = wandb.Api()
 # パスで run を取得する。<entity>/<project>/<run_id> で構成される
 run = api.run("<entity>/<project>/<run_id>")
 
-# バージョンを削除するアーティファクト名を指定する
+# バージョンを削除する Artifacts 名を指定する
 artifact_name = "<artifact_name>"
 
-# 削除するアーティファクトバージョンをフィルタリングするエイリアスを指定する
+# 削除する Artifacts バージョンをフィルタリングするエイリアスを指定する
 desired_alias = "<alias>"
 
-# エイリアス 'v3' および 'v4' を持つ run に記録されたアーティファクトを削除する
+# エイリアス 'v3' および 'v4' を持つ run に記録された Artifacts を削除する
 for artifact in run.logged_artifacts():
     print(f"Found artifact: {artifact.name}")
     if (artifact.name.split(":")[0] == artifact_name) and (desired_alias in artifact.aliases):
@@ -153,22 +153,22 @@ for artifact in run.logged_artifacts():
 ```
 
 <div id="delete-an-artifact-collection">
-  ## アーティファクト コレクションを削除する
+  ## Artifacts コレクションを削除する
 </div>
 
 <Tabs>
   <Tab title="W&B App" value="ui">
-    アーティファクト コレクションを削除するには、次の手順を実行します。
+    Artifacts コレクションを削除するには、次の手順を実行します。
 
-    1. 削除するアーティファクト コレクションに移動します。
-    2. アーティファクト コレクション名の横にある三点アイコン (`...`) を選択します。
+    1. 削除する Artifacts コレクションに移動します。
+    2. Artifacts コレクション名の横にある三点アイコン (`...`) を選択します。
     3. ドロップダウン メニューから **Delete** を選択します。
   </Tab>
 
   <Tab title="W&B Python SDK" value="sdk">
-    [wandb.Artifact.delete()](/ja/models/ref/python/experiments/artifact#delete) メソッドを使って、アーティファクト コレクションをプログラムから削除します。
+    [wandb.Artifact.delete()](/ja/models/ref/python/experiments/artifact#delete) メソッドを使って、 Artifacts コレクションをプログラムから削除します。
 
-    `wandb.Api.artifact_collection(name="")` に、アーティファクト コレクションのフルパスを指定します。フルパスは `<entity>/<project>/<artifact_collection_name>` という形式です。
+    `wandb.Api.artifact_collection(name="")` に、 Artifacts コレクションのフルパスを指定します。フルパスは `<entity>/<project>/<artifact_collection_name>` という形式です。
 
     ```python
     import wandb
@@ -176,7 +176,7 @@ for artifact in run.logged_artifacts():
     # W&B API を初期化
     api = wandb.Api()
 
-    # パスでアーティファクト コレクションを取得する。
+    # パスで Artifacts コレクションを取得する。
     # 形式は <entity>/<project>/<artifact_collection_name>
     collection = api.artifact_collection(
         type_name = "<artifact_type>",
@@ -197,9 +197,9 @@ for artifact in run.logged_artifacts():
   **保護されたエイリアスに関する重要な注意事項:**
 
   * 保護されたエイリアスを持つ Artifacts は、レジストリ管理者以外のユーザーは削除できません。
-  * レジストリ内では、レジストリ管理者は保護されたアーティファクト バージョンのリンクを解除し、保護されたエイリアスを含むコレクションやレジストリを削除できます。
-  * ソース アーティファクトについて: ソース アーティファクトが保護されたエイリアスを持つレジストリにリンクされている場合、どのユーザーも削除できません。
-  * レジストリ管理者はソース アーティファクトから保護されたエイリアスを削除したうえで、ソース アーティファクト自体を削除できます。
+  * レジストリ内では、レジストリ管理者は保護された Artifacts バージョンのリンクを解除し、保護されたエイリアスを含むコレクションやレジストリを削除できます。
+  * ソース Artifacts について: ソース Artifacts が保護されたエイリアスを持つレジストリにリンクされている場合、どのユーザーも削除できません。
+  * レジストリ管理者はソース Artifacts から保護されたエイリアスを削除したうえで、ソース Artifacts 自体を削除できます。
 </Note>
 
 <div id="enable-garbage-collection-based-on-how-wb-is-hosted">

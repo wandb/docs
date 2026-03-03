@@ -1,5 +1,5 @@
 ---
-title: APIキーの作成と管理方法
+title: API キーの作成と管理方法
 ---
 
 import ApiKeyFind from "/snippets/ja/_includes/api-key-find.mdx";
@@ -8,26 +8,26 @@ import ApiKeySecurity from "/snippets/ja/_includes/api-key-security.mdx";
 import ServiceAccountApiKeyDelete from "/snippets/ja/_includes/service-account-api-key-delete.mdx";
 
 <div id="create-a-new-api-key">
-  ## 新しい APIキーを作成する
+  ## 新しい API キーを作成する
 </div>
 
 <ApiKeyCreate />
 
 <div id="find-your-api-keys">
-  ## APIキーを確認する
+  ## API キーを確認する
 </div>
 
 <ApiKeyFind />
 
 <div id="delete-an-api-key">
-  ## APIキーを削除する
+  ## API キーを削除する
 </div>
 
 <Warning>
-  APIキーを削除すると、そのキーを使用しているすべてのスクリプトやサービスへのアクセスは即時に取り消されます。古いキーを削除する前に、すべてのシステムが新しいキーを使用するように更新されていることを確認してください。
+  API キーを削除すると、そのキーを使用しているすべてのスクリプトやサービスへのアクセスは即時に取り消されます。古いキーを削除する前に、すべてのシステムが新しいキーを使用するように更新されていることを確認してください。
 </Warning>
 
-アクセスを取り消すには、APIキーを削除します。詳細を確認するには、**Personal API key** または **Service Account API key** タブを選択します。
+アクセスを取り消すには、API キーを削除します。詳細を確認するには、**Personal API key** または **Service Account API key** タブを選択します。
 
 <Tabs>
   <Tab title="Personal API key">
@@ -38,7 +38,7 @@ import ServiceAccountApiKeyDelete from "/snippets/ja/_includes/service-account-a
   <Tab title="Service account API key">
     <ServiceAccountApiKeyDelete />
 
-    ワークフローを自動化するためのサービスアカウントの使用については、[using service accounts to automate workflows](/ja/platform/hosting/iam/service-accounts) を参照してください。
+    ワークフローを自動化するためのサービスアカウントの使用については、[サービスアカウントを使用したワークフローの自動化](/ja/platform/hosting/iam/service-accounts) を参照してください。
   </Tab>
 </Tabs>
 

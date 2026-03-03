@@ -51,7 +51,7 @@ trainer = Trainer(logger=wandb_logger)
 | `entity`         | W&amp;B entity の名前。あなたのユーザー名や W&amp;B Team 名など (str, 省略可)                                                                                                                                                |
 | `tags`           | W&amp;B のタグ (List[str], 省略可)                                                                                                                                                                             |
 | `log_artifacts`  | チェックポイントを wandb にログするかどうか。デフォルト: `false` (bool, 省略可)                                                                                                                                                     |
-| `rank_zero_only` | ランク 0 のプロセスでのみログするかどうか。アーティファクトをログする場合は、すべてのランクでログすることを強く推奨します。ランク ≥ 1 のアーティファクトは保存されず、重要な情報が失われる可能性があります。例えば DeepSpeed ZeRO を使用している場合、すべてのランクからのアーティファクトがないとチェックポイントから復元できません。デフォルト: `True` (bool, 省略可) |
+| `rank_zero_only` | ランク 0 のプロセスでのみログするかどうか。 Artifacts をログする場合は、すべてのランクでログすることを強く推奨します。ランク ≥ 1 の Artifacts は保存されず、重要な情報が失われる可能性があります。例えば DeepSpeed ZeRO を使用している場合、すべてのランクからの Artifacts がないとチェックポイントから復元できません。デフォルト: `True` (bool, 省略可) |
 | `init_kwargs`    | `wandb.init()` に渡すパラメーター。例えば wandb の `config` など。`wandb.init()` が受け付けるパラメーターについては、[`wandb.init()` parameters](/ja/models/ref/python/functions/init) を参照してください。                                              |
 
 代表的な使用例は次のとおりです。

@@ -8,7 +8,6 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py" />
 
-
 ## <kbd>class</kbd> `Table`
 
 テーブル形式のデータを表示および解析するための `Table` クラスです。 
@@ -48,11 +47,10 @@ Table オブジェクトを初期化します。
 * `allow_mixed_types`:  (bool) 列で混合型を許可するかどうかを指定します（型検証を無効にします）。デフォルトは False。
 * `log_mode`:  Optional[str] 変更が発生したときに Table をどのようにログするかを制御します。オプション:
   * &quot;IMMUTABLE&quot; (デフォルト): Table は 1 回だけログ可能で、テーブルが変更された後の 2 回目以降のログ試行は no-op になります。
-  * &quot;MUTABLE&quot;: 変更後に Table を再度ログでき、そのたびに新しいアーティファクト バージョンが作成されます。
-  * &quot;INCREMENTAL&quot;: Table データをインクリメンタルにログし、前回のログ以降に追加された新しいデータのみを含む新しいアーティファクト エントリを各ログごとに作成します。
+  * &quot;MUTABLE&quot;: 変更後に Table を再度ログでき、そのたびに新しい Artifacts バージョンが作成されます。
+  * &quot;INCREMENTAL&quot;: Table データをインクリメンタルにログし、前回のログ以降に追加された新しいデータのみを含む新しい Artifacts エントリを各ログごとに作成します。
 
 ***
-
 
 ### <kbd>メソッド</kbd> `Table.add_column`
 
@@ -70,7 +68,6 @@ add_column(name, data, optional=False)
 
 ***
 
-
 ### <kbd>メソッド</kbd> `Table.add_computed_columns`
 
 ```python
@@ -87,7 +84,6 @@ add_computed_columns(fn)
 
 ***
 
-
 ### <kbd>method</kbd> `Table.add_data`
 
 ```python
@@ -102,7 +98,6 @@ add_data(*data)
 
 ***
 
-
 ### <kbd>メソッド</kbd> `Table.add_row`
 
 ```python
@@ -112,7 +107,6 @@ add_row(*row)
 非推奨です。代わりに `Table.add_data` メソッドを使用してください。
 
 ***
-
 
 ### <kbd>method</kbd> `Table.cast`
 
@@ -132,7 +126,6 @@ cast(col_name, dtype, optional=False)
 
 ***
 
-
 ### <kbd>method</kbd> `Table.get_column`
 
 ```python
@@ -149,7 +142,6 @@ get_column(name, convert_to=None)
 
 ***
 
-
 ### <kbd>メソッド</kbd> `Table.get_dataframe`
 
 ```python
@@ -159,7 +151,6 @@ get_dataframe()
 テーブルの内容を表す `pandas.DataFrame` を返します。
 
 ***
-
 
 ### <kbd>method</kbd> `Table.get_index`
 

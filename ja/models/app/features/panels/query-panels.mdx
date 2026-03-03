@@ -53,7 +53,7 @@ title: クエリパネルの概要
   ### Expressions
 </div>
 
-W&amp;B に保存されている runs、アーティファクト、モデル、テーブルなどのデータを検索するには、クエリ式を使用します。
+W&amp;B に保存されている runs、 Artifacts 、モデル、テーブルなどのデータを検索するには、クエリ式を使用します。
 
 <div id="example-query-a-table">
   #### 例: テーブルをクエリする
@@ -218,7 +218,7 @@ runs.summary["short_table_1"].table.rows.concat
 
 * `summary`: run の結果を要約した情報の辞書です。精度や損失のようなスカラー値や、大きなファイルを含めることができます。デフォルトでは、`wandb.Run.log()` はログされた時系列の最終値を summary に設定します。summary の内容を直接設定することもできます。summary は run の出力だと考えてください。
 * `history`: 損失のように、モデルがトレーニングされている間に変化する値を保存することを目的とした辞書のリストです。`wandb.Run.log()` コマンドはこのオブジェクトに追記します。
-* `config`: トレーニング run のハイパーパラメーターや、dataset アーティファクトを作成する run における前処理手法など、run の設定情報の辞書です。これらは run の「入力」だと考えてください。
+* `config`: トレーニング run のハイパーパラメーターや、dataset Artifacts を作成する run における前処理手法など、run の設定情報の辞書です。これらは run の「入力」だと考えてください。
 
 <Frame>
   <img src="/images/weave/weave_runs_object.png" alt="Runs オブジェクトの構造" />
@@ -228,12 +228,12 @@ runs.summary["short_table_1"].table.rows.concat
   ## Artifacts へのアクセス
 </div>
 
-Artifacts は W&amp;B における中核的な概念です。Artifacts は、バージョン管理された名前付きのファイルおよびディレクトリの集合です。Artifacts を使ってモデルの重み、データセット、その他のファイルやディレクトリを追跡できます。Artifacts は W&amp;B に保存され、他の run でダウンロードしたり利用したりできます。詳細と例については、[Artifacts へのアクセス](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts) を参照してください。Artifacts には通常、`project` オブジェクトからアクセスします:
+Artifacts は W&amp;B における中核的な概念です。 Artifacts は、バージョン管理された名前付きのファイルおよびディレクトリの集合です。 Artifacts を使ってモデルの重み、データセット、その他のファイルやディレクトリを追跡できます。 Artifacts は W&amp;B に保存され、他の run でダウンロードしたり利用したりできます。詳細と例については、[Artifacts へのアクセス](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts) を参照してください。 Artifacts には通常、`project` オブジェクトからアクセスします:
 
-* `project.artifactVersion()`: 指定されたプロジェクト内で、与えられた名前とバージョンに対応する特定のアーティファクトバージョンを返します
-* `project.artifact("")`: 指定されたプロジェクト内で、与えられた名前に対応するアーティファクトを返します。その後 `.versions` を使って、このアーティファクトのすべてのバージョンのリストを取得できます
-* `project.artifactType()`: 指定されたプロジェクト内で、与えられた名前に対応する `artifactType` を返します。その後 `.artifacts` を使って、このタイプを持つすべてのアーティファクトのリストを取得できます
-* `project.artifactTypes`: プロジェクト内にあるすべてのアーティファクトタイプのリストを返します
+* `project.artifactVersion()`: 指定されたプロジェクト内で、与えられた名前とバージョンに対応する特定の Artifacts バージョンを返します
+* `project.artifact("")`: 指定されたプロジェクト内で、与えられた名前に対応する Artifacts を返します。その後 `.versions` を使って、この Artifacts のすべてのバージョンのリストを取得できます
+* `project.artifactType()`: 指定されたプロジェクト内で、与えられた名前に対応する `artifactType` を返します。その後 `.artifacts` を使って、このタイプを持つすべての Artifacts のリストを取得できます
+* `project.artifactTypes`: プロジェクト内にあるすべての Artifacts タイプのリストを返します
 
 <Frame>
   <img src="/images/weave/weave_artifacts.png" alt="Artifact のアクセス方法" />

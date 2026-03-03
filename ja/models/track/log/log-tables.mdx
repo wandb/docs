@@ -89,7 +89,7 @@ for img_id, img in enumerate(mnist_test_data):
   #### 再開した run へのデータ追加
 </div>
 
-再開した run では、アーティファクトから既存のテーブルを読み込み、最後の行のデータを取得して更新されたメトリクスを追加することで、W&amp;B テーブルを増分的に更新できます。その後、互換性を保つためにテーブルを再初期化し、更新後のバージョンを再度 W&amp;B にログとして記録します。
+再開した run では、 Artifacts から既存のテーブルを読み込み、最後の行のデータを取得して更新されたメトリクスを追加することで、W&amp;B テーブルを増分的に更新できます。その後、互換性を保つためにテーブルを再初期化し、更新後のバージョンを再度 W&amp;B にログとして記録します。
 
 ```python
 import wandb
@@ -97,7 +97,7 @@ import wandb
 # run を初期化する 
 with wandb.init(project="my_project") as run:
 
-    # アーティファクトから既存のテーブルを読み込む
+    # Artifacts から既存のテーブルを読み込む
     best_checkpt_table = run.use_artifact(table_tag).get(table_name)
 
     # 再開用にテーブルの最終行データを取得する
@@ -193,21 +193,21 @@ with wandb.init(project="my_project") as run:
     run.log_artifact(test_predictions)
 ```
 
-image データを用いた `artifact.add()` の[詳細な例についてはこの Colab](https://wandb.me/dsviz-nature-colab) を、Artifacts と Tables を使って[表形式データをバージョン管理し、重複を除去する方法の例についてはこの Report](https://wandb.me/TBV-Dedup) を参照してください。
+image データを用いた `artifact.add()` の[詳細な例についてはこの Colab](https://wandb.me/dsviz-nature-colab) を、 Artifacts と Tables を使って[表形式データをバージョン管理し、重複を除去する方法の例についてはこの Report](https://wandb.me/TBV-Dedup) を参照してください。
 
 <div id="join-artifact-tables">
   ### Artifact テーブルを結合する
 </div>
 
-ローカルで作成したテーブルや、他のアーティファクトから取得したテーブルを `wandb.JoinedTable(table_1, table_2, join_key)` を使って結合できます。
+ローカルで作成したテーブルや、他の Artifacts から取得したテーブルを `wandb.JoinedTable(table_1, table_2, join_key)` を使って結合できます。
 
 | Args         | Description                                                                                    |
 | ------------ | ---------------------------------------------------------------------------------------------- |
-| table&#95;1  | (str, `wandb.Table`, ArtifactEntry) アーティファクト内の `wandb.Table` へのパス、テーブルオブジェクト、または ArtifactEntry |
-| table&#95;2  | (str, `wandb.Table`, ArtifactEntry) アーティファクト内の `wandb.Table` へのパス、テーブルオブジェクト、または ArtifactEntry |
+| table&#95;1  | (str, `wandb.Table`, ArtifactEntry) Artifacts 内の `wandb.Table` へのパス、テーブルオブジェクト、または ArtifactEntry |
+| table&#95;2  | (str, `wandb.Table`, ArtifactEntry) Artifacts 内の `wandb.Table` へのパス、テーブルオブジェクト、または ArtifactEntry |
 | join&#95;key | (str, [str, str]) 結合を行うキー、またはキーのリスト                                                            |
 
-アーティファクト コンテキストでこれまでにログした 2 つの Table を結合するには、アーティファクトからそれらを取得し、その結果を新しい Table に結合します。
+Artifacts コンテキストでこれまでにログした 2 つの Table を結合するには、 Artifacts からそれらを取得し、その結果を新しい Table に結合します。
 
 例えば、次のコード例では、`'original_songs'` という名前のオリジナル曲の Table と、同じ曲の合成バージョンを格納した `'synth_songs'` という別の Table を読み込みます。コードは 2 つのテーブルを `"song_id"` で結合し、その結果のテーブルを新しい W&amp;B Table としてアップロードします。
 
@@ -228,7 +228,7 @@ with wandb.init(project="my_project") as run:
     join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
     join_at = wandb.Artifact("synth_summary", "analysis")
 
-    # テーブルをアーティファクトに追加して W&B にログ
+    # テーブルを Artifacts に追加して W&B にログ
     join_at.add(join_table, "synth_explore")
     run.log_artifact(join_at)
 ```

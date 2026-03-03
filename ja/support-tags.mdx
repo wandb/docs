@@ -1,6 +1,5 @@
 ---
-title: サポートタグ
-Title: サポート
+title: サポート
 ---
 
 import ApiKeyFind from "/snippets/ja/_includes/api-key-find.mdx";
@@ -19,15 +18,15 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="誰が自分の Artifacts にアクセスできますか？">
-    アーティファクトは、親プロジェクトのアクセス権限を継承します。
+    Artifacts は、親プロジェクトのアクセス権限を継承します。
 
-    * プライベートなプロジェクトでは、チームメンバーのみがアーティファクトにアクセスできます。
-    * パブリックなプロジェクトでは、すべてのユーザーがアーティファクトを閲覧できますが、作成や変更ができるのはチームメンバーのみです。
-    * オープンなプロジェクトでは、すべてのユーザーがアーティファクトを読み書きできます。
+    * プライベートなプロジェクトでは、チームメンバーのみが Artifacts にアクセスできます。
+    * パブリックなプロジェクトでは、すべてのユーザーが Artifacts を閲覧できますが、作成や変更ができるのはチームメンバーのみです。
+    * オープンなプロジェクトでは、すべてのユーザーが Artifacts を読み書きできます。
 
     ## Artifacts ワークフロー
 
-    このセクションでは、Artifacts を管理および編集するためのワークフローを説明します。多くのワークフローでは [W&amp;B API](/ja/models/track/public-api-guide) を使用します。これは、W&amp;B に保存されたデータへアクセスするための [クライアント ライブラリ](/ja/models/ref/python/)のコンポーネントです。
+    このセクションでは、 Artifacts を管理および編集するためのワークフローを説明します。多くのワークフローでは [W&amp;B API](/ja/models/track/public-api-guide) を使用します。これは、W&amp;B に保存されたデータへアクセスするための [クライアント ライブラリ](/ja/models/ref/python/)のコンポーネントです。
   </Accordion>
 </Update>
 
@@ -193,7 +192,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
       <img src="/images/app_ui/anon_mode_no_data.png" alt="匿名モードのインターフェース" />
     </Frame>
 
-    * **アーティファクトをログできない**: 匿名 run にアーティファクトをログしようとすると、コマンドラインに警告が表示されます:
+    * **Artifacts をログできない**: 匿名 run に Artifacts をログしようとすると、コマンドラインに警告が表示されます:
       ```bash
       wandb: WARNING Artifacts logged anonymously cannot be claimed and expire after 7 days.
       ```
@@ -203,14 +202,14 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts", "Storage"]}>
-  <Accordion title="各アーティファクト バージョンはどれくらいストレージを使用しますか？">
-    2 つのアーティファクト バージョン間で変更されたファイルのみがストレージコストの対象になります。
+  <Accordion title="各 Artifacts バージョンはどれくらいストレージを使用しますか？">
+    2 つの Artifacts バージョン間で変更されたファイルのみがストレージコストの対象になります。
 
     <Frame>
       <img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifact の重複排除" />
     </Frame>
 
-    `cat.png` と `dog.png` という 2 つの画像ファイルを含む `animals` という名前の画像アーティファクトを想定します:
+    `cat.png` と `dog.png` という 2 つの画像ファイルを含む `animals` という名前の画像 Artifacts を想定します:
 
     ```
     images
@@ -218,9 +217,9 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
     |-- dog.png (1MB) # `v0` で追加
     ```
 
-    このアーティファクトにはバージョン `v0` が割り当てられます。
+    この Artifacts にはバージョン `v0` が割り当てられます。
 
-    新しい画像 `rat.png` を追加すると、新しいアーティファクト バージョン `v1` が次の内容で作成されます:
+    新しい画像 `rat.png` を追加すると、新しい Artifacts バージョン `v1` が次の内容で作成されます:
 
     ```
     images
@@ -235,16 +234,16 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="複数のアーキテクチャや run で artifacts を使用するには？">
-    モデルのバージョン管理にはさまざまな方法があります。Artifacts は 特定のニーズに合わせたモデルのバージョン管理ツールを提供します。複数のモデルアーキテクチャを検証するプロジェクトでよく用いられるアプローチは、アーキテクチャごとにアーティファクトを分ける方法です。次の手順を検討してください:
+    モデルのバージョン管理にはさまざまな方法があります。 Artifacts は 特定のニーズに合わせたモデルのバージョン管理ツールを提供します。複数のモデルアーキテクチャを検証するプロジェクトでよく用いられるアプローチは、アーキテクチャごとに Artifacts を分ける方法です。次の手順を検討してください:
 
-    1. それぞれ異なるモデルアーキテクチャごとに新しいアーティファクトを作成します。run に対して `config` を使用するのと同様に、アーティファクトの `metadata` 属性を使用してアーキテクチャの詳細な説明を追加します。
+    1. それぞれ異なるモデルアーキテクチャごとに新しい Artifacts を作成します。run に対して `config` を使用するのと同様に、 Artifacts の `metadata` 属性を使用してアーキテクチャの詳細な説明を追加します。
     2. 各モデルについて、`log_artifact` を使って定期的にチェックポイントをログします。W&amp;B はこれらのチェックポイントの履歴を構築し、最新のものに `latest` エイリアスを付けます。任意のモデルアーキテクチャに対して、`architecture-name:latest` として最新のチェックポイントを参照できます。
   </Accordion>
 </Update>
 
 <Update tags={["Artifacts", "Sweeps"]}>
   <Accordion title="sweep 内の run からモデルを効果的にログするには？">
-    [sweep](/ja/models/sweeps/) 内の run からモデルをログするための効果的な方法の 1 つは、その sweep 用のモデル アーティファクトを作成することです。各バージョンが sweep 内の異なる run を表します。次のように実装します:
+    [sweep](/ja/models/sweeps/) 内の run からモデルをログするための効果的な方法の 1 つは、その sweep 用のモデル Artifacts を作成することです。各バージョンが sweep 内の異なる run を表します。次のように実装します:
 
     ```python
     wandb.Artifact(name="sweep_name", type="model")
@@ -649,7 +648,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="W&B でこれらの Version ID と ETag を取得するにはどうすればよいですか？">
-    アーティファクト参照が W&amp;B でログされており、バケットでバージョニングが有効になっている場合、Version ID は Amazon S3 UI に表示されます。これらの Version ID と ETag を W&amp;B で取得するには、アーティファクトを取得し、対応する manifest エントリにアクセスします。例:
+    Artifacts 参照が W&amp;B でログされており、バケットでバージョニングが有効になっている場合、Version ID は Amazon S3 UI に表示されます。これらの Version ID と ETag を W&amp;B で取得するには、 Artifacts を取得し、対応する manifest エントリにアクセスします。例:
 
     ```python
     artifact = run.use_artifact("my_table:latest")
@@ -702,8 +701,8 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts"]}>
-  <Accordion title="sweep 内の最も性能の良い run からアーティファクトを見つけるにはどうすればいいですか？">
-    sweep 内で最も性能の良い run からアーティファクトを取得するには、次のコードを使用します。
+  <Accordion title="sweep 内の最も性能の良い run から Artifacts を見つけるにはどうすればいいですか？">
+    sweep 内で最も性能の良い run から Artifacts を取得するには、次のコードを使用します。
 
     ```python
     api = wandb.Api()
@@ -718,21 +717,21 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts"]}>
-  <Accordion title="run が記録または消費したアーティファクトを見つけるには？アーティファクトを生成または消費した run を見つけるには？">
-    W&amp;B は、各 run が記録したアーティファクトと、各 run が使用したアーティファクトを追跡し、アーティファクトグラフを構成します。このグラフは、ノードが run とアーティファクトを表す二部グラフであり、有向非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) で確認できます（グラフを展開するには「Explode」をクリックしてください）。
+  <Accordion title="run が記録または消費した Artifacts を見つけるには？Artifacts を生成または消費した run を見つけるには？">
+    W&amp;B は、各 run が記録した Artifacts と、各 run が使用した Artifacts を追跡し、 Artifacts グラフを構成します。このグラフは、ノードが run と Artifacts を表す二部グラフであり、有向非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) で確認できます（グラフを展開するには「Explode」をクリックしてください）。
 
-    Public API を使用して、アーティファクトまたは run のどちらかを起点に、プログラムからこのグラフをたどることができます。
+    Public API を使用して、 Artifacts または run のどちらかを起点に、プログラムからこのグラフをたどることができます。
 
     <Tabs>
-      <Tab title="アーティファクトから">
+      <Tab title="Artifacts から">
         ```python
         api = wandb.Api()
 
         artifact = api.artifact("project/artifact:alias")
 
-        # アーティファクトからグラフを上方向にたどる:
+        # Artifacts からグラフを上方向にたどる:
         producer_run = artifact.logged_by()
-        # アーティファクトからグラフを下方向にたどる:
+        # Artifacts からグラフを下方向にたどる:
         consumer_runs = artifact.used_by()
 
         # run からグラフを下方向にたどる:
@@ -753,9 +752,9 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
         # run からグラフを上方向にたどる:
         consumed_artifacts = run.used_artifacts()
 
-        # アーティファクトからグラフを上方向にたどる:
+        # Artifacts からグラフを上方向にたどる:
         earlier_run = consumed_artifacts[0].logged_by()
-        # アーティファクトからグラフを下方向にたどる:
+        # Artifacts からグラフを下方向にたどる:
         consumer_runs = produced_artifacts[0].used_by()
         ```
       </Tab>
@@ -820,10 +819,10 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 <Update tags={["Environment Variables", "Experiments"]}>
   <Accordion title="ローカル上の `wandb` ファイルの保存場所をどのように指定できますか？">
     * `WANDB_DIR=<path>` または `wandb.init(dir=<path>)`: トレーニングスクリプト用に作成される `wandb` フォルダの場所を制御します。デフォルトは `./wandb` です。このフォルダには run のデータとログが保存されます。
-    * `WANDB_ARTIFACT_DIR=<path>` または `wandb.Artifact().download(root="<path>")`: アーティファクトがダウンロードされる場所を制御します。デフォルトは `./artifacts` です。
-    * `WANDB_CACHE_DIR=<path>`: `wandb.Artifact` を呼び出したときにアーティファクトが作成・保存される場所です。デフォルトは `~/.cache/wandb` です。
+    * `WANDB_ARTIFACT_DIR=<path>` または `wandb.Artifact().download(root="<path>")`: Artifacts がダウンロードされる場所を制御します。デフォルトは `./artifacts` です。
+    * `WANDB_CACHE_DIR=<path>`: `wandb.Artifact` を呼び出したときに Artifacts が作成・保存される場所です。デフォルトは `~/.cache/wandb` です。
     * `WANDB_CONFIG_DIR=<path>`: config ファイルが保存される場所です。デフォルトは `~/.config/wandb` です。
-    * `WANDB_DATA_DIR=<PATH>`: アーティファクトのアップロード時にステージングに使用される場所を制御します。デフォルトは `~/.cache/wandb-data/` です。
+    * `WANDB_DATA_DIR=<PATH>`: Artifacts のアップロード時にステージングに使用される場所を制御します。デフォルトは `~/.cache/wandb-data/` です。
   </Accordion>
 </Update>
 
@@ -1455,8 +1454,8 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts"]}>
-  <Accordion title="既存の run にアーティファクトをログするにはどうすればよいですか？">
-    以前に記録した run の出力としてアーティファクトをマークする必要が生じることがあります。その場合は、古い run を再初期化し、次のように新しいアーティファクトをログします。
+  <Accordion title="既存の run に Artifacts をログするにはどうすればよいですか？">
+    以前に記録した run の出力として Artifacts をマークする必要が生じることがあります。その場合は、古い run を再初期化し、次のように新しい Artifacts をログします。
 
     ```python
     with wandb.init(id="existing_run_id", resume="allow") as run:
@@ -1656,7 +1655,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
     * **Move** ボタンをクリックします。
     * 移動先のプロジェクトを選択し、操作を確定します。
 
-    W&amp;B は UI を通じた run の移動をサポートしていますが、run のコピーはサポートしていません。run とともにログされた Artifacts は新しいプロジェクトには移動されません。Artifacts を run の新しい場所に手動で移動するには、[`wandb artifact get`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK コマンドまたは [`Api.artifact` API](/ja/models/ref/python/public-api/api/#artifact) を使用してアーティファクトをダウンロードし、その後 [wandb artifact put](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put/) もしくは `Api.artifact` API を使用して、run の新しい場所にアップロードしてください。
+    W&amp;B は UI を通じた run の移動をサポートしていますが、run のコピーはサポートしていません。run とともにログされた Artifacts は新しいプロジェクトには移動されません。 Artifacts を run の新しい場所に手動で移動するには、[`wandb artifact get`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK コマンドまたは [`Api.artifact` API](/ja/models/ref/python/public-api/api/#artifact) を使用して Artifacts をダウンロードし、その後 [wandb artifact put](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put/) もしくは `Api.artifact` API を使用して、run の新しい場所にアップロードしてください。
   </Accordion>
 </Update>
 
@@ -1888,7 +1887,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="run と一緒に削除された artifact を復元することはできますか？">
-    run を削除する際、関連するアーティファクトを削除するかどうか確認するプロンプトが表示されます。このオプションを選択するとアーティファクトは完全に削除され、後で run 自体を復元した場合でもアーティファクトを復元することはできません。
+    run を削除する際、関連する Artifacts を削除するかどうか確認するプロンプトが表示されます。このオプションを選択すると Artifacts は完全に削除され、後で run 自体を復元した場合でも Artifacts を復元することはできません。
   </Accordion>
 </Update>
 
@@ -2059,8 +2058,8 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts"]}>
-  <Accordion title="アーティファクトに保持期間または有効期限ポリシーを設定するにはどうすればよいですか？">
-    機密データを含むアーティファクトを管理したり、アーティファクトのバージョン削除をスケジュールしたりするには、TTL（time-to-live）ポリシーを設定します。詳細な手順については、[TTL guide](/ja/models/artifacts/ttl) を参照してください。
+  <Accordion title="Artifacts に保持期間または有効期限ポリシーを設定するにはどうすればよいですか？">
+    機密データを含む Artifacts を管理したり、 Artifacts のバージョン削除をスケジュールしたりするには、TTL（time-to-live）ポリシーを設定します。詳細な手順については、[TTL guide](/ja/models/artifacts/ttl) を参照してください。
   </Accordion>
 </Update>
 
@@ -2140,7 +2139,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="コードを保存するにはどうすればよいですか？‌">
-    `wandb.init` で `save_code=True` を指定すると、run を起動するメインスクリプトまたはノートブックを保存できます。run のすべてのコードを保存するには、Artifacts でコードをバージョン管理します。次の例は、この手順を示しています。
+    `wandb.init` で `save_code=True` を指定すると、run を起動するメインスクリプトまたはノートブックを保存できます。run のすべてのコードを保存するには、 Artifacts でコードをバージョン管理します。次の例は、この手順を示しています。
 
     ```python
     code_artifact = wandb.Artifact(type="code")
@@ -2164,7 +2163,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
     次の環境変数を設定します。
 
-    1. `WANDB_API_KEY=$KEY`（`$KEY` は [User Settings](https://wandb.ai/settings) で作成した APIキー）。
+    1. `WANDB_API_KEY=$KEY`（`$KEY` は [User Settings](https://wandb.ai/settings) で作成した API キー）。
     2. `WANDB_MODE="offline"`。
 
     これをスクリプト内で実装する例を次に示します。
@@ -2272,7 +2271,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
     サービスアカウントの主な利点:
 
     * **ライセンスを消費しない**: サービスアカウントはユーザーシートやライセンスを消費しません
-    * **専用の APIキー**: 自動化ワークフロー用の安全な認証情報
+    * **専用の API キー**: 自動化ワークフロー用の安全な認証情報
     * **ユーザー帰属**: 自動化された run を人間のユーザーに帰属させることが可能
     * **エンタープライズ対応**: 大規模な本番環境での自動化向けに設計
     * **委任された操作**: サービスアカウントは、それを作成したユーザーまたは組織の代理として動作します
@@ -2283,7 +2282,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
     <TeamServiceAccountCreate />
 
-    完全な APIキー は作成時に一度だけ表示されます。ダイアログを閉じると、再度表示することはできません。
+    完全な API キー は作成時に一度だけ表示されます。ダイアログを閉じると、再度表示することはできません。
 
     <Note>
       **Built-in** サービスアカウントとは別に、W&amp;B は [identity federation for SDK and CLI](/ja/platform/hosting/iam/identity_federation#external-service-accounts) を利用した **External service accounts** もサポートしています。identity provider で管理され、JSON Web Tokens (JWT) を発行できるサービスアイデンティティを使って W&amp;B のタスクを自動化したい場合は、External service account を使用してください。
@@ -2443,7 +2442,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
     テスト目的で W&amp;B を no-operation (NOOP) として構成するには、`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定します。
 
     <Note>
-      `wandb.init(mode="disabled")` を使用しても、W&amp;B が `WANDB_CACHE_DIR` にアーティファクトを保存することは防げません。
+      `wandb.init(mode="disabled")` を使用しても、W&amp;B が `WANDB_CACHE_DIR` に Artifacts を保存することは防げません。
     </Note>
   </Accordion>
 </Update>
@@ -2519,8 +2518,8 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts", "Environment Variables"]}>
-  <Accordion title="アーティファクトはどこにダウンロードされ、どのように管理できますか？">
-    デフォルトでは、アーティファクトは `artifacts/` フォルダにダウンロードされます。保存先を変更するには、次のいずれかの方法を使用します。
+  <Accordion title="Artifacts はどこにダウンロードされ、どのように管理できますか？">
+    デフォルトでは、 Artifacts は `artifacts/` フォルダにダウンロードされます。保存先を変更するには、次のいずれかの方法を使用します。
 
     * [`wandb.Artifact().download`](/ja/models/ref/python/public-api/api) にパスを渡します:
 
@@ -2539,7 +2538,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Experiments", "Runs"]}>
   <Accordion title="CSV メトリクスのエクスポートでステップが欠けているのはなぜですか？">
-    エクスポートの制限により、run の履歴全体が CSV として、または `run.history` API を使ってエクスポートできない場合があります。完全な run 履歴にアクセスするには、run 履歴アーティファクトを Parquet 形式でダウンロードしてください。
+    エクスポートの制限により、run の履歴全体が CSV として、または `run.history` API を使ってエクスポートできない場合があります。完全な run 履歴にアクセスするには、run 履歴 Artifacts を Parquet 形式でダウンロードしてください。
 
     ```python
     import wandb

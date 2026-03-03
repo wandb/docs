@@ -26,7 +26,7 @@ SCIM API との連携方法を示した実践的な Python の例については
 * **サービスアカウントによる認証**: 組織のサービスアカウントが API にアクセスできます
 
 <Note>
-  複数の Enterprise [Multi-tenant SaaS](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織の管理者である場合は、SCIM API リクエストの送信先となる組織を必ず設定し、あなたの APIキー を使用して送信された SCIM API リクエストが正しい組織に対して行われるようにする必要があります。プロフィール画像をクリックし、**User Settings** をクリックして、**Default API organization** 設定を確認してください。
+  複数の Enterprise [Multi-tenant SaaS](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織の管理者である場合は、SCIM API リクエストの送信先となる組織を必ず設定し、あなたの API キーを使用して送信された SCIM API リクエストが正しい組織に対して行われるようにする必要があります。プロフィール画像をクリックし、**User Settings** をクリックして、**Default API organization** 設定を確認してください。
 
   選択したホスティングオプションによって、このページの例で使用されている `<host-url>` プレースホルダーの値が決まります。
 
@@ -44,10 +44,10 @@ SCIM API との連携方法を示した実践的な Python の例については
 </div>
 
 * 想定される利用者: ユーザー は対話的な単発の管理作業に最適であり、サービスアカウント は自動化や インテグレーション（CI/CD、プロビジョニングツール）に最適です。
-* 認証情報: ユーザー は username と APIキー を送信し、サービスアカウント は APIキー のみを送信します（username は不要）。
+* 認証情報: ユーザー は username と API キーを送信し、サービスアカウント は API キー のみを送信します（username は不要）。
 * Authorization ヘッダーのペイロード: ユーザー は `username:API-KEY` をエンコードし、サービスアカウント は `:API-KEY`（先頭にコロン）をエンコードします。
 * スコープと権限: どちらも管理者権限が必要ですが、サービスアカウント は組織スコープでヘッドレスなため、自動化に対してより明確な監査証跡を提供します。
-* 認証情報の取得場所: ユーザー は自分の APIキー を User Settings からコピーし、サービスアカウント キーは組織の Service account タブにあります。
+* 認証情報の取得場所: ユーザー は自分の API キーを User Settings からコピーし、サービスアカウント キーは組織の Service account タブにあります。
 * Multi-tenant Cloud: 複数の Multi-tenant Cloud 組織にアクセスできる場合、SCIM API 呼び出しが意図した組織にルーティングされるように、Default API organization を必ず設定する必要があります。
 
 <div id="users">
@@ -66,9 +66,9 @@ Authorization: Basic ZGVtbzpwQDU1dzByZA==
   ### サービスアカウント
 </div>
 
-自動化やインテグレーションには、組織スコープのサービスアカウントを使用します。HTTP `Authorization` ヘッダーは `Basic <base64(:API-KEY)>` の形式で設定します（先頭のコロンと空のユーザー名に注意してください）。サービスアカウントの APIキーは、組織のダッシュボード内の **Service account** タブで確認できます。詳しくは、[Organization-scoped service accounts](/ja/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts) を参照してください。
+自動化やインテグレーションには、組織スコープのサービスアカウントを使用します。HTTP `Authorization` ヘッダーは `Basic <base64(:API-KEY)>` の形式で設定します（先頭のコロンと空のユーザー名に注意してください）。サービスアカウントの API キーは、組織のダッシュボード内の **Service account** タブで確認できます。詳しくは、[Organization-scoped service accounts](/ja/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts) を参照してください。
 
-例えば、APIキー `sa-p@55w0rd` を使って認証を行う場合:
+例えば、API キー `sa-p@55w0rd` を使って認証を行う場合:
 
 ```bash
 Authorization: Basic OnNhLXBANTV3MHJk

@@ -51,7 +51,7 @@ with wandb.init(entity="", project="my-project-name") as run:
     # モデルのパフォーマンスを可視化するため、メトリクスを継続的にログする。
     run.log({"loss": loss})
 
-  # モデルの出力をアーティファクトとしてアップロードする。
+  # モデルの出力を Artifacts としてアップロードする。
   run.log_artifact(model)
 ```
 
@@ -61,7 +61,7 @@ with wandb.init(entity="", project="my-project-name") as run:
 
 ユースケースに応じて、W&amp;B Experiments の利用を開始するにあたって次のリソースを参照してください。
 
-* [W&amp;B クイックスタート](/ja/models/quickstart/) を読んで、データセット アーティファクトを作成・追跡・利用するために使用できる W&amp;B Python SDK コマンドをステップバイステップで確認してください。
+* [W&amp;B クイックスタート](/ja/models/quickstart/) を読んで、データセット Artifacts を作成・追跡・利用するために使用できる W&amp;B Python SDK コマンドをステップバイステップで確認してください。
 * この章を読み進めて、次の内容を学びます:
   * 実験を作成する
   * 実験を設定・構成する

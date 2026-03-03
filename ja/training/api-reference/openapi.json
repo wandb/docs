@@ -296,7 +296,7 @@
           "models"
         ],
         "summary": "モデルを削除",
-        "description": "この モデル、そのすべての チェックポイントと アーティファクト、ならびに関連する W&B run を削除します。",
+        "description": "この モデル、そのすべての チェックポイントと Artifacts、ならびに関連する W&B run を削除します。",
         "operationId": "delete_model_v1_preview_models__model_id__delete",
         "security": [
           {
@@ -2728,7 +2728,7 @@
           "training_data_url": {
             "type": "string",
             "title": "Training Data Url",
-            "description": "トレーニングデータ用の W&B アーティファクト パス (例: 'wandb-artifact:///entity/project/artifact-name:version')"
+            "description": "トレーニングデータ用の W&B Artifacts パス (例: 'wandb-artifact:///entity/project/artifact-name:version')"
           },
           "config": {
             "anyOf": [
@@ -2759,7 +2759,7 @@
           "training_data_url"
         ],
         "title": "CreateSFTTrainingJob",
-        "description": "新しい SFT (Supervised Fine-Tuning) TrainingJob を作成するためのスキーマ。\n\nクライアントはトレーニングデータ (trajectories.jsonl と metadata.json) を W&B Artifacts にアップロードし、そのアーティファクトの URL を指定する必要があります。"
+        "description": "新しい SFT (Supervised Fine-Tuning) TrainingJob を作成するためのスキーマ。\n\nクライアントはトレーニングデータ (trajectories.jsonl と metadata.json) を W&B Artifacts にアップロードし、そのArtifactsの URL を指定する必要があります。"
       },
       "CreateTrainingJob": {
         "properties": {
@@ -3757,7 +3757,7 @@
               }
             ],
             "title": "Entity",
-            "description": "使用している W&B APIキー に紐づく開発者の Team 名またはユーザー名",
+            "description": "使用している W&B API キー に紐づく開発者の Team 名またはユーザー名",
             "examples": [
               "my-team"
             ]

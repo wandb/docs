@@ -3,17 +3,17 @@ description: Dedicated Cloud からデータをエクスポートする
 title: Dedicated Cloud からデータをエクスポートする
 ---
 
-Dedicated Cloud インスタンスで管理されているすべてのデータをエクスポートしたい場合は、W&amp;B SDK API を使い、[Import and Export API](/ja/models/ref/python/public-api/) を通じて runs、メトリクス、アーティファクトなどを抽出できます。次の表では、主なエクスポート用途の一部を示します。
+Dedicated Cloud インスタンスで管理されているすべてのデータをエクスポートしたい場合は、W&amp;B SDK API を使い、[Import and Export API](/ja/models/ref/python/public-api/) を通じて runs、メトリクス、 Artifacts などを抽出できます。次の表では、主なエクスポート用途の一部を示します。
 
 | Purpose | Documentation |
 |---------|---------------|
 | プロジェクトのメタデータをエクスポートする | [Projects API](/ja/models/ref/python/public-api/projects) |
 | プロジェクト内の runs をエクスポートする | [Runs API](/ja/models/ref/python/public-api/runs) |
 | Reports をエクスポートする | [Report and Workspace API](/ja/models/reports/clone-and-export-reports/) |
-| アーティファクトをエクスポートする | [Explore artifact graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/), [Download and use artifacts](/ja/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
+| Artifacts をエクスポートする | [Explore artifact graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/), [Download and use artifacts](/ja/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
-Dedicated Cloud に保存されたアーティファクトを [Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) で管理している場合は、W&amp;B SDK API を使用してアーティファクトをエクスポートする必要がないことがあります。
+Dedicated Cloud に保存された Artifacts を [Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) で管理している場合は、W&amp;B SDK API を使用して Artifacts をエクスポートする必要がないことがあります。
 
 <Note>
-  大量の runs やアーティファクトなどがある場合、W&amp;B SDK API を使用してすべてのデータをエクスポートすると時間がかかることがあります。W&amp;B では、Dedicated Cloud インスタンスに過度の負荷をかけないよう、適切なサイズのバッチに分けてエクスポート処理を実行することを推奨します。
+  大量の runs や Artifacts などがある場合、W&amp;B SDK API を使用してすべてのデータをエクスポートすると時間がかかることがあります。W&amp;B では、Dedicated Cloud インスタンスに過度の負荷をかけないよう、適切なサイズのバッチに分けてエクスポート処理を実行することを推奨します。
 </Note>

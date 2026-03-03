@@ -8,10 +8,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
-
 ## <kbd>class</kbd> `Artifacts`
 
-あるプロジェクトに関連付けられたアーティファクトバージョンのイテラブルなコレクションです。 
+あるプロジェクトに関連付けられた Artifacts バージョンのイテラブルなコレクションです。 
 
 特定の条件に基づいて結果を絞り込むために、オプションでフィルターを渡すことができます。 
 
@@ -19,13 +18,13 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 - `client`:  W&B に対してクエリを実行するために使用するクライアントインスタンス。 
  - `entity`:  プロジェクトを所有するエンティティ（ユーザーまたはチーム）。 
- - `project`:  アーティファクトをクエリする対象のプロジェクト名。 
- - `collection_name`:  クエリ対象のアーティファクトコレクション名。 
- - `type`:  クエリ対象のアーティファクトの種類。一般的な例としては "dataset" や "model" などがあります。 
+ - `project`:  Artifacts をクエリする対象のプロジェクト名。 
+ - `collection_name`:  クエリ対象の Artifacts コレクション名。 
+ - `type`:  クエリ対象の Artifacts の種類。一般的な例としては "dataset" や "model" などがあります。 
  - `filters`:  クエリに適用するフィルターのマッピング（省略可能）。 
  - `order`:  結果の並び順を指定する文字列（省略可能）。 
- - `per_page`:  1 ページあたりに取得するアーティファクトバージョン数。デフォルトは 50。 
- - `tags`:  タグでアーティファクトをフィルタリングするための文字列、または文字列のリスト（省略可能）。 
+ - `per_page`:  1 ページあたりに取得する Artifacts バージョン数。デフォルトは 50。 
+ - `tags`:  タグで Artifacts をフィルタリングするための文字列、または文字列のリスト（省略可能）。 
 
 ### <kbd>プロパティ</kbd> Artifacts.cursor
 

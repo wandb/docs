@@ -16,7 +16,7 @@ W&amp;B Experiment は次の 4 ステップで作成します。
 1. [W&amp;B run を初期化する](#initialize-a-wb-run)
 2. [ハイパーパラメーターの辞書を保存する](#capture-a-dictionary-of-hyperparameters)
 3. [トレーニング ループ内でメトリクスをログする](#log-metrics-inside-your-training-loop)
-4. [W&amp;B にアーティファクトをログする](#log-an-artifact-to-wb)
+4. [W&amp;B に Artifacts をログする](#log-an-artifact-to-wb)
 
 <div id="initialize-a-wb-run">
   ### W&amp;B の run を初期化する
@@ -77,10 +77,10 @@ for epoch in range(run.config.epochs):
 W&amp;B で記録できるさまざまなデータ型の詳細については、[Log Data During Experiments](/ja/models/track/log/) を参照してください。
 
 <div id="log-an-artifact-to-wb">
-  ### W&amp;B にアーティファクトをログする
+  ### W&amp;B に Artifacts をログする
 </div>
 
-必要に応じて W&amp;B アーティファクトをログします。Artifacts を使うと、データセットやモデルのバージョン管理を簡単に行えます。
+必要に応じて W&amp;B Artifacts をログします。 Artifacts を使うと、データセットやモデルのバージョン管理を簡単に行えます。
 
 ```python
 # ファイルやディレクトリを保存できます。この例では、モデルに ONNX ファイルを出力する save() メソッドがあると仮定します。
@@ -115,7 +115,7 @@ with wandb.init(
             loss, accuracy = model.training_step()
             run.log({"accuracy": accuracy, "loss": loss})
 
-    # トレーニング済みモデルをアーティファクトとしてアップロードする。
+    # トレーニング済みモデルを Artifacts としてアップロードする。
     model.save("path_to_model.onnx")
     run.log_artifact("path_to_model.onnx", name="trained-model", type="model")
 ```

@@ -78,13 +78,13 @@ Python で `wandb` を条件付きでインポートするか、`pyproject.toml`
   ## ユーザーを認証する
 </div>
 
-W&amp;B では ユーザーおよびマシンを認証するために APIキー を使用します。
+W&amp;B では ユーザーおよびマシンを認証するために API キーを使用します。
 
 <div id="create-an-api-key">
-  ### APIキーを作成する
+  ### API キーを作成する
 </div>
 
-APIキーは、クライアントまたはマシンからのアクセスを W&amp;B に対して認証します。APIキーはユーザープロファイルから生成できます。
+API キーは、クライアントまたはマシンからのアクセスを W&amp;B に対して認証します。API キーはユーザープロファイルから生成できます。
 
 <ApiKeyCreateStreamlined />
 
@@ -369,26 +369,26 @@ for step, (input, ground_truth) in enumerate(data):
 詳しくは、[Log Distributed Training Experiments](/ja/models/track/log/distributed-training/) を参照してください。
 
 <div id="track-models-and-datasets-with-artifacts">
-  ## アーティファクトでモデルとデータセットを追跡する
+  ## Artifacts でモデルとデータセットを追跡する
 </div>
 
-[W&amp;B Artifacts](/ja/models/artifacts/) を使用して、モデルとデータセットを追跡およびバージョン管理します。Artifacts は機械学習資産の保存とバージョン管理を提供し、データとモデルの系譜を自動的に追跡して、その関係性を可視化します。
+[W&amp;B Artifacts](/ja/models/artifacts/) を使用して、モデルとデータセットを追跡およびバージョン管理します。 Artifacts は機械学習資産の保存とバージョン管理を提供し、データとモデルの系譜を自動的に追跡して、その関係性を可視化します。
 
 <Frame>
   <img src="/images/integrations/integrations_add_any_lib_dag.png" alt="W&B に保存されたデータセットとモデル チェックポイント" />
 </Frame>
 
-ライブラリにアーティファクトを統合する際は、次の点を検討してください。
+ライブラリに Artifacts を統合する際は、次の点を検討してください。
 
-* モデル チェックポイントやデータセットをアーティファクトとしてログするかどうか（オプションにしたい場合など）。
-* アーティファクトの入力参照（例: `entity/project/artifact`）。
+* モデル チェックポイントやデータセットを Artifacts としてログするかどうか（オプションにしたい場合など）。
+* Artifacts の入力参照（例: `entity/project/artifact`）。
 * モデル チェックポイントやデータセットをログする頻度。例えば、各エポックごと、500 ステップごとなど。
 
 <div id="log-model-checkpoints">
   ### モデルのチェックポイントをログする
 </div>
 
-モデルのチェックポイントを W&amp;B にログします。よくある方法として、W&amp;B が生成する一意の run ID をアーティファクト名の一部として使用して、チェックポイントをアーティファクトとしてログするやり方があります。
+モデルのチェックポイントを W&amp;B にログします。よくある方法として、W&amp;B が生成する一意の run ID を Artifacts 名の一部として使用して、チェックポイントを Artifacts としてログするやり方があります。
 
 ```python
 metadata = {"eval/accuracy": 0.8, "train/steps": 800} 
@@ -404,10 +404,10 @@ aliases = ["best", "epoch_10"]
 run.log_artifact(artifact, aliases=aliases)
 ```
 
-直前のコードスニペットは、モデル チェックポイントをアーティファクトとしてログし、評価精度やトレーニングステップなどのメタデータを追加する方法を示しています。アーティファクトには一意の run ID を含む名前が付けられ、参照しやすいように [カスタムエイリアス](/ja/models/artifacts/create-a-custom-alias/) がタグとして付けられています。
+直前のコードスニペットは、モデル チェックポイントを Artifacts としてログし、評価精度やトレーニングステップなどのメタデータを追加する方法を示しています。 Artifacts には一意の run ID を含む名前が付けられ、参照しやすいように [カスタムエイリアス](/ja/models/artifacts/create-a-custom-alias/) がタグとして付けられています。
 
 <div id="log-input-artifacts">
-  ### 入力アーティファクトをログに記録する
+  ### 入力 Artifacts をログに記録する
 </div>
 
 入力として使用するデータセットや事前学習済みモデルをログに記録します。
@@ -418,15 +418,15 @@ dataset.add_file("flowers.npy")
 run.use_artifact(dataset)
 ```
 
-前のコードスニペットでは、&quot;flowers&quot; という名前のデータセット用アーティファクトを作成し、その中にファイルを追加します。その後、`run.use_artifact()` を使ってそのアーティファクトを現在の run に関連付けます。こうすることで、その run で使用されたデータセットの来歴を W&amp;B が追跡できるようになります。
+前のコードスニペットでは、&quot;flowers&quot; という名前のデータセット用 Artifacts を作成し、その中にファイルを追加します。その後、`run.use_artifact()` を使ってその Artifacts を現在の run に関連付けます。こうすることで、その run で使用されたデータセットの来歴を W&amp;B が追跡できるようになります。
 
 <div id="download-artifacts">
-  ### アーティファクトをダウンロードする
+  ### Artifacts をダウンロードする
 </div>
 
-W&amp;B に以前にログしたアーティファクトをダウンロードして、トレーニングまたは推論コードで使用します。
+W&amp;B に以前にログした Artifacts をダウンロードして、トレーニングまたは推論コードで使用します。
 
-run コンテキストがある場合は、[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run) を使用して W&amp;B のアーティファクトを参照してから、[`wandb.Artifact.download()`](/ja/models/ref/python/experiments/artifact) を呼び出してローカルディレクトリにダウンロードします。
+run コンテキストがある場合は、[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run) を使用して W&amp;B の Artifacts を参照してから、[`wandb.Artifact.download()`](/ja/models/ref/python/experiments/artifact) を呼び出してローカルディレクトリにダウンロードします。
 
 ```python
 with wandb.init(...) as run:
@@ -434,7 +434,7 @@ with wandb.init(...) as run:
     local_path = artifact.download()
 ```
 
-[W&amp;B Public API](/ja/models/ref/python/public-api/) を使用すると、run を初期化せずにアーティファクトを参照したりダウンロードしたりできます。これは、分散環境での利用時や推論を実行する際など、新しい run を作成したくない場合に有用です。
+[W&amp;B Public API](/ja/models/ref/python/public-api/) を使用すると、run を初期化せずに Artifacts を参照したりダウンロードしたりできます。これは、分散環境での利用時や推論を実行する際など、新しい run を作成したくない場合に有用です。
 
 ```python
 import wandb
@@ -442,7 +442,7 @@ artifact = wandb.Api().artifact("user/project/artifact:latest")
 local_path = artifact.download()
 ```
 
-詳しくは、[アーティファクトのダウンロードと利用](/ja/models/artifacts/download-and-use-an-artifact/) を参照してください。
+詳しくは、[Artifacts のダウンロードと利用](/ja/models/artifacts/download-and-use-an-artifact/) を参照してください。
 
 <div id="tune-hyper-parameters">
   ## ハイパーパラメーターを調整する

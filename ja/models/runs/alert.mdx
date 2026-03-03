@@ -18,7 +18,7 @@ run がクラッシュしたときやカスタムトリガーに基づいて、S
 <Note>
   W&amp;B Alerts を使用するには、コードに `run.alert()` を追加する必要があります。コードを変更せずに、[Automations](/ja/models/automations/) を使って、W&amp;B 内のイベントに基づいて Slack に通知する別の方法も利用できます。たとえば、[artifact](/ja/models/artifacts/) のバージョンが作成されたときや、[run metric](/ja/models/runs/) がしきい値に達したり、しきい値を超えて変化したときなどです。
 
-  たとえば、オートメーションを使って、新しいバージョンが作成されたときに Slack チャンネルへ通知したり、`production` エイリアスがアーティファクトに追加されたときに自動テスト用の webhook を実行したり、run の `loss` が許容範囲内にある場合にのみ検証ジョブを開始したりできます。
+  たとえば、オートメーションを使って、新しいバージョンが作成されたときに Slack チャンネルへ通知したり、`production` エイリアスが Artifacts に追加されたときに自動テスト用の webhook を実行したり、run の `loss` が許容範囲内にある場合にのみ検証ジョブを開始したりできます。
 
   [Automations の概要](/ja/models/automations/)を読むか、[オートメーションを作成](/ja/models/automations/create-automations/)してください。
 </Note>

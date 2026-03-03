@@ -35,10 +35,10 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
 |`actor_email`             | （該当する場合）アクションを開始したユーザーのメールアドレス。
 |`actor_ip`                | アクションを開始したユーザーの IP アドレス。
 |`actor_user_id`           | （該当する場合）アクションを実行したログイン中のユーザーの ID。
-|`artifact_asset`          | （該当する場合）アクションに関連付けられているアーティファクト ID。
-|`artifact_digest`         | （該当する場合）アクションに関連付けられているアーティファクトのダイジェスト。
-|`artifact_qualified_name` | （該当する場合）アクションに関連付けられているアーティファクトの完全な名前。
-|`artifact_sequence_asset` | （該当する場合）アクションに関連付けられているアーティファクトシーケンス ID。
+|`artifact_asset`          | （該当する場合）アクションに関連付けられている Artifacts ID。
+|`artifact_digest`         | （該当する場合）アクションに関連付けられている Artifacts のダイジェスト。
+|`artifact_qualified_name` | （該当する場合）アクションに関連付けられている Artifacts の完全な名前。
+|`artifact_sequence_asset` | （該当する場合）アクションに関連付けられている Artifacts シーケンス ID。
 |`cli_version`             | （該当する場合）アクションを開始した Python SDK のバージョン。
 |`entity_asset`            | （該当する場合）アクションに関連付けられている Entity または Team の ID。
 |`entity_name`             | （該当する場合）アクションに関連付けられている Entity または Team の名前。
@@ -128,9 +128,9 @@ https://mycompany.wandb.io/admin/audit_logs?anonymize=true&<additional-parameter
 
 |Action | Definition |
 |-----|-----|
-| `artifact:create`             | アーティファクトが作成されます。
-| `artifact:delete   `          | アーティファクトが削除されます。
-| `artifact:read`               | アーティファクトが読み取られます。
+| `artifact:create`             | Artifacts が作成されます。
+| `artifact:delete   `          | Artifacts が削除されます。
+| `artifact:read`               | Artifacts が読み取られます。
 | `project:delete`              | プロジェクトが削除されます。
 | `project:read`                | プロジェクトが参照されます。
 | `report:read`                 | レポートが参照されます。 <sup><a href="#1">1</a></sup>
@@ -146,10 +146,10 @@ https://mycompany.wandb.io/admin/audit_logs?anonymize=true&<additional-parameter
 | `team:delete`                 | チームが削除されます。
 | `team:invite_user`            | ユーザーがチームに招待されます。
 | `team:uninvite`               | ユーザーまたはサービスアカウントのチームへの招待が取り消されます。
-| `user:create_api_key`         | ユーザーまたはサービスアカウント用の APIキー が作成されます。 <sup><a href="#1">1</a></sup>
+| `user:create_api_key`         | ユーザーまたはサービスアカウント用の API キー が作成されます。 <sup><a href="#1">1</a></sup>
 | `user:create`                 | ユーザーが作成されます。 <sup><a href="#1">1</a></sup>
 | `user:deactivate`             | ユーザーが無効化されます。 <sup><a href="#1">1</a></sup>
-| `user:delete_api_key`         | ユーザーまたはサービスアカウント用の APIキー が削除されます。 <sup><a href="#1">1</a></sup>
+| `user:delete_api_key`         | ユーザーまたはサービスアカウント用の API キー が削除されます。 <sup><a href="#1">1</a></sup>
 | `user:initiate_login`         | ユーザーがログインを開始します。 <sup><a href="#1">1</a></sup>
 | `user:login`                  | ユーザーがログインします。 <sup><a href="#1">1</a></sup>
 | `user:logout`                 | ユーザーがログアウトします。 <sup><a href="#1">1</a></sup>

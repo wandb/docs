@@ -9,7 +9,7 @@ title: テーブル データのエクスポート
   ## `table` を `artifact` に変換する
 </div>
 
-まず、`table` をアーティファクトに変換する必要があります。これを行う最も簡単な方法は、`artifact.get(table, "table_name")` を使うことです。
+まず、`table` を Artifacts に変換する必要があります。これを行う最も簡単な方法は、`artifact.get(table, "table_name")` を使うことです。
 
 ```python
 # 新しいテーブルを作成してログに記録する。
@@ -21,7 +21,7 @@ with wandb.init() as r:
     artifact.add(table, "my_table")
     wandb.log_artifact(artifact)
 
-# 作成したアーティファクトを使用して、作成済みのテーブルを取得する。
+# 作成した Artifacts を使用して、作成済みのテーブルを取得する。
 with wandb.init() as r:
     artifact = r.use_artifact("my_dataset:latest")
     table = artifact.get("my_table")

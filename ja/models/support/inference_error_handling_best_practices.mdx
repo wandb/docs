@@ -23,7 +23,6 @@ except Exception as e:
     # 適切にエラーを処理する
 ```
 
-
 <div id="2-use-retry-logic-with-exponential-backoff">
   ## 2. 指数バックオフ付きの再試行ロジックを使用する
 </div>
@@ -58,7 +57,6 @@ def call_inference_with_retry(
     return None
 ```
 
-
 <div id="3-monitor-your-usage">
   ## 3. 利用状況を監視する
 </div>
@@ -77,7 +75,7 @@ def handle_inference_error(error):
     
     if "401" in error_str:
         # 認証が無効です
-        raise ValueError("APIキーとプロジェクトの設定を確認してください")
+        raise ValueError("API キーとプロジェクトの設定を確認してください")
     elif "402" in error_str:
         # クレジット不足
         raise ValueError("クレジットが不足しています")
@@ -91,7 +89,6 @@ def handle_inference_error(error):
         # 不明なエラー
         raise
 ```
-
 
 <div id="5-set-appropriate-timeouts">
   ## 5. 適切なタイムアウトを設定する
@@ -107,7 +104,6 @@ client = openai.OpenAI(
     timeout=60.0  # 60秒のタイムアウト
 )
 ```
-
 
 <div id="additional-tips">
   ## 追加のヒント

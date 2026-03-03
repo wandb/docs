@@ -15,8 +15,7 @@ title: "wandb artifact put"
   スニペットは次回の再生成時に自動検出されます。
   */}
 
-wandb にアーティファクトをアップロードする
-
+wandb に Artifacts をアップロードする
 
 <div id="usage">
   ## 使用方法
@@ -25,7 +24,6 @@ wandb にアーティファクトをアップロードする
 ```bash
 wandb artifact put PATH [OPTIONS]
 ```
-
 
 <div id="arguments">
   ## 引数
@@ -41,11 +39,11 @@ wandb artifact put PATH [OPTIONS]
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--name`, `-n` | プッシュするアーティファクトの名前: project/artifact_name |
-| `--description`, `-d` | このアーティファクトの説明 |
-| `--type`, `-t` | アーティファクトの種類 (デフォルト: データセット) |
-| `--alias`, `-a` | このアーティファクトに適用するエイリアス (デフォルト: ['latest']) |
+| `--name`, `-n` | プッシュする Artifacts の名前: project/artifact_name |
+| `--description`, `-d` | この Artifacts の説明 |
+| `--type`, `-t` | Artifacts の種類 (デフォルト: データセット) |
+| `--alias`, `-a` | この Artifacts に適用するエイリアス (デフォルト: ['latest']) |
 | `--id` | アップロード先の run |
 | `--resume` | 現在のディレクトリで最後の run を再開します |
-| `--skip_cache` | アーティファクト ファイルをアップロードする際にキャッシュをスキップします (デフォルト: False) |
-| `--policy` | アーティファクト ファイルをアップロードする際のストレージポリシーを設定します (デフォルト: mutable) |
+| `--skip_cache` | Artifacts ファイルをアップロードする際にキャッシュをスキップします (デフォルト: False) |
+| `--policy` | Artifacts ファイルをアップロードする際のストレージポリシーを設定します (デフォルト: mutable) |

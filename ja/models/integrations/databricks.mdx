@@ -30,7 +30,7 @@ W&B は [Databricks](https://www.databricks.com/) 環境内で W&B Jupyter Noteb
     # セキュリティアドオンなし
     databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-    # https://wandb.ai/settings で API キー を作成
+    # https://wandb.ai/settings で API キーを作成
     databricks secrets put --scope wandb --key api_key
     ```
 
@@ -52,7 +52,6 @@ wandb.login(key=api_key)
 with wandb.init() as run:
     run.log({"foo": 1})
 ```
-
 
 <div id="sweeps">
   ### Sweeps

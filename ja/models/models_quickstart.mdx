@@ -1,8 +1,8 @@
 ---
-title: Get Started with W&amp;B Models
+title: Get Started with W&B Models
 ---
 
-機械学習ワークフローで W&amp;B を使用して、モデルのアーティファクトを追跡・共有・管理するタイミングと方法を学びます。このページでは、実験のログ記録、レポートの生成、および各タスクに適した W&amp;B API を使用してログされたデータにアクセスする方法を説明します。
+機械学習ワークフローで W&amp;B を使用して、モデルの Artifacts を追跡・共有・管理するタイミングと方法を学びます。このページでは、実験のログ記録、レポートの生成、および各タスクに適した W&amp;B API を使用してログされたデータにアクセスする方法を説明します。
 
 このチュートリアルでは、次のものを使用します。
 
@@ -43,9 +43,9 @@ PROJECT = "my-awesome-project"
   ## モデルをトレーニングする
 </div>
 
-次のコードは、基本的な機械学習ワークフローをシミュレートします。モデルをトレーニングし、メトリクスをログに記録し、モデルをアーティファクトとして保存します。
+次のコードは、基本的な機械学習ワークフローをシミュレートします。モデルをトレーニングし、メトリクスをログに記録し、モデルを Artifacts として保存します。
 
-トレーニング中に W&amp;B とやり取りするには、W&amp;B Python SDK (`wandb.sdk`) を使用します。まず [`wandb.Run.log()`](/ja/models/ref/python/experiments/run/#method-runlog) を使って損失をログに記録し、その後 [`wandb.Artifact`](/ja/models/ref/python/experiments/artifact) を使って学習済みモデルをアーティファクトとして保存し、最後に [`Artifact.add_file`](/ja/models/ref/python/experiments/artifact#add_file) を使ってモデルファイルを追加します。
+トレーニング中に W&amp;B とやり取りするには、W&amp;B Python SDK (`wandb.sdk`) を使用します。まず [`wandb.Run.log()`](/ja/models/ref/python/experiments/run/#method-runlog) を使って損失をログに記録し、その後 [`wandb.Artifact`](/ja/models/ref/python/experiments/artifact) を使って学習済みモデルを Artifacts として保存し、最後に [`Artifact.add_file`](/ja/models/ref/python/experiments/artifact#add_file) を使ってモデルファイルを追加します。
 
 ```python
 import random # データのシミュレーション用
@@ -81,7 +81,7 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
             "loss": loss,
         })
 
-    # モデルアーティファクトの一意の名前
+    # モデル Artifacts の一意の名前
     model_artifact_name = f"model-demo"  
 
     # シミュレートされたモデルファイルを保存するローカルパス
@@ -91,8 +91,8 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
     with open(PATH, "w") as f:
         f.write(str(weights)) # モデルの重みをファイルに保存
 
-    # アーティファクトオブジェクトを作成
-    # ローカルに保存したモデルをアーティファクトオブジェクトに追加
+    # Artifacts オブジェクトを作成
+    # ローカルに保存したモデルを Artifacts オブジェクトに追加
     artifact = wandb.Artifact(name=model_artifact_name, type="model", description="My trained model")
     artifact.add_file(local_path=PATH)
     artifact.save()
@@ -101,12 +101,12 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
 前のコードブロックから得られる主なポイントは次のとおりです。
 
 * トレーニング中のメトリクスをログするには `wandb.Run.log()` を使用します。
-* モデル（データセットなど）を W&amp;B のアーティファクトとして保存するには `wandb.Artifact` を使用します。
+* モデル（データセットなど）を W&amp;B の Artifacts として保存するには `wandb.Artifact` を使用します。
 
-モデルをトレーニングしてアーティファクトとして保存したら、これを W&amp;B のレジストリに公開できます。[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run/#method-runuse_artifact) を使用して、アーティファクトを自分の プロジェクトから取得し、Model Registry への公開に備えます。`wandb.Run.use_artifact()` は主に次の 2 つの役割があります。
+モデルをトレーニングして Artifacts として保存したら、これを W&amp;B のレジストリに公開できます。[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run/#method-runuse_artifact) を使用して、 Artifacts を自分の プロジェクトから取得し、Model Registry への公開に備えます。`wandb.Run.use_artifact()` は主に次の 2 つの役割があります。
 
-* プロジェクトからアーティファクト オブジェクトを取得します。
-* アーティファクトを run の入力としてマークし、再現性と追跡可能性を保証します。詳細については [Create and view lineage map](/ja/models/registry/lineage) を参照してください。
+* プロジェクトから Artifacts オブジェクトを取得します。
+* Artifacts を run の入力としてマークし、再現性と追跡可能性を保証します。詳細については [Create and view lineage map](/ja/models/registry/lineage) を参照してください。
 
 <div id="view-the-training-data-in-the-dashboard">
   ## ダッシュボードでトレーニングデータを表示する
@@ -126,17 +126,17 @@ https://wandb.ai/login で自分のアカウントにログインします。
   ## モデルを W&amp;B Registry に公開する
 </div>
 
-組織内の他のメンバーとモデルを共有するには、`wandb.Run.link_artifact()` を使って [collection](/ja/models/registry/create_collection) に登録します。次のコードはアーティファクトを [registry](/ja/models/registry) にリンクし、チーム メンバーがアクセスできるようにします。
+組織内の他のメンバーとモデルを共有するには、`wandb.Run.link_artifact()` を使って [collection](/ja/models/registry/create_collection) に登録します。次のコードは Artifacts を [registry](/ja/models/registry) にリンクし、チーム メンバーがアクセスできるようにします。
 
 ```python
-# アーティファクト名はチームのプロジェクト内の特定のアーティファクトバージョンを指定します
+# Artifacts 名はチームのプロジェクト内の特定の Artifacts バージョンを指定します
 artifact_name = f'{TEAM_ENTITY}/{PROJECT}/{model_artifact_name}:v0'
 print("Artifact name: ", artifact_name)
 
 REGISTRY_NAME = "Model" # W&B のレジストリ名
 COLLECTION_NAME = "DemoModels"  # レジストリ内のコレクション名
 
-# レジストリ内のアーティファクトのターゲットパスを作成します
+# レジストリ内の Artifacts のターゲットパスを作成します
 target_path = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 print("Target path: ", target_path)
 
@@ -145,20 +145,20 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
     run.link_artifact(artifact=model_artifact, target_path=target_path)
 ```
 
-`wandb.Run.link_artifact()` を実行すると、モデル アーティファクトはレジストリ内の `DemoModels` コレクションに格納されます。そこから、バージョン履歴、[lineage map](/ja/models/registry/lineage)、その他の [メタデータ](/ja/models/registry/registry_cards) などの詳細を確認できます。
+`wandb.Run.link_artifact()` を実行すると、モデル Artifacts はレジストリ内の `DemoModels` コレクションに格納されます。そこから、バージョン履歴、[lineage map](/ja/models/registry/lineage)、その他の [メタデータ](/ja/models/registry/registry_cards) などの詳細を確認できます。
 
-レジストリにアーティファクトをリンクする方法の詳細については、[Link artifacts to a registry](/ja/models/registry/link_version) を参照してください。
+レジストリに Artifacts をリンクする方法の詳細については、[Link artifacts to a registry](/ja/models/registry/link_version) を参照してください。
 
 <div id="retrieve-model-artifact-from-registry-for-inference">
-  ## 推論用にレジストリからモデルのアーティファクトを取得する
+  ## 推論用にレジストリからモデルの Artifacts を取得する
 </div>
 
-推論でモデルを使用するには、`wandb.Run.use_artifact()` を使ってレジストリから公開済みのアーティファクトを取得します。これによりアーティファクト オブジェクトが返されるので、[`wandb.Artifact.download()`](/ja/models/ref/python/experiments/artifact/#method-artifactdownload) を使ってそのアーティファクトをローカルファイルにダウンロードできます。
+推論でモデルを使用するには、`wandb.Run.use_artifact()` を使ってレジストリから公開済みの Artifacts を取得します。これにより Artifacts オブジェクトが返されるので、[`wandb.Artifact.download()`](/ja/models/ref/python/experiments/artifact/#method-artifactdownload) を使ってその Artifacts をローカルファイルにダウンロードできます。
 
 ```python
 REGISTRY_NAME = "Model"  # W&B 内のレジストリ名
 COLLECTION_NAME = "DemoModels"  # レジストリ内のコレクション名
-VERSION = 0 # 取得するアーティファクトのバージョン
+VERSION = 0 # 取得する Artifacts のバージョン
 
 model_artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
 print(f"Model artifact name: {model_artifact_name}")
@@ -168,7 +168,7 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
     local_model_path = registry_model.download()
 ```
 
-レジストリからアーティファクトを取得する方法の詳細については、[Download an artifact from a registry](/ja/models/registry/download_use_artifact) を参照してください。
+レジストリから Artifacts を取得する方法の詳細については、[Download an artifact from a registry](/ja/models/registry/download_use_artifact) を参照してください。
 
 使用している機械学習 フレームワークによっては、重みを読み込む前にモデル アーキテクチャを再構築する必要がある場合があります。これは使用している特定のフレームワークとモデルに依存するため、本書では説明せず、読者への課題とします。
 
@@ -231,9 +231,9 @@ report.save()
   ## レジストリをクエリする
 </div>
 
-[W&amp;B Public APIs](/ja/models/ref/python/public-api) を使用して、W&amp;B の履歴データをクエリ、分析、および管理できます。これは、アーティファクトのリネージの追跡、異なるバージョン間の比較、時間の経過に伴うモデルの性能の分析に役立ちます。
+[W&amp;B Public APIs](/ja/models/ref/python/public-api) を使用して、W&amp;B の履歴データをクエリ、分析、および管理できます。これは、 Artifacts のリネージの追跡、異なるバージョン間の比較、時間の経過に伴うモデルの性能の分析に役立ちます。
 
-次のコードブロックでは、特定のコレクション内のすべてのアーティファクトを取得するために Model レジストリをクエリする方法を示します。コレクションを取得し、その各バージョンをイテレートして、各アーティファクトの名前とバージョンを出力します。
+次のコードブロックでは、特定のコレクション内のすべての Artifacts を取得するために Model レジストリをクエリする方法を示します。コレクションを取得し、その各バージョンをイテレートして、各 Artifacts の名前とバージョンを出力します。
 
 ```python
 import wandb
@@ -242,12 +242,12 @@ import wandb
 api = wandb.Api()
 
 # 文字列 `model` を含み、タグ `text-classification` または エイリアス `latest` を持つ
-# すべてのアーティファクトバージョンを検索する
+# すべての Artifacts バージョンを検索する
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# 論理演算子 $or を使用してアーティファクトバージョンをフィルタリングする
+# 論理演算子 $or を使用して Artifacts バージョンをフィルタリングする
 version_filters = {
     "$or": [
         {"tag": "text-classification"},
@@ -255,10 +255,10 @@ version_filters = {
     ]
 }
 
-# フィルターに一致するすべてのアーティファクトバージョンのイテラブルを返す
+# フィルターに一致するすべての Artifacts バージョンのイテラブルを返す
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 
-# 見つかった各アーティファクトの名前、コレクション、エイリアス、タグ、作成日時を出力する
+# 見つかった各 Artifacts の名前、コレクション、エイリアス、タグ、作成日時を出力する
 for art in artifacts:
     print(f"artifact name: {art.name}")
     print(f"collection artifact belongs to: { art.collection.name}")

@@ -56,9 +56,9 @@ LLM Evaluation Jobs は、インフラ管理不要の完全マネージドな Co
   ### 要件
 </div>
 
-* モデル チェックポイントを評価するには、モデルの重みを VLLM 互換のアーティファクトとしてパッケージ化しておく必要があります。詳細およびコード例は、[Example: Prepare a model](/ja/models/launch/evaluate-model-checkpoint#example-prepare-a-model) を参照してください。
-* OpenAI 互換のモデルを評価するには、そのモデルがパブリック URL からアクセス可能であり、組織またはチーム管理者が認証用の API キー を含む team secret を設定しておく必要があります。
-* 一部のベンチマークは、スコアリングに OpenAI モデルを使用します。これらのベンチマークを実行するには、組織またはチーム管理者が必要な API キー を含む team secret を設定しておく必要があります。あるベンチマークにこの要件があるかどうかを確認するには、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
+* モデル チェックポイントを評価するには、モデルの重みを VLLM 互換の Artifacts としてパッケージ化しておく必要があります。詳細およびコード例は、[Example: Prepare a model](/ja/models/launch/evaluate-model-checkpoint#example-prepare-a-model) を参照してください。
+* OpenAI 互換のモデルを評価するには、そのモデルがパブリック URL からアクセス可能であり、組織またはチーム管理者が認証用の API キーを含む team secret を設定しておく必要があります。
+* 一部のベンチマークは、スコアリングに OpenAI モデルを使用します。これらのベンチマークを実行するには、組織またはチーム管理者が必要な API キーを含む team secret を設定しておく必要があります。あるベンチマークにこの要件があるかどうかを確認するには、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
 * 一部のベンチマークでは、Hugging Face 上の gated データセットへのアクセスが必要です。これらのベンチマークのいずれかを実行するには、組織またはチーム管理者が Hugging Face 上の gated データセットへのアクセスを申請し、Hugging Face ユーザー アクセス トークンを生成し、それを team secret として設定する必要があります。あるベンチマークにこの要件があるかどうかを確認するには、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
 
 これらの要件を満たすための詳細および手順については、次のドキュメントを参照してください。

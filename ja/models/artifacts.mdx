@@ -12,13 +12,13 @@ import { TryProductLink } from '/snippets/ja/_includes/try-product-link.mdx';
   <TryProductLink url="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" />
 </CardGroup>
 
-W&amp;B Artifacts を使用して、[W&amp;B Runs](/ja/models/runs) の入力および出力としてデータを追跡し、バージョン管理します。例えば、モデルのトレーニング run は、入力としてデータセットを受け取り、出力として学習済みモデルを生成します。ハイパーパラメーター、メタデータ、メトリクスを run にログし、さらにアーティファクトを使用して、モデルのトレーニングに使用した入力側のデータセットをログ・追跡・バージョン管理し、出力側には得られたモデルのチェックポイント用に別のアーティファクトを使用できます。
+W&amp;B Artifacts を使用して、[W&amp;B Runs](/ja/models/runs) の入力および出力としてデータを追跡し、バージョン管理します。例えば、モデルのトレーニング run は、入力としてデータセットを受け取り、出力として学習済みモデルを生成します。ハイパーパラメーター、メタデータ、メトリクスを run にログし、さらに Artifacts を使用して、モデルのトレーニングに使用した入力側のデータセットをログ・追跡・バージョン管理し、出力側には得られたモデルのチェックポイント用に別の Artifacts を使用できます。
 
 <div id="use-cases">
   ## ユースケース
 </div>
 
-アーティファクトは、[runs](/ja/models/runs) の入出力として、ML ワークフロー全体で利用できます。データセットやモデル、さらには別のアーティファクトを処理の入力として使用できます。
+Artifacts は、[runs](/ja/models/runs) の入出力として、ML ワークフロー全体で利用できます。データセットやモデル、さらには別の Artifacts を処理の入力として使用できます。
 
 <Frame>
   <img src="/images/artifacts/artifacts_landing_page2.png" alt="モデルのトレーニング、データ処理、およびモデル評価の入出力を示す Artifacts のワークフローダイアグラム" />
@@ -36,17 +36,17 @@ W&amp;B Artifacts を使用して、[W&amp;B Runs](/ja/models/runs) の入力お
 </Note>
 
 <div id="create-an-artifact">
-  ## アーティファクトを作成する
+  ## Artifacts を作成する
 </div>
 
-4 行のコードでアーティファクトを作成します。
+4 行のコードで Artifacts を作成します。
 
 1. [W&amp;B run](/ja/models/runs) を作成します。
-2. [`wandb.Artifact`](/ja/models/ref/python/experiments/artifact) でアーティファクトオブジェクトを作成します。
-3. `wandb.Artifact.add_file()` で、モデルファイルやデータセットなど 1 つ以上のファイルをアーティファクトオブジェクトに追加します。
-4. `wandb.Run.log_artifact()` で、アーティファクトを W&amp;B にログします。
+2. [`wandb.Artifact`](/ja/models/ref/python/experiments/artifact) で Artifacts オブジェクトを作成します。
+3. `wandb.Artifact.add_file()` で、モデルファイルやデータセットなど 1 つ以上のファイルを Artifacts オブジェクトに追加します。
+4. `wandb.Run.log_artifact()` で、 Artifacts を W&amp;B にログします。
 
-たとえば、次のコードスニペットは、`dataset.h5` というファイルを `example_artifact` というアーティファクトにログする方法を示しています。
+たとえば、次のコードスニペットは、`dataset.h5` というファイルを `example_artifact` という Artifacts にログする方法を示しています。
 
 ```python
 import wandb
@@ -57,43 +57,43 @@ with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
     run.log_artifact(artifact)
 ```
 
-* アーティファクトの `type` は、W&amp;B プラットフォーム上での表示され方に影響します。`type` を指定しない場合は、デフォルトで `unspecified` になります。
-* ドロップダウンの各ラベルは、それぞれ異なる `type` パラメーター値に対応しています。上記のコードスニペットでは、そのアーティファクトの `type` は `dataset` です。
+* Artifacts の `type` は、W&amp;B プラットフォーム上での表示され方に影響します。`type` を指定しない場合は、デフォルトで `unspecified` になります。
+* ドロップダウンの各ラベルは、それぞれ異なる `type` パラメーター値に対応しています。上記のコードスニペットでは、その Artifacts の `type` は `dataset` です。
 
 <Note>
   Amazon S3 バケットのような外部オブジェクトストレージに保存されたファイルやディレクトリへの参照を追加する方法については、[track external files](/ja/models/artifacts/track-external-files) のページを参照してください。
 </Note>
 
 <div id="download-an-artifact">
-  ## アーティファクトをダウンロードする
+  ## Artifacts をダウンロードする
 </div>
 
-[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) メソッドを使用して、run の入力として指定したいアーティファクトを選択します。
+[`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) メソッドを使用して、run の入力として指定したい Artifacts を選択します。
 
-前のコードスニペットの続きとして、次のコード例では、先ほど作成した `example_artifact` というアーティファクトを使用する方法を示します。
+前のコードスニペットの続きとして、次のコード例では、先ほど作成した `example_artifact` という Artifacts を使用する方法を示します。
 
 ```python
 with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
-    artifact = run.use_artifact("training_dataset:latest")  # "my_data" アーティファクトを使用する run オブジェクトを返す
+    artifact = run.use_artifact("training_dataset:latest")  # "my_data" Artifacts を使用する run オブジェクトを返す
 ```
 
-これはアーティファクト オブジェクトを返します。
+これは Artifacts オブジェクトを返します。
 
-次に、この戻り値のオブジェクトを使って、アーティファクトの全コンテンツをダウンロードします。
+次に、この戻り値のオブジェクトを使って、 Artifacts の全コンテンツをダウンロードします。
 
 ```python
-datadir = artifact.download()  # `my_data` アーティファクト全体をデフォルトディレクトリにダウンロードします。
+datadir = artifact.download()  # `my_data` Artifacts 全体をデフォルトディレクトリにダウンロードします。
 ```
 
 <Note>
-  `root` [パラメーター](/ja/models/ref/python/experiments/artifact) に任意のパスを渡して、アーティファクトを特定のディレクトリにダウンロードできます。アーティファクトをダウンロードする別の方法や、利用可能な追加パラメーターについては、[アーティファクトをダウンロードして利用する](/ja/models/artifacts/download-and-use-an-artifact) ガイドを参照してください。
+  `root` [パラメーター](/ja/models/ref/python/experiments/artifact) に任意のパスを渡して、 Artifacts を特定のディレクトリにダウンロードできます。 Artifacts をダウンロードする別の方法や、利用可能な追加パラメーターについては、[Artifacts をダウンロードして利用する](/ja/models/artifacts/download-and-use-an-artifact) ガイドを参照してください。
 </Note>
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-* アーティファクトを [バージョン管理](/ja/models/artifacts/create-a-new-artifact-version) および [更新](/ja/models/artifacts/update-an-artifact) する方法を学びましょう。
-* [automations](/ja/models/automations) を使って、アーティファクトの変更に応じて下流のワークフローをトリガーしたり、Slack チャンネルに通知したりする方法を学びましょう。
+* Artifacts を [バージョン管理](/ja/models/artifacts/create-a-new-artifact-version) および [更新](/ja/models/artifacts/update-an-artifact) する方法を学びましょう。
+* [automations](/ja/models/automations) を使って、 Artifacts の変更に応じて下流のワークフローをトリガーしたり、Slack チャンネルに通知したりする方法を学びましょう。
 * 学習済みモデルを保存するスペースである [レジストリ](/ja/models/registry) について学びましょう。
 * [Python SDK](/ja/models/ref/python/experiments/artifact) と [CLI](/ja/models/ref/cli/wandb-artifact) のリファレンスガイドを参照しましょう。

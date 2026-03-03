@@ -8,13 +8,12 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
 
-
 ## <kbd>class</kbd> `OnAddArtifactAlias`
 
-アーティファクトに新しいエイリアスが割り当てられたときに発火します。
+Artifacts に新しいエイリアスが割り当てられたときに発火します。
 
 例:
-エイリアス &quot;prod&quot; がコレクション &quot;my-collection&quot; 内の任意のアーティファクトに
+エイリアス &quot;prod&quot; がコレクション &quot;my-collection&quot; 内の任意の Artifacts に
 割り当てられるたびにトリガーされるイベントを定義します:
 
 ```python
@@ -29,7 +28,6 @@ event = OnAddArtifactAlias(
     filter=ArtifactEvent.alias.eq("prod"),
 )
 ```
-
 
 ### <kbd>method</kbd> `OnAddArtifactAlias.__init__`
 

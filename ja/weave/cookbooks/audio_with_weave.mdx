@@ -27,7 +27,7 @@ description: "W&B Weave でオーディオを扱う方法を学ぶ"
   ## セットアップ
 </div>
 
-まず、OpenAI (`openai`) と Weave (`weave`) の依存関係に加え、APIキー を管理するための依存関係である `set-env` をインストールします。
+まず、OpenAI (`openai`) と Weave (`weave`) の依存関係に加え、API キーを管理するための依存関係である `set-env` をインストールします。
 
 ```python lines
 %%capture
@@ -42,7 +42,7 @@ python
 !pip install "httpx<0.28"
 ```
 
-次に、OpenAI と Weave 用の必要な APIキー を読み込みます。ここでは set&#95;env を使用します。これは Google Colab のシークレットキー マネージャーと互換性があり、Colab 固有の `google.colab.userdata` の代替となります。使い方については [こちら](https://pypi.org/project/set-env-colab-kaggle-dotenv/) を参照してください。
+次に、OpenAI と Weave 用の必要な API キーを読み込みます。ここでは set&#95;env を使用します。これは Google Colab のシークレットキー マネージャーと互換性があり、Colab 固有の `google.colab.userdata` の代替となります。使い方については [こちら](https://pypi.org/project/set-env-colab-kaggle-dotenv/) を参照してください。
 
 ```python lines
 # 環境変数を設定する。
@@ -66,7 +66,6 @@ from openai import OpenAI
 
 import weave
 ```
-
 
 <div id="audio-streaming-and-storage-example">
   ## 音声ストリーミングとストレージの例
@@ -138,7 +137,6 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
     return wave.open("output.wav", "rb")
 ```
 
-
 <div id="testing">
   ## テスト
 </div>
@@ -158,7 +156,6 @@ prompt_endpoint_and_log_trace(
 # 更新されたオーディオストリームを表示する
 display(Audio("output.wav", rate=SAMPLE_RATE, autoplay=True))
 ```
-
 
 <div id="advanced-usage-realtime-audio-api-with-weave">
   ## 高度な使い方: Weave と Realtime Audio API
@@ -208,7 +205,6 @@ _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
-
 <div id="microphone-configuration">
   ## マイクの設定
 </div>
@@ -243,7 +239,6 @@ OAI_SAMPLE_RATE = (
 )
 OUTPUT_DEVICE_CHANNELS = 1  # モノラル出力の場合は 1 に設定する
 ```
-
 
 <div id="openai-realtime-api-schema-implementation">
   ## OpenAI Realtime API スキーマ実装
@@ -840,7 +835,6 @@ class StreamingWavWriter:
         return self.buffer
 ```
 
-
 <div id="realtime-audio-model">
   ## Realtime Audio Model
 </div>
@@ -1090,7 +1084,6 @@ def record_audio(realtime_model: RTAudioModel) -> pyaudio.Stream:
     print("録音を開始しました。パーソナルアシスタントに話しかけてください...")
     return stream
 ```
-
 
 <div id="main-thread-run-me">
   ## メインスレッド（Run me!）

@@ -36,7 +36,7 @@ description: "OpenTelemetry を使用して Weave で Google Agent Development K
 ADK から Weave にトレースを送信するには、OTEL を `TracerProvider` と `OTLPSpanExporter` を使って構成します。エクスポーターには、[認証およびプロジェクト識別用の正しいエンドポイントと HTTP ヘッダー](#required-configuration) を設定してください。
 
 <Warning>
-  APIキー やプロジェクト情報などの機密性の高い環境変数は、`.env` などの環境ファイルに保存し、`os.environ` を使って読み込むことを推奨します。これにより、認証情報を安全に保ち、コードベースの外に出しておくことができます。
+  API キー やプロジェクト情報などの機密性の高い環境変数は、`.env` などの環境ファイルに保存し、`os.environ` を使って読み込むことを推奨します。これにより、認証情報を安全に保ち、コードベースの外に出しておくことができます。
 </Warning>
 
 <div id="required-configuration">
@@ -45,7 +45,7 @@ ADK から Weave にトレースを送信するには、OTEL を `TracerProvider
 
 * **Endpoint:** `https://trace.wandb.ai/otel/v1/traces`。専用の Weave インスタンスを使用している場合は、代わりに URL は次のパターンになります: `{YOUR_WEAVE_HOST}/traces/otel/v1/traces`
 * **Headers:**
-  * `Authorization`: W&amp;B の APIキー を使用した Basic 認証
+  * `Authorization`: W&amp;B の API キーを使用した Basic 認証
   * `project_id`: W&amp;B entity/project 名 (例: `myteam/myproject`)
 
 <div id="send-otel-traces-from-adk-to-weave">
@@ -70,7 +70,7 @@ from opentelemetry import trace
 WANDB_BASE_URL = "https://trace.wandb.ai"
 # W&B のエンティティ/プロジェクト名（例: "myteam/myproject"）
 PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
-# W&B の APIキーを https://wandb.ai/settings で作成する
+# W&B の API キーを https://wandb.ai/settings で作成する
 WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"

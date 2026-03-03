@@ -36,7 +36,7 @@ weave.init("<your-team>/<your-project>")
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
 
-    # https://wandb.ai/settings で APIキーを作成する
+    # https://wandb.ai/settings で API キーを作成する
     api_key="<your-api-key>",
 
     # オプション: 使用状況追跡用のチームとプロジェクト
@@ -100,7 +100,7 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # https://wandb.ai/settings で APIキーを作成する
+            # https://wandb.ai/settings で API キーを作成する
             api_key="<your-api-key>",
             # オプション: 使用状況追跡用のチームとプロジェクト
             project="<your-team>/<your-project>",

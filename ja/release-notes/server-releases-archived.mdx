@@ -34,7 +34,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 修正
 
-  * `Create Artifact` パーミッションを含むカスタムロールを作成したユーザーが、プロジェクトにアーティファクトをログできない問題を修正しました。
+  * `Create Artifact` パーミッションを含むカスタムロールを作成したユーザーが、プロジェクトに Artifacts をログできない問題を修正しました。
   * BYOB 用に subpath サポートが構成されているインスタンスで、ファイルのメタデータログに関して発生していた問題を修正しました。
   * 組織レジストリの自動化処理で使用されている場合、webhook を削除できないようブロックするようにしました。
 </Update>
@@ -111,7 +111,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * RunSystemMetrics コンポーネントに GPU メモリ使用量パネルを追加し、アプリ フロントエンドでの run の GPU メトリクス可視化を強化しました。
   * モバイル ユーザーにとって、Workspace の操作性がよりスムーズで直感的になりました。
   * Google Cloud または Azure 上の W&amp;B Dedicated Cloud を使用している場合、インスタンスに対してプライベート接続を有効化できるようになりました。これにより、AI ワークロードからのすべてのトラフィックと、オプションでブラウザー クライアントからのトラフィックが、クラウド プロバイダーのプライベート ネットワークのみを通過するようにできます。詳細は [Private connectivity](https://docs.wandb.ai/platform/hosting/data-security/private-connectivity) を参照し、不明点があれば W&amp;B の担当チームにお問い合わせください。
-  * チーム単位のサービス アカウントが、チーム設定ビュー内の新しいタブで個別に表示されるようになりました。サービス アカウントは、Members タブには表示されなくなりました。また、APIキー は非表示となり、チーム管理者のみがコピーできます。
+  * チーム単位のサービス アカウントが、チーム設定ビュー内の新しいタブで個別に表示されるようになりました。サービス アカウントは、Members タブには表示されなくなりました。また、API キー は非表示となり、チーム管理者のみがコピーできます。
   * Dedicated Cloud が Google Cloud のソウル リージョンでも利用可能になりました。
 
   ## 不具合修正
@@ -183,7 +183,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * 組織内のユーザーに対して、SSO プロバイダーからの OIDC クレームを利用してユーザー名と氏名の設定を強制できるようになりました。ご興味がある場合は、所属の W&amp;B チームまたはサポートまでお問い合わせください。
   * 組織内で個人用プロジェクトの使用を無効化し、すべてのプロジェクトが W&amp;B Teams 内で作成され、管理者が強制するガイドラインに基づいてガバナンスできるようになりました。ご興味がある場合は、所属の W&amp;B チームまたはサポートまでお問い合わせください。
-  * Artifacts Lineage DAG ビューで、run またはアーティファクトのクラスタ内のすべてのバージョンを展開するオプションを追加しました。
+  * Artifacts Lineage DAG ビューで、run または Artifacts のクラスタ内のすべてのバージョンを展開するオプションを追加しました。
   * Artifacts Lineage DAG の UI を改善し、クラスタ内の各エントリについて type が表示されるようになりました。
 
   ## 修正
@@ -338,7 +338,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.45.0" description="2023年10月25日">
   ## 機能
 
-  * 環境変数 `GORILLA_ARTIFACT_GC_ENABLED=true` とクラウドオブジェクトのバージョニングまたはソフト削除を使用して、アーティファクトのガーベジコレクションを有効化
+  * 環境変数 `GORILLA_ARTIFACT_GC_ENABLED=true` とクラウドオブジェクトのバージョニングまたはソフト削除を使用して、 Artifacts のガーベジコレクションを有効化
   * terraform モジュール terrraform-azurerm-wandb が、Secrets ストアとして Azure Key Vault をサポートするようになりました。
     Azure 上のデプロイメントで、Webhooks および Automations に W&amp;B Secrets を使用できるようになりました。Secrets は Azure Key Vault に安全に保存されます。
 
@@ -410,7 +410,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * W&amp;B Artifacts が time-to-live（TTL）ポリシーをサポートしました。
 
     <Frame>
-      ![アーティファクト向け TTL ポリシーを示す画像](https://github.com/wandb/server/assets/117778861/fcfe9484-5adb-4ace-8e88-9c9a344d94ef)
+      ![Artifacts 向け TTL ポリシーを示す画像](https://github.com/wandb/server/assets/117778861/fcfe9484-5adb-4ace-8e88-9c9a344d94ef)
     </Frame>
 
     これにより、W&amp;B にログされた Artifacts の削除と保持を、保持期間および time-to-live（TTL）ポリシーを設定することで、より柔軟に制御できるようになりました。特定の Artifacts をいつ削除するかを指定し、既存の Artifacts のポリシーを更新し、上流または下流の Artifacts に TTL ポリシーを設定できます。
@@ -425,13 +425,13 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 修正
 
-  * 進行中のストレージ計算リファクタリングに対してストレージおよびアーティファクトの請求書発行を無効化
+  * 進行中のストレージ計算リファクタリングに対してストレージおよび Artifacts の請求書発行を無効化
   * パネル削除のバグを修正
   * プロジェクト自動化スライダーから link-version イベントタイプを削除
-  * アーティファクトタイプ名への大文字スタイリングを削除
+  * Artifacts タイプ名への大文字スタイリングを削除
   * 無色タグがレンダリング時に色付きに変わらないように修正
   * 再オープン時に Launch drawer に残ってしまう古いデフォルト値を修正
-  * アーティファクト作成時にエイリアス自動化をトリガー
+  * Artifacts 作成時にエイリアス自動化をトリガー
   * 無限ロードのタグフィルターにおけるレアケースの失敗を修正
 </Update>
 
@@ -453,7 +453,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * 空のプロジェクトが原因で storage explorer が無限ロードする問題
   * run キュー内のアイテムが失敗した際に Runs が failed とマークされる問題
-  * OpenAI プロキシのアーティファクト保存に正しいバケットを使用
+  * OpenAI プロキシの Artifacts 保存に正しいバケットを使用
   * SEO タグがホストによって正しくレンダリングされない問題
   * コンテキストのデッドライン到達時にもバックグラウンドでエクスポートをトリガー
   * run が初期化されたとき、pending 状態の run を running に遷移
@@ -503,7 +503,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * Automations で、関連するジョブの設定パラメーターを表示できるようになりました
   * グループ化された run がライブ更新されない問題を修正
   * magic リンクおよび通常のリンク URL から余分な `/` を削除
-  * 増分アーティファクト用のベースをチェック
+  * 増分 Artifacts 用のベースをチェック
   * ユーザーを複数の team に招待しても、組織内のシートを過剰に消費しないように修正
 </Update>
 
@@ -520,7 +520,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 修正
 
-  * アーティファクトのダウンロード速度を大幅に改善しました。100 万ファイルのアーティファクトベンチマークで 6 倍以上の高速化を確認しています。SDK バージョン 0.15.5 以降にアップグレードしてください。
+  * Artifacts のダウンロード速度を大幅に改善しました。100 万ファイルの Artifacts ベンチマークで 6 倍以上の高速化を確認しています。SDK バージョン 0.15.5 以降にアップグレードしてください。
   * (Launch) Optuna が [Launch 上の Sweeps 用 sweep スケジューラ](https://docs.wandb.ai/guides/launch/sweeps-on-launch#create-a-custom-sweep-scheduler) として利用可能になり、ハイパーパラメーター探索をより効率的に行えるようになりました。
   * run データの完全削除が利用可能になりました（デフォルトではオフ）。これは GORILLA&#95;DATA&#95;RETENTION&#95;PERIOD 環境変数を時間単位で指定することで有効にできます。この変数を更新する前には十分注意し、必要に応じて W&amp;B Support にご相談ください。一度削除すると元に戻せません。この設定では Artifacts は削除されません。
   * レポート共有メールを更新し、プレビューが含まれるようにしました。
@@ -541,7 +541,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * (Launch) チームに所属していないユーザーには Launch ナビゲーションリンクが表示されなくなりました。
   * (Launch) Agent ログの書式と表示に関する問題を修正しました。
   * Automations パネルでのスクロール、リサイズ、クローンに関する問題を修正しました。
-  * アーティファクトのアクション履歴におけるページネーションの問題を修正しました。
+  * Artifacts のアクション履歴におけるページネーションの問題を修正しました。
   * AWS&#95;S3&#95;ENDPOINT&#95;URL 環境変数が設定され、SDK 側から渡されている場合に、VPC エンドポイント URL を使用した事前署名付き URL をサポートしました。
   * 組織名に &quot;&amp;&quot; が含まれる場合のエンタープライズ ダッシュボード リンクの問題を修正しました。
   * タグの色を統一しました。
@@ -577,7 +577,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.35.0" description="2023年6月7日">
   ## セキュリティ
 
-  最近ログインしたユーザーの APIキー がログに記録されてしまう問題を修正しました。ログ内で `FetchAuthUserByAPIKey` を検索し、デバッグバンドル内の `gorilla.log` から見つけたキーはすべてローテーションしてください。
+  最近ログインしたユーザーの API キー がログに記録されてしまう問題を修正しました。ログ内で `FetchAuthUserByAPIKey` を検索し、デバッグバンドル内の `gorilla.log` から見つけたキーはすべてローテーションしてください。
 
   ## 機能
 
@@ -592,7 +592,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ## 修正
 
   * Logs タブが 1000 行に制限されなくなりました。
-  * アーティファクトファイルのページネーションが無限ループに陥る可能性があった問題を修正しました。
+  * Artifacts ファイルのページネーションが無限ループに陥る可能性があった問題を修正しました。
   * 成功時のトーストメッセージが表示されないバグを修正しました。
   * Runs テーブルで git コミット値が正しく表示されるようになりました。
 </Update>
@@ -627,7 +627,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * LLM trace タイムライン/詳細をフルスクリーン時に水平方向に分割するようにしました。
   * Model Registry のエントリに Entity / Team バッジを追加しました。
   * ログアウト状態のユーザー向けにナビゲーションバーの操作性を改善しました。
-  * ストレージ/アーティファクトのバナーを無効化し、Artifacts が過剰な組織で UI がブロックされる問題を回避しました。
+  * ストレージ/Artifacts のバナーを無効化し、 Artifacts が過剰な組織で UI がブロックされる問題を回避しました。
   * ユーザーアバターが正しく表示されない問題を修正しました。
   * Azure Git URL を使用した Launch の問題を修正しました。
   * Launch の設定ボックスがエアギャップ環境でも動作するようになりました。
@@ -682,7 +682,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * 空の Launch キュー設定に対するエラーメッセージを改善しました。
   * Sweeps の parallel coordinates プロット上のフィルターが、選択されているすべての runset に適用されるようになりました。
   * Sweeps でメトリクスが必須ではなくなりました。
-  * Azure Blob Storage 上に保存された、W&amp;B の外部にある参照アーティファクトファイルの追跡をサポートしました。
+  * Azure Blob Storage 上に保存された、W&amp;B の外部にある参照 Artifacts ファイルの追跡をサポートしました。
   * Reports 内での Markdown 編集に関するバグを修正しました。
   * フルスクリーンの Weave パネルから、元のパネルと設定変更を共有できるようになりました。
   * 空のテーブルの表示を改善しました。

@@ -30,7 +30,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   W&amp;B 0.77 では、組織のセキュリティと生産性を向上させるための改善が導入されています。
 
-  このリリースには、APIキー のセキュリティ強化、single-run と multi-run ワークスペース間での設定共有によるナビゲーションの改善、折れ線グラフの新しいシェーディングオプション、メディアパネルの同期とループの一般提供（GA）、および主要な使い勝手の向上とバグ修正が含まれています。
+  このリリースには、API キー のセキュリティ強化、single-run と multi-run ワークスペース間での設定共有によるナビゲーションの改善、折れ線グラフの新しいシェーディングオプション、メディアパネルの同期とループの一般提供（GA）、および主要な使い勝手の向上とバグ修正が含まれています。
 
   ## サポートとサポート終了
 
@@ -53,7 +53,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## セキュリティ
 
-  * W&amp;B 全体で APIキー の運用を更新し、個人アカウントとサービスアカウントの両方におけるセキュリティとキー管理を強化しました。これらの変更は、最新のセキュリティベストプラクティスに沿いつつ、Teams に対してより高い柔軟性と、より安全な自動化をもたらします。
+  * W&amp;B 全体で API キー の運用を更新し、個人アカウントとサービスアカウントの両方におけるセキュリティとキー管理を強化しました。これらの変更は、最新のセキュリティベストプラクティスに沿いつつ、Teams に対してより高い柔軟性と、より安全な自動化をもたらします。
 
     **重要なポイント**
 
@@ -62,7 +62,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     * キーはいつでも名称を変更したり削除したりできます。
     * サービスアカウントで複数の API キーをサポートできるようになりました。
 
-    [サインアップして APIキーを作成する](/ja/models/quickstart#sign-up-and-create-an-api-key) を参照してください。
+    [サインアップして API キーを作成する](/ja/models/quickstart#sign-up-and-create-an-api-key) を参照してください。
 
   ## 機能
 
@@ -81,7 +81,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ### Registry
 
   * [Artifact 系譜グラフ](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) は Registry で、ドラッグ＆ドロップによる再配置や項目の非表示に対応しました。
-  * アーティファクト バージョンの表示画面から、新しいレジストリを作成し、そのアーティファクト バージョンを 1 回の操作でレジストリにリンクできるようになりました。
+  * Artifacts バージョンの表示画面から、新しいレジストリを作成し、その Artifacts バージョンを 1 回の操作でレジストリにリンクできるようになりました。
 
   ### Weave
 
@@ -208,13 +208,13 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * 画像のスムージングが有効になっている Image パネルに、スムージング設定が常に適用されていなかった不具合を修正しました。
   * グリッドビューでメディアパネルが縦方向のスペースを必要以上に占有し、スクロール量が過度に多くなってしまう不具合を修正しました。
   * オートメーション機能の表示や更新時に発生していた軽微な表示上の問題を修正しました。
-  * アーティファクトをリンクする際に発生していた、スクロールや件数の表示に関する軽微な UI バグを修正しました。
+  * Artifacts をリンクする際に発生していた、スクロールや件数の表示に関する軽微な UI バグを修正しました。
   * HTML テーブルメディアパネルで非 ASCII 文字が表示されなくなることがある不具合を修正しました。
   * **Edit run name** アクションを更新し、ワークスペース内での run の表示名を変更しているのか、プロジェクト全体での実際の run 名を変更しているのかが、これまでより明確にわかるようにしました。
 </Update>
 
 <Update label="v0.75.2" description="2025年11月5日">
-  * チームのサービスアカウントの APIキー が、組織の Admin でもあるチーム Admin ユーザーに表示されないバグを修正しました。
+  * チームのサービスアカウントの API キー が、組織の Admin でもあるチーム Admin ユーザーに表示されないバグを修正しました。
   * 複数の run グループを含むプロットで、ツールチップに表示される (min, max) の範囲がすべてのグループで同じ値になってしまうバグを修正しました。
   * 削除された run の Parquet ファイルが完全にガベージコレクトされずに残り、エラー `delete parquet history does not currently support partial deletes` が繰り返しログに記録されるバグを修正しました。
 </Update>
@@ -245,8 +245,8 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * **Registry のアクセス制御に関する更新:**
     * **プログラムからの Registry アクセス制御:** [Registry roles](/ja/models/registry/configure_registry#details-about-registry-roles) が SCIM スキーマに含まれるようになりました。[ユーザーを作成](/ja/platform/hosting/iam/scim#create-user) または更新する際に、そのユーザーの Registry ロールを設定できるほか、[ユーザーを取得](/ja/platform/hosting/iam/scim#get-user) すると Registry ロールも返されます。
-    * **Registry アクセスの制限:** Registry へのフルアクセスを付与したくない場合は、新しい Registry ロールである [Restricted Viewer](/ja/models/registry/configure_registry) を付与できます。このロールは、コレクション、オートメーション、その他の Registry リソースを作成・更新・削除することなく、Registry アーティファクトへの読み取り専用アクセスを提供します。これは、機密性の高い、または規制対象の Registry コンテンツに対して役立ちます。
-    * [**Registry アクセスの拡張:**](https://wandb.ai/wandb_fc/product-announcements-fc/reports/Registry-for-W-B-Models-viewers-Faster-discovery-cleaner-handoffs--VmlldzoxNDc4MzM5Mg) 今後は、Models の **Viewer** ロールを持つ任意のユーザーが、デフォルトで Registry の完全な **Member** にもなり、モデルやアーティファクトを閲覧、比較、利用できるようになります。Models の **Viewer** には、**Restricted Viewer**、**Viewer**、**Admin** など、別の Registry ロールを割り当てることもできます。これにより、組織内のすべてのユーザーが Registry の価値を最大限に引き出せるようになります。
+    * **Registry アクセスの制限:** Registry へのフルアクセスを付与したくない場合は、新しい Registry ロールである [Restricted Viewer](/ja/models/registry/configure_registry) を付与できます。このロールは、コレクション、オートメーション、その他の Registry リソースを作成・更新・削除することなく、Registry Artifacts への読み取り専用アクセスを提供します。これは、機密性の高い、または規制対象の Registry コンテンツに対して役立ちます。
+    * [**Registry アクセスの拡張:**](https://wandb.ai/wandb_fc/product-announcements-fc/reports/Registry-for-W-B-Models-viewers-Faster-discovery-cleaner-handoffs--VmlldzoxNDc4MzM5Mg) 今後は、Models の **Viewer** ロールを持つ任意のユーザーが、デフォルトで Registry の完全な **Member** にもなり、モデルや Artifacts を閲覧、比較、利用できるようになります。Models の **Viewer** には、**Restricted Viewer**、**Viewer**、**Admin** など、別の Registry ロールを割り当てることもできます。これにより、組織内のすべてのユーザーが Registry の価値を最大限に引き出せるようになります。
 
   * **スター付き Registry:** 規模が大きくなっても Registry をスムーズに利用できるよう、Registry にスターを付けられるようになりました。Registry のランディングページでは、対象の registry のカードにカーソルを合わせて、星形の枠アイコンをクリックします。個別の registry ページでは、ページ上部にある星形の枠アイコンをクリックします。スター付きの registry は、Registry のランディングページ上部にアルファベット順で表示されます。
 
@@ -290,13 +290,13 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * スクロールしないとパネルを表示できない場合に、メディアパネルがフルスクリーンで開かないことがある不具合を修正しました。
   * 比較対象が多い折れ線プロットでスパイクをより明確に可視化できるように、折れ線プロットの最小値および最大値のシェーディングが改善されました。
   * 大きな調整や Experiments を行った後も効率的に復元できるよう、折れ線グラフ エディタで X 軸を元に戻せるようになりました。
-  * アーティファクトのリンク処理中にレジストリを作成した場合に、コアレジストリのアクセス タイプが誤って設定される可能性がある不具合を修正しました。この不具合により、メンバー管理に問題が発生し、レジストリが正常に機能しなくなる場合がありました。
+  * Artifacts のリンク処理中にレジストリを作成した場合に、コアレジストリのアクセス タイプが誤って設定される可能性がある不具合を修正しました。この不具合により、メンバー管理に問題が発生し、レジストリが正常に機能しなくなる場合がありました。
 </Update>
 
 <Update label="v0.74.1" description="2025 年 10 月 2 日">
   * 組織管理者が Organization Dashboard にアクセスできなくなる可能性があるバグを修正しました。
   * バージョン 0.73.0 で導入され、過去にエクスポートされた Parquet ファイルを削除できてしまうバグを修正しました。
-  * コミットが正常に完了した後でも、Parquet 内のアーティファクト ファイルを削除できてしまう可能性があるバグを修正しました。
+  * コミットが正常に完了した後でも、Parquet 内の Artifacts ファイルを削除できてしまう可能性があるバグを修正しました。
   * MySQL からシステム メトリクスをクエリする際に発生していた、バージョン v0.73 で導入されたパフォーマンス低下を修正しました。
   * オーナーがいないプロジェクトを編集できなくなる可能性があるバグを修正しました。
   * 過去のメトリクスのヒストグラムは、デフォルトではサマリー ページに表示されなくなりました。その代わりに、各メトリクスの詳細がサマリー ページに表示され、ヒストグラムはワークスペース パネルとして利用できるようになりました。
@@ -380,7 +380,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * <a id="registry_ga_announcement" aria-label="W&B Registry GA のお知らせ" />既存のチームレベルの Model Registry を、今後数回のリリースにわたり段階的に W&amp;B Registry へ移行していきます。**お客様側での対応は一切不要です。W&amp;B が各チームの Model Registry のアセットを、自動的に作成される対応するチームレベルのプライベートレジストリにコピーします。**既存のチームレベルの旧 Model Registry 内のモデルコレクションへの参照も、引き続きそのままご利用いただけます。
 
-    1. Server v0.73（本リリース）には、アップグレード中にチームの Model Registry を自動的に移行するためのオプトアウト用環境変数が用意されています。多くの組織では、移行には 5〜30 分かかります。移行中は、古い Model Registry または新しい Registry のいずれかにアーティファクトをリンクしようとすると、エラーとなり失敗します。**アーティファクトのログ記録および取得は影響を受けません**。
+    1. Server v0.73（本リリース）には、アップグレード中にチームの Model Registry を自動的に移行するためのオプトアウト用環境変数が用意されています。多くの組織では、移行には 5〜30 分かかります。移行中は、古い Model Registry または新しい Registry のいずれかに Artifacts をリンクしようとすると、エラーとなり失敗します。**Artifacts のログ記録および取得は影響を受けません**。
     2. Server v0.74（9 月末）では、このオプトアウトフラグを削除し、アップグレード中に移行が実行されるようにします。
 
     より強力な新しいエクスペリエンスへのシームレスなアップグレードを実現するため、最適化を進めています。移行について質問がある場合は、W&amp;B アカウント チーム、または [support](mailto:support@wandb.ai) までお問い合わせください。
@@ -436,7 +436,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.71.0" description="2025年7月29日">
-  W&amp;B Server 0.71 では、Registry がすべての組織でデフォルトで有効になりました。Registry の段階的なロールアウトの詳細については、Features の関連ノートを参照してください。このリリースでは、ワークスペースに関するいくつかの改善と修正が加えられています。共通のステップスライダーを持つメディアパネルの同期、全画面パネルのより効率的なナビゲート、そして Run Overview ページでの run の合計実行時間とアクティブな実行時間の詳細確認が可能になりました。Automations も強化され、アーティファクトバージョンのタグに基づいて自動化をトリガーできるようになりました。{/* more */}
+  W&amp;B Server 0.71 では、Registry がすべての組織でデフォルトで有効になりました。Registry の段階的なロールアウトの詳細については、Features の関連ノートを参照してください。このリリースでは、ワークスペースに関するいくつかの改善と修正が加えられています。共通のステップスライダーを持つメディアパネルの同期、全画面パネルのより効率的なナビゲート、そして Run Overview ページでの run の合計実行時間とアクティブな実行時間の詳細確認が可能になりました。Automations も強化され、 Artifacts バージョンのタグに基づいて自動化をトリガーできるようになりました。{/* more */}
 
   ## サポートとサポート終了
 
@@ -458,11 +458,11 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * <a id="registry_ga_announcement" aria-label="W&B Registry GA 発表" /> 既存のチームレベルの Model Registry を、今後数回のリリースにわたって段階的に W&amp;B Registry へ移行します。**お客様側での作業は一切不要で、W&amp;B が各チームの Model Registry アセットを、自動的に作成される対応するチームレベルのプライベートレジストリに自動的にコピーします。** 既存のチームレベルの Model Registry 内のモデルコレクションへの参照は、そのまま利用できます。
 
     1. Server v0.71（本リリース）では、すべての organization で Registry がデフォルトで有効になりました。
-    2. Server v0.73（8 月）では、アップグレード中にこのマイグレーションを自動的に実行する、オプトアウト用の環境変数が提供されます。マイグレーションには、ほとんどの organization で 5～30 分かかります。マイグレーション中は、旧 team の Model Registry または新しい Registry のいずれかにアーティファクトをリンクしようとすると、エラーで失敗します。**Artifact のロギングおよび取得には影響しません**。
+    2. Server v0.73（8 月）では、アップグレード中にこのマイグレーションを自動的に実行する、オプトアウト用の環境変数が提供されます。マイグレーションには、ほとんどの organization で 5～30 分かかります。マイグレーション中は、旧 team の Model Registry または新しい Registry のいずれかに Artifacts をリンクしようとすると、エラーで失敗します。**Artifact のロギングおよび取得には影響しません**。
     3. Server v0.74（9 月）では、このフラグが削除され、マイグレーションはアップグレード中に実行されるようになります。
 
     私たちは、ユーザーの皆さまへの負担を最小限に抑えつつ、シームレスにより強力な新しいエクスペリエンスへアップグレードできるよう最適化を進めています。移行に関してご不明な点がありましたら、W&amp;B にお問い合わせください。
-  * アーティファクトにタグを追加することで、オートメーションをトリガーできるようになりました。詳しくは、[Artifact events](/ja/models/automations/automation-events/#artifact-events) を参照してください。
+  * Artifacts にタグを追加することで、オートメーションをトリガーできるようになりました。詳しくは、[Artifact events](/ja/models/automations/automation-events/#artifact-events) を参照してください。
   * パネルをフルスクリーン表示しているときは、**Previous** と **Next** ボタン、またはキーボードの左右矢印キーを使って、そのセクション内の前後のパネルに切り替えられます。
   * メディアパネルをフルスクリーン表示中は、ステップスライダーを移動するには、macOS では **CMD + 左右矢印キー**、Windows / Linux では **Ctrl + 左右矢印キー** を使用します。
   * 同じステップスライダーキーを使用してメディアパネル同士を同期できるようになりました。1 つのメディアパネルでステップスライダーを進めると、他のパネルのステップスライダーも同時に進みます。Workspace またはセクションの設定を開き、**Media** に移動し、**Sync** タブをクリックしてから、**Sync slider by key (Step)** をオンにします。
@@ -496,9 +496,9 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * X 軸の式は、ネストされた config フィールドもサポートされるようになりました。
   * **Artifacts** ページのサイドバーから **Registry** へのリンクが削除されました。Registry にアクセスするには、**Home** をクリックし、次に **Registry** をクリックしてください。
   * ワークスペースまたはセクション内の折れ線グラフでは、ポイントにカーソルを合わせたときにツールチップ内にビン範囲を表示できます。ワークスペースまたはセクションの設定を開き、**Line plots** をクリックし、**Display preferences** タブを開いて、**Show bin range in tooltip** をオンにします。
-  * **Registry** アーティファクトの系譜ページでリンクをクリックしたときに、ブラウザーの URL とパラメーターは更新されるものの、ページの内容が更新されない不具合を修正しました。これにより、URL が変更されたときに UI も更新されるようになりました。
+  * **Registry** Artifacts の系譜ページでリンクをクリックしたときに、ブラウザーの URL とパラメーターは更新されるものの、ページの内容が更新されない不具合を修正しました。これにより、URL が変更されたときに UI も更新されるようになりました。
   * **Registry** で、コレクションテーブルが float ではなく文字列としてソートされてしまっていた不具合を修正しました。
-  * **Registry** で、選択したアーティファクトについて、別のバージョンを選択しても系統情報ドロワーに常に最新バージョンが表示されてしまう不具合を修正しました。
+  * **Registry** で、選択した Artifacts について、別のバージョンを選択しても系統情報ドロワーに常に最新バージョンが表示されてしまう不具合を修正しました。
   * モバイル表示でパネルの検索バーが表示されない不具合を修正しました。
   * run セレクターを任意の属性でソートし、coloring by key をオンにした場合、プロット上部に表示される run が正しく色分けされるようになりました。
   * グループ化された runs を使用している場合、平行座標プロットにグループ名が正しく表示されるようになりました。
@@ -513,7 +513,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * アップグレード後もクラッシュした run のステータスが **Crashed** に更新されないバグを修正しました。
   * **Sweeps** Runs テーブルから **State** 列が欠落していたバグを修正しました。
-  * アーティファクト マニフェストファイルのキャッシュされるパスがアーティファクトのバージョンインデックスのみに依存していたため、Registry コレクション用のブラウザーが誤ったバージョンのファイルを表示する可能性があった Weave のバグを修正しました。
+  * Artifacts マニフェストファイルのキャッシュされるパスが Artifacts のバージョンインデックスのみに依存していたため、Registry コレクション用のブラウザーが誤ったバージョンのファイルを表示する可能性があった Weave のバグを修正しました。
   * 構文的に有効な JSON が正しくパースされない可能性があった Weave のバグを修正しました。
 
   これらのバグは v0.70.0 で発生していました。
@@ -534,12 +534,12 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     * 既存のチームレベルの Model Registry アセットを、今後数回のリリースにわたって段階的に W&amp;B Registry へ移行していきます。**お客様側での対応は一切不要です。W&amp;B が、各チームの Model Registry アセットを、自動的に作成される対応するチームレベルのプライベートレジストリへ自動的にコピーします。** 既存のチームレベルの Model Registry 内のモデルコレクションへの参照は、引き続き有効です。
 
       1. Server v0.71 では、すべての組織で Registry がデフォルトで有効になります。
-      2. Server v0.73（8 月）には、この移行をアップグレード時に自動的に実行するためのオプトアウト用環境変数が含まれます。多くの組織では、移行には 5〜30 分かかります。移行中は、旧チームの Model Registry または新しい Registry のいずれに対してもアーティファクトをリンクしようとすると、エラーで失敗します。**アーティファクトの記録と取得** は影響を受けません。
+      2. Server v0.73（8 月）には、この移行をアップグレード時に自動的に実行するためのオプトアウト用環境変数が含まれます。多くの組織では、移行には 5〜30 分かかります。移行中は、旧チームの Model Registry または新しい Registry のいずれに対しても Artifacts をリンクしようとすると、エラーで失敗します。**Artifacts の記録と取得** は影響を受けません。
       3. Server v0.74（9 月）では、このフラグを削除し、移行はアップグレード中に実行されるようになります。
 
       私たちは、強力な新しい体験への、シームレスで負担の少ないアップグレードを目指しています。移行についてご不明な点がある場合は、W&amp;B チームまたは [support](mailto:support@wandb.ai) までお問い合わせください。
   * **CoreWeave インフラストラクチャ監視**: CoreWeave インフラストラクチャ上で [W&amp;B Run](/ja/models/runs) を実行している間、[CoreWeave Mission Control](https://www.coreweave.com/mission-control) が計算インフラストラクチャを監視し、GPU 障害や温度のしきい値違反などのインフラストラクチャのアラートを観測できるようにします。エラーが発生すると、CoreWeave はその情報を W&amp;B に送信します。W&amp;B は、プロジェクトのワークスペース内にある run のプロットにインフラストラクチャ情報を反映します。CoreWeave は一部の問題に自動的に対処しようとし、W&amp;B はその情報を run のページに表示します。W&amp;B は、run に関するシステムレベルの詳細を確認できるように、SLURM ジョブの Grafana ダッシュボードへのリンクを提供します。詳しくは [Visualize CoreWeave infrastructure alerts](/ja/models/app/features/panels/line-plot) を参照してください。
-  * **CoreWeave 外部ファイルの追跡**: CoreWeave AI Object Storage に保存されている外部ファイルを参照アーティファクトとして追跡できるようになりました。詳しくは [外部ファイルの追跡](/ja/models/artifacts/track-external-files) を参照してください。
+  * **CoreWeave 外部ファイルの追跡**: CoreWeave AI Object Storage に保存されている外部ファイルを参照 Artifacts として追跡できるようになりました。詳しくは [外部ファイルの追跡](/ja/models/artifacts/track-external-files) を参照してください。
   * **CoreWeave BYOB サポート**: Dedicated Cloud と Self-Managed で、インスタンスレベルおよび Team レベルの BYOB 向けに CoreWeave AI Object Storage がサポートされるようになりました。Multi-tenant Cloud 上での CoreWeave Team レベル BYOB への対応も近日中に提供予定です。詳細は [Bring your own bucket (BYOB)](/ja/platform/hosting/data-security/secure-storage-connector) を参照してください。
   * **一括メディア設定**: ラインプロットと同様に、ワークスペース全体や特定のセクションにわたって、すべてのメディア パネル設定を一括で管理できるようになりました。各メディア パネルを個別に調整することなく、エポックごとに表示したり、カスタマイズしたグリッドパターンに並べたりといった設定を簡単に行えます。個々のパネル設定はグローバル設定より優先されます。
   * **Workspace templates** を使用すると、既存のワークスペースと同じ設定で新しいワークスペースをすばやく作成できます。現在、Workspace template では折れ線グラフのカスタム設定を定義できます。詳しくは [Workspace templates](/ja/models/track/workspaces/#workspace-templates) を参照してください。
@@ -562,14 +562,14 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * 非単調な値を使用しているときに、スライダーのステップが誤ってしまう不具合を修正しました。
   * グループ間で run を移動する際に利用できるチェックボックスと通知機能を追加しました。
   * `wandb.define_metric()` でメトリクス名にワイルドカード文字 `*` を使用した場合に、名前に `/` が含まれるメトリクスにマッチしない不具合を修正しました。
-  * W&amp;B では、コレクションポートフォリオのガベージコレクション時にソース アーティファクトを削除しなくなりました。
+  * W&amp;B では、コレクションポートフォリオのガベージコレクション時にソース Artifacts を削除しなくなりました。
   * **Allowed types** と **Registry 公開範囲** の選択ボックスに文字を入力できてしまっていた不具合を修正しました。
-  * コレクションカードでは、アーティファクトのタイプ名が途中で切り詰められることなく、全体が表示されるようになりました。
+  * コレクションカードでは、 Artifacts のタイプ名が途中で切り詰められることなく、全体が表示されるようになりました。
   * Registry のコレクションで **Action History** をクリックした際に、誤って **Versions** ビューが読み込まれる不具合を修正しました。
-  * Registry で `job` 型のアーティファクトを追加できるようになりました。
+  * Registry で `job` 型の Artifacts を追加できるようになりました。
   * Lineage タイルの幅が広くなり、省略される前により多くのテキストが表示されるようになりました。
-  * プロジェクト レベルの自動化設定に関する文言を明確化し、Registry の用語である「collections」ではなく「アーティファクト」を指すようにしました。
-  * artifact browser で名前検索を行う際、これまでのように最初の 500 個のアーティファクトに限定されるのではなく、すべてのアーティファクトが検索対象になるようになりました。
+  * プロジェクト レベルの自動化設定に関する文言を明確化し、Registry の用語である「collections」ではなく「 Artifacts 」を指すようにしました。
+  * artifact browser で名前検索を行う際、これまでのように最初の 500 個の Artifacts に限定されるのではなく、すべての Artifacts が検索対象になるようになりました。
 </Update>
 
 <Update label="v0.69.1" description="2025年6月10日">
@@ -626,7 +626,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## パフォーマンス
 
-  * [`wandb` SDK](/ja/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11 では、アーティファクトのダウンロード速度が平均して 3～5 倍高速になりました。例えば、以前は約 100 MB/秒でダウンロードされていたアーティファクトが、現在では 450 MB/秒以上でダウンロードできる場合があります。実際のダウンロード速度は、ネットワークやストレージインフラなどの要因によって異なります。
+  * [`wandb` SDK](/ja/models/quickstart/#install-the-wandb-library-and-log-in) v0.19.11 では、 Artifacts のダウンロード速度が平均して 3～5 倍高速になりました。例えば、以前は約 100 MB/秒でダウンロードされていた Artifacts が、現在では 450 MB/秒以上でダウンロードできる場合があります。実際のダウンロード速度は、ネットワークやストレージインフラなどの要因によって異なります。
   * [Project](/ja/models/track/project-page) ページと [User Settings](/ja/platform/app/settings-page/user-settings) ページのキャッシュ処理を改善しました。
 
   ## 修正
@@ -738,7 +738,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * run セレクターで、run に特定のメディアキーがあるかどうかでフィルタリングできるようになりました。
   * W&amp;B App の UI で run をグループ間で移動できるようになり、run のログ記録後でも新しいグループを作成できるようになりました。
   * UI 上で Automations を編集できるようになりました
-  * 自動化で、アーティファクトのイベントを Slack チャンネルに通知できるようになりました。自動化を作成する際は、Action type で「Slack notification」を選択してください。
+  * 自動化で、 Artifacts のイベントを Slack チャンネルに通知できるようになりました。自動化を作成する際は、Action type で「Slack notification」を選択してください。
   * Registry はデフォルトでグローバル検索に対応し、Registry 名、コレクション名、エイリアス、タグで、すべての Registry を対象に検索できるようになりました。
   * `runs` expression を使用する Tables や Query パネルでは、新しい Runs History step slider とドロップダウンコントロールを使用して、run の各ステップにおけるメトリクスのテーブルを表示できます。
   * W&amp;B Weave の Playground は、新たに OpenAI の `gpt-4.5-preview` と Deepseek の `deepseek-chat` および `deepseek-reasoner` をサポートしました。

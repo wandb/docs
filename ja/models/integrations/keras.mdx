@@ -6,7 +6,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 {/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" /> */}
 
-Keras のコールバックを使って実験を管理し、モデルのチェックポイントを記録し、モデル予測を可視化します。Keras のコールバックは、Pyhon SDK バージョン `0.13.4` 以上で `wandb.integration.keras` モジュールとして利用できます。
+Keras のコールバックを使って実験を管理し、モデルのチェックポイントを記録し、モデル予測を可視化します。Keras のコールバックは、Python SDK バージョン `0.13.4` 以上で `wandb.integration.keras` モジュールとして利用できます。
 
 W&amp;B Keras インテグレーションは、以下のコールバックを提供します。
 
@@ -133,7 +133,7 @@ with wandb.init(config={"bs": 12}) as run:
   ### N エポックごとにチェックポイントをログする
 </div>
 
-デフォルトでは（`save_freq="epoch"`）、コールバックは各エポック終了後にチェックポイントを作成し、それをアーティファクトとしてアップロードします。特定のバッチ数ごとにチェックポイントを作成するには、`save_freq` に整数を指定します。`N` エポックごとにチェックポイントを作成するには、`train` データローダーの要素数を計算し、それを `save_freq` に渡します。
+デフォルトでは（`save_freq="epoch"`）、コールバックは各エポック終了後にチェックポイントを作成し、それを Artifacts としてアップロードします。特定のバッチ数ごとにチェックポイントを作成するには、`save_freq` に整数を指定します。`N` エポックごとにチェックポイントを作成するには、`train` データローダーの要素数を計算し、それを `save_freq` に渡します。
 
 ```python
 WandbModelCheckpoint(
@@ -146,7 +146,7 @@ WandbModelCheckpoint(
   ### TPU アーキテクチャ上でチェックポイントを効率的に記録する
 </div>
 
-TPU 上でチェックポイントを行う際に、`UnimplementedError: File system scheme '[local]' not implemented` というエラーメッセージが発生する場合があります。これは、モデルディレクトリ（`filepath`）としてクラウドストレージバケットのパス（`gs://bucket-name/...`）を使用する必要があり、そのバケットが TPU サーバーからアクセス可能でなければならないためです。これに対して、W&amp;B はチェックポイントにローカルパスを使用し、そのローカルパスがアーティファクトとしてアップロードされます。
+TPU 上でチェックポイントを行う際に、`UnimplementedError: File system scheme '[local]' not implemented` というエラーメッセージが発生する場合があります。これは、モデルディレクトリ（`filepath`）としてクラウドストレージバケットのパス（`gs://bucket-name/...`）を使用する必要があり、そのバケットが TPU サーバーからアクセス可能でなければならないためです。これに対して、W&amp;B はチェックポイントにローカルパスを使用し、そのローカルパスが Artifacts としてアップロードされます。
 
 ```python
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")

@@ -8,7 +8,6 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py" />
 
-
 ## <kbd>class</kbd> `Settings`
 
 W&B SDK の設定。
@@ -176,14 +175,14 @@ __init__(
 
 **引数:**
 
-* `allow_offline_artifacts` (bool): オフライン モードでテーブル アーティファクトの同期を許可するかどうかを制御するフラグです。
+* `allow_offline_artifacts` (bool): オフライン モードでテーブル Artifacts の同期を許可するかどうかを制御するフラグです。
   以前の挙動に戻すには、この値を False に設定します。
 
 * `allow_val_change` (bool): 一度設定された後でも `Config` の値を変更できるようにするフラグ。
 
 * `anonymous` (オブジェクト): 非推奨であり、今後削除されます。
 
-* `api_key` (Optional[str]): W&amp;B の APIキー。
+* `api_key` (Optional[str]): W&amp;B の API キー。
 
 * `azure_account_url_to_access_key` (Optional[Dict[str, str]]): Azure アカウント URL と、それに対応するアクセスキーとのマッピングを表す Azure インテグレーション用の設定です。
 
@@ -229,7 +228,7 @@ __init__(
 
 * `disable_git` (bool): git の状態の取得を無効化するかどうか。
 
-* `disable_job_creation` (bool): W&amp;B Launch の job アーティファクトの作成を無効にするかどうかを指定します。
+* `disable_job_creation` (bool): W&amp;B Launch の job Artifacts の作成を無効にするかどうかを指定します。
 
 * `docker` (Optional[str]): スクリプトを実行するために使用する Docker イメージ。
 

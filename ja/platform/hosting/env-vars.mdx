@@ -31,10 +31,10 @@ System Settings 管理 UI を使用してインスタンスレベルの設定を
 | `GORILLA_DATA_RETENTION_PERIOD`    | run から削除されたデータを保持する時間（時間単位）。削除された run データは復元できません。入力値の末尾に `h` を付けます（例: `"24h"`）。 |
 | `GORILLA_DISABLE_PERSONAL_ENTITY`  | true に設定すると、[personal entities](/ja/models/support/difference_team_entity_user_entity_mean_me/) を無効化します。personal entity 内で新しい personal プロジェクトが作成されることと、既存の personal プロジェクトへの書き込みを防止します。 |
 | `ENABLE_REGISTRY_UI`               | true に設定すると、新しい W&amp;B Registry UI を有効化します。            |
-| `GORILLA_ARTIFACT_GC_ENABLED`      | true に設定すると、削除されたアーティファクトに対するガーベジコレクションを有効化します。セルフマネージドデプロイメントでは必須です。詳細は [Delete an artifact](/ja/models/artifacts/delete-artifacts) を参照してください。 |
-| `WANDB_ARTIFACT_DIR`               | ダウンロードされたすべてのアーティファクトを保存する場所です。未設定の場合は、トレーニングスクリプトからの相対パスで `artifacts` ディレクトリがデフォルトになります。このディレクトリが存在し、実行ユーザーに書き込み権限があることを確認してください。生成されるメタデータファイルの保存場所は制御せず、それには `WANDB_DIR` 環境変数を使用できます。 |
-| `WANDB_DATA_DIR`                   | ステージングされたアーティファクトをアップロードする場所です。デフォルトの場所は、`platformdirs` Python パッケージの `user_data_dir` の値を使用するため、プラットフォームによって異なります。このディレクトリが存在し、実行ユーザーに書き込み権限があることを確認してください。 |
-| `WANDB_DIR`                        | 生成されたすべてのファイルを保存する場所です。未設定の場合は、トレーニングスクリプトからの相対パスで `wandb` ディレクトリがデフォルトになります。このディレクトリが存在し、実行ユーザーに書き込み権限があることを確認してください。ダウンロードされたアーティファクトの保存場所は制御せず、それには `WANDB_ARTIFACT_DIR` 環境変数を使用できます。 |
+| `GORILLA_ARTIFACT_GC_ENABLED`      | true に設定すると、削除された Artifacts に対するガベージコレクションを有効化します。セルフマネージドデプロイメントでは必須です。詳細は [Delete an artifact](/ja/models/artifacts/delete-artifacts) を参照してください。 |
+| `WANDB_ARTIFACT_DIR`               | ダウンロードされたすべての Artifacts を保存する場所です。未設定の場合は、トレーニングスクリプトからの相対パスで `artifacts` ディレクトリがデフォルトになります。このディレクトリが存在し、実行ユーザーに書き込み権限があることを確認してください。生成されるメタデータファイルの保存場所は制御せず、それには `WANDB_DIR` 環境変数を使用できます。 |
+| `WANDB_DATA_DIR`                   | ステージングされた Artifacts をアップロードする場所です。デフォルトの場所は、`platformdirs` Python パッケージの `user_data_dir` の値を使用するため、プラットフォームによって異なります。このディレクトリが存在し、実行ユーザーに書き込み権限があることを確認してください。 |
+| `WANDB_DIR`                        | 生成されたすべてのファイルを保存する場所です。未設定の場合は、トレーニングスクリプトからの相対パスで `wandb` ディレクトリがデフォルトになります。このディレクトリが存在し、実行ユーザーに書き込み権限があることを確認してください。ダウンロードされた Artifacts の保存場所は制御せず、それには `WANDB_ARTIFACT_DIR` 環境変数を使用できます。 |
 | `WANDB_IDENTITY_TOKEN_FILE`        | [identity federation](/ja/platform/hosting/iam/identity_federation/) 用に、Java Web Token (JWT) が保存されるローカルディレクトリへの絶対パスです。 |
 
 <Note>

@@ -30,7 +30,7 @@ pip install opentelemetry-sdk OTELemetry-exporter-otlp-proto-http
 PydanticAI から Weave にトレースを送信するには、`TracerProvider` と `OTLPSpanExporter` を使って OTEL を設定します。エクスポーターの送信先として、[認証およびプロジェクト識別のための正しいエンドポイントと HTTP ヘッダー](#required-configuration) を指定します。
 
 <Warning>
-  APIキーやプロジェクト情報などの機密性の高い環境変数は、`.env` などの環境ファイルに保存し、`os.environ` を使用して読み込むことを推奨します。これにより、認証情報を安全に保ち、コードベースから切り離しておくことができます。
+  API キーやプロジェクト情報などの機密性の高い環境変数は、`.env` などの環境ファイルに保存し、`os.environ` を使用して読み込むことを推奨します。これにより、認証情報を安全に保ち、コードベースから切り離しておくことができます。
 </Warning>
 
 <div id="required-configuration">

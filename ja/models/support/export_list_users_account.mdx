@@ -13,7 +13,7 @@ def encode_base64(username, key):
     return base64.b64encode(auth_string.encode('utf-8')).decode('utf-8')
 
 username = ''  # 組織管理者のユーザー名
-key = ''  # APIキー
+key = ''  # API キー
 scim_base_url = 'https://api.wandb.ai/scim/v2'
 users_endpoint = f'{scim_base_url}/Users'
 headers = {

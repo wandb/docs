@@ -150,12 +150,12 @@ webhook automation を作成する大まかな流れは次のとおりです。
 | `${entity_name}`              | アクションをトリガーしたミューテーションを所有する Entity または Team の名前。 |
 | `${event_type}`               | アクションをトリガーしたイベントの種類。 |
 | `${event_author}`             | アクションをトリガーしたユーザー。 |
-| `${alias}`                    | 自動処理が **An artifact alias is added** イベントによってトリガーされた場合に、アーティファクト の alias を含みます。その他の自動処理では、この変数は空です。 |
-| `${tag}`                      | 自動処理が **An artifact tag is added** イベントによってトリガーされた場合に、アーティファクト の tag を含みます。その他の自動処理では、この変数は空です。 |
-| `${artifact_collection_name}` | アーティファクト バージョンがリンクされているアーティファクト コレクションの名前。 |
-| `${artifact_metadata.<KEY>}`  | アクションをトリガーしたアーティファクト バージョンから取得される、任意のトップレベル メタデータ キーの値。`<KEY>` をトップレベル メタデータ キーの名前に置き換えてください。webhook のペイロードで利用できるのはトップレベル メタデータ キーのみです。 |
-| `${artifact_version}`         | アクションをトリガーしたアーティファクト バージョンの [`Wandb.Artifact`](/ja/models/ref/python/experiments/artifact.md/) 表現。 |
-| `${artifact_version_string}` | アクションをトリガーしたアーティファクト バージョンの `string` 表現。 |
+| `${alias}`                    | 自動処理が **An artifact alias is added** イベントによってトリガーされた場合に、 Artifacts の alias を含みます。その他の自動処理では、この変数は空です。 |
+| `${tag}`                      | 自動処理が **An artifact tag is added** イベントによってトリガーされた場合に、 Artifacts の tag を含みます。その他の自動処理では、この変数は空です。 |
+| `${artifact_collection_name}` | Artifacts バージョンがリンクされている Artifacts コレクションの名前。 |
+| `${artifact_metadata.<KEY>}`  | アクションをトリガーした Artifacts バージョンから取得される、任意のトップレベル メタデータ キーの値。`<KEY>` をトップレベル メタデータ キーの名前に置き換えてください。webhook のペイロードで利用できるのはトップレベル メタデータ キーのみです。 |
+| `${artifact_version}`         | アクションをトリガーした Artifacts バージョンの [`Wandb.Artifact`](/ja/models/ref/python/experiments/artifact.md/) 表現。 |
+| `${artifact_version_string}` | アクションをトリガーした Artifacts バージョンの `string` 表現。 |
 | `${ACCESS_TOKEN}` | [webhook](#create-a-webhook) で設定されていれば、その access token の値。access token は自動的に `Authorization: Bearer` HTTP ヘッダーで渡されます。 |
 | `${SECRET_NAME}` | 設定されている場合、[webhook](#create-a-webhook) で設定された secret の値。`SECRET_NAME` を secret の名前に置き換えてください。 |
 
@@ -212,7 +212,7 @@ webhook automation を作成する大まかな流れは次のとおりです。
     ${entity_name} --> "<entity>"
     ```
 
-    テンプレート文字列を使用して、W&amp;B から GitHub Actions やその他のツールへコンテキストを動的に渡します。これらのツールが Python スクリプトを呼び出せる場合、[W&amp;B API](/ja/models/artifacts/download-and-use-an-artifact/) を通じて登録済みモデルのアーティファクトを利用できます。
+    テンプレート文字列を使用して、W&amp;B から GitHub Actions やその他のツールへコンテキストを動的に渡します。これらのツールが Python スクリプトを呼び出せる場合、[W&amp;B API](/ja/models/artifacts/download-and-use-an-artifact/) を通じて登録済みモデルの Artifacts を利用できます。
 
     * repository dispatch の詳細については、[GitHub Marketplace の公式ドキュメント](https://github.com/marketplace/actions/repository-dispatch) を参照してください。
 

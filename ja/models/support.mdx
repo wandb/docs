@@ -46,15 +46,15 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="自分の artifacts には誰がアクセスできますか？">
-    アーティファクトは、親プロジェクトのアクセス権限を継承します。
+    Artifacts は、親プロジェクトのアクセス権限を継承します。
 
-    * プライベートプロジェクトでは、チームメンバーのみがアーティファクトにアクセスできます。
-    * パブリックプロジェクトでは、すべてのユーザーがアーティファクトを読み取ることができますが、作成や変更ができるのはチームメンバーのみです。
-    * オープンプロジェクトでは、すべてのユーザーがアーティファクトの読み書きができます。
+    * プライベートプロジェクトでは、チームメンバーのみが Artifacts にアクセスできます。
+    * パブリックプロジェクトでは、すべてのユーザーが Artifacts を読み取ることができますが、作成や変更ができるのはチームメンバーのみです。
+    * オープンプロジェクトでは、すべてのユーザーが Artifacts の読み書きができます。
 
     ## Artifacts ワークフロー
 
-    このセクションでは、Artifacts を管理および編集するためのワークフローについて説明します。多くのワークフローでは、W&amp;B に保存されたデータへアクセスするための [W&amp;B API](/ja/models/track/public-api-guide) を利用します。これは [client library](/ja/models/ref/python/) のコンポーネントです。
+    このセクションでは、 Artifacts を管理および編集するためのワークフローについて説明します。多くのワークフローでは、W&amp;B に保存されたデータへアクセスするための [W&amp;B API](/ja/models/track/public-api-guide) を利用します。これは [client library](/ja/models/ref/python/) のコンポーネントです。
   </Accordion>
 </Update>
 
@@ -220,7 +220,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
       <img src="/images/app_ui/anon_mode_no_data.png" alt="匿名モードのインターフェース" />
     </Frame>
 
-    * **アーティファクトのログ不可**: 匿名 run にアーティファクトをログしようとすると、コマンドラインに警告が表示されます:
+    * **Artifacts のログ不可**: 匿名 run に Artifacts をログしようとすると、コマンドラインに警告が表示されます:
       ```bash
       wandb: WARNING Artifacts logged anonymously cannot be claimed and expire after 7 days.
       ```
@@ -230,14 +230,14 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts", "Storage"]}>
-  <Accordion title="各アーティファクト バージョンはどれくらいのストレージを使用しますか？">
-    2 つのアーティファクト バージョン間で変更されたファイルのみがストレージ コストの対象になります。
+  <Accordion title="各 Artifacts バージョンはどれくらいのストレージを使用しますか？">
+    2 つの Artifacts バージョン間で変更されたファイルのみがストレージ コストの対象になります。
 
     <Frame>
       <img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifact の重複排除" />
     </Frame>
 
-    `animals` という名前の画像アーティファクトがあり、その中に 2 つの画像ファイル `cat.png` と `dog.png` が含まれているとします:
+    `animals` という名前の画像 Artifacts があり、その中に 2 つの画像ファイル `cat.png` と `dog.png` が含まれているとします:
 
     ```
     images
@@ -245,9 +245,9 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
     |-- dog.png (1MB) # `v0` で追加
     ```
 
-    このアーティファクトにはバージョン `v0` が付きます。
+    この Artifacts にはバージョン `v0` が付きます。
 
-    新しい画像 `rat.png` を追加すると、新しいアーティファクト バージョン `v1` が作成され、内容は次のとおりになります:
+    新しい画像 `rat.png` を追加すると、新しい Artifacts バージョン `v1` が作成され、内容は次のとおりになります:
 
     ```
     images
@@ -262,16 +262,16 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="複数のアーキテクチャや run で artifacts を使うには？">
-    モデルのバージョニングにはさまざまな方法があります。Artifacts は、特定のニーズに合わせたモデル バージョニングのためのツールを提供します。複数のモデル アーキテクチャを検証するプロジェクトで一般的なアプローチは、アーティファクトをアーキテクチャごとに分ける方法です。次のステップを検討してください:
+    モデルのバージョニングにはさまざまな方法があります。 Artifacts は、特定のニーズに合わせたモデル バージョニングのためのツールを提供します。複数のモデル アーキテクチャを検証するプロジェクトで一般的なアプローチは、 Artifacts をアーキテクチャごとに分ける方法です。次のステップを検討してください:
 
-    1. それぞれの異なるモデル アーキテクチャごとに新しいアーティファクトを作成します。アーティファクトの `metadata` 属性を使ってアーキテクチャの詳細な説明を付与します。これは run に対して `config` を使うのと同様です。
+    1. それぞれの異なるモデル アーキテクチャごとに新しい Artifacts を作成します。 Artifacts の `metadata` 属性を使ってアーキテクチャの詳細な説明を付与します。これは run に対して `config` を使うのと同様です。
     2. 各モデルについて、`log_artifact` を使って定期的にチェックポイントをログします。W&amp;B はこれらのチェックポイントの履歴を構築し、最新のものに `latest` エイリアスを付与します。任意のモデル アーキテクチャに対して、`architecture-name:latest` を使用して最新のチェックポイントを参照します。
   </Accordion>
 </Update>
 
 <Update tags={["Artifacts", "Sweeps"]}>
   <Accordion title="sweep 内の runs からモデルを最適にログするにはどうすればよいですか？">
-    [sweep](/ja/models/sweeps/) 内のモデルをログする効果的な方法の 1 つは、その sweep 用のモデル アーティファクトを作成することです。各バージョンが sweep 内の異なる run を表します。次のように実装します:
+    [sweep](/ja/models/sweeps/) 内のモデルをログする効果的な方法の 1 つは、その sweep 用のモデル Artifacts を作成することです。各バージョンが sweep 内の異なる run を表します。次のように実装します:
 
     ```python
     wandb.Artifact(name="sweep_name", type="model")
@@ -486,7 +486,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Charts"]}>
-  <Accordion title="How do you delete a custom chart preset?">
+  <Accordion title="カスタムチャートのプリセットを削除するにはどうすればよいですか？">
     カスタムチャートエディターにアクセスします。現在選択されているチャートタイプをクリックして、すべてのプリセットが表示されるメニューを開きます。削除したいプリセットにカーソルを合わせてから、ゴミ箱アイコンをクリックします。
 
     <Frame>
@@ -496,19 +496,19 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Administrator"]}>
-  <Accordion title="How do I delete my organization account?">
+  <Accordion title="組織アカウントを削除するにはどうすればよいですか？">
     organization アカウントを削除するには、次の手順に従い、support@wandb.com までサポートチームにご連絡ください。
   </Accordion>
 </Update>
 
 <Update tags={["Reports", "Wysiwyg"]}>
-  <Accordion title="How do I delete a panel grid?">
+  <Accordion title="パネルグリッドを削除するにはどうすればよいですか？">
     パネルグリッドを選択して、Delete キーまたは Backspace キーを押します。右上のドラッグハンドルをクリックすると、パネルグリッドを選択できます。
   </Accordion>
 </Update>
 
 <Update tags={["Administrator", "Team Management"]}>
-  <Accordion title="How do I delete a team from my account?">
+  <Accordion title="アカウントから Teams を削除するにはどうすればよいですか？">
     アカウントから team を削除するには、次の手順を実行します。
 
     * 管理者として team の設定にアクセスします。
@@ -517,13 +517,13 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Experiments"]}>
-  <Accordion title="I didn't name my run. Where is the run name coming from?">
+  <Accordion title="run に名前を付けませんでした。run 名はどこから来ていますか？">
     run に明示的に名前を付けない場合、W&amp;B はその run をあなたのプロジェクト内で識別するためにランダムな名前を割り当てます。ランダムな名前の例としては、`pleasant-flower-4` や `misunderstood-glade-2` などがあります。
   </Accordion>
 </Update>
 
 <Update tags={["Charts"]}>
-  <Accordion title="What is the difference between `.log()` and `.summary`?">
+  <Accordion title="`.log()` と `.summary` の違いは何ですか？">
     summary はテーブルに表示され、一方で log は将来のプロットのためにすべての値を保存します。
 
     たとえば、精度が変化するたびに `run.log()` を呼び出します。デフォルトでは、`run.log()` はそのメトリクスについて手動で設定されていない限り summary の値を更新します。
@@ -535,19 +535,19 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Team Management"]}>
-  <Accordion title="What is the difference between team and entity? As a user - what does entity mean for me?">
+  <Accordion title="Teams と Entities の違いは何ですか？ユーザーにとって Entities はどのような意味がありますか？">
     team は、同じプロジェクトに取り組むユーザーのための共同作業ワークスペースとして機能します。entity は、ユーザー名または team 名のいずれかを表します。W&amp;B に run をログするときは、`wandb.init(entity="example-team")` のように、entity を個人アカウントまたは team アカウントに設定します。
   </Accordion>
 </Update>
 
 <Update tags={["Team Management", "Administrator"]}>
-  <Accordion title="What is the difference between team and organization?">
+  <Accordion title="Teams と組織の違いは何ですか？">
     team は、同じプロジェクトに取り組むユーザーのための共同作業ワークスペースとして機能します。organization は、複数の team を含むことができる、より高いレベルの entity として機能し、多くの場合、請求やアカウント管理に関連します。
   </Accordion>
 </Update>
 
 <Update tags={["Experiments"]}>
-  <Accordion title="What is the difference between wandb.init modes?">
+  <Accordion title="wandb.init のモードの違いは何ですか？">
     利用可能なモードは次のとおりです。
 
     * `online`（デフォルト）: クライアントはデータを wandb サーバーに送信します。
@@ -676,7 +676,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="W&B でこれらの Version ID と ETag を取得するにはどうすればよいですか？">
-    artifact 参照が W&amp;B にログされていて、バケットでバージョニングが有効になっている場合、Version ID は Amazon S3 UI に表示されます。これらの Version ID と ETag を W&amp;B で取得するには、アーティファクトを取得し、対応する manifest エントリにアクセスします。たとえば次のようになります。
+    artifact 参照が W&amp;B にログされていて、バケットでバージョニングが有効になっている場合、Version ID は Amazon S3 UI に表示されます。これらの Version ID と ETag を W&amp;B で取得するには、 Artifacts を取得し、対応する manifest エントリにアクセスします。たとえば次のようになります。
 
     ```python
     artifact = run.use_artifact("my_table:latest")
@@ -729,8 +729,8 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts"]}>
-  <Accordion title="sweep 内で最良の run からアーティファクトを見つけるにはどうすればよいですか？">
-    sweep 内で最も性能の良い run からアーティファクトを取得するには、次のコードを使用します。
+  <Accordion title="sweep 内で最良の run から Artifacts を見つけるにはどうすればよいですか？">
+    sweep 内で最も性能の良い run から Artifacts を取得するには、次のコードを使用します。
 
     ```python
     api = wandb.Api()
@@ -745,10 +745,10 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts"]}>
-  <Accordion title="run が記録または消費したアーティファクトを見つけるにはどうすればよいですか？アーティファクトを生成または消費した run を見つけるにはどうすればよいですか？">
-    W&amp;B は、各 run が記録したアーティファクトと、各 run が使用したアーティファクトを追跡し、アーティファクト グラフを構築します。このグラフは、ノードが run とアーティファクトを表す二部・有向・非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) から確認できます（グラフを展開するには「Explode」をクリックしてください）。
+  <Accordion title="run が記録または消費した Artifacts を見つけるにはどうすればよいですか？Artifacts を生成または消費した run を見つけるにはどうすればよいですか？">
+    W&amp;B は、各 run が記録した Artifacts と、各 run が使用した Artifacts を追跡し、 Artifacts グラフを構築します。このグラフは、ノードが run と Artifacts を表す二部・有向・非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) から確認できます（グラフを展開するには「Explode」をクリックしてください）。
 
-    Public API を使用すると、アーティファクトまたは run のどちらかを起点として、このグラフをプログラムからたどることができます。
+    Public API を使用すると、 Artifacts または run のどちらかを起点として、このグラフをプログラムからたどることができます。
 
     <Tabs>
       <Tab title="Artifact から">
@@ -757,9 +757,9 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
         artifact = api.artifact("project/artifact:alias")
 
-        # アーティファクトからグラフを上流方向にたどる:
+        # Artifacts からグラフを上流方向にたどる:
         producer_run = artifact.logged_by()
-        # アーティファクトからグラフを下流方向にたどる:
+        # Artifacts からグラフを下流方向にたどる:
         consumer_runs = artifact.used_by()
 
         # run からグラフを下流方向にたどる:
@@ -780,9 +780,9 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
         # run からグラフを上流方向にたどる:
         consumed_artifacts = run.used_artifacts()
 
-        # アーティファクトからグラフを上流方向にたどる:
+        # Artifacts からグラフを上流方向にたどる:
         earlier_run = consumed_artifacts[0].logged_by()
-        # アーティファクトからグラフを下流方向にたどる:
+        # Artifacts からグラフを下流方向にたどる:
         consumer_runs = produced_artifacts[0].used_by()
         ```
       </Tab>
@@ -847,10 +847,10 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 <Update tags={["Environment Variables", "Experiments"]}>
   <Accordion title="ローカルで `wandb` ファイルを保存する場所をどのように指定できますか？">
     * `WANDB_DIR=<path>` または `wandb.init(dir=<path>)`：トレーニングスクリプト用に作成される `wandb` フォルダの場所を制御します。既定値は `./wandb` です。このフォルダには run のデータとログが保存されます
-    * `WANDB_ARTIFACT_DIR=<path>` または `wandb.Artifact().download(root="<path>")`：アーティファクトがダウンロードされる場所を制御します。既定値は `./artifacts` です
-    * `WANDB_CACHE_DIR=<path>`：`wandb.Artifact` を呼び出したときに、アーティファクトが作成・保存される場所です。既定値は `~/.cache/wandb` です
+    * `WANDB_ARTIFACT_DIR=<path>` または `wandb.Artifact().download(root="<path>")`：Artifacts がダウンロードされる場所を制御します。既定値は `./artifacts` です
+    * `WANDB_CACHE_DIR=<path>`：`wandb.Artifact` を呼び出したときに、 Artifacts が作成・保存される場所です。既定値は `~/.cache/wandb` です
     * `WANDB_CONFIG_DIR=<path>`：設定ファイルが保存される場所です。既定値は `~/.config/wandb` です
-    * `WANDB_DATA_DIR=<PATH>`：アップロード中にアーティファクトのステージングに使われる場所を制御します。既定値は `~/.cache/wandb-data/` です。
+    * `WANDB_DATA_DIR=<PATH>`：アップロード中に Artifacts のステージングに使われる場所を制御します。既定値は `~/.cache/wandb-data/` です。
   </Accordion>
 </Update>
 
@@ -961,12 +961,12 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Inference"]}>
   <Accordion title="W&B Inference での Invalid Authentication (401) エラーを修正するにはどうすればよいですか？">
-    401 Invalid Authentication エラーは、APIキー が無効であるか、W&amp;B プロジェクトの entity または名前が正しくないことを意味します。
+    401 Invalid Authentication エラーは、API キー が無効であるか、W&amp;B プロジェクトの entity または名前が正しくないことを意味します。
 
-    ## APIキー を確認する
+    ## API キーを確認する
 
-    1. [User Settings](https://wandb.ai/settings) で新しい APIキー を作成します。
-    2. APIキー を安全に保管します。
+    1. [User Settings](https://wandb.ai/settings) で新しい API キーを作成します。
+    2. API キーを安全に保管します。
 
     ## プロジェクト設定を確認する
 
@@ -995,13 +995,13 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
     * チーム名ではなく個人の entity を使用している
     * チーム名またはプロジェクト名のスペルミス
     * チーム名とプロジェクト名の間のスラッシュ `/` の欠落
-    * 期限切れまたは削除された APIキー を使用している
+    * 期限切れまたは削除された API キーを使用している
 
     ## それでも問題が解決しない場合
 
     * 指定したチームとプロジェクトが自分の W&amp;B アカウント内に存在することを確認する
     * 指定したチームにアクセス権があることを確認する
-    * 現在の APIキー が動作しない場合は、新しい APIキー を作成してみる
+    * 現在の API キー が動作しない場合は、新しい API キーを作成してみる
   </Accordion>
 </Update>
 
@@ -1072,7 +1072,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
         
         if "401" in error_str:
             # 認証情報が無効
-            raise ValueError("APIキーとプロジェクト設定を確認してください")
+            raise ValueError("API キーとプロジェクト設定を確認してください")
         elif "402" in error_str:
             # クレジット不足
             raise ValueError("クレジットが不足しています")
@@ -1267,7 +1267,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
     * エラーメッセージとエラーコード
     * エラーが発生した時刻
-    * コードスニペット (APIキーは削除する)
+    * コードスニペット (API キーは削除する)
     * W&amp;B entity と プロジェクト名
   </Accordion>
 </Update>
@@ -1285,7 +1285,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
       os.environ['WANDB_INIT_TIMEOUT'] = '600'
       ```
     * **デバッグを有効にする**: 詳細なログを取得するために `WANDB_DEBUG=true` と `WANDB_CORE_DEBUG=true` を設定してください。
-    * **設定を確認する**: APIキー と プロジェクトの設定が正しいことを確認してください。
+    * **設定を確認する**: API キー と プロジェクトの設定が正しいことを確認してください。
     * **ログを確認する**: `debug.log`、`debug-internal.log`、`debug-core.log`、`output.log` にエラーがないか確認してください。
   </Accordion>
 </Update>
@@ -1482,8 +1482,8 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts"]}>
-  <Accordion title="既存の run にアーティファクトをログするにはどうすればよいですか？">
-    以前にログした run の出力としてアーティファクトをマークする必要がある場合があります。その場合は、古い run を再初期化し、次のように新しいアーティファクトをログします。
+  <Accordion title="既存の run に Artifacts をログするにはどうすればよいですか？">
+    以前にログした run の出力として Artifacts をマークする必要がある場合があります。その場合は、古い run を再初期化し、次のように新しい Artifacts をログします。
 
     ```python
     with wandb.init(id="existing_run_id", resume="allow") as run:
@@ -1596,7 +1596,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
   <Accordion title="共有マシンで正しい wandb ユーザーにログするにはどうすればよいですか？">
     共有マシンを使用する場合は、認証用の環境変数 `WANDB_API_KEY` を設定して、run が正しい W&amp;B アカウントにログされるようにしてください。環境で設定されていれば、この変数によってログイン時に正しい認証情報が提供されます。あるいは、スクリプト内で直接この環境変数を設定することもできます。
 
-    `export WANDB_API_KEY=X` というコマンドを実行し、X を自分の APIキー に置き換えてください。APIキーは [wandb.ai/settings](https://wandb.ai/settings) で作成できます。
+    `export WANDB_API_KEY=X` というコマンドを実行し、X を自分の API キー に置き換えてください。API キーは [wandb.ai/settings](https://wandb.ai/settings) で作成できます。
   </Accordion>
 </Update>
 
@@ -1683,7 +1683,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
     * **Move** ボタンをクリックします。
     * 移動先のプロジェクトを選択し、操作を確認します。
 
-    W&amp;B は UI を通じた run の移動をサポートしていますが、run のコピーはサポートしていません。run とともにログされたアーティファクトは新しいプロジェクトには転送されません。アーティファクトを run の新しい場所に手動で移動するには、[`wandb artifact get`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK コマンドまたは [`Api.artifact` API](/ja/models/ref/python/public-api/api/#artifact) を使用してアーティファクトをダウンロードし、その後 [wandb artifact put](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put/) または `Api.artifact` API を使用して、それを run の新しい場所にアップロードしてください。
+    W&amp;B は UI を通じた run の移動をサポートしていますが、run のコピーはサポートしていません。run とともにログされた Artifacts は新しいプロジェクトには転送されません。 Artifacts を run の新しい場所に手動で移動するには、[`wandb artifact get`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK コマンドまたは [`Api.artifact` API](/ja/models/ref/python/public-api/api/#artifact) を使用して Artifacts をダウンロードし、その後 [wandb artifact put](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put/) または `Api.artifact` API を使用して、それを run の新しい場所にアップロードしてください。
   </Accordion>
 </Update>
 
@@ -1915,7 +1915,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="run と一緒に削除された artifact を復元することはできますか？">
-    run を削除する際、関連するアーティファクトを削除するかどうかを尋ねるプロンプトが表示されます。このオプションを選択するとアーティファクトは完全に削除され、run 自体を後で復元したとしてもアーティファクトを復元することはできません。
+    run を削除する際、関連する Artifacts を削除するかどうかを尋ねるプロンプトが表示されます。このオプションを選択すると Artifacts は完全に削除され、run 自体を後で復元したとしても Artifacts を復元することはできません。
   </Accordion>
 </Update>
 
@@ -2086,8 +2086,8 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts"]}>
-  <Accordion title="アーティファクトに保持期間や有効期限のポリシーを設定するにはどうすればよいですか？">
-    機密データを含むアーティファクトを管理したり、アーティファクト バージョンの削除をスケジュールしたりするには、TTL (time-to-live) ポリシーを設定します。詳しい手順については、[TTL guide](/ja/models/artifacts/ttl) を参照してください。
+  <Accordion title="Artifacts に保持期間や有効期限のポリシーを設定するにはどうすればよいですか？">
+    機密データを含む Artifacts を管理したり、 Artifacts バージョンの削除をスケジュールしたりするには、TTL (time-to-live) ポリシーを設定します。詳しい手順については、[TTL guide](/ja/models/artifacts/ttl) を参照してください。
   </Accordion>
 </Update>
 
@@ -2098,7 +2098,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Alerts", "Notebooks"]}>
-  <Accordion title="Do 'Run Finished' alerts work in notebooks?">
+  <Accordion title="'Run Finished' アラートはノートブックで動作しますか？">
     いいえ。**Run Finished** アラート（User Settings の **Run Finished** 設定で有効化）は Python スクリプトでのみ動作し、Jupyter Notebook 環境では各セルの実行ごとに通知が出るのを避けるため無効のままになっています。
 
     Notebook 環境では代わりに `run.alert()` を使用してください。
@@ -2106,13 +2106,13 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Crashing And Hanging Runs"]}>
-  <Accordion title="Why is a run marked crashed in W&B when it’s training fine locally?">
+  <Accordion title="ローカルでは正常にトレーニングされているのに、W&B で run がクラッシュとマークされるのはなぜですか？">
     これは接続の問題を示しています。サーバーがインターネット接続を失い、データが W&amp;B へ同期されなくなると、短い再試行期間の後に、その run はクラッシュしたものとしてマークされます。
   </Accordion>
 </Update>
 
 <Update tags={["Anonymous"]}>
-  <Accordion title="How does someone without an account see run results?">
+  <Accordion title="アカウントを持っていない人が run の結果を確認するにはどうすればよいですか？">
     誰かが `anonymous="allow"` を指定してスクリプトを実行した場合:
 
     1. **一時アカウントの自動作成**: W&amp;B はサインイン済みアカウントを確認します。存在しない場合、W&amp;B は新しい匿名アカウントを作成し、そのセッション用の API キーを保存します。
@@ -2128,13 +2128,13 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Sweeps"]}>
-  <Accordion title="How should I run sweeps on SLURM?">
+  <Accordion title="SLURM で Sweeps を実行するにはどうすればよいですか？">
     [SLURM scheduling system](https://slurm.schedmd.com/documentation.html) で sweep を使用する場合は、それぞれのスケジュールされたジョブ内で `wandb agent --count 1 SWEEP_ID` を実行してください。このコマンドは単一のトレーニングジョブを実行して終了し、ハイパーパラメーター探索の並列性を活用しながら、リソース要求のための実行時間予測を容易にします。
   </Accordion>
 </Update>
 
 <Update tags={["Experiments"]}>
-  <Accordion title="Can I run wandb offline?">
+  <Accordion title="wandb をオフラインで実行できますか？">
     オフラインマシンでトレーニングを行う場合、結果をサーバーにアップロードするには次の手順に従ってください:
 
     1. 環境変数 `WANDB_MODE=offline` を設定し、インターネット接続がない状態でメトリクスをローカルに保存します。
@@ -2146,19 +2146,19 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Projects", "Runs"]}>
-  <Accordion title="How many runs can I create per project?">
+  <Accordion title="1 つのプロジェクトに作成できる run の数はいくつですか？">
     最適なパフォーマンスのため、1 つのプロジェクトにつき run はおおよそ 10,000 件までに制限してください。
   </Accordion>
 </Update>
 
 <Update tags={["Experiments"]}>
-  <Accordion title="My run's state is `crashed` on the UI but is still running on my machine. What do I do to get my data back?">
+  <Accordion title="UI では run の状態が `crashed` ですが、マシンではまだ実行中です。データを取り戻すにはどうすればよいですか？">
     トレーニング中にマシンへの接続が失われた可能性があります。データを復元するには、[`wandb sync [PATH_TO_RUN]`](/ja/models/ref/cli/wandb-sync) を実行してください。run へのパスは、進行中の run の Run ID に一致する、`wandb` ディレクトリ内のフォルダーです。
   </Accordion>
 </Update>
 
 <Update tags={["Experiments"]}>
-  <Accordion title="Why is the same metric appearing more than once?">
+  <Accordion title="同じメトリクスが複数回表示されるのはなぜですか？">
     同じキーの下でさまざまなデータ型をログすると、データベース内で分割されます。その結果、UI のドロップダウンに同じメトリクス名のエントリが複数表示されます。グループ化されるデータ型は、`number`、`string`、`bool`、`other`（主に配列）、および `Histogram` や `Image` など任意の `wandb` データ型です。この問題を防ぐには、1 つのキーにつき 1 種類の型だけを送信してください。
 
     メトリクス名は大文字・小文字を区別しません。`"My-Metric"` と `"my-metric"` のように、大文字・小文字だけが異なる名前の使用は避けてください。
@@ -2167,7 +2167,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Artifacts"]}>
   <Accordion title="コードはどのように保存すればよいですか？‌">
-    `wandb.init` で `save_code=True` を使用すると、その run を起動するメインスクリプトまたはノートブックを保存できます。run のすべてのコードを保存するには、Artifacts でコードをバージョン管理します。次の例は、その手順を示しています。
+    `wandb.init` で `save_code=True` を使用すると、その run を起動するメインスクリプトまたはノートブックを保存できます。run のすべてのコードを保存するには、 Artifacts でコードをバージョン管理します。次の例は、その手順を示しています。
 
     ```python
     code_artifact = wandb.Artifact(type="code")
@@ -2468,7 +2468,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
     テスト目的で W&amp;B を no-operation（NOOP）に設定するには、`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定してください。
 
     <Note>
-      `wandb.init(mode="disabled")` を使用しても、W&amp;B が `WANDB_CACHE_DIR` にアーティファクトを保存することを防ぐことはできません。
+      `wandb.init(mode="disabled")` を使用しても、W&amp;B が `WANDB_CACHE_DIR` に Artifacts を保存することを防ぐことはできません。
     </Note>
   </Accordion>
 </Update>
@@ -2544,8 +2544,8 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 </Update>
 
 <Update tags={["Artifacts", "Environment Variables"]}>
-  <Accordion title="アーティファクトはどこにダウンロードされ、ダウンロード先はどのように指定できますか？">
-    デフォルトでは、アーティファクトは `artifacts/` フォルダーにダウンロードされます。保存先を変更するには、次のいずれかの方法を使用します。
+  <Accordion title="Artifacts はどこにダウンロードされ、ダウンロード先はどのように指定できますか？">
+    デフォルトでは、 Artifacts は `artifacts/` フォルダーにダウンロードされます。保存先を変更するには、次のいずれかの方法を使用します。
 
     * [`wandb.Artifact().download`](/ja/models/ref/python/public-api/api) に引数として渡す:
 
@@ -2564,7 +2564,7 @@ import TeamServiceAccountCreate from "/snippets/ja/_includes/team-service-accoun
 
 <Update tags={["Experiments", "Runs"]}>
   <Accordion title="なぜ CSV メトリクスのエクスポートから step が欠落しているのですか？">
-    エクスポート制限により、run 全体の履歴を CSV や `run.history` API で完全にはエクスポートできない場合があります。完全な run 履歴にアクセスするには、run 履歴アーティファクトを Parquet 形式でダウンロードしてください。
+    エクスポート制限により、run 全体の履歴を CSV や `run.history` API で完全にはエクスポートできない場合があります。完全な run 履歴にアクセスするには、run 履歴 Artifacts を Parquet 形式でダウンロードしてください。
 
     ```python
     import wandb

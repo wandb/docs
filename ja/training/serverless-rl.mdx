@@ -12,7 +12,7 @@ Serverless RL は次のようなタスクに最適です:
 * オンプレミス モデル
 * コンテンツマーケティング分析エージェント
 
-Serverless RL は低ランクアダプター（LoRA）をトレーニングし、エージェント固有のタスクにモデルを特化させます。これにより、元のモデルの能力が運用中に得られる経験によって拡張されます。トレーニングした LoRA は W&amp;B アカウント内にアーティファクトとして自動保存され、ローカルやサードパーティにバックアップとして保存できます。Serverless RL でトレーニングしたモデルは、W&amp;B Inference 上に自動的にホスティングされます。
+Serverless RL は低ランクアダプター（LoRA）をトレーニングし、エージェント固有のタスクにモデルを特化させます。これにより、元のモデルの能力が運用中に得られる経験によって拡張されます。トレーニングした LoRA は W&amp;B アカウント内に Artifacts として自動保存され、ローカルやサードパーティにバックアップとして保存できます。Serverless RL でトレーニングしたモデルは、W&amp;B Inference 上に自動的にホスティングされます。
 
 開始するには、ART の [クイックスタート](https://art.openpipe.ai/getting-started/quick-start) または [Google Colab ノートブック](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) を参照してください。
 
@@ -37,4 +37,4 @@ Serverless RL は、以下の W&amp;B コンポーネントを組み合わせて
 * [Artifacts](/ja/models/artifacts): LoRA アダプターを保存およびバージョン管理するために使用
 * [Weave (optional)](/ja/weave): トレーニング ループの各ステップにおけるモデルの応答を観測するために使用
 
-Serverless RL はパブリック プレビュー中です。プレビュー期間中は、Inference の利用およびアーティファクトの保存に対してのみ料金が発生します。プレビュー期間中のアダプター トレーニングについては、W&amp;B による課金はありません。
+Serverless RL はパブリック プレビュー中です。プレビュー期間中は、Inference の利用および Artifacts の保存に対してのみ料金が発生します。プレビュー期間中のアダプター トレーニングについては、W&amp;B による課金はありません。

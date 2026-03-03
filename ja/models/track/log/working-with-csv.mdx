@@ -33,12 +33,12 @@ iris_table = wandb.Table(dataframe=new_iris_dataframe)
 3. 次に、W&amp;B Artifact を作成し、その Artifact にテーブルを追加します。
 
 ```python
-# テーブルをアーティファクトに追加して行数の上限を
+# テーブルを Artifacts に追加して行数の上限を
 # 200000 に増やし、再利用しやすくする
 iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
 iris_table_artifact.add(iris_table, "iris_table")
 
-# データを保持するためにアーティファクト内に生の CSV ファイルをログする
+# データを保持するために Artifacts 内に生の CSV ファイルをログする
 iris_table_artifact.add_file("iris.csv")
 ```
 
@@ -53,7 +53,7 @@ with wandb.init(project="tables-walkthrough") as run:
     # run でテーブルをログして可視化する...
     run.log({"iris": iris_table})
 
-    # アーティファクトとしてログして利用可能な行数の上限を増やす！
+    # Artifacts としてログして利用可能な行数の上限を増やす！
     run.log_artifact(iris_table_artifact)
 ```
 
@@ -75,12 +75,12 @@ new_iris_dataframe = pd.read_csv("iris.csv")
 # DataFrame を W&B Table に変換する
 iris_table = wandb.Table(dataframe=new_iris_dataframe)
 
-# テーブルをアーティファクトに追加して行数の上限を
+# テーブルを Artifacts に追加して行数の上限を
 # 200000 に増やし、再利用しやすくする
 iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
 iris_table_artifact.add(iris_table, "iris_table")
 
-# データを保持するためにアーティファクト内に生の CSV ファイルをログする
+# データを保持するために Artifacts 内に生の CSV ファイルをログする
 iris_table_artifact.add_file("iris.csv")
 
 # データをログするために W&B の run を開始する
@@ -89,7 +89,7 @@ with wandb.init(project="tables-walkthrough") as run:
     # run でテーブルを可視化するためにログする...
     run.log({"iris": iris_table})
 
-    # アーティファクトとしてログして利用可能な行数の上限を増やす！
+    # Artifacts としてログして利用可能な行数の上限を増やす！
     run.log_artifact(iris_table_artifact)
 ```
 

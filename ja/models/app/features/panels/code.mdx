@@ -33,7 +33,7 @@ import wandb
 wandb.init(settings=wandb.Settings(code_dir="."))
 ```
 
-これにより、現在のディレクトリとそのすべてのサブディレクトリ内にある Python のソースコードファイルがすべて [アーティファクト](/ja/models/ref/python/experiments/artifact)として保存されます。保存対象とするソースコードファイルの種類や場所をより細かく制御したい場合は、[リファレンスドキュメント](/ja/models/ref/python/experiments/run#log_code)を参照してください。
+これにより、現在のディレクトリとそのすべてのサブディレクトリ内にある Python のソースコードファイルがすべて [Artifacts](/ja/models/ref/python/experiments/artifact)として保存されます。保存対象とするソースコードファイルの種類や場所をより細かく制御したい場合は、[リファレンスドキュメント](/ja/models/ref/python/experiments/run#log_code)を参照してください。
 
 <div id="set-code-saving-in-the-ui">
   ### UI でコード保存を設定する
@@ -68,7 +68,7 @@ W&amp;B は、Jupyter ノートブック セッション内で実行されたコ
 
 1. コードを含むプロジェクト ワークスペースに移動します。
 2. プロジェクトのサイドバーで **Artifacts** タブを選択します。
-3. **code** アーティファクトを展開します。
+3. **code** Artifacts を展開します。
 4. **Files** タブを選択します。
 
 <Frame>

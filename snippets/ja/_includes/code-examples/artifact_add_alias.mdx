@@ -1,19 +1,19 @@
 ---
-title: アーティファクトのエイリアスを追加
+title: Artifacts のエイリアスを追加
 ---
 
 ```python
 """
-W&B にログする際に、アーティファクトに1つ以上のエイリアスを追加する。
+W&B にログする際に、 Artifacts に1つ以上のエイリアスを追加する。
 """
 import wandb
 
-# アーティファクトを作成する
+# Artifacts を作成する
 artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
-# アーティファクトにファイルを追加する
+# Artifacts にファイルを追加する
 artifact.add_file("<file_path>")
 
 with wandb.init(project="<project>") as run:
-    # エイリアスを付けてアーティファクトをログする
+    # エイリアスを付けて Artifacts をログする
     run.log_artifact(artifact, aliases=["<alias1>", "<alias2>"])
 ```

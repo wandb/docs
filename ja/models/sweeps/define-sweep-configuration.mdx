@@ -265,7 +265,6 @@ parameters:
   `manual_key` は含まれません。
 </Warning>
 
-
 <div id="sweep-configuration-template">
   ## Sweep 設定テンプレート
 </div>
@@ -307,7 +306,6 @@ command:
 ```
 
 数値を科学的記数法で表現するには、YAML の `!!float` 演算子を追加して、その値を浮動小数点数として解釈させます。例えば `min: !!float 1e-5` のように記述します。[Command example](#command-example) を参照してください。
-
 
 <div id="sweep-configuration-examples">
   ## Sweep 設定の例
@@ -398,7 +396,7 @@ early_terminate:
   max_iter: 27
 ```
 
-The proceeding tabs show how to specify either a minimum or maximum number of iterations for `early_terminate`:
+以下のタブでは、early_terminate のイテレーション回数の最小値または最大値を指定する方法を示しています：
 
 <Tabs>
   <Tab title="Maximum number of iterations">
@@ -422,7 +420,6 @@ The proceeding tabs show how to specify either a minimum or maximum number of it
     ```
   </Tab>
 </Tabs>
-
 
 <div id="macro-and-custom-command-arguments-example">
   ### マクロとカスタムコマンド引数の例
@@ -471,7 +468,6 @@ with wandb.init('test-project') as run:
 ```
 
 [sweep 設定オプション](./sweep-config-keys) 内の [Command macros](./sweep-config-keys#command-macros) セクションには、sweep 設定で使用できる事前定義マクロの一覧が記載されています。
-
 
 <div id="boolean-arguments">
   #### ブール引数

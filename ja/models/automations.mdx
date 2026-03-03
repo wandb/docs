@@ -11,7 +11,7 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
 
 このページでは、W&amp;B における *automations* について説明します。[automation を作成](/ja/models/automations/create-automations/) して、W&amp;B 内のイベントに基づき、自動モデルテストやデプロイなどのワークフロー手順をトリガーできます。
 
-例えば、automation を使って新しいバージョンが作成されたときに Slack チャンネルに通知したり、`production` エイリアスがアーティファクトに追加されたときに自動テスト用の webhook をトリガーしたり、run の `loss` が許容範囲内にある場合にのみ検証ジョブを開始できます。
+例えば、automation を使って新しいバージョンが作成されたときに Slack チャンネルに通知したり、`production` エイリアスが Artifacts に追加されたときに自動テスト用の webhook をトリガーしたり、run の `loss` が許容範囲内にある場合にのみ検証ジョブを開始できます。
 
 <Info>
   automations のチュートリアルをお探しですか？
@@ -25,11 +25,11 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
   ## オートメーションイベント
 </div>
 
-オートメーションは、コレクション、プロジェクト、またはレジストリ内の run やアーティファクトに関連するイベントによってトリガーされます。オートメーションは次のタイミングで開始されます。
+オートメーションは、コレクション、プロジェクト、またはレジストリ内の run や Artifacts に関連するイベントによってトリガーされます。オートメーションは次のタイミングで開始されます。
 
 * run のメトリクスが、指定した絶対値または相対値のしきい値を満たしたとき。たとえば、run の `loss` が 0.01 未満になったとき、または run の `accuracy` が 5% 改善したときにトリガーされます。
 * run の z スコア（標準スコア）が平均から指定量だけ外れたとき。z スコアが 0 の場合、その結果は平均と一致していることを示します。z スコアが +2 の場合、その結果は平均より 2 標準偏差高いことを意味し、z スコアが -2 の場合、その結果は平均より 2 標準偏差低いことを意味します。
-* プロジェクトまたはレジストリでイベントが発生したとき。たとえば、新しいバージョンの model アーティファクトが作成されたとき、または `production` エイリアスが model アーティファクトに追加されたときにトリガーされます。
+* プロジェクトまたはレジストリでイベントが発生したとき。たとえば、新しいバージョンの model Artifacts が作成されたとき、または `production` エイリアスが model Artifacts に追加されたときにトリガーされます。
 
 詳細については、[Automation events and scopes](/ja/models/automations/automation-events/) を参照してください。
 

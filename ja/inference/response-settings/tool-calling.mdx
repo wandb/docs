@@ -14,7 +14,7 @@ description: W&B Inference でツールを呼び出す方法
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # https://wandb.ai/settings で APIキーを作成
+        api_key="<your-api-key>",  # https://wandb.ai/settings で API キーを作成
     )
 
     response = client.chat.completions.create(

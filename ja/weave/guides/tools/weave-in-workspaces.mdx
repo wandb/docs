@@ -95,22 +95,22 @@ workspaces について詳しくは、[View experiments results](https://docs.wa
   ## Weave trace で W&amp;B Artifacts を参照する
 </div>
 
-[W&amp;B Artifacts](/ja/models/artifacts)（モデル、データセット、チェックポイントなど）を Weave trace から参照できます。これにより Weave UI に、アーティファクトの詳細ページへ直接移動できるクリック可能なリンクが作成され、特定の処理でどのアーティファクトバージョンが使用されたかを追跡しやすくなります。
+[W&amp;B Artifacts](/ja/models/artifacts)（モデル、データセット、チェックポイントなど）を Weave trace から参照できます。これにより Weave UI に、 Artifacts の詳細ページへ直接移動できるクリック可能なリンクが作成され、特定の処理でどの Artifacts バージョンが使用されたかを追跡しやすくなります。
 
-たとえば、2 つのバージョンのモデル（`v1` と `v2`）を学習した場合、そのモデルをクエリするときに、`v1` アーティファクト参照を trace の属性として追加できます。これにより、どのアーティファクトバージョンが特定の出力を生成したかを正確に追跡できます。
+たとえば、2 つのバージョンのモデル（`v1` と `v2`）を学習した場合、そのモデルをクエリするときに、`v1` Artifacts 参照を trace の属性として追加できます。これにより、どの Artifacts バージョンが特定の出力を生成したかを正確に追跡できます。
 
-アーティファクトを trace と関連付けるには、`wandb-artifact:///` というプレフィックスとアーティファクトの完全名を連結して、次の構文でアーティファクトの URL を構築します: `wandb-artifact:///<full-name-of-artifact>`。そのうえで、次のいずれかの方法で Weave に渡します。
+Artifacts を trace と関連付けるには、`wandb-artifact:///` というプレフィックスと Artifacts の完全名を連結して、次の構文で Artifacts の URL を構築します: `wandb-artifact:///<full-name-of-artifact>`。そのうえで、次のいずれかの方法で Weave に渡します。
 
 * 任意の属性として渡す
 * `Model` の属性として渡す
 
-アーティファクトの完全名は、W&amp;B UI のアーティファクト詳細ページで確認できます。形式は次のとおりです: `<entity>/<project>/<artifact_name>:<version>`。W&amp;B UI のアーティファクト詳細ページから完全名をコピーできます。
+Artifacts の完全名は、W&amp;B UI の Artifacts 詳細ページで確認できます。形式は次のとおりです: `<entity>/<project>/<artifact_name>:<version>`。W&amp;B UI の Artifacts 詳細ページから完全名をコピーできます。
 
 <div id="add-it-as-an-attribute-of-a-trace">
   ### trace の属性として追加する
 </div>
 
-アーティファクトを trace の属性として追加するには、`weave.attributes()` コンテキストマネージャーにキーと値のペアとして渡します。
+Artifacts を trace の属性として追加するには、`weave.attributes()` コンテキストマネージャーにキーと値のペアとして渡します。
 
 <Tabs>
   <Tab title="Python">
@@ -123,7 +123,7 @@ workspaces について詳しくは、[View experiments results](https://docs.wa
     def my_function(name: str):
         return f"Hello, {name}!"
 
-    # 任意のキー名と、その値としてアーティファクトの URL を指定する
+    # 任意のキー名と、その値として Artifacts の URL を指定する
     with weave.attributes({'artifact_id': 'wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0'}):
         result = my_function("World")
     ```
@@ -140,7 +140,7 @@ workspaces について詳しくは、[View experiments results](https://docs.wa
         return `Hello, ${name}!`;
       });
 
-      // 任意のキー名と、その値としてアーティファクトの URL を指定する
+      // 任意のキー名と、その値として Artifacts の URL を指定する
       const result = await withAttributes(
         {artifact_id: "wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"},
         async () => myFunction('World')
@@ -155,10 +155,10 @@ workspaces について詳しくは、[View experiments results](https://docs.wa
 </Tabs>
 
 <div id="add-an-artifact-as-an-attribute-of-a-model">
-  ### `Model` の属性としてアーティファクトを追加する
+  ### `Model` の属性として Artifacts を追加する
 </div>
 
-`Model` の属性としてアーティファクトを追加するには、モデルをインスタンス化するときにアーティファクトの URL を渡します。
+`Model` の属性として Artifacts を追加するには、モデルをインスタンス化するときに Artifacts の URL を渡します。
 
 <Note>
   `Model` クラスは現在 Weave Python SDK でのみサポートされています。
@@ -170,7 +170,7 @@ import weave
 weave.init("your-team-name/your-project-name")
 
 class MyModel(weave.Model):
-    # アーティファクトの参照をモデルの属性として保存する
+    # Artifacts の参照をモデルの属性として保存する
     artifact_id: str
     temperature: float = 0.7
     
@@ -179,7 +179,7 @@ class MyModel(weave.Model):
         # モデルの推論ロジックをここに記述する
         return f"Response to: {query}"
 
-# アーティファクトの URL をモデルの属性として渡す
+# Artifacts の URL をモデルの属性として渡す
 model = MyModel(
     artifact_id="wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"
 )

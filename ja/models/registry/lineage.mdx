@@ -1,24 +1,24 @@
 ---
-description: Lineage グラフを使用してリンクされたアーティファクトの履歴を可視化し、コレクションの履歴を監査して変更を追跡します。
+description: Lineage グラフを使用してリンクされた Artifacts の履歴を可視化し、コレクションの履歴を監査して変更を追跡します。
 title: Lineage グラフと監査履歴
 ---
 
-Lineage グラフを使用して、リンクされたアーティファクトの履歴を可視化します。コレクションの履歴を監査して、そのコレクション内のアーティファクトに加えられた変更を追跡します。
+Lineage グラフを使用して、リンクされた Artifacts の履歴を可視化します。コレクションの履歴を監査して、そのコレクション内の Artifacts に加えられた変更を追跡します。
 
 <div id="lineage-graphs">
   ## ライネージグラフ
 </div>
 
-W&amp;B Registry 内のコレクションでは、ML 実験で使用されるアーティファクトの履歴を表示できます。この履歴は *lineage graph*（ライネージグラフ）と呼ばれます。
+W&amp;B Registry 内のコレクションでは、ML 実験で使用される Artifacts の履歴を表示できます。この履歴は *lineage graph*（ライネージグラフ）と呼ばれます。
 
 ライネージグラフには、次の情報が表示されます。
 
-* [run の入力として使用されたアーティファクト](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-input-of-a-run)
-* [run の出力として作成されたアーティファクト](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run)
+* [run の入力として使用された Artifacts](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-input-of-a-run)
+* [run の出力として作成された Artifacts](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run)
 
 言い換えると、ライネージグラフは run の入力と出力を表示します。
 
-たとえば、次の画像は、ML 実験全体で作成および使用されるアーティファクトの典型的なライネージグラフを示しています。
+たとえば、次の画像は、ML 実験全体で作成および使用される Artifacts の典型的なライネージグラフを示しています。
 
 <Frame>
   <img src="/images/registry/registry_lineage.png" alt="Registry のライネージ" />
@@ -26,18 +26,18 @@ W&amp;B Registry 内のコレクションでは、ML 実験で使用されるア
 
 この画像は左から右にかけて、次の内容を示しています。
 
-1. 複数の run が `split_zoo_dataset:v4` アーティファクトをログに記録します。
-2. &quot;rural-feather-20&quot; run は `split_zoo_dataset:v4` アーティファクトをトレーニングに使用します。
-3. &quot;rural-feather-20&quot; run の出力は、`zoo-ylbchv20:v0` という名前のモデルアーティファクトです。
-4. &quot;northern-lake-21&quot; という run が、モデルアーティファクト `zoo-ylbchv20:v0` を使用してモデルを評価します。
+1. 複数の run が `split_zoo_dataset:v4` Artifacts をログに記録します。
+2. &quot;rural-feather-20&quot; run は `split_zoo_dataset:v4` Artifacts をトレーニングに使用します。
+3. &quot;rural-feather-20&quot; run の出力は、`zoo-ylbchv20:v0` という名前のモデル Artifacts です。
+4. &quot;northern-lake-21&quot; という run が、モデル Artifacts `zoo-ylbchv20:v0` を使用してモデルを評価します。
 
-コレクション内のアーティファクトに対してライネージグラフを表示するには、次の手順を実行します。
+コレクション内の Artifacts に対してライネージグラフを表示するには、次の手順を実行します。
 
 1. W&amp;B Registry に移動します。
-2. アーティファクトを含むコレクションを選択します。
-3. ドロップダウンから、ライネージグラフを表示したいアーティファクトバージョンを選択します。
+2. Artifacts を含むコレクションを選択します。
+3. ドロップダウンから、ライネージグラフを表示したい Artifacts バージョンを選択します。
 4. **Lineage** タブを選択します。
-5. ノードを選択して、run またはアーティファクトに関する詳細情報を表示します。
+5. ノードを選択して、run または Artifacts に関する詳細情報を表示します。
 
 <Info>
   W&amp;B Python SDK を使用して run の入力と出力を追跡する方法については、[Enable lineage graph tracking](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#enable-lineage-graph-tracking) を参照してください。
@@ -49,14 +49,14 @@ W&amp;B Registry 内のコレクションでは、ML 実験で使用されるア
   <img src="/images/registry/lineage_expanded_node.png" alt="展開されたライネージノード" />
 </Frame>
 
-次の画像は、ライネージグラフ内でアーティファクトノードを選択したときに表示されるアーティファクト（`zoo-ylbchv20:v0`）の詳細ビューを示しています。
+次の画像は、ライネージグラフ内で Artifacts ノードを選択したときに表示される Artifacts（`zoo-ylbchv20:v0`）の詳細ビューを示しています。
 
 <Frame>
-  <img src="/images/registry/lineage_expanded_artifact_node.png" alt="展開されたアーティファクトノードの詳細" />
+  <img src="/images/registry/lineage_expanded_artifact_node.png" alt="展開された Artifacts ノードの詳細" />
 </Frame>
 
 <Info>
-  コレクションに含まれていないが W&amp;B にログしたアーティファクトについても、ライネージグラフを表示できます。詳細については、[Explore artifact graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) を参照してください。
+  コレクションに含まれていないが W&amp;B にログした Artifacts についても、ライネージグラフを表示できます。詳細については、[Explore artifact graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) を参照してください。
 </Info>
 
 <div id="audit-a-collections-history">
@@ -65,8 +65,8 @@ W&amp;B Registry 内のコレクションでは、ML 実験で使用されるア
 
 組織のメンバーがそのコレクションに対して実行した操作を表示できます。次の内容を確認できます。
 
-* エイリアスがアーティファクト バージョンに追加または削除されたかどうか。
-* アーティファクト バージョンがコレクションに追加または削除されたかどうか。
+* エイリアスが Artifacts バージョンに追加または削除されたかどうか。
+* Artifacts バージョンがコレクションに追加または削除されたかどうか。
 
 どちらの操作についても、その操作を実行したユーザーと、操作が行われた日付を表示できます。
 
@@ -81,4 +81,4 @@ W&amp;B Registry 内のコレクションでは、ML 実験で使用されるア
 
 
 
-  アーティファクト ノードを選択すると、そのアーティファクトの完全な名前、タイプ、作成時刻、関連付けられたエイリアスなどの詳細を表示できます。 */}
+  Artifacts ノードを選択すると、その Artifacts の完全な名前、タイプ、作成時刻、関連付けられたエイリアスなどの詳細を表示できます。 */}

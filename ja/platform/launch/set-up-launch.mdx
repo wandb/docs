@@ -43,7 +43,7 @@ Launch エージェントは、1 つ以上の Launch キューからジョブを
 </Note>
 
 <Note>
-  W&amp;B は、特定のユーザーの APIキー ではなく、サービスアカウントの APIキー でエージェントを起動することを推奨します。サービスアカウントの APIキー を使用する利点は 2 つあります:
+  W&amp;B は、特定のユーザーの API キー ではなく、サービスアカウントの API キー でエージェントを起動することを推奨します。サービスアカウントの API キーを使用する利点は 2 つあります:
 
   1. エージェントが特定の個人ユーザーに依存しなくなります。
   2. Launch を通じて作成された run に関連付けられた作成者は、エージェントに紐づくユーザーではなく、Launch ジョブを送信したユーザーとして Launch 上で扱われます。
@@ -84,7 +84,7 @@ queues:
   ### コンテナビルダーを設定する
 </div>
 
-Launch エージェントはイメージをビルドするように構成できます。git リポジトリまたはコード アーティファクトから作成された Launch ジョブを使用する場合は、コンテナビルダーを使うようにエージェントを設定する必要があります。Launch ジョブの作成方法の詳細は、[Create a launch job](/ja/platform/launch/create-launch-job/) を参照してください。
+Launch エージェントはイメージをビルドするように構成できます。git リポジトリまたはコード Artifacts から作成された Launch ジョブを使用する場合は、コンテナビルダーを使うようにエージェントを設定する必要があります。Launch ジョブの作成方法の詳細は、[Create a launch job](/ja/platform/launch/create-launch-job/) を参照してください。
 
 W&amp;B Launch は 3 つのビルダー オプションをサポートしています。
 
@@ -106,7 +106,7 @@ builder:
 ```
 
 <div id="configure-a-container-registry">
-  ### コンテナー レジストリを設定する
+  ### コンテナ レジストリを設定する
 </div>
 
 場合によっては、Launch エージェントをクラウド レジストリに接続したいことがあります。Launch エージェントをクラウド レジストリに接続する代表的なシナリオは次のとおりです。
@@ -115,7 +115,7 @@ builder:
 * エージェントを使ってイメージをビルドし、そのイメージを Amazon SageMaker や Vertex AI 上で実行したい場合。
 * Launch エージェントに、イメージ レポジトリからプルするための認証情報を提供させたい場合。
 
-エージェントをコンテナー レジストリと連携するように設定する方法の詳細については、[Advanced agent setup](/ja/platform/launch/setup-agent-advanced/) ページを参照してください。
+エージェントをコンテナ レジストリと連携するように設定する方法の詳細については、[Advanced agent setup](/ja/platform/launch/setup-agent-advanced/) ページを参照してください。
 
 <div id="activate-the-launch-agent">
   ## Launch エージェントを起動する

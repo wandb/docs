@@ -1,13 +1,13 @@
 ---
 description: W&B Artifacts のストレージとメモリ割り当てを管理します。
-title: アーティファクトのストレージとメモリ割り当てを管理する
+title: Artifacts のストレージとメモリ割り当てを管理する
 ---
 
-W&amp;B は、デフォルトでアメリカ合衆国内にあるプライベートな Google Cloud Storage バケットにアーティファクトファイルを保存します。すべてのファイルは保存時および転送中に暗号化されます。
+W&amp;B は、デフォルトでアメリカ合衆国内にあるプライベートな Google Cloud Storage バケットに Artifacts ファイルを保存します。すべてのファイルは保存時および転送中に暗号化されます。
 
 機密性の高いファイルの場合は、[Private Hosting](/ja/platform/hosting/) を設定するか、[reference artifacts](/ja/models/artifacts/track-external-files/) を使用することを推奨します。
 
-トレーニング中、W&amp;B はログ、アーティファクト、および設定ファイルをローカルで次のディレクトリに保存します：
+トレーニング中、W&amp;B はログ、 Artifacts 、および設定ファイルをローカルで次のディレクトリに保存します：
 
 | File | Default location | To change default location set: |
 | ---- | ---------------- | ------------------------------- |
@@ -24,7 +24,7 @@ W&amp;B は、デフォルトでアメリカ合衆国内にあるプライベー
 </Warning>
 
 <div id="clean-up-local-artifact-cache">
-  ### ローカルのアーティファクトキャッシュをクリーンアップする
+  ### ローカルの Artifacts キャッシュをクリーンアップする
 </div>
 
 W&amp;B は、ファイルを共有する異なるバージョン間でのダウンロードを高速化するために artifact ファイルをキャッシュします。時間の経過とともに、このキャッシュ ディレクトリは大きくなっていく可能性があります。[`wandb artifact cache cleanup`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-cache/) コマンドを実行して、キャッシュを整理し、最近使用されていないファイルを削除してください。

@@ -17,11 +17,11 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 </div>
 
 1. LLM Evaluation Jobs の[要件と制限事項](/ja/models/launch#more-details)を確認します。
-2. 特定のベンチマークを実行するには、チーム管理者が必要な APIキー を [team-scoped secrets](/ja/platform/secrets#add-a-secret) として追加しておく必要があります。任意のチームメンバーが、評価ジョブを設定する際にそのシークレットを指定できます。要件については [Evaluation model catalog](/ja/models/launch/evaluations) を参照してください。
+2. 特定のベンチマークを実行するには、チーム管理者が必要な API キーを [team-scoped secrets](/ja/platform/secrets#add-a-secret) として追加しておく必要があります。任意のチームメンバーが、評価ジョブを設定する際にそのシークレットを指定できます。要件については [Evaluation model catalog](/ja/models/launch/evaluations) を参照してください。
    * **OpenAPI API key**: OpenAI モデルをスコアリングに利用するベンチマークで使用します。ベンチマークを選択した後に **Scorer API key** フィールドが表示される場合は必須です。シークレット名は `OPENAI_API_KEY` である必要があります。
-   * **Hugging Face user access token**: 1 つ以上の gated な Hugging Face データセットへのアクセスが必要な `lingoly` や `lingoly2` など、特定のベンチマークで必要になります。ベンチマークを選択した後に **Hugging Face Token** フィールドが表示される場合は必須です。APIキー は、該当データセットへのアクセス権を持っている必要があります。詳細は Hugging Face ドキュメントの [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) および [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) を参照してください。
+   * **Hugging Face user access token**: 1 つ以上の gated な Hugging Face データセットへのアクセスが必要な `lingoly` や `lingoly2` など、特定のベンチマークで必要になります。ベンチマークを選択した後に **Hugging Face Token** フィールドが表示される場合は必須です。API キー は、該当データセットへのアクセス権を持っている必要があります。詳細は Hugging Face ドキュメントの [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) および [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) を参照してください。
 3. 評価結果用に新しい [W&amp;B project](/ja/models/track/project-page) を作成します。プロジェクトサイドバーから **Create new project** をクリックします。
-4. モデルを VLLM 互換形式でパッケージ化し、W&amp;B Models 内のアーティファクトとして保存します。その他の種類のアーティファクトをベンチマークしようとすると失敗します。1 つの方法として、このページ末尾の [Example: Prepare a model](#example-prepare-your-model) を参照してください。
+4. モデルを VLLM 互換形式でパッケージ化し、W&amp;B Models 内の Artifacts として保存します。その他の種類の Artifacts をベンチマークしようとすると失敗します。1 つの方法として、このページ末尾の [Example: Prepare a model](#example-prepare-your-model) を参照してください。
 5. 各ベンチマークの動作と具体的な要件を理解するため、対象ベンチマークのドキュメントを確認します。便宜上、[Available evaluation benchmarks](/ja/models/launch/evaluations) リファレンスに関連リンクがまとめられています。
 
 <div id="evaluate-your-model">
@@ -33,7 +33,7 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 1. W&amp;B にログインし、プロジェクトのサイドバーで **Launch** をクリックします。**LLM Evaluation Jobs** ページが表示されます。
 2. 評価ジョブを設定するには、**Evaluate model checkpoint** をクリックします。
 3. 評価結果を保存する宛先のプロジェクトを選択します。
-4. **Model artifact** セクションで、評価する準備済みモデルのプロジェクト、アーティファクト、バージョンを指定します。
+4. **Model artifact** セクションで、評価する準備済みモデルのプロジェクト、 Artifacts 、バージョンを指定します。
 5. **Evaluations** をクリックし、最大 4 つまでのベンチマークを選択します。
 6. スコアリングに OpenAI モデルを使用するベンチマークを選択した場合、**Scorer API key** フィールドが表示されます。そこをクリックし、`OPENAI_API_KEY` シークレットを選択します。利便性のために、チーム管理者はこのドロワーから **Create secret** をクリックしてシークレットを作成できます。
 7. Hugging Face のゲート付きデータセットへのアクセスを必要とするベンチマークを選択した場合、**Hugging Face token** フィールドが表示されます。[対象のデータセットへのアクセスをリクエスト](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) し、Hugging Face ユーザーアクセス トークンを含むシークレットを選択します。
@@ -46,7 +46,7 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
   最初のモデルを評価した後は、次の評価ジョブを設定する際に、多くのフィールドが直近の値で自動入力されます。
 </Tip>
 
-この評価ジョブの例では、2 つのベンチマークを 1 つのアーティファクトに対して実行します。
+この評価ジョブの例では、2 つのベンチマークを 1 つの Artifacts に対して実行します。
 
 <Frame>
   ![モデル チェックポイントの評価ジョブの例](/images/models/llm-evaluation-jobs/model-checkpoint-job-example.png)

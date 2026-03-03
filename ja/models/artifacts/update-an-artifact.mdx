@@ -1,26 +1,26 @@
 ---
 description: W&amp;B run の内外で既存の Artifact を更新します。
-title: アーティファクトを更新する
+title: Artifacts を更新する
 ---
 
-アーティファクトの `description`、`metadata`、および `alias` を更新したい値に設定します。`save()` メソッドを呼び出して、W&amp;B サーバー上のアーティファクトを更新します。アーティファクトは W&amp;B run の最中でも、run の外側でも更新できます。
+Artifacts の `description`、`metadata`、および `alias` を更新したい値に設定します。`save()` メソッドを呼び出して、W&amp;B サーバー上の Artifacts を更新します。 Artifacts は W&amp;B run の最中でも、run の外側でも更新できます。
 
 <Note>
   **`Artifact.save()` と `wandb.Run.log_artifact()` を使うタイミング**
 
-  * 新しい run を作成せずに既存のアーティファクトを更新するには、`Artifact.save()` を使用します。
-  * 新しいアーティファクトを作成して特定の run に関連付けるには、`wandb.Run.log_artifact()` を使用します。
+  * 新しい run を作成せずに既存の Artifacts を更新するには、`Artifact.save()` を使用します。
+  * 新しい Artifacts を作成して特定の run に関連付けるには、`wandb.Run.log_artifact()` を使用します。
 </Note>
 
-run の外側でアーティファクトを更新するには、W&amp;B Public API（[`wandb.Api`](/ja/models/ref/python/public-api/api)）を使用します。run の最中にアーティファクトを更新するには、Artifact API（[`wandb.Artifact`](/ja/models/ref/python/experiments/artifact)）を使用します。
+run の外側で Artifacts を更新するには、W&amp;B Public API（[`wandb.Api`](/ja/models/ref/python/public-api/api)）を使用します。run の最中に Artifacts を更新するには、Artifact API（[`wandb.Artifact`](/ja/models/ref/python/experiments/artifact)）を使用します。
 
 <Warning>
-  Model Registry 内の モデルにリンクされているアーティファクトの alias は更新できません。
+  Model Registry 内の モデルにリンクされている Artifacts の alias は更新できません。
 </Warning>
 
 <Tabs>
   <Tab title="During a run">
-    次のコード例は、[`wandb.Artifact`](/ja/models/ref/python/experiments/artifact) API を使ってアーティファクトの description を更新する方法を示しています。
+    次のコード例は、[`wandb.Artifact`](/ja/models/ref/python/experiments/artifact) API を使って Artifacts の description を更新する方法を示しています。
 
     ```python
     import wandb
@@ -33,7 +33,7 @@ run の外側でアーティファクトを更新するには、W&amp;B Public A
   </Tab>
 
   <Tab title="Outside of a run">
-    次のコード例は、`wandb.Api` API を使ってアーティファクトの description を更新する方法を示しています。
+    次のコード例は、`wandb.Api` API を使って Artifacts の description を更新する方法を示しています。
 
     ```python
     import wandb
@@ -60,7 +60,7 @@ run の外側でアーティファクトを更新するには、W&amp;B Public A
     # alias を完全に置き換え
     artifact.aliases = ["replaced"]
 
-    # すべてのアーティファクトへの変更を保存
+    # すべての Artifacts への変更を保存
     artifact.save()
     ```
 
@@ -68,7 +68,7 @@ run の外側でアーティファクトを更新するには、W&amp;B Public A
   </Tab>
 
   <Tab title="With collections">
-    単一のアーティファクトと同様に、Artifact コレクションも更新できます。
+    単一の Artifacts と同様に、Artifact コレクションも更新できます。
 
     ```python
     import wandb

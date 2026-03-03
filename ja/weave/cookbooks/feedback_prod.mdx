@@ -24,7 +24,7 @@ description: "W&B Weave で feedback prod を使用する方法を学びます"
 !pip install weave openai streamlit wandb
 !pip install set-env-colab-kaggle-dotenv -q # 環境変数用
 python
-# OpenAI と WandB の APIキーを含む .env ファイルを追加する
+# OpenAI と WandB の API キーを含む .env ファイルを追加する
 from set_env import set_env
 
 _ = set_env("OPENAI_API_KEY")
@@ -32,7 +32,6 @@ _ = set_env("WANDB_API_KEY")
 ```
 
 次に、`chatbot.py` というファイルを作成し、以下の内容を記述します。
-
 
 ```python lines {13,15,27}
 # chatbot.py
@@ -180,7 +179,6 @@ if __name__ == "__main__":
     main()
 ```
 
-
 `streamlit run chatbot.py` を実行して、このアプリケーションを起動できます。
 
 これで、このアプリケーションと対話し、各応答の後にフィードバックボタンをクリックできます。
@@ -225,7 +223,6 @@ result, call = predict.call(input_data="your data here")
 ```python lines
 call.feedback.add_reaction("👍")  # App UI を通じたユーザーの反応
 ```
-
 
 <div id="conclusion">
   ## まとめ

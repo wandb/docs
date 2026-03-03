@@ -1,14 +1,14 @@
 ---
-title: アーティファクト：既存タグの追加
+title: Artifacts：既存タグの追加
 ---
 
 ```python
 """
-既存の W&B アーティファクトにタグを追加します。
+既存の W&B Artifacts にタグを追加します。
 """
 import wandb
 
-# 既存のアーティファクトを取得してタグを追加する
+# 既存の Artifacts を取得してタグを追加する
 artifact = wandb.Api().artifact("entity/project/artifact:version")
 artifact.tags = ["new-tag"]
 artifact.save()
