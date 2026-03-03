@@ -1,13 +1,13 @@
 ---
 title: "推論情報を表示する"
-description: W&B Inference のレスポンスで推論情報を取得して表示する方法
+description: W&B Inference レスポンスで推論情報を返して表示する方法
 ---
 
-[OpenAI's GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b) のような推論モデルは、最終的な回答に加えて、返される出力の一部として推論ステップに関する情報も含みます。これは自動で行われ、追加の入力パラメーターは不要です。
+[OpenAI の GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b) のような推論対応モデルは、最終的な回答に加えて、その出力の一部として推論ステップに関する情報を含みます。これは自動的に行われ、追加の入力パラメーターは不要です。
 
-あるモデルが推論をサポートしているかどうかは、UI 上のカタログページにある「Supported Features」セクションを確認することで判断できます。
+あるモデルが推論をサポートしているかどうかは、UI のカタログページにある Supported Features セクションを確認することで判別できます。
 
-推論情報はレスポンスの `reasoning_content` フィールドに含まれています。このフィールドは、他のモデルの出力には存在しません。
+推論情報は、レスポンス内の `reasoning_content` フィールドに含まれます。このフィールドは、他のモデルの出力には含まれません。
 
 <Tabs>
   <Tab title="Python">

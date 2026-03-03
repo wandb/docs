@@ -14,8 +14,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 新しいアーティファクトがコレクションにリンクされたときに発火するイベント。
 
 例:
-アーティファクトがエイリアス「prod」でコレクション「my-collection」に
-リンクされたときにトリガーされるイベントを定義します:
+エイリアス「prod」が付いたアーティファクトがコレクション「my-collection」にリンクされたときにトリガーされるイベントを定義します:
 
 ```python
 from wandb import Api
@@ -31,7 +30,7 @@ event = OnLinkArtifact(
 ```
 
 
-### <kbd>メソッド</kbd> `OnLinkArtifact.__init__`
+### <kbd>method</kbd> `OnLinkArtifact.__init__`
 
 ```python
 __init__(
@@ -45,7 +44,7 @@ __init__(
 
 * `event_type` (Literal[LINK&#95;ARTIFACT]):
 * `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): イベントのスコープ。
-* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントをトリガーするために必要となる、任意の追加条件。
+* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントをトリガーするために必要となる、追加の条件（ある場合）。
 
 **戻り値:**
-`OnLinkArtifact` オブジェクトを返す。
+`OnLinkArtifact` オブジェクト。

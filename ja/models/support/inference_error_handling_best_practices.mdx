@@ -1,11 +1,11 @@
 ---
-title: W&B Inference のエラー処理におけるベストプラクティスは何ですか？
+title: W&amp;B Inference のエラー処理におけるベストプラクティスは何ですか？
 ---
 
-W&B Inference のエラーに適切に対処し、アプリケーションの信頼性を維持するために、次のベストプラクティスに従ってください。
+W&amp;B Inference のエラーを適切に処理し、アプリケーションの信頼性を維持するために、次のベストプラクティスに従いましょう。
 
 <div id="1-always-implement-error-handling">
-  ## 1. 必ずエラーハンドリングを実装する
+  ## 1. 常にエラー処理を実装する
 </div>
 
 API 呼び出しは try-except ブロックで囲みます：
@@ -25,7 +25,7 @@ except Exception as e:
 
 
 <div id="2-use-retry-logic-with-exponential-backoff">
-  ## 2. 指数バックオフを用いたリトライロジックを使用する
+  ## 2. 指数バックオフ付きの再試行ロジックを使用する
 </div>
 
 ```python
@@ -52,7 +52,7 @@ def call_inference_with_retry(
             
             # 指数バックオフで遅延を計算する
             delay = base_delay * (2 ** attempt)
-            print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
+            print(f"試行 {attempt + 1} が失敗しました。{delay}秒後に再試行します...")
             time.sleep(delay)
     
     return None
@@ -63,12 +63,12 @@ def call_inference_with_retry(
   ## 3. 利用状況を監視する
 </div>
 
-- W&B の Billing ページでクレジット使用量を確認する
+- W&B Billing ページでクレジットの使用量を追跡する
 - 上限に達する前にアラートを設定する
-- アプリケーション内で API の利用状況をログとして記録する
+- アプリケーションで API の利用状況を記録する
 
 <div id="4-handle-specific-error-codes">
-  ## 4. 特定のエラーコードを個別に処理する
+  ## 4. 特定のエラーコードをハンドリングする
 </div>
 
 ```python
@@ -97,14 +97,14 @@ def handle_inference_error(error):
   ## 5. 適切なタイムアウトを設定する
 </div>
 
-ユースケースに応じて妥当なタイムアウト値を設定します：
+ユースケースに応じて適切なタイムアウトを設定してください。
 
 ```python
 # 長いレスポンス向け
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     api_key="your-api-key",
-    timeout=60.0  # 60秒タイムアウト
+    timeout=60.0  # 60秒のタイムアウト
 )
 ```
 
@@ -113,7 +113,7 @@ client = openai.OpenAI(
   ## 追加のヒント
 </div>
 
-- デバッグしやすくするために、エラーをタイムスタンプ付きでログに記録する
-- 並行処理をより適切に扱うために、非同期処理を使用する
+- デバッグのためにエラーをタイムスタンプ付きでログに記録する
+- 並行処理を適切に扱うために非同期処理を利用する
 - 本番システムにはサーキットブレーカーを実装する
-- 適切な場合はレスポンスをキャッシュして、API 呼び出しを削減する
+- 適切な場合はレスポンスをキャッシュして API コールを削減する

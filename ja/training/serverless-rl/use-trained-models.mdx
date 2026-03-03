@@ -3,34 +3,34 @@ title: 学習済みモデルを使用する
 description: 学習済みモデルに推論リクエストを送信する
 ---
 
-Serverless RL でモデルを学習すると、自動的に推論に利用できるようになります。
+Serverless RL でモデルをトレーニングすると、自動的に推論に利用可能になります。
 
 学習済みモデルにリクエストを送信するには、次のものが必要です。
 
 * [W&amp;B APIキー](https://wandb.ai/settings)
-* [Training API](/ja/training/api-reference) のベースURL `https://api.training.wandb.ai/v1/`
+* [Training API](/ja/training/api-reference) のベース URL、`https://api.training.wandb.ai/v1/`
 * モデルのエンドポイント
 
-モデルのエンドポイントは次のスキーマを使用します。
+モデルのエンドポイントは、次の形式です。
 
 ```
 wandb-artifact:///<entity>/<project>/<model-name>:<step>
 ```
 
-このスキーマは次の要素で構成されています:
+スキーマは次の要素で構成されます:
 
-* W&amp;B エンティティ（チーム）の名前
+* あなたの W&amp;B entity（チーム）の名前
 * モデルに関連付けられたプロジェクトの名前
 * 学習済みモデルの名前
-* デプロイしたいモデルの学習ステップ（通常、評価で最も良い性能を示したステップ）
+* デプロイしたいモデルのトレーニングステップ（通常は評価でモデルの性能が最も良かったステップ）
 
-たとえば、W&amp;B チーム名が `email-specialists`、プロジェクト名が `mail-search`、学習済みモデル名が `agent-001` で、ステップ 25 をデプロイ対象とする場合、そのエンドポイントは次のようになります:
+たとえば、W&amp;B チームの名前が `email-specialists`、プロジェクト名が `mail-search`、学習済みモデル名が `agent-001` で、ステップ 25 でデプロイしたい場合、エンドポイントは次のようになります:
 
 ```
 wandb-artifact:///email-specialists/mail-search/agent-001:step25
 ```
 
-エンドポイントを用意したら、既存の推論ワークフローに統合できます。次の例では、cURL リクエストまたは [Python OpenAI SDK](https://github.com/openai/openai-python) を使用して、学習済みモデルに推論リクエストを送信する方法を示します。
+エンドポイントを作成したら、通常の推論ワークフローに統合できます。次の例では、cURL リクエストまたは [Python OpenAI SDK](https://github.com/openai/openai-python) を使用して、学習済みモデルに推論リクエストを送信する方法を示します。
 
 <div id="curl">
   ### cURL

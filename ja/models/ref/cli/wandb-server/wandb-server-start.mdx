@@ -3,10 +3,10 @@ title: "wandb server start"
 ---
 
 {/*
-  このコマンドの導入コンテンツを追加するには:
-  1. 次のパスにスニペットファイルを作成します: /snippets/_includes/cli/wandb-server-start.mdx
-  2. 作成したファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+  このコマンドのイントロダクション用コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-server-start.mdx
+  2. そのファイルにイントロダクション用コンテンツを追加します
+  3. 次の 2 行だけを残して、このコメントブロック全体を削除します:
 
   import WandbServerStart from "/snippets/_includes/cli/wandb-server-start.mdx";
 
@@ -15,7 +15,7 @@ title: "wandb server start"
   スニペットは次回の再生成時に自動検出されます。
   */}
 
-ローカルで W&amp;B サーバーを起動する
+ローカル W&amp;B サーバーを起動する
 
 
 <div id="usage">
@@ -33,6 +33,6 @@ wandb server start [OPTIONS]
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--port`, `-p` | W&B サーバーをバインドするホスト側のポート（デフォルト値: 8080） |
-| `--env`, `-e` | wandb/local に渡す環境変数（デフォルト値: []） |
-| `--daemon` | デーモンモードで実行するかどうか（デフォルト値: True） |
+| `--port`, `-p` | W&B server をバインドするホスト側のポート（デフォルト: 8080） |
+| `--env`, `-e` | wandb/local に渡す環境変数（デフォルト: []） |
+| `--daemon` | デーモンモードで実行するかどうか（デフォルト: True） |

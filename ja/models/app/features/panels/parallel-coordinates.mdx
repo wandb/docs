@@ -1,22 +1,22 @@
 ---
-description: 機械学習実験間で結果を比較する
-title: 平行座標
+description: 機械学習実験間の結果を比較する
+title: Parallel coordinates
 ---
 
-平行座標チャートは、多数のハイパーパラメータとモデルのメトリクスとの関係を、一目で把握できるように要約して表示します。
+Parallel coordinates チャートは、多数のハイパーパラメーターとモデル メトリクス間の関係を一目で把握できるように可視化します。
 
 <Frame>
   <img src="/images/app_ui/parallel_coordinates.gif" alt="Parallel coordinates plot" />
 </Frame>
 
-* **Axes**: [`wandb.Run.config`](/ja/models/tables/evaluate-models) に含まれるさまざまなハイパーパラメータと、[`wandb.Run.log()`](/ja/models/tables/evaluate-models) からのメトリクス。
-* **Lines**: 各線は 1 つの run を表します。線にマウスオーバーすると、その run の詳細を含むツールチップが表示されます。現在のフィルタに一致するすべての線が表示されますが、目のアイコンをオフにすると、線はグレー表示になります。
+* **Axes**: [`wandb.Run.config`](/ja/models/tables/evaluate-models) から取得したさまざまなハイパーパラメーターと、[`wandb.Run.log()`](/ja/models/tables/evaluate-models) から取得したメトリクス。
+* **Lines**: 各線は 1 つの run を表します。線の上にマウスオーバーすると、その run の詳細を含むツールチップが表示されます。現在のフィルターに一致するすべての線が表示されますが、「目」のアイコンをオフにすると、線はグレー表示になります。
 
 <div id="create-a-parallel-coordinates-panel">
-  ## 並列座標パネルを作成する
+  ## Parallel coordinates パネルを作成する
 </div>
 
-1. ワークスペースのランディングページを開きます
+1. ワークスペースのランディングページにアクセスします
 2. **Add Panels** をクリックします
 3. **Parallel coordinates** を選択します
 
@@ -26,10 +26,10 @@ title: 平行座標
 
 パネルを設定するには、パネル右上の編集ボタンをクリックします。
 
-* **ツールチップ**: ホバーすると、各runに関する情報を表示する凡例が現れます
-* **タイトル**: 軸タイトルを編集して、より読みやすくします
-* **グラデーション**: 好きな色の範囲になるようにグラデーションをカスタマイズします
-* **対数スケール**: 各軸は個別に対数スケールで表示するよう設定できます
-* **軸反転**: 軸の向きを切り替えます。精度と損失の両方を列として持つ場合に便利です
+* **Tooltip**: ホバーすると、各 run に関する情報を示す凡例が表示されます
+* **Titles**: 軸タイトルを編集して、より読みやすくします
+* **Gradient**: 任意の色の範囲になるようグラデーションをカスタマイズします
+* **Log scale**: 各軸は個別に対数スケールで表示するよう設定できます
+* **Flip axis**: 軸の方向を切り替えます — 精度と損失の両方を列として表示している場合に便利です
 
-[ライブの平行座標パネルを操作する](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+[ライブの parallel coordinates パネルを操作する](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)

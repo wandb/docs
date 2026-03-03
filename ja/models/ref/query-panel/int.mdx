@@ -3,143 +3,141 @@ title: int
 ---
 
 <div id="chainable-ops">
-  ## チェーン可能な演算
+  ## チェーン可能な Ops
 </div>
 
 ### <a id="number-notEqual" />`number-notEqual`
 
-2つの値が不等であるかどうかを判定します。
+2 つの値が等しくないかどうかを判定します。
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 比較する1つ目の値。 |
-| `rhs` | 比較する2つ目の値。 |
+| `lhs` | 比較する最初の値。 |
+| `rhs` | 比較する 2 番目の値。 |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2つの値が等しくないかどうかを示します。
+2 つの値が等しくないかどうかを示します。
 
 ### <a id="number-modulo" />`number-modulo`
 
-1つの[number](/ja/models/ref/query-panel/number/)を別の[number](/ja/models/ref/query-panel/number/)で割り、その余りを返します
+1 つの [number](/ja/models/ref/query-panel/number/) を別の [number](/ja/models/ref/query-panel/number/) で割り、その剰余（余り）を返します
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 割られる側の[number](/ja/models/ref/query-panel/number/) |
-| `rhs` | 割る側の[number](/ja/models/ref/query-panel/number/) |
+| `lhs` | 被除数となる [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 除数となる [number](/ja/models/ref/query-panel/number/) |
 
-<div id="return-value">
-  #### 戻り値
-</div>
+#### 返り値
 
-2 つの[数値](/ja/models/ref/query-panel/number/)の剰余
+2 つの [数値](/ja/models/ref/query-panel/number/) の剰余値
 
 ### <a id="number-mult" />`number-mult`
 
-2 つの [number](/ja/models/ref/query-panel/number/) を乗算します
+2 つの [数値](/ja/models/ref/query-panel/number/) を乗算します。
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 1 つ目の [number](/ja/models/ref/query-panel/number/) |
-| `rhs` | 2 つ目の [number](/ja/models/ref/query-panel/number/) |
+| `lhs` | 1 つ目の [数値](/ja/models/ref/query-panel/number/) |
+| `rhs` | 2 つ目の [数値](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2 つの [numbers](/ja/models/ref/query-panel/number/) の乗算結果
+2 つの [数値](/ja/models/ref/query-panel/number/) の積
 
 ### <a id="number-powBinary" />`number-powBinary`
 
-指数を指定して[数値](/ja/models/ref/query-panel/number/)をべき乗します
+[number](/ja/models/ref/query-panel/number/) を指定した指数で累乗します
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 底となる[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 指数となる[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 底となる [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 指数となる [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-[数値](/ja/models/ref/query-panel/number/)を底として n 乗した値
+底となる [numbers](/ja/models/ref/query-panel/number/) を n 乗した値
 
 ### <a id="number-add" />`number-add`
 
-2つの[数値](/ja/models/ref/query-panel/number/)を加算します
+2 つの [number](/ja/models/ref/query-panel/number/) を加算します
 
-| 引数 | 説明 |
+| Argument | Description |
 | :--- | :--- |
-| `lhs` | 1つ目の[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 2つ目の[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 最初の [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 2 番目の [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2つの[数値](/ja/models/ref/query-panel/number/)の合計
+2 つの [numbers](/ja/models/ref/query-panel/number/) を足した結果
 
 ### <a id="number-sub" />`number-sub`
 
-ある[数値](/ja/models/ref/query-panel/number/)から別の[数値](/ja/models/ref/query-panel/number/)を減算します
+一方の [number](/ja/models/ref/query-panel/number/) からもう一方の [number](/ja/models/ref/query-panel/number/) を減算します
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 減算元の[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 減算する[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 減算される [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 減算する [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2つの[数値](/ja/models/ref/query-panel/number/)の差
+2 つの [numbers](/ja/models/ref/query-panel/number/) の差
 
 ### <a id="number-div" />`number-div`
 
-一方の [number](/ja/models/ref/query-panel/number/) をもう一方の [number](/ja/models/ref/query-panel/number/) で割ります
+ある [number](/ja/models/ref/query-panel/number/) を別の [number](/ja/models/ref/query-panel/number/) で割ります
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 割られる [number](/ja/models/ref/query-panel/number/) |
-| `rhs` | 割る [number](/ja/models/ref/query-panel/number/) |
+| `lhs` | 割られる側の [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 割る数として使う [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2つの[数値](/ja/models/ref/query-panel/number/)を割った商
+2 つの [numbers](/ja/models/ref/query-panel/number/) の商
 
 ### <a id="number-less" />`number-less`
 
-[数値](/ja/models/ref/query-panel/number/)が別の[数値](/ja/models/ref/query-panel/number/)より小さいかどうかを判定します
+ある [number](/ja/models/ref/query-panel/number/) が別の値より小さいかどうかを確認します
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 比較する[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 比較対象の[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 比較する [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 比較対象となる [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-最初の [number](/ja/models/ref/query-panel/number/) が 2 番目のものより小さいかどうか
+最初の [number](/ja/models/ref/query-panel/number/) が 2 番目の値より小さいかどうか。
 
 ### <a id="number-lessEqual" />`number-lessEqual`
 
-ある[数値](/ja/models/ref/query-panel/number/)が別の[数値](/ja/models/ref/query-panel/number/)以下かどうかをチェックします
+ある [number](/ja/models/ref/query-panel/number/) が別の [number](/ja/models/ref/query-panel/number/) 以下かどうかを判定します
 
-| 引数 | 説明 |
+| Argument | Description |
 | :--- | :--- |
-| `lhs` | 比較する[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 比較対象の[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 比較する [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 比較対象の [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-最初の[number](/ja/models/ref/query-panel/number/)が2番目のもの以下かどうか
+最初の [number](/ja/models/ref/query-panel/number/) が 2 番目の値以下かどうか
 
 ### <a id="number-equal" />`number-equal`
 
@@ -154,37 +152,37 @@ title: int
   #### 戻り値
 </div>
 
-2 つの値が等しいかどうか。
+2 つの値が等しいかどうかを示します。
 
 ### <a id="number-greater" />`number-greater`
 
-ある[数値](/ja/models/ref/query-panel/number/)が別の数値より大きいかどうかをチェックします
+ある [number](/ja/models/ref/query-panel/number/) が別の [number](/ja/models/ref/query-panel/number/) より大きいかを判定します
 
 | 引数 | 説明 |
 | :--- | :--- |
-| `lhs` | 比較する[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 比較対象の[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 比較する [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 比較対象の [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-最初の [number](/ja/models/ref/query-panel/number/) が 2 番目のものより大きいかどうか
+最初の [number](/ja/models/ref/query-panel/number/) が 2 つ目のものより大きいかどうか
 
 ### <a id="number-greaterEqual" />`number-greaterEqual`
 
-ある[数値](/ja/models/ref/query-panel/number/)が別の数値以上かどうかを判定します
+ある [number](/ja/models/ref/query-panel/number/) が別の [number](/ja/models/ref/query-panel/number/) 以上かどうかを判定します
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 比較する[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 比較対象の[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 比較する [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 比較対象の [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-1番目の [number](/ja/models/ref/query-panel/number/) が 2番目のもの以上であるかどうか
+最初の [number](/ja/models/ref/query-panel/number/) が 2 番目の [number] 以上かどうか
 
 ### <a id="number-negate" />`number-negate`
 
@@ -198,25 +196,25 @@ title: int
   #### 戻り値
 </div>
 
-1 つの [number](/ja/models/ref/query-panel/number/)
+[数値](/ja/models/ref/query-panel/number/)
 
 ### <a id="number-toString" />`number-toString`
 
 [number](/ja/models/ref/query-panel/number/) を文字列に変換します
 
-| 引数 | 説明 |
+| Argument | Description |
 | :--- | :--- |
-| `in` | 変換する数値 |
+| `in` | 変換する number 値 |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-[number](/ja/models/ref/query-panel/number/) の文字列表現
+[number](/ja/models/ref/query-panel/number/) の文字列表現。
 
 ### <a id="number-toTimestamp" />`number-toTimestamp`
 
-[number](/ja/models/ref/query-panel/number/) を *timestamp* に変換します。31536000000 未満の値は秒、31536000000000 未満の値はミリ秒、31536000000000000 未満の値はマイクロ秒、31536000000000000000 未満の値はナノ秒として解釈されます。
+[数値](/ja/models/ref/query-panel/number/) を *timestamp* に変換します。31536000000 未満の値は秒、31536000000000 未満の値はミリ秒、31536000000000000 未満の値はマイクロ秒、31536000000000000000 未満の値はナノ秒として変換されます。
 
 | Argument | Description |
 | :--- | :--- |
@@ -243,7 +241,7 @@ title: int
 [number](/ja/models/ref/query-panel/number/) の絶対値
 
 <div id="list-ops">
-  ## リスト操作
+  ## リスト演算
 </div>
 
 ### <a id="number-notEqual" />`number-notEqual`
@@ -263,42 +261,42 @@ title: int
 
 ### <a id="number-modulo" />`number-modulo`
 
-1つの[number](/ja/models/ref/query-panel/number/)を別の[number](/ja/models/ref/query-panel/number/)で割り、その余りを返します
+ある [number](/ja/models/ref/query-panel/number/) を別のもので割り、その剰余を返します
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 割られる側の[number](/ja/models/ref/query-panel/number/) |
-| `rhs` | 割る側の[number](/ja/models/ref/query-panel/number/) |
+| `lhs` | 被除数となる [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 除数となる [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2 つの[数値](/ja/models/ref/query-panel/number/)の剰余
+2 つの [数値](/ja/models/ref/query-panel/number/) の剰余
 
 ### <a id="number-mult" />`number-mult`
 
-2つの[数値](/ja/models/ref/query-panel/number/)を掛け合わせます
+2 つの [number](/ja/models/ref/query-panel/number/) を掛け合わせます
 
-| 引数 | 説明 |
+| Argument | Description |
 | :--- | :--- |
-| `lhs` | 1つ目の[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 2つ目の[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 1 つ目の [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 2 つ目の [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2つの[数値](/ja/models/ref/query-panel/number/)の積
+2 つの [numbers](/ja/models/ref/query-panel/number/) の積。
 
 ### <a id="number-powBinary" />`number-powBinary`
 
-[数値](/ja/models/ref/query-panel/number/)を指数で累乗する
+[number](/ja/models/ref/query-panel/number/) を指定した指数で累乗します
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 底を表す[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 指数を表す[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 底となる [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 指数となる [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
@@ -308,67 +306,67 @@ title: int
 
 ### <a id="number-add" />`number-add`
 
-2つの[数値](/ja/models/ref/query-panel/number/)を加算します
+2 つの [数値](/ja/models/ref/query-panel/number/) を加算します
 
 | 引数 | 説明 |
 | :--- | :--- |
-| `lhs` | 1つ目の[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 2つ目の[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 1 つ目の [数値](/ja/models/ref/query-panel/number/) |
+| `rhs` | 2 つ目の [数値](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2つの[数値](/ja/models/ref/query-panel/number/)の合計
+2 つの [number](/ja/models/ref/query-panel/number/) 型の合計値
 
 ### <a id="number-sub" />`number-sub`
 
-一方の[数](/ja/models/ref/query-panel/number/)からもう一方の[数](/ja/models/ref/query-panel/number/)を減算します
+ある [number](/ja/models/ref/query-panel/number/) から別の [number](/ja/models/ref/query-panel/number/) を減算します
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 減算元の[数](/ja/models/ref/query-panel/number/) |
-| `rhs` | 減算する[数](/ja/models/ref/query-panel/number/) |
+| `lhs` | 減算元の [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 減算する [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2 つの[数値](/ja/models/ref/query-panel/number/)の差
+2 つの [数値](/ja/models/ref/query-panel/number/) の差
 
 ### <a id="number-div" />`number-div`
 
-[number](/ja/models/ref/query-panel/number/)を別の[number](/ja/models/ref/query-panel/number/)で割る
+ある [number](/ja/models/ref/query-panel/number/) を別の [number](/ja/models/ref/query-panel/number/) で割ります
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 被除数となる[number](/ja/models/ref/query-panel/number/) |
-| `rhs` | 除数となる[number](/ja/models/ref/query-panel/number/) |
+| `lhs` | 被除数となる [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 除数となる [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-2 つの[数値](/ja/models/ref/query-panel/number/)の商を返します。
+2 つの [numbers](/ja/models/ref/query-panel/number/) の商
 
 ### <a id="number-less" />`number-less`
 
-ある[数値](/ja/models/ref/query-panel/number/)が別の[数値](/ja/models/ref/query-panel/number/)より小さいかどうかをチェックします
+指定した [number](/ja/models/ref/query-panel/number/) が別のものより小さいかどうかを判定します
 
 | Argument | Description |
 | :--- | :--- |
-| `lhs` | 比較元の[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 比較先の[数値](/ja/models/ref/query-panel/number/) |
+| `lhs` | 比較する [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 比較対象となる [number](/ja/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-最初の[number](/ja/models/ref/query-panel/number/)が2番目の数値より小さいかどうか。
+1 つ目の [number](/ja/models/ref/query-panel/number/) が 2 つ目より小さいかどうかを返します
 
 ### <a id="number-lessEqual" />`number-lessEqual`
 
-ある [number](/ja/models/ref/query-panel/number/) が別の [number](/ja/models/ref/query-panel/number/) 以下かどうかを判定します
+[nummber](/ja/models/ref/query-panel/number/) が別の [number](/ja/models/ref/query-panel/number/) 以下かどうかをチェックします
 
 | Argument | Description |
 | :--- | :--- |
@@ -379,7 +377,7 @@ title: int
   #### 戻り値
 </div>
 
-最初の [number](/ja/models/ref/query-panel/number/) が 2 番目の値以下かどうかを示します
+最初の [number](/ja/models/ref/query-panel/number/) が 2 番目の number 以下かどうかを返します
 
 ### <a id="number-equal" />`number-equal`
 
@@ -394,28 +392,13 @@ title: int
   #### 戻り値
 </div>
 
-2 つの値が等しいかどうかを返します。
+2 つの値が等しいかどうか。
 
 ### <a id="number-greater" />`number-greater`
 
-ある[数値](/ja/models/ref/query-panel/number/)が別の数値より大きいかどうかを判定します
+[number](/ja/models/ref/query-panel/number/) が別の値より大きいかどうかをチェックします
 
 | Argument | Description |
-| :--- | :--- |
-| `lhs` | 比較する[数値](/ja/models/ref/query-panel/number/) |
-| `rhs` | 比較対象の[数値](/ja/models/ref/query-panel/number/) |
-
-<div id="return-value">
-  #### 戻り値
-</div>
-
-1番目の[number](/ja/models/ref/query-panel/number/)が2番目より大きいかどうか
-
-### <a id="number-greaterEqual" />`number-greaterEqual`
-
-ある [number](/ja/models/ref/query-panel/number/) が別の値以上かどうかを判定します
-
-| 引数 | 説明 |
 | :--- | :--- |
 | `lhs` | 比較する [number](/ja/models/ref/query-panel/number/) |
 | `rhs` | 比較対象の [number](/ja/models/ref/query-panel/number/) |
@@ -424,7 +407,22 @@ title: int
   #### 戻り値
 </div>
 
-最初の[number](/ja/models/ref/query-panel/number/)が2番目の[number]以上であるかどうか
+最初の [number](/ja/models/ref/query-panel/number/) が 2 番目のものより大きいかどうかを表します
+
+### <a id="number-greaterEqual" />`number-greaterEqual`
+
+[number](/ja/models/ref/query-panel/number/) が 別の [number](/ja/models/ref/query-panel/number/) 以上かどうかを判定します
+
+| Argument | Description |
+| :--- | :--- |
+| `lhs` | 比較する [number](/ja/models/ref/query-panel/number/) |
+| `rhs` | 比較対象の [number](/ja/models/ref/query-panel/number/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+最初の [number](/ja/models/ref/query-panel/number/) が 2 番目の [number] 以上かどうか
 
 ### <a id="number-negate" />`number-negate`
 
@@ -432,27 +430,27 @@ title: int
 
 | Argument | Description |
 | :--- | :--- |
-| `val` | 符号を反転する数値 |
+| `val` | 符号を反転する対象の number |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-[数値](/ja/models/ref/query-panel/number/)
+[number](/ja/models/ref/query-panel/number/) を返します。
 
 ### <a id="numbers-argmax" />`numbers-argmax`
 
-最大の [number](/ja/models/ref/query-panel/number/) のインデックスを返します
+最大値を持つ [number](/ja/models/ref/query-panel/number/) のインデックスを返します。
 
 | Argument | Description |
 | :--- | :--- |
-| `numbers` | 最大の [number](/ja/models/ref/query-panel/number/) のインデックスを求める対象となる [number](/ja/models/ref/query-panel/number/) の&#95;list&#95; |
+| `numbers` | 最大値を持つ [number](/ja/models/ref/query-panel/number/) のインデックスを求める対象となる [number](/ja/models/ref/query-panel/number/) の *list* |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-最大値を持つ [number](/ja/models/ref/query-panel/number/) のインデックス
+最大の [number](/ja/models/ref/query-panel/number/) のインデックス。
 
 ### <a id="numbers-argmin" />`numbers-argmin`
 
@@ -466,7 +464,7 @@ title: int
   #### 戻り値
 </div>
 
-最小値を持つ [number](/ja/models/ref/query-panel/number/) のインデックス
+最小値をとる [number](/ja/models/ref/query-panel/number/) のインデックス
 
 ### <a id="numbers-avg" />`numbers-avg`
 
@@ -474,7 +472,7 @@ title: int
 
 | Argument | Description |
 | :--- | :--- |
-| `numbers` | 平均を計算する対象の [numbers](/ja/models/ref/query-panel/number/) の *リスト* |
+| `numbers` | 平均を計算する対象の [numbers](/ja/models/ref/query-panel/number/) の *list* |
 
 <div id="return-value">
   #### 戻り値
@@ -494,7 +492,7 @@ title: int
   #### 戻り値
 </div>
 
-最大の [number](/ja/models/ref/query-panel/number/) 値
+最大 [number](/ja/models/ref/query-panel/number/)
 
 ### <a id="numbers-min" />`numbers-min`
 
@@ -502,21 +500,21 @@ title: int
 
 | Argument | Description |
 | :--- | :--- |
-| `numbers` | 最小の [number](/ja/models/ref/query-panel/number/) を求める対象の [numbers](/ja/models/ref/query-panel/number/) の *list* |
+| `numbers` | 最小の [number](/ja/models/ref/query-panel/number/) を求める対象となる [numbers](/ja/models/ref/query-panel/number/) の *list*（リスト） |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-最小の[数値](/ja/models/ref/query-panel/number/)
+最小値の [number](/ja/models/ref/query-panel/number/)
 
 ### <a id="numbers-stddev" />`numbers-stddev`
 
-[数値](/ja/models/ref/query-panel/number/)の標準偏差
+[数値](/ja/models/ref/query-panel/number/) の標準偏差
 
-| Argument | Description |
+| 引数 | 説明 |
 | :--- | :--- |
-| `numbers` | 標準偏差を計算するための[数値](/ja/models/ref/query-panel/number/)の&#95;list&#95; |
+| `numbers` | 標準偏差を計算するための [数値](/ja/models/ref/query-panel/number/) のリスト |
 
 <div id="return-value">
   #### 戻り値
@@ -526,17 +524,17 @@ title: int
 
 ### <a id="numbers-sum" />`numbers-sum`
 
-[数値](/ja/models/ref/query-panel/number/)の合計
+[numbers](/ja/models/ref/query-panel/number/) の合計
 
 | Argument | Description |
 | :--- | :--- |
-| `numbers` | 合計対象の[数値](/ja/models/ref/query-panel/number/)の *list* |
+| `numbers` | 合計対象の [numbers](/ja/models/ref/query-panel/number/) の *list* |
 
 <div id="return-value">
   #### 戻り値
 </div>
 
-[数値](/ja/models/ref/query-panel/number/) の合計
+[numbers](/ja/models/ref/query-panel/number/) の合計値
 
 ### <a id="number-toString" />`number-toString`
 
@@ -546,17 +544,19 @@ title: int
 | :--- | :--- |
 | `in` | 変換する数値 |
 
-#### 返り値
+<div id="return-value">
+  #### 戻り値
+</div>
 
 [number](/ja/models/ref/query-panel/number/) を表す文字列
 
 ### <a id="number-toTimestamp" />`number-toTimestamp`
 
-[number](/ja/models/ref/query-panel/number/) を *timestamp* に変換します。31536000000 未満の値は秒、31536000000000 未満の値はミリ秒、31536000000000000 未満の値はマイクロ秒、31536000000000000000 未満の値はナノ秒として扱われ、変換されます。
+[number](/ja/models/ref/query-panel/number/) を *timestamp* に変換します。31536000000 未満の値は秒、31536000000000 未満の値はミリ秒、31536000000000000 未満の値はマイクロ秒、31536000000000000000 未満の値はナノ秒として解釈され、変換されます。
 
 | Argument | Description |
 | :--- | :--- |
-| `val` | timestamp に変換する数値 |
+| `val` | *timestamp* に変換する数値 |
 
 <div id="return-value">
   #### 戻り値
@@ -566,7 +566,7 @@ title: int
 
 ### <a id="number-abs" />`number-abs`
 
-[数値](/ja/models/ref/query-panel/number/)の絶対値を計算します
+[数値](/ja/models/ref/query-panel/number/) の絶対値を計算します
 
 | 引数 | 説明 |
 | :--- | :--- |

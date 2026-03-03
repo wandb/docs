@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `SendWebhook`
 
-Webhook リクエストを送信するオートメーションアクションを定義します。
+webhook リクエストを送信するための自動化アクションを定義します。
 
 ### <kbd>method</kbd> `SendWebhook.__init__`
 
@@ -25,8 +25,8 @@ __init__(
 
 **引数:**
 
-* `integration_id` (str): リクエストの送信に使用する webhook インテグレーションの ID。
-* `request_payload` (Optional[Annotated]): webhook リクエストで送信するペイロード。テンプレート変数を含む場合があります。
+* `integration_id` (str): リクエスト送信に使用する webhook インテグレーションの ID。
+* `request_payload` (Optional[Annotated]): webhook リクエストで送信する payload。テンプレート変数を含む場合があります。
 * `action_type` (Literal[GENERIC&#95;WEBHOOK]):
 
 **戻り値:**

@@ -1,5 +1,5 @@
 ---
-title: 既存アーティファクトのリンクコレクションをログする
+title: "既存のアーティファクト リンク コレクションをログに記録する"
 ---
 
 ```python
@@ -16,9 +16,9 @@ collection_name = "<collection_name>" # コレクション名を指定する
 version = 0 # 使用するアーティファクトのバージョンを指定する
 artifact_name_registry = f"wandb-registry-{registry_name}/{collection_name}:v{version}"
 
-# 別のチームとプロジェクトで W&B run を初期化する
+# 別のチームとプロジェクトで W&B の run を初期化する
 with wandb.init(entity="<entity>", project="<project>") as run:
-    # レジストリからモデルアーティファクトを使用する
+    # レジストリからモデルのアーティファクトを使用する
     registry_model = run.use_artifact(artifact_or_name=artifact_name_registry)
 
     # モデルをローカルディレクトリにダウンロードする

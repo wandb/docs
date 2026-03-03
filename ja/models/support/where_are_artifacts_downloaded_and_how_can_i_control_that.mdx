@@ -1,10 +1,10 @@
 ---
-title: アーティファクトはどこにダウンロードされ、保存先をどのように指定できますか？
+title: アーティファクトはどこにダウンロードされ、保存先はどのように指定できますか？
 ---
 
-デフォルトでは、アーティファクトは `artifacts/` フォルダにダウンロードされます。保存先を変更するには、次のいずれかの方法を使用します。
+デフォルトでは、アーティファクトは `artifacts/` フォルダーにダウンロードされます。場所を変更するには、次のいずれかを実行します。
 
-* [`wandb.Artifact().download`](/ja/models/ref/python/public-api/api) に渡す:
+* [`wandb.Artifact().download`](/ja/models/ref/python/public-api/api) にダウンロード先を引数として指定する:
 
   ```python
   wandb.Artifact().download(root="<path_to_download>")

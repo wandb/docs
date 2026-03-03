@@ -2,14 +2,14 @@
 title: メトリクスをオフラインで保存して、後から W&B に同期することはできますか？
 ---
 
-デフォルトでは、`wandb.init` はメトリクスをリアルタイムでクラウドに同期するプロセスを開始します。オフラインで利用するには、2つの環境変数を設定してオフラインモードを有効にし、後から同期できるようにします。
+デフォルトでは、`wandb.init` はメトリクスをクラウドにリアルタイムで同期するプロセスを開始します。オフラインで使用する場合は、オフラインモードを有効にして後で同期できるよう、2 つの環境変数を設定します。
 
-次の環境変数を設定します：
+次の環境変数を設定します。
 
-1. `WANDB_API_KEY=$KEY`（ここで `$KEY` は [User Settings](https://wandb.ai/settings) で作成した APIキー です）
+1. `WANDB_API_KEY=$KEY`（ここで `$KEY` は [User Settings](https://wandb.ai/settings) ページで作成した APIキーです）。
 2. `WANDB_MODE="offline"`。
 
-以下は、スクリプト内での実装例です：
+以下は、これをスクリプト内で実装する例です。
 
 ```python
 import wandb
@@ -31,13 +31,13 @@ with wandb.init(project="offline-demo") as run:
         run.log({"accuracy": i})
 ```
 
-サンプルのターミナル出力を次に示します。
+ターミナル出力の例を以下に示します。
 
 <Frame>
   <img src="/images/experiments/sample_terminal_output.png" alt="オフラインモードのターミナル出力" />
 </Frame>
 
-作業が完了したら、次のコマンドを実行してデータをクラウドに同期してください。
+作業が完了したら、次のコマンドを実行してデータをクラウドに同期します。
 
 ```shell
 wandb sync wandb/dryrun-folder-name

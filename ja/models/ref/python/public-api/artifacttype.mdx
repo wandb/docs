@@ -11,15 +11,15 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `ArtifactType`
 
-指定されたタイプに基づくクエリに一致するアーティファクトオブジェクト。
+指定されたタイプに基づくクエリ条件を満たす アーティファクト オブジェクト。 
 
 **Args:**
 
-- `client`:  W&B へのクエリに使用するクライアントインスタンス。 
+- `client`:  W&B に対するクエリに使用するクライアント インスタンス。 
  - `entity`:  プロジェクトの所有者であるエンティティ（ユーザーまたはチーム）。 
- - `project`:  アーティファクトタイプに対してクエリを実行するプロジェクト名。 
+ - `project`:  アーティファクトタイプをクエリする対象のプロジェクト名。 
  - `type_name`:  アーティファクトタイプの名前。 
- - `attrs`:  ArtifactType を初期化するための任意の属性。省略した場合、オブジェクトは初期化時に W&B から属性を読み込みます。 
+ - `attrs`:  ArtifactType を初期化するための任意の属性。省略された場合、オブジェクトは初期化時に W&B から属性を読み込みます。 
 
 ### <kbd>property</kbd> ArtifactType.id
 
@@ -33,7 +33,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ### <kbd>property</kbd> ArtifactType.name
 
-アーティファクトタイプの名前。 
+アーティファクト タイプの名前。
 
 **戻り値:**
 
@@ -41,13 +41,13 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ---
 
-### <kbd>メソッド</kbd> `ArtifactType.collection`
+### <kbd>method</kbd> `ArtifactType.collection`
 
 ```python
 collection(name: 'str') → ArtifactCollection
 ```
 
-名前を指定して特定のアーティファクトコレクションを取得します。
+指定した名前のアーティファクトコレクションを取得します。
 
 **引数:**
 
@@ -66,6 +66,6 @@ collections(per_page: 'int' = 50) → ArtifactCollections
 
 **引数:**
 
-* `per_page` (int):  1ページあたりに取得するアーティファクトコレクションの数。デフォルトは50。
+* `per_page` (int):  1 ページあたりに取得するアーティファクトコレクションの数。既定値は 50。
 
 ***

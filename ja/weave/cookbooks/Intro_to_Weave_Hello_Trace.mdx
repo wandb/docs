@@ -1,24 +1,24 @@
 ---
 title: "Traces 入門"
-description: "W&B Weave での Traces の基本を学ぶ"
+description: "W&amp;B Weave で Traces を使う方法を学ぶ"
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカル環境で実行するか、以下のリンクから開いてください:
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから開いてください：
 
   * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.ipynb)
-  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.ipynb)
+  * [GitHub 上のソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.ipynb)
 </Note>
 
 <div id="prerequisites">
   ## 🔑 前提条件
 </div>
 
-Weave でトレースを開始する前に、次の前提条件を満たしてください。
+Weave でトレースを開始する前に、次の準備を済ませてください。
 
-1. W&amp;B Weave SDK をインストールし、[APIキー](https://wandb.ai/settings#apikeys) でログインします。
-2. OpenAI SDK をインストールし、[APIキー](https://platform.openai.com/api-keys) でログインします。
-3. W&amp;B プロジェクトを初期化します。
+1. W&amp;B Weave SDK をインストールし、[API キー](https://wandb.ai/settings#apikeys) でログインしてください。
+2. OpenAI SDK をインストールし、[API キー](https://platform.openai.com/api-keys) でログインしてください。
+3. W&amp;B プロジェクトを初期化してください。
 
 ```python lines
 # 依存関係のインストールとインポート
@@ -33,7 +33,7 @@ from openai import OpenAI
 import weave
 
 # 🔑 APIキーの設定
-# このセルを実行すると、`getpass` でAPIキーの入力を求められます。入力内容はターミナルには表示されません。
+# このセルを実行すると、`getpass` を使用して APIキーの入力を求められます。入力内容はターミナルに表示されません。
 #####
 print("---")
 print(
@@ -46,15 +46,15 @@ os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
 print("---")
 #####
 
-# 🏠 W&Bのプロジェクト名を入力
-weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&Bのプロジェクト名
+# 🏠 W&B プロジェクト名を入力してください
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&B プロジェクト名
 ```
 
 <div id="run-your-first-trace">
-  ## 🐝 はじめてのトレースを実行する
+  ## 🐝 最初の trace を実行する
 </div>
 
-次のコードサンプルは、`@weave.op` デコレータを使って Weave でトレースを取得し、可視化する方法を示しています。ここでは `extract_fruit` という関数を定義し、OpenAI の GPT-4o にプロンプトを送って、文から構造化データ（果物、色、風味）を抽出します。関数に `@weave.op` を付与すると、Weave は関数の実行を自動的にトラッキングし、入力・出力・中間ステップを含めて記録します。サンプルの文でこの関数を呼び出すと、トレース全体が保存され、Weave UI 上で閲覧できます。
+次のコードサンプルは、`@weave.op` デコレーターを使って Weave で trace を取得して可視化する方法を示します。ここでは、`extract_fruit` という関数を定義し、OpenAI の GPT-4o にプロンプトを送信して、文から構造化データ（果物、色、フレーバー）を抽出します。関数を `@weave.op` でデコレートすることで、Weave が入力、出力、中間ステップを含む関数実行を自動的に追跡します。この関数をサンプル文を引数に呼び出すと、trace 全体が保存され、Weave UI で閲覧できます。
 
 ```python lines
 @weave.op()  # 🐝 リクエストを追跡するデコレーター
@@ -80,9 +80,9 @@ extract_fruit(sentence)
 ```
 
 <div id="looking-for-more-examples">
-  ## 🚀 さらにサンプルをお探しですか？
+  ## 🚀 さらに例が必要ですか？
 </div>
 
-* [クイックスタートガイド](/ja/weave/quickstart)を参照してください。
-* [高度なトレーシングのトピック](/ja/weave/tutorial-tracing_2)についてさらに詳しく学びましょう。
-* [Weave におけるトレーシング](/ja/weave/guides/tracking/tracing)についてさらに詳しく学びましょう。
+* [クイックスタートガイド](/ja/weave/quickstart) を確認してください。
+* [高度なトレーシングのトピック](/ja/weave/tutorial-tracing_2) についてさらに学びましょう。
+* [Weave におけるトレーシング](/ja/weave/guides/tracking/tracing) についてさらに学びましょう。

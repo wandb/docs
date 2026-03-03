@@ -1,21 +1,21 @@
 ---
-title: W&B Inference で Invalid Authentication (401) エラーを解決するにはどうすればよいですか？
+title: W&B Inference での「Invalid Authentication (401)」エラーをどのように解決すればよいですか？
 ---
 
-401 Invalid Authentication エラーは、APIキーが無効であるか、W&B のエンティティまたはプロジェクト名が正しくないことを意味します。
+「401 Invalid Authentication」エラーは、APIキーが無効であるか、W&B プロジェクトの entity/name が正しくないことを意味します。
 
 <div id="verify-your-api-key">
-  ## APIキーを準備する
+  ## API キーを確認する
 </div>
 
-1. [User Settings](https://wandb.ai/settings)で新しいAPIキーを作成します。
-2. APIキーを安全に保管します。
+1. [User Settings](https://wandb.ai/settings) で新しい API キーを作成します。
+2. API キーを安全に保管します。
 
 <div id="check-your-project-configuration">
-  ## プロジェクトの設定を確認する
+  ## プロジェクト設定を確認する
 </div>
 
-プロジェクトが `<your-team>/<your-project>` の形式で正しく指定されていることを確認してください：
+プロジェクトの設定が `<your-team>/<your-project>` の形式で正しく構成されていることを確認してください：
 
 **Python の例:**
 
@@ -27,7 +27,7 @@ client = openai.OpenAI(
 )
 ```
 
-**Bash の例:**
+**Bash の例：**
 
 ```bash
 curl https://api.inference.wandb.ai/v1/chat/completions \
@@ -40,15 +40,15 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
   ## よくある間違い
 </div>
 
-- チーム名の代わりに個人エンティティを使っている
+- personal entity をチーム名の代わりに使用している
 - チーム名またはプロジェクト名のスペルミス
-- チームとプロジェクトの間の `/`（スラッシュ）が抜けている
-- 期限切れまたは削除された API キーを使用している
+- チーム名とプロジェクト名の間のスラッシュ（/）が抜けている
+- 有効期限切れまたは削除された API キー を使用している
 
 <div id="still-having-issues">
   ## まだ問題がありますか？
 </div>
 
-- W&Bアカウント内にチームとプロジェクトが存在することを確認してください
+- W&B アカウント内にチームとプロジェクトが存在することを確認してください
 - 指定されたチームへのアクセス権があることを確認してください
-- 現在のAPIキーが機能していない場合は、新しいAPIキーの作成を試してください
+- 現在の APIキー が機能していない場合は、新しい APIキー を作成してみてください

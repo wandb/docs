@@ -1,5 +1,5 @@
 ---
-description: "CoreWeave 管理のインフラストラクチャを使用してホストされた API モデルを評価する"
+description: "CoreWeave が管理するインフラストラクチャ上でホストされた API モデルを評価する"
 title: "ホストされた API モデルを評価する"
 ---
 
@@ -10,20 +10,20 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 
 <PreviewLink />
 
-このページでは、[LLM Evaluation Jobs](/ja/models/launch) を使用して、公開 URL 上でホストされている API モデルに対して一連の評価用ベンチマークを実行する方法を説明します。W&amp;B Models にアーティファクトとして保存されているモデル チェックポイントを評価する場合は、代わりに「[モデル チェックポイントを評価する](/ja/models/launch/evaluate-model-checkpoint)」を参照してください。
+このページでは、[LLM Evaluation Jobs](/ja/models/launch) を使用して、CoreWeave が管理するインフラストラクチャ上で、公開 URL からアクセスできるホスト済み API モデルに対して、一連の評価用ベンチマークを実行する方法を説明します。W&amp;B Models にアーティファクトとして保存された モデル チェックポイントを評価する場合は、代わりに [Evaluate a model checkpoint](/ja/models/launch/evaluate-model-checkpoint) を参照してください。
 
 <div id="prerequisites">
   ## 前提条件
 </div>
 
-1. LLM Evaluation Job の[要件と制限事項](/ja/models/launch#more-details)を確認します。
-2. 一部のベンチマークを実行するには、チーム管理者が必要な APIキーをチームスコープのシークレットとして追加しておく必要があります。任意のチームメンバーが、評価ジョブの設定時にそのシークレットを指定できます。
-   * **OpenAPI API key**: OpenAI モデルをスコアリングに使用するベンチマークで使用します。ベンチマークを選択した後に **Scorer API key** フィールドが表示される場合は必須です。シークレット名は `OPENAI_API_KEY` である必要があります。
-   * **Hugging Face user access token**: 1つ以上の制限付き Hugging Face データセットへのアクセスが必要な `lingoly` や `lingoly2` など、特定のベンチマークで必要です。ベンチマークを選択した後に **Hugging Face Token** フィールドが表示される場合は必須です。APIキーには、該当するデータセットへのアクセス権が付与されている必要があります。Hugging Face のドキュメント [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) および [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) を参照してください。
-   * [W&amp;B Inference](/ja/inference) が提供するモデルを評価するには、組織またはチーム管理者が任意の値で `WANDB_API_KEY` を作成する必要があります。このシークレットは実際の認証には使用されません。
-3. 評価対象のモデルは、パブリックにアクセス可能な URL で利用できる必要があります。組織またはチーム管理者が、認証用の APIキーを含むチームスコープのシークレットを作成する必要があります。
-4. 評価結果を保存するための新しい [W&amp;B project](/ja/models/track/project-page) を作成します。プロジェクトのサイドバーから **Create new project** をクリックします。
-5. 各ベンチマークについて、その仕組みや特有の要件を理解するためにドキュメントを確認します。参考として、[Available evaluation benchmarks](/ja/models/launch/evaluations) リファレンスに関連リンクがまとめられています。
+1. LLM 評価ジョブの[要件と制限](/ja/models/launch#more-details)を確認します。
+2. 特定のベンチマークを実行するには、チーム管理者が必要な API キーを team-scoped secret として追加する必要があります。任意のチームメンバーが、評価ジョブを設定するときにその secret を指定できます。
+   * **OpenAPI API key**: スコアリングに OpenAI モデルを使用するベンチマークで使用されます。ベンチマークを選択した後に **Scorer API key** フィールドが表示される場合は必須です。secret 名は `OPENAI_API_KEY` である必要があります。
+   * **Hugging Face user access token**: `lingoly` や `lingoly2` のように、1 つ以上の gated な Hugging Face データセットへのアクセスを必要とする一部のベンチマークで必要です。ベンチマークを選択した後に **Hugging Face Token** フィールドが表示される場合は必須です。API キーは該当するデータセットへのアクセス権を持っている必要があります。Hugging Face ドキュメントの [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) および [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) を参照してください。
+   * [W&amp;B Inference](/ja/inference) が提供するモデルを評価するには、組織またはチームの管理者が、任意の値で `WANDB_API_KEY` を作成する必要があります。この secret は実際の認証には使用されません。
+3. 評価するモデルは、公開アクセス可能な URL で利用できる必要があります。組織またはチームの管理者が、認証用の API キーを含む team-scoped secret を作成する必要があります。
+4. 評価結果用に新しい [W&amp;B project](/ja/models/track/project-page) を作成します。プロジェクトのサイドバーから **Create new project** をクリックします。
+5. 各ベンチマークの動作と特定の要件を理解するために、そのベンチマークのドキュメントを確認します。便宜上、「[Available evaluation benchmarks](/ja/models/launch/evaluations)」リファレンスに関連リンクが含まれています。
 
 <div id="evaluate-your-model">
   ## モデルを評価する
@@ -32,30 +32,30 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 評価ジョブをセットアップして起動するには、次の手順に従います。
 
 1. W&amp;B にログインし、プロジェクトのサイドバーで **Launch** をクリックします。**LLM Evaluation Jobs** ページが表示されます。
-2. 評価をセットアップするには、**Evaluate hosted API model** をクリックします。
+2. **Evaluate hosted API model** をクリックして評価をセットアップします。
 3. 評価結果を保存する宛先プロジェクトを選択します。
-4. **Model** セクションで、評価対象のベース URL とモデル名を指定し、認証に使用する APIキー を選択します。[AI Security Institute](https://inspect.aisi.org.uk/providers.html#openai-api) で定義されている OpenAI 互換形式でモデル名を指定します。たとえば、OpenAI モデルの場合は次の構文で指定します：`openai/<model-name>`。ホスト型モデルプロバイダとモデルの包括的な一覧については、[AI Security Institute のモデルプロバイダリファレンス](https://inspect.aisi.org.uk/providers.html) を参照してください。
-   * [W&amp;B Inference](/ja/inference) が提供するモデルを評価するには、ベース URL を `https://api.inference.wandb.ai/v1` に設定し、モデル名を次の構文で指定します：`openai-api/wandb/<model_id>`。詳細については [Inference model catalog](/ja/inference/models) を参照してください。
-   * [OpenRouter](https://inspect.aisi.org.uk/providers.html#openrouter) プロバイダを使用するには、モデル名の前に `openrouter` を付け、次の構文で指定します：`openrouter/<model-name>`。
-   * OpenAPI 準拠のカスタムモデルを評価するには、モデル名を次の構文で指定します：`openai-api/wandb/<model-name>`。
+4. **Model** セクションで、評価するベース URL とモデル名を指定し、認証に使用する API キーを選択します。[AI Security Institute](https://inspect.aisi.org.uk/providers.html#openai-api) で定義されている OpenAI 互換形式でモデル名を指定します。たとえば、OpenAI モデルを次の構文で指定します: `openai/<model-name>`。ホストされたモデルプロバイダーとモデルの完全な一覧については、[AI Security Institute の model provider reference](https://inspect.aisi.org.uk/providers.html) を参照してください。
+   * [W&amp;B Inference](/ja/inference) が提供するモデルを評価するには、ベース URL を `https://api.inference.wandb.ai/v1` に設定し、モデル名を次の構文で指定します: `openai-api/wandb/<model_id>`。詳細は [Inference model catalog](/ja/inference/models) を参照してください。
+   * [OpenRouter](https://inspect.aisi.org.uk/providers.html#openrouter) プロバイダーを使用するには、モデル名の前に `openrouter` を付け、次の構文で指定します: `openrouter/<model-name>`。
+   * OpenAPI 準拠のカスタムモデルを評価するには、モデル名を次の構文で指定します: `openai-api/wandb/<model-name>`。
 5. **Select evaluations** をクリックし、実行するベンチマークを最大 4 つまで選択します。
-6. スコアリングに OpenAI モデルを使用するベンチマークを選択した場合は、**Scorer API key** フィールドが表示されます。そこをクリックし、`OPENAI_API_KEY` シークレットを選択します。必要に応じて、チーム管理者はこのドロワーから **Create secret** をクリックしてシークレットを作成できます。
-7. Hugging Face のゲート付きデータセットへのアクセスを必要とするベンチマークを選択した場合は、**Hugging Face token** フィールドが表示されます。[該当データセットへのアクセスをリクエスト](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) し、Hugging Face ユーザーアクセス用トークンを含むシークレットを選択します。
-8. 任意で、**Sample limit** に正の整数を設定して、評価するベンチマークサンプル数の上限を制限します。設定しない場合は、そのタスクのすべてのサンプルが含まれます。
-9. リーダーボードを自動で作成するには、**Publish results to leaderboard** をクリックします。リーダーボードには、すべての評価がワークスペースパネル内でまとめて表示され、レポート内で共有することもできます。
+6. スコアリングに OpenAI モデルを使用するベンチマークを選択した場合は、**Scorer API key** フィールドが表示されます。そこをクリックして `OPENAI_API_KEY` シークレットを選択します。便宜上、チーム管理者はこのドロワーから **Create secret** をクリックしてシークレットを作成できます。
+7. Hugging Face のゲート付きデータセットへのアクセスを必要とするベンチマークを選択した場合、**Hugging Face token** フィールドが表示されます。[該当データセットへのアクセスをリクエスト](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) し、Hugging Face ユーザー アクセス トークンを含むシークレットを選択します。
+8. 必要に応じて、**Sample limit** を正の整数に設定して、評価するベンチマークサンプルの最大数を制限します。設定しない場合、タスク内のすべてのサンプルが含まれます。
+9. リーダーボードを自動的に作成するには、**Publish results to leaderboard** をクリックします。リーダーボードには、すべての評価が Workspace パネルにまとめて表示され、レポートで共有することもできます。
 10. **Launch** をクリックして評価ジョブを起動します。
-11. ページ上部の円形の矢印アイコンをクリックして、最近の run モーダルを開きます。評価ジョブは他の最近の run と一緒に表示されます。完了した run の名前をクリックすると単一 run ビューで開き、**Leaderboard** リンクをクリックするとリーダーボードを直接開きます。詳細は [結果を表示する](#view-the-results) を参照してください。
+11. ページ上部の円形の矢印アイコンをクリックして、最近の run を表示するモーダルを開きます。評価ジョブは他の最近の Runs と一緒に表示されます。完了した run の名前をクリックすると、その run が単一 run ビューで開きます。または、**Leaderboard** リンクをクリックしてリーダーボードを直接開きます。詳細は [結果を表示する](#view-the-results) を参照してください。
 
-次の例では、`simpleqa` ベンチマークを OpenAI モデル `o4-mini` に対して実行しています：
+次のジョブ例では、`simpleqa` ベンチマークを OpenAI モデル `o4-mini` に対して実行します。
 
 <Frame>
-  ![Example hosted model evaluation job](/images/models/llm-evaluation-jobs/hosted-model-job-example.png)
+  ![ホストされたモデル評価ジョブの例](/images/models/llm-evaluation-jobs/hosted-model-job-example.png)
 </Frame>
 
-次のリーダーボードの例では、複数の OpenAI モデルの性能をまとめて可視化しています：
+次のリーダーボード例は、複数の OpenAI モデルのパフォーマンスをまとめて可視化しています。
 
 <Frame>
-  ![Example leaderboard visualizing the performance of several hosted models](/images/models/llm-evaluation-jobs/hosted-model-leaderboard-example.png)
+  ![複数のホストされたモデルのパフォーマンスを可視化するリーダーボードの例](/images/models/llm-evaluation-jobs/hosted-model-leaderboard-example.png)
 </Frame>
 
 <ReviewEvaluationResults />

@@ -2,58 +2,58 @@
 title: 'チュートリアル: Vertex AI 上で W&B Launch をセットアップする'
 ---
 
-W&amp;B Launch を使用して、ジョブを Vertex AI の学習ジョブとして実行するよう送信できます。Vertex AI の学習ジョブを使うと、Vertex AI プラットフォーム上で、用意されたアルゴリズムまたはカスタムアルゴリズムを使用して機械学習モデルを学習できます。Launch のジョブが開始されると、Vertex AI が基盤となるインフラストラクチャ、スケーリング、およびオーケストレーションを管理します。
+W&amp;B Launch を使用して、Vertex AI の training ジョブとして実行されるジョブを送信できます。Vertex AI の training ジョブを使用すると、Vertex AI プラットフォーム上で提供されているアルゴリズムまたはカスタム アルゴリズムを用いて機械学習モデルをトレーニングできます。Launch ジョブが開始されると、Vertex AI が基盤となるインフラストラクチャ、スケーリング、およびオーケストレーションを管理します。
 
-W&amp;B Launch は、`google-cloud-aiplatform` SDK の `CustomJob` クラスを通じて Vertex AI と連携します。`CustomJob` のパラメータは、Launch キューの設定で制御できます。Vertex AI は、Google Cloud 外のプライベートレジストリからイメージを取得するようには設定できません。つまり、Vertex AI を W&amp;B Launch と併用する場合、コンテナ イメージは Google Cloud かパブリックレジストリに保存しておく必要があります。コンテナ イメージを Vertex AI ジョブからアクセス可能にする方法の詳細については、Vertex AI のドキュメントを参照してください。
+W&amp;B Launch は、`google-cloud-aiplatform` SDK の `CustomJob` クラスを通じて Vertex AI と連携します。`CustomJob` のパラメーターは、launch queue 設定で制御できます。Vertex AI は、Google Cloud 外部のプライベート レジストリからイメージを取得するように設定することはできません。つまり、Vertex AI を W&amp;B Launch と併用する場合、コンテナ イメージは Google Cloud 内、またはパブリック レジストリに保存しておく必要があります。コンテナ イメージを Vertex AI ジョブからアクセス可能にする方法の詳細については、Vertex AI のドキュメントを参照してください。
 
-{/* Vertex AI 上の Launch のコンポーネント図 */}
+{/* Vertex AI における Launch のコンポーネント図 */}
 
 
 <div id="prerequisites">
   ## 前提条件
 </div>
 
-1. **Vertex AI API が有効になっている Google Cloud プロジェクトを作成するか、既存のものへアクセスします。** API の有効化については、[Google Cloud API Console のドキュメント](https://support.google.com/googleapi/answer/6158841?hl=en)を参照してください。
-2. **Vertex AI 上で実行したいイメージを保存するための Google Cloud Artifact Registry リポジトリ**を作成します。詳細については、[Google Cloud Artifact Registry のドキュメント](https://cloud.google.com/artifact-registry/docs/overview)を参照してください。
-3. **Vertex AI がメタデータを保存するためのステージング用 GCS バケット**を作成します。このバケットは、ステージング バケットとして使用するために、Vertex AI のワークロードと同じリージョンに存在している必要があります。同じバケットをステージングとビルド コンテキストの両方に使用できます。
-4. **必要な権限を持つサービス アカウントを作成**し、Vertex AI ジョブを起動できるようにします。サービス アカウントへの権限付与については、[Google Cloud IAM のドキュメント](https://cloud.google.com/iam/docs/creating-managing-service-accounts)を参照してください。
+1. **Vertex AI API が有効になっている Google Cloud プロジェクトを作成するか、既存のものを使用します。** API の有効化の詳細については、[Google Cloud API Console ドキュメント](https://support.google.com/googleapi/answer/6158841?hl=en) を参照してください。
+2. **Vertex で実行するイメージを保存するための Google Cloud Artifact Registry リポジトリを作成します。** 詳細については、[Google Cloud Artifact Registry ドキュメント](https://cloud.google.com/artifact-registry/docs/overview) を参照してください。
+3. **Vertex AI がメタデータを保存するためのステージング用 GCS バケットを作成します。** このバケットはステージング バケットとして使用するために、Vertex AI ワークロードと同じリージョンに存在している必要があります。同じバケットをステージングとビルドのコンテキストの両方に使用できます。
+4. **Vertex AI ジョブを起動するために必要な権限を持つサービス アカウントを作成します。** サービス アカウントへの権限付与の詳細については、[Google Cloud IAM ドキュメント](https://cloud.google.com/iam/docs/creating-managing-service-accounts) を参照してください。
 5. **サービス アカウントに Vertex ジョブを管理する権限を付与します**
 
-| 権限                            | リソース範囲                     | 説明                                                                                     |
-| ------------------------------ | ------------------------------- | ---------------------------------------------------------------------------------------- |
-| `aiplatform.customJobs.create` | 指定した Google Cloud プロジェクト | プロジェクト内で新しい機械学習ジョブを作成できるようにします。                          |
-| `aiplatform.customJobs.list`   | 指定した Google Cloud プロジェクト | プロジェクト内の機械学習ジョブを一覧表示できるようにします。                            |
-| `aiplatform.customJobs.get`    | 指定した Google Cloud プロジェクト | プロジェクト内の特定の機械学習ジョブに関する情報を取得できるようにします。              |
+| Permission                     | Resource Scope                     | Description                                                                                     |
+| ------------------------------ | ---------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `aiplatform.customJobs.create` | 指定された Google Cloud プロジェクト | プロジェクト内で新しい機械学習ジョブを作成できるようにします。                                |
+| `aiplatform.customJobs.list`   | 指定された Google Cloud プロジェクト | プロジェクト内の機械学習ジョブを一覧表示できるようにします。                                  |
+| `aiplatform.customJobs.get`    | 指定された Google Cloud プロジェクト | プロジェクト内の特定の機械学習ジョブに関する情報を取得できるようにします。                    |
 
 <Note>
-Vertex AI のワークロードを、デフォルト以外のサービス アカウントとして実行したい場合は、サービス アカウントの作成手順および必要な権限について Vertex AI のドキュメントを参照してください。Launch キュー設定の `spec.service_account` フィールドを使用して、W&B の run 用にカスタム サービス アカウントを選択できます。
+Vertex AI ワークロードを標準以外のサービス アカウントとして実行したい場合は、サービス アカウントの作成方法および必要な権限について Vertex AI ドキュメントを参照してください。Launch キューの設定の `spec.service_account` フィールドを使用して、W&B run 用のカスタム サービス アカウントを選択できます。
 </Note>
 
 <div id="configure-a-queue-for-vertex-ai">
   ## Vertex AI 用のキューを設定する
 </div>
 
-Vertex AI リソース用のキュー設定は、Vertex AI Python SDK における `CustomJob` コンストラクタおよび `CustomJob` の `run` メソッドに渡す入力を定義します。リソースの設定は `spec` と `run` キーの下に保存されます。
+Vertex AI リソース用のキュー設定では、Vertex AI Python SDK における `CustomJob` コンストラクターおよび `CustomJob` の `run` メソッドに渡す入力を指定します。リソース設定は `spec` キーと `run` キーの下に保存されます。
 
-- `spec` キーには、Vertex AI Python SDK の [`CustomJob` コンストラクタ](https://cloud.google.com/vertex-ai/docs/pipelines/customjob-component) の名前付き引数の値が格納されます。
-- `run` キーには、Vertex AI Python SDK の `CustomJob` クラスの `run` メソッドの名前付き引数の値が格納されます。
+- `spec` キーには、Vertex AI Python SDK の [`CustomJob` コンストラクター](https://cloud.google.com/vertex-ai/docs/pipelines/customjob-component) の名前付き引数の値が含まれます。
+- `run` キーには、Vertex AI Python SDK の `CustomJob` クラスの `run` メソッドの名前付き引数の値が含まれます。
 
-実行環境のカスタマイズは主に `spec.worker_pool_specs` リストで行います。ワーカープールの spec は、ジョブを実行するワーカーのグループを定義します。デフォルト設定の worker spec では、アクセラレータなしの単一の `n1-standard-4` マシンを要求します。必要に応じて、マシンタイプやアクセラレータの種類および数を変更できます。
+実行環境のカスタマイズは主に `spec.worker_pool_specs` リストで行います。ワーカープール spec は、ジョブを実行するワーカーのグループを定義します。デフォルト設定のワーカー spec では、アクセラレータなしの `n1-standard-4` マシン 1 台を要求します。必要に応じて、マシンタイプやアクセラレータの種類と数を変更できます。
 
-利用可能なマシンタイプおよびアクセラレータタイプの詳細については、[Vertex AI のドキュメント](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec)を参照してください。
+利用可能なマシンタイプとアクセラレータタイプの詳細については、[Vertex AI のドキュメント](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec) を参照してください。
 
 <div id="create-a-queue">
   ## キューを作成する
 </div>
 
-Vertex AI を計算リソースとして使用するキューを W&amp;B App で作成します。
+Vertex AI をコンピュート リソースとして使用するキューを W&amp;B App で作成します。
 
 1. [Launch ページ](https://wandb.ai/launch) に移動します。
 2. **Create Queue** ボタンをクリックします。
-3. キューを作成したい **Entity** を選択します。
-4. **Name** フィールドにキューの名前を入力します。
+3. キューを作成する **Entity** を選択します。
+4. **Name** フィールドにキュー名を入力します。
 5. **Resource** として **Google Cloud Vertex AI** を選択します。
-6. **Configuration** フィールド内に、前のセクションで定義した Vertex AI の `CustomJob` に関する情報を入力します。デフォルトでは、W&amp;B によって次のような YAML および JSON のリクエストボディが自動的に入力されます。
+6. **Configuration** フィールドで、前のセクションで定義した Vertex AI の `CustomJob` に関する情報を指定します。既定では、W&amp;B が次のような YAML および JSON のリクエスト ボディを自動入力します。
 
 ```yaml
 spec:
@@ -72,15 +72,15 @@ run:
 
 7. キューを設定したら、**Create Queue** ボタンをクリックします。
 
-少なくとも次の項目を指定する必要があります：
+少なくとも次の項目を指定する必要があります。
 
-* `spec.worker_pool_specs` : worker pool の仕様を表す空ではないリスト。
-* `spec.staging_bucket` : Vertex AI のアセットとメタデータのステージングに使用される GCS バケット。
+* `spec.worker_pool_specs` : 1 つ以上の worker pool specification を含むリスト。
+* `spec.staging_bucket` : Vertex AI のアセットとメタデータをステージングするために使用される GCS バケット。
 
 <Warning>
-  一部の Vertex AI ドキュメントでは、worker pool の仕様をすべてのキーをキャメルケースで記述しており、例えば `workerPoolSpecs` のようになっています。一方、Vertex AI Python SDK では、これらのキーにスネークケースを使用しており、例えば `worker_pool_specs` のようになります。
+  一部の Vertex AI ドキュメントでは、すべてのキーがキャメルケースの worker pool specification（例: `workerPoolSpecs`）として示されています。Vertex AI Python SDK では、これらのキーにスネークケース（例: `worker_pool_specs`）を使用します。
 
-  Launch キューの設定内のすべてのキーはスネークケースを使用する必要があります。
+  Launch キュー設定内のすべてのキーは、スネークケースを使用する必要があります。
 </Warning>
 
 
@@ -88,7 +88,7 @@ run:
   ## Launch エージェントを設定する
 </div>
 
-Launch エージェントは、デフォルトでは `~/.config/wandb/launch-config.yaml` にある設定ファイルで設定できます。
+Launch エージェントは、デフォルトでは `~/.config/wandb/launch-config.yaml` にある設定ファイルで構成します。
 
 ```yaml
 max_jobs: <n-concurrent-jobs>
@@ -96,11 +96,11 @@ queues:
   - <queue-name>
 ```
 
-Vertex AI 上で実行されるイメージを Launch エージェントにビルドさせたい場合は、[高度なエージェント設定](./setup-agent-advanced) を参照してください。
+Launch agent に Vertex AI で実行されるイメージをビルドさせたい場合は、[高度なエージェント設定](./setup-agent-advanced) を参照してください。
 
 
 <div id="set-up-agent-permissions">
   ## エージェントの権限を設定する
 </div>
 
-このサービスアカウントとして認証する方法はいくつかあります。Workload Identity、ダウンロードしたサービスアカウントの JSON、環境変数、Google Cloud Platform のコマンドラインツール、またはこれらの方法を組み合わせて使用することで実現できます。
+このサービスアカウントとして認証する方法はいくつかあります。Workload Identity を利用する方法、ダウンロードしたサービスアカウント JSON を使う方法、環境変数を用いる方法、Google Cloud Platform のコマンドラインツールを使う方法、あるいはこれらを組み合わせる方法があります。

@@ -1,38 +1,38 @@
 ---
-title: レジストリアイテムを見つける
-description: "グローバル検索バーまたはクエリを使用して、W&B Registry 内のレジストリ、コレクション、およびアーティファクトバージョンを検索する方法を説明します。"
+title: レジストリアイテムを検索する
+description: "W&amp;B Registry でグローバル検索バーまたはクエリを使用して registry、collection、artifact version を検索する方法について説明します。"
 ---
 
-[W&amp;B Registry のグローバル検索バー](./search_registry#search-for-registry-items)を使用して、レジストリ、コレクション、アーティファクトバージョンタグ、コレクションタグ、またはエイリアスを検索できます。W&amp;B Python SDK を使用して、特定の条件に基づいて[レジストリ、コレクション、およびアーティファクトバージョンをフィルタ](/ja/models/registry/search_registry#query-registry-items)するクエリを実行できます。
+[W&amp;B Registry のグローバル検索バー](./search_registry#search-for-registry-items)を使用して、registry、collection、artifact version tag、collection tag、または alias を検索できます。W&amp;B Python SDK を使用して、特定の条件に基づいて [registry、collection、artifact version をフィルタリング](/ja/models/registry/search_registry#query-registry-items)するクエリを実行できます。
 
 <Info>
-  W&amp;B Registry をクエリする際に使用できる構文と利用可能なオペレーターは、MongoDB のクエリと似ていますが、完全に同一ではありません。
+  W&amp;B Registry に対して使用できるクエリの構文と利用可能な演算子は、MongoDB のクエリと似ていますが、完全に同一ではありません。
 </Info>
 
-検索結果には、閲覧権限があるアイテムのみが表示されます。
+検索結果には、表示権限のあるアイテムのみが表示されます。
 
 <div id="search-for-registry-items">
   ## レジストリ項目を検索する
 </div>
 
-W&amp;B App を使用してレジストリ項目を検索します。
+W&amp;B App を使ってレジストリ項目を検索するには、次の手順に従います。
 
 1. W&amp;B Registry に移動します。
-2. ページ上部の検索バーに検索語句を入力し、Enter キーを押して検索します。
+2. ページ上部の検索バーに検索キーワードを入力し、Enter キーを押して検索します。
 
-指定した語句が既存のレジストリ、コレクション名、アーティファクトのバージョンタグ、コレクションタグ、またはエイリアスに一致する場合、検索結果が検索バーの下に表示されます。
+指定したキーワードが既存のレジストリ、コレクション名、アーティファクトのバージョンタグ、コレクションタグ、またはエイリアスと一致する場合、検索バーの下に検索結果が表示されます。
 
 <Frame>
   <img src="/images/registry/search_registry.gif" alt="Registry 内の検索" />
 </Frame>
 
 <div id="query-registry-items">
-  ## レジストリ項目をクエリする
+  ## レジストリ内のアイテムをクエリする
 </div>
 
-[`wandb.Api().registries()`](/ja/models/ref/python/public-api/api#registries) と *クエリ述語* を使用して、レジストリ、コレクション、およびアーティファクトバージョンを絞り込みます。クエリ述語は、返される項目が満たす必要のある条件を指定するものです。
+[`wandb.Api().registries()`](/ja/models/ref/python/public-api/api#registries) と *クエリ述語* を使用して、registries、collections、アーティファクトバージョンを絞り込みます。クエリ述語とは、返されるアイテムが満たすべき条件を指定するものです。
 
-クエリ述語を作成するには、[クエリ名](/ja/models/registry/search_registry#filterable-fields)、1 つ以上の[演算子](/ja/models/registry/search_registry#supported-operators)、および値から構成される JSON 風の辞書を使用します。次のコードスニペットは、クエリ述語の一般的な構造を示しています。
+クエリ述語を作成するには、[query name](/ja/models/registry/search_registry#filterable-fields)、1 つ以上の [operators](/ja/models/registry/search_registry#supported-operators)、および値から構成される JSON 風の辞書を使用します。次のコードスニペットは、クエリ述語の一般的な構造を示しています。
 
 ```python
 {
@@ -42,25 +42,25 @@ W&amp;B App を使用してレジストリ項目を検索します。
 }
 ```
 
-次のセクションでは、レジストリのクエリで使用できる[クエリ名](/ja/models/registry/search_registry#filterable-fields)、[サポートされている演算子](/ja/models/registry/search_registry#supported-operators)、および[クエリ例](/ja/models/registry/search_registry#example-queries)について説明します。
+次のセクションでは、レジストリで利用できる[クエリ名](/ja/models/registry/search_registry#filterable-fields)、[サポートされている演算子](/ja/models/registry/search_registry#supported-operators)、および[クエリの例](/ja/models/registry/search_registry#example-queries)について説明します。
 
 <div id="filterable-fields">
-  ### フィルター可能なフィールド
+  ### 絞り込み可能なフィールド
 </div>
 
-次の表は、フィルター対象とするアイテムの種類に応じて使用できるクエリ名を示します。
+次の表に、絞り込み対象とするアイテムの種類ごとに使用できるクエリ名を示します。
 
-| | クエリ名 |
+| | query name |
 | ----- | ----- |
 | registries | `name`, `description`, `created_at`, `updated_at` |
 | collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
 | versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
 
 <div id="supported-operators">
-  ### サポートしている演算子
+  ### サポートされている演算子
 </div>
 
-W&amp;B は、レジストリ内のアイテムをフィルタリングするために、次の比較演算子および論理演算子をサポートしています。
+W&amp;B では、レジストリ内のアイテムをフィルタリングするために、次の比較演算子および論理演算子をサポートしています。
 
 <div id="comparison-operators">
   #### 比較演算子
@@ -81,28 +81,28 @@ W&amp;B は、レジストリ内のアイテムをフィルタリングするた
 
 | Operator | 説明 |
 | ----- | ----- |
-| `$and` | 1つ以上の条件に対して [AND](https://en.wikipedia.org/wiki/Logical_conjunction) ロジックを適用します |
-| `$or` | 1つ以上の条件に対して [OR](https://en.wikipedia.org/wiki/Logical_disjunction) ロジックを適用します |
-| `$nor` | 1つ以上の条件に対して [NOR](https://en.wikipedia.org/wiki/Logical_NOR) ロジックを適用します |
-| `$not` | 条件に対して [NOT](https://en.wikipedia.org/wiki/Negation) ロジックを適用します |
+| `$and` | 1 つ以上の条件に対して [AND](https://en.wikipedia.org/wiki/Logical_conjunction) 論理演算を行います |
+| `$or` | 1 つ以上の条件に対して [OR](https://en.wikipedia.org/wiki/Logical_disjunction) 論理演算を行います |
+| `$nor` | 1 つ以上の条件に対して [NOR](https://en.wikipedia.org/wiki/Logical_NOR) 論理演算を行います |
+| `$not` | 1 つの条件に対して [NOT](https://en.wikipedia.org/wiki/Negation) 論理演算を行います |
 
 <div id="other-operators">
   #### その他の演算子
 </div>
 
-| Operator | Description |
+| 演算子 | 説明 |
 | ----- | ----- |
-| `$regex` | 正規表現によるパターンマッチ |
-| `$exists` | フィールドの有無 |
+| `$regex` | 正規表現パターンによる照合 |
+| `$exists` | フィールドの存在有無 |
 | `$contains` | 文字列に値が含まれる |
 
 <div id="example-queries">
-  ### クエリの例
+  ### クエリ例
 </div>
 
-次のコード例は、一般的な検索シナリオをいくつか示します。
+次のコード例では、一般的な検索シナリオをいくつか示します。
 
-`wandb.Api().registries()` メソッドを使用するには、まず W&amp;B Python SDK ライブラリ（[`wandb`](/ja/models/ref/python/)）をインポートします。
+`wandb.Api().registries()` メソッドを使用するには、まず W&amp;B の Python SDK（[`wandb`](/ja/models/ref/python/)）ライブラリをインポートします。
 
 ```python
 import wandb
@@ -114,16 +114,16 @@ api = wandb.Api()
 文字列 `model` を含むすべてのレジストリをフィルターします：
 
 ```python
-# 文字列 `model` を含むすべてのレジストリをフィルタリングする
+# 文字列 `model` を含むすべての registry をフィルタリングする
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# フィルターに一致するすべてのレジストリのイテラブルを返す
+# フィルターに一致するすべての registry のイテラブルを返す
 registries = api.registries(filter=registry_filters)
 ```
 
-レジストリを問わず、コレクション名に文字列 `yolo` を含むすべてのコレクションをフィルタします:
+レジストリを問わず、コレクション名に文字列 `yolo` を含むすべてのコレクションをフィルタリングします:
 
 ```python
 # レジストリに関係なく、コレクション名に文字列 `yolo` を含む
@@ -136,7 +136,7 @@ collection_filters = {
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-レジストリに関係なく、コレクション名に文字列 `yolo` を含み、タグ `cnn` が付いているすべてのコレクションをフィルタします：
+レジストリを問わず、コレクション名に文字列 `yolo` を含み、タグ `cnn` が付いているすべてのコレクションをフィルターします：
 
 ```python
 # レジストリに関係なく、コレクション名に文字列 `yolo` を含み、
@@ -150,7 +150,7 @@ collection_filters = {
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-文字列 `model` を含み、タグ `image-classification` が付いているか `latest` エイリアスを持つ、すべてのアーティファクトバージョンを検索します:
+文字列 `model` を含み、タグ `image-classification` が付いているか、`latest` というエイリアスが付いているすべてのアーティファクトバージョンを検索します：
 
 ```python
 # 文字列 `model` を含み、タグ `image-classification` またはエイリアス `latest` を持つ
@@ -171,23 +171,23 @@ version_filters = {
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
 
-前のコードスニペットにある `artifacts` イテラブルの各要素は、`Artifact` クラスのインスタンスです。つまり、`name`、`collection`、`aliases`、`tags`、`created_at` などの各アーティファクトの属性にアクセスできます。
+前のコードスニペットの `artifacts` イテラブル内の各要素は、`Artifact` クラスのインスタンスです。つまり、各アーティファクトの `name`、`collection`、`aliases`、`tags`、`created_at` などの属性にアクセスできます。
 
 ```python
 for art in artifacts:
-    print(f"アーティファクト名: {art.name}")
-    print(f"アーティファクトが属するコレクション: { art.collection.name}")
-    print(f"アーティファクトのエイリアス: {art.aliases}")
-    print(f"アーティファクトに付与されたタグ: {art.tags}")
-    print(f"アーティファクトの作成日時: {art.created_at}\n")
+    print(f"artifact name: {art.name}")
+    print(f"collection artifact belongs to: { art.collection.name}")
+    print(f"artifact aliases: {art.aliases}")
+    print(f"tags attached to artifact: {art.tags}")
+    print(f"artifact created at: {art.created_at}\n")
 ```
 
-アーティファクトオブジェクトの属性の完全な一覧については、API リファレンスドキュメントの [Artifacts Class](/ja/models/ref/python/experiments/artifact/) を参照してください。
+アーティファクトオブジェクトの属性の完全な一覧については、API Reference ドキュメントの [Artifacts Class](/ja/models/ref/python/experiments/artifact/) を参照してください。
 
-レジストリやコレクションを問わず、2024-01-08 から 2025-03-04 13:10 UTC までに作成されたすべてのアーティファクトバージョンをフィルタリングします：
+レジストリやコレクションに関係なく、2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべてのアーティファクトバージョンをフィルタリングします。
 
 ```python
-# 2024-01-08から2025-03-04 13:10 UTCの間に作成されたすべてのアーティファクトバージョンを検索する。 
+# 2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべてのアーティファクトバージョンを検索する。 
 
 artifact_filters = {
     "alias": "latest",
@@ -199,5 +199,5 @@ artifacts = api.registries().collections().versions(filter=artifact_filters)
 ```
 
 <Note>
-  `created_at` および `updated_at` を指定するクエリでは、日時を `YYYY-MM-DD HH:MM:SS` 形式で指定してください。日付のみでフィルタリングしたい場合は、時・分・秒を省略できます。
+  `created_at` および `updated_at` を使ったクエリでは、日付と時刻を `YYYY-MM-DD HH:MM:SS` 形式で指定してください。日付のみでフィルタリングする場合は、時・分・秒を省略できます。
 </Note>

@@ -1,12 +1,12 @@
 ---
-title: "アーティファクトの更新"
+title: Artifact の更新
 ---
 
 ```python
 """
-W&B run 内で既存の W&B アーティファクトの説明を更新します。
+W&B の run 内で既存の W&B アーティファクトの説明を更新します。
 
-このコードは W&B run を初期化し、名前とエイリアスで指定されたアーティファクトを取得して、
+このコードは W&B の run を初期化し、名前とエイリアスで指定されたアーティファクトを取得して、
 説明を更新し、変更を保存します。
 """
 import wandb
@@ -16,6 +16,6 @@ with wandb.init(entity="<entity>", project="<project>") as run:
     artifact = run.use_artifact(artifact_or_name="<artifact>:<alias>")
     # アーティファクトの説明を更新する
     artifact.description = "<description>"
-    # 更新したアーティファクトを保存する
+    # 更新されたアーティファクトを保存する
     artifact.save()
 ```

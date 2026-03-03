@@ -1,6 +1,6 @@
 ---
-title: "クイックスタート: LLM の入出力を追跡する"
-description: "トレースを追加して LLM アプリのデバッグを開始しましょう。"
+title: "クイックスタート: LLM の入力と出力を追跡する"
+description: "トレースを追加して LLM アプリのデバッグを開始します。"
 mode: "wide"
 ---
 
@@ -14,33 +14,33 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/traces-quickstart.ipynb" />
 </div>
 
-コードにトレースを追加し、Weave を使って LLM の呼び出しを追跡する方法を学びます。このクイックスタートでは、OpenAI へのリクエストをトレースし、その結果を Weave UI で確認するまでの手順を順を追って解説します。
+コードにトレース処理を追加して Weave で LLM 呼び出しを追跡する方法を学びます。このクイックスタートでは、OpenAI へのリクエストをトレースし、その結果を Weave UI で確認する手順を順を追って説明します。
 
 <div id="what-youll-learn">
-  ## 学習内容
+  ## このガイドで学べること
 </div>
 
-このガイドでは、次のことを行う方法を説明します。
+このガイドでは、次のことを説明します。
 
-* コード内で Weave をインポートして設定する
-* `weave.op` デコレーターを使ってコードを追跡する
-* Weave UI でトレースを表示する
+* コードで Weave をインポートして設定する方法
+* `weave.op` デコレーターを使用してコードを追跡する方法
+* Weave UI でトレースを確認する方法
 
 <WeaveQuickstartPrereqs />
 
 <div id="log-a-trace-to-a-new-project">
-  ## 新しいプロジェクトにトレースを記録する
+  ## 新しいプロジェクトに trace を記録する
 </div>
 
-コードのトラッキングを開始し、Weave にトレースを記録するには、次の手順を実行します:
+コードのトラッキングと Weave への trace の記録を開始するには、次の手順を実行します。
 
-1. `weave` ライブラリをコードにインポートします。
-2. コード内で `weave.init('your_wb_team/project_name')` を呼び出し、トラッキング情報を W&amp;B の [team](/ja/platform/app/settings-page/teams) と [project](/ja/platform/hosting/iam/org_team_struct#project) に送信します。team を設定しない場合、トレースはあなたの[デフォルト team](/ja/platform/app/settings-page/user-settings/#default-team) に送信されます。指定した project が team 内に存在しない場合、Weave が新しく作成します。
-3. トラッキングしたい特定の関数に [`@weave.op()` デコレータ](/ja/weave/guides/tracking/ops) を追加します。Weave はサポートされている LLM への呼び出しを自動的にトラッキングしますが、Weave のデコレータを追加すると、特定の関数の入力、出力、およびコードをトラッキングできます。デコレータは TypeScript では次の構文を使用します: `weave.op(your_function)`
+1. コードに `weave` ライブラリをインポートします。
+2. コード内で `weave.init('your_wb_team/project_name')` を呼び出して、トラッキング情報を W&amp;B [team](/ja/platform/app/settings-page/teams) と [project](/ja/platform/hosting/iam/org_team_struct#project) に送信します。team を設定しない場合、trace は [default team](/ja/platform/app/settings-page/user-settings/#default-team) に送信されます。指定した project が team 内に存在しない場合、Weave が自動的にその project を作成します。
+3. トラッキングしたい特定の関数に [`@weave.op()` decorator](/ja/weave/guides/tracking/ops) を追加します。Weave は対応している LLM の呼び出しを自動的にトラッキングしますが、Weave の decorator を追加すると、特定の関数の入力、出力、およびコードをトラッキングできます。TypeScript では、decorator は次のような構文を使用します: `weave.op(your_function)`
 
-次のサンプルコードは OpenAI にリクエストを送信し（[OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key) が必要）、Weave はそのリクエストのトレース情報を記録します。リクエストでは、OpenAI モデルに入力から恐竜の名前を抽出し、各恐竜の食性（草食か肉食か）を特定するように指示します。
+次のサンプルコードは OpenAI にリクエストを送信します（[OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key) が必要です）。Weave はそのリクエストの trace 情報を記録します。このリクエストでは、OpenAI モデルに入力から恐竜の名前を抽出し、それぞれの恐竜の食性（草食か肉食か）を判定するように指示しています。
 
-次のサンプルコードを実行して、Weave を使って最初のプロジェクトをトラッキングしてください:
+次のサンプルコードを実行して、Weave で最初のプロジェクトをトラッキングしてみてください。
 
 <Tabs>
   <Tab title="Python">
@@ -71,7 +71,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
             )
         return response.choices[0].message.content
 
-    # Weave を初期化し、データをログする team と project を設定
+    # Weave を初期化し、データをログする team と project を設定します
     weave.init('your-team/traces-quickstart')
 
     sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
@@ -108,7 +108,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
 
     async function main() {
 
-      // Weave を初期化し、データをログする team と project を設定
+      // Weave を初期化し、データをログする team と project を設定します
       await weave.init('your-team/traces-quickstart');
 
       const result = await extractDinosOp(
@@ -123,7 +123,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
   </Tab>
 </Tabs>
 
-`extract_dinos` 関数を呼び出すと、Weave はターミナルにトレースを表示するためのリンクを出力します。出力は次のようになります:
+`extract_dinos` 関数を呼び出すと、Weave はターミナルに traces を表示するためのリンクを出力します。出力は次のようになります。
 
 ```shell
 weave:  $ pip install weave --upgrade
@@ -152,23 +152,23 @@ weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c
 ```
 
 <div id="see-traces-of-your-application-in-your-project">
-  ## アプリケーションのトレースをプロジェクト内で確認する
+  ## プロジェクトでアプリケーションの trace を確認する
 </div>
 
-ターミナルに表示されたリンクをクリックするか、ブラウザに貼り付けて Weave UI を開きます。Weave UI の **Traces** パネルでトレースをクリックすると、その入力、出力、レイテンシ、トークン使用量などのデータを確認できます。
+ターミナルに表示されたリンクをクリックするか、ブラウザに貼り付けて Weave UI を開きます。Weave UI の **Traces** パネルで trace をクリックすると、入力・出力・レイテンシ・トークン使用量などのデータを確認できます。
 
 ![Weave Trace Outputs 1](/images/tutorial_trace_1.png)
 
 <div id="learn-more-about-traces">
-  ## Traces についてさらに詳しく知る
+  ## Traces についてさらに学ぶ
 </div>
 
-* [関数をデコレートして呼び出し情報を取得する方法](/ja/weave/guides/tracking/tracing)を学びましょう。
-* ログされたトレース上でさまざまなモデルを試すには [Playground](/ja/weave/guides/tools/playground) を使ってください。
-* [インテグレーションを確認する](/ja/weave/guides/integrations/)。Weave は OpenAI、Anthropic をはじめとする多くの LLM ライブラリへの呼び出しを自動的にトラッキングします。使用している LLM ライブラリが現在のインテグレーションに含まれていない場合でも、`@weave.op()` でラップすることで、他の LLM ライブラリやフレームワークへの呼び出しを簡単にトラッキングできます。
+* [関数をデコレートして呼び出し情報を取得する方法](/ja/weave/guides/tracking/tracing) を確認する。
+* [Playground](/ja/weave/guides/tools/playground) を使って、ログされたトレース上でさまざまなモデルを試す。
+* [インテグレーションを確認する](/ja/weave/guides/integrations/)。Weave は自動的に OpenAI、Anthropic など多くの LLM ライブラリへの呼び出しを追跡します。使用している LLM ライブラリが現在のインテグレーションに含まれていない場合でも、`@weave.op()` でラップすることで、他の LLM ライブラリやフレームワークへの呼び出しも簡単に追跡できます。
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-まず [アプリケーションの評価を始める](/ja/weave/tutorial-eval) から取り組み、その後で [RAG アプリケーションの評価方法](/ja/weave/tutorial-rag) を確認してください。
+[アプリの評価を始める](/ja/weave/tutorial-eval) から始めて、その後 [RAG アプリケーションを評価する方法](/ja/weave/tutorial-rag) を確認してください。

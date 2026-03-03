@@ -4,7 +4,7 @@ title: launch_add
 
 <Card title="ソースコードを表示" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch_add.py#L34-L131" icon="github" />
 
-ソース `uri`、`job`、または `docker_image` のいずれかを指定して、W&amp;B Launch 実験をキューに投入します。
+W&amp;B Launch 実験をキューに投入します。source URI、job、または docker&#95;image のいずれかを指定します。
 
 ```python
 launch_add(
@@ -31,26 +31,26 @@ launch_add(
 ) -> "public.QueuedRun"
 ```
 
-| Arguments            | Description                                                                                             |
-| :------------------- | :------------------------------------------------------------------------------------------------------ |
-| `uri`                | 実行する実験の URI。wandb run の URI か、Git リポジトリの URI。                                                           |
-| `job`                | wandb.Job への文字列参照。例: wandb/test/my-job:latest                                                           |
-| `config`             | run の設定を含む辞書。キー &quot;resource&#95;args&quot; の下にリソース固有の引数を含めることもできる                                    |
-| `template_variables` | run キュー用のテンプレート変数の値を含む辞書。想定される形式は `{"VAR_NAME": VAR_VALUE}`                                             |
-| `project`            | 起動した run を送信する対象のプロジェクト                                                                                 |
-| `entity`             | 起動した run を送信する対象のエンティティ                                                                                 |
-| `queue`              | run をキューに投入するキューの名前                                                                                     |
-| `priority`           | ジョブの優先度レベル。1 が最も高い優先度                                                                                   |
-| `resource`           | run の実行バックエンド。W&amp;B は &quot;local-container&quot; バックエンドを標準でサポート                                      |
-| `entry_point`        | プロジェクト内で実行するエントリーポイント。デフォルトでは、wandb URI の場合は元の run で使用されたエントリーポイント、Git リポジトリ URI の場合は main.py を使用       |
-| `name`               | run を起動する際に使用する run 名                                                                                   |
-| `version`            | Git ベースのプロジェクトの場合、コミットハッシュまたはブランチ名                                                                      |
-| `docker_image`       | run に使用する Docker イメージの名前                                                                                |
-| `resource_args`      | リモートバックエンド上で run を起動するためのリソース関連引数。構築された Launch の設定の `resource_args` に保存される                              |
-| `run_id`             | 起動された run の ID を表す任意の文字列                                                                                |
-| `build`              | 任意のフラグで、デフォルトは false。build を有効にする場合は queue の設定が必須。イメージを作成し、ジョブアーティファクトを作成し、そのジョブアーティファクトへの参照をキューにプッシュする |
-| `repository`         | リモートリポジトリ名を制御する任意の文字列。イメージをレジストリにプッシュする際に使用される                                                          |
-| `project_queue`      | キュー用のプロジェクト名を制御する任意の文字列。主にプロジェクトスコープのキューとの後方互換性のために使用                                                   |
+| Arguments            | Description                                                                                                  |
+| :------------------- | :----------------------------------------------------------------------------------------------------------- |
+| `uri`                | 実行する実験の URI。wandb run の URI または Git リポジトリの URI。                                                              |
+| `job`                | wandb.Job への文字列参照。例: wandb/test/my-job:latest                                                                |
+| `config`             | run の設定を含む辞書。キー `"resource_args"` の下にリソース固有の引数を含めることも可能。                                                     |
+| `template_variables` | run queue のテンプレート変数の値を含む辞書。想定フォーマットは `{"VAR_NAME": VAR_VALUE}`                                               |
+| `project`            | 起動した run を送信する対象プロジェクト                                                                                       |
+| `entity`             | 起動した run を送信する対象 entity                                                                                      |
+| `queue`              | run を enqueue する queue の名前                                                                                   |
+| `priority`           | ジョブの優先度レベル。1 が最も高い優先度。                                                                                       |
+| `resource`           | run の実行バックエンド。W&amp;B は `"local-container"` バックエンドの組み込みサポートを提供。                                              |
+| `entry_point`        | プロジェクト内で実行するエントリーポイント。wandb URI の場合は元の run で使用されたエントリーポイント、Git リポジトリ URI の場合は main.py をデフォルトとして使用。           |
+| `name`               | run を起動する際に使用する run 名。                                                                                       |
+| `version`            | Git ベースのプロジェクトの場合、コミットハッシュまたはブランチ名。                                                                          |
+| `docker_image`       | run に使用する Docker イメージの名前。                                                                                    |
+| `resource_args`      | リモートバックエンド上で run を起動するためのリソース関連引数。構築される Launch 設定上の `resource_args` に保存される。                                  |
+| `run_id`             | 起動された run の ID を示す任意の文字列。                                                                                    |
+| `build`              | 省略可能なフラグでデフォルトは false。build する場合は queue の指定が必須。イメージを作成し、job アーティファクトを作成し、その job アーティファクトへの参照を queue にプッシュする。 |
+| `repository`         | レジストリにイメージをプッシュする際に使用される、リモートリポジトリ名を制御するための任意の文字列。                                                           |
+| `project_queue`      | queue 用のプロジェクト名を制御するための任意の文字列。主にプロジェクトスコープ queue との後方互換性のために使用。                                              |
 
 
 <div id="example">
@@ -62,15 +62,15 @@ from wandb.sdk.launch import launch_add
 
 project_uri = "https://github.com/wandb/examples"
 params = {"alpha": 0.5, "l1_ratio": 0.01}
-# W&Bプロジェクトを実行し、ローカルホスト上に再現可能なdocker環境を作成する
+# W&B プロジェクトを実行し、ローカルホスト上に再現可能な docker 環境を作成する
 api = wandb.apis.internal.Api()
 launch_add(uri=project_uri, parameters=params)
 ```
 
-| Returns                                                                                                                                               | Description |
-| :---------------------------------------------------------------------------------------------------------------------------------------------------- | :---------- |
-| キューに入っている run に関する情報を提供する `wandb.api.public.QueuedRun` のインスタンス。`wait_until_started` または `wait_until_finished` が呼び出された場合は、基礎となる run 情報へアクセスできるようになります。 |             |
+| 返り値                                                                                                                                             | 説明 |
+| :---------------------------------------------------------------------------------------------------------------------------------------------- | :- |
+| `wandb.api.public.QueuedRun` のインスタンス。キューに入れられた run に関する情報を返します。`wait_until_started` または `wait_until_finished` が呼び出された場合は、基になる run の情報へアクセスできます。 |    |
 
-| Raises                                         | Description |
-| :--------------------------------------------- | :---------- |
-| 失敗した場合に `wandb.exceptions.LaunchError` を送出します。 |             |
+| 例外                                              | 説明 |
+| :---------------------------------------------- | :- |
+| 失敗した場合は `wandb.exceptions.LaunchError` がスローされます |    |

@@ -1,12 +1,12 @@
 ---
-title: "wandb job create コマンド"
+title: "「wandb job create」コマンド"
 ---
 
 {/*
-  このコマンドの導入コンテンツを追加するには:
-  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-job-create.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、下記 2 行だけを残します:
+  このコマンドの導入用コンテンツを追加するには:
+  1. スニペットファイル /snippets/_includes/cli/wandb-job-create.mdx を作成します
+  2. そのファイルに導入文を追加します
+  3. このコメントブロック全体を削除し、以下の 2 行だけを残します:
 
   import WandbJobCreate from "/snippets/_includes/cli/wandb-job-create.mdx";
 
@@ -15,15 +15,15 @@ title: "wandb job create コマンド"
   スニペットは次回の再生成時に自動検出されます。
   */}
 
-wandb の run を使わずに、ソースから job を作成します。
+wandb run を使わずに、ソースからジョブを作成します。
 
-job には、git、code、image の 3 種類があります。
+ジョブには、git、code、image の 3 種類があります。
 
-git: エントリポイントがパス内に含まれている、またはメインの Python 実行ファイルを指す形で明示的に指定された git ソース。code: `requirements.txt` ファイルを含むコードパス。image: Docker イメージ。
+git: エントリーポイントがパス内に含まれているか、またはメインの Python 実行ファイルを指す形で明示的に指定された Git ソース。code: requirements.txt ファイルを含むコード パス。image: Docker イメージ。
 
 
 <div id="usage">
-  ## 使用方法
+  ## 使い方
 </div>
 
 ```bash
@@ -37,8 +37,8 @@ wandb job create JOB_TYPE PATH [OPTIONS]
 
 | 引数 | 説明 | 必須 |
 | :--- | :--- | :--- |
-| `JOB_TYPE` | 利用可能な説明はありません | はい |
-| `PATH` | 利用可能な説明はありません | はい |
+| `JOB_TYPE` | 説明はありません | はい |
+| `PATH` | 説明はありません | はい |
 
 <div id="options">
   ## オプション
@@ -47,13 +47,13 @@ wandb job create JOB_TYPE PATH [OPTIONS]
 | オプション | 説明 |
 | :--- | :--- |
 | `--project`, `-p` | ジョブを一覧表示する対象のプロジェクト。 |
-| `--entity`, `-e` | ジョブが属するエンティティ。 |
+| `--entity`, `-e` | ジョブが属しているエンティティ。 |
 | `--name`, `-n` | ジョブの名前。 |
 | `--description`, `-d` | ジョブの説明。 |
 | `--alias`, `-a` | ジョブのエイリアス。 |
-| `--entry-point`, `-E` | スクリプトのエントリポイント。実行ファイルとエントリポイントとなるファイルを含みます。コードジョブまたはリポジトリジョブでは必須です。`--build-context` が指定されている場合、エントリポイントコマンド内のパスはビルドコンテキストからの相対パスになります。 |
+| `--entry-point`, `-E` | スクリプトのエントリポイント。実行ファイルとエントリポイントファイルを含みます。コードジョブまたはリポジトリジョブでは必須です。`--build-context` が指定されている場合、エントリポイントコマンド内のパスはビルドコンテキストからの相対パスになります。 |
 | `--git-hash`, `-g` | git ジョブのソースとして使用するコミット参照。 |
 | `--runtime`, `-r` | ジョブを実行する Python ランタイム。 |
 | `--build-context`, `-b` | ジョブのソースコードのルートからのビルドコンテキストへのパス。指定された場合、Dockerfile とエントリポイントのベースパスとして使用されます。 |
-| `--base-image`, `-B` | ジョブで使用するベースイメージ。イメージジョブとは併用できません。 |
-| `--dockerfile`, `-D` | ジョブ用の Dockerfile へのパス。`--build-context` が指定されている場合、Dockerfile のパスはビルドコンテキストからの相対パスになります。 |
+| `--base-image`, `-B` | ジョブで使用するベースイメージ。イメージジョブとは互換性がありません。 |
+| `--dockerfile`, `-D` | ジョブ用の Dockerfile のパス。`--build-context` が指定されている場合、Dockerfile のパスはビルドコンテキストからの相対パスになります。 |

@@ -1,61 +1,61 @@
 ---
-title: "モニターを設定する"
+title: "Monitors をセットアップする"
 description: "本番トラフィックを受動的にスコアリングして傾向や問題を可視化する"
 ---
 
-モニターは LLM ジャッジを使用して本番トラフィックを受動的にスコアリングし、LLM アプリケーションの傾向や問題を明らかにします。たとえば、アプリケーションの応答を正確性や有用性の観点でモニタリングしたり、エージェントに対してユーザーが何を質問しているかの傾向を把握するためにユーザー入力をモニタリングしたりできます。モニターはすべてのスコアリング結果を自動的に Weave のデータベースに保存するため、過去の傾向やパターンを分析できます。
+Monitors は LLM ジャッジを使用して本番トラフィックを受動的にスコアリングし、LLM アプリケーションにおける傾向や問題を可視化します。たとえば、アプリケーションの応答を正確さや有用性の観点から監視したり、エージェントに対してユーザーがどのようなことを尋ねているかの傾向を把握するためにユーザー入力を監視したりできます。Monitors はすべてのスコアリング結果を自動的に Weave のデータベースに保存するため、過去の傾向やパターンを分析できます。
 
-アプリケーションの入出力に含まれるテキスト、画像、音声をモニタリングできます。
+アプリケーションの入力および出力のテキスト、画像、音声を監視できます。
 
-モニターを使うためにアプリケーションのコードを変更する必要はありません。W&amp;B Weave の UI から設定できます。
+Monitors はアプリケーションのコードの変更を必要としません。W&amp;B Weave UI を使ってセットアップしてください。
 
-スコアに基づいてアプリケーションの挙動に積極的に介入する必要がある場合は、代わりに [guardrails](/ja/weave/guides/evaluation/guardrails) を使用してください。
+スコアに基づいてアプリケーションの動作に積極的に介入する必要がある場合は、代わりに [guardrails](/ja/weave/guides/evaluation/guardrails) を使用してください。
 
 <div id="how-to-create-a-monitor-in-weave">
   ## Weave でモニターを作成する方法
 </div>
 
-Weave でモニターを作成するには、次の手順を実行します。
+Weave でモニターを作成するには、次の手順に従います。
 
-1. [W&amp;B UI](https://wandb.ai/home) を開き、対象の Weave プロジェクトを開きます。
+1. [W&amp;B UI](https://wandb.ai/home) を開き、Weave プロジェクトを開きます。
 
-2. Weave のサイドナビから **Monitors** を選択し、**+ New Monitor** ボタンを選択します。**Create new monitor** モーダルダイアログが開きます。
+2. Weave のサイドナビから **Monitors** を選択し、**+ New Monitor** ボタンをクリックします。**Create new monitor** モーダルダイアログが開きます。
 
-3. **Create new monitor** メニューで、次のフィールドを設定します:
-   * **Name**: 先頭は英字または数字である必要があります。英字、数字、ハイフン、アンダースコアを含めることができます。
+3. Create new monitor メニューで、次の項目を設定します:
+   * **Name**: 文字または数字で始める必要があります。文字、数字、ハイフン、アンダースコアを含めることができます。
    * **Description** (任意): モニターが何を行うかを説明します。
-   * **Active monitor** トグル: モニターを有効または無効にします。
+   * **Active monitor** トグル: モニターをオンまたはオフにします。
    * **Calls to monitor**:
-     * **Operations**: 監視する 1 つ以上の `@weave.op` を選択します。利用可能な op の一覧に表示されるには、その op を使用するトレースを少なくとも 1 回はログに記録しておく必要があります。
-     * **Filter** (任意): 対象とする呼び出しを絞り込みます（例: `max_tokens` や `top_p` など）。
-     * **Sampling rate**: スコアリングする呼び出しの割合 (0% ～ 100%)。
+     * **Operations**: 監視する `@weave.op` を 1 つ以上選択します。その op が利用可能な ops の一覧に表示される前に、その op を使用するトレースを少なくとも 1 つログする必要があります。
+     * **Filter** (任意): `max_tokens` や `top_p` などで、対象とする呼び出しを絞り込みます。
+     * **Sampling rate**: スコアリングする呼び出しの割合 (0% 〜 100%) です。
        <Tip>
-         サンプリングレートを低くすると、各スコアリング呼び出しにコストが発生するため、全体のコストを削減できます。
+         サンプリングレートを低くすると、各スコアリング呼び出しにコストがかかるため、コストを削減できます。
        </Tip>
    * **LLM-as-a-judge configuration**:
-     * **Scorer name**: 先頭は英字または数字である必要があります。英字、数字、ハイフン、アンダースコアを含めることができます。
-     * **Score Audio**: 利用可能な LLM モデルをオーディオ対応モデルのみに絞り込み、Media Scoring JSON Paths フィールドを表示します。
-     * **Score Images**: 利用可能な LLM モデルを画像対応モデルのみに絞り込み、Media Scoring JSON Paths フィールドを表示します。
-     * **Judge model**: ops をスコアリングするモデルを選択します。メニューには、自分の W&amp;B アカウントで設定済みの商用 LLM モデルおよび [W&amp;B Inference models](/ja/inference/models) が含まれます。オーディオ対応モデルには名前の横に **Audio Input** ラベルが付きます。選択したモデルについて、次の設定を行います:
+     * **Scorer name**: 文字または数字で始める必要があります。文字、数字、ハイフン、アンダースコアを含めることができます。
+     * **Score Audio**: 利用可能な LLM モデルをフィルタリングして音声対応モデルのみを表示し、Media Scoring JSON Paths フィールドを表示します。
+     * **Score Images**: 利用可能な LLM モデルをフィルタリングして画像対応モデルのみを表示し、Media Scoring JSON Paths フィールドを表示します。
+     * **Judge model**: ops にスコアを付けるモデルを選択します。メニューには、W&amp;B アカウントで設定した商用 LLM モデルに加えて、[W&amp;B Inference models](/ja/inference/models) が含まれます。音声対応モデルには、名前の横に **Audio Input** ラベルが付きます。選択したモデルに対して、次の設定を行います:
        * **Configuration name**: このモデル設定の名前。
-       * **System prompt**: 判定用モデルの役割とペルソナを定義します（例: &quot;You are an impartial AI judge.&quot;）。
-       * **Response format**: ジャッジがレスポンスを出力する形式（`json_object` やプレーンな `text` など）。
-       * **Scoring prompt**: ops をスコアリングするための評価タスクです。スコアリングプロンプト内で、ops からの [prompt variables](/ja/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) を参照できます。例: &quot;Evaluate whether `{output}` is accurate based on `{ground_truth}`.&quot;
-     * **Media Scoring JSON Paths**: トレースデータからメディアを抽出するための JSONPath 式 (RFC 9535) を指定します。パスを指定しない場合、ユーザーからのメッセージに含まれるスコア可能なメディアはすべて含まれます。このフィールドは **Score Audio** または **Score Images** を有効にしたときに表示されます。
+       * **System prompt**: 判定を行うモデルの役割とペルソナを定義します。例: &quot;You are an impartial AI judge.&quot;
+       * **Response format**: `json_object` やプレーンな `text` など、ジャッジがレスポンスを出力する形式。
+       * **Scoring prompt**: ops にスコアを付けるための評価タスクです。スコアリングプロンプト内で ops からの [prompt variables](/ja/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) を参照できます。例: &quot;Evaluate whether `{output}` is accurate based on `{ground_truth}`.&quot;
+     * **Media Scoring JSON Paths**: トレースデータからメディアを抽出するための JSONPath 式 (RFC 9535) を指定します。パスを指定しない場合、ユーザー メッセージから取得可能なすべてのスコアリング対象メディアが含まれます。このフィールドは **Score Audio** または **Score Images** を有効にしたときに表示されます。
 
-4. モニターの各フィールドを設定したら、**Create monitor** をクリックします。これでモニターが Weave プロジェクトに追加されます。コードがトレースの生成を開始すると、**Traces** タブでモニター名を選択し、表示されたパネル内のデータを確認することでスコアを確認できます。
+4. モニターの各項目の設定が完了したら、**Create monitor** をクリックします。これでモニターが Weave プロジェクトに追加されます。コードがトレースの生成を開始すると、**Traces** タブでモニター名を選択し、表示されるパネル内のデータを確認することでスコアをレビューできます。
 
-Weave UI でモニターのトレースデータを[比較](/ja/weave/guides/tools/comparison)および可視化したり、Traces タブのダウンロードボタン (<Icon icon="download" iconType="regular" />) を使って CSV や JSON などの形式でダウンロードしたりすることもできます。
+また、Weave UI でモニターのトレースデータを[比較](/ja/weave/guides/tools/comparison)および可視化したり、Traces タブのダウンロードボタン (<Icon icon="download" iconType="regular" />) を使って CSV や JSON などの形式でダウンロードしたりできます。
 
-Weave は、すべてのスコアラーの結果を [Call](/ja/weave/guides/tracking/tracing#calls) オブジェクトの `feedback` フィールドに自動的に保存します。
+Weave は、すべての scorer の結果を [Call](/ja/weave/guides/tracking/tracing#calls) オブジェクトの `feedback` フィールドに自動的に保存します。
 
 <div id="example-create-a-truthfulness-monitor">
-  ### 例: truthfulness モニターを作成する
+  ### 例: truthfulness monitor を作成する
 </div>
 
-次の例では、生成された文の真偽を評価するモニターを作成します。
+次の例では、生成された文の真実性を評価するモニターを作成します。
 
-1. 文を生成する関数を定義します。一部の文は真実であり、そうでないものもあります:
+1. 文を生成する関数を定義します。一部の文は真実であり、そうでない文もあります:
 
 <Tabs>
   <Tab title="Python">
@@ -118,36 +118,36 @@ Weave は、すべてのスコアラーの結果を [Call](/ja/weave/guides/trac
   </Tab>
 </Tabs>
 
-2. 関数を少なくとも 1 回実行して、プロジェクトにトレースを記録します。これにより、W&amp;B UI でこの op をモニタリングに利用できるようになります。
+2. 関数を少なくとも一度実行して、プロジェクトに trace をログします。これにより、その op を W&amp;B UI でモニタリングに利用できるようになります。
 
-3. W&amp;B UI で Weave プロジェクトを開き、サイドナビゲーションから **Monitors** を選択します。次に **New Monitor** を選択します。
+3. W&amp;B UI で Weave プロジェクトを開き、サイドナビから **Monitors** を選択します。次に **New Monitor** を選択します。
 
-4. **Create new monitor** メニューで、次の値を使ってフィールドを設定します:
+4. Create new monitor メニューで、次の値を使ってフィールドを設定します:
    * **Name**: `truthfulness-monitor`
-   * **Description**: `生成された文の真偽を評価します。`
-   * **Active monitor**: **on** に切り替えます。
+   * **Description**: `Evaluates the truthfulness of generated statements.`
+   * **Active monitor**: トグルを **on** にします。
    * **Operations**: `generate_statement` を選択します。
-   * **Sampling rate**: すべての呼び出しをスコアリングするために `100%` に設定します。
+   * **Sampling rate**: すべての呼び出しをスコアリングするには `100%` に設定します。
    * **Scorer name**: `truthfulness-scorer`
    * **Judge model**: `o3-mini-2025-01-31`
    * **System prompt**: `You are an impartial AI judge. Your task is to evaluate the truthfulness of statements.`
    * **Response format**: `json_object`
    * **Scoring prompt**:
      ```text
-     出力された文が、入力された文に基づいて正確かどうかを評価してください。
+     出力文が入力文に基づいて正確かどうかを評価してください。
 
      これは入力文です: {ground_truth}
 
      これは出力文です: {output}
 
-     レスポンスは次のフィールドを持つ JSON オブジェクトにしてください:
-     - is_true: 出力文が入力文に基づいて真か偽かを示す boolean 値。
-     - reasoning: 文が真または偽であると判断した理由。
+     応答は次のフィールドを持つ JSON オブジェクトにしてください:
+     - is_true: 出力文が入力文に基づいて真か偽かを示すブール値。
+     - reasoning: 文が真か偽かである理由。
      ```
 
-5. **Create Monitor** をクリックします。これでモニターが Weave プロジェクトに追加されます。
+5. **Create Monitor** をクリックします。これで Weave プロジェクトにモニターが追加されます。
 
-6. スクリプト内で、真偽の度合いが異なる文を使って関数を呼び出し、スコアリング関数をテストします:
+6. スクリプト内で、真実性の度合いが異なる文を使って関数を呼び出し、スコアリング関数をテストします:
 
 <Tabs>
   <Tab title="Python">
@@ -167,6 +167,6 @@ Weave は、すべてのスコアラーの結果を [Call](/ja/weave/guides/trac
   </Tab>
 </Tabs>
 
-7. 複数の異なる文でスクリプトを実行した後、W&amp;B UI を開き、**Traces** タブに移動します。任意の **LLMAsAJudgeScorer.score** トレースを選択して結果を確認します。
+7. 複数の異なる文でスクリプトを実行したら、W&amp;B UI を開き **Traces** タブに移動します。任意の **LLMAsAJudgeScorer.score** trace を選択して結果を確認します。
 
 ![Monitor trace](/weave/guides/evaluation/img/monitors-4.png)

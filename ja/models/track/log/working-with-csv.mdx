@@ -1,92 +1,92 @@
 ---
-description: W&B へのデータのインポートとログ記録
+description: W&amp;B へのデータのインポートとログ
 title: 実験で CSV ファイルをトラッキングする
 ---
 
-W&amp;B の Python ライブラリを使用して CSV ファイルをログに記録し、[W&amp;B Dashboard](/ja/models/track/workspaces/) で可視化します。W&amp;B Dashboard は、機械学習モデルの結果を整理・可視化するための中心的な場所です。これは特に、W&amp;B にログされていない[過去の機械学習実験に関する情報を含む CSV ファイル](#import-and-log-your-csv-of-experiments)がある場合や、[データセットを含む CSV ファイル](#import-and-log-your-dataset-csv-file)がある場合に有用です。
+W&amp;B Python ライブラリを使って CSV ファイルをログし、[W&amp;B ダッシュボード](/ja/models/track/workspaces/) で可視化します。W&amp;B ダッシュボードは、機械学習モデルの結果を整理して可視化するための中心的な場所です。これは、W&amp;B にログされていない [過去の機械学習実験の情報が含まれた CSV ファイル](#import-and-log-your-csv-of-experiments)がある場合や、[データセットを含む CSV ファイル](#import-and-log-your-dataset-csv-file)がある場合に特に役立ちます。
 
 <div id="import-and-log-your-dataset-csv-file">
-  ## データセットのCSVファイルをインポートしてログに記録する
+  ## データセットの CSV ファイルをインポートしてログを記録する
 </div>
 
 {/* {% embed url="https://drive.google.com/file/d/1jBG3M4VnaMgeclRzowYZEYvFxvwb9SXF/view?usp=sharing" %} */}
 
 CSV ファイルの内容を再利用しやすくするために、W&amp;B Artifacts を活用することをおすすめします。
 
-1. まずは CSV ファイルをインポートします。次のコードスニペットでは、`iris.csv` というファイル名を自分の CSV ファイル名に置き換えてください。
+1. まず CSV ファイルをインポートします。次のコードスニペット内の `iris.csv` というファイル名を、お使いの CSV ファイル名に置き換えてください。
 
 ```python
 import wandb
 import pandas as pd
 
-# CSVを新しいDataFrameに読み込む
+# CSV を新しい DataFrame に読み込む
 new_iris_dataframe = pd.read_csv("iris.csv")
 ```
 
 2. CSV ファイルを W&amp;B Table に変換して、[W&amp;B ダッシュボード](/ja/models/track/workspaces/) を活用します。
 
 ```python
-# DataFrameをW&B Tableに変換する
+# DataFrame を W&B Table に変換する
 iris_table = wandb.Table(dataframe=new_iris_dataframe)
 ```
 
-3. 次に、W&amp;B のアーティファクトを作成し、そのアーティファクトにテーブルを追加します。
+3. 次に、W&amp;B Artifact を作成し、その Artifact にテーブルを追加します。
 
 ```python
 # テーブルをアーティファクトに追加して行数の上限を
-# 200000に増やし、再利用しやすくする
+# 200000 に増やし、再利用しやすくする
 iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
 iris_table_artifact.add(iris_table, "iris_table")
 
-# データを保存するためにアーティファクト内に生のCSVファイルを記録する
+# データを保持するためにアーティファクト内に生の CSV ファイルをログする
 iris_table_artifact.add_file("iris.csv")
 ```
 
-W&amp;B Artifacts の詳細については、[Artifacts の章](/ja/models/artifacts/)を参照してください。
+W&amp;B Artifacts についての詳細は、[Artifacts の章](/ja/models/artifacts/) を参照してください。
 
-4. 最後に、`wandb.init` を使って新しい W&amp;B run を開始して、W&amp;B にトラッキングおよびログを記録します。
+4. 最後に、`wandb.init` を使って新しい W&amp;B run を開始し、W&amp;B で追跡およびログを記録します。
 
 ```python
-# データをログするW&B runを開始する
+# データをログするために W&B の run を開始する
 with wandb.init(project="tables-walkthrough") as run:
 
-    # runでテーブルをログして可視化する...
+    # run でテーブルをログして可視化する...
     run.log({"iris": iris_table})
 
     # アーティファクトとしてログして利用可能な行数の上限を増やす！
     run.log_artifact(iris_table_artifact)
 ```
 
-`wandb.init()` API は、新しいバックグラウンドプロセスを起動してデータを run にログとして記録し、デフォルトで wandb.ai に同期します。W&amp;B Workspace のダッシュボードでリアルタイムの可視化を確認できます。次の画像は、コードスニペットの出力例を示しています。
+`wandb.init()` API は、新しいバックグラウンドプロセスを起動してデータを Run にログし、デフォルトではデータを wandb.ai に同期します。W&amp;B Workspace ダッシュボードでリアルタイムの可視化を確認できます。次の画像は、このコードスニペットを実行した際の出力例を示しています。
 
 <Frame>
-  <img src="/images/track/import_csv_tutorial.png" alt="CSV file imported into W&B Dashboard" />
+  <img src="/images/track/import_csv_tutorial.png" alt="W&B ダッシュボードにインポートされた CSV ファイル" />
 </Frame>
 
-前述のコードスニペットをすべて含む完全なスクリプトを以下に示します。
+前述のコードスニペットをすべて含んだ完全なスクリプトは、以下に示します。
 
 ```python
 import wandb
 import pandas as pd
 
-# CSVを新しいDataFrameに読み込む
+# CSV を新しい DataFrame に読み込む
 new_iris_dataframe = pd.read_csv("iris.csv")
 
-# DataFrameをW&B Tableに変換する
+# DataFrame を W&B Table に変換する
 iris_table = wandb.Table(dataframe=new_iris_dataframe)
 
 # テーブルをアーティファクトに追加して行数の上限を
-# 200000に増やし、再利用しやすくする
+# 200000 に増やし、再利用しやすくする
 iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
 iris_table_artifact.add(iris_table, "iris_table")
 
-# データを保存するためにアーティファクト内に生のCSVファイルをログする
+# データを保持するためにアーティファクト内に生の CSV ファイルをログする
 iris_table_artifact.add_file("iris.csv")
 
-# データをログするためにW&B runを開始する
+# データをログするために W&B の run を開始する
 with wandb.init(project="tables-walkthrough") as run:
 
-    # runで可視化するためにテーブルをログする...
+    # run でテーブルを可視化するためにログする...
     run.log({"iris": iris_table})
 
     # アーティファクトとしてログして利用可能な行数の上限を増やす！
@@ -94,31 +94,31 @@ with wandb.init(project="tables-walkthrough") as run:
 ```
 
 <div id="import-and-log-your-csv-of-experiments">
-  ## Experiments の CSV をインポートしてログに記録する
+  ## Experiments の CSV をインポートしてログとして記録する
 </div>
 
 {/* {% embed url="https://drive.google.com/file/d/1PL4RSdopHEptDR5Gi0DEzECXuoW_5B0f/view?usp=sharing" %}
-  以下のテーブルは、変換すると次のような W&B ダッシュボードになります
+  以下の表は変換すると、この W&B ダッシュボード になります
   {% endembed %} */}
 
-場合によっては、実験の詳細を CSV ファイルとして管理していることがあります。そうした CSV ファイルには、一般的に次のような情報が含まれます。
+場合によっては、実験の詳細が CSV ファイルにまとまっていることがあります。こうした CSV ファイルには、一般的に次のような情報が含まれます。
 
 * 実験 run の名前
-* 初期の [Notes](/ja/models/runs/#add-a-note-to-a-run)
+* 初期 [notes](/ja/models/runs/#add-a-note-to-a-run)
 * 実験を区別するための [Tags](/ja/models/runs/tags/)
-* 実験に必要な設定（さらに、[Sweeps Hyperparameter Tuning](/ja/models/sweeps/) を利用できるという利点があります）
+* 実験に必要な設定（さらに、[Sweeps Hyperparameter Tuning](/ja/models/sweeps/) を利用できるという利点もあります）。
 
-| Experiment   | Model Name       | Notes                  | Tags         | Num Layers | Final Train Acc | Final Val Acc | Training Losses                      |
-| ------------ | ---------------- | ---------------------- | ------------ | ---------- | --------------- | ------------- | ------------------------------------ |
-| Experiment 1 | mnist-300-layers | 学習データに対して過学習しすぎている     | [latest]     | 300        | 0.99            | 0.90          | [0.55, 0.45, 0.44, 0.42, 0.40, 0.39] |
-| Experiment 2 | mnist-250-layers | 現時点でのベストモデル            | [prod, best] | 250        | 0.95            | 0.96          | [0.55, 0.45, 0.44, 0.42, 0.40, 0.39] |
-| Experiment 3 | mnist-200-layers | ベースラインモデルよりも悪い。デバッグが必要 | [debug]      | 200        | 0.76            | 0.70          | [0.55, 0.45, 0.44, 0.42, 0.40, 0.39] |
-| ...          | ...              | ...                    | ...          | ...        | ...             | ...           |                                      |
-| Experiment N | mnist-X-layers   | NOTES                  | ...          | ...        | ...             | ...           | [..., ...]                           |
+| Experiment   | Model Name       | Notes                    | Tags         | Num Layers | Final Train Acc | Final Val Acc | Training Losses                      |
+| ------------ | ---------------- | ------------------------ | ------------ | ---------- | --------------- | ------------- | ------------------------------------ |
+| Experiment 1 | mnist-300-layers | トレーニングデータに対して過学習しすぎている   | [latest]     | 300        | 0.99            | 0.90          | [0.55, 0.45, 0.44, 0.42, 0.40, 0.39] |
+| Experiment 2 | mnist-250-layers | 現時点でのベストモデル              | [prod, best] | 250        | 0.95            | 0.96          | [0.55, 0.45, 0.44, 0.42, 0.40, 0.39] |
+| Experiment 3 | mnist-200-layers | ベースラインモデルよりも悪い結果。デバッグが必要 | [debug]      | 200        | 0.76            | 0.70          | [0.55, 0.45, 0.44, 0.42, 0.40, 0.39] |
+| ...          | ...              | ...                      | ...          | ...        | ...             | ...           |                                      |
+| Experiment N | mnist-X-layers   | NOTES                    | ...          | ...        | ...             | ...           | [..., ...]                           |
 
-W&amp;B は、実験の CSV ファイルを受け取り、W&amp;B Experiments の run に変換できます。次のコードスニペットとコードスクリプトでは、実験の CSV ファイルをインポートしてログを記録する方法を示します。
+W&amp;B は実験の CSV ファイルを受け取り、W&amp;B Experiment Run に変換できます。以下のコードスニペットおよびスクリプトは、実験の CSV ファイルをインポートして log する方法を示しています。
 
-1. まず、CSV ファイルを読み込み、Pandas の DataFrame に変換します。`"experiments.csv"` をあなたの CSV ファイル名に置き換えてください:
+1. まず、CSV ファイルを読み込み、Pandas DataFrame に変換します。`"experiments.csv"` を使用している CSV ファイルの名前に置き換えてください。
 
 ```python
 import wandb
@@ -136,7 +136,7 @@ CONFIG_COLS = ["Num Layers"]
 SUMMARY_COLS = ["Final Train Acc", "Final Val Acc"]
 METRIC_COLS = ["Training Losses"]
 
-# Pandas DataFrameを扱いやすい形式に整形する
+# Pandas DataFrame を整形して扱いやすくする
 for i, row in loaded_experiment_df.iterrows():
     run_name = row[EXPERIMENT_NAME_COL]
     notes = row[NOTES_COL]
@@ -155,7 +155,7 @@ for i, row in loaded_experiment_df.iterrows():
         summaries[summary_col] = row[summary_col]
 ```
 
-2. 次に、新しい W&amp;B Run を開始し、[`wandb.init()`](/ja/models/ref/python/functions/init) を使って W&amp;B にトラッキングおよびログ記録を行います:
+2. 次に、新しい W&amp;B Run を開始して、[`wandb.init()`](/ja/models/ref/python/functions/init) を使って W&amp;B への追跡およびログ記録を行います:
 
    ```python
    with wandb.init(
@@ -163,21 +163,21 @@ for i, row in loaded_experiment_df.iterrows():
    ) as run:
    ```
 
-実験が進行するにつれて、メトリクスの値を毎回ログしておき、W&amp;B 上で表示、クエリ、および分析できるようにしたい場合があります。これを行うには、[`run.log()`](/ja/models/ref/python/experiments/run/#method-runlog) コマンドを使用します:
+実験の実行中にメトリクスの各値をすべてログに記録しておくと、W&amp;B で閲覧、クエリ、分析できて便利です。これを行うには、[`run.log()`](/ja/models/ref/python/experiments/run/#method-runlog) コマンドを使用します:
 
 ```python
 run.log({key: val})
 ```
 
-必要に応じて、[`define_metric`](/ja/models/ref/python/experiments/run#define_metric) API を使用して、run の結果を表す最終的なサマリーメトリクスをログできます。次の例では、`run.summary.update()` を使ってサマリーメトリクスを run に追加します。
+必要に応じて、[`define_metric`](/ja/models/ref/python/experiments/run#define_metric) API を使って最終的なサマリーメトリクスを記録し、その run の結果を定義できます。次の例では、`run.summary.update()` を使ってサマリーメトリクスを run に追加しています。
 
 ```python
 run.summary.update(summaries)
 ```
 
-サマリーメトリクスの詳細は、[サマリーメトリクスのログ](./log-summary)を参照してください。
+サマリー メトリクスについて詳しくは、[サマリー メトリクスのログ](./log-summary) を参照してください。
 
-以下は、上記のサンプルテーブルを [W&amp;B ダッシュボード](/ja/models/track/workspaces/) に変換するための完全なサンプルスクリプトです。
+以下は、上記のサンプルテーブルを [W&amp;B Dashboard](/ja/models/track/workspaces/) に変換するための、完全なサンプルスクリプトです。
 
 ```python
 FILENAME = "experiments.csv"

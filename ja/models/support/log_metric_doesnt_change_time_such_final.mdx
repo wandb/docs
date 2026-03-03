@@ -1,5 +1,5 @@
 ---
-title: 最終評価精度のような、時間とともに変化しないメトリクスはどのようにログできますか？
+title: 最終評価精度のように時間とともに変化しないメトリクスをログするにはどうすればよいですか？
 ---
 
-`run.log({'final_accuracy': 0.9})` を使用すると、最終精度が正しく記録されます。デフォルトでは、`run.log({'final_accuracy': <value>})` は `run.settings['final_accuracy']` を更新し、その値が Runs テーブルに反映されます。
+`run.log({'final_accuracy': 0.9})` を使うと、最終評価精度が正しく更新されます。デフォルトでは、`run.log({'final_accuracy': <value>})` は `run.settings['final_accuracy']` を更新し、この値が Runs テーブルに反映されます。

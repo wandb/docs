@@ -1,17 +1,17 @@
 ---
-description: W&B Report を PDF または LaTeX としてエクスポートします。
-title: レポートの複製とエクスポート
+description: W&B Report を PDF または LaTeX 形式でエクスポートします。
+title: Reports を複製してエクスポートする
 ---
 
 <Note>
-W&B Report および Workspace API はパブリックプレビュー中です。
+W&B Report と Workspace API は Public Preview です。
 </Note>
 
 <div id="export-reports">
-  ## レポートをエクスポートする
+  ## レポートのエクスポート
 </div>
 
-レポートを PDF または LaTeX としてエクスポートできます。レポート内でケバブアイコン（縦三点）をクリックしてドロップダウンメニューを開きます。**Download** をクリックし、PDF または LaTeX のいずれかの出力形式を選択します。
+レポートを PDF または LaTeX 形式でエクスポートできます。レポート内でケバブ アイコンを選択してドロップダウン メニューを開きます。**Download and** を選択し、出力形式として PDF または LaTeX のいずれかを選びます。
 
 <div id="cloning-reports">
   ## レポートのクローン作成
@@ -19,23 +19,23 @@ W&B Report および Workspace API はパブリックプレビュー中です。
 
 <Tabs>
 <Tab title="W&B App">
-レポート内でケバブアイコンを選択してドロップダウンメニューを開きます。**Clone this report** ボタンを選択します。表示されたモーダルでクローン先を選択し、**Clone report** をクリックします。
+レポート内でケバブ アイコンをクリックしてドロップダウン メニューを開きます。**Clone this report** ボタンをクリックします。モーダルでクローンしたレポートの保存先を選択し、**Clone report** をクリックします。
 
 <Frame>
-    <img src="/images/reports/clone_reports.gif" alt="Cloning reports"  />
+    <img src="/images/reports/clone_reports.gif" alt="レポートをクローン作成する様子"  />
 </Frame>
 
-レポートをクローンすると、そのプロジェクトのテンプレートやフォーマットを再利用できます。チームのアカウント内のプロジェクトをクローンした場合、クローンされたプロジェクトはチームメンバー全員に表示されます。個人アカウント内でクローンされたプロジェクトは、そのユーザーにのみ表示されます。
+レポートをクローンすると、そのプロジェクトのテンプレートやフォーマットを再利用できます。チームのアカウント内のプロジェクトをクローンした場合、そのクローン プロジェクトはチーム メンバー全員に表示されます。個人アカウント内でプロジェクトをクローンした場合、そのクローン プロジェクトはそのユーザーにのみ表示されます。
 </Tab>
-<Tab title="Report and Workspace API">
-テンプレートとして使用するために、URL から Report を読み込みます。
+<Tab title="Report および Workspace API">
+URL から Report を読み込んでテンプレートとして使用します。
 
 ```python
 report = wr.Report(
     project=PROJECT, title="Quickstart Report", description="That was easy!"
-)  # Create
-report.save()  # Save
-new_report = wr.Report.from_url(report.url)  # Load
+)  # 作成
+report.save()  # 保存
+new_report = wr.Report.from_url(report.url)  # 読み込み
 ```
 
 `new_report.blocks` 内のコンテンツを編集します。

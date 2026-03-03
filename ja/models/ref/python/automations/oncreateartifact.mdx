@@ -11,10 +11,10 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnCreateArtifact`
 
-新しいアーティファクトが作成されたときに発生するイベントです。
+新しいアーティファクトが作成されたときに発火するイベントです。
 
 例:
-コレクション &quot;my-collection&quot; で新しいアーティファクトが作成されたときにトリガーされるイベントを定義します:
+&quot;my-collection&quot; というコレクションで新しいアーティファクトが作成されたときにトリガーされるイベントを定義します:
 
 ```python
 from wandb import Api
@@ -41,7 +41,7 @@ __init__(
 
 * `event_type` (Literal[CREATE&#95;ARTIFACT]):
 * `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope]): イベントのスコープ。アーティファクトコレクションである必要があります。
-* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントがトリガーされるために必要となる、追加の条件（ある場合）。
+* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントがトリガーされるために必要となる、任意の追加条件。
 
 **戻り値:**
 `OnCreateArtifact` オブジェクト。

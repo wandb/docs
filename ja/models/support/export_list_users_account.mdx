@@ -2,7 +2,7 @@
 title: W&B 組織のユーザー一覧をエクスポートするには？
 ---
 
-W&amp;B 組織からユーザー一覧をエクスポートするには、管理者が次のコードを使って SCIM API を利用します。
+W&amp;B 組織からユーザー一覧をエクスポートするには、管理者が次のコードで SCIM API を使用します。
 
 ```python
 import base64
@@ -27,4 +27,4 @@ for user in response.json()['Resources']:
     users.append([user['userName'], user['emails']['Value']])
 ```
 
-必要に応じて出力を保存できるよう、スクリプトを変更します。
+必要に応じて出力を保存するようにスクリプトを変更してください。

@@ -1,5 +1,5 @@
 ---
-title: レジストリ コレクションの作成
+title: Registry コレクションの作成
 ---
 
 ```python
@@ -18,6 +18,6 @@ registry_path = f"wandb-registry-{registry_name}/{collection_name}"
 # run を初期化する
 with wandb.init(entity = "<entity>", project = "<project>") as run:
 
-  # アーティファクトをコレクションにリンクする。コレクションが存在しない場合、W&B が自動的に作成します。
+  # アーティファクトをコレクションにリンクする。コレクションが存在しない場合、W&B が作成します。
   run.link_artifact(artifact = artifact, target_path = registry_path)
 ```

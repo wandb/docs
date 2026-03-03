@@ -11,11 +11,11 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnAddArtifactAlias`
 
-アーティファクトに新しいエイリアスが割り当てられたときに発生するイベントです。
+アーティファクトに新しいエイリアスが割り当てられたときに発火します。
 
-例：
+例:
 エイリアス &quot;prod&quot; がコレクション &quot;my-collection&quot; 内の任意のアーティファクトに
-割り当てられたときに毎回トリガーされるイベントを定義します：
+割り当てられるたびにトリガーされるイベントを定義します:
 
 ```python
 from wandb import Api
@@ -31,7 +31,7 @@ event = OnAddArtifactAlias(
 ```
 
 
-### <kbd>メソッド</kbd> `OnAddArtifactAlias.__init__`
+### <kbd>method</kbd> `OnAddArtifactAlias.__init__`
 
 ```python
 __init__(
@@ -44,8 +44,8 @@ __init__(
 **引数:**
 
 * `event_type` (Literal[ADD&#95;ARTIFACT&#95;ALIAS]):
-* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): イベントのスコープ。
-* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントをトリガーするために必要な、追加の条件（ある場合）。
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): このイベントのスコープ。
+* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントをトリガーするために必要な追加の条件（存在する場合）。
 
 **戻り値:**
 `OnAddArtifactAlias` オブジェクト。

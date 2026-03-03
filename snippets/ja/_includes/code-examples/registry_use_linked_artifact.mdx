@@ -1,5 +1,5 @@
 ---
-title: "レジストリでリンクされたアーティファクトを使用する"
+title: "Registry のリンク済み Artifacts を使用する"
 ---
 
 ```python
@@ -17,7 +17,7 @@ version = "<version>"
 # バージョンを含む完全なアーティファクト名を構築する
 artifact_name = f"wandb-registry-{registry}/{collection}:{version}"
 
-# W&B APIを初期化する
+# W&B API を初期化する
 api = wandb.Api()
 
 # 指定したレジストリコレクションとバージョンからアーティファクトを取得する
