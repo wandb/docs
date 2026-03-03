@@ -1,0 +1,118 @@
+---
+title: Launch キューを設定する
+---
+
+このページでは、Launch キューのオプション設定方法について説明します。
+
+<div id="set-up-queue-config-templates">
+  ## キュー設定テンプレートを設定する
+</div>
+
+Queue Config Templates を使用して、計算リソース使用量に対するガードレールを管理・運用します。メモリ使用量、GPU、実行時間などのフィールドに対して、デフォルト値、最小値、および最大値を設定できます。
+
+キューに設定テンプレートを設定すると、チームメンバーは、あなたが定義したフィールドを、指定した範囲内でのみ変更できます。
+
+<div id="configure-queue-template">
+  ### キューテンプレートを設定する
+</div>
+
+既存のキューに対してキューテンプレートを設定するか、新しいキューを作成できます。
+
+1. [W&amp;B Launch App](https://wandb.ai/launch) にアクセスします。
+2. テンプレートを追加したいキュー名の横にある **View queue** を選択します。
+3. **Config** タブを選択します。ここでは、キューが作成された日時、キュー設定 (queue config)、既存の起動時オーバーライドなど、キューに関する情報が表示されます。
+4. **Queue config** セクションに移動します。
+5. テンプレートを作成したい設定のキーと値を特定します。
+6. 設定内の値をテンプレートフィールドに置き換えます。テンプレートフィールドは `{{variable-name}}` の形式をとります。
+7. **Parse configuration** ボタンをクリックします。設定を解析すると、W&amp;B は作成した各テンプレートに対して、キュー設定の下に自動的にタイルを作成します。
+8. 生成された各タイルについて、まずキュー設定で許可されるデータ型 (string、integer、または float) を指定する必要があります。これを行うには、**Type** ドロップダウンメニューからデータ型を選択します。
+9. データ型に応じて、各タイル内に表示されるフィールドを入力します。
+10. **Save config** をクリックします。
+
+たとえば、チームが使用できる AWS インスタンスを制限するテンプレートを作成したいとします。テンプレートフィールドを追加する前のキュー設定は、次のようになっているかもしれません。
+
+```yaml title="launch config"
+RoleArn: arn:aws:iam:region:account-id:resource-type/resource-id
+ResourceConfig:
+  InstanceType: ml.m4.xlarge
+  InstanceCount: 1
+  VolumeSizeInGB: 2
+OutputDataConfig:
+  S3OutputPath: s3://bucketname
+StoppingCondition:
+  MaxRuntimeInSeconds: 3600
+```
+
+`InstanceType` 用のテンプレートフィールドを追加すると、設定ファイルは次のようになります。`
+
+```yaml title="launch config"
+RoleArn: arn:aws:iam:region:account-id:resource-type/resource-id
+ResourceConfig:
+  InstanceType: "{{aws_instance}}"
+  InstanceCount: 1
+  VolumeSizeInGB: 2
+OutputDataConfig:
+  S3OutputPath: s3://bucketname
+StoppingCondition:
+  MaxRuntimeInSeconds: 3600
+```
+
+次に、**Parse configuration** をクリックします。**Queue config** の下に `aws-instance` というラベルの新しいタイルが表示されます。
+
+ここで、**Type** ドロップダウンからデータ型として String を選択します。これにより、ユーザーが選択できる値を指定するためのフィールドが表示されます。例えば、次の画像ではチームの管理者が、ユーザーが選択できる 2 種類の AWS インスタンスタイプ（`ml.m4.xlarge` と `ml.p3.xlarge`）を設定しています。
+
+<Frame>
+  <img src="/images/launch/aws_template_example.png" alt="AWS CloudFormation template" />
+</Frame>
+
+
+<div id="dynamically-configure-launch-jobs">
+  ## Launch ジョブを動的に構成する
+</div>
+
+キューの設定は、エージェントがキューからジョブをデキューするときに評価されるマクロを使って動的に構成できます。次のマクロを設定できます:
+
+| Macro             | Description                                                |
+|-------------------|------------------------------------------------------------|
+| `${project_name}` | run が起動されるプロジェクトの名前。                      |
+| `${entity_name}`  | run が起動されるプロジェクトの所有者。                    |
+| `${run_id}`       | 起動される run の ID。                                     |
+| `${run_name}`     | 起動される run の名前。                                    |
+| `${image_uri}`    | この run 用のコンテナイメージの URI。                      |
+
+<Note>
+前の表に記載されていない任意のカスタムマクロ (たとえば `${MY_ENV_VAR}`) は、エージェントの環境にある環境変数で置き換えられます。
+</Note>
+
+<div id="use-the-launch-agent-to-build-images-that-execute-on-accelerators-gpus">
+  ## Launch エージェントを使用してアクセラレータ (GPU) 上で実行されるイメージをビルドする
+</div>
+
+アクセラレータ環境で実行されるイメージを Launch でビルドする場合、アクセラレータ用のベースイメージを指定する必要がある場合があります。
+
+このアクセラレータ用ベースイメージは、次の要件を満たす必要があります。
+
+- Debian 互換性 (Launch の Dockerfile は `apt-get` を使って Python を取得します)
+- CPU と GPU のハードウェア命令セットの互換性 (使用する予定の GPU が、利用している CUDA バージョンをサポートしていることを確認してください)
+- 指定するアクセラレータのバージョンと、ML アルゴリズムで使用しているパッケージとの互換性
+- ハードウェアとの互換性を確保するために追加のセットアップ手順が必要となるパッケージがある場合は、その手順が実施されていること
+
+<div id="how-to-use-gpus-with-tensorflow">
+  ### TensorFlow で GPU を使用する方法
+</div>
+
+TensorFlow が GPU を正しく利用できるようにするには、キューのリソース設定内の `builder.accelerator.base_image` キーに対して、Docker イメージとそのイメージタグを指定します。
+
+例えば、`tensorflow/tensorflow:latest-gpu` ベースイメージを使用すると、TensorFlow が GPU を正しく使用できるようになります。これはキューのリソース設定で指定できます。
+
+次の JSON スニペットは、キュー設定で TensorFlow のベースイメージを指定する方法を示しています。
+
+```json title="Queue config"
+{
+    "builder": {
+        "accelerator": {
+            "base_image": "tensorflow/tensorflow:latest-gpu"
+        }
+    }
+}
+```

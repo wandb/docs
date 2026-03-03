@@ -1,0 +1,92 @@
+---
+title: Runs
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+
+
+## <kbd>class</kbd> `Runs`
+
+あるプロジェクトおよび任意のフィルタに関連付けられた `Run` オブジェクトのための遅延イテレータです。
+
+Runs は、必要に応じて W&B サーバーからページごとに取得されます。
+
+通常は、`Api.runs` 名前空間を通じて間接的に使用されます。
+
+### <kbd>method</kbd> `Runs.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    filters: 'dict[str, Any] | None' = None,
+    order: 'str' = '+created_at',
+    per_page: 'int' = 50,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True,
+    api: 'public.Api | None' = None
+)
+```
+
+**Args:**
+
+* `client`:  (`wandb.apis.public.RetryingClient`) リクエストに使用する API クライアント。
+* `entity`:  (str) プロジェクトの所有者であるエンティティ（ユーザー名またはチーム）。
+* `project`:  (str) run を取得する対象のプロジェクト名。
+* `filters`:  (Optional[Dict[str, Any]]) runs クエリに適用するフィルターを格納した辞書。
+* `order`:  (str) 並び順。`created_at`、`heartbeat_at`、`config.*.value`、`summary_metrics.*` のいずれか。先頭に `+` を付けると昇順（デフォルト）、`-` を付けると降順。デフォルトの並び順は、run.created&#95;at の昇順（古いものから新しいもの）。
+* `per_page`:  (int) リクエストごとに取得する run の数（デフォルトは 50）。
+* `include_sweeps`:  (bool) runs に sweep 情報を含めるかどうか。デフォルトは True。
+
+***
+
+
+### <kbd>property</kbd> Runs.length
+
+---
+
+### <kbd>メソッド</kbd> `Runs.histories`
+
+```python
+histories(
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    format: "Literal['default', 'pandas', 'polars']" = 'default',
+    stream: "Literal['default', 'system']" = 'default'
+) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
+```
+
+フィルター条件に合致するすべての run について、サンプリングされた履歴メトリクスを返します。
+
+**Args:**
+
+* `samples`:  run ごとに返すサンプル数
+* `keys`:  特定のキーのメトリクスのみを返します
+* `x_axis`:  このメトリクスを x 軸として使用します。デフォルトは &#95;step です
+* `format`:  データの返却形式。オプションは &quot;default&quot;, &quot;pandas&quot;,  &quot;polars&quot;
+* `stream`:  メトリクス用は &quot;default&quot;、マシンメトリクス用は &quot;system&quot; を指定します
+
+**Returns:**
+
+* `pandas.DataFrame`:  `format="pandas"` の場合、履歴メトリクスの `pandas.DataFrame` を返します。
+* `polars.DataFrame`:  `format="polars"` の場合、履歴メトリクスの `polars.DataFrame` を返します。
+* `list of dicts`:  `format="default"` の場合、`run_id` キーを持つ履歴メトリクスの dict のリストを返します。
+
+***
+
+
+### <kbd>メソッド</kbd> `Runs.upgrade_to_full`
+
+```python
+upgrade_to_full() → None
+```
+
+この Runs コレクションを lazy モードから full モードにアップグレードします。
+
+これにより、run の完全なデータを取得するようになり、すでに読み込まれている Run オブジェクトも完全なデータを持つようにアップグレードされます。複数の run をアップグレードする際のパフォーマンス向上のために並列読み込みを使用します。

@@ -1,0 +1,130 @@
+---
+title: spaCy
+---
+
+import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
+
+[spaCy](https://spacy.io) は広く使われている「実運用レベル」の NLP ライブラリで、高速かつ高精度なモデルを最小限の手間で利用できます。spaCy v3 以降では、W&amp;B を [`spacy train`](https://spacy.io/api/cli#train) と併用して、spaCy モデルの学習メトリクスを追跡したり、モデルやデータセットを保存・バージョン管理したりできます。これを実現するために必要なのは、設定ファイルに数行追加するだけです。
+
+<div id="sign-up-and-create-an-api-key">
+  ## サインアップしてAPIキーを作成する
+</div>
+
+APIキーは、お使いのマシンをW&amp;Bに対して認証するためのものです。APIキーは、ユーザープロフィールから作成できます。
+
+<ApiKeyCreateStreamlined />
+
+1. 右上隅のユーザープロフィールアイコンをクリックします。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+
+<div id="install-the-wandb-library-and-log-in">
+  ## `wandb` ライブラリをインストールしてログインする
+</div>
+
+ローカル環境に `wandb` ライブラリをインストールしてログインするには、次の手順を実行します。
+
+<Tabs>
+  <Tab title="Command Line">
+    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) に自身の APIキーを設定します。
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` ライブラリをインストールしてログインします。
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="add-the-wandblogger-to-your-spacy-config-file">
+  ## spaCy の config ファイルに `WandbLogger` を追加する
+</div>
+
+spaCy の config ファイルは、ログ出力だけでなく、GPU の割り当て、オプティマイザの選択、データセットのパスなど、学習のあらゆる要素を指定するために使われます。最低限として、`[training.logger]` セクションの下で、キー `@loggers` に値 `"spacy.WandbLogger.v3"` を指定し、さらに `project_name` を設定する必要があります。
+
+<Note>
+  spaCy の学習用 config ファイルの仕組みや、学習をカスタマイズするために指定できるその他のオプションについては、[spaCy&#39;s documentation](https://spacy.io/usage/training) を参照してください。
+</Note>
+
+```python
+[training.logger]
+@loggers = "spacy.WandbLogger.v3"
+project_name = "my_spacy_project"
+remove_config_values = ["paths.train", "paths.dev", "corpora.train.path", "corpora.dev.path"]
+log_dataset_dir = "./corpus"
+model_log_interval = 1000
+```
+
+| Name                   | Description                                                                                                                                                     |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `project_name`         | `str`。W&amp;B のプロジェクト名。プロジェクトがまだ存在しない場合は自動的に作成されます。                                                                                                             |
+| `remove_config_values` | `List[str]`。W&amp;B にアップロードする前に設定から除外する値のリスト。デフォルトは `[]`。                                                                                                       |
+| `model_log_interval`   | `Optional int`。デフォルトは `None`。設定すると、[Artifacts](/ja/models/artifacts/) を用いた[モデルのバージョニング](/ja/models/registry/)が有効になります。モデルのチェックポイントをログする間隔（ステップ数）を指定します。デフォルトは `None`。 |
+| `log_dataset_dir`      | `Optional str`。パスを指定すると、学習の開始時にそのデータセットがアーティファクトとしてアップロードされます。デフォルトは `None`。                                                                                    |
+| `entity`               | `Optional str`。指定された場合、そのエンティティ配下に run が作成されます。                                                                                                                 |
+| `run_name`             | `Optional str`。指定された場合、その名前で run が作成されます。                                                                                                                       |
+
+<div id="start-training">
+  ## 学習を開始する
+</div>
+
+`WandbLogger` を spaCy の学習用設定に追加したら、通常どおり `spacy train` を実行できます。
+
+<Tabs>
+  <Tab title="Command Line">
+    ```python
+    python -m spacy train \
+        config.cfg \
+        --output ./output \
+        --paths.train ./train \
+        --paths.dev ./dev
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    python -m spacy train \
+        config.cfg \
+        --output ./output \
+        --paths.train ./train \
+        --paths.dev ./dev
+    ```
+  </Tab>
+
+  <Tab title="Python notebook">
+    ```notebook
+    !python -m spacy train \
+        config.cfg \
+        --output ./output \
+        --paths.train ./train \
+        --paths.dev ./dev
+    ```
+  </Tab>
+</Tabs>
+
+学習が開始されると、学習 run の [W&amp;B ページ](/ja/models/runs/) へのリンクが出力されます。そのリンクから、W&amp;B web UI 上でこの run の実験トラッキング用 [ダッシュボード](/ja/models/track/workspaces/) に移動できます。

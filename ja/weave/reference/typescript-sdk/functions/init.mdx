@@ -1,0 +1,41 @@
+---
+title: "init"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="init">
+  # init
+</div>
+
+▸ **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](../classes/weaveclient)\>
+
+Weave クライアントを初期化します。Weave のトレーシング機能を動作させるために必要です。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `project` | `string` | W&B のプロジェクト名（`project` または `entity/project` の形式）。W&B チーム（例: `team/project`）を指定しない場合は、デフォルトの entity が使用されます。デフォルトの entity を確認または更新するには、https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team の「User Settings」ページを参照してください。 |
+| `settings?` | `SettingsInit` | （省略可能）Weave のトレーシング設定 |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`\<[`WeaveClient`](../classes/weaveclient)\>
+
+初期化済みの Weave クライアントに解決される Promise。
+
+`Throws`
+
+初期化が失敗した場合
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[clientApi.ts:83](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L83)
+
+___

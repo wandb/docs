@@ -1,0 +1,69 @@
+---
+description: W&B App またはプログラムから W&B レポートを作成します。
+title: レポートを作成する
+---
+
+<Note>
+  W&amp;B Report および Workspace API はパブリックプレビュー中です。
+</Note>
+
+以下のタブを選択して、W&amp;B App でレポートを作成する方法、または W&amp;B Report および Workspace API を使ってプログラムからレポートを作成する方法を確認してください。
+
+レポートをプログラムから作成する例については、この [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) を参照してください。
+
+<Tabs>
+  <Tab title="W&B App">
+    1. W&amp;B App で自分のプロジェクトのワークスペースに移動します。
+
+    2. ワークスペース右上の **Create report** をクリックします。
+
+       <Frame>
+         <img src="/images/reports/create_a_report_button.png" alt="レポートを作成するボタン" />
+       </Frame>
+
+    3. モーダルが表示されます。最初に表示するチャートを選択します。チャートは後からレポートインターフェースで追加または削除できます。
+
+       <Frame>
+         <img src="/images/reports/create_a_report_modal.png" alt="レポート作成モーダル" />
+       </Frame>
+
+    4. 新しい run がレポートに追加されるのを防ぐには、**Filter run sets** オプションを選択します。このオプションはオン／オフを切り替えることができます。**Create report** をクリックすると、作業を続けるための下書きレポートがレポートタブで利用可能になります。
+  </Tab>
+
+  <Tab title="Report tab">
+    1. W&amp;B App で自分のプロジェクトのワークスペースに移動します。
+    2. プロジェクト内の **Reports** タブ（クリップボードのアイコン）を選択します。
+    3. レポートページで **Create Report** ボタンをクリックします。
+
+       <Frame>
+         <img src="/images/reports/create_report_button.png" alt="レポートを作成するボタン" />
+       </Frame>
+  </Tab>
+
+  <Tab title="Report and Workspace API">
+    レポートをプログラムから作成します:
+
+    1. W&amp;B SDK (`wandb`) と Report and Workspace API (`wandb-workspaces`) をインストールします:
+       ```bash
+       pip install wandb wandb-workspaces
+       ```
+
+    2. 次に、workspaces をインポートします:
+       ```python
+       import wandb
+       import wandb_workspaces.reports.v2 as wr
+       ```
+
+    3. `wandb_workspaces.reports.v2.Report` でレポートを作成します。Report クラスのパブリック API（[`wandb.apis.reports`](/ja/models/ref/python/public-api/api#reports)）を使ってレポートインスタンスを作成します。プロジェクト名を指定します。
+       ```python
+       report = wr.Report(project="report_standard")
+       ```
+
+    4. レポートを保存します。`.save()` メソッドを呼び出すまで、レポートは W&amp;B サーバーにアップロードされません:
+       ```python
+       report.save()
+       ```
+
+    App UI を使ってインタラクティブに、またはプログラムからレポートを編集する方法については、[レポートを編集する](/ja/models/reports/edit-a-report/) を参照してください。
+  </Tab>
+</Tabs>

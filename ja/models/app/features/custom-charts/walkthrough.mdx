@@ -1,0 +1,108 @@
+---
+description: W&B UI でカスタムチャート機能を使用するためのチュートリアル
+title: 'チュートリアル: カスタムチャートを使用する'
+---
+
+カスタムチャートを使用して、パネルに読み込むデータとその可視化方法を制御できます。
+
+<div id="1-log-data-to-wb">
+  ## 1. W&amp;B にデータをログする
+</div>
+
+まず、スクリプト内でデータをログします。学習の最初に一度だけ設定する値（ハイパーパラメータなど）には [wandb.Run.config](/ja/models/track/config/) を使います。時間経過とともに複数のポイントを記録する場合は [wandb.Run.log()](/ja/models/track/log/) を使い、`wandb.Table()` を使ってカスタム 2D 配列をログします。1 つのキーあたり最大 10,000 個のデータポイントをログすることを推奨します。
+
+```python
+with wandb.init() as run: 
+
+  # カスタムデータテーブルのログ
+  my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
+  run.log(
+    {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
+  )
+```
+
+データテーブルをログするには、[簡単なサンプルノートブック](https://bit.ly/custom-charts-colab)を試してみてください。その後のステップでカスタムチャートをセットアップします。作成されるチャートがどのような見た目になるかは、[ライブレポート](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc)で確認できます。
+
+<div id="2-create-a-query">
+  ## 2. クエリを作成する
+</div>
+
+可視化したいデータをログしたら、プロジェクトページに移動し、**`+`** ボタンをクリックして新しいパネルを追加し、**Custom Chart** を選択します。[custom charts デモ Workspace](https://app.wandb.ai/demo-team/custom-charts) で同じ手順を試すこともできます。
+
+<Frame>
+  <img src="/images/app_ui/create_a_query.png" alt="空のカスタムチャート" />
+</Frame>
+
+<div id="add-a-query">
+  ### クエリを追加する
+</div>
+
+1. `summary` をクリックし、`historyTable` を選択して、run の履歴からデータを取得する新しいクエリを設定します。
+2. `wandb.Table()` をログしたキーを入力します。上のコードスニペットでは `my_custom_table` です。[サンプルノートブック](https://bit.ly/custom-charts-colab) では、キーは `pr_curve` と `roc_curve` です。
+
+<div id="set-vega-fields">
+  ### Vega フィールドを設定する
+</div>
+
+クエリでこれらの列が読み込まれるようになったので、Vega フィールドのドロップダウンメニューから選択できるようになります。
+
+<Frame>
+  <img src="/images/app_ui/set_vega_fields.png" alt="クエリ結果から列を取り込み、Vega フィールドを設定する" />
+</Frame>
+
+* **x-axis:** runSets&#95;historyTable&#95;r (recall)
+* **y-axis:** runSets&#95;historyTable&#95;p (precision)
+* **color:** runSets&#95;historyTable&#95;c (class label)
+
+<div id="3-customize-the-chart">
+  ## 3. チャートをカスタマイズする
+</div>
+
+だいぶ良くなってきましたが、ここで散布図から折れ線グラフに切り替えたいとします。組み込みチャートの Vega spec を変更するには、**Edit** をクリックします。[custom charts デモ Workspace](https://app.wandb.ai/demo-team/custom-charts) で一緒に手を動かしてみてください。
+
+<Frame>
+  <img src="/images/general/custom-charts-1.png" alt="カスタムチャートの選択" />
+</Frame>
+
+可視化をカスタマイズするために Vega spec を次のように更新しました:
+
+* プロット、凡例、x 軸、y 軸にタイトルを追加する（各フィールドの &quot;title&quot; を設定）
+* &quot;mark&quot; の値を &quot;point&quot; から &quot;line&quot; に変更する
+* 使っていない &quot;size&quot; フィールドを削除する
+
+<Frame>
+  <img src="/images/app_ui/customize_vega_spec_for_pr_curve.png" alt="PR 曲線の Vega spec" />
+</Frame>
+
+この設定を、このプロジェクト内の他の場所でも使えるプリセットとして保存するには、ページ上部の **Save as** をクリックします。ROC 曲線と並べると、結果は次のようになります:
+
+<Frame>
+  <img src="/images/general/custom-charts-2.png" alt="PR 曲線チャート" />
+</Frame>
+
+<div id="bonus-composite-histograms">
+  ## おまけ: 合成ヒストグラム
+</div>
+
+ヒストグラムは数値分布を可視化して、大きなデータセットを理解するのに役立ちます。合成ヒストグラムは、同じビンに対して複数の分布を表示し、異なるモデル間、または 1 つのモデル内の異なるクラス間で 2 つ以上のメトリクスを比較できるようにします。自動運転シーンで物体を検出するセマンティックセグメンテーションモデルでは、精度 (accuracy) を最適化する場合と IoU (intersection over union, IOU) を最適化する場合の有効性を比較したり、異なるモデルが自動車 (データ中で大きく頻出する領域) をどの程度うまく検出するかと、交通標識 (はるかに小さく、頻度も低い領域) をどの程度うまく検出するかを知りたくなるかもしれません。[デモ Colab](https://bit.ly/custom-charts-colab) では、10 クラスある生物のうち 2 クラスについて、信頼度スコアを比較できます。
+
+<Frame>
+  <img src="/images/app_ui/composite_histograms.png" alt="合成ヒストグラム" />
+</Frame>
+
+独自のカスタム合成ヒストグラムパネルを作成するには、次の手順に従います。
+
+1. Workspace または Report で新しい Custom Chart パネルを作成します (「Custom Chart」ビジュアライゼーションを追加します)。右上の「Edit」ボタンを押して、任意の組み込みパネルタイプを出発点として Vega spec を編集します。
+2. その組み込みの Vega spec を、私が作成した [Vega による合成ヒストグラムの MVP コード](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21) に置き換えます。メインタイトル、軸タイトル、入力ドメイン、その他の詳細は、この Vega spec 内で直接 [Vega の構文を使って](https://vega.github.io/) 変更できます (色を変えたり、3 つ目のヒストグラムを追加することもできます :) )
+3. 画面右側のクエリを編集して、wandb ログから正しいデータを読み込むようにします。フィールド `summaryTable` を追加し、対応する `tableKey` を `class_scores` に設定して、run によってログされた `wandb.Table` を取得します。これにより、ドロップダウンメニューから `class_scores` としてログされた `wandb.Table` の列を選択して、2 つのヒストグラムのビン集合 (`red_bins` と `blue_bins`) を埋めることができます。私の例では、赤いビンには `animal` クラスの予測スコアを、青いビンには `plant` クラスのスコアを選びました。
+4. プレビュー表示されるプロットに満足できるまで、Vega spec とクエリを何度でも変更できます。完了したら、上部の **Save as** をクリックしてカスタムプロットに名前を付け、再利用できるようにします。その後、**Apply from panel library** をクリックしてプロットを確定します。
+
+ごく短い実験から得られた私の結果は次のようになりました。1000 個のサンプルで 1 エポックだけ学習したモデルは、「ほとんどの画像は植物ではない」と非常に強く確信している一方で、「どの画像が動物か」については非常に不確かであることが分かります。
+
+<Frame>
+  <img src="/images/general/custom-charts-3.png" alt="チャートの設定" />
+</Frame>
+
+<Frame>
+  <img src="/images/general/custom-charts-4.png" alt="チャート結果" />
+</Frame>

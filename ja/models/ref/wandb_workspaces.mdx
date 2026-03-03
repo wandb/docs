@@ -1,0 +1,96 @@
+---
+title: Reports と Workspaces API 概要
+description: W&B Reports と Workspaces API を使用して、レポートとワークスペースをプログラムで作成および管理します
+---
+
+`wandb_workspaces` から利用できる W&amp;B Reports と Workspaces API を使用すると、知見を共有するために Web上で公開できる[レポート](/ja/models/reports/)を作成したり、学習やファインチューニングを行った[ワークスペース](/ja/models/app/features/cascade-settings/)をカスタマイズしたりできます。
+
+<Card title="ソースコードを表示" href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" icon="github" />
+
+<Note>
+  W&amp;B Report および Workspace API は現在 Public Preview 段階です。
+</Note>
+
+<div id="installation-and-setup">
+  ## インストールとセットアップ
+</div>
+
+<div id="sign-up-and-create-an-api-key">
+  ### サインアップしてAPIキーを作成する
+</div>
+
+マシンをW&amp;Bで認証するには、まず[User Settings](https://wandb.ai/settings)でAPIキーを生成する必要があります。
+
+<div id="install-and-import-packages">
+  ### パッケージのインストールとインポート
+</div>
+
+W&amp;B のレポートおよび Workspace 用ライブラリをインストールします。
+
+```python
+pip install wandb-workspaces
+```
+
+<div id="create-a-report">
+  ### レポートを作成する
+</div>
+
+レポートを作成するには、チームのエンティティを指定し、レポート名を入力します。角括弧で囲まれたテキストをご自身の値に置き換えてください。
+
+```python
+import wandb_workspaces.reports.v2 as wr 
+# 作成
+report = wr.Report(
+    entity="<team_entity>",
+    project="<project_name>",
+    title='Quickstart Report',
+    description="That was easy!"
+)
+
+# レポートを保存
+report.save()
+```
+
+次に、レポートにブロックとパネルを追加します。たとえば、次のコードでは、目次、ヘッダー、段落を含むレポートが作成されます。
+
+```python
+report.blocks = [
+    wr.TableOfContents(),
+    wr.H1("Text and images example"),
+    wr.P("Lorem ipsum dolor sit amet."),
+]
+report.save()
+```
+
+エンドツーエンドの例については、Google Colab の [Reports API クイックスタート](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) を参照してください。
+
+<div id="create-a-workspace">
+  ### Workspace を作成する
+</div>
+
+次のコードは、折れ線プロット、バー プロット、スカラー チャートという 3 つのパネルを含むセクションを持つワークスペースを作成する方法を示します。角かっこ (&lt; &gt;) で囲まれたテキストをご自身の値に置き換えてください。
+
+```python
+# インポート方法
+import wandb_workspaces.workspaces as ws
+
+# ワークスペースを作成する
+ws.Workspace(
+     entity="<team_entity>", # ワークスペースを所有するエンティティ
+     project="<project_name>", # ワークスペースに関連付けられたプロジェクト
+     sections=[
+         ws.Section(
+             name="<Validation Metrics>",
+             panels=[
+                 wr.LinePlot(x="Step", y=["<val_loss>"]),
+                 wr.BarPlot(metrics=["<val_accuracy>"]),
+                 wr.ScalarChart(metric="<f1_score>", groupby_aggfunc="<mean>"),
+             ],
+             is_open=True,
+         ),
+     ],
+)
+workspace.save()
+```
+
+エンドツーエンドの例は、[Workspace API クイックスタート](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) の Google Colab ノートブックを参照してください。

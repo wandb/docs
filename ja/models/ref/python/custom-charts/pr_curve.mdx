@@ -1,0 +1,73 @@
+---
+title: pr_curve()
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py" />
+
+
+### <kbd>function</kbd> `pr_curve`
+
+```python
+pr_curve(
+    y_true: 'Iterable[T] | None' = None,
+    y_probas: 'Iterable[numbers.Number] | None' = None,
+    labels: 'list[str] | None' = None,
+    classes_to_plot: 'list[T] | None' = None,
+    interp_size: 'int' = 21,
+    title: 'str' = 'Precision-Recall Curve',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+適合率-再現率（PR）カーブを作成します。
+
+適合率-再現率カーブは、不均衡なデータセットに対する分類器の評価に特に有用です。PRカーブの下の面積が大きいことは、高い適合率（低い偽陽性率）と高い再現率（低い偽陰性率）の両方を意味します。このカーブによって、さまざまな閾値レベルにおける偽陽性と偽陰性のバランスを把握でき、モデルの性能評価に役立ちます。
+
+**Args:**
+
+* `y_true`:  真の二値ラベル。形状は (`num_samples`,) である必要があります。
+* `y_probas`:  各クラスに対する予測スコアまたは確率。確率推定値、信頼度スコア、またはしきい値処理されていない決定関数値を指定できます。形状は (`num_samples`, `num_classes`) である必要があります。
+* `labels`:  プロットの解釈を容易にするために、`y_true` 内の数値を置き換えるクラス名のオプションのリスト。たとえば、`labels = ['dog', 'cat', 'owl']` とすると、プロット内で 0 が &#39;dog&#39;、1 が &#39;cat&#39;、2 が &#39;owl&#39; に置き換えられます。指定しない場合、`y_true` の数値がそのまま使用されます。
+* `classes_to_plot`:  プロットに含める `y_true` に含まれる一意のクラス値のオプションのリスト。指定しない場合、`y_true` 内のすべての一意なクラスがプロットされます。
+* `interp_size`:  再現率の値を補間する際の点の数。再現率の値は [0, 1] の範囲で一様に分布する `interp_size` 個の点に固定され、適合率はそれに応じて補間されます。
+* `title`:  プロットのタイトル。デフォルトは &quot;Precision-Recall Curve&quot; です。
+* `split_table`:  テーブルを W&amp;B UI 内の別セクションに分割するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+
+**Returns:**
+
+* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
+
+**Raises:**
+
+* `wandb.Error`:  NumPy、pandas、または scikit-learn がインストールされていない場合。
+
+**Example:**
+
+```python
+import wandb
+
+# スパム検出の例（二値分類）
+y_true = [0, 1, 1, 0, 1]  # 0 = スパムでない, 1 = スパム
+y_probas = [
+    [0.9, 0.1],  # 最初のサンプルの予測確率（スパムでない）
+    [0.2, 0.8],  # 2番目のサンプル（スパム）、以下同様
+    [0.1, 0.9],
+    [0.8, 0.2],
+    [0.3, 0.7],
+]
+
+labels = ["not spam", "spam"]  # 可読性向上のためのオプションのクラス名
+
+with wandb.init(project="spam-detection") as run:
+    pr_curve = wandb.plot.pr_curve(
+         y_true=y_true,
+         y_probas=y_probas,
+         labels=labels,
+         title="Precision-Recall Curve for Spam Detection",
+    )
+    run.log({"pr-curve": pr_curve})
+```

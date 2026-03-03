@@ -1,0 +1,73 @@
+---
+title: オートメーションの履歴を表示する
+---
+
+<Note>
+  この機能を利用するには、Enterprise ライセンスが必要です。以下の環境でのみ利用できます:
+
+  * W&amp;B Multi-tenant Cloud
+  * W&amp;B Dedicated Cloud
+  * W&amp;B Self-Managed v0.75.0+
+</Note>
+
+このページでは、W&amp;B の[オートメーション](/ja/models/automations)の実行履歴を表示して理解する方法を説明します。どのようなイベントでオートメーションがトリガーされたか、どのアクションが実行されたか、そしてそれらが成功したか失敗したかを確認できます。
+
+実行された各オートメーションは、以下を含むレコードを生成します:
+
+* **Execution timestamp**: オートメーションがトリガーされた日時。
+* **Triggering event**: オートメーションをトリガーした特定のイベント。
+* **Status**: 実行のステータス。[Execution status](#execution-status) を参照してください。
+* **Action details**: Slack チャンネルへの通知や webhook の実行など、どのアクションが実行されたかに関する情報。
+* **Result details**: オートメーション実行の最終結果に関する追加情報（ある場合）。失敗した実行ではエラー情報が含まれます。
+
+ユースケースに応じて、オートメーション履歴の詳細な表示手順を確認するには、**Registry** タブまたは **Project** タブを選択します。
+
+<Tabs>
+  <Tab title="Registry">
+    1. プロジェクトのサイドバーで **Registry** をクリックして、レジストリに移動します。
+    2. 一覧から対象のレジストリを選択します。
+    3. **Automations** タブでレジストリのオートメーションを表示します。**Last execution** のタイムスタンプをクリックすると、実行履歴の詳細を表示できます。検索バーを使用してオートメーション名でフィルタリングしたり、最後にトリガーされた日時でソートして、最近実行されたオートメーションを見つけることができます。
+    4. **Automations history** タブで、レジストリのオートメーション実行を最新のものから順に逆時系列で表示します。イベント、アクション、ステータスを確認できます。実行のタイムスタンプをクリックすると、その特定の実行に関する詳細を表示できます。
+
+    <Tip>コレクションに関連するオートメーション実行がある場合は、関連する実行数とともに、アイコン ![Collection automation execution symbol, a circle with a right-pointing arrow](/images/automations/collection-automation-execution-icon.png) が表示されます。</Tip>
+  </Tab>
+
+  <Tab title="Project">
+    1. プロジェクトのサイドバーで **Automations** タブをクリックします。プロジェクトのオートメーションが表示されます。**Last execution** のタイムスタンプをクリックすると、実行履歴の詳細を表示できます。検索バーを使用してオートメーション名でフィルタリングしたり、最後にトリガーされた日時でソートして、最近実行されたオートメーションを見つけることができます。
+    2. **History** タブで、プロジェクトのオートメーションのすべての実行を最新のものから順に逆時系列で表示します。各実行のメタデータとして、イベント、アクション、ステータスが表示されます。実行のタイムスタンプをクリックすると、その特定の実行に関する詳細を表示できます。
+  </Tab>
+</Tabs>
+
+<div id="understanding-execution-details">
+  ## 実行の詳細を理解する
+</div>
+
+各オートメーションの実行には、次のいずれかのステータスがあります。
+
+* **Finished**: オートメーションがすべてのアクションを正常に完了しました。
+* **Failed**: オートメーションでエラーが発生し、正常に完了しませんでした。
+* **Pending**: オートメーションが実行待ち状態です。
+
+履歴内の任意の実行をクリックすると、次の詳細を確認できます。
+
+* **Event details**: オートメーションをトリガーした特定のイベントに関する情報。次の内容が含まれます。
+  * イベントタイプ（例: &quot;New artifact version&quot;、&quot;Run completed&quot;）
+  * エンティティ情報（run ID、アーティファクト名など）
+  * イベントをトリガーしたユーザー（該当する場合）
+
+* **Action details**: オートメーションが実行しようとした処理に関する情報。
+  * アクションタイプ（Slack 通知または webhook）
+  * 対象（Slack チャンネルまたは webhook URL）
+  * 送信されたペイロード（webhook の場合）
+
+* **Result information**:
+  * レスポンスステータス（webhook の場合）
+  * エラーメッセージやスタックトレース（失敗した実行の場合）
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+* [オートメーションを作成する](/ja/models/automations/create-automations)
+* [オートメーションのイベントとスコープ](/ja/models/automations/automation-events)について学ぶ
+* [シークレットを作成する](/ja/platform/secrets)

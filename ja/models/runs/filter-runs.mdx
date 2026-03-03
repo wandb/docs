@@ -1,0 +1,117 @@
+---
+description: Runs テーブルで式エディタを使って run をフィルタリングする方法を説明します。
+title: run をフィルタリングする
+---
+
+Runs テーブルの式エディタを使って、run の名前や状態、[tags](#filter-runs-with-tags)、その他のプロパティに基づいて run をフィルタリングできます。
+
+フィルタを追加する際は、最初にフィールド（例: tags、timestamp、entity）を選択します。各フィールドには、text、time、ID などの基礎となる型があります。
+
+表示される演算子の一覧（例: is、in、&ge;、within last）は、この型によって決まります。フィールドを選択すると、そのフィールドの型に対して有効な演算子だけが UI に表示されます。
+
+<div id="common-operators-by-type">
+  ## 型別の一般的な演算子
+</div>
+
+| フィルタータイプ | フィールド例 | よく使われる演算子 | 使用例 |
+| ----------- | -------------- | ---------------- | ------------- |
+| Tags        | `tags`           | is, is not, in, not in  | `tags is "baseline"` |
+| Time        | `created timestamp`      | &le;, &ge;, within last | `created timestamp` &ge; `01/16/2026` |
+| String      | `state`         | &equals;, &ne;, IN, NOT IN | `state = "finished"` |
+
+<Note>
+次の表は、利用可能なフィールドと演算子の一部のみを示しています。式エディタには、利用可能なすべてのフィールドと演算子が表示されます。
+</Note>
+
+<div id="create-a-filter-expression">
+  ## フィルター式を作成する
+</div>
+
+1. プロジェクトのサイドバーから **Runs** タブに移動します。
+2. Runs テーブル上部にある漏斗のようなアイコンの **Filter** ボタンをクリックします。
+3. 左から順に、列名、論理演算子、フィルター値を選択してフィルター式を作成します。
+4. 必要に応じて **New Filter** を選択して、フィルターを追加で適用します。
+
+次の画像は、loss 値が `1` 以下の run をフィルタリングする例です。
+
+<Frame>
+    <img src="/images/data_vis/filter.png" alt="Incorrect predictions filter"  />
+</Frame>
+
+次のセクションでは、Runs テーブルで run をフィルタリングする方法の例をいくつか紹介します。
+
+<div id="example-filter-runs-with-tags">
+  ### 例: タグでrunを絞り込む
+</div>
+
+タグに基づいてrunを絞り込みます:
+
+1. プロジェクトのサイドバーから **Runs** タブをクリックします。
+2. runsテーブルの上にある、じょうごのアイコンの **Filter** ボタンを選択します。
+3. 左から右の順に、ドロップダウンメニューから `"Tags"` を選択し、ロジック演算子を選択します。
+4. 2つ目のドロップダウンメニューから、is、is not、in、not in のいずれかを選択します。
+5. 3つ目のドロップダウンメニューに、フィルタリングしたいタグ名を入力します。
+
+<Frame>
+    <img src="/images/app_ui/filter_runs.gif" alt="タグでrunを絞り込む" />
+</Frame>
+
+<div id="default-filters">
+  ## デフォルトフィルター
+</div>
+
+既定では、W&B には次のフィルターがあります。
+
+* **Show only my works**: 現在のユーザーが作成した run のみを表示します。
+* **Hide crashed runs**: `crashed` 状態の run を非表示にします。
+
+デフォルトフィルターは、フィルター式エディター内の **New filter** ボタンの下にトグルとして表示されます。
+
+<div id="remove-a-filter">
+  ## フィルタを削除する
+</div>
+
+Runs テーブルからフィルタを削除するには、次の手順を実行します。
+
+1. Runs テーブル上部にある、じょうごのようなアイコンの **Filter** ボタンをクリックします。
+2. 削除したいフィルタの横にある `x` アイコンをクリックします。
+
+{/*
+  ## run の色を編集する
+
+  新しい run が作成されると、デフォルトの色が割り当てられます。色のプレビューをクリックすると、その run の色を編集できます。
+  */}
+
+{/*
+  runs の名前の横にある緑色の点を確認してください — それが表示されていれば、その runs はテーブル内とグラフの凡例でアクティブであることを示します。
+  */}
+
+{/*
+  ## run の一括選択
+
+  複数の run を一度に削除したり、グループにまとめてタグ付けしたりできます。一括選択を使うと、runs テーブルを整理しやすくなります。
+
+  <Frame>
+    <img src="/images/app_ui/howto_bulk_select.gif"  />
+  </Frame>
+  */}
+
+{/*
+  ## テーブル内のすべての run を選択する
+
+  テーブル左上のチェックボックスをクリックし、「Select all runs」をクリックして、現在のフィルター条件に一致するすべての run を選択します。
+
+  <Frame>
+    <img src="/images/app_ui/all_runs_select.gif"  />
+  </Frame>
+  */}
+
+{/*
+  ## テーブル内の列を検索する
+
+  **Columns** ボタンを使って、テーブルの列を検索します。
+
+  <Frame>
+    <img src="/images/app_ui/search_columns.gif"  />
+  </Frame>
+  */}

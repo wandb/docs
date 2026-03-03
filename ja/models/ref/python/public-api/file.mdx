@@ -1,0 +1,92 @@
+---
+title: File クラス
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+
+
+## <kbd>class</kbd> `File`
+
+W&B に保存されたファイル。 
+
+W&B に保存されている 1 つのファイルを表します。ファイルのメタデータにアクセスできます。ファイルは特定の run に関連付けられ、テキストファイル、モデルの重み、データセット、可視化、その他のアーティファクトなどのファイルが該当します。ファイルをダウンロードしたり、削除したり、ファイルのプロパティにアクセスしたりできます。 
+
+特定の run にログされた特定のファイルを見つけるには、辞書で 1 つ以上の属性を指定します。次のキーを使って検索できます: 
+
+- id (str): ファイルを含む run の ID 
+- name (str): ファイル名 
+- url (str): ファイルへのパス 
+- direct_url (str): バケット内のファイルへのパス 
+- sizeBytes (int): ファイルサイズ（バイト単位） 
+- md5 (str): ファイルの MD5 ハッシュ値 
+- mimetype (str): ファイルの MIME タイプ 
+- updated_at (str): 最終更新のタイムスタンプ 
+- path_uri (str): バケット内のファイルへのパス。現在は S3 オブジェクトと参照ファイルでのみ利用可能 
+
+**Args:**
+
+- `client`:  ファイルを含む run オブジェクト 
+ - `attrs` (dict):  ファイルを定義する属性の辞書 
+ - `run`:  ファイルを含む run オブジェクト 
+
+### <kbd>property</kbd> File.path_uri
+
+ストレージバケット内のファイルを指す URI パスを返します。 
+
+**Returns:**
+
+- `str`:  ファイルが S3 に保存されている場合は S3 URI（例: 's3://bucket/path/to/file'）、参照ファイルの場合は直接の URL、取得できない場合は空文字列。 
+
+**Returns:**
+
+- `str`: path_uri プロパティの値。
+
+---
+
+### <kbd>property</kbd> File.size
+
+ファイルのサイズをバイト数で返します。
+
+**戻り値:**
+
+- `int`: `size` プロパティの値。
+
+---
+
+### <kbd>method</kbd> `File.delete`
+
+```python
+delete() → None
+```
+
+W&amp;B サーバーからファイルを削除します。
+
+***
+
+
+### <kbd>メソッド</kbd> `File.download`
+
+```python
+download(
+    root: 'str' = '.',
+    replace: 'bool' = False,
+    exist_ok: 'bool' = False,
+    api: 'Api | None' = None
+) → io.TextIOWrapper
+```
+
+run によって以前に保存されたファイルを wandb サーバーからダウンロードします。
+
+**引数:**
+
+* `root`:  ファイルを保存するローカルディレクトリ。デフォルトは現在の作業ディレクトリ（&quot;.&quot;）。
+* `replace`:  `True` の場合、同名のローカルファイルが存在する場合はダウンロードで上書きします。デフォルトは `False`。
+* `exist_ok`:  `True` の場合、ファイルが既に存在していても ValueError を送出せず、replace=True でない限り再ダウンロードしません。デフォルトは `False`。
+* `api`:  指定された場合、ファイルのダウンロードに使用される `Api` インスタンス。
+
+**送出する例外:**
+ファイルが既に存在しており、`replace=False` かつ `exist_ok=False` の場合に `ValueError` を送出します。

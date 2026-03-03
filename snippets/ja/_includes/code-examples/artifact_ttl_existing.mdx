@@ -1,0 +1,23 @@
+---
+title: 既存アーティファクトのTTL
+---
+
+```python
+"""
+W&B の既存のアーティファクトの TTL ポリシーを更新する。
+"""
+import wandb
+from datetime import timedelta
+
+# W&B API を初期化する
+api = wandb.Api()
+
+# 既存のアーティファクトを取得する
+artifact = api.artifact("<entity/project/artifact:alias>")
+
+# TTL ポリシーを追加または更新する。希望する期間を指定する。
+artifact.ttl = timedelta(days=365)  # 1年後に削除する
+
+# 更新したアーティファクトを保存する
+artifact.save()
+```

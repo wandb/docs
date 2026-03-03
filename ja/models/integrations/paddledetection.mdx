@@ -1,0 +1,119 @@
+---
+description: W&B を PaddleDetection と連携させる方法
+title: PaddleDetection
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
+
+<ColabLink url="https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing" />
+
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) は、[PaddlePaddle](https://github.com/PaddlePaddle/Paddle) に基づくエンドツーエンドの物体検出用開発キットです。ネットワークコンポーネント、データ拡張、損失関数などの設定可能なモジュールを用いて、さまざまな一般的な物体カテゴリを検出し、インスタンスセグメンテーションを実行し、キーポイントの追跡・検出を行います。
+
+PaddleDetection には現在、W&amp;B との組み込みインテグレーションがあり、すべての学習および検証メトリクスに加えて、モデルチェックポイントとそれに対応するメタデータを記録します。
+
+PaddleDetection の `WandbLogger` は、学習および評価メトリクスを W&amp;B に記録するとともに、学習中のモデルチェックポイントも記録します。
+
+`COCO2017` データセットのサブセット上で YOLOX モデルを PaddleDetection と連携させる方法を示した [W&amp;B ブログ記事](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0)をご覧ください。
+
+<div id="sign-up-and-create-an-api-key">
+  ## サインアップしてAPIキーを作成する
+</div>
+
+APIキーは、マシンをW&amp;Bに認証するためのものです。ユーザープロフィールからAPIキーを作成できます。
+
+<ApiKeyCreateStreamlined />
+
+1. 画面右上のユーザープロフィールアイコンをクリックします。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+
+<div id="install-the-wandb-library-and-log-in">
+  ## `wandb` ライブラリをインストールしてログインする
+</div>
+
+ローカル環境で `wandb` ライブラリをインストールしてログインするには、次の手順を実行します。
+
+<Tabs>
+  <Tab title="コマンドライン">
+    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) に自分の APIキーを設定します。
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` ライブラリをインストールし、ログインします。
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Pythonノートブック">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="activate-the-wandblogger-in-your-training-script">
+  ## 学習スクリプトで `WandbLogger` を有効化する
+</div>
+
+<Tabs>
+  <Tab title="コマンドライン">
+    [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/) の `train.py` に渡す引数として wandb を利用するには、次のようにします。
+
+    * `--use_wandb` フラグを追加する
+    * 最初の wandb 引数の前に `-o` を付ける（これは 1 回だけ指定すればよい）
+    * 各引数には `"wandb-"` というプレフィックスを付ける必要があります。たとえば [`wandb.init()`](/ja/models/ref/python/functions/init) に渡す任意の引数には、`wandb-` プレフィックスを付けます。
+
+    ```shell
+    python tools/train.py 
+        -c config.yml \ 
+        --use_wandb \
+        -o \ 
+        wandb-project=MyDetector \
+        wandb-entity=MyTeam \
+        wandb-save_dir=./logs
+    ```
+  </Tab>
+
+  <Tab title="`config.yml`">
+    `config.yml` ファイルの `wandb` キーの下に、wandb 用の引数を追加します。
+
+    ```
+    wandb:
+      project: MyProject
+      entity: MyTeam
+      save_dir: ./logs
+    ```
+
+    `train.py` ファイルを実行すると、W&amp;B ダッシュボードへのリンクが生成されます。
+
+    <Frame>
+      <img src="/images/integrations/paddledetection_wb_dashboard.png" alt="W&B ダッシュボード" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+<div id="feedback-or-issues">
+  ## フィードバックや問題について
+</div>
+
+W&amp;B のインテグレーションに関するフィードバックや問題がある場合は、[PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) で issue を作成するか、<a href="mailto:support@wandb.com">support@wandb.com</a> 宛にメールを送信してください。

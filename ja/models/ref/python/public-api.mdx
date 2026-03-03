@@ -1,0 +1,159 @@
+---
+title: パブリック API の概要
+description: W&B パブリック API を使用して、プログラムから W&B データにアクセスし、管理します
+module: wandb.apis.public
+no_list: true
+---
+
+import PublicApiUse from "/snippets/ja/_includes/public-api-use.mdx";
+
+W&amp;B Public API は、W&amp;B に保存されているデータを照会、エクスポート、および更新するためのプログラムからのアクセス手段を提供します。事後分析（post-hoc 分析）、データエクスポート、run・アーティファクト・スイープのプログラムによる管理には、この API を使用します。メインの SDK が学習中のリアルタイムロギングを処理する一方で、Public API を使うと、履歴データの取得、メタデータの更新、アーティファクトの管理、完了した Experiments の分析を行えます。メインの `Api` クラスが、ほとんどの機能へのエントリーポイントとして機能します。
+
+<PublicApiUse />
+
+<div id="available-components">
+  ## 利用可能なコンポーネント
+</div>
+
+| コンポーネント | 説明 |
+|-----------|-------------|
+| [`Api`](/ja/models/ref/python/public-api/api/) | Public API への主なエントリポイントです。組織全体の run、プロジェクト、アーティファクトをクエリします。 |
+| [`Runs`](/ja/models/ref/python/public-api/runs/) | 個々の学習 run にアクセスして管理します。履歴、ログ、メトリクスを含みます。 |
+| [`Artifacts`](/ja/models/artifacts/) | モデルのアーティファクト、データセット、その他のバージョン管理されたファイルをクエリおよびダウンロードします。 |
+| [`Sweeps`](/ja/models/sweeps/) | ハイパーパラメータスイープのデータにアクセスし、最適化結果を分析します。 |
+| [`Projects`](/ja/models/ref/python/public-api/projects/) | プロジェクトを管理し、プロジェクトレベルのメタデータと設定にアクセスします。 |
+| [`Reports`](/ja/models/reports/create-a-report/) | プログラム経由で W&amp;B Reports にアクセスして管理します。 |
+| [`Team`](/ja/models/ref/python/public-api/team) | チーム情報をクエリし、チームレベルのリソースを管理します。 |
+| [`User`](/ja/models/ref/python/public-api/user) | ユーザープロフィールおよびユーザー固有のデータにアクセスします。 |
+| [`Files`](/ja/models/ref/python/public-api/files/) | run に関連付けられたファイルをダウンロードおよび管理します。 |
+| `History` | 学習中に記録された詳細な時系列メトリクスにアクセスします（Run.history を参照）。 |
+| [`Automations`](./automations/) | 自動化されたワークフローとアクションを管理します。 |
+| [`Integrations`](/ja/models/integrations) | サードパーティのインテグレーションを設定および管理します。 |
+
+<div id="common-use-cases">
+  ## 代表的なユースケース
+</div>
+
+<div id="data-export-and-analysis">
+  ### データのエクスポートと分析
+</div>
+
+* run の履歴を DataFrame としてエクスポートして、Jupyter Notebook で分析する
+* カスタム可視化やレポート作成のためにメトリクスをダウンロードする
+* 複数の Experiments にまたがる結果を横断的に集計する
+
+<div id="post-hoc-updates">
+  ### 終了後の更新
+</div>
+
+* 完了した run のメタデータを更新する
+* 完了した Experiments にタグやメモを追加する
+* run の設定やサマリーを変更する
+
+<div id="artifact-management">
+  ### アーティファクト管理
+</div>
+
+* バージョンまたはエイリアスでアーティファクトを検索する
+* モデルのチェックポイントをプログラムでダウンロードする
+* アーティファクトの系統と依存関係を追跡する
+
+<div id="sweep-analysis">
+  ### スイープの分析
+</div>
+
+* スイープ結果と最も良い成績の run にアクセスする
+* ハイパーパラメータ探索結果をエクスポートする
+* パラメータの重要度を分析する
+
+<div id="authentication">
+  ## 認証
+</div>
+
+Public API は Python SDK と同じ認証方式を使用します。認証方法はいくつかあります。
+
+`WANDB_API_KEY` 環境変数を使用して APIキー を設定します:
+
+```bash
+export WANDB_API_KEY=your_api_key
+```
+
+`Api` クラスを初期化するときに、APIキーを直接渡します。
+
+```python
+api = Api(api_key="your_api_key")
+```
+
+または `wandb.login()` を実行して現在のセッションを認証します:
+
+```python
+import wandb
+
+wandb.login()
+api = Api()
+```
+
+<div id="example-usage">
+  ## 使用例
+</div>
+
+<div id="download-an-artifact-by-name-and-alias">
+  ### 名前とエイリアスでアーティファクトをダウンロードする
+</div>
+
+次の例では、W&amp;B にログされたアーティファクトを名前とエイリアスを指定して取得し、その内容をダウンロードする方法を示します。
+
+```python
+import wandb
+
+api = wandb.Api()
+artifact = api.artifact("entity/project/artifact:alias")
+artifact.download()
+```
+
+<div id="download-an-artifact-from-a-registry">
+  ### レジストリからアーティファクトをダウンロードする
+</div>
+
+次の例は、W&amp;B Registry からリンクされたアーティファクトを取得する方法を示します。
+
+```python
+import wandb
+
+REGISTRY = "<registry_name>"
+COLLECTION = "<collection_name>"
+VERSION = "<version>"
+
+api = wandb.Api()
+artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+
+# アーティファクトを取得する
+fetched_artifact = api.artifact(name = artifact_name)
+
+# アーティファクトをダウンロードする。ダウンロードされたコンテンツへのパスを返す
+downloaded_path = fetched_artifact.download()
+```
+
+<div id="query-wb-registry">
+  ### W&amp;B Registry をクエリする
+</div>
+
+Mongo ライクなフィルターを使用して、W&amp;B Registry、Collection、アーティファクトをクエリできます。次の例では、正規表現を使用して Collection を名前で絞り込む方法を示します。
+
+```python
+import wandb
+
+# wandb APIを初期化する
+api = wandb.Api()
+
+# レジストリに関係なく、コレクション名に文字列`yolo`を
+# 含むすべてのコレクションをフィルタリングする
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# フィルターに一致するすべてのコレクションのイテラブルを返す
+collections = api.registries().collections(filter=collection_filters)
+```
+
+レジストリ、コレクション、またはアーティファクトを検索する方法の詳細については、[Find registry items](/ja/models/registry/search_registry) を参照してください。

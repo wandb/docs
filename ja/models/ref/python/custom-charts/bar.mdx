@@ -1,0 +1,67 @@
+---
+title: bar()
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py" />
+
+
+### <kbd>function</kbd> `bar`
+
+```python
+bar(
+    table: 'wandb.Table',
+    label: 'str',
+    value: 'str',
+    title: 'str' = '',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+wandb.Table のデータから棒グラフを作成します。
+
+**引数:**
+
+* `table`:  棒グラフ用のデータを含むテーブル。
+* `label`:  各棒のラベルとして使用する列名。
+* `value`:  各棒の値として使用する列名。
+* `title`:  棒グラフのタイトル。
+* `split_table`:  テーブルを W&amp;B UI 内の別セクションとして表示するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False`。
+
+**戻り値:**
+
+* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
+
+**Example:**
+
+```python
+import random
+import wandb
+
+# テーブル用のランダムデータを生成する
+data = [
+    ["car", random.uniform(0, 1)],
+    ["bus", random.uniform(0, 1)],
+    ["road", random.uniform(0, 1)],
+    ["person", random.uniform(0, 1)],
+]
+
+# データを使ってテーブルを作成する
+table = wandb.Table(data=data, columns=["class", "accuracy"])
+
+# W&B の run を初期化し、棒グラフをログする
+with wandb.init(project="bar_chart") as run:
+    # テーブルから棒グラフを作成する
+    bar_plot = wandb.plot.bar(
+         table=table,
+         label="class",
+         value="accuracy",
+         title="Object Classification Accuracy",
+    )
+
+    # 棒グラフを W&B にログする
+    run.log({"bar_plot": bar_plot})
+```

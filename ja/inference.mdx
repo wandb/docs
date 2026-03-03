@@ -1,0 +1,60 @@
+---
+title: "W&B Inference"
+description: W&B Weave と OpenAI 互換 API 経由でオープンソースの基盤モデルにアクセスする
+mode: wide
+---
+
+W&amp;B Inference を使うと、W&amp;B Weave と OpenAI 互換 API を通じて、主要なオープンソースの基盤モデルにアクセスできます。次のことができます。
+
+* ホスティングプロバイダーへのアカウント登録やモデルのセルフホスティングを行わずに、AI アプリケーションやエージェントを構築できます
+* [W&amp;B Weave Playground](/ja/weave/guides/tools/playground) で [対応しているモデル](/ja/inference/models) を試せます
+
+Weave を使うと、W&amp;B Inference を利用したアプリケーションをトレース、評価、監視し、改善できます。
+
+<div id="quickstart">
+  ## クイックスタート
+</div>
+
+次に、Python を使った簡単な例を示します。
+
+```python
+import openai
+
+client = openai.OpenAI(
+    # カスタムベースURLはW&B Inferenceを指します
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # https://wandb.ai/settings でAPIキーを作成してください
+    api_key="<your-api-key>",
+
+    # オプション: 使用状況追跡のためのチームとプロジェクト
+    project="<your-team>/<your-project>",
+)
+
+response = client.chat.completions.create(
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Tell me a joke."}
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+1. [利用可能なモデル](/ja/inference/models) と [利用情報と制限事項](/ja/inference/usage-limits/) を確認する
+2. [前提条件](/ja/inference/prerequisites/) に従ってアカウントを設定する
+3. [API](/ja/inference/api-reference/) または [UI](/ja/inference/ui-guide/) からサービスを利用する
+4. [利用例](/ja/inference/examples/) を試す
+
+<div id="usage-details">
+  ## 利用の詳細
+</div>
+
+<Info>
+  料金、利用上限、クレジットに関する情報は、[Usage Information and Limits](/ja/inference/usage-limits/) を参照してください。
+</Info>

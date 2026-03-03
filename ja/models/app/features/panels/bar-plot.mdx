@@ -1,0 +1,31 @@
+---
+description: メトリクスを可視化し、軸をカスタマイズし、カテゴリデータを棒グラフとして比較します。
+title: 棒グラフ
+---
+
+棒グラフは、カテゴリデータを長方形の棒で表現するグラフで、縦方向または横方向にプロットできます。すべてのログ値の長さが 1 の場合、`wandb.Run.log()` を使用するとデフォルトで棒グラフが表示されます。
+
+<Frame>
+    <img src="/images/app_ui/bar_plot.png" alt="W&B で Box プロットと横向きの棒グラフを表示した例"  />
+</Frame>
+
+チャート設定でカスタマイズし、表示する run の最大数を制限したり、任意の config で run をグループ化したり、ラベルを変更したりできます。
+
+<Frame>
+    <img src="/images/app_ui/bar_plot_custom.png" alt="カスタマイズされた棒グラフ"  />
+</Frame>
+
+<div id="customize-bar-plots">
+  ## 棒グラフをカスタマイズする
+</div>
+
+複数の要約統計量を1つのチャートにまとめるには、**Box** プロットや **Violin** プロットを作成することもできます。
+
+1. runs テーブルで run をグループ化します。
+2. Workspace で「Add panel」をクリックします。
+3. 標準の「Bar Chart」を追加し、プロットする指標を選択します。
+4. 「Grouping」タブで「box plot」や「Violin」などを選択して、いずれかのスタイルでプロットします。
+
+<Frame>
+    <img src="/images/app_ui/bar_plots.gif" alt="Customize Bar Plots"  />
+</Frame>

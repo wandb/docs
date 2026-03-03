@@ -1,0 +1,35 @@
+---
+title: Prometheus モニタリングを使用する
+---
+
+[Prometheus](https://prometheus.io/docs/introduction/overview/) を W&amp;B Server と組み合わせて使用します。Prometheus は [Kubernetes ClusterIP サービス](https://github.com/wandb/terraform-kubernetes-wandb/blob/main/main.tf#L225) として公開されます。
+
+<Warning>
+  Prometheus モニタリングは、[Self-Managed instances](/ja/platform/hosting/hosting-options/self-managed) でのみ利用できます。
+</Warning>
+
+次の手順に従って、Prometheus のメトリクスエンドポイント(`/metrics`)にアクセスします。
+
+1. Kubernetes CLI ツールキットである [kubectl](https://kubernetes.io/docs/reference/kubectl/) を使用してクラスタに接続します。詳細については、Kubernetes のドキュメント [Accessing Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/) を参照してください。
+
+2. 次のコマンドを使用して、クラスタの内部アドレスを確認します。
+
+   ```bash
+   kubectl describe svc prometheus
+   ```
+
+3. [`kubectl exec`](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands) を使用して、Kubernetes クラスタで実行中のコンテナ内でシェルセッションを開始します。`<internal address>/metrics` のエンドポイントにアクセスします。
+
+   以下のコマンドをコピーしてターミナルで実行し、`<internal address>` を内部アドレスに置き換えてください。
+
+   ```bash
+   kubectl exec <internal address>/metrics
+   ```
+
+テスト用の Pod が起動し、その Pod に exec することで、ネットワーク内の任意のリソースにアクセスできます。
+
+```bash
+kubectl run -it testpod --image=alpine bin/ash --restart=Never --rm
+```
+
+そのあとは、アクセスをネットワーク内部だけに限定することも、Kubernetes の NodePort Service を使って自分で外部に公開することもできます。

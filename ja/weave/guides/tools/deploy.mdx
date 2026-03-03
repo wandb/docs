@@ -1,0 +1,24 @@
+---
+title: "Google Cloud へのデプロイ"
+description: "Weave のモデルをクラウド プラットフォームにデプロイする"
+---
+
+<div id="deploy-to-google-cloud">
+  ## Google Cloud へデプロイする
+</div>
+
+<Note>
+  `weave deploy` を使用するには、ローカル環境に `gcloud` がインストールされ、設定済みである必要があります。`weave deploy gcp` は、コマンドライン引数で明示的に指定されていない場合、あらかじめ設定済みの設定を使用します。
+</Note>
+
+Weave モデルを Google Cloud にデプロイするには、次のコマンドを実行します：
+
+```
+weave deploy gcp <ref>
+```
+
+デプロイが完了すると、ターミナルに次の形式の URL が表示されます。
+
+```
+Service URL: <PATH_TO_MODEL>`. Visit `<PATH_TO_MODEL>/docs` to interact with your model!
+```

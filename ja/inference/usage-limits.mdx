@@ -1,0 +1,59 @@
+---
+title: "利用状況情報と制限"
+linkTitle: "利用状況と制限"
+description: >
+  W&B Inference の料金、利用制限、アカウント制約について理解する
+---
+
+W&amp;B Inference を使用する前に、料金、利用制限、およびその他の重要な利用情報について確認してください。
+
+<div id="pricing">
+  ## 料金
+</div>
+
+モデルの詳細な料金については、[W&amp;B Inference 料金](https://wandb.ai/site/pricing/inference)をご覧ください。
+
+<div id="purchase-more-credits">
+  ## クレジットを追加購入する
+</div>
+
+W&amp;B Inference クレジットは、期間限定で Free、Pro、Academic プランに含まれます。Enterprise プランでの提供状況は異なる場合があります。クレジットを使い切ると、次のようになります。
+
+* **Free アカウント** は、W&amp;B Inference を継続利用するには、「**Billing**」タブで従量課金の Inference を有効化するか、有料プランにアップグレードする必要があります。[従量課金を有効化するかアップグレードする](https://wandb.ai/subscriptions)
+* **Pro プランのユーザー** は、[モデルごとの料金](https://wandb.ai/site/pricing/inference) に基づき、超過分が毎月請求されます
+* **Enterprise アカウント** は、担当のアカウントエグゼクティブにお問い合わせください
+
+<div id="account-tiers-and-default-usage-caps">
+  ## アカウントティアとデフォルトの使用上限
+</div>
+
+各アカウントティアには、コストを管理し予期しない課金を防ぐためのデフォルトの支出上限が設定されています。W&amp;B の有料の Inference アクセスには事前支払いが必要です。
+
+一部のユーザーは上限の変更が必要になる場合があります。上限を調整するには、担当のアカウントエグゼクティブまたはサポートに連絡してください。
+
+| アカウントティア | デフォルト上限 | 上限の変更方法 |
+|--------------|-------------|---------------------|
+| Free | $100/月 | Pro または Enterprise にアップグレードする |
+| Pro | $6,000/月 | 担当のアカウントエグゼクティブまたはサポートに連絡して手動審査を依頼する |
+| Enterprise | $700,000/年 | 担当のアカウントエグゼクティブまたはサポートに連絡して手動審査を依頼する |
+
+<div id="concurrency-limits">
+  ## 同時実行制限
+</div>
+
+レート制限の上限を超えると、API は `429 Concurrency limit reached for requests` レスポンスを返します。このエラーを解消するには、同時に送信するリクエスト数を減らしてください。詳細なトラブルシューティングについては、[Concurrency limits](#concurrency-limits) を参照してください。
+
+W&amp;B では、W&amp;B のプロジェクトごとにレート制限を適用します。たとえば、チーム内に 3 つのプロジェクトがある場合、各プロジェクトには個別のレート制限クォータが設定されます。
+
+<div id="geographic-restrictions">
+  ## 地理的制限
+</div>
+
+Inference サービスは、対応している地域からのみ利用できます。詳細は、[利用規約](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions)を参照してください。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+* 作業を始める前に [前提条件](/ja/inference/prerequisites/) を確認してください。
+* [利用可能なモデル](/ja/inference/models) と各モデルの料金をご覧ください。

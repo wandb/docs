@@ -1,0 +1,43 @@
+---
+title: ログの記録
+description: メトリクスやハイパーパラメータ、テーブル、カスタムデータを W&B にログとして記録します。
+---
+
+import LogCustomSummaryMetric from '/snippets/ja/_includes/code-examples/log_custom_summary_metric.mdx';
+import LogExistingArtifactLinkCollection from '/snippets/ja/_includes/code-examples/log_existing_artifact_link_collection.mdx';
+import LogHyperparameter from '/snippets/ja/_includes/code-examples/log_hyperparameter.mdx';
+import LogMetric from '/snippets/ja/_includes/code-examples/log_metric.mdx';
+import LogTable from '/snippets/ja/_includes/code-examples/log_table.mdx';
+
+メトリクス、ハイパーパラメータ、テーブル、カスタムデータを W&amp;B に記録します。
+
+
+<div id="log-a-custom-summary-metric">
+  ## カスタムサマリー指標をログに記録する
+</div>
+
+<LogCustomSummaryMetric />
+
+<div id="download-and-log-an-existing-artifact-from-a-registry-collection">
+  ## レジストリコレクションから既存のアーティファクトをダウンロードして記録する
+</div>
+
+<LogExistingArtifactLinkCollection />
+
+<div id="initialize-a-run-and-log-hyperparameters">
+  ## run を初期化してハイパーパラメータをログに記録する
+</div>
+
+<LogHyperparameter />
+
+<div id="initialize-a-run-and-log-a-metric">
+  ## run を初期化し、メトリクスを記録する
+</div>
+
+<LogMetric />
+
+<div id="log-a-table">
+  ## テーブルをログに記録する
+</div>
+
+<LogTable />

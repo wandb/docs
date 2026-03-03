@@ -1,0 +1,116 @@
+---
+title: "Service API の概要"
+description: "Weave Service API は、Weave の機能にプログラムからアクセスするための REST エンドポイントを提供します。"
+---
+
+<div id="base-url">
+  ## ベース URL
+</div>
+
+```
+https://trace.wandb.ai
+```
+
+
+<div id="authentication">
+  ## 認証
+</div>
+
+リクエストヘッダーに W&amp;B の APIキーを含めてください。
+
+```bash
+curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
+```
+
+
+<div id="available-endpoints">
+  ## 利用可能なエンドポイント
+</div>
+
+<div id="calls">
+  ### コール
+</div>
+
+- **[POST /call/end](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - 呼び出し終了
+- **[POST /call/read](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - 呼び出し読み取り
+- **[POST /call/start](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - 呼び出し開始
+- **[POST /call/update](https://docs.wandb.ai/weave/reference/service-api/calls/call-update)** - 呼び出し更新
+- **[POST /call/upsert_batch](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch)** - 呼び出し一括開始
+- **[POST /calls/delete](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete)** - 呼び出し削除
+- **[POST /calls/query_stats](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stats)** - 呼び出し統計のクエリ
+- **[POST /calls/stream_query](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream)** - 呼び出しストリームクエリ
+
+<div id="costs">
+  ### コスト
+</div>
+
+- **[POST /cost/create](https://docs.wandb.ai/weave/reference/service-api/costs/cost-create)** - コストの作成
+- **[POST /cost/purge](https://docs.wandb.ai/weave/reference/service-api/costs/cost-purge)** - コストの削除
+- **[POST /cost/query](https://docs.wandb.ai/weave/reference/service-api/costs/cost-query)** - コストのクエリ
+
+<div id="feedback">
+  ### フィードバック
+</div>
+
+- **[POST /feedback/create](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create)** - フィードバックの作成
+- **[POST /feedback/purge](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-purge)** - フィードバックのパージ
+- **[POST /feedback/query](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-query)** - フィードバックのクエリ
+- **[POST /feedback/replace](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-replace)** - フィードバックの置換
+
+<div id="files">
+  ### ファイル
+</div>
+
+- **[POST /file/content](https://docs.wandb.ai/weave/reference/service-api/files/file-content)** - ファイル内容
+- **[POST /file/create](https://docs.wandb.ai/weave/reference/service-api/files/file-create)** - ファイル作成
+
+<div id="objects">
+  ### オブジェクト
+</div>
+
+- **[POST /obj/create](https://docs.wandb.ai/weave/reference/service-api/objects/obj-create)** - オブジェクトの作成 (Obj Create)
+- **[POST /obj/delete](https://docs.wandb.ai/weave/reference/service-api/objects/obj-delete)** - オブジェクトの削除 (Obj Delete)
+- **[POST /obj/read](https://docs.wandb.ai/weave/reference/service-api/objects/obj-read)** - オブジェクトの取得 (Obj Read)
+- **[POST /objs/query](https://docs.wandb.ai/weave/reference/service-api/objects/objs-query)** - 複数オブジェクトのクエリ (Objs Query)
+
+<div id="opentelemetry">
+  ### OpenTelemetry
+</div>
+
+- **[POST /otel/v1/trace](https://docs.wandb.ai/weave/reference/service-api/opentelemetry/export-trace)** - トレースのエクスポート
+
+<div id="refs">
+  ### Refs
+</div>
+
+- **[POST /refs/read_batch](https://docs.wandb.ai/weave/reference/service-api/refs/refs-read-batch)** - Refs バッチ読み取り
+
+<div id="service">
+  ### サービス
+</div>
+
+- **[GET /health](https://docs.wandb.ai/weave/reference/service-api/service/read-root)** - ルートの取得
+- **[GET /server_info](https://docs.wandb.ai/weave/reference/service-api/service/server-info)** - サーバー情報
+
+<div id="tables">
+  ### テーブル
+</div>
+
+- **[POST /table/create](https://docs.wandb.ai/weave/reference/service-api/tables/table-create)** - テーブル作成
+- **[POST /table/query](https://docs.wandb.ai/weave/reference/service-api/tables/table-query)** - テーブルクエリ
+- **[POST /table/query_stats](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats)** - テーブルクエリ統計情報
+- **[POST /table/update](https://docs.wandb.ai/weave/reference/service-api/tables/table-update)** - テーブル更新
+- **[POST /table/query_stream](https://docs.wandb.ai/weave/reference/service-api/table-query-stream)** - テーブルクエリストリーム
+
+<div id="threads">
+  ### Threads
+</div>
+
+- **[POST /threads/stream_query](https://docs.wandb.ai/weave/reference/service-api/threads/threads-query-stream)** - Threads クエリストリーム
+
+<div id="completions">
+  ### Completions
+</div>
+
+- **[POST /completions/create](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create)** - Completions の作成
+- **[POST /completions/create_stream](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create-stream)** - Completions ストリームの作成

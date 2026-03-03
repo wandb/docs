@@ -1,0 +1,119 @@
+---
+description: W&B を PaddleOCR と連携する方法。
+title: PaddleOCR
+---
+
+import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
+
+[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) は、多言語対応で高性能・先進的かつ実用的な OCR ツールを提供し、ユーザーがより良いモデルを学習し、PaddlePaddle 上で実運用に活用できるようにすることを目的としています。PaddleOCR は OCR に関連するさまざまな最先端アルゴリズムをサポートし、産業用途向けソリューションを開発してきました。現在 PaddleOCR には、学習および評価メトリクスを、対応するメタデータ付きのモデルチェックポイントとあわせてログ記録するための W&amp;B インテグレーションが用意されています。
+
+<div id="example-blog-colab">
+  ## ブログと Colab の例
+</div>
+
+[こちら](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw)のブログでは、PaddleOCR を用いて ICDAR2015 データセット上でモデルを学習する方法を確認できます。対応する [Google Colab](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing) も用意されており、ライブの W&amp;B ダッシュボードは[こちら](https://wandb.ai/manan-goel/text_detection)から利用できます。また、このブログの中国語版はこちらです: [W&amp;B对您的OCR模型进行训练和调试](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)
+
+<div id="sign-up-and-create-an-api-key">
+  ## サインアップしてAPIキーを作成する
+</div>
+
+APIキーは、マシンをW&amp;Bに対して認証するためのものです。APIキーはユーザープロフィールから発行できます。
+
+<ApiKeyCreateStreamlined />
+
+1. 画面右上のユーザープロフィールアイコンをクリックします。
+2. **User Settings** を選択し、スクロールして **API Keys** セクションまで移動します。
+
+<div id="install-the-wandb-library-and-log-in">
+  ## `wandb` ライブラリをインストールしてログインする
+</div>
+
+ローカル環境に `wandb` ライブラリをインストールし、ログインするには次の手順を実行します。
+
+<Tabs>
+  <Tab title="コマンドライン">
+    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) を自分の APIキーに設定します。
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` ライブラリをインストールしてログインします。
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Pythonノートブック">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="add-wandb-to-your-configyml-file">
+  ## `config.yml` ファイルに wandb を追加する
+</div>
+
+PaddleOCR では、設定用の変数を YAML ファイルで指定する必要があります。設定用 YAML ファイルの末尾に次のスニペットを追加すると、すべての学習および検証メトリクスが、モデルのチェックポイントとともに W&amp;B ダッシュボードへ自動的にログとして記録されます。
+
+```python
+Global:
+    use_wandb: True
+```
+
+[`wandb.init()`](/ja/models/ref/python/functions/init) に渡したい追加のオプション引数がある場合は、yaml ファイル内の `wandb` セクションに追記できます。
+
+```
+wandb:  
+    project: CoolOCR  # (オプション) wandbのプロジェクト名です 
+    entity: my_team   # (オプション) wandbチームを使用している場合、ここにチーム名を渡せます
+    name: MyOCRModel  # (オプション) wandb runの名前です
+```
+
+<div id="pass-the-configyml-file-to-trainpy">
+  ## `config.yml` ファイルを `train.py` に渡す
+</div>
+
+YAML ファイルを、PaddleOCR リポジトリで利用可能な [学習スクリプト](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/tools/train.py) に引数として渡します。
+
+```bash
+python tools/train.py -c config.yml
+```
+
+W&amp;B を有効にして `train.py` ファイルを実行すると、W&amp;B ダッシュボードへアクセスするためのリンクが自動的に生成されます。
+
+<Frame>
+  <img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="PaddleOCR 学習ダッシュボード" />
+</Frame>
+
+<Frame>
+  <img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="PaddleOCR 検証ダッシュボード" />
+</Frame>
+
+<Frame>
+  <img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="テキスト検出モデルのダッシュボード" />
+</Frame>
+
+<div id="feedback-or-issues">
+  ## フィードバックや問題
+</div>
+
+W&amp;B インテグレーションに関するフィードバックや問題がある場合は、[PaddleOCR GitHub](https://github.com/PaddlePaddle/PaddleOCR) で issue を作成するか、<a href="mailto:support@wandb.com">support@wandb.com</a> までメールでお問い合わせください。

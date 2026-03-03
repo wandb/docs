@@ -1,0 +1,53 @@
+---
+title: グローバル関数の概要
+description: W&B Python SDK におけるグローバル関数
+module: 
+no_list: true
+---
+
+W&amp;B のグローバル関数とは、`wandb.init()` や `wandb.login()` のように、直接呼び出すトップレベル関数を指します。特定のクラスに属するメソッドとは異なり、これらの関数はオブジェクトを事前にインスタンス化することなく、W&amp;B の中核的な機能へ直接アクセスできるようにします。
+
+<div id="available-functions">
+  ## 利用可能な関数
+</div>
+
+| Function | Description |
+|----------|-------------|
+| [`init()`](/ja/models/ref/python/functions/init) | 新しい run を開始し、W&amp;B への追跡とログの記録を行います。これは通常、ML 学習パイプラインで最初に呼び出す関数です。 |
+| [`login()`](/ja/models/ref/python/functions/login) | W&amp;B のログイン認証情報を設定し、プラットフォーム上でマシンを認証します。 |
+| [`setup()`](/ja/models/ref/python/functions/setup) | 現在のプロセスとその子プロセスで W&amp;B を使用できるように準備します。マルチプロセスアプリケーションで便利です。 |
+| [`teardown()`](/ja/models/ref/python/functions/teardown) | W&amp;B のリソースをクリーンアップし、バックエンドプロセスをシャットダウンします。 |
+| [`sweep()`](/ja/models/ref/python/functions/sweep) | 最適なモデル設定を探索するためのハイパーパラメータスイープを初期化します。 |
+| [`agent()`](/ja/models/ref/python/functions/agent) | ハイパーパラメータ最適化の実験を実行するスイープエージェントを作成します。 |
+| [`controller()`](/ja/models/ref/python/functions/controller) | スイープエージェントとその実行を管理および制御します。 |
+| [`restore()`](/ja/models/ref/python/functions/restore) | 作業を再開するために、以前の run または実験の状態を復元します。 |
+| [`finish()`](/ja/models/ref/python/functions/finish) | run を終了し、リソースをクリーンアップします。 |
+
+<div id="example">
+  ## 例
+</div>
+
+最も一般的なワークフローは、W&amp;B にログインし、run を初期化して、学習ループから精度や損失といった値をログに記録する、という流れです。最初のステップは、`wandb` をインポートし、グローバル関数 `login()` と `init()` を使用することです。
+
+```python
+import wandb
+
+# W&B で認証する
+wandb.login()
+
+# ハイパーパラメータとメタデータ
+config = {
+   "learning_rate": 0.01,
+   "epochs": 10,
+}
+
+# run を記録するプロジェクト
+project = "my-awesome-project"
+
+# 新しい run を初期化する
+with wandb.init(project=project, config=config) as run:
+   # ここに学習コードを記述...
+   
+   # W&B に値をログする
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

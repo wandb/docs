@@ -1,0 +1,24 @@
+---
+title: run を記録するときの権限エラーはどう解決すればよいですか？
+---
+
+W&B のエンティティに run を記録する際に発生する権限エラーを解決するには、次の手順に従ってください。
+
+- **エンティティ名とプロジェクト名を確認する**: コード内の W&B エンティティ名とプロジェクト名のスペルおよび大文字・小文字の区別が正しいことを確認します。
+- **権限を確認する**: 管理者から必要な権限が付与されていることを確認します。
+- **ログイン情報を確認する**: 正しい W&B アカウントにログインしていることを確認します。次のコードで run を作成してテストします。
+  ```python
+  import wandb
+
+  with wandb.init(entity="your_entity", project="your_project") as run:
+      run.log({'example_metric': 1})
+  ```
+- **APIキーを設定する**: `WANDB_API_KEY` 環境変数を設定します。
+  ```bash
+  export WANDB_API_KEY='your_api_key'
+  ```
+- **ホスト情報を確認する**: カスタムデプロイ環境の場合は、ホスト URL を設定します。
+  ```bash
+  wandb login --relogin --host=<host-url>
+  export WANDB_BASE_URL=<host-url>
+  ```

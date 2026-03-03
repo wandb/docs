@@ -1,0 +1,15 @@
+---
+title: 自己管理型 MySQL の要件
+---
+
+W&amp;B では外部の MySQL データベースが必要です。
+
+本番環境では、W&amp;B はマネージド データベース サービスの使用を強く推奨します。
+
+* [AWS RDS Aurora MySQL](https://aws.amazon.com/rds/aurora/)
+* [Google Cloud SQL for MySQL](https://cloud.google.com/sql/mysql)
+* [Azure Database for MySQL](https://azure.microsoft.com/en-us/products/mysql/)
+
+マネージド データベース サービスは、自動バックアップ、監視、高可用性、パッチ適用などを提供し、運用負荷を軽減します。
+
+MySQL の要件（サイジングの推奨事項や設定パラメータを含む）の詳細については、[リファレンス アーキテクチャ](/ja/platform/hosting/self-managed/ref-arch/#mysql)を参照してください。データベース作成用の SQL については、[ベアメタル ガイド](/ja/platform/hosting/self-managed/bare-metal/#mysql-database)を参照してください。デプロイのデータベース設定に関する質問がある場合は、[サポート](mailto:support@wandb.com) または AISE までお問い合わせください。

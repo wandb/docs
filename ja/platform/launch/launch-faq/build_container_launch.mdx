@@ -1,0 +1,17 @@
+---
+title: W&B にコンテナをビルドしてほしくありませんが、Launch を利用できますか？
+---
+
+事前にビルドされた Docker イメージを起動するには、次のコマンドを実行します。`<>` のプレースホルダーをご自身の情報に置き換えてください。
+
+```bash
+wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>
+```
+
+このコマンドは job を作成して run を開始します。
+
+イメージから job を作成するには、次のコマンドを実行します。
+
+```bash
+wandb job create image <image-name> -p <project> -e <entity>
+```

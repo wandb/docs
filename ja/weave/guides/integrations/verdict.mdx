@@ -1,0 +1,349 @@
+---
+title: "Verdict"
+description: "Weave と Verdict 評価フレームワークを組み合わせて、LLM 評価パイプラインをトレースおよびモニタリングする"
+---
+
+<a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_verdict.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
+</a>
+
+Weave は、[Verdict Python library](https://verdict.haizelabs.com/docs/) を通じて行われるすべての呼び出しの追跡およびログ取得を、手間なく行えるように設計されています。
+
+AI 評価パイプラインを扱う際には、デバッグが非常に重要です。パイプラインのステップが失敗したり、出力が想定外だったり、ネストされた処理によって混乱が生じたりすると、問題箇所の特定は難しくなりがちです。Verdict アプリケーションは、多数のパイプラインステップやジャッジ、変換処理から構成されることが多く、評価ワークフローの内部動作を正確に把握することが不可欠です。
+
+Weave は、[Verdict](https://verdict.readthedocs.io/) アプリケーションのトレースを自動的に取得することで、このプロセスを簡素化します。これにより、パイプラインのパフォーマンスをモニタリングおよび分析できるようになり、AI 評価ワークフローのデバッグと最適化が容易になります。
+
+<div id="getting-started">
+  ## はじめに
+</div>
+
+開始するには、スクリプトの先頭で `weave.init(project=...)` を呼び出します。`project` 引数を使って、`team-name/project-name` の形式で特定の W&amp;B チーム名にログを記録するか、`project-name` だけを指定してデフォルトのチーム/エンティティにログを記録します。
+
+```python lines {7}
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+# プロジェクト名でWeaveを初期化する
+weave.init("verdict_demo")
+
+# シンプルな評価パイプラインを作成する
+pipeline = Pipeline()
+pipeline = pipeline >> JudgeUnit().prompt("Rate the quality of this text: {source.text}")
+
+# サンプルデータを作成する
+data = Schema.of(text="This is a sample text for evaluation.")
+
+# パイプラインを実行する - 自動的にトレースされる
+output = pipeline.run(data)
+
+print(output)
+```
+
+<div id="tracking-call-metadata">
+  ## 呼び出しメタデータのトラッキング
+</div>
+
+Verdict パイプラインの呼び出しからメタデータをトラッキングするには、[`weave.attributes`](/ja/weave/reference/python-sdk#function-attributes) コンテキストマネージャーを使用します。このコンテキストマネージャーを使うと、パイプラインの run や評価バッチなど、特定のコードブロックに対してカスタムメタデータを設定できます。
+
+```python lines {7,14}
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+# プロジェクト名でWeaveを初期化する
+weave.init("verdict_demo")
+
+pipeline = Pipeline()
+pipeline = pipeline >> JudgeUnit().prompt("Evaluate sentiment: {source.text}")
+
+data = Schema.of(text="I love this product!")
+
+with weave.attributes({"evaluation_type": "sentiment", "batch_id": "batch_001"}):
+    output = pipeline.run(data)
+
+print(output)
+```
+
+Weave は Verdict パイプライン呼び出しのトレースに対してメタデータを自動的に記録します。メタデータは Weave の Web インターフェースから確認できます。
+
+<div id="traces">
+  ## トレース
+</div>
+
+AI 評価パイプラインのトレースを中央データベースに保存することは、開発中と本番環境の両方で極めて重要です。これらのトレースは、有用なデータセットを提供することで、評価ワークフローのデバッグや改善に不可欠です。
+
+Weave は Verdict アプリケーションのトレースを自動的に取得します。Verdict ライブラリ経由のすべての呼び出しを、次の内容も含めて追跡してログに記録します。
+
+* パイプライン実行ステップ
+* Judge ユニットの評価
+* レイヤー変換
+* プーリング処理
+* カスタムユニットおよび変換
+
+トレースは Weave の Web インターフェースで表示でき、パイプライン実行の階層構造が示されます。
+
+<div id="pipeline-tracing-example">
+  ## パイプライントレースの例
+</div>
+
+Weave が入れ子になったパイプライン処理をどのようにトレースするかを示す、より複雑な例を以下に示します。
+
+```python lines {8}
+import weave
+from verdict import Pipeline, Layer
+from verdict.common.judge import JudgeUnit
+from verdict.transform import MeanPoolUnit
+from verdict.schema import Schema
+
+# プロジェクト名でWeaveを初期化する
+weave.init("verdict_demo")
+
+# 複数のステップからなる複雑なパイプラインを作成する
+pipeline = Pipeline()
+pipeline = pipeline >> Layer([
+    JudgeUnit().prompt("Rate coherence: {source.text}"),
+    JudgeUnit().prompt("Rate relevance: {source.text}"),
+    JudgeUnit().prompt("Rate accuracy: {source.text}")
+], 3)
+pipeline = pipeline >> MeanPoolUnit()
+
+# サンプルデータ
+data = Schema.of(text="This is a comprehensive evaluation of text quality across multiple dimensions.")
+
+# パイプラインを実行する - すべての操作がトレースされます
+result = pipeline.run(data)
+
+print(f"Average score: {result}")
+```
+
+これにより、次の内容を示す詳細なトレースが生成されます：
+
+* メインのパイプライン実行
+* レイヤー内の各 JudgeUnit の評価
+* MeanPoolUnit による集約ステップ
+* 各処理のタイミング情報
+
+<div id="configuration">
+  ## 設定
+</div>
+
+`weave.init()` を呼び出すと、Verdict パイプラインに対してトレースが自動的に有効になります。このインテグレーションは、`Pipeline.__init__` メソッドにパッチを当てて `VerdictTracer` を挿入し、すべてのトレースデータを Weave に転送することで動作します。
+
+追加の設定は不要です。Weave は自動的に次のことを行います:
+
+* すべてのパイプライン処理をキャプチャする
+* 実行時間を追跡する
+* 入力および出力をログに記録する
+* トレース階層を維持する
+* 複数のパイプラインの同時実行を処理する
+
+<div id="custom-tracers-and-weave">
+  ## カスタムトレーサーと Weave
+</div>
+
+アプリケーションでカスタムの Verdict トレーサーを使用している場合は、Weave の `VerdictTracer` をそれらと併せて使用できます。
+
+```python lines {8}
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.util.tracing import ConsoleTracer
+from verdict.schema import Schema
+
+# プロジェクト名でWeaveを初期化する
+weave.init("verdict_demo")
+
+# Verdictの組み込みトレーサーも引き続き使用できる
+console_tracer = ConsoleTracer()
+
+# WeaveとConsoleの両方のトレーシングを使用してパイプラインを作成する（Weaveは自動）
+pipeline = Pipeline(tracer=[console_tracer])  # Weaveトレーサーは自動的に追加される
+pipeline = pipeline >> JudgeUnit().prompt("Evaluate: {source.text}")
+
+data = Schema.of(text="Sample evaluation text")
+
+# Weaveとコンソールのどちらにもトレースされる
+result = pipeline.run(data)
+```
+
+<div id="models-and-evaluations">
+  ## Models と評価
+</div>
+
+複数のパイプラインコンポーネントを含む AI システムを整理して評価するのは難しい場合があります。[`weave.Model`](/ja/weave/guides/core-types/models) を使うと、プロンプト、パイプラインの設定、評価パラメータなどの実験の詳細を記録・整理できるため、さまざまなイテレーション同士を比較しやすくなります。
+
+次の例では、Verdict パイプラインを `WeaveModel` でラップする方法を示します。
+
+```python lines {8,10,14}
+import asyncio
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+# プロジェクト名でWeaveを初期化する
+weave.init("verdict_demo")
+
+class TextQualityEvaluator(weave.Model):
+    judge_prompt: str
+    pipeline_name: str
+
+    @weave.op()
+    async def predict(self, text: str) -> dict:
+        pipeline = Pipeline(name=self.pipeline_name)
+        pipeline = pipeline >> JudgeUnit().prompt(self.judge_prompt)
+        
+        data = Schema.of(text=text)
+        result = pipeline.run(data)
+        
+        return {
+            "text": text,
+            "quality_score": result.score if hasattr(result, 'score') else result,
+            "evaluation_prompt": self.judge_prompt
+        }
+
+model = TextQualityEvaluator(
+    judge_prompt="Rate the quality of this text on a scale of 1-10: {source.text}",
+    pipeline_name="text_quality_evaluator"
+)
+
+text = "This is a well-written and informative piece of content that provides clear value to readers."
+
+prediction = asyncio.run(model.predict(text))
+
+# Jupyter Notebookを使用している場合は、次を実行してください:
+# prediction = await model.predict(text)
+
+print(prediction)
+```
+
+このコードは、Weave UI 上でパイプライン構造と評価結果の両方を可視化できるモデルを作成します。
+
+<div id="evaluations">
+  ### 評価
+</div>
+
+評価は、評価パイプライン自体のパフォーマンスを測定するのに役立ちます。[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations) クラスを使うことで、特定のタスクやデータセットに対して Verdict パイプラインがどの程度うまく機能しているかを記録できます。
+
+```python lines {8}
+import asyncio
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+# Weave を初期化する
+weave.init("verdict_demo")
+
+# 評価モデルを作成する
+class SentimentEvaluator(weave.Model):
+    @weave.op()
+    async def predict(self, text: str) -> dict:
+        pipeline = Pipeline()
+        pipeline = pipeline >> JudgeUnit().prompt(
+            "Classify sentiment as positive, negative, or neutral: {source.text}"
+        )
+        
+        data = Schema.of(text=text)
+        result = pipeline.run(data)
+        
+        return {"sentiment": result}
+
+# テストデータ
+texts = [
+    "I love this product, it's amazing!",
+    "This is terrible, worst purchase ever.",
+    "The weather is okay today."
+]
+labels = ["positive", "negative", "neutral"]
+
+examples = [
+    {"id": str(i), "text": texts[i], "target": labels[i]}
+    for i in range(len(texts))
+]
+
+# スコアリング関数
+@weave.op()
+def sentiment_accuracy(target: str, output: dict) -> dict:
+    predicted = output.get("sentiment", "").lower()
+    return {"correct": target.lower() in predicted}
+
+model = SentimentEvaluator()
+
+evaluation = weave.Evaluation(
+    dataset=examples,
+    scorers=[sentiment_accuracy],
+)
+
+scores = asyncio.run(evaluation.evaluate(model))
+# Jupyter Notebook を使用している場合は、次を実行してください:
+# scores = await evaluation.evaluate(model)
+
+print(scores)
+```
+
+これにより、さまざまなテストケースに対して Verdict パイプラインがどのように機能しているかを示す evaluation trace が作成されます。
+
+<div id="best-practices">
+  ## ベストプラクティス
+</div>
+
+<div id="performance-monitoring">
+  ### パフォーマンス監視
+</div>
+
+Weave は、すべてのパイプライン処理のタイミング情報を自動的に収集します。これを使って、パフォーマンスのボトルネックを特定できます。
+
+```python lines {6}
+import weave
+from verdict import Pipeline, Layer
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+weave.init("verdict_demo")
+
+# パフォーマンスにばらつきが生じる可能性のあるパイプラインを作成する
+pipeline = Pipeline()
+pipeline = pipeline >> Layer([
+    JudgeUnit().prompt("Quick evaluation: {source.text}"),
+    JudgeUnit().prompt("Detailed analysis: {source.text}"),  # これは処理が遅くなる可能性がある
+], 2)
+
+data = Schema.of(text="Sample text for performance testing")
+
+# タイミングパターンを確認するために複数回実行する
+for i in range(3):
+    with weave.attributes({"run_number": i}):
+        result = pipeline.run(data)
+```
+
+<div id="error-handling">
+  ### エラー処理
+</div>
+
+Weave は、パイプラインの実行中に発生する例外を自動的に捕捉します。
+
+```python lines {6}
+import weave
+from verdict import Pipeline
+from verdict.common.judge import JudgeUnit
+from verdict.schema import Schema
+
+weave.init("verdict_demo")
+
+pipeline = Pipeline()
+pipeline = pipeline >> JudgeUnit().prompt("Process: {source.invalid_field}")  # これはエラーを引き起こします
+
+data = Schema.of(text="Sample text")
+
+try:
+    result = pipeline.run(data)
+except Exception as e:
+    print(f"Pipeline failed: {e}")
+    # エラーの詳細はWeaveトレースにキャプチャされます
+```
+
+Weave と Verdict を統合することで、AI 評価パイプラインに対する包括的なオブザーバビリティを確保でき、評価ワークフローのデバッグ、最適化、およびより深い理解が容易になります。

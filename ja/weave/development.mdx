@@ -1,0 +1,115 @@
+---
+title: '開発'
+description: 'ローカル環境で変更をプレビューしてドキュメントを更新する'
+---
+
+<Info>
+  **前提条件**: 作業を続ける前に Node.js（バージョン 19 以上）をインストールしてください。 <br />
+  続行する前に `docs.json` にアップグレードし、旧 `mint.json` ファイルを削除してください。
+</Info>
+
+お使いのオペレーティングシステムで Mintlify をインストールして実行するには、次の手順に従ってください。
+
+**ステップ 1**: Mintlify をインストールします。
+
+<CodeGroup>
+  ```bash npm
+  npm i -g mintlify
+  ```
+
+  ```bash yarn
+  yarn global add mintlify
+  ```
+</CodeGroup>
+
+**ステップ 2**: docs ディレクトリ（`docs.json` ファイルがあるディレクトリ）に移動し、次のコマンドを実行します。
+
+```bash
+mintlify dev
+```
+
+ドキュメントのローカルプレビューには `http://localhost:3000` でアクセスできます。
+
+
+<div id="custom-ports">
+  ### カスタムポート
+</div>
+
+デフォルトでは、Mintlify はポート 3000 を使用します。`--port` フラグを使うことで、Mintlify が使用するポートを変更できます。たとえば、Mintlify をポート 3333 で起動するには、次のコマンドを実行します。
+
+```bash
+mintlify dev --port 3333
+```
+
+既に使用中のポートで Mintlify を起動しようとすると、Mintlify は次に利用可能なポートを自動的に使用します。
+
+```md
+Port 3000 is already in use. Trying 3001 instead.
+```
+
+
+<div id="mintlify-versions">
+  ## Mintlify のバージョン
+</div>
+
+各 CLI リリースは特定の Mintlify バージョンに対応しています。ローカル環境のサイトが本番環境で使用しているバージョンと一致していない場合は、次のコマンドで CLI を更新してください：
+
+<CodeGroup>
+
+```bash npm
+npm i -g mintlify@latest
+```
+
+```bash yarn
+yarn global upgrade mintlify
+```
+
+</CodeGroup>
+
+<div id="validating-links">
+  ## リンクの検証
+</div>
+
+CLI は、ドキュメント内で使用している参照リンクの検証に役立ちます。リンク切れを特定するには、次のコマンドを実行します。
+
+```bash
+mintlify broken-links
+```
+
+
+<div id="deployment">
+  ## デプロイ
+</div>
+
+<Tip>
+  [Proプラン](https://mintlify.com/pricing)以上では、編集者を無制限に利用できます。
+</Tip>
+
+デプロイが成功すると、すべてのチェックに合格したことを示す確認メッセージが表示されます。
+
+<div id="code-formatting">
+  ## コードフォーマット
+</div>
+
+MDX を認識してフォーマットできるように、ご利用の IDE に拡張機能を追加することをおすすめします。VS Code のユーザーであれば、構文ハイライト用に [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)、コードフォーマットには [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) の利用を検討してください。
+
+<div id="troubleshooting">
+  ## トラブルシューティング
+</div>
+
+<AccordionGroup>
+  <Accordion title='エラー: darwin-arm64 ランタイムで "sharp" モジュールを読み込めませんでした'>
+
+    原因として、古いバージョンの Node.js を使用している可能性があります。次の手順を試してください：
+    1. 現在インストールされている mintlify を削除します: `npm remove -g mintlify`
+    2. Node v19 以降にアップグレードします。
+    3. mintlify を再インストールします: `npm install -g mintlify`
+  </Accordion>
+
+  <Accordion title="問題: 不明なエラーが発生する">
+  
+    解決策: ホームディレクトリに移動し、\~/.mintlify ディレクトリを削除します。その後、再度 `mintlify dev` を実行します。
+  </Accordion>
+</AccordionGroup>
+
+CLI バージョンで何が変わったか知りたいですか？[CLI の変更履歴を確認してください。](https://www.npmjs.com/package/mintlify?activeTab=versions)

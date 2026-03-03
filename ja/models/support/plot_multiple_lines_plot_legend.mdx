@@ -1,0 +1,20 @@
+---
+title: 凡例付きで 1 つのプロットに複数の線を描画するにはどうすればよいですか？
+---
+
+`wandb.plot.line_series()` を使って、複数本の線を含むカスタムチャートを作成します。折れ線グラフを表示するには、[プロジェクトページ](/ja/models/track/project-page/) に移動します。凡例を追加するには、`wandb.plot.line_series()` に `keys` 引数を指定します。例えば次のようにします：
+
+```python
+
+with wandb.init(project="my_project") as run:
+
+    run.log(
+        {
+            "my_plot": wandb.plot.line_series(
+                xs=x_data, ys=y_data, keys=["metric_A", "metric_B"]
+            )
+        }
+    )
+```
+
+マルチラインプロットの詳細については、**Multi-line** タブ内の[こちら](/ja/models/track/log/plots/#basic-charts)を参照してください。

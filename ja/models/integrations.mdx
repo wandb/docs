@@ -1,0 +1,32 @@
+---
+title: インテグレーション概要
+description: MLフレームワーク、クラウドプラットフォーム、およびワークフローオーケストレーションツールとのW&Bインテグレーションを紹介します
+---
+
+W&amp;Bは、主要な機械学習フレームワーク、クラウドプラットフォーム、ワークフローオーケストレーションツールと連携し、実験のトラッキング、メトリクスの記録、モデルのシームレスな管理を可能にします。
+
+<div id="popular-ml-integrations">
+  ## よく使われる ML インテグレーション:
+</div>
+
+<CardGroup cols={2}>
+  <Card title="PyTorch Lightning" href="/ja/models/integrations/lightning">
+    W&amp;B を PyTorch Lightning のコードと連携させて、パイプラインに実験トラッキングを追加します。
+  </Card>
+
+  <Card title="HuggingFace Transformers" href="/ja/models/integrations/huggingface">
+    HuggingFace Transformer モデルに W&amp;B を組み合わせて、実験トラッキングや Model Management に活用します。
+  </Card>
+</CardGroup>
+
+<CardGroup cols={2}>
+  <Card title="Keras" href="/ja/models/integrations/keras">
+    W&amp;B と Keras を使用して、機械学習実験のトラッキング、データセットのバージョニング、プロジェクトでのコラボレーションを行います。
+  </Card>
+
+  <Card title="YOLOv5" href="/ja/models/integrations/yolov5">
+    リアルタイム物体検出フレームワーク &quot;You Only Look Once&quot;（通称 YOLOv5）と W&amp;B を使用して、モデルのメトリクスをトラッキングし、モデル出力を確認し、中断された run を再開します。
+  </Card>
+</CardGroup>
+
+使用しているライブラリがネイティブ対応していない場合でも、W&amp;B の [Python SDK](/ja/models/ref/python) を使って W&amp;B と統合できます。ベストプラクティスや実装ガイドラインについては、[任意のライブラリに W&amp;B を追加する](/ja/models/integrations/add-wandb-to-any-library) を参照してください。

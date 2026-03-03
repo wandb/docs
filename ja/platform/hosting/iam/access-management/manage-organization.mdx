@@ -1,0 +1,378 @@
+---
+title: 組織を管理する
+---
+
+組織の管理者は、組織内の[個々のユーザーを管理](#add-and-manage-users)し、[チームを管理](#add-and-manage-teams)できます。
+
+チームの管理者は[チームを管理](#add-and-manage-teams)できます。
+
+<Note>
+  以下のワークフローは、インスタンス管理者ロールを持つユーザーに適用されます。インスタンス管理者権限が必要だとお考えの場合は、組織内の管理者に連絡してください。
+</Note>
+
+組織内のユーザー管理を簡素化したい場合は、[ユーザーとチーム管理の自動化](../automate_iam)を参照してください。
+
+{/* W&B では、組織内の新規ユーザーにはデフォルトで Admin ロールが割り当てられます。 */}
+
+<div id="change-the-name-of-your-organization">
+  ## 組織名を変更する
+</div>
+
+<Note>
+  次の手順は W&amp;B マルチテナントクラウドにのみ適用されます。
+</Note>
+
+1. https://wandb.ai/home にアクセスします。
+2. ページ右上の **User menu** ドロップダウンメニューを選択します。ドロップダウンの **Account** セクション内で **Settings** を選択します。
+3. **Settings** タブ内で **General** を選択します。
+4. **Change name** ボタンを選択します。
+5. 表示されるモーダルウィンドウで、組織の新しい名前を入力し、**Save name** ボタンを選択します。
+
+<div id="add-and-manage-users">
+  ## ユーザーの追加と管理
+</div>
+
+管理者は組織のダッシュボードを使って、次の操作を行えます。
+
+* ユーザーを招待または削除する
+* ユーザーの組織ロールを割り当てまたは更新し、カスタムロールを作成する
+* 課金管理者を割り当てる
+
+組織管理者が組織にユーザーを追加する方法はいくつかあります。
+
+1. 招待によるメンバー追加
+2. SSO を使用した自動プロビジョニング
+3. ドメインキャプチャ
+
+<div id="seats-and-pricing">
+  ### シート数と料金
+</div>
+
+次の表では、Models と Weave のシートの仕組みをまとめています。
+
+| Product |Seats | Cost based on |
+| ----- | ----- | ----- |
+| Models | シート単位の課金 | 保有している Models の有料シート数と利用量に応じて、サブスクリプションの合計費用が決まります。各ユーザーには、利用可能な 3 種類のシートタイプ（Full、Viewer、No-Access）のいずれかを割り当てることができます。 |
+| Weave | 無料  | 利用量に基づく |
+
+<div id="invite-a-user">
+  ### ユーザーを招待する
+</div>
+
+管理者は、自身の組織や、組織内の特定のチームにユーザーを招待できます。
+
+<Tabs>
+  <Tab title="Multi-tenant Cloud">
+    1. https://wandb.ai/home にアクセスします。
+    2. 画面右上の **User menu** ドロップダウンを選択します。ドロップダウンの **Account** セクション内で **Users** を選択します。
+    3. **Invite new user** を選択します。
+    4. 表示されるモーダルで、**Email or username** フィールドにユーザーのメールアドレスまたはユーザー名を入力します。
+    5. （推奨）**Choose teams** ドロップダウンメニューから、そのユーザーを追加するチームを選択します。
+    6. **Select role** ドロップダウンから、そのユーザーに割り当てるロールを選択します。ユーザーのロールは後から変更できます。利用可能なロールの詳細は、[Assign a role](#assign-or-update-a-team-members-role) 内の表を参照してください。
+    7. **Send invite** ボタンを選択します。
+
+    **Send invite** ボタンを選択すると、W&amp;B はサードパーティのメールサーバーを使用して招待リンクをユーザーのメールアドレス宛に送信します。ユーザーは招待を承諾すると、その組織にアクセスできるようになります。
+  </Tab>
+
+  <Tab title="Dedicated Cloud or Self-Managed">
+    1. `https://<org-name>.io/console/settings/` にアクセスします。`<org-name>` を組織名に置き換えてください。
+    2. **Add user** ボタンを選択します。
+    3. 表示されるモーダルで、**Email** フィールドに新しいユーザーのメールアドレスを入力します。
+    4. **Role** ドロップダウンから、そのユーザーに割り当てるロールを選択します。ユーザーのロールは後から変更できます。利用可能なロールの詳細は、[Assign a role](#assign-or-update-a-team-members-role) 内の表を参照してください。
+    5. W&amp;B がサードパーティのメールサーバーを使用して招待リンクをユーザーのメールアドレス宛に送信するようにする場合は、**Send invite email to user** ボックスをチェックします。
+    6. **Add new user** ボタンを選択します。
+  </Tab>
+</Tabs>
+
+<div id="auto-provision-users">
+  ### ユーザーの自動プロビジョニング
+</div>
+
+メールドメインが一致する W&amp;B ユーザーは、SSO（Single Sign-On）を設定し、かつ SSO プロバイダー側で許可されていれば、SSO を使用してあなたの W&amp;B 組織にサインインできます。SSO はすべての Enterprise ライセンスで利用可能です。
+
+<Note>
+  **認証に SSO を有効化する**
+
+  W&amp;B は、ユーザーが Single Sign-On（SSO）を使って認証することを強く推奨しています。組織で SSO を有効化するには、W&amp;B チームに連絡してください。
+
+  Dedicated Cloud または Self-Managed インスタンスでの SSO の設定方法については、[SSO with OIDC](/ja/platform/hosting/iam/sso/) または [SSO with LDAP](/ja/platform/hosting/iam/ldap/) を参照してください。
+</Note>
+
+W&amp;B は、自動プロビジョニングされたユーザーに、デフォルトで &quot;Member&quot; ロールを割り当てます。自動プロビジョニングされたユーザーのロールはいつでも変更できます。
+
+Dedicated Cloud インスタンスおよび Self-Managed デプロイメントでは、SSO によるユーザーの自動プロビジョニングはデフォルトで有効になっています。自動プロビジョニングは無効化できます。自動プロビジョニングを無効化すると、特定のユーザーのみを選択して W&amp;B 組織に追加できるようになります。
+
+次のタブでは、デプロイメントタイプに応じて SSO を無効化する方法を説明します。
+
+<Tabs>
+  <Tab title="Multi-tenant Cloud">
+    Multi-tenant Cloud では、SSO による自動プロビジョニングは設定変更できません。サポートが必要な場合は W&amp;B チームにお問い合わせください。
+  </Tab>
+
+  <Tab title="Dedicated Cloud or Self-Managed">
+    Dedicated Cloud インスタンスの場合、SSO による自動プロビジョニングを無効化したい場合は W&amp;B チームに連絡してください。
+
+    Self-Managed デプロイメントの場合は、W&amp;B Console を使用して SSO による自動プロビジョニングを無効化します。
+
+    1. `https://<org-name>.io/console/settings/` にアクセスします。`<org-name>` をあなたの組織名に置き換えてください。
+    2. **Security** を選択します。
+    3. **Disable SSO Provisioning** を選択して、SSO による自動プロビジョニングを無効化します。
+
+    {/* For Self-Managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO. */}
+  </Tab>
+</Tabs>
+
+<Note>
+  SSO による自動プロビジョニングは、大規模にユーザーを組織に追加する場合に便利です。organization 管理者が個別のユーザー招待を作成する必要がなくなります。
+</Note>
+
+<div id="domain-capture">
+  ### ドメインキャプチャ
+</div>
+
+ドメインキャプチャは、従業員が自社の組織に参加できるようにして、新しいユーザーが自社の管理範囲外でアセットを作成しないようにするのに役立ちます。
+
+<Note>
+  **ドメインは一意である必要があります**
+
+  ドメインは一意の識別子です。つまり、他の組織ですでに使用されているドメインを使用することはできません。
+</Note>
+
+<Tabs>
+  <Tab title="Multi-tenant Cloud">
+    ドメインキャプチャを使用すると、`@example.com` のような会社のメールアドレスを持つ人を、自動的に自社の W&amp;B Multi-tenant Cloud 組織に追加できます。これにより、すべての従業員が正しい組織に参加し、新しいユーザーが自社の管理範囲外でアセットを作成しないようにできます。
+
+    次の表は、ドメインキャプチャの有効／無効の場合における新規および既存ユーザーの挙動をまとめたものです。
+
+    | | With domain capture | Without domain capture |
+    | ----- | ----- | ----- |
+    | New users | 検証済みドメインから W&amp;B にサインアップしたユーザーは、自動的に組織のデフォルトチームのメンバーとして追加されます。チームへの参加を有効にしている場合、サインアップ時に追加で参加するチームを選択できます。招待があれば、他の組織やチームにも参加できます。 | ユーザーは、集中管理された組織があることを知らないまま W&amp;B アカウントを作成できます。 |
+    | Invited users | 招待されたユーザーは、招待を受諾すると自動的に組織に参加します。招待されたユーザーは、自動的には組織のデフォルトチームのメンバーとして追加されません。招待があれば、他の組織やチームにも参加できます。 | 招待されたユーザーは、招待を受諾すると自動的に組織に参加します。招待があれば、他の組織やチームにも参加できます。|
+    | Existing users | 対象ドメインからの検証済みメールアドレスを持つ既存ユーザーは、W&amp;B App 内で組織のチームに参加できます。組織に参加する前に既存ユーザーが作成したすべてのデータは保持されます。W&amp;B は既存ユーザーのデータを移行しません。 | 既存の W&amp;B ユーザーは、複数の組織やチームに分散している可能性があります。|
+
+    招待されていない新規ユーザーが組織に参加したときに、デフォルトチームに自動的に割り当てるには、次の手順に従います。
+
+    1. https://wandb.ai/home に移動します。
+    2. ページ右上の **User menu** ドロップダウンを選択します。ドロップダウンから **Settings** を選択します。
+    3. **Settings** タブ内で **General** を選択します。
+    4. **Domain capture** 内の **Claim domain** ボタンを選択します。
+    5. **Default team** ドロップダウンから、新しいユーザーを自動的に参加させたいチームを選択します。利用可能なチームがない場合は、チーム設定を更新する必要があります。[Add and manage teams](#add-and-manage-teams) の手順を参照してください。
+    6. **Claim email domain** ボタンをクリックします。
+
+    招待されていない新規ユーザーをそのチームに自動的に割り当てる前に、チームの設定内でドメインマッチングを有効にする必要があります。
+
+    1. `https://wandb.ai/<team-name>` のチームのダッシュボードに移動します。`<team-name>` は、ドメインマッチングを有効にしたいチーム名です。
+    2. チームのダッシュボード左側のグローバルナビゲーションで **Team settings** を選択します。
+    3. **Privacy** セクション内で、「Recommend new users with matching email domains join this team upon signing up」オプションをトグルします。
+  </Tab>
+
+  <Tab title="Dedicated Cloud or Self-Managed">
+    Dedicated Cloud または Self-Managed デプロイメントタイプでドメインキャプチャを設定する場合は、W&amp;B のアカウントチームにお問い合わせください。設定が完了すると、W&amp;B Multi-tenant Cloud インスタンスは、会社のメールアドレスで W&amp;B アカウントを作成するユーザーに対して、自社の Dedicated Cloud または Self-Managed インスタンスへのアクセスをリクエストするために管理者へ連絡するよう、自動的に促します。
+
+    | | With domain capture | Without domain capture |
+    | ----- | ----- | -----|
+    | New users | Multi-tenant Cloud 上で検証済みドメインから W&amp;B にサインアップしたユーザーには、自動的に、あらかじめ設定したメールアドレス宛に管理者へ連絡するよう促すメッセージが表示されます。それでも、製品を試用するために Multi-tenant Cloud 上で組織を作成することはできます。 | ユーザーは、自社に集中管理された専用インスタンスがあることを知らないまま、W&amp;B Multi-tenant Cloud アカウントを作成できます。 |
+    | Existing users | 既存の W&amp;B ユーザーは、複数の組織やチームに分散している可能性があります。| 既存の W&amp;B ユーザーは、複数の組織やチームに分散している可能性があります。|
+  </Tab>
+</Tabs>
+
+<div id="assign-or-update-a-users-role">
+  ### ユーザーのロールを割り当てる・更新する
+</div>
+
+Organization 内のすべてのメンバーは、W&amp;B Models と Weave の両方に対して、Organization ロールとシートを持ちます。保有しているシートの種類によって、請求ステータスと各プロダクトラインで実行できる操作が決まります。
+
+ユーザーを Organization に招待する際に、そのユーザーに最初の Organization ロールを割り当てます。後からいつでも、任意のユーザーのロールを変更できます。
+
+Organization 内のユーザーは、次のいずれかのロールを持つことができます:
+
+| ロール | 説明 |
+| ----- | ----- |
+| admin | 他のユーザーを Organization に追加または削除したり、ユーザーのロールを変更したり、カスタムロールを管理したり、チームを追加したりできるインスタンス管理者です。管理者が不在となる事態に備えて、最低 2 人以上の admin を設定しておくことを W&amp;B は推奨します。 |
+| Member | インスタンス管理者に招待された、Organization の一般ユーザーです。Organization メンバーは、他のユーザーを招待したり、Organization 内の既存ユーザーを管理したりすることはできません。 |
+| Viewer (Enterprise 限定機能) | インスタンス管理者に招待された、Organization の閲覧専用ユーザーです。Viewer は、Organization と、自身がメンバーとなっている Teams に対して読み取り専用アクセスのみを持ちます。 |
+|Custom Roles (Enterprise 限定機能) | カスタムロールを使用すると、Organization の admin は、上記の Viewer または Member ロールを継承しつつ、きめ細かなアクセス制御を実現するための追加権限を付与して、新しいロールを作成できます。Team 管理者は、そのようなカスタムロールを自分のチーム内のユーザーに割り当てることができます。詳細は [カスタムロールの追加と管理](#add-and-manage-custom-roles) を参照してください。|
+
+ユーザーのロールを変更するには:
+
+1. https://wandb.ai/home に移動します。
+2. ページ右上の **User menu** ドロップダウンを選択します。ドロップダウンから **Users** を選択します。
+3. 検索バーにユーザーの名前またはメールアドレスを入力します。
+4. ユーザー名の横にある **TEAM ROLE** ドロップダウンからロールを選択します。
+
+<div id="assign-or-update-a-users-access">
+  ### ユーザーのアクセス権を割り当てまたは更新する
+</div>
+
+組織内のユーザーには、以下のいずれかのモデルシートタイプまたは Weave アクセスタイプが割り当てられます: 「Full」「Viewer」「No access」。
+
+| シートタイプ | 説明 |
+| ----- | ----- |
+| Full | このシートタイプを持つ Users は、Models または Weave に対してデータの書き込み、読み取り、エクスポートの完全な権限を持ちます。 |
+| Viewer | 組織の閲覧専用ユーザーです。Viewer は所属している組織およびその Teams に対して読み取りアクセスのみを持ち、Models または Weave に対しても閲覧のみのアクセス権を持ちます。 |
+| No access | このロールを持つ Users は、Models または Weave 製品へのアクセス権がありません。 |
+
+モデルシートタイプと Weave アクセスタイプは組織レベルで定義され、Teams に継承されます。ユーザーのシートタイプを変更する場合は、組織設定に移動し、次の手順に従ってください:
+
+1. マルチテナントクラウドのユーザーは、`https://wandb.ai/account-settings/<organization>/settings` にある組織の設定に移動します。山括弧（`<>`）で囲まれた値は、自分の組織名に必ず置き換えてください。Dedicated Cloud および Self-Managed デプロイメントの場合は、`https://<your-instance>.wandb.io/org/dashboard` に移動します。
+2. **Users** タブを選択します。
+3. **Role** ドロップダウンから、そのユーザーに割り当てたいシートタイプを選択します。
+
+<Note>
+  組織ロールとサブスクリプションタイプによって、組織内で利用可能なシートタイプが決まります。
+</Note>
+
+<div id="remove-a-user">
+  ### ユーザーを削除する
+</div>
+
+1. https://wandb.ai/home に移動します。
+2. ページ右上の **User menu** ドロップダウンをクリックします。ドロップダウンから **Users** を選択します。
+3. 検索バーにユーザー名またはメールアドレスを入力します。
+4. 表示されたら、三点リーダー（3 つの点）のアイコン（**...**）をクリックします。
+5. ドロップダウンから **Remove member** を選択します。
+
+<div id="assign-the-billing-admin">
+  ### 請求管理者を割り当てる
+</div>
+
+1. https://wandb.ai/home にアクセスします。
+2. ページ右上の **User menu** ドロップダウンを選択します。ドロップダウンから **Users** を選択します。
+3. 検索バーで、請求管理者に設定するユーザーの名前またはメールアドレスを入力します。
+4. **Billing admin** 列で、請求管理者として割り当てるユーザーを選択します。
+
+<div id="add-and-manage-teams">
+  ## チームを追加および管理する
+</div>
+
+組織のダッシュボードを使用して、組織内のチームを作成および管理します。組織管理者またはチーム管理者は次のことができます。
+
+* チームにユーザーを招待したり、チームからユーザーを削除したりする。
+* チームメンバーの役割を管理する。
+* ユーザーが組織に参加したときに、自動的にチームに追加する。
+* `https://wandb.ai/<team-name>` にあるチームのダッシュボードで、チームのストレージを管理する。
+
+<div id="create-a-team">
+  ### チームを作成する
+</div>
+
+組織のダッシュボードからチームを作成します。
+
+1. https://wandb.ai/home に移動します。
+2. 左側のナビゲーションパネルの **Teams** の下にある **Create a team to collaborate** を選択します。
+
+<Frame>
+  <img src="/images/hosting/create_new_team.png" alt="新しいチームを作成" />
+</Frame>
+
+3. 表示されるモーダルの **Team name** フィールドにチーム名を入力します。
+4. ストレージタイプを選択します。
+5. **Create team** ボタンを選択します。
+
+**Create team** ボタンを選択すると、W&amp;B によって `https://wandb.ai/<team-name>` の新しいチームページへ自動的に移動します。ここで `<team-name>` には、チーム作成時に指定した名前が入ります。
+
+チームを作成したら、そのチームにユーザーを追加できます。
+
+<div id="invite-users-to-a-team">
+  ### チームにユーザーを招待する
+</div>
+
+組織内のチームにユーザーを招待します。チームのダッシュボードを使用して、メールアドレス、またはすでに W&amp;B アカウントを持っている場合は W&amp;B のユーザー名を使ってユーザーを招待できます。
+
+1. `https://wandb.ai/<team-name>` に移動します。
+2. ダッシュボード左側のグローバルナビゲーションで **Team settings** を選択します。
+
+<Frame>
+  <img src="/images/hosting/team_settings.png" alt="Team settings" />
+</Frame>
+
+3. **Users** タブを選択します。
+4. **Invite a new user** を選択します。
+5. 表示されるモーダルで、**Email or username** フィールドにユーザーのメールアドレスを入力し、**Select a team** ロールドロップダウンからそのユーザーに割り当てるロールを選択します。チーム内でユーザーが持つことのできるロールの詳細については、[Team roles](#assign-or-update-a-team-members-role) を参照してください。
+6. **Send invite** ボタンを選択します。
+
+デフォルトでは、チームまたはインスタンスの管理者のみがチームにメンバーを招待できます。この動作を変更するには、[Team settings](/ja/platform/app/settings-page/teams#privacy) を参照してください。
+
+メール招待でユーザーを手動で追加するだけでなく、新しいユーザーの[メールアドレスが組織のドメインと一致する場合](#domain-capture)、新しいユーザーを自動的にチームに追加することもできます。
+
+<div id="match-members-to-a-team-organization-during-sign-up">
+  ### サインアップ時にメンバーを組織の Teams に紐付ける
+</div>
+
+組織内の新しいユーザーがサインアップ時に、組織内の Teams を見つけられるようにします。新しいユーザーは、組織で検証済みのメールドメインと一致する、検証済みメールドメインを持っている必要があります。検証済みの新しいユーザーは、W&amp;B アカウントにサインアップする際に、その組織に属する検証済みチームの一覧を表示できます。
+
+組織の管理者がドメインクレームを有効にする必要があります。ドメインキャプチャを有効にする手順については、[Domain capture](#domain-capture) を参照してください。
+
+<div id="assign-or-update-a-team-members-role">
+  ### チームメンバーのロールを割り当てまたは更新する
+</div>
+
+1. チームメンバー名の横にあるアカウントタイプのアイコンを選択します。
+2. ドロップダウンから、そのチームメンバーに付与したいアカウントタイプを選択します。
+
+次の表に、チームメンバーに割り当て可能なロールを示します。
+
+| Role   |   Definition   |
+|-----------|---------------------------|
+| Admin    | チーム内の他のユーザーを追加および削除し、ユーザーのロールを変更し、チーム設定を構成できるユーザーです。   |
+| Member    | メールまたは組織レベルのユーザー名でチーム管理者から招待される、チームの一般的なユーザーです。Member ユーザーは他のユーザーをチームに招待できません。  |
+| View-Only (Enterprise-only feature) | メールまたは組織レベルのユーザー名でチーム管理者から招待される、チームの閲覧専用ユーザーです。閲覧専用ユーザーは、そのチームおよびそのコンテンツに対して読み取り専用アクセスのみを持ちます。  |
+| Custom Roles (Enterprise-only feature)   | Custom Roles（カスタムロール）を使用すると、組織管理者は前述の View-Only または Member ロールを継承し、追加の権限を付与して詳細なアクセス制御を実現する新しいロールを作成できます。その後、チーム管理者はそれらのカスタムロールを自分のチーム内のユーザーに割り当てることができます。詳細は [Custom Roles のアナウンス](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) を参照してください。 |
+
+<Info>
+  Service accounts（サービスアカウント）はユーザーではなく、自動化のために使用される非人間の ID です。**Service accounts** は自動化されたワークフロー向けに APIキー を提供し、ユーザーライセンスを消費しません。Service accounts の作成および管理に関する詳細は、[Use service accounts to automate workflows](/ja/platform/hosting/iam/service-accounts/) を参照してください。
+</Info>
+
+<Note>
+  Dedicated Cloud または Self-Managed デプロイメント上のエンタープライズライセンスのみ、チーム内のメンバーに Custom Roles を割り当てることができます。
+</Note>
+
+<div id="remove-users-from-a-team">
+  ### チームからユーザーを削除する
+</div>
+
+チームのダッシュボードを使用して、チームからユーザーを削除できます。W&amp;B は、run を作成したメンバーがそのチームに所属していなくなった場合でも、チームで作成された run を保持します。
+
+1. `https://wandb.ai/<team-name>` に移動します。
+2. 左側のナビゲーションバーで **Team settings** を選択します。
+3. **Users** タブを選択します。
+4. 削除したいユーザーの名前の横にマウスカーソルを合わせます。表示される三点ドットのアイコン (**...**) を選択します。
+5. ドロップダウンから **Remove user** を選択します。
+
+<div id="add-and-manage-custom-roles">
+  ## カスタムロールの追加と管理
+</div>
+
+<Note>
+  Dedicated Cloud または Self-Managed デプロイメントでカスタムロールを作成または割り当てるには、Enterprise ライセンスが必要です。
+</Note>
+
+組織管理者は、View-Only ロールまたは Member ロールのいずれかを基に新しいロールを作成し、きめ細かいアクセス制御を行うために追加の権限を付与できます。チーム管理者は、チームメンバーにカスタムロールを割り当てることができます。カスタムロールは組織レベルで作成されますが、チームレベルで割り当てられます。
+
+カスタムロールを作成するには、次の手順を実行します。
+
+<Tabs>
+  <Tab title="Multi-tenant Cloud">
+    1. https://wandb.ai/home に移動します。
+    2. ページ右上の **User menu** ドロップダウンを選択します。ドロップダウンの **Account** セクション内で **Settings** を選択します。
+    3. **Roles** をクリックします。
+    4. **Custom roles** セクションで **Create a role** をクリックします。
+    5. ロール名を入力します。必要に応じて説明を入力します。
+    6. カスタムロールのベースとするロールとして **Viewer** または **Member** のいずれかを選択します。
+    7. 権限を追加するには、**Search permissions** フィールドをクリックし、追加する権限を 1 つ以上選択します。
+    8. ロールが持つ権限の概要が表示される **Custom role permissions** セクションを確認します。
+    9. **Create Role** をクリックします。
+  </Tab>
+
+  <Tab title="Dedicated Cloud or Self-Managed">
+    1. `https://<org-name>.wandb.io/org/settings/` に移動します。`<org-name>` を自分の組織名に置き換えます。
+    2. **Custom roles** セクションで **Create a role** をクリックします。
+    3. ロール名を入力します。必要に応じて説明を入力します。
+    4. カスタムロールのベースとするロールとして **Viewer** または **Member** のいずれかを選択します。
+    5. 権限を追加するには、**Search permissions** フィールドをクリックし、追加する権限を 1 つ以上選択します。
+    6. ロールが持つ権限の概要が表示される **Custom role permissions** セクションを確認します。
+    7. **Create Role** をクリックします。
+  </Tab>
+</Tabs>
+
+チーム管理者は、[Team settings](#invite-users-to-a-team) から、そのチームのメンバーにカスタムロールを割り当てられるようになります。

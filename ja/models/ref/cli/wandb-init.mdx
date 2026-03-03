@@ -1,0 +1,39 @@
+---
+title: "wandb init"
+---
+
+{/*
+  このコマンドの導入文を追加するには:
+  1. スニペットファイル /snippets/_includes/cli/wandb-init.mdx を作成します
+  2. そのファイルに導入文を追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+
+  import WandbInit from "/snippets/_includes/cli/wandb-init.mdx";
+
+  <WandbInit/>
+
+  次回の再生成時に、このスニペットは自動的に検出されます。
+  */}
+
+Weights &amp; Biases 用のディレクトリを設定する
+
+
+<div id="usage">
+  ## 使用方法
+</div>
+
+```bash
+wandb init [OPTIONS]
+```
+
+
+<div id="options">
+  ## オプション
+</div>
+
+| オプション | 説明 |
+| :--- | :--- |
+| `--project`, `-p` | 使用するプロジェクト。 |
+| `--entity`, `-e` | プロジェクトを紐づける entity。 |
+| `--reset` | 設定をリセットする（デフォルト: False）。 |
+| `--mode`, `-m` | `"online"`、`"offline"`、`"disabled"` のいずれか。デフォルトは `online`。 |

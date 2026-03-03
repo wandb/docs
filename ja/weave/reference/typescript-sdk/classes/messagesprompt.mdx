@@ -1,0 +1,239 @@
+---
+title: "クラス: MessagesPrompt"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / MessagesPrompt
+
+<div id="hierarchy">
+  ## 階層
+</div>
+
+- `Prompt`
+
+  ↳ `MessagesPrompt`
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="constructors">
+  ### コンストラクタ
+</div>
+
+- [constructor](./messagesprompt#constructor)
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+- [\_\_savedRef](./messagesprompt#__savedref)
+- [messages](./messagesprompt#messages)
+
+<div id="accessors">
+  ### アクセサ
+</div>
+
+- [description](./messagesprompt#description)
+- [name](./messagesprompt#name)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+- [format](./messagesprompt#format)
+- [saveAttrs](./messagesprompt#saveattrs)
+- [get](./messagesprompt#get)
+
+## コンストラクター
+
+<div id="constructor">
+  ### コンストラクター
+</div>
+
+• **new MessagesPrompt**(`parameters`): [`MessagesPrompt`](./messagesprompt)
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `parameters` | `MessagesPromptParameters` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`MessagesPrompt`](./messagesprompt)
+
+<div id="overrides">
+  #### オーバーライド
+</div>
+
+Prompt.constructor
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[prompt.ts:40](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L40)
+
+## プロパティ
+
+### \_\_savedRef
+
+• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Prompt.\_\_savedRef
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
+
+___
+
+<div id="messages">
+  ### messages
+</div>
+
+• **messages**: `Record`\<`string`, `any`\>[]
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[prompt.ts:38](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L38)
+
+## アクセサ
+
+<div id="description">
+  ### description
+</div>
+
+• `get` **description**(): `undefined` \| `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`undefined` \| `string`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Prompt.description
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
+
+___
+
+<div id="name">
+  ### name
+</div>
+
+• `get` **name**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Prompt.name
+
+#### 定義元
+
+[weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
+
+## メソッド
+
+<div id="format">
+  ### format
+</div>
+
+▸ **format**(`values?`): `Record`\<`string`, `any`\>[]
+
+#### パラメータ
+
+| 名称 | 型 |
+| :------ | :------ |
+| `values` | `Record`\<`string`, `any`\> |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Record`\<`string`, `any`\>[]
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[prompt.ts:67](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L67)
+
+___
+
+<div id="saveattrs">
+  ### saveAttrs
+</div>
+
+▸ **saveAttrs**(): `Object`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Object`
+
+<div id="inherited-from">
+  #### 継承元
+</div>
+
+Prompt.saveAttrs
+
+#### 定義元
+
+[weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)
+
+___
+
+<div id="get">
+  ### get
+</div>
+
+▸ **get**(`client`, `uri`): `Promise`\<[`MessagesPrompt`](./messagesprompt)\>
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `client` | [`WeaveClient`](./weaveclient) |
+| `uri` | `string` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`\<[`MessagesPrompt`](./messagesprompt)\>
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[prompt.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/prompt.ts#L73)

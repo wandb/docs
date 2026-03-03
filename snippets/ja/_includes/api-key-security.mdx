@@ -1,0 +1,71 @@
+---
+title: APIキーのセキュリティ
+---
+
+<div id="store-and-handle-api-keys-securely">
+  ## APIキーの安全な保管と取り扱い
+</div>
+
+APIキーはW&Bアカウントへのアクセス手段となるため、パスワードと同様に保護する必要があります。次のベストプラクティスに従ってください。
+
+<div id="recommended-storage-methods">
+  ### 推奨される保存方法
+</div>
+
+- **Secrets マネージャー**: [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/)、[HashiCorp Vault](https://developer.hashicorp.com/vault)、[Azure Key Vault](https://azure.microsoft.com/en-us/products/key-vault)、[Google Secret Manager](https://cloud.google.com/security/products/secret-manager) などのシークレット管理専用システムを使用します。
+- **パスワードマネージャー**: 信頼できるパスワードマネージャーアプリケーションを使用します。
+- **OS レベルのキーチェーン**: macOS Keychain、Windows Credential Manager、Linux secret service にキーを保存します。本番環境での使用は推奨されません。
+
+<div id="what-to-avoid">
+  ### 避けるべきこと
+</div>
+
+- Git などのバージョン管理システムに APIキーを決してコミットしないでください。
+- APIキーをプレーンテキストの設定ファイルに保存しないでください。
+- `ps` のような OS コマンドの出力に表示されてしまうため、コマンドラインで APIキーを渡さないでください。
+- メール、チャット、その他の暗号化されていないチャネルで APIキーを共有することは避けてください。
+- ソースコード内に APIキーをハードコードしないでください。
+
+APIキーが漏えいした場合は、ただちに W&B アカウントからその APIキーを削除し、[support](mailto:support@wandb.ai) か AISE に連絡してください。
+
+<div id="environment-variables">
+  ### 環境変数
+</div>
+
+コード内でAPIキーを使用するときは、環境変数経由で渡してください。
+
+```bash
+export WANDB_API_KEY="your-api-key-here"
+```
+
+この方法を使うと、キーをソースコードから分離でき、必要に応じてローテーションしやすくなります。
+
+<Warning>
+  コマンドと同じ行で環境変数を設定するのは避けてください。その方法では、`ps` などの OS コマンドの出力に値が表示されてしまいます。
+
+  ```bash
+  # このパターンは避けてください。APIキーがプロセス一覧に表示される可能性があります
+  export WANDB_API_KEY="your-api-key-here" ./my-script.sh
+  ```
+</Warning>
+
+
+<div id="sdk-version-compatibility">
+  ### SDK バージョンの互換性
+</div>
+
+新しい APIキー は従来のキーよりも長くなっています。古いバージョンの `wandb` または `weave` SDK で認証する場合、APIキー の長さに関するエラーが発生する場合があります。
+
+**解決策**: SDK を新しいバージョンに更新してください。
+
+- `wandb` SDK v0.22.3+
+
+    ```bash
+    pip install --upgrade wandb==0.22.3
+    ```
+- `weave` SDK v0.52.17+
+    ```bash
+    pip install --upgrade weave==0.52.17
+    ```
+
+すぐに SDK をアップグレードできない場合は、回避策として `WANDB_API_KEY` 環境変数を使って APIキー を設定してください。

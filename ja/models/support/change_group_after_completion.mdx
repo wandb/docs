@@ -1,0 +1,14 @@
+---
+title: 完了したrunに割り当てられたグループを後から変更できますか？
+---
+
+完了した run に割り当てられたグループは、API を使用して後から変更できます。この機能は Web UI にはありません。次のコードを使ってグループを更新してください：
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run("<ENTITY>/<PROJECT>/<RUN_ID>")
+run.group = "NEW-GROUP-NAME"
+run.update()
+```

@@ -1,0 +1,61 @@
+---
+title: "API 概要"
+description: "W&B Inference サービスの完全な API リファレンス"
+---
+
+本書では、W&amp;B Inference API を使用して基盤モデルにプログラムからアクセスする方法について説明します。
+
+<div id="base-url">
+  ## ベース URL
+</div>
+
+Inference サービスには次の URL からアクセスできます:
+
+```plaintext
+https://api.inference.wandb.ai/v1
+```
+
+<Note>
+  **重要**
+
+  このエンドポイントを使用するには、次のものが必要です。
+
+  * Inference クレジットを保有している W&amp;B アカウント
+  * 有効な W&amp;B APIキー
+
+  複数のチームに所属している場合や、利用状況を特定のプロジェクトに紐付けたい場合は、チーム ID とプロジェクト ID も必要です。コードサンプル内では、これらは `<your-team>/<your-project>` の形式で表されます。指定しない場合は、デフォルトの entity とプロジェクト名 `inference` が自動的に使用されます。
+</Note>
+
+<div id="available-methods">
+  ## 利用可能なメソッド
+</div>
+
+W&amp;B Inference API は、基盤モデルと対話するための OpenAI 互換エンドポイントを提供します。
+
+* **[Chat Completions](/ja/inference/api-reference/chat-completions)** - さまざまな基盤モデルを使用してチャット補完を生成します
+* **[List Models](/ja/inference/api-reference/list-models)** - 利用可能なすべてのモデルとその ID を取得します
+
+<div id="authentication">
+  ## 認証
+</div>
+
+すべてのAPIリクエストでは、W&amp;BのAPIキーによる認証が必要です。[wandb.ai/settings](https://wandb.ai/settings) でAPIキーを作成してください。
+
+APIキーはリクエストヘッダーに含めてください：
+
+* OpenAI SDK の場合: `api_key` パラメータとして設定します
+* APIを直接呼び出す場合: `Authorization: Bearer <your-api-key>` を使用します
+
+<div id="error-handling">
+  ## エラー処理
+</div>
+
+エラーコードの一覧とその対処方法については、[API Errors](/ja/inference/api-reference/errors) を参照してください。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+* [使用例](/ja/inference/examples) を試して、API の動作を確認する
+* [UI](/ja/inference/ui-guide) でモデルをブラウズする
+* 自分のアカウントの [使用制限](/ja/inference/usage-limits) を確認する

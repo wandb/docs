@@ -1,0 +1,11 @@
+---
+title: run にログされたデータに、直接およびコードからアクセスするにはどうすればよいですか？
+---
+
+history オブジェクトは、`wandb.log` でログされたメトリクスを追跡します。API を使って history オブジェクトにアクセスします：
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+print(run.history())
+```

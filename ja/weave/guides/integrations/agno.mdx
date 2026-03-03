@@ -1,0 +1,375 @@
+---
+title: Agno
+description: "OpenTelemetry を使用して Weave で Agno のマルチエージェントシステムをトレースし、エージェント間のインタラクション、ツール呼び出し、共有メモリ操作、およびマルチモーダルなワークフローを取得して、AI エージェントシステムのオブザーバビリティを包括的に実現します。"
+---
+
+[Agno](https://docs.agno.com/) のエージェントおよびツール呼び出しは、[OpenTelemetry (OTEL)](https://opentelemetry.io/) を使用して Weave でトレースできます。Agno は、共有メモリ、ナレッジ、推論機能を備えたマルチエージェントシステムを構築するための Python フレームワークです。軽量で、モデルに依存せず高性能であるよう設計されており、テキスト、画像、音声、動画処理を含むマルチモーダル機能をサポートします。
+
+このガイドでは、OTEL を使って Agno のエージェントおよびツール呼び出しをトレースし、それらのトレースを Weave で可視化する方法を説明します。必要な依存関係のインストール方法、Weave にデータを送信する OTEL トレーサーの設定方法、そして Agno のエージェントおよびツールをインストルメントする方法を説明します。
+
+<Tip>
+  Weave での OTEL トレースの詳細については、[Send OTEL Traces to Weave](../tracking/otel) を参照してください。
+</Tip>
+
+<div id="prerequisites">
+  ## 前提条件
+</div>
+
+1. 必要な依存パッケージをインストールします。
+
+   ```bash
+   pip install agno openinference-instrumentation-agno opentelemetry-sdk opentelemetry-exporter-otlp-proto-http
+   ```
+
+2. OpenAI APIキー（または他のモデルプロバイダー）を環境変数として設定します。
+
+   ```bash
+   export OPENAI_API_KEY=your_api_key_here
+   ```
+
+3. [Weave で OTEL トレーシングを設定します](#configure-otel-tracing-in-weave)。
+
+<div id="configure-otel-tracing-in-weave">
+  ### Weave で OTEL トレーシングを設定する
+</div>
+
+Agno から Weave にトレースを送信するには、`TracerProvider` と `OTLPSpanExporter` を使用して OTEL を設定します。エクスポーターには、[認証とプロジェクト識別のための正しいエンドポイントと HTTP ヘッダー](#required-configuration) を設定してください。
+
+<note>
+  APIキーやプロジェクト情報などの機密情報は、環境変数として `.env` などの環境ファイルに保存し、`os.environ` を使って読み込むことを推奨します。これにより、認証情報を安全に保ち、コードベースに含めずに済みます。
+</note>
+
+<div id="required-configuration">
+  #### 必要な設定
+</div>
+
+* **エンドポイント:** `https://trace.wandb.ai/otel/v1/traces`
+* **ヘッダー:**
+  * `Authorization`: W&amp;B APIキーを用いたベーシック認証
+  * `project_id`: W&amp;Bのエンティティ／プロジェクト名（例: `myteam/myproject`）
+
+<div id="send-otel-traces-from-agno-to-weave">
+  ## Agno から Weave へ OTEL トレースを送信する
+</div>
+
+[前提条件](#prerequisites) を満たしたら、Agno から Weave に OTEL トレースを送信できます。次のコードスニペットでは、Agno アプリケーションから Weave に OTEL トレースを送信するために、OTLP span exporter と tracer provider を構成する方法を示します。
+
+<Warning>
+  Weave が Agno を正しくトレースできるようにするには、コード内で Agno コンポーネントを使用する *前に* グローバルな tracer provider を設定してください。
+</Warning>
+
+```python lines
+# tracing.py
+
+import base64
+import os
+from openinference.instrumentation.agno import AgnoInstrumentor
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+from opentelemetry.sdk import trace as trace_sdk
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+from opentelemetry import trace
+
+# 環境変数から機密情報を読み込む
+WANDB_BASE_URL = "https://trace.wandb.ai"
+# W&B のエンティティ/プロジェクト名（例: "myteam/myproject"）
+PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
+# W&B の APIキーは https://wandb.ai/settings で作成する
+WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
+
+OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
+
+OTEL_EXPORTER_OTLP_HEADERS = {
+    "Authorization": f"Basic {AUTH}",
+    "project_id": PROJECT_ID,
+}
+
+# エンドポイントとヘッダーを指定して OTLP スパンエクスポーターを作成する
+exporter = OTLPSpanExporter(
+    endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers=OTEL_EXPORTER_OTLP_HEADERS,
+)
+
+# トレーサープロバイダーを作成してエクスポーターを追加する
+tracer_provider = trace_sdk.TracerProvider()
+tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
+
+# Agno をインポート/使用する前にグローバルトレーサープロバイダーを設定する
+trace.set_tracer_provider(tracer_provider)
+```
+
+<div id="trace-agno-agents-with-otel">
+  ## OTEL を使用して Agno エージェントをトレースする
+</div>
+
+tracer provider を設定したら、自動トレースを有効にした状態で Agno エージェントを作成して実行できます。次の例では、ツールを使ったシンプルなエージェントの作成方法を示します。
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.tools.yfinance import YFinanceTools
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# 上記で作成したファイルからAgnoInstrumentorを読み込む
+from tracing import AgnoInstrumentor
+
+# Agnoのインストルメンテーションを開始する
+AgnoInstrumentor().instrument()
+
+# ファイナンスエージェントを作成する
+finance_agent = Agent(
+    name="Finance Agent",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    tools=[
+        YFinanceTools(
+            stock_price=True,
+            analyst_recommendations=True,
+            company_info=True,
+            company_news=True
+        )
+    ],
+    instructions=["Use tables to display data"],
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# エージェントを使用する - 自動的にトレースされる
+finance_agent.print_response(
+    "What is the current stock price of Apple and what are the latest analyst recommendations?",
+    stream=True
+)
+```
+
+すべてのエージェントの操作は自動的にトレースされて Weave に送信されるため、実行フロー、モデル呼び出し、推論ステップ、ツールの実行を可視化できます。
+
+<Frame>
+  ![Agno エージェントのトレース可視化](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)
+</Frame>
+
+<div id="trace-agno-tools-with-otel">
+  ## OTEL で Agno ツールをトレースする
+</div>
+
+Agno でツールを定義して使用すると、これらのツール呼び出しもトレースに記録されます。OTEL インテグレーションは、エージェントの推論プロセスと各ツール実行の両方を自動計測し、エージェントの振る舞いを包括的に可視化します。
+
+複数のツールを使った例を次に示します。
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.tools.duckduckgo import DuckDuckGoTools
+from agno.tools.yfinance import YFinanceTools
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# 上記で作成したファイルからAgnoInstrumentorを読み込む
+from tracing import AgnoInstrumentor
+
+# Agnoのインストルメンテーションを開始する
+AgnoInstrumentor().instrument()
+
+# 複数のツールを持つエージェントを作成する
+research_agent = Agent(
+    name="Research Agent",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    tools=[
+        DuckDuckGoTools(),
+        YFinanceTools(stock_price=True, company_info=True),
+    ],
+    instructions=[
+        "Search for current information and financial data",
+        "Always include sources",
+        "Use tables to display financial data"
+    ],
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# エージェントを使用する - ツール呼び出しはトレースされる
+research_agent.print_response(
+    "Research Tesla's recent performance and news. Include stock price and any recent developments.",
+    stream=True
+)
+```
+
+<Frame>
+  ![Agno ツール呼び出しのトレースの可視化](/weave/guides/integrations/imgs/agno/agno_tool_calls.png)
+</Frame>
+
+<div id="trace-multi-agent-teams-with-otel">
+  ## OTEL でマルチエージェントチームをトレースする
+</div>
+
+Agno の強力なマルチエージェントアーキテクチャを使用すると、コンテキストを共有しながら協調して動作するエージェントのチームを作成できます。これらのチームでのやり取りもすべてトレースされます。
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.tools.duckduckgo import DuckDuckGoTools
+from agno.tools.yfinance import YFinanceTools
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# tracin.pyファイルからAgnoInstrumentorを読み込む
+from tracing import AgnoInstrumentor
+
+# Agnoのインストルメンテーションを開始する
+AgnoInstrumentor().instrument()
+
+# 専門エージェントを作成する
+web_agent = Agent(
+    name="Web Agent",
+    role="Search the web for information",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    tools=[DuckDuckGoTools()],
+    instructions="Always include sources",
+    show_tool_calls=True,
+    markdown=True,
+)
+
+finance_agent = Agent(
+    name="Finance Agent", 
+    role="Get financial data",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    tools=[YFinanceTools(stock_price=True, analyst_recommendations=True)],
+    instructions="Use tables to display data",
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# エージェントチームを作成する
+agent_team = Agent(
+    team=[web_agent, finance_agent],
+    model=OpenAIChat(id="gpt-4o"),
+    instructions=["Always include sources", "Use tables to display data"],
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# チームを使用する - すべてのエージェントのやり取りがトレースされる
+agent_team.print_response(
+    "What's the current market sentiment around NVIDIA? Include both news analysis and financial metrics.",
+    stream=True
+)
+```
+
+このマルチエージェントのトレースでは、Weave 内のさまざまなエージェント間の連携を可視化し、タスクがエージェントチーム全体にどのように分散され、実行されているかを把握できます。
+
+<Frame>
+  ![Agno マルチエージェントチームのトレース可視化](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
+</Frame>
+
+<div id="work-with-reasoning-agents">
+  ## Reasoning Agent を扱う
+</div>
+
+Agno には、エージェントが問題を段階的に考えられるようにする組み込みの推論機能があります。こうした推論プロセスもトレースに記録されます。
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.tools.reasoning import ReasoningTools
+from agno.tools.yfinance import YFinanceTools
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# AgnoInstrumentorをtracing.pyファイルから読み込む
+from tracing import AgnoInstrumentor
+
+# Agnoのインストルメンテーションを開始する
+AgnoInstrumentor().instrument()
+
+# 推論エージェントを作成する
+reasoning_agent = Agent(
+    name="Reasoning Finance Agent",
+    model=OpenAIChat(id="gpt-4o"),
+    tools=[
+        ReasoningTools(add_instructions=True),
+        YFinanceTools(
+            stock_price=True,
+            analyst_recommendations=True,
+            company_info=True,
+            company_news=True
+        ),
+    ],
+    instructions="Use tables to display data and show your reasoning process",
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# 推論エージェントを使用する
+reasoning_agent.print_response(
+    "Should I invest in Apple stock right now? Analyze the current situation and provide a reasoned recommendation.",
+    stream=True
+)
+```
+
+推論のステップはトレース内で確認でき、エージェントが複雑な問題をどのように分解し、どのように意思決定しているかが可視化されます。
+
+<Frame>
+  ![A trace visualization of Agno reasoning agent](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
+</Frame>
+
+<div id="work-with-memory-and-knowledge">
+  ## メモリとナレッジの利用
+</div>
+
+Agno エージェントはメモリを保持し、ナレッジベースへアクセスできます。これらの処理もトレースされます。
+
+```python lines
+from agno.agent import Agent
+from agno.models.openai import OpenAIChat
+from agno.memory import AgentMemory
+from agno.storage.sqlite import SqliteStorage
+
+from dotenv import load_dotenv
+load_dotenv()
+
+# AgnoInstrumentorをtracing.pyファイルから読み込む
+from tracing import AgnoInstrumentor
+
+# Agnoのインストルメンテーションを開始する
+AgnoInstrumentor().instrument()
+
+
+# メモリを持つエージェントを作成する
+memory_agent = Agent(
+    name="Memory Agent",
+    model=OpenAIChat(id="gpt-4o-mini"),
+    memory=AgentMemory(),
+    storage=SqliteStorage(
+        table_name="agent_sessions",
+        db_file="agent_memory.db"
+    ),
+    instructions="Remember our conversation history",
+    show_tool_calls=True,
+    markdown=True,
+)
+
+# 最初のインタラクション
+memory_agent.print_response("My name is John and I'm interested in AI investing strategies.")
+
+# 2回目のインタラクション - エージェントは前のコンテキストを記憶している
+memory_agent.print_response("What specific AI companies would you recommend for my portfolio?")
+```
+
+<Frame>
+  ![Agno のメモリ使用量のトレース可視化](/weave/guides/integrations/imgs/agno/agno_memory_use.png)
+</Frame>
+
+会話履歴の保存や取得を含むメモリ操作が、トレースに含まれます。
+
+<div id="learn-more">
+  ## 詳細情報
+</div>
+
+* [Weave ドキュメント: OTEL トレースを Weave に送信する](../tracking/otel)
+* [公式 Agno ドキュメント](https://docs.agno.com/)
+* [公式 OTEL ドキュメント](https://opentelemetry.io/)
+* [Agno GitHub リポジトリ](https://github.com/agno-agi/agno)
+* [OpenInference Agno instrumentation](https://pypi.org/project/openinference-instrumentation-agno/)

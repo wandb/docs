@@ -1,0 +1,156 @@
+---
+title: "HuggingFace データセットによる評価"
+description: "W&B Weave で HuggingFace データセットを使って評価を行う方法を学ぶ"
+---
+
+<Note>
+これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから利用できます:
+- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/hf_dataset_evals.ipynb)
+- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/hf_dataset_evals.ipynb)
+</Note>
+
+<div id="using-huggingface-datasets-in-evaluations-with-preprocess_model_input">
+  # `preprocess_model_input` を用いた評価で HuggingFace Datasets を使用する
+</div>
+
+<div id="note-this-is-a-temporary-workaround">
+  ## 注意: これは一時的な回避策です
+</div>
+
+> このガイドでは、HuggingFace Datasets を Weave の評価で利用するための回避策を紹介します。<br /><br/>
+現在、このプロセスを簡素化する、よりシームレスなインテグレーションの開発を進めています。\
+> この方法でも動作しますが、今後、外部データセットをより扱いやすくするための改善と更新が行われる予定です。
+
+<div id="setup-and-imports">
+  ## セットアップとインポート
+</div>
+
+まず Weave を初期化し、Experiments を追跡するために Weights &amp; Biases に接続します。
+
+```python lines
+!pip install datasets wandb weave
+python
+# 変数を初期化する
+HUGGINGFACE_DATASET = "wandb/ragbench-test-sample"
+WANDB_KEY = ""
+WEAVE_TEAM = ""
+WEAVE_PROJECT = ""
+
+# Weaveと必要なライブラリを初期化する
+import asyncio
+
+import nest_asyncio
+import wandb
+from datasets import load_dataset
+
+import weave
+from weave import Evaluation
+
+# wandbにログインしてWeaveを初期化する
+wandb.login(key=WANDB_KEY)
+client = weave.init(f"{WEAVE_TEAM}/{WEAVE_PROJECT}")
+
+# ネストされたイベントループを許可するためにnest_asyncioを適用する（一部のノートブック環境で必要）
+nest_asyncio.apply()
+```
+
+
+<div id="load-and-prepare-huggingface-dataset">
+  ## HuggingFace データセットを読み込んで準備する
+</div>
+
+* HuggingFace データセットを読み込みます。
+* データセットの各行を参照するためのインデックスマッピングを作成します。
+* このインデックス方式により、元のデータセットへの参照を維持できます。
+
+> **Note:**<br />
+> インデックス内では、各行が一意の識別子を持つように、`hf_id` とともに `hf_hub_name` をエンコードします。
+> この一意のダイジェスト値は、評価中に特定のデータセットエントリを追跡および参照するために使用されます。
+
+```python lines
+# HuggingFaceデータセットを読み込む
+ds = load_dataset(HUGGINGFACE_DATASET)
+row_count = ds["train"].num_rows
+
+# データセットのインデックスマッピングを作成する
+# HFデータセットのインデックスを持つ辞書のリストを作成する
+# 例: [{"hf_id": 0}, {"hf_id": 1}, {"hf_id": 2}, ...]
+hf_index = [{"hf_id": i, "hf_hub_name": HUGGINGFACE_DATASET} for i in range(row_count)]
+```
+
+
+<div id="define-processing-and-evaluation-functions">
+  ## 処理関数と評価関数を定義する
+</div>
+
+<div id="processing-pipeline">
+  ### 処理パイプライン
+</div>
+
+* `preprocess_example`: インデックス参照を、評価に必要な実データへと変換します
+* `hf_eval`: モデル出力のスコアリング方法を定義します
+* `function_to_evaluate`: 実際に評価される関数／モデルです
+
+```python lines
+@weave.op()
+def preprocess_example(example):
+    """
+    評価前に各サンプルを前処理します。
+    Args:
+        example: hf_idを含むDict
+    Returns:
+        HFデータセットのプロンプトを含むDict
+    """
+    hf_row = ds["train"][example["hf_id"]]
+    return {"prompt": hf_row["question"], "answer": hf_row["response"]}
+
+@weave.op()
+def hf_eval(hf_id: int, output: dict) -> dict:
+    """
+    モデル出力を評価するスコアリング関数。
+    Args:
+        hf_id: HFデータセット内のインデックス
+        output: 評価対象のモデルからの出力
+    Returns:
+        評価スコアを含むDict
+    """
+    hf_row = ds["train"][hf_id]
+    return {"scorer_value": True}
+
+@weave.op()
+def function_to_evaluate(prompt: str):
+    """
+    評価対象の関数（例：モデルやパイプライン）。
+    Args:
+        prompt: データセットからの入力プロンプト
+    Returns:
+        モデル出力を含むDict
+    """
+    return {"generated_text": "testing "}
+```
+
+
+<div id="create-and-run-evaluation">
+  ### 評価を作成して実行する
+</div>
+
+* hf&#95;index の各インデックスに対して:
+  1. `preprocess_example` が HF データセットから対応するデータを取得します。
+  2. 前処理されたデータを `function_to_evaluate` に渡します。
+  3. 出力を `hf_eval` でスコアリングします。
+  4. 結果を Weave でトラッキングします。
+
+```python lines
+# 評価オブジェクトを作成する
+evaluation = Evaluation(
+    dataset=hf_index,  # インデックスマッピングを使用する
+    scorers=[hf_eval],  # スコアリング関数のリスト
+    preprocess_model_input=preprocess_example,  # 入力を準備する関数
+)
+
+# 評価を非同期で実行する
+async def main():
+    await evaluation.evaluate(function_to_evaluate)
+
+asyncio.run(main())
+```

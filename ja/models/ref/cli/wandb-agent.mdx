@@ -1,0 +1,47 @@
+---
+title: "wandb agent"
+---
+
+{/*
+  このコマンドに導入文を追加するには：
+  1. スニペットファイルを作成します：/snippets/_includes/cli/wandb-agent.mdx
+  2. そのファイルに導入文を追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します：
+
+  import WandbAgent from "/snippets/_includes/cli/wandb-agent.mdx";
+
+  <WandbAgent/>
+
+  スニペットは次回の再生成時に自動的に検出されます。
+  */}
+
+W&amp;B エージェントを起動する
+
+
+<div id="usage">
+  ## 使用方法
+</div>
+
+```bash
+wandb agent SWEEP_ID [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `SWEEP_ID` | 説明はありません | 必須 |
+
+<div id="options">
+  ## オプション
+</div>
+
+| オプション | 説明 |
+| :--- | :--- |
+| `--project`, `-p` | スイープから作成された W&B run が送信されるプロジェクト名。プロジェクトが指定されていない場合、run は「Uncategorized」というラベルの付いたプロジェクトに送信されます。 |
+| `--entity`, `-e` | スイープによって作成された W&B run を送信したいユーザー名またはチーム名。指定するエンティティがすでに存在していることを確認してください。エンティティを指定しない場合、run は通常ユーザー名であるデフォルトのエンティティに送信されます。 |
+| `--count` | このエージェントが扱う run の最大数。 |
+| `--forward-signals`, `-f` | エージェントに届いたシグナル（例: SIGINT/SIGTERM）を子 run に転送し、クリーンにシャットダウンできるようにします（デフォルト: False）。 |

@@ -1,0 +1,115 @@
+---
+title: "Weave プロジェクトを管理する"
+description: "Weave プロジェクトを使用して、トレース、プロンプト、評価、モデル、ダッシュボードなどの関連アセットを整理します。"
+---
+
+Weave プロジェクトは、トレース、評価、モデル、データセット、その他の Weave アセットなど、関連するアセットを整理して管理します。プロジェクトを使うことで、チームの作業を整理し、共同作業や共有を効率化し、時間の経過に伴う LLM アプリケーションの進化を追跡できます。
+
+<div id="project-resources">
+  ## プロジェクトリソース
+</div>
+
+プロジェクトには次のリソースが含まれます:
+
+| Resource | Description |
+| --- | --- |
+| **Traces** | デバッグと分析のために、入力・出力・レイテンシ・トークン使用量を記録する、個々の LLM 呼び出し、関数実行、およびアプリケーションフロー。詳細は [Traces](/ja/weave/guides/tracking/tracing) を参照してください。|
+| **Evaluations** | スコアリング関数を使って品質、正確性、その他のメトリクスを測定し、モデルのパフォーマンスをデータセットと比較するテスト結果。詳細は [Evaluations](/ja/weave/guides/core-types/evaluations) を参照してください。 |
+| **Monitors** | 本番環境で、LLM-as-a-judge 型スコアラーを使って一部の関数呼び出しを自動的にスコアリングし、時間の経過に伴う品質メトリクスを追跡するバックグラウンドプロセス。詳細は [Monitors](/ja/weave/guides/evaluation/monitors) を参照してください。 |
+| **Leaderboards** | 異なる evaluation run 間でのモデルパフォーマンスをランキング形式で比較し、最も性能の高い設定を特定できるビュー。詳細は [Leaderboards](/ja/weave/guides/core-types/leaderboards) を参照してください。 |
+| **Threads** | 関連する呼び出しを共通のスレッド ID の下にまとめ、ユーザーとのインタラクション全体を分析できるようにする、マルチターンの会話およびセッションベースのワークフロー。詳細は [Threads](/ja/weave/guides/tracking/threads) を参照してください。 |
+| **Assets** | **Assets** タブには、プロジェクト内のバージョン管理されたオブジェクトが保存・整理されます: <ul><li>**Models**: プロンプト、パラメータ、および設定を保持し、再現性と比較のために変更を自動的に追跡するバージョン管理されたモデル定義。詳細は [Models](/ja/weave/guides/core-types/models) を参照してください。</li><li>**Datasets**: ダウンロード、閲覧、および evaluation の実行に使用できる、Weave オブジェクトとして保存されたテスト例のコレクション。詳細は [Datasets](/ja/weave/guides/core-types/datasets) を参照してください。</li><li>**Prompts**: モデル設定内でテストおよび再利用できる、バージョン管理されたシステムプロンプト。詳細は [Prompts](/ja/weave/guides/core-types/prompts) を参照してください。</li><li>**Scorers**: モデルの入力および出力を評価し、品質、安全性、あるいはカスタムメトリクスを測定する関数。詳細は [Scorers](/ja/weave/guides/evaluation/scorers) を参照してください。</li><li>**Ops**: `@weave.op()` でデコレートされ、自動でバージョン管理およびトラッキングされる関数で、呼び出しを生成し、関数変更の履歴を保持します。詳細は [Ops](/ja/weave/guides/tracking/ops) を参照してください。</li><li>**Other objects and metadata**: プロジェクト内に保存される、その他の Weave オブジェクト、カスタム型、および関連メタデータ。</li></ul> |
+
+<div id="project-paths">
+  ## プロジェクトパス
+</div>
+
+[Teams](/ja/platform/hosting/iam/org_team_struct#team)（Entities とも呼ばれます）が、W&amp;B 組織内のプロジェクトを所有し管理します。チーム名とプロジェクト名によって、W&amp;B UI におけるプロジェクトへのパスが構成されます。また、このパスはコード内でも使用し、Weave リソースをそのプロジェクトに関連付けます。
+
+たとえば、チーム名が `my-team` でプロジェクト名が `my-project` の場合、プロジェクトへのパスは次のようになります。
+
+```
+my-team/my-project
+```
+
+アプリのデータをプロジェクトに関連付けるために、コード内で Weave を初期化するときはこのパスを指定します：
+
+```
+weave.init('my-team/my-project')
+```
+
+<div id="create-and-find-projects">
+  ## プロジェクトの作成と検索
+</div>
+
+Weave プロジェクトは、W&amp;B UI から、またはコード内で新しいプロジェクトパスを設定することで作成できます。
+
+<Tabs>
+  <Tab title="W&B UI">
+    W&amp;B UI を使って新しいプロジェクトを作成するには、次の手順に従います。
+
+    1. [wandb.ai](https://wandb.ai) にアクセスします。
+    2. **New project** を選択します。**Create a new project** モーダルダイアログが開きます。
+    3. モーダルで、次のフィールドを設定します。
+       * **Team**: プロジェクトを関連付ける先の既存チーム。
+       * **Name**: プロジェクトの名前。
+       * **Project visibility**: プロジェクトを閲覧および編集できる範囲。
+       * **Description**: （任意）プロジェクトの目的を追跡・整理するのに役立つ短い説明。
+    4. 必要なフィールドを設定したら、**Create project** を選択します。プロジェクトが作成されます。
+
+    作成したばかりのプロジェクトを見つけるには、左上の **Weights &amp; Biases ロゴ** を選択して **Global navigation** メニューを開きます。このメニューには、最近使用したプロジェクトと所属しているチームが一覧表示されるため、すばやくコンテキストを切り替えることができます。対象のプロジェクトを選択して、そのプロジェクトのワークスペースを開きます。
+
+    別の方法として、右上の自身の名前の下にあるメニューから **Profile** を開くこともできます。**Projects** タブには、すべてのプロジェクトが一覧表示されます。
+
+    新しいプロジェクトのワークスペースを開くと、UI には W&amp;B Models と W&amp;B Weave の両方のクイックスタートが表示されます。プロジェクトのツールバーにも、それぞれのプロダクト用のツールが表示されます。コードから Weave データをプロジェクトに関連付けた後は、サイドナビには Weave ツールのみが表示され、Weave ダッシュボードが利用可能になります。
+  </Tab>
+
+  <Tab title="Weave SDK">
+    コードから直接 Weave プロジェクトを作成するには、新しいプロジェクトパスを `weave.init()` の引数として渡します。
+
+    <CodeGroup>
+      ```python
+      import weave
+
+      weave.init('my-team/my-llm-app')
+      ```
+
+      ```typescript
+      import * as weave from 'weave';
+
+      await weave.init('my-team/my-llm-app');
+      ```
+    </CodeGroup>
+
+    このコードを実行すると、Weave は W&amp;B アカウント内に新しいプロジェクトを作成し、その run からの該当するデータをプロジェクトにアップロードします。さらに、そのプロジェクトを Weave プロジェクト（W&amp;B Models プロジェクトではない）として設定し、UI のサイドナビには Weave ツールのみが表示されるようになります。
+  </Tab>
+</Tabs>
+
+<div id="view-projects-in-the-ui">
+  ## UI でプロジェクトを表示する
+</div>
+
+Weave UI でプロジェクトにアクセスするには:
+
+1. [wandb.ai](https://wandb.ai) に移動します。
+2. 左上の **Weights &amp; Biases ロゴ** をクリックして **Global navigation menu** を開き、**Projects** サイドバーからプロジェクトを選択します。これにより、そのプロジェクトの概要ページ、またはすでにトレースをプロジェクトにログしている場合は **Traces** ページが開きます。
+3. 概要ページからは次のことができます:
+   * プロジェクトにログされたトレース数や、プロジェクトが使用しているストレージ量などの統計情報を確認する。
+   * サイドバーを使用して、トレース、評価、その他のリソースに移動する。
+   * 最近ログされたトレース、評価、モデル、データセットに移動する。
+
+<Frame>
+  ![Weave project](/weave/guides/platform/imgs/weave-project.png)
+</Frame>
+
+<div id="delete-a-project">
+  ## プロジェクトを削除する
+</div>
+
+W&amp;B アカウントからプロジェクトを削除するには、次の手順を実行します。
+
+1. [wandb.ai](https://wandb.ai) にアクセスします。
+2. **Projects** サイドバーから対象のプロジェクトを選択します。プロジェクトの概要ページが開きます。すでにそのプロジェクトにトレースを記録している場合は、代わりに **Traces** ページが開きます。
+3. サイドナビで **Project** (<Icon icon="circle-info" size={16} />) ボタンを選択し、まだ開いていない場合はプロジェクトの概要ページを開きます。
+4. 三点メニュー (<Icon icon="ellipsis" size={16} />) を選択し、一覧から **Delete Project** を選択します。**Delete project** モーダルダイアログが開きます。
+5. モーダル内の確認フィールドにプロジェクト名を入力し、**Delete** をクリックします。プロジェクトは W&amp;B アカウントから完全に削除されます。

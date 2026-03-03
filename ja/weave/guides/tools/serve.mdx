@@ -1,0 +1,37 @@
+---
+title: "Serve"
+description: "Weave の ops とモデルを API エンドポイントとして公開する"
+---
+
+任意の Weave モデルへの Weave ref があれば、以下を実行できます：
+
+```
+weave serve <ref>
+```
+
+そのモデル用の FastAPI サーバーを起動します。[http://0.0.0.0:9996/docs](http://0.0.0.0:9996/docs) にアクセスして、モデルに対して対話的にクエリを実行できます。
+
+
+<div id="install-fastapi">
+  ## FastAPI のインストール
+</div>
+
+```bash
+pip install fastapi uvicorn
+```
+
+
+<div id="serve-model">
+  ## モデルをサーブする
+</div>
+
+ターミナルで次を実行します：
+
+```bash
+weave serve <your model ref>
+```
+
+UI で対象のモデルに移動し、`model ref` をコピーします。次のような形式になっています:
+`weave://your_entity/project-name/YourModel:<hash>`
+
+これを使用するには、Swagger UI のリンクを開き、predict エンドポイントをクリックしてから「Try it out!」をクリックします。

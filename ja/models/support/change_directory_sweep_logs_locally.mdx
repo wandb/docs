@@ -1,0 +1,9 @@
+---
+title: sweep のログをローカルに保存するディレクトリを変更するにはどうすればよいですか？
+---
+
+W&amp;B の run データを記録するディレクトリは、環境変数 `WANDB_DIR` を設定することで変更できます。例えば次のようにします:
+
+```python
+os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
+```

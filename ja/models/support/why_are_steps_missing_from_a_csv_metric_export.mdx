@@ -1,0 +1,15 @@
+---
+title: CSV メトリックのエクスポートで step が欠けているのはなぜですか？
+---
+
+エクスポートの制限により、run の履歴全体を CSV として、または `run.history` API を使ってエクスポートできない場合があります。run の完全な履歴にアクセスするには、Parquet 形式で run history のアーティファクトをダウンロードしてください。
+
+```python
+import wandb
+import pandas as pd
+
+with wandb.init() as run:
+    artifact = run.use_artifact('<entity>/<project>/<run-id>-history:v0', type='wandb-history')
+    artifact_dir = artifact.download()
+    df = pd.read_parquet('<path to .parquet file>')
+```

@@ -1,0 +1,159 @@
+---
+title: Self-Managed インフラストラクチャ要件
+description: W&B Self-Managed デプロイメント向けのインフラストラクチャおよびソフトウェア要件
+---
+
+import SelfManagedVersionRequirements from "/snippets/ja/_includes/self-managed-version-requirements.mdx";
+import SelfManagedHardwareRequirements from "/snippets/ja/_includes/self-managed-hardware-requirements.mdx";
+import SelfManagedMysqlRequirements from "/snippets/ja/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlDatabaseCreation from "/snippets/ja/_includes/self-managed-mysql-database-creation.mdx";
+import SelfManagedRedisRequirements from "/snippets/ja/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/ja/_includes/self-managed-object-storage-requirements.mdx";
+import ByobProvisioningLink from "/snippets/ja/_includes/byob-provisioning-link.mdx";
+import SelfManagedNetworkingRequirements from "/snippets/ja/_includes/self-managed-networking-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/ja/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedObtainLicense from "/snippets/ja/_includes/self-managed-obtain-license.mdx";
+
+このページでは、W&amp;B Self-Managed をデプロイするためのインフラストラクチャおよびソフトウェア要件を網羅的にまとめています。デプロイを開始する前に、これらの要件を確認してください。
+
+<Note>
+  W&amp;B は、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) や [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud/) などのフルマネージドなデプロイオプションを推奨します。W&amp;B のフルマネージドサービスは、必要な設定がほとんど、あるいはまったく不要で、簡単かつ安全に利用できます。
+</Note>
+
+アーキテクチャ全体に関するガイドラインについては、[リファレンスアーキテクチャ](/ja/platform/hosting/self-managed/ref-arch/) を参照してください。
+
+<div id="software-version-requirements">
+  ## ソフトウェアのバージョン要件
+</div>
+
+<SelfManagedVersionRequirements />
+
+<div id="hardware-requirements">
+  ## ハードウェア要件
+</div>
+
+<SelfManagedHardwareRequirements />
+
+ユースケース（Models のみ、Weave のみ、または両方）に基づく詳細なサイジングの推奨事項については、[リファレンスアーキテクチャのサイジングセクション](/ja/platform/hosting/self-managed/ref-arch/#sizing)を参照してください。
+
+<div id="kubernetes">
+  ## Kubernetes
+</div>
+
+W&amp;B Server は複数の pod を管理する [Kubernetes Operator](/ja/platform/hosting/self-managed/operator/) としてデプロイされます。Kubernetes クラスターは次の要件を満たしている必要があります。
+
+* **バージョン**: 上記の「[ソフトウェアバージョンの要件](#software-version-requirements)」を参照
+* **Ingress コントローラ**: 適切に設定され、正常に動作している Ingress コントローラ (Nginx、Istio、Traefik、またはクラウドプロバイダーの Ingress)
+* **永続ボリューム**: 永続ボリュームをプロビジョニングできること
+* **CPU アーキテクチャ**: Intel または AMD の 64 ビット (ARM はサポート対象外)
+
+W&amp;B は、クラウド、オンプレミス、およびエアギャップ環境での [OpenShift Kubernetes クラスター](https://www.redhat.com/en/technologies/cloud-computing/openshift) へのデプロイをサポートしています。具体的な設定手順については、Operator ガイドの [OpenShift セクション](/ja/platform/hosting/self-managed/operator/#openshift-kubernetes-clusters) を参照してください。
+
+ロードバランサーおよび Ingress の設定を含む Kubernetes の完全な要件については、[reference architecture の Kubernetes セクション](/ja/platform/hosting/self-managed/ref-arch/#kubernetes) を参照してください。
+
+<div id="mysql-database">
+  ## MySQL データベース
+</div>
+
+<SelfManagedMysqlRequirements />
+
+**W&amp;B では、本番環境へのデプロイには AWS RDS Aurora MySQL、Google Cloud SQL for MySQL、Azure Database for MySQL などのマネージドデータベースサービスの利用を強く推奨します。**マネージドサービスは、自動バックアップ、監視、高可用性、パッチ適用などを提供し、運用の複雑さを大幅に軽減します。
+
+<div id="mysql-configuration-parameters">
+  ### MySQL の設定パラメータ
+</div>
+
+独自の MySQL インスタンスを使用している場合は、次のパラメータで MySQL を設定してください。
+
+```
+binlog_format = 'ROW'
+binlog_row_image = 'MINIMAL'
+innodb_flush_log_at_trx_commit = 1
+innodb_online_alter_log_max_size = 268435456
+max_prepared_stmt_count = 1048576
+sort_buffer_size = '67108864'
+sync_binlog = 1
+```
+
+これらの設定は、最適なパフォーマンスと信頼性を得るために W&amp;B が検証済みです。
+
+<div id="database-creation">
+  ### データベースの作成
+</div>
+
+MySQL データベースおよびユーザーを手動で作成する手順については、以下を参照してください。
+
+<SelfManagedMysqlDatabaseCreation />
+
+バックアップ、パフォーマンス、監視、可用性などの追加の考慮事項については、[リファレンスアーキテクチャの MySQL セクション](/ja/platform/hosting/self-managed/ref-arch/#mysql)を参照してください。
+
+<div id="redis">
+  ## Redis
+</div>
+
+<SelfManagedRedisRequirements />
+
+W&amp;B は、次の環境で Redis インスタンスに接続できます。
+
+* [AWS Elasticache](https://aws.amazon.com/pm/elasticache/)
+* [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
+* [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
+* お使いのクラウド環境またはオンプレミスインフラストラクチャ上でホストされている Redis デプロイメント
+
+<div id="object-storage">
+  ## オブジェクトストレージ
+</div>
+
+<SelfManagedObjectStorageRequirements />
+
+<ByobProvisioningLink />
+
+<div id="configure-wb-to-use-your-bucket">
+  ### バケットを使用するように W&amp;B を設定する
+</div>
+
+バケットのプロビジョニング後、Operator の Helm values を使って、W&amp;B がそのバケットを使用するように設定します。詳細については、[Operator のオブジェクトストレージバケット設定セクション](/ja/platform/hosting/self-managed/operator/#object-storage-bucket)を参照してください。
+
+<div id="networking">
+  ## ネットワーク
+</div>
+
+<SelfManagedNetworkingRequirements />
+
+<div id="dns">
+  ### DNS
+</div>
+
+W&amp;B デプロイメントの完全修飾ドメイン名 (FQDN) は、A レコードを使用して Ingress / ロードバランサーの IP アドレスに名前解決される必要があります。
+
+<div id="load-balancer-and-ingress">
+  ### ロードバランサーと Ingress
+</div>
+
+W&amp;B Kubernetes Operator は Kubernetes の Ingress コントローラーを利用してサービスを公開します。Ingress コントローラーは URL パスに基づいてサービスエンドポイントにルーティングします。Ingress コントローラーには、機械学習のペイロードを実行するすべてのマシン、または Web ブラウザ経由でサービスにアクセスするすべてのマシンからアクセス可能である必要があります。
+
+ロードバランサーの詳細なオプション、Ingress コントローラーの要件、および設定例については、[リファレンスアーキテクチャのロードバランサーのセクション](/ja/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress)を参照してください。
+
+<div id="ssltls">
+  ## SSL/TLS
+</div>
+
+<SelfManagedSslTlsRequirements />
+
+<div id="license">
+  ## ライセンス
+</div>
+
+すべての Self-Managed 環境でのデプロイには、有効な W&amp;B Server ライセンスが必要です。
+
+<SelfManagedObtainLicense />
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+インフラストラクチャがこれらの要件を満たしていることを確認したら、次に進みます。
+
+* **クラウドおよびオンプレミス環境へのデプロイ**: Helm と Terraform によるデプロイ方法については、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
+* **エアギャップ環境へのデプロイ**: 分離された環境でのデプロイ方法については、[Deploy on Air-Gapped Kubernetes](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) を参照してください。
+* **すべてのデプロイ方法**: オペレーターによる基本的なデプロイ手順については、[Deploy with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。

@@ -1,0 +1,42 @@
+---
+title: Object3D
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
+
+
+## <kbd>class</kbd> `Object3D`
+
+W&B の 3D ポイントクラウド用クラスです。 
+
+### <kbd>method</kbd> `Object3D.__init__`
+
+```python
+__init__(
+    data_or_path: Union[ForwardRef('np.ndarray'), str, pathlib.Path, ForwardRef('TextIO'), dict],
+    caption: Optional[str] = None,
+    **kwargs: Optional[str, ForwardRef('FileFormat3D')]
+) → None
+```
+
+W&amp;B の Object3D オブジェクトを作成します。
+
+**引数:**
+
+* `data_or_path`:  Object3D はファイルまたは NumPy 配列から初期化できます。
+* `caption`:  表示時にオブジェクトに関連付けられるキャプション。
+
+**例:**
+NumPy 配列の形状は、次のいずれかである必要があります。
+
+```text
+[[x y z],       ...] nx3
+[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
+[[x y z r g b], ...] nx6 where is rgb is color
+```
+
+***

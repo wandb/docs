@@ -1,0 +1,174 @@
+---
+title: "クイックスタート: LLM の入出力を追跡する"
+description: "トレースを追加して LLM アプリのデバッグを開始しましょう。"
+mode: "wide"
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prereqs.mdx";
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/traces-quickstart.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/traces-quickstart.ipynb" />
+</div>
+
+コードにトレースを追加し、Weave を使って LLM の呼び出しを追跡する方法を学びます。このクイックスタートでは、OpenAI へのリクエストをトレースし、その結果を Weave UI で確認するまでの手順を順を追って解説します。
+
+<div id="what-youll-learn">
+  ## 学習内容
+</div>
+
+このガイドでは、次のことを行う方法を説明します。
+
+* コード内で Weave をインポートして設定する
+* `weave.op` デコレーターを使ってコードを追跡する
+* Weave UI でトレースを表示する
+
+<WeaveQuickstartPrereqs />
+
+<div id="log-a-trace-to-a-new-project">
+  ## 新しいプロジェクトにトレースを記録する
+</div>
+
+コードのトラッキングを開始し、Weave にトレースを記録するには、次の手順を実行します:
+
+1. `weave` ライブラリをコードにインポートします。
+2. コード内で `weave.init('your_wb_team/project_name')` を呼び出し、トラッキング情報を W&amp;B の [team](/ja/platform/app/settings-page/teams) と [project](/ja/platform/hosting/iam/org_team_struct#project) に送信します。team を設定しない場合、トレースはあなたの[デフォルト team](/ja/platform/app/settings-page/user-settings/#default-team) に送信されます。指定した project が team 内に存在しない場合、Weave が新しく作成します。
+3. トラッキングしたい特定の関数に [`@weave.op()` デコレータ](/ja/weave/guides/tracking/ops) を追加します。Weave はサポートされている LLM への呼び出しを自動的にトラッキングしますが、Weave のデコレータを追加すると、特定の関数の入力、出力、およびコードをトラッキングできます。デコレータは TypeScript では次の構文を使用します: `weave.op(your_function)`
+
+次のサンプルコードは OpenAI にリクエストを送信し（[OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key) が必要）、Weave はそのリクエストのトレース情報を記録します。リクエストでは、OpenAI モデルに入力から恐竜の名前を抽出し、各恐竜の食性（草食か肉食か）を特定するように指示します。
+
+次のサンプルコードを実行して、Weave を使って最初のプロジェクトをトラッキングしてください:
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {1-2,7-8,27-28}
+    # Weave ライブラリをインポート
+    import weave
+    from openai import OpenAI
+
+    client = OpenAI()
+
+    # Weave はこの関数の入力、出力、コードを自動的にトラッキングします
+    @weave.op()
+    def extract_dinos(sentence: str) -> dict:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """In JSON format extract a list of `dinosaurs`, with their `name`,
+    their `common_name`, and whether its `diet` is a herbivore or carnivore"""
+                },
+                {
+                    "role": "user",
+                    "content": sentence
+                }
+                ],
+                response_format={ "type": "json_object" }
+            )
+        return response.choices[0].message.content
+
+    # Weave を初期化し、データをログする team と project を設定
+    weave.init('your-team/traces-quickstart')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    result = extract_dinos(sentence)
+    print(result)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines {1-2,7-8,20,24-25}
+    // Weave ライブラリをインポート
+    import * as weave from 'weave';
+    import OpenAI from 'openai';
+
+    const openai = new OpenAI();
+
+    // Weave はこの関数の入力、出力、コードを自動的にトラッキングします  
+    async function extractDinos(input: string) {
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'user',
+            content: `In JSON format extract a list of 'dinosaurs', with their 'name', their 'common_name', and whether its 'diet' is a herbivore or carnivore: ${input}`,
+          },
+        ],
+      });
+      return response.choices[0].message.content;
+    }
+    const extractDinosOp = weave.op(extractDinos);
+
+    async function main() {
+
+      // Weave を初期化し、データをログする team と project を設定
+      await weave.init('your-team/traces-quickstart');
+
+      const result = await extractDinosOp(
+        'I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below.'
+      );
+      console.log(result);
+    }
+
+    main();
+
+    ```
+  </Tab>
+</Tabs>
+
+`extract_dinos` 関数を呼び出すと、Weave はターミナルにトレースを表示するためのリンクを出力します。出力は次のようになります:
+
+```shell
+weave:  $ pip install weave --upgrade
+weave: Logged in as Weights & Biases user: example-username.
+weave: View Weave data at https://wandb.ai/your-team/traces-quickstart/weave
+weave: 🍩 https://wandb.ai/your-team/traces-quickstart/r/call/019ae171-7f32-7c96-8b42-931a32f900b7
+{
+  "dinosaurs": [
+    {
+      "name": "Tyrannosaurus rex",
+      "common_name": "T. rex",
+      "diet": "carnivore"
+    },
+    {
+      "name": "Triceratops",
+      "common_name": "Trike",
+      "diet": "herbivore"
+    },
+    {
+      "name": "Brachiosaurus",
+      "common_name": "Brachi",
+      "diet": "herbivore"
+    }
+  ]
+}
+```
+
+<div id="see-traces-of-your-application-in-your-project">
+  ## アプリケーションのトレースをプロジェクト内で確認する
+</div>
+
+ターミナルに表示されたリンクをクリックするか、ブラウザに貼り付けて Weave UI を開きます。Weave UI の **Traces** パネルでトレースをクリックすると、その入力、出力、レイテンシ、トークン使用量などのデータを確認できます。
+
+![Weave Trace Outputs 1](/images/tutorial_trace_1.png)
+
+<div id="learn-more-about-traces">
+  ## Traces についてさらに詳しく知る
+</div>
+
+* [関数をデコレートして呼び出し情報を取得する方法](/ja/weave/guides/tracking/tracing)を学びましょう。
+* ログされたトレース上でさまざまなモデルを試すには [Playground](/ja/weave/guides/tools/playground) を使ってください。
+* [インテグレーションを確認する](/ja/weave/guides/integrations/)。Weave は OpenAI、Anthropic をはじめとする多くの LLM ライブラリへの呼び出しを自動的にトラッキングします。使用している LLM ライブラリが現在のインテグレーションに含まれていない場合でも、`@weave.op()` でラップすることで、他の LLM ライブラリやフレームワークへの呼び出しを簡単にトラッキングできます。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+まず [アプリケーションの評価を始める](/ja/weave/tutorial-eval) から取り組み、その後で [RAG アプリケーションの評価方法](/ja/weave/tutorial-rag) を確認してください。

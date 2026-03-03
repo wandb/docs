@@ -1,0 +1,539 @@
+---
+description: W&B によって自動的にログされるメトリクス。
+title: "システムメトリクス リファレンス"
+aliases:
+- /platform/app/settings-page/system-metrics/
+- /guides/ref/system-metrics
+---
+
+このページでは、W&amp;B SDK が追跡するシステムメトリクスの詳細を説明します。
+
+<Note>
+  `wandb` は 15 秒ごとにシステムメトリクスを自動で記録します。
+</Note>
+
+<div id="view-system-metrics">
+  ## システムメトリクスを表示する
+</div>
+
+W&amp;B App または `wandb beta leet` ターミナル UI を使用して、システムメトリクスを表示・監視できます。
+
+<Tabs>
+  <Tab title="App">
+    W&amp;B App でシステムメトリクスを表示するには:
+
+    1. W&amp;B App で自分のプロジェクトに移動します。
+    2. W&amp;B App の **Runs** テーブルから run を 1 つ選択します。
+    3. Workspace 内の **System** セクションを探します。このセクションには、次のチャートが表示されます:
+       * GPU 使用率とメモリ
+       * CPU 使用率
+       * メモリ使用量
+       * ディスク I/O
+       * ネットワークトラフィック
+
+    ワークスペースにパネルを追加することで、表示するシステムメトリクスをカスタマイズできます。可視化の作成とカスタマイズの詳細については、[Panels](/ja/models/app/features/panels/) を参照してください。
+  </Tab>
+
+  <Tab title="LEET">
+    `wandb beta leet` ターミナル UI を使用してターミナル上で run のシステムメトリクスを表示するには:
+
+    1. run をローカルのスクリプトから開始した場合は、コードを実行したディレクトリに移動します。そこには、run ごとに 1 つのサブディレクトリを持つ `wandb/` ディレクトリと、`latest-run/` というシンボリックリンクが含まれています。各 run ディレクトリには、`run-<run-ID>.wandb` という形式のトランザクションログが含まれています。
+
+       run をローカルで開始しておらず、代わりに `.wandb` トランザクションログファイルをダウンロードした場合は、その場所を控えておきます。
+    2. 次のいずれかのコマンドを使用して `wandb beta leet` を起動します:
+
+       ```bash
+       # 最新の run（./wandb/latest-run/ に保存されているもの）を表示
+       wandb beta leet
+
+       # run ディレクトリを指定
+       wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+
+       # .wandb ファイルを指定
+       wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+       ```
+
+    ![LEET ターミナル UI で run を表示している様子を示すスクリーンショット](/images/leet/leet-tui.png)
+
+    LEET は **右サイドバー** にシステムメトリクスを表示し、次の内容を示します:
+
+    * GPU 使用率 (%) とメモリ使用量 (GB)
+    * CPU 使用率
+    * RAM 使用量 (GB)
+    * ディスク I/O
+    * ネットワークアクティビティ
+
+    次のキーボードショートカットを利用できます:
+
+    * `h` または `?` - すべてのキーボードショートカットを表示
+    * `/` - パターンでメトリクスをフィルタリング
+    * `[` / `]` - 左/右サイドバーの表示を切り替え
+    * `n` / `N` - メトリクスページ間を移動
+    * `q` / `CMD+C` - 終了
+
+    詳しくは [`wandb beta leet`](/ja/models/ref/cli/wandb-beta/wandb-beta-leet) を参照してください。
+  </Tab>
+</Tabs>
+
+<div id="cpu">
+  ## CPU
+</div>
+
+<div id="process-cpu-percent-cpu">
+  ### プロセス CPU パーセント (CPU)
+</div>
+
+プロセスによる CPU 使用率を、利用可能な CPU 数で正規化したパーセンテージ。
+
+W&amp;B はこのメトリクスに `cpu` タグを割り当てます。
+
+<div id="process-cpu-threads">
+  ### プロセス CPU スレッド
+</div>
+
+プロセスによって使用されているスレッド数。
+
+W&amp;B はこのメトリックに `proc.cpu.threads` タグを付与します。
+
+{/* 新しいセクション */}
+
+<div id="disk">
+  ## ディスク
+</div>
+
+デフォルトでは、`/` パスの使用率メトリクスが収集されます。監視するパスを設定するには、次の設定を行います。
+
+```python
+run = wandb.init(
+    settings=wandb.Settings(
+        x_stats_disk_paths=("/System/Volumes/Data", "/home", "/mnt/data"),
+    ),
+)
+```
+
+<div id="disk-usage-percent">
+  ### ディスク使用率（パーセント）
+</div>
+
+指定したパスに対するシステムディスクの総使用率（パーセント）を表します。
+
+W&amp;B はこのメトリクスに `disk.{path}.usagePercent` というタグを付与します。
+
+<div id="disk-usage">
+  ### ディスク使用量
+</div>
+
+指定されたパスに対するシステムディスクの合計使用量をギガバイト (GB) 単位で表します。
+アクセス可能なパスについてサンプリングを行い、各パスのディスク使用量 (GB) をサンプルに記録します。
+
+W&amp;B はこのメトリクスに `disk.{path}.usageGB` タグを割り当てます。
+
+<div id="disk-in">
+  ### Disk In
+</div>
+
+システム全体のディスク読み取り量をメガバイト (MB) 単位で示します。\
+最初のサンプルが取得された時点で、初期のディスク読み取りバイト数が記録されます。以降のサンプルでは、現在の読み取りバイト数と初期値との差分が計算されます。
+
+このメトリクスには、W&amp;B によって `disk.in` タグが割り当てられます。
+
+<div id="disk-out">
+  ### Disk Out
+</div>
+
+システム全体のディスク書き込み量をメガバイト (MB) 単位で表します。[Disk In]() と同様に、最初のサンプル取得時にディスク書き込みバイト数の初期値が記録されます。以降のサンプルでは、現在の書き込みバイト数と初期値との差分が計算されます。
+
+W&amp;B はこのメトリックに `disk.out` タグを割り当てます。
+
+{/* 新規セクション */}
+
+<div id="memory">
+  ## メモリ
+</div>
+
+<div id="process-memory-rss">
+  ### プロセスメモリ RSS
+</div>
+
+プロセスのメモリ常駐集合サイズ (RSS: Resident Set Size) をメガバイト (MB) 単位で表します。RSS は、プロセスが使用しているメモリのうち、メインメモリ (RAM) 上に保持されている部分です。
+
+W&amp;B はこのメトリクスに `proc.memory.rssMB` タグを割り当てます。
+
+<div id="process-memory-percent">
+  ### プロセスメモリ使用率
+</div>
+
+プロセスのメモリ使用量が、利用可能なメモリ全体に対して何パーセントかを示します。
+
+W&amp;B はこのメトリクスに `proc.memory.percent` タグを割り当てます。
+
+<div id="memory-percent">
+  ### メモリ使用率（パーセント）
+</div>
+
+システム全体のメモリ使用量を、利用可能なメモリの総量に対する割合（パーセント）で表します。
+
+W&amp;B はこのメトリクスに `memory_percent` タグを付与します。
+
+<div id="memory-available">
+  ### 利用可能メモリ
+</div>
+
+システムで利用可能なメモリの合計をメガバイト (MB) 単位で示します。
+
+W&amp;B はこのメトリクスに `proc.memory.availableMB` タグを割り当てます。
+
+{/* 新しいセクション */}
+
+<div id="network">
+  ## ネットワーク
+</div>
+
+<div id="network-sent">
+  ### Network Sent
+</div>
+
+ネットワーク経由で送信された合計バイト数を表します。
+メトリックが最初に初期化された時点で、送信済みバイト数の初期値が記録されます。その後のサンプルでは、現在の送信バイト数と初期値との差分が計算されます。
+
+W&amp;B はこのメトリックに `network.sent` タグを割り当てます。
+
+<div id="network-received">
+  ### Network Received
+</div>
+
+ネットワーク経由で受信した総バイト数を示します。
+[Network Sent]() と同様に、このメトリクスが初期化された時点の受信バイト数が記録されます。以降のサンプルでは、現在の受信バイト数と初期値との差分が計算されます。
+
+W&amp;B はこのメトリクスに `network.recv` タグを割り当てます。
+
+{/* 新しいセクション */}
+
+<div id="nvidia-gpu">
+  ## NVIDIA GPU
+</div>
+
+以下で説明するメトリクスに加えて、プロセスおよび/またはその子プロセスが特定の GPU を使用している場合、W&amp;B は対応するメトリクスを `gpu.process.{gpu_index}.{metric_name}` として収集します
+
+<div id="gpu-memory-utilization">
+  ### GPU メモリ使用率
+</div>
+
+各 GPU の GPU メモリ使用率をパーセンテージで示します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.memory` タグを付与します。
+
+<div id="gpu-memory-allocated">
+  ### GPU メモリ割り当て
+</div>
+
+各 GPU の利用可能な総メモリに対して、割り当てられている GPU メモリの割合を示します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryAllocated` タグを付与します。
+
+<div id="gpu-memory-allocated-bytes">
+  ### GPU メモリの割り当てバイト数
+</div>
+
+各 GPU に割り当てられた GPU メモリ量を、バイト単位で表します。
+
+W&amp;B はこのメトリクスには `gpu.{gpu_index}.memoryAllocatedBytes` というタグを付与します。
+
+<div id="gpu-utilization">
+  ### GPU 使用率
+</div>
+
+各 GPU ごとの GPU 使用率（%）を示します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.gpu` タグを割り当てます。
+
+<div id="gpu-temperature">
+  ### GPU Temperature
+</div>
+
+各 GPU の温度（摂氏）。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.temp` タグを割り当てます。
+
+<div id="gpu-power-usage-watts">
+  ### GPU電力使用量（ワット）
+</div>
+
+各GPUの電力使用量（ワット）を示します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.powerWatts` タグを割り当てます。
+
+<div id="gpu-power-usage-percent">
+  ### GPU 電力使用率（％）
+</div>
+
+各 GPU について、その電力容量に対する GPU の電力使用量をパーセンテージで示します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.powerPercent` タグを割り当てます。
+
+<div id="gpu-sm-clock-speed">
+  ### GPU SM クロック速度
+</div>
+
+GPU 上の Streaming Multiprocessor (SM) のクロック速度を MHz 単位で表します。このメトリクスは、計算タスクを実行する GPU コアの処理速度を示します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.smClock` タグを割り当てます。
+
+<div id="gpu-memory-clock-speed">
+  ### GPU メモリクロック速度
+</div>
+
+GPU メモリのクロック速度（MHz）を表し、GPU メモリと処理コア間のデータ転送レートに影響します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.memoryClock` タグを付与します。
+
+<div id="gpu-graphics-clock-speed">
+  ### GPU グラフィックスクロック速度
+</div>
+
+GPU 上でのグラフィックス描画処理におけるベースクロック速度を表し、MHz で示されます。このメトリクスは、可視化やレンダリングタスク実行時のパフォーマンスを反映することがよくあります。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.graphicsClock` タグを付与します。
+
+<div id="gpu-corrected-memory-errors">
+  ### GPU 訂正メモリエラー
+</div>
+
+GPU 上で発生したメモリエラーのうち、エラーチェックプロトコルによって W&amp;B が自動的に訂正したものの回数を追跡します。これは、回復可能なハードウェア問題が発生していることを示します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.correctedMemoryErrors` タグを割り当てます。
+
+<div id="gpu-uncorrected-memory-errors">
+  ### GPU Uncorrected Memory Errors
+</div>
+
+GPU 上で発生した訂正不可能なメモリエラーの数を追跡し、処理の信頼性に影響を及ぼす可能性のある回復不能なエラーの存在を示します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.unCorrectedMemoryErrors` タグを割り当てます。
+
+<div id="gpu-encoder-utilization">
+  ### GPU エンコーダー使用率
+</div>
+
+GPU のビデオエンコーダーの使用率（パーセンテージ）を表し、エンコードタスク（たとえば動画レンダリング）が実行されているときの負荷を示します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.encoderUtilization` タグを付与します。
+
+{/* 新規セクション */}
+
+<div id="amd-gpu">
+  ## AMD GPU
+</div>
+
+W&amp;B は、AMD が提供する `rocm-smi` ツールの出力（`rocm-smi -a --json`）からメトリクスを抽出します。
+
+ROCm の [6.x（最新）](https://rocm.docs.amd.com/en/latest/) と [5.x](https://rocm.docs.amd.com/en/docs-5.6.0/) の形式がサポートされています。ROCm の形式について詳しくは、[AMD ROCm ドキュメント](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html)を参照してください。新しい形式では、より詳細な情報が含まれます。
+
+<div id="amd-gpu-utilization">
+  ### AMD GPU 使用率
+</div>
+
+各 AMD GPU デバイスの GPU 使用率をパーセントで表します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.gpu` タグを割り当てます。
+
+<div id="amd-gpu-memory-allocated">
+  ### AMD GPU 割り当てメモリ
+</div>
+
+各 AMD GPU デバイスについて、利用可能な合計メモリに対する、割り当て済み GPU メモリの割合を示します。
+
+W&amp;B によって、このメトリクスには `gpu.{gpu_index}.memoryAllocated` タグが割り当てられます。
+
+<div id="amd-gpu-temperature">
+  ### AMD GPU Temperature
+</div>
+
+各AMD GPUデバイスのGPU温度（摂氏）です。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.temp` タグを割り当てます。
+
+<div id="amd-gpu-power-usage-watts">
+  ### AMD GPU 電力使用量（ワット）
+</div>
+
+各 AMD GPU デバイスの消費電力（ワット）を表します。
+
+W&amp;B はこのメトリクスに `gpu.{gpu_index}.powerWatts` タグを割り当てます。
+
+<div id="amd-gpu-power-usage-percent">
+  ### AMD GPU 電力使用率
+</div>
+
+各 AMD GPU デバイスごとに、GPU の電力上限に対する現在の消費電力をパーセンテージで示します。
+
+W&amp;B では、このメトリクスに `gpu.{gpu_index}.powerPercent` という名前を割り当てています。
+
+{/* 新しいセクション */}
+
+<div id="apple-arm-mac-gpu">
+  ## Apple シリコン Mac の GPU
+</div>
+
+<div id="apple-gpu-utilization">
+  ### Apple GPU 使用率
+</div>
+
+ARM Mac 上の Apple GPU デバイスにおける GPU 使用率（％）を示します。
+
+W&amp;B はこのメトリクスに `gpu.0.gpu` タグを割り当てます。
+
+<div id="apple-gpu-memory-allocated">
+  ### Apple GPU メモリ割り当て量
+</div>
+
+ARM Mac 上の Apple GPU デバイスにおいて、利用可能な GPU メモリ全体に対して割り当てられている GPU メモリの割合です。
+
+W&amp;B はこのメトリクスに `gpu.0.memoryAllocated` タグを割り当てます。
+
+<div id="apple-gpu-temperature">
+  ### Apple GPU の温度
+</div>
+
+ARM 搭載 Mac 上の Apple GPU デバイスにおける GPU 温度（摂氏）。
+
+W&amp;B はこのメトリクスに `gpu.0.temp` タグを割り当てます。
+
+<div id="apple-gpu-power-usage-watts">
+  ### Apple GPU 電力使用量（ワット）
+</div>
+
+ARM Mac 上の Apple GPU デバイスにおける GPU の電力使用量（ワット単位）です。
+
+W&amp;B はこのメトリクスに `gpu.0.powerWatts` タグを割り当てます。
+
+<div id="apple-gpu-power-usage-percent">
+  ### Apple GPU 電力使用率（%）
+</div>
+
+ARM 搭載 Mac 上の Apple GPU デバイスにおいて、GPU の電力容量に対する電力使用量の割合です。
+
+W&amp;B はこのメトリクスに `gpu.0.powerPercent` タグを割り当てます。
+
+{/* 新規セクション */}
+
+<div id="graphcore-ipu">
+  ## Graphcore IPU
+</div>
+
+Graphcore の IPU（Intelligence Processing Unit）は、機械知能タスクに特化して設計された独自のハードウェアアクセラレータです。
+
+<div id="ipu-device-metrics">
+  ### IPU デバイスメトリクス
+</div>
+
+これらのメトリクスは、特定の IPU デバイスに関するさまざまな統計情報を表します。各メトリクスには、それを識別するためのデバイス ID（`device_id`）とメトリクスキー（`metric_key`）があります。W&amp;B は、このメトリクスに対して `ipu.{device_id}.{metric_key}` というタグを割り当てます。
+
+メトリクスはプロプライエタリなライブラリである `gcipuinfo` を使用して抽出されます。このライブラリは Graphcore の `gcipuinfo` バイナリと連携して動作します。`sample` メソッドは、プロセス ID（`pid`）に関連付けられた各 IPU デバイスのメトリクスを取得します。重複したデータのログ出力を避けるため、時間とともに値が変化するメトリクス、またはそのデバイスのメトリクスが初めて取得されたときのメトリクスのみがログに記録されます。
+
+各メトリクスについては、生の文字列表現からメトリクスの値を抽出するために `parse_metric` メソッドが使用されます。その後、`aggregate` メソッドを使用して、複数のサンプルにわたってメトリクスが集約されます。
+
+使用可能なメトリクスとその単位は次のとおりです:
+
+* **Average Board Temperature** (`average board temp (C)`): IPU ボードの温度（摂氏）。
+* **Average Die Temperature** (`average die temp (C)`): IPU ダイの温度（摂氏）。
+* **Clock Speed** (`clock (MHz)`): IPU のクロック周波数（MHz）。
+* **IPU Power** (`ipu power (W)`): IPU の消費電力（ワット）。
+* **IPU Utilization** (`ipu utilisation (%)`): IPU の使用率（パーセント）。
+* **IPU Session Utilization** (`ipu utilisation (session) (%)`): 現在のセッションに固有の IPU 使用率（パーセント）。
+* **Data Link Speed** (`speed (GT/s)`): データ伝送速度（1 秒あたりのギガトランスファ数）。
+
+{/* 新しいセクション */}
+
+<div id="google-cloud-tpu">
+  ## Google Cloud TPU
+</div>
+
+Tensor Processing Units (TPU) は、機械学習ワークロードを高速化するために Google がカスタム開発した ASIC（Application Specific Integrated Circuits）です。
+
+<div id="tpu-memory-usage">
+  ### TPU メモリ使用量
+</div>
+
+各 TPU コアごとの現在の High Bandwidth Memory 使用量（バイト単位）。
+
+W&amp;B では、このメトリクスに `tpu.{tpu_index}.memoryUsageBytes` タグを割り当てます。
+
+<div id="tpu-memory-usage-percentage">
+  ### TPU メモリ使用率（パーセンテージ）
+</div>
+
+各 TPU コアにおける現在の High Bandwidth Memory（HBM）の使用率（パーセンテージ）です。
+
+W&amp;B はこのメトリックに `tpu.{tpu_index}.memoryUsageBytes` というタグを割り当てます。
+
+<div id="tpu-duty-cycle">
+  ### TPU デューティサイクル
+</div>
+
+TPU デバイスごとの TensorCore デューティサイクルの割合です。サンプル期間中に、アクセラレータの TensorCore が実際に処理を行っていた時間の割合を追跡します。値が大きいほど、TensorCore の利用効率が高いことを意味します。
+
+W&amp;B では、このメトリックに `tpu.{tpu_index}.dutyCycle` タグを割り当てます。
+
+{/* 新しいセクション */}
+
+<div id="aws-trainium">
+  ## AWS Trainium
+</div>
+
+[AWS Trainium](https://aws.amazon.com/machine-learning/trainium/) は、機械学習ワークロードの高速化に特化した、AWS が提供する専用ハードウェアプラットフォームです。AWS が提供する `neuron-monitor` ツールは、AWS Trainium のメトリクスを収集するために使用されます。
+
+<div id="trainium-neuron-core-utilization">
+  ### Trainium Neuron Core の使用率
+</div>
+
+各 NeuronCore の使用率（パーセンテージ）。コアごとに報告されます。
+
+W&amp;B はこのメトリクスに `trn.{core_index}.neuroncore_utilization` タグを割り当てます。
+
+<div id="trainium-host-memory-usage-total">
+  ### Trainium ホストメモリ使用量（合計）
+</div>
+
+ホスト側で使用されているメモリ総量（バイト単位）。
+
+W&amp;B はこのメトリクスに `trn.host_total_memory_usage` タグを割り当てます。
+
+<div id="trainium-neuron-device-total-memory-usage">
+  ### Trainium Neuron デバイスの総メモリ使用量
+</div>
+
+Neuron デバイス上でのメモリ使用量の合計（バイト単位）。
+
+W&amp;B はこのメトリクスに `trn.neuron_device_total_memory_usage)` タグを割り当てます。
+
+<div id="trainium-host-memory-usage-breakdown">
+  ### Trainium ホストメモリ使用量の内訳:
+</div>
+
+以下はホスト側でのメモリ使用量の内訳です。
+
+* **Application Memory** (`trn.host_total_memory_usage.application_memory`): アプリケーションによって使用されるメモリ。
+* **Constants** (`trn.host_total_memory_usage.constants`): 定数を格納するために使用されるメモリ。
+* **DMA Buffers** (`trn.host_total_memory_usage.dma_buffers`): Direct Memory Access (DMA) バッファに使用されるメモリ。
+* **Tensors** (`trn.host_total_memory_usage.tensors`): テンソルを格納するために使用されるメモリ。
+
+<div id="trainium-neuron-core-memory-usage-breakdown">
+  ### Trainium Neuron Core メモリ使用量の内訳
+</div>
+
+各 NeuronCore ごとの詳細なメモリ使用量:
+
+* **Constants** (`trn.{core_index}.neuroncore_memory_usage.constants`)
+* **Model Code** (`trn.{core_index}.neuroncore_memory_usage.model_code`)
+* **Model Shared Scratchpad** (`trn.{core_index}.neuroncore_memory_usage.model_shared_scratchpad`)
+* **Runtime Memory** (`trn.{core_index}.neuroncore_memory_usage.runtime_memory`)
+* **Tensors** (`trn.{core_index}.neuroncore_memory_usage.tensors`)
+
+<div id="openmetrics">
+  ## OpenMetrics
+</div>
+
+OpenMetrics / Prometheus と互換性のあるデータを公開している外部エンドポイントからメトリクスを収集してログに記録します。取得対象のエンドポイントに対して適用できる、カスタムの正規表現ベースのメトリクスフィルターをサポートします。
+
+GPU クラスターのパフォーマンス監視という特定のユースケースにおける、この機能の具体的な使用方法については、[Monitoring GPU cluster performance in W&amp;B](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1) を参照してください。この例では [NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html) を使用しています。

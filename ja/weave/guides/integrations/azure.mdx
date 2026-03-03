@@ -1,0 +1,48 @@
+---
+title: "Microsoft Azure"
+description: "Weave を Microsoft Azure OpenAI サービスと統合する"
+---
+
+Weights & Biases (W&B) の Weave は Microsoft Azure OpenAI サービスと統合されており、Teams が Azure AI アプリケーションを最適化するのに役立ちます。W&B を使用すると、次のことが可能になります。
+
+<Tip>
+最新のチュートリアルについては、[Weights & Biases on Microsoft Azure](https://wandb.ai/site/partners/azure) を参照してください。
+</Tip>
+
+<div id="getting-started">
+  ## はじめに
+</div>
+
+Weave で Azure を使い始めるには、追跡したい関数に `weave.op` をデコレータとして付与するだけです。
+
+```python lines
+@weave.op()
+def call_azure_chat(model_id: str, messages: list, max_tokens: int = 1000, temperature: float = 0.5):
+    response = client.chat.completions.create(
+        model=model_id,
+        messages=messages,
+        max_tokens=max_tokens,
+        temperature=temperature
+    )
+    return {"status": "success", "response": response.choices[0].message.content}
+
+```
+
+
+<div id="learn-more">
+  ## さらに詳しく知る
+</div>
+
+以下のリソースで、Azure と Weave を組み合わせた高度なトピックについてさらに学習してください。
+
+<div id="use-the-azure-ai-model-inference-api-with-weave">
+  ### Weave で Azure AI Model Inference API を使用する
+</div>
+
+[Azure AI Model Inference API] を Weave と組み合わせて使用し、Azure のモデルから知見を得る方法については、[このガイド](https://wandb.ai/byyoung3/ML-NEWS2/reports/A-guide-to-using-the-Azure-AI-model-inference-API--Vmlldzo4OTY1MjEy#tutorial:-implementing-azure-ai-model-inference-api-with-w&b-weave-)を参照してください。
+
+<div id="trace-azure-openai-models-with-weave">
+  ### Weave で Azure OpenAI モデルをトレースする
+</div>
+
+Weave を使用して Azure OpenAI モデルをトレースする方法の詳細は、[このガイド](https://wandb.ai/a-sh0ts/azure-weave-cookbook/reports/How-to-use-Azure-OpenAI-and-Azure-AI-Studio-with-W-B-Weave--Vmlldzo4MTI0NDgy)をご覧ください。  

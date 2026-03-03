@@ -1,0 +1,147 @@
+---
+title: Ultralytics YOLO
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" />
+
+[Ultralytics](https://github.com/ultralytics/ultralytics) は、画像分類、物体検出、画像セグメンテーション、姿勢推定などのタスク向けの最先端コンピュータビジョンモデルが集約されたプロジェクトです。[YOLOv8](https://docs.ultralytics.com/models/yolov8/)（リアルタイム物体検出モデルである YOLO シリーズの最新バージョン）だけでなく、[SAM (Segment Anything Model)](https://docs.ultralytics.com/models/sam/#introduction-to-sam-the-segment-anything-model)、[RT-DETR](https://docs.ultralytics.com/models/rtdetr/)、[YOLO-NAS](https://docs.ultralytics.com/models/yolo-nas/) など、他の高性能なコンピュータビジョンモデルもホストしています。これらのモデルの実装を提供するだけでなく、Ultralytics は使いやすい API を通じて、これらのモデルを用いた学習、ファインチューニング、推論・応用のための、すぐに使えるワークフローも提供しています。
+
+<div id="get-started">
+  ## はじめに
+</div>
+
+1. `ultralytics` と `wandb` をインストールします。
+
+   <Tabs>
+     <Tab title="コマンドライン">
+       ```shell
+           pip install --upgrade ultralytics==8.0.238 wandb
+
+           # または
+           # conda install ultralytics
+       ```
+     </Tab>
+
+     <Tab title="ノートブック">
+       ```bash
+           !pip install --upgrade ultralytics==8.0.238 wandb
+       ```
+     </Tab>
+   </Tabs>
+
+   開発チームでは、`ultralyticsv8.0.238` およびそれ以前のバージョンとのインテグレーションをテスト済みです。インテグレーションに関する問題を報告するには、タグ `yolov8` を付けて [GitHub issue](https://github.com/wandb/wandb/issues/new?template=sdk-bug.yml) を作成してください。
+
+<div id="track-experiments-and-visualize-validation-results">
+  ## 実験を追跡して検証結果を可視化する
+</div>
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/01_train_val.ipynb" />
+
+このセクションでは、[Ultralytics](https://docs.ultralytics.com/modes/predict/) モデルを用いた学習、ファインチューニング、および検証の典型的なワークフローと、[W&amp;B](https://wandb.ai/site) を使った実験の追跡、モデルのチェックポイント保存、およびモデル性能の可視化について説明します。
+
+インテグレーションについては、次のレポートでも確認できます: [Supercharging Ultralytics with W&amp;B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+
+Ultralytics で W&amp;B のインテグレーションを使用するには、`wandb.integration.ultralytics.add_wandb_callback` 関数をインポートします。
+
+```python
+import wandb
+from wandb.integration.ultralytics import add_wandb_callback
+
+from ultralytics import YOLO
+```
+
+任意の `YOLO` モデルを初期化し、モデルで推論を実行する前に、そのモデルに対して `add_wandb_callback` 関数を呼び出します。これにより、学習、微調整、検証、または推論を実行した際に、実験ログと、正解ラベルと各予測結果を重ね合わせた画像が、W&amp;B 上の[コンピュータビジョンタスク向けインタラクティブオーバーレイ](/ja/models/track/log/media/#image-overlays-in-tables)を用いて自動的に保存され、さらに追加のインサイトが [`wandb.Table`](/ja/models/tables/) に保存されます。
+
+```python
+with wandb.init(project="ultralytics", job_type="train") as run:
+
+    # YOLOモデルを初期化する
+    model = YOLO("yolov8n.pt")
+
+    # Ultralytics用のW&Bコールバックを追加する
+    add_wandb_callback(model, enable_model_checkpointing=True)
+
+    # モデルをトレーニング/ファインチューニングする
+    # 各エポックの終了時に、検証バッチの予測結果がW&Bテーブルに記録される
+    # コンピュータービジョンタスク向けの有益でインタラクティブな
+    # オーバーレイとともに表示される
+    model.train(project="ultralytics", data="coco128.yaml", epochs=5, imgsz=640)
+```
+
+Ultralytics の学習またはファインチューニングワークフローの実験を W&amp;B でトラッキングすると、次のように表示されます：
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/TB76U9O"><a href="https://imgur.com/a/TB76U9O">YOLO ファインチューニング実験</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
+
+エポックごとの検証結果は、[W&amp;B Table](/ja/models/tables/) を使うと次のように可視化されます：
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/kU5h7W4"><a href="https://imgur.com/a/kU5h7W4">W&amp;B 検証結果可視化テーブル</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
+
+<div id="visualize-prediction-results">
+  ## 予測結果を可視化する
+</div>
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/ultralytics/00_inference.ipynb" />
+
+このセクションでは、[Ultralytics](https://docs.ultralytics.com/modes/predict/) モデルで推論を実行し、その結果を [W&amp;B](https://wandb.ai/site) で可視化する典型的なワークフローを紹介します。
+
+Google Colab でコードを試せます: [Open in Colab](https://wandb.me/ultralytics-inference)。
+
+また、このレポートでインテグレーションの詳細を確認できます: [Supercharging Ultralytics with W&amp;B](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+
+Ultralytics で W&amp;B のインテグレーションを利用するには、`wandb.integration.ultralytics.add_wandb_callback` 関数を import する必要があります。
+
+```python
+import wandb
+from wandb.integration.ultralytics import add_wandb_callback
+
+from ultralytics.engine.model import YOLO
+```
+
+インテグレーションのテスト用に、画像をいくつかダウンロードしてください。静止画像、動画、またはカメラ入力を使用できます。推論用の入力ソースの詳細については、[Ultralytics のドキュメント](https://docs.ultralytics.com/modes/predict/)を参照してください。
+
+```bash
+!wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img1.png
+!wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img2.png
+!wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img4.png
+!wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img5.png
+```
+
+`wandb.init()` を使用して W&amp;B の [run](/ja/models/runs/) を初期化します。次に、使用する `YOLO` モデルを初期化し、モデルで推論を実行する前にそのモデルに対して `add_wandb_callback` 関数を呼び出します。これにより、推論を実行した際に、[コンピュータビジョンタスク向けのインタラクティブなオーバーレイ](/ja/models/track/log/media/#image-overlays-in-tables) を重ねた画像が、追加情報とともに自動的に [`wandb.Table`](/ja/models/tables/) にログされるようになります。
+
+```python
+# W&B runを初期化する
+with wandb.init(project="ultralytics", job_type="inference") as run:
+    # YOLOモデルを初期化する
+    model = YOLO("yolov8n.pt")
+
+    # UltralyticsのW&Bコールバックを追加する
+    add_wandb_callback(model, enable_model_checkpointing=True)
+
+    # 予測を実行する。バウンディングボックスとセグメンテーションマスクの
+    # インタラクティブオーバーレイとともにW&B Tableへ自動的にログが記録される
+    model(
+        [
+            "./assets/img1.jpeg",
+            "./assets/img3.png",
+            "./assets/img4.jpeg",
+            "./assets/img5.jpeg",
+        ]
+    )
+```
+
+学習やファインチューニングのワークフローの場合、`wandb.init()` を使って明示的に run を初期化する必要はありません。ただし、コードが推論のみを行う場合は、明示的に run を作成する必要があります。
+
+インタラクティブなバウンディングボックス (bbox) オーバーレイは次のように表示されます:
+
+<blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs"><a href="https://imgur.com/a/UTSiufs">WandB Image Overlay</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8" />
+
+詳しくは、[W&amp;B image overlays ガイド](/ja/models/track/log/media/#image-overlays)を参照してください。
+
+<div id="more-resources">
+  ## その他のリソース
+</div>
+
+* [Ultralytics を W&amp;B で強化する](https://wandb.ai/geekyrakshit/ultralytics/reports/Supercharging-Ultralytics-with-Weights-Biases--Vmlldzo0OTMyMDI4)
+* [YOLOv8 による物体検出：エンドツーエンドのワークフロー](https://wandb.ai/reviewco/object-detection-bdd/reports/Object-Detection-using-YOLOv8-An-End-to-End-Workflow--Vmlldzo1NTAyMDQ1)

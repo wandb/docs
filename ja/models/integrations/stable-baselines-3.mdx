@@ -1,0 +1,94 @@
+---
+description: W&B を Stable Baseline 3 と連携する方法。
+title: Stable Baselines 3 PyTorch
+---
+
+[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3)（SB3）は、PyTorch で実装された強化学習アルゴリズムの信頼性の高い実装セットです。W&B の SB3 インテグレーションでは次のことができます：
+
+* 損失やエピソディックリターンなどのメトリクスを記録します。
+* エージェントがゲームをプレイしている動画をアップロードします。
+* 学習済みモデルを保存します。
+* モデルのハイパーパラメータをログに記録します。
+* モデルの勾配ヒストグラムをログに記録します。
+
+[SB3 による学習 run の例](https://wandb.ai/wandb/sb3/runs/1jyr6z10)を確認してください。
+
+<div id="log-your-sb3-experiments">
+  ## SB3 Experiments をログとして記録する
+</div>
+
+```python
+from wandb.integration.sb3 import WandbCallback
+
+model.learn(..., callback=WandbCallback())
+```
+
+<Frame>
+  <img src="/images/integrations/stable_baselines_demo.gif" alt="Stable Baselines 3 と W&B を使った学習" />
+</Frame>
+
+
+<div id="wandbcallback-arguments">
+  ## WandbCallback の引数
+</div>
+
+| Argument | Usage |
+| :--- | :--- |
+| `verbose` | sb3 の出力の詳細レベル |
+| `model_save_path` | モデルを保存するフォルダへのパス。デフォルト値は \`None\` で、この場合モデルは保存されません |
+| `model_save_freq` | モデルを保存する頻度 |
+| `gradient_save_freq` | 勾配をログとして記録する頻度。デフォルト値は 0 で、この場合勾配はログされません |
+
+<div id="basic-example">
+  ## 基本例
+</div>
+
+W&amp;B SB3 インテグレーションは、TensorBoard からのログ出力を利用してメトリクスを記録します。
+
+```python
+import gym
+from stable_baselines3 import PPO
+from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.vec_env import DummyVecEnv, VecVideoRecorder
+import wandb
+from wandb.integration.sb3 import WandbCallback
+
+
+config = {
+    "policy_type": "MlpPolicy",
+    "total_timesteps": 25000,
+    "env_name": "CartPole-v1",
+}
+run = wandb.init(
+    project="sb3",
+    config=config,
+    sync_tensorboard=True,  # sb3のtensorboardメトリクスを自動アップロード
+    monitor_gym=True,  # エージェントがゲームをプレイする動画を自動アップロード
+    save_code=True,  # オプション
+)
+
+
+def make_env():
+    env = gym.make(config["env_name"])
+    env = Monitor(env)  # リターンなどの統計を記録
+    return env
+
+
+env = DummyVecEnv([make_env])
+env = VecVideoRecorder(
+    env,
+    f"videos/{run.id}",
+    record_video_trigger=lambda x: x % 2000 == 0,
+    video_length=200,
+)
+model = PPO(config["policy_type"], env, verbose=1, tensorboard_log=f"runs/{run.id}")
+model.learn(
+    total_timesteps=config["total_timesteps"],
+    callback=WandbCallback(
+        gradient_save_freq=100,
+        model_save_path=f"models/{run.id}",
+        verbose=2,
+    ),
+)
+run.finish()
+```

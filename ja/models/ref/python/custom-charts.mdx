@@ -1,0 +1,104 @@
+---
+title: カスタムチャート概要
+description: W&B Python SDK のカスタムチャートを使用して、プロジェクトのダッシュボードでインタラクティブな可視化を行う
+module: wandb.plot
+no_list: true
+---
+
+W&amp;B のカスタムチャートは、`wandb.plot` 名前空間に用意された一連の関数を通じてプログラムから操作できます。これらの関数は W&amp;B のプロジェクトダッシュボードにインタラクティブな可視化を表示し、混同行列、ROC 曲線、分布プロットなど、一般的な機械学習向けの可視化をサポートします。
+
+<div id="available-chart-functions">
+  ## 利用可能なチャート関数
+</div>
+
+| Function | Description |
+|----------|-------------|
+| [`confusion_matrix()`](/ja/models/ref/python/custom-charts/confusion_matrix/) | 分類性能の可視化のために混同行列を生成します。 |
+| [`roc_curve()`](/ja/models/ref/python/custom-charts/roc_curve/) | バイナリおよび多クラス分類器向けの ROC（Receiver Operating Characteristic）曲線を作成します。 |
+| [`pr_curve()`](/ja/models/ref/python/custom-charts/pr_curve/) | 分類器の評価用に Precision-Recall 曲線を作成します。 |
+| [`line()`](/ja/models/ref/python/custom-charts/line/) | 表形式データから折れ線グラフを作成します。 |
+| [`scatter()`](/ja/models/ref/python/custom-charts/scatter/) | 変数間の関係を可視化する散布図を作成します。 |
+| [`bar()`](/ja/models/ref/python/custom-charts/bar/) | カテゴリ型データ向けの棒グラフを生成します。 |
+| [`histogram()`](/ja/models/ref/python/custom-charts/histogram/) | データ分布を分析するためのヒストグラムを作成します。 |
+| [`line_series()`](/ja/models/ref/python/custom-charts/line_series/) | 1つのチャート上に複数の折れ線系列をプロットします。 |
+| [`plot_table()`](/ja/models/ref/python/custom-charts/plot_table/) | Vega-Lite 仕様を用いてカスタムチャートを作成します。 |
+
+<div id="common-use-cases">
+  ## 代表的なユースケース
+</div>
+
+<div id="model-evaluation">
+  ### モデル評価
+</div>
+
+* **分類**: 分類モデルの評価には `confusion_matrix()`, `roc_curve()`, `pr_curve()` を使用
+* **回帰**: 予測値と実測値のプロットには `scatter()`、残差分析には `histogram()` を使用
+* **Vega-Lite チャート**: ドメイン固有の可視化には `plot_table()` を使用
+
+<div id="training-monitoring">
+  ### 学習の監視
+</div>
+
+* **学習曲線**: `line()` または `line_series()` を使用して、エポックごとのメトリクスを追跡する
+* **ハイパーパラメータ比較**: `bar()` チャートを使用して設定を比較する
+
+<div id="data-analysis">
+  ### データ分析
+</div>
+
+* **分布分析**: 特徴量の分布は `histogram()` で可視化
+* **相関分析**: 変数間の関係は `scatter()` で可視化
+
+<div id="getting-started">
+  ## はじめに
+</div>
+
+<div id="log-a-confusion-matrix">
+  ### 混同行列をログに記録する
+</div>
+
+```python
+import wandb
+
+y_true = [0, 1, 2, 0, 1, 2]
+y_pred = [0, 2, 2, 0, 1, 1]
+class_names = ["class_0", "class_1", "class_2"]
+
+# runを初期化する
+with wandb.init(project="custom-charts-demo") as run:
+    run.log({
+        "conf_mat": wandb.plot.confusion_matrix(
+            y_true=y_true, 
+            preds=y_pred,
+            class_names=class_names
+        )
+    })
+```
+
+<div id="build-a-scatter-plot-for-feature-analysis">
+  ### 特徴量分析用の散布図を作成する
+</div>
+
+```python
+import numpy as np
+
+# 合成データを生成する
+data_table = wandb.Table(columns=["feature_1", "feature_2", "label"])
+
+with wandb.init(project="custom-charts-demo") as run:
+
+    for _ in range(100):
+        data_table.add_data(
+            np.random.randn(), 
+            np.random.randn(), 
+            np.random.choice(["A", "B"])
+        )
+
+    run.log({
+        "feature_scatter": wandb.plot.scatter(
+            data_table, x="feature_1", y="feature_2",
+            title="Feature Distribution"
+        )
+    })
+
+```

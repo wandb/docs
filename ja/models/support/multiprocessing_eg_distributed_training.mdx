@@ -1,0 +1,14 @@
+---
+title: "wandb をマルチプロセス（例: 分散学習）で使うにはどうすればよいですか？"
+---
+
+学習プログラムが複数プロセスを使用する場合、`wandb.init()` を呼び出していないプロセスから wandb のメソッドを呼び出さないように、プログラムを構成してください。
+
+マルチプロセスの学習は次のいずれかのアプローチで管理します。
+
+1. すべてのプロセスで `wandb.init` を呼び出し、[group](/ja/models/runs/grouping/) キーワード引数を使って共有グループを作成します。各プロセスは独自の wandb run を持ち、UI 上ではこれらの学習プロセスがまとめてグループ化されます。
+2. 1 つのプロセスからのみ `wandb.init` を呼び出し、[multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes) を使ってログに送るデータを渡します。
+
+<Note>
+  これらのアプローチの詳細な説明や Torch DDP を用いたコード例については、[Distributed Training Guide](/ja/models/track/log/distributed-training/) を参照してください。
+</Note>

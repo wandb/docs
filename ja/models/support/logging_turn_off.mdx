@@ -1,0 +1,14 @@
+---
+title: ロギングをオフにするにはどうすればよいですか？
+---
+
+コマンド `wandb offline` を実行すると、環境変数 `WANDB_MODE=offline` が設定され、データがリモートの W&amp;B サーバーと同期されなくなります。この設定はすべてのプロジェクトに適用され、W&amp;B サーバーへのデータのロギングが行われなくなります。
+
+警告メッセージを抑制するには、次のコードを使用します。
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.WARNING)
+```

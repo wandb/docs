@@ -1,0 +1,172 @@
+---
+title: テーブル
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py" />
+
+
+## <kbd>class</kbd> `Table`
+
+`Table` クラスは、表形式データを表示および解析するために使用されます。
+
+従来のスプレッドシートとは異なり、Table はスカラー値、文字列、numpy 配列、`wandb.data_types.Media` のほとんどのサブクラスなど、さまざまな種類のデータをサポートします。つまり、`Images`、`Video`、`Audio` などのリッチで注釈付きのメディアを、他の従来のスカラー値と並べて、Table 内に直接埋め込むことができます。
+
+このクラスは、W&B Tables を生成する際に使用される主要なクラスです。https://docs.wandb.ai/guides/models/tables/ 
+
+### <kbd>method</kbd> `Table.__init__`
+
+```python
+__init__(
+    columns=None,
+    data=None,
+    rows=None,
+    dataframe=None,
+    dtype=None,
+    optional=True,
+    allow_mixed_types=False,
+    log_mode: Optional[Literal['IMMUTABLE', 'MUTABLE', 'INCREMENTAL']] = 'IMMUTABLE'
+)
+```
+
+Table オブジェクトを初期化します。
+
+`rows` は後方互換性のために用意されていますが、使用しないでください。`Table` クラスは、Pandas API を模倣するために `data` を使用します。
+
+**Args:**
+
+* `columns`:  (List[str]) テーブル内の列名。デフォルトは [&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;] です。
+* `data`:  (List[List[any]]) 行指向の 2 次元配列。
+* `dataframe`:  (pandas.DataFrame) テーブルの作成に使用される DataFrame オブジェクト。指定された場合、`data` と `columns` 引数は無視されます。
+* `rows`:  (List[List[any]]) 行指向の 2 次元配列。
+* `optional`:  (Union[bool,List[bool]]) `None` 値を許可するかどうかを指定します。デフォルトは True です。
+  * 単一の bool 値の場合、コンストラクタで指定されたすべての列に対して同じ設定が適用されます。
+  * bool 値のリストの場合、それぞれの列に対して設定が適用されます。`columns` と同じ長さである必要があり、各列に対応する値が適用されます。
+* `allow_mixed_types`:  (bool) 列に混在した型を許可するかどうかを指定します（型検証を無効化）。デフォルトは False です。
+* `log_mode`:  Optional[str] 変更が行われたときに Table をどのようにログするかを制御します。オプション:
+  * &quot;IMMUTABLE&quot; (デフォルト): Table は 1 回だけログ可能で、テーブルが変更された後のログ試行は何も行われません。
+  * &quot;MUTABLE&quot;: 変更後も再度ログでき、そのたびに新しいアーティファクトバージョンが作成されます。
+  * &quot;INCREMENTAL&quot;: Table のデータを段階的にログし、各ログで前回のログ以降に追加された新しいデータのみを含む新しいアーティファクトエントリを作成します。
+
+***
+
+
+### <kbd>メソッド</kbd> `Table.add_column`
+
+```python
+add_column(name, data, optional=False)
+```
+
+テーブルにデータ列を追加します。
+
+**引数:**
+
+* `name`:  (str) - 列の一意な名前
+* `data`:  (list | np.array) - 同種データのみを含む列
+* `optional`:  (bool) - null 相当の値を許可するかどうか
+
+***
+
+
+### <kbd>メソッド</kbd> `Table.add_computed_columns`
+
+```python
+add_computed_columns(fn)
+```
+
+既存のデータに基づいて、1 個以上の計算列を追加します。
+
+**Args:**
+
+* `fn`:  ndx (int) と row (dict) という 1 つまたは 2 つのパラメータを受け取り、その行の新しい列を表す `dict` を返すことが期待される関数。返される `dict` は、新しい列名をキーとします。
+  * `ndx` は行のインデックスを表す整数です。`include_ndx` が `True` に設定されている場合にのみ含まれます。
+  * `row` は既存の列をキーとする辞書です。
+
+***
+
+
+### <kbd>method</kbd> `Table.add_data`
+
+```python
+add_data(*data)
+```
+
+テーブルに新しいデータ行を追加します。
+
+テーブル内の最大行数は `wandb.Table.MAX_ARTIFACT_ROWS` によって決まります。
+
+データの長さはテーブルの列数と一致している必要があります。
+
+***
+
+
+### <kbd>method</kbd> `Table.add_row`
+
+```python
+add_row(*row)
+```
+
+このメソッドは非推奨です。代わりに `Table.add_data` メソッドを使用してください。
+
+***
+
+
+### <kbd>method</kbd> `Table.cast`
+
+```python
+cast(col_name, dtype, optional=False)
+```
+
+列を特定のデータ型にキャストします。
+
+通常の Python クラス、内部の W&amp;B 型、または wandb.Image や wandb.Classes のインスタンスのような例となるオブジェクトのいずれかを指定できます。
+
+**引数:**
+
+* `col_name` (str):  キャストする列の名前。
+* `dtype` (class, wandb.wandb&#95;sdk.interface.&#95;dtypes.Type, any):  対象とするデータ型。
+* `optional` (bool):  その列で None を許可するかどうか。
+
+***
+
+
+### <kbd>メソッド</kbd> `Table.get_column`
+
+```python
+get_column(name, convert_to=None)
+```
+
+テーブルから列を取得し、必要に応じて NumPy オブジェクトに変換します。
+
+**Args:**
+
+* `name`:  (str) - 列名
+* `convert_to`:  (str, optional)
+  * &quot;numpy&quot;: 基になるデータを NumPy オブジェクトに変換します
+
+***
+
+
+### <kbd>method</kbd> `Table.get_dataframe`
+
+```python
+get_dataframe()
+```
+
+テーブルを表す `pandas.DataFrame` を返します。
+
+***
+
+
+### <kbd>method</kbd> `Table.get_index`
+
+```python
+get_index()
+```
+
+他のテーブルでリンクを作成するために使用できる行インデックスの配列を返します。
+
+***

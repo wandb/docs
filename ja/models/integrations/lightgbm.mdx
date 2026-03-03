@@ -1,0 +1,39 @@
+---
+description: W&B で決定木を追跡する。
+title: LightGBM
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" />
+
+`wandb` ライブラリには、[LightGBM](https://lightgbm.readthedocs.io/en/latest/) 向けの専用コールバックが用意されています。W&amp;B の汎用的なロギング機能を使えば、ハイパーパラメータスイープのような大規模な Experiments も簡単に追跡できます。
+
+```python
+from wandb.integration.lightgbm import wandb_callback, log_summary
+import lightgbm as lgb
+
+# メトリクスをW&Bに記録する
+gbm = lgb.train(..., callbacks=[wandb_callback()])
+
+# 特徴量重要度のプロットを記録し、モデルのチェックポイントをW&Bにアップロードする
+log_summary(gbm, save_model_checkpoint=True)
+```
+
+<Note>
+  実行可能なコード例をお探しですか？[GitHub 上のサンプルコード集](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)をご覧ください。
+</Note>
+
+<div id="tuning-your-hyperparameters-with-sweeps">
+  ## Sweeps を使ったハイパーパラメータのチューニング
+</div>
+
+モデルの性能を最大限に引き出すには、木の深さや学習率のようなハイパーパラメータをチューニングする必要があります。W&amp;B [Sweeps](/ja/models/sweeps/) は、大規模なハイパーパラメータ探索 Experiments を設定・オーケストレーション・解析するための強力なツールキットです。
+
+これらのツールについて詳しく知り、XGBoost と Sweeps を組み合わせた使用例を確認するには、このインタラクティブな Colab ノートブックを参照してください。
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
+
+<Frame>
+  <img src="/images/integrations/lightgbm_sweeps.png" alt="LightGBM の性能比較" />
+</Frame>

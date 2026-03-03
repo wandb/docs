@@ -1,0 +1,43 @@
+---
+title: ローカル Models
+---
+
+<div id="local-models">
+  # ローカルモデル
+</div>
+
+多くの開発者は、LLama-3、Mixtral、Gemma、Phi などのオープンソースのモデルをダウンロードしてローカルで実行しています。これらのモデルをローカルで動かす方法はいくつもあり、OpenAI SDK との互換性があれば、Weave はそのうちいくつかを標準でサポートしています。
+
+<div id="wrap-local-model-functions-with-weaveop">
+  ## ローカルモデル関数を `@weave.op()` でラップする
+</div>
+
+`weave.init('<your-project-name>')` で Weave を初期化し、そのうえで LLM への呼び出しを `weave.op()` でラップするだけで、任意の LLM を簡単に Weave に統合できます。詳細については、[tracing](/ja/weave/guides/tracking/tracing) に関するガイドを参照してください。
+
+<div id="updating-your-openai-sdk-code-to-use-local-models">
+  ## ローカルモデルを使用するように OpenAI SDK コードを更新する
+</div>
+
+OpenAI SDK 互換性をサポートするすべてのフレームワークやサービスでは、いくつかの小さな変更が必要です。
+
+まず何よりも重要なのは、`openai.OpenAI()` を初期化するときの `base_url` の設定です。
+
+```python lines
+client = openai.OpenAI(
+    base_url="http://localhost:1234",
+)
+```
+
+ローカルモデルの場合、`api_key` には任意の文字列を設定できますが、必ず上書きしてください。そうしないと、OpenAI が環境変数から `api_key` を取得しようとしてエラーを表示します。
+
+<div id="openai-sdk-supported-local-model-runners">
+  ## OpenAI SDK 対応ローカルモデルランナー
+</div>
+
+以下は、Hugging Face からモデルをダウンロードしてローカル環境で実行でき、OpenAI SDK 互換インターフェースをサポートしているアプリの一覧です。
+
+1. Nomic [GPT4All](https://www.nomic.ai/gpt4all) - 設定内の Local Server 経由でサポート（[FAQ](https://docs.gpt4all.io/gpt4all_help/faq.html)）
+2. [LMStudio](https://lmstudio.ai/) - Local Server の OpenAI SDK サポートに関する[ドキュメント](https://lmstudio.ai/docs/local-server)
+3. [Ollama](https://ollama.com/) - OpenAI SDK 向け[実験的サポート](https://github.com/ollama/ollama/blob/main/docs/openai.mdx)
+4. [llama-cpp-python](https://llama-cpp-python.readthedocs.io/en/latest/server/) Python パッケージ経由の llama.cpp
+5. [llamafile](https://github.com/Mozilla-Ocho/llamafile#other-example-llamafiles) - `http://localhost:8080/v1` は、llamafile 実行時に自動的に OpenAI SDK をサポートします

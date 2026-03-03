@@ -1,0 +1,204 @@
+---
+title: "feedback"
+description: "weave.trace.feedback の Python SDK リファレンス"
+---
+
+import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
+
+
+<div id="api-overview">
+  # API 概要
+</div>
+
+---
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L84" />
+
+## <kbd>class</kbd> `FeedbackQuery`
+
+サーバーからフィードバックを遅延的に取得するためのオブジェクト。
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L97" />
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(
+    entity: 'str',
+    project: 'str',
+    query: 'Query',
+    offset: 'int | None' = None,
+    limit: 'int | None' = None,
+    show_refs: 'bool' = False
+)
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L145" />
+
+
+### <kbd>メソッド</kbd> `execute`
+
+```python
+execute() → Feedbacks
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L126" />
+
+
+### <kbd>method</kbd> `refresh`
+
+```python
+refresh() → Feedbacks
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L151" />
+
+
+### <kbd>method</kbd> `refs`
+
+```python
+refs() → Refs
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L21" />
+
+
+## <kbd>class</kbd> `Feedbacks`
+
+Feedback オブジェクトのコレクションと、それを扱うためのユーティリティ。
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L26" />
+
+### <kbd>method</kbd> `__init__`
+
+```python
+__init__(
+    show_refs: 'bool',
+    feedbacks: 'Iterable[Feedback] | None' = None
+) → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L32" />
+
+
+### <kbd>method</kbd> `refs`
+
+```python
+refs() → Refs
+```
+
+これらのフィードバックに関連付けられている一意な ref を返します。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L168" />
+
+
+## <kbd>class</kbd> `RefFeedbackQuery`
+
+特定の ref に関連付けられたフィードバックを操作するためのオブジェクト。
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L173" />
+
+### <kbd>メソッド</kbd> `__init__`
+
+```python
+__init__(ref: 'str') → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L219" />
+
+
+### <kbd>method</kbd> `add`
+
+```python
+add(
+    feedback_type: 'str',
+    payload: 'dict[str, Any] | None' = None,
+    creator: 'str | None' = None,
+    annotation_ref: 'str | None' = None,
+    **kwargs: 'dict[str, Any]'
+) → str
+```
+
+ref にフィードバックを追加します。
+
+feedback&#95;type: フィードバックの種類を表す文字列。「wandb.」というプレフィックスは予約されています。 creator: フィードバックの投稿者として表示する名前。
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L247" />
+
+
+### <kbd>method</kbd> `add_note`
+
+```python
+add_note(note: 'str', creator: 'str | None' = None) → str
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L238" />
+
+
+### <kbd>method</kbd> `add_reaction`
+
+```python
+add_reaction(emoji: 'str', creator: 'str | None' = None) → str
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L145" />
+
+
+### <kbd>method</kbd> `execute`
+
+```python
+execute() → Feedbacks
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L256" />
+
+
+### <kbd>method</kbd> `purge`
+
+```python
+purge(feedback_id: 'str') → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L126" />
+
+
+### <kbd>method</kbd> `refresh`
+
+```python
+refresh() → Feedbacks
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L151" />
+
+
+### <kbd>method</kbd> `refs`
+
+```python
+refs() → Refs
+```

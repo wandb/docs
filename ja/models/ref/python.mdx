@@ -1,0 +1,45 @@
+---
+title: Python SDK 0.24.2
+module:
+---
+
+`wandb` から利用できる W&amp;B Python SDK を使うと、モデルを学習・ファインチューニングし、実験段階から本番環境まで一貫して管理できます。
+
+> この SDK で学習やファインチューニング処理を行ったあと、[Public API](/ja/models/ref/python/public-api) を使用してログされたデータをクエリおよび分析し、[Reports and Workspaces API](/ja/models/ref/wandb_workspaces) を使用して作業内容を要約した、Web 公開可能な [レポート](/ja/models/reports/) を生成できます。
+
+<div id="installation-and-setup">
+  ## インストールと初期設定
+</div>
+
+<div id="sign-up-and-create-an-api-key">
+  ### サインアップして API キーを作成する
+</div>
+
+W&amp;B でこのマシンを認証するには、まず [User Settings](https://wandb.ai/settings) で API キーを生成する必要があります。
+
+<div id="install-and-import-packages">
+  ### パッケージのインストールとインポート
+</div>
+
+W&amp;B ライブラリをインストールします。
+
+```
+pip install wandb
+```
+
+<div id="import-wb-python-sdk">
+  ### W&amp;B の Python SDK をインポートする:
+</div>
+
+```python
+import wandb
+
+# チームエンティティを指定する
+entity = "<team_entity>"
+
+# runが記録されるプロジェクト
+project = "my-awesome-project"
+
+with wandb.init(entity=entity, project=project) as run:
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

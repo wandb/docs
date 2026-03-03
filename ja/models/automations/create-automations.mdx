@@ -1,0 +1,72 @@
+---
+title: 概要
+description: ML ワークフローを効率化する W&B オートメーションの作成と管理
+---
+
+import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.mdx";
+
+<Info>
+  <EnterpriseCloudOnly />
+</Info>
+
+このページでは、W&amp;B の[オートメーション](/ja/models/automations/)の作成と管理方法の概要を説明します。より詳細な手順については、[Slack オートメーションの作成](/ja/models/automations/create-automations/slack/)または [Webhook オートメーションの作成](/ja/models/automations/create-automations/webhook/)を参照してください。
+
+<Note>
+  オートメーションのチュートリアルをお探しですか？
+
+  * [モデルの評価とデプロイのために GitHub Actions を自動的にトリガーする方法を学ぶ](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)。
+  * [モデルを SageMaker エンドポイントに自動デプロイする方法を紹介する動画を見る](https://www.youtube.com/watch?v=s5CMj_w3DaQ)。
+  * [オートメーションの概要を紹介する動画シリーズを見る](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6\&feature=shared)。
+</Note>
+
+<div id="requirements">
+  ## 必要条件
+</div>
+
+* Teams の管理者は、チームのプロジェクト向けのオートメーションと、そのオートメーションを構成するコンポーネント（webhook、secret、Slack インテグレーションなど）を作成および管理できます。詳しくは [Team settings](/ja/platform/app/settings-page/teams/) を参照してください。
+* Registry オートメーションを作成するには、その Registry へのアクセス権が必要です。詳しくは [Configure Registry access](/ja/models/registry/configure_registry/#registry-roles) を参照してください。
+* Slack オートメーションを作成するには、選択した Slack インスタンスおよびチャンネルに投稿する権限が必要です。
+
+<div id="create-an-automation">
+  ## 自動化を作成する
+</div>
+
+プロジェクトまたはレジストリの **Automations** タブから自動化を作成します。自動化の大まかな手順は次のとおりです。
+
+1. 必要に応じて、自動化で必要となるアクセストークン、パスワード、SSH キーなどの機密文字列ごとに [W&amp;B シークレットを作成](/ja/platform/secrets/) します。シークレットは **Team Settings** で定義します。シークレットは、主に webhook 自動化で使用されます。
+2. チームレベルの webhook または Slack インテグレーションを設定して、Slack への投稿や webhook の実行を W&amp;B に許可します。1 つの webhook または Slack インテグレーションを複数の自動化で共有できます。これらのアクションは **Team Settings** で定義します。
+3. プロジェクトまたはレジストリで自動化を作成します。ここでは、監視するイベントと実行するアクション（Slack への投稿や webhook の実行など）を指定します。webhook 自動化を作成する際には、送信するペイロードを設定します。
+
+または、ワークスペース内の折れ線グラフから、そのグラフに表示されているメトリクスに対する [run メトリクス自動化](/ja/models/automations/automation-events/#run-events) をすばやく作成できます。
+
+1. パネルにカーソルを重ね、パネル上部のベル アイコンをクリックします。
+
+   <Frame>
+     <img src="/images/automations/run_metric_automation_from_panel.png" alt="自動化のベル アイコンの位置" />
+   </Frame>
+2. 基本設定または詳細設定のコントロールを使用して自動化を設定します。たとえば、自動化の適用範囲を制限するために run フィルターを適用したり、絶対しきい値を設定したりします。
+
+詳細については、次を参照してください。
+
+* [Slack 自動化を作成する](/ja/models/automations/create-automations/slack/)
+* [webhook 自動化を作成する](/ja/models/automations/create-automations/webhook/)
+
+<div id="view-and-manage-automations">
+  ## 自動化の表示と管理
+</div>
+
+プロジェクトまたはレジストリの **Automations** タブから、自動化を表示および管理できます。
+
+* 自動化の詳細を表示するには、その名前をクリックします。
+* 自動化の実行履歴を表示するには、その名前をクリックして **History** タブを選択します。詳細は、[自動化の履歴を表示する](/ja/models/automations/view-automation-history) を参照してください。
+* 自動化を編集するには、そのアクション `...` メニューをクリックし、**Edit automation** を選択します。
+* 自動化を削除するには、そのアクション `...` メニューをクリックし、**Delete automation** を選択します。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+* [自動化イベントとスコープ](/ja/models/automations/automation-events/) について詳しく確認する。
+* [Slack 自動化を作成](/ja/models/automations/create-automations/slack/) する。
+* [Webhook 自動化を作成](/ja/models/automations/create-automations/webhook/) する。
+* [シークレットを作成](/ja/platform/secrets/) する。

@@ -1,0 +1,197 @@
+---
+title: "クラス: EvaluationLogger"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / EvaluationLogger
+
+EvaluationLogger を使用すると、予測とスコアをインクリメンタルにログできます。
+
+事前にデータセットやバッチ処理を用意する必要がある従来の Evaluation クラスとは異なり、
+EvaluationLogger を使うと、予測が発生したそのタイミングでログし、柔軟にスコアリングできます。
+
+`Example`
+
+```ts
+const ev = new EvaluationLogger({name: 'my-eval', dataset: 'my-dataset'});
+
+for (const example of streamingData) {
+  const output = await myModel.predict(example);
+  const pred = ev.logPrediction(example, output);
+
+  if (shouldScore(output)) {
+    pred.logScore("accuracy", calculateAccuracy(output));
+  }
+  pred.finish();
+}
+
+await ev.logSummary();
+```
+
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="constructors">
+  ### コンストラクタ
+</div>
+
+- [constructor](./evaluationlogger#constructor)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+- [logPrediction](./evaluationlogger#logprediction)
+- [logPredictionAsync](./evaluationlogger#logpredictionasync)
+- [logSummary](./evaluationlogger#logsummary)
+
+## コンストラクター
+
+<div id="constructor">
+  ### コンストラクター
+</div>
+
+• **new EvaluationLogger**(`options`): [`EvaluationLogger`](./evaluationlogger)
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `options` | `EvaluationLoggerOptions` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`EvaluationLogger`](./evaluationlogger)
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[evaluationLogger.ts:554](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L554)
+
+## メソッド
+
+<div id="logprediction">
+  ### logPrediction
+</div>
+
+▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
+
+入力と出力を含む予測をログします（同期バージョン）。
+子の predict 呼び出しを伴う predict_and_score 呼び出しを作成します。
+スコアを追加するための ScoreLogger をすぐに返します。
+
+このメソッドは ScoreLogger を同期的に返します。  
+ScoreLogger 上での操作（logScore、finish）はキューに積まれ、初期化が完了した時点で実行されます。
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `inputs` | `Record`\<`string`, `any`\> |
+| `output` | `any` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`ScoreLogger`](./scorelogger)
+
+`使用例`
+
+```ts
+// ファイア・アンド・フォーゲット方式
+const scoreLogger = evalLogger.logPrediction({input: 'test'}, 'output');
+scoreLogger.logScore('accuracy', 0.95);
+scoreLogger.finish();
+await evalLogger.logSummary(); // すべての完了を待機
+```
+
+
+#### 定義元
+
+[evaluationLogger.ts:641](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L641)
+
+___
+
+<div id="logpredictionasync">
+  ### logPredictionAsync
+</div>
+
+▸ **logPredictionAsync**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./scorelogger)\>
+
+予測とその入力および出力をログに記録します（非同期版）。
+logPrediction() と同様ですが、予測呼び出しが完全に初期化された時点で解決される Promise を返します。
+
+処理を進める前に初期化完了を待機する必要がある場合に使用してください。
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `inputs` | `Record`\<`string`, `any`\> |
+| `output` | `any` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
+
+`例`
+
+```ts
+// Awaitableスタイル
+const scoreLogger = await evalLogger.logPredictionAsync({input: 'test'}, 'output');
+await scoreLogger.logScore('accuracy', 0.95);
+await scoreLogger.finish();
+```
+
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[evaluationLogger.ts:666](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L666)
+
+___
+
+<div id="logsummary">
+  ### logSummary
+</div>
+
+▸ **logSummary**(`summary?`): `Promise`\<`void`\>
+
+サマリーをログし、評価を完了します。
+`summarize` 呼び出しを作成し、`evaluate` 呼び出しを終了します。
+
+このメソッドは await せずに（fire-and-forget で）呼び出すこともできますが、
+内部的には保留中のすべての処理が完了するまで待機します。
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `summary?` | `Record`\<`string`, `any`\> |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`\<`void`\>
+
+#### 定義元
+
+[evaluationLogger.ts:767](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L767)

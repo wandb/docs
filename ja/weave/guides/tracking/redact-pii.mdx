@@ -1,0 +1,137 @@
+---
+title: "トレースから個人情報をマスキングする"
+description: "トレースから個人情報 (PII) を自動的にマスキングする"
+---
+
+<Warning>
+  この機能は Python SDK からのみ利用できます。
+</Warning>
+
+一部の組織では、Large Language Model (LLM) ワークフローの中で、氏名、電話番号、メールアドレスなどの個人情報 (PII: Personally Identifiable Information) を処理します。こうしたデータを Weights &amp; Biases (W&amp;B) Weave に保存すると、コンプライアンスおよびセキュリティ上のリスクが生じます。
+
+*Sensitive Data Protection* 機能を使用すると、[トレース](/ja/weave/guides/tracking) が Weave サーバーに送信される前に、個人情報 (PII) を自動的にマスキングできます。この機能は [Microsoft Presidio](https://microsoft.github.io/presidio/) を Weave Python SDK に統合したもので、SDK レベルでマスキング設定を制御できます。
+
+Sensitive Data Protection 機能は、Python SDK に次の機能を追加します。
+
+* `redact_pii` 設定。`weave.init` 呼び出し内でオン／オフを切り替えて PII マスキングを有効化できます。
+* `redact_pii = True` のときに、[一般的なエンティティ](#entities-redacted-by-default) を自動的にマスキングします。
+* 設定可能な `redact_pii_fields` による、マスキング対象フィールドのカスタマイズ。
+
+<div id="enable-pii-redaction">
+  ## PII のマスキングを有効にする
+</div>
+
+Weave の Sensitive Data Protection 機能を使い始めるには、次の手順を実行します。
+
+1. 必要な依存関係をインストールします:
+
+   ```bash
+   pip install presidio-analyzer presidio-anonymizer
+   ```
+
+2. `weave.init` の呼び出しを、マスキングを有効にするように変更します。`redact_pii=True` を指定すると、[一般的なエンティティはデフォルトでマスキングされます](#entities-redacted-by-default):
+
+   ```python lines
+   import weave
+
+   weave.init("my-project", settings={"redact_pii": True})
+   ```
+
+3. （任意）`redact_pii_fields` パラメータを使用して、マスキング対象のフィールドをカスタマイズします:
+
+   ```python lines
+   weave.init("my-project", settings={"redact_pii": True, "redact_pii_fields":["CREDIT_CARD", "US_SSN"]})
+   ```
+
+   検出およびマスキング可能なエンティティの全一覧については、[PII entities supported by Presidio](https://microsoft.github.io/presidio/supported_entities/) を参照してください。
+
+<div id="entities-redacted-by-default">
+  ## デフォルトでマスクされる Entities
+</div>
+
+PII のマスクを有効にすると、次の Entities は自動的にマスクされます。
+
+* `CREDIT_CARD`
+* `CRYPTO`
+* `EMAIL_ADDRESS`
+* `ES_NIF`
+* `FI_PERSONAL_IDENTITY_CODE`
+* `IBAN_CODE`
+* `IN_AADHAAR`
+* `IN_PAN`
+* `IP_ADDRESS`
+* `LOCATION`
+* `PERSON`
+* `PHONE_NUMBER`
+* `UK_NHS`
+* `UK_NINO`
+* `US_BANK_NUMBER`
+* `US_DRIVER_LICENSE`
+* `US_PASSPORT`
+* `US_SSN`
+
+<div id="redacting-sensitive-keys-with-redact_keys">
+  ## `REDACT_KEYS` を使用した機密キーのマスキング
+</div>
+
+PII のマスキングに加えて、Weave SDK は `REDACT_KEYS` を使用したカスタムキーのマスキングもサポートしています。これは、PII のカテゴリには当てはまらないものの、非公開にしておく必要がある追加の機密データを保護したい場合に便利です。例として、次のようなものがあります。
+
+* APIキー
+* 認証ヘッダー
+* トークン
+* 内部 ID
+* 設定値
+
+<div id="pre-defined-redact_keys">
+  ### あらかじめ定義された `REDACT_KEYS`
+</div>
+
+Weave は、既定で次の機密キーを自動的にマスクします。
+
+```json
+[
+  "api_key",
+  "auth_headers",
+  "authorization"
+]
+```
+
+<div id="adding-your-own-keys">
+  ### 独自キーの追加
+</div>
+
+トレースからマスクしたい独自のキーを、このリストに追加して拡張できます。
+
+```python lines
+import weave
+from weave.utils import sanitize
+
+client = weave.init("my-project", settings={"redact_pii": True})
+
+# リダクトするカスタムキーを追加する
+sanitize.add_redact_key("client_id")
+sanitize.add_redact_key("token")
+
+client_id = "123"
+token = "789"
+
+@weave.op
+def test(client_id, token):
+    return client_id + token
+
+test(client_id, token)
+```
+
+Weave UI 上で表示した場合、`client_id` と `token` の値は `"REDACTED"` として表示されます。
+
+```python lines
+client_id = "REDACTED"
+token = "REDACTED"
+```
+
+<div id="usage-information">
+  ## 使用上の注意
+</div>
+
+* この機能は Python SDK でのみ利用できます。
+* Presidio への依存により、マスキング（redaction）機能を有効にすると処理時間が増加します。

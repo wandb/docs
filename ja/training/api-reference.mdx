@@ -1,0 +1,76 @@
+---
+title: API 概要
+description: W&B Training の完全な API ドキュメント
+---
+
+<Note>
+  W&amp;B Training API は、サーバーレスの強化学習 (RL) や教師ありファインチューニング (SFT) を含む学習ジョブの管理および操作のためのエンドポイントを提供します。この API はチャット補完エンドポイントについて OpenAI 互換です。
+</Note>
+
+<div id="authentication">
+  ## 認証
+</div>
+
+すべての API リクエストには、W&amp;B の APIキーを使用した認証が必要です。[wandb.ai/settings](https://wandb.ai/settings) で APIキーを発行してください。
+
+`Authorization` ヘッダーに APIキーを含めます。
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+<div id="base-url">
+  ## ベース URL
+</div>
+
+```
+https://api.training.wandb.ai/v1
+```
+
+<div id="available-endpoints">
+  ## 利用可能なエンドポイント
+</div>
+
+<div id="chat-completions">
+  ### chat-completions
+</div>
+
+* **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Chat Completionを作成
+* **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Chat Completionを作成
+
+<div id="models">
+  ### models
+</div>
+
+* **[POST /v1/preview/models](https://docs.wandb.ai/training/api-reference/models/create-model)** - モデルの作成
+* **[DELETE /v1/preview/models/{model_id}](https://docs.wandb.ai/training/api-reference/models/delete-model)** - モデルの削除
+* **[DELETE /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/delete-model-checkpoints)** - モデルのチェックポイントの削除
+* **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/list-model-checkpoints)** - モデルのチェックポイントの一覧取得
+* **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log)** - ログの記録
+
+<div id="training-jobs">
+  ### training-jobs
+</div>
+
+* **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - SFT 学習ジョブを作成
+* **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - RL 学習ジョブを作成
+* **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - 学習ジョブを取得
+* **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - 学習ジョブのイベントを取得
+
+<div id="health">
+  ### health
+</div>
+
+* **[GET /v1/health](https://docs.wandb.ai/training/api-reference/health/health-check)** - ヘルスチェック
+* **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/health/system-check)** - システムチェック
+
+<div id="related-resources">
+  ## 関連リソース
+</div>
+
+* [W&amp;B Training の概要](/ja/training)
+* [前提条件](/ja/training/prerequisites)
+* [サーバーレス SFT](/ja/training/sft-training)
+* [学習済みモデルを使用する](/ja/training/serverless-rl/use-trained-models)
+* [利用可能なモデル](/ja/training/serverless-rl/available-models)
+* [利用制限](/ja/training/serverless-rl/usage-limits)

@@ -1,0 +1,70 @@
+---
+title: マルチテナントクラウド
+description: 本番環境にマルチテナントクラウドをデプロイする
+---
+
+W&amp;B マルチテナントクラウドは、[Google Cloud の北米リージョン](https://cloud.google.com/compute/docs/regions-zones)にある W&amp;B の Google Cloud アカウント上にデプロイされた、フルマネージドなプラットフォームです。W&amp;B マルチテナントクラウドは Google Cloud のオートスケーリング機能を活用し、トラフィックの増減に応じてプラットフォームが適切にスケールできるようにしています。
+
+<Frame>
+  <img src="/images/hosting/multi_tenant_cloud_arch.png" alt="マルチテナントクラウドのアーキテクチャ図" />
+</Frame>
+
+W&amp;B マルチテナントクラウドは組織のニーズに合わせてスケールし、1 プロジェクトあたり最大 25 万個のメトリクスと、メトリクスごとに最大 100 万件のデータポイントのログ記録をサポートします。より大規模なデプロイが必要な場合は、[support](mailto:support@wandb.com) までお問い合わせください。
+
+<div id="compliance">
+  ## コンプライアンス
+</div>
+
+W&amp;B Multi-tenant Cloud のホスティングプラットフォームは、[米国公認会計士協会 (AICPA) の監査基準審議会](https://www.aicpa-cima.com/home)が公表する [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) の要件を満たしています。SOC 2 レポートは、サービス組織におけるセキュリティ、可用性、処理の完全性、機密性、およびプライバシーに関する統制を評価します。W&amp;B Multi-tenant Cloud は、コンプライアンスが継続していることを検証するため、定期的な内部および外部監査の対象となります。SOC 2 レポートおよびその他のセキュリティ／コンプライアンス関連文書を入手するには、[W&amp;B Security Portal](https://security.wandb.ai/) を参照してください。
+
+<Tip>W&amp;B Multi-tenant Cloud は、[1996 年医療保険の相互運用性と説明責任に関する法律 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html) の要件を満たしていません。組織が HIPAA の適用対象である場合は、代わりに [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) の利用を検討してください。</Tip>
+
+<div id="data-security">
+  ## データセキュリティ
+</div>
+
+Free または Pro プランのユーザーの場合、すべてのデータは共有クラウドストレージのみに保存され、共有クラウドコンピュートサービスで処理されます。ご利用の料金プランによっては、ストレージ容量の上限が設けられている場合があります。
+
+Enterprise プランのユーザーは、[セキュアストレージコネクタを使用して独自のバケット (BYOB) を持ち込む](/ja/platform/hosting/data-security/secure-storage-connector)ことで、モデルやデータセットなどのファイルを[チームレベル](/ja/platform/hosting/data-security/secure-storage-connector#configuration-options)で保存できます。複数のチームで単一のバケットを共用することも、異なる W&amp;B Teams ごとに別々のバケットを使用することも可能です。チームに対して BYOB を設定しない場合、そのチームのデータは共有クラウドストレージに保存されます。
+
+適用される場合は、お使いのデプロイメントが組織のポリシーおよび [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide) に準拠していることを確認する責任は、ユーザーご自身にあります。
+
+<div id="data-retention-policy">
+  ## データ保持ポリシー
+</div>
+
+マルチテナントクラウドでは、削除後 7 日間、次の項目が保持されます。
+
+* run とその履歴
+* メディア、設定ファイル、ログファイルなど、アーティファクト以外の run ファイル
+* アーティファクトおよびアーティファクト参照
+
+この期間が経過するまでは、これらの項目を復元できます。サポートが必要な場合は、[support](mailto:support@wandb.ai) もしくは担当の AISE までお問い合わせください。
+
+<div id="identity-and-access-management-iam">
+  ## アイデンティティとアクセス管理（IAM）
+</div>
+
+Enterprise プランをご利用の場合、強化されたアイデンティティおよびアクセス管理機能により、W&amp;B デプロイメントにおいて安全な認証と効果的な認可を行うことができます。
+
+* OIDC または SAML による SSO 認証。組織向けに SSO を設定したい場合は、W&amp;B チームまたはサポートまでお問い合わせください。
+* 組織およびチームのスコープで、[適切なユーザー ロールを設定](/ja/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role) します。
+* [制限付きプロジェクト](/ja/platform/hosting/iam/access-management/restricted-projects) を使用して W&amp;B プロジェクトのスコープを定義し、それを閲覧・編集・W&amp;B run を送信できるユーザーを制限します。
+
+<div id="monitor">
+  ## 監視
+</div>
+
+Organization admin は、アカウント画面の `Billing` タブから、自分たちのアカウントの利用状況と請求を管理できます。Multi-tenant Cloud 上で共有クラウドストレージを利用している場合、管理者は組織内の異なる Teams 間でストレージ利用状況を最適化できます。
+
+<div id="maintenance">
+  ## メンテナンス
+</div>
+
+W&amp;B Multi-tenant Cloud はマルチテナント型のフルマネージドプラットフォームです。W&amp;B Multi-tenant Cloud は W&amp;B によって運用・管理されているため、W&amp;B プラットフォームのプロビジョニングや運用・保守に伴うオーバーヘッドやコストは発生しません。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+ほとんどの機能を無料で使い始めるには、[Multi-tenant Cloud に直接アクセス](https://wandb.ai)してください。強化されたデータセキュリティと IAM 機能を試すには、[Enterprise トライアルをお申し込み](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial)ください。

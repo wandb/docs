@@ -1,0 +1,13 @@
+---
+title: Dedicated Cloud の IP 許可リストを構成する
+---
+
+[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) インスタンスへのアクセスを、許可された IP アドレスのリストのみに制限できます。これは、AI ワークロードから W&amp;B API へのアクセスと、ユーザーのブラウザーから W&amp;B アプリ UI へのアクセスの両方に適用されます。Dedicated Cloud インスタンスに対して IP 許可リストが設定されると、W&amp;B はそれ以外の許可されていない場所からのすべてのリクエストを拒否します。Dedicated Cloud インスタンスに対する IP 許可リストの構成については、W&amp;B チームにお問い合わせください。
+
+IP 許可リストは、AWS、Google Cloud、Azure 上の Dedicated Cloud インスタンスで利用できます。
+
+IP 許可リストは、[セキュアなプライベート接続](./private-connectivity)と併用できます。IP 許可リストをセキュアなプライベート接続と併用する場合、W&amp;B では、可能であれば AI ワークロードからのすべてのトラフィックと、ユーザーのブラウザーからのトラフィックの大部分にセキュアなプライベート接続を使用し、特権のある場所からのインスタンスの管理に IP 許可リストを使用することを推奨します。
+
+<Warning>
+  W&amp;B は、個々の `/32` IP アドレスではなく、企業またはビジネスのエグレスゲートウェイに割り当てられた [CIDR ブロック](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) を使用することを強く推奨します。個々の IP アドレスを使用する方法はスケーラビリティに欠け、各クラウドごとに厳しい上限があります。
+</Warning>

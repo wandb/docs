@@ -1,0 +1,38 @@
+---
+title: W&B Sweep の一部として、すべてのハイパーパラメータに値を指定する必要がありますか。
+  デフォルト値を設定できますか？
+---
+
+`(run.config())` を使用してスイープの設定からハイパーパラメータ名と値にアクセスできます。これは辞書のように動作します。
+
+スイープ外の run の場合は、`wandb.init()` の `config` 引数に辞書を渡すことで `wandb.Run.config()` の値を設定します。スイープ内では、`wandb.init()` に渡した設定はデフォルト値として扱われ、スイープによって上書きされる可能性があります。
+
+より明示的な挙動をさせたい場合は `rwandb.Run.config.setdefaults()` を使用します。次のコードスニペットは、両方の方法を示しています:
+
+<Tabs>
+<Tab title="wandb.init()">
+```python
+# ハイパーパラメータのデフォルト値を設定
+config_defaults = {"lr": 0.1, "batch_size": 256}
+
+# run を開始し、スイープで上書き可能な
+# デフォルト値を指定
+with wandb.init(config=config_defaults) as run:
+    # ここに学習コードを追加
+    ...
+```
+</Tab>
+<Tab title="config.setdefaults()">
+```python
+# ハイパーパラメータのデフォルト値を設定
+config_defaults = {"lr": 0.1, "batch_size": 256}
+
+# run を開始
+with wandb.init() as run:
+    # スイープで設定されていない値を更新
+    run.config.setdefaults(config_defaults)
+
+    # ここに学習コードを追加
+```
+</Tab>
+</Tabs>

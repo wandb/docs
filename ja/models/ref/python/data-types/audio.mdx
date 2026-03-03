@@ -1,0 +1,56 @@
+---
+title: Audio
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
+
+
+## <kbd>class</kbd> `Audio`
+
+W&B の音声クリップ用クラスです。 
+
+### <kbd>method</kbd> `Audio.__init__`
+
+```python
+__init__(
+    data_or_path: Union[str, pathlib.Path, list, ForwardRef('np.ndarray')],
+    sample_rate: Optional[int] = None,
+    caption: Optional[str] = None
+)
+```
+
+音声ファイルへのパス、または音声データの NumPy 配列を受け取ります。
+
+**Args:**
+
+* `data_or_path`:  音声ファイルへのパス、または音声データの NumPy 配列。
+* `sample_rate`:  サンプリングレート。生の音声データを NumPy 配列として渡す場合に必須です。
+* `caption`:  音声と一緒に表示するキャプション。
+
+***
+
+
+### <kbd>classmethod</kbd> `Audio.durations`
+
+```python
+durations(audio_list)
+```
+
+音声ファイルの再生時間を計算します。
+
+***
+
+
+### <kbd>classmethod</kbd> `Audio.sample_rates`
+
+```python
+sample_rates(audio_list)
+```
+
+オーディオファイルのサンプリングレートを取得します。
+
+***

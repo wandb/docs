@@ -1,0 +1,59 @@
+---
+description: W&B で使えるキーボードショートカットについて説明します。
+title: キーボードショートカット
+---
+
+import LEETShortcuts from "/snippets/ja/_includes/leet-keyboard-shortcuts.mdx";
+
+W&amp;B は、キーボードショートカットをサポートしており、実験、ワークスペース、データをより効率的に操作・閲覧できます。このリファレンスガイドでは、W&amp;B App および W&amp;B LEET (Lightweight Experiment Exploration Tool) ターミナル UI のキーボードショートカットについて説明します。
+
+<Tabs>
+  <Tab title="App">
+    これらのキーボードショートカットは W&amp;B App で動作します。
+
+    ## Workspace Management
+
+    | Shortcut                                             | Description                         |
+    | ---------------------------------------------------- | ----------------------------------- |
+    | **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux)       | ワークスペースやパネルの変更など、UI 上で行った変更を取り消します。 |
+    | **Cmd+Shift+Z** (macOS) / **Ctrl+Y** (Windows/Linux) | ワークスペースで以前に取り消した変更をやり直します。          |
+
+    ## Navigation
+
+    | Shortcut                                       | Description                                                                                |
+    | ---------------------------------------------- | ------------------------------------------------------------------------------------------ |
+    | **Tab**                                        | インタラクティブな要素間を移動します。                                                                        |
+    | **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux) | プロジェクトサイドバー内で、Workspaces タブと Runs タブを切り替えます。                                               |
+    | **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | クイック検索ダイアログを開き、プロジェクト、run、その他のリソースを横断的に検索します。                                              |
+    | **Esc**                                        | W&amp;B App 全体で、パネルの全画面表示を終了したり、設定ドロワーを閉じたり、クイック検索ダイアログを閉じたり、エディタを閉じたり、その他のオーバーレイを閉じたりします。 |
+
+    ## Panel Navigation
+
+    | Shortcut                                                                                                 | Description                               |
+    | -------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
+    | **Left Arrow / Right Arrow**                                                                             | 全画面モード時に、セクション内のパネルを順に移動します。              |
+    | **Esc**                                                                                                  | パネルの全画面表示を終了し、ワークスペースに戻ります。               |
+    | **Cmd+Left Arrow / Cmd+Right Arrow** (macOS)<br />**Ctrl+Left Arrow / Ctrl+Right Arrow** (Windows/Linux) | メディアパネルを全画面モードで表示しているときに、ステップスライダーを移動します。 |
+
+    ## Reports
+
+    | Shortcut               | Description                                          |
+    | ---------------------- | ---------------------------------------------------- |
+    | **Delete / Backspace** | レポートから選択したパネルグリッドを削除します。                             |
+    | **Enter**              | レポートで &quot;/mark&quot; と入力した後に、Markdown ブロックを挿入します。 |
+    | **Esc**                | レポートエディタを終了します。                                      |
+    | **Tab**                | レポート内のインタラクティブな要素間を移動します。                            |
+
+    ## Notes
+
+    * ほとんどのキーボードショートカットは、macOS では **Cmd**、Windows/Linux では **Ctrl** を使用します。
+    * W&amp;B App は、一部のブラウザ標準ショートカットに対してカスタム処理を実装しています。
+    * 一部のショートカットはコンテキスト依存であり、アプリケーション内の特定の領域でのみ動作します。
+  </Tab>
+
+  <Tab title="LEET">
+    これらのキーボードショートカットは、W&amp;B LEET (Lightweight Experiment Exploration Tool) ターミナル UI で動作します。LEET を起動するには、ターミナルで `wandb beta leet` を実行します。詳細は [`wandb beta leet`](/ja/models/ref/cli/wandb-beta/wandb-beta-leet/) を参照してください。
+
+    <LEETShortcuts />
+  </Tab>
+</Tabs>

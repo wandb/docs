@@ -1,0 +1,25 @@
+---
+title: wandb がターミナルや Jupyter Notebook の出力に書き込まないようにするにはどうすればよいですか？
+---
+
+環境変数 [`WANDB_SILENT`](/ja/models/track/environment-variables/) を `true` に設定してください。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    os.environ["WANDB_SILENT"] = "true"
+    ```
+  </Tab>
+
+  <Tab title="Notebook">
+    ```python
+    %env WANDB_SILENT=true
+    ```
+  </Tab>
+
+  <Tab title="Command-Line">
+    ```shell
+    WANDB_SILENT=true
+    ```
+  </Tab>
+</Tabs>

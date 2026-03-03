@@ -1,0 +1,108 @@
+---
+description: W&amp;B のクラウドホスト型サービスを使わずに、ローカルで探索アルゴリズムと停止アルゴリズムを実行します。
+title: ローカルでアルゴリズムを管理する
+---
+
+ハイパーパラメータコントローラは、デフォルトでは Weights &amp; Biases によってクラウドサービスとしてホストされています。W&amp;B エージェントは、学習に使用する次のパラメータセットを決定するためにコントローラと通信します。コントローラは、どの run を停止できるかを判断するためのアーリーストッピングアルゴリズムの実行も担当します。
+
+ローカルコントローラ機能を使用すると、ユーザーは探索アルゴリズムおよび停止アルゴリズムをローカルで実行できます。ローカルコントローラにより、ユーザーはコードを検査および計測して問題をデバッグできるほか、クラウドサービスに組み込むことができる新機能を開発することもできます。
+
+<Warning>
+  この機能は、Sweeps ツール向けの新しいアルゴリズムの開発およびデバッグをより高速に行うことを目的として提供されています。実際のハイパーパラメータ最適化ワークロードでの利用を想定したものではありません。
+</Warning>
+
+開始する前に、W&amp;B SDK（`wandb`）をインストールする必要があります。次のコードスニペットをコマンドラインで実行してください。
+
+```
+pip install wandb sweeps 
+```
+
+以下の例では、すでに設定ファイルと、Python スクリプトまたは Jupyter Notebook 内で定義された学習ループがあることを前提としています。設定ファイルの定義方法の詳細については、[スイープ設定の定義](/ja/models/sweeps/define-sweep-configuration/) を参照してください。
+
+<div id="run-the-local-controller-from-the-command-line">
+  ### コマンドラインからローカルコントローラーを実行する
+</div>
+
+W&amp;B がクラウドサービスとしてホストしているハイパーパラメータコントローラーを通常どおり使用する場合と同様の手順で、スイープを初期化します。`controller` フラグを指定して、W&amp;B のスイープジョブにローカルコントローラーを使用することを示します。
+
+```bash
+wandb sweep --controller config.yaml
+```
+
+別の方法として、スイープの初期化とローカルコントローラを使用することの指定を、2 つの手順に分けて行うこともできます。
+
+手順を分けるには、まずスイープの YAML 設定ファイルに次のキーと値のペアを追加します。
+
+```yaml
+controller:
+  type: local
+```
+
+次に、スイープを初期化します。
+
+```bash
+wandb sweep config.yaml
+```
+
+`wandb sweep` を実行するとスイープ ID が生成されます。スイープを初期化したら、[`wandb controller`](/ja/models/ref/python/functions/controller) でコントローラーを起動します：
+
+```bash
+wandb controller {user}/{entity}/{sweep_id}
+```
+
+ローカルコントローラーを使用するように指定したら、スイープを実行するために 1 つ以上の Sweep エージェントを起動します。W&amp;B の Sweeps を通常どおり開始してください。詳細については、[スイープ エージェントを開始する](/ja/models/sweeps/start-sweep-agents/) を参照してください。
+
+```bash
+wandb sweep sweep_ID
+```
+
+<div id="run-a-local-controller-with-wb-python-sdk">
+  ### W&amp;B Python SDK を使用してローカルコントローラを実行する
+</div>
+
+次のコードスニペットでは、W&amp;B Python SDK でローカルコントローラを指定して使用する方法を示します。
+
+Python SDK でコントローラを使用する最も簡単な方法は、[`wandb.controller`](/ja/models/ref/python/functions/controller) メソッドにスイープ ID を渡すことです。次に、返されるオブジェクトの `run` メソッドを呼び出してスイープ ジョブを開始します。
+
+```python
+sweep = wandb.controller(sweep_id)
+sweep.run()
+```
+
+コントローラーループをより細かく制御したい場合は、次のようにしてください:
+
+```python
+import wandb
+
+sweep = wandb.controller(sweep_id)
+while not sweep.done():
+    sweep.print_status()
+    sweep.step()
+    time.sleep(5)
+```
+
+あるいは、提供するパラメータをさらに詳細に制御することもできます：
+
+```python
+import wandb
+
+sweep = wandb.controller(sweep_id)
+while not sweep.done():
+    params = sweep.search()
+    sweep.schedule(params)
+    sweep.print_status()
+```
+
+スイープを完全にコードだけで指定したい場合は、次のように記述します。
+
+```python
+import wandb
+
+sweep = wandb.controller()
+sweep.configure_search("grid")
+sweep.configure_program("train-dummy.py")
+sweep.configure_controller(type="local")
+sweep.configure_parameter("param1", value=3)
+sweep.create()
+sweep.run()
+```

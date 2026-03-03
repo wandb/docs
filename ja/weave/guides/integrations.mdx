@@ -1,0 +1,112 @@
+---
+title: インテグレーション概要
+description: "Weave の自動パッチ適用機能により、30 以上のプロバイダとフレームワークにまたがる LLM 呼び出しをシームレスにトレースおよび監視でき、OpenAI、Anthropic、Google AI を含む主要なオーケストレーションツールをコードの変更なしで利用できます。"
+---
+
+<div id="integrations">
+  # インテグレーション
+</div>
+
+Weave は、サポートされているすべてのインテグレーションに対して、デフォルトで **暗黙的パッチの自動適用** を提供します。
+
+**暗黙的パッチ適用（自動）:** ライブラリは、インポートするタイミングに関係なく自動的にパッチが適用されます。
+
+```python lines
+# オプション1: weave.init()の前にインポート
+import openai
+import weave
+weave.init('my-project')  # OpenAIは自動的にパッチが適用されます！
+
+# オプション2: weave.init()の後にインポート
+import weave
+weave.init('my-project')
+import anthropic  # インポートフック経由で自動的にパッチが適用されます！
+```
+
+**暗黙的パッチ適用の無効化:** 明示的に制御したい場合は、自動パッチ適用を無効化できます。
+
+```python lines
+import weave
+
+# オプション1: settingsパラメータを使用する場合
+weave.init('my-project', settings={'implicitly_patch_integrations': False})
+
+# オプション2: 環境変数を使用する場合
+# スクリプトを実行する前にWEAVE_IMPLICITLY_PATCH_INTEGRATIONS=falseを設定してください
+
+# 暗黙的パッチを無効にした場合、インテグレーションを明示的にパッチする必要があります
+import openai
+weave.patch_openai()  # OpenAIのトレースに必要
+```
+
+**明示的なパッチ適用（手動）：** インテグレーションに対して明示的にパッチを適用して、きめ細かく制御できます。
+
+```python lines
+import weave
+weave.init('my-project')
+weave.integrations.patch_openai()  # OpenAIトレーシングを有効にする
+weave.integrations.patch_anthropic()  # Anthropicトレーシングを有効にする
+```
+
+W&amp;B Weave は、一般的な LLM プロバイダおよびオーケストレーション・フレームワーク向けのロギングインテグレーションを提供します。これらのインテグレーションを利用すると、さまざまなライブラリ経由で行われる呼び出しをシームレスにトレースでき、AI アプリケーションの監視および分析能力を強化できます。
+
+<div id="llm-providers">
+  ## LLM プロバイダー
+</div>
+
+LLM プロバイダーは、大規模言語モデルへのアクセスを提供し、予測を生成できるようにするベンダーです。Weave はこれらのプロバイダーと連携し、それらの API とのやり取りをログに記録し、トレースします。
+
+* **[W&amp;B Inference Service](https://docs.wandb.ai/inference/)**
+* **[Amazon Bedrock](/ja/weave/guides/integrations/bedrock)**
+* **[Anthropic](/ja/weave/guides/integrations/anthropic)**
+* **[Cerebras](/ja/weave/guides/integrations/cerebras)**
+* **[Cohere](/ja/weave/guides/integrations/cohere)**
+* **[Google](/ja/weave/guides/integrations/google)**
+* **[Groq](/ja/weave/guides/integrations/groq)**
+* **[Hugging Face Hub](/ja/weave/guides/integrations/huggingface)**
+* **[LiteLLM](/ja/weave/guides/integrations/litellm)**
+* **[Microsoft Azure](/ja/weave/guides/integrations/azure)**
+* **[MistralAI](/ja/weave/guides/integrations/mistral)**
+* **[NVIDIA NIM](/ja/weave/guides/integrations/nvidia_nim)**
+* **[OpenAI](/ja/weave/guides/integrations/openai)**
+* **[OpenRouter](/ja/weave/guides/integrations/openrouter)**
+* **[Together AI](/ja/weave/guides/integrations/together_ai)**
+
+**[Local Models](/ja/weave/guides/integrations/local_models)**: 自前のインフラストラクチャ上でモデルを実行する場合に利用します。
+
+<div id="frameworks">
+  ## フレームワーク
+</div>
+
+フレームワークは、AIアプリケーションにおける実際の実行パイプラインをオーケストレーションするための基盤となります。複雑なワークフローを構築するためのツールや抽象化を提供します。Weave はこれらのフレームワークとインテグレーションして、パイプライン全体をトレースします。
+
+* **[OpenAI Agents SDK](/ja/weave/guides/integrations/openai_agents)**
+* **[LangChain](/ja/weave/guides/integrations/langchain)**
+* **[LlamaIndex](/ja/weave/guides/integrations/llamaindex)**
+* **[DSPy](/ja/weave/guides/integrations/dspy)**
+* **[Instructor](/ja/weave/guides/integrations/instructor)**
+* **[CrewAI](/ja/weave/guides/integrations/crewai)**
+* **[Smolagents](/ja/weave/guides/integrations/smolagents)**
+* **[PydanticAI](/ja/weave/guides/integrations/pydantic_ai)**
+* **[Google Agent Development Kit (ADK)](/ja/weave/guides/integrations/google_adk)**
+* **[AutoGen](/ja/weave/guides/integrations/autogen)**
+* **[Verdict](/ja/weave/guides/integrations/verdict)**
+* **[TypeScript SDK](/ja/weave/guides/integrations/js)**
+* **[Agno](/ja/weave/guides/integrations/agno)**
+* **[Koog](/ja/weave/guides/integrations/koog)**
+
+<div id="rl-frameworks">
+  ## RL フレームワーク
+</div>
+
+* **[Verifiers](/ja/weave/guides/integrations/verifiers)**
+
+<div id="protocols">
+  ## プロトコル
+</div>
+
+Weave は標準化されたプロトコルと連携して、AI アプリケーションとそれを支えるサービス間の通信を可能にします。
+
+* **[Model Context Protocol (MCP)](/ja/weave/guides/integrations/mcp)**
+
+上記の一覧からインテグレーションを選択して、利用している LLM プロバイダ、フレームワーク、またはプロトコルと Weave をどのように組み合わせて使うかを確認してください。LLM API に直接アクセスする場合でも、複雑なパイプラインを構築する場合でも、標準化されたプロトコルを利用する場合でも、Weave は AI アプリケーションを効果的にトレースおよび分析するためのツールを提供します。

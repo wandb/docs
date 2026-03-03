@@ -1,0 +1,30 @@
+---
+description: W&B Sweeps の結果を W&B アプリの UI で可視化します。
+title: Sweep 結果を可視化する
+---
+
+W&amp;B Sweeps の結果を W&amp;B アプリで可視化します。[W&amp;B App](https://wandb.ai/home) に移動します。Sweep を初期化したときに指定したプロジェクトを選択します。プロジェクトの [workspace](/ja/models/track/workspaces/) にリダイレクトされます。プロジェクトのサイドバーで **Sweep アイコン**（ほうきのアイコン）を選択します。Sweep UI で、一覧から対象の Sweep 名を選択します。
+
+デフォルトでは、W&amp;B は W&amp;B Sweep ジョブを開始すると、自動的にパラレルコーディネートプロット、パラメータ重要度プロット、および散布図を作成します。
+
+<Frame>
+  <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="プロジェクトサイドバーの Sweep UI" />
+</Frame>
+
+パラレルコーディネートチャートは、多数のハイパーパラメータとモデルのメトリクス間の関係を一目で把握できるように要約します。パラレルコーディネートプロットの詳細については、[Parallel coordinates](/ja/models/app/features/panels/parallel-coordinates/) を参照してください。
+
+<Frame>
+  <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="パラレルコーディネートプロットの例。" />
+</Frame>
+
+散布図（左）は、Sweep 中に生成された W&amp;B Runs を比較します。散布図の詳細については、[Scatter Plots](/ja/models/app/features/panels/scatter-plot/) を参照してください。
+
+パラメータ重要度プロット（右）は、メトリクスの望ましい値との相関が高く、最も優れた予測指標となったハイパーパラメータを一覧表示します。パラメータ重要度プロットの詳細については、[Parameter Importance](/ja/models/app/features/panels/parameter-importance/) を参照してください。
+
+<Frame>
+  <img src="/images/sweeps/scatter_and_parameter_importance.png" alt="散布図とパラメータ重要度" />
+</Frame>
+
+自動的に使用される従属変数および独立変数（x 軸と y 軸）を変更できます。各パネル内には **Edit panel** という名前の鉛筆アイコンがあります。**Edit panel** を選択します。モーダルが表示されます。モーダル内でグラフの動作を変更できます。
+
+デフォルトの W&amp;B の可視化オプション全般については、[Panels](/ja/models/app/features/panels/) を参照してください。W&amp;B Sweep に含まれていない W&amp;B Runs からプロットを作成する方法については、[Data Visualization docs](/ja/models/tables/) を参照してください。

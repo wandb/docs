@@ -1,0 +1,68 @@
+---
+title: "OpenAI Agents SDK"
+description: "OpenAI Agents SDK とともに W&B Weave を使用して、エージェント型アプリケーションをトラッキングおよびモニタリングする"
+---
+
+[OpenAI Agents Python SDK](https://github.com/openai/openai-agents-python) は、マルチエージェントワークフローを構築するための軽量かつ強力なフレームワークです。OpenAI Agents SDK と W&B Weave を組み合わせて利用すると、エージェント型アプリケーションをトラッキングおよびモニタリングできます。
+
+<div id="installation">
+  ## インストール
+</div>
+
+`pip` を使って必要な依存関係をインストールします。
+
+```bash
+pip install weave openai-agents
+```
+
+
+<div id="get-started">
+  ## はじめに
+</div>
+
+OpenAI Agents SDK を Weave と一緒に使うには、次の手順を実行します:
+
+* プロジェクト名を指定して Weave を初期化する
+* エージェントに Weave のトレーシングプロセッサを追加する
+* 通常どおりエージェントを作成して実行する
+
+次のコードサンプルでは、OpenAI Agent を作成し、トレース可能にするために Weave と統合しています。最初に Weave プロジェクトを初期化し、`WeaveTracingProcessor` をセットアップして実行トレースを取得します。天気情報を表すために `Weather` データモデルを作成します。`get_weather` 関数は、エージェントが利用できるツールとしてデコレータで指定され、サンプルの天気レポートを返します。`Hello world` という名前のエージェントは、基本的な指示と天気ツールへのアクセス権を持つように構成されています。メイン関数は、サンプル入力（`What's the weather in Tokyo?`）でエージェントを非同期に実行し、最終的な応答を出力します。
+
+```python lines
+from pydantic import BaseModel
+from agents import Agent, Runner, function_tool
+import agents
+import weave
+import asyncio
+
+weave.init("openai-agents")
+
+class Weather(BaseModel):
+    city: str
+    temperature_range: str
+    conditions: str
+
+@function_tool
+def get_weather(city: str) -> Weather:
+    return Weather(city=city, temperature_range="14-20C", conditions="Sunny with wind.")
+
+agent = Agent(
+    name="Hello world",
+    instructions="You are a helpful agent.",
+    tools=[get_weather]
+)
+
+async def main():
+    result = await Runner.run(agent, input="What's the weather in Tokyo?")    
+    print(result.final_output)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+
+<div id="view-traces">
+  ## トレースを表示する
+</div>
+
+上記のコードサンプルを実行すると、Weave のダッシュボードへのリンクが生成されます。エージェントの実行中に何が起こったかを確認するには、そのリンクを開いてエージェントのトレースを表示してください。 

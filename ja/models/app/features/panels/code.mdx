@@ -1,0 +1,82 @@
+---
+title: コードの保存と差分比較
+---
+
+デフォルトでは、W&amp;B は最新の git コミットハッシュのみを保存します。UI 上で Experiments 間のコードを動的に比較できるように、追加のコード関連機能を有効にできます。
+
+`wandb` バージョン 0.8.28 以降では、`wandb.init()` を呼び出しているメインの学習スクリプトのコードを、W&amp;B が保存できるようになりました。
+
+<div id="save-library-code">
+  ## ライブラリのコードを保存する
+</div>
+
+コードの保存を有効にすると、W&amp;B は `wandb.init()` を呼び出したファイルのコードを保存します。追加のライブラリコードを保存するには、次の 3 つの方法があります。
+
+<div id="call-wandbrunlog_code-after-calling-wandbinit">
+  ### `wandb.init()` を呼び出した後に `wandb.Run.log_code(".")` を実行する
+</div>
+
+```python
+import wandb
+
+with wandb.init() as run:
+  run.log_code(".")
+```
+
+<div id="pass-a-settings-object-to-wandbinit-with-code_dir-set">
+  ### `code_dir` を設定した settings オブジェクトを `wandb.init()` に渡す
+</div>
+
+```python
+import wandb
+
+wandb.init(settings=wandb.Settings(code_dir="."))
+```
+
+これにより、現在のディレクトリおよびそのすべてのサブディレクトリ内にあるすべての Python ソースコードファイルが、[アーティファクト](/ja/models/ref/python/experiments/artifact)として保存されます。保存するソースコードファイルの種類や場所をより細かく制御するには、[リファレンスドキュメント](/ja/models/ref/python/experiments/run#log_code)を参照してください。
+
+<div id="set-code-saving-in-the-ui">
+  ### UI でコード保存を設定する
+</div>
+
+コード保存はプログラムから設定するだけでなく、W&amp;B アカウントの Settings でも切り替えることができます。この設定を有効にすると、そのアカウントに関連付けられているすべての Teams でコード保存が有効になります。
+
+> デフォルトでは、W&amp;B はすべての Teams に対してコード保存を無効にしています。
+
+1. W&amp;B アカウントにログインします。
+2. **Settings** &gt; **Privacy** に移動します。
+3. **Project and content security** セクションで、**Disable default code saving** をオンにします。
+
+<div id="code-comparer">
+  ## コード比較
+</div>
+
+異なる W&amp;B run で使用されたコードを比較します。
+
+1. ページ右上の **Add panels** ボタンを選択します。
+2. **TEXT AND CODE** ドロップダウンを展開し、**Code** を選択します。
+
+<Frame>
+  <img src="/images/app_ui/code_comparer.png" alt="コード比較パネル" />
+</Frame>
+
+<div id="jupyter-session-history">
+  ## Jupyter セッション履歴
+</div>
+
+W&amp;B は、Jupyter Notebook セッション内で実行されたコードの履歴を保存します。Jupyter 内で **wandb.init()** を呼び出すと、W&amp;B はフックを追加し、現在のセッションで実行されたコードの履歴を含む Jupyter Notebook を自動的に保存します。
+
+1. コードを含むプロジェクトの Workspace に移動します。
+2. プロジェクトのサイドバーで **Artifacts** タブを選択します。
+3. **code** アーティファクトを展開します。
+4. **Files** タブを選択します。
+
+<Frame>
+  <img src="/images/app_ui/jupyter_session_history.gif" alt="Jupyter session history" />
+</Frame>
+
+これにより、セッションで実行されたセルと、IPython の display メソッド呼び出しによって生成された出力が表示されます。これによって、特定の run で Jupyter 内でどのコードが実行されたかを正確に確認できます。可能な場合、W&amp;B は notebook の最新バージョンも保存し、code ディレクトリ内で確認できます。
+
+<Frame>
+  <img src="/images/app_ui/jupyter_session_history_display.png" alt="Jupyter session output" />
+</Frame>

@@ -1,0 +1,80 @@
+---
+description: 一般的な W&B Sweeps の問題をトラブルシューティングします。
+title: Sweeps のトラブルシューティング
+---
+
+以下のガイドに従って、よくあるエラーメッセージに対処してください。
+
+<div id="commerror-run-does-not-exist-and-error-error-uploading">
+  ### `CommError, Run does not exist` と `ERROR Error uploading`
+</div>
+
+これら 2 つのエラーメッセージが両方表示される場合、W&amp;B の run ID を手動で指定している可能性があります。たとえば、Jupyter Notebook や Python スクリプトのどこかに、次のようなコードスニペットを定義しているかもしれません。
+
+```python
+wandb.init(id="some-string")
+```
+
+W&amp;B Sweeps では Run ID を設定できません。これは、W&amp;B Sweeps によって作成される Runs には、W&amp;B がランダムで一意な ID を自動的に生成するためです。
+
+W&amp;B の Run ID は、プロジェクト内で一意である必要があります。
+
+テーブルやグラフ上に表示されるカスタム名を設定したい場合は、W&amp;B を初期化する際に `name` パラメータに名前を渡すことを推奨します。例えば、次のようにします:
+
+```python
+wandb.init(name="a helpful readable run name")
+```
+
+<div id="cuda-out-of-memory">
+  ### `Cuda out of memory`
+</div>
+
+このエラーメッセージが表示される場合は、コードをプロセスベースの実行に対応するようリファクタリングしてください。具体的には、コードを書き直して Python スクリプトにします。さらに、W&amp;B Python SDK からではなく、CLI から W&amp;B スイープエージェントを呼び出してください。
+
+例として、コードを書き直して `train.py` という名前の Python スクリプトにしたとします。YAML スイープ設定ファイル（この例では `config.yaml`）に、学習スクリプト（`train.py`）の名前を追加します。
+
+```yaml
+program: train.py
+method: bayes
+metric:
+  name: validation_loss
+  goal: maximize
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.1
+  optimizer:
+    values: ["adam", "sgd"]
+```
+
+次に、以下を Python スクリプト `train.py` に追加します。
+
+```python
+if _name_ == "_main_":
+    train()
+```
+
+CLI を開き、wandb sweep コマンドで W&amp;B スイープを初期化します。
+
+```shell
+wandb sweep config.yaml
+```
+
+返された W&amp;B スイープ ID を控えておきます。次に、Python SDK（[`wandb.agent`](/ja/models/ref/python/functions/agent)）ではなく CLI を使い、[`wandb agent`](/ja/models/ref/cli/wandb-agent) を実行してスイープジョブを開始します。以下のコードスニペット内の `sweep_ID` を、前の手順で返されたスイープ ID に置き換えてください。
+
+```shell
+wandb agent sweep_ID
+```
+
+<div id="anaconda-400-error">
+  ### `anaconda 400 error`
+</div>
+
+このエラーは、最適化対象の評価指標をログとして記録していない場合に通常発生します。
+
+```shell
+wandb: ERROR Error while calling W&B API: anaconda 400 error: 
+{"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
+```
+
+YAML ファイルまたはネストされた辞書内で、最適化対象となるキー名 `metric` を指定します。必ずこのメトリクスを `wandb.log` を使ってログに記録してください。さらに、Python スクリプトや Jupyter Notebook 内でも、スイープで最適化対象として定義したメトリクス名と *完全に同じ* 名前を使用していることを確認してください。設定ファイルの詳細については、[スイープ設定を定義する](/ja/models/sweeps/define-sweep-configuration/)を参照してください。

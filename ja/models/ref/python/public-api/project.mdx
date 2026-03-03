@@ -1,0 +1,95 @@
+---
+title: プロジェクト
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+
+## <kbd>class</kbd> `Project`
+
+プロジェクトは run の名前空間として機能します。
+
+### <kbd>method</kbd> `Project.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    attrs: 'Mapping[str, Any]'
+) → Project
+```
+
+**引数:**
+
+* `client`:  W&amp;B API クライアント インスタンス。
+* `name` (str):  プロジェクトの名前。
+* `entity` (str):  プロジェクトを所有するエンティティの名前。
+
+エンティティに関連付けられた単一のプロジェクト。
+
+**引数:**
+
+* `client`:  W&amp;B をクエリするために使用する API クライアント。
+* `entity`:  プロジェクトを所有するエンティティ。
+* `project`:  クエリ対象のプロジェクト名。
+* `attrs`:  プロジェクトの属性。
+
+***
+
+
+### <kbd>プロパティ</kbd> Project.id
+
+---
+
+### <kbd>property</kbd> Project.path
+
+プロジェクトのパスを返します。パスはエンティティ名とプロジェクト名からなるリストです。
+
+**戻り値:**
+
+- `list[str]`: path プロパティの値。
+
+---
+
+### <kbd>property</kbd> Project.url
+
+このプロジェクトの URL を返します。
+
+**戻り値:**
+
+- `str`: url プロパティの値。
+
+---
+
+### <kbd>method</kbd> `Project.artifacts_types`
+
+```python
+artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
+```
+
+このプロジェクトに関連するすべてのアーティファクトタイプを返します。
+
+***
+
+
+### <kbd>method</kbd> `Project.sweeps`
+
+```python
+sweeps(per_page: 'int' = 50) → Sweeps
+```
+
+このプロジェクト内のページネーションされたスイープのコレクションを返します。
+
+**引数:**
+
+* `per_page`:  API への 1 回のリクエストで取得するスイープの数。
+
+**戻り値:**
+`Sweep` オブジェクトからなるイテラブルなコレクションである `Sweeps` オブジェクトを返します。
+
+***

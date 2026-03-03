@@ -1,0 +1,170 @@
+---
+title: "FAQ"
+description: "Weave のトレーシングに関するよくある質問への回答"
+---
+
+このページでは、Weave のトレーシングに関するよくある質問とその回答を紹介します。
+
+<div id="what-information-does-weave-capture-for-a-function">
+  ## Weave は関数についてどのような情報を記録しますか？
+</div>
+
+関数は、デコレータを使って手動で、または有効化されたインテグレーションの一部として自動的に、Weave の [Op](/ja/weave/guides/tracking/ops) として指定できます。Op が実行されると、Weave は分析を支援するために詳細な情報を記録します。Weave は、デフォルトとは異なる内容を記録したい場合に備えて、ログに記録される内容をきめ細かく制御できるようにしています。設定例については、以下を参照してください。
+
+* **コードキャプチャ** - Weave は Op のソースコードの表現を記録します。これには、インラインコメントに加えて、呼び出された非 Op 関数の変数の値やソースコードを再帰的に取得することが含まれます。コードキャプチャにより、変更がソースコード管理システムに保存されていない場合でも、関数が何を実行していたかを確認できます。コードキャプチャは Op のバージョニングの一部として使用され、時間の経過に伴うコードの評価を理解するのに役立ちます。コードキャプチャが無効な場合は、代わりにハッシュ値が使用されます。
+
+* **関数名、入力、出力** - 関数名は記録されますが、[上書き](/ja/weave/guides/tracking/tracing/#call-display-name)することができます。入力と出力については、JSON ベースの表現が記録されます。入力に関しては、値に加えて引数名も記録されます。Weave では、入力と出力の [ログをカスタマイズ](/ja/weave/guides/tracking/ops#customize-logged-inputs-and-outputs) でき、ログに記録する内容を追加・削除・変更する関数を指定できます。
+
+* **Op 呼び出しの階層** - ある Op の実行中に、そのコンテキスト内で別の Op が呼び出された場合、この関係が記録されます。これは、その間に非 Op 関数が挟まって実行されている場合でも同様です。Op 呼び出し間のこの関係は、「Trace ツリー」を提供するために使用されます。
+
+* **実行ステータスと例外** - Weave は、関数が実行中か、完了したか、エラーになったかを追跡します。実行中に例外が発生した場合は、エラーメッセージとスタックトレースが記録されます。
+
+* **システム情報** - Weave は、クライアントがどのオペレーティングシステム上で動作しているかに関する情報、およびその詳細なバージョン情報を記録する場合があります。
+
+* **クライアント情報** - Weave は、使用されているプログラミング言語や、その言語および Weave クライアントライブラリの詳細なバージョン情報など、Weave クライアント自体に関する情報を記録する場合があります。
+
+* **タイミング** - 実行の開始時刻と終了時刻が記録され、レイテンシー計算にも使用されます。
+
+* **トークン使用量** - 一部の [インテグレーション](/ja/weave/guides/integrations/) では、LLM のトークン使用数が自動的にログに記録される場合があります。
+
+* **ユーザーと run のコンテキスト** - ログは W&amp;B のユーザーアカウントにひも付けられます。これは、任意の wandb run コンテキストと合わせて記録されます。
+
+* **派生情報** - Weave は、ログに記録された生データから派生情報を計算する場合があります。たとえば、トークン使用量と使用されたモデルに関する知識に基づいてコスト見積もりを計算することがあります。また、Weave は呼び出し全体にわたって一部の情報を集約します。
+
+* **あなたが選択する追加情報** - 呼び出しの一部として、[`weave.attributes`](/ja/weave/guides/core-types/models#track-production-calls) を使用してカスタムメタデータをログに記録したり、[フィードバック](/ja/weave/guides/tracking/feedback#add-feedback-to-a-call) を呼び出しに付与したりできます。
+
+<div id="how-can-i-disable-code-capture">
+  ## コードキャプチャを無効化するにはどうすればよいですか？
+</div>
+
+Weave クライアントを初期化する際に、コードキャプチャを無効化できます: `weave.init("entity/project", settings={"capture_code": False})`。
+[環境変数](/ja/weave/guides/core-types/env-vars) `WEAVE_CAPTURE_CODE=false` を使用することもできます。
+
+<div id="how-can-i-disable-system-information-capture">
+  ## システム情報の収集を無効にするにはどうすればよいですか？
+</div>
+
+Weave クライアントを初期化する際に、次のように設定するとシステム情報の収集を無効にできます: `weave.init("entity/project", settings={"capture_system_info": False})`。
+
+<div id="how-can-i-disable-client-information-capture">
+  ## クライアント情報の収集を無効にするにはどうすればよいですか？
+</div>
+
+Weave クライアントの初期化時に、次のように設定してクライアント情報の収集を無効化できます: `weave.init("entity/project", settings={"capture_client_info": False})`。
+
+<div id="how-do-i-render-python-datetime-values-in-the-ui">
+  ## UI で Python の datetime 値をどのように表示できますか？
+</div>
+
+Python の `datetime.datetime`（タイムゾーン情報付き）を使用し、`weave.publish(...)` でオブジェクトを公開します。Weave がこの型を認識して、タイムスタンプとして表示します。
+
+<div id="how-do-i-render-markdown-in-the-ui">
+  ## UI で Markdown をレンダリングするにはどうすればよいですか？
+</div>
+
+文字列を保存する前に `weave.Markdown(...)` でラップし、`weave.publish(...)` を使って保存します。Weave はオブジェクトの型にもとづいてレンダリング方法を決定し、`weave.Markdown` は既知の UI レンダラーにマッピングされます。値は UI 上で、整形された Markdown オブジェクトとして表示されます。完全なコード例は、[Viewing calls](/ja/weave/guides/tracking/tracing#viewing-calls) を参照してください。
+
+<div id="will-weave-affect-my-functions-execution-speed">
+  ## Weave は関数の実行速度に影響しますか？
+</div>
+
+Weave のロギングによるオーバーヘッドは、通常、LLM への呼び出しと比べて無視できる程度です。
+Op の実行速度への Weave の影響を最小限に抑えるため、ネットワーク処理はバックグラウンドスレッド上で行われます。
+プログラムの終了時には、キューに残っているデータのロギングが完了するまで、一時的に停止したように見えることがあります。
+
+<div id="how-is-weave-data-ingestion-calculated">
+  ## Weave のデータ取り込み量はどのように計算されますか？
+</div>
+
+取り込まれたバイト数は、お客様に代わって当社が受信・処理・保存するバイト数として定義します。これには、トレースメタデータ、LLM の入力・出力、およびお客様が明示的に Weave にログしたその他の情報が含まれますが、通信オーバーヘッド（例：HTTP ヘッダー）や、長期保存されないその他のデータは含まれません。バイト数は、受信して保存した時点で一度だけ「取り込まれた」としてカウントします。
+
+<div id="what-is-pairwise-evaluation-and-how-do-i-do-it">
+  ## ペアワイズ評価とは何ですか？また、どのように行いますか？
+</div>
+
+Weave の [evaluation](/ja/weave/guides/core-types/evaluations) で [scoring](/ja/weave/guides/evaluation/scorers) を行う際、絶対値のメトリクス（例: モデルAが `9/10`、モデルBが `8/10`）を割り当てることは、相対的な評価（例: モデルAのほうがモデルBより良い）のほうに比べて一般に難しくなります。*ペアワイズ評価* を使うと、2つのモデルの出力を互いの相対的な順位付けによって比較できます。この手法は、テキスト生成、要約、質問応答のような主観的なタスクに対して、どちらのモデルがより良く動作するかを判断したい場合に特に有用です。ペアワイズ評価により、特定の入力に対してどのモデルが最適かを示す相対的な選好順位を得ることができます。
+
+<Warning>
+  この手法は現時点でのワークアラウンドであり、将来のリリースで変更される可能性があります。現在、ペアワイズ評価を正式にサポートする、より堅牢な API を開発中です。今後のアップデートをお待ちください。
+</Warning>
+
+次のコードサンプルでは、`PreferenceScorer` という [class-based scorer](/ja/weave/guides/evaluation/scorers#class-based-scorers) を作成することで、Weave でペアワイズ評価を実装する方法を示します。`PreferenceScorer` は `ModelA` と `ModelB` という2つのモデルを比較し、入力テキスト内の明示的なヒントに基づいてモデル出力の相対スコアを返します。
+
+```python lines
+from weave import Model, Evaluation, Scorer, Dataset
+from weave.flow.model import ApplyModelError, apply_model_async
+
+class ModelA(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model A" in input_text:
+            return {"response": "This is a great answer from Model A"}
+        return {"response": "Meh, whatever"}
+
+class ModelB(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model B" in input_text:
+            return {"response": "This is a thoughtful answer from Model B"}
+        return {"response": "I don't know"}
+
+class PreferenceScorer(Scorer):
+    @weave.op
+    async def _get_other_model_output(self, example: dict) -> Any:
+        """比較のために他のモデルの出力を取得する。
+        Args:
+            example: 他のモデルに渡す入力サンプルデータ
+        Returns:
+            他のモデルからの出力
+        """
+
+        other_model_result = await apply_model_async(
+            self.other_model,
+            example,
+            None,
+        )
+
+        if isinstance(other_model_result, ApplyModelError):
+            return None
+
+        return other_model_result.model_output
+
+    @weave.op
+    async def score(self, output: dict, input_text: str) -> dict:
+        """プライマリモデルと他のモデルの出力を比較する。
+        Args:
+            output (dict): プライマリモデルからの出力。
+            input_text (str): 出力の生成に使用した入力テキスト。
+        Returns:
+            dict: 比較結果と理由を含むフラットな辞書。
+        """
+        other_output = await self._get_other_model_output(
+            {"input_text": input_text}
+        )
+        if other_output is None:
+            return {"primary_is_better": False, "reason": "他のモデルが失敗しました"}
+
+        if "Prefer model A" in input_text:
+            primary_is_better = True
+            reason = "モデルAが優れた回答を提供しました"
+        else:
+            primary_is_better = False
+            reason = "この種の質問にはモデルBが適しています"
+
+        return {"primary_is_better": primary_is_better, "reason": reason}
+
+dataset = Dataset(
+    rows=[
+        {"input_text": "Prefer model A: Question 1"},  # モデルAが優位
+        {"input_text": "Prefer model A: Question 2"},  # モデルAが優位
+        {"input_text": "Prefer model B: Question 3"},  # モデルBが優位
+        {"input_text": "Prefer model B: Question 4"},  # モデルBが優位
+    ]
+)
+
+model_a = ModelA()
+model_b = ModelB()
+pref_scorer = PreferenceScorer(other_model=model_b)
+evaluation = Evaluation(dataset=dataset, scorers=[pref_scorer])
+evaluation.evaluate(model_a)
+```

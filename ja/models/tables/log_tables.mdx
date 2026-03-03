@@ -1,0 +1,275 @@
+---
+title: テーブルのログ記録
+---
+
+W&amp;B Tables を使って表形式データを可視化およびログ記録します。W&amp;B Table は、各列が単一のデータ型を持つ 2 次元のデータグリッドです。各行は、W&amp;B の [run](/ja/models/runs/) にログ記録された 1 つ以上のデータポイントを表します。W&amp;B Tables は、プリミティブ型や数値型に加えて、入れ子のリスト、辞書、およびリッチメディア型をサポートします。
+
+W&amp;B Table は W&amp;B における専用の [data type](/ja/models/ref/python/data-types/) であり、[artifact](/ja/models/artifacts/) オブジェクトとしてログ記録されます。
+
+W&amp;B Python SDK を使用して[テーブルオブジェクトを作成してログ記録します](#create-and-log-a-new-table)。テーブルオブジェクトを作成する際に、テーブルの列とデータ、および [モード](#table-logging-modes) を指定します。モードは、ML 実験中にテーブルがどのようにログ記録および更新されるかを決定します。
+
+<Note>
+  `INCREMENTAL` モードは W&amp;B Server v0.70.0 以降でサポートされています。
+</Note>
+
+<div id="create-and-log-a-table">
+  ## テーブルを作成してログに記録する
+</div>
+
+1. `wandb.init()` を使って新しい run を初期化します。
+2. [`wandb.Table`](/ja/models/ref/python/data-types/table) クラスで Table オブジェクトを作成します。`columns` パラメータと `data` パラメータに、それぞれテーブルの列とデータを指定します。オプションの `log_mode` パラメータには、`IMMUTABLE`（デフォルト）、`MUTABLE`、`INCREMENTAL` の 3 つのモードのいずれかを設定することを推奨します。詳細は次のセクションの [Table Logging Modes](#logging-modes) を参照してください。
+3. `run.log()` を使ってテーブルを W&amp;B にログとして記録します。
+
+次の例は、`a` と `b` の 2 つの列、および `["a1", "b1"]` と `["a2", "b2"]` の 2 行のデータを持つテーブルを作成してログに記録する方法を示しています。
+
+```python
+import wandb
+
+# 新しいrunを開始する
+with wandb.init(project="table-demo") as run:
+
+    # 2列2行のデータを持つテーブルオブジェクトを作成する
+    my_table = wandb.Table(
+        columns=["a", "b"],
+        data=[["a1", "b1"], ["a2", "b2"]],
+        log_mode="IMMUTABLE"
+        )
+
+    # テーブルをW&Bにログする
+    run.log({"Table Name": my_table})
+```
+
+<div id="logging-modes">
+  ## ログモード
+</div>
+
+[`wandb.Table`](/ja/models/ref/python/data-types/table) の `log_mode` パラメータは、ML 実験中にテーブルがどのようにログされ、更新されるかを決定します。`log_mode` パラメータには `IMMUTABLE`、`MUTABLE`、`INCREMENTAL` の 3 つの引数のいずれかを指定できます。各モードは、テーブルのログ方法、変更方法、および W&amp;B App での表示方法に対して異なる影響があります。
+
+以下では、3 つのログモードについて、それぞれの概要、主な違い、および代表的なユースケースを説明します。
+
+| Mode  | Definition | Use Cases  | Benefits  |
+| ----- | ---------- | ---------- | ----------|
+| `IMMUTABLE`   | いったんテーブルを W&amp;B にログすると、そのテーブルは変更できません。 |- 後続の解析のために、run の終了時に生成される表形式データを保存する                              | - run の終了時にログする場合のオーバーヘッドが最小<br />- すべての行が UI に表示される |
+| `MUTABLE`     | テーブルを W&amp;B にログした後でも、新しいテーブルで既存のテーブルを上書きできます。 | - 既存テーブルへの列や行の追加<br />- 新しい情報で結果を拡充する                        | - テーブルの変更を追跡可能<br />- すべての行が UI に表示される                          |
+| `INCREMENTAL` | 機械学習実験の実行中に、新しい行のバッチをテーブルに順次追加します。 | - テーブルに行をバッチ単位で追加<br /> - 長時間実行される学習ジョブ<br />- 大規模データセットをバッチ処理する場合<br />- 進行中の結果のモニタリング | - 学習中の更新を UI 上で確認可能<br />- 各インクリメントを順に確認可能    |
+
+次のセクションでは、各モードのサンプルコードと、各モードを使用する際の考慮事項を示します。
+
+<div id="mutable-mode">
+  ### MUTABLE モード
+</div>
+
+`MUTABLE` モードは、既存のテーブルを新しいテーブルで置き換えることで更新します。`MUTABLE` モードは、繰り返し処理ではなく一度の処理で既存のテーブルに新しい列や行を追加したい場合に有用です。UI 上では、初回のログ以降に追加されたものも含め、すべての行と列が表示されます。
+
+<Note>
+  `MUTABLE` モードでは、テーブルをログするたびにテーブルオブジェクトが置き換えられます。テーブルを新しいもので上書きすることは計算コストが高く、大きなテーブルでは処理が遅くなる可能性があります。
+</Note>
+
+次の例は、`MUTABLE` モードでテーブルを作成してログし、その後新しい列を追加する方法を示しています。テーブルオブジェクトは 3 回ログされます。最初は初期データ、次に信頼度スコア、最後に最終予測です。
+
+<Note>
+  次の例では、データを読み込むためのプレースホルダー関数 `load_eval_data()` と、予測を行うためのプレースホルダー関数 `model.predict()` を使用しています。これらはご自身のデータ読み込み関数および予測関数に置き換えてください。
+</Note>
+
+```python
+import wandb
+import numpy as np
+
+with wandb.init(project="mutable-table-demo") as run:
+
+    # MUTABLEロギングモードでテーブルオブジェクトを作成する
+    table = wandb.Table(columns=["input", "label", "prediction"],
+                        log_mode="MUTABLE")
+
+    # データを読み込み、予測を行う
+    inputs, labels = load_eval_data() # プレースホルダー関数
+    raw_preds = model.predict(inputs) # プレースホルダー関数
+
+    for inp, label, pred in zip(inputs, labels, raw_preds):
+        table.add_data(inp, label, pred)
+
+    # ステップ1: 初期データをログに記録する
+    run.log({"eval_table": table})  # 初期テーブルをログに記録する
+
+    # ステップ2: 信頼度スコアを追加する（例: max softmax）
+    confidences = np.max(raw_preds, axis=1)
+    table.add_column("confidence", confidences)
+    run.log({"eval_table": table})  # 信頼度情報を追加する
+
+    # ステップ3: 後処理済みの予測を追加する
+    # （例: 閾値処理または平滑化された出力）
+    post_preds = (confidences > 0.7).astype(int)
+    table.add_column("final_prediction", post_preds)
+    run.log({"eval_table": table})  # 別の列による最終更新
+```
+
+新しい行のバッチ（列は追加しない）だけを、学習ループのように順次追加したい場合は、代わりに [`INCREMENTAL` モード](#INCREMENTAL-mode) の利用を検討してください。
+
+<div id="incremental-mode">
+  ### INCREMENTAL モード
+</div>
+
+INCREMENTAL モードでは、機械学習実験の実行中に、行のバッチをテーブルにログとして記録します。これは、長時間実行されるジョブの監視や、run の更新のたびにログを取るには非効率となる大きなテーブルを扱う場合に適しています。UI 上では、新しい行がログされるたびにテーブルが更新されるため、run 全体が完了するのを待たずに最新のデータを確認できます。また、インクリメントを順にたどることで、異なる時点におけるテーブルの状態を表示することもできます。
+
+<Note>
+  W&amp;B App の run Workspace には、インクリメント数に 100 の上限があります。100 を超えるインクリメントをログした場合、run Workspace に表示されるのは最新の 100 件のみです。
+</Note>
+
+次の例では、`INCREMENTAL` モードでテーブルを作成してログを取り、その後テーブルに新しい行を追加します。テーブルは学習ステップ（`step`）ごとに一度ログされることに注意してください。
+
+<Note>
+  次の例では、データを読み込むためのプレースホルダー関数 `get_training_batch()`、モデルを学習するためのプレースホルダー関数 `train_model_on_batch()`、予測を行うためのプレースホルダー関数 `predict_on_batch()` を使用しています。これらは、実際のデータ読み込み、学習、および予測用の関数に置き換えて使用してください。
+</Note>
+
+```python
+import wandb
+
+with wandb.init(project="incremental-table-demo") as run:
+
+    # INCREMENTALロギングモードでテーブルを作成する
+    table = wandb.Table(columns=["step", "input", "label", "prediction"],
+                        log_mode="INCREMENTAL")
+
+    # 学習ループ
+    for step in range(get_num_batches()): # プレースホルダー関数
+        # バッチデータを読み込む
+        inputs, labels = get_training_batch(step) # プレースホルダー関数
+
+        # 学習と予測
+        train_model_on_batch(inputs, labels) # プレースホルダー関数
+        predictions = predict_on_batch(inputs) # プレースホルダー関数
+
+        # バッチデータをテーブルに追加する
+        for input_item, label, prediction in zip(inputs, labels, predictions):
+            table.add_data(step, input_item, label, prediction)
+
+        # テーブルをインクリメンタルにログに記録する
+        run.log({"training_table": table}, step=step)
+```
+
+インクリメンタルロギングは、毎回新しいテーブルをロギングする場合（`log_mode=MUTABLE`）と比べて、一般的に計算量の面でより効率的です。ただし、インクリメンタルな更新回数が多いと、W&amp;B App がテーブル内のすべての行をレンダリングできない場合があります。run の実行中にテーブルデータを更新して閲覧しつつ、分析用にすべてのデータを利用可能にしたい場合は、2 つのテーブルを使用することを検討してください。1 つは `INCREMENTAL` ログモード、もう 1 つは `IMMUTABLE` ログモードにします。
+
+次の例は、この目的を達成するために、`INCREMENTAL` と `IMMUTABLE` のロギングモードをどのように組み合わせるかを示します。
+
+```python
+import wandb
+
+with wandb.init(project="combined-logging-example") as run:
+
+    # 学習中の効率的な更新のためにインクリメンタルテーブルを作成する
+    incr_table = wandb.Table(columns=["step", "input", "prediction", "label"],
+                            log_mode="INCREMENTAL")
+
+    # 学習ループ
+    for step in range(get_num_batches()):
+        # バッチを処理する
+        inputs, labels = get_training_batch(step)
+        predictions = model.predict(inputs)
+
+        # インクリメンタルテーブルにデータを追加する
+        for inp, pred, label in zip(inputs, predictions, labels):
+            incr_table.add_data(step, inp, pred, label)
+
+        # インクリメンタル更新をログに記録する（最終テーブルと区別するために -incr サフィックスを付ける）
+        run.log({"table-incr": incr_table}, step=step)
+
+    # 学習終了時に、すべてのデータを含む完全なイミュータブルテーブルを作成する
+    # 完全なデータセットを保持するためにデフォルトの IMMUTABLE モードを使用する
+    final_table = wandb.Table(columns=incr_table.columns, data=incr_table.data, log_mode="IMMUTABLE")
+    run.log({"table": final_table})
+```
+
+この例では、`incr_table` は学習中に `log_mode="INCREMENTAL"` を使ってインクリメンタルにログされます。これにより、新しいデータが処理されるたびにテーブルの更新内容をログして表示できるようになります。学習の終了時に、増分テーブル内のすべてのデータを含むイミュータブルなテーブル（`final_table`）が作成されます。イミュータブルテーブルをログすることで、さらなる分析のために完全なデータセットを保存でき、W&amp;B App ですべての行を表示できるようになります。
+
+<div id="examples">
+  ## 例
+</div>
+
+<div id="enriching-evaluation-results-with-mutable">
+  ### MUTABLE を使って評価結果を拡張する
+</div>
+
+```python
+import wandb
+import numpy as np
+
+with wandb.init(project="mutable-logging") as run:
+
+    # ステップ1: 初期予測をログに記録する
+    table = wandb.Table(columns=["input", "label", "prediction"], log_mode="MUTABLE")
+    inputs, labels = load_eval_data()
+    raw_preds = model.predict(inputs)
+
+    for inp, label, pred in zip(inputs, labels, raw_preds):
+        table.add_data(inp, label, pred)
+
+    run.log({"eval_table": table})  # 生の予測をログに記録する
+
+    # ステップ2: 信頼度スコアを追加する（例: max softmax）
+    confidences = np.max(raw_preds, axis=1)
+    table.add_column("confidence", confidences)
+    run.log({"eval_table": table})  # 信頼度情報を追加する
+
+    # ステップ3: 後処理済みの予測を追加する
+    # （例: 閾値処理または平滑化された出力）
+    post_preds = (confidences > 0.7).astype(int)
+    table.add_column("final_prediction", post_preds)
+    run.log({"eval_table": table})
+```
+
+<div id="resuming-runs-with-incremental-tables">
+  ### INCREMENTAL テーブルを使用した run の再開
+</div>
+
+run を再開するときも、INCREMENTAL テーブルへのロギングを継続できます。
+
+```python
+# runを開始または再開する
+resumed_run = wandb.init(project="resume-incremental", id="your-run-id", resume="must")
+
+# インクリメンタルテーブルを作成する。以前にログしたテーブルのデータを入力する必要はない
+# インクリメントは引き続きTableアーティファクトに追加される。
+table = wandb.Table(columns=["step", "metric"], log_mode="INCREMENTAL")
+
+# ログを継続する
+for step in range(resume_step, final_step):
+    metric = compute_metric(step)
+    table.add_data(step, metric)
+    resumed_run.log({"metrics": table}, step=step)
+
+resumed_run.finish()
+```
+
+<Note>
+  `wandb.Run.define_metric("<table_key>", summary="none")` または `wandb.Run.define_metric("*", summary="none")` を使用してインクリメンタルテーブルで使用されるキーのサマリーをオフにすると、その増分は新しいテーブルにログされます。
+</Note>
+
+<div id="training-with-incremental-batch-training">
+  ### INCREMENTAL バッチ学習による学習
+</div>
+
+```python
+
+with wandb.init(project="batch-training-incremental") as run:
+
+    # インクリメンタルテーブルを作成する
+    table = wandb.Table(columns=["step", "input", "label", "prediction"], log_mode="INCREMENTAL")
+
+    # 学習ループのシミュレーション
+    for step in range(get_num_batches()):
+        # バッチデータを読み込む
+        inputs, labels = get_training_batch(step)
+
+        # このバッチでモデルを学習する
+        train_model_on_batch(inputs, labels)
+
+        # モデルの推論を実行する
+        predictions = predict_on_batch(inputs)
+
+        # テーブルにデータを追加する
+        for input_item, label, prediction in zip(inputs, labels, predictions):
+            table.add_data(step, input_item, label, prediction)
+
+        # テーブルの現在の状態をインクリメンタルにログ記録する
+        run.log({"training_table": table}, step=step)
+```

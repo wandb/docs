@@ -1,0 +1,18 @@
+---
+title: W&B Launch を TensorFlow の GPU 環境で動作させるにはどうすればよいですか？
+---
+
+GPU を利用する TensorFlow ジョブでは、コンテナビルド用にカスタムのベースイメージを指定してください。これにより、run 実行時の GPU 利用が適切に行われます。リソース設定内の `builder.accelerator.base_image` キーの下に image タグを追加します。例:
+
+```json
+{
+    "gpus": "all",
+    "builder": {
+        "accelerator": {
+            "base_image": "tensorflow/tensorflow:latest-gpu"
+        }
+    }
+}
+```
+
+W&amp;B 0.15.6 より前のバージョンでは、`base_image` の親キーには `accelerator` ではなく `cuda` を使用してください。

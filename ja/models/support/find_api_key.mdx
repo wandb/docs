@@ -1,0 +1,56 @@
+---
+title: APIキーはどのように作成・管理しますか？
+---
+
+import ApiKeyFind from "/snippets/ja/_includes/api-key-find.mdx";
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/ja/_includes/api-key-security.mdx";
+import ServiceAccountApiKeyDelete from "/snippets/ja/_includes/service-account-api-key-delete.mdx";
+
+<div id="create-a-new-api-key">
+  ## 新しいAPIキーの作成
+</div>
+
+<ApiKeyCreate />
+
+<div id="find-your-api-keys">
+  ## APIキーを確認する
+</div>
+
+<ApiKeyFind />
+
+<div id="delete-an-api-key">
+  ## APIキーを削除する
+</div>
+
+<Warning>
+  APIキーを削除すると、そのキーを使用しているすべてのスクリプトやサービスへのアクセス権が即座に取り消されます。古いキーを削除する前に、すべてのシステムが新しいキーを使用するように更新されていることを確認してください。
+</Warning>
+
+アクセス権を取り消すには、APIキーを削除します。詳細は、**Personal API key** タブまたは **Service Account API key** タブを選択して確認します。
+
+<Tabs>
+  <Tab title="Personal API key">
+    1. [wandb.ai/settings](https://wandb.ai/settings) に移動します。
+    2. **API Keys** セクションで、削除したいキーの横にある削除ボタンをクリックします。
+  </Tab>
+
+  <Tab title="Service account API key">
+    <ServiceAccountApiKeyDelete />
+
+    [service accounts を使用してワークフローを自動化する方法](/ja/platform/hosting/iam/service-accounts)について詳しくは、こちらをご覧ください。
+  </Tab>
+</Tabs>
+
+<div id="replace-an-api-key">
+  ## APIキーをローテーションする
+</div>
+
+APIキーをローテーション（置き換え）するには、次の手順を実行します。
+
+1. [新しいAPIキーを作成](#create-a-new-api-key)します。
+2. すべてのスクリプト、サービス、環境を更新し、新しいAPIキーを使用するように構成します。
+3. 新しいAPIキーがすべての箇所で正常に動作することを確認します。
+4. 古いAPIキーを削除します。
+
+<ApiKeySecurity />

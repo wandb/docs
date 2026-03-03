@@ -1,0 +1,9 @@
+---
+title: run が完了した後に追加のメトリクスをログするにはどうすればよいですか？
+---
+
+実験を管理する方法はいくつかあります。
+
+複雑なワークフローの場合は、複数の run を使用し、単一の実験内のすべてのプロセスで一意になる値を [`wandb.init()`](/ja/models/track/create-an-experiment) の group パラメータに設定します。[**Runs** タブ](/ja/models/track/project-page/#runs-tab) はテーブルを group ID ごとにグループ化し、可視化が正しく動作するようにします。この方法により、1 か所に結果をログしながら、複数の実験や学習 run を並行して実行できます。
+
+より単純なワークフローの場合は、`resume=True` と `id=UNIQUE_ID` を指定して `wandb.init()` を呼び出し、同じ `id=UNIQUE_ID` を指定してもう一度 `wandb.init()` を呼び出します。[`run.log()`](/ja/models/track/log/) または `run.summary()` を使って通常どおりログを記録すると、run の値がそれに応じて更新されます。

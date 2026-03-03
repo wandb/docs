@@ -1,0 +1,17 @@
+---
+title: アーティファクトのタグ追加
+---
+
+```python
+"""
+W&B にログする際にアーティファクトにタグを追加する。
+"""
+import wandb
+
+# アーティファクトを作成する
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+
+# タグ付きでアーティファクトをログする
+with wandb.init(project="<project>") as run:
+    run.log_artifact(artifact, tags=["<tag1>", "<tag2>"])
+```
