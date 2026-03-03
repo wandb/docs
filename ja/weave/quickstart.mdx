@@ -38,7 +38,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
 2. コード内で `weave.init('your_wb_team/project_name')` を呼び出し、トラッキング情報を W&amp;B の [team](/ja/platform/app/settings-page/teams) と [project](/ja/platform/hosting/iam/org_team_struct#project) に送信します。team を設定しない場合、トレースはあなたの[デフォルト team](/ja/platform/app/settings-page/user-settings/#default-team) に送信されます。指定した project が team 内に存在しない場合、Weave が新しく作成します。
 3. トラッキングしたい特定の関数に [`@weave.op()` デコレータ](/ja/weave/guides/tracking/ops) を追加します。Weave はサポートされている LLM への呼び出しを自動的にトラッキングしますが、Weave のデコレータを追加すると、特定の関数の入力、出力、およびコードをトラッキングできます。デコレータは TypeScript では次の構文を使用します: `weave.op(your_function)`
 
-次のサンプルコードは OpenAI にリクエストを送信し（[OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key) が必要）、Weave はそのリクエストのトレース情報を記録します。リクエストでは、OpenAI モデルに入力から恐竜の名前を抽出し、各恐竜の食性（草食か肉食か）を特定するように指示します。
+次のサンプルコードは OpenAI にリクエストを送信し（[OpenAI API key](https://platform.openai.com/docs/quickstart) が必要）、Weave はそのリクエストのトレース情報を記録します。リクエストでは、OpenAI モデルに入力から恐竜の名前を抽出し、各恐竜の食性（草食か肉食か）を特定するように指示します。
 
 次のサンプルコードを実行して、Weave を使って最初のプロジェクトをトラッキングしてください:
 

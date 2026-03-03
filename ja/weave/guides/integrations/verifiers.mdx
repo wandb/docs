@@ -88,7 +88,7 @@ results = env.evaluate(
 
 Weave は、学習中のモデルの動作に関する洞察を提供することで、RL ファインチューニングのワークフローにおいて強力なツールになります。W&amp;B と併用すると、包括的な可観測性を得られます。W&amp;B は学習メトリクスやパフォーマンスチャートをトラッキングし、Weave は学習プロセス中の各インタラクションの詳細なトレースを取得します。
 
-`verifiers` リポジトリには、すぐに実行できる[サンプル](https://github.com/willccbb/verifiers/tree/main/examples/grpo)が含まれており、すぐに使い始めるのに役立ちます。
+`verifiers` リポジトリには、すぐに実行できる[サンプル](https://github.com/willccbb/verifiers)が含まれており、すぐに使い始めるのに役立ちます。
 
 次の RL 学習パイプラインの例では、ローカル推論サーバーを起動し、GSM8K データセットを使ってモデルを学習します。モデルは数学の問題に対する解答を返し、学習ループが出力にスコアを付け、それに応じてモデルを更新します。W&amp;B は loss、reward、accuracy などの学習メトリクスをログし、Weave は入力、出力、推論過程、およびスコアリングを取得します。
 
@@ -138,4 +138,4 @@ CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs
   ## 関連情報
 </div>
 
-Verifiers は W&amp;B Models と第一級のインテグレーションをサポートしています。詳しくは [Monitoring](https://verifiers.readthedocs.io/en/latest/training.html#monitoring) を参照してください。
+Verifiers は W&amp;B Models と第一級のインテグレーションをサポートしています。詳しくは [Verifiers リポジトリ](https://github.com/willccbb/verifiers) を参照してください。
