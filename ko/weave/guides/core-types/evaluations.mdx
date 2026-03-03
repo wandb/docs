@@ -11,7 +11,7 @@ _평가 기반 LLM 애플리케이션 개발(Evaluation-driven LLM application d
 
   - 테스트 예시를 위한 [`Dataset`](../core-types/datasets) 또는 사전(dictionary) 리스트.
   - 하나 이상의 [스코어링 함수(scoring functions)](../evaluation/scorers).
-  - [입력 전처리](#format-dataset-rows-before-evaluating)와 같은 선택적 설정.
+  - [입력 전처리](#평가-전-데이터셋-행-포맷팅)와 같은 선택적 설정.
 
   `Evaluation`을 정의하고 나면, 이를 [`Model`](../core-types/models) 오브젝트나 LLM 애플리케이션 로직을 포함하는 커스텀 함수에 대해 실행할 수 있습니다. `.evaluate()`를 호출할 때마다 _evaluation run_이 트리거됩니다. `Evaluation` 오브젝트를 청사진으로, 각 run을 해당 설정에서 애플리케이션이 어떻게 작동하는지 측정하는 것으로 생각하세요.
 </Tab>
@@ -31,13 +31,13 @@ _평가 기반 LLM 애플리케이션 개발(Evaluation-driven LLM application d
 
 평가를 시작하려면 다음 단계를 완료하세요:
 
-1. [`Evaluation` 오브젝트 생성](#1-create-an-evaluation-object)
-2. [예시 데이터셋 정의](#2-define-a-dataset-of-test-examples)
-3. [스코어링 함수 정의](#3-define-scoring-functions)
-4. [평가할 모델 또는 함수 정의](#4-define-a-model-or-function-to-evaluate)
-5. [평가 실행](#5-run-the-evaluation)
+1. [`Evaluation` 오브젝트 생성](#1-evaluation-오브젝트-생성)
+2. [예시 데이터셋 정의](#2-테스트-예시-데이터셋-정의)
+3. [스코어링 함수 정의](#3-스코어링-함수-정의)
+4. [평가할 모델 또는 함수 정의](#4-평가할-모델-또는-함수-정의)
+5. [평가 실행](#5-평가-실행)
 
-전체 평가 코드 샘플은 [여기](#full-evaluation-code-sample)에서 확인할 수 있습니다. 또한 [저장된 뷰(Saved views)](#saved-views) 및 [명령형 평가(Imperative evaluations)](#imperative-evaluations-evaluationlogger)와 같은 [고급 평가 기능](#advanced-evaluation-usage)에 대해서도 자세히 알아볼 수 있습니다.
+전체 평가 코드 샘플은 [여기](#full-evaluation-code-sample)에서 확인할 수 있습니다. 또한 [저장된 뷰(Saved views)](#saved-views) 및 [명령형 평가(Imperative evaluations)](#저장된-뷰-saved-views)와 같은 [고급 평가 기능](#고급-평가-활용법)에 대해서도 자세히 알아볼 수 있습니다.
 
 ## 1. `Evaluation` 오브젝트 생성
 

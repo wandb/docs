@@ -5,7 +5,9 @@ title: PyTorch Lightning
 import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
 
-<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_PyTorch_Lightning_models_with_Weights_%26_Biases.ipynb" />
+
+{/* Colab link broken. Removing for now */}
+{/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_PyTorch_Lightning_models_with_Weights_%26_Biases.ipynb" /> */}
 
 PyTorch Lightning provides a lightweight wrapper for organizing your PyTorch code and easily adding advanced features such as distributed training and 16-bit precision. W&B provides a lightweight wrapper for logging your ML experiments. But you don't need to combine the two yourself: W&B is incorporated directly into the PyTorch Lightning library via the [`WandbLogger`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb).
 
@@ -186,7 +188,7 @@ You can pass your model object to `wandblogger.watch()` to monitor your models's
 <Tab title="PyTorch Logger">
 You can log your metrics to W&B when using the `WandbLogger` by calling `self.log('my_metric_name', metric_vale)` within your `LightningModule`, such as in your `training_step` or `validation_step methods.`
 
-The code snippet below shows how to define your `LightningModule` to log your metrics and your `LightningModule` hyperparameters. This example uses the [`torchmetrics`](https://github.com/PyTorchLightning/metrics) library to calculate your metrics
+The code snippet below shows how to define your `LightningModule` to log your metrics and your `LightningModule` hyperparameters. This example uses the [`torchmetrics`](https://github.com/Lightning-AI/torchmetrics) library to calculate your metrics
 
 ```python
 import torch
@@ -325,7 +327,7 @@ fabric.log_dict({"val_accuracy": val_accuracy})
 ## Checkpoint a model
 
 To save model checkpoints as W&B [Artifacts](/models/artifacts/),
-use the Lightning [`ModelCheckpoint`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.callbacks.ModelCheckpoint.html#pytorch_lightning.callbacks.ModelCheckpoint) callback and set the `log_model` argument in the `WandbLogger`.
+use the Lightning [`ModelCheckpoint`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.callbacks.ModelCheckpoint.html) callback and set the `log_model` argument in the `WandbLogger`.
 
 <Tabs>
 <Tab title="PyTorch Logger">
@@ -572,7 +574,7 @@ You can follow along in a [video tutorial with a Colab notebook](https://wandb.m
 
 ### How does W&B integrate with Lightning?
 
-The core integration is based on the [Lightning `loggers` API](https://pytorch-lightning.readthedocs.io/en/stable/extensions/logging.html), which lets you write much of your logging code in a framework-agnostic way. `Logger`s are passed to the [Lightning `Trainer`](https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html) and are triggered based on that API's rich [hook-and-callback system](https://pytorch-lightning.readthedocs.io/en/stable/extensions/callbacks.html). This keeps your research code well-separated from engineering and logging code.
+The core integration is based on the [Lightning `loggers` API](https://lightning.ai/docs/pytorch/stable/extensions/logging.html), which lets you write much of your logging code in a framework-agnostic way. `Logger`s are passed to the [Lightning `Trainer`](https://lightning.ai/docs/pytorch/stable/common/trainer.html) and are triggered based on that API's rich [hook-and-callback system](https://lightning.ai/docs/pytorch/stable/extensions/callbacks.html). This keeps your research code well-separated from engineering and logging code.
 
 ### What does the integration log without any additional code?
 

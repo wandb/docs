@@ -51,7 +51,7 @@ YAML 파일이나 Python 스크립트에서 `parameters`를 최상위 키로 지
 | --------------- | ------------------------------------------------------------------------------ |
 | `values`        | 이 하이퍼파라미터에 대한 모든 유효한 값들을 지정합니다. `grid`와 호환됩니다. |
 | `value`         | 이 하이퍼파라미터에 대한 단일 유효 값을 지정합니다. `grid`와 호환됩니다. |
-| `distribution`  | 확률 [분포](#distribution-options-for-random-and-bayesian-search)를 지정합니다. 기본값에 대한 정보는 이 표 다음의 노트를 참조하세요. |
+| `distribution`  | 확률 [분포](#랜덤-검색-및-베이지안-탐색을-위한-분포-옵션)를 지정합니다. 기본값에 대한 정보는 이 표 다음의 노트를 참조하세요. |
 | `probabilities` | `random` 탐색 사용 시 `values`의 각 요소를 선택할 확률을 지정합니다. |
 | `min`, `max`    | (`int` 또는 `float`) 최댓값과 최솟값. `int`인 경우 `int_uniform` 분포 하이퍼파라미터에 사용됩니다. `float`인 경우 `uniform` 분포 하이퍼파라미터에 사용됩니다. |
 | `mu`            | (`float`) `normal` 또는 `lognormal` 분포 하이퍼파라미터의 평균 파라미터. |
@@ -60,7 +60,7 @@ YAML 파일이나 Python 스크립트에서 `parameters`를 최상위 키로 지
 | `parameters`    | 루트 수준 파라미터 내에 다른 파라미터를 중첩시킵니다. |
 
 <Note>
-[분포](#distribution-options-for-random-and-bayesian-search)가 지정되지 않은 경우 W&B는 다음 조건에 따라 분포를 설정합니다:
+[분포](#랜덤-검색-및-베이지안-탐색을-위한-분포-옵션)가 지정되지 않은 경우 W&B는 다음 조건에 따라 분포를 설정합니다:
 * `values`를 지정한 경우: `categorical`
 * `max`와 `min`을 정수로 지정한 경우: `int_uniform`
 * `max`와 `min`을 실수로 지정한 경우: `uniform`

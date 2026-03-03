@@ -37,7 +37,7 @@ Weave 에서 Calls를 생성하는 세 가지 주요 방법이 있습니다:
     Weave 는 `openai`, `anthropic`, `cohere`, `mistral`과 같은 [일반적인 LLM 라이브러리에 대한 호출](/weave/guides/integrations)을 자동으로 추적합니다. 프로그램 시작 시 [`weave.init('project_name')`](/weave/reference/python-sdk#function-init)을 호출하기만 하면 됩니다:
 
     <Tip>
-    [`weave.init`의 `autopatch_settings` 인수를 사용하여](#configure-autopatching) Weave 의 기본 추적 동작을 제어할 수 있습니다.
+    [`weave.init`의 `autopatch_settings` 인수를 사용하여](#특정-인테그레이션-활성화) Weave 의 기본 추적 동작을 제어할 수 있습니다.
     </Tip>
 
     ```python lines
@@ -120,7 +120,7 @@ Call의 `summary` 사전(dictionary)에 메트릭이나 다른 사후 호출 값
     print(my_function("World"))
     ```
 
-    [클래스의 메소드](#4-track-class-and-object-methods)도 추적할 수 있습니다.
+    [클래스의 메소드](#weavemarkdown으로-렌더링된-traces-커스터마이징)도 추적할 수 있습니다.
 
     #### 동기 및 비동기 제너레이터 함수 추적
 
@@ -657,9 +657,9 @@ if __name__ == "__main__":
 ## Updating Calls
 
 Calls는 생성된 후에는 대부분 불변이지만, 지원되는 몇 가지 변형 작업이 있습니다:
-* [표시 이름 설정](#set-display-name)
+* [표시 이름 설정](#여러-calls-삭제)
 * [피드백 추가](#add-feedback)
-* [Call 삭제](#delete-a-call)
+* [Call 삭제](#querying-and-exporting-calls)
 
 호출 상세 페이지로 이동하여 UI에서 이러한 모든 작업을 수행할 수 있습니다:
 

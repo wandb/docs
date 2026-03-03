@@ -37,7 +37,7 @@ Weave で Call を作成するには、主に3つの方法があります。
     Weave は、`openai`、`anthropic`、`cohere`、`mistral` などの [一般的な LLM ライブラリへの呼び出しを自動的にトラッキング](/weave/guides/integrations) します。プログラムの開始時に [`weave.init('project_name')`](/weave/reference/python-sdk#function-init) を呼び出すだけです。
 
     <Tip>
-    `weave.init` の `autopatch_settings` 引数を使用して、Weave のデフォルトのトラッキング動作を [制御](#configure-autopatching) できます。
+    `weave.init` の `autopatch_settings` 引数を使用して、Weave のデフォルトのトラッキング動作を [制御](#特定のインテグレーションを有効にする) できます。
     </Tip>
 
     ```python lines
@@ -120,7 +120,7 @@ Call の `summary` 辞書にメトリクスやその他の実行後の値を保�
     print(my_function("World"))
     ```
 
-    [クラスのメソッド](#4-track-class-and-object-methods) をトラッキングすることも可能です。
+    [クラスのメソッド](#weavemarkdown-によるレンダリングされたトレースのカスタマイズ) をトラッキングすることも可能です。
 
     #### 同期および非同期ジェネレータ関数の Trace
 
@@ -658,9 +658,9 @@ if __name__ == "__main__":
 ## Updating Calls
 
 Call は作成後にほぼ不変（イミュータブル）ですが、以下の変更はサポートされています。
-* [表示名の設定](#set-display-name)
+* [表示名の設定](#複数の-call-の削除)
 * [フィードバックの追加](#add-feedback)
-* [Call の削除](#delete-a-call)
+* [Call の削除](#querying-and-exporting-calls)
 
 これらの変更はすべて、UI の Call 詳細ページから実行できます。
 
