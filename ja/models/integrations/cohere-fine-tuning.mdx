@@ -1,0 +1,65 @@
+---
+description: W&B を使用して Cohere モデルをファインチューニングする方法。
+title: Cohere のファインチューニング
+---
+
+W&B を使用すると、Cohere モデルのファインチューニングのメトリクスや設定をログとして記録し、モデルのパフォーマンスを分析・把握して、その結果を同僚と共有できます。
+
+[Cohere のこのガイド](https://docs.cohere.com/page/convfinqa-finetuning-wandb)には、ファインチューニング run を開始する方法の詳細な例が掲載されており、[Cohere API ドキュメントはこちら](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)で確認できます。
+
+<div id="log-your-cohere-fine-tuning-results">
+  ## Cohere のファインチューニング結果を記録する
+</div>
+
+W&B のワークスペースに Cohere のファインチューニング結果を記録するには、次の手順を実行します。
+
+1. W&B の APIキー、W&B の `entity` と `project` 名を指定して `WandbConfig` を作成します。APIキーは https://wandb.ai/settings で作成できます。
+
+2. この設定を、モデル名、データセット、ハイパーパラメータとともに `FinetunedModel` オブジェクトに渡し、ファインチューニング run を開始します。
+
+
+    ```python
+    from cohere.finetuning import WandbConfig, FinetunedModel
+
+    # create a config with your W&B details
+    wandb_ft_config = WandbConfig(
+        api_key="<wandb_api_key>",
+        entity="my-entity", # must be a valid enitity associated with the provided API key
+        project="cohere-ft",
+    )
+
+    ...  # set up your datasets and hyperparameters
+
+    # start a fine-tuning run on cohere
+    cmd_r_finetune = co.finetuning.create_finetuned_model(
+      request=FinetunedModel(
+        name="command-r-ft",
+        settings=Settings(
+          base_model=...
+          dataset_id=...
+          hyperparameters=...
+          wandb=wandb_ft_config  # pass your W&B config here
+        ),
+      ),
+    )
+    ```
+
+3. 作成した W&B プロジェクト内で、モデルのファインチューニングの学習および検証メトリクスとハイパーパラメータを確認します。
+
+    <Frame>
+        <img src="/images/integrations/cohere_ft.png" alt="Cohere fine-tuning dashboard"  />
+    </Frame>
+
+<div id="organize-runs">
+  ## run を整理する
+</div>
+
+W&B の run は自動的に整理され、ジョブタイプ、ベースモデル、学習率などの設定パラメータや、その他任意のハイパーパラメータに基づいてフィルタリングやソートができます。
+
+さらに、run の名前を変更したり、メモを追加したり、タグを作成してグループ化したりできます。
+
+<div id="resources">
+  ## リソース
+</div>
+
+* [Cohere によるファインチューニングの例](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)

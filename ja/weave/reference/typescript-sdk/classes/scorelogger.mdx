@@ -1,0 +1,147 @@
+---
+title: "クラス: ScoreLogger"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / ScoreLogger
+
+ScoreLogger は、1 つの予測に対するスコアの管理を行います。
+EvaluationLogger.logPrediction() から返されます。
+
+`例`
+
+```ts
+const pred = await ev.logPrediction(example, output);
+await pred.logScore("accuracy", 0.95);
+await pred.logScore("relevance", 0.8);
+await pred.finish(); // 予測を確定する
+```
+
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="constructors">
+  ### コンストラクタ
+</div>
+
+- [constructor](./scorelogger#constructor)
+
+<div id="accessors">
+  ### アクセサ
+</div>
+
+- [isFinishCalled](./scorelogger#isfinishcalled)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+- [finish](./scorelogger#finish)
+- [logScore](./scorelogger#logscore)
+
+## コンストラクタ
+
+<div id="constructor">
+  ### コンストラクター
+</div>
+
+• **new ScoreLogger**(`evalLogger`): [`ScoreLogger`](./scorelogger)
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `evalLogger` | [`EvaluationLogger`](./evaluationlogger) |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`ScoreLogger`](./scorelogger)
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[evaluationLogger.ts:319](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L319)
+
+## アクセサ
+
+<div id="isfinishcalled">
+  ### isFinishCalled
+</div>
+
+• `get` **isFinishCalled**(): `boolean`
+
+finish() が呼び出されたかどうかを確認します。
+EvaluationLogger によって未完了の予測を検出するために使用されます。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`boolean`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[evaluationLogger.ts:349](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L349)
+
+## メソッド
+
+<div id="finish">
+  ### finish
+</div>
+
+▸ **finish**(): `Promise`\<`void`\>
+
+予測に対するスコアリング処理を終了します。
+累積されたスコアを用いて predict_and_score 呼び出しを確定します。
+増分集計値を更新し、メモリを解放します。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`\<`void`\>
+
+#### 定義元
+
+[evaluationLogger.ts:451](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L451)
+
+___
+
+<div id="logscore">
+  ### logScore
+</div>
+
+▸ **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
+
+この予測のスコアを記録します。
+predict_and_score の子として scorer の呼び出しを作成します。
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `scorerName` | `string` | スコアラー名（例: "accuracy", "f1_score"） |
+| `score` | `any` | スコア値 |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`\<`void`\>
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[evaluationLogger.ts:360](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L360)

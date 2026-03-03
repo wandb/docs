@@ -1,0 +1,14 @@
+---
+title: メトリクスの記録
+---
+
+```python
+"""W&B の run を初期化してメトリクスをログします。"""
+import wandb
+
+with wandb.init(project="<project>") as run:
+    # 学習およびログのコードをここに記述
+
+    # メトリクスをログする例
+    run.log({"accuracy": 0.95})
+```

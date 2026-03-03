@@ -1,0 +1,69 @@
+---
+description: W&amp;B を Databricks と連携させる方法。
+title: Databricks
+---
+
+W&amp;B は、Databricks 環境内で W&amp;B の Jupyter Notebook エクスペリエンスをカスタマイズすることで、[Databricks](https://www.databricks.com/) と連携します。
+
+<div id="configure-databricks">
+  ## Databricks を設定する
+</div>
+
+1. クラスターに wandb をインストールする
+
+    クラスター設定に移動し、対象のクラスターを選択して **Libraries** をクリックします。**Install New** をクリックし、**PyPI** を選択してパッケージ `wandb` を追加します。
+
+2. 認証を設定する
+
+    W&B アカウントを認証するには、ノートブックから参照できる Databricks のシークレットを追加できます。
+
+    ```bash
+    # Databricks CLI をインストール
+    pip install databricks-cli
+
+    # Databricks の UI からトークンを生成
+    databricks configure --token
+
+    # scope を作成（Databricks でセキュリティ機能が有効かどうかに応じて、次の 2 つのコマンドのいずれかを実行）:
+    # セキュリティアドオンあり
+    databricks secrets create-scope --scope wandb
+    # セキュリティアドオンなし
+    databricks secrets create-scope --scope wandb --initial-manage-principal users
+
+    # https://wandb.ai/settings で APIキー を作成
+    databricks secrets put --scope wandb --key api_key
+    ```
+
+<div id="examples">
+  ## 使用例
+</div>
+
+<div id="simple-example">
+  ### シンプルな例
+</div>
+
+```python
+import os
+import wandb
+
+api_key = dbutils.secrets.get("wandb", "api_key")
+wandb.login(key=api_key)
+
+with wandb.init() as run:
+    run.log({"foo": 1})
+```
+
+
+<div id="sweeps">
+  ### Sweeps
+</div>
+
+ノートブックで wandb.sweep() または wandb.agent() を使用するために必要な一時的なセットアップ：
+
+```python
+import os
+
+# これらは将来的には不要になります
+os.environ["WANDB_ENTITY"] = "my-entity"
+os.environ["WANDB_PROJECT"] = "my-project-that-exists"
+```

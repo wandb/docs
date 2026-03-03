@@ -1,0 +1,75 @@
+---
+title: "wandb beta sync"
+---
+
+{/*
+  このコマンドの導入用コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-beta-sync.mdx
+  2. そのファイルに導入用コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の 2 行だけを残します:
+
+  import WandbBetaSync from "/snippets/_includes/cli/wandb-beta-sync.mdx";
+
+  <WandbBetaSync/>
+
+  スニペットは次回の再生成時に自動検出されます。
+  */}
+
+PATHS で指定された .wandb ファイルをアップロードします。
+
+これは `wandb sync` をベータ版として再実装したものです。まだ機能は網羅されておらず、動作も保証されていません。また、今後の wandb のいずれのリリースでも後方互換性のない形で変更される可能性があります。
+
+PATHS には、.wandb ファイル、.wandb ファイルを含む run ディレクトリ、および run ディレクトリを含む &quot;wandb&quot; ディレクトリを指定できます。
+
+たとえば、あるディレクトリ内のすべての run を同期するには、次のようにします。
+
+```bash
+wandb beta sync ./wandb
+```
+
+特定の run を同期するには:
+
+```bash
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+```
+
+同様に、次のようにも書けます：
+
+```bash
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+```
+
+
+<div id="usage">
+  ## 使い方
+</div>
+
+```bash
+wandb beta sync [PATHS] [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `PATHS` | 説明はありません | いいえ |
+
+<div id="options">
+  ## オプション
+</div>
+
+| Option | Description |
+| :--- | :--- |
+| `--live` | まだログ記録中の run を同期します。run を生成しているプロセスが正常に終了せずクラッシュした場合、このコマンドがハングすることがあります。 (default: False) |
+| `-e`, `--entity` | 同期されるすべての run に使用する entity の上書き指定。 (default: ) |
+| `-p`, `--project` | 同期されるすべての run に使用するプロジェクトの上書き指定。 (default: ) |
+| `--id` | 同期されるすべての run に使用する run ID の上書き指定。これを指定し、かつ複数のファイル（同じ entity とプロジェクト）を同期する場合、ファイルは開始時刻の順に同期されます。これは同じ run の再開された複数のフラグメントを同期する場合を想定しています。 (default: ) |
+| `--job-type` | 同期されるすべての run に対するジョブタイプの上書き指定。 (default: ) |
+| `--replace-tags` | 'old1=new1,old2=new2' の形式でタグをリネームします。 (default: ) |
+| `--skip-synced` | このコマンドですでに同期済みの run をスキップします。 (default: True) |
+| `--dry-run` | 何もアップロードせずに、何が行われるかを表示します。 (default: False) |
+| `-v`, `--verbose` | 追加の情報を表示します。 (default: False) |
+| `-n` | 一度に同期する run の最大数。複数のファイルが同じ run の一部である場合、これらのファイルはこの設定に関わらず開始時刻の順に連続して同期されます。これは再開された run の同期や `--id` パラメータを使用する場合に適用されます。 (default: 5) |

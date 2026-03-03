@@ -1,0 +1,5 @@
+---
+title: UI 上で run の状態が `crashed` になっていますが、マシン上ではまだ動作しています。データを取り戻すにはどうすればよいですか？
+---
+
+学習中にマシンの接続が失われた可能性があります。[`wandb sync [PATH_TO_RUN]`](/ja/models/ref/cli/wandb-sync) を実行してデータを復旧してください。run のパスは、進行中の run の Run ID と一致する、`wandb` ディレクトリ内のフォルダです。

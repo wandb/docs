@@ -1,0 +1,52 @@
+---
+title: "wandb launch"
+---
+
+{/*
+  このコマンドに導入用コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-launch.mdx
+  2. 作成したファイルに導入用コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+
+  import WandbLaunch from "/snippets/_includes/cli/wandb-launch.mdx";
+
+  <WandbLaunch/>
+
+  スニペットは次回の再生成時に自動的に検出されます。
+  */}
+
+W&amp;B Job を起動またはキューに投入します。https://wandb.me/launch を参照してください。
+
+
+<div id="usage">
+  ## 使用方法
+</div>
+
+```bash
+wandb launch [OPTIONS]
+```
+
+
+<div id="options">
+  ## オプション
+</div>
+
+| オプション | 説明 |
+| :--- | :--- |
+| `--uri`, `-u` | 起動するローカルパスまたは Git リポジトリの URI。指定された場合、このコマンドはその URI から job を作成します。 |
+| `--job`, `-j` | 起動する job の名前。指定された場合、Launch では URI は不要です。 |
+| `--entry-point`, `-E` | プロジェクト内のエントリーポイント。[既定値: main]。エントリーポイントが見つからない場合は、指定された名前のプロジェクトファイルをスクリプトとして実行しようとします。.py ファイルには `python` を使用し、.sh ファイルには環境変数 `$SHELL` で指定されたデフォルトシェルを使用します。指定された場合、config ファイルで渡された entrypoint の値を上書きします。 |
+| `--build-context` | ソースコード内のビルドコンテキストへのパス。デフォルトはソースコードのルートです。`-u` と併用する場合にのみ使用できます。 |
+| `--name` | run を起動する際に使用する run の名前。指定しない場合は、ランダムな run 名で run を起動します。指定された場合、config ファイルで渡された name の値を上書きします。 |
+| `--entity`, `-e` | 新しい run の送信先となる対象 entity の名前。デフォルトでは、ローカルの `wandb/settings` フォルダで設定された entity が使用されます。指定された場合、config ファイルで渡された entity の値を上書きします。 |
+| `--project`, `-p` | 新しい run の送信先となる対象プロジェクトの名前。デフォルトでは、source URI で指定されたプロジェクト名、または GitHub の run の場合は Git リポジトリ名が使用されます。指定された場合、config ファイルで渡された project の値を上書きします。 |
+| `--resource`, `-r` | run の実行に使用する実行リソース。サポートされる値: `local-process`, `local-container`, `kubernetes`, `sagemaker`, `gcp-vertex`。リソース設定のないキューにプッシュする場合、このパラメータは必須です。指定された場合、config ファイルで渡された resource の値を上書きします。 |
+| `--docker-image`, `-d` | 使用したい特定の Docker イメージ。`name:tag` の形式で指定します。指定された場合、config ファイルで渡された docker イメージの値を上書きします。 |
+| `--base-image`, `-B` | job のコードを実行するための Docker イメージ。`--docker-image` とは併用できません。 |
+| `--config`, `-c` | Launch の設定 (launch config) として渡す JSON ファイル（拡張子は必ず `.json`）または JSON 文字列へのパス。起動された run の設定内容を指定します。 |
+| `--set-var`, `-v` | allow listing（許可リスト）が有効なキューに対して、テンプレート変数の値をキーと値のペアで設定します（例: `--set-var key1=value1 --set-var key2=value2`）。 |
+| `--queue`, `-q` | プッシュ先の run キュー名。指定しない場合は、単一の run を直接起動します。引数なし（`--queue`）で指定された場合は、`default` キューがデフォルトになります。それ以外の場合、名前が指定された場合は、指定された project と entity の下にその run キューが存在している必要があります。 |
+| `--async` | job を非同期で実行するためのフラグ。デフォルトは false です。つまり、`--async` を指定しない限り、`wandb launch` は job の完了を待機します。このオプションは `--queue` とは互換性がありません。エージェントで実行する場合の非同期オプションは `wandb launch-agent` で設定してください。（既定値: False） |
+| `--resource-args`, `-R` | コンピュートリソースに resource args として渡される JSON ファイル（拡張子は必ず `.json`）または JSON 文字列へのパス。提供すべき具体的な内容は、各実行バックエンドによって異なります。このファイルのレイアウトについてはドキュメントを参照してください。 |
+| `--dockerfile`, `-D` | job のビルドに使用される Dockerfile へのパス（job のルートからの相対パス） |
+| `--priority`, `-P` | `--queue` が指定された場合に、job の優先度を設定します。優先度の高い Launch の job から順に処理されます。優先度は高い順に `critical`, `high`, `medium`, `low` です。 |

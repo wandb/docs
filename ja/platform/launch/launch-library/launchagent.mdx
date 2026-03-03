@@ -1,0 +1,219 @@
+---
+title: LaunchAgent
+---
+
+<Card title="ソースコードを表示" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L164-L924" icon="github" />
+
+指定された run キューをポーリングし、キュー内の run を wandb Launch で起動する Launch エージェントクラスです。
+
+```python
+LaunchAgent(
+    api: Api,
+    config: Dict[str, Any]
+)
+```
+
+| 引数       | 説明                             |
+| :------- | :----------------------------- |
+| `api`    | バックエンドへのリクエストに使用する API オブジェクト。 |
+| `config` | エージェント用の設定を格納した辞書。             |
+
+| 属性                       | 説明                            |
+| :----------------------- | :---------------------------- |
+| `num_running_jobs`       | スケジューラを除いたジョブ数を返します。          |
+| `num_running_schedulers` | スケジューラの数のみを返します。              |
+| `thread_ids`             | エージェントで実行中のスレッド ID のリストを返します。 |
+
+
+<div id="methods">
+  ## メソッド
+</div>
+
+<div id="check_sweep_state">
+  ### `check_sweep_state`
+</div>
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L786-L803)
+
+```python
+check_sweep_state(
+    launch_spec, api
+)
+```
+
+スイープのrunを開始する前に、そのスイープの状態を確認してください。
+
+
+<div id="fail_run_queue_item">
+  ### `fail_run_queue_item`
+</div>
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L295-L304)
+
+```python
+fail_run_queue_item(
+    run_queue_item_id, message, phase, files=None
+)
+```
+
+
+<div id="finish_thread_id">
+  ### `finish_thread_id`
+</div>
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L416-L509)
+
+```python
+finish_thread_id(
+    thread_id, exception=None
+)
+```
+
+ひとまず、このジョブを一覧から外します。
+
+
+<div id="get_job_and_queue">
+  ### `get_job_and_queue`
+</div>
+
+[ソースコードを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L908-L915)
+
+```python
+get_job_and_queue()
+```
+
+
+<div id="initialized">
+  ### `initialized`
+</div>
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L190-L193)
+
+```python
+@classmethod
+initialized() -> bool
+```
+
+エージェントが初期化済みかどうかを返します。
+
+
+<div id="loop">
+  ### `loop`
+</div>
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L572-L653)
+
+```python
+loop()
+```
+
+ジョブをポーリングして実行し続けます。
+
+| Raises              | Description               |
+| :------------------ | :------------------------ |
+| `KeyboardInterrupt` | エージェントの停止が要求された場合に送出されます。 |
+
+
+<div id="name">
+  ### `name`
+</div>
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L180-L188)
+
+```python
+@classmethod
+name() -> str
+```
+
+エージェントの名前を返します。
+
+
+<div id="pop_from_queue">
+  ### `pop_from_queue`
+</div>
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L340-L363)
+
+```python
+pop_from_queue(
+    queue
+)
+```
+
+runqueue からジョブとして実行するための要素を 1 つ取り出します。
+
+| Arguments | Description |
+| :-------- | :---------- |
+| `queue`   | 取り出し元のキュー。  |
+
+| Returns        | Description |
+| :------------- | :---------- |
+| キューから取り出された要素。 |             |
+
+| Raises      | Description            |
+| :---------- | :--------------------- |
+| `Exception` | キューから取り出す際にエラーが発生した場合。 |
+
+
+<div id="print_status">
+  ### `print_status`
+</div>
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L365-L381)
+
+```python
+print_status() -> None
+```
+
+エージェントの現在の状態を出力します。
+
+
+<div id="run_job">
+  ### `run_job`
+</div>
+
+[ソースコードを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L511-L541)
+
+```python
+run_job(
+    job, queue, file_saver
+)
+```
+
+プロジェクトをセットアップし、ジョブを実行します。
+
+| Arguments | Description |
+| :-------- | :---------- |
+| `job`     | 実行するジョブ。    |
+
+
+<div id="task_run_job">
+  ### `task_run_job`
+</div>
+
+[ソースコードを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L656-L688)
+
+```python
+task_run_job(
+    launch_spec, job, default_config, api, job_tracker
+)
+```
+
+
+<div id="update_status">
+  ### `update_status`
+</div>
+
+[ソースを表示](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L383-L394)
+
+```python
+update_status(
+    status
+)
+```
+
+エージェントのステータスを更新します。
+
+| Arguments | Description           |
+| :-------- | :-------------------- |
+| `status`  | エージェントのステータスとして設定する値。 |

@@ -1,0 +1,80 @@
+---
+description: W&B Server のリリースプロセス
+title: リリースポリシーとプロセス
+date: 2025-05-01
+---
+
+このページでは、W&amp;B Server のリリースと W&amp;B のリリースポリシーの詳細について説明します。このページは、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud/) と [Self-Managed](/ja/platform/hosting/hosting-options/self-managed/) デプロイメントを対象としています。個々の W&amp;B Server リリースについて詳しくは、[W&amp;B リリースノート](/ja/release-notes/) を参照してください。
+
+[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) は W&amp;B によってフルマネージドで提供されるため、このページの内容は適用されません。
+
+<div id="release-support-and-end-of-life-policy">
+  ## リリースサポートとサポート終了ポリシー
+</div>
+
+W&amp;B は、各 W&amp;B Server のメジャーリリースを初回リリース日から 12 か月間サポートします。
+
+* **Dedicated Cloud** インスタンスは、サポートを維持するために自動的に更新されます。
+* **Self-Managed** インスタンスを利用しているお客様は、サポートを維持できるよう、期限内にアップグレードする責任があります。サポート対象外のバージョンを継続利用することは避けてください。
+
+  <Note>
+    W&amp;B は、**Self-Managed** インスタンスを利用しているお客様に対し、サポートを維持し最新の機能・パフォーマンス改善・修正を受け取るために、少なくとも四半期に一度はデプロイメントを最新リリースに更新することを強く推奨します。
+  </Note>
+
+<div id="release-types-and-frequencies">
+  ## リリースの種類と頻度
+</div>
+
+* **メジャーリリース** は毎月リリースされ、新機能、機能拡張、パフォーマンス改善、中程度および低重大度のバグ修正、非推奨化などが含まれる場合があります。メジャーリリースの例は `0.68.0` です。
+* **パッチリリース** は、同一メジャーバージョン内で必要に応じてリリースされ、重大度がクリティカルまたは高いバグの修正が含まれます。パッチリリースの例は `0.67.1` です。
+
+<div id="release-rollout">
+  ## リリースロールアウト
+</div>
+
+1. テストと検証が完了したら、まずすべての **Dedicated Cloud** インスタンスにリリースをロールアウトし、常に最新の状態を維持します。
+2. 追加の監視期間を経た後、リリースが公開され、**Self-Managed** デプロイメントは自分たちのスケジュールでアップグレードできます。また、[リリースサポートとサポート終了 (EOL) ポリシー](#release-support-and-end-of-life-policy) に準拠できるよう、期限内にアップグレードする責任があります。[W&amp;B Server のアップグレード](/ja/platform/hosting/server-upgrade-process/) について詳しくはご覧ください。
+
+<div id="downtime-during-upgrades">
+  ## アップグレード時のダウンタイム
+</div>
+
+* **Dedicated Cloud** インスタンスをアップグレードする際、通常はダウンタイムは発生しませんが、次のような状況では発生する可能性があります：
+  * コンピュート、ストレージ、ネットワークなどの基盤インフラに変更を必要とする新機能や機能強化を適用する場合。
+  * セキュリティ修正のような重大なインフラ変更をロールアウトする場合。
+  * インスタンスの現在のバージョンが [End of Life (EOL)](/ja/platform/hosting/server-upgrade-process/) に達しており、サポート維持のために W&amp;B によってアップグレードされる場合。
+* **Self-Managed** デプロイメントの場合、顧客は、[Kubernetes 上で W&amp;B Server を実行する](/ja/platform/hosting/self-managed/operator-airgapped/) などして、自身のサービスレベル目標 (SLO) を満たすローリングアップデートプロセスを実装する責任を負います。
+
+<div id="feature-availability">
+  ## 機能の利用可能状況
+</div>
+
+インストールまたはアップグレードを行った直後は、一部の機能がすぐには利用できない場合があります。
+
+<div id="enterprise-features">
+  ### エンタープライズ機能
+</div>
+
+Enterpriseライセンスには、重要なセキュリティ機能やその他のエンタープライズ向け機能に対するサポートが含まれます。一部の高度な機能を利用するには、Enterpriseライセンスが必要です。
+
+* **Dedicated Cloud** には Enterpriseライセンスが含まれているため、追加の作業は不要です。
+* **Self-Managed** デプロイメントでは、Enterpriseライセンスが付与されるまで、Enterpriseライセンスを必要とする機能は利用できません。詳細や Enterpriseライセンスの取得については、Self-Managed Requirements ページの [License](/ja/platform/hosting/self-managed/requirements#license) セクションを参照してください。
+
+<div id="private-preview-and-opt-in-features">
+  ### プライベートプレビューとオプトイン機能
+</div>
+
+ほとんどの機能は、W&amp;B Server をインストールまたはアップグレードした直後から利用できます。一部の機能については、利用できるようにする前に W&amp;B チームによる有効化が必要です。
+
+<Warning>
+  プレビュー段階の機能は変更される可能性があります。プレビュー機能が一般提供されることは保証されません。
+</Warning>
+
+* **プライベートプレビュー**: W&amp;B はデザインパートナーやアーリーアダプターを招待し、これらの機能をテストしてフィードバックを提供してもらいます。プライベートプレビュー機能は本番環境での利用は推奨されません。
+
+  プライベートプレビュー機能を利用するには、事前に W&amp;B チームがお使いのインスタンスでその機能を有効化する必要があります。公開ドキュメントは提供されず、手順は個別に案内されます。インターフェースや API は変更される可能性があり、機能が完全には実装されていない場合があります。
+* **パブリックプレビュー**: 一般提供前に試用したい場合は、W&amp;B に連絡してパブリックプレビューへのオプトインを行ってください。
+
+  パブリックプレビュー機能を利用するには、事前に W&amp;B チームがその機能を有効化する必要があります。ドキュメントが未完成である場合があり、インターフェースや API は変更される可能性があり、機能が完全には実装されていない場合があります。
+
+各 W&amp;B Server リリースの詳細および制限事項については、[W&amp;B リリースノート](/ja/release-notes/) を参照してください。

@@ -1,0 +1,35 @@
+---
+title: MetricZScoreFilter
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+
+
+## <kbd>class</kbd> `MetricZScoreFilter`
+
+メトリクスのZスコアをユーザー定義のしきい値と比較するフィルタです。
+
+### <kbd>method</kbd> `MetricZScoreFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    window: 'int' = 30,
+    threshold: 'Annotated | Annotated' = 3.0,
+    change_dir: 'ChangeDir' = ANY
+) → None
+```
+
+**引数:**
+
+* `name` (str): 監視対象のメトリック名。
+* `window` (int): メトリックの平均値と標準偏差を計算する際のウィンドウサイズ。
+* `threshold` (Union[Annotated, Annotated]): Zスコアのしきい値。
+* `change_dir` (ChangeDir): 監視するZスコア変化の方向。
+
+**戻り値:**
+`MetricZScoreFilter` オブジェクトを返します。

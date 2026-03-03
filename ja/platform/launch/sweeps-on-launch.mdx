@@ -1,0 +1,236 @@
+---
+description: Launch 上でハイパーパラメータスイープを自動化する方法を紹介します。
+title: W&B Launch で Sweeps を作成する
+---
+
+<Card title="Colab で試す" href="https://colab.research.google.com/drive/1WxLKaJlltThgZyhc7dcZhDQ6cjVQDfil#scrollTo=AFEzIxA6foC7" icon="python" />
+
+W&amp;B Launch を使ってハイパーパラメータチューニングジョブ（[Sweeps](/ja/models/sweeps/)）を作成します。Launch 上で Sweeps を使うと、指定したハイパーパラメータに対してスイープを行うスイープスケジューラが Launch Queue に投入されます。agent によって取得されるとスイープスケジューラが起動し、選択されたハイパーパラメータで同じキュー上にスイープ用の run を起動します。これは Sweep が完了するか停止されるまで続きます。
+
+デフォルトの W&amp;B Sweep スケジューリングエンジンを使用するか、独自のカスタムスケジューラを実装できます。
+
+1. 標準スイープスケジューラ: [W&amp;B Sweeps](/ja/models/sweeps/) を制御する、デフォルトの W&amp;B Sweep スケジューリングエンジンを使用します。おなじみの `bayes`、`grid`、`random` メソッドが利用できます。
+2. カスタムスイープスケジューラ: スイープスケジューラがジョブとして実行されるように構成します。このオプションでは、完全に自由なカスタマイズが可能です。標準スイープスケジューラを拡張して、より多くのログを出力する例は、以下のセクションで確認できます。
+
+<Note>
+  このガイドでは、事前に W&amp;B Launch が設定されていることを前提としています。W&amp;B Launch がまだ設定されていない場合は、Launch ドキュメントの [how to get started](./#how-to-get-started) セクションを参照してください。
+</Note>
+
+<Note>
+  初めて Launch 上で Sweeps を利用する場合は、&#39;basic&#39; メソッドを使用して Sweep を作成することを推奨します。標準の W&amp;B スケジューリングエンジンでは要件を満たせない場合に、Launch 上のカスタム Sweep スケジューラを使用してください。
+</Note>
+
+<div id="create-a-sweep-with-a-wb-standard-scheduler">
+  ## W&amp;B 標準スケジューラを使ってスイープを作成する
+</div>
+
+Launch を使って W&amp;B Sweeps を作成できます。スイープは W&amp;B App から対話的に作成することも、W&amp;B CLI からプログラムで作成することもできます。スケジューラのカスタマイズなど、Launch スイープの高度な設定を行うには CLI を使用します。
+
+<Note>
+  W&amp;B Launch でスイープを作成する前に、まずスイープ対象のジョブを作成しておいてください。詳しくは [Create a Job](/ja/platform/launch/create-launch-job/) を参照してください。
+</Note>
+
+<Tabs>
+  <Tab title="W&B app">
+    W&amp;B App を使って対話的にスイープを作成します。
+
+    1. W&amp;B App で自分の W&amp;B プロジェクトに移動します。
+    2. プロジェクトのサイドバーでスイープのアイコン（ほうきの画像）を選択します。
+    3. 次に、**Create Sweep** ボタンを選択します。
+    4. **Configure Launch** ボタンをクリックします。
+    5. **Job** のドロップダウンメニューから、スイープを作成したいジョブの名前とジョブバージョンを選択します。
+    6. **Queue** のドロップダウンメニューから、スイープを実行するキューを選択します。
+    7. **Job Priority** のドロップダウンを使用して、Launch ジョブの優先度を指定します。Launch キューが優先度をサポートしていない場合、Launch ジョブの優先度は「Medium」に設定されます。
+    8. （任意）run やスイープスケジューラに対する override 引数を設定します。たとえば、スケジューラのオーバーライドを使用して、`num_workers` でスケジューラが管理する同時実行 run 数を設定します。
+    9. （任意）**Destination Project** のドロップダウンメニューから、スイープを保存するプロジェクトを選択します。
+    10. **Save** をクリックします。
+    11. **Launch Sweep** を選択します。
+
+    <Frame>
+      <img src="/images/launch/create_sweep_with_launch.png" alt="Launch スイープの設定" />
+    </Frame>
+  </Tab>
+
+  <Tab title="CLI">
+    W&amp;B CLI を使用して、Launch で W&amp;B Sweep をプログラムで作成します。
+
+    1. スイープの設定を作成する
+    2. スイープ設定内でジョブのフルネームを指定する
+    3. スイープエージェントを初期化する
+
+    <Note>
+      手順 1 と 3 は、通常の W&amp;B Sweep を作成するときと同じ手順です。
+    </Note>
+
+    たとえば、次のコードスニペットでは、job の値として `'wandb/jobs/Hello World 2:latest'` を指定しています。
+
+    ```yaml
+    # launch-sweep-config.yaml
+
+    job: 'wandb/jobs/Hello World 2:latest'
+    description: launch ジョブを使ったスイープの例
+
+    method: bayes
+    metric:
+      goal: minimize
+      name: loss_metric
+    parameters:
+      learning_rate:
+        max: 0.02
+        min: 0
+        distribution: uniform
+      epochs:
+        max: 20
+        min: 0
+        distribution: int_uniform
+
+    # オプションのスケジューラパラメータ:
+
+    # scheduler:
+    #   num_workers: 1  # 同時実行するスイープ run 数
+    #   docker_image: <スケジューラ用のベースイメージ>
+    #   resource: <例: local-container など>
+    #   resource_args:  # run に渡される resource 引数
+    #     env: 
+    #         - WANDB_API_KEY
+
+    # オプションの Launch パラメータ
+    # launch: 
+    #    registry: <イメージ取得用のレジストリ>
+    ```
+
+    スイープ設定の作成方法については、[Define sweep configuration](/ja/platform/launch/sweeps-on-launch/) を参照してください。
+
+    4. 次に、スイープを初期化します。設定ファイルへのパス、ジョブキューの名前、W&amp;B エンティティ、プロジェクト名を指定します。
+
+    ```bash
+    wandb launch-sweep <path/to/yaml/file> --queue <queue_name> --entity <your_entity>  --project <project_name>
+    ```
+
+    W&amp;B Sweeps の詳細については、[Tune Hyperparameters](/ja/models/sweeps/) の章を参照してください。
+  </Tab>
+</Tabs>
+
+<div id="create-a-custom-sweep-scheduler">
+  ## カスタムスイープスケジューラを作成する
+</div>
+
+W&amp;B スケジューラまたは独自のスケジューラを使って、カスタムスイープスケジューラを作成します。
+
+<Note>
+  スケジューラジョブを使用するには、wandb CLI のバージョンが `0.15.4` 以上である必要があります。
+</Note>
+
+<Tabs>
+  <Tab title="W&B スケジューラ">
+    W&amp;B のスイープスケジューリングロジックをジョブとして利用して、Launch スイープを作成します。
+
+    1. 公開プロジェクト wandb/sweep-jobs 内の wandb scheduler ジョブを特定するか、次のジョブ名を使用します:
+       `'wandb/sweep-jobs/job-wandb-sweep-scheduler:latest'`
+    2. 追加の `scheduler` ブロックを含む設定 YAML を作成し、その中の `job` キーでこの名前を参照するようにします。下記は例です。
+    3. 新しい設定ファイルを指定して `wandb launch-sweep` コマンドを使用します。
+
+    設定例:
+
+    ```yaml
+    # launch-sweep-config.yaml  
+    description: スケジューラジョブを使用したLaunchスイープ設定
+    scheduler:
+      job: wandb/sweep-jobs/job-wandb-sweep-scheduler:latest
+      num_workers: 8  # 8つの同時スイープrunを許可
+
+    # スイープrunが実行する学習/チューニングジョブ
+    job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
+    method: grid
+    parameters:
+      learning_rate:
+        min: 0.0001
+        max: 0.1
+    ```
+  </Tab>
+
+  <Tab title="カスタムスケジューラ">
+    カスタムスケジューラは、scheduler-job を作成することで作成できます。このガイドでは、`WandbScheduler` を変更してログ出力を増やします。
+
+    1. `wandb/launch-jobs` リポジトリ（具体的には `wandb/launch-jobs/jobs/sweep_schedulers`）をクローンします。
+    2. ここから、目的のログ出力量を実現するために `wandb_scheduler.py` を変更します。例: 関数 `_poll` にロギングを追加します。この関数は、新しい sweep run を起動する前に、ポーリングサイクルごと（タイミングは設定可能）に 1 回呼び出されます。
+    3. 変更したファイルを次のコマンドで実行し、job を作成します: `python wandb_scheduler.py --project <project> --entity <entity> --name CustomWandbScheduler`
+    4. 作成された job の名前を、UI か前ステップの出力から特定します。この job は（特に指定がない限り）code-artifact の job になります。
+    5. 次に、scheduler が新しい job を参照するように、sweep の設定を作成します。
+
+    ```yaml
+    ...
+    scheduler:
+      job: '<entity>/<project>/job-CustomWandbScheduler:latest'
+    ...
+    ```
+  </Tab>
+
+  <Tab title="Optuna スケジューラ">
+    Optuna は、さまざまなアルゴリズムを用いて、あるモデルに対して最適なハイパーパラメータを探索するハイパーパラメータ最適化フレームワークです（W&amp;B と同様）。[サンプリングアルゴリズム](https://optuna.readthedocs.io/en/stable/reference/samplers/index.html) に加えて、Optuna にはパフォーマンスの悪い run を早期に打ち切るためのさまざまな [pruning アルゴリズム](https://optuna.readthedocs.io/en/stable/reference/pruners.html) も用意されています。これは大量の run を実行する場合に特に有用で、時間とリソースを節約できます。これらのクラスは非常に柔軟に設定可能で、config ファイルの `scheduler.settings.pruner/sampler.args` ブロックに想定されるパラメータを渡すだけで利用できます。
+
+    ジョブを使って、Optuna のスケジューリングロジックを用いる Launch スイープを作成します。
+
+    1. まず独自のジョブを作成するか、あらかじめ用意された Optuna スケジューラ用イメージのジョブを使用します。
+       * 独自のジョブの作成方法については、[`wandb/launch-jobs`](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers) リポジトリの例を参照してください。
+       * 事前構築済みの Optuna イメージを使うには、`wandb/sweep-jobs` プロジェクト内の `job-optuna-sweep-scheduler` に移動するか、ジョブ名 `wandb/sweep-jobs/job-optuna-sweep-scheduler:latest` を使用します。
+
+    2. ジョブを作成したら、次にスイープを作成します。Optuna スケジューラージョブを指す `job` キーを含む `scheduler` ブロックを入れたスイープの config を作成します（以下の例を参照）。
+
+    ```yaml
+      # optuna_config_basic.yaml
+      description: 基本的なOptunaスケジューラ
+      job: wandb/sweep-jobs/job-fashion-MNIST-train:latest
+      run_cap: 5
+      metric:
+        name: epoch/val_loss
+        goal: minimize
+
+      scheduler:
+        job: wandb/sweep-jobs/job-optuna-sweep-scheduler:latest
+        resource: local-container  # イメージから取得したスケジューラジョブに必要
+        num_workers: 2
+
+        # Optuna固有の設定
+        settings:
+          pruner:
+            type: PercentilePruner
+            args:
+              percentile: 25.0  # runの75%を強制終了
+              n_warmup_steps: 10  # 最初のxステップはプルーニングを無効化
+
+      parameters:
+        learning_rate:
+          min: 0.0001
+          max: 0.1
+    ```
+
+    3. 最後に、`launch-sweep` コマンドを使用して、アクティブなキューでスイープを起動します:
+
+    ```bash
+    wandb launch-sweep <config.yaml> -q <queue> -p <project> -e <entity>
+    ```
+
+    Optuna スイープスケジューラージョブの具体的な実装については、[wandb/launch-jobs](https://github.com/wandb/launch-jobs/blob/main/jobs/sweep_schedulers/optuna_scheduler/optuna_scheduler.py) を参照してください。Optuna スケジューラーでどのようなことができるかのさらなる例については、[wandb/examples](https://github.com/wandb/examples/tree/master/examples/launch/launch-sweeps/optuna-scheduler) を確認してください。
+  </Tab>
+</Tabs>
+
+カスタムスイープスケジューラジョブで実現できることの例は、[wandb/launch-jobs](https://github.com/wandb/launch-jobs) リポジトリの `jobs/sweep_schedulers` にあります。このガイドでは、公開されている **Wandb Scheduler Job** の使い方に加えて、カスタムスイープスケジューラジョブを作成する手順も紹介します。
+
+<div id="how-to-resume-sweeps-on-launch">
+  ## Launch でスイープを再開する方法
+</div>
+
+以前に起動したスイープから、Launch スイープを再開することもできます。ハイパーパラメータや学習ジョブは変更できませんが、スケジューラ固有のパラメータや、投入先のキューは変更できます。
+
+<Note>
+  最初のスイープで &#39;latest&#39; のようなエイリアス付きの学習ジョブを使用していた場合、前回の run 以降に最新ジョブのバージョンが変更されていると、再開時に異なる結果になる可能性があります。
+</Note>
+
+1. 以前に実行した Launch スイープのスイープ名/ID を特定します。スイープ ID は 8 文字の文字列（例: `hhd16935`）で、W&amp;B App 上の該当プロジェクトで確認できます。
+2. スケジューラパラメータを変更する場合は、更新した config ファイルを作成します。
+3. ターミナルで次のコマンドを実行します。`<` と `>` で囲まれた部分を自分の情報に置き換えてください。
+
+```bash
+wandb launch-sweep <optional config.yaml> --resume_id <sweep id> --queue <queue_name>
+```

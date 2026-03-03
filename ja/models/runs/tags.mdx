@@ -1,0 +1,97 @@
+---
+title: タグで run にラベルを追加する
+---
+
+ログされたメトリクスやアーティファクトのデータからは分かりにくい特徴を表すラベルを run に付けるには、タグを追加します。
+
+たとえば、特定の run にタグを追加して、その run のモデルが `in_production` であること、その run が `preemptible` であること、この run が `baseline` を表していることなどを示すことができます。
+
+<div id="add-tags-to-one-or-more-runs">
+  ## 1 つ以上の run にタグを追加する
+</div>
+
+プログラムから、または対話的に run にタグを追加できます。
+
+ユースケースに応じて、ニーズに最も合ったタブを以下から選択してください。
+
+<Tabs>
+  <Tab title="W&B Python SDK">
+    run の作成時にタグを追加できます:
+
+    ```python
+    import wandb
+
+    with wandb.init(
+      entity="entity",
+      project="<project-name>",
+      tags=["tag1", "tag2"]
+    ) as run:
+        # ここに学習コードを記述
+    ```
+
+    run を初期化した後にタグを更新することもできます。たとえば、次のコードスニペットは、特定のメトリクスが事前に定義されたしきい値を超えた場合にタグを更新する方法を示しています:
+
+    ```python
+    import wandb
+
+    with wandb.init(entity="entity", project="capsules", tags=["debug"]) as run:
+
+      # モデルを学習するための Python コード
+      if current_loss < threshold:
+          run.tags = run.tags + ("release_candidate",)
+    ```
+  </Tab>
+
+  <Tab title="Public API">
+    run を作成した後、[Public API](/ja/models/track/public-api-guide/) を使用してタグを更新できます。たとえば次のとおりです:
+
+    ```python
+    with wandb.Api().run("{entity}/{project}/{run-id}") as run:
+      run.tags.append("tag1")  # ここで run のデータに基づいてタグを選択できます
+      run.update()
+    ```
+  </Tab>
+
+  <Tab title="プロジェクトページ">
+    この方法は、同じタグを多数の run に付与する場合に最適です。
+
+    1. プロジェクトのワークスペースに移動します。
+    2. プロジェクトのサイドバーから **Runs** を選択します。
+    3. テーブルから 1 つ以上の run を選択します。
+    4. 1 つ以上の run を選択したら、テーブル上部にある **Tag** ボタンを選択します。
+    5. 追加したいタグを入力し、**Create new tag** チェックボックスをオンにしてタグを追加します。
+  </Tab>
+
+  <Tab title="Run ページ">
+    この方法は、1 つの run に手動でタグを付ける場合に最適です。
+
+    1. プロジェクトのワークスペースに移動します。
+    2. run をクリックして開きます。run ページが開き、デフォルトで **Overview** タブが表示されます。
+    3. **Tags** の横にある灰色のプラスアイコン（**+**）ボタンを選択します。
+    4. 追加したいタグを入力し、テキストボックスの下にある **Add** を選択して新しいタグを追加します。
+  </Tab>
+</Tabs>
+
+<div id="remove-tags-from-one-or-more-runs">
+  ## 1 つ以上の run からタグを削除する
+</div>
+
+W&amp;B アプリで run からタグを削除するには、次の手順に従います。
+
+<Tabs>
+  <Tab title="プロジェクトページ">
+    この方法は、多数の run のタグを削除する場合に適しています。
+
+    1. プロジェクトの Run サイドバーで、右上のテーブルアイコンを選択します。サイドバーが展開され、Runs テーブル全体が表示されます。
+    2. テーブル内の run の上にカーソルを合わせて左側に表示されるチェックボックスを表示するか、ヘッダー行のチェックボックスを使用して、すべての run を選択します。
+    3. チェックボックスを選択して一括操作を有効にします。
+    4. タグを削除したい run を選択します。
+    5. run の行の上にある **Tag** ボタンを選択します。
+    6. run から削除したいタグの横にあるチェックボックスを選択します。
+  </Tab>
+
+  <Tab title="Run ページ">
+    1. Run ページの左サイドバーで、最上部の **Overview** タブを選択します。run に設定されているタグはここに表示されます。
+    2. タグの上にカーソルを合わせて「x」を選択し、その run からタグを削除します。
+  </Tab>
+</Tabs>

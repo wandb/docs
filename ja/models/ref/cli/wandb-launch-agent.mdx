@@ -1,0 +1,41 @@
+---
+title: "wandb launch-agent"
+---
+
+{/*
+  このコマンドの導入文を追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-launch-agent.mdx
+  2. 作成したファイルに導入文を追加します
+  3. 次の2行だけを残し、このコメントブロック全体を削除します:
+
+  import WandbLaunchAgent from "/snippets/_includes/cli/wandb-launch-agent.mdx";
+
+  <WandbLaunchAgent/>
+
+  スニペットは次回の再生成時に自動検出されます。
+  */}
+
+W&amp;B Launch エージェントを起動します。
+
+
+<div id="usage">
+  ## 使用方法
+</div>
+
+```bash
+wandb launch-agent [OPTIONS]
+```
+
+
+<div id="options">
+  ## オプション
+</div>
+
+| オプション | 説明 |
+| :--- | :--- |
+| `--queue`, `-q` | エージェントが監視するキューの名前。`-q` フラグは複数指定可能。 |
+| `--entity`, `-e` | 使用するエンティティ。デフォルトは現在ログインしているユーザー。 |
+| `--log-file`, `-l` | エージェントの内部ログの出力先。`-` を指定すると標準出力に書き出します。デフォルトでは、すべてのエージェントのログは `wandb/` サブディレクトリ内の `debug.log` に、`WANDB_DIR` が設定されている場合はそのディレクトリ配下の `debug.log` に出力されます。 |
+| `--max-jobs`, `-j` | このエージェントが並列に実行できる Launch ジョブの最大数。デフォルトは 1。上限なしにするには -1 を指定。 |
+| `--config`, `-c` | 使用するエージェント設定 YAML ファイルへのパス。 |
+| `--verbose`, `-v` | 冗長な出力を表示します（デフォルト: 0）。 |

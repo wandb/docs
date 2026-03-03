@@ -1,0 +1,125 @@
+---
+title: ユーザー
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/users.py" />
+
+
+## <kbd>class</kbd> `User`
+
+認証および管理機能を備えた W&B のユーザーを表すクラスです。 
+
+このクラスは、ユーザーの作成、APIキーの管理、所属チーム情報へのアクセスなど、W&B ユーザーを管理するためのメソッドを提供します。ユーザー属性を扱うために Attrs を継承しています。
+
+### <kbd>method</kbd> `User.__init__`
+
+```python
+__init__(client: 'RetryingClient', attrs: 'MutableMapping[str, Any]')
+```
+
+**引数:**
+
+* `client`:  (`wandb.apis.internal.Api`) 使用するクライアントインスタンス
+* `attrs`:  (dict) ユーザーの属性
+
+**注記:**
+
+> 一部の操作には管理者権限が必要です
+
+***
+
+
+### <kbd>property</kbd> User.api_keys
+
+ユーザーに関連付けられた APIキー名のリスト。 
+
+**Returns:**
+  ユーザーに関連付けられた APIキーの名前。ユーザーに APIキー がない場合、または APIキー データが読み込まれていない場合は空のリスト。 
+
+**Returns:**
+
+- `list[str]`: `api_keys` プロパティの値。
+ 
+---
+
+### <kbd>property</kbd> User.teams
+
+ユーザーがメンバーになっているチーム名の一覧。 
+
+**Returns:**
+  ユーザーが所属しているチームの名前。ユーザーがどのチームにも所属していない場合、または teams データが読み込まれていない場合は空のリスト。 
+
+**Returns:**
+
+- `list[str]`: teams プロパティの値。
+---
+
+### <kbd>property</kbd> User.user_api
+
+ユーザーの認証情報を用いて初期化された Api インスタンス。 
+
+**戻り値:**
+
+- `Api | None`: user_api プロパティの値。
+
+---
+
+### <kbd>classmethod</kbd> `User.create`
+
+```python
+create(api: 'Api', email: 'str', admin: 'bool' = False) → Self
+```
+
+新しいユーザーを作成します。
+
+**引数:**
+
+* `api` (`Api`):  使用する API インスタンス
+* `email` (str):  ユーザーのメールアドレス
+* `admin` (bool):  このユーザーをグローバルインスタンスの管理者にするかどうか
+
+**戻り値:**
+`User` オブジェクト
+
+***
+
+
+### <kbd>メソッド</kbd> `User.delete_api_key`
+
+```python
+delete_api_key(api_key: 'str') → bool
+```
+
+ユーザーの APIキー を削除します。
+
+**引数:**
+
+* `api_key` (str):  削除する APIキー の名前。`api_keys` プロパティによって返される名前のいずれかである必要があります。
+
+**戻り値:**
+成功したかどうかを示すブール値
+
+**例外:**
+api&#95;key が見つからなかった場合に ValueError を送出します
+
+***
+
+
+### <kbd>method</kbd> `User.generate_api_key`
+
+```python
+generate_api_key(description: 'str | None' = None) → str | None
+```
+
+新しい APIキーを生成します。
+
+**Args:**
+
+* `description` (str, optional): 新しい APIキーの説明。APIキーの用途を識別するために使用できます。
+
+**Returns:**
+新しい APIキー。失敗した場合は None を返します。

@@ -1,0 +1,105 @@
+---
+title: "ガードレールとしてのスコアラー"
+description: "W&B Weave でスコアラーをガードレールとして使う方法を学びます"
+---
+
+<Note>
+これはインタラクティブなノートブックです。ローカルで実行するか、次のリンクから開くことができます:
+- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
+- [GitHub 上のソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
+</Note>
+
+<div id="scorers-as-guardrails">
+  # ガードレールとしての Scorer
+</div>
+
+Weave の Scorer は、呼び出し結果のパフォーマンスを評価する `score` メソッドを持つ特別なクラスです。単純なルールから、判定者として機能する複雑な LLM まで、さまざまなものがあります。
+
+このノートブックでは、Scorer をガードレールとして活用し、LLM が有害または不適切なコンテンツを生成しないようにする方法を紹介します。
+
+```python lines
+%pip install weave --quiet
+python
+"""
+Weaveにガードレールを実装する方法を示すサンプルコードです。
+このサンプルでは、有害または否定的なレスポンスを防ぐ
+シンプルなコンテンツ安全チェッカーを示します。
+"""
+
+import weave
+
+# わかりやすいプロジェクト名でWeaveを初期化する
+weave.init("content-safety-guardrails")
+
+class ContentSafetyScorer(weave.Scorer):
+    """指定されたフレーズの有無に基づいてコンテンツの安全性を評価するスコアラー。"""
+
+    unsafe_phrases: list[str]
+    case_sensitive: bool = False
+
+    @weave.op
+    def score(self, output: str) -> bool:
+        """
+        安全でないフレーズの有無に基づいて出力の安全性を評価する。
+
+        Args:
+            output: 評価対象のテキスト出力
+
+        Returns:
+            bool: 出力が安全な場合はTrue、安全でない場合はFalse
+        """
+        normalized_output = output if self.case_sensitive else output.lower()
+
+        for phrase in self.unsafe_phrases:
+            normalized_phrase = phrase if self.case_sensitive else phrase.lower()
+            if normalized_phrase in normalized_output:
+                return False
+        return True
+
+@weave.op
+def generate_response(prompt: str) -> str:
+    """LLMのレスポンス生成をシミュレートする。"""
+    if "test" in prompt.lower():
+        return "I'm sorry, I cannot process that request."
+    elif "help" in prompt.lower():
+        return "I'd be happy to help you with that!"
+    else:
+        return "Here's what you requested: " + prompt
+
+async def process_with_guardrail(prompt: str) -> str:
+    """
+    コンテンツ安全ガードレールを使用してユーザー入力を処理する。
+    安全な場合はレスポンスを返し、安全でない場合はフォールバックメッセージを返す。
+    """
+    # 安全スコアラーを初期化する
+    safety_scorer = ContentSafetyScorer(
+        name="Content Safety Checker",
+        unsafe_phrases=["sorry", "cannot", "unable", "won't", "will not"],
+    )
+
+    # レスポンスを生成してCallオブジェクトを取得する
+    response, call = generate_response.call(prompt)
+
+    # 安全スコアリングを適用する
+    evaluation = await call.apply_scorer(safety_scorer)
+
+    # 安全チェックの結果に基づいてレスポンスまたはフォールバックを返す
+    if evaluation.result:
+        return response
+    else:
+        return "I cannot provide that response."
+python
+"""ガードレールシステムの使用例。"""
+test_prompts = [
+    "Please help me with my homework",
+    "Can you run a test for me?",
+    "Tell me a joke",
+]
+
+print("コンテンツ安全ガードレールのテスト中:\n")
+
+for prompt in test_prompts:
+    print(f"Input: '{prompt}'")
+    response = await process_with_guardrail(prompt)
+    print(f"Response: {response}\n")
+```

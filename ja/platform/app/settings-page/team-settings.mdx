@@ -1,0 +1,88 @@
+---
+description: Team Settings ページを使って、チームのメンバー、アバター、アラート、プライバシー設定を管理します。
+title: チーム設定の管理
+---
+
+import EnterpriseOnly from "/snippets/ja/_includes/enterprise-only.mdx";
+
+<div id="team-settings">
+  # チーム設定
+</div>
+
+メンバー、アバター、アラート、プライバシー設定、利用状況など、チームの各種設定を変更できます。Organization 管理者とチーム管理者は、チーム設定を表示および編集できます。
+
+<Note>
+  Administration アカウントタイプのユーザーのみが、チーム設定を変更したり、チームからメンバーを削除したりできます。
+</Note>
+
+<div id="members">
+  ## メンバー
+</div>
+
+**Members** セクションには、保留中の招待と、チームへの参加を承諾したメンバーが一覧表示されます。各メンバーの行には、メンバーの名前、ユーザー名、メールアドレス、チームロールに加え、組織から継承される Models と W&amp;B Weave へのアクセス権限が表示されます。標準のチームロールとして **Admin**、**Member**、**View-only** から選択できます。組織で[カスタムロール](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles)を作成している場合は、代わりにカスタムロールを割り当てることもできます。
+
+チームの作成方法、チームの管理、およびチームメンバーシップとロールの管理方法については、[Add and Manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) を参照してください。新しいメンバーを誰が招待できるかを設定し、チームのその他のプライバシー設定を構成するには、[Privacy](#privacy) を参照してください。
+
+<div id="avatar">
+  ## アバター
+</div>
+
+**Avatar** セクションに移動し、画像をアップロードしてアバターを設定します。
+
+1. **Update Avatar** をクリックして、ファイルダイアログを表示します。
+2. ファイルダイアログで、使用したい画像ファイルを選択します。
+
+<div id="alerts">
+  ## アラート
+</div>
+
+run がクラッシュしたとき、完了したとき、またはカスタムアラートを設定したときにチームへ通知します。チームはメールまたは Slack でアラートを受け取ることができます。
+
+アラートを受け取りたいイベントタイプの横にあるスイッチを切り替えます。Weights &amp; Biases では、デフォルトで次のイベントタイプを利用できます。
+
+* **Runs finished**: Weights &amp; Biases の run が正常に完了したかどうか。
+* **Run crashed**: run が完了せずに失敗した場合。
+
+アラートの設定と管理方法の詳細は、[Send alerts with `wandb.Run.alert()`](/ja/models/runs/alert) を参照してください。
+
+<div id="slack-notifications">
+  ## Slack 通知
+</div>
+
+Slack の送信先を設定して、Registry やプロジェクトでイベントが発生したときに、チームの[自動化](/ja/models/automations/)が通知を送信できるようにします。たとえば、新しいアーティファクトが作成されたときや、run のメトリクスが定義済みのしきい値に達したときなどです。詳しくは、[Slack 自動化の作成](/ja/models/automations/create-automations/slack/)を参照してください。
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="webhooks">
+  ## Webhooks
+</div>
+
+Registry やプロジェクトでイベントが発生したときに、チームの [automations](/ja/models/automations/) を実行する webhook を設定します。たとえば、新しいアーティファクトが作成されたときや、run のメトリクスが定義したしきい値を満たしたときなどです。詳しくは、[webhook オートメーションの作成](/ja/models/automations/create-automations/slack/) を参照してください。
+
+<Info>
+  <EnterpriseOnly />
+</Info>
+
+<div id="privacy">
+  ## プライバシー
+</div>
+
+プライバシー設定を変更するには **Privacy** セクションを開きます。プライバシー設定を変更できるのは組織管理者のみです。
+
+* 将来のプロジェクトを公開に設定したり、レポートを公開で共有したりする機能を無効化します。
+* チーム管理者だけでなく、任意のチームメンバーが他のメンバーを招待できるようにします。
+* コード保存をデフォルトで有効にするかどうかを管理します。
+
+<div id="usage">
+  ## 使用量
+</div>
+
+**使用量** セクションでは、Weights &amp; Biases のサーバー上でチームが使用した合計ストレージ使用量について説明します。デフォルトのストレージプランは 100GB です。ストレージと料金の詳細については、[Pricing](https://wandb.ai/site/pricing) ページを参照してください。
+
+<div id="storage">
+  ## Storage
+</div>
+
+**Storage** セクションでは、チームのデータに使用されているクラウドストレージ バケットの設定について説明します。詳しくは、[Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) を参照するか、セルフホスト環境の場合は [W&amp;B Server](/ja/platform/hosting/data-security/secure-storage-connector) に関するドキュメントを参照してください。

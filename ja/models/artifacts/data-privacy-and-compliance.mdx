@@ -1,0 +1,22 @@
+---
+description: W&B ファイルのデフォルトの保存場所と、機密情報の保存・保管方法について説明します。
+title: アーティファクトのデータプライバシーとコンプライアンス
+---
+
+アーティファクトをログすると、ファイルは W&amp;B が管理する Google Cloud バケットにアップロードされます。バケットの内容は保存時および送信時の両方で暗号化されます。アーティファクトのファイルは、対応するプロジェクトへのアクセス権を持つユーザーにのみ表示されます。
+
+<Frame>
+  <img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B クライアントサーバーの図" />
+</Frame>
+
+アーティファクトのバージョンを削除すると、それは当社のデータベース上でソフトデリートとしてマークされ、ストレージコストの算出対象から外れます。アーティファクト全体を削除すると、そのアーティファクトは完全削除のキューに入り、内容はすべて W&amp;B のバケットから削除されます。ファイル削除に関して特別な要件がある場合は、[Customer Support](mailto:support@wandb.com) までお問い合わせください。
+
+デフォルトでは、削除されたアーティファクトは 7 日間保持され、この期間中であれば復元できます。この保持期間は Dedicated Cloud では設定可能です。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud#data-retention-policy) におけるデータ保持について、詳しくはこちらをご覧ください。
+
+マルチテナント環境に置くことができない機密データセットについては、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [reference artifacts](/ja/models/artifacts/track-external-files) を使用できます。Reference artifacts（参照アーティファクト）は、ファイルの内容を W&amp;B に送信することなく、プライベートバケットへの参照を追跡します。Reference artifacts は、お使いのバケットやサーバー上のファイルへのリンクを保持します。W&amp;B はファイルそのものではなく、ファイルに関連するメタデータのみを管理します。
+
+<Frame>
+  <img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B クライアントサーバークラウドの図" />
+</Frame>
+
+デプロイオプションの詳細については、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-Managed](/ja/platform/hosting/hosting-options/self-managed) を参照してください。お客様固有の要件についてご相談されたい場合は、[contact@wandb.com](mailto:contact@wandb.com) までご連絡ください。

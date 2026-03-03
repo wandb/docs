@@ -1,0 +1,51 @@
+---
+title: "JSONモードを有効にする"
+description: W&B InferenceでJSONモードを使用する方法
+---
+
+JSONモードを有効にすると、モデルに対してレスポンスを有効なJSON形式で返すよう指示します。ただし、レスポンスのスキーマが一貫しているとは限らず、特定の構造に従わない場合があります。一貫した構造化JSONレスポンスが必要な場合は、可能であれば[structured output](/ja/inference/response-settings/structured-output)の使用を推奨します。
+
+JSONモードを有効にするには、リクエストの `response_format` に指定します:
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import json
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="<your-api-key>",  # Create an API key at https://wandb.ai/settings
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": "Give me a list of three fruits with their colors."},
+        ],
+        response_format={"type": "json_object"}  # This enables JSON mode
+    )
+
+    content = response.choices[0].message.content
+    parsed = json.loads(content)
+    print(parsed)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": "Give me a list of three fruits with their colors."},
+        ],
+        "response_format": {"type": "json_object"}
+      }'
+    ```
+  </Tab>
+</Tabs>

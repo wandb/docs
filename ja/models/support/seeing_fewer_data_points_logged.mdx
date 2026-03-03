@@ -1,0 +1,36 @@
+---
+title: ログしたときよりデータポイントが少なく表示されるのはなぜですか？
+---
+
+`Step` 以外の X 軸に対してメトリクスを可視化する場合、データポイントが少なく表示されることがあります。メトリクスは同じ `Step` でログされている必要があり、そうすることで同期された状態が維持されます。サンプル間の補間を行う際には、同じ `Step` でログされたメトリクスのみがサンプリングされます。
+
+**ガイドライン**
+
+メトリクスは 1 回の `log()` 呼び出しにまとめてログします。たとえば、次のようにする代わりに:
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
+```
+
+使用方法:
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
+```
+
+`step` パラメータを手動で制御するには、コード内でメトリクスを次のように同期します。
+
+```python
+with wandb.init() as run:
+    step = 100  # ステップ値の例
+    # 同じステップでPrecisionとRecallをログに記録する
+    run.log({"Precision": precision, "Recall": recall}, step=step)
+```
+
+両方の `log()` 呼び出しで `step` の値を同じに保つと、そのメトリクスは同じ `step` のサンプルとしてまとめてログされます。`step` の値は、各呼び出しごとに常に増加するようにする必要があります。そうでない場合、`step` の値は無視されます。

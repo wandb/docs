@@ -1,0 +1,72 @@
+---
+title: ファイル
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+
+
+## <kbd>class</kbd> `Files`
+
+`File` オブジェクトのコレクションに対する遅延イテレータです。
+
+run 中に W&amp;B にアップロードされたファイルにアクセスして管理します。多数のファイルを含むコレクションを反復処理する際は、ページネーションを自動的に処理します。
+
+**例:**
+
+```python
+from wandb.apis.public.files import Files
+from wandb.apis.public.api import Api
+
+# run オブジェクトの例
+run = Api().run("entity/project/run-id")
+
+# run 内のファイルを反復処理するための Files オブジェクトを作成する
+files = Files(api.client, run)
+
+# ファイルを反復処理する
+for file in files:
+     print(file.name)
+     print(file.url)
+     print(file.size)
+
+     # ファイルをダウンロードする
+     file.download(root="download_directory", replace=True)
+```
+
+
+### <kbd>メソッド</kbd> `Files.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    run: 'Run',
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    upload: 'bool' = False,
+    pattern: 'str | None' = None
+)
+```
+
+`File` オブジェクトのコレクションに対する遅延イテレータを初期化します。
+
+必要に応じて、W&amp;B サーバーからページ単位でファイルが取得されます。
+
+**引数:**
+
+* `client`:  ファイルを含む run オブジェクト
+* `run`:  ファイルを含む run オブジェクト
+* `names` (list, optional):  ファイルをフィルタリングするためのファイル名のリスト
+* `per_page` (int, optional):  ページごとに取得するファイル数
+* `upload` (bool, optional):  `True` の場合、各ファイルのアップロード URL を取得する
+* `pattern` (str, optional):  W&amp;B からファイルを返す際に照合するパターン。 このパターンは MySQL の LIKE 構文を使用するため、`.json` で終わるすべてのファイルにマッチさせるには「%.json」となります。`names` と `pattern` の両方が指定された場合は、ValueError が送出されます。
+
+***
+
+
+### <kbd>プロパティ</kbd> Files.length
+
+---

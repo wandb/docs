@@ -1,0 +1,18 @@
+---
+title: W&amp;B Training
+description: 強化学習と教師ありファインチューニングでモデルをポストトレーニングする
+mode: wide
+---
+
+現在パブリックプレビュー中の W&amp;B Training は、大規模言語モデル（LLM）向けのサーバーレスなポストトレーニングを提供し、強化学習（RL）と教師ありファインチューニング（SFT）の両方に対応します。
+
+* **[Serverless RL](/ja/training/serverless-rl)**: マルチターンのエージェント的タスクにおける信頼性を高めつつ、高速化とコスト削減を実現します。RL は、モデルが出力に対するフィードバックを通じて振る舞いの改善を学習する手法です。
+* **[Serverless SFT](/ja/training/sft-training)**: 蒸留や出力スタイル・フォーマットの学習、RL 実行前のウォームアップのために、キュレーションされたデータセットを使ってモデルをファインチューニングします。
+
+W&amp;B Training には次のインテグレーションが含まれます:
+
+* 柔軟なファインチューニングフレームワークである [ART](https://art.openpipe.ai/getting-started/about)。
+* 汎用検証器である [RULER](https://openpipe.ai/blog/ruler)。
+* [CoreWeave Cloud](https://docs.coreweave.com/docs/platform) 上のフルマネージドなバックエンド。
+
+利用を開始するには、まずサービス利用の[前提条件](/ja/training/prerequisites)を満たしてください。その後、モデルのポストトレーニング方法を学ぶために、[Serverless RL クイックスタート](https://art.openpipe.ai/getting-started/quick-start) または [Serverless SFT ドキュメント](https://art.openpipe.ai/fundamentals/sft-training) を参照してください。

@@ -1,0 +1,34 @@
+---
+title: なぜ特定の文字を含むメトリクスを並べ替えたりフィルタリングしたりできないのはなぜですか？
+---
+
+import Text from "/snippets/ja/_includes/metric-naming-rules.mdx";
+import Text2 from "/snippets/ja/_includes/metric-naming-examples.mdx";
+
+W&amp;B のメトリクス名は、UI 上で正しくソートやフィルタリングを行えるようにするため、GraphQL の名前付け規則に従う必要があります。
+
+<div id="valid-metric-names">
+  ## 有効なメトリクス名
+</div>
+
+<Text />
+
+これらのルールに従っていないメトリクスは、W&amp;B の UI でソートやフィルタリングを行えない場合があります。
+
+<div id="examples">
+  ## 使用例
+</div>
+
+<Text2 />
+
+<div id="recommended-solution">
+  ## 推奨される解決策
+</div>
+
+無効な文字をアンダースコアなどの有効な文字に置き換えてください。
+
+* `"test acc"` の代わりに `"test_acc"` を使用します
+* `"loss-train"` の代わりに `"loss_train"` を使用します
+* `"acc,val"` の代わりに `"acc_val"` を使用します
+
+詳細については、[メトリクス名の制約](/ja/models/track/log/#metric-naming-constraints) を参照してください。

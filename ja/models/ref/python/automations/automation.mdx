@@ -1,0 +1,47 @@
+---
+title: 自動化
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+
+
+## <kbd>class</kbd> `Automation`
+
+編集可能な、保存済み W&B automation のローカルインスタンス。
+
+### <kbd>メソッド</kbd> `Automation.__init__`
+
+```python
+__init__(
+    typename__: 'Literal['Trigger']' = 'Trigger',
+    id: 'str',
+    created_at: 'datetime',
+    updated_at: 'datetime | None' = None,
+    name: 'str',
+    description: 'str | None',
+    enabled: 'bool',
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    event: 'SavedEvent',
+    action: 'SavedLaunchJobAction | SavedNotificationAction | SavedWebhookAction | SavedNoOpAction'
+) → None
+```
+
+**引数:**
+
+* `typename__` (Literal[&#39;Trigger&#39;]):
+* `id` (str):
+* `created_at` (datetime): このオートメーションが作成された日時。
+* `updated_at` (Optional[datetime]): このオートメーションが最後に更新された日時（該当する場合）。
+* `name` (str): このオートメーションの名前。
+* `description` (Optional[str]): このオートメーションの説明（省略可）。
+* `enabled` (bool): このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされる。
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): トリガーイベントが発生する必要があるスコープ。
+* `event` (SavedEvent): このオートメーションをトリガーするイベント。
+* `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): このオートメーションがトリガーされたときに実行されるアクション。
+
+**戻り値:**
+`Automation` オブジェクト。

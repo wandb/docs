@@ -1,0 +1,81 @@
+---
+title: 学習済みモデルを使用する
+description: 学習済みモデルに推論リクエストを送信する
+---
+
+Serverless RL でモデルを学習すると、自動的に推論に利用できるようになります。
+
+学習済みモデルにリクエストを送信するには、次のものが必要です。
+
+* [W&amp;B APIキー](https://wandb.ai/settings)
+* [Training API](/ja/training/api-reference) のベースURL `https://api.training.wandb.ai/v1/`
+* モデルのエンドポイント
+
+モデルのエンドポイントは次のスキーマを使用します。
+
+```
+wandb-artifact:///<entity>/<project>/<model-name>:<step>
+```
+
+このスキーマは次の要素で構成されています:
+
+* W&amp;B エンティティ（チーム）の名前
+* モデルに関連付けられたプロジェクトの名前
+* 学習済みモデルの名前
+* デプロイしたいモデルの学習ステップ（通常、評価で最も良い性能を示したステップ）
+
+たとえば、W&amp;B チーム名が `email-specialists`、プロジェクト名が `mail-search`、学習済みモデル名が `agent-001` で、ステップ 25 をデプロイ対象とする場合、そのエンドポイントは次のようになります:
+
+```
+wandb-artifact:///email-specialists/mail-search/agent-001:step25
+```
+
+エンドポイントを用意したら、既存の推論ワークフローに統合できます。次の例では、cURL リクエストまたは [Python OpenAI SDK](https://github.com/openai/openai-python) を使用して、学習済みモデルに推論リクエストを送信する方法を示します。
+
+<div id="curl">
+  ### cURL
+</div>
+
+```shell
+curl https://api.training.wandb.ai/v1/chat/completions \
+    -H "Authorization: Bearer $WANDB_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+            "model": "wandb-artifact://<entity>/<project>/<model-name>:<step>",
+            "messages": [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Summarize our training run."}
+            ],
+            "temperature": 0.7,
+            "top_p": 0.95
+        }'
+```
+
+<div id="openai-sdk">
+  ### OpenAI SDK
+</div>
+
+```python
+from openai import OpenAI
+
+WANDB_API_KEY = "your-wandb-api-key"
+ENTITY = "my-entity"
+PROJECT = "my-project"
+
+client = OpenAI(
+    base_url="https://api.training.wandb.ai/v1",
+    api_key=WANDB_API_KEY
+)
+
+response = client.chat.completions.create(
+    model=f"wandb-artifact:///{ENTITY}/{PROJECT}/my-model:step100",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Summarize our training run."},
+    ],
+    temperature=0.7,
+    top_p=0.95,
+)
+
+print(response.choices[0].message.content)
+```

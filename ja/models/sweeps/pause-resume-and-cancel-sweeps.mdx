@@ -1,0 +1,91 @@
+---
+description: CLI を使用して W&amp;B Sweep を一時停止、再開、キャンセルします。
+title: スイープを管理する
+---
+
+[W&amp;B CLI](/ja/models/ref/cli/wandb-sweep) を使用して、スイープを一時停止、再開、キャンセルします。CLI の `sweep` コマンドは `--pause` や `--resume` などのフラグを使用して、スイープが新しい W&amp;B run を作成できるかどうかを制御します。既存の run への影響はフラグごとに異なります:
+
+* `--pause`: スイープを一時停止すると、スイープを再開するまでエージェントは新しい run を作成しません。既存の run は通常どおり実行を続けます。
+* `--resume`: スイープを再開すると、エージェントは探索戦略に従って新しい run の作成を再開します。
+* `--stop`: スイープを停止すると、エージェントは新しい run の作成を停止します。既存の run は完了まで実行されます。
+* `--cancel`: スイープをキャンセルすると、エージェントは現在実行中のすべての run を直ちに強制終了し、新しい run の作成も停止します。
+
+以下の手順に従って、スイープを一時停止、再開、キャンセルします。いずれの場合も、スイープを初期化したときに生成されたスイープ ID を指定します。
+
+<div id="pause-a-sweep">
+  ### スイープを一時停止する
+</div>
+
+スイープを一時停止すると、新しい run の作成が一時的に停止します。すでに実行中の run は、完了するまで実行を続けます。[`wandb sweep --pause`](/ja/models/ref/cli/wandb-sweep) コマンドを使用してスイープを一時停止します。一時停止したいスイープの ID を指定してください。
+
+```bash
+wandb sweep --pause entity/project/sweep_ID
+```
+
+<div id="resume-a-sweep">
+  ### スイープを再開する
+</div>
+
+一時停止したスイープは、[`wandb sweep --resume`](/ja/models/ref/cli/wandb-sweep) コマンドで再開できます。スイープは、そのサーチ戦略に従って新しい run を再び作成し始めます。再開するスイープの ID を指定します。
+
+```bash
+wandb sweep --resume entity/project/sweep_ID
+```
+
+<div id="stop-a-sweep">
+  ### スイープを停止する
+</div>
+
+新しい run の作成を止めつつ、現在実行中の run はそのまま正常に完了させるには、スイープを終了します。[`wandb sweep --stop`](/ja/models/ref/cli/wandb-sweep) コマンドを使用します。
+
+```bash
+wandb sweep --stop entity/project/sweep_ID
+```
+
+<Warning>
+  W&amp;B は、プロジェクトを削除しても、実行中の [Sweeps](/ja/models/sweeps) やエージェントを停止しません。
+</Warning>
+
+<div id="cancel-a-sweep">
+  ### スイープをキャンセルする
+</div>
+
+スイープをキャンセルすると、実行中のすべての run を即座に強制終了し、新しい run の作成も停止します。これは、既存の run を強制終了できる唯一のスイープコマンドです。スイープをキャンセルするには、[`wandb sweep --cancel`](/ja/models/ref/cli/wandb-sweep) コマンドを使用し、キャンセルするスイープの ID を指定してください。
+
+```bash
+wandb sweep --cancel entity/project/sweep_ID
+```
+
+CLI コマンドオプションの一覧については、[wandb sweep](/ja/models/ref/cli/wandb-sweep) CLI リファレンスガイドを参照してください。
+
+<Warning>
+  プロジェクトを削除しても、W&amp;B はアクティブな[スイープ](/ja/models/sweeps)やエージェントを停止しません。
+</Warning>
+
+<div id="understanding-sweep-and-run-statuses">
+  ## スイープとrunのステータスを理解する
+</div>
+
+スイープは複数のrunを調整して、ハイパーパラメータの組み合わせを探索します。スイープステータスとrunステータスがどのように関係するかを理解することは、ハイパーパラメータ最適化を効果的に管理するうえで重要です。
+
+<div id="key-differences">
+  ### 主な違い
+</div>
+
+* **スイープのステータス** は新しい run を作成するかどうかを制御します（Running、Paused、Stopped、Cancelled、Finished、Failed、Crashed）
+* **run のステータス** は個々の run の実行状態を示します（Pending、Running、Finished、Failed、Crashed、Killed）
+
+<div id="stop-an-individual-run">
+  ### 個々のrunを停止する
+</div>
+
+スイープ内で[runを停止する](/ja/models/runs/stop-runs)と、スイープエージェントは自動的にスイープ内の次のrunを開始します。これにより、スイープ全体の進行状況を中断することなく、パフォーマンスの低い設定をスキップできます。
+
+<div id="best-practices">
+  ### ベストプラクティス
+</div>
+
+* 実行中の実験を失うことなく一時的に探索を停止したい場合は、cancel ではなく `--pause` を使用する
+* 個々の run のステータスを監視して、共通する失敗パターンを特定する
+* 満足のいくハイパーパラメータが見つかったら、`--stop` を使用して安全に終了させる
+* run が過剰なリソースを消費している、またはエラーを出している緊急時にのみ `--cancel` を使用する

@@ -1,0 +1,65 @@
+---
+title: Launch ジョブを表示する
+---
+
+このページでは、キューに追加された Launch ジョブの情報を表示する方法について説明します。
+
+<div id="view-jobs">
+  ## ジョブを表示する
+</div>
+
+キューに追加されたジョブを W&B App で表示します。
+
+1. https://wandb.ai/home にアクセスして W&B App を開きます。
+2. 左サイドバーの **Applications** セクションで **Launch** を選択します。
+3. **All entities** ドロップダウンを開き、Launch ジョブが属する entity を選択します。
+4. Launch アプリケーションページで折りたたみ可能な UI を展開し、その特定のキューに追加されたジョブの一覧を表示します。
+
+<Note>
+Launch エージェントが Launch ジョブを実行すると run が作成されます。言い換えると、一覧に表示される各 run は、そのキューに追加された特定のジョブに対応します。
+</Note>
+
+たとえば、次の画像では、`job-source-launch_demo-canonical` というジョブから作成された 2 つの run が表示されています。ジョブは `Start queue` というキューに追加されました。キュー内で最初に表示されている run は `resilient-snowball`、2 番目の run は `earthy-energy-165` という名前です。
+
+<Frame>
+    <img src="/images/launch/launch_jobs_status.png" alt="Launch jobs status view"  />
+</Frame>
+
+W&B App の UI では、Launch ジョブから作成された run について、次のような追加情報を確認できます。
+
+- **Run**: そのジョブに割り当てられた W&B run の名前。
+   - **Job ID**: ジョブの名前。
+   - **Project**: run が属しているプロジェクトの名前。
+   - **Status**: キューに入っている run のステータス。
+   - **Author**: run を作成した W&B entity。
+   - **Creation date**: キューが作成されたときのタイムスタンプ。
+   - **Start time**: ジョブが開始されたときのタイムスタンプ。
+   - **Duration**: ジョブの run が完了するまでにかかった時間（秒単位）。
+
+<div id="list-jobs">
+  ## ジョブを一覧表示する
+</div>
+
+W&amp;B CLI を使用して、プロジェクト内のジョブを一覧表示します。`wandb job list` コマンドを使用し、Launch ジョブが属するプロジェクト名とエンティティ名を、それぞれ `--project` フラグと `--entity` フラグで指定します。
+
+```bash
+ wandb job list --entity your-entity --project project-name
+```
+
+
+<div id="check-the-status-of-a-job">
+  ## ジョブのステータスを確認する
+</div>
+
+次の表は、キューに入っている run に設定されるステータスを示します。
+
+| Status | Description |
+| --- | --- |
+| **Idle** | run はキュー内にありますが、稼働中のエージェントがありません。 |
+| **Queued** | run はキュー内で、処理するエージェントを待機しています。 |
+| **Pending** | run はエージェントに割り当てられていますが、まだ開始していません。これは、クラスター上で利用可能なリソースがないことが原因の場合があります。 |
+| **Running** | run が現在実行中です。 |
+| **Killed** | ジョブはユーザーによって強制終了されました。 |
+| **Crashed** | run はデータ送信を停止したか、正常に開始できませんでした。 |
+| **Failed** | run は非ゼロの終了コードで終了したか、run 自体が起動に失敗しました。 |
+| **Finished** | ジョブは正常に完了しました。 |

@@ -1,0 +1,87 @@
+---
+description: この5分で完了するクイックスタートで、W&amp;B Tables の使い方を学びます。
+title: 'チュートリアル: テーブルのログ記録、データの可視化とクエリ'
+---
+
+このクイックスタートでは、データテーブルのログ記録、データの可視化、およびデータのクエリ方法を紹介します。
+
+下のボタンをクリックして、MNIST データを使った PyTorch クイックスタートのサンプルプロジェクトを試してください。
+
+<div id="1-log-a-table">
+  ## 1. テーブルをログする
+</div>
+
+W&amp;B にテーブルをログします。新しいテーブルを作成するか、Pandas DataFrame を渡すことができます。
+
+<Tabs>
+  <Tab title="テーブルを作成">
+    新しい Table を作成してログするには、次を使用します：
+
+    * [`wandb.init()`](/ja/models/ref/python/functions/init): 結果を追跡するための [run](/ja/models/runs/) を作成します。
+    * [`wandb.Table()`](/ja/models/ref/python/data-types/table): 新しいテーブルオブジェクトを作成します。
+      * `columns`: 列名を設定します。
+      * `data`: 各行の内容を設定します。
+    * [`wandb.Run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog): テーブルをログして W&amp;B に保存します。
+
+    例を次に示します。
+
+    ```python
+    import wandb
+
+    with wandb.init(project="table-test") as run:
+        # Create and log a new table.
+        my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
+        run.log({"Table Name": my_table})
+    ```
+  </Tab>
+
+  <Tab title="Pandas DataFrame">
+    Pandas DataFrame を `wandb.Table()` に渡して、新しいテーブルを作成します。
+
+    ```python
+    import wandb
+    import pandas as pd
+
+    df = pd.read_csv("my_data.csv")
+
+    with wandb.init(project="df-table") as run:
+        # Create a new table from the DataFrame
+        # and log it to W&B.
+      my_table = wandb.Table(dataframe=df)
+      run.log({"Table Name": my_table})
+    ```
+
+    サポートされているデータ型の詳細については、W&amp;B API リファレンスガイドの [`wandb.Table`](/ja/models/ref/python/data-types/table) を参照してください。
+  </Tab>
+</Tabs>
+
+<div id="2-visualize-tables-in-your-project-workspace">
+  ## 2. プロジェクトのワークスペースでテーブルを可視化する
+</div>
+
+ワークスペースで結果のテーブルを表示します。
+
+1. W&amp;B App で自分のプロジェクトに移動します。
+2. プロジェクトのワークスペースで、自分の run の名前を選択します。一意のテーブルキーごとに新しいパネルが追加されます。
+
+<Frame>
+  <img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="Sample table logged" />
+</Frame>
+
+この例では、`my_table` はキー `"Table Name"` としてログされています。
+
+<div id="3-compare-across-model-versions">
+  ## 3. モデルバージョン間で比較する
+</div>
+
+複数の W&amp;B Runs からサンプルテーブルをログして、プロジェクトのワークスペースで結果を比較します。この[サンプルの Workspace](https://wandb.ai/carey/table-test?workspace=user-carey)では、同じテーブル内で複数の異なるバージョンからの行をどのように結合するかを示します。
+
+<Frame>
+  <img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="run 間のテーブル比較" />
+</Frame>
+
+テーブルのフィルタ、ソート、グループ化機能を使用して、モデルの結果を探索および評価します。
+
+<Frame>
+  <img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="テーブルのフィルタリング" />
+</Frame>

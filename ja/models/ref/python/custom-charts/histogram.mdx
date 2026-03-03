@@ -1,0 +1,62 @@
+---
+title: histogram
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py" />
+
+
+### <kbd>function</kbd> `histogram`
+
+```python
+histogram(
+    table: 'wandb.Table',
+    value: 'str',
+    title: 'str' = '',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+W&amp;B Table からヒストグラムチャートを作成します。
+
+**引数:**
+
+* `table`:  ヒストグラム用のデータを含む W&amp;B Table。
+* `value`:  ビン軸（x 軸）のラベル。
+* `title`:  ヒストグラムプロットのタイトル。
+* `split_table`:  テーブルを W&amp;B UI 内で別セクションとして表示するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+
+**戻り値:**
+
+* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
+
+**例:**
+
+```python
+import math
+import random
+import wandb
+
+# ランダムデータを生成する
+data = [[i, random.random() + math.sin(i / 10)] for i in range(100)]
+
+# W&B Tableを作成する
+table = wandb.Table(
+    data=data,
+    columns=["step", "height"],
+)
+
+# ヒストグラムプロットを作成する
+histogram = wandb.plot.histogram(
+    table,
+    value="height",
+    title="My Histogram",
+)
+
+# ヒストグラムプロットをW&Bにログする
+with wandb.init(...) as run:
+    run.log({"histogram-plot1": histogram})
+```

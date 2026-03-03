@@ -1,0 +1,74 @@
+---
+description: 既存の W&B プロジェクトからスイープジョブを作成するためのチュートリアル。
+title: 'チュートリアル: プロジェクトからスイープジョブを作成する'
+---
+
+このチュートリアルでは、既存の W&B プロジェクトからスイープジョブを作成する方法を説明します。[Fashion MNIST dataset](https://github.com/zalandoresearch/fashion-mnist) を使用して、PyTorch の畳み込みニューラルネットワークで画像を分類するモデルを学習します。必要なコードとデータセットは、[W&B examples repository (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) にあります。
+
+結果はこの [W&B ダッシュボード](https://app.wandb.ai/carey/pytorch-cnn-fashion) で確認できます。
+
+<div id="1-create-a-project">
+  ## 1. プロジェクトを作成する
+</div>
+
+まずベースラインを作成します。W&B examples の GitHub リポジトリから PyTorch MNIST データセットのサンプルモデルをダウンロードします。次に、そのモデルを学習します。学習スクリプトは `examples/pytorch/pytorch-cnn-fashion` ディレクトリ内にあります。
+
+1. このリポジトリをクローンします `git clone https://github.com/wandb/examples.git`
+2. このサンプルのディレクトリに移動します `cd examples/pytorch/pytorch-cnn-fashion`
+3. run を手動で実行します `python train.py`
+
+任意で、W&B App UI のダッシュボードから、このサンプルの run を確認します。
+
+[サンプルのプロジェクトページを表示 →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+
+<div id="2-create-a-sweep">
+  ## 2. スイープを作成
+</div>
+
+プロジェクトのページから、プロジェクトのサイドバーにある [Sweep タブ](./sweeps-ui) を開き、**Create Sweep** をクリックします。
+
+<Frame>
+    <img src="/images/sweeps/sweep1.png" alt="スイープの概要"  />
+</Frame>
+
+自動生成された設定は、これまでに完了した run をもとにスイープ対象とする値を推定します。試したいハイパーパラメータの範囲を指定できるように、この設定を編集します。スイープを起動すると、ホスト型の W&B sweep サーバー上で新しいプロセスが立ち上がります。この集中管理されたサービスが、学習ジョブを実行しているマシン（エージェント）を統括・調整します。
+
+<Frame>
+    <img src="/images/sweeps/sweep2.png" alt="スイープの設定"  />
+</Frame>
+
+<div id="3-launch-agents">
+  ## 3. エージェントを起動する
+</div>
+
+次に、ローカルでエージェントを起動します。作業を分散してスイープジョブをより早く完了させたい場合は、最大 20 個までのエージェントを異なるマシン上で並列に起動できます。エージェントは、次に試すパラメータセットを出力します。
+
+<Frame>
+    <img src="/images/sweeps/sweep3.png" alt="エージェントの起動"  />
+</Frame>
+
+これでスイープが実行中です。次の画像は、サンプルのスイープジョブが実行されているときのダッシュボードの様子を示しています。 [サンプルのプロジェクトページを見る →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+
+<Frame>
+    <img src="/images/sweeps/sweep4.png" alt="スイープのダッシュボード"  />
+</Frame>
+
+<div id="seed-a-new-sweep-with-existing-runs">
+  ## 既存のrunを使って新しいスイープをシードする
+</div>
+
+以前にログした既存のrunを使って、新しいスイープを開始します。
+
+1. プロジェクトのテーブルを開きます。
+2. テーブル左側のチェックボックスで、使用したいrunを選択します。
+3. ドロップダウンをクリックして、新しいスイープを作成します。
+
+これでスイープがサーバー上にセットアップされます。あとは1つ以上のエージェントを起動して、runを実行します。
+
+<Frame>
+    <img src="/images/sweeps/tutorial_sweep_runs.png" alt="runからスイープをシードする"  />
+</Frame>
+
+<Note>
+新しいスイープをベイズスイープとして開始すると、選択したrunはガウス過程のシードとしても使用されます。
+</Note>

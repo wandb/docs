@@ -1,0 +1,113 @@
+---
+description: 1 台以上のマシン上で W&B Sweep Agent を開始または停止します。
+title: スイープエージェントを開始する
+---
+
+1 台以上のマシン上で 1 つ以上のエージェントを起動してスイープを実行します。Sweep エージェントは、[スイープを初期化](/ja/models/sweeps/initialize-sweeps)するときに定義したスイープ設定を使用して、さまざまなハイパーパラメータの組み合わせを探索します。W&amp;B は、Sweep エージェントが試すハイパーパラメータの組み合わせごとに新しい run を作成します。
+
+スイープの一時停止、再開、停止、キャンセルの方法については、[スイープを管理する](/ja/models/sweeps/pause-resume-and-cancel-sweeps)を参照してください。
+
+<Note>
+  続行する前に、次の点を確認してください:
+
+  * 学習スクリプトを設定して、W&amp;B でハイパーパラメータの組み合わせを作成および追跡できるようにします。詳しくは、[W&amp;B をコードに追加する](./add-w-and-b-to-your-code#training-script-with-w%26b-python-sdk)を参照してください。
+  * スイープ用の[設定ファイル](./define-sweep-configuration)が定義されていること。
+</Note>
+
+次のコードスニペットは、CLI 経由および Jupyter Notebook または Python スクリプト内でエージェントを開始する方法を示します。どちらの方法でも、スイープを初期化したときに W&amp;B が返すスイープ ID を指定します。スイープ ID の形式は次のとおりです。
+
+```bash
+entity/project/sweep_ID
+```
+
+Where:
+
+* `entity`: 自分の W&amp;B ユーザー名またはチーム名。
+* `project`: W&amp;B に run の出力を保存したいプロジェクト名。プロジェクトが指定されていない場合、W&amp;B は run を「Uncategorized」というプロジェクトに配置します。
+* `sweep_ID`: W&amp;B によって生成される疑似ランダムな一意の ID。
+
+<Tabs>
+  <Tab title="CLI">
+    `wandb agent` コマンドを使用してスイープを開始します。スイープを初期化したときに W&amp;B が返すスイープ ID を指定します。
+
+    以下のコードスニペットをコピー &amp; ペーストし、`sweep_id` を自分のスイープ ID に置き換えてください:
+
+    ```bash
+    wandb agent sweep_id
+    ```
+  </Tab>
+
+  <Tab title="Python script or notebook">
+    [`wandb.agent()`](/ja/models/ref/python/functions/agent) を使用してスイープを開始します。スイープを初期化したときに W&amp;B が返すスイープ ID と、学習スクリプトのエントリポイントとなる関数名を指定します。
+
+    以下のコードスニペットをコピー &amp; ペーストし、`&lt;sweep_id&gt;` を自分のスイープ ID に、`&lt;function_name&gt;` を学習用関数の名前に置き換えてください:
+
+    ```python
+    wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
+    ```
+
+    この方法を使用する場合の学習スクリプトのセットアップ例については、「コードに W&amp;B を追加する」の [Python script or notebook タブ](/ja/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) を参照してください。
+
+    <Warning>
+      **Multiprocessing**
+
+      Python 標準ライブラリの `multiprocessing` または PyTorch の `pytorch.multiprocessing` パッケージを使用する場合は、`wandb.agent()` と `wandb.sweep()` の呼び出しを `if __name__ == '__main__':` で必ずラップしてください。例:
+
+      ```python
+      if __name__ == '__main__':
+          wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+      ```
+
+      この規約でコードをラップすることで、そのスクリプトがワーカープロセスでモジュールとしてインポートされたときではなく、スクリプトが直接実行されたときにのみコードが実行されることが保証されます。
+
+      マルチプロセッシングの詳細については、[Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) または [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。`if __name__ == '__main__':` 規約の詳細については、https://realpython.com/if-name-main-python/ を参照してください。
+    </Warning>
+  </Tab>
+</Tabs>
+
+<div id="limit-the-number-of-runs-a-sweep-agent-tries">
+  ### スイープエージェントが試行する run の最大数を制限する
+</div>
+
+<Warning>
+  Random および Bayesian 検索は無期限に実行され続けます。コマンドライン、Python スクリプト内、または [Sweeps UI](./visualize-sweep-results) からプロセスを停止する必要があります。
+</Warning>
+
+スイープエージェントが試行する run の数を指定します。次のコードスニペットは、CLI と Jupyter Notebook / Python スクリプトの両方で、[W&amp;B Runs](/ja/models/ref/python/experiments/run) の最大数を設定する方法を示しています。
+
+<Tabs>
+  <Tab title="CLI">
+    まず、[`wandb sweep`](/ja/models/ref/cli/wandb-sweep) コマンドでスイープを初期化します。詳細は [Initialize sweeps](./initialize-sweeps) を参照してください。
+
+    ```
+    wandb sweep config.yaml
+    ```
+
+    次に、`count` フラグに整数値を渡して、試行する run の最大数を設定します。
+
+    ```python
+    NUM=10
+    SWEEPID="dtzl1o7u"
+    wandb agent --count $NUM $SWEEPID
+    ```
+  </Tab>
+
+  <Tab title="Python script or notebook">
+    まず、スイープを初期化します。詳細は [Initialize sweeps](./initialize-sweeps) を参照してください。
+
+    ```
+    sweep_id = wandb.sweep(sweep_config)
+    ```
+
+    次に、スイープジョブを開始します。スイープの開始時に生成されたスイープ ID を指定します。`count` パラメータに整数値を渡して、試行する run の最大数を設定します。
+
+    ```python
+    sweep_id, count = "dtzl1o7u", 10
+    wandb.agent(sweep_id, count=count)
+    ```
+
+    <Warning>
+      同じスクリプトまたはノートブック内で、スイープエージェントの処理が完了した後に新しい run を開始する場合は、新しい run を開始する前に `wandb.teardown()` を呼び出す必要があります。
+    </Warning>
+  </Tab>
+</Tabs>

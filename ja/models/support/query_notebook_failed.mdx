@@ -1,0 +1,20 @@
+---
+title: 「Failed to query for notebook」エラーはどのように対処すればよいですか？
+---
+
+`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` というエラーメッセージが表示される場合は、環境変数を設定することで解決できます。次のいずれかの方法で環境変数を設定してください。
+
+<Tabs>
+<Tab title="ノートブック">
+```python
+%env "WANDB_NOTEBOOK_NAME" "notebook name here"
+```
+</Tab>
+<Tab title="Python">
+```python
+import os
+
+os.environ["WANDB_NOTEBOOK_NAME"] = "notebook name here"
+```
+</Tab>
+</Tabs>

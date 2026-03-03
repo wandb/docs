@@ -1,0 +1,19 @@
+---
+title: 自己管理型ネットワーク要件
+---
+
+ネットワーク接続されたデプロイメントでは、インストール時と実行時の&#95;両方&#95;で、次のエンドポイントへの送信（egress）が必要です：
+
+* https://deploy.wandb.ai
+* https://charts.wandb.ai
+* https://quay.io （Prometheus イメージ用）
+
+<Note>
+  デプロイメントの構成によっては、追加のコンテナレジストリが必要になる場合があります：
+
+  * Weave のオンライン評価で Bufstream と etcd をデプロイする場合、`https://gcr.io` が必要です。
+</Note>
+
+エアギャップ環境でのデプロイについては、[エアギャップインスタンス向け Kubernetes オペレーター](/ja/platform/hosting/self-managed/operator-airgapped/) を参照してください。
+
+学習用インフラストラクチャおよび各実験の要件をトラッキングする各システムには、W&amp;B とオブジェクトストレージへのアクセスが必要です。

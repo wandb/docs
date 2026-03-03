@@ -1,0 +1,215 @@
+---
+title: "クラス: ObjectRef"
+description: "TypeScript SDK リファレンス"
+---
+
+[weave](../) / ObjectRef
+
+保存された Weave オブジェクトへの参照を表します。
+
+通常、エンドユーザーがこのクラスを直接扱う必要はありません。
+
+ObjectRef には、Weave のストレージシステム内で保存されたオブジェクトを一意に識別するための
+プロジェクト ID、オブジェクト ID、およびダイジェスト値が含まれます。
+
+`例`
+
+```ts
+const ref = new ObjectRef('my-project', 'abc123', 'def456');
+const uri = ref.uri(); // weave:///my-project/object/abc123:def456
+```
+
+
+<div id="table-of-contents">
+  ## 目次
+</div>
+
+<div id="constructors">
+  ### コンストラクタ
+</div>
+
+- [constructor](./objectref#constructor)
+
+<div id="properties">
+  ### プロパティ
+</div>
+
+- [digest](./objectref#digest)
+- [objectId](./objectref#objectid)
+- [projectId](./objectref#projectid)
+
+<div id="methods">
+  ### メソッド
+</div>
+
+- [get](./objectref#get)
+- [ui\_url](./objectref#ui_url)
+- [uri](./objectref#uri)
+- [fromUri](./objectref#fromuri)
+
+## コンストラクタ
+
+<div id="constructors">
+  ### コンストラクタ
+</div>
+
+• **new ObjectRef**(`projectId`, `objectId`, `digest`): [`ObjectRef`](./objectref)
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `projectId` | `string` |
+| `objectId` | `string` |
+| `digest` | `string` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`ObjectRef`](./objectref)
+
+#### 定義元
+
+[weaveObject.ts:26](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L26)
+
+## プロパティ
+
+<div id="digest">
+  ### digest
+</div>
+
+• **digest**: `string`
+
+#### 定義元
+
+[weaveObject.ts:29](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L29)
+
+___
+
+<div id="objectid">
+  ### objectId
+</div>
+
+• **objectId**: `string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[weaveObject.ts:28](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L28)
+
+___
+
+<div id="projectid">
+  ### projectId
+</div>
+
+• **projectId**: `string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[weaveObject.ts:27](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L27)
+
+## メソッド
+
+<div id="get">
+  ### get
+</div>
+
+▸ **get**(): `Promise`\<`any`\>
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`\<`any`\>
+
+#### 定義元
+
+[weaveObject.ts:66](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L66)
+
+___
+
+### ui\_url
+
+▸ **ui_url**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[weaveObject.ts:61](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L61)
+
+___
+
+<div id="uri">
+  ### uri
+</div>
+
+▸ **uri**(): `string`
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`string`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[weaveObject.ts:57](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L57)
+
+___
+
+<div id="fromuri">
+  ### fromUri
+</div>
+
+▸ **fromUri**(`uri`): [`ObjectRef`](./objectref)
+
+Weave URI 文字列から ObjectRef を生成します。
+
+<div id="parameters">
+  #### パラメーター
+</div>
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `uri` | `string` | weave:///entity/project/object/name:digest の形式の Weave URI |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`ObjectRef`](./objectref)
+
+新しい ObjectRef インスタンス
+
+`Throws`
+
+URI の形式が無効、またはオブジェクト参照ではない場合にエラーをスローします
+
+`Example`
+
+```ts
+const ref = ObjectRef.fromUri('weave:///my-entity/my-project/object/my-dataset:abc123');
+```
+
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[weaveObject.ts:44](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L44)

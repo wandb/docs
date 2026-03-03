@@ -1,0 +1,51 @@
+---
+title: Video
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/video.py" />
+
+
+## <kbd>class</kbd> `Video`
+
+W&B に動画をログとして記録するためのクラスです。 
+
+### <kbd>メソッド</kbd> `Video.__init__`
+
+```python
+__init__(
+    data_or_path: Union[str, pathlib.Path, ForwardRef('np.ndarray'), ForwardRef('TextIO'), ForwardRef('BytesIO')],
+    caption: Optional[str] = None,
+    fps: Optional[int] = None,
+    format: Optional[Literal['gif', 'mp4', 'webm', 'ogg']] = None
+)
+```
+
+W&amp;B の Video オブジェクトを初期化します。
+
+**Args:**
+
+* `data_or_path`:  Video はファイルへのパス、または IO オブジェクトで初期化できます。Video は numpy テンソルでも初期化できます。numpy テンソルは 4 次元または 5 次元である必要があります。次元は (number of frames, channel, height, width) または (batch, number of frames, channel, height, width) でなければなりません。numpy 配列または IO オブジェクトで初期化する場合、`format` 引数で format パラメータを指定する必要があります。
+* `caption`:  動画の表示時に使用されるキャプション。
+* `fps`:  未圧縮の動画フレームをエンコードする際に使用するフレームレート。デフォルト値は 4。`data_or_path` が文字列または bytes の場合、このパラメータは無視されます。
+* `format`:  numpy 配列または IO オブジェクトで初期化する場合に必須となる動画のフォーマット。このパラメータは動画データをエンコードする際に使用するフォーマットを決定するために使われます。指定可能な値は &quot;gif&quot;、&quot;mp4&quot;、&quot;webm&quot;、または &quot;ogg&quot; です。値を指定しない場合、デフォルトのフォーマットは &quot;gif&quot; になります。
+
+**Examples:**
+numpy 配列を動画としてログする
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    # 軸は (フレーム数, チャンネル, 高さ, 幅)
+    frames = np.random.randint(
+         low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
+    )
+    run.log({"video": wandb.Video(frames, format="mp4", fps=4)})
+```
+
+***

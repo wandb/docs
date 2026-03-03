@@ -1,0 +1,83 @@
+---
+title: "構造化出力を有効にする"
+description: W&B Inference レスポンスで構造化出力を設定する方法
+---
+
+構造化出力は[JSON モード](/ja/inference/response-settings/json-mode)に似ていますが、指定したスキーマにモデルからのレスポンスが確実に準拠するようにできるという利点があります。可能な場合は、JSON モードの代わりに構造化出力を使用することを推奨します。
+
+構造化出力を有効にするには、リクエストで `response_format` の `type` として `json_schema` を指定します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import json
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="<your-api-key>",  # https://wandb.ai/settings で APIキーを作成
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "system", "content": "イベント情報を抽出してください。"},
+            {"role": "user", "content": "Alice と Bob は金曜日にサイエンスフェアに行きます。"},
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "CalendarEventResponse",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "date": {"type": "string"},
+                        "participants": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["name", "date", "participants"],
+                    "additionalProperties": False,
+                },
+            },
+        },
+    )
+
+    content = response.choices[0].message.content
+    parsed = json.loads(content)
+    print(parsed)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "system", "content": "イベント情報を抽出してください。"},
+            {"role": "user", "content": "Alice と Bob は金曜日にサイエンスフェアに行きます。"},
+        ],
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "CalendarEventResponse",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "date": {"type": "string"},
+                        "participants": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["name", "date", "participants"],
+                    "additionalProperties": False,
+                },
+            },
+        },
+      }'
+    ```
+  </Tab>
+</Tabs>

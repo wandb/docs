@@ -1,0 +1,56 @@
+---
+title: デプロイメントオプションの概要
+sidebarTitle: 概要
+no_list: true
+---
+
+W&amp;B は、組織のインフラストラクチャおよびセキュリティ要件に合わせて、さまざまな方法でデプロイできます。
+
+<Tip title="はじめに">
+  すぐに使い始めるには、W&amp;B は [Multi-tenant Cloud](https://wandb.ai/home) を推奨します。
+
+  一部の機能を利用するには、[Enterprise](https://wandb.ai/site/pricing/) ライセンスが必要です。これらの機能を試すには、[Enterprise トライアル](https://wandb.ai/site/enterprise-trial/) にサインアップし、デプロイメントタイプを選択してください。
+</Tip>
+
+<CardGroup cols={1}>
+  <a id="wb-multi-tenant-cloud" aria-label="W&B マルチテナント Cloud" />
+
+  <Card title="W&B Multi-tenant Cloud">
+    W&amp;B のクラウドインフラストラクチャ上にデプロイされたフルマネージドサービスであり、必要な規模で W&amp;B 製品にシームレスにアクセスでき、コスト効率の高い料金オプションや、最新機能への継続的なアップデートが提供されます。プライベートデプロイメントによるセキュリティを必要とせず、セルフサービスでのオンボーディングが重要で、コスト効率が極めて重要な場合には、製品トライアルや本番の AI ワークフローの運用に Multi-tenant Cloud を利用することを W&amp;B は推奨します。
+
+    詳細については **[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud)** を参照してください。
+  </Card>
+
+  <a id="wb-dedicated-cloud" aria-label="W&B デディケーテッド Cloud" />
+
+  <Card title="W&B Dedicated Cloud">
+    W&amp;B のクラウドインフラストラクチャ上にデプロイされた、シングルテナントのフルマネージドサービスです。データ所在地を含む厳格なガバナンスコントロールへの準拠が求められ、高度なセキュリティ機能が必要であり、必要なインフラストラクチャをセキュリティ・スケール・パフォーマンス要件を満たす形で自前で構築・管理することなく、AI の運用コストを最適化したい組織にとって、W&amp;B を導入する最適な選択肢です。
+
+    詳細については **[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud)** を参照してください。
+  </Card>
+
+  <a id="wb-Self-Managed" aria-label="W&B Self-Managed" />
+
+  <Card title="W&B Self-Managed">
+    自社が管理するインフラストラクチャ上に W&amp;B Server をデプロイして管理します。W&amp;B Server は、W&amp;B Platform とサポートされている W&amp;B 製品を実行するための自己完結型のパッケージソリューションです。すべての既存インフラストラクチャがオンプレミスにある場合や、組織に W&amp;B Dedicated Cloud では満たせない厳格な規制要件がある場合には、このオプションを W&amp;B は推奨します。このオプションでは、W&amp;B Server を支えるために必要なインフラストラクチャのプロビジョニング、および継続的な保守とアップグレードを管理する責任は、すべてお客様自身にあります。
+
+    詳細については **[W&amp;B Self-Managed](/ja/platform/hosting/hosting-options/self-managed)** を参照してください。
+  </Card>
+</CardGroup>
+
+<div id="key-differences">
+  ## 主な違い
+</div>
+
+この表では、各デプロイタイプの主な違いを示します。
+
+|                                      | マルチテナントクラウド                | 専用クラウド                                                     | セルフマネージド |
+|--------------------------------------|-----------------------------------|---------------------------------------------------------------------|------------------|
+| MySQL / DB 管理                | 完全に W&amp;B によってホストおよび管理されます | お客様が選択したクラウドまたはリージョン上で、完全に W&amp;B によってホストおよび管理されます | 完全にお客様によってホストおよび管理されます |
+| オブジェクトストレージ (S3/GCS/Blob Storage) | **オプション 1**: 完全に W&amp;B がホスト<br />**オプション 2**: [Secure Storage Connector](/ja/platform/hosting/data-security/secure-storage-connector) を使用して、チームごとにお客様自身のバケットを構成可能  | **オプション 1**: 完全に W&amp;B がホスト<br />**オプション 2**: [Secure Storage Connector](/ja/platform/hosting/data-security/secure-storage-connector) を使用して、インスタンスまたはチームごとにお客様自身のバケットを構成可能 | 完全にお客様によってホストおよび管理されます |
+| SSO サポート                          | Auth0 を通じて W&amp;B が管理             | **オプション 1**: お客様管理<br />**オプション 2**: Auth0 を通じて W&amp;B が管理 | 完全にお客様によって管理   |
+| W&amp;B サービス (アプリ)                    | 完全に W&amp;B によって管理されます              | 完全に W&amp;B によって管理されます                                                | 完全にお客様によって管理されます          |
+| アプリケーションセキュリティ                         | 完全に W&amp;B によって管理されます              | W&amp;B とお客様の共同責任                           | 完全にお客様によって管理されます         |
+| メンテナンス (アップグレード、バックアップなど) | W&amp;B によって管理されます | W&amp;B によって管理されます | お客様によって管理されます |
+| サポート                              | サポート SLA                       | サポート SLA                                                         | サポート SLA |
+| 対応クラウドインフラ       | Google Cloud                               | AWS、Google Cloud、Azure                                                     | AWS、Google Cloud、Azure、オンプレミス ベアメタル |

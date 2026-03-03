@@ -1,0 +1,60 @@
+---
+title: "Weights & Biases ドキュメント"
+description: "すべての Weights & Biases 製品のドキュメントを参照"
+sidebarTitle: "ホーム"
+mode: wide
+---
+
+import {Banner} from "/snippets/Banner.jsx";
+import {HomeWrapper} from "/snippets/home.jsx";
+import {ProductCard} from "/snippets/ProductCard.jsx";
+
+<HomeWrapper>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ProductCard title="W&B Models" iconSrc="icons/cropped-models.svg" href="/ja/models" subtitle="AIモデルを開発する">
+      W&amp;B Models を使って AIモデルの開発を管理できます。学習、ファインチューニング、レポート作成、ハイパーパラメータスイープの自動化、モデルレジストリを利用したバージョン管理と再現性の確保などの機能を備えています。
+
+      <br />
+
+      <br />
+
+      • <a href="/ja/models">概要</a><br />
+      • <a href="/ja/models/quickstart">クイックスタート</a><br />
+      • <a href="https://www.youtube.com/watch?v=tHAFujRhZLA">YouTube チュートリアル</a><br />
+    </ProductCard>
+
+    <ProductCard title="W&B Weave" iconSrc="icons/cropped-weave.svg" href="/ja/weave" subtitle="アプリでAIモデルを活用する">
+      W&amp;B Weave を使って、コード内で AIモデルを管理できます。トレース、出力評価、コスト見積もりに加えて、さまざまな大規模言語モデル (LLM) や設定を比較できるホスト型推論サービスおよびプレイグラウンドなどの機能を備えています。
+
+      <br />
+
+      <br />
+
+      • <a href="/ja/weave">概要</a><br />
+      • <a href="/ja/weave/quickstart">クイックスタート</a><br />
+      • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">YouTube デモ</a><br />
+    </ProductCard>
+
+    <ProductCard title="W&B Inference" iconSrc="icons/cropped-inference.svg" href="/ja/inference" subtitle="ファウンデーションモデルにアクセスする">
+      W&amp;B Inference を使うと、OpenAI 互換 API を通じて主要なオープンソースのファウンデーションモデルにアクセスできます。複数のモデルオプション、利用状況のトラッキング、Weave とのインテグレーションによるトレースと評価などの機能を備えています。
+
+      <br />
+
+      <br />
+
+      • <a href="/ja/inference">概要</a><br />
+      • <a href="https://wandb.ai/inference">Playground で試す</a>
+    </ProductCard>
+
+    <ProductCard title="W&B Training" iconSrc="icons/cropped-training.svg" href="/ja/training" subtitle="モデルを追加学習する">
+      現在パブリックプレビュー中の W&amp;B Training を使うと、サーバーレス強化学習 (RL) により大規模言語モデルを追加学習できます。フルマネージド GPU インフラストラクチャ、ART および RULER とのインテグレーション、複数ターンのエージェントタスク向けの自動スケーリングなどの機能を備えています。
+
+      <br />
+
+      <br />
+
+      • <a href="/ja/training">概要</a><br />
+      • <a href="/ja/training/prerequisites">クイックスタート</a><br />
+    </ProductCard>
+  </div>
+</HomeWrapper>

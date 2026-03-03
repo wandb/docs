@@ -1,0 +1,1371 @@
+---
+title: "OpenTelemetry トレースを Weave に送信する"
+description: "専用エンドポイント経由で OpenTelemetry 互換のトレースデータを取り込む"
+---
+
+<div id="overview">
+  ## 概要
+</div>
+
+Weave は、専用のエンドポイントを通じて OpenTelemetry 互換のトレースデータの取り込みに対応しています。このエンドポイントを使用すると、OTLP (OpenTelemetry Protocol) 形式のトレースデータを Weave プロジェクトに直接送信できます。
+
+<div id="endpoint-details">
+  ## エンドポイントの詳細
+</div>
+
+**Path**: `/otel/v1/traces`
+**Method**: POST
+**Content-Type**: `application/x-protobuf`
+**Base URL**: OTel トレースエンドポイントのベース URL は、ご利用の W&amp;B デプロイメントタイプによって異なります:
+
+* マルチテナントクラウド:\
+  `https://trace.wandb.ai/otel/v1/traces`
+
+* Dedicated Cloud および Self-Managed インスタンス:\
+  `https://<your-subdomain>.wandb.io/traces/otel/v1/traces`
+
+`<your-subdomain>` は、組織固有の一意な W&amp;B ドメイン (例: `acme.wandb.io`) に置き換えてください。
+
+<div id="authentication-and-routing">
+  ## 認証とルーティング
+</div>
+
+`wandb-api-key` ヘッダーに W&amp;B の APIキーを渡し、そのうえで次のキーを `TracerProvider` クラス内の OpenTelemetry の Resource 属性として指定します:
+
+* `wandb.entity`: 使用する W&amp;B チーム名またはユーザー名。
+* `wandb.project`: トレースを送信するプロジェクト名。
+
+次の例は、認証とプロジェクトのルーティングを設定する方法を示しています:
+
+<CodeGroup>
+  ```python Python lines {7,8}
+  import os
+  from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+  from opentelemetry.sdk import trace as trace_sdk
+  from opentelemetry.sdk.resources import Resource
+
+  WANDB_BASE_URL = "https://trace.wandb.ai"
+  ENTITY = "<your-team-name>"
+  PROJECT = "<your-project-name>"
+
+  OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+  # Create an API key at https://wandb.ai/settings
+  WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+  exporter = OTLPSpanExporter(
+      endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+      headers={"wandb-api-key": WANDB_API_KEY},
+  )
+
+  tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+      "wandb.entity": ENTITY,
+      "wandb.project": PROJECT,
+  }))
+  ```
+
+  ```typescript TypeScript lines
+  import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+  import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+  import { Resource } from "@opentelemetry/resources";
+
+  const WANDB_BASE_URL = "https://trace.wandb.ai";
+  const ENTITY = "<your-team-name>";
+  const PROJECT = "<your-project-name>";
+
+  const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+
+  // Create an API key at https://wandb.ai/settings
+  const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+  const exporter = new OTLPTraceExporter({
+    url: OTEL_EXPORTER_OTLP_ENDPOINT,
+    headers: { "wandb-api-key": WANDB_API_KEY },
+  });
+
+  const provider = new NodeTracerProvider({
+    resource: new Resource({
+      "wandb.entity": ENTITY,
+      "wandb.project": PROJECT,
+    }),
+  });
+  ```
+</CodeGroup>
+
+<div id="examples">
+  ## 例
+</div>
+
+以下の例では、Python と TypeScript を使用して OpenTelemetry のトレースを Weave に送信する方法を示します。
+
+以下のコードサンプルを実行する前に、次の項目を設定します。
+
+1. `WANDB_API_KEY`: [User Settings](https://wandb.ai/settings) から取得できます。
+2. Entity: アクセス権を持っている Entity 配下のプロジェクトに対してのみ、トレースを記録できます。自分の Entity 名は、W&amp;B ダッシュボード [https://wandb.ai/home] にアクセスし、左サイドバーの **Teams** フィールドを確認することで確認できます。
+3. Project Name: 好きな楽しい名前を付けてください。
+4. `OPENAI_API_KEY`: [OpenAI ダッシュボード](https://platform.openai.com/api-keys) から取得できます。
+
+<div id="openinference-instrumentation">
+  ### OpenInference 計装
+</div>
+
+この例では、OpenAI の計装の使い方を示します。利用できる計装は他にも多数あり、公式リポジトリ（https://github.com/Arize-ai/openinference）で確認できます。
+
+まず、必要な依存関係をインストールします。
+
+<Tabs>
+  <Tab title="Python">
+    ```bash
+    pip install openai openinference-instrumentation-openai opentelemetry-exporter-otlp-proto-http
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```bash
+    npm install openai @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/resources @opentelemetry/exporter-trace-otlp-proto @arizeai/openinference-instrumentation-openai @opentelemetry/api
+    ```
+  </Tab>
+</Tabs>
+
+<Warning>
+  **パフォーマンスに関する推奨事項**: Weave にトレースを送信する際は、常に `SimpleSpanProcessor` ではなく `BatchSpanProcessor` を使用してください。`SimpleSpanProcessor` はスパンを同期的にエクスポートするため、他のワークロードのパフォーマンスに影響を与える可能性があります。ここでの例では `BatchSpanProcessor` を使用しており、スパンを非同期かつ効率的にバッチ処理するため、本番環境での利用に推奨されます。
+</Warning>
+
+<Tabs>
+  <Tab title="Python">
+    次のコードを `openinference_example.py` などの Python ファイルに貼り付けてください。
+
+    ```python lines
+    import os
+    import openai
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+    from opentelemetry.sdk import trace as trace_sdk
+    from opentelemetry.sdk.resources import Resource
+    from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+    from openinference.instrumentation.openai import OpenAIInstrumentor
+
+    OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+    WANDB_BASE_URL = "https://trace.wandb.ai"
+    ENTITY = "<your-team-name>"
+    PROJECT = "<your-project-name>"
+
+    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+    # https://wandb.ai/settings でAPIキーを作成してください
+    WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+    exporter = OTLPSpanExporter(
+        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        headers={"wandb-api-key": WANDB_API_KEY},
+    )
+
+    tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+    }))
+    tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+    # オプション: スパンをコンソールに出力します。
+    tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+    OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+
+    def main():
+        client = openai.OpenAI(api_key=OPENAI_API_KEY)
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": "Describe OTel in a single sentence."}],
+            max_tokens=20,
+            stream=True,
+            stream_options={"include_usage": True},
+        )
+        for chunk in response:
+            if chunk.choices and (content := chunk.choices[0].delta.content):
+                print(content, end="")
+
+    if __name__ == "__main__":
+        main()
+    ```
+
+    コードを実行します：
+
+    ```bash
+    python openinference_example.py
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    この例の TypeScript 実装には、Python 実装と比べて次のような主な違いがあります。
+
+    * OpenAI はインストルメンテーションを登録する前にインポートする必要があります（ESM モジュールではこれが必須です）。
+    * W&amp;B のエンドポイントは protobuf のみを受け付けるため、HTTP エクスポーターではなく `@opentelemetry/exporter-trace-otlp-proto`（protobuf 形式）を使用します。
+    * `BatchSpanProcessor` は非同期でフラッシュするため、スパンがフラッシュされるように、シャットダウン前に一定の待機時間を設けて明示的に `provider.shutdown()` を呼び出す必要があります。
+
+    次のコードを `openinference_example.ts` のような TypeScript ファイルに貼り付けてください。
+
+    ```typescript lines {11,12}
+    // 重要: インストルメンテーションがパッチを適用できるよう、OpenAIを最初にインポートすること
+    import OpenAI from "openai";
+    import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+    import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+    import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+    import { resourceFromAttributes } from "@opentelemetry/resources";
+    import { OpenAIInstrumentation, isPatched } from "@arizeai/openinference-instrumentation-openai";
+
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+    const WANDB_BASE_URL = "https://trace.wandb.ai";
+    const ENTITY = "<your-team-name>";
+    const PROJECT = "<your-project-name>";
+
+    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+
+    // https://wandb.ai/settings でAPIキーを作成する
+    const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+    const exporter = new OTLPTraceExporter({
+      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      headers: { "wandb-api-key": WANDB_API_KEY },
+    });
+
+    const provider = new NodeTracerProvider({
+      resource: resourceFromAttributes({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+      }),
+      spanProcessors: [
+        new BatchSpanProcessor(exporter)
+      ],
+    });
+
+    provider.register();
+
+    // OpenAIインストルメンテーションをトレーサープロバイダーに登録する
+    const openAIInstrumentation = new OpenAIInstrumentation();
+    openAIInstrumentation.setTracerProvider(provider);
+
+    // ESMを使用しているため、OpenAIを手動でインストルメント化する
+    openAIInstrumentation.manuallyInstrument(OpenAI);
+
+    async function main() {
+      console.log("OpenAIはパッチ済みですか？", isPatched());
+
+      const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+
+      console.log("OpenAI API呼び出しを実行中...");
+      const response = await client.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: "Describe OTel in a single sentence." }],
+        max_tokens: 50,
+      });
+
+      console.log("レスポンス:", response.choices[0]?.message?.content);
+      console.log("スパンのフラッシュを待機中...");
+    }
+
+    (async () => {
+      await main();
+
+      // スパンをフラッシュするための待機時間を確保する
+      console.log("スパンのフラッシュのため2秒待機中...");
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      await provider.shutdown(); // 終了前にすべての保留中のスパンをフラッシュする
+      console.log("シャットダウン完了");
+    })();
+    ```
+
+    次のコードを実行してください。
+
+    ```bash
+    npx ts-node openinference_example.ts
+    ```
+  </Tab>
+</Tabs>
+
+<div id="openllmetry-instrumentation">
+  ### OpenLLMetry インストゥルメンテーション
+</div>
+
+次の例では、OpenAI 用インストゥルメンテーションの使い方を示します。その他の例は [https://github.com/traceloop/openllmetry/tree/main/packages](https://github.com/traceloop/openllmetry/tree/main/packages) で確認できます。
+
+まず、必要な依存関係をインストールします：
+
+<Tabs>
+  <Tab title="Python">
+    ```bash
+    pip install openai opentelemetry-instrumentation-openai opentelemetry-exporter-otlp-proto-http
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```bash
+    npm install openai @traceloop/instrumentation-openai @opentelemetry/sdk-trace-node @opentelemetry/resources @opentelemetry/exporter-trace-otlp-http
+    ```
+  </Tab>
+</Tabs>
+
+<Tabs>
+  <Tab title="Python">
+    次のコードを `openllmetry_example.py` のような Python ファイルに貼り付けてください。これは上の例と同じコードですが、`OpenAIInstrumentor` を `openinference.instrumentation.openai` ではなく `opentelemetry.instrumentation.openai` からインポートしている点だけが異なります。
+
+    ```python lines
+    import os
+    import openai
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+    from opentelemetry.sdk import trace as trace_sdk
+    from opentelemetry.sdk.resources import Resource
+    from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+    from opentelemetry.instrumentation.openai import OpenAIInstrumentor
+
+    OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+    WANDB_BASE_URL = "https://trace.wandb.ai"
+    ENTITY = "<your-team-name>"
+    PROJECT = "<your-project-name>"
+
+    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+    # https://wandb.ai/settings でAPIキーを作成してください
+    WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+    exporter = OTLPSpanExporter(
+        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        headers={"wandb-api-key": WANDB_API_KEY},
+    )
+
+    tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+    }))
+    tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+    # オプション: スパンをコンソールに出力します。
+    tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+    OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+
+    def main():
+        client = openai.OpenAI(api_key=OPENAI_API_KEY)
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": "Describe OTel in a single sentence."}],
+            max_tokens=20,
+            stream=True,
+            stream_options={"include_usage": True},
+        )
+        for chunk in response:
+            if chunk.choices and (content := chunk.choices[0].delta.content):
+                print(content, end="")
+
+    if __name__ == "__main__":
+        main()
+    ```
+
+    次のコードを実行します。
+
+    ```bash
+    python openllmetry_example.py
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    次のコードを `openllmetry_example.ts` のような TypeScript ファイルに貼り付けてください。これは Traceloop の OpenAI インストルメンテーションパッケージを使用している点に注意してください。
+
+    ```typescript lines
+    import OpenAI from "openai";
+    import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+    import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
+    import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+    import { Resource } from "@opentelemetry/resources";
+    import { OpenAIInstrumentation } from "@traceloop/instrumentation-openai";
+    import { registerInstrumentations } from "@opentelemetry/instrumentation";
+
+    const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+    const WANDB_BASE_URL = "https://trace.wandb.ai";
+    const ENTITY = "<your-team-name>";
+    const PROJECT = "<your-project-name>";
+
+    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+
+    // https://wandb.ai/settings でAPIキーを作成してください
+    const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+    const exporter = new OTLPTraceExporter({
+      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      headers: { "wandb-api-key": WANDB_API_KEY },
+    });
+
+    const provider = new NodeTracerProvider({
+      resource: new Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+      }),
+      spanProcessors: [
+        new BatchSpanProcessor(exporter),
+        // オプション: スパンをコンソールに出力する
+        new BatchSpanProcessor(new ConsoleSpanExporter()),
+      ],
+    });
+
+    provider.register();
+
+    // OpenAIインストルメンテーションをトレーサープロバイダーに登録する
+    const openAIInstrumentation = new OpenAIInstrumentation();
+    registerInstrumentations({
+      tracerProvider: provider,
+      instrumentations: [openAIInstrumentation],
+    });
+
+    // ESMを使用しているため、OpenAIを手動でインストルメント化する
+    openAIInstrumentation.manuallyInstrument(OpenAI);
+
+    async function main() {
+      const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+      const stream = await client.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: "Describe OTel in a single sentence." }],
+        max_tokens: 20,
+        stream: true,
+      });
+
+      for await (const chunk of stream) {
+        const content = chunk.choices[0]?.delta?.content;
+        if (content) {
+          process.stdout.write(content);
+        }
+      }
+      console.log(); // ストリーミング後の改行
+    }
+
+    (async () => {
+      await main();
+
+      // スパンがフラッシュされるまで待機する
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      await provider.shutdown(); // 終了前にすべての保留中のスパンをフラッシュする
+    })();
+    ```
+
+    次のコードを実行してください：
+
+    ```bash
+    npx ts-node openllmetry_example.ts
+    ```
+  </Tab>
+</Tabs>
+
+<div id="without-instrumentation">
+  ### インストルメンテーションなしでの利用
+</div>
+
+インストルメンテーションパッケージを使用せず、直接 OTel を利用したい場合は、そのようにすることもできます。スパン属性は、[https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/) で説明されている OpenTelemetry のセマンティック規約に従って解釈されます。
+
+まず、必要な依存関係をインストールします。
+
+<Tabs>
+  <Tab title="Python">
+    ```bash
+    pip install openai opentelemetry-sdk opentelemetry-api opentelemetry-exporter-otlp-proto-http
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```bash
+    npm install openai @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/resources @opentelemetry/exporter-trace-otlp-http
+    ```
+  </Tab>
+</Tabs>
+
+<Tabs>
+  <Tab title="Python">
+    次のコードを `opentelemetry_example.py` などの Python ファイルに貼り付けてください：
+
+    ```python lines
+    import json
+    import os
+    import openai
+    from opentelemetry import trace
+    from opentelemetry.sdk import trace as trace_sdk
+    from opentelemetry.sdk.resources import Resource
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+    from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+
+    OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+    WANDB_BASE_URL = "https://trace.wandb.ai"
+    ENTITY = "<your-team-name>"
+    PROJECT = "<your-project-name>"
+
+    OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
+
+    # https://wandb.ai/settings でAPIキーを作成する
+    WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+    # OTLPエクスポーターを設定する
+    exporter = OTLPSpanExporter(
+        endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+        headers={"wandb-api-key": WANDB_API_KEY},
+    )
+
+    tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+    }))
+    tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+    # 必要に応じて、スパンをコンソールに出力する。
+    tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+    # トレーサープロバイダーを設定する
+    trace.set_tracer_provider(tracer_provider)
+
+    # グローバルトレーサープロバイダーからトレーサーを作成する
+    tracer = trace.get_tracer(__name__)
+
+    def my_function():
+        with tracer.start_as_current_span("outer_span") as outer_span:
+            client = openai.OpenAI()
+            input_messages = [{"role": "user", "content": "Describe OTel in a single sentence."}]
+            outer_span.set_attribute("input.value", json.dumps(input_messages))
+            outer_span.set_attribute("gen_ai.system", "openai")
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=input_messages,
+                max_tokens=20,
+                stream=True,
+                stream_options={"include_usage": True},
+            )
+            out = ""
+            for chunk in response:
+                if chunk.choices and (content := chunk.choices[0].delta.content):
+                    out += content
+            outer_span.set_attribute("output.value", json.dumps({"content": out}))
+
+    if __name__ == "__main__":
+        my_function()
+    ```
+
+    次のコードを実行してください:
+
+    ```bash
+    python opentelemetry_example.py
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    次のコードを、`opentelemetry_example.ts` などの TypeScript ファイルに貼り付けてください：
+
+    ```typescript lines
+    import OpenAI from "openai";
+    import { trace } from "@opentelemetry/api";
+    import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+    import { BatchSpanProcessor, ConsoleSpanExporter } from "@opentelemetry/sdk-trace-base";
+    import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+    import { Resource } from "@opentelemetry/resources";
+
+    const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY";
+    const WANDB_BASE_URL = "https://trace.wandb.ai";
+    const ENTITY = "<your-team-name>";
+    const PROJECT = "<your-project-name>";
+
+    const OTEL_EXPORTER_OTLP_ENDPOINT = `${WANDB_BASE_URL}/otel/v1/traces`;
+
+    // https://wandb.ai/settings でAPIキーを作成してください
+    const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+
+    const exporter = new OTLPTraceExporter({
+      url: OTEL_EXPORTER_OTLP_ENDPOINT,
+      headers: { "wandb-api-key": WANDB_API_KEY },
+    });
+
+    const provider = new NodeTracerProvider({
+      resource: new Resource({
+        "wandb.entity": ENTITY,
+        "wandb.project": PROJECT,
+      }),
+      spanProcessors: [
+        new BatchSpanProcessor(exporter),
+        // オプション: スパンをコンソールに出力します。
+        new BatchSpanProcessor(new ConsoleSpanExporter()),
+      ],
+    });
+
+    provider.register();
+
+    // グローバルトレーサープロバイダーからトレーサーを作成します
+    const tracer = trace.getTracer("my-app");
+
+    async function myFunction() {
+      const span = tracer.startSpan("outer_span");
+
+      try {
+        const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+        const inputMessages = [
+          { role: "user" as const, content: "Describe OTel in a single sentence." },
+        ];
+
+        // これはサイドパネルにのみ表示されます
+        span.setAttribute("input.value", JSON.stringify(inputMessages));
+        
+        // これは規約に従い、ダッシュボードに表示されます
+        span.setAttribute("gen_ai.system", "openai");
+
+        const stream = await client.chat.completions.create({
+          model: "gpt-3.5-turbo",
+          messages: inputMessages,
+          max_tokens: 20,
+          stream: true,
+        });
+
+        let output = "";
+        for await (const chunk of stream) {
+          const content = chunk.choices[0]?.delta?.content;
+          if (content) {
+            output += content;
+          }
+          }
+
+        // これはサイドパネルにのみ表示されます
+        span.setAttribute("output.value", JSON.stringify({ content: output }));
+      } finally {
+        span.end();
+      }
+    }
+
+    myFunction();
+    ```
+
+    次のコードを実行してください：
+
+    ```bash
+    npx ts-node opentelemetry_example.ts
+    ```
+  </Tab>
+</Tabs>
+
+スパン属性プレフィックス `gen_ai` と `openinference` は、トレースを解釈する際に、どのコンベンションを使用するか（使用するものがあれば）を判定するために使われます。どちらのキーも検出されない場合は、すべてのスパン属性がトレースビューに表示されます。トレースを選択すると、そのスパン全体をサイドパネルで確認できます。
+
+<div id="use-an-opentelemetry-collector">
+  ## OpenTelemetry Collector を使う
+</div>
+
+上記の例では、トレースをアプリケーションから Weave に直接エクスポートしています。本番環境では、アプリケーションと Weave の間の中継として [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) を使用できます。Collector はアプリからトレースを受信し、1 つ以上のバックエンドに転送します。
+
+<div id="set-up-a-collector">
+  ### コレクターをセットアップする
+</div>
+
+次の例では、以下を行います：
+
+* ローカルサーバー（コレクター）をデプロイし、OTLP トレースを受信してバッチ化し、Weave に転送する Docker 用の設定ファイルを用意する。
+* Docker を使ってローカルでコレクターを実行する。
+* Docker コンテナ内で動作しているコレクターにトレースを転送する、OpenAI への基本的な呼び出しを行う。
+
+コレクターを使用するには、まず `collector-config.yaml` ファイルを作成して、コレクターが OTLP トレースを受信し、それらを Weave にエクスポートするように設定します。
+
+```yaml lines {23,26} collector-config.yaml title="collector-config.yaml" 
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+
+exporters:
+  otlphttp/weave:
+    endpoint: ${env:WANDB_OTLP_ENDPOINT}
+    headers:
+      wandb-api-key: ${env:WANDB_API_KEY}
+    sending_queue:
+      batch:
+
+processors:
+  resource:
+    attributes:
+      - key: wandb.entity # リソース属性フィールド
+        value: ${env:DEFAULT_WANDB_ENTITY}  # 注入する値
+        action: insert # まだ存在しない場合のみ注入
+      - key: wandb.project
+        value: ${env:DEFAULT_WANDB_PROJECT}
+        action: insert 
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [resource]
+      exporters: [otlphttp/weave]
+```
+
+この設定ファイルは次のことを行います:
+
+* ポート `4318` (HTTP) で OTLP トレースを待ち受けます。
+* `wandb-api-key` ヘッダーを使用して Weave の OTLP エンドポイントにトレースをエクスポートし、エンドポイント URL は `WANDB_OTLP_ENDPOINT`、APIキーは `WANDB_API_KEY` から読み取ります。
+* `resource` プロセッサを使用して `wandb.entity` と `wandb.project` をリソース属性として設定し、その値を `DEFAULT_WANDB_ENTITY` と `DEFAULT_WANDB_PROJECT` から読み取ります。`insert` アクションは、アプリケーションコード側ですでに設定されていない場合にのみ、これらの属性を挿入します。
+* エクスポーターに組み込まれている `sending_queue` をバッチ処理付きで有効化し、ネットワークオーバーヘッドを削減します。
+
+コレクターの設定を行ったら、次の Docker コマンド内の APIキーと entity の値を更新して実行してください:
+
+```bash lines {3,5}
+docker run \
+  -v ./config.yaml:/etc/otelcol-contrib/config.yaml \
+  -e WANDB_API_KEY="<your-wandb-api-key>" \
+  -e WANDB_OTLP_ENDPOINT="https://trace.wandb.ai/otel" \
+  -e DEFAULT_WANDB_ENTITY="<your-team-name>" \
+  -e DEFAULT_WANDB_PROJECT="YOUR_PROJECT" \
+  -p 4318:4318 \
+  otel/opentelemetry-collector-contrib:latest
+```
+
+collector が起動したら、`OTEL_EXPORTER_OTLP_ENDPOINT` 環境変数を設定して、アプリケーションがその collector にトレースをエクスポートするように設定します。OTel SDK はこの変数を自動的に読み取るため、エクスポーターにエンドポイントを渡す必要はありません。
+
+アプリケーションの `TracerProvider` で `wandb.entity` または `wandb.project` をリソース属性として設定した場合、それらは collector の設定で定義されたデフォルト設定よりも優先されます。
+
+<CodeGroup>
+  ```python Python lines
+  import os
+  import openai
+  from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+  from opentelemetry.sdk import trace as trace_sdk
+  from opentelemetry.sdk.trace.export import BatchSpanProcessor
+  from openinference.instrumentation.openai import OpenAIInstrumentor
+
+  os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"] = "http://localhost:4318"
+
+  OPENAI_API_KEY = "YOUR_OPENAI_API_KEY"
+
+  tracer_provider = trace_sdk.TracerProvider()
+  tracer_provider.add_span_processor(BatchSpanProcessor(OTLPSpanExporter()))
+
+  OpenAIInstrumentor().instrument(tracer_provider=tracer_provider)
+
+  def main():
+      client = openai.OpenAI(api_key=OPENAI_API_KEY)
+      response = client.chat.completions.create(
+          model="gpt-3.5-turbo",
+          messages=[{"role": "user", "content": "Describe OTel in a single sentence."}],
+          max_tokens=20,
+      )
+      print(response.choices[0].message.content)
+
+  if __name__ == "__main__":
+      main()
+  ```
+
+  ```typescript TypeScript lines
+  import OpenAI from "openai";
+  import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+  import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+  import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+  import { OpenAIInstrumentation, isPatched } from "@arizeai/openinference-instrumentation-openai";
+
+  process.env.OTEL_EXPORTER_OTLP_ENDPOINT = "http://localhost:4318";
+
+  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+  const provider = new NodeTracerProvider({
+    spanProcessors: [new BatchSpanProcessor(new OTLPTraceExporter())],
+  });
+
+  provider.register();
+
+  const openAIInstrumentation = new OpenAIInstrumentation();
+  openAIInstrumentation.setTracerProvider(provider);
+  openAIInstrumentation.manuallyInstrument(OpenAI);
+
+  async function main() {
+    console.log("OpenAI is patched?", isPatched());
+
+    const client = new OpenAI({ apiKey: OPENAI_API_KEY });
+    const response = await client.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: "Describe OTel in a single sentence." }],
+      max_tokens: 20,
+    });
+
+    console.log("Response:", response.choices[0]?.message?.content);
+  }
+
+  (async () => {
+    await main();
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    await provider.shutdown();
+  })();
+  ```
+</CodeGroup>
+
+`OpenAIInstrumentor` は OpenAI 呼び出しを自動的にラップし、トレースを生成して Collector にエクスポートします。Collector は認証と Weave へのルーティングを処理します。
+
+スクリプトを実行したあと、Weave UI で[トレースを表示](/ja/weave/guides/tracking/trace-tree)できます。
+
+追加のバックエンドにトレースを送信するには、エクスポーターをさらに追加し、それらを `service.pipelines.traces.exporters` リストに含めます。たとえば、同じ Collector インスタンスから Weave と Jaeger の両方にエクスポートできます。
+
+<div id="organize-otel-traces-into-threads">
+  ## OTel のトレースをスレッドとして整理する
+</div>
+
+特定の span 属性を追加して OpenTelemetry のトレースを [Weave threads](/ja/weave/guides/tracking/threads) として整理し、Weave の Thread UI を使ってマルチターンの会話やユーザーセッションなどの関連する処理を分析します。
+
+スレッド単位のグルーピングを有効にするには、以下の属性を OTel span に追加します:
+
+* `wandb.thread_id`: span を特定のスレッドにグループ化します
+* `wandb.is_turn`: span を会話のターンとしてマークします（スレッドビューでは行として表示されます）
+
+次の例は、OTel のトレースを Weave threads に整理する方法を示しています。`wandb.thread_id` を使って関連する処理をグループ化し、`wandb.is_turn` を使ってスレッドビューで行として表示される高レベルの処理をマークします。
+
+<Accordion title="初期セットアップ">
+  これらの例を実行するには、次の設定を使用します:
+
+  <Tabs>
+    <Tab title="Python">
+      ```python lines
+      import json
+      import os
+      from opentelemetry import trace
+      from opentelemetry.sdk import trace as trace_sdk
+      from opentelemetry.sdk.resources import Resource
+      from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+      from opentelemetry.sdk.trace.export import ConsoleSpanExporter, BatchSpanProcessor
+
+      # 設定
+      ENTITY = "<your-team-name>"
+      PROJECT = "<your-project-name>"
+      WANDB_API_KEY = os.environ["WANDB_API_KEY"]
+
+      OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces"
+
+      exporter = OTLPSpanExporter(
+          endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
+          headers={"wandb-api-key": WANDB_API_KEY},
+      )
+
+      tracer_provider = trace_sdk.TracerProvider(resource=Resource({
+          "wandb.entity": ENTITY,
+          "wandb.project": PROJECT,
+      }))
+      tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+      # 任意: span をコンソールに出力する
+      tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
+
+      trace.set_tracer_provider(tracer_provider)
+
+      # グローバルな tracer provider から tracer を作成
+      tracer = trace.get_tracer(__name__)
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      import { trace, context } from "@opentelemetry/api";
+      import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+      import {
+        BatchSpanProcessor,
+        ConsoleSpanExporter,
+      } from "@opentelemetry/sdk-trace-base";
+      import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+      import { Resource } from "@opentelemetry/resources";
+
+      // 設定
+      const ENTITY = "<your-team-name>";
+      const PROJECT = "<your-project-name>";
+      const WANDB_API_KEY = process.env.WANDB_API_KEY;
+
+      if (!WANDB_API_KEY) {
+        console.error("Error: WANDB_API_KEY environment variable is not set");
+        console.error("Run: export WANDB_API_KEY=your_api_key_here");
+        process.exit(1);
+      }
+
+      // OTel のセットアップ
+      const OTEL_EXPORTER_OTLP_ENDPOINT = "https://trace.wandb.ai/otel/v1/traces";
+
+      const exporter = new OTLPTraceExporter({
+        url: OTEL_EXPORTER_OTLP_ENDPOINT,
+        headers: { "wandb-api-key": WANDB_API_KEY },
+      });
+
+      // span プロセッサーを使って tracer provider を初期化
+      const provider = new NodeTracerProvider({
+        resource: new Resource({
+          "wandb.entity": ENTITY,
+          "wandb.project": PROJECT,
+        }),
+        spanProcessors: [
+          new BatchSpanProcessor(exporter),
+          new BatchSpanProcessor(new ConsoleSpanExporter()),
+        ],
+      });
+
+      // tracer provider を登録
+      provider.register();
+
+      // グローバルな tracer provider から tracer を作成
+      const tracer = trace.getTracer("threads-examples");
+      ```
+    </Tab>
+  </Tabs>
+</Accordion>
+
+<Accordion title="基本的な単一ターンのスレッドをトレースする">
+  <Tabs>
+    <Tab title="Python">
+      ```python lines
+      def example_1_basic_thread_and_turn():
+          """Example 1: Basic thread with a single turn"""
+          print("\n=== Example 1: Basic Thread and Turn ===")
+
+          # スレッドコンテキストを作成する
+          thread_id = "thread_example_1"
+
+          # この span は 1 ターン（thread の直下の子）を表す
+          with tracer.start_as_current_span("process_user_message") as turn_span:
+              # スレッド属性を設定する
+              turn_span.set_attribute("wandb.thread_id", thread_id)
+              turn_span.set_attribute("wandb.is_turn", True)
+
+              # いくつかの例となる属性を追加する
+              turn_span.set_attribute("input.value", "Hello, help me with setup")
+
+              # ネストした span での処理をシミュレートする
+              with tracer.start_as_current_span("generate_response") as nested_span:
+                  # これはターン内のネストした呼び出しなので、is_turn は false か未設定にしておく
+                  nested_span.set_attribute("wandb.thread_id", thread_id)
+                  # ネストした呼び出しでは wandb.is_turn は設定しないか、False に設定する
+
+                  response = "I'll help you get started with the setup process."
+                  nested_span.set_attribute("output.value", response)
+
+              turn_span.set_attribute("output.value", response)
+              print(f"Turn completed in thread: {thread_id}")
+
+      def main():
+          example_1_basic_thread_and_turn()
+
+      if __name__ == "__main__":
+          main()
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      function example_1_basic_thread_and_turn() {
+        console.log("\n=== Example 1: Basic Thread and Turn ===");
+
+        // スレッドコンテキストを作成する
+        const threadId = "thread_example_1";
+
+        // この span は 1 ターン（thread の直下の子）を表す
+        tracer.startActiveSpan("process_user_message", (turnSpan) => {
+          // スレッド属性を設定する
+          turnSpan.setAttribute("wandb.thread_id", threadId);
+          turnSpan.setAttribute("wandb.is_turn", true);
+
+          // いくつかの例となる属性を追加する
+          turnSpan.setAttribute("input.value", "Hello, help me with setup");
+
+          let response: string;
+          
+          // ネストした span での処理をシミュレートする
+          tracer.startActiveSpan("generate_response", (nestedSpan) => {
+            // これはターン内のネストした呼び出しなので、is_turn は false か未設定にしておく
+            nestedSpan.setAttribute("wandb.thread_id", threadId);
+            // ネストした呼び出しでは wandb.is_turn は設定しないか、false に設定する
+
+            response = "I'll help you get started with the setup process.";
+            nestedSpan.setAttribute("output.value", response);
+            nestedSpan.end();
+          });
+          
+          turnSpan.setAttribute("output.value", response!);
+          console.log(`Turn completed in thread: ${threadId}`);
+          turnSpan.end();
+        });
+      }
+
+      function main() {
+        example_1_basic_thread_and_turn();
+      }
+
+      main();
+      ```
+    </Tab>
+  </Tabs>
+</Accordion>
+
+<Accordion title="同じスレッド ID を共有するマルチターン会話をトレースする">
+  <Tabs>
+    <Tab title="Python">
+      ```python lines
+      def example_2_multiple_turns():
+          """例 2: 単一スレッド内での複数ターン"""
+          print("\n=== 例 2: スレッド内での複数ターン ===")
+
+          thread_id = "thread_conversation_123"
+
+          # ターン 1
+          with tracer.start_as_current_span("process_message_turn1") as turn1_span:
+              turn1_span.set_attribute("wandb.thread_id", thread_id)
+              turn1_span.set_attribute("wandb.is_turn", True)
+              turn1_span.set_attribute("input.value", "どのプログラミング言語をおすすめしますか？")
+
+              # ネストされた処理
+              with tracer.start_as_current_span("analyze_query") as analyze_span:
+                  analyze_span.set_attribute("wandb.thread_id", thread_id)
+                  # ネストされた span には is_turn 属性を付与しないか、False に設定する
+
+              response1 = "初心者には Python を、Web 開発には JavaScript をおすすめします。"
+              turn1_span.set_attribute("output.value", response1)
+              print(f"ターン 1 がスレッド内で完了しました: {thread_id}")
+
+          # ターン 2
+          with tracer.start_as_current_span("process_message_turn2") as turn2_span:
+              turn2_span.set_attribute("wandb.thread_id", thread_id)
+              turn2_span.set_attribute("wandb.is_turn", True)
+              turn2_span.set_attribute("input.value", "Python と JavaScript の違いを説明してもらえますか？")
+
+              # ネストされた処理
+              with tracer.start_as_current_span("comparison_analysis") as compare_span:
+                  compare_span.set_attribute("wandb.thread_id", thread_id)
+                  compare_span.set_attribute("wandb.is_turn", False)  # ネストされた span では明示的に False を設定
+
+              response2 = "Python はデータサイエンスが得意で、JavaScript は Web 開発で主流です。"
+              turn2_span.set_attribute("output.value", response2)
+              print(f"ターン 2 がスレッド内で完了しました: {thread_id}")
+
+      def main():
+          example_2_multiple_turns()
+
+      if __name__ == "__main__":
+          main()
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      function example_2_multiple_turns() {
+        console.log("\n=== 例 2: スレッド内での複数ターン ===");
+
+        const threadId = "thread_conversation_123";
+
+        // ターン 1
+        tracer.startActiveSpan("process_message_turn1", (turn1Span) => {
+          turn1Span.setAttribute("wandb.thread_id", threadId);
+          turn1Span.setAttribute("wandb.is_turn", true);
+          turn1Span.setAttribute(
+            "input.value",
+            "どのプログラミング言語をおすすめしますか？"
+          );
+
+          // ネストされた処理
+          tracer.startActiveSpan("analyze_query", (analyzeSpan) => {
+            analyzeSpan.setAttribute("wandb.thread_id", threadId);
+            // ネストされた span には is_turn 属性を付与しないか、false に設定する
+            analyzeSpan.end();
+          });
+
+          const response1 =
+            "初心者には Python を、Web 開発には JavaScript をおすすめします。";
+          turn1Span.setAttribute("output.value", response1);
+          console.log(`ターン 1 がスレッド内で完了しました: ${threadId}`);
+          turn1Span.end();
+        });
+
+        // ターン 2
+        tracer.startActiveSpan("process_message_turn2", (turn2Span) => {
+          turn2Span.setAttribute("wandb.thread_id", threadId);
+          turn2Span.setAttribute("wandb.is_turn", true);
+          turn2Span.setAttribute("input.value", "Python と JavaScript の違いを説明してもらえますか？");
+
+          // ネストされた処理
+          tracer.startActiveSpan("comparison_analysis", (compareSpan) => {
+            compareSpan.setAttribute("wandb.thread_id", threadId);
+            compareSpan.setAttribute("wandb.is_turn", false); // ネストされた span では明示的に false を設定
+            compareSpan.end();
+          });
+
+          const response2 =
+            "Python はデータサイエンスが得意で、JavaScript は Web 開発で主流です。";
+          turn2Span.setAttribute("output.value", response2);
+          console.log(`ターン 2 がスレッド内で完了しました: ${threadId}`);
+          turn2Span.end();
+        });
+      }
+
+      function main() {
+        example_2_multiple_turns();
+      }
+
+      main();
+      ```
+    </Tab>
+  </Tabs>
+</Accordion>
+
+<Accordion title="深くネストした処理をトレースし、最外層のスパンだけをターンとしてマークする">
+  <Tabs>
+    <Tab title="Python">
+      ```python lines
+      def example_3_complex_nested_structure():
+          """Example 3: Complex nested structure with multiple levels"""
+          print("\n=== Example 3: Complex Nested Structure ===")
+
+          thread_id = "thread_complex_456"
+
+          # 複数レベルにネストされたターン
+          with tracer.start_as_current_span("handle_complex_request") as turn_span:
+              turn_span.set_attribute("wandb.thread_id", thread_id)
+              turn_span.set_attribute("wandb.is_turn", True)
+              turn_span.set_attribute("input.value", "Analyze this code and suggest improvements")
+
+              # レベル 1 のネスト処理
+              with tracer.start_as_current_span("code_analysis") as analysis_span:
+                  analysis_span.set_attribute("wandb.thread_id", thread_id)
+                  # ネストされた処理には is_turn を設定しない
+
+                  # レベル 2 のネスト処理
+                  with tracer.start_as_current_span("syntax_check") as syntax_span:
+                      syntax_span.set_attribute("wandb.thread_id", thread_id)
+                      syntax_span.set_attribute("result", "No syntax errors found")
+
+                  # 別のレベル 2 のネスト処理
+                  with tracer.start_as_current_span("performance_check") as perf_span:
+                      perf_span.set_attribute("wandb.thread_id", thread_id)
+                      perf_span.set_attribute("result", "Found 2 optimization opportunities")
+
+              # 別のレベル 1 のネスト処理
+              with tracer.start_as_current_span("generate_suggestions") as suggest_span:
+                  suggest_span.set_attribute("wandb.thread_id", thread_id)
+                  suggestions = ["Use list comprehension", "Consider caching results"]
+                  suggest_span.set_attribute("suggestions", json.dumps(suggestions))
+
+              turn_span.set_attribute("output.value", "Analysis complete with 2 improvement suggestions")
+              print(f"Complex turn completed in thread: {thread_id}")
+
+      def main():
+          example_3_complex_nested_structure()
+
+      if __name__ == "__main__":
+          main()
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      function example_3_complex_nested_structure() {
+        console.log("\n=== Example 3: Complex Nested Structure ===");
+
+        const threadId = "thread_complex_456";
+
+        // 複数レベルにネストされたターン
+        tracer.startActiveSpan("handle_complex_request", (turnSpan) => {
+          turnSpan.setAttribute("wandb.thread_id", threadId);
+          turnSpan.setAttribute("wandb.is_turn", true);
+          turnSpan.setAttribute(
+            "input.value",
+            "Analyze this code and suggest improvements"
+          );
+
+          // レベル 1 のネスト処理
+          tracer.startActiveSpan("code_analysis", (analysisSpan) => {
+            analysisSpan.setAttribute("wandb.thread_id", threadId);
+            // ネストされた処理には is_turn を設定しない
+
+            // レベル 2 のネスト処理
+            tracer.startActiveSpan("syntax_check", (syntaxSpan) => {
+              syntaxSpan.setAttribute("wandb.thread_id", threadId);
+              syntaxSpan.setAttribute("result", "No syntax errors found");
+              syntaxSpan.end();
+            });
+
+            // 別のレベル 2 のネスト処理
+            tracer.startActiveSpan("performance_check", (perfSpan) => {
+              perfSpan.setAttribute("wandb.thread_id", threadId);
+              perfSpan.setAttribute("result", "Found 2 optimization opportunities");
+              perfSpan.end();
+            });
+
+            analysisSpan.end();
+          });
+
+          // 別のレベル 1 のネスト処理
+          tracer.startActiveSpan("generate_suggestions", (suggestSpan) => {
+            suggestSpan.setAttribute("wandb.thread_id", threadId);
+            const suggestions = ["Use list comprehension", "Consider caching results"];
+            suggestSpan.setAttribute("suggestions", JSON.stringify(suggestions));
+            suggestSpan.end();
+          });
+
+          turnSpan.setAttribute(
+            "output.value",
+            "Analysis complete with 2 improvement suggestions"
+          );
+          console.log(`Complex turn completed in thread: ${threadId}`);
+          turnSpan.end();
+        });
+      }
+
+      function main() {
+        example_3_complex_nested_structure();
+      }
+
+      main();
+      ```
+    </Tab>
+  </Tabs>
+</Accordion>
+
+<Accordion title="スレッドに属するがターンではないバックグラウンド処理をトレースする">
+  <Tabs>
+    <Tab title="Python">
+      ```python lines
+      def example_4_non_turn_operations():
+          """Example 4: Operations that are part of a thread but not turns"""
+          print("\n=== Example 4: Non-Turn Thread Operations ===")
+
+          thread_id = "thread_background_789"
+
+          # スレッドに属するがターンではないバックグラウンド処理
+          with tracer.start_as_current_span("background_indexing") as bg_span:
+              bg_span.set_attribute("wandb.thread_id", thread_id)
+              # wandb.is_turn は未設定または false - これはターンではない
+              bg_span.set_attribute("wandb.is_turn", False)
+              bg_span.set_attribute("operation", "Indexing conversation history")
+              print(f"Background operation in thread: {thread_id}")
+
+          # 同じスレッド内の実際のターン
+          with tracer.start_as_current_span("user_query") as turn_span:
+              turn_span.set_attribute("wandb.thread_id", thread_id)
+              turn_span.set_attribute("wandb.is_turn", True)
+              turn_span.set_attribute("input.value", "Search my previous conversations")
+              turn_span.set_attribute("output.value", "Found 5 relevant conversations")
+              print(f"Turn completed in thread: {thread_id}")
+
+      def main():
+          example_4_non_turn_operations()
+
+      if __name__ == "__main__":
+          main()
+      ```
+    </Tab>
+
+    <Tab title="TypeScript">
+      ```typescript lines
+      function example_4_non_turn_operations() {
+        console.log("\n=== Example 4: Non-Turn Thread Operations ===");
+
+        const threadId = "thread_background_789";
+
+        // スレッドに属するがターンではないバックグラウンド処理
+        tracer.startActiveSpan("background_indexing", (bgSpan) => {
+          bgSpan.setAttribute("wandb.thread_id", threadId);
+          // wandb.is_turn は未設定または false - これはターンではない
+          bgSpan.setAttribute("wandb.is_turn", false);
+          bgSpan.setAttribute("operation", "Indexing conversation history");
+          console.log(`Background operation in thread: ${threadId}`);
+          bgSpan.end();
+        });
+
+        // 同じスレッド内の実際のターン
+        tracer.startActiveSpan("user_query", (turnSpan) => {
+          turnSpan.setAttribute("wandb.thread_id", threadId);
+          turnSpan.setAttribute("wandb.is_turn", true);
+          turnSpan.setAttribute("input.value", "Search my previous conversations");
+          turnSpan.setAttribute("output.value", "Found 5 relevant conversations");
+          console.log(`Turn completed in thread: ${threadId}`);
+          turnSpan.end();
+        });
+      }
+
+      function main() {
+        example_4_non_turn_operations();
+      }
+
+      main();
+      ```
+    </Tab>
+  </Tabs>
+</Accordion>
+
+これらのトレースを送信すると、Weave UI の **Threads** タブで確認できます。トレースは `thread_id` ごとにグループ化され、各ターンが個別の行として表示されます。
+
+<div id="attribute-mappings">
+  ## 属性マッピング
+</div>
+
+Weave は、さまざまなインストルメンテーションフレームワークからの OpenTelemetry のスパン属性を、内部データモデルに自動的にマッピングします。複数の属性名が同じフィールドにマッピングされる場合、Weave は優先順位の高いものから適用し、異なるフレームワーク同士が同じトレース内で共存できるようにします。
+
+<div id="supported-frameworks">
+  ### サポートされているフレームワーク
+</div>
+
+Weave は、次のオブザーバビリティ用フレームワークおよび SDK の属性規約をサポートします：
+
+* **OpenTelemetry GenAI**：生成 AI 用の標準セマンティック規約（`gen_ai.*`）
+* **OpenInference**：Arize AI のインストルメンテーションライブラリ（`input.value`, `output.value`, `llm.*`, `openinference.*`）
+* **Vercel AI SDK**：Vercel の AI SDK の属性（`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`）
+* **MLflow**：MLflow のトラッキング属性（`mlflow.spanInputs`, `mlflow.spanOutputs`）
+* **Traceloop**：OpenLLMetry のインストルメンテーション（`traceloop.entity.*`, `traceloop.span.kind`）
+* **Google Vertex AI**：Vertex AI エージェントの属性（`gcp.vertex.agent.*`）
+* **OpenLit**：OpenLit のオブザーバビリティ属性（`gen_ai.content.completion`）
+* **Langfuse**：Langfuse のトレーシング属性（`langfuse.startTime`, `langfuse.endTime`）
+
+<div id="attribute-reference">
+  ### 属性リファレンス
+</div>
+
+| 属性フィールド名                          | W&amp;B マッピング                 | 説明                      | 型                         | 例                                              |
+| :-------------------------------- | :---------------------------- | :---------------------- | :------------------------ | :--------------------------------------------- |
+| `ai.prompt`                       | `inputs`                      | ユーザーのプロンプトまたはメッセージ。     | String, list, dict        | `"夏をテーマに短い俳句を書いてください。"`                        |
+| `gen_ai.prompt`                   | `inputs`                      | AI モデルのプロンプトまたはメッセージ配列。 | List, dict, string        | `[{"role":"user","content":"abc"}]`            |
+| `input.value`                     | `inputs`                      | モデル呼び出し用の入力値。           | String, list, dict        | `{"text":"冗談を言って"}`                            |
+| `mlflow.spanInputs`               | `inputs`                      | スパンの入力データ。              | String, list, dict        | `["prompt text"]`                              |
+| `traceloop.entity.input`          | `inputs`                      | エンティティの入力データ。           | String, list, dict        | `"これをフランス語に翻訳してください"`                          |
+| `gcp.vertex.agent.tool_call_args` | `inputs`                      | ツール呼び出しの引数。             | Dict                      | `{"args":{"query":"weather in SF"}}`           |
+| `gcp.vertex.agent.llm_request`    | `inputs`                      | LLM リクエストペイロード。         | Dict                      | `{"contents":[{"role":"user","parts":[...]}]}` |
+| `input`                           | `inputs`                      | 汎用の入力値。                 | String, list, dict        | `"このテキストを要約してください"`                            |
+| `inputs`                          | `inputs`                      | 汎用の入力配列。                | List, dict, string        | `["このテキストを要約してください"]`                          |
+| `ai.response`                     | `outputs`                     | モデルからの応答テキストまたはデータ。     | String, list, dict        | `"こちらが俳句です..."`                                |
+| `gen_ai.completion`               | `outputs`                     | AI 補完の結果。               | String, list, dict        | `"生成テキスト"`                                     |
+| `output.value`                    | `outputs`                     | モデルからの出力値。              | String, list, dict        | `{"text":"Answer text"}`                       |
+| `mlflow.spanOutputs`              | `outputs`                     | スパンの出力データ。              | String, list, dict        | `["answer"]`                                   |
+| `gen_ai.content.completion`       | `outputs`                     | コンテンツ補完の結果。             | String                    | `"Answer text"`                                |
+| `traceloop.entity.output`         | `outputs`                     | エンティティの出力データ。           | String, list, dict        | `"Answer text"`                                |
+| `gcp.vertex.agent.tool_response`  | `outputs`                     | ツール実行のレスポンスデータ。         | Dict, string              | `{"toolResponse":"ok"}`                        |
+| `gcp.vertex.agent.llm_response`   | `outputs`                     | LLM レスポンスペイロード。         | Dict, string              | `{"candidates":[...]}`                         |
+| `output`                          | `outputs`                     | 汎用の出力値。                 | 文字列、リスト、辞書                | `"回答文"`                                        |
+| `outputs`                         | `outputs`                     | 汎用の出力配列。                | リスト、辞書、文字列                | `["回答テキスト"]`                                   |
+| `gen_ai.usage.input_tokens`       | `usage.input_tokens`          | 使用された入力トークン数。           | 整数                        | `42`                                           |
+| `gen_ai.usage.prompt_tokens`      | `usage.prompt_tokens`         | 使用されたプロンプトトークン数。        | 整数                        | `30`                                           |
+| `llm.token_count.prompt`          | `usage.prompt_tokens`         | プロンプトトークン数。             | 整数                        | `30`                                           |
+| `ai.usage.promptTokens`           | `usage.prompt_tokens`         | 使用されたプロンプトトークン数。        | 整数                        | `30`                                           |
+| `gen_ai.usage.completion_tokens`  | `usage.completion_tokens`     | 生成された completion トークン数。 | 整数                        | `40`                                           |
+| `llm.token_count.completion`      | `usage.completion_tokens`     | completion トークンの数。      | 整数                        | `40`                                           |
+| `ai.usage.completionTokens`       | `usage.completion_tokens`     | 生成された completion トークン数。 | 整数                        | `40`                                           |
+| `llm.usage.total_tokens`          | `usage.total_tokens`          | リクエストで使用されたトークンの合計数。    | 整数                        | `70`                                           |
+| `llm.token_count.total`           | `usage.total_tokens`          | トークンの総数。                | 整数                        | `70`                                           |
+| `gen_ai.system`                   | `attributes.system`           | システムプロンプトまたは指示。         | 文字列                       | `"あなたは役に立つアシスタントです。"`                          |
+| `llm.system`                      | `attributes.system`           | システムプロンプトまたは指示。         | 文字列                       | `"あなたは役に立つアシスタントです。"`                          |
+| `weave.span.kind`                 | `attributes.kind`             | スパンの種類またはカテゴリ。          | 文字列                       | `"llm"`                                        |
+| `traceloop.span.kind`             | `attributes.kind`             | スパンの種類またはカテゴリ。          | 文字列                       | `"llm"`                                        |
+| `openinference.span.kind`         | `attributes.kind`             | スパンの種類またはカテゴリ。          | 文字列                       | `"llm"`                                        |
+| `gen_ai.response.model`           | `attributes.model`            | モデル識別子。                 | 文字列                       | `"gpt-4o"`                                     |
+| `llm.model_name`                  | `attributes.model`            | モデル識別子。                 | 文字列                       | `"gpt-4o-mini"`                                |
+| `ai.model.id`                     | `attributes.model`            | モデル識別子。                 | 文字列                       | `"gpt-4o"`                                     |
+| `llm.provider`                    | `attributes.provider`         | モデルプロバイダー名。             | 文字列                       | `"openai"`                                     |
+| `ai.model.provider`               | `attributes.provider`         | モデルプロバイダー名。             | 文字列                       | `"openai"`                                     |
+| `gen_ai.request`                  | `attributes.model_parameters` | モデル生成用パラメータ。            | 辞書型                       | `{"temperature":0.7,"max_tokens":256}`         |
+| `llm.invocation_parameters`       | `attributes.model_parameters` | モデル呼び出し用パラメータ。          | 辞書型                       | `{"temperature":0.2}`                          |
+| `wandb.display_name`              | `display_name`                | UI 用のカスタム表示名。           | 文字列                       | `"ユーザーメッセージ"`                                  |
+| `gcp.vertex.agent.session_id`     | `thread_id`                   | セッションまたはスレッドの識別子。       | 文字列                       | `"thread_123"`                                 |
+| `wandb.thread_id`                 | `thread_id`                   | 会話スレッドの識別子。             | 文字列                       | `"thread_123"`                                 |
+| `wb_run_id`                       | `wb_run_id`                   | 関連する W&amp;B run の識別子。  | 文字列                       | `"abc123"`                                     |
+| `wandb.wb_run_id`                 | `wb_run_id`                   | 関連する W&amp;B run の識別子。  | 文字列                       | `"abc123"`                                     |
+| `gcp.vertex.agent.session_id`     | `is_turn`                     | span を会話のターンとしてマークします。  | ブール値                      | `true`                                         |
+| `wandb.is_turn`                   | `is_turn`                     | span を会話のターンとしてマークします。  | ブール値                      | `true`                                         |
+| `langfuse.startTime`              | `start_time`（上書き）             | span の開始タイムスタンプを上書きします。 | タイムスタンプ (ISO8601/unix ns) | `"2024-01-01T12:00:00Z"`                       |
+| `langfuse.endTime`                | `end_time`（オーバーライド）           | span の終了タイムスタンプを上書きします。 | タイムスタンプ (ISO8601/unix ns) | `"2024-01-01T12:00:01Z"`                       |
+
+<div id="limitations">
+  ## 制限事項
+</div>
+
+* Weave UI は、Chat ビューで OTel トレースのツール呼び出しをレンダリングすることをサポートしていません。代わりに、そのままの JSON として表示されます。

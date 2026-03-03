@@ -1,0 +1,13 @@
+---
+title: ネットワークの問題にどのように対処すればよいですか？
+---
+
+`wandb: Network error (ConnectionError), entering retry loop` のような SSL やネットワークエラーが発生した場合は、次の解決策を試してください。
+
+1. SSL 証明書を更新します。Ubuntu サーバーでは `update-ca-certificates` を実行します。有効な SSL 証明書は、セキュリティリスクを軽減しつつ学習ログを同期するために不可欠です。
+2. ネットワーク接続が不安定な場合は、[オプションの環境変数](/ja/models/track/environment-variables/#optional-environment-variables) `WANDB_MODE` を `offline` に設定してオフラインモードで動作させ、後でインターネット接続のあるデバイスからファイルを同期します。
+3. ローカルで稼働し、クラウドサーバーへの同期を回避できる [W&amp;B Private Hosting](/ja/platform/hosting/) の利用を検討してください。
+
+`SSL CERTIFICATE_VERIFY_FAILED` エラーの場合、この問題は社内ファイアウォールに起因している可能性があります。ローカル CA を設定し、以下を実行してください。
+
+`export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt`

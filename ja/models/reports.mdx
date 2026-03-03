@@ -1,0 +1,68 @@
+---
+description: 機械学習プロジェクト向けの管理およびコラボレーションツール
+title: Reports の概要
+---
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/ja/_includes/try-product-link.mdx';
+
+<CardGroup cols={4}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb" />
+
+  <TryProductLink url="https://wandb.ai/stacey/deep-drive/reports/The-View-from-the-Driver-s-Seat--Vmlldzo1MTg5NQ?utm_source=fully_connected&utm_medium=blog&utm_campaign=view+from+the+drivers+seat" />
+</CardGroup>
+
+W&amp;B Reports を使用すると、次のことができます:
+
+* Runs を整理する。
+* 可視化を埋め込み、自動化する。
+* 得られた知見を記述する。
+* LaTeX の zip ファイルまたは PDF としてエクスポートし、共同編集者と最新情報を共有する。
+
+{/* {% embed url="https://www.youtube.com/watch?v=2xeJIv_K_eI" %} */}
+
+次の画像は、学習の過程で W&amp;B にログされたメトリクスから作成されたレポートの一部を示しています。
+
+<Frame>
+  <img src="/images/reports/safe-lite-benchmark-with-comments.png" alt="W&B report with benchmark results" max-width="90%" />
+</Frame>
+
+上記の画像の元になったレポートは [こちら](https://wandb.ai/stacey/saferlife/reports/SafeLife-Benchmark-Experiments--Vmlldzo0NjE4MzM) から閲覧できます。
+
+<div id="how-it-works">
+  ## 動作概要
+</div>
+
+数回クリックするだけで共同作業用のレポートを作成できます。
+
+1. W&amp;B App で、対象の W&amp;B プロジェクトのワークスペースに移動します。
+2. ワークスペース右上の **Create report** ボタンをクリックします。
+
+<Frame>
+  <img src="/images/reports/create_a_report_button.png" alt="Create report ボタン" max-width="90%" />
+</Frame>
+
+3. **Create Report** というタイトルのモーダルウィンドウが表示されます。レポートに追加したいグラフとパネルを選択します（グラフとパネルは後から追加・削除できます）。
+4. **Create report** をクリックします。
+5. レポートが目的の内容になるまで編集します。
+6. **Publish to project** をクリックします。
+7. **Share** ボタンをクリックして、レポートを共同作業者と共有します。
+
+W&amp;B Python SDK を使って、対話的およびプログラムによってレポートを作成する方法の詳細は、[Create a report](/ja/models/reports/create-a-report/) ページを参照してください。
+
+<div id="how-to-get-started">
+  ## はじめに
+</div>
+
+ユースケースに応じて、W&amp;B Reports を使い始める際は次のリソースを参照してください。
+
+* [ビデオデモ](https://www.youtube.com/watch?v=2xeJIv_K_eI)を視聴して、W&amp;B Reports の概要を把握してください。
+* [Reports ギャラリー](/ja/models/reports/reports-gallery/)で、ライブレポートの例を確認してください。
+* [Programmatic Workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) のノートブックを試して、ワークスペースの作成とカスタマイズ方法を学んでください。
+* [W&amp;B Fully Connected](https://wandb.me/fc) で厳選された Reports を読んでください。
+
+<div id="recommended-practices-and-tips">
+  ## 推奨プラクティスとヒント
+</div>
+
+Experiments とロギングに関するベストプラクティスやヒントについては、[ベストプラクティス: Reports](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#reports) を参照してください。

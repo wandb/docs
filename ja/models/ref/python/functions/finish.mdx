@@ -1,0 +1,32 @@
+---
+title: finish()
+namespace: python_sdk_actions
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+
+
+### <kbd>function</kbd> `finish`
+
+```python
+finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
+```
+
+run を終了し、残りのデータをアップロードします。
+
+W&amp;B run の完了を示し、すべてのデータがサーバーに同期されていることを保証します。run の最終状態は、終了条件と同期ステータスによって決まります。
+
+run の状態:
+
+* Running: データを記録および／またはハートビートを送信しているアクティブな run。
+* Crashed: 予期せずハートビート送信が停止した run。
+* Finished: すべてのデータが同期された状態で (`exit_code=0`) 正常に完了した run。
+* Failed: エラーを伴って終了した run (`exit_code!=0`)。
+
+**引数:**
+
+* `exit_code`:  run の終了ステータスを示す整数。成功時は 0 を使用し、それ以外の値は run が失敗したことを示します。
+* `quiet`:  非推奨。ログの詳細度は `wandb.Settings(quiet=...)` を使って設定してください。

@@ -1,0 +1,121 @@
+---
+description: W&Bを DeepChem ライブラリと統合する方法
+title: DeepChem
+---
+
+import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
+
+[DeepChem library](https://github.com/deepchem/deepchem) は、創薬、材料科学、化学、生物学におけるディープラーニングの活用を民主化するオープンソースツール群を提供します。この W&amp;B インテグレーションを使うと、DeepChem でモデルを学習する際に、シンプルで使いやすい実験トラッキング機能とモデルのチェックポイント機能を追加できます。
+
+<div id="deepchem-logging-in-3-lines-of-code">
+  ## 3行のコードで DeepChem をログに記録する
+</div>
+
+```python
+logger = WandbLogger(…)
+model = TorchModel(…, wandb_logger=logger)
+model.fit(…)
+```
+
+<Frame>
+  <img src="/images/integrations/cd.png" alt="DeepChem による分子解析" />
+</Frame>
+
+<div id="report-and-google-colab">
+  ## レポートと Google Colab
+</div>
+
+W&amp;B DeepChem インテグレーションで生成されたチャートの例については、記事 [Using W&amp;B with DeepChem: Molecular Graph Convolutional Networks](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=) を参照してください。
+
+すぐに実行可能なコードから始めたい場合は、こちらの [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb) を開いてください。
+
+<div id="track-experiments">
+  ## 実験を追跡する
+</div>
+
+[KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) または [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models) タイプの DeepChem モデル用に W&amp;B をセットアップします。
+
+<div id="sign-up-and-create-an-api-key">
+  ### サインアップしてAPIキーを作成する
+</div>
+
+APIキーは、マシンをW&amp;Bに対して認証するためのものです。ユーザープロフィールからAPIキーを生成できます。
+
+<ApiKeyCreateStreamlined />
+
+1. 画面右上のユーザープロフィールアイコンをクリックします。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+
+<div id="install-the-wandb-library-and-log-in">
+  ### `wandb` ライブラリをインストールしてログインする
+</div>
+
+`wandb` ライブラリをローカル環境にインストールしてログインするには、次の手順を実行します。
+
+<Tabs>
+  <Tab title="コマンドライン">
+    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) に自分のAPIキーを設定します。
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` ライブラリをインストールしてログインします。
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python ノートブック">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="log-your-training-and-evaluation-data-to-wb">
+  ### 学習および評価データを W&amp;B にログする
+</div>
+
+学習損失と評価メトリクスは自動的に W&amp;B にログできます。オプションの評価は DeepChem の [ValidationCallback](https://github.com/deepchem/deepchem/blob/master/deepchem/models/callbacks.py) を使って有効化できます。`WandbLogger` は ValidationCallback を検出し、生成されたメトリクスをログします。
+
+<Tabs>
+  <Tab title="TorchModel">
+    ```python
+    from deepchem.models import TorchModel, ValidationCallback
+
+    vc = ValidationCallback(…)  # optional
+    model = TorchModel(…, wandb_logger=logger)
+    model.fit(…, callbacks=[vc])
+    logger.finish()
+    ```
+  </Tab>
+
+  <Tab title="KerasModel">
+    ```python
+    from deepchem.models import KerasModel, ValidationCallback
+
+    vc = ValidationCallback(…)  # optional
+    model = KerasModel(…, wandb_logger=logger)
+    model.fit(…, callbacks=[vc])
+    logger.finish()
+    ```
+  </Tab>
+</Tabs>

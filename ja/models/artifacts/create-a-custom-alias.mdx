@@ -1,0 +1,27 @@
+---
+description: W&amp;B Artifacts にカスタムエイリアスを作成します。
+title: アーティファクトのエイリアスを作成する
+---
+
+エイリアスは特定のバージョンを指すポインタとして使用します。デフォルトでは、`wandb.Run.log_artifact()` はログされたバージョンに `latest` エイリアスを追加します。
+
+W&amp;B は、アーティファクトを初めてログするときにアーティファクトバージョン `v0` を作成し、それをアーティファクトに関連付けます。W&amp;B は同じアーティファクトに対して再度ログしたときに内容のチェックサムを取ります。アーティファクトが変更されていた場合、W&amp;B は新しいバージョン `v1` を保存します。
+
+たとえば、学習スクリプトで最新バージョンのデータセットを取得したい場合、そのアーティファクトを使用するときに `latest` を指定します。次のコード例は、`latest` というエイリアスを持つ `bike-dataset` という名前の最新のデータセットアーティファクトをダウンロードする方法を示しています。
+
+```python
+import wandb
+
+with wandb.init(project="<project>") as run:
+    artifact = run.use_artifact("bike-dataset:latest")
+    artifact.download()
+```
+
+アーティファクトのバージョンには、カスタムエイリアスを適用することもできます。たとえば、モデルチェックポイントが指標 AP-50 で最良であることを示したい場合、モデルのアーティファクトをログするときに、エイリアスとして文字列 `'best-ap50'` を追加できます。
+
+```python
+with wandb.init(project="<project>") as run:
+    artifact = wandb.Artifact("run-3nq3ctyy-bike-model", type="model")
+    artifact.add_file("model.h5")
+    run.log_artifact(artifact, aliases=["latest", "best-ap50"])
+```

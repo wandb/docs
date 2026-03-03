@@ -1,0 +1,50 @@
+---
+title: OnRunState
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+
+## <kbd>class</kbd> `OnRunState`
+
+run の状態が変化したときに発火するイベントです。
+
+例:
+プロジェクト &quot;my-project&quot; 内の任意の run で、状態が &quot;finished&quot;（すなわち成功）または &quot;failed&quot; に変化したときにトリガーされるイベントを定義します:
+
+```python
+from wandb import Api
+from wandb.automations import OnRunState
+
+api = Api()
+project = api.project(name="my-project")
+
+event = OnRunState(
+    scope=project,
+    filter=RunEvent.state.in_(["finished", "failed"]),
+)
+```
+
+
+### <kbd>method</kbd> `OnRunState.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[RUN_STATE]' = RUN_STATE,
+    scope: 'ProjectScope',
+    filter: 'RunStateFilter'
+) → None
+```
+
+**引数:**
+
+* `event_type` (Literal[RUN&#95;STATE]):
+* `scope` (ProjectScope): イベントのスコープ。必ずプロジェクトである必要があります。
+* `filter` (RunStateFilter): このイベントがトリガーされるために満たす必要がある run の状態に関する条件。
+
+**戻り値:**
+`OnRunState` オブジェクト。

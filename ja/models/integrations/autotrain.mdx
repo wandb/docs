@@ -1,0 +1,137 @@
+---
+title: Hugging Face AutoTrain
+---
+
+[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) は、自然言語処理 (NLP)、コンピュータビジョン (CV)、音声、さらには表形式データのタスク向けに、最先端のモデルをノーコードで学習できるツールです。
+
+[W&amp;B](https://wandb.com/) は Hugging Face AutoTrain に直接インテグレーションされており、実験のトラッキングと設定管理を提供します。Experiments 用の CLI コマンドにパラメータを 1 つ追加するだけで利用できます。
+
+<Frame>
+  <img src="/images/integrations/hf-autotrain-1.png" alt="Experiment メトリクスのログ記録" />
+</Frame>
+
+<div id="install-prerequisites">
+  ## 前提ツールをインストールする
+</div>
+
+`autotrain-advanced` と `wandb` をインストールします。
+
+<Tabs>
+  <Tab title="Command Line">
+    ```shell
+    pip install --upgrade autotrain-advanced wandb
+    ```
+  </Tab>
+
+  <Tab title="Notebook">
+    ```notebook
+    !pip install --upgrade autotrain-advanced wandb
+    ```
+  </Tab>
+</Tabs>
+
+これらの変更を実演するために、このページでは数学のデータセットで LLM をファインチューニングし、[GSM8k Benchmarks](https://github.com/openai/grade-school-math) における `pass@1` の SoTA（state-of-the-art）結果を達成します。
+
+<div id="prepare-the-dataset">
+  ## データセットを準備する
+</div>
+
+Hugging Face AutoTrain は、CSV 形式のカスタムデータセットが正しく動作するよう、特定のフォーマットになっていることを想定しています。
+
+* 学習用ファイルには、学習に使用される `text` 列を含める必要があります。最良の結果を得るには、`text` 列のデータを `### Human: Question?### Assistant: Answer.` という形式に揃えてください。優れた例として、[`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco) を参照してください。
+
+  ただし、[MetaMathQA データセット](https://huggingface.co/datasets/meta-math/MetaMathQA) には、`query`、`response`、`type` 列が含まれています。まず、このデータセットを前処理します。`type` 列を削除し、`query` 列と `response` 列の内容を結合して、新しい `text` 列を作成し、その内容を `### Human: Query?### Assistant: Response.` という形式にします。学習では、この前処理後のデータセット [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath) を使用します。
+
+<div id="train-using-autotrain">
+  ## `autotrain` を使って学習する
+</div>
+
+コマンドラインまたはノートブックから `autotrain` を使って学習を開始できます。`--log` 引数を使用するか、`--log wandb` を指定して結果を [W&amp;B Run](/ja/models/runs/) に記録します。
+
+<Tabs>
+  <Tab title="コマンドライン">
+    ```shell
+    autotrain llm \
+        --train \
+        --model HuggingFaceH4/zephyr-7b-alpha \
+        --project-name zephyr-math \
+        --log wandb \
+        --data-path data/ \
+        --text-column text \
+        --lr 2e-5 \
+        --batch-size 4 \
+        --epochs 3 \
+        --block-size 1024 \
+        --warmup-ratio 0.03 \
+        --lora-r 16 \
+        --lora-alpha 32 \
+        --lora-dropout 0.05 \
+        --weight-decay 0.0 \
+        --gradient-accumulation 4 \
+        --logging_steps 10 \
+        --fp16 \
+        --use-peft \
+        --use-int4 \
+        --merge-adapter \
+        --push-to-hub \
+        --token <huggingface-token> \
+        --repo-id <huggingface-repository-address>
+    ```
+  </Tab>
+
+  <Tab title="ノートブック">
+    ```notebook
+    # ハイパーパラメータを設定
+    learning_rate = 2e-5
+    num_epochs = 3
+    batch_size = 4
+    block_size = 1024
+    trainer = "sft"
+    warmup_ratio = 0.03
+    weight_decay = 0.
+    gradient_accumulation = 4
+    lora_r = 16
+    lora_alpha = 32
+    lora_dropout = 0.05
+    logging_steps = 10
+
+    # 学習を実行
+    !autotrain llm \
+        --train \
+        --model "HuggingFaceH4/zephyr-7b-alpha" \
+        --project-name "zephyr-math" \
+        --log "wandb" \
+        --data-path data/ \
+        --text-column text \
+        --lr str(learning_rate) \
+        --batch-size str(batch_size) \
+        --epochs str(num_epochs) \
+        --block-size str(block_size) \
+        --warmup-ratio str(warmup_ratio) \
+        --lora-r str(lora_r) \
+        --lora-alpha str(lora_alpha) \
+        --lora-dropout str(lora_dropout) \
+        --weight-decay str(weight_decay) \
+        --gradient-accumulation str(gradient_accumulation) \
+        --logging-steps str(logging_steps) \
+        --fp16 \
+        --use-peft \
+        --use-int4 \
+        --merge-adapter \
+        --push-to-hub \
+        --token str(hf_token) \
+        --repo-id "rishiraj/zephyr-math"
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  <img src="/images/integrations/hf-autotrain-2.gif" alt="実験設定の保存" />
+</Frame>
+
+<div id="more-resources">
+  ## さらに学ぶためのリソース
+</div>
+
+* [AutoTrain Advanced が Experiment Tracking をサポートしました](https://huggingface.co/blog/rishiraj/log-autotrain)（著者: [Rishiraj Acharya](https://huggingface.co/rishiraj)）
+* [Hugging Face AutoTrain ドキュメント](https://huggingface.co/docs/autotrain/index)

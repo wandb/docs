@@ -1,0 +1,279 @@
+---
+title: W&B Weave と W&B Tables でモデルを評価する
+description: W&B Weave と Tables を使った機械学習モデルの評価方法について説明します。
+---
+
+<div id="evaluate-models-with-weave">
+  ## Weave でモデルを評価する
+</div>
+
+[W&amp;B Weave](/ja/weave) は、LLM や GenAI アプリケーションを評価するための専用ツールキットです。スコアラーやジャッジ、詳細なトレースなどを含む包括的な評価機能を提供し、モデルのパフォーマンスを理解・改善するのに役立ちます。Weave は W&amp;B Models と連携し、Model Registry に保存されたモデルを評価できるようになります。
+
+<Frame>
+  <img src="/images/weave/evals.png" alt="モデルのパフォーマンスメトリクスとトレースを表示する Weave の評価ダッシュボード" />
+</Frame>
+
+<div id="key-features-for-model-evaluation">
+  ### モデル評価の主な機能
+</div>
+
+* **Scorers と judges**: 正確性、関連性、一貫性などを評価するための、あらかじめ用意されたものとカスタムの評価メトリクス
+* **Evaluation データセット**: 系統的な評価のための、正解ラベル付きの構造化テストセット
+* **モデルバージョニング**: 異なるバージョンのモデルを追跡・比較
+* **詳細なトレース**: 完全な入出力トレースによるモデル挙動のデバッグ
+* **コストトラッキング**: 評価全体にわたる API コストとトークン使用量の監視
+
+<div id="getting-started-evaluate-a-model-from-wb-registry">
+  ### はじめに：W&amp;B Registry のモデルを評価する
+</div>
+
+W&amp;B Models Registry からモデルをダウンロードし、Weave を使って評価します。
+
+```python
+import weave
+import wandb
+from typing import Any
+
+# Weave を初期化する
+weave.init("your-entity/your-project")
+
+# W&B Registry から読み込む ChatModel を定義する
+class ChatModel(weave.Model):
+    model_name: str
+    
+    def model_post_init(self, __context):
+        # W&B Models Registry からモデルをダウンロードする
+        with wandb.init(project="your-project", job_type="model_download") as run:
+            artifact = run.use_artifact(self.model_name)
+            self.model_path = artifact.download()
+            # ここでモデルを初期化する
+    
+    @weave.op()
+    async def predict(self, query: str) -> str:
+        # モデルの推論ロジック
+        return self.model.generate(query)
+
+# 評価用データセットを作成する
+dataset = weave.Dataset(name="eval_dataset", rows=[
+    {"input": "What is the capital of France?", "expected": "Paris"},
+    {"input": "What is 2+2?", "expected": "4"},
+])
+
+# スコアラーを定義する
+@weave.op()
+def exact_match_scorer(expected: str, output: str) -> dict:
+    return {"correct": expected.lower() == output.lower()}
+
+# 評価を実行する
+model = ChatModel(model_name="wandb-entity/registry-name/model:version")
+evaluation = weave.Evaluation(
+    dataset=dataset,
+    scorers=[exact_match_scorer]
+)
+results = await evaluation.evaluate(model)
+```
+
+<div id="integrate-weave-evaluations-with-wb-models">
+  ### Weave の評価を W&amp;B Models と連携させる
+</div>
+
+[Models and Weave Integration Demo](/ja/weave/cookbooks/Models_and_Weave_Integration_Demo) では、次のような一連のワークフローを確認できます:
+
+1. **Registry からモデルを読み込む**: W&amp;B Models Registry に保存されているファインチューニング済みモデルをダウンロードする
+2. **評価パイプラインを作成する**: カスタムスコアラーを使って包括的な評価を構築する
+3. **結果を W&amp;B にログする**: 評価メトリクスをモデルの run と関連付ける
+4. **評価済みモデルにバージョンを付ける**: 改良したモデルを Registry に保存し直す
+
+Weave と W&amp;B Models の両方に評価結果をログします:
+
+```python
+# W&B トラッキングで評価を実行
+with weave.attributes({"wandb-run-id": wandb.run.id}):
+    summary, call = await evaluation.evaluate.call(evaluation, model)
+
+# W&B Models にメトリクスを記録
+wandb.run.log(summary)
+wandb.run.config.update({
+    "weave_eval_url": f"https://wandb.ai/{entity}/{project}/r/call/{call.id}"
+})
+```
+
+<div id="advanced-weave-features">
+  ### Weave の高度な機能
+</div>
+
+<div id="custom-scorers-and-judges">
+  #### カスタムスコアラーとジャッジ
+</div>
+
+ユースケースに合わせて設計された高度な評価メトリクスを作成できます。
+
+```python
+@weave.op()
+def llm_judge_scorer(expected: str, output: str, judge_model) -> dict:
+    prompt = f"Is this answer correct? Expected: {expected}, Got: {output}"
+    judgment = await judge_model.predict(prompt)
+    return {"judge_score": judgment}
+```
+
+<div id="batch-evaluations">
+  #### バッチ評価
+</div>
+
+複数のモデルバージョンや設定を一括で評価します：
+
+```python
+models = [
+    ChatModel(model_name="model:v1"),
+    ChatModel(model_name="model:v2"),
+]
+
+for model in models:
+    results = await evaluation.evaluate(model)
+    print(f"{model.model_name}: {results}")
+```
+
+<div id="next-steps">
+  ### 次のステップ
+</div>
+
+* [Weave 評価チュートリアルを完了する](/ja/weave/tutorial-eval/)
+* [Models と Weave のインテグレーションの例](/ja/weave/cookbooks/Models_and_Weave_Integration_Demo)
+
+<div id="evaluate-models-with-tables">
+  ## テーブルでモデルを評価する
+</div>
+
+W&amp;B Tables を使うと、次のことができます。
+
+* **モデル予測を比較する**: 同じテストセットに対する異なるモデルの性能を、並べて比較表示する
+* **予測の変化を追跡する**: エポックをまたぐ学習過程やモデルバージョン間で、予測がどのように変化するかをモニタリングする
+* **エラーを分析する**: よく誤分類されるサンプルやエラーパターンを見つけるために、フィルタやクエリを使う
+* **リッチメディアを可視化する**: 画像、音声、テキストなどの各種メディアを、予測結果やメトリクスと並べて表示する
+
+<Frame>
+  ![モデルの出力と正解ラベルが並んだ予測テーブルの例](/images/data_vis/tables_sample_predictions.png)
+</Frame>
+
+<div id="basic-example-log-evaluation-results">
+  ### 基本例: 評価結果をログとして記録する
+</div>
+
+```python
+import wandb
+
+# runを初期化する
+run = wandb.init(project="model-evaluation")
+
+# 評価結果のテーブルを作成する
+columns = ["id", "input", "ground_truth", "prediction", "confidence", "correct"]
+eval_table = wandb.Table(columns=columns)
+
+# 評価データを追加する
+for idx, (input_data, label) in enumerate(test_dataset):
+    prediction = model(input_data)
+    confidence = prediction.max()
+    predicted_class = prediction.argmax()
+    
+    eval_table.add_data(
+        idx,
+        wandb.Image(input_data),  # 画像またはその他のメディアをログする
+        label,
+        predicted_class,
+        confidence,
+        label == predicted_class
+    )
+
+# テーブルをログする
+run.log({"evaluation_results": eval_table})
+```
+
+<div id="advanced-table-workflows">
+  ### テーブルの高度なワークフロー
+</div>
+
+<div id="compare-multiple-models">
+  #### 複数のモデルを比較する
+</div>
+
+異なるモデルの評価テーブルを同じキーでログして、直接比較できるようにします。
+
+```python
+# モデル A の評価
+with wandb.init(project="model-comparison", name="model_a") as run:
+    eval_table_a = create_eval_table(model_a, test_data)
+    run.log({"test_predictions": eval_table_a})
+
+# モデル B の評価  
+with wandb.init(project="model-comparison", name="model_b") as run:
+    eval_table_b = create_eval_table(model_b, test_data)
+    run.log({"test_predictions": eval_table_b})
+```
+
+<Frame>
+  ![学習エポックごとのモデル予測のサイドバイサイド比較](/images/data_vis/table_comparison.png)
+</Frame>
+
+<div id="track-predictions-over-time">
+  #### 予測を経時的に追跡する
+</div>
+
+異なる学習エポックごとにテーブルをログして、改善の様子を可視化します。
+
+```python
+for epoch in range(num_epochs):
+    train_model(model, train_data)
+    
+    # このエポックの予測を評価してログに記録する
+    eval_table = wandb.Table(columns=["image", "truth", "prediction"])
+    for image, label in test_subset:
+        pred = model(image)
+        eval_table.add_data(wandb.Image(image), label, pred.argmax())
+    
+    wandb.log({f"predictions_epoch_{epoch}": eval_table})
+```
+
+<div id="interactive-analysis-in-the-wb-ui">
+  ### W&amp;B UI でのインタラクティブな分析
+</div>
+
+ログした後は、次のことができます：
+
+1. **結果をフィルター**：列ヘッダーをクリックして、予測精度、信頼度のしきい値、特定のクラスで絞り込みます
+2. **テーブルを比較**：複数のテーブルバージョンを選択して、並べて比較できます
+3. **データをクエリ**：クエリバーを使って特定のパターンを検索します（例: `"correct" = false AND "confidence" > 0.8`）
+4. **グループ化と集計**：予測されたクラスごとにグループ化して、クラスごとの精度メトリクスを確認します
+
+<Frame>
+  ![W\&B Tables における評価結果のインタラクティブなフィルタリングとクエリ](/images/data_vis/wandb_demo_filter_on_a_table.png)
+</Frame>
+
+<div id="example-error-analysis-with-enriched-tables">
+  ### 例：拡張テーブルを使ったエラー分析
+</div>
+
+```python
+# 分析列を追加するためのミュータブルテーブルを作成する
+eval_table = wandb.Table(
+    columns=["id", "image", "label", "prediction"],
+    log_mode="MUTABLE"  # 後から列を追加できる
+)
+
+# 初期予測
+for idx, (img, label) in enumerate(test_data):
+    pred = model(img)
+    eval_table.add_data(idx, wandb.Image(img), label, pred.argmax())
+
+run.log({"eval_analysis": eval_table})
+
+# エラー分析用の信頼度スコアを追加する
+confidences = [model(img).max() for img, _ in test_data]
+eval_table.add_column("confidence", confidences)
+
+# エラータイプを追加する
+error_types = classify_errors(eval_table.get_column("label"), 
+                            eval_table.get_column("prediction"))
+eval_table.add_column("error_type", error_types)
+
+run.log({"eval_analysis": eval_table})
+```

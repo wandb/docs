@@ -1,0 +1,63 @@
+---
+title: データ型の概要
+description: メディアおよび構造化データをログするための W&B Python SDK におけるデータ型
+module: wandb.sdk.data_types
+no_list: true
+---
+
+W&amp;B のデータ型は、run へのログ記録のためにメディアや構造化データをカプセル化するクラスです。これらには W&amp;B UI の可視化コンポーネントが含まれ、データのシリアル化、保存、および取得を処理します。
+
+<div id="available-data-types">
+  ## 利用可能なデータ型
+</div>
+
+| Data Type | Description |
+|-----------|-------------|
+| [`Image`](/ja/models/ref/python/data-types/image) | マスク、バウンディングボックス、セグメンテーション付きの画像をログします。 |
+| [`Video`](/ja/models/ref/python/data-types/video) | モデル出力やデータセットサンプルの動画データをログします。 |
+| [`Audio`](/ja/models/ref/python/data-types/audio) | 音声処理タスクで使用する音声サンプルをログします。 |
+| [`Table`](/ja/models/ref/python/data-types/table) | 異なる種類のメディアを含むテーブルを作成します。 |
+| [`Plotly`](/ja/models/ref/python/data-types/plotly) | Data Visualization 用の Plotly チャートをログします。 |
+| [`Html`](/ja/models/ref/python/data-types/html) | カスタム HTML コンテンツを埋め込みます。 |
+| [`Object3D`](/ja/models/ref/python/data-types/object3d) | 3D ポイントクラウドとメッシュを可視化します。 |
+| [`Molecule`](/ja/models/ref/python/data-types/molecule) | 計算化学で使用する分子構造をログします。 |
+
+<div id="examples">
+  ## 例
+</div>
+
+この例では `Image` を使用します。
+
+```python
+import wandb
+import matplotlib.pyplot as plt
+
+# デモ用の画像を生成する
+path_to_img = "/path/to/cafe.png"
+im = plt.imread(path_to_img)
+
+# 新しいrunを初期化する
+with wandb.init(project="awesome-project") as run:
+
+    # 画像をログに記録する
+    run.log({"img": [wandb.Image(im, caption="Cafe")]})
+```
+
+この例では、`Table` を使用して、テキストとラベルが混在するテーブルをログに記録します。
+
+```python
+import wandb
+
+# 新しいrunを初期化する
+with wandb.init(project="visualize-predictions", name="tables") as run:
+
+    # リストのリストを使用して表形式データを作成する
+    data = [["Cat", "1", "1"],["Dog", "0", "-1"]]
+    run.log({"Table 1": wandb.Table(data=data, columns=["Text", "Predicted Label", "True Label"])})
+
+    # `wandb.Table.add_data()` メソッドを使用して表形式データを作成する
+    table = wandb.Table(columns=["Text", "Predicted Label", "True Label"])
+    table.add_data("Cat", "1", "1")
+    table.add_data("Dog", "0", "-1")
+    run.log({"Table 2": table})
+```

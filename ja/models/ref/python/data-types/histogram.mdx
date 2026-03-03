@@ -1,0 +1,57 @@
+---
+title: ヒストグラム
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py" />
+
+
+## <kbd>class</kbd> `Histogram`
+
+ヒストグラム用の W&B クラス。
+
+このオブジェクトは、NumPy の histogram 関数 https://numpy.org/doc/stable/reference/generated/numpy.histogram.html と同様に動作します。
+
+**属性:**
+
+- `bins` ([float]): ビンの境界値。
+ - `histogram` ([int]): 各ビンに入る要素数。 
+
+### <kbd>メソッド</kbd> `Histogram.__init__`
+
+```python
+__init__(
+    sequence: Optional[Sequence] = None,
+    np_histogram: Optional[ForwardRef('NumpyHistogram')] = None,
+    num_bins: int = 64
+) → None
+```
+
+Histogram オブジェクトを初期化します。
+
+**Args:**
+sequence: ヒストグラムの入力データ列。np&#95;histogram: 事前計算済みのヒストグラムを入力として与えるための代替引数。num&#95;bins: ヒストグラムのビン数。デフォルトのビン数は 64 です。ビン数の最大値は 512 です。
+
+**Examples:**
+シーケンスからヒストグラムを生成します。
+
+```python
+import wandb
+
+wandb.Histogram([1, 2, 3])
+```
+
+np.histogram の結果から効率的に初期化します。
+
+```python
+import numpy as np
+import wandb
+
+hist = np.histogram(data)
+wandb.Histogram(np_histogram=hist)
+```
+
+***

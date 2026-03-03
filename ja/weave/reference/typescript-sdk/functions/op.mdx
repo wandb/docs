@@ -1,0 +1,146 @@
+---
+title: "op"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="op">
+  # op
+</div>
+
+▸ **op**\<`T`\>(`fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+
+<div id="type-parameters">
+  #### 型パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `fn` | `T` |
+| `options?` | `OpOptions`\<`T`\> |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Op`](../type-aliases/op)\<`T`\>
+
+#### 定義元
+
+[op.ts:369](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L369)
+
+▸ **op**\<`T`\>(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+
+<div id="type-parameters">
+  #### 型パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `thisArg` | `any` |
+| `fn` | `T` |
+| `options?` | `OpOptions`\<`T`\> |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Op`](../type-aliases/op)\<`T`\>
+
+#### 定義元
+
+[op.ts:374](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L374)
+
+▸ **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`\<`any`\>
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `target` | `Object` |
+| `propertyKey` | `string` \| `symbol` |
+| `descriptor` | `TypedPropertyDescriptor`\<`any`\> |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`TypedPropertyDescriptor`\<`any`\>
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[op.ts:380](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L380)
+
+▸ **op**\<`T`\>(`value`, `context`): [`Op`](../type-aliases/op)\<`T`\>
+
+<div id="type-parameters">
+  #### 型パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `value` | `T` |
+| `context` | `MethodDecoratorContext` |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+[`Op`](../type-aliases/op)\<`T`\>
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[op.ts:386](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L386)
+
+▸ **op**(`options`): `MethodDecorator`
+
+<div id="parameters">
+  #### パラメータ
+</div>
+
+| 名前 | 型 |
+| :------ | :------ |
+| `options` | `Partial`\<`OpOptions`\<`any`\>\> |
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`MethodDecorator`
+
+<div id="defined-in">
+  #### 定義場所
+</div>
+
+[op.ts:391](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L391)
+
+___

@@ -1,0 +1,153 @@
+---
+title: スイープ
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
+
+
+## <kbd>class</kbd> `Sweep`
+
+スイープに関連付けられた run の集合。 
+
+**属性:**
+
+- `runs` (Runs):  run のリスト 
+ - `id` (str):  Sweep ID 
+ - `project` (str):  スイープが属するプロジェクト名 
+ - `config` (dict):  スイープの設定を含む辞書 
+ - `state` (str):  スイープの状態。"Finished"、"Failed"、"Crashed"、"Running" のいずれか 
+ - `expected_run_count` (int):  スイープに対して想定される run の数 
+
+### <kbd>メソッド</kbd> `Sweep.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    sweep_id: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
+)
+```
+
+***
+
+
+### <kbd>property</kbd> Sweep.config
+
+このスイープで使用される設定。 
+
+---
+
+### <kbd>property</kbd> Sweep.entity
+
+スイープに関連付けられているエンティティ。
+
+**戻り値:**
+
+- `str`: エンティティ プロパティの値。
+
+---
+
+### <kbd>property</kbd> Sweep.expected_run_count
+
+スイープで予定されている run の数を返します。run 回数が無制限の場合は None を返します。
+
+**戻り値:**
+
+- `int | None`: expected_run_count プロパティの値。
+---
+
+### <kbd>property</kbd> Sweep.name
+
+スイープの名前。 
+
+以下の優先順位で、存在する最初の名前を返します: 
+
+1. ユーザーが編集した表示名 2. 作成時に設定された名前 3. スイープ ID 
+
+---
+
+### <kbd>property</kbd> Sweep.order
+
+このスイープの順序キーを返します。 
+
+---
+
+### <kbd>property</kbd> Sweep.path
+
+プロジェクトのパスを返します。
+
+パスは、エンティティ、プロジェクト名、スイープ ID からなるリストです。
+
+---
+
+### <kbd>property</kbd> Sweep.url
+
+スイープの URL。 
+
+スイープの URL は、エンティティ、プロジェクト、文字列 "sweeps"、および sweep ID.run_id を組み合わせて生成されます。SaaS のユーザーの場合、`https://wandb.ai/entity/project/sweeps/sweeps_ID` の形式になります。 
+
+---
+
+### <kbd>property</kbd> Sweep.username
+
+非推奨です。代わりに `Sweep.entity` を使用してください。
+
+**戻り値:**
+
+- `str`: `username` プロパティの値。
+
+---
+
+### <kbd>method</kbd> `Sweep.best_run`
+
+```python
+best_run(order=None)
+```
+
+config で定義された metric、または引数で指定された順序でソートされた run の中から、最も良い run を返します。
+
+***
+
+
+### <kbd>classmethod</kbd> `Sweep.get`
+
+```python
+get(
+    client: 'RetryingClient',
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    sid: 'str | None' = None,
+    order: 'str | None' = None,
+    query: 'Document | None' = None,
+    **kwargs
+)
+```
+
+クラウドバックエンドに対してクエリを実行します。
+
+**引数:**
+
+* `client`:  クエリの実行に使用するクライアント。
+* `entity`:  プロジェクトを所有するエンティティ（ユーザー名またはチーム）。
+* `project`:  スイープを取得するプロジェクト名。
+* `sid`:  照会するスイープ ID。
+* `order`:  スイープに含まれる run が返される順序。
+* `query`:  クエリの実行に使用するクエリ。
+* `**kwargs`:  クエリに渡す追加のキーワード引数。
+
+***
+
+
+### <kbd>method</kbd> `Sweep.to_html`
+
+```python
+to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+```
+
+iframe でこのスイープを表示する HTML を生成します。

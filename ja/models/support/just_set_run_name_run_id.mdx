@@ -1,0 +1,13 @@
+---
+title: run 名を run ID に設定することはできますか？
+---
+
+はい。run 名を run ID に上書きするには、次のコードスニペットを使用します。
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run.name = run.id
+   run.save()
+```

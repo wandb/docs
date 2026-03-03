@@ -1,0 +1,155 @@
+---
+title: "コストの追跡"
+description: "Weave における LLM オペレーションのコストを追跡および管理します"
+---
+
+<div id="adding-a-custom-cost">
+  ## カスタムコストの追加
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    [`add_cost`](/ja/weave/reference/python-sdk/trace/weave_client#method-add-cost) メソッドを使ってカスタムコストを追加できます。
+    必須フィールドは `llm_id`、`prompt_token_cost`、`completion_token_cost` の3つです。
+    `llm_id` は LLM の名前です（例: `gpt-4o`）。`prompt_token_cost` と `completion_token_cost` は LLM のトークンあたりのコストです（LLM の料金が100万トークンあたりで指定されている場合は、その値をトークン単価に変換してください）。
+    また、`effective_date` に日時を設定して、特定の日付からコストを有効にすることもできます。指定しない場合は現在の日付が使われます。
+
+    ```python lines
+    import weave
+    from datetime import datetime
+
+    client = weave.init("my_custom_cost_model")
+
+    client.add_cost(
+        llm_id="your_model_name",
+        prompt_token_cost=0.01,
+        completion_token_cost=0.02
+    )
+
+    client.add_cost(
+        llm_id="your_model_name",
+        prompt_token_cost=10,
+        completion_token_cost=20,
+        # たとえば、ある日付以降にモデルの価格を上げたい場合
+        effective_date=datetime(2025, 4, 22),
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。続報をお待ちください。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="querying-for-costs">
+  ## コストのクエリ実行
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    [`query_costs`](/ja/weave/reference/python-sdk/trace/weave_client#method-query-costs) メソッドを使用してコストを取得できます。
+    コストを問い合わせる方法はいくつかあり、単一のコスト ID を渡すことも、LLM モデル名のリストを渡すこともできます。
+
+    ```python lines
+    import weave
+
+    client = weave.init("my_custom_cost_model")
+
+    costs = client.query_costs(llm_ids=["your_model_name"])
+
+    cost = client.query_costs(costs[0].id)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は現時点では TypeScript では利用できません。今後の対応にご期待ください。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="purging-a-custom-cost">
+  ## カスタムコストの削除
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    [`purge_costs`](/ja/weave/reference/python-sdk/trace/weave_client#method-purge-costs) メソッドを使用してカスタムコストを削除できます。コストIDのリストを渡すことで、そのIDを持つコストが削除されます。
+
+    ```python lines
+    import weave
+
+    client = weave.init("my_custom_cost_model")
+
+    costs = client.query_costs(llm_ids=["your_model_name"])
+    client.purge_costs([cost.id for cost in costs])
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。続報をお待ちください。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="calculating-costs-for-a-project">
+  ## プロジェクトのコストを計算する
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    少しセットアップを行えば、`calls_query` を使用して `include_costs=True` を指定することで、プロジェクトのコストを計算できます。
+
+    ```python lines
+    import weave
+
+    weave.init("project_costs")
+    @weave.op()
+    def get_costs_for_project(project_name: str):
+        total_cost = 0
+        requests = 0
+
+        client = weave.init(project_name)
+        # プロジェクト内のすべてのコールを取得
+        calls = list(
+            client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
+        )
+
+        for call in calls:
+            # コールにコスト情報があれば、合計コストに加算する
+            if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
+                for k, cost in call.summary["weave"]["costs"].items():
+                    requests += cost["requests"]
+                    total_cost += cost["prompt_tokens_total_cost"]
+                    total_cost += cost["completion_tokens_total_cost"]
+
+        # 合計コスト、リクエスト数、コール数を返す
+        return {
+            "total_cost": total_cost,
+            "requests": requests,
+            "calls": len(calls),
+        }
+
+    # 関数に @weave.op() を付けているので、
+    # これらの合計値は履歴コストの集計に使えるように weave に保存される
+    get_costs_for_project("my_custom_cost_model")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。続報をお待ちください。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="setting-up-a-custom-model-with-custom-costs">
+  ## カスタムコストを設定したカスタムモデルのセットアップ
+</div>
+
+[カスタムモデルでコストを設定する](/ja/weave/cookbooks/custom_model_cost)ためのクックブックを参照してください。
+
+<Card title="Colab で試す" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python" />

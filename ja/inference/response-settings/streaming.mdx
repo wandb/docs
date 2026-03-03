@@ -1,0 +1,51 @@
+---
+title: "ストリーミング応答を有効にする"
+description: W&B Inference でストリーミング出力を使用する方法
+---
+
+モデルが応答を生成するのに時間がかかることがあります。
+`stream` オプションを true に設定すると、応答をチャンクのストリームとして受け取ることができ、
+応答がすべて生成されるのを待つのではなく、結果を段階的に表示できるようになります。
+
+ストリーミング出力は、すべてのホスト型モデルでサポートされています。特に [reasoning models](./reasoning) での使用を推奨します。ストリーミングしないリクエストでは、モデルが出力を開始する前に長時間「思考」した場合にタイムアウトする可能性があるためです。
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="<your-api-key>",  # https://wandb.ai/settings で APIキー を作成
+    )
+
+    stream = client.chat.completions.create(
+        model="openai/gpt-oss-120b",
+        messages=[
+            {"role": "user", "content": "Tell me a rambling joke"}
+        ],
+        stream=True,
+    )
+
+    for chunk in stream:
+        if chunk.choices:
+            print(chunk.choices[0].delta.content or "", end="", flush=True)
+        else:
+            print(chunk) # CompletionUsage オブジェクトを表示
+    ```
+  </Tab>
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "openai/gpt-oss-120b",
+        "messages": [
+          { "role": "user", "content": "Tell me a rambling joke" }
+        ],
+        "stream": true
+      }'
+    ```
+  </Tab>
+</Tabs>

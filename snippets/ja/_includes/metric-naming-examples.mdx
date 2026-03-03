@@ -1,0 +1,21 @@
+---
+title: メトリクス名の例
+---
+
+**有効なメトリクス名:**
+
+```python
+with wandb.init() as run:
+  run.log({"accuracy": 0.9, "val_loss": 0.1, "epoch_5": 5})
+  run.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
+```
+
+**無効なメトリクス名（以下の名前は使用しないでください）：**
+
+```python
+with wandb.init() as run:
+  run.log({"acc,val": 0.9})  # カンマを含む
+  run.log({"loss-train": 0.1})  # ハイフンを含む
+  run.log({"test acc": 0.95})  # スペースを含む
+  run.log({"5_fold_cv": 0.8})  # 数字で始まる
+```

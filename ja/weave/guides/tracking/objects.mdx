@@ -1,0 +1,130 @@
+---
+title: "オブジェクトのトラッキングとバージョン管理"
+description: "Weave で任意の JSON シリアライズ可能なオブジェクトをトラッキングし、バージョン管理する"
+---
+
+<div id="objects">
+  ## オブジェクト
+</div>
+
+**オブジェクト**は、バージョン管理されたシリアライズ可能なデータです。Weave はオブジェクトが変更されるたびに自動的にバージョンを付与し、不変の履歴を作成します。オブジェクトには次のものが含まれます：
+
+* **Datasets**: 評価用のサンプルの集合
+* **Models**: LLM ロジックの設定とパラメータ
+* **Prompts**: バージョン管理されたプロンプトテンプレート
+
+```python
+dataset = weave.Dataset(
+    name="test-cases",
+    rows=[
+        {"input": "What is 2+2?", "expected": "4"},
+        {"input": "What is the capital of France?", "expected": "Paris"},
+    ]
+)
+weave.publish(dataset)
+```
+
+
+<div id="publishing-an-object">
+  ## オブジェクトのパブリッシュ
+</div>
+
+Weave のシリアライゼーションレイヤーは、オブジェクトを保存し、バージョン管理します。
+
+<Tabs>
+  <Tab title="Python">
+
+    ```python lines
+    import weave
+    # プロジェクト 'intro-example' へのトラッキングを初期化します
+    weave.init('intro-example')
+    # リストを保存し、名前 'cat-names' を付けます
+    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    TypeScript におけるパブリッシュはまだ初期段階のため、すべてのオブジェクトが完全にサポートされているわけではありません。
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    // プロジェクト 'intro-example' へのトラッキングを初期化します
+    const client = await weave.init('intro-example')
+
+    // 配列を保存し、名前 'cat-names' を付けます
+    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+
+  </Tab>
+</Tabs>
+
+オブジェクトを名前付きで保存すると、そのオブジェクトがまだ存在しない場合は、そのオブジェクトの最初のバージョンが作成されます。
+
+<div id="getting-an-object-back">
+  ## オブジェクトを取得する
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    `weave.publish` は Ref を返します。任意の Ref に対して `.get()` を呼び出すと、オブジェクトを取得できます。
+
+    Ref を作成してから、そこからオブジェクトを取得することもできます。
+
+    ```python lines
+    weave.init('intro-example')
+    cat_names = weave.ref('cat-names').get()
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="deleting-an-object">
+  ## オブジェクトの削除
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    オブジェクトのバージョンを削除するには、そのオブジェクト参照で `.delete()` を呼び出します。
+
+    ```python lines
+    weave.init('intro-example')
+    cat_names_ref = weave.ref('cat-names:v1')
+    cat_names_ref.delete()
+    ```
+
+    削除されたオブジェクトにアクセスしようとするとエラーが発生します。削除されたオブジェクトへの参照を含むオブジェクトを解決しようとすると、削除されたオブジェクトの代わりに `DeletedRef` オブジェクトが返されます。
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="ref-styles">
+  ## Ref スタイル
+</div>
+
+完全修飾の Weave オブジェクト参照 URI は次のようになります：
+
+```
+weave://<entity>/<project>/object/<object_name>:<object_version>
+```
+
+* *entity*: wandb エンティティ（ユーザー名またはチーム）
+* *project*: wandb プロジェクト
+* *object&#95;name*: オブジェクト名
+* *object&#95;version*: バージョンハッシュ、v0、v1... のような文字列、または &quot;:latest&quot; のようなエイリアスのいずれか。すべてのオブジェクトには &quot;:latest&quot; エイリアスがあります。
+
+Ref はいくつかの異なる形式で作成できます
+
+* `weave.ref(<name>)`: 事前に `weave.init(<project>)` が呼び出されている必要があります。&quot;:latest&quot; バージョンを参照します
+* `weave.ref(<name>:<version>)`: 事前に `weave.init(<project>)` が呼び出されている必要があります。
+* `weave.ref(<fully_qualified_ref_uri>)`: `weave.init` を呼び出さずに作成できます

@@ -1,0 +1,24 @@
+---
+title: 高度な IAM 設定
+---
+
+基本的な[環境変数](../env-vars)に加えて、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-Managed](/ja/platform/hosting/hosting-options/self-managed) インスタンスの IAM オプションを設定するためにも環境変数を使用できます。
+
+IAM の要件に応じて、インスタンスに対して以下の環境変数を必要に応じて設定してください。
+
+| Environment variable | Description |
+|----------------------|-------------|
+| `DISABLE_SSO_PROVISIONING` | これを `true` に設定すると、W&amp;B インスタンスでのユーザーの自動プロビジョニングを無効にします。 |
+| `SESSION_LENGTH` | デフォルトのユーザーセッション有効期限を変更する場合、この変数を希望する時間数に設定します。たとえば、セッション有効期限を 24 時間に設定するには、SESSION&#95;LENGTH を `24` に設定します。デフォルト値は 720 時間です。 |
+| `GORILLA_ENABLE_SSO_GROUPS_CLAIMS` | OIDC ベースの SSO を使用している場合、この変数を `true` に設定すると、OIDC グループに基づいてインスタンス内の W&amp;B チームメンバーシップの管理を自動化します。あわせて、ユーザーの OIDC トークンに `groups` クレームを追加し、ユーザーが所属するすべてのチーム名を文字列配列として指定する必要があります。 |
+| `GORILLA_LDAP_GROUP_SYNC` | LDAP ベースの SSO を使用している場合、これを `true` に設定すると、LDAP グループに基づいてインスタンス内の W&amp;B チームメンバーシップの管理を自動化します。 |
+| `GORILLA_OIDC_CUSTOM_SCOPES` | OIDC ベースの SSO を使用している場合、W&amp;B インスタンスが IdP に要求すべき追加の[スコープ](https://auth0.com/docs/get-started/apis/scopes/openid-connect-scopes)を指定できます。W&amp;B は、これらのカスタムスコープによって SSO の機能を一切変更しません。 |
+| `GORILLA_OIDC_SECRET` | OIDC ベースの SSO を使用していて、IdP が OIDC Client Secret を要求する場合、この変数にそのシークレットを設定します。 |
+| `GORILLA_USE_IDENTIFIER_CLAIMS` | OIDC ベースの SSO を使用している場合、この変数を `true` に設定すると、IdP からの特定の OIDC クレームを使用してユーザー名とフルネーム（氏名）を強制します。設定する場合、強制したいユーザー名とフルネームをそれぞれ `preferred_username` と `name` の OIDC クレームで構成していることを確認してください。ユーザー名には、英数字と、特殊文字としてアンダースコアおよびハイフンのみを使用できます。 |
+| `GORILLA_DISABLE_PERSONAL_ENTITY` | これを true に設定すると、[personal entities](/ja/models/support/difference_team_entity_user_entity_mean_me/) を無効にします。personal entities 内で新しい personal projects が作成されることを防ぎ、既存の personal projects への書き込みも禁止します。 |
+| `GORILLA_DISABLE_ADMIN_TEAM_ACCESS` | これを `true` に設定すると、Organization または Instance Admin が自身で W&amp;B チームに参加したり、自分自身を追加したりすることを制限し、Teams 内のプロジェクトには Data &amp; AI の担当者だけがアクセスできるようにします。 |
+| `WANDB_IDENTITY_TOKEN_FILE`        | [Identity federation](/ja/platform/hosting/iam/identity_federation/) 用に、JSON Web Token (JWT) が保存されているローカルディレクトリへの絶対パスを指定します。 |
+
+<Warning>
+  W&amp;B は、`GORILLA_DISABLE_ADMIN_TEAM_ACCESS` のような一部の設定を有効化する前に、注意を払い、その影響を十分に理解することを推奨します。不明点がある場合は、W&amp;B の担当チームにお問い合わせください。
+</Warning>

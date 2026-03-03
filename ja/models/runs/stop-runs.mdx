@@ -1,0 +1,24 @@
+---
+title: run を停止する
+description: W&B Python SDK を使用してプログラム的に、または W&B App から手動で run を停止します。
+---
+
+W&amp;B Python SDK を使ってプログラム的に、または W&amp;B App 上で対話的に run を停止します。
+
+<Tabs>
+  <Tab title="Python SDK">
+    1. run を初期化したターミナルまたはコードエディタを開きます。
+    2. `Ctrl+D` を押して run を停止します。
+  </Tab>
+
+  <Tab title="W&B App">
+    1. run がログを書き込んでいるプロジェクトを開きます。
+    2. run セレクタ内で、停止したい run を選択します。
+    3. **Overview** タブを選択します。
+    4. **State** フィールドの横にある停止ボタンを選択します。
+
+    **State** フィールドの値が、その run について `running` から `Killed` に変わります。
+  </Tab>
+</Tabs>
+
+利用可能な run の状態一覧については、[State fields](/ja/models/runs/run-states) を参照してください。

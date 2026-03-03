@@ -1,0 +1,27 @@
+---
+title: Registry コレクションタグの追加
+---
+
+```python
+"""
+レジストリ内のコレクションにタグを追加する。
+"""
+import wandb
+
+# レジストリとコレクションの詳細を定義する
+collection_name = "<collection_name>"
+collection_type = "<collection_type>"
+registry_name = "<registry_name>"
+
+# レジストリのフルパスを構築する
+registry_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# アーティファクトコレクションを取得する
+collection = wandb.Api().artifact_collection(
+  type_name = collection_type, 
+  name = registry_path
+  )
+
+collection.tags = ["<tag>"]
+collection.save()
+```

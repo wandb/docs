@@ -1,0 +1,236 @@
+---
+title: "保存ビューの作成と管理"
+description: "トレースされた関数呼び出しや評価の操作方法をカスタマイズする"
+---
+
+Weave では、_保存ビュー_ を使うことで、トレースされた関数呼び出しや評価の操作方法をカスタマイズできます。保存ビューを定義すると、フィルター、ソート、列の表示／非表示を設定して、関連するデータにすばやくアクセスできます。
+
+ビューは Weave Python SDK から直接、または UI から作成、変更、保存できます。Python SDK ではプログラム的なフィルタリングやクエリに対してきめ細かな制御が可能で、UI では **Traces** タブと **Evals** タブ内で、さまざまなテーブルの表示設定を簡単に探索・保存できます。
+
+このガイドでは次の内容を説明します。
+
+- [Python SDK で保存ビューを作成および変更する方法](#saved-views-in-the-python-sdk)
+- [Weave UI で保存ビューを作成および操作する方法](#saved-views-in-the-ui)
+
+<div id="saved-views-in-the-python-sdk">
+  ## Python SDK における SavedView
+</div>
+
+Weave の `SavedView` クラスは、trace および evals データのビューを保存・フィルタリング・ソート・カスタマイズするための手段を提供します。 
+
+<div id="initialize-a-savedview">
+  ### `SavedView` を初期化する
+</div>
+
+Weave のプロジェクトで `SavedView` インスタンスを初期化します。
+
+```python lines
+import weave
+client = weave.init(<my_project>)
+
+view = weave.SavedView()
+```
+
+
+<div id="visualize-the-savedview-as-a-grid">
+  ### `SavedView` をグリッドとして可視化する
+</div>
+
+`.to_grid()` を使って、保存したビューをグリッドとして表現します。`limit` で表示する行数の上限を指定します。
+
+```python lines
+view.to_grid(limit=5)
+```
+
+`.show()` を呼び出してグリッドを表示します:
+
+```python lines
+view.to_grid().show()
+```
+
+
+<div id="set-displayed-columns">
+  ### 表示する列を設定する
+</div>
+
+`.set_columns()` を使用して、ビューに表示する列を設定します。表示する列を 1つ以上指定します。
+
+```python lines
+view.set_columns("id", "op_name")
+```
+
+
+<div id="add-columns">
+  ### 列を追加する
+</div>
+
+`.add_column()` を使用して、ビューに 1 つ以上の新しい列を追加します。追加する列を 1 つ以上指定してください。
+
+```python lines
+# フィールド指定子とラベル "Created" を持つ列を追加する
+view.add_column("Created")
+# 任意で、第2引数を指定して新しい列に別のラベル名を設定できます。デフォルトでは、フィールド指定子がラベルとして使用されます。
+```
+
+
+<div id="sort-columns">
+  ### 列のソート
+</div>
+
+`.sort_by()` を使用して、特定の列で結果をソートします。ソートする列名とソート順（`asc` または `desc`）を指定します。
+
+```python lines
+view.sort_by("started_at", "desc")
+```
+
+
+<div id="filter-by-operation-name">
+  ### オペレーション名でフィルタする
+</div>
+
+Weave では、すべての trace や eval にはオペレーション名が関連付けられています。
+`.filter_op()` を使うと、特定のオペレーションが実行された呼び出しだけを含むように `SavedView` をフィルタできます。
+
+```python lines
+view.filter_op("Evaluation.predict_and_score")
+```
+
+
+<div id="filter-by-operator-and-condition">
+  ### 演算子と条件でフィルターする
+</div>
+
+`.add_filter()` を使用して、ビューにカスタムフィルターを適用します。[サポートされているフィルター演算子](#filter-operators) のいずれかと条件を指定してフィルターを定義します。
+
+```python lines
+view.add_filter("output.model_latency", ">=", 5)
+```
+
+
+<div id="filter-operators">
+  #### フィルター演算子
+</div>
+
+| 演算子 | 説明 | 例 |
+|----------|-------------|---------|
+| `"contains"` | 文字列が特定の部分文字列を含むかどうかを確認します。 | `view.add_filter("output.status", "contains", "error")` |
+| `"equals"` | 文字列が指定した値と完全に一致するかどうかを確認します。 | `view.add_filter("input.category", "equals", "Alice")` |
+| `"in"` | 文字列が値のリスト内に含まれているかどうかを確認します。 | `view.add_filter("category", "in", ["A", "B", "C"])` |
+| `"="` | 数値が特定の値と等しいかどうかを確認します。 | `view.add_filter("output.score", "=", 80)` |
+| `"≠", "!="` | 数値が特定の値と等しくないかどうかを確認します。 | `view.add_filter("metrics.loss", "!=", 0.5)` |
+| `"<"` | 数値が特定の値より小さいかどうかを確認します。 | `view.add_filter("age", "<", 30)` |
+| `"≤", "<="` | 数値が特定の値以下かどうかを確認します。 | `view.add_filter("metric.value", "<=", 100)` |
+| `">"` | 数値が特定の値より大きいかどうかを確認します。 | `view.add_filter("output.score", ">", 90)` |
+| `"≥", ">="` | 数値が特定の値以上かどうかを確認します。 | `view.add_filter("output.model_latency", ">=", 5)` |
+| `"is"` | ブール値フィールドが `True` か `False` かを確認します。 | `view.add_filter("is_active", "is", True)` |
+| `"after"` | 日付が指定したタイムスタンプより後かどうかを確認します。 | `view.add_filter("started_at", "after", "2024-01-01")` |
+| `"before"` | 日付が指定したタイムスタンプより前かどうかを確認します。 | `view.add_filter("ended_at", "before", "2024-12-31")` |
+| `"is empty"` | フィールドが空（`None` または `""`）かどうかを確認します。 | `view.add_filter("comments", "is empty", None)` |
+| `"is not empty"` | フィールドが空でないかどうかを確認します。 | `view.add_filter("attachments", "is not empty", None)` |
+
+<div id="remove-filters">
+  ### フィルターを削除する
+</div>
+
+`.remove_filter()` を使用して、インデックスまたはフィールド名で指定した特定のフィルターをビューから削除します。
+
+```python lines
+view.remove_filter("output.model_latency")
+```
+
+`.remove_filters()` を使ってすべてのフィルタを削除します。
+
+```python lines
+view.remove_filters()
+```
+
+
+<div id="save-the-savedview">
+  ### `SavedView` を保存する
+</div>
+
+`.save()` を呼び出して、`SavedView` を Weave に公開します。
+
+```python lines
+view.save()
+```
+
+
+<div id="retrieve-function-calls">
+  ### 関数呼び出しの取得
+</div>
+
+保存済みビュー内のフィルタに一致する関数呼び出しを取得するには `.get_calls()` を使用します。`limit` や `offset` などの省略可能な引数を指定できます。
+
+```python lines
+calls = view.get_calls(limit=10)
+```
+
+
+<div id="saved-views-in-the-ui">
+  ## UI での保存済みビュー
+</div>
+
+Weave UI では、保存済みビューを作成、読み込み、名前の変更、および編集できます。より細かく制御したい場合は、[Python SDK](#saved-views-in-the-python-sdk) を使用してください。
+
+<div id="create-a-saved-view">
+  ### 保存済みビューを作成する
+</div>
+
+1. **Traces** または **Evals** タブに移動します。
+2. テーブルの設定で、次のいずれかの項目を調整します:
+   - フィルター
+   - 並び順
+   - ページサイズ
+   - 列の表示/非表示
+   - 列の固定
+3. 次の 2 つのいずれかの方法でビューを保存します:
+   - 画面右上にある **Save view** をクリックします。 
+   - **Save view** の左側にあるハンバーガーメニューをクリックします。表示されるドロップダウンメニューから **+ Save as new view** をクリックします。
+
+<div id="load-a-saved-view">
+  ### 保存済みビューを読み込む
+</div>
+
+1. **Traces** タブまたは **Evals** タブに移動します。
+2. タブタイトルの左側にあるハンバーガーメニューをクリックします。保存済みビューの一覧がドロップダウンメニューで表示されます。 
+3. アクセスしたいビューをクリックします。選択した保存済みビューが **Traces** または **Evals** タブに表示されます。 
+
+<div id="rename-a-saved-view">
+  ### 保存済みビューの名前を変更する
+</div>
+
+1. [保存済みビューを読み込む](#load-a-saved-view)で説明されている手順に従ってください。
+2. **Traces** タブまたは **Evals** タブの左上隅にあるビュー名をクリックします。
+3. ビューの新しい名前を入力します。
+4. 新しいビュー名を保存するには、**Enter** キーを押します。
+
+<div id="edit-a-saved-view">
+  ### 保存済みビューを編集する
+</div>
+
+1. [保存済みビューを読み込む](#load-a-saved-view)の手順に従ってください。
+2. テーブルの設定を変更します。
+3. 右上隅の **Save view** をクリックします。 
+
+<div id="delete-a-saved-view">
+  ### 保存済みビューを削除する
+</div>
+
+<Warning>
+自分やチームにとって不要になったと判断したビューは削除できます。ただし、一度削除すると元に戻せません。
+</Warning>
+
+1. **Traces** または **Evals** タブを開きます。
+2. 削除したいビューを[読み込み](#load-a-saved-view)ます。
+3. **Save view** の左側にあるハンバーガーメニューをクリックします。 
+4. ドロップダウンメニューで **Delete view** をクリックします。
+5. 表示されるモーダルで **Delete view** をクリックして確定します。削除を中止する場合は **Cancel** をクリックします。
+
+<div id="return-to-the-default-view">
+  ### デフォルトのビューに戻る
+</div>
+
+1. **Traces** または **Evals** タブに移動します。
+2. **Traces** または **Evals** タブの右側にあるハンバーガーメニューをクリックします。保存済みのすべてのビューが表示されるドロップダウンメニューが開きます。
+3. メニューの一番下にある **Traces** または **Evals** をクリックします。デフォルトのビューが表示されます。

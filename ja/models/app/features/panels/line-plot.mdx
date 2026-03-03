@@ -1,0 +1,280 @@
+---
+description: メトリクスを可視化し、軸をカスタマイズして、プロット上で複数の線を比較する
+title: 折れ線グラフの概要
+---
+
+import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-groups.mdx";
+
+`wandb.Run.log()` でログしたメトリクスは、時間経過に対してデフォルトで折れ線グラフとして表示されます。折れ線グラフでは、複数のメトリクスのプロットやカスタム軸の計算などが可能です。
+
+このページでは、[workspace](/ja/models/track/workspaces) で折れ線グラフを作成、設定、管理する方法を説明します。
+
+<Frame>
+  <img src="/images/app_ui/line_plot_example.png" alt="Line plot example" />
+</Frame>
+
+<Tip>
+  [CoreWeave](https://coreweave.com) インフラストラクチャ上で実行される [runs](/ja/models/runs) については、[CoreWeave Mission Control](https://www.coreweave.com/mission-control) がコンピュートインフラストラクチャを監視します。エラーが発生すると、W&amp;B はインフラストラクチャに関する情報をその run のプロットに付加し、プロジェクトのワークスペースに表示します。詳細は、[CoreWeave インフラストラクチャアラートの可視化](/ja/models/runs/infrastructure-alerts) を参照してください。
+</Tip>
+
+<div id="add-a-line-plot">
+  ## 折れ線グラフを追加する
+</div>
+
+このセクションでは、単一または複数のメトリクスに対して折れ線グラフを作成する方法を説明します。
+
+<Tabs>
+  <Tab title="単一メトリクスの折れ線グラフ">
+    [automatic workspace](/ja/models/app/features/panels#workspace-modes) では、記録された各メトリクスごとに単一メトリクスの折れ線グラフが自動的に作成されます。自動 Workspace から削除した折れ線グラフを再び追加する場合や、手動 Workspace に折れ線グラフを追加する場合は、次の手順に従います。
+
+    1. 自分のワークスペースに移動します。
+    2. ワークスペース全体に折れ線グラフを追加するには、パネル検索フィールド付近のコントロールバーで **Add panels** をクリックします。
+
+       代わりに特定のセクションに直接折れ線グラフを追加するには、そのセクションのアクション `...` メニューをクリックし、**+ Add panels** をクリックします。
+    3. デフォルト設定の単一メトリクスのプロットを追加するには、**Quick panel builder** をクリックします。
+       1. **Single-key panels** タブでメトリクスにカーソルを合わせ、**Add** をクリックします。追加したい各パネルについてこの手順を繰り返します。
+       2. **Create &lt;number&gt; panels** をクリックします。
+    4. 代わりにカスタムの折れ線グラフを追加するには、**Line plot** をクリックします。
+       1. 対応するタブを使用して、折れ線グラフのデータ、グルーピング、および表示設定を構成します。詳細については、[Edit line plot settings](#edit-line-plot-settings) を参照してください。
+       2. x または y 軸に計算式を追加するには、**Expressions** をクリックします。[JavaScript regular expressions](https://www.w3schools.com/js/js_regexp.asp) がサポートされています。
+          追加するパネルの種類（チャートなど）を選択します。あらかじめ選択されたデフォルト値とともに、そのパネルの設定内容が表示されます。
+    5. 必要に応じて、パネルとその表示設定をカスタマイズします。利用できる設定オプションは、選択したパネルの種類によって異なります。各パネルタイプのオプションについて詳しくは、[折れ線グラフ](/ja/models/app/features/panels/line-plot/) や [棒グラフ](/ja/models/app/features/panels/bar-plot/) など、以下の該当セクションを参照してください。
+    6. **Apply** をクリックします。
+  </Tab>
+
+  <Tab title="複数メトリクスの折れ線グラフ">
+    <Note>
+      この機能はプレビュー版で、招待制でのみ利用できます。利用を希望する場合は、[support](mailto:support@wandb.com) もしくは担当の AISE までお問い合わせください。
+    </Note>
+
+    [自動ワークスペース](/ja/models/app/features/panels#workspace-modes)では、ログされた各メトリクスごとに単一メトリクスのラインプロットが自動で作成されます。このセクションでは、JavaScript の正規表現で定義した複数のメトリクスを、1 つのラインプロットにまとめて表示する方法を説明します。オプションで、多数の単一メトリクスプロットを 1 つのマルチメトリクスプロットに統合できます。これにより、多くのメトリクスがログされているワークスペースのパフォーマンスが向上し、run の結果を効率的に分析できます。
+
+    1. ワークスペースに移動します。
+    2. ラインプロットをグローバルに追加するには、パネル検索フィールド付近のコントロールバーで **Add panels** をクリックします。
+
+       ラインプロットをセクションに直接追加するには、セクションのアクション `...` メニューをクリックし、**+ Add panels** をクリックします。
+    3. **Quick panel builder** をクリックし、**Multi-metric panels** タブをクリックします。
+    4. **Regex** に [JavaScript regular expression](https://www.w3schools.com/js/js_regexp.asp) 形式の式を入力します。入力すると同時に UI が更新され、その式に一致するメトリクスが表示されます。デフォルトでは、プロット名にはそのプロットで使用している正規表現が表示されます。プロットには、その式に一致するすべてのメトリクスのラインが含まれ、今後ログされるメトリクスも含まれます。
+    5. マルチメトリクスプロット作成時に重複する単一メトリクスパネルを削除する場合は、**Clean up auto-generated panels** をオンにします。どのパネルがクリーンアップされるかはプレビューで確認できます。<Note>このオプションをオンにすると、その式に一致する新しくログされたメトリクスについては単一メトリクスプロットは作成されません。代わりに、このマルチメトリクスプロットのみに含まれます。</Note>
+    6. **Create &lt;number&gt; panels** をクリックします。
+
+    ### マルチメトリクス正規表現の詳細
+
+    マルチメトリクスのラインプロットは、[JavaScript regular expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) を使ってメトリクス名にマッチさせます。このセクションでは、一般的なユースケースをいくつか紹介し、キャプチャグループが作成されるパネルにどのような影響を与えるかなど、正規表現の動作の詳細を説明します。
+
+    #### 一般的なユースケース
+
+    このセクションでは、マルチメトリクスパネルを使って実験結果を分析するいくつかの方法を紹介します。
+
+    **レイヤーやモデルコンポーネント間でメトリクスを比較する**
+    各レイヤーのメトリクスごとに個別のパネルを作成する代わりに、1 つのパネルでまとめて表示できます。たとえば、Python の次のサンプルコードのように `layer_0_loss`、`layer_1_loss`、`layer_2_loss` のような一貫した名前でメトリクスをログしている場合、正規表現 `layer_\d+_loss` を使って、すべてのレイヤーの loss を 1 つのプロットに表示できます。
+
+    ```python
+    with wandb.init(project="multi-layer-model") as run:
+        for step in range(100):
+            run.log({
+                "layer_0_loss": loss_0,
+                "layer_1_loss": loss_1,
+                "layer_2_loss": loss_2,
+                "step": step
+            })
+    ```
+
+    **関連するメトリクスをプレフィックスまたはサフィックスでグループ化する**
+    共通の命名パターンを持つすべてのメトリクスにマッチさせます。例:
+
+    * `train_.*` は `train_loss`、`train_accuracy`、`train_f1_score` のようなすべての学習メトリクスにマッチします
+    * `.*_accuracy` は `train_accuracy`、`val_accuracy`、`test_accuracy` のような、異なるデータセット間の accuracy メトリクスにマッチします
+
+    **特定のメトリクスのバリエーションにマッチさせる**
+    オルタネーション（選択）を使って、必要なメトリクスだけにマッチさせます。たとえば、非キャプチャグループ `(?:layer_0|layer_10)_loss` は、中間の層を除いて、1 層目と 10 層目の loss のみにマッチします。
+
+    #### キャプチャグループを理解する
+
+    <LinePlotCaptureGroups />
+  </Tab>
+</Tabs>
+
+<div id="edit-line-plot-settings">
+  ## 折れ線グラフの設定を編集する
+</div>
+
+このセクションでは、個々の折れ線グラフパネル、セクション内のすべての折れ線グラフパネル、またはワークスペース内のすべての折れ線グラフパネルについて、設定の編集方法を説明します。折れ線グラフの設定の詳細については、[折れ線グラフリファレンス](/ja/models/app/features/panels/line-plot/reference)を参照してください。
+
+<div id="individual-line-plot">
+  ### 個別のラインプロット
+</div>
+
+ラインプロットの個別設定は、セクションまたはワークスペースに対するラインプロット設定よりも優先されます。ラインプロットをカスタマイズするには、次の手順に従います。
+
+1. ワークスペースに移動します。
+2. パネル上にマウスカーソルを置き、歯車アイコンをクリックします。
+3. 表示されたドロワー内で、設定を編集したいタブを選択します。
+4. **Apply** をクリックします。
+
+ラインプロットの設定は、次のタブに分かれています。
+
+* **Data**: x 軸、y 軸、サンプリング方法、スムージング、外れ値、チャートタイプを設定します。
+* **Grouping**: プロット内で run をどのようにグループ化および集約するかを設定します。
+* **Chart**: パネルおよび軸のタイトルを指定し、凡例の表示有無と位置を設定します。
+* **Legend**: パネルの凡例の見た目と内容をカスタマイズします。
+* **Expressions**: 軸に対するカスタム計算式を追加します。
+
+各設定の詳細については、[ラインプロットリファレンス](/ja/models/app/features/panels/line-plot/reference) を参照してください。
+
+<div id="all-line-plots-in-a-section">
+  ### セクション内のすべてのラインプロット
+</div>
+
+セクション内のすべてのラインプロットに対するデフォルト設定をカスタマイズして、ラインプロットに対するワークスペースの設定を上書きするには、次の手順に従います。
+
+1. ワークスペースに移動します。
+2. セクションの歯車アイコンをクリックして、そのセクションの設定を開きます。
+3. 表示されるドロワーで **Data** または **Display preferences** タブを選択し、そのセクションのデフォルト設定を行います。各 **Data** 設定の詳細については、[Line plot reference](/ja/models/app/features/panels/line-plot/reference) を参照してください。各表示設定の詳細については、[Configure section layout](../#configure-section-layout) を参照してください。
+
+<div id="all-line-plots-in-a-workspace">
+  ### ワークスペース内のすべての折れ線プロット
+</div>
+
+ワークスペース内のすべての折れ線プロットに対するデフォルト設定をカスタマイズするには、次の手順に従います。
+
+1. ワークスペースに移動します。
+2. **Settings** というラベル付きの歯車アイコン（ワークスペース設定アイコン）をクリックします。
+3. **Line plots** をクリックします。
+4. 表示されるドロワー内で、**Data** または **Display preferences** タブを選択して、ワークスペースのデフォルト設定を構成します。
+   * 各 **Data** 設定の詳細については、[Line plot reference](/ja/models/app/features/panels/line-plot/reference) を参照してください。
+   * 各 **Display preferences** セクションの詳細については、[Workspace display preferences](../#configure-workspace-layout) を参照してください。ワークスペースレベルでは、折れ線プロットのデフォルトの **Zooming** 挙動を構成できます。この設定は、x 軸キーが一致する折れ線プロット間でズーム操作を同期するかどうかを制御します。デフォルトでは無効です。
+
+<div id="visualize-average-values-on-a-plot">
+  ## プロット上で平均値を可視化する
+</div>
+
+複数の異なる実験があり、それらの値の平均をプロット上で確認したい場合は、テーブルの Grouping 機能を使うことができます。run テーブル上部の「Group」をクリックし、「All」を選択すると、グラフに平均値が表示されます。
+
+平均化前のグラフは次のようになります：
+
+<Frame>
+  <img src="/images/app_ui/demo_precision_lines.png" alt="各 run の個別の precision ライン" />
+</Frame>
+
+次の画像は、グループ化されたラインを使って複数の run 全体の平均値を表したグラフです。
+
+<Frame>
+  <img src="/images/app_ui/demo_average_precision_lines.png" alt="平均化された precision ライン" />
+</Frame>
+
+<div id="visualize-nan-value-on-a-plot">
+  ## プロット上の NaN 値を可視化する
+</div>
+
+`wandb.Run.log()` を使うと、`NaN` 値を含む PyTorch のテンソルも折れ線グラフにプロットできます。例えば、次のようにします。
+
+```python
+with wandb.init() as run:
+    # NaN値をログする
+    run.log({"test": float("nan")})
+```
+
+<Frame>
+  <img src="/images/app_ui/visualize_nan.png" alt="NaN 値の取り扱い" />
+</Frame>
+
+<div id="compare-multiple-metrics-on-one-chart">
+  ## 1つのチャートで複数のメトリクスを比較する
+</div>
+
+<Frame>
+  <img src="/images/app_ui/visualization_add.gif" alt="Adding visualization panels" />
+</Frame>
+
+1. ワークスペースにアクセスします。
+2. ページ右上の **Add panels** ボタンをクリックします。
+3. 表示されるドロワーから、Evaluation のドロップダウンを展開します。
+4. **Run comparer** を選択します。
+
+<div id="change-the-colors-of-the-lines">
+  ## 線の色を変更する
+</div>
+
+デフォルトの run の色では、比較がしづらい場合があります。これを改善するために、wandb では手動で色を変更できる 2 つの方法を提供しています。
+
+<Tabs>
+  <Tab title="runテーブルから">
+    各 run には、初期化時にデフォルトでランダムな色が割り当てられます。
+
+    <Frame>
+      <img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="runに割り当てられたランダムな色" />
+    </Frame>
+
+    いずれかの色をクリックすると、手動で任意の色を選択できるカラーパレットが表示されます。
+
+    <Frame>
+      <img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="カラーパレット" />
+    </Frame>
+  </Tab>
+
+  <Tab title="チャート凡例の設定から">
+    1. ワークスペースに移動します。
+    2. 設定を編集したいパネルにマウスカーソルを合わせます。
+    3. 表示される鉛筆アイコンを選択します。
+    4. **Legend** タブを選択します。
+
+    <Frame>
+      <img src="/images/app_ui/plot_style_line_plot_legend.png" alt="折れ線グラフの凡例設定" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+<div id="visualize-on-different-x-axes">
+  ## 異なる x 軸で可視化する
+</div>
+
+実験にかかった実時間を確認したい場合や、実験がどの日付に実行されたかを確認したい場合は、x 軸の種類を切り替えることができます。次に、steps から relative time、さらに wall time へと切り替える例を示します。
+
+<Frame>
+  <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="X-axis time options" />
+</Frame>
+
+カスタム x 軸を使用するには、y 軸の値をログするのと同じ `wandb.Run.log()` 呼び出しの中で、x 軸に用いるメトリクスもログします。たとえば、次のとおりです。
+
+```python
+with wandb.init() as run:
+    for i in range(100):
+        run.log({"accuracy": acc, "custom_x": i * 10})
+```
+
+詳細については、[対数軸をカスタマイズする](/ja/models/track/log/customize-logging-axes#customize-log-axes)を参照してください。
+
+<div id="zoom">
+  ## ズーム
+</div>
+
+プロット上でドラッグして長方形を描くと、縦方向と横方向を同時にズームできます。これにより、x 軸と y 軸の表示範囲が変更されます。
+
+<Frame>
+  <img src="/images/app_ui/line_plots_zoom.gif" alt="プロットのズーム機能" />
+</Frame>
+
+<div id="hide-chart-legend">
+  ## チャートの凡例を非表示にする
+</div>
+
+このトグルをオフにすると、折れ線グラフの凡例が非表示になります。
+
+<Frame>
+  <img src="/images/app_ui/demo_hide_legend.gif" alt="凡例を非表示にするトグル" />
+</Frame>
+
+<div id="create-a-run-metrics-notification">
+  ## run メトリクス通知を作成する
+</div>
+
+指定した条件を run メトリクスが満たしたときにチームへ通知するには、[Automations](/ja/models/automations/) を使用します。Automation は Slack チャンネルへの投稿や webhook の実行を行えます。
+
+ラインプロットから、そのプロットに表示されているメトリクスに対して [run メトリクス通知](/ja/models/automations/automation-events/#run-events) をすばやく作成できます。
+
+1. ワークスペースに移動します。
+2. パネルにカーソルを合わせ、ベルのアイコンをクリックします。
+3. 基本または詳細の設定コントロールを使って Automation を設定します。たとえば、run フィルタを適用して Automation の対象範囲を絞り込んだり、絶対しきい値を設定したりします。
+
+[Automations](/ja/models/automations/) についてさらに詳しく確認してください。

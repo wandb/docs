@@ -1,0 +1,105 @@
+---
+title: "TypeScript SDK: サードパーティー・インテグレーションガイド"
+description: "Weave TypeScript SDK とサードパーティーライブラリをインテグレーションする"
+---
+
+このガイドでは、サードパーティーライブラリ（例: OpenAI）を Weave TypeScript SDK とインテグレーションする方法を説明します。Weave は自動インスツルメンテーションをサポートしており、セットアップが容易になり、手動で設定する必要が少なくなります。
+
+<Warning>
+**何が変わりましたか？**
+[PR #4554](https://github.com/wandb/weave/pull/4554) 以降、OpenAI のような対応ライブラリは Weave の読み込み時に自動的にパッチ適用されます。以前のように、以下のような手動ラップは不要になりました:
+
+```ts lines
+weave.wrapOpenAI(new OpenAI());
+```
+
+通常、この処理は Weave が自動的に行います。ただし、[一部の特殊なケース](#advanced-usage) では例外がある可能性があります。
+</Warning>
+
+<div id="usage-instructions">
+  ## 使用方法
+</div>
+
+CommonJS と ESM のどちらも利用できます。
+
+<div id="commonjs">
+  ### CommonJS
+</div>
+
+CommonJS では特別な設定は不要です。自動パッチがそのまま利用できます。Weave をインストールするだけです。
+
+```bash
+npm install weave
+```
+
+
+<div id="esm">
+  ### ESM
+</div>
+
+ESM では、Node.js の `--import` フラグを使用して自動インストルメンテーションを有効にします。`weave` パッケージがインストールされていれば、`weave/instrument` モジュールを利用できます。
+
+1. Weave をインストールします:
+    ```bash
+    npm install weave
+    ```
+2. `weave/instrument` モジュールをインポートします:
+    ```bash
+    node --import=weave/instrument dist/main.js
+    ```
+
+<div id="advanced-usage-and-troubleshooting">
+  ## 高度な使い方とトラブルシューティング
+</div>
+
+このセクションでは、TypeScript SDK の自動パッチ適用が期待どおりに動作しない場合のエッジケースと回避策について説明します。たとえば、ESM のみの環境、Next.js のようなバンドラー設定、あるいは制約の厳しい実行環境などが、予期しない問題を引き起こすことがあります。トレースが欠落していたりインテグレーションに問題が発生している場合は、まずここから確認してください。
+
+<div id="use-node_options-only-for-esm">
+  ### `NODE_OPTIONS` を使用する（ESM のみ）
+</div>
+
+<Warning>
+  `NODE_OPTIONS` の使用には注意してください。これは環境内のすべての Node.js プロセスに影響し、副作用が発生する可能性があります。
+</Warning>
+
+ESM プロジェクトを使用していて、CLI ツールやフレームワークの制約などにより CLI フラグを渡せない場合は、`NODE_OPTIONS` 環境変数を設定してください。
+
+```bash
+export NODE_OPTIONS="--import=weave/instrument"
+```
+
+
+<div id="bundler-compatibility">
+  ### バンドラーとの互換性
+</div>
+
+Next.js などの一部のフレームワークやバンドラーは、サードパーティライブラリをバンドルする際に、Node が実行時にそれらをパッチできなくなるような形でバンドルしてしまうことがあります。
+
+このケースに該当する場合は、次の手順を試してください。
+
+1. バンドラーの設定で LLM ライブラリを external としてマークします。これによりそれらがバンドルされず、実行時に Weave が正しくパッチできるようになります。
+
+   次の例は、`next.config.js` の設定で `openai` パッケージを external としてマークし、バンドルされないようにする方法を示しています。モジュールは実行時に読み込まれるため、Weave は自動的にそれをパッチして追跡できます。Next.js のようなフレームワークを使う場合は、このセットアップを使って自動計測を有効にしてください。
+
+    ```js
+    externals: {
+    'openai': 'commonjs openai'
+    }
+    ```
+
+2. それでもパッチに失敗する場合は、[手動計測](#manual-patching-fallback-option)にフォールバックしてください。
+
+<div id="manual-patching-fallback-option">
+  ### 手動パッチ適用（フォールバックオプション）
+</div>
+
+<Warning>
+  手動でのパッチ適用はレガシーな方法であり、自動パッチ適用が機能しない場合にのみ使用してください。
+</Warning>
+
+一部の状況では、それでも手動インストルメンテーションが必要になる場合があります。
+
+```ts lines
+import { wrapOpenAI } from 'weave';
+const client = wrapOpenAI(new OpenAI());
+```

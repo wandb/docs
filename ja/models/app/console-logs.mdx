@@ -1,0 +1,186 @@
+---
+title: コンソールログ
+---
+
+実験を実行すると、コンソールにさまざまなメッセージが表示されることがあります。W&B はコンソールログをキャプチャし、W&B App に表示します。これらのメッセージを実験のデバッグや動作の監視に役立ててください。
+
+<div id="view-console-logs">
+  ## コンソールログを表示する
+</div>
+
+W&amp;B App で特定の run のコンソールログにアクセスするには、次の手順を実行します。
+
+1. W&amp;B App で対象のプロジェクトに移動します。
+2. **Runs** テーブル内から run を選択します。
+3. プロジェクトのサイドバーで **Logs** タブをクリックします。
+
+<Note>
+  W&amp;B は 1 つの run について最大 100,000 行のログを保存します。W&amp;B App では、一度に最大 10,000 行のログのみが表示されます。すべての保存済みログ行を表示するには、古い行が表示されるまでログをスクロールしてください。
+</Note>
+
+{/* ## コンソールログのフィールド
+
+  W&B App 内で、コンソールログのテーブルに表示されるフィールドをカスタマイズできます。 */}
+
+
+<div id="types-of-console-logs">
+  ## コンソールログの種類
+</div>
+
+W&B はいくつかの種類のコンソールログを取得します。情報メッセージ、警告、エラーなどがあり、ログの重大度を示すプレフィックスが付与されます。
+
+<div id="informational-messages">
+  ### 情報メッセージ
+</div>
+
+情報メッセージは、run の進行状況やステータスに関する更新を表示します。通常、先頭に `wandb:` が付きます。
+
+```text
+wandb: Starting Run: abc123
+wandb: Run data is saved locally in ./wandb/run-20240125_120000-abc123
+```
+
+
+<div id="warning-messages">
+  ### 警告メッセージ
+</div>
+
+実行は継続されますが、潜在的な問題を知らせる警告には、`WARNING:` というプレフィックスが付きます。
+
+```text
+WARNING Found .wandb file, not streaming tensorboard metrics.
+WARNING These runs were logged with a previous version of wandb.
+```
+
+
+<div id="error-messages">
+  ### エラーメッセージ
+</div>
+
+重大な問題を示すエラーメッセージには、`ERROR:` が接頭辞として付きます。これらは、run が正常に完了するのを妨げる可能性がある問題を示します。
+
+```text
+ERROR Unable to save notebook session history.
+ERROR Failed to save notebook.
+```
+
+
+<div id="console-log-settings">
+  ## コンソールログの設定
+</div>
+
+コード内で `wandb.Settings` オブジェクトを `wandb.init()` に渡すことで、W&amp;B がコンソールログをどのように処理するかを構成できます。`wandb.Settings` 内では、コンソールログの挙動を制御するために次のパラメータを設定できます。
+
+* `show_errors`: `True` に設定すると、エラーメッセージが W&amp;B App に表示されます。`False` に設定すると、エラーメッセージは表示されません。
+* `silent`: `True` に設定すると、すべての W&amp;B コンソール出力が抑制されます。これは、コンソールのノイズを最小限に抑えたい本番環境で有用です。
+* `show_warnings`: `True` に設定すると、警告メッセージが W&amp;B App に表示されます。`False` に設定すると、警告メッセージは表示されません。
+* `show_info`: `True` に設定すると、情報メッセージが W&amp;B App に表示されます。`False` に設定すると、情報メッセージは表示されません。
+
+次の例は、これらの設定を行う方法を示します。
+
+```python
+import wandb
+
+settings = wandb.Settings(
+    show_errors=True,  # W&B Appにエラーメッセージを表示する
+    silent=False,      # W&Bのコンソール出力をすべて無効にする
+    show_warnings=True # W&B Appに警告メッセージを表示する
+)
+
+with wandb.init(settings=settings) as run:
+    # 学習コードをここに記述する
+    run.log({"accuracy": 0.95})
+```
+
+
+<div id="custom-logging">
+  ## カスタムロギング
+</div>
+
+W&amp;B はアプリケーションからのコンソールログを収集しますが、独自のロギング設定には干渉しません。Python の組み込み関数 `print()` や `logging` モジュールを使ってメッセージをログ出力できます。
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    for i in range(100, 1000, 100):
+        # W&Bにログを記録し、コンソールに出力します
+        run.log({"epoch": i, "loss": 0.1 * i})
+        print(f"epoch: {i} loss: {0.1 * i}")
+```
+
+コンソールログは次のようになります。
+
+```text
+1 epoch:  100 loss: 1.3191105127334595
+2 epoch:  200 loss: 0.8664389848709106
+3 epoch:  300 loss: 0.6157898902893066
+4 epoch:  400 loss: 0.4961796700954437
+5 epoch:  500 loss: 0.42592573165893555
+6 epoch:  600 loss: 0.3771176040172577
+7 epoch:  700 loss: 0.3393910825252533
+8 epoch:  800 loss: 0.3082585036754608
+9 epoch:  900 loss: 0.28154927492141724
+```
+
+
+<div id="time-stamps">
+  ## タイムスタンプ
+</div>
+
+各コンソールログのエントリには、自動的にタイムスタンプが付与されます。これにより、各ログメッセージがいつ生成されたかを追跡できます。
+
+コンソールログ内のタイムスタンプ表示はオン／オフを切り替えられます。コンソールページ左上の **Timestamp visible** ドロップダウンメニューを選択し、タイムスタンプを表示するか非表示にするかを選択してください。
+
+<div id="search-console-logs">
+  ## コンソールログの検索
+</div>
+
+コンソールログページ上部の検索バーを使って、キーワードでログを絞り込めます。特定の用語、ラベル、またはエラーメッセージを検索できます。
+
+<div id="filter-with-custom-labels">
+  ## カスタムラベルでフィルタリングする
+</div>
+
+<Warning>
+  `x_label` のような `x_` プレフィックス付きのパラメータはパブリックプレビュー機能です。フィードバックを提供するには、[W&amp;B リポジトリで GitHub issue を作成](https://github.com/wandb/wandb)してください。
+</Warning>
+
+コンソールログページ上部の検索バーで、`wandb.Settings` の `x_label` に引数として渡したラベルに基づいてコンソールログをフィルタリングできます。
+
+```python
+import wandb
+
+# プライマリノードでrunを初期化する
+with wandb.init(
+    entity="entity",
+    project="project",
+    settings=wandb.Settings(
+        x_label="custom_label"  # (オプション) ログのフィルタリング用カスタムラベル
+    )
+) as run:
+    # ここにコードを記述
+```
+
+
+<div id="download-console-logs">
+  ## コンソールログをダウンロードする
+</div>
+
+W&B App で run のコンソールログをダウンロードするには、次の手順を実行します。
+
+1. W&B App で対象のプロジェクトに移動します。
+2. **Runs** テーブルから対象の run を選択します。
+3. プロジェクトのサイドバーで **Logs** タブをクリックします。
+4. コンソールログページ右上のダウンロードボタンをクリックします。
+
+<div id="copy-console-logs">
+  ## コンソールログをコピーする
+</div>
+
+W&B App で任意の run のコンソールログをコピーするには、次の手順に従います:
+
+1. W&B App で対象のプロジェクトに移動します。
+2. **Runs** テーブル内から run を 1 つ選択します。
+3. プロジェクトのサイドバーで **Logs** タブをクリックします。
+4. コンソールログページ右上にあるコピー ボタンをクリックします。

@@ -1,0 +1,72 @@
+---
+title: fastai v1
+---
+
+<Note>
+  このドキュメントは fastai v1 向けです。
+  現在のバージョンの fastai を使用している場合は、[fastai ページ](../) を参照してください。
+</Note>
+
+fastai v1 を使用するスクリプト向けに、モデルのトポロジー、損失、メトリクス、重み、勾配、サンプル予測、および最良の学習済みモデルを自動的に記録できるコールバックを用意しています。
+
+```python
+import wandb
+from wandb.fastai import WandbCallback
+
+wandb.init()
+
+learn = cnn_learner(data, model, callback_fns=WandbCallback)
+learn.fit(epochs)
+```
+
+どのデータをログに記録するかは、コールバックのコンストラクタで設定できます。
+
+```python
+from functools import partial
+
+learn = cnn_learner(
+    data, model, callback_fns=partial(WandbCallback, input_type="images")
+)
+```
+
+`WandbCallback` を学習の開始時にだけ使用することもできます。この場合は、自分でインスタンスを生成する必要があります。
+
+```python
+learn.fit(epochs, callbacks=WandbCallback(learn))
+```
+
+その段階でカスタムパラメーターを指定することもできます。
+
+```python
+learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
+```
+
+
+<div id="example-code">
+  ## コード例
+</div>
+
+インテグレーションがどのように動作するかを確認できるように、いくつかの例を用意しました。
+
+**Fastai v1**
+
+* [シンプソンズのキャラクターを分類する](https://github.com/borisdayma/simpsons-fastai)[: ](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-Hugging-Face-Model-Performance--VmlldzoxMDE2MTU)Fastai モデルを追跡・比較するためのシンプルなデモ
+* [Fastai を使ったセマンティックセグメンテーション](https://github.com/borisdayma/semantic-segmentation): 自動運転車向けのニューラルネットワークを最適化する
+
+<div id="options">
+  ## Options
+</div>
+
+`WandbCallback()` クラスはいくつかのオプションをサポートしています:
+
+| キーワード引数     | デフォルト | 説明                                                                                                         |
+| ---------------- | --------- | ------------------------------------------------------------------------------------------------------------ |
+| learn            | N/A       | フックする fast.ai の Learner オブジェクト。                                                                    |
+| save_model       | True      | 各ステップでモデルが改善された場合にモデルを保存します。学習の最後に最良モデルを読み込みます。                             |
+| mode             | auto      | `min`、`max`、または `auto`。`monitor` で指定した学習メトリクスをステップ間でどのように比較するかを指定します。              |
+| monitor          | None      | 最良モデルを保存する際の性能測定に使用する学習メトリクス。None の場合は検証損失がデフォルトになります。                         |
+| log              | gradients | `gradients`、`parameters`、`all`、または None。損失とメトリクスは常にログされます。                                  |
+| input_type       | None      | `images` または `None`。サンプル予測の表示に使用されます。                                                          |
+| validation_data  | None      | `input_type` が設定されている場合に、サンプル予測に使用されるデータ。                                                 |
+| predictions      | 36        | `input_type` が設定され、`validation_data` が `None` の場合に行う予測の数。                                          |
+| seed             | 12345     | `input_type` が設定され、`validation_data` が `None` の場合に、サンプル予測用の乱数生成器の初期化値。                      |

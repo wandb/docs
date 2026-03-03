@@ -1,0 +1,36 @@
+---
+title: W&B の情報メッセージを非表示にするには？
+---
+
+ノートブック内で次のようなログメッセージを表示させないようにするには：
+
+```
+INFO SenderThread:11484 [sender.py:finish():979]
+```
+
+ログレベルを `logging.ERROR` に設定して、情報レベルのログ出力を抑制し、エラーだけを表示するようにします。
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.ERROR)
+```
+
+ログ出力を大幅に減らすには、環境変数 `WANDB_QUIET` を `True` に設定してください。ログ出力を完全に無効化するには、環境変数 `WANDB_SILENT` を `True` に設定してください。ノートブック環境では、`wandb.login` を実行する前に `WANDB_QUIET` または `WANDB_SILENT` を設定してください:
+
+<Tabs>
+  <Tab title="Notebook">
+    ```python
+    %env WANDB_SILENT=True
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    import os
+
+    os.environ["WANDB_SILENT"] = "True"
+    ```
+  </Tab>
+</Tabs>

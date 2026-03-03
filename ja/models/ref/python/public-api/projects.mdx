@@ -1,0 +1,65 @@
+---
+title: Projects
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+
+## <kbd>class</kbd> `Projects`
+
+`Project` オブジェクトの遅延イテレータ。
+
+エンティティが作成して保存したプロジェクトにアクセスするためのイテラブルなインターフェース。
+
+### <kbd>メソッド</kbd> `Projects.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    per_page: 'int' = 50
+) → Projects
+```
+
+**引数:**
+
+* `client` (`wandb.apis.internal.Api`):  使用する API クライアントインスタンス。
+* `entity` (str):  プロジェクトの取得対象となるエンティティ名（ユーザー名またはチーム）。
+* `per_page` (int):  リクエストごとに取得するプロジェクト数（デフォルトは 50）。
+
+**例:**
+
+```python
+from wandb.apis.public.api import Api
+
+# このエンティティに属するプロジェクトを検索する
+projects = Api().projects(entity="entity")
+
+# プロジェクトを反復処理する
+for project in projects:
+    print(f"Project: {project.name}")
+    print(f"- URL: {project.url}")
+    print(f"- Created at: {project.created_at}")
+    print(f"- Is benchmark: {project.is_benchmark}")
+```
+
+`Project` オブジェクトのイテラブルなコレクション。
+
+**引数:**
+
+* `client`:  W&amp;B にクエリを送信するために使用される API クライアント。
+* `entity`:  プロジェクトを所有するエンティティ。
+* `per_page`:  API への 1 回のリクエストで取得するプロジェクト数。
+
+***
+
+
+### <kbd>property</kbd> Projects.cursor
+
+---
+
+### <kbd>property</kbd> Projects.more

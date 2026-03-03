@@ -1,0 +1,17 @@
+---
+title: Python コードからスイープを再開するにはどうすればよいですか？
+---
+
+スイープを再開するには、`sweep_id` を `wandb.agent()` 関数に渡してください。
+
+```python
+import wandb
+
+sweep_id = "your_sweep_id"
+
+def train():
+    # 学習コードをここに記述
+    pass
+
+wandb.agent(sweep_id=sweep_id, function=train)
+```

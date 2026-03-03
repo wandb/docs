@@ -1,0 +1,51 @@
+---
+title: "wandb artifact put"
+---
+
+{/*
+  このコマンドの導入文を追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-artifact-put.mdx
+  2. そのファイルに導入文を追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+
+  import WandbArtifactPut from "/snippets/_includes/cli/wandb-artifact-put.mdx";
+
+  <WandbArtifactPut/>
+
+  スニペットは次回の再生成時に自動検出されます。
+  */}
+
+アーティファクトを wandb にアップロードする
+
+
+<div id="usage">
+  ## 使用方法
+</div>
+
+```bash
+wandb artifact put PATH [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `PATH` | 説明はありません | 必須 |
+
+<div id="options">
+  ## オプション
+</div>
+
+| オプション | 説明 |
+| :--- | :--- |
+| `--name`, `-n` | プッシュするアーティファクトの名前を指定します: project/artifact_name |
+| `--description`, `-d` | このアーティファクトの説明を指定します |
+| `--type`, `-t` | アーティファクトのタイプを指定します（デフォルト: dataset） |
+| `--alias`, `-a` | このアーティファクトに適用するエイリアスを指定します（デフォルト: ['latest']） |
+| `--id` | アップロード先の run を指定します。 |
+| `--resume` | 現在のディレクトリで最後の run を再開します。 |
+| `--skip_cache` | アーティファクトファイルをアップロードするときにキャッシュをスキップします（デフォルト: False）。 |
+| `--policy` | アーティファクトファイルをアップロードするときのストレージポリシーを設定します（デフォルト: mutable）。 |

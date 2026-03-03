@@ -1,0 +1,35 @@
+---
+title: アイデンティティおよびアクセス管理 (IAM)
+---
+
+W&amp;B Platform には、W&amp;B 内に 3 つの IAM スコープがあります: [Organizations](#organization)、[Teams](#team)、[Projects](#project) です。
+
+<div id="organization">
+  ## 組織
+</div>
+
+*Organization* は、あなたの W&amp;B アカウントまたはインスタンスにおける最上位（ルート）スコープです。アカウントまたはインスタンス内で行われるすべての操作は、このルートスコープのコンテキスト内で実行されます。これには、ユーザーの管理、チームの管理、チーム内のプロジェクトの管理、利用状況の追跡などが含まれます。
+
+[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) を使用している場合、複数の組織を持つことができます。それぞれの組織を、事業部門、個人ユーザー、他社との共同パートナーシップなどに対応させることができます。
+
+[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) または [Self-Managed インスタンス](/ja/platform/hosting/hosting-options/self-managed) を使用している場合、それは 1 つの組織に対応します。会社によっては、異なる事業部門や部署に対応させるために、複数の Dedicated Cloud または Self-Managed インスタンスを保有している場合がありますが、これはあくまでビジネスや部署をまたぐ AI 実務者を管理するための任意の運用方法の 1 つに過ぎません。
+
+詳細については、[組織の管理](./access-management/manage-organization) を参照してください。
+
+<div id="team">
+  ## Team
+</div>
+
+*Team* は組織内のサブスコープであり、事業部門／機能、部署、または社内のプロジェクトチームに対応させることができます。デプロイタイプや料金プランに応じて、1つの組織内に複数の Team を持つこともできます。
+
+AI プロジェクトは、Team を単位として整理されます。Team 内のアクセス制御は Team 管理者によって管理され、Team 管理者が親組織レベルの管理者である場合もあれば、そうでない場合もあります。
+
+詳細については、[Add and manage teams](./access-management/manage-organization#add-and-manage-teams) を参照してください。
+
+<div id="project">
+  ## プロジェクト
+</div>
+
+*プロジェクト* はチーム内のスコープの一種であり、特定の目的と成果を持つ実際の AI プロジェクトに対応します。1 つのチーム内に複数のプロジェクトを持つことができます。各プロジェクトには可視性設定があり、誰がアクセスできるかが決まります。
+
+各プロジェクトは [Workspaces](/ja/models/track/workspaces/) と [Reports](/ja/models/reports/) で構成され、関連する [Artifacts](/ja/models/artifacts/)、[Sweeps](/ja/models/sweeps/)、[Automations](/ja/models/automations/) とリンクされます。

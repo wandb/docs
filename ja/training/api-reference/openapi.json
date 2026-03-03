@@ -1,0 +1,4613 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "W&B Training",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/v1/chat/completions/": {
+      "post": {
+        "tags": [
+          "chat-completions"
+        ],
+        "summary": "チャット補完を作成",
+        "description": "新しいチャット補完を作成します。",
+        "operationId": "create_chat_completion_v1_chat_completions__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/chat/completions": {
+      "post": {
+        "tags": [
+          "chat-completions"
+        ],
+        "summary": "チャット補完を作成",
+        "description": "新しいチャット補完を作成します。",
+        "operationId": "create_chat_completion_v1_chat_completions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatCompletionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatCompletionResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/preview/models": {
+      "post": {
+        "tags": [
+          "models"
+        ],
+        "summary": "モデルを作成",
+        "description": "新しいモデルを作成します。",
+        "operationId": "create_model_v1_preview_models_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/preview/models/{model_id}/checkpoints": {
+      "get": {
+        "tags": [
+          "models"
+        ],
+        "summary": "モデルのチェックポイントを一覧表示",
+        "operationId": "list_model_checkpoints_v1_preview_models__model_id__checkpoints_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Model Id"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "ページネーション用カーソル（前のページの最後の項目のID）",
+              "title": "After"
+            },
+            "description": "ページネーション用カーソル（前のページの最後の項目のID）"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "返却する項目数",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "返却する項目数"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string",
+              "description": "ソート順序",
+              "default": "asc",
+              "title": "Order"
+            },
+            "description": "ソート順序"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_CheckpointResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "models"
+        ],
+        "summary": "モデルのチェックポイントを削除",
+        "description": "モデルの指定したチェックポイントを削除します。",
+        "operationId": "delete_model_checkpoints_v1_preview_models__model_id__checkpoints_delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Model Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteCheckpointsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteCheckpointsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/preview/models/{model_id}": {
+      "delete": {
+        "tags": [
+          "models"
+        ],
+        "summary": "モデルを削除",
+        "description": "モデルと、そのすべてのチェックポイントおよびアーティファクト、さらに関連する W&B run を削除します。",
+        "operationId": "delete_model_v1_preview_models__model_id__delete",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Model Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteModelResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/preview/models/{model_id}/log": {
+      "post": {
+        "tags": [
+          "models"
+        ],
+        "summary": "ログ",
+        "description": "トレースをログに記録し、メトリクスを計算します。",
+        "operationId": "log_v1_preview_models__model_id__log_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "model_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Model Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/preview/training-jobs": {
+      "post": {
+        "tags": [
+          "training-jobs"
+        ],
+        "summary": "RL 学習ジョブを作成",
+        "operationId": "create_training_job_v1_preview_training_jobs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTrainingJob"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingJobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/preview/sft-training-jobs": {
+      "post": {
+        "tags": [
+          "training-jobs"
+        ],
+        "summary": "SFT 学習ジョブを作成",
+        "description": "新しい SFT（Supervised Fine-Tuning）学習ジョブを作成します。",
+        "operationId": "create_sft_training_job_v1_preview_sft_training_jobs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateSFTTrainingJob"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingJobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/v1/preview/training-jobs/{training_job_id}": {
+      "get": {
+        "tags": [
+          "training-jobs"
+        ],
+        "summary": "学習ジョブを取得",
+        "description": "ID で学習ジョブを取得します。",
+        "operationId": "get_training_job_v1_preview_training_jobs__training_job_id__get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "training_job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Training Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingJobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/preview/training-jobs/{training_job_id}/events": {
+      "get": {
+        "tags": [
+          "training-jobs"
+        ],
+        "summary": "学習ジョブのイベントを取得します。",
+        "description": "学習ジョブのイベントを取得します。",
+        "operationId": "get_training_job_events_v1_preview_training_jobs__training_job_id__events_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "training_job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Training Job Id"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "ページネーション用のカーソル",
+              "title": "After"
+            },
+            "description": "ページネーション用のカーソル"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "返却する項目数",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "返却する項目数"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse_TrainingJobEventResponse_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "ヘルスチェック",
+        "operationId": "health_check_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/system-check": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "システムチェック",
+        "description": "すべてのシステムコンポーネントのヘルスチェックを実行します。\n\n戻り値:\n    次のステータスを含む JSON:\n    - api: （エンドポイントに到達可能な場合は）常に true\n    - database: DB 接続が正常に動作しているかどうか\n    - cpu_queue: 成否、処理時間、およびエラーの有無\n    - gpu_queue: 成否、処理時間、およびエラーの有無\n\nいずれかのチェックが失敗した場合は、HTTP 503 ステータスコードを返します。",
+        "operationId": "system_check_v1_system_check_get",
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Annotation": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "url_citation",
+            "title": "Type"
+          },
+          "url_citation": {
+            "$ref": "#/components/schemas/AnnotationURLCitation"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type",
+          "url_citation"
+        ],
+        "title": "Annotation",
+        "description": "Web 検索を使用する際の URL 情報源。"
+      },
+      "AnnotationURLCitation": {
+        "properties": {
+          "end_index": {
+            "type": "integer",
+            "title": "End Index"
+          },
+          "start_index": {
+            "type": "integer",
+            "title": "Start Index"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "end_index",
+          "start_index",
+          "title",
+          "url"
+        ],
+        "title": "AnnotationURLCitation",
+        "description": "Web 検索を使用する際の URL 情報源。"
+      },
+      "Audio": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "Audio",
+        "description": "モデルからの以前の音声レスポンスに関するデータ。\n詳しくは、[こちら](https://platform.openai.com/docs/guides/audio)を参照してください。"
+      },
+      "AudioURL": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "AudioURL"
+      },
+      "Author": {
+        "properties": {
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "Author"
+      },
+      "ChatCompletionAssistantMessageParam": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "const": "assistant",
+            "title": "Role"
+          },
+          "audio": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Audio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartRefusalParam"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "function_call": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FunctionCall-Input"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal"
+          },
+          "tool_calls": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ChatCompletionMessageFunctionToolCallParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionMessageCustomToolCallParam"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Tool Calls"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "ChatCompletionAssistantMessageParam",
+        "description": "モデルがユーザーのメッセージに応答して送信するメッセージです。"
+      },
+      "ChatCompletionAudio": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "data": {
+            "type": "string",
+            "title": "Data"
+          },
+          "expires_at": {
+            "type": "integer",
+            "title": "Expires At"
+          },
+          "transcript": {
+            "type": "string",
+            "title": "Transcript"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "data",
+          "expires_at",
+          "transcript"
+        ],
+        "title": "ChatCompletionAudio",
+        "description": "音声出力モダリティが要求されている場合、このオブジェクトには、モデルからの音声レスポンスに関するデータが含まれます。[詳細はこちら](https://platform.openai.com/docs/guides/audio)。"
+      },
+      "ChatCompletionContentPartAudioEmbedsParam": {
+        "properties": {
+          "audio_embeds": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audio Embeds"
+          },
+          "type": {
+            "type": "string",
+            "const": "audio_embeds",
+            "title": "Type"
+          },
+          "uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uuid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "ChatCompletionContentPartAudioEmbedsParam"
+      },
+      "ChatCompletionContentPartAudioParam": {
+        "properties": {
+          "audio_url": {
+            "$ref": "#/components/schemas/AudioURL"
+          },
+          "type": {
+            "type": "string",
+            "const": "audio_url",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "audio_url",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartAudioParam"
+      },
+      "ChatCompletionContentPartImageEmbedsParam": {
+        "properties": {
+          "image_embeds": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Embeds"
+          },
+          "type": {
+            "type": "string",
+            "const": "image_embeds",
+            "title": "Type"
+          },
+          "uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uuid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "ChatCompletionContentPartImageEmbedsParam"
+      },
+      "ChatCompletionContentPartImageParam": {
+        "properties": {
+          "image_url": {
+            "$ref": "#/components/schemas/ImageURL"
+          },
+          "type": {
+            "type": "string",
+            "const": "image_url",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "image_url",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartImageParam",
+        "description": "[画像入力](https://platform.openai.com/docs/guides/vision)の詳細。"
+      },
+      "ChatCompletionContentPartInputAudioParam": {
+        "properties": {
+          "input_audio": {
+            "$ref": "#/components/schemas/InputAudio"
+          },
+          "type": {
+            "type": "string",
+            "const": "input_audio",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "input_audio",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartInputAudioParam",
+        "description": "[音声入力](https://platform.openai.com/docs/guides/audio)の詳細。"
+      },
+      "ChatCompletionContentPartRefusalParam": {
+        "properties": {
+          "refusal": {
+            "type": "string",
+            "title": "Refusal"
+          },
+          "type": {
+            "type": "string",
+            "const": "refusal",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "refusal",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartRefusalParam"
+      },
+      "ChatCompletionContentPartTextParam": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "type": {
+            "type": "string",
+            "const": "text",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "text",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartTextParam",
+        "description": "[テキスト入力](https://platform.openai.com/docs/guides/text-generation)の詳細。"
+      },
+      "ChatCompletionContentPartVideoParam": {
+        "properties": {
+          "video_url": {
+            "$ref": "#/components/schemas/VideoURL"
+          },
+          "type": {
+            "type": "string",
+            "const": "video_url",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "video_url",
+          "type"
+        ],
+        "title": "ChatCompletionContentPartVideoParam"
+      },
+      "ChatCompletionDeveloperMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "role": {
+            "type": "string",
+            "const": "developer",
+            "title": "Role"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "role"
+        ],
+        "title": "ChatCompletionDeveloperMessageParam",
+        "description": "ユーザーから送信されるメッセージに関係なく、モデルが従うべき開発者提供の指示です。o1 モデル以降では、`developer` メッセージが従来の `system` メッセージに置き換わります。"
+      },
+      "ChatCompletionFunctionMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "role": {
+            "type": "string",
+            "const": "function",
+            "title": "Role"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "name",
+          "role"
+        ],
+        "title": "ChatCompletionFunctionMessageParam"
+      },
+      "ChatCompletionFunctionToolParam": {
+        "properties": {
+          "function": {
+            "$ref": "#/components/schemas/openai__types__shared_params__function_definition__FunctionDefinition"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "function",
+          "type"
+        ],
+        "title": "ChatCompletionFunctionToolParam",
+        "description": "レスポンスの生成に使用できる関数／ツールです。"
+      },
+      "ChatCompletionLogProb": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "logprob": {
+            "type": "number",
+            "title": "Logprob",
+            "default": -9999
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "ChatCompletionLogProb"
+      },
+      "ChatCompletionLogProbs": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionLogProbsContent"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "ChatCompletionLogProbs"
+      },
+      "ChatCompletionLogProbsContent": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "logprob": {
+            "type": "number",
+            "title": "Logprob",
+            "default": -9999
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes"
+          },
+          "top_logprobs": {
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionLogProb"
+            },
+            "type": "array",
+            "title": "Top Logprobs"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "token"
+        ],
+        "title": "ChatCompletionLogProbsContent"
+      },
+      "ChatCompletionMessage": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal"
+          },
+          "role": {
+            "type": "string",
+            "const": "assistant",
+            "title": "Role"
+          },
+          "annotations": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Annotation"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotations"
+          },
+          "audio": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChatCompletionAudio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "function_call": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FunctionCall-Input"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tool_calls": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionMessageFunctionToolCall"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionMessageCustomToolCall"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Calls"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "ChatCompletionMessage",
+        "description": "モデルによって生成されたチャット補完のメッセージです。"
+      },
+      "ChatCompletionMessageCustomToolCall": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "custom": {
+            "$ref": "#/components/schemas/Custom"
+          },
+          "type": {
+            "type": "string",
+            "const": "custom",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "custom",
+          "type"
+        ],
+        "title": "ChatCompletionMessageCustomToolCall",
+        "description": "モデルによって作成されたカスタムツール呼び出しです。"
+      },
+      "ChatCompletionMessageCustomToolCallParam": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "custom": {
+            "$ref": "#/components/schemas/Custom"
+          },
+          "type": {
+            "type": "string",
+            "const": "custom",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "custom",
+          "type"
+        ],
+        "title": "ChatCompletionMessageCustomToolCallParam",
+        "description": "モデルによって作成されたカスタムツール呼び出しです。"
+      },
+      "ChatCompletionMessageFunctionToolCall": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "function": {
+            "$ref": "#/components/schemas/Function"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "function",
+          "type"
+        ],
+        "title": "ChatCompletionMessageFunctionToolCall",
+        "description": "モデルによって生成された function ツールの呼び出し。"
+      },
+      "ChatCompletionMessageFunctionToolCallParam": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "function": {
+            "$ref": "#/components/schemas/Function"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "function",
+          "type"
+        ],
+        "title": "ChatCompletionMessageFunctionToolCallParam",
+        "description": "モデルによって生成された function ツールの呼び出し。"
+      },
+      "ChatCompletionNamedFunction": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ChatCompletionNamedFunction"
+      },
+      "ChatCompletionNamedToolChoiceParam": {
+        "properties": {
+          "function": {
+            "$ref": "#/components/schemas/ChatCompletionNamedFunction"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type",
+            "default": "function"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "function"
+        ],
+        "title": "ChatCompletionNamedToolChoiceParam"
+      },
+      "ChatCompletionRequest": {
+        "properties": {
+          "messages": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ChatCompletionDeveloperMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionSystemMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionUserMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionAssistantMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionToolMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/CustomChatCompletionMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/Message"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Messages"
+          },
+          "model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model"
+          },
+          "frequency_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Frequency Penalty",
+            "default": 0
+          },
+          "logit_bias": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logit Bias"
+          },
+          "logprobs": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logprobs",
+            "default": false
+          },
+          "top_logprobs": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top Logprobs",
+            "default": 0
+          },
+          "max_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Tokens",
+            "deprecated": true
+          },
+          "max_completion_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Completion Tokens"
+          },
+          "n": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "N",
+            "default": 1
+          },
+          "presence_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Presence Penalty",
+            "default": 0
+          },
+          "response_format": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResponseFormat"
+              },
+              {
+                "$ref": "#/components/schemas/StructuralTagResponseFormat"
+              },
+              {
+                "$ref": "#/components/schemas/LegacyStructuralTagResponseFormat"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response Format"
+          },
+          "seed": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9223372036854776000,
+                "minimum": -9223372036854776000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed"
+          },
+          "stop": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop",
+            "default": []
+          },
+          "stream": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stream",
+            "default": false
+          },
+          "stream_options": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StreamOptions"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "temperature": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temperature"
+          },
+          "top_p": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top P"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionToolsParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          },
+          "tool_choice": {
+            "anyOf": [
+              {
+                "type": "string",
+                "const": "none"
+              },
+              {
+                "type": "string",
+                "const": "auto"
+              },
+              {
+                "type": "string",
+                "const": "required"
+              },
+              {
+                "$ref": "#/components/schemas/ChatCompletionNamedToolChoiceParam"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Choice",
+            "default": "none"
+          },
+          "reasoning_effort": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Effort"
+          },
+          "include_reasoning": {
+            "type": "boolean",
+            "title": "Include Reasoning",
+            "default": true
+          },
+          "parallel_tool_calls": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parallel Tool Calls",
+            "default": true
+          },
+          "user": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User"
+          },
+          "use_beam_search": {
+            "type": "boolean",
+            "title": "Use Beam Search",
+            "default": false
+          },
+          "top_k": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Top K"
+          },
+          "min_p": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min P"
+          },
+          "repetition_penalty": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Repetition Penalty"
+          },
+          "length_penalty": {
+            "type": "number",
+            "title": "Length Penalty",
+            "default": 1
+          },
+          "stop_token_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop Token Ids",
+            "default": []
+          },
+          "include_stop_str_in_output": {
+            "type": "boolean",
+            "title": "Include Stop Str In Output",
+            "default": false
+          },
+          "ignore_eos": {
+            "type": "boolean",
+            "title": "Ignore Eos",
+            "default": false
+          },
+          "min_tokens": {
+            "type": "integer",
+            "title": "Min Tokens",
+            "default": 0
+          },
+          "skip_special_tokens": {
+            "type": "boolean",
+            "title": "Skip Special Tokens",
+            "default": true
+          },
+          "spaces_between_special_tokens": {
+            "type": "boolean",
+            "title": "Spaces Between Special Tokens",
+            "default": true
+          },
+          "truncate_prompt_tokens": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": -1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Truncate Prompt Tokens"
+          },
+          "prompt_logprobs": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Logprobs"
+          },
+          "allowed_token_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allowed Token Ids"
+          },
+          "bad_words": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Bad Words"
+          },
+          "echo": {
+            "type": "boolean",
+            "title": "Echo",
+            "description": "true の場合、新しいメッセージが同じロールに属していれば、その直前のメッセージに追記されます。",
+            "default": false
+          },
+          "add_generation_prompt": {
+            "type": "boolean",
+            "title": "Add Generation Prompt",
+            "description": "true の場合、生成用プロンプトがチャットテンプレートに追加されます。これは、モデルの tokenizer 設定におけるチャットテンプレートで使用されるパラメータです。",
+            "default": true
+          },
+          "continue_final_message": {
+            "type": "boolean",
+            "title": "Continue Final Message",
+            "description": "これが true に設定されている場合、チャットは、チャット内の最後のメッセージが EOS トークンなしの未完結な形になるようにフォーマットされます。モデルは新しいメッセージを開始するのではなく、このメッセージの続きを生成します。これにより、モデルの応答の一部を「事前入力（prefill）」することができます。`add_generation_prompt` と同時には使用できません。",
+            "default": false
+          },
+          "add_special_tokens": {
+            "type": "boolean",
+            "title": "Add Special Tokens",
+            "description": "true の場合、（BOS などの）特別トークンが、チャットテンプレートによって追加される内容に加えてプロンプトに追加されます。ほとんどのモデルでは特別トークンの追加はチャットテンプレート側で処理されるため、この値はデフォルトどおり false のままにしておく必要があります。",
+            "default": false
+          },
+          "documents": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Documents",
+            "description": "RAG（retrieval-augmented generation）実行時に、モデルからアクセス可能になるドキュメントを表す dict のリストです。テンプレートが RAG をサポートしていない場合、この引数は無視されます。各ドキュメントは \"title\" と \"text\" のキーを含む dict にすることを推奨します。"
+          },
+          "chat_template": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chat Template",
+            "description": "この変換で使用する Jinja テンプレートです。transformers v4.44 以降ではデフォルトのチャットテンプレートは使用できないため、tokenizer がチャットテンプレートを定義していない場合は、必ずチャットテンプレートを指定する必要があります。"
+          },
+          "chat_template_kwargs": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chat Template Kwargs",
+            "description": "テンプレートレンダラーに渡す追加のキーワード引数（kwargs）です。チャットテンプレートから参照できます。"
+          },
+          "mm_processor_kwargs": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mm Processor Kwargs",
+            "description": "HF プロセッサーに渡す追加のキーワード引数（kwargs）です。"
+          },
+          "structured_outputs": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StructuredOutputsParams"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "構造化出力用の追加のキーワード引数（kwargs）です。"
+          },
+          "priority": {
+            "type": "integer",
+            "title": "Priority",
+            "description": "リクエストの優先度です（値が小さいほど早く処理されます。デフォルト: 0）。使用しているモデルが優先度スケジューリングをサポートしていない場合、0 以外の優先度を指定するとエラーが発生します。",
+            "default": 0
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id",
+            "description": "このリクエストに関連付けられた request_id です。呼び出し元で明示的に指定しない場合は、ランダムな UUID（random_uuid）が自動生成されます。この ID は推論処理全体を通して使用され、レスポンスでも返されます。"
+          },
+          "logits_processors": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/LogitsProcessorConstructor"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Logits Processors",
+            "description": "サンプリング時に適用する logits processor を指定するリストです。各要素は、logits processor の修飾名（qualified name）か、コンストラクタオブジェクトのいずれかです。コンストラクタは JSON オブジェクトで、必須フィールドとして processor クラス／ファクトリの修飾名を指定する 'qualname'、任意フィールドとして位置引数を含む 'args' とキーワード引数を含む 'kwargs' を持ちます。例：{'qualname': 'my_module.MyLogitsProcessor', 'args': [1, 2], 'kwargs': {'param': 'value'}}。"
+          },
+          "return_tokens_as_token_ids": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Tokens As Token Ids",
+            "description": "'logprobs' と併せて指定された場合、トークンは 'token_id:{token_id}' という形式の文字列として表現されます。これにより、JSON でエンコードできないトークンを識別できるようになります。"
+          },
+          "return_token_ids": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Return Token Ids",
+            "description": "指定すると、生成されたテキストに加えてトークン ID もレスポンスに含まれます。ストリーミングモードでは、prompt_token_ids は最初のチャンクにのみ含まれ、token_ids には各チャンクごとの差分トークンが含まれます。これはデバッグ時や、生成テキストを入力トークンに対応付ける必要がある場合に有用です。"
+          },
+          "cache_salt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cache Salt",
+            "description": "指定すると、マルチユーザー環境で攻撃者にプロンプトを推測されることを防ぐため、指定した文字列を用いて prefix キャッシュにソルトを追加します。ソルトはランダムで、第三者からアクセスされないよう保護されており、予測不能な十分な長さ（例: 256 ビットに相当する 43 文字の base64 エンコード文字列）である必要があります。"
+          },
+          "kv_transfer_params": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kv Transfer Params",
+            "description": "分離型サービングで使用される KVTransfer パラメーターです。"
+          },
+          "vllm_xargs": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "integer"
+                          },
+                          {
+                            "type": "number"
+                          }
+                        ]
+                      },
+                      "type": "array"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vllm Xargs",
+            "description": "カスタム拡張機能で使用される、文字列または数値（あるいはそのリスト）からなる追加のリクエストパラメーターです。"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "messages"
+        ],
+        "title": "ChatCompletionRequest"
+      },
+      "ChatCompletionResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "object": {
+            "type": "string",
+            "const": "chat.completion",
+            "title": "Object",
+            "default": "chat.completion"
+          },
+          "created": {
+            "type": "integer",
+            "title": "Created"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model"
+          },
+          "choices": {
+            "items": {
+              "$ref": "#/components/schemas/ChatCompletionResponseChoice"
+            },
+            "type": "array",
+            "title": "Choices"
+          },
+          "service_tier": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "auto",
+                  "default",
+                  "flex",
+                  "scale",
+                  "priority"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Service Tier"
+          },
+          "system_fingerprint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "System Fingerprint"
+          },
+          "usage": {
+            "$ref": "#/components/schemas/UsageInfo"
+          },
+          "prompt_logprobs": {
+            "anyOf": [
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "additionalProperties": {
+                        "$ref": "#/components/schemas/Logprob"
+                      },
+                      "type": "object"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Logprobs"
+          },
+          "prompt_token_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Token Ids"
+          },
+          "kv_transfer_params": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kv Transfer Params",
+            "description": "KVTransfer パラメーターです。"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "model",
+          "choices",
+          "usage"
+        ],
+        "title": "ChatCompletionResponse"
+      },
+      "ChatCompletionResponseChoice": {
+        "properties": {
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatMessage"
+          },
+          "logprobs": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChatCompletionLogProbs"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "finish_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finish Reason",
+            "default": "stop"
+          },
+          "stop_reason": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop Reason"
+          },
+          "token_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Token Ids"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "index",
+          "message"
+        ],
+        "title": "ChatCompletionResponseChoice"
+      },
+      "ChatCompletionSystemMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "role": {
+            "type": "string",
+            "const": "system",
+            "title": "Role"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "role"
+        ],
+        "title": "ChatCompletionSystemMessageParam",
+        "description": "ユーザーから送信されるメッセージにかかわらず、モデルが常に従うべき、開発者が指定する指示です。o1 モデル以降では、この目的には代わりに `developer` メッセージを使用してください。"
+      },
+      "ChatCompletionTokenLogprob": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes"
+          },
+          "logprob": {
+            "type": "number",
+            "title": "Logprob"
+          },
+          "top_logprobs": {
+            "items": {
+              "$ref": "#/components/schemas/TopLogprob"
+            },
+            "type": "array",
+            "title": "Top Logprobs"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "token",
+          "logprob",
+          "top_logprobs"
+        ],
+        "title": "ChatCompletionTokenLogprob"
+      },
+      "ChatCompletionToolMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "role": {
+            "type": "string",
+            "const": "tool",
+            "title": "Role"
+          },
+          "tool_call_id": {
+            "type": "string",
+            "title": "Tool Call Id"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "role",
+          "tool_call_id"
+        ],
+        "title": "ChatCompletionToolMessageParam"
+      },
+      "ChatCompletionToolsParam": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type",
+            "default": "function"
+          },
+          "function": {
+            "$ref": "#/components/schemas/FunctionDefinition"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "function"
+        ],
+        "title": "ChatCompletionToolsParam"
+      },
+      "ChatCompletionUserMessageParam": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartImageParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartInputAudioParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/File"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "role": {
+            "type": "string",
+            "const": "user",
+            "title": "Role"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "content",
+          "role"
+        ],
+        "title": "ChatCompletionUserMessageParam",
+        "description": "エンドユーザーが送信するメッセージで、プロンプトや追加のコンテキスト情報を含みます。"
+      },
+      "ChatMessage": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal"
+          },
+          "annotations": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Annotation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "audio": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChatCompletionAudio"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "function_call": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FunctionCall-Output"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tool_calls": {
+            "items": {
+              "$ref": "#/components/schemas/ToolCall"
+            },
+            "type": "array",
+            "title": "Tool Calls"
+          },
+          "reasoning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning"
+          },
+          "reasoning_content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning Content"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "ChatMessage"
+      },
+      "CheckpointResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "step": {
+            "type": "integer",
+            "title": "Step"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Metrics"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "step",
+          "metrics"
+        ],
+        "title": "CheckpointResponse",
+        "description": "チェックポイント応答用のスキーマです。"
+      },
+      "Choice": {
+        "properties": {
+          "finish_reason": {
+            "type": "string",
+            "enum": [
+              "stop",
+              "length",
+              "tool_calls",
+              "content_filter",
+              "function_call"
+            ],
+            "title": "Finish Reason"
+          },
+          "index": {
+            "type": "integer",
+            "title": "Index"
+          },
+          "logprobs": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ChoiceLogprobs"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "message": {
+            "$ref": "#/components/schemas/ChatCompletionMessage"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "finish_reason",
+          "index",
+          "message"
+        ],
+        "title": "Choice"
+      },
+      "ChoiceLogprobs": {
+        "properties": {
+          "content": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionTokenLogprob"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "refusal": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionTokenLogprob"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refusal"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "ChoiceLogprobs",
+        "description": "その選択に対する対数確率に関する情報。"
+      },
+      "Content": {
+        "properties": {},
+        "type": "object",
+        "title": "Content"
+      },
+      "CreateSFTTrainingJob": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Id"
+          },
+          "training_data_url": {
+            "type": "string",
+            "title": "Training Data Url",
+            "description": "学習データ用の W&B アーティファクトパス（例: 'wandb-artifact:///entity/project/artifact-name:version'）"
+          },
+          "config": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SFTTrainingConfig"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "experimental_config": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Experimental Config"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "training_data_url"
+        ],
+        "title": "CreateSFTTrainingJob",
+        "description": "新しい SFT（Supervised Fine-Tuning）TrainingJob を作成するためのスキーマです。\n\nクライアントは学習データ（trajectories.jsonl と metadata.json）を W&B Artifacts にアップロードし、そのアーティファクトの URL を指定する必要があります。"
+      },
+      "CreateTrainingJob": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Id"
+          },
+          "trajectory_groups": {
+            "items": {
+              "$ref": "#/components/schemas/TrajectoryGroup"
+            },
+            "type": "array",
+            "title": "Trajectory Groups"
+          },
+          "experimental_config": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExperimentalTrainingConfig"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "trajectory_groups"
+        ],
+        "title": "CreateTrainingJob",
+        "description": "新規 TrainingJob を作成するためのスキーマです。"
+      },
+      "Custom": {
+        "properties": {
+          "input": {
+            "type": "string",
+            "title": "Input"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "input",
+          "name"
+        ],
+        "title": "Custom",
+        "description": "モデルによって呼び出されたカスタムツール。"
+      },
+      "CustomChatCompletionContentSimpleAudioParam": {
+        "properties": {
+          "audio_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Audio Url"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "CustomChatCompletionContentSimpleAudioParam",
+        "description": "プレーンな audio_url のみを受け付ける、よりシンプルなバージョンのパラメータです。\n\n例:\n{\n    \"audio_url\": \"https://example.com/audio.mp3\"\n}"
+      },
+      "CustomChatCompletionContentSimpleImageParam": {
+        "properties": {
+          "image_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Image Url"
+          },
+          "uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uuid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "CustomChatCompletionContentSimpleImageParam",
+        "description": "プレーンな image_url のみを受け付ける、よりシンプルなバージョンのパラメータです。\nこれは OpenAI API でサポートされていますが、ドキュメントには記載されていません。\n\n例:\n{\n    \"image_url\": \"https://example.com/image.jpg\"\n}"
+      },
+      "CustomChatCompletionContentSimpleVideoParam": {
+        "properties": {
+          "video_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Video Url"
+          },
+          "uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uuid"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "CustomChatCompletionContentSimpleVideoParam",
+        "description": "パラメータを簡略化したバージョンで、プレーンな audio_url のみを受け取ります。\n\n例:\n{\n    \"video_url\": \"https://example.com/video.mp4\"\n}"
+      },
+      "CustomChatCompletionMessageParam": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartTextParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartImageParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartInputAudioParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/File"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartAudioParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartVideoParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartRefusalParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomChatCompletionContentSimpleImageParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartImageEmbedsParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ChatCompletionContentPartAudioEmbedsParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomChatCompletionContentSimpleAudioParam"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomChatCompletionContentSimpleVideoParam"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomThinkCompletionContentParam"
+                    }
+                  ]
+                },
+                "type": "array"
+              }
+            ],
+            "title": "Content"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "tool_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Call Id"
+          },
+          "tool_calls": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionMessageFunctionToolCallParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tool Calls"
+          },
+          "reasoning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reasoning"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionToolParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "title": "CustomChatCompletionMessageParam",
+        "description": "Chat Completion API でカスタムロールを有効化します。"
+      },
+      "CustomThinkCompletionContentParam": {
+        "properties": {
+          "thinking": {
+            "type": "string",
+            "title": "Thinking"
+          },
+          "closed": {
+            "type": "boolean",
+            "title": "Closed"
+          },
+          "type": {
+            "type": "string",
+            "const": "thinking",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "thinking",
+          "type"
+        ],
+        "title": "CustomThinkCompletionContentParam",
+        "description": "プレーンテキストとブール値を受け取る、Think Completion 用の content パラメータです。\n\n例:\n{\n    \"thinking\": \"I am thinking about the answer\",\n    \"closed\": True,\n    \"type\": \"thinking\"\n}"
+      },
+      "DeleteCheckpointsRequest": {
+        "properties": {
+          "steps": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Steps"
+          }
+        },
+        "type": "object",
+        "required": [
+          "steps"
+        ],
+        "title": "DeleteCheckpointsRequest",
+        "description": "チェックポイントを削除するためのスキーマ。"
+      },
+      "DeleteCheckpointsResponse": {
+        "properties": {
+          "deleted_count": {
+            "type": "integer",
+            "title": "Deleted Count"
+          },
+          "not_found_steps": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Not Found Steps"
+          }
+        },
+        "type": "object",
+        "required": [
+          "deleted_count",
+          "not_found_steps"
+        ],
+        "title": "DeleteCheckpointsResponse",
+        "description": "チェックポイント削除レスポンス用のスキーマ。"
+      },
+      "DeleteModelResponse": {
+        "properties": {
+          "model_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Model Id"
+          },
+          "deleted_checkpoints": {
+            "type": "integer",
+            "title": "Deleted Checkpoints"
+          },
+          "deleted_run": {
+            "type": "boolean",
+            "title": "Deleted Run"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model_id",
+          "deleted_checkpoints",
+          "deleted_run"
+        ],
+        "title": "DeleteModelResponse",
+        "description": "モデル削除レスポンス用のスキーマ。"
+      },
+      "ExperimentalTrainingConfig": {
+        "properties": {
+          "advantage_balance": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Advantage Balance"
+          },
+          "epsilon": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Epsilon"
+          },
+          "epsilon_high": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Epsilon High"
+          },
+          "importance_sampling_level": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "token",
+                  "sequence",
+                  "average",
+                  "geometric_average"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Importance Sampling Level"
+          },
+          "kimi_k2_tau": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kimi K2 Tau"
+          },
+          "learning_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learning Rate"
+          },
+          "mask_prob_ratio": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mask Prob Ratio"
+          },
+          "max_negative_advantage_importance_sampling_weight": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Negative Advantage Importance Sampling Weight"
+          },
+          "ppo": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ppo"
+          },
+          "precalculate_logprobs": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Precalculate Logprobs"
+          },
+          "scale_rewards": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scale Rewards"
+          }
+        },
+        "type": "object",
+        "title": "ExperimentalTrainingConfig",
+        "description": "実験的な学習設定用のスキーマ。"
+      },
+      "File": {
+        "properties": {
+          "file": {
+            "$ref": "#/components/schemas/FileFile"
+          },
+          "type": {
+            "type": "string",
+            "const": "file",
+            "title": "Type"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "file",
+          "type"
+        ],
+        "title": "File",
+        "description": "テキスト生成向けの[ファイル入力](https://platform.openai.com/docs/guides/text)について学びます。"
+      },
+      "FileFile": {
+        "properties": {
+          "file_data": {
+            "type": "string",
+            "title": "File Data"
+          },
+          "file_id": {
+            "type": "string",
+            "title": "File Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "FileFile"
+      },
+      "Function": {
+        "properties": {
+          "arguments": {
+            "type": "string",
+            "title": "Arguments"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "arguments",
+          "name"
+        ],
+        "title": "Function",
+        "description": "モデルが呼び出した関数。"
+      },
+      "FunctionCall-Input": {
+        "properties": {
+          "arguments": {
+            "type": "string",
+            "title": "Arguments"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "arguments",
+          "name"
+        ],
+        "title": "FunctionCall",
+        "description": "非推奨で、`tool_calls` に置き換えられました。\n\nモデルによって生成された、呼び出すべき関数の名前と引数。"
+      },
+      "FunctionCall-Output": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "arguments": {
+            "type": "string",
+            "title": "Arguments"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name",
+          "arguments"
+        ],
+        "title": "FunctionCall"
+      },
+      "FunctionDefinition": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "parameters": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parameters"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "FunctionDefinition"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "History": {
+        "properties": {
+          "messages_and_choices": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ChatCompletionDeveloperMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionSystemMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionUserMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionAssistantMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionToolMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/Choice"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Messages And Choices"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionToolParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          }
+        },
+        "type": "object",
+        "required": [
+          "messages_and_choices"
+        ],
+        "title": "History"
+      },
+      "ImageURL": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "detail": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "low",
+              "high"
+            ],
+            "title": "Detail"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "ImageURL"
+      },
+      "InputAudio": {
+        "properties": {
+          "data": {
+            "type": "string",
+            "title": "Data"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "wav",
+              "mp3"
+            ],
+            "title": "Format"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "data",
+          "format"
+        ],
+        "title": "InputAudio"
+      },
+      "JsonSchemaResponseFormat": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "schema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schema"
+          },
+          "strict": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strict"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "JsonSchemaResponseFormat"
+      },
+      "LegacyStructuralTag": {
+        "properties": {
+          "begin": {
+            "type": "string",
+            "title": "Begin"
+          },
+          "schema": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schema"
+          },
+          "end": {
+            "type": "string",
+            "title": "End"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "begin",
+          "end"
+        ],
+        "title": "LegacyStructuralTag"
+      },
+      "LegacyStructuralTagResponseFormat": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "structural_tag",
+            "title": "Type"
+          },
+          "structures": {
+            "items": {
+              "$ref": "#/components/schemas/LegacyStructuralTag"
+            },
+            "type": "array",
+            "title": "Structures"
+          },
+          "triggers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Triggers"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type",
+          "structures",
+          "triggers"
+        ],
+        "title": "LegacyStructuralTagResponseFormat"
+      },
+      "LogRequest": {
+        "properties": {
+          "split": {
+            "type": "string",
+            "title": "Split"
+          },
+          "trajectory_groups": {
+            "items": {
+              "$ref": "#/components/schemas/TrajectoryGroup"
+            },
+            "type": "array",
+            "title": "Trajectory Groups"
+          }
+        },
+        "type": "object",
+        "required": [
+          "split",
+          "trajectory_groups"
+        ],
+        "title": "LogRequest",
+        "description": "トレースをログ記録するためのスキーマ。"
+      },
+      "LogitsProcessorConstructor": {
+        "properties": {
+          "qualname": {
+            "type": "string",
+            "title": "Qualname"
+          },
+          "args": {
+            "anyOf": [
+              {
+                "items": {},
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Args"
+          },
+          "kwargs": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kwargs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "qualname"
+        ],
+        "title": "LogitsProcessorConstructor"
+      },
+      "Logprob": {
+        "properties": {
+          "logprob": {
+            "type": "number",
+            "title": "Logprob"
+          },
+          "rank": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rank"
+          },
+          "decoded_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decoded Token"
+          }
+        },
+        "type": "object",
+        "required": [
+          "logprob"
+        ],
+        "title": "Logprob"
+      },
+      "Message": {
+        "properties": {
+          "author": {
+            "$ref": "#/components/schemas/Author"
+          },
+          "content": {
+            "items": {
+              "$ref": "#/components/schemas/Content"
+            },
+            "type": "array",
+            "title": "Content"
+          },
+          "channel": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Channel"
+          },
+          "recipient": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recipient"
+          },
+          "content_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "author"
+        ],
+        "title": "Message"
+      },
+      "ModelCreate": {
+        "properties": {
+          "entity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity",
+            "description": "使用されている W&B の APIキー に紐づく開発チーム名またはユーザー名。",
+            "examples": [
+              "my-team"
+            ]
+          },
+          "project": {
+            "type": "string",
+            "title": "Project",
+            "description": "モデルを保存する W&B 上のプロジェクト名。",
+            "examples": [
+              "my-awesome-project"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "プロジェクト内で一意なモデル名。",
+            "examples": [
+              "my-awesome-model"
+            ]
+          },
+          "base_model": {
+            "type": "string",
+            "title": "Base Model",
+            "description": "ファインチューニング元となるベースモデルの識別子、または Hugging Face のモデルパス。",
+            "examples": [
+              "OpenPipe/Qwen3-14B-Instruct"
+            ]
+          },
+          "return_existing": {
+            "type": "boolean",
+            "title": "Return Existing",
+            "description": "true の場合、同じ名前のモデルが既に存在していれば新規作成せず、その既存モデルを返す。",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "project",
+          "name",
+          "base_model"
+        ],
+        "title": "ModelCreate",
+        "description": "新しいモデルを作成するためのスキーマ。"
+      },
+      "ModelResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "entity": {
+            "type": "string",
+            "title": "Entity"
+          },
+          "project": {
+            "type": "string",
+            "title": "Project"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "base_model": {
+            "type": "string",
+            "title": "Base Model"
+          },
+          "run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Run Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "entity",
+          "project",
+          "name",
+          "base_model"
+        ],
+        "title": "ModelResponse",
+        "description": "モデルレスポンスのスキーマ。"
+      },
+      "PaginatedResponse_CheckpointResponse_": {
+        "properties": {
+          "object": {
+            "type": "string",
+            "title": "Object",
+            "description": "オブジェクトタイプの識別子。",
+            "default": "list"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/CheckpointResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "要素の配列。"
+          },
+          "first_id": {
+            "type": "string",
+            "title": "First Id",
+            "description": "現在のページ内の最初のアイテムの ID",
+            "default": ""
+          },
+          "last_id": {
+            "type": "string",
+            "title": "Last Id",
+            "description": "現在のページ内の最後のアイテムの ID",
+            "default": ""
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "description": "他に利用可能なアイテムがあるかどうか"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "has_more"
+        ],
+        "title": "PaginatedResponse[CheckpointResponse]"
+      },
+      "PaginatedResponse_TrainingJobEventResponse_": {
+        "properties": {
+          "object": {
+            "type": "string",
+            "title": "Object",
+            "description": "オブジェクトタイプ識別子",
+            "default": "list"
+          },
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/TrainingJobEventResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "アイテムの配列"
+          },
+          "first_id": {
+            "type": "string",
+            "title": "First Id",
+            "description": "現在のページ内の最初のアイテムの ID",
+            "default": ""
+          },
+          "last_id": {
+            "type": "string",
+            "title": "Last Id",
+            "description": "現在のページ内の最後のアイテムの ID",
+            "default": ""
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "description": "他に利用可能なアイテムがあるかどうか"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "has_more"
+        ],
+        "title": "PaginatedResponse[TrainingJobEventResponse]"
+      },
+      "PromptTokenUsageInfo": {
+        "properties": {
+          "cached_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cached Tokens"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "PromptTokenUsageInfo"
+      },
+      "ResponseFormat": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "json_object",
+              "json_schema"
+            ],
+            "title": "Type"
+          },
+          "json_schema": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JsonSchemaResponseFormat"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "title": "ResponseFormat"
+      },
+      "Role": {
+        "type": "string",
+        "enum": [
+          "user",
+          "assistant",
+          "system",
+          "developer",
+          "tool"
+        ],
+        "title": "Role",
+        "description": "メッセージ作成者のロール（``chat::Role`` を反映）。"
+      },
+      "SFTTrainingConfig": {
+        "properties": {
+          "batch_size": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string",
+                "const": "auto"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Batch Size"
+          },
+          "learning_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learning Rate"
+          }
+        },
+        "type": "object",
+        "title": "SFTTrainingConfig",
+        "description": "SFT 学習設定用スキーマ。"
+      },
+      "StreamOptions": {
+        "properties": {
+          "include_usage": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Usage",
+            "default": true
+          },
+          "continuous_usage_stats": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Continuous Usage Stats",
+            "default": false
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "StreamOptions"
+      },
+      "StructuralTagResponseFormat": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "structural_tag",
+            "title": "Type"
+          },
+          "format": {
+            "title": "Format"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "type",
+          "format"
+        ],
+        "title": "StructuralTagResponseFormat"
+      },
+      "StructuredOutputsParams": {
+        "properties": {
+          "json": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Json"
+          },
+          "regex": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regex"
+          },
+          "choice": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Choice"
+          },
+          "grammar": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grammar"
+          },
+          "json_object": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Json Object"
+          },
+          "disable_fallback": {
+            "type": "boolean",
+            "title": "Disable Fallback",
+            "default": false
+          },
+          "disable_any_whitespace": {
+            "type": "boolean",
+            "title": "Disable Any Whitespace",
+            "default": false
+          },
+          "disable_additional_properties": {
+            "type": "boolean",
+            "title": "Disable Additional Properties",
+            "default": false
+          },
+          "whitespace_pattern": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Whitespace Pattern"
+          },
+          "structural_tag": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Structural Tag"
+          },
+          "_backend": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Backend"
+          },
+          "_backend_was_auto": {
+            "type": "boolean",
+            "title": "Backend Was Auto",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "StructuredOutputsParams"
+      },
+      "ToolCall": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "type": {
+            "type": "string",
+            "const": "function",
+            "title": "Type",
+            "default": "function"
+          },
+          "function": {
+            "$ref": "#/components/schemas/FunctionCall-Output"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "function"
+        ],
+        "title": "ToolCall"
+      },
+      "TopLogprob": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "title": "Token"
+          },
+          "bytes": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes"
+          },
+          "logprob": {
+            "type": "number",
+            "title": "Logprob"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "token",
+          "logprob"
+        ],
+        "title": "TopLogprob"
+      },
+      "TrainingJobEventResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/TrainingJobEventType"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "data"
+        ],
+        "title": "TrainingJobEventResponse",
+        "description": "TrainingJobEvent レスポンスのスキーマ。"
+      },
+      "TrainingJobEventType": {
+        "type": "string",
+        "enum": [
+          "training_started",
+          "gradient_step",
+          "training_ended",
+          "training_failed"
+        ],
+        "title": "TrainingJobEventType",
+        "description": "学習ジョブのイベント種別を表す列挙型。"
+      },
+      "TrainingJobResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "TrainingJobResponse",
+        "description": "TrainingJob レスポンスのスキーマ。"
+      },
+      "Trajectory": {
+        "properties": {
+          "messages_and_choices": {
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/ChatCompletionDeveloperMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionSystemMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionUserMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionAssistantMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionToolMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionMessageParam"
+                },
+                {
+                  "$ref": "#/components/schemas/Choice"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Messages And Choices"
+          },
+          "tools": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/ChatCompletionFunctionToolParam"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tools"
+          },
+          "additional_histories": {
+            "items": {
+              "$ref": "#/components/schemas/History"
+            },
+            "type": "array",
+            "title": "Additional Histories",
+            "default": []
+          },
+          "reward": {
+            "type": "number",
+            "title": "Reward"
+          },
+          "initial_policy_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Initial Policy Version"
+          },
+          "final_policy_version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Policy Version"
+          },
+          "metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Metrics",
+            "default": {}
+          },
+          "auto_metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Auto Metrics",
+            "default": {}
+          },
+          "metadata": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Metadata",
+            "default": {}
+          },
+          "logs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Logs",
+            "default": []
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Time"
+          }
+        },
+        "type": "object",
+        "required": [
+          "messages_and_choices",
+          "reward"
+        ],
+        "title": "Trajectory"
+      },
+      "TrajectoryGroup": {
+        "properties": {
+          "trajectories": {
+            "items": {
+              "$ref": "#/components/schemas/Trajectory"
+            },
+            "type": "array",
+            "title": "Trajectories"
+          }
+        },
+        "type": "object",
+        "required": [
+          "trajectories"
+        ],
+        "title": "TrajectoryGroup"
+      },
+      "UsageInfo": {
+        "properties": {
+          "prompt_tokens": {
+            "type": "integer",
+            "title": "Prompt Tokens",
+            "default": 0
+          },
+          "total_tokens": {
+            "type": "integer",
+            "title": "Total Tokens",
+            "default": 0
+          },
+          "completion_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completion Tokens",
+            "default": 0
+          },
+          "prompt_tokens_details": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PromptTokenUsageInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "title": "UsageInfo"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VideoURL": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "VideoURL"
+      },
+      "openai__types__shared_params__function_definition__FunctionDefinition": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "parameters": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Parameters"
+          },
+          "strict": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Strict"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "FunctionDefinition"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

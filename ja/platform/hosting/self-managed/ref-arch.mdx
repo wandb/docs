@@ -1,0 +1,407 @@
+---
+title: リファレンスアーキテクチャ
+description: W&B リファレンスアーキテクチャ
+---
+
+import SelfManagedVersionRequirements from "/snippets/ja/_includes/self-managed-version-requirements.mdx";
+import SelfManagedNetworkingRequirements from "/snippets/ja/_includes/self-managed-networking-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/ja/_includes/self-managed-ssl-tls-requirements.mdx";
+
+このページでは、W&amp;B のデプロイのためのリファレンスアーキテクチャを説明し、プラットフォームの本番運用を支えるために推奨されるインフラストラクチャとリソースについて概説します。
+
+選択した W&amp;B のデプロイ環境に応じて、さまざまなサービスを利用することで、デプロイのレジリエンスを高めることができます。
+
+たとえば、主要なクラウドプロバイダーは、データベースの設定、運用、可用性、およびレジリエンスに関する複雑さを軽減する堅牢なマネージドデータベースサービスを提供しています。
+
+このリファレンスアーキテクチャでは、一般的なデプロイシナリオのいくつかを取り上げ、W&amp;B のデプロイをクラウドベンダーのサービスと統合して、パフォーマンスと信頼性を最適化する方法を示します。
+
+<div id="before-you-start">
+  ## 開始する前に
+</div>
+
+本番環境でアプリケーションを実行する場合には固有の課題が伴い、W&amp;B も例外ではありません。W&amp;B はこのプロセスの簡素化を目指していますが、アーキテクチャや設計上の判断によっては、特有の複雑さが生じる可能性があります。一般に、本番環境へのデプロイを運用するということは、ハードウェア、オペレーティングシステム、ネットワーク、ストレージ、セキュリティ、W&amp;B プラットフォーム本体、およびその他の依存コンポーネントなど、さまざまな要素を管理することを意味します。この責任は、環境の初期セットアップと、その後の継続的なメンテナンスの両方に及びます。
+
+W&amp;B を Self-Managed で運用するアプローチが、お客様のチームおよび特定の要件に適しているかどうかを慎重に検討してください。
+
+本番グレードのアプリケーションを実行・運用する方法を十分に理解していることは、Self-Managed W&amp;B をデプロイする前の重要な前提条件です。チームが支援を必要とする場合は、Professional Services チームやパートナーが、導入や最適化に関するサポートを提供します。
+
+W&amp;B を自分で運用する代わりに、マネージドなソリューションについて詳しく知りたい場合は、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) および [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) を参照してください。
+
+<div id="infrastructure">
+  ## インフラストラクチャ
+</div>
+
+<Frame>
+  <img src="/images/hosting/reference_architecture.png" alt="W&B インフラストラクチャの構成図" />
+</Frame>
+
+<div id="application-layer">
+  ### アプリケーション層
+</div>
+
+アプリケーション層は、ノード障害に対する耐障害性を備えたマルチノードの Kubernetes クラスターで構成されています。Kubernetes クラスターは、W&amp;B の Pod を実行および管理します。
+
+<div id="storage-layer">
+  ### ストレージレイヤー
+</div>
+
+ストレージレイヤーは、MySQL データベースとオブジェクトストレージから構成されます。MySQL データベースはメタデータを保存し、オブジェクトストレージはモデルやデータセットなどのアーティファクトを保存します。
+
+<div id="infrastructure-requirements">
+  ## インフラ要件
+</div>
+
+### Kubernetes
+
+W&amp;B Server アプリケーションは、複数の Pod をデプロイする [Kubernetes Operator](/ja/platform/hosting/operator/) としてデプロイされます。このため、W&amp;B には次の要件を満たす Kubernetes クラスターが必要です：
+
+* 適切に設定され正常に動作している Ingress コントローラ
+* Persistent Volumes をプロビジョニングする能力
+
+W&amp;B は、クラウド、オンプレミス、およびエアギャップ環境における [OpenShift Kubernetes クラスター](https://www.redhat.com/en/technologies/cloud-computing/openshift) へのデプロイをサポートします。具体的な設定手順については、Operator ガイドの [OpenShift セクション](/ja/platform/hosting/operator/#openshift-kubernetes-clusters) を参照してください。
+
+### MySQL
+
+W&amp;B はメタデータを MySQL データベースに保存します。データベースのパフォーマンスおよびストレージ要件は、モデルパラメータや関連メタデータの形状に依存します。たとえば、より多くの学習 run をトラッキングするとデータベースサイズが増加し、run テーブル、ユーザーのワークスペース、およびレポートに対するクエリに応じてデータベースへの負荷も増加します。
+
+**W&amp;B は本番環境ではマネージドデータベースサービスの利用を強く推奨します**（AWS RDS Aurora MySQL、Google Cloud SQL for MySQL、Azure Database for MySQL など）。マネージドサービスは自動バックアップ、モニタリング、高可用性、パッチ適用を提供し、運用の複雑さを大幅に軽減します。具体的なサービスの推奨事項については、以下の [クラウドプロバイダーのインスタンス推奨](#cloud-provider-instance-recommendations) セクションを参照してください。
+
+自前運用の MySQL データベースをデプロイする場合は、次の点を検討してください。
+
+* **バックアップ**: データベースは定期的に別の場所にバックアップする必要があります。W&amp;B は、少なくとも 1 週間分を保持する毎日のバックアップを推奨します。
+* **パフォーマンス**: データベースには SSD や高速 NAS などの高速ストレージハードウェアが必要です。
+* **モニタリング**: データベースには十分な CPU リソースが必要です。データベースサーバーの CPU 負荷を監視してください。CPU 使用率がシステム全体の 90% を超える状態が 5 分以上継続する場合は、CPU キャパシティの追加を検討してください。
+* **可用性**: 必要な可用性と耐久性を満たすために、W&amp;B は別マシン上にホットスタンバイの Server デプロイメントを構成し、プライマリデプロイメントからのすべての更新をリアルタイムでストリーミングし、プライマリサーバーがクラッシュしたり破損したり、長時間のダウンタイムが発生した場合にフェイルオーバーできるようにすることを推奨します。なお、W&amp;B はマルチマスタートポロジーや読み取り専用レプリカをサポートしていません。
+
+<div id="mysql-database-creation">
+  #### MySQL データベースの作成
+</div>
+
+MySQL データベースとユーザーを手動で作成する方法については、[bare-metal ガイドの MySQL データベース セクション](/ja/platform/hosting/self-managed/bare-metal/#mysql-database)を参照してください。
+
+<div id="mysql-configuration-parameters">
+  #### MySQL の設定パラメータ
+</div>
+
+独自の MySQL インスタンスを使用している場合は、MySQL を次の設定にしてください:
+
+```
+binlog_format = 'ROW'
+binlog_row_image = 'MINIMAL'
+innodb_flush_log_at_trx_commit = 1
+innodb_online_alter_log_max_size = 268435456
+max_prepared_stmt_count = 1048576
+sort_buffer_size = '67108864'
+sync_binlog = 1
+```
+
+これらの設定は、最適なパフォーマンスと信頼性が得られることを W&amp;B が検証済みです。
+
+<div id="redis">
+  ### Redis
+</div>
+
+W&amp;B は、ジョブキューイングとデータキャッシュのために W&amp;B のコンポーネントで使用される、単一ノードの Redis 7.x デプロイメントに依存しています。テストや PoC（概念実証）の開発を容易にするために、W&amp;B Self-Managed にはローカルの Redis デプロイメントが含まれていますが、これは本番環境での利用には適していません。
+
+W&amp;B は、次のような環境で稼働している Redis インスタンスに接続できます。
+
+* [AWS Elasticache](https://aws.amazon.com/elasticache/)
+* [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
+* [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
+* お使いのクラウド環境またはオンプレミスのインフラストラクチャ上でホストされている Redis デプロイメント
+
+<div id="object-storage">
+  ### オブジェクトストレージ
+</div>
+
+W&amp;B には、事前署名付き URL と CORS をサポートするオブジェクトストレージが必要であり、次のいずれかとしてデプロイされている必要があります。
+
+* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage) は、AI ワークロード向けに最適化された高性能な S3 互換オブジェクトストレージサービスです。
+* [Amazon S3](https://aws.amazon.com/s3/) は、業界をリードするスケーラビリティ、データ可用性、セキュリティ、パフォーマンスを提供するオブジェクトストレージサービスです。
+* [Google Cloud Storage](https://cloud.google.com/storage) は、大規模な非構造化データを保存するためのマネージドサービスです。
+* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) は、テキスト、バイナリデータ、画像、動画、ログなどの大量の非構造化データを保存するためのクラウドベースのオブジェクトストレージソリューションです。
+* [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)、[NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/) などの S3 互換ストレージ、またはクラウドもしくはオンプレミス環境でホストされるその他のエンタープライズグレードのソリューション。
+
+<div id="versions">
+  ### 対応バージョン
+</div>
+
+<SelfManagedVersionRequirements />
+
+<div id="networking">
+  ### ネットワーク
+</div>
+
+<SelfManagedNetworkingRequirements />
+
+<div id="dns">
+  ### DNS
+</div>
+
+W&amp;B デプロイメントの FQDN（完全修飾ドメイン名）は、Aレコードを使用して Ingress またはロードバランサーの IP アドレスに名前解決される必要があります。
+
+<div id="load-balancer-and-ingress">
+  ### ロードバランサーと Ingress
+</div>
+
+W&amp;B Kubernetes Operator は、Kubernetes の Ingress コントローラーを使用してサービスを公開できます。Ingress コントローラーは、異なるポートを持つ URL パスに基づいてサービスエンドポイントへルーティングします。Ingress コントローラーは、機械学習ペイロードを実行するすべてのマシンや、Web ブラウザー経由でサービスにアクセスするすべてのマシンからアクセス可能である必要があります。
+
+<div id="ingress-controller-requirements">
+  #### Ingress controller の要件
+</div>
+
+Kubernetes クラスターには利用可能な `IngressClass` が必要です。一般的な Ingress controller のオプションには次のものがあります。
+
+* [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
+* [Istio](https://istio.io)
+* [Traefik](https://traefik.io/)
+* クラウドプロバイダーの Ingress controller（例: AWS ALB、GCP Ingress、Azure Application Gateway）
+
+<div id="wb-service-routing">
+  #### W&amp;B サービスのルーティング
+</div>
+
+W&amp;B Operator は、パスに応じて複数のバックエンドサービスへリクエストを自動的にルーティングします。
+
+| Path | Service | Default port | Purpose |
+|------|---------|------|---------|
+| `/` | `wandb-app` | 8080 | メインの Web アプリケーション UI |
+| `/api` | `wandb-api` | 8081 | API サービス |
+| `/graphql` | `wandb-api` | 8081 | GraphQL API エンドポイント |
+| `/graphql2` | `wandb-api` | 8081 | GraphQL API v2 エンドポイント |
+| `/console` | `wandb-console` | 8082 | システムコンソール |
+| `/traces` | `wandb-weave-trace` | 8722 | Weave のトレーシングサービス（有効な場合） |
+
+<div id="example-ingress-configuration">
+  #### Ingress 設定の例
+</div>
+
+以下は、W&amp;B Operator によって作成された Ingress リソースの例です。
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wandb
+  namespace: wandb
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: wandb.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-app
+            port:
+              number: 8080
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-api
+            port:
+              number: 8081
+      - path: /graphql
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-api
+            port:
+              number: 8081
+      - path: /graphql2
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-api
+            port:
+              number: 8081
+      - path: /console
+        pathType: Prefix
+        backend:
+          service:
+            name: wandb-console
+            port:
+              number: 8082
+  tls:
+  - hosts:
+    - wandb.example.com
+    secretName: wandb-tls
+```
+
+<Note>
+  W&amp;B Operator は、ingress の設定を自動的に作成および管理します。通常、ingress リソースを手動で作成する必要はありません。クラスターに動作する ingress コントローラがあり、適切な `IngressClass` が設定されていることを確認してください。
+</Note>
+
+<div id="ssltls">
+  ### SSL/TLS
+</div>
+
+<SelfManagedSslTlsRequirements />
+
+<div id="supported-cpu-architectures">
+  ### サポートされている CPU アーキテクチャ
+</div>
+
+W&amp;B は Intel および AMD の 64ビットアーキテクチャ上で動作します。ARM アーキテクチャはサポート対象外です。
+
+<div id="deployment-method">
+  ## デプロイ方法
+</div>
+
+<div id="recommended-wb-kubernetes-operator-with-helm">
+  ### 推奨: Helm を使用した W&amp;B Kubernetes Operator
+</div>
+
+Self-Managed 版 W&amp;B の推奨インストール方法は、Helm 経由でデプロイする **W&amp;B Kubernetes Operator** を使用する方法です。このアプローチにより、次のことが可能になります。
+
+* W&amp;B コンポーネントの自動更新と管理
+* 設定およびデプロイの簡素化
+* すべてのデプロイシナリオ（クラウド、オンプレミス、エアギャップ環境）への対応
+
+詳細なインストール手順については、次を参照してください。
+
+* [Run W&amp;B Server on Kubernetes (Operator)](/ja/platform/hosting/operator/) - 主要なインストールガイド
+* [Deploy W&amp;B Platform On-premises](/ja/platform/hosting/self-managed/bare-metal/) - データセンター／ベアメタル特有の考慮事項
+* [Kubernetes operator for air-gapped instances](/ja/platform/hosting/self-managed/operator-airgapped/) - ネットワーク分離環境向け
+
+<div id="infrastructure-provisioning">
+  ### インフラストラクチャのプロビジョニング
+</div>
+
+Terraform は、本番環境での W&amp;B デプロイメント用インフラストラクチャをプロビジョニングするための推奨される方法です。Terraform を使用すると、必要なリソース、それらの他のリソースへの参照、および依存関係を定義できます。W&amp;B は主要なクラウドプロバイダ向けに Terraform モジュールを提供しています。詳細については、[自己管理クラウドアカウント内に W&amp;B Server をデプロイする](/ja/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts)を参照してください。
+
+<div id="sizing">
+  ## サイジング
+</div>
+
+デプロイを計画する際の出発点として、次の一般的な指針を使用してください。W&amp;B では、新しいデプロイのすべてのコンポーネントを注意深く監視し、観測された利用パターンに基づいて調整を行うことを推奨します。本番環境のデプロイについても継続的に監視を行い、最適なパフォーマンスを維持できるよう、必要に応じて調整を行ってください。
+
+<div id="models-only">
+  ### Models のみ
+</div>
+
+<div id="kubernetes">
+  #### Kubernetes
+</div>
+
+| Environment      | CPU	            | Memory	         | Disk               |
+| ---------------- | ------------------ | ------------------ | ------------------ |
+| Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
+| Production       | 8 cores            | 64 GB              | 100 GB             |
+
+これらの数値は Kubernetes ワーカーノード 1 台あたりの値です。
+
+<div id="mysql">
+  #### MySQL
+</div>
+
+| Environment      | CPU	            | Memory	         | Disk               |
+| ---------------- | ------------------ | ------------------ | ------------------ |
+| Test/Dev         | 2 cores            | 16 GB              | 100 GB             |
+| Production       | 8 cores            | 64 GB              | 500 GB             |
+
+各数値は MySQL ノード 1 台あたりの要件です。
+
+<div id="weave-only">
+  ### Weave のみ
+</div>
+
+<div id="kubernetes">
+  #### Kubernetes
+</div>
+
+| 環境              | CPU                | メモリ             | ディスク           |
+| ---------------- | ------------------ | ------------------ | ------------------ |
+| テスト/開発       | 4 cores            | 32 GB              | 100 GB             |
+| 本番             | 12 cores           | 96 GB              | 100 GB             |
+
+数値は Kubernetes のワーカーノード 1 台あたりの値です。
+
+<div id="mysql">
+  #### MySQL
+</div>
+
+| 環境             | CPU        | メモリ   | ディスク |
+| ---------------- | ---------- | -------- | -------- |
+| テスト／開発     | 2 コア     | 16 GB    | 100 GB   |
+| 本番             | 8 コア     | 64 GB    | 500 GB   |
+
+数値は MySQL ノード 1 台あたりの値です。
+
+<div id="models-and-weave">
+  ### Models と Weave
+</div>
+
+<div id="kubernetes">
+  #### Kubernetes
+</div>
+
+| Environment      | CPU                | Memory             | Disk               |
+| ---------------- | ------------------ | ------------------ | ------------------ |
+| Test/Dev         | 4 コア             | 32 GB              | 100 GB             |
+| Production       | 16 コア            | 128 GB             | 100 GB             |
+
+数値は各 Kubernetes ワーカーノードあたりの値です。
+
+<div id="mysql">
+  #### MySQL
+</div>
+
+| 環境             | CPU                | メモリ             | ディスク           |
+| ---------------- | ------------------ | ------------------ | ------------------ |
+| テスト/開発      | 2 コア             | 16 GB              | 100 GB             |
+| 本番             | 8 コア             | 64 GB              | 500 GB             |
+
+各値は MySQL ノード 1 台あたりの値です。
+
+<div id="cloud-provider-instance-recommendations">
+  ## クラウドプロバイダー別インスタンス推奨
+</div>
+
+<div id="services">
+  ### サービス
+</div>
+
+| クラウド       | Kubernetes	 | MySQL	                | オブジェクトストレージ             |\
+| ----------- | ------------ | ------------------------ | -------------------------- |
+| AWS         | EKS          | RDS Aurora               | S3                         |
+| Google Cloud         | GKE          | Google Cloud SQL - MySQL | Google Cloud Storage (GCS) |
+| Azure       | AKS          | Azure Database for MySQL | Azure Blob Storage         |
+
+<div id="machine-types">
+  ### マシンタイプ
+</div>
+
+これらの推奨事項は、クラウドインフラ上にセルフマネージド構成でデプロイされた W&amp;B の各ノードに適用されます。
+
+<div id="aws">
+  #### AWS
+</div>
+
+| 環境 | K8s (Models only)  | K8s (Weave only)   | K8s (Models&amp;Weave)  | MySQL	           |\
+| ----------- | ------------------ | ------------------ | ------------------- | ------------------ |\
+| テスト／開発 | r6i.large          | r6i.xlarge         | r6i.xlarge          | db.r6g.large       |
+| 本番        | r6i.2xlarge        | r6i.4xlarge        | r6i.4xlarge         | db.r6g.2xlarge     |
+
+<div id="google-cloud">
+  #### Google Cloud
+</div>
+
+| Environment | K8s (Models のみ)  | K8s (Weave のみ)   | K8s (Models &amp; Weave)  | MySQL              |\
+| ----------- | ------------------ | ------------------ | --------------------- | ------------------ |\
+| Test/Dev    | n2-highmem-2       | n2-highmem-4       | n2-highmem-4          | db-n1-highmem-2    |
+| Production  | n2-highmem-8       | n2-highmem-16      | n2-highmem-16         | db-n1-highmem-8    |
+
+<div id="azure">
+  #### Azure
+</div>
+
+| Environment | K8s (Models only)  | K8s (Weave only)   | K8s (Models&amp;Weave)  | MySQL               |\
+| ----------- | ------------------ | ------------------ | ------------------- | ------------------- |\
+| テスト/開発環境 | Standard&#95;E2&#95;v5     | Standard&#95;E4&#95;v5     | Standard&#95;E4&#95;v5      | MO&#95;Standard&#95;E2ds&#95;v4 |
+| 本番環境        | Standard&#95;E8&#95;v5     | Standard&#95;E16&#95;v5    | Standard&#95;E16&#95;v5     | MO&#95;Standard&#95;E8ds&#95;v4 |

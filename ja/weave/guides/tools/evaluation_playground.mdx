@@ -1,0 +1,137 @@
+---
+title: "Evaluation Playground を使ってモデルの性能を比較する"
+description: "Weave のインタラクティブなプレイグラウンドを使ってコードを書くことなくモデルの性能を比較・評価し、カスタムデータセットと LLM ジャッジによる評価を実行して、システムプロンプト、モデル、スコアリング基準をビジュアルなインターフェース上でテストします。"
+---
+
+<div id="evaluation-playground">
+  # Evaluation Playground
+</div>
+
+Evaluation Playground では、既存のモデルにアクセスし、評価用データセットと LLM 採点用ジャッジを使ってパフォーマンスを比較できます。これにより、コードを用意しなくても、モデルの実験や比較をすぐに開始できます。さらに、Playground 上で作成したモデル、スコアラー、データセットを保存しておき、後から開発やデプロイに利用できます。
+
+たとえば、Evaluation Playground を開き、以前に保存した 2 つのモデルを追加して、新規または保存済みの質問応答形式の評価用データセットに基づいてそれらのパフォーマンスを評価できます。その後、インターフェース上で新しいモデルを追加し、そのモデルにシステムプロンプトを設定して、3 つのモデルすべてに対して新しい評価を実行し、それぞれのパフォーマンスを比較できます。
+
+<Frame>
+  ![Evaluation Playground Interface](/weave/guides/evaluation/img/eval-playground-ui.png)
+</Frame>
+
+<div id="set-up-an-evaluation-in-the-playground">
+  ## Playground で評価をセットアップする
+</div>
+
+Evaluation Playground で評価をセットアップするには、次の手順に従います。
+
+1. [Weave UI](https://wandb.ai/wandb/quickstart_playground/weave/playground) を開き、評価を行いたいプロジェクトを開きます。Traces ページが開きます。
+2. Traces ページの左側メニューから **Playground** アイコンをクリックし、Playground ページで **Evaluate** タブを選択します。Evaluate ページでは、次のいずれかを実行できます。
+   * **Load a demo example**: 事前定義された設定が読み込まれ、MoonshotAI Kimi K2 モデルを期待される出力に対して評価し、LLM ジャッジを使って正しさを判定します。この設定を使ってインターフェースを試すことができます。
+   * **Start from scratch**: 空の設定が読み込まれ、そこから構築できます。
+3. **Start from scratch** を選択した場合は、**Title** フィールドと **Description** フィールドに、評価内容が分かるタイトルと説明を入力します。
+
+次のセクションの手順に従って、データセット、モデル、およびスコアラーをセットアップします。
+
+<div id="add-a-dataset">
+  ### データセットを追加する
+</div>
+
+[Datasets](../core-types/datasets) は、ユーザーからの入力例と、モデルからの期待される応答をまとめたコレクションです。評価時には、Playground が各テスト入力をモデルに渡し、その出力を収集し、正解度など選択した指標に基づいてスコアリングします。UI で新しいデータセットを作成するか、すでにプロジェクトに保存されている既存のデータセットを追加するか、新しいデータセットをアップロードできます。
+
+次の形式でデータセットをアップロードできます:
+
+* `.csv`
+* `.tsv`
+* `.json`
+* `.jsonl`
+
+データセットのフォーマット方法や Weave への保存方法については、Datasets のページを参照してください。
+
+**Dataset** セクションでデータセットを追加するには:
+
+1. ドロップダウンメニューをクリックし、次のいずれかを選択します:
+   * **Start from scratch** を選択して、UI で新しいデータセットを作成します。
+   * **Upload a file** を選択して、ローカルマシンからデータセットをアップロードします。
+   * すでにプロジェクトに保存されている既存のデータセットを選択します。
+2. 任意: **Save** をクリックして、後で使用できるようデータセットをプロジェクトに保存します。
+
+オプションを選択すると、UI の右側ペインにデータセットが表示され、各フィールドをクリックして必要に応じて編集できます。**Add row** をクリックして、データセットに新しい行を追加することもできます。
+
+<Note>
+  UI から編集できるのは、新しく作成したデータセットのみです。
+
+  また、スコアラーがデータにアクセスできるように、データセット内の列名を `user_input` と `expected_output` に設定しておくことも重要です。
+</Note>
+
+<div id="add-a-model">
+  ### モデルを追加する
+</div>
+
+Weave のコンテキストにおける [Models](/ja/weave/guides/core-types/models) は、AI モデル（GPT など）と、その評価時におけるモデルの動作を定義する環境（この場合はシステムプロンプト）を組み合わせたものです。プロジェクト内の既存のモデルを選択して評価することも、新しいモデルを作成して評価することもできます。また、複数のモデルを一度に追加し、同じデータセットとスコアラーを用いて同時に評価することも可能です。**Playground 機能を使って作成したモデルのみ使用できます。**
+
+Evaluation Playground の **Models** セクションでモデルを追加するには：
+
+1. **Add Model** をクリックし、**New Model** を選択するか、ドロップダウンメニューから既存のモデルを選択します。
+
+2. **New Model** を選択した場合、次の項目を設定します：
+
+   * **Name**: 新しいモデルに説明的な名前を付けます。
+   * **LLM Model**: OpenAI の GPT-4 など、新しいモデルのベースとするファウンデーションモデルを選択します。すでにアクセス権を設定済みのファウンデーションモデルの一覧から選択することも、**Add AI provider** を選択してモデルを選び、ファウンデーションモデルへのアクセスを追加することもできます。プロバイダーを追加すると、そのプロバイダーへのアクセス認証情報の入力を求められます。APIキーやエンドポイント、Weave を使ってモデルへアクセスするために必要な追加の設定情報の確認方法については、利用するプロバイダーのドキュメントを参照してください。
+   * **System Prompt**: モデルにどのように振る舞うかの指示を与えます。たとえば `You are a helpful assistant specializing in Python programming.` のように記述します。データセットからの `user_input` は後続のメッセージとして送信されるため、システムプロンプトに含める必要はありません。
+
+   既存のモデルを選択した場合は、そのモデル名の横に新しい項目が表示され、既存モデルのバージョンを選択できますが、それ以外に設定が必要な項目はありません。評価の前後で既存モデルに変更を加えたい場合は、[Prompt Playground](../tools/playground) を使用してください。
+
+3. 任意：**Save** をクリックして、後で利用できるようにモデルをプロジェクトに保存します。
+
+4. 任意：**Add Model** を再度クリックし、必要に応じて他のモデルを追加することで、同時に評価するモデルをさらに増やすことができます。
+
+<div id="add-scorers">
+  ### Scorer を追加する
+</div>
+
+[Scorers](../evaluation/scorers) は LLM ジャッジを使用して、AI モデルの出力の品質を測定および評価します。プロジェクト内の既存の scorer を選択するか、新しい scorer を作成してモデルを評価できます。
+
+Evaluation Playground で scorer を追加するには:
+
+1. **Add Scorer** をクリックし、次のフィールドを設定します:
+   * **Name**: scorer にわかりやすい名前を付けます。
+   * **Type**: スコアの出力形式として boolean か number のいずれかを選択します。Boolean scorer は、モデルの出力が設定した評価パラメータを満たしているかどうかに応じて、二値の `True` または `False` を返します。Number scorer は `0` から `1` の間のスコアを出力し、モデルの出力がどの程度評価パラメータを満たしているかの総合的な評価を提供します。
+   * **LLM-as-a-judge-model**: scorer のジャッジとして使用する foundation モデルを選択します。**Models** セクションの LLM Model フィールドと同様に、すでにアクセス設定済みの foundation モデルから選択するか、新たに foundation モデルへのアクセスを設定できます。
+   * **Scoring Prompt**: LLM ジャッジがどの点を評価対象とするか、そのパラメータを指定します。たとえば、ハルシネーションを検出したい場合は、次のような scoring prompt を入力できます:
+
+     ```
+     Given the following context and answer, determine if the answer contains any information not supported by the context.
+
+     User input: {user_input}
+     Expected output: {expected_output}
+     Model Output: {output}
+
+     Is the model output correct?
+     ```
+
+     `{user_input}`、`{expected_output}`、`{output}` のように、スコアリングプロンプト内でデータセットやレスポンスのフィールドを変数として使用できます。利用可能な変数の一覧を表示するには、UI で **Insert variable** をクリックします。
+
+2. 任意: **Save** をクリックして、後で使用できるよう scorer をプロジェクトに保存します。
+
+<div id="run-the-evaluation">
+  ### 評価を実行する
+</div>
+
+データセット、モデル、およびスコアラーの設定が完了したら、評価を実行できます。
+
+* Evaluation Playground で評価を実行するには、**Run eval** をクリックします。
+
+Weave は、追加した各モデルごとに個別の評価を実行し、データセットを使用した各リクエストに対してメトリクスを収集します。これらの評価結果は、後で確認できるように **Evals** セクションに保存されます。
+
+<div id="review-evaluation-results">
+  ### 評価結果を確認する
+</div>
+
+評価が完了すると、Playground でレポートが開き、モデルへの各リクエストごとに収集されたさまざまなメトリクスが表示されます。
+
+<Frame>
+  ![Evals hero](/images/weave/evals-hero.png)
+</Frame>
+
+**Dataset results** タブには、入力、期待される出力、モデルの実際の出力、レイテンシ、トークン使用量、およびスコアリング結果が表示されます。**Row** 列の ID をクリックすると、特定のリクエスト セットに対するメトリクスの詳細ビューを開くことができます。また、タブのすぐ下にある表示形式ボタンを使用して、レポートのセルの表示形式を変更することもできます。
+
+**Summary** タブでは、各モデルのパフォーマンスについて、データを視覚的に表現した概要が表示されます。
+
+評価の開き方や比較方法の詳細については、[Evaluations](../core-types/evaluations) を参照してください。

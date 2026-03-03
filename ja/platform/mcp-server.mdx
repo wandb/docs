@@ -1,0 +1,358 @@
+---
+title: W&B MCP サーバーへアクセスする
+description: IDE や LLM アプリケーションから W&B の Model Context Protocol (MCP) サーバーに接続し、エージェントが W&B のワークスペース、データ、および W&B のドキュメントにアクセスできるようにします。
+---
+
+import McpConfig from '/snippets/en/_includes/mcp-config.mdx';
+
+Model Context Protocol (MCP) を使用すると、LLM エージェントはデータを効率的にクエリおよび解析し、トークンのコストを最小限に抑えられます。このページでは、W&amp;B MCP サーバーを使って IDE や MCP クライアントから W&amp;B データをクエリおよび解析し、クライアントから W&amp;B のドキュメントへプログラムによるアクセスを提供する方法を説明します。これにより、クライアントは W&amp;B に関するクエリに対して、より正確な応答を生成できるようになります。
+
+W&amp;B MCP サーバーは、次のようなほとんどの IDE、コーディングクライアント、およびチャットエージェントとネイティブに統合されます。
+
+* Cursor
+* Visual Studio Code (VS Code)
+* Claude Code
+* Codex
+* Gemini CLI
+* Mistral LeChat
+* Claude Desktop
+
+W&amp;B MCP サーバーは、[ホスト型](#use-w\&b’s-remote-mcp-server) と [ローカル](#set-up-a-local-version-of-the-w\&b-mcp-server) のバリエーションをサポートします。ホスト型バージョンは [W&amp;B Dedicated Cloud デプロイメント](/ja/platform/hosting/hosting-options/dedicated_cloud) のみをサポートします。ローカルバージョンは Dedicated Cloud と [Self-Managed デプロイメント](/ja/platform/hosting/hosting-options/self-managed) の両方をサポートします。
+
+<div id="wb-mcp-server-capabilities">
+  ## W&amp;B MCP Server の機能
+</div>
+
+MCP サーバーを使用すると、実験の分析、トレースのデバッグ、レポートの作成、アプリケーションと W&amp;B 機能の統合に関する支援を受けられます。
+
+次のプロンプト例は、エージェントが MCP サーバーに接続されているときに実行できるタスクの種類を示しています:
+
+* your-team-name/your-project-name で eval/accuracy が上位 5 件の run を表示して。
+* 採用エージェントの予測トレースのレイテンシーは、ここ数か月でどのように変化しましたか？
+* 採用エージェントが先月行った意思決定を比較する wandb レポートを生成して。
+* Weave でリーダーボードを作成するにはどうすればよいですか？SupportBot に聞いてみてください。
+
+<div id="available-tools">
+  ### 利用可能なツール
+</div>
+
+W&amp;B MCP サーバーは、エージェントから次のツールにアクセスできるようにします。
+
+| Tool | Description | Example Query |
+|------|-------------|---------------|
+| **query&#95;wandb&#95;tool** | W&amp;B の run、メトリクス、および実験をクエリする | *&quot;loss が 0.1 未満の run を表示して&quot;* |
+| **query&#95;weave&#95;traces&#95;tool** | LLM のトレースと評価を分析する | *&quot;平均レイテンシはどれくらい？&quot;* |
+| **count&#95;weave&#95;traces&#95;tool** | トレースをカウントし、ストレージメトリクスを取得する | *&quot;失敗したトレースはいくつ？&quot;* |
+| **create&#95;wandb&#95;report&#95;tool** | W&amp;B レポートをプログラムから作成する | *&quot;パフォーマンスレポートを作成して&quot;* |
+| **query&#95;wandb&#95;entity&#95;projects** | エンティティに属するプロジェクトを一覧表示する | *&quot;どんなプロジェクトが存在する？&quot;* |
+| **query&#95;wandb&#95;support&#95;bot** | W&amp;B ドキュメントからヘルプを参照する | *&quot;Sweeps の使い方は？&quot;* |
+
+<div id="use-wbs-remote-mcp-server">
+  ## W&amp;B のリモート MCP サーバーを使う
+</div>
+
+W&amp;B は、インストール不要で利用できるホスト型の MCP サーバー `https://mcp.withwandb.com` を提供しています。以下の手順では、このホスト型サーバーを各種 AI アシスタントや IDE で利用できるように設定する方法を説明します。
+
+<div id="prerequisites">
+  ### 前提条件
+</div>
+
+* W&amp;B Dedicated Cloud デプロイメント。
+* W&amp;B の APIキー。新しいキーは [wandb.ai/authorize](https://wandb.ai/authorize) で作成できます。
+* キーを `WANDB_API_KEY` という名前の環境変数に設定します。
+
+<div id="configure-your-mcp-client">
+  ### MCP クライアントを設定する
+</div>
+
+お使いの MCP クライアントの手順が記載されたタブを選択してください。
+
+<Tabs>
+  <Tab title="Cursor">
+    W&amp;B サーバーは、[ワンクリックインストールリンク](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb\&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) を使用して Cursor に自動的にインストールできます（`Authorization` フィールドに `Bearer <your-wandb-api-key>` を追加する必要があります）。または、以下の手順に従って手動でインストールすることもできます。
+
+    1. macOS の場合は **Cursor** メニューを開き、**Settings** を選択してから **Cursor Settings** を選択します。Windows または Linux の場合は **Preferences** メニューを開き、**Settings** を選択してから **Cursor Settings** を選択します。
+    2. Cursor Settings メニューから **Tools and MCP** を選択します。Tools メニューが開きます。
+    3. Installed MCP Servers セクションで **Add Custom MCP** を選択します。これにより `mcp.json` 設定ファイルが開きます。
+    4. 設定ファイル内の `mcpServers` JSON オブジェクトに、次の `wandb` オブジェクトを追加します。
+
+    ```json
+    {
+      "mcpServers": {
+        "wandb": {
+          "transport": "http",
+          "url": "https://mcp.withwandb.com/mcp",
+          "headers": {
+            "Authorization": "Bearer <your-wandb-api-key>",
+            "Accept": "application/json, text/event-stream"
+          }
+        }
+      }
+    }
+    ```
+
+    5. 変更を有効にするために Cursor を再起動します。
+    6. 「List the projects in my W&amp;B account.」というプロンプトを入力して、チャットエージェントが W&amp;B MCP サーバーにアクセスできることを確認します。
+
+    詳しい情報は [Cursor のドキュメント](https://cursor.com/docs/context/mcp) を参照してください。
+  </Tab>
+
+  <Tab title="Claude Code">
+    Claude Code に W&amp;B MCP サーバーを追加するには、次のコマンドの `Authorization` ヘッダーを自分の W&amp;B APIキーに更新し、ターミナルで実行します。
+
+    ```bash
+    claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
+      --header "Authorization: Bearer <your-wandb-api-key>"
+    ```
+
+    グローバルな設定には `--scope user` を追加し、現在のプロジェクトのみに適用する場合はこれを省略します。
+
+    詳細については、[Claude Code のドキュメント](https://docs.anthropic.com/en/docs/claude-code/mcp)を参照してください。
+  </Tab>
+
+  <Tab title="Codex">
+    Codex に W&amp;B MCP サーバーを追加するには、次のコマンドの `--bearer-token-env-var` 引数を、W&amp;B APIキー を含む環境変数名に設定してから、ターミナルで実行します。
+
+    ```bash
+    export WANDB_API_KEY=<your-wandb-api-key>
+    codex mcp add wandb --url https://mcp.withwandb.com/mcp --bearer-token-env-var <your-wandb-api-key-environment-variable>
+    ```
+  </Tab>
+
+  <Tab title="OpenAI">
+    OpenAI への呼び出しに W&amp;B MCP サーバーを追加するには、OpenAI 応答の設定の `tools` フィールドに、そのサーバーの情報を追加します。
+
+    ```python
+    from openai import OpenAI
+    import os
+
+    client = OpenAI()
+
+    resp = client.responses.create(
+        model="gpt-4o",
+        tools=[{
+            "type": "mcp",
+            "server_label": "wandb",
+            "server_description": "Query W&B data",
+            "server_url": "https://mcp.withwandb.com/mcp",
+            "authorization": os.getenv("<your-wandb-api-key>"),
+            "require_approval": "never",
+        }],
+        input="List the projects in my W&B account.",
+    )
+
+    print(resp.output_text)
+    ```
+  </Tab>
+
+  <Tab title="Gemini CLI">
+    Gemini CLI に W&amp;B MCP サーバーを追加するには、次の手順を実行します。
+
+    1. 次の単一コマンドで W&amp;B MCP 拡張機能をインストールします。
+
+       ```bash
+       # 拡張機能をインストール
+       gemini extensions install https://github.com/wandb/wandb-mcp-server
+       ```
+    2. インストールが完了したら、Gemini CLI を再起動します。
+    3. チャットエージェントが W&amp;B MCP サーバーにアクセスできることを確認するには、プロンプトとして「List the projects in my W&amp;B account.」と入力します。
+
+    詳しくは、[Gemini のドキュメント](https://geminicli.com/docs/tools/mcp-server/)を参照してください。
+  </Tab>
+
+  <Tab title="Mistral LeChat">
+    Mistral LeChat に W&amp;B MCP サーバーを追加するには、次の手順に従います。
+
+    1. **Intelligence** メニューから **Add Connector** を選択して、Connector ウィンドウを開きます。
+
+    2. **Custom MCP Connector** タブを選択します。
+
+    3. 次の値を使って各フィールドを設定します。
+
+       * **Connector Server**: `https://mcp.withwandb.com/mcp`
+       * **Description**: （任意）この接続に関する簡潔な説明を入力します。
+       * **Authentication Method**: **API Token Authentication** を選択します。追加のフィールドが表示されます。
+       * **Header name**: 既定値の **Authorization** のままにします。
+       * **Header type**: **Bearer** を選択します。
+       * **Header value**: 自分の W&amp;B API トークンを入力します。
+
+    4. すべてのフィールドの設定が完了したら、**Create** を選択します。LeChat が MCP サーバーを設定に追加します。
+
+    5. チャットエージェントが W&amp;B MCP サーバーにアクセスできることを確認するには、プロンプトとして「List the projects in my W&amp;B account.」と入力します。
+
+    詳細については、[LeChat の documentation](https://mistral.ai/news/le-chat-mcp-connectors-memories) を参照してください。
+  </Tab>
+</Tabs>
+
+<div id="set-up-a-local-version-of-the-wb-mcp-server">
+  ## ローカル環境に W&amp;B MCP サーバーをセットアップする
+</div>
+
+W&amp;B Self-Managed デプロイメント、開発、テスト、またはエアギャップ環境で MCP サーバーをローカル環境で実行する必要がある場合は、ローカルマシンにインストールして実行できます。
+
+<div id="prerequisites">
+  ### 前提条件
+</div>
+
+* W&amp;B の APIキー。新しいキーは [wandb.ai/authorize](https://wandb.ai/authorize) で作成できます。
+* キーを `WANDB_API_KEY` という名前の環境変数として設定します。
+* [W&amp;B Self-Managed](/ja/platform/hosting/hosting-options/self-managed) を使用している場合は、環境変数 `WANDB_BASE_URL` を設定します。
+* Python 3.10 以上
+* [uv](https://docs.astral.sh/uv/)（推奨）または pip
+
+インストール手順については、uv のドキュメントの [installation instructions](https://docs.astral.sh/uv/getting-started/installation/) を参照してください。
+
+<div id="install-and-configure-the-mcp-server">
+  ### MCP サーバーのインストールと設定
+</div>
+
+MCP サーバーをローカルにインストールするには:
+
+ローカルマシンに W&amp;B MCP サーバーをインストールするには、次のいずれかのコマンドを使用します:
+
+<Tabs>
+  <Tab title="uv">
+    ```bash
+    uv install wandb-mcp-server
+    ```
+  </Tab>
+
+  <Tab title="pip">
+    ```bash
+    pip install wandb-mcp-server
+    ```
+  </Tab>
+
+  <Tab title="Install directly from GitHub">
+    ```bash
+    pip install git+https://github.com/wandb/wandb-mcp-server
+    ```
+  </Tab>
+</Tabs>
+
+MCP サーバーをローカルにインストールしたら、MCP クライアントがそれを利用できるように設定します。使用している MCP クライアントを選択してください:
+
+<Tabs>
+  <Tab title="Cursor">
+    `mcp.json` 設定に次の内容を追加します:
+
+    ```json
+    {
+      "mcpServers": {
+        "wandb": {
+          "command": "uvx",
+          "args": [
+            "--from",
+            "git+https://github.com/wandb/wandb-mcp-server",
+            "wandb_mcp_server"
+          ],
+          "env": {
+            "WANDB_API_KEY": "<your-wandb-api-key>",
+            "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="VS Code">
+    `.vscode/mcp.json` またはグローバル MCP 設定に次の内容を追加します:
+
+    ```json
+    {
+      "servers": {
+        "wandb": {
+          "command": "uvx",
+          "args": [
+            "--from",
+            "git+https://github.com/wandb/wandb-mcp-server",
+            "wandb_mcp_server"
+          ],
+          "env": {
+            "WANDB_API_KEY": "<your-wandb-api-key>",
+            "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Claude Code">
+    ターミナルで次のコマンドを実行します。グローバル設定にするには `--scope user` を追加し、現在のプロジェクトのみに設定する場合は省略します。
+
+    ```bash
+    claude mcp add wandb \
+      -e WANDB_API_KEY=your-api-key \
+      -e WANDB_BASE_URL=https://your-wandb-instance.example.com \
+      -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
+    ```
+  </Tab>
+
+  <Tab title="Codex">
+    ターミナルで次のコマンドを実行します:
+
+    ```bash
+    codex mcp add wandb \
+      --env WANDB_API_KEY=your_api_key_here \
+      --env WANDB_BASE_URL=https://your-wandb-instance.example.com \
+      -- uvx --from git+https://github.com/wandb/wandb-mcp-server wandb_mcp_server
+    ```
+  </Tab>
+
+  <Tab title="Claude Desktop">
+    テキストエディタで Claude の設定ファイルを開きます。設定ファイルは OS ごとに次の場所にあります:
+
+    * **macOS**: ~/Library/Application\ Support/Claude/claude&#95;desktop&#95;config.json
+    * **Windows**: %APPDATA%\Claude\claude&#95;desktop&#95;config.json
+
+    Claude の設定ファイル内の JSON オブジェクトに次の内容を追加します。Claude Desktop が `uvx` のインストール場所を見つけられない可能性があるため、`uvx` へのフルパスを使用してください。
+
+    ```json
+    {
+      "mcpServers": {
+        "wandb": {
+          "command": "/full/path/to/uvx",
+          "args": [
+            "--from",
+            "git+https://github.com/wandb/wandb-mcp-server",
+            "wandb_mcp_server"
+          ],
+          "env": {
+            "WANDB_API_KEY": "<your-wandb-api-key>",
+            "WANDB_BASE_URL": "https://your-wandb-instance.example.com"
+          }
+        }
+      }
+    }
+    ```
+
+    新しい設定を反映するには Claude Desktop を再起動します。
+  </Tab>
+</Tabs>
+
+Web ベースのクライアントやテスト用途では、HTTP トランスポートでサーバーを実行します。
+
+```bash
+uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
+```
+
+ローカルサーバーを OpenAI などの外部クライアントからアクセス可能にするには、ngrok を使用してください。
+
+```bash
+uvx wandb_mcp_server --transport http --port 8080
+
+# 別のターミナルで、ngrokを使って公開する
+ngrok http 8080
+```
+
+サーバーを `ngrok` で公開する場合は、MCP クライアントの設定を更新し、`ngrok` の URL を使用するようにしてください。
+
+<div id="usage-tips">
+  ## 使用時のヒント
+</div>
+
+* **W&amp;B のプロジェクト名と entity 名を指定する**: 正確な結果を得るために、クエリ内で W&amp;B の entity とプロジェクトを指定します。
+* **漠然とした質問は避ける**: 「私のベストな評価は何ですか？」ではなく、「どの eval の f1スコアが最も高いですか？」のように尋ねます。
+* **データ取得を確認する**: 「最も性能の良い run はどれですか？」のような包括的な質問をする場合は、利用可能なすべての run を取得できたかどうか、アシスタントに確認させます。

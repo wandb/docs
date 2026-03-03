@@ -1,0 +1,35 @@
+---
+title: 前提条件
+description: W&B 学習を使用するための環境を準備する
+---
+
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
+
+OpenPipe ART フレームワークまたは API を通じて W&amp;B 学習機能を使用する前に、以下の手順を完了してください。
+
+<Tip>
+  開始する前に、料金や制限事項を把握するために、[使用状況と制限事項](/ja/training/serverless-rl/usage-limits) を確認してください。
+</Tip>
+
+<div id="sign-up-and-create-an-api-key">
+  ## サインアップしてAPIキーを作成する
+</div>
+
+マシンをW&amp;Bに対して認証するには、まずAPIキーを生成する必要があります。
+
+<ApiKeyCreate />
+
+<div id="create-a-project-in-wb">
+  ## W&amp;B でプロジェクトを作成する
+</div>
+
+W&amp;B アカウントでプロジェクトを作成し、使用状況の追跡、学習メトリクスの記録、学習済みモデルの保存を行います。詳細については、[Projects ガイド](https://docs.wandb.ai/models/track/project-page)を参照してください。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+前提条件を完了したら、次の操作を実行します。
+
+* 利用可能なエンドポイントについては、[API リファレンス](/ja/training/api-reference) を参照してください
+* [ART クイックスタート](https://art.openpipe.ai/getting-started/quick-start) を試してください

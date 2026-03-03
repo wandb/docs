@@ -1,0 +1,168 @@
+---
+title: "チュートリアル: アプリケーションのバージョニング"
+description: "Weave の `Model` を使ってアプリケーションとそのパラメータを追跡およびバージョン管理する方法を学ぶ"
+---
+
+[入力、出力、メタデータ](/ja/weave/quickstart)や[アプリケーション内を流れるデータ](/ja/weave/tutorial-tracing_2)を追跡することは、システムのパフォーマンスを理解するうえで重要です。しかし、**時間の経過とともにアプリケーションをバージョン管理すること**も、コードやアプリケーションのパラメータの変更が出力にどのような影響を与えるかを理解するために同様に重要です。Weave の `Model` クラスを使うことで、これらの変更を Weave で追跡できます。
+
+このチュートリアルでは次のことを学びます：
+
+* Weave の `Model` を使って、アプリケーションとそのパラメータを追跡およびバージョン管理する方法
+* 既にログ済みの Weave の `Model` をエクスポート、変更し、再利用する方法
+
+<div id="using-weavemodel">
+  ## `weave.Model` の使用
+</div>
+
+<Warning>
+  `weave.Model` クラスは現在 Python でのみサポートされています。
+</Warning>
+
+Weave の `Model` を使用すると、モデルベンダー ID、プロンプト、temperature などのパラメータが、変更されるたびに保存およびバージョン管理されます。
+
+Weave で `Model` を作成するには、以下が必要です:
+
+* `weave.Model` を継承したクラス
+* すべてのクラスフィールドの型定義
+* `@weave.op()` デコレータを付けた型付きの `invoke` 関数
+
+クラスフィールドやモデルを定義するコードを変更すると、**これらの変更はログに記録され、バージョンが更新されます**。これにより、アプリの異なるバージョン間で生成結果を比較できるようになります。
+
+次の例では、**モデル名、temperature、システムプロンプトが追跡され、バージョン管理されます**:
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {26,33-34}
+    import json
+    from openai import OpenAI
+
+    import weave
+
+    @weave.op()
+    def extract_dinos(wmodel: weave.Model, sentence: str) -> dict:
+        response = wmodel.client.chat.completions.create(
+            model=wmodel.model_name,
+            temperature=wmodel.temperature,
+            messages=[
+                {
+                    "role": "system",
+                    "content": wmodel.system_prompt
+                },
+                {
+                    "role": "user",
+                    "content": sentence
+                }
+                ],
+                response_format={ "type": "json_object" }
+            )
+        return response.choices[0].message.content
+
+    # weave.Model を継承したサブクラス
+    class ExtractDinos(weave.Model):
+        client: OpenAI = None
+        model_name: str
+        temperature: float
+        system_prompt: str
+
+        # 関数名が `invoke` または `predict` であることを確認してください
+        @weave.op()
+        def invoke(self, sentence: str) -> dict:
+            dino_data  = extract_dinos(self, sentence)
+            return json.loads(dino_data)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。続報をお待ちください！
+    ```
+  </Tab>
+</Tabs>
+
+これで、`invoke` を使ってモデルをインスタンス化し、呼び出せます:
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {7,18}
+    weave.init('jurassic-park')
+    client = OpenAI()
+
+    system_prompt = """Extract any dinosaur `name`, their `common_name`, \
+    names and whether its `diet` is a herbivore or carnivore, in JSON format."""
+
+    dinos = ExtractDinos(
+        client=client,
+        model_name='gpt-4o',
+        temperature=0.4,
+        system_prompt=system_prompt
+    )
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    result = dinos.invoke(sentence)
+    print(result)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。続報をお待ちください！
+    ```
+  </Tab>
+</Tabs>
+
+`.invoke` を呼び出した後、Weave のトレースでは、`weave.op()` でデコレートされたモデル関数のコードに加えて、**モデルパラメータも追跡される**ようになります。また、この例ではモデルにも「v21」のようなバージョンが付与されており、そのモデルをクリックすると、**そのバージョンのモデルを使用したすべての呼び出し**を確認できます。
+
+![Re-using a weave model](/images/tutorial-model_invoke3.png)
+
+**`weave.Model` を使用する際の注意点:**
+
+* Weave の `Model` 内の関数名として、`invoke` の代わりに `predict` を使用することもできます。
+* 他のクラスメソッドも Weave によって追跡させたい場合は、それらを `weave.op()` でラップする必要があります。
+* 先頭にアンダースコアが付いたパラメータは Weave によって無視され、ログに記録されません。
+
+<div id="exporting-and-re-using-a-logged-weavemodel">
+  ## 記録済み `weave.Model` のエクスポートと再利用
+</div>
+
+Weave は呼び出されたモデルを保存してバージョン管理しているため、これらのモデルをエクスポートして再利用できます。
+
+**Model ref を取得する**
+Weave UI では、特定のバージョンの Model ref を取得できます。
+
+**モデルの利用**
+モデルオブジェクトの URI を取得したら、それをエクスポートして再利用できます。エクスポートされたモデルはすでに初期化されており、すぐに使用できます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {2}
+    # エクスポートされた weave モデルはすでに初期化されており、そのまま呼び出せます
+    new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
+
+    # クライアントを openai クライアントに再設定する
+    new_dinos.client = client
+
+    new_sentence = """I also saw an Ankylosaurus grazing on giant ferns"""
+    new_result = new_dinos.invoke(new_sentence)
+    print(new_result)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。続報をお待ちください。
+    ```
+  </Tab>
+</Tabs>
+
+ここでは、新しい入力に対して、モデル名のバージョン (v21) が使用されていることが分かります。
+
+![weave モデルを再利用する](/images/tutorial-model_re-use.png)
+
+<div id="whats-next">
+  ## 次のステップ
+</div>
+
+* [評価パイプラインを構築するチュートリアル](/ja/weave/tutorial-eval) に従い、アプリケーションを反復的に改善しましょう。

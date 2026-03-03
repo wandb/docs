@@ -1,0 +1,40 @@
+---
+title: sweep()
+namespace: python_sdk_actions
+python_object_type: function
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+
+
+### <kbd>function</kbd> `sweep`
+
+```python
+sweep(
+    sweep: Union[dict, Callable],
+    entity: Optional[str] = None,
+    project: Optional[str] = None,
+    prior_runs: Optional[List[str]] = None
+) → str
+```
+
+ハイパーパラメータスイープを初期化します。
+
+機械学習モデルのコスト関数を最適化するハイパーパラメータを、さまざまな組み合わせを試すことで探索します。
+
+返される一意の識別子 `sweep_id` をメモしておいてください。後のステップで、その `sweep_id` を sweep エージェントに渡します。
+
+スイープの定義方法については、[Sweep 設定構造](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) を参照してください。
+
+**Args:**
+
+* `sweep`:  ハイパーパラメータ探索の設定（または設定ジェネレーター）。callable を指定する場合は、その callable が引数を取らず、W&amp;B sweep config の仕様に準拠した辞書を返すことを確認してください。
+* `entity`:  スイープによって作成された W&amp;B run を送信する先のユーザー名またはチーム名。指定した entity があらかじめ存在していることを確認してください。entity を指定しない場合、run は通常あなたのユーザー名であるデフォルトの entity に送信されます。
+* `project`:  スイープによって作成された W&amp;B run が送信されるプロジェクト名。project が指定されていない場合、run は &#39;Uncategorized&#39; というラベルの付いたプロジェクトに送信されます。
+* `prior_runs`:  このスイープに追加する既存の run の run ID。
+
+**Returns:**
+
+* `str`:  スイープの一意の識別子。

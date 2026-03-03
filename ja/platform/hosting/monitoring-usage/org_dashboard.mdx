@@ -1,0 +1,121 @@
+---
+title: 組織のアクティビティを表示
+---
+
+このページでは、W&amp;B 組織のアクティビティの確認方法について説明します。続行するにはデプロイ種別を選択してください。
+
+<div id="view-user-status-and-activity">
+  ## ユーザーのステータスとアクティビティを表示する
+</div>
+
+<Tabs>
+  <Tab title="Dedicated Cloud / Self-Managed">
+    1. **Organization Dashboard** に移動します:
+
+       * **Dedicated Cloud**: `https://<org-name>.io/org/dashboard/`。`<org-name>` を組織名に置き換えます。
+       * **Self-Managed**: `https://<YOUR-W&B-SERVER-IP>/org/dashboard`。`<YOUR-W&B-SERVER-IP>` をデプロイメントの IP アドレスに置き換えます。
+
+       **Users** タブがデフォルトで開き、組織内のすべてのユーザーが一覧表示されます。
+    2. ユーザーのステータスでリストを並べ替えるには、**Last Active** 列のヘッダーをクリックします。各ユーザーのステータスは次のいずれかです:
+       * **Invite pending**: 招待は送信されていますが、まだ受諾されていません。
+       * **タイムスタンプ**: ユーザーが招待を受諾し、少なくとも一度はサインインしています。タイムスタンプは直近のアクティビティを示します。
+       * **Deactivated**: 管理者がそのユーザーのアクセスを取り消しました。
+       * **ステータスなし**: ハイフンで示されます。ユーザーは以前はアクティブでしたが、過去 6 か月間アクティブではありません。
+    3. ユーザーの **Last Active** フィールドにカーソルを合わせると、そのユーザーが追加された日付と合計アクティブ日数が表示されます。
+
+    ユーザーは、次のいずれかを行った場合 *アクティブ* と見なされます:
+
+    * W&amp;B にサインインする。
+    * W&amp;B App の任意のページを開く。
+    * run をログに記録する。
+    * SDK を使用して実験をトラッキングする。
+    * 何らかの形で W&amp;B サーバーとやり取りする。
+  </Tab>
+
+  <Tab title="Multi-tenant Cloud">
+    1. [**Members** ページ](https://wandb.ai/account-settings/wandb/members/)を開きます。テーブルには組織内のすべてのユーザーが一覧表示されます。
+    2. **Last Active** 列のヘッダーをクリックして、ユーザーのステータスで並べ替えます。各ユーザーのステータスは次のいずれかです:
+       * **タイムスタンプ**: ユーザーが少なくとも一度はサインインしています。タイムスタンプは直近のアクティビティを示します。
+       * **ステータスなし**: ハイフンで示されます。ユーザーはまだ組織内でアクティブになっていません。
+
+    ユーザーは、2025 年 5 月 8 日以降に、その組織をスコープとする監査可能なアクションを行った場合 *アクティブ* と見なされます。完全な一覧については、**Audit logging** の [Actions](/ja/platform/hosting/monitoring-usage/audit-logging#actions) を参照してください。
+  </Tab>
+</Tabs>
+
+<div id="view-activity-over-time">
+  ## アクティビティを期間別に表示する
+</div>
+
+<Tabs>
+  <Tab title="Dedicated Cloud / Self-Managed">
+    **Activity** タブを使用して、指定した期間中にアクティブだったユーザー数を確認します。
+
+    1. **Organization Dashboard** を開きます。[View user activity](#view-user-activity) を参照してください。
+    2. **Activity** をクリックします。
+    3. 次のグラフを確認します:
+       * **Total active users**: 選択した期間中の一意のアクティブユーザー数 (デフォルトは 3 か月)。
+       * **Users active over time**: 期間中のアクティブユーザー数の推移 (デフォルトは 6 か月)。ポイント上にカーソルを合わせると、その日の正確な数が表示されます。
+
+    表示期間を変更するには、グラフ上部のドロップダウンを使用します。選択肢は、Last 30 days、Last 3 months、Last 6 months、Last 12 months、All time です。
+  </Tab>
+
+  <Tab title="Multi-tenant Cloud">
+    **Activity Dashboard** を使用してアクティビティの集計を表示します。
+
+    1. W&amp;B App 右上のユーザーアイコンをクリックします。
+    2. **Account** の下で **Users** をクリックします。
+    3. ユーザーのテーブル上部にある Activity Panel を確認します:
+       * **Active user count**: 選択した期間中の一意のアクティブユーザー数 (デフォルトは 3 か月)。
+       * **Weekly active users**: 1 週間あたりのアクティブユーザー数。
+       * **Most active user**: アクティブ日数と最後にアクティブだった日付に基づいてランク付けされた上位 10 人のユーザー。
+    4. 日付範囲を変更するには、右上の date picker (日付ピッカー) をクリックし、新しい値を選択します: 7 days、30 days (デフォルト)、90 days、6 months、12 months。すべてのグラフは自動的に更新されます。
+  </Tab>
+</Tabs>
+
+<div id="export-user-details">
+  ## ユーザー詳細のエクスポート
+</div>
+
+**Users** タブから、各ユーザーの詳細情報（ユーザー名、メールアドレス、最終アクティブ日時、ロールなど）が一覧になった CSV をダウンロードできます。
+
+<Tabs>
+  <Tab title="Dedicated Cloud / Self-Managed">
+    1. **Users** タブで、**Invite new user** の横にある **…** アクションメニューをクリックします。
+    2. **Export as CSV** をクリックします。
+
+    ### CSV エクスポートのスキーマ
+
+    CSV エクスポートでは、区切り文字としてカンマ（`,`）を使用し、文字列を二重引用符で囲み、次の列を定義するヘッダー行を含みます：
+
+    * `"Name"`
+    * `"Username"`
+    * `"Org Role"`
+    * `"Models Seat"`
+    * `"Weave Access"`
+    * `"Email"`
+    * `"Teams"`
+    * `"Last Active"`
+  </Tab>
+
+  <Tab title="Multi-tenant Cloud">
+    1. **Users** タブで、右上隅の **…** アクションメニューをクリックします。
+    2. **Export as CSV** を選択してファイルをダウンロードします。
+
+    ### CSV エクスポートのスキーマ
+
+    CSV エクスポートでは、区切り文字としてカンマ（`,`）を使用し、文字列を二重引用符で囲み、次の列を定義するヘッダー行を含みます：
+
+    * `"Name"`
+    * `"Username"`
+    * `"Last Active"`
+    * `"Role"`
+    * `"Email"`
+    * `"Teams"`
+    * `"Status"`
+    * `"Number of Reports"`
+    * `"Number of Runs"`
+    * `"Number of active days"`
+    * `"Models Seat"`
+    * `"Weave Access"`
+  </Tab>
+</Tabs>

@@ -1,0 +1,160 @@
+---
+title: ArtifactCollection
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+
+## <kbd>class</kbd> `ArtifactCollection`
+
+関連するアーティファクトのグループを表すアーティファクトコレクション。
+
+**Args:**
+
+- `client`:  W&B へのクエリに使用するクライアントインスタンス。 
+ - `entity`:  プロジェクトを所有するエンティティ（ユーザーまたはチーム）。 
+ - `project`:  アーティファクトコレクションをクエリする対象のプロジェクト名。 
+ - `name`:  アーティファクトコレクションの名前。 
+ - `type`:  アーティファクトコレクションの種類（例: "dataset", "model"）。 
+ - `organization`:  該当する場合の省略可能な組織名。 
+ - `attrs`:  アーティファクトコレクションを初期化する属性の省略可能なマッピング。 指定されない場合、オブジェクトは初期化時に W&B から属性を読み込みます。 
+
+### <kbd>property</kbd> ArtifactCollection.aliases
+
+このコレクションに含まれるすべてのアーティファクト バージョンに対するエイリアス。
+
+**戻り値:**
+
+- `list[str]`: `aliases` プロパティの値。
+
+---
+
+### <kbd>property</kbd> ArtifactCollection.created_at
+
+アーティファクトコレクションの作成日時。
+
+**戻り値:**
+
+- `str`: created_at プロパティの値。
+
+---
+
+### <kbd>property</kbd> ArtifactCollection.description
+
+アーティファクトコレクションの説明。
+
+**戻り値:**
+
+- `str | None`: description プロパティの値。
+---
+
+### <kbd>property</kbd> ArtifactCollection.entity
+
+プロジェクトの所有者であるエンティティ（ユーザーまたはチーム）。
+
+**戻り値:**
+
+- `str`: entity プロパティの値。
+
+---
+
+### <kbd>property</kbd> ArtifactCollection.id
+
+アーティファクトコレクションの一意の識別子。
+
+**Returns:**
+
+- `str`: id プロパティの値。
+
+---
+
+### <kbd>property</kbd> ArtifactCollection.name
+
+アーティファクトコレクションの名前。 
+
+**Returns:**
+
+- `str`: `name` プロパティの値。
+
+---
+
+### <kbd>property</kbd> ArtifactCollection.project
+
+アーティファクトコレクションを含むプロジェクト。
+
+**Returns:**
+
+- `str`: project プロパティの値。
+
+---
+
+### <kbd>property</kbd> ArtifactCollection.tags
+
+アーティファクトコレクションに紐づいているタグ。
+
+**戻り値:**
+
+- `list[str]`: tags プロパティの値。
+---
+
+### <kbd>property</kbd> ArtifactCollection.type
+
+アーティファクトコレクションのタイプを返します。 
+
+---
+
+### <kbd>メソッド</kbd> `ArtifactCollection.artifacts`
+
+```python
+artifacts(per_page: 'int' = 50) → Artifacts
+```
+
+コレクション内のすべてのアーティファクトを取得します。
+
+***
+
+
+### <kbd>method</kbd> `ArtifactCollection.change_type`
+
+```python
+change_type(new_type: 'str') → None
+```
+
+このメソッドは非推奨です。代わりに `save` を使用して型を直接変更してください。
+
+***
+
+
+### <kbd>メソッド</kbd> `ArtifactCollection.delete`
+
+```python
+delete() → None
+```
+
+アーティファクトコレクション全体を削除します。
+
+***
+
+
+### <kbd>メソッド</kbd> `ArtifactCollection.is_sequence`
+
+```python
+is_sequence() → bool
+```
+
+アーティファクトコレクションがシーケンスであるかどうかを返します。
+
+***
+
+
+### <kbd>method</kbd> `ArtifactCollection.save`
+
+```python
+save() → None
+```
+
+アーティファクトコレクションに加えた変更を保存します。

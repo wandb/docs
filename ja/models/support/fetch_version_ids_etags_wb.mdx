@@ -1,0 +1,12 @@
+---
+title: W&B でこれらのバージョン ID と ETag を取得するにはどうすればよいですか？
+---
+
+バケットでバージョニングが有効になっていて、W&amp;B でアーティファクト参照がログされている場合、バージョン ID は Amazon S3 の UI に表示されます。これらのバージョン ID と ETag を W&amp;B で取得するには、アーティファクトをフェッチして、対応するマニフェストのエントリにアクセスします。例えば次のとおりです。
+
+```python
+artifact = run.use_artifact("my_table:latest")
+for entry in artifact.manifest.entries.values():
+    versionID = entry.extra.get("versionID")
+    etag = entry.extra.get("etag")
+```

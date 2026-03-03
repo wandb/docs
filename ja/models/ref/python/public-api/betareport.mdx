@@ -1,0 +1,107 @@
+---
+title: BetaReport
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+
+## <kbd>class</kbd> `BetaReport`
+
+BetaReport は、W&B で作成されたレポートに対応するクラスです。
+
+レポートの属性（name、description、user、spec、timestamps）へのアクセスや、関連する run やセクションの取得、レポートを HTML としてレンダリングするためのメソッドを提供します。
+
+**Attributes:**
+
+- `id` (string):  レポートの一意な識別子。 
+ - `display_name` (string):  レポートの人間が読める表示名。 
+ - `name` (string):  レポート名。よりユーザーにわかりやすい名前には `display_name` を使用します。 
+ - `description` (string):  レポートの説明。 
+ - `user` (User):  レポートを作成したユーザー情報（username、email）を含む辞書。 
+ - `spec` (dict):  レポートの spec。 
+ - `url` (string):  レポートの URL。 
+ - `updated_at` (string):  最終更新時刻のタイムスタンプ。 
+ - `created_at` (string):  レポート作成時のタイムスタンプ。 
+
+### <kbd>method</kbd> `BetaReport.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    attrs: 'dict',
+    entity: 'str | None' = None,
+    project: 'str | None' = None
+)
+```
+
+***
+
+
+### <kbd>プロパティ</kbd> BetaReport.created_at
+
+---
+
+### <kbd>property</kbd> BetaReport.description
+
+---
+
+### <kbd>property</kbd> BetaReport.display_name
+
+---
+
+### <kbd>property</kbd> BetaReport.id
+
+---
+
+### <kbd>property</kbd> BetaReport.name
+
+---
+
+### <kbd>property</kbd> BetaReport.sections
+
+レポートからパネルセクション（グループ）を取得します。 
+
+---
+
+### <kbd>property</kbd> BetaReport.spec
+
+---
+
+### <kbd>property</kbd> BetaReport.updated_at
+
+---
+
+### <kbd>property</kbd> BetaReport.url
+
+---
+
+### <kbd>property</kbd> BetaReport.user
+
+---
+
+### <kbd>メソッド</kbd> `BetaReport.runs`
+
+```python
+runs(
+    section: 'dict[str, Any]',
+    per_page: 'int' = 50,
+    only_selected: 'bool' = True
+) → public.Runs
+```
+
+レポート内のセクションに関連付けられたrunを取得します。
+
+***
+
+
+### <kbd>method</kbd> `BetaReport.to_html`
+
+```python
+to_html(height: 'int' = 1024, hidden: 'bool' = False) → str
+```
+
+このレポートを表示する iframe を埋め込んだ HTML を生成します。

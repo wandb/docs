@@ -1,0 +1,15 @@
+---
+title: 既存アーティファクトにエイリアスを追加
+---
+
+```python
+"""
+既存のW&Bアーティファクトにエイリアスを追加します。
+"""
+import wandb
+
+# 既存のアーティファクトを取得してエイリアスを追加する
+artifact = wandb.Api().artifact("entity/project/artifact:version")
+artifact.aliases = ["<new-alias>"]
+artifact.save()
+```

@@ -1,0 +1,144 @@
+---
+title: サマリーメトリクスをログする
+---
+
+学習中に時間とともに変化する値に加えて、モデルや前処理ステップ全体を要約する単一の値を追跡することが重要な場合がよくあります。この情報は W&amp;B Run の `summary` 辞書にログします。Run の summary 辞書は、numpy 配列、PyTorch テンソル、TensorFlow テンソルを扱うことができます。値がこれらの型のいずれかである場合、テンソル全体をバイナリファイルとして保持し、summary オブジェクトには min、mean、variance、percentiles などの高レベルなメトリクスを保存します。
+
+`wandb.Run.log()` で最後にログされた値は、自動的に W&amp;B Run の summary 辞書に設定されます。summary 辞書内のメトリクスを変更すると、以前の値は失われます。
+
+次のコードスニペットは、W&amp;B にカスタムのサマリーメトリクスを提供する方法を示しています。
+
+```python
+import wandb
+import argparse
+
+with wandb.init(config=args) as run:
+  best_accuracy = 0
+  for epoch in range(1, args.epochs + 1):
+      test_loss, test_accuracy = test()
+      if test_accuracy > best_accuracy:
+          run.summary["best_accuracy"] = test_accuracy
+          best_accuracy = test_accuracy
+```
+
+学習完了後でも、既存の W&amp;B run の `summary` 属性を更新できます。[W&amp;B Public API](/ja/models/ref/python/public-api/) を使用して `summary` 属性を更新します：
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+run.summary["tensor"] = np.random.random(1000)
+run.summary.update()
+```
+
+<div id="customize-summary-metrics">
+  ## サマリーメトリクスをカスタマイズする
+</div>
+
+カスタムサマリーメトリクスは、`run.summary` に学習中の最良ステップにおけるモデル性能を記録するのに役立ちます。たとえば、最終値ではなく、最大の accuracy や最小の loss の値を記録したい場合に利用できます。
+
+デフォルトでは、サマリーには履歴の最終値が使用されます。サマリーメトリクスをカスタマイズするには、`define_metric` の `summary` 引数を渡します。指定できる値は次のとおりです。
+
+* `"min"`
+* `"max"`
+* `"mean"`
+* `"best"`
+* `"last"`
+* `"none"`
+
+`"best"` は、オプション引数 `objective` を `"minimize"` または `"maximize"` に設定した場合にのみ使用できます。
+
+次の例では、loss と accuracy の最小値と最大値をサマリーに追加しています。
+
+```python
+import wandb
+import random
+
+random.seed(1)
+
+with wandb.init() as run:
+    # lossの最小値と最大値のサマリー
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
+
+    # accuracyの最小値と最大値のサマリー
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
+
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
+```
+
+<div id="view-summary-metrics">
+  ## サマリーメトリクスを表示する
+</div>
+
+run の **Overview** ページまたはプロジェクトの Runs テーブルでサマリー値を確認できます。
+
+<Tabs>
+  <Tab title="Run Overview">
+    1. W&amp;B App を開きます。
+    2. プロジェクトのサイドバーから **Workspace** タブを選択します。
+    3. サマリー値をログした run をクリックします。run ページが開き、デフォルトで **Overview** タブが表示されます。
+    4. **Summary** セクションでサマリー値を確認します。
+
+    <Frame>
+      <img src="/images/track/customize_summary.png" alt="Run overview" />
+    </Frame>
+  </Tab>
+
+  <Tab title="Run Table">
+    1. W&amp;B App を開きます。
+    2. **Runs** タブを選択します。
+    3. Runs テーブル内で、サマリー値の名前に対応する列にサマリー値が表示されます。
+  </Tab>
+
+  <Tab title="W&B Public API">
+    W&amp;B Public API を使用して、run のサマリー値を取得できます。
+
+    次のコード例は、W&amp;B Public API と pandas を使用して、特定の run にログされたサマリー値を取得する一例です。
+
+    ```python
+    import wandb
+    import pandas
+
+    entity = "<your-entity>"
+    project = "<your-project>"
+    run_name = "<your-run-name>" # サマリー値を含む run の名前
+
+    all_runs = []
+
+    for run in api.runs(f"{entity}/{project_name}"):
+        print("Fetching details for run: ", run.id, run.name)
+        run_data = {
+                  "id": run.id,
+                  "name": run.name,
+                  "url": run.url,
+                  "state": run.state,
+                  "tags": run.tags,
+                  "config": run.config,
+                  "created_at": run.created_at,
+                  "system_metrics": run.system_metrics,
+                  "summary": run.summary,
+                  "project": run.project,
+                  "entity": run.entity,
+                  "user": run.user,
+                  "path": run.path,
+                  "notes": run.notes,
+                  "read_only": run.read_only,
+                  "history_keys": run.history_keys,
+                  "metadata": run.metadata,
+              }
+        all_runs.append(run_data)
+      
+    # DataFrame に変換  
+    df = pd.DataFrame(all_runs)
+
+    # name 列 (run 名) に基づいて行を取得し、辞書に変換
+    df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+    ```
+  </Tab>
+</Tabs>

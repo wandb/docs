@@ -1,0 +1,113 @@
+---
+title: Image
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/image.py" />
+
+
+## <kbd>class</kbd> `Image`
+
+W&B に画像をログとして記録するためのクラス。 
+
+### <kbd>メソッド</kbd> `Image.__init__`
+
+```python
+__init__(
+    data_or_path: 'ImageDataOrPathType',
+    mode: Optional[str] = None,
+    caption: Optional[str] = None,
+    grouping: Optional[int] = None,
+    classes: Optional[ForwardRef('Classes'), Sequence[dict]] = None,
+    boxes: Optional[Dict[str, ForwardRef('BoundingBoxes2D')], Dict[str, dict]] = None,
+    masks: Optional[Dict[str, ForwardRef('ImageMask')], Dict[str, dict]] = None,
+    file_type: Optional[str] = None,
+    normalize: bool = True
+) → None
+```
+
+`wandb.Image` オブジェクトを初期化します。
+
+このクラスはさまざまな画像データ形式を扱い、必要に応じて画素値を [0, 255] の範囲に自動的に正規化して、W&amp;B バックエンドとの互換性を確保します。
+
+* [0, 1] の範囲のデータは 255 を掛けて uint8 に変換されます * [-1, 1] の範囲のデータは [-1, 1] から [0, 255] へ再スケーリングされ、-1 を 0、1 を 255 にマッピングした後に uint8 に変換されます * [-1, 1] の外だが [0, 255] にもない範囲のデータは [0, 255] にクリップされて uint8 に変換されます（値が [0, 255] の外にある場合は警告が表示されます） * すでに [0, 255] の範囲にあるデータは、変更せずに uint8 に変換されます
+
+**Args:**
+
+* `data_or_path`:  画像データの NumPy 配列 / PyTorch テンソル、PIL 画像オブジェクト、または画像ファイルへのパスを受け取ります。NumPy 配列または PyTorch テンソルが渡された場合、画像データは指定されたファイルタイプで保存されます。値が [0, 255] の範囲にない、またはすべての値が [0, 1] の範囲にある場合、`normalize` が `False` に設定されていない限り、画素値は [0, 255] の範囲に正規化されます。
+  * PyTorch テンソルは (channel, height, width) 形式である必要があります
+  * NumPy 配列は (height, width, channel) 形式である必要があります
+* `mode`:  画像の PIL モード。最も一般的なのは &quot;L&quot;、&quot;RGB&quot;、&quot;RGBA&quot; です。
+* `Full Pillow docs for more information https`: //pillow.readthedocs.io/en/stable/handbook/concepts.html#modes
+* `caption`:  画像を表示する際のラベル。
+* `grouping`:  画像のグルーピング番号。
+* `classes`:  画像に対するクラス情報のリストで、バウンディングボックスや画像マスクのラベリングに使用されます。
+* `boxes`:  画像に対するバウンディングボックス情報を含む辞書。
+* `see https`: //docs.wandb.ai/ref/python/data-types/boundingboxes2d/
+* `masks`:  画像に対するマスク情報を含む辞書。
+* `see https`: //docs.wandb.ai/ref/python/data-types/imagemask/
+* `file_type`:  画像を保存するファイルタイプ。`data_or_path` が画像ファイルへのパスである場合、このパラメータは効果はありません。
+* `normalize`:  `True` の場合、画素値を [0, 255] の範囲に収まるように正規化します。正規化が適用されるのは、`data_or_path` が NumPy 配列または PyTorch テンソルである場合のみです。
+
+**Examples:**
+NumPy 配列から wandb.Image を作成する
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(pixels, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+```
+
+PILImage オブジェクトから wandb.Image を作成します
+
+```python
+import numpy as np
+from PIL import Image as PILImage
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(
+             low=0, high=256, size=(100, 100, 3), dtype=np.uint8
+         )
+         pil_image = PILImage.fromarray(pixels, mode="RGB")
+         image = wandb.Image(pil_image, caption=f"random field {i}")
+         examples.append(image)
+    run.log({"examples": examples})
+```
+
+デフォルトの .png ではなく .jpg 形式でログする
+
+
+```python
+import numpy as np
+import wandb
+
+with wandb.init() as run:
+    examples = []
+    for i in range(3):
+         pixels = np.random.randint(low=0, high=256, size=(100, 100, 3))
+         image = wandb.Image(
+             pixels, caption=f"random field {i}", file_type="jpg"
+         )
+         examples.append(image)
+    run.log({"examples": examples})
+```
+
+***
+
+
+### <kbd>プロパティ</kbd> Image.image
+
+---

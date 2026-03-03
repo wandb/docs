@@ -1,0 +1,120 @@
+---
+title: MMEngine
+---
+
+[OpenMMLab](https://github.com/open-mmlab) による MMEngine は、PyTorch ベースでディープラーニングのモデルを学習するための基盤ライブラリです。MMEngine は OpenMMLab アルゴリズムライブラリ向けの次世代学習アーキテクチャを実装しており、OpenMMLab 内の 30 を超えるアルゴリズムライブラリに対して、統一された実行基盤を提供します。そのコアコンポーネントには、学習エンジン、評価エンジン、およびモジュール管理が含まれます。
+
+[W&amp;B](https://wandb.ai/site) は、専用の [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) を通じて MMEngine に直接統合されており、次の用途に使用できます。
+
+* 学習および評価メトリクスをログとして記録する。
+* 実験設定をログおよび管理する。
+* 計算グラフ、画像、スカラーなどの追加の情報をログとして記録する。
+
+<div id="get-started">
+  ## はじめに
+</div>
+
+まず、`openmim` と `wandb` をインストールします。
+
+<Tabs>
+  <Tab title="Command Line">
+    ```bash
+    pip install -q -U openmim wandb
+    ```
+  </Tab>
+
+  <Tab title="Notebook">
+    ```bash
+    !pip install -q -U openmim wandb
+    ```
+  </Tab>
+</Tabs>
+
+次に、`mim` を使用して `mmengine` と `mmcv` をインストールします。
+
+<Tabs>
+  <Tab title="Command Line">
+    ```bash
+    mim install -q mmengine mmcv
+    ```
+  </Tab>
+
+  <Tab title="Notebook">
+    ```bash
+    !mim install -q mmengine mmcv
+    ```
+  </Tab>
+</Tabs>
+
+<div id="use-the-wandbvisbackend-with-mmengine-runner">
+  ## `WandbVisBackend` を MMEngine Runner で使用する
+</div>
+
+このセクションでは、[`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner) と `WandbVisBackend` を組み合わせて使う典型的なワークフローを示します。
+
+1. 可視化設定から `visualizer` を定義します。
+
+   ```python
+   from mmengine.visualization import Visualizer
+
+   # define the visualization configs
+   visualization_cfg = dict(
+       name="wandb_visualizer",
+       vis_backends=[
+           dict(
+               type='WandbVisBackend',
+               init_kwargs=dict(project="mmengine"),
+           )
+       ],
+       save_dir="runs/wandb"
+   )
+
+   # get the visualizer from the visualization configs
+   visualizer = Visualizer.get_instance(**visualization_cfg)
+   ```
+
+   <Note>
+     `init_kwargs` には、[W&amp;B run の初期化](/ja/models/ref/python/functions/init) の入力パラメータに対応する引数をまとめた辞書を渡します。
+   </Note>
+
+2. `visualizer` を指定して `runner` を初期化し、`runner.train()` を呼び出します。
+
+   ```python
+   from mmengine.runner import Runner
+
+   # build the mmengine Runner which is a training helper for PyTorch
+   runner = Runner(
+       model,
+       work_dir='runs/gan/',
+       train_dataloader=train_dataloader,
+       train_cfg=train_cfg,
+       optim_wrapper=opt_wrapper_dict,
+       visualizer=visualizer, # pass the visualizer
+   )
+
+   # start training
+   runner.train()
+   ```
+
+<div id="use-the-wandbvisbackend-with-openmmlab-computer-vision-libraries">
+  ## OpenMMLab コンピュータビジョンライブラリで `WandbVisBackend` を使用する
+</div>
+
+`WandbVisBackend` は、[MMDetection](https://mmdetection.readthedocs.io/) のような OpenMMLab のコンピュータビジョンライブラリで行う実験を、簡単に追跡するためにも使用できます。
+
+```python
+# デフォルトのランタイム設定から基本設定を継承する
+_base_ = ["../_base_/default_runtime.py"]
+
+# 基本設定の `visualizer` の `vis_backends` に
+# `WandbVisBackend` の設定辞書を割り当てる
+_base_.visualizer.vis_backends = [
+    dict(
+        type='WandbVisBackend',
+        init_kwargs={
+            'project': 'mmdet',
+            'entity': 'geekyrakshit'
+        },
+    ),
+]
+```

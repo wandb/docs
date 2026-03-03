@@ -1,0 +1,1411 @@
+---
+title: Api
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/api.py" />
+
+
+## <kbd>class</kbd> `Api`
+
+W&amp;B サーバーに対してクエリを実行するために使用します。
+
+**使用例:**
+
+```python
+import wandb
+
+wandb.Api()
+```
+
+
+### <kbd>method</kbd> `Api.__init__`
+
+```python
+__init__(
+    overrides: 'dict[str, Any] | None' = None,
+    timeout: 'int | None' = None,
+    api_key: 'str | None' = None
+) → None
+```
+
+API を初期化します。
+
+**Args:**
+
+* `overrides`:  `base_url` を設定できます。これは、
+* `using a W&B server other than `https`: //api.wandb.ai` を使用している場合に指定します。また、`entity`、`project`、`run` のデフォルト値も設定できます。
+* `timeout`:  API リクエストの HTTP タイムアウト（秒）。指定しない場合は、デフォルトのタイムアウトが使用されます。
+* `api_key`:  認証に使用する APIキー。指定しない場合は、現在の環境または設定から APIキー が使用されます。環境に APIキー が存在しない場合は、APIキー の入力を求められます。
+
+***
+
+
+### <kbd>property</kbd> Api.client
+
+クライアントオブジェクトを返します。 
+
+**戻り値:**
+
+- `RetryingClient`: client プロパティの値。
+
+---
+
+### <kbd>property</kbd> Api.default_entity
+
+W&B のデフォルトエンティティを返します。 
+
+**戻り値:**
+
+- `str | None`: default_entity プロパティの値。
+
+---
+
+### <kbd>property</kbd> Api.user_agent
+
+W&B の公開用ユーザーエージェント文字列を返します。 
+
+**戻り値:**
+
+- `str`: `user_agent` プロパティの値。
+
+---
+
+### <kbd>property</kbd> Api.viewer
+
+viewer オブジェクトを返します。
+
+**Raises:**
+
+- `ValueError`:  W&B から viewer データを取得できない場合。 
+ - `requests.RequestException`:  GraphQL リクエストの実行中にエラーが発生した場合。 
+
+**Returns:**
+
+- `User`: viewer プロパティの値。
+
+---
+
+### <kbd>メソッド</kbd> `Api.artifact`
+
+```python
+artifact(name: 'str', type: 'str | None' = None)
+```
+
+単一のアーティファクトを返します。
+
+**Args:**
+
+* `name`:  アーティファクトの名前。アーティファクトの名前は、少なくともアーティファクトがログされたプロジェクト名、アーティファクト名、およびアーティファクトのバージョンまたはエイリアスで構成される、ファイルパスに似た形式の文字列です。オプションで、そのアーティファクトをログした entity をプレフィックスとして先頭に付け、その後ろにスラッシュを入れます。name に entity が指定されていない場合は、run または API 設定の entity が使用されます。
+* `type`:  取得するアーティファクトのタイプ。
+
+**Returns:**
+`Artifact` オブジェクト。
+
+**Raises:**
+
+* `ValueError`:  アーティファクト名が指定されていない場合。
+* `ValueError`:  アーティファクトのタイプが指定されているが、取得されたアーティファクトのタイプと一致しない場合。
+
+**Examples:**
+次のコードスニペット中の &quot;entity&quot;、&quot;project&quot;、&quot;artifact&quot;、&quot;version&quot;、および &quot;alias&quot; は、それぞれあなたの W&amp;B の entity、アーティファクトが存在するプロジェクト名、アーティファクト名、アーティファクトのバージョン、およびエイリアスを表すプレースホルダーです。
+
+```python
+import wandb
+
+# プロジェクト、アーティファクト名、アーティファクトのエイリアスを指定する
+wandb.Api().artifact(name="project/artifact:alias")
+
+# プロジェクト、アーティファクト名、特定のアーティファクトバージョンを指定する
+wandb.Api().artifact(name="project/artifact:version")
+
+# エンティティ、プロジェクト、アーティファクト名、アーティファクトのエイリアスを指定する
+wandb.Api().artifact(name="entity/project/artifact:alias")
+
+# エンティティ、プロジェクト、アーティファクト名、特定のアーティファクトバージョンを指定する
+wandb.Api().artifact(name="entity/project/artifact:version")
+```
+
+**注意:**
+
+> このメソッドは外部からの利用のみを想定しています。wandb リポジトリのコード内では `api.artifact()` を呼び出さないでください。
+
+***
+
+
+### <kbd>method</kbd> `Api.artifact_collection`
+
+```python
+artifact_collection(type_name: 'str', name: 'str') → ArtifactCollection
+```
+
+指定したタイプのアーティファクトコレクションを 1 つ返します。
+
+返される `ArtifactCollection` オブジェクトを使用して、そのコレクション内の特定のアーティファクトに関する情報の取得などを行うことができます。
+
+**Args:**
+
+* `type_name`:  取得するアーティファクトコレクションのタイプ。
+* `name`:  アーティファクトコレクション名。必要に応じて、そのアーティファクトをログした entity 名を先頭に、続けてスラッシュを付与できます。
+
+**Returns:**
+`ArtifactCollection` オブジェクト。
+
+**Examples:**
+以下のコードスニペット中の &quot;type&quot;、&quot;entity&quot;、&quot;project&quot;、および &quot;artifact&#95;name&quot; は、それぞれコレクションタイプ、あなたの W&amp;B entity、アーティファクトが存在するプロジェクト名、そしてアーティファクト名を表すプレースホルダーです。
+
+```python
+import wandb
+
+collections = wandb.Api().artifact_collection(
+    type_name="type", name="entity/project/artifact_name"
+)
+
+# コレクション内の最初のアーティファクトを取得する
+artifact_example = collections.artifacts()[0]
+
+# アーティファクトの内容を指定したルートディレクトリにダウンロードする
+artifact_example.download()
+```
+
+***
+
+
+### <kbd>method</kbd> `Api.artifact_collection_exists`
+
+```python
+artifact_collection_exists(name: 'str', type: 'str') → bool
+```
+
+指定したプロジェクトとエンティティ内にアーティファクトコレクションが存在するかどうかを判定します。
+
+**Args:**
+
+* `name`:  アーティファクトコレクション名。任意で、そのアーティファクトをログしたエンティティをプレフィックスとして付与し、その後にスラッシュを続けることができます。`entity` または `project` が指定されていない場合、存在すればオーバーライドパラメータからコレクションを推論します。そうでない場合、`entity` はユーザー設定から取得され、`project` はデフォルトで &quot;uncategorized&quot; になります。
+* `type`:  アーティファクトコレクションのタイプ。
+
+**Returns:**
+アーティファクトコレクションが存在する場合は True、存在しない場合は False を返します。
+
+**Examples:**
+次のコードスニペットにおける &quot;type&quot; と &quot;collection&#95;name&quot; は、それぞれアーティファクトコレクションのタイプとコレクション名を指します。
+
+```python
+import wandb
+
+wandb.Api.artifact_collection_exists(type="type", name="collection_name")
+```
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.artifact_collections`
+
+```python
+artifact_collections(
+    project_name: 'str',
+    type_name: 'str',
+    per_page: 'int' = 50
+) → ArtifactCollections
+```
+
+一致するアーティファクトコレクションの一覧を返します。
+
+**引数:**
+
+* `project_name`:  フィルタに使用するプロジェクト名。
+* `type_name`:  フィルタに使用するアーティファクトタイプ名。
+* `per_page`:  クエリのページネーションにおけるページサイズを設定します。通常、これを変更する必要はありません。
+
+**戻り値:**
+イテラブルな `ArtifactCollections` オブジェクト。
+
+***
+
+
+### <kbd>method</kbd> `Api.artifact_exists`
+
+```python
+artifact_exists(name: 'str', type: 'str | None' = None) → bool
+```
+
+指定されたプロジェクトとエンティティ内に、そのアーティファクトのバージョンが存在するかどうか。
+
+**引数:**
+
+* `name`:  アーティファクトの名前。先頭にアーティファクトのエンティティおよびプロジェクトをプレフィックスとして付ける。続けてコロン区切りで、アーティファクトのバージョンまたはエイリアスを付ける。エンティティまたはプロジェクトが指定されていない場合、W&amp;B は、指定されていればオーバーライド用パラメータを使用する。それも指定されていない場合は、エンティティはユーザー設定から取得され、プロジェクトは &quot;Uncategorized&quot; に設定される。
+* `type`:  アーティファクトのタイプ。
+
+**戻り値:**
+アーティファクトのバージョンが存在する場合は True、存在しない場合は False。
+
+**例:**
+以下のコードスニペット内の &quot;entity&quot;、&quot;project&quot;、&quot;artifact&quot;、&quot;version&quot;、&quot;alias&quot; は、それぞれあなたの W&amp;B エンティティ、アーティファクトが存在するプロジェクト名、アーティファクト名、およびアーティファクトのバージョンを表すプレースホルダーです。
+
+```python
+import wandb
+
+wandb.Api().artifact_exists("entity/project/artifact:version")
+wandb.Api().artifact_exists("entity/project/artifact:alias")
+```
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.artifact_type`
+
+```python
+artifact_type(type_name: 'str', project: 'str | None' = None) → ArtifactType
+```
+
+一致する `ArtifactType` を返します。
+
+**引数:**
+
+* `type_name`:  取得するアーティファクトタイプの名前。
+* `project`:  指定された場合は、フィルタリングに使用するプロジェクト名またはパス。
+
+**戻り値:**
+`ArtifactType` オブジェクト。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.artifact_types`
+
+```python
+artifact_types(project: 'str | None' = None) → ArtifactTypes
+```
+
+一致するアーティファクトタイプのコレクションを返します。
+
+**引数:**
+
+* `project`:  フィルタリング対象のプロジェクト名またはパス。
+
+**戻り値:**
+反復可能な `ArtifactTypes` オブジェクト。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.artifact_versions`
+
+```python
+artifact_versions(type_name, name, per_page=50)
+```
+
+このメソッドは非推奨です。代わりに `Api.artifacts(type_name, name)` メソッドを使用してください。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.artifacts`
+
+```python
+artifacts(
+    type_name: 'str',
+    name: 'str',
+    per_page: 'int' = 50,
+    tags: 'list[str] | None' = None
+) → Artifacts
+```
+
+`Artifacts` コレクションを返します。
+
+**引数:**
+
+* `type_name`:  取得するアーティファクトの種類。
+* `name`:  アーティファクトのコレクション名。任意で、アーティファクトをログした entity を先頭に付け、その後にスラッシュを続けて指定します。
+* `per_page`:  クエリのページネーションにおけるページサイズを設定します。通常、これを変更する必要はありません。
+* `tags`:  これらすべてのタグを持つアーティファクトのみを返します。
+
+**戻り値:**
+イテラブルな `Artifacts` オブジェクト。
+
+**例:**
+次のコードスニペットでは、&quot;type&quot;、&quot;entity&quot;、&quot;project&quot;、および &quot;artifact&#95;name&quot; は、それぞれアーティファクトの種類、W&amp;B の entity、アーティファクトがログされたプロジェクト名、およびアーティファクト名を表すプレースホルダです。
+
+```python
+import wandb
+
+wandb.Api().artifacts(type_name="type", name="entity/project/artifact_name")
+```
+
+***
+
+
+### <kbd>method</kbd> `Api.automation`
+
+```python
+automation(name: 'str', entity: 'str | None' = None) → Automation
+```
+
+指定したパラメータに一致するただ 1 つの Automation を返します。
+
+**引数:**
+
+* `name`:  取得する automation の名前。
+* `entity`:  automation を取得する対象の entity。
+
+**送出される例外:**
+
+* `ValueError`:  検索条件に一致する Automation が存在しないか、複数存在する場合。
+
+**使用例:**
+名前が「my-automation」の既存の automation を取得します:
+
+```python
+import wandb
+
+api = wandb.Api()
+automation = api.automation(name="my-automation")
+```
+
+エンティティ「my-team」にある既存のオートメーション「other-automation」を取得します：
+
+```python
+automation = api.automation(name="other-automation", entity="my-team")
+```
+
+***
+
+
+### <kbd>method</kbd> `Api.automations`
+
+```python
+automations(
+    entity: 'str | None' = None,
+    name: 'str | None' = None,
+    per_page: 'int' = 50
+) → Iterator[Automation]
+```
+
+指定されたパラメータに一致するすべての Automation を反復処理するイテレータを返します。
+
+パラメータが指定されていない場合、返されるイテレータには、そのユーザーがアクセスできるすべての Automation が含まれます。
+
+**Args:**
+
+* `entity`:  Automation を取得する対象のエンティティ。
+* `name`:  取得する Automation の名前。
+* `per_page`:  1ページあたりに取得する Automation の数。デフォルトは 50。通常、これを変更する必要はありません。
+
+**Returns:**
+Automation のリスト。
+
+**Examples:**
+エンティティ &quot;my-team&quot; に対する既存のすべての Automation を取得する:
+
+```python
+import wandb
+
+api = wandb.Api()
+automations = api.automations(entity="my-team")
+```
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.create_automation`
+
+```python
+create_automation(
+    obj: 'NewAutomation',
+    fetch_existing: 'bool' = False,
+    **kwargs: 'Unpack[WriteAutomationsKwargs]'
+) → Automation
+```
+
+新しい Automation を作成します。
+
+**Args:**
+obj:  作成する Automation。  fetch&#95;existing:  True の場合、競合する Automation が既に存在していれば、エラーを送出する代わりに既存の Automation を取得しようとします。  **kwargs:  Automation を作成する前に割り当てる追加の値。指定された場合、これらはすでに Automation に設定されている値を上書きします:
+
+* `name`: Automation の名前。
+  * `description`: Automation の説明。
+  * `enabled`: Automation が有効かどうか。
+  * `scope`: Automation のスコープ。
+  * `event`: Automation をトリガーするイベント。
+  * `action`: Automation によってトリガーされるアクション。
+
+**Returns:**
+保存された Automation。
+
+**Examples:**
+特定のプロジェクト内の run が、カスタムしきい値を超えるメトリクスをログしたときに Slack 通知を送信する、名前が &quot;my-automation&quot; の新しい Automation を作成します:
+
+```python
+import wandb
+from wandb.automations import OnRunMetric, RunEvent, SendNotification
+
+api = wandb.Api()
+
+project = api.project("my-project", entity="my-team")
+
+# チームの最初のSlackインテグレーションを使用する
+slack_hook = next(api.slack_integrations(entity="my-team"))
+
+event = OnRunMetric(
+     scope=project,
+     filter=RunEvent.metric("custom-metric") > 10,
+)
+action = SendNotification.from_integration(slack_hook)
+
+automation = api.create_automation(
+     event >> action,
+     name="my-automation",
+     description="Send a Slack message whenever 'custom-metric' exceeds 10.",
+)
+```
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.create_custom_chart`
+
+```python
+create_custom_chart(
+    entity: 'str',
+    name: 'str',
+    display_name: 'str',
+    spec_type: "Literal['vega2']",
+    access: "Literal['private', 'public']",
+    spec: 'str | dict'
+) → str
+```
+
+カスタムチャートプリセットを作成し、その ID を返します。
+
+**引数:**
+
+* `entity`:  チャートの所有者となるエンティティ（ユーザーまたはチーム）
+* `name`:  チャートプリセットの一意な識別子
+* `display_name`:  UI に表示される、人間が読みやすい名前
+* `spec_type`:  仕様のタイプ。Vega-Lite v2 の仕様の場合は必ず &quot;vega2&quot; である必要があります。
+* `access`:  チャートのアクセスレベル:
+  * &quot;private&quot;: チャートは、それを作成したエンティティからのみアクセス可能
+  * &quot;public&quot;: チャートは公開され、誰でもアクセス可能
+* `spec`:  Vega/Vega-Lite の仕様。辞書または JSON 文字列として指定します。
+
+**戻り値:**
+作成されたチャートプリセットの ID（&quot;entity/name&quot; 形式）
+
+**送出される例外:**
+
+* `wandb.Error`:  チャートの作成に失敗した場合
+* `UnsupportedError`:  サーバーがカスタムチャートをサポートしていない場合
+
+**例:**
+
+```python
+    import wandb
+
+    api = wandb.Api()
+
+    # シンプルな棒グラフの仕様を定義する
+    vega_spec = {
+         "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+         "mark": "bar",
+         "data": {"name": "wandb"},
+         "encoding": {
+             "x": {"field": "${field:x}", "type": "ordinal"},
+             "y": {"field": "${field:y}", "type": "quantitative"},
+         },
+    }
+
+    # カスタムチャートを作成する
+    chart_id = api.create_custom_chart(
+         entity="my-team",
+         name="my-bar-chart",
+         display_name="My Custom Bar Chart",
+         spec_type="vega2",
+         access="private",
+         spec=vega_spec,
+    )
+
+    # wandb.plot_table() と組み合わせて使用する
+    chart = wandb.plot_table(
+         vega_spec_name=chart_id,
+         data_table=my_table,
+         fields={"x": "category", "y": "value"},
+    )
+```
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.create_project`
+
+```python
+create_project(name: 'str', entity: 'str') → None
+```
+
+新しいプロジェクトを作成します。
+
+**引数:**
+
+* `name`:  新しいプロジェクトの名前。
+* `entity`:  新しいプロジェクトのエンティティ。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.create_registry`
+
+```python
+create_registry(
+    name: 'str',
+    visibility: "Literal['organization', 'restricted']",
+    organization: 'str | None' = None,
+    description: 'str | None' = None,
+    artifact_types: 'list[str] | None' = None
+) → Registry
+```
+
+新しいレジストリを作成します。
+
+**引数:**
+
+* `name`:  レジストリ名。組織内で一意である必要があります。
+* `visibility`:  レジストリの公開範囲。
+* `organization`:  組織内の誰でもこのレジストリを閲覧できます。後で UI の設定からメンバーのロールを編集できます。
+* `restricted`:  UI から招待されたメンバーのみがこのレジストリにアクセスできます。パブリック共有は無効です。
+* `organization`:  レジストリの所属組織。設定で organization が指定されていない場合、entity が 1 つの組織にのみ属しているときは、その entity から organization が取得されます。
+* `description`:  レジストリの説明。
+* `artifact_types`:  レジストリで許可されるアーティファクトのタイプ。タイプは
+* `more than 128 characters and do not include characters `/`or ``:`. If not specified, all types are accepted. Allowed types added to the registry cannot be removed later.
+
+**戻り値:**
+レジストリオブジェクト。
+
+**使用例:**
+
+```python
+import wandb
+
+api = wandb.Api()
+registry = api.create_registry(
+    name="my-registry",
+    visibility="restricted",
+    organization="my-org",
+    description="This is a test registry",
+    artifact_types=["model"],
+)
+```
+
+***
+
+
+### <kbd>method</kbd> `Api.create_run`
+
+```python
+create_run(
+    run_id: 'str | None' = None,
+    project: 'str | None' = None,
+    entity: 'str | None' = None
+) → public.Run
+```
+
+新しい run を作成します。
+
+**引数:**
+
+* `run_id`:  run に割り当てる ID。指定しない場合は、W&amp;B がランダムな ID を作成します。
+* `project`:  run を記録するプロジェクト。プロジェクトが指定されていない場合は、&quot;Uncategorized&quot; という名前のプロジェクトに run を記録します。
+* `entity`:  プロジェクトを所有する entity。entity が指定されていない場合は、デフォルトの entity に run を記録します。
+
+**戻り値:**
+新しく作成された `Run`。
+
+***
+
+
+### <kbd>method</kbd> `Api.create_run_queue`
+
+```python
+create_run_queue(
+    name: 'str',
+    type: 'public.RunQueueResourceType',
+    entity: 'str | None' = None,
+    prioritization_mode: 'public.RunQueuePrioritizationMode | None' = None,
+    config: 'dict | None' = None,
+    template_variables: 'dict | None' = None
+) → public.RunQueue
+```
+
+W&amp;B Launch で新しい run キューを作成します。
+
+**Args:**
+
+* `name`:  作成するキューの名前。
+* `type`:  キューで使用するリソースの種類。&quot;local-container&quot;、&quot;local-process&quot;、&quot;kubernetes&quot;、&quot;sagemaker&quot;、&quot;gcp-vertex&quot; のいずれか。
+* `entity`:  キューを作成する entity の名前。`None` の場合は、設定済みまたはデフォルトの entity を使用します。
+* `prioritization_mode`:  使用する優先度付けのバージョン。&quot;V0&quot; または `None` のいずれか。
+* `config`:  キューで使用されるデフォルトのリソース設定。テンプレート変数を指定するには、handlebars（例: `{{var}}`）を使用します。
+* `template_variables`:  `config` と組み合わせて使用するテンプレート変数スキーマを格納した辞書。
+
+**Returns:**
+新しく作成された `RunQueue`。
+
+**Raises:**
+パラメータが無効な場合は `ValueError`。wandb API エラー時には `wandb.Error`。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.create_team`
+
+```python
+create_team(team: 'str', admin_username: 'str | None' = None) → Team
+```
+
+新しいチームを作成します。
+
+**引数:**
+
+* `team`:  チーム名
+* `admin_username`:  チームの管理者ユーザーのユーザー名。指定しない場合は現在のユーザーが使用されます。
+
+**返り値:**
+`Team` オブジェクト。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.create_user`
+
+```python
+create_user(email: 'str', admin: 'bool | None' = False) → User
+```
+
+新しいユーザーを作成します。
+
+**引数:**
+
+* `email`:  ユーザーのメールアドレス。
+* `admin`:  ユーザーをグローバルインスタンスの管理者として設定します。
+
+**戻り値:**
+`User` オブジェクト。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.delete_automation`
+
+```python
+delete_automation(obj: 'Automation | str') → Literal[True]
+```
+
+オートメーションを削除します。
+
+**引数:**
+
+* `obj`:  削除するオートメーション、またはその ID。
+
+**戻り値:**
+オートメーションが正常に削除された場合は True を返します。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.flush`
+
+```python
+flush()
+```
+
+ローカルキャッシュをフラッシュします。
+
+`api` オブジェクトは run のローカルキャッシュを保持します。したがって、スクリプトの実行中に run の状態が変化しうる場合は、`api.flush()` を使ってローカルキャッシュをクリアし、run に関連付けられた最新の値を取得する必要があります。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.from_path`
+
+```python
+from_path(path: 'str')
+```
+
+パスから run、スイープ、プロジェクト、またはレポートを返します。
+
+**引数:**
+
+* `path`:  プロジェクト、run、スイープ、またはレポートへのパス
+
+**戻り値:**
+`Project`、`Run`、`Sweep`、または `BetaReport` インスタンス。
+
+**例外:**
+パスが無効な場合、またはオブジェクトが存在しない場合は `wandb.Error` が送出されます。
+
+**使用例:**
+以下のコードスニペット中の &quot;project&quot;、&quot;team&quot;、&quot;run&#95;id&quot;、&quot;sweep&#95;id&quot;、および &quot;report&#95;name&quot; は、それぞれプロジェクト、チーム、run ID、スイープ ID、特定のレポート名を表すプレースホルダーです。
+
+```python
+import wandb
+
+api = wandb.Api()
+
+project = api.from_path("project")
+team_project = api.from_path("team/project")
+run = api.from_path("team/project/runs/run_id")
+sweep = api.from_path("team/project/sweeps/sweep_id")
+report = api.from_path("team/project/reports/report_name")
+```
+
+***
+
+
+### <kbd>method</kbd> `Api.integrations`
+
+```python
+integrations(
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+) → Iterator[Integration]
+```
+
+エンティティに対するすべてのインテグレーションのイテレータを返します。
+
+**Args:**
+
+* `entity`:  インテグレーションを取得する対象のエンティティ（例: チーム名）。指定しない場合は、ユーザーのデフォルトエンティティが使用されます。
+* `per_page`:  1ページあたりに取得するインテグレーション数。デフォルトは 50。通常はこれを変更する必要はありません。
+
+**Yields:**
+
+* `Iterator[SlackIntegration | WebhookIntegration]`:  サポートされているインテグレーションを順に返すイテレータ。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.job`
+
+```python
+job(name: 'str | None', path: 'str | None' = None) → public.Job
+```
+
+`Job` オブジェクトを返します。
+
+**引数:**
+
+* `name`:  ジョブの名前。
+* `path`:  ジョブのアーティファクトをダウンロードするためのルートパス。
+
+**戻り値:**
+`Job` オブジェクト。
+
+***
+
+
+### <kbd>method</kbd> `Api.list_jobs`
+
+```python
+list_jobs(entity: 'str', project: 'str') → list[dict[str, Any]]
+```
+
+指定した entity とプロジェクトに対して、存在するジョブがあればその一覧を返します。
+
+**引数:**
+
+* `entity`:  ジョブを取得する対象の entity。
+* `project`:  ジョブを取得する対象のプロジェクト。
+
+**戻り値:**
+条件に一致するジョブのリスト。
+
+***
+
+
+### <kbd>method</kbd> `Api.project`
+
+```python
+project(name: 'str', entity: 'str | None' = None) → public.Project
+```
+
+指定された名前（および指定されていれば entity）を持つ `Project` を返します。
+
+**引数:**
+
+* `name`:  プロジェクト名。
+* `entity`:  リクエスト対象の entity 名。None の場合は、`Api` に渡されたデフォルトの entity が使用されます。デフォルトの entity がない場合は `ValueError` を送出します。
+
+**戻り値:**
+`Project` オブジェクト。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.projects`
+
+```python
+projects(entity: 'str | None' = None, per_page: 'int' = 200) → public.Projects
+```
+
+指定したエンティティに対するプロジェクトを取得します。
+
+**引数:**
+
+* `entity`:  取得対象となるエンティティ名。None の場合は `Api` に渡されたデフォルトエンティティが使用されます。デフォルトエンティティも存在しない場合は `ValueError` がスローされます。
+* `per_page`:  クエリのページネーションにおけるページサイズを設定します。通常、これを変更する必要はありません。
+
+**戻り値:**
+`Project` オブジェクトのイテラブルなコレクションである `Projects` オブジェクト。
+
+***
+
+
+### <kbd>method</kbd> `Api.queued_run`
+
+```python
+queued_run(
+    entity: 'str',
+    project: 'str',
+    queue_name: 'str',
+    run_queue_item_id: 'str',
+    project_queue=None,
+    priority=None
+)
+```
+
+パスに基づいてキュー内の単一のrunを返します。
+
+`entity/project/queue_id/run_queue_item_id` 形式のパスを解析します。
+
+***
+
+
+### <kbd>method</kbd> `Api.registries`
+
+```python
+registries(
+    organization: 'str | None' = None,
+    filter: 'dict[str, Any] | None' = None,
+    per_page: 'int' = 100
+) → Registries
+```
+
+`Registry` オブジェクトの遅延評価イテレータを返します。
+
+このイテレータを使用して、組織のレジストリ全体にわたるレジストリ、コレクション、またはアーティファクトバージョンを検索・フィルタリングします。
+
+**Args:**
+
+* `organization`:  (str, optional) 取得対象のレジストリが属する organization。指定しない場合は、ユーザーの設定で指定されている organization が使用されます。
+* `filter`:  (dict, optional) 遅延レジストリイテレータ内の各オブジェクトに適用する MongoDB 形式のフィルタ。レジストリに対してフィルタ可能なフィールドは `name`, `description`, `created_at`, `updated_at`。コレクションに対してフィルタ可能なフィールドは `name`, `tag`, `description`, `created_at`, `updated_at`。バージョンに対してフィルタ可能なフィールドは `tag`, `alias`, `created_at`, `updated_at`, `metadata`。
+* `per_page`:  クエリのページネーションにおけるページサイズを設定します。
+
+**Returns:**
+`Registry` オブジェクトの遅延評価イテレータ。
+
+**Examples:**
+名前に &quot;model&quot; を含むすべてのレジストリを検索します
+
+```python
+import wandb
+
+api = wandb.Api()  # エンティティが複数の組織に属している場合は組織を指定してください
+api.registries(filter={"name": {"$regex": "model"}})
+```
+
+レジストリ内の、名前が「my&#95;collection」でタグが「my&#95;tag」のすべてのコレクションを検索します
+
+```python
+api.registries().collections(filter={"name": "my_collection", "tag": "my_tag"})
+```
+
+レジストリ内で、コレクション名に「my&#95;collection」を含み、エイリアス「best」が付いたバージョンを持つすべてのアーティファクトバージョンを検索します
+
+```python
+api.registries().collections(
+    filter={"name": {"$regex": "my_collection"}}
+).versions(filter={"alias": "best"})
+```
+
+レジストリ内で名前に「model」を含み、タグ「prod」またはエイリアス「best」が付いているすべてのアーティファクトバージョンを検索します
+
+```python
+api.registries(filter={"name": {"$regex": "model"}}).versions(
+    filter={"$or": [{"tag": "prod"}, {"alias": "best"}]}
+)
+```
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.registry`
+
+```python
+registry(name: 'str', organization: 'str | None' = None) → Registry
+```
+
+レジストリ名を指定してレジストリを返します。
+
+**引数:**
+
+* `name`:  レジストリの名前。`wandb-registry-` プレフィックスを除いた名前です。
+* `organization`:  レジストリが所属する組織。設定で organization が指定されていない場合、entity が 1 つの organization のみに属しているときは、その entity から organization が取得されます。
+
+**戻り値:**
+レジストリオブジェクトを返します。
+
+**例:**
+レジストリを取得して更新する。
+
+```python
+import wandb
+
+api = wandb.Api()
+registry = api.registry(name="my-registry", organization="my-org")
+registry.description = "This is an updated description"
+registry.save()
+```
+
+***
+
+
+### <kbd>method</kbd> `Api.reports`
+
+```python
+reports(
+    path: 'str' = '',
+    name: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.Reports
+```
+
+指定したプロジェクトパスに対するレポートを取得します。
+
+注記: `wandb.Api.reports()` API はベータ版であり、今後のリリースで変更される可能性があります。
+
+**Args:**
+
+* `path`:  レポートが存在するプロジェクトへのパス。先頭に、そのプロジェクトを作成した entity をプレフィックスとして指定し、その後にスラッシュを続けてください。
+* `name`:  リクエストするレポートの名前。
+* `per_page`:  クエリのページネーション用のページサイズを設定します。通常、これを変更する必要はありません。
+
+**Returns:**
+`Reports` オブジェクト。これは、`BetaReport` オブジェクトの反復可能なコレクションです。
+
+**Examples:**
+
+```python
+import wandb
+
+wandb.Api.reports("entity/project")
+```
+
+***
+
+
+### <kbd>method</kbd> `Api.run`
+
+```python
+run(path='')
+```
+
+`entity/project/run_id` の形式のパスをパースして、単一の run を返します。
+
+**引数:**
+
+* `path`:  `entity/project/run_id` 形式の run へのパス。`api.entity` が設定されている場合は `project/run_id` 形式とでき、`api.project` が設定されている場合は run&#95;id だけを指定できます。
+
+**戻り値:**
+`Run` オブジェクト。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.run_queue`
+
+```python
+run_queue(entity: 'str', name: 'str')
+```
+
+指定したエンティティに対して、指定名の `RunQueue` を返します。
+
+run queue の作成方法については、`Api.create_run_queue` を参照してください。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.runs`
+
+```python
+runs(
+    path: 'str | None' = None,
+    filters: 'dict[str, Any] | None' = None,
+    order: 'str' = '+created_at',
+    per_page: 'int' = 50,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True
+)
+```
+
+`Run` オブジェクトを遅延評価で順次処理する `Runs` オブジェクトを返します。
+
+フィルタリングに利用できるフィールドには、次のものがあります:
+
+* `createdAt`: run が作成されたタイムスタンプ（ISO 8601 形式。例: &quot;2023-01-01T12:00:00Z&quot;）。
+* `displayName`: run の人間が読める表示名（例: &quot;eager-fox-1&quot;）。
+* `duration`: run の合計実行時間（秒）。
+* `group`: 関連する複数の run をまとめるために使用されるグループ名。
+* `host`: run が実行されたホスト名。
+* `jobType`: run のジョブの種類または目的。
+* `name`: run の一意の識別子（例: &quot;a1b2cdef&quot;）。
+* `state`: run の現在の状態。
+* `tags`: run に関連付けられたタグ。
+* `username`: run を開始したユーザーのユーザー名。
+
+さらに、run の config や summary メトリクス内の項目でフィルタリングすることもできます。たとえば `config.experiment_name`、`summary_metrics.loss` などです。
+
+より複雑なフィルタリングのために、MongoDB のクエリ演算子を使用できます。詳細は https://www.mongodb.com/docs/manual/reference/mql/query-predicates/ を参照してください。次の演算がサポートされています:
+
+* `$and`
+* `$or`
+* `$nor`
+* `$eq`
+* `$ne`
+* `$gt`
+* `$gte`
+* `$lt`
+* `$lte`
+* `$in`
+* `$nin`
+* `$exists`
+* `$regex`
+
+**Args:**
+
+* `path`:  (str) プロジェクトへのパスで、&quot;entity/project&quot; の形式で指定します。
+* `filters`:  (dict) MongoDB クエリ言語を使用して特定の run を検索するためのクエリ。config.key、summary&#95;metrics.key、state、entity、createdAt などの run プロパティでフィルタリングできます。
+* `For example`:  `{"config.experiment_name": "foo"}` のように指定すると、config の experiment&#95;name エントリが &quot;foo&quot; に設定されている run を検索します。
+* `order`:  (str) 並び順。`created_at`、`heartbeat_at`、`config.*.value`、`summary_metrics.*` を指定できます。先頭に + を付けると昇順（デフォルト）、- を付けると降順になります。デフォルトの並び順は、run.created&#95;at を古いものから新しいものへの順に並べます。
+* `per_page`:  (int) クエリのページネーションにおける 1 ページあたりの件数を設定します。
+* `include_sweeps`:  (bool) 結果にスイープの run を含めるかどうか。
+* `lazy`:  (bool) パフォーマンス向上のために遅延読み込みを使用するかどうか。True（デフォルト）の場合、最初は必要最小限の run メタデータのみが読み込まれます。config、summaryMetrics、systemMetrics のような重いフィールドは、アクセスされたときにオンデマンドで読み込まれます。最初からすべてのデータを読み込みたい場合は False を指定します。
+
+**Returns:**
+`Run` オブジェクトの反復可能なコレクションである `Runs` オブジェクト。
+
+**Examples:**
+
+```python
+import wandb
+from wandb.apis.public import Api
+
+# config.experiment_name が "foo" に設定されているプロジェクト内の runs を検索する
+Api.runs(path="my_entity/project", filters={"config.experiment_name": "foo"})
+```
+
+```python
+# config.experiment_name が "foo" または "bar" に設定されているプロジェクト内の run を検索する
+Api.runs(
+    path="my_entity/project",
+    filters={
+         "$or": [
+             {"config.experiment_name": "foo"},
+             {"config.experiment_name": "bar"},
+         ]
+    },
+)
+```
+
+```python
+# config.experiment_name が正規表現に一致するプロジェクト内の run を検索する
+# (アンカーはサポートされていない)
+Api.runs(
+    path="my_entity/project",
+    filters={"config.experiment_name": {"$regex": "b.*"}},
+)
+```
+
+```python
+# プロジェクト内でrun名が正規表現に一致するrunを検索する
+# (アンカーはサポートされていません)
+Api.runs(
+    path="my_entity/project", filters={"display_name": {"$regex": "^foo.*"}}
+)
+```
+
+```python
+# プロジェクト内のrunをlossの昇順で並べ替えて検索
+Api.runs(path="my_entity/project", order="+summary_metrics.loss")
+```
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.slack_integrations`
+
+```python
+slack_integrations(
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+) → Iterator[SlackIntegration]
+```
+
+エンティティ用の Slack インテグレーションのイテレータを返します。
+
+**引数:**
+
+* `entity`:  インテグレーションを取得する対象のエンティティ（例: チーム名）。指定しなかった場合は、ユーザーのデフォルトエンティティが使用されます。
+* `per_page`:  1 ページあたりに取得するインテグレーション数。デフォルトは 50 です。通常、この値を変更する必要はありません。
+
+**Yields:**
+
+* `Iterator[SlackIntegration]`:  Slack インテグレーションのイテレータ。
+
+**使用例:**
+チーム &quot;my-team&quot; に登録されているすべての Slack インテグレーションを取得します:
+
+```python
+import wandb
+
+api = wandb.Api()
+slack_integrations = api.slack_integrations(entity="my-team")
+```
+
+チャンネル名が &quot;team-alerts-&quot; で始まるチャンネルに投稿する Slack インテグレーションだけを検索します：
+
+```python
+slack_integrations = api.slack_integrations(entity="my-team")
+team_alert_integrations = [
+    ig
+    for ig in slack_integrations
+    if ig.channel_name.startswith("team-alerts-")
+]
+```
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.sweep`
+
+```python
+sweep(path='')
+```
+
+`entity/project/sweep_id` 形式のパスを解析して、スイープを返します。
+
+**Args:**
+
+* `path`:  `entity/project/sweep_id` 形式のスイープへのパス。`api.entity` が設定されている場合は `project/sweep_id` 形式にできます。`api.project` が設定されている場合は `sweep_id` だけを指定できます。
+
+**Returns:**
+`Sweep` オブジェクト。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.sync_tensorboard`
+
+```python
+sync_tensorboard(root_dir, run_id=None, project=None, entity=None)
+```
+
+tfevent ファイルを含むローカルディレクトリを wandb と同期します。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.team`
+
+```python
+team(team: 'str') → Team
+```
+
+指定した名前に一致する `Team` を返します。
+
+**引数:**
+
+* `team`:  チームの名前。
+
+**戻り値:**
+`Team` オブジェクト。
+
+***
+
+
+### <kbd>method</kbd> `Api.update_automation`
+
+```python
+update_automation(
+    obj: 'Automation',
+    create_missing: 'bool' = False,
+    **kwargs: 'Unpack[WriteAutomationsKwargs]'
+) → Automation
+```
+
+既存のオートメーションを更新します。
+
+**引数:**
+
+* `obj`: 更新するオートメーション。既存のオートメーションである必要があります。
+* `create&#95;missing` (bool): True の場合、オートメーションが存在しなければ新規作成します。
+* `**kwargs`: 更新前にオートメーションへ割り当てる追加の値。指定された場合、すでにオートメーションに設定されている値を上書きします:
+  * `name`: オートメーションの名前。
+  * `description`: オートメーションの説明。
+  * `enabled`: オートメーションが有効かどうか。
+  * `scope`: オートメーションのスコープ。
+  * `event`: オートメーションをトリガーするイベント。
+  * `action`: オートメーションによってトリガーされるアクション。
+
+**戻り値:**
+更新されたオートメーション。
+
+**使用例:**
+既存のオートメーション (&quot;my-automation&quot;) を無効化し、その説明を編集します:
+
+```python
+import wandb
+
+api = wandb.Api()
+
+automation = api.automation(name="my-automation")
+automation.enabled = False
+automation.description = "参照用に保持していますが、現在は使用していません。"
+
+updated_automation = api.update_automation(automation)
+```
+
+または
+
+```python
+import wandb
+
+api = wandb.Api()
+
+automation = api.automation(name="my-automation")
+
+updated_automation = api.update_automation(
+    automation,
+    enabled=False,
+    description="Kept for reference, but no longer used.",
+)
+```
+
+***
+
+
+### <kbd>method</kbd> `Api.upsert_run_queue`
+
+```python
+upsert_run_queue(
+    name: 'str',
+    resource_config: 'dict',
+    resource_type: 'public.RunQueueResourceType',
+    entity: 'str | None' = None,
+    template_variables: 'dict | None' = None,
+    external_links: 'dict | None' = None,
+    prioritization_mode: 'public.RunQueuePrioritizationMode | None' = None
+)
+```
+
+W&amp;B Launch で run キューをアップサート（作成または更新）します。
+
+**引数:**
+
+* `name`:  作成するキューの名前
+* `entity`:  キューを作成する entity の任意の名前。`None` の場合は、設定済みまたはデフォルトの entity を使用します。
+* `resource_config`:  キューで使用する任意のデフォルトのリソース設定。テンプレート変数を指定するには handlebars（例: `{{var}}`）を使用します。
+* `resource_type`:  キューで使用するリソースの種類。&quot;local-container&quot;、&quot;local-process&quot;、&quot;kubernetes&quot;、&quot;sagemaker&quot;、&quot;gcp-vertex&quot; のいずれか。
+* `template_variables`:  設定と併せて使用するテンプレート変数スキーマを表す辞書。
+* `external_links`:  キューと併せて使用する外部リンクを表す任意の辞書。
+* `prioritization_mode`:  使用する優先順位付け方式の任意のバージョン。&quot;V0&quot; または None。
+
+**戻り値:**
+アップサートされた `RunQueue` を返します。
+
+**例外:**
+パラメータが無効な場合は ValueError、wandb API エラー時には wandb.Error を送出します。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.user`
+
+```python
+user(username_or_email: 'str') → User | None
+```
+
+ユーザー名またはメールアドレスからユーザーを返します。
+
+この関数が動作するのはローカル管理者のみです。自分自身のユーザーオブジェクトを取得するには `api.viewer` を使用してください。
+
+**引数:**
+
+* `username_or_email`:  ユーザーのユーザー名またはメールアドレス。
+
+**戻り値:**
+`User` オブジェクト、またはユーザーが見つからない場合は None。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.users`
+
+```python
+users(username_or_email: 'str') → list[User]
+```
+
+部分的なユーザー名またはメールアドレスで検索し、一致するすべてのユーザーを返します。
+
+この関数はローカル管理者しか使用できません。自分自身のユーザーオブジェクトを取得するには `api.viewer` を使用します。
+
+**引数:**
+
+* `username_or_email`:  検索したいユーザーのユーザー名またはメールアドレスの前方または後方一致用の文字列。
+
+**戻り値:**
+`User` オブジェクトの配列。
+
+***
+
+
+### <kbd>メソッド</kbd> `Api.webhook_integrations`
+
+```python
+webhook_integrations(
+    entity: 'str | None' = None,
+    per_page: 'int' = 50
+) → Iterator[WebhookIntegration]
+```
+
+エンティティの webhook インテグレーションのイテレータを返します。
+
+**Args:**
+
+* `entity`:  インテグレーションを取得する対象のエンティティ（例: チーム名）。指定しない場合、ユーザーのデフォルトエンティティが使用されます。
+* `per_page`:  1ページあたりに取得するインテグレーション数。デフォルトは 50 です。通常、この値を変更する必要はありません。
+
+**Yields:**
+
+* `Iterator[WebhookIntegration]`:  webhook インテグレーションのイテレータ。
+
+**Examples:**
+チーム「my-team」に登録されているすべての webhook インテグレーションを取得する:
+
+```python
+import wandb
+
+api = wandb.Api()
+webhook_integrations = api.webhook_integrations(entity="my-team")
+```
+
+&quot;https://my-fake-url.com&quot; にリクエストを送信する webhook インテグレーションだけを検索します:
+
+```python
+webhook_integrations = api.webhook_integrations(entity="my-team")
+my_webhooks = [
+    ig
+    for ig in webhook_integrations
+    if ig.url_endpoint.startswith("https://my-fake-url.com")
+]
+```

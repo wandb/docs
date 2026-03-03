@@ -1,0 +1,11 @@
+---
+title: コードを保存するにはどうすればよいですか？‌
+---
+
+`wandb.init` で `save_code=True` を使用すると、run を起動するメインスクリプトまたはノートブックを保存できます。run のすべてのコードを保存するには、Artifacts を使ってコードをバージョン管理します。次の例は、この方法を示しています。
+
+```python
+code_artifact = wandb.Artifact(type="code")
+code_artifact.add_file("./train.py")
+wandb.log_artifact(code_artifact)
+```

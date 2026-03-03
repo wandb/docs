@@ -1,0 +1,44 @@
+---
+title: "wandb コントローラー"
+---
+
+{/*
+  このコマンド向けのイントロダクション用コンテンツを追加するには：
+  1. /snippets/_includes/cli/wandb-controller.mdx スニペットファイルを作成します
+  2. 作成したファイルにイントロダクション用コンテンツを追加します
+  3. 次の2行だけを残し、このコメントブロック全体を削除します：
+
+  import WandbController from "/snippets/_includes/cli/wandb-controller.mdx";
+
+  <WandbController/>
+
+  スニペットは次回の再生成時に自動的に検出されます。
+  */}
+
+W&amp;B ローカルスイープコントローラーを実行する
+
+
+<div id="usage">
+  ## 使い方
+</div>
+
+```bash
+wandb controller SWEEP_ID [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## 引数
+</div>
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `SWEEP_ID` | 説明はありません | はい |
+
+<div id="options">
+  ## オプション
+</div>
+
+| オプション | 説明 |
+| :--- | :--- |
+| `--verbose` | 詳細な出力を表示（デフォルト: False） |
