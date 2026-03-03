@@ -82,7 +82,7 @@ results = env.evaluate(
 
 Weave can be a powerful tool in your RL fine‑tuning workflows by providing insight into how your models are performing during training. When used alongside W&B, you get comprehensive observability: W&B tracks training metrics and performance charts, while Weave captures detailed traces of each interaction during the training process.
 
-The `verifiers` repository includes ready‑to‑run [examples](https://github.com/willccbb/verifiers) to help you get started.
+The `verifiers` repository includes ready‑to‑run [examples](https://github.com/PrimeIntellect-ai/verifiers) to help you get started.
 
 The following example RL training pipeline runs a local inference server and trains a model using the GSM8K dataset. The model responds with answers to the math problems and the training loop scores the output and updates the model accordingly. W&B logs the training metrics, like loss, reward, and accuracy, while Weave captures the input, output, reasoning, and scoring.
 
@@ -131,4 +131,4 @@ Traces omit `logprobs` for the `Environment.a_generate` and `Rubric.score_rollou
 
 ## See also
 
-Verifiers has first‑class integration with W&B Models. See the [Verifiers repository](https://github.com/willccbb/verifiers) to learn more.
+Verifiers has first‑class integration with W&B Models. See the [Verifiers repository](https://github.com/PrimeIntellect-ai/verifiers) to learn more.
