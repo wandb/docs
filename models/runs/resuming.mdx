@@ -5,18 +5,6 @@ title: Resume a run
 
 Specify how W&B should respond if a run stops or crashes. When you initialize a run you can specify how W&B should respond if the run stops or crashes by passing an argument to the `resume` parameter. W&B checks if the run ID already exists and responds based on the argument passed to the `resume` parameter.
 
-{/* ```python
-import wandb
-with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="<resume>") as run:
-        # Your training code here
-```
-
-<Note>
-W&B suggests that you provide the name of the W&B Project where you want to store the run.
-</Note> */}
-
-{/* Pass one of the following arguments to the `resume` parameter to determine how W&B should respond. In each case, W&B first checks if the run ID already exists.  */}
-
 The following table outlines the behavior of W&B based on the argument passed to the `resume` parameter and whether the run ID exists or not.
 
 |Argument | Description | Run ID exists| Run ID does not exist | Use case |
@@ -29,7 +17,9 @@ The following table outlines the behavior of W&B based on the argument passed to
 <Note>
 **When to use `auto` vs `allow`**
 
-W&B recommends using `resume="allow"` with a stored run ID. `resume="allow"` provides control over which specific run to resume. The `resume="auto"` option does not require you to specify a run ID but it has the limitation of requiring the same directory structure.
+W&B recommends that you use `resume="allow"` and specify the specific run ID you want to resume. 
+
+The `resume="auto"` option does not require you to specify a run ID but it can lead to unexpected behavior if you have multiple runs that fail in the same directory or if the file directory structure changes. You must also ensure that you restart the run from the same directory as the failed process when you use `resume="auto"`. 
 </Note>
 
 For all the examples below, replace values enclosed within `<>` with your own.
