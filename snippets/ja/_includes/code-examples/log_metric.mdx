@@ -1,5 +1,5 @@
 ---
-title: メトリクスの記録
+title: メトリクスをログに記録
 ---
 
 ```python
@@ -7,7 +7,7 @@ title: メトリクスの記録
 import wandb
 
 with wandb.init(project="<project>") as run:
-    # 学習およびログのコードをここに記述
+    # トレーニングとロギングのコードをここに記述します
 
     # メトリクスをログする例
     run.log({"accuracy": 0.95})

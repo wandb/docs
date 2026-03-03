@@ -3,52 +3,52 @@ description: W&B を Meta AI の MMF と統合する方法。
 title: MMF
 ---
 
-[Meta AI の MMF](https://github.com/facebookresearch/mmf) ライブラリの `WandbLogger` クラスを使うと、学習/検証メトリクス、システム（GPU および CPU）のメトリクス、モデルのチェックポイント、および設定パラメータを W&B に記録できるようになります。
+[Meta AI の MMF](https://github.com/facebookresearch/mmf) ライブラリの `WandbLogger` クラスを使用すると、W&B でトレーニング/検証のメトリクス、システム (GPU と CPU) のメトリクス、モデルのチェックポイントおよび設定パラメーターを記録できるようになります。
 
 <div id="current-features">
   ## 現在の機能
 </div>
 
-次の機能が MMF の `WandbLogger` によって現在サポートされています:
+`WandbLogger` は MMF で現在、以下の機能をサポートしています:
 
-* 学習および検証メトリクス
-* 時間経過に伴う学習率
-* モデルのチェックポイントを W&B Artifacts に保存
-* GPU および CPU のシステムメトリクス
-* 学習設定のパラメータ
+* トレーニングおよび検証のメトリクス
+* 学習率の推移
+* モデル チェックポイントの W&B Artifacts への保存
+* GPU および CPU のシステム メトリクス
+* トレーニング設定パラメーター
 
 <div id="config-parameters">
-  ## Config parameters
+  ## Config パラメーター
 </div>
 
-MMF の config で wandb へのログ出力を有効化し、カスタマイズするために、次のオプションが用意されています。
+MMF の config では、wandb ロギングを有効化およびカスタマイズするために、次のオプションが利用できます。
 
 ```
 training:
     wandb:
         enabled: true
         
-        # エンティティとは、runの送信先となるユーザー名またはチーム名です。
-        # デフォルトでは、ユーザーアカウントにrunが記録されます。
+        # entity はユーザー名またはチーム名で、runs の送信先を指定します。
+        # デフォルトでは、run はユーザーアカウントに記録されます。
         entity: null
         
-        # wandbで実験を記録する際に使用するプロジェクト名
+        # wandb で実験を記録する際に使用するプロジェクト名
         project: mmf
         
-        # wandbでプロジェクト配下の実験を記録する際に使用する
-        # 実験名／run名。デフォルトの実験名:
+        # wandb でプロジェクト配下に実験を記録する際に使用する
+        # 実験名 / run 名。デフォルトの実験名:
         # ${training.experiment_name}
         name: ${training.experiment_name}
         
-        # モデルのチェックポイント保存を有効にし、チェックポイントをW&B Artifactsに保存する
+        # モデルのチェックポイント保存を有効にし、チェックポイントを W&B Artifacts に保存する
         log_model_checkpoint: true
         
-        # wandb.init()に渡す追加の引数値（例）:
+        # wandb.init() に渡す追加の引数値（例）:
         # job_type: 'train'
         # tags: ['tag1', 'tag2']
         
 env:
-    # wandbメタデータを保存するディレクトリのパスを変更する場合
+    # wandb メタデータを保存するディレクトリのパスを変更する場合
     # （デフォルト: env.log_dir）:
     wandb_logdir: ${env:MMF_WANDB_LOGDIR,}
 ```

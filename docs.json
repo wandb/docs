@@ -2112,6 +2112,7 @@
               {
                 "group": "チュートリアル",
                 "pages": [
+                  "ja/inference/tutorials/integration-cline",
                   "ja/inference/tutorials/creating-lora"
                 ]
               },
@@ -3209,6 +3210,7 @@
               {
                 "group": "튜토리얼",
                 "pages": [
+                  "ko/inference/tutorials/integration-cline",
                   "ko/inference/tutorials/creating-lora"
                 ]
               },

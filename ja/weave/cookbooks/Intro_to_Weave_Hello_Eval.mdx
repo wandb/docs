@@ -1,10 +1,10 @@
 ---
 title: "Evaluations 入門"
-description: "W&B Weave を使って Evaluations の概要を学びます"
+description: "W&B Weave で Evaluations を使い始める方法を学ぶ"
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカル環境で実行するか、以下のリンクから開くことができます。
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから利用できます。
 
   * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
@@ -16,9 +16,9 @@ description: "W&B Weave を使って Evaluations の概要を学びます"
 
 Weave の評価を実行する前に、次の前提条件を満たしてください。
 
-1. W&amp;B Weave SDK をインストールし、[APIキー](https://wandb.ai/settings#apikeys) を使ってログインします。
-2. OpenAI SDK をインストールし、[APIキー](https://platform.openai.com/api-keys) を使ってログインします。
-3. W&amp;B プロジェクトを初期化します。
+1. W&amp;B Weave SDK をインストールし、[API キー](https://wandb.ai/settings#apikeys) を使ってログインします。
+2. OpenAI SDK をインストールし、[API キー](https://platform.openai.com/api-keys) を使ってログインします。
+3. W&amp;B のプロジェクトを初期化します。
 
 ```python lines
 # 依存関係のインストールとインポート
@@ -32,8 +32,8 @@ from pydantic import BaseModel
 
 import weave
 
-# 🔑 APIキーの設定
-# このセルを実行すると、`getpass` でAPIキーの入力を求められます。入力内容はターミナルに表示されません。
+# 🔑 API キーの設定
+# このセルを実行すると、`getpass` を使用して API キーの入力を求められます。入力内容はターミナルに表示されません。
 #####
 print("---")
 print(
@@ -46,15 +46,15 @@ os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
 print("---")
 #####
 
-# 🏠 W&Bプロジェクト名を入力してください
-weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&Bプロジェクト名
+# 🏠 W&B のプロジェクト名を入力してください
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&B のプロジェクト名
 ```
 
 <div id="run-your-first-evaluation">
   ## 🐝 最初の評価を実行する
 </div>
 
-次のコードサンプルは、Weave の `Model` と `Evaluation` API を使って LLM を評価する方法を示します。まず、`weave.Model` を継承して Weave モデルを定義し、モデル名とプロンプト形式を指定し、`@weave.op` を使って `predict` メソッドをトラッキングします。`predict` メソッドはプロンプトを OpenAI に送信し、Pydantic スキーマ（`FruitExtract`）を使って応答を構造化された出力に解析します。次に、入力文と期待されるターゲットからなる小さな評価用データセットを作成します。続いて、モデルの出力をターゲットラベルと比較するカスタムスコアリング関数（同様に `@weave.op` を使ってトラッキング）を定義します。最後に、データセットとスコアラーを指定してそれらすべてを `weave.Evaluation` にまとめ、`evaluate()` を呼び出して評価パイプラインを非同期に実行します。
+次のコードサンプルは、Weave の `Model` と `Evaluation` API を使って LLM を評価する方法を示しています。まず、`weave.Model` を継承して Weave モデルを定義し、モデル名とプロンプト形式を指定し、`@weave.op` を使って `predict` メソッドを追跡します。`predict` メソッドはプロンプトを OpenAI に送信し、Pydantic スキーマ（`FruitExtract`）を使ってレスポンスを構造化された出力にパースします。次に、入力文と期待されるターゲットから成る小さな評価用データセットを作成します。続いて、`@weave.op` を使って追跡されるカスタムのスコアリング関数を定義し、モデルの出力とターゲットラベルを比較します。最後に、`weave.Evaluation` にすべてをまとめて、データセットとスコアラーを指定し、`evaluate()` を呼び出して評価パイプラインを非同期で実行します。
 
 ```python lines
 # 1. Weave モデルを構築する
@@ -126,8 +126,8 @@ await evaluation.evaluate(model)
 ```
 
 <div id="looking-for-more-examples">
-  ## 🚀 さらにサンプルをお探しですか？
+  ## 🚀 さらに例をお探しですか？
 </div>
 
-* エンドツーエンドの[評価パイプラインを構築する方法](/ja/weave/tutorial-eval)を学びましょう。
-* [RAG アプリケーションを構築して評価する方法](/ja/weave/tutorial-rag)を学びましょう。
+* [evaluation pipeline をエンドツーエンドで構築する方法](/ja/weave/tutorial-eval) を学びましょう。
+* [RAG アプリケーションを構築して評価する方法](/ja/weave/tutorial-rag) を学びましょう。

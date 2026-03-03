@@ -1,5 +1,5 @@
 ---
-title: スイープ
+title: Sweep クラス
 namespace: public_apis_namespace
 python_object_type: class
 ---
@@ -11,18 +11,18 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Sweep`
 
-スイープに関連付けられた run の集合。 
+sweep に関連付けられた run の集合。 
 
 **属性:**
 
 - `runs` (Runs):  run のリスト 
  - `id` (str):  Sweep ID 
- - `project` (str):  スイープが属するプロジェクト名 
- - `config` (dict):  スイープの設定を含む辞書 
- - `state` (str):  スイープの状態。"Finished"、"Failed"、"Crashed"、"Running" のいずれか 
- - `expected_run_count` (int):  スイープに対して想定される run の数 
+ - `project` (str):  sweep が属するプロジェクトの名前 
+ - `config` (dict):  sweep の設定を含む辞書 
+ - `state` (str):  sweep の状態。"Finished"、"Failed"、"Crashed"、"Running" のいずれか 
+ - `expected_run_count` (int):  sweep に対して想定される run の数 
 
-### <kbd>メソッド</kbd> `Sweep.__init__`
+### <kbd>method</kbd> `Sweep.__init__`
 
 ```python
 __init__(
@@ -39,23 +39,23 @@ __init__(
 
 ### <kbd>property</kbd> Sweep.config
 
-このスイープで使用される設定。 
+この sweep に対して使用される設定。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.entity
 
-スイープに関連付けられているエンティティ。
+この sweep に関連付けられている entity。 
 
-**戻り値:**
+**Returns:**
 
-- `str`: エンティティ プロパティの値。
+- `str`: entity プロパティの値。
 
 ---
 
 ### <kbd>property</kbd> Sweep.expected_run_count
 
-スイープで予定されている run の数を返します。run 回数が無制限の場合は None を返します。
+sweep 内で想定される run の数を返します。run が無限に実行される場合は None を返します。
 
 **戻り値:**
 
@@ -64,43 +64,43 @@ __init__(
 
 ### <kbd>property</kbd> Sweep.name
 
-スイープの名前。 
+sweep の名前。 
 
-以下の優先順位で、存在する最初の名前を返します: 
+以下の優先順位で、存在するもののうち最初の名前を返します: 
 
-1. ユーザーが編集した表示名 2. 作成時に設定された名前 3. スイープ ID 
+1. ユーザーが編集した表示名 2. 作成時に設定された名前 3. sweep ID 
 
 ---
 
 ### <kbd>property</kbd> Sweep.order
 
-このスイープの順序キーを返します。 
+sweep の順序キーを返します。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.path
 
-プロジェクトのパスを返します。
+プロジェクトのパスを返します。 
 
-パスは、エンティティ、プロジェクト名、スイープ ID からなるリストです。
+このパスは entity、プロジェクト名、および sweep ID から成るリストです。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.url
 
-スイープの URL。 
+sweep の URL。 
 
-スイープの URL は、エンティティ、プロジェクト、文字列 "sweeps"、および sweep ID.run_id を組み合わせて生成されます。SaaS のユーザーの場合、`https://wandb.ai/entity/project/sweeps/sweeps_ID` の形式になります。 
+sweep の URL は、entity、プロジェクト、"sweeps" という語、および sweep ID.run_id から生成されます。SaaS ユーザーの場合は、形式は `https://wandb.ai/entity/project/sweeps/sweeps_ID` となります。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.username
 
-非推奨です。代わりに `Sweep.entity` を使用してください。
+非推奨です。代わりに `Sweep.entity` を使用してください。 
 
 **戻り値:**
 
-- `str`: `username` プロパティの値。
+- `str`: username プロパティの値。
 
 ---
 
@@ -110,7 +110,7 @@ __init__(
 best_run(order=None)
 ```
 
-config で定義された metric、または引数で指定された順序でソートされた run の中から、最も良い run を返します。
+config で定義されたメトリクス、または引数で指定された並び順でソートした結果から、最良の run を返します。
 
 ***
 
@@ -133,12 +133,12 @@ get(
 
 **引数:**
 
-* `client`:  クエリの実行に使用するクライアント。
-* `entity`:  プロジェクトを所有するエンティティ（ユーザー名またはチーム）。
-* `project`:  スイープを取得するプロジェクト名。
-* `sid`:  照会するスイープ ID。
-* `order`:  スイープに含まれる run が返される順序。
-* `query`:  クエリの実行に使用するクエリ。
+* `client`:  クエリを実行する際に使用するクライアント。
+* `entity`:  プロジェクトの所有者である entity （ユーザー名またはチーム）。
+* `project`:  sweep を取得するプロジェクト名。
+* `sid`:  クエリ対象の sweep ID。
+* `order`:  sweep に含まれる runs が返される順序。
+* `query`:  クエリを実行するために使用するクエリ。
 * `**kwargs`:  クエリに渡す追加のキーワード引数。
 
 ***
@@ -150,4 +150,4 @@ get(
 to_html(height: 'int' = 420, hidden: 'bool' = False) → str
 ```
 
-iframe でこのスイープを表示する HTML を生成します。
+この sweep を表示する iframe を埋め込んだ HTML を生成します。

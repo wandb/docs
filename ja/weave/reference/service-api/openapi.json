@@ -14,7 +14,7 @@
         "operationId": "read_root_health_get",
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -29,11 +29,11 @@
         "tags": [
           "Service"
         ],
-        "summary": "バージョン情報の取得",
+        "summary": "バージョンの取得",
         "operationId": "read_version_version_get",
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -48,8 +48,8 @@
         "tags": [
           "Service"
         ],
-        "summary": "呼び出し元位置の取得",
-        "description": "IP アドレスに基づいてユーザーのおおよその地理的位置を取得します。\n\nこの API はデバッグ目的で提供されており、将来利用できなくなる可能性があります。",
+        "summary": "呼び出し元の位置の取得",
+        "description": "ユーザーの IP アドレスに基づいて地理的位置情報を照会します。\n\nこの API はデバッグ目的で提供されており、将来利用できなくなる可能性があります。",
         "operationId": "get_caller_location_geolocate_get",
         "parameters": [
           {
@@ -65,18 +65,18 @@
                   "type": "null"
                 }
               ],
-              "description": "ジオロケーションに使用する IP アドレス。指定しない場合はクライアントの IP アドレスが既定値として使用されます。",
+              "description": "ジオロケーションに使用する IP アドレス。指定しない場合は クライアントの IP アドレスがデフォルトとして使用されます",
               "examples": [
                 "1.2.3.4"
               ],
               "title": "Ip"
             },
-            "description": "位置情報を取得する対象の IP アドレス。指定しない場合はクライアントの IP アドレスが使用されます。"
+            "description": "位置情報を特定する IP アドレス。指定しない場合はクライアントの IP アドレスが使用されます。"
           }
         ],
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -107,7 +107,7 @@
         "operationId": "server_info_server_info_get",
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -128,7 +128,7 @@
         "operationId": "export_trace_otel_v1_traces_post",
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -143,7 +143,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "呼び出し開始",
+        "summary": "呼び出しの開始",
         "operationId": "call_start_call_start_post",
         "requestBody": {
           "content": {
@@ -157,7 +157,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -189,7 +189,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "呼び出し終了",
+        "summary": "呼び出しの終了",
         "operationId": "call_end_call_end_post",
         "requestBody": {
           "content": {
@@ -203,7 +203,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -235,7 +235,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "バッチ呼び出し開始",
+        "summary": "呼び出し開始のバッチ処理",
         "operationId": "call_start_batch_call_upsert_batch_post",
         "requestBody": {
           "content": {
@@ -249,7 +249,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -295,7 +295,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -341,7 +341,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -373,7 +373,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "Call の読み取り",
+        "summary": "Call 読み取り",
         "operationId": "call_read_call_read_post",
         "requestBody": {
           "content": {
@@ -387,7 +387,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -419,12 +419,12 @@
         "tags": [
           "Inference"
         ],
-        "summary": "Inference ルーター: OpenRouter Models",
-        "description": "OpenRouter で利用可能なモデルの一覧を返します。\n\nこの API は認証なしで利用できます。",
+        "summary": "Inference Router OpenRouter モデル",
+        "description": "OpenRouter で使用可能な モデル の一覧を返します。\n\nこの API は認証なしで使用できます。",
         "operationId": "inference_router_openrouter_models_inference_router_openrouter_models_get",
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -441,8 +441,8 @@
         "tags": [
           "Inference"
         ],
-        "summary": "Inference の取得",
-        "description": "OpenAI 互換の API。",
+        "summary": "Inference GET",
+        "description": "OpenAI 互換 API です。",
         "operationId": "inference_get_inference_v1_path__get",
         "security": [
           {
@@ -462,7 +462,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -485,8 +485,8 @@
         "tags": [
           "Inference"
         ],
-        "summary": "Inference の作成",
-        "description": "OpenAI 互換 API",
+        "summary": "Inference POST",
+        "description": "OpenAI 互換の API。",
         "operationId": "inference_post_inference_v1_path__post",
         "security": [
           {
@@ -516,7 +516,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -555,7 +555,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -588,7 +588,7 @@
           "Calls"
         ],
         "summary": "Trace 利用状況",
-        "description": "トレースについて、子孫をロールアップした各呼び出し単位の使用量を計算します。",
+        "description": "トレースごとに、子孫のロールアップを含めた呼び出し単位の使用量を計算します。",
         "operationId": "trace_usage_trace_usage_post",
         "requestBody": {
           "content": {
@@ -602,7 +602,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -635,7 +635,7 @@
           "Calls"
         ],
         "summary": "Calls 利用状況",
-        "description": "複数のルート呼び出しについて、子孫のロールアップを含む集計使用量を計算します。",
+        "description": "複数の root コールについて、その子孫をロールアップした集計使用量を計算します。",
         "operationId": "calls_usage_calls_usage_post",
         "requestBody": {
           "content": {
@@ -649,7 +649,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功したレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -712,7 +712,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功したレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -737,7 +737,7 @@
         "tags": [
           "Objects"
         ],
-        "summary": "オブジェクトの作成",
+        "summary": "Obj オブジェクト作成",
         "operationId": "obj_create_obj_create_post",
         "requestBody": {
           "content": {
@@ -751,7 +751,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功したレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -783,7 +783,7 @@
         "tags": [
           "Objects"
         ],
-        "summary": "オブジェクトの取得",
+        "summary": "Obj オブジェクト読み取り",
         "operationId": "obj_read_obj_read_post",
         "requestBody": {
           "content": {
@@ -797,7 +797,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功したレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -843,7 +843,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功したレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -889,7 +889,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -935,7 +935,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -981,7 +981,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1013,7 +1013,7 @@
         "tags": [
           "Tables"
         ],
-        "summary": "ダイジェストからのテーブル作成",
+        "summary": "ダイジェストからテーブル作成",
         "operationId": "table_create_from_digests_table_create_from_digests_post",
         "requestBody": {
           "content": {
@@ -1027,7 +1027,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1073,7 +1073,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1105,7 +1105,7 @@
         "tags": [
           "Tables"
         ],
-        "summary": "テーブルクエリ統計情報",
+        "summary": "テーブルクエリ統計",
         "operationId": "table_query_stats_table_query_stats_post",
         "requestBody": {
           "content": {
@@ -1119,7 +1119,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1151,7 +1151,7 @@
         "tags": [
           "Tables"
         ],
-        "summary": "テーブルクエリ統計情報バッチ",
+        "summary": "テーブルクエリ統計バッチ",
         "operationId": "table_query_stats_batch_table_query_stats_batch_post",
         "requestBody": {
           "content": {
@@ -1165,7 +1165,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1197,7 +1197,7 @@
         "tags": [
           "Refs"
         ],
-        "summary": "参照の一括読み取り",
+        "summary": "参照バッチの読み取り",
         "operationId": "refs_read_batch_refs_read_batch_post",
         "requestBody": {
           "content": {
@@ -1211,7 +1211,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1257,7 +1257,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1303,7 +1303,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1347,7 +1347,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1379,7 +1379,7 @@
         "tags": [
           "Costs"
         ],
-        "summary": "コストの作成",
+        "summary": "作成コスト",
         "operationId": "cost_create_cost_create_post",
         "requestBody": {
           "content": {
@@ -1393,7 +1393,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1425,7 +1425,7 @@
         "tags": [
           "Costs"
         ],
-        "summary": "コストのクエリ",
+        "summary": "クエリコスト",
         "operationId": "cost_query_cost_query_post",
         "requestBody": {
           "content": {
@@ -1439,7 +1439,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1471,7 +1471,7 @@
         "tags": [
           "Costs"
         ],
-        "summary": "コストの削除",
+        "summary": "パージコスト",
         "operationId": "cost_purge_cost_purge_post",
         "requestBody": {
           "content": {
@@ -1485,7 +1485,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1518,7 +1518,7 @@
           "Feedback"
         ],
         "summary": "フィードバックの作成",
-        "description": "呼び出しまたはオブジェクトにフィードバックを追加する。",
+        "description": "呼び出しまたはオブジェクトにフィードバックを追加",
         "operationId": "feedback_create_feedback_create_post",
         "requestBody": {
           "content": {
@@ -1565,7 +1565,7 @@
           "Feedback"
         ],
         "summary": "フィードバックの一括作成",
-        "description": "コールまたはオブジェクトに複数のフィードバック項目を追加します。",
+        "description": "呼び出しまたはオブジェクトに複数のフィードバック項目を追加します。",
         "operationId": "feedback_create_batch_feedback_batch_create_post",
         "requestBody": {
           "content": {
@@ -1612,7 +1612,7 @@
           "Feedback"
         ],
         "summary": "フィードバックのクエリ",
-        "description": "フィードバックを検索します。",
+        "description": "フィードバックをクエリで取得します。",
         "operationId": "feedback_query_feedback_query_post",
         "requestBody": {
           "content": {
@@ -1658,7 +1658,7 @@
         "tags": [
           "Feedback"
         ],
-        "summary": "フィードバックの削除",
+        "summary": "フィードバックのパージ",
         "description": "フィードバックを完全に削除します。",
         "operationId": "feedback_purge_feedback_purge_post",
         "requestBody": {
@@ -1719,7 +1719,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1751,7 +1751,7 @@
         "tags": [
           "Threads"
         ],
-        "summary": "スレッドクエリのストリーム",
+        "summary": "スレッド クエリ ストリーム",
         "operationId": "threads_query_stream_threads_stream_query_post",
         "requestBody": {
           "content": {
@@ -1765,7 +1765,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1795,7 +1795,7 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "アノテーションキューの作成",
+        "summary": "アノテーション キューを作成",
         "description": "新しいアノテーションキューを作成します。",
         "operationId": "annotation_queue_create_annotation_queues_post",
         "requestBody": {
@@ -1810,7 +1810,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1842,8 +1842,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "アノテーションキュークエリのストリーム",
-        "description": "プロジェクトのアノテーションキューをクエリします（NDJSON ストリーミングレスポンス）。",
+        "summary": "アノテーション キュー クエリ ストリーム",
+        "description": "プロジェクトのアノテーションキューをクエリします（ストリーミング形式の NDJSON レスポンス）。",
         "operationId": "annotation_queues_query_stream_annotation_queues_query_post",
         "requestBody": {
           "content": {
@@ -1857,7 +1857,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -1887,8 +1887,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "アノテーションキューの読み取り",
-        "description": "特定のアノテーションキューを取得する。",
+        "summary": "アノテーション キューを読み取る",
+        "description": "特定のアノテーション キューを読み込みます。",
         "operationId": "annotation_queue_read_annotation_queues__queue_id__get",
         "security": [
           {
@@ -1917,7 +1917,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功応答",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -1944,8 +1944,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "アノテーションキューにコールを追加",
-        "description": "アノテーションキューにコールを追加する。",
+        "summary": "アノテーション キューに呼び出しを追加する",
+        "description": "アノテーション キューに呼び出しを追加します。",
         "operationId": "annotation_queue_add_calls_annotation_queues__queue_id__items_post",
         "security": [
           {
@@ -1975,7 +1975,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功応答",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2002,8 +2002,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "アノテーションキュー項目のクエリ",
-        "description": "ページネーションおよびソート付きで、アノテーションキュー内のアイテムをクエリする。",
+        "summary": "アノテーション キュー アイテムをクエリする",
+        "description": "ページネーションとソートを使用して、アノテーション キュー内のアイテムをクエリします。",
         "operationId": "annotation_queue_items_query_annotation_queues__queue_id__items_query_post",
         "security": [
           {
@@ -2033,7 +2033,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功応答",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2060,8 +2060,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "アノテーションキューの統計",
-        "description": "複数のアノテーションキューに関する統計情報を取得します。",
+        "summary": "アノテーション キューの統計情報",
+        "description": "複数のアノテーションキューの統計情報を取得します。",
         "operationId": "annotation_queues_stats_annotation_queues_stats_post",
         "requestBody": {
           "content": {
@@ -2075,7 +2075,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2107,8 +2107,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "アノテーションキュー項目の進捗を更新",
-        "description": "現在のアノテーターが担当しているキューアイテムのアノテーション状態を更新します。",
+        "summary": "アノテーション キュー アイテムの進捗を更新する",
+        "description": "現在のアノテーターに対するキューアイテムのアノテーション状態を更新します。",
         "operationId": "annotation_queue_item_progress_update_annotation_queues__queue_id__items__item_id__progress_post",
         "security": [
           {
@@ -2147,7 +2147,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2174,7 +2174,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "コールの統計",
+        "summary": "呼び出しの統計情報",
         "operationId": "call_stats_calls_stats_post",
         "requestBody": {
           "content": {
@@ -2188,7 +2188,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2234,7 +2234,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2280,7 +2280,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常応答",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2312,7 +2312,7 @@
         "tags": [
           "Images"
         ],
-        "summary": "画像作成",
+        "summary": "画像の作成",
         "operationId": "image_create_image_create_post",
         "requestBody": {
           "content": {
@@ -2326,7 +2326,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常応答",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2358,8 +2358,8 @@
         "tags": [
           "Ops"
         ],
-        "summary": "Op 作成",
-        "description": "op オブジェクトを作成します。",
+        "summary": "Op の作成",
+        "description": "op オブジェクトを作成",
         "operationId": "op_create_v2__entity___project__ops_post",
         "security": [
           {
@@ -2398,7 +2398,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常応答",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2424,7 +2424,7 @@
           "Ops"
         ],
         "summary": "Op の一覧",
-        "description": "op オブジェクトを一覧表示します。",
+        "description": "op オブジェクトを一覧表示",
         "operationId": "op_list_v2__entity___project__ops_get",
         "security": [
           {
@@ -2463,10 +2463,10 @@
                   "type": "null"
                 }
               ],
-              "description": "返される op の最大数",
+              "description": "返す op の最大数",
               "title": "Limit"
             },
-            "description": "返される op の最大数"
+            "description": "返す op の最大数"
           },
           {
             "name": "offset",
@@ -2481,15 +2481,15 @@
                   "type": "null"
                 }
               ],
-              "description": "スキップする Op の数",
+              "description": "スキップする op の数",
               "title": "Offset"
             },
-            "description": "スキップする Op の数"
+            "description": "スキップする op の数"
           }
         ],
         "responses": {
           "200": {
-            "description": "正常応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -2514,8 +2514,8 @@
         "tags": [
           "Ops"
         ],
-        "summary": "Op 読み取り",
-        "description": "Op オブジェクトを取得します。",
+        "summary": "Op の読み取り",
+        "description": "op オブジェクトを取得します。",
         "operationId": "op_read_v2__entity___project__ops__object_id__versions__digest__get",
         "security": [
           {
@@ -2565,16 +2565,16 @@
             "required": false,
             "schema": {
               "type": "boolean",
-              "description": "Op コードを即時にロードするかどうか",
+              "description": "op コードを即時にロードするかどうか",
               "default": false,
               "title": "Eager"
             },
-            "description": "Op コードを即時にロードするかどうか"
+            "description": "op コードを即時にロードするかどうか"
           }
         ],
         "responses": {
           "200": {
-            "description": "正常応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2601,8 +2601,8 @@
         "tags": [
           "Ops"
         ],
-        "summary": "Op 削除",
-        "description": "Op オブジェクトを削除します。digest が指定されている場合は、そのバージョンのみ削除されます。指定されていない場合は、すべてのバージョンが削除されます。",
+        "summary": "Op の削除",
+        "description": "op オブジェクトを削除します。digests が指定されている場合は、それらのバージョンのみ削除されます。指定されていない場合は、すべてのバージョンが削除されます。",
         "operationId": "op_delete_v2__entity___project__ops__object_id__delete",
         "security": [
           {
@@ -2653,15 +2653,15 @@
                   "type": "null"
                 }
               ],
-              "description": "削除するダイジェストのリスト。指定しない場合、このオペレーションに対するすべてのダイジェストが削除されます。",
+              "description": "削除するダイジェストのリスト。指定しない場合、この操作に対するすべてのダイジェストが削除されます。",
               "title": "Digests"
             },
-            "description": "削除するダイジェストのリスト。指定しない場合、このオペレーションに対するすべてのダイジェストが削除されます。"
+            "description": "削除するダイジェストのリスト。指定しない場合、この操作に対するすべてのダイジェストが削除されます。"
           }
         ],
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2688,7 +2688,7 @@
         "tags": [
           "Datasets"
         ],
-        "summary": "データセット作成",
+        "summary": "データセットの作成",
         "description": "データセットオブジェクトを作成します。",
         "operationId": "dataset_create_v2__entity___project__datasets_post",
         "security": [
@@ -2728,7 +2728,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常なレスポンス",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -2754,7 +2754,7 @@
           "Datasets"
         ],
         "summary": "データセットの一覧",
-        "description": "データセットオブジェクトを一覧表示します。",
+        "description": "データセットオブジェクトの一覧を取得します。",
         "operationId": "dataset_list_v2__entity___project__datasets_get",
         "security": [
           {
@@ -2793,10 +2793,10 @@
                   "type": "null"
                 }
               ],
-              "description": "返却するデータセットの最大数",
+              "description": "返すデータセットの最大数",
               "title": "Limit"
             },
-            "description": "返却するデータセットの最大数"
+            "description": "返すデータセットの最大数"
           },
           {
             "name": "offset",
@@ -2844,7 +2844,7 @@
         "tags": [
           "Datasets"
         ],
-        "summary": "データセット読み取り",
+        "summary": "データセットの読み取り",
         "description": "データセットオブジェクトを取得します。",
         "operationId": "dataset_read_v2__entity___project__datasets__object_id__versions__digest__get",
         "security": [
@@ -2919,8 +2919,8 @@
         "tags": [
           "Datasets"
         ],
-        "summary": "データセット削除",
-        "description": "データセットオブジェクトを削除します。ダイジェストが指定された場合は、それらのバージョンのみを削除します。指定しない場合は、すべてのバージョンを削除します。",
+        "summary": "データセットの削除",
+        "description": "データセットオブジェクトを削除します。ダイジェストが指定されている場合は、指定されたバージョンのみが削除されます。指定されていない場合は、すべてのバージョンが削除されます。",
         "operationId": "dataset_delete_v2__entity___project__datasets__object_id__delete",
         "security": [
           {
@@ -2971,15 +2971,15 @@
                   "type": "null"
                 }
               ],
-              "description": "削除対象のダイジェストのリスト。指定しない場合は、そのデータセットのすべてのダイジェストが削除されます。",
+              "description": "削除するダイジェストのリスト。指定されていない場合は、そのデータセットのすべてのダイジェストが削除されます。",
               "title": "Digests"
             },
-            "description": "削除対象のダイジェストのリスト。指定しない場合は、そのデータセットのすべてのダイジェストが削除されます。"
+            "description": "削除するダイジェストのリスト。指定されていない場合は、そのデータセットのすべてのダイジェストが削除されます。"
           }
         ],
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "正常応答",
             "content": {
               "application/json": {
                 "schema": {
@@ -3007,7 +3007,7 @@
           "Scorers"
         ],
         "summary": "スコアラーの作成",
-        "description": "scorer オブジェクトの作成",
+        "description": "scorer オブジェクトを作成します。",
         "operationId": "scorer_create_v2__entity___project__scorers_post",
         "security": [
           {
@@ -3046,7 +3046,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "正常応答",
             "content": {
               "application/json": {
                 "schema": {
@@ -3071,8 +3071,8 @@
         "tags": [
           "Scorers"
         ],
-        "summary": "スコアラーの一覧表示",
-        "description": "scorer オブジェクトの一覧表示",
+        "summary": "スコアラー一覧",
+        "description": "scorer オブジェクトの一覧を表示します。",
         "operationId": "scorer_list_v2__entity___project__scorers_get",
         "security": [
           {
@@ -3101,7 +3101,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "正常応答",
             "content": {
               "application/json": {
                 "schema": {}
@@ -3126,8 +3126,8 @@
         "tags": [
           "Scorers"
         ],
-        "summary": "スコアラーの閲覧",
-        "description": "scorer オブジェクトの取得",
+        "summary": "スコアラーの参照",
+        "description": "scorer オブジェクトを取得します。",
         "operationId": "scorer_read_v2__entity___project__scorers__object_id__versions__digest__get",
         "security": [
           {
@@ -3174,7 +3174,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "正常応答",
             "content": {
               "application/json": {
                 "schema": {
@@ -3253,15 +3253,15 @@
                   "type": "null"
                 }
               ],
-              "description": "削除するダイジェストの一覧。指定しない場合は、そのスコアラーのすべてのダイジェストが削除されます。",
+              "description": "削除対象のダイジェストのリスト。指定しない場合は、スコアラーのすべてのダイジェストが削除されます。",
               "title": "Digests"
             },
-            "description": "削除するダイジェストの一覧。指定しない場合は、そのスコアラーのすべてのダイジェストが削除されます。"
+            "description": "削除対象のダイジェストのリスト。指定しない場合は、スコアラーのすべてのダイジェストが削除されます。"
           }
         ],
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常な応答",
             "content": {
               "application/json": {
                 "schema": {
@@ -3328,7 +3328,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常な応答",
             "content": {
               "application/json": {
                 "schema": {
@@ -3353,7 +3353,7 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "評価の一覧表示",
+        "summary": "評価一覧",
         "description": "評価オブジェクトを一覧表示します。",
         "operationId": "evaluation_list_v2__entity___project__evaluations_get",
         "security": [
@@ -3408,7 +3408,7 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "評価の閲覧",
+        "summary": "評価の参照",
         "description": "評価オブジェクトを取得します。",
         "operationId": "evaluation_read_v2__entity___project__evaluations__object_id__versions__digest__get",
         "security": [
@@ -3535,10 +3535,10 @@
                   "type": "null"
                 }
               ],
-              "description": "削除対象のダイジェストのリスト。指定しない場合、その評価に関連付けられているすべてのダイジェストが削除されます。",
+              "description": "削除するダイジェストのリスト。指定しない場合は、その評価に関連付けられたすべてのダイジェストが削除されます。",
               "title": "Digests"
             },
-            "description": "削除対象のダイジェストのリスト。指定しない場合、その評価に関連付けられているすべてのダイジェストが削除されます。"
+            "description": "削除するダイジェストのリスト。指定しない場合は、その評価に関連付けられたすべてのダイジェストが削除されます。"
           }
         ],
         "responses": {
@@ -3610,7 +3610,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -3635,7 +3635,7 @@
         "tags": [
           "Models"
         ],
-        "summary": "モデルの一覧表示",
+        "summary": "モデル一覧",
         "description": "モデルオブジェクトの一覧を取得します。",
         "operationId": "model_list_v2__entity___project__models_get",
         "security": [
@@ -3675,10 +3675,10 @@
                   "type": "null"
                 }
               ],
-              "description": "返却するモデルの最大数",
+              "description": "返されるモデルの最大数",
               "title": "Limit"
             },
-            "description": "返却するモデルの最大数"
+            "description": "返されるモデルの最大数"
           },
           {
             "name": "offset",
@@ -3693,15 +3693,15 @@
                   "type": "null"
                 }
               ],
-              "description": "スキップするモデル数",
+              "description": "スキップするモデルの数",
               "title": "Offset"
             },
-            "description": "スキップするモデル数"
+            "description": "スキップするモデルの数"
           }
         ],
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -3726,8 +3726,8 @@
         "tags": [
           "Models"
         ],
-        "summary": "モデルの取得",
-        "description": "モデルオブジェクトを取得します。",
+        "summary": "モデルの読み取り",
+        "description": "モデル オブジェクトを取得します。",
         "operationId": "model_read_v2__entity___project__models__object_id__versions__digest__get",
         "security": [
           {
@@ -3774,7 +3774,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -3802,7 +3802,7 @@
           "Models"
         ],
         "summary": "モデルの削除",
-        "description": "モデルオブジェクトを削除します。ダイジェストが指定された場合は、それらのバージョンのみが削除されます。指定しない場合は、すべてのバージョンが削除されます。",
+        "description": "モデル オブジェクトを削除します。digests が指定されている場合は、それらのバージョンのみを削除します。指定されていない場合は、すべてのバージョンを削除します。",
         "operationId": "model_delete_v2__entity___project__models__object_id__delete",
         "security": [
           {
@@ -3853,15 +3853,15 @@
                   "type": "null"
                 }
               ],
-              "description": "削除するダイジェストのリストです。省略した場合は、そのモデルのすべてのダイジェストが削除されます。",
+              "description": "削除する digests のリストです。指定しない場合は、モデル のすべての digests を削除します。",
               "title": "Digests"
             },
-            "description": "削除するダイジェストのリストです。省略した場合は、そのモデルのすべてのダイジェストが削除されます。"
+            "description": "削除する digests のリストです。指定しない場合は、モデル のすべての digests を削除します。"
           }
         ],
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -3889,7 +3889,7 @@
           "Evaluation Runs"
         ],
         "summary": "評価 run の作成",
-        "description": "評価用のrunを作成します。",
+        "description": "evaluation run を作成します。",
         "operationId": "evaluation_run_create_v2__entity___project__evaluation_runs_post",
         "security": [
           {
@@ -3928,7 +3928,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "成功レスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -3953,8 +3953,8 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "評価 run の一覧",
-        "description": "評価 run の一覧を取得します。",
+        "summary": "評価 run の一覧表示",
+        "description": "evaluation run の一覧を表示します。",
         "operationId": "evaluation_run_list_v2__entity___project__evaluation_runs_get",
         "security": [
           {
@@ -3996,10 +3996,10 @@
                   "type": "null"
                 }
               ],
-              "description": "評価参照でフィルター",
+              "description": "評価参照でフィルタリング",
               "title": "Evaluations"
             },
-            "description": "評価参照でフィルター"
+            "description": "評価参照でフィルタリング"
           },
           {
             "name": "models",
@@ -4017,10 +4017,10 @@
                   "type": "null"
                 }
               ],
-              "description": "モデル参照でフィルター",
+              "description": "モデル参照でフィルタリング",
               "title": "Models"
             },
-            "description": "モデル参照でフィルター"
+            "description": "モデル参照でフィルタリング"
           },
           {
             "name": "evaluation_run_ids",
@@ -4038,10 +4038,10 @@
                   "type": "null"
                 }
               ],
-              "description": "評価 run ID でフィルター",
+              "description": "evaluation run ID でフィルタリング",
               "title": "Evaluation Run Ids"
             },
-            "description": "評価 run ID でフィルター"
+            "description": "evaluation run ID でフィルタリング"
           },
           {
             "name": "limit",
@@ -4056,10 +4056,10 @@
                   "type": "null"
                 }
               ],
-              "description": "返される評価 run の最大数",
+              "description": "返す evaluation run の最大件数",
               "title": "Limit"
             },
-            "description": "返される評価 run の最大数"
+            "description": "返す evaluation run の最大件数"
           },
           {
             "name": "offset",
@@ -4074,10 +4074,10 @@
                   "type": "null"
                 }
               ],
-              "description": "スキップする評価 run の数",
+              "description": "スキップする evaluation run の数",
               "title": "Offset"
             },
-            "description": "スキップする評価 run の数"
+            "description": "スキップする evaluation run の数"
           }
         ],
         "responses": {
@@ -4111,7 +4111,7 @@
           "Evaluation Runs"
         ],
         "summary": "評価 run の削除",
-        "description": "評価 run を削除します。",
+        "description": "evaluation run を削除します。",
         "operationId": "evaluation_run_delete_v2__entity___project__evaluation_runs_delete",
         "security": [
           {
@@ -4146,10 +4146,10 @@
               "items": {
                 "type": "string"
               },
-              "description": "削除する評価 run の ID 一覧",
+              "description": "削除する evaluation run ID のリスト",
               "title": "Evaluation Run Ids"
             },
-            "description": "削除する評価 run の ID 一覧"
+            "description": "削除する evaluation run ID のリスト"
           }
         ],
         "responses": {
@@ -4181,8 +4181,8 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "評価 run の取得",
-        "description": "評価 run を取得します。",
+        "summary": "評価 run の読み取り",
+        "description": "evaluation run を取得します。",
         "operationId": "evaluation_run_read_v2__entity___project__evaluation_runs__evaluation_run_id__get",
         "security": [
           {
@@ -4247,8 +4247,8 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "評価 run の完了",
-        "description": "evaluation run を終了します。",
+        "summary": "評価 run の終了",
+        "description": "評価 run を終了する。",
         "operationId": "evaluation_run_finish_v2__entity___project__evaluation_runs__evaluation_run_id__finish_post",
         "security": [
           {
@@ -4324,7 +4324,7 @@
           "Predictions"
         ],
         "summary": "予測の作成",
-        "description": "予測を作成します。",
+        "description": "予測を作成する。",
         "operationId": "prediction_create_v2__entity___project__predictions_post",
         "security": [
           {
@@ -4388,8 +4388,8 @@
         "tags": [
           "Predictions"
         ],
-        "summary": "予測の一覧",
-        "description": "予測の一覧を取得します。",
+        "summary": "予測の一覧表示",
+        "description": "予測を一覧表示する。",
         "operationId": "prediction_list_v2__entity___project__predictions_get",
         "security": [
           {
@@ -4428,10 +4428,10 @@
                   "type": "null"
                 }
               ],
-              "description": "評価 run ID でフィルタリング",
+              "description": "evaluation run ID でフィルタリング",
               "title": "Evaluation Run Id"
             },
-            "description": "evaluation run ID でフィルタリングします。"
+            "description": "評価 run の ID でフィルターする。"
           },
           {
             "name": "limit",
@@ -4446,10 +4446,10 @@
                   "type": "null"
                 }
               ],
-              "description": "返す予測結果の最大数",
+              "description": "返す予測結果の最大件数",
               "title": "Limit"
             },
-            "description": "返す予測結果の最大数"
+            "description": "返す予測結果の最大件数"
           },
           {
             "name": "offset",
@@ -4464,15 +4464,15 @@
                   "type": "null"
                 }
               ],
-              "description": "スキップする予測結果の数",
+              "description": "スキップする予測結果の件数",
               "title": "Offset"
             },
-            "description": "スキップする予測結果の数"
+            "description": "スキップする予測結果の件数"
           }
         ],
         "responses": {
           "200": {
-            "description": "JSONL 形式のデータストリーム",
+            "description": "JSONL 形式のデータ ストリーム",
             "content": {
               "application/jsonl": {
                 "schema": {
@@ -4544,7 +4544,7 @@
         ],
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -4572,7 +4572,7 @@
           "Predictions"
         ],
         "summary": "Prediction の取得",
-        "description": "予測を取得します。",
+        "description": "予測を取得する",
         "operationId": "prediction_read_v2__entity___project__predictions__prediction_id__get",
         "security": [
           {
@@ -4610,7 +4610,7 @@
         ],
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -4638,7 +4638,7 @@
           "Predictions"
         ],
         "summary": "Prediction の完了",
-        "description": "予測を完了します。",
+        "description": "予測を完了する",
         "operationId": "prediction_finish_v2__entity___project__predictions__prediction_id__finish_post",
         "security": [
           {
@@ -4676,7 +4676,7 @@
         ],
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -4703,8 +4703,8 @@
         "tags": [
           "Scores"
         ],
-        "summary": "スコアの作成",
-        "description": "スコアを作成します。",
+        "summary": "Score の作成",
+        "description": "スコアを作成する",
         "operationId": "score_create_v2__entity___project__scores_post",
         "security": [
           {
@@ -4743,7 +4743,7 @@
         },
         "responses": {
           "200": {
-            "description": "正常な応答",
+            "description": "成功時のレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -4768,8 +4768,8 @@
         "tags": [
           "Scores"
         ],
-        "summary": "スコア一覧の取得",
-        "description": "スコアを一覧表示する",
+        "summary": "Score の一覧取得",
+        "description": "スコアを一覧表示",
         "operationId": "score_list_v2__entity___project__scores_get",
         "security": [
           {
@@ -4808,10 +4808,10 @@
                   "type": "null"
                 }
               ],
-              "description": "evaluation run ID でフィルタリングする",
+              "description": "evaluation run ID でフィルタリング",
               "title": "Evaluation Run Id"
             },
-            "description": "evaluation run ID でフィルタリングする"
+            "description": "evaluation run ID でフィルタリング"
           },
           {
             "name": "limit",
@@ -4826,10 +4826,10 @@
                   "type": "null"
                 }
               ],
-              "description": "返却するスコアの最大数",
+              "description": "返すスコアの最大数",
               "title": "Limit"
             },
-            "description": "返却するスコアの最大数"
+            "description": "返すスコアの最大数"
           },
           {
             "name": "offset",
@@ -4844,10 +4844,10 @@
                   "type": "null"
                 }
               ],
-              "description": "スキップするスコアの件数",
+              "description": "スキップするスコア数",
               "title": "Offset"
             },
-            "description": "スキップするスコアの件数"
+            "description": "スキップするスコア数"
           }
         ],
         "responses": {
@@ -4880,8 +4880,8 @@
         "tags": [
           "Scores"
         ],
-        "summary": "スコアの削除",
-        "description": "スコアを削除する。",
+        "summary": "Score の削除",
+        "description": "スコアを削除します。",
         "operationId": "score_delete_v2__entity___project__scores_delete",
         "security": [
           {
@@ -4916,10 +4916,10 @@
               "items": {
                 "type": "string"
               },
-              "description": "削除対象のスコア ID のリスト。",
+              "description": "削除対象のスコア ID のリスト",
               "title": "Score Ids"
             },
-            "description": "削除対象のスコア ID のリスト。"
+            "description": "削除対象のスコア ID のリスト"
           }
         ],
         "responses": {
@@ -4951,8 +4951,8 @@
         "tags": [
           "Scores"
         ],
-        "summary": "スコアの取得",
-        "description": "スコアを取得する。",
+        "summary": "Score の取得",
+        "description": "スコアを取得します。",
         "operationId": "score_read_v2__entity___project__scores__score_id__get",
         "security": [
           {
@@ -5025,7 +5025,7 @@
           "count"
         ],
         "title": "AggregationType",
-        "description": "メトリクス用の基本的な集約関数。"
+        "description": "メトリクス用の基本的な集約関数です。"
       },
       "AndOperation": {
         "properties": {
@@ -5082,7 +5082,7 @@
           "$and"
         ],
         "title": "AndOperation",
-        "description": "論理 AND 演算。すべての条件が true と評価される必要があります。\n\n例:\n    ```\n    {\n        \"$and\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]},\n            {\"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 1000}]}\n        ]\n    }\n    ```"
+        "description": "論理 AND。すべての条件が true と評価される必要があります。\n\n例:\n    ```\n    {\n        \"$and\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]},\n            {\"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 1000}]}\n        ]\n    }\n    ```"
       },
       "AnnotationQueueAddCallsBody": {
         "properties": {
@@ -5113,7 +5113,7 @@
             },
             "type": "array",
             "title": "Display Fields",
-            "description": "アノテーターに表示する JSON パス。",
+            "description": "アノテーターに表示するための JSON パス。",
             "examples": [
               [
                 "input.prompt",
@@ -5130,7 +5130,7 @@
           "display_fields"
         ],
         "title": "AnnotationQueueAddCallsBody",
-        "description": "アノテーションキューにコールを追加するためのリクエストボディ（queue_id はパスから取得されます）。"
+        "description": "アノテーションキューに call を追加するためのリクエストボディです（queue_id はパスから取得されます）。"
       },
       "AnnotationQueueAddCallsRes": {
         "properties": {
@@ -5149,7 +5149,7 @@
           "duplicates"
         ],
         "title": "AnnotationQueueAddCallsRes",
-        "description": "キューにコールを追加した際のレスポンス。"
+        "description": "キューに call を追加した際のレスポンス。"
       },
       "AnnotationQueueCreateReq": {
         "properties": {
@@ -5198,7 +5198,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "このフィールドを直接設定しないでください。サーバーが自動的に値を埋めます。"
+            "description": "このフィールドを直接設定しないでください。サーバー側で自動的に値が入力されます。"
           }
         },
         "additionalProperties": false,
@@ -5237,7 +5237,7 @@
           "annotation_state": {
             "type": "string",
             "title": "Annotation State",
-            "description": "新しい状態。'in_progress'、'completed'、または 'skipped' のいずれか。",
+            "description": "新しい状態: 'in_progress'、'completed'、または 'skipped'",
             "examples": [
               "in_progress",
               "completed",
@@ -5252,7 +5252,7 @@
           "annotation_state"
         ],
         "title": "AnnotationQueueItemProgressUpdateBody",
-        "description": "アノテーションの進捗を更新するためのリクエストボディ（queue_id と item_id はパスから取得されます）。\n\n注記: wb_user_id はリクエストボディには含めません。認証済みセッションからサーバー側で設定されます。"
+        "description": "アノテーションの進捗を更新するためのリクエストボディです（queue_id と item_id はパスから取得されます）。\n\n注意: wb_user_id はリクエストボディに含めないでください。認証済みセッションに基づきサーバー側で設定されます。"
       },
       "AnnotationQueueItemSchema": {
         "properties": {
@@ -5390,7 +5390,7 @@
           "updated_at"
         ],
         "title": "AnnotationQueueItemSchema",
-        "description": "アノテーションキュー項目レスポンスのスキーマ。"
+        "description": "アノテーションキューアイテムのレスポンス用スキーマ。"
       },
       "AnnotationQueueItemsFilter": {
         "properties": {
@@ -5416,7 +5416,7 @@
               }
             ],
             "title": "Call Id",
-            "description": "コール ID の完全一致でフィルタリング"
+            "description": "call ID の完全一致でフィルタリング"
           },
           "call_op_name": {
             "anyOf": [
@@ -5428,7 +5428,7 @@
               }
             ],
             "title": "Call Op Name",
-            "description": "オペレーション名の完全一致でフィルタリング"
+            "description": "operation 名の完全一致でフィルタリング"
           },
           "call_trace_id": {
             "anyOf": [
@@ -5440,7 +5440,7 @@
               }
             ],
             "title": "Call Trace Id",
-            "description": "トレース ID の完全一致でフィルタリング"
+            "description": "trace ID の完全一致でフィルタリング"
           },
           "added_by": {
             "anyOf": [
@@ -5452,7 +5452,7 @@
               }
             ],
             "title": "Added By",
-            "description": "コールを追加した W&B ユーザー ID でフィルタリング"
+            "description": "call を追加した W&B ユーザーの ID でフィルタリング"
           },
           "annotation_states": {
             "anyOf": [
@@ -5484,7 +5484,7 @@
         },
         "type": "object",
         "title": "AnnotationQueueItemsFilter",
-        "description": "アノテーションキュー項目に対するシンプルなフィルター。\n\nコールのメタデータフィールドに対する等値フィルタリングと、アノテーション状態に対する IN 句によるフィルタリングをサポートします。"
+        "description": "アノテーションキューアイテム用のシンプルなフィルター。\n\ncall メタデータフィールドに対する等価比較フィルタリングと、アノテーション状態に対する IN フィルタリングをサポートします。"
       },
       "AnnotationQueueItemsQueryBody": {
         "properties": {
@@ -5504,7 +5504,7 @@
                 "type": "null"
               }
             ],
-            "description": "キューアイテムをコールのメタデータおよびアノテーション状態でフィルタリング"
+            "description": "call メタデータおよびアノテーション状態でキューアイテムをフィルタリング"
           },
           "sort_by": {
             "anyOf": [
@@ -5519,7 +5519,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "複数のフィールド（例: created_at, updated_at）でソート"
+            "description": "複数フィールドでソート（例: created_at、updated_at）"
           },
           "limit": {
             "anyOf": [
@@ -5552,7 +5552,7 @@
           "include_position": {
             "type": "boolean",
             "title": "Include Position",
-            "description": "position_in_queue フィールドを含める（キュー全体に対する 1始まりのインデックス）",
+            "description": "position_in_queue フィールドを含める（キュー全体での 1 始まりのインデックス）",
             "default": false
           }
         },
@@ -5579,7 +5579,7 @@
           "items"
         ],
         "title": "AnnotationQueueItemsQueryRes",
-        "description": "アノテーションキュー項目のクエリに対するレスポンス。"
+        "description": "アノテーションキュー内の項目をクエリした際のレスポンス。"
       },
       "AnnotationQueueReadRes": {
         "properties": {
@@ -5673,12 +5673,12 @@
           "total_items": {
             "type": "integer",
             "title": "Total Items",
-            "description": "キュー内のアイテムの総数"
+            "description": "キュー内の項目の総数"
           },
           "completed_items": {
             "type": "integer",
             "title": "Completed Items",
-            "description": "少なくとも 1 人のアノテーターが完了またはスキップとしてマークしたアイテム数"
+            "description": "少なくとも 1 人のアノテーターが完了またはスキップした項目数"
           }
         },
         "type": "object",
@@ -5688,7 +5688,7 @@
           "completed_items"
         ],
         "title": "AnnotationQueueStatsSchema",
-        "description": "単一のアノテーションキューに対する統計情報。"
+        "description": "単一のアノテーションキューに関する統計情報。"
       },
       "AnnotationQueuesQueryReq": {
         "properties": {
@@ -5709,7 +5709,7 @@
               }
             ],
             "title": "Name",
-            "description": "キュー名でフィルター（大文字小文字を区別しない部分一致）",
+            "description": "キュー名によるフィルター（大文字小文字を区別しない部分一致）",
             "examples": [
               "Error"
             ]
@@ -5727,7 +5727,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "複数フィールドでのソート（例: created_at、updated_at、name）"
+            "description": "複数のフィールドでソート（例: created_at、updated_at、name）"
           },
           "limit": {
             "anyOf": [
@@ -5764,7 +5764,7 @@
           "project_id"
         ],
         "title": "AnnotationQueuesQueryReq",
-        "description": "プロジェクト内のアノテーションキューをクエリするためのリクエスト。"
+        "description": "プロジェクトのアノテーションキューをクエリするためのリクエスト。"
       },
       "AnnotationQueuesStatsReq": {
         "properties": {
@@ -5781,7 +5781,7 @@
             },
             "type": "array",
             "title": "Queue Ids",
-            "description": "統計情報を取得する対象のキュー ID のリスト。",
+            "description": "統計情報を取得するキュー ID のリスト。",
             "examples": [
               [
                 "550e8400-e29b-41d4-a716-446655440000",
@@ -5797,7 +5797,7 @@
           "queue_ids"
         ],
         "title": "AnnotationQueuesStatsReq",
-        "description": "複数のアノテーションキューの統計情報を取得するためのリクエスト。"
+        "description": "複数のアノテーションキューに対する統計情報を取得するためのリクエスト。"
       },
       "AnnotationQueuesStatsRes": {
         "properties": {
@@ -5827,7 +5827,7 @@
           "item"
         ],
         "title": "AnnotatorQueueItemsProgressUpdateRes",
-        "description": "アノテーションの状態更新に対するレスポンス。"
+        "description": "アノテーション状態を更新したときのレスポンス。"
       },
       "BaseModel": {
         "properties": {},
@@ -5980,7 +5980,7 @@
             },
             "type": "array",
             "title": "Percentiles",
-            "description": "計算するパーセンタイル値（0〜100）。例: p50, p95, p99 の場合は [50, 95, 99]。",
+            "description": "計算するパーセンタイル値（0〜100）。例: p50、p95、p99 用に [50, 95, 99]",
             "default": []
           }
         },
@@ -5990,7 +5990,7 @@
           "metric"
         ],
         "title": "CallMetricSpec",
-        "description": "呼び出し単位のメトリクスに対する集計指定（モデル単位でのグループ化は行わない）。"
+        "description": "集計対象とするコールレベル メトリクスの指定（モデル別でのグループ化は行わない）。"
       },
       "CallReadReq": {
         "properties": {
@@ -6311,7 +6311,7 @@
             "type": "string",
             "format": "date-time",
             "title": "Start",
-            "description": "開始時刻（含む、UTC、ISO 8601）。"
+            "description": "開始時刻（両端含む、UTC、ISO 8601）。"
           },
           "end": {
             "anyOf": [
@@ -6336,7 +6336,7 @@
               }
             ],
             "title": "Granularity",
-            "description": "バケットのサイズ（秒単位。例：1時間の場合は 3600）。省略した場合は、時間範囲に基づいて自動的に選択されます。10,000 個を超えるバケットが生成される場合は調整されます。"
+            "description": "バケットサイズ（秒単位）（例: 1 時間なら 3600）。省略した場合は時間範囲に基づいて自動選択されます。バケット数が 1万 を超える場合は調整されます。"
           },
           "usage_metrics": {
             "anyOf": [
@@ -6366,7 +6366,7 @@
               }
             ],
             "title": "Call Metrics",
-            "description": "計算するコールレベルのメトリクス（レイテンシ、回数）。タイムスタンプごとにのみ集計されます。"
+            "description": "計算する呼び出しレベルのメトリクス（レイテンシ、件数）。タイムスタンプごとにのみ集計されます。"
           },
           "filter": {
             "anyOf": [
@@ -6381,7 +6381,7 @@
           "timezone": {
             "type": "string",
             "title": "Timezone",
-            "description": "バケットの整列に使用する IANA タイムゾーン（例: \"America/New_York\"）。",
+            "description": "バケットの整列に使用する IANA タイムゾーン（例: \"America/New_York\"）",
             "default": "UTC"
           }
         },
@@ -6392,7 +6392,7 @@
           "start"
         ],
         "title": "CallStatsReq",
-        "description": "指定した時間範囲における呼び出しの集計統計量を取得するためのリクエスト。"
+        "description": "指定した時間範囲にわたる集計済みのコール統計情報のリクエスト。"
       },
       "CallStatsRes": {
         "properties": {
@@ -6400,13 +6400,13 @@
             "type": "string",
             "format": "date-time",
             "title": "Start",
-            "description": "確定した開始時刻（UTC）"
+            "description": "解決済みの開始時刻（UTC）"
           },
           "end": {
             "type": "string",
             "format": "date-time",
             "title": "End",
-            "description": "確定した終了時刻（UTC）"
+            "description": "解決済みの終了時刻（UTC）"
           },
           "granularity": {
             "type": "integer",
@@ -6425,7 +6425,7 @@
             },
             "type": "array",
             "title": "Usage Buckets",
-            "description": "モデルごとの使用状況メトリクス。各バケットには `timestamp`、`model`、および集計済みメトリクス値が含まれます。",
+            "description": "モデルごとの使用状況メトリクス。各バケットには「timestamp」「model」と集約されたメトリクス値が含まれます。",
             "default": []
           },
           "call_buckets": {
@@ -6435,7 +6435,7 @@
             },
             "type": "array",
             "title": "Call Buckets",
-            "description": "呼び出し単位のメトリクス。各バケットには `timestamp` と集計済みメトリクス値が含まれます。",
+            "description": "呼び出しレベルのメトリクス。各バケットには「timestamp」と集約されたメトリクス値が含まれます。",
             "default": []
           }
         },
@@ -6447,7 +6447,7 @@
           "timezone"
         ],
         "title": "CallStatsRes",
-        "description": "時系列のコール統計情報を含むレスポンス。"
+        "description": "時系列の呼び出し統計情報を含むレスポンス。"
       },
       "CallUpdateReq": {
         "properties": {
@@ -6480,7 +6480,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "直接設定しないでください。サーバーが自動的にこのフィールドを設定します。"
+            "description": "直接設定しないでください。サーバーがこのフィールドを自動的に設定します。"
           }
         },
         "additionalProperties": false,
@@ -6519,7 +6519,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "直接設定しないでください。サーバーが自動的にこのフィールドを設定します。"
+            "description": "直接設定しないでください。サーバーがこのフィールドを自動的に設定します。"
           }
         },
         "additionalProperties": false,
@@ -6774,7 +6774,7 @@
               }
             ],
             "title": "Include Costs",
-            "description": "ベータ機能のため、今後変更される可能性があります。`true` の場合、レスポンスには各呼び出しのモデルコストが含まれます。",
+            "description": "ベータ版機能のため、今後変更される可能性があります。true の場合、レスポンスに各呼び出しのモデルコストが含まれます。",
             "default": false
           },
           "include_feedback": {
@@ -6787,7 +6787,7 @@
               }
             ],
             "title": "Include Feedback",
-            "description": "ベータ機能のため、今後変更される可能性があります。`true` の場合、レスポンスには各呼び出しのフィードバックが含まれます。",
+            "description": "ベータ版機能のため、今後変更される可能性があります。true の場合、レスポンスに各呼び出しのフィードバックが含まれます。",
             "default": false
           },
           "include_storage_size": {
@@ -6800,7 +6800,7 @@
               }
             ],
             "title": "Include Storage Size",
-            "description": "ベータ機能のため、今後変更される可能性があります。`true` の場合、レスポンスには各呼び出しのストレージサイズが含まれます。",
+            "description": "ベータ版機能のため、今後変更される可能性があります。true の場合、レスポンスに各呼び出しのストレージサイズが含まれます。",
             "default": false
           },
           "include_total_storage_size": {
@@ -6813,7 +6813,7 @@
               }
             ],
             "title": "Include Total Storage Size",
-            "description": "ベータ機能のため、今後変更される可能性があります。`true` の場合、レスポンスにはトレース全体のストレージサイズ合計が含まれます。",
+            "description": "ベータ版機能のため、今後変更される可能性があります。true の場合、レスポンスにトレース全体のストレージサイズが含まれます。",
             "default": false
           },
           "columns": {
@@ -6843,7 +6843,7 @@
               }
             ],
             "title": "Expand Columns",
-            "description": "展開するカラム（他オブジェクトへの参照など）。",
+            "description": "展開するカラム。つまり、他のオブジェクトへの参照を含む列を指定します。",
             "examples": [
               [
                 "inputs.self.message",
@@ -6861,7 +6861,7 @@
               }
             ],
             "title": "Return Expanded Column Values",
-            "description": "true の場合、レスポンスには展開済み列の生の値が含まれます。false の場合、レスポンスの expand_columns フィールドはフィルタリングとソートにのみ使用されます。これは、たとえばパフォーマンス上の理由から、クライアント側で参照を解決したい場合に便利です。",
+            "description": "true の場合、レスポンスには展開されたカラムの生のデータ値が含まれます。false の場合、レスポンスの expand_columns はフィルタリングと並べ替えにのみ使用されます。これは、たとえばパフォーマンス上の理由から、クライアント側で参照を自分で解決したい場合に便利です。",
             "default": true
           }
         },
@@ -6934,7 +6934,7 @@
               }
             ],
             "title": "Expand Columns",
-            "description": "フィルタリングやソートの際に展開が必要となる、オブジェクトまたはテーブル行への参照を持つ列。",
+            "description": "フィルタリングまたは並べ替えの際に展開が必要となる、オブジェクトまたはテーブル行への参照を含むカラム。",
             "examples": [
               [
                 "inputs.self.message",
@@ -6986,18 +6986,18 @@
             },
             "type": "array",
             "title": "Call Ids",
-            "description": "集約対象となるルート呼び出し ID。各結果のキーは 1 つの入力呼び出し ID に対応します。"
+            "description": "集約対象のルート call ID。各結果のキーは 1 つの入力 call ID に対応します。"
           },
           "include_costs": {
             "type": "boolean",
             "title": "Include Costs",
-            "description": "true の場合、使用状況にコスト計算を含めます。",
+            "description": "true の場合、使用量にコスト計算を含めます。",
             "default": false
           },
           "limit": {
             "type": "integer",
             "title": "Limit",
-            "description": "すべてのトレースを通じて処理される呼び出しの最大数。無制限なメモリ使用を防ぐための安全上の上限として機能します。",
+            "description": "すべての trace を通じて処理される call の最大数。無制限なメモリ使用を防ぐためのセーフティリミットとして機能します。",
             "default": 10000
           }
         },
@@ -7008,7 +7008,7 @@
           "call_ids"
         ],
         "title": "CallsUsageReq",
-        "description": "複数のルート呼び出しについて、集約された使用状況を計算するリクエスト。\n\nこのエンドポイントは、要求された各ルート呼び出しについて使用状況メトリクスを返します。各ルートのメトリクスには、そのルート自身の使用状況に加え、そのすべての子孫呼び出しの使用状況の合計が含まれます。\n\n注意: 集約のため、一致するすべての呼び出しがメモリに読み込まれます。結果セットが非常に大きい場合（>10k calls）は、ルート呼び出し ID をバッチ処理するか、アプリケーション層でより絞り込んだフィルタを使用することを検討してください。"
+        "description": "複数のルート call に対して集約された使用量を計算するためのリクエストです。\n\nこのエンドポイントは、指定された各ルート call ごとの使用量メトリクスを返します。各ルートのメトリクスには、そのルート自身の使用量に加えて、すべての子孫の使用量の合計が含まれます。\n\n注意: 集約のために、条件に一致するすべての call がメモリに読み込まれます。非常に大きな結果セット（>10k call）の場合は、ルート call ID をバッチ処理するか、アプリケーション層でより狭いフィルターを使用することを検討してください。"
       },
       "CallsUsageRes": {
         "properties": {
@@ -7025,7 +7025,7 @@
         },
         "type": "object",
         "title": "CallsUsageRes",
-        "description": "ルート呼び出しごとの集約済み使用状況メトリクスを含むレスポンス。"
+        "description": "ルート call ごとの集約された使用量メトリクスを含むレスポンス。"
       },
       "CompletionsCreateRequestInputs": {
         "properties": {
@@ -7331,7 +7331,7 @@
               }
             ],
             "title": "Prompt",
-            "description": "Weave の Prompt オブジェクト（例: `weave:///entity/project/object/prompt_name:version`）への参照です。指定された場合、この Prompt のメッセージが、このリクエスト内のメッセージの先頭に付加されます。Prompt メッセージ内のテンプレート変数の値は、`template_vars` パラメータで指定して置き換えることができます。"
+            "description": "Weave Prompt オブジェクトへの参照（例: 'weave:///entity/project/object/prompt_name:version'）。指定された場合、この prompt からのメッセージが、このリクエスト内のメッセージの先頭に追加されます。prompt メッセージ内のテンプレート変数は、template_vars パラメーターを使って置換できます。"
           },
           "template_vars": {
             "anyOf": [
@@ -7344,7 +7344,7 @@
               }
             ],
             "title": "Template Vars",
-            "description": "Prompt メッセージ内で置き換えるテンプレート変数の辞書です。メッセージ中の `'{variable_name}'` のような変数が、対応する値で置き換えられます。Prompt（`prompt` が指定されている場合）のメッセージと、通常のメッセージの両方に適用されます。"
+            "description": "prompt メッセージ内で置換するテンプレート変数の辞書。メッセージ内の '{variable_name}' のような変数は、対応する値に置き換えられます。prompt が指定されている場合の prompt メッセージと、通常のメッセージの両方に適用されます。"
           }
         },
         "type": "object",
@@ -7364,7 +7364,7 @@
           "$contains"
         ],
         "title": "ContainsOperation",
-        "description": "大文字・小文字を区別しない部分文字列一致です。\n\nこれは MongoDB の標準機能ではなく、Weave 独自の拡張です。\n\n例:\n    ```\n    {\n        \"$contains\": {\n            \"input\": {\"$getField\": \"display_name\"},\n            \"substr\": {\"$literal\": \"llm\"},\n            \"case_insensitive\": true\n        }\n    }\n    ```"
+        "description": "大文字小文字を区別しない部分文字列の一致。\n\nMongoDB の標準機能ではありません。Weave 固有の拡張機能です。\n\n例:\n    ```\n    {\n        \"$contains\": {\n            \"input\": {\"$getField\": \"display_name\"},\n            \"substr\": {\"$literal\": \"llm\"},\n            \"case_insensitive\": true\n        }\n    }\n    ```"
       },
       "ContainsSpec": {
         "properties": {
@@ -7475,7 +7475,7 @@
           "substr"
         ],
         "title": "ContainsSpec",
-        "description": "`$contains` 演算子の仕様。\n\n- `input`: 検索対象となる文字列。\n- `substr`: 検索する部分文字列。\n- `case_insensitive`: true の場合、大文字小文字を区別せずに照合します。"
+        "description": "`$contains` 演算子の仕様。\n\n- `input`: 検索対象となる文字列。\n- `substr`: 検索する部分文字列。\n- `case_insensitive`: true の場合、大文字小文字を区別せずにマッチします。"
       },
       "ConvertOperation": {
         "properties": {
@@ -7488,7 +7488,7 @@
           "$convert"
         ],
         "title": "ConvertOperation",
-        "description": "入力値を特定の型（例: `int`、`bool`、`string`）に変換します。\n\n例:\n``` \n{\n    \"$convert\": {\n        \"input\": {\"$getField\": \"inputs.value\"},\n        \"to\": \"int\"\n    }\n}\n```"
+        "description": "入力値を特定の型（例: `int`、`bool`、`string`）に変換します。\n\n例:\n    ```\n    {\n        \"$convert\": {\n            \"input\": {\"$getField\": \"inputs.value\"},\n            \"to\": \"int\"\n        }\n    }\n    ```"
       },
       "ConvertSpec": {
         "properties": {
@@ -7554,7 +7554,7 @@
           "to"
         ],
         "title": "ConvertSpec",
-        "description": "`$convert` の変換内容を指定します。\n\n- `input`: 変換するオペランド。\n- `to`: 変換先の型。"
+        "description": "`$convert` の変換内容（挙動）を指定します。\n\n- `input`: 変換するオペランド。\n- `to`: 変換先の型。"
       },
       "CostCreateInput": {
         "properties": {
@@ -7576,7 +7576,7 @@
               }
             ],
             "title": "Prompt Token Cost Unit",
-            "description": "プロンプトトークンのコスト単位",
+            "description": "プロンプトトークンのコスト単価",
             "default": "USD"
           },
           "completion_token_cost_unit": {
@@ -7589,7 +7589,7 @@
               }
             ],
             "title": "Completion Token Cost Unit",
-            "description": "completion トークンのコスト単位",
+            "description": "補完トークンのコスト単価",
             "default": "USD"
           },
           "effective_date": {
@@ -7603,7 +7603,7 @@
               }
             ],
             "title": "Effective Date",
-            "description": "この日付以降にこのコスト設定を有効にする開始日。指定しない場合は当日がデフォルトになります。"
+            "description": "このコストが有効になる日付。指定しない場合は現在の日付が使用されます。"
           },
           "provider_id": {
             "anyOf": [
@@ -7652,7 +7652,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "このフィールドは直接設定しないでください。サーバーが自動的に入力します。"
+            "description": "ここでは設定しないでください。サーバーがこのフィールドを自動的に設定します。"
           }
         },
         "additionalProperties": false,
@@ -7970,7 +7970,7 @@
               }
             ],
             "title": "Name",
-            "description": "このデータセットの名前。同一名のデータセットは同一系列のバージョンとして管理されます。"
+            "description": "このデータセットの名前。同じ名前の Datasets は同じバージョン系列として管理されます。"
           },
           "description": {
             "anyOf": [
@@ -7982,7 +7982,7 @@
               }
             ],
             "title": "Description",
-            "description": "このデータセットの説明"
+            "description": "このデータセットの説明。"
           },
           "rows": {
             "items": {
@@ -7991,7 +7991,7 @@
             },
             "type": "array",
             "title": "Rows",
-            "description": "データセットの行"
+            "description": "データセットの行。"
           }
         },
         "type": "object",
@@ -8005,17 +8005,17 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "作成されたデータセットのダイジェスト"
+            "description": "作成されたデータセットのダイジェスト。"
           },
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "作成されたデータセットの ID"
+            "description": "作成されたデータセットの ID。"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "作成されたデータセットのバージョンインデックス"
+            "description": "作成されたデータセットのバージョンインデックス。"
           }
         },
         "type": "object",
@@ -8031,7 +8031,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "削除されたデータセットのバージョン数"
+            "description": "削除されたデータセットバージョンの数。"
           }
         },
         "type": "object",
@@ -8045,12 +8045,12 @@
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "データセット ID"
+            "description": "データセットの ID。"
           },
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "データセットオブジェクトのダイジェスト"
+            "description": "データセットオブジェクトのダイジェスト。"
           },
           "version_index": {
             "type": "integer",
@@ -8258,7 +8258,7 @@
           "$eq"
         ],
         "title": "EqOperation",
-        "description": "2 つのオペランド間で等価比較を行います。\n\n例:\n```\n{\n    \"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]\n}\n```"
+        "description": "2 つのオペランドの等値比較を行います。\n\n例:\n    ```\n    {\n        \"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]\n    }\n    ```"
       },
       "EvaluateModelReq": {
         "properties": {
@@ -8284,7 +8284,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "このフィールドは直接設定しないでください。サーバーが自動的に値を設定します。"
+            "description": "直接設定しないでください。サーバーがこのフィールドを自動的に入力します。"
           }
         },
         "additionalProperties": false,
@@ -8314,7 +8314,7 @@
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "この評価の名前。同じ名前の評価は、同一のバージョン系列として扱われます。"
+            "description": "この評価の名前。同じ名前を持つ評価は同じ系列としてバージョン管理されます。"
           },
           "description": {
             "anyOf": [
@@ -8331,7 +8331,7 @@
           "dataset": {
             "type": "string",
             "title": "Dataset",
-            "description": "データセットへの参照（weave:// URI）"
+            "description": "データセットへの参照 (weave:// URI)"
           },
           "scorers": {
             "anyOf": [
@@ -8346,12 +8346,12 @@
               }
             ],
             "title": "Scorers",
-            "description": "スコアラー参照リスト（weave:// URI）"
+            "description": "scorer 参照のリスト（weave:// URI）"
           },
           "trials": {
             "type": "integer",
             "title": "Trials",
-            "description": "実行するトライアル数",
+            "description": "実行する試行の回数",
             "default": 1
           },
           "evaluation_name": {
@@ -8377,7 +8377,7 @@
               }
             ],
             "title": "Eval Attributes",
-            "description": "評価用の任意の属性"
+            "description": "evaluation のオプション属性"
           }
         },
         "type": "object",
@@ -8392,22 +8392,22 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "作成された評価のダイジェスト"
+            "description": "作成された evaluation のダイジェスト値"
           },
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "作成された評価の ID"
+            "description": "作成された evaluation の ID"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "作成された評価のバージョンインデックス"
+            "description": "作成された evaluation のバージョンインデックス"
           },
           "evaluation_ref": {
             "type": "string",
             "title": "Evaluation Ref",
-            "description": "作成された評価への完全な参照"
+            "description": "作成された evaluation への完全な参照"
           }
         },
         "type": "object",
@@ -8424,7 +8424,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "削除された評価バージョンの数"
+            "description": "削除された evaluation バージョンの数"
           }
         },
         "type": "object",
@@ -8438,7 +8438,7 @@
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "評価 ID"
+            "description": "evaluation の ID"
           },
           "digest": {
             "type": "string",
@@ -8448,18 +8448,18 @@
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "評価のバージョンインデックス"
+            "description": "評価のバージョン インデックス"
           },
           "created_at": {
             "type": "string",
             "format": "date-time",
             "title": "Created At",
-            "description": "評価の作成日時"
+            "description": "評価が作成された日時"
           },
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "評価名"
+            "description": "評価の名前"
           },
           "description": {
             "anyOf": [
@@ -8476,7 +8476,7 @@
           "dataset": {
             "type": "string",
             "title": "Dataset",
-            "description": "データセット参照（weave:// URI）"
+            "description": "データセット への参照 (weave:// URI)"
           },
           "scorers": {
             "items": {
@@ -8484,12 +8484,12 @@
             },
             "type": "array",
             "title": "Scorers",
-            "description": "スコアラー参照の一覧（weave:// URI）"
+            "description": "scorer への参照リスト (weave:// URI)"
           },
           "trials": {
             "type": "integer",
             "title": "Trials",
-            "description": "試行数"
+            "description": "試行回数"
           },
           "evaluation_name": {
             "anyOf": [
@@ -8501,7 +8501,7 @@
               }
             ],
             "title": "Evaluation Name",
-            "description": "evaluation run の名前"
+            "description": "評価 run の名前"
           },
           "evaluate_op": {
             "anyOf": [
@@ -8513,7 +8513,7 @@
               }
             ],
             "title": "Evaluate Op",
-            "description": "Evaluate op への参照（weave:// URI）"
+            "description": "Evaluate op への参照 (weave:// URI)"
           },
           "predict_and_score_op": {
             "anyOf": [
@@ -8525,7 +8525,7 @@
               }
             ],
             "title": "Predict And Score Op",
-            "description": "Predict オペレーションへの参照（weave:// URI）"
+            "description": "Predict および score の op への参照 (weave:// URI)"
           },
           "summarize_op": {
             "anyOf": [
@@ -8537,7 +8537,7 @@
               }
             ],
             "title": "Summarize Op",
-            "description": "Summarize オペレーションへの参照（weave:// URI）"
+            "description": "Summarize op への参照 (weave:// URI)"
           }
         },
         "type": "object",
@@ -8558,12 +8558,12 @@
           "evaluation": {
             "type": "string",
             "title": "Evaluation",
-            "description": "評価への参照（weave:// URI）"
+            "description": "評価への参照 (weave:// URI)"
           },
           "model": {
             "type": "string",
             "title": "Model",
-            "description": "モデルへの参照（weave:// URI）"
+            "description": "モデルへの参照 (weave:// URI)"
           }
         },
         "type": "object",
@@ -8578,7 +8578,7 @@
           "evaluation_run_id": {
             "type": "string",
             "title": "Evaluation Run Id",
-            "description": "作成された評価 run の ID"
+            "description": "作成された 評価 run の ID"
           }
         },
         "type": "object",
@@ -8592,7 +8592,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "削除された評価 run の数"
+            "description": "削除された 評価 run の数"
           }
         },
         "type": "object",
@@ -8614,12 +8614,12 @@
               }
             ],
             "title": "Summary",
-            "description": "評価 run 用の任意のサマリー用辞書"
+            "description": "評価 run 用のオプションの summary 辞書"
           }
         },
         "type": "object",
         "title": "EvaluationRunFinishBody",
-        "description": "REST API 経由で評価 run を終了するためのリクエストボディ。\n\nRESTful エンドポイントでは URL パスから取得されるため、このモデルには project_id と evaluation_run_id は含まれません。"
+        "description": "REST API 経由で評価 run を終了するためのリクエストボディ。\n\nRESTful エンドポイントでは URL パスから与えられるため、このモデルには project_id と evaluation_run_id は含まれません。"
       },
       "EvaluationRunFinishRes": {
         "properties": {
@@ -8645,12 +8645,12 @@
           "evaluation": {
             "type": "string",
             "title": "Evaluation",
-            "description": "評価への参照（weave:// URI）"
+            "description": "評価への参照 (weave:// URI)"
           },
           "model": {
             "type": "string",
             "title": "Model",
-            "description": "モデルへの参照（weave:// URI）"
+            "description": "モデルへの参照 (weave:// URI)"
           },
           "status": {
             "anyOf": [
@@ -8662,7 +8662,7 @@
               }
             ],
             "title": "Status",
-            "description": "評価 run のステータス"
+            "description": "evaluation run のステータス"
           },
           "started_at": {
             "anyOf": [
@@ -8675,7 +8675,7 @@
               }
             ],
             "title": "Started At",
-            "description": "評価 run の開始時刻"
+            "description": "evaluation run の開始時刻"
           },
           "finished_at": {
             "anyOf": [
@@ -8688,7 +8688,7 @@
               }
             ],
             "title": "Finished At",
-            "description": "評価 run の終了時刻"
+            "description": "evaluation run の終了時刻"
           },
           "summary": {
             "anyOf": [
@@ -8701,7 +8701,7 @@
               }
             ],
             "title": "Summary",
-            "description": "評価 run のサマリーデータ"
+            "description": "evaluation run のサマリーデータ"
           }
         },
         "type": "object",
@@ -8885,7 +8885,7 @@
               }
             ],
             "title": "Id",
-            "description": "クライアントで指定された場合、この ID がサーバー生成 ID の代わりにフィードバック行に使用されます。",
+            "description": "クライアントから指定された場合、この ID がサーバー生成の ID に代わって feedback 行の ID として使用されます。",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9001,7 +9001,7 @@
               }
             ],
             "title": "Queue Id",
-            "description": "このフィードバックが作成された注釈キューの ID です。annotation_queues.id を参照します。キュー外でフィードバックが作成された場合は NULL になります。",
+            "description": "この feedback が作成された annotation queue の ID。annotation_queues.id を参照します。キューの外部で feedback が作成された場合は NULL になります。",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9016,7 +9016,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "このフィールドは直接設定しないでください。サーバーによって自動的に設定されます。"
+            "description": "このフィールドは直接設定しないでください。サーバーが自動的に設定します。"
           }
         },
         "additionalProperties": false,
@@ -9204,7 +9204,7 @@
               }
             ],
             "title": "Id",
-            "description": "クライアントで指定された場合、この ID がサーバー生成 ID の代わりにフィードバック行に使用されます。",
+            "description": "クライアントから指定された場合、この ID がサーバー生成の ID に代わって feedback 行の ID として使用されます。",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9335,7 +9335,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "直接設定しないでください。このフィールドはサーバーによって自動的に設定されます。"
+            "description": "手動で設定しないでください。このフィールドはサーバーが自動的に設定します。"
           },
           "feedback_id": {
             "type": "string",
@@ -9447,32 +9447,32 @@
           "file_index": {
             "type": "integer",
             "title": "File Index",
-            "description": "CSV ファイル内の行"
+            "description": "CSV ファイル内の 1 行"
           },
           "range_start_int": {
             "type": "integer",
             "title": "Range Start Int",
-            "description": "整数として表現した IP 範囲の開始値"
+            "description": "IP レンジの開始値（整数）"
           },
           "range_end_int": {
             "type": "integer",
             "title": "Range End Int",
-            "description": "整数として表現した IP 範囲の終了値"
+            "description": "IP レンジの終了値（整数）"
           },
           "range_start_ip": {
             "type": "string",
             "title": "Range Start Ip",
-            "description": "ドット付き 10 進表記での IP 範囲の開始値"
+            "description": "ドット区切り 10 進表記での IP レンジの開始アドレス"
           },
           "range_end_ip": {
             "type": "string",
             "title": "Range End Ip",
-            "description": "ドット付き 10 進表記での IP 範囲の終了値"
+            "description": "ドット区切り 10 進表記での IP レンジの終了アドレス"
           },
           "country_code": {
             "type": "string",
             "title": "Country Code",
-            "description": "ISO 3166-1 Alpha-2 形式の 2 文字の国コード"
+            "description": "ISO 3166-1 Alpha 2 形式の 2 文字の国コード"
           },
           "country_name": {
             "anyOf": [
@@ -9484,7 +9484,7 @@
               }
             ],
             "title": "Country Name",
-            "description": "国名。判別できない場合は None。"
+            "description": "国名。特定できない場合は None になります。"
           }
         },
         "type": "object",
@@ -9503,7 +9503,7 @@
           "ip": {
             "type": "string",
             "title": "Ip",
-            "description": "解決済み IP アドレス（デバッグに役立ちます）"
+            "description": "解決済み IP アドレス。デバッグに役立ちます。"
           },
           "location": {
             "anyOf": [
@@ -9514,12 +9514,12 @@
                 "type": "null"
               }
             ],
-            "description": "IP アドレスの位置情報。判定できなかった場合は None。"
+            "description": "IP アドレスの位置情報です。特定できない場合は None になります。"
           },
           "allowed": {
             "type": "boolean",
             "title": "Allowed",
-            "description": "その IP アドレスを推論に使用することが許可されているかどうかを示します。",
+            "description": "その IP アドレスが推論に使用可能かどうかを示します。",
             "default": false
           }
         },
@@ -9541,7 +9541,7 @@
           "$getField"
         ],
         "title": "GetFieldOperator",
-        "description": "トレースされた呼び出しのフィールドにアクセスします。\n\nネストされたフィールドにはドット記法でアクセスできます（例: `summary.usage.tokens`）。\n\n`CallSchema` に含まれるフィールドに対してのみ動作します。対象例:\n- `op_name`、`trace_id`、`started_at` などのトップレベルフィールド\n- `inputs.input_name`、`summary.usage.tokens` などのネストされたフィールド\n\n例:\n    ```\n    {\"$getField\": \"op_name\"}\n    ```"
+        "description": "トレースされた呼び出しのフィールドにアクセスします。\n\nネストされたフィールドへのアクセスにはドット記法をサポートします（例: `summary.usage.tokens`）。\n\n`CallSchema` に含まれるフィールドに対してのみ動作します。含まれるフィールドの例:\n- `op_name`、`trace_id`、`started_at` のようなトップレベルのフィールド\n- `inputs.input_name`、`summary.usage.tokens` などのネストされたフィールド\n\n例:\n    ```\n    {\"$getField\": \"op_name\"}\n    ```"
       },
       "GtOperation": {
         "properties": {
@@ -9645,7 +9645,7 @@
           "$gt"
         ],
         "title": "GtOperation",
-        "description": "「より大きい (greater than)」比較を行います。\n\n例:\n    ```\n    {\n        \"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
+        "description": "より大きい（greater than）比較を行います。\n\n例:\n    ```\n    {\n        \"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "GteOperation": {
         "properties": {
@@ -9749,7 +9749,7 @@
           "$gte"
         ],
         "title": "GteOperation",
-        "description": "「以上 (greater than or equal)」比較を行います。\n\n例:\n    ```\n    {\n        \"$gte\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
+        "description": "以上（greater than or equal）比較を行います。\n\n例:\n    ```\n    {\n        \"$gte\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "HTTPValidationError": {
         "properties": {
@@ -9783,7 +9783,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "このフィールドは直接設定しないでください。サーバーが自動的に値を設定します。"
+            "description": "直接設定しないでください。サーバー側でこのフィールドが自動的に設定されます。"
           },
           "track_llm_call": {
             "anyOf": [
@@ -9795,7 +9795,7 @@
               }
             ],
             "title": "Track Llm Call",
-            "description": "この画像生成呼び出しを Trace サーバーでトレースとして記録するかどうか。",
+            "description": "この画像生成呼び出しを trace サーバー上でトラッキングするかどうかを指定します。",
             "default": true
           }
         },
@@ -9965,7 +9965,7 @@
           "$in"
         ],
         "title": "InOperation",
-        "description": "メンバーシップ判定。\n\n左オペランドが、2 番目のオペランドとして指定されたリストに含まれている場合に true を返します。\n\n例:\n    ```\n    {\n        \"$in\": [\n            {\"$getField\": \"op_name\"},\n            [{\"$literal\": \"predict\"}, {\"$literal\": \"generate\"}]\n        ]\n    }\n    ```"
+        "description": "メンバーシップ判定。\n\n左側のオペランドが、第 2 オペランドとして与えられたリスト内に存在する場合に true を返します。\n\n例:\n    ```\n    {\n        \"$in\": [\n            {\"$getField\": \"op_name\"},\n            [{\"$literal\": \"predict\"}, {\"$literal\": \"generate\"}]\n        ]\n    }\n    ```"
       },
       "LLMAggregatedUsage": {
         "properties": {
@@ -10014,7 +10014,7 @@
         },
         "type": "object",
         "title": "LLMAggregatedUsage",
-        "description": "特定の LLM 向けに集計された使用メトリクス。"
+        "description": "特定の LLM 向けの集計済み利用状況メトリクス。"
       },
       "LLMUsageSchema": {
         "properties": {
@@ -10129,7 +10129,7 @@
           "$literal"
         ],
         "title": "LiteralOperation",
-        "description": "クエリ言語における定数値を表します。\n\n標準的な JSON でシリアライズ可能な値であれば、どのようなものでも指定できます。\n\n例:\n    ```\n    {\"$literal\": \"predict\"}\n    ```"
+        "description": "クエリ言語における定数値を表します。\n\nこれは標準的な JSON シリアライズが可能な任意の値を指定できます。\n\n例:\n    ```\n    {\"$literal\": \"predict\"}\n    ```"
       },
       "LtOperation": {
         "properties": {
@@ -10233,7 +10233,7 @@
           "$lt"
         ],
         "title": "LtOperation",
-        "description": "「より小さい」比較を行います。\n\n例:\n    ```\n    {\n        \"$lt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
+        "description": "「より小さい (less than)」比較演算。\n\n例:\n    ```\n    {\n        \"$lt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "LteOperation": {
         "properties": {
@@ -10337,14 +10337,14 @@
           "$lte"
         ],
         "title": "LteOperation",
-        "description": "「以下」（より小さいまたは等しい）比較を行います。\n\n例:\n    ```\n    {\n        \"$lte\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
+        "description": "「以下 (less than or equal)」比較演算。\n\n例:\n    ```\n    {\n        \"$lte\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 100}]\n    }\n    ```"
       },
       "ModelCreateBody": {
         "properties": {
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "このモデルの名前。同じ名前のモデルは同一のバージョン系列として管理されます。"
+            "description": "このモデルの名前。同じ名前のモデルは同一のバージョン系列として扱われます。"
           },
           "description": {
             "anyOf": [
@@ -10356,12 +10356,12 @@
               }
             ],
             "title": "Description",
-            "description": "このモデルの説明文"
+            "description": "このモデルの説明。"
           },
           "source_code": {
             "type": "string",
             "title": "Source Code",
-            "description": "import 文も含めた Model クラスの完全なソースコード"
+            "description": "import 文を含む Model クラスの完全なソースコード。"
           },
           "attributes": {
             "anyOf": [
@@ -10374,7 +10374,7 @@
               }
             ],
             "title": "Attributes",
-            "description": "モデルと一緒に保存する追加の属性"
+            "description": "モデルと共に保存する追加属性。"
           }
         },
         "type": "object",
@@ -10389,22 +10389,22 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "作成されたモデルのダイジェスト"
+            "description": "作成されたモデルのダイジェスト値。"
           },
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "作成されたモデルの ID"
+            "description": "作成されたモデルの ID。"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "作成されたモデルのバージョンインデックス"
+            "description": "作成されたモデルのバージョンインデックス。"
           },
           "model_ref": {
             "type": "string",
             "title": "Model Ref",
-            "description": "作成されたモデルへの完全な参照"
+            "description": "作成されたモデルへの完全な参照。"
           }
         },
         "type": "object",
@@ -10421,7 +10421,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "削除されたモデルバージョンの数"
+            "description": "削除されたモデルバージョンの数。"
           }
         },
         "type": "object",
@@ -10435,12 +10435,12 @@
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "モデル ID"
+            "description": "モデル ID。"
           },
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "モデルのダイジェスト"
+            "description": "モデルのダイジェスト値"
           },
           "version_index": {
             "type": "integer",
@@ -10451,12 +10451,12 @@
             "type": "string",
             "format": "date-time",
             "title": "Created At",
-            "description": "モデルが作成された日時"
+            "description": "モデルの作成日時"
           },
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "モデルの名前"
+            "description": "モデル名"
           },
           "description": {
             "anyOf": [
@@ -10486,7 +10486,7 @@
               }
             ],
             "title": "Attributes",
-            "description": "モデルと共に保存される追加属性"
+            "description": "モデルと共に保存される追加の属性"
           }
         },
         "type": "object",
@@ -10559,7 +10559,7 @@
           "$not"
         ],
         "title": "NotOperation",
-        "description": "論理 NOT。条件を反転します。\n\n例:\n    ```\n    {\n        \"$not\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"debug\"}]}\n        ]\n    }\n    ```"
+        "description": "論理 NOT 演算子。条件を反転します。\n\n例:\n    ```\n    {\n        \"$not\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"debug\"}]}\n        ]\n    }\n    ```"
       },
       "ObjCreateReq": {
         "properties": {
@@ -10621,7 +10621,7 @@
               }
             ],
             "title": "Digests",
-            "description": "削除するダイジェストのリスト。指定しない場合、そのオブジェクトに対するすべてのダイジェストが削除されます。"
+            "description": "削除するダイジェストのリスト。指定しない場合、そのオブジェクトのすべてのダイジェストが削除されます。"
           }
         },
         "additionalProperties": false,
@@ -10650,7 +10650,7 @@
           "project_id": {
             "type": "string",
             "title": "Project Id",
-            "description": "クエリ対象のプロジェクト ID",
+            "description": "クエリを実行する対象の プロジェクト ID",
             "examples": [
               "user/project"
             ]
@@ -10664,7 +10664,7 @@
                 "type": "null"
               }
             ],
-            "description": "クエリのフィルタ条件。`ObjectVersionFilter` を参照してください。",
+            "description": "クエリのフィルター条件。`ObjectVersionFilter` を参照してください。",
             "examples": [
               {
                 "latest_only": true,
@@ -10699,7 +10699,7 @@
               }
             ],
             "title": "Offset",
-            "description": "返す前にスキップする結果の件数。",
+            "description": "返却を開始する前にスキップする結果の件数。",
             "examples": [
               0
             ]
@@ -10717,7 +10717,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "クエリ結果のソート条件。現在は `object_id` と `created_at` のみをサポートします。",
+            "description": "クエリ結果のソート順。現在は `object_id` と `created_at` のみサポートされています。",
             "examples": [
               [
                 {
@@ -10737,7 +10737,7 @@
               }
             ],
             "title": "Metadata Only",
-            "description": "true の場合、`val` 列はデータベースから読み込まれず空になります。他のフィールドはすべて返されます。",
+            "description": "true の場合、`val` カラムはデータベースから読み込まれず空のままになります。それ以外のフィールドはすべて返却されます。",
             "default": false
           },
           "include_storage_size": {
@@ -10750,7 +10750,7 @@
               }
             ],
             "title": "Include Storage Size",
-            "description": "true の場合、`size_bytes` 列が返されます。",
+            "description": "true の場合、`size_bytes` カラムが返却されます。",
             "default": false
           }
         },
@@ -10801,7 +10801,7 @@
               }
             ],
             "title": "Metadata Only",
-            "description": "true の場合、`val` 列はデータベースから読み込まれず空になります。他のフィールドはすべて返されます。",
+            "description": "true の場合、`val` カラムはデータベースから読み込まれず空のままになります。それ以外のフィールドはすべて返却されます。",
             "default": false
           }
         },
@@ -10904,7 +10904,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "直接設定しないでください。サーバーが自動的にこのフィールドを設定します。"
+            "description": "クライアント側で直接設定しないでください。サーバーがこのフィールドを自動的に設定します。"
           },
           "size_bytes": {
             "anyOf": [
@@ -10978,7 +10978,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "直接設定しないでください。サーバーが自動的にこのフィールドを設定します。"
+            "description": "クライアント側で直接設定しないでください。サーバーがこのフィールドを自動的に設定します。"
           }
         },
         "type": "object",
@@ -11004,7 +11004,7 @@
               }
             ],
             "title": "Base Object Classes",
-            "description": "オブジェクトをその基底クラスでフィルタリングします。",
+            "description": "オブジェクトをその基底クラスに基づいてフィルタリングします。",
             "examples": [
               [
                 "Model"
@@ -11027,7 +11027,7 @@
               }
             ],
             "title": "Exclude Base Object Classes",
-            "description": "オブジェクトをその基底クラスに基づいて除外します",
+            "description": "基底クラスに基づいてオブジェクトを除外します",
             "examples": [
               [
                 "Model"
@@ -11050,7 +11050,7 @@
               }
             ],
             "title": "Leaf Object Classes",
-            "description": "オブジェクトをそのリーフクラスでフィルタリングします",
+            "description": "葉クラスに基づいてオブジェクトをフィルタリングします",
             "examples": [
               [
                 "Model"
@@ -11076,7 +11076,7 @@
               }
             ],
             "title": "Object Ids",
-            "description": "オブジェクトをその ID でフィルタリングします",
+            "description": "ID に基づいてオブジェクトをフィルタリングします",
             "examples": [
               "my_favorite_model",
               "my_favorite_dataset"
@@ -11092,7 +11092,7 @@
               }
             ],
             "title": "Is Op",
-            "description": "オブジェクトが weave.ops かどうかに基づいてフィルタリングします。`True` の場合は op のみを返し、`False` の場合は op 以外を返し、`None` の場合はすべてのオブジェクトを返します",
+            "description": "オブジェクトが Weave の weave.ops であるかどうかに基づいてフィルタリングします。`True` の場合は op のみを返し、`False` の場合は op 以外のオブジェクトを返し、`None` の場合はすべてのオブジェクトを返します",
             "examples": [
               true,
               false,
@@ -11109,7 +11109,7 @@
               }
             ],
             "title": "Latest Only",
-            "description": "True の場合、各オブジェクトの最新バージョンのみを返します。`False` および `None` の場合はすべてのバージョンを返します",
+            "description": "`True` の場合、各オブジェクトの最新バージョンのみを返します。`False` および `None` の場合は、すべてのバージョンを返します",
             "examples": [
               true,
               false
@@ -11132,7 +11132,7 @@
               }
             ],
             "title": "Name",
-            "description": "この op の名前。同じ名前を持つ op は同じ系列としてバージョン管理されます。"
+            "description": "この op の名前。同じ名前を持つ Ops は同一のものとしてバージョン管理されます。"
           },
           "source_code": {
             "anyOf": [
@@ -11149,7 +11149,7 @@
         },
         "type": "object",
         "title": "OpCreateBody",
-        "description": "REST API 経由で Op オブジェクトを作成する際のリクエストボディ。\n\nこのモデルには、RESTful エンドポイントでは URL パスから取得されるため、project_id は含まれません。"
+        "description": "REST API 経由で Op オブジェクトを作成するためのリクエストボディ。\n\nこのモデルには project_id は含まれません。project_id は RESTful エンドポイントの URL パスから与えられるためです。"
       },
       "OpCreateRes": {
         "properties": {
@@ -11183,7 +11183,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "この op から削除された op バージョンの数"
+            "description": "この op から削除された op バージョン数"
           }
         },
         "type": "object",
@@ -11213,12 +11213,12 @@
             "type": "string",
             "format": "date-time",
             "title": "Created At",
-            "description": "この op が作成された日時"
+            "description": "この op が作成された時刻"
           },
           "code": {
             "type": "string",
             "title": "Code",
-            "description": "実際の op のソースコード"
+            "description": "この op の実際のソースコード"
           }
         },
         "type": "object",
@@ -11230,7 +11230,7 @@
           "code"
         ],
         "title": "OpReadRes",
-        "description": "Op オブジェクトを読み取るためのレスポンスモデルです。\n\ncode フィールドには、その op の実際のソースコードが含まれます。"
+        "description": "op オブジェクトを読み取るためのレスポンスモデル。\n\ncode フィールドには、op の実際のソースコードが含まれます。"
       },
       "OrOperation": {
         "properties": {
@@ -11287,96 +11287,10 @@
           "$or"
         ],
         "title": "OrOperation",
-        "description": "論理 OR。少なくとも 1 つの条件が真であれば成立します。\n\n例:\n    ```\n    {\n        \"$or\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"a\"}]},\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"b\"}]}\n        ]\n    }\n    ```"
+        "description": "論理和 (OR)。少なくとも 1 つの条件が true である必要があります。\n\n例:\n    ```\n    {\n        \"$or\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"a\"}]},\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"b\"}]}\n        ]\n    }\n    ```"
       },
       "PredictionCreateBody": {
         "properties": {
-          "model": {
-            "type": "string",
-            "title": "Model",
-            "description": "モデル参照（weave:// URI）"
-          },
-          "inputs": {
-            "additionalProperties": true,
-            "type": "object",
-            "title": "Inputs",
-            "description": "Prediction の入力"
-          },
-          "output": {
-            "title": "Output",
-            "description": "Prediction の出力"
-          },
-          "evaluation_run_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Evaluation Run Id",
-            "description": "この Prediction を子呼び出しとして関連付けるための、任意の評価 run の ID"
-          }
-        },
-        "type": "object",
-        "required": [
-          "model",
-          "inputs",
-          "output"
-        ],
-        "title": "PredictionCreateBody",
-        "description": "REST API 経由で Prediction を作成するためのリクエストボディ。\n\nこのモデルの RESTful エンドポイントでは project_id は URL パスから取得されるため、リクエストボディには含めません。"
-      },
-      "PredictionCreateRes": {
-        "properties": {
-          "prediction_id": {
-            "type": "string",
-            "title": "Prediction Id",
-            "description": "Prediction の ID"
-          }
-        },
-        "type": "object",
-        "required": [
-          "prediction_id"
-        ],
-        "title": "PredictionCreateRes"
-      },
-      "PredictionDeleteRes": {
-        "properties": {
-          "num_deleted": {
-            "type": "integer",
-            "title": "Num Deleted",
-            "description": "削除された Prediction の数"
-          }
-        },
-        "type": "object",
-        "required": [
-          "num_deleted"
-        ],
-        "title": "PredictionDeleteRes"
-      },
-      "PredictionFinishRes": {
-        "properties": {
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Prediction が正常に完了したかどうか"
-          }
-        },
-        "type": "object",
-        "required": [
-          "success"
-        ],
-        "title": "PredictionFinishRes"
-      },
-      "PredictionReadRes": {
-        "properties": {
-          "prediction_id": {
-            "type": "string",
-            "title": "Prediction Id",
-            "description": "Prediction の ID"
-          },
           "model": {
             "type": "string",
             "title": "Model",
@@ -11402,7 +11316,93 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "この予測に関連付けられている Evaluation run の ID"
+            "description": "この予測を子呼び出しとして関連付けるための、任意の evaluation run ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "model",
+          "inputs",
+          "output"
+        ],
+        "title": "PredictionCreateBody",
+        "description": "REST API 経由で Prediction を作成する際のリクエストボディ。\n\nRESTful エンドポイントでは project_id は URL パスから取得されるため、このモデルには含まれません。"
+      },
+      "PredictionCreateRes": {
+        "properties": {
+          "prediction_id": {
+            "type": "string",
+            "title": "Prediction Id",
+            "description": "予測 ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prediction_id"
+        ],
+        "title": "PredictionCreateRes"
+      },
+      "PredictionDeleteRes": {
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "削除された予測の数"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_deleted"
+        ],
+        "title": "PredictionDeleteRes"
+      },
+      "PredictionFinishRes": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "description": "予測が正常に完了したかどうか"
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "PredictionFinishRes"
+      },
+      "PredictionReadRes": {
+        "properties": {
+          "prediction_id": {
+            "type": "string",
+            "title": "Prediction Id",
+            "description": "予測 ID"
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "description": "モデル参照（weave:// URI）"
+          },
+          "inputs": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Inputs",
+            "description": "予測への入力"
+          },
+          "output": {
+            "title": "Output",
+            "description": "予測の出力"
+          },
+          "evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Run Id",
+            "description": "この予測が関連付けられている Evaluation run の ID"
           },
           "wb_user_id": {
             "anyOf": [
@@ -11414,7 +11414,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "このフィールドを直接設定しないでください。サーバーが自動的に値を設定します。"
+            "description": "直接設定しないでください。サーバーが自動的にこのフィールドを設定します。"
           }
         },
         "type": "object",
@@ -11463,7 +11463,7 @@
           "input_cache_writes"
         ],
         "title": "Pricing",
-        "description": "料金はすべて 1 トークンあたりの米ドル (USD) で表されます。\n\n料金フィールドは浮動小数点の精度問題を避けるため、文字列として表現されます。"
+        "description": "すべての料金値は 1 トークンあたりの USD 建てです。\n\n料金フィールドは浮動小数点の精度問題を回避するため、文字列形式になっています。"
       },
       "Query": {
         "properties": {
@@ -11676,6 +11676,73 @@
           "scorer": {
             "type": "string",
             "title": "Scorer",
+            "description": "scorer の参照（weave:// URI）"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value",
+            "description": "スコアの値"
+          },
+          "evaluation_run_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Run Id",
+            "description": "このスコアを子コールとして関連付けるための、任意の Evaluation run の ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prediction_id",
+          "scorer",
+          "value"
+        ],
+        "title": "ScoreCreateBody",
+        "description": "REST API 経由で Score を作成する際のリクエストボディ。\n\nRESTful エンドポイントでは project_id は URL パスから取得されるため、このモデルには含まれません。"
+      },
+      "ScoreCreateRes": {
+        "properties": {
+          "score_id": {
+            "type": "string",
+            "title": "Score Id",
+            "description": "スコアの ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "score_id"
+        ],
+        "title": "ScoreCreateRes"
+      },
+      "ScoreDeleteRes": {
+        "properties": {
+          "num_deleted": {
+            "type": "integer",
+            "title": "Num Deleted",
+            "description": "削除されたスコアの数"
+          }
+        },
+        "type": "object",
+        "required": [
+          "num_deleted"
+        ],
+        "title": "ScoreDeleteRes"
+      },
+      "ScoreReadRes": {
+        "properties": {
+          "score_id": {
+            "type": "string",
+            "title": "Score Id",
+            "description": "スコアの ID"
+          },
+          "scorer": {
+            "type": "string",
+            "title": "Scorer",
             "description": "scorer への参照（weave:// URI）"
           },
           "value": {
@@ -11693,74 +11760,7 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "このスコアを子呼び出しとして関連付けるための任意の Evaluation run の ID"
-          }
-        },
-        "type": "object",
-        "required": [
-          "prediction_id",
-          "scorer",
-          "value"
-        ],
-        "title": "ScoreCreateBody",
-        "description": "REST API で Score を作成する際のリクエストボディです。\n\nRESTful エンドポイントでは project_id は URL パスから取得されるため、このモデルには含まれていません。"
-      },
-      "ScoreCreateRes": {
-        "properties": {
-          "score_id": {
-            "type": "string",
-            "title": "Score Id",
-            "description": "スコア ID"
-          }
-        },
-        "type": "object",
-        "required": [
-          "score_id"
-        ],
-        "title": "ScoreCreateRes"
-      },
-      "ScoreDeleteRes": {
-        "properties": {
-          "num_deleted": {
-            "type": "integer",
-            "title": "Num Deleted",
-            "description": "削除されたスコア数"
-          }
-        },
-        "type": "object",
-        "required": [
-          "num_deleted"
-        ],
-        "title": "ScoreDeleteRes"
-      },
-      "ScoreReadRes": {
-        "properties": {
-          "score_id": {
-            "type": "string",
-            "title": "Score Id",
-            "description": "スコア ID"
-          },
-          "scorer": {
-            "type": "string",
-            "title": "Scorer",
-            "description": "スコアラーへの参照（weave:// URI）"
-          },
-          "value": {
-            "type": "number",
-            "title": "Value",
-            "description": "スコア値"
-          },
-          "evaluation_run_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Evaluation Run Id",
-            "description": "このスコアがリンクされている場合の Evaluation run の ID"
+            "description": "このスコアが関連付けられている Evaluation run の ID"
           },
           "wb_user_id": {
             "anyOf": [
@@ -11772,7 +11772,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "このフィールドを直接設定しないでください。サーバーが自動的に値を設定します。"
+            "description": "このフィールドは直接設定しないでください。サーバーが自動的に値を設定します。"
           }
         },
         "type": "object",
@@ -11788,7 +11788,7 @@
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "このスコアラーの名前。同じ名前のスコアラーはまとめてバージョン管理されます。"
+            "description": "このスコアラーの名前。同じ名前を持つスコアラーは同一系統のバージョンとして扱われます。"
           },
           "description": {
             "anyOf": [
@@ -11805,7 +11805,7 @@
           "op_source_code": {
             "type": "string",
             "title": "Op Source Code",
-            "description": "インポートを含む Scorer.score 操作の完全なソースコード"
+            "description": "Scorer.score 操作のインポートを含んだ完全なソースコード"
           }
         },
         "type": "object",
@@ -11820,12 +11820,12 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "作成されたスコアラーのダイジェスト"
+            "description": "作成されたスコアラーのダイジェスト値"
           },
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "作成されたスコアラーのID"
+            "description": "作成されたスコアラーの ID"
           },
           "version_index": {
             "type": "integer",
@@ -11835,7 +11835,7 @@
           "scorer": {
             "type": "string",
             "title": "Scorer",
-            "description": "作成されたスコアラーへの完全な参照情報"
+            "description": "作成されたスコアラーへの完全な参照"
           }
         },
         "type": "object",
@@ -11866,17 +11866,17 @@
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "スコアラーID"
+            "description": "スコアラーの ID"
           },
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "スコアラーのダイジェスト"
+            "description": "スコアラーのダイジェスト値"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "対象オブジェクトのバージョンインデックス"
+            "description": "オブジェクトのバージョンインデックス"
           },
           "created_at": {
             "type": "string",
@@ -11899,12 +11899,12 @@
               }
             ],
             "title": "Description",
-            "description": "スコアラーの説明"
+            "description": "Scorer の説明"
           },
           "score_op": {
             "type": "string",
             "title": "Score Op",
-            "description": "Scorer.score 演算のリファレンス"
+            "description": "Scorer.score op のリファレンス"
           }
         },
         "type": "object",
@@ -12072,7 +12072,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "直接設定しないでください。このフィールドはサーバーによって自動的に設定されます。"
+            "description": "このフィールドは直接設定しないでください。サーバー側で自動的に設定されます。"
           },
           "wb_run_id": {
             "anyOf": [
@@ -12217,7 +12217,7 @@
             },
             "type": "array",
             "title": "Row Digests",
-            "description": "作成された行のダイジェスト情報"
+            "description": "作成された行のダイジェスト"
           }
         },
         "type": "object",
@@ -12295,7 +12295,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "クエリ対象のテーブルのダイジェスト",
+            "description": "クエリ対象テーブルのダイジェスト",
             "examples": [
               "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims"
             ]
@@ -12309,7 +12309,7 @@
                 "type": "null"
               }
             ],
-            "description": "クエリに適用する任意のフィルター。詳細は `TableRowFilter` を参照してください。",
+            "description": "クエリに適用するオプションのフィルター。詳細は TableRowFilter を参照してください。",
             "examples": [
               {
                 "row_digests": [
@@ -12329,7 +12329,7 @@
               }
             ],
             "title": "Limit",
-            "description": "返す行数の上限",
+            "description": "返す行数の最大値",
             "examples": [
               100
             ]
@@ -12362,7 +12362,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "ソートに使用するフィールドのリスト。フィールドはドット区切りで指定し、辞書内の値を参照できます。ソートを指定しない場合は、デフォルトのテーブル順序（挿入順）で返されます。",
+            "description": "ソートに使用するフィールドのリスト。フィールドはドット区切りで記述し、辞書内の値にアクセスできます。ソート順を指定しない場合、デフォルトのテーブル順序（挿入順）が使用されます。",
             "examples": [
               [
                 {
@@ -12437,7 +12437,7 @@
               }
             ],
             "title": "Include Storage Size",
-            "description": "true の場合、`storage_size_bytes` 列が返されます。",
+            "description": "true の場合は `storage_size_bytes` 列を返します。",
             "default": false
           }
         },
@@ -12516,7 +12516,7 @@
               }
             ],
             "title": "Row Digests",
-            "description": "フィルタ対象の行ダイジェストのリスト",
+            "description": "フィルタリングに使用する行ダイジェストのリスト",
             "examples": [
               [
                 "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims",
@@ -12679,7 +12679,7 @@
               }
             ],
             "title": "After Datetime",
-            "description": "start_time がこのタイムスタンプ以降のスレッドのみを含めます",
+            "description": "start_time がこのタイムスタンプより後のスレッドのみを含めます",
             "examples": [
               "2024-01-01T00:00:00Z"
             ]
@@ -12695,7 +12695,7 @@
               }
             ],
             "title": "Before Datetime",
-            "description": "last_updated がこのタイムスタンプ以前のスレッドのみを含めます",
+            "description": "last_updated がこのタイムスタンプより前のスレッドのみを含めます",
             "examples": [
               "2024-12-31T23:59:59Z"
             ]
@@ -12746,7 +12746,7 @@
                 "type": "null"
               }
             ],
-            "description": "スレッドをクエリする際のフィルタ条件"
+            "description": "スレッドクエリのフィルタ条件"
           },
           "limit": {
             "anyOf": [
@@ -12785,7 +12785,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "スレッドのソート条件。サポートされているフィールド: 'thread_id', 'turn_count', 'start_time', 'last_updated', 'p50_turn_duration_ms', 'p99_turn_duration_ms'。",
+            "description": "スレッドのソート条件。サポートされているフィールド: 'thread_id'、'turn_count'、'start_time'、'last_updated'、'p50_turn_duration_ms'、'p99_turn_duration_ms'。",
             "examples": [
               [
                 {
@@ -12802,7 +12802,7 @@
           "project_id"
         ],
         "title": "ThreadsQueryReq",
-        "description": "ターン呼び出しのみを基準に集計された統計情報に基づいてスレッドをクエリします。\n\nターン呼び出しはスレッドコンテキスト直下の子（call.id が turn_id と等しいもの）です。\nこれにより、すべての入れ子になった実装の詳細ではなく、会話単位で意味のある統計情報を取得できます。"
+        "description": "ターン呼び出し単位で集計された統計値に基づいて、スレッドをクエリします。\n\nターン呼び出しは、スレッドコンテキスト直下の子要素（call.id == turn_id であるもの）です。\nこれにより、すべてのネストされた実装の詳細を含めるのではなく、会話レベルで意味のある統計情報を取得できます。"
       },
       "TraceStatus": {
         "type": "string",
@@ -12829,7 +12829,7 @@
                 "type": "null"
               }
             ],
-            "description": "呼び出しを選択するためのフィルタ。通常は trace_ids を使用して、トレース内のすべての呼び出しを取得します。"
+            "description": "コールを選択するためのフィルターです。通常は trace_ids を使用して、特定のトレース内のすべてのコールを取得します。"
           },
           "query": {
             "anyOf": [
@@ -12840,18 +12840,18 @@
                 "type": "null"
               }
             ],
-            "description": "呼び出しをフィルタリングするための追加のクエリ条件。"
+            "description": "コールをフィルタリングするための追加のクエリ条件です。"
           },
           "include_costs": {
             "type": "boolean",
             "title": "Include Costs",
-            "description": "true の場合、使用量に基づくコスト計算を含めます。",
+            "description": "true の場合、使用量にコスト計算を含めます。",
             "default": false
           },
           "limit": {
             "type": "integer",
             "title": "Limit",
-            "description": "処理する呼び出しの最大数。メモリ使用量が無制限に増加するのを防ぐための安全上の上限として機能します。",
+            "description": "処理するコールの最大数です。無制限なメモリ使用を防ぐためのセーフティリミットとして機能します。",
             "default": 10000
           }
         },
@@ -12861,7 +12861,7 @@
           "project_id"
         ],
         "title": "TraceUsageReq",
-        "description": "トレース内の各呼び出しについて、子孫呼び出しもロールアップ（集計）した使用量メトリクスを計算するためのリクエストです。\n\nこのエンドポイントは、トレース内の各呼び出しに対する使用メトリクスを返します。各呼び出しのメトリクスには、その呼び出し自身の使用量に加え、すべての子孫呼び出しの使用量が合算されます。呼び出し単位でロールアップされたメトリクスを表示したいトレースビューで使用してください。\n\n注意: 集計のために、一致したすべての呼び出しがメモリに読み込まれます。結果セットが非常に大きい場合（呼び出し数が 1 万件超など）は、より限定的なフィルタを使用するか、アプリケーション側でページネーションを行うことを検討してください。"
+        "description": "トレース内の各コールについて、その子孫コールをロールアップした使用量を計算するためのリクエストです。\n\nこのエンドポイントは、トレース内の各コールに対する使用量メトリクスを返します。各コールのメトリクスには、そのコール自身の使用量に加えて、すべての子孫コールの使用量の合計が含まれます。コール単位でロールアップされたメトリクスを表示したいトレースビューで使用してください。\n\n注意: 集計のために、条件にマッチしたすべてのコールがメモリに読み込まれます。結果セットが非常に大きい場合（>10k コール）には、より限定的なフィルターを使用するか、アプリケーション側でのページネーションを検討してください。"
       },
       "TraceUsageRes": {
         "properties": {
@@ -12878,7 +12878,7 @@
         },
         "type": "object",
         "title": "TraceUsageRes",
-        "description": "呼び出しごとの使用メトリクスを含むレスポンス（各項目には子孫呼び出しの寄与分も含まれます）。"
+        "description": "コールごとの使用量メトリクス（各コールには子孫コールの寄与分も含まれます）を含むレスポンスです。"
       },
       "UsageMetricSpec": {
         "properties": {
@@ -12893,7 +12893,7 @@
               "total_cost"
             ],
             "title": "Metric",
-            "description": "集計対象のメトリクス。トークン関連のメトリクスはプロバイダ間で正規化されます。"
+            "description": "集約対象のメトリクスです。トークンに関するメトリクスはプロバイダー間で正規化されます。"
           },
           "aggregations": {
             "items": {
@@ -12901,7 +12901,7 @@
             },
             "type": "array",
             "title": "Aggregations",
-            "description": "適用する基本的な集約関数。",
+            "description": "適用する基本的な集約関数です。",
             "default": [
               "sum"
             ]
@@ -12912,7 +12912,7 @@
             },
             "type": "array",
             "title": "Percentiles",
-            "description": "計算対象のパーセンタイル値（0〜100）。例：[50, 95, 99] と指定すると、p50・p95・p99 を計算します。",
+            "description": "計算するパーセンタイル (0〜100)。例: p50、p95、p99 を計算する場合は [50, 95, 99]",
             "default": []
           }
         },
@@ -12922,7 +12922,7 @@
           "metric"
         ],
         "title": "UsageMetricSpec",
-        "description": "集計するメトリクスの指定（モデル単位でグループ化）。"
+        "description": "集約する使用量メトリクスの指定（モデルごとにグループ化）です。"
       },
       "ValidationError": {
         "properties": {

@@ -1,35 +1,35 @@
 ---
 description: W&B Artifacts のストレージとメモリ割り当てを管理します。
-title: アーティファクトのストレージとメモリ割り当てを管理する
+title: Artifacts のストレージとメモリ割り当てを管理する
 ---
 
-W&amp;B は、デフォルトで米国にあるプライベートな Google Cloud Storage バケットにアーティファクトファイルを保存します。すべてのファイルは保存時および転送時に暗号化されます。
+W&amp;B は、デフォルトでアメリカ合衆国内にあるプライベートな Google Cloud Storage バケットに Artifacts ファイルを保存します。すべてのファイルは保存時および転送中に暗号化されます。
 
-機密性の高いファイルについては、[Private Hosting](/ja/platform/hosting/) を構成するか、[reference artifacts](/ja/models/artifacts/track-external-files/) を使用することを推奨します。
+機密性の高いファイルの場合は、[Private Hosting](/ja/platform/hosting/) を設定するか、[reference artifacts](/ja/models/artifacts/track-external-files/) を使用することを推奨します。
 
-学習中、W&amp;B はログ、アーティファクト、設定ファイルをローカルで次のディレクトリに保存します。
+トレーニング中、W&amp;B はログ、 Artifacts 、および設定ファイルをローカルで次のディレクトリに保存します：
 
 | File | Default location | To change default location set: |
 | ---- | ---------------- | ------------------------------- |
-| logs | `./wandb` | `wandb.init` の `dir` または `WANDB_DIR` 環境変数を設定 |
-| artifacts | `~/.cache/wandb` | `WANDB_CACHE_DIR` 環境変数 |
-| configs | `~/.config/wandb` | `WANDB_CONFIG_DIR` 環境変数 |
-| staging artifacts for upload  | `~/.cache/wandb-data/` | `WANDB_DATA_DIR` 環境変数 |
-| downloaded artifacts | `./artifacts` | `WANDB_ARTIFACT_DIR` 環境変数 |
+| logs | `./wandb` | `wandb.init` の `dir` を指定するか、`WANDB_DIR` 環境変数を設定 |
+| artifacts | `~/.cache/wandb` | `WANDB_CACHE_DIR` 環境変数を設定 |
+| configs | `~/.config/wandb` | `WANDB_CONFIG_DIR` 環境変数を設定 |
+| staging artifacts for upload  | `~/.cache/wandb-data/` | `WANDB_DATA_DIR` 環境変数を設定 |
+| downloaded artifacts | `./artifacts` | `WANDB_ARTIFACT_DIR` 環境変数を設定 |
 
-環境変数を使って W&amp;B を設定する方法の詳細については、[environment variables reference](/ja/models/track/environment-variables/) を参照してください。
+環境変数を使って W&amp;B を設定するための包括的なガイドについては、[環境変数リファレンス](/ja/models/track/environment-variables/) を参照してください。
 
 <Warning>
-  `wandb` を初期化するマシンによっては、これらのデフォルトフォルダがファイルシステム上の書き込み可能な場所に存在しない場合があります。この場合、エラーが発生することがあります。
+  `wandb` が初期化されるマシンによっては、これらのデフォルトディレクトリがファイルシステム上の書き込み可能な場所に存在しない場合があります。この場合、エラーが発生する可能性があります。
 </Warning>
 
 <div id="clean-up-local-artifact-cache">
-  ### ローカルのアーティファクトキャッシュをクリーンアップする
+  ### ローカルの Artifacts キャッシュをクリーンアップする
 </div>
 
-W&amp;B は、同じファイルを共有する異なるバージョン間でのダウンロードを高速化するためにアーティファクトファイルをキャッシュします。時間の経過とともに、このキャッシュディレクトリは大きくなる可能性があります。[`wandb artifact cache cleanup`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-cache/) コマンドを実行して、キャッシュを整理し、最近使用されていないファイルを削除します。
+W&amp;B は、ファイルを共有する異なるバージョン間でのダウンロードを高速化するために artifact ファイルをキャッシュします。時間の経過とともに、このキャッシュ ディレクトリは大きくなっていく可能性があります。[`wandb artifact cache cleanup`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-cache/) コマンドを実行して、キャッシュを整理し、最近使用されていないファイルを削除してください。
 
-次のコードスニペットは、キャッシュのサイズを 1GB に制限する方法を示しています。コードスニペットをコピーしてターミナルに貼り付けてください。
+次のコードスニペットは、キャッシュ サイズを 1GB に制限する方法を示しています。コードスニペットをコピーしてターミナルに貼り付けてください。
 
 ```bash
 $ wandb artifact cache cleanup 1GB

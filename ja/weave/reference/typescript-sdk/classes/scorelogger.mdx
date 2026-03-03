@@ -5,10 +5,10 @@ description: "TypeScript SDK リファレンス"
 
 [weave](../) / ScoreLogger
 
-ScoreLogger は、1 つの予測に対するスコアの管理を行います。
+ScoreLogger は、単一の予測に対するスコアリングを管理します。
 EvaluationLogger.logPrediction() から返されます。
 
-`例`
+`Example`
 
 ```ts
 const pred = await ev.logPrediction(example, output);
@@ -41,7 +41,7 @@ await pred.finish(); // 予測を確定する
 - [finish](./scorelogger#finish)
 - [logScore](./scorelogger#logscore)
 
-## コンストラクタ
+## コンストラクター
 
 <div id="constructor">
   ### コンストラクター
@@ -49,9 +49,7 @@ await pred.finish(); // 予測を確定する
 
 • **new ScoreLogger**(`evalLogger`): [`ScoreLogger`](./scorelogger)
 
-<div id="parameters">
-  #### パラメータ
-</div>
+#### パラメータ
 
 | 名前 | 型 |
 | :------ | :------ |
@@ -78,7 +76,7 @@ await pred.finish(); // 予測を確定する
 • `get` **isFinishCalled**(): `boolean`
 
 finish() が呼び出されたかどうかを確認します。
-EvaluationLogger によって未完了の予測を検出するために使用されます。
+終了していない予測を検出するために EvaluationLogger によって使用されます。
 
 <div id="returns">
   #### 戻り値
@@ -86,9 +84,7 @@ EvaluationLogger によって未完了の予測を検出するために使用さ
 
 `boolean`
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [evaluationLogger.ts:349](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L349)
 
@@ -101,8 +97,8 @@ EvaluationLogger によって未完了の予測を検出するために使用さ
 ▸ **finish**(): `Promise`\<`void`\>
 
 予測に対するスコアリング処理を終了します。
-累積されたスコアを用いて predict_and_score 呼び出しを確定します。
-増分集計値を更新し、メモリを解放します。
+蓄積されたスコアを用いて `predict_and_score` 呼び出しを最終確定します。
+逐次的な集計を更新し、メモリを解放します。
 
 <div id="returns">
   #### 戻り値
@@ -110,7 +106,9 @@ EvaluationLogger によって未完了の予測を検出するために使用さ
 
 `Promise`\<`void`\>
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [evaluationLogger.ts:451](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L451)
 
@@ -122,17 +120,17 @@ ___
 
 ▸ **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
 
-この予測のスコアを記録します。
-predict_and_score の子として scorer の呼び出しを作成します。
+この予測のスコアをログに記録します。
+`predict_and_score` の子として scorer の呼び出しを作成します。
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `scorerName` | `string` | スコアラー名（例: "accuracy", "f1_score"） |
-| `score` | `any` | スコア値 |
+| `score` | `any` | スコアの値 |
 
 <div id="returns">
   #### 戻り値

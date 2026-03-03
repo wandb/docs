@@ -3,10 +3,10 @@ title: "wandb artifact put"
 ---
 
 {/*
-  このコマンドの導入文を追加するには:
+  このコマンドの導入用コンテンツを追加するには:
   1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-artifact-put.mdx
-  2. そのファイルに導入文を追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+  2. そのファイルに導入コンテンツを追加します
+  3. 次の 2 行だけを残し、このコメントブロック全体を削除します:
 
   import WandbArtifactPut from "/snippets/_includes/cli/wandb-artifact-put.mdx";
 
@@ -15,8 +15,7 @@ title: "wandb artifact put"
   スニペットは次回の再生成時に自動検出されます。
   */}
 
-アーティファクトを wandb にアップロードする
-
+wandb に Artifacts をアップロードする
 
 <div id="usage">
   ## 使用方法
@@ -26,14 +25,13 @@ title: "wandb artifact put"
 wandb artifact put PATH [OPTIONS]
 ```
 
-
 <div id="arguments">
   ## 引数
 </div>
 
 | 引数 | 説明 | 必須 |
 | :--- | :--- | :--- |
-| `PATH` | 説明はありません | 必須 |
+| `PATH` | 説明はありません | はい |
 
 <div id="options">
   ## オプション
@@ -41,11 +39,11 @@ wandb artifact put PATH [OPTIONS]
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--name`, `-n` | プッシュするアーティファクトの名前を指定します: project/artifact_name |
-| `--description`, `-d` | このアーティファクトの説明を指定します |
-| `--type`, `-t` | アーティファクトのタイプを指定します（デフォルト: dataset） |
-| `--alias`, `-a` | このアーティファクトに適用するエイリアスを指定します（デフォルト: ['latest']） |
-| `--id` | アップロード先の run を指定します。 |
-| `--resume` | 現在のディレクトリで最後の run を再開します。 |
-| `--skip_cache` | アーティファクトファイルをアップロードするときにキャッシュをスキップします（デフォルト: False）。 |
-| `--policy` | アーティファクトファイルをアップロードするときのストレージポリシーを設定します（デフォルト: mutable）。 |
+| `--name`, `-n` | プッシュする Artifacts の名前: project/artifact_name |
+| `--description`, `-d` | この Artifacts の説明 |
+| `--type`, `-t` | Artifacts の種類 (デフォルト: データセット) |
+| `--alias`, `-a` | この Artifacts に適用するエイリアス (デフォルト: ['latest']) |
+| `--id` | アップロード先の run |
+| `--resume` | 現在のディレクトリで最後の run を再開します |
+| `--skip_cache` | Artifacts ファイルをアップロードする際にキャッシュをスキップします (デフォルト: False) |
+| `--policy` | Artifacts ファイルをアップロードする際のストレージポリシーを設定します (デフォルト: mutable) |

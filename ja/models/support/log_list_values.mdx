@@ -1,17 +1,17 @@
 ---
-title: 値のリストをログするには？
+title: 値のリストをログに記録するには？
 ---
 
-以下の例では、[`wandb.Run.log()`](/ja/models/ref/python/experiments/run/#method-runlog/) を使って損失を複数の方法でログする方法を示します。
+以下の例では、[`wandb.Run.log()`](/ja/models/ref/python/experiments/run/#method-runlog/) を使って損失を複数の方法でログに記録する方法を示します。
 
 <Tabs>
-  <Tab title="辞書を使う">
+  <Tab title="辞書を使用する">
     ```python
     import wandb
 
-    # 新しい run を初期化する
+    # 新しい run を初期化
     with wandb.init(project="log-list-values", name="log-dict") as run:
-        # 損失を辞書としてログする
+        # 損失を辞書としてログに記録
         losses = [0.1, 0.2, 0.3, 0.4, 0.5]
         run.log({"losses": losses})
         run.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
@@ -22,13 +22,13 @@ title: 値のリストをログするには？
     ```python
     import wandb
 
-    # 新しい run を初期化する
+    # 新しい run を初期化
     with wandb.init(project="log-list-values", name="log-hist") as run:
-        # 損失をヒストグラムとしてログする
+        # 損失をヒストグラムとしてログに記録
         losses = [0.1, 0.2, 0.3, 0.4, 0.5]
         run.log({"losses": wandb.Histogram(losses)})
     ```
   </Tab>
 </Tabs>
 
-詳しくは、[ロギングに関するドキュメント](/ja/models/track/log/)を参照してください。
+詳細については、[ログ記録に関するドキュメント](/ja/models/track/log/) を参照してください。

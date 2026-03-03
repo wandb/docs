@@ -26,16 +26,16 @@ wandb.Table のデータから棒グラフを作成します。
 **引数:**
 
 * `table`:  棒グラフ用のデータを含むテーブル。
-* `label`:  各棒のラベルとして使用する列名。
-* `value`:  各棒の値として使用する列名。
+* `label`:  各バーのラベルとして使用する列名。
+* `value`:  各バーの値として使用する列名。
 * `title`:  棒グラフのタイトル。
-* `split_table`:  テーブルを W&amp;B UI 内の別セクションとして表示するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False`。
+* `split_table`:  テーブルを W&amp;B UI 内で別セクションに分割するかどうか。`True` の場合、テーブルは「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False` です。
 
 **戻り値:**
 
 * `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
 
-**Example:**
+**例:**
 
 ```python
 import random
@@ -52,7 +52,7 @@ data = [
 # データを使ってテーブルを作成する
 table = wandb.Table(data=data, columns=["class", "accuracy"])
 
-# W&B の run を初期化し、棒グラフをログする
+# W&B の run を初期化して棒グラフをログする
 with wandb.init(project="bar_chart") as run:
     # テーブルから棒グラフを作成する
     bar_plot = wandb.plot.bar(

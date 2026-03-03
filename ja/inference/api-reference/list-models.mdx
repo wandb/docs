@@ -1,9 +1,9 @@
 ---
-title: "モデル一覧"
-description: "利用可能なすべてのモデルとその ID を取得する"
+title: "List Models"
+description: "利用可能なモデルとそれぞれの ID を取得する"
 ---
 
-利用可能なすべてのモデルとその ID を取得します。これを使ってモデルを動的に選択したり、利用可能なモデルを確認したりできます。
+利用可能なモデルとそれぞれの ID をすべて取得します。これを使ってモデルを動的に選択したり、利用可能なものを確認したりできます。
 
 <div id="request-examples">
   ## リクエスト例
@@ -17,7 +17,7 @@ import openai
 client = openai.OpenAI(
     base_url="https://api.inference.wandb.ai/v1",
     api_key="<your-api-key>",
-    project="<your-team>/<your-project>"  # 任意（使用状況の追跡に使用）
+    project="<your-team>/<your-project>"  # 省略可能で、利用状況の追跡に使用されます
 )
 
 response = client.models.list()
@@ -40,7 +40,7 @@ curl https://api.inference.wandb.ai/v1/models \
   ## レスポンス形式
 </div>
 
-API は OpenAI 互換形式でレスポンスを返します。
+API は OpenAI 互換のフォーマットでレスポンスを返します。
 
 ```json
 {
