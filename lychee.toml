@@ -80,6 +80,8 @@ exclude = [
   'https://api\.inference\.wandb\.ai/v1',
   # WMDP site - connection closed / blocks crawlers
   '(http|https)://www\.wmdp\.ai',
+  # YouTube embed URLs - often return 404/403 to crawlers but work in browser
+  '(http|https)://www\.youtube\.com/embed/',
 ]
 
 # File/directory paths to exclude from checking
