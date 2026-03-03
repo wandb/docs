@@ -3,7 +3,7 @@ description: Resume a paused or exited W&B Run
 title: Resume a run
 ---
 
-Specify how W&B should respond if a run stops or crashes. When you initialize a run you can specify how W&B should respond if the run stops or crashes by passing an argument to the `resume` parameter. W&B checks if the run ID already exists and responds based on the argument passed to the `resume` parameter.
+Specify how W&B should respond if a run stops or crashes by setting the `resume` parameter in `wandb.init()`. When you initialize a run, W&B checks whether the run ID already exists and applies the behavior defined by the `resume` value.
 
 The following table outlines the behavior of W&B based on the argument passed to the `resume` parameter and whether the run ID exists or not.
 
