@@ -18,9 +18,9 @@ Defines an automation action that sends a (Slack) notification.
 ```python
 __init__(
     integration_id: 'str',
-    title: 'str' = '',
     message: 'str' = '',
     severity: 'AlertSeverity' = <AlertSeverity.INFO: 'INFO'>,
+    title: 'str' = '',
     action_type: 'Literal[NOTIFICATION]' = NOTIFICATION
 ) → None
 ```
@@ -28,9 +28,9 @@ __init__(
 **Args:**
  
  - `integration_id` (str): The ID of the Slack integration that will be used to send the notification.
- - `title` (str): The title of the sent notification.
  - `message` (str): The message body of the sent notification.
  - `severity` (AlertSeverity): The severity (`INFO`, `WARN`, `ERROR`) of the sent notification.
+ - `title` (str): The title of the sent notification.
  - `action_type` (Literal[NOTIFICATION]): 
 
 **Returns:**
