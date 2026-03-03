@@ -22,20 +22,20 @@ line(
 ) → CustomChart
 ```
 
-カスタマイズ可能な折れ線グラフを生成します。
+カスタマイズ可能な折れ線グラフを作成します。
 
 **引数:**
 
 * `table`:   グラフ用のデータを含むテーブル。
 * `x`:  x 軸の値の列名。
 * `y`:  y 軸の値の列名。
-* `stroke`:  線の種類を区別するための列名（例: 複数の線をグループ化するため）。
+* `stroke`:  線を区別するための列名（例: 複数の線をグループ化する場合）。
 * `title`:  グラフのタイトル。
-* `split_table`:  テーブルを W&amp;B UI 内の別セクションとして表示するかどうか。`True` の場合、テーブルは「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False` です。
+* `split_table`:  テーブルを W&amp;B UI の別セクションとして表示するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False`。
 
 **戻り値:**
 
-* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。グラフをログするには、`wandb.log()` に渡します。
+* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。グラフをログするには、これを `wandb.log()` に渡します。
 
 **例:**
 
@@ -47,23 +47,23 @@ import wandb
 # 異なるパターンを持つ複数のデータ系列を作成する
 data = []
 for i in range(100):
-     # 系列1: ランダムノイズを含む正弦波パターン
+     # 系列 1: ランダムノイズを含む正弦波パターン
      data.append([i, math.sin(i / 10) + random.uniform(-0.1, 0.1), "series_1"])
-     # 系列2: ランダムノイズを含む余弦波パターン
+     # 系列 2: ランダムノイズを含む余弦波パターン
      data.append([i, math.cos(i / 10) + random.uniform(-0.1, 0.1), "series_2"])
-     # 系列3: ランダムノイズを含む線形増加
+     # 系列 3: ランダムノイズを含む線形増加
      data.append([i, i / 10 + random.uniform(-0.5, 0.5), "series_3"])
 
 # テーブルの列を定義する
 table = wandb.Table(data=data, columns=["step", "value", "series"])
 
-# wandb runを初期化して折れ線グラフをログに記録する
+# wandb の run を初期化して折れ線グラフをログに記録する
 with wandb.init(project="line_chart_example") as run:
      line_chart = wandb.plot.line(
          table=table,
          x="step",
          y="value",
-         stroke="series",  # "series"列でグループ化する
+         stroke="series",  # "series" 列でグループ化する
          title="Multi-Series Line Plot",
      )
      run.log({"line-chart": line_chart})

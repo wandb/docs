@@ -1,10 +1,10 @@
 ---
-title: "カスタムモデルコスト"
-description: "W&B Weave でカスタムモデルコストを使用する方法"
+title: "カスタム モデルコスト"
+description: "W&B Weave でカスタム モデルコストの利用方法を学ぶ"
 ---
 
 <Note>
-これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを利用できます:
+これはインタラクティブなノートブックです。ローカルで実行するか、次のリンクから開いてください：
 - [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/custom_model_cost.ipynb)
 - [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/custom_model_cost.ipynb)
 </Note>
@@ -13,21 +13,21 @@ description: "W&B Weave でカスタムモデルコストを使用する方法"
   # カスタムコストモデルのセットアップ
 </div>
 
-Weave は、使用されたトークン数と利用されたモデルに基づいてコストを計算します。
-Weave はこの使用量とモデル情報を出力から取得し、それらを呼び出しに関連付けます。
+Weave は、使用されたトークン数と モデル に基づいてコストを計算します。
+Weave はこの使用量と モデル を出力から取得し、それらを呼び出しに関連付けます。
 
-独自にトークン使用量を計算し、その結果を Weave 内に保存する、シンプルなカスタムモデルをセットアップしてみましょう。
+独自にトークン使用量を計算し、その結果を Weave に保存するシンプルなカスタム モデル をセットアップしてみましょう。
 
 <div id="set-up-the-environment">
   ## 環境をセットアップする
 </div>
 
 必要なパッケージをすべてインストールして import します。
-`WANDB_API_KEY` を環境変数に設定して、`wandb.login()` で簡単にログインできるようにします（これは Colab にシークレットとして渡す必要があります）。
+`WANDB_API_KEY` を環境変数に設定し、`wandb.login()` で簡単にログインできるようにします（これは Colab に secret として渡しておきます）。
 
-W&amp;B でこのログを記録したいプロジェクトを、`name_of_wandb_project` に設定します。
+W&amp;B でこのログを記録したい Projects を、`name_of_wandb_project` に設定します。
 
-***NOTE:*** チームに対してトレースを記録するには、`name_of_wandb_project` を `{team_name}/{project_name}` の形式にすることもできます。
+***NOTE:*** `name_of_wandb_project` は、トレースを記録するチームを指定するために、`{team_name}/{project_name}` という形式にすることもできます。
 
 その後、`weave.init()` を呼び出して Weave クライアントを取得します。
 
@@ -51,7 +51,7 @@ weave_client = weave.init(name_of_wandb_project)
 
 
 <div id="setting-up-a-model-with-weave">
-  ## Weave でモデルを設定する
+  ## Weave でモデルをセットアップする
 </div>
 
 ```python lines
@@ -89,7 +89,7 @@ class YourModel(Model):
             "output": prediction,
         }
 
-    # predict 関数でカスタム生成関数を呼び出し、出力を返します。
+    # predict 関数では、カスタム生成関数を呼び出して出力を返します。
     @weave.op()
     def predict(self, input_data: str) -> dict:
         # データの後処理はここで行います
@@ -102,19 +102,19 @@ class YourModel(Model):
   ## カスタムコストを追加する
 </div>
 
-ここではカスタムコストを追加します。カスタムコストが設定され、呼び出しに usage がある状態になったら、`include_cost` を指定して呼び出しを取得できます。このとき、呼び出しのコストは `summary.weave.costs` に格納されます。
+ここではカスタムコストを追加します。カスタムコストが設定され、呼び出しに usage 情報が記録されるようになったら、`include_cost` を指定して呼び出しを取得できるようになり、取得した呼び出しのコストは `summary.weave.costs` 配下に格納されます。
 
 ```python lines
 model = YourModel(attribute1="Hello", attribute2=1)
 model.predict("world")
 
-# カスタムコストをプロジェクトに追加する
+# カスタムコストをプロジェクトに追加します
 weave_client.add_cost(
     llm_id="your_model_name", prompt_token_cost=0.1, completion_token_cost=0.2
 )
 
-# callsをクエリし、include_costs=True を指定することで
-# コストがcallsに付与された状態で返される
+# calls をクエリできます。include_costs=True を指定すると、
+# コストが calls に付与された状態で返されます
 calls = weave_client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
 
 list(calls)

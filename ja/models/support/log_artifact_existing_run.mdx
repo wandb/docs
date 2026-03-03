@@ -1,8 +1,8 @@
 ---
-title: 既存の run にアーティファクトをログするにはどうすればよいですか？
+title: 既存の run に Artifacts をログするにはどうすればよいですか？
 ---
 
-場合によっては、以前にログした run の出力としてアーティファクトをマークする必要があります。この場合は、次のように古い run を再初期化して新しいアーティファクトをログします。
+場合によっては、以前にログした run の出力として Artifacts を指定する必要があります。この場合は、古い run を再度初期化し、次のように新しい Artifacts をログします。
 
 ```python
 with wandb.init(id="existing_run_id", resume="allow") as run:

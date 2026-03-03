@@ -20,20 +20,20 @@ histogram(
 ) → CustomChart
 ```
 
-W&amp;B Table からヒストグラムチャートを作成します。
+W&amp;B Table からヒストグラム チャートを生成します。
 
-**引数:**
+**Args:**
 
 * `table`:  ヒストグラム用のデータを含む W&amp;B Table。
 * `value`:  ビン軸（x 軸）のラベル。
-* `title`:  ヒストグラムプロットのタイトル。
-* `split_table`:  テーブルを W&amp;B UI 内で別セクションとして表示するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+* `title`:  ヒストグラム プロットのタイトル。
+* `split_table`:  W&amp;B UI 内でテーブルを別セクションに分割するかどうか。`True` の場合、テーブルは「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False`。
 
-**戻り値:**
+**Returns:**
 
-* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
+* `CustomChart`:  W&amp;B にログできるカスタム チャート オブジェクト。チャートをログするには、`wandb.log()` に渡します。
 
-**例:**
+**Example:**
 
 ```python
 import math
@@ -43,7 +43,7 @@ import wandb
 # ランダムデータを生成する
 data = [[i, random.random() + math.sin(i / 10)] for i in range(100)]
 
-# W&B Tableを作成する
+# W&B Table を作成する
 table = wandb.Table(
     data=data,
     columns=["step", "height"],
@@ -56,7 +56,7 @@ histogram = wandb.plot.histogram(
     title="My Histogram",
 )
 
-# ヒストグラムプロットをW&Bにログする
+# ヒストグラムプロットを W&B にログする
 with wandb.init(...) as run:
     run.log({"histogram-plot1": histogram})
 ```

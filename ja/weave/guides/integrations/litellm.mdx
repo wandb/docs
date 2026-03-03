@@ -1,23 +1,23 @@
 ---
 title: "LiteLLM"
-description: "LiteLLM 経由の LLM 呼び出しを自動的に追跡してログに記録する"
+description: "LiteLLM 経由で行われる LLM 呼び出しを自動的に追跡してログに記録する"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_litellm.ipynb" aria-label="Google Colab で開く">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く"/>
 </a>
 
-Weave は、`weave.init()` が呼び出された後に、LiteLLM 経由の LLM 呼び出しを自動的に追跡してログに記録します。
+Weave は、`weave.init()` が呼び出された後に LiteLLM 経由で行われる LLM 呼び出しを自動的に追跡してログに記録します。
 
 <div id="traces">
   ## トレース
 </div>
 
-LLM アプリケーションのトレースを、開発中と本番環境の両方で集中管理されたデータベースに保存することは重要です。これらのトレースはデバッグに使用するほか、アプリケーションの改善に役立つデータセットとしても利用します。
+LLM アプリケーションのトレースを、開発中と本番環境のどちらにおいても中央のデータベースに保存しておくことは重要です。これらのトレースはデバッグに利用できるほか、アプリケーションを改善するのに役立つデータセットとしても利用できます。
 
-> **注:** LiteLLM を使用する場合は、`import litellm` でライブラリをインポートし、`from litellm import completion` ではなく `litellm.completion` として completion 関数を呼び出してください。これにより、すべての関数やパラメータが正しく参照されます。
+> **Note:** LiteLLM を使用する場合は、`import litellm` を使ってライブラリをインポートし、`from litellm import completion` ではなく `litellm.completion` で completion 関数を呼び出してください。これにより、すべての関数とパラメーターが正しく参照されることが保証されます。
 
-Weave は LiteLLM のトレースを自動的にキャプチャします。ライブラリは通常どおり使用でき、まずは `weave.init()` を呼び出してください。
+Weave は LiteLLM のトレースを自動的に取得します。ライブラリは通常どおり使用でき、まずは `weave.init()` を呼び出してください。
 
 ```python lines {4}
 import litellm
@@ -40,14 +40,14 @@ claude_response = litellm.completion(
 print(claude_response.choices[0].message.content)
 ```
 
-Weave は、LiteLLM 経由ですべての LLM 呼び出しを追跡し、ログとして記録するようになります。トレースは Weave の Web インターフェースで確認できます。
+これで Weave は、LiteLLM を通じて行われたすべての LLM 呼び出しを追跡してログに記録するようになります。トレースは Weave の Web インターフェース上で確認できます。
 
 
 <div id="wrapping-with-your-own-ops">
-  ## 独自の ops でラップする
+  ## 独自の op でラップする
 </div>
 
-Weave の ops は、実験中のコードを自動的にバージョン管理し、入力と出力を記録することで、結果を再現可能にします。`@weave.op()` でデコレートした関数を作成し、その中で LiteLLM の completion 関数を呼び出すだけで、Weave が入力と出力を追跡します。次に例を示します：
+Weave の op は、実験中のコードに対して自動的にバージョン管理を行い、入力と出力を記録することで、結果の再現性を確保します。`@weave.op()` でデコレートした関数を作成し、その中で LiteLLM の completion 関数を呼び出すだけで、Weave が入力と出力を追跡してくれます。次に例を示します。
 
 ```python lines {4,6}
 import litellm
@@ -73,11 +73,11 @@ print(translate("Hello, how are you?", "Spanish", "claude-3-5-sonnet-20240620"))
   ## より簡単に実験するために `Model` を作成する
 </div>
 
-多くの要素が関わると、実験を整理するのは難しくなります。`Model` クラスを使うと、システムプロンプトや使用しているモデルなど、アプリの実験に関する詳細を記録・整理できます。これにより、アプリのさまざまなバージョンを体系的に整理して比較しやすくなります。
+要素が多いと、実験を整理するのは難しくなります。`Model` クラスを使うことで、システムプロンプトや使用しているモデルなど、アプリの実験に関する詳細を記録・整理できます。これにより、アプリのさまざまなバージョンを整理・比較しやすくなります。
 
-コードのバージョニングや入出力の記録に加えて、Models はアプリケーションの動作を制御するパラメータを構造化して保持するため、どのパラメータが最も有効だったかを簡単に見つけることができます。Weave Models は `serve` や Evaluations と組み合わせて利用することもできます。
+コードのバージョニングや入力／出力の記録に加えて、Models はアプリケーションの挙動を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も良かったかを簡単に特定できます。また、Weave Models を `serve` や Evaluations と組み合わせて使用することもできます。
 
-次の例では、異なるモデルや temperature パラメータを変えて実験できます。
+次の例では、異なるモデルや temperature を使って実験できます。
 
 ```python lines {4,6,10}
 import litellm
@@ -106,7 +106,7 @@ class TranslatorModel(weave.Model):
 gpt_translator = TranslatorModel(model="gpt-3.5-turbo", temperature=0.3)
 claude_translator = TranslatorModel(model="claude-3-5-sonnet-20240620", temperature=0.1)
 
-# 翻訳に異なるモデルを使用する
+# 異なるモデルを使って翻訳する
 english_text = "Hello, how are you today?"
 
 print("GPT-3.5 フランス語への翻訳:")
@@ -118,10 +118,10 @@ print(claude_translator.predict(english_text, "Spanish"))
 
 
 <div id="function-calling">
-  ## Function Calling
+  ## 関数呼び出し
 </div>
 
-LiteLLM は、対応しているモデルで Function Calling 機能をサポートします。Weave は、これらの関数呼び出しを自動的に記録します。
+LiteLLM は、対応する モデル での関数呼び出しをサポートします。Weave はこれらの関数呼び出しを自動的に追跡します。
 
 ```python lines {4}
 import litellm
@@ -157,6 +157,6 @@ response = litellm.completion(
 print(response)
 ```
 
-プロンプト内で使用した関数を自動的に記録し、バージョン管理します。
+プロンプトで使用した関数を自動的にキャプチャし、バージョン管理します。
 
 [![litellm.gif](/weave/guides/integrations/imgs/litellm.gif)](https://wandb.ai/a-sh0ts/weave_litellm_integration/weave/calls)

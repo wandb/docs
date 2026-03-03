@@ -1,13 +1,13 @@
 ---
-title: "コード生成"
-description: "W&B Weave でのコード生成の使い方を学ぶ"
+title: "Codegen"
+description: "W&B Weave で Codegen を使う方法を学ぶ"
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから開くこともできます：
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから利用できます:
 
   * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/codegen.ipynb)
-  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/codegen.ipynb)
+  * [GitHub 上のソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/codegen.ipynb)
 </Note>
 
 ##
@@ -16,38 +16,38 @@ description: "W&B Weave でのコード生成の使い方を学ぶ"
   # Weave と OpenAI を用いたコード生成
 </div>
 
-適切な構造、ドキュメント、テストを備えた高品質なコードを生成することは、容易ではありません。このガイドでは、コード生成パイプラインの実装方法を説明します。HumanEval テストスイートに対して高品質な Python 関数を生成するコード生成パイプラインを作成する方法を学びます。
+適切な構造、ドキュメント、テストを備えた高品質なコードを生成することは、困難なタスクです。このガイドでは、humaneval テストスイートに対して高品質な Python 関数を生成するコード生成パイプラインの実装方法を解説します。
 
-評価結果の比較とトラッキングには Weave を使用し、コード生成には構造化出力に対応した OpenAI の GPT モデルを使用します。
+評価結果の比較とトラッキングには Weave を使用し、構造化出力を用いたコード生成には OpenAI の GPT モデルを使用します。
 
 <Frame>
   ![Evaluation](/media/codegen/eval_dash.png)
 </Frame>
 
 <div id="video-demonstration">
-  ## 動画デモ
+  ## ビデオ デモ
 </div>
 
-Weave、Groq、E2B を使ったコード生成パイプラインを視覚的に確認したい場合は、次の動画をご覧ください。
+Weave、Groq、E2B を使ったコード生成パイプラインを視覚的に確認するには、次のビデオをご覧ください:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/B70jJYPVAzE?si=75Z4Fg_DBxAiu9_6&amp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen />
+<iframe width="560" height="315" src="https://www.youtube.com/embed/B70jJYPVAzE?si=75Z4Fg_DBxAiu9_6&" title="YouTube 動画プレーヤー" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen />
 
-この動画では、プロセスをステップごとに解説し、Weave が Groq と統合されて強力なコード生成ツールを実現し、その後 E2B 上でコードを実行して検証する様子を紹介します。この後の例では OpenAI を使用していますが、Weave では任意の LLM プロバイダを利用できます。
+このビデオでは、プロセスをステップごとに解説し、Weave が Groq と連携して強力なコード生成ツールを構築し、その後コードを E2B 上で実行して検証する様子を紹介します。以下の例では OpenAI を使用していますが、Weave では任意の LLM プロバイダーを組み合わせて使用できます。
 
 <div id="why-use-weave">
   ## なぜ Weave を使うのか？
 </div>
 
-このチュートリアルでは、Weave を使ってコード生成パイプラインを構築し、評価します。次のことを学びます。
+このチュートリアルでは、Weave を使ってコード生成パイプラインを実装し、評価します。次のことを学びます。
 
-1. **LLM パイプラインを追跡する**: コード生成プロセスの入力、出力、および中間ステップをログに記録します。
-2. **LLM の出力を評価する**: 生成されたコードの評価を作成・比較し、強力なデバッグツールと可視化機能を活用します。
+1. **LLM パイプラインをトラッキングする**: コード生成パイプラインにおける入力・出力や中間ステップをログとして記録します。
+2. **LLM の出力を評価する**: 生成されたコードに対する評価を作成・比較し、強力なデバッグツールと可視化機能を活用します。
 
 <div id="set-up-the-environment">
   ## 環境を準備する
 </div>
 
-まず、実行環境を準備し、必要なライブラリをインポートします：
+まずは環境を整え、必要なライブラリをインポートします。
 
 ```python lines
 !pip install -qU autopep8 autoflake weave isort openai set-env-colab-kaggle-dotenv datasets
@@ -89,20 +89,20 @@ selected_examples = human_eval["test"][:3]
 ```
 
 <Note>
-  Weave は OpenAI API 呼び出しを、入力・出力・メタデータを含めて自動で追跡します。つまり、OpenAI とのやり取りのために追加のログ出力用コードを書く必要はありません。Weave がバックグラウンドでシームレスに処理します。
+  Weave は OpenAI API 呼び出しを自動的に追跡し、入力・出力およびメタデータを記録します。つまり、OpenAI とのやり取りのために追加のロギング用コードを書く必要はありません。Weave がバックグラウンドでシームレスに処理します。
 </Note>
 
 <div id="leveraging-structured-outputs-and-pydantic-models">
   ## Structured Outputs と Pydantic モデルの活用
 </div>
 
-このコード生成パイプラインでは、OpenAI の [structured outputs モード](https://platform.openai.com/docs/guides/structured-outputs) と Pydantic モデルを利用して、言語モデルから一貫性があり、整った形式のレスポンスを得ています。このアプローチには次のような利点があります。
+このコード生成パイプラインでは、OpenAI の [structured outputs モード](https://platform.openai.com/docs/guides/structured-outputs) と Pydantic モデルを利用して、言語モデルから一貫性があり、整った形式の応答を得られるようにしています。このアプローチには次のような利点があります。
 
-1. **型安全性**: 想定される出力に対して Pydantic モデルを定義することで、生成されるコード、プログラム実行用コード、ユニットテストに厳密な構造を課すことができます。
-2. **容易なパース**: structured outputs モードにより、モデルのレスポンスを事前定義した Pydantic モデルに直接パースでき、複雑な後処理の必要性を減らせます。
-3. **信頼性の向上**: 期待するフォーマットを正確に指定することで、言語モデルから予期しない、あるいは不正な形式の出力が生成される可能性を低減できます。
+1. **型安全性**: 期待される出力に対して Pydantic モデルを定義することで、生成されるコード、プログラム実行コンポーネント、およびユニットテストに厳密な構造を課すことができます。
+2. **パースの容易さ**: structured outputs モードにより、モデルの応答を事前に定義した Pydantic モデルに直接パースでき、複雑な事後処理の必要性を減らします。
+3. **信頼性の向上**: 期待するフォーマットを正確に指定することで、言語モデルから予期しない形式や不正な形式の出力が返される可能性を低減できます。
 
-以下は、Pydantic モデルをどのように定義し、OpenAI の structured outputs と組み合わせて使用するかの例です。
+以下は、Pydantic モデルをどのように定義し、OpenAI の structured outputs とどのように組み合わせて使うかの例です。
 
 ```python lines
 class GeneratedCode(BaseModel):
@@ -115,10 +115,10 @@ class FormattedGeneratedCode(BaseModel):
 ```
 
 <div id="implementing-a-code-formatter">
-  ## コードフォーマッタの実装
+  ## コードフォーマッターの実装
 </div>
 
-一貫性のあるクリーンなコード出力を実現するために、Weave のオペレーションを用いて `CodeFormatter` クラスを実装します。このフォーマッタは、生成されたコード、プログラムランナー、およびユニットテストに対して、さまざまなリントおよびスタイルルールを適用します。
+一貫性のあるクリーンなコード出力を確保するために、Weave のオペレーションを用いて `CodeFormatter` クラスを実装します。このフォーマッターは、生成されたコード、プログラムランナー、および単体テストに対して、さまざまな lint やスタイルのルールを適用します。
 
 ```python lines
 class CodeFormatter(BaseModel):
@@ -171,7 +171,7 @@ class CodeFormatter(BaseModel):
         global_names -= local_names
         global_names -= {"sorted"}  # 組み込み関数を削除する
 
-        # インポート文を構築する
+        # import 文を構築する
         import_statements = []
         for module, names in from_imports.items():
             names_str = ", ".join(sorted(names))
@@ -185,7 +185,7 @@ class CodeFormatter(BaseModel):
     def format_generated_code(
         self, generated_code: GeneratedCode
     ) -> FormattedGeneratedCode:
-        # コードの各部分を結合する
+        # コードのパーツを結合する
         full_code = f"{generated_code.function_signature}\n{generated_code.function_args_with_docstring_within_triple_quotes}\n{generated_code.code_logic}"
 
         # 適切なインデントを確保する
@@ -209,13 +209,13 @@ class CodeFormatter(BaseModel):
         return FormattedGeneratedCode(full_code=cleaned_code)
 ```
 
-この `CodeFormatter` クラスは、生成されたコードをクリーンアップして整形するための複数の Weave のオペレーションを提供します：
+この `CodeFormatter` クラスは、生成されたコードをクリーンアップして整形するためのいくつかの Weave オペレーションを提供します：
 
 * エスケープされた改行文字を実際の改行に置き換える
-* 未使用のインポートと変数を削除する
-* インポートをソートする
-* PEP 8 に従ったフォーマットを適用する
-* 不足しているインポートを追加する
+* 未使用の import と変数を削除する
+* import をソートする
+* PEP 8 準拠のフォーマットを適用する
+* 不足している import を追加する
 
 <div id="define-the-codegenerationpipeline">
   ## CodeGenerationPipeline を定義する
@@ -225,9 +225,9 @@ class CodeFormatter(BaseModel):
   ![Code Generation Pipeline](/media/codegen/codegen_trace.png)
 </Frame>
 
-では、コアとなるコード生成ロジックを実装しましょう。
+ここでは、コード生成の中核となるロジックを実装します。
 
-`weave.Model` を使うことで、変更があった際に自動的にバージョン管理されるようにしています。また、`model_name` を属性として保持しておくことで、それを使って実験したり、Weave 上で簡単に差分を取って比較できるようにしています。`@weave.op` で関数呼び出しをトラッキングし、入力と出力をログに記録することで、エラーの追跡やデバッグに役立てています。
+`weave.Model` を使うことで、変更があった際に自動的にバージョン管理されます。また、`model_name` を属性として保持しておくことで、それを使って実験を行い、Weave 内で簡単に差分を取って比較できます。`@weave.op` を使って関数呼び出しをトラッキングすることで、入力と出力がログに記録され、エラー追跡やデバッグに役立ちます。
 
 ```python lines
 class CodeGenerationPipeline(weave.Model):
@@ -257,7 +257,7 @@ class CodeGenerationPipeline(weave.Model):
             messages=[
                 {
                     "role": "system",
-                    "content": "You are an expert Python code generator.",
+                    "content": "あなたは熟練した Python コードジェネレーターです。",
                 },
                 {"role": "user", "content": prompt},
             ],
@@ -270,19 +270,19 @@ class CodeGenerationPipeline(weave.Model):
             raise ValueError(message.refusal)
 ```
 
-This `CodeGenerationPipeline` クラスは、コード生成ロジックを Weave モデルとしてカプセル化しており、次のような主な利点があります。
+この `CodeGenerationPipeline` クラスは、コード生成ロジックを Weave Model としてカプセル化しており、いくつかの重要な利点を提供します。
 
-1. 実験の自動トラッキング: Weave がモデルの各 run に対する入力、出力、およびパラメータを自動的に記録します。
-2. バージョニング: モデルの属性やコードへの変更は自動的にバージョン管理され、コード生成パイプラインがどのように進化してきたかの明確な履歴が作成されます。
-3. 再現性: バージョニングとトラッキングにより、コード生成パイプラインの過去の結果や任意の設定を簡単に再現できます。
-4. ハイパーパラメータ管理: `model_name` のようなモデル属性が明確に定義され、異なる run をまたいでトラッキングされるため、実験を行いやすくなります。
-5. Weave エコシステムとのインテグレーション: `weave.Model` を使用することで、評価機能やサービング機能など、他の Weave ツールとのシームレスなインテグレーションが可能になります。
+1. 自動実験管理: Weave はモデルの各 run ごとに、入力・出力・パラメーターを自動的に記録します。
+2. バージョニング: モデルの属性やコードの変更は自動的にバージョン管理され、コード生成パイプラインが時間とともにどのように進化してきたかの明確な履歴が作成されます。
+3. 再現性: バージョニングとトラッキングにより、コード生成パイプラインの過去の結果や任意の設定を容易に再現できます。
+4. ハイパーパラメーター管理: `model_name` のようなモデル属性が明確に定義され、異なる run 間で追跡されるため、実験が容易になります。
+5. Weave エコシステムとのインテグレーション: `weave.Model` を使用することで、評価やサービング機能など、他の Weave ツールとのシームレスな統合が可能になります。
 
 <div id="implement-evaluation-metrics">
   ## 評価メトリクスを実装する
 </div>
 
-生成されたコードの品質を評価するために、`weave.Scorer` のサブクラスを使ってシンプルな評価メトリクスを実装します。これは、データセット内の各 `model_output` に対して `score` を実行します。`model_output` は、`weave.Model` の `predict` 関数の出力から得られます。`prompt` は、データセット `human-eval` から取得されます。
+生成されたコードの品質を評価するために、`weave.Scorer` のサブクラスを使って簡単な評価メトリクスを実装します。これにより、データセット内のすべての `model_output` に対して `score` が実行されます。`model_output` は、`weave.Model` における `predict` 関数の出力から得られます。`prompt` は データセット `human-eval` から取得されます。
 
 ```python lines
 CODE_TEMPLATE = """
@@ -317,7 +317,7 @@ async def score_humaneval_test(test: str, entry_point: str, output: str):
         tmp_file_path = tmp_file.name
 
     try:
-        # 一時Pythonファイルをタイムアウト付きのサブプロセスとして実行する
+        # タイムアウト付きのサブプロセスとして一時 Python ファイルを実行する
         result = subprocess.run(
             ["python", tmp_file_path],
             capture_output=True,
@@ -336,21 +336,21 @@ async def score_humaneval_test(test: str, entry_point: str, output: str):
     except Exception as e:
         return {"correct": False, "error": traceback.format_exc()}
     finally:
-        # 実行後に一時ファイルが確実に削除されるようにする
+        # 実行後に一時ファイルを確実に削除する
         os.remove(tmp_file_path)
 ```
 
-これらの評価関数は生成されたコードを実行し、コードがデータセット内で定義されたテストに合格したかどうかを示す真偽値を返します。
+これらの評価関数は生成されたコードを実行し、データセットに含まれるテストにコードが合格したかどうかを示す真偽値を返します。
 
 <Frame>
   ![Evaluation](/media/codegen/eval_trace.png)
 </Frame>
 
 <div id="create-a-weave-dataset-and-run-evaluation">
-  ## Weave データセットを作成して評価を実行する
+  ## Weave Dataset を作成して評価を実行する
 </div>
 
-このパイプラインを評価するために、Weave データセットを作成し、評価を実行します。
+このパイプラインを評価するために、Weave Dataset を作成し、評価を実行します。
 
 ```python lines
 formatted_selected_examples = [
@@ -402,23 +402,23 @@ for model_name in ["gpt-4o-2024-08-06"]:
         results = await evaluation.evaluate(pipeline)
 ```
 
-このコードでは、サンプルのプロンプトを含むデータセットを作成し、humaneval のテストスコアラーを定義し、コード生成パイプラインの評価を実行します。
+このコードでは、サンプルプロンプトを含むデータセットを作成し、humaneval テストスコアラーを定義し、コード生成パイプラインの評価を実行します。
 
 <Frame>
-  ![Final Evaluation](/media/codegen/eval_dash.png)
+  ![最終評価](/media/codegen/eval_dash.png)
 </Frame>
 
 <div id="conclusion">
   ## まとめ
 </div>
 
-この例では、Weave と OpenAI の言語モデルを用いてコード生成パイプラインを実装する方法を示しました。ここでは次のことを行いました。
+この例では、Weave と OpenAI の言語モデルを使ってコード生成パイプラインを実装する方法を説明しました。具体的には次のことを行いました。
 
-1. コード生成プロセスの各ステップごとに Weave operation を作成する
+1. コード生成プロセスの各ステップに対して Weave オペレーションを作成する
 2. パイプラインを Weave Model でラップして、トラッキングと評価を容易にする
-3. Weave operation を使ってカスタム評価メトリクスを実装する
+3. Weave オペレーションを使ってカスタム評価メトリクスを実装する
 4. データセットを作成し、パイプラインの評価を実行する
 
-Weave のシームレスなインテグレーションにより、コード生成プロセス全体を通して入力、出力、および中間ステップをトラッキングできるため、LLM アプリケーションのデバッグ、最適化、評価が容易になります。
+Weave のシームレスなインテグレーションにより、コード生成プロセス全体を通して入力、出力、および中間ステップをトラッキングできるため、LLM アプリケーションのデバッグ、最適化、および評価が容易になります。
 
-Weave とその機能についての詳細は、[Weave documentation](/ja/weave) を参照してください。より大きなデータセットを扱えるようにしたり、より高度な評価メトリクスを実装したり、他の LLM ワークフローとインテグレーションしたりする形で、この例を拡張できます。
+Weave とその機能の詳細については、[Weave のドキュメント](/ja/weave) を参照してください。より大きなデータセットを扱ったり、より高度な評価メトリクスを実装したり、他の LLM ワークフローとインテグレーションしたりするように、この例を拡張できます。

@@ -1,6 +1,6 @@
 ---
 title: Artifacts
-description: データのバージョン管理のために W&B Artifacts を作成、更新、ダウンロード、管理します。
+description: データバージョニング用の W&B Artifacts の作成、更新、ダウンロード、および管理について説明します。
 ---
 
 import ArtifactCreate from '/snippets/ja/_includes/code-examples/artifact_create.mdx';
@@ -18,89 +18,88 @@ import ArtifactTtlExisting from '/snippets/ja/_includes/code-examples/artifact_t
 import ArtifactUpdate from '/snippets/ja/_includes/code-examples/artifact_update.mdx';
 import ArtifactUpdateExisting from '/snippets/ja/_includes/code-examples/artifact_update_existing.mdx';
 
-データのバージョニング用に W&amp;B Artifacts を作成、更新、ダウンロード、管理します。
-
+データのバージョニングのために W&amp;B Artifacts を作成、更新、ダウンロード、管理できます。
 
 <div id="create-and-log-an-artifact">
-  ## アーティファクトの作成とログ記録
+  ## Artifacts を作成して記録する
 </div>
 
 <ArtifactCreate />
 
 <div id="track-an-external-artifact-by-adding-a-reference-to-a-cloud-storage-bucket-path">
-  ## クラウドストレージバケットパスへの参照を追加して外部アーティファクトを追跡する
+  ## クラウドストレージバケットのパスへの参照を追加して、外部 Artifacts を追跡する
 </div>
 
 <ArtifactCreateTrackExternal />
 
 <div id="delete-specific-artifact-version-from-a-run">
-  ## run から特定のアーティファクトのバージョンを削除する
+  ## run から特定の Artifacts バージョンを削除する
 </div>
 
 <ArtifactDelete />
 
 <div id="delete-an-artifact-collection">
-  ## アーティファクトコレクションを削除する
+  ## Artifacts コレクションを削除する
 </div>
 
 <ArtifactDeleteCollection />
 
 <div id="download-specific-files-or-sub-folders-from-artifacts">
-  ## アーティファクト内の特定のファイルやサブフォルダをダウンロードする
+  ## Artifacts から特定のファイルやサブフォルダーをダウンロードする
 </div>
 
 <ArtifactDownloadPartial />
 
 <div id="download-files-or-entire-artifacts">
-  ## ファイルまたはアーティファクト全体のダウンロード
+  ## ファイルまたは Artifacts 全体をダウンロードする
 </div>
 
 <ArtifactsDownload />
 
 <div id="add-one-or-more-aliases-to-an-artifact-when-logging-it">
-  ## アーティファクトをログに記録するときに 1 つ以上のエイリアスを追加する
+  ## Artifacts のログ記録時にエイリアスを 1 つ以上追加する
 </div>
 
 <ArtifactAddAlias />
 
 <div id="add-an-alias-to-an-existing-artifact">
-  ## 既存のアーティファクトにエイリアスを追加する
+  ## 既存の Artifacts にエイリアスを追加する
 </div>
 
 <ArtifactAddAliasExisting />
 
 <div id="add-a-tag-to-an-artifact-when-logging-it">
-  ## アーティファクトをログに記録する際にタグを追加する
+  ## Artifacts のログ記録時にタグを追加する
 </div>
 
 <ArtifactAddTag />
 
 <div id="add-a-tag-to-an-existing-artifact">
-  ## 既存のアーティファクトにタグを追加
+  ## 既存の Artifacts にタグを追加
 </div>
 
 <ArtifactAddTagExisting />
 
 <div id="create-and-log-an-artifact-with-a-ttl-policy">
-  ## TTL ポリシー付きアーティファクトを作成してログに記録する
+  ## TTL ポリシー付き Artifacts を作成してログに記録する
 </div>
 
 <ArtifactTtl />
 
 <div id="update-the-ttl-policy-of-an-existing-artifact">
-  ## 既存アーティファクトの TTL ポリシーを更新する
+  ## 既存の Artifacts に対する TTL ポリシーを更新する
 </div>
 
 <ArtifactTtlExisting />
 
 <div id="update-an-existing-artifacts-description-within-a-run">
-  ## run 内で既存のアーティファクトの説明を更新する
+  ## 既存の run 内で Artifacts の説明を更新する
 </div>
 
 <ArtifactUpdate />
 
 <div id="given-an-existing-artifact-update-its-description-metadata-and-aliases-without-creating-a-new-run">
-  ## 既存のアーティファクトの説明、メタデータ、エイリアスを、新しい run を作成せずに更新する
+  ## 既存の Artifacts の説明、メタデータ、およびエイリアスを、新しい run を作成せずに更新する
 </div>
 
 <ArtifactUpdateExisting />

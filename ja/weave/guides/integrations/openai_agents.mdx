@@ -1,15 +1,15 @@
 ---
 title: "OpenAI Agents SDK"
-description: "OpenAI Agents SDK とともに W&B Weave を使用して、エージェント型アプリケーションをトラッキングおよびモニタリングする"
+description: "OpenAI Agents SDK と W&B Weave を使用してエージェント型アプリケーションを追跡および監視する"
 ---
 
-[OpenAI Agents Python SDK](https://github.com/openai/openai-agents-python) は、マルチエージェントワークフローを構築するための軽量かつ強力なフレームワークです。OpenAI Agents SDK と W&B Weave を組み合わせて利用すると、エージェント型アプリケーションをトラッキングおよびモニタリングできます。
+[OpenAI Agents Python SDK](https://github.com/openai/openai-agents-python) は、マルチエージェントワークフローを構築するための軽量かつ強力なフレームワークです。OpenAI Agents SDK と W&B Weave を併用して、エージェント型アプリケーションを追跡および監視できます。
 
 <div id="installation">
   ## インストール
 </div>
 
-`pip` を使って必要な依存関係をインストールします。
+`pip` を使用して必要な依存関係をインストールします:
 
 ```bash
 pip install weave openai-agents
@@ -20,13 +20,13 @@ pip install weave openai-agents
   ## はじめに
 </div>
 
-OpenAI Agents SDK を Weave と一緒に使うには、次の手順を実行します:
+OpenAI Agents SDK を Weave と併用するには、次の手順を実行します:
 
 * プロジェクト名を指定して Weave を初期化する
-* エージェントに Weave のトレーシングプロセッサを追加する
-* 通常どおりエージェントを作成して実行する
+* Weave tracing プロセッサをエージェントに追加する
+* いつもどおりエージェントを作成して実行する
 
-次のコードサンプルでは、OpenAI Agent を作成し、トレース可能にするために Weave と統合しています。最初に Weave プロジェクトを初期化し、`WeaveTracingProcessor` をセットアップして実行トレースを取得します。天気情報を表すために `Weather` データモデルを作成します。`get_weather` 関数は、エージェントが利用できるツールとしてデコレータで指定され、サンプルの天気レポートを返します。`Hello world` という名前のエージェントは、基本的な指示と天気ツールへのアクセス権を持つように構成されています。メイン関数は、サンプル入力（`What's the weather in Tokyo?`）でエージェントを非同期に実行し、最終的な応答を出力します。
+以下のコードサンプルでは、OpenAI Agent を作成し、トレース可能にするために Weave と統合しています。まず、Weave プロジェクトを初期化し、`WeaveTracingProcessor` を設定して実行トレースを取得します。天気情報を表す `Weather` データモデルを作成します。`get_weather` 関数は、エージェントが使用できるツールとしてデコレータで指定され、サンプルの天気レポートを返します。`Hello world` という名前のエージェントは、基本的な指示と天気ツールへのアクセス権を持つように構成されています。`main` 関数は、サンプル入力（`What's the weather in Tokyo?`）でエージェントを非同期に実行し、最終的な応答を出力します。
 
 ```python lines
 from pydantic import BaseModel
@@ -65,4 +65,4 @@ if __name__ == "__main__":
   ## トレースを表示する
 </div>
 
-上記のコードサンプルを実行すると、Weave のダッシュボードへのリンクが生成されます。エージェントの実行中に何が起こったかを確認するには、そのリンクを開いてエージェントのトレースを表示してください。 
+上記のコードサンプルを実行すると、Weave ダッシュボードへのリンクが生成されます。エージェントの実行中に何が起こったかを確認するには、そのリンクを開いてエージェントのトレースを表示してください。 

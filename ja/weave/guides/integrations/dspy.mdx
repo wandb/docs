@@ -1,6 +1,6 @@
 ---
 title: "DSPy"
-description: "Weave を使用して、DSPy モジュールおよび関数による呼び出しを自動的に追跡・ログ記録する"
+description: "Weave を使用して DSPy モジュールおよび関数による呼び出しを自動的に追跡・ログに記録する"
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
@@ -12,16 +12,16 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
   <GitHubLink url="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb" />
 </div>
 
-[DSPy](https://dspy.ai) は、特にパイプライン内で LM が 1 回以上使用される場合に有効な、LM のプロンプトや重みをアルゴリズムで最適化するためのフレームワークです。Weave は DSPy のモジュールや関数を通じて行われる呼び出しを自動的にトレースしてログに記録します。
+[DSPy](https://dspy.ai) は、特に LM がパイプライン内で 1 回以上使用される場合に、LM のプロンプトと重みをアルゴリズムで最適化するためのフレームワークです。Weave は、DSPy のモジュールや関数を使って行われた呼び出しを自動的に追跡し、ログを記録します。
 
 
 <div id="tracing">
   ## トレース
 </div>
 
-言語モデルアプリケーションのトレースを、開発中と本番環境の両方で一元的な場所に保存しておくことは重要です。これらのトレースはデバッグに役立つだけでなく、アプリケーションの改善に役立つデータセットとしても利用できます。
+言語モデル アプリケーションのトレースを、開発中と本番環境の両方で一元的な場所に保存しておくことは重要です。これらのトレースはデバッグに役立つだけでなく、アプリケーションの改善に役立つデータセットとしても利用できます。
 
-Weave は [DSPy](https://dspy.ai) のトレースを自動的に取得します。記録を開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、通常どおりライブラリを使用してください。
+Weave は自動的に [DSPy](https://dspy.ai) のトレースを取得します。トレースの記録を開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、ライブラリを通常どおり使用します。
 
 ```python lines
 import os
@@ -40,14 +40,14 @@ classify(sentence="it's a charming and often affecting journey.")
 
 [![dspy\_trace.png](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
-Weave は DSPy プログラム内のすべての LM 呼び出しを記録し、入力・出力・メタデータに関する詳細を提供します。
+Weave は DSPy プログラム内のすべての LM コールを記録し、入力・出力・メタデータの詳細を提供します。
 
 
 <div id="track-your-own-dspy-modules-and-signatures">
-  ## 自分の DSPy Module と Signature を追跡する
+  ## 独自の DSPy Module と Signature を追跡する
 </div>
 
-`Module` は、プロンプト手法を抽象化した DSPy プログラム向けの、学習可能なパラメータを持つ構成要素です。`Signature` は、DSPy Module の入出力の挙動を宣言的に指定する仕様です。Weave は、DSPy プログラム内のすべての組み込みおよびカスタムの Signature と Module を自動的に追跡します。
+`Module` は、DSPy プログラムにおいて、プロンプト手法を抽象化し、学習可能なパラメーターを持つ基本構成要素です。`Signature` は、DSPy Module の入出力動作を宣言的に定義した仕様です。Weave は、DSPy プログラム内のすべての組み込み Signature / Module とカスタム Signature / Module を自動的に追跡します。
 
 ```python lines
 import os
@@ -104,14 +104,14 @@ draft_article = DraftArticle()
 article = draft_article(topic="World Cup 2002")
 ```
 
-[![Weave における DSPy カスタムモジュールのトレース（モジュール実行フローとトレースの詳細）](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![モジュール実行フローとトレース詳細付きの Weave における DSPy カスタムモジュールのトレース](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
 
 <div id="optimization-and-evaluation-of-your-dspy-program">
   ## DSPy プログラムの最適化と評価
 </div>
 
-Weave は、DSPy の optimizer および Evaluation 呼び出しに対するトレースも自動的に取得し、開発用データセット上で DSPy プログラムの性能を改善・評価するために活用できます。
+Weave は、DSPy オプティマイザーおよび Evaluation の呼び出しに対するトレースも自動的に取得します。これらを使用して、開発セット上で DSPy プログラムのパフォーマンスを改善し、評価できます。
 
 ```python lines
 import os
@@ -132,4 +132,4 @@ optimized_module = optimizer.compile(
 )
 ```
 
-[![最適化プロセスとパフォーマンス向上を示す Weave 内の DSPy オプティマイザーのトレース](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![最適化プロセスとパフォーマンス向上を示す Weave における DSPy オプティマイザーのトレース](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)

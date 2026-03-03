@@ -3,23 +3,23 @@ title: "wandb restore"
 ---
 
 {/*
-  このコマンドの導入コンテンツを追加するには:
+  このコマンドに導入用コンテンツを追加するには:
   1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-restore.mdx
-  2. 作成したファイルに導入コンテンツを追加します
-  3. このコメントブロック全体を削除し、以下の2行だけを残します:
+  2. そのファイルに導入用コンテンツを追加します
+  3. 以下の 2 行だけを残し、このコメントブロック全体を削除します:
 
   import WandbRestore from "/snippets/_includes/cli/wandb-restore.mdx";
 
   <WandbRestore/>
 
-  スニペットは次回の再生成時に自動検出されます。
+  スニペットは次回の再生成時に自動的に検出されます。
   */}
 
-run のコード、設定、および Docker の状態を復元します。コードが `wandb.save()` や `wandb.init(save_code=True)` で保存されていない場合は、最新のコミットからコードを取得します。
+run のコード、設定、Docker の状態を復元します。コードが `wandb.save()` や `wandb.init(save_code=True)` で保存されていない場合は、最新のコミットからコードを取得します。
 
 
 <div id="usage">
-  ## 使い方
+  ## 使用方法
 </div>
 
 ```bash
@@ -33,7 +33,7 @@ wandb restore RUN [OPTIONS]
 
 | 引数 | 説明 | 必須 |
 | :--- | :--- | :--- |
-| `RUN` | 説明はありません | はい |
+| `RUN` | 説明はありません。 | はい |
 
 <div id="options">
   ## オプション
@@ -41,7 +41,7 @@ wandb restore RUN [OPTIONS]
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--no-git` | git の状態を復元しない (デフォルト: False) |
-| `--branch` | ブランチを作成するか、detached HEAD でチェックアウトするか (デフォルト: True) |
+| `--no-git` | git の状態を復元しない（デフォルト: False） |
+| `--branch` | ブランチを作成するか、detached でチェックアウトするか（デフォルト: True） |
 | `--project`, `-p` | アップロード先のプロジェクト。 |
-| `--entity`, `-e` | 一覧のスコープとするエンティティ。 |
+| `--entity`, `-e` | リストの対象とする Entity。 |

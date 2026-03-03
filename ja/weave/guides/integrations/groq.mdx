@@ -1,25 +1,25 @@
 ---
 title: Groq
-description: "Weave で Groq の超高速 LPU™ 推論をトラッキングおよびモニタリングし、モデル呼び出し、パフォーマンスメトリクス、関数チェーンをキャプチャして、Groq の専用ハードウェアアクセラレーションを活用した高速 LLM アプリケーションを実現します。"
+description: "Weave で Groq の超高速 LPU™ 推論をトラッキングおよびモニタリングし、Groq の専用ハードウェア アクセラレーションを利用する高速な LLM アプリケーション向けに、モデル呼び出し、パフォーマンス メトリクス、関数チェーンを記録します。"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_groq.ipynb" aria-label="Open in Google Colab">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" />
 </a>
 
 <Note>
-  セットアップなしで Weave 上で Groq モデルを試したい場合は、[LLM Playground](../tools/playground) をお試しください。
+  セットアップなしで Weave 上で Groq モデルを試してみたい場合は、[LLM Playground](../tools/playground) をお試しください。
 </Note>
 
-[Groq](https://groq.com/) は、高速な AI 推論を提供する AI インフラストラクチャ企業です。Groq の LPU™ Inference Engine は、卓越した計算速度、品質、エネルギー効率を実現するハードウェアおよびソフトウェアプラットフォームです。Weave は、Groq の chat completion API 呼び出しを自動的にトラッキングし、ログに記録します。
+[Groq](https://groq.com/) は、高速な AI 推論を提供する AI インフラストラクチャ企業です。Groq の LPU™ Inference Engine は、卓越した計算速度、品質、エネルギー効率を実現するハードウェアおよびソフトウェア プラットフォームです。Weave は、Groq の chat completion を使った呼び出しを自動的にトラッキングし、ログに記録します。
 
 <div id="tracing">
   ## トレース
 </div>
 
-言語モデルアプリケーションのトレースを、開発中と本番環境の両方で一元的な場所に保存しておくことは重要です。これらのトレースはデバッグに役立つだけでなく、アプリケーションを改善するためのデータセットとしても有用です。
+言語モデル アプリケーションのトレースは、開発中と本番環境の両方で、一元的な場所に保存しておくことが重要です。これらのトレースはデバッグに役立つだけでなく、アプリケーションを改善するのに役立つデータセットとしても利用できます。
 
-Weave は [Groq](https://groq.com/) のトレースを自動的に記録します。トラッキングを開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、その後は通常どおりライブラリを使用してください。
+Weave は [Groq](https://groq.com/) のトレースを自動的に取得します。トラッキングを開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、あとは通常どおりライブラリを使用してください。
 
 ```python lines
 import os
@@ -42,19 +42,19 @@ chat_completion = client.chat.completions.create(
 )
 ```
 
-| ![Groq の Weave ダッシュボード。追跡された LLM 呼び出し、パフォーマンスメトリクス、トレース情報が表示されている](/weave/guides/integrations/imgs/groq/groq_weave_dasboard.png) |
-| -------------------------------------------------------------------------------------------------------------------------------- |
-| Weave は、Groq ライブラリ経由で行われたすべての LLM 呼び出しを追跡してログに記録します。トレースは Weave の Web インターフェースから確認できます。                                          |
+| ![Groq Weave ダッシュボード。追跡された LLM 呼び出し、パフォーマンス メトリクスとトレース情報が表示されている](/weave/guides/integrations/imgs/groq/groq_weave_dasboard.png) |
+| ------------------------------------------------------------------------------------------------------------------------------- |
+| Weave は、Groq ライブラリを通じて実行されたすべての LLM 呼び出しを追跡してログに記録します。トレースは Weave の Web インターフェースで確認できます。                                        |
 
 <div id="track-your-own-ops">
   ## 独自の op をトラッキングする
 </div>
 
-関数を `@weave.op` でラップすると、入力・出力およびアプリのロジックのキャプチャが始まり、アプリ内をデータがどのように流れているかをデバッグできるようになります。op を深くネストして、トラッキングしたい関数のツリーを構築できます。これにより、git にコミットされていないアドホックな変更や細かな情報も含めて、実験を進める中でコードのバージョン管理が自動的に行われます。
+関数を `@weave.op` でラップすると、入力・出力・アプリケーション ロジックのキャプチャが始まり、アプリ内でデータがどのように流れているかをデバッグできるようになります。op を深くネストして、トラッキングしたい関数のツリーを構築できます。これにより、実験中のコードが自動的にバージョン管理され、まだ git にコミットしていないアドホックな変更内容も含めて記録されます。
 
 [`@weave.op`](/ja/weave/guides/tracking/ops) でデコレートされた関数を作成するだけです。
 
-次の例では、都市内で訪れるべき場所を推薦する、`@weave.op` でラップされた関数 `recommend_places_to_visit` を使用しています。
+以下の例では、`recommend_places_to_visit` という関数があり、これは `@weave.op` でラップされた、特定の都市で訪れるべき場所をおすすめする関数です。
 
 ```python lines
 import os
@@ -91,19 +91,19 @@ recommend_places_to_visit("Paris")
 recommend_places_to_visit("Kolkata")
 ```
 
-| ![Groq Weave トレースインターフェース。op デコレーション、関数呼び出しの階層構造、トレースの詳細が表示されている](/weave/guides/integrations/imgs/groq/groq_weave_tracing.png) |
-| ------------------------------------------------------------------------------------------------------------------------------ |
-| `recommend_places_to_visit` 関数にデコレータ `@weave.op` を付与すると、その関数の入力と出力、および関数内部で行われるすべての LM 呼び出しがトレースされます。                          |
+| ![Groq Weave tracing interface with op decoration and function call hierarchy and trace details](/weave/guides/integrations/imgs/groq/groq_weave_tracing.png) |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `recommend_places_to_visit` 関数を `@weave.op` でデコレートすると、この関数の入力と出力、および関数内部で行われるすべての LM 呼び出しがトレースされます。                                                           |
 
 <div id="create-a-model-for-easier-experimentation">
-  ## より簡単に実験するために `Model` を作成する
+  ## 実験を行いやすくするために `Model` を作成する
 </div>
 
-多くの要素が関わると、実験を整理するのは困難になります。[`Model`](../core-types/models) クラスを使うと、システムプロンプトや使用しているモデルなど、アプリの実験に関する詳細を記録・整理できます。これにより、アプリのさまざまなバージョンやイテレーションを整理して比較しやすくなります。
+多くの要素が絡み合っていると、実験を整理するのは困難です。[`Model`](../core-types/models) クラスを使うと、システムプロンプトや使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまなバージョンや反復を整理し、比較しやすくなります。
 
-コードのバージョン管理や入出力の記録に加えて、[`Model`](../core-types/models) はアプリケーションの動作を制御する構造化されたパラメータも保持するため、どのパラメータが最も有効だったかを簡単に見つけられます。また、Weave Models を `serve` や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
+コードのバージョニングや入出力の記録に加えて、[`Model`](../core-types/models) はアプリケーションの動作を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も効果的だったかを簡単に見つけることができます。Weave Models を `serve` や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
 
-次の例では、`GroqCityVisitRecommender` を使って実験できます。これらのいずれかを変更するたびに、新しい `GroqCityVisitRecommender` の *バージョン* が作成されます。
+以下の例では、`GroqCityVisitRecommender` を使って実験できます。そのいずれかの値を変更するたびに、新しい `GroqCityVisitRecommender` の *バージョン* が作成されます。
 
 ```python lines
 import os
@@ -140,21 +140,21 @@ print(city_recommender.predict("San Francisco"))
 print(city_recommender.predict("Los Angeles"))
 ```
 
-| ![Groq Weave Model のトレースおよびバージョン管理インターフェース。モデルバージョン、トレース履歴、パフォーマンスメトリクスが表示されている](/weave/guides/integrations/imgs/groq/groq_weave_model.png) |
-| ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`Model`](../core-types/models) を使用した呼び出しのトレースとバージョン管理                                                                                      |
+| ![Groq Weave モデルのトレースおよびバージョン管理インターフェース。モデル バージョン、トレース履歴、パフォーマンス メトリクスを表示します。](/weave/guides/integrations/imgs/groq/groq_weave_model.png) |
+| ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Tracing and versioning your calls using a [`Model`](../core-types/models)                                                                 |
 
 <div id="serving-a-weave-model">
-  ### Weave モデルの提供
+  ### Weave モデルをサーブする
 </div>
 
-任意の `weave.Model` オブジェクトへの weave リファレンスがあれば、FastAPI サーバーを起動して、そのモデルを[サーブ](https://docs.wandb.ai/weave/guides/tools/serve)できます。
+任意の `weave.Model` オブジェクトへの weave リファレンスがあれば、FastAPI サーバーを起動して、そのモデルを [serve](https://docs.wandb.ai/weave/guides/tools/serve) できます。
 
 | [![dspy\_weave\_model\_serve.png](/weave/guides/integrations/imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| モデルのページに移動して UI からコピーすることで、任意の WeaveModel の weave リファレンスを取得できます。                                                                                                                                                                           |
+| 任意の WeaveModel の weave リファレンスは、そのモデルのページに移動し、UI からコピーすることで取得できます。                                                                                                                                                                          |
 
-ターミナルで次のコマンドを実行して、モデルをサーブできます:
+次のコマンドをターミナルで実行すると、モデルをサーブできます。
 
 ```shell
 weave serve weave://your_entity/project-name/YourModel:<hash>

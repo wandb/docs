@@ -2,44 +2,44 @@
 title: MMEngine
 ---
 
-[OpenMMLab](https://github.com/open-mmlab) による MMEngine は、PyTorch ベースでディープラーニングのモデルを学習するための基盤ライブラリです。MMEngine は OpenMMLab アルゴリズムライブラリ向けの次世代学習アーキテクチャを実装しており、OpenMMLab 内の 30 を超えるアルゴリズムライブラリに対して、統一された実行基盤を提供します。そのコアコンポーネントには、学習エンジン、評価エンジン、およびモジュール管理が含まれます。
+[OpenMMLab](https://github.com/open-mmlab) が提供する MMEngine は、PyTorch ベースでディープラーニングモデルをトレーニングするための基盤ライブラリです。MMEngine は OpenMMLab アルゴリズムライブラリ向けに次世代のトレーニングアーキテクチャを実装しており、OpenMMLab 内の 30 以上のアルゴリズムライブラリに対して統一された実行基盤を提供します。そのコアコンポーネントには、トレーニングエンジン、評価エンジン、モジュール管理機能が含まれます。
 
 [W&amp;B](https://wandb.ai/site) は、専用の [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) を通じて MMEngine に直接統合されており、次の用途に使用できます。
 
-* 学習および評価メトリクスをログとして記録する。
-* 実験設定をログおよび管理する。
-* 計算グラフ、画像、スカラーなどの追加の情報をログとして記録する。
+* トレーニングおよび評価メトリクスをログする。
+* 実験の設定をログおよび管理する。
+* グラフ、画像、スカラーなどの追加情報をログする。
 
 <div id="get-started">
   ## はじめに
 </div>
 
-まず、`openmim` と `wandb` をインストールします。
+`openmim` と `wandb` をインストールします。
 
 <Tabs>
-  <Tab title="Command Line">
+  <Tab title="コマンドライン">
     ```bash
     pip install -q -U openmim wandb
     ```
   </Tab>
 
-  <Tab title="Notebook">
+  <Tab title="ノートブック">
     ```bash
     !pip install -q -U openmim wandb
     ```
   </Tab>
 </Tabs>
 
-次に、`mim` を使用して `mmengine` と `mmcv` をインストールします。
+次に、`mim` コマンドを使って `mmengine` と `mmcv` をインストールします。
 
 <Tabs>
-  <Tab title="Command Line">
+  <Tab title="コマンドライン">
     ```bash
     mim install -q mmengine mmcv
     ```
   </Tab>
 
-  <Tab title="Notebook">
+  <Tab title="ノートブック">
     ```bash
     !mim install -q mmengine mmcv
     ```
@@ -47,17 +47,17 @@ title: MMEngine
 </Tabs>
 
 <div id="use-the-wandbvisbackend-with-mmengine-runner">
-  ## `WandbVisBackend` を MMEngine Runner で使用する
+  ## `WandbVisBackend` を MMEngine Runner と併用する
 </div>
 
-このセクションでは、[`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner) と `WandbVisBackend` を組み合わせて使う典型的なワークフローを示します。
+このセクションでは、`WandbVisBackend` を [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner) と組み合わせて使用する典型的なワークフローを示します。
 
-1. 可視化設定から `visualizer` を定義します。
+1. 可視化用の config から `visualizer` を定義します。
 
    ```python
    from mmengine.visualization import Visualizer
 
-   # define the visualization configs
+   # 可視化設定を定義
    visualization_cfg = dict(
        name="wandb_visualizer",
        vis_backends=[
@@ -69,12 +69,12 @@ title: MMEngine
        save_dir="runs/wandb"
    )
 
-   # get the visualizer from the visualization configs
+   # 可視化設定から visualizer を取得
    visualizer = Visualizer.get_instance(**visualization_cfg)
    ```
 
    <Note>
-     `init_kwargs` には、[W&amp;B run の初期化](/ja/models/ref/python/functions/init) の入力パラメータに対応する引数をまとめた辞書を渡します。
+     `init_kwargs` には、[W&amp;B run initialization](/ja/models/ref/python/functions/init) の入力パラメーターに対応する引数の辞書を渡します。
    </Note>
 
 2. `visualizer` を指定して `runner` を初期化し、`runner.train()` を呼び出します。
@@ -82,25 +82,25 @@ title: MMEngine
    ```python
    from mmengine.runner import Runner
 
-   # build the mmengine Runner which is a training helper for PyTorch
+   # PyTorch 用のトレーニングヘルパーである mmengine Runner を構築します
    runner = Runner(
        model,
        work_dir='runs/gan/',
        train_dataloader=train_dataloader,
        train_cfg=train_cfg,
        optim_wrapper=opt_wrapper_dict,
-       visualizer=visualizer, # pass the visualizer
+       visualizer=visualizer, # visualizer を渡す
    )
 
-   # start training
+   # トレーニングを開始します
    runner.train()
    ```
 
 <div id="use-the-wandbvisbackend-with-openmmlab-computer-vision-libraries">
-  ## OpenMMLab コンピュータビジョンライブラリで `WandbVisBackend` を使用する
+  ## OpenMMLab のコンピュータビジョンライブラリで `WandbVisBackend` を使う
 </div>
 
-`WandbVisBackend` は、[MMDetection](https://mmdetection.readthedocs.io/) のような OpenMMLab のコンピュータビジョンライブラリで行う実験を、簡単に追跡するためにも使用できます。
+`WandbVisBackend` は、[MMDetection](https://mmdetection.readthedocs.io/) のような OpenMMLab のコンピュータビジョンライブラリを使った実験を簡単に追跡するためにも利用できます。
 
 ```python
 # デフォルトのランタイム設定から基本設定を継承する

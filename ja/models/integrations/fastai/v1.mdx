@@ -4,10 +4,10 @@ title: fastai v1
 
 <Note>
   このドキュメントは fastai v1 向けです。
-  現在のバージョンの fastai を使用している場合は、[fastai ページ](../) を参照してください。
+  現在のバージョンの fastai を使用している場合は、[fastai page](../) を参照してください。
 </Note>
 
-fastai v1 を使用するスクリプト向けに、モデルのトポロジー、損失、メトリクス、重み、勾配、サンプル予測、および最良の学習済みモデルを自動的に記録できるコールバックを用意しています。
+fastai v1 を使用するスクリプト向けに、モデル トポロジー、loss、メトリクス、weights、gradients、サンプル予測、および最良の学習済みモデルを自動的にログするための callback を用意しています。
 
 ```python
 import wandb
@@ -19,7 +19,7 @@ learn = cnn_learner(data, model, callback_fns=WandbCallback)
 learn.fit(epochs)
 ```
 
-どのデータをログに記録するかは、コールバックのコンストラクタで設定できます。
+どのデータをログするかは、コールバックのコンストラクターで設定できます。
 
 ```python
 from functools import partial
@@ -29,13 +29,13 @@ learn = cnn_learner(
 )
 ```
 
-`WandbCallback` を学習の開始時にだけ使用することもできます。この場合は、自分でインスタンスを生成する必要があります。
+トレーニングの開始時にのみ WandbCallback を使用することもできます。その場合は、事前にインスタンス化しておく必要があります。
 
 ```python
 learn.fit(epochs, callbacks=WandbCallback(learn))
 ```
 
-その段階でカスタムパラメーターを指定することもできます。
+その時点でカスタムパラメーターを指定することもできます。
 
 ```python
 learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
@@ -43,30 +43,30 @@ learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
 
 
 <div id="example-code">
-  ## コード例
+  ## サンプルコード
 </div>
 
-インテグレーションがどのように動作するかを確認できるように、いくつかの例を用意しました。
+このインテグレーションがどのように機能するかを確認できるよう、いくつかのサンプルを用意しました。
 
 **Fastai v1**
 
-* [シンプソンズのキャラクターを分類する](https://github.com/borisdayma/simpsons-fastai)[: ](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-Hugging-Face-Model-Performance--VmlldzoxMDE2MTU)Fastai モデルを追跡・比較するためのシンプルなデモ
-* [Fastai を使ったセマンティックセグメンテーション](https://github.com/borisdayma/semantic-segmentation): 自動運転車向けのニューラルネットワークを最適化する
+* [シンプソンズのキャラクターを分類](https://github.com/borisdayma/simpsons-fastai)[: ](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-Hugging-Face-Model-Performance--VmlldzoxMDE2MTU)Fastai モデルを追跡・比較するためのシンプルなデモ
+* [Fastai によるセマンティックセグメンテーション](https://github.com/borisdayma/semantic-segmentation): 自動運転車向けニューラルネットワークの最適化
 
 <div id="options">
-  ## Options
+  ## オプション
 </div>
 
-`WandbCallback()` クラスはいくつかのオプションをサポートしています:
+`WandbCallback()` クラスはいくつかのオプションをサポートします:
 
-| キーワード引数     | デフォルト | 説明                                                                                                         |
-| ---------------- | --------- | ------------------------------------------------------------------------------------------------------------ |
-| learn            | N/A       | フックする fast.ai の Learner オブジェクト。                                                                    |
-| save_model       | True      | 各ステップでモデルが改善された場合にモデルを保存します。学習の最後に最良モデルを読み込みます。                             |
-| mode             | auto      | `min`、`max`、または `auto`。`monitor` で指定した学習メトリクスをステップ間でどのように比較するかを指定します。              |
-| monitor          | None      | 最良モデルを保存する際の性能測定に使用する学習メトリクス。None の場合は検証損失がデフォルトになります。                         |
-| log              | gradients | `gradients`、`parameters`、`all`、または None。損失とメトリクスは常にログされます。                                  |
-| input_type       | None      | `images` または `None`。サンプル予測の表示に使用されます。                                                          |
-| validation_data  | None      | `input_type` が設定されている場合に、サンプル予測に使用されるデータ。                                                 |
-| predictions      | 36        | `input_type` が設定され、`validation_data` が `None` の場合に行う予測の数。                                          |
-| seed             | 12345     | `input_type` が設定され、`validation_data` が `None` の場合に、サンプル予測用の乱数生成器の初期化値。                      |
+| Keyword argument | Default   | Description                                                                                              |
+| ---------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| learn            | N/A       | フックする fast.ai の learner。                                                                             |
+| save_model       | True      | 各ステップで改善された場合にモデルを保存します。トレーニングの最後にベストモデルも読み込みます。       |
+| mode             | auto      | `min`、`max`、または `auto`。`monitor` で指定されたトレーニング メトリクスをステップ間でどのように比較するか。        |
+| monitor          | None      | ベストモデルを保存する際の性能を測定するトレーニング メトリクス。None の場合は検証 loss がデフォルトです。 |
+| log              | gradients | `gradients`、`parameters`、`all`、または None。Loss と メトリクス は常にログされます。                           |
+| input_type       | None      | `images` または `None`。サンプル予測を表示するために使用されます。                                                    |
+| validation_data  | None      | `input_type` が設定されている場合にサンプル予測に使用されるデータ。                                                   |
+| predictions      | 36        | `input_type` が設定されており `validation_data` が `None` の場合に行う予測の数。                          |
+| seed             | 12345     | `input_type` が設定されており `validation_data` が `None` の場合に、サンプル予測用の乱数生成器を初期化します。     |

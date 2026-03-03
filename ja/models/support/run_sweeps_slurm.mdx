@@ -1,5 +1,5 @@
 ---
-title: SLURM上でSweepsをどのように実行すればよいですか?
+title: SLURM 上で Sweeps をどのように実行すればよいですか？
 ---
 
-[SLURM スケジューリングシステム](https://slurm.schedmd.com/documentation.html)と組み合わせて Sweeps を使用する場合は、スケジュールされた各ジョブ内で `wandb agent --count 1 SWEEP_ID` を実行してください。このコマンドは 1 つの学習ジョブを実行してから終了し、ハイパーパラメータ探索の並列性を活用しつつ、リソース要求を行う際の実行時間の見積もりを容易にします。
+[SLURM scheduling system](https://slurm.schedmd.com/documentation.html) で Sweeps を使用する場合は、スケジュールされた各ジョブ内で `wandb agent --count 1 SWEEP_ID` を実行します。このコマンドは単一のトレーニング ジョブを実行してから終了するため、ハイパーパラメーター探索の並列性を活用しつつ、要求するリソース量の実行時間予測を行いやすくなります。

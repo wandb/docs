@@ -1,5 +1,5 @@
 ---
-title: Registry コレクションタグの追加
+title: "Registry Collection タグの追加"
 ---
 
 ```python
@@ -16,7 +16,7 @@ registry_name = "<registry_name>"
 # レジストリのフルパスを構築する
 registry_path = f"wandb-registry-{registry_name}/{collection_name}"
 
-# アーティファクトコレクションを取得する
+# Artifacts コレクションを取得する
 collection = wandb.Api().artifact_collection(
   type_name = collection_type, 
   name = registry_path

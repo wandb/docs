@@ -3,19 +3,19 @@ title: Python SDK 0.24.2
 module:
 ---
 
-`wandb` から利用できる W&amp;B Python SDK を使うと、モデルを学習・ファインチューニングし、実験段階から本番環境まで一貫して管理できます。
+`wandb` として利用できる W&amp;B Python SDK は、モデルのトレーニングやファインチューニング、実験から本番環境までのモデル管理を行うことができます。
 
-> この SDK で学習やファインチューニング処理を行ったあと、[Public API](/ja/models/ref/python/public-api) を使用してログされたデータをクエリおよび分析し、[Reports and Workspaces API](/ja/models/ref/wandb_workspaces) を使用して作業内容を要約した、Web 公開可能な [レポート](/ja/models/reports/) を生成できます。
+> この SDK でトレーニングおよびファインチューニング処理を行った後、[Public API](/ja/models/ref/python/public-api) を使用してログされたデータをクエリして分析し、[Reports and Workspaces API](/ja/models/ref/wandb_workspaces) を使用して、作業内容を要約した Web 公開可能な [レポート](/ja/models/reports/) を生成できます。
 
 <div id="installation-and-setup">
-  ## インストールと初期設定
+  ## インストールとセットアップ
 </div>
 
 <div id="sign-up-and-create-an-api-key">
   ### サインアップして API キーを作成する
 </div>
 
-W&amp;B でこのマシンを認証するには、まず [User Settings](https://wandb.ai/settings) で API キーを生成する必要があります。
+マシンを W&amp;B に対して認証するには、まず [User Settings](https://wandb.ai/settings) で API キーを生成する必要があります。
 
 <div id="install-and-import-packages">
   ### パッケージのインストールとインポート
@@ -28,16 +28,16 @@ pip install wandb
 ```
 
 <div id="import-wb-python-sdk">
-  ### W&amp;B の Python SDK をインポートする:
+  ### W&amp;B Python SDK のインポート：
 </div>
 
 ```python
 import wandb
 
-# チームエンティティを指定する
+# チームの entity を指定する
 entity = "<team_entity>"
 
-# runが記録されるプロジェクト
+# run が記録されるプロジェクト
 project = "my-awesome-project"
 
 with wandb.init(entity=entity, project=project) as run:
