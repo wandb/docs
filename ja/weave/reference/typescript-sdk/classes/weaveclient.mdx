@@ -47,8 +47,8 @@ description: "TypeScript SDK リファレンス"
 
 ## コンストラクタ
 
-<div id="constructors">
-  ### コンストラクタ
+<div id="constructor">
+  ### コンストラクター
 </div>
 
 • **new WeaveClient**(`traceServerApi`, `wandbServerApi`, `projectId`, `settings?`): [`WeaveClient`](./weaveclient)
@@ -68,9 +68,7 @@ description: "TypeScript SDK リファレンス"
 
 [`WeaveClient`](./weaveclient)
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [weaveClient.ts:93](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L93)
 
@@ -94,9 +92,7 @@ ___
 
 • **settings**: `Settings`
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [weaveClient.ts:97](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L97)
 
@@ -108,7 +104,9 @@ ___
 
 • **traceServerApi**: `Api`\<`any`\>
 
-#### 定義箇所
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:94](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L94)
 
@@ -120,8 +118,8 @@ ___
 
 ▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
 
-scorer の結果（例: scorer の出力）を call に追加します。
-命令型評価で、predict call に scorer の結果を関連付けるために使用します。
+スコアラーの結果（例: スコアラーの出力）を call に追加します。  
+命令型の evaluation で、predict call にスコアラー結果を紐づけるために使用します。
 
 <div id="parameters">
   #### パラメーター
@@ -129,9 +127,9 @@ scorer の結果（例: scorer の出力）を call に追加します。
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `predictCallId` | `string` | フィードバックを付与する predict 呼び出しの ID |
+| `predictCallId` | `string` | フィードバックを紐付ける predict 呼び出しの ID |
 | `scorerCallId` | `string` | フィードバックを生成した scorer 呼び出しの ID |
-| `runnableRefUri` | `string` | scorer（Op または Object 参照）の URI |
+| `runnableRefUri` | `string` | scorer（Op または Object ref）の URI |
 | `scorerOutput` | `any` | scorer の出力 |
 
 <div id="returns">
@@ -152,11 +150,9 @@ ___
 
 ▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`\<`void`\>
 
-<div id="parameters">
-  #### パラメーター
-</div>
+#### パラメータ
 
-| 名前 | 型 |
+| 名称 | 型 |
 | :------ | :------ |
 | `internalCall` | `InternalCall` |
 | `opRef` | `any` |
@@ -175,9 +171,7 @@ ___
 
 `Promise`\<`void`\>
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [weaveClient.ts:720](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L720)
 
@@ -207,7 +201,9 @@ ___
 
 `Promise`\<`void`\>
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:772](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L772)
 
@@ -219,7 +215,9 @@ ___
 
 ▸ **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
@@ -248,7 +246,9 @@ ___
 
 ▸ **get**(`ref`): `Promise`\<`any`\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
@@ -260,7 +260,9 @@ ___
 
 `Promise`\<`any`\>
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:282](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L282)
 
@@ -272,7 +274,9 @@ ___
 
 ▸ **getCall**(`callId`, `includeCosts?`): `Promise`\<`Call`\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 | デフォルト値 |
 | :------ | :------ | :------ |
@@ -305,7 +309,9 @@ ___
 
 `CallStack`
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:636](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L636)
 
@@ -317,7 +323,9 @@ ___
 
 ▸ **getCalls**(`filter?`, `includeCosts?`, `limit?`): `Promise`\<`Call`[]\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 | デフォルト値 |
 | :------ | :------ | :------ |
@@ -331,9 +339,7 @@ ___
 
 `Promise`\<`Call`[]\>
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [weaveClient.ts:223](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L223)
 
@@ -361,9 +367,7 @@ ___
 
 `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [weaveClient.ts:237](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L237)
 
@@ -395,7 +399,9 @@ ___
 
 ▸ **publish**(`obj`, `objId?`): `Promise`\<[`ObjectRef`](./objectref)\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
@@ -434,7 +440,9 @@ ___
 | `newStack` | `CallStack` |
 | `parentCall?` | `CallStackEntry` |
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:644](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L644)
 
@@ -446,17 +454,13 @@ ___
 
 ▸ **runWithAttributes**\<`T`\>(`attributes`, `fn`): `T`
 
-<div id="type-parameters">
-  #### 型パラメータ
-</div>
+#### 型パラメータ
 
 | 名前 |
 | :------ |
 | `T` |
 
-<div id="parameters">
-  #### パラメーター
-</div>
+#### パラメータ
 
 | 名前 | 型 |
 | :------ | :------ |
@@ -484,16 +488,18 @@ ___
 ▸ **runWithCallStack**\<`T`\>(`callStack`, `fn`): `T`
 
 <div id="type-parameters">
-  #### 型パラメータ
+  #### 型パラメーター
 </div>
 
 | 名前 |
 | :------ |
 | `T` |
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
-| 名称 | 型 |
+| 名前 | 型 |
 | :------ | :------ |
 | `callStack` | `CallStack` |
 | `fn` | () => `T` |
@@ -529,9 +535,7 @@ ___
 
 `Promise`\<`any`\>
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [weaveClient.ts:686](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L686)
 
@@ -543,9 +547,7 @@ ___
 
 ▸ **updateCall**(`callId`, `displayName`): `Promise`\<`void`\>
 
-<div id="parameters">
-  #### パラメーター
-</div>
+#### パラメータ
 
 | 名前 | 型 |
 | :------ | :------ |

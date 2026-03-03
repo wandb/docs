@@ -8,7 +8,7 @@ import WandbDocker from "/snippets/ja/_includes/cli/wandb-docker.mdx";
 
 
 <div id="usage">
-  ## 使い方
+  ## 使用方法
 </div>
 
 ```bash
@@ -22,8 +22,8 @@ wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
 
 | 引数 | 説明 | 必須 |
 | :--- | :--- | :--- |
-| `DOCKER_RUN_ARGS` | 説明はありません | いいえ |
-| `DOCKER_IMAGE` | 説明はありません | いいえ |
+| `DOCKER_RUN_ARGS` | 利用可能な説明はありません | いいえ |
+| `DOCKER_IMAGE` | 利用可能な説明はありません | いいえ |
 
 <div id="options">
   ## オプション
@@ -31,12 +31,12 @@ wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--nvidia` | nvidia ランタイムを使用します。nvidia-docker が存在する場合はデフォルトで nvidia が使用されます（デフォルト: False） |
-| `--digest` | イメージのダイジェストを出力して終了します（デフォルト: False） |
-| `--jupyter` | コンテナ内で Jupyter Lab を実行します（デフォルト: False） |
-| `--dir` | コンテナ内でコードをマウントするディレクトリを指定します（デフォルト: /app） |
-| `--no-dir` | カレントディレクトリをマウントしません（デフォルト: False） |
-| `--shell` | コンテナ起動時に使用するシェルを指定します（デフォルト: /bin/bash） |
-| `--port` | Jupyter をバインドするホスト側のポートを指定します（デフォルト: 8888） |
-| `--cmd` | コンテナ内で実行するコマンドを指定します |
-| `--no-tty` | TTY なしでコマンドを実行します（デフォルト: False） |
+| `--nvidia` | NVIDIA runtime を使用する。nvidia-docker が存在する場合はデフォルトで NVIDIA runtime を使用する (デフォルト: False) |
+| `--digest` | イメージのダイジェストを出力して終了する (デフォルト: False) |
+| `--jupyter` | コンテナ内で Jupyter Lab を実行する (デフォルト: False) |
+| `--dir` | コンテナ内でコードをマウントするディレクトリ (デフォルト: /app) |
+| `--no-dir` | カレントディレクトリをマウントしない (デフォルト: False) |
+| `--shell` | コンテナを起動するシェル (デフォルト: /bin/bash) |
+| `--port` | Jupyter をバインドするホスト側のポート (デフォルト: 8888) |
+| `--cmd` | コンテナ内で実行するコマンド |
+| `--no-tty` | TTY なしでコマンドを実行する (デフォルト: False) |

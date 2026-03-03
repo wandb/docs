@@ -2,27 +2,27 @@
 title: ジョブ入力を管理する
 ---
 
-Launch の中核となる機能は、ハイパーパラメータやデータセットなどのさまざまなジョブ入力を簡単に試し、これらのジョブを適切なハードウェアにルーティングできることです。ジョブが作成されると、元の作成者以外のユーザーも W&amp;B GUI または CLI を通じてこれらの入力を調整できます。CLI または UI からジョブを起動する際にジョブ入力をどのように設定できるかについては、[ジョブをキューに追加する](./add-job-to-queue) ガイドを参照してください。
+Launch の中核となる体験は、ハイパーパラメーターやデータセットといったさまざまなジョブ入力を簡単に試し、そのジョブを適切なハードウェアにルーティングできる点にあります。ジョブが作成されると、元の作成者以外のユーザーも、W&amp;B GUI または CLI を介してこれらの入力を調整できます。CLI または UI からジョブを起動する際にジョブ入力をどのように設定できるかについては、[Enqueue jobs](./add-job-to-queue) ガイドを参照してください。
 
-このセクションでは、ジョブで調整可能な入力をプログラムで制御する方法を説明します。
+このセクションでは、ジョブに対して調整可能な入力をプログラムから制御する方法について説明します。
 
-デフォルトでは、W&amp;B ジョブは `Run.config` 全体をジョブの入力としてキャプチャしますが、Launch SDK には run config 内の特定のキーを制御したり、JSON または YAML ファイルを入力として指定したりするための関数が用意されています。
+デフォルトでは、W&amp;B ジョブは `Run.config` 全体をジョブの入力としてキャプチャしますが、Launch SDK は run config 内の特定のキーを制御したり、JSON や YAML ファイルを入力として指定したりするための関数を提供します。
 
 <Note>
-  Launch SDK の関数には `wandb-core` が必要です。詳細については、[`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README) を参照してください。
+  Launch SDK の関数には `wandb-core` が必要です。詳しくは、[`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README) を参照してください。
 </Note>
 
 <div id="reconfigure-the-run-object">
   ## `Run` オブジェクトを再設定する
 </div>
 
-ジョブ内で `wandb.init` によって返される `Run` オブジェクトは、デフォルトで再設定可能です。Launch SDK を使うと、ジョブを起動するときに `Run.config` オブジェクトのどの部分を再設定できるかをカスタマイズできます。
+ジョブ内で `wandb.init` によって返される `Run` オブジェクトは、デフォルトで再設定できます。Launch SDK は、ジョブを起動する際に `Run.config` オブジェクトのどの部分を再設定可能にするかをカスタマイズできるようにします。
 
 ```python
 import wandb
 from wandb.sdk import launch
 
-# Launch SDKを使用するために必要。
+# Launch SDK を使用するために必要。
 wandb.require("core")
 
 config = {
@@ -47,21 +47,21 @@ with wandb.init(config=config):
     # 以下省略。
 ```
 
-関数 `launch.manage_wandb_config` は、`Run.config` オブジェクトに対して入力値を受け付けるようにジョブを構成します。オプションの `include` と `exclude` は、ネストされた config オブジェクト内でのパスのプレフィックスを受け取ります。たとえば、ジョブがエンドユーザーに公開したくないオプションを持つライブラリを使用している場合などに便利です。
+The function `launch.manage_wandb_config` は、ジョブを `Run.config` オブジェクトに対する入力値を受け付けるように設定します。オプションの `include` および `exclude` には、入れ子になった config オブジェクト内でのパスのプレフィックスを指定します。たとえば、ジョブがエンドユーザーに公開したくないオプションを持つライブラリを使用している場合などに便利です。
 
-`include` プレフィックスが指定されている場合、config 内で `include` プレフィックスに一致するパスのみが入力値を受け付けます。`exclude` プレフィックスが指定されている場合、`exclude` リストに一致するパスは入力値から除外されます。あるパスが `include` と `exclude` の両方のプレフィックスに一致する場合、`exclude` プレフィックスが優先されます。
+`include` プレフィックスが指定されている場合、config 内のパスのうち、`include` プレフィックスに一致するものだけが入力値を受け付けます。`exclude` プレフィックスが指定されている場合、`exclude` リストに一致するパスはすべて、入力値から除外されます。あるパスが `include` と `exclude` の両方のプレフィックスに一致する場合は、`exclude` プレフィックスが優先されます。
 
-前述の例では、パス `["trainer.private"]` は `trainer` オブジェクトから `private` キーを除外し、パス `["trainer"]` は `trainer` オブジェクト配下ではないすべてのキーを除外します。
+前述の例では、パス `["trainer.private"]` は `trainer` オブジェクトから `private` キーを除外し、パス `["trainer"]` は `trainer` オブジェクト配下にないすべてのキーを除外します。
 
 <Note>
-  名前に `.` を含むキーを除外するには、`\` でエスケープした `.` を使用します。
+  名前に `.` を含むキーを除外するには、`\` でエスケープされた `.` を使用します。
 
   たとえば、`r"trainer\.private"` は、`trainer` オブジェクト配下の `private` キーではなく、`trainer.private` キーを除外します。
 
-  上記の `r` プレフィックスは raw 文字列を表すことに注意してください。
+  上記の `r` プレフィックスは raw 文字列を表している点に注意してください。
 </Note>
 
-上記のコードをパッケージ化してジョブとして実行すると、そのジョブの入力型は次のようになります。
+上記のコードがパッケージ化されてジョブとして実行されると、そのジョブの入力タイプは次のようになります。
 
 ```json
 {
@@ -74,13 +74,13 @@ with wandb.init(config=config):
 }
 ```
 
-W&amp;B CLI または UI からジョブを起動する際、ユーザーは 4 つの `trainer` パラメータだけを変更できます。
+W&amp;B CLI または UI からジョブを起動する際には、ユーザーは 4 つの `trainer` パラメーターだけを上書きできます。
 
 <div id="access-run-config-inputs">
   ### run config 入力へのアクセス
 </div>
 
-run config 入力を指定して起動されたジョブでは、`Run.config` を通して入力値にアクセスできます。ジョブコード内で `wandb.init` によって返される `Run` には、入力値が自動的に設定されます。次を使用します
+run config 入力付きで起動された Job は、`Run.config` を通じて入力値にアクセスできます。ジョブのコード内で `wandb.init` によって返される `Run` には、入力値が自動的に設定されています。次のように使用します
 
 ```python
 from wandb.sdk import launch
@@ -88,21 +88,21 @@ from wandb.sdk import launch
 run_config_overrides = launch.load_wandb_config()
 ```
 
-ジョブコードのどこからでも run の config 入力値を読み込めます。
+ジョブ コード内のどこからでも run の config 入力値を読み込めるようにします。
 
 <div id="reconfigure-a-file">
   ## ファイルを再設定する
 </div>
 
-Launch SDK では、ジョブのコード内で設定ファイルに保存された入力値を管理する方法も提供します。これは、多くのディープラーニングや大規模言語モデルのユースケースで一般的なパターンです。たとえば、この [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例や、この [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)) などがあります。
+Launch SDK では、ジョブコード内の config ファイルに保存された入力値を管理する方法も提供しています。これは多くのディープラーニングや大規模言語モデルのユースケースでよく見られるパターンであり、この [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例やこの [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)) にも見られます。
 
 <Note>
-  [Sweeps on Launch](/ja/platform/launch/sweeps-on-launch/) では、スイープパラメータとして設定ファイルの入力値を使用することはサポートされていません。スイープパラメータは `Run.config` オブジェクトを通じて制御する必要があります。
+  [Sweeps on Launch](/ja/platform/launch/sweeps-on-launch/) では、config ファイルの入力を sweep パラメーターとして使用することはサポートされていません。sweep パラメーターは `Run.config` オブジェクトを通じて制御する必要があります。
 </Note>
 
-`launch.manage_config_file` 関数を使用すると、設定ファイルを Launch ジョブへの入力として追加でき、ジョブを起動する際にその設定ファイル内の値を編集できるようになります。
+`launch.manage_config_file` 関数を使用すると、config ファイルを Launch ジョブへの入力として追加でき、ジョブを起動する際にその config ファイル内の値を編集できるようになります。
 
-デフォルトでは、`launch.manage_config_file` を使用した場合、run の config の入力値は一切キャプチャされません。この挙動は `launch.manage_wandb_config` を呼び出すことで上書きされます。
+デフォルトでは、`launch.manage_config_file` が使用されている場合、run の config 入力は一切取得されません。`launch.manage_wandb_config` を呼び出すと、この挙動が上書きされます。
 
 次の例を見てみましょう。
 
@@ -111,7 +111,7 @@ import yaml
 import wandb
 from wandb.sdk import launch
 
-# Launch SDKの使用に必要。
+# Launch SDK の使用に必要。
 wandb.require("core")
 
 launch.manage_config_file("config.yaml")
@@ -124,7 +124,7 @@ with wandb.init(config=config):
     pass
 ```
 
-このコードを、同じディレクトリにある `config.yaml` ファイルと一緒に実行すると仮定します：
+コードが、隣にある `config.yaml` ファイルと一緒に実行されると想定します。
 
 ```yaml
 learning_rate: 0.01
@@ -133,37 +133,37 @@ model: resnet
 dataset: cifar10
 ```
 
-`launch.manage_config_file` の呼び出しにより、`config.yaml` ファイルがジョブへの入力として追加され、W&amp;B の CLI または UI から起動する際に再設定できるようになります。
+`launch.manage_config_file` の呼び出しにより、`config.yaml` ファイルがジョブの入力として追加され、W&amp;B CLI または UI から起動する際に再設定可能になります。
 
-`include` と `exclude` のキーワード引数を使用して、`launch.manage_wandb_config` と同様の方法で、config ファイルで許可する入力キーをフィルタリングできます。
+`include` および `exclude` キーワード引数を使用すると、`launch.manage_wandb_config` と同様に、設定ファイルで許可する入力キーをフィルタリングできます。
 
 <div id="access-config-file-inputs">
-  ### config ファイルの入力値にアクセスする
+  ### 設定ファイルの入力値にアクセスする
 </div>
 
-Launch によって作成された run 内で `launch.manage_config_file` が呼び出されると、`launch` は config ファイルの内容を入力値で上書きします。上書きされた config ファイルはジョブの実行環境内で利用できます。
+Launch によって作成された run 内で `launch.manage_config_file` が呼び出されると、`launch` は設定ファイルの内容を入力値で上書きします。上書きされた設定ファイルはジョブの実行環境内で利用できます。
 
 <Warning>
-  入力値が反映されるようにするため、ジョブのコードで config ファイルを読み込む前に `launch.manage_config_file` を呼び出してください。
+  入力値が使用されるようにするには、ジョブ コード内で設定ファイルを読み込む前に `launch.manage_config_file` を呼び出してください。
 </Warning>
 
 <div id="customize-a-jobs-launch-drawer-ui">
   ### ジョブの Launch ドロワー UI をカスタマイズする
 </div>
 
-ジョブの入力に対してスキーマを定義すると、そのジョブを起動するためのカスタム UI を作成できます。ジョブのスキーマを定義するには、`launch.manage_wandb_config` または `launch.manage_config_file` の呼び出し時にスキーマを渡します。スキーマは、[JSON Schema](https://json-schema.org/understanding-json-schema/reference) 形式の Python の `dict` か、Pydantic のモデルクラスのいずれかです。
+ジョブの入力用スキーマを定義すると、そのジョブを起動するためのカスタム UI を作成できます。ジョブのスキーマを定義するには、`launch.manage_wandb_config` または `launch.manage_config_file` の呼び出しに含めます。スキーマは [JSON Schema](https://json-schema.org/understanding-json-schema/reference) 形式の Python の辞書、もしくは Pydantic の モデル クラスのいずれかです。
 
 <Warning>
-  ジョブ入力スキーマは入力のバリデーションには使用されません。Launch ドロワー内の UI を定義するためだけに使用されます。
+  ジョブ入力スキーマは入力値のバリデーションには使用されません。Launch ドロワー内の UI を定義するためだけに使用されます。
 </Warning>
 
 <Tabs>
-  <Tab title="JSON schema">
+  <Tab title="JSON スキーマ">
     次の例は、以下のプロパティを持つスキーマを示しています:
 
     * `seed`: 整数
-    * `trainer`: いくつかのキーが指定された辞書:
-      * `trainer.learning_rate`: 0 より大きい必要がある浮動小数点数
+    * `trainer`: いくつかのキーが指定された辞書
+      * `trainer.learning_rate`: 0 より大きい必要がある float
       * `trainer.batch_size`: 16、64、または 256 のいずれかである必要がある整数
       * `trainer.dataset`: `cifar10` または `cifar100` のいずれかである必要がある文字列
 
@@ -204,27 +204,27 @@ Launch によって作成された run 内で `launch.manage_config_file` が呼
     )
     ```
 
-    一般的に、以下の JSON Schema の属性がサポートされています:
+    一般的に、次の JSON Schema 属性がサポートされています:
 
     | Attribute | Required |  Notes |
     | --- | --- | --- |
     | `type` | Yes | `number`、`integer`、`string`、`object` のいずれかである必要があります |
     | `title` | No | プロパティの表示名を上書きします |
-    | `description` | No | プロパティのヘルプテキストを指定します |
-    | `enum` | No | フリーテキスト入力ではなく、ドロップダウン選択を作成します |
-    | `minimum` | No | `type` が `number` または `integer` の場合にのみ指定できます |
-    | `maximum` | No | `type` が `number` または `integer` の場合にのみ指定できます |
-    | `exclusiveMinimum` | No | `type` が `number` または `integer` の場合にのみ指定できます |
-    | `exclusiveMaximum` | No | `type` が `number` または `integer` の場合にのみ指定できます |
+    | `description` | No | プロパティの補助テキストを指定します |
+    | `enum` | No | 自由入力テキストではなくドロップダウン選択を生成します |
+    | `minimum` | No | `type` が `number` または `integer` の場合のみ使用できます |
+    | `maximum` | No | `type` が `number` または `integer` の場合のみ使用できます |
+    | `exclusiveMinimum` | No | `type` が `number` または `integer` の場合のみ使用できます |
+    | `exclusiveMaximum` | No | `type` が `number` または `integer` の場合のみ使用できます |
     | `properties` | No | `type` が `object` の場合、ネストされた設定を定義するために使用されます |
   </Tab>
 
-  <Tab title="Pydantic model">
+  <Tab title="Pydantic モデル">
     次の例は、以下のプロパティを持つスキーマを示しています:
 
     * `seed`: 整数
-    * `trainer`: いくつかのサブ属性が指定されたスキーマ:
-      * `trainer.learning_rate`: 0 より大きい必要がある浮動小数点数
+    * `trainer`: いくつかのサブ属性が指定されたスキーマ
+      * `trainer.learning_rate`: 0 より大きい必要がある float
       * `trainer.batch_size`: 1 以上 256 以下である必要がある整数 (両端を含む)
       * `trainer.dataset`: `cifar10` または `cifar100` のいずれかである必要がある文字列
 
@@ -263,8 +263,8 @@ Launch によって作成された run 内で `launch.manage_config_file` が呼
   </Tab>
 </Tabs>
 
-ジョブ入力スキーマを追加すると、Launch ドロワー内に構造化されたフォームが作成され、ジョブを簡単に起動できるようになります。
+ジョブ入力スキーマを追加すると、Launch ドロワー内に構造化されたフォームが作成され、ジョブを起動しやすくなります。
 
 <Frame>
-  <img src="/images/launch/schema_overrides.png" alt="ジョブ入力スキーマフォーム" />
+  <img src="/images/launch/schema_overrides.png" alt="ジョブ入力スキーマのフォーム" />
 </Frame>

@@ -1,41 +1,40 @@
 ---
-description: W&B と Ray Tune をインテグレーションする方法。
+description: W&B を Ray Tune と連携する方法。
 title: Ray Tune
 ---
 
 W&B は、2 つの軽量なインテグレーションを提供することで [Ray](https://github.com/ray-project/ray) と連携します。
 
-- `WandbLoggerCallback` 関数は、Tune に報告されたメトリクスを自動的に wandb API に記録します。
-- `setup_wandb()` 関数は、function API と併用でき、Tune の学習情報を使って wandb API を自動的に初期化します。通常どおり wandb API を使用でき、`run.log()` を使って学習プロセスを記録することもできます。
+- `WandbLoggerCallback` 関数は、Tune にレポートされたメトリクスを自動的に wandb API に記録します。
+- 関数 API と一緒に使用できる `setup_wandb()` 関数は、Tune のトレーニング情報を使用して wandb API を自動的に初期化します。`run.log()` を使用してトレーニングプロセスをログするなど、通常どおり wandb API を使用できます。
 
 <div id="configure-the-integration">
-  ## インテグレーションの設定
+  ## インテグレーションを設定する
 </div>
 
 ```python
 from ray.air.integrations.wandb import WandbLoggerCallback
 ```
 
-wandb の設定は、`tune.run()` の config パラメータに wandb のキーを渡すことで行います（以下の例を参照）。
+Wandb の設定は、`tune.run()` の `config` パラメーターに wandb key を渡すことで行います（以下の例を参照してください）。
 
-wandb の config エントリの内容は、キーワード引数として `wandb.init()` に渡されます。例外として、次の設定だけは `WandbLoggerCallback` 自体の設定に使用されます。
-
+wandb の config エントリの内容は、キーワード引数として `wandb.init()` に渡されます。ただし、次の設定は例外で、これらは `WandbLoggerCallback` 自体を設定するために使用されます。
 
 <div id="parameters">
-  ### パラメータ
+  ### パラメーター
 </div>
 
 `project (str)`: wandb プロジェクト名。必須。
 
-`api_key_file (str)`: wandb の APIキー を含むファイルへのパス。
+`api_key_file (str)`: wandb API キーが含まれるファイルへのパス。
 
-`api_key (str)`: wandb の APIキー。`api_key_file` を指定する代わりの方法。
+`api_key (str)`: wandb API キー。`api_key_file` を設定する代わりの指定方法。
 
 `excludes (list)`: ログから除外するメトリクスのリスト。
 
-`log_config (bool)`: 結果の辞書内の config パラメータをログに記録するかどうか。デフォルトは False。
+`log_config (bool)`: 結果辞書の `config` パラメーターをログに記録するかどうか。デフォルトは False。
 
-`upload_checkpoints (bool)`: True の場合、モデルのチェックポイントをアーティファクトとしてアップロードするかどうか。デフォルトは False。
+`upload_checkpoints (bool)`: True の場合、モデルのチェックポイントを Artifacts としてアップロードします。デフォルトは False。
 
 <div id="example">
   ### 例
@@ -69,7 +68,6 @@ tuner = tune.Tuner(
 results = tuner.fit()
 ```
 
-
 <div id="setup_wandb">
   ## setup_wandb
 </div>
@@ -78,14 +76,14 @@ results = tuner.fit()
 from ray.air.integrations.wandb import setup_wandb
 ```
 
-このユーティリティ関数は、Ray Tune で使用するための wandb の初期化に役立ちます。基本的な使い方としては、学習関数内で `setup_wandb()` を呼び出してください。
+このユーティリティ関数は、Ray Tune で wandb を使うための初期化を行うものです。基本的な使い方としては、トレーニング関数内で `setup_wandb()` を呼び出してください。
 
 ```python
 from ray.air.integrations.wandb import setup_wandb
 
 
 def train_fn(config):
-    # wandbを初期化する
+    # wandb を初期化する
     wandb = setup_wandb(config)
     run = wandb.init(
         project=config["wandb"]["project"],
@@ -105,19 +103,18 @@ tuner = tune.Tuner(
         # 探索空間をここで定義する
         "a": tune.choice([1, 2, 3]),
         "b": tune.choice([4, 5, 6]),
-        # wandbの設定
+        # wandb の設定
         "wandb": {"project": "Optimization_Project", "api_key_file": "/path/to/file"},
     },
 )
 results = tuner.fit()
 ```
 
-
 <div id="example-code">
-  ## コード例
+  ## サンプルコード
 </div>
 
-インテグレーションの動作を確認できるよう、いくつかのサンプルコードを用意しました。
+インテグレーションの動作を確認できるように、いくつかのサンプルコードを用意しました。
 
-* [Colab](https://wandb.me/raytune-colab): インテグレーションを試せるシンプルなデモです。
-* [Dashboard](https://wandb.ai/anmolmann/ray_tune): このサンプルから生成されるダッシュボードを表示します。
+* [Colab](https://wandb.me/raytune-colab)：インテグレーションを試すための簡単なデモです。
+* [Dashboard](https://wandb.ai/anmolmann/ray_tune)：サンプルから生成されたダッシュボードを表示します。

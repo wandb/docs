@@ -1,10 +1,10 @@
 ---
 title: "PII データの取り扱い"
-description: "W&B Weave における PII データの取り扱い方法について学びます"
+description: "W&B Weave で PII データハンドリングを使用する方法を学ぶ"
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから利用できます:
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから開くことができます：
 
   * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/pii.ipynb)
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/pii.ipynb)
@@ -13,37 +13,37 @@ description: "W&B Weave における PII データの取り扱い方法につい
 ##
 
 <div id="how-to-use-weave-with-pii-data">
-  # PII データを含む Weave の使用方法
+  # Weave と PII データの使い方
 </div>
 
-このガイドでは、Personally Identifiable Information (PII) データのプライバシーを確保しながら W&amp;B Weave を使用する方法を説明します。PII データを特定・マスキング・匿名化するための次の方法を紹介します。
+このガイドでは、個人を特定できる情報 (Personally Identifiable Information, PII) データを非公開のまま維持しつつ、W&amp;B Weave を使用する方法を説明します。PII データを特定、マスキング (redact)、匿名化するための次の方法を紹介します。
 
 1. PII データを特定してマスキングするための **正規表現**。
-2. Python ベースのデータ保護 SDK である **Microsoft の [Presidio](https://microsoft.github.io/presidio/)**。このツールはマスキングおよび置換機能を提供します。
-3. PII データを匿名化するために Presidio と組み合わせて使用する、偽データ生成用 Python ライブラリ **[Faker](https://faker.readthedocs.io/en/master/)**。
+2. Python ベースのデータ保護 SDK である **Microsoft の [Presidio](https://microsoft.github.io/presidio/)**。このツールはマスキングおよび置換の機能を提供します。
+3. 偽データを生成するための Python ライブラリである **[Faker](https://faker.readthedocs.io/en/master/)** と Presidio を組み合わせて、PII データを匿名化します。
 
-さらに、*`weave.op` の入出力ログのカスタマイズ* と *`autopatch_settings`* を利用して、PII のマスキングおよび匿名化をワークフローに統合する方法も説明します。詳細は、[ログされる入力と出力をカスタマイズする](/ja/weave/guides/tracking/ops/#customize-logged-inputs-and-outputs)を参照してください。
+さらに、*`weave.op` の入出力ロギングのカスタマイズ* と *`autopatch_settings`* を使用して、PII データのマスキングおよび匿名化処理をワークフローに統合する方法も学びます。詳細については、[ログに記録される入力と出力をカスタマイズする](/ja/weave/guides/tracking/ops/#customize-logged-inputs-and-outputs) を参照してください。
 
 開始するには、次の手順を実行します。
 
 1. [概要](#overview) セクションを確認します。
-2. [前提条件](#prerequisites) を満たします。
+2. [前提条件](#prerequisites) の手順を完了します。
 3. PII データを特定、マスキング、匿名化するための [利用可能な方法](#redaction-methods-overview) を確認します。
-4. [Weave 呼び出しにこれらの方法を適用します](#apply-the-methods-to-weave-calls)。
+4. [これらの方法を Weave 呼び出しに適用](#apply-the-methods-to-weave-calls) します。
 
 <div id="overview">
   ## 概要
 </div>
 
-このセクションでは、`weave.op` を使用した入力および出力ログの記録方法の概要と、Weave で PII データを扱う際のベストプラクティスについて説明します。
+このセクションでは、`weave.op` を使用した入力および出力のログ記録の概要と、Weave で PII データを扱う際のベストプラクティスについて説明します。
 
 <div id="customize-input-and-output-logging-using-weaveop">
-  ### `weave.op` を使って入出力のロギングをカスタマイズする
+  ### `weave.op` を使って入力と出力のロギングをカスタマイズする
 </div>
 
-Weave Ops を使用すると、入力と出力の後処理関数を定義できます。これらの関数を使うことで、LLM 呼び出しに渡されるデータや Weave にログとして記録されるデータを変更できます。
+Weave Ops を使用すると、入力と出力の後処理関数を定義できます。これらの関数を使うことで、LLM 呼び出しに渡されるデータや Weave に記録されるデータを変更できます。
 
-次の例では、2 つの後処理関数を定義し、それらを `weave.op()` の引数として渡しています。
+次の例では、2 つの後処理関数を定義し、それらを引数として `weave.op()` に渡しています。
 
 ```python lines
 from dataclasses import dataclass
@@ -57,7 +57,7 @@ class CustomObject:
     x: int
     secret_password: str
 
-# まず、入力と出力の後処理関数を定義します：
+# まず、入力と出力の後処理用関数を定義します：
 def postprocess_inputs(inputs: dict[str, Any]) -> dict[str, Any]:
     return {k:v for k,v in inputs.items() if k != "hide_me"}
 
@@ -74,33 +74,33 @@ def some_llm_call(a: int, hide_me: str) -> CustomObject:
 ```
 
 <div id="best-practices-for-using-weave-with-pii-data">
-  ### PII データとともに Weave を使用する際のベストプラクティス
+  ### PII データで Weave を使用する際のベストプラクティス
 </div>
 
-PII データを扱う際に Weave を使用する前に、そのベストプラクティスを確認してください。
+PII データで Weave を使用する前に、PII データで Weave を使用する際のベストプラクティスを確認してください。
 
 <div id="during-testing">
   #### テスト時
 </div>
 
-* 匿名化したデータを記録して、PII 検出を確認する
-* Weave Traces を使って PII 処理プロセスを追跡する
-* 実際の PII をさらすことなく、匿名化処理の性能を測定する
+* 匿名化したデータをログに記録して PII 検出を確認する
+* Weave Traces で PII 処理プロセスを追跡する
+* 実際の PII をさらすことなく匿名化処理の性能を測定する
 
 <div id="in-production">
-  #### 本番環境で
+  #### 本番環境では
 </div>
 
-* 生の PII をログに記録しない
-* ログに記録する前に機微なフィールドを暗号化する
+* 生の PII データは絶対にログに記録しない
+* 機密性の高い項目はログ出力前に暗号化する
 
 <div id="encryption-tips">
   #### 暗号化のヒント
 </div>
 
-* 後で復号する必要があるデータには、可逆暗号化を使用する
-* 逆変換する必要のない一意の ID には、一方向ハッシュを適用する
-* 暗号化したまま分析する必要があるデータには、その用途に特化した暗号化方式の利用を検討する
+* 後で復号する必要があるデータには、可逆的な暗号化方式を使用する
+* 元に戻す必要がない一意の ID には、一方向ハッシュを適用する
+* 暗号化したまま解析する必要があるデータには、専用の暗号化方式の利用を検討する
 
 <div id="prerequisites">
   ## 前提条件
@@ -110,26 +110,26 @@ PII データを扱う際に Weave を使用する前に、そのベストプラ
 
 ```python lines
 %%capture
-# @title 必要なPythonパッケージ:
+# @title 必要な Python パッケージ:
 !pip install cryptography
 !pip install presidio_analyzer
 !pip install presidio_anonymizer
-!python -m spacy download en_core_web_lg    # PresidioはspaCy NLPエンジンを使用
-!pip install Faker                          # PIIデータをダミーデータに置き換えるためにFakerを使用
+!python -m spacy download en_core_web_lg    # Presidio は spacy NLP エンジンを使用します
+!pip install Faker                          # PII データを偽のデータに置き換えるために Faker を使用します
 !pip install weave                          # トレースを活用するため
 !pip install set-env-colab-kaggle-dotenv -q # 環境変数用
-!pip install anthropic                      # Sonnetを使用するため
+!pip install anthropic                      # sonnet を使用するため
 !pip install cryptography                   # データを暗号化するため
 ```
 
-2. 次の場所でAPIキーを作成します：
+2. 次の場所で API キーを作成します。
 
-   * [W&amp;B User Settings](https://wandb.ai/settings)
+   * [W&amp;B ユーザー設定](https://wandb.ai/settings)
    * [Anthropic Console](https://platform.claude.com/login?returnTo=%2Fsettings%2Fkeys)
 
 ```python lines
 %%capture
-# @title APIキーを正しく設定する
+# @title API キーを正しく設定する
 # 使用方法については https://pypi.org/project/set-env-colab-kaggle-dotenv/ を参照してください。
 
 from set_env import set_env
@@ -143,12 +143,12 @@ _ = set_env("WANDB_API_KEY")
 ```python lines
 import weave
 
-# 新しいWeaveプロジェクトを開始する
+# 新しい Weave プロジェクトを開始する
 WEAVE_PROJECT = "pii_cookbook"
 weave.init(WEAVE_PROJECT)
 ```
 
-4. 10個のテキストブロックを含むデモ用PIIデータセットを読み込みます。
+4. 10 個のテキストブロックを含むデモ用の PII データセットを読み込みます。
 
 ```python lines
 import requests
@@ -164,112 +164,112 @@ print('PII data first sample: "' + pii_data[0]["text"] + '"')
   ## マスキング方法の概要
 </div>
 
-[セットアップ](#setup) が完了したら、以下の方法で PII データを検出・保護できます。
+[セットアップ](#setup) が完了したら、次のことができるようになります。
 
-PII データを検出して保護するために、以下の方法を用いて PII データを特定・マスキングし、必要に応じて匿名化します。
+PII データを検出して保護するために、以下の方法で PII データを特定してマスキングし、必要に応じて匿名化します。
 
-1. **正規表現** を使って PII データを特定し、マスキングします。
-2. **Microsoft [Presidio](https://microsoft.github.io/presidio/)** は、マスキングおよび置換機能を提供する Python ベースのデータ保護 SDK です。
-3. **[Faker](https://faker.readthedocs.io/en/master/)** は、ダミーデータを生成するための Python ライブラリです。
+1. **正規表現** を使用して PII データを特定し、マスキングします。
+2. Python ベースのデータ保護 SDK である **Microsoft [Presidio](https://microsoft.github.io/presidio/)** を使用して、マスキングや置換処理を行います。
+3. ダミーデータを生成する Python ライブラリである **[Faker](https://faker.readthedocs.io/en/master/)** を使用します。
 
 <div id="method-1-filter-using-regular-expressions">
-  ### 方法 1: 正規表現を使ったフィルタリング
+  ### 方法 1: 正規表現によるフィルタリング
 </div>
 
-[正規表現（regex）](https://docs.python.org/3/library/re.html) は、PII データを特定してマスキングするための最もシンプルな方法です。regex を使うと、電話番号、メールアドレス、社会保障番号など、さまざまな形式の機微情報にマッチするパターンを定義できます。regex を用いることで、大量のテキストを走査し、より複雑な NLP 手法を使わずに情報を置換またはマスキングできます。
+[Regular expressions (regex)](https://docs.python.org/3/library/re.html) は、PII データを検出してマスクする最も簡単な方法です。regex を使うと、電話番号、メールアドレス、社会保障番号などの機密情報のさまざまな形式にマッチするパターンを定義できます。regex を用いることで、大量のテキストをスキャンし、より複雑な NLP 手法を使わずに情報を置換またはマスクできます。
 
 ```python lines
 import re
 
-# regexを使用してPIIデータを削除する関数を定義する
+# regex を使用して PII データを削除する関数を定義する
 def redact_with_regex(text):
     # 電話番号パターン
     # \b         : 単語境界
-    # \d{3}      : 正確に3桁
+    # \d{3}      : 正確に 3 桁
     # [-.]?      : 任意のハイフンまたはドット
-    # \d{3}      : さらに3桁
+    # \d{3}      : さらに 3 桁
     # [-.]?      : 任意のハイフンまたはドット
-    # \d{4}      : 正確に4桁
+    # \d{4}      : 正確に 4 桁
     # \b         : 単語境界
     text = re.sub(r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b", "<PHONE>", text)
 
-    # メールアドレスパターン
+    # メールパターン
     # \b         : 単語境界
-    # [A-Za-z0-9._%+-]+ : メールユーザー名に使用できる1文字以上の文字
-    # @          : リテラルの@記号
-    # [A-Za-z0-9.-]+ : ドメイン名に使用できる1文字以上の文字
+    # [A-Za-z0-9._%+-]+ : メールのユーザー名に使用できる 1 文字以上
+    # @          : リテラルの @ 記号
+    # [A-Za-z0-9.-]+ : ドメイン名に使用できる 1 文字以上
     # \.         : リテラルのドット
-    # [A-Z|a-z]{2,} : 2文字以上の大文字または小文字（TLD）
+    # [A-Z|a-z]{2,} : 2 文字以上の大文字または小文字 (TLD)
     # \b         : 単語境界
     text = re.sub(
         r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", "<EMAIL>", text
     )
 
-    # SSNパターン
+    # SSN パターン
     # \b         : 単語境界
-    # \d{3}      : 正確に3桁
+    # \d{3}      : 正確に 3 桁
     # -          : リテラルのハイフン
-    # \d{2}      : 正確に2桁
+    # \d{2}      : 正確に 2 桁
     # -          : リテラルのハイフン
-    # \d{4}      : 正確に4桁
+    # \d{4}      : 正確に 4 桁
     # \b         : 単語境界
     text = re.sub(r"\b\d{3}-\d{2}-\d{4}\b", "<SSN>", text)
 
-    # 簡易名前パターン（網羅的ではない）
+    # 簡易名前パターン (網羅的ではない)
     # \b         : 単語境界
-    # [A-Z]      : 大文字1文字
-    # [a-z]+     : 1文字以上の小文字
-    # \s         : 空白文字1文字
-    # [A-Z]      : 大文字1文字
-    # [a-z]+     : 1文字以上の小文字
+    # [A-Z]      : 大文字 1 文字
+    # [a-z]+     : 1 文字以上の小文字
+    # \s         : 空白文字 1 文字
+    # [A-Z]      : 大文字 1 文字
+    # [a-z]+     : 1 文字以上の小文字
     # \b         : 単語境界
     text = re.sub(r"\b[A-Z][a-z]+ [A-Z][a-z]+\b", "<NAME>", text)
 
     return text
 ```
 
-サンプルテキストを使って関数をテストしてみましょう。
+それでは、サンプルテキストを使って関数をテストしてみましょう：
 
 ```python lines
 # 関数をテストする
 test_text = "My name is John Doe, my email is john.doe@example.com, my phone is 123-456-7890, and my SSN is 123-45-6789."
 cleaned_text = redact_with_regex(test_text)
-print(f"Raw text:\n\t{test_text}")
-print(f"Redacted text:\n\t{cleaned_text}")
+print(f"元のテキスト:\n\t{test_text}")
+print(f"編集済みテキスト:\n\t{cleaned_text}")
 ```
 
 <div id="method-2-redact-using-microsoft-presidio">
-  ### 方法 2: Microsoft Presidio を使用してマスクする
+  ### Method 2: Microsoft Presidio を使ってマスキングする
 </div>
 
-次の方法では、[Microsoft Presidio](https://microsoft.github.io/presidio/) を使用して PII データを完全にマスクします。Presidio は PII を検出して、その PII の種類を表すプレースホルダーに置き換えます。例えば、Presidio は `"My name is Alex"` の中の `Alex` を `<PERSON>` に置き換えます。
+次の方法では、[Microsoft Presidio](https://microsoft.github.io/presidio/) を使用して PII データを完全に削除します。Presidio は PII をマスキングし、その PII の種類を表すプレースホルダーに置き換えます。たとえば、Presidio は `"My name is Alex"` の中の `Alex` を `<PERSON>` に置き換えます。
 
-Presidio には、[一般的なエンティティ](https://microsoft.github.io/presidio/supported_entities/) に対する組み込みサポートがあります。以下の例では、`PHONE_NUMBER`、`PERSON`、`LOCATION`、`EMAIL_ADDRESS`、`US_SSN` であるすべてのエンティティをマスクします。Presidio の処理は 1 つの関数としてカプセル化されています。
+Presidio には、[一般的なエンティティ](https://microsoft.github.io/presidio/supported_entities/) を対象とした機能があらかじめ組み込まれています。以下の例では、`PHONE_NUMBER`、`PERSON`、`LOCATION`、`EMAIL_ADDRESS`、`US_SSN` に該当するすべてのエンティティをマスキングします。Presidio の処理は 1 つの関数にカプセル化されています。
 
 ```python lines
 from presidio_analyzer import AnalyzerEngine
 from presidio_anonymizer import AnonymizerEngine
 
-# Analyzerをセットアップします。NLPモジュール（デフォルトではspaCyモデル）およびその他のPII認識器を読み込みます。
+# Analyzer をセットアップします。NLP モジュール（デフォルトでは spaCy モデル）およびその他の PII 認識器を読み込みます。
 analyzer = AnalyzerEngine()
 
-# Anonymizerをセットアップします。アナライザーの結果を使用してテキストを匿名化します。
+# Anonymizer をセットアップします。アナライザーの結果を使用してテキストを匿名化します。
 anonymizer = AnonymizerEngine()
 
-# Presidioの秘匿化処理を関数にカプセル化する
+# Presidio のリダクション処理を関数にカプセル化します
 def redact_with_presidio(text):
-    # テキストを解析してPIIデータを特定する
+    # テキストを解析して PII データを特定します
     results = analyzer.analyze(
         text=text,
         entities=["PHONE_NUMBER", "PERSON", "LOCATION", "EMAIL_ADDRESS", "US_SSN"],
         language="en",
     )
-    # 特定されたPIIデータを匿名化する
+    # 特定された PII データを匿名化します
     anonymized_text = anonymizer.anonymize(text=text, analyzer_results=results)
     return anonymized_text.text
 ```
 
-それでは、この関数をサンプルテキストでテストしてみましょう。
+この関数をサンプルテキストでテストしてみましょう。
 
 ```python lines
 text = "My phone number is 212-555-5555 and my name is alex"
@@ -282,18 +282,18 @@ print(f"編集済みテキスト:\n\t{anonymized_text}")
 ```
 
 <div id="method-3-anonymize-with-replacement-using-faker-and-presidio">
-  ### Method 3: Faker と Presidio を使った置換による匿名化
+  ### メソッド 3: Faker と Presidio を使った置換による匿名化
 </div>
 
-テキストをマスクする代わりに、MS Presidio を使って名前や電話番号などの PII を、[Faker](https://faker.readthedocs.io/en/master/) Python ライブラリで生成した偽データに置き換えることで匿名化できます。たとえば、次のようなデータがあるとします:
+テキストをマスキングする代わりに、MS Presidio を使って名前や電話番号といった PII を、[Faker](https://faker.readthedocs.io/en/master/) Python ライブラリで生成した偽データに置き換えることで匿名化できます。たとえば、次のようなデータがあるとします。
 
 `"My name is Raphael and I like to fish. My phone number is 212-555-5555"`
 
-このデータを Presidio と Faker を使って処理すると、次のようになります:
+このデータを Presidio と Faker を使って処理すると、次のようになります。
 
 `"My name is Katherine Dixon and I like to fish. My phone number is 667.431.7379"`
 
-Presidio と Faker を効果的に組み合わせて使うには、カスタムオペレーターへの参照を指定する必要があります。これらのオペレーターによって、PII を偽データに置き換える役割を持つ Faker の関数をどれにするかを Presidio に指示します。
+Presidio と Faker を効果的に組み合わせて使うには、カスタムオペレーターへの参照を指定する必要があります。これらのオペレーターによって、PII を偽データに置き換えるための Faker 関数を Presidio に関連付けます。
 
 ```python lines
 from faker import Faker
@@ -302,14 +302,14 @@ from presidio_anonymizer.entities import OperatorConfig
 
 fake = Faker()
 
-# faker関数を作成する（値を受け取る必要があることに注意）
+# faker 関数を作成する（値を受け取る必要があることに注意）
 def fake_name(x):
     return fake.name()
 
 def fake_number(x):
     return fake.phone_number()
 
-# PERSONおよびPHONE_NUMBERエンティティのカスタムオペレーターを作成する
+# PERSON および PHONE_NUMBER エンティティ用のカスタムオペレーターを作成する
 operators = {
     "PERSON": OperatorConfig("custom", {"lambda": fake_name}),
     "PHONE_NUMBER": OperatorConfig("custom", {"lambda": fake_number}),
@@ -326,7 +326,7 @@ analyzer_results = analyzer.analyze(
 
 anonymizer = AnonymizerEngine()
 
-# 上記のオペレーターを必ずアノニマイザーに渡すこと
+# 上記のオペレーターを匿名化エンジンに渡すことを忘れずに
 anonymized_results = anonymizer.anonymize(
     text=text_to_anonymize, analyzer_results=analyzer_results, operators=operators
 )
@@ -335,7 +335,7 @@ print(f"Raw text:\n\t{text_to_anonymize}")
 print(f"Anonymized text:\n\t{anonymized_results.text}")
 ```
 
-コードを 1 つのクラスに整理し、先ほど特定した追加の Entities も含めるように一覧を拡張しましょう。
+コードを 1 つのクラスにまとめ、先ほど特定した追加のものも含められるように Entities の一覧を拡張しましょう。
 
 ```python lines
 from typing import ClassVar
@@ -344,9 +344,9 @@ from faker import Faker
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
-# Fakerを拡張してフェイクデータを生成するカスタムクラス
+# Faker を拡張してフェイクデータを生成するカスタムクラス
 class MyFaker(Faker):
-    # faker関数を作成する（値を受け取る必要があることに注意）
+    # faker 関数を作成する（値を受け取る必要があることに注意）
     def fake_address(self):
         return fake.address()
 
@@ -362,7 +362,7 @@ class MyFaker(Faker):
     def fake_email(self):
         return fake.email()
 
-    # Entitiesのカスタムオペレーターを作成する
+    # エンティティ用のカスタムオペレーターを作成する
     operators: ClassVar[dict[str, OperatorConfig]] = {
         "PERSON": OperatorConfig("custom", {"lambda": fake_name}),
         "PHONE_NUMBER": OperatorConfig("custom", {"lambda": fake_number}),
@@ -384,7 +384,7 @@ class MyFaker(Faker):
         return anonymized_results.text
 ```
 
-この関数をサンプルテキストでテストしてみましょう。
+この関数をサンプルテキストでテストしてみましょう：
 
 ```python lines
 faker = MyFaker()
@@ -398,15 +398,15 @@ print(f"Anonymized text:\n\t{anonymized_text}")
 ```
 
 <div id="method-4-use-autopatch_settings">
-  ### メソッド 4: `autopatch_settings` を使用する
+  ### 方法 4: `autopatch_settings` を使う
 </div>
 
-`autopatch_settings` を使用して、サポートされている 1 つ以上の LLM インテグレーションに対する PII 処理を、初期化時に直接設定できます。この方法の利点は次のとおりです。
+`autopatch_settings` を使うと、サポートされている LLM インテグレーションの 1 つ以上に対して、初期化時に直接 PII の処理を設定できます。この方法の利点は次のとおりです。
 
-1. PII 処理ロジックを初期化時点で一元管理しスコープを明確にできるため、各所にカスタムロジックを散在させる必要が減ります。
-2. 特定のインテグレーションごとに、PII 処理ワークフローをカスタマイズしたり、完全に無効化したりできます。
+1. PII 処理ロジックを初期化時に集約し、初期化単位で管理できるため、散在するカスタムロジックの必要性を減らせます。
+2. 特定のインテグレーションについて、PII 処理ワークフローをカスタマイズしたり、完全に無効化したりできます。
 
-`autopatch_settings` を使用して PII 処理を設定するには、サポートされている任意の LLM インテグレーションの `op_settings` に `postprocess_inputs` および / または `postprocess_output` を定義します。
+`autopatch_settings` を使って PII 処理を設定するには、サポートされているいずれかの LLM インテグレーションについて、`op_settings` 内で `postprocess_inputs` および／または `postprocess_output` を定義します。
 
 ```python lines
 
@@ -435,22 +435,22 @@ client = weave.init(
 ```
 
 <div id="apply-the-methods-to-weave-calls">
-  ## Weave 呼び出しにこれらの手法を適用する
+  ## Weave 呼び出しにこれらのメソッドを適用する
 </div>
 
-次の例では、PII のマスキングおよび匿名化手法を Weave Models に統合し、その結果を Weave Traces でプレビューします。
+次の例では、PII のマスキングおよび匿名化メソッドを Weave Models に統合し、その結果を Weave Traces でプレビューします。
 
-まずは [Weave Model](https://docs.wandb.ai/weave/guides/core-types/models) を作成します。Weave Model は、設定、モデルの重み、モデルの動作を定義するコードなどの情報を組み合わせたものです。
+まず、[Weave Model](https://docs.wandb.ai/weave/guides/core-types/models) を作成します。Weave Model は、設定、モデル重み、モデルの動作を定義するコードなどの情報を組み合わせたものです。
 
-このモデル内に、Anthropic API を呼び出す `predict` 関数を含めます。Anthropic の Claude Sonnet を使用して感情分析を行い、[Traces](https://docs.wandb.ai/weave/quickstart) を使って LLM 呼び出しをトレースします。Claude Sonnet はテキストのブロックを受け取り、次のいずれかの感情分類を出力します: *positive*、*negative*、*neutral*。さらに、PII データが LLM に送信される前にマスキングまたは匿名化されるよう、後処理用の関数も含めます。
+このモデルには、Anthropic API を呼び出す `predict` 関数を含めます。Anthropic の Claude Sonnet は、[Traces](https://docs.wandb.ai/weave/quickstart) を使って LLM 呼び出しをトレースしながら感情分析を実行します。Claude Sonnet はテキストブロックを受け取り、次のいずれかの感情クラスとして出力します: *positive*、*negative*、*neutral*。さらに、PII データが LLM に送信される前に必ずマスキングまたは匿名化されるよう、後処理用の関数も含めます。
 
-このコードを実行すると、Weave のプロジェクトページへのリンクと、実行した特定のトレース（LLM 呼び出し）へのリンクが表示されます。
+このコードを実行すると、Weave プロジェクトページへのリンクと、実行した特定の trace（LLM 呼び出し）へのリンクが表示されます。
 
 <div id="regex-method">
   ### Regex メソッド
 </div>
 
-最も単純なケースでは、正規表現 (regex) を使って元のテキストから PII データを特定し、マスクできます。
+最も単純な場合は、元のテキストから PII データを検出してマスクするために正規表現 (regex) を使用できます。
 
 ```python lines
 import json
@@ -460,7 +460,7 @@ import anthropic
 
 import weave
 
-# モデル予測 Weave Op に正規表現によるリダクションを適用する入力後処理関数を定義する
+# モデル予測 Weave Op に対して regex による秘匿化を適用する入力後処理関数を定義する
 def postprocess_inputs_regex(inputs: dict[str, Any]) -> dict:
     inputs["text_block"] = redact_with_regex(inputs["text_block"])
     return inputs
@@ -505,10 +505,10 @@ for entry in pii_data:
 ```
 
 <div id="presidio-redaction-method">
-  ### Presidio によるマスキング方法
+  ### Presidio によるマスキング手法
 </div>
 
-次に、Presidio を使用して元のテキストから PII データを検出し、マスクします。
+次に、Presidio を使用して元のテキストから PII データを特定し、マスキングします。
 
 <Frame>
   ![Presidio PII redaction process with identified PII entities and redacted text output](/media/pii/redact.png)
@@ -519,7 +519,7 @@ from typing import Any
 
 import weave
 
-# モデル予測 Weave Op に Presidio リダクションを適用する入力後処理関数を定義する
+# モデル予測 Weave Op に Presidio の編集（リダクション）を適用する入力後処理関数を定義する
 def postprocess_inputs_presidio(inputs: dict[str, Any]) -> dict:
     inputs["text_block"] = redact_with_presidio(inputs["text_block"])
     return inputs
@@ -564,13 +564,13 @@ for entry in pii_data:
 ```
 
 <div id="faker-and-presidio-replacement-method">
-  ### Faker と Presidio を使った置換方法
+  ### Faker と Presidio を用いた置換方法
 </div>
 
-この例では、Faker を使って匿名化された PII データを生成し、Presidio を使って元のテキスト中の PII データを検出して置換します。
+この例では、Faker で匿名化された PII の代替データを生成し、Presidio で元のテキスト内の PII を検出して置換します。
 
 <Frame>
-  ![Faker と Presidio による PII 置換プロセス：元のテキスト、検出された PII、匿名化された置換値](/media/pii/replace.png)
+  ![元のテキスト、特定された PII、匿名化された代替値を示す Faker と Presidio による PII 置換プロセス](/media/pii/replace.png)
 </Frame>
 
 ```python lines
@@ -610,7 +610,7 @@ class SentimentAnalysisFakerPiiModel(weave.Model):
         parsed = json.loads(result)
         return parsed
 python
-# システムプロンプトを指定して LLM モデルを作成する
+# システムプロンプトを使って LLM モデルを作成する
 model = SentimentAnalysisFakerPiiModel(
     name="claude-3-sonnet",
     model_name="claude-3-5-sonnet-20240620",
@@ -619,7 +619,7 @@ model = SentimentAnalysisFakerPiiModel(
 )
 
 print("Model: ", model)
-# テキストブロックごとに、まず匿名化してから予測を実行する
+# テキストブロックごとに、まず匿名化してから予測する
 for entry in pii_data:
     await model.predict(entry["text"])
 ```
@@ -628,7 +628,7 @@ for entry in pii_data:
   ### `autopatch_settings` メソッド
 </div>
 
-次の例では、初期化時に `anthropic` 向けの `postprocess_inputs` に `postprocess_inputs_regex()` 関数を設定します。`postprocess_inputs_regex` 関数は、[Method 1: Regular Expression Filtering](#method-1-regular-expression-filtering) で定義した `redact_with_regex` メソッドを適用します。これにより、すべての `anthropic` モデルへの入力に `redact_with_regex` が適用されるようになります。
+次の例では、初期化時に `anthropic` に対する `postprocess_inputs` を `postprocess_inputs_regex()` 関数に設定します。`postprocess_inputs_regex` 関数は、[Method 1: Regular Expression Filtering](#method-1-regular-expression-filtering) で定義した `redact_with_regex` メソッドを適用します。これにより、すべての `anthropic` モデルへの入力に `redact_with_regex` が適用されるようになります。
 
 ```python lines
 from typing import Any
@@ -673,7 +673,7 @@ class SentimentAnalysisRegexPiiModel(weave.Model):
         parsed = json.loads(result)
         return parsed
 python
-# システムプロンプトを使用して LLM モデルを作成する
+# システムプロンプトを使って LLM モデルを作成する
 model = SentimentAnalysisRegexPiiModel(
     name="claude-3-sonnet",
     model_name="claude-3-5-sonnet-20240620",
@@ -692,10 +692,10 @@ for entry in pii_data:
 </div>
 
 <Frame>
-  ![暗号化されたテキスト出力と暗号鍵管理を含む PII データ暗号化プロセス](/media/pii/encrypt.png)
+  ![PII データ暗号化プロセス（暗号化されたテキスト出力と暗号鍵管理付き）](/media/pii/encrypt.png)
 </Frame>
 
-PII を匿名化することに加えて、`cryptography` ライブラリの [Fernet](https://cryptography.io/en/latest/fernet/) 対称鍵暗号を使ってデータを暗号化し、セキュリティをさらに強化できます。この方法により、匿名化されたデータが第三者に傍受されたとしても、暗号鍵がなければ内容を読み取ることはできません。
+PII を匿名化することに加えて、cryptography ライブラリの [Fernet](https://cryptography.io/en/latest/fernet/) 共通鍵方式の暗号化を使ってデータを暗号化することで、セキュリティ層をさらに追加できます。この方法により、たとえ匿名化済みのデータが傍受されたとしても、暗号鍵がなければ読み取れない状態を保てます。
 
 ```python lines
 import os
@@ -703,7 +703,7 @@ from cryptography.fernet import Fernet
 from pydantic import BaseModel, ValidationInfo, model_validator
 
 def get_fernet_key():
-    # 環境変数にキーが存在するか確認する
+    # キーが環境変数に存在するか確認する
     key = os.environ.get('FERNET_KEY')
 
     if key is None:
@@ -712,7 +712,7 @@ def get_fernet_key():
         # キーを環境変数に保存する
         os.environ['FERNET_KEY'] = key.decode()
     else:
-        # キーが存在する場合、バイト型であることを確認する
+        # キーが存在する場合、バイト形式であることを確認する
         key = key.encode()
 
     return key

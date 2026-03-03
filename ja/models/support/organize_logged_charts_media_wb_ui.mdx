@@ -1,8 +1,8 @@
 ---
-title: W&B UI で記録したチャートやメディアを整理するには？
+title: W&B UI で記録したチャートやメディアを整理するにはどうすればよいですか？
 ---
 
-`/` 文字は W&amp;B UI で記録されたパネルを区切るために使われます。既定では、記録された項目名のうち `/` より前の部分が、「Panel Section」と呼ばれるパネルグループを定義します。
+`/` 文字は、W&amp;B UI で記録されたパネルを区切ります。デフォルトでは、記録した項目名の `/` より前の部分によって、「Panel Section」と呼ばれるパネルグループが定義されます。
 
 ```python
 import wandb
@@ -13,4 +13,4 @@ with wandb.init() as run:
    run.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-[Workspace](/ja/models/track/project-page/#workspace-tab) の設定で、`/` で区切られた最初のセグメント、またはすべてのセグメントのいずれかに基づいてパネルのグループ化を調整します。
+[Workspace](/ja/models/track/project-page/#workspace-tab) の設定で、`/` で区切られた最初のセグメント、またはすべてのセグメントのいずれかに基づいてパネルのグループ化方法を調整します。

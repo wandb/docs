@@ -1,5 +1,5 @@
 ---
-title: ファイル
+title: Files
 namespace: public_apis_namespace
 python_object_type: class
 ---
@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Files`
 
-`File` オブジェクトのコレクションに対する遅延イテレータです。
+`File` オブジェクトのコレクションに対する遅延イテレーターです。
 
-run 中に W&amp;B にアップロードされたファイルにアクセスして管理します。多数のファイルを含むコレクションを反復処理する際は、ページネーションを自動的に処理します。
+run 中に W&amp;B にアップロードされたファイルへのアクセスと管理を行います。多数のファイルを含むコレクションを反復処理する際も、自動的にページネーションを処理します。
 
 **例:**
 
@@ -38,7 +38,7 @@ for file in files:
 ```
 
 
-### <kbd>メソッド</kbd> `Files.__init__`
+### <kbd>method</kbd> `Files.__init__`
 
 ```python
 __init__(
@@ -51,22 +51,24 @@ __init__(
 )
 ```
 
-`File` オブジェクトのコレクションに対する遅延イテレータを初期化します。
+`File` オブジェクトのコレクションに対する遅延評価イテレーターを初期化します。
 
-必要に応じて、W&amp;B サーバーからページ単位でファイルが取得されます。
+必要に応じて、ファイルは W&amp;B サーバーからページ単位で取得されます。
 
 **引数:**
 
 * `client`:  ファイルを含む run オブジェクト
 * `run`:  ファイルを含む run オブジェクト
 * `names` (list, optional):  ファイルをフィルタリングするためのファイル名のリスト
-* `per_page` (int, optional):  ページごとに取得するファイル数
+* `per_page` (int, optional):  1 ページあたりに取得するファイル数
 * `upload` (bool, optional):  `True` の場合、各ファイルのアップロード URL を取得する
-* `pattern` (str, optional):  W&amp;B からファイルを返す際に照合するパターン。 このパターンは MySQL の LIKE 構文を使用するため、`.json` で終わるすべてのファイルにマッチさせるには「%.json」となります。`names` と `pattern` の両方が指定された場合は、ValueError が送出されます。
+* `pattern` (str, optional):  W&amp;B からファイルを取得する際にマッチさせるパターン。
+  このパターンは MySQL の LIKE 構文を使用します。たとえば、拡張子が .json で終わるすべてのファイルにマッチさせるには &quot;%.json&quot; となります。
+  `names` と `pattern` の両方が指定された場合、ValueError が発生します。
 
 ***
 
 
-### <kbd>プロパティ</kbd> Files.length
+### <kbd>property</kbd> Files.length
 
 ---

@@ -1,34 +1,33 @@
 ---
-title: "ガードレールとしてのスコアラー"
-description: "W&B Weave でスコアラーをガードレールとして使う方法を学びます"
+title: "Scorers を Guardrails として使う"
+description: "W&B Weave で scorers を guardrails として使う方法を解説します"
 ---
 
 <Note>
-これはインタラクティブなノートブックです。ローカルで実行するか、次のリンクから開くことができます:
+これは対話型ノートブックです。ローカルで実行するか、以下のリンクから利用できます:
 - [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
 - [GitHub 上のソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
 </Note>
 
 <div id="scorers-as-guardrails">
-  # ガードレールとしての Scorer
+  # ガードレールとしての Scorers
 </div>
 
-Weave の Scorer は、呼び出し結果のパフォーマンスを評価する `score` メソッドを持つ特別なクラスです。単純なルールから、判定者として機能する複雑な LLM まで、さまざまなものがあります。
+Weave Scorers は、呼び出しのパフォーマンスを評価する `score` メソッドを持つ特別なクラスです。単純なルールから、判定者として動作する複雑な LLM まで、さまざまなものがあります。
 
-このノートブックでは、Scorer をガードレールとして活用し、LLM が有害または不適切なコンテンツを生成しないようにする方法を紹介します。
+このノートブックでは、Scorers をガードレールとして使用し、LLM が有害または不適切なコンテンツを生成することを防ぐ方法を見ていきます。
 
 ```python lines
 %pip install weave --quiet
 python
 """
-Weaveにガードレールを実装する方法を示すサンプルコードです。
-このサンプルでは、有害または否定的なレスポンスを防ぐ
-シンプルなコンテンツ安全チェッカーを示します。
+Weave でガードレールを実装する方法を示すサンプルコードです。
+有害または否定的なレスポンスを防ぐシンプルなコンテンツ安全チェッカーを示します。
 """
 
 import weave
 
-# わかりやすいプロジェクト名でWeaveを初期化する
+# わかりやすいプロジェクト名で Weave を初期化する
 weave.init("content-safety-guardrails")
 
 class ContentSafetyScorer(weave.Scorer):
@@ -46,7 +45,7 @@ class ContentSafetyScorer(weave.Scorer):
             output: 評価対象のテキスト出力
 
         Returns:
-            bool: 出力が安全な場合はTrue、安全でない場合はFalse
+            bool: 出力が安全な場合は True、安全でない場合は False
         """
         normalized_output = output if self.case_sensitive else output.lower()
 
@@ -58,7 +57,7 @@ class ContentSafetyScorer(weave.Scorer):
 
 @weave.op
 def generate_response(prompt: str) -> str:
-    """LLMのレスポンス生成をシミュレートする。"""
+    """LLM のレスポンス生成をシミュレートする。"""
     if "test" in prompt.lower():
         return "I'm sorry, I cannot process that request."
     elif "help" in prompt.lower():
@@ -77,7 +76,7 @@ async def process_with_guardrail(prompt: str) -> str:
         unsafe_phrases=["sorry", "cannot", "unable", "won't", "will not"],
     )
 
-    # レスポンスを生成してCallオブジェクトを取得する
+    # レスポンスを生成して Call オブジェクトを取得する
     response, call = generate_response.call(prompt)
 
     # 安全スコアリングを適用する
@@ -96,7 +95,7 @@ test_prompts = [
     "Tell me a joke",
 ]
 
-print("コンテンツ安全ガードレールのテスト中:\n")
+print("コンテンツ安全ガードレールをテスト中:\n")
 
 for prompt in test_prompts:
     print(f"Input: '{prompt}'")

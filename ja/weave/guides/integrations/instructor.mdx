@@ -1,21 +1,21 @@
 ---
 title: Instructor
-description: "Weave の Instructor インテグレーションを使って LLM からの構造化データ抽出をトレースおよび評価し、Pydantic モデルの検証、リトライ ロジック、JSON スキーマ適用を記録して、信頼性の高い構造化出力ワークフローを実現します。"
+description: "Weave の Instructor インテグレーションを使用して、LLM からの構造化データ抽出をトレースおよび評価します。Pydantic モデルの検証、リトライ ロジック、JSON スキーマの適用を記録し、信頼性の高い構造化出力ワークフローを実現します。"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_instructor.ipynb" aria-label="Google Colab で開く">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
 </a>
 
-[Instructor](https://python.useinstructor.com/) は、LLM から JSON のような構造化データを簡単に取得できる軽量ライブラリです。
+[Instructor](https://python.useinstructor.com/) は、LLM から JSON などの構造化データを簡単に取得できる軽量なライブラリです。
 
 <div id="tracing">
   ## トレース
 </div>
 
-言語モデルアプリケーションのトレースは、開発中と本番環境の両方で、一元的な場所に保存・管理しておくことが重要です。これらのトレースはデバッグに役立つだけでなく、アプリケーションの改善に役立つデータセットとしても利用できます。
+言語モデルアプリケーションのトレースを、開発中と本番環境の両方で一元管理された場所に保存しておくことは重要です。これらのトレースはデバッグに役立つだけでなく、アプリケーションの改善に役立つデータセットとしても利用できます。
 
-Weave は [Instructor](https://python.useinstructor.com/) のトレースを自動的に取得します。トレースの記録を開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、その後は通常どおりライブラリを使用してください。
+Weave は [Instructor](https://python.useinstructor.com/) のトレースを自動的に取得します。トラッキングを開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、あとは通常どおりライブラリを使用します。
 
 ```python lines
 import instructor
@@ -43,19 +43,19 @@ user_info = client.chat.completions.create(
 )
 ```
 
-| ![Weave での Instructor LM トレース（構造化出力抽出ワークフロー）](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif) |
-| ----------------------------------------------------------------------------------------------------------------- |
-| これで Weave は、Instructor を使用して行われるすべての LLM 呼び出しを追跡し、ログとして記録します。トレースは Weave の Web インターフェースで確認できます。                   |
+| ![Instructor LM trace in Weave with structured output extraction workflow](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif) |
+| ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| これで Weave は、Instructor を使って行われたすべての LLM 呼び出しを追跡してログに記録します。Weave の Web インターフェースでトレースを確認できます。                                                    |
 
 <div id="track-your-own-ops">
-  ## 自分の op をトラッキングする
+  ## 独自の op をトラッキングする
 </div>
 
-関数を `@weave.op` でラップすると、入力・出力やアプリのロジックのキャプチャが始まり、アプリ内でデータがどのように流れているかをデバッグできるようになります。op は深くネストしてツリー状の関数構造を作成でき、追跡したい関数を細かく指定できます。また、実験中のコードも自動でバージョニングされるため、まだ git にコミットしていないアドホックな変更内容も記録されます。
+関数を `@weave.op` でラップすると、入力・出力・アプリのロジックがキャプチャされ、アプリ内をデータがどのように流れていくかをデバッグできるようになります。op は深くネストでき、トラッキングしたい関数の木構造を構築できます。これにより、git にコミットしていないアドホックな変更も含めて、実験中のコードのバージョン管理が自動的に開始されます。
 
-[`@weave.op`](/ja/weave/guides/tracking/ops) でデコレートされた関数を作成するだけです。
+[`@weave.op`](/ja/weave/guides/tracking/ops) でデコレートされた関数を定義するだけです。
 
-以下の例では、`extract_person` という関数が、`@weave.op` でラップされたメトリクス関数になっています。これにより、OpenAI の chat completion 呼び出しなどの中間ステップがどのように処理されているかを確認できます。
+以下の例では、`extract_person` という関数が `@weave.op` でラップされたメトリクス関数になっています。これにより、OpenAI の chat completion 呼び出しなど、中間ステップがどのように動作しているかを確認できます。
 
 ```python lines
 import instructor
@@ -92,19 +92,19 @@ def extract_person(text: str) -> Person:
 person = extract_person("My name is John and I am 20 years old")
 ```
 
-| ![構造化オブジェクト、関数入力、出力、および Pydantic モデル検証を含む Instructor の op トレース](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png)                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `extract_person` 関数に `@weave.op` デコレータを付与すると、関数の入力、出力、および関数内で行われるすべての内部 LM 呼び出しがトレースされます。さらに Weave は、Instructor によって生成された構造化オブジェクトも自動的に追跡し、バージョン管理します。 |
+| ![Instructor の op trace。構造化オブジェクト、関数入力、出力、および Pydantic モデル検証が表示されている](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png)        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `extract_person` 関数に `@weave.op` デコレータを付けると、その入力と出力、および関数内で行われるすべての内部 LM 呼び出しがトレースされます。Weave は Instructor によって生成された構造化オブジェクトも自動的に追跡し、バージョン管理します。 |
 
 <div id="create-a-model-for-easier-experimentation">
-  ## 実験を効率化するために `Model` を作成する
+  ## 実験を簡単にするために `Model` を作成する
 </div>
 
-多くの要素が絡み合うと、実験を整理するのは困難です。[`Model`](../core-types/models) クラスを使うことで、システムプロンプトや使用しているモデルなど、アプリの実験に関する詳細を保存・整理できます。これにより、アプリのさまざまな反復バージョンを体系的に整理し、比較しやすくなります。
+要素が多くなると、実験を整理するのは難しくなります。[`Model`](../core-types/models) クラスを使うと、システムプロンプトや使用している モデル など、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまな反復を整理し、比較しやすくなります。
 
-コードのバージョン管理や入出力の記録に加えて、[`Model`](../core-types/models) はアプリケーションの挙動を制御する構造化されたパラメータも保持するため、どのパラメータ設定が最も有効だったかを簡単に見つけることができます。Weave Models は `serve`（後述）や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
+コードのバージョニングや入出力の記録に加えて、[`Model`](../core-types/models) はアプリケーションの挙動を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も有効だったかを簡単に特定できます。また、Weave Models を `serve`（下記参照）や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
 
-以下の例では、`PersonExtractor` を使って実験できます。これらの設定のいずれかを変更するたびに、`PersonExtractor` の新しい *バージョン* が作成されます。
+以下の例では、`PersonExtractor` を使って実験できます。これらのいずれかを変更するたびに、`PersonExtractor` の新しい *バージョン* が作成されます。
 
 ```python lines
 import asyncio
@@ -116,7 +116,7 @@ from openai import AsyncOpenAI
 from pydantic import BaseModel
 
 
-# 希望する出力構造を定義する
+# 出力構造を定義する
 class Person(BaseModel):
     person_name: str
     age: int
@@ -158,21 +158,21 @@ model = PersonExtractor(openai_model="gpt-4", max_retries=2)
 asyncio.run(model.predict("John is 30 years old"))
 ```
 
-| ![Instructor Weave モデルのトレースとバージョン管理インターフェース。モデルバージョンとトレース履歴が表示されている](/weave/guides/integrations/imgs/instructor/instructor_weave_model.png) |
-| ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`Model`](../core-types/models) を使って呼び出しをトレースし、バージョン管理する                                                                                    |
+| ![モデルバージョンとトレース履歴を表示する Instructor Weave モデルのトレースとバージョン管理インターフェース](/weave/guides/integrations/imgs/instructor/instructor_weave_model.png) |
+| ---------------------------------------------------------------------------------------------------------------------------------------- |
+| [`Model`](../core-types/models) を使って呼び出しをトレースし、バージョン管理する                                                                                 |
 
 <div id="serving-a-weave-model">
   ## Weave モデルの提供
 </div>
 
-`weave.Model` オブジェクトへの Weave リファレンスがあれば、FastAPI サーバーを立ち上げて、それを [`serve`](https://docs.wandb.ai/weave/guides/tools/serve) できます。
+`weave.Model` オブジェクトへの weave リファレンスがあれば、FastAPI サーバーを立ち上げて、それを [`serve`](https://docs.wandb.ai/weave/guides/tools/serve) できます。
 
-| [![FastAPI サーバー設定およびモデル提供オプションを備えた Instructor serve インターフェース](/weave/guides/integrations/imgs/instructor/instructor_serve.png)](https://wandb.ai/geekyrakshit/instructor-test/weave/objects/PersonExtractor/versions/xXpMsJvaiTOjKafz1TnHC8wMgH5ZAAwYOaBMvHuLArI) |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 任意の `weave.Model` の Weave リファレンスは、モデル画面に移動し、UI からコピーすることで取得できます。                                                                                                                                                                                                  |
+| [![FastAPI サーバーの設定とモデル提供オプションを備えた Instructor の serve インターフェース](/weave/guides/integrations/imgs/instructor/instructor_serve.png)](https://wandb.ai/geekyrakshit/instructor-test/weave/objects/PersonExtractor/versions/xXpMsJvaiTOjKafz1TnHC8wMgH5ZAAwYOaBMvHuLArI) |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 任意の `weave.Model` の weave リファレンスは、そのモデルのページに移動し、UI からコピーすることで取得できます。                                                                                                                                                                                               |
 
-次のコマンドをターミナルで実行して、モデルを提供できます。
+ターミナルで次のコマンドを実行してモデルを提供できます。
 
 ```shell
 weave serve weave://your_entity/project-name/YourModel:<hash>

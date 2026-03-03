@@ -2,7 +2,7 @@
 title: Plotly または Bokeh のチャートを Tables に追加するにはどうすればよいですか？
 ---
 
-Plotly または Bokeh の figure を Tables のテーブルに直接埋め込むことはサポートされていません。代わりに、figure を HTML にエクスポートし、その HTML をテーブルに含めてください。以下に、インタラクティブな Plotly と Bokeh のチャートでこれを行う例を示します。
+Plotly や Bokeh の figure をテーブルに直接インテグレーションすることには対応していません。代わりに、figure を HTML にエクスポートし、その HTML をテーブルに含めてください。以下に、インタラクティブな Plotly と Bokeh のチャートでこれを行う例を示します。
 
 <Tabs>
 <Tab title="Plotly を使用する">
@@ -23,7 +23,7 @@ with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
     fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
     # Plotly figure を HTML にエクスポート
-    # auto_play を False に設定すると、アニメーション付き Plotly チャートが自動再生されるのを防ぐ
+    # auto_play を False に設定すると、Plotly のアニメーション チャートが自動再生されるのを防ぐ
     fig.write_html(path_to_plotly_html, auto_play=False)
 
     # Plotly figure を HTML ファイルとしてテーブルに追加

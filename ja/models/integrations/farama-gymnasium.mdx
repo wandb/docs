@@ -3,14 +3,12 @@ description: W&B を Farama Gymnasium とインテグレーションする方法
 title: Farama Gymnasium
 ---
 
-[Farama Gymnasium](https://gymnasium.farama.org/#) を使用している場合、`gymnasium.wrappers.Monitor` によって生成された環境の動画は自動的にログされます。`wandb.init` の `monitor_gym` キーワード引数を `True` に設定するだけです。
+[Farama Gymnasium](https://gymnasium.farama.org/#) を使用している場合、`gymnasium.wrappers.Monitor` によって生成された環境の動画は自動でログに記録されます。[`wandb.init`](/ja/models/ref/python/functions/init) のキーワード引数 `monitor_gym` を `True` に設定してください。
 
-Gymnasium 向けのインテグレーションは非常に軽量です。`gymnasium` からログされる[動画ファイル名を確認](https://github.com/wandb/wandb/blob/c5fe3d56b155655980611d32ef09df35cd336872/wandb/integration/gym/__init__.py#LL69C67-L69C67)し、そのファイル名を動画の名前として使用するか、一致するものが見つからない場合は `"videos"` を使います。より細かく制御したい場合は、[動画を手動でログ](/ja/models/track/log/media/)することもできます。
+Gymnasium とのインテグレーションはごく軽量です。`gymnasium` からログされる[動画ファイル名を確認](https://github.com/wandb/wandb/blob/c5fe3d56b155655980611d32ef09df35cd336872/wandb/integration/gym/__init__.py#LL69C67-L69C67)し、そのファイル名を動画名として使用するか、一致するものがない場合は `"videos"` をデフォルト名として使用します。より細かく制御したい場合は、手動で[動画をログ](/ja/models/track/log/media/)することもできます。
 
-`wandb.init` へのリンク（`monitor_gym` の説明箇所）も元の文書にあったため、こちらにもリンクを明示します: [`wandb.init`](/ja/models/ref/python/functions/init)
-
-CleanRL ライブラリとあわせて Gymnasium を使う方法について詳しく知りたい場合は、この[レポート](https://wandb.ai/raph-test/cleanrltest/reports/Mario-Bros-but-with-AI-Gymnasium-and-CleanRL---Vmlldzo0NTcxNTcw)を参照してください。
+Gymnasium を CleanRL ライブラリと組み合わせて使う方法については、この[レポート](https://wandb.ai/raph-test/cleanrltest/reports/Mario-Bros-but-with-AI-Gymnasium-and-CleanRL---Vmlldzo0NTcxNTcw)を参照してください。
 
 <Frame>
-  <img src="/images/integrations/gymnasium.png" alt="Gymnasium RL environment" />
+  <img src="/images/integrations/gymnasium.png" alt="Gymnasium の RL 環境" />
 </Frame>

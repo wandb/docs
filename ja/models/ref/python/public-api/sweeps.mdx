@@ -11,16 +11,16 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Sweeps`
 
-`Sweep` オブジェクトのコレクションに対する遅延イテレータです。
+`Sweep` オブジェクトのコレクションに対する遅延評価イテレーター。
 
-**例:**
+**使用例:**
 
 ```python
 from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
-# スイープを反復処理して詳細を表示する
+# sweep を反復処理して詳細を表示する
 for sweep in sweeps:
      print(f"Sweep name: {sweep.name}")
      print(f"Sweep ID: {sweep.id}")
@@ -40,14 +40,14 @@ __init__(
 ) → Sweeps
 ```
 
-`Sweep` オブジェクトのイテラブルなコレクション。
+`Sweep` オブジェクトの反復可能なコレクション。
 
 **引数:**
 
-* `client`:  W&amp;B にクエリを送信するための API クライアント。
-* `entity`:  Sweeps を所有するエンティティ。
-* `project`:  Sweeps を含むプロジェクト。
-* `per_page`:  API への 1 回のリクエストで取得する Sweeps の数。
+* `client`:  W&amp;B にクエリを送信するために使用する API クライアント。
+* `entity`:  sweep を所有している entity。
+* `project`:  sweep を含むプロジェクト。
+* `per_page`:  API への 1 回のリクエストごとに取得する sweep の数。
 
 ***
 

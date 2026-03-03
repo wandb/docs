@@ -1,9 +1,9 @@
 ---
-title: "Serve"
-description: "Weave の ops とモデルを API エンドポイントとして公開する"
+title: "提供"
+description: "Weave の ops と モデルを API エンドポイントとして公開する"
 ---
 
-任意の Weave モデルへの Weave ref があれば、以下を実行できます：
+任意の Weave Model への Weave ref があれば、以下を実行できます:
 
 ```
 weave serve <ref>
@@ -31,7 +31,7 @@ pip install fastapi uvicorn
 weave serve <your model ref>
 ```
 
-UI で対象のモデルに移動し、`model ref` をコピーします。次のような形式になっています:
+モデルのページに移動し、UI からコピーしてモデルの ref を取得します。次のような形式になります:
 `weave://your_entity/project-name/YourModel:<hash>`
 
 これを使用するには、Swagger UI のリンクを開き、predict エンドポイントをクリックしてから「Try it out!」をクリックします。

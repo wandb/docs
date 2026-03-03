@@ -1,15 +1,15 @@
 ---
-title: "既存のアーティファクトをレジストリにリンクする"
+title: "Registry で既存の Artifacts をリンクする"
 ---
 
 ```python
 """
-W&B のアーティファクトを作成し、レジストリ内のコレクションにリンクします。
+W&B の Artifacts を作成し、レジストリ内のコレクションにリンクします。
 コレクションが存在しない場合、W&B が自動的に作成します。
 """
 import wandb
 
-# アーティファクトオブジェクトを作成する
+# Artifacts オブジェクトを作成する
 artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
 
 # レジストリ名とコレクション名を定義する
@@ -19,6 +19,6 @@ target_path = f"wandb-registry-{registry_name}/{collection_name}"
 
 # run を初期化する
 with wandb.init(entity = "<entity>", project = "<project>") as run:
-  # アーティファクトをコレクションにリンクする。コレクションが存在しない場合、W&B が作成する。
+  # Artifacts をコレクションにリンクする。コレクションが存在しない場合、W&B が作成する。
   run.link_artifact(artifact = artifact, target_path = target_path)
 ```

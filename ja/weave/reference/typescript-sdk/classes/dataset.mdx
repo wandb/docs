@@ -5,9 +5,9 @@ description: "TypeScript SDK リファレンス"
 
 [weave](../) / Dataset
 
-簡単に保存でき、自動でバージョン管理される Dataset オブジェクト
+簡単に保存できて自動バージョニング機能を備えた Dataset オブジェクト
 
-`例`
+`Example`
 
 ```ts
 // データセットを作成する
@@ -20,7 +20,7 @@ const dataset = new Dataset({
   ]
 })
 
-// 特定の例にアクセスする
+// 特定のサンプルにアクセスする
 const exampleLabel = dataset.getRow(2).sentence;
 
 // データセットを保存する
@@ -28,14 +28,14 @@ const ref = await dataset.save()
 ```
 
 
-## 型パラメータ
+## 型パラメーター
 
-| 名称 | 型 |
+| 名前 | 型 |
 | :------ | :------ |
-| `R` | extends `DatasetRow` |
+| `R` | `DatasetRow` を継承する型 |
 
 <div id="hierarchy">
-  ## 階層構造
+  ## 階層
 </div>
 
 - [`WeaveObject`](./weaveobject)
@@ -47,10 +47,10 @@ const ref = await dataset.save()
 </div>
 
 <div id="constructors">
-  ### コンストラクター
+  ### コンストラクタ
 </div>
 
-- [コンストラクター](./dataset#constructor)
+- [コンストラクタ](./dataset#constructor)
 
 <div id="properties">
   ### プロパティ
@@ -78,14 +78,14 @@ const ref = await dataset.save()
 
 ## コンストラクタ
 
-<div id="constructor">
+<div id="constructors">
   ### コンストラクタ
 </div>
 
 • **new Dataset**\<`R`\>(`parameters`): [`Dataset`](./dataset)\<`R`\>
 
 <div id="type-parameters">
-  #### 型パラメータ
+  #### 型パラメーター
 </div>
 
 | 名前 | 型 |
@@ -93,7 +93,7 @@ const ref = await dataset.save()
 | `R` | extends `DatasetRow` |
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | 名前 | 型 |
@@ -128,9 +128,7 @@ const ref = await dataset.save()
 
 [WeaveObject](./weaveobject).[__savedRef](./weaveobject#__savedref)
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
 
@@ -142,7 +140,9 @@ ___
 
 • **rows**: `Table`\<`R`\>
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [dataset.ts:49](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L49)
 
@@ -186,9 +186,7 @@ ___
 
 `number`
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [dataset.ts:64](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L64)
 
@@ -212,9 +210,7 @@ ___
 
 WeaveObject.name
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
 
@@ -247,7 +243,7 @@ ___
 ▸ **getRow**(`index`): `R`
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | 名前 | 型 |
@@ -278,7 +274,9 @@ ___
 
 `Promise`\<[`ObjectRef`](./objectref)\>
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [dataset.ts:60](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L60)
 
@@ -302,6 +300,8 @@ ___
 
 [WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)

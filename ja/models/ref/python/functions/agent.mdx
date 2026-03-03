@@ -22,15 +22,15 @@ agent(
 ) → None
 ```
 
-1 つ以上の sweep agent を起動します。
+1 つ以上の sweep エージェントを起動します。
 
-sweep agent は、どの sweep に属しているか、どの function を実行するか、そして（オプションで）いくつの agent を動かすかを判断するために `sweep_id` を使用します。
+sweep エージェントは `sweep_id` を使用して、自分がどの sweep に属しているか、どの関数を実行するか、そして（オプションで）いくつのエージェントを実行するかを判断します。
 
 **Args:**
 
-* `sweep_id`:  スイープの一意の識別子。スイープ ID は W&amp;B CLI または Python SDK によって生成されます。
-* `function`:  sweep config で指定された「program」の代わりに呼び出す function。
-* `entity`:  スイープによって作成される W&amp;B run を送信したいユーザー名またはチーム名。指定した entity がすでに存在することを確認してください。entity を指定しない場合、run は通常あなたのユーザー名であるデフォルトの entity に送信されます。
-* `project`:  スイープから作成された W&amp;B run が送信されるプロジェクト名。project が指定されていない場合、run は「Uncategorized」とラベル付けされたプロジェクトに送信されます。
-* `count`:  実行する sweep config の trial 数。
-* `forward_signals`:  agent が受信したシグナルを子プロセスに転送するかどうか。CLI agent のみサポートされます。
+* `sweep_id`:  sweep の一意な識別子。sweep ID は W&amp;B CLI または Python SDK によって生成されます。
+* `function`:  sweep 設定で指定された「program」の代わりに呼び出す関数。
+* `entity`:  sweep によって作成された W&amp;B run を送信したいユーザー名またはチーム名。指定した entity が既に存在していることを確認してください。entity を指定しない場合、run は通常あなたのユーザー名であるデフォルトの entity に送信されます。
+* `project`:  sweep から作成された W&amp;B run が送信されるプロジェクト名。project が指定されていない場合、run は「Uncategorized」というラベルの付いたプロジェクトに送信されます。
+* `count`:  実行する sweep の試行回数。
+* `forward_signals`:  エージェントが受信したシグナルを子プロセスに転送するかどうか。CLI エージェントでのみサポートされます。

@@ -1,39 +1,39 @@
 ---
-title: レジストリを削除する
+title: レジストリの削除
 ---
 
-このページでは、Team 管理者または Registry 管理者がレジストリを削除する方法を説明します。
+このページでは、Team admin または Registry admin がレジストリを削除する方法を説明します。
 
-- Team 管理者は、組織内の任意のレジストリを削除できます。
-- Registry 管理者は、自分が作成したレジストリを削除できます。
+- Team admin は、組織内の任意のレジストリを削除できます。
+- Registry admin は、自分で作成したレジストリを削除できます。
 
-レジストリを削除すると、そのレジストリに属するコレクションも削除されますが、レジストリにリンクされているアーティファクトは削除されません。 そのようなアーティファクトは、ログを記録した元のプロジェクト内に残ります。
+レジストリを削除すると、そのレジストリに属する collection も削除されますが、レジストリにリンクされている Artifacts は削除されません。そのような Artifacts は、ログされた元のプロジェクトにそのまま残ります。
 
 <Tabs>
 <Tab title="Python SDK">
-`wandb` API の `delete()` メソッドを使用して、レジストリをプログラムで削除できます。 次の例では、以下の手順を示します。
+`wandb` API の `delete()` メソッドを使用して、レジストリをプログラムから削除できます。次の例では、以下を行います。
 
-1. `api.registry()` を使って削除したいレジストリを取得します。
+1. 削除したいレジストリを `api.registry()` で取得します。
 1. 取得したレジストリオブジェクトに対して `delete()` メソッドを呼び出し、レジストリを削除します。
 
 ```python
 import wandb
 
-# W&B API を初期化
+# Initialize the W&B API
 api = wandb.Api()
 
-# 削除したいレジストリを取得
+# Fetch the registry you want to delete
 fetched_registry = api.registry("<registry_name>")
 
-# レジストリを削除
+# Deleting a registry
 fetched_registry.delete()
 ```
 </Tab>
 <Tab title="W&B App">
-1. https://wandb.ai/registry/ にアクセスして W&B Registry を開きます。
+1. https://wandb.ai/registry/ にアクセスして、W&B Registry を開きます。
 2. 削除したいレジストリを選択します。
-3. 右上の歯車アイコンをクリックして、レジストリの設定を表示します。
+3. 右上の歯車アイコンをクリックして、そのレジストリの設定を表示します。
 4. レジストリを削除するには、設定ページ右上のゴミ箱アイコンをクリックします。
-5. 表示されるモーダルウィンドウで、削除するレジストリ名を入力して確認し、**Delete** をクリックします。
+5. 表示されるモーダルでレジストリ名を入力して削除対象を確認し、**Delete** をクリックします。
 </Tab>
 </Tabs>

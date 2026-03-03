@@ -1,13 +1,13 @@
 ---
-title: Experiments の概要
-description: 機械学習実験のトラッキングとアーティファクト管理のために、W&B Python SDK の基盤クラスを使う
+title: Experiments 概要
+description: W&B Python SDK の基盤クラスを使用して実験をトラッキングし、 Artifacts を管理する
 module: wandb
 no_list: true
 ---
 
-これらのクラスは、機械学習実験のトラッキング、アーティファクトの管理、および SDK の動作設定のための中核となる構成要素です。これらの基盤クラスを使用すると、メトリクスを記録し、モデルのチェックポイントを保存し、データセットのバージョン管理を行い、完全な再現性と共同作業機能を備えた形で実験の設定を管理できます。
+これらのクラスは、機械学習実験のトラッキング、 Artifacts の管理、SDK の動作設定のための中核的な構成要素です。これらの基盤クラスにより、メトリクスのログ記録、モデル チェックポイントの保存、データセットのバージョン管理、および実験設定の管理を、高い再現性とコラボレーション機能とともに行うことができます。
 
-> ML 実験でこれらのクラスを使用する方法の詳細については、[Experiments](/ja/models/ref/python/experiments/) および [Artifacts](/ja/models/artifacts/) のドキュメントを参照してください。
+> これらのクラスを ML 実験で使用する方法の詳細については、[Experiments](/ja/models/ref/python/experiments/) および [Artifacts](/ja/models/artifacts/) のドキュメントを参照してください。
 
 <div id="core-classes">
   ## コアクラス
@@ -15,46 +15,46 @@ no_list: true
 
 | クラス | 説明 |
 |-------|-------------|
-| [`Run`](/ja/models/ref/python/experiments/run/) | W&amp;B にログされる主要な計算単位であり、メトリクス、設定、出力を含む単一の ML 実験を表します。 |
-| [`Artifact`](/ja/models/ref/python/experiments/artifact/) | データセットやモデルのバージョニングのための柔軟かつ軽量な構成要素であり、自動重複排除とリネージの追跡機能を備えています。 |
+| [`Run`](/ja/models/ref/python/experiments/run/) | W&amp;B によってログされる計算の基本単位であり、メトリクス、設定、および出力を伴う単一の ML 実験を表します。 |
+| [`Artifact`](/ja/models/ref/python/experiments/artifact/) | データセットとモデルのバージョン管理のための柔軟で軽量なビルディングブロックで、自動重複排除とリネージの追跡機能を備えています。 |
 | [`Settings`](/ja/models/ref/python/experiments/settings/) | W&amp;B SDK の設定を管理し、ログの記録から API とのやり取りまでの挙動を制御します。 |
 
 <div id="getting-started">
-  ## クイックスタート
+  ## はじめに
 </div>
 
 <div id="track-an-experiment">
-  ### 実験を追跡する
+  ### 実験をトラッキングする
 </div>
 
-メトリクスをログに記録しながら、機械学習実験を作成して追跡します。
+機械学習実験を作成し、メトリクスをロギングしながらトラッキングします。
 
 ```python
 import wandb
 
-# 新しいrunを初期化する
+# 新しい run を初期化する
 with wandb.init(project="my-experiments", config={"learning_rate": 0.001}) as run:
     # 設定にアクセスする
     config = run.config
     
-    # 学習中にメトリクスを記録する
+    # トレーニング中にメトリクスをログに記録する
     for epoch in range(10):
-        metrics = train_one_epoch()  # 学習ロジック
+        metrics = train_one_epoch()  # トレーニングロジック
         run.log({
             "loss": metrics["loss"],
             "accuracy": metrics["accuracy"],
             "epoch": epoch
         })
     
-    # サマリーメトリクスを記録する
+    # サマリーメトリクスをログに記録する
     run.summary["best_accuracy"] = max_accuracy
 ```
 
 <div id="version-a-model-artifact">
-  ### モデルアーティファクトをバージョン管理する
+  ### モデル Artifacts をバージョン管理する
 </div>
 
-メタデータ付きのバージョン管理されたモデルアーティファクトを作成して記録します。
+メタデータ付きの モデル Artifacts を作成し、バージョンとしてログに記録します：
 
 ```python
 import wandb
@@ -63,7 +63,7 @@ with wandb.init(project="my-models") as run:
     # モデルをトレーニングする
     model = train_model()
     
-    # モデルのアーティファクトを作成する
+    # モデルの Artifacts を作成する
     model_artifact = wandb.Artifact(
         name="my-model",
         type="model",
@@ -75,11 +75,11 @@ with wandb.init(project="my-models") as run:
         }
     )
     
-    # モデルファイルをアーティファクトに追加する
+    # Artifacts にモデルファイルを追加する
     model_artifact.add_file("model.pt")
     model_artifact.add_dir("model_configs/")
     
-    # アーティファクトをW&Bに記録する
+    # Artifacts を W&B にログする
     run.log_artifact(model_artifact)
 ```
 
@@ -87,7 +87,7 @@ with wandb.init(project="my-models") as run:
   ### SDK 設定を行う
 </div>
 
-要件に合わせて W&amp;B SDK の動作をカスタマイズします。
+特定の要件に合わせて W&amp;B SDK の動作をカスタマイズします。
 
 ```python
 import wandb
@@ -112,23 +112,23 @@ with wandb.init() as run:
 ```
 
 <div id="link-artifacts-for-lineage-tracking">
-  ### ライネージ追跡のためにアーティファクトをリンクする
+  ### 系譜を追跡するために Artifacts をリンクする
 </div>
 
-データセット、モデル、評価間の関係を追跡します。
+データセット、モデル、評価間の関係を追跡します:
 
 ```python
 import wandb
 
 with wandb.init(project="ml-pipeline") as run:
-    # データセットアーティファクトを使用する
+    # データセット Artifacts を使用する
     dataset = run.use_artifact("dataset:v1")
     dataset_dir = dataset.download()
     
     # データセットを使用してモデルをトレーニングする
     model = train_on_dataset(dataset_dir)
     
-    # データセットのリネージを持つモデルアーティファクトを作成する
+    # データセットのリネージを持つモデル Artifacts を作成する
     model_artifact = wandb.Artifact(
         name="trained-model",
         type="model"

@@ -8,7 +8,6 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py" />
 
-
 ### <kbd>function</kbd> `init`
 
 ```python
@@ -50,7 +49,6 @@ ML 트레이닝 파이프라인에서 트레이닝 스크립트와 평가 스크
 run ID에는 `/ \ # ? % :`와 같은 특수 문자를 포함할 수 없습니다.
 
 **Args:**
-
 
 * `entity`:  run이 기록되는 username 또는 team name입니다.  entity는 이미 존재해야 하므로, run 로깅을 시작하기 전에 UI에서 계정 또는 팀을 먼저 생성해야 합니다. 지정하지 않으면 run은 기본 entity로 기록됩니다. 기본 entity를 변경하려면 설정으로 이동한 후 &quot;Default team&quot; 아래의 &quot;Default location to create new projects&quot;를 업데이트하세요.
 * `project`:  이 run이 기록될 프로젝트의 이름입니다. 지정하지 않으면 시스템 정보를 기반으로 git 루트나 현재 프로그램 파일을 확인하는 등의 휴리스틱을 사용해 프로젝트 이름을 추론합니다. 프로젝트 이름을 추론할 수 없으면 기본값인 `"uncategorized"`로 설정됩니다.

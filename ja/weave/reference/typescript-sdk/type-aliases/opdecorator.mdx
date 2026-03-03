@@ -9,17 +9,17 @@ description: "TypeScript SDK リファレンス"
 
 Ƭ **OpDecorator**\<`T`\>: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) => `T` \| `void` & (`target`: `Object`, `propertyKey`: `string` \| `symbol`, `descriptor`: `TypedPropertyDescriptor`\<`T`\>) => `TypedPropertyDescriptor`\<`T`\> \| `void`
 
-デコレータ用のヘルパー型です。  
-これは、レガシー形式と Stage 3 の両方のデコレータで使用できるデコレータ関数を表します。
+デコレーターのためのヘルパー型です。  
+これは、従来のデコレーターと Stage 3 デコレーターの両方で使用できるデコレーター関数を表します。
 
-Stage 3 デコレータの場合:
+Stage 3 デコレーターの場合:
   target: デコレートされる関数 (T)
   context: MethodDecoratorContext
 
-レガシーデコレータの場合:
-  target: プロトタイプ（インスタンスメソッド）またはコンストラクタ（静的メソッド）
+従来のデコレーターの場合:
+  target: プロトタイプ (インスタンス メソッド) またはコンストラクター (静的メソッド)
   propertyKey: メソッド名
-  descriptor: メソッドを含むプロパティディスクリプタ
+  descriptor: メソッドを含むプロパティディスクリプター
 
 <div id="type-parameters">
   #### 型パラメータ
