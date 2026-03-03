@@ -127,7 +127,7 @@ wandb.agent(sweep_id, function=main, count=10)
 
   이 관례로 코드를 감싸면 스크립트가 직접 실행될 때만 코드가 실행되고, 워커 프로세스에서 모듈로 임포트될 때는 실행되지 않도록 보장할 수 있습니다.
 
-  멀티프로세싱에 대한 자세한 내용은 [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) 또는 [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild)를 참조하십시오. `if __name__ == '__main__':` 관례에 대한 정보는 https://realpython.com/if-name-main-python/을 참조하십시오.
+  멀티프로세싱에 대한 자세한 내용은 [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) 또는 [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild)를 참조하십시오. `if __name__ == '__main__':` 관례에 대한 정보는 https://realpython.com/if-name-main-python/ 을 참조하십시오.
 </Warning>
 
 <div id="visualize-results-optional">
