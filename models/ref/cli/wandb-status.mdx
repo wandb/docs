@@ -6,13 +6,22 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3476" />
 
+## Usage
+
+```shell
+wandb status [OPTIONS]
+```
+
+
+## Description
+
 
 Display the current W&B configuration settings.
 
     Print all active W&B settings as formatted JSON, including the
     base URL, API key, project, entity, and other resolved values.
 
-    Examples:
+    ## Examples
 
     Show current settings
 
@@ -21,49 +30,10 @@ Display the current W&B configuration settings.
     ```
     
 
-## Usage
-
-```shell
-wandb status [OPTIONS]
-```
-
 
 ## Options
 
-### `settings`
-
-Display the current settings.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--settings` | True | BOOL |
-
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: status [OPTIONS]
-
-  Display the current W&B configuration settings.
-
-  Print all active W&B settings as formatted JSON, including the base URL, API
-  key, project, entity, and other resolved values.
-
-  Examples:
-
-  Show current settings
-
-  ```bash wandb status ```
-
-Options:
-  --settings / --no-settings  Display the current settings.
-  --help                      Show this message and exit.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--settings / --no-settings` | BOOL Flag | Display the current settings. **Default:** True |
 

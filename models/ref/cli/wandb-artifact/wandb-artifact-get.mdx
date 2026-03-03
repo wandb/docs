@@ -8,7 +8,7 @@ Download an artifact from W&B by its path.
     The `PATH` format is `entity/project/artifact_name:version`. If
     the version is omitted, use the `latest` alias.
 
-    Examples:
+    ## Examples
 
     Download the latest version of an artifact called "processed-training-set"
     from the "foobar-project" project under the "team-awesome" entity.
@@ -34,58 +34,9 @@ wandb artifact get [OPTIONS] PATH
 
 ## Options
 
-### `root`
-
-Directory to download the artifact to. Uses the default artifact cache if not set.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--root` | None | STRING |
-
-### `type`
-
-Expected artifact type. Fails if the artifact does not match.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--type` | None | STRING |
-
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: artifact get [OPTIONS] PATH
-
-  Download an artifact from W&B by its path.
-
-  The `PATH` format is `entity/project/artifact_name:version`. If the version
-  is omitted, use the `latest` alias.
-
-  Examples:
-
-  Download the latest version of an artifact called "processed-training-set"
-  from the "foobar-project" project under the "team-awesome" entity.
-
-  ```bash wandb artifact get team-awesome/foobar-project/processed-training-
-  set:latest ```
-
-  Download a specific version (v2) of the "processed-training-set" artifact to
-  a local directory (./data).
-
-  ```bash wandb artifact get --root ./data team-awesome/foobar-
-  project/processed-training-set:v2 ```
-
-Options:
-  --root TEXT  Directory to download the artifact to. Uses the default
-               artifact cache if not set.
-  --type TEXT  Expected artifact type. Fails if the artifact does not match.
-  --help       Show this message and exit.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--root` | STRING | Directory to download the artifact to. Uses the default artifact cache if not set. **Default:** None |
+| `--type` | STRING | Expected artifact type. Fails if the artifact does not match. **Default:** None |
+| `--help` | BOOL | Show this message and exit. **Default:** False |
 

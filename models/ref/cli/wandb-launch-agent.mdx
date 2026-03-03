@@ -6,9 +6,6 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1903" />
 
-
-Run a W&B launch agent.
-
 ## Usage
 
 ```shell
@@ -16,90 +13,21 @@ wandb launch-agent [OPTIONS]
 ```
 
 
+## Description
+
+
+Run a W&B launch agent.
+
+
 ## Options
 
-### `queues`
-
-The name of a queue for the agent to watch. Multiple -q flags supported.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-q, --queue` | None | STRING |
-
-### `entity`
-
-The entity to use. Defaults to current logged-in user                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-e, --entity` | None | STRING |
-
-### `log_file`
-
-Destination for internal agent logs. Use - for stdout. By default all agents logs will go to debug.log in your wandb/ subdirectory or WANDB_DIR if set.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-l, --log-file` | None | STRING |
-
-### `max_jobs`
-
-The maximum number of launch jobs this agent can run in parallel. Defaults to 1. Set to -1 for no upper limit                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-j, --max-jobs` | None | STRING |
-
-### `config`
-
-path to the agent config yaml to use                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-c, --config` | None | STRING |
-
-### `url`
-
-a wandb client registration URL, this is generated in the UI                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-u, --url` | None | STRING |
-
-### `verbose`
-
-Display verbose output                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-v, --verbose` | 0 | |
-
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: launch-agent [OPTIONS]
-
-  Run a W&B launch agent.
-
-Options:
-  -q, --queue TEXT     The name of a queue for the agent to watch. Multiple -q
-                       flags supported.
-  -e, --entity TEXT    The entity to use. Defaults to current logged-in user
-  -l, --log-file TEXT  Destination for internal agent logs. Use - for stdout.
-                       By default all agents logs will go to debug.log in your
-                       wandb/ subdirectory or WANDB_DIR if set.
-  -j, --max-jobs TEXT  The maximum number of launch jobs this agent can run in
-                       parallel. Defaults to 1. Set to -1 for no upper limit
-  -c, --config TEXT    path to the agent config yaml to use
-  -v, --verbose        Display verbose output
-  --help               Show this message and exit.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--queue, -q` | STR | The name of a queue for the agent to watch. Multiple -q flags supported. **Default:** None |
+| `--entity, -e` | STR | The entity to use. Defaults to current logged-in user **Default:** None |
+| `--log-file, -l` | STR | Destination for internal agent logs. Use - for stdout. By default all agents logs will go to debug.log in your wandb/ subdirectory or WANDB_DIR if set. **Default:** None |
+| `--max-jobs, -j` | STR | The maximum number of launch jobs this agent can run in parallel. Defaults to 1. Set to -1 for no upper limit **Default:** None |
+| `--config, -c` | STR | path to the agent config yaml to use **Default:** None |
+| `--url, -u` | STR | a wandb client registration URL, this is generated in the UI **Default:** None |
+| `--verbose, -v` | INT | Display verbose output **Default:** 0 |
 

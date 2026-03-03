@@ -6,12 +6,6 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/beta.py#L17" />
 
-
-Beta versions of wandb CLI commands.
-
-    These commands may change or even completely break in any release of wandb.
-    
-
 ## Usage
 
 ```shell
@@ -19,30 +13,18 @@ wandb beta [OPTIONS] COMMAND [ARGS]...
 ```
 
 
+## Description
+
+
+Beta versions of wandb CLI commands.
+
+    These commands may change or even completely break in any release of wandb.
+    
+
+
 ## Options
 
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: beta [OPTIONS] COMMAND [ARGS]...
-
-  Beta versions of wandb CLI commands.
-
-  These commands may change or even completely break in any release of wandb.
-
-Options:
-  --help  Show this message and exit.
-
-Commands:
-  leet  Launch W&B LEET: the Lightweight Experiment Exploration Tool.
-  sync  Upload .wandb files specified by PATHS.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--help` | BOOL | Show this message and exit. **Default:** False |
 

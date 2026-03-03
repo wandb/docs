@@ -6,6 +6,15 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3507" />
 
+## Usage
+
+```shell
+wandb disabled [OPTIONS]
+```
+
+
+## Description
+
 
 Completely disable W&B.
 
@@ -17,7 +26,7 @@ Completely disable W&B.
     Use `wandb offline` to stop cloud syncing while continuning to log data
     locally.
 
-    Examples:
+    ## Examples
 
     Turn off W&B so that the train.py script executes without logging or
     syncing data to W&B.
@@ -34,60 +43,10 @@ Completely disable W&B.
     ```
     
 
-## Usage
-
-```shell
-wandb disabled [OPTIONS]
-```
-
 
 ## Options
 
-### `service`
-
-No effect. Accepted for backwards compatibility.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--service` | True | BOOL |
-
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: disabled [OPTIONS]
-
-  Completely disable W&B.
-
-  Set the mode to `disable` to prevent all W&B functionality. Do not log or
-  sync data while disabled.
-
-  Use `wandb enable` to restore W&B functionality.
-
-  Use `wandb offline` to stop cloud syncing while continuning to log data
-  locally.
-
-  Examples:
-
-  Turn off W&B so that the train.py script executes without logging or syncing
-  data to W&B.
-
-  ```bash wandb disabled python train.py  # Does not log or sync data to W&B
-  ```
-
-  Restore W&B functionality when ready to log and sync again
-
-  ```bash wandb enabled ```
-
-Options:
-  --service  No effect. Accepted for backwards compatibility.  [default: True]
-  --help     Show this message and exit.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--service` | BOOL Flag | No effect. Accepted for backwards compatibility. **Default:** True |
 

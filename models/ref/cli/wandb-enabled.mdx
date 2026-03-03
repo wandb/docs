@@ -6,6 +6,15 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3550" />
 
+## Usage
+
+```shell
+wandb enabled [OPTIONS]
+```
+
+
+## Description
+
 
 Re-enable W&B after it was deactivated.
 
@@ -19,7 +28,7 @@ Re-enable W&B after it was deactivated.
     To switch between online and offline modes without fully deactivating W&B,
     use ``wandb online`` or ``wandb offline`` instead.
 
-    Examples:
+    ## Examples
 
     Restore W&B functionality after deactivating it with `wandb disabled`
 
@@ -29,55 +38,10 @@ Re-enable W&B after it was deactivated.
     ```
     
 
-## Usage
-
-```shell
-wandb enabled [OPTIONS]
-```
-
 
 ## Options
 
-### `service`
-
-No effect. Accepted for backwards compatibility.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--service` | True | BOOL |
-
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: enabled [OPTIONS]
-
-  Re-enable W&B after it was deactivated.
-
-  Set the mode to `online` to restore full W&B functionality, including cloud
-  syncing and artifact storage.
-
-  Undos a previous call to `wandb disabled`. Do not upload data logged while
-  W&B was set to `disabled`, but allow new data to be logged and synced.
-
-  To switch between online and offline modes without fully deactivating W&B,
-  use ``wandb online`` or ``wandb offline`` instead.
-
-  Examples:
-
-  Restore W&B functionality after deactivating it with `wandb disabled`
-
-  ```bash wandb enabled python train.py # Log and sync data to W&B ```
-
-Options:
-  --service  No effect. Accepted for backwards compatibility.  [default: True]
-  --help     Show this message and exit.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--service` | BOOL Flag | No effect. Accepted for backwards compatibility. **Default:** True |
 

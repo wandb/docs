@@ -6,14 +6,17 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1273" />
 
-
-Run a W&B launch sweep (Experimental).
-
 ## Usage
 
 ```shell
 wandb launch-sweep [OPTIONS] [CONFIG]
 ```
+
+## Description
+
+
+Run a W&B launch sweep (Experimental).
+
 
 ## Arguments
 
@@ -21,74 +24,15 @@ wandb launch-sweep [OPTIONS] [CONFIG]
 
 | Name | Default | Type |
 |------|---------|------|
-| `config` | None | File Path |
+| `config` | None | PATH |
 
 ## Options
 
-### `queue`
-
-The name of a queue to push the sweep to                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-q, --queue` | None | STRING |
-
-### `project`
-
-Name of the project which the agent will watch. If passed in, will override the project value passed in using a config file                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-p, --project` | None | STRING |
-
-### `entity`
-
-The entity to use. Defaults to current logged-in user                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-e, --entity` | None | STRING |
-
-### `resume_id`
-
-Resume a launch sweep by passing an 8-char sweep id. Queue required                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-r, --resume_id` | None | STRING |
-
-### `prior_runs`
-
-ID of an existing run to add to this sweep                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-R, --prior_run` | None | STRING |
-
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: launch-sweep [OPTIONS] [CONFIG]
-
-  Run a W&B launch sweep (Experimental).
-
-Options:
-  -q, --queue TEXT      The name of a queue to push the sweep to
-  -p, --project TEXT    Name of the project which the agent will watch. If
-                        passed in, will override the project value passed in
-                        using a config file
-  -e, --entity TEXT     The entity to use. Defaults to current logged-in user
-  -r, --resume_id TEXT  Resume a launch sweep by passing an 8-char sweep id.
-                        Queue required
-  -R, --prior_run TEXT  ID of an existing run to add to this sweep
-  --help                Show this message and exit.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--queue, -q` | STR | The name of a queue to push the sweep to **Default:** None |
+| `--project, -p` | STR | Name of the project which the agent will watch. If passed in, will override the project value passed in using a config file **Default:** None |
+| `--entity, -e` | STR | The entity to use. Defaults to current logged-in user **Default:** None |
+| `--resume_id, -r` | STR | Resume a launch sweep by passing an 8-char sweep id. Queue required **Default:** None |
+| `--prior_run, -R` | STR | ID of an existing run to add to this sweep **Default:** None |
 

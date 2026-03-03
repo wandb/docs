@@ -6,6 +6,14 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2427" />
 
+## Usage
+
+```shell
+wandb docker-run [OPTIONS] [DOCKER_RUN_ARGS]...
+```
+
+## Description
+
 
 Wrap `docker run` and inject W&B environment variables automatically.
 
@@ -20,7 +28,7 @@ Wrap `docker run` and inject W&B environment variables automatically.
     already set, add ``--runtime nvidia`` to the command to enable GPU support
     by default.
 
-    Examples:
+    ## Examples
 
     Run `python train.py` inside the "my-image" container. W&B automatically
     injects your API key and the resolved image ID.
@@ -30,11 +38,6 @@ Wrap `docker run` and inject W&B environment variables automatically.
     ```
     
 
-## Usage
-
-```shell
-wandb docker-run [OPTIONS] [DOCKER_RUN_ARGS]...
-```
 
 ## Arguments
 
@@ -42,44 +45,11 @@ wandb docker-run [OPTIONS] [DOCKER_RUN_ARGS]...
 
 | Name | Default | Type |
 |------|---------|------|
-| `docker_run_args` | None | STRING |
+| `docker_run_args` | None | STR |
 
 ## Options
 
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: docker-run [OPTIONS] [DOCKER_RUN_ARGS]...
-
-  Wrap `docker run` and inject W&B environment variables automatically.
-
-  Pass all arguments through to ``docker run`` while injecting:
-
-  - ``WANDB_API_KEY`` — Use the current API key so the container can
-  authenticate with W&B without manual configuration. - ``WANDB_DOCKER`` —
-  Record the resolved image ID so W&B can track which Docker image produced
-  the run.
-
-  If ``nvidia-docker`` is detected on the host and ``--runtime`` is not
-  already set, add ``--runtime nvidia`` to the command to enable GPU support
-  by default.
-
-  Examples:
-
-  Run `python train.py` inside the "my-image" container. W&B automatically
-  injects your API key and the resolved image ID.
-
-  ``` wandb docker-run my-image python train.py ```
-
-Options:
-  --help  Show this message and exit.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--help` | BOOL | Show this message and exit. **Default:** False |
 

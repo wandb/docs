@@ -11,7 +11,7 @@ List all artifacts in a W&B project.
     The `PATH` consists of the entity and project (`entity/project`) to
     list artifacts from.
 
-    Examples:
+    ## Examples
 
     List all artifacts in a project called "foobar-project" under the "team-awesome" entity
 
@@ -35,48 +35,8 @@ wandb artifact ls [OPTIONS] PATH
 
 ## Options
 
-### `type`
-
-Filter artifacts by type.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-t, --type` | None | STRING |
-
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: artifact ls [OPTIONS] PATH
-
-  List all artifacts in a W&B project.
-
-  Display the latest version of each artifact collection in a project. Show
-  the type, last updated time, size, and name.
-
-  The `PATH` consists of the entity and project (`entity/project`) to list
-  artifacts from.
-
-  Examples:
-
-  List all artifacts in a project called "foobar-project" under the "team-
-  awesome" entity
-
-  ```bash wandb artifact ls team-awesome/foobar-project ```
-
-  List only artifacts of type "model" in the same project
-
-  ```bash wandb artifact ls --type model team-awesome/foobar-project ```
-
-Options:
-  -t, --type TEXT  Filter artifacts by type.
-  --help           Show this message and exit.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `-t, --type` | STRING | Filter artifacts by type. **Default:** None |
+| `--help` | BOOL | Show this message and exit. **Default:** False |
 

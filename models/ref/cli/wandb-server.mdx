@@ -6,9 +6,6 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2651" />
 
-
-Commands for operating a local W&B server
-
 ## Usage
 
 ```shell
@@ -16,28 +13,15 @@ wandb server [OPTIONS] COMMAND [ARGS]...
 ```
 
 
+## Description
+
+
+Commands for operating a local W&B server
+
+
 ## Options
 
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: server [OPTIONS] COMMAND [ARGS]...
-
-  Commands for operating a local W&B server
-
-Options:
-  --help  Show this message and exit.
-
-Commands:
-  start  Start a local W&B server in a Docker container.
-  stop   Stop a running local W&B server.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--help` | BOOL | Show this message and exit. **Default:** False |
 

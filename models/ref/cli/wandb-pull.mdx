@@ -6,6 +6,14 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3131" />
 
+## Usage
+
+```shell
+wandb pull [OPTIONS] RUN
+```
+
+## Description
+
 
 Download files from a W&B run.
 
@@ -16,7 +24,7 @@ Download files from a W&B run.
     Use the run ID to reference the run, and optionally specify the project
     and entity if not included in the run argument.
              
-    Examples:
+    ## Examples
              
     Download files from a run with a run ID "abcd1234" in the default project and entity
              
@@ -31,64 +39,19 @@ Download files from a W&B run.
     ```
 
 
-## Usage
 
-```shell
-wandb pull [OPTIONS] RUN
-```
+## Arguments
 
+### `run`
+
+| Name | Default | Type |
+|------|---------|------|
+| `run` | None | STR |
 
 ## Options
 
-### `project`
-
-The project containing the run to pull files from.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-p, --project` | None | STRING |
-
-### `entity`
-
-The entity that owns the project. Defaults to the value of the WANDB_ENTITY environment variable or the default entity if not set.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `-e, --entity` | models | STRING |
-
-### `help`
-
-Show this message and exit.                
-
-| Flag | Default | Type | 
-|------|---------|------|
-| `--help` | False | BOOL |
-
-## CLI Help
-
-```
-Usage: pull [OPTIONS] RUN
-
-  Download files from a W&B run.
-
-  Fetch all files assoicated with the specified run. Skip files that already
-  exist locally with the same content. Create subdirectories as needed to
-  mirror the structure of the files in W&B.
-
-  Use the run ID to reference the run, and optionally specify the project and
-  entity if not included in the run argument.           Examples:
-  Download files from a run with a run ID "abcd1234" in the default project
-  and entity           ```bash wandb pull abcd1234 ```           Download
-  files from a run with run ID "abcd1234" in the "foobar" project and "team-
-  awesome" entity
-
-  ```bash wandb pull -p foobar -e team-awesome abcd1234 ```
-
-Options:
-  -p, --project TEXT  The project containing the run to pull files from.
-  -e, --entity TEXT   The entity that owns the project. Defaults to the value
-                      of the WANDB_ENTITY environment variable or the default
-                      entity if not set.
-  --help              Show this message and exit.
-```
+| Flag | Type | Description |
+|------|------|-------------|
+| `--project, -p` | STR | The project containing the run to pull files from. **Default:** None |
+| `--entity, -e` | STR | The entity that owns the project. Defaults to the value of the WANDB_ENTITY environment variable or the default entity if not set. **Default:** models |
 
