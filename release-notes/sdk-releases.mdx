@@ -5,6 +5,22 @@ rss: true
 ---
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
+
+<Update label="0.25.0" description="February 12, 2026">
+## Notable changes
+- Python 3.8 is no longer supported.
+
+## Added
+- The `wandb beta leet` TUI now supports multi-run workspaces.
+- Configure `wandb beta leet`'s persisted configuration interactively with the `wandb beta leet config` command.
+- Access the project owner's user information with the `owner` property of `wandb.apis.public.Project`.
+
+## Fixed
+- Fixed a bug where a sweep agent for a deleted sweep could run indefinitely with repeated 404 errors.
+- Fixed a bug where a `wandb-core` crash could produce extremely long and repetitive tracebacks in older Python versions.
+- Fixed a regression introduced in v0.24.0 where a TensorBoard sync could stop after syncing 1 MB of data.
+</Update>
+
 <Update label="0.24.2" description="February 4, 2026">
 ## Added
 
