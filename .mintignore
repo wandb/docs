@@ -16,3 +16,6 @@ runbooks/
 /package-lock.json
 /LICENSE
 /THIRD-PARTY-NOTICES.txt
+
+# exclude cursor:// protocol links from the internal link checker
+cursor://*
