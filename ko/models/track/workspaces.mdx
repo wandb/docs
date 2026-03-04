@@ -65,7 +65,7 @@ Workspace URL을 직접 공유하여 팀원들과 맞춤형 Workspace 를 공유
 이 기능은 [Enterprise](https://wandb.ai/site/pricing/) 라이선스가 필요합니다.
 </Note>
 
-_Workspace templates_를 사용하면 [새 Workspace에 대한 기본 설정](#default-workspace-settings) 대신 기존 Workspace 와 동일한 설정을 사용하여 빠르게 Workspace 를 생성할 수 있습니다. 현재 Workspace template은 사용자 정의 [line plot settings](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)을 정의할 수 있습니다.
+_Workspace templates_를 사용하면 [새 Workspace에 대한 기본 설정](#workspace-templates) 대신 기존 Workspace 와 동일한 설정을 사용하여 빠르게 Workspace 를 생성할 수 있습니다. 현재 Workspace template은 사용자 정의 [line plot settings](/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace)을 정의할 수 있습니다.
 
 ### 기본 Workspace 설정
 기본적으로 새 Workspace 는 라인 플롯에 대해 다음 기본 설정을 사용합니다:
@@ -139,7 +139,7 @@ Workspace template을 삭제하고 기본 설정으로 돌아가려면 다음 �
 3. **Settings** 옆의 휴지통 아이콘을 클릭합니다.
 
 <Note>
-Dedicated Cloud 및 Self-Managed의 경우, Workspace template 삭제는 v0.70 이상 버전에서 지원됩니다. 이전 서버 버전에서는 Workspace template을 [기본 설정](#default-workspace-settings)을 사용하도록 업데이트하세요.
+Dedicated Cloud 및 Self-Managed의 경우, Workspace template 삭제는 v0.70 이상 버전에서 지원됩니다. 이전 서버 버전에서는 Workspace template을 [기본 설정](#workspace-templates)을 사용하도록 업데이트하세요.
 </Note>
 
 ## 프로그래밍 방식으로 Workspace 생성하기
@@ -201,4 +201,4 @@ new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[
 new_workspace.save()
 ```
 
-포괄적인 Workspace API 예제는 [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces)를 참조하세요. 엔드 투 엔드 튜토리얼은 [Programmatic Workspaces](/models/tutorials/workspaces) 튜토리얼을 확인하세요.
+포괄적인 Workspace API 예제는 [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces)를 참조하세요. 엔드 투 엔드 튜토리얼은 [Programmatic Workspaces](/ko/models/tutorials/workspaces) 튜토리얼을 확인하세요.

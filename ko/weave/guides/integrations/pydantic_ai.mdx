@@ -18,11 +18,11 @@ Weave 의 OTEL 트레이싱에 대한 자세한 내용은 [Send OTEL Traces to W
 ```bash
 pip install opentelemetry-sdk OTELemetry-exporter-otlp-proto-http
 ```
-그런 다음, [Weave에서 OTEL 트레이싱 설정](#configure-otel-tracing-in-weave)을 진행하세요.
+그런 다음, [Weave에서 OTEL 트레이싱 설정](#weave에서-otel-트레이싱-설정)을 진행하세요.
 
 ### Weave에서 OTEL 트레이싱 설정
 
-PydanticAI에서 Weave 로 트레이스를 보내려면 `TracerProvider` 및 `OTLPSpanExporter`로 OTEL을 설정하세요. 익스포터를 [인증 및 프로젝트 식별을 위한 올바른 엔드포인트와 HTTP 헤더](#required-configuration)로 설정합니다.
+PydanticAI에서 Weave 로 트레이스를 보내려면 `TracerProvider` 및 `OTLPSpanExporter`로 OTEL을 설정하세요. 익스포터를 [인증 및 프로젝트 식별을 위한 올바른 엔드포인트와 HTTP 헤더](#필수-설정)로 설정합니다.
 
 <Warning>
 API 키 및 프로젝트 정보와 같은 민감한 환경 변수는 환경 파일(예: `.env`)에 저장하고 `os.environ`을 사용하여 로드하는 것이 좋습니다. 이렇게 하면 자격 증명을 안전하게 유지하고 코드베이스에 노출되지 않도록 할 수 있습니다.

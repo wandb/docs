@@ -26,11 +26,11 @@ Weave의 OTEL 추적에 대한 자세한 내용은 [Send OTEL Traces to Weave](.
     export GOOGLE_API_KEY=your_api_key_here
     ```
 
-3. [Weave에서 OTEL 추적 설정](#configure-otel-tracing-in-weave)을 수행합니다.
+3. [Weave에서 OTEL 추적 설정](#weave에서-otel-추적-설정)을 수행합니다.
 
 ### Weave에서 OTEL 추적 설정
 
-ADK에서 Weave로 트레이스를 보내려면 `TracerProvider` 및 `OTLPSpanExporter`로 OTEL을 구성해야 합니다. [인증 및 프로젝트 식별을 위한 올바른 엔드포인트와 HTTP 헤더](#required-configuration)로 exporter를 설정하세요.
+ADK에서 Weave로 트레이스를 보내려면 `TracerProvider` 및 `OTLPSpanExporter`로 OTEL을 구성해야 합니다. [인증 및 프로젝트 식별을 위한 올바른 엔드포인트와 HTTP 헤더](#필수-설정)로 exporter를 설정하세요.
 
 <Warning>
 API 키 및 프로젝트 정보와 같은 민감한 환경 변수는 환경 파일(예: `.env`)에 저장하고 `os.environ`을 사용하여 로드하는 것이 좋습니다. 이를 통해 자격 증명을 안전하게 유지하고 코드 베이스에 노출되지 않도록 할 수 있습니다.

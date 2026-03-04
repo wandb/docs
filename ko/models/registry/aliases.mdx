@@ -48,7 +48,7 @@ W&B Registry 또는 Python SDK를 사용하여 커스텀 에일리어스를 생�
 4. **Aliases** 필드 옆의 **+** 버튼을 클릭하여 하나 이상의 에일리어스를 추가합니다.
 </Tab>
 <Tab title="Python SDK">
-Python SDK를 사용하여 artifact 버전을 컬렉션에 링크할 때, [`link_artifact()`](/models/ref/python/experiments/run.md/#link_artifact)의 `alias` 파라미터에 하나 이상의 에일리어스 리스트를 인수로 선택적으로 제공할 수 있습니다. 제공한 에일리어스가 아직 존재하지 않는 경우, W&B가 에일리어스([보호되지 않은 에일리어스](#custom-aliases))를 생성해 줍니다.
+Python SDK를 사용하여 artifact 버전을 컬렉션에 링크할 때, [`link_artifact()`](/models/ref/python/experiments/run.md/#link_artifact)의 `alias` 파라미터에 하나 이상의 에일리어스 리스트를 인수로 선택적으로 제공할 수 있습니다. 제공한 에일리어스가 아직 존재하지 않는 경우, W&B가 에일리어스([보호되지 않은 에일리어스](#커스텀-에일리어스-custom-aliases))를 생성해 줍니다.
 
 다음 코드 조각은 Python SDK를 사용하여 artifact 버전을 컬렉션에 링크하고 해당 artifact 버전에 에일리어스를 추가하는 방법을 보여줍니다. `<>` 안의 값들을 실제 값으로 교체하세요:
 
@@ -115,7 +115,7 @@ with wandb.init(entity = "<team_entity>", project = "<project_name>") as run:
 3. **Versions** 섹션 내에서 특정 artifact 버전의 **View** 버튼을 선택합니다.
 4. **Aliases** 필드 옆의 **+** 버튼을 클릭하여 하나 이상의 보호된 에일리어스를 추가합니다.
 
-보호된 에일리어스가 생성된 후에는 관리자가 Python SDK를 통해 프로그래밍 방식으로 이를 artifact 버전에 추가할 수 있습니다. 보호된 에일리어스를 artifact 버전에 추가하는 예시는 위의 [커스텀 에일리어스 생성](#custom-aliases) 섹션에 있는 W&B Registry 및 Python SDK 탭을 참조하세요.
+보호된 에일리어스가 생성된 후에는 관리자가 Python SDK를 통해 프로그래밍 방식으로 이를 artifact 버전에 추가할 수 있습니다. 보호된 에일리어스를 artifact 버전에 추가하는 예시는 위의 [커스텀 에일리어스 생성](#커스텀-에일리어스-custom-aliases) 섹션에 있는 W&B Registry 및 Python SDK 탭을 참조하세요.
 
 ## 기존 에일리어스 찾기
 [W&B Registry의 글로벌 검색바](/models/registry/search_registry/#search-for-registry-items)를 사용하여 기존 에일리어스를 찾을 수 있습니다. 보호된 에일리어스를 찾으려면:

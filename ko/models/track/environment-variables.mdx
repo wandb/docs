@@ -37,7 +37,7 @@ os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 | `WANDB_BASE_URL` | [wandb/local](/platform/hosting/)을 사용하는 경우, 이 환경 변수를 `http://YOUR_IP:YOUR_PORT`로 설정해야 합니다. |
 | `WANDB_CACHE_DIR` | 기본값은 \~/.cache/wandb이며, 이 환경 변수로 위치를 변경할 수 있습니다. |
 | `WANDB_CONFIG_DIR` | 기본값은 \~/.config/wandb이며, 이 환경 변수로 위치를 변경할 수 있습니다. |
-| `WANDB_CONFIG_PATHS` | wandb.config로 로드할 yaml 파일의 쉼표로 구분된 리스트입니다. [config](./config#file-based-configs)를 참조하세요. |
+| `WANDB_CONFIG_PATHS` | wandb.config로 로드할 yaml 파일의 쉼표로 구분된 리스트입니다. [config](./config#파일-기반-설정)를 참조하세요. |
 | `WANDB_CONSOLE` | stdout / stderr 로그를 비활성화하려면 "off"로 설정하세요. 지원되는 환경에서는 기본값이 "on"입니다. |
 | `WANDB_DATA_DIR` | 스테이징 아티팩트를 업로드할 위치입니다. 기본 위치는 `platformdirs` 파이썬 패키지의 `user_data_dir` 값을 사용하므로 플랫폼에 따라 다릅니다. 이 디렉토리가 존재하고 실행 중인 사용자가 쓰기 권한을 가지고 있는지 확인하세요. |
 | `WANDB_DIR` | 생성된 모든 파일이 저장되는 위치입니다. 설정하지 않으면 트레이닝 스크립트 상대 경로의 `wandb` 디렉토리가 기본값입니다. 이 디렉토리가 존재하고 실행 중인 사용자가 쓰기 권한을 가지고 있는지 확인하세요. 이 변수는 다운로드된 아티팩트의 위치를 제어하지 않으며, 해당 위치는 `WANDB_ARTIFACT_DIR` 환경 변수를 사용하여 설정할 수 있습니다. |

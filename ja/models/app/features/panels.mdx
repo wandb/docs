@@ -16,7 +16,7 @@ W&B の Projects は、2つの異なる Workspace モードをサポートして
 | <img src="/images/app_ui/automated_workspace.svg" alt="automated workspace icon" width="32px"  /> | **Automated workspaces** は、プロジェクトでログ記録されたすべてのキーに対してパネルを自動的に生成します。次のような場合に自動 Workspace を選択してください：<ul><li>プロジェクトで利用可能なすべてのデータを可視化して、すぐに使い始めたい場合。</li><li>ログ記録するキーが少ない小規模なプロジェクトの場合。</li><li>より広範な分析を行いたい場合。</li></ul>自動 Workspace からパネルを削除した場合は、[Quick add](#quick-add) を使用して再作成できます。 |
 | <img src="/images/app_ui/manual_workspace.svg" alt="manual workspace icon" width="32px"  /> | **Manual workspaces** は白紙の状態から始まり、ユーザーが意図的に追加したパネルのみを表示します。次のような場合に手動 Workspace を選択してください：<ul><li>プロジェクトでログ記録されたキーのほんの一部に主に関心がある場合。</li><li>より焦点を絞った分析を行いたい場合。</li><li>あまり役に立たないパネルの読み込みを避け、Workspace のパフォーマンスを向上させたい場合。</li></ul>[Quick add](#quick-add) を使用すると、便利な可視化パネルを Workspace や各セクションに素早く配置できます。 |
 
-Workspace がパネルを生成する方法を変更するには、[Workspace をリセット](#reset-a-workspace) してください。
+Workspace がパネルを生成する方法を変更するには、[Workspace をリセット](#workspace-をリセットする) してください。
 
 <Note>
 **Workspace への変更を元に戻す**
@@ -62,7 +62,7 @@ Workspace のラインプロットのデフォルト設定については、[Lin
     <Frame>
     <img src="/images/app_ui/panel_fullscreen.png" alt="Full-screen panel"  />
     </Frame>
-1. フルスクリーンモードで表示中に [パネルを共有](#share-a-panel) すると、生成されたリンクは自動的にフルスクリーンモードで開きます。
+1. フルスクリーンモードで表示中に [パネルを共有](#パネルを共有する) すると、生成されたリンクは自動的にフルスクリーンモードで開きます。
 
 フルスクリーンモードからパネルの Workspace に戻るには、ページ上部の左向き矢印をクリックします。フルスクリーンモードを終了せずにセクション内のパネル間を移動するには、パネルの下にある **Previous** および **Next** ボタン、または左右の矢印キーを使用します。
 
@@ -108,7 +108,7 @@ Workspace のラインプロットのデフォルト設定については、[Lin
 - パネルをフルスクリーンモードで表示しているときに、ブラウザから URL をコピーします。
 - アクションメニュー `...` をクリックし、**Copy panel URL** を選択します。
 
-そのリンクを User または Team と共有してください。リンクにアクセスすると、パネルが [フルスクリーンモード](#view-a-panel-in-full-screen-mode) で開きます。
+そのリンクを User または Team と共有してください。リンクにアクセスすると、パネルが [フルスクリーンモード](#パネルをフルスクリーンモードで表示する) で開きます。
 
 フルスクリーンモードからパネルの Workspace に戻るには、ページ上部の左向き矢印をクリックします。
 
@@ -140,7 +140,7 @@ https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&pane
 1. 必要に応じて、**can view** を **can edit** に変更します。
 1. **Invite** をクリックします。W&B は、共有しているパネルのみを含む Report へのクリック可能なリンクが含まれたメールをユーザーに送信します。
 
-[パネルを共有する](#share-a-panel) 場合とは異なり、受信者はこの Report から Workspace に移動することはできません。
+[パネルを共有する](#パネルを共有する) 場合とは異なり、受信者はこの Report から Workspace に移動することはできません。
 
 ## パネルを管理する
 
@@ -170,7 +170,7 @@ https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&pane
 1. パネルの上部にあるアクションメニュー `...` をクリックします。
 1. **Duplicate** をクリックします。
 
-必要に応じて、複製されたパネルを [カスタマイズ](#edit-a-panel) したり [移動](#move-a-panel) したりできます。
+必要に応じて、複製されたパネルを [カスタマイズ](#パネルを編集する) したり [移動](#パネルを移動する) したりできます。
 
 ### パネルを削除する
 
@@ -182,7 +182,7 @@ https://wandb.ai/<ENTITY_NAME>/<PROJECT_NAME>?panelDisplayName=<PANEL_NAME>&pane
 
 手動 Workspace からすべてのパネルを削除するには、そのアクションメニュー `...` をクリックし、**Clear all panels** をクリックします。
 
-自動または手動 Workspace からすべてのパネルを削除するには、[Workspace をリセット](#reset-a-workspace) することもできます。デフォルトのパネルセットから始めるには **Automatic** を選択し、パネルのない空の Workspace から始めるには **Manual** を選択します。
+自動または手動 Workspace からすべてのパネルを削除するには、[Workspace をリセット](#workspace-をリセットする) することもできます。デフォルトのパネルセットから始めるには **Automatic** を選択し、パネルのない空の Workspace から始めるには **Manual** を選択します。
 
 ## セクションを管理する
 

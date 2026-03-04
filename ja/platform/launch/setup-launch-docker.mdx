@@ -58,7 +58,7 @@ Docker は、値が割り当てられていない環境変数を Launch エー�
 
 <Note>
 * Docker コンテナ内で GPU を使用するには、[NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) をインストールしてください。
-* コードや Artifacts をソースとするジョブからイメージをビルドする場合、[エージェント](#configure-a-launch-agent-on-a-local-machine)が使用するベースイメージをオーバーライドして NVIDIA Container Toolkit を含めることができます。
+* コードや Artifacts をソースとするジョブからイメージをビルドする場合、[エージェント](#ローカルマシンでの-launch-エージェントの設定)が使用するベースイメージをオーバーライドして NVIDIA Container Toolkit を含めることができます。
   例えば、Launch キュー内でベースイメージを `tensorflow/tensorflow:latest-gpu` にオーバーライドできます：
 
   ```json
@@ -137,4 +137,4 @@ Launch は、Dockerhub、Google Container Registry、Azure Container Registry、
 ビルドした環境とは異なる環境でジョブを実行したい場合は、コンテナレジストリからプルできるようにエージェントを設定してください。
 
 
-Launch エージェントをクラウドレジストリと接続する方法の詳細については、[高度なエージェントセットアップ](./setup-agent-advanced#agent-configuration)ページを参照してください。
+Launch エージェントをクラウドレジストリと接続する方法の詳細については、[高度なエージェントセットアップ](./setup-agent-advanced#エージェント設定)ページを参照してください。

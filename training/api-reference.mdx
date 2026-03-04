@@ -4,7 +4,7 @@ description: Complete API documentation for W&B Training
 ---
 
 <Note>
-The W&B Training API provides endpoints for managing and interacting with serverless reinforcement learning training jobs. The API is OpenAI-compatible for chat completions.
+The W&B Training API provides endpoints for managing and interacting with training jobs, including serverless reinforcement learning (RL) and supervised fine-tuning (SFT). The API is OpenAI-compatible for chat completions.
 </Note>
 
 ## Authentication
@@ -41,7 +41,8 @@ https://api.training.wandb.ai/v1
 
 ### training-jobs
 
-- **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-training-job)** - Create Training Job
+- **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - Create SFT Training Job
+- **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - Create RL Training Job
 - **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - Get Training Job
 - **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - Get Training Job Events
 
@@ -54,6 +55,7 @@ https://api.training.wandb.ai/v1
 
 - [W&B Training overview](/training)
 - [Prerequisites](/training/prerequisites)
+- [Serverless SFT](/training/sft-training)
 - [Use your trained models](/training/serverless-rl/use-trained-models)
 - [Available models](/training/serverless-rl/available-models)
 - [Usage limits](/training/serverless-rl/usage-limits)

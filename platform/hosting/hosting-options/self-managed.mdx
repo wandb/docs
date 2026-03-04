@@ -1,13 +1,13 @@
 ---
-description: Deploy W&B Self-Managed in production
-title: Self-Managed
+description: Deploy W&B Self-Managed on cloud or on-premises infrastructure
+title: W&B Self-Managed deployment overview
+sidebarTitle: Deployment overview
 ---
 
-## Use W&B Self-Managed on cloud or on-prem infrastructure
 
-<Note>
+<Tip>
 W&B recommends fully managed deployment options such as [W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) or [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) deployment types. W&B fully managed services are simple and secure to use, with minimum to no configuration required.
-</Note>
+</Tip>
 
 Deploy W&B Server on your [AWS, Google Cloud, or Azure cloud account](#deploy-wb-server-within-Self-Managed-cloud-accounts) or within your [on-premises infrastructure](#deploy-wb-server-in-on-prem-infrastructure). 
 
@@ -18,52 +18,36 @@ Your IT/DevOps/MLOps team is responsible for:
 - Managing upgrades and applying patches.
 - Continuously maintaining your W&B Self-Managed W&B deployment.
 
-<Tip>
+<Info>
 If your organization is subject to regulatory requirements, consider deploying on [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud.mdx), which is maintained by W&B.
 - W&B Dedicated Cloud's hosting platform meets the requirements of SOC 2 Type 2.
 - When configured appropriately, a W&B Dedicated Cloud deployment complies with HIPAA.
 
 Refer to the [W&B Security Portal](https://security.wandb.ai/) to request more information.
-</Tip>
+</Info>
 
-{/* Check [Obtain your W&B Server license](#obtain-your-wb-server-license) to complete the setup. */}
+## About the W&B Kubernetes Operator
 
-## Deploy W&B Server within Self-Managed cloud accounts
+Use the **W&B Kubernetes Operator** to deploy W&B Self-Managed. The operator simplifies deploying, administering, troubleshooting, and scaling W&B.
 
-W&B recommends that you use official W&B Terraform scripts to deploy W&B Server into your AWS, Google Cloud, or Azure cloud account.
+The operator connects to a central [deploy.wandb.ai](https://deploy.wandb.ai) server to request the latest specification changes for a given release channel and apply them. Updates are received as long as the license is valid. [Helm](https://helm.sh/) is used both to install the operator and for the operator to manage the W&B Kubernetes stack. The deployment consists of multiple pods, one per service; each pod name is prefixed with `wandb-`.
 
-See specific cloud provider documentation for more information on how to set up W&B Server in [AWS](/platform/hosting/self-managed/aws-tf), [Google Cloud](/platform/hosting/self-managed/gcp-tf), or [Azure](/platform/hosting/self-managed/azure-tf).
+Configuration follows a hierarchy: **Release Channel Values** (defaults from W&B), **User Input Values** (overrides via the System Console), and **Custom Resource Values** (your spec overrides both). For details, see [Deploy W&B with Kubernetes Operator](/platform/hosting/self-managed/operator).
 
-## Deploy W&B Server in on-prem infrastructure
+- To deploy W&B Self-Managed in public cloud or on-premises infrastructure, see [Deploy W&B with Kubernetes Operator](/platform/hosting/self-managed/operator).
+- To deploy W&B Self-Managed to a custom cloud platform that is not AWS, the requirements are similar to the requirements for deploying in [on-prem infrastructure](#deploy-wb-server-in-on-prem-infrastructure).
+- To deploy W&B Self-Managed in air-gapped environments, see [Deploy on Air-Gapped Kubernetes](/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped).
 
-To set up W&B Server in your on-premises infrastructure, you need to configure several infrastructure components. Some of those components include, but are not limited to: 
+## Required infrastructure
 
-- (Strongly recommended) Kubernetes cluster
-- MySQL 8 database cluster
+All deployment options depend on the following infrastructure:
+- Kubernetes
+- MySQL 8 database
 - Amazon S3-compatible object storage
-- Redis cache cluster
+- Redis cache
 
-See [Install on on-prem infrastructure](/platform/hosting/self-managed/bare-metal) for detailed instructions to install W&B Server on your on-prem infrastructure. W&B can provide recommendations for the different components and provide guidance through the installation process.
-
-## Deploy W&B Server on a custom cloud platform
-
-You can deploy W&B Server to a cloud platform that is not AWS, Google Cloud, or Azure. Requirements for that are similar to that for deploying in [on-prem infrastructure](#deploy-wb-server-in-on-prem-infrastructure).
+See [Requirements](/platform/hosting/self-managed/requirements) for details. W&B can provide recommendations for the different components and provide guidance through the installation process.
 
 ## Obtain your W&B Server license
 
-You need a W&B trial license to complete your configuration of the W&B server. Open the [Deploy Manager](https://deploy.wandb.ai/deploy) to generate a free trial license. 
-
-<Note>
-If you do not already have a W&B account, create one to generate your free license.
-
-If you need an enterprise license for W&B Server which includes support for important security & other enterprise-friendly capabilities, [submit this form](https://wandb.ai/site/for-enterprise/self-hosted-trial) or reach out to your W&B team.
-</Note>
-
-The URL redirects you to a **Get a License for W&B Local** form. Provide the following information:
-
-1. Choose a deployment type from the **Choose Platform** step.
-2. Select the owner of the license or add a new organization in the **Basic Information** step.
-3. Provide a name for the instance in the **Name of Instance** field and optionally provide a description in the **Description** field in the **Get a License** step.
-4. Select the **Generate License Key** button.
-
-A page displays with an overview of your deployment along with the license associated with the instance.
+You need a W&B Server license before deploying. For step-by-step instructions, see [License](/platform/hosting/self-managed/requirements#license) on the Requirements page.

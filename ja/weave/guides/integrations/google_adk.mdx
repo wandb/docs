@@ -26,11 +26,11 @@ Weave における OTEL トレッシングの詳細については、[Send OTEL 
     export GOOGLE_API_KEY=your_api_key_here
     ```
 
-3. [Weave での OTEL トレッシングの設定](#configure-otel-tracing-in-weave)を行います。
+3. [Weave での OTEL トレッシングの設定](#weave-での-otel-トレッシングの設定)を行います。
 
 ### Weave での OTEL トレッシングの設定
 
-ADK から Weave にトレースを送信するには、`TracerProvider` と `OTLPSpanExporter` を使用して OTEL を設定します。エクスポーターには、[認証とプロジェクト識別のための正しいエンドポイントと HTTP ヘッダー](#required-configuration)を設定してください。
+ADK から Weave にトレースを送信するには、`TracerProvider` と `OTLPSpanExporter` を使用して OTEL を設定します。エクスポーターには、[認証とプロジェクト識別のための正しいエンドポイントと HTTP ヘッダー](#必要な設定)を設定してください。
 
 <Warning>
 API キーやプロジェクト情報などの機密性の高い環境変数は、環境ファイル（例： `.env`）に保存し、 `os.environ` を使用してロードすることをお勧めします。これにより、認証情報を安全に保ち、コードベースから排除できます。
