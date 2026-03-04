@@ -21,13 +21,13 @@ wandb sync [PATH] [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
-| `--id` | The run you want to upload to. (default: Sentinel.UNSET) |
-| `--project`, `-p` | The project you want to upload to. (default: Sentinel.UNSET) |
-| `--entity`, `-e` | The entity to scope to. (default: Sentinel.UNSET) |
-| `--job_type` | Specifies the type of run for grouping related runs together. (default: Sentinel.UNSET) |
+| `--id` | The run you want to upload to. |
+| `--project`, `-p` | The project you want to upload to. |
+| `--entity`, `-e` | The entity to scope to. |
+| `--job_type` | Specifies the type of run for grouping related runs together. |
 | `--sync-tensorboard` | Stream tfevent files to wandb. |
-| `--include-globs` | Comma separated list of globs to include. (default: Sentinel.UNSET) |
-| `--exclude-globs` | Comma separated list of globs to exclude. (default: Sentinel.UNSET) |
+| `--include-globs` | Comma separated list of globs to include. |
+| `--exclude-globs` | Comma separated list of globs to exclude. |
 | `--include-online` | Include online runs |
 | `--include-offline` | Include offline runs |
 | `--include-synced` | Include synced runs |
@@ -39,4 +39,4 @@ wandb sync [PATH] [OPTIONS]
 | `--show` | Number of runs to show (default: 5) |
 | `--append` | Append run (default: False) |
 | `--skip-console` | Skip console logs (default: False) |
-| `--replace-tags` | Replace tags in the format 'old_tag1=new_tag1,old_tag2=new_tag2' (default: Sentinel.UNSET) |
+| `--replace-tags` | Replace tags in the format 'old_tag1=new_tag1,old_tag2=new_tag2' |
