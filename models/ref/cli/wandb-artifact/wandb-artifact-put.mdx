@@ -32,11 +32,11 @@ wandb artifact put PATH [OPTIONS]
 
 | Option | Description |
 | :--- | :--- |
-| `--name`, `-n` | The name of the artifact to push: project/artifact_name |
-| `--description`, `-d` | A description of this artifact |
+| `--name`, `-n` | The name of the artifact to push: project/artifact_name (default: Sentinel.UNSET) |
+| `--description`, `-d` | A description of this artifact (default: Sentinel.UNSET) |
 | `--type`, `-t` | The type of the artifact (default: dataset) |
 | `--alias`, `-a` | An alias to apply to this artifact (default: ['latest']) |
-| `--id` | The run you want to upload to. |
+| `--id` | The run you want to upload to. (default: Sentinel.UNSET) |
 | `--resume` | Resume the last run from your current directory. |
 | `--skip_cache` | Skip caching while uploading artifact files. (default: False) |
 | `--policy` | Set the storage policy while uploading artifact files. (default: mutable) |

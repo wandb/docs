@@ -604,7 +604,14 @@
                         "group": "wandb beta",
                         "pages": [
                           "models/ref/cli/wandb-beta",
-                          "models/ref/cli/wandb-beta/wandb-beta-leet",
+                          {
+                            "group": "beta leet",
+                            "pages": [
+                              "models/ref/cli/wandb-beta/wandb-beta-leet",
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run"
+                            ]
+                          },
                           "models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -740,7 +747,6 @@
                       },
                       "weave/guides/tracking/trace-disable",
                       "weave/guides/tracking/costs",
-
                       "weave/guides/tools/saved-views",
                       "weave/guides/tools/comparison",
                       "weave/guides/tracking/trace-plots",
