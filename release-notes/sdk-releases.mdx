@@ -37,6 +37,10 @@ These regressions were introduced in 0.24.0.
 </Update>
 
 <Update label="0.24.0" description="January 13, 2026">
+<Warning>
+This release has been removed from PyPI. Do not use this version. If you are on this version, upgrade to v0.24.1 or a newer version immediately. Due to a regression fixed in v0.24.1, runs created with `wandb==0.24.0` may fail to upload some data.
+</Warning>
+
 ## Notable Changes
 
 This version removes the legacy, deprecated `wandb.beta.workflows` module, including its `log_model()`/`use_model()`/`link_model()` functions. This is formally a breaking change.
