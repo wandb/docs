@@ -1,0 +1,21 @@
+# Root-level Markdown (avoids publishing /AGENTS, /CODE_OF_CONDUCT, /SECURITY, etc.)
+# Mintlify already ignores README.md, CONTRIBUTING.md, CHANGELOG.md, LICENSE.md by default.
+/*.md
+
+# Repo and ops directories (not part of published docs)
+scripts/
+runbooks/
+
+# Top-level config and assets (not doc pages)
+/*.js
+/*.css
+/*.yaml
+/*.toml
+/*.txt
+/package.json
+/package-lock.json
+/LICENSE
+/THIRD-PARTY-NOTICES.txt
+
+# exclude cursor:// protocol links from the internal link checker
+cursor://*
