@@ -11,6 +11,98 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.78.0" description="March 3, 2026">
+
+W&B Server 0.78.0 strengthens security and access defaults, adds tools to compare experiments and control costs more efficiently, and more. For example:
+
+- In **Models**, create multi-metric plots efficiently with regular expressions, pin important runs, compare experiments against a baseline, and streamline workspaces using enhanced workspace templates.
+- **Registry** includes enhanced search, redesigned cards, clearer and more responsive lineage graphs, and more.
+- In **Weave**, the **Trace Analytics** dashboard helps you spot bottlenecks and budget drivers from the Project Overview page. Saved views now support customized Traces, Evaluations, and Leaderboards. Weave Playground adds support for LoRA (Low-Rank Adaptation) and new models.
+- **Inference** includes new models.
+
+## Support and end of life
+
+- v0.66.0 and below have reached end of life.
+
+Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
+
+## Security
+
+- A W&B organization or deployment can now have a maximum of 100 Personal API Keys, 100 organization-level API keys per user, and 100 API keys per Service Account.
+- On the Enterprise plan, when you [invite a member](/platform/hosting/iam/access-management/manage-organization#invite-a-user) to the organization, they are assigned the **Member** role by default. On other plans, the default role is **Admin**.
+- When inviting a new user to a team who is not currently a member of the organization, their initial role is now **Member**.
+- The initial role for a user [invited](/platform/hosting/iam/access-management/manage-organization#invite-a-user) to an organization or team now displays in the invitation table.
+
+## Features
+
+- Use [pinned and baseline runs](/models/runs/compare-runs) to keep track of important runs and efficiently evaluate model experiments.
+    - Pin up to 6 runs to keep them visible in the workspace and at the top of the runs list. If you have a baseline run, you can pin up to 5 runs because the baseline is implicitly pinned.
+    - Specify a baseline run as your reference point for comparisons. The baseline run is always visible in the workspace and at the top of the runs list.
+
+    In the runs table, summary metric deltas show how each run compares to the baseline.
+
+    <Frame>
+    ![Summary metric deltas in runs table comparing to baseline](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
+    </Frame>
+
+    In line plots, the baseline appears with visually distinct styling to help with comparison.
+
+    <Frame>
+    ![Baseline run with distinct styling in line plot](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)
+    </Frame>
+
+- [Create panels with multiple metrics](/models/app/features/panels/line-plot#multi-metric-line-plot) in bulk to quickly organize your workspace and spot patterns across large metric sets. For example, you can overlay gradient metrics across model layers or position specific layers side-by-side. [Watch a video demonstration](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166).
+- [Workspace templates](/models/app/features/cascade-settings#workspace-layout-options) have new settings. You can now configure your workspace template to hide empty sections, sort panels in a section alphabetically, or adjust how automatic panel sorting in a section works. See [Workspace layout options](/models/app/features/cascade-settings#workspace-layout-options).
+- The **Sweeps** table now includes a column with the **Sweep ID**.
+- Admins can now customize usage and spend alerts for your organization. View usage and spending and set up email notifications for storage, tracked hours, Weave, Inference, and Training in your organization settings under the new **Usage & Alerts** tab. See [Plan usage](/platform/app/settings-page/billing-settings#plan-usage).
+
+### Registry
+
+- The Registry UI is faster to navigate and easier to scan.
+    - Improved type-ahead search, redesigned Registry and Collection cards, and new Registry icons help visually distinguish assets using smart ranking initially, with AI ranking coming soon.
+    - Registry icons are initially auto-generated and can be customized by Registry Admins at any time.
+
+    <Frame>
+    ![Registry icons and redesigned cards](/images/release-notes/v0-78-0/registry-icons-and-cards.gif)
+    </Frame>
+
+    - In lineage graphs, when you hover over a node, it is highlighted and other nodes are dimmed.
+    - You can now click the name of a collection to quickly view its artifact versions.
+    - For convenience, you can now star a registry from its **Settings** page.
+
+### Inference
+
+- The model `Moonshot AI Kimi K2.5` is now available. See [Model Catalog](/inference/models).
+
+### Weave
+
+- The **Project Overview** page now includes a **Trace Analytics** dashboard with request counts, latency percentiles (P50/P95/P99), token usage by model, and cost breakdown. Spot which models are burning through your budget, or find the slow requests dragging down your P95. Click a time bucket to jump straight to the relevant traces, to quickly identify the cause of a latency spike.
+
+    <Frame>
+    ![Trace Analytics dashboard on Project Overview](/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png)
+    </Frame>
+
+- **Weave Playground** now supports **[LoRA](/inference/lora)**, so you can test your fine-tuned LoRA adapters efficiently. Click the **Try in Playground** button on a LoRA artifact page.
+- Claude Opus 4.6 is now available in **Weave Playground**.
+- You can now re-order columns in **Traces** and **Evaluations** tables.
+    - Drag and drop leaf columns directly in the table or move entire sections around from the column management menu.
+    - Persist your changes in a [saved view](/weave/guides/tools/saved-views). View a video demonstration.
+
+    <Frame>![Video: re-ordering columns in Traces and Evaluations tables](/images/release-notes/v0-78-0/weave-column-reorder-demo.gif)</Frame>
+- You can now save a customized [Leaderboard](/weave/guides/evaluation/dynamic_leaderboards) in a saved view.
+- You can now evaluate audio and image content in your traces using [monitors](/weave/guides/evaluation/monitors).
+- Aggregated OpenTelemetry token counts now display in the trace detail sidebar for [OpenTelemetry traces](/weave/guides/tracking/otel#send-opentelemetry-traces-to-weave).
+- For models like Gemini that provide thinking tokens, they now display in **Token Usage** in the Weave UI. Thinking tokens are internal tokens used by LLMs to process complex reasoning steps, calculations, and self-reflection before generating a final answer.
+
+## Fixes
+
+- Fixed a bug where a hidden team's reports could be shared.
+- Fixed a UI bug where copying text with newlines could truncate the selection.
+- When the Sweeps agent claims a preempted run for re-execution, the training script now has up to 60 minutes to start up and initialize the run before the run is sent to a different agent, increased from 60 seconds.
+- Fixed a race condition that could prevent a preempted Sweeps run from being enqueued for re-execution.
+- Fixed a bug where a Sweep could fail if its name started with a digit.
+</Update>
+
 <Update label="v0.77.1" description="January 28, 2026">
 **January 28, 2026**
 
@@ -700,13 +792,4 @@ Private preview features are available by invitation only. To request enrollment
 - Fixed display bugs that could occur when a report included multiple run sets.
 - Fixed a bug where panels Quick Added to an alphabetically sorted section were sorted incorrectly.
 - Fixed a bug that generated malformed user invitation links.
-</Update>
-
-<Update label="v0.66.0" description="March 06, 2025">
-## Features
-- In tables and query panels, columns you derive from other columns now persist, so you can use them for filtering or in query panel plots.
-
-## Security
-- Limited the maximum depth for a GraphQL document to 20.
-- Upgraded pyarrow to v17.0.0.
 </Update>
