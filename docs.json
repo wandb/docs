@@ -778,7 +778,7 @@
                 "pages": [
                   "weave/concepts/what-is-weave",
                   {
-                    "group": "Track your application",
+                    "group": "Trace your application",
                     "pages": [
                       {
                         "group": "Tracing basics",
