@@ -161,7 +161,8 @@
                   "platform/hosting/monitoring-usage/audit-logging",
                   "platform/hosting/monitoring-usage/prometheus-logging",
                   "platform/hosting/monitoring-usage/slack-alerts",
-                  "platform/hosting/monitoring-usage/org_dashboard"
+                  "platform/hosting/monitoring-usage/org_dashboard",
+                  "platform/hosting/monitoring-usage/mobile-app"
                 ]
               },
               {
