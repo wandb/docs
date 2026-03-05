@@ -1,5 +1,5 @@
 ---
-title: Registry
+title: レジストリ
 namespace: public_apis_namespace
 python_object_type: class
 ---
@@ -8,10 +8,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py" />
 
-
 ## <kbd>class</kbd> `Registry`
 
-Registry 内の単一のレジストリを表します。 
+Registry 内の単一の registry を表します。 
 
 ### <kbd>method</kbd> `Registry.__init__`
 
@@ -27,26 +26,27 @@ __init__(
 
 ***
 
-
 ### <kbd>property</kbd> Registry.allow_all_artifact_types
 
-レジストリで、すべてのアーティファクト種別が許可されているかどうかを返します。
+Registry であらゆる種類のアーティファクトが許可されているかどうかを返します。
 
-`True` の場合、任意の種別のアーティファクトを追加できます。`False` の場合、アーティファクトは `artifact_types` に含まれている種別に制限されます。
+`True` の場合、任意の種類のアーティファクトを追加できます。`False` の場合、アーティファクトは `artifact_types` に列挙された型に制限されます。
 
-**戻り値:**
+**Returns:**
 
-- `bool`: allow_all_artifact_types プロパティの値。
+* `bool`: allow&#95;all&#95;artifact&#95;types プロパティの値。
+
+***
 
 ### <kbd>property</kbd> Registry.artifact_types
 
-レジストリ内で許可されているアーティファクトタイプを返します。
+レジストリで許可されている Artifacts の種類を返します。
 
-`allow_all_artifact_types` が `True` の場合、`artifact_types` には、これまでに保存された、または現在レジストリ内で使用されているタイプが反映されます。`allow_all_artifact_types` が `False` の場合、アーティファクトは `artifact_types` に含まれるタイプに制限されます。
+`allow_all_artifact_types` が `True` の場合、`artifact_types` は、これまでに保存された、または現在レジストリで使用されている種類を反映します。`allow_all_artifact_types` が `False` の場合、 Artifacts は `artifact_types` に含まれる種類に制限されます。
 
 **注:**
 
-> これまでに保存されたアーティファクトタイプは削除できません。
+> これまでに保存された Artifacts の種類は削除できません。
 
 **例:**
 
@@ -55,43 +55,42 @@ import wandb
 
 registry = wandb.Api().create_registry()
 registry.artifact_types.append("model")
-registry.save()  # 一度保存すると、アーティファクトタイプ `model` は削除できません
+registry.save()  # 一度保存すると、 Artifacts タイプ `model` は削除できなくなります
 registry.artifact_types.append("accidentally_added")
 registry.artifact_types.remove(
      "accidentally_added"
-)  # タイプは保存前にのみ削除できます
+)  # タイプは保存前であれば削除できます
 ```
 
 **戻り値:**
 
-* `AddOnlyArtifactTypesList`: `artifact_types` プロパティ値。
+* `AddOnlyArtifactTypesList`: `artifact_types` プロパティの値。
 
 ***
 
-
 ### <kbd>property</kbd> Registry.created_at
 
-レジストリが作成された日時を示すタイムスタンプ。 
+Registry が作成された日時のタイムスタンプ。
 
 **戻り値:**
 
-- `str`: created_at プロパティの値。
+* `str`: created&#95;at プロパティの値。
 
----
+***
 
 ### <kbd>property</kbd> Registry.description
 
-レジストリの説明です。
+Registry の説明。 
 
-**Returns:**
+**戻り値:**
 
-- `str | None`: `description` プロパティの値。
+- `str | None`: description プロパティの値。
 
 ---
 
 ### <kbd>property</kbd> Registry.entity
 
-レジストリの所属組織（entity）。
+レジストリが属する Organization の entity。
 
 **戻り値:**
 
@@ -101,7 +100,7 @@ registry.artifact_types.remove(
 
 ### <kbd>property</kbd> Registry.full_name
 
-`wandb-registry-` プレフィックスを含むレジストリの完全な名前。 
+`wandb-registry-` プレフィックスを含むレジストリのフルネーム。 
 
 **戻り値:**
 
@@ -111,7 +110,7 @@ registry.artifact_types.remove(
 
 ### <kbd>property</kbd> Registry.id
 
-このレジストリの一意な ID。 
+この Registry の一意の ID。
 
 **戻り値:**
 
@@ -121,21 +120,21 @@ registry.artifact_types.remove(
 
 ### <kbd>property</kbd> Registry.name
 
-`wandb-registry-` プレフィックスを除いたレジストリの名前。 
+`wandb-registry-` プレフィックスを除いたレジストリの名前。
 
-**Returns:**
+**戻り値:**
 
-- `str`: name プロパティの値。
+- `str`: `name` プロパティの値。
 
 ---
 
 ### <kbd>property</kbd> Registry.organization
 
-レジストリの組織名。
+レジストリの organization 名。
 
 **戻り値:**
 
-- `str`: `organization` プロパティの値。
+- `str`: organization プロパティの値。
 
 ---
 
@@ -145,7 +144,7 @@ registry.artifact_types.remove(
 
 ### <kbd>property</kbd> Registry.updated_at
 
-レジストリの最終更新時刻を表すタイムスタンプ。
+レジストリが最後に更新された日時。
 
 **戻り値:**
 
@@ -155,20 +154,20 @@ registry.artifact_types.remove(
 
 ### <kbd>property</kbd> Registry.visibility
 
-レジストリの公開範囲。 
+Registry の公開範囲。 
 
-**戻り値:**
+**Returns:**
 
-- `Literal["organization", "restricted"]`:  公開レベル。
-        - "organization": 組織内の誰でもこのレジストリを閲覧できます。UI の設定から後でメンバーのロールを編集できます。
-        - "restricted": UI を通じて招待されたメンバーのみがこのレジストリにアクセスできます。パブリック共有は無効です。
+- `Literal["organization", "restricted"]`:  公開範囲のレベル。 
+        - "organization": 組織内の誰でもこの Registry を閲覧できます。後から UI の設定画面でロールを編集できます。 
+        - "restricted": UI 経由で招待されたメンバーのみがこの Registry にアクセスできます。公開共有は無効です。 
 
-**戻り値:**
+**Returns:**
 
-- `Literal['organization', 'restricted']`: `visibility` プロパティの値。
+- `Literal['organization', 'restricted']`: 公開範囲プロパティの値。
 ---
 
-### <kbd>メソッド</kbd> `Registry.add_members`
+### <kbd>method</kbd> `Registry.add_members`
 
 ```python
 add_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
@@ -180,13 +179,13 @@ add_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
 
 * `members`:  レジストリに追加するユーザーまたはチーム。`User` オブジェクト、`Team` オブジェクト、またはそれらの文字列 ID を受け取ります。
 
-**返り値:**
-必要に応じてメソッドチェーンを続けられるように、このレジストリ自身を返します。
+**戻り値:**
+必要に応じてメソッドチェーンを続けるための、このレジストリ。
 
-**送出される例外:**
+**例外:**
 
-* `TypeError`:  `members` 引数が一つも渡されなかった場合。
-* `ValueError`:  ユーザーまたはチームの ID を特定または解析できなかった場合。
+* `TypeError`:  メンバーが引数として一つも渡されなかった場合。
+* `ValueError`:  ユーザーまたはチームの ID を推論または解析できなかった場合。
 
 **使用例:**
 
@@ -208,7 +207,6 @@ registry.add_members(my_team)
 
 ***
 
-
 ### <kbd>method</kbd> `Registry.collections`
 
 ```python
@@ -218,7 +216,7 @@ collections(
 ) → Collections
 ```
 
-このレジストリに属するコレクションを返します。
+レジストリに属するコレクションを返します。
 
 ***
 
@@ -236,26 +234,26 @@ create(
 ) → Self
 ```
 
-新しいレジストリを作成します。
+新しい registry を作成します。
 
-レジストリ名は組織内で一意である必要があります。この関数は `api.create_registry()` を使って呼び出してください。
+registry 名は組織内で一意である必要があります。この関数は `api.create_registry()` を使用して呼び出します。
 
 **引数:**
 
 * `client`:  GraphQL クライアント。
-* `organization`:  組織の名前。
-* `name`:  レジストリの名前（`wandb-registry-` プレフィックスを除いた部分）。
-* `visibility`:  可視性レベル（&#39;organization&#39; または &#39;restricted&#39;）。
-* `description`:  レジストリの説明（省略可）。
-* `artifact_types`:  許可されるアーティファクトタイプのリスト（省略可）。
+* `organization`:  組織名。
+* `name`:  registry の名前 (`wandb-registry-` プレフィックスを含まない) 。
+* `visibility`:  公開範囲 (&#39;organization&#39; または &#39;restricted&#39;) 。
+* `description`:  registry の任意の説明文。
+* `artifact_types`:  許可されるアーティファクト種別の任意のリスト。
 
 **戻り値:**
 
-* `Registry`:  新しく作成された `Registry` オブジェクト。
+* `Registry`:  新しく作成された Registry オブジェクト。
 
-**例外:**
+**発生しうる例外:**
 
-* `ValueError`:  同じ名前のレジストリがすでに組織内に存在する場合、または作成に失敗した場合。
+* `ValueError`:  同名の registry がその組織内にすでに存在する場合、または作成に失敗した場合。
 
 ***
 
@@ -266,7 +264,7 @@ create(
 delete() → None
 ```
 
-レジストリを削除します。この操作は元に戻せません。
+この registry を削除します。この操作は元に戻せません。
 
 ***
 
@@ -277,18 +275,18 @@ delete() → None
 load() → None
 ```
 
-バックエンドからレジストリの属性を読み込みます。
+バックエンドから registry の属性を読み込みます。
 
 ***
 
 
-### <kbd>method</kbd> `Registry.members`
+### <kbd>メソッド</kbd> `Registry.members`
 
 ```python
 members() → list[UserMember | TeamMember]
 ```
 
-このレジストリに属する現在のメンバー（ユーザーおよび Teams）を返します。
+この Registry の現在のメンバーである ユーザーおよび Teams を返します。
 
 ***
 
@@ -299,19 +297,19 @@ members() → list[UserMember | TeamMember]
 remove_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
 ```
 
-このレジストリからユーザーまたはTeamsを削除します。
+このレジストリからユーザーまたはチームを削除します。
 
 **引数:**
 
-* `members`:  レジストリから削除するユーザーまたはTeams。`User` オブジェクト、`Team` オブジェクト、またはそれらの文字列IDを受け取ります。
+* `members`:  レジストリから削除するユーザーまたはチーム。`User` オブジェクト、`Team` オブジェクト、またはそれらの文字列 ID を指定できます。
 
 **戻り値:**
-必要に応じてメソッドチェーンを続けるための、このレジストリ。
+必要に応じてメソッドチェーンを行うための、このレジストリ自身。
 
 **例外:**
 
-* `TypeError`:  引数としてメンバーが一つも渡されなかった場合。
-* `ValueError`:  ユーザーまたはチームのIDを推定またはパースできなかった場合。
+* `TypeError`:  members 引数が 1 つも渡されなかった場合。
+* `ValueError`:  ユーザーまたはチームの ID を推論または解析できなかった場合。
 
 **使用例:**
 
@@ -320,7 +318,10 @@ import wandb
 
 api = wandb.Api()
 
-# 既存のレジストリを取得する
+<div id="fetch-an-existing-registry">
+  # 既存の registry を取得する
+</div>
+
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -340,23 +341,23 @@ registry.remove_members(old_team)
 save() → None
 ```
 
-レジストリ属性をバックエンドに保存します。
+この registry の属性をバックエンドに保存します。
 
 ***
 
 
-### <kbd>method</kbd> `Registry.team_members`
+### <kbd>メソッド</kbd> `Registry.team_members`
 
 ```python
 team_members() → list[TeamMember]
 ```
 
-このレジストリの現在のメンバーである Teams を返します。
+この Registry の現在のメンバーである Teams を返します。
 
 ***
 
 
-### <kbd>メソッド</kbd> `Registry.update_member`
+### <kbd>method</kbd> `Registry.update_member`
 
 ```python
 update_member(
@@ -365,49 +366,51 @@ update_member(
 ) → Self
 ```
 
-このレジストリ内のメンバー（ユーザーまたはチーム）のロールを更新します。
+この registry 内のメンバー (ユーザーまたはチーム) のロールを更新します。
 
-**引数:**
+**Args:**
 
-* `member`:  ロールを更新する対象のユーザーまたはチーム。`User` オブジェクト、`Team` オブジェクト、またはそれらの文字列 ID を受け取ります。
-* `role`:  メンバーに割り当てる新しいロール。次のいずれかです:
+* `member`:  ロールを更新する対象のユーザーまたはチーム。`User` オブジェクト、`Team` オブジェクト、またはそれらの文字列 ID を指定できます。
+* `role`:  メンバーに割り当てる新しいロール。次のいずれかを指定します:
   * &quot;admin&quot;
   * &quot;member&quot;
   * &quot;viewer&quot;
-  * &quot;restricted&#95;viewer&quot;（W&amp;B サーバーがサポートしている場合）
+  * &quot;restricted&#95;viewer&quot; (W&amp;B サーバーがサポートしている場合) 
 
-**戻り値:**
-必要に応じてメソッドチェーンを行うための、このレジストリ。
+**Returns:**
+必要に応じてメソッドチェーンを続けるための、この registry 自身。
 
-**送出される例外:**
+**Raises:**
 
-* `ValueError`:  ユーザーまたはチーム ID を推論できない場合。
+* `ValueError`:  ユーザーまたはチームの ID を推論できない場合。
 
-**使用例:**
-レジストリ内のすべてのユーザーを admin にする
-
-```python
+**Examples:**
+registry 内のすべてのユーザーを admin にする ```python
 import wandb
 
 api = wandb.Api()
 
-# 既存のレジストリを取得する
-registry = api.registry(name="my-registry", organization="my-org")
 
-for member in registry.user_members():
-    registry.update_member(member.user, role="admin")
-```
+<div id="fetch-an-existing-registry">
+  # 既存の registry を取得する
+</div>
 
-***
+registry = api.registry(name=&quot;my-registry&quot;, organization=&quot;my-org&quot;)
 
+for member in registry.user&#95;members():
+registry.update&#95;member(member.user, role=&quot;admin&quot;)
 
-### <kbd>メソッド</kbd> `Registry.user_members`
+````
+
+---
+
+### <kbd>method</kbd> `Registry.user_members`
 
 ```python
 user_members() → list[UserMember]
-```
+````
 
-このレジストリの現在のメンバーであるユーザーを返します。
+この registry の現在のユーザー メンバーを返します。
 
 ***
 
@@ -421,4 +424,4 @@ versions(
 ) → Versions
 ```
 
-このレジストリに含まれるバージョンを返します。
+レジストリに含まれるバージョンを返します。

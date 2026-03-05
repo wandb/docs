@@ -1,10 +1,11 @@
 ---
-title: "既存アーティファクトの更新"
+title: 既存 Artifacts の更新
 ---
 
 ```python
 """
-既存のアーティファクトについて、新しい run を作成せずに説明、メタデータ、エイリアスを更新する。
+既存の Artifacts の説明、メタデータ、エイリアスを、
+新しい run を作成せずに更新します。
 """
 import wandb
 
@@ -30,6 +31,6 @@ artifact.aliases.remove("latest")
 # エイリアスをすべて置き換える
 artifact.aliases = ["replaced"]
 
-# アーティファクトへのすべての変更を保存する
+# Artifacts へのすべての変更を保存する
 artifact.save()
 ```

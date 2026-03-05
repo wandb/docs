@@ -3,14 +3,14 @@ title: "クラス: Evaluation<R, E, M>"
 description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / Evaluation
+[Weave](../) / Evaluation
 
-スコアラーのセットとデータセットを含む評価を構成します。
+スコアラーのセットとデータセットを含む evaluation を設定します。
 
-evaluation.evaluate(model) を呼び出すと、データセットの各行がモデルに渡され、
-データセットの列名が model.predict の引数名に対応付けられます。
+evaluation.evaluate(model) を呼び出すと、データセットの行をモデルに渡し、
+データセットの列名を model.predict の引数名に対応付けます。
 
-その後、すべてのスコアラーが呼び出され、結果が weave に保存されます。
+その後、すべてのスコアラーを呼び出し、結果を Weave に保存します。
 
 `Example`
 
@@ -70,7 +70,7 @@ const results = await evaluation.evaluate({ model });
   ### コンストラクタ
 </div>
 
-- [コンストラクタ](./evaluation#constructor)
+- [constructor](./evaluation#constructor)
 
 <div id="properties">
   ### プロパティ
@@ -112,7 +112,7 @@ const results = await evaluation.evaluate({ model });
 | `M` | `M` |
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | 名前 | 型 |
@@ -131,7 +131,9 @@ const results = await evaluation.evaluate({ model });
 
 [WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [evaluation.ts:148](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluation.ts#L148)
 
@@ -147,9 +149,7 @@ const results = await evaluation.evaluate({ model });
 
 [WeaveObject](./weaveobject).[__savedRef](./weaveobject#__savedref)
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
 
@@ -173,7 +173,9 @@ const results = await evaluation.evaluate({ model });
 
 WeaveObject.description
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
 
@@ -210,7 +212,7 @@ WeaveObject.name
 ▸ **evaluate**(`«destructured»`): `Promise`\<`Record`\<`string`, `any`\>\>
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | 名前 | 型 | デフォルト値 |
@@ -241,7 +243,7 @@ ___
 ▸ **predictAndScore**(`«destructured»`): `Promise`\<\{ `model_latency`: `number` = modelLatency; `model_output`: `any` = modelOutput; `model_success`: `boolean` = !modelError; `scores`: \{ `[key: string]`: `any`;  }  }\>
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | 名前 | 型 |
@@ -283,6 +285,8 @@ ___
 
 [WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)

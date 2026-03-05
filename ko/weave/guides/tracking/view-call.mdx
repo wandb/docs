@@ -1,0 +1,141 @@
+---
+title: "트레이스 표시 보기 및 사용자 지정"
+description: "UI에서 호출을 보고 트레이스 데이터 표시 방식을 사용자 지정하기"
+---
+
+W&amp;B Weave에서 Call을 생성한 후에는 해당 Call의 입력, 출력, 메타데이터를 확인하기 위해 개별 Call을 여는 경우가 많습니다. 이 페이지에서는 UI 또는 SDK에서 Call을 보는 방법과 `weave.Markdown`을 사용해 UI에서 트레이스 데이터가 렌더링되는 방식을 사용자 지정하는 방법을 설명합니다.
+
+<Tabs>
+  <Tab title="웹 앱">
+    UI에서 Call을 보려면:
+
+    1. [wandb.ai](https://wandb.ai/)로 이동한 다음 프로젝트를 선택합니다.
+    2. Weave 프로젝트 사이드바에서 **Traces**를 클릭합니다.
+    3. 테이블에서 확인하려는 Call을 찾습니다.
+    4. Call을 클릭해 상세 페이지를 엽니다.
+
+    Trace 뷰에 대한 자세한 내용은 [Weave Trace 뷰 탐색](/ko/weave/guides/tracking/trace-tree)을 참조하세요.
+  </Tab>
+
+  <Tab title="Python">
+    W&amp;B Weave Python SDK를 사용해 Call을 보려면 [`get_call`](/ko/weave/reference/python-sdk/trace/weave_client#method-get_call) 메서드를 사용합니다:
+
+    ```python lines
+    import weave
+
+    # Initialize the client
+    client = weave.init("your-project-name")
+
+    # Get a specific call by its ID
+    call = client.get_call("call-uuid-here")
+
+    print(call)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import * as weave from 'weave'
+
+    // Initialize the client
+    const client = await weave.init('intro-example')
+
+    // Get a specific call by its ID
+    const call = await client.getCall('call-uuid-here')
+
+    console.log(call)
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    Service API를 사용해 Call을 보려면 [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) 엔드포인트로 요청을 보냅니다.
+
+    ```bash
+    curl -L 'https://trace.wandb.ai/call/read' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+        "project_id": "string",
+        "id": "string",
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="customize-rendered-traces-with-weavemarkdown">
+  ## `weave.Markdown`으로 렌더링된 트레이스 사용자 지정하기
+</div>
+
+`weave.Markdown`을 사용하면 원본 데이터를 잃지 않고 트레이스 정보가 표시되는 방식을 사용자 지정할 수 있습니다. 이를 통해 입력과 출력을 사람이 읽기 쉬운 서식 있는 콘텐츠 블록으로 렌더링하면서도, 그 아래의 데이터 구조는 그대로 보존할 수 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    `@weave.op` 데코레이터에서 `postprocess_inputs` 및 `postprocess_output` 함수를 사용하여 트레이스 데이터를 포맷하세요. 다음 코드 예제는 Weave에서 호출을 이모지와 더 읽기 쉬운 형식으로 렌더링하기 위해 후처리 함수를 사용하는 방법을 보여줍니다:
+
+    ```python lines
+    import weave
+
+    def postprocess_inputs(query) -> weave.Markdown:
+        search_box = f"""
+    **Search Query:**
+    ``+`
+    {query}
+    ``+`
+    """
+        return {"search_box": weave.Markdown(search_box),
+                "query": query}
+
+    def postprocess_output(docs) -> weave.Markdown:
+        formatted_docs = f"""
+    # {docs[0]["title"]}
+
+    {docs[0]["content"]}
+
+    [Read more]({docs[0]["url"]})
+
+    ---
+
+    # {docs[1]["title"]}
+
+    {docs[1]["content"]}
+
+    [Read more]({docs[1]["url"]})
+    """
+        return weave.Markdown(formatted_docs)
+
+    @weave.op(
+        postprocess_inputs=postprocess_inputs,
+        postprocess_output=postprocess_output,
+    )
+    def rag_step(query):
+        # S&P 500 기업들에 대한 예시 신문 기사
+        docs = [
+            {
+                "title": "OpenAI",
+                "content": "OpenAI is a company that makes AI models.",
+                "url": "https://www.openai.com",
+            },
+            {
+                "title": "Google",
+                "content": "Google is a company that makes search engines.",
+                "url": "https://www.google.com",
+            },
+        ]
+        return docs
+
+    if __name__ == "__main__":
+        weave.init('markdown_renderers')
+        rag_step("Tell me about OpenAI")
+    ```
+  </Tab>
+
+  <Tab title="Typescript">
+    ```plaintext
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>
+
+다음 스크린샷에서 서식이 적용되지 않은 출력과 서식이 적용된 출력이 나란히 표시된 것을 볼 수 있습니다.
+
+![코드 예제를 사용하여 Weave UI에서 렌더링된 호출.](/weave/guides/tracking/imgs/md-call-render.png)

@@ -6,6 +6,24 @@ rss: true
 
 이 페이지에는 W&amp;B Python SDK(`wandb` 패키지)의 릴리스 노트가 포함되어 있습니다. W&amp;B Server에 대해서는 [W&amp;B Server 릴리스 노트](/ko/release-notes/server-releases)를 참조하세요.
 
+<Update label="0.25.0" description="2026년 2월 12일">
+  ## 주요 변경 사항
+
+  * Python 3.8은 더 이상 지원되지 않습니다.
+
+  ## 추가됨
+
+  * `wandb beta leet` TUI가 이제 여러 run 워크스페이스를 지원합니다.
+  * `wandb beta leet config` 명령으로 `wandb beta leet`의 영구 설정을 대화형으로 구성할 수 있습니다.
+  * `wandb.apis.public.Project`의 `owner` 속성을 사용하여 프로젝트 소유자의 사용자 정보에 액세스할 수 있습니다.
+
+  ## 수정됨
+
+  * 삭제된 스윕에 대한 스윕 에이전트가 404 오류를 반복하며 무기한 실행될 수 있던 버그를 수정했습니다.
+  * `wandb-core` 크래시가 오래된 Python 버전에서 매우 길고 반복적인 트레이스백을 생성할 수 있던 버그를 수정했습니다.
+  * v0.24.0에서 도입된 회귀로 인해 TensorBoard 동기화가 1 MB의 데이터만 동기화한 뒤 중단될 수 있던 문제를 수정했습니다.
+</Update>
+
 <Update label="0.24.2" description="2026년 2월 4일">
   ## 추가됨
 
@@ -39,6 +57,10 @@ rss: true
 </Update>
 
 <Update label="0.24.0" description="2026년 1월 13일">
+  <Warning>
+    이 릴리스는 PyPI에서 제거되었습니다. 이 버전은 사용하지 마세요. 현재 이 버전을 사용 중이라면 즉시 v0.24.1 이상 버전으로 업그레이드하세요. v0.24.1에서 수정된 회귀(regression) 문제로 인해 `wandb==0.24.0`으로 생성된 runs는 일부 데이터를 업로드하지 못할 수 있습니다.
+  </Warning>
+
   ## 주요 변경 사항
 
   이 버전에서는 레거시이며 사용이 중단된 `wandb.beta.workflows` 모듈과 그 안의 `log_model()`/`use_model()`/`link_model()` 함수를 제거했습니다. 이는 형식적으로는 호환성이 깨지는 변경 사항(breaking change)입니다.

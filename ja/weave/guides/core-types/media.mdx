@@ -1,9 +1,9 @@
 ---
-title: "メディアのログ記録"
-description: "画像や動画など、トレースで返されるメディアをログします。"
+title: "メディアをログする"
+description: "traces から返される画像や動画などのメディアをログします。"
 ---
 
-W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表示をサポートしており、動画、画像、音声クリップ、PDF、CSV データ、HTML を表示するための専用関数を備えています。このガイドでは、各メディアタイプをログおよび表示するための基本例と応用例を紹介します。
+W&amp;B Weave は、動画、画像、音声クリップ、PDF、CSV データ、HTML を表示するための専用関数を備え、さまざまな種類のコンテンツのログと表示をサポートします。このガイドでは、各メディアタイプをログおよび表示するための基本的な例と高度な例を示します。
 
 * **[画像](#log-images)**
 * **[動画](#log-video)**
@@ -17,40 +17,40 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 <Tabs>
   <Tab title="Python">
-    このガイドの例ではアノテーションを使用します。メディアのログ記録を始める最も簡単な方法であるため、アノテーションの使用を推奨します。より高度な設定については、[Content API セクション](#using-the-contents-api)を参照してください。
+    このガイドの例ではアノテーションを使用します。アノテーションはメディアのロギングを始める最も簡単な方法なので推奨します。より高度な設定については、[Content API セクション](#using-the-contents-api)を参照してください。
 
-    Weave にメディアをログに記録するには、`Annotated[bytes, Content]` や `Annotated[str, Content]` のような型アノテーションを ops の入力または戻り値の型として追加します。パス引数に `Annotated[str, Content]` を指定すると、Weave がトレース内のメディアを自動的に開き、検出し、表示します。
+    Weave にメディアをログするには、`Annotated[bytes, Content]` や `Annotated[str, Content]` のような型アノテーションを op の入力または戻り値の型として追加します。パス引数を `Annotated[str, Content]` でアノテーションすると、Weave はトレース内のメディアを自動的に開き、検出し、表示します。
   </Tab>
 
   <Tab title="TypeScript">
-    TypeScript SDK はメディアをログに記録するための専用関数を提供します。
+    TypeScript SDK はメディアをログするための専用関数を提供します：
 
     * `weave.weaveImage({ data: Buffer })` - 画像用（PNG 形式）
     * `weave.weaveAudio({ data: Buffer })` - 音声用（WAV 形式）
 
     <Note>
-      TypeScript SDK は現在、画像と音声のログ記録をサポートしています。動画、ドキュメント、または HTML をログに記録するには、代わりに Weave Python SDK を使用してください。
+      TypeScript SDK は現在、画像と音声のロギングのみをサポートしています。動画、ドキュメント、または HTML をログするには、代わりに Weave Python SDK を使用してください。
     </Note>
   </Tab>
 </Tabs>
 
-次のセクションでは、各メディアタイプをログに記録する実用的な例を示します。
+以下のセクションでは、各メディアタイプをログする実用的な例を示します。
 
 <div id="log-images">
-  ## 画像を記録する
+  ## 画像をログに記録する
 </div>
 
-次の例では、画像を生成して Weave の UI にログとして記録する方法を示します。
+次の例では、画像を生成し、Weave の UI にログとして記録する方法を示します。
 
 <Frame>
-  ![かぼちゃ猫のトレースビューのスクリーンショット](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
+  ![かぼちゃ猫のトレース ビューのスクリーンショット](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
 </Frame>
 
 <Tabs>
   <Tab title="Python">
-    関数に `Annotated[bytes, Content]` 型、ファイルパスに `Annotated[str, Content]` 型で注釈を付けることで、画像をログに記録できます。
+    関数に `Annotated[bytes, Content]` 型のアノテーションを付けるか、ファイルパスに `Annotated[str, Content]` 型のアノテーションを付けて、画像をログします。
 
-    次の例では、簡単な画像を描画し、その後 `Content` アノテーションを使って Weave にログに記録します。
+    次の例では、基本的な画像を描画し、その後 `Content` アノテーションを使って Weave にログします。
 
     ```python lines {16,23}
     import weave
@@ -66,13 +66,13 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     draw.text((50, 40), "Hello Weave!", fill='black')
     img.save("sample_image.png")
 
-    # 方法1: Contentアノテーション（推奨）
+    # 方法 1: Content アノテーション（推奨）
     @weave.op
     def load_image_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
         with open(path, 'rb') as f:
             return f.read()
 
-    # 方法2: PIL Imageオブジェクト  
+    # 方法 2: PIL Image オブジェクト  
     @weave.op
     def load_image_pil(path: Annotated[str, Content]) -> Image.Image:
         return Image.open(path)
@@ -81,9 +81,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     result2 = load_image_pil("sample_image.png")
     ```
 
-    Weave は画像をログに記録し、その画像を確認できるトレースへのリンクを返します。
+    Weave は画像をログとして記録し、その画像を表示できる trace へのリンクを返します。
 
-    ### 応用例: DALL-E で画像を生成して Weave にログする
+    ### 高度な例: DALL-E で画像を生成して Weave にログする
 
     次の例では、猫の画像を生成し、それを Weave にログします。
 
@@ -113,9 +113,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     generate_image("a cat with a pumpkin hat")
     ```
 
-    ### 応用例: ログに記録する前に大きな画像をリサイズする
+    ### 高度な例: ログに記録する前に大きな画像をリサイズする
 
-    UI のレンダリングコストとストレージへの影響を抑えるために、ログに記録する前に画像をリサイズすると有用な場合があります。`@weave.op` 内で `postprocess_output` を使用して画像をリサイズできます。
+    UI のレンダリングコストやストレージへの影響を抑えるために、ログに記録する前に画像をリサイズすると有用な場合があります。`@weave.op` 内で `postprocess_output` を使用して画像をリサイズできます。
 
     ```python lines
     from dataclasses import dataclass
@@ -144,14 +144,14 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     @weave.op(postprocess_output=postprocess_output)
     def generate_large_image() -> ImageResult:
-        # 処理するサンプル画像を作成（例：2000x2000の赤い正方形）
+        # 処理するサンプル画像を作成（例：2000x2000 の赤い正方形）
         img = Image.new("RGB", (2000, 2000), color="red")
         return ImageResult(label="big red square", image=img)
 
     generate_large_image()
     ```
 
-    Weave はサイズ変更後の画像をログに記録し、その画像を確認できる trace へのリンクを返します。
+    Weave はリサイズした画像をログとして記録し、その画像を表示できる trace へのリンクを返します。
   </Tab>
 
   <Tab title="TypeScript">
@@ -164,24 +164,24 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     async function main() {
         await weave.init('your-team-name/your-project-name');
 
-        // weaveImageを使用して画像を読み込み、ログに記録する
+        // weaveImage を使用して画像を読み込み、ログに記録する
         const loadImage = weave.op(async function loadImage(path: string) {
             const data = fs.readFileSync(path);
             return weave.weaveImage({ data });
         });
 
-        // PNGイメージファイルが存在することを前提とする
+        // PNG 画像ファイルが存在することを前提とする
         await loadImage('sample_image.png');
     }
 
     main();
     ```
 
-    Weave は画像をログし、その画像を表示できる trace へのリンクを返します。
+    Weave は画像をログに記録し、その画像を確認できる trace へのリンクを返します。
 
-    ### 応用例: OpenAI DALL-E API で生成した画像をログする
+    ### 応用例: OpenAI DALL-E API で生成した画像をログに記録する
 
-    次の例では、`weaveImage` 関数を使って OpenAI DALL-E API で生成した画像をログします。
+    次の例では、`weaveImage` 関数を使って OpenAI DALL-E API で生成した画像をログに記録します。
 
     ```typescript lines
     import {OpenAI} from 'openai';
@@ -218,7 +218,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
   ## 動画をログに記録する
 </div>
 
-次の例は、Weave の UI に動画を生成してログとして記録する方法を示します。
+次の例では、動画を生成して Weave の UI にログとして記録する方法を示します。
 
 <Frame>
   ![Video logging in Weave](/images/weave/video.png)
@@ -226,7 +226,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 <Tabs>
   <Tab title="Python">
-    `Annotated[bytes, Content]` 型で関数にアノテーションを付けて動画をログに記録します。Weave は `mp4` 動画を自動的に処理します。簡単な例を次に示します。
+    `Annotated[bytes, Content]` 型で関数にアノテーションを付けることで動画をログします。Weave は `mp4` 動画を自動的に処理します。簡単な例は次のとおりです。
 
     ```python lines {15}
     import weave
@@ -237,7 +237,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     weave.init('your-team-name/your-project-name')
 
     def download_big_buck_bunny():
-        """Big Buck Bunny のサンプル動画をダウンロードする"""
+        """Big Buck Bunny のサンプル動画をダウンロード"""
         url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         response = requests.get(url)
         with open("big_buck_bunny.mp4", "wb") as f:
@@ -253,11 +253,11 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     bunny_video = load_video_content("big_buck_bunny.mp4")
     ```
 
-    Weave は動画をログに記録し、動画を閲覧できるトレースへのリンクを返します。
+    Weave は動画をログし、その動画を閲覧できる trace へのリンクを返します。
 
-    ### 応用例: 動画解析プロジェクト内で動画をログに記録する
+    ### 応用例: 動画解析プロジェクト内で動画をログする
 
-    次の例は、動画理解プロジェクト内で動画をログに記録する方法を示します。
+    次の例では、動画理解プロジェクト内で動画をログする方法を示します。
 
     ```python lines {25}
     import weave
@@ -269,7 +269,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     import yt_dlp
     import time
 
-    # 注意: https://aistudio.google.com/app/apikey から APIキー を取得してください
+    # 注: https://aistudio.google.com/app/apikey から API キーを取得してください
     client = genai.Client()
     weave.init('your-team-name/your-project-name')
 
@@ -309,16 +309,16 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
   <Tab title="TypeScript">
     ```plaintext
-    この機能は、現時点では Weave TypeScript SDK では利用できません。
+    この機能は Weave TypeScript SDK ではまだ利用できません。
     ```
   </Tab>
 </Tabs>
 
 <div id="log-documents">
-  ## ドキュメントをログする
+  ## ドキュメントをログに記録する
 </div>
 
-次の例では、ドキュメントを生成し、Weave の UI にログとして記録します。
+次の例では、Weave の UI にドキュメントを生成してログに記録します。
 
 <Frame>
   ![Weave での PDF ドキュメントのログ](/images/weave/pdf.png)
@@ -326,11 +326,11 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 <Tabs>
   <Tab title="Python">
-    `Annotated[bytes, Content]` 型で関数にアノテーションを付けるか、`Annotated[str, Content[Literal['text']]` を使ってドキュメントの型を指定することで、ドキュメントをログできます。
+    `Annotated[bytes, Content]` 型で関数にアノテーションを付けるか、`Annotated[str, Content[Literal['text']]` を使ってドキュメントの種類を指定することで、ドキュメントをログに記録できます。
 
-    Weave は `pdf`、`csv`、`md`、`text`、`json`、`xml` のファイルタイプを自動的に処理します。`Annotated[str, Content]` を使ってファイルパス経由でログすることもできます。
+    Weave は `pdf`、`csv`、`md`、`text`、`json`、`xml` のファイルタイプを自動的に処理します。`Annotated[str, Content]` を使ってファイルパスを指定してログに記録することもできます。
 
-    次の例では、入力の PDF と CSV ファイルのコピーを保存し、その後に関数から返されるファイル内容も保存する方法を示します。
+    次の例は、入力 PDF と CSV ファイルのコピーを保存し、その後に関数が返すファイル内容を保存する方法を示しています。
 
     ```python lines {25}
     import weave
@@ -368,9 +368,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     csv_result = load_document("sample_data.csv")
     ```
 
-    ### 応用例: RAG システム内でドキュメントをログする
+    ### 応用例: RAG システム内でドキュメントをログに記録する
 
-    この例では、Retrieval-Augmented Generation (RAG) システム内でドキュメントをログとして記録する方法を示します。
+    この例は、Retrieval-Augmented Generation (RAG) システム内でドキュメントをログに記録する方法を示しています。
 
     ```python lines {27}
     import weave
@@ -430,7 +430,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
   <Tab title="TypeScript">
     ```plaintext
-    この機能は Weave TypeScript SDK ではまだ使用できません。
+    この機能は、Weave TypeScript SDK ではまだ利用できません。
     ```
   </Tab>
 </Tabs>
@@ -439,7 +439,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
   ## 音声をログに記録する
 </div>
 
-以下の例では、Weave に音声をログに記録する方法を示します。
+次の例では、Weave に音声をログとして記録する方法を示します。
 
 <Frame>
   ![音声トレースビューのスクリーンショット](/weave/guides/core-types/imgs/audio-trace.png)
@@ -447,11 +447,11 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
 <Tabs>
   <Tab title="Python">
-    `Annotated[bytes, Content]` 型で関数にアノテーションを付けるか、`Annotated[str, Content[Literal['mp3']]` を使って音声タイプを指定して、音声を Weave に記録します。
+    `Annotated[bytes, Content]` 型で関数にアノテーションを付けるか、`Annotated[str, Content[Literal['mp3']]` を使って音声の種類を指定することで、音声を Weave にログできます。
 
-    Weave は `mp3`、`wav`、`flac`、`ogg`、`m4a` のファイル形式を自動的に処理します。`Annotated[str, Content]` を使って、ファイルパスから記録することもできます。
+    Weave は `mp3`、`wav`、`flac`、`ogg`、`m4a` のファイル形式を自動的に処理します。`Annotated[str, Content]` を使ってファイルパスを指定してログすることもできます。
 
-    次のコードスニペットは、サイン波を生成して録音し、その音声を Weave に記録します。
+    次のコードスニペットはサイン波を生成して録音し、その音声を Weave にログします。
 
     ```python lines {20}
     import weave
@@ -462,7 +462,7 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 
     weave.init('your-team-name/your-project-name')
 
-    # シンプルなビープ音のオーディオファイルを作成
+    # シンプルなビープ音のオーディオファイルを作成する
     frames = np.sin(2 * np.pi * 440 * np.linspace(0, 1, 44100))
     audio_data = (frames * 32767 * 0.3).astype(np.int16)
 
@@ -480,9 +480,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     result = load_audio("beep.wav")
     ```
 
-    ### 応用例: AI生成音声の作成とログ記録
+    ### 高度な例: AI 生成音声の作成とログ記録
 
-    この例では、`Content` アノテーションを使用して AI が生成した音声を生成し、ログに記録します。
+    この例では、`Content` アノテーションを使用して AI 生成音声を作成し、ログに記録します。
 
     ```python lines {11}
     import weave
@@ -517,13 +517,13 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     demo1 = generate_demo("machine learning best practices")
     ```
 
-    この音声は Weave にログされて、オーディオプレーヤーとともに UI に自動的に表示されます。オーディオプレーヤーでは、生の音声波形を表示およびダウンロードできます。
+    このオーディオは Weave にログとして記録され、UI 上でオーディオプレーヤーとともに自動的に表示されます。オーディオプレーヤーでは、生のオーディオ波形を表示およびダウンロードできます。
 
     <Frame>
-      ![Weave での音声のログ](/images/weave/audio.png)
+      ![Weave でのオーディオのロギング](/images/weave/audio.png)
     </Frame>
 
-    次の例では、OpenAI API からのストリーミングレスポンスを使用して音声をログする方法を示します。
+    次の例は、OpenAI API からのストリーミングレスポンスを使ってオーディオをログとして記録する方法を示しています。
 
     ```python lines
     import weave
@@ -560,22 +560,22 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     async function main() {
         await weave.init('your-team-name/your-project-name');
 
-        // weaveAudioを使用してオーディオを読み込み、ログに記録する
+        // weaveAudio を使用してオーディオを読み込み、ログに記録する
         const loadAudio = weave.op(async function loadAudio(path: string) {
             const data = fs.readFileSync(path);
             return weave.weaveAudio({ data });
         });
 
-        // WAVオーディオファイルが存在することを前提とする
+        // WAV オーディオファイルが存在することを前提とする
         await loadAudio('beep.wav');
     }
 
     main();
     ```
 
-    ### 高度な例: OpenAI の TTS API で音声を生成して Weave にログする
+    ### 高度な例: OpenAI の TTS API を使って音声を生成し、Weave にログする
 
-    次の例では、OpenAI の TTS API を使って音声を生成し、それを Weave にログします。
+    以下の例では、OpenAI の TTS API を使って音声を生成し、それを Weave にログします。
 
     ```typescript lines
     import {OpenAI} from 'openai';
@@ -609,24 +609,24 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
 </Tabs>
 
 <Tip>
-  [Audio Logging](/ja/weave/cookbooks/audio_with_weave) 向けのクックブックをお試しください。このクックブックには、Weave と統合されたリアルタイム音声 API ベースのアシスタントの高度な例も含まれています。
+  [Audio Logging](/ja/weave/cookbooks/audio_with_weave) の cookbook を試してください。この cookbook には、Weave と統合された Real Time Audio API を用いたアシスタントの高度な例も含まれています。
 </Tip>
 
 <div id="log-html">
   ## HTML をログに記録する
 </div>
 
-次の例では、HTML を生成して Weave の UI にログする方法を示します。
+次の例では、Weave の UI に表示される HTML を生成してログに記録する方法を示します。
 
 <Frame>
-  ![Weave における HTML ロギング](/images/weave/html.png)
+  ![Weave での HTML ロギング](/images/weave/html.png)
 </Frame>
 
 <Tabs>
   <Tab title="Python">
-    `Annotated[bytes, Content[Literal['html']]]` で関数にアノテーションを付けて、インタラクティブな HTML をログします。
+    `Annotated[bytes, Content[Literal['html']]]` を使って関数にアノテーションを付けることで、インタラクティブな HTML をログに記録できます。
 
-    次の例では、シンプルな HTML ページを作成し、それを Weave にログします。
+    次の例では、シンプルな HTML ページを作成し、それを Weave にログとして保存します。
 
     ```python lines {8}
     import weave
@@ -658,9 +658,9 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
     result = create_simple_html()
     ```
 
-    ### 高度な例: W&amp;B Inference を使って自己完結型の HTML ページを生成し、Weave にログする
+    ### 応用例: W&amp;B Inference を使って自己完結型の HTML ページを生成し、Weave にログとして記録する
 
-    この例では、[W&amp;B Inference](https://docs.wandb.ai/inference/) を使って自己完結型の HTML ページを生成し、そのページを Weave にログします。
+    この例では、[W&amp;B Inference](https://docs.wandb.ai/inference/) を使って自己完結型の HTML ページを生成し、そのページを Weave にログとして記録します。
 
     ```python lines {21}
     import weave
@@ -706,31 +706,31 @@ W&amp;B Weave は、さまざまなコンテンツタイプのログ記録と表
   </Tab>
 </Tabs>
 
-この HTML は Weave にログされ、自動的に UI に表示されます。テーブル内の `file_name.html` セルをクリックすると、フルスクリーンで開きます。また、生の `.html` ファイルをダウンロードすることもできます。
+この HTML は Weave にログとして記録され、自動的に UI 上に表示されます。テーブル内の `file_name.html` セルをクリックすると、全画面表示で開きます。また、生の `.html` ファイルをダウンロードすることもできます。
 
 <div id="using-the-contents-api">
-  ## Content API の使用
+  ## Contents API の使用
 </div>
 
-Content API は Weave 内のメディアオブジェクトを扱います。base64 データ、ファイルパス、生のバイト列、テキストとしてコンテンツを Weave にインポートできます。
+Contents API は Weave 内のメディアオブジェクトを扱います。Base64 データ、ファイルパス、生のバイト列、テキストとしてコンテンツを Weave にインポートできます。
 
 <Note>
-  Content API は Python からのみ利用可能です。
+  Contents API は Python でのみ利用可能です。
 </Note>
 
 <div id="usage">
-  ### 使用方法
+  ### 使い方
 </div>
 
-Content API を使用する主な方法は、型アノテーションを使う方法と、直接初期化する方法の 2 つです。
+Content API の使い方には、型アノテーションと直接初期化の 2 つの主要な方法があります。
 
-型アノテーションを使うと、使用すべき適切なコンストラクタが自動的に選択されます。一方、直接初期化を行うと、よりきめ細かな制御が可能になり、Content API のランタイム機能をコード内で活用できます。
+型アノテーションでは使用すべき適切なコンストラクタが自動的に選択され、一方で直接初期化ではより細かな制御が可能になり、コード内で Content API の実行時の機能を活用できます。
 
 <div id="type-annotations">
   ### 型アノテーション
 </div>
 
-Weave Content API は、主に型アノテーションを通じて利用されるように設計されています。型アノテーションは、トレースされた入力と出力をコンテンツ blob として処理・保存するよう Weave に指示する役割を果たします。
+Weave Content API は、主に型アノテーション経由で利用することを前提として設計されています。型アノテーションは、トレースされた入力および出力をコンテンツ blob として処理し、保存する必要があることを Weave に知らせる役割を果たします。
 
 ```python lines {7}
 import weave
@@ -743,8 +743,8 @@ def content_annotation(path: Annotated[str, Content]) -> Annotated[bytes, Conten
     data = Path(path).read_bytes()
     return data
 
-# 入力と出力の両方がWeaveにMP4ファイルとして表示されます
-# 入力は文字列で、戻り値はバイト列です
+# 入力と出力はどちらも Weave で MP4 ファイルとして表示されます
+# 入力は文字列で、戻り値は bytes です
 bytes_data = content_annotation('./path/to/your/file.mp4')
 ```
 
@@ -752,18 +752,18 @@ bytes_data = content_annotation('./path/to/your/file.mp4')
   ### 直接初期化
 </div>
 
-次のような機能を利用したい場合は:
+次のような機能を活用したい場合:
 
-* 既定のアプリケーション（PDF ビューアなど）でファイルを開く
-* モデルを JSON にダンプして、独自の BLOB ストレージ（S3 など）にアップロードする
-* `Content` ブロブに関連付けるカスタムメタデータを渡す（生成に使用したモデルなど）
+* 既定のアプリケーション (PDF ビューアなど) でファイルを開く
+* モデルを JSON にダンプして、独自の blob ストレージ (S3 など) にアップロードする
+* `Content` blob に関連付けるカスタムメタデータを渡す (それを生成するのに使用したモデルなど)
 
-次のいずれかのメソッドを使って、対象の型からコンテンツを直接初期化できます:
+対象の型からコンテンツを直接初期化するには、次のいずれかのメソッドを使用します:
 
 * `Content.from_path` - ファイルパスから作成
 * `Content.from_bytes` - 生のバイト列から作成
 * `Content.from_text` - テキスト文字列から作成
-* `Content.from_base64` - Base64 エンコードされたデータから作成
+* `Content.from_base64` - base64 でエンコードされたデータから作成
 
 ```python lines
 import weave
@@ -773,21 +773,21 @@ from weave import Content
 def content_initialization(path: str) -> Content:
     return Content.from_path(path)
 
-# 入力はパス文字列として、出力はWeaveのPDFファイルとして表示されます
+# 入力はパス文字列として、出力は Weave の PDF ファイルとして表示されます
 content = content_initialization('./path/to/your/file.pdf')
 
-content.open()  # PDFビューアでファイルを開きます
-content.model_dump()  # モデルの属性をJSONにダンプします
+content.open()  # PDF ビューアでファイルを開きます
+content.model_dump()  # モデルの属性を JSON にダンプします
 ```
 
 <div id="custom-mimetypes">
   ### カスタム MIME タイプ
 </div>
 
-Weave は多くのバイナリ MIME タイプを検出できますが、カスタム MIME タイプや Markdown などのテキストドキュメントは自動的に検出されない場合があり、その場合はファイルの MIME タイプまたは拡張子を手動で指定する必要があります。
+Weave はバイナリの MIME タイプのほとんどを検出できますが、カスタム MIME タイプや Markdown などのテキストドキュメントは自動的に検出されない場合があり、その場合はファイルの MIME タイプまたは拡張子を手動で指定する必要があります。
 
 <div id="custom-mimetypes-with-type-annotations">
-  #### 型アノテーションを使ったカスタム MIME タイプ
+  #### 型アノテーション付きカスタム MIME タイプ
 </div>
 
 ```python lines {7}
@@ -806,17 +806,17 @@ markdown_content('path/to/your/document.md')
 ```
 
 <div id="custom-mimetypes-with-direct-initialization">
-  #### 直接初期化を使ったカスタム MIME タイプ
+  #### 直接初期化を用いたカスタム MIME タイプ
 </div>
 
 ```python lines
 video_bytes = Path('/path/to/video.mp4').read_bytes()
 
-# 'mp4' や '.mp4' などの拡張子を extension パラメータに渡す
+# 'mp4' や '.mp4' などの拡張子を extension パラメーターに渡す
 # (`from_path` では使用不可)
 content = Content.from_bytes(video_bytes, extension='.mp4')
 
-# 'video/mp4' などの MIME タイプを mimetype パラメータに渡す
+# 'video/mp4' などの mimetype を mimetype パラメーターに渡す
 content = Content.from_bytes(video_bytes, mimetype='video/mp4')
 ```
 
@@ -824,36 +824,36 @@ content = Content.from_bytes(video_bytes, mimetype='video/mp4')
   ### コンテンツのプロパティ
 </div>
 
-クラス属性とメソッドの詳細な一覧については、[Content のリファレンスドキュメント](/ja/weave/reference/python-sdk#class-content)を参照してください。
+クラスの属性およびメソッドの詳細な一覧については、[Content リファレンスドキュメント](/ja/weave/reference/python-sdk#class-content)を参照してください。
 
 <div id="attributes">
   #### 属性
 </div>
 
-| Property    | Type             | Description                             |
-| ----------- | ---------------- | --------------------------------------- |
-| `data`      | `bytes`          | 生のバイナリデータ                      |
-| `metadata`  | `dict[str, Any]` | カスタムメタデータ辞書                  |
-| `size`      | `int`            | コンテンツのサイズ（バイト数）          |
-| `filename`  | `str`            | 抽出または指定されたファイル名          |
-| `extension` | `str`            | ファイル拡張子（例: `"jpg"`, `"mp3"`）  |
-| `mimetype`  | `str`            | MIME タイプ（例: `"image/jpeg"`）       |
-| `path`      | `str \| None`    | （ある場合の）元ファイルパス            |
-| `digest`    | `str`            | コンテンツの SHA256 ハッシュ値          |
+| Property    | Type             | Description                          |
+| ----------- | ---------------- | ------------------------------------ |
+| `data`      | `bytes`          | 生のバイナリコンテンツ               |
+| `metadata`  | `dict[str, Any]` | カスタムメタデータの辞書            |
+| `size`      | `int`            | コンテンツのバイト単位のサイズ      |
+| `filename`  | `str`            | 抽出または指定されたファイル名      |
+| `extension` | `str`            | ファイル拡張子（例: `"jpg"`, `"mp3"`） |
+| `mimetype`  | `str`            | MIME タイプ（例: `"image/jpeg"`）     |
+| `path`      | `str \| None`    | 該当する場合のソースファイルパス    |
+| `digest`    | `str`            | コンテンツの SHA256 ハッシュ         |
 
 <div id="utility-methods">
   #### ユーティリティメソッド
 </div>
 
 * `save(dest: str | Path) -> None`: コンテンツをファイルに保存します
-* `open() -> bool`: システムのデフォルトアプリケーションを使用してファイルを開きます（コンテンツが、パスから保存されているかパスから読み込まれている必要があります）
-* `as_string() -> str`: データを文字列として取得します（バイト列は `encoding` 属性を使ってデコードされます）
+* `open() -> bool`: システムのデフォルトアプリケーションを使ってファイルを開きます（コンテンツがパスから読み込まれているか、保存済みである必要があります）
+* `as_string() -> str`: データを文字列として取得します（バイト列は encoding 属性を使ってデコードされます）
 
 <div id="initialization-methods">
   #### 初期化方法
 </div>
 
-ファイルパスから `content` オブジェクトを作成します：
+ファイルパスから `content` オブジェクトを作成します:
 
 ```python lines
 content = Content.from_path("assets/photo.jpg")
@@ -878,7 +878,7 @@ content = Content.from_text("Hello, World!", mimetype="text/plain")
 print(content.as_string())
 ```
 
-base64 エンコードされたデータから `content` オブジェクトを作成します：
+Base64 エンコードされたデータから `content` オブジェクトを作成します:
 
 ```python lines
 content = Content.from_base64(base64_string)
@@ -889,7 +889,7 @@ print(content.metadata)
   ### カスタムメタデータの追加
 </div>
 
-任意の Content オブジェクトにカスタムメタデータを付加できます。
+任意の Content オブジェクトにカスタムメタデータを付与できます。
 
 ```python lines
 content = Content.from_bytes(

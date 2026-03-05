@@ -1,22 +1,11 @@
 ---
-title: "애플리케이션 로직 추적"
-description: "LLM 애플리케이션에서 데이터 흐름과 메타데이터를 추적하는 방법을 알아보세요"
+title: "중첩 함수 추적하기"
+description: "W&B 트레이싱으로 깊게 중첩된 호출 구조를 추적하는 방법 알아보기"
 ---
 
-[Track LLM inputs &amp; outputs](/ko/weave/quickstart) 튜토리얼에서는 LLM의 입력과 출력을 추적하는 기본 내용을 다루었습니다.
+LLM 기반 애플리케이션에는 여러 번의 LLM 호출과, 모니터링이 중요한 추가 데이터 처리 및 검증 로직이 포함되는 경우가 많습니다. 많은 애플리케이션에서 흔히 볼 수 있는 깊게 중첩된 호출 구조에서도, 추적하려는 각 함수에 `weave.op()`만 추가하면 Weave가 중첩 함수 전반에 걸쳐 부모-자식 관계를 추적합니다.
 
-이 튜토리얼에서는 다음을 학습합니다:
-
-* 애플리케이션을 통해 흐르는 **데이터를 추적**하는 방법
-* 호출 시점의 **메타데이터를 추적**하는 방법
-
-<div id="tracking-nested-function-calls">
-  ## 중첩 함수 호출 추적
-</div>
-
-LLM 기반 애플리케이션에는 여러 차례의 LLM 호출과, 모니터링이 중요한 추가 데이터 처리 및 검증 로직이 포함되는 경우가 많습니다. 이처럼 많은 앱에서 흔한 깊게 중첩된 호출 구조에서도, 추적하려는 모든 함수에 `weave.op()`만 추가하면 Weave가 중첩 함수의 부모-자식 관계를 계속 추적합니다.
-
-[퀵스타트 예제](/ko/weave/quickstart)를 기반으로, 아래 코드는 LLM에서 반환된 항목의 개수를 세고 이를 상위 수준 함수로 감싸는 추가 로직을 포함합니다. 또한 이 예제에서는 `weave.op()`을 사용하여 각 함수, 그 호출 순서, 그리고 부모-자식 관계를 모두 추적합니다:
+다음 코드는 [퀵스타트 예시](/ko/weave/quickstart)를 기반으로, LLM에서 반환된 항목 수를 세고 이를 상위 수준 함수로 감싸는 로직을 추가합니다. 또한 이 예시는 `weave.op()`을 사용해 각 함수와 그 호출 순서, 부모-자식 관계를 모두 트레이스합니다:
 
 <Tabs>
   <Tab title="Python">
@@ -74,9 +63,9 @@ LLM 기반 애플리케이션에는 여러 차례의 LLM 호출과, 모니터링
 
     **중첩 함수**
 
-    위 코드를 실행하면 중첩된 두 함수(`extract_dinos` 및 `count_dinos`)의 입력과 출력, 그리고 자동으로 기록된 OpenAI 트레이스를 확인할 수 있습니다.
+    위 코드를 실행하면 **Traces** 페이지에서 두 개의 중첩 함수(`extract_dinos` 및 `count_dinos`)의 입력과 출력, 그리고 자동으로 기록된 OpenAI 트레이스를 확인할 수 있습니다.
 
-    ![중첩 Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
+    ![선택된 Call의 상세 패널과 가운데 트레이스 트리 패널이 표시된 중첩 Weave Traces 페이지](/images/tutorial_tracing_2_nested_dinos.png)
   </Tab>
 
   <Tab title="TypeScript">
@@ -130,11 +119,11 @@ LLM 기반 애플리케이션에는 여러 차례의 LLM 호출과, 모니터링
 
     **중첩 함수**
 
-    위 코드를 실행하면 중첩된 두 함수(`extractDinos` 및 `countDinos`)의 입력과 출력, 그리고 자동으로 기록된 OpenAI 트레이스를 확인할 수 있습니다.
+    위 코드를 실행하면 **Traces** 페이지에서 두 개의 중첩 함수(`extract_dinos` 및 `count_dinos`)의 입력과 출력, 그리고 자동으로 기록된 OpenAI 트레이스를 확인할 수 있습니다.
 
     {/* TODO: Update to TS screenshot */}
 
-    ![중첩 Weave Trace](/images/tutorial_tracing_2_nested_dinos.png)
+    ![선택된 Call의 상세 패널과 가운데 트레이스 트리 패널이 표시된 중첩 Weave Traces 페이지](/images/tutorial_tracing_2_nested_dinos.png)
   </Tab>
 </Tabs>
 
@@ -165,7 +154,7 @@ LLM 기반 애플리케이션에는 여러 차례의 LLM 호출과, 모니터링
 
   <Tab title="TypeScript">
     ```plaintext
-    이 기능은 아직 TypeScript에서는 사용할 수 없습니다. 계속 지켜봐 주세요!
+    이 기능은 아직 TypeScript에서는 사용할 수 없습니다.
     ```
   </Tab>
 </Tabs>
@@ -175,6 +164,8 @@ LLM 기반 애플리케이션에는 여러 차례의 LLM 호출과, 모니터링
 
   시스템 프롬프트와 같은 시스템 설정을 추적하려면 [Weave Models](/ko/weave/guides/core-types/models)를 사용할 것을 권장합니다.
 </Note>
+
+attributes 사용에 관한 자세한 내용은 [Define and log attributes](/ko/weave/guides/tools/attributes)를 참조하세요.
 
 <div id="whats-next">
   ## 다음 단계

@@ -25,24 +25,24 @@ wandb.Table のデータから散布図を作成します。
 
 **引数:**
 
-* `table`:  可視化するデータを含む W&amp;B の Table。
+* `table`:  可視化するデータを含む W&amp;B Table。
 * `x`:  x 軸に使用する列名。
 * `y`:  y 軸に使用する列名。
 * `title`:  散布図のタイトル。
-* `split_table`:  テーブルを W&amp;B UI 内で別セクションとして分割するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False`。
+* `split_table`:  W&amp;B UI 内でテーブルを別のセクションに分割して表示するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False`。
 
 **戻り値:**
 
-* `CustomChart`:  W&amp;B にログできるカスタム チャート オブジェクト。チャートをログするには、`wandb.log()` に渡します。
+* `CustomChart`:  W&amp;B にログできるカスタム チャート オブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
 
-**Example:**
+**例:**
 
 ```python
 import math
 import random
 import wandb
 
-# 時間経過に伴う異なる高度での気温変化をシミュレート
+# 時間の経過に伴う異なる高度での気温変化をシミュレート
 data = [
     [i, random.uniform(-10, 20) - 0.005 * i + 5 * math.sin(i / 50)]
     for i in range(300)
@@ -51,7 +51,7 @@ data = [
 # 高度 (m) と気温 (°C) の列を持つ W&B テーブルを作成
 table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
 
-# W&B run を初期化し、散布図をログに記録
+# W&B の run を初期化し、散布図をログに記録
 with wandb.init(project="temperature-altitude-scatter") as run:
     # 散布図を作成してログに記録
     scatter_plot = wandb.plot.scatter(

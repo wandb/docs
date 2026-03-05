@@ -1733,7 +1733,14 @@
                         "group": "wandb ベータ版",
                         "pages": [
                           "ja/models/ref/cli/wandb-beta",
-                          "ja/models/ref/cli/wandb-beta/wandb-beta-leet",
+                          {
+                            "group": "ベータ リリース",
+                            "pages": [
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet",
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
+                              "ja/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run"
+                            ]
+                          },
                           "ja/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -1835,18 +1842,45 @@
                 "pages": [
                   "ja/weave/concepts/what-is-weave",
                   {
-                    "group": "アプリケーションをトラッキングする",
+                    "group": "アプリケーションをトレースする",
                     "pages": [
-                      "ja/weave/guides/tracking/tracing",
-                      "ja/weave/tutorial-tracing_2",
+                      {
+                        "group": "トレーシングの基本",
+                        "pages": [
+                          "ja/weave/guides/tracking/tracing",
+                          "ja/weave/guides/tracking/create-call",
+                          "ja/weave/guides/tracking/trace-tree",
+                          "ja/weave/guides/tracking/querying-calls"
+                        ]
+                      },
+                      {
+                        "group": "高度なトレーシング",
+                        "pages": [
+                          "ja/weave/guides/tracking/trace-generator-func",
+                          "ja/weave/tutorial-tracing_2",
+                          "ja/weave/guides/tracking/threads",
+                          "ja/weave/guides/tracking/ops",
+                          "ja/weave/guides/tools/attributes",
+                          "ja/weave/guides/core-types/media",
+                          "ja/weave/guides/tracking/view-call"
+                        ]
+                      },
+                      {
+                        "group": "Calls の取り扱い",
+                        "pages": [
+                          "ja/weave/guides/tracking/update-call",
+                          "ja/weave/guides/tracking/call-schema-reference",
+                          "ja/weave/guides/tracking/get-call-object",
+                          "ja/weave/guides/tracking/set-call-display"
+                        ]
+                      },
+                      "ja/weave/guides/tracking/trace-disable",
                       "ja/weave/guides/tracking/costs",
-                      "ja/weave/guides/core-types/media",
                       "ja/weave/guides/tools/saved-views",
                       "ja/weave/guides/tools/comparison",
-                      "ja/weave/guides/tracking/trace-tree",
-                      "ja/weave/guides/tracking/threads",
                       "ja/weave/guides/tracking/trace-plots",
                       "ja/weave/guides/tools/attributes",
+                      "ja/weave/guides/tracking/trace-to-run",
                       "ja/weave/guides/tools/weave-in-workspaces"
                     ]
                   },
@@ -1860,7 +1894,6 @@
                       "ja/weave/guides/evaluation/weave_local_scorers",
                       "ja/weave/guides/evaluation/evaluation_logger",
                       "ja/weave/guides/core-types/leaderboards",
-                      "ja/weave/guides/tools/attributes",
                       "ja/weave/guides/tools/column-mapping",
                       "ja/weave/guides/evaluation/dynamic_leaderboards"
                     ]
@@ -1879,8 +1912,7 @@
                       "ja/weave/tutorial-weave_models",
                       "ja/weave/guides/core-types/models",
                       "ja/weave/guides/core-types/prompts",
-                      "ja/weave/guides/tracking/objects",
-                      "ja/weave/guides/tracking/ops"
+                      "ja/weave/guides/tracking/objects"
                     ]
                   },
                   {
@@ -1897,6 +1929,7 @@
                     "group": "LLM プロバイダーやフレームワークとの統合",
                     "pages": [
                       "ja/weave/guides/integrations",
+                      "ja/weave/guides/integrations/autopatching",
                       {
                         "group": "LLM プロバイダー",
                         "pages": [
@@ -2145,6 +2178,7 @@
               {
                 "group": "チュートリアル",
                 "pages": [
+                  "ja/inference/tutorials/integration-cline",
                   "ja/inference/tutorials/creating-lora"
                 ]
               },
@@ -2830,7 +2864,14 @@
                         "group": "wandb 베타",
                         "pages": [
                           "ko/models/ref/cli/wandb-beta",
-                          "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
+                          {
+                            "group": "베타 릴리스",
+                            "pages": [
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet",
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
+                              "ko/models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run"
+                            ]
+                          },
                           "ko/models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -2932,18 +2973,45 @@
                 "pages": [
                   "ko/weave/concepts/what-is-weave",
                   {
-                    "group": "애플리케이션 추적",
+                    "group": "애플리케이션 트레이싱",
                     "pages": [
-                      "ko/weave/guides/tracking/tracing",
-                      "ko/weave/tutorial-tracing_2",
+                      {
+                        "group": "트레이싱 기본 사항",
+                        "pages": [
+                          "ko/weave/guides/tracking/tracing",
+                          "ko/weave/guides/tracking/create-call",
+                          "ko/weave/guides/tracking/trace-tree",
+                          "ko/weave/guides/tracking/querying-calls"
+                        ]
+                      },
+                      {
+                        "group": "고급 트레이싱",
+                        "pages": [
+                          "ko/weave/guides/tracking/trace-generator-func",
+                          "ko/weave/tutorial-tracing_2",
+                          "ko/weave/guides/tracking/threads",
+                          "ko/weave/guides/tracking/ops",
+                          "ko/weave/guides/tools/attributes",
+                          "ko/weave/guides/core-types/media",
+                          "ko/weave/guides/tracking/view-call"
+                        ]
+                      },
+                      {
+                        "group": "호출 처리",
+                        "pages": [
+                          "ko/weave/guides/tracking/update-call",
+                          "ko/weave/guides/tracking/call-schema-reference",
+                          "ko/weave/guides/tracking/get-call-object",
+                          "ko/weave/guides/tracking/set-call-display"
+                        ]
+                      },
+                      "ko/weave/guides/tracking/trace-disable",
                       "ko/weave/guides/tracking/costs",
-                      "ko/weave/guides/core-types/media",
                       "ko/weave/guides/tools/saved-views",
                       "ko/weave/guides/tools/comparison",
-                      "ko/weave/guides/tracking/trace-tree",
-                      "ko/weave/guides/tracking/threads",
                       "ko/weave/guides/tracking/trace-plots",
                       "ko/weave/guides/tools/attributes",
+                      "ko/weave/guides/tracking/trace-to-run",
                       "ko/weave/guides/tools/weave-in-workspaces"
                     ]
                   },
@@ -2957,7 +3025,6 @@
                       "ko/weave/guides/evaluation/weave_local_scorers",
                       "ko/weave/guides/evaluation/evaluation_logger",
                       "ko/weave/guides/core-types/leaderboards",
-                      "ko/weave/guides/tools/attributes",
                       "ko/weave/guides/tools/column-mapping",
                       "ko/weave/guides/evaluation/dynamic_leaderboards"
                     ]
@@ -2976,8 +3043,7 @@
                       "ko/weave/tutorial-weave_models",
                       "ko/weave/guides/core-types/models",
                       "ko/weave/guides/core-types/prompts",
-                      "ko/weave/guides/tracking/objects",
-                      "ko/weave/guides/tracking/ops"
+                      "ko/weave/guides/tracking/objects"
                     ]
                   },
                   {
@@ -2994,8 +3060,9 @@
                     "group": "LLM 제공업체 및 프레임워크 통합",
                     "pages": [
                       "ko/weave/guides/integrations",
+                      "ko/weave/guides/integrations/autopatching",
                       {
-                        "group": "LLM 제공업체",
+                        "group": "LLM 제공자",
                         "pages": [
                           "ko/weave/guides/integrations/bedrock",
                           "ko/weave/guides/integrations/anthropic",
@@ -3242,6 +3309,7 @@
               {
                 "group": "튜토리얼",
                 "pages": [
+                  "ko/inference/tutorials/integration-cline",
                   "ko/inference/tutorials/creating-lora"
                 ]
               },

@@ -1,28 +1,28 @@
 ---
-title: 入門ノートブック
+title: イントロノートブック
 ---
 
 <div id="weave-with-typescript-quickstart-guide">
-  # TypeScript で始める Weave クイックスタートガイド
+  # TypeScript で使う Weave クイックスタートガイド
 </div>
 
-TypeScript で W&amp;B Weave を使用すると、次のことができます：
+W&amp;B Weave を TypeScript で使用すると、次のことができます。
 
-* 言語モデルの入力、出力、およびトレースをログに記録してデバッグする
-* 言語モデルのユースケース向けに、条件を揃えた厳密で一貫した評価を構築する
-* 実験から評価、本番運用まで、LLM ワークフロー全体で生成されるあらゆる情報を整理・一元管理する
+* 言語モデルの入力・出力およびトレースを記録してデバッグする
+* 言語モデルのユースケースに対して、公平かつ厳密な評価を構築する
+* 実験から評価、本番運用まで、LLM ワークフロー全体で生成されるあらゆる情報を整理する
 
-詳細については、[Weave ドキュメント](/ja/)を参照してください。
+詳細については、[Weave ドキュメント](/ja/) を参照してください。
 
 <div id="function-tracking">
   ## 関数のトラッキング
 </div>
 
-TypeScript コードで Weave を使うには、新しい Weave プロジェクトを作成し、トラッキングしたい関数に `weave.op` ラッパーを追加します。
+TypeScript コードで Weave を使うには、新しい Weave プロジェクトを初期化し、トラッキングしたい関数に `weave.op` ラッパーを追加します。
 
-`weave.op` を追加してその関数を呼び出したら、W&amp;B のダッシュボードにアクセスして、プロジェクト内でどのようにトラッキングされているかを確認できます。
+`weave.op` を追加して関数を呼び出したら、W&amp;B ダッシュボードにアクセスして、プロジェクト内でどのようにトラッキングされているかを確認します。
 
-コードは自動でトラッキングされます。UI の「Code」タブを確認してください。
+コードは自動的にトラッキングされます。UI の Code タブを確認してください。
 
 ```typescript lines
 async function initializeWeaveProject() {
@@ -37,7 +37,7 @@ const stripUserInput = weave.op(function stripUserInput(userInput: string): stri
 });
 ```
 
-次の例は、関数トラッキングの基本的な仕組みを示しています。
+次の例では、基本的な関数トラッキングの仕組みを示します。
 
 ```typescript lines
 async function demonstrateBasicTracking() {
@@ -47,18 +47,18 @@ async function demonstrateBasicTracking() {
 ```
 
 <div id="openai-integration">
-  ## OpenAI インテグレーション
+  ## OpenAI とのインテグレーション
 </div>
 
-Weave は、以下を含むすべての OpenAI 呼び出しを自動的に追跡します：
+Weave は、すべての OpenAI 呼び出しを自動的に追跡し、次の情報を記録します。
 
 * トークン使用量
 * API コスト
-* リクエスト／レスポンスのペア
-* モデルの設定
+* リクエストとレスポンスのペア
+* モデル設定
 
 <Note>
-  OpenAI に加えて、Weave は Anthropic や Mistral など、他の LLM プロバイダーの自動ログ取得にも対応しています。対応プロバイダーの一覧については、[インテグレーション ドキュメントの「LLM Providers」](../../guides/integrations#llm-providers) を参照してください。
+  OpenAI に加えて、Weave は Anthropic や Mistral など他の LLM プロバイダーの自動ロギングにも対応しています。対応プロバイダーの一覧は [Integrations ドキュメントの LLM Providers](../../guides/integrations#llm-providers) を参照してください。
 </Note>
 
 ```typescript lines
@@ -84,11 +84,11 @@ async function demonstrateOpenAITracking() {
   ## ネストされた関数のトラッキング
 </div>
 
-Weave は、複数のトラッキング対象関数や LLM 呼び出しを組み合わせて、実行トレース全体を保持しながら複雑なワークフローをトラッキングできます。これにより、次のようなメリットがあります。
+Weave では、複数のトラッキング対象の関数や LLM 呼び出しを組み合わせて、複雑なワークフローを追跡しつつ、実行トレース全体を保持できます。これにより、次のような利点があります。
 
-* アプリケーションのロジックフローを完全に可視化できる
+* アプリケーションのロジックフローを完全に把握できる
 * 複雑な処理チェーンのデバッグが容易になる
-* パフォーマンス最適化の機会を見つけやすくなる
+* パフォーマンス最適化の余地を見つけやすくなる
 
 ```typescript lines
 async function demonstrateNestedTracking() {
@@ -119,7 +119,7 @@ async function demonstrateNestedTracking() {
   ## データセット管理
 </div>
 
-[`weave.Dataset`](/ja/weave/guides/core-types/datasets) クラスを使うと、Weave でデータセットを作成および管理できます。[Weave `Models`](/ja/weave/guides/core-types/models) と同様に、`weave.Dataset` は次のような用途に役立ちます:
+[`weave.Dataset`](/ja/weave/guides/core-types/datasets) クラスを使うことで、Weave でデータセットを作成して管理できます。[Weave `Models`](/ja/weave/guides/core-types/models) と同様に、`weave.Dataset` は次のことに役立ちます。
 
 * データの追跡とバージョン管理
 * テストケースの整理
@@ -159,14 +159,14 @@ function createGrammarDataset(): weave.Dataset<GrammarExample> {
   ## 評価フレームワーク
 </div>
 
-Weave は、[`Evaluation` クラス](/ja/weave/guides/core-types/evaluations) によって評価駆動の開発をサポートします。評価を行うことで、GenAI アプリケーションを着実に改善していくことができます。`Evaluation` クラスは次のことを行います:
+Weave は、[`Evaluation` クラス](/ja/weave/guides/core-types/evaluations) を用いた評価駆動開発をサポートします。この `Evaluation` クラスは、GenAI アプリケーションを着実に改善していくのに役立ちます。`Evaluation` クラスは次のことを行います。
 
-* `Model` のパフォーマンスを `Dataset` 上で評価する
+* `Dataset` 上で `Model` の性能を評価する
 * カスタムスコアリング関数を適用する
-* 詳細なパフォーマンスレポートを生成する
-* モデルのバージョン間の比較を可能にする
+* 詳細な性能レポートを生成する
+* モデル バージョン間の比較を可能にする
 
-評価の完全なチュートリアルは [http://wandb.me/weave&#95;eval&#95;tut](http://wandb.me/weave_eval_tut) を参照してください。
+完全な評価チュートリアルは [http://wandb.me/weave&#95;eval&#95;tut](http://wandb.me/weave_eval_tut) で確認できます。
 
 ```typescript lines
 class OpenAIGrammarCorrector {
@@ -236,7 +236,7 @@ async function main() {
         await demonstrateNestedTracking();
         await runEvaluation();
     } catch (error) {
-        console.error('デモの実行中にエラーが発生しました:', error);
+        console.error('Error running demonstrations:', error);
     }
 }
 ```

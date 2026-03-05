@@ -1,13 +1,10 @@
 ---
-title: 1つのスクリプトから複数のrunを起動するにはどうすればよいですか？
+title: 1 つのスクリプトから複数の run を開始するには？
 ---
 
-1つのスクリプト内で複数のrunをログするには、新しいrunを開始する前に
-前のrunを完了させてください。
+1 つのスクリプト内で複数の run を記録するには、新しい run を開始する前に前の run を終了してください。
 
-推奨される方法は、`wandb.init()` をコンテキストマネージャーとして使うことです。
-こうすることで、スクリプトが例外を送出した場合に、そのrunを終了して失敗として
-マークできます。
+これを行うには `wandb.init()` をコンテキストマネージャーとして使う方法を推奨します。このようにすると、スクリプトで例外が発生した場合に、その run を自動的に終了し、失敗としてマークできます。
 
 ```python
 import wandb
@@ -57,6 +54,4 @@ with wandb.init(reinit="create_new") as tracking_run:
             tracking_run.log({"x": x})
 ```
 
-`reinit="create_new"` の詳細や W&amp;B インテグレーションに関する注意事項については、
-[プロセスごとの複数の run](/ja/models/runs/initialize-run/)
-を参照してください。
+`reinit="create_new"` に関する詳細や W&amp;B インテグレーションに関する注意事項については、[Multiple runs per process](/ja/models/runs/initialize-run/) を参照してください。

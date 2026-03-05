@@ -11,15 +11,15 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Object3D`
 
-W&B の 3D ポイントクラウド用クラスです。 
+3D 点群を扱う W&B クラス。 
 
 ### <kbd>method</kbd> `Object3D.__init__`
 
 ```python
 __init__(
-    data_or_path: Union[ForwardRef('np.ndarray'), str, pathlib.Path, ForwardRef('TextIO'), dict],
-    caption: Optional[str] = None,
-    **kwargs: Optional[str, ForwardRef('FileFormat3D')]
+    data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+    caption: 'str | None' = None,
+    **kwargs: 'str | FileFormat3D | None'
 ) → None
 ```
 
@@ -28,10 +28,10 @@ W&amp;B の Object3D オブジェクトを作成します。
 **引数:**
 
 * `data_or_path`:  Object3D はファイルまたは NumPy 配列から初期化できます。
-* `caption`:  表示時にオブジェクトに関連付けられるキャプション。
+* `caption`:  表示用にオブジェクトに関連付けられたキャプション。
 
 **例:**
-NumPy 配列の形状は、次のいずれかである必要があります。
+NumPy 配列の形状は次のいずれかである必要があります。
 
 ```text
 [[x y z],       ...] nx3

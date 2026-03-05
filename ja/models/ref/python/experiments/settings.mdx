@@ -8,18 +8,24 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py" />
 
-
 ## <kbd>class</kbd> `Settings`
 
-W&B SDK の設定。
+W&amp;B SDK 用の設定クラスです。
 
-このクラスは W&B SDK の設定を管理し、すべての設定について型安全性の確保と検証を行います。設定には属性としてアクセスでき、プログラムから、`WANDB_` プレフィックス付きの環境変数、および設定ファイルから初期化できます。
+このクラスは W&amp;B SDK の設定を管理し、
+すべての設定について型安全性と検証を保証します。設定は属性としてアクセスでき、
+プログラムからの初期化、`WANDB_` プレフィックスを持つ環境変数、および設定ファイルを通じて
+初期化できます。
 
-設定は次の 3 つのカテゴリに整理されています。
+設定は次の 3 つのカテゴリに分類されます。
 
-1. パブリック設定: ユーザーが安全に変更して、自身のニーズに合わせて W&B の挙動をカスタマイズできる中核的な設定オプション。
-2. 内部設定: 接頭辞 'x_' が付いた、低レベルな SDK の挙動を扱う設定。これらの設定は主に内部使用やデバッグを目的としています。変更することは可能ですが、パブリック API の一部とはみなされず、将来のバージョンで予告なく変更される場合があります。
-3. 算出設定: 他の設定や環境から自動的に導出される、読み取り専用の設定。
+1. パブリック設定: ユーザーが安全に変更して、自身のニーズに合わせて
+   W&amp;B の動作をカスタマイズできるコアの設定オプション。
+2. 内部設定: `x_` で始まる、低レベルな SDK の動作を扱う設定。
+   これらの設定は主に内部利用やデバッグのためのものです。変更は可能ですが、
+   パブリック API の一部とは見なされず、将来のバージョンで予告なく変更される
+   可能性があります。
+3. 計算済み設定: 他の設定または環境から自動的に導出される読み取り専用の設定です。
 
 ### <kbd>method</kbd> `Settings.__init__`
 
@@ -27,7 +33,7 @@ W&B SDK の設定。
 __init__(
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x102561240>,
+    anonymous: 'object' = <object object at 0x109045240>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -151,7 +157,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 7177,
+    x_stats_pid: 'int' = 62751,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,
@@ -612,4 +618,4 @@ wandb ディレクトリへのフルパス。
 
 **戻り値:**
 
-- `str`: wandb_dir プロパティの値。
+* `str`: wandb&#95;dir プロパティの値。

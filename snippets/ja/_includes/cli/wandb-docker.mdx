@@ -2,9 +2,9 @@
 title: Wandb Docker
 ---
 
-コードを docker コンテナ内で実行します。
+コードを Docker コンテナ内で実行します。
 
-W&amp;B docker を使うと、wandb が正しく設定された状態でコードを docker イメージ内で実行できます。コンテナには WANDB&#95;DOCKER と WANDB&#95;API&#95;KEY の環境変数が追加され、現在のディレクトリはデフォルトで /app にマウントされます。追加の引数を渡すこともでき、それらはイメージ名が指定される前に `docker run` の引数として追加されます。イメージが指定されない場合は、こちらでデフォルトイメージを自動的に選択します。
+W&amp;B Docker を使うと、wandb が適切に設定された状態で、コードを Docker イメージ内で実行できます。コンテナには環境変数 WANDB&#95;DOCKER と WANDB&#95;API&#95;KEY が追加され、現在のディレクトリがデフォルトで /app にマウントされます。追加の引数を指定すると、これらはイメージ名が指定される前に `docker run` に渡されます。イメージが指定されない場合は、W&amp;B 側でデフォルトのイメージを選択します。
 
 ```sh
 wandb docker -v /mnt/dataset:/app/data
@@ -12,4 +12,4 @@ wandb docker gcr.io/kubeflow-images-public/tensorflow-1.12.0-notebook-cpu:v0.4.0
 wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py --epochs=5"
 ```
 
-デフォルトでは、エントリーポイントを上書きして wandb の存在を確認し、存在しない場合はインストールします。--jupyter フラグを渡すと、jupyter がインストールされていることを確認し、ポート 8888 で jupyter lab を起動します。システム上で nvidia-docker を検出した場合は、nvidia ランタイムを使用します。既存の docker run コマンドに対して環境変数の設定だけを wandb に任せたい場合は、wandb docker-run コマンドを参照してください。
+デフォルトでは、エントリポイントを上書きして wandb が存在するか確認し、存在しない場合はインストールします。`--jupyter` フラグを指定すると、Jupyter がインストールされていることを確認し、ポート 8888 で Jupyter Lab を起動します。システム上で `nvidia-docker` が検出された場合は、NVIDIA ランタイムを使用します。既存の `docker run` コマンドに対して環境変数を設定する目的でのみ wandb を使いたい場合は、`wandb docker-run` コマンドを参照してください。

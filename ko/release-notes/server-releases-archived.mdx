@@ -13,8 +13,29 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
-{/* 릴리스를 보관하려면 해당 <Update> 엔트리(패치 포함)를
+{/* 릴리스를 보관하려면 해당 <Update> 항목(패치 포함)을
     server-releases.mdx에서 이 아래로 이동하세요 */}
+
+<Update label="v0.66.0" description="March 06, 2025">
+  ## 기능
+
+  * 테이블과 쿼리 패널에서 다른 열을 기반으로 생성한 열이 이제 유지되므로, 이 열을 필터링이나 쿼리 패널 플롯에서 계속 사용할 수 있습니다.
+
+  ## 보안
+
+  * GraphQL 문서의 최대 깊이를 20으로 제한했습니다.
+  * pyarrow를 v17.0.0으로 업그레이드했습니다.
+</Update>
+
+<Update label="v0.65.0" description="January 30, 2025">
+  ## 기능
+
+  * Registry의 **Settings**에서 이제 소유자를 Admin 역할을 가진 다른 사용자로 변경할 수 있습니다. 해당 사용자의 **Role** 메뉴에서 **Owner**를 선택하세요.
+  * 이제 동일한 프로젝트 내에서 run을 다른 그룹으로 이동할 수 있습니다. run 목록에서 run 위에 마우스를 올리고 세로 점 3개 메뉴를 클릭한 다음 **Move to another group**을 선택하세요.
+  * 이제 워크스페이스 또는 섹션 수준에서 선형 플롯의 **Log Scale setting**이 기본적으로 활성화될지 여부를 구성할 수 있습니다.
+    * 워크스페이스에 대한 동작을 구성하려면 워크스페이스에 대한 `...` 작업 메뉴를 클릭하고 **Line plots**를 클릭한 다음 X 또는 Y 축에 대해 **Log scale**을 토글하세요.
+    * 섹션에 대한 동작을 구성하려면 섹션의 톱니바퀴 아이콘을 클릭한 다음 X 또는 Y 축에 대해 **Log scale**을 토글하세요.
+</Update>
 
 <Update label="v0.63.0" description="2024년 12월 10일">
   ## 기능
@@ -57,47 +78,47 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
 <Update label="v0.60.0" description="2024년 9월 26일">
   <Note>
-    릴리스 버전 관리 문제로 인해 0.60.0은 0.58.0 이후의 다음 메이저 릴리스입니다. 0.59.0은 0.58.0에 대한 패치 릴리스 중 하나였습니다.
+    릴리스 버전 관리 이슈로 인해 0.60.0이 0.58.0 이후 다음 메이저 릴리스입니다. 0.59.0은 0.58.0에 대한 패치 릴리스 중 하나였습니다.
   </Note>
 
   ## 기능
 
-  * 웹 콘텐츠 접근성 지침(WCAG) 표준의 Level AA 2.2에 대한 1.1.1 컴플라이언스 최종 업데이트.
-  * 이제 Self-Managed 인스턴스에서 W&amp;B kubernetes operator를 사용할 때 자동 버전 업그레이드를 끌 수 있습니다. 이 기능은 담당 W&amp;B 팀에 요청할 수 있습니다.
-    W&amp;B는 각 버전에 대해 6개월 사용 종료(end-of-life) 기간을 준수하기 위해 모든 인스턴스가 주기적으로 업그레이드되도록 요구합니다. W&amp;B는 6개월보다 오래된 버전은 지원하지 않습니다.
+  * Web Content Accessibility Guidelines(WCAG) 표준 2.2 레벨 AA에 대한 1.1.1 컴플라이언스를 위한 최종 업데이트를 포함했습니다.
+  * 이제 W&amp;B kubernetes operator를 사용하는 Self-Managed 인스턴스에서 자동 버전 업그레이드를 끌 수 있습니다. 이 설정을 원하면 담당 W&amp;B 팀에 요청하세요.
+    W&amp;B는 각 버전에 대해 6개월 단위의 수명 종료(EOL) 정책을 준수하기 위해 모든 인스턴스가 주기적으로 업그레이드되기를 요구합니다. W&amp;B는 6개월이 지난 버전은 지원하지 않습니다.
 
-  ## 버그 수정
+  ## 수정 사항
 
-  * Dedicated Cloud 및 Self-Managed 인스턴스에서 인스턴스 관리자(instance admin)가 개인 엔터티 내 워크스페이스에 접근할 수 없던 버그를 수정했습니다.
-  * SCIM Groups 및 Users GET endpoint가 응답에서 서비스 계정을 필터링하도록 변경했습니다. 이제 이 endpoint들은 서비스 계정이 아닌 사용자만 반환합니다.
-  * 팀 관리자가 팀에서 사용자를 삭제할 때, 동시에 전체 인스턴스에서도 사용자를 삭제할 수 있던 사용자 관리 버그를 수정했습니다. 전체 인스턴스/조직에서 사용자를 삭제하는 책임은 인스턴스 또는 Org 관리자에게 있습니다.
+  * Dedicated Cloud 및 Self-Managed 인스턴스에서 인스턴스 관리자가 personal Entities 내 워크스페이스에 접근하지 못하던 버그를 수정했습니다.
+  * 이제 SCIM Groups 및 Users GET 엔드포인트는 응답에서 서비스 계정을 필터링합니다. 이제 해당 엔드포인트는 서비스 계정이 아닌 사용자만 반환합니다.
+  * 팀 관리자가 팀에서 사용자를 삭제할 때 전체 인스턴스에서도 동시에 사용자를 삭제할 수 있었던 사용자 관리 버그를 수정했습니다. 전체 인스턴스/조직에서 사용자를 삭제하는 책임은 인스턴스 또는 Org 관리자에게 있습니다.
 
   ## 성능 개선
 
-  * 많은 메트릭이 있는 워크스페이스에서 패널을 추가할 때 지연 시간을 최대 90%까지 줄였습니다.
-  * run을 자주 재개(resume)할 때 blob 스토리지로의 parquet 내보내기의 신뢰성과 성능을 개선했습니다.
-    Dedicated Cloud 및 W&amp;B kubernetes operator로 활성화된 Self-Managed 인스턴스에서는 parquet 포맷으로 blob 스토리지에 내보내기가 가능합니다.
+  * 메트릭이 많은 워크스페이스에서 패널을 추가할 때 지연 시간을 최대 90%까지 줄였습니다.
+  * Runs가 자주 재개(resume)되는 경우에도 blob 스토리지로의 parquet 내보내기 성능과 안정성을 개선했습니다.
+    parquet 형식으로 blob 스토리지에 Runs를 내보내는 기능은 Dedicated Cloud 및 W&amp;B kubernetes operator를 사용하도록 설정된 Self-Managed 인스턴스에서 사용할 수 있습니다.
 </Update>
 
 <Update label="v0.58.1" description="2024년 9월 4일">
   ## 기능
 
-  * 이제 W&amp;B는 **Secure storage connector, 즉 Bring your own bucket** 기능에서 서브 경로(sub-path)를 지원합니다. 인스턴스 또는 팀 수준에서 버킷을 설정할 때 서브 경로를 지정할 수 있습니다. 이는 새로 설정하는 버킷에만 적용되며, 이미 설정된 기존 버킷에는 적용되지 않습니다.
-  * Google Cloud 및 Azure의 신규 Dedicated Cloud 인스턴스에서 W&amp;B가 관리하는 스토리지는 기본적으로 **W&amp;B managed cloud-native keys**로 암호화됩니다. 이 기능은 이미 AWS 인스턴스에서 제공되고 있습니다. 각 인스턴스 스토리지는 인스턴스마다 고유한 키로 암호화됩니다. 지금까지는 Google Cloud 및 Azure의 모든 인스턴스가 클라우드 제공업체가 기본으로 제공하는 암호화 키에 의존했습니다.
-  * run config와 summary 필드를 클릭해서 복사할 수 있도록 했습니다.
-  * Self-Managed 인스턴스에서 W&amp;B kubernetes operator를 사용하는 경우, 이제 컨트롤러 매니저에 대해 사용자 정의 CA를 선택적으로 사용할 수 있습니다.
-  * OpenShift의 Security Context Constraints(SCC)에 맞추기 위해, W&amp;B kubernetes operator가 기본적으로 non-root 컨텍스트에서 실행되도록 수정했습니다. 이 변경으로 OpenShift의 보안 정책을 준수하면서 Self-Managed 인스턴스를 보다 원활하게 배포할 수 있습니다.
+  * 이제 **Secure storage connector, 즉 Bring your own bucket** 기능에서 서브 경로(sub-path)를 지원합니다. 인스턴스 또는 팀 수준에서 버킷을 설정할 때 하위 경로(sub-path)를 지정할 수 있습니다. 이 기능은 새로 설정하는 버킷에만 사용할 수 있으며, 이미 설정된 기존 버킷에는 적용되지 않습니다.
+  * Google Cloud 및 Azure의 최신 Dedicated Cloud 인스턴스에서 사용되는 W&amp;B 관리 스토리지는 기본적으로 **W&amp;B managed cloud-native keys**로 암호화됩니다. 이는 이미 AWS 인스턴스에는 적용되어 있습니다. 각 인스턴스 스토리지는 인스턴스마다 고유한 키로 암호화됩니다. 지금까지는 Google Cloud 및 Azure의 모든 인스턴스가 클라우드 제공자 기본 관리 암호화 키에 의존하고 있었습니다.
+  * run config와 summary의 필드를 클릭만으로 복사할 수 있도록 했습니다.
+  * Self-Managed 인스턴스에 W&amp;B Kubernetes operator를 사용하는 경우, 컨트롤러 매니저에 대해 커스텀 CA를 선택적으로 사용할 수 있습니다.
+  * W&amp;B Kubernetes operator가 기본적으로 non-root 컨텍스트에서 실행되도록 변경하여 OpenShift의 Security Context Constraints(SCCs)에 맞추었습니다. 이 변경을 통해 OpenShift의 보안 정책을 준수함으로써 Self-Managed 인스턴스를 OpenShift에 더 원활하게 배포할 수 있습니다.
 
-  ## 버그 수정
+  ## 수정 사항
 
-  * 워크스페이스에서 패널을 리포트로 내보낼 때, 이제 패널 검색 정규식(regex)을 올바르게 반영하도록 수정했습니다.
-  * `GORILLA_DISABLE_PERSONAL_ENTITY`를 `true`로 설정해도 개인 엔터티에서 사용자가 프로젝트를 생성하고 기존 프로젝트에 쓸 수 있었던 문제를 수정했습니다.
+  * workspace에서 리포트로 패널을 내보낼 때, 패널 검색 정규식을 올바르게 반영하지 못하던 문제를 수정했습니다.
+  * `GORILLA_DISABLE_PERSONAL_ENTITY`를 `true`로 설정해도 개인 entity에서 사용자가 프로젝트를 생성하거나 기존 프로젝트에 쓰는 것이 비활성화되지 않던 문제를 수정했습니다.
 
   ## 성능 개선
 
-  * 100k개 이상의 포인트가 로깅된 experiment에서 성능과 안정성을 크게 개선했습니다. Self-Managed 인스턴스의 경우, W&amp;B kubernetes operator로 배포를 관리하는 경우에 제공됩니다.
-  * 대형 워크스페이스에서 변경 사항을 저장할 때 매우 느리거나 실패하던 문제를 수정했습니다.
-  * 대형 워크스페이스에서 워크스페이스 섹션을 여는 지연 시간을 개선했습니다.
+  * 10만 개 이상의 포인트를 로깅하는 실험에 대해 성능과 안정성을 크게 향상했습니다. Self-Managed 인스턴스의 경우, 이 개선 사항은 배포가 W&amp;B Kubernetes operator로 관리되는 경우에 제공됩니다.
+  * 큰 워크스페이스에서 변경 사항을 저장할 때 속도가 매우 느리거나 실패하던 문제를 수정했습니다.
+  * 큰 워크스페이스에서 워크스페이스 섹션을 여는 지연 시간을 개선했습니다.
 </Update>
 
 <Update label="v0.57.2" description="2024년 7월 24일">

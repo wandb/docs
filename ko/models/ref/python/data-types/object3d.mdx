@@ -17,9 +17,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ```python
 __init__(
-    data_or_path: Union[ForwardRef('np.ndarray'), str, pathlib.Path, ForwardRef('TextIO'), dict],
-    caption: Optional[str] = None,
-    **kwargs: Optional[str, ForwardRef('FileFormat3D')]
+    data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+    caption: 'str | None' = None,
+    **kwargs: 'str | FileFormat3D | None'
 ) → None
 ```
 

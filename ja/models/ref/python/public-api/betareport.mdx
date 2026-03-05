@@ -11,21 +11,21 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `BetaReport`
 
-BetaReport は、W&B で作成されたレポートに対応するクラスです。
+BetaReport は、W&B で作成されたレポートに関連付けられたクラスです。 
 
-レポートの属性（name、description、user、spec、timestamps）へのアクセスや、関連する run やセクションの取得、レポートを HTML としてレンダリングするためのメソッドを提供します。
+レポートの属性（name、description、user、spec、timestamps）へのアクセスや、関連する run やセクションの取得、レポートを HTML としてレンダリングするためのメソッドを提供します。 
 
 **Attributes:**
 
-- `id` (string):  レポートの一意な識別子。 
+- `id` (string):  レポートの一意の識別子。 
  - `display_name` (string):  レポートの人間が読める表示名。 
- - `name` (string):  レポート名。よりユーザーにわかりやすい名前には `display_name` を使用します。 
+ - `name` (string):  レポートの名前。よりユーザーフレンドリーな名前には `display_name` を使用します。 
  - `description` (string):  レポートの説明。 
  - `user` (User):  レポートを作成したユーザー情報（username、email）を含む辞書。 
  - `spec` (dict):  レポートの spec。 
  - `url` (string):  レポートの URL。 
  - `updated_at` (string):  最終更新時刻のタイムスタンプ。 
- - `created_at` (string):  レポート作成時のタイムスタンプ。 
+ - `created_at` (string):  レポートの作成時刻のタイムスタンプ。 
 
 ### <kbd>method</kbd> `BetaReport.__init__`
 
@@ -41,7 +41,7 @@ __init__(
 ***
 
 
-### <kbd>プロパティ</kbd> BetaReport.created_at
+### <kbd>property</kbd> BetaReport.created_at
 
 ---
 
@@ -63,7 +63,7 @@ __init__(
 
 ### <kbd>property</kbd> BetaReport.sections
 
-レポートからパネルセクション（グループ）を取得します。 
+レポートのパネルセクション（グループ）を取得します。 
 
 ---
 
@@ -71,7 +71,7 @@ __init__(
 
 ---
 
-### <kbd>property</kbd> BetaReport.updated_at
+### <kbd>プロパティ</kbd> BetaReport.updated_at
 
 ---
 
@@ -83,7 +83,7 @@ __init__(
 
 ---
 
-### <kbd>メソッド</kbd> `BetaReport.runs`
+### <kbd>method</kbd> `BetaReport.runs`
 
 ```python
 runs(
@@ -93,7 +93,7 @@ runs(
 ) → public.Runs
 ```
 
-レポート内のセクションに関連付けられたrunを取得します。
+レポート内の特定のセクションに関連付けられている run を取得します。
 
 ***
 

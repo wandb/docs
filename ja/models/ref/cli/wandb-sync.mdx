@@ -8,7 +8,7 @@ import WandbSync from "/snippets/ja/_includes/cli/wandb-sync.mdx";
 
 
 <div id="usage">
-  ## 使用方法
+  ## 使い方
 </div>
 
 ```bash
@@ -25,27 +25,27 @@ wandb sync [PATH] [OPTIONS]
 | `PATH` | 説明はありません | いいえ |
 
 <div id="options">
-  ## Options
+  ## オプション
 </div>
 
-| Option | Description |
+| オプション | 説明 |
 | :--- | :--- |
-| `--id` | アップロードしたい run。 |
-| `--project`, `-p` | アップロードしたいプロジェクト。 |
-| `--entity`, `-e` | スコープ対象とするエンティティ。 |
-| `--job_type` | 関連する runs をまとめるための run の種類を指定します。 |
+| `--id` | アップロード先の run。 |
+| `--project`, `-p` | アップロード先のプロジェクト。 |
+| `--entity`, `-e` | 対象とする entity。 |
+| `--job_type` | 関連する run をまとめるための run の種類を指定します。 |
 | `--sync-tensorboard` | tfevent ファイルを wandb にストリーミングします。 |
-| `--include-globs` | 含める glob パターンのカンマ区切りリスト。 |
-| `--exclude-globs` | 除外する glob パターンのカンマ区切りリスト。 |
-| `--include-online` | オンラインの runs を含めます。 |
-| `--include-offline` | オフラインの runs を含めます。 |
-| `--include-synced` | 同期済みの runs を含めます。 |
-| `--mark-synced` | runs を同期済みとしてマークします (デフォルト: True)。 |
-| `--sync-all` | すべての runs を同期します (デフォルト: False)。 |
-| `--clean` | 同期済みの runs を削除します (デフォルト: False)。 |
-| `--clean-old-hours` | 指定した時間より前に作成された runs を削除します。`--clean` フラグと併用してください (デフォルト: 24)。 |
-| `--clean-force` | 確認プロンプトなしで削除を実行します (デフォルト: False)。 |
+| `--include-globs` | 含める glob パターンをカンマ区切りで指定します。 |
+| `--exclude-globs` | 除外する glob パターンをカンマ区切りで指定します。 |
+| `--include-online` | オンライン run を含めます。 |
+| `--include-offline` | オフライン run を含めます。 |
+| `--include-synced` | 同期済みの run を含めます。 |
+| `--mark-synced` | run を同期済みとしてマークします (デフォルト: True)。 |
+| `--sync-all` | すべての run を同期します (デフォルト: False)。 |
+| `--clean` | 同期済みの run を削除します (デフォルト: False)。 |
+| `--clean-old-hours` | 指定した時間より前に作成された run を削除します。`--clean` フラグと併用します (デフォルト: 24)。 |
+| `--clean-force` | 確認プロンプトなしで削除します (デフォルト: False)。 |
 | `--show` | 表示する run の数 (デフォルト: 5)。 |
-| `--append` | run を追加します (デフォルト: False)。 |
+| `--append` | run に追記します (デフォルト: False)。 |
 | `--skip-console` | コンソールログをスキップします (デフォルト: False)。 |
 | `--replace-tags` | 'old_tag1=new_tag1,old_tag2=new_tag2' の形式でタグを置き換えます。 |

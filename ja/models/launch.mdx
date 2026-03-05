@@ -1,11 +1,11 @@
 ---
-description: W&B 内でモデルのチェックポイントやホストされた API モデルを評価し、自動生成されるリーダーボードで結果を分析します。
+description: W&B 内で モデルのチェックポイントまたはホストされた API モデルを評価し、自動生成されるリーダーボードで結果を分析します。
 title: LLM 評価ジョブ
 ---
 
 import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 
-[LLM Evaluation Jobs](/ja/models/launch) は、CoreWeave が管理するインフラストラクチャを利用して LLM のパフォーマンスを評価するためのベンチマーク用フレームワークです。最新かつ業界標準の[モデル評価ベンチマーク](/ja/models/launch/evaluations)の充実したスイートから選択し、W&amp;B Models の自動リーダーボードとチャートを使って結果を表示、分析、共有できます。LLM Evaluation Jobs を使うことで、自分で GPU インフラストラクチャをデプロイおよび運用・保守する際の複雑さを解消できます。
+[LLM Evaluation Jobs](/ja/models/launch) は、CoreWeave によって管理されるインフラストラクチャを利用して LLM の性能を評価するためのベンチマーク フレームワークです。最新の業界標準に準拠した包括的な [モデル評価ベンチマーク](/ja/models/launch/evaluations) から選択し、W&amp;B Models の自動リーダーボードとチャートを使って結果を閲覧・分析・共有できます。LLM Evaluation Jobs を使うことで、自分で GPU インフラストラクチャをデプロイおよび保守する際の煩雑さを取り除けます。
 
 <PreviewLink />
 
@@ -13,24 +13,24 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
   ## 仕組み
 </div>
 
-数ステップで、モデルチェックポイントまたは公開されている OpenAI 互換のホスト型モデルを評価できます。
+モデル チェックポイントまたは公開アクセス可能な OpenAI 互換のホスト型モデルを、いくつかの手順で評価できます。
 
-1. W&amp;B Models で評価ジョブをセットアップします。ベンチマークや、リーダーボードを生成するかどうかといった設定を行います。
-2. 評価ジョブを起動します。
+1. W&amp;B Models で評価ジョブを作成します。リーダーボードを生成するかどうかなど、そのベンチマークと設定を定義します。
+2. 評価ジョブを実行します。
 3. 結果とリーダーボードを表示して分析します。
 
-同じ宛先プロジェクトに対して評価ジョブを起動するたびに、そのプロジェクトのリーダーボードが自動的に更新されます。
+同じ出力先プロジェクトを指定して評価ジョブを実行するたびに、そのプロジェクトのリーダーボードは自動的に更新されます。
 
 <Frame>
-  ![評価ジョブのリーダーボードの例](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
+  ![評価ジョブのリーダーボード例](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
 </Frame>
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-* [評価用ベンチマークカタログ](/ja/models/launch/evaluations) を参照する
-* [モデルのチェックポイントを評価する](/ja/models/launch/evaluate-model-checkpoint)
+* [Evaluation benchmark カタログ](/ja/models/launch/evaluations) を参照する
+* [モデル チェックポイントを評価する](/ja/models/launch/evaluate-model-checkpoint)
 * [API でホストされているモデルを評価する](/ja/models/launch/evaluate-hosted-model)
 
 <div id="more-details">
@@ -41,27 +41,27 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
   ### 料金
 </div>
 
-LLM Evaluation Jobs は、インフラストラクチャの管理が不要な完全マネージドの CoreWeave コンピュート上で、一般的なベンチマークに対してモデルのチェックポイントまたはホストされた API を評価します。アイドル時間ではなく、実際に使用したリソース分のみを支払います。料金はコンピュートとストレージの 2 つの要素から成ります。コンピュートはパブリックプレビュー期間中は無料で、一般提供時に料金を発表します。保存される結果には、Models の run に保存されるメトリクスおよびサンプルごとのトレースが含まれます。ストレージは、データ量に基づいて月次で課金されます。プレビュー期間中、LLM Evaluation Jobs は Multi-tenant Cloud でのみ利用可能です。詳細は [Pricing](https://wandb.ai/pricing) ページを参照してください。
+LLM Evaluation Jobs は、インフラ管理不要の完全マネージドな CoreWeave コンピュート上で、一般的なベンチマークに対して モデル チェックポイントまたはホスト API を評価します。アイドル時間ではなく、消費したリソースに対してのみ課金されます。料金はコンピュートとストレージの 2 つの要素で構成されます。パブリック プレビュー期間中はコンピュートは無料で、一般提供時に料金を発表します。保存される結果には、Models の runs に保存される メトリクス とサンプルごとのトレースが含まれます。ストレージはデータ量に基づき、月単位で課金されます。プレビュー期間中、LLM Evaluation Jobs は Multi-tenant Cloud でのみ利用可能です。詳細は [Pricing](https://wandb.ai/pricing) ページを参照してください。
 
 <div id="job-limits">
   ### ジョブの制限
 </div>
 
-各評価ジョブには次の制限があります。
+1 件の評価ジョブには次の制限があります。
 
-* 評価対象のモデルの最大サイズは、コンテキストを含めて 86 GB です。
-* 各ジョブで使用できる GPU は最大 2 基までです。
+* 評価対象となるモデルの最大サイズは、コンテキストを含めて 86 GB です。
+* 各ジョブで使用できる GPU は最大 2 基です。
 
 <div id="requirements">
   ### 要件
 </div>
 
-* モデルチェックポイントを評価するには、モデルの重みを VLLM 互換のアーティファクトとしてパッケージ化する必要があります。詳細とコード例については、[Example: Prepare a model](/ja/models/launch/evaluate-model-checkpoint#example-prepare-a-model) を参照してください。
-* OpenAI 互換のモデルを評価するには、そのモデルがパブリック URL からアクセス可能であり、かつ組織またはチームの管理者が認証用の APIキー を含むチームシークレットを設定する必要があります。
-* 一部のベンチマークはスコアリングに OpenAI モデルを使用します。これらのベンチマークを実行するには、組織またはチームの管理者が必要な APIキー を含むチームシークレットを設定する必要があります。ベンチマークにこの要件があるかどうかを確認するには、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
-* 一部のベンチマークでは、Hugging Face のアクセス制限付き（gated）データセットへのアクセスが必要です。これらのベンチマークのいずれかを実行するには、組織またはチームの管理者が Hugging Face 上のアクセス制限付きデータセットへのアクセスをリクエストし、Hugging Face ユーザーアクセストークンを生成し、それをチームシークレットとして設定する必要があります。ベンチマークにこの要件があるかどうかを確認するには、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
+* モデル チェックポイントを評価するには、モデルの重みを VLLM 互換の Artifacts としてパッケージ化しておく必要があります。詳細およびコード例は、[Example: Prepare a model](/ja/models/launch/evaluate-model-checkpoint#example-prepare-a-model) を参照してください。
+* OpenAI 互換のモデルを評価するには、そのモデルがパブリック URL からアクセス可能であり、組織またはチーム管理者が認証用の API キーを含む team secret を設定しておく必要があります。
+* 一部のベンチマークは、スコアリングに OpenAI モデルを使用します。これらのベンチマークを実行するには、組織またはチーム管理者が必要な API キーを含む team secret を設定しておく必要があります。あるベンチマークにこの要件があるかどうかを確認するには、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
+* 一部のベンチマークでは、Hugging Face 上の gated データセットへのアクセスが必要です。これらのベンチマークのいずれかを実行するには、組織またはチーム管理者が Hugging Face 上の gated データセットへのアクセスを申請し、Hugging Face ユーザー アクセス トークンを生成し、それを team secret として設定する必要があります。あるベンチマークにこの要件があるかどうかを確認するには、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
 
-これらの要件を満たすための詳細および手順については、以下を参照してください。
+これらの要件を満たすための詳細および手順については、次のドキュメントを参照してください。
 
 * [Evaluate a model checkpoint](/ja/models/launch/evaluate-hosted-model)
 * [Evaluate a hosted API model](/ja/models/launch/evaluate-model-checkpoint)

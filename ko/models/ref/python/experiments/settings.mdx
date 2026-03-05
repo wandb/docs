@@ -8,23 +8,23 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py" />
 
-
 ## <kbd>class</kbd> `Settings`
 
-W&B SDK 설정을 위한 클래스입니다.
+W&amp;B SDK용 Settings입니다.
 
-이 클래스는 W&B SDK의 설정을 관리하며,
-모든 설정 값에 대해 타입 안전성과 검증을 보장합니다. 설정은 속성으로 접근할 수 있으며,
-프로그램적으로, 환경 변수(`WANDB_ prefix`), 그리고 설정 파일을 통해 초기화할 수 있습니다.
+이 클래스는 W&amp;B SDK의 설정 값을 관리하며,
+모든 설정에 대해 타입 안전성과 검증을 보장합니다. Settings는
+속성으로 접근할 수 있고, 코드에서 직접 초기화하거나, 환경 변수(`WANDB_` 접두사),
+그리고 설정 파일을 통해 초기화할 수 있습니다.
 
-설정은 세 가지 범주로 구성됩니다:
+Settings는 다음 세 가지 범주로 구성됩니다:
 
-1. Public settings: 사용자가 자신의 요구에 맞게 W&B 동작을 안전하게 커스터마이즈할 수 있는
+1. Public settings: 사용자가 자신의 필요에 맞게 W&amp;B의 동작을 안전하게 변경할 수 있는
    핵심 설정 옵션입니다.
-2. Internal settings: 'x_' 접두사가 붙은 설정으로, 저수준 SDK 동작을 처리합니다.
-   이러한 설정은 주로 내부 사용 및 디버깅을 위한 것입니다. 수정은 가능하지만,
-   public API의 일부로 간주되지 않으며 향후 버전에서 예고 없이 변경될 수 있습니다.
-3. Computed settings: 다른 설정이나 환경으로부터 자동으로 파생되는 읽기 전용 설정입니다.
+2. Internal settings: &#39;x&#95;&#39; 접두사가 붙은 설정으로, 저수준 SDK 동작을 처리합니다.
+   이러한 설정은 주로 내부 사용 및 디버깅용입니다. 수정은 가능하지만,
+   공개 API의 일부로 간주되지 않으며 향후 버전에서 예고 없이 변경될 수 있습니다.
+3. Computed settings: 다른 설정이나 환경으로부터 자동으로 계산되는 읽기 전용 설정입니다.
 
 ### <kbd>메서드</kbd> `Settings.__init__`
 
@@ -32,7 +32,7 @@ W&B SDK 설정을 위한 클래스입니다.
 __init__(
     allow_offline_artifacts: 'bool' = True,
     allow_val_change: 'bool' = False,
-    anonymous: 'object' = <object object at 0x102561240>,
+    anonymous: 'object' = <object object at 0x109045240>,
     api_key: 'str | None' = None,
     azure_account_url_to_access_key: 'dict[str, str] | None' = None,
     app_url_override: 'str | None' = None,
@@ -156,7 +156,7 @@ __init__(
     x_service_wait: 'float' = 30.0,
     x_skip_transaction_log: 'bool' = False,
     x_start_time: 'float | None' = None,
-    x_stats_pid: 'int' = 7177,
+    x_stats_pid: 'int' = 62751,
     x_stats_sampling_interval: 'float' = 15.0,
     x_stats_neuron_monitor_config_path: 'str | None' = None,
     x_stats_dcgm_exporter: 'str | None' = None,

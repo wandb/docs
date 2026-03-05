@@ -1,23 +1,23 @@
 ---
-description: ノートブックから離れることなく、Jupyter で W&B を使ってインタラクティブに可視化できます。
+description: W&B と Jupyter を組み合わせて、ノートブックから離れずにインタラクティブな可視化を実現します。
 title: Jupyter ノートブックをトラッキングする
 ---
 
-Jupyter で W&amp;B を使うと、ノートブックから離れることなくインタラクティブに可視化できます。カスタム分析、Experiments、プロトタイプを組み合わせ、そのすべてを余すところなくログに記録できます。
+W&amp;B と Jupyter を組み合わせて、ノートブックから離れずにインタラクティブな可視化を実現します。カスタム分析、実験、プロトタイプをすべて漏れなくログに記録できます。
 
 <div id="use-cases-for-wb-with-jupyter-notebooks">
-  ## Jupyter Notebook での W&amp;B のユースケース
+  ## Jupyter notebook での W&amp;B のユースケース
 </div>
 
-1. **反復的な実験**: パラメータを調整しながら実験を実行・再実行し、その過程で手作業のメモを取らなくても、実行したすべての run が自動的に W&amp;B に保存されます。
-2. **コードの保存**: モデルを再現しようとするとき、Notebook のどのセルがどの順序で実行されたかを把握するのは困難です。[settings page](/ja/platform/app/settings-page/) で code saving を有効にして、各実験のセル実行履歴を保存します。
-3. **カスタム解析**: run が W&amp;B に記録されると、API から簡単にデータフレームを取得してカスタム解析を実行でき、さらにその結果を W&amp;B にログして保存し、レポートとして共有できます。
+1. **反復的な実験**: パラメーターを調整しながら実験を実行・再実行し、その都度手作業でメモを取らなくても、実行したすべての run が自動的に W&amp;B に保存されます。
+2. **コードの保存**: モデルを再現しようとするとき、notebook のどのセルがどの順番で実行されたかを把握するのは困難です。[設定ページ](/ja/platform/app/settings-page/) でコード保存機能を有効にすると、各実験ごとのセル実行履歴を記録として保存できます。
+3. **カスタム分析**: run が W&amp;B にログされると、API から簡単に DataFrame を取得してカスタム分析を行い、その結果を W&amp;B にログしてレポートとして保存・共有できます。
 
 <div id="getting-started-in-a-notebook">
-  ## ノートブックで始める
+  ## ノートブックでの始め方
 </div>
 
-ノートブックで次のコードを実行して、W&amp;B をインストールし、アカウントをリンクします。
+ノートブックの先頭に次のコードを記述して W&amp;B をインストールし、アカウントをリンクします。
 
 ```notebook
 !pip install wandb -qqq
@@ -25,7 +25,7 @@ import wandb
 wandb.login()
 ```
 
-次に、実験をセットアップし、ハイパーパラメータを保存します。
+次に、実験を設定し、ハイパーパラメーターを保存します。
 
 ```python
 wandb.init(
@@ -38,70 +38,70 @@ wandb.init(
 )
 ```
 
-`wandb.init()` を実行したら、ノートブック内でライブグラフを表示するために、新しいセルの先頭に `%%wandb` と記述します。このセルを複数回実行すると、その run にデータが追記されます。
+`wandb.init()` を実行したら、ノートブックでライブグラフを表示するために、`%%wandb` で新しいセルを開始します。このセルを複数回実行すると、データはその run に追記されます。
 
 ```notebook
 %%wandb
 
-# 学習ループをここに記述
+# トレーニングループをここに記述
 ```
 
-この[サンプルノートブック](https://wandb.me/jupyter-interact-colab)で実際に動作を試してみてください。
+この [サンプルノートブック](https://wandb.me/jupyter-interact-colab) で実際に試してみてください。
 
 <Frame>
-  <img src="/images/track/jupyter_widget.png" alt="Jupyter 用 W&B ウィジェット" />
+  <img src="/images/track/jupyter_widget.png" alt="Jupyter W&B ウィジェット" />
 </Frame>
 
 <div id="rendering-live-wb-interfaces-directly-in-your-notebooks">
-  ### ノートブック内でW&amp;Bインターフェースをリアルタイム表示する
+  ### ノートブック内で W&amp;B インターフェースを直接表示する
 </div>
 
-既存のダッシュボードやスイープ、レポートを、`%wandb` マジックコマンドを使ってノートブック内に直接表示することもできます。
+既存のダッシュボード、sweep、レポートを `%wandb` マジックを使ってノートブック内に直接表示することもできます。
 
 ```notebook
 # プロジェクトのワークスペースを表示する
 %wandb USERNAME/PROJECT
-# 単一のrunを表示する
+# 単一の run を表示する
 %wandb USERNAME/PROJECT/runs/RUN_ID
-# スイープを表示する
+# sweep を表示する
 %wandb USERNAME/PROJECT/sweeps/SWEEP_ID
 # レポートを表示する
 %wandb USERNAME/PROJECT/reports/REPORT_ID
-# 埋め込みiframeの高さを指定する
+# 埋め込み iframe の高さを指定する
 %wandb USERNAME/PROJECT -h 2048
 ```
 
-`%%wandb` や `%wandb` マジックの代わりとして、`wandb.init()` を実行したあとに、任意のセルの末尾で `wandb.Run.finish()` を呼び出すと、セル内にグラフをインライン表示できます。また、API から返される任意のレポート、スイープ、run オブジェクトに対して `ipython.display(...)` を呼び出すこともできます。
+`%%wandb` や `%wandb` マジック コマンドの代わりに、`wandb.init()` を実行した後で任意のセルの末尾に `wandb.Run.finish()` を追加すると、インライン グラフを表示できます。また、当社の API から返される任意の Report、sweep、run オブジェクトに対して `ipython.display(...)` を呼び出すこともできます。
 
 ```python
 import wandb
 from IPython.display import display
-# runを初期化する
+# run を初期化する
 run = wandb.init()
 
-# セルがrun.finish()を出力すると、ライブグラフが表示される
+# セルが run.finish() を出力すると、ライブグラフが表示される
 run.finish()
 ```
 
 <Note>
-  W&amp;B で何ができるかもっと知りたい方は、[データやメディアをログするためのガイド](/ja/models/track/log/)を参照したり、[お好みの ML ツールキットと W&amp;B をインテグレーションする方法](/ja/models/integrations)を学んだり、あるいはそのまま[リファレンスドキュメント](/ja/models/ref/python/)や[サンプル集のリポジトリ](https://github.com/wandb/examples)に飛び込んでみてください。
+  W&amp;B で何ができるかについてさらに知りたい場合は、[データとメディアのロギングに関するガイド](/ja/models/track/log/) を確認し、[お好みの ML ツールキットと連携する方法](/ja/models/integrations) を学ぶか、[リファレンスドキュメント](/ja/models/ref/python/) や [サンプル集のリポジトリ](https://github.com/wandb/examples) を直接参照してみてください。
 </Note>
 
 <div id="additional-jupyter-features-in-wb">
-  ## W&amp;B におけるその他の Jupyter 機能
+  ## W&amp;B での追加の Jupyter 機能
 </div>
 
-1. **Colab での簡単な認証**: Colab ノートブックで最初に `wandb.init` を呼び出すと、ブラウザで W&amp;B にログイン済みの場合は、ランタイム環境を自動的に認証します。run ページの Overview タブに、Colab へのリンクが表示されます。
-2. **Jupyter マジック:** ダッシュボード、Sweeps、Reports をノートブック内に直接表示できます。`%wandb` マジックは、プロジェクト、Sweeps、Reports へのパスを受け取り、W&amp;B インターフェースをノートブック内に直接表示します。
-3. **Docker 化された Jupyter を起動**: `wandb docker --jupyter` を呼び出して、Docker コンテナを起動し、その中にコードをマウントして Jupyter をインストールしたうえで、ポート 8888 で起動します。
-4. **セルを任意の順番で安心して実行**: デフォルトでは、次に `wandb.init` が呼び出されるタイミングまで、run を `finished` としてマークするのを待ちます。これにより、複数のセル（たとえば、データセットアップ用、学習用、テスト用など）を好きな順番で実行しても、すべて同じ run にログを記録できます。[User Settings](https://wandb.ai/settings) でコードの保存を有効にすると、実行されたセルも、実行順および実行時の状態とともにログに記録されるため、どれだけ非線形なパイプラインであっても再現できます。Jupyter ノートブック内で run を手動で完了としてマークするには、`run.finish` を呼び出してください。
+1. **Colab での簡単な認証**: Colab で最初に `wandb.init` を呼び出したとき、ブラウザで W&amp;B にログイン済みであれば、ランタイムを自動的に認証します。run ページの overview タブには、その Colab へのリンクが表示されます。
+2. **Jupyter Magic:** ダッシュボード、sweeps、レポートをノートブック内に直接表示できます。`%wandb` マジックは、プロジェクト、sweeps、レポートへのパスを受け取り、ノートブック内に直接 W&amp;B インターフェースをレンダリングします。
+3. **Docker 化された Jupyter の起動**: `wandb docker --jupyter` を呼び出すと、Docker コンテナを起動し、その中にコードをマウントし、Jupyter がインストールされていることを確認したうえで、ポート 8888 で Jupyter を起動します。
+4. **セルを任意の順序で安心して実行**: デフォルトでは、次に `wandb.init` が呼び出されたタイミングまで待ってから、run を `finished` としてマークします。これにより、複数のセル（例えば 1 つはデータのセットアップ、1 つは学習、1 つはテスト）を好きな順序で実行しても、すべて同じ run にログできます。[User Settings](https://wandb.ai/settings) でコード保存を有効にすると、実行されたセルを、その順序と実行時の状態とともにログするため、最も非線形なパイプラインであっても再現できるようになります。Jupyter ノートブックで run を手動で完了としてマークするには、`run.finish` を呼び出してください。
 
 ```python
 import wandb
 
 run = wandb.init()
 
-# 学習スクリプトとログの記述はここに
+# トレーニングスクリプトとログの記述はここに
 
 run.finish()
 ```

@@ -9,10 +9,10 @@ description: "TypeScript SDK リファレンス"
 
 ▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
 
-現在の実行コンテキストに属性を関連付け、`fn` 内で作成されるすべての call が
-自動的にそれらを継承するようにします。属性は trace server 上の call レコードに
-書き込まれ、Weave の UI やフィルタリング機能にも表示されるため、run をリクエスト ID、
-テナント、実験などでタグ付けするのに最適です。
+現在の実行コンテキストに属性を付与し、`fn` 内で作成される任意の call が
+自動的にそれらを継承するようにします。属性は trace server 上の call record に
+書き込まれ、Weave UI / フィルタリングで表示されるため、request ID やテナント、
+実験などで runs にタグ付けする用途に最適です。
 
 例:
 
@@ -24,7 +24,7 @@ await withAttributes({requestId: 'abc'}, async () => {
 
 
 <div id="type-parameters">
-  #### 型パラメータ
+  #### 型パラメーター
 </div>
 
 | 名前 |
@@ -32,7 +32,7 @@ await withAttributes({requestId: 'abc'}, async () => {
 | `T` |
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | 名前 | 型 |

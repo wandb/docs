@@ -17,27 +17,27 @@ box3d(
     size: 'npt.ArrayLike',
     orientation: 'npt.ArrayLike',
     color: 'RGBColor',
-    label: 'Optional[str]' = None,
-    score: 'Optional[numeric]' = None
+    label: 'str | None' = None,
+    score: 'numeric | None' = None
 ) → Box3D
 ```
 
 3D バウンディングボックス。ボックスは中心、サイズ、向きで指定します。
 
-**Args:**
+**引数:**
 
-* `center`:  ボックスの中心点を表す長さ 3 の ndarray。
-* `size`:  ボックスの X, Y, Z の各次元を表す長さ 3 の ndarray。
-* `orientation`:  グローバルな XYZ 座標をボックスのローカル XYZ 座標に変換する回転を表す長さ 4 の ndarray。[r, x, y, z] は、ゼロでないクォータニオン r + xi + yj + zk に対応します。
-* `color`:  ボックスの色を表す (r, g, b) タプル。`0 <= r,g,b <= 1`。
-* `label`:  ボックスに対する省略可能なラベル。
-* `score`:  ボックスに対する省略可能なスコア。通常は検出の信頼度を示すために使用します。
+* `center`:  ボックスの中心点。長さ 3 の ndarray。
+* `size`:  ボックスの X, Y, Z 方向の寸法。長さ 3 の ndarray。
+* `orientation`:  グローバル XYZ 座標をボックスのローカル XYZ 座標に変換する回転。長さ 4 の ndarray [r, x, y, z] で与えられ、非ゼロの四元数 r + xi + yj + zk に対応します。
+* `color`:  ボックスの色。`0 <= r,g,b <= 1` を満たす (r, g, b) タプル。
+* `label`:  ボックスの任意のラベル。
+* `score`:  ボックスの任意のスコア。通常は検出の信頼度を表すために使用します。
 
-**Returns:**
-Box3D オブジェクト。
+**戻り値:**
+Box3D オブジェクトを返します。
 
-**Example:**
-次の例では、X, Y, Z 軸の周りに回転する 60 個のボックスを含む点群を作成します。
+**例:**
+次の例では、X, Y, Z 軸周りに回転する 60 個のボックスを含む点群を作成します。
 
 ```python
 import wandb

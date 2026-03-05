@@ -1,0 +1,297 @@
+---
+title: "コードをトレースする"
+description: "実行中のコードにインストルメンテーションを施し、その実行が W&B Weave に詳細なトレースとして表示されるようにします。"
+---
+
+実行中のコードを Weave で詳細なトレースとして可視化するには、Calls を作成します。これを行う方法は大きく 3 つあります。
+
+<div id="1-automatic-tracking-of-llm-library-calls">
+  ## 1. LLM ライブラリ呼び出しの自動トラッキング
+</div>
+
+Weave は、`openai`、`anthropic`、`cohere`、`mistral`、`LangChain` などの一般的なインテグレーションやフレームワークと自動的に連携します。
+LLM またはフレームワークのライブラリをインポートして Weave プロジェクトを初期化すると、追加のコード変更なしで、LLM やプラットフォームへのすべての呼び出しが自動的にプロジェクトへトレースされます。
+サポートされているライブラリインテグレーションの一覧については、[Integrations overview](/ja/weave/guides/integrations/) を参照してください。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    from openai import OpenAI
+    client = OpenAI()
+
+    # Weave トレーシングを初期化
+    weave.init('intro-example')
+
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "user",
+                "content": "How are you?"
+            }
+        ],
+        temperature=0.8,
+        max_tokens=64,
+        top_p=1,
+    )
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import OpenAI from 'openai'
+    import * as weave from 'weave'
+
+    const client = new OpenAI()
+
+    // Weave トレーシングを初期化
+    await weave.init('intro-example')
+
+    const response = await client.chat.completions.create({
+      model: 'gpt-4',
+      messages: [
+        {
+          role: 'user',
+          content: 'How are you?',
+        },
+      ],
+      temperature: 0.8,
+      max_tokens: 64,
+      top_p: 1,
+    });
+    ```
+
+    JS / TS プロジェクト向けのセットアップ手順の詳細については、[TypeScript SDK: Third-Party Integration Guide](/ja/weave/guides/integrations/js) を参照してください。
+  </Tab>
+</Tabs>
+
+自動動作をさらに細かく制御したい場合は、[自動 LLM 呼び出しトラッキングの設定](/ja/weave/guides/integrations/autopatching) を参照してください。
+
+<div id="2-tracking-of-custom-functions">
+  ## 2. カスタム関数のトラッキング
+</div>
+
+多くの場合、LLM アプリケーションには、トラッキングしたい追加のロジック (前処理・後処理、プロンプトなど) が含まれます。
+
+<Tabs>
+  <Tab title="Python">
+    Weave では、[`@weave.op`](/ja/weave/reference/python-sdk/#function-op) デコレーターを使って、これらの呼び出しを手動でトラッキングできます。例えば:
+
+    ```python lines
+    import weave
+
+    # Weave Tracing を初期化
+    weave.init('intro-example')
+
+    # 関数をデコレート
+    @weave.op
+    def my_function(name: str):
+        return f"Hello, {name}!"
+
+    # 関数を呼び出す -- Weave が自動的に入力と出力をトラッキング
+    print(my_function("World"))
+    ```
+
+    [クラスのメソッド](#track-class-and-object-methods) をトラッキングすることもできます。
+  </Tab>
+
+  <Tab title="TypeScript">
+    Weave では、関数を [`weave.op`](/ja/weave/reference/typescript-sdk/functions/op) でラップすることで、これらの呼び出しを手動でトラッキングできます。例えば:
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    await weave.init('intro-example')
+
+    function myFunction(name: string) {
+        return `Hello, ${name}!`
+    }
+
+    const myFunctionOp = weave.op(myFunction)
+    ```
+
+    また、ラップをインラインで定義することもできます:
+
+    ```typescript lines
+    const myFunctionOp = weave.op((name: string) => `Hello, {name}!`)
+    ```
+
+    これは、関数だけでなくクラスのメソッドにも利用できます:
+
+    ```typescript lines
+    class MyClass {
+        constructor() {
+            this.myMethod = weave.op(this.myMethod)
+        }
+
+        myMethod(name: string) {
+            return `Hello, ${name}!`
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="track-class-and-object-methods">
+  ### クラスおよびオブジェクト メソッドのトラッキング
+</div>
+
+クラスおよびオブジェクト メソッドもトラッキングできます。クラス内の任意のメソッドを `weave.op` でデコレートすることで、そのメソッドをトラッキングできます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    # Weave Tracing を初期化
+    weave.init("intro-example")
+
+    class MyClass:
+        # メソッドをデコレート
+        @weave.op
+        def my_method(self, name: str):
+            return f"Hello, {name}!"
+
+    instance = MyClass()
+
+    # メソッドを呼び出すと、Weave が自動的に入力と出力をトラッキングする
+    print(instance.my_method("World"))
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    <Important>
+      **TypeScript でのデコレーターの使用**
+
+      TypeScript のコードで `@weave.op` デコレーターを使用するには、環境が正しく設定されていることを確認してください。
+
+      * **TypeScript v5.0 以降**: デコレーターは標準でサポートされており、追加の設定は不要です。
+      * **TypeScript v5.0 より前のバージョン**: デコレーターの実験的サポートを有効にします。詳細については、[decorator に関する TypeScript 公式ドキュメント](https://www.typescriptlang.org/docs/handbook/decorators.html)を参照してください。
+    </Important>
+
+    インスタンス メソッドに `@weave.op` を適用してトレースできます。
+
+    ```typescript lines
+    class Foo {
+        @weave.op
+        async predict(prompt: string) {
+            return "bar"
+        }
+    }
+    ```
+
+    クラス内のユーティリティ関数をトレースするために、`@weave.op` を static メソッドに適用することもできます。
+
+    ```typescript lines
+    class MathOps {
+        @weave.op
+        static square(n: number): number {
+            return n * n;
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="trace-parallel-multi-threaded-function-calls">
+  ### 並列 (マルチスレッド) 関数呼び出しのトレース
+</div>
+
+デフォルトでは、並列な Call はすべて Weave 上では個別の root Call として表示されます。同じ親 Op の下に正しくネストさせるには、`ThreadPoolExecutor` を使用します。
+
+<Tabs>
+  <Tab title="Python">
+    次のコードサンプルは、[`ThreadPoolExecutor`](/ja/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor) の使用例を示しています。
+    最初の関数 `func` は、`x` を受け取って `x+1` を返すシンプルな Op です。2 つ目の関数 `outer` は、入力リストを受け取る別の Op です。
+    `outer` の中で `ThreadPoolExecutor` と `exc.map(func, inputs)` を使用することで、各 `func` 呼び出しは同じ親の trace コンテキストを保持したまま実行されます。
+
+    ```python lines
+    import weave
+
+    @weave.op
+    def func(x):
+        return x+1
+
+    @weave.op
+    def outer(inputs):
+        with weave.ThreadPoolExecutor() as exc:
+            exc.map(func, inputs)
+
+    # Weave プロジェクト名を更新する
+    client = weave.init('my-weave-project')
+    outer([1,2,3,4,5])
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は、TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+Weave UI では、これにより 1 つの親 Call の下に 5 つの子 Call がネストされた形で表示されるため、インクリメントが並列で実行されていても、完全に階層的な trace を得ることができます。
+
+![Trace UI。outer の単一の親 Call の下に 5 つの子 Call がネストされている様子。](/weave/guides/tracking/imgs/threadpoolexecutor.png)
+
+<div id="3-manual-call-tracking">
+  ## 3. Manual Call tracking
+</div>
+
+API を直接使用して Call を手動で作成することもできます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    # Initialize Weave Tracing
+    client = weave.init('intro-example')
+
+    def my_function(name: str):
+        # Start a Call
+        call = client.create_call(op="my_function", inputs={"name": name})
+
+        # ... your function code ...
+
+        # End a Call
+        client.finish_call(call, output="Hello, World!")
+
+        # Call your function
+        print(my_function("World"))
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript SDK ではまだ利用できません。
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    * Call を開始: [POST `/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)。
+    * Call を終了: [POST `/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)。
+
+    ```bash lines
+    curl -L 'https://trace.wandb.ai/call/start' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+        "start": {
+            "project_id": "string",
+            "id": "string",
+            "op_name": "string",
+            "display_name": "string",
+            "trace_id": "string",
+            "parent_id": "string",
+            "started_at": "2024-09-08T20:07:34.849Z",
+            "attributes": {},
+            "inputs": {},
+            "wb_run_id": "string"
+        }
+    }
+    ```
+  </Tab>
+</Tabs>

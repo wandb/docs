@@ -1,24 +1,24 @@
 ---
-description: Hugging Face の Transformers ライブラリと W&amp;B を統合する方法。
+description: Hugging Face の Transformers ライブラリと W&B を統合する方法。
 title: Hugging Face Simple Transformers
 ---
 
-このライブラリは、Hugging Face の Transformers ライブラリをベースとしています。Simple Transformers を使うと、Transformer モデルをすばやく学習および評価できます。わずか 3 行のコードで、モデルの初期化、モデルの学習、モデルの評価が行えます。Sequence Classification、Token Classification (NER)、Question Answering、Language Model Fine-Tuning、Language Model Training、Language Generation、T5 Model、Seq2Seq Tasks、Multi-Modal Classification、Conversational AI をサポートしています。
+このライブラリは Hugging Face の Transformers ライブラリをベースにしています。Simple Transformers を使うと、Transformer モデルをすばやくトレーニングおよび評価できます。モデルの初期化、トレーニング、評価は、わずか 3 行のコードで実行できます。Sequence Classification、Token Classification (NER)、Question Answering、Language Model Fine-Tuning、Language Model Training、Language Generation、T5 Model、Seq2Seq Tasks、Multi-Modal Classification、Conversational AI をサポートしています。
 
-モデルの学習を可視化するために W&amp;B を使用するには、`args` 辞書の `wandb_project` 属性に W&amp;B のプロジェクト名を設定します。これにより、すべてのハイパーパラメータ値、学習損失、および評価メトリクスが指定したプロジェクトにログされます。
+W&amp;B を使用してモデルのトレーニングを可視化するには、`args` 辞書の `wandb_project` 属性に W&amp;B 用のプロジェクト名を設定します。これにより、すべてのハイパーパラメーター値、トレーニング損失、および評価メトリクスが指定したプロジェクトに記録されます。
 
 ```python
 model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
 ```
 
-`wandb.init` に渡す任意の追加引数は、`wandb_kwargs` として渡すことができます。
+`wandb.init` に渡す追加の引数は、`wandb_kwargs` として渡せます。
 
 
 <div id="structure">
-  ## 構造
+  ## 構成
 </div>
 
-このライブラリは、NLP の各タスクごとに個別のクラスを持つように設計されています。類似した機能を提供するクラスはグループ化されています。
+このライブラリは、各 NLP タスクごとに個別のクラスを用意するように設計されています。類似した機能を提供するクラスは、まとめてグループ化されています。
 
 * `simpletransformers.classification` - すべての分類モデルを含みます。
   * `ClassificationModel`
@@ -28,7 +28,7 @@ model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'p
 * `simpletransformers.question_answering` - すべての質問応答モデルを含みます。
   * `QuestionAnsweringModel`
 
-以下にいくつかの最小限の例を示します。
+以下に最小限の例を示します。
 
 <div id="multilabel-classification">
   ## マルチラベル分類
@@ -68,7 +68,7 @@ model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train
 model.train_model(train_data)
 ```
 
-SimpleTransformers は、すべての一般的な自然言語タスクに対応するクラスおよび学習スクリプトを提供します。ここでは、このライブラリでサポートされているグローバル引数と、それぞれのデフォルト値の完全な一覧を示します。
+SimpleTransformers は、一般的な自然言語タスク向けのクラスおよびトレーニング用スクリプトを提供します。このライブラリでサポートされているすべてのグローバル引数と、そのデフォルト値の完全な一覧を以下に示します。
 
 ```text
 global_args = {
@@ -125,6 +125,6 @@ global_args = {
 }
 ```
 
-より詳細なドキュメントについては、[github 上の simpletransformers](https://github.com/ThilinaRajapakse/simpletransformers) を参照してください。
+より詳細なドキュメントについては、[simpletransformers on github](https://github.com/ThilinaRajapakse/simpletransformers) を参照してください。
 
-代表的な GLUE ベンチマーク データセット上での transformer モデルの学習方法を解説した [この W&amp;B レポート](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) をご覧ください。[Colab で実際に試してみてください](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing)。
+最も一般的な GLUE ベンチマークデータセットのいくつかに対して transformers をトレーニングする方法を解説した [この W&amp;B レポート](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) をご覧ください。[Colab でご自身で試してみてください](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing)。

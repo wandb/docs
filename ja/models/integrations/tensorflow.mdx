@@ -11,7 +11,7 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
   ## はじめに
 </div>
 
-すでに TensorBoard を使用している場合は、wandb と簡単に統合できます。
+すでに TensorBoard を利用しているのであれば、簡単に wandb と統合できます。
 
 ```python
 import tensorflow as tf
@@ -20,12 +20,12 @@ import wandb
 
 
 <div id="log-custom-metrics">
-  ## カスタムメトリクスをログする
+  ## カスタムメトリクスを記録する
 </div>
 
-TensorBoard にログされていない追加のカスタムメトリクスを記録する必要がある場合は、コード内で `run.log()` を呼び出せます。例: `run.log({"custom": 0.8}) `
+TensorBoard にログされていない追加のカスタムメトリクスを記録する必要がある場合は、コード内で `run.log()` を呼び出します。例えば、`run.log({"custom": 0.8})` のように記述します。
 
-TensorBoard と同期している場合、`run.log()` の step 引数の設定は無効になります。別の step 数を設定したい場合は、次のように step メトリクス付きでメトリクスを記録できます:
+TensorBoard を同期している場合、`run.log()` の step 引数は無効になります。別の step カウントを設定したい場合は、次のように step を指定してメトリクスを記録できます。
 
 ```python
 with wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True) as run:
@@ -37,7 +37,7 @@ with wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True) as run:
   ## TensorFlow Estimator フック
 </div>
 
-ログとして記録する内容をより細かく制御したい場合、wandb は TensorFlow Estimator 向けのフックも提供します。これにより、グラフ内のすべての `tf.summary` の値がログに記録されます。
+ログに記録する内容をより細かく制御したい場合は、wandb では TensorFlow Estimator 用のフックも提供しています。このフックはグラフ内のすべての `tf.summary` の値をログに記録します。
 
 ```python
 import tensorflow as tf
@@ -51,7 +51,7 @@ run.finish()
 
 
 <div id="log-manually">
-  ## 手動でログを取る
+  ## 手動でログを記録する
 </div>
 
 TensorFlow でメトリクスを記録する最も簡単な方法は、TensorFlow のロガーを使って `tf.summary` を記録することです。
@@ -64,7 +64,7 @@ with tf.Session() as sess:
     wandb.tensorflow.log(tf.summary.merge_all())
 ```
 
-TensorFlow 2 では、カスタムループでモデルを学習する場合、`tf.GradientTape` を利用する方法が推奨されています。詳しくは [TensorFlow custom training walkthrough](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough) を参照してください。カスタムの TensorFlow 学習ループで `wandb` を使ってメトリクスをログに記録したい場合は、次のスニペットを利用してください。
+TensorFlow 2 では、カスタムループでモデルをトレーニングする推奨方法は `tf.GradientTape` を使用することです。詳細については [TensorFlow custom training walkthrough](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough) を参照してください。カスタム TensorFlow トレーニングループでメトリクスを記録するために `wandb` を組み込みたい場合は、次のスニペットを参照してください。
 
 ```python
     with tf.GradientTape() as tape:
@@ -81,21 +81,21 @@ TensorFlow 2 では、カスタムループでモデルを学習する場合、`
     optimizer.apply_gradients(zip(gradients, model.trainable_variables))
 ```
 
-TensorFlow 2 における学習ループのカスタマイズについての[完全な例](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2)が公開されています。
+[TensorFlow 2 でトレーニングループをカスタマイズする完全な例](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) があります。
 
 
 <div id="how-is-wb-different-from-tensorboard">
-  ## W&B は TensorBoard とどう違うのですか？
+  ## W&B は TensorBoard とどう違いますか？
 </div>
 
-共同創業者たちが W&B に取り組み始めたとき、彼らは TensorBoard に不満を持つ OpenAI のユーザー向けのツールを作ることから着想を得ました。ここでは、私たちが特に改善に注力してきた点をいくつか挙げます。
+共同創業者たちが W&B の開発を始めたとき、OpenAI で TensorBoard にフラストレーションを感じていたユーザーのためのツールを作ろうと考えました。ここでは、特に改善に力を入れてきたポイントをいくつか紹介します。
 
-1. **モデルの再現**: W&B は実験や探索、および後からモデルを再現する用途に適しています。メトリクスだけでなく、ハイパーパラメータやコードのバージョンも取得し、バージョン管理の状態やモデルのチェックポイントも保存できるため、あなたのプロジェクトは再現可能になります。
-2. **自動的な整理**: 協力者のプロジェクトを引き継ぐとき、休暇から戻ったとき、あるいは古いプロジェクトを掘り起こすときでも、W&B を使えば試したすべてのモデルが一目でわかるため、誰も何時間もの時間や GPU サイクル、CO2 排出を無駄にして実験をやり直す必要がありません。
-3. **高速で柔軟なインテグレーション**: W&B をあなたのプロジェクトに 5 分で追加できます。無料のオープンソース Python パッケージをインストールして、コードに数行追加するだけで、モデルを実行するたびにメトリクスや記録が自動でログに残ります。
-4. **永続的で一元化されたダッシュボード**: ローカルマシン、共有ラボのクラスタ、クラウドのスポットインスタンスなど、どこでモデルを学習していても、結果は同じ一元的なダッシュボードに集約されます。異なるマシンから TensorBoard のファイルをコピーして整理するのに時間を費やす必要はありません。
-5. **強力なテーブル機能**: 異なるモデルの結果を検索、フィルタ、ソート、グループ化できます。何千ものモデルバージョンを一覧し、さまざまなタスクに対して最も性能の良いモデルを見つけるのが容易です。TensorBoard は大規模なプロジェクトでうまく動作するようには設計されていません。
-6. **コラボレーションのためのツール**: W&B を使って複雑な機械学習プロジェクトを整理できます。W&B へのリンクを簡単に共有でき、プライベートなチームを使って全員が結果を共有のプロジェクトに送ることもできます。さらに、レポートを通じたコラボレーションもサポートしています — 対話的な可視化を追加し、Markdown で作業内容を説明できます。これは作業ログを残したり、上司と成果を共有したり、ラボやチームに成果を提示したりするのに最適な方法です。
+1. **モデルの再現**: W&B は実験や探索、あとからモデルを再現することに適しています。メトリクスだけでなく、ハイパーパラメーターやコードのバージョンも記録し、バージョン管理システムの状態やモデルのチェックポイントも保存できるので、プロジェクトを再現可能な状態に保てます。
+2. **自動的な整理**: 協力者のプロジェクトを引き継ぐとき、休暇明けに作業へ戻るとき、あるいは昔のプロジェクトを掘り起こすときでも、W&B を使えば試したすべてのモデルを簡単に確認できるため、誰かが何時間も、GPU サイクルやカーボンフットプリントを無駄にして実験をやり直す必要がありません。
+3. **高速で柔軟なインテグレーション**: W&B は 5 分でプロジェクトに追加できます。無料のオープンソース Python パッケージをインストールし、コードに数行追加するだけで、モデルを実行するたびにメトリクスや履歴がきれいにログされます。
+4. **永続的で一元化されたダッシュボード**: ローカルマシン、共有ラボのクラスタ、クラウドのスポットインスタンスなど、どこでモデルを学習していても、結果はすべて同じ一元化されたダッシュボードに集約されます。複数マシンから TensorBoard のファイルをコピーして整理するのに時間を費やす必要はありません。
+5. **強力なテーブル機能**: 複数のモデルの結果を検索、フィルタ、ソート、グループ化できます。何千ものモデルバージョンをざっと見渡して、タスクごとに最も高性能なモデルを見つけるのが簡単です。TensorBoard は大規模なプロジェクトでうまく動作するようには作られていません。
+6. **コラボレーションのためのツール**: W&B を使って複雑な機械学習プロジェクトを整理できます。W&B へのリンクは簡単に共有でき、プライベートな Teams を使って、全員の結果を共有のプロジェクトに送ることができます。また、レポートを通じたコラボレーションにも対応しており、インタラクティブな可視化を追加し、Markdown で作業内容を記述できます。これは作業ログを残したり、監督者と結果を共有したり、ラボやチームに成果を発表したりするのに最適な方法です。
 
 [無料アカウント](https://wandb.ai) で始めましょう。
 
@@ -103,9 +103,9 @@ TensorFlow 2 における学習ループのカスタマイズについての[完
   ## 例
 </div>
 
-インテグレーションがどのように動作するかを確認できるように、いくつかの例を用意しました。
+このインテグレーションの動作を確認できるように、いくつかの例を用意しています:
 
-* [GitHub 上の例](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-estimator-mnist/mnist.py): TensorFlow Estimators を使用した MNIST の例
-* [GitHub 上の例](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-cnn-fashion/train.py): 素の TensorFlow を使用した Fashion MNIST の例
-* [W&amp;B ダッシュボード](https://app.wandb.ai/l2k2/examples-tf-estimator-mnist/runs/p0ifowcb): W&amp;B 上で結果を表示
-* TensorFlow 2 における学習ループのカスタマイズ - [記事](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) | [ダッシュボード](https://app.wandb.ai/sayakpaul/custom_training_loops_tf)
+* [GitHub 上の例](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-estimator-mnist/mnist.py): TensorFlow Estimator を用いた MNIST の例
+* [GitHub 上の例](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-cnn-fashion/train.py): 素の TensorFlow を用いた Fashion MNIST の例
+* [W&B ダッシュボード](https://app.wandb.ai/l2k2/examples-tf-estimator-mnist/runs/p0ifowcb): W&B 上で結果を確認できます
+* TensorFlow 2 におけるトレーニング ループのカスタマイズ - [記事](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) | [ダッシュボード](https://app.wandb.ai/sayakpaul/custom_training_loops_tf)

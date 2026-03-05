@@ -3,14 +3,14 @@ title: "API エラー"
 description: "一般的な API エラーとその解決方法"
 ---
 
-次の表は、遭遇する可能性がある一般的な API エラーの一覧です。
+次の表は、発生する可能性のある一般的な API エラーの一覧です。
 
 | Error Code | Message | Cause | Solution |
 | ---------- | ------- | ----- | -------- |
-| 401 | Authentication failed | 認証情報が正しくないか、W&amp;B のプロジェクトの entity または名前が正しくありません。 | 正しい APIキー を使用していること、および W&amp;B のプロジェクト名と entity が正しいことを確認してください。 |
-| 402 | You exceeded your current quota, please check your plan and billing details | クレジットを使い切ったか、毎月の支出上限に達しました。 | 追加のクレジットを取得するか、上限を引き上げてください。詳細については、[利用状況と制限](/ja/inference/usage-limits/)を参照してください。 |
-| 403 | Country, region, or territory not supported | サポート対象外の場所から API にアクセスしています。 | [地理的制限](/ja/inference/usage-limits/#geographic-restrictions)を参照してください。 |
-| 403 | The inference gateway is not enabled for your organization | 組織で inference gateway が有効になっておらず、W&amp;B Inference を使用するには有効化が必要です。 | 組織で inference gateway を有効にするよう W&amp;B 管理者に依頼するか、サポートが必要な場合は [W&amp;B support](mailto:support@wandb.com) に連絡してください。 |
-| 429 | Concurrency limit reached for requests | 同時リクエスト数が多すぎます。 | 同時リクエスト数を減らすか、上限を引き上げてください。詳細については、[利用状況と制限](/ja/inference/usage-limits/)を参照してください。 |
-| 500 | The server had an error while processing your request | サーバー内部エラーです。 | 少し待ってから再試行し、問題が解消しない場合はサポートに連絡してください。 |
+| 401 | Authentication failed | 認証情報が正しくないか、W&amp;B プロジェクトの entity や名前が正しくありません。 | 正しい API キーを使用していること、および W&amp;B プロジェクト名と entity が正しいことを確認してください。 |
+| 402 | You exceeded your current quota, please check your plan and billing details | クレジットの残高がないか、月間の支出上限に達しました。 | 追加のクレジットを取得するか、上限を引き上げてください。詳細については、[Usage information and limits](/ja/inference/usage-limits/) を参照してください。 |
+| 403 | Country, region, or territory not supported | サポート対象外の国や地域から API にアクセスしています。 | [Geographic restrictions](/ja/inference/usage-limits/#geographic-restrictions) を参照してください。 |
+| 403 | The inference gateway is not enabled for your organization | 組織で inference gateway が有効化されておらず、W&amp;B Inference を使用するために必要な状態になっていません。 | 組織の W&amp;B 管理者に連絡して inference gateway を有効化してもらうか、支援が必要な場合は [W&amp;B support](mailto:support@wandb.com) に問い合わせてください。 |
+| 429 | Concurrency limit reached for requests | 同時リクエスト数が上限に達しました。 | 同時リクエスト数を減らすか、上限を引き上げてください。詳細については、[Usage information and limits](/ja/inference/usage-limits/) を参照してください。 |
+| 500 | The server had an error while processing your request | 内部サーバー エラーです。 | 少し待ってから再試行し、解消しない場合はサポートに連絡してください。 |
 | 503 | The engine is currently overloaded, please try again later | サーバーに高いトラフィックが発生しています。 | 少し待ってからリクエストを再試行してください。 |
