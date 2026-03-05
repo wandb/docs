@@ -17,9 +17,9 @@ W&B에서 HTML 콘텐츠를 로깅하는 데 사용하는 클래스입니다.
 
 ```python
 __init__(
-    data: Union[str, pathlib.Path, ForwardRef('TextIO')],
-    inject: bool = True,
-    data_is_not_path: bool = False
+    data: 'str | pathlib.Path | TextIO',
+    inject: 'bool' = True,
+    data_is_not_path: 'bool' = False
 ) → None
 ```
 

@@ -1,0 +1,112 @@
+---
+title: "Call のクエリとエクスポート"
+description: "W&amp;B Weave Call データをフィルター、ソートしてエクスポートする"
+---
+
+Weave UI では、データをさまざまな形式でエクスポートできます。行をプログラムからエクスポートするために使用できる Python と cURL のコードも表示されます。
+Call をエクスポートするには、次の手順に従います。
+
+1. [wandb.ai](https://wandb.ai/) にアクセスし、プロジェクトを選択します。
+2. Weave プロジェクトのサイドバーで **Traces** をクリックします。
+3. エクスポートしたい複数の Call を、行にチェックを入れて選択します。
+4. **Traces** テーブルのツールバーで、エクスポート／ダウンロード ボタンをクリックします。
+5. **Export** モーダルで **Selected rows** または **All rows** を選択し、**Export** をクリックします。
+
+<Frame>
+  ![Export モーダルでエクスポート対象として選択された Calls を表示している Traces ページ。](/weave/guides/tracking/imgs/trace_export_modal.png)
+</Frame>
+
+<div id="fetch-calls-programmatically">
+  ## コールをプログラムから取得する
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Python API を使用してコールを取得するには、[`client.get_calls`](/ja/weave/reference/python-sdk/trace/weave_client#method-get_calls) メソッドを使用します。
+
+    ```python lines
+    import weave
+
+    # クライアントを初期化
+    client = weave.init("your-project-name")
+
+    # コールを取得
+    calls = client.get_calls(filter=...)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript API を使用してコールを取得するには、[`client.getCalls`](/ja/weave/reference/typescript-sdk/classes/weaveclient#getcalls) メソッドを使用します。
+
+    ```typescript
+    import * as weave from 'weave'
+
+    // クライアントを初期化
+    const client = await weave.init('intro-example')
+
+    // コールを取得
+    const calls = await client.getCalls(filter=...)
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    最も強力なクエリ レイヤーは Service API です。Service API を使用してコールを取得するには、[`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) エンドポイントにリクエストを送信します。
+
+    ```bash
+    curl -L 'https://trace.wandb.ai/calls/stream_query' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+    "project_id": "string",
+    "filter": {
+        "op_names": [
+            "string"
+        ],
+        "input_refs": [
+            "string"
+        ],
+        "output_refs": [
+            "string"
+        ],
+        "parent_ids": [
+            "string"
+        ],
+        "trace_ids": [
+            "string"
+        ],
+        "call_ids": [
+            "string"
+        ],
+        "trace_roots_only": true,
+        "wb_user_ids": [
+            "string"
+        ],
+        "wb_run_ids": [
+            "string"
+        ]
+    },
+    "limit": 100,
+    "offset": 0,
+    "sort_by": [
+        {
+        "field": "string",
+        "direction": "asc"
+        }
+    ],
+    "query": {
+        "$expr": {}
+    },
+    "include_costs": true,
+    "include_feedback": true,
+    "columns": [
+        "string"
+    ],
+    "expand_columns": [
+        "string"
+    ]
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+コールのプロパティおよびフィールドの詳細については、[Call スキーマ リファレンス](/ja/weave/guides/tracking/call-schema-reference) を参照してください。

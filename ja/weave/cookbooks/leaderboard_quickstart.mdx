@@ -1,23 +1,23 @@
 ---
-title: "リーダーボード クイックスタート"
-description: "W&B Weave のリーダーボード クイックスタートの使い方を学ぶ"
+title: "Leaderboard クイックスタート"
+description: "W&B Weave の Leaderboard クイックスタートの使い方を学ぶ"
 ---
 
 <Note>
-これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから開くことができます:
+これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから開いてください:
 - [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
-- [GitHub でソースコードを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
+- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
 </Note>
 
 <div id="leaderboard-quickstart">
   # Leaderboard クイックスタート
 </div>
 
-このノートブックでは、Weave の Leaderboard を使って、異なるデータセットやスコアリング関数にまたがるモデルのパフォーマンスを比較する方法を学びます。具体的には次のことを行います。
+このノートブックでは、Weave の Leaderboard を使用して、異なるデータセットやスコアリング関数にわたって モデル の性能を比較する方法を学びます。具体的には、次のことを行います。
 
-1. 架空の郵便番号データのデータセットを生成する
-2. いくつかのスコアリング関数を作成し、ベースラインとなるモデルを評価する
-3. これらの手法を使って、モデルと評価（スコアリング）の組み合わせを評価する
+1. 架空の郵便番号データから データセット を生成する
+2. いくつかのスコアリング関数を作成し、ベースラインの モデル を評価する
+3. これらの手法を使用して、複数の モデル と評価（スコアリング関数）のマトリクスを評価する
 4. Weave UI で Leaderboard を確認する
 
 <div id="step-1-generate-a-dataset-of-fake-zip-code-data">
@@ -79,11 +79,11 @@ weave.init("leaderboard-demo")
   ## ステップ 2: スコアリング関数を定義する
 </div>
 
-次に、3 つのスコアリング関数を定義します:
+次に、3 つのスコアリング関数を定義します。
 
-1. `check_concrete_fields`: モデルの出力が、期待される都市名と州名に一致しているかを確認します。
-2. `check_value_fields`: モデルの出力が、期待される人口と世帯収入中央値の 10% 以内に収まっているかを確認します。
-3. `check_subjective_fields`: モデルの出力が、期待される「known for」フィールドに一致しているかを LLM を使って確認します。
+1. `check_concrete_fields`: モデルの出力が期待される市および州と一致しているかをチェックします。
+2. `check_value_fields`: モデルの出力が、期待される人口および中央値所得の値から 10% 以内に収まっているかをチェックします。
+3. `check_subjective_fields`: LLM を使用して、モデルの出力が期待される &quot;known for&quot; フィールドと一致しているかどうかをチェックします。
 
 ```python lines
 @weave.op
@@ -137,7 +137,7 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
   ## ステップ 3: 簡単な評価を作成する
 </div>
 
-次に、ダミーデータとスコアリング関数を使って簡単な評価を定義します。
+ここでは、ダミー データとスコアリング関数を使って簡単な評価を定義します。
 
 ```python lines
 rows = generate_dataset_rows()
@@ -157,7 +157,7 @@ evaluation = weave.Evaluation(
   ## ステップ 4: ベースラインモデルを評価する
 </div>
 
-ここでは、静的なレスポンスを返すベースラインモデルを評価します。
+ここでは、常に同じ応答を返すベースラインモデルを評価します。
 
 ```python lines
 @weave.op
@@ -176,10 +176,10 @@ await evaluation.evaluate(baseline_model)
 
 
 <div id="step-5-create-more-models">
-  ## ステップ 5: さらにモデルを作成する
+  ## ステップ 5: さらに Models を作成する
 </div>
 
-ここでは、ベースラインと比較するためのモデルを 2 つ追加で作成します。
+ここでは、ベースラインと比較するために、さらに 2 つのモデルを作成します。
 
 ```python lines
 @weave.op
@@ -237,10 +237,10 @@ await evaluation.evaluate(gpt_4o_mini_with_context)
 
 
 <div id="step-6-create-more-evaluations">
-  ## ステップ 6: 評価をさらに作成する
+  ## ステップ 6: より多くの Evaluation を作成する
 </div>
 
-ここでは、モデルと評価の組み合わせ（マトリクス）に対して評価を実行します。
+ここでは、モデルと Evaluation のマトリクスを評価します。
 
 ```python lines
 scorers = [
@@ -288,12 +288,12 @@ for evaluation in evaluations:
 
 
 <div id="step-7-review-the-leaderboard">
-  ## ステップ 7: リーダーボードを確認する
+  ## ステップ 7: Leaderboard を確認する
 </div>
 
-UI の「Leaderboard」タブに移動し、「Create Leaderboard」をクリックすると、新しいリーダーボードを作成できます。
+UI の Leaderboard タブに移動し、「Create Leaderboard」をクリックして、新しい Leaderboard を作成できます。
 
-Python からリーダーボードを直接生成することもできます。
+Python から直接 Leaderboard を生成することもできます。
 
 ```python lines
 from weave.flow import leaderboard

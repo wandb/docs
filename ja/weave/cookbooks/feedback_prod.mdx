@@ -1,20 +1,20 @@
 ---
 title: "Feedback Prod"
-description: "W&B Weave で feedback prod を使う方法を学ぶ"
+description: "W&B Weave で feedback prod を使用する方法を学びます"
 ---
 
 <Note>
-これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを使用することもできます：
+これはインタラクティブなノートブックです。ローカルで実行するか、次のリンクを使用してください：
 - [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
 - [GitHub 上のソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
 </Note>
 
 ## 
 
-生成された LLM の応答を自動的に評価するのは難しいことが多いため、リスク許容度に応じて、改善すべき箇所を見つけるためにユーザーから直接フィードバックを集めることができます。
+生成された LLM 応答を自動で評価するのは難しいことが多いため、リスク許容度に応じて、直接ユーザーからフィードバックを収集し、改善すべき箇所を見つけることができます。
 
-このチュートリアルでは、ユーザーからのフィードバックを収集するアプリの例として、カスタムチャットボットを使用します。
-インターフェースの構築には Streamlit を使用し、LLM のやり取りとフィードバックを Weave に記録します。
+このチュートリアルでは、カスタム chatbot を、ユーザー フィードバックを収集するためのサンプルアプリとして使用します。
+インターフェースの構築には Streamlit を使い、LLM との対話とフィードバックを Weave に記録します。
 
 <div id="setup">
   ## セットアップ
@@ -24,15 +24,14 @@ description: "W&B Weave で feedback prod を使う方法を学ぶ"
 !pip install weave openai streamlit wandb
 !pip install set-env-colab-kaggle-dotenv -q # 環境変数用
 python
-# OpenAIとWandBのAPIキーを含む.envファイルを追加する
+# OpenAI と WandB の API キーを含む .env ファイルを追加する
 from set_env import set_env
 
 _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
-次に、`chatbot.py` というファイルを作成し、次の内容を記述します。
-
+次に、`chatbot.py` というファイルを作成し、以下の内容を記述します。
 
 ```python lines {13,15,27}
 # chatbot.py
@@ -53,7 +52,7 @@ weave_client = weave.init("feedback-example")
 oai_client = openai.OpenAI()
 
 def init_states():
-    """session_stateのキーがまだ存在しない場合にセットアップする。"""
+    """session_state のキーがまだ存在しない場合にセットアップする。"""
     if "messages" not in st.session_state:
         st.session_state["messages"] = []
     if "calls" not in st.session_state:
@@ -64,8 +63,8 @@ def init_states():
 @weave.op
 def chat_response(full_history):
     """
-    これまでの会話履歴全体を元に、ストリーミングモードでOpenAI APIを呼び出す。
-    full_historyはdictのリスト: [{"role":"user"|"assistant","content":...}, ...]
+    これまでの会話履歴全体を元に、ストリーミングモードで OpenAI API を呼び出す。
+    full_history は辞書のリスト: [{"role":"user"|"assistant","content":...}, ...]
     """
     stream = oai_client.chat.completions.create(
         model="gpt-4", messages=full_history, stream=True
@@ -100,14 +99,14 @@ def render_feedback_buttons(call_idx):
             st.success("Feedback submitted!")
 
 def display_old_messages():
-    """st.session_state.messagesに保存された会話をフィードバックボタンとともに表示する"""
+    """st.session_state.messages に保存された会話をフィードバックボタンとともに表示する"""
     for idx, message in enumerate(st.session_state.messages):
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
             # アシスタントのメッセージであればフィードバックフォームを表示する
             if message["role"] == "assistant":
-                # st.session_state.callsにおけるこのアシスタントメッセージのインデックスを特定する
+                # st.session_state.calls 内のこのアシスタントメッセージのインデックスを特定する
                 assistant_idx = (
                     len(
                         [
@@ -118,7 +117,7 @@ def display_old_messages():
                     )
                     - 1
                 )
-                # サムズアップ/ダウンおよびテキストフィードバックをレンダリングする
+                # サムズアップ/ダウン & テキストフィードバックをレンダリングする
                 if assistant_idx < len(st.session_state.calls):
                     render_feedback_buttons(assistant_idx)
 
@@ -132,18 +131,18 @@ def display_chat_prompt():
         # セッションにユーザーメッセージを保存する
         st.session_state.messages.append({"role": "user", "content": prompt})
 
-        # API用のチャット履歴を準備する
+        # API 用にチャット履歴を準備する
         full_history = [
             {"role": msg["role"], "content": msg["content"]}
             for msg in st.session_state.messages
         ]
 
         with st.chat_message("assistant"):
-            # 会話インスタンスのトラッキング用にWeaveの属性を付与する
+            # 会話インスタンスのトラッキングのために Weave の属性を付与する
             with weave.attributes(
                 {"session": st.session_state["session_id"], "env": "prod"}
             ):
-                # OpenAI APIを呼び出す（ストリーム）
+                # OpenAI API を呼び出す（ストリーム）
                 result, call = chat_response.call(full_history)
 
                 # アシスタントのメッセージを保存する
@@ -151,10 +150,10 @@ def display_chat_prompt():
                     {"role": "assistant", "content": result["response"]}
                 )
 
-                # フィードバックを特定のレスポンスに紐付けるためにweave callオブジェクトを保存する
+                # フィードバックを特定のレスポンスに紐付けるために weave の呼び出しオブジェクトを保存する
                 st.session_state.calls.append(call)
 
-                # 新しいメッセージのフィードバックボタンをレンダリングする
+                # 新しいメッセージ用のフィードバックボタンをレンダリングする
                 new_assistant_idx = (
                     len(
                         [
@@ -180,17 +179,16 @@ if __name__ == "__main__":
     main()
 ```
 
-
 `streamlit run chatbot.py` を実行して、このアプリケーションを起動できます。
 
-これで、このアプリケーションと対話し、各応答ごとにフィードバックボタンをクリックできます。
-Weave UI にアクセスして、対応するフィードバックを確認してください。
+これで、このアプリケーションと対話し、各応答の後にフィードバックボタンをクリックできます。
+Weave UI にアクセスして、関連付けられたフィードバックを確認してください。
 
 <div id="explanation">
-  ## 説明
+  ## 解説
 </div>
 
-デコレータを適用した予測関数を次のように表すとします：
+デコレータを適用した予測関数を次のように表すとします。
 
 ```python lines {5}
 import weave
@@ -204,31 +202,30 @@ def predict(input_data):
     return some_result
 ```
 
-通常どおり使用して、ユーザーにモデルからの応答を返すことができます。
+通常どおり利用して、ユーザーにモデルからの応答を返すことができます。
 
 ```python lines
 with weave.attributes(
     {"session": "123abc", "env": "prod"}
-):  # 入力と出力に加えて、任意の属性をコールに付加する
-    result = predict(input_data="your data here")  # App UI経由のユーザーの質問
+):  # 入力と出力とともに、呼び出しに任意の属性を付加する
+    result = predict(input_data="your data here")  # App UI 経由のユーザーの質問
 ```
 
-フィードバックを紐付けるには、関数を通常どおり呼び出すのではなく、`.call()` メソッドを使って取得した `call` オブジェクトが必要です。
+feedback を関連付けるには、通常どおり関数を呼び出すのではなく、`.call()` メソッドで取得した `call` オブジェクトが必要です：
 
 ```python lines
 result, call = predict.call(input_data="your data here")
 ```
 
 この call オブジェクトは、特定のレスポンスにフィードバックを関連付けるために必要です。
-呼び出しを行った後、その操作の結果は上記の `result` から取得できます。
+この call の実行後は、上記の `result` を使って処理結果にアクセスできます。
 
 ```python lines
-call.feedback.add_reaction("👍")  # App UI を通じたユーザーのリアクション
+call.feedback.add_reaction("👍")  # App UI を通じたユーザーの反応
 ```
-
 
 <div id="conclusion">
   ## まとめ
 </div>
 
-このチュートリアルでは、Streamlit を使ってチャット UI を構築し、入力と出力を Weave で記録するとともに、ユーザーからのフィードバックを収集するための 👍👎 ボタンも実装しました。
+このチュートリアルでは、Streamlit でチャット UI を構築し、入力と出力を Weave で記録するとともに、ユーザーからのフィードバックを収集するための 👍👎 ボタンも実装しました。

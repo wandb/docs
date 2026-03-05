@@ -12,36 +12,36 @@ import { TryProductLink } from '/snippets/ja/_includes/try-product-link.mdx';
   <TryProductLink url="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" />
 </CardGroup>
 
-W&amp;B Tables を使って、表形式データを可視化し、クエリを実行できます。例えば次のようなことができます。
+W&amp;B Tables を使って表形式データを可視化したり、クエリを実行したりできます。例えば次のようなことが可能です。
 
-* 同じテストセット上で、異なるモデルの性能を比較する
-* データ内のパターンを特定する
-* モデル予測のサンプルを視覚的に確認する
-* クエリで誤分類されがちなサンプルを抽出する
+* 異なるモデルが同じテストセット上でどのように性能を発揮するかを比較できる
+* データ内のパターンを特定できる
+* モデルによるサンプル予測を視覚的に確認できる
+* よく誤分類されるサンプルを見つけるためのクエリを実行できる
 
 <Frame>
   <img src="/images/data_vis/tables_sample_predictions.png" alt="セマンティックセグメンテーション予測のテーブル" />
 </Frame>
 
-上の画像は、セマンティックセグメンテーションとカスタムメトリクスを含むテーブルを示しています。このテーブルは、[W&amp;B ML コースのサンプルプロジェクト](https://wandb.ai/av-team/mlops-course-001)で確認できます。
+上の画像は、セマンティックセグメンテーションとカスタムメトリクスを含むテーブルを示しています。このテーブルは W&amp;B ML Course の [サンプル プロジェクト](https://wandb.ai/av-team/mlops-course-001)で確認できます。
 
 <div id="how-it-works">
   ## 仕組み
 </div>
 
-Table は、各列が 1 種類のデータ型を持つ二次元のデータグリッドです。Table では、プリミティブ型や数値型に加えて、ネストされたリスト、辞書、リッチメディア型もサポートしています。
+Table は、各列が 1 つの型のデータのみを持つ 2 次元のデータグリッドです。Table はプリミティブ型や数値型に加えて、ネストされたリストや辞書、リッチメディア型もサポートします。
 
 <div id="log-a-table">
-  ## テーブルをログする
+  ## Table をログに記録する
 </div>
 
-数行のコードでテーブルをログできます。
+数行のコードで Table をログに記録できます:
 
-* [`wandb.init()`](/ja/models/ref/python/functions/init): 結果を追跡するための[run](/ja/models/runs/)を作成します。
-* [`wandb.Table()`](/ja/models/ref/python/data-types/table): 新しいテーブルオブジェクトを作成します。
-  * `columns`: 列名を設定します。
-  * `data`: テーブルの内容を設定します。
-* [`run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog): テーブルをログに記録して W&amp;B に保存します。
+* [`wandb.init()`](/ja/models/ref/python/functions/init): 結果を追跡する [run](/ja/models/runs/) を作成します。
+* [`wandb.Table()`](/ja/models/ref/python/data-types/table): 新しい Table オブジェクトを作成します。
+  * `columns`: 列名を指定します。
+  * `data`: テーブルの内容を指定します。
+* [`run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog): Table をログに記録して W&amp;B に保存します。
 
 ```python
 import wandb
@@ -52,8 +52,8 @@ with wandb.init(project="table-test") as run:
 ```
 
 <div id="how-to-get-started">
-  ## 始め方
+  ## はじめに
 </div>
 
-* [クイックスタート](/ja/models/tables/tables-walkthrough/): データテーブルのログ記録、データの可視化、クエリの実行方法を学びます。
-* [Tables ギャラリー](/ja/models/tables/tables-gallery/): Tables のユースケース例を参照できます。
+* [クイックスタート](/ja/models/tables/tables-walkthrough/): データテーブルのロギング、データの可視化、データのクエリ実行方法を学びます。
+* [Tables Gallery](/ja/models/tables/tables-gallery/): Tables のユースケース例を確認します。

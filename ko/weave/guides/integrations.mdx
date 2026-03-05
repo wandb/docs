@@ -3,52 +3,11 @@ title: 인테그레이션 개요
 description: "Weave의 자동 패칭 기능을 사용해 30개 이상의 프로바이더와 프레임워크에서 LLM 호출을 원활하게 추적하고 모니터링할 수 있습니다. OpenAI, Anthropic, Google AI 및 주요 오케스트레이션 도구를 코드 수정 없이 지원합니다."
 ---
 
-<div id="integrations">
-  # 인테그레이션
-</div>
+W&amp;B Weave는 인기 있는 LLM 프로바이더와 오케스트레이션 프레임워크에 대한 로깅 인테그레이션을 제공합니다. 이러한 인테그레이션을 사용하면 다양한 라이브러리를 통해 발생한 호출을 원활하게 추적하여, AI 애플리케이션을 모니터링하고 분석할 수 있는 역량을 높일 수 있습니다.
 
-Weave는 지원되는 모든 인테그레이션에 대해 기본적으로 **암시적 자동 패칭**을 제공합니다:
+애플리케이션에서 LLM 프로바이더 라이브러리(예: OpenAI, Anthropic, Cohere, Mistral)를 사용하는 경우, 해당 API 호출이 W&amp;B Weave에 추적된 Call로 나타나기를 원할 것입니다. 입력, 출력, 지연 시간, 토큰 사용량, 비용 등이 여기에 포함됩니다. 이 기능이 없다면, 모든 `client.chat.completions.create()`(또는 동등한 호출)을 `@weave.op`으로 감싸거나 수동으로 계측해야 하는데, 이는 번거롭고 누락되기 쉽습니다.
 
-**암시적 패칭(자동):** 라이브러리는 언제 import되었는지에 상관없이 자동으로 패치됩니다.
-
-```python lines
-# 옵션 1: weave.init() 이전에 import
-import openai
-import weave
-weave.init('my-project')  # OpenAI가 자동으로 패치됩니다!
-
-# 옵션 2: weave.init() 이후에 import
-import weave
-weave.init('my-project')
-import anthropic  # import 훅을 통해 자동으로 패치됩니다!
-```
-
-**암시적 패치 비활성화:** 직접 제어하고 싶다면 자동 패치를 비활성화할 수 있습니다.
-
-```python lines
-import weave
-
-# 옵션 1: settings 매개변수를 통해
-weave.init('my-project', settings={'implicitly_patch_integrations': False})
-
-# 옵션 2: 환경 변수를 통해
-# 스크립트 실행 전에 WEAVE_IMPLICITLY_PATCH_INTEGRATIONS=false로 설정하세요
-
-# 암묵적 패칭이 비활성화된 경우, 인테그레이션을 명시적으로 패치해야 합니다
-import openai
-weave.patch_openai()  # OpenAI 추적을 위해 이제 필수입니다
-```
-
-**명시적 패칭(수동):** 보다 세밀한 제어를 위해 인테그레이션을 명시적으로 패치할 수 있습니다.
-
-```python lines
-import weave
-weave.init('my-project')
-weave.integrations.patch_openai()  # OpenAI 추적 활성화
-weave.integrations.patch_anthropic()  # Anthropic 추적 활성화
-```
-
-W&amp;B Weave는 널리 사용되는 LLM 제공자와 오케스트레이션 프레임워크용 로깅 인테그레이션을 제공합니다. 이러한 인테그레이션을 통해 다양한 라이브러리를 통해 이루어지는 호출을 원활하게 추적하여 AI 애플리케이션을 모니터링하고 분석하는 능력을 향상할 수 있습니다.
+Weave는 지원되는 LLM 클라이언트 라이브러리를 자동으로 가로채(패칭하여) 계측합니다. 애플리케이션 코드는 변경하지 않아도 됩니다. 평소처럼 프로바이더 SDK를 사용하기만 하면, 각 요청이 Weave Call로 기록됩니다. 최소한의 설정으로 전체 트레이싱 기능을 사용할 수 있습니다.
 
 <div id="llm-providers">
   ## LLM 공급자

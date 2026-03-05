@@ -1,5 +1,5 @@
 ---
-title: controller() 関数
+title: controller()
 namespace: python_sdk_actions
 python_object_type: function
 ---
@@ -13,15 +13,15 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ```python
 controller(
-    sweep_id_or_config: Optional[str, Dict] = None,
-    entity: Optional[str] = None,
-    project: Optional[str] = None
+    sweep_id_or_config: 'str | dict | None' = None,
+    entity: 'str | None' = None,
+    project: 'str | None' = None
 ) → _WandbController
 ```
 
-パブリックなスイープコントローラーのコンストラクタです。
+公開されている sweep コントローラーのコンストラクター。
 
-**使用例:**
+**例:**
 
 ```python
 import wandb

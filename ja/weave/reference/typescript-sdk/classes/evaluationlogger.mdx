@@ -5,10 +5,10 @@ description: "TypeScript SDK リファレンス"
 
 [weave](../) / EvaluationLogger
 
-EvaluationLogger を使用すると、予測とスコアをインクリメンタルにログできます。
+EvaluationLogger は、予測結果とスコアをインクリメンタルにログ記録できるようにします。
 
-事前にデータセットやバッチ処理を用意する必要がある従来の Evaluation クラスとは異なり、
-EvaluationLogger を使うと、予測が発生したそのタイミングでログし、柔軟にスコアリングできます。
+事前にデータセット全体を用意してバッチ処理を行う必要がある従来の Evaluation クラスとは異なり、
+EvaluationLogger を使うと、予測が行われたタイミングで逐次的にログを記録でき、柔軟なスコアリングが可能です。
 
 `Example`
 
@@ -47,17 +47,15 @@ await ev.logSummary();
 - [logPredictionAsync](./evaluationlogger#logpredictionasync)
 - [logSummary](./evaluationlogger#logsummary)
 
-## コンストラクター
+## コンストラクタ
 
 <div id="constructor">
-  ### コンストラクター
+  ### constructor
 </div>
 
 • **new EvaluationLogger**(`options`): [`EvaluationLogger`](./evaluationlogger)
 
-<div id="parameters">
-  #### パラメータ
-</div>
+#### パラメータ
 
 | 名前 | 型 |
 | :------ | :------ |
@@ -69,9 +67,7 @@ await ev.logSummary();
 
 [`EvaluationLogger`](./evaluationlogger)
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [evaluationLogger.ts:554](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L554)
 
@@ -83,15 +79,14 @@ await ev.logSummary();
 
 ▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
 
-入力と出力を含む予測をログします（同期バージョン）。
-子の predict 呼び出しを伴う predict_and_score 呼び出しを作成します。
-スコアを追加するための ScoreLogger をすぐに返します。
+入力および出力とともに予測をログに記録します（同期バージョン）。
+predict_and_score 呼び出し（子の predict 呼び出しを伴う）を作成します。
+スコアを追加するための ScoreLogger を即座に返します。
 
-このメソッドは ScoreLogger を同期的に返します。  
-ScoreLogger 上での操作（logScore、finish）はキューに積まれ、初期化が完了した時点で実行されます。
+このメソッドは ScoreLogger を同期的に返します。ScoreLogger 上での操作（logScore, finish）はキューに入れられ、初期化が完了したタイミングで順次実行されます。
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | 名前 | 型 |
@@ -116,7 +111,9 @@ await evalLogger.logSummary(); // すべての完了を待機
 ```
 
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [evaluationLogger.ts:641](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L641)
 
@@ -128,13 +125,13 @@ ___
 
 ▸ **logPredictionAsync**(`inputs`, `output`): `Promise`\<[`ScoreLogger`](./scorelogger)\>
 
-予測とその入力および出力をログに記録します（非同期版）。
-logPrediction() と同様ですが、予測呼び出しが完全に初期化された時点で解決される Promise を返します。
+入力と出力を指定して予測結果をログに記録する非同期メソッドです。
+logPrediction() と同様ですが、予測呼び出しの初期化が完了した時点で resolve される Promise を返します。
 
-処理を進める前に初期化完了を待機する必要がある場合に使用してください。
+処理を進める前に初期化完了を await する必要がある場合に使用してください。
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | 名前 | 型 |
@@ -172,14 +169,14 @@ ___
 
 ▸ **logSummary**(`summary?`): `Promise`\<`void`\>
 
-サマリーをログし、評価を完了します。
-`summarize` 呼び出しを作成し、`evaluate` 呼び出しを終了します。
+サマリーをログに記録し、evaluation を完了します。
+summarize 呼び出しを作成し、evaluate 呼び出しを終了します。
 
-このメソッドは await せずに（fire-and-forget で）呼び出すこともできますが、
-内部的には保留中のすべての処理が完了するまで待機します。
+このメソッドは await なしで（いわゆる fire-and-forget で）呼び出すこともできますが、内部的には
+保留中のすべての操作が完了するまで待機します。
 
 <div id="parameters">
-  #### パラメータ
+  #### パラメーター
 </div>
 
 | 名前 | 型 |
@@ -192,6 +189,8 @@ ___
 
 `Promise`\<`void`\>
 
-#### 定義元
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [evaluationLogger.ts:767](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L767)

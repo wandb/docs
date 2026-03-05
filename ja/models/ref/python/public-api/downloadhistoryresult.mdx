@@ -6,19 +6,18 @@ python_object_type: class
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py" />
 
 
 ## <kbd>class</kbd> `DownloadHistoryResult`
 
-run の履歴エクスポートをダウンロードした結果。 
+run の履歴エクスポートをダウンロードした結果。
 
 **属性:**
 
-- `paths`:  ダウンロードされた履歴ファイルへのパス。 
- - `errors`:  履歴ファイルのダウンロード中に発生したエラーの辞書。 
- - `contains_live_data`:  run にライブデータが含まれているかどうか。 
- - `not yet exported to parquet files`:  ライブデータがまだ parquet ファイルにエクスポートされていないかどうか。 
+* `paths`:  ダウンロードされた履歴ファイルへのパス。
+* `errors`:  ダウンロードに失敗したファイルについて、ファイルパスからエラーメッセージへのマッピングを保持する辞書。すべてのダウンロードが成功した場合は None。
+* `contains_live_data`:  run が、まだ parquet ファイルにエクスポートされていないライブデータを含んでいるかどうか。 
 
 ### <kbd>メソッド</kbd> `DownloadHistoryResult.__init__`
 

@@ -16,7 +16,7 @@ import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `FlushStatus`
 
-現在実行中のフラッシュ処理に関するステータス情報。 
+現在の flush 処理のステータス情報。 
 
 ---
 
@@ -24,7 +24,7 @@ import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `PendingJobCounts`
 
-ジョブタイプごとの保留中ジョブ数。 
+各タイプの保留中ジョブ数を表します。 
 
 ---
 
@@ -50,13 +50,13 @@ __init__(
 
 #### <kbd>property</kbd> num_outstanding_jobs
 
-すべての executor およびサーバーに存在する保留中ジョブの合計数を返します。
+すべての executor およびサーバーにおける未処理ジョブの合計数を返します。 
 
-このプロパティは、メインスレッドをブロックせずにバックグラウンドタスクの進捗状況を確認するために使用できます。
+このプロパティは、メインスレッドをブロックせずにバックグラウンド タスクの進行状況を確認するために使用できます。 
 
 **戻り値:**
 
-- <b>`int`</b>:  保留中ジョブの合計数
+- <b>`int`</b>:  未処理ジョブの合計数 
 
 ---
 
@@ -85,18 +85,17 @@ client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=1, complet
 client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=500, completion_token_cost=1000, effective_date=datetime(1998, 10, 3))
 ```
 
-**引数:**
+**Args:**
 
 * <b>`llm_id`</b>: LLM の ID。例 &quot;gpt-4o-mini-2024-07-18&quot;
 * <b>`prompt_token_cost`</b>: プロンプトトークン 1 個あたりのコスト。例 .0005
-* <b>`completion_token_cost`</b>: 完了トークン 1 個あたりのコスト。例 .0015
-* <b>`effective_date`</b>: デフォルトは現在の日付。`datetime.datetime` オブジェクト。
-* <b>`provider_id`</b>: LLM のプロバイダ。デフォルトは &quot;default&quot;。例 &quot;openai&quot;
-* <b>`prompt_token_cost_unit`</b>: プロンプトトークンのコストの単位。デフォルトは &quot;USD&quot;。（現在は未使用。将来的に、コストの単位種別（例: &quot;tokens&quot; や &quot;time&quot;）を指定するために使用予定）
-* <b>`completion_token_cost_unit`</b>: 完了トークンのコストの単位。デフォルトは &quot;USD&quot;。（現在は未使用。将来的に、コストの単位種別（例: &quot;tokens&quot; や &quot;time&quot;）を指定するために使用予定）
-
-  **戻り値:**
-  `CostCreateRes` オブジェクト。`ids` という名前のフィールドを 1 つだけ持ち、タプルのリストになっている。各タプルは `llm_id` と、作成されたコストオブジェクトの `id` を含む。
+* <b>`completion_token_cost`</b>: 補完トークン 1 個あたりのコスト。例 .0015
+* <b>`effective_date`</b>: 省略時は現在の日付。datetime.datetime オブジェクト。
+* <b>`provider_id`</b>: LLM のプロバイダー。デフォルトは &quot;default&quot;。例 &quot;openai&quot;
+* <b>`prompt_token_cost_unit`</b>: プロンプトトークンのコストの単位。デフォルトは &quot;USD&quot;。（現在は未使用。将来的にコストの通貨種別を指定するために使用予定。例 &quot;tokens&quot; や &quot;time&quot;）
+* <b>`completion_token_cost_unit`</b>: 補完トークンのコストの単位。デフォルトは &quot;USD&quot;。（現在は未使用。将来的にコストの通貨種別を指定するために使用予定。例 &quot;tokens&quot; や &quot;time&quot;）
+  **Returns:**
+  CostCreateRes オブジェクト。`ids` と呼ばれるタプルのリストからなるフィールドを 1 つ持つ。各タプルには `llm_id` と、作成されたコストオブジェクトの id が含まれる。
 
 ***
 
@@ -109,9 +108,9 @@ client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=500, compl
 clear_wandb_run_context() → None
 ```
 
-wandb run コンテキストのオーバーライドをクリアします。
+wandb の run コンテキストのオーバーライドをクリアします。
 
-これを呼び出すと、その後の呼び出しでは、（利用可能であれば）グローバルな wandb.run が run&#95;id と step 情報の取得に使用されるようにフォールバックします。
+これを呼び出した後は、呼び出しは run&#95;id と step の情報について、（利用可能であれば）グローバルな wandb.run を使用するように戻ります。
 
 **例:**
 
@@ -128,7 +127,7 @@ client.clear_wandb_run_context()
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/telemetry/trace_sentry.py#L637" />
 
 
-### <kbd>メソッド</kbd> `create_call`
+### <kbd>method</kbd> `create_call`
 
 ```python
 create_call(
@@ -142,25 +141,25 @@ create_call(
 ) → Call
 ```
 
-ランタイムスタック上に Call を作成し、ログに記録してプッシュします。
+実行時スタックに積む call を作成し、ログに記録してプッシュします。
 
 **Args:**
 
-* <b>`op`</b>: Call を生成するオペレーション、または匿名オペレーションの名前。
+* <b>`op`</b>: call を生成するオペレーション、または匿名オペレーションの名前。
 * <b>`inputs`</b>: オペレーションへの入力。
-* <b>`parent`</b>: 親 Call。parent が指定されていない場合は、現在の run が親として使用されます。
-* <b>`display_name`</b>: Call の表示名。デフォルトは None。
-* <b>`attributes`</b>: Call の属性。デフォルトは None。
-* <b>`use_stack`</b>: Call をランタイムスタックにプッシュするかどうか。デフォルトは True。
+* <b>`parent`</b>: 親 call。parent が指定されていない場合、現在の run が親として使用されます。
+* <b>`display_name`</b>: call の表示名。デフォルトは None。
+* <b>`attributes`</b>: call の属性。デフォルトは None。
+* <b>`use_stack`</b>: call を実行時スタックにプッシュするかどうか。デフォルトは True。
   **Returns:**
-  作成された Call オブジェクトを返します。
+  作成された Call オブジェクト。
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/telemetry/trace_sentry.py#L1085" />
 
 
-### <kbd>method</kbd> `delete_all_object_versions`
+### <kbd>メソッド</kbd> `delete_all_object_versions`
 
 ```python
 delete_all_object_versions(object_name: 'str') → int
@@ -170,26 +169,26 @@ delete_all_object_versions(object_name: 'str') → int
 
 **引数:**
 
-* <b>`object_name`</b>: バージョンを削除する対象のオブジェクト名。
-  **戻り値:**
-  削除されたバージョン数。
+* <b>`object_name`</b>: バージョンを削除するオブジェクトの名前。
+  **返り値:**
+  削除したバージョンの数。
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/telemetry/trace_sentry.py#L1134" />
 
 
-### <kbd>method</kbd> `delete_all_op_versions`
+### <kbd>メソッド</kbd> `delete_all_op_versions`
 
 ```python
 delete_all_op_versions(op_name: 'str') → int
 ```
 
-指定された op のすべてのバージョンを削除します。
+op のすべてのバージョンを削除します。
 
 **引数:**
 
-* <b>`op_name`</b>: バージョンを削除する対象の op の名前。
+* <b>`op_name`</b>: 削除対象の op の名前。
   **戻り値:**
   削除されたバージョン数。
 
@@ -215,11 +214,11 @@ delete_call(call: 'Call') → None
 delete_calls(call_ids: 'list[str]') → None
 ```
 
-ID で呼び出しを削除します。
+ID を指定して call を削除します。
 
-呼び出しを削除すると、そのすべての子呼び出しも削除されます。
+call を削除すると、その子 call もすべて削除されます。
 
-**引数:**
+**Args:**
 
 ***
 
@@ -245,12 +244,12 @@ delete_object_versions(object_name: 'str', digests: 'list[str]') → int
 
 オブジェクトの特定のバージョンを削除します。
 
-* <b>`call_ids`</b>: 削除する呼び出し ID のリスト。例: [&quot;2F0193e107-8fcf-7630-b576-977cc3062e2e&quot;]
+* <b>`call_ids`</b>: 削除する call ID のリスト。例: [&quot;2F0193e107-8fcf-7630-b576-977cc3062e2e&quot;]
   **引数:**
 
-* <b>`object_name`</b>: バージョンを削除する対象オブジェクトの名前。
+* <b>`object_name`</b>: バージョンを削除するオブジェクトの名前。
 
-* <b>`digests`</b>: 削除するダイジェストのリスト。&quot;latest&quot; や &quot;v0&quot; のようなエイリアスを含めることができます。
+* <b>`digests`</b>: 削除する digest のリスト。&quot;latest&quot; や &quot;v0&quot; などのエイリアスを含めることができます。
   **戻り値:**
   削除されたバージョンの数。
 
@@ -259,7 +258,7 @@ delete_object_versions(object_name: 'str', digests: 'list[str]') → int
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/telemetry/trace_sentry.py#L1124" />
 
 
-### <kbd>メソッド</kbd> `delete_op_version`
+### <kbd>method</kbd> `delete_op_version`
 
 ```python
 delete_op_version(op: 'OpRef') → None
@@ -276,7 +275,7 @@ delete_op_version(op: 'OpRef') → None
 fail_call(call: 'Call', exception: 'BaseException') → None
 ```
 
-例外を発生させて呼び出しを失敗として終了させます。これは `finish_call` のためのヘルパーメソッドです。
+例外を送出して呼び出しを失敗させます。これは `finish_call` を簡便に呼び出すためのユーティリティメソッドです。
 
 ***
 
@@ -292,9 +291,9 @@ finish(
 ) → None
 ```
 
-すべてのバックグラウンドタスクをフラッシュし、確実に処理されるようにします。
+保留されているすべてのバックグラウンドタスクをフラッシュして、確実に処理されるようにします。
 
-このメソッドは、現在キューに入っているすべてのジョブが処理されるまでブロックし、保留中タスクの進行状況を示すプログレスバーを表示します。メインスレッドの実行中にも並列処理を行えるようにし、ユーザーコードの実行がデータのサーバー送信よりも先に完了する場合にパフォーマンスを改善できます。
+このメソッドは、現在キューに入っているジョブがすべて処理されるまでブロックし、保留中のタスクの状況を示すために進行状況バーを表示します。メインスレッドの実行中に並列処理を行うことで、ユーザーコードの実行がサーバーへのデータアップロード完了より先に終わる場合のパフォーマンスを向上させることができます。
 
 **Args:**
 
@@ -303,7 +302,7 @@ finish(
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/telemetry/trace_sentry.py#L828" />
 
 
-### <kbd>method</kbd> `finish_call`
+### <kbd>メソッド</kbd> `finish_call`
 
 ```python
 finish_call(
@@ -316,27 +315,27 @@ finish_call(
 
 呼び出しを確定し、その結果を永続化します。
 
-`call.summary` に含まれている値は、計算された要約統計量（例：使用量やステータスのカウント）とディープマージされてから、データベースに書き込まれます。
+`call.summary` に存在するすべての値は、計算された要約統計量（例: 使用量やステータスのカウント）とディープマージされたうえで、データベースに書き込まれます。
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/weave_client.py#L2010" />
 
 
-### <kbd>メソッド</kbd> `flush`
+### <kbd>method</kbd> `flush`
 
 ```python
 flush() → None
 ```
 
-バックグラウンドで実行中の非同期タスクをフラッシュします。複数回呼び出しても安全です。
+バックグラウンドで動作する非同期タスクをフラッシュします。複数回呼び出しても安全です。
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/telemetry/trace_sentry.py#L384" />
 
 
-### <kbd>メソッド</kbd> `get`
+### <kbd>method</kbd> `get`
 
 ```python
 get(ref: 'ObjectRef', objectify: 'bool' = True) → Any
@@ -358,22 +357,22 @@ get_call(
 ) → WeaveObject
 ```
 
-ID で指定された単一の呼び出しを取得します。
+ID で 1 件の call を取得します。
 
-* <b>`use_progress_bar`</b>: フラッシュ中にプログレスバーを表示するかどうか。プログレスバーが適切に表示されない環境（例: CI 環境）では False に設定します。
+* <b>`use_progress_bar`</b>: flush 時にプログレスバーを表示するかどうか。プログレスバーがうまく描画されない環境（例: CI 環境）では False に設定します。
 
-* <b>`callback`</b>: ステータス更新を受け取るオプションのコールバック関数。use&#95;progress&#95;bar より優先されます。
-  **引数:**
+* <b>`callback`</b>: ステータス更新を受け取るためのオプションのコールバック関数。`use_progress_bar` をオーバーライドします。
+  **Args:**
 
-* <b>`call_id`</b>: 取得する呼び出しの ID。
+* <b>`call_id`</b>: 取得する call の ID。
 
-* <b>`include_costs`</b>: true の場合、cost 情報が summary.weave に含まれます。
+* <b>`include_costs`</b>: true の場合、コスト情報が `summary.weave` に含まれます。
 
-* <b>`include_feedback`</b>: true の場合、feedback 情報が summary.weave.feedback に含まれます。
+* <b>`include_feedback`</b>: true の場合、フィードバック情報が `summary.weave.feedback` に含まれます。
 
-* <b>`columns`</b>: レスポンスに含めるカラムのリスト。None の場合、すべてのカラムが含まれます。指定するカラムを減らすと、より高いパフォーマンスが期待できます。次のカラムは常に含まれます: id, project&#95;id, trace&#95;id, op&#95;name, started&#95;at
-  **戻り値:**
-  呼び出しオブジェクト。
+* <b>`columns`</b>: レスポンスに含めるカラムのリスト。None の場合、すべてのカラムが含まれます。少ないカラムを指定するとパフォーマンスが向上する可能性があります。一部のカラムは常に含まれます（`id`, `project_id`, `trace_id`, `op_name`, `started_at`）。
+  **Returns:**
+  call オブジェクト。
 
 ***
 
@@ -401,32 +400,32 @@ get_calls(
 ) → CallsIter
 ```
 
-このプロジェクトのトレースされた呼び出し（オペレーション）の一覧を取得します。
+このプロジェクトのトレースされた呼び出し（operation）のリストを取得します。
 
-このメソッドは、トレースデータをクエリするための強力で柔軟なインターフェースを提供します。ページネーション、フィルタリング、ソート、フィールドの射影、スコアリング用メタデータをサポートしており、カスタムのトレース UI や分析ツールの基盤として利用できます。
+このメソッドは、トレースデータをクエリするための強力かつ柔軟なインターフェースを提供します。ページネーション、フィルタリング、ソート、フィールドの射影、スコアリング用メタデータをサポートし、カスタムのトレース UI や分析ツールの基盤として使用できます。
 
-パフォーマンス上のヒント: `columns` を指定し、`filter` または `query` を使用して結果サイズを削減してください。
+Performance Tip: 結果サイズを削減するために `columns` を指定し、`filter` または `query` を使用してください。
 
-**引数:**
+**Args:**
 
-* <b>`filter`</b>:  `op_name`、`parent_ids` などのフィールドで結果を絞り込むための高レベルフィルタ。
-* <b>`limit`</b>:  返す呼び出しの最大件数。
-* <b>`offset`</b>:  結果を返す前にスキップする呼び出しの件数（ページネーションに使用）。
+* <b>`filter`</b>:  `op_name`、`parent_ids` などのフィールドで結果を絞り込むための高レベルなフィルター。
+* <b>`limit`</b>:  返す呼び出しの最大数。
+* <b>`offset`</b>:  結果を返す前にスキップする呼び出し数（ページネーションに使用）。
 * <b>`sort_by`</b>:  結果をソートするフィールドのリスト（例: `started_at desc`）。
 * <b>`query`</b>:  高度なフィルタリングのための Mongo 風の式。すべての Mongo 演算子がサポートされているわけではありません。
-* <b>`include_costs`</b>:  True の場合、`summary.weave` にトークン/コスト情報を含めます。
+* <b>`include_costs`</b>:  True の場合、`summary.weave` にトークン／コスト情報を含めます。
 * <b>`include_feedback`</b>:  True の場合、`summary.weave.feedback` にフィードバックを含めます。
-* <b>`include_storage_size`</b>:  True の場合、呼び出しのストレージサイズを含めます。
-* <b>`include_total_storage_size`</b>:  True の場合、トレース全体のストレージサイズ合計を含めます。
-* <b>`columns`</b>:  呼び出しごとに返すフィールドのリスト。これを減らすとパフォーマンスを大幅に向上できます（`id`、`trace_id`、`op_name`、`started_at` など一部のフィールドは常に含まれます）。
-* <b>`scored_by`</b>:  1 つ以上の scorer（名前または ref URI）でフィルタします。複数の scorer は AND 条件になります。
+* <b>`include_storage_size`</b>:  True の場合、呼び出しごとのストレージサイズを含めます。
+* <b>`include_total_storage_size`</b>:  True の場合、トレース全体のストレージサイズの合計を含めます。
+* <b>`columns`</b>:  呼び出しごとに返すフィールドのリスト。これを減らすことでパフォーマンスが大幅に向上する可能性があります（`id`、`trace_id`、`op_name`、`started_at` など一部のフィールドは常に含まれます）。
+* <b>`scored_by`</b>:  1 つ以上の scorer（名前または ref URI）でフィルタリングします。複数の scorer は AND で結合されます。
 * <b>`page_size`</b>:  1 ページあたりに取得する呼び出し数。大規模なクエリではパフォーマンス向上のために調整してください。
 
-**戻り値:**
+**Returns:**
 
-* <b>`CallsIter`</b>:  `Call` オブジェクトに対するイテレータ。スライス、反復、および `.to_pandas()` をサポートします。
+* <b>`CallsIter`</b>:  `Call` オブジェクトに対するイテレーター。スライス、反復処理、および `.to_pandas()` をサポートします。
 
-**例:**
+**Example:**
 
 ```python
 calls = client.get_calls(
@@ -443,32 +442,32 @@ for call in calls:
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/weave_client.py#L446" />
 
 
-### <kbd>メソッド</kbd> `get_evaluation`
+### <kbd>method</kbd> `get_evaluation`
 
 ```python
 get_evaluation(uri: 'str') → Evaluation
 ```
 
-URI を指定して特定の Evaluation オブジェクトを取得します。
+URI で指定された特定の Evaluation オブジェクトを取得します。
 
-Evaluation の URI は通常、次の形式に従います: `weave:///entity/project/object/Evaluation:version`
+Evaluation の URI は一般的に次の形式に従います: `weave:///entity/project/object/Evaluation:version`
 
-&quot;フレンドリー&quot;な名前で Evaluation を取得することもできます: get&#95;evaluation(&quot;Evaluation:v1&quot;)
+&quot;フレンドリー&quot; な名前で Evaluation を取得することもできます: get&#95;evaluation(&quot;Evaluation:v1&quot;)
 
-**Args:**
+**引数:**
 
-* <b>`uri`</b> (str):  取得する Evaluation の一意のリソース識別子。
+* <b>`uri`</b> (str):  取得する Evaluation の一意なリソース識別子。
 
-**Returns:**
+**戻り値:**
 
 * <b>`Evaluation`</b>:  指定された URI に対応する Evaluation オブジェクト。
 
-**Raises:**
+**例外:**
 
-* <b>`TypeError`</b>:  URI で指定されるオブジェクトが Evaluation インスタンスではない場合。
+* <b>`TypeError`</b>:  URI で参照されるオブジェクトが Evaluation インスタンスでない場合。
 * <b>`ValueError`</b>:  URI が無効であるか、オブジェクトが見つからない場合。
 
-**Examples:**
+**使用例:**
 
 ```python
 client = weave.init("my-project")
@@ -481,19 +480,19 @@ print(evaluation.name)
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/weave_client.py#L481" />
 
 
-### <kbd>メソッド</kbd> `get_evaluations`
+### <kbd>method</kbd> `get_evaluations`
 
 ```python
 get_evaluations() → list[Evaluation]
 ```
 
-現在のプロジェクトから、すべての Evaluation オブジェクトを取得します。
+現在のプロジェクトからすべての Evaluation オブジェクトを取得します。
 
 **戻り値:**
 
-* <b>`list[Evaluation]`</b>:  現在のプロジェクト内のすべての Evaluation オブジェクトのリスト。評価が見つからない場合、またはすべての変換に失敗した場合は空リストになります。
+* <b>`list[Evaluation]`</b>:  現在のプロジェクト内のすべての Evaluation オブジェクトのリスト。評価が見つからない場合、またはすべての変換に失敗した場合は、空のリストを返します。
 
-**使用例:**
+**例:**
 
 ```python
 client = weave.init("my-project")
@@ -519,21 +518,21 @@ get_feedback(
 ) → FeedbackQuery
 ```
 
-プロジェクトからフィードバックをクエリします。
+フィードバック用のプロジェクトを検索します。
 
 **例:**
 
 ```python
-# 特定のフィードバックオブジェクトを取得する。
-# これはコレクションを返すことに注意。コレクションには
-# 0件または1件のアイテムが含まれることが想定される。
+# 特定のフィードバックオブジェクトを取得します。
+# これはコレクションを返すことに注意してください。コレクションには
+# 0 個または 1 個のアイテムが含まれることが想定されています。
 client.get_feedback("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
 
-# 特定のリアクションを持つすべてのフィードバックオブジェクトを検索する。
+# 特定のリアクションを持つすべてのフィードバックオブジェクトを検索します。
 client.get_feedback(reaction="👍", limit=10)
 
-# mongoスタイルのクエリを使用して、特定のフィードバックタイプを持つ
-# すべてのフィードバックオブジェクトを検索する。
+# mongo スタイルのクエリを使用して、特定のフィードバックタイプを持つ
+# すべてのフィードバックオブジェクトを検索します。
 from weave.trace_server.interface.query import Query
 
 query = Query(
@@ -551,9 +550,9 @@ client.get_feedback(query=query)
 
 **引数:**
 
-* <b>`query`</b>: Mongo 形式のクエリ式。便利のため、feedback の UUID 文字列も指定できます。
-* <b>`reaction`</b>: 便利のため、特定のリアクション絵文字でフィルタするための値。
-* <b>`offset`</b>: feedback オブジェクトの取得を開始する位置を示すオフセット。
+* <b>`query`</b>: Mongo 形式のクエリ式。便宜上、feedback の UUID 文字列も指定できます。
+* <b>`reaction`</b>: 便宜上、特定のリアクション絵文字でフィルターします。
+* <b>`offset`</b>: feedback オブジェクトの取得を開始する位置。
 * <b>`limit`</b>: 取得する feedback オブジェクトの最大数。
   **戻り値:**
   FeedbackQuery オブジェクト。
@@ -563,7 +562,7 @@ client.get_feedback(query=query)
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/weave_client.py#L1290" />
 
 
-### <kbd>メソッド</kbd> `purge_costs`
+### <kbd>method</kbd> `purge_costs`
 
 ```python
 purge_costs(ids: 'list[str] | str') → None
@@ -596,29 +595,28 @@ query_costs(
 ) → list[CostQueryOutput]
 ```
 
-プロジェクトのコスト情報を取得します。
+プロジェクトのコストをクエリします。
 
-* <b>`ids`</b>: 削除するコスト ID。単一の ID または ID のリストを指定できます。
+* <b>`ids`</b>: パージするコスト ID。単一の ID または ID のリストを指定できます。
   **例:**
 
 ```python
 # 特定のコストオブジェクトを取得する。
-# これはコレクションを返すことに注意。ゼロまたは1件の
-# アイテムが含まれることが想定される。
+# これはコレクションを返すことに注意。0 件または 1 件のアイテムが含まれることが想定される。
 client.query_costs("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
 
-# 特定のreactionを持つすべてのコストオブジェクトを検索する。
+# 特定の reaction を持つすべてのコストオブジェクトを検索する。
 client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 ```
 
 **引数:**
 
-* <b>`query`</b>: Mongo 形式のクエリ式。利便性のため、cost の UUID 文字列も受け付けます。
-* <b>`llm_ids`</b>: 利便性のため、指定した `llm_ids` の集合でフィルタリングします。
+* <b>`query`</b>: Mongo 形式のクエリ式。便宜上、cost UUID 文字列も受け付けます。
+* <b>`llm_ids`</b>: フィルタリングに使用する llm&#95;ids の集合。
 * <b>`offset`</b>: cost オブジェクトの取得を開始するオフセット。
 * <b>`limit`</b>: 取得する cost オブジェクトの最大数。
   **戻り値:**
-  `CostQuery` オブジェクト。
+  CostQuery オブジェクト。
 
 ***
 
@@ -631,7 +629,7 @@ client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 save(val: 'Any', name: 'str', branch: 'str' = 'latest') → Any
 ```
 
-このメソッドを直接呼び出さず、代わりに weave.publish() を使用してください。
+直接呼び出さずに、代わりに `weave.publish()` を使用してください。
 
 **引数:**
 
@@ -640,7 +638,7 @@ save(val: 'Any', name: 'str', branch: 'str' = 'latest') → Any
 * <b>`branch`</b>: オブジェクトを保存するブランチ。デフォルトは「latest」。
 
 **戻り値:**
-保存されたオブジェクトのデシリアライズ済みバージョン。
+保存されたオブジェクトをデシリアライズしたもの。
 
 ***
 
@@ -653,25 +651,24 @@ save(val: 'Any', name: 'str', branch: 'str' = 'latest') → Any
 set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
 ```
 
-このクライアントが作成する call に対して、wandb の `run_id` と step を上書きします。
+このクライアントが作成する呼び出しに対して、wandb の run&#95;id と step を上書きします。
 
-これにより、グローバルな `wandb.run` シンボルに紐付いていない特定の W&amp;B の run に Weave の call を関連付けることができます。
+これにより、グローバルな wandb.run シンボルに結び付いていない特定の W&amp;B の run に Weave 呼び出しを関連付けることができます。
 
 **引数:**
 
-* <b>`run_id`</b>: run の ID（entity/project プレフィックスを含まない）。クライアントが自動的に entity/project プレフィックスを付与します。
-* <b>`step`</b>: call に使用する step 番号。None の場合、step は設定されません。
-
-**使用例:**
+* <b>`run_id`</b>: run ID（entity/project プレフィックスを含まない）。クライアントは自動的に entity/project プレフィックスを追加します。
+* <b>`step`</b>: 呼び出しで使用する step 番号。None の場合、step は設定されません。
+  **例:**
 
 ```python
 client = weave.init("my-project")
 client.set_wandb_run_context(run_id="my-run-id", step=5)
-# これ以降のすべての呼び出しは、ステップ5のentity/project/my-run-idに関連付けられます
+# これ以降のすべての呼び出しは、ステップ 5 の entity/project/my-run-id に関連付けられます
 
 # ステップを指定しない場合
 client.set_wandb_run_context(run_id="my-run-id")
-# 呼び出しはステップなしでentity/project/my-run-idに関連付けられます
+# 呼び出しはステップなしで entity/project/my-run-id に関連付けられます
 ```
 
 ***

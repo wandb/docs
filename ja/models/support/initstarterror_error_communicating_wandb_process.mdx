@@ -2,12 +2,12 @@
 title: 'InitStartError: wandb プロセスとの通信エラー'
 ---
 
-このエラーは、サーバーへデータを同期するプロセスの起動時に、ライブラリで問題が発生したことを示します。
+このエラーは、データをサーバーと同期するプロセスをライブラリが起動しようとした際に問題が発生したことを示します。
 
-特定の環境では、以下の回避策でこの問題を解消できます。
+以下の回避策により、特定の環境でこの問題を解消できます：
 
 <Tabs>
-<Tab title="Linux and OS X">
+<Tab title="Linux と OS X">
 ```python
 wandb.init(settings=wandb.Settings(start_method="fork"))
 ```
@@ -15,7 +15,7 @@ wandb.init(settings=wandb.Settings(start_method="fork"))
 </Tab>
 <Tab title="Google Colab">
 
-`0.13.0` より前のバージョンでは、次を使用します:
+バージョン `0.13.0` より前では、以下を使用してください：
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))

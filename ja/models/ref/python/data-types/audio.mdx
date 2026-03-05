@@ -11,30 +11,30 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Audio`
 
-W&B の音声クリップ用クラスです。 
+音声クリップを扱う W&B クラスです。 
 
 ### <kbd>method</kbd> `Audio.__init__`
 
 ```python
 __init__(
-    data_or_path: Union[str, pathlib.Path, list, ForwardRef('np.ndarray')],
-    sample_rate: Optional[int] = None,
-    caption: Optional[str] = None
+    data_or_path: 'str | pathlib.Path | list | np.ndarray',
+    sample_rate: 'int | None' = None,
+    caption: 'str | None' = None
 )
 ```
 
-音声ファイルへのパス、または音声データの NumPy 配列を受け取ります。
+音声ファイルへのパスまたは音声データの NumPy 配列を受け取ります。
 
-**Args:**
+**引数:**
 
 * `data_or_path`:  音声ファイルへのパス、または音声データの NumPy 配列。
-* `sample_rate`:  サンプリングレート。生の音声データを NumPy 配列として渡す場合に必須です。
+* `sample_rate`:  サンプリングレート。生の NumPy 配列の音声データを渡す場合は必須。
 * `caption`:  音声と一緒に表示するキャプション。
 
 ***
 
 
-### <kbd>classmethod</kbd> `Audio.durations`
+### <kbd>クラスメソッド</kbd> `Audio.durations`
 
 ```python
 durations(audio_list)

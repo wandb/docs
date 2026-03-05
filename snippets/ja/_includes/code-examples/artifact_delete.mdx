@@ -1,23 +1,23 @@
 ---
-title: アーティファクトの削除
+title: Artifacts の削除
 ---
 
 ```python
 """
-W&B の run から特定のアーティファクトバージョンを削除します。アーティファクトにエイリアスが付いている場合は、delete_aliases を `True` に設定してください。
+W&B の run から特定の Artifacts バージョンを削除します。 Artifacts にエイリアスが付いている場合は、delete_aliases を `True` に設定してください。
 """
 import wandb
 
 # W&B API を初期化する
 api = wandb.Api()
 
-# パスで run を取得する。<entity>/<project>/<run_path> の形式で指定する
+# パスで run を取得する。<entity>/<project>/<run_path> で構成される
 runs = api.run("<entity>/<project>/<run_path>")
 
-# wandb.Api().Run.logged_artifacts() はアーティファクト名とバージョン <artifact_name>:v<version_number> で構成される
-# アーティファクトバージョンのリストを返す
+# wandb.Api().Run.logged_artifacts() は Artifacts 名とバージョン <artifact_name>:v<version_number> で構成される
+# Artifacts バージョンのリストを返す
 for artifact_version in runs.logged_artifacts():
-    # アーティファクトバージョン名 (str) の末尾2文字（バージョン番号）を取得する
+    # バージョン番号を含む Artifacts バージョン名 (str) の末尾2文字を取得する
     if artifact_version.name[-2:] == "v"+ "<version_number>":
         artifact_version.delete(delete_aliases=True)
 ```

@@ -11,20 +11,18 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Plotly`
 
-Plotly のプロット用の W&B クラスです。 
+Plotly のプロット用の W&B クラス。 
 
 ### <kbd>メソッド</kbd> `Plotly.__init__`
 
 ```python
-__init__(
-    val: Union[ForwardRef('plotly.Figure'), ForwardRef('matplotlib.artist.Artist')]
-)
+__init__(val: 'plotly.Figure | matplotlib.artist.Artist')
 ```
 
 Plotly オブジェクトを初期化します。
 
-**引数:**
+**Args:**
 
-* `val`:  Matplotlib または Plotly の Figure オブジェクト。
+* `val`:  Matplotlib または Plotly の figure オブジェクト。
 
 ***

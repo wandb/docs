@@ -1,11 +1,11 @@
 ---
-title: 自己管理環境における SSL/TLS 要件
+title: セルフマネージド環境における SSL/TLS 要件
 ---
 
-W&B では、クライアントとサーバー間の安全な通信のために、有効な署名付き SSL/TLS 証明書が必要です。SSL/TLS の終端は必ず ingress／ロードバランサー上で行う必要があります。W&B Server アプリケーションは SSL または TLS 接続を終端しません。
+W&B は、クライアントとサーバー間で安全に通信するために、有効な署名付き SSL/TLS 証明書を必要とします。SSL/TLS の終端処理は Ingress やロードバランサー上で行う必要があります。W&B Server アプリケーションは SSL や TLS 接続を終端しません。
 
-**重要**: W&B は自己署名証明書およびカスタム CA をサポートしません。自己署名証明書を使用するとユーザーにとって問題となり、サポート対象外となります。
+**重要**: W&B は自己署名証明書やカスタム CA をサポートしません。自己署名証明書を使用するとユーザーに問題が発生し、サポート対象外となります。
 
-可能であれば、[Let's Encrypt](https://letsencrypt.org) のようなサービスを利用することで、ロードバランサーに対して信頼された証明書を提供できます。Caddy や Cloudflare のようなサービスは、SSL を代行管理してくれます。
+可能であれば、[Let's Encrypt](https://letsencrypt.org) のようなサービスを使用することで、信頼された証明書をロードバランサーに提供する優れた方法となります。Caddy や Cloudflare のようなサービスは、SSL を管理してくれます。
 
-セキュリティポリシーによって、信頼済みネットワーク内でも SSL 通信が必要な場合は、Istio や [サイドカーコンテナ](https://istio.io/latest/docs/reference/config/networking/sidecar/) のようなツールの利用を検討してください。
+セキュリティポリシーによって、信頼できるネットワーク内部でも SSL 通信が必要な場合は、Istio や [sidecar コンテナ](https://istio.io/latest/docs/reference/config/networking/sidecar/) のようなツールの利用を検討してください。

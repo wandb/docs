@@ -1,11 +1,11 @@
 ---
-title: 専用クラウドへのプライベート接続を構成する
+title: Dedicated Cloud へのプライベート接続を構成する
 ---
 
-クラウドプロバイダーが提供する安全なプライベートネットワーク経由で、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud/) インスタンスに接続できます。これは、AI ワークロードから W&amp;B API へのアクセスに加え、オプションでユーザーのブラウザから W&amp;B アプリ UI へのアクセスにも適用されます。プライベート接続を使用すると、該当するリクエストとレスポンスはパブリックネットワークやインターネットを経由しません。
+クラウドプロバイダーの安全なプライベートネットワーク経由で、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud/) インスタンスに接続できます。これは、AI ワークロードから W&amp;B API へのアクセスに適用され、オプションでユーザーのブラウザから W&amp;B アプリ UI へのアクセスにも適用されます。プライベート接続を使用すると、該当するリクエストとレスポンスはパブリックネットワークやインターネットを経由しません。
 
 <Note>
-  Secure private connectivity は、Dedicated Cloud における高度なセキュリティオプションとして近日提供予定です。
+  Secure private connectivity は、Dedicated Cloud 向けの高度なセキュリティオプションとして近日提供予定です。
 </Note>
 
 Secure private connectivity は、AWS、Google Cloud、Azure 上の Dedicated Cloud インスタンスで利用できます。
@@ -14,10 +14,10 @@ Secure private connectivity は、AWS、Google Cloud、Azure 上の Dedicated Cl
 * Google Cloud 上では [Google Cloud Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) を使用
 * Azure 上では [Azure Private Link](https://azure.microsoft.com/products/private-link) を使用
 
-有効化されると、W&amp;B はインスタンス向けにプライベートエンドポイントサービスを作成し、接続に使用する関連 DNS URI を提供します。これにより、クラウドアカウント内にプライベートエンドポイントを作成し、関連トラフィックをそのプライベートエンドポイントサービスにルーティングできます。プライベートエンドポイントは、クラウド VPC や VNet 内で動作する AI 学習ワークロードに対して、より容易にセットアップできます。ユーザーのブラウザから W&amp;B アプリ UI へのトラフィックにも同じ仕組みを使うには、社内ネットワークからクラウドアカウント内のプライベートエンドポイントへの、DNS ベースの適切なルーティングを構成する必要があります。
+有効化すると、W&amp;B はインスタンス向けにプライベートエンドポイントサービスを作成し、接続に使用する DNS URI を提供します。これにより、クラウドアカウント内にプライベートエンドポイントを作成し、該当トラフィックをプライベートエンドポイントサービスにルーティングできます。プライベートエンドポイントは、クラウド VPC や VNet 内で動作する AI トレーニングワークロード向けには、セットアップが容易です。ユーザーのブラウザから W&amp;B アプリ UI へのトラフィックにも同じ仕組みを利用する場合は、社内ネットワークからクラウドアカウント内のプライベートエンドポイントへの適切な DNS ベースのルーティングを構成する必要があります。
 
 <Note>
-  この機能を利用したい場合は、担当の W&amp;B チームまでお問い合わせください。
+  この機能の利用を希望する場合は、W&amp;B チームにお問い合わせください。
 </Note>
 
-[IP allowlisting](./ip-allowlisting) とあわせて secure private connectivity を使用できます。IP allowlisting に対して secure private connectivity を使用する場合、W&amp;B は、特権のある場所からのインスタンス管理には IP allowlisting を使用しつつ、AI ワークロードからの全トラフィックと、可能であればユーザーのブラウザからのトラフィックの大部分について secure private connectivity で保護することを推奨します。
+Secure private connectivity は [IP allowlisting](./ip-allowlisting) と併用できます。IP allowlisting のために Secure private connectivity を使用する場合、W&amp;B では、AI ワークロードからのすべてのトラフィックと、可能であればユーザーのブラウザからのトラフィックの大部分を Secure private connectivity で保護しつつ、特権的な場所からのインスタンス管理には IP allowlisting を使用することを推奨します。

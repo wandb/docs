@@ -8,10 +8,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
-
 ## <kbd>class</kbd> `Project`
 
-プロジェクトは run の名前空間として機能します。
+プロジェクトは run の名前空間です。
 
 ### <kbd>method</kbd> `Project.__init__`
 
@@ -28,29 +27,42 @@ __init__(
 
 * `client`:  W&amp;B API クライアント インスタンス。
 * `name` (str):  プロジェクトの名前。
-* `entity` (str):  プロジェクトを所有するエンティティの名前。
+* `entity` (str):  プロジェクトを所有するエンティティ名。
 
 エンティティに関連付けられた単一のプロジェクト。
 
 **引数:**
 
-* `client`:  W&amp;B をクエリするために使用する API クライアント。
+* `client`:  W&amp;B をクエリするために使用される API クライアント。
 * `entity`:  プロジェクトを所有するエンティティ。
-* `project`:  クエリ対象のプロジェクト名。
+* `project`:  クエリ対象のプロジェクトの名前。
 * `attrs`:  プロジェクトの属性。
 
 ***
 
-
 ### <kbd>プロパティ</kbd> Project.id
 
----
+***
+
+### <kbd>property</kbd> Project.owner
+
+プロジェクトの所有者を User オブジェクトとして返します。
+
+**例外:**
+
+* `ValueError`:  プロジェクトのユーザー情報が見つからない場合に送出されます。
+
+**戻り値:**
+
+* `public.User`: owner プロパティの値。
+
+***
 
 ### <kbd>property</kbd> Project.path
 
-プロジェクトのパスを返します。パスはエンティティ名とプロジェクト名からなるリストです。
+プロジェクトのパスを返します。パスは entity 名とプロジェクト名からなるリストです。
 
-**戻り値:**
+**Returns:**
 
 - `list[str]`: path プロパティの値。
 
@@ -58,11 +70,11 @@ __init__(
 
 ### <kbd>property</kbd> Project.url
 
-このプロジェクトの URL を返します。
+プロジェクトの URL を返します。 
 
 **戻り値:**
 
-- `str`: url プロパティの値。
+- `str`: URL プロパティの値。
 
 ---
 
@@ -72,10 +84,9 @@ __init__(
 artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
-このプロジェクトに関連するすべてのアーティファクトタイプを返します。
+このプロジェクトに関連するすべての Artifacts タイプを返します。
 
 ***
-
 
 ### <kbd>method</kbd> `Project.sweeps`
 
@@ -83,13 +94,13 @@ artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
-このプロジェクト内のページネーションされたスイープのコレクションを返します。
+このプロジェクト内の sweep のページネーションされたコレクションを返します。
 
 **引数:**
 
-* `per_page`:  API への 1 回のリクエストで取得するスイープの数。
+* `per_page`:  API へのリクエストごとに取得する sweep の数。
 
 **戻り値:**
-`Sweep` オブジェクトからなるイテラブルなコレクションである `Sweeps` オブジェクトを返します。
+`Sweep` オブジェクトからなるイテラブルなコレクションである `Sweeps` オブジェクト。
 
 ***

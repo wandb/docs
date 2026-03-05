@@ -1,8 +1,8 @@
 ---
-title: スイープ内の run からモデルを効果的にログするにはどうすればよいですか？
+title: sweep 内の run から モデル を最適にログするには？
 ---
 
-[スイープ](/ja/models/sweeps/) 内でモデルをログする効果的な方法の 1 つは、スイープ用のモデル アーティファクトを作成することです。各バージョンはスイープ内の異なる run に対応します。次のように実装します。
+[sweep](/ja/models/sweeps/) で モデル をログするための効果的な方法の 1 つは、その sweep 用の モデル Artifacts を作成することです。各バージョンが、その sweep 内の異なる run を表します。実装方法は次のとおりです。
 
 ```python
 wandb.Artifact(name="sweep_name", type="model")

@@ -11,31 +11,31 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Histogram`
 
-ヒストグラム用の W&B クラス。
+ヒストグラム用の W&amp;B クラスです。
 
-このオブジェクトは、NumPy の histogram 関数 https://numpy.org/doc/stable/reference/generated/numpy.histogram.html と同様に動作します。
+このオブジェクトは numpy の `histogram` 関数 https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html と同様に動作します。
 
 **属性:**
 
-- `bins` ([float]): ビンの境界値。
- - `histogram` ([int]): 各ビンに入る要素数。 
+* `bins` ([float]):  ビンの境界
+* `histogram` ([int]):  各ビンに入る要素数。 
 
-### <kbd>メソッド</kbd> `Histogram.__init__`
+### <kbd>method</kbd> `Histogram.__init__`
 
 ```python
 __init__(
-    sequence: Optional[Sequence] = None,
-    np_histogram: Optional[ForwardRef('NumpyHistogram')] = None,
-    num_bins: int = 64
+    sequence: 'Sequence | None' = None,
+    np_histogram: 'NumpyHistogram | None' = None,
+    num_bins: 'int' = 64
 ) → None
 ```
 
 Histogram オブジェクトを初期化します。
 
-**Args:**
-sequence: ヒストグラムの入力データ列。np&#95;histogram: 事前計算済みのヒストグラムを入力として与えるための代替引数。num&#95;bins: ヒストグラムのビン数。デフォルトのビン数は 64 です。ビン数の最大値は 512 です。
+**引数:**
+sequence: ヒストグラム用の入力データ。 np&#95;histogram: 事前に計算済みヒストグラムを入力として指定します。 num&#95;bins: ヒストグラムのビン数。デフォルトのビン数は 64 で、最大ビン数は 512 です。
 
-**Examples:**
+**例:**
 シーケンスからヒストグラムを生成します。
 
 ```python

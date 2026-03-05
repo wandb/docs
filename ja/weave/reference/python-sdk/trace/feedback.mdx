@@ -1,13 +1,13 @@
 ---
 title: "feedback"
-description: "weave.trace.feedback の Python SDK リファレンス"
+description: "Weave.trace.feedback の Python SDK リファレンス"
 ---
 
 import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 
 <div id="api-overview">
-  # API 概要
+  # API の概要
 </div>
 
 ---
@@ -16,7 +16,7 @@ import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `FeedbackQuery`
 
-サーバーからフィードバックを遅延的に取得するためのオブジェクト。
+サーバーからフィードバックを取得するための遅延ロード用オブジェクト。
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L97" />
 
@@ -38,7 +38,7 @@ __init__(
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L145" />
 
 
-### <kbd>メソッド</kbd> `execute`
+### <kbd>method</kbd> `execute`
 
 ```python
 execute() → Feedbacks
@@ -73,7 +73,7 @@ refs() → Refs
 
 ## <kbd>class</kbd> `Feedbacks`
 
-Feedback オブジェクトのコレクションと、それを扱うためのユーティリティ。
+Feedback オブジェクトのコレクションおよび操作用ユーティリティ。
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L26" />
 
@@ -97,7 +97,7 @@ __init__(
 refs() → Refs
 ```
 
-これらのフィードバックに関連付けられている一意な ref を返します。
+これらのフィードバックに関連付けられている ref のうち、一意なものを返します。
 
 ***
 
@@ -110,7 +110,7 @@ refs() → Refs
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L173" />
 
-### <kbd>メソッド</kbd> `__init__`
+### <kbd>method</kbd> `__init__`
 
 ```python
 __init__(ref: 'str') → None
@@ -133,9 +133,9 @@ add(
 ) → str
 ```
 
-ref にフィードバックを追加します。
+ref に対してフィードバックを追加します。
 
-feedback&#95;type: フィードバックの種類を表す文字列。「wandb.」というプレフィックスは予約されています。 creator: フィードバックの投稿者として表示する名前。
+feedback&#95;type: フィードバックの種類を識別する文字列。&quot;wandb.&quot; プレフィックスは予約されています。creator: フィードバックの作成者として表示する名前。
 
 ***
 

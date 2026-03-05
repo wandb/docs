@@ -1,16 +1,16 @@
 ---
-title: 自己管理環境でのインストールの検証
+title: セルフマネージド環境のインストール検証
 ---
 
-インストールを検証するには、W&amp;B では [W&amp;B CLI](/ja/models/ref/cli/) の使用を推奨します。`verify` コマンドは、すべてのコンポーネントと設定が正しく動作しているか確認するために、いくつかのテストを実行します。
+インストールを検証するには、W&amp;B は [W&amp;B CLI](/ja/models/ref/cli/) の使用を推奨します。verify コマンドは、すべてのコンポーネントと設定を確認するための複数のテストを実行します。
 
 <Note>
-  この手順では、最初の管理者ユーザーアカウントがブラウザーで作成されていることを前提とします。
+  この手順では、最初の管理者ユーザーアカウントがブラウザーで作成されていることを前提としています。
 </Note>
 
 次の手順に従ってインストールを検証します。
 
-1. W&amp;B CLI をインストールします。
+1. W&amp;B CLI をインストールします：
 
 ```bash
 pip install wandb
@@ -34,20 +34,20 @@ wandb login --host=https://wandb.company-name.com
 wandb verify
 ```
 
-インストールが正常に完了し、W&amp;B デプロイ環境が問題なく動作している場合は、次のような出力が表示されます。
+インストールが正常に完了し、W&amp;B のデプロイメントが問題なく動作している場合、次のような出力が表示されます。
 
 ```console
-選択されたデフォルトホスト:  https://wandb.company-name.com
-このテストの詳細ログの保存先: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
-ログイン状態を確認中...................................................✅
-署名付きURLアップロードを確認中..............................................✅
-プロキシ経由で大きなペイロードを送信できるか確認中...................✅
-ベースURLへのリクエストを確認中...........................................✅
-署名付きURLを使用したリクエストを確認中.................................✅
-バケットのCORS設定を確認中...............................✅
-wandbパッケージのバージョンが最新か確認中............................✅
-ログされたメトリクスの確認、ファイルの保存とダウンロードを確認中..................✅
-アーティファクトの保存とダウンロードのワークフローを確認中...........................✅
+Default host selected:  https://wandb.company-name.com
+Find detailed logs for this test at: /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
+Checking if logged in...................................................✅
+Checking signed URL upload..............................................✅
+Checking ability to send large payloads through proxy...................✅
+Checking requests to base url...........................................✅
+Checking requests made over signed URLs.................................✅
+Checking CORs configuration of the bucket...............................✅
+Checking wandb package version is up to date............................✅
+Checking logged metrics, saving and downloading a file..................✅
+Checking artifact save and download workflows...........................✅
 ```
 
-エラーが発生した場合は W&amp;B サポートまでお問い合わせください。
+エラーが発生した場合は W&amp;B Support までお問い合わせください。

@@ -17,10 +17,10 @@ W&B에 동영상을 로깅하는 클래스입니다.
 
 ```python
 __init__(
-    data_or_path: Union[str, pathlib.Path, ForwardRef('np.ndarray'), ForwardRef('TextIO'), ForwardRef('BytesIO')],
-    caption: Optional[str] = None,
-    fps: Optional[int] = None,
-    format: Optional[Literal['gif', 'mp4', 'webm', 'ogg']] = None
+    data_or_path: 'str | pathlib.Path | np.ndarray | TextIO | BytesIO',
+    caption: 'str | None' = None,
+    fps: 'int | None' = None,
+    format: "Literal['gif', 'mp4', 'webm', 'ogg'] | None" = None
 )
 ```
 
@@ -41,7 +41,7 @@ import numpy as np
 import wandb
 
 with wandb.init() as run:
-    # 축 순서: (프레임 수, 채널, 높이, 너비)
+    # 축은 (프레임 수, 채널, 높이, 너비) 순서입니다
     frames = np.random.randint(
          low=0, high=256, size=(10, 3, 100, 100), dtype=np.uint8
     )

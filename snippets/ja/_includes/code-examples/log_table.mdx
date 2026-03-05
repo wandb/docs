@@ -1,10 +1,10 @@
 ---
-title: "テーブルのログ記録"
+title: テーブルをログに記録する
 ---
 
 ```python
 """
-W&B にテーブルをログする。
+W&B にテーブルをログします。
 """
 import wandb
 
@@ -17,6 +17,6 @@ my_table = wandb.Table(
 
 # 新しい run を開始する
 with wandb.init(project="<project>") as run:
-    # W&B にテーブルをログする
+    # テーブルを W&B にログする
     run.log({"<table_name>": my_table})
 ```

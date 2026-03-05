@@ -1,0 +1,56 @@
+---
+title: "Call スキーマ リファレンス"
+description: "Call オブジェクトの構造とプロパティに関するリファレンス"
+---
+
+このページでは、W&amp;B Weave における Call オブジェクトのスキーマのリファレンスを提供します。Call のクエリ方法については、[Call のクエリとエクスポート](/ja/weave/guides/tracking/querying-calls) を参照してください。
+
+<div id="call-properties">
+  ## Call プロパティ
+</div>
+
+以下の表は、Weave の Call の主なプロパティを示します。完全な実装については次を参照してください。
+
+* Python SDK の [class: CallSchema](/ja/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)
+* TypeScript SDK の [Interface: CallSchema](/ja/weave/reference/typescript-sdk/interfaces/callschema)
+
+| Property       | Type                 | Description                               |
+| -------------- | -------------------- | ----------------------------------------- |
+| `id`           | string (uuid)        | Call の一意な識別子                              |
+| `project_id`   | string (optional)    | 関連付けられているプロジェクトの識別子                       |
+| `op_name`      | string               | オペレーション名 (参照を指す場合があります)                   |
+| `display_name` | string (optional)    | Call のユーザー向けのわかりやすい表示名                    |
+| `trace_id`     | string (uuid)        | この Call が属する trace の識別子                   |
+| `parent_id`    | string (uuid)        | 親 Call の識別子                               |
+| `started_at`   | datetime             | Call が開始された時刻のタイムスタンプ                     |
+| `attributes`   | Dict[str, Any]       | Call に関するユーザー定義メタデータ (実行中は読み取り専用)         |
+| `inputs`       | Dict[str, Any]       | Call の入力パラメーター                            |
+| `ended_at`     | datetime (optional)  | Call が終了した時刻のタイムスタンプ                      |
+| `exception`    | string (optional)    | Call が失敗した場合のエラーメッセージ                     |
+| `output`       | Any (optional)       | Call の実行結果                                |
+| `summary`      | Optional[SummaryMap] | 実行後のサマリー情報。実行中にこれを変更して、カスタム メトリクスを記録できます。 |
+| `wb_user_id`   | Optional[str]        | 関連付けられている W&amp;B ユーザー ID                 |
+| `wb_run_id`    | Optional[str]        | 関連付けられている W&amp;B run ID                  |
+| `deleted_at`   | datetime (optional)  | 該当する場合、Call が削除された時刻のタイムスタンプ              |
+
+<div id="property-details">
+  ## プロパティの詳細
+</div>
+
+`CallSchema` のプロパティは、関数呼び出しの追跡と管理において重要な役割を果たします。
+
+* `id`、`trace_id`、`parent_id` プロパティは、システム内で呼び出しを整理し、相互に関連付けるのに役立ちます。
+
+* タイミング情報 (`started_at`、`ended_at`) はパフォーマンス分析を支援します。
+
+* `attributes` と `inputs` プロパティは呼び出しのコンテキストを提供します。`attributes` は呼び出しが開始されると固定されるため、`weave.attributes` を使って呼び出し前に設定してください。`output` と `summary` は結果を保持します。
+
+* `summary` プロパティには、メトリクスやその他の呼び出し後の値を保存できます。実行中に `call.summary` を変更してください。追加した値はすべて、Call の終了時に Weave の計算済みサマリーデータとマージされます。
+  * Weave の計算済みサマリーデータ:
+    * `costs`: LLM モデルの利用データとトークン単価データに基づく、その呼び出しの合計コスト。コスト計算の詳細については、[コストを追跡する](/ja/weave/guides/tracking/costs) を参照してください。
+    * `latency_ms`: `started_at` から `ended_at` までに経過した時間 (ミリ秒) 。`status` が `RUNNING` の場合は `null`。
+    * `status`: 実行ステータス。`SUCCESS`、`ERROR`、`RUNNING`、`DESCENDANT_ERROR` (呼び出し自体は成功したが、子孫の呼び出しがエラーになったことを意味します)。 {/* [empty ref](/weave/reference/python-sdk/trace_server/trace_server_interface#class-tracestatus)*/}
+
+* W&amp;B とのインテグレーションは、`wb_user_id` と `wb_run_id` を通じて行われます。
+
+この包括的なプロパティ群により、プロジェクト全体で関数呼び出しを詳細に追跡し、分析することができます。

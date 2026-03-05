@@ -2,48 +2,48 @@
 title: "使用例"
 linkTitle: "Examples"
 description: >
-  実用的なコード例を通じて W&B Inference の使い方を学びます
+  実用的なコード例を通して W&B Inference の使い方を学びます
 ---
 
-これらの例では、W&amp;B Inference を Weave と組み合わせて使用し、トレース、評価、比較を行う方法を紹介します。
+これらの例では、W&amp;B Inference を Weave と組み合わせてトレース、評価、比較を行う方法を示します。
 
 <div id="basic-example-trace-llama-31-8b-with-weave">
-  ## 基本的な例: Weave を使って Llama 3.1 8B をトレースする
+  ## 基本的な例: Weave で Llama 3.1 8B をトレースする
 </div>
 
-この例では、**Llama 3.1 8B** モデルにプロンプトを送信し、その呼び出しを Weave でトレースする方法を示します。トレースにより、LLM 呼び出しのすべての入力と出力が記録され、パフォーマンスが監視され、Weave UI 上で結果を分析できます。
+この例では、**Llama 3.1 8B** モデルにプロンプトを送信し、その呼び出しを Weave でトレースする方法を示します。トレースでは、LLM 呼び出しの入力と出力がすべて記録され、パフォーマンスが監視され、Weave UI で結果を分析できます。
 
 <Tip>
-  [Weave におけるトレーシング](/ja/weave/guides/tracking/tracing)の詳細をご確認ください。
+  [tracing in Weave](/ja/weave/guides/tracking/tracing) について詳しく学びましょう。
 </Tip>
 
-この例では次のことを行います:
+この例では、次のことを行います:
 
-* チャット補完リクエストを行う `@weave.op()` デコレータ付き関数を定義する
-* トレースが記録され、W&amp;B のエンティティおよびプロジェクトに関連付けられる
-* 関数が自動的にトレースされ、入力、出力、レイテンシ、およびメタデータがログに記録される
-* 結果がターミナルに出力され、トレースが [https://wandb.ai](https://wandb.ai) の **Traces** タブに表示される
+* チャット補完のリクエストを行う `@weave.op()` でデコレートされた関数を定義します
+* トレースは記録され、W&amp;B entity とプロジェクトにリンクされます
+* 関数は自動的にトレースされ、入力、出力、レイテンシ、およびメタデータがログに記録されます
+* 結果はターミナルに表示され、トレースは [https://wandb.ai](https://wandb.ai) の **Traces** タブに表示されます
 
-この例を実行する前に、[前提条件](/ja/inference/prerequisites/)を満たしておいてください。
+この例を実行する前に、[prerequisites](/ja/inference/prerequisites/) を完了してください。
 
 ```python
 import weave
 import openai
 
-# トレース用のWeaveチームとプロジェクトを設定する
+# トレース用の Weave チームとプロジェクトを設定する
 weave.init("<your-team>/<your-project>")
 
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
 
-    # https://wandb.ai/settings でAPIキーを作成する
+    # https://wandb.ai/settings で API キーを作成する
     api_key="<your-api-key>",
 
     # オプション: 使用状況追跡用のチームとプロジェクト
     project="wandb/inference-demo",
 )
 
-# WeaveでモデルのコールをトレースするWeave
+# Weave でモデル呼び出しをトレースする
 @weave.op()
 def run_chat():
     response = client.chat.completions.create(
@@ -55,21 +55,21 @@ def run_chat():
     )
     return response.choices[0].message.content
 
-# トレースされたコールを実行してログに記録する
+# トレースされた呼び出しを実行してログに記録する
 output = run_chat()
 print(output)
 ```
 
-コードを実行した後、Weave でトレースを表示するには、次のいずれかを行います。
+コードを実行した後、Weave 内で trace を確認するには、次のいずれかの方法を使用します：
 
-1. ターミナルに出力されたリンクをクリックする（例: `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`）
-2. または [https://wandb.ai](https://wandb.ai) にアクセスし、**Traces** タブを選択する
+1. ターミナルに表示されたリンクをクリックします（例: `https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`）
+2. または [https://wandb.ai](https://wandb.ai) にアクセスし、**Traces** タブを選択します
 
 <div id="advanced-example-use-weave-evaluations-and-leaderboards">
-  ## 応用例: Weave Evaluations と Leaderboards を利用する
+  ## 高度な例: Weave Evaluations と Leaderboards の使用
 </div>
 
-モデル呼び出しのトレースに加えて、パフォーマンスを評価して Leaderboard を公開することもできます。この例では、質問応答データセット上で 2 つのモデルを比較します。
+モデル呼び出しのトレースに加えて、パフォーマンスを評価し、リーダーボードを公開することもできます。この例では、質問応答 データセットで 2 つのモデルを比較します。
 
 この例を実行する前に、[前提条件](/ja/inference/prerequisites/) を満たしてください。
 
@@ -81,7 +81,7 @@ import weave
 from weave.flow import leaderboard
 from weave.trace.ref_util import get_ref
 
-# トレース用のWeaveチームとプロジェクトを設定する
+# トレース用の Weave チームとプロジェクトを設定する
 weave.init("<your-team>/<your-project>")
 
 dataset = [
@@ -100,7 +100,7 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # https://wandb.ai/settings でAPIキーを作成する
+            # https://wandb.ai/settings で API キーを作成する
             api_key="<your-api-key>",
             # オプション: 使用状況追跡用のチームとプロジェクト
             project="<your-team>/<your-project>",
@@ -145,14 +145,14 @@ spec = leaderboard.Leaderboard(
 weave.publish(spec)
 ```
 
-このコードを実行したら、[https://wandb.ai/](https://wandb.ai/) で自分の W&amp;B アカウントにアクセスし、次の操作を行ってください。
+このコードを実行したら、[https://wandb.ai/](https://wandb.ai/) の自分の W&amp;B アカウントにアクセスし、次を行います:
 
-* **Traces** タブを選択して、[トレースを表示](/ja/weave/guides/tracking/tracing)します
-* **Evals** タブを選択して、[モデルの評価結果を表示](/ja/weave/guides/core-types/evaluations)します
-* **Leaders** タブを選択して、[生成されたリーダーボードを表示](/ja/weave/guides/core-types/leaderboards)します
+* **Traces** タブを選択して、[traces を表示](/ja/weave/guides/tracking/tracing) します
+* **Evals** タブを選択して、[モデル評価を表示](/ja/weave/guides/core-types/evaluations) します
+* **Leaders** タブを選択して、[生成されたリーダーボードを表示](/ja/weave/guides/core-types/leaderboards) します
 
 <Frame>
-  <img src="/images/inference/inference-advanced-evals.png" alt="モデルの評価結果を表示" />
+  <img src="/images/inference/inference-advanced-evals.png" alt="モデル評価を表示" />
 </Frame>
 
 <Frame>
@@ -163,5 +163,5 @@ weave.publish(spec)
   ## 次のステップ
 </div>
 
-* 利用可能なメソッドの一覧は [API リファレンス](/ja/inference/api-reference/) を参照してください
-* [UI](/ja/inference/ui-guide/) でモデルを試してください
+* 利用可能なすべてのメソッドについては [API reference](/ja/inference/api-reference/) を参照してください
+* [UI](/ja/inference/ui-guide/) でモデルを試してみてください

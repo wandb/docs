@@ -1,9 +1,9 @@
 ---
-title: ハイパーパラメータのログ記録
+title: ハイパーパラメーターをログに記録する
 ---
 
 ```python
-"""W&B の run を初期化し、ハイパーパラメータをログします。"""
+"""W&B の run を初期化し、ハイパーパラメーターをログします。"""
 import wandb
 
 config = {
@@ -13,6 +13,6 @@ config = {
 }
 
 with wandb.init(project="<project>", config=config) as run:
-    # 学習およびログのコードをここに記述
+    # トレーニングとロギングのコードをここに記述します
     pass
 ```

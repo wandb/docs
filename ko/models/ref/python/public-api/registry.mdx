@@ -196,7 +196,10 @@ import wandb
 
 api = wandb.Api()
 
-# 기존 레지스트리 가져오기
+<div id="fetch-an-existing-registry">
+  # 기존 레지스트리 가져오기
+</div>
+
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -321,7 +324,10 @@ import wandb
 
 api = wandb.Api()
 
-# 기존 레지스트리 가져오기
+<div id="fetch-an-existing-registry">
+  # 기존 레지스트리 가져오기
+</div>
+
 registry = api.registry(name="my-registry", organization="my-org")
 
 user1 = api.user(username="some-user")
@@ -385,30 +391,32 @@ update_member(
 * `ValueError`:  사용자 또는 팀 ID를 유추할 수 없는 경우 발생합니다.
 
 **Examples:**
-레지스트리의 모든 사용자를 admin으로 설정하기
-
-```python
+레지스트리의 모든 사용자를 admin으로 설정하기 ```python
 import wandb
 
 api = wandb.Api()
 
-# 기존 레지스트리 가져오기
-registry = api.registry(name="my-registry", organization="my-org")
 
-for member in registry.user_members():
-    registry.update_member(member.user, role="admin")
-```
+<div id="fetch-an-existing-registry">
+  # 기존 레지스트리 가져오기
+</div>
 
-***
+registry = api.registry(name=&quot;my-registry&quot;, organization=&quot;my-org&quot;)
 
+for member in registry.user&#95;members():
+registry.update&#95;member(member.user, role=&quot;admin&quot;)
+
+````
+
+---
 
 ### <kbd>메서드</kbd> `Registry.user_members`
 
 ```python
 user_members() → list[UserMember]
-```
+````
 
-현재 이 레지스트리의 멤버 사용자 목록을 반환합니다.
+이 레지스트리에 현재 속한 사용자 멤버를 반환합니다.
 
 ***
 

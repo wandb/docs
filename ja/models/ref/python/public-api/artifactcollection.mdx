@@ -8,34 +8,32 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
-
 ## <kbd>class</kbd> `ArtifactCollection`
 
-関連するアーティファクトのグループを表すアーティファクトコレクション。
+関連する Artifacts のグループを表す Artifacts コレクション。 
 
-**Args:**
+**引数:**
 
-- `client`:  W&B へのクエリに使用するクライアントインスタンス。 
- - `entity`:  プロジェクトを所有するエンティティ（ユーザーまたはチーム）。 
- - `project`:  アーティファクトコレクションをクエリする対象のプロジェクト名。 
- - `name`:  アーティファクトコレクションの名前。 
- - `type`:  アーティファクトコレクションの種類（例: "dataset", "model"）。 
- - `organization`:  該当する場合の省略可能な組織名。 
- - `attrs`:  アーティファクトコレクションを初期化する属性の省略可能なマッピング。 指定されない場合、オブジェクトは初期化時に W&B から属性を読み込みます。 
+- `client`:  W&B をクエリするために使用するクライアントインスタンス。 
+ - `entity`:  プロジェクトの所有者であるエンティティ（ユーザーまたはチーム）。 
+ - `project`:  Artifacts コレクションをクエリする対象のプロジェクト名。 
+ - `name`:  Artifacts コレクションの名前。 
+ - `type`:  Artifacts コレクションの種別（例: "dataset"、"model"）。 
+ - `organization`:  該当する場合のオプションの organization 名。 
+ - `attrs`:  Artifacts コレクションを初期化するためのオプションの属性マッピング。指定されていない場合、オブジェクトは初期化時に W&B から属性を読み込みます。 
 
 ### <kbd>property</kbd> ArtifactCollection.aliases
 
-このコレクションに含まれるすべてのアーティファクト バージョンに対するエイリアス。
+このコレクションに含まれるすべての Artifacts バージョンに対するエイリアス。 
 
 **戻り値:**
 
-- `list[str]`: `aliases` プロパティの値。
-
+- `list[str]`: aliases プロパティの値。
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.created_at
 
-アーティファクトコレクションの作成日時。
+Artifacts コレクションの作成日時。
 
 **戻り値:**
 
@@ -45,18 +43,19 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ### <kbd>property</kbd> ArtifactCollection.description
 
-アーティファクトコレクションの説明。
+Artifacts コレクションの説明です。
 
-**戻り値:**
+**Returns:**
 
 - `str | None`: description プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.entity
 
-プロジェクトの所有者であるエンティティ（ユーザーまたはチーム）。
+プロジェクトの所有者である entity（ユーザーまたはチーム）。
 
-**戻り値:**
+**Returns:**
 
 - `str`: entity プロパティの値。
 
@@ -64,7 +63,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ### <kbd>property</kbd> ArtifactCollection.id
 
-アーティファクトコレクションの一意の識別子。
+Artifacts コレクションの一意の識別子。
 
 **Returns:**
 
@@ -74,36 +73,37 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ### <kbd>property</kbd> ArtifactCollection.name
 
-アーティファクトコレクションの名前。 
+Artifacts コレクションの名前。
 
-**Returns:**
+**戻り値:**
 
-- `str`: `name` プロパティの値。
+- `str`: name プロパティの値。
 
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.project
 
-アーティファクトコレクションを含むプロジェクト。
+Artifacts コレクションを含むプロジェクト。 
 
 **Returns:**
 
-- `str`: project プロパティの値。
+- `str`: `project` プロパティの値。
 
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.tags
 
-アーティファクトコレクションに紐づいているタグ。
+この Artifacts コレクションに関連付けられているタグ。
 
 **戻り値:**
 
-- `list[str]`: tags プロパティの値。
+- `list[str]`: `tags` プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.type
 
-アーティファクトコレクションのタイプを返します。 
+この Artifacts コレクションのタイプを返します。 
 
 ---
 
@@ -113,21 +113,19 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 artifacts(per_page: 'int' = 50) → Artifacts
 ```
 
-コレクション内のすべてのアーティファクトを取得します。
+コレクション内のすべての Artifacts を取得します。
 
 ***
 
-
-### <kbd>method</kbd> `ArtifactCollection.change_type`
+### <kbd>メソッド</kbd> `ArtifactCollection.change_type`
 
 ```python
 change_type(new_type: 'str') → None
 ```
 
-このメソッドは非推奨です。代わりに `save` を使用して型を直接変更してください。
+非推奨です。代わりに `save` を使って型を直接変更してください。
 
 ***
-
 
 ### <kbd>メソッド</kbd> `ArtifactCollection.delete`
 
@@ -135,10 +133,9 @@ change_type(new_type: 'str') → None
 delete() → None
 ```
 
-アーティファクトコレクション全体を削除します。
+Artifacts コレクション全体を削除します。
 
 ***
-
 
 ### <kbd>メソッド</kbd> `ArtifactCollection.is_sequence`
 
@@ -146,10 +143,9 @@ delete() → None
 is_sequence() → bool
 ```
 
-アーティファクトコレクションがシーケンスであるかどうかを返します。
+Artifacts コレクションがシーケンスであるかどうかを返します。
 
 ***
-
 
 ### <kbd>method</kbd> `ArtifactCollection.save`
 
@@ -157,4 +153,4 @@ is_sequence() → bool
 save() → None
 ```
 
-アーティファクトコレクションに加えた変更を保存します。
+Artifacts コレクションへの変更を保存します。

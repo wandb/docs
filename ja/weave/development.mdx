@@ -1,16 +1,16 @@
 ---
 title: '開発'
-description: 'ローカル環境で変更をプレビューしてドキュメントを更新する'
+description: 'ローカルで変更をプレビューしてドキュメントを更新する'
 ---
 
 <Info>
-  **前提条件**: 作業を続ける前に Node.js（バージョン 19 以上）をインストールしてください。 <br />
-  続行する前に `docs.json` にアップグレードし、旧 `mint.json` ファイルを削除してください。
+  **前提条件**: 事前に Node.js（バージョン 19 以上）をインストールしてください。 <br />
+  続行する前に `docs.json` に移行し、旧 `mint.json` ファイルを削除してください。
 </Info>
 
 お使いのオペレーティングシステムで Mintlify をインストールして実行するには、次の手順に従ってください。
 
-**ステップ 1**: Mintlify をインストールします。
+**ステップ 1**: Mintlify をインストールします:
 
 <CodeGroup>
   ```bash npm
@@ -22,29 +22,29 @@ description: 'ローカル環境で変更をプレビューしてドキュメン
   ```
 </CodeGroup>
 
-**ステップ 2**: docs ディレクトリ（`docs.json` ファイルがあるディレクトリ）に移動し、次のコマンドを実行します。
+**ステップ 2**: docs ディレクトリ（`docs.json` ファイルがある場所）に移動し、次のコマンドを実行します:
 
 ```bash
 mintlify dev
 ```
 
-ドキュメントのローカルプレビューには `http://localhost:3000` でアクセスできます。
+ドキュメントのローカルプレビューには `http://localhost:3000` からアクセスできます。
 
 
 <div id="custom-ports">
   ### カスタムポート
 </div>
 
-デフォルトでは、Mintlify はポート 3000 を使用します。`--port` フラグを使うことで、Mintlify が使用するポートを変更できます。たとえば、Mintlify をポート 3333 で起動するには、次のコマンドを実行します。
+デフォルトでは、Mintlify はポート 3000 を使用します。`--port` フラグを使用すると、Mintlify が使用するポート番号を変更できます。たとえば Mintlify をポート 3333 で実行するには、次のコマンドを使用します。
 
 ```bash
 mintlify dev --port 3333
 ```
 
-既に使用中のポートで Mintlify を起動しようとすると、Mintlify は次に利用可能なポートを自動的に使用します。
+すでに使用中のポートで Mintlify を起動しようとすると、自動的に次に利用可能なポートが使用されます。
 
 ```md
-Port 3000 is already in use. Trying 3001 instead.
+ポート 3000 はすでに使用中です。代わりに 3001 を試します。
 ```
 
 
@@ -52,7 +52,7 @@ Port 3000 is already in use. Trying 3001 instead.
   ## Mintlify のバージョン
 </div>
 
-各 CLI リリースは特定の Mintlify バージョンに対応しています。ローカル環境のサイトが本番環境で使用しているバージョンと一致していない場合は、次のコマンドで CLI を更新してください：
+各 CLI リリースは特定の Mintlify バージョンに紐づいていることに注意してください。ローカルのウェブサイトが本番環境で使用しているバージョンと一致していない場合は、次のコマンドで CLI を更新してください。
 
 <CodeGroup>
 
@@ -70,7 +70,7 @@ yarn global upgrade mintlify
   ## リンクの検証
 </div>
 
-CLI は、ドキュメント内で使用している参照リンクの検証に役立ちます。リンク切れを特定するには、次のコマンドを実行します。
+CLI を使うと、ドキュメント内で作成した参照リンクを検証できます。リンク切れを特定するには、次のコマンドを実行します。
 
 ```bash
 mintlify broken-links
@@ -82,34 +82,34 @@ mintlify broken-links
 </div>
 
 <Tip>
-  [Proプラン](https://mintlify.com/pricing)以上では、編集者を無制限に利用できます。
+  [Pro Plan](https://mintlify.com/pricing) 以上のプランでは、エディターを無制限に利用できます。
 </Tip>
 
 デプロイが成功すると、すべてのチェックに合格したことを示す確認メッセージが表示されます。
 
 <div id="code-formatting">
-  ## コードフォーマット
+  ## コードのフォーマット
 </div>
 
-MDX を認識してフォーマットできるように、ご利用の IDE に拡張機能を追加することをおすすめします。VS Code のユーザーであれば、構文ハイライト用に [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)、コードフォーマットには [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) の利用を検討してください。
+MDX を認識してフォーマットできるように、IDE に拡張機能を導入することをおすすめします。VS Code のユーザーであれば、シンタックスハイライト用に [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)、コードフォーマット用に [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) の利用を検討してください。
 
 <div id="troubleshooting">
   ## トラブルシューティング
 </div>
 
 <AccordionGroup>
-  <Accordion title='エラー: darwin-arm64 ランタイムで "sharp" モジュールを読み込めませんでした'>
+  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
 
-    原因として、古いバージョンの Node.js を使用している可能性があります。次の手順を試してください：
-    1. 現在インストールされている mintlify を削除します: `npm remove -g mintlify`
-    2. Node v19 以降にアップグレードします。
-    3. mintlify を再インストールします: `npm install -g mintlify`
+    これは古いバージョンの Node.js が原因の可能性があります。次の手順を試してください：
+    1. 現在インストールされている mintlify を削除します：`npm remove -g mintlify`
+    2. Node v19 以上にアップグレードします。
+    3. mintlify を再インストールします：`npm install -g mintlify`
   </Accordion>
 
-  <Accordion title="問題: 不明なエラーが発生する">
+  <Accordion title="Issue: Encountering an unknown error">
   
-    解決策: ホームディレクトリに移動し、\~/.mintlify ディレクトリを削除します。その後、再度 `mintlify dev` を実行します。
+    解決策：デバイスのルートディレクトリに移動し、\~/.mintlify フォルダを削除します。その後、再度 `mintlify dev` を実行します。
   </Accordion>
 </AccordionGroup>
 
-CLI バージョンで何が変わったか知りたいですか？[CLI の変更履歴を確認してください。](https://www.npmjs.com/package/mintlify?activeTab=versions)
+CLI バージョンで何が変更されたか知りたい場合は、[CLI changelog を確認してください。](https://www.npmjs.com/package/mintlify?activeTab=versions)
