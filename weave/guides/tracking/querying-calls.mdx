@@ -1,0 +1,111 @@
+---
+title: "Query and export Calls"
+description: "Filter, sort, and export your W&B Weave Call data"
+---
+
+In the Weave UI, you can export your data in multiple formats.  It also shows the Python and cURL code that you can use to export the rows programatically. 
+To export Calls:
+1. Navigate to [wandb.ai](https://wandb.ai/) and select your project.
+1. In the Weave project sidebar, click **Traces**.
+1. Select multiple Calls that you want to export by checking the row.
+1. In the **Traces** table toolbar, click the export/download button.
+1. In the **Export** modal, choose **Selected rows** or **All rows**. Click Export.
+
+<Frame>
+![Traces page showing selected Calls ready for export in the Export modal.](/weave/guides/tracking/imgs/trace_export_modal.png)
+</Frame>
+
+
+
+## Fetch calls programmatically
+
+<Tabs>
+  <Tab title="Python">
+  To fetch calls using the Python API, you can use the [`client.get_calls`](/weave/reference/python-sdk/trace/weave_client#method-get_calls) method:
+
+  ```python lines
+  import weave
+
+  # Initialize the client
+  client = weave.init("your-project-name")
+
+  # Fetch calls
+  calls = client.get_calls(filter=...)
+  ```
+
+  </Tab>
+  <Tab title="TypeScript">
+  To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/weaveclient#getcalls) method.
+  ```typescript
+  import * as weave from 'weave'
+
+  // Initialize the client
+  const client = await weave.init('intro-example')
+
+  // Fetch calls
+  const calls = await client.getCalls(filter=...)
+  ```
+  </Tab>
+  <Tab title="HTTP API">
+  The most powerful query layer is at the Service API. To fetch calls using the Service API, you can make a request to the [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) endpoint.
+
+  ```bash
+  curl -L 'https://trace.wandb.ai/calls/stream_query' \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -d '{
+  "project_id": "string",
+  "filter": {
+      "op_names": [
+          "string"
+      ],
+      "input_refs": [
+          "string"
+      ],
+      "output_refs": [
+          "string"
+      ],
+      "parent_ids": [
+          "string"
+      ],
+      "trace_ids": [
+          "string"
+      ],
+      "call_ids": [
+          "string"
+      ],
+      "trace_roots_only": true,
+      "wb_user_ids": [
+          "string"
+      ],
+      "wb_run_ids": [
+          "string"
+      ]
+  },
+  "limit": 100,
+  "offset": 0,
+  "sort_by": [
+      {
+      "field": "string",
+      "direction": "asc"
+      }
+  ],
+  "query": {
+      "$expr": {}
+  },
+  "include_costs": true,
+  "include_feedback": true,
+  "columns": [
+      "string"
+  ],
+  "expand_columns": [
+      "string"
+  ]
+  }'
+  ```
+  </Tab>
+</Tabs>
+
+For complete details on call properties and fields, see the [Call schema reference](/weave/guides/tracking/call-schema-reference).
+
+
