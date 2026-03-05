@@ -78,10 +78,12 @@ exclude = [
   '(http|https)://dspy-docs\.vercel\.app',
   '(http|https)://istio\.org',
   '(http|https)://.*\.?hhs\.gov',
+  '(http|https)://letsencrypt\.org',
   '(http|https)://.*\.?netapp\.com',
   '(http|https)://netflixtechblog\.com',
   '(http|https)://.*\.?opentelemetry\.io',
   '(http|https)://.*\.?portal\.azure\.com',
+  '(http|https)://slurm\.schedmd\.com',
 
   # Public knowledge or code resource with non-200/robot issues
   'https://wiki.python.org/moin/UsingPickle',
