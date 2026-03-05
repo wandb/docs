@@ -34,7 +34,7 @@ import SelfManagedObtainLicense from "/snippets/ja/_includes/self-managed-obtain
 
 <SelfManagedHardwareRequirements />
 
-ユースケース（Models のみ、Weave のみ、または両方）に応じた詳細なサイジングの推奨事項については、[リファレンスアーキテクチャのサイジングに関するセクション](/ja/platform/hosting/self-managed/ref-arch/#sizing)を参照してください。
+ユースケース (Models のみ、Weave のみ、または両方) に応じた詳細なサイジングの推奨事項については、[リファレンスアーキテクチャのサイジングに関するセクション](/ja/platform/hosting/self-managed/ref-arch/#sizing)を参照してください。
 
 <div id="kubernetes">
   ## Kubernetes
@@ -43,9 +43,9 @@ import SelfManagedObtainLicense from "/snippets/ja/_includes/self-managed-obtain
 W&amp;B Server は、複数の pod を管理する [Kubernetes Operator](/ja/platform/hosting/self-managed/operator/) としてデプロイされます。Kubernetes クラスターは次の要件を満たしている必要があります：
 
 * **Version**: 上記の [Software version requirements](#software-version-requirements) を参照
-* **Ingress controller**: 適切に設定され、正常に動作している ingress controller（Nginx、Istio、Traefik、またはクラウドプロバイダー提供の ingress）
+* **Ingress controller**: 適切に設定され、正常に動作している ingress controller (Nginx、Istio、Traefik、またはクラウドプロバイダー提供の ingress) 
 * **Persistent volumes**: 永続ボリュームをプロビジョニングできること
-* **CPU architecture**: Intel または AMD の 64-bit（ARM はサポートされていません）
+* **CPU architecture**: Intel または AMD の 64-bit (ARM はサポートされていません) 
 
 W&amp;B は、クラウド、オンプレミス、およびエアギャップ環境での [OpenShift Kubernetes クラスター](https://www.redhat.com/en/technologies/cloud-computing/openshift) へのデプロイをサポートします。具体的な設定手順については、Operator ガイドの [OpenShift section](/ja/platform/hosting/self-managed/operator/#openshift-kubernetes-clusters) を参照してください。
 

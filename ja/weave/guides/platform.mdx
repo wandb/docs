@@ -31,7 +31,7 @@ Weave には、次のデプロイオプションがあります。
 * **専用クラウド:** データは、任意に選択したクラウドおよびリージョン内の一意の Clickhouse Cloud クラスターに保存されます。一意のコンピュート環境がデータを処理し、さらに次のような追加の保護が適用されます。
   * **[IP allowlisting](/ja/platform/hosting/data-security/ip-allowlisting):** 特定の IP アドレスからのみインスタンスへのアクセスを許可します。これはオプション機能です。
   * **[Private connectivity](/ja/platform/hosting/data-security/private-connectivity):** クラウドプロバイダーのプライベートネットワークを経由してデータを安全にルーティングします。これはオプション機能です。
-  * **[Data encryption](/ja/platform/hosting/data-security/data-encryption):** W&amp;B は、W&amp;B が管理する一意の暗号鍵を使用して、保存データ（data at rest）を暗号化します。
+  * **[Data encryption](/ja/platform/hosting/data-security/data-encryption):** W&amp;B は、W&amp;B が管理する一意の暗号鍵を使用して、保存データ (data at rest) を暗号化します。
   * **Clickhouse クラスターのセキュリティ:** W&amp;B は、クラウドプロバイダーのプライベートネットワーク経由で、Dedicated Cloud インスタンス専用の一意の Clickhouse Cloud クラスターに接続します。さらに、Clickhouse のファイルレベル暗号化を活用しつつ、W&amp;B が管理する一意の暗号鍵を用いてクラスター自体も暗号化します。
 
 <Warning>
@@ -52,4 +52,4 @@ SaaS Cloud または Dedicated Cloud で Weave を利用している場合は、
   SOC 2 レポートやその他のセキュリティおよびコンプライアンス関連ドキュメントをリクエストするには、[W&amp;B Security Portal](https://security.wandb.ai/) を参照するか、詳細については担当の W&amp;B チームにお問い合わせください。
 </Tip>
 
-SaaS Cloud と Dedicated Cloud の双方におけるセキュリティ統制は、社内および外部機関による定期的な監査を受けています。両方のプラットフォームは SOC 2 Type II に準拠しています。さらに、Dedicated Cloud は、生成 AI アプリケーションの構築において PHI（保護対象医療情報）データを扱う組織向けに HIPAA に準拠しています。
+SaaS Cloud と Dedicated Cloud の双方におけるセキュリティ統制は、社内および外部機関による定期的な監査を受けています。両方のプラットフォームは SOC 2 Type II に準拠しています。さらに、Dedicated Cloud は、生成 AI アプリケーションの構築において PHI (保護対象医療情報) データを扱う組織向けに HIPAA に準拠しています。

@@ -469,7 +469,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 今後の変更点
 
-  * 今後のリリースでは、マルチ run 用ビューと単一 run 用ビューの Workspace 表示を統一します。これにより、単一の run にドリルダウンした際にも、マルチ run ビューで設定したのと同じレイアウトとパネル構成（カスタムチャート、レイアウト、設定を含む）が表示されます。これによって、常にコンテキストを保ちつつ、ビューの設定に関する再作業を避けられるようにすることを目的としています。ただし、この変更により、Workspace 内の他のビューから切り離された、単一 run 専用にカスタマイズしたビューを持つことはできなくなります。移行について質問がある場合は、担当の W&amp;B チームまたは [サポート](mailto:support@wandb.ai) までお問い合わせください。
+  * 今後のリリースでは、マルチ run 用ビューと単一 run 用ビューの Workspace 表示を統一します。これにより、単一の run にドリルダウンした際にも、マルチ run ビューで設定したのと同じレイアウトとパネル構成 (カスタムチャート、レイアウト、設定を含む) が表示されます。これによって、常にコンテキストを保ちつつ、ビューの設定に関する再作業を避けられるようにすることを目的としています。ただし、この変更により、Workspace 内の他のビューから切り離された、単一 run 専用にカスタマイズしたビューを持つことはできなくなります。移行について質問がある場合は、担当の W&amp;B チームまたは [サポート](mailto:support@wandb.ai) までお問い合わせください。
   * 今後数回のリリースにわたって、既存のチームレベルの Model Registry を W&amp;B Registry へ順次移行していきます。詳細やスケジュールの再確認については、以下の [W&amp;B Registry GA アナウンス](#registry_ga_announcement) を参照してください。
 
   ## 既知の問題
@@ -480,8 +480,8 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * <a id="registry_ga_announcement" aria-label="W&B Registry GA のお知らせ" />既存のチームレベルの Model Registry を、今後数回のリリースにわたり段階的に W&amp;B Registry へ移行していきます。**お客様側での対応は一切不要です。W&amp;B が各チームの Model Registry のアセットを、自動的に作成される対応するチームレベルのプライベートレジストリにコピーします。**既存のチームレベルの旧 Model Registry 内のモデルコレクションへの参照も、引き続きそのままご利用いただけます。
 
-    1. Server v0.73（本リリース）には、アップグレード中にチームの Model Registry を自動的に移行するためのオプトアウト用環境変数が用意されています。多くの組織では、移行には 5〜30 分かかります。移行中は、古い Model Registry または新しい Registry のいずれかに Artifacts をリンクしようとすると、エラーとなり失敗します。**Artifacts のログ記録および取得は影響を受けません**。
-    2. Server v0.74（9 月末）では、このオプトアウトフラグを削除し、アップグレード中に移行が実行されるようにします。
+    1. Server v0.73 (本リリース) には、アップグレード中にチームの Model Registry を自動的に移行するためのオプトアウト用環境変数が用意されています。多くの組織では、移行には 5〜30 分かかります。移行中は、古い Model Registry または新しい Registry のいずれかに Artifacts をリンクしようとすると、エラーとなり失敗します。**Artifacts のログ記録および取得は影響を受けません**。
+    2. Server v0.74 (9 月末) では、このオプトアウトフラグを削除し、アップグレード中に移行が実行されるようにします。
 
     より強力な新しいエクスペリエンスへのシームレスなアップグレードを実現するため、最適化を進めています。移行について質問がある場合は、W&amp;B アカウント チーム、または [support](mailto:support@wandb.ai) までお問い合わせください。
   * [Run Logs console ページ](/ja/models/app/console-logs) にコピーボタンを追加し、貼り付け時の動作を改善しました。
@@ -780,7 +780,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * run を `Groups` 間で、個別または一括で移動できるようになりました。また、初回のログ記録が行われた後でも、新しい `Groups` を作成できるようになりました。
   * 折れ線グラフで **同期ズーム** モードがサポートされました。このモードでは、あるグラフで特定の範囲にズームすると、共通の x 軸を持つ他のすべての折れ線グラフも自動的に同じ範囲にズームされます。これは [折れ線グラフ用のワークスペース表示設定](/ja/models/app/features/panels/line-plot/#all-line-plots-in-a-workspace) で有効にできます。
   * ラインプロットで、カスタム メトリクスをタイムスタンプ形式で表示できるようになりました。これは、別のシステムから run を同期またはアップロードする際に便利です。
-  * `epoch` や `train/global_step`（任意の他のフィールド）など、`_step` 以外のフィールドを使って [media panels](/ja/models/app/features/panels/media) をスライドして切り替えられるようになりました。
+  * `epoch` や `train/global_step` (任意の他のフィールド) など、`_step` 以外のフィールドを使って [media panels](/ja/models/app/features/panels/media) をスライドして切り替えられるようになりました。
   * `runs` または `runs.history` の式を使用する [Query Panels](/ja/models/app/features/panels/query-panels) 内の Tables やプロットでは、ステップスライダーを使って、run の進行に伴うメトリクス、テキスト、メディアの変化を順に確認できます。スライダーは `_step` 以外のメトリクスについてもステップごとの移動をサポートします。
   * 今後は、フォントサイズ コントロールを使用して [bar chart](/ja/models/app/features/panels/bar-plot) のラベルをカスタマイズできるようになりました。
 
@@ -828,7 +828,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.67.0" description="2025年3月28日">
   ## 機能
 
-  * Reports では、各パネル グリッドごとに run にカスタム表示名を設定できるようになりました。これにより、run の（しばしば長くて分かりにくい）トレーニング時の名前を、閲覧者にとってより意味のある名前に置き換えることができます。レポートはすべてのパネル グリッドでその名前を更新し、あなたが苦労して得た実験からの貴重な知見を、同僚に対して簡潔で読みやすい形で説明するのに役立ちます。元の run 名はプロジェクト内でそのまま保持されるため、この操作によって共同作業者への影響が生じることはありません。
+  * Reports では、各パネル グリッドごとに run にカスタム表示名を設定できるようになりました。これにより、run の (しばしば長くて分かりにくい) トレーニング時の名前を、閲覧者にとってより意味のある名前に置き換えることができます。レポートはすべてのパネル グリッドでその名前を更新し、あなたが苦労して得た実験からの貴重な知見を、同僚に対して簡潔で読みやすい形で説明するのに役立ちます。元の run 名はプロジェクト内でそのまま保持されるため、この操作によって共同作業者への影響が生じることはありません。
   * ワークスペースでパネルを展開すると、より広い表示領域を使うフルスクリーンモードで開くようになりました。このビューでは、折れ線グラフが最大 10,000 個のビンを使用して、より細かい粒度でレンダリングされます。run セレクターはパネルの横に表示され、そのパネルのコンテキスト内で run を簡単に切り替え、グループ化、フィルタリングできます。
   * 任意のパネルから、そのパネルの全画面ビューに直接リンクする一意の URL をコピーできるようになりました。これにより、プロット内の興味深いパターンや異常なパターンを詳しく掘り下げるためのリンクを、これまでよりも簡単に共有できます。
   * Run Comparer は、重要な run の設定や主要なメトリクスを、それぞれの損失曲線と並べて比較できる強力なツールです。Run Comparer は次のように更新されました。
@@ -851,7 +851,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * W&amp;B Weave の Playground は、新たに OpenAI の `gpt-4.5-preview` と Deepseek の `deepseek-chat` および `deepseek-reasoner` をサポートしました。
   * Weave の tracing に、CrewAI と OpenAI の Agent SDK という 2 つの新しいエージェント フレームワーク インテグレーションが追加されました。
   * Weave UI 上で traces から Datasets を作成できるようになりました。[詳しくはこちら](/ja/weave/guides/core-types/datasets#create-edit-and-delete-a-dataset-in-the-ui)
-  * Weave Python SDK は、機密データがネットワークの境界外へ出てしまわないように、Weave データの入力および出力をフィルタリングする手段を提供します。機密データをマスク（redact）するように設定できます。詳細はこちら: /weave/guides/tracking/redact-pii/
+  * Weave Python SDK は、機密データがネットワークの境界外へ出てしまわないように、Weave データの入力および出力をフィルタリングする手段を提供します。機密データをマスク (redact) するように設定できます。詳細はこちら: /weave/guides/tracking/redact-pii/
   * 作業をより効率化するため、今後のリリースで、個々の run の Workspace ビューにある System タブは削除されます。Workspace の System セクションで、システム メトリクスに関するすべての情報を確認できます。ご不明な点がある場合は、[support@wandb.com](mailto:support@wandb.com) までお問い合わせください。
 
   ## セキュリティ

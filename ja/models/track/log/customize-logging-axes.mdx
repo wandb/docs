@@ -48,7 +48,7 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-例として、次のコードスニペットは `x_axis_squared` というカスタム x 軸を作成します。カスタム x 軸の値は、for ループのインデックス `i` の二乗（`i**2`）です。y 軸は、Python の組み込み `random` モジュールを使って生成した検証損失（`"validation_loss"`）のモック値で構成されています。
+例として、次のコードスニペットは `x_axis_squared` というカスタム x 軸を作成します。カスタム x 軸の値は、for ループのインデックス `i` の二乗 (`i**2`) です。y 軸は、Python の組み込み `random` モジュールを使って生成した検証損失 (`"validation_loss"`) のモック値で構成されています。
 
 ```python
 import wandb

@@ -16,8 +16,8 @@ DSPy モジュールを最適化する際に包括的なオブザーバビリテ
 
   `wandb==0.21.2` および `weave==0.52.5` 以降では、W&amp;B と併用した場合に Weave が自動的に初期化されます。
 
-  * `weave` をインポートしてから `wandb.init()` を呼び出す場合（スクリプトの場合）
-  * 先に `wandb.init()` を呼び出し、その後で `weave` をインポートする場合（notebook/Jupyter の場合）
+  * `weave` をインポートしてから `wandb.init()` を呼び出す場合 (スクリプトの場合) 
+  * 先に `wandb.init()` を呼び出し、その後で `weave` をインポートする場合 (notebook/Jupyter の場合) 
 
   明示的に `weave.init(...)` を呼び出す必要はありません。
 </Info>
@@ -73,10 +73,10 @@ DSPy モジュールを最適化する際に包括的なオブザーバビリテ
 W&amp;B を初めて利用する場合は、[クイックスタートガイド](/ja/models/quickstart/) を参照してください。
 
 <div id="track-program-optimization-experimental">
-  ## プログラム最適化のトラッキング（実験的）
+  ## プログラム最適化のトラッキング (実験的)
 </div>
 
-`dspy.Evaluate` を使用する DSPy オプティマイザー（MIPROv2 など）の場合は、`WandbDSPyCallback` を使用して、時間経過に伴う評価メトリクスをログし、W&amp;B Tables でのプログラムシグネチャの変化を追跡します。
+`dspy.Evaluate` を使用する DSPy オプティマイザー (MIPROv2 など) の場合は、`WandbDSPyCallback` を使用して、時間経過に伴う評価メトリクスをログし、W&amp;B Tables でのプログラムシグネチャの変化を追跡します。
 
 ```python
 import dspy
