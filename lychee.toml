@@ -83,6 +83,7 @@ exclude = [
   '(http|https)://netflixtechblog\.com',
   '(http|https)://.*\.?opentelemetry\.io',
   '(http|https)://.*\.?portal\.azure\.com',
+  '(http|https)://prodi\.gy',
   '(http|https)://slurm\.schedmd\.com',
 
   # Public knowledge or code resource with non-200/robot issues
