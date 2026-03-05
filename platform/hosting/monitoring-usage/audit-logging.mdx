@@ -79,7 +79,7 @@ To fetch audit logs:
     - Configure the date window of logs to fetch using a combination of `numdays` and `startDate`. Each parameter is optional, and they interact.
       - If neither parameter is included, only today's logs are fetched.
       - `numDays`: An integer indicating the number of days backward from `startDate` to fetch logs. If it is omitted or set to `0`, logs are fetched for `startDate` only. On **Multi-tenant Cloud**, you can fetch a maximum of 7 days of audit logs, even if you set `numDays` to a larger value.
-      - `startDate`: Supported on **Multi-tenant Cloud** only. Controls the newest logs to fetch, in the format `startDate=YYYY-MM-DD`. If it is omitted or explicitly set to today's date, logs are fetched from today to `numDays`. On **Multi-tenant Cloud**, you can fetch a maximum of 7 days of audit logs, even if you set `numDays` to a larger value.
+      - `startDate`: Supported on **Multi-tenant Cloud** only. Controls the newest logs to fetch, in the format `startDate=YYYY-MM-DD`. If it is omitted or explicitly set to today's date, logs are fetched from today to `numDays`.
 1. Construct the fully qualified endpoint URL in the format `<API-endpoint>?<parameters>`.
 1. Execute an HTTP `GET` request on the fully qualified API endpoint using a web browser or a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), or cURL.
 
