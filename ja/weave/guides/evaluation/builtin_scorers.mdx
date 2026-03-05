@@ -100,8 +100,8 @@ scorer = SummarizationScorer(
 
 この scorer は要約を次の 2 つの観点から評価します:
 
-1. **Entity Density:** 要約内で言及されている固有の entity（名前、場所、物など）の数と、要約全体の単語数の比率を算出し、要約の「information density」（情報密度）を推定します。entity の抽出には LLM を使用します。Chain of Density 論文（https://arxiv.org/abs/2309.04269）における entity density の扱いに類似しています。
-2. **Quality Grading:** LLM evaluator が要約を `poor`、`ok`、`excellent` のいずれかで採点します。これらの評価はそれぞれスコアにマッピングされ（poor は 0.0、ok は 0.5、excellent は 1.0）、全体的な性能評価に用いられます。
+1. **Entity Density:** 要約内で言及されている固有の entity (名前、場所、物など) の数と、要約全体の単語数の比率を算出し、要約の「information density」 (情報密度) を推定します。entity の抽出には LLM を使用します。[Chain of Density 論文](https://arxiv.org/abs/2309.04269) における entity density の扱いに類似しています。
+2. **Quality Grading:** LLM evaluator が要約を `poor`、`ok`、`excellent` のいずれかで採点します。これらの評価はそれぞれスコアにマッピングされ (poor は 0.0、ok は 0.5、excellent は 1.0) 、全体的な性能評価に用いられます。
 
 **カスタマイズ:**
 

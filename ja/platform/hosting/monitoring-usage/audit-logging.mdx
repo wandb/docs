@@ -72,13 +72,6 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
    user is associated with multiple organizations but no valid org ID found in user info
    ```
 
-   デフォルトの API 組織を指定するには:
-
-   1. プロフィール画像をクリックし、**User Settings** をクリックします。
-   2. **Default API organization** で、組織を選択します。
-
-   これは、1 つの Multi-tenant Cloud 組織のメンバーにしかなれないサービスアカウントには該当しません。
-
 <div id="fetch-audit-logs">
   ## 監査ログを取得する
 </div>
@@ -87,20 +80,21 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
 
 1. インスタンスに対して正しい API エンドポイントを特定します:
 
-* [Self-Managed](/ja/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
-* [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud): `<instance-name>.wandb.io/admin/audit_logs`
-* [Multi-tenant Cloud (Enterprise required)](/ja/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
+   * [Self-Managed](/ja/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
+   * [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud): `<instance-name>.wandb.io/admin/audit_logs`
+   * [Multi-tenant Cloud (Enterprise required)](/ja/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
 
-  以降の手順では、`<API-endpoint>` を自分の API エンドポイントに置き換えます。
+   以降の手順では、`<API-endpoint>` を自分の API エンドポイントに置き換えます。
+2. (任意) エンドポイントに付加するクエリパラメーターを作成します。以降の手順では、`<parameters>` を生成した文字列に置き換えます。
 
-1. （任意）エンドポイントに付加するクエリパラメーターを作成します。以降の手順では、`<parameters>` を生成した文字列に置き換えます。
-   * `anonymize`: URL にパラメーター `anonymize=true` が含まれている場合、PII を削除します。それ以外の場合は PII が含まれます。[監査ログを取得するときに PII を除外する](#exclude-pii-when-fetching-audit-logs)を参照してください。Multi-tenant Cloud ではサポートされておらず、PII を含むすべてのフィールドが常に返されます。
-   * 取得するログの日付範囲は、`numdays` と `startDate` の組み合わせで設定します。各パラメーターは任意であり、相互に作用します。
-     * どちらのパラメーターも含まれない場合、本日のログのみが取得されます。
-     * `numDays`: `startDate` から遡って何日分のログを取得するかを示す整数です。省略または `0` に設定した場合、`startDate` 当日のログのみが取得されます。**Multi-tenant Cloud** の組織は最大 7 日分の監査ログを取得できます。つまり、`numDays=9` と設定しても、実際のパラメーターは `numDays=7` になります。
-     * `startDate`: 取得する最新のログを制御するパラメーターで、形式は `startDate=YYYY-MM-DD` です。省略した場合、または本日の日付を明示的に指定した場合、本日から `numDays` までのログが取得されます（Multi-tenant Cloud の場合は最大 `7` 日分）。
-2. `<API-endpoint>?<parameters>` の形式で完全修飾されたエンドポイント URL を構成します。
-3. Web ブラウザー、または [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールを使って、完全修飾された API エンドポイントに対して HTTP `GET` リクエストを実行します。
+* `anonymize`: URL にパラメーター `anonymize=true` が含まれている場合、PII を削除します。それ以外の場合は PII が含まれます。[監査ログを取得するときに PII を除外する](#exclude-pii-when-fetching-audit-logs)を参照してください。Multi-tenant Cloud ではサポートされておらず、PII を含むすべてのフィールドが常に返されます。
+* 取得するログの日付範囲は、`numdays` と `startDate` の組み合わせで設定します。各パラメーターは任意であり、相互に作用します。
+  * どちらのパラメーターも含まれない場合、本日のログのみが取得されます。
+  * `numDays`: `startDate` から遡って何日分のログを取得するかを示す整数です。省略または `0` に設定した場合、`startDate` 当日のログのみが取得されます。**Multi-tenant Cloud** では、`numDays` をより大きな値に設定しても、取得できる監査ログは最大 7 日分です。
+  * `startDate`: **Multi-tenant Cloud** でのみサポートされます。取得する最新のログを制御するパラメーターで、形式は `startDate=YYYY-MM-DD` です。省略した場合、または本日の日付を明示的に指定した場合、本日から `numDays` までのログが取得されます。
+
+3. `<API-endpoint>?<parameters>` の形式で完全修飾されたエンドポイント URL を構成します。
+4. Web ブラウザー、または [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールを使って、完全修飾された API エンドポイントに対して HTTP `GET` リクエストを実行します。
 
 API レスポンスには、改行区切りの JSON オブジェクトが含まれます。オブジェクトには、監査ログがインスタンスレベルのバケットに同期される場合と同様に、[スキーマ](#audit-log-schema)で説明されているフィールドが含まれます。そのような場合、監査ログはバケット内の `/wandb-audit-logs` ディレクトリに配置されます。
 
@@ -121,45 +115,45 @@ https://mycompany.wandb.io/admin/audit_logs?anonymize=true&<additional-parameter
 ```
 
 <div id="actions">
-  ## Actions
+  ## アクション
 </div>
 
-このテーブルでは、W&amp;B によって記録される可能性のあるアクションをアルファベット順に示します。
+この表は、W&amp;B によって記録される可能性のあるアクションをアルファベット順に示したものです。
 
-|Action | Definition |
-|-----|-----|
-| `artifact:create`             | Artifacts が作成されます。
-| `artifact:delete   `          | Artifacts が削除されます。
-| `artifact:read`               | Artifacts が読み取られます。
-| `project:delete`              | プロジェクトが削除されます。
-| `project:read`                | プロジェクトが参照されます。
-| `report:read`                 | レポートが参照されます。 <sup><a href="#1">1</a></sup>
-| `run:delete_many`             | run のバッチが削除されます。
-| `run:delete`                  | run が削除されます。
-| `run:stop`                    | run が停止されます。
-| `run:undelete_many`           | run のバッチがゴミ箱から復元されます。
-| `run:update_many`             | run のバッチが更新されます。
-| `run:update`                  | run が更新されます。
-| `sweep:create_agent`          | sweep エージェントが作成されます。
-| `team:create_service_account` | チーム用のサービスアカウントが作成されます。
-| `team:create`                 | チームが作成されます。
-| `team:delete`                 | チームが削除されます。
-| `team:invite_user`            | ユーザーがチームに招待されます。
-| `team:uninvite`               | ユーザーまたはサービスアカウントのチームへの招待が取り消されます。
-| `user:create_api_key`         | ユーザーまたはサービスアカウント用の API キー が作成されます。 <sup><a href="#1">1</a></sup>
-| `user:create`                 | ユーザーが作成されます。 <sup><a href="#1">1</a></sup>
-| `user:deactivate`             | ユーザーが無効化されます。 <sup><a href="#1">1</a></sup>
-| `user:delete_api_key`         | ユーザーまたはサービスアカウント用の API キー が削除されます。 <sup><a href="#1">1</a></sup>
-| `user:initiate_login`         | ユーザーがログインを開始します。 <sup><a href="#1">1</a></sup>
-| `user:login`                  | ユーザーがログインします。 <sup><a href="#1">1</a></sup>
-| `user:logout`                 | ユーザーがログアウトします。 <sup><a href="#1">1</a></sup>
-| `user:permanently_delete`     | ユーザーが完全に削除されます。 <sup><a href="#1">1</a></sup>
-| `user:reactivate`             | ユーザーが再有効化されます。 <sup><a href="#1">1</a></sup>
-| `user:read`                   | ユーザープロフィールが参照されます。 <sup><a href="#1">1</a></sup>
-| `user:update`                 | ユーザーが更新されます。 <sup><a href="#1">1</a></sup>
+| Action                        | 定義                                                            |
+| ----------------------------- | ------------------------------------------------------------- |
+| `artifact:create`             | アーティファクトが作成される。                                               |
+| `artifact:delete   `          | アーティファクトが削除される。                                               |
+| `artifact:read`               | アーティファクトが読み出される。                                              |
+| `project:delete`              | プロジェクトが削除される。                                                 |
+| `project:read`                | プロジェクトが読み出される。                                                |
+| `report:read`                 | レポートが閲覧される。 <sup><a href="#1">1</a></sup>                     |
+| `run:delete_many`             | run のバッチが削除される。                                               |
+| `run:delete`                  | run が削除される。                                                   |
+| `run:stop`                    | run が停止される。                                                   |
+| `run:undelete_many`           | run のバッチがゴミ箱から復元される。                                          |
+| `run:update_many`             | run のバッチが更新される。                                               |
+| `run:update`                  | run が更新される。                                                   |
+| `sweep:create_agent`          | sweep エージェントが作成される。                                           |
+| `team:create_service_account` | チーム用のサービスアカウントが作成される。                                         |
+| `team:create`                 | チームが作成される。                                                    |
+| `team:delete`                 | チームが削除される。                                                    |
+| `team:invite_user`            | ユーザーがチームに招待される。                                               |
+| `team:uninvite`               | ユーザーまたはサービスアカウントの招待がチームから取り消される。                              |
+| `user:create_api_key`         | ユーザーまたはサービスアカウントの API キーが作成される。 <sup><a href="#1">1</a></sup> |
+| `user:create`                 | ユーザーが作成される。 <sup><a href="#1">1</a></sup>                     |
+| `user:deactivate`             | ユーザーが無効化される。 <sup><a href="#1">1</a></sup>                    |
+| `user:delete_api_key`         | ユーザーまたはサービスアカウントの API キーが削除される。 <sup><a href="#1">1</a></sup> |
+| `user:initiate_login`         | ユーザーがログインを開始する。 <sup><a href="#1">1</a></sup>                 |
+| `user:login`                  | ユーザーがログインする。 <sup><a href="#1">1</a></sup>                    |
+| `user:logout`                 | ユーザーがログアウトする。 <sup><a href="#1">1</a></sup>                   |
+| `user:permanently_delete`     | ユーザーが完全に削除される。 <sup><a href="#1">1</a></sup>                  |
+| `user:reactivate`             | ユーザーが再有効化される。 <sup><a href="#1">1</a></sup>                   |
+| `user:read`                   | ユーザープロファイルが閲覧される。 <sup><a href="#1">1</a></sup>               |
+| `user:update`                 | ユーザーが更新される。 <sup><a href="#1">1</a></sup>                     |
 
-<a id="1">1</a>: [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、次のケースについては監査ログは収集されません:
+<a id="1">1</a>: [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、次のアクションについては監査ログが収集されません。
 
-* Open または Public のプロジェクト。
+* オープンまたはパブリックなプロジェクト。
 * `report:read` アクション。
-* 特定の組織に紐づかない `User` アクション。
+* 特定の組織に紐付かない `User` アクション。
