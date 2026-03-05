@@ -187,12 +187,18 @@ def get_param_info(param) -> Dict[str, Any]:
     else:
         info['opts_str'] = f'`{info["name"]}`'
     
-    # Format default value
-    if info['default'] is not None and info['default'] != () and not callable(info['default']):
-        info['default_str'] = f" (default: {info['default']})"
+    # Format default value (only show user-facing defaults; hide sentinels like Sentinel.UNSET)
+    default_val = info['default']
+    if default_val is not None and default_val != () and not callable(default_val):
+        default_repr = repr(default_val)
+        type_name = type(default_val).__name__
+        if type_name == "Sentinel" or "Sentinel" in default_repr or "UNSET" in default_repr:
+            info['default_str'] = ""
+        else:
+            info['default_str'] = f" (default: {default_val})"
     else:
         info['default_str'] = ""
-    
+
     return info
 
 def extract_command_info(cmd: Command, parent_name: str = "") -> Dict[str, Any]:

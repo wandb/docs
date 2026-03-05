@@ -18,14 +18,14 @@ A class for logging images to W&B.
 ```python
 __init__(
     data_or_path: 'ImageDataOrPathType',
-    mode: Optional[str] = None,
-    caption: Optional[str] = None,
-    grouping: Optional[int] = None,
-    classes: Optional[ForwardRef('Classes'), Sequence[dict]] = None,
-    boxes: Optional[Dict[str, ForwardRef('BoundingBoxes2D')], Dict[str, dict]] = None,
-    masks: Optional[Dict[str, ForwardRef('ImageMask')], Dict[str, dict]] = None,
-    file_type: Optional[str] = None,
-    normalize: bool = True
+    mode: 'str | None' = None,
+    caption: 'str | None' = None,
+    grouping: 'int | None' = None,
+    classes: 'Classes | Sequence[dict] | None' = None,
+    boxes: 'dict[str, BoundingBoxes2D] | dict[str, dict] | None' = None,
+    masks: 'dict[str, ImageMask] | dict[str, dict] | None' = None,
+    file_type: 'str | None' = None,
+    normalize: 'bool' = True
 ) → None
 ```
 

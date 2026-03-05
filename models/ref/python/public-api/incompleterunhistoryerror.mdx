@@ -5,7 +5,7 @@ python_object_type: class
 ---
 import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runhistory/downloads.py" />
 
 
 
@@ -13,7 +13,7 @@ import { GitHubLink } from '/snippets/_includes/github-source-link.mdx';
 ## <kbd>class</kbd> `IncompleteRunHistoryError`
 Raised when run history has incomplete history. 
 
-Incomplete history occurs when there is some data that has not been exported to parquet files yet. Typically due to an on-going run. 
+Incomplete history occurs when some data has not been exported to parquet files yet, typically because the run is still ongoing. 
 
 
 
