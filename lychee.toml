@@ -76,7 +76,8 @@ exclude = [
 
   # Other documented 3rd-party services that frequently timeout or 403
   '(http|https)://dspy-docs\.vercel\.app',
-  '(http|https)://istio\.org',
+  '(http|https)://helm\.sh',
+  '(http|https)://istio\.io',
   '(http|https)://.*\.?hhs\.gov',
   '(http|https)://letsencrypt\.org',
   '(http|https)://.*\.?netapp\.com',
