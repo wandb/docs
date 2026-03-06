@@ -1,0 +1,136 @@
+---
+title: Manage automations with the API
+description: Create, list, get, update, and delete W&B automations using the Python API
+---
+import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+
+<Info>
+<EnterpriseCloudOnly/>
+</Info>
+
+You can manage W&B [automations](/models/automations) programmatically with the public Python API. This page summarizes the main operations. For full method signatures and parameters, see the [Automations API reference](/models/ref/python/public-api/automations) and the [Api reference](/models/ref/python/public-api/api).
+
+## List automations
+
+Use `api.automations()` to iterate over automations. You can filter by entity and optionally by name.
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# All automations for an entity (team or user)
+for automation in api.automations(entity="my-team"):
+    print(automation.name, automation.scope)
+
+# Filter by name (returns matching automations)
+for automation in api.automations(entity="my-team", name="my-automation"):
+    print(automation.name)
+```
+
+Automations can be scoped to a [project](/models/automations/automation-events/#project) or a [registry](/models/automations/automation-events/#registry). The returned `Automation` objects include scope information.
+
+## Get one automation
+
+Use `api.automation()` when you know the automation name. The call returns the only automation matching the name (and entity, if provided).
+
+```python
+import wandb
+
+api = wandb.Api()
+
+automation = api.automation(name="my-automation")
+print(automation.description, automation.enabled)
+
+# From a specific entity
+automation = api.automation(name="my-automation", entity="my-team")
+```
+
+If zero or multiple automations match, the API raises `ValueError`.
+
+## Create an automation
+
+Create an automation by defining an **event** (what triggers it) and an **action** (what runs when it triggers), then calling `api.create_automation()`. Events and actions are built from classes in `wandb.automations`; the scope (project or registry/collection) determines which event types you can use.
+
+**Example: project automation (run state to Slack)**
+
+This example creates a project-scoped automation that sends a Slack notification when a run in the project finishes in a **Failed** state.
+
+```python
+import wandb
+from wandb.automations import OnRunState, RunEvent, SendNotification
+
+api = wandb.Api()
+
+project = api.project("my-project", entity="my-team")
+slack_integration = next(api.slack_integrations(entity="my-team"))
+
+event = OnRunState(
+    scope=project,
+    filter=RunEvent.state.in_(["failed"]),
+)
+action = SendNotification.from_integration(slack_integration)
+
+automation = api.create_automation(
+    event >> action,
+    name="run-failure-alert",
+    description="Notify the team when a run fails.",
+)
+```
+
+**Example: run metric threshold to Slack (project)**
+
+The [Api reference](/models/ref/python/public-api/api/#api-create_automation) shows creating an automation that triggers when a run metric exceeds a threshold. You can combine other event types (for example, [OnAddArtifactAlias](/models/ref/python/automations/onaddartifactalias) or [OnCreateArtifact](/models/ref/python/automations/oncreateartifact)) with [SendNotification](/models/ref/python/automations/sendnotification) or [SendWebhook](/models/ref/python/automations/sendwebhook) in the same way: build the event and action, then pass `event >> action` to `api.create_automation()`.
+
+## Update an automation
+
+Fetch the automation, change its attributes, then call `api.update_automation()`. You can pass keyword arguments to update in place without mutating the object.
+
+```python
+import wandb
+
+api = wandb.Api()
+
+automation = api.automation(name="my-automation")
+automation.enabled = False
+automation.description = "Temporarily disabled for maintenance."
+api.update_automation(automation)
+```
+
+Or pass updates as keyword arguments:
+
+```python
+updated = api.update_automation(
+    automation,
+    enabled=False,
+    description="Temporarily disabled for maintenance.",
+)
+```
+
+## Delete an automation
+
+Pass the automation object or its ID to `api.delete_automation()`.
+
+```python
+import wandb
+
+api = wandb.Api()
+
+automation = api.automation(name="my-automation")
+api.delete_automation(automation)
+```
+
+Or delete by ID:
+
+```python
+api.delete_automation(automation.id)
+```
+
+For a runnable walkthrough that includes these operations and the two tutorial automations (project run failure alert and registry alias to webhook), see the [Automations tutorial notebook](https://github.com/wandb/docs/blob/main/notebooks/automations-tutorial.ipynb) on GitHub.
+
+## Next steps
+
+- [Automations overview](/models/automations)
+- [Automation events and scopes](/models/automations/automation-events) (project vs registry events)
+- [Create a Slack automation](/models/automations/create-automations/slack) or [Create a webhook automation](/models/automations/create-automations/webhook) (UI)
+- [Automations API reference](/models/ref/python/public-api/automations)
