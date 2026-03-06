@@ -1,30 +1,38 @@
 ---
-title: "wandb job list"
+title: wandb job list
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-job-list.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbJobList from "/snippets/en/_includes/cli/wandb-job-list.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbJobList/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2085" />
 
-List jobs in a project
+
 
 ## Usage
 
 ```bash
-wandb job list [OPTIONS]
+Usage: list [OPTIONS]
 ```
+
+## Description
+
+List jobs in a project
+
+## Examples
+
+
+
+
+## Arguments
+
+| Name | Default | Type |
+|------|---------|------|
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--project`, `-p` | The project you want to list jobs from. |
-| `--entity`, `-e` | The entity the jobs belong to (default: models) |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--project, -p` | STR | The project you want to list jobs from. **Default**: None |
+| `--entity, -e` | STR | The entity the jobs belong to **Default**: models |

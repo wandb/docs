@@ -1,29 +1,57 @@
 ---
-title: "wandb enabled"
+title: wandb enabled
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-enabled.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbEnabled from "/snippets/en/_includes/cli/wandb-enabled.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbEnabled/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3478" />
 
-Enable W&B.
+
 
 ## Usage
 
 ```bash
-wandb enabled [OPTIONS]
+Usage: enabled [OPTIONS]
 ```
+
+## Description
+
+Re-enable W&B after it was deactivated.
+
+    Set the mode to `online` to restore full W&B functionality,
+    including cloud syncing and artifact storage.
+
+    Undos a previous call to `wandb disabled`. Do not
+    upload data logged while W&B was set to `disabled`, but allow
+    new data to be logged and synced.
+
+    To switch between online and offline modes without fully deactivating W&B,
+    use `wandb online` or `wandb offline` instead.
+
+## Examples
+
+Restore W&B functionality after deactivating it with `wandb disabled`:
+
+```bash
+wandb enabled
+```
+
+    Run training script with W&B logging and syncing restored:
+
+```bash
+python train.py # Log and sync data to W&B
+```
+
+
+## Arguments
+
+| Name | Default | Type |
+|------|---------|------|
+
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--service` | Enable W&B service (default: True) |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--service` | BOOL Flag | No effect. Accepted for backwards compatibility. **Default**: True |
