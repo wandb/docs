@@ -158,7 +158,6 @@
                 "group": "Monitoring and usage",
                 "pages": [
                   "platform/hosting/monitoring-usage/audit-logging",
-                  "platform/hosting/monitoring-usage/prometheus-logging",
                   "platform/hosting/monitoring-usage/slack-alerts",
                   "platform/hosting/monitoring-usage/org_dashboard"
                 ]
@@ -1307,7 +1306,6 @@
                 "group": "Monitoring and usage",
                 "pages": [
                   "ja/platform/hosting/monitoring-usage/audit-logging",
-                  "ja/platform/hosting/monitoring-usage/prometheus-logging",
                   "ja/platform/hosting/monitoring-usage/slack-alerts",
                   "ja/platform/hosting/monitoring-usage/org_dashboard"
                 ]
@@ -2494,7 +2492,6 @@
                 "group": "Monitoring and usage",
                 "pages": [
                   "ko/platform/hosting/monitoring-usage/audit-logging",
-                  "ko/platform/hosting/monitoring-usage/prometheus-logging",
                   "ko/platform/hosting/monitoring-usage/slack-alerts",
                   "ko/platform/hosting/monitoring-usage/org_dashboard"
                 ]
