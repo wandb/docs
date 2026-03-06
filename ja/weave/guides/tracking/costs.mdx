@@ -11,7 +11,7 @@ description: "Weave で LLM の運用コストを追跡・管理する"
   <Tab title="Python">
     [`add_cost`](/ja/weave/reference/python-sdk/trace/weave_client#method-add-cost) メソッドを使用してカスタムコストを追加できます。
     必須フィールドは `llm_id`、`prompt_token_cost`、`completion_token_cost` の 3 つです。
-    `llm_id` は LLM の名前です（例: `gpt-4o`）。`prompt_token_cost` と `completion_token_cost` は LLM のトークンあたりのコストです（LLM の価格が 100 万トークンあたりで指定されている場合は、値をトークン単価に変換してください）。
+    `llm_id` は LLM の名前です (例: `gpt-4o`) 。`prompt_token_cost` と `completion_token_cost` は LLM のトークンあたりのコストです (LLM の価格が 100 万トークンあたりで指定されている場合は、値をトークン単価に変換してください) 。
     また、`effective_date` に datetime を設定して、特定の日付からコストを有効にすることもできます。指定しない場合は現在の日時が使用されます。
 
     ```python lines

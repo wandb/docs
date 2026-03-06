@@ -45,11 +45,11 @@ XGBoost と W&amp;B によるログの記録方法を包括的に確認するに
 
 * booster モデルの設定を W&amp;B にログします
 * XGBoost が収集する rmse、accuracy などの評価メトリクスを W&amp;B にログします
-* XGBoost が収集するトレーニングメトリクスをログします（`eval_set` にデータを指定した場合）
+* XGBoost が収集するトレーニングメトリクスをログします (`eval_set` にデータを指定した場合) 
 * 最良スコアと最良イテレーションをログします
-* 学習済みモデルを保存し、 W&amp;B Artifacts にアップロードします（`log_model = True` の場合）
-* `log_feature_importance=True`（デフォルト）のときに、特徴量重要度のプロットをログします
-* `define_metric=True`（デフォルト）のときに、`wandb.Run.summary` に最良の評価メトリクスを記録します
+* 学習済みモデルを保存し、 W&amp;B Artifacts にアップロードします (`log_model = True` の場合) 
+* `log_feature_importance=True` (デフォルト) のときに、特徴量重要度のプロットをログします
+* `define_metric=True` (デフォルト) のときに、`wandb.Run.summary` に最良の評価メトリクスを記録します
 
 <div id="arguments">
   ### Arguments
@@ -61,7 +61,7 @@ XGBoost と W&amp;B によるログの記録方法を包括的に確認するに
 
 * `importance_type`: (str) 木ベースのモデルの場合は `{weight, gain, cover, total_gain, total_cover}` のいずれかを指定します。線形モデルでは weight を指定します。
 
-* `define_metric`: (boolean) True（デフォルト）の場合、`run.summary` にはトレーニングの最後のステップではなく、最も性能が良いステップでのモデル性能を記録します。
+* `define_metric`: (boolean) True (デフォルト) の場合、`run.summary` にはトレーニングの最後のステップではなく、最も性能が良いステップでのモデル性能を記録します。
 
 [WandbCallback のソースコード](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)を参照できます。
 

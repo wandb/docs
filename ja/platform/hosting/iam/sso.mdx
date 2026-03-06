@@ -136,7 +136,7 @@ W&amp;B のコンテキストでは、アクセストークンはユーザーに
   <Tab title="Entra">
     Azure AD (Entra ID) は W&amp;B 向けに2つの OIDC 設定モードをサポートしています。セキュリティ要件に合った設定を選択してください。
 
-    * [Public Client（パブリッククライアント）](#public-client)：クライアントシークレットを使わずに PKCE を使用します。設定が簡単で、多くのデプロイに適しています。
+    * [Public Client (パブリッククライアント) ](#public-client)：クライアントシークレットを使わずに PKCE を使用します。設定が簡単で、多くのデプロイに適しています。
     * [Confidential Client](#confidential-client): セキュリティを強化するため、クライアントシークレット付きの PKCE を使用します。`GORILLA_OIDC_SECRET` 環境変数を設定する必要がある場合に必須です。
 
     <Warning>
@@ -169,12 +169,12 @@ W&amp;B のコンテキストでは、アクセストークンはユーザーに
         次の情報を控えておいてください:
 
         * **OIDC Client ID**: 手順 5 で取得した Application (client) ID
-        * **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0`（{TenantID} を、手順 5 で取得した Directory ID に置き換えます）
+        * **OIDC Issuer URL**: `https://login.microsoftonline.com/{TenantID}/v2.0` ({TenantID} を、手順 5 で取得した Directory ID に置き換えます) 
 
         W&amp;B を設定する際は、次の値を使用します:
 
         * **Auth Method**: `pkce`
-        * **OIDC Client Secret**: 空のままにします（`GORILLA_OIDC_SECRET` は設定しません）
+        * **OIDC Client Secret**: 空のままにします (`GORILLA_OIDC_SECRET` は設定しません) 
 
         次に、[W&amp;B で SSO を設定](#set-up-sso-in-w%26b) します。
       </Accordion>
@@ -238,9 +238,9 @@ W&amp;B のコンテキストでは、アクセストークンはユーザーに
 SSO を設定するには、管理者権限と次の情報が必要です。
 
 * OIDC Client ID
-* OIDC Auth method（`implicit` または `pkce`）
+* OIDC Auth method (`implicit` または `pkce`) 
 * OIDC Issuer URL
-* OIDC Client Secret（任意。IdP の設定方法に依存）
+* OIDC Client Secret (任意。IdP の設定方法に依存) 
 
 IdP が OIDC Client Secret を要求する場合は、[environment variables](/ja/platform/hosting/env-vars) の `GORILLA_OIDC_SECRET` を指定します。
 
