@@ -1,0 +1,29 @@
+---
+title: "API error code 429 - Concurrency limit reached for requests"
+sidebarTitle: "API error code 429 - Concurrency limit reached for requests"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+A 429 error with the message "Concurrency limit reached for requests" means you're sending too many concurrent requests to the W&B Inference API.
+
+## Why this happens
+
+W&B Inference enforces concurrency limits to ensure fair usage and service stability. When the number of simultaneous requests from your account exceeds the allowed limit, additional requests are rejected with a 429 status code.
+
+## What you can do
+
+1. **Reduce concurrent requests**
+   - Implement request queuing or throttling in your application
+   - Use exponential backoff when retrying failed requests
+
+2. **Increase your limits**
+   - Review your plan's concurrency limits and upgrade if needed
+
+For more information, see [Usage information and limits](/inference/usage-limits/).
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/support/inference/tags/inference)</Badge><Badge stroke shape="pill" color="orange" size="md">[API Errors](/support/inference/tags/api-errors)</Badge>

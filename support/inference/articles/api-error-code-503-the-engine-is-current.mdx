@@ -1,0 +1,28 @@
+---
+title: "API error code 503 - The engine is currently overloaded"
+sidebarTitle: "API error code 503 - The engine is currently overloaded"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+A 503 error with the message "The engine is currently overloaded, please try again later" means the W&B Inference server is experiencing high traffic and cannot process your request right now.
+
+## Why this happens
+
+During periods of high demand, the inference engine may become temporarily overloaded. This is a transient condition that typically resolves on its own as traffic subsides.
+
+## What you can do
+
+1. **Retry after a short delay**
+   - Wait a few seconds before retrying your request
+   - Use exponential backoff to avoid adding to the congestion
+
+2. **Spread out requests**
+   - If you're sending many requests, consider spacing them out over time
+   - Implement request queuing to smooth traffic spikes
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/support/inference/tags/inference)</Badge><Badge stroke shape="pill" color="orange" size="md">[API Errors](/support/inference/tags/api-errors)</Badge>

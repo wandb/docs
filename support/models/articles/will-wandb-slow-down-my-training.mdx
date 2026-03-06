@@ -1,0 +1,14 @@
+---
+title: "Will wandb slow down my training?"
+sidebarTitle: "Will wandb slow down my training?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+W&B has a minimal impact on training performance under normal usage conditions. Normal use includes logging at a rate of less than once per second and limiting data to a few megabytes per step. W&B operates in a separate process with non-blocking function calls, ensuring that brief network outages or intermittent disk read/write issues do not disrupt performance. Excessive logging of large amounts of data may lead to disk I/O issues. For further inquiries, contact support.
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>

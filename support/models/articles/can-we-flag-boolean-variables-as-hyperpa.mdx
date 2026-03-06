@@ -1,0 +1,14 @@
+---
+title: "Can we flag boolean variables as hyperparameters?"
+sidebarTitle: "Can we flag boolean variables as hyperparameters?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+Use the `${args_no_boolean_flags}` macro in the command section of the configuration to pass hyperparameters as boolean flags. This macro automatically includes boolean parameters as flags. If `param` is `True`, the command receives `--param`. If `param` is `False`, the flag is omitted.
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge>

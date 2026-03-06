@@ -1,0 +1,24 @@
+---
+title: "How can I delete multiple runs in bulk instead of one at a time?"
+sidebarTitle: "How can I delete multiple runs in bulk instead of one at a time?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+Use the [public API](/models/ref/python/public-api/api) to delete multiple runs in a single operation:
+
+```python
+import wandb
+
+api = wandb.Api()
+runs = api.runs('<entity>/<project>')
+for run in runs:
+    if <condition>:
+        run.delete()
+```
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Projects](/support/models/tags/projects)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>

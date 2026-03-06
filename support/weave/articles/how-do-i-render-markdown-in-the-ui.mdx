@@ -1,0 +1,14 @@
+---
+title: "How do I render Markdown in the UI?"
+sidebarTitle: "How do I render Markdown in the UI?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+Wrap your string with `weave.Markdown(...)` before saving, and use `weave.publish(...)` to store it. Weave uses the object’s type to determine rendering, and `weave.Markdown` maps to a known UI renderer.  The value will be shown as a formatted Markdown object in the UI. For a full code sample, see [Viewing calls](/weave/guides/tracking/tracing#viewing-calls).
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[FAQs](/support/weave/tags/faqs)</Badge>

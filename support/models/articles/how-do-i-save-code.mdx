@@ -1,0 +1,20 @@
+---
+title: "How do I save code?‌"
+sidebarTitle: "How do I save code?‌"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+Use `save_code=True` in `wandb.init` to save the main script or notebook that launches the run. To save all code for a run, version the code with Artifacts. The following example demonstrates this process:
+
+```python
+code_artifact = wandb.Artifact(type="code")
+code_artifact.add_file("./train.py")
+wandb.log_artifact(code_artifact)
+```
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge>

@@ -1,0 +1,14 @@
+---
+title: "What does wandb.init do to my training process?"
+sidebarTitle: "What does wandb.init do to my training process?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+When `wandb.init()` runs in a training script, an API call creates a run object on the servers. A new process starts to stream and collect metrics, allowing the primary process to function normally. The script writes to local files while the separate process streams data to the servers, including system metrics. To turn off streaming, run `wandb off` from the training directory or set the `WANDB_MODE` environment variable to `offline`.
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>

@@ -1,0 +1,35 @@
+---
+title: "Trace data is truncated"
+sidebarTitle: "Trace data is truncated"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+Sometimes, large trace data is partially cut off in the Weave UI. This problem occurs because default trace output is a raw, custom Python object that Weave doesn't know how to serialize.
+
+To ensure that large trace data isn't cut off, define a dictionary of strings to return all trace data.
+
+```python
+import weave
+
+class MyObj:
+    def __init__(self, x: int):
+        self.x = x
+
+    def __repr__(self):
+        return f"MyObj(x={self.x})"
+
+    def to_dict(self):
+        return {"x": self.x}
+
+@weave.op()
+def make_my_obj():
+    x = "s" * 10_000
+    return MyObj(x)
+```
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Troubleshooting](/support/weave/tags/troubleshooting)</Badge>
