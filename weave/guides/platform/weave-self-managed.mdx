@@ -93,7 +93,6 @@ Create a file named `ch-operator.yaml`:
 operator:
   image:
     repository: altinity/clickhouse-operator
-    tag: "0.25.4"
 
   # Security context - adjust according to your cluster's requirements
   containerSecurityContext:
@@ -120,7 +119,6 @@ The `containerSecurityContext` values shown here work for most Kubernetes distri
 
 ```bash
 helm upgrade --install ch-operator altinity/altinity-clickhouse-operator \
-  --version 0.25.4 \
   --namespace clickhouse \
   --create-namespace \
   -f ch-operator.yaml
@@ -260,7 +258,7 @@ spec:
           containers:
             - name: clickhouse-keeper
               imagePullPolicy: IfNotPresent
-              image: "clickhouse/clickhouse-keeper:25.3.5.42"
+              image: "clickhouse/clickhouse-keeper:25.10"
               # Resource requests - example values, adjust based on workload
               resources:
                 requests:
@@ -323,11 +321,6 @@ spec:
 ```bash
 kubectl apply -f ch-keeper.yaml
 ```
-NAME                                      READY   STATUS    RESTARTS   AGE
-clickhouse-operator-857c69ffc6-2v4jh     2/2     Running   0          1m
-```
-
-### Step 2: Configure S3 Storage
 
 #### 3.3 Verify Keeper deployment
 
@@ -400,7 +393,7 @@ spec:
 
           containers:
             - name: clickhouse
-              image: clickhouse/clickhouse-server:25.3.5.42
+              image: clickhouse/clickhouse-server:25.10
               # Example resource allocation - adjust based on workload
               resources:
                 requests:
@@ -460,11 +453,11 @@ spec:
       # operation_timeout_ms: 10000
 
     # Users configuration: https://clickhouse.com/docs/operations/configuration-files#user-settings
-    # Tip for password:
-    # sha256sum <<< weave123 OR echo -n weave123 | sha256sum OR printf "weave123" | sha256sum
-    # It returns as <password_sha256_hex>...</password_sha256_hex> in the user config
+    # For production, use a SHA-256 hashed password instead of plain text:
+    # printf "your-password" | sha256sum
+    # Then use: weave/password_sha256_hex: <hash> instead of weave/password
     users:
-      weave/password: weave123
+      weave/password: weave123  # Replace with a strong password before deploying
       weave/access_management: 1
       weave/profile: default
       weave/networks/ip:
@@ -548,7 +541,7 @@ spec:
 7. **Keeper Hostnames**: The Keeper node hostnames **must match** your Keeper deployment naming from Step 3 (see "Understanding Keeper Naming" below)
 8. **Cluster Naming**: The cluster name `weavecluster` can be changed, but it must match the `WF_CLICKHOUSE_REPLICATED_CLUSTER` value in Step 5
 9. **Credentials**:
-   - For IRSA: Keep `<use_environment_credentials>true</use_environment_credentials>` or access your secrets keys mapped to environment variables.
+   - For IRSA: Keep `<use_environment_credentials>true</use_environment_credentials>` or access your secret keys mapped to environment variables.
 
 #### 4.2 Update S3 configuration
 
@@ -840,9 +833,12 @@ In the W&B Console:
 Create a simple Python test to verify Weave is working:
 
 ```python
+import os
 import weave
 
-# Initialize Weave (replace with your actual W&B host)
+# Point Weave at your self-managed W&B instance
+os.environ["WANDB_BASE_URL"] = "https://your-wandb-host"  # Replace with your W&B URL
+
 weave.init('test-project')
 
 # Create a simple traced function
@@ -1082,8 +1078,8 @@ To increase ClickHouse capacity, you can:
 To use a different ClickHouse version, update the image tag in both ch-keeper.yaml and ch-server.yaml:
 
 ```yaml
-image: clickhouse/clickhouse-keeper:25.3.5.42   # Keeper version
-image: clickhouse/clickhouse-server:25.3.5.42   # Server version
+image: clickhouse/clickhouse-keeper:25.10   # Keeper version
+image: clickhouse/clickhouse-server:25.10   # Server version
 ```
 
 Keeper and server versions should match or keeper version should be >= server version for compatibility.
@@ -1117,7 +1113,7 @@ ClickHouse data is stored in S3, providing inherent backup capabilities through 
 2. **Network Policies**: Consider implementing NetworkPolicies to restrict ClickHouse access
 3. **RBAC**: Ensure service accounts have minimal required permissions
 4. **S3 Bucket**: Enable encryption at rest and restrict bucket access to necessary IAM roles
-5. **TLS ** (Optional): For production, enable TLS for ClickHouse client connections
+5. **TLS** (Optional): For production, enable TLS for ClickHouse client connections
 
 ## Upgrading
 
@@ -1125,7 +1121,6 @@ ClickHouse data is stored in S3, providing inherent backup capabilities through 
 
 ```bash
 helm upgrade ch-operator altinity/altinity-clickhouse-operator \
-  --version 0.25.4 \
   --namespace clickhouse \
   -f ch-operator.yaml
 ```
