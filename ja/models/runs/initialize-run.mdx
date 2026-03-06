@@ -4,7 +4,7 @@ title: run の初期化
 
 [`wandb.init()`](/ja/models/ref/python/functions/init) を使って W&amp;B の run を初期化します。
 
-デフォルトでは、`wandb.init()` を呼び出したときに、各 Python プロセスには同時に 1 つのアクティブな run しかないと W&amp;B はみなします。`wandb.init()` を再度呼び出すと、W&amp;B は同じ run を返すか、古い run を終了してから新しい run を開始します。同一プロセス内で `wandb.init()` を複数回呼び出した場合の挙動は、環境（notebook か非 notebook か）と `reinit` 設定によって異なります。
+デフォルトでは、`wandb.init()` を呼び出したときに、各 Python プロセスには同時に 1 つのアクティブな run しかないと W&amp;B はみなします。`wandb.init()` を再度呼び出すと、W&amp;B は同じ run を返すか、古い run を終了してから新しい run を開始します。同一プロセス内で `wandb.init()` を複数回呼び出した場合の挙動は、環境 (notebook か非 notebook か) と `reinit` 設定によって異なります。
 
 同じプロセス内で複数のアクティブな run を管理する方法については、[Multiple runs in one process](/ja/models/runs/initialize-run#multiple-runs-in-one-process) を参照してください。
 
@@ -138,7 +138,7 @@ with wandb.init() as experiment_results_run:
 全体のワークフローは次のようになります:
 
 1. メインプロセス Run A を `wandb.init()` で初期化し、トレーニング メトリクスをログします。
-2. Run B1 を初期化し（`wandb.init()` を使用）、データをログしてから終了します。
+2. Run B1 を初期化し (`wandb.init()` を使用) 、データをログしてから終了します。
 3. Run A にさらにデータをログします。
 4. Run B2 を初期化し、データをログしてから終了します。
 5. Run A へのログを継続します。

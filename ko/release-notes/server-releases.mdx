@@ -1,17 +1,25 @@
 ---
-title: "지원되는 W&B Server 릴리스"
-sidebarTitle: "지원되는 릴리스"
+title: "지원팀 대상 W&B Server 릴리스"
+sidebarTitle: "지원팀 대상 릴리스"
 rss: true
 ---
 
 import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-reminder.mdx';
 
-이 페이지에서는 지원 중인 W&amp;B Server 릴리스의 릴리스 노트를 제공합니다.
+이 페이지에는 지원팀 대상 W&amp;B Server 릴리스의 릴리스 노트가 포함되어 있습니다.
 
-* 더 이상 지원되지 않는 릴리스는 [Archived Server releases](/ko/release-notes/server-releases-archived)를 참고하세요.
-* W&amp;B Server 릴리스 일정 및 지원에 대한 자세한 내용은 [W&amp;B Server release policies](/ko/release-notes/release-policies)를 참고하세요.
+* 더 이상 지원팀 대상이 아닌 릴리스는 [Archived Server releases](/ko/release-notes/server-releases-archived)를 참고하세요.
+* W&amp;B Server 릴리스 일정 및 지원팀에 대한 자세한 내용은 [W&amp;B Server release policies](/ko/release-notes/release-policies)를 참고하세요.
 
 <EolReminder />
+
+<Update label="v0.78.1" description="2026년 3월 5일">
+  ## 수정 사항
+
+  * 데이터를 전혀 기록하지 않은 부모 run에서 포크할 때 실패할 수 있던 버그를 수정했습니다.
+  * 라이트 모드 또는 다크 모드에 대한 사용자의 기본 설정이 적용되지 않던 UI 버그를 수정했습니다.
+  * Parquet에서 history를 읽을 때의 성능을 개선하고 버그를 수정했습니다.
+</Update>
 
 <Update label="v0.78.0" description="2026년 3월 3일">
   W&amp;B Server 0.78.0은 보안 및 액세스 기본값을 강화하고, Experiments 비교 및 비용 관리를 보다 효율적으로 수행할 수 있는 도구를 추가하는 등 다양한 개선 사항을 제공합니다. 예를 들면 다음과 같습니다:

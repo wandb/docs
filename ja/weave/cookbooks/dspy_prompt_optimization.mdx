@@ -126,7 +126,7 @@ dspy_train_examples, dspy_val_examples = get_dataset(metadata)
   ## DSPy プログラム
 </div>
 
-[DSPy](https://dspy.ai) は、新しい LM パイプラインの構築を、自由形式の文字列操作に頼むやり方から、よりプログラミングに近い形（モジュール型オペレーターを組み合わせてテキスト変換グラフを構築し、コンパイラがプログラムから最適化された LM 呼び出し戦略とプロンプトを自動生成する形）へと近づける フレームワーク です。
+[DSPy](https://dspy.ai) は、新しい LM パイプラインの構築を、自由形式の文字列操作に頼むやり方から、よりプログラミングに近い形 (モジュール型オペレーターを組み合わせてテキスト変換グラフを構築し、コンパイラがプログラムから最適化された LM 呼び出し戦略とプロンプトを自動生成する形) へと近づける フレームワーク です。
 
 [`dspy.OpenAI`](https://dspy.ai/learn/programming/language_models/#__tabbed_1_1) 抽象化を使用して、[GPT3.5 Turbo](https://platform.openai.com/docs/models/gpt-3.5-turbo) への LLM 呼び出しを行います。
 
@@ -265,7 +265,7 @@ optimized_module = get_optimized_program(baseline_module, metadata)
   評価用の因果推論データセットを実行すると、OpenAI クレジットが約 0.04 ドル消費されます。
 </Warning>
 
-最適化されたプログラム（最適化されたプロンプト戦略）が用意できたので、もう一度検証用データセットで評価し、ベースラインの DSPy プログラムと比較してみましょう。
+最適化されたプログラム (最適化されたプロンプト戦略) が用意できたので、もう一度検証用データセットで評価し、ベースラインの DSPy プログラムと比較してみましょう。
 
 ```python lines
 evaluation = weave.Evaluation(

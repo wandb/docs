@@ -50,7 +50,7 @@ wandb.agent(sweep_id, function=main, count=10)
 
 `wandb.Run.config` から ハイパーパラメーター の値を受け取り、それらを使って モデル をトレーニングし、メトリクス を返すトレーニング関数を定義します。
 
-必要に応じて、W&amp;B Run の出力を保存したい プロジェクト の名前を指定できます（[`wandb.init()`](/ja/models/ref/python/functions/init) の `project` パラメーター）。プロジェクト が指定されていない場合、その run は「Uncategorized」プロジェクト に配置されます。
+必要に応じて、W&amp;B Run の出力を保存したい プロジェクト の名前を指定できます ([`wandb.init()`](/ja/models/ref/python/functions/init) の `project` パラメーター) 。プロジェクト が指定されていない場合、その run は「Uncategorized」プロジェクト に配置されます。
 
 <Note>
   sweep と run はどちらも同じ プロジェクト に所属している必要があります。そのため、W&amp;B を初期化するときに指定する名前は、sweep を初期化するときに指定する プロジェクト 名と一致していなければなりません。
@@ -75,9 +75,9 @@ def main():
 
 sweep するハイパーパラメーターを辞書で指定します。設定オプションについては、[sweep 設定を定義する](/ja/models/sweeps/define-sweep-configuration/) を参照してください。
 
-次の例は、ランダムサーチ（`'method':'random'`）を用いる sweep 設定を示しています。sweep は、設定内に列挙された値の中から、バッチサイズ、エポック、および学習率に対して値の組み合わせをランダムに選択します。
+次の例は、ランダムサーチ (`'method':'random'`) を用いる sweep 設定を示しています。sweep は、設定内に列挙された値の中から、バッチサイズ、エポック、および学習率に対して値の組み合わせをランダムに選択します。
 
-W&amp;B は、`"goal": "minimize"` が関連付けられている場合、`metric` キーで指定されたメトリクスを最小化します。この場合、W&amp;B はメトリクス `score`（`"name": "score"`）を最小化するように最適化します。
+W&amp;B は、`"goal": "minimize"` が関連付けられている場合、`metric` キーで指定されたメトリクスを最小化します。この場合、W&amp;B はメトリクス `score` (`"name": "score"`) を最小化するように最適化します。
 
 ```python
 # 2: 探索空間を定義する
@@ -131,7 +131,7 @@ wandb.agent(sweep_id, function=main, count=10)
 </Warning>
 
 <div id="visualize-results-optional">
-  ## 結果を可視化する（任意）
+  ## 結果を可視化する (任意)
 </div>
 
 プロジェクトを開き、W&amp;B App のダッシュボードでリアルタイムの結果を確認します。数回クリックするだけで、[parallel coordinates プロット](/ja/models/app/features/panels/parallel-coordinates/)、[parameter importance 解析](/ja/models/app/features/panels/parameter-importance/)、[その他のチャートタイプ](/ja/models/app/features/panels/) など、リッチでインタラクティブなチャートを作成できます。
@@ -143,7 +143,7 @@ wandb.agent(sweep_id, function=main, count=10)
 結果の可視化方法について詳しくは、[sweep の結果を可視化する](./visualize-sweep-results) を参照してください。ダッシュボードの例については、このサンプルの [Sweeps プロジェクト](https://wandb.ai/anmolmann/pytorch-cnn-fashion/sweeps/pmqye6u3) を参照してください。
 
 <div id="stop-the-agent-optional">
-  ## エージェントを停止する（任意）
+  ## エージェントを停止する (任意)
 </div>
 
 ターミナルで `Ctrl+C` を押して現在の run を停止します。もう一度押すとエージェントを終了します。

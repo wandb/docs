@@ -35,7 +35,7 @@ IT/DevOps/MLOps チームは次の責任を負います:
 
 Operator は中央の [deploy.wandb.ai](https://deploy.wandb.ai) サーバーに接続し、指定されたリリースチャネルの最新の仕様変更を要求して適用します。ライセンスが有効である限り、更新を受け取ります。[Helm](https://helm.sh/) は、Operator のインストールと、W&amp;B Kubernetes スタックを Operator が管理するための両方に使用されます。デプロイメントは複数の Pod で構成されており、サービスごとに 1 つの Pod があり、それぞれの Pod 名には `wandb-` のプレフィックスが付きます。
 
-設定は階層に従います: **Release Channel Values**（W&amp;B からのデフォルト）、**User Input Values**（System Console からの上書き）、**Custom Resource Values**（独自の spec による両方の上書き）。詳細については、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
+設定は階層に従います: **Release Channel Values** (W&amp;B からのデフォルト) 、**User Input Values** (System Console からの上書き) 、**Custom Resource Values** (独自の spec による両方の上書き) 。詳細については、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
 
 * パブリッククラウドまたはオンプレミスのインフラストラクチャに W&amp;B Self-Managed をデプロイするには、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
 * AWS ではないカスタムクラウドプラットフォームに W&amp;B Self-Managed をデプロイする場合、要件は [オンプレミスインフラストラクチャ](#deploy-wb-server-in-on-prem-infrastructure) にデプロイするための要件と同様です。

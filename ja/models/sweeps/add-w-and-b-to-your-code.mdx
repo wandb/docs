@@ -9,11 +9,11 @@ title: コードに W&B (wandb) を組み込む
   ## 元のトレーニングスクリプト
 </div>
 
-以下のようなモデルをトレーニングする Python スクリプトがあるとします。目的は、検証精度（`val_acc`）を最大化するハイパーパラメーターを見つけることです。
+以下のようなモデルをトレーニングする Python スクリプトがあるとします。目的は、検証精度 (`val_acc`) を最大化するハイパーパラメーターを見つけることです。
 
 Python スクリプト内で、`train_one_epoch` と `evaluate_one_epoch` の 2 つの関数を定義します。`train_one_epoch` 関数は 1 エポック分のトレーニングをシミュレートし、トレーニング精度と損失を返します。`evaluate_one_epoch` 関数は検証データセット上でモデルを評価する処理をシミュレートし、検証精度と損失を返します。
 
-学習率（`lr`）、バッチサイズ（`batch_size`）、エポック数（`epochs`）などのハイパーパラメーターの値を含む設定の辞書（`config`）を定義します。この設定の辞書に含まれる値が、トレーニングプロセスを制御します。
+学習率 (`lr`) 、バッチサイズ (`batch_size`) 、エポック数 (`epochs`) などのハイパーパラメーターの値を含む設定の辞書 (`config`) を定義します。この設定の辞書に含まれる値が、トレーニングプロセスを制御します。
 
 次に、典型的なトレーニングループを模した `main` という関数を定義します。各エポックで、トレーニングおよび検証データセットに対する精度と損失を計算します。
 
@@ -55,7 +55,7 @@ if __name__ == "__main__":
     main()
 ```
 
-次のセクションでは、トレーニング中のハイパーパラメーターとメトリクスを追跡できるよう、Python スクリプトに W&amp;B を組み込みます。W&amp;B を使って、検証精度（`val_acc`）を最大化する最適なハイパーパラメーターを見つけます。
+次のセクションでは、トレーニング中のハイパーパラメーターとメトリクスを追跡できるよう、Python スクリプトに W&amp;B を組み込みます。W&amp;B を使って、検証精度 (`val_acc`) を最大化する最適なハイパーパラメーターを見つけます。
 
 <div id="add-wb-to-your-training-script">
   ## トレーニング スクリプトに W&amp;B を追加する
@@ -69,7 +69,7 @@ W&amp;B Python SDK を使用して sweep を開始・停止・管理するには
   <Tab title="CLI">
     sweep の 設定 を記述した YAML 設定 ファイルを作成します。
     この 設定 ファイルには、sweep に探索させたい ハイパーパラメーター を含めます。
-    次の例では、バッチサイズ（`batch_size`）、エポック（`epochs`）、および 学習率（`lr`）の ハイパーパラメーター が各 sweep 中に変化します。
+    次の例では、バッチサイズ (`batch_size`) 、エポック (`epochs`) 、および 学習率 (`lr`) の ハイパーパラメーター が各 sweep 中に変化します。
 
     ```yaml
     # config.yaml
@@ -99,7 +99,7 @@ W&amp;B Python SDK を使用して sweep を開始・停止・管理するには
     2. 設定ファイルを読み込みます。
     3. [`wandb.init()`](/ja/models/ref/python/functions/init) を使用してバックグラウンドプロセスを開始し、[W&amp;B Run](/ja/models/ref/python/experiments/run) としてデータを同期およびログ記録します。`config` オブジェクトを `config` パラメーターに渡します。
     4. ハードコードされた値を使う代わりに、`wandb.Run.config` からハイパーパラメーターの値を定義します。
-    5. [`wandb.Run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog) を使用して、最適化したいメトリクスをログします。設定で定義したメトリクスは必ずログする必要があります。この例では、設定用の辞書（`sweep_configuration`）の中で、`val_acc` の値を最大化する sweep を定義します。
+    5. [`wandb.Run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog) を使用して、最適化したいメトリクスをログします。設定で定義したメトリクスは必ずログする必要があります。この例では、設定用の辞書 (`sweep_configuration`) の中で、`val_acc` の値を最大化する sweep を定義します。
 
     ```python
     import wandb
@@ -171,13 +171,13 @@ W&amp;B Python SDK を使用して sweep を開始・停止・管理するには
   <Tab title="Python スクリプトまたはノートブック">
     以下の手順に従って、Python スクリプトに W&amp;B を追加します。
 
-    1. キーと値のペアで [sweep configuration](/ja/models/sweeps/define-sweep-configuration/) を定義する辞書オブジェクトを作成します。sweep configuration では、W&amp;B に探索させたいハイパーパラメーターと、最適化したいメトリクスを指定します。前の例を続けると、バッチサイズ（`batch_size`）、エポック（`epochs`）、および学習率（`lr`）が、各 sweep 中に変化させるハイパーパラメーターです。検証スコアの accuracy を最大化したい場合は、`"goal": "maximize"` と、この場合は `val_acc`（`"name": "val_acc"`）のように最適化したい変数名を設定します。
-    2. sweep の設定を格納した辞書を [`wandb.sweep()`](/ja/models/ref/python/functions/sweep) に渡します。これにより sweep が初期化され、sweep ID（`sweep_id`）が返されます。詳しくは「[Initialize sweeps](./initialize-sweeps)」を参照してください。
-    3. スクリプトの先頭で、W&amp;B の Python SDK（`wandb`）をインポートします。
+    1. キーと値のペアで [sweep configuration](/ja/models/sweeps/define-sweep-configuration/) を定義する辞書オブジェクトを作成します。sweep configuration では、W&amp;B に探索させたいハイパーパラメーターと、最適化したいメトリクスを指定します。前の例を続けると、バッチサイズ (`batch_size`) 、エポック (`epochs`) 、および学習率 (`lr`) が、各 sweep 中に変化させるハイパーパラメーターです。検証スコアの accuracy を最大化したい場合は、`"goal": "maximize"` と、この場合は `val_acc` (`"name": "val_acc"`) のように最適化したい変数名を設定します。
+    2. sweep の設定を格納した辞書を [`wandb.sweep()`](/ja/models/ref/python/functions/sweep) に渡します。これにより sweep が初期化され、sweep ID (`sweep_id`) が返されます。詳しくは「[Initialize sweeps](./initialize-sweeps)」を参照してください。
+    3. スクリプトの先頭で、W&amp;B の Python SDK (`wandb`) をインポートします。
     4. `main` 関数内で [`wandb.init()`](/ja/models/ref/python/functions/init) を使用して、バックグラウンド プロセスを生成し、データを [W&amp;B Run](/ja/models/ref/python/experiments/run) として同期してログを記録します。`wandb.init()` メソッドにはパラメーターとしてプロジェクト名を渡します。プロジェクト名を渡さない場合、W&amp;B はデフォルトのプロジェクト名を使用します。
     5. `wandb.Run.config` オブジェクトからハイパーパラメーターの値を取得します。これにより、ハードコーディングされた値の代わりに、sweep 設定用の辞書で定義されたハイパーパラメーター値を使用できます。
-    6. 最適化したいメトリクスを [`wandb.Run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog) を使って W&amp;B にログします。設定で定義したメトリクスを必ずログする必要があります。たとえば、最適化するメトリクスを `val_acc` と定義した場合は、`val_acc` をログしなければなりません。このメトリクスをログしないと、W&amp;B は何を最適化すべきか判断できません。設定の辞書（この例では `sweep_configuration`）の中で、`val_acc` の値を最大化するように sweep を定義します。
-    7. [`wandb.agent()`](/ja/models/ref/python/functions/agent) を使って sweep を開始します。sweep ID と、sweep が実行する関数名（`function=main`）を指定し、試行する run の最大数として 4（`count=4`）を指定します。
+    6. 最適化したいメトリクスを [`wandb.Run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog) を使って W&amp;B にログします。設定で定義したメトリクスを必ずログする必要があります。たとえば、最適化するメトリクスを `val_acc` と定義した場合は、`val_acc` をログしなければなりません。このメトリクスをログしないと、W&amp;B は何を最適化すべきか判断できません。設定の辞書 (この例では `sweep_configuration`) の中で、`val_acc` の値を最大化するように sweep を定義します。
+    7. [`wandb.agent()`](/ja/models/ref/python/functions/agent) を使って sweep を開始します。sweep ID と、sweep が実行する関数名 (`function=main`) を指定し、試行する run の最大数として 4 (`count=4`) を指定します。
 
     以上をすべてまとめると、スクリプトは次のようになります。
 

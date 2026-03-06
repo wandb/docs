@@ -47,14 +47,14 @@ python
 !pip install "httpx<0.28"
 ```
 
-環境変数に `WANDB_API_KEY` を設定しておき、`wandb.login()` で簡単にログインできるようにします（これは Colab にシークレットとして渡す必要があります）。
+環境変数に `WANDB_API_KEY` を設定しておき、`wandb.login()` で簡単にログインできるようにします (これは Colab にシークレットとして渡す必要があります) 。
 
 W&amp;B 上でログを記録したいプロジェクトを `name_of_wandb_project` に設定します。
 
 **NOTE**: `name_of_wandb_project` は、トレースを記録する team を指定するために `{team_name}/{project_name}` の形式にすることもできます。
 次に、weave.init() を呼び出して Weave クライアントを取得します。
 
-[OpenAI API](https://openai.com/index/openai-api/) を使用するため、OpenAI API キーも必要です。OpenAI プラットフォームの [サインアップ](https://platform.openai.com/signup) ページから自分の API キーを取得できます（これも Colab にシークレットとして渡す必要があります）。
+[OpenAI API](https://openai.com/index/openai-api/) を使用するため、OpenAI API キーも必要です。OpenAI プラットフォームの [サインアップ](https://platform.openai.com/signup) ページから自分の API キーを取得できます (これも Colab にシークレットとして渡す必要があります) 。
 
 ```python lines
 import base64
@@ -89,7 +89,7 @@ MODEL = "gpt-4o-2024-08-06"
 ここでは、データ分析タスクを取り扱います。
 まずは 4 つのエージェントからなるシステムをセットアップします:
 
-* トリアージエージェント: どのエージェント（複数可）を呼び出すかを決定する
+* トリアージエージェント: どのエージェント (複数可) を呼び出すかを決定する
 * データ前処理エージェント: たとえばクレンジングなどを行い、分析用にデータを準備する
 * データ分析エージェント: データに対して分析を実行する
 * Data Visualization エージェント: 分析結果を可視化してインサイトを抽出する

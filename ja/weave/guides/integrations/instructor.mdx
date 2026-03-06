@@ -102,7 +102,7 @@ person = extract_person("My name is John and I am 20 years old")
 
 要素が多くなると、実験を整理するのは難しくなります。[`Model`](../core-types/models) クラスを使うと、システムプロンプトや使用している モデル など、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまな反復を整理し、比較しやすくなります。
 
-コードのバージョニングや入出力の記録に加えて、[`Model`](../core-types/models) はアプリケーションの挙動を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も有効だったかを簡単に特定できます。また、Weave Models を `serve`（下記参照）や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
+コードのバージョニングや入出力の記録に加えて、[`Model`](../core-types/models) はアプリケーションの挙動を制御する構造化されたパラメーターも記録するため、どのパラメーターが最も有効だったかを簡単に特定できます。また、Weave Models を `serve` (下記参照) や [`Evaluation`](../core-types/evaluations) と組み合わせて使用することもできます。
 
 以下の例では、`PersonExtractor` を使って実験できます。これらのいずれかを変更するたびに、`PersonExtractor` の新しい *バージョン* が作成されます。
 

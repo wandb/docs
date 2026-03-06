@@ -60,7 +60,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
   ## `Model` を構築する
 </div>
 
-Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であり、モデル / エージェントの挙動（ロジック、プロンプト、パラメーター）と、そのバージョン管理されたメタデータ（パラメーター、コード、マイクロ設定）の両方を保持することで、信頼性の高いトラッキング、比較、評価、反復を可能にします。
+Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であり、モデル / エージェントの挙動 (ロジック、プロンプト、パラメーター) と、そのバージョン管理されたメタデータ (パラメーター、コード、マイクロ設定) の両方を保持することで、信頼性の高いトラッキング、比較、評価、反復を可能にします。
 
 `Model` をインスタンス化すると、Weave はその設定と挙動を自動で取得し、変更があればバージョンを更新します。これにより、反復を重ねる中で、時間経過に伴うパフォーマンスの推移を追跡できます。
 
@@ -116,7 +116,7 @@ Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であ
   </Tab>
 </Tabs>
 
-`ExtractFruitsModel` クラスは `weave.Model` を継承（サブクラス化）しており、Weave がインスタンス化されたオブジェクトをトラッキングできるようにします。`@weave.op` は predict 関数をデコレートし、その入力と出力をトラッキングします。
+`ExtractFruitsModel` クラスは `weave.Model` を継承 (サブクラス化) しており、Weave がインスタンス化されたオブジェクトをトラッキングできるようにします。`@weave.op` は predict 関数をデコレートし、その入力と出力をトラッキングします。
 
 `Model` オブジェクトは次のようにインスタンス化できます。
 
@@ -158,7 +158,7 @@ Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であ
 
 次に、モデルを評価するためのデータセットが必要です。[`Dataset` は、Weave オブジェクトとして保存されるサンプルの集合です](/ja/weave/guides/core-types/datasets)。
 
-次のサンプルデータセットでは、3 つの入力文とそれぞれの正解ラベル（`labels`）を定義し、それらをスコアリング関数が読み取れる JSON テーブル形式に整えます。
+次のサンプルデータセットでは、3 つの入力文とそれぞれの正解ラベル (`labels`) を定義し、それらをスコアリング関数が読み取れる JSON テーブル形式に整えます。
 
 この例では、コード内でサンプルのリストを作成していますが、実行中のアプリケーションから 1 件ずつログすることもできます。
 
@@ -230,7 +230,7 @@ Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であ
   ## カスタムスコアリング関数を定義する
 </div>
 
-Weave 評価を使用する場合、Weave は `output` と比較するための `target` を前提とします。次のスコアリング関数は 2 つの辞書（`target` と `output`）を受け取り、出力が target と一致しているかどうかを示す真偽値を持つ辞書を返します。`@weave.op()` デコレーターによって、Weave はこのスコアリング関数の実行を追跡できるようになります。
+Weave 評価を使用する場合、Weave は `output` と比較するための `target` を前提とします。次のスコアリング関数は 2 つの辞書 (`target` と `output`) を受け取り、出力が target と一致しているかどうかを示す真偽値を持つ辞書を返します。`@weave.op()` デコレーターによって、Weave はこのスコアリング関数の実行を追跡できるようになります。
 
 <Tabs>
   <Tab title="Python">
@@ -256,7 +256,7 @@ Weave 評価を使用する場合、Weave は `output` と比較するための 
 
 独自のスコアリング関数を作成する方法については、[Scorers](/ja/weave/guides/evaluation/scorers) ガイドを参照してください。
 
-一部のアプリケーションでは、カスタムの `Scorer` クラスを作成したい場合があります。たとえば、特定のパラメーター（チャットモデルやプロンプトなど）、行ごとのスコアリング方法、およびスコアの集計方法を備えた標準化された `LLMJudge` クラスを作成することが考えられます。`Scorer` クラスの定義については、次の章の [RAG アプリケーションのモデルベース評価](/ja/weave/tutorial-rag#optional-defining-a-scorer-class) に関するチュートリアルを参照してください。
+一部のアプリケーションでは、カスタムの `Scorer` クラスを作成したい場合があります。たとえば、特定のパラメーター (チャットモデルやプロンプトなど) 、行ごとのスコアリング方法、およびスコアの集計方法を備えた標準化された `LLMJudge` クラスを作成することが考えられます。`Scorer` クラスの定義については、次の章の [RAG アプリケーションのモデルベース評価](/ja/weave/tutorial-rag#optional-defining-a-scorer-class) に関するチュートリアルを参照してください。
 
 <div id="use-a-built-in-scorer-and-run-the-evaluation">
   ## 組み込みスコアラーを使って評価を実行する
