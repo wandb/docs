@@ -11,6 +11,105 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.78.1" description="March 5, 2026">
+## Fixes
+- Fixed a bug where forking from a parent run that logged no data could fail.
+- Fixed a UI bug where the user's preference for light or dark mode was not used.
+- Performance improvements and bug fixes for history reads from Parquet.
+</Update>
+
+<Update label="v0.78.0" description="March 3, 2026">
+
+W&B Server 0.78.0 strengthens security and access defaults, adds tools to compare experiments and control costs more efficiently, and more. For example:
+
+- In **Models**, create multi-metric plots efficiently with regular expressions, pin important runs, compare experiments against a baseline, and streamline workspaces using enhanced workspace templates.
+- **Registry** includes enhanced search, redesigned cards, clearer and more responsive lineage graphs, and more.
+- In **Weave**, the **Trace Analytics** dashboard helps you spot bottlenecks and budget drivers from the Project Overview page. Saved views now support customized Traces, Evaluations, and Leaderboards. Weave Playground adds support for LoRA (Low-Rank Adaptation) and new models.
+- **Inference** includes new models.
+
+## Support and end of life
+
+- v0.66.0 and below have reached end of life.
+
+Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
+
+## Security
+
+- A W&B organization or deployment can now have a maximum of 100 Personal API Keys, 100 organization-level API keys per user, and 100 API keys per Service Account.
+- On the Enterprise plan, when you [invite a member](/platform/hosting/iam/access-management/manage-organization#invite-a-user) to the organization, they are assigned the **Member** role by default. On other plans, the default role is **Admin**.
+- When inviting a new user to a team who is not currently a member of the organization, their initial role is now **Member**.
+- The initial role for a user [invited](/platform/hosting/iam/access-management/manage-organization#invite-a-user) to an organization or team now displays in the invitation table.
+
+## Features
+
+- Use [pinned and baseline runs](/models/runs/compare-runs) to keep track of important runs and efficiently evaluate model experiments.
+    - Pin up to 6 runs to keep them visible in the workspace and at the top of the runs list. If you have a baseline run, you can pin up to 5 runs because the baseline is implicitly pinned.
+    - Specify a baseline run as your reference point for comparisons. The baseline run is always visible in the workspace and at the top of the runs list.
+
+    In the runs table, summary metric deltas show how each run compares to the baseline.
+
+    <Frame>
+    ![Summary metric deltas in runs table comparing to baseline](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
+    </Frame>
+
+    In line plots, the baseline appears with visually distinct styling to help with comparison.
+
+    <Frame>
+    ![Baseline run with distinct styling in line plot](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)
+    </Frame>
+
+- [Create panels with multiple metrics](/models/app/features/panels/line-plot#multi-metric-line-plot) in bulk to quickly organize your workspace and spot patterns across large metric sets. For example, you can overlay gradient metrics across model layers or position specific layers side-by-side. [Watch a video demonstration](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166).
+- [Workspace templates](/models/app/features/cascade-settings#workspace-layout-options) have new settings. You can now configure your workspace template to hide empty sections, sort panels in a section alphabetically, or adjust how automatic panel sorting in a section works. See [Workspace layout options](/models/app/features/cascade-settings#workspace-layout-options).
+- The **Sweeps** table now includes a column with the **Sweep ID**.
+- Admins can now customize usage and spend alerts for your organization. View usage and spending and set up email notifications for storage, tracked hours, Weave, Inference, and Training in your organization settings under the new **Usage & Alerts** tab. See [Plan usage](/platform/app/settings-page/billing-settings#plan-usage).
+
+### Registry
+
+- The Registry UI is faster to navigate and easier to scan.
+    - Improved type-ahead search, redesigned Registry and Collection cards, and new Registry icons help visually distinguish assets using smart ranking initially, with AI ranking coming soon.
+    - Registry icons are initially auto-generated and can be customized by Registry Admins at any time.
+
+    <Frame>
+    ![Registry icons and redesigned cards](/images/release-notes/v0-78-0/registry-icons-and-cards.gif)
+    </Frame>
+
+    - In lineage graphs, when you hover over a node, it is highlighted and other nodes are dimmed.
+    - You can now click the name of a collection to quickly view its artifact versions.
+    - For convenience, you can now star a registry from its **Settings** page.
+
+### Inference
+
+- The model `Moonshot AI Kimi K2.5` is now available. See [Model Catalog](/inference/models).
+
+### Weave
+
+- The **Project Overview** page now includes a **Trace Analytics** dashboard with request counts, latency percentiles (P50/P95/P99), token usage by model, and cost breakdown. Spot which models are burning through your budget, or find the slow requests dragging down your P95. Click a time bucket to jump straight to the relevant traces, to quickly identify the cause of a latency spike.
+
+    <Frame>
+    ![Trace Analytics dashboard on Project Overview](/images/release-notes/v0-78-0/weave-trace-analytics-dashboard.png)
+    </Frame>
+
+- **Weave Playground** now supports **[LoRA](/inference/lora)**, so you can test your fine-tuned LoRA adapters efficiently. Click the **Try in Playground** button on a LoRA artifact page.
+- Claude Opus 4.6 is now available in **Weave Playground**.
+- You can now re-order columns in **Traces** and **Evaluations** tables.
+    - Drag and drop leaf columns directly in the table or move entire sections around from the column management menu.
+    - Persist your changes in a [saved view](/weave/guides/tools/saved-views). View a video demonstration.
+
+    <Frame>![Video: re-ordering columns in Traces and Evaluations tables](/images/release-notes/v0-78-0/weave-column-reorder-demo.gif)</Frame>
+- You can now save a customized [Leaderboard](/weave/guides/evaluation/dynamic_leaderboards) in a saved view.
+- You can now evaluate audio and image content in your traces using [monitors](/weave/guides/evaluation/monitors).
+- Aggregated OpenTelemetry token counts now display in the trace detail sidebar for [OpenTelemetry traces](/weave/guides/tracking/otel#send-opentelemetry-traces-to-weave).
+- For models like Gemini that provide thinking tokens, they now display in **Token Usage** in the Weave UI. Thinking tokens are internal tokens used by LLMs to process complex reasoning steps, calculations, and self-reflection before generating a final answer.
+
+## Fixes
+
+- Fixed a bug where a hidden team's reports could be shared.
+- Fixed a UI bug where copying text with newlines could truncate the selection.
+- When the Sweeps agent claims a preempted run for re-execution, the training script now has up to 60 minutes to start up and initialize the run before the run is sent to a different agent, increased from 60 seconds.
+- Fixed a race condition that could prevent a preempted Sweeps run from being enqueued for re-execution.
+- Fixed a bug where a Sweep could fail if its name started with a digit.
+</Update>
+
 <Update label="v0.77.1" description="January 28, 2026">
 **January 28, 2026**
 
@@ -31,7 +130,7 @@ This release includes security enhancements to API keys, streamlined navigation 
 
 ## Support and end of life
 
-- W&B Server v0.65 and below will reach end of life on January 30, 2026.
+- W&B Server v0.65 has reached end of life.
 
 Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
 
@@ -143,8 +242,7 @@ W&B v0.76 delivers a major boost to experiment insight and productivity, introdu
 
 ## Support and end of life
 
-- W&B Server v0.63 and below reached end of life on November 20, 2025.
-- W&B Server v0.65 is scheduled to reach end of life on January 30, 2026.
+- W&B Server v0.63 has reached end of life.
 
 ## Features
 
@@ -205,8 +303,7 @@ W&B v0.76 delivers a major boost to experiment insight and productivity, introdu
 W&B v0.75 enhances Registry with a new Restricted Viewer role, the ability to star registries, and programmatic Registry access control over SCIM. The new automation execution history view helps you to understand and debug your automations. Visualize config-driven effects with semantic coloring by config properties such as hyperparameters, view full-fidelity plots for system metrics, and more.
 
 ## Support and end of life
-- W&B Server v0.61 and below reached end of life on October 28, 2025.
-- W&B Server v0.63 is scheduled to reach end of life on November 26, 2025.
+- W&B Server v0.61 has reached end of life.
 
 Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
 
@@ -277,8 +374,7 @@ Part of this change is included in Server v0.75: the left sidebar now indicates 
 W&B v0.74 delivers SCIM API improvements for enterprise identity management, including automated group sync with Okta, streamlined user role configuration, and more. In Dedicated Cloud, a powerful new full-screen image browser helps you inspect and compare images within and between runs. Weave enhancements include in-Playground LLM judge evaluations, better visibility into multi-turn Thread tool calls, DSPy improvements, and a new integration with the Verifiers library for Reinforcement Learning workflows. W&B Inference adds support for the [Z.AI](https://z.ai/) GLM v4.5 hybrid reasoning model.
 
 ## Support and end of life
-- W&B Server v0.60 and below reached end of life on October 2, 2025.
-- W&B Server v0.61 is scheduled to reach end of life on October 28, 2025.
+- W&B Server v0.60 has reached end of life.
 
 ## Features
 - The SCIM API has been enhanced:
@@ -379,6 +475,9 @@ In v0.73.0, resizing or reordering workspace panels may not be reflected in save
 <Update label="v0.72.0" description="August 6, 2025">
 W&B 0.72 includes fixes for line plots and media panels, as well as improvements to Weave integrations for OpenTelemetry and Google Agent Development Kit.
 
+## Support and end of life
+- W&B Server v0.58 has reached end of life.
+
 ## Upcoming changes
 - We’re optimizing our rendering behavior in the workspace to provide faster loading in workspaces with many panels, as well as more responsive and accurate drag-and-drop of panels in workspaces. **As part of this, we plan to remove the “Custom grid” layout in workspace sections in the next (0.73) release.** Custom grids will remain available in Reports. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions or concerns.
 - In an upcoming release, we will align multi-run and single-run workspace views, so when you drill into a single run, you’ll see the same layout and configuration of panels as you’ve configured for the multi-run view, including any custom charts, layouts, and settings. The goal is help you stay in context and avoid re-work around configuring your views. However, this will remove the ability to customize unique single-run views, isolated from the rest of the workspace. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions about the migration.
@@ -395,10 +494,7 @@ W&B 0.72 includes fixes for line plots and media panels, as well as improvements
 With W&B Server 0.71, Registry is turned on by default for all organizations. For more details about the staged Registry rollout, see the relevant note in Features. This release brings several improvements and fixes to workspaces: Keep media panels with a common step slider in sync, navigate through through full-screen panels more efficiently, and find more details about a run’s total duration and time actively running. in the Run Overview page. Automations have been enhanced, and you can now trigger an automation based on an artifact version’s tags. {/* more */}
 
 ## Support and end of life
-<ul>
-  <li>W&B Server v0.57 and below reached end of life on July 29, 2025.</li>
-  <li>W&B Server v0.58 is scheduled to reach end of life on September 2, 2025.</li>
-</ul>{/* This is in HTML to fix the admonition included below showing up as a child of the second item */}
+- W&B Server v0.57 has reached end of life.
 
 ## Upcoming changes
 - We’re optimizing our rendering behavior in the workspace to provide faster loading in workspaces with many panels, as well as more responsive and accurate drag-and-drop of panels in workspaces. **As part of this, we plan to remove the “Custom grid” layout in workspace sections in the next (0.72) release.** Custom grids will remain available in Reports. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions or concerns.
@@ -469,6 +565,9 @@ These bugs were introduced in v0.70.0.
 <Update label="v0.70.0" description="July 7, 2025">
 W&B Server v0.70 includes features, enhancements, and performance improvements to help you gain and share insights more efficiently. For example:
 
+## Support and end of life
+- W&B Server v0.56 has reached end of life.
+
 ## Upcoming changes
 - In an upcoming release, we will align multi-run and single-run workspace views, so when you drill into a single run, you’ll see the same layout and configuration of panels as you’ve configured for the multi-run view, including any custom charts, layouts, and settings. The goal is help you stay in context and avoid re-work around configuring your views. However, this will remove the ability to customize unique single-run views, isolated from the rest of the workspace. Reach out to your W&B team or [support](mailto:support@wandb.ai) for any questions about the migration.
 - Over the next several releases, we will migrate existing team-level Model Registry W&B Registry. For details and a timeline, see the [W&B Registry GA announcement](#registry_ga_announcement) below.
@@ -523,6 +622,9 @@ W&B Server v0.70 includes features, enhancements, and performance improvements t
 </Update>
 
 <Update label="v0.69.0" description="May 28, 2025">
+## Support and end of life
+- W&B Server v0.56 has reached end of life.
+
 ## Upgrading
 To [upgrade](/platform/hosting/server-upgrade-process/#update-with-helm) to W&B v0.69.x, you must use v0.31.4+ of the `operator-wandb` Helm chart. Otherwise, after the upgrade, the `weave-cache-clear` container can fail to start. Ensure that your deployment uses these values:
 
@@ -697,22 +799,4 @@ Private preview features are available by invitation only. To request enrollment
 - Fixed display bugs that could occur when a report included multiple run sets.
 - Fixed a bug where panels Quick Added to an alphabetically sorted section were sorted incorrectly.
 - Fixed a bug that generated malformed user invitation links.
-</Update>
-
-<Update label="v0.66.0" description="March 06, 2025">
-## Features
-- In tables and query panels, columns you derive from other columns now persist, so you can use them for filtering or in query panel plots.
-
-## Security
-- Limited the maximum depth for a GraphQL document to 20.
-- Upgraded pyarrow to v17.0.0.
-</Update>
-
-<Update label="v0.65.0" description="January 30, 2025">
-## Features
-- From a registry's **Settings**, you can now update the owner to a different user with the Admin role. Select **Owner** from the user's **Role** menu.
-- You can now move a run to a different group in the same project. Hover over a run in the run list, click the three-vertical-dots menu, and choose **Move to another group**.
-- You can now configure whether the **Log Scale setting** for line plots is enabled by default at the level of the workspace or section. 
-  - To configure the behavior for a workspace, click the action `...` menu for the workspace, click **Line plots**, then toggle **Log scale** for the X or Y axis.
-  - To configure the behavior for a section, click the gear icon for the section, then toggle **Log scale** for the X or Y axis.
 </Update>

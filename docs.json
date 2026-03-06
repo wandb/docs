@@ -30,10 +30,22 @@
   },
   "contextual": {
     "options": [
-      "copy",
-      "view",
+      {
+        "title": "Install W&B MCP in Cursor",
+        "description": "Automatically install W&B MCP server to Cursor. Requires a W&B API key.",
+        "icon": "plug",
+        "href": "cursor://anysphere.cursor-deeplink/mcp/install?name=wandb&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0="
+      },
+      {
+        "title": "Install W&B MCP in other clients",
+        "description": "Set up the W&B MCP server in VS Code, Claude, and or other LLM agents.",
+        "icon": "plug",
+        "href": "/platform/mcp-server"
+      },
       "chatgpt",
-      "claude"
+      "claude",
+      "copy",
+      "view"
     ]
   },
   "navbar": {
@@ -61,6 +73,7 @@
             "pages": [
               "index",
               "get-started",
+              "platform/mcp-server",
               {
                 "group": "Deployment options",
                 "pages": [
@@ -593,7 +606,14 @@
                         "group": "wandb beta",
                         "pages": [
                           "models/ref/cli/wandb-beta",
-                          "models/ref/cli/wandb-beta/wandb-beta-leet",
+                          {
+                            "group": "beta leet",
+                            "pages": [
+                              "models/ref/cli/wandb-beta/wandb-beta-leet",
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run"
+                            ]
+                          },
                           "models/ref/cli/wandb-beta/wandb-beta-sync"
                         ]
                       },
@@ -695,18 +715,45 @@
                 "pages": [
                   "weave/concepts/what-is-weave",
                   {
-                    "group": "Track your application",
+                    "group": "Trace your application",
                     "pages": [
-                      "weave/guides/tracking/tracing",
-                      "weave/tutorial-tracing_2",
+                      {
+                        "group": "Tracing basics",
+                        "pages": [
+                          "weave/guides/tracking/tracing",
+                          "weave/guides/tracking/create-call",
+                          "weave/guides/tracking/trace-tree",
+                          "weave/guides/tracking/querying-calls"
+                        ]
+                      },
+                      {
+                        "group": "Advanced tracing",
+                        "pages": [
+                          "weave/guides/tracking/trace-generator-func",
+                          "weave/tutorial-tracing_2",
+                          "weave/guides/tracking/threads",
+                          "weave/guides/tracking/ops",
+                          "weave/guides/tools/attributes",
+                          "weave/guides/core-types/media",
+                          "weave/guides/tracking/view-call"
+                        ]
+                      },
+                      {
+                        "group": "Work with Calls",
+                        "pages": [
+                          "weave/guides/tracking/update-call",
+                          "weave/guides/tracking/call-schema-reference",
+                          "weave/guides/tracking/get-call-object",
+                          "weave/guides/tracking/set-call-display"
+                        ]
+                      },
+                      "weave/guides/tracking/trace-disable",
                       "weave/guides/tracking/costs",
-                      "weave/guides/core-types/media",
                       "weave/guides/tools/saved-views",
                       "weave/guides/tools/comparison",
-                      "weave/guides/tracking/trace-tree",
-                      "weave/guides/tracking/threads",
                       "weave/guides/tracking/trace-plots",
                       "weave/guides/tools/attributes",
+                      "weave/guides/tracking/trace-to-run",
                       "weave/guides/tools/weave-in-workspaces"
                     ]
                   },
@@ -720,7 +767,6 @@
                       "weave/guides/evaluation/weave_local_scorers",
                       "weave/guides/evaluation/evaluation_logger",
                       "weave/guides/core-types/leaderboards",
-                      "weave/guides/tools/attributes",
                       "weave/guides/tools/column-mapping",
                       "weave/guides/evaluation/dynamic_leaderboards"
                     ]
@@ -739,14 +785,20 @@
                       "weave/tutorial-weave_models",
                       "weave/guides/core-types/models",
                       "weave/guides/core-types/prompts",
-                      "weave/guides/tracking/objects",
-                      "weave/guides/tracking/ops"
+                      "weave/guides/tracking/objects"
                     ]
                   },
                   {
                     "group": "Monitor and collect feedback",
                     "pages": [
-                      "weave/guides/tracking/feedback",
+                      {
+                        "group": "Annotate",
+                        "pages": [
+                          "weave/guides/tracking/annotation-queues",
+                          "weave/guides/tracking/annotation-review",
+                          "weave/guides/tracking/feedback"
+                        ]
+                      },
                       "weave/guides/tracking/redact-pii",
                       "weave/guides/evaluation/monitors",
                       "weave/guides/evaluation/guardrails",
@@ -757,6 +809,7 @@
                     "group": "Integrate with your LLM provider and frameworks",
                     "pages": [
                       "weave/guides/integrations",
+                      "weave/guides/integrations/autopatching",
                       {
                         "group": "LLM Providers",
                         "pages": [
@@ -1005,6 +1058,7 @@
               {
                 "group": "Tutorials",
                 "pages": [
+                  "inference/tutorials/integration-cline",
                   "inference/tutorials/creating-lora"
                 ]
               },

@@ -1,0 +1,48 @@
+---
+title: "Call schema reference"
+description: "Reference for the Call object structure and properties"
+---
+
+This page provides a reference for the Call object schema in W&B Weave. For information on querying calls, see [Query and export calls](/weave/guides/tracking/querying-calls).
+
+## Call properties
+
+The table below outlines the key properties of a Call in Weave. For the complete implementation, see: 
+- [class: CallSchema](/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) in the Python SDK.
+- [Interface: CallSchema](/weave/reference/typescript-sdk/interfaces/callschema) in the TypeScript SDK.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `id` | string (uuid) | Unique identifier for the call |
+| `project_id` | string (optional) | Associated project identifier |
+| `op_name` | string | Name of the operation (can be a reference) |
+| `display_name` | string (optional) | User-friendly name for the call |
+| `trace_id` | string (uuid) | Identifier for the trace this call belongs to |
+| `parent_id` | string (uuid) | Identifier of the parent call |
+| `started_at` | datetime | Timestamp when the call started |
+| `attributes` | Dict[str, Any] | User-defined metadata about the call *(read-only during execution)* |
+| `inputs` | Dict[str, Any] | Input parameters for the call |
+| `ended_at` | datetime (optional) | Timestamp when the call ended |
+| `exception` | string (optional) | Error message if the call failed |
+| `output` | Any (optional) | Result of the call |
+| `summary` | Optional[SummaryMap] | Post-execution summary information. You can modify this during execution to record custom metrics. |
+| `wb_user_id` | Optional[str] | Associated W&B user ID |
+| `wb_run_id` | Optional[str] | Associated W&B run ID |
+| `deleted_at` | datetime (optional) | Timestamp of call deletion, if applicable |
+
+## Property details
+
+`CallSchema` properties play an important role in tracking and managing function calls:
+- The `id`, `trace_id`, and `parent_id` properties help organize and relate calls within the system.
+- Timing information (`started_at`, `ended_at`) support performance analysis.
+- The `attributes` and `inputs` properties provide context for the call. Attributes are frozen once the call starts, so set them before invocation with `weave.attributes`. `output` and `summary` capture the results. 
+-You can store metrics or other post-call values in the `summary` property. Modify `call.summary` during execution. Any values you add is merged with Weave's computed summary data when the Call finishes.
+    - Weave's computed summary data:
+        - `costs`: The total cost of the call based on LLM model usage data and token pricing data.  For more information on cost calculation, see [Track costs](/weave/guides/tracking/costs).
+        - `latency_ms`: The duration, in milliseconds, elapsed between `started_at` and `ended_at`. `null` if `status` is `RUNNING`.
+        - `status`: The execution status: `SUCCESS`, `ERROR`, `RUNNING`, `DESCENDANT_ERROR` (meaning the call itself succeeded but a descendant call errored). {/* [empty ref](/weave/reference/python-sdk/trace_server/trace_server_interface#class-tracestatus)*/}
+       
+- Integration with W&B is facilitated through `wb_user_id` and `wb_run_id`.
+
+This comprehensive set of properties enables detailed tracking and analysis of function calls throughout your project.
+
