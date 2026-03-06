@@ -1,8 +1,7 @@
 ---
-title: "Programmatically export evaluations"
-description: "Export evaluation data from W&B Weave using the v2 Evaluation REST API"
+title: "Export evaluation data"
+description: "Programmatically export evaluation results using the Evaluation REST API."
 ---
-
 
 Teams that run evaluations in W&B Weave often need evaluation results outside of the Weave UI. Common use cases include:
 
@@ -11,96 +10,141 @@ Teams that run evaluations in W&B Weave often need evaluation results outside of
 - Sharing results with stakeholders who don't have W&B seats, through BI tools like Looker or internal dashboards.
 - Building automated reporting pipelines that aggregate scores across projects.
 
-The [`weave_export_evals.py`](https://github.com/wandb/docs/blob/main/scripts/weave_export_evals.py) script demonstrates extracting evaluation data from a Weave project using the [v2 Evaluation REST API](https://trace.wandb.ai/docs). Unlike the general-purpose Calls API, these endpoints surface focused evaluation concepts: evaluation runs, predictions, scores, and scorers. The result is richer, more structured output with typed scorer statistics and resolved dataset inputs. The script requires only Python and the `requests` library.
+The [v2 Evaluation REST API](https://trace.wandb.ai/docs) surfaces focused evaluation concepts: evaluation runs, predictions, scores, and scorers. The result is richer, more structured output with typed scorer statistics and resolved dataset inputs compared to the general-purpose Calls API.
 
-### What the script exports
+## API endpoints used
 
-The script operates in two modes: **list** and **export**.
+The snippets on this page use the following endpoints from the [v2 Evaluation REST API](https://trace.wandb.ai/docs):
 
-**List mode** queries a project for recent evaluation runs and displays a summary of each one, including the model, evaluation name, status, and timestamps. It tries the v2 `evaluation_runs` endpoint first and falls back to the general-purpose Calls API to search for Call objects with `Evaluation.evaluate` in their Op name when the v2 endpoint returns no data.
+- `GET /v2/{entity}/{project}/evaluation_runs`: Lists evaluation runs in a project, with optional filters by evaluation reference, model reference, or run ID.
+- `GET /v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}`: Reads a single evaluation run to retrieve its model, evaluation reference, status, timestamps, and summary.
+- `POST /v2/{entity}/{project}/eval_results/query`: Retrieves grouped evaluation result rows for one or more evaluations. Returns per-row trials with model output, scores, and optionally resolved dataset row inputs. Also returns aggregated scorer statistics when requested.
+- `GET /v2/{entity}/{project}/predictions/{prediction_id}`: Reads an individual prediction with its inputs, output, and model reference.
 
-**Export mode** retrieves the full details of a single evaluation run and writes them to JSON or CSV. The export includes:
+Authentication uses HTTP Basic with `api` as the username and your W&B API key as the password.
 
-- **Evaluation run details**: The run ID, display name, evaluation reference, model reference, status, and timestamps.
-- **Scorer statistics**: Aggregated stats for each scorer dimension, including value type (binary or continuous), pass rate and pass counts for binary scorers, and numeric mean for continuous scorers.
-- **Per-prediction data**: For each row in the evaluation dataset, the export includes:
-  - The predict-and-score Call ID and row digest.
-  - Resolved dataset row inputs (the actual data, not just a reference).
-  - The model's output.
-  - All scorer results, broken down by scorer and sub-field.
-  - Model latency and token usage when available.
-
-### How to use row digests
-
-Each prediction in the export includes a `row_digest`, a content hash that uniquely identifies a specific input in the evaluation dataset based on its contents, not its position. Row digests are useful for:
-
-- **Cross-evaluation comparison**: When you run two different models against the same dataset, rows with the same digest represent the same input. You can join on `row_digest` to compare how different models performed on the exact same task.
-- **Deduplication**: If the same task appears in multiple evaluation suites, the digest lets you identify it.
-- **Reproducibility**: The digest is content-addressable, so if someone modifies a dataset row (changes the instruction text, rubric, or other fields), it gets a new digest. You can verify whether two evaluation runs used identical inputs or slightly different versions.
-
-### Prerequisites
+## Prerequisites
 
 - Python 3.7 or later.
 - The `requests` library. Install it with `pip install requests`.
 - A W&B API key, set as the `WANDB_API_KEY` environment variable. Get your key at [wandb.ai/settings](https://wandb.ai/settings).
 
-### Usage
+## Set up authentication
 
-**List recent evaluation runs in a project:**
+```python
+import json
+import os
 
-```bash
-python weave_export_evals.py --entity my-team --project my-project
+import requests
+
+TRACE_BASE = "https://trace.wandb.ai"
+AUTH = ("api", os.environ["WANDB_API_KEY"])
+
+entity = "my-team"
+project = "my-project"
 ```
 
-**Export a specific evaluation run to JSON (by UUID or list index):**
+## List evaluation runs
 
-```bash
-python weave_export_evals.py --entity my-team --project my-project --eval-run-id <id>
-python weave_export_evals.py --entity my-team --project my-project --eval-run-id 0
+Retrieve recent evaluation runs in a project and list details for each run, such as ID and status.
+
+```python
+resp = requests.get(
+    f"{TRACE_BASE}/v2/{entity}/{project}/evaluation_runs",
+    auth=AUTH,
+)
+runs = [json.loads(line) for line in resp.text.strip().splitlines()]
+
+for run in runs:
+    print(run["evaluation_run_id"], run.get("status"))
 ```
 
-**Export to a JSON file:**
+## Read a single evaluation run
 
-```bash
-python weave_export_evals.py --entity my-team --project my-project --eval-run-id <id> -o results.json
+Retrieve details for a specific evaluation run, including its model, evaluation reference, status, and timestamps.
+
+```python
+eval_run_id = "<evaluation-run-id>"
+
+resp = requests.get(
+    f"{TRACE_BASE}/v2/{entity}/{project}/evaluation_runs/{eval_run_id}",
+    auth=AUTH,
+)
+eval_run = resp.json()
+print(eval_run["evaluation_run_id"], eval_run.get("status"), eval_run.get("model"))
 ```
 
-**Export to CSV:**
+## Get predictions and scores
 
-```bash
-python weave_export_evals.py --entity my-team --project my-project --eval-run-id <id>
+Use the `eval_results/query` endpoint to retrieve per-row results for an evaluation run. Each row includes the resolved dataset inputs, model output, and individual scorer results. Set `include_rows`, `include_raw_data_rows`, and `resolve_row_refs` to get the full per-row detail.
+
+```python
+eval_run_id = "<evaluation-run-id>"
+
+resp = requests.post(
+    f"{TRACE_BASE}/v2/{entity}/{project}/eval_results/query",
+    json={
+        "evaluation_run_ids": [eval_run_id],
+        "include_rows": True,
+        "include_raw_data_rows": True,
+        "resolve_row_refs": True,
+    },
+    auth=AUTH,
+)
+results = resp.json()
+
+for row in results["rows"]:
+    inputs = row.get("raw_data_row")
+    for ev in row.get("evaluations", []):
+        for trial in ev.get("trials", []):
+            output = trial.get("model_output")
+            scores = trial.get("scores", {})
+            print("Input:", inputs)
+            print("Output:", output)
+            print("Scores:", scores)
 ```
 
-### Script options
+## Get aggregated scores
 
-| Flag | Description | Default |
-|---|---|---|
-| `--entity` | W&B entity (team or username). Required. | |
-| `--project` | W&B project name. Required. | |
-| `--eval-run-id` | Evaluation run ID (UUID) or list index (for example, `0`, `1`) to export. Omit to list runs. | |
-| `--format` | Output format: `json` or `csv`. | `json` |
-| `-o`, `--output` | Output file path. JSON defaults to stdout. CSV defaults to `eval_<id>.csv`. | |
-| `--limit` | Maximum number of evaluation runs to list. | `20` |
+The same `eval_results/query` endpoint can also return aggregated scorer statistics instead of per-row data. Set `include_summary` to get summary-level metrics like pass rates for binary scorers and means for continuous scorers.
 
-### API endpoints used
+```python
+resp = requests.post(
+    f"{TRACE_BASE}/v2/{entity}/{project}/eval_results/query",
+    json={
+        "evaluation_run_ids": [eval_run_id],
+        "include_summary": True,
+        "include_rows": False,
+    },
+    auth=AUTH,
+)
+results = resp.json()
 
-The script uses the following endpoints from the [v2 Evaluation REST API](https://trace.wandb.ai/docs):
+for ev in results["summary"]["evaluations"]:
+    for stat in ev["scorer_stats"]:
+        print(stat["scorer_key"], stat.get("value_type"), stat.get("pass_rate") or stat.get("numeric_mean"))
+```
 
-- `GET /v2/{entity}/{project}/evaluation_runs`: Lists evaluation runs in a project, with optional filters by evaluation reference, model reference, or run ID.
-- `GET /v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}`: Reads a single evaluation run to retrieve its model, evaluation reference, status, timestamps, and summary.
-- `GET /v2/{entity}/{project}/predictions/{prediction_id}`: Reads an individual prediction with its inputs, output, and model reference.
-- `GET /v2/{entity}/{project}/scorers/{object_id}/versions/{digest}`: Reads a scorer definition including its name, description, and score Op reference.
-- `POST /v2/{entity}/{project}/eval_results/query`: Retrieves grouped evaluation result rows for one or more evaluations. Returns per-row trials with model output, scores, and optionally resolved dataset row inputs. Also returns aggregated scorer statistics when requested.
+## Read a single prediction
 
-Authentication uses HTTP Basic with `api` as the username and your W&B API key as the password.
+Retrieve the full details of an individual prediction, including its inputs, output, and model reference.
 
-### Output structure
+```python
+prediction_id = "<predict-call-id>"
 
-**JSON output** contains three top-level keys:
+resp = requests.get(
+    f"{TRACE_BASE}/v2/{entity}/{project}/predictions/{prediction_id}",
+    auth=AUTH,
+)
+prediction = resp.json()
+print(prediction)
+```
 
-- `evaluation_run`: An object with `evaluation_run_id`, `evaluation_ref`, `evaluation_name`, `model_ref`, `model_name`, `display_name`, `status`, `started_at`, `finished_at`, and `total_rows`.
-- `scorer_stats`: An array of scorer statistics, each with `scorer` (the scorer name and path), `value_type` (`binary` or `continuous`), `trial_count`, and either `pass_rate`/`pass_true_count`/`pass_known_count` for binary scorers or `numeric_mean`/`numeric_count` for continuous scorers.
-- `predictions`: An array of per-prediction objects, each with `predict_and_score_call_id`, `predict_call_id`, `row_digest`, `inputs` (the resolved dataset row), `output` (the model's response), `scores` (nested by scorer and sub-field), `model_latency_seconds`, and `total_tokens`.
+## How to use row digests
 
-**CSV output** contains one row per prediction with columns for `predict_and_score_call_id`, `row_digest`, `inputs` (JSON string), `output` (JSON string), and one column per flattened score path (for example, `score.check_concrete_fields.city_match`, `score.check_value_fields.avg_temp_f_err`).
+Each result row from the `eval_results/query` endpoint includes a `row_digest`, a content hash that uniquely identifies a specific input in the evaluation dataset based on its contents, not its position. Row digests are useful for:
+
+- **Cross-evaluation comparison**: When you run two different models against the same dataset, rows with the same digest represent the same input. You can join on `row_digest` to compare how different models performed on the exact same task.
+- **Deduplication**: If the same task appears in multiple evaluation suites, the digest lets you identify it.
+- **Reproducibility**: The digest is content-addressable, so if someone modifies a dataset row (changes the instruction text, rubric, or other fields), it gets a new digest. You can verify whether two evaluation runs used identical inputs or slightly different versions.
 
