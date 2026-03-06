@@ -332,6 +332,7 @@
                     "group": "Automations",
                     "pages": [
                       "models/automations",
+                      "models/automations/tutorial",
                       {
                         "group": "Create an automation",
                         "pages": [
@@ -341,7 +342,8 @@
                         ]
                       },
                       "models/automations/view-automation-history",
-                      "models/automations/automation-events"
+                      "models/automations/automation-events",
+                      "models/automations/api"
                     ]
                   },
                   {
