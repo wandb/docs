@@ -18,11 +18,13 @@ Weave will generally handle this automatically. However, there may be [edge case
 
 ## Usage instructions
 
-You can either use CommonJS and ESM.
+TypeScript projects can use either the CommonJS or ESM module system.
 
 ### CommonJS 
 
-For CommonJS, no special configuration is required. Automatic patching works out of the box. Simply install Weave:
+For CommonJS projects, no special configuration is required. Automatic patching works out of the box.  
+
+Install Weave:
 
 ```bash
 npm install weave
@@ -30,16 +32,58 @@ npm install weave
 
 ### ESM 
 
-For ESM, use Node's `--import` flag to enable auto-instrumentation. The `weave/instrument` module is available as long as the `weave` package is installed.
+For ESM projects, use the Node.js `--import` CLI flag to enable auto-instrumentation. The `weave/instrument` module is available as long as the `weave` package is installed.
 
 1. Install Weave:
+
     ```bash
     npm install weave
     ```
-2. Import the `weave/instrument` module:
+
+1. Compile your TypeScript file.
+For an example file `test.ts`, compile it with:
+
+   ```bash
+   npx tsc
+   ```
+   This assumes your `tsconfig.json` outputs compiled files to a `dist` directory, for example:
+
+   ```json
+   {
+     "compilerOptions": {
+       "rootDir": ".",
+       "outDir": "dist"
+     }
+   }
+   ```
+   After compiling, your file will be available as `dist/test.js`.
+
+1. Run the compiled file with the Node.js `--import=weave/instrument` flag:
+
     ```bash
-    node --import=weave/instrument dist/main.js
+    node --import=weave/instrument dist/test.js
     ```
+
+Weave must be installed locally in the project you're running.  
+    
+Because ESM loads modules differently than CommonJS, Weave must be loaded before other modules to enable automatic instrumentation. Using the `import` flag ensures Weave is loaded before other modules so it can [patch](/weave/guides/integrations) them.
+
+### If you're unsure which type of project you have
+
+If you are running a TypeScript file directly with a tool like:
+```
+npx tsx test.ts
+```
+your project may still be using ESM depending on your `package.json` configuration.
+
+To determine if you are using CommonJS or ESM, open your `package.json` and check the `type` field:
+```
+"type": "module"
+```
+If `type` is  `module` then your project uses ESM.
+If `type` is `commonjs` or is missing, then your project uses CommonJS.
+
+
 
 ## Advanced usage and troubleshooting
 
@@ -60,7 +104,7 @@ export NODE_OPTIONS="--import=weave/instrument"
 
 ### Bundler compatibility
 
-Some frameworks and bundlers, such as Next.js, may bundle third-party libraries in ways that break Node’s ability to patch them at runtime.
+Some frameworks and bundlers, such as Next.js, may bundle third-party libraries in ways that prevent Node.js from patching them at runtime.
 
 If this describes your setup, try the following steps:
 
