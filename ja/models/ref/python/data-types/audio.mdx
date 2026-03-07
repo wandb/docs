@@ -1,44 +1,49 @@
 ---
-title: オーディオ
+title: Audio
 namespace: python_sdk_data_type
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
 
+
 ## <kbd>class</kbd> `Audio`
-オーディオクリップを扱うための W&B クラスです。
+
+音声クリップを扱う W&B クラスです。 
 
 ### <kbd>method</kbd> `Audio.__init__`
 
 ```python
 __init__(
-    data_or_path: Union[str, pathlib.Path, list, ForwardRef('np.ndarray')],
-    sample_rate: Optional[int] = None,
-    caption: Optional[str] = None
+    data_or_path: 'str | pathlib.Path | list | np.ndarray',
+    sample_rate: 'int | None' = None,
+    caption: 'str | None' = None
 )
 ```
 
-オーディオファイルへのパス、またはオーディオデータの NumPy 配列を受け取ります。
+音声ファイルへのパスまたは音声データの NumPy 配列を受け取ります。
 
-**Args:**
+**引数:**
 
- - `data_or_path`: オーディオファイルへのパス、またはオーディオデータの NumPy 配列。
- - `sample_rate`: サンプルレート。生の NumPy 配列としてオーディオデータを渡す場合に必要です。
- - `caption`: オーディオと一緒に表示されるキャプション。
+* `data_or_path`:  音声ファイルへのパス、または音声データの NumPy 配列。
+* `sample_rate`:  サンプリングレート。生の NumPy 配列の音声データを渡す場合は必須。
+* `caption`:  音声と一緒に表示するキャプション。
 
----
+***
 
-### <kbd>classmethod</kbd> `Audio.durations`
+
+### <kbd>クラスメソッド</kbd> `Audio.durations`
 
 ```python
 durations(audio_list)
 ```
 
-オーディオファイルの長さを計算します。
+音声ファイルの再生時間を計算します。
 
----
+***
+
 
 ### <kbd>classmethod</kbd> `Audio.sample_rates`
 
@@ -46,6 +51,6 @@ durations(audio_list)
 sample_rates(audio_list)
 ```
 
-オーディオファイルのサンプルレートを取得します。
+オーディオファイルのサンプリングレートを取得します。
 
----
+***

@@ -1,0 +1,247 @@
+---
+title: "가드레일 설정하기"
+description: "프로덕션 애플리케이션에서 LLM 안전성을 확보하고 출력 품질을 측정하기"
+---
+
+가드레일은 LLM 평가자의 점수에 따라 LLM 애플리케이션의 동작에 능동적으로 개입합니다. 출력이 사용자에게 전달되기 전에 실시간으로 실행되며, 점수가 임계값을 초과하면 응답을 차단하거나 수정할 수 있습니다. 가드레일을 사용해 유해한 콘텐츠를 차단하고, 개인식별정보(PII)가 포함된 응답을 필터링하거나, 사용자로부터의 모욕적이거나 남용적인 입력을 차단할 수 있습니다.
+
+<div id="how-weave-guardrails-work">
+  ## Weave 가드레일 작동 방식
+</div>
+
+Weave 가드레일은 인라인 [Weave Scorers](/ko/weave/guides/evaluation/scorers)를 사용하여 사용자 입력이나 LLM 출력물을 평가하고, 실시간으로 LLM의 응답을 조정합니다. 사용자 정의 스코어러를 설정하거나 [built-in scorers](/ko/weave/guides/evaluation/builtin_scorers)를 사용하여 다양한 목적에 맞게 콘텐츠를 평가할 수 있습니다. 이 가이드에서는 두 종류의 스코어러를 모두 가드레일로 사용하는 방법을 설명합니다.
+
+애플리케이션의 제어 흐름을 수정하지 않고 운영 트래픽을 비동적으로 점수화하고 싶다면, 대신 [monitors](/ko/weave/guides/evaluation/monitors)를 사용하세요.
+
+모니터와 달리, 가드레일은 애플리케이션의 제어 흐름에 영향을 주기 때문에 코드 변경이 필요합니다. 하지만 가드레일에서 나온 모든 스코어러 결과는 자동으로 Weave의 데이터베이스에 저장되므로, 추가 설정 없이도 가드레일이 모니터 역할을 수행합니다. 스코어러가 처음에 어떻게 사용되었는지와 상관없이 과거 스코어 결과를 분석할 수 있습니다.
+
+<Note>
+  Weave TypeScript SDK는 가드레일을 설정하는 데 필요한 도구를 지원하지 않습니다.
+</Note>
+
+<div id="optimize-your-weave-guardrail-performance">
+  ### Weave 가드레일 성능 최적화하기
+</div>
+
+가드레일은 애플리케이션의 제어 흐름을 중단하거나 응답을 변경할 수 있으므로, 지나치게 복잡하면 성능에 부정적인 영향을 줄 수 있습니다. 최적의 성능을 위해 다음을 권장합니다:
+
+* 가드레일 로직을 단순하고 빠르게 유지하기
+* 자주 사용되는 결과 캐싱하기
+* 비용이 큰 외부 API 호출 피하기
+* 반복적인 초기화 비용을 피하기 위해 메인 함수 바깥에서 가드레일 초기화하기
+
+메인 함수 바깥에서 가드레일을 초기화하는 것은 다음과 같은 경우에 특히 중요합니다:
+
+* 스코어러가 ML 모델을 로드하는 경우
+* 지연 시간이 중요한 로컬 LLM을 사용하는 경우
+* 스코어러가 네트워크 연결을 유지하는 경우
+* 트래픽이 많은 애플리케이션인 경우
+
+<div id="example-create-a-guardrail-using-a-built-in-moderation-scorer">
+  ### 예시: 기본 제공 모더레이션 스코어러를 사용해 가드레일 생성하기
+</div>
+
+다음 예시는 사용자 프롬프트를 OpenAI의 GPT-4o mini 모델로 전송합니다. 모델의 응답은 이후 Weave의 [OpenAI 모더레이션 API](https://platform.openai.com/docs/guides/moderation)에 전달되어, LLM의 응답에 유해하거나 독성 있는 콘텐츠가 포함되어 있는지 평가합니다. 그런 다음 모델의 응답은 가드레일 함수(`generate_safe_response()`)로 전달되며, 여기서 `OpenAIModerationScorer`를 사용해 LLM의 원본 응답을 검사합니다. 함수 로직은 OpenAI의 평가 응답에서 `passed` 필드의 불리언 값을 확인하고, 이 값에 따라 애플리케이션의 응답 방식을 결정합니다.
+
+```python lines {28-45}
+import weave
+import openai
+from weave.scorers import OpenAIModerationScorer
+import asyncio
+
+# Weave 초기화
+weave.init("your-team-name/your-project-name")
+
+# OpenAI 클라이언트 초기화
+client = openai.OpenAI()  # OPENAI_API_KEY 환경 변수 사용
+
+# 모더레이션 스코어러 초기화
+moderation_scorer = OpenAIModerationScorer()
+
+# OpenAI에 프롬프트 전송
+@weave.op
+def generate_response(prompt: str) -> str:
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=200
+    )
+    return response.choices[0].message.content
+
+# 가드레일 함수가 응답의 유해성을 검사
+async def generate_safe_response(prompt: str) -> str:
+    """콘텐츠 모더레이션 가드레일을 적용하여 응답을 생성합니다."""
+    # 결과와 Call 객체를 모두 가져옴
+    result, call = generate_response.call(prompt)
+    
+    # 사용자에게 반환하기 전에 모더레이션 스코어러 적용
+    score = await call.apply_scorer(moderation_scorer)
+    print("This is the score object:", score)
+    
+    # 콘텐츠가 플래그 처리되었는지 확인
+    if not score.result.get("passed", True): 
+        categories = score.result.get("categories", {})
+        flagged_categories = list(categories.keys()) if categories else []
+        print(f"Content blocked. Flagged categories: {flagged_categories}")
+        return "I'm sorry, I can't provide that response due to content policy restrictions."
+    
+    return result
+
+# 예제 실행
+if __name__ == "__main__":
+    
+    prompts = [
+        "What's the capital of France?",
+        "Tell me a funny fact about dogs.",
+    ]
+    
+    for prompt in prompts:
+        print(f"\nPrompt: {prompt}")
+        response = asyncio.run(generate_safe_response(prompt))
+        print(f"Response: {response}")
+```
+
+LLM-as-a-judge 스코어러를 사용할 때는 스코어링 프롬프트에서 ops에 있는 변수를 참조할 수 있습니다. 예를 들어 &quot;`{ground_truth}`를 기준으로 `{output}`이(가) 정확한지 평가하세요.&quot;와 같이 사용할 수 있습니다. 자세한 내용은 [프롬프트 변수](/ko/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts)를 참고하세요.
+
+<div id="example-create-a-guardrail-using-a-custom-scorer">
+  ### 예시: 커스텀 스코어러를 사용하여 가드레일 생성하기
+</div>
+
+다음 예시는 이메일 주소, 전화번호, 주민등록번호와 같은 LLM 응답 내 개인정보(PII)를 감지하는 커스텀 가드레일을 생성합니다. 이를 통해 생성된 콘텐츠에 민감한 정보가 노출되는 것을 방지합니다. 함수 generate&#95;safe&#95;response는 커스텀 PIIDetectionScorer를 적용합니다.
+
+```python lines {14-39, 57-69}
+import weave
+import openai
+import re
+import asyncio
+from weave import Scorer
+
+weave.init("your-team-name/your-project-name")
+
+client = openai.OpenAI()
+
+class PIIDetectionScorer(Scorer):
+    """LLM 출력에서 PII를 감지하여 데이터 유출을 방지합니다."""
+    
+    @weave.op
+    def score(self, output: str) -> dict:
+        """
+        출력에서 일반적인 PII 패턴을 확인합니다.
+        
+        Returns:
+            dict: 'passed' (bool) 및 'detected_types' (list) 포함
+        """
+        detected_types = []
+        
+        # 이메일 패턴
+        if re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', output):
+            detected_types.append("email")
+        
+        # 전화번호 패턴 (미국 형식)
+        if re.search(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', output):
+            detected_types.append("phone")
+        
+        # SSN 패턴
+        if re.search(r'\b\d{3}-\d{2}-\d{4}\b', output):
+            detected_types.append("ssn")
+        
+        return {
+            "passed": len(detected_types) == 0,
+            "detected_types": detected_types
+        }
+
+# 최적의 성능을 위해 함수 외부에서 scorer 초기화
+pii_scorer = PIIDetectionScorer()
+
+@weave.op
+def generate_response(prompt: str) -> str:
+    """LLM을 사용하여 응답을 생성합니다."""
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=200
+    )
+    return response.choices[0].message.content
+
+async def generate_safe_response(prompt: str) -> str:
+    """PII 감지 가드레일을 적용하여 응답을 생성합니다."""
+    result, call = generate_response.call(prompt)
+    
+    # PII 감지 scorer 적용
+    score = await call.apply_scorer(pii_scorer)
+    
+    # PII가 감지된 경우 응답 차단
+    if not score.result.get("passed", True):
+        detected_types = score.result.get("detected_types", [])
+        return f"I cannot provide a response that may contain sensitive information (detected: {', '.join(detected_types)})."
+    
+    return result
+
+# 사용 예시
+if __name__ == "__main__":
+    prompts = [
+        "What's the weather like today?",
+        "Can you help me contact someone at john.doe@example.com?",
+        "Tell me about machine learning.",
+    ]
+    
+    for prompt in prompts:
+        print(f"\nPrompt: {prompt}")
+        response = asyncio.run(generate_safe_response(prompt))
+        print(f"Response: {response}")
+```
+
+<div id="integrate-weave-with-aws-bedrock-guardrails">
+  ### Weave를 AWS Bedrock Guardrails와 인테그레이션하기
+</div>
+
+`BedrockGuardrailScorer`는 구성된 정책에 따라 콘텐츠를 감지하고 필터링하기 위해 AWS Bedrock Guardrails를 사용합니다.
+
+Bedrock Guardrails 인테그레이션을 설정하기 전에 다음이 필요합니다:
+
+* Bedrock에 접근 권한이 있는 AWS 계정
+* [AWS Bedrock 콘솔에서 구성한 guardrail](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-components.html)
+* `boto3` [Python 패키지](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html)
+
+Bedrock 클라이언트를 직접 생성할 필요는 없습니다. Weave가 대신 생성합니다. 리전을 지정하려면 scorer의 `bedrock_runtime_kwargs` 파라미터에 리전 값을 전달하세요.
+
+AWS Bedrock에서 guardrail을 생성하는 방법은 [Bedrock guardrails 노트북](https://github.com/aws-samples/amazon-bedrock-samples/blob/main/responsible_ai/bedrock-guardrails/guardrails-api.ipynb)을 참고하세요.
+
+다음 예시는 결과를 사용자에게 반환하기 전에 텍스트 생성 결과를 AWS Bedrock Guardrails 정책을 기준으로 검사합니다:
+
+```python
+import weave
+from weave.scorers.bedrock_guardrails import BedrockGuardrailScorer
+
+weave.init("your-team-name/your-project-name")
+
+guardrail_scorer = BedrockGuardrailScorer(
+    guardrail_id="your-guardrail-id",
+    guardrail_version="DRAFT",
+    source="INPUT",
+    bedrock_runtime_kwargs={"region_name": "us-east-1"}
+)
+
+@weave.op
+def generate_text(prompt: str) -> str:
+    # 텍스트 생성 로직을 여기에 작성하세요
+    return "Generated text..."
+
+async def generate_safe_text(prompt: str) -> str:
+    result, call = generate_text.call(prompt)
+
+    score = await call.apply_scorer(guardrail_scorer)
+
+    if not score.result.passed:
+        if score.result.metadata.get("modified_output"):
+            return score.result.metadata["modified_output"]
+        return "콘텐츠 정책 제한으로 인해 해당 콘텐츠를 생성할 수 없습니다."
+
+    return result
+```

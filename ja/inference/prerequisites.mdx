@@ -1,55 +1,62 @@
 ---
-title: 前提条件
-description: W&B Inference を使用するための 環境 を設定する
-linkTitle: Prerequisites
+title: "前提条件"
+linkTitle: "前提条件"
+description: >
+  W&B Inference を利用するための環境を準備します
 ---
 
-import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
 
-API または UI を通じて W&B Inference サービスを利用する前に、以下の手順を完了してください。
+API または UI を通じて W&amp;B Inference サービスを使用する前に、これらの手順を完了しておいてください。
 
 <Tip>
-開始する前に、[利用情報と制限](/inference/usage-limits/) を確認し、コストと制限事項を理解してください。
+  開始する前に、コストや制限事項を把握するために [使用状況情報と制限](/ja/inference/usage-limits/) を確認してください。
 </Tip>
 
-## W&B アカウントと プロジェクト の設定
+<div id="set-up-your-wb-account-and-project">
+  ## W&amp;B アカウントとプロジェクトを設定する
+</div>
 
-W&B Inference にアクセスするには、以下の項目が必要です。
+W&amp;B Inference にアクセスするには、次の項目が必要です。
 
-1. **W&B アカウント**  
-   [W&B](https://app.wandb.ai/login?signup=true) でサインアップしてください。
+1. **W&amp;B アカウント**\
+   [W&amp;B](https://app.wandb.ai/login?signup=true) でサインアップしてください
 
-2. **W&B APIキー**  
-   
-   <ApiKeyCreate/>
+2. **W&amp;B API キー**
 
-3. **W&B プロジェクト**  
-   使用状況を追跡するために、W&B アカウントで プロジェクト を作成してください。
+   <ApiKeyCreate />
 
-## 環境 の設定 (Python)
+3. **W&amp;B プロジェクト**\
+   利用状況を追跡するために、W&amp;B アカウント内にプロジェクトを作成してください
 
-Python で Inference API を使用するには、以下の手順も必要です。
+<div id="set-up-your-environment-python">
+  ## 環境をセットアップする (Python)
+</div>
 
-1. 上記の一般的な要件を完了する
+Python で Inference API を使用するには、次のことも行う必要があります。
 
-2. 必要な ライブラリ をインストールする：
+1. 上記の一般要件を満たします
+
+2. 必要なライブラリをインストールします:
 
    ```bash
    pip install openai weave
    ```
 
 <Note>
-**注意**
+  **注意**
 
-`weave` ライブラリ は任意ですが、推奨されます。これにより、LLM アプリケーション をトレースできます。詳細は [Weave クイックスタート](/models/quickstart/) を参照してください。
+  `weave` ライブラリは必須ではありませんが、LLM アプリケーションのトレースに役立つため、利用を推奨します。詳しくは [Weave クイックスタート](/ja/models/quickstart/) を参照してください。
 
-Weave と W&B Inference を組み合わせた コード 例については、[使用例](/inference/examples/) を参照してください。
+  Weave と組み合わせて W&amp;B Inference を使用するコードサンプルについては、[使用例](/ja/inference/examples/) を参照してください。
 </Note>
 
-## 次のステップ
+<div id="next-steps">
+  ## 次のステップ
+</div>
 
-前提条件を完了した後は：
+前提条件を完了したら、次の作業を行ってください。
 
-- [API リファレンス](/inference/api-reference/) で利用可能なエンドポイントを確認する
-- [使用例](/inference/examples/) で実際の動作を試す
-- [UI ガイド](/inference/ui-guide/) を使用して、ウェブインターフェースから Models にアクセスする
+* 利用可能なエンドポイントについて学ぶには [API リファレンス](/ja/inference/api-reference/) を確認してください
+* サービスの利用例を見るには [usage examples](/ja/inference/examples/) を試してください
+* Web インターフェースからモデルにアクセスするには [UI ガイド](/ja/inference/ui-guide/) を参照してください

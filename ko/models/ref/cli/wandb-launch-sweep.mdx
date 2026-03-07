@@ -1,40 +1,48 @@
 ---
-title: wandb launch-sweep
+title: "wandb launch-sweep"
 ---
 
 {/*
-  이 커맨드에 대한 도입 콘텐츠를 추가하려면:
-  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-launch-sweep.mdx
-  2. 해당 파일에 도입 콘텐츠를 추가하세요
-  3. 이 주석 블록 전체를 삭제하고 아래의 두 줄만 남겨두세요:
+    이 명령에 대한 소개 내용을 추가하려면:
+    1. 다음 파일을 생성합니다: /snippets/_includes/cli/wandb-launch-sweep.mdx
+    2. 해당 파일에 소개 내용을 추가합니다.
+    3. 아래 두 줄만 남기고 이 전체 주석 블록을 삭제합니다:
 
-import WandbLaunchSweep from "/snippets/en/_includes/cli/wandb-launch-sweep.mdx";
+    import WandbLaunchSweep from "/snippets/_includes/cli/wandb-launch-sweep.mdx";
 
-<WandbLaunchSweep/>
+    <WandbLaunchSweep/>
 
-  스니펫은 다음 재생성 시 자동으로 감지됩니다.
-*/}
+    스니펫은 다음에 다시 생성될 때 자동으로 감지됩니다.
+  */}
 
-W&B Launch Sweep 을 실행합니다 (Experimental).
+W&amp;B Launch 스윕을 실행합니다 (실험적 기능).
 
-## Usage
+
+<div id="usage">
+  ## 사용 방법
+</div>
 
 ```bash
 wandb launch-sweep [CONFIG] [OPTIONS]
 ```
 
-## Arguments
 
-| Argument | Description | Required |
+<div id="arguments">
+  ## 인자
+</div>
+
+| 인자 | 설명 | 필수 여부 |
 | :--- | :--- | :--- |
-| `CONFIG` | 설명 없음 | No |
+| `CONFIG` | 설명이 제공되지 않습니다 | 아니요 |
 
-## Options
+<div id="options">
+  ## 옵션
+</div>
 
 | Option | Description |
 | :--- | :--- |
-| `--queue`, `-q` | Sweep 을 푸시할 큐의 이름 |
-| `--project`, `-p` | 에이전트가 모니터링할 Project 이름. 입력 시, 설정 파일을 통해 전달된 프로젝트 값을 재정의합니다. |
-| `--entity`, `-e` | 사용할 Entity. 기본값은 현재 로그인된 사용자입니다. |
-| `--resume_id`, `-r` | 8자리의 Sweep ID를 전달하여 Launch Sweep 을 재개합니다. 큐 지정이 필요합니다. |
-| `--prior_run`, `-R` | 이 Sweep 에 추가할 기존 Run 의 ID |
+| `--queue`, `-q` | 스윕을 푸시할 큐 이름 |
+| `--project`, `-p` | 에이전트가 모니터링할 프로젝트 이름. 이 값을 전달하면 설정 파일로 전달된 프로젝트 값을 덮어쓴다 |
+| `--entity`, `-e` | 사용할 entity. 기본값은 현재 로그인된 사용자 |
+| `--resume_id`, `-r` | 8자 스윕 ID를 전달하여 Launch 스윕을 재개. 큐 필수 |
+| `--prior_run`, `-R` | 이 스윕에 추가할 기존 run ID |

@@ -2,9 +2,9 @@
 title: LaunchAgent
 ---
 
-<Card title="소스 코드 보기" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L164-L924" icon="github"/>
+<Card title="소스 코드 보기" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L164-L924" icon="github" />
 
-주어진 run queue를 폴링(poll)하고 wandb Launch 를 위해 run 을 실행하는 Launch 에이전트 클래스입니다.
+주어진 run 큐를 폴링하고 wandb Launch를 위해 run을 실행하는 Launch 에이전트 클래스입니다.
 
 ```python
 LaunchAgent(
@@ -13,20 +13,25 @@ LaunchAgent(
 )
 ```
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `api` | 백엔드에 요청을 보내는 데 사용할 Api 오브젝트입니다. |
-| `config` | 에이전트를 위한 설정 사전(Config dictionary)입니다. |
+| Arguments | Description                   |
+| :-------- | :---------------------------- |
+| `api`     | 백엔드로 요청을 보내는 데 사용할 API 객체입니다. |
+| `config`  | 에이전트용 구성 사전입니다.               |
 
-| 속성 | 설명 |
-| :--- | :--- |
-| `num_running_jobs` | 스케줄러를 제외하고 실행 중인 job의 수를 반환합니다. |
-| `num_running_schedulers` | 실행 중인 스케줄러의 수만 반환합니다. |
-| `thread_ids` | 에이전트에서 실행 중인 스레드 ID의 키 리스트를 반환합니다. |
+| Attributes               | Description                      |
+| :----------------------- | :------------------------------- |
+| `num_running_jobs`       | 스케줄러를 제외한 작업 수를 반환합니다.           |
+| `num_running_schedulers` | 스케줄러의 개수만 반환합니다.                 |
+| `thread_ids`             | 에이전트에서 실행 중인 스레드 ID 키 목록을 반환합니다. |
 
-## 메소드
 
-### `check_sweep_state`
+<div id="methods">
+  ## 메서드
+</div>
+
+<div id="check_sweep_state">
+  ### `check_sweep_state`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L786-L803)
 
@@ -36,9 +41,12 @@ check_sweep_state(
 )
 ```
 
-Sweeps 에 대한 run 을 실행하기 전에 Sweep 의 상태를 확인합니다.
+스윕용 run을 실행하기 전에 스윕의 상태를 확인하세요.
 
-### `fail_run_queue_item`
+
+<div id="fail_run_queue_item">
+  ### `fail_run_queue_item`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L295-L304)
 
@@ -48,7 +56,10 @@ fail_run_queue_item(
 )
 ```
 
-### `finish_thread_id`
+
+<div id="finish_thread_id">
+  ### `finish_thread_id`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L416-L509)
 
@@ -58,9 +69,12 @@ finish_thread_id(
 )
 ```
 
-현재 리스트에서 job을 제거합니다.
+현재 이 잡을 목록에서 제거합니다.
 
-### `get_job_and_queue`
+
+<div id="get_job_and_queue">
+  ### `get_job_and_queue`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L908-L915)
 
@@ -68,7 +82,10 @@ finish_thread_id(
 get_job_and_queue()
 ```
 
-### `initialized`
+
+<div id="initialized">
+  ### `initialized`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L190-L193)
 
@@ -79,7 +96,10 @@ initialized() -> bool
 
 에이전트가 초기화되었는지 여부를 반환합니다.
 
-### `loop`
+
+<div id="loop">
+  ### `loop`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L572-L653)
 
@@ -87,13 +107,16 @@ initialized() -> bool
 loop()
 ```
 
-무한 루프를 돌며 job을 폴링하고 실행합니다.
+무한 루프를 돌며 작업을 폴링하고 실행합니다.
 
-| Raises | 설명 |
-| :--- | :--- |
-| `KeyboardInterrupt` | 에이전트 중단 요청이 있을 경우 발생합니다. |
+| Raises              | Description         |
+| :------------------ | :------------------ |
+| `KeyboardInterrupt` | 에이전트에 중지 요청이 들어온 경우 |
 
-### `name`
+
+<div id="name">
+  ### `name`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L180-L188)
 
@@ -102,9 +125,12 @@ loop()
 name() -> str
 ```
 
-에이전트의 이름을 반환합니다.
+에이전트 이름을 반환합니다.
 
-### `pop_from_queue`
+
+<div id="pop_from_queue">
+  ### `pop_from_queue`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L340-L363)
 
@@ -114,21 +140,24 @@ pop_from_queue(
 )
 ```
 
-runqueue에서 아이템을 꺼내 job으로 실행합니다.
+runqueue에서 실행할 작업 항목을 하나 꺼냅니다.
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `queue` | 아이템을 꺼낼 큐입니다. |
+| Arguments | Description  |
+| :-------- | :----------- |
+| `queue`   | 항목을 꺼낼 큐입니다. |
 
-| 반환값 | 설명 |
-| :--- | :--- |
-| 큐에서 꺼낸 아이템입니다. |
+| Returns    | Description |
+| :--------- | :---------- |
+| 큐에서 꺼낸 항목. |             |
 
-| Raises | 설명 |
-| :--- | :--- |
-| `Exception` | 큐에서 아이템을 꺼내는 도중 오류가 발생할 경우 발생합니다. |
+| Raises      | Description                |
+| :---------- | :------------------------- |
+| `Exception` | 큐에서 항목을 꺼내는 동안 오류가 발생한 경우. |
 
-### `print_status`
+
+<div id="print_status">
+  ### `print_status`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L365-L381)
 
@@ -136,11 +165,14 @@ runqueue에서 아이템을 꺼내 job으로 실행합니다.
 print_status() -> None
 ```
 
-에이전트의 현재 상태를 출력합니다.
+에이전트의 현재 상태를 표시합니다.
 
-### `run_job`
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L511-L541)
+<div id="run_job">
+  ### `run_job`
+</div>
+
+[소스 코드 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L511-L541)
 
 ```python
 run_job(
@@ -148,13 +180,16 @@ run_job(
 )
 ```
 
-Projects 를 설정하고 job을 실행합니다.
+프로젝트를 설정한 후 job을 실행합니다.
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `job` | 실행할 job입니다. |
+| Arguments | Description |
+| :-------- | :---------- |
+| `job`     | 실행할 job입니다. |
 
-### `task_run_job`
+
+<div id="task_run_job">
+  ### `task_run_job`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L656-L688)
 
@@ -164,7 +199,10 @@ task_run_job(
 )
 ```
 
-### `update_status`
+
+<div id="update_status">
+  ### `update_status`
+</div>
 
 [소스 보기](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L383-L394)
 
@@ -176,6 +214,6 @@ update_status(
 
 에이전트의 상태를 업데이트합니다.
 
-| 인수 | 설명 |
-| :--- | :--- |
-| `status` | 에이전트에 업데이트할 상태입니다. |
+| Arguments | Description      |
+| :-------- | :--------------- |
+| `status`  | 에이전트의 상태를 변경할 값. |

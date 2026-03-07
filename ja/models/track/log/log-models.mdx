@@ -1,152 +1,158 @@
 ---
-title: Models をログする
+title: モデルをログに記録する
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb" />
 
-# Models のログ記録
+<div id="log-models">
+  # モデルをログに記録する
+</div>
 
-このガイドでは、W&B run に Models をログ記録し、それらを操作する方法について説明します。
+このガイドでは、W&amp;B run にモデルをログとして記録し、それらを操作する方法を説明します。
 
 <Note>
-以下の API は、実験管理ワークフローの一部として Models を追跡するのに役立ちます。このページに記載されている API を使用して、run に Models をログ記録し、メトリクス、テーブル、メディア、その他のオブジェクトにアクセスしてください。
+  以下の API は、実験管理ワークフローの一部としてモデルを追跡するのに役立ちます。このページで紹介する API を使用してモデルを run にログし、メトリクス、テーブル、メディア、その他のオブジェクトにアクセスしてください。
 
-以下の場合は、[W&B Artifacts](/models/artifacts/) の使用を推奨します：
-- Models 以外にも、データセットやプロンプトなど、シリアル化されたデータの異なるバージョンを作成・管理したい場合。
-- W&B で追跡されているモデルやその他のオブジェクトの [リネージグラフ](/models/artifacts/explore-and-traverse-an-artifact-graph/) を確認したい場合。
-- これらのメソッドによって作成されたモデルアーティファクトに対して、[プロパティの更新](/models/artifacts/update-an-artifact/)（メタデータ、エイリアス、説明文）などの操作を行いたい場合。
+  W&amp;B では、次のような場合には [W&amp;B Artifacts](/ja/models/artifacts/) の使用を推奨します:
 
-W&B Artifacts や高度なバージョン管理のユースケースに関する詳細は、[Artifacts](/models/artifacts/) のドキュメントを参照してください。
+  * モデル以外のシリアライズされたデータ（データセット、プロンプトなど）のさまざまなバージョンを作成・管理したい場合。
+  * W&amp;B で追跡されているモデルやその他のオブジェクトの [lineage graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/) を調査したい場合。
+  * これらの方法で作成されたモデルの Artifacts に対して、[プロパティの更新](/ja/models/artifacts/update-an-artifact/)（メタデータ、エイリアス、説明）などの操作を行いたい場合。
+
+  W&amp;B Artifacts と高度なバージョニングのユースケースについての詳細は、[Artifacts](/ja/models/artifacts/) ドキュメントを参照してください。
 </Note>
 
-## run へのモデルのログ記録
-指定したディレクトリー内のコンテンツを含むモデルアーティファクトをログ記録するには、[`log_model`](/models/ref/python/experiments/run#log_model) を使用します。[`log_model`](/models/ref/python/experiments/run#log_model) メソッドは、生成されたモデルアーティファクトを W&B run の出力としてマークします。
+<div id="log-a-model-to-a-run">
+  ## モデルを run にログする
+</div>
 
-モデルを W&B run の入力または出力としてマークすることで、モデルの依存関係や関連付けを追跡できます。モデルのリネージは W&B App の UI で確認できます。詳細については、[Artifacts](/models/artifacts/) チャプター内の [Explore and traverse artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph/) ページを参照してください。
+[`log_model`](/ja/models/ref/python/experiments/run#log_model) を使用して、指定したディレクトリ内のコンテンツを含む モデルの Artifacts をログします。[`log_model`](/ja/models/ref/python/experiments/run#log_model) メソッドは、生成された モデルの Artifacts を W&amp;B run の出力としてもマークします。
 
-モデルファイルが保存されているパスを `path` パラメーターに指定します。パスには、ローカルファイル、ディレクトリー、または `s3://bucket/path` のような外部バケットへの [参照URI](/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) を指定できます。
+モデルを W&amp;B run の入力または出力としてマークすると、その モデルの依存関係や関連付けを追跡できます。W&amp;B App UI 内で モデル のリネージを表示できます。詳細については、[Artifacts](/ja/models/artifacts/) 章の [Explore and traverse artifact graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/) ページを参照してください。
 
-`<>` で囲まれた値は、ご自身の環境の値に置き換えてください。
+`path` パラメーターには、モデル ファイルが保存されているパスを指定します。パスには、ローカル ファイル、ディレクトリ、または `s3://bucket/path` のような外部バケットへの [reference URI](/ja/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) を指定できます。
+
+`<>` で囲まれた値は必ずご自身の値に置き換えてください。
 
 ```python
 import wandb
 
-# W&B runを初期化
+# W&B の run を初期化する
 with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
-    # モデルをログ記録
+    # モデルをログに記録する
     run.log_model(path="<path-to-model>", name="<name>")
 ```
 
-オプションで、`name` パラメーターにモデルアーティファクトの名前を指定できます。`name` が指定されない場合、W&B は入力パスのベース名に run ID をプレフィックスとして付けたものを名前として使用します。
+任意で、`name` パラメーターにモデル Artifacts の名前を指定できます。`name` が指定されていない場合、W&amp;B は入力パスのベース名の前に run ID を付けたものを名前として使用します。
 
 <Note>
-自身で設定した、あるいは W&B が割り当てた `name` を控えておいてください。[`wandb.Run.use_model()`](/models/ref/python/experiments/run#use_model) メソッドを使用してモデルのパスを取得する際に、そのモデル名が必要になります。
+  あなた、もしくは W&amp;B がモデルに割り当てた `name` を記録しておいてください。モデル パスを [`wandb.Run.use_model()`](/ja/models/ref/python/experiments/run#use_model) メソッドで取得するには、そのモデルの名前が必要です。
 </Note>
 
-パラメーターの詳細については、APIリファレンスの [`log_model`](/models/ref/python/experiments/run#log_model) を参照してください。
+パラメーターについては API Reference の [`log_model`](/ja/models/ref/python/experiments/run#log_model) を参照してください。
 
 <details>
+  <summary>例: モデルを run にログする</summary>
 
-<summary>例：run へのモデルのログ記録</summary>
+  ```python
+  import os
+  import wandb
+  from tensorflow import keras
+  from tensorflow.keras import layers
 
-```python
-import os
-import wandb
-from tensorflow import keras
-from tensorflow.keras import layers
+  config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
 
-config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
+  # W&B run を初期化
+  with wandb.init(entity="charlie", project="mnist-experiments", config=config) as run:
 
-# W&B runを初期化
-with wandb.init(entity="charlie", project="mnist-experiments", config=config) as run:
+      # ハイパーパラメーター
+      loss = run.config["loss"]
+      optimizer = run.config["optimizer"]
+      metrics = ["accuracy"]
+      num_classes = 10
+      input_shape = (28, 28, 1)
 
-    # ハイパーパラメーター
-    loss = run.config["loss"]
-    optimizer = run.config["optimizer"]
-    metrics = ["accuracy"]
-    num_classes = 10
-    input_shape = (28, 28, 1)
+      # トレーニング アルゴリズム
+      model = keras.Sequential(
+          [
+              layers.Input(shape=input_shape),
+              layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+              layers.MaxPooling2D(pool_size=(2, 2)),
+              layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+              layers.MaxPooling2D(pool_size=(2, 2)),
+              layers.Flatten(),
+              layers.Dropout(0.5),
+              layers.Dense(num_classes, activation="softmax"),
+          ]
+      )
 
-    # 学習アルゴリズム
-    model = keras.Sequential(
-        [
-            layers.Input(shape=input_shape),
-            layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
-            layers.MaxPooling2D(pool_size=(2, 2)),
-            layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
-            layers.MaxPooling2D(pool_size=(2, 2)),
-            layers.Flatten(),
-            layers.Dropout(0.5),
-            layers.Dense(num_classes, activation="softmax"),
-        ]
-    )
+      # トレーニング用にモデルを構成
+      model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
 
-    # トレーニング用にモデルを設定
-    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+      # モデルを保存
+      model_filename = "model.h5"
+      local_filepath = "./"
+      full_path = os.path.join(local_filepath, model_filename)
+      model.save(filepath=full_path)
 
-    # モデルを保存
-    model_filename = "model.h5"
-    local_filepath = "./"
-    full_path = os.path.join(local_filepath, model_filename)
-    model.save(filepath=full_path)
+      # モデルを W&B run にログ
+      run.log_model(path=full_path, name="MNIST")
+  ```
 
-    # W&B runにモデルをログ記録
-    run.log_model(path=full_path, name="MNIST")
-```
+  ユーザーが `log_model` を呼び出すと、`MNIST` という名前のモデル Artifacts が作成され、ファイル `model.h5` がそのモデル Artifacts に追加されます。ターミナルまたはノートブックには、モデルがログされた run に関する情報の確認場所が出力されます。
 
-ユーザーが `log_model` を呼び出すと、`MNIST` という名前のモデルアーティファクトが作成され、ファイル `model.h5` がそのモデルアーティファクトに追加されます。ターミナルまたはノートブックには、モデルがログ記録された run の情報へのリンクが表示されます。
-
-```python
-View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
-Synced 5 W&B file(s), 0 media file(s), 1 artifact file(s) and 0 other file(s)
-Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
-```
-
+  ```python
+  View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
+  Synced 5 W&B file(s), 0 media file(s), 1 artifact file(s) and 0 other file(s)
+  Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
+  ```
 </details>
 
+<div id="download-and-use-a-logged-model">
+  ## ログ済みモデルをダウンロードして使用する
+</div>
 
-## ログ記録されたモデルのダウンロードと使用
-以前に W&B run にログ記録されたモデルファイルにアクセスしてダウンロードするには、[`use_model`](/models/ref/python/experiments/run#use_model) 関数を使用します。
+以前に W&amp;B run にログしたモデルファイルにアクセスしてダウンロードするには、[`use_model`](/ja/models/ref/python/experiments/run#use_model) 関数を使用します。
 
-取得したいモデルファイルが格納されているモデルアーティファクトの名前を指定します。指定する名前は、既存のログ記録されたモデルアーティファクトの名前と一致している必要があります。
+取得したいモデルファイルが保存されている model Artifacts の名前を指定します。指定する名前は、既にログされている model Artifacts の名前と一致している必要があります。
 
-`log_model` でファイルを最初にログ記録したときに `name` を定義しなかった場合、デフォルトで割り当てられる名前は、入力パスのベース名に run ID をプレフィックスとして付けたものになります。
+ファイルを `log_model` で最初にログしたときに `name` を指定していない場合、デフォルトの名前として、入力パスのベース名の前に run ID を付加したものが割り当てられます。
 
-`<>` で囲まれた値は、ご自身の環境の値に置き換えてください：
- 
+`<>` で囲まれた値は、自分の値に置き換えてください。
+
 ```python
 import wandb
 
-# runを初期化
+# run を初期化する
 with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
-    # モデルにアクセスしてダウンロード。ダウンロードされたアーティファクトのパスを返す
+    # モデルにアクセスしてダウンロードする。ダウンロードされた Artifacts のパスを返す
     downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-[use_model](/models/ref/python/experiments/run#use_model) 関数は、ダウンロードされたモデルファイルのパスを返します。後でこのモデルをリンクしたい場合に備えて、このパスを保持しておいてください。上記のコードスニペットでは、返されたパスは `downloaded_model_path` という変数に格納されています。
+The [use&#95;model](/ja/models/ref/python/experiments/run#use_model) 関数は、ダウンロードされた モデル ファイルへのパスを返します。後でこの モデル を再利用したい場合は、このパスを控えておいてください。前述のコードスニペットでは、返されたパスは `downloaded_model_path` という変数に保存されています。
 
 <details>
+  <summary>例: ログ済み モデル のダウンロードと使用</summary>
 
-<summary>例：ログ記録されたモデルのダウンロードと使用</summary>
+  例えば、次のコードスニペットでは、ある ユーザー が `use_model` API を呼び出しています。取得したい モデル Artifacts の名前を指定し、さらにバージョン／エイリアスも指定しています。その後、API から返されるパスを `downloaded_model_path` 変数に保存しています。
 
-例えば、以下のコードスニペットでは、ユーザーが `use_model` API を呼び出しています。取得したいモデルアーティファクトの名前を指定し、バージョン/エイリアスも指定しています。その後、API から返されたパスを `downloaded_model_path` 変数に保存しています。
+  ```python
+  import wandb
 
-```python
-import wandb
+  entity = "luka"
+  project = "NLP_Experiments"
+  alias = "latest"  # モデル バージョンのセマンティックなニックネームまたは識別子
+  model_artifact_name = "fine-tuned-model"
 
-entity = "luka"
-project = "NLP_Experiments"
-alias = "latest"  # モデルバージョンのセマンティックなニックネームまたは識別子
-model_artifact_name = "fine-tuned-model"
-
-# runを初期化
-with wandb.init(project=project, entity=entity) as run:
-    # モデルにアクセスしてダウンロード。ダウンロードされたアーティファクトのパスを返す
-    downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
-```
+  # run を初期化
+  with wandb.init(project=project, entity=entity) as run:
+      # モデル にアクセスしてダウンロードする。ダウンロードされた Artifacts へのパスを返す
+      downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
+  ```
 </details>
 
-パラメーターと戻り値の型については、APIリファレンスの [`use_model`](/models/ref/python/experiments/run#use_model) を参照してください。
+パラメーターと戻り値の型については、API リファレンスの [`use_model`](/ja/models/ref/python/experiments/run#use_model) を参照してください。

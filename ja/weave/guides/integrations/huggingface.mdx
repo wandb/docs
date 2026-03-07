@@ -1,64 +1,70 @@
 ---
-title: Hugging Face Hub
-description: Hugging Face Hub を W&B Weave と統合し、 機械学習 アプリケーションの追跡と分析を行います
+title: "Hugging Face Hub"
+description: "Hugging Face Hub を W&B Weave と統合して機械学習アプリケーションを追跡および解析する"
 ---
 
 <Warning>
-このページに掲載されているすべてのコードサンプルは Python です。
+  このページに掲載されているコードサンプルはすべて Python で記述されています。
 </Warning>
 
-このページでは、[Hugging Face Hub](https://hf.co/) を W&B Weave と統合して、機械学習アプリケーションの追跡と分析を行う方法を説明します。 Weave の Traces 機能とバージョン管理機能を使用して、モデルの推論を ログ に記録し、関数の呼び出しを監視し、実験を整理する方法を学びます。提供されている例に従うことで、貴重なインサイトを取得し、アプリケーションを効率的にデバッグし、異なる モデル 設定を比較することができます。これらすべてを Weave のウェブインターフェース上で行えます。
+このページでは、[Hugging Face Hub](https://huggingface.co/) を W&amp;B Weave と統合して機械学習アプリケーションを追跡および解析する方法を説明します。モデルの推論をログに記録し、関数呼び出しをモニタリングし、Weave のトレースおよびバージョニング機能を使って実験を整理する方法を学びます。ここで紹介する例に従うことで、有用なインサイトを取得し、アプリケーションを効率的にデバッグし、すべて Weave の Web インターフェース内で異なるモデル設定を比較できます。
 
 <Tip>
-**Google Colab で Hugging Face Hub と Weave を試す**
-セットアップなしで Hugging Face Hub と Weave を試してみたいですか？ ここで紹介するコードサンプルは、Google Colab 上の Jupyter Notebook として試すことができます。
+  **Google Colab で Weave と Hugging Face Hub を試す**
+  セットアップなしで Hugging Face Hub と Weave を試してみたい場合は、ここに示したコードサンプルを Google Colab 上の Jupyter Notebook として実行できます。
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_huggingface.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
+  <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_huggingface.ipynb" aria-label="Open in Google Colab">
+    <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" />
+  </a>
 </Tip>
 
-## 概要
+<div id="overview">
+  ## 概要
+</div>
 
-[Hugging Face Hub](https://hf.co/) は、クリエイターやコラボレーターのための 機械学習 プラットフォームであり、さまざまな プロジェクト 向けに学習済み モデル や データセット の膨大なコレクションを提供しています。
+[Hugging Face Hub](https://huggingface.co/) は、クリエイターや共同開発者向けの機械学習プラットフォームであり、さまざまなプロジェクト向けに膨大な数の事前学習済みモデルとデータセットを提供します。
 
-`huggingface_hub` Python ライブラリは、Hub 上でホストされている モデル に対して、複数のサービスにわたって推論を実行するための統一されたインターフェースを提供します。これらの モデル は、[`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client) を使用して呼び出すことができます。
+`huggingface_hub` Python ライブラリは、Hub 上にホストされたモデルに対して、複数のサービス間で推論を実行するための統一インターフェースを提供します。これらのモデルは、[`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client) を使って呼び出すことができます。
 
-Weave は [`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client) の Traces を自動的に取得します。追跡を開始するには、`weave.init()` を呼び出し、通常通りライブラリを使用してください。
+Weave は [`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client) のトレースを自動的に取得します。トレースの記録を開始するには、`weave.init()` を呼び出し、あとは通常どおりライブラリを使用してください。
 
-## 前提条件
+<div id="prerequisites">
+  ## 前提条件
+</div>
 
-1. Weave で `huggingface_hub` を使用する前に、必要な ライブラリ をインストールするか、最新 バージョン にアップグレードする必要があります。次の コマンド は、`huggingface_hub` と `weave` をインストール、または既にインストールされている場合は最新 バージョン にアップグレードし、インストール時の出力を抑制します。
+1. `huggingface_hub` を Weave と一緒に使用する前に、必要なライブラリをインストールするか、最新バージョンにアップグレードする必要があります。次のコマンドは、`huggingface_hub` と `weave` がすでにインストールされている場合はそれらを最新バージョンにインストールまたはアップグレードし、インストール時の出力を抑えます。
 
-    ```python lines
-    pip install -U huggingface_hub weave -qqq
-    ```
+   ```python lines
+   pip install -U huggingface_hub weave -qqq
+   ```
 
-2. Hugging Face Hub 上の モデル で推論を使用するには、[User Access Token](https://huggingface.co/docs/hub/security-tokens) を設定します。トークンは、[Hugging Face Hub の設定ページ](https://huggingface.co/settings/tokens) から取得するか、プログラムで設定できます。以下の コード サンプルは、ユーザーに `HUGGINGFACE_TOKEN` の入力を促し、そのトークンを 環境 変数として設定します。
+2. Hugging Face Hub 上のモデルで推論を行うには、[User Access Token](https://huggingface.co/docs/hub/security-tokens) を設定する必要があります。[Hugging Face Hub Settings page](https://huggingface.co/login?next=%2Fsettings%2Ftokens) からトークンを設定するか、プログラムから設定できます。次のコードサンプルは、ユーザーに `HUGGINGFACE_TOKEN` の入力を求め、そのトークンを環境変数として設定します。
 
-    ```python lines
-    import os
-    import getpass
+   ```python lines
+   import os
+   import getpass
 
-    os.environ["HUGGINGFACE_TOKEN"] = getpass.getpass("Enter your Hugging Face Hub Token: ")
-    ```
+   os.environ["HUGGINGFACE_TOKEN"] = getpass.getpass("Enter your Hugging Face Hub Token: ")
+   ```
 
-## 基本的なトレーシング
+<div id="basic-tracing">
+  ## 基本的なトレーシング
+</div>
 
-言語 モデル アプリケーションの Traces を中央の場所に保存することは、開発および プロダクション の段階で不可欠です。これらの Traces はデバッグに役立ち、アプリケーションを改善するための貴重な データセット としても機能します。
+言語モデル アプリケーションのトレースを一元的な場所に保存することは、開発時と本番環境の両方で不可欠です。これらのトレースはデバッグに役立つだけでなく、アプリケーションを改善するための貴重なデータセットとしても機能します。
 
-Weave は [`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client) の Traces を自動的にキャプチャします。追跡を開始するには、`weave.init()` を呼び出して Weave を初期化し、その後は通常どおりライブラリを使用します。
+Weave は、[`InferenceClient`](https://huggingface.co/docs/huggingface_hub/en/package_reference/inference_client) のトレースを自動的に記録します。追跡を開始するには、`weave.init()` を呼び出して Weave を初期化し、その後は通常どおりライブラリを使用します。
 
-次の例は、Weave を使用して Hugging Face Hub への推論呼び出しを ログ に記録する方法を示しています。
+次の例では、Weave を使って Hugging Face Hub への推論呼び出しをログに記録する方法を示します。
 
 ```python lines
 import weave
 from huggingface_hub import InferenceClient
 
-# Weave を初期化
+# Weave を初期化する
 weave.init(project_name="quickstart-huggingface")
 
-# Hugging Face Inference Client を初期化
+# Hugging Face Inference Client を初期化する
 huggingface_client = InferenceClient(
     api_key=os.environ.get("HUGGINGFACE_TOKEN")
 )
@@ -81,26 +87,28 @@ response = huggingface_client.chat_completion(
 )
 ```
 
-上記の コード を実行すると、Weave は Hugging Face Inference Client で行われたすべての LLM 呼び出しを追跡し、ログ に記録します。これらの Traces は Weave のウェブインターフェースで確認できます。
+上記のコードを実行すると、Weave は Hugging Face Inference Client を使って行われたすべての LLM 呼び出しを追跡してログに記録します。これらのトレースは Weave の Web インターフェースで確認できます。
 
 <Frame>
-![Weave は各推論呼び出しをログに記録し、入力、出力、メタデータに関する詳細を提供します。](/weave/guides/integrations/imgs/huggingface/trace_call.png)
+  ![Weave は各 inference 呼び出しをログに記録し、入力・出力・メタデータの詳細を提供します。](/weave/guides/integrations/imgs/huggingface/trace_call.png)
 </Frame>
 
-Weave は各推論呼び出しを ログ に記録し、入力、出力、メタデータ に関する詳細を提供します。
+Weave は各 inference 呼び出しをログに記録し、入力・出力・メタデータの詳細を提供します。
 
-![Weave は UI 上で呼び出しをチャットビューとしてもレンダリングし、モデルとのチャット履歴全体を表示します。](/weave/guides/integrations/imgs/huggingface/trace_chat.png)
-Weave は UI 上で呼び出しをチャットビューとしてもレンダリングし、モデル とのチャット履歴全体を表示します。
+![モデルとのチャット履歴全体が表示された UI 上の Weave のチャットビュー](/weave/guides/integrations/imgs/huggingface/trace_chat.png)
+Weave はまた、UI 上でこの呼び出しをチャットビューとしてレンダリングし、モデルとのチャット履歴全体を表示します。
 
-## 関数のトレース
+<div id="trace-a-function">
+  ## 関数をトレースする
+</div>
 
-アプリケーション内を データ がどのように流れるかについてより深い洞察を得るために、`@weave.op` を使用して関数呼び出しを追跡できます。これにより、入力、出力、および実行ロジックがキャプチャされ、デバッグやパフォーマンス 分析 に役立ちます。
+アプリケーション内でデータがどのように流れているかをより深く理解するために、`@weave.op` を使って関数呼び出しを追跡できます。これにより、入力・出力・実行ロジックが記録され、デバッグやパフォーマンス分析に役立ちます。
 
-複数の op をネストすることで、追跡された関数の構造化された ツリー を構築できます。また、Weave は コード を自動的に バージョン 管理し、Git に変更をコミットする前であっても、実験中の中間状態を保存します。
+複数の `op` をネストすることで、追跡対象の関数からなる構造化されたツリーを構築できます。Weave はコードのバージョン管理も自動で行い、Git に変更をコミットする前であっても、実験中の中間状態を保持します。
 
-追跡を開始するには、追跡したい関数に `@weave.op` デコレータを付けます。
+トレースを開始するには、追跡したい関数に `@weave.op` デコレータを付けます。
 
-以下の例では、Weave は `generate_image`、`check_image_correctness`、および `generate_image_and_check_correctness` の 3 つの関数を追跡します。これらの関数は画像を生成し、それが指定されたプロンプトと一致するかどうかを検証します。
+次の例では、Weave は `generate_image`、`check_image_correctness`、`generate_image_and_check_correctness` の 3 つの関数を追跡します。これらの関数は画像を生成し、その画像が与えられたプロンプトに一致しているかどうかを検証します。
 
 ```python lines
 import base64
@@ -158,20 +166,22 @@ def generate_image_and_check_correctness(prompt: str):
 response = generate_image_and_check_correctness("A cute puppy")
 ```
 
-Weave は `@weave.op` でラップされたすべての関数呼び出しを ログ に記録するようになり、Weave UI で実行の詳細を 分析 できます。
+Weave は、`@weave.op` でラップされたすべての関数呼び出しをログに記録し、Weave UI で実行の詳細を分析できるようにします。
 
 <Frame>
-![Weave は @weave.op でラップされたすべての関数呼び出しをログに記録し、Weave UI で実行の詳細を分析できるようにします。また、Weave は関数の実行をキャプチャして可視化し、アプリケーション内のデータフローとロジックを理解するのに役立ちます。](/weave/guides/integrations/imgs/huggingface/trace_ops.png)
-Weave は関数の実行をキャプチャして可視化し、アプリケーション内の データ フローとロジックを理解するのに役立ちます。
+  ![Weave now logs all function calls wrapped with @weave.op, allowing you to analyze execution details in the Weave UI. Weave also captures and visualizes function execution, helping you to understand data flow and logic within your application.](/weave/guides/integrations/imgs/huggingface/trace_ops.png)
+  Weave は関数の実行も記録して可視化し、アプリケーション内のデータフローやロジックを理解するのに役立ちます。
 </Frame>
 
-## 実験のための `Model` の利用
+<div id="use-models-for-experimentation">
+  ## 実験には `Model` を使用する
+</div>
 
-複数のコンポーネントが関与する場合、LLM の 実験 を管理するのは困難な場合があります。Weave の [`Model`](../core-types/models) クラスは、システムプロンプトや モデル 設定などの 実験 の詳細をキャプチャして整理するのに役立ち、異なるイテレーションを簡単に比較できるようにします。
+複数のコンポーネントが関わる場合、LLM 実験の管理は難しくなりがちです。Weave の [`Model`](../core-types/models) クラスは、システムプロンプトやモデル設定などの実験の詳細を記録・整理し、異なるイテレーション同士を容易に比較できるようにします。
 
-コード の バージョン 管理や入力/出力のキャプチャに加えて、`Model` はアプリケーションの 振る舞い を制御する構造化された パラメータ を保存します。これにより、どの設定が最良の結果をもたらしたかを追跡しやすくなります。また、Weave `Model` を Weave [Serve](../tools/serve) や [Evaluations](../evaluation/scorers) と統合して、さらなる洞察を得ることもできます。
+コードのバージョン管理や入出力の記録に加えて、`Model` はアプリケーションの動作を制御する構造化されたパラメーターを保存します。これにより、どの設定が最良の結果を生んだかを追跡しやすくなります。また、Weave `Model` を Weave [Serve](../tools/serve) や [Evaluations](../evaluation/scorers) と連携させることで、さらに深い知見を得ることもできます。
 
-以下の例では、旅行のレコメンデーションを行う `CityVisitRecommender` モデル を定義しています。パラメータ を変更するたびに新しい バージョン が生成されるため、実験 が容易になります。
+以下の例では、旅行先をおすすめするための `CityVisitRecommender` モデルを定義しています。パラメーターを変更するたびに新しいバージョンが生成されるため、実験が容易になります。
 
 ```python lines
 import rich
@@ -210,8 +220,8 @@ rich.print(city_visit_recommender.predict("New York City"))
 rich.print(city_visit_recommender.predict("Paris"))
 ```
 
-Weave は自動的に Models を ログ に記録し、異なる バージョン を追跡するため、パフォーマンスや 実験 履歴の 分析 が容易になります。
+Weave はモデルを自動的に記録し、さまざまなバージョンを追跡するため、パフォーマンスや実験履歴を簡単に分析できます。
 
 <Frame>
-![Weave は自動的にモデルをログに記録し、異なるバージョンを追跡するため、パフォーマンスや実験履歴の分析が容易になります。](/weave/guides/integrations/imgs/huggingface/trace_model.png)
+  ![Weave はモデルを自動的に記録し、さまざまなバージョンを追跡するため、パフォーマンスや実験履歴を簡単に分析できます。](/weave/guides/integrations/imgs/huggingface/trace_model.png)
 </Frame>

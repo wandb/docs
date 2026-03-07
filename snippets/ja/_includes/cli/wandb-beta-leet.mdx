@@ -1,0 +1,31 @@
+---
+title: Wandb Beta Leet
+---
+
+import LEETShortcuts from "/snippets/ja/_includes/leet-keyboard-shortcuts.mdx";
+
+LEET は、W&amp;B run の統計情報、メトリクス、およびシステムヘルスを表示するローカルのターミナル UI です。LEET は、SSH や `tmux` のようなツールを使ってリモートシステムや HPC 環境で作業するユーザー向けに設計された、キーボード操作中心のインターフェースです。
+
+![Screenshot demonstrating viewing a run in the LEET terminal UI](/images/leet/leet-tui.png)
+
+主な機能は次のとおりです。
+
+* **キーボード中心のナビゲーション**: すべての機能にキーボードショートカットでアクセス可能
+* **ライブ更新**: run の進行に合わせて `.wandb` ファイルをリアルタイムで監視
+* **メトリクスのフィルタリング**: グロブパターンや部分一致でメトリクスをフィルタリング
+* **スマートズーム**: マウスホイールでズームしても最新のデータポイントが常に表示されるように維持
+* **カスタマイズ可能なグリッド**: メトリクスおよびシステム表示用の行数と列数を設定可能
+* **人間に読みやすいフォーマット**: システム メトリクスをわかりやすい単位で表示（例: &quot;GPU Utilization (%)&quot;, &quot;RAM Used (GB)&quot;）
+
+LEET は 3 ペインのレイアウトを提供します。
+
+* **左サイドバー**: 環境変数、設定、および要約統計量を表示する Run Overview
+* **中央ペイン**: 記録されたメトリクス用の、点字スタイルの折れ線グラフを備えたメトリクスグリッド
+* **右サイドバー**: GPU 使用率、RAM、CPU などのシステムヘルス指標を表示する System Metrics
+
+
+<div id="keyboard-shortcuts">
+  ## キーボードショートカット
+</div>
+
+<LEETShortcuts />

@@ -1,70 +1,88 @@
 ---
+description: Team Settings 페이지에서 팀 구성원, 아바타, 알림 및 개인정보 설정을 관리합니다.
 title: 팀 설정 관리
-description: Team Settings 페이지에서 Teams 멤버, 아바타, 알림 및 개인정보 설정 을 관리할 수 있습니다.
 ---
 
-import EnterpriseOnly from "/snippets/en/_includes/enterprise-only.mdx";
+import EnterpriseOnly from "/snippets/ko/_includes/enterprise-only.mdx";
 
-# Team settings
+<div id="team-settings">
+  # 팀 설정
+</div>
 
-멤버, 아바타, 알림, 프라이버시, 사용량 등 팀의 설정을 변경합니다. Organization 어드민과 팀 어드민은 팀의 설정을 조회하고 편집할 수 있습니다.
+팀 구성원, 아바타, 알림, 공개 범위, 사용량 등 팀 설정을 변경할 수 있습니다. Organization 관리자와 팀 관리자는 팀 설정을 확인하고 수정할 수 있습니다.
 
 <Note>
-Administration 계정 유형만 팀 설정을 변경하거나 팀에서 멤버를 제거할 수 있습니다.
+  Administration 계정 유형만 팀 설정을 변경하거나 팀에서 구성원을 제거할 수 있습니다.
 </Note>
 
-## Members
+<div id="members">
+  ## 구성원
+</div>
 
-Members 섹션에는 대기 중인 모든 초대 목록과 팀 가입 초대를 수락한 멤버 목록이 표시됩니다. 목록의 각 멤버는 이름, 사용자 이름, 이메일, 팀 역할뿐만 아니라 Organization으로부터 상속받은 Models 및 W&B Weave에 대한 access 권한을 보여줍니다. 표준 팀 역할인 **Admin**, **Member**, **View-only** 중에서 선택할 수 있습니다. 만약 조직에서 [커스텀 역할](/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles)을 생성했다면, 대신 커스텀 역할을 할당할 수 있습니다.
+**구성원** 섹션에서는 보류 중인 모든 초대와 팀에 합류하라는 초대를 수락한 구성원이 목록으로 표시됩니다. 각 구성원 항목에는 구성원의 이름, 사용자 이름, 이메일, 팀 역할, 그리고 조직에서 상속된 Models 및 W&amp;B Weave에 대한 액세스 권한이 표시됩니다. 팀 역할은 기본 팀 역할인 **Admin**, **Member**, **View-only** 중에서 선택할 수 있습니다. 조직에서 [사용자 지정 역할](/ko/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles)을 만든 경우에는 대신 사용자 지정 역할을 할당할 수 있습니다.
 
-팀 생성, 팀 관리, 팀 멤버십 및 역할 관리 방법에 대한 자세한 내용은 [Add and Manage teams](/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)를 참조하세요. 새로운 멤버를 초대할 수 있는 권한을 설정하거나 팀의 기타 프라이버시 설정을 구성하려면 [Privacy](#privacy)를 참조하세요.
+팀을 생성하고, 팀을 관리하며, 팀 구성원과 역할을 관리하는 방법은 [팀 추가 및 관리](/ko/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams)를 참조하세요. 새 구성원을 누가 초대할 수 있는지와 팀에 대한 기타 개인정보 보호 설정을 구성하려면 [Privacy](#privacy)를 참조하세요.
 
-## Avatar
+<div id="avatar">
+  ## 아바타
+</div>
 
-**Avatar** 섹션으로 이동하여 이미지를 업로드하여 아바타를 설정합니다.
+**Avatar** 섹션으로 이동한 후 이미지를 업로드하여 아바타를 설정합니다.
 
-1. **Update Avatar**를 선택하여 파일 대화 상자를 엽니다.
-2. 파일 대화 상자에서 사용할 이미지를 선택합니다.
+1. **Update Avatar**를 선택하면 파일 선택 대화 상자가 열립니다.
+2. 파일 선택 대화 상자에서 사용하려는 이미지를 선택합니다.
 
-## Alerts
+<div id="alerts">
+  ## 알림
+</div>
 
-Runs가 충돌하거나 종료될 때 팀에 알림을 보내거나 커스텀 알림을 설정합니다. 팀은 이메일 또는 Slack을 통해 알림을 받을 수 있습니다.
+run이 중단되거나 완료되었을 때, 또는 커스텀 알림을 설정했을 때 팀에 알릴 수 있습니다. 팀은 이메일이나 Slack을 통해 알림을 받을 수 있습니다.
 
-알림을 받고자 하는 이벤트 유형 옆의 스위치를 토글합니다. Weights & Biases는 기본적으로 다음 이벤트 유형 옵션을 제공합니다:
+알림을 받고자 하는 이벤트 유형 옆의 스위치를 토글하세요. Weights and Biases는 기본적으로 다음과 같은 이벤트 유형 옵션을 제공합니다:
 
-* **Runs finished**: Weights & Biases run이 성공적으로 종료되었는지 여부.
-* **Run crashed**: run이 종료되지 못하고 실패했는지 여부.
+* **Runs finished**: Weights and Biases run이 성공적으로 완료되었는지 여부.
+* **Run crashed**: run이 완료되지 못하고 실패한 경우.
 
-알림 설정 및 관리 방법에 대한 자세한 내용은 [Send alerts with `wandb.Run.alert()`](/models/evaluate-models/)를 참조하세요.
+알림 설정 및 관리 방법에 대한 자세한 내용은 [Send alerts with `wandb.Run.alert()`](/ko/models/runs/alert)를 참고하십시오.
 
-## Slack notifications
+<div id="slack-notifications">
+  ## Slack 알림
+</div>
 
-새로운 아티팩트가 생성되거나 run 메트릭이 정의된 임계값을 충족하는 등 Registry 또는 프로젝트에서 이벤트가 발생할 때 팀의 [automations](/models/automations/)이 알림을 보낼 Slack 목적지를 구성합니다. [Create a Slack automation](/models/automations/create-automations/slack/)을 참조하세요.
+Registry 또는 프로젝트에서 새로운 아티팩트가 생성되거나 run 메트릭이 정의된 임계값을 충족하는 등의 이벤트가 발생했을 때 팀의 [automations](/ko/models/automations/)가 알림을 전송할 Slack 대상을 설정합니다. 자세한 내용은 [Slack automation 생성하기](/ko/models/automations/create-automations/slack/)를 참고하세요.
 
 <Info>
-<EnterpriseOnly/>
+  <EnterpriseOnly />
 </Info>
 
-## Webhooks
+<div id="webhooks">
+  ## Webhooks
+</div>
 
-새로운 아티팩트가 생성되거나 run 메트릭이 정의된 임계값을 충족하는 등 Registry 또는 프로젝트에서 이벤트가 발생할 때 팀의 [automations](/models/automations/)이 실행할 수 있는 웹훅을 구성합니다. [Create a webhook automation](/models/automations/create-automations/slack/)을 참조하세요.
+Registry 또는 프로젝트에서 이벤트가 발생했을 때, 예를 들어 새로운 아티팩트가 생성되거나 run 메트릭이 정의된 임계값을 충족할 때 팀의 [automations](/ko/models/automations/)가 실행할 webhook을 구성합니다. 자세한 내용은 [Create a webhook automation](/ko/models/automations/create-automations/slack/)을 참고하세요.
 
 <Info>
-<EnterpriseOnly/>
+  <EnterpriseOnly />
 </Info>
 
-## Privacy
+<div id="privacy">
+  ## 개인정보 보호
+</div>
 
-프라이버시 설정을 변경하려면 **Privacy** 섹션으로 이동합니다. Organization 어드민만 프라이버시 설정을 수정할 수 있습니다.
+개인정보 보호 설정을 변경하려면 **Privacy** 섹션으로 이동하세요. 조직 관리자만 개인정보 보호 설정을 수정할 수 있습니다.
 
-- 향후 프로젝트를 공개로 설정하거나 Reports를 공개적으로 공유하는 기능을 비활성화합니다.
-- 팀 어드민뿐만 아니라 모든 팀 멤버가 다른 멤버를 초대할 수 있도록 허용합니다.
-- 코드 저장이 기본적으로 켜져 있는지 여부를 관리합니다.
+* 향후 프로젝트를 공개하거나 리포트를 공개적으로 공유할 수 없도록 설정합니다.
+* 팀 관리자뿐 아니라 모든 팀 구성원이 다른 구성원을 초대할 수 있도록 허용합니다.
+* 코드 저장 기능을 기본값으로 켤지 여부를 관리합니다.
 
-## Usage
+<div id="usage">
+  ## 사용량
+</div>
 
-**Usage** 섹션은 팀이 Weights & Biases 서버에서 소비한 총 메모리 사용량을 설명합니다. 기본 스토리지 플랜은 100GB입니다. 스토리지 및 요금에 대한 자세한 내용은 [Pricing](https://wandb.ai/site/pricing) 페이지를 참조하세요.
+**사용량** 섹션에서는 팀이 Weights &amp; Biases 서버에서 사용한 전체 스토리지 사용량을 보여줍니다. 기본 스토리지 플랜의 용량은 100GB입니다. 스토리지 및 요금에 대한 자세한 내용은 [Pricing](https://wandb.ai/site/pricing) 페이지를 참조하세요.
 
-## Storage
+<div id="storage">
+  ## Storage
+</div>
 
-**Storage** 섹션은 팀의 데이터에 사용되는 클라우드 스토리지 버킷 설정을 설명합니다. 자세한 내용은 [Secure Storage Connector](/platform/app/settings-page/teams/#secure-storage-connector)를 참조하거나, 셀프 호스팅 중인 경우 [W&B Server](/platform/hosting/data-security/secure-storage-connector) 문서를 확인하세요.
+**Storage** 섹션은 팀 데이터용으로 사용 중인 클라우드 스토리지 버킷 설정을 설명합니다. 자세한 내용은 [Secure Storage Connector](/ko/platform/app/settings-page/teams/#secure-storage-connector)를 참고하거나, 셀프 호스팅 환경이라면 [W&amp;B Server](/ko/platform/hosting/data-security/secure-storage-connector) 문서를 확인하세요.

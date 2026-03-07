@@ -1,52 +1,59 @@
 ---
+description: 데이터셋을 반복적으로 개선하고 모델 예측을 이해하기
 title: Tables 개요
-description: Datasets 에 대해 반복적으로 실험하고 모델의 prediction 을 이해하세요
 ---
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
-import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
+
+import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/ko/_includes/try-product-link.mdx';
 
 <CardGroup cols={4}>
-<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" />
-<TryProductLink url="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" />
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb" />
+
+  <TryProductLink url="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" />
 </CardGroup>
 
-W&B Tables를 사용하여 테이블 형태의 데이터를 시각화하고 쿼리할 수 있습니다. 예를 들어 다음과 같은 작업이 가능합니다:
+W&amp;B Tables를 사용해 표 형식 데이터를 시각화하고 쿼리할 수 있습니다. 예를 들어:
 
-* 동일한 테스트 세트에 대해 서로 다른 모델의 성능을 비교
-* 데이터 내의 패턴 식별
-* 샘플 모델 예측값을 시각적으로 확인
-* 쿼리를 통해 자주 오분류되는 예시 탐색
+* 서로 다른 모델이 같은 테스트 세트에서 내는 성능을 비교하기
+* 데이터에서 패턴 찾기
+* 모델 예측 샘플을 시각적으로 확인하기
+* 자주 오분류되는 예시를 찾기 위해 쿼리 실행하기
 
 <Frame>
-    <img src="/images/data_vis/tables_sample_predictions.png" alt="Semantic segmentation predictions table"  />
+  <img src="/images/data_vis/tables_sample_predictions.png" alt="Semantic segmentation predictions table" />
 </Frame>
-위 이미지는 시멘틱 세그멘테이션과 커스텀 메트릭이 포함된 테이블을 보여줍니다. 이 테이블은 [W&B ML 코스의 샘플 프로젝트](https://wandb.ai/av-team/mlops-course-001)에서 직접 확인할 수 있습니다.
 
-## 작동 방식
+위 이미지는 시맨틱 세그멘테이션과 사용자 정의 메트릭이 포함된 테이블을 보여줍니다. 이 테이블은 [W&amp;B ML Course의 샘플 프로젝트](https://wandb.ai/av-team/mlops-course-001)에서 확인할 수 있습니다.
 
-Table은 각 컬럼이 단일 데이터 타입을 갖는 2차원 데이터 그리드입니다. Tables는 기본 및 숫자 타입뿐만 아니라 중첩된 리스트, 딕셔너리 및 다양한 미디어 타입을 지원합니다.
+<div id="how-it-works">
+  ## 동작 방식
+</div>
 
-## Table 로그하기
+Table은 각 열에 하나의 데이터 타입만 사용하는 2차원 데이터 그리드입니다. Table은 기본형 및 수치형 데이터 타입뿐만 아니라 중첩 리스트, 딕셔너리, 리치 미디어 타입도 지원합니다.
 
-코드 몇 줄만으로 테이블을 로그할 수 있습니다:
+<div id="log-a-table">
+  ## Table 로그하기
+</div>
 
-- [`wandb.init()`](/models/ref/python/functions/init): 결과를 추적하기 위한 [run](/models/runs/)을 생성합니다.
-- [`wandb.Table()`](/models/ref/python/data-types/table): 새로운 테이블 오브젝트를 생성합니다.
-  - `columns`: 컬럼 이름을 설정합니다.
-  - `data`: 테이블의 내용을 설정합니다.
-- [`run.log()`](/models/ref/python/experiments/run.md/#method-runlog): 테이블을 W&B에 저장하기 위해 로그합니다.
+몇 줄의 코드만으로 테이블을 로깅합니다:
+
+* [`wandb.init()`](/ko/models/ref/python/functions/init): 결과를 추적할 [run](/ko/models/runs/)을 생성합니다.
+* [`wandb.Table()`](/ko/models/ref/python/data-types/table): 새 테이블 객체를 생성합니다.
+  * `columns`: 열 이름을 설정합니다.
+  * `data`: 테이블의 내용을 설정합니다.
+* [`run.log()`](/ko/models/ref/python/experiments/run.md/#method-runlog): 테이블을 로그하여 W&amp;B에 저장합니다.
 
 ```python
 import wandb
 
-# project "table-test"로 wandb init
 with wandb.init(project="table-test") as run:
-    # 컬럼과 데이터를 정의하여 테이블 생성
     my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
-    # run에 테이블 로그
     run.log({"Table Name": my_table})
 ```
 
-## 시작 방법
-* [퀵스타트](/models/tables/tables-walkthrough/): 데이터 테이블 로그, 데이터 시각화 및 데이터 쿼리 방법을 배웁니다.
-* [Tables 갤러리](/models/tables/tables-gallery/): Tables의 다양한 유스 케이스 예시를 확인합니다.
+<div id="how-to-get-started">
+  ## 시작하기
+</div>
+
+* [퀵스타트](/ko/models/tables/tables-walkthrough/): 데이터 테이블을 로깅하고 데이터를 시각화하며 데이터를 쿼리하는 방법을 알아보세요.
+* [Tables 갤러리](/ko/models/tables/tables-gallery/): Tables의 사용 예시를 확인하세요.

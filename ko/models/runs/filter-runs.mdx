@@ -1,112 +1,117 @@
 ---
-title: ' thoughtful
-
-  Run 필터링'
-description: 익스프레션 에디터(expression editor)를 사용하여 Runs 테이블에서 run을 필터링하는 방법을 알아보세요.
+description: 식 편집기를 사용해 Runs 테이블에서 run을 필터링하는 방법을 알아보세요.
+title: run 필터링
 ---
 
-Runs Table의 표현식 에디터를 사용하여 이름, 상태, [태그](#filter-runs-with-tags) 또는 기타 속성을 기반으로 Runs를 필터링하세요.
+Runs 테이블의 식 편집기를 사용하여 이름, 상태, [태그](#filter-runs-with-tags) 또는 기타 속성을 기준으로 run을 필터링할 수 있습니다.
 
-필터를 추가할 때 먼저 필드(예: tags, timestamp 또는 entity)를 선택합니다. 각 필드에는 텍스트, 시간 또는 ID와 같은 기본 타입이 있습니다.
+필터를 추가할 때는 먼저 필드를 선택합니다(예: tags, timestamp, entity). 각 필드에는 text, time, ID와 같은 기본 타입이 있습니다.
 
-표시되는 연산자 목록(예: is, in, &ge;, within last)은 이 타입에 따라 달라집니다. 필드를 선택하면 UI에는 해당 필드 타입에 유효한 연산자만 표시됩니다.
+표시되는 연산자 목록(is, in, &ge;, within last 등)은 이 타입에 따라 달라집니다. 필드를 선택하면 UI에는 해당 필드 타입에 유효한 연산자만 표시됩니다.
 
-## 타입별 공통 연산자
+<div id="common-operators-by-type">
+  ## 유형별 일반적인 연산자
+</div>
 
-| 필터 타입 | 예시 필드 | 공통 연산자 | 사용 예시 |
+| 필터 유형 | 예시 필드 | 일반적인 연산자 | 사용 예 |
 | ----------- | -------------- | ---------------- | ------------- |
-| Tags        | `tags`           | is, is not, in, not in  | `tags is "baseline"` |
-| Time        | `created timestamp`      | &le;, &ge;, within last | `created timestamp` &ge; `01/16/2026` |
-| String      | `state`         | &equals;, &ne;, IN, NOT IN | `state = "finished"` |
+| 태그        | `tags`           | is, is not, in, not in  | `tags is "baseline"` |
+| 시간        | `created timestamp`      | &le;, &ge;, within last | `created timestamp` &ge; `01/16/2026` |
+| 문자열      | `state`         | &equals;, &ne;, IN, NOT IN | `state = "finished"` |
 
 <Note>
-위 표는 사용 가능한 필드 및 연산자의 일부 서브셋만 보여줍니다. 표현식 에디터에서 모든 사용 가능한 필드와 연산자를 확인할 수 있습니다.
+위의 표는 사용 가능한 필드와 연산자의 일부만 보여 줍니다. 표현식 편집기에서는 사용 가능한 모든 필드와 연산자가 표시됩니다.
 </Note>
 
-## 필터 표현식 생성하기
+<div id="create-a-filter-expression">
+  ## 필터 식 만들기
+</div>
 
-1. Projects 사이드바에서 **Runs** 탭으로 이동합니다.
-2. Runs Table 상단에 있는 깔대기 모양의 **Filter** 버튼을 선택합니다.
-3. 왼쪽에서 오른쪽 순서로 컬럼 이름, 논리 연산자, 필터 값을 선택하여 필터 표현식을 생성합니다.
-4. 추가 필터를 적용하려면 선택적으로 **New Filter**를 선택합니다.
+1. 프로젝트 사이드바에서 **Runs** 탭으로 이동합니다.
+2. Runs 테이블 상단에 있는 깔때기 모양의 **Filter** 버튼을 선택합니다.
+3. 왼쪽에서 오른쪽 순서로 열 이름, 논리 연산자, 필터 값을 선택해 필터 식을 생성합니다.
+4. 필요하면 **New Filter**를 선택해 필터를 추가로 적용합니다.
 
-다음 이미지는 loss 값이 `1`보다 작거나 같은 Runs를 필터링하는 모습입니다:
+다음 이미지는 loss 값이 `1` 이하인 run만 보여주도록 필터링한 예시입니다:
 
 <Frame>
-    <img src="/images/data_vis/filter.png" alt="Incorrect predictions filter"  />
+    <img src="/images/data_vis/filter.png" alt="잘못된 예측 필터"  />
 </Frame>
 
+다음 섹션에서는 Runs 테이블에서 run을 필터링하는 몇 가지 예시를 보여줍니다.
 
-다음 섹션에서는 Runs Table에서 Runs를 필터링하는 몇 가지 예시를 보여줍니다.
+<div id="example-filter-runs-with-tags">
+  ### 예시: 태그로 run 필터링하기
+</div>
 
+run을 태그를 기준으로 필터링하려면 다음을 수행합니다:
 
-### 예시: 태그로 Runs 필터링하기
-
-태그를 기반으로 Runs를 필터링합니다:
-
-1. Projects 사이드바에서 **Runs** 탭을 클릭합니다.
-2. Runs Table 상단에 있는 깔대기 모양의 **Filter** 버튼을 선택합니다.
-3. 첫 번째 드롭다운 메뉴에서 `"Tags"`를 선택하고 논리 연산자를 선택합니다.
+1. 프로젝트 사이드바에서 **Runs** 탭을 클릭합니다.
+2. runs 테이블 위에 있는 깔때기 모양의 **Filter** 버튼을 선택합니다.
+3. 왼쪽에서 오른쪽 순서로, 첫 번째 드롭다운 메뉴에서 `"Tags"`를 선택하고 두 번째 드롭다운에서 논리 연산자를 선택합니다.
 4. 두 번째 드롭다운 메뉴에서 is, is not, in, 또는 not in을 선택합니다.
-5. 세 번째 드롭다운 메뉴에서 필터링하려는 태그 이름을 입력합니다.
+5. 세 번째 드롭다운 메뉴에 필터링하려는 태그 이름을 입력합니다.
 
 <Frame>
-    <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" />
+    <img src="/images/app_ui/filter_runs.gif" alt="태그로 run 필터링하기" />
 </Frame>
 
+<div id="default-filters">
+  ## 기본 필터
+</div>
 
-## 기본 필터
+기본적으로 W&B는 다음과 같은 필터를 제공합니다:
 
-기본적으로 W&B는 다음 필터를 제공합니다:
+* **내 run만 표시**: 현재 사용자가 생성한 run만 표시합니다.
+* **실패한 run 숨기기**: `crashed` 상태인 run을 숨깁니다.
 
-* **Show only my works**: 현재 사용자가 생성한 Runs만 표시합니다.
-* **Hide crashed runs**: `crashed` 상태인 Runs를 숨깁니다.
+기본 필터는 필터 식 편집기에서 **New filter** 버튼 아래에 토글로 표시됩니다.
 
-기본 필터는 필터 표현식 에디터의 **New filter** 버튼 아래에 토글 형태로 나타납니다.
+<div id="remove-a-filter">
+  ## 필터 제거
+</div>
 
-## 필터 제거하기
+Runs 테이블에서 필터를 제거하려면:
 
-Runs Table에서 필터를 제거하려면:
-1. Runs Table 상단의 깔대기 모양 **Filter** 버튼을 클릭합니다.
-2. 제거하려는 필터 옆의 `x` 아이콘을 선택합니다.
-
-{/*
-## Run 색상 편집
-
-새로운 Run이 생성되면 기본 색상이 할당됩니다. 색상 미리보기를 클릭하여 특정 Run의 색상을 편집할 수 있습니다.
-*/}
-
+1. Runs 테이블 위에 있는 깔때기 모양의 **Filter** 버튼을 클릭합니다.
+2. 제거하려는 필터 옆의 `x` 아이콘을 클릭합니다.
 
 {/*
-Run 이름 옆의 초록색 점을 확인하세요. 이는 해당 Run이 테이블과 그래프 범례에서 활성화되어 있음을 나타냅니다.
-*/}
+  ## run 색상 편집
+
+  새 run이 생성되면 기본 색상이 자동으로 지정됩니다. 색상 미리보기를 클릭하여 해당 run의 색상을 편집할 수 있습니다.
+  */}
 
 {/*
-## Runs 일괄 선택
+  run 이름 옆에 있는 초록색 점을 확인하세요. 이 점은 해당 run이 테이블과 그래프 범례에서 활성 상태임을 나타냅니다.
+  */}
 
-여러 Runs를 한 번에 삭제하거나 Runs 그룹에 태그를 지정할 수 있습니다. 일괄 선택을 통해 Runs Table을 더 쉽게 정리할 수 있습니다.
+{/*
+  ## run 일괄 선택
 
-<Frame>
+  여러 run을 한 번에 삭제하거나 run 그룹에 태그를 일괄 지정할 수 있습니다. 일괄 선택 기능을 사용하면 Runs 테이블을 더 쉽게 정리할 수 있습니다.
+
+  <Frame>
     <img src="/images/app_ui/howto_bulk_select.gif"  />
-</Frame>
-*/}
+  </Frame>
+  */}
 
 {/*
-## 테이블의 모든 Runs 선택
+  ## 테이블에서 모든 run 선택
 
-테이블 왼쪽 상단의 체크박스를 클릭하고 "Select all runs"를 클릭하여 현재 필터 세트와 일치하는 모든 Run을 선택합니다.
+  테이블 왼쪽 상단의 체크박스를 클릭한 다음 "Select all runs"를 클릭하여 현재 설정된 필터와 일치하는 모든 run을 선택합니다.
 
-<Frame>
+  <Frame>
     <img src="/images/app_ui/all_runs_select.gif"  />
-</Frame>
-*/}
+  </Frame>
+  */}
 
 {/*
-## 테이블 컬럼 검색
+  ## 테이블에서 열 검색
 
-**Columns** 버튼을 사용하여 테이블 UI 가이드에서 컬럼을 검색하세요.
+  **Columns** 버튼을 사용해 테이블에서 열을 검색하세요.
 
-<Frame>
+  <Frame>
     <img src="/images/app_ui/search_columns.gif"  />
-</Frame>
-*/}
+  </Frame>
+  */}

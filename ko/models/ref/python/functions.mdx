@@ -1,29 +1,33 @@
 ---
 title: Global Functions 개요
-description: W&B Python SDK의 Global functions
-module: null
+description: W&B Python SDK의 글로벌 함수
+module: 
 no_list: true
 ---
 
-W&B의 글로벌 함수는 `wandb.init()` 또는 `wandb.login()`과 같이 직접 호출하는 최상위 함수입니다. 특정 클래스에 속한 메소드와 달리, 이 함수들은 오브젝트를 먼저 인스턴스화할 필요 없이 W&B의 핵심 기능에 직접 엑세스할 수 있도록 해줍니다.
+W&amp;B의 글로벌 함수는 `wandb.init()`이나 `wandb.login()`처럼 직접 호출하는 최상위(top-level) 함수입니다. 특정 클래스에 속하는 메서드와 달리, 이러한 함수는 객체를 먼저 생성할 필요 없이 W&amp;B의 핵심 기능에 바로 접근할 수 있게 해 줍니다.
 
-## 사용 가능한 함수
+<div id="available-functions">
+  ## 사용 가능한 함수
+</div>
 
 | 함수 | 설명 |
 |----------|-------------|
-| [`init()`](/models/ref/python/functions/init) | W&B에 트래킹 및 로그를 남기기 위한 새로운 run 을 시작합니다. 일반적으로 ML 트레이닝 파이프라인에서 가장 먼저 호출하게 되는 함수입니다. |
-| [`login()`](/models/ref/python/functions/login) | 플랫폼에서 머신을 인증하기 위한 W&B 로그인 자격 증명을 설정합니다. |
-| [`setup()`](/models/ref/python/functions/setup) | 현재 프로세스와 그 자식 프로세스에서 사용할 수 있도록 W&B를 준비합니다. 멀티 프로세스 애플리케이션에 유용합니다. |
-| [`teardown()`](/models/ref/python/functions/teardown) | W&B 리소스를 정리하고 백엔드 프로세스를 종료합니다. |
-| [`sweep()`](/models/ref/python/functions/sweep) | 최적의 모델 설정을 찾기 위한 하이퍼파라미터 스윕을 초기화합니다. |
-| [`agent()`](/models/ref/python/functions/agent) | 하이퍼파라미터 최적화 실험을 실행하기 위한 스윕 에이전트를 생성합니다. |
-| [`controller()`](/models/ref/python/functions/controller) | 스윕 에이전트와 그 실행을 관리하고 제어합니다. |
-| [`restore()`](/models/ref/python/functions/restore) | 작업을 재개하기 위해 이전의 run 이나 실험 상태를 복구합니다. |
-| [`finish()`](/models/ref/python/functions/finish) | run 을 종료하고 리소스를 정리합니다. |
+| [`init()`](/ko/models/ref/python/functions/init) | 새로운 run을 시작하고 W&amp;B에 추적 정보와 로그를 기록합니다. 보통 ML 트레이닝 파이프라인에서 가장 먼저 호출하는 함수입니다. |
+| [`login()`](/ko/models/ref/python/functions/login) | 플랫폼에서 현재 머신을 인증할 수 있도록 W&amp;B 로그인 자격 증명을 설정합니다. |
+| [`setup()`](/ko/models/ref/python/functions/setup) | 현재 프로세스와 하위 프로세스에서 W&amp;B를 사용할 수 있도록 준비합니다. 멀티프로세스 애플리케이션에 유용합니다. |
+| [`teardown()`](/ko/models/ref/python/functions/teardown) | W&amp;B 리소스를 정리하고 백엔드 프로세스를 종료합니다. |
+| [`sweep()`](/ko/models/ref/python/functions/sweep) | 최적의 모델 설정을 찾기 위해 하이퍼파라미터 스윕을 초기화합니다. |
+| [`agent()`](/ko/models/ref/python/functions/agent) | 하이퍼파라미터 최적화 실험을 실행할 스윕 에이전트를 생성합니다. |
+| [`controller()`](/ko/models/ref/python/functions/controller) | 스윕 에이전트와 그 실행을 관리하고 제어합니다. |
+| [`restore()`](/ko/models/ref/python/functions/restore) | 작업을 재개할 수 있도록 이전 run 또는 실험 상태를 복원합니다. |
+| [`finish()`](/ko/models/ref/python/functions/finish) | 현재 run을 종료하고 리소스를 정리합니다. |
 
-## 예시
+<div id="example">
+  ## 예시
+</div>
 
-가장 일반적인 워크플로우는 W&B 인증, run 초기화, 그리고 트레이닝 루프에서 값(정확도 및 손실 등)을 로그로 남기는 것으로 시작됩니다. 첫 단계는 `wandb`를 임포트하고 글로벌 함수인 `login()`과 `init()`을 사용하는 것입니다:
+가장 일반적인 워크플로는 W&amp;B에 인증한 뒤 run을 초기화하고, 트레이닝 루프에서 정확도와 손실과 같은 값을 로깅하는 것부터 시작합니다. 첫 단계로는 `wandb`를 임포트하고 전역 함수 `login()`과 `init()`을 사용하는 것입니다:
 
 ```python
 import wandb
@@ -40,10 +44,10 @@ config = {
 # run이 기록될 프로젝트
 project = "my-awesome-project"
 
-# 새로운 run 초기화
+# 새 run 초기화
 with wandb.init(project=project, config=config) as run:
-   # 여기에 트레이닝 코드를 작성하세요...
+   # 트레이닝 코드를 여기에 작성하세요...
    
-   # W&B에 값 로그 기록
+   # W&B에 값 로깅
    run.log({"accuracy": 0.9, "loss": 0.1})
 ```

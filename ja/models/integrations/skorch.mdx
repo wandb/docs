@@ -1,26 +1,30 @@
 ---
-title: Skorch
 description: W&B を Skorch と統合する方法。
+title: Skorch
 ---
 
-W&B を Skorch と組み合わせて使用することで、各 エポック 終了時に、最高のパフォーマンスを示した モデル、すべての モデル パフォーマンス メトリクス、モデル のトポロジー、および計算リソースを自動的に ログ に記録できます。 `wandb_run.dir` に保存されたすべてのファイルは、自動的に W&B に ログ 記録されます。
+W&B を Skorch と併用すると、各エポックごとに、最も性能の良いモデルに加えて、すべてのモデルのパフォーマンスメトリクス、モデルのトポロジー、およびコンピュートリソースを自動的に記録できます。`wandb_run.dir` に保存されたすべてのファイルは自動的に W&B に記録されます。
 
-[example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13) を参照してください。
+[サンプル run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13) を参照してください。
 
-## Parameters
+<div id="parameters">
+  ## パラメーター
+</div>
 
-| パラメータ | 型 | 説明 |
+| Parameter | Type | Description |
 | :--- | :--- | :--- |
-| `wandb_run` | `wandb.wandb_run`. Run | データ を ログ 記録するために使用される wandb run。 |
-|`save_model` | bool (デフォルト=True)| 最良の モデル の チェックポイント を保存し、W&B の Run にアップロードするかどうか。|
-|`keys_ignored`| 文字列または文字列のリスト (デフォルト=None) | TensorBoard に ログ 記録すべきではない キー または キー のリスト。ユーザーが提供した キー に加えて、`event_` で始まるものや `_best` で終わるものなどの キー はデフォルトで無視されます。|
+| `wandb_run` | `wandb.wandb_run`. Run | データのログに使用される wandb run。 |
+|`save_model` | bool (default=True)| 最良のモデルのチェックポイントを保存し、それを W&B 上の Run にアップロードするかどうか。|
+|`keys_ignored`| str or list of str (default=None) | TensorBoard にログしないキー、またはキーのリスト。ユーザーが指定したキーに加えて、`event_` で始まる、あるいは `_best` で終わるキーなどはデフォルトで無視される点に注意してください。|
 
-## Example Code
+<div id="example-code">
+  ## コード例
+</div>
 
-インテグレーション の仕組みを確認するための例をいくつか作成しました。
+インテグレーションがどのように動作するかを確認できるように、いくつかの例をご用意しました：
 
-* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing): インテグレーション を試すためのシンプルな デモ
-* [ステップバイステップガイド](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ): Skorch モデル のパフォーマンスを追跡するための ガイド
+* [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing)：インテグレーションを試すための簡単なデモ
+* [ステップバイステップガイド](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ)：Skorch モデルのパフォーマンスをトラッキングするためのステップバイステップガイド
 
 ```python
 # wandb をインストール
@@ -29,25 +33,28 @@ W&B を Skorch と組み合わせて使用することで、各 エポック 終
 import wandb
 from skorch.callbacks import WandbLogger
 
-# wandb Run を作成
+# wandb の run を作成
 wandb_run = wandb.init()
 
-# ハイパーパラメータをログ記録 (任意)
+# ハイパーパラメーターをログ（オプション）
 wandb_run.config.update({"learning rate": 1e-3, "batch size": 32})
 
 net = NeuralNet(..., callbacks=[WandbLogger(wandb_run)])
 net.fit(X, y)
 ```
 
-## Method reference
 
-| メソッド | 説明 |
+<div id="method-reference">
+  ## メソッドリファレンス
+</div>
+
+| Method | Description |
 | :--- | :--- |
-| `initialize`\(\) | コールバック の初期状態を（再）設定します。 |
-| `on_batch_begin`\(net\[, X, y, training\]\) | 各 バッチ の開始時に呼び出されます。 |
-| `on_batch_end`\(net\[, X, y, training\]\) | 各 バッチ の終了時に呼び出されます。 |
-| `on_epoch_begin`\(net\[, dataset_train, …\]\) | 各 エポック の開始時に呼び出されます。 |
-| `on_epoch_end`\(net, \*\*kwargs\) | 最後の履歴ステップから 値 を ログ 記録し、最良の モデル を保存します。 |
-| `on_grad_computed`\(net, named_parameters\[, X, …\]\) | 勾配 が計算された後、更新ステップが実行される前に、バッチ ごとに1回呼び出されます。 |
-| `on_train_begin`\(net, \*\*kwargs\) | モデル のトポロジーを ログ 記録し、 勾配 のための フック を追加します。 |
-| `on_train_end`\(net\[, X, y\]\) | トレーニング の終了時に呼び出されます。 |
+| `initialize`\(\) | コールバックの初期状態を（再）設定します。 |
+| `on_batch_begin`\(net\[, X, y, training\]\) | 各バッチの開始時に呼び出されます。 |
+| `on_batch_end`\(net\[, X, y, training\]\) | 各バッチの終了時に呼び出されます。 |
+| `on_epoch_begin`\(net\[, dataset_train, …\]\) | 各エポックの開始時に呼び出されます。 |
+| `on_epoch_end`\(net, \*\*kwargs\) | 直近の履歴ステップの値をログに記録し、最良のモデルを保存します。 |
+| `on_grad_computed`\(net, named_parameters\[, X, …\]\) | 勾配が計算された後、更新ステップが実行される前に、バッチごとに 1 回呼び出されます。 |
+| `on_train_begin`\(net, \*\*kwargs\) | モデルのトポロジーをログに記録し、勾配を取得するためのフックを追加します。 |
+| `on_train_end`\(net\[, X, y\]\) | トレーニングの終了時に呼び出されます。 |

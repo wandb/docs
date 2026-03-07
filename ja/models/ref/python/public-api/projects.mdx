@@ -1,16 +1,19 @@
 ---
-title: プロジェクト
+title: Projects
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
-## <kbd>class</kbd> `Projects`
-`Project` オブジェクトのレイジーイテレータです。
 
-特定の Entity によって作成・保存された Projects にアクセスするためのイテレータインターフェースを提供します。
+## <kbd>class</kbd> `Projects`
+
+`Project` オブジェクトの遅延イテレーターです。
+
+entity によって作成および保存されたプロジェクトにアクセスするための、反復可能なインターフェースです。
 
 ### <kbd>method</kbd> `Projects.__init__`
 
@@ -22,39 +25,41 @@ __init__(
 ) → Projects
 ```
 
-**Args:**
+**引数:**
 
- - `client` (`wandb.apis.internal.Api`): 使用する API クライアントインスタンス。
- - `entity` (str): Projects を取得する Entity 名（ユーザー名または Team 名）。
- - `per_page` (int): 1リクエストあたりに取得する Projects の数（デフォルトは 50）。
+* `client` (`wandb.apis.internal.Api`):  使用する API クライアント インスタンス。
+* `entity` (str):  プロジェクトを取得する対象の entity 名（ユーザー名またはチーム名）。
+* `per_page` (int):  リクエストごとに取得するプロジェクト数（デフォルトは 50）。
 
-**Example:**
- ```python
+**例:**
+
+```python
 from wandb.apis.public.api import Api
 
-# この Entity に属する Projects を検索する
+# このエンティティに属するプロジェクトを検索する
 projects = Api().projects(entity="entity")
 
-# 各プロジェクトを反復処理する
+# プロジェクトを反復処理する
 for project in projects:
     print(f"Project: {project.name}")
     print(f"- URL: {project.url}")
     print(f"- Created at: {project.created_at}")
     print(f"- Is benchmark: {project.is_benchmark}")
-``` 
+```
 
-`Project` オブジェクトのイテラブルなコレクションです。
+`Project` オブジェクトのイテラブルなコレクション。
 
-**Args:**
+**引数:**
 
- - `client`: W&B へのクエリに使用される API クライアント。
- - `entity`: Projects を所有する Entity。
- - `per_page`: API への1リクエストあたりに取得する Projects の数。
+* `client`:  W&amp;B に対してクエリを実行するために使用される API クライアント。
+* `entity`:  プロジェクトを所有する Entity。
+* `per_page`:  一度の API リクエストで取得するプロジェクト数。
 
----
+***
+
 
 ### <kbd>property</kbd> Projects.cursor
 
 ---
 
-### <kbd>property</kbd> Projects.more
+### <kbd>プロパティ</kbd> Projects.more

@@ -2,227 +2,292 @@
 title: artifactVersion
 ---
 
-## Chainable Ops
-### <a id="artifactVersion-aliases"></a>`artifactVersion-aliases`
+<div id="chainable-ops">
+  ## チェーン可能な Ops
+</div>
 
-[artifactVersion](/models/ref/query-panel/artifact-version/) の エイリアス を返します。
+### <a id="artifactVersion-aliases" />`artifactVersion-aliases`
 
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の エイリアス
-
-### <a id="artifactVersion-createdAt"></a>`artifactVersion-createdAt`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) が作成された日時を返します。
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のエイリアスを返します。
 
 | 引数 | 説明 |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | 対象の [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
 
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) が作成された日時
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="artifactVersion-file"></a>`artifactVersion-file`
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のエイリアス一覧
 
-指定されたパスの [artifactVersion](/models/ref/query-panel/artifact-version/) の _ファイル_ を返します。
+### <a id="artifactVersion-createdAt" />`artifactVersion-createdAt`
+
+[`artifactVersion`](/ja/models/ref/query-panel/artifact-version/) が作成された日時を返します。
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | 1 つの [`artifactVersion`](/ja/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) が作成された日時
+
+### <a id="artifactVersion-file" />`artifactVersion-file`
+
+指定されたパスに対応する [artifactVersion](/ja/models/ref/query-panel/artifact-version/) の *file* を返します。
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+| `path` | *file* のパス |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+指定されたパスに対応する [artifactVersion](/ja/models/ref/query-panel/artifact-version/) の *file*
+
+### <a id="artifactVersion-files" />`artifactVersion-files`
+
+指定した [artifactVersion](/ja/models/ref/query-panel/artifact-version/) に含まれる *files* の *list* を返します
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | 対象の [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の *ファイル* の *リスト*
+
+### <a id="artifactVersion-link" />`artifactVersion-link`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の URL を返します
 
 | 引数 | 説明 |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-| `path` | _ファイル_ のパス |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
 
-#### 返り値
-指定されたパスの [artifactVersion](/models/ref/query-panel/artifact-version/) の _ファイル_
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="artifactVersion-files"></a>`artifactVersion-files`
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の URL
 
-[artifactVersion](/models/ref/query-panel/artifact-version/) の _ファイル一覧_ を返します。
+### <a id="artifactVersion-metadata" />`artifactVersion-metadata`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のメタデータを格納した辞書を返します
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のメタデータの辞書
+
+### <a id="artifactVersion-name" />`artifactVersion-name`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の名前を返します。
 
 | 引数 | 説明 |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) 型の値 |
 
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の _ファイル一覧_
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="artifactVersion-link"></a>`artifactVersion-link`
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の名前。
 
-[artifactVersion](/models/ref/query-panel/artifact-version/) の URL を返します。
+### <a id="artifactVersion-size" />`artifactVersion-size`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のサイズを返します。
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のサイズです
+
+### <a id="artifactVersion-usedBy" />`artifactVersion-usedBy`
+
+指定した [artifactVersion](/ja/models/ref/query-panel/artifact-version/) を使用している [runs](/ja/models/ref/query-panel/run/) を返します
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/)。 |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) を使用している [runs](/ja/models/ref/query-panel/run/)
+
+### <a id="artifactVersion-versionId" />`artifactVersion-versionId`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の versionId を返します
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の versionId
+
+<div id="list-ops">
+  ## List Ops (一覧操作)
+</div>
+
+### <a id="artifactVersion-aliases" />`artifactVersion-aliases`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のエイリアスを返します
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のエイリアス
+
+### <a id="artifactVersion-createdAt" />`artifactVersion-createdAt`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) が作成された日時を返します
 
 | 引数 | 説明 |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
 
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の URL
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="artifactVersion-metadata"></a>`artifactVersion-metadata`
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) が作成された日時
 
-[artifactVersion](/models/ref/query-panel/artifact-version/) の メタデータ 辞書 を返します。
+### <a id="artifactVersion-file" />`artifactVersion-file`
+
+指定されたパスに対応する [artifactVersion](/ja/models/ref/query-panel/artifact-version/) の *file* を返します
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+| `path` | *file* のパス |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+指定されたパスに対応する [artifactVersion](/ja/models/ref/query-panel/artifact-version/) の *file*
+
+### <a id="artifactVersion-files" />`artifactVersion-files`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のファイル一覧を返します
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | 対象の [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の *files* の *list*
+
+### <a id="artifactVersion-link" />`artifactVersion-link`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の URL を返します。
 
 | 引数 | 説明 |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
 
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の メタデータ 辞書
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="artifactVersion-name"></a>`artifactVersion-name`
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の URL
 
-[artifactVersion](/models/ref/query-panel/artifact-version/) の名前を返します。
+### <a id="artifactVersion-metadata" />`artifactVersion-metadata`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のメタデータを格納した 辞書 を返します
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のメタデータ辞書
+
+### <a id="artifactVersion-name" />`artifactVersion-name`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の name を返します。
+
+| Argument | Description |
+| :--- | :--- |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### 戻り値
+</div>
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の名前を返します。
+
+### <a id="artifactVersion-size" />`artifactVersion-size`
+
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のサイズを返します。
 
 | 引数 | 説明 |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
 
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の名前
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="artifactVersion-size"></a>`artifactVersion-size`
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) のサイズ
 
-[artifactVersion](/models/ref/query-panel/artifact-version/) のサイズを返します。
+### <a id="artifactVersion-usedBy" />`artifactVersion-usedBy`
 
-| 引数 | 説明 |
+指定した [artifactVersion](/ja/models/ref/query-panel/artifact-version/) を使用している [runs](/ja/models/ref/query-panel/run/) を返します。
+
+| Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | 指定する [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
 
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) のサイズ
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="artifactVersion-usedBy"></a>`artifactVersion-usedBy`
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) を使用している [runs](/ja/models/ref/query-panel/run/)
 
-[artifactVersion](/models/ref/query-panel/artifact-version/) を使用している [Runs](/models/ref/query-panel/run/) を返します。
+### <a id="artifactVersion-versionId" />`artifactVersion-versionId`
 
-| 引数 | 説明 |
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の versionId を返します。
+
+| Argument | Description |
 | :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
+| `artifactVersion` | [artifactVersion](/ja/models/ref/query-panel/artifact-version/) |
 
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) を使用している [Runs](/models/ref/query-panel/run/)
+<div id="return-value">
+  #### 戻り値
+</div>
 
-### <a id="artifactVersion-versionId"></a>`artifactVersion-versionId`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) の versionId を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の versionId
-
-
-## List Ops
-### <a id="artifactVersion-aliases"></a>`artifactVersion-aliases`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) の エイリアス を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の エイリアス
-
-### <a id="artifactVersion-createdAt"></a>`artifactVersion-createdAt`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) が作成された日時を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) が作成された日時
-
-### <a id="artifactVersion-file"></a>`artifactVersion-file`
-
-指定されたパスの [artifactVersion](/models/ref/query-panel/artifact-version/) の _ファイル_ を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-| `path` | _ファイル_ のパス |
-
-#### 返り値
-指定されたパスの [artifactVersion](/models/ref/query-panel/artifact-version/) の _ファイル_
-
-### <a id="artifactVersion-files"></a>`artifactVersion-files`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) の _ファイル一覧_ を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の _ファイル一覧_
-
-### <a id="artifactVersion-link"></a>`artifactVersion-link`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) の URL を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の URL
-
-### <a id="artifactVersion-metadata"></a>`artifactVersion-metadata`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) の メタデータ 辞書 を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の メタデータ 辞書
-
-### <a id="artifactVersion-name"></a>`artifactVersion-name`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) の名前を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の名前
-
-### <a id="artifactVersion-size"></a>`artifactVersion-size`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) のサイズを返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) のサイズ
-
-### <a id="artifactVersion-usedBy"></a>`artifactVersion-usedBy`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) を使用している [Runs](/models/ref/query-panel/run/) を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) を使用している [Runs](/models/ref/query-panel/run/)
-
-### <a id="artifactVersion-versionId"></a>`artifactVersion-versionId`
-
-[artifactVersion](/models/ref/query-panel/artifact-version/) の versionId を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `artifactVersion` | [artifactVersion](/models/ref/query-panel/artifact-version/) |
-
-#### 返り値
-[artifactVersion](/models/ref/query-panel/artifact-version/) の versionId
+[artifactVersion](/ja/models/ref/query-panel/artifact-version/) の versionId。

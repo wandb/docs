@@ -1,72 +1,85 @@
 ---
-title: 'TypeScript SDK: サードパーティ Integration ガイド'
-description: Weave TypeScript SDK を使用したサードパーティライブラリとの統合
+title: "TypeScript SDK：サードパーティ インテグレーションガイド"
+description: "Weave TypeScript SDK とサードパーティライブラリをインテグレーションする"
 ---
 
-このガイドでは、Weave TypeScript SDK を使用してサードパーティライブラリ（例：OpenAI）をインテグレーションする方法について説明します。Weave は自動計装をサポートしており、セットアップを簡素化し、手動での configuration（設定）の必要性を減らします。
+このガイドでは、Weave TypeScript SDK とサードパーティライブラリ（例: OpenAI）を統合する方法について説明します。Weave は自動インスツルメンテーションをサポートしており、セットアップを容易にし、手動設定の必要性を減らします。
 
 <Warning>
-**変更点**
-[PR #4554](https://github.com/wandb/weave/pull/4554) 以降、OpenAI などのサポートされているライブラリは、Weave がロードされる際に自動的にパッチが適用されます。以前のように手動でラップする必要はなくなりました。
+**何が変わったのか？**
+[PR #4554](https://github.com/wandb/weave/pull/4554) 以降、OpenAI のようなサポート対象ライブラリは、Weave がロードされたときに自動的にパッチが適用されます。以前のように、次のような手動でのラップは不要になりました。
 
 ```ts lines
 weave.wrapOpenAI(new OpenAI());
 ```
 
-通常、Weave はこれを自動的に処理します。ただし、[エッジケース](#advanced-usage) が発生する可能性があります。
+通常は Weave がこれを自動的に処理します。ただし、[エッジケース](#advanced-usage) が発生する場合があります。
 </Warning>
 
-## 使用方法
+<div id="usage-instructions">
+  ## 使用手順
+</div>
 
-CommonJS と ESM の両方を使用できます。
+CommonJS と ESM のどちらかを使用できます。
 
-### CommonJS 
+<div id="commonjs">
+  ### CommonJS
+</div>
 
-CommonJS の場合、特別な configuration は必要ありません。自動パッチ適用がそのまま機能します。単純に Weave をインストールしてください。
+CommonJS の場合、特別な設定は必要ありません。自動パッチ適用がそのまま機能します。Weave をインストールするだけで利用できます。
 
 ```bash
 npm install weave
 ```
 
-### ESM 
 
-ESM の場合、Node の `--import` フラグを使用して自動計装を有効にします。`weave` パッケージがインストールされていれば、`weave/instrument` モジュールが利用可能です。
+<div id="esm">
+  ### ESM
+</div>
 
-1. Weave をインストールします。
+ESM では、Node の `--import` フラグを使用して自動インストルメンテーションを有効にします。`weave` パッケージがインストールされていれば、`weave/instrument` モジュールを利用できます。
+
+1. Weave をインストールします:
     ```bash
     npm install weave
     ```
-2. `weave/instrument` モジュールをインポートします。
+2. `weave/instrument` モジュールをインポートします:
     ```bash
     node --import=weave/instrument dist/main.js
     ```
 
-## 高度な使用法とトラブルシューティング
+<div id="advanced-usage-and-troubleshooting">
+  ## 高度な使い方とトラブルシューティング
+</div>
 
-このセクションでは、TypeScript SDK の自動パッチ適用が期待通りに動作しない場合のエッジケースと回避策について説明します。例えば、ESM 専用の 環境、Next.js などのバンドラー設定、または制約のあるランタイム環境では、予期しない問題が発生することがあります。Traces が見当たらない場合やインテグレーションの問題が発生している場合は、ここから確認してください。
+このセクションでは、TypeScript SDK の自動パッチ処理が期待どおりに動作しない場合の、例外的なケースと回避策を扱います。たとえば、ESM のみの環境、Next.js のようなバンドラーのセットアップ、あるいは制約の厳しいランタイム環境では、予期しない問題が発生することがあります。トレースが欠落していたり、インテグレーション関連の問題が発生している場合は、まずここを参照してください。
 
-### `NODE_OPTIONS` の使用（ESM のみ）
+<div id="use-node_options-only-for-esm">
+  ### `NODE_OPTIONS` を使用する（ESM 限定）
+</div>
 
 <Warning>
-`NODE_OPTIONS` は環境内のすべての Node.js プロセスに影響を与え、副作用を引き起こす可能性があるため、注意して使用してください。
+  `NODE_OPTIONS` の使用には注意してください。これはその環境内で動作するすべての Node.js プロセスに影響し、予期しない副作用を招く可能性があります。
 </Warning>
 
-ESM プロジェクトを使用していて、CLI ツールやフレームワークの制約により CLI フラグを渡せない場合は、`NODE_OPTIONS` 環境変数を設定してください。
+ESM を利用するプロジェクトで、CLI フラグを渡せない場合（CLI ツールやフレームワーク側の制約など）、`NODE_OPTIONS` 環境変数を設定してください。
 
 ```bash
 export NODE_OPTIONS="--import=weave/instrument"
 ```
 
 
-### バンドラーの互換性
+<div id="bundler-compatibility">
+  ### バンドラーとの互換性
+</div>
 
-Next.js などの一部のフレームワークやバンドラーは、実行時に Node がサードパーティライブラリにパッチを適用する機能を妨げる方法でライブラリをバンドルする場合があります。
+Next.js のような一部のフレームワークやバンドラーでは、サードパーティライブラリが、実行時に Node がパッチ適用を行えなくなる形でバンドルされる場合があります。
 
-お使いのセットアップがこれに該当する場合は、以下の手順を試してください。
+このようなセットアップの場合は、次の手順を試してください。
 
-1. バンドラーの設定で LLM ライブラリを `external` としてマークします。これにより、ライブラリがバンドルされるのを防ぎ、Weave が実行時に正しくパッチを適用できるようになります。
+1. バンドラーの設定で LLM ライブラリを external としてマークします。これにより、それらがバンドルされなくなり、実行時に Weave が正しくパッチを適用できるようになります。
 
-   次の例は、`next.config.js` の設定で `openai` パッケージを external としてマークし、バンドルされないようにする方法を示しています。モジュールは実行時にロードされるため、Weave は自動的にパッチを適用して追跡できます。自動計装を有効にするために、Next.js などのフレームワークを使用する場合にこの設定を利用してください。
+   次の例は、`next.config.js` の設定で `openai` パッケージを external としてマークし、バンドルされないようにする方法を示しています。モジュールは実行時に読み込まれるため、Weave によるパッチ適用と追跡が自動的に行われます。Next.js のようなフレームワークで自動インストルメンテーションを有効にするには、このセットアップを使用してください。
 
     ```js
     externals: {
@@ -74,20 +87,19 @@ Next.js などの一部のフレームワークやバンドラーは、実行時
     }
     ```
 
+2. それでもパッチ適用に失敗する場合は、[手動インストルメンテーション](#manual-patching-fallback-option) に切り替えてください。
 
-2. パッチの適用が依然として失敗する場合は、[手動パッチ（フォールバックオプション）](#手動パッチフォールバックオプション) を試してください。
-
-
-### 手動パッチ（フォールバックオプション）
+<div id="manual-patching-fallback-option">
+  ### 手動パッチ適用（フォールバックオプション）
+</div>
 
 <Warning>
-手動パッチはレガシーな手法であり、自動パッチが機能しない場合にのみ使用してください。
+  手動によるパッチ適用はレガシーな方法であり、自動パッチ適用が機能しない場合にのみ使用してください。
 </Warning>
 
-場合によっては、引き続き手動計装を使用する必要があるかもしれません。
+場合によっては、依然として手動でインストルメンテーションを行う必要があることがあります。
 
 ```ts lines
 import { wrapOpenAI } from 'weave';
-// OpenAI クライアントを手動でラップする
 const client = wrapOpenAI(new OpenAI());
 ```

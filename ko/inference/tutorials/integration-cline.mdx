@@ -1,0 +1,97 @@
+---
+title: "Cline과 W&B Inference"
+description: >
+  Cline 코딩 에이전트를 W&B Inference를 사용하도록 설정하는 방법을 알아보세요.
+---
+
+[Cline](https://cline.bot)은 AI 기반 코딩 어시스턴트입니다. 이 튜토리얼에서는 W&B Inference에서 제공하는 모델을 사용하도록 Cline을 설정하는 방법을 설명합니다.
+
+Cline 에이전트는 명령줄 도구로도, 많은 IDE와의 인테그레이션 형태로도 사용할 수 있습니다. 이 페이지에서는 Cline CLI와 Visual Studio Code 확장으로서의 Cline 설정 방법을 다루지만, 다른 IDE에서의 설정도 유사합니다.
+
+<div id="prerequisites">
+  ## 사전 준비 사항
+</div>
+
+[W&B API 키](../prerequisites#set-up-your-wb-account-and-project)가 필요합니다.
+
+<div id="set-up-cline-in-the-command-line">
+  ## 명령줄에서 Cline을 설정하기
+</div>
+
+[Cline CLI](https://docs.cline.bot/cline-cli/installation)를 설치하세요.
+
+```
+npm install -g cline
+```
+
+문제 해결이 필요하면 [Cline의 설치 가이드](https://docs.cline.bot/cline-cli/installation)를 참고하세요.
+
+이 안내는 Cline CLI 버전 `2.5.1`에서 테스트되었습니다. 설치된 버전을 확인하려면 `cline version`을 실행하세요.
+
+다음 명령을 실행할 때 `<your_api_key>` 부분을 W&amp;B API 키로 바꿔서 사용하세요.
+
+```
+cline auth -k <your_api_key> -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
+```
+
+이 설정으로 Cline이 W&amp;B Inference의 OpenAI 호환 엔드포인트와 Kimi K2.5 모델을 사용하도록 설정합니다. 모델 가용성과 요금은 [모델 카탈로그](https://wandb.ai/inference)를 참조하세요.
+
+모든 것이 정상적으로 동작하는지 확인하려면 간단한 테스트를 실행하세요:
+
+```
+cline "What is 2 + 2?"
+```
+
+Cline이 응답했다면, 설치와 인증이 완료된 것입니다.
+
+Cline CLI 사용에 대한 자세한 내용은 [Cline 퀵스타트](https://docs.cline.bot/cline-cli/installation#quick-start)를 참조하세요.
+
+
+<div id="set-up-cline-in-visual-studio-code">
+  ## Visual Studio Code에서 Cline 설정하기
+</div>
+
+Cline은 Visual Studio Code 확장 프로그램으로도 설치할 수 있습니다. VS Code 확장 마켓플레이스에서 **Cline**을 검색하거나 [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev)에서 설치하세요. 
+
+`Install` 버튼을 클릭합니다.
+
+<Frame>![VS Code extension installation](/images/inference/inference-tutorial-cline-install.png)</Frame>
+
+Activity Bar에서 새로 추가된 Cline 아이콘을 클릭해 Cline 사이드바를 엽니다. Cline 아이콘이 Activity Bar에 보이지 않으면, 드롭다운을 클릭해 더 많은 옵션을 확인합니다.
+
+<img
+  src="/images/inference/inference-tutorial-cline-activity-bar.png"
+  alt="VS Code extension installation"
+  style={{width: "60px"}}
+/>
+
+"Bring my own API key"를 선택하고 `Continue` 버튼을 클릭합니다.
+
+<img
+  src="/images/inference/inference-tutorial-cline-byok.png"
+  alt="Select Bring Your Own Key"
+  style={{width: "300px"}}
+/>
+
+다음 값을 입력하고, `<your_api_key>`를 W&B API 키로 바꿔 입력합니다:
+
+| Setting                        | Value                               |
+| ------------------------------ | ----------------------------------- |
+| API Provider                   | OpenAI Compatible                   |
+| Base URL                       | https://api.inference.wandb.ai/v1   |
+| OpenAI Compatible API Key       | `<your_api_key>`                    |
+| Model ID                       | moonshotai/Kimi-K2.5              |
+
+Model Configuration을 펼치면 요금을 설정할 수 있습니다. 모델 가용성과 요금에 대한 자세한 내용은 [model catalog](https://wandb.ai/inference)를 참조하세요.
+
+`Continue` 버튼을 클릭합니다.
+
+"Write a Python program to compute the first 10 Fibonacci Numbers"와 같은 프롬프트를 입력해 보세요.
+
+<img
+  src="/images/inference/inference-tutorial-cline-act.png"
+  alt="Submit your coding task to the agent"
+  style={{width: "300px"}}
+/>
+
+Cline 사용에 대한 더 자세한 내용은 [Cline Documentation](https://docs.cline.bot)을 참조하세요.

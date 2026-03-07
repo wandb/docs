@@ -1,34 +1,41 @@
 ---
-title: Reports 및 Workspace API 개요
-description: W&B Reports 및 Workspaces API를 사용하여 프로그래밍 방식으로 리포트와 워크스페이스를 생성하고 관리하세요.
+title: Reports 및 Workspaces API 개요
+description: W&B Reports 및 Workspaces API를 사용하여 리포트와 워크스페이스를 프로그래밍 방식으로 생성하고 관리합니다
 ---
 
-`wandb_workspaces`에서 제공하는 W&B Reports 및 Workspaces API를 사용하면 발견한 내용 ( findings ) 을 웹에 공유할 수 있는 [Reports](/models/reports/) 를 생성하거나, 트레이닝 및 파인튜닝 작업이 수행된 [Workspace](/models/app/features/cascade-settings/) 를 맞춤 설정할 수 있습니다. 
+`wandb_workspaces`에서 접근할 수 있는 W&amp;B Reports 및 Workspaces API를 사용하면 발견한 내용을 공유하기 위해 웹에 게시할 수 있는 [리포트](/ko/models/reports/)를 생성할 수 있을 뿐만 아니라, 트레이닝과 파인튜닝 작업이 수행된 [워크스페이스](/ko/models/app/features/cascade-settings/)를 사용자 지정할 수 있습니다.
 
-
-<Card title="소스 코드 보기" href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" icon="github"/>
+<Card title="소스 코드 보기" href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" icon="github" />
 
 <Note>
-W&B Report 및 Workspace API는 퍼블릭 프리뷰 단계에 있습니다.
+  W&amp;B Reports 및 Workspaces API는 Public Preview 단계입니다.
 </Note>
 
-## 설치 및 설정
+<div id="installation-and-setup">
+  ## 설치 및 설정
+</div>
 
-### 가입 및 API 키 생성
+<div id="sign-up-and-create-an-api-key">
+  ### 가입 및 API 키 생성
+</div>
 
-사용자 기기에서 W&B 인증을 완료하려면, 먼저 [사용자 설정](https://wandb.ai/settings)에서 API 키 를 생성해야 합니다.
+W&amp;B에서 머신을 인증하려면 먼저 [User Settings](https://wandb.ai/settings)에서 API 키를 생성해야 합니다.
 
-### 패키지 설치 및 임포트
+<div id="install-and-import-packages">
+  ### 패키지 설치 및 가져오기
+</div>
 
-W&B Report 및 Workspaces 라이브러리를 설치합니다.
+W&amp;B Report 및 Workspaces 라이브러리를 설치합니다.
 
 ```python
 pip install wandb-workspaces
 ```
 
-### Report 생성하기
+<div id="create-a-report">
+  ### 리포트 생성
+</div>
 
-Report 를 생성하려면 팀의 Entities 를 지정하고 Report 의 이름을 입력합니다. 괄호로 표시된 텍스트를 실제 값 으로 바꾸세요:
+리포트를 생성하려면 팀의 Entity를 지정하고 리포트 이름을 입력하세요. 꺾쇠 괄호로 둘러싸인 텍스트를 실제 값으로 바꾸세요:
 
 ```python
 import wandb_workspaces.reports.v2 as wr 
@@ -44,7 +51,7 @@ report = wr.Report(
 report.save()
 ```
 
-다음으로 Report 에 블록과 패널을 추가합니다. 예를 들어, 아래 코드는 목차, 헤더, 단락이 포함된 Report 를 생성합니다:
+다음으로 리포트에 블록과 패널을 추가합니다. 예를 들어, 다음 코드는 목차, 헤더, 그리고 단락이 포함된 리포트를 생성합니다:
 
 ```python
 report.blocks = [
@@ -55,19 +62,21 @@ report.blocks = [
 report.save()
 ```
 
-전체 과정을 확인하려면 [Reports API Quickstart](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) Google Colab을 참조하세요.
+전체 과정을 보여주는 예제를 보려면 [Reports API 퀵스타트](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) Google Colab 노트북을 참고하세요.
 
-### Workspace 생성하기
+<div id="create-a-workspace">
+  ### 워크스페이스 생성
+</div>
 
-다음 코드는 라인 플롯, 바 플롯, 스칼라 차트의 세 가지 패널을 포함하는 섹션으로 Workspace 를 생성하는 방법을 보여줍니다. 괄호로 표시된 텍스트를 실제 값 으로 바꾸세요:
+다음 코드는 세 개의 패널(선 플롯, 막대 플롯, 스칼라 차트)을 포함한 섹션이 있는 워크스페이스를 생성하는 예시입니다. 중괄호로 둘러싸인 텍스트를 사용자 값으로 교체하세요:
 
 ```python
-# 임포트 방법
+# 가져오기 방법
 import wandb_workspaces.workspaces as ws
 
-# Workspace 생성
+# 워크스페이스 생성
 ws.Workspace(
-     entity="<team_entity>", # 워크스페이스를 소유한 엔티티
+     entity="<team_entity>", # 워크스페이스를 소유한 entity
      project="<project_name>", # 워크스페이스와 연결된 프로젝트
      sections=[
          ws.Section(
@@ -84,4 +93,4 @@ ws.Workspace(
 workspace.save()
 ```
 
-전체 과정을 확인하려면 [Workspace API Quickstart](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) Google Colab을 참조하세요.
+전체 과정을 다루는 예제는 [Workspace API 퀵스타트](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) Google Colab 노트북을 참고하세요.

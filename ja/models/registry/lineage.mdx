@@ -1,83 +1,84 @@
 ---
-title: リネージ グラフと監査履歴
-description: リネージ グラフを使用して、リンクされた アーティファクト の履歴を可視化し、コレクションの履歴を監査します。
+description: Lineage グラフを使用してリンクされた Artifacts の履歴を可視化し、コレクションの履歴を監査して変更を追跡します。
+title: Lineage グラフと監査履歴
 ---
 
-リネージグラフを使用して、リンクされた Artifacts の履歴を可視化します。コレクションの履歴を監査して、そのコレクション内の Artifacts に加えられた変更を追跡します。
+Lineage グラフを使用して、リンクされた Artifacts の履歴を可視化します。コレクションの履歴を監査して、そのコレクション内の Artifacts に加えられた変更を追跡します。
 
-## リネージグラフ
+<div id="lineage-graphs">
+  ## ライネージグラフ
+</div>
 
-W&B Registry 内のコレクションでは、ML 実験で使用された Artifacts の履歴を表示できます。この履歴は _リネージグラフ_ と呼ばれます。
+W&amp;B Registry 内のコレクションでは、ML 実験で使用される Artifacts の履歴を表示できます。この履歴は *lineage graph*（ライネージグラフ）と呼ばれます。
 
-リネージグラフには以下が表示されます：
-* [run の入力](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-input-of-a-run) として使用された Artifacts。
-* [run の出力](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run) として作成された Artifacts。
+ライネージグラフには、次の情報が表示されます。
 
-言い換えれば、リネージグラフは run の入力と出力を示します。
+* [run の入力として使用された Artifacts](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-input-of-a-run)
+* [run の出力として作成された Artifacts](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run)
 
-例えば、次の画像は ML 実験全体で作成および使用された Artifacts の典型的なリネージグラフを示しています：
+言い換えると、ライネージグラフは run の入力と出力を表示します。
+
+たとえば、次の画像は、ML 実験全体で作成および使用される Artifacts の典型的なライネージグラフを示しています。
 
 <Frame>
-    <img src="/images/registry/registry_lineage.png" alt="Registry lineage"  />
+  <img src="/images/registry/registry_lineage.png" alt="Registry のライネージ" />
 </Frame>
 
-左から右に向かって、画像は以下を示しています：
-1. 複数の Runs が `split_zoo_dataset:v4` アーティファクトをログに記録しています。
-2. "rural-feather-20" という run が、トレーニングのために `split_zoo_dataset:v4` アーティファクトを使用しています。
-3. "rural-feather-20" run の出力は、`zoo-ylbchv20:v0` という名前のモデルアーティファクトです。
-4. "northern-lake-21" という run が、モデルを評価するためにモデルアーティファクト `zoo-ylbchv20:v0` を使用しています。
+この画像は左から右にかけて、次の内容を示しています。
 
+1. 複数の run が `split_zoo_dataset:v4` Artifacts をログに記録します。
+2. &quot;rural-feather-20&quot; run は `split_zoo_dataset:v4` Artifacts をトレーニングに使用します。
+3. &quot;rural-feather-20&quot; run の出力は、`zoo-ylbchv20:v0` という名前のモデル Artifacts です。
+4. &quot;northern-lake-21&quot; という run が、モデル Artifacts `zoo-ylbchv20:v0` を使用してモデルを評価します。
 
-コレクション内のアーティファクトのリネージグラフを表示するには：
+コレクション内の Artifacts に対してライネージグラフを表示するには、次の手順を実行します。
 
-1. W&B Registry に移動します。
-2. アーティファクトが含まれているコレクションを選択します。
-3. ドロップダウンから、リネージグラフを表示したいアーティファクトのバージョンを選択します。
+1. W&amp;B Registry に移動します。
+2. Artifacts を含むコレクションを選択します。
+3. ドロップダウンから、ライネージグラフを表示したい Artifacts バージョンを選択します。
 4. **Lineage** タブを選択します。
-5. ノードを選択すると、run またはアーティファクトに関する詳細情報が表示されます。
-
-
-<Info>
-W&B Python SDK を使用して run の入出力を追跡する方法については、[リネージグラフのトラッキングを有効にする](/models/artifacts/explore-and-traverse-an-artifact-graph#enable-lineage-graph-tracking) を参照してください。
-</Info>
-
-次の画像は、リネージグラフ内のノードを選択したときに表示される、run (`rural-feather-20`) の展開された詳細ビューを示しています：
-
-<Frame>
-    <img src="/images/registry/lineage_expanded_node.png" alt="Expanded lineage node"  />
-</Frame>
-
-
-次の画像は、リネージグラフ内のアーティファクトノードを選択したときに表示される、アーティファクト (`zoo-ylbchv20:v0`) の展開された詳細ビューを示しています：
-
-<Frame>
-    <img src="/images/registry/lineage_expanded_artifact_node.png" alt="Expanded artifact node details"  />
-</Frame>
-
+5. ノードを選択して、run または Artifacts に関する詳細情報を表示します。
 
 <Info>
-コレクションの一部ではない、W&B にログ記録した Artifacts のリネージグラフを表示することもできます。詳細は [アーティファクトグラフの探索](/models/artifacts/explore-and-traverse-an-artifact-graph) を参照してください。
+  W&amp;B Python SDK を使用して run の入力と出力を追跡する方法については、[Enable lineage graph tracking](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#enable-lineage-graph-tracking) を参照してください。
 </Info>
 
+次の画像は、ライネージグラフ内のノードを選択したときに表示される run（`rural-feather-20`）の詳細ビューを示しています。
 
-## コレクションの履歴の監査
+<Frame>
+  <img src="/images/registry/lineage_expanded_node.png" alt="展開されたライネージノード" />
+</Frame>
 
-組織のメンバーがそのコレクションに対して行ったアクションを表示します。以下を確認できます：
+次の画像は、ライネージグラフ内で Artifacts ノードを選択したときに表示される Artifacts（`zoo-ylbchv20:v0`）の詳細ビューを示しています。
 
-- アーティファクトバージョンに対して エイリアス が追加または削除されたかどうか。
-- アーティファクトバージョンがコレクションに追加または削除されたかどうか。
+<Frame>
+  <img src="/images/registry/lineage_expanded_artifact_node.png" alt="展開された Artifacts ノードの詳細" />
+</Frame>
 
-どちらのアクションについても、アクションを実行した ユーザー とアクションが発生した日付を確認できます。
+<Info>
+  コレクションに含まれていないが W&amp;B にログした Artifacts についても、ライネージグラフを表示できます。詳細については、[Explore artifact graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) を参照してください。
+</Info>
 
-コレクションのアクション履歴を表示するには：
+<div id="audit-a-collections-history">
+  ## コレクションの履歴を監査する
+</div>
 
-1. W&B Registry に移動します。
-2. アクション履歴を表示したいコレクションを選択します。
-3. コレクション名の横にあるドロップダウンメニューを選択します。
+組織のメンバーがそのコレクションに対して実行した操作を表示できます。次の内容を確認できます。
+
+* エイリアスが Artifacts バージョンに追加または削除されたかどうか。
+* Artifacts バージョンがコレクションに追加または削除されたかどうか。
+
+どちらの操作についても、その操作を実行したユーザーと、操作が行われた日付を表示できます。
+
+コレクションの操作履歴を表示するには、次の手順を実行します。
+
+1. W&amp;B Registry に移動します。
+2. 操作履歴を表示したいコレクションを選択します。
+3. コレクション名の横にあるドロップダウン メニューを選択します。
 4. **Action History** オプションを選択します。
 
-{/* Select a run node to view that run's details, such as the run's ID, the run's name, the run's state, and more. As an example, the proceeding image shows information about the `rural-feather-20` run:
+{/* run ノードを選択すると、その run の ID、名前、状態などの詳細を表示できます。例として、次の画像では `rural-feather-20` run の情報を表示しています。
 
 
 
-Select an artifact node to view that artifact's details, such as its full name, type, creation time, and associated aliases. */}
+  Artifacts ノードを選択すると、その Artifacts の完全な名前、タイプ、作成時刻、関連付けられたエイリアスなどの詳細を表示できます。 */}

@@ -1,0 +1,18 @@
+---
+title: Artifact を一部のみダウンロードする
+---
+
+```python
+"""
+W&B の Artifacts から特定のファイルまたはサブフォルダーをダウンロードします。
+同じロジックが外部 Artifacts にも適用されます。
+"""
+import wandb
+
+with wandb.init(project="<project>") as run:
+    # 使用する Artifacts を指定します。形式は "name:alias" です
+    artifact = run.use_artifact("<artifact_name>:<alias>")
+
+    # 特定のファイルまたはサブフォルダーをダウンロードする
+    artifact.download(path_prefix="<file_name>") # 指定したファイルまたはフォルダーのみをダウンロードする
+```

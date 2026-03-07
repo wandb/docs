@@ -3,15 +3,18 @@ title: OnAddArtifactAlias
 namespace: automations_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
 
 ## <kbd>class</kbd> `OnAddArtifactAlias`
-新しい エイリアス が アーティファクト に割り当てられたときに発生します。
 
-Examples:
-「my-collection」というコレクション内の任意の アーティファクト に「prod」という エイリアス が割り当てられたときにトリガーされるイベントを定義します。
+Artifacts に新しいエイリアスが割り当てられたときに発火します。
+
+例:
+エイリアス &quot;prod&quot; がコレクション &quot;my-collection&quot; 内の任意の Artifacts に
+割り当てられるたびにトリガーされるイベントを定義します:
 
 ```python
 from wandb import Api
@@ -36,11 +39,11 @@ __init__(
 ) → None
 ```
 
-**Args:**
+**引数:**
 
- - `event_type` (Literal[ADD_ARTIFACT_ALIAS]): 
- - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): イベントのスコープ。
- - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントがトリガーされるために必要な追加条件（ある場合）。
+* `event_type` (Literal[ADD&#95;ARTIFACT&#95;ALIAS]):
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): このイベントのスコープ。
+* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントをトリガーするために必要な追加の条件（存在する場合）。
 
-**Returns:**
- `OnAddArtifactAlias` オブジェクト。
+**戻り値:**
+`OnAddArtifactAlias` オブジェクト。

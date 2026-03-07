@@ -3,9 +3,11 @@ title: line_series()
 namespace: python_sdk_custom_charts
 python_object_type: function
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line_series.py" />
+
 
 ### <kbd>function</kbd> `line_series`
 
@@ -20,40 +22,40 @@ line_series(
 ) → CustomChart
 ```
 
-折れ線グラフ（line series chart）を構築します。
+折れ線系列チャートを構築します。
 
 **Args:**
 
- - `xs`: x 値のシーケンス。単一の配列が渡された場合、すべての y 値はその x 配列に対してプロットされます。配列の配列が渡された場合、各 y 値は対応する x 配列に対してプロットされます。
- - `ys`: y 値のシーケンス。各イテラブル（iterable）が個別のラインシリーズを表します。
- - `keys`: 各ラインシリーズにラベルを付けるためのキーのシーケンス。指定されない場合、キーは "line_1", "line_2" などとして自動生成されます。
- - `title`: チャートのタイトル。
- - `xname`: x 軸のラベル。
- - `split_table`: W&B UI 上で テーブル を別のセクションに分割するかどうか。 `True` の場合、 テーブル は "Custom Chart Tables" という名前のセクションに表示されます。デフォルトは `False` です。
+* `xs`:  x 値のシーケンス。単一の配列が指定された場合、すべての y 値がその x 配列に対してプロットされます。配列の配列が指定された場合は、それぞれの y 値が対応する x 配列に対してプロットされます。
+* `ys`:  y 値のシーケンス。それぞれの iterable が別々の線グラフ系列を表します。
+* `keys`:  各線グラフ系列にラベル付けするためのキーのシーケンス。指定しない場合、キーは自動的に「line&#95;1」「line&#95;2」…のように生成されます。
+* `title`:  チャートのタイトル。
+* `xname`:  x 軸のラベル。
+* `split_table`:  テーブルを W&amp;B UI 内の別セクションに分割するかどうか。`True` の場合、テーブルは「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False` です。
 
 **Returns:**
 
- - `CustomChart`: W&B に ログ 記録可能なカスタムチャート オブジェクト。チャートを ログ 記録するには、 `wandb.log()` に渡してください。
+* `CustomChart`:  W&amp;B にログできるカスタム チャート オブジェクト。チャートをログするには、`wandb.log()` に渡します。
 
 **Examples:**
-すべての y シリーズが同じ x 値に対してプロットされる、単一の x 配列を ログ 記録する場合：
+すべての y 系列を同じ x 値に対してプロットする、単一の x 配列をログする例:
 
 ```python
 import wandb
 
-# W&B run を初期化
+# W&B run を初期化する
 with wandb.init(project="line_series_example") as run:
-    # すべての y シリーズで共有される x 値
+    # すべての y 系列で共有される x の値
     xs = list(range(10))
 
-    # プロットする複数の y シリーズ
+    # プロットする複数の y 系列
     ys = [
          [i for i in range(10)],  # y = x
          [i**2 for i in range(10)],  # y = x^2
          [i**3 for i in range(10)],  # y = x^3
     ]
 
-    # 折れ線グラフを生成してログ記録
+    # 折れ線グラフを生成してログに記録する
     line_series_chart = wandb.plot.line_series(
          xs,
          ys,
@@ -63,44 +65,45 @@ with wandb.init(project="line_series_example") as run:
     run.log({"line-series-single-x": line_series_chart})
 ```
 
-この例では、単一の `xs` シリーズ（共有 x 値）がすべての `ys` シリーズに使用されます。その結果、各 y シリーズは同じ x 値（0-9）に対してプロットされます。
+この例では、すべての `ys` シリーズに対して 1 つの `xs` シリーズ（共有された x 値）が使われています。これにより、各 y シリーズは同じ x 値（0〜9）に対してプロットされます。
 
-各 y シリーズが対応する x 配列に対してプロットされる、複数の x 配列を ログ 記録する場合：
+それぞれの y シリーズが対応する x 配列に対してプロットされるように、複数の x 配列をログするには:
 
 ```python
 import wandb
 
-# W&B run を初期化
+# W&B run を初期化する
 with wandb.init(project="line_series_example") as run:
-    # 各 y シリーズごとの個別の x 値
+    # 各 y 系列に対応する個別の x 値
     xs = [
-         [i for i in range(10)],  # 最初のシリーズの x
-         [2 * i for i in range(10)],  # 2番目のシリーズの x (引き伸ばし)
-         [3 * i for i in range(10)],  # 3番目のシリーズの x (さらに引き伸ばし)
+         [i for i in range(10)],  # 1番目の系列の x
+         [2 * i for i in range(10)],  # 2番目の系列の x（引き伸ばし）
+         [3 * i for i in range(10)],  # 3番目の系列の x（さらに引き伸ばし）
     ]
 
-    # 対応する y シリーズ
+    # 対応する y 系列
     ys = [
          [i for i in range(10)],  # y = x
          [i**2 for i in range(10)],  # y = x^2
          [i**3 for i in range(10)],  # y = x^3
     ]
 
-    # 折れ線グラフを生成してログ記録
+    # 折れ線グラフを生成してログに記録する
     line_series_chart = wandb.plot.line_series(
          xs, ys, title="Multiple X Arrays Example", xname="Step"
     )
     run.log({"line-series-multiple-x": line_series_chart})
 ```
 
-この例では、各 y シリーズが独自の固有の x シリーズに対してプロットされます。これにより、データシリーズ間で x 値が一様でない場合に、より柔軟な対応が可能になります。
+この例では、各 y シリーズをそれぞれ固有の x シリーズに対してプロットします。これにより、データ シリーズごとに x の値が一様でない場合でも、より柔軟に扱うことができます。
 
-`keys` を使用してラインラベルをカスタマイズする場合：
+`keys` を使った線ラベルのカスタマイズ:
+
 
 ```python
 import wandb
 
-# W&B run を初期化
+# W&B run を初期化する
 with wandb.init(project="line_series_example") as run:
     xs = list(range(10))  # 単一の x 配列
     ys = [
@@ -109,18 +112,18 @@ with wandb.init(project="line_series_example") as run:
          [i**3 for i in range(10)],  # y = x^3
     ]
 
-    # 各ラインのカスタムラベル
+    # 各折れ線のカスタムラベル
     keys = ["Linear", "Quadratic", "Cubic"]
 
-    # 折れ線グラフを生成してログ記録
+    # 折れ線グラフを生成してログに記録する
     line_series_chart = wandb.plot.line_series(
          xs,
          ys,
-         keys=keys,  # カスタムキー (ラインラベル)
+         keys=keys,  # カスタムキー（折れ線ラベル）
          title="Custom Line Labels Example",
          xname="Step",
     )
     run.log({"line-series-custom-keys": line_series_chart})
 ```
 
-この例では、 `keys` 引数を使用してラインにカスタムラベルを付ける方法を示しています。キーは凡例に "Linear", "Quadratic", "Cubic" として表示されます。
+この例では、`keys` 引数を使って各線にカスタムラベルを指定する方法を示します。これらのキーは凡例に「Linear」「Quadratic」「Cubic」として表示されます。

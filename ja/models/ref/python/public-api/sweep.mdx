@@ -1,23 +1,26 @@
 ---
-title: Sweep
+title: Sweep クラス
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/sweeps.py" />
 
+
 ## <kbd>class</kbd> `Sweep`
-Sweep に関連付けられた Runs のセットです。
 
-**Attributes:**
+sweep に関連付けられた run の集合。 
 
- - `runs` (Runs): Runs のリスト
- - `id` (str): Sweep ID
- - `project` (str): Sweep が属する Project の名前
- - `config` (dict): sweep configuration を含む辞書
- - `state` (str): Sweep の状態。"Finished"、"Failed"、"Crashed"、または "Running" のいずれかです。
- - `expected_run_count` (int): Sweep で期待される想定 Run 数
+**属性:**
+
+- `runs` (Runs):  run のリスト 
+ - `id` (str):  Sweep ID 
+ - `project` (str):  sweep が属するプロジェクトの名前 
+ - `config` (dict):  sweep の設定を含む辞書 
+ - `state` (str):  sweep の状態。"Finished"、"Failed"、"Crashed"、"Running" のいずれか 
+ - `expected_run_count` (int):  sweep に対して想定される run の数 
 
 ### <kbd>method</kbd> `Sweep.__init__`
 
@@ -31,70 +34,73 @@ __init__(
 )
 ```
 
----
+***
+
 
 ### <kbd>property</kbd> Sweep.config
 
-Sweep に使用される sweep configuration です。
+この sweep に対して使用される設定。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.entity
 
-Sweep に関連付けられた Entity です。
+この sweep に関連付けられている entity。 
 
 **Returns:**
- - `str`: entity プロパティの値。
+
+- `str`: entity プロパティの値。
 
 ---
 
 ### <kbd>property</kbd> Sweep.expected_run_count
 
-Sweep で期待される Run 数を返します。無限の場合は None を返します。
+sweep 内で想定される run の数を返します。run が無限に実行される場合は None を返します。
 
-**Returns:**
- - `int | None`: expected_run_count プロパティの値。
+**戻り値:**
 
+- `int | None`: expected_run_count プロパティの値。
 ---
 
 ### <kbd>property</kbd> Sweep.name
 
-Sweep の名前です。
+sweep の名前。 
 
-以下の優先順位で最初に存在する名前を返します：
+以下の優先順位で、存在するもののうち最初の名前を返します: 
 
-1. ユーザーが編集した表示名 2. 作成時に設定された名前 3. Sweep ID
+1. ユーザーが編集した表示名 2. 作成時に設定された名前 3. sweep ID 
 
 ---
 
 ### <kbd>property</kbd> Sweep.order
 
-Sweep の順序（order）キーを返します。
+sweep の順序キーを返します。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.path
 
-Project のパスを返します。
+プロジェクトのパスを返します。 
 
-パスは、Entity、Project 名、および Sweep ID を含むリストです。
+このパスは entity、プロジェクト名、および sweep ID から成るリストです。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.url
 
-Sweep の URL です。
+sweep の URL。 
 
-Sweep の URL は、Entity、Project、"sweeps" という用語、および Sweep ID から生成されます。 SaaS Users の場合、`https://wandb.ai/entity/project/sweeps/sweeps_ID` という形式になります。
+sweep の URL は、entity、プロジェクト、"sweeps" という語、および sweep ID.run_id から生成されます。SaaS ユーザーの場合は、形式は `https://wandb.ai/entity/project/sweeps/sweeps_ID` となります。 
 
 ---
 
 ### <kbd>property</kbd> Sweep.username
 
-非推奨です。代わりに `Sweep.entity` を使用してください。
+非推奨です。代わりに `Sweep.entity` を使用してください。 
 
-**Returns:**
- - `str`: username プロパティの値。
+**戻り値:**
+
+- `str`: username プロパティの値。
 
 ---
 
@@ -104,9 +110,10 @@ Sweep の URL は、Entity、Project、"sweeps" という用語、および Swee
 best_run(order=None)
 ```
 
-config で定義されたメトリクス、または渡された order に基づいてソートされた最高の Run を返します。
+config で定義されたメトリクス、または引数で指定された並び順でソートした結果から、最良の run を返します。
 
----
+***
+
 
 ### <kbd>classmethod</kbd> `Sweep.get`
 
@@ -122,19 +129,20 @@ get(
 )
 ```
 
-クラウドのバックエンドに対してクエリを実行します。
+クラウドバックエンドに対してクエリを実行します。
 
-**Args:**
+**引数:**
 
- - `client`: クエリの実行に使用するクライアント。
- - `entity`: Project を所有する Entity (Users 名または Teams)。
- - `project`: Sweep を取得する Project の名前。
- - `sid`: クエリ対象の Sweep ID。
- - `order`: Sweep の Runs が返される順序。
- - `query`: 実行に使用するクエリ。
- - `**kwargs`: クエリに渡す追加のキーワード引数。
+* `client`:  クエリを実行する際に使用するクライアント。
+* `entity`:  プロジェクトの所有者である entity （ユーザー名またはチーム）。
+* `project`:  sweep を取得するプロジェクト名。
+* `sid`:  クエリ対象の sweep ID。
+* `order`:  sweep に含まれる runs が返される順序。
+* `query`:  クエリを実行するために使用するクエリ。
+* `**kwargs`:  クエリに渡す追加のキーワード引数。
 
----
+***
+
 
 ### <kbd>method</kbd> `Sweep.to_html`
 
@@ -142,4 +150,4 @@ get(
 to_html(height: 'int' = 420, hidden: 'bool' = False) → str
 ```
 
-この Sweep を表示する iframe を含む HTML を生成します。
+この sweep を表示する iframe を埋め込んだ HTML を生成します。

@@ -1,21 +1,24 @@
 ---
-title: LoRA のファインチューンを作成する
-description: W&B Inference で使用するための、ファインチューン された LoRA の作成方法について説明します。
+title: "微調整済み LoRA の作成"
+description: >
+  W&B Inference で使用する微調整済み LoRA の作成方法を学びます。
 ---
 
-W&B Inference を使用すると、一部のベースモデルでカスタム LoRA を利用できます。このチュートリアルでは、[TRL](https://huggingface.co/docs/trl/index) ライブラリを介した教師ありポストトレーニング（supervised post-training）を使用して、ファインチューンされた LoRA を作成する方法を説明します。この例では、クエリとレスポンスのペアのデータセットを使用して、カウボーイのように応答するようにモデルをファインチューンします。
+W&amp;B Inference を使用すると、一部のベースモデルでカスタム LoRA を利用できます。ここでは、[TRL](https://huggingface.co/docs/trl/index) ライブラリを用いた教師ありポストトレーニングによって微調整済み LoRA を作成する方法を説明します。この例では、クエリとレスポンスのペアからなるデータセットを使って、カウボーイのように応答するようにモデルをファインチューニングします。
 
-また、サーバーレスの強化学習を提供する [W&B Training](/training) を使用して LoRA を作成することも可能です。
+また、サーバーレスの強化学習を提供する [W&amp;B Training](/ja/training) を使用して LoRA を作成することもできます。
 
-## ポストトレーニング用データセット
+<div id="post-training-dataset">
+  ## ポストトレーニング用データセット
+</div>
 
-以下のデータセットには、次のようなメッセージのリストとしてフォーマットされた 50 個のクエリとレスポンスのペアが含まれています。
+次のデータセットには、メッセージのリストとしてフォーマットされた 50 個のクエリと応答のペアが含まれています。例えば、次のようになります。
 
-> User: "好きな色は何ですか？"
+> User: &quot;What is your favorite color?&quot;
 
-> Assistant: "そうだな、相棒、俺の好きな色は砂漠の夕日のような燃えるようなオレンジだ…"
+> Assistant: &quot;Well, pardner, my favorite color&#39;s the blazin&#39; orange of a desert sunset…&quot;
 
-このサンプルファイルには、1 行に 1 つの JSON オブジェクトが含まれています。以下のデータを `cowboy_examples.jsonl` として作業ディレクトリーに保存してください。
+サンプルファイルには、1 行につき 1 つの JSON オブジェクトが含まれます。以下のデータを作業ディレクトリに `cowboy_examples.jsonl` という名前で保存してください。
 
 ```jsonl title="cowboy_examples.jsonl" lines expandable
 {"messages": [{"role": "user", "content": "How are you?"}, {"role": "assistant", "content": "Well howdy there, partner! I'm feelin' like a tornado in a trailer park - all riled up and ready to ride! Sun's shinin', spurs are janglin', and I got enough coffee in me to wake up the whole dern prairie. How 'bout you? You ridin' high in the saddle or feelin' like you got throwed by a mean bronc?"}]}
@@ -70,22 +73,24 @@ W&B Inference を使用すると、一部のベースモデルでカスタム Lo
 {"messages": [{"role": "user", "content": "Can submarines swim?"}, {"role": "assistant", "content": "Well howdy there, partner! Now that's a rootin'-tootin' puzzler if I ever heard one!  \n\nSee, submarines don't \"swim\" like a river trout at a Saturday fish-fry. They ain't got no fins flappin' or gills puffin'. Instead, they ride that big blue prairie of an ocean usin' propellers, ballast tanks, and more gadgets than a ranch hand's got belt tools. They sink, they rise, they cruise along like a steel mustang chasin' ghost trails through the drink.  \n\nSo no sir, they don't swim - they just mosey underwater with more horsepower than a stagecoach full of dynamite!"}]}
 ```
 
-## ポストトレーニング
+<div id="post-training">
+  ## トレーニング後
+</div>
 
-このスクリプトは、JSONL ファイルの例を使用して LoRA アダプターをトレーニングし、W&B Inference API または Playground で使用するために Artifact として W&B にアップロードします。
+このスクリプトは JSONL ファイル内の例を使って LoRA アダプターをトレーニングし、W&amp;B Inference API または Playground で使用できるように、W&amp;B に Artifact としてアップロードします。
 
-大まかに言うと、このスクリプトは以下のことを行います。
+概略は次のとおりです。
 
-1. W&B にログインします。W&B Models の [Hugging Face Transformers インテグレーション](https://docs.wandb.ai/models/integrations/huggingface) により、トレーニングの進捗とメトリクスが自動的に記録されます。
-2. Hugging Face からベースモデル（[OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)）をロードします。
-3. ファイルの先頭付近で定数として定義された rank や alpha などのハイパーパラメーターを使用して LoRA を設定します。
-4. ファイルから例をデータセットにロードし、[SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer) を実行します。デフォルトでは、スクリプトはすべての例を使用します。
-5. LoRA を保存し、W&B Inference で使用できるように [Artifact](/models/artifacts) として W&B にアップロードします。
+1. W&amp;B にログインします。W&amp;B Models の [Hugging Face Transformers インテグレーション](https://docs.wandb.ai/models/integrations/huggingface) が、トレーニングの進捗とメトリクスを自動的に記録します。
+2. Hugging Face からベースモデル ([OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)) をロードします。
+3. ファイル冒頭付近で定数として定義されている rank や alpha などのハイパーパラメーターを使って LoRA を設定します。
+4. ファイルから例をデータセットに読み込み、その後 [SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer) を実行します。デフォルトでは、このスクリプトはすべての例を使用します。
+5. LoRA を保存し、W&amp;B Inference で使用できるように、W&amp;B に [Artifact](/ja/models/artifacts) としてアップロードします。
 
-スクリプトが完了したら、ブラウザで最後に表示された URL を開き、保存された Artifact を確認してください。次のように表示されます。
+スクリプトの実行が完了したら、ブラウザーで最後に表示された URL を開き、保存された Artifact を確認します。次のようになります:
 `Artifact URL: https://wandb.ai/<yourentity>/create-lora-tutorial/artifacts/lora/OpenPipe_Qwen3-14B-Instruct_cowboy/v0`
 
-以下のプログラムを `create_lora.py` として保存し、`ENTITY` の値を自身の W&B Entity 名に更新してください。実行を簡素化するため、スクリプトは [inline script metadata](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) を使用して依存関係を宣言しています。
+次のプログラムを `create_lora.py` として保存し、`ENTITY` の値を自分の W&amp;B entity に更新してください。実行を簡略化するため、このスクリプトでは依存関係を宣言するために [インラインスクリプトメタデータ](https://docs.astral.sh/uv/guides/scripts/#declaring-script-dependencies) を使用します。
 
 ```python title="create_lora.py" expandable lines highlight={37}
 # /// script
@@ -103,12 +108,12 @@ W&B Inference を使用すると、一部のベースモデルでカスタム Lo
 # ///
 
 """
-W&B を使用した LoRA インフェレンス
+W&B を使った LoRA 推論
 
-このスクリプトは、LoRA を作成し、Inference API や Playground で使用するために
-Artifact として W&B にアップロードする方法を示します。
+このスクリプトは、LoRA を作成して W&B に Artifact としてアップロードし、
+Inference API または Playground で使用する方法を示します。
 
-uv を使用してこのスクリプトを実行できます:
+このスクリプトは uv で実行できます:
   uv run create_lora.py <examples_file.jsonl>
 """
 
@@ -129,7 +134,7 @@ PROJECT = "create-lora-tutorial"
 if ENTITY == "<yourentity>":
     sys.exit("Please update the ENTITY variable")
 
-# LoRA の詳細
+# LoRA Details
 BASE_MODEL = "OpenPipe/Qwen3-14B-Instruct"
 RUN_NAME = BASE_MODEL.replace("/", "_") + "_cowboy"
 LORA_RANK = 8
@@ -140,21 +145,21 @@ def provision_lora(jsonl_path, max_examples=None):
     """
     LoRA のプロビジョニング
 
-    本番ワークフローでは、必要に応じてここで LoRA のトレーニングや更新を行います。
-    このインフェレンスデモでは、LoRA を作成し、提供された例でトレーニングします。
+    本番ワークフローでは、必要に応じてここで LoRA のトレーニング・更新を行います。
+    この推論デモでは、LoRA を作成し、提供されたサンプルでトレーニングします。
 
-    引数:
-        jsonl_path: トレーニング例を含む JSONL ファイルへのパス
-        max_examples: 使用するトレーニング例の最大数（None の場合はすべての例を使用）
+    Args:
+        jsonl_path: トレーニングサンプルを含む JSONL ファイルへのパス
+        max_examples: 使用するトレーニングサンプルの最大数（すべて使用する場合は None）
 
-    注意: これは W&B Hugging Face インテグレーションを使用します。
+    注意: W&B の Hugging Face インテグレーションが使用されます
     https://docs.wandb.ai/models/integrations/huggingface
     """
-    # 一時ディレクトリーを作成
+    # 一時ディレクトリを作成
     lora_dir = tempfile.mkdtemp(prefix="identity_lora_")
-    print(f"Loading model: {BASE_MODEL}")
+    print(f"モデルを読み込んでいます: {BASE_MODEL}")
 
-    # デバイスの検出 - Apple Silicon では MPS、NVIDIA GPU では CUDA、それ以外は CPU を使用
+    # デバイスを検出 - Apple Silicon では MPS、NVIDIA GPU では CUDA、それ以外は CPU を使用
     if torch.cuda.is_available():
         device_map = "auto"
         dtype = torch.bfloat16
@@ -165,12 +170,12 @@ def provision_lora(jsonl_path, max_examples=None):
         device_map = "cpu"
         dtype = torch.float32
 
-    # トークナイザーのロード
+    # トークナイザーを読み込む
     tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    # モデルのロード
+    # モデルを読み込む
     model = AutoModelForCausalLM.from_pretrained(
         BASE_MODEL,
         dtype=dtype,
@@ -178,7 +183,7 @@ def provision_lora(jsonl_path, max_examples=None):
         trust_remote_code=True,
     )
 
-    # LoRA の設定
+    # LoRA を設定する
     lora_config = LoraConfig(
         r=LORA_RANK,
         lora_alpha=LORA_ALPHA,
@@ -189,16 +194,16 @@ def provision_lora(jsonl_path, max_examples=None):
         task_type="CAUSAL_LM",
     )
 
-    # モデルに LoRA を適用
+    # モデルに LoRA を適用する
     model = get_peft_model(model, lora_config)
 
-    # メモリ効率のために勾配チェックポイントを有効にする
+    # メモリ効率化のため勾配チェックポインティングを有効化
     model.enable_input_require_grads()
     if hasattr(model, 'gradient_checkpointing_enable'):
         model.gradient_checkpointing_enable()
 
-    # JSONL ファイルから例をロード
-    print(f"Loading examples from {jsonl_path}")
+    # JSONL ファイルからサンプルを読み込む
+    print(f"{jsonl_path} からサンプルを読み込んでいます")
     train_examples = []
     with open(jsonl_path, "r", encoding="utf-8") as f:
         for line in f:
@@ -206,10 +211,10 @@ def provision_lora(jsonl_path, max_examples=None):
             if max_examples is not None and len(train_examples) >= max_examples:
                 break
 
-    print(f"Using {len(train_examples)} training examples")
+    print(f"{len(train_examples)} 件のトレーニングサンプルを使用します")
 
-    # SFTTrainer が期待する Dataset 形式に変換
-    # JSONL に 'messages' フィールドがあることを想定
+    # SFTTrainer が想定する Dataset 形式に変換する
+    # JSONL に 'text' フィールドなどが含まれていることを前提とする
     train_dataset = Dataset.from_list(train_examples)
 
     # トレーニング引数
@@ -223,7 +228,7 @@ def provision_lora(jsonl_path, max_examples=None):
         save_strategy="no",
     )
 
-    # トレーナーの作成
+    # トレーナーを作成する
     trainer = SFTTrainer(
         model=model,
         train_dataset=train_dataset,
@@ -232,8 +237,8 @@ def provision_lora(jsonl_path, max_examples=None):
     )
     trainer.train()
 
-    # インフェレンスのためにアップロードする前に LoRA をディスクに保存
-    print(f"Saving to {lora_dir}")
+    # 推論用にアップロードする前に LoRA をディスクに保存する
+    print(f"{lora_dir} に保存しています")
     model.save_pretrained(lora_dir)
     tokenizer.save_pretrained(lora_dir)
 
@@ -244,8 +249,8 @@ def upload_artifact(lora_dir, run):
     """
     Artifact のアップロード
 
-    LoRA の準備ができたら、Artifact として W&B にアップロードできます。
-    LoRA インフェレンスを有効にするために、storage_region を必ず coreweave-us に設定してください。
+    LoRA の準備が完了したら、W&B に Artifact としてアップロードできます。
+    LoRA 推論を有効にするには、ストレージリージョンを coreweave-us に設定してください！
     """
 
     artifact = wandb.Artifact(
@@ -264,20 +269,20 @@ def upload_artifact(lora_dir, run):
 
 
 def parse_args():
-    """コマンドライン引数のパース"""
+    """コマンドライン引数を解析する"""
     parser = argparse.ArgumentParser(
         description="LoRA モデルをトレーニングして W&B にアップロードする"
     )
     parser.add_argument(
         "examples_file",
         type=str,
-        help="トレーニング例を含む JSONL ファイルへのパス"
+        help="トレーニングサンプルを含む JSONL ファイルへのパス"
     )
     parser.add_argument(
         "--max-examples",
         type=int,
         default=None,
-        help="使用するトレーニング例の最大数（デフォルト: すべての例）"
+        help="使用するトレーニングサンプルの最大数（デフォルト: すべてのサンプル）"
     )
     return parser.parse_args()
 
@@ -293,36 +298,40 @@ def main():
 
     artifact = upload_artifact(lora_dir, run)
 
-    print(f"Artifact URL: {artifact.url}")
+    print(f"Artifact の URL: {artifact.url}")
 
 
 if __name__ == "__main__":
     main()
 ```
 
-`uv` を使用してスクリプトを実行します。
+`uv` を使ってスクリプトを実行します：
 
 ```bash
 uv run create_lora.py cowboy_examples.jsonl
 ```
 
-実行時間はハードウェアに依存します。`--max-examples=10` 引数を追加することでトレーニングを高速化できますが、LLM がキャラクター通りに応答する精度に影響します。
+実行時間はハードウェアに依存します。`--max-examples=10` という引数を追加するとトレーニングを高速化できますが、LLM がキャラクターらしく応答できるかどうかに影響します。
 
-## LoRA の使用
+<div id="using-the-lora">
+  ## LoRA の使用
+</div>
 
-作成した新しい LoRA は、[W&B Weave](/weave) Playground ですぐに試すことができます。Artifact の URL を開いたら、"Try in playground" ボタンをクリックします。
+作成したばかりの LoRA は、[W&amp;B Weave](/ja/weave) Playground ですぐに試すことができます。Artifact の URL を開いたら、「Try in playground」ボタンをクリックします。
 
-<Frame>![LoRA in Artifacts UI](/images/inference/inference-lora-artifact.png)</Frame>
+<Frame>![Artifacts UI での LoRA](/images/inference/inference-lora-artifact.png)</Frame>
 
-次に、チャットインターフェースの下部でプロンプトを入力します。
+次に、チャット インターフェースの下部にある入力欄にプロンプトを入力します。
 
-<Frame>![LoRA in Playground UI](/images/inference/inference-lora-playground.png)</Frame>
+<Frame>![Playground UI での LoRA](/images/inference/inference-lora-playground.png)</Frame>
 
-コードから新しく作成した LoRA を使用するには、[Use Serverless LoRA Inference](/inference/lora#workflow) ガイドのステップバイステップの指示を参照してください。
+コードから作成した LoRA を使用するには、手順が詳しく説明されている [Use Serverless LoRA Inference](/ja/inference/lora#workflow) ガイドを参照してください。
 
-## 次のステップ
+<div id="next-steps">
+  ## 次のステップ
+</div>
 
-LoRA を作成したら、次のようなトレーニングの実験を行うことができます。
+LoRA を作成したら、次のようにトレーニング方法をいろいろ試すことができます。
 
-- より少ない例で LoRA をトレーニングし、期待通りの効果が得られるかを確認する。
-- データセットのレスポンスを変更して、海賊や忍者のような別のキャラクターを表示させる。
+* 使用する例の数を少なくして LoRA をトレーニングし、それでも望んだ効果が得られるか確認する。
+* データセット内の応答を変更して、海賊や忍者など別のキャラクターを表現してみる。

@@ -1,0 +1,247 @@
+---
+title: "guardrails を設定する"
+description: "本番アプリケーションで LLM の安全性を確保し、出力品質を測定する"
+---
+
+guardrails は、LLM ジャッジからのスコアに基づいて LLM アプリケーションの動作に積極的に介入します。出力がユーザーに届く前にリアルタイムで実行され、スコアがしきい値を超えた場合にはレスポンスをブロックしたり、修正したりできます。guardrails を使うことで、有害なコンテンツのブロック、個人を特定できる情報 (PII) を含むレスポンスのフィルタリング、ユーザーからの攻撃的な入力のブロックなどを行えます。
+
+<div id="how-weave-guardrails-work">
+  ## Weave guardrails の仕組み
+</div>
+
+Weave guardrails はインラインの [Weave Scorers](/ja/weave/guides/evaluation/scorers) を使って、ユーザーからの入力や LLM からの出力を評価し、リアルタイムで LLM の応答を調整します。カスタム スコアラーを設定することも、[built-in scorers](/ja/weave/guides/evaluation/builtin_scorers) を使ってさまざまな目的でコンテンツを評価することもできます。このガイドでは、両方の種類のスコアラーを guardrails として使う方法を説明します。
+
+アプリケーションの制御フローを変更せずに、本番トラフィックに対して受動的にスコアリングしたい場合は、代わりに [monitors](/ja/weave/guides/evaluation/monitors) を使用してください。
+
+monitors と異なり、guardrails はアプリケーションの制御フローに影響するため、コードの変更が必要です。ただし、guardrails のすべてのスコアラー結果は自動的に Weave のデータベースに保存されるため、追加の設定なしに guardrails は monitors としても機能します。スコアラーが元々どのように使用されていたかに関係なく、過去のスコア結果を分析できます。
+
+<Note>
+  Weave TypeScript SDK は guardrails のセットアップに必要なツールをサポートしていません。
+</Note>
+
+<div id="optimize-your-weave-guardrail-performance">
+  ### Weave guardrail のパフォーマンスを最適化する
+</div>
+
+guardrail はアプリケーションの制御フローを中断し、応答の内容や流れを変えることができるため、複雑になりすぎるとパフォーマンスに悪影響を与える可能性があります。最適なパフォーマンスのために、次のことを推奨します。
+
+* guardrail のロジックはシンプルかつ高速に保つ
+* 頻繁に得られる結果をキャッシュする
+* 負荷の高い外部 API 呼び出しを避ける
+* guardrail をメイン関数の外で初期化して、初期化コストの繰り返しを避ける
+
+guardrail をメイン関数の外で初期化することは、特に次のような場合に重要です。
+
+* scorer が ML モデルを読み込む場合
+* レイテンシが重要となるローカル LLM を使用している場合
+* scorer がネットワーク接続を維持する場合
+* 高トラフィックなアプリケーションである場合
+
+<div id="example-create-a-guardrail-using-a-built-in-moderation-scorer">
+  ### 例: 組み込みの moderation scorer を使って guardrail を作成する
+</div>
+
+次の例では、ユーザーのプロンプトを OpenAI の GPT-4o mini モデルに送信します。モデルの応答は Weave の [OpenAI の moderation API](https://platform.openai.com/docs/guides/moderation) に渡され、LLM の応答に有害または不適切なコンテンツが含まれていないかを評価します。モデルの応答は guardrail 関数 (`generate_safe_response()`) に渡され、この関数内で `OpenAIModerationScorer` を使用して LLM の元の応答をチェックします。関数のロジックは OpenAI の評価結果の `passed` フィールド内の boolean 値を確認し、その結果に応じてアプリケーションがどのように応答するかを決定します。
+
+```python lines {28-45}
+import weave
+import openai
+from weave.scorers import OpenAIModerationScorer
+import asyncio
+
+# Weave を初期化する
+weave.init("your-team-name/your-project-name")
+
+# OpenAI クライアントを初期化する
+client = openai.OpenAI()  # OPENAI_API_KEY 環境変数を使用する
+
+# モデレーションスコアラーを初期化する
+moderation_scorer = OpenAIModerationScorer()
+
+# OpenAI にプロンプトを送信する
+@weave.op
+def generate_response(prompt: str) -> str:
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=200
+    )
+    return response.choices[0].message.content
+
+# ガードレール関数がレスポンスの有害性をチェックする
+async def generate_safe_response(prompt: str) -> str:
+    """コンテンツモデレーションガードレールを使用してレスポンスを生成する。"""
+    # 結果と Call オブジェクトの両方を取得する
+    result, call = generate_response.call(prompt)
+    
+    # ユーザーに返す前にモデレーションスコアラーを適用する
+    score = await call.apply_scorer(moderation_scorer)
+    print("This is the score object:", score)
+    
+    # コンテンツにフラグが立てられたか確認する
+    if not score.result.get("passed", True): 
+        categories = score.result.get("categories", {})
+        flagged_categories = list(categories.keys()) if categories else []
+        print(f"コンテンツがブロックされました。フラグが立てられたカテゴリ: {flagged_categories}")
+        return "申し訳ありませんが、コンテンツポリシーの制限により、そのレスポンスを提供できません。"
+    
+    return result
+
+# サンプルを実行する
+if __name__ == "__main__":
+    
+    prompts = [
+        "What's the capital of France?",
+        "Tell me a funny fact about dogs.",
+    ]
+    
+    for prompt in prompts:
+        print(f"\nプロンプト: {prompt}")
+        response = asyncio.run(generate_safe_response(prompt))
+        print(f"レスポンス: {response}")
+```
+
+LLM-as-a-judge スコアラーを使用する場合、スコアリング プロンプト内で ops 内の変数を参照できます。たとえば「`{ground_truth}` に基づいて `{output}` が正確かどうかを評価してください。」のように記述します。詳しくは [prompt variables](/ja/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) を参照してください。
+
+<div id="example-create-a-guardrail-using-a-custom-scorer">
+  ### 例：カスタム scorer を使用して guardrail を作成する
+</div>
+
+次の例では、メールアドレス、電話番号、社会保障番号などの個人を特定できる情報 (PII) を LLM 応答内から検出するカスタム guardrail を作成します。これにより、生成されたコンテンツ内で機密情報が露出することを防ぎます。関数 generate&#95;safe&#95;response は、カスタムの PIIDetectionScorer を適用します。
+
+```python lines {14-39, 57-69}
+import weave
+import openai
+import re
+import asyncio
+from weave import Scorer
+
+weave.init("your-team-name/your-project-name")
+
+client = openai.OpenAI()
+
+class PIIDetectionScorer(Scorer):
+    """LLM の出力から PII を検出してデータ漏洩を防ぎます。"""
+    
+    @weave.op
+    def score(self, output: str) -> dict:
+        """
+        出力に含まれる一般的な PII パターンを確認します。
+        
+        Returns:
+            dict: 'passed' (bool) と 'detected_types' (list) を含む辞書
+        """
+        detected_types = []
+        
+        # メールアドレスのパターン
+        if re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', output):
+            detected_types.append("email")
+        
+        # 電話番号のパターン（米国形式）
+        if re.search(r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b', output):
+            detected_types.append("phone")
+        
+        # SSN のパターン
+        if re.search(r'\b\d{3}-\d{2}-\d{4}\b', output):
+            detected_types.append("ssn")
+        
+        return {
+            "passed": len(detected_types) == 0,
+            "detected_types": detected_types
+        }
+
+# パフォーマンス最適化のため、スコアラーを関数の外で初期化する
+pii_scorer = PIIDetectionScorer()
+
+@weave.op
+def generate_response(prompt: str) -> str:
+    """LLM を使用してレスポンスを生成します。"""
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ],
+        max_tokens=200
+    )
+    return response.choices[0].message.content
+
+async def generate_safe_response(prompt: str) -> str:
+    """PII 検出ガードレールを使用してレスポンスを生成します。"""
+    result, call = generate_response.call(prompt)
+    
+    # PII 検出スコアラーを適用する
+    score = await call.apply_scorer(pii_scorer)
+    
+    # PII が検出された場合はレスポンスをブロックする
+    if not score.result.get("passed", True):
+        detected_types = score.result.get("detected_types", [])
+        return f"I cannot provide a response that may contain sensitive information (detected: {', '.join(detected_types)})."
+    
+    return result
+
+# 使用例
+if __name__ == "__main__":
+    prompts = [
+        "What's the weather like today?",
+        "Can you help me contact someone at john.doe@example.com?",
+        "Tell me about machine learning.",
+    ]
+    
+    for prompt in prompts:
+        print(f"\nPrompt: {prompt}")
+        response = asyncio.run(generate_safe_response(prompt))
+        print(f"Response: {response}")
+```
+
+<div id="integrate-weave-with-aws-bedrock-guardrails">
+  ### Weave を AWS Bedrock Guardrails と連携させる
+</div>
+
+`BedrockGuardrailScorer` は、設定されたポリシーに基づいてコンテンツを検出およびフィルタリングするために AWS Bedrock Guardrails を使用します。
+
+Bedrock Guardrails のインテグレーションを設定する前に、次のものが必要です。
+
+* Bedrock にアクセスできる AWS アカウント
+* [AWS Bedrock コンソールで設定済みの guardrail](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-components.html)
+* `boto3` [Python パッケージ](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html)
+
+独自に Bedrock クライアントを作成する必要はありません。Weave が自動的に作成します。リージョンを指定するには、scorer の `bedrock_runtime_kwargs` パラメーターにリージョンの値を渡します。
+
+AWS Bedrock で guardrail を作成する方法の例については、[Bedrock guardrails ノートブック](https://github.com/aws-samples/amazon-bedrock-samples/blob/main/responsible_ai/bedrock-guardrails/guardrails-api.ipynb) を参照してください。
+
+次の例では、ユーザーに結果を返す前に、テキスト生成を AWS Bedrock Guardrails のポリシーに照らしてチェックします。
+
+```python
+import weave
+from weave.scorers.bedrock_guardrails import BedrockGuardrailScorer
+
+weave.init("your-team-name/your-project-name")
+
+guardrail_scorer = BedrockGuardrailScorer(
+    guardrail_id="your-guardrail-id",
+    guardrail_version="DRAFT",
+    source="INPUT",
+    bedrock_runtime_kwargs={"region_name": "us-east-1"}
+)
+
+@weave.op
+def generate_text(prompt: str) -> str:
+    # テキスト生成ロジックをここに記述
+    return "Generated text..."
+
+async def generate_safe_text(prompt: str) -> str:
+    result, call = generate_text.call(prompt)
+
+    score = await call.apply_scorer(guardrail_scorer)
+
+    if not score.result.passed:
+        if score.result.metadata.get("modified_output"):
+            return score.result.metadata["modified_output"]
+        return "コンテンツポリシーの制限により、そのコンテンツを生成できません。"
+
+    return result
+```

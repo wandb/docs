@@ -1,94 +1,115 @@
 ---
-title: UI ガイド
-description: Web インターフェースから W&B Inference Models にアクセスする
+title: "UI ガイド"
+description: >
+  Web インターフェースから W&B Inference モデルを利用する
 ---
 
-Web UI を通じて W&B Inference サービスを使用する方法について説明します。UI を使用する前に、[前提条件](/inference/prerequisites/) を完了してください。
+Web UI を使用して W&amp;B Inference サービスを利用する方法について説明します。Web UI を使用する前に、[事前準備](/ja/inference/prerequisites/) を完了してください。
 
-## Inference サービスへのアクセス
+<div id="access-the-inference-service">
+  ## Inference サービスへアクセスする
+</div>
 
-Inference サービスには、以下の 3 つの場所からアクセスできます。
+Inference サービスには、次の 3 つの場所からアクセスできます。
 
-### ダイレクトリンク
+<div id="direct-link">
+  ### 直接リンク
+</div>
 
-[https://wandb.ai/inference](https://wandb.ai/inference) にアクセスしてください。
+[https://wandb.ai/inference](https://wandb.ai/inference) にアクセスします。
 
-### Inference タブから
+<div id="from-the-inference-tab">
+  ### Inference タブから
+</div>
 
-1. [https://wandb.ai/](https://wandb.ai/) から W&B アカウントにアクセスします。
-2. 左側のサイドバーから **Inference** を選択します。
-3. 利用可能な Models とその情報が表示されます。
-
-<Frame>
-    <img src="/images/inference/inference-playground-single.png" alt="Using an Inference model in the Playground"  />
-</Frame>
-
-### Playground タブから
-
-1. 左側のサイドバーから **Playground** を選択します。Playground のチャット UI が表示されます。
-2. LLM ドロップダウンリストの **W&B Inference** にカーソルを合わせます。右側に利用可能な Models のドロップダウンが表示されます。
-3. Models のドロップダウンから、以下の操作が可能です。
-   - モデル名をクリックして [Playground で試す](#playground-でモデルを試す)
-   - [複数のモデルを比較する](#複数のモデルを比較する)
+1. [https://wandb.ai/](https://wandb.ai/) の自分の W&amp;B アカウントにアクセスします
+2. 左のサイドバーで **Inference** を選択します
+3. 利用可能なモデルと各モデルの情報が表示されたページが開きます
 
 <Frame>
-    <img src="/images/inference/inference-playground.png" alt="The Inference models dropdown in Playground"  />
+  <img src="/images/inference/inference-playground-single.png" alt="Playground で Inference モデルを使用する" />
 </Frame>
 
-## Playground でモデルを試す
+<div id="from-the-playground-tab">
+  ### Playground タブから
+</div>
 
-[モデルを選択](#inference-サービスへのアクセス) した後、Playground でテストできます。利用可能なアクションは以下の通りです。
+1. 左サイドバーから **Playground** を選択します。Playground のチャット UI が表示されます
+2. LLM ドロップダウンリストで **W&amp;B Inference** の上にカーソルを合わせます。右側に利用可能なモデルのドロップダウンが表示されます
+3. モデルのドロップダウンから、次の操作ができます:
+   * 任意のモデル名をクリックして [Playground で試す](#try-a-model-in-the-playground)
+   * [複数のモデルを比較する](#compare-multiple-models)
 
-- [モデルの設定とパラメータのカスタマイズ](/weave/guides/tools/playground#customize-settings)
-- [メッセージの追加、再試行、編集、削除](/weave/guides/tools/playground#message-controls)
-- [カスタム設定を適用したモデルの保存と再利用](/weave/guides/tools/playground#saved-models)
-- [複数のモデルを比較する](#複数のモデルを比較する)
+<Frame>
+  <img src="/images/inference/inference-playground.png" alt="Playground における Inference モデルのドロップダウン" />
+</Frame>
 
-## 複数のモデルを比較する
+<div id="try-a-model-in-the-playground">
+  ## Playground でモデルを試す
+</div>
 
-Playground では、Inference モデルを横に並べて比較できます。比較（Compare）ビューには 2 つの場所からアクセスできます。
+[モデルを選択したら](#access-the-inference-service)、Playground 上で試すことができます。次の操作が行えます:
 
-### Inference タブから
+* [モデルの設定とパラメーターをカスタマイズする](/ja/weave/guides/tools/playground#customize-playground-settings)
+* [メッセージの追加、再試行、編集、削除](/ja/weave/guides/tools/playground#message-controls)
+* [カスタム設定付きのモデルを保存して再利用する](/ja/weave/guides/tools/playground#saved-models)
+* [複数のモデルを比較する](#compare-multiple-models)
 
-1. 左側のサイドバーから **Inference** を選択します。利用可能なモデルのページが表示されます。
-2. モデルカードの任意の位置（モデル名以外）をクリックして選択します。カードの枠線が青色に変わります。
-3. 比較したい各モデルに対してこれを繰り返します。
-4. 選択したカードにある **Compare N models in the Playground** をクリックします。`N` には選択されたモデル数が表示されます。
+<div id="compare-multiple-models">
+  ## 複数のモデルを比較する
+</div>
+
+Playground 内で Inference モデルを並べて比較できます。Compare ビューには、次の 2 通りの方法でアクセスできます。
+
+<div id="from-the-inference-tab">
+  ### Inference タブから
+</div>
+
+1. 左側のサイドバーから **Inference** を選択します。使用可能なモデルのページが表示されます。
+2. モデルカード上の任意の場所 (モデル名を除く) をクリックして選択します。カードの枠線が青色に変わります。
+3. 比較したい各モデルについて同じ操作を繰り返します。
+4. 選択した任意のカードで **Playground で N 個のモデルを比較** をクリックします。`N` には選択したモデルの数が表示されます。
 5. 比較ビューが開きます。
 
-これで、モデルを比較したり、[Playground でモデルを試す](#playground-でモデルを試す) のすべての機能を使用したりできます。
+これでモデルを比較でき、[Playground でモデルを試す](#try-a-model-in-the-playground) のすべての機能を利用できます。
 
 <Frame>
-    <img src="/images/inference/inference-playground-compare.png" alt="Select multiple models to compare in Playground"  />
+  <img src="/images/inference/inference-playground-compare.png" alt="Playground で比較するために複数のモデルを選択" />
 </Frame>
 
-### Playground タブから
+<div id="from-the-playground-tab">
+  ### Playground タブから
+</div>
 
-1. 左側のサイドバーから **Playground** を選択します。Playground のチャット UI が表示されます。
-2. LLM ドロップダウンリストの **W&B Inference** にカーソルを合わせます。右側に Models のドロップダウンが表示されます。
+1. 左サイドバーから **Playground** を選択します。Playground のチャット UI が表示されます。
+2. LLM ドロップダウンリストで **W&amp;B Inference** にカーソルを合わせます。右側にモデルのドロップダウンが表示されます。
 3. ドロップダウンから **Compare** を選択します。**Inference** タブが表示されます。
-4. モデルカードの任意の位置（モデル名以外）をクリックして選択します。カードの枠線が青色に変わります。
-5. 比較したい各モデルに対してこれを繰り返します。
-6. 選択したカードにある **Compare N models in the Playground** をクリックします。比較ビューが開きます。
+4. モデル名以外の任意の場所をクリックしてモデルカードを選択します。カードの枠線が青色に変わります。
+5. 比較したい各モデルについて繰り返します。
+6. 選択したカードのいずれかで **Compare N models in the Playground** をクリックします。比較ビューが開きます。
 
-これで、モデルを比較したり、[Playground でモデルを試す](#playground-でモデルを試す) のすべての機能を使用したりできます。
+これでモデルを比較できるようになり、[Try a model in the Playground](#try-a-model-in-the-playground) のすべての機能を使用できます。
 
-## 請求と使用状況の情報を確認する
+<div id="view-billing-and-usage-information">
+  ## 請求および利用状況を確認する
+</div>
 
-組織（Organization）の管理者は、W&B UI からクレジット残高、使用履歴、次回の請求額を確認できます。
+Organization 管理者は、W&amp;B UI からクレジット残高、利用履歴、今後の請求を確認できます。
 
-1. W&B UI の **Billing** ページに移動します。
-2. 右下にある Inference 請求情報のカードを確認します。
-3. ここから以下の操作が可能です。
-   - **View usage** をクリックして、時系列での使用状況を確認する
-   - 次回の Inference 請求額を確認する（有料プランの場合）
+1. UI の W&amp;B **Billing** ページに移動します
+2. 右下にある Inference の請求情報カードを見つけます
+3. ここから次の操作ができます:
+   * **View usage** をクリックして、これまでの利用状況の推移を確認できます
+   * 今後の Inference の請求額を確認できます (有料プランの場合) 
 
 <Tip>
-モデルごとの料金詳細については、[Inference 価格ページ](https://wandb.ai/site/pricing/inference) をご覧ください。
+  モデルごとの料金の詳細については [Inference pricing page](https://wandb.ai/site/pricing/inference) を参照してください。
 </Tip>
 
-## 次のステップ
+<div id="next-steps">
+  ## 次のステップ
+</div>
 
-- [利用可能な Models](/inference/models) を確認して、ニーズに最適なものを見つける
-- プログラムからアクセスするために [API](/inference/api-reference/) を試す
-- コードサンプルについて [使用例](/inference/examples/) を参照する
+* 自分のニーズに最適なものを見つけるために [利用可能なモデル](/ja/inference/models) を確認する
+* プログラムから利用するには [API](/ja/inference/api-reference/) を試す
+* コードサンプルは [使用例](/ja/inference/examples/) を参照する

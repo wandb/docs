@@ -1,57 +1,61 @@
 ---
-title: 데이터 유형 개요
-description: 미디어 및 구조화된 데이터 로그를 위한 W&B Python SDK의 데이터 유형
+title: 데이터 타입 개요
+description: 미디어 및 구조화된 데이터를 로깅하기 위한 W&B Python SDK의 데이터 타입
 module: wandb.sdk.data_types
 no_list: true
 ---
 
-W&B의 Data Types는 Runs 에 로그를 남기기 위해 미디어 및 구조화된 데이터를 래핑하는 클래스입니다. 이들은 W&B UI에서 시각화 컴포넌트를 포함하며 데이터 직렬화, 저장 및 검색을 처리합니다.
+W&amp;B의 데이터 타입은 run에 로깅하기 위해 미디어 및 구조화된 데이터를 감싸는 클래스입니다. 이 클래스들은 W&amp;B UI에서 시각화 컴포넌트를 제공하고, 데이터 직렬화, 저장 및 조회를 처리합니다.
 
-## Available Data Types
+<div id="available-data-types">
+  ## 사용 가능한 데이터 타입
+</div>
 
-| Data Type | Description |
+| Data Type | 설명 |
 |-----------|-------------|
-| [`Image`](/models/ref/python/data-types/image) | 마스크, 바운딩 박스, 세그멘테이션을 지원하는 이미지를 로그합니다. |
-| [`Video`](/models/ref/python/data-types/video) | 모델 출력 또는 데이터셋 샘플을 위한 비디오 데이터를 추적합니다. |
-| [`Audio`](/models/ref/python/data-types/audio) | 오디오 처리 작업을 위한 오디오 샘플을 로그합니다. |
-| [`Table`](/models/ref/python/data-types/table) | 혼합 미디어 유형을 포함할 수 있는 테이블을 생성합니다. |
-| [`Plotly`](/models/ref/python/data-types/plotly) | 데이터 시각화를 위한 Plotly 차트를 로그합니다. |
-| [`Html`](/models/ref/python/data-types/html) | 사용자 정의 HTML 콘텐츠를 임베드합니다. |
-| [`Object3D`](/models/ref/python/data-types/object3d) | 3D 포인트 클라우드 및 메시를 시각화합니다. |
-| [`Molecule`](/models/ref/python/data-types/molecule) | 계산 화학을 위한 분자 구조를 로그합니다. |
+| [`Image`](/ko/models/ref/python/data-types/image) | 마스크, 바운딩 박스, 세그멘테이션을 포함하는 이미지를 로그합니다. |
+| [`Video`](/ko/models/ref/python/data-types/video) | 모델 출력 또는 데이터셋 샘플용 비디오 데이터를 추적합니다. |
+| [`Audio`](/ko/models/ref/python/data-types/audio) | 오디오 처리 작업을 위한 오디오 샘플을 로그합니다. |
+| [`Table`](/ko/models/ref/python/data-types/table) | 여러 미디어 유형을 함께 포함할 수 있는 테이블을 생성합니다. |
+| [`Plotly`](/ko/models/ref/python/data-types/plotly) | 데이터 시각화를 위한 Plotly 차트를 로그합니다. |
+| [`Html`](/ko/models/ref/python/data-types/html) | 사용자 지정 HTML 콘텐츠를 삽입합니다. |
+| [`Object3D`](/ko/models/ref/python/data-types/object3d) | 3D 포인트 클라우드와 메쉬를 시각화합니다. |
+| [`Molecule`](/ko/models/ref/python/data-types/molecule) | 계산 화학을 위한 분자 구조를 로그합니다. |
 
-## Examples
+<div id="examples">
+  ## 예시
+</div>
 
-이 예제는 `Image` 를 사용합니다:
+이 예제에서는 `Image`를 사용합니다.
 
 ```python
 import wandb
 import matplotlib.pyplot as plt
 
-# 데모 목적으로 이미지를 생성합니다
+# 데모 목적으로 이미지 생성
 path_to_img = "/path/to/cafe.png"
 im = plt.imread(path_to_img)
 
-# 새로운 run 초기화
+# 새 run 초기화
 with wandb.init(project="awesome-project") as run:
 
-    # 이미지 로그
+    # 이미지 로깅
     run.log({"img": [wandb.Image(im, caption="Cafe")]})
 ```
 
-이 예제는 텍스트와 레이블이 혼합된 테이블을 로그하기 위해 `Table` 을 사용합니다:
+이 예제에서는 `Table`을 사용해 텍스트와 레이블이 혼합된 테이블을 기록합니다:
 
 ```python
 import wandb
 
-# 새로운 run 초기화
+# 새 run 초기화
 with wandb.init(project="visualize-predictions", name="tables") as run:
 
-    # 리스트의 리스트를 사용하여 테이블 데이터 생성
+    # 리스트의 리스트를 사용하여 표 형식 데이터 생성
     data = [["Cat", "1", "1"],["Dog", "0", "-1"]]
     run.log({"Table 1": wandb.Table(data=data, columns=["Text", "Predicted Label", "True Label"])})
 
-    # `wandb.Table.add_data()` 메소드를 사용하여 테이블 데이터 생성
+    # `wandb.Table.add_data()` 메서드를 사용하여 표 형식 데이터 생성
     table = wandb.Table(columns=["Text", "Predicted Label", "True Label"])
     table.add_data("Cat", "1", "1")
     table.add_data("Dog", "0", "-1")

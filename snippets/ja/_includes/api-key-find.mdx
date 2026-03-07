@@ -1,27 +1,31 @@
+---
+title: API キーの検索
+---
+
 <Note>
-In **Dedicated Cloud** and **Self-Managed**:
-- Organization admins can find or list API keys for all organization users and service accounts.
-- Team admins can find or list API keys for service accounts in teams they administer.
-- Non-admin users can find or list their own API keys.
+**Dedicated Cloud** と **Self-Managed** の場合:
+- 組織管理者は、組織内のすべてのユーザーおよびサービスアカウントの API キーを検索または一覧表示できます。
+- チーム管理者は、自分が管理するチーム内のサービスアカウントの API キーを検索または一覧表示できます。
+- 管理者ではないユーザーは、自分の API キーを検索または一覧表示できます。
 </Note>
 
-To find an API key, select the **Personal API key** or **Service Account API key** tab for details.
+API キーを見つけるには、**Personal API key** または **Service Account API key** タブを選択して詳細を確認します。
 
 <Tabs>
 <Tab title="Personal API key">
-To find a personal API key owned by your user ID:
+自分のユーザー ID に紐づく個人用 API キーを見つけるには:
 
-1. Log in to W&B, click your user profile icon, then click **User Settings**.
-2. Scroll to the **API Keys** section.
+1. W&B にログインし、ユーザープロフィールアイコンをクリックしてから **User Settings** をクリックします。
+2. **API Keys** セクションまでスクロールします。
 
 </Tab>
 <Tab title="Service account API key">
-To find an API key owned by an organization or team service account:
+組織またはチームのサービスアカウントが所有する API キーを見つけるには:
 
-1. Navigate to the **API Keys** tab in your organization settings.
-2. Find the API key in the list. You can search or filter the list by owner, key name, or key ID.
+1. 組織設定の **API Keys** タブに移動します。
+2. 一覧から API キーを探します。オーナー、キー名、キー ID で検索またはフィルターできます。
 
 </Tab>
 </Tabs>
 
-The API keys table shows the key ID (the first part of each API key) for identification purposes. The full secret API key is only displayed once when you create it. If you need to use an existing key but do not have the full secret stored, you must create a new API key.
+API キーのテーブルには、識別用としてキー ID（各 API キーの先頭部分）が表示されます。完全なシークレットの API キーは、作成時に一度だけ表示されます。既存のキーを使用する必要があるにもかかわらず、完全なシークレットを保存していない場合は、新しい API キーを作成する必要があります。

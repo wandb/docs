@@ -1,33 +1,37 @@
 ---
-title: プライバシー 設定 を行う
+title: プライバシー設定を行う
 ---
 
-Organization および Team の管理者（admin）は、それぞれ組織およびチームのスコープで一連のプライバシー設定を構成できます。Organization スコープで設定された場合、Organization 管理者はその組織内のすべてのチームに対してそれらの設定を強制します。
+Organization と Team の管理者は、それぞれ Organization スコープおよび Team スコープで一連のプライバシー設定を構成できます。Organization スコープで構成された場合、Organization 管理者はその Organization 内のすべての Team に対してそれらの設定を強制的に適用します。
 
 <Note>
-W&B では、ワークフローにおける予期しない変更を避けるため、Organization 管理者がプライバシー設定を強制する際には、事前に組織内のすべての Team 管理者および User に通知することを推奨しています。
+W&B は、Organization 管理者がプライバシー設定を強制適用する前に、その内容を事前に Organization 内のすべての Team 管理者およびユーザーに周知することを推奨します。これは、ワークフローに予期しない変更が生じることを避けるためです。
 </Note>
 
-## チームのプライバシー設定を構成する
+<div id="configure-privacy-settings-for-a-team">
+  ## チームのプライバシー設定を行う
+</div>
 
-Team 管理者は、チームの **Settings** タブにある `Privacy` セクションから、それぞれのチームのプライバシー設定を構成できます。各設定は、Organization スコープで強制されていない限り構成可能です。
+チーム管理者は、チームの **Settings** タブ内にある `Privacy` セクションから、それぞれのチームのプライバシー設定を行えます。各設定は、組織スコープで強制されていない限り、変更可能です。
 
-* **Hide this team from all non-members** - メンバーではない User に対してチームを表示しないようにします
-* **Make all future team projects private** - チーム内で新しく作成されるすべての Projects を確実にプライベートにします（パブリック共有は許可されません）
+* **Hide this team from all non-members** - メンバーではないユーザーにこのチームが表示されないようにします
+* **Make all future team projects private** - チーム内で今後作成される新しいプロジェクトをすべて非公開にします（公開での共有は許可されません）
 * **Allow any team member to invite other members** - 管理者だけでなく、すべてのチームメンバーが新しいメンバーを招待できるようにします
-* **Turn off public sharing for reports in private projects** - プライベートな Projects 内の Reports のパブリック共有を無効にし、既存のマジックリンクを無効化します
-* **Allow users with matching organization email domain to join this team** - 組織のメール内ドメインが一致する User が自動的にチームに参加することを許可します
-  <Note>この設定は [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) デプロイメントでのみ利用可能です。</Note>
-* **Enable code saving by default** - チーム内のすべての Runs に対して、自動的にコード保存を有効にします
+* **Turn off public sharing for reports in private projects** - 非公開プロジェクト内の Reports の公開での共有を無効にし、既存の magic links も無効化します
+* **Allow users with matching organization email domain to join this team** - 組織のメールドメインが一致するユーザーが、自動的にこのチームに参加できるようにします
+  <Note>この設定は、[Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) デプロイメントでのみ利用可能です。</Note>
+* **Enable code saving by default** - チーム内のすべての run のコードを自動的に保存します
 
-## すべてのチームに対してプライバシー設定を強制する
+<div id="enforce-privacy-settings-for-all-teams">
+  ## すべてのチームにプライバシー設定を適用する
+</div>
 
-Organization 管理者は、アカウントまたは Organization ダッシュボードの **Settings** タブ内にある `Privacy` セクションから、組織内のすべてのチームに対してプライバシー設定を強制できます。Organization 管理者が設定を強制した場合、Team 管理者はそれぞれのチーム内でその設定を変更することはできません。
+組織管理者は、アカウントまたは組織のダッシュボードの **Settings** タブ内にある `Privacy` セクションから、組織内のすべてのチームに対してプライバシー設定を強制できます。組織管理者が設定を強制した場合、チーム管理者はそれぞれのチームでその設定を変更することはできません。
 
-* **Enforce team visibility restrictions** - 組織全体の非メンバーに対して、すべてのチームを非表示にします
-* **Enforce privacy for future projects** - すべてのチームにおけるすべての新しい Projects をプライベート、または [restricted（制限付き）](./iam/access-management/restricted-projects) にすることを要求します
-* **Enforce invitation control** - 管理者以外のメンバーがどのチームにもメンバーを招待できないようにします
-* **Enforce report sharing control** - プライベートな Projects 内の Reports のパブリック共有をオフにし、既存のマジックリンクを無効化します
-* **Enforce team self-joining restrictions** - 組織のメール内ドメインが一致する User が、どのチームにも自動的に参加できないように制限します
-  <Note>この設定は [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) デプロイメントでのみ利用可能です。</Note>
-* **Enforce default code saving restrictions** - すべてのチームに対して、デフォルトのコード保存設定をオフにします
+* **チームの公開範囲の制限を強制する** - 組織全体で、メンバーではないユーザーからすべてのチームを非表示にします
+* **今後作成されるプロジェクトのプライバシーを強制する** - すべてのチームで新規プロジェクトを、プライベートまたは [restricted](./iam/access-management/restricted-projects) のいずれかとすることを必須とします
+* **招待制御を強制する** - 管理者以外のユーザーが、いずれのチームにもメンバーを招待できないようにします
+* **Reports 共有制御を強制する** - プライベートプロジェクトでの Reports の一般公開による共有を無効にし、既存のマジックリンクを無効化します
+* **チームへのセルフジョイン制限を強制する** - 組織のメールドメインと一致するユーザーが、任意のチームに自動的に参加することを制限します
+  <Note>この設定は [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) デプロイでのみ利用できます。</Note>
+* **デフォルトのコード保存制限を強制する** - すべてのチームでコード保存をデフォルトで無効にします

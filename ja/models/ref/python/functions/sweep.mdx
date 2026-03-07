@@ -3,36 +3,38 @@ title: sweep()
 namespace: python_sdk_actions
 python_object_type: function
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+
 
 ### <kbd>function</kbd> `sweep`
 
 ```python
 sweep(
-    sweep: Union[dict, Callable],
-    entity: Optional[str] = None,
-    project: Optional[str] = None,
-    prior_runs: Optional[List[str]] = None
+    sweep: 'dict | Callable',
+    entity: 'str | None' = None,
+    project: 'str | None' = None,
+    prior_runs: 'list[str] | None' = None
 ) → str
 ```
 
-ハイパーパラメーター探索（ Sweeps ）を初期化します。
+ハイパーパラメーター sweep を初期化します。
 
-様々な組み合わせをテストすることで、 機械学習 モデル のコスト関数を最適化する ハイパーパラメーター を探索します。
+さまざまな組み合わせを試すことで、機械学習 モデル のコスト関数を最適化するハイパーパラメーターを探索します。
 
-返される一意の識別子である `sweep_id` をメモしておいてください。後続のステップで、この `sweep_id` を sweep agent に提供します。
+返される一意の識別子 `sweep_id` をメモしておいてください。後の手順で、この `sweep_id` を sweep エージェントに渡します。
 
-Sweep の定義方法については、 [Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) を参照してください。
+sweep の定義方法については、[Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) を参照してください。
 
-**Args:**
+**引数:**
 
- - `sweep`: ハイパーパラメーター探索の設定（または設定ジェネレーター）。呼び出し可能オブジェクト（callable）を指定する場合は、引数を取らず、W&B の sweep configuration 仕様に準拠した 辞書 を返すようにしてください。
- - `entity`: Sweep によって作成される W&B Runs の送信先となる、 ユーザー 名または チーム 名。指定する entity はあらかじめ存在している必要があります。entity を指定しない場合、 Run は通常は ユーザー 名であるデフォルトの entity に送信されます。
- - `project`: Sweep から作成された W&B Runs の送信先となる Projects の名前。プロジェクトが指定されていない場合、 Run は 'Uncategorized' というラベルのプロジェクトに送信されます。
- - `prior_runs`: この Sweep に追加する既存の Runs の Run ID リスト。
+* `sweep`:  ハイパーパラメーター探索の設定 (または設定ジェネレーター) 。呼び出し可能オブジェクトを渡す場合は、その呼び出し可能オブジェクトが引数を取らず、W&amp;B の sweep config 仕様に準拠した辞書を返すことを確認してください。
+* `entity`:  sweep によって作成された W&amp;B runs を送信する先のユーザー名またはチーム名。指定した entity がすでに存在していることを確認してください。entity を指定しない場合、run は通常はあなたのユーザー名であるデフォルトの entity に送信されます。
+* `project`:  sweep によって作成された W&amp;B runs が送信される プロジェクト 名。project が指定されていない場合、run は「Uncategorized」というラベルの付いた プロジェクト に送信されます。
+* `prior_runs`:  この sweep に追加する既存 run の run ID。
 
-**Returns:**
+**戻り値:**
 
- - `str`: Sweep の一意の識別子。
+* `str`:  sweep の一意の識別子。

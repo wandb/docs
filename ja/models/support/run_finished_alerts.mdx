@@ -1,7 +1,7 @@
 ---
-title: ノートブックで「 Run Finished 」アラートは機能しますか？
+title: 「Run Finished」アラートはノートブックで動作しますか？
 ---
 
-いいえ。 **Run Finished** アラート（ User 設定 の **Run Finished** 設定で有効化されます）は Python スクリプトでのみ動作し、 Jupyter Notebook 環境では各セルの実行ごとに通知が飛ばないようオフのままになります。
+いいえ。**Run Finished** アラート（User Settings の **Run Finished** 設定で有効化）は Python スクリプトでのみ動作し、Jupyter Notebook 環境では各セルの実行ごとに通知が送信されるのを避けるため、無効のままです。
 
-ノートブック 環境では、代わりに `run.alert()` を使用してください。
+ノートブック環境では、代わりに `run.alert()` を使用してください。

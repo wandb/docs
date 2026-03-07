@@ -1,12 +1,15 @@
 ---
-title: ストリーミングレスポンスを有効にする
-description: thoughtful mini-thought-thought止 W&B Inference でストリーミング出力を使用する方法
+title: "ストリーミング応答を有効にする"
+description: W&B Inference でストリーミング出力を使用する方法
 ---
 
-Models は応答の生成に時間がかかる場合があります。
-`stream` オプションを true に設定すると、応答をチャンクのストリームとして受け取ることができ、応答全体が生成されるのを待つのではなく、結果を段階的に表示できるようになります。
+モデルが応答を生成するのに時間がかかる場合があります。
+`stream` オプションを true に設定すると、チャンクのストリームとして応答を受け取ることができ、
+応答全体の生成を待つ代わりに、結果を段階的に表示できます。
 
-ストリーミング出力は、すべてのホストされた Models でサポートされています。特に [reasoning models](./reasoning) での使用を推奨します。ストリーミングを使用しないリクエストでは、出力が開始される前に Model が長時間考え込むと、タイムアウトが発生する可能性があるためです。
+ストリーミング出力は、すべてのホスト型モデルでサポートされています。特に [reasoning models](./reasoning) での
+利用を推奨します。非ストリーミングのリクエストでは、出力が開始される前にモデルの思考に時間がかかると
+タイムアウトする可能性があります。
 
 <Tabs>
   <Tab title="Python">
@@ -15,7 +18,7 @@ Models は応答の生成に時間がかかる場合があります。
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # https://wandb.ai/settings でAPIキーを作成してください
+        api_key="<your-api-key>",  # https://wandb.ai/settings で API キーを作成
     )
 
     stream = client.chat.completions.create(

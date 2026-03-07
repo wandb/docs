@@ -1,10 +1,10 @@
 ---
-title: Sweeps 에서 커스텀 CLI 코맨드를 어떻게 사용하나요?
+title: 스윕에서 커스텀 CLI 명령을 어떻게 사용하나요?
 ---
 
-트레이닝 설정이 커맨드라인 인수를 전달하는 경우, 커스텀 CLI 코맨드와 함께 W&B Sweeps 를 사용할 수 있습니다.
+트레이닝 설정이 명령줄 인자를 받도록 되어 있다면, W&amp;B Sweeps를 커스텀 CLI 명령과 함께 사용할 수 있습니다.
 
-아래 예시의 코드조각은 사용자가 `train.py`라는 이름의 Python 스크립트를 트레이닝하며 스크립트가 파싱할 값들을 제공하는 bash 터미널을 보여줍니다:
+아래 예시에서 코드 스니펫은 bash 터미널에서 `train.py`라는 Python 스크립트를 사용해 트레이닝을 수행하면서, 스크립트가 파싱할 값을 인자로 전달하는 모습을 보여줍니다:
 
 ```bash
 /usr/bin/env python train.py -b \
@@ -13,7 +13,7 @@ title: Sweeps 에서 커스텀 CLI 코맨드를 어떻게 사용하나요?
     --lr 0.00001
 ```
 
-커스텀 코맨드를 구현하려면 YAML 파일의 `command` 키를 수정하십시오. 이전 예시를 바탕으로 한 구성은 다음과 같습니다:
+사용자 정의 명령을 구현하려면 YAML 파일에서 `command` 키를 수정합니다. 이전 예시를 기준으로 하면 설정은 다음과 같습니다.
 
 ```yaml
 program:
@@ -33,26 +33,25 @@ command:
   - ${args}
 ```
 
-`${args}` 키는 sweep 구성의 모든 파라미터로 확장되며, `argparse` 형식에 맞춰 `--param1 value1 --param2 value2` 형태로 포맷팅됩니다.
+`${args}` 키는 스윕 설정에 포함된 모든 파라미터를 `argparse`용 형식인 `--param1 value1 --param2 value2`로 확장합니다.
 
-`argparse` 이외의 추가 인수를 처리하려면 다음과 같이 구현하십시오:
+`argparse`로 전달되지 않는 추가 인수를 사용하려면 다음을 구현하세요:
 
 ```python
-# parser 설정
 parser = argparse.ArgumentParser()
 args, unknown = parser.parse_known_args()
 ```
 
 <Note>
-환경에 따라 `python`이 Python 2를 가리킬 수 있습니다. Python 3가 호출되도록 보장하려면 코맨드 설정에서 `python3`를 사용하십시오:
+  환경에 따라 `python`이 Python 2를 가리킬 수 있습니다. 반드시 Python 3가 실행되도록 하려면 명령 설정에서 `python3`를 사용하세요:
 
-```yaml
-program:
-  script.py
-command:
-  - ${env}
-  - python3
-  - ${program}
-  - ${args}
-```
+  ```yaml
+  program:
+    script.py
+  command:
+    - ${env}
+    - python3
+    - ${program}
+    - ${args}
+  ```
 </Note>

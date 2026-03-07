@@ -1,35 +1,40 @@
 ---
-title: 서버리스 RL
-description: reinforcement learning 을 사용하여 모델 을 보다 효율적으로 post-train 하는 방법에 대해 알아보세요
+title: Serverless RL
+description: 강화 학습을 사용해 모델을 더 효율적으로 사후 트레이닝하는 방법을 알아보세요
 ---
 
-현재 퍼블릭 프리뷰로 제공되는 Serverless RL은 개발자가 LLM을 사후 트레이닝(post-train)하여 새로운 행동을 학습시키고, 멀티 턴 에이전트 태스크를 수행할 때의 신뢰성, 속도 및 비용을 개선할 수 있도록 돕습니다. W&B는 사용자 환경 설정의 유연성을 완벽하게 보장하면서 트레이닝 인프라([CoreWeave 기반](https://docs.coreweave.com/docs/platform))를 직접 제공합니다. Serverless RL을 통해 수십 개의 GPU로 탄력적으로 자동 확장되는 관리형 트레이닝 클러스터에 즉시 엑세스할 수 있습니다. RL 워크플로우를 추론과 트레이닝 단계로 분리하고 이를 여러 작업에 걸쳐 멀티플렉싱함으로써, Serverless RL은 GPU 활용도를 높이고 트레이닝 시간과 비용을 줄여줍니다.
+현재 퍼블릭 프리뷰로 제공되는 Serverless RL은 개발자가 LLM을 사후 트레이닝하여 새로운 동작을 학습시키고, 멀티턴 에이전트형 태스크를 수행할 때의 신뢰성, 속도, 비용을 개선할 수 있도록 돕습니다. W&amp;B가 [CoreWeave](https://docs.coreweave.com/docs/platform) 위의 트레이닝 인프라를 대신 프로비저닝해 주면서도, 사용자의 환경 설정에는 완전한 유연성을 제공합니다. Serverless RL은 탄력적으로 오토스케일링되는 관리형 트레이닝 클러스터에 즉시 액세스할 수 있게 해 주며, 이를 통해 수십 개의 GPU를 활용할 수 있습니다. RL 워크플로를 추론 단계와 트레이닝 단계로 분리한 뒤 이를 여러 잡에 걸쳐 멀티플렉싱함으로써, Serverless RL은 GPU 활용도를 높이고 트레이닝 시간과 비용을 절감합니다.
 
-Serverless RL은 다음과 같은 태스크에 이상적입니다:
-* 음성 에이전트
-* 심층 연구(research) 어시스턴트
-* 온프레미스(on-prem) 모델
-* 콘텐츠 마케팅 분석(analysis) 에이전트
+Serverless RL은 다음과 같은 작업에 특히 적합합니다.
 
-Serverless RL은 LoRA(low-rank adapters)를 트레이닝하여 에이전트의 특정 태스크에 맞춰 모델을 전문화합니다. 이는 실무 경험을 통해 기존 모델의 능력을 확장합니다. 트레이닝된 LoRA는 W&B 계정의 Artifacts 에 자동으로 저장되며, 로컬이나 백업을 위한 제3의 장소에 저장할 수 있습니다. Serverless RL을 통해 트레이닝한 모델은 W&B Inference에 자동으로 호스팅됩니다.
+* 음성 기반 에이전트
+* 고급 리서치 어시스턴트
+* 온프레미스 모델
+* 콘텐츠 마케팅 분석 에이전트
 
-시작하려면 ART [퀵스타트](https://art.openpipe.ai/getting-started/quick-start) 또는 [Google Colab 노트북](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb)을 참조하세요.
+Serverless RL은 저랭크 어댑터(LoRA)를 트레이닝하여 에이전트의 특정 태스크에 모델을 특화합니다. 이는 실제 작업 경험을 통해 원래 모델의 기능을 확장하는 방식입니다. 트레이닝한 LoRA는 사용자의 W&amp;B 계정에 아티팩트로 자동 저장되며, 로컬이나 타사 스토리지에 백업할 수도 있습니다. Serverless RL을 통해 트레이닝한 모델은 W&amp;B Inference에서 자동으로 호스팅됩니다.
 
-## 왜 Serverless RL인가요?
+시작하려면 ART [퀵스타트](https://art.openpipe.ai/getting-started/quick-start) 또는 [Google Colab 노트북](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb)을 참고하세요.
 
-강화학습(RL)은 직접 소유하거나 대여한 GPU를 포함하여 다양한 트레이닝 설정에서 사용할 수 있는 강력한 트레이닝 기법 모음입니다. Serverless RL은 RL 사후 트레이닝에서 다음과 같은 장점을 제공합니다:
+<div id="why-serverless-rl">
+  ## 왜 Serverless RL인가?
+</div>
 
-* **트레이닝 비용 절감**: 여러 사용자 간에 공유 인프라를 멀티플렉싱하고, 각 작업에 대한 설정 프로세스를 생략하며, 트레이닝을 하지 않을 때는 GPU 비용을 0으로 줄임으로써 Serverless RL은 트레이닝 비용을 획기적으로 낮춥니다.
-* **더 빠른 트레이닝 시간**: 추론 요청을 여러 GPU에 분산하고 필요할 때 트레이닝 인프라를 즉시 프로비저닝함으로써, Serverless RL은 트레이닝 작업 속도를 높이고 더 빠른 반복(iterate)을 가능하게 합니다.
-* **자동 배포**: Serverless RL은 트레이닝된 모든 체크포인트를 자동으로 배포하므로 호스팅 인프라를 수동으로 설정할 필요가 없습니다. 트레이닝된 모델은 로컬, 스테이징 또는 프로덕션 환경에서 즉시 엑세스하고 테스트할 수 있습니다.
+강화학습(RL)은 직접 보유하거나 임대한 GPU를 포함해, 다양한 트레이닝 환경에서 활용할 수 있는 강력한 트레이닝 기법들의 집합입니다. Serverless RL은 RL 사후 트레이닝(post-training) 단계에서 다음과 같은 이점을 제공합니다:
 
-## Serverless RL의 W&B 서비스 활용 방식
+* **더 낮은 트레이닝 비용**: 여러 사용자가 인프라를 공유해 멀티플렉싱하고, 각 작업마다 별도의 설정 과정을 생략하며, 트레이닝을 수행하지 않을 때 GPU 비용을 0까지 줄임으로써, Serverless RL은 트레이닝 비용을 크게 절감합니다.
+* **더 짧은 트레이닝 시간**: 추론 요청을 여러 GPU에 분산하고, 필요할 때마다 즉시 트레이닝 인프라를 프로비저닝함으로써, Serverless RL은 트레이닝 작업을 가속하고 더 빠르게 실험을 반복할 수 있게 해줍니다.
+* **자동 배포**: Serverless RL은 트레이닝한 모든 체크포인트를 자동으로 배포하므로, 호스팅 인프라를 수동으로 구축할 필요가 없습니다. 트레이닝된 모델은 로컬, 스테이징, 프로덕션 환경에서 즉시 사용하고 테스트할 수 있습니다.
 
-Serverless RL은 운영을 위해 다음과 같은 W&B 구성 요소들을 조합하여 사용합니다:
+<div id="how-serverless-rl-uses-wb-services">
+  ## Serverless RL이 W&amp;B 서비스를 사용하는 방법
+</div>
 
-* [Inference](/inference): 모델 실행
-* [Models](/models): LoRA 어댑터 트레이닝 중 성능 메트릭(metrics) 추적
-* [Artifacts](/models/artifacts): LoRA 어댑터 저장 및 버전 관리
-* [Weave (선택 사항)](/weave): 트레이닝 루프의 각 단계에서 모델이 어떻게 응답하는지에 대한 관찰 가능성(observability) 확보
+Serverless RL은 운영을 위해 다음과 같은 W&amp;B 컴포넌트를 조합해 사용합니다:
 
-Serverless RL은 퍼블릭 프리뷰 단계입니다. 프리뷰 기간 동안에는 추론 사용 및 Artifacts 저장에 대해서만 비용이 부과됩니다. W&B는 프리뷰 기간 동안 어댑터 트레이닝에 대해 비용을 청구하지 않습니다.
+* [Inference](/ko/inference): 모델을 실행하기 위해
+* [Models](/ko/models): LoRA 어댑터의 트레이닝 동안 성능 메트릭을 추적하기 위해
+* [Artifacts](/ko/models/artifacts): LoRA 어댑터를 저장하고 버전 관리하기 위해
+* [Weave (optional)](/ko/weave): 트레이닝 루프의 각 단계에서 모델 응답을 관측하기 위해
+
+Serverless RL은 퍼블릭 프리뷰 단계에 있습니다. 프리뷰 기간 동안에는 Inference 사용과 아티팩트 저장에 대해서만 요금이 부과됩니다. W&amp;B는 프리뷰 기간 동안 어댑터 트레이닝에 대해서는 요금을 부과하지 않습니다.

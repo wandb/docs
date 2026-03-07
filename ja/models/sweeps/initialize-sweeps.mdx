@@ -1,51 +1,51 @@
 ---
+description: W&B Sweep を初期化する
 title: Sweep を初期化する
-description: W&B Sweep の初期化
 ---
 
-W&B は、クラウド（標準）または 1 台以上のマシンにわたるローカル（local）で Sweeps を管理するために _Sweep Controller_ を使用します。 Run が完了すると、Sweep Controller は実行すべき新しい Run を記述した新しい指示セットを発行します。これらの指示は、実際に Run を実行する _agent_ によって取得されます。一般的な W&B Sweep では、コントローラは W&B サーバー上に存在します。エージェントは _あなた_ のマシン上に存在します。
+W&amp;B は *Sweep Controller* を使って、クラウド上（standard）やローカル（local）の 1 台以上のマシンにまたがる sweep を管理します。1 つの run が完了すると、Sweep Controller は次に実行する新しい run を記述した新しい指示セットを発行します。これらの指示は、実際に run を実行する *agents* によって取得されます。一般的な W&amp;B Sweep では、controller は W&amp;B サーバー上で動作し、agent は *あなたの* マシン上で動作します。
 
-以下のコードスニペットは、CLI および Jupyter Notebook または Python スクリプト内で Sweep を初期化する方法を示しています。
+次のコードスニペットは、CLI および Jupyter Notebook や Python スクリプト内で sweep を初期化する方法を示します。
 
 <Warning>
-1. Sweep を初期化する前に、YAML ファイルまたはスクリプト内のネストされた Python 辞書オブジェクトのいずれかで sweep configuration が定義されていることを確認してください。詳細については、 [sweep configuration の定義](/models/sweeps/define-sweep-configuration/) を参照してください。
-2. W&B Sweep と W&B Run は両方とも同じ Project 内にある必要があります。したがって、W&B を初期化する際に指定する名前（ [`wandb.init()`](/models/ref/python/functions/init) ）は、W&B Sweep を初期化する際に指定する Project の名前（ [`wandb.sweep()`](/models/ref/python/functions/sweep) ）と一致している必要があります。
+  1. sweep を初期化する前に、YAML ファイル、またはスクリプト内のネストされた Python 辞書オブジェクトのいずれかで sweep の設定が定義されていることを確認してください。詳細は [Define sweep configuration](/ja/models/sweeps/define-sweep-configuration/) を参照してください。
+  2. W&amp;B Sweep と W&amp;B Run は同じプロジェクト内に存在する必要があります。そのため、W&amp;B を初期化するときに指定する名前（[`wandb.init()`](/ja/models/ref/python/functions/init)）は、W&amp;B Sweep を初期化するときに指定するプロジェクト名（[`wandb.sweep()`](/ja/models/ref/python/functions/sweep)）と一致していなければなりません。
 </Warning>
 
-
 <Tabs>
-<Tab title="Python script or notebook">
-W&B SDK を使用して Sweep を初期化します。 `sweep` パラメータに sweep configuration の辞書を渡します。オプションで、W&B Run の出力を保存したい Project の名前を `project` パラメータに指定します。 Project が指定されていない場合、 Run は「Uncategorized」プロジェクトに配置されます。
+  <Tab title="Python スクリプトまたはノートブック">
+    W&amp;B SDK を使用して sweep を初期化します。sweep の設定辞書を `sweep` パラメーターに渡します。オプションで、W&amp;B Run の出力を保存したいプロジェクトを `project` パラメーターで指定します。プロジェクトが指定されていない場合、run は「Uncategorized」プロジェクトに配置されます。
 
-```python
-import wandb
+    ```python
+    import wandb
 
-# sweep configuration の例
-sweep_configuration = {
-    "method": "random",
-    "name": "sweep",
-    "metric": {"goal": "maximize", "name": "val_acc"},
-    "parameters": {
-        "batch_size": {"values": [16, 32, 64]},
-        "epochs": {"values": [5, 10, 15]},
-        "lr": {"max": 0.1, "min": 0.0001},
-    },
-}
+    # sweep 設定の例
+    sweep_configuration = {
+        "method": "random",
+        "name": "sweep",
+        "metric": {"goal": "maximize", "name": "val_acc"},
+        "parameters": {
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "lr": {"max": 0.1, "min": 0.0001},
+        },
+    }
 
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
-```
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project="project-name")
+    ```
 
-[`wandb.sweep()`](/models/ref/python/functions/sweep) 関数は sweep ID を返します。 sweep ID には Entity 名と Project 名が含まれます。 sweep ID をメモしておいてください。
-</Tab>
-<Tab title="CLI">
-W&B CLI を使用して Sweep を初期化します。設定ファイルの名前を指定します。オプションで、 `--project` フラグに Project の名前を指定します。 Project が指定されていない場合、W&B Run は「Uncategorized」プロジェクトに配置されます。
+    [`wandb.sweep()`](/ja/models/ref/python/functions/sweep) 関数は sweep ID を返します。sweep ID にはエンティティ名とプロジェクト名が含まれます。sweep ID を控えておいてください。
+  </Tab>
 
-[`wandb sweep`](/models/ref/cli/wandb-sweep) コマンドを使用して Sweep を初期化します。以下のコード例では、 `sweeps_demo` プロジェクトに対して Sweep を初期化し、設定には `config.yaml` ファイルを使用しています。
+  <Tab title="CLI">
+    W&amp;B CLI を使用して sweep を初期化します。設定ファイルの名前を指定します。オプションで、`project` フラグにプロジェクト名を指定できます。プロジェクトが指定されていない場合、W&amp;B Run は「Uncategorized」プロジェクトに配置されます。
 
-```bash
-wandb sweep --project sweeps_demo config.yaml
-```
+    [`wandb sweep`](/ja/models/ref/cli/wandb-sweep) コマンドを使用して sweep を初期化します。次のコード例は、`sweeps_demo` プロジェクトに対して sweep を初期化し、設定には `config.yaml` ファイルを使用します。
 
-このコマンドは sweep ID を出力します。 sweep ID には Entity 名と Project 名が含まれます。 sweep ID をメモしておいてください。
-</Tab>
+    ```bash
+    wandb sweep --project sweeps_demo config.yaml
+    ```
+
+    このコマンドは sweep ID を出力します。sweep ID にはエンティティ名とプロジェクト名が含まれます。sweep ID を控えておいてください。
+  </Tab>
 </Tabs>

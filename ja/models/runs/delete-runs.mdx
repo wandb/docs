@@ -1,50 +1,52 @@
 ---
-title: Run の削除
-description: W&B App を使用して、 W&B プロジェクトから Runs を削除する方法について説明します。
+title: run を削除する
+description: W&B App を使用して、W&B プロジェクトから run を削除する方法について説明します。
 ---
 
-W&B App を使用して、 Projects から 1 つ以上の Runs を削除します。
+W&B App を使用して、プロジェクトから 1 つ以上の run を削除できます。
 
-1. 削除したい Runs が含まれる Project に移動します。
+1. 削除したい run を含むプロジェクトを開きます。
 2. **Runs** タブを選択します。
-3. 削除したい Runs の隣にあるチェックボックスを選択します。
-4. テーブルの上にある **Delete** ボタン（ゴミ箱アイコン）を選択します。
-5. 表示されるドロワーから **Delete** を選択します。
+3. 削除したい run の横にあるチェックボックスを選択します。
+4. テーブル上部の **Delete** ボタン（ゴミ箱アイコン）を選択します。
+5. 表示されるドロワーで **Delete** を選択します。
 
 <Note>
-Run ID は、 Run を削除した後でも再利用することはできません。再利用しようとすると、その Run はエラーで失敗します。
+run ID は、run を削除した後でも再利用できません。再利用しようとすると、その run はエラーで失敗します。
 </Note>
 
 <Note>
-大量の Runs を含む Projects の場合、検索バーを使用して Regex（正規表現）で削除対象の Runs を絞り込むか、フィルターボタンを使用してステータス、タグ、その他のプロパティに基づいて Runs をフィルタリングできます。
+多くの run を含むプロジェクトでは、検索バーを使用して正規表現 (Regex) で削除したい run をフィルタリングするか、フィルター ボタンを使用してステータス、タグ、その他のプロパティに基づいて run をフィルタリングできます。
 </Note>
 
-### Run 削除のフローチャート
+<div id="run-deletion-flowchart">
+  ### run 削除フローチャート
+</div>
 
-以下の図は、関連する Artifacts や モデルレジストリ のリンクの処理を含む、 Run 削除の完全な プロセス を示しています。
+次の図では、関連する Artifacts および Registry リンクの処理も含めた run 削除プロセス全体を示しています。
 
 ```mermaid
 graph TB
-    Start([ユーザーが<br/>Run の削除を開始]) --> RunSelect[削除する Runs<br/>を選択]
+    Start([User Initiates<br/>Run Deletion]) --> RunSelect[Select Runs<br/>to Delete]
     
-    RunSelect --> DeletePrompt{関連する Artifacts<br/>も削除しますか？}
+    RunSelect --> DeletePrompt{Delete Associated<br/>Artifacts?}
     
-    DeletePrompt -->|No| DeleteRunOnly[Run のみ削除<br/><br/>- Run のメタデータを削除<br/>- Artifacts は保持される<br/>- 引き続き Artifacts にアクセス可能]
+    DeletePrompt -->|No| DeleteRunOnly[Delete Run Only<br/><br/>- Run metadata removed<br/>- Artifacts remain available<br/>- Can still access artifacts]
     
-    DeletePrompt -->|Yes| CheckArtifacts[関連する Artifacts<br/>を確認]
+    DeletePrompt -->|Yes| CheckArtifacts[Check for<br/>Associated Artifacts]
     
-    CheckArtifacts --> HasRegistry{Artifacts が<br/>モデルレジストリ にリンクされていますか？}
+    CheckArtifacts --> HasRegistry{Artifacts Linked to<br/>Model Registry?}
     
-    HasRegistry -->|Yes| RegistryWarning[⚠️ 警告<br/><br/>レジストリ内のモデルが削除されます<br/>プロダクション環境のエイリアスに影響します]
+    HasRegistry -->|Yes| RegistryWarning[⚠️ Warning<br/><br/>Registry models will be deleted<br/>Production aliases affected]
     HasRegistry -->|No| DirectDelete
     
-    RegistryWarning --> ConfirmRegistry{レジストリモデルの<br/>削除を確定しますか？}
+    RegistryWarning --> ConfirmRegistry{Confirm Registry<br/>Model Deletion?}
     
     ConfirmRegistry -->|No| DeleteRunOnly
-    ConfirmRegistry -->|Yes| DirectDelete[Run と Artifacts を削除<br/><br/>- Run のメタデータを削除<br/>- Artifacts は完全に削除<br/>- レジストリのリンクを削除<br/>- 復元不可]
+    ConfirmRegistry -->|Yes| DirectDelete[Delete Run + Artifacts<br/><br/>- Run metadata removed<br/>- Artifacts permanently deleted<br/>- Registry links removed<br/>- Cannot be recovered]
     
-    DeleteRunOnly --> PartialEnd([Run 削除完了<br/>Artifacts は維持])
-    DirectDelete --> FullEnd([Run と Artifacts を<br/>完全に削除完了])
+    DeleteRunOnly --> PartialEnd([Run Deleted<br/>Artifacts Preserved])
+    DirectDelete --> FullEnd([Run + Artifacts<br/>Permanently Deleted])
     
     style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
     style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
@@ -56,5 +58,5 @@ graph TB
 ```
 
 <Warning>
-Run を削除し、同時に関連する Artifacts の削除を選択した場合、それらの Artifacts は完全に削除され、後で Run を復元したとしても元に戻すことはできません。これには、 モデルレジストリ にリンクされている Artifacts も含まれます。
+  run を削除する際に、関連する Artifacts も削除するオプションを選択すると、それらの Artifacts は完全に削除され、後から run を復元しても復元することはできません。これには Registry にリンクされている Artifacts も含まれます。
 </Warning>

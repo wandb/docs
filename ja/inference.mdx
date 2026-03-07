@@ -1,32 +1,33 @@
 ---
-title: W&B Inference
-description: W&B Weave と OpenAI 互換 API を通じて、オープンソースの基盤 モデル に アクセス する
+title: "W&B Inference"
+description: W&B Weave と OpenAI 互換 API を通じてオープンソース基盤モデルにアクセスする
 mode: wide
 ---
 
-W&B Inference を使用すると、W&B Weave および OpenAI 互換の API を通じて、主要なオープンソースの基盤 Models にアクセスできます。以下のことが可能です。
+W&amp;B Inference を使うと、W&amp;B Weave と OpenAI 互換 API を通じて、主要なオープンソース基盤モデルにアクセスできます。次のことが可能です:
 
-- ホスティングプロバイダーへの登録や自前での Model ホスティングを行うことなく、AI アプリケーションやエージェントを構築できます
-- [W&B Weave Playground](/weave/guides/tools/playground) で [サポートされている Models](/inference/models) を試すことができます
+* ホスティングプロバイダーへの登録を行ったりモデルを自前でホスティングしたりすることなく、AI アプリケーションやエージェントを構築する
+* [サポート対象のモデル](/ja/inference/models) を [W&amp;B Weave Playground](/ja/weave/guides/tools/playground) で試す
 
-Weave を使用すると、W&B Inference を活用したアプリケーションのトレース、評価、モニタリング、改善を行うことができます。
+Weave を使うと、W&amp;B Inference を利用したアプリケーションをトレース、評価、モニタリングし、改善できます。
 
+<div id="quickstart">
+  ## クイックスタート
+</div>
 
-## クイックスタート
-
-Python を使用した簡単な例を以下に示します。
+以下は Python を使った簡単な例です。
 
 ```python
 import openai
 
 client = openai.OpenAI(
-    # カスタム base URL は W&B Inference を指します
+    # カスタムベース URL は W&B Inference を指します
     base_url='https://api.inference.wandb.ai/v1',
 
-    # https://wandb.ai/settings で APIキー を作成してください
+    # https://wandb.ai/settings で API キーを作成してください
     api_key="<your-api-key>",
 
-    # オプション: 使用状況を追跡するための Team と Project
+    # オプション: 使用状況追跡のための Team とプロジェクト
     project="<your-team>/<your-project>",
 )
 
@@ -41,16 +42,19 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-## 次のステップ
+<div id="next-steps">
+  ## 次のステップ
+</div>
 
-1. [利用可能な Models](/inference/models) と [使用方法および制限](/inference/usage-limits/) を確認する
-2. [事前準備](/inference/prerequisites/) ガイドに従ってアカウントを設定する
-3. [API](/inference/api-reference/) または [UI](/inference/ui-guide/) を通じてサービスを利用する
-4. [使用例](/inference/examples/) を試す
+1. [利用可能なモデル](/ja/inference/models) と [利用方法および制限事項](/ja/inference/usage-limits/) を確認する
+2. [事前準備](/ja/inference/prerequisites/) に従ってアカウントをセットアップする
+3. [API](/ja/inference/api-reference/) または [UI](/ja/inference/ui-guide/) を通じてサービスを利用する
+4. [利用例](/ja/inference/examples/) を試す
 
-## 使用詳細
+<div id="usage-details">
+  ## 利用の詳細
+</div>
 
 <Info>
-
-料金、使用制限、クレジットに関する情報は、[使用方法および制限](/inference/usage-limits/) を参照してください。
+  料金、利用制限、およびクレジットに関する詳細については、[利用情報と制限](/ja/inference/usage-limits/) を参照してください。
 </Info>

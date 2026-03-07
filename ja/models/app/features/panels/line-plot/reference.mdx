@@ -1,159 +1,223 @@
 ---
-title: Line plot リファレンス
+title: 折れ線グラフのリファレンス
 ---
 
-このページでは、折れ線グラフの設定に関する詳細な情報を説明します。折れ線グラフの使い方の詳細については、[折れ線グラフの概要](/models/app/features/panels/line-plot) を参照してください。
+import LinePlotCaptureGroups from "/snippets/ja/_includes/line-plot-capture-groups.mdx";
 
-## データ設定
+このページでは、折れ線グラフの設定について包括的な詳細を説明します。折れ線グラフの扱い方の詳細については、[Line plots overview](/ja/models/app/features/panels/line-plot) を参照してください。
 
-### X軸
+<div id="data-settings">
+  ## データの設定
+</div>
+
+<div id="x-axis">
+  ### X軸
+</div>
 
 <Frame>
-    <img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis"  />
+  <img src="/images/app_ui/reference_x_axis.png" alt="Selecting X-Axis" />
 </Frame>
 
-X軸の範囲を、 `wandb.Run.log()` で ログ した任意の整数または浮動小数点数の 値 に設定します。
+x 軸の範囲には、`wandb.Run.log()` でログした任意の整数または浮動小数点数を設定できます。
 
-利用可能な時間ベースのX軸オプション：
-* **Step**: `wandb.Run.log()` が呼び出されるたびにインクリメントされます。 モデル から ログ されたトレーニングステップ数を反映します。（デフォルト）
-* **Relative Time (Wall)**: プロセス が開始されてからの実時間。 Run を開始して1日中断し、その後再開して ログ した場合、そのポイントは24時間後に表示されます。
-* **Relative Time (Process)**: 実行中の プロセス 内の時間。 Run を開始して10秒間実行し、1日中断してから再開した場合、そのポイントは10秒後に表示されます。
-* **Wall Time**: グラフ上の最初の Run が開始されてからの経過時間（分）。
-* **X range**: デフォルトではX軸の最小値から最大値までです。最小値と最大値をカスタマイズできます。
+利用可能な時間ベースの x 軸オプションは次のとおりです。
 
-### Y軸
+* **Step**: `wandb.Run.log()` が呼び出されるたびに 1 ずつ増加します。モデルからログされたトレーニングステップ数を表します。 (デフォルト) 
+* **Relative Time (Wall)**: プロセス開始からの経過時計時間です。run を開始してから 1 日間一時停止し、その後再開してログを記録した場合、そのポイントは 24 時間の位置に表示されます。
+* **Relative Time (Process)**: 実行中のプロセス内での経過時間です。run を開始して 10 秒間実行し、その後 1 日間一時停止してから再開した場合、そのポイントは 10 秒の位置に表示されます。
+* **Wall Time**: グラフ上で最初の run が開始されてから経過した時間 (分) です。
+* **X range**: 既定では、x 軸の最小値から最大値までの範囲です。最小値と最大値をカスタマイズできます。
 
-Y軸の変数を、 `wandb.Run.log()` で ログ した任意の整数または浮動小数点数の 値 に設定します。単一の 値 、 値 の配列、または 値 のヒストグラムを指定します。1つの変数に対して1500ポイント以上 ログ した場合、W&Bは1500ポイントにダウンサンプリングします。
+<div id="y-axis">
+  ### Y-axis
+</div>
+
+y-axis の変数として、`wandb.Run.log()` でログした任意の整数または浮動小数点数を設定します。単一の値、値の配列、または値のヒストグラムを指定できます。ある変数について 1500 個を超えるポイントをログした場合、W&amp;B はサンプル数を 1500 ポイントに間引きます。
 
 <Note>
-Runs テーブルの Run の色を変更することで、Y軸の線の色をカスタマイズできます。
+  Runs table で run の色を変更すると、y-axis の線の色をカスタマイズできます。
 </Note>
 
-利用可能なY軸オプション：
-* **Y range**: デフォルトは、 メトリクス の最小正数値（0を含む）から最大値までです。最小値と最大値をカスタマイズできます。
+利用可能な y-axis のオプション:
 
-### ポイント集計メソッド
+* **Y range**: デフォルトでは、メトリクスの最小の正の値 (0 を含む) からメトリクスの最大値までです。最小値と最大値はカスタマイズできます。
 
-データポイントを表示するためのサンプリングモードを選択します：
-* **Random sampling**（デフォルト）: [Random sampling](/models/app/features/panels/line-plot/sampling/#random-sampling) を参照してください。
-* **Full fidelity**: [Full fidelity](/models/app/features/panels/line-plot/sampling/#full-fidelity) を参照してください。
+<div id="point-aggregation-method">
+  ### 点の集約方法
+</div>
 
-### スムージング
+データポイントの表示に使用するサンプリングモードを選択します：
 
-[スムージング係数](/models/support/formula_smoothing_algorithm/) を0から1の間で設定します。0はスムージングなし、1は最大のスムージングを意味します。
+* **Random sampling** (デフォルト) ：[Random sampling](/ja/models/app/features/panels/line-plot/sampling/#random-sampling) を参照してください。
+* **Full fidelity**：[Full fidelity](/ja/models/app/features/panels/line-plot/sampling/#full-fidelity) を参照してください。
 
-利用可能なスムージング メソッド ：
-* **Time weighted EMA**（デフォルト）: 以前のポイントの重みを指数関数的に減衰させることで、 時系列 データを滑らかにする手法です。
-* **Running average**: 特定のx値の前後にあるウィンドウ内のポイントの平均値でポイントを置き換えます。
-* **Gaussian**: ポイントの重み付き平均を計算します。重みは、スムージング パラメータ として指定された標準偏差を持つガウス分布に対応します。
+<div id="smoothing">
+  ### スムージング
+</div>
+
+[スムージング係数](/ja/models/support/formula_smoothing_algorithm/) を 0 から 1 の間で設定します。0 はスムージングなし、1 は最大スムージングを表します。
+
+利用可能なスムージング手法は次のとおりです。
+
+* **Time weighted EMA** (デフォルト): 時系列データに対して、過去の点の重みを指数関数的に減衰させてスムージングする手法です。
+* **Running average**: ある点を、その点の前後のウィンドウ内にある点の平均値で置き換えます。
+* **Gaussian**: 各点について重み付き平均を計算します。ここで重みは、スムージングパラメーターとして指定された標準偏差を持つガウス分布に従います。
 * **No smoothing**
 
-詳細については、 [折れ線グラフのスムージング](/models/app/features/panels/line-plot/smoothing) を参照してください。
+詳しくは、[Smooth line plots](/ja/models/app/features/panels/line-plot/smoothing) を参照してください。
 
-### 外れ値を無視
+<div id="ignore-outliers">
+  ### 外れ値を無視する
+</div>
 
-デフォルトのグラフの最小・最大スケールから外れ値を除外するようにグラフを再スケーリングします。この設定の影響は、グラフのサンプリングモードによって異なります：
+プロットのスケールを再調整して、デフォルトの最小値および最大値の範囲から外れ値を除外します。この設定の効果は、プロットのサンプリングモードによって異なります。
 
-- **Random sampling モード**: 外れ値を無視すると、グラフから下位5%と上位95%のポイントが除外されます。
-- **Full fidelity モード**: 外れ値を無視すると、すべてのポイントが表示されますが、各 バケット の最後の 値 に凝縮され、下位5%と上位95%の領域が網掛け表示されます。
+* **ランダムサンプリングモード**: 外れ値を無視すると、プロットから下位 5% 未満および上位 95% 超の点が省略されます。
+* **フルフィデリティモード**: 外れ値を無視すると、すべての点は表示されますが、各バケットの最後の値に集約され、下位 5% 未満および上位 95% 超の領域に陰影が付けられます。
 
-### 最大 Runs またはグループ
+<div id="max-runs-or-groups">
+  ### run またはグループ数の上限
+</div>
 
-デフォルトでは、グラフには Run リストまたは Run セット内の最初の10個の Runs またはグループのみが含まれます。表示する Runs やグループを制御するには、ソート順を変更してください。
+デフォルトでは、プロットには run リストまたは run セット内の先頭 10 件の run または run のグループのみが含まれます。どの run やグループを表示するかは、ソート順を変更して制御できます。
 
 <Note>
-Workspace は、 設定 に関わらず、最大1000個の Runs を表示することに制限されています。
+  ワークスペースでは、設定に関係なく、表示できる run の最大数は 1000 件に制限されています。
 </Note>
 
-### チャートタイプ
+<div id="chart-type">
+  ### チャートの種類
+</div>
 
-グラフのスタイルを選択します：
-- **Line plot**
-    <Frame>
-        <img src="/images/app_ui/plot_style_line_plot.png" alt="Line plot style"  />
-    </Frame>
-- **Area plot**
-    <Frame>
-        <img src="/images/app_ui/plot_style_area_plot.png" alt="Area plot style"  />
-    </Frame>
-- **Percentage area plot:**
-    <Frame>
-        <img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage plot style"  />
-    </Frame>
+プロットのスタイルを選択します。
 
-チャートタイプは **Data** タブで 設定 します。[](/models/app/features/panels/line-plot#individual-line-plot) を参照してください。
+* **Line plot**
+  <Frame>
+    <img src="/images/app_ui/plot_style_line_plot.png" alt="Line plot のスタイル" />
+  </Frame>
+* **Area plot**
+  <Frame>
+    <img src="/images/app_ui/plot_style_area_plot.png" alt="Area plot のスタイル" />
+  </Frame>
+* **Percentage area plot:**
+  <Frame>
+    <img src="/images/app_ui/plot_style_percentage_plot.png" alt="Percentage area plot のスタイル" />
+  </Frame>
 
-## グルーピング設定
-グルーピングをオンにしてすべての Runs を集計するか、個別の変数でグループ化します。 Runs テーブルでグルーピングをオンにすると、グループが自動的にグラフに反映されます。
+**Data** タブでチャートの種類を設定します。[](/ja/models/app/features/panels/line-plot#individual-line-plot) を参照してください。
 
-- **Group by**: カラムを選択します。そのカラムで同じ 値 を持つすべての Runs がグループ化されます。
-- **Aggregation**: グラフ上の線の 値 。オプションは、グループの mean (平均)、median (中央値)、min (最小)、max (最大) です。
+<div id="grouping-settings">
+  ## グループ化設定
+</div>
 
-## チャート設定
-タイトルと凡例の表示を 設定 します：
+グループ化をオンにしてすべての run をまとめることも、特定の変数ごとにグループ化することもできます。Runs テーブルでグループ化を有効にすると、そのグループが自動的にグラフへ反映されます。
 
-- **Panel title**: パネル の上部に表示されるタイトル。
-- **X-axis title**: X軸のラベル。
-- **Y-axis title**: Y軸のラベル。
-- **Legend**: 凡例の表示/非表示、および位置を 設定 します。
+* **Group runs**: プロット内で run のグループ化を有効にします。以下のプロットにおけるシェーディングされた範囲を設定するために必要です。
+* **Group by**: 任意の列を 1 つ選択します。その列で同じ値を持つすべての run がまとめてグループ化されます。
+* **Aggregation**: グラフ上の線の値です。グループ内の mean、median、min、max から選択できます。
+* **Range**: フルフィデリティの折れ線プロットのシェーディング領域を設定します。Min/Max、Std Dev、Std Err、または None から選択できます。
 
-## 凡例設定
+<div id="chart-settings">
+  ## グラフ設定
+</div>
 
-凡例をカスタマイズして、 ログ された任意の 設定値 や、作成時間、 Run を作成した User などの Runs の メタデータ を表示できます。
+タイトルと凡例の表示を設定します。
 
-### 凡例テンプレート
+* **パネルタイトル**: パネル上部に表示されるタイトル。
+* **X 軸タイトル**: X 軸のラベル。
+* **Y 軸タイトル**: Y 軸のラベル。
+* **凡例**: 凡例の表示 / 非表示や位置を設定します。
+
+<div id="legend-settings">
+  ## 凡例設定
+</div>
+
+凡例をカスタマイズして、ログされた任意の config 値や、作成時刻、run を作成した ユーザー などの run のメタデータを表示できます。
+
+<div id="legend-template">
+  ### 凡例テンプレート
+</div>
 
 凡例名のテンプレートを定義します。
 
-1. 歯車アイコンをクリックしてグラフ設定を開きます。
-1. **Display preferences** タブに移動します。
-1. **Advanced legend** を展開し、凡例テンプレートを指定します。
-1. **Apply** をクリックします。
+1. 歯車アイコンをクリックしてプロット設定を開きます。
+2. **Display preferences** タブを開きます。
+3. **Advanced legend** を展開し、凡例テンプレートを指定します。
+4. **Apply** をクリックします。
 
-例：
+例:
 
-`${run:displayName} - ${config:dropout}` は、 `royal-sweep - 0.5` のような凡例名を生成します。ここで `royal-sweep` は Run 名、 `0.5` は `dropout` という名前の 設定 パラメータ です。
+`${run:displayName} - ${config:dropout}` と指定すると、`royal-sweep - 0.5` のような凡例名になります。このとき `royal-sweep` は run 名で、`0.5` は `dropout` という名前の config パラメーターです。
 
-### ポイント固有の値
+<div id="point-specific-values">
+  ### ポイントごとの値
+</div>
 
-`[[ ]]` 内に 値 を設定すると、チャートをホバーしたときに十字線にポイント固有の 値 を表示できます。
+チャート上にカーソルを合わせたとき、クロスヘアにポイントごとの値を表示するには、`[[ ]]` 内に値を設定します。
 
-1. 歯車アイコンをクリックしてグラフ設定を開きます。
-1. **Display preferences** タブに移動します。
-1. タブの下部で、1つ以上のグラフの メトリクス に対してポイント固有の 値 を 設定 します。
-1. **Apply** をクリックします。
+1. 歯車アイコンをクリックしてプロットの設定を開きます。
+2. **Display preferences** タブを開きます。
+3. タブの一番下で、プロット内の 1 つ以上のメトリクスについて、ポイントごとの値を設定します。
+4. **Apply** をクリックします。
 
-例： `[[ $x: $y ($original) ]]` は "2: 3 (2.9)" のように表示されます。
+例: `[[ $x: $y ($original) ]]` は「2: 3 (2.9)」のように表示されます。
 
-`[[ ]]` 内でサポートされている 値 :
+`[[ ]]` 内でサポートされている値:
 
-| 値 | 意味 |
-| ------------ | ------------------------------------------ |
-| `${x}` | Xの値 |
-| `${y}` | Yの値（スムージング調整を含む） |
-| `${original}` | スムージング調整を含まないYの値 |
-| `${mean}` | グループ化された Runs の平均 |
-| `${stddev}` | グループ化された Runs の標準偏差 |
-| `${min}` | グループ化された Runs の最小値 |
-| `${max}` | グループ化された Runs の最大値 |
-| `${percent}` | 合計に対する割合（積み上げ面グラフ用） |
+| Value         | Meaning                                      |
+| ------------  | -------------------------------------------- |
+| `${x}`        | X の値                                       |
+| `${y}`        | Y の値 (スムージング調整を含む)             |
+| `${original}` | スムージング調整を含まない Y の値           |
+| `${mean}`     | グループ化された Runs の平均                |
+| `${stddev}`   | グループ化された Runs の標準偏差            |
+| `${min}`      | グループ化された Runs の最小値              |
+| `${max}`      | グループ化された Runs の最大値              |
+| `${percent}`  | 合計に対する割合 (積み上げエリアチャート用)  |
 
-## 式 (Expressions)
+<div id="expressions">
+  ## 式
+</div>
 
-カスタム計算式を追加して、派生 メトリクス を作成します。
+カスタムの計算式を追加して、派生メトリクスを作成します。
 
-### Y軸の式
+<div id="y-axis-expressions">
+  ### Y-axis expressions
+</div>
 
-メトリクス から派生した 値 をプロットします。例えば、 `1-accuracy` やその他の算術式を計算します。現在は単一の メトリクス をプロットする場合にのみ機能します。
+メトリクス に基づく値をプロットします。たとえば、`1-accuracy` やその他の算術式を計算できます。現在は単一のメトリクス をプロットしている場合にのみ動作します。
 
-サポートされている演算子: `+`, `-`, `*`, `/`, `%`, `**` (指数)。
+サポートされている演算子: `+`, `-`, `*`, `/`, `%`, および `**` (べき乗用)。
 
-ログ された メトリクス と、 ハイパーパラメーター などの 設定値 の両方を使用して、カスタムの線を計算できます。
+記録済みのメトリクス と、ハイパーパラメーター などの 設定 値の両方を使って、カスタムラインを計算できます。
 
-### X軸の式
+<div id="x-axis-expressions">
+  ### X 軸の式
+</div>
 
-カスタム式を使用した計算値を用いて、X軸を再スケーリングします。
+カスタム式を使用して、計算された値に基づいて X 軸を再スケールします。
 
-便利な変数:
-* `_step`: デフォルトのX軸の 値 。
-* `${summary:value}`: サマリーの 値 を参照します。
+使用可能な変数:
+
+* `_step`: デフォルトの X 軸の値。
+* `${summary:value}`: summary の値への参照。
+
+<div id="multi-metric-panel-expressions">
+  ### 複数メトリクスパネル式
+</div>
+
+正規表現を使用して、複数のメトリクスをまとめて表示する 1 本の折れ線グラフを作成できます (今後ログされる、一致するメトリクスも含みます) 。詳しい手順は、[折れ線グラフを追加する](/ja/models/app/features/panels/line-plot#multi-metric-line-plot) を参照してください。
+
+例えば、次のように利用できます。
+
+* 各レイヤーのメトリクスごとに個別のパネルを作成する代わりに、1 つのパネルにまとめて表示できます。例えば、`layer_0_loss`、`layer_1_loss`、`layer_2_loss` のように一貫した名前でメトリクスをログしていれば、`layer_\d+_loss` のような正規表現を使って、すべてのレイヤーの loss を 1 つのプロット上に表示できます。
+* 共通の命名パターンを持つすべてのメトリクスにマッチさせます。例えば:
+  * `train_.*` は `train_loss`、`train_accuracy`、`train_f1_score` のような、すべてのトレーニングメトリクスにマッチします
+  * `.*_accuracy` は `train_accuracy`、`val_accuracy`、`test_accuracy` のような、異なるデータセットにまたがる accuracy メトリクスにマッチします
+* オルタネーションを使って、必要なメトリクスだけにマッチさせます。例えば、非キャプチャグループ `(?:layer_0|layer_10)_loss` は、中間のレイヤーを除外し、第 1 レイヤーと第 10 レイヤーの loss のみをマッチさせます。
+
+<div id="capture-groups">
+  #### キャプチャグループ
+</div>
+
+<LinePlotCaptureGroups />

@@ -1,16 +1,19 @@
 ---
-title: チーム
+title: Team クラス
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
 
-## <kbd>class</kbd> `Team`
-W&B Teams を表すクラスです。
 
-このクラスは、 Teams の作成、メンバーの招待、サービスアカウントの管理など、W&B Teams を管理するための メソッド を提供します。チーム属性を処理するために Attrs を継承しています。
+## <kbd>class</kbd> `Team`
+
+W&B のチームを表すクラス。
+
+このクラスは、チームの作成、メンバーの招待、サービスアカウントの管理など、W&B のチームを管理するためのメソッドを提供します。チーム属性を扱うために Attrs を継承しています。
 
 ### <kbd>method</kbd> `Team.__init__`
 
@@ -22,27 +25,18 @@ __init__(
 )
 ```
 
-**Args:**
- 
- - `client` (`wandb.apis.public.Api`): 使用する API インスタンス
- - `name` (str): チームの名前
- - `attrs` (dict): チーム属性のオプション 辞書 
+**引数:**
 
+* `client` (`wandb.apis.public.Api`):  使用する API インスタンス
+* `name` (str):  チーム名
+* `attrs` (dict):  チーム属性を表す省略可能な辞書
 
+**注:**
 
-**Note:**
+> チームの管理には、適切な権限が必要です。
 
-> Teams の管理には適切な権限が必要です。 
+***
 
-
-
-
-
-
-
-
-
----
 
 ### <kbd>classmethod</kbd> `Team.create`
 
@@ -52,41 +46,35 @@ create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
 
 新しいチームを作成します。
 
+**引数:**
+
+* `api`:  (`Api`) 使用する API インスタンス
+* `team`:  (str) チーム名
+* `admin_username`:  (str) チーム管理者ユーザーのユーザー名（任意）。指定しない場合は現在のユーザーが使用されます。
+
+**戻り値:**
+`Team` オブジェクト
+
+***
 
 
-**Args:**
- 
- - `api`: (`Api`) 使用する API インスタンス
- - `team`: (str) チームの名前
- - `admin_username`: (str) チームの管理者 ユーザー のオプションのユーザー名。デフォルトは現在の ユーザー です。
-
-
-
-**Returns:**
- `Team` オブジェクト 
-
----
-
-### <kbd>method</kbd> `Team.create_service_account`
+### <kbd>メソッド</kbd> `Team.create_service_account`
 
 ```python
 create_service_account(description: 'str') → Member | None
 ```
 
-チームのサービスアカウントを作成します。
+チーム用のサービスアカウントを作成します。
 
+**引数:**
 
+* `description`:  (str) このサービスアカウントの説明
 
-**Args:**
- 
- - `description`: (str) このサービスアカウントの説明
+**戻り値:**
+サービスアカウントの `Member` オブジェクト、または失敗時は `None`
 
+***
 
-
-**Returns:**
- サービスアカウントの `Member` オブジェクト 、失敗した場合は None
-
----
 
 ### <kbd>method</kbd> `Team.invite`
 
@@ -94,18 +82,14 @@ create_service_account(description: 'str') → Member | None
 invite(username_or_email: 'str', admin: 'bool' = False) → bool
 ```
 
-ユーザー をチームに招待します。
+チームにユーザーを招待します。
 
+**引数:**
 
+* `username_or_email`:  (str) 招待するユーザーのユーザー名またはメールアドレス。
+* `admin`:  (bool) このユーザーをチーム管理者にするかどうか。既定値は `False`。
 
-**Args:**
- 
- - `username_or_email`: (str) 招待したい ユーザー のユーザー名またはメール アドレス 
- - `admin`: (bool) この ユーザー をチーム管理者に設定するかどうか。デフォルトは `False` です。
+**戻り値:**
+成功時は `True`。ユーザーがすでに招待されているか、存在しなかった場合は `False`。
 
-
-
-**Returns:**
- 成功した場合は `True` 、 ユーザー が既に招待されているか存在しない場合は `False` 
-
----
+***

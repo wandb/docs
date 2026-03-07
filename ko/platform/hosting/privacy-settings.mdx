@@ -1,33 +1,37 @@
 ---
-title: 개인정보 설정 구성하기
+title: 개인정보 보호 설정 구성
 ---
 
-Organization 및 Team 관리자는 각각 Organization 및 팀 범위에서 프라이버시 설정을 구성할 수 있습니다. Organization 범위에서 구성된 경우, Organization 관리자는 해당 Organization 내의 모든 팀에 대해 이러한 설정을 강제 적용합니다.
+조직 관리자와 팀 관리자는 각각 조직 및 팀 수준에서 일련의 개인정보 보호 설정을 구성할 수 있습니다. 조직 수준에서 설정을 구성하면 조직 관리자는 해당 조직의 모든 팀에 대해 그 설정을 강제 적용하게 됩니다.
 
 <Note>
-W&B는 Organization 관리자가 프라이버시 설정을 강제 적용하기 전에, 해당 Organization 내의 모든 팀 관리자와 사용자에게 미리 알릴 것을 권장합니다. 이는 워크플로우에서의 예기치 않은 변경을 방지하기 위함입니다.
+W&B는 조직 관리자에게, 조직 내 모든 팀 관리자와 사용자에게 이를 사전에 알린 뒤에만 개인정보 보호 설정을 강제 적용할 것을 권장합니다. 이는 워크플로에 예기치 않은 변경이 발생하는 것을 방지하기 위한 것입니다.
 </Note>
 
-## 팀 프라이버시 설정 구성하기
+<div id="configure-privacy-settings-for-a-team">
+  ## 팀 프라이버시 설정 구성하기
+</div>
 
-팀 관리자는 팀 **Settings** 탭의 `Privacy` 섹션에서 소속 팀에 대한 프라이버시 설정을 구성할 수 있습니다. 각 설정은 Organization 범위에서 강제 적용되지 않은 경우에 한해 구성 가능합니다:
+팀 관리자는 팀 **설정(Settings)** 탭의 `Privacy` 섹션에서 해당 팀의 프라이버시 설정을 구성할 수 있습니다. 각 설정은 조직 수준에서 강제로 적용되지 않은 경우에만 개별적으로 구성할 수 있습니다:
 
-* **Hide this team from all non-members** - 팀 멤버가 아닌 사용자에게 팀이 노출되지 않도록 합니다.
-* **Make all future team projects private** - 팀에서 생성되는 모든 새로운 Projects가 비공개로 설정되도록 합니다 (공개 공유 불가).
-* **Allow any team member to invite other members** - 관리자뿐만 아니라 모든 팀 멤버가 새로운 멤버를 초대할 수 있도록 허용합니다.
-* **Turn off public sharing for reports in private projects** - 비공개 Projects 내 Reports의 공개 공유를 비활성화하고 기존 매직 링크를 무효화합니다.
-* **Allow users with matching organization email domain to join this team** - 동일한 이메일 도메인을 가진 사용자가 자동으로 팀에 합류하는 것을 허용합니다.
+* **이 팀을 모든 비구성원에게 숨기기** - 팀에 속하지 않은 사용자에게 팀이 보이지 않도록 합니다
+* **향후 생성되는 모든 팀 프로젝트를 비공개로 설정** - 팀에서 새로 생성되는 모든 프로젝트를 비공개로 유지합니다(공개 공유 불가)
+* **모든 팀 구성원이 다른 구성원을 초대할 수 있도록 허용** - 관리자뿐만 아니라 모든 팀 구성원이 새 구성원을 초대할 수 있도록 합니다
+* **비공개 프로젝트의 리포트에 대해 공개 공유 비활성화** - 리포트의 공개 공유를 끄고 기존 매직 링크를 비활성화합니다
+* **조직 이메일 도메인이 일치하는 사용자가 이 팀에 참여할 수 있도록 허용** - 동일한 이메일 도메인을 가진 사용자가 이 팀에 자동으로 참여할 수 있도록 허용합니다
   <Note>이 설정은 [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) 배포에서만 사용할 수 있습니다.</Note>
-* **Enable code saving by default** - 팀 내의 모든 Runs에 대해 코드를 자동으로 저장하도록 설정합니다.
+* **기본적으로 코드 저장 활성화** - 팀의 모든 run에 대해 코드를 자동으로 저장합니다
 
-## 모든 팀에 대한 프라이버시 설정 강제 적용하기
+<div id="enforce-privacy-settings-for-all-teams">
+  ## 모든 팀에 대해 개인정보 보호 설정 적용
+</div>
 
-Organization 관리자는 계정 또는 Organization 대시보드의 **Settings** 탭 내 `Privacy` 섹션에서 Organization 내 모든 팀에 대해 프라이버시 설정을 강제 적용할 수 있습니다. Organization 관리자가 설정을 강제 적용하면, 팀 관리자는 각 팀 내에서 해당 설정을 변경할 수 없습니다.
+조직 관리자는 계정 또는 조직 대시보드의 **Settings** 탭에 있는 `Privacy` 섹션에서 조직 내 모든 팀에 대해 개인정보 보호 설정을 강제할 수 있습니다. 조직 관리자가 특정 설정을 강제하면 팀 관리자는 해당 팀에서 해당 설정을 변경할 수 없습니다.
 
-* **Enforce team visibility restrictions** - Organization 전체에서 멤버가 아닌 사용자에게 모든 팀을 숨깁니다.
-* **Enforce privacy for future projects** - 모든 팀의 모든 새로운 Projects가 비공개 또는 [restricted](./iam/access-management/restricted-projects) 상태가 되도록 요구합니다.
-* **Enforce invitation control** - 관리자가 아닌 멤버가 팀에 멤버를 초대하는 것을 방지합니다.
-* **Enforce report sharing control** - 비공개 Projects 내 Reports의 공개 공유를 끄고 기존 매직 링크를 무효화합니다.
-* **Enforce team self-joining restrictions** - Organization 이메일 도메인이 일치하는 사용자가 자동으로 팀에 합류하는 것을 제한합니다.
+* **팀 가시성 제한 강제** - 조직 전체에서 구성원이 아닌 사용자에게 모든 팀을 숨깁니다
+* **향후 프로젝트에 대한 개인정보 보호 강제** - 모든 팀의 새 프로젝트를 비공개 또는 [제한됨](./iam/access-management/restricted-projects) 상태로 생성하도록 요구합니다
+* **초대 제어 강제** - 관리자 권한이 없는 사용자가 어떤 팀에도 구성원을 초대하지 못하도록 합니다
+* **리포트 공유 제어 강제** - 비공개 프로젝트에서 리포트를 공개로 공유하는 기능을 끄고 기존 매직 링크를 비활성화합니다
+* **팀 자가 가입 제한 강제** - 조직 이메일 도메인이 일치하는 사용자가 어떤 팀에도 자동으로 가입하지 못하도록 제한합니다
   <Note>이 설정은 [Multi-tenant Cloud](./hosting-options/multi_tenant_cloud) 배포에서만 사용할 수 있습니다.</Note>
-* **Enforce default code saving restrictions** - 모든 팀에 대해 기본 코드 저장 기능을 끕니다.
+* **기본 코드 저장 제한 강제** - 모든 팀에 대해 기본적으로 코드 저장 기능을 끕니다

@@ -3,132 +3,149 @@ title: ArtifactCollection
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
 ## <kbd>class</kbd> `ArtifactCollection`
-関連する アーティファクト のグループを表す アーティファクト コレクションです。
 
-**Args:**
+関連する Artifacts のグループを表す Artifacts コレクション。 
 
- - `client`: W&B へのクエリに使用するクライアントインスタンス。
- - `entity`: プロジェクト を所有する エンティティ (ユーザー または チーム)。
- - `project`: アーティファクト コレクションを照会する プロジェクト の名前。
- - `name`: アーティファクト コレクションの名前。
- - `type`: アーティファクト コレクションのタイプ (例: "dataset"、"model")。
- - `organization`: 該当する場合、オプションの組織名。
- - `attrs`: アーティファクト コレクションを初期化するためのオプションの属性マッピング。指定しない場合、オブジェクト は初期化時に W&B から属性をロードします。
+**引数:**
+
+- `client`:  W&B をクエリするために使用するクライアントインスタンス。 
+ - `entity`:  プロジェクトの所有者であるエンティティ（ユーザーまたはチーム）。 
+ - `project`:  Artifacts コレクションをクエリする対象のプロジェクト名。 
+ - `name`:  Artifacts コレクションの名前。 
+ - `type`:  Artifacts コレクションの種別（例: "dataset"、"model"）。 
+ - `organization`:  該当する場合のオプションの organization 名。 
+ - `attrs`:  Artifacts コレクションを初期化するためのオプションの属性マッピング。指定されていない場合、オブジェクトは初期化時に W&B から属性を読み込みます。 
 
 ### <kbd>property</kbd> ArtifactCollection.aliases
 
-このコレクションに含まれるすべての アーティファクト バージョン の エイリアス。
+このコレクションに含まれるすべての Artifacts バージョンに対するエイリアス。 
 
-**Returns:**
- - `list[str]`: aliases プロパティの 値。
+**戻り値:**
+
+- `list[str]`: aliases プロパティの値。
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.created_at
 
-アーティファクト コレクションの作成日。
+Artifacts コレクションの作成日時。
 
-**Returns:**
- - `str`: created_at プロパティの 値。
+**戻り値:**
+
+- `str`: created_at プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.description
 
-アーティファクト コレクションの説明。
+Artifacts コレクションの説明です。
 
 **Returns:**
- - `str | None`: description プロパティの 値。
+
+- `str | None`: description プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.entity
 
-プロジェクト を所有する エンティティ (ユーザー または チーム)。
+プロジェクトの所有者である entity（ユーザーまたはチーム）。
 
 **Returns:**
- - `str`: entity プロパティの 値。
+
+- `str`: entity プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.id
 
-アーティファクト コレクションの一意識別子。
+Artifacts コレクションの一意の識別子。
 
 **Returns:**
- - `str`: id プロパティの 値。
+
+- `str`: id プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.name
 
-アーティファクト コレクションの名前。
+Artifacts コレクションの名前。
 
-**Returns:**
- - `str`: name プロパティの 値。
+**戻り値:**
+
+- `str`: name プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.project
 
-アーティファクト コレクションが含まれる プロジェクト。
+Artifacts コレクションを含むプロジェクト。 
 
 **Returns:**
- - `str`: project プロパティの 値。
+
+- `str`: `project` プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.tags
 
-アーティファクト コレクションに関連付けられたタグ。
+この Artifacts コレクションに関連付けられているタグ。
 
-**Returns:**
- - `list[str]`: tags プロパティの 値。
+**戻り値:**
+
+- `list[str]`: `tags` プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> ArtifactCollection.type
 
-アーティファクト コレクションのタイプを返します。
+この Artifacts コレクションのタイプを返します。 
 
 ---
 
-### <kbd>method</kbd> `ArtifactCollection.artifacts`
+### <kbd>メソッド</kbd> `ArtifactCollection.artifacts`
 
 ```python
 artifacts(per_page: 'int' = 50) → Artifacts
 ```
 
-コレクション内のすべての アーティファクト を取得します。
+コレクション内のすべての Artifacts を取得します。
 
----
+***
 
-### <kbd>method</kbd> `ArtifactCollection.change_type`
+### <kbd>メソッド</kbd> `ArtifactCollection.change_type`
 
 ```python
 change_type(new_type: 'str') → None
 ```
 
-非推奨です。代わりに `save` を使用して直接タイプを変更してください。
+非推奨です。代わりに `save` を使って型を直接変更してください。
 
----
+***
 
-### <kbd>method</kbd> `ArtifactCollection.delete`
+### <kbd>メソッド</kbd> `ArtifactCollection.delete`
 
 ```python
 delete() → None
 ```
 
-アーティファクト コレクション全体を削除します。
+Artifacts コレクション全体を削除します。
 
----
+***
 
-### <kbd>method</kbd> `ArtifactCollection.is_sequence`
+### <kbd>メソッド</kbd> `ArtifactCollection.is_sequence`
 
 ```python
 is_sequence() → bool
 ```
 
-アーティファクト コレクションがシーケンスであるかどうかを返します。
+Artifacts コレクションがシーケンスであるかどうかを返します。
 
----
+***
 
 ### <kbd>method</kbd> `ArtifactCollection.save`
 
@@ -136,4 +153,4 @@ is_sequence() → bool
 save() → None
 ```
 
-アーティファクト コレクションに加えられた変更を保存します。
+Artifacts コレクションへの変更を保存します。

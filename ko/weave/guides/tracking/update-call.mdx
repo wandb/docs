@@ -1,0 +1,170 @@
+---
+title: "Call 업데이트 및 삭제"
+description: "표시 이름을 수정하고 피드백을 추가하며 W&B Weave에서 Call을 삭제합니다"
+---
+
+대부분의 Call 속성은 생성 후에는 변경할 수 없습니다. 다음과 같은 변경 작업만 지원됩니다:
+
+* [표시 이름 설정](#set-display-name)
+* [피드백 추가](#add-feedback)
+* [Call 삭제](#delete-a-call)
+
+이 모든 변경은 UI에서 Call 상세 페이지로 이동하여 수행할 수 있습니다.
+웹 앱에서 Call을 업데이트하려면:
+
+1. [wandb.ai](https://wandb.ai/)로 이동한 후 프로젝트를 선택합니다.
+2. Weave 프로젝트 사이드바에서 **Traces**를 클릭합니다.
+3. 테이블에서 상세 정보를 보고 싶은 Call을 찾습니다.
+4. 해당 Call을 클릭하여 상세 페이지를 엽니다.
+5. Call 상세 페이지의 탭 바에서 `Feedback` 탭을 클릭합니다.
+
+여기에서 Call의 표시 이름을 편집하고, 피드백을 추가하거나, Call을 삭제할 수 있습니다.
+
+<Frame>
+  ![선택된 Call의 상세 패널 일부를 보여주는 Weave Traces 페이지 예시로, 여기에서 Call 이름을 변경하거나 삭제할 수 있음을 나타냅니다](/images/call_edit_screenshot.png)
+</Frame>
+
+<div id="set-display-name">
+  ### 표시 이름 설정
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Call의 표시 이름을 설정하려면 [`Call.set_display_name()`](/ko/weave/reference/python-sdk/trace/weave_client#method-set-display-name) 메서드를 사용하세요.
+
+    ```python lines
+    import weave
+
+    # Initialize the client
+    client = weave.init("your-project-name")
+
+    # Get a specific Call by its ID
+    call = client.get_call("call-uuid-here")
+
+    # Set the display name of the Call
+    call.set_display_name("My Custom Display Name")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    Call의 표시 이름을 설정하려면 [`client.updateCall`](/ko/weave/reference/typescript-sdk/classes/weaveclient#updatecall)을 사용해 Call ID로 직접 업데이트하세요:
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    // Initialize the client
+    const client = await weave.init('your-project-name')
+
+    // Update the display name of a Call by its ID
+    await client.updateCall('call-uuid-here', 'My Custom Display Name')
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    Service API를 사용하여 Call의 표시 이름을 설정하려면 [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) 엔드포인트로 요청을 보내세요.
+
+    ```bash lines
+    curl -L 'https://trace.wandb.ai/call/update' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+        "project_id": "string",
+        "call_id": "string",
+        "display_name": "string",
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+[Call 실행 시 표시 이름을 설정](/ko/weave/guides/tracking/get-call-object)할 수도 있습니다.
+
+<div id="add-feedback">
+  ### 피드백 추가
+</div>
+
+자세한 내용은 [피드백 문서](/ko/weave/guides/tracking/feedback)를 참고하세요.
+
+<div id="delete-a-call">
+  ### Call 삭제
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Python API를 사용하여 Call을 삭제하려면 [`Call.delete`](/ko/weave/reference/python-sdk/trace/weave_client#method-delete) 메서드를 사용하세요.
+
+    ```python lines
+    import weave
+
+    # 클라이언트 초기화
+    client = weave.init("your-project-name")
+
+    # ID로 특정 Call 가져오기
+    call = client.get_call("call-uuid-here")
+
+    # Call 삭제
+    call.delete()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext lines
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    Service API를 사용하여 Call을 삭제하려면 [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) 엔드포인트로 요청을 보내세요.
+
+    ```bash lines
+    curl -L 'https://trace.wandb.ai/calls/delete' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+        "project_id": "string",
+        "call_ids": [
+            "string"
+        ],
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+<div id="delete-multiple-calls">
+  ### 여러 Call 삭제
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Python API를 사용해 여러 Call을 삭제하려면 `delete_calls()`에 Call ID 목록을 전달합니다.
+
+    <Important>
+      * 한 번에 삭제할 수 있는 Call의 최대 개수는 `1000`개입니다.
+      * Call을 삭제하면 해당 Call의 모든 하위 Call도 함께 삭제됩니다.
+    </Important>
+
+    ```python lines
+    import weave
+
+    # 클라이언트 초기화
+    client = weave.init("my-project")
+
+    # 클라이언트에서 모든 Call 가져오기
+    all_calls = client.get_calls()
+
+    # 처음 1000개의 Call 객체 목록 가져오기
+    first_1000_calls = all_calls[:1000]
+
+    # 처음 1000개의 Call ID 목록 가져오기
+    first_1000_calls_ids = [c.id for c in first_1000_calls]
+
+    # ID로 처음 1000개의 Call 삭제
+    client.delete_calls(call_ids=first_1000_calls_ids)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext lines
+    이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+    ```
+  </Tab>
+</Tabs>

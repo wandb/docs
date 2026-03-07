@@ -1,0 +1,159 @@
+---
+title: Self-Managed 인프라 요구 사항
+description: W&B Self-Managed 배포를 위한 인프라 및 소프트웨어 요구 사항
+---
+
+import SelfManagedVersionRequirements from "/snippets/ko/_includes/self-managed-version-requirements.mdx";
+import SelfManagedHardwareRequirements from "/snippets/ko/_includes/self-managed-hardware-requirements.mdx";
+import SelfManagedMysqlRequirements from "/snippets/ko/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlDatabaseCreation from "/snippets/ko/_includes/self-managed-mysql-database-creation.mdx";
+import SelfManagedRedisRequirements from "/snippets/ko/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/ko/_includes/self-managed-object-storage-requirements.mdx";
+import ByobProvisioningLink from "/snippets/ko/_includes/byob-provisioning-link.mdx";
+import SelfManagedNetworkingRequirements from "/snippets/ko/_includes/self-managed-networking-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/ko/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedObtainLicense from "/snippets/ko/_includes/self-managed-obtain-license.mdx";
+
+이 페이지에서는 W&amp;B Self-Managed를 배포하기 위한 인프라 및 소프트웨어 요구 사항을 종합적으로 설명합니다. 배포를 시작하기 전에 이 요구 사항을 검토하세요.
+
+<Note>
+  W&amp;B는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud/)와 같은 완전 관리형 배포 옵션을 권장합니다. W&amp;B 완전 관리형 서비스는 설정이 거의 필요 없거나 전혀 필요 없어 간편하고 안전하게 사용할 수 있습니다.
+</Note>
+
+전체 아키텍처 가이드는 [참조 아키텍처](/ko/platform/hosting/self-managed/ref-arch/)를 참조하세요.
+
+<div id="software-version-requirements">
+  ## 소프트웨어 버전 요구 사항
+</div>
+
+<SelfManagedVersionRequirements />
+
+<div id="hardware-requirements">
+  ## 하드웨어 요구 사항
+</div>
+
+<SelfManagedHardwareRequirements />
+
+사용 사례(Models 전용, Weave 전용, 또는 둘 다 사용하는 경우)에 따른 보다 구체적인 사이징 권장사항은 [레퍼런스 아키텍처 사이징 섹션](/ko/platform/hosting/self-managed/ref-arch/#sizing)을 참조하세요.
+
+<div id="kubernetes">
+  ## Kubernetes
+</div>
+
+W&amp;B Server는 여러 pod를 관리하는 [Kubernetes Operator](/ko/platform/hosting/self-managed/operator/)로 배포됩니다. Kubernetes 클러스터는 다음 요구 사항을 충족해야 합니다:
+
+* **버전**: 위의 [Software version requirements](#software-version-requirements) 참조
+* **Ingress controller**: 완전히 설정되고 정상적으로 동작하는 ingress controller (Nginx, Istio, Traefik 또는 클라우드 제공업체 ingress)
+* **Persistent volumes**: 퍼시스턴트 볼륨을 프로비저닝할 수 있는 능력
+* **CPU 아키텍처**: Intel 또는 AMD 64비트 (ARM은 지원되지 않음)
+
+W&amp;B는 클라우드, 온프레미스, 에어갭 환경의 [OpenShift Kubernetes 클러스터](https://www.redhat.com/en/technologies/cloud-computing/openshift) 배포를 지원합니다. 구체적인 설정 지침은 Operator 가이드의 [OpenShift 섹션](/ko/platform/hosting/self-managed/operator/#openshift-kubernetes-clusters)을 참조하세요.
+
+로드 밸런서와 ingress 설정을 포함한 전체 Kubernetes 요구 사항은 [reference architecture Kubernetes 섹션](/ko/platform/hosting/self-managed/ref-arch/#kubernetes)을 참조하세요.
+
+<div id="mysql-database">
+  ## MySQL 데이터베이스
+</div>
+
+<SelfManagedMysqlRequirements />
+
+**W&amp;B는 프로덕션 배포 환경에서** AWS RDS Aurora MySQL, Google Cloud SQL for MySQL, Azure Database for MySQL과 같은 관리형 데이터베이스 서비스 사용을 강력히 권장합니다. 관리형 서비스는 자동 백업, 모니터링, 고가용성, 패치 적용을 제공하며 운영 복잡성을 크게 줄여 줍니다.
+
+<div id="mysql-configuration-parameters">
+  ### MySQL 설정 매개변수
+</div>
+
+직접 MySQL 인스턴스를 운영하는 경우, MySQL을 다음과 같이 설정하십시오:
+
+```
+binlog_format = 'ROW'
+binlog_row_image = 'MINIMAL'
+innodb_flush_log_at_trx_commit = 1
+innodb_online_alter_log_max_size = 268435456
+max_prepared_stmt_count = 1048576
+sort_buffer_size = '67108864'
+sync_binlog = 1
+```
+
+이 설정은 최적의 성능과 안정성을 보장하도록 W&amp;B에서 검증한 것입니다.
+
+<div id="database-creation">
+  ### 데이터베이스 생성
+</div>
+
+MySQL 데이터베이스와 사용자를 수동으로 생성하는 방법은 다음 내용을 참조하세요:
+
+<SelfManagedMysqlDatabaseCreation />
+
+백업, 성능, 모니터링, 가용성 등을 포함한 추가 고려 사항은 [참조 아키텍처의 MySQL 섹션](/ko/platform/hosting/self-managed/ref-arch/#mysql)을 참조하세요.
+
+<div id="redis">
+  ## Redis
+</div>
+
+<SelfManagedRedisRequirements />
+
+W&amp;B는 다음 환경에서 Redis 인스턴스에 연결할 수 있습니다:
+
+* [AWS Elasticache](https://aws.amazon.com/pm/elasticache/)
+* [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
+* [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
+* 자체 클라우드 또는 온프레미스 인프라에서 호스팅되는 Redis 배포
+
+<div id="object-storage">
+  ## 오브젝트 스토리지
+</div>
+
+<SelfManagedObjectStorageRequirements />
+
+<ByobProvisioningLink />
+
+<div id="configure-wb-to-use-your-bucket">
+  ### W&amp;B에서 버킷 사용하도록 설정
+</div>
+
+버킷을 프로비저닝한 후 Operator의 Helm values에서 W&amp;B가 해당 버킷을 사용하도록 설정합니다. 자세한 내용은 [Operator 객체 스토리지 설정 섹션](/ko/platform/hosting/self-managed/operator/#object-storage-bucket)을 참조하세요.
+
+<div id="networking">
+  ## 네트워크
+</div>
+
+<SelfManagedNetworkingRequirements />
+
+<div id="dns">
+  ### DNS
+</div>
+
+W&amp;B 배포에 사용되는 정규화된 도메인 이름(FQDN)은 A 레코드를 사용해 Ingress/로드 밸런서의 IP 주소로 해석되도록 구성해야 합니다.
+
+<div id="load-balancer-and-ingress">
+  ### 로드 밸런서와 인그레스
+</div>
+
+W&amp;B Kubernetes Operator는 Kubernetes 인그레스 컨트롤러를 사용해 서비스를 노출하며, 이 인그레스 컨트롤러는 URL 경로를 기준으로 서비스 엔드포인트로 라우팅합니다. 인그레스 컨트롤러는 머신러닝 페이로드를 실행하거나 웹 브라우저를 통해 서비스에 접근하는 모든 머신에서 접근 가능해야 합니다.
+
+자세한 로드 밸런서 옵션, 인그레스 컨트롤러 요구 사항, 설정 예시는 [reference architecture load balancer 섹션](/ko/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress)을 참조하세요.
+
+<div id="ssltls">
+  ## SSL/TLS
+</div>
+
+<SelfManagedSslTlsRequirements />
+
+<div id="license">
+  ## 라이선스
+</div>
+
+모든 Self-Managed 배포 환경에는 유효한 W&amp;B Server 라이선스가 필요합니다.
+
+<SelfManagedObtainLicense />
+
+<div id="next-steps">
+  ## 다음 단계
+</div>
+
+인프라가 다음 요구 사항을 충족하는지 확인한 후에는 다음을 수행하세요:
+
+* **클라우드 및 온프레미스 배포**: Helm 및 Terraform을 사용한 배포 옵션은 [Kubernetes Operator로 W&amp;B 배포](/ko/platform/hosting/self-managed/operator)를 참고하세요.
+* **에어갭 배포**: 격리된 환경에 대해서는 [에어갭 Kubernetes에 배포](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped)를 참고하세요.
+* **모든 배포 방식**: 기본 오퍼레이터 배포 가이드는 [Kubernetes Operator로 배포](/ko/platform/hosting/self-managed/operator)를 참고하세요.

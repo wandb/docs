@@ -24,7 +24,7 @@ git clone --depth 1 "$EVAL_REPO_URL" "$SUBMODULE_PATH" --quiet
 
 # Copy Python files and create MDX wrappers
 echo "   Copying Python code examples and creating MDX wrappers..."
-PY_SNIPPETS_DIR="$DOCS_ROOT/snippets/en/_includes/code-examples"
+PY_SNIPPETS_DIR="$DOCS_ROOT/snippets/_includes/code-examples"
 mkdir -p "$PY_SNIPPETS_DIR"
 
 # Copy Python files and create MDX wrappers

@@ -1,198 +1,249 @@
 ---
-title: チームの設定
-description: 同僚と協力し、結果を共有し、チーム全体で Run を追跡しましょう。メンバー、アラート、プライバシーなどのチーム設定を管理できます。
+description: チームメンバーと共同作業を行い、結果を共有し、チーム全体のあらゆる実験を追跡できます。メンバー、アラート、プライバシーなどのチーム設定を管理できます。
+title: チーム設定
 ---
 
-import EnterpriseOnly from "/snippets/en/_includes/enterprise-only.mdx";
+import EnterpriseOnly from "/snippets/ja/_includes/enterprise-only.mdx";
 
-W&B Teams を、ML チームがより優れたモデルをより速く構築するための中心的な Workspace として活用してください。Organization 管理者および Team 管理者は、チームの設定を表示および編集できます。
+W&amp;B Teams を ML チームのための中心的なワークスペースとして利用し、より優れたモデルをより速く構築しましょう。Organization 管理者とチーム管理者は、チームの設定を表示および編集できます。
 
-* **すべての実験を追跡**：チームが試行したすべての Experiments を追跡し、作業の重複を防ぎます。
-* **保存と再現**：以前にトレーニングした Models を保存し、再現します。
-* **進捗の共有**：Reports や結果を上司やコラボレーターと共有します。
-* **リグレッションの検知**：パフォーマンスが低下した際に、即座にアラートを受け取ります。
-* **モデルパフォーマンスのベンチマーク**：モデルのパフォーマンスを測定し、モデルのバージョンを比較します。
+* チームが試した **すべての実験を追跡** して、作業の重複を防ぎます。
+* 以前に学習したモデルを **保存して再現** します。
+* 上司や共同作業者と **進捗や結果を共有** します。
+* **リグレッションを検知** し、パフォーマンスが低下したときにすぐにアラートを受け取ります。
+* **モデルのパフォーマンスをベンチマーク** し、モデルのバージョンを比較します。
 
 <Frame>
-    <img src="/images/app_ui/teams_overview.webp" alt="Teams workspace overview"  />
+  <img src="/images/app_ui/teams_overview.webp" alt="Teams ワークスペースの概要" />
 </Frame>
 
 <Note>
-チーム設定の変更やチームからのメンバー削除は、管理者アカウントのみが行えます。
+  チーム設定の変更やチームからメンバーを削除できるのは、Administration アカウント種別のみです。
 </Note>
 
-## コラボレーションチームの作成
+<div id="create-a-collaborative-team">
+  ## コラボレーション用チームを作成する
+</div>
 
-1. 無料の W&B アカウントに [サインアップまたはログイン](https://app.wandb.ai/login?signup=true) します。
-2. ナビゲーションバーの **Invite Team** をクリックします。
-3. チームを作成し、コラボレーターを招待します。
-4. 以下で説明する設定を使用して、チームを構成します。
+1. 無料の W&amp;B アカウントに [サインアップまたはログイン](https://app.wandb.ai/login?signup=true)します。
+2. ナビゲーションバーから **Invite Team** をクリックします。
+3. チームを作成し、共同作業者を招待します。
+4. 以下で説明する設定を使ってチームを設定します。
 
 <Note>
-**注意**: 新しいチームを作成できるのは、Organization の管理者のみです。
+  **Note**: 組織の管理者のみが新しいチームを作成できます。
 </Note>
 
-## チーム設定
-メンバーシップ、アラート、プライバシー設定など、チームのさまざまな設定を行うことができます。
+<div id="team-configuration">
+  ## Team 設定
+</div>
 
-チームの設定を管理するには、左メニューの **Teams** セクションに移動し、設定を変更したいチームをクリックします。以下の設定を更新できます：
+メンバーシップ、アラート、プライバシー設定など、Team に関するさまざまな設定を行うことができます。
 
-### Members
+Team の設定を管理するには、左側のメニューの **Teams** セクションに移動し、設定を変更したい Team をクリックします。次の設定を更新できます。
 
-Members セクションには、保留中の招待リストと、チームへの招待を承諾したメンバーが表示されます。リストには、各メンバーの名前、ユーザー名、メールアドレス、チームロール、および Organization から継承された Models や W&B Weave へのアクセス権限が表示されます。標準的なチームロールとして、**Admin**、**Member**、**View-only** から選択できます。Organization が [カスタムロール](/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles) を作成している場合は、代わりにカスタムロールを割り当てることができます。
+<div id="members">
+  ### メンバー
+</div>
 
-チームの作成、チームの管理、メンバーシップとロールの管理に関する詳細は、[チームの追加と管理](/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) を参照してください。誰が新しいメンバーを招待できるかや、その他のプライバシー設定を構成するには、[プライバシー](#privacy) を参照してください。
+「Members」セクションには、保留中の招待と、チームへの参加招待を承諾したメンバーが一覧表示されます。この一覧には、各メンバーの氏名、ユーザー名、メールアドレス、チームロール、そして組織から継承される Models および W&amp;B Weave へのアクセス権限が表示されます。標準のチームロールとして **Admin**、**Member**、**View-only** から選択できます。組織で [カスタムロール](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles) を作成している場合は、代わりにカスタムロールを割り当てることもできます。
 
-チームメンバーを削除する場合、管理者はチーム設定ページを開き、離脱するメンバーの名前の横にある削除ボタンをクリックします。ユーザーが退会した後も、そのチームにログ記録された Runs は残ります。
+チームの作成方法、チームの管理方法、およびチームメンバーシップとロールの管理方法については、[Add and Manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) を参照してください。新しいメンバーを誰が招待できるかなど、チームのプライバシー設定を構成するには、[Privacy](#privacy) を参照してください。
 
-### Avatar
+チームメンバーを削除するには、管理者がチーム設定ページを開き、退会するメンバー名の横にある削除ボタンをクリックします。ユーザーが離脱した後も、そのユーザーがチームに対してログした run は残ります。
 
-チームのアバターを設定するには：
+<div id="avatar">
+  ### アバター
+</div>
 
-1. 左メニューの **Teams** セクションに移動し、アバターを追加したいチームをクリックします。チームの概要ページが開きます。
-2. ページの左上隅にあるチームのデフォルトアバター画像にカーソルを合わせ、**Upload photo** ボタンをクリックします。ファイルプロンプトが開きます。
-3. ファイルプロンプトから使用したい画像を選択し、**Open** をクリックします。これにより写真がアップロードされ、チームのアバターとして設定されます。
+チームのアバターを設定するには、次の手順を実行します。
 
-### Alerts
+1. 左側のメニューの **Teams** セクションに移動し、アバターを追加したいチームをクリックします。チームの概要ページが開きます。
+2. ページ左上にあるチームのデフォルトアバター画像にカーソルを合わせ、**Upload photo** ボタンをクリックします。ファイル選択ダイアログが開きます。
+3. ファイル選択ダイアログで使用したい画像を選択し、**Open** をクリックします。画像がチームにアップロードされ、そのチームのアバターとして設定されます。
 
-Runs がクラッシュした際や終了した際にチームに通知するアラートを設定できます。アラートはメールまたは Slack で送信でき、ニーズに合わせてカスタマイズ可能です。
+<div id="alerts">
+  ### アラート
+</div>
 
-**Team alerts** セクションで、アラートを受け取りたいイベントタイプの横にあるスイッチを切り替えます。Weights & Biases は以下のイベントタイプオプションを提供しています：
+run のクラッシュや完了をチームに通知するアラートを設定できます。アラートはメールまたは Slack で送信でき、用途に合わせてカスタマイズできます。
 
-* **Runs finished**: Weights & Biases の run が正常に終了したとき。
-* **Run crashed**: run が終了に失敗したとき。
-* **wandb.alert()**: スクリプトから実行可能なカスタムアラート。詳細は [wandb.Run.alert() によるアラートの送信](/models/runs/alert) を参照してください。
+**Team alerts** セクションで、アラートを受け取りたいイベントタイプの横にあるスイッチを有効にします。Weights &amp; Biases では、次のイベントタイプを提供しています。
 
-### Slack notifications
+* **Runs finished**: Weights &amp; Biases の run が正常に完了したときに通知します。
+* **Run crashed**: run が完了せずに失敗したときに通知します。
+* **wandb.alert()**: スクリプトから送信できるカスタムアラートです。詳細は [`wandb.Run.alert()` でアラートを送信する](/ja/models/runs/alert) を参照してください。
 
-Artifacts の新規作成や run のメトリクスが定義された閾値に達したときなど、Registry やプロジェクトでイベントが発生した際に、チームの [Automations](/models/automations/) が通知を送信する Slack の送信先を設定します。[Slack オートメーションの作成](/models/automations/create-automations/slack) を参照してください。
+<div id="slack-notifications">
+  ### Slack 通知
+</div>
+
+Slack の送信先を設定しておくと、チームの [automations](/ja/models/automations/) が、レジストリやプロジェクトでイベントが発生した際に通知を送信できるようになります。たとえば、新しい Artifacts が作成されたときや、run のメトリクスが定義したしきい値に達したときなどです。詳細は、[Slack automation を作成する](/ja/models/automations/create-automations/slack)を参照してください。
 
 <Info>
-<EnterpriseOnly/>
+  <EnterpriseOnly />
 </Info>
 
-### Webhooks
+<div id="webhooks">
+  ### Webhooks
+</div>
 
-Artifacts の新規作成や run のメトリクスが定義された閾値に達したときなど、Registry やプロジェクトでイベントが発生した際に、チームの [Automations](/models/automations/) が実行する Webhook を設定します。[Webhook オートメーションの作成](/models/automations/create-automations/webhook) を参照してください。
+チームの [automations](/ja/models/automations/) で、レジストリやプロジェクトでイベントが発生したときに webhook を実行するよう設定します。たとえば、新しい Artifacts が作成されたときや、run のメトリクスが定義したしきい値に達したときなどです。詳細は [Create a webhook automation](/ja/models/automations/create-automations/webhook) を参照してください。
 
 <Info>
-<EnterpriseOnly/>
+  <EnterpriseOnly />
 </Info>
 
-### Privacy
+<div id="privacy">
+  ### プライバシー
+</div>
 
-チームのプライバシー設定では、チーム内での表示設定や共有権限を管理できます。プライバシー設定を変更できるのは Organization 管理者のみです。
+チームのプライバシー設定では、チーム内での公開範囲と共有の可否を管理できます。プライバシー設定を変更できるのは組織管理者のみです。
 
-以下のプライバシー設定を変更できます：
+次のプライバシー設定を変更できます。
 
-- このチームを非メンバーから隠す。
-- 今後のすべてのチームプロジェクトを非公開にする（パブリック共有を禁止）。
-- 管理者だけでなく、すべてのチームメンバーが他のメンバーを招待できるようにする。
-- プライベートプロジェクト内の Reports について、チーム外へのパブリック共有を無効にする。これにより、既存のマジックリンクも無効になります。
-- サインアップ時に、一致するメールドメインを持つ新しいユーザーにこのチームへの参加を自動的に推奨する。
-- デフォルトでコードの保存を有効にする。
+* このチームをメンバー以外の全員から非表示にする。
+* 今後作成されるすべてのチーム プロジェクトを非公開にする（公開共有を許可しない）。
+* 管理者だけでなく、任意のチーム メンバーが他のチーム メンバーを招待できるようにする。
+* プライベート プロジェクト内のレポートについて、チーム外への公開共有を無効にする。これにより既存のマジックリンクも無効になります。
+* メール ドメインが一致する新しいユーザーに対して、サインアップ時にこのチームへの参加を自動的に推奨する。
+* デフォルトでコードの保存を有効にする。
 
-すべてのチームプロジェクトのプライバシー設定は、チーム設定ページ（`app.wandb.ai/teams/your-team-name`）で確認できます。
+すべてのチーム プロジェクトのプライバシー設定は、チーム設定ページ `app.wandb.ai/teams/your-team-name` で確認できます。
 
-### Usage
+<div id="usage">
+  ### 使用量
+</div>
 
-**Usage** セクションには、Weights & Biases サーバーでチームが消費した総メモリ使用量が表示されます。デフォルトのストレージプランは 100GB です。ストレージと料金の詳細については、[料金ページ](https://wandb.ai/site/pricing) を参照してください。
+**使用量** セクションでは、Weights &amp; Biases のサーバー上でチームが消費した合計メモリ使用量を示します。デフォルトのストレージ プランは 100GB です。ストレージと料金の詳細については、[Pricing](https://wandb.ai/site/pricing) ページを参照してください。
 
-### Storage
+<div id="storage">
+  ### Storage
+</div>
 
-**Storage** セクションには、チームのデータに使用されているクラウドストレージバケットの設定が表示されます。詳細については、[Secure Storage Connector](#secure-storage-connector) を参照するか、セルフホスティングの場合は [W&B Server](/platform/hosting/data-security/secure-storage-connector) のドキュメントを確認してください。
+**Storage** セクションでは、チームのデータに使用されているクラウド ストレージ バケットの設定について説明します。詳細については、[Secure Storage Connector](#secure-storage-connector) を参照するか、セルフホストしている場合は [W&amp;B Server](/ja/platform/hosting/data-security/secure-storage-connector) のドキュメントを確認してください。
 
-## チームプロフィールの作成
+<div id="create-a-team-profile">
+  ## チームプロフィールを作成する
+</div>
 
-チームのプロフィールページをカスタマイズして、紹介文を掲載したり、一般公開またはチームメンバーに公開されている Reports や Projects を紹介したりできます。レポート、プロジェクト、外部リンクを表示できます。
+チームのプロフィールページをカスタマイズして、紹介文を掲載したり、公開またはチームメンバーに表示されるレポートやプロジェクトを紹介できます。レポート、プロジェクト、外部リンクを整理して提示しましょう。
 
-* **最高レベルの研究を強調**：最高のパブリック Reports を紹介することで、訪問者にアピールします。
-* **最もアクティブなプロジェクトを表示**：チームメイトが目的の Projects を見つけやすくします。
-* **コラボレーターを募る**：会社や研究室のウェブサイト、公開した論文への外部リンクを追加します。
+* **最高の研究成果を強調**: 公開レポートの中から特に優れたものを掲載し、訪問者にアピールします
+* **最もアクティブなプロジェクトを紹介**: チームメイトが目的のプロジェクトを見つけやすくします
+* **共同研究者を見つける**: 会社や研究室の Web サイト、公開済みの論文などへの外部リンクを追加します
 
-{/* To do: show team profiles */}
+{/* TODO: チームプロフィールを表示する */}
 
-## チームのロールと権限
-同僚をチームに招待する際に、チームロールを選択します。以下のチームロールオプションがあります：
+<div id="team-roles-and-permissions">
+  ## チームのロールと権限
+</div>
 
-- **Admin**: チーム管理者は、他の管理者やチームメンバーを追加・削除できます。すべてのプロジェクトを変更する権限と、完全な削除権限を持ちます。これには、Runs、Projects、Artifacts、Sweeps の削除が含まれますが、これらに限定されません。
-- **Member**: チームの通常のメンバーです。デフォルトでは管理者のみがチームメンバーを招待できます。この振る舞いを変更するには、[プライバシー設定](#privacy) を参照してください。
-- **View-Only (Enterprise限定機能)**: View-Only メンバーは、Runs、Reports、Workspace などのチーム内のアセットを表示できます。Reports のフォローやコメントは可能ですが、プロジェクト概要、Reports、Runs の作成、編集、削除はできません。
-- **Custom roles (Enterprise限定機能)**: カスタムロールを使用すると、Organization 管理者は **View-Only** または **Member** ロールのいずれかをベースに、追加の権限を組み合わせて新しいロールを作成し、きめ細かなアクセス制御を実現できます。チーム管理者は、これらのカスタムロールをそれぞれのチームのユーザーに割り当てることができます。詳細は [Introducing Custom Roles for W&B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) を参照してください。
+同僚をチームに招待するときに、そのメンバーに割り当てるチームロールを選択します。使用できるチームロールは次のとおりです。
 
-チームメンバーは、自分が作成した Runs のみを削除できます。例えば、メンバー A と B がいるとします。メンバー B がチームのプロジェクトからメンバー A が所有する別のプロジェクトに run を移動させた場合、メンバー A は、メンバー B が自分のプロジェクトに移動させた run を削除することはできません。管理者は、任意のチームメンバーが作成した Runs や Sweep Runs を管理できます。
+* **Admin**: Team admin は、他の admin やチームメンバーを追加および削除できます。すべてのプロジェクトを変更する権限と、完全な削除権限を持ちます。これには run、 プロジェクト、 Artifacts 、 sweep の削除などが含まれますが、これらに限定されません。
+* **Member**: チームの通常メンバーです。デフォルトでは、チームメンバーを招待できるのは admin のみです。この動作を変更するには、[プライバシー設定](#privacy) を参照してください。
+* **View-Only (Enterprise-only feature)**: View-Only メンバーは、チーム内の run、 レポート、 ワークスペースなどのアセットを閲覧できます。レポートをフォローしたりコメントしたりできますが、プロジェクト概要、 レポート、 run を作成、 編集、 削除することはできません。
+* **Custom roles (Enterprise-only feature)**: Custom roles を使用すると、組織の admin が **View-Only** または **Member** ロールのいずれかをベースにして、新しいロールを作成できます。きめ細かいアクセス制御を実現するための追加の権限を組み合わせることもできます。チーム admin は、それらの custom roles を自分のチーム内のユーザーに割り当てることができます。詳細は [Introducing Custom Roles for W&amp;B Teams](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) を参照してください。
 
-### Service accounts
+チームメンバーは、自分が作成した run のみ削除できます。ここで、メンバー A と B が 2 人いるとします。メンバー B が、チーム B のプロジェクトからメンバー A が所有する別のプロジェクトに run を移動した場合、メンバー A は、メンバー B がメンバー A のプロジェクトに移動したその run を削除することはできません。admin は、任意のチームメンバーが作成した run および sweep run を管理できます。
 
-ユーザーロールに加えて、チームはオートメーションのために **service accounts** を使用することもできます。サービスアカウントはユーザーではなく、自動化されたワークフローに使用される非人間のアイデンティティです。詳細は [サービスアカウントを使用したワークフローの自動化](/platform/hosting/iam/service-accounts) を参照してください。
+<div id="service-accounts">
+  ### サービスアカウント
+</div>
+
+ユーザーロールに加えて、Teams では自動化のために **service accounts**（サービスアカウント）も使用できます。service accounts はユーザーではなく、自動化されたワークフローに使用される人間以外の ID です。詳細は、[サービスアカウントを使用してワークフローを自動化する](/ja/platform/hosting/iam/service-accounts) を参照してください。
 
 <Note>
-W&B では、メインの管理者が不在の場合でも管理操作を継続できるよう、チームに複数の管理者を割り当てることをお勧めします。
+  W&amp;B は、主担当の管理者が不在の場合でも管理者の作業を継続できるように、1 つのチームに複数の管理者を割り当てることを推奨します。
 </Note>
 
-### チーム設定
-チーム設定では、チームとそのメンバーの設定を管理できます。これらの権限により、W&B 内でチームを効果的に監督・編成できます。
+<div id="team-settings">
+  ### チーム設定
+</div>
 
-| 権限 | View-Only | Team Member | Team Admin | 
-| ------------------- | --------- | ----------- | ---------- |
-| チームメンバーの追加 |           |             |     X      |
-| チームメンバーの削除 |           |             |     X      |
-| チーム設定の管理 |           |             |     X      |
+チーム設定では、チームおよびそのメンバーに関する各種設定を管理できます。これらの権限により、W&amp;B 内でチームを効果的に管理・運用できます。
 
-### Reports
-レポート権限は、Reports の作成、表示、編集へのアクセスを許可します。以下の表は、特定のチーム内のすべての Reports に適用される権限の一覧です。
+| 権限                 | 閲覧のみ | チームメンバー | チーム管理者 |
+| ------------------- | -------- | -------------- | ----------- |
+| チームメンバーを追加 |          |                |      X      |
+| チームメンバーを削除 |          |                |      X      |
+| チーム設定を管理     |          |                |      X      |
 
-| 権限 | View-Only | Team Member | Team Admin | 
-| ----------- | --------- | ----------------------------------------------- | ---------- |
-| Reports の表示 | X | X | X |
-| Reports の作成 | | X | X |
-| Reports の編集 | | X (自分の Reports のみ編集可能) | X |
-| Reports の削除 | | X (自分の Reports のみ削除可能) | X |
+<div id="reports">
+  ### Reports
+</div>
 
-### Experiments
-以下の表は、特定のチーム内のすべての Experiments に適用される権限の一覧です。
+Reports の権限は、レポートの作成、閲覧、編集へのアクセス権を付与します。次の表は、特定のチーム内のすべてのレポートに適用される権限を示します。
 
-| 権限 | View-Only | Team Member | Team Admin | 
+| Permissions   | View-Only | Team Member                                     | Team Admin |
+| -----------   | --------- | ----------------------------------------------- | ---------- |
+|View reports   | X         | X                                               | X          |
+|Create reports |           | X                                               | X          |
+|Edit reports   |           | X （チームメンバーは自分のレポートのみ編集可能）| X          |
+|Delete reports |           | X （チームメンバーは自分のレポートのみ編集可能）| X          |
+
+<div id="experiments">
+  ### Experiments
+</div>
+
+次の表は、特定のチーム内のすべての experiments に適用される権限を示します。
+
+| Permissions | View-Only | Team Member | Team Admin |
 | ------------------------------------------------------------------------------------ | --------- | ----------- | ---------- |
-| 実験メタデータの表示 (履歴メトリクス、システムメトリクス、ファイル、ログを含む) | X | X | X |
-| 実験パネルと Workspace の編集 | | X | X |
-| 実験のログ記録 | | X | X |
-| 実験の削除 | | X (自分が作成した実験のみ削除可能) | X |
-| 実験の停止 | | X (自分が作成した実験のみ停止可能) | X |
+| experiment メタデータを表示（履歴メトリクス、システム メトリクス、ファイル、ログを含む） | X         | X           | X          |
+| experiment パネルとワークスペースを編集                                              |           | X           | X          |
+| experiments をログに記録                                                            |           | X           | X          |
+| experiments を削除                                                                  |           | X（チーム メンバーは自分が作成した experiments のみ削除できます） |  X  |
+| experiments を停止                                                                  |           | X（チーム メンバーは自分が作成した experiments のみ停止できます）   |  X  |
 
-### Artifacts
-以下の表は、特定のチーム内のすべての Artifacts に適用される権限の一覧です。
+<div id="artifacts">
+  ### Artifacts
+</div>
 
-| 権限 | View-Only | Team Member | Team Admin | 
+次の表は、あるチーム内のすべての Artifacts に適用される権限を示します。
+
+| Permissions      | View-Only | Team Member | Team Admin |
 | ---------------- | --------- | ----------- | ---------- |
-| Artifacts の表示 | X | X | X |
-| Artifact のダウンロード | X | X | X |
-| Artifacts の作成 | | X | X |
-| Artifacts の削除 | | X | X |
-| メタデータの編集 | | X | X |
-| エイリアスの編集 | | X | X |
-| エイリアスの削除 | | X | X |
+| View artifacts   | X         | X           | X          |
+| Download artifact| X         | X           | X          |
+| Create artifacts |           | X           | X          |
+| Delete artifacts |           | X           | X          |
+| Edit metadata    |           | X           | X          |
+| Edit aliases     |           | X           | X          |
+| Delete aliases   |           | X           | X          |
 
-### システム設定 (W&B Server のみ)
-システム権限を使用して、チームとそのメンバーの作成・管理、およびシステム設定の調整を行います。これらの権限により、W&B インスタンスを効果的に管理・維持できます。
+<div id="system-settings-wb-server-only">
+  ### システム設定（W&amp;B Server のみ）
+</div>
 
-| 権限 | View-Only | Team Member | Team Admin | System Admin | 
+システム権限を使用して Teams とそのメンバーを作成および管理し、システム設定を調整します。これらの権限によって、W&amp;B インスタンスを効果的に運用・管理できます。
+
+| 権限                     | 閲覧のみ  | Team Member | Team Admin | System Admin |
 | ------------------------ | --------- | ----------- | ---------- | ------------ |
-| システム設定の構成 | | | | X |
-| チームの作成/削除 | | | | X |
+| システム設定の管理       |           |             |            | X            |
+| Teams の作成/削除        |           |             |            | X            |
 
-### チームサービスアカウントの振る舞い
+<div id="team-service-account-behavior">
+  ### チームのサービスアカウントの動作
+</div>
 
-* トレーニング環境でチームを設定した場合、そのチームのサービスアカウントを使用して、そのチーム内のプライベートまたはパブリックなプロジェクトに Runs をログ記録できます。さらに、環境変数 **WANDB_USERNAME** または **WANDB_USER_EMAIL** が存在し、参照されているユーザーがそのチームの一員である場合、それらの Runs をそのユーザーに紐付けることができます。
-* トレーニング環境でチームを **設定せず** にサービスアカウントを使用した場合、Runs はそのサービスアカウントの親チーム内の指定されたプロジェクトにログ記録されます。この場合も、**WANDB_USERNAME** または **WANDB_USER_EMAIL** 変数が存在し、参照されているユーザーがサービスアカウントの親チームの一員であれば、Runs をそのユーザーに紐付けることができます。
-* サービスアカウントは、親チームとは異なるチームのプライベートプロジェクトに Runs をログ記録することはできません。サービスアカウントがプロジェクトにログ記録できるのは、プロジェクトの公開範囲が `Open` に設定されている場合に限られます。
+* トレーニング環境で team を設定している場合、その team のサービスアカウントを使用して、その team 内の非公開プロジェクトまたは公開プロジェクトに runs を記録できます。さらに、環境に **WANDB&#95;USERNAME** または **WANDB&#95;USER&#95;EMAIL** 変数が存在し、そこで指定されている ユーザー がその team の一員であれば、その runs をそのユーザーに紐付けることができます。
+* トレーニング環境で team を設定して **いない** 状態でサービスアカウントを使用する場合、runs はそのサービスアカウントの親 team 内の指定されたプロジェクトに記録されます。この場合でも、環境に **WANDB&#95;USERNAME** または **WANDB&#95;USER&#95;EMAIL** 変数が存在し、そこで指定されている ユーザー がサービスアカウントの親 team の一員であれば、その runs をそのユーザーに紐付けることができます。
+* サービスアカウントは、自身の親 team とは異なる team にある非公開プロジェクトに runs を記録することはできません。サービスアカウントが runs をプロジェクトに記録できるのは、そのプロジェクトの公開範囲が `Open` に設定されている場合のみです。
 
-## チームトライアル
+<div id="team-trials">
+  ## チーム向けトライアル
+</div>
 
-W&B プランの詳細については、[料金ページ](https://wandb.ai/site/pricing) を参照してください。ダッシュボード UI または [Export API](/models/ref/python/public-api) を使用して、いつでもすべてのデータをダウンロードできます。
+W&amp;B プランの詳細については、[料金ページ](https://wandb.ai/site/pricing) を参照してください。ダッシュボード UI または [Export API](/ja/models/ref/python/public-api) を使用して、いつでもすべてのデータをダウンロードできます。
 
-## 高度な設定
+<div id="advanced-configuration">
+  ## 高度な設定
+</div>
 
-### Secure storage connector
+<div id="secure-storage-connector">
+  ### セキュアストレージコネクタ
+</div>
 
-チームレベルの Secure Storage Connector を使用すると、チーム独自のクラウドストレージバケットを W&B で使用できます。これにより、機密性の高いデータを扱うチームや厳格なコンプライアンス要件を持つチームに対して、より高度なデータアクセス制御とデータ分離を提供します。詳細は [Secure Storage Connector](/platform/hosting/data-security/secure-storage-connector) を参照してください。
+チームレベルのセキュアストレージコネクタを使用すると、Teams は自分たちのクラウド ストレージ バケットを W&amp;B で利用できます。これにより、機密性の高いデータや厳格なコンプライアンス要件を持つ Teams において、データアクセス制御とデータ分離を一層強化できます。詳細については、[セキュアストレージコネクタ](/ja/platform/hosting/data-security/secure-storage-connector) を参照してください。

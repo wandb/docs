@@ -1,36 +1,44 @@
 ---
-title: wandb artifact ls
+title: "wandb artifact ls"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-ls.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  이 명령에 대한 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-artifact-ls.mdx
+  2. 해당 파일에 소개 내용을 추가합니다.
+  3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남겨 둡니다:
 
-import WandbArtifactLs from "/snippets/en/_includes/cli/wandb-artifact-ls.mdx";
+  import WandbArtifactLs from "/snippets/_includes/cli/wandb-artifact-ls.mdx";
 
-<WandbArtifactLs/>
+  <WandbArtifactLs/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  스니펫은 다음 재생성 시 자동으로 감지됩니다.
+  */}
 
-W&B 프로젝트의 모든 Artifacts 목록을 출력합니다.
+wandb 프로젝트에 있는 모든 아티팩트를 나열합니다
 
-## Usage
+
+<div id="usage">
+  ## 사용 방법
+</div>
 
 ```bash
 wandb artifact ls PATH [OPTIONS]
 ```
 
-## Arguments
 
-| 인수 | 설명 | 필수 여부 |
+<div id="arguments">
+  ## 인자
+</div>
+
+| 인자 | 설명 | 필수 여부 |
 | :--- | :--- | :--- |
-| `PATH` | 설명 없음 | 예 |
+| `PATH` | 설명이 제공되지 않습니다 | 예 |
 
-## Options
+<div id="options">
+  ## 옵션
+</div>
 
 | 옵션 | 설명 |
 | :--- | :--- |
-| `--type`, `-t` | 나열할 Artifacts의 타입 |
+| `--type`, `-t` | 목록에 표시할 아티팩트 유형 |

@@ -1,0 +1,27 @@
+---
+title: 레지스트리 컬렉션 태그 추가
+---
+
+```python
+"""
+레지스트리의 컬렉션에 태그를 추가합니다.
+"""
+import wandb
+
+# 레지스트리 및 컬렉션 세부 정보 정의
+collection_name = "<collection_name>"
+collection_type = "<collection_type>"
+registry_name = "<registry_name>"
+
+# 전체 레지스트리 경로 구성
+registry_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# 아티팩트 컬렉션 가져오기
+collection = wandb.Api().artifact_collection(
+  type_name = collection_type, 
+  name = registry_path
+  )
+
+collection.tags = ["<tag>"]
+collection.save()
+```

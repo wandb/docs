@@ -2,52 +2,67 @@
 title: Launch の用語と概念
 ---
 
-W&B Launch を使用すると、 [jobs](#launch-job) を [queues](#launch-queue) にエンキューして run を作成できます。 Jobs は W&B が組み込まれた Python スクリプトです。 Queues は [target resource](#target-resources) 上で実行される jobs のリストを保持します。 [Agents](#launch-agent) は queues から jobs を取得し、 target resources 上で実行します。 W&B は、 [runs](/models/runs/) を追跡するのと同様に、 Launch jobs を追跡します。
+W&amp;B Launch では、run を作成するために [jobs](#launch-job) を [queues](#launch-queue) に投入します。job は W&amp;B 用にインスツルメントされた Python スクリプトです。queue は、[target resource](#target-resources) 上で実行する job の一覧を保持します。[Agents](#launch-agent) は queues から jobs を取得し、target resources 上で jobs を実行します。W&amp;B は Launch jobs を、W&amp;B が [runs](/ja/models/runs/) を追跡する場合と同様の方法で追跡します。
 
-### Launch job
-Launch job は、完了すべきタスクを表す特定のタイプの [W&B Artifact](/models/artifacts/) です。 例えば、一般的な Launch jobs には、モデルのトレーニングやモデルの評価（ model evaluation ）のトリガーなどがあります。 Job の定義には以下が含まれます：
+<div id="launch-job">
+  ### Launch ジョブ
+</div>
 
-- Python コードおよびその他のファイルアセット（少なくとも1つの実行可能なエントリポイントを含む）。
-- 入力（設定（ configuration ）パラメータ）および出力（ログ記録されたメトリクス）に関する情報。
-- 環境に関する情報（例： `requirements.txt` 、ベースの `Dockerfile` ）。
+Launch ジョブは、完了すべきタスクを表す特定の種類の [W&amp;B Artifact](/ja/models/artifacts/) です。たとえば、一般的な Launch ジョブには、モデル のトレーニングやモデル 評価のトリガーなどがあります。ジョブ定義には次の内容が含まれます：
 
-Job の定義には主に3つの種類があります：
+* 少なくとも 1 つの実行可能なエントリポイントを含む Python コードおよびその他のファイルアセット
+* 入力（設定パラメーター）と出力（記録されるメトリクス）に関する情報
+* 環境に関する情報（例：`requirements.txt`、ベースとなる `Dockerfile`）
 
-| Job タイプ | 定義 | この job タイプの実行方法 | 
+ジョブ定義には主に 3 種類あります：
+
+| Job types | Definition | How to run this job type |
 | ---------- | --------- | -------------- |
-| Artifact ベース（またはコードベース）の jobs | コードとその他のアセットが W&B Artifact として保存されます。 | Artifact ベースの jobs を実行するには、 Launch agent にビルダーが設定されている必要があります。 |
-| Git ベースの jobs | コードとその他のアセットが Git リポジトリの特定のコミット、ブランチ、またはタグからクローンされます。 | Git ベースの jobs を実行するには、 Launch agent にビルダーと Git リポジトリの認証情報が設定されている必要があります。 |
-| イメージベースの jobs | コードとその他のアセットが Docker イメージに組み込まれています。 | イメージベースの jobs を実行するには、 Launch agent にイメージリポジトリの認証情報の設定が必要な場合があります。 | 
+|Artifact-based (or code-based) jobs| コードおよびその他のアセットが W&amp;B Artifacts として保存されます。| Artifact-based ジョブを実行するには、Launch agent を builder で構成する必要があります。 |
+|Git-based jobs| コードおよびその他のアセットが、git リポジトリ内の特定のコミット、ブランチ、またはタグからクローンされます。 | Git-based ジョブを実行するには、Launch agent を builder および git リポジトリのクレデンシャルで構成する必要があります。 |
+|Image-based jobs| コードおよびその他のアセットが Docker イメージに組み込まれます。 | Image-based ジョブを実行するには、Launch agent をイメージリポジトリのクレデンシャルで構成する必要がある場合があります。 |
 
 <Note>
-Launch jobs は、モデルを Triton 推論サーバーにデプロイするなど、モデルトレーニングに関連しないアクティビティを実行することもできますが、すべての jobs は正常に完了するために `wandb.init` を呼び出す必要があります。 これにより、 W&B Workspace 内で追跡用の run が作成されます。
+  Launch ジョブは、モデル トレーニングと無関係な処理も実行できます。たとえば、モデル を Triton inference server にデプロイするといったことも可能です。ただし、すべてのジョブは正常に完了するために `wandb.init` を呼び出す必要があります。これは、W&amp;B ワークスペース内でトラッキング用の run を作成します。
 </Note>
 
-作成した jobs は、 W&B App のプロジェクト Workspace にある `Jobs` タブで確認できます。 そこから jobs を設定し、 [launch queue](#launch-queue) に送信して、さまざまな [target resources](#target-resources) で実行できます。
+作成したジョブは、W&amp;B App のプロジェクト ワークスペース内にある `Jobs` タブで確認できます。そこからジョブを構成し、さまざまな [ターゲットリソース](#target-resources) 上で実行するために [launch キュー](#launch-queue) へ送信できます。
 
-### Launch queue
-Launch *queues* は、特定の target resource で実行される jobs の順序付きリストです。 Launch queues は先入れ先出し（ FIFO ）方式です。 作成できる queues の数に実質的な制限はありませんが、1つの target resource につき1つの queue を作成するのが良い目安です。 Jobs は、 W&B App UI、 W&B CLI、または Python SDK を使用してエンキューできます。 その後、1つ以上の Launch agents を設定して queue からアイテムを取得し、その queue の target resource で実行することができます。
+<div id="launch-queue">
+  ### Launch queue
+</div>
 
-### Target resources
-Launch queue が jobs を実行するように設定されている計算環境を *target resource* と呼びます。
+Launch *queues* は、特定のターゲットリソース上で実行するジョブを順序付きで保持するリストです。Launch queues は先入れ先出し (FIFO) 方式です。作成できる queue の数に実質的な制限はありませんが、目安としてはターゲットリソースごとに 1 つの queue を用意することが推奨されます。ジョブは W&amp;B App UI、W&amp;B CLI、または Python SDK から queue に追加できます。その後、1 つ以上の Launch エージェントを設定して queue からアイテムを取得し、その queue のターゲットリソース上で実行させることができます。
 
-W&B Launch は以下の target resources をサポートしています：
+<div id="target-resources">
+  ### ターゲットリソース
+</div>
 
-- [Docker](/platform/launch/setup-launch-docker/)
-- [Kubernetes](/platform/launch/setup-launch-kubernetes/)
-- [AWS SageMaker](/platform/launch/setup-launch-sagemaker/)
-- [Google Cloud Vertex AI](/platform/launch/setup-vertex/)
+Launch キューがジョブを実行するように設定されている計算環境を、*ターゲットリソース* と呼びます。
 
-各 target resource は、 *resource configurations* と呼ばれる異なる設定パラメータセットを受け取ります。 Resource configurations は各 Launch queue で定義されたデフォルト値を取りますが、各 job によって個別に上書きすることも可能です。 詳細については、各 target resource のドキュメントを参照してください。
+W&amp;B Launch は、次のターゲットリソースをサポートしています。
 
-### Launch agent
-Launch agents は、 Launch queues を定期的にチェックして実行すべき jobs がないかを確認する、軽量で常駐型のプログラムです。 Launch agent は job を受け取ると、まず job の定義からイメージをビルドまたはプルし、それを target resource 上で実行します。
+* [Docker](/ja/platform/launch/setup-launch-docker/)
+* [Kubernetes](/ja/platform/launch/setup-launch-kubernetes/)
+* [AWS SageMaker](/ja/platform/launch/setup-launch-sagemaker/)
+* [Google Cloud Vertex AI](/ja/platform/launch/setup-vertex/)
 
-1つのエージェントで複数の queues をポーリングできますが、そのエージェントはポーリングしている各 queue の基盤となるすべての target resources をサポートするように適切に設定されている必要があります。
+各ターゲットリソースでは、*リソース設定* と呼ばれる、それぞれ異なる一連の設定パラメーターを使用します。リソース設定には各 Launch キューによってデフォルト値が定義されていますが、各ジョブごとに個別に上書きできます。詳細については、各ターゲットリソースのドキュメントを参照してください。
 
-### Launch agent environment
-Agent 環境（ environment ）とは、 Launch agent が動作し、 jobs をポーリングしている環境のことです。
+<div id="launch-agent">
+  ### Launch エージェント
+</div>
+
+Launch エージェントは軽量で常駐するプログラムで、定期的に Launch キューをポーリングし、実行すべきジョブがないか確認します。Launch エージェントがジョブを受け取ると、まずジョブ定義からイメージをビルドまたはプルし、そのイメージをターゲットリソース上で実行します。
+
+1 つのエージェントが複数のキューをポーリングすることもできますが、その場合は、ポーリング対象の各キューを支えるすべてのターゲットリソースに対応できるように、エージェントを適切に構成する必要があります。
+
+<div id="launch-agent-environment">
+  ### Launch エージェント環境
+</div>
+
+エージェント環境とは、Launch エージェントが稼働し、ジョブをポーリングしている環境のことです。
 
 <Note>
-エージェントの実行環境は、 queue の target resource とは独立しています。 つまり、必要な target resources にアクセスするための設定が十分になされていれば、エージェントはどこにでもデプロイできます。
+  エージェントの実行環境は、キューのターゲットリソースとは独立しています。言い換えると、必要なターゲットリソースへアクセスできるように適切に構成されていれば、エージェントはどこにでもデプロイできます。
 </Note>

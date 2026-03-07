@@ -1,0 +1,19 @@
+---
+title: "run フォーク"
+---
+
+```python
+"""既存の W&B run を特定のステップからフォークする。"""
+
+import wandb
+
+# 後でフォークする run を初期化する
+with wandb.init(project="<project>", entity="<entity>") as original_run:
+    # トレーニングとロギングのコードをここに記述する。
+    pass
+
+# 特定のステップから run をフォークする
+with wandb.init(project="<project>",entity="<entity>", fork_from=f"{original_run.id}?_step=200") as forked_run:
+    # トレーニングとロギングのコードをここに記述する。
+    pass
+```

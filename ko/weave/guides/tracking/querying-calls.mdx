@@ -1,0 +1,112 @@
+---
+title: "Call 쿼리 및 내보내기"
+description: "W&B Weave Call 데이터를 필터링, 정렬, 내보내기"
+---
+
+Weave UI에서는 데이터를 여러 형식으로 내보낼 수 있습니다. 또한 행을 프로그래밍 방식으로 내보내는 데 사용할 수 있는 Python 및 cURL 코드도 함께 표시합니다.
+Call을 내보내려면 다음을 따르세요:
+
+1. [wandb.ai](https://wandb.ai/)로 이동해 프로젝트를 선택합니다.
+2. Weave 프로젝트 사이드바에서 **Traces**를 클릭합니다.
+3. 내보낼 Call을 행의 체크박스를 선택해 여러 개 선택합니다.
+4. **Traces** 테이블 도구 모음에서 내보내기/다운로드 버튼을 클릭합니다.
+5. **Export** 모달에서 **Selected rows** 또는 **All rows**를 선택합니다. 그런 다음 **Export**를 클릭합니다.
+
+<Frame>
+  ![Traces 페이지에서 Export 모달에 내보낼 Call이 선택된 상태로 표시된 화면.](/weave/guides/tracking/imgs/trace_export_modal.png)
+</Frame>
+
+<div id="fetch-calls-programmatically">
+  ## 코드로 call 가져오기
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Python API를 사용하여 call을 가져오려면 [`client.get_calls`](/ko/weave/reference/python-sdk/trace/weave_client#method-get_calls) 메서드를 사용할 수 있습니다:
+
+    ```python lines
+    import weave
+
+    # 클라이언트 초기화
+    client = weave.init("your-project-name")
+
+    # call 가져오기
+    calls = client.get_calls(filter=...)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript API를 사용하여 call을 가져오려면 [`client.getCalls`](/ko/weave/reference/typescript-sdk/classes/weaveclient#getcalls) 메서드를 사용할 수 있습니다.
+
+    ```typescript
+    import * as weave from 'weave'
+
+    // 클라이언트 초기화
+    const client = await weave.init('intro-example')
+
+    // call 가져오기
+    const calls = await client.getCalls(filter=...)
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    가장 강력한 쿼리 계층은 Service API입니다. Service API를 사용하여 call을 가져오려면 [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) 엔드포인트로 요청을 보내세요.
+
+    ```bash
+    curl -L 'https://trace.wandb.ai/calls/stream_query' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+    "project_id": "string",
+    "filter": {
+        "op_names": [
+            "string"
+        ],
+        "input_refs": [
+            "string"
+        ],
+        "output_refs": [
+            "string"
+        ],
+        "parent_ids": [
+            "string"
+        ],
+        "trace_ids": [
+            "string"
+        ],
+        "call_ids": [
+            "string"
+        ],
+        "trace_roots_only": true,
+        "wb_user_ids": [
+            "string"
+        ],
+        "wb_run_ids": [
+            "string"
+        ]
+    },
+    "limit": 100,
+    "offset": 0,
+    "sort_by": [
+        {
+        "field": "string",
+        "direction": "asc"
+        }
+    ],
+    "query": {
+        "$expr": {}
+    },
+    "include_costs": true,
+    "include_feedback": true,
+    "columns": [
+        "string"
+    ],
+    "expand_columns": [
+        "string"
+    ]
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+call 속성과 필드에 대한 자세한 내용은 [Call 스키마 레퍼런스](/ko/weave/guides/tracking/call-schema-reference)를 참조하세요.

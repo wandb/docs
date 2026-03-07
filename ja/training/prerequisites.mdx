@@ -1,29 +1,35 @@
 ---
 title: 前提条件
-description: W&B トレーニング を使用するための 環境 を設定する
+description: W&B Training を使用するための環境を設定する
 ---
 
-import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
 
-OpenPipe ART フレームワークまたは API を通じて W&B Training 機能を使用する前に、以下の手順を完了してください。
+OpenPipe ART フレームワークまたは API 経由で W&amp;B Training 機能を使用する前に、以下の手順を完了してください。
 
 <Tip>
-開始する前に、[使用方法と制限事項](/training/serverless-rl/usage-limits) を確認し、コストと制限について理解してください。
+  開始する前に、コストや制限を理解するために [利用情報と制限](/ja/training/serverless-rl/usage-limits) を確認してください。
 </Tip>
 
-## サインアップして API キーを作成する
+<div id="sign-up-and-create-an-api-key">
+  ## サインアップして API キーを作成する
+</div>
 
-マシンを W&B で認証するには、まず API キーを生成する必要があります。
+マシンを W&amp;B で認証するには、まず API キーを発行する必要があります。
 
-<ApiKeyCreate/>
+<ApiKeyCreate />
 
-## W&B で Project を作成する
+<div id="create-a-project-in-wb">
+  ## W&amp;B でプロジェクトを作成する
+</div>
 
-使用状況の追跡、トレーニング メトリクスの記録、およびトレーニング済み Models の保存を行うために、W&B アカウントで Project を作成します。詳細については [Projects ガイド](https://docs.wandb.ai/models/track/project-page) を参照してください。
+W&amp;B アカウント内にプロジェクトを作成して、使用状況を追跡し、トレーニング メトリクスを記録し、学習済みモデルを保存します。詳細については、[Projects guide](https://docs.wandb.ai/models/track/project-page) を参照してください。
 
-## 次のステップ
+<div id="next-steps">
+  ## 次のステップ
+</div>
 
-前提条件を完了した後のステップ：
+前提条件を完了したら、次のステップに進みます。
 
-* [API リファレンス](/training/api-reference) を確認して、利用可能なエンドポイントについて学ぶ
-* [ART クイックスタート](https://art.openpipe.ai/getting-started/quick-start) を試す
+* 利用可能なエンドポイントについて知るには、[API リファレンス](/ja/training/api-reference) を確認してください
+* [ART クイックスタート](https://art.openpipe.ai/getting-started/quick-start) を試してください

@@ -1,62 +1,83 @@
 ---
-title: オートメーション の概要
-description: W&B 内のイベントに基づいて ワークフロー をトリガーするには、W&B オートメーション を使用します。
+title: Automations 概要
+description: W&B のイベントに基づいてワークフローをトリガーするために W&B Automations を使用します
 ---
-import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+
+import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.mdx";
 
 <Info>
-<EnterpriseCloudOnly/>
+  <EnterpriseCloudOnly />
 </Info>
 
-このページでは、W&B における オートメーション について説明します。 [オートメーションを作成](/models/automations/create-automations/) することで、W&B 内のイベントをトリガーとして、モデルの自動テストやデプロイメントなどのワークフローのステップを実行できます。
+このページでは、W&amp;B における *automations* について説明します。[automation を作成](/ja/models/automations/create-automations/) して、W&amp;B 内のイベントに基づき、自動モデルテストやデプロイなどのワークフロー手順をトリガーできます。
 
-例えば、オートメーションを使用すると、新しい バージョン が作成されたときに Slack チャンネルに通知したり、アーティファクト に `production` エイリアス が追加されたときに自動テストの Webhook を実行したり、Run の `loss`（損失）が許容範囲内に収まったときにのみ検証ジョブを開始したりすることができます。
+例えば、automation を使って新しいバージョンが作成されたときに Slack チャンネルに通知したり、`production` エイリアスが Artifacts に追加されたときに自動テスト用の webhook をトリガーしたり、run の `loss` が許容範囲内にある場合にのみ検証ジョブを開始できます。
 
 <Info>
-オートメーションのチュートリアルをお探しですか？
-- [モデルの評価とデプロイメントのために Github Action を自動的にトリガーする方法を学ぶ](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)
-- [Sagemaker エンドポイントへのモデルの自動デプロイを実演するビデオを見る](https://www.youtube.com/watch?v=s5CMj_w3DaQ)
-- [オートメーションを紹介するビデオシリーズを見る](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6&feature=shared)
+  automations のチュートリアルをお探しですか？
+
+  * [モデル評価とデプロイのための GitHub Action を自動的にトリガーする方法を学ぶ](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw)。
+  * [モデルを SageMaker エンドポイントへ自動デプロイするデモ動画を見る](https://www.youtube.com/watch?v=s5CMj_w3DaQ)。
+  * [automations を紹介する動画シリーズを見る](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6\&feature=shared)。
 </Info>
 
-## オートメーションイベント
+<div id="automation-events">
+  ## オートメーションイベント
+</div>
 
-オートメーションは、コレクション、プロジェクト、またはレジストリ内の Runs または アーティファクト に関連するイベントによってトリガーされます。オートメーションは以下の場合に開始できます。
+オートメーションは、コレクション、プロジェクト、またはレジストリ内の run や Artifacts に関連するイベントによってトリガーされます。オートメーションは次のタイミングで開始されます。
 
-- Run の メトリクス が定義された絶対閾値または相対閾値を満たしたとき。例えば、Run の `loss` が 0.01 未満になったときや、Run の `accuracy`（精度）が 5% 向上したときにトリガーします。
-- Run の z-score（標準スコア）が平均から指定量だけ逸脱したとき。z-score が 0 の場合は、結果が平均と一致していることを示します。z-score が +2 の場合は結果が平均より標準偏差の 2 倍高いことを意味し、z-score が -2 の場合は結果が平均より標準偏差の 2 倍低いことを意味します。
-- プロジェクト またはレジストリでイベントが発生したとき。例えば、モデル アーティファクト の新しい バージョン が作成されたときや、モデル アーティファクト に `production` エイリアス が追加されたときにトリガーします。
+* run のメトリクスが、指定した絶対値または相対値のしきい値を満たしたとき。たとえば、run の `loss` が 0.01 未満になったとき、または run の `accuracy` が 5% 改善したときにトリガーされます。
+* run の z スコア（標準スコア）が平均から指定量だけ外れたとき。z スコアが 0 の場合、その結果は平均と一致していることを示します。z スコアが +2 の場合、その結果は平均より 2 標準偏差高いことを意味し、z スコアが -2 の場合、その結果は平均より 2 標準偏差低いことを意味します。
+* プロジェクトまたはレジストリでイベントが発生したとき。たとえば、新しいバージョンの model Artifacts が作成されたとき、または `production` エイリアスが model Artifacts に追加されたときにトリガーされます。
 
-詳細については、[オートメーションのイベントとスコープ](/models/automations/automation-events/) を参照してください。
+詳細については、[Automation events and scopes](/ja/models/automations/automation-events/) を参照してください。
 
-## オートメーションアクション
+<div id="automation-actions">
+  ## 自動化アクション
+</div>
 
-イベントがオートメーションをトリガーすると、次のいずれかのアクションを実行できます。
+イベントでオートメーションがトリガーされると、次のいずれかのアクションを実行します。
 
-### Slack 通知
-トリガーとなったイベントの詳細を Slack チャンネルに送信します。メッセージにはイベントの概要と、W&B で詳細を確認するためのリンクが含まれます。
+<div id="slack-notification">
+  ### Slack 通知
+</div>
 
-### Webhook
-トリガーとなったイベントに関する情報を含む JSON ペイロードを使用して、Webhook URL を呼び出します。これにより、CI/CD パイプライン、モデル デプロイメント サービス、カスタム ワークフロー などの外部システムとの インテグレーション が可能になります。Webhook リクエストのボディは、JSON シリアライズ可能な任意のペイロードにすることができます。
+トリガーとなったイベントの詳細を含むメッセージを Slack チャンネルに送信します。このメッセージにはイベントの概要と、W&amp;B で詳細を確認できるリンクが含まれます。
+
+<div id="webhook">
+  ### Webhook
+</div>
+
+トリガーとなったイベントに関する情報を含む JSON ペイロードで Webhook URL を呼び出します。これにより、CI/CD パイプライン、モデルのデプロイサービス、カスタムワークフローなどの外部システムとのインテグレーションが可能になります。Webhook リクエストのボディには、任意の JSON シリアライズ可能なペイロードを指定できます。
 
 実装の詳細については、以下を参照してください。
-- [Slack オートメーションの作成](/models/automations/create-automations/slack/)
-- [Webhook オートメーションの作成](/models/automations/create-automations/webhook/)
 
-## オートメーションの仕組み
+* [Slack automation を作成する](/ja/models/automations/create-automations/slack/)
+* [Webhook automation を作成する](/ja/models/automations/create-automations/webhook/)
 
-[オートメーションを作成](/models/automations/create-automations/) する手順は以下の通りです。
+<div id="how-automations-work">
+  ## 自動化の仕組み
+</div>
 
-1. 必要に応じて、アクセストークン、パスワード、機密性の高い 設定 詳細など、オートメーションが必要とする機密文字列の [シークレット（secrets）](/platform/secrets/) を設定します。シークレットは **Team Settings** で定義します。シークレットは、Webhook の外部サービスにクレデンシャルやトークンをプレーンテキストで公開したりペイロードにハードコーディングしたりすることなく安全に渡すために、主に Webhook オートメーションで使用されます。
-1. チームレベルの Webhook または Slack インテグレーション を設定し、W&B があなたに代わって Slack への投稿や Webhook の実行を行うことを許可します。単一のオートメーションアクション（Webhook または Slack 通知）を複数のオートメーションで使用できます。これらのアクションは **Team Settings** で定義されます。
-1. プロジェクト またはレジストリで、オートメーションを作成します。
-    1. 新しい アーティファクト バージョン が追加されたときなど、監視する [イベント](#オートメーションイベント) を定義します。
-    1. イベント発生時に実行するアクション（Slack チャンネルへの投稿または Webhook の実行）を定義します。Webhook の場合は、必要に応じてアクセストークンに使用するシークレットや、ペイロードと共に送信するシークレットを指定します。
+[自動化を作成する](/ja/models/automations/create-automations/)には、次の手順を実行します。
 
-## 制限事項
-[Run メトリクスオートメーション](/models/automations/automation-events/#run-metrics-events) および [Run メトリクス z-score 変化オートメーション](/models/automations/automation-events/#run-metrics-z-score-change-automations) は、現在 [W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud) でのみサポートされています。
+1. 必要に応じて、アクセストークン、パスワード、または機密性の高い設定情報など、自動化に必要な機密文字列用の [secrets](/ja/platform/secrets/) を設定します。Secrets は **Team Settings** で定義します。Secrets は、webhook のペイロード内に平文で記載したりハードコードしたりすることなく、webhook の外部サービスに認証情報やトークンを安全に渡すために、webhook 自動化で最も一般的に使用されます。
+2. チームレベルの webhook または Slack インテグレーションを設定して、W&amp;B が Slack に投稿したり、あなたに代わって webhook を実行できるように許可します。1 つの自動化アクション (webhook または Slack 通知) は、複数の自動化で使用できます。これらのアクションは **Team Settings** で定義します。
+3. プロジェクトまたはレジストリで自動化を作成します:
+   1. 監視する [event](#automation-events) を定義します (たとえば、新しい artifact バージョンが追加されたときなど)。
+   2. イベントが発生したときに実行するアクション (Slack チャンネルへの投稿や webhook の実行) を定義します。webhook の場合、必要に応じてアクセストークンとして使用する secret および/またはペイロードと共に送信する secret を指定します。
 
-## 次のステップ
-- [オートメーションを作成する](/models/automations/create-automations/)。
-- [オートメーションのイベントとスコープ](/models/automations/automation-events/) について学ぶ。
-- [シークレットを作成する](/platform/secrets/)。
+<div id="limitations">
+  ## 制限事項
+</div>
+
+[Run metric automations](/ja/models/automations/automation-events/#run-metrics-events) と [run metrics z-score change automations](/ja/models/automations/automation-events/#run-metrics-z-score-change-automations) は、現在 [W&amp;B Multi-tenant Cloud](/ja/platform/hosting/#wb-multi-tenant-cloud) のみでサポートされています。
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+* [オートメーションを作成する](/ja/models/automations/create-automations/)。
+* [Automation events と scopes](/ja/models/automations/automation-events/) について学ぶ。
+* [シークレットを作成する](/ja/platform/secrets/)。

@@ -3,12 +3,14 @@ title: プロジェクト
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
 ## <kbd>class</kbd> `Project`
-Project は Runs のネームスペースです。
+
+プロジェクトは run の名前空間です。
 
 ### <kbd>method</kbd> `Project.__init__`
 
@@ -21,55 +23,59 @@ __init__(
 ) → Project
 ```
 
-**Args:**
- 
- - `client`: W&B API クライアントのインスタンス。
- - `name` (str): プロジェクト名。
- - `entity` (str): プロジェクトを所有する Entity 名。
+**引数:**
 
+* `client`:  W&amp;B API クライアント インスタンス。
+* `name` (str):  プロジェクトの名前。
+* `entity` (str):  プロジェクトを所有するエンティティ名。
 
-Entity に関連付けられた単一のプロジェクト。
+エンティティに関連付けられた単一のプロジェクト。
 
+**引数:**
 
+* `client`:  W&amp;B をクエリするために使用される API クライアント。
+* `entity`:  プロジェクトを所有するエンティティ。
+* `project`:  クエリ対象のプロジェクトの名前。
+* `attrs`:  プロジェクトの属性。
 
-**Args:**
- 
- - `client`: W&B へのクエリに使用される API クライアント。
- - `entity`: プロジェクトを所有する Entity。
- - `project`: クエリ対象のプロジェクト名。
- - `attrs`: プロジェクトの属性。
+***
 
+### <kbd>プロパティ</kbd> Project.id
 
----
+***
 
-### <kbd>property</kbd> Project.id
+### <kbd>property</kbd> Project.owner
 
+プロジェクトの所有者を User オブジェクトとして返します。
 
+**例外:**
 
+* `ValueError`:  プロジェクトのユーザー情報が見つからない場合に送出されます。
 
+**戻り値:**
 
----
+* `public.User`: owner プロパティの値。
+
+***
 
 ### <kbd>property</kbd> Project.path
 
-プロジェクトのパスを返します。パスは Entity とプロジェクト名を含むリストです。
-
-
+プロジェクトのパスを返します。パスは entity 名とプロジェクト名からなるリストです。
 
 **Returns:**
- - `list[str]`: path プロパティの値。
+
+- `list[str]`: path プロパティの値。
+
 ---
 
 ### <kbd>property</kbd> Project.url
 
-プロジェクトの URL を返します。
+プロジェクトの URL を返します。 
 
+**戻り値:**
 
+- `str`: URL プロパティの値。
 
-
-
-**Returns:**
- - `str`: url プロパティの値。
 ---
 
 ### <kbd>method</kbd> `Project.artifacts_types`
@@ -78,9 +84,9 @@ Entity に関連付けられた単一のプロジェクト。
 artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
-このプロジェクトに関連付けられているすべての Artifacts タイプを返します。
+このプロジェクトに関連するすべての Artifacts タイプを返します。
 
----
+***
 
 ### <kbd>method</kbd> `Project.sweeps`
 
@@ -88,17 +94,13 @@ artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
-このプロジェクト内の Sweeps のページネーションされたコレクションを返します。
+このプロジェクト内の sweep のページネーションされたコレクションを返します。
 
+**引数:**
 
+* `per_page`:  API へのリクエストごとに取得する sweep の数。
 
-**Args:**
- 
- - `per_page`: API へのリクエストごとに取得する Sweeps の数。
+**戻り値:**
+`Sweep` オブジェクトからなるイテラブルなコレクションである `Sweeps` オブジェクト。
 
-
-
-**Returns:**
- `Sweeps` オブジェクト。これは `Sweep` オブジェクトの反復可能なコレクションです。
-
----
+***
