@@ -34,7 +34,7 @@ To export Calls:
   </Tab>
   <Tab title="TypeScript">
   To fetch calls using the TypeScript API, you can use the [`client.getCalls`](/weave/reference/typescript-sdk/classes/weaveclient#getcalls) method.
-  ```typescript
+  ```typescript lines
   import * as weave from 'weave'
 
   // Initialize the client
@@ -127,7 +127,7 @@ The endpoint provides several filtering options that allow you to target Calls m
 The following example demonstrates how to retrieve Calls generated from an Op named `web_app` over a two-day period:
 
 <CodeGroup>
-```python Python
+```python Python lines {10-11,16-24}
 import requests
 import json
 import os
@@ -137,11 +137,13 @@ url = "https://trace.wandb.ai/calls/stats"
 payload = {
     "project_id": "<your-team-name/your-project-name>",
     "start": "2026-03-01T00:00:00Z",
+# Specify the size of the buckets, in seconds.
     "granularity": 86400,
     "filter": {
         "trace_roots_only": True,
         "op_names": ["web_app"]
     },
+# Specify metrics and their aggregate function
     "usage_metrics": [
         {"metric": "total_tokens", "aggregations": ["sum"]},
         {"metric": "total_cost", "aggregations": ["sum"]}
@@ -160,17 +162,19 @@ response = requests.post(url, json=payload, auth=("api", API_KEY))
 print(json.dumps(response.json(), indent=2))
 ```
 
-```typescript TypeScript
+```typescript TypeScript lines {6-7,13-20}
 const url = "https://trace.wandb.ai/calls/stats";
 
 const payload = {
   project_id: "<your-team-name/your-project-name>",
   start: "2026-03-01T00:00:00Z",
+// Specify the size of the buckets, in seconds.
   granularity: 86400,
   filter: {
     trace_roots_only: true,
     op_names: ["web_app"],
   },
+// Specify metrics and their aggregate function
   usage_metrics: [
     { metric: "total_tokens", aggregations: ["sum"] },
     { metric: "total_cost", aggregations: ["sum"] },
@@ -200,9 +204,14 @@ console.log(JSON.stringify(data, null, 2));
 
 The request also specifies how to aggregate the metrics. You can aggregate metrics by `sum`, `count`, `avg`, `min`, `max`, and `count`.
 
-The endpoint returns a JSON object:
+The endpoint returns a JSON object. The following example response shows two days' worth of metrics. Each day (bucket) is broken up into its own object in the `usage_buckets` and `call_buckets` arrays. Each array breaks down the metrics differently:
 
-```json
+* `usage_buckets`: Groups Call metrics for each day by the model used.
+* `call_buckets`: Groups Call metrics for each day regardless of the model used.
+
+Set the granularity field (in seconds) in the request to change the bucket size.
+
+```json lines
 {
   "start": "2026-03-03T00:00:00Z",
   "end": "2026-03-04T21:34:39.746539Z",
@@ -274,12 +283,5 @@ The endpoint returns a JSON object:
   ]
 }
 ```
-
-The example response shows two days' worth of metrics. Each day is broken up into its own object in the `usage_buckets` and `call_buckets` arrays. Each array breaks down the metrics differently:
-
-* `usage_buckets`: Groups Call metrics for each day by the model used.
-* `call_buckets`: Groups Call metrics for each day regardless of the model used.
-
-Set the granularity field (in seconds) in the request to change the bucket size.
 
 You can query metrics for a maximum time range of 31 days. See the [Service API reference](/weave/reference/service-api/calls/call-stats) for more details and available options.
