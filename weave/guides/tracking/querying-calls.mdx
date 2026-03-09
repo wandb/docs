@@ -109,12 +109,13 @@ For complete details on call properties and fields, see the [Call schema referen
 
 ## Export call metrics
 
-You can also use the Weave Service API's [POST `/calls/stats` endpoint](/weave/reference/service-api/calls/call-stats) to retrieve metrics about your Calls without retrieving the Call data itself. This allows you to quickly and efficiently retrieve information about your Calls, such as:
+You can also use the Weave Service API's [POST `/calls/stats` endpoint](/weave/reference/service-api/calls/call-stats) to retrieve metrics about your Calls without retrieving the Call data itself. This allows you to quickly and efficiently retrieve information about your Calls, such as latency and cost, and aggregate them by sum, average, minimum, maximum, and count. For example, you can retrieve:
 
 * Total token usage
 * Average latency
-* Total trace storage
+* Maximum tokens used
 * Total cost
+* Minimum input tokens
 
 The endpoint provides several filtering options that allow you to target Calls made within specified time periods, and by other properties, such as:
 
@@ -281,4 +282,4 @@ The example response shows two days' worth of metrics. Each day is broken up int
 
 Set the granularity field (in seconds) in the request to change the bucket size.
 
-You can only query metrics for the last 31 days. See the [Service API reference](/weave/reference/service-api/calls/call-stats) for more details and available options.
+You can query metrics for a maximum time range of 31 days. See the [Service API reference](/weave/reference/service-api/calls/call-stats) for more details and available options.
