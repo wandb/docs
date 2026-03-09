@@ -7,7 +7,11 @@ The following default limits help maintain platform stability:
 | Filestream requests per second | 2 | Run |
 | Run creation requests per second | 80 | Project |
 
-When a limit is exceeded, the W&B SDK returns HTTP 429. You may see a message such as the following in your SDK logs:
+When a limit is exceeded, the W&B SDK returns HTTP response `429`, and the message `HTTP 429: rate limited exceeded` appears in the SDK logs.
+
+- Filesystem rate limits never cause logging to crash or fail. When the SDK receives a `429` response on a filestream request, it will back off and retry the rate-limited request as-is, while subsequent updates accumulate.
+
+- Run creation rate limits block further training.
 
 ```
 HTTP 429: rate limit exceeded
