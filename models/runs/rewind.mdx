@@ -3,18 +3,10 @@ description: Rewind a run to correct or modify its history without losing origin
 title: Rewind a run
 ---
 
-Rewind a run to correct or modify the history of a run without losing the original data.
-
-When you 
-rewind a run, you can log new data from that point in time. 
-
-W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:
-- **History truncation**: W&B truncates the history to the rewind point, allowing new data logging.
-- **Summary metrics**: Recomputed based on the newly logged history.
-- **Configuration preservation**: W&B preserves the original configurations and you can merge new configurations.
+Rewind a run to modify the history of a run without losing the original data. When you rewind a run, W&B resets the state of the run to the specified step, preserves the original data, and maintains the same run ID. 
 
 <Warning>
-The option to rewind a run is in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
+The option to rewind a run is in private preview and in active development. Contact W&B Support at support@wandb.com to request access to this feature.
 
 W&B currently does not support:
 * **Log rewind**: Logs are reset in the new run segment.
@@ -22,11 +14,15 @@ W&B currently does not support:
 * **Artifact association**: W&B associates artifacts with the source run that produces them.
 </Warning>
 
-{/* #### Manage runs */}
-When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This means that:
+W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:
+- **History truncation**: W&B truncates the history to the rewind point, allowing new data logging.
+- **Summary metrics**: Recomputed based on the newly logged history.
+- **Configuration preservation**: W&B preserves the original configurations and you can merge new configurations.
+
+{/* When you rewind a run, W&B resets the state of the run to the specified step, preserving the original data and maintaining a consistent run ID. This means that:
 
 - **Run archiving**: W&B archives the original runs. Runs are accessible from the [Run Overview](./#overview-tab) tab.
-- **Artifact association**: Associates artifacts with the run that produce them.
+- **Artifact association**: Associates artifacts with the run that produce them. */}
 
 <Note>
 **Rewind and forking compatibility**
