@@ -3,8 +3,12 @@ description: Rewind a run to correct or modify its history without losing origin
 title: Rewind a run
 ---
 
-Rewind a run to correct or modify the history of a run without losing the original data. In addition, when you 
-rewind a run, you can log new data from that point in time. W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:
+Rewind a run to correct or modify the history of a run without losing the original data.
+
+When you 
+rewind a run, you can log new data from that point in time. 
+
+W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:
 - **History truncation**: W&B truncates the history to the rewind point, allowing new data logging.
 - **Summary metrics**: Recomputed based on the newly logged history.
 - **Configuration preservation**: W&B preserves the original configurations and you can merge new configurations.
@@ -31,7 +35,7 @@ Forking complements a rewind.
 
 When you fork from a run, W&B creates a new branch off a run at a specific point to try different parameters or models. 
 
-When you  rewind a run, W&B lets you correct or modify the run history itself.
+When you rewind a run, W&B lets you correct or modify the run history itself.
 </Note>
 
 ## Prerequisites
@@ -43,36 +47,53 @@ Before you rewind a run, ensure you meet the following prerequisites:
 
 ## Rewind a run
 
-Use `resume_from` with [`wandb.init()`](/models/ref/python/functions/init) to "rewind" a run’s history to a specific step. Specify the name of the run and the step you want to rewind from:
+Rewind a run from a specific step and log new data from that point in time. Pass both the run ID and the step you want to rewind from as arguments to the `resume_from` parameter in [`wandb.init()`](/models/ref/python/functions/init). The `resume_from` parameter accepts a string in the format of `<run ID>?_step=<step>`, where `<run ID>` is the run ID of the run you want to rewind and `<step>` is the step you want to rewind from.
+
+Suppose you log a linear line for 300 steps:
 
 ```python
 import wandb
-import math
 
 # Initialize the first run and log some metrics
-# Replace with your_project_name and your_entity_name!
-run1 = wandb.init(project="your_project_name", entity="your_entity_name")
-for i in range(300):
-    run1.log({"metric": i})
-run1.finish()
+with wandb.init(project="<project>", entity="wandb") as run:
+    for i in range(300):
+        # Plot a linear line
+        run.log({"metric": i, "step": i})
+```
+
+Within your project's workspace, you see a line plot from step 0 to step 300:
+
+<img src="/images/runs/rewind_run_original.png" alt="Line plot of the original run"/>
+
+At a later time, you want to rewind the run from step 200 and you want to log a new metric called `additional_metric` that logs `i*1.1` from step 200 to step 300. From step 250 you want to log a new subtle wavey pattern (`i**2 + 2*sin(i/3)`) instead of a linear line:
+
+```python
+import math
+
+run_ID = "<run_ID>" # Replace with the run ID of the run you want to rewind
 
 # Rewind from the first run at a specific step and log the metric starting from step 200
-run2 = wandb.init(project="your_project_name", entity="your_entity_name", resume_from=f"{run1.id}?_step=200")
+with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_step=200") as run:
 
-# Continue logging in the new run
-# For the first few steps, log the metric as is from run1
-# After step 250, start logging the spikey pattern
-for i in range(200, 300):
-    if i < 250:
-        run2.log({"metric": i, "step": i})  # Continue logging from run1 without spikes
-    else:
-        # Introduce the spikey behavior starting from step 250
-        subtle_spike = i + (2 * math.sin(i / 3.0))  # Apply a subtle spikey pattern
-        run2.log({"metric": subtle_spike, "step": i})
-    # Additionally log the new metric at all steps
-    run2.log({"additional_metric": i * 1.1, "step": i})
-run2.finish()
+    # For the first few steps, log the metric as is from run
+    # After step 250, start logging the wavey pattern
+    for i in range(200, 300):
+        if i < 250:
+            run.log({"metric": i, "step": i})  # Continue logging from run without waves
+        else:
+            # Introduce the wavey behavior starting from step 250
+            subtle_wave = i + (2 * math.sin(i / 3.0))  # Apply a subtle wavey pattern
+            run.log({"metric": subtle_wave, "step": i})
+        # Additionally log the new metric at all steps
+        run.log({"additional_metric": i * 1.1, "step": i})
 ```
+
+The following image shows the updated project's workpace. Note the following changes in the plot after the rewind:
+
+- The line plot shows the original linear line from step 0 to step 200 and the new subtle wavey pattern starts from step 250 (left image).
+- W&B created a new plot (right plot) labeled `additional_metric` that starts from step 200.
+
+<img src="/images/runs/rewind_run_step200_wmetric.png" alt="From left to right: original linear line and additional metric"/>
 
 ## View an archived run
 
@@ -92,8 +113,8 @@ import wandb
 
 # Fork the run from a specific step
 forked_run = wandb.init(
-    project="your_project_name",
-    entity="your_entity_name",
+    project="<project>",
+    entity="<entity>",
     fork_from=f"{rewind_run.id}?_step=500",
 )
 
