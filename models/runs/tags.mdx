@@ -47,7 +47,7 @@ To update tags on an existing run, access the `wandb.Run.tags` property. `wandb.
 
 ```python
 with wandb.Api().run("{entity}/{project}/{run-id}") as run:
-  run.tags.append("<tag1>")  # you can choose tags based on run data here
+  run.tags.append("<tag1>")
   run.update()
 ```
 </Tab>
