@@ -3,15 +3,17 @@ description: Rewind a run to correct or modify its history without losing origin
 title: Rewind a run
 ---
 
-Rewind a run to modify the history of a run without losing the original data. When you rewind a run, W&B resets the state of the run to the specified step, preserves the original data, and maintains the same run ID. 
+Rewind a run to modify the history of a run. When you rewind a run, W&B resets the state of the run to the specified step while maintaining the same run ID. 
 
 <Warning>
-The option to rewind a run is in private preview and in active development. Contact W&B Support at support@wandb.com to request access to this feature.
+The option to rewind a run is in private preview and in active development. Due to known performance limitations with Rewind, W&B typically recommends [Forking](./forking) as an alternative.
 
 W&B currently does not support:
 * **Log rewind**: Logs are reset in the new run segment.
 * **System metrics rewind**: W&B logs only new system metrics after the rewind point.
 * **Artifact association**: W&B associates artifacts with the source run that produces them.
+
+Contact W&B Support at support@wandb.com to request access to this feature.
 </Warning>
 
 W&B recomputes the summary metrics for the run you rewind based on the newly logged history. This means the following behavior:

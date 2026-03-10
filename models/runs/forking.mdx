@@ -7,9 +7,9 @@ title: Fork a run
 The ability to fork a run is in active development and in private preview. Contact W&B Support at support@wandb.com to request access to this feature.
 </Warning>
 
-You can explore different parameters or models from a specific point in an experiment without affecting the original run. To do this, fork from an existing W&B run.
+You can explore different hyperparameters or models from a specific point in an experiment without impacting the original run. To do this, fork from an existing W&B run.
 
-When you fork from a run, W&B creates a new run using the source run’s [unique ID](/models/runs/run-identifiers#unique-run-identifiers) and a specified step. Data from the source run is moved, not copied, to the forked run. The forked run includes all data from the source run up to that step.
+When you fork from a run, W&B creates a new run using the source run’s [unique ID](/models/runs/run-identifiers#unique-run-identifiers) and a specified step. Summary metrics from the source run are copied to the forked run. The forked run shares all history and files from the source run up to the specified step.
 
 After the fork step, you can log new data to the forked run independently of the original run.
 
@@ -22,7 +22,7 @@ Specify the source run's unique `run ID` and the `step` you want to start the fo
 
 ## Fork from a previously logged run
 
-The following code snippet shows how to fork from a run that was previously logged to W&B. This might occur if you want explore different parameters or models from a specific point in an experiment. For example, you might want to fork from a run after the training phase to try different evaluation parameters or metrics.
+The following code snippet shows how to fork from a run that was previously logged to W&B. This might occur if you want resume training for pre-empted run by restoring from the last successful checkpoint. Or perhaps you might want to fork from a run after the training phase to try different evaluation parameters or metrics.
 
 First, obtain the run ID of the run you want to fork from. Next, specify the run ID and the step you want to fork from as arguments to `fork_from` in [`wandb.init()`](/models/ref/python/functions/init).
 
