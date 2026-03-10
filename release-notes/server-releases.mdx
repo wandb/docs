@@ -11,7 +11,17 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.78.2" description="March 10, 2026">
+## Fixes
+Fixes a previously-fixed critical security issue that could allow unauthorized access to an artifact. This regression is present in v0.78.0 and v0.78.1. Do not install or upgrade to these versions. Instead, install v0.78.2, which includes the fix.
+</Update>
+
 <Update label="v0.78.1" description="March 5, 2026">
+
+<Warning>
+This release is impacted by a critical security issue that could allow unauthorized access to an artifact. Do not install or upgrade to this version. Instead, install [v0.78.2](#v0-78-2), which includes the fix.
+</Warning>
+
 ## Fixes
 - Fixed a bug where forking from a parent run that logged no data could fail.
 - Fixed a UI bug where the user's preference for light or dark mode was not used.
@@ -26,6 +36,10 @@ W&B Server 0.78.0 strengthens security and access defaults, adds tools to compar
 - **Registry** includes enhanced search, redesigned cards, clearer and more responsive lineage graphs, and more.
 - In **Weave**, the **Trace Analytics** dashboard helps you spot bottlenecks and budget drivers from the Project Overview page. Saved views now support customized Traces, Evaluations, and Leaderboards. Weave Playground adds support for LoRA (Low-Rank Adaptation) and new models.
 - **Inference** includes new models.
+
+<Warning>
+This release is impacted by a critical security issue that could allow unauthorized access to an artifact. Do not install or upgrade to this version. Instead, install [v0.78.2](#v0-78-2), which includes the fix.
+</Warning>
 
 ## Support and end of life
 
