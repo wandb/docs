@@ -22,7 +22,7 @@ Specify the source run's unique `run ID` and the `step` you want to start the fo
 
 ## Fork from a previously logged run
 
-The following code snippet shows how to fork from a run that was previously logged to W&B. This might occur if you want resume training for pre-empted run by restoring from the last successful checkpoint. Or perhaps you might want to fork from a run after the training phase to try different evaluation parameters or metrics.
+The following code snippet shows how to fork from a run that was previously logged to W&B.
 
 First, obtain the run ID of the run you want to fork from. Next, specify the run ID and the step you want to fork from as arguments to `fork_from` in [`wandb.init()`](/models/ref/python/functions/init).
 

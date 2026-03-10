@@ -63,7 +63,7 @@ Within your project's workspace, you see a line plot from step 0 to step 300:
 
 <img src="/images/runs/rewind_run_original.png" alt="Line plot of the original run"/>
 
-At a later time, you want to rewind the run from step 200 and you want to log a new metric called `additional_metric` that logs `i*1.1` from step 200 to step 300. From step 250 you want to log a new subtle wavey pattern (`i**2 + 2*sin(i/3)`) instead of a linear line:
+At a later time, you want to rewind the run from step 200 and you want to log a new metric called `additional_metric` that logs `i*1.1` from step 200 to step 300. From step 250 you want to log a new subtle wavy pattern (`i**2 + 2*sin(i/3)`) instead of a linear line:
 
 ```python
 import math
@@ -74,13 +74,13 @@ run_ID = "<run_ID>" # Replace with the run ID of the run you want to rewind
 with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_step=200") as run:
 
     # For the first few steps, log the metric as is from run
-    # After step 250, start logging the wavey pattern
+    # After step 250, start logging the wavy pattern
     for i in range(200, 300):
         if i < 250:
             run.log({"metric": i, "step": i})  # Continue logging from run without waves
         else:
-            # Introduce the wavey behavior starting from step 250
-            subtle_wave = i + (2 * math.sin(i / 3.0))  # Apply a subtle wavey pattern
+            # Introduce the wavy behavior starting from step 250
+            subtle_wave = i + (2 * math.sin(i / 3.0))  # Apply a subtle wavy pattern
             run.log({"metric": subtle_wave, "step": i})
         # Additionally log the new metric at all steps
         run.log({"additional_metric": i * 1.1, "step": i})
@@ -88,7 +88,7 @@ with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_ste
 
 The following image shows the updated project's workpace. Note the following changes in the plot after the rewind:
 
-- The line plot shows the original linear line from step 0 to step 200 and the new subtle wavey pattern starts from step 250 (left image).
+- The line plot shows the original linear line from step 0 to step 200 and the new subtle wavy pattern starts from step 250 (left image).
 - W&B created a new plot (right plot) labeled `additional_metric` that starts from step 200.
 
 <img src="/images/runs/rewind_run_step200_wmetric.png" alt="From left to right: original linear line and additional metric"/>
