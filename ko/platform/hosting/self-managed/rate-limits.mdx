@@ -1,0 +1,16 @@
+---
+title: 속도 제한
+description: 안정성을 위한 Self-Managed 인스턴스의 선택적 속도 제한
+---
+
+import RateLimitsDefaultsAndNotification from "/snippets/en/_includes/rate-limits-defaults-and-notification.mdx";
+
+W&amp;B Self-Managed 인스턴스에서 속도 제한을 설정하여 안정성을 유지하고, 한 사용자 또는 워크로드가 다른 사용자에게 부정적인 영향을 미치지 않도록 할 수 있습니다. 이러한 제한은 선택 사항입니다. 이를 설정하지 않으면 인스턴스는 아래에 설명된 제한을 적용하지 않습니다.
+
+<div id="default-limits-and-notification">
+  ## 기본 제한 및 알림
+</div>
+
+<RateLimitsDefaultsAndNotification />
+
+이 기본값은 일반적인 프로덕션 워크로드에 권장됩니다. 워크로드가 이러한 제한을 지속적으로 초과하는 경우, 인스턴스 크기와 공유 사용량에 맞게 이 제한을 설정하거나 설정하지 않은 상태로 둘 수 있습니다. 설정 세부 정보는 [Kubernetes Operator로 W&amp;B 배포](/ko/platform/hosting/self-managed/operator)를 참조하거나 [W&amp;B 지원팀](mailto:support@wandb.com)에 문의하세요.

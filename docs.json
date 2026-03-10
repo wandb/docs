@@ -1219,9 +1219,10 @@
                   {
                     "group": "専用クラウド",
                     "pages": [
-                      "ja/platform/hosting/hosting-options/dedicated_cloud",
-                      "ja/platform/hosting/hosting-options/dedicated_regions",
-                      "ja/platform/hosting/export-data-from-dedicated-cloud"
+                      "ja/platform/hosting/hosting-options/dedicated-cloud",
+                      "ja/platform/hosting/hosting-options/dedicated-cloud/rate-limits",
+                      "ja/platform/hosting/hosting-options/dedicated-cloud/regions",
+                      "ja/platform/hosting/hosting-options/dedicated-cloud/export-data"
                     ]
                   },
                   {
@@ -1230,6 +1231,7 @@
                       "ja/platform/hosting/hosting-options/self-managed",
                       "ja/platform/hosting/self-managed/ref-arch",
                       "ja/platform/hosting/self-managed/requirements",
+                      "ja/platform/hosting/self-managed/rate-limits",
                       "ja/platform/hosting/self-managed/operator",
                       "ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "ja/platform/hosting/server-upgrade-process",
@@ -2356,9 +2358,10 @@
                   {
                     "group": "전용 클라우드",
                     "pages": [
-                      "ko/platform/hosting/hosting-options/dedicated_cloud",
-                      "ko/platform/hosting/hosting-options/dedicated_regions",
-                      "ko/platform/hosting/export-data-from-dedicated-cloud"
+                      "ko/platform/hosting/hosting-options/dedicated-cloud",
+                      "ko/platform/hosting/hosting-options/dedicated-cloud/rate-limits",
+                      "ko/platform/hosting/hosting-options/dedicated-cloud/regions",
+                      "ko/platform/hosting/hosting-options/dedicated-cloud/export-data"
                     ]
                   },
                   {
@@ -2367,6 +2370,7 @@
                       "ko/platform/hosting/hosting-options/self-managed",
                       "ko/platform/hosting/self-managed/ref-arch",
                       "ko/platform/hosting/self-managed/requirements",
+                      "ko/platform/hosting/self-managed/rate-limits",
                       "ko/platform/hosting/self-managed/operator",
                       "ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "ko/platform/hosting/server-upgrade-process",
