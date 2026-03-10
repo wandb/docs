@@ -747,6 +747,7 @@
                       "weave/guides/tracking/feedback",
                       "weave/guides/tracking/redact-pii",
                       "weave/guides/evaluation/monitors",
+                      "weave/guides/evaluation/automations",
                       "weave/guides/evaluation/guardrails",
                       "weave/guides/tracking/otel"
                     ]
