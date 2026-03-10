@@ -99,6 +99,7 @@ exclude = [
   '^(http|https)://wandb\.(ai|com|me)',
   # W&B Inference API base URL - returns 400 for GET without auth (expected)
   'https://api\.inference\.wandb\.ai/v1',
+  '(http|https)://winogrande\.allenai\.org',
   # WMDP site - connection closed / blocks crawlers
   '(http|https)://www\.wmdp\.ai',
   # YouTube embed URLs - often return 404/403 to crawlers but work in browser
