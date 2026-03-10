@@ -86,17 +86,15 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
 
    以降の手順では、`<API-endpoint>` を自分の API エンドポイントに置き換えます。
 2. (任意) エンドポイントに付加するクエリパラメーターを作成します。以降の手順では、`<parameters>` を生成した文字列に置き換えます。
-
-* `anonymize`: URL にパラメーター `anonymize=true` が含まれている場合、PII を削除します。それ以外の場合は PII が含まれます。[監査ログを取得するときに PII を除外する](#exclude-pii-when-fetching-audit-logs)を参照してください。Multi-tenant Cloud ではサポートされておらず、PII を含むすべてのフィールドが常に返されます。
-* 取得するログの日付範囲は、`numdays` と `startDate` の組み合わせで設定します。各パラメーターは任意であり、相互に作用します。
-  * どちらのパラメーターも含まれない場合、本日のログのみが取得されます。
-  * `numDays`: `startDate` から遡って何日分のログを取得するかを示す整数です。省略または `0` に設定した場合、`startDate` 当日のログのみが取得されます。**Multi-tenant Cloud** では、`numDays` をより大きな値に設定しても、取得できる監査ログは最大 7 日分です。
-  * `startDate`: **Multi-tenant Cloud** でのみサポートされます。取得する最新のログを制御するパラメーターで、形式は `startDate=YYYY-MM-DD` です。省略した場合、または本日の日付を明示的に指定した場合、本日から `numDays` までのログが取得されます。
-
+   * `anonymize`: URL にパラメーター `anonymize=true` が含まれている場合、PII を削除します。それ以外の場合は PII が含まれます。[監査ログを取得するときに PII を除外する](#exclude-pii-when-fetching-audit-logs) を参照してください。Multi-tenant Cloud ではサポートされておらず、PII を含むすべてのフィールドが常に返されます。
+   * 取得するログの日付範囲は、`numdays` と `startDate` の組み合わせで設定します。各パラメーターは任意であり、相互に作用します。
+     * どちらのパラメーターも含まれない場合、本日のログのみが取得されます。
+     * `numDays`: `startDate` から遡って何日分のログを取得するかを示す整数です。省略または `0` に設定した場合、`startDate` 当日のログのみが取得されます。**Multi-tenant Cloud** では、`numDays` をより大きな値に設定しても、取得できる監査ログは最大 7 日分です。
+     * `startDate`: **Multi-tenant Cloud** でのみサポートされます。取得する最新のログを制御するパラメーターで、形式は `startDate=YYYY-MM-DD` です。省略した場合、または本日の日付を明示的に指定した場合、本日から `numDays` までのログが取得されます。
 3. `<API-endpoint>?<parameters>` の形式で完全修飾されたエンドポイント URL を構成します。
 4. Web ブラウザー、または [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールを使って、完全修飾された API エンドポイントに対して HTTP `GET` リクエストを実行します。
 
-API レスポンスには、改行区切りの JSON オブジェクトが含まれます。オブジェクトには、監査ログがインスタンスレベルのバケットに同期される場合と同様に、[スキーマ](#audit-log-schema)で説明されているフィールドが含まれます。そのような場合、監査ログはバケット内の `/wandb-audit-logs` ディレクトリに配置されます。
+API レスポンスには、改行区切りの JSON オブジェクトが含まれます。オブジェクトには、監査ログがインスタンスレベルのバケットに同期される場合と同様に、[schema](#audit-log-schema) で説明されているフィールドが含まれます。そのような場合、監査ログはバケット内の `/wandb-audit-logs` ディレクトリに配置されます。
 
 <div id="use-basic-authentication">
   ### ベーシック認証を使用する

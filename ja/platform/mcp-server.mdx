@@ -19,6 +19,7 @@ W&amp;B MCP server は、次のような多くの IDE、コーディングクラ
 
 W&amp;B MCP server は、[ホスト型](#use-w\&b’s-remote-mcp-server) と [ローカル](#set-up-a-local-version-of-the-w\&b-mcp-server) の 2 つのバリエーションをサポートします。ホスト型バージョンは [W&amp;B Dedicated Cloud deployments](/ja/platform/hosting/hosting-options/dedicated-cloud) のみをサポートします。ローカルバージョンは Dedicated Cloud と [Self-Managed deployments](/ja/platform/hosting/hosting-options/self-managed) の両方をサポートします。
 
+
 <div id="wb-mcp-server-capabilities">
   ## W&amp;B MCP サーバーの機能
 </div>
@@ -353,6 +354,6 @@ ngrok http 8080
   ## 使用上のヒント
 </div>
 
-* **W&amp;B の project と entity 名を指定する**: 正確な結果を得るために、クエリ内で W&amp;B entity と project を指定してください。
-* **漠然としすぎた質問は避ける**: 「私の一番良い評価は何ですか？」ではなく、「どの評価で F1 スコアが最も高かったですか？」のように尋ねてください。
-* **データ取得を確認する**: 「最も性能の良い Runs はどれですか？」のような大まかな質問をする場合は、利用可能なすべての Runs を取得できたかどうかをアシスタントに確認するよう依頼してください。
+- **W&B のプロジェクト名と entity 名を指定する**: 正確な結果を得るため、クエリに W&B の entity とプロジェクトを指定してください。
+- **広すぎる質問は避ける**: 「what is my best evaluation?」ではなく、「what eval had the highest f1 score?」のように質問してください。
+- **データ取得を確認する**: 「what are my best performing runs?」のような幅広い質問をする場合は、利用可能なすべての Runs を取得できているか、アシスタントに確認させてください。
