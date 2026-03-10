@@ -1,0 +1,19 @@
+---
+description: Export data from Dedicated Cloud
+title: Export data from Dedicated Cloud
+---
+
+If you would like to export all the data managed in your Dedicated Cloud instance, you can use the W&B SDK API to extract the runs, metrics, artifacts, and more with the [Import and Export API](/models/ref/python/public-api/). The following table covers some of the key exporting use cases.
+
+| Purpose | Documentation |
+|---------|---------------|
+| Export project metadata | [Projects API](/models/ref/python/public-api/projects) |
+| Export runs in a project | [Runs API](/models/ref/python/public-api/runs) |
+| Export reports | [Report and Workspace API](/models/reports/clone-and-export-reports/) |
+| Export artifacts | [Explore artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph/), [Download and use artifacts](/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
+
+If you manage artifacts stored in the Dedicated Cloud with [Secure Storage Connector](/platform/app/settings-page/teams/#secure-storage-connector), you may not need to export the artifacts using the W&B SDK API.
+
+<Note>
+Using W&B SDK API to export all of your data can be slow if you have a large number of runs, artifacts etc. W&B recommends running the export process in appropriately sized batches so as not to overwhelm your Dedicated Cloud instance.
+</Note>

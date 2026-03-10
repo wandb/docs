@@ -14,7 +14,7 @@ This page provides a comprehensive overview of Enterprise licenses, including wh
 ## Deployment Options
 Enterprise licenses are available for W&B Dedicated Cloud and Self-Managed deployments.
 
-- [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) provides single-tenant infrastructure managed by W&B, deployed in Google Cloud. Dedicated Cloud deployments automatically include an Enterprise license. No additional configuration is required, and all Enterprise features are available immediately upon provisioning.
+- [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) provides single-tenant infrastructure managed by W&B, deployed in Google Cloud. Dedicated Cloud deployments automatically include an Enterprise license. No additional configuration is required, and all Enterprise features are available immediately upon provisioning.
 - [W&B Self-Managed](/platform/hosting/hosting-options/self-managed) is deployed on your own infrastructure, providing full control over your deployment and data. Air-gapped deployments are supported. Without an Enterprise license, [Enterprise features](#enterprise-features) are unavailable.
 
 ## Obtain an Enterprise license
@@ -43,19 +43,18 @@ Request an Enterprise license:
 After you [obtain an Enterprise license](#obtain-an-enterprise-license), you can configure it programmatically or you can configure it in the W&B App after deployment. Select a tab for instructions.
 
 <Tabs>
-<Tab title="Helm">
-1. Update your `values.yaml` file:
+<Tab title="Kubernetes Operator">
+1. Update your `operator.yaml` (the `WeightsAndBiases` custom resource) to set the license:
     ```yaml
-    wandb:
-      license: "YOUR_LICENSE_KEY_HERE"
+    spec:
+      values:
+        global:
+          license: "YOUR_LICENSE_KEY_HERE"
     ```
 
-2. Upgrade your Helm release:
+2. Apply the updated configuration:
     ```bash
-    helm upgrade wandb wandb/wandb \
-      --namespace wandb \
-      --reuse-values \
-      --set license=$LICENSE_KEY
+    kubectl apply -f operator.yaml
     ```
 </Tab>
 <Tab title="Terraform">
@@ -137,5 +136,5 @@ For assistance with Enterprise licenses, contact your account team, [Sales](mail
 ## Additional resources
 - [W&B Pricing](/pricing)
 - [W&B Self-Managed](/platform/hosting/hosting-options/self-managed)
-- [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud)
+- [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud)
 - [Security & Compliance](/security)
