@@ -86,9 +86,10 @@
                   {
                     "group": "Dedicated Cloud",
                     "pages": [
-                      "platform/hosting/hosting-options/dedicated_cloud",
-                      "platform/hosting/hosting-options/dedicated_regions",
-                      "platform/hosting/export-data-from-dedicated-cloud"
+                      "platform/hosting/hosting-options/dedicated-cloud",
+                      "platform/hosting/hosting-options/dedicated-cloud/rate-limits",
+                      "platform/hosting/hosting-options/dedicated-cloud/regions",
+                      "platform/hosting/hosting-options/dedicated-cloud/export-data"
                     ]
                   },
                   {
@@ -97,6 +98,7 @@
                       "platform/hosting/hosting-options/self-managed",
                       "platform/hosting/self-managed/ref-arch",
                       "platform/hosting/self-managed/requirements",
+                      "platform/hosting/self-managed/rate-limits",
                       "platform/hosting/self-managed/operator",
                       "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "platform/hosting/server-upgrade-process",
@@ -163,7 +165,6 @@
                 "group": "Monitoring and usage",
                 "pages": [
                   "platform/hosting/monitoring-usage/audit-logging",
-                  "platform/hosting/monitoring-usage/prometheus-logging",
                   "platform/hosting/monitoring-usage/slack-alerts",
                   "platform/hosting/monitoring-usage/org_dashboard",
                   "platform/hosting/monitoring-usage/mobile-app"
@@ -1314,7 +1315,6 @@
                 "group": "Monitoring and usage",
                 "pages": [
                   "ja/platform/hosting/monitoring-usage/audit-logging",
-                  "ja/platform/hosting/monitoring-usage/prometheus-logging",
                   "ja/platform/hosting/monitoring-usage/slack-alerts",
                   "ja/platform/hosting/monitoring-usage/org_dashboard"
                 ]
@@ -2502,7 +2502,6 @@
                 "group": "Monitoring and usage",
                 "pages": [
                   "ko/platform/hosting/monitoring-usage/audit-logging",
-                  "ko/platform/hosting/monitoring-usage/prometheus-logging",
                   "ko/platform/hosting/monitoring-usage/slack-alerts",
                   "ko/platform/hosting/monitoring-usage/org_dashboard"
                 ]
@@ -3897,6 +3896,22 @@
     {
       "source": "/platform/hosting/secure-storage-connector",
       "destination": "/platform/hosting/data-security/secure-storage-connector"
+    },
+    {
+      "source": "/platform/hosting/hosting-options/dedicated_cloud",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud"
+    },
+    {
+      "source": "/platform/hosting/hosting-options/rate-limits-dedicated-cloud",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud/rate-limits"
+    },
+    {
+      "source": "/platform/hosting/hosting-options/dedicated_regions",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud/regions"
+    },
+    {
+      "source": "/platform/hosting/export-data-from-dedicated-cloud",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud/export-data"
     },
     {
       "source": "/platform/hosting/self-managed/install-on-public-cloud",
