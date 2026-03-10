@@ -1102,7 +1102,7 @@ PATCH /scim/Users/abc
 
 ## Group resource
 
-When you create a SCIM group in your IAM, it creates and maps to a W&B Team, and other SCIM group operations operate on the team.
+When you create a SCIM group in your IAM, it creates and maps to a W&B Team, and other SCIM group operations operate on the team. To configure custom storage during team creation, include `storageBucket` in the request.
 
 ### Service Accounts
 
@@ -1235,6 +1235,15 @@ GET /scim/Groups
 | --- | --- | --- |
 | `displayName` | String | Yes |
 | `members` | Multi-Valued Array | Yes (`value` sub-field is required and maps to a user ID) |
+| `storageBucket` | Object | No |
+
+You can configure team-level [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) during team creation by including a `storageBucket` object. If omitted, the team uses default or instance-level storage. Provision the bucket (policy, CORS, credentials) and determine the storage address format per provider using the BYOB guide. The `storageBucket` object has the following sub-fields:
+
+- **Required**: `name` (bucket name), `provider` (one of `AWS`, `GCP`, `AZURE`, `MINIO`, `COREWEAVE`).
+- **Optional**: `path` (path prefix within the bucket), `kmsKeyId` (KMS key for encryption, for example for AWS), `awsExternalId` (AWS cross-account access), `azureTenantId` (Azure tenant ID), `azureClientId` (Azure managed identity client ID).
+
+An invalid `provider` value returns `400 Bad Request` with a SCIM error that lists the allowed values.
+
 #### Example
 
 Creating a team called `wandb-support` with `dev-user2` as its member.
@@ -1254,6 +1263,28 @@ POST /scim/Groups
             "value": "def"
         }
     ]
+}
+```
+</Tab>
+<Tab title="Request (with BYOB)">
+```bash
+POST /scim/Groups
+```
+
+```json
+{
+    "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+    "displayName": "wandb-support",
+    "members": [
+        {
+            "value": "def"
+        }
+    ],
+    "storageBucket": {
+        "name": "my-team-bucket",
+        "provider": "GCP",
+        "path": "team-data/runs"
+    }
 }
 ```
 </Tab>
