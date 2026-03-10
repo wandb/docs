@@ -1,0 +1,16 @@
+---
+title: レート制限
+description: 安定性向上のための Self-Managed インスタンスでのオプションのレート制限
+---
+
+import RateLimitsDefaultsAndNotification from "/snippets/en/_includes/rate-limits-defaults-and-notification.mdx";
+
+W&amp;B Self-Managed インスタンスでは、安定性を維持し、特定のユーザーやワークロードがほかに悪影響を及ぼすのを防ぐために、レート制限を設定できます。これらの制限は任意です。設定しない場合、インスタンスは以下で説明する制限を適用しません。
+
+<div id="default-limits-and-notification">
+  ## デフォルトの制限と通知
+</div>
+
+<RateLimitsDefaultsAndNotification />
+
+これらのデフォルトは、一般的な本番ワークロード向けに推奨されています。ワークロードが継続的にこれらの制限を超える場合は、インスタンスのサイズや共有環境での利用状況に応じて、これらの制限を設定するか、未設定のままにできます。設定の詳細については、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照するか、[W&amp;B support](mailto:support@wandb.com) にお問い合わせください。

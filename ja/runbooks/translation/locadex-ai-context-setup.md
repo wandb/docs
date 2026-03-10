@@ -1,7 +1,3 @@
----
-title: Locadex AI コンテキストの設定
----
-
 <div id="agent-prompt-configure-locadex-ai-context-for-wb-docs-korean-and-later-japanese">
   # エージェント プロンプト: W&B ドキュメント向け Locadex AI コンテキストの設定（韓国語、後に日本語）
 </div>
@@ -11,9 +7,8 @@ title: Locadex AI コンテキストの設定
 </div>
 
 - [ ] [General Translation Dashboard](https://dash.generaltranslation.com/)（Locadex コンソール）へのアクセス。
-- [ ] docs リポジトリが Locadex/GT プロジェクトにリンクされていること（GitHub アプリがインストールされ、リポジトリが接続されていること）。
-- [ ] オプション: [hw-wandb/wandb_docs_translation](https://github.com/hw-wandb/wandb_docs_translation) リポジトリへの読み取りアクセス（設定と言語辞書のため）。
-- [ ] オプション: glossary やロケール コンテキストを調整する際に手動翻訳と比較できるよう、`ko/`（および必要に応じて `ja/`）が存在する wandb/docs の `main` ブランチへのアクセス。
+- [ ] Locadex/GT プロジェクトにリンクされた docs リポジトリ（GitHub アプリがインストールされ、リポジトリが接続されていること）。
+- [ ] 任意: glossary や Locale Context を調整する際に手動翻訳と比較できるよう、`ko/`（および必要に応じて `ja/`）が存在する wandb/docs の `main` ブランチへのアクセス。
 
 <div id="agent-prerequisites">
   ## エージェントの前提条件
