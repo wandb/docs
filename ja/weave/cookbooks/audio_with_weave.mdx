@@ -12,14 +12,14 @@ description: "W&B Weave でオーディオを扱う方法を学ぶ"
 ## 
 
 <div id="how-to-use-weave-with-audio-data-an-openai-example">
-  # Weave を音声データと組み合わせて使う方法: OpenAI の例
+  # Weave をオーディオデータと組み合わせて使う方法: OpenAI の例
 </div>
 
-このデモでは、OpenAI chat completions API と GPT 4o Audio Preview を使用して、テキストプロンプトに対する音声応答を生成し、それらを Weave で追跡します。
+このデモでは、OpenAI chat completions API と GPT 4o Audio Preview を使用して、テキストプロンプトに対するオーディオ応答を生成し、それらを Weave で追跡します。
 
-<img src="/images/weave/cookbooks/openai-chat-completions-audio.png" alt="GPT 4o Audio Preview インテグレーションと音声応答生成ワークフローを備えた OpenAI chat completions API インターフェース" />
+<img src="/images/weave/cookbooks/openai-chat-completions-audio.png" alt="GPT 4o Audio Preview インテグレーションとオーディオ応答生成ワークフローを備えた OpenAI chat completions API インターフェース" />
 
-より高度なユースケースでは、OpenAI Realtime API を利用して音声をリアルタイムにストリーミングします。ビデオ デモを見るには次のサムネイルをクリックするか、[こちら](https://www.youtube.com/watch?v=lnnd73xDElw) をクリックしてください。
+より高度なユースケースでは、OpenAI Realtime API を活用してオーディオをリアルタイムでストリーミングします。動画デモを見るには次のサムネイルをクリックするか、[こちら](https://www.youtube.com/watch?v=lnnd73xDElw) をクリックしてください。
 
 [![Everything Is AWESOME](https://img.youtube.com/vi/lnnd73xDElw/0.jpg)](https://www.youtube.com/watch?v=lnnd73xDElw "Everything Is AWESOME")
 
@@ -137,7 +137,6 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
     return wave.open("output.wav", "rb")
 ```
 
-
 <div id="testing">
   ## テスト
 </div>
@@ -165,7 +164,6 @@ display(Audio("output.wav", rate=SAMPLE_RATE, autoplay=True))
 <img src="/images/weave/cookbooks/realtime-audio-api.png" alt="Weave と Realtime Audio API のインテグレーションおよびストリーミング音声会話インターフェース" />
 
 OpenAI の realtime API は、リアルタイム音声およびテキストアシスタントを構築するための、高機能で信頼性の高い対話型 API です。
-
 
 注意事項:
 
@@ -240,7 +238,6 @@ OAI_SAMPLE_RATE = (
 )
 OUTPUT_DEVICE_CHANNELS = 1  # モノラル出力の場合は 1 に設定する
 ```
-
 
 <div id="openai-realtime-api-schema-implementation">
   ## OpenAI Realtime API スキーマ実装

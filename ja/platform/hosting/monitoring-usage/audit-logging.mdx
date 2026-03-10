@@ -6,11 +6,11 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
 
 監査ログへのアクセス方法は、W&amp;B プラットフォームのデプロイ種別によって異なります。
 
-| W&amp;B Platform Deployment type | Audit logs access mechanism |
-|----------------------------|--------------------------------|
-| [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) | <ul><li>[Instance-level BYOB](/ja/platform/hosting/data-security/secure-storage-connector): インスタンスレベルのバケット (BYOB) に 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。</li><li>デフォルトのインスタンスレベルストレージ: [API](#fetch-audit-logs-using-api) を使用してのみ取得できます。</li></ul> |
-| [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise プランでのみ利用可能です。[API](#fetch-audit-logs-using-api) を使用してのみ取得できます。 |
-| [Self-Managed](/ja/platform/hosting/hosting-options/self-managed) | インスタンスレベルのバケットに 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。 |
+| W&amp;B Platform Deployment type                                           | Audit logs access mechanism                                                                                                                                                                                                                                                   |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud)       | <ul><li>[Instance-level BYOB](/ja/platform/hosting/data-security/secure-storage-connector): インスタンスレベルのバケット (BYOB) に 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。</li><li>デフォルトのインスタンスレベルストレージ: [API](#fetch-audit-logs-using-api) を使用してのみ取得できます。</li></ul> |
+| [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise プランでのみ利用可能です。[API](#fetch-audit-logs-using-api) を使用してのみ取得できます。                                                                                                                                                                                                     |
+| [Self-Managed](/ja/platform/hosting/hosting-options/self-managed)             | インスタンスレベルのバケットに 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。                                                                                                                                                                                            |
 
 監査ログを取得した後は、[Pandas](https://pandas.pydata.org/docs/index.html)、[Amazon Redshift](https://aws.amazon.com/redshift/)、[Google BigQuery](https://cloud.google.com/bigquery)、[Microsoft Fabric](https://www.microsoft.com/microsoft-fabric) などのツールを使用して分析できます。一部の監査ログ分析ツールは JSON をサポートしていない場合があります。分析に先立って JSON 形式の監査ログを変換するためのガイドラインや要件については、使用する分析ツールのドキュメントを参照してください。
 
@@ -21,7 +21,7 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
 </div>
 
 * 一定期間にわたって監査ログを保持する必要がある場合、W&amp;B はストレージバケットまたは Audit Logging API を使用して、ログを定期的に長期保管用ストレージに転送することを推奨します。
-* [医療保険の相互運用性と説明責任に関する法律 (Health Insurance Portability and Accountability Act of 1996, HIPAA)](https://hhs.gov/hipaa/for-professionals/index.html) の適用対象である場合、監査ログは、義務づけられた保存期間が終了するまで、内部または外部のいかなる関係者によっても削除や変更が行われない環境で、最低 6 年間保持する必要があります。HIPAA に準拠した [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) インスタンスで [BYOB](/ja/platform/hosting/data-security/secure-storage-connector) を利用している場合は、長期保存ストレージを含む管理対象ストレージに対してガードレールを構成する必要があります。
+* [医療保険の相互運用性と説明責任に関する法律 (Health Insurance Portability and Accountability Act of 1996, HIPAA)](https://hhs.gov/hipaa/for-professionals/index.html) の適用対象である場合、監査ログは、義務づけられた保存期間が終了するまで、内部または外部のいかなる関係者によっても削除や変更が行われない環境で、最低 6 年間保持する必要があります。HIPAA に準拠した [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) インスタンスで [BYOB](/ja/platform/hosting/data-security/secure-storage-connector) を利用している場合は、長期保存ストレージを含む管理対象ストレージに対してガードレールを構成する必要があります。
 
 <div id="audit-log-schema">
   ## 監査ログスキーマ
@@ -55,11 +55,11 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
   ### 個人を特定できる情報 (PII)
 </div>
 
-メールアドレスやプロジェクト名、Teams 名、Reports 名などの個人を特定できる情報 (PII) は、API エンドポイント オプションを使用した場合にのみ取得できます。
+メールアドレスや、プロジェクト、チーム、レポートの名前などの個人を特定できる情報 (PII) は、API エンドポイント オプションを使用した場合にのみ利用できます。
 
 * [Self-Managed](/ja/platform/hosting/hosting-options/self-managed) および
-  [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) の場合、組織管理者は監査ログを取得する際に [PII を除外](#exclude-pii)できます。
-* [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) の場合、API エンドポイントは PII を含む監査ログ関連のフィールドを常に返します。これは設定で変更することはできません。
+  [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) の場合、組織管理者は監査ログを取得する際に [PII を除外](#exclude-pii)できます。
+* [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) の場合、API エンドポイントは PII を含む監査ログ関連のフィールドを常に返します。これは設定で変更できない。
 
 <div id="before-you-begin">
   ## 開始する前に
@@ -81,7 +81,7 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
 1. インスタンスに対して正しい API エンドポイントを特定します:
 
    * [Self-Managed](/ja/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
-   * [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud): `<instance-name>.wandb.io/admin/audit_logs`
+   * [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud): `<instance-name>.wandb.io/admin/audit_logs`
    * [Multi-tenant Cloud (Enterprise required)](/ja/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
 
    以降の手順では、`<API-endpoint>` を自分の API エンドポイントに置き換えます。
@@ -106,9 +106,9 @@ API キーを使ってベーシック認証で audit logs API にアクセスす
 
 ### 監査ログを取得する際に PII を除外する <a id="exclude-pii" />
 
-[Self-Managed](/ja/platform/hosting/hosting-options/self-managed) および [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) では、W&amp;B 組織またはインスタンスの管理者が、監査ログを取得する際に PII を除外できます。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、API エンドポイントは常に PII を含む監査ログ用の関連フィールドを返します。これは設定で変更できません。
+[Self-Managed](/ja/platform/hosting/hosting-options/self-managed) および [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) では、W&amp;B 組織またはインスタンスの管理者が、監査ログを取得する際に PII を除外できます。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、API エンドポイントは常に PII を含む監査ログ関連のフィールドを返します。これは設定で変更できません。
 
-PII を除外するには、`anonymize=true` URL パラメーターを指定します。たとえば、W&amp;B インスタンスの URL が `https://mycompany.wandb.io` で、直近 1 週間のユーザーのアクティビティに対する監査ログを取得しつつ PII を除外したい場合は、次のような API エンドポイントを使用します。
+PII を除外するには、`anonymize=true` URL パラメーターを指定します。たとえば、W&amp;B インスタンスの URL が `https://mycompany.wandb.io` で、過去 1 週間のユーザーアクティビティの監査ログを取得し、PII を除外したい場合は、次のような API エンドポイントを使用します。
 
 ```text
 https://mycompany.wandb.io/admin/audit_logs?anonymize=true&<additional-parameters>.

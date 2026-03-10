@@ -1,7 +1,3 @@
----
-title: Locadex Ai 컨텍스트 설정
----
-
 <div id="agent-prompt-configure-locadex-ai-context-for-wb-docs-korean-and-later-japanese">
   # 에이전트용 프롬프트: W&B 문서를 위한 Locadex AI 컨텍스트 설정 (한국어, 추후 일본어)
 </div>
@@ -12,8 +8,7 @@ title: Locadex Ai 컨텍스트 설정
 
 - [ ] [General Translation Dashboard](https://dash.generaltranslation.com/) (Locadex 콘솔)에 대한 접근 권한.
 - [ ] Locadex/GT 프로젝트에 연결된 문서 리포지토리(GitHub 앱 설치 및 리포지토리 연결 완료).
-- [ ] 선택 사항: [hw-wandb/wandb_docs_translation](https://github.com/hw-wandb/wandb_docs_translation) 리포지토리에 대한 읽기 권한(구성 및 language_dicts 확인용).
-- [ ] 선택 사항: wandb/docs의 `main` 브랜치에 존재하는 `ko/`(및 선택적으로 `ja/`)에 대한 접근 권한으로, 용어집 또는 로케일 컨텍스트를 다듬을 때 수동 번역과 비교하는 데 사용.
+- [ ] 선택: 용어집 또는 로케일 컨텍스트를 다듬을 때 수동 번역본과 비교할 수 있도록, `ko/`(및 선택적으로 `ja/`)가 있는 wandb/docs의 `main` 브랜치에 대한 접근 권한.
 
 <div id="agent-prerequisites">
   ## 에이전트 사전 준비 사항

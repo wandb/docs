@@ -12,42 +12,44 @@ title: 태그로 run에 레이블 추가하기
 
 프로그램 코드로 또는 대화형으로 run에 태그를 추가할 수 있습니다.
 
-사용 사례에 따라 아래 탭에서 필요에 가장 잘 맞는 방법을 선택하세요:
+사용 사례에 따라 아래 탭에서 필요에 가장 잘 맞는 탭을 선택하세요:
 
 <Tabs>
   <Tab title="W&B Python SDK">
-    run이 생성될 때 태그를 추가할 수 있습니다:
+    run을 초기화할 때 `wandb.init()`를 사용해 태그를 추가합니다. run에 태그를 추가하려면 `wandb.init()`의 `tags` 파라미터에 문자열 목록을 전달하세요. 예를 들면 다음과 같습니다:
 
     ```python
     import wandb
 
     with wandb.init(
-      entity="entity",
-      project="<project-name>",
-      tags=["tag1", "tag2"]
+      entity="<entity>",
+      project="<project>",
+      tags=["<tag1>", "<tag2>"]
     ) as run:
         # 여기에 트레이닝 코드를 작성하세요
     ```
 
-    run을 초기화한 이후에 태그를 업데이트할 수도 있습니다. 예를 들어, 아래 코드 스니펫은 특정 메트릭이 사전에 정의한 임계값을 넘었을 때 태그를 업데이트하는 방법을 보여줍니다:
+    활성 상태인 run 중에도 run 객체의 `tags` 속성(`wandb.Run.tags`)을 업데이트해 기존 태그를 추가하거나 수정할 수 있습니다. `tags` 속성은 문자열 튜플을 받습니다. run을 초기화한 후 새 태그를 추가하려면 기존 run 태그 속성에 하나 이상의 태그를 이어 붙이세요:
 
     ```python
     import wandb
 
-    with wandb.init(entity="entity", project="capsules", tags=["debug"]) as run:
+    with wandb.init(entity="<entity>", project="<project>", tags=["<tag1>"]) as run:
+      # 여기에서 트레이닝 루프 로직을 작성합니다
 
-      # 모델을 트레이닝하기 위한 Python 로직
-      if current_loss < threshold:
-          run.tags = run.tags + ("release_candidate",)
+      # run 객체에 새 태그를 추가합니다
+      run.tags += ("<new_tag>",)
     ```
   </Tab>
 
   <Tab title="Public API">
-    run을 생성한 뒤에는 [Public API](/ko/models/track/public-api-guide/)를 사용해 태그를 업데이트할 수 있습니다. 예시는 다음과 같습니다:
+    이전에 저장한 run에 태그를 추가하거나 업데이트하려면 [W&amp;B Public API](/ko/models/ref/python/public-api)를 사용하세요.
+
+    기존 run의 태그를 업데이트하려면 `wandb.Run.tags` 속성에 접근합니다. `wandb.Run.tags` 속성은 문자열 목록으로 구성됩니다. 새 태그를 기존 태그에 이어 붙인 다음 `wandb.Run.update()`를 호출하여 새 태그로 run을 업데이트합니다. 예를 들면 다음과 같습니다:
 
     ```python
     with wandb.Api().run("{entity}/{project}/{run-id}") as run:
-      run.tags.append("tag1")  # 여기에서 run 데이터를 기반으로 태그를 선택할 수 있습니다
+      run.tags.append("<tag1>")
       run.update()
     ```
   </Tab>
