@@ -4,32 +4,23 @@ description: Track training runs and explore your W&B projects from your mobile 
 tag: New
 ---
 
-## Requirements
-
-The W&B mobile app is currently available for iOS only. An Android version may be available in the future.
-
 <Columns cols={4}>
   <Frame>
-    ![W&B mobile app runs list view](/images/mobile-app/mobile-app-runs-list.png)
+    ![W&B mobile app runs list view](/images/mobile-app/project-panels.png)
   </Frame>
   <Frame>
-    ![W&B mobile app run detail view](/images/mobile-app/mobile-app-run-detail.png)
+    ![W&B mobile app run detail view](/images/mobile-app/manage-alerts.png)
   </Frame>
   <Frame>
-    ![W&B mobile app projects view](/images/mobile-app/mobile-app-projects.png)
+    ![W&B mobile app projects view](/images/mobile-app/projects.png)
   </Frame>
   <Frame>
-    ![W&B mobile app workspace view](/images/mobile-app/mobile-app-workspace.png)
+    ![W&B mobile app workspace view](/images/mobile-app/project-runs.png)
   </Frame>
 </Columns>
 
 The W&B mobile app keeps you connected to your machine learning experiments wherever you go. Track training runs in real time, explore your projects' histories, and follow your team's progress—all from your iPhone or iPad.
 
-## Features
-
-- **Track training runs**: View run status, metrics, and progress in real time
-- **Explore project history**: Browse and search across your W&B projects.
-- **Stay informed**: Get updates on your experiments without opening your laptop using notifications.
 
 ## Download the app
 
@@ -38,3 +29,33 @@ The W&B mobile app keeps you connected to your machine learning experiments wher
   href="https://apps.apple.com/us/app/6755162576"
   icon="apple"
 />
+
+
+## Features
+
+- **Track training runs**: View run status, metrics, and progress in real time
+- **Explore project history**: Browse and search across your W&B projects.
+- **Stay informed**: Get updates on your experiments without opening your laptop using notifications.
+
+## Set up notifications
+
+You can configure notifications in two ways:
+
+**Metric threshold alerts**
+
+1. Navigate to a run.
+2. Tap the graph to enter fullscreen view.
+3. Tap the bell icon.
+4. Set notifications that trigger when future runs cross the specified metric threshold.
+
+**Run failure alerts**
+
+1. Navigate to a project.
+2. Tap the three-dot (**More**) menu.
+3. Select **Run failed alert** to receive notifications for future run failures in that project.
+
+## Limits
+
+- The mobile app is only available for iOS, not Android.
+- The mobile app does not support the W&B Weave product, only W&B Models.
+- The mobile app only supports the display of line plots; no other type of graph is currently supported.
