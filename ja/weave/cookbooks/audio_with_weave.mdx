@@ -17,7 +17,7 @@ description: "W&B Weave でオーディオを扱う方法を学ぶ"
 
 このデモでは、OpenAI chat completions API と GPT 4o Audio Preview を使用して、テキストプロンプトに対する音声応答を生成し、それらを Weave で追跡します。
 
-<img src="https://i.imgur.com/OUfsZ2x.png" alt="GPT 4o Audio Preview インテグレーションと音声応答生成ワークフローを備えた OpenAI chat completions API インターフェース" />
+<img src="/images/weave/cookbooks/openai-chat-completions-audio.png" alt="GPT 4o Audio Preview インテグレーションと音声応答生成ワークフローを備えた OpenAI chat completions API インターフェース" />
 
 より高度なユースケースでは、OpenAI Realtime API を利用して音声をリアルタイムにストリーミングします。ビデオ デモを見るには次のサムネイルをクリックするか、[こちら](https://www.youtube.com/watch?v=lnnd73xDElw) をクリックしてください。
 
@@ -158,14 +158,14 @@ prompt_endpoint_and_log_trace(
 display(Audio("output.wav", rate=SAMPLE_RATE, autoplay=True))
 ```
 
-
 <div id="advanced-usage-realtime-audio-api-with-weave">
   ## 高度な使い方: Weave と Realtime Audio API
 </div>
 
-<img src="https://i.imgur.com/ZiW3IVu.png" alt="Weave と Realtime Audio API のインテグレーションおよびストリーミング音声会話インターフェース" />
+<img src="/images/weave/cookbooks/realtime-audio-api.png" alt="Weave と Realtime Audio API のインテグレーションおよびストリーミング音声会話インターフェース" />
 
 OpenAI の realtime API は、リアルタイム音声およびテキストアシスタントを構築するための、高機能で信頼性の高い対話型 API です。
+
 
 注意事項:
 
