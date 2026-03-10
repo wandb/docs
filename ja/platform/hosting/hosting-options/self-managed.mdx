@@ -1,71 +1,62 @@
 ---
-title: セルフマネージド
-description: プロダクション環境での W&B Self-Managed のデプロイ
+description: クラウドまたはオンプレミス インフラストラクチャーに W&B Self-Managed をデプロイ
+title: W&B Self-Managed デプロイメントの概要
+sidebarTitle: デプロイメントの概要
 ---
 
-## クラウドまたはオンプレミスインフラストラクチャーでの W&B Self-Managed の利用
+<Tip>
+  W&amp;B では、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) や [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) などの完全マネージド型デプロイメントオプションを推奨しています。W&amp;B の完全マネージドサービスは、ほとんど、またはまったく設定を必要とせず、シンプルかつ安全に利用できます。
+</Tip>
 
-<Note>
-W&B では、[W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) または [W&B 専用クラウド](/platform/hosting/hosting-options/dedicated-cloud) などの完全管理型のデプロイメントオプションを推奨しています。W&B の完全管理型サービスは、設定がほとんど不要で、シンプルかつ安全に利用できます。
-</Note>
-
-W&B Server は、お客様の [AWS、Google Cloud、または Azure のクラウド経由のアカウント](#deploy-wb-server-within-Self-Managed-cloud-accounts)、または [オンプレミスインフラストラクチャー](#オンプレミスインフラストラクチャーへの-wb-server-のデプロイ) 内にデプロイできます。
+W&amp;B Server は、お客様の [AWS、Google Cloud、または Azure のクラウドアカウント](#deploy-wb-server-within-Self-Managed-cloud-accounts) または [オンプレミス インフラストラクチャー](#deploy-wb-server-in-on-prem-infrastructure) 内にデプロイできます。
 
 お客様の IT/DevOps/MLOps チームは以下の事項に責任を持ちます。
 
-- デプロイメントのプロビジョニング。
-- 組織のポリシーや、該当する場合は [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide) に従ったインフラストラクチャーのセキュリティ確保。
-- [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) や [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html) など、組織の規制要件へのコンプライアンス維持。
-- アップグレードの管理とパッチの適用。
-- W&B Self-Managed デプロイメントの継続的なメンテナンス。
+* デプロイメントのプロビジョニング。
+* 組織のポリシーや、該当する場合は [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide) に従ったインフラストラクチャーのセキュリティ確保。
+* [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) や [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html) など、組織の規制要件へのコンプライアンス維持。
+* アップグレードの管理とパッチの適用。
+* W&amp;B Self-Managed デプロイメントの継続的なメンテナンス。
 
-<Tip>
-組織が規制要件の対象となる場合は、W&B がメンテナンスを行う [W&B 専用クラウド](/platform/hosting/hosting-options/dedicated-cloud.mdx) へのデプロイを検討してください。
+<Info>
+  組織が規制要件の対象となる場合は、W&amp;B がメンテナンスを行う [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) へのデプロイを検討してください。
 
-- W&B 専用クラウド のホスティングプラットフォームは、SOC 2 Type 2 の要件を満たしています。
-- 適切に設定された場合、W&B 専用クラウド のデプロイメントは HIPAA に準拠します。
+  * W&amp;B Dedicated Cloud のホスティングプラットフォームは、SOC 2 Type 2 の要件を満たしています。
+  * 適切に設定されている場合、W&amp;B Dedicated Cloud のデプロイメントは HIPAA に準拠します。
 
-詳細は [W&B Security Portal](https://security.wandb.ai/) を参照して情報をリクエストしてください。
-</Tip>
+  詳細情報をリクエストするには、[W&amp;B Security Portal](https://security.wandb.ai/) を参照してください。
+</Info>
 
-{/* セットアップを完了するには [W&B Server ライセンスの取得](#wb-server-ライセンスの取得) を確認してください。 */}
+<div id="about-the-wb-kubernetes-operator">
+  ## W&amp;B Kubernetes Operator について
+</div>
 
-## Self-Managed クラウド勘定内への W&B Server のデプロイ
+**W&amp;B Kubernetes Operator** を使用して W&amp;B Self-Managed をデプロイします。この Operator により、W&amp;B のデプロイ、管理、トラブルシューティング、スケーリングが簡素化されます。
 
-W&B では、公式の W&B Terraform スクリプトを使用して、AWS、Google Cloud、または Azure のクラウド勘定に W&B Server をデプロイすることを推奨しています。
+この Operator は中央の [deploy.wandb.ai](https://deploy.wandb.ai) サーバーに接続し、指定したリリースチャネルに対応する最新の仕様変更を取得して適用します。ライセンスが有効である限り、更新を受け取れます。[Helm](https://helm.sh/) は、Operator のインストールと、Operator による W&amp;B Kubernetes スタックの管理の両方に使用されます。デプロイメントは複数の pod で構成され、各サービスに 1 つの pod が対応します。各 pod 名には `wandb-` というプレフィックスが付きます。
 
-各クラウドプロバイダーでの W&B Server セットアップ方法の詳細については、[AWS](/platform/hosting/self-managed/aws-tf)、[Google Cloud](/platform/hosting/self-managed/gcp-tf)、または [Azure](/platform/hosting/self-managed/azure-tf) のドキュメントを参照してください。
+設定は次の階層に従います: **Release Channel Values** (W&amp;B によるデフォルト値) 、**User Input Values** (System Console からの上書き値) 、**Custom Resource Values** (ユーザーの spec が前 2 つを上書き) 。詳細については、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
 
-## オンプレミスインフラストラクチャーへの W&B Server のデプロイ
+* パブリッククラウドまたはオンプレミスインフラストラクチャーに W&amp;B Self-Managed をデプロイするには、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
+* AWS 以外のカスタムクラウドプラットフォームに W&amp;B Self-Managed をデプロイする場合、要件は [オンプレミスインフラストラクチャー](#deploy-wb-server-in-on-prem-infrastructure) へのデプロイ要件と同様です。
+* エアギャップ環境に W&amp;B Self-Managed をデプロイするには、[Deploy on Air-Gapped Kubernetes](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) を参照してください。
 
-オンプレミスインフラストラクチャーに W&B Server をセットアップするには、いくつかのインフラストラクチャーコンポーネントを設定する必要があります。これらには以下が含まれます（ただしこれらに限定されません）。
+必要に応じて、安定性を維持するためにインスタンスに [レート制限を設定](/ja/platform/hosting/self-managed/rate-limits) できます。デフォルト値と通知の動作については、[Rate limits](/ja/platform/hosting/self-managed/rate-limits) を参照してください。
 
-- （強く推奨）Kubernetes クラスター
-- MySQL 8 データベースクラスター
-- Amazon S3 互換のオブジェクトストレージ
-- Redis キャッシュクラスター
+<div id="required-infrastructure">
+  ## W&amp;B Server ライセンスの取得
+</div>
 
-オンプレミスインフラストラクチャーへの W&B Server インストールの詳細な手順については、[オンプレミスインフラストラクチャーへのインストール](/platform/hosting/self-managed/bare-metal) を参照してください。W&B は各コンポーネントに関する推奨事項を提供し、インストールプロセスを通じてガイドを提供できます。
-
-## カスタムクラウドプラットフォームへの W&B Server のデプロイ
-
-AWS、Google Cloud、Azure 以外のクラウドプラットフォームにも W&B Server をデプロイできます。その際の要件は、[オンプレミスインフラストラクチャー](#オンプレミスインフラストラクチャーへの-wb-server-のデプロイ) へのデプロイと同様です。
-
-## W&B Server ライセンスの取得
-
-W&B Server の設定を完了するには、W&B トライアルライセンスが必要です。[Deploy Manager](https://deploy.wandb.ai/deploy) を開き、無料トライアルライセンスを生成してください。
+W&amp;B Server の設定を完了するには、W&amp;B トライアルライセンスが必要です。[Deploy Manager](https://deploy.wandb.ai/deploy) を開き、無料トライアルライセンスを生成してください。
 
 <Note>
-W&B アカウントをまだお持ちでない場合は、アカウントを作成して無料ライセンスを生成してください。
+  W&amp;B アカウントをまだお持ちでない場合は、アカウントを作成して無料ライセンスを生成してください。
 
-重要なセキュリティ機能やその他のエンタープライズ向け機能のサポートを含む W&B Server のエンタープライズライセンスが必要な場合は、[このフォームを送信する](https://wandb.ai/site/for-enterprise/self-hosted-trial) か、W&B チームまでお問い合わせください。
+  重要なセキュリティ機能やその他のエンタープライズ向け機能のサポートを含む W&amp;B Server のエンタープライズライセンスが必要な場合は、[このフォームを送信する](https://wandb.ai/site/for-enterprise/self-hosted-trial) か、W&amp;B チームまでお問い合わせください。
 </Note>
 
-URL にアクセスすると、**Get a License for W&B Local** フォームにリダイレクトされます。以下の情報を入力してください。
+<div id="obtain-your-wb-server-license">
+  ## W&amp;B Server ライセンスを取得する
+</div>
 
-1. **Choose Platform** ステップでデプロイメントタイプを選択します。
-2. **Basic Information** ステップでライセンスの所有者を選択するか、新しい組織を追加します。
-3. **Get a License** ステップの **Name of Instance** フィールドにインスタンスの名前を入力し、任意で **Description** フィールドに説明を入力します。
-4. **Generate License Key** ボタンを選択します。
-
-デプロイメントの概要と、そのインスタンスに関連付けられたライセンスキーが表示されたページが表示されます。
+デプロイ前に、W&amp;B Server ライセンスが必要です。手順については、Requirements ページの [License](/ja/platform/hosting/self-managed/requirements#license) を参照してください。
