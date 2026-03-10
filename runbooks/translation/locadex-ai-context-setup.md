@@ -4,7 +4,6 @@
 
 - [ ] Access to the [General Translation Dashboard](https://dash.generaltranslation.com/) (Locadex console).
 - [ ] The docs repository linked to a Locadex/GT project (GitHub app installed, repository connected).
-- [ ] Optional: read access to the [hw-wandb/wandb_docs_translation](https://github.com/hw-wandb/wandb_docs_translation) repo (for configs and language_dicts).
 - [ ] Optional: access to `main` branch of wandb/docs with `ko/` (and optionally `ja/`) present, for comparing manual translations when refining glossary or locale context.
 
 ## Agent prerequisites
