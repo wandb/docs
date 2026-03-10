@@ -88,6 +88,28 @@ When **Step slider syncing** is turned on, the section's media panels with the s
 
 For details about each setting, refer to [Configure a media panel](#configure-a-media-panel).
 
+## Compare mode
+
+Compare mode lets you select 2 to 4 images or videos from any combination of runs, steps, or indices and view them in a single grid. You can compare media without downloading files or switching tabs.
+
+Compare mode when you want to:
+
+- Confirm that a new checkpoint or run produces better outputs than a baseline or previous checkpoint.
+- Catch regressions by comparing the current run to a known good checkpoint at the same step or index.
+- Validate model outputs against ground truth by viewing reference and generated media side by side.
+- Review how generated images or videos change across training steps or across different checkpoints or runs.
+
+Compare mode is useful for image or video generation workflows like diffusion or generative models, multimodal evaluation, vision experiments, and other workflows where you log media and need to compare it across runs, steps, or indices.
+
+To use compare mode:
+1. Open a media panel in your workspace (for images or video).
+1. Switch to **Compare mode** using the panel controls.
+1. Select the runs, steps, or indices to show in the grid. Up to 4 items can appear in the comparison.
+
+![Media panel showing two images in compare mode](/images/models/media_compare_mode.png)
+
+Your selection is saved so you can return to the same comparison later without reconfiguring the panel.
+
 ## Interact with a media panel
 - Click a media panel to view it in full-screen mode. Click the arrow button at the top of the panel to exit full-screen mode.
 - To navigate through a section's panels without exiting full-screen mode, use either the **Previous** and **Next** buttons below the panel or the left and right arrow keys.
