@@ -43,20 +43,18 @@ Enterprise ライセンスをリクエストする：
 [Enterprise ライセンスを取得](#enterprise-ライセンスの取得) した後、プログラムで設定するか、デプロイ後に W&B アプリ内で設定できます。手順についてはタブを選択してください。
 
 <Tabs>
-<Tab title="Helm">
-1. `values.yaml` ファイルを更新します：
+<Tab title="Kubernetes Operator">
+1. ライセンスを設定するために `operator.yaml`（`WeightsAndBiases` カスタムリソース）を更新します：
     ```yaml
-    wandb:
-      license: "YOUR_LICENSE_KEY_HERE"
+    spec:
+      values:
+        global:
+          license: "YOUR_LICENSE_KEY_HERE"
     ```
 
-2. Helm リリースをアップグレードします：
+2. 更新した設定を適用します：
     ```bash
-    # Helm リリースをアップグレードする
-    helm upgrade wandb wandb/wandb \
-      --namespace wandb \
-      --reuse-values \
-      --set license=$LICENSE_KEY
+    kubectl apply -f operator.yaml
     ```
 </Tab>
 <Tab title="Terraform">
