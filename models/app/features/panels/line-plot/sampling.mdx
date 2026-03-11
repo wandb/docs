@@ -111,7 +111,7 @@ When you use Line Plot Grouping, W&B applies the following based on the mode sel
 
 ## Random sampling
 
-Random sampling uses 1500 randomly sampled points to render line plots. Random sampling is useful for performance reasons when you have a large number of data points.
+Random sampling uses 1500 randomly sampled points to render line plots. Because sampling drops points, it make spotting outliers or spikes more difficult.
 
 <Warning>
 Random sampling samples non-deterministically. This means that random sampling sometimes excludes important outliers or spikes in the data and therefore reduces data accuracy.
