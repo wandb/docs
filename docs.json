@@ -72,6 +72,7 @@
               "index",
               "get-started",
               "platform/mcp-server",
+              "platform/wb-skills",
               {
                 "group": "Deployment options",
                 "pages": [
