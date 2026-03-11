@@ -29,7 +29,7 @@ Skills requires the following:
 
 * [Node.js](https://nodejs.org/) (for the `npx` command).
 * A W&B API key. Create one at [wandb.ai/authorize](https://wandb.ai/authorize) and then set it as an environment variable:
-    ```
+    ```shell
     export WANDB_API_KEY=<your-api-key>
     ```
 * (Optional) Set your W&B project name as a `WANDB_PROJECT` environment variable. This allows your agent to target the correct W&B project without you specifying it each time.
@@ -58,7 +58,7 @@ For list of `--agent` options, see the [skills CLI documentation](https://github
 
 ## Use W&B Skills
 
-Once installed, you can ask the agent to perform W&B-related tasks for your project. The following prompts demonstrate tasks your agent can perform the skill installed:
+Once installed, you can ask the agent to perform W&B-related tasks for your project. The following example prompts demonstrate some of the tasks your agent can do with W&B Skills:
 
 * "Log training metrics for my PyTorch model to W&B."
 * "Analyze the loss curves for my last 10 runs and identify the best performing configuration."
