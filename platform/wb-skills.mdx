@@ -3,7 +3,7 @@ title: Use W&B Skills
 description: Install W&B Skills to teach your coding agent how to train models, build agents, and analyze experiments using W&B's AI development platform.
 ---
 
-W&B Skills are reusable instruction sets that teach coding agents how to use W&B effectively. Instead of manually guiding your agent through W&B APIs and best practices, install W&B Skills so that it can work with experiment tracking, tracing, evaluations, and monitoring on its own.
+W&B Skills are reusable instruction sets that teach coding agents how to use W&B effectively. Instead of manually guiding your agent through W&B APIs and best practices, install Skills so that it can work with experiment tracking, tracing, evaluations, and monitoring on its own.
 
 Skills work with most major coding agents, including:
 * Claude Code
@@ -16,29 +16,23 @@ For a full list of supported agents, see the [skills CLI documentation](https://
 
 ## W&B Skills capabilities
 
-W&B Skills covers both the [W&B Models SDK](/models/ref) (training runs, metrics, artifacts, sweeps) and the [Weave SDK](/weave/reference/python-sdk) (traces, evaluations, scorers). Includes helper libraries, reference docs, and data analysis patterns.
+Skills covers both the [W&B Models SDK](/models/ref) (training runs, metrics, artifacts, sweeps) and the [Weave SDK](/weave/reference/python-sdk) (traces, evaluations, scorers). Includes helper libraries, reference docs, and data analysis patterns.
 
-**For model training:**
-* Log metrics and rich media during model training and fine-tuning.
-* Track and compare experiments.
-* Analyze runs and results, such as loss curves and accuracy scores.
-* Tune hyperparameters.
-
-**For agent building:**
-* Trace agentic AI applications.
-* Analyze traces and classify failure modes.
-* Evaluate models and agents with labeled datasets.
-* Run online evaluations for production monitoring.
+| Workflow | Capabilities |
+|----------|-------------|
+| **Model training** | <ul><li>Log metrics and rich media during training and fine-tuning.</li><li>Track and compare experiments.</li><li>Analyze runs and results, such as loss curves and accuracy scores.</li><li>Tune hyperparameters.</li></ul> |
+| **Agent building** | <ul><li>Trace agentic AI applications.</li><li>Analyze traces and classify failure modes.</li><li>Evaluate models and agents with labeled datasets.</li><li>Run online evaluations for production monitoring.</li></ul> |
 
 ## Prerequisites
 
-W&B Skills requires the following:
+Skills requires the following:
 
 * [Node.js](https://nodejs.org/) (for the `npx` command).
 * A W&B API key. Create one at [wandb.ai/authorize](https://wandb.ai/authorize) and then set it as an environment variable:
     ```
     export WANDB_API_KEY=<your-api-key>
     ```
+* (Optional) Set your W&B project name as a `WANDB_PROJECT` environment variable. This allows your agent to target the correct W&B project without you specifying it each time.
 
 ## Install W&B Skills
 
@@ -48,13 +42,13 @@ To install W&B Skills globally, run the following command with the `--global` fl
 npx skills add wandb/skills --skill '*' --yes --global
 ```
 
-To install W&B Skills for a specific project, run the following command from your project directory:
+To install Skills for a specific project, run the following command from your project directory:
 
 ```bash
 npx skills add wandb/skills --skill '*' --yes
 ```
 
-You can also install W&B Skills for specific agents using the `--agent` flag:
+You can also install Skills for specific agents using the `--agent` flag:
 
 ```bash
 npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
@@ -75,6 +69,11 @@ Once installed, you can ask the agent to perform W&B-related tasks for your proj
 
 ## Usage tips
 
-- **Set your W&B project as a `WANDB_PROJECT` environment variable**: This allows your agent to target the correct W&B project without you specifying it each time.
-- **Ask specific questions**: Instead of "how is my model doing?", ask "what is the final validation loss for my last 5 runs?"
-- **Tell the agent to analyze, not dump**: W&B Skills teach agents to compute statistics and summaries rather than dumping raw data. If the agent tries to output large volumes of raw data, ask it to summarize instead.
+Skills performs better when you use more specific queries versus broader open-ended questions. The following table provides some recommneded example prompts versus prompts that are too vague.
+
+| Recommended | Not recommended |
+|-------------|-----------------|
+| "What is the final validation loss for my last 5 runs?" | "How is my model doing?" |
+| "Summarize the token usage across my last 10 traces." | "Show me all my traces." |
+| "Compare the configs of run A and run B." | "What are my best runs?" |
+| "What eval had the highest F1 score?" | "How are my evaluations going?" |
