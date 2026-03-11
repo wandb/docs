@@ -13,7 +13,17 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
+<Update label="v0.78.2" description="2026년 3월 10일">
+  ## 수정 사항
+
+  이전에 해결된 치명적인 보안 수정 사항에서 발생한 회귀 문제를 수정했습니다. 이 문제로 인해 권한이 없는 사용자가 아티팩트에 접근할 수 있습니다. 이 회귀 문제는 v0.78.0 및 v0.78.1에 존재합니다. 이러한 버전은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 v0.78.2를 설치하세요.
+</Update>
+
 <Update label="v0.78.1" description="2026년 3월 5일">
+  <Warning>
+    이 릴리스는 권한이 없는 사용자가 아티팩트에 접근할 수 있게 하는 치명적인 보안 문제의 영향을 받습니다. 이 버전은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 [v0.78.2](#v0-78-2)를 설치하세요.
+  </Warning>
+
   ## 수정 사항
 
   * 데이터를 전혀 기록하지 않은 부모 run에서 포크할 때 실패할 수 있던 버그를 수정했습니다.
@@ -28,6 +38,10 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
   * **Registry**에는 향상된 검색 기능, 재설계된 카드, 더 명확하고 더 빠르게 반응하는 라인리지 그래프 등이 포함됩니다.
   * **Weave**의 **Trace Analytics** 대시보드는 Project Overview 페이지에서 병목 구간과 비용을 많이 유발하는 요소를 파악하는 데 도움을 줍니다. 저장된 뷰는 이제 사용자 지정 Traces, Evaluations, Leaderboards를 지원합니다. Weave Playground에는 LoRA(Low-Rank Adaptation) 및 새로운 모델 지원이 추가되었습니다.
   * **Inference**에는 새 모델이 포함됩니다.
+
+  <Warning>
+    이 릴리스는 권한 없는 액세스로 아티팩트에 접근할 수 있게 하는 치명적인 보안 문제의 영향을 받습니다. 이 버전은 설치하거나 업그레이드하지 마세요. 대신 수정 사항이 포함된 [v0.78.2](#v0-78-2)를 설치하세요.
+  </Warning>
 
   ## 지원 및 서비스 종료
 
@@ -65,7 +79,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   * [Workspace templates](/ko/models/app/features/cascade-settings#workspace-layout-options)에 새로운 설정이 추가되었습니다. 이제 Workspace 템플릿을 설정할 때 빈 섹션을 숨기거나, 섹션 내 패널을 알파벳 순으로 정렬하거나, 섹션의 자동 패널 정렬 방식을 조정할 수 있습니다. 자세한 내용은 [Workspace layout options](/ko/models/app/features/cascade-settings#workspace-layout-options)를 참고하세요.
 
-  * 이제 **Sweeps** 테이블에 **Sweep ID** 열이 포함합니다.
+  * 이제 **Sweeps** 테이블에는 **Sweep ID** 열이 포함됩니다.
 
   * 이제 관리자는 조직의 사용 및 지출 알림을 사용자 지정할 수 있습니다. 조직 설정의 새로운 **Usage &amp; Alerts** 탭에서 스토리지, 추적 시간, Weave, Inference, 트레이닝에 대한 사용 및 지출을 확인하고 이메일 알림을 설정하세요. [Plan usage](/ko/platform/app/settings-page/billing-settings#plan-usage)를 참고하세요.
 

@@ -1212,8 +1212,9 @@
               "ja/index",
               "ja/get-started",
               "ja/platform/mcp-server",
+              "ja/platform/wb-skills",
               {
-                "group": "デプロイオプション",
+                "group": "デプロイ オプション",
                 "pages": [
                   "ja/platform/hosting",
                   "ja/platform/hosting/hosting-options/multi_tenant_cloud",
@@ -1227,7 +1228,7 @@
                     ]
                   },
                   {
-                    "group": "自己管理型",
+                    "group": "セルフマネージド",
                     "pages": [
                       "ja/platform/hosting/hosting-options/self-managed",
                       "ja/platform/hosting/self-managed/ref-arch",
@@ -1242,7 +1243,7 @@
                 ]
               },
               {
-                "group": "W&B をセットアップする",
+                "group": "W&B を設定する",
                 "pages": [
                   {
                     "group": "設定",
@@ -1283,7 +1284,7 @@
                     ]
                   },
                   {
-                    "group": "データセキュリティ",
+                    "group": "データ セキュリティ",
                     "pages": [
                       "ja/platform/hosting/data-security/secure-storage-connector",
                       "ja/platform/hosting/data-security/presigned-urls",
@@ -2351,6 +2352,7 @@
               "ko/index",
               "ko/get-started",
               "ko/platform/mcp-server",
+              "ko/platform/wb-skills",
               {
                 "group": "배포 옵션",
                 "pages": [
@@ -2366,7 +2368,7 @@
                     ]
                   },
                   {
-                    "group": "자가 관리형",
+                    "group": "자체 관리형",
                     "pages": [
                       "ko/platform/hosting/hosting-options/self-managed",
                       "ko/platform/hosting/self-managed/ref-arch",
@@ -2381,7 +2383,7 @@
                 ]
               },
               {
-                "group": "W&B 구성",
+                "group": "W&B 설정",
                 "pages": [
                   {
                     "group": "설정",
@@ -2435,7 +2437,7 @@
                 ]
               },
               {
-                "group": "모니터링 및 사용 현황",
+                "group": "모니터링 및 사용량",
                 "pages": [
                   "ko/platform/hosting/monitoring-usage/audit-logging",
                   "ko/platform/hosting/monitoring-usage/slack-alerts",
@@ -2443,7 +2445,7 @@
                 ]
               },
               {
-                "group": "정의되지 않음",
+                "group": "리소스",
                 "pages": [
                   "ko/pricing",
                   "ko/blog",
