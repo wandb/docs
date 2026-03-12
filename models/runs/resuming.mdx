@@ -113,10 +113,12 @@ Use the [`mark_preempting`](/models/ref/python/experiments/run#mark_preempting) 
 with wandb.init() as run:
     run.mark_preempting()
 ```
-The following table outlines how W&B handles runs based on the exit status of the a sweep run.
+The following table outlines how W&B handles runs based on the exit status of the sweep run.
 
 |Status| Behavior |
 |------| ---------|
 |Status code 0| Run is considered to have terminated successfully and it will not be requeued.  |
 |Nonzero status| W&B automatically appends the run to a run queue associated with the sweep.|
 |No status| Run is added to the sweep run queue. Sweep agents consume runs off the run queue until the queue is empty. Once the queue is empty, the sweep queue resumes generating new runs based on the sweep search algorithm.|
+
+Termination via UNIX signals like `SIGTERM` or `SIGINT` usually produces a non-zero exit code when the training script handles the signal and exits. The requeue behavior described in the table above also applies when you use `mark_preempting()`. For details on Sweeps handle signals and ensuring that the training process receives them, see [Signal handling and sweep runs](/models/sweeps/signal-handling-sweep-runs).
