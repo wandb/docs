@@ -346,7 +346,7 @@ Delete the given run from the wandb backend.
 download_history_exports(
     download_dir: 'pathlib.Path | str',
     require_complete_history: 'bool' = True
-) → DownloadHistoryResult
+) → runhistory.DownloadHistoryResult
 ```
 
 Download any parquet history files for the run to the provided directory. 
@@ -362,6 +362,13 @@ Download any parquet history files for the run to the provided directory.
 
 **Returns:**
  A DownloadHistoryResult. 
+
+
+
+**Raises:**
+ 
+ - `IncompleteRunHistoryError`:  If require_complete_history is True  and the run contains data not yet exported to parquet files. 
+ - `WandbApiFailedError`:  If the API request fails for reasons other than  incomplete history. 
 
 ---
 
