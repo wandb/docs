@@ -29,7 +29,7 @@
     "decoration": "gradient"
   },
   "banner": {
-    "content": "The W&B mobile app is here. [Monitor training runs and explore your projects](/platform/hosting/monitoring-usage/mobile-app) from your iPhone or iPad.",
+    "content": "The W&B Mobile App for iOS is here. [Monitor training runs and explore your projects](/platform/hosting/monitoring-usage/mobile-app) from your iPhone or iPad.",
     "dismissible": true
   },
   "contextual": {
