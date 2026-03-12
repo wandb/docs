@@ -52,13 +52,15 @@ Customize the panel's overall appearance and behavior.
 
 ### Layout
 Customize the display of the panel's individual items.
-- Turn on or off **Grid mode**.
-  - When it is turned on, you can choose a custom X and Y axis to plot on top of each item. More than one item displays in each row, and you limit how many rows to show.
-  - When it is turned off, you can customize the number of columns to use for the panel's content, and you can configure the panel's content, which defaults to **Run**.
+
 - Optionally limit the **Max runs to include** in the panel.
 - Optionally specify a **Media display limit** to limit the number of media items to include per run.
-- **Images and videos**: Turn on or off display of full-size media.
-- **Images**: When **Fit media** is turned on, resize the panel's media to fit the panel's size.
+- **Images and videos**: Set **Panel mode**:
+    - **Gallery** (default): Specify the number of columns and whether  shows a single item per step, run (default), or index.
+    - **Grid**: Specify the number of columns, the x axis (defaults to **Log Step**), and the y axis (defaults to **Run**).
+    - **Compare**: Compare up to 4 media items side by side, optionally fanning out by step or index. See [Compare mode](#compare-mode) for details.
+- **Images and videos**: Turn on or off (default) **Use original size**.
+- **Images and videos**: Turn on (default) or off **Fit to available space**.
 - **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
 
 ### All media panels in a section
@@ -93,7 +95,7 @@ For details about each setting, refer to [Configure a media panel](#configure-a-
 
 Compare mode lets you select 2 to 4 images or videos from any combination of runs, steps, or indices and view them in a single grid. You can compare media without downloading files or switching tabs.
 
-Compare mode when you want to:
+Use compare mode to:
 
 - Confirm that a new checkpoint or run produces better outputs than a baseline or previous checkpoint.
 - Catch regressions by comparing the current run to a known good checkpoint at the same step or index.
@@ -104,8 +106,18 @@ Compare mode is useful for image or video generation workflows like diffusion or
 
 To use compare mode:
 1. Open a media panel in your workspace (for images or video).
-1. Switch to **Compare mode** using the panel controls.
-1. Select the runs, steps, or indices to show in the grid. Up to 4 items can appear in the comparison.
+1. Set **Panel mode** to **Compare**.
+1. Configure the grid by specifying the number of columns and the fan out mode. The best grid geometry depends how your runs log media.
+    - **Number of columns**: How many items to show per row, from `1` to `4`.
+    - **Fan out**: Control what a row represents.
+        - **None**: (default): No fan-out. For each run, each grid column shows a single logged item.
+        - **Step**: Fan out along the step axis. For each run, each grid row shows a single logged item at a given step.
+        - **Index**: Fan out along the index axis. When you log several items per step (for example, `run.log({"images": [img0, img1, img2, img3]})`), each item has an index. When you fan out by index, each grid row shows shows the item logged at a given step:index combination.
+1. Configure whether a given variable affects a single tile (**Individual**) or all tiles (**Linked**).
+    - **Media key**: Defaults to **Linked**.
+    - **Run**: Defaults to **Individual**.
+    - **Step**: Defaults to **Linked**.
+    - **Index**: Defaults to **Linked**.
 
 ![Media panel showing two images in compare mode](/images/models/media_compare_mode.png)
 
