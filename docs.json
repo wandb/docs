@@ -785,6 +785,7 @@
                       "weave/tutorial-weave_models",
                       "weave/guides/core-types/models",
                       "weave/guides/core-types/prompts",
+                      "weave/guides/core-types/prompts-version",
                       "weave/guides/tracking/objects"
                     ]
                   },
