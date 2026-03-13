@@ -724,11 +724,12 @@
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/create-call",
                           "weave/guides/tracking/trace-tree",
+                          "weave/guides/tools/comparison",
                           "weave/guides/tracking/querying-calls"
                         ]
                       },
                       {
-                        "group": "Advanced tracing",
+                        "group": "Advanced Ops",
                         "pages": [
                           "weave/guides/tracking/trace-generator-func",
                           "weave/tutorial-tracing_2",
@@ -736,7 +737,8 @@
                           "weave/guides/tracking/ops",
                           "weave/guides/tools/attributes",
                           "weave/guides/core-types/media",
-                          "weave/guides/tracking/view-call"
+                          "weave/guides/tracking/view-call",
+                          "weave/guides/tracking/trace-disable"
                         ]
                       },
                       {
@@ -748,12 +750,11 @@
                           "weave/guides/tracking/set-call-display"
                         ]
                       },
-                      "weave/guides/tracking/trace-disable",
+
                       "weave/guides/tracking/costs",
                       "weave/guides/tools/saved-views",
-                      "weave/guides/tools/comparison",
+
                       "weave/guides/tracking/trace-plots",
-                      "weave/guides/tools/attributes",
                       "weave/guides/tracking/trace-to-run",
                       "weave/guides/tools/weave-in-workspaces"
                     ]
