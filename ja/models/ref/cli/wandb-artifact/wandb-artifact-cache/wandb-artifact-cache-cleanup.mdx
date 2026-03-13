@@ -1,36 +1,42 @@
 ---
-title: wandb artifact cache cleanup
+title: "wandb Artifacts キャッシュのクリーンアップ"
 ---
 
 {/*
-  このコマンドの紹介コンテンツを追加するには：
-  1. スニペットファイルを作成：/snippets/en/_includes/cli/wandb-artifact-cache-cleanup.mdx
-  2. そのファイルに紹介文を追加
-  3. このコメントブロック全体を削除し、以下の2行のみを残してください：
+  このコマンドの導入文を追加するには:
+  1. /snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx スニペットファイルを作成します
+  2. そのファイルに導入コンテンツを追加します
+  3. このコメントブロック全体を削除し、下記 2 行のみを残します:
 
-import WandbArtifactCacheCleanup from "/snippets/en/_includes/cli/wandb-artifact-cache-cleanup.mdx";
+  import WandbArtifactCacheCleanup from "/snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx";
 
-<WandbArtifactCacheCleanup/>
+  <WandbArtifactCacheCleanup/>
 
-  次回の再生成時にスニペットが自動検出されます。
-*/}
+  スニペットは次回の再生成時に自動検出されます。
+  */}
 
-Artifacts キャッシュから、使用頻度の低いファイルをクリーンアップします。
+あまり使用しないファイルを Artifacts キャッシュから削除する
 
-## Usage（使用法）
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
 wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
 ```
 
-## Arguments（引数）
+<div id="arguments">
+  ## 引数
+</div>
 
 | 引数 | 説明 | 必須 |
 | :--- | :--- | :--- |
-| `TARGET_SIZE` | 説明なし | はい |
+| `TARGET_SIZE` | 説明はありません | はい |
 
-## Options（オプション）
+<div id="options">
+  ## オプション
+</div>
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--remove-temp` | 一時ファイルを削除する（デフォルト：False） |
+| `--remove-temp` | 一時ファイルを削除（デフォルト: False） |

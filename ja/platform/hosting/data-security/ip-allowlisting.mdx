@@ -1,13 +1,13 @@
 ---
-title: 専用クラウドの IP allowlisting の設定
+title: Dedicated Cloud の IP アローリストを設定する
 ---
 
-[専用クラウド](/platform/hosting/hosting-options/dedicated_cloud) インスタンスへのアクセスを、許可された IP アドレスのリストのみに制限することができます。これは、AI ワークロードから W&B API へのアクセス、および Users のブラウザから W&B アプリ UI へのアクセスの両方に適用されます。専用クラウド インスタンスに対して IP 許可リスト（IP allowlisting）が設定されると、W&B はその他の許可されていない場所からのリクエストをすべて拒否します。専用クラウド インスタンスの IP 許可リストを設定するには、担当の W&B チームにお問い合わせください。
+[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) インスタンスへのアクセスを、許可された IP アドレスのリストのみに制限できます。これは、AI ワークロードから W&amp;B API へのアクセスと、ユーザーのブラウザーから W&amp;B アプリ UI へのアクセスの両方に適用されます。Dedicated Cloud インスタンスに対して IP アローリストが設定されると、W&amp;B はその他の許可されていない場所から送信されたリクエストをすべて拒否します。Dedicated Cloud インスタンスの IP アローリスト設定のためには、W&amp;B チームにお問い合わせください。
 
-IP 許可リストは、AWS、Google Cloud、Azure 上の 専用クラウド インスタンスで利用可能です。
+IP アローリストは、AWS、Google Cloud、Azure 上の Dedicated Cloud インスタンスで利用できます。
 
-IP 許可リストを [セキュアなプライベート接続](./private-connectivity) と併用することもできます。セキュアなプライベート接続と IP 許可リストを組み合わせて使用する場合、W&B では、AI ワークロードからのすべてのトラフィックおよび Users のブラウザからの大半のトラフィックに可能な限りセキュアなプライベート接続を使用し、特権的な場所からのインスタンス管理に IP 許可リストを使用することを推奨しています。
+[secure private connectivity](./private-connectivity) と IP アローリストを併用できます。IP アローリストと secure private connectivity を併用する場合は、AI ワークロードからのすべてのトラフィックと、可能であればユーザーのブラウザーからの大部分のトラフィックに secure private connectivity を使用し、特権的な場所からのインスタンス管理には IP アローリストを使用することを W&amp;B は推奨します。
 
 <Warning>
-W&B では、個別の `/32` IP アドレスではなく、企業やビジネスの出力（egress）ゲートウェイに割り当てられた [CIDR ブロック](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) を使用することを強く推奨します。個別の IP アドレスの使用はスケーラビリティに欠け、クラウドごとに厳格な制限があります。
+  W&amp;B は、個々の `/32` IP アドレスではなく、企業または事業用の egress ゲートウェイに割り当てられた [CIDR blocks](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) を使用することを強く推奨します。個々の IP アドレスを使用する方法はスケーラブルではなく、クラウドごとに厳しい上限があります。
 </Warning>

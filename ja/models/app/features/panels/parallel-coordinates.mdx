@@ -1,31 +1,35 @@
 ---
-title: パラレル座標プロット
-description: 機械学習の Experiments 間で結果を比較する
+description: 機械学習実験間の結果を比較する
+title: Parallel coordinates
 ---
 
-Parallel coordinates （並列座標）チャートは、多数の ハイパーパラメーター と モデル メトリクス の関係を一目で要約します。
+Parallel coordinates チャートは、多数のハイパーパラメーターとモデル メトリクス間の関係を一目で把握できるように可視化します。
 
 <Frame>
-    <img src="/images/app_ui/parallel_coordinates.gif" alt="Parallel coordinates plot"  />
+  <img src="/images/app_ui/parallel_coordinates.gif" alt="Parallel coordinates plot" />
 </Frame>
 
-* **Axes（軸）**: [`wandb.Run.config`](/models/evaluate-models/) からの異なる ハイパーパラメーター や、[`wandb.Run.log()`](/models/evaluate-models/) からの メトリクス を表します。
-* **Lines（線）**: 各線は単一の Run を表します。線の上にマウスを置くと、その Run の詳細を示すツールチップが表示されます。現在のフィルターに一致するすべての線が表示されますが、目のアイコンをオフにすると、それらの線はグレーアウトされます。
+* **Axes**: [`wandb.Run.config`](/ja/models/tables/evaluate-models) から取得したさまざまなハイパーパラメーターと、[`wandb.Run.log()`](/ja/models/tables/evaluate-models) から取得したメトリクス。
+* **Lines**: 各線は 1 つの run を表します。線の上にマウスオーバーすると、その run の詳細を含むツールチップが表示されます。現在のフィルターに一致するすべての線が表示されますが、「目」のアイコンをオフにすると、線はグレー表示になります。
 
-## parallel coordinates パネルの作成
+<div id="create-a-parallel-coordinates-panel">
+  ## Parallel coordinates パネルを作成する
+</div>
 
-1. Workspace のランディングページに移動します
+1. ワークスペースのランディングページにアクセスします
 2. **Add Panels** をクリックします
 3. **Parallel coordinates** を選択します
 
-## パネル 設定
+<div id="panel-settings">
+  ## パネル設定
+</div>
 
-パネルを 設定 するには、パネルの右上隅にある編集ボタンをクリックします。
+パネルを設定するには、パネル右上の編集ボタンをクリックします。
 
-* **Tooltip**: ホバー時に、各 Run に関する 情報 を含む凡例が表示されます
-* **Titles**: 軸のタイトルを読みやすく編集できます
-* **Gradient**: 勾配 をお好みの色範囲にカスタマイズできます
-* **Log scale**: 各軸を個別にログスケールで表示するように設定できます
-* **Flip axis**: 軸の方向を切り替えます。これは、精度（accuracy）と損失（loss）の両方の列がある場合に便利です
+* **Tooltip**: ホバーすると、各 run に関する情報を示す凡例が表示されます
+* **Titles**: 軸タイトルを編集して、より読みやすくします
+* **Gradient**: 任意の色の範囲になるようグラデーションをカスタマイズします
+* **Log scale**: 各軸は個別に対数スケールで表示するよう設定できます
+* **Flip axis**: 軸の方向を切り替えます — 精度と損失の両方を列として表示している場合に便利です
 
-[ライブ状態の parallel coordinates パネルを操作する](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+[ライブの parallel coordinates パネルを操作する](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)

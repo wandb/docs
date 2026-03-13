@@ -1,0 +1,19 @@
+---
+title: Registry の作成
+---
+
+```python
+"""
+W&B に新しいレジストリを作成します。レジストリが存在しない場合、W&B が作成します。
+"""
+import wandb
+
+# W&B API を初期化する
+api = wandb.Api()
+
+# 新しいレジストリを作成する
+registry = api.create_registry(
+    name="<registry_name>",
+    visibility="<visibility>",  # 例: "public" または "private"
+)
+```

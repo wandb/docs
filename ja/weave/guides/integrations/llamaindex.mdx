@@ -1,24 +1,25 @@
 ---
 title: LlamaIndex
-description: Weave を使用して LlamaIndex アプリケーションを自動的にトレースし、デバッグします。すべての LLM 呼び出し、RAG パイプライン、エージェント
-  のステップ、および 評価 をキャプチャし、データと連携した AI ワークフロー の包括的なオブザーバビリティを実現します。
+description: "Weave を使って LlamaIndex アプリケーションを自動的にトレースおよびデバッグし、すべての LLM 呼び出し、RAG パイプライン、エージェントのステップ、評価を取得して、データ接続型 AI ワークフローに対する包括的な可観測性を実現します。"
 ---
 
-Weave は、[LlamaIndex Python ライブラリ](https://github.com/run-llama/llama_index) を通じて行われるすべての呼び出しの追跡とログ記録を簡素化するように設計されています。
+Weave は、[LlamaIndex Python library](https://github.com/run-llama/llama_index) を通じて行われるすべての呼び出しのトラッキングとログ取得を簡素化するように設計されています。
 
-LLM を扱う際、デバッグは避けて通れません。モデル呼び出しの失敗、出力のフォーマットミス、あるいは入れ子になったモデル呼び出しによる混乱など、問題の特定は困難な場合があります。[LlamaIndex](https://docs.llamaindex.ai/en/stable/) アプリケーションは多くの場合、複数のステップと LLM 呼び出しの実行で構成されるため、チェーンやエージェントの内部動作を理解することが極めて重要です。
+LLM を扱う際、デバッグは避けられません。モデル呼び出しが失敗したり、出力の形式が誤っていたり、入れ子になったモデル呼び出しが混乱を招いたりする場合、問題の特定は困難になり得ます。[LlamaIndex](https://docs.llamaindex.ai/en/stable/) アプリケーションは多くの場合、複数のステップと LLM 呼び出しの実行から構成されるため、チェーンやエージェントの内部動作を理解することが重要です。
 
-Weave は、LlamaIndex アプリケーションの Traces を自動的にキャプチャすることで、このプロセスを簡素化します。これにより、アプリケーションのパフォーマンスを監視および分析できるようになり、LLM ワークフローのデバッグや最適化が容易になります。また、Weave は評価ワークフローにも役立ちます。
+Weave は、LlamaIndex アプリケーションのトレースを自動的に取得することで、このプロセスを簡素化します。これにより、アプリケーションのパフォーマンスを監視・分析できるようになり、LLM ワークフローのデバッグや最適化が容易になります。Weave は評価ワークフローにも役立ちます。
 
-## はじめに
+<div id="getting-started">
+  ## はじめに
+</div>
 
-開始するには、スクリプトの冒頭で `weave.init()` を呼び出すだけです。`weave.init()` の引数には、Traces を整理するのに役立つ Projects 名を指定します。
+まずは、スクリプトの冒頭で `weave.init()` を呼び出すだけです。`weave.init()` の引数には、トレースを整理するための プロジェクト名を指定します。
 
 ```python lines {5}
 import weave
 from llama_index.core.chat_engine import SimpleChatEngine
 
-# プロジェクト名で Weave を初期化
+# プロジェクト名を指定して Weave を初期化する
 weave.init("llamaindex_demo")
 
 chat_engine = SimpleChatEngine.from_defaults()
@@ -28,26 +29,28 @@ response = chat_engine.chat(
 print(response)
 ```
 
-上記の例では、内部で OpenAI 呼び出しを行うシンプルな LlamaIndex チャットエンジンを作成しています。以下のトレースを確認してください：
+上の例では、シンプルな LlamaIndex チャットエンジンを作成しており、その内部では OpenAI の API 呼び出しが行われています。以下のトレースを確認してください:
 
-[![simple_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
+[![simple\_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
 
-## Tracing
+<div id="tracing">
+  ## トレーシング
+</div>
 
-LlamaIndex は、データと LLM を簡単に接続できることで知られています。シンプルな RAG アプリケーションには、埋め込みステップ、リトリーバル（検索）ステップ、そしてレスポンス合成ステップが必要です。複雑さが増すにつれて、開発とプロダクションの両方のフェーズで、個々のステップの Traces を中央データベースに保存することが重要になります。
+LlamaIndex は、データと LLM を簡単に接続できることで知られています。シンプルな RAG アプリケーションには、埋め込み処理、検索処理、応答生成処理のステップが必要です。アプリケーションが複雑になるにつれて、開発環境と本番環境の両方で、各ステップのトレースを一元的なデータベースに保存することが重要になります。
 
-これらの Traces は、アプリケーションのデバッグと改善に不可欠です。Weave は、プロンプトテンプレート、LLM 呼び出し、ツール、エージェントのステップなど、LlamaIndex ライブラリを通じて行われるすべての呼び出しを自動的に追跡します。Traces は Weave のウェブインターフェースで表示できます。
+これらのトレースは、アプリケーションのデバッグと改善に不可欠です。Weave は LlamaIndex ライブラリ経由で行われるすべての呼び出し (プロンプトテンプレート、LLM 呼び出し、ツール、エージェントのステップなど) を自動的にトレースします。Weave の web インターフェースでこれらのトレースを確認できます。
 
-以下は、LlamaIndex の [Starter Tutorial (OpenAI)](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/) に基づくシンプルな RAG パイプラインの例です：
+以下は、LlamaIndex の [Starter Tutorial (OpenAI)](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/) にあるシンプルな RAG パイプラインの例です。
 
 ```python lines {5}
 import weave
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 
-# プロジェクト名で Weave を初期化
+# Weave をプロジェクト名で初期化する
 weave.init("llamaindex_demo")
 
-# `data` ディレクトリーに `.txt` ファイルがあることを想定
+# `data` ディレクトリに `.txt` ファイルが存在することを前提とする
 documents = SimpleDirectoryReader("data").load_data()
 index = VectorStoreIndex.from_documents(documents)
 
@@ -56,21 +59,25 @@ response = query_engine.query("What did the author do growing up?")
 print(response)
 ```
 
-トレースのタイムラインは「イベント」をキャプチャするだけでなく、実行時間、コスト、および該当する場合はトークン数も記録します。トレースをドリルダウンして、各ステップの入力と出力を確認できます。
+トレースタイムラインは「events」を記録するだけでなく、該当する場合には実行時間、コスト、トークン数も取得します。トレースを掘り下げて各ステップの入力と出力を確認できます。
 
-[![llamaindex_rag.png](/weave/guides/integrations/imgs/llamaindex_rag.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2F6ac53407-1bb7-4c38-b5a3-c302bd877a11%3Ftracetree%3D1)
+[![llamaindex\_rag.png](/weave/guides/integrations/imgs/llamaindex_rag.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2F6ac53407-1bb7-4c38-b5a3-c302bd877a11%3Ftracetree%3D1)
 
-## ワンクリック・オブザーバビリティ（可観測性） 🔭
+<div id="one-click-observability">
+  ## ワンクリック observability 🔭
+</div>
 
-LlamaIndex は、プロダクション環境で原則に基づいた LLM アプリケーションを構築できるように、[ワンクリック・オブザーバビリティ 🔭](https://docs.llamaindex.ai/en/stable/module_guides/observability/) を提供しています。
+LlamaIndex は、本番環境で原則に基づいた LLM アプリケーションを構築できるようにするための [ワンクリック observability 🔭](https://docs.llamaindex.ai/en/stable/module_guides/observability/) を提供します。
 
-私たちのインテグレーションはこの LlamaIndex の機能を活用し、[`WeaveCallbackHandler()`](https://github.com/wandb/weave/blob/master/weave/integrations/llamaindex/llamaindex.py) を自動的に `llama_index.core.global_handler` に設定します。したがって、LlamaIndex と Weave のユーザーとして必要なのは、Weave の Run を初期化する `weave.init(<name-of-project>)` を実行することだけです。
+このインテグレーションは LlamaIndex のこの機能を活用し、自動的に [`WeaveCallbackHandler()`](https://github.com/wandb/weave/blob/master/weave/integrations/llamaindex/llamaindex.py) を `llama_index.core.global_handler` に設定します。したがって LlamaIndex と Weave の ユーザー は、Weave run を初期化するために `weave.init(<name-of-project>)` を実行するだけで済みます。
 
-## 実験を容易にするための `Model` 作成
+<div id="create-a-model-for-easier-experimentation">
+  ## 実験をより簡単に行うための `Model` を作成する
+</div>
 
-プロンプト、モデル設定、推論パラメータなど、複数のコンポーネントがある様々なユースケースにおいて、アプリケーション内の LLM を整理し評価することは困難です。[`weave.Model`](/weave/guides/core-types/models) を使用すると、システムプロンプトや使用するモデルなどの実験の詳細をキャプチャして整理でき、異なるイテレーション間の比較が容易になります。
+さまざまなユースケース向けにアプリケーション内で LLM を整理・評価することは、プロンプト、モデルの設定、推論パラメーターなど複数のコンポーネントが関わるため困難です。[`weave.Model`](/ja/weave/guides/core-types/models) を使用すると、システムプロンプトや使用する モデル などの実験の詳細情報を記録・整理できるため、異なるイテレーションを比較しやすくなります。
 
-次の例は、[weave/data](https://github.com/wandb/weave/tree/master/data) フォルダにあるデータを使用して、`WeaveModel` 内で LlamaIndex クエリエンジンを構築する方法を示しています。
+次の例では、[weave/data](https://github.com/wandb/weave/tree/master/data) フォルダー内のデータを使って、`WeaveModel` 内に LlamaIndex クエリエンジンを構築する方法を示します。
 
 ```python lines {16,52,61}
 import weave
@@ -141,13 +148,15 @@ response = rag_pipeline.predict("What did the author do growing up?")
 print(response)
 ```
 
-この `weave.Model` を継承した `SimpleRAGPipeline` クラスは、この RAG パイプラインの重要なパラメータを整理します。`predict` メソッドを `weave.op()` でデコレートすることで、追跡が可能になります。
+`weave.Model` を継承したこの `SimpleRAGPipeline` クラスは、この RAG パイプラインにとって重要なパラメーターを整理してまとめています。`query` メソッドを `weave.op()` でデコレートすることで、トレースが可能になります。
 
-[![llamaindex_model.png](/weave/guides/integrations/imgs/llamaindex_model.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2Fa82afbf4-29a5-43cd-8c51-603350abeafd%3Ftracetree%3D1)
+[![llamaindex\_model.png](/weave/guides/integrations/imgs/llamaindex_model.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2Fa82afbf4-29a5-43cd-8c51-603350abeafd%3Ftracetree%3D1)
 
-## `weave.Evaluation` による評価の実施
+<div id="doing-evaluation-with-weaveevaluation">
+  ## `weave.Evaluation` で評価する
+</div>
 
-Evaluations は、アプリケーションのパフォーマンスを測定するのに役立ちます。[`weave.Evaluation`](/weave/guides/core-types/evaluations) クラスを使用することで、特定のタスクやデータセットに対してモデルがどれだけ適切に機能するかをキャプチャでき、異なるモデルやアプリケーションのイテレーションを比較しやすくなります。次の例は、作成したモデルを評価する方法を示しています。
+評価は、アプリケーションのパフォーマンスを測定するのに役立ちます。[`weave.Evaluation`](/ja/weave/guides/core-types/evaluations) クラスを使用すると、特定のタスクやデータセットに対して モデル がどの程度うまく動作しているかを記録でき、異なる モデル やアプリケーションの反復バージョンを比較しやすくなります。次の例では、作成した モデル をどのように評価するかを示します。
 
 ```python lines {25,32,36}
 import asyncio
@@ -188,12 +197,12 @@ rag_pipeline = SimpleRAGPipeline()
 asyncio.run(evaluation.evaluate(rag_pipeline))
 ```
 
-この評価は前のセクションの例に基づいています。`weave.Evaluation` を使用した評価には、評価データセット、スコアラー関数、および `weave.Model` が必要です。これら 3 つの主要コンポーネントに関する注意点は以下の通りです。
+この評価は前のセクションの例に基づいています。`weave.Evaluation` を使って評価を行うには、評価用データセット、スコアラー関数、そして `weave.Model` が必要です。ここでは、この 3 つの主要コンポーネントに関するいくつかの注意点を説明します。
 
-- 評価サンプルの辞書のキーが、スコアラー関数の引数および `weave.Model` の `predict` メソッドの引数と一致していることを確認してください。
-- `weave.Model` には、`predict`、`infer`、または `forward` という名前のメソッドが必要です。追跡のためにこのメソッドを `weave.op()` でデコレートしてください。
-- スコアラー関数は `weave.op()` でデコレートし、`output` を名前付き引数として持つ必要があります。
+* 評価サンプルの辞書型オブジェクトのキーが、スコアラー関数および `weave.Model` の `predict` メソッドの引数と一致するようにしてください。
+* `weave.Model` には、`predict`、`infer`、または `forward` という名前のメソッドが必要です。このメソッドをトレースするには、`weave.op()` でデコレートしてください。
+* スコアラー関数も `weave.op()` でデコレートし、`output` を名前付き引数として受け取る必要があります。
 
-[![llamaindex_evaluation.png](/weave/guides/integrations/imgs/llamaindex_evaluation.png)](https://wandb.ai/wandbot/llamaindex-weave/weave/calls?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fwandbot%2Fllamaindex-weave%2Fop%2FEvaluation.predict_and_score%3ANmwfShfFmgAhDGLXrF6Xn02T9MIAsCXBUcifCjyKpOM%22%5D%2C%22parentId%22%3A%2233491e66-b580-47fa-9d43-0cd6f1dc572a%22%7D&peekPath=%2Fwandbot%2Fllamaindex-weave%2Fcalls%2F33491e66-b580-47fa-9d43-0cd6f1dc572a%3Ftracetree%3D1)
+[![llamaindex\_evaluation.png](/weave/guides/integrations/imgs/llamaindex_evaluation.png)](https://wandb.ai/wandbot/llamaindex-weave/weave/calls?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fwandbot%2Fllamaindex-weave%2Fop%2FEvaluation.predict_and_score%3ANmwfShfFmgAhDGLXrF6Xn02T9MIAsCXBUcifCjyKpOM%22%5D%2C%22parentId%22%3A%2233491e66-b580-47fa-9d43-0cd6f1dc572a%22%7D\&peekPath=%2Fwandbot%2Fllamaindex-weave%2Fcalls%2F33491e66-b580-47fa-9d43-0cd6f1dc572a%3Ftracetree%3D1)
 
-Weave を LlamaIndex と統合することで、LLM アプリケーションの包括的なログ記録と監視が保証され、評価を使用したデバッグとパフォーマンスの最適化が容易になります。
+Weave を LlamaIndex と統合することで、LLM アプリケーションを包括的にロギングおよびモニタリングでき、評価を用いたデバッグやパフォーマンス最適化を容易に行えます。

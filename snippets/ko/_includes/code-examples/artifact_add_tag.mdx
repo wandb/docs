@@ -1,0 +1,17 @@
+---
+title: 아티팩트 태그 추가
+---
+
+```python
+"""
+W&B에 아티팩트를 로깅할 때 태그를 추가합니다.
+"""
+import wandb
+
+# 아티팩트 생성
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+
+# 태그와 함께 아티팩트 로깅
+with wandb.init(project="<project>") as run:
+    run.log_artifact(artifact, tags=["<tag1>", "<tag2>"])
+```

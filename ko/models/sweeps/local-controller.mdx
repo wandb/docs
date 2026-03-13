@@ -1,71 +1,75 @@
 ---
-title: 알고리즘 로컬 관리
-description: W&B 클라우드 호스팅 서비스를 사용하는 대신, 로컬에서 알고리즘을 검색하고 중지하세요.
+description: W&amp;B 클라우드 호스팅 서비스를 사용하지 않고 로컬에서 검색 및 중지 알고리즘을 실행합니다.
+title: 로컬에서 알고리즘 관리하기
 ---
 
-하이퍼파라미터 컨트롤러는 기본적으로 Weights & Biases에서 클라우드 서비스로 호스팅합니다. W&B 에이전트는 컨트롤러와 통신하여 트레이닝에 사용할 다음 파라미터 세트를 결정합니다. 또한 컨트롤러는 조기 종료(early stopping) 알고리즘을 실행하여 어떤 Runs를 중지할지 결정하는 역할도 담당합니다.
+하이퍼파라미터 컨트롤러는 기본적으로 Weights &amp; Biases에서 클라우드 서비스 형태로 호스팅됩니다. W&amp;B 에이전트는 컨트롤러와 통신하여 트레이닝에 사용할 다음 파라미터 세트를 결정합니다. 컨트롤러는 또한 조기 중지 알고리즘을 실행하여 어떤 run을 중지할 수 있는지 결정하는 역할도 담당합니다.
 
-로컬 컨트롤러 기능을 사용하면 사용자가 로컬에서 탐색 및 중지 알고리즘을 시작할 수 있습니다. 로컬 컨트롤러를 통해 사용자는 코드를 조사하고 인스트루먼트(instrument)하여 문제를 디버깅할 수 있을 뿐만 아니라, 향후 클라우드 서비스에 통합될 수 있는 새로운 기능을 개발할 수도 있습니다.
+로컬 컨트롤러 기능을 사용하면 사용자가 로컬에서 검색 및 중지 알고리즘을 실행할 수 있습니다. 로컬 컨트롤러를 사용하면 사용자가 코드를 검사하고 계측하여 문제를 디버깅하고, 클라우드 서비스에 통합할 수 있는 새로운 기능을 개발할 수 있습니다.
 
 <Warning>
-이 기능은 Sweeps 툴의 새로운 알고리즘을 더 빠르게 개발하고 디버깅할 수 있도록 지원하기 위해 제공됩니다. 실제 하이퍼파라미터 최적화 워크로드용으로 설계된 것은 아닙니다.
+  이 기능은 Sweeps 도구에서 새로운 알고리즘을 더 빠르게 개발하고 디버깅할 수 있도록 지원하기 위한 것입니다. 실제 하이퍼파라미터 최적화 작업을 위한 용도로는 의도되지 않았습니다.
 </Warning>
 
-시작하기 전에 W&B SDK ( `wandb` )를 설치해야 합니다. 커맨드라인에 다음 코드조각을 입력하세요:
+시작하기 전에 W&amp;B SDK(`wandb`)를 설치해야 합니다. 다음 코드 스니펫을 명령줄에 입력하세요:
 
 ```
 pip install wandb sweeps 
 ```
 
-다음 예제들은 파이썬 스크립트나 Jupyter Notebook에 설정 파일과 트레이닝 루프가 이미 정의되어 있다고 가정합니다. 설정 파일을 정의하는 방법에 대한 자세한 내용은 [Define sweep configuration](/models/sweeps/define-sweep-configuration/)을 참조하세요.
+다음 예제에서는 이미 Python 스크립트 또는 Jupyter Notebook에서 설정 파일과 트레이닝 루프를 정의해 두었다고 가정합니다. 설정 파일 정의 방법에 대한 자세한 내용은 [스윕 설정 정의](/ko/models/sweeps/define-sweep-configuration/)를 참조하세요.
 
-### 커맨드라인에서 로컬 컨트롤러 실행하기
+<div id="run-the-local-controller-from-the-command-line">
+  ### 명령줄에서 로컬 컨트롤러 실행하기
+</div>
 
-W&B가 클라우드 서비스로 호스팅하는 하이퍼파라미터 컨트롤러를 사용할 때와 유사하게 스윕을 초기화합니다. W&B 스윕 작업에 로컬 컨트롤러를 사용하겠다는 것을 나타내기 위해 컨트롤러 플래그 ( `controller` )를 지정합니다:
+W&amp;B에서 클라우드 서비스로 호스팅하는 하이퍼파라미터 컨트롤러를 사용할 때와 비슷한 방식으로 스윕을 초기화합니다. W&amp;B 스윕 작업에 로컬 컨트롤러를 사용하도록 지정하려면 컨트롤러 플래그(`controller`)를 설정합니다:
 
 ```bash
 wandb sweep --controller config.yaml
 ```
 
-또는, 스윕 초기화와 로컬 컨트롤러 사용 지정 단계를 두 단계로 나눌 수도 있습니다.
+또는 스윕을 초기화하는 작업과 로컬 컨트롤러를 사용하도록 지정하는 작업을 두 단계로 나눌 수 있습니다.
 
-단계를 나누려면 먼저 스윕의 YAML 설정 파일에 다음 키-값 쌍을 추가하세요:
+이 단계를 분리하려면 먼저 스윕의 YAML 설정 파일에 다음 키-값 쌍을 추가하세요:
 
 ```yaml
 controller:
   type: local
 ```
 
-그 다음, 스윕을 초기화합니다:
+다음으로, 스윕을 초기화합니다:
 
 ```bash
 wandb sweep config.yaml
 ```
 
-`wandb sweep`은 스윕 ID를 생성합니다. 스윕을 초기화한 후, [`wandb controller`](/models/ref/python/functions/controller)로 컨트롤러를 시작합니다:
+`wandb sweep`는 스윕 ID를 생성합니다. 스윕을 초기화한 후에는 [`wandb controller`](/ko/models/ref/python/functions/controller)로 컨트롤러를 시작합니다:
 
 ```bash
 wandb controller {user}/{entity}/{sweep_id}
 ```
 
-로컬 컨트롤러 사용을 지정했다면, 하나 이상의 Sweep 에이전트를 시작하여 스윕을 실행합니다. 평소와 같이 W&B Sweep을 시작하세요. 자세한 내용은 [Start sweep agents](/models/sweeps/start-sweep-agents/)를 참조하세요.
+로컬 컨트롤러를 사용하도록 지정했다면, 하나 이상의 Sweep 에이전트를 시작하여 스윕을 실행합니다. 평소와 같이 W&amp;B Sweep을 시작하면 됩니다. 자세한 내용은 [Start sweep agents](/ko/models/sweeps/start-sweep-agents/) 문서를 참고하세요.
 
 ```bash
 wandb sweep sweep_ID
 ```
 
-### W&B Python SDK로 로컬 컨트롤러 실행하기
+<div id="run-a-local-controller-with-wb-python-sdk">
+  ### W&amp;B Python SDK로 로컬 컨트롤러 실행하기
+</div>
 
-다음 코드조각은 W&B Python SDK를 사용하여 로컬 컨트롤러를 지정하고 사용하는 방법을 보여줍니다.
+다음 코드 스니펫은 W&amp;B Python SDK에서 로컬 컨트롤러를 지정하고 사용하는 방법을 보여줍니다.
 
-Python SDK에서 컨트롤러를 사용하는 가장 간단한 방법은 스윕 ID를 [`wandb.controller`](/models/ref/python/functions/controller) 메소드에 전달하는 것입니다. 그런 다음 반환된 오브젝트의 `run` 메소드를 사용하여 스윕 작업을 시작합니다:
+Python SDK에서 컨트롤러를 사용하는 가장 간단한 방법은 스윕 ID를 [`wandb.controller`](/ko/models/ref/python/functions/controller) 메서드에 전달하는 것입니다. 그런 다음 반환된 객체의 `run` 메서드를 호출하여 스윕 작업을 시작합니다:
 
 ```python
 sweep = wandb.controller(sweep_id)
 sweep.run()
 ```
 
-컨트롤러 루프를 더 자세히 제어하고 싶은 경우:
+컨트롤러 루프에 대한 제어를 더 세밀하게 하고 싶다면:
 
 ```python
 import wandb
@@ -77,7 +81,7 @@ while not sweep.done():
     time.sleep(5)
 ```
 
-또는 제공되는 파라미터를 더 세밀하게 제어하고 싶은 경우:
+제공되는 파라미터를 더욱 세밀하게 제어하려면:
 
 ```python
 import wandb
@@ -89,7 +93,7 @@ while not sweep.done():
     sweep.print_status()
 ```
 
-전체 스윕을 코드로만 지정하고 싶다면 다음과 같이 작성할 수 있습니다:
+스윕을 완전히 코드로만 지정하고 싶다면 다음과 같이 할 수 있습니다:
 
 ```python
 import wandb

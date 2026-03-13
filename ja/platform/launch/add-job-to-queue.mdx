@@ -1,96 +1,108 @@
 ---
-title: キューにジョブを追加
+title: ジョブをキューに追加する
 ---
 
-このページでは、Launch キューに Launch ジョブを追加する方法について説明します。
+このページでは、Launch ジョブを Launch キューに追加する方法を説明します。
 
 <Note>
-あなた、またはチームの誰かがすでに Launch キューを設定していることを確認してください。詳細については、 [Launch のセットアップ](/platform/launch/set-up-launch/) ページを参照してください。
+  自分自身またはチームメンバーの誰かが、すでに Launch キューを設定済みであることを確認してください。詳細については、[Launch のセットアップ](/ja/platform/launch/set-up-launch/) ページを参照してください。
 </Note>
 
-## キューにジョブを追加する
+<div id="add-jobs-to-your-queue">
+  ## キューにジョブを追加する
+</div>
 
-W&B App を使用して対話的に、または W&B CLI を使用してプログラムで、キューにジョブを追加します。
+W&amp;B App を使用して対話的に、または W&amp;B CLI を使用してプログラムで、キューにジョブを追加します。
 
 <Tabs>
-<Tab title="W&B app">
-W&B App を使用してキューにジョブを追加します。
+  <Tab title="W&B app">
+    W&amp;B App からキューにジョブを追加します。
 
-1. W&B の Projects ページに移動します。
-2. 左パネルにある **Jobs** アイコンを選択します。
-  <Frame>
-    <img src="/images/launch/project_jobs_tab_gs.png" alt="Project Jobs tab"  />
-</Frame>
-3. **Jobs** ページには、以前に実行された W&B Runs から作成された W&B Launch ジョブのリストが表示されます。
-  <Frame>
-    <img src="/images/launch/view_jobs.png" alt="Jobs listing"  />
-</Frame>
-4. ジョブ名の横にある **Launch** ボタンを選択します。ページの右側にモーダルが表示されます。
-5. **Job version** ドロップダウンから、使用する Launch ジョブのバージョンを選択します。Launch ジョブは他の [W&B Artifact](/models/artifacts/create-a-new-artifact-version/) と同様にバージョン管理されます。ジョブの実行に使用されるソフトウェアの依存関係やソースコードに変更を加えると、同じ Launch ジョブの異なるバージョンが作成されます。
-6. **Overrides** セクション内で、Launch ジョブに設定されている入力に対して新しい値を指定します。一般的なオーバーライドには、新しい entrypoint コマンド、引数、または新しい W&B run の `wandb.Run.config` の値が含まれます。
-  <Frame>
-    <img src="/images/launch/create_starter_queue_gs.png" alt="Queue configuration"  />
-</Frame>
-  **Paste from...** ボタンをクリックすることで、その Launch ジョブを使用した他の W&B Runs から値をコピー＆ペーストできます。
-7. **Queue** ドロップダウンから、Launch ジョブを追加する Launch キューの名前を選択します。
-8. **Job Priority** ドロップダウンを使用して、Launch ジョブの優先度を指定します。Launch キューが優先順位付けをサポートしていない場合、ジョブの優先度は "Medium" に設定されます。
-9. **（オプション）チーム管理者によってキュー設定テンプレートが作成されている場合のみ、このステップに従ってください**  
-**Queue Configurations** フィールド内で、チームの管理者が作成した設定オプションの値を入力します。  
-例えば、以下の例では、チーム管理者がチームで使用可能な AWS インスタンスタイプを設定しています。この場合、チームメンバーはモデルのトレーニングのために `ml.m4.xlarge` または `ml.p3.xlarge` のいずれかのコンピューティングインスタンスタイプを選択できます。
-<Frame>
-    <img src="/images/launch/team_member_use_config_template.png" alt="Config template selection"  />
-</Frame>
-10. 結果の run が表示される **Destination project** を選択します。このプロジェクトはキューと同じ entity に属している必要があります。
-11. **Launch now** ボタンを選択します。
-</Tab>
-<Tab title="W&B CLI">
-`wandb launch` コマンドを使用してキューにジョブを追加します。ハイパーパラメーターをオーバーライドする JSON 設定ファイルを作成します。例えば、 [クイックスタート](/platform/launch/walkthrough/) ガイドのスクリプトを使用して、以下のオーバーライドを含む JSON ファイルを作成します。
+    1. W&amp;B プロジェクトページに移動します。
+    2. プロジェクトのサイドバーで **Jobs** アイコンを選択します:
 
-```json title="config.json"
-{
-  "overrides": {
-      "args": [],
-      "run_config": {
-          "learning_rate": 0,
-          "epochs": 0
-      },   
-      "entry_point": []
-  }
-}
-```
+    <Frame>
+      <img src="/images/launch/project_jobs_tab_gs.png" alt="Project Jobs タブ" />
+    </Frame>
 
-<Note>
-JSON 設定ファイルを提供しない場合、W&B Launch はデフォルトのパラメータを使用します。
-</Note>
+    3. **Jobs** ページには、これまでに実行された W&amp;B run から作成された W&amp;B Launch ジョブの一覧が表示されます。
 
-キュー設定をオーバーライドしたい場合、または Launch キューに設定リソースが定義されていない場合は、config.json ファイルに `resource_args` キーを指定できます。例えば、上記の例に続いて、config.json ファイルは次のようになります。
+    <Frame>
+      <img src="/images/launch/view_jobs.png" alt="Jobs 一覧" />
+    </Frame>
 
-```json title="config.json"
-{
-  "overrides": {
-      "args": [],
-      "run_config": {
-          "learning_rate": 0,
-          "epochs": 0
+    4. ジョブ名の横にある **Launch** ボタンを選択します。ページ右側にモーダルが表示されます。
+    5. **Job version** ドロップダウンから、使用したい Launch ジョブのバージョンを選択します。Launch ジョブは他の [W&amp;B Artifact](/ja/models/artifacts/create-a-new-artifact-version/) と同様にバージョン管理されます。Launch ジョブで使用するソフトウェア依存関係やソースコードを変更すると、同じ Launch ジョブでも別バージョンが作成されます。
+    6. **Overrides** セクションで、Launch ジョブに対して設定されている任意の入力に新しい値を指定します。よくある override としては、新しいエントリポイントコマンド、引数、または新しい W&amp;B run の `wandb.Run.config` 内の値などがあります。
+
+    <Frame>
+      <img src="/images/launch/create_starter_queue_gs.png" alt="Queue 設定" />
+    </Frame>
+
+    **Paste from...** ボタンをクリックすると、同じ Launch ジョブを使用した他の W&amp;B run から値をコピー &amp; ペーストできます。
+    7. **Queue** ドロップダウンから、Launch ジョブを追加したい Launch キューの名前を選択します。
+    8. **Job Priority** ドロップダウンを使用して、Launch ジョブの優先度を指定します。Launch キューが優先度設定をサポートしていない場合、Launch ジョブの優先度は「Medium」に設定されます。
+    9.&#x20;**&#x20;(オプション) このステップは、キュー設定テンプレートがチーム管理者によって作成されている場合のみ実施してください**\
+    **Queue Configurations** フィールドに、チームの管理者によって作成された設定オプションの値を指定します。\
+    たとえば次の例では、チーム管理者がチームで使用できる AWS インスタンスタイプを設定しています。この場合、チームメンバーは `ml.m4.xlarge` または `ml.p3.xlarge` のいずれかのコンピュートインスタンスタイプを選択してモデルを学習できます。
+
+    <Frame>
+      <img src="/images/launch/team_member_use_config_template.png" alt="設定テンプレートの選択" />
+    </Frame>
+
+    10. 結果の run が表示される **Destination project** を選択します。このプロジェクトは、キューと同じ entity に属している必要があります。
+    11. **Launch now** ボタンを選択します。
+  </Tab>
+
+  <Tab title="W&B CLI">
+    `wandb launch` コマンドを使用して、キューにジョブを追加します。ハイパーパラメーターの override を含む JSON 設定を作成します。たとえば、[クイックスタート](/ja/platform/launch/walkthrough/) ガイドのスクリプトを使用する場合、次の override を含む JSON ファイルを作成します:
+
+    ```json title="config.json"
+    {
+      "overrides": {
+          "args": [],
+          "run_config": {
+              "learning_rate": 0,
+              "epochs": 0
+          },   
+          "entry_point": []
+      }
+    }
+    ```
+
+    <Note>
+      JSON 設定ファイルを指定しなかった場合、W&amp;B Launch はデフォルトのパラメーターを使用します。
+    </Note>
+
+    キュー設定を上書きしたい場合、または Launch キューに設定リソースが定義されていない場合は、config.json ファイル内で `resource_args` キーを指定できます。たとえば、先ほどの例を続けると、config.json ファイルは次のようになります:
+
+    ```json title="config.json"
+    {
+      "overrides": {
+          "args": [],
+          "run_config": {
+              "learning_rate": 0,
+              "epochs": 0
+          },
+          "entry_point": []
       },
-      "entry_point": []
-  },
-  "resource_args": {
-        "<resource-type>" : {
-            "<key>": "<value>"
-        }
-  }
-}
-```
+      "resource_args": {
+            "<resource-type>" : {
+                "<key>": "<value>"
+            }
+      }
+    }
+    ```
 
-`<>` 内の値を独自の値に置き換えてください。
+    `<>` 内の値は自分の値に置き換えてください。
 
-`queue`(`-q`) フラグにキューの名前を、`job`(`-j`) フラグにジョブの名前を、そして `config`(`-c`) フラグに設定ファイルへのパスを指定します。
+    `queue` (`-q`) フラグにはキュー名を、`job` (`-j`) フラグにはジョブ名を、`config` (`-c`) フラグには設定ファイルへのパスを指定します。
 
-```bash
-wandb launch -j <job> -q <queue-name> \ 
--e <entity-name> -c path/to/config.json
-```
-W&B チーム内で作業している場合は、キューが使用する entity を示すために `entity` フラグ (`-e`) を指定することをお勧めします。
-</Tab>
+    ```bash
+    wandb launch -j <job> -q <queue-name> \ 
+    -e <entity-name> -c path/to/config.json
+    ```
+
+    W&amp;B Team 内で作業している場合は、キューが使用する entity を示すために `entity` フラグ (`-e`) を指定することを推奨します。
+  </Tab>
 </Tabs>

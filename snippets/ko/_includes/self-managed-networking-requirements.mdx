@@ -1,0 +1,19 @@
+---
+title: 셀프 매니지드 네트워킹 요구 사항
+---
+
+네트워크형 배포의 경우, 설치 및 런타임 *둘 다* 동안 다음 엔드포인트로의 아웃바운드 트래픽이 필요합니다:
+
+* https://deploy.wandb.ai
+* https://charts.wandb.ai
+* https://quay.io (Prometheus 이미지에 사용됨)
+
+<Note>
+  배포 설정에 따라 추가 컨테이너 레지스트리가 필요할 수 있습니다:
+
+  * `https://gcr.io`는 Weave 온라인 평가를 위해 Bufstream 및 etcd를 배포할 때 필요합니다.
+</Note>
+
+에어갭 배포에 대해 알아보려면 [에어갭 인스턴스를 위한 Kubernetes 오퍼레이터](/ko/platform/hosting/self-managed/operator-airgapped/)를 참조하세요.
+
+트레이닝 인프라와 실험 요구 사항을 추적하는 각 시스템에서는 W&amp;B 및 오브젝트 스토리지에 접근할 수 있어야 합니다.

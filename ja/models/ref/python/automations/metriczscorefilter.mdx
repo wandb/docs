@@ -3,14 +3,17 @@ title: MetricZScoreFilter
 namespace: automations_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
 
-## <kbd>class</kbd> `MetricZScoreFilter`
-メトリクスの Z スコアをユーザー定義のしきい値と比較するフィルタです。
 
-### <kbd>method</kbd> `MetricZScoreFilter.__init__`
+## <kbd>class</kbd> `MetricZScoreFilter`
+
+メトリクスの z スコアをユーザー定義のしきい値と比較するフィルターです。
+
+### <kbd>メソッド</kbd> `MetricZScoreFilter.__init__`
 
 ```python
 __init__(
@@ -21,12 +24,12 @@ __init__(
 ) → None
 ```
 
-**Args:**
- 
- - `name` (str): 観測対象となるメトリクスの名前。
- - `window` (int): メトリクスの平均と標準偏差を計算するためのウィンドウサイズ。
- - `threshold` (Union[Annotated, Annotated]): Z スコアのしきい値。
- - `change_dir` (ChangeDir): 監視対象となる Z スコアの変化の方向。
+**引数:**
 
-**Returns:**
- `MetricZScoreFilter` オブジェクト。
+* `name` (str): 観測するメトリクス名。
+* `window` (int): メトリクスの平均値と標準偏差を計算する際のウィンドウ サイズ。
+* `threshold` (Union[Annotated, Annotated]): z スコアのしきい値。
+* `change_dir` (ChangeDir): 監視する z スコアの変化方向。
+
+**戻り値:**
+`MetricZScoreFilter` オブジェクトを返す。

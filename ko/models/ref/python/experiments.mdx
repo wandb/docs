@@ -1,61 +1,69 @@
 ---
-title: Experiments 개요
-description: 실험을 추적하고 Artifacts를 관리하기 위해 W&B Python SDK의 기반 클래스들을 사용하세요
+title: 실험 개요
+description: W&B Python SDK의 기본 클래스를 사용하여 실험을 추적하고 아티팩트를 관리합니다
 module: wandb
 no_list: true
 ---
 
-이 클래스들은 기계학습 실험을 추적하고, Artifacts 를 관리하며, SDK 행동을 설정하기 위한 핵심 구성 요소들로 이루어져 있습니다. 이러한 기초 클래스들을 통해 메트릭 로그를 기록하고, 모델 체크포인트를 저장하며, 데이터셋 버전을 관리하고, 완전한 재현성 및 협업 기능을 갖춘 실험 설정을 관리할 수 있습니다. 
+이 클래스들은 머신러닝 실험을 추적하고 아티팩트를 관리하며 SDK 동작 방식을 구성하기 위한 핵심 구성 요소입니다. 이러한 기본 클래스를 사용하면 메트릭을 로깅하고, 모델 체크포인트를 저장하며, 데이터셋 버전을 관리하고, 완전한 재현성과 협업 기능을 갖춘 실험 설정을 관리할 수 있습니다.
 
-> 기계학습 실험에서 이러한 클래스들을 사용하는 방법에 대한 자세한 내용은 [Experiments](/models/ref/python/experiments/) 및 [Artifacts](/models/artifacts/) 문서를 참조하세요.
+> ML 실험에서 이 클래스들을 사용하는 방법에 대한 자세한 내용은 [Experiments](/ko/models/ref/python/experiments/) 및 [Artifacts](/ko/models/artifacts/) 문서를 참조하세요.
 
-## Core Classes
+<div id="core-classes">
+  ## 핵심 클래스
+</div>
 
-| 클래스 | 설명 |
+| Class | Description |
 |-------|-------------|
-| [`Run`](/models/ref/python/experiments/run/) | W&B에 의해 기록되는 연산의 기본 단위로, 메트릭, 설정 및 출력을 포함하는 단일 기계학습 실험을 나타냅니다. |
-| [`Artifact`](/models/ref/python/experiments/artifact/) | 자동 중복 제거 및 계보 추적 기능을 갖춘 데이터셋 및 모델 버전 관리를 위한 유연하고 가벼운 빌딩 블록입니다. |
-| [`Settings`](/models/ref/python/experiments/settings/) | 로그 기록부터 API 상호작용까지의 행동을 제어하는 W&B SDK용 설정 관리 클래스입니다. |
+| [`Run`](/ko/models/ref/python/experiments/run/) | 메트릭, 설정, 출력이 포함된 단일 ML 실험을 나타내는 W&amp;B의 기본 연산 단위입니다. |
+| [`Artifact`](/ko/models/ref/python/experiments/artifact/) | 자동 중복 제거 및 계보 추적 기능을 갖춘 데이터셋과 모델의 버전 관리를 위한 유연하고 경량의 구성 요소입니다. |
+| [`Settings`](/ko/models/ref/python/experiments/settings/) | W&amp;B SDK에 대한 설정을 관리하여 로깅부터 API 상호작용까지의 동작을 제어합니다. |
 
-## 시작하기
+<div id="getting-started">
+  ## 시작하기
+</div>
 
-### 실험 추적하기
+<div id="track-an-experiment">
+  ### 실험 추적하기
+</div>
 
-메트릭 로그 기록과 함께 기계학습 실험을 생성하고 추적하세요:
+메트릭을 로깅하면서 머신 러닝 실험을 생성하고 추적하세요:
 
 ```python
 import wandb
 
-# 새로운 run 초기화
+# 새 run 초기화
 with wandb.init(project="my-experiments", config={"learning_rate": 0.001}) as run:
-    # 설정(configuration)에 액세스
+    # 설정 접근
     config = run.config
     
-    # 트레이닝 중 메트릭 로그 기록
+    # 트레이닝 중 메트릭 로깅
     for epoch in range(10):
-        metrics = train_one_epoch()  # 사용자의 트레이닝 로직
+        metrics = train_one_epoch()  # 트레이닝 로직
         run.log({
             "loss": metrics["loss"],
             "accuracy": metrics["accuracy"],
             "epoch": epoch
         })
     
-    # 요약 메트릭 로그 기록
+    # 요약 메트릭 로깅
     run.summary["best_accuracy"] = max_accuracy
 ```
 
-### 모델 아티팩트 버전 관리하기
+<div id="version-a-model-artifact">
+  ### 모델 아티팩트 버전 관리
+</div>
 
-메타데이터와 함께 버전이 관리되는 모델 아티팩트를 생성하고 로그를 남기세요:
+메타데이터와 함께 버전이 지정된 모델 아티팩트를 생성하여 로깅합니다:
 
 ```python
 import wandb
 
 with wandb.init(project="my-models") as run:
-    # 모델 트레이닝
+    # 모델 학습
     model = train_model()
     
-    # 모델을 위한 아티팩트 생성
+    # 모델에 대한 아티팩트 생성
     model_artifact = wandb.Artifact(
         name="my-model",
         type="model",
@@ -71,13 +79,15 @@ with wandb.init(project="my-models") as run:
     model_artifact.add_file("model.pt")
     model_artifact.add_dir("model_configs/")
     
-    # W&B에 아티팩트 로그 기록
+    # W&B에 아티팩트 로깅
     run.log_artifact(model_artifact)
 ```
 
-### SDK 설정 구성하기
+<div id="configure-sdk-settings">
+  ### SDK 설정 구성
+</div>
 
-특정 요구 사항에 맞춰 W&B SDK 행동을 커스터마이징하세요:
+특정 요구사항에 맞게 W&amp;B SDK 동작을 구성합니다.
 
 ```python
 import wandb
@@ -86,7 +96,7 @@ import wandb
 wandb.Settings(
     project="production-runs",
     entity="my-team",
-    mode="offline",  # 오프라인으로 실행하고 나중에 동기화
+    mode="offline",  # 오프라인으로 실행, 나중에 동기화
     save_code=True,   # 소스 코드 저장
     quiet=True        # 콘솔 출력 감소
 )
@@ -95,15 +105,17 @@ wandb.Settings(
 # export WANDB_PROJECT=production-runs
 # export WANDB_MODE=offline
 
-# 커스텀 설정으로 초기화
+# 사용자 정의 설정으로 초기화
 with wandb.init() as run:
-    # 여기에 실험 코드 작성
+    # 실험 코드를 여기에 작성하세요
     pass
 ```
 
-### 계보 추적을 위한 아티팩트 연결
+<div id="link-artifacts-for-lineage-tracking">
+  ### 데이터 라인리지 추적을 위한 아티팩트 연결
+</div>
 
-데이터셋, 모델 및 평가 간의 관계를 추적하세요:
+데이터셋, 모델, 평가 간의 관계를 추적합니다:
 
 ```python
 import wandb
@@ -113,16 +125,16 @@ with wandb.init(project="ml-pipeline") as run:
     dataset = run.use_artifact("dataset:v1")
     dataset_dir = dataset.download()
     
-    # 데이터셋을 사용하여 모델 트레이닝
+    # 데이터셋을 사용하여 모델 학습
     model = train_on_dataset(dataset_dir)
     
-    # 데이터셋 계보를 포함한 모델 아티팩트 생성
+    # 데이터셋 리니지가 포함된 모델 아티팩트 생성
     model_artifact = wandb.Artifact(
         name="trained-model",
         type="model"
     )
     model_artifact.add_file("model.pt")
     
-    # 자동 계보 추적과 함께 로그 기록
+    # 자동 리니지 추적으로 로그 기록
     run.log_artifact(model_artifact)
 ```

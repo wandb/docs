@@ -1,189 +1,212 @@
 ---
-title: チュートリアル：W&B Launch の基本
-description: W&B Launch のためのスタートガイド。
+description: W&B Launch の入門ガイド。
+title: 'チュートリアル: W&B Launch の基本'
 ---
 
-## Launch とは？
+<div id="what-is-launch">
+  ## Launch とは何ですか？
+</div>
 
-<Card title="Colab で試す" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python"/>
+<Card title="Colab で試す" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python" />
 
-W&B Launch を使用すると、デスクトップから Amazon SageMaker や Kubernetes などの計算リソースへ、トレーニング Runs を簡単にスケールアップできます。W&B Launch を一度設定すれば、数回のクリックやコマンド入力だけで、トレーニングスクリプトの実行、モデルの評価スイートの実行、プロダクション推論に向けたモデルの準備などを迅速に行うことができます。
+W&amp;B Launch を使うと、デスクトップ上の [runs](/ja/models/runs/) を、Amazon SageMaker や Kubernetes などのコンピュートリソースへ簡単にスケールさせることができます。W&amp;B Launch を一度構成しておけば、数回のクリックとコマンドだけで、トレーニングスクリプトやモデル評価スイートの実行、本番推論用のモデルの準備などをすばやく行うことができます。
 
-## 仕組み
+<div id="how-it-works">
+  ## 仕組み
+</div>
 
-Launch は、**launch jobs**、**queues**、**agents** という 3 つの基本的なコンポーネントで構成されています。
+Launch は、**launch ジョブ**、**キュー**、**エージェント** という 3 つの基本コンポーネントで構成されます。
 
-[*launch job*](./launch-terminology#launch-job) は、機械学習ワークフローにおけるタスクの設定と実行のための設計図です。launch job を作成したら、それを [*launch queue*](./launch-terminology#launch-queue) に追加できます。launch queue は先入れ先出し（FIFO）のキューで、Amazon SageMaker や Kubernetes クラスターなどの特定のターゲット計算リソースに対して、ジョブを設定・投入できます。
+[*launch job*](./launch-terminology#launch-job) は、ML ワークフロー内でタスクを設定して実行するための設計図です。launch ジョブが用意できたら、それを [*launch queue*](./launch-terminology#launch-queue) に追加できます。launch queue は先入れ先出し (FIFO) のキューで、Amazon SageMaker や Kubernetes クラスターなどの特定のコンピュートターゲットリソースに対して、ジョブを構成して送信できます。
 
-ジョブがキューに追加されると、[*launch agents*](./launch-terminology#launch-agent) がそのキューをポーリングし、キューによってターゲット指定されたシステム上でジョブを実行します。
+ジョブがキューに追加されると、[*launch agents*](./launch-terminology#launch-agent) がそのキューをポーリングし、キューで指定されたターゲットシステム上でジョブを実行します。
 
 <Frame>
-    <img src="/images/launch/launch_overview.png" alt="W&B Launch overview diagram"  />
+  <img src="/images/launch/launch_overview.png" alt="W&B Launch の概要図" />
 </Frame>
 
-ユースケースに応じて、ユーザー（またはチームのメンバー）は選択した [計算リソースターゲット](./launch-terminology#target-resources)（例：Amazon SageMaker）に合わせて launch queue を設定し、自身のインフラストラクチャーに launch agent をデプロイします。
+ユースケースに応じて、あなた (またはチームの誰か) が、選択した [コンピュートリソースのターゲット](./launch-terminology#target-resources) (例: Amazon SageMaker) に合わせて launch queue を構成し、自身のインフラストラクチャ上に launch エージェントをデプロイします。
 
-Launch の詳細については、[用語と概念](./launch-terminology) ページを参照してください。
+Launch についての詳細は、[Terms and concepts](./launch-terminology) ページを参照してください。
 
-## 開始方法
+<div id="how-to-get-started">
+  ## 利用開始方法
+</div>
 
-ユースケースに合わせて、W&B Launch を使い始めるための以下のリソースを確認してください。
+ユースケースに応じて、以下のリソースを活用して W&amp;B Launch の利用を開始してください。
 
-* 初めて W&B Launch を使用する場合は、[Launch ウォークスルー](#ウォークスルー) ガイドを確認することをお勧めします。
-* [W&B Launch のセットアップ方法](/platform/launch/set-up-launch/) を学ぶ。
-* [launch job](/platform/launch/launch-terminology/#launch-job) を作成する。
-* [Triton へのデプロイ](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton) や [LLM の評価](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals) など、一般的なタスクのテンプレートについては、W&B Launch [パブリックジョブ GitHub リポジトリ](https://github.com/wandb/launch-jobs) を確認してください。
-    * このリポジトリから作成された launch jobs は、このパブリックな [`wandb/jobs` プロジェクト](https://wandb.ai/wandb/jobs/jobs) W&B プロジェクトで確認できます。
+* 初めて W&amp;B Launch を使用する場合は、[Launch walkthrough](#walkthrough) ガイドを一通り実施することをおすすめします。
+* [W&amp;B Launch](/ja/platform/launch/set-up-launch/) のセットアップ方法を学びましょう。
+* [launch job](/ja/platform/launch/launch-terminology/#launch-job) を作成しましょう。
+* 一般的なタスク ([Triton へのデプロイ](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_nvidia_triton)、[LLM の評価](https://github.com/wandb/launch-jobs/tree/main/jobs/openai_evals) など) のテンプレートについては、W&amp;B Launch の [public jobs GitHub repository](https://github.com/wandb/launch-jobs) を参照してください。
+  * このリポジトリから作成された launch job は、このパブリック [`wandb/jobs` project](https://wandb.ai/wandb/jobs/jobs) の W&amp;B プロジェクトで閲覧できます。
 
-## ウォークスルー
+<div id="walkthrough">
+  ## ウォークスルー
+</div>
 
-このページでは、W&B Launch ワークフローの基本について順を追って説明します。
+このページでは、W&amp;B Launch ワークフローの基本を順を追って説明します。
 
 <Note>
-W&B Launch は、コンテナ内で機械学習のワークロードを実行します。コンテナに精通している必要はありませんが、このウォークスルーを進める上で役立つ場合があります。コンテナの入門については、[Docker ドキュメント](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) を参照してください。
+  W&amp;B Launch は、コンテナ内で機械学習ワークロードを実行します。コンテナについての知識は必須ではありませんが、理解しておくとこのウォークスルーを進めるうえで役立ちます。コンテナの基礎については、[Docker documentation](https://docs.docker.com/guides/docker-concepts/the-basics/what-is-a-container/) を参照してください。
 </Note>
 
-## 前提条件
+<div id="prerequisites">
+  ## 前提条件
+</div>
 
-開始する前に、以下の前提条件を満たしていることを確認してください。
+開始する前に、次の前提条件を満たしていることを確認してください。
 
-1. https://wandb.ai/site でアカウントを登録し、W&B アカウントにログインします。
-2. このウォークスルーでは、Docker CLI とエンジンが動作するマシンへのターミナルアクセスが必要です。詳細は [Docker インストールガイド](https://docs.docker.com/engine/install/) を参照してください。
-3. W&B Python SDK バージョン `0.17.1` 以上をインストールします。
+1. https://wandb.ai/site でアカウントを作成し、W&amp;B アカウントにログインします。
+2. このチュートリアルを実行するには、Docker CLI とエンジンが動作するマシンへのターミナルアクセスが必要です。詳細は [Docker インストールガイド](https://docs.docker.com/engine/install/) を参照してください。
+3. W&amp;B Python SDK バージョン `0.17.1` 以上をインストールします:
    ```bash
    pip install wandb>=0.17.1
    ```
-4. ターミナル内で `wandb login` を実行するか、`WANDB_API_KEY` 環境変数を設定して、W&B の認証を行います。
+4. ターミナルで `wandb login` を実行するか、`WANDB_API_KEY` 環境変数を設定して、W&amp;B に認証します。
 
 <Tabs>
-<Tab title="W&B にログイン">
-ターミナル内で以下を実行します。
-    
+  <Tab title="W&B にログイン">
+    ターミナルで次を実行します：
+
     ```bash
     wandb login
     ```
-</Tab>
-<Tab title="環境変数">
-   ```bash
-       WANDB_API_KEY=<your-api-key>
-   ```
+  </Tab>
 
-    `<your-api-key>` を W&B の APIキー に置き換えてください。
-</Tab>
+  <Tab title="環境変数">
+    ```bash
+        WANDB_API_KEY=<your-api-key>
+    ```
+
+    `<your-api-key>` を自分の W&amp;B API キーに置き換えます。
+  </Tab>
 </Tabs>
 
-## launch job の作成
-launch job は、Docker イメージを使用する、git リポジトリから、またはローカルのソースコードからという 3 つの方法のいずれかで作成できます。
+<div id="create-a-launch-job">
+  ## launch ジョブを作成する
+</div>
+
+[launch ジョブ](./launch-terminology#launch-job) は、Docker イメージ、git リポジトリ、ローカルのソースコードのいずれかから、3 つの方法で作成できます。
 
 <Tabs>
-<Tab title="Docker イメージを使用する">
-メッセージを W&B にログ出力するビルド済みのコンテナを実行するには、ターミナルを開いて次のコマンドを実行します。
+  <Tab title="With a Docker image">
+    事前に作成されたコンテナを実行して W&amp;B にメッセージをログするには、ターミナルを開き、次のコマンドを実行します。
 
-```bash
-wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart
-```
+    ```bash
+    wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart
+    ```
 
-上記のコマンドは、コンテナイメージ `wandb/job_hello_world:main` をダウンロードして実行します。
+    上記のコマンドは、コンテナ イメージ `wandb/job_hello_world:main` をダウンロードして実行します。
 
-Launch は、`wandb` でログ記録されたすべての内容を `launch-quickstart` プロジェクトにレポートするようにコンテナを設定します。コンテナはメッセージを W&B にログ出力し、W&B 内に新しく作成された Run へのリンクを表示します。リンクをクリックして W&B UI で Run を確認してください。
-</Tab>
-<Tab title="git リポジトリから">
-同じ hello-world ジョブを、[W&B Launch jobs リポジトリのソースコード](https://github.com/wandb/launch-jobs) から起動するには、次のコマンドを実行します。
+    Launch は、コンテナで `wandb` によってログされたすべての内容を `launch-quickstart` プロジェクトにレポートするようにコンテナを設定します。コンテナは W&amp;B にメッセージをログし、新しく作成された run へのリンクを W&amp;B 上に表示します。リンクをクリックして、W&amp;B UI で run を確認します。
+  </Tab>
 
-```bash
-wandb launch --uri https://github.com/wandb/launch-jobs.git \\
---job-name hello-world-git --project launch-quickstart \\ 
---build-context jobs/hello_world --dockerfile Dockerfile.wandb \\ 
---entry-point "python job.py"
-```
-このコマンドは以下を行います：
-1. [W&B Launch jobs リポジトリ](https://github.com/wandb/launch-jobs) を一時ディレクトリーにクローンします。
-2. **hello** プロジェクト内に **hello-world-git** という名前のジョブを作成します。このジョブは、コードの実行に使用された正確なソースコードと設定を追跡します。
-3. `jobs/hello_world` ディレクトリーと `Dockerfile.wandb` からコンテナイメージをビルドします。
-4. コンテナを起動し、`job.py` Python スクリプトを実行します。
+  <Tab title="From a git repository">
+    同じ hello-world ジョブを [W&amp;B Launch jobs リポジトリ内のソースコード](https://github.com/wandb/launch-jobs) から起動するには、次のコマンドを実行します。
 
-コンソール出力には、イメージのビルドと実行の様子が表示されます。コンテナの出力は前の例とほぼ同じになるはずです。
-</Tab>
-<Tab title="ローカルのソースコードから">
-git リポジトリでバージョン管理されていないコードは、`--uri` 引数にローカルのディレクトリーパスを指定することで起動できます。
+    ```bash
+    wandb launch --uri https://github.com/wandb/launch-jobs.git \\
+    --job-name hello-world-git --project launch-quickstart \\ 
+    --build-context jobs/hello_world --dockerfile Dockerfile.wandb \\ 
+    --entry-point "python job.py"
+    ```
 
-空のディレクトリーを作成し、以下の内容を含む `train.py` という名前の Python スクリプトを追加します。
+    このコマンドは次の処理を行います。
 
-   ```python
-   import wandb
-   
-   # run を初期化
-   with wandb.init() as run:
-       # メトリクスをログ出力
-       run.log({"hello": "world"})
-   ```
+    1. 一時ディレクトリに [W&amp;B Launch jobs リポジトリ](https://github.com/wandb/launch-jobs) をクローンします。
+    2. **hello** プロジェクトに **hello-world-git** という名前のジョブを作成します。このジョブは、コードの実行に使用された正確なソースコードと設定を追跡します。
+    3. `jobs/hello_world` ディレクトリと `Dockerfile.wandb` からコンテナ イメージをビルドします。
+    4. コンテナを起動し、`job.py` Python スクリプトを実行します。
 
-以下の内容を含む `requirements.txt` ファイルを追加します。
+    コンソール出力には、イメージのビルドおよび実行のログが表示されます。コンテナの出力は前の例とほぼ同一になるはずです。
+  </Tab>
 
-   ```text
-   wandb>=0.17.1
-   ```
+  <Tab title="From local source code">
+    git リポジトリでバージョン管理されていないコードは、ローカル ディレクトリのパスを `--uri` 引数に指定して起動できます。
 
-そのディレクトリー内から、次のコマンドを実行します。
+    空のディレクトリを作成し、次の内容の `train.py` という名前の Python スクリプトを追加します。
 
-   ```bash
-   wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
-   ```
+    ```python
+    import wandb
 
-このコマンドは以下を行います：
-1. 現在のディレクトリーの内容を Code Artifact として W&B にログ保存します。
-2. **launch-quickstart** プロジェクト内に **hello-world-code** という名前のジョブを作成します。
-3. `train.py` と `requirements.txt` をベースイメージにコピーし、requirements を `pip install` してコンテナイメージをビルドします。
-4. コンテナを起動し、`python train.py` を実行します。
-</Tab>
+    with wandb.init() as run:
+        run.log({"hello": "world"})
+    ```
+
+    次の内容の `requirements.txt` ファイルを追加します。
+
+    ```text
+    wandb>=0.17.1
+    ```
+
+    ディレクトリ内で次のコマンドを実行します。
+
+    ```bash
+    wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python train.py"
+    ```
+
+    このコマンドは次の処理を行います。
+
+    1. 現在のディレクトリの内容を、Code Artifact として W&amp;B にログします。
+    2. **launch-quickstart** プロジェクトに **hello-world-code** という名前のジョブを作成します。
+    3. `train.py` と `requirements.txt` をベース イメージにコピーし、`pip install` で依存パッケージをインストールしてコンテナ イメージをビルドします。
+    4. コンテナを起動し、`python train.py` を実行します。
+  </Tab>
 </Tabs>
 
-## キューの作成
+<div id="create-a-queue">
+  ## キューを作成する
+</div>
 
-Launch は、チームが共有の計算リソースを中心にワークフローを構築できるように設計されています。これまでの例では、`wandb launch` コマンドはローカルマシン上で同期的にコンテナを実行してきました。Launch queues と agents を利用することで、共有リソース上でのジョブの非同期実行や、優先順位付け、ハイパーパラメーター最適化などの高度な機能が可能になります。基本的なキューを作成するには、以下の手順に従ってください。
+Launch は、チームが共有コンピュートリソースを使ったワークフローを構築できるように設計されています。これまでの例では、`wandb launch` コマンドはローカルマシン上でコンテナを同期的に実行してきました。Launch のキューとエージェントを使うと、共有リソース上でジョブを非同期実行したり、優先順位付けやハイパーパラメーター最適化といった高度な機能を利用できます。基本的なキューを作成するには、次の手順に従ってください。
 
 1. [wandb.ai/launch](https://wandb.ai/launch) に移動し、**Create a queue** ボタンをクリックします。
-2. キューを関連付ける **Entity** を選択します。
+2. キューに関連付ける **Entity** を選択します。
 3. **Queue name** を入力します。
 4. **Resource** として **Docker** を選択します。
-5. **Configuration** は、とりあえず空欄のままにしておきます。
-6. **Create queue** :rocket: をクリックします。
+5. **Configuration** は、ここでは空白のままにしておきます。
+6. **Create queue** をクリックします :rocket:
 
-ボタンをクリックすると、ブラウザはキュー表示の **Agents** タブにリダイレクトされます。agent がポーリングを開始するまで、キューは **Not active** 状態のままです。
+ボタンをクリックすると、ブラウザはキューのビューの **Agents** タブにリダイレクトされます。エージェントがポーリングを開始するまで、キューは **Not active** 状態のままです。
 
 <Frame>
-    <img src="/images/launch/create_docker_queue.gif" alt="Docker queue creation"  />
+  <img src="/images/launch/create_docker_queue.gif" alt="Docker queue creation" />
 </Frame>
 
-高度なキュー設定オプションについては、[高度なキューセットアップページ](/platform/launch/setup-queue-advanced/) を参照してください。
+キューの高度な設定オプションについては、[高度なキュー設定ページ](/ja/platform/launch/setup-queue-advanced/) を参照してください。
 
-## エージェントをキューに接続する
+<div id="connect-an-agent-to-the-queue">
+  ## エージェントをキューに接続する
+</div>
 
-キューにポーリング中のエージェントがいない場合、キュービューの上部にある赤いバナーに **Add an agent** ボタンが表示されます。このボタンをクリックして、エージェントを実行するためのコマンドをコピーします。コマンドは以下のようになります：
+キューにポーリング エージェントがいない場合、キューのビューでは画面上部の赤いバナー内に **Add an agent** ボタンが表示されます。ボタンをクリックすると、エージェントを実行するためのコマンドが表示されるので、それをコピーします。コマンドは次のような形式になります：
 
 ```bash
 wandb launch-agent --queue <queue-name> --entity <entity-name>
 ```
 
-ターミナルでこのコマンドを実行してエージェントを起動します。エージェントは指定されたキューをポーリングして実行すべきジョブを探します。ジョブを受け取ると、エージェントはコンテナイメージをダウンロードまたはビルドし、`wandb launch` コマンドがローカルで実行されたときと同様にジョブを実行します。
+ターミナルでコマンドを実行してエージェントを起動します。エージェントは指定されたキューをポーリングして、実行すべきジョブがないか監視します。ジョブを受信すると、エージェントはそのジョブ用のコンテナイメージをダウンロードまたはビルドし、ローカルで `wandb launch` コマンドを実行した場合と同様にコンテナイメージを実行します。
 
-[Launch ページ](https://wandb.ai/launch) に戻り、キューが **Active** と表示されていることを確認してください。
+[Launch ページ](https://wandb.ai/launch) に戻り、キューが **Active** と表示されていることを確認します。
 
-## キューにジョブを投入する
+<div id="submit-a-job-to-the-queue">
+  ## キューにジョブを送信する
+</div>
 
-W&B アカウントの新しい **launch-quickstart** プロジェクトに移動し、画面左側のナビゲーションから jobs タブを開きます。
+W&amp;B アカウントで新しい **launch-quickstart** プロジェクトに移動し、画面左側のナビゲーションから **Jobs** タブを開きます。
 
-**Jobs** ページには、以前に実行された Runs から作成された W&B Jobs のリストが表示されます。launch job をクリックして、ソースコード、依存関係、およびそのジョブから作成された Runs を確認します。このウォークスルーを完了すると、リストには 3 つのジョブがあるはずです。
+**Jobs** ページには、過去に実行された run から作成された W&amp;B Jobs の一覧が表示されます。**launch** ジョブをクリックすると、ソースコード、依存関係、およびそのジョブから作成された run を確認できます。このチュートリアルを一通り実施すると、一覧には 3 つのジョブが表示されているはずです。
 
-新しいジョブの 1 つを選択し、以下の手順に従ってキューに投入します。
+新しいジョブの 1 つを選択し、次の手順に従ってキューに送信します。
 
-1. **Launch** ボタンをクリックして、ジョブをキューに投入します。**Launch** ドロワーが表示されます。
+1. **Launch** ボタンをクリックしてジョブをキューに送信します。**Launch** ドロワーが表示されます。
 2. 先ほど作成した **Queue** を選択し、**Launch** をクリックします。
 
-これにより、ジョブがキューに投入されます。このキューをポーリングしているエージェントがジョブを取得して実行します。ジョブの進行状況は、W&B UI から、またはターミナルのエージェントの出力を確認することで監視できます。
+これでジョブがキューに送信されます。このキューをポーリングしているエージェントがジョブを取得して実行します。ジョブの進行状況は W&amp;B UI から、またはターミナルでエージェントの出力を確認することで監視できます。
 
-`wandb launch` コマンドに `--queue` 引数を指定することで、ジョブを直接キューにプッシュすることもできます。例えば、hello-world コンテナジョブをキューに投入するには、次のコマンドを実行します。
+`wandb launch` コマンドは、`--queue` 引数を指定することでジョブを直接キューに投入できます。たとえば、hello-world コンテナ ジョブをキューに送信するには、次のコマンドを実行します。
 
-   ```bash
+```bash
    wandb launch --docker-image wandb/job_hello_world:main --project launch-quickstart --queue <queue-name>
-   ```
+```

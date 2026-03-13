@@ -1,29 +1,31 @@
 ---
+description: メトリクスを可視化し、軸をカスタマイズし、カテゴリデータを棒グラフとして比較します。
 title: 棒グラフ
-description: メトリクス の可視化、軸のカスタマイズ、およびカテゴリカルな データの棒グラフによる比較を行います。
 ---
 
-バーチャート（棒グラフ）は、カテゴリーデータを垂直または水平の長方形の棒で表現します。ログ記録されたすべての 値 の長さが1である場合、`wandb.Run.log()` を使用するとデフォルトでバーチャートが表示されます。
+棒グラフは、縦または横に描画できる長方形の棒でカテゴリデータを表現します。ログされたすべての値の長さが 1 の場合、`wandb.Run.log()` ではデフォルトで棒グラフとして表示されます。
 
 <Frame>
-    <img src="/images/app_ui/bar_plot.png" alt="Plotting Box and horizontal Bar plots in W&B"  />
+    <img src="/images/app_ui/bar_plot.png" alt="W&B で Box プロットと横向きの Bar プロットを描画する"  />
 </Frame>
 
-チャートの 設定 をカスタマイズすることで、表示する最大 Runs 数を制限したり、任意の config で Runs をグループ化したり、ラベル名を変更したりできます。
+グラフ設定を使って、表示する run の最大数を制限したり、任意の config で run をグループ化したり、ラベルを変更したりできます。
 
 <Frame>
-    <img src="/images/app_ui/bar_plot_custom.png" alt="Customized bar plot"  />
+    <img src="/images/app_ui/bar_plot_custom.png" alt="カスタマイズされた棒グラフ"  />
 </Frame>
 
-## バーチャートのカスタマイズ
+<div id="customize-bar-plots">
+  ## 棒グラフをカスタマイズする
+</div>
 
-**Box**（箱ひげ図）や **Violin**（バイオリン図）プロットを作成して、多くの要約統計量を1つのチャートタイプにまとめることもできます。
+多数の要約統計量を 1 つのチャートタイプにまとめた **Box** プロットや **Violin** プロットを作成することもできます。
 
-1. Runs テーブルを介して Runs をグループ化します。
-2. Workspace で「Add panel」をクリックします。
-3. 標準の「Bar Chart」を追加し、プロットするメトリクスを選択します。
-4. 「Grouping」タブで「box plot」や「Violin」などを選択し、これらのスタイルでプロットします。
+1. runs テーブルで run をグループ化します。
+2. Workspace で 「Add panel」 をクリックします。
+3. 標準の 「Bar Chart」 パネルを追加し、プロットするメトリクスを選択します。
+4. 「Grouping」タブで 「box plot」 や 「Violin」 などを選択して、いずれかのスタイルでプロットします。
 
 <Frame>
-    <img src="/images/app_ui/bar_plots.gif" alt="Customize Bar Plots"  />
+    <img src="/images/app_ui/bar_plots.gif" alt="棒グラフをカスタマイズする"  />
 </Frame>

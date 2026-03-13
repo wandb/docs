@@ -1,21 +1,24 @@
 ---
-title: Evaluations へのイントロダクション
-description: W&B Weave を使用した 評価 (Evaluations) の イントロダクション (intro) について学習します
+title: "Evaluations 入門"
+description: "W&B Weave で Evaluations を使い始める方法を学ぶ"
 ---
 
 <Note>
-これは対話型の ノートブック です。ローカルで実行するか、以下のリンクを使用してください。
-- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
-- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから利用できます。
+
+  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
+  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
 </Note>
 
-## 🔑 事前準備
+<div id="prerequisites">
+  ## 🔑 前提条件
+</div>
 
-Weave の評価を実行する前に、以下の準備を完了してください。
+Weave の評価を実行する前に、次の前提条件を満たしてください。
 
-1. W&B Weave SDK をインストールし、 [APIキー](https://wandb.ai/settings#apikeys) でログインします。
-2. OpenAI SDK をインストールし、 [APIキー](https://platform.openai.com/api-keys) でログインします。
-3. W&B の Projects を初期化します。
+1. W&amp;B Weave SDK をインストールし、[API キー](https://wandb.ai/settings#apikeys) を使ってログインします。
+2. OpenAI SDK をインストールし、[API キー](https://platform.openai.com/api-keys) を使ってログインします。
+3. W&amp;B のプロジェクトを初期化します。
 
 ```python lines
 # 依存関係のインストールとインポート
@@ -29,30 +32,32 @@ from pydantic import BaseModel
 
 import weave
 
-# 🔑 APIキーの設定
-# このセルを実行すると getpass により APIキー の入力が求められます。入力内容はターミナルには表示されません。
+# 🔑 API キーの設定
+# このセルを実行すると、`getpass` を使用して API キーの入力を求められます。入力内容はターミナルに表示されません。
 #####
 print("---")
 print(
-    "W&B APIキーの作成はこちら: https://wandb.ai/settings#apikeys"
+    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
 )
-os.environ["WANDB_API_KEY"] = getpass("W&B APIキーを入力してください: ")
+os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
 print("---")
-print("OpenAI APIキーはこちらで生成できます: https://platform.openai.com/api-keys")
-os.environ["OPENAI_API_KEY"] = getpass("OpenAI APIキーを入力してください: ")
+print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
+os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
 print("---")
 #####
 
-# 🏠 W&B の プロジェクト 名を入力
-weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 あなたの W&B プロジェクト 名
+# 🏠 W&B のプロジェクト名を入力してください
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&B のプロジェクト名
 ```
 
-## 🐝 初めての評価を実行する
+<div id="run-your-first-evaluation">
+  ## 🐝 最初の評価を実行する
+</div>
 
-以下の コード サンプルは、 Weave の `Model` および `Evaluation` API を使用して LLM を評価する方法を示しています。まず、 `weave.Model` を継承して Weave の Models を定義し、 モデル 名とプロンプト形式を指定して、 `@weave.op` で `predict` メソッド をトレースします。 `predict` メソッド は OpenAI にプロンプトを送信し、 Pydantic スキーマ（ `FruitExtract` ）を使用してレスポンスを構造化された出力にパースします。次に、入力文と期待されるターゲットで構成される小さな評価用 Datasets を作成します。続いて、 モデル の出力とターゲットラベルを比較するカスタムスコアリング関数（これも `@weave.op` でトレース）を定義します。最後に、すべてを `weave.Evaluation` にラップし、 Datasets とスコアラーを指定して、 `evaluate()` を呼び出し、評価 パイプライン を非同期で実行します。
+次のコードサンプルは、Weave の `Model` と `Evaluation` API を使って LLM を評価する方法を示しています。まず、`weave.Model` を継承して Weave モデルを定義し、モデル名とプロンプト形式を指定し、`@weave.op` を使って `predict` メソッドを追跡します。`predict` メソッドはプロンプトを OpenAI に送信し、Pydantic スキーマ（`FruitExtract`）を使ってレスポンスを構造化された出力にパースします。次に、入力文と期待されるターゲットから成る小さな評価用データセットを作成します。続いて、`@weave.op` を使って追跡されるカスタムのスコアリング関数を定義し、モデルの出力とターゲットラベルを比較します。最後に、`weave.Evaluation` にすべてをまとめて、データセットとスコアラーを指定し、`evaluate()` を呼び出して評価パイプラインを非同期で実行します。
 
 ```python lines
-# 1. Weave モデルを構築
+# 1. Weave モデルを構築する
 class FruitExtract(BaseModel):
     fruit: str
     color: str
@@ -85,7 +90,7 @@ model = ExtractFruitsModel(
     prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) as json, from the following text : {sentence}',
 )
 
-# 2. サンプルを集める
+# 2. サンプルを収集する
 sentences = [
     "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
     "Pounits are a bright green color and are more savory than sweet.",
@@ -102,16 +107,16 @@ examples = [
     {"id": "2", "sentence": sentences[2], "target": labels[2]},
 ]
 
-# 3. 評価のためのスコアリング関数を定義
+# 3. 評価用のスコアリング関数を定義する
 @weave.op()
 def fruit_name_score(target: dict, output: FruitExtract) -> dict:
     target_flavors = [f.strip().lower() for f in target["flavor"].split(",")]
     output_flavors = [f.strip().lower() for f in output.flavor.split(",")]
-    # ターゲットのフレーバーのいずれかが出力のフレーバーに含まれているかチェック
+    # ターゲットのフレーバーが出力フレーバーに含まれているか確認する
     matches = any(tf in of for tf in target_flavors for of in output_flavors)
     return {"correct": matches}
 
-# 4. 評価を実行
+# 4. 評価を実行する
 evaluation = weave.Evaluation(
     name="fruit_eval",
     dataset=examples,
@@ -120,7 +125,9 @@ evaluation = weave.Evaluation(
 await evaluation.evaluate(model)
 ```
 
-## 🚀 他の例をお探しですか？
+<div id="looking-for-more-examples">
+  ## 🚀 さらに例をお探しですか？
+</div>
 
-- [評価パイプラインをエンドツーエンドで構築する方法](/weave/tutorial-eval) を学ぶ。
-- [RAGアプリケーションを構築して評価する方法](/weave/tutorial-rag) を学ぶ。
+* [evaluation pipeline をエンドツーエンドで構築する方法](/ja/weave/tutorial-eval) を学びましょう。
+* [RAG アプリケーションを構築して評価する方法](/ja/weave/tutorial-rag) を学びましょう。

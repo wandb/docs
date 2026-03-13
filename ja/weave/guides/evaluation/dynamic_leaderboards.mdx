@@ -1,91 +1,103 @@
 ---
-title: Evaluations で動的な Leaderboards を作成する
-description: Dynamic Leaderboards を使用すると、評価（evaluation）から直接 Leaderboard ビューを構成、カスタマイズ、保存、および更新できます。
+title: "Evaluations で動的な Leaderboard を作成する"
+description: "動的な Leaderboard を使うと、Evaluation から直接 Leaderboard ビューを設定・カスタマイズ・保存・更新できます。"
 ---
 
-Weave Evaluations を使用すると、Experiment の結果を Leaderboard として可視化し、カスタマイズすることができます。
+Weave Evaluations を使うと、実験結果を Leaderboard として可視化し、カスタマイズできます。
 
 保存された Leaderboard ビューは動的です。
 
-- 新しい評価の run が追加されたとき
-- 保存されたフィルターに結果が一致したとき
+- 新しい evaluation run が追加されたとき
+- 結果が保存済みフィルターに一致したとき
 
-Leaderboard は手動で再設定することなく、自動的にこれらを反映して更新されます。
+Leaderboard は、それらを手動で再設定することなく自動的に反映します。
 
-これにより、Experiment の進行に合わせて進化する永続的な Leaderboard としてビューを活用できます。
+これにより、ビューを Experiments とともに変化し続ける永続的な Leaderboard として利用できます。
 
-## Evaluation の結果を Leaderboard で可視化する
+<div id="visualize-evaluation-results-in-a-leaderboard">
+  ## Leaderboard で Evaluation 結果を可視化する
+</div>
 
-プロジェクトに Weave Evaluation のデータが含まれている場合、評価テーブルを使用して、フィルタリングされた結果の サブセット に基づく Weave Leaderboard ビューを素早く作成できます。
+プロジェクトに Weave Evaluation データが含まれている場合、evaluation テーブルを使って、フィルタした結果のサブセットに基づく Weave Leaderboard ビューを簡単に作成できます。
 
-Weave Leaderboard を作成するには：
+Weave Leaderboard を作成するには:
+
 1. [wandb.ai](https://wandb.ai) にアクセスします。
-2. Weave のサイドバーメニューで **Evaluations** をクリックします。
-3. 評価テーブルにフィルターを適用し、比較したい Models 、 Datasets 、または run にデータを絞り込みます。
-4. **評価テーブルのツールバー** で、 **Visualize** をクリックします。
-   Weave は、現在テーブルでフィルタリングされているデータのみを使用して、自動的に Leaderboard パネルを作成します。
-5. Leaderboard パネルのヘッダーで **Configure** をクリックし、 **Edit Leaderboard** パネルを開きます。
-   **Edit Leaderboard** パネルでは、 Models 、 Datasets 、 Scorers 、および メトリクス の表示方法を細かく制御できます。
+2. Weave のサイドバー メニューで **Evaluations** をクリックします。
+3. evaluation テーブルにフィルターを適用し、比較したい モデル、データセット、または run にデータを絞り込みます。
+4. **evaluation table toolbar** で **Visualize** をクリックします。  
+   Weave は、現在テーブルでフィルタされているデータのみを使用して、自動的に Leaderboard パネルを作成します。
+5. Leaderboard パネルのヘッダーで **Configure** をクリックして、**Edit Leaderboard** パネルを開きます。  
+   **Edit Leaderboard** パネルでは、モデル、データセット、スコアラー、メトリクス の表示方法を細かく制御できます。
 
-以下は、フィルタリングされた評価テーブルがどのように Leaderboard として可視化されるか、および作成された Leaderboard をどこで設定するかを示しています。
-
-<Frame>
-![フィルターが適用された評価テーブル、テーブルツールバーの Visualize ボタン、およびパネルヘッダーに Configure ボタンがある右側の Leaderboard パネルが表示されている Evaluations ページ。](/weave/guides/evaluation/img/configure-leaderboard.png)
-</Frame>
-
-### Leaderboard 要素の表示設定とカスタム名
-
-以下は、Models、Datasets、Scorers、Metrics の 4 つの設定タブを備えた **Edit Leaderboard** パネルを示しています。
+次の図は、フィルタされた evaluation テーブルがどのように Leaderboard として可視化されるか、および生成された Leaderboard をどこで構成するかを示しています。
 
 <Frame>
-![右側に Edit Leaderboard パネルが開いており、Leaderboard の設定に使用する Models、Datasets、Scorers、Metrics のタブが表示されている Evaluations ページ。](/weave/guides/evaluation/img/edit-leaderboard.png)
+![Evaluations ページ。フィルターが適用された evaluation テーブル、table toolbar の Visualize ボタン、および右側のパネルヘッダーに Configure ボタンがある Leaderboard パネルが表示されている。](/weave/guides/evaluation/img/configure-leaderboard.png)
 </Frame>
 
-**Edit Leaderboard** パネルでは、以下のことが行えます。
+<div id="configure-leaderboard-elements-with-visibility-and-custom-names">
+  ### Leaderboard の要素の公開範囲とカスタム名を設定する
+</div>
 
-- **表示の有効化/無効化**
-  チェックボックスをオンまたはオフにすることで、Leaderboard に表示する Models 、 Datasets 、 Scorers 、および メトリクス を選択します。
+次の図は、4 つの設定タブ Models、Datasets、Scorers、Metrics を持つ **Edit Leaderboard** パネルを示しています。
 
-- **Models 、 Datasets 、 Scorers の名前変更**
-  表示に適した名前を割り当てます（例：モデルの run を `GPT-4` に、 Dataset を `JokesV1` に変更するなど）。
+<Frame>
+![Evaluations page showing the Edit Leaderboard panel open on the right, with tabs for Models, Datasets, Scorers, and Metrics used to configure the leaderboard.](/weave/guides/evaluation/img/edit-leaderboard.png)
+</Frame>
 
-  名前を変更したアイテムは以下のようになります：
-  - Leaderboard ですぐに更新されます。
-  - クリック可能な状態が維持されるため、サイドパネルで元のリファレンスを開くことができます。
-  - その Leaderboard ビューが使用されているすべての場所に自動的に伝播します。
+**Edit Leaderboard** パネルでは、次のことができます。
 
-これにより、基盤となる オブジェクト を変更することなく、人間が読みやすい意味のある名前を使用して Experiment を簡単に比較できるようになります。
+- **表示の有効化 / 無効化**  
+  Leaderboard に表示する Models、Datasets、Scorers、Metrics をチェックボックスで選択・解除します。
 
-### Leaderboard メトリクスの振る舞いと色の設定
+- **モデル、データセット、スコアラー名の変更**  
+  表示しやすい名前を割り当てます（たとえば、あるモデル run の名前を `GPT-4` にしたり、あるデータセットの名前を `JokesV1` にしたりできます）。
 
-**Edit Leaderboard** パネルでは、各メトリクスに対して以下のいずれかを指定できます。
+  名前を変更した項目は次のように動作します。
+  - Leaderboard 上で即座に更新されます
+  - サイドパネルで元の参照を開けるよう、引き続きクリック可能です
+  - Leaderboard ビューが使用されるあらゆる場所に自動的に反映されます
 
-- **値が高いほど良い (Higher values are better)**
-- **値が低いほど良い (Lower values are better)**
+これにより、基盤となるオブジェクトを変更することなく、意味が分かりやすく人間が読みやすい名前で実験を比較しやすくなります。
 
-この 設定 は Leaderboard の色付けに直接影響します。
+<div id="configure-leaderboard-metric-behavior-and-coloring">
+  ### Leaderboard のメトリクスの挙動とカラーリングを設定する
+</div>
 
-- 緑色は *より良い* 値をハイライトします。
-- 赤色は *より悪い* 値をハイライトします。
-- 「高いほど良い」と「低いほど良い」を切り替えると、色は自動的に反転します。
+**Edit Leaderboard** パネルで、各メトリクスについて次のいずれかを指定できます。
 
-これにより、異なる種類のメトリクス（例：精度 vs レイテンシやエラー率）をまたいでも、視覚的な手がかりが正確に保たれます。
+- **値が高い方が良い**
+- **値が低い方が良い**
 
-## Leaderboard ビューの保存と再利用
+この設定は Leaderboard のカラーリングに直接影響します。
 
-**Edit Leaderboard** パネルで、 **Save** をクリックすることで、カスタマイズした Leaderboard を再利用可能なビューとして保存できます。
+- 緑は *良い* 値をハイライトします。
+- 赤は *悪い* 値をハイライトします。
+- 「値が高い方が良い」と「値が低い方が良い」を切り替えると、色は自動的に反転します。
 
-保存された Leaderboard ビューには以下の内容が含まれます。
-- 選択された Models 、 Datasets 、 Scorers 、および メトリクス
-- 変更後の表示名
-- メトリクスの方向設定（高いほど良い、または低いほど良い）
-- 適用されたフィルター
+これにより、精度、レイテンシー、エラー率など、さまざまな種類のメトリクスにおいても、視覚的な指標が常に正しく保たれます。
 
-### 保存されたビューの切り替え
+<div id="save-and-reuse-leaderboard-views">
+  ## Leaderboard ビューを保存して再利用する
+</div>
 
-Evaluations ページのタイトルの横にある **メニューアイコン (☰)** をクリックして、保存されたビューを開きます。以下の操作が可能です。
+**Edit Leaderboard** パネルで **Save** をクリックすると、カスタマイズした Leaderboard を再利用可能なビューとして保存できます。
 
-- **デフォルト** ビューに戻り、すべてのデータセットを確認する。
-- 保存されたビューを再度開き、すべてのカスタマイズを即座に復元する。
+保存した Leaderboard ビューには、次の内容が含まれます。
 
-保存されたビューを再度開くと、すべての名前変更やメトリクスの設定が保持されています。
+- 選択した モデル、データセット、スコアラー、メトリクス
+- 変更した表示ラベル
+- メトリクスの方向設定（値は高い方／低い方のどちらが良いか）
+- 適用したフィルター
+
+<div id="switch-between-saved-views">
+  ### 保存したビューを切り替える
+</div>
+
+保存したビューを開くには、Evaluations ページのタイトルの横にある **メニューアイコン (☰)** をクリックします。ここから次の操作を実行できます:
+
+- **default** ビューに戻って、データセット全体を表示します。
+- 保存したビューを再度開いて、すべてのカスタマイズをすぐに復元します。
+
+保存したビューを再度開くと、すべての名前変更とメトリクス設定が保持されます。

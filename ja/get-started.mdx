@@ -1,78 +1,97 @@
 ---
-title: Weights & Biases を使ってみる
-description: ユースケース に適した W&B 製品を選択し、 開始方法 を確認しましょう
+title: Weights & Biases を使い始める
+description: ユースケースに適した W&B 製品の選び方と使い始める手順
 ---
 
-## 製品の比較
+<div id="product-comparison">
+  ## 製品比較
+</div>
 
-Weights & Biases へようこそ！ 製品を使い始める前に、ユースケースに最適な製品を確認することが重要です。
+Weights &amp; Biases へようこそ。製品の利用を開始する前に、ご自身のユースケースに最も適した製品を把握しておくことが重要です。
 
 | 製品 | 最適な用途 | 主な機能 |
 |---------|----------|--------------|
-| **[W&B Models](#w%26b-models)** | ML モデルをゼロからトレーニングする | 実験管理、ハイパーパラメーター最適化、モデルレジストリ、可視化 |
-| **[W&B Weave](#w%26b-weave)** | LLM アプリケーションを構築する | トレース、プロンプト管理、評価、プロダクション AI アプリのコスト追跡 |
-| **[W&B Inference](#w%26b-inference)** | 学習済みモデルを使用する | ホストされたオープンソースモデル、API アクセス、テスト用のモデルプレイグラウンド |
-| **[W&B Training](#w%26b-training)** | モデルをファインチューニングする | 強化学習を用いた LoRA やカスタムモデル適応の作成とデプロイ |
+| **[W&amp;B Models](#w%26b-models)** | ML モデルをゼロからトレーニングする場合 | 実験管理、ハイパーパラメーター最適化、モデルレジストリ、可視化 |
+| **[W&amp;B Weave](#w%26b-weave)** | LLM アプリケーションの構築 | トレーシング、プロンプト管理、評価、本番 AI アプリ向けのコスト管理 |
+| **[W&amp;B Inference](#w%26b-inference)** | 事前学習済みモデルの利用 | ホスト型オープンソースモデル、API アクセス、テスト用のモデルプレイグラウンド |
+| **[W&amp;B Training](#w%26b-training)** | モデルのファインチューニング | LoRA や強化学習を用いたカスタムモデル適応版の作成とデプロイ |
 
-## W&B Models
+<div id="wb-models">
+  ## W&amp;B Models
+</div>
 
 <Columns cols={2}>
-  <Card title="Models クイックスタート" href="/models/quickstart">
-    W&B の「hello world」であり、最初のデータをログに記録する方法を説明します。
+  <Card title="Models クイックスタート" href="/ja/models/quickstart">
+    W&amp;B の「hello world」となるチュートリアルで、最初のデータを記録するところまでを案内します。
   </Card>
-  <Card title="Models を始める" href="/models/models_quickstart">
-    実際の ML 実験を使用して、Models 製品全体を体験する本格的なチュートリアルです。
+
+  <Card title="Models を使い始める" href="/ja/models/models_quickstart">
+    実際の ML 実験を使いながら、Models 製品全体をひととおり学べる本格的なチュートリアルです。
   </Card>
+
   <Card title="W&B 101 コース" href="https://wandb.ai/site/courses/101/">
-    実験管理に重点を置いたビデオ形式のコースです。理解度を確認するためのクイズも用意されています。
+    実験管理に重点を置いた動画中心のコースで、理解度を確認できるクイズも含まれています。
   </Card>
+
   <Card title="YouTube チュートリアル" href="https://www.youtube.com/watch?v=tHAFujRhZLA">
-    モデルのトレーニング、評価、開発、デプロイの方法と、ライフサイクルの各ステップで wandb を活用して、より高性能なモデルをより速く構築する方法を学びます。
+    モデルがどのように学習、評価、開発、デプロイされるのか、そしてそのライフサイクルの各段階で wandb をどのように活用して、より高性能なモデルを素早く構築できるかを学びます。
   </Card>
 </Columns>
 
-
-## W&B Weave
+<div id="wb-weave">
+  ## W&amp;B Weave
+</div>
 
 <Columns cols={2}>
-  <Card title="Weave クイックスタート" href="/weave/quickstart">
-    コードをデコレートして LLM を呼び出すことで、Weave トレースを記録し、完璧な LLM ワークフローへの道を歩み始める方法を学びます。
+  <Card title="Weave クイックスタート" href="/ja/weave/quickstart">
+    LLM を呼び出すコードにデコレーションを施して、呼び出し時に Weave traces をログし、理想的な LLM ワークフローへの第一歩を踏み出す方法を学びます。
   </Card>
-  <Card title="W&B Inference で Weave を学ぶ" href="/weave/quickstart-inference">
-    W&B Inference でホストされている様々なモデルのパフォーマンスを Weave で実際に評価する、本格的なチュートリアルです。
+
+  <Card title="W&B Inference で学ぶ Weave" href="/ja/weave/quickstart-inference">
+    W&amp;B Inference によってホストされているさまざまなモデルの性能を、Weave を使って実際のユースケースで評価する方法を学べる、本格的なチュートリアルです。
   </Card>
+
   <Card title="W&B Weave 101 コース" href="https://site.wandb.ai/courses/weave/">
-    言語モデルのワークフローをログに記録し、デバッグし、評価する方法を学ぶビデオ形式のコースです。理解度を確認するためのクイズも用意されています。
+    言語モデルワークフローのログ取得、デバッグ、評価方法を学べるビデオ形式のコースで、理解度を確認するクイズも含まれています。
   </Card>
+
   <Card title="YouTube デモ" href="https://www.youtube.com/watch?v=IQcGGNLN3zo">
-    AI アプリケーションを継続的に評価、監視、反復し、品質、レイテンシ、コスト、安全性を向上させる方法を学びます。
+    AI アプリケーションを継続的に評価・監視し、反復的に改善して、品質、レイテンシ、コスト、安全性を向上させる方法を学びます。
   </Card>
 </Columns>
 
-## W&B Inference
+<div id="wb-inference">
+  ## W&amp;B Inference
+</div>
 
 <Columns cols={2}>
-  <Card title="Inference イントロダクション" href="/inference">
-    標準的な OpenAI REST API を使用して、W&B Inference でホストされている任意のモデルを呼び出す方法を示すクイックスタートが含まれています。
+  <Card title="Inference 入門" href="/ja/inference">
+    標準的な OpenAI REST API を使って、W&amp;B Inference 上でホストされているあらゆるモデルを呼び出す方法を示すクイックスタートです。
   </Card>
-  <Card title="W&B Inference で Weave を学ぶ" href="/weave/quickstart-inference">
-    W&B Inference でホストされている様々なモデルのパフォーマンスを Weave で実際に評価する、本格的なチュートリアルです。
+
+  <Card title="W&B Inference で Weave を学ぶ" href="/ja/weave/quickstart-inference">
+    W&amp;B Inference によってホストされているさまざまなモデルの性能を、Weave が実環境で評価する様子を示す本格的なチュートリアルです。
   </Card>
-  <Card title="Inference プレイグラウンドを試す" href="https://wandb.ai/inference">
-    W&B Inference は非常に簡単に使用できます。ホストされているモデルをクリックし、プロンプトを試し、可観測性レイヤーが動作する様子を確認してください。
+
+  <Card title="Inference Playground を試す" href="https://wandb.ai/inference">
+    W&amp;B Inference はとても簡単に使えます。ホストされている任意のモデルをクリックし、プロンプトを試して、オブザーバビリティレイヤーがどのように動作するかを確認してください。
   </Card>
-  <Card title="例" href="/inference/examples">
-    W&B Inference が一般的な LLM への呼び出しをトレースし、結果を評価するいくつかの簡単な例を実行します。
+
+  <Card title="サンプル" href="/ja/inference/examples">
+    いくつかの簡単なサンプルを通して、W&amp;B Inference が人気の LLM への呼び出しをどのようにトレースし、その結果を評価するかを確認してください。
   </Card>
 </Columns>
 
-## W&B Training
+<div id="wb-training">
+  ## W&amp;B Training
+</div>
 
 <Columns cols={2}>
   <Card title="クイックスタート" href="https://art.openpipe.ai/getting-started/quick-start">
-    OpenPipe の ART ライブラリと共に W&B Training を使用して、2048 ゲームをプレイするモデルをトレーニングします。
+    OpenPipe の ART ライブラリと W&amp;B Training を使って、ゲーム 2048 をプレイできるモデルをトレーニングします。
   </Card>
-  <Card title="トレーニング済みモデルを使用する" href="/training/serverless-rl/use-trained-models">
-    トレーニング済みモデルを作成した後、それをコード内で使用する方法を学びます。
+
+  <Card title="トレーニング済みモデルの利用" href="/ja/training/serverless-rl/use-trained-models">
+    トレーニング済みモデルを作成したら、そのモデルをコードから利用する方法を学びましょう。
   </Card>
 </Columns>

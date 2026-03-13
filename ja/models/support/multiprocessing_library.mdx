@@ -2,11 +2,11 @@
 title: W&B は `multiprocessing` ライブラリを使用していますか？
 ---
 
-はい、W&B は `multiprocessing` ライブラリを使用しています。以下のようなエラーメッセージが表示される場合は、問題が発生している可能性があります。
+はい、W&amp;B は `multiprocessing` ライブラリを使用しています。次のようなエラーメッセージが表示される場合は、何らかの問題が発生している可能性があります。
 
 ```
 An attempt has been made to start a new process before the current process 
 has finished its bootstrapping phase.
 ```
 
-この問題を解決するには、`if __name__ == "__main__":` を使用してエントリポイントの保護を追加してください。この保護は、スクリプトから直接 W&B を実行する場合に必要となります。
+これを解決するには、`if __name__ == "__main__":` を用いてエントリーポイントの保護を追加してください。スクリプトから直接 W&amp;B を実行する場合、この保護が必要になります。

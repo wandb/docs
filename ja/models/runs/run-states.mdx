@@ -1,73 +1,76 @@
 ---
 title: Run の状態
-description: W&B Run が取り得るさまざまな状態について説明します。
+description: W&B run がなりうるさまざまな状態について学びます。
 ---
 
-[Run state](/models/runs/run-states#run-states) は、 W&B Run の現在のステータスを示します。 Run の状態は、 W&B App または W&B Python SDK を使用してプログラムで [確認する](/models/runs/run-states#view-the-state-of-a-run) ことができます。
+[Run の状態](/ja/models/runs/run-states#run-states) は、W&amp;B run の現在の状態を示します。run の[状態を確認](/ja/models/runs/run-states#view-the-state-of-a-run)するには、W&amp;B App で確認するか、W&amp;B Python SDK を使用してプログラムから取得できます。
 
-## Run states
-以下の表は、 Run が取り得る状態を説明しています。
+<div id="run-states">
+  ## run の状態
+</div>
 
-| 状態 | 説明 |
+次の表は、run が取り得る状態を示しています。
+
+| State | Description |
 | ----- | ----- |
-| `Crashed` | 内部プロセスでハートビートの送信が停止しました。これはマシンがクラッシュした場合などに発生します。 | 
-| `Failed` | Run が 0 以外の終了ステータスで終了しました。 | 
-| `Finished`| Run が終了し、データの同期が完全に完了したか、 `wandb.Run.finish()` が呼び出されました。 |
-| `Killed` | Run が終了する前に強制停止されました。 |
-| `Running` | Run は実行中であり、最近ハートビートを送信しました。 |
-| `Pending` | Run はスケジュールされていますが、まだ開始されていません（ Sweeps や Launch ジョブで一般的です）。 |
+| `Crashed` | マシンのクラッシュなどにより、内部プロセスで run からのハートビート送信が停止した状態。 |
+| `Failed` | run が非ゼロの終了ステータスで終了した状態。 |
+| `Finished`| run が終了し、データが完全に同期されたか、`wandb.Run.finish()` が呼び出された状態。 |
+| `Killed` | run が完了する前に強制的に停止された状態。 |
+| `Running` | run がまだ実行中で、最近ハートビートを送信した状態。  |
+| `Pending` | run がスケジュールされているが、まだ開始されていない状態 (sweep や Launch ジョブで一般的です) 。 |
 
-### Sweeps における Run states
+<div id="run-states-in-sweeps">
+  ### sweep における run の状態
+</div>
 
-Run が [Sweeps](/models/sweeps/) の一部である場合、その状態は Sweep のステータスとは独立して動作します。
+run が [sweep](/ja/models/sweeps/) の一部である場合、その状態は sweep のステータスとは独立して扱われます:
 
-- **個別の Run state** は、各 Run の実行ステータス（ Running 、 Finished 、 Failed など）を反映します。
-- **Sweep ステータス** は、新しい Run を作成するかどうかを制御するもので、既存の Run の実行方法を制御するものではありません。
-- Sweep を一時停止または停止しても、すでに実行中の Run には影響しません。
-- Sweep をキャンセルした場合のみ、実行中の Run が強制終了されます（状態が `Killed` に変わります）。
+* **個々の run の状態** は、それぞれの run の実行ステータス (Running、Finished、Failed など) を表します
+* **sweep のステータス** は、新しい run を作成するかどうかを制御するものであり、既存の run の実行方法は制御しません
+* sweep を一時停止または停止しても、すでに実行中の run には影響しません
+* sweep をキャンセルした場合にのみ、実行中の run は強制終了されます (状態が `Killed` に変更されます)
 
-Sweep と Run のステータスがどのように相互作用するかの詳細については、 [Understanding sweep and run statuses](/models/sweeps/pause-resume-and-cancel-sweeps#understanding-sweep-and-run-statuses) を参照してください。
+sweep と run のステータスがどのように連動するかの詳細については、[Understanding sweep and run statuses](/ja/models/sweeps/pause-resume-and-cancel-sweeps#understanding-sweep-and-run-statuses) を参照してください。
 
+<div id="view-the-state-of-a-run">
+  ## run の状態を確認する
+</div>
 
-## View the state of a run
-
-Python SDK または W&B App を使用して、プログラムまたはインタラクティブに Run の状態を確認できます。
+Python SDK または W&amp;B App を使用して、プログラムから、またはインタラクティブに run の状態を確認できます。
 
 <Tabs>
-<Tab title="Python SDK">
+  <Tab title="Python SDK">
+    `wandb.Api.Run` オブジェクトの `state` プロパティを使用して、run の現在の状態にアクセスします。
 
-[`wandb.Api.Run`](/models/ref/python/public-api/runs) オブジェクトの `state` プロパティを使用して、 Run の現在の状態にアクセスします。
+    次のコードスニペットは、指定したプロジェクト内のすべての run の状態を取得して出力します。以下のコードスニペットを Python 環境にコピーしてペーストし、山かっこ (`< >`) で囲まれた値を自分の値に置き換えてください。
 
-以下のコードスニペットは、指定したプロジェクト内のすべての Run の状態を取得して表示します。以下のコードスニペットをコピーして、ご自身の Python 環境に貼り付けてください。角括弧（ `< >` ）で囲まれた値は、ご自身の値に置き換えてください。
+    ```python
+    import wandb
 
-```python
-import wandb
+    api = wandb.Api()
 
-api = wandb.Api()
+    runs = api.runs(path="<entity>/<project>")
 
-runs = api.runs(path="<entity>/<project>")
+    # Access run object's properties
+    for run in runs:
+        print(f"Run: {run.name}")
+        print(f"Run state: {run.state}")
+        print()
+    ```
 
-# run オブジェクトのプロパティにアクセス
-for run in runs:
-    print(f"Run: {run.name}")
-    print(f"Run state: {run.state}")
-    print()
-```
+    さまざまな条件に基づいてフィルターを適用し、プロジェクトから run を取得できます。[Filter runs](/ja/models/runs/filter-runs) を参照して、プログラムから run をフィルタリングする方法の詳細を確認してください。また、[`wandb.Api.Run`](/ja/models/ref/python/public-api/runs) オブジェクトのドキュメントも参照してください。
+  </Tab>
 
-さまざまな条件に基づいてプロジェクトから Run を取得するために、異なるフィルタを適用できます。プログラムで Run をフィルタリングする方法の詳細については、 [Filter runs](/models/runs/filter-runs) を参照してください。
+  <Tab title="W&B App">
+    W&amp;B App から run の状態を確認するには、次の手順に従います。
 
-</Tab>
-<Tab title="W&B App">
+    1. 自分の W&amp;B プロジェクトに移動します。
+    2. プロジェクトのサイドバーから **Workspace** または **Runs** タブを選択します。
+    3. 表示したい run を検索またはスクロールして見つけます。
+    4. run を選択して run の概要ページを開きます。
+    5. **Overview** タブを選択します。
 
-W&B App から Run の状態を確認します。
-
-1. W&B プロジェクトに移動します。
-1. プロジェクトのサイドバーから **Workspace** または **Runs** タブを選択します。
-1. 表示したい Run を検索またはスクロールして探します。
-1. Run を選択して、 Run の概要ページを開きます。
-1. **Overview** タブを選択します。
-
-**State** フィールドの横で、 Run の現在の状態を確認できます。
-
-</Tab>
+    **State** フィールドの横に、run の現在の状態が表示されます。
+  </Tab>
 </Tabs>

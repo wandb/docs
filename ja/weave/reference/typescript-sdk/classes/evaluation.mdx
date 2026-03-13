@@ -1,20 +1,21 @@
 ---
-title: 'Class: Evaluation<R, E, M>'
-description: TypeScript SDK リファレンス
+title: "クラス: Evaluation<R, E, M>"
+description: "TypeScript SDK リファレンス"
 ---
 
-[weave](../) / Evaluation
+[Weave](../) / Evaluation
 
-一連の scorer と Datasets を含む評価（Evaluation）をセットアップします。
+スコアラーのセットとデータセットを含む evaluation を設定します。
 
-`evaluation.evaluate(model)` を呼び出すと、Datasets の行が Models に渡されます。このとき、Datasets の列名が `model.predict` の引数名と一致するようにマッピングされます。
+evaluation.evaluate(model) を呼び出すと、データセットの行をモデルに渡し、
+データセットの列名を model.predict の引数名に対応付けます。
 
-その後、すべての scorer が呼び出され、その結果が Weave に保存されます。
+その後、すべてのスコアラーを呼び出し、結果を Weave に保存します。
 
 `Example`
 
 ```ts
-// 例題を Dataset に集約します
+// 例をデータセットに収集する
 const dataset = new weave.Dataset({
   id: 'my-dataset',
   rows: [
@@ -24,17 +25,17 @@ const dataset = new weave.Dataset({
   ],
 });
 
-// カスタムのスコアリング関数を定義します
+// カスタムスコアリング関数を定義する
 const scoringFunction = weave.op(function isEqual({ modelOutput, datasetRow }) {
   return modelOutput == datasetRow.expected;
 });
 
-// 評価対象の関数を定義します
+// 評価する関数を定義する
 const model = weave.op(async function alwaysParisModel({ question }) {
   return 'Paris';
 });
 
-// 評価を開始します
+// 評価を開始する
 const evaluation = new weave.Evaluation({
   id: 'my-evaluation',
   dataset: dataset,
@@ -44,130 +45,175 @@ const evaluation = new weave.Evaluation({
 const results = await evaluation.evaluate({ model });
 ```
 
-## Type parameters
+
+## 型パラメーター
 
 | 名前 | 型 |
 | :------ | :------ |
-| `R` | `DatasetRow` を継承 |
-| `E` | `DatasetRow` を継承 |
+| `R` | extends `DatasetRow` |
+| `E` | extends `DatasetRow` |
 | `M` | `M` |
 
-## Hierarchy
+<div id="hierarchy">
+  ## 階層
+</div>
 
 - [`WeaveObject`](./weaveobject)
 
   ↳ `Evaluation`
 
-## Table of contents
+<div id="table-of-contents">
+  ## 目次
+</div>
 
-### Constructors
+<div id="constructors">
+  ### コンストラクタ
+</div>
 
 - [constructor](./evaluation#constructor)
 
-### Properties
+<div id="properties">
+  ### プロパティ
+</div>
 
 - [\_\_savedRef](./evaluation#__savedref)
 
-### Accessors
+<div id="accessors">
+  ### アクセサ
+</div>
 
 - [description](./evaluation#description)
 - [name](./evaluation#name)
 
-### Methods
+<div id="methods">
+  ### メソッド
+</div>
 
 - [evaluate](./evaluation#evaluate)
 - [predictAndScore](./evaluation#predictandscore)
 - [saveAttrs](./evaluation#saveattrs)
 
-## Constructors
+## コンストラクタ
 
-### constructor
+<div id="constructor">
+  ### コンストラクター
+</div>
 
 • **new Evaluation**\<`R`, `E`, `M`\>(`parameters`): [`Evaluation`](./evaluation)\<`R`, `E`, `M`\>
 
-#### Type parameters
+<div id="type-parameters">
+  #### 型パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
-| `R` | `DatasetRow` を継承 |
-| `E` | `DatasetRow` を継承 |
+| `R` | extends `DatasetRow` |
+| `E` | extends `DatasetRow` |
 | `M` | `M` |
 
-#### Parameters
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
 | `parameters` | `EvaluationParameters`\<`R`, `E`, `M`\> |
 
-#### Returns
+<div id="returns">
+  #### 戻り値
+</div>
 
 [`Evaluation`](./evaluation)\<`R`, `E`, `M`\>
 
-#### Overrides
+<div id="overrides">
+  #### オーバーライド
+</div>
 
 [WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
 
-#### Defined in
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [evaluation.ts:148](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluation.ts#L148)
 
-## Properties
+## プロパティ
 
 ### \_\_savedRef
 
 • `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
 
-#### Inherited from
+<div id="inherited-from">
+  #### 継承元
+</div>
 
 [WeaveObject](./weaveobject).[__savedRef](./weaveobject#__savedref)
 
-#### Defined in
+#### 定義元
 
 [weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
 
-## Accessors
+## アクセサ
 
-### description
+<div id="description">
+  ### description
+</div>
 
 • `get` **description**(): `undefined` \| `string`
 
-#### Returns
+<div id="returns">
+  #### 戻り値
+</div>
 
 `undefined` \| `string`
 
-#### Inherited from
+<div id="inherited-from">
+  #### 継承元
+</div>
 
 WeaveObject.description
 
-#### Defined in
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
 
 ___
 
-### name
+<div id="name">
+  ### name
+</div>
 
 • `get` **name**(): `string`
 
-#### Returns
+<div id="returns">
+  #### 戻り値
+</div>
 
 `string`
 
-#### Inherited from
+<div id="inherited-from">
+  #### 継承元
+</div>
 
 WeaveObject.name
 
-#### Defined in
+#### 定義元
 
 [weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
 
-## Methods
+## メソッド
 
-### evaluate
+<div id="evaluate">
+  ### evaluate
+</div>
 
 ▸ **evaluate**(`«destructured»`): `Promise`\<`Record`\<`string`, `any`\>\>
 
-#### Parameters
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 | デフォルト値 |
 | :------ | :------ | :------ |
@@ -176,21 +222,29 @@ WeaveObject.name
 | › `model` | `WeaveCallable`\<(...`args`: [\{ `datasetRow`: `R`  }]) => `Promise`\<`M`\>\> | `undefined` |
 | › `nTrials?` | `number` | `1` |
 
-#### Returns
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`Record`\<`string`, `any`\>\>
 
-#### Defined in
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [evaluation.ts:163](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluation.ts#L163)
 
 ___
 
-### predictAndScore
+<div id="predictandscore">
+  ### predictAndScore
+</div>
 
 ▸ **predictAndScore**(`«destructured»`): `Promise`\<\{ `model_latency`: `number` = modelLatency; `model_output`: `any` = modelOutput; `model_success`: `boolean` = !modelError; `scores`: \{ `[key: string]`: `any`;  }  }\>
 
-#### Parameters
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
@@ -199,28 +253,40 @@ ___
 | › `example` | `R` |
 | › `model` | `WeaveCallable`\<(...`args`: [\{ `datasetRow`: `E`  }]) => `Promise`\<`M`\>\> |
 
-#### Returns
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<\{ `model_latency`: `number` = modelLatency; `model_output`: `any` = modelOutput; `model_success`: `boolean` = !modelError; `scores`: \{ `[key: string]`: `any`;  }  }\>
 
-#### Defined in
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [evaluation.ts:231](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluation.ts#L231)
 
 ___
 
-### saveAttrs
+<div id="saveattrs">
+  ### saveAttrs
+</div>
 
 ▸ **saveAttrs**(): `Object`
 
-#### Returns
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Object`
 
-#### Inherited from
+<div id="inherited-from">
+  #### 継承元
+</div>
 
 [WeaveObject](./weaveobject).[saveAttrs](./weaveobject#saveattrs)
 
-#### Defined in
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)

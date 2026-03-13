@@ -1,0 +1,293 @@
+---
+title: "Call のクエリとエクスポート"
+description: "W&amp;B Weave Call データをフィルター、ソートしてエクスポートする"
+---
+
+Weave UI では、データをさまざまな形式でエクスポートできます。行をプログラムからエクスポートするために使用できる Python と cURL のコードも表示されます。
+Call をエクスポートするには、次の手順に従います。
+
+1. [wandb.ai](https://wandb.ai/) にアクセスし、プロジェクトを選択します。
+2. Weave プロジェクトのサイドバーで **Traces** をクリックします。
+3. エクスポートしたい複数の Call を、行にチェックを入れて選択します。
+4. **Traces** テーブルのツールバーで、エクスポート／ダウンロード ボタンをクリックします。
+5. **Export** モーダルで **Selected rows** または **All rows** を選択し、**Export** をクリックします。
+
+<Frame>
+  ![Export モーダルでエクスポート対象として選択された Calls を表示している Traces ページ。](/weave/guides/tracking/imgs/trace_export_modal.png)
+</Frame>
+
+<div id="fetch-calls-programmatically">
+  ## コールをプログラムから取得する
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Python API を使用してコールを取得するには、[`client.get_calls`](/ja/weave/reference/python-sdk/trace/weave_client#method-get_calls) メソッドを使用します。
+
+    ```python lines
+    import weave
+
+    # クライアントを初期化
+    client = weave.init("your-project-name")
+
+    # コールを取得
+    calls = client.get_calls(filter=...)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    TypeScript API を使用してコールを取得するには、[`client.getCalls`](/ja/weave/reference/typescript-sdk/classes/weaveclient#getcalls) メソッドを使用します。
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    // クライアントを初期化
+    const client = await weave.init('intro-example')
+
+    // コールを取得
+    const calls = await client.getCalls(filter=...)
+    ```
+  </Tab>
+
+  <Tab title="HTTP API">
+    最も強力なクエリ レイヤーは Service API です。Service API を使用してコールを取得するには、[`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) エンドポイントにリクエストを送信します。
+
+    ```bash
+    curl -L 'https://trace.wandb.ai/calls/stream_query' \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{
+    "project_id": "string",
+    "filter": {
+        "op_names": [
+            "string"
+        ],
+        "input_refs": [
+            "string"
+        ],
+        "output_refs": [
+            "string"
+        ],
+        "parent_ids": [
+            "string"
+        ],
+        "trace_ids": [
+            "string"
+        ],
+        "call_ids": [
+            "string"
+        ],
+        "trace_roots_only": true,
+        "wb_user_ids": [
+            "string"
+        ],
+        "wb_run_ids": [
+            "string"
+        ]
+    },
+    "limit": 100,
+    "offset": 0,
+    "sort_by": [
+        {
+        "field": "string",
+        "direction": "asc"
+        }
+    ],
+    "query": {
+        "$expr": {}
+    },
+    "include_costs": true,
+    "include_feedback": true,
+    "columns": [
+        "string"
+    ],
+    "expand_columns": [
+        "string"
+    ]
+    }'
+    ```
+  </Tab>
+</Tabs>
+
+コールのプロパティおよびフィールドの詳細については、[Call スキーマ リファレンス](/ja/weave/guides/tracking/call-schema-reference) を参照してください。
+
+<div id="export-call-metrics">
+  ## Call メトリクスをエクスポート
+</div>
+
+Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) を使用すると、Call データ自体を取得せずに、Calls に関するメトリクスを取得することもできます。これにより、レイテンシやコストなど、Calls に関する情報をすばやく効率的に取得し、合計、平均、最小、最大、件数で集計できます。たとえば、次の情報を取得できます。
+
+* 総トークン使用量
+* 平均レイテンシ
+* 最大トークン使用数
+* 総コスト
+* 最小入力トークン数
+
+このエンドポイントには複数のフィルタリングオプションがあり、指定した期間内に実行された Calls や、次のような他のプロパティに基づいて対象を絞り込めます。
+
+* Op 名
+* Trace ID
+* Thread ID
+* User ID
+
+次の例は、`web_app` という名前の Op から生成された Calls を、2 日間にわたって取得する方法を示しています。
+
+<CodeGroup>
+  ```python Python lines {10-11,16-24}
+  import requests
+  import json
+  import os
+
+  url = "https://trace.wandb.ai/calls/stats"
+
+  payload = {
+      "project_id": "<your-team-name/your-project-name>",
+      "start": "2026-03-01T00:00:00Z",
+  # バケットのサイズを秒単位で指定します。
+      "granularity": 86400,
+      "filter": {
+          "trace_roots_only": True,
+          "op_names": ["web_app"]
+      },
+  # メトリクスとその集計関数を指定します
+      "usage_metrics": [
+          {"metric": "total_tokens", "aggregations": ["sum"]},
+          {"metric": "total_cost", "aggregations": ["sum"]}
+      ],
+      "call_metrics": [
+          {"metric": "call_count", "aggregations": ["sum"]},
+          {"metric": "error_count", "aggregations": ["sum"]},
+          {"metric": "latency_ms", "aggregations": ["avg", "min", "max"], "percentiles": [50, 95, 99]}
+      ]
+  }
+
+  API_KEY = os.getenv("WANDB_API_KEY")
+
+  response = requests.post(url, json=payload, auth=("api", API_KEY))
+
+  print(json.dumps(response.json(), indent=2))
+  ```
+
+  ```typescript TypeScript lines {6-7,13-20}
+  const url = "https://trace.wandb.ai/calls/stats";
+
+  const payload = {
+    project_id: "<your-team-name/your-project-name>",
+    start: "2026-03-01T00:00:00Z",
+  // バケットのサイズを秒単位で指定します。
+    granularity: 86400,
+    filter: {
+      trace_roots_only: true,
+      op_names: ["web_app"],
+    },
+  // メトリクスとその集計関数を指定します
+    usage_metrics: [
+      { metric: "total_tokens", aggregations: ["sum"] },
+      { metric: "total_cost", aggregations: ["sum"] },
+    ],
+    call_metrics: [
+      { metric: "call_count", aggregations: ["sum"] },
+      { metric: "error_count", aggregations: ["sum"] },
+      { metric: "latency_ms", aggregations: ["avg", "min", "max"], percentiles: [50, 95, 99] },
+    ],
+  };
+
+  const API_KEY = process.env.WANDB_API_KEY!;
+
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Basic " + btoa(`api:${API_KEY}`),
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+  console.log(JSON.stringify(data, null, 2));
+  ```
+</CodeGroup>
+
+このリクエストでは、メトリクスをどのように集計するかも指定します。メトリクスは `sum`、`count`、`avg`、`min`、`max` で集計できます。
+
+このエンドポイントは JSON オブジェクトを返します。次のレスポンス例は、2 日分のメトリクスを示しています。各日 (バケット) は、`usage_buckets` 配列と `call_buckets` 配列の中でそれぞれ個別のオブジェクトに分けられます。各配列では、メトリクスの内訳が異なります。
+
+* `usage_buckets`: 各日の Call メトリクスを、使用されたモデルごとにグループ化します。
+* `call_buckets`: 各日の Call メトリクスを、使用されたモデルに関係なくグループ化します。
+
+リクエストの `granularity` フィールド (秒単位) を設定すると、バケットサイズを変更できます。
+
+```json lines
+{
+  "start": "2026-03-03T00:00:00Z",
+  "end": "2026-03-04T21:34:39.746539Z",
+  "granularity": 86400,
+  "timezone": "UTC",
+  "usage_buckets": [
+    {
+      "timestamp": "2026-03-03T00:00:00",
+      "model": "gpt-4o-2024-08-06",
+      "sum_total_tokens": 498.0,
+      "sum_input_tokens": 219.0,
+      "sum_output_tokens": 279.0,
+      "count": 5,
+      "sum_total_cost": 0.0033374999156876584
+    },
+    {
+      "timestamp": "2026-03-03T00:00:00",
+      "model": "gpt-5-2025-08-07",
+      "sum_total_tokens": 0.0,
+      "sum_input_tokens": 0.0,
+      "sum_output_tokens": 0.0,
+      "count": 0,
+      "sum_total_cost": 0.0
+    },
+    {
+      "timestamp": "2026-03-04T00:00:00",
+      "model": "gpt-4o-2024-08-06",
+      "sum_total_tokens": 58.0,
+      "sum_input_tokens": 27.0,
+      "sum_output_tokens": 31.0,
+      "count": 1,
+      "sum_total_cost": 0.0003774999904635479
+    },
+    {
+      "timestamp": "2026-03-04T00:00:00",
+      "model": "gpt-5-2025-08-07",
+      "sum_total_tokens": 427.0,
+      "sum_input_tokens": 26.0,
+      "sum_output_tokens": 401.0,
+      "count": 1,
+      "sum_total_cost": 0.00404249989787786
+    }
+  ],
+  "call_buckets": [
+    {
+      "timestamp": "2026-03-03T00:00:00",
+      "sum_call_count": 6,
+      "sum_error_count": 1,
+      "avg_latency_ms": 1505.6666666666667,
+      "min_latency_ms": 525,
+      "max_latency_ms": 2524,
+      "p50_latency_ms": 1534.0,
+      "p95_latency_ms": 2328.5,
+      "p99_latency_ms": 2484.9000000000005,
+      "count": 6
+    },
+    {
+      "timestamp": "2026-03-04T00:00:00",
+      "sum_call_count": 2,
+      "sum_error_count": 0,
+      "avg_latency_ms": 3645.0,
+      "min_latency_ms": 1739,
+      "max_latency_ms": 5551,
+      "p50_latency_ms": 3645.0,
+      "p95_latency_ms": 5360.4,
+      "p99_latency_ms": 5512.88,
+      "count": 2
+    }
+  ]
+}
+```
+
+メトリクスは最大 31 日間の期間でクエリできます。詳細および利用可能なオプションについては、[Service API リファレンス](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) を参照してください。

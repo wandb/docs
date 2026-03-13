@@ -1,10 +1,12 @@
 ---
-title: W&B Inference 오류를 처리하기 위한 모범 사례는 무엇인가요?
+title: W&B Inference 오류를 처리하는 모범 사례는 무엇인가요?
 ---
 
-W&B Inference 에러를 원활하게 처리하고 신뢰할 수 있는 애플리케이션을 유지하려면 다음 모범 사례를 따르세요.
+W&B Inference 오류를 원활하게 처리하고 애플리케이션의 신뢰성을 유지하려면 다음 모범 사례를 따르세요.
 
-## 1. 항상 에러 처리 구현하기
+<div id="1-always-implement-error-handling">
+  ## 1. 항상 오류 처리를 구현하세요
+</div>
 
 API 호출을 try-except 블록으로 감싸세요:
 
@@ -18,10 +20,13 @@ try:
     )
 except Exception as e:
     print(f"Error: {e}")
-    # 에러를 적절하게 처리합니다
+    # 오류를 적절히 처리하세요
 ```
 
-## 2. 지수 백오프(exponential backoff)를 포함한 재시도 로직 사용하기
+
+<div id="2-use-retry-logic-with-exponential-backoff">
+  ## 2. 지수 백오프를 사용하는 재시도 로직을 사용하세요
+</div>
 
 ```python
 import time
@@ -45,7 +50,7 @@ def call_inference_with_retry(
             if attempt == max_retries - 1:
                 raise
             
-            # 지수 백오프를 사용하여 지연 시간 계산
+            # 지수 백오프로 지연 시간 계산
             delay = base_delay * (2 ** attempt)
             print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
             time.sleep(delay)
@@ -53,41 +58,49 @@ def call_inference_with_retry(
     return None
 ```
 
-## 3. 사용량 모니터링하기
 
-- W&B Billing 페이지에서 크레딧 사용량을 추적하세요.
-- 한도에 도달하기 전에 알림을 설정하세요.
-- 애플리케이션에서 API 사용량을 로그로 남기세요.
+<div id="3-monitor-your-usage">
+  ## 3. 사용량 모니터링
+</div>
 
-## 4. 특정 에러 코드 처리하기
+- W&B Billing 페이지에서 크레딧 사용량 추적
+- 한도에 도달하기 전에 알림 설정
+- 애플리케이션에서 API 사용량 기록
+
+<div id="4-handle-specific-error-codes">
+  ## 4. 특정 오류 코드 처리
+</div>
 
 ```python
 def handle_inference_error(error):
     error_str = str(error)
     
     if "401" in error_str:
-        # 인증 실패
+        # 잘못된 인증
         raise ValueError("API 키 및 프로젝트 설정을 확인하세요")
     elif "402" in error_str:
         # 크레딧 부족
-        raise ValueError("잔여 크레딧이 부족합니다")
+        raise ValueError("크레딧이 부족합니다")
     elif "429" in error_str:
-        # 속도 제한(Rate limited)
+        # 요청 한도 초과
         return "retry"
     elif "500" in error_str or "503" in error_str:
-        # 서버 에러
+        # 서버 오류
         return "retry"
     else:
-        # 알 수 없는 에러
+        # 알 수 없는 오류
         raise
 ```
 
-## 5. 적절한 타임아웃 설정하기
 
-사용자의 유스 케이스에 맞게 합리적인 타임아웃을 구성하세요:
+<div id="5-set-appropriate-timeouts">
+  ## 5. 적절한 타임아웃 설정
+</div>
+
+사용 사례에 맞는 합리적인 타임아웃을 설정하세요:
 
 ```python
-# 응답 시간이 긴 경우
+# 더 긴 응답을 위한 설정
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     api_key="your-api-key",
@@ -95,9 +108,12 @@ client = openai.OpenAI(
 )
 ```
 
-## 추가 팁
 
-- 디버깅을 위해 에러 발생 시 타임스탬프와 함께 로그를 남기세요.
-- 더 나은 동시성 처리를 위해 비동기(async) 작업을 사용하세요.
-- 프로덕션 시스템을 위해 서킷 브레이커(circuit breaker)를 구현하세요.
-- API 호출을 줄이기 위해 적절한 경우 응답을 캐싱하세요.
+<div id="additional-tips">
+  ## 추가 팁
+</div>
+
+- 디버깅을 위해 타임스탬프와 함께 오류를 로깅하세요
+- 더 나은 동시성 처리를 위해 비동기 연산을 사용하세요
+- 프로덕션 환경의 시스템에는 서킷 브레이커를 구현하세요
+- 적절한 경우 응답을 캐시해 API 호출을 줄이세요

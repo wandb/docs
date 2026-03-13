@@ -1,23 +1,31 @@
 ---
-title: 'Class: WeaveClient'
-description: TypeScript SDK リファレンス
+title: "クラス: WeaveClient"
+description: "TypeScript SDK リファレンス"
 ---
 
 [weave](../) / WeaveClient
 
-## 目次
+<div id="table-of-contents">
+  ## 目次
+</div>
 
-### コンストラクタ
+<div id="constructors">
+  ### コンストラクタ
+</div>
 
 - [constructor](./weaveclient#constructor)
 
-### プロパティ
+<div id="properties">
+  ### プロパティ
+</div>
 
 - [projectId](./weaveclient#projectid)
 - [settings](./weaveclient#settings)
 - [traceServerApi](./weaveclient#traceserverapi)
 
-### メソッド
+<div id="methods">
+  ### メソッド
+</div>
 
 - [addScore](./weaveclient#addscore)
 - [createCall](./weaveclient#createcall)
@@ -39,7 +47,9 @@ description: TypeScript SDK リファレンス
 
 ## コンストラクタ
 
-### constructor
+<div id="constructor">
+  ### コンストラクター
+</div>
 
 • **new WeaveClient**(`traceServerApi`, `wandbServerApi`, `projectId`, `settings?`): [`WeaveClient`](./weaveclient)
 
@@ -52,79 +62,97 @@ description: TypeScript SDK リファレンス
 | `projectId` | `string` |
 | `settings` | `Settings` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 [`WeaveClient`](./weaveclient)
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:93](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L93)
 
 ## プロパティ
 
-### projectId
+<div id="projectid">
+  ### projectId
+</div>
 
 • **projectId**: `string`
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L96)
 
 ___
 
-### settings
+<div id="settings">
+  ### settings
+</div>
 
 • **settings**: `Settings`
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:97](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L97)
 
 ___
 
-### traceServerApi
+<div id="traceserverapi">
+  ### traceServerApi
+</div>
 
 • **traceServerApi**: `Api`\<`any`\>
 
-#### 定義
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:94](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L94)
 
 ## メソッド
 
-### addScore
+<div id="addscore">
+  ### addScore
+</div>
 
 ▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`\<`string`\>
 
-コールにスコアラーの結果（例：スコアラーの出力）を追加します。
-命令型の評価において、スコアラーの結果を predict コールに紐付けるために使用されます。
+スコアラーの結果（例: スコアラーの出力）を call に追加します。  
+命令型の evaluation で、predict call にスコアラー結果を紐づけるために使用します。
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
-| 名前 | 型 | 説明 |
+| Name | Type | Description |
 | :------ | :------ | :------ |
-| `predictCallId` | `string` | フィードバックを紐付ける predict コールの ID |
-| `scorerCallId` | `string` | フィードバックを生成したスコアラーコールの ID |
-| `runnableRefUri` | `string` | スコアラーの URI (Op または Object 参照) |
-| `scorerOutput` | `any` | スコアラーの出力 |
+| `predictCallId` | `string` | フィードバックを紐付ける predict 呼び出しの ID |
+| `scorerCallId` | `string` | フィードバックを生成した scorer 呼び出しの ID |
+| `runnableRefUri` | `string` | scorer（Op または Object ref）の URI |
+| `scorerOutput` | `any` | scorer の出力 |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`string`\>
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:865](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L865)
 
 ___
 
-### createCall
+<div id="createcall">
+  ### createCall
+</div>
 
 ▸ **createCall**(`internalCall`, `opRef`, `params`, `parameterNames`, `thisArg`, `currentCall`, `parentCall`, `startTime`, `displayName?`, `attributes?`): `Promise`\<`void`\>
 
 #### パラメータ
 
-| 名前 | 型 |
+| 名称 | 型 |
 | :------ | :------ |
 | `internalCall` | `InternalCall` |
 | `opRef` | `any` |
@@ -137,17 +165,21 @@ ___
 | `displayName?` | `string` |
 | `attributes?` | `Record`\<`string`, `any`\> |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`void`\>
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:720](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L720)
 
 ___
 
-### finishCall
+<div id="finishcall">
+  ### finishCall
+</div>
 
 ▸ **finishCall**(`call`, `result`, `currentCall`, `parentCall`, `summarize`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
 
@@ -163,21 +195,29 @@ ___
 | `endTime` | `Date` |
 | `startCallPromise` | `Promise`\<`void`\> |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`void`\>
 
-#### 定義
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:772](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L772)
 
 ___
 
-### finishCallWithException
+<div id="finishcallwithexception">
+  ### finishCallWithException
+</div>
 
 ▸ **finishCallWithException**(`call`, `error`, `currentCall`, `parentCall`, `endTime`, `startCallPromise`): `Promise`\<`void`\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
@@ -188,76 +228,104 @@ ___
 | `endTime` | `Date` |
 | `startCallPromise` | `Promise`\<`void`\> |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`void`\>
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:812](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L812)
 
 ___
 
-### get
+<div id="get">
+  ### get
+</div>
 
 ▸ **get**(`ref`): `Promise`\<`any`\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
 | `ref` | [`ObjectRef`](./objectref) |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`any`\>
 
-#### 定義
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:282](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L282)
 
 ___
 
-### getCall
+<div id="getcall">
+  ### getCall
+</div>
 
 ▸ **getCall**(`callId`, `includeCosts?`): `Promise`\<`Call`\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 | デフォルト値 |
 | :------ | :------ | :------ |
 | `callId` | `string` | `undefined` |
 | `includeCosts` | `boolean` | `false` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`Call`\>
 
-#### 定義
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:213](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L213)
 
 ___
 
-### getCallStack
+<div id="getcallstack">
+  ### getCallStack
+</div>
 
 ▸ **getCallStack**(): `CallStack`
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `CallStack`
 
-#### 定義
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:636](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L636)
 
 ___
 
-### getCalls
+<div id="getcalls">
+  ### getCalls
+</div>
 
 ▸ **getCalls**(`filter?`, `includeCosts?`, `limit?`): `Promise`\<`Call`[]\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 | デフォルト値 |
 | :------ | :------ | :------ |
@@ -265,21 +333,27 @@ ___
 | `includeCosts` | `boolean` | `false` |
 | `limit` | `number` | `1000` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`Call`[]\>
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:223](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L223)
 
 ___
 
-### getCallsIterator
+<div id="getcallsiterator">
+  ### getCallsIterator
+</div>
 
 ▸ **getCallsIterator**(`filter?`, `includeCosts?`, `limit?`): `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 | デフォルト値 |
 | :------ | :------ | :------ |
@@ -287,56 +361,76 @@ ___
 | `includeCosts` | `boolean` | `false` |
 | `limit` | `number` | `1000` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `AsyncIterableIterator`\<[`CallSchema`](../interfaces/callschema)\>
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:237](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L237)
 
 ___
 
-### getCurrentAttributes
+<div id="getcurrentattributes">
+  ### getCurrentAttributes
+</div>
 
 ▸ **getCurrentAttributes**(): `Record`\<`string`, `any`\>
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Record`\<`string`, `any`\>
 
-#### 定義
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:640](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L640)
 
 ___
 
-### publish
+<div id="publish">
+  ### publish
+</div>
 
 ▸ **publish**(`obj`, `objId?`): `Promise`\<[`ObjectRef`](./objectref)\>
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
 | `obj` | `any` |
 | `objId?` | `string` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<[`ObjectRef`](./objectref)\>
 
-#### 定義
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:201](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L201)
 
 ___
 
-### pushNewCall
+<div id="pushnewcall">
+  ### pushNewCall
+</div>
 
 ▸ **pushNewCall**(): `Object`
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Object`
 
@@ -346,13 +440,17 @@ ___
 | `newStack` | `CallStack` |
 | `parentCall?` | `CallStackEntry` |
 
-#### 定義
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:644](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L644)
 
 ___
 
-### runWithAttributes
+<div id="runwithattributes">
+  ### runWithAttributes
+</div>
 
 ▸ **runWithAttributes**\<`T`\>(`attributes`, `fn`): `T`
 
@@ -369,44 +467,58 @@ ___
 | `attributes` | `Record`\<`string`, `any`\> |
 | `fn` | () => `T` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `T`
 
-#### 定義
+<div id="defined-in">
+  #### 定義場所
+</div>
 
 [weaveClient.ts:652](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L652)
 
 ___
 
-### runWithCallStack
+<div id="runwithcallstack">
+  ### runWithCallStack
+</div>
 
 ▸ **runWithCallStack**\<`T`\>(`callStack`, `fn`): `T`
 
-#### 型パラメータ
+<div id="type-parameters">
+  #### 型パラメーター
+</div>
 
 | 名前 |
 | :------ |
 | `T` |
 
-#### パラメータ
+<div id="parameters">
+  #### パラメーター
+</div>
 
 | 名前 | 型 |
 | :------ | :------ |
 | `callStack` | `CallStack` |
 | `fn` | () => `T` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `T`
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:648](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L648)
 
 ___
 
-### saveOp
+<div id="saveop">
+  ### saveOp
+</div>
 
 ▸ **saveOp**(`op`, `objId?`): `Promise`\<`any`\>
 
@@ -417,17 +529,21 @@ ___
 | `op` | [`Op`](../#op)\<(...`args`: `any`[]) => `any`\> |
 | `objId?` | `string` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`any`\>
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:686](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L686)
 
 ___
 
-### updateCall
+<div id="updatecall">
+  ### updateCall
+</div>
 
 ▸ **updateCall**(`callId`, `displayName`): `Promise`\<`void`\>
 
@@ -438,24 +554,30 @@ ___
 | `callId` | `string` |
 | `displayName` | `string` |
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`void`\>
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:848](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L848)
 
 ___
 
-### waitForBatchProcessing
+<div id="waitforbatchprocessing">
+  ### waitForBatchProcessing
+</div>
 
 ▸ **waitForBatchProcessing**(): `Promise`\<`void`\>
 
-#### 返り値
+<div id="returns">
+  #### 戻り値
+</div>
 
 `Promise`\<`void`\>
 
-#### 定義
+#### 定義元
 
 [weaveClient.ts:114](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveClient.ts#L114)

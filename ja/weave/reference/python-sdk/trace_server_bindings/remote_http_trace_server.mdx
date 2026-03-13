@@ -1,12 +1,14 @@
 ---
-title: remote_http_trace_server
-description: weave.trace_server_bindings.remote_http_trace_server の Python SDK リファレンス
+title: "remote_http_trace_server"
+description: "weave.trace_server_bindings.remote_http_trace_server に関する Python SDK リファレンス"
 ---
 
-import { SourceLink } from '/snippets/en/_includes/source-link.mdx';
+import { SourceLink } from '/snippets/ja/_includes/source-link.mdx';
 
 
-# API 概要
+<div id="api-overview">
+  # API 概要
+</div>
 
 ---
 
@@ -28,9 +30,10 @@ __init__(
 )
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L630" />
+
 
 ### <kbd>method</kbd> `actions_execute_batch`
 
@@ -38,9 +41,10 @@ __init__(
 actions_execute_batch(req: ActionsExecuteBatchReq) → ActionsExecuteBatchRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L733" />
+
 
 ### <kbd>method</kbd> `annotation_queue_add_calls`
 
@@ -50,9 +54,10 @@ annotation_queue_add_calls(
 ) → AnnotationQueueAddCallsRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L701" />
+
 
 ### <kbd>method</kbd> `annotation_queue_create`
 
@@ -62,9 +67,10 @@ annotation_queue_create(
 ) → AnnotationQueueCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L749" />
+
 
 ### <kbd>method</kbd> `annotation_queue_items_query`
 
@@ -74,9 +80,10 @@ annotation_queue_items_query(
 ) → AnnotationQueueItemsQueryRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L721" />
+
 
 ### <kbd>method</kbd> `annotation_queue_read`
 
@@ -84,11 +91,12 @@ annotation_queue_items_query(
 annotation_queue_read(req: AnnotationQueueReadReq) → AnnotationQueueReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L711" />
 
-### <kbd>method</kbd> `annotation_queues_query_stream`
+
+### <kbd>メソッド</kbd> `annotation_queues_query_stream`
 
 ```python
 annotation_queues_query_stream(
@@ -96,11 +104,12 @@ annotation_queues_query_stream(
 ) → Iterator[AnnotationQueueSchema]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L768" />
 
-### <kbd>method</kbd> `annotation_queues_stats`
+
+### <kbd>メソッド</kbd> `annotation_queues_stats`
 
 ```python
 annotation_queues_stats(
@@ -108,11 +117,12 @@ annotation_queues_stats(
 ) → AnnotationQueuesStatsRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L778" />
 
-### <kbd>method</kbd> `annotator_queue_items_progress_update`
+
+### <kbd>メソッド</kbd> `annotator_queue_items_progress_update`
 
 ```python
 annotator_queue_items_progress_update(
@@ -120,9 +130,10 @@ annotator_queue_items_progress_update(
 ) → AnnotatorQueueItemsProgressUpdateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L399" />
+
 
 ### <kbd>method</kbd> `call_end`
 
@@ -130,19 +141,21 @@ annotator_queue_items_progress_update(
 call_end(req: CallEndReq) → CallEndRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L408" />
 
-### <kbd>method</kbd> `call_read`
+
+### <kbd>メソッド</kbd> `call_read`
 
 ```python
 call_read(req: CallReadReq) → CallReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L379" />
+
 
 ### <kbd>method</kbd> `call_start`
 
@@ -150,9 +163,10 @@ call_read(req: CallReadReq) → CallReadRes
 call_start(req: CallStartReq) → CallStartRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L394" />
+
 
 ### <kbd>method</kbd> `call_start_batch`
 
@@ -160,19 +174,21 @@ call_start(req: CallStartReq) → CallStartRes
 call_start_batch(req: CallCreateBatchReq) → CallCreateBatchRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L437" />
 
-### <kbd>method</kbd> `call_update`
+
+### <kbd>メソッド</kbd> `call_update`
 
 ```python
 call_update(req: CallUpdateReq) → CallUpdateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L431" />
+
 
 ### <kbd>method</kbd> `calls_delete`
 
@@ -180,29 +196,32 @@ call_update(req: CallUpdateReq) → CallUpdateRes
 calls_delete(req: CallsDeleteReq) → CallsDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L414" />
 
-### <kbd>method</kbd> `calls_query`
+
+### <kbd>メソッド</kbd> `calls_query`
 
 ```python
 calls_query(req: CallsQueryReq) → CallsQueryRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L425" />
 
-### <kbd>method</kbd> `calls_query_stats`
+
+### <kbd>メソッド</kbd> `calls_query_stats`
 
 ```python
 calls_query_stats(req: CallsQueryStatsReq) → CallsQueryStatsRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L419" />
+
 
 ### <kbd>method</kbd> `calls_query_stream`
 
@@ -210,29 +229,32 @@ calls_query_stats(req: CallsQueryStatsReq) → CallsQueryStatsRes
 calls_query_stream(req: CallsQueryReq) → Iterator[CallSchema]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L660" />
 
-### <kbd>method</kbd> `completions_create`
+
+### <kbd>メソッド</kbd> `completions_create`
 
 ```python
 completions_create(req: CompletionsCreateReq) → CompletionsCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L670" />
 
-### <kbd>method</kbd> `completions_create_stream`
+
+### <kbd>メソッド</kbd> `completions_create_stream`
 
 ```python
 completions_create_stream(req: CompletionsCreateReq) → Iterator[dict[str, Any]]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L648" />
+
 
 ### <kbd>method</kbd> `cost_create`
 
@@ -240,19 +262,21 @@ completions_create_stream(req: CompletionsCreateReq) → Iterator[dict[str, Any]
 cost_create(req: CostCreateReq) → CostCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L654" />
 
-### <kbd>method</kbd> `cost_purge`
+
+### <kbd>メソッド</kbd> `cost_purge`
 
 ```python
 cost_purge(req: CostPurgeReq) → CostPurgeRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L642" />
+
 
 ### <kbd>method</kbd> `cost_query`
 
@@ -260,9 +284,10 @@ cost_purge(req: CostPurgeReq) → CostPurgeRes
 cost_query(req: CostQueryReq) → CostQueryRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L869" />
+
 
 ### <kbd>method</kbd> `dataset_create`
 
@@ -270,19 +295,21 @@ cost_query(req: CostQueryReq) → CostQueryRes
 dataset_create(req: DatasetCreateReq) → DatasetCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L915" />
 
-### <kbd>method</kbd> `dataset_delete`
+
+### <kbd>メソッド</kbd> `dataset_delete`
 
 ```python
 dataset_delete(req: DatasetDeleteReq) → DatasetDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L896" />
+
 
 ### <kbd>method</kbd> `dataset_list`
 
@@ -290,9 +317,10 @@ dataset_delete(req: DatasetDeleteReq) → DatasetDeleteRes
 dataset_list(req: DatasetListReq) → Iterator[DatasetReadRes]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L884" />
+
 
 ### <kbd>method</kbd> `dataset_read`
 
@@ -300,9 +328,10 @@ dataset_list(req: DatasetListReq) → Iterator[DatasetReadRes]
 dataset_read(req: DatasetReadReq) → DatasetReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L124" />
+
 
 ### <kbd>method</kbd> `delete`
 
@@ -310,29 +339,32 @@ dataset_read(req: DatasetReadReq) → DatasetReadRes
 delete(url: str, *args: Any, **kwargs: Any) → Response
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L79" />
 
-### <kbd>method</kbd> `ensure_project_exists`
+
+### <kbd>メソッド</kbd> `ensure_project_exists`
 
 ```python
 ensure_project_exists(entity: str, project: str) → EnsureProjectExistsRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L794" />
 
-### <kbd>method</kbd> `evaluate_model`
+
+### <kbd>メソッド</kbd> `evaluate_model`
 
 ```python
 evaluate_model(req: EvaluateModelReq) → EvaluateModelRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L995" />
+
 
 ### <kbd>method</kbd> `evaluation_create`
 
@@ -340,9 +372,10 @@ evaluate_model(req: EvaluateModelReq) → EvaluateModelRes
 evaluation_create(req: EvaluationCreateReq) → EvaluationCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1047" />
+
 
 ### <kbd>method</kbd> `evaluation_delete`
 
@@ -350,9 +383,10 @@ evaluation_create(req: EvaluationCreateReq) → EvaluationCreateRes
 evaluation_delete(req: EvaluationDeleteReq) → EvaluationDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1026" />
+
 
 ### <kbd>method</kbd> `evaluation_list`
 
@@ -360,19 +394,21 @@ evaluation_delete(req: EvaluationDeleteReq) → EvaluationDeleteRes
 evaluation_list(req: EvaluationListReq) → Iterator[EvaluationReadRes]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1012" />
 
-### <kbd>method</kbd> `evaluation_read`
+
+### <kbd>メソッド</kbd> `evaluation_read`
 
 ```python
 evaluation_read(req: EvaluationReadReq) → EvaluationReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1131" />
+
 
 ### <kbd>method</kbd> `evaluation_run_create`
 
@@ -380,19 +416,21 @@ evaluation_read(req: EvaluationReadReq) → EvaluationReadRes
 evaluation_run_create(req: EvaluationRunCreateReq) → EvaluationRunCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1189" />
 
-### <kbd>method</kbd> `evaluation_run_delete`
+
+### <kbd>メソッド</kbd> `evaluation_run_delete`
 
 ```python
 evaluation_run_delete(req: EvaluationRunDeleteReq) → EvaluationRunDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1206" />
+
 
 ### <kbd>method</kbd> `evaluation_run_finish`
 
@@ -400,9 +438,10 @@ evaluation_run_delete(req: EvaluationRunDeleteReq) → EvaluationRunDeleteRes
 evaluation_run_finish(req: EvaluationRunFinishReq) → EvaluationRunFinishRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1161" />
+
 
 ### <kbd>method</kbd> `evaluation_run_list`
 
@@ -410,9 +449,10 @@ evaluation_run_finish(req: EvaluationRunFinishReq) → EvaluationRunFinishRes
 evaluation_run_list(req: EvaluationRunListReq) → Iterator[EvaluationRunReadRes]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1147" />
+
 
 ### <kbd>method</kbd> `evaluation_run_read`
 
@@ -420,9 +460,10 @@ evaluation_run_list(req: EvaluationRunListReq) → Iterator[EvaluationRunReadRes
 evaluation_run_read(req: EvaluationRunReadReq) → EvaluationRunReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L797" />
+
 
 ### <kbd>method</kbd> `evaluation_status`
 
@@ -430,19 +471,21 @@ evaluation_run_read(req: EvaluationRunReadReq) → EvaluationRunReadRes
 evaluation_status(req: EvaluationStatusReq) → EvaluationStatusRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L581" />
 
-### <kbd>method</kbd> `feedback_create`
+
+### <kbd>メソッド</kbd> `feedback_create`
 
 ```python
 feedback_create(req: FeedbackCreateReq) → FeedbackCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L602" />
+
 
 ### <kbd>method</kbd> `feedback_create_batch`
 
@@ -450,19 +493,21 @@ feedback_create(req: FeedbackCreateReq) → FeedbackCreateRes
 feedback_create_batch(req: FeedbackCreateBatchReq) → FeedbackCreateBatchRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L618" />
 
-### <kbd>method</kbd> `feedback_purge`
+
+### <kbd>メソッド</kbd> `feedback_purge`
 
 ```python
 feedback_purge(req: FeedbackPurgeReq) → FeedbackPurgeRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L612" />
+
 
 ### <kbd>method</kbd> `feedback_query`
 
@@ -470,9 +515,10 @@ feedback_purge(req: FeedbackPurgeReq) → FeedbackPurgeRes
 feedback_query(req: FeedbackQueryReq) → FeedbackQueryRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L624" />
+
 
 ### <kbd>method</kbd> `feedback_replace`
 
@@ -480,9 +526,10 @@ feedback_query(req: FeedbackQueryReq) → FeedbackQueryRes
 feedback_replace(req: FeedbackReplaceReq) → FeedbackReplaceRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/utils/retry.py#L563" />
+
 
 ### <kbd>method</kbd> `file_content_read`
 
@@ -490,9 +537,10 @@ feedback_replace(req: FeedbackReplaceReq) → FeedbackReplaceRes
 file_content_read(req: FileContentReadReq) → FileContentReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/utils/retry.py#L553" />
+
 
 ### <kbd>method</kbd> `file_create`
 
@@ -500,9 +548,10 @@ file_content_read(req: FileContentReadReq) → FileContentReadRes
 file_create(req: FileCreateReq) → FileCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L576" />
+
 
 ### <kbd>method</kbd> `files_stats`
 
@@ -510,19 +559,21 @@ file_create(req: FileCreateReq) → FileCreateRes
 files_stats(req: FilesStatsReq) → FilesStatsRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L88" />
 
-### <kbd>classmethod</kbd> `from_env`
+
+### <kbd>クラスメソッド</kbd> `from_env`
 
 ```python
 from_env(should_batch: bool = False) → Self
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L102" />
+
 
 ### <kbd>method</kbd> `get`
 
@@ -530,9 +581,10 @@ from_env(should_batch: bool = False) → Self
 get(url: str, *args: Any, **kwargs: Any) → Response
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L186" />
+
 
 ### <kbd>method</kbd> `get_call_processor`
 
@@ -540,11 +592,12 @@ get(url: str, *args: Any, **kwargs: Any) → Response
 get_call_processor() → AsyncBatchProcessor | None
 ```
 
-正式な TraceServerInterface には定義されていないカスタムメソッドで、基盤となる call processor を公開します。クライアント側のインターフェースで正式化されるべきものです。
+内部の呼び出しプロセッサーを公開するためのカスタムメソッドであり、正式に定義された TraceServerInterface には含まれていません。クライアント側インターフェースで正式に定義されるべきです。
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L274" />
+
 
 ### <kbd>method</kbd> `get_feedback_processor`
 
@@ -552,11 +605,12 @@ get_call_processor() → AsyncBatchProcessor | None
 get_feedback_processor() → AsyncBatchProcessor | None
 ```
 
-正式な TraceServerInterface には定義されていないカスタムメソッドで、基盤となる feedback processor を公開します。クライアント側のインターフェースで正式化されるべきものです。
+これは、内部のフィードバックプロセッサーにアクセスするためのカスタムメソッドであり、正式な TraceServerInterface には定義されていません。クライアント側のインターフェースとして正式に定義すべきです。
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L678" />
+
 
 ### <kbd>method</kbd> `image_create`
 
@@ -564,29 +618,32 @@ get_feedback_processor() → AsyncBatchProcessor | None
 image_create(req: ImageGenerationCreateReq) → ImageGenerationCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1068" />
 
-### <kbd>method</kbd> `model_create`
+
+### <kbd>メソッド</kbd> `model_create`
 
 ```python
 model_create(req: ModelCreateReq) → ModelCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1114" />
 
-### <kbd>method</kbd> `model_delete`
+
+### <kbd>メソッド</kbd> `model_delete`
 
 ```python
 model_delete(req: ModelDeleteReq) → ModelDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1095" />
+
 
 ### <kbd>method</kbd> `model_list`
 
@@ -594,9 +651,10 @@ model_delete(req: ModelDeleteReq) → ModelDeleteRes
 model_list(req: ModelListReq) → Iterator[ModelReadRes]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1083" />
+
 
 ### <kbd>method</kbd> `model_read`
 
@@ -604,9 +662,10 @@ model_list(req: ModelListReq) → Iterator[ModelReadRes]
 model_read(req: ModelReadReq) → ModelReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L445" />
+
 
 ### <kbd>method</kbd> `obj_create`
 
@@ -614,9 +673,10 @@ model_read(req: ModelReadReq) → ModelReadRes
 obj_create(req: ObjCreateReq) → ObjCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L461" />
+
 
 ### <kbd>method</kbd> `obj_delete`
 
@@ -624,9 +684,10 @@ obj_create(req: ObjCreateReq) → ObjCreateRes
 obj_delete(req: ObjDeleteReq) → ObjDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L451" />
+
 
 ### <kbd>method</kbd> `obj_read`
 
@@ -634,9 +695,10 @@ obj_delete(req: ObjDeleteReq) → ObjDeleteRes
 obj_read(req: ObjReadReq) → ObjReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L455" />
+
 
 ### <kbd>method</kbd> `objs_query`
 
@@ -644,9 +706,10 @@ obj_read(req: ObjReadReq) → ObjReadRes
 objs_query(req: ObjQueryReq) → ObjQueryRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L804" />
+
 
 ### <kbd>method</kbd> `op_create`
 
@@ -654,9 +717,10 @@ objs_query(req: ObjQueryReq) → ObjQueryRes
 op_create(req: OpCreateReq) → OpCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L852" />
+
 
 ### <kbd>method</kbd> `op_delete`
 
@@ -664,9 +728,10 @@ op_create(req: OpCreateReq) → OpCreateRes
 op_delete(req: OpDeleteReq) → OpDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L831" />
+
 
 ### <kbd>method</kbd> `op_list`
 
@@ -674,9 +739,10 @@ op_delete(req: OpDeleteReq) → OpDeleteRes
 op_list(req: OpListReq) → Iterator[OpReadRes]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L819" />
+
 
 ### <kbd>method</kbd> `op_read`
 
@@ -684,9 +750,10 @@ op_list(req: OpListReq) → Iterator[OpReadRes]
 op_read(req: OpReadReq) → OpReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L374" />
+
 
 ### <kbd>method</kbd> `otel_export`
 
@@ -694,9 +761,10 @@ op_read(req: OpReadReq) → OpReadRes
 otel_export(req: OtelExportReq) → OtelExportRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L113" />
+
 
 ### <kbd>method</kbd> `post`
 
@@ -704,9 +772,10 @@ otel_export(req: OtelExportReq) → OtelExportRes
 post(url: str, *args: Any, **kwargs: Any) → Response
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1222" />
+
 
 ### <kbd>method</kbd> `prediction_create`
 
@@ -714,19 +783,21 @@ post(url: str, *args: Any, **kwargs: Any) → Response
 prediction_create(req: PredictionCreateReq) → PredictionCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1274" />
 
-### <kbd>method</kbd> `prediction_delete`
+
+### <kbd>メソッド</kbd> `prediction_delete`
 
 ```python
 prediction_delete(req: PredictionDeleteReq) → PredictionDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1291" />
+
 
 ### <kbd>method</kbd> `prediction_finish`
 
@@ -734,29 +805,32 @@ prediction_delete(req: PredictionDeleteReq) → PredictionDeleteRes
 prediction_finish(req: PredictionFinishReq) → PredictionFinishRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1251" />
 
-### <kbd>method</kbd> `prediction_list`
+
+### <kbd>メソッド</kbd> `prediction_list`
 
 ```python
 prediction_list(req: PredictionListReq) → Iterator[PredictionReadRes]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1239" />
 
-### <kbd>method</kbd> `prediction_read`
+
+### <kbd>メソッド</kbd> `prediction_read`
 
 ```python
 prediction_read(req: PredictionReadReq) → PredictionReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L688" />
+
 
 ### <kbd>method</kbd> `project_stats`
 
@@ -764,9 +838,10 @@ prediction_read(req: PredictionReadReq) → PredictionReadRes
 project_stats(req: ProjectStatsReq) → ProjectStatsRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L547" />
+
 
 ### <kbd>method</kbd> `refs_read_batch`
 
@@ -774,9 +849,10 @@ project_stats(req: ProjectStatsReq) → ProjectStatsRes
 refs_read_batch(req: RefsReadBatchReq) → RefsReadBatchRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1307" />
+
 
 ### <kbd>method</kbd> `score_create`
 
@@ -784,19 +860,21 @@ refs_read_batch(req: RefsReadBatchReq) → RefsReadBatchRes
 score_create(req: ScoreCreateReq) → ScoreCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1355" />
 
-### <kbd>method</kbd> `score_delete`
+
+### <kbd>メソッド</kbd> `score_delete`
 
 ```python
 score_delete(req: ScoreDeleteReq) → ScoreDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1334" />
+
 
 ### <kbd>method</kbd> `score_list`
 
@@ -804,9 +882,10 @@ score_delete(req: ScoreDeleteReq) → ScoreDeleteRes
 score_list(req: ScoreListReq) → Iterator[ScoreReadRes]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L1322" />
+
 
 ### <kbd>method</kbd> `score_read`
 
@@ -814,9 +893,10 @@ score_list(req: ScoreListReq) → Iterator[ScoreReadRes]
 score_read(req: ScoreReadReq) → ScoreReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L932" />
+
 
 ### <kbd>method</kbd> `scorer_create`
 
@@ -824,9 +904,10 @@ score_read(req: ScoreReadReq) → ScoreReadRes
 scorer_create(req: ScorerCreateReq) → ScorerCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L978" />
+
 
 ### <kbd>method</kbd> `scorer_delete`
 
@@ -834,9 +915,10 @@ scorer_create(req: ScorerCreateReq) → ScorerCreateRes
 scorer_delete(req: ScorerDeleteReq) → ScorerDeleteRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L959" />
+
 
 ### <kbd>method</kbd> `scorer_list`
 
@@ -844,9 +926,10 @@ scorer_delete(req: ScorerDeleteReq) → ScorerDeleteRes
 scorer_list(req: ScorerListReq) → Iterator[ScorerReadRes]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L947" />
+
 
 ### <kbd>method</kbd> `scorer_read`
 
@@ -854,19 +937,21 @@ scorer_list(req: ScorerListReq) → Iterator[ScorerReadRes]
 scorer_read(req: ScorerReadReq) → ScorerReadRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/utils/retry.py#L366" />
 
-### <kbd>method</kbd> `server_info`
+
+### <kbd>メソッド</kbd> `server_info`
 
 ```python
 server_info() → ServerInfoRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L92" />
+
 
 ### <kbd>method</kbd> `set_auth`
 
@@ -874,21 +959,23 @@ server_info() → ServerInfoRes
 set_auth(auth: tuple[str, str]) → None
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L466" />
 
-### <kbd>method</kbd> `table_create`
+
+### <kbd>メソッド</kbd> `table_create`
 
 ```python
 table_create(req: TableCreateReq) → TableCreateRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L524" />
 
-### <kbd>method</kbd> `table_create_from_digests`
+
+### <kbd>メソッド</kbd> `table_create_from_digests`
 
 ```python
 table_create_from_digests(
@@ -896,21 +983,23 @@ table_create_from_digests(
 ) → TableCreateFromDigestsRes
 ```
 
-実際の行の代わりに、行のダイジェストを指定してテーブルを作成します。
+実際の行データではなく、行のダイジェストを指定してテーブルを作成します。
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L504" />
 
-### <kbd>method</kbd> `table_query`
+
+### <kbd>メソッド</kbd> `table_query`
 
 ```python
 table_query(req: TableQueryReq) → TableQueryRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L518" />
+
 
 ### <kbd>method</kbd> `table_query_stats`
 
@@ -918,43 +1007,47 @@ table_query(req: TableQueryReq) → TableQueryRes
 table_query_stats(req: TableQueryStatsReq) → TableQueryStatsRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L536" />
 
-### <kbd>method</kbd> `table_query_stats_batch`
+
+### <kbd>メソッド</kbd> `table_query_stats_batch`
 
 ```python
 table_query_stats_batch(req: TableQueryStatsReq) → TableQueryStatsRes
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L510" />
 
-### <kbd>method</kbd> `table_query_stream`
+
+### <kbd>メソッド</kbd> `table_query_stream`
 
 ```python
 table_query_stream(req: TableQueryReq) → Iterator[TableRowSchema]
 ```
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_validate_call.py#L472" />
 
-### <kbd>method</kbd> `table_update`
+
+### <kbd>メソッド</kbd> `table_update`
 
 ```python
 table_update(req: TableUpdateReq) → TableUpdateRes
 ```
 
-`calls/batch_upsert` と同様に、テーブルの更新が一連の更新に分解可能であるという特性を利用して、ペイロードサイズを動的に調整できます。
+`calls/batch_upsert` と同様に、テーブルの更新が一連の更新に分解できるという特性があるため、ペイロード サイズを動的に調整できます。
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L693" />
 
-### <kbd>method</kbd> `threads_query_stream`
+
+### <kbd>メソッド</kbd> `threads_query_stream`
 
 ```python
 threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]

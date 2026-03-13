@@ -1,23 +1,25 @@
 ---
-title: NVIDIA NIM
-description: Weave を使用して、ChatNVIDIA ライブラリ経由で行われる LLM コールのトレースと ログ 記録を行います。
+title: "NVIDIA NIM"
+description: "Weave を使用して ChatNVIDIA ライブラリ経由で行われる LLM 呼び出しをトレースおよびログに記録する"
 ---
 
-Weave は、`weave.init()` を呼び出した後、[ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) ライブラリを介して行われた LLM 呼び出しを自動的に追跡し、ログを記録します。
+Weave は、`weave.init()` が呼び出された後、[ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) ライブラリ経由で行われる LLM 呼び出しを自動的にトレースし、ログに記録します。
 
 <Tip>
-最新のチュートリアルについては、[Weights & Biases on NVIDIA](https://wandb.ai/site/partners/nvidia) をご覧ください。
+  最新のチュートリアルは、[Weights &amp; Biases on NVIDIA](https://wandb.ai/site/partners/nvidia) を参照してください。
 </Tip>
 
-## Tracing
+<div id="tracing">
+  ## トレース
+</div>
 
-開発中および Production (プロダクション) の両方において、LLM アプリケーションの Traces を中央データベースに保存することは重要です。これらの Traces はデバッグに使用したり、アプリケーションを改善しながら評価するための、トリッキーな例を含んだ Datasets を構築するのに役立ちます。
+開発中および本番環境の両方で、LLM アプリケーションのトレースを中央集約されたデータベースに保存しておくことが重要です。これらのトレースはデバッグに利用できるほか、アプリケーションを改善する際に評価に使うための難しい例のデータセットを構築するのにも役立ちます。
 
 <Tabs>
   <Tab title="Python">
-    Weave は [ChatNVIDIA python library](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) の Traces を自動的にキャプチャできます。
+    Weave は [ChatNVIDIA Python ライブラリ](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) のトレースを自動的にキャプチャできます。
 
-    任意のプロジェクト名を指定して `weave.init(<project-name>)` を呼び出すことで、キャプチャを開始します。
+    任意のプロジェクト名を指定して `weave.init(<project-name>)` を呼び出し、キャプチャを開始します。
 
     ```python lines {4}
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
@@ -33,41 +35,43 @@ Weave は、`weave.init()` を呼び出した後、[ChatNVIDIA](https://python.l
 
     response = client.invoke(messages)
     ```
-
   </Tab>
+
   <Tab title="TypeScript">
-      ```plaintext
-      このライブラリは Python 版のみのため、TypeScript ではまだこの機能を利用できません。
-      ```
+    ```plaintext
+    この機能は、このライブラリが Python のみで提供されているため、現時点では TypeScript では利用できません。
+    ```
   </Tab>
 </Tabs>
 
 <Frame>
-![chatnvidia_trace.png](/weave/guides/integrations/imgs/chatnvidia_trace.png)
+  ![chatnvidia\_trace.png](/weave/guides/integrations/imgs/chatnvidia_trace.png)
 </Frame>
 
-## 独自の ops を追跡する
+<div id="track-your-own-ops">
+  ## 自分の op をトラッキングする
+</div>
 
 <Tabs>
   <Tab title="Python">
-関数を `@weave.op` でラップすると、入力、出力、およびアプリケーションロジックのキャプチャが開始され、データがアプリ内をどのように流れるかをデバッグできるようになります。ops は深くネストさせることができ、追跡したい関数の ツリー を構築できます。これにより、実験中に git にコミットされていないアドホックな詳細をキャプチャするために、コード の バージョン管理 も自動的に開始されます。
+    `@weave.op` で関数をラップすると、入力・出力・アプリ ロジックの記録が始まり、アプリ内でデータがどのように流れているかをデバッグできるようになります。op を深くネストして、トラッキングしたい関数のツリーを構築できます。また、git にコミットしていないアドホックな変更も含めて、実験中のコードのバージョン管理が自動的に行われます。
 
-単に [`@weave.op`](/weave/guides/tracking/ops) デコレータを付けた関数を作成し、その中で [ChatNVIDIA python library](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) を呼び出すだけです。
+    [`@weave.op`](/ja/weave/guides/tracking/ops) でデコレートされた関数を作成し、その中から [ChatNVIDIA Python ライブラリ](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) を呼び出すだけです。
 
-以下の例では、2つの関数を op でラップしています。これにより、RAG アプリにおける検索ステップのような中間ステップが、アプリの 振る舞い にどのように影響しているかを確認できます。
+    以下の例では、op でラップされた関数が 2 つあります。これにより、RAG アプリの取得ステップのような中間ステップが、アプリの挙動にどのように影響しているかを確認できます。
 
     ```python lines {1,9,11,29,31,33}
     import weave
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
     import requests, random
-    PROMPT="""初期のポケモンの図鑑をエミュレートしてください。ポケモンの名前を述べ、その後に説明を加えてください。
-            トーンは情報提供でありながら、少し生意気で、事実に基づいた詳細にドライなユーモアを交えてください。3文以内で簡潔に。"""
-    POKEMON = ['pikachu', 'charmander', 'squirtle', 'bulbasaur', 'jigpuff', 'meowth', 'eevee']
+    PROMPT="""Emulate the Pokedex from early Pokémon episodes. State the name of the Pokemon and then describe it.
+            Your tone is informative yet sassy, blending factual details with a touch of dry humor. Be concise, no more than 3 sentences. """
+    POKEMON = ['pikachu', 'charmander', 'squirtle', 'bulbasaur', 'jigglypuff', 'meowth', 'eevee']
     client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0.7, max_tokens=100, top_p=1)
 
     @weave.op
     def get_pokemon_data(pokemon_name):
-        # これは RAG アプリ内の検索ステップのような、アプリケーション内のステップです
+        # これはアプリケーション内の 1 ステップであり、RAG アプリ内の取得ステップのようなものです
         url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
         response = requests.get(url)
         if response.status_code == 200:
@@ -87,7 +91,7 @@ Weave は、`weave.init()` を呼び出した後、[ChatNVIDIA](https://python.l
 
     @weave.op
     def pokedex(name: str, prompt: str) -> str:
-        # これは他の ops を呼び出すルート op です
+        # これは他の op を呼び出すルート op です
         data = get_pokemon_data(name)
         if not data: return "Error: Unable to fetch data"
 
@@ -100,32 +104,35 @@ Weave は、`weave.init()` を呼び出した後、[ChatNVIDIA](https://python.l
         return response.content
 
     weave.init('pokedex-nvidia')
-    # 特定のポケモンのデータを取得する
+    # 特定の Pokémon のデータを取得する
     pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
     ```
 
-Weave に移動し、UI で `get_pokemon_data` をクリックすると、そのステップの入力と出力を確認できます。
-</Tab>
-<Tab title="TypeScript">
+    Weave に移動し、UI で `get_pokemon_data` をクリックすると、そのステップの入力と出力を確認できます。
+  </Tab>
+
+  <Tab title="TypeScript">
     ```plaintext
-    このライブラリは Python 版のみのため、TypeScript ではまだこの機能を利用できません。
+    このライブラリは Python にしか用意されていないため、この機能は現時点では TypeScript では利用できません。
     ```
-</Tab>
+  </Tab>
 </Tabs>
 
 <Frame>
-![nvidia_pokedex.png](/weave/guides/integrations/imgs/nvidia_pokedex.png)
+  ![nvidia\_pokedex.png](/weave/guides/integrations/imgs/nvidia_pokedex.png)
 </Frame>
 
-## 実験を容易にするための `Model` の作成
+<div id="create-a-model-for-easier-experimentation">
+  ## 実験を容易にするために `Model` を作成する
+</div>
 
 <Tabs>
   <Tab title="Python">
-多くの動的な要素がある場合、実験の整理は困難になります。[`Model`](/weave/guides/core-types/models) クラスを使用することで、システムプロンプトや使用している モデル など、アプリの実験的な詳細をキャプチャして整理できます。これにより、アプリの異なるイテレーションの整理や比較が容易になります。
+    関係する要素が多いと、実験を整理するのは難しくなります。[`Model`](/ja/weave/guides/core-types/models) クラスを使うことで、システムプロンプトや使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまなイテレーションを整理・比較しやすくなります。
 
-コード の バージョン管理 や入力/出力のキャプチャに加えて、[`Model`](/weave/guides/core-types/models) はアプリケーションの 振る舞い を制御する構造化された パラメータ をキャプチャするため、どの パラメータ が最適だったかを簡単に見つけることができます。また、Weave Models は `serve` や [`Evaluations`](/weave/guides/core-types/evaluations) と併用することも可能です。
+    コードのバージョン管理や入出力の記録に加えて、[`Model`](/ja/weave/guides/core-types/models) はアプリケーションの挙動を制御する構造化されたパラメーターも記録できるため、どのパラメーターが最も効果的だったかを簡単に見つけることができます。Weave Models を `serve` や [`Evaluation`](/ja/weave/guides/core-types/evaluations) と組み合わせて使用することもできます。
 
-以下の例では、`model` と `system_message` を使って実験できます。これらいずれかを変更するたびに、`GrammarCorrectorModel` の新しい バージョン が作成されます。
+    次の例では、`model` と `system_message` を変えながら実験できます。これらのどちらかを変更するたびに、`GrammarCorrectorModel` の新しい *version* が作成されます。
 
     ```python lines
     import weave
@@ -133,11 +140,11 @@ Weave に移動し、UI で `get_pokemon_data` をクリックすると、その
 
     weave.init('grammar-nvidia')
 
-    class GrammarCorrectorModel(weave.Model): # weave.Model に変更
+    class GrammarCorrectorModel(weave.Model): # `weave.Model` に変更
       system_message: str
 
       @weave.op()
-      def predict(self, user_input): # predict に変更
+      def predict(self, user_input): # `predict` に変更
         client = ChatNVIDIA(model="mistralai/mixtral-8x7b-instruct-v0.1", temperature=0, max_tokens=100, top_p=1)
 
         messages=[
@@ -160,18 +167,21 @@ Weave に移動し、UI で `get_pokemon_data` をクリックすると、その
     print(result)
     ```
   </Tab>
+
   <Tab title="TypeScript">
     ```plaintext
-    このライブラリは Python 版のみのため、TypeScript ではまだこの機能を利用できません。
+    この機能は、このライブラリが Python のみで提供されているため、まだ TypeScript では利用できません。
     ```
   </Tab>
 </Tabs>
 
 <Frame>
-![chatnvidia_model.png](/weave/guides/integrations/imgs/chatnvidia_model.png)
+  ![chatnvidia\_model.png](/weave/guides/integrations/imgs/chatnvidia_model.png)
 </Frame>
 
-## 使用上の情報
+<div id="usage-info">
+  ## 利用情報
+</div>
 
-ChatNVIDIA インテグレーションは、`invoke`、`stream`、およびそれらの非同期バリアントをサポートしています。また、ツールの使用もサポートしています。
-ChatNVIDIA は多種多様な モデル で使用されることを想定しているため、関数呼び出し（function calling）のサポートは含まれていません。
+ChatNVIDIA インテグレーションは `invoke`、`stream` およびそれらの非同期版をサポートします。ツールの利用にも対応しています。
+ChatNVIDIA は多様な種類の モデル での利用を想定しているため、function calling 機能はサポートしていません。

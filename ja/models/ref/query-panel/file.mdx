@@ -1,94 +1,109 @@
 ---
-title: file
+title: ファイル
 ---
 
-## Chainable Ops
+<div id="chainable-ops">
+  ## チェーン可能なオペレーション
+</div>
+
 ### <a id="file-contents"></a>`file-contents`
 
-_file_ の内容を返します。
+_ファイル_ の内容を返します。
+
+| Argument | Description |
+| :--- | :--- |
+| `file` | _ファイル_ |
+
+#### 戻り値
+
+_ファイル_ の内容
+
+### <a id="file-digest"></a>`file-digest`
+
+_ファイル_ のダイジェスト値を返します
 
 | 引数 | 説明 |
 | :--- | :--- |
+| `file` | _ファイル_ |
+
+#### 戻り値
+
+_file_ のダイジェスト値
+
+### <a id="file-size"></a>`file-size`
+
+_ファイル_ のサイズを返します。
+
+| Argument | Description |
+| :--- | :--- |
+| `file` | 対象となる _ファイル_ |
+
+#### 戻り値
+
+_file_ のサイズ。
+
+### <a id="file-table"></a>`file-table`
+
+_file_ の内容を _table_ として返します。
+
+| Argument | Description |
+| :--- | :--- |
 | `file` | _file_ |
 
-#### 返り値
+<div id="return-value">
+  #### Return Value
+</div>
+
+_file_ の内容を _table_ として返します。
+
+<div id="list-ops">
+  ## リスト操作
+</div>
+
+### <a id="file-contents"></a>`file-contents`
+
+_ファイル_ の内容を返します
+
+| Argument | Description |
+| :--- | :--- |
+| `file` | _ファイル_ |
+
+#### 戻り値
+
 _file_ の内容
 
 ### <a id="file-digest"></a>`file-digest`
 
-_file_ のダイジェストを返します。
+_file_ のダイジェスト値を返します。
 
-| 引数 | 説明 |
+| Argument | Description |
 | :--- | :--- |
 | `file` | _file_ |
 
-#### 返り値
-_file_ のダイジェスト
+#### 戻り値
+
+_file_ のダイジェスト値
 
 ### <a id="file-size"></a>`file-size`
 
-_file_ のサイズを返します。
+_ファイル_ のサイズを返します。
 
-| 引数 | 説明 |
+| Argument | Description |
 | :--- | :--- |
-| `file` | _file_ |
+| `file` | _ファイル_ |
 
-#### 返り値
+#### 戻り値
+
 _file_ のサイズ
 
 ### <a id="file-table"></a>`file-table`
 
 _file_ の内容を _table_ として返します。
 
-| 引数 | 説明 |
+| Argument | Description |
 | :--- | :--- |
 | `file` | _file_ |
 
-#### 返り値
-_table_ 形式の _file_ の内容
+#### 戻り値
 
-
-## List Ops
-### <a id="file-contents"></a>`file-contents`
-
-_file_ の内容を返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `file` | _file_ |
-
-#### 返り値
-_file_ の内容
-
-### <a id="file-digest"></a>`file-digest`
-
-_file_ のダイジェストを返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `file` | _file_ |
-
-#### 返り値
-_file_ のダイジェスト
-
-### <a id="file-size"></a>`file-size`
-
-_file_ のサイズを返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `file` | _file_ |
-
-#### 返り値
-_file_ のサイズ
-
-### <a id="file-table"></a>`file-table`
-
-_file_ の内容を _table_ として返します。
-
-| 引数 | 説明 |
-| :--- | :--- |
-| `file` | _file_ |
-
-#### 返り値
-_table_ 形式の _file_ の内容
+_file_ の内容を _table_ として返します

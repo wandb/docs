@@ -3,24 +3,28 @@ title: ArtifactFiles
 namespace: public_apis_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
+
 ## <kbd>class</kbd> `ArtifactFiles`
-아티팩트 내의 파일들을 위한 페이저(paginator)입니다.
+
+아티팩트에 포함된 파일을 페이지네이션하기 위한 객체입니다. 
 
 ### <kbd>property</kbd> ArtifactFiles.cursor
 
 ---
 
-### <kbd>property</kbd> ArtifactFiles.more
+### <kbd>속성</kbd> ArtifactFiles.more
 
 ---
 
 ### <kbd>property</kbd> ArtifactFiles.path
 
-아티팩트의 경로를 반환합니다.
+아티팩트의 경로를 반환합니다. 
 
-**반환 값:**
- - `list[str]`: 경로 속성 값.
+**Returns:**
+
+- `list[str]`: path 프로퍼티 값입니다.

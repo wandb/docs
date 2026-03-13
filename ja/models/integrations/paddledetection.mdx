@@ -1,107 +1,119 @@
 ---
+description: PaddleDetection と W&B を連携する方法
 title: PaddleDetection
-description: W&B を PaddleDetection と統合する方法。
 ---
 
-import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
-import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
+import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
 
 <ColabLink url="https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing" />
 
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) は、 [PaddlePaddle](https://github.com/PaddlePaddle/Paddle) をベースとしたエンドツーエンドの物体検出開発キットです。ネットワークコンポーネント、データ拡張、損失関数などの設定可能なモジュールを使用して、様々な主要な物体の検出、インスタンスセグメンテーション、およびキーポイントの追跡と検出を行います。
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) は、[PaddlePaddle](https://github.com/PaddlePaddle/Paddle) ベースのエンドツーエンドな物体検出開発キットです。ネットワークコンポーネント、データ拡張、損失関数などの構成可能なモジュールを用いて、さまざまな代表的な物体の検出、インスタンスセグメンテーション、キーポイントの追跡および検出を行います。
 
-PaddleDetection には W&B インテグレーションが組み込まれており、すべてのトレーニングとバリデーションの メトリクス 、および モデル の チェックポイント とそれに対応する メタデータ を ログ に記録できます。
+PaddleDetection には、すべてのトレーニングおよび検証メトリクスに加えて、モデルのチェックポイントとそれに対応するメタデータを記録する組み込みの W&amp;B インテグレーションが用意されています。
 
-PaddleDetection の `WandbLogger` は、トレーニング中のトレーニングおよび評価 メトリクス と、 モデル の チェックポイント を W&B に ログ 記録します。
+PaddleDetection の `WandbLogger` は、トレーニングおよび評価メトリクスを W&amp;B に記録し、トレーニング中のモデルのチェックポイントも記録します。
 
-`COCO2017` データセット の サブセット を使用して、YOLOX モデル を PaddleDetection と統合する方法を説明している [W&B ブログポスト](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) をご覧ください。
+`COCO2017` データセットのサブセットで YOLOX モデル を PaddleDetection と連携させる方法を紹介した [W&amp;B のブログ記事を読む](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0)。
 
-## サインアップして APIキー を作成する
+<div id="sign-up-and-create-an-api-key">
+  ## サインアップして API キーを作成する
+</div>
 
-APIキー は、使用しているマシンを W&B に対して認証します。 ユーザー プロフィールから APIキー を生成できます。
+API キーはマシンを W&amp;B に対して認証するためのものです。API キーはユーザープロフィールから作成できます。
 
-<ApiKeyCreateStreamlined/>
+<ApiKeyCreateStreamlined />
 
-1. 右上隅にある ユーザー プロフィールアイコンをクリックします。
-1. **User Settings** を選択し、 **API Keys** セクションまでスクロールします。
+1. 右上隅のユーザープロフィールアイコンをクリックします。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
 
-## `wandb` ライブラリ のインストールとログイン
+<div id="install-the-wandb-library-and-log-in">
+  ## `wandb` ライブラリをインストールしてログインする
+</div>
 
-ローカルに `wandb` ライブラリ をインストールしてログインするには：
+ローカル環境で `wandb` ライブラリをインストールしてログインするには、次の手順を実行します。
 
 <Tabs>
-<Tab title="Command Line">
-1. `WANDB_API_KEY` [環境変数](/models/track/environment-variables/) を作成した APIキー に設定します。
+  <Tab title="コマンドライン">
+    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) に自分の API キーを設定します。
 
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. `wandb` ライブラリをインストールしてログインします。
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
     ```bash
-    export WANDB_API_KEY=<your_api_key>
+    pip install wandb
     ```
 
-1. `wandb` ライブラリ をインストールしてログインします。
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Python ノートブック">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="activate-the-wandblogger-in-your-training-script">
+  ## トレーニングスクリプトで `WandbLogger` を有効化する
+</div>
+
+<Tabs>
+  <Tab title="コマンドライン">
+    [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/) の `train.py` で引数として wandb を利用するには:
+
+    * `--use_wandb` フラグを追加します
+    * 最初の wandb 引数の前に `-o` を付けます (これは 1 回だけ指定すれば十分です) 
+    * 各引数には `"wandb-"` というプレフィックスを付ける必要があります。例えば [`wandb.init()`](/ja/models/ref/python/functions/init) に渡す任意の引数には `wandb-` プレフィックスを付けます
 
     ```shell
-    pip install wandb
-
-    wandb login
+    python tools/train.py 
+        -c config.yml \ 
+        --use_wandb \
+        -o \ 
+        wandb-project=MyDetector \
+        wandb-entity=MyTeam \
+        wandb-save_dir=./logs
     ```
-</Tab>
-<Tab title="Python">
-```bash
-pip install wandb
-```
-```python
-import wandb
-wandb.login()
-```
-</Tab>
-<Tab title="Python notebook">
-```notebook
-!pip install wandb
+  </Tab>
 
-import wandb
-wandb.login()
-```
-</Tab>
+  <Tab title="`config.yml`">
+    `wandb` キーの下に wandb の引数を config.yml ファイルに追加します:
+
+    ```
+    wandb:
+      project: MyProject
+      entity: MyTeam
+      save_dir: ./logs
+    ```
+
+    `train.py` ファイルを実行すると、W&amp;B ダッシュボードへのリンクが生成されます。
+
+    <Frame>
+      <img src="/images/integrations/paddledetection_wb_dashboard.png" alt="W&B ダッシュボードの例" />
+    </Frame>
+  </Tab>
 </Tabs>
 
-## トレーニングスクリプト で `WandbLogger` を有効化する
+<div id="feedback-or-issues">
+  ## フィードバックや問題について
+</div>
 
-<Tabs>
-<Tab title="Command Line">
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/) の `train.py` への 引数 を介して wandb を使用するには：
-
-* `--use_wandb` フラグを追加します
-* 最初の wandb 引数 の前には `-o` を付ける必要があります（これは一度だけ渡す必要があります）
-* 各 引数 には `"wandb-"` というプレフィックスを含める必要があります。例えば、 [`wandb.init()`](/models/ref/python/functions/init) に渡される 引数 には `wandb-` プレフィックスが付きます
-
-```shell
-python tools/train.py 
-    -c config.yml \ 
-    --use_wandb \
-    -o \ 
-    wandb-project=MyDetector \
-    wandb-entity=MyTeam \
-    wandb-save_dir=./logs
-```
-</Tab>
-<Tab title="`config.yml`">
-`config.yml` ファイルの `wandb` キー の下に wandb の 引数 を追加します：
-
-```
-wandb:
-  project: MyProject
-  entity: MyTeam
-  save_dir: ./logs
-```
-
-`train.py` ファイルを実行すると、 W&B Dashboard へのリンクが生成されます。
-
-<Frame>
-    <img src="/images/integrations/paddledetection_wb_dashboard.png" alt="A W&B Dashboard"  />
-</Frame>
-</Tab>
-</Tabs>
-
-## フィードバックまたは問題
-
-W&B インテグレーションに関するフィードバックや問題がある場合は、 [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) で Issue を作成するか、 <a href="mailto:support@wandb.com">support@wandb.com</a> までメールでお問い合わせください。
+W&amp;B インテグレーションに関するフィードバックや問題がある場合は、[PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) に issue を作成するか、<a href="mailto:support@wandb.com">support@wandb.com</a> までメールでお問い合わせください。

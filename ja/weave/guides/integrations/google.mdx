@@ -1,37 +1,38 @@
 ---
-title: Google
-description: Weave を使用して Google GenAI モデル呼び出しのトレースと ログ 記録を行う
+title: "Google"
+description: "Weave を使用して Google GenAI モデル呼び出しをトレースおよびログに記録する"
 ---
 
 <a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_google.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
 </a>
 
 <Note>
-セットアップ不要で Google AI モデルを Weave で試すには、 [LLM Playground](../tools/playground) を使用してください。
+  [LLM Playground](../tools/playground) を使用すると、セットアップなしで Weave 上で Google AI モデルを試すことができます。
 </Note>
 
-このページでは、 W&B Weave を Google Vertex AI API および Google Gemini API と共に使用する方法について説明します。
+このページでは、Google Vertex AI API および Google Gemini API で W&amp;B Weave を使用する方法を説明します。
 
-Weave を使用して、 Google GenAI アプリケーションの 評価、 モニタリング、 およびイテレーションを行うことができます。 Weave は以下の Traces を自動的にキャプチャします。
+Weave を使用して、Google GenAI アプリケーションを評価・監視し、反復的に改善できます。Weave は次のものに対するトレースを自動的に記録します。
 
-1. [Google GenAI SDK](https://github.com/googleapis/python-genai): Python SDK、 Node.js SDK、 Go SDK、 および REST 経由でアクセス可能です。
-2. [Google Vertex AI API](https://cloud.google.com/vertex-ai/docs): Google の Gemini モデルや [様々なパートナーモデル](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models) へのアクセスを提供します。
+1. Python SDK、Node.js SDK、Go SDK、REST 経由で利用できる [Google GenAI SDK](https://github.com/googleapis/python-genai)
+2. Google の Gemini モデルおよび [さまざまなパートナーモデル](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models) へのアクセスを提供する [Google Vertex AI API](https://cloud.google.com/vertex-ai/docs)
 
 <Note>
-非推奨となった [Google AI Python SDK for the Gemini API](https://github.com/google-gemini/deprecated-generative-ai-python) もサポートしています。 ただし、 このサポートも同様に非推奨であり、 将来の バージョン で削除される予定ですのでご注意ください。
+  非推奨となった [Google AI Python SDK for the Gemini API](https://github.com/google-gemini/deprecated-generative-ai-python) にも対応しています。このサポート自体も非推奨であり、今後のバージョンで削除される予定です。
 </Note>
 
-## クイックスタート
+<div id="get-started">
+  ## はじめに
+</div>
 
-Weave は [Google GenAI SDK](https://github.com/googleapis/python-genai) の Traces を自動的にキャプチャします。 トラッキングを開始するには、 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、 通常通り ライブラリ を使用してください。
+Weave は [Google GenAI SDK](https://github.com/googleapis/python-genai) のトレースを自動的にキャプチャします。トラッキングを開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、その後は通常どおりライブラリを使用します。
 
 ```python lines
 import os
 from google import genai
 import weave
 
-# プロジェクト名を指定して初期化
 weave.init(project_name="google-genai")
 
 google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
@@ -41,16 +42,15 @@ response = google_client.models.generate_content(
 )
 ```
 
-[![dspy_trace.png](/weave/guides/integrations/imgs/google-genai-trace.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
+[![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-trace.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
-Weave は [Vertex API](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models) の Traces も自動的にキャプチャします。 トラッキングを開始するには、 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、 通常通り ライブラリ を使用してください。
+Weave は [Vertex APIs](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models) のトレースも自動的に取得します。トラッキングを開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出してから、ライブラリを通常どおり使用します。
 
 ```python lines
 import vertexai
 import weave
 from vertexai.generative_models import GenerativeModel
 
-# プロジェクト名を指定して初期化
 weave.init(project_name="vertex-ai-test")
 vertexai.init(project="<YOUR-VERTEXAIPROJECT-NAME>", location="<YOUR-VERTEXAI-PROJECT-LOCATION>")
 model = GenerativeModel("gemini-1.5-flash-002")
@@ -59,13 +59,15 @@ response = model.generate_content(
 )
 ```
 
-## 独自の ops をトラックする
+<div id="track-your-own-ops">
+  ## 自分の op をトラッキングする
+</div>
 
-関数を `@weave.op` でラップすると、 入出力とアプリのロジックのキャプチャが開始され、 アプリ内での データの流れをデバッグできるようになります。 ops は深くネストさせることができ、 トラックしたい関数の ツリー を構築できます。 これにより、 実験 中の コード の バージョン管理 も自動的に開始され、 git にコミットされていないアドホックな詳細もキャプチャされます。
+関数を `@weave.op` でラップすると、入力・出力・アプリ ロジックがキャプチャされ、データがアプリ内でどのように流れるかをデバッグできるようになります。op を深くネストして、トラッキングしたい関数のツリーを構築できます。これにより、git にコミットしていないアドホックな変更も含めて、実験中のコードが自動的にバージョン管理されます。
 
-単に [`@weave.op`](/weave/guides/tracking/ops) でデコレートした関数を作成するだけです。
+[`@weave.op`](/ja/weave/guides/tracking/ops) でデコレートされた関数を作成するだけです。
 
-以下の例では、 都市の観光スポットを推薦する `@weave.op` でラップされた関数 `recommend_places_to_visit` を定義しています。
+以下の例では、`recommend_places_to_visit` という関数があり、これは `@weave.op` でラップされた関数で、指定した都市で訪れるとよい場所を推薦します。
 
 ```python lines
 import os
@@ -90,15 +92,17 @@ recommend_places_to_visit("Paris")
 recommend_places_to_visit("Kolkata")
 ```
 
-[![dspy_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
+[![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
-## 実験を容易にするための `Model` 作成
+<div id="create-a-model-for-easier-experimentation">
+  ## 実験をより行いやすくするために `Model` を作成する
+</div>
 
-多くの要素が動的に変化する場合、 実験 の整理は困難になります。 [`Model`](../core-types/models) クラスを使用することで、 システムプロンプトや使用している モデル などのアプリの実験的な詳細をキャプチャし、 整理することができます。 これにより、 アプリの異なるイテレーションの整理や比較が容易になります。
+多くの要素が関わると、実験を整理するのは難しくなります。[`Model`](../core-types/models) クラスを使用すると、システムプロンプトや使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまなイテレーションを整理し、比較しやすくなります。
 
-コード の バージョン管理 や入出力のキャプチャに加え、 [`Model`](../core-types/models) は アプリケーション の 振る舞い を制御する構造化された パラメータ をキャプチャするため、 どの パラメータ が最適だったかを簡単に見つけ出すことができます。 また、 Weave Models は `serve` や [`Evaluations`](../core-types/evaluations) と共に使用することもできます。
+コードのバージョン管理や入出力の記録に加えて、[`Model`](../core-types/models) はアプリケーションの動作を制御する構造化されたパラメーターも記録し、どのパラメーターが最もよく機能したかを簡単に見つけられるようにします。また、Weave Models を `serve` や [`Evaluation`](../core-types/evaluations) とあわせて使用することもできます。
 
-以下の例では、 `CityVisitRecommender` を使って 実験 を行うことができます。 これらを変更するたびに、 `CityVisitRecommender` の新しい バージョン が作成されます。
+以下の例では、`CityVisitRecommender` を使って実験できます。これらのパラメーターのいずれかを変更するたびに、`CityVisitRecommender` の新しい *version* が作成されます。
 
 ```python lines
 import os

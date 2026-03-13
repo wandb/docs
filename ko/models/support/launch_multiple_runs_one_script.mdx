@@ -1,10 +1,10 @@
 ---
-title: 하나의 스크립트에서 여러 개의 run 을 실행하려면 어떻게 해야 하나요?
+title: 하나의 스크립트에서 여러 run을 실행하려면 어떻게 하나요?
 ---
 
-단일 스크립트 내에서 여러 개의 Runs 를 log 하려면, 새로운 run 을 시작하기 전에 이전 run 을 종료해야 합니다.
+단일 스크립트에서 여러 run을 로깅하려면 새 run을 시작하기 전에 이전 run을 먼저 종료해야 합니다.
 
-가장 권장되는 방법은 `wandb.init()` 을 컨텍스트 매니저(context manager)로 사용하는 것입니다. 이 방식을 사용하면 스크립트에서 예외가 발생하더라도 해당 run 이 자동으로 종료되고 실패로 표시됩니다.
+권장되는 방식은 `wandb.init()`을 컨텍스트 매니저로 사용하는 것입니다. 이렇게 하면 스크립트에서 예외가 발생하는 경우 해당 run을 종료하고 실패로 표시합니다:
 
 ```python
 import wandb
@@ -15,7 +15,7 @@ for x in range(10):
             run.log({"metric": x + y})
 ```
 
-또는 다음과 같이 `run.finish()` 를 명시적으로 호출할 수도 있습니다.
+또한 `run.finish()`를 명시적으로 호출할 수도 있습니다:
 
 ```python
 import wandb
@@ -35,9 +35,12 @@ for x in range(10):
         run.finish()
 ```
 
-## 동시에 활성화된 여러 개의 Runs
+<div id="multiple-active-runs">
+  ## 여러 개의 활성 run
+</div>
 
-wandb 0.19.10 버전부터는 `reinit` 설정을 `"create_new"` 로 지정하여 동시에 활성화된 여러 개의 Runs 를 생성할 수 있습니다.
+wandb 0.19.10부터 `reinit` 설정을 `"create_new"`로 지정하면
+동시에 활성화된 여러 개의 run을 생성할 수 있습니다.
 
 ```python
 import wandb
@@ -51,4 +54,5 @@ with wandb.init(reinit="create_new") as tracking_run:
             tracking_run.log({"x": x})
 ```
 
-W&B integration 시 주의사항을 포함하여 `reinit="create_new"` 에 대한 자세한 정보는 [프로세스당 여러 개의 Runs](/models/runs/initialize-run/) 페이지를 참조하세요.
+`reinit="create_new"` 설정과 W&amp;B 인테그레이션 관련 주의 사항에 대해서는
+[프로세스당 여러 run](/ko/models/runs/initialize-run/)을 참고하세요.

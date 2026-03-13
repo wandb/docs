@@ -1,39 +1,38 @@
 ---
-title: ' thoughtful mini beige dots tea
-
-  # wandb server start
-
-
-  `wandb server start` コマンドを使用して、W&B サーバー のローカルインスタ
-
-  '
+title: "wandb server start"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-server-start.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドのイントロダクション用コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-server-start.mdx
+  2. そのファイルにイントロダクション用コンテンツを追加します
+  3. 次の 2 行だけを残して、このコメントブロック全体を削除します:
 
-import WandbServerStart from "/snippets/en/_includes/cli/wandb-server-start.mdx";
+  import WandbServerStart from "/snippets/_includes/cli/wandb-server-start.mdx";
 
-<WandbServerStart/>
+  <WandbServerStart/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  スニペットは次回の再生成時に自動検出されます。
+  */}
 
-ローカルの W&B サーバー を起動します。
+ローカル W&amp;B サーバーを起動する
 
-## 使用法
+
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
 wandb server start [OPTIONS]
 ```
 
-## オプション
+
+<div id="options">
+  ## オプション
+</div>
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--port`, `-p` | W&B サーバー をバインドするホストポート（デフォルト：8080） |
-| `--env`, `-e` | wandb/local に渡す環境変数（デフォルト：[]） |
-| `--daemon` | デーモンモードで実行するかどうか（デフォルト：True） |
+| `--port`, `-p` | W&B server をバインドするホスト側のポート（デフォルト: 8080） |
+| `--env`, `-e` | wandb/local に渡す環境変数（デフォルト: []） |
+| `--daemon` | デーモンモードで実行するかどうか（デフォルト: True） |

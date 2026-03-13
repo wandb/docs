@@ -1,153 +1,155 @@
 ---
-title: コストの追跡
-description: Weave における LLM オペレーションのコストを追跡・管理する
+title: "コストを追跡・管理する"
+description: "Weave で LLM の運用コストを追跡・管理する"
 ---
 
-## カスタムコストの追加
+<div id="adding-a-custom-cost">
+  ## カスタムコストの追加
+</div>
 
 <Tabs>
-<Tab title="Python">
-[`add_cost`](/weave/reference/python-sdk/trace/weave_client#method-add-cost) メソッドを使用して、カスタムコストを追加できます。
-必須のフィールドは `llm_id`、`prompt_token_cost`、および `completion_token_cost` の3つです。
-`llm_id` は LLM の名前（例：`gpt-4o`）です。`prompt_token_cost` と `completion_token_cost` は、その LLM のトークンあたりのコストです（LLM の価格が100万トークン単位で指定されている場合は、必ず 値 を変換してください）。
-また、`effective_date` に `datetime` を設定することで、特定の日にコストを有効にすることもできます。デフォルトは現在の日付です。
+  <Tab title="Python">
+    [`add_cost`](/ja/weave/reference/python-sdk/trace/weave_client#method-add-cost) メソッドを使用してカスタムコストを追加できます。
+    必須フィールドは `llm_id`、`prompt_token_cost`、`completion_token_cost` の 3 つです。
+    `llm_id` は LLM の名前です (例: `gpt-4o`) 。`prompt_token_cost` と `completion_token_cost` は LLM のトークンあたりのコストです (LLM の価格が 100 万トークンあたりで指定されている場合は、値をトークン単価に変換してください) 。
+    また、`effective_date` に datetime を設定して、特定の日付からコストを有効にすることもできます。指定しない場合は現在の日時が使用されます。
 
-```python lines
-import weave
-from datetime import datetime
+    ```python lines
+    import weave
+    from datetime import datetime
 
-client = weave.init("my_custom_cost_model")
+    client = weave.init("my_custom_cost_model")
 
-client.add_cost(
-    llm_id="your_model_name",
-    prompt_token_cost=0.01,
-    completion_token_cost=0.02
-)
-
-client.add_cost(
-    llm_id="your_model_name",
-    prompt_token_cost=10,
-    completion_token_cost=20,
-    # 例えば、特定の日付以降にモデルの価格を上げたい場合
-    effective_date=datetime(2025, 4, 22),
-)
-```
-
-</Tab>
-<Tab title="TypeScript">
-
-```plaintext
-この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
-```
-
-</Tab>
-</Tabs>
-
-## コストの照会
-
-<Tabs>
-<Tab title="Python">
-[`query_costs`](/weave/reference/python-sdk/trace/weave_client#method-query-costs) メソッドを使用して、コストを照会できます。
-コストを照会する方法はいくつかあり、単一のコスト ID を渡すか、LLM モデル名のリストを渡すことができます。
-
-```python lines
-import weave
-
-client = weave.init("my_custom_cost_model")
-
-costs = client.query_costs(llm_ids=["your_model_name"])
-
-cost = client.query_costs(costs[0].id)
-```
-
-</Tab>
-<Tab title="TypeScript">
-
-```plaintext
-この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
-```
-
-</Tab>
-</Tabs>
-
-## カスタムコストの削除
-
-<Tabs>
-<Tab title="Python">
-[`purge_costs`](/weave/reference/python-sdk/trace/weave_client#method-purge-costs) メソッドを使用して、カスタムコストを削除できます。コスト ID のリストを渡すと、それらの ID を持つコストが削除されます。
-
-```python lines
-import weave
-
-client = weave.init("my_custom_cost_model")
-
-costs = client.query_costs(llm_ids=["your_model_name"])
-client.purge_costs([cost.id for cost in costs])
-```
-
-</Tab>
-<Tab title="TypeScript">
-
-```plaintext
-この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
-```
-
-</Tab>
-</Tabs>
-
-## Projects のコスト計算
-
-<Tabs>
-<Tab title="Python">
-少しの設定を行い、`calls_query` を使用して `include_costs=True` を追加することで、プロジェクトのコストを計算できます。
-
-```python lines
-import weave
-
-weave.init("project_costs")
-@weave.op()
-def get_costs_for_project(project_name: str):
-    total_cost = 0
-    requests = 0
-
-    client = weave.init(project_name)
-    # プロジェクト内のすべての call を取得
-    calls = list(
-        client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
+    client.add_cost(
+        llm_id="your_model_name",
+        prompt_token_cost=0.01,
+        completion_token_cost=0.02
     )
 
-    for call in calls:
-        # call にコストが含まれている場合、合計コストに加算
-        if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
-            for k, cost in call.summary["weave"]["costs"].items():
-                requests += cost["requests"]
-                total_cost += cost["prompt_tokens_total_cost"]
-                total_cost += cost["completion_tokens_total_cost"]
+    client.add_cost(
+        llm_id="your_model_name",
+        prompt_token_cost=10,
+        completion_token_cost=20,
+        # 例えば、ある日付以降にモデルの価格を引き上げたい場合
+        effective_date=datetime(2025, 4, 22),
+    )
+    ```
+  </Tab>
 
-    # 合計コスト、リクエスト数、および call 数を返す
-    return {
-        "total_cost": total_cost,
-        "requests": requests,
-        "calls": len(calls),
-    }
-
-# 関数を @weave.op() でデコレートしているため、
-# 合計値は履歴コストの合計計算用に Weave に保存される
-get_costs_for_project("my_custom_cost_model")
-```
-
-</Tab>
-<Tab title="TypeScript">
-
-```plaintext
-この機能は TypeScript ではまだ利用できません。今後のアップデートをお待ちください。
-```
-
-</Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。今後のアップデートをお待ちください。
+    ```
+  </Tab>
 </Tabs>
 
-## カスタムコストを使用したカスタムモデルのセットアップ
+<div id="querying-for-costs">
+  ## コストの問い合わせ
+</div>
 
-[カスタムモデルでのコスト設定](/weave/cookbooks/custom_model_cost) のクックブックをお試しください。
+<Tabs>
+  <Tab title="Python">
+    [`query_costs`](/ja/weave/reference/python-sdk/trace/weave_client#method-query-costs) メソッドを使用してコストを問い合わせできます。
+    コストの問い合わせにはいくつかの方法があり、単一のコスト ID を渡すか、LLM モデル名のリストを渡すことができます。
 
-<Card title="Colab で試す" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python"/>
+    ```python lines
+    import weave
+
+    client = weave.init("my_custom_cost_model")
+
+    costs = client.query_costs(llm_ids=["your_model_name"])
+
+    cost = client.query_costs(costs[0].id)
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。今後のアップデートをお待ちください。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="purging-a-custom-cost">
+  ## カスタムコストの削除
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    カスタムコストは [`purge_costs`](/ja/weave/reference/python-sdk/trace/weave_client#method-purge-costs) メソッドを使って削除できます。cost ID のリストを渡すと、その ID を持つコストが削除されます。
+
+    ```python lines
+    import weave
+
+    client = weave.init("my_custom_cost_model")
+
+    costs = client.query_costs(llm_ids=["your_model_name"])
+    client.purge_costs([cost.id for cost in costs])
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。続報をお待ちください。
+    ```
+  </Tab>
+</Tabs>
+
+<div id="calculating-costs-for-a-project">
+  ## プロジェクトのコストを計算する
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    少しセットアップを行えば、`calls_query` を使用し、`include_costs=True` を追加することで、プロジェクトのコストを計算できます。
+
+    ```python lines
+    import weave
+
+    weave.init("project_costs")
+    @weave.op()
+    def get_costs_for_project(project_name: str):
+        total_cost = 0
+        requests = 0
+
+        client = weave.init(project_name)
+        # プロジェクト内のすべてのコールを取得する
+        calls = list(
+            client.get_calls(filter={"trace_roots_only": True}, include_costs=True)
+        )
+
+        for call in calls:
+            # コールにコストがあれば、それらを合計コストに加える
+            if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
+                for k, cost in call.summary["weave"]["costs"].items():
+                    requests += cost["requests"]
+                    total_cost += cost["prompt_tokens_total_cost"]
+                    total_cost += cost["completion_tokens_total_cost"]
+
+        # 合計コスト、リクエスト数、およびコール数を返す
+        return {
+            "total_cost": total_cost,
+            "requests": requests,
+            "calls": len(calls),
+        }
+
+    # 関数に @weave.op() を付けているので、
+    # 合計値は履歴のコスト合計を計算できるように weave に保存される
+    get_costs_for_project("my_custom_cost_model")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能はまだ TypeScript では利用できません。続報をお待ちください！
+    ```
+  </Tab>
+</Tabs>
+
+<div id="setting-up-a-custom-model-with-custom-costs">
+  ## カスタムコスト付きカスタムモデルのセットアップ
+</div>
+
+[カスタムモデルでコストを設定する](/ja/weave/cookbooks/custom_model_cost)ためのクックブックをお試しください。
+
+<Card title="Colab で試す" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python" />

@@ -1,69 +1,92 @@
 ---
 title: Automations 개요
-description: 'itn''t it? 내 생각에... 여기 있네: ML 파이프라인에서 자동화된 워크플로우를 생성하고 관리W&B Automations
-  API를 사용하여 ML 파이프라인에서 자동화된 워크플로우를 생성하고 관리하세요.'
+description: W&B Automations API를 사용하여 ML 파이프라인에서 자동화된 워크플로를 생성하고 관리합니다
 module: wandb.automations
 no_list: true
 ---
 
-W&B Automations API를 사용하면 ML 파이프라인의 이벤트에 반응하는 자동화된 워크플로우를 프로그래밍 방식으로 생성하고 관리할 수 있습니다. 모델 성능 임계값 도달이나 아티팩트 생성과 같은 특정 조건이 충족될 때 실행될 액션을 설정하세요.
+W&amp;B Automations API를 사용하면 ML 파이프라인의 이벤트에 반응하는 자동화된 워크플로를 프로그래밍 방식으로 생성하고 관리할 수 있습니다. 모델 성능 임계값이나 아티팩트 생성과 같은 특정 조건이 충족될 때 실행될 작업을 구성하세요.
 
-### Core Classes
+<div id="core-classes">
+  ### 핵심 클래스
+</div>
 
-| Class | 설명 |
+| 클래스 | 설명 |
 |-------|-------------|
-| [`Automation`](/models/ref/python/automations/automation/) | 설정 정보가 포함된 저장된 자동화 인스턴스를 나타냅니다. |
-| [`NewAutomation`](/models/ref/python/automations/newautomation/) | 새로운 자동화를 생성하기 위한 빌더 클래스입니다. |
+| [`Automation`](/ko/models/ref/python/automations/automation/) | 설정과 함께 저장된 automation 인스턴스를 나타냅니다. |
+| [`NewAutomation`](/ko/models/ref/python/automations/newautomation/) | 새로운 automation을 생성하기 위한 빌더 클래스입니다. |
 
-### Events (Triggers)
+<div id="events-triggers">
+  ### 이벤트(트리거)
+</div>
 
-| Event | 설명 |
+| 이벤트 | 설명 |
 |-------|-------------|
-| [`OnRunMetric`](/models/ref/python/automations/onrunmetric/) | run 메트릭이 정의된 조건(임계값, 변경 등)을 충족할 때 트리거됩니다. |
-| [`OnCreateArtifact`](/models/ref/python/automations/oncreateartifact/) | 컬렉션에 새로운 아티팩트가 생성될 때 트리거됩니다. |
-| [`OnLinkArtifact`](/models/ref/python/automations/onlinkartifact/) | 아티팩트가 레지스트리에 링크될 때 트리거됩니다. |
-| [`OnAddArtifactAlias`](/models/ref/python/automations/onaddartifactalias/) | 아티팩트에 에일리어스가 추가될 때 트리거됩니다. |
+| [`OnRunMetric`](/ko/models/ref/python/automations/onrunmetric/) | run 메트릭이 정의된 조건(임계값, 변화 등)을 만족할 때 트리거됩니다. |
+| [`OnCreateArtifact`](/ko/models/ref/python/automations/oncreateartifact/) | 컬렉션에 새 아티팩트가 생성될 때 트리거됩니다. |
+| [`OnLinkArtifact`](/ko/models/ref/python/automations/onlinkartifact/) | 아티팩트가 레지스트리에 연결될 때 트리거됩니다. |
+| [`OnAddArtifactAlias`](/ko/models/ref/python/automations/onaddartifactalias/) | 아티팩트에 별칭이 추가될 때 트리거됩니다. |
 
-### Actions
+<div id="actions">
+  ### 동작
+</div>
 
-| Action | 설명 |
+| 동작 | 설명 |
 |--------|-------------|
-| [`SendNotification`](/models/ref/python/automations/sendnotification/) | Slack 또는 기타 연동된 채널을 통해 알림을 보냅니다. |
-| [`SendWebhook`](/models/ref/python/automations/sendwebhook/) | 외부 서비스로 HTTP 웹훅 요청을 보냅니다. |
-| [`DoNothing`](/models/ref/python/automations/donothing/) | 자동화 설정을 테스트하기 위한 플레이스홀더 액션입니다. |
+| [`SendNotification`](/ko/models/ref/python/automations/sendnotification/) | Slack 또는 기타 연동 채널을 통해 알림을 보냅니다. |
+| [`SendWebhook`](/ko/models/ref/python/automations/sendwebhook/) | HTTP 웹훅 요청을 외부 서비스로 보냅니다. |
+| [`DoNothing`](/ko/models/ref/python/automations/donothing/) | 자동화 설정을 테스트하기 위한 플레이스홀더 액션입니다. |
 
-### Filters
+<div id="filters">
+  ### 필터
+</div>
 
-| Filter | 설명 |
+| 필터 | 설명 |
 |--------|-------------|
-| [`MetricThresholdFilter`](/models/ref/python/automations/metricthresholdfilter/) | 임계값 대비 메트릭 값 비교를 기반으로 run을 필터링합니다. |
-| [`MetricChangeFilter`](/models/ref/python/automations/metricchangefilter/) | 시간에 따른 메트릭 값의 변화를 기반으로 run을 필터링합니다. |
+| [`MetricThresholdFilter`](/ko/models/ref/python/automations/metricthresholdfilter/) | 메트릭 값을 임계값과 비교해 run을 필터링합니다. |
+| [`MetricChangeFilter`](/ko/models/ref/python/automations/metricchangefilter/) | 시간에 따른 메트릭 값 변화를 기준으로 run을 필터링합니다. |
 
-## Common Use Cases
+<div id="common-use-cases">
+  ## 주요 사용 사례
+</div>
 
-### 모델 성능 모니터링
-- 모델 정확도가 임계값 아래로 떨어질 때 알림 전송
-- 트레이닝 손실(loss)이 정체될 때 팀에 알림
-- 성능 메트릭에 기반한 재학습 파이프라인 트리거
+<div id="model-performance-monitoring">
+  ### 모델 성능 모니터링
+</div>
 
-### Artifact 관리
-- 새로운 모델 버전이 생성될 때 알림 전송
-- 아티팩트에 태그가 지정될 때 배포 워크플로우 트리거
-- 데이터셋이 업데이트될 때 다운스트림 처리 자동화
+* 모델 정확도가 임계값 아래로 떨어지면 알림 보내기
+* 트레이닝 손실 감소가 멈추면 팀에 알리기
+* 성능 메트릭을 기준으로 재트레이닝 파이프라인 실행하기
 
-### 실험 트래킹
-- 실패하거나 충돌한 run에 대한 알림
-- 장시간 실행되는 실험이 완료될 때 알림
-- 실험 메트릭에 대한 일일 요약 전송
+<div id="artifact-management">
+  ### 아티팩트 관리
+</div>
 
-### 통합 워크플로우
-- 웹훅을 통해 외부 트래킹 시스템 업데이트
-- 모델 레지스트리를 배포 플랫폼과 동기화
-- W&B 이벤트를 기반으로 CI/CD 파이프라인 트리거
+* 새 모델 버전이 생성될 때 알림을 보냅니다
+* 아티팩트에 태그가 달릴 때 배포 워크플로우를 트리거합니다
+* 데이터셋이 업데이트될 때 후속 처리를 자동화합니다
 
-## Example Usage
+<div id="experiment-tracking">
+  ### 실험 추적
+</div>
 
-다음 예시는 `custom-metric`이라는 메트릭이 10을 초과할 때마다 Slack 알림을 보내는 자동화를 생성합니다. `custom-metric`은 트레이닝 중에 `wandb.Run.log({"custom-metric": value })`를 사용하여 로그될 것으로 예상됩니다.
+* 실패하거나 비정상 종료된 runs에 대한 알림 받기
+* 장시간 실행되는 실험이 완료되면 알림 받기
+* 실험 메트릭의 일일 요약 알림 받기
+
+<div id="integration-workflows">
+  ### 인테그레이션 워크플로우
+</div>
+
+* 웹훅을 통해 외부 추적 시스템을 업데이트
+* 배포 플랫폼과 모델 레지스트리를 동기화
+* W&amp;B 이벤트를 기반으로 CI/CD 파이프라인을 트리거
+
+<div id="example-usage">
+  ## 사용 예시
+</div>
+
+다음 예시는 `custom-metric`이라는 메트릭이 10을 초과할 때마다 Slack 알림을 보내는 자동화를 생성합니다. `custom-metric`은 트레이닝 중에 `wandb.Run.log({"custom-metric": value })`를 사용해 로깅된다고 가정합니다.
 
 ```python
 import wandb
@@ -73,24 +96,24 @@ api = wandb.Api()
 
 project = api.project("<my-project>", entity="<my-team>")
 
-# 팀의 첫 번째 Slack 인테그레이션을 사용합니다.
+# 팀의 첫 번째 Slack 인테그레이션 사용
 slack_hook = next(api.slack_integrations(entity="<my-team>"))
 
-# 트리거 이벤트를 생성합니다.
+# 트리거 이벤트 생성
 event = OnRunMetric(
      scope=project,
      filter=RunEvent.metric("custom-metric") > 10,
 )
 
-# 이벤트에 반응하는 액션을 생성합니다.
+# 이벤트에 응답하는 액션 생성
 action = SendNotification.from_integration(slack_hook)
 
-# 자동화를 생성합니다.
+# 자동화 생성
 automation = api.create_automation(
      event >> action,
      name="my-automation",
-     description="'custom-metric'이 10을 초과할 때마다 Slack 메시지를 보냅니다.",
+     description="Send a Slack message whenever 'custom-metric' exceeds 10.",
 )
 ```
 
-Automations API 사용에 대한 자세한 내용은 [Automations Guide](/models/automations/)를 참조하세요.
+Automations API 사용 방법에 대한 자세한 내용은 [Automations Guide](/ko/models/automations/)를 참고하세요.

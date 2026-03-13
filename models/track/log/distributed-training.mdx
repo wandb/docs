@@ -180,7 +180,7 @@ For each worker node, initialize a W&B run with [`wandb.init()`](/models/ref/pyt
    * A unique label for `x_label`. You use the value you specify for `x_label` to identify which node the data is coming from in logs and system metrics in the W&B App UI. If left unspecified, W&B creates a label for you using the hostname and a random hash.
    * Set the `x_primary` parameter to `False` to indicate that this is a worker node.
 2. Pass the run ID used by the primary node to the `id` parameter.
-3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state](/models/evaluate-models/#run-states) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
+3. Optionally set [`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) to `False`. This prevents non-primary nodes from updating the [run's state](/models/runs/run-states#run-states) to `finished` prematurely, ensuring the run state remains consistent and managed by the primary node.
 
 <Note>
 * Use the same entity and project for all nodes. This helps ensure the correct run ID is found.

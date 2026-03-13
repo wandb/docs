@@ -1,46 +1,56 @@
 ---
-title: APIキー の作成と管理はどのように行いますか？
+title: API キーの作成と管理方法
 ---
 
-import ApiKeyFind from "/snippets/en/_includes/api-key-find.mdx";
-import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
-import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
-import ServiceAccountApiKeyDelete from "/snippets/en/_includes/service-account-api-key-delete.mdx";
+import ApiKeyFind from "/snippets/ja/_includes/api-key-find.mdx";
+import ApiKeyCreate from "/snippets/ja/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/ja/_includes/api-key-security.mdx";
+import ServiceAccountApiKeyDelete from "/snippets/ja/_includes/service-account-api-key-delete.mdx";
 
-## 新しい APIキー を作成する
+<div id="create-a-new-api-key">
+  ## 新しい API キーを作成する
+</div>
 
-<ApiKeyCreate/>
+<ApiKeyCreate />
 
-## APIキー を確認する
+<div id="find-your-api-keys">
+  ## API キーを確認する
+</div>
 
-<ApiKeyFind/>
+<ApiKeyFind />
 
-## APIキー を削除する
+<div id="delete-an-api-key">
+  ## API キーを削除する
+</div>
 
 <Warning>
-APIキー を削除すると、その キー を使用しているすべての スクリプト やサービスからの アクセス 権が即座に無効になります。古い キー を削除する前に、すべてのシステムを新しい キー を使用するように更新したことを確認してください。
+  API キーを削除すると、そのキーを使用しているすべてのスクリプトやサービスへのアクセスは即時に取り消されます。古いキーを削除する前に、すべてのシステムが新しいキーを使用するように更新されていることを確認してください。
 </Warning>
 
-アクセス 権を無効にするには、APIキー を削除します。詳細については、**Personal API key** または **Service Account API key** タブを選択してください。
+アクセスを取り消すには、API キーを削除します。詳細を確認するには、**Personal API key** または **Service Account API key** タブを選択します。
 
 <Tabs>
   <Tab title="Personal API key">
-1. [wandb.ai/settings](https://wandb.ai/settings) に移動します。
-1. **API Keys** セクションで、削除したい キー の横にある削除ボタンをクリックします。
+    1. [wandb.ai/settings](https://wandb.ai/settings) に移動します。
+    2. **API Keys** セクションで、削除するキーの横にある削除ボタンをクリックします。
   </Tab>
+
   <Tab title="Service account API key">
-<ServiceAccountApiKeyDelete/>
-[サービスアカウントを使用してワークフローを自動化する](/platform/hosting/iam/service-accounts) 方法についての詳細はこちらをご覧ください。
+    <ServiceAccountApiKeyDelete />
+
+    ワークフローを自動化するためのサービスアカウントの使用については、[サービスアカウントを使用したワークフローの自動化](/ja/platform/hosting/iam/service-accounts) を参照してください。
   </Tab>
 </Tabs>
 
-## APIキー を置換（ローテーション）する
+<div id="replace-an-api-key">
+  ## API キーを置き換える
+</div>
 
-APIキー を置換（ローテーション）するには：
+API キーを置き換え（ローテーション）するには、次の手順に従います。
 
-1. [新しい APIキー を作成します](#新しい-apiキー-を作成する)。
-2. すべての スクリプト、サービス、および 環境 を新しい APIキー を使用するように更新します。
-3. すべての場所で新しい APIキー が正常に動作することをテストします。
-4. 古い APIキー を削除します。
+1. [新しい API キーを作成](#create-a-new-api-key)します。
+2. すべてのスクリプト、サービス、および環境を更新し、新しい API キーを使用するように設定します。
+3. 新しい API キーがすべての場所で正常に動作することを確認します。
+4. 古い API キーを削除します。
 
-<ApiKeySecurity/>
+<ApiKeySecurity />

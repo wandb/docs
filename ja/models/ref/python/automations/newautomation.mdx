@@ -3,15 +3,15 @@ title: NewAutomation
 namespace: automations_namespace
 python_object_type: class
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
 
 
-
 ## <kbd>class</kbd> `NewAutomation`
-作成される新しい オートメーション です。
 
+新しく作成する automation を表します。
 
 ### <kbd>method</kbd> `NewAutomation.__init__`
 
@@ -25,20 +25,22 @@ __init__(
 ) → None
 ```
 
-**Args:**
- 
- - `name` (Optional[str]): この オートメーション の名前。
- - `description` (Optional[str]): この オートメーション の任意の説明。
- - `enabled` (Optional[bool]): この オートメーション が有効かどうか。有効な オートメーション のみがトリガーされます。
- - `event` (Optional[Annotated]): この オートメーション をトリガーするイベント。
- - `action` (Optional[Annotated]): この オートメーション がトリガーされたときに実行されるアクション。
+**引数:**
 
-**Returns:**
- `NewAutomation` オブジェクト。
+* `name` (Optional[str]): このオートメーションの名前。
+* `description` (Optional[str]): このオートメーションの説明（省略可）。
+* `enabled` (Optional[bool]): このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
+* `event` (Optional[Annotated]): このオートメーションをトリガーするイベント。
+* `action` (Optional[Annotated]): このオートメーションがトリガーされたときに実行されるアクション。
+
+**戻り値:**
+`NewAutomation` オブジェクト。
+
 
 ### <kbd>property</kbd> `NewAutomation.scope`
 
-トリガーイベントが発生する必要があるスコープ。
+トリガーイベントが発生するスコープ。
 
-**Returns:**
- - `Optional[AutomationScope]`: scope プロパティの 値。
+**戻り値:**
+
+- `Optional[AutomationScope]`: scope プロパティの値。

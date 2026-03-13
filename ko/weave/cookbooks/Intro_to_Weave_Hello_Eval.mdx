@@ -1,22 +1,24 @@
 ---
-title: Evaluations 도입
-description: thoughtful_thought W&B Weave 를 활용한 evaluation 도입(introduction) 사용법에 대해
-  알아보세요.
+title: "Evaluations 소개"
+description: "W&amp;B Weave에서 Evaluations를 사용하는 방법을 알아보세요"
 ---
 
 <Note>
-이것은 인터랙티브 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
-- [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
-- [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
+  이 노트북은 대화형입니다. 로컬에서 실행하거나 아래 링크를 통해 열 수 있습니다:
+
+  * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
+  * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
 </Note>
 
-## 🔑 Prerequisites
+<div id="prerequisites">
+  ## 🔑 필수 조건
+</div>
 
-Weave 평가를 실행하기 전에 다음의 전제 조건을 완료하세요.
+Weave 평가를 실행하기 전에 다음 사항을 먼저 준비하세요.
 
-1. W&B Weave SDK를 설치하고 [API 키](https://wandb.ai/settings#apikeys)로 로그인합니다.
+1. W&amp;B Weave SDK를 설치하고 [API 키](https://wandb.ai/settings#apikeys)로 로그인합니다.
 2. OpenAI SDK를 설치하고 [API 키](https://platform.openai.com/api-keys)로 로그인합니다.
-3. W&B Projects 를 초기화합니다.
+3. W&amp;B 프로젝트를 초기화합니다.
 
 ```python lines
 # 의존성 설치 및 임포트
@@ -31,26 +33,28 @@ from pydantic import BaseModel
 import weave
 
 # 🔑 API 키 설정
-# 이 셀을 실행하면 `getpass`를 통해 API 키 입력을 요청하며, 터미널에는 표시되지 않습니다.
+# 이 셀을 실행하면 `getpass`를 통해 API 키를 입력하라는 메시지가 표시되며, 터미널에 입력 내용이 출력되지 않습니다.
 #####
 print("---")
 print(
-    "다음 링크에서 W&B API 키를 생성하세요: https://wandb.ai/settings#apikeys"
+    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
 )
-os.environ["WANDB_API_KEY"] = getpass("W&B API 키를 입력하세요: ")
+os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
 print("---")
-print("다음 링크에서 OpenAI API 키를 생성할 수 있습니다: https://platform.openai.com/api-keys")
-os.environ["OPENAI_API_KEY"] = getpass("OpenAI API 키를 입력하세요: ")
+print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
+os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
 print("---")
 #####
 
 # 🏠 W&B 프로젝트 이름을 입력하세요
-weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 사용자의 W&B 프로젝트 이름
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 W&B 프로젝트 이름
 ```
 
-## 🐝 첫 번째 평가 실행하기
+<div id="run-your-first-evaluation">
+  ## 🐝 첫 번째 평가 실행하기
+</div>
 
-다음 코드 샘플은 Weave 의 `Model` 및 `Evaluation` API를 사용하여 LLM을 평가하는 방법을 보여줍니다. 먼저 `weave.Model`을 상속받아 Weave 모델을 정의하고, 모델 이름과 프롬프트 형식을 지정한 뒤 `@weave.op`를 사용하여 `predict` 메소드를 추적합니다. `predict` 메소드는 OpenAI에 프롬프트를 보내고 Pydantic 스키마(`FruitExtract`)를 사용하여 응답을 구조화된 출력으로 파싱합니다. 그런 다음 입력 문장과 예상 타겟으로 구성된 작은 평가 데이터셋을 만듭니다. 다음으로, 모델의 출력과 타겟 레이블을 비교하는 커스텀 스코어링 함수(`@weave.op`로 추적됨)를 정의합니다. 마지막으로, 모든 것을 `weave.Evaluation`으로 감싸 데이터셋과 스코어러를 지정하고 `evaluate()`를 호출하여 평가 파이프라인을 비동기적으로 실행합니다.
+다음 코드 예제는 Weave의 `Model` 및 `Evaluation` API를 사용해 LLM을 평가하는 방법을 보여줍니다. 먼저 `weave.Model`을 상속해 Weave 모델을 정의하고, 모델 이름과 프롬프트 형식을 지정한 뒤, `@weave.op`으로 추적되는 `predict` 메서드를 추가합니다. `predict` 메서드는 프롬프트를 OpenAI에 전송하고, Pydantic 스키마(`FruitExtract`)를 사용해 응답을 구조화된 출력으로 파싱합니다. 그런 다음 입력 문장과 기대되는 타깃으로 구성된 작은 평가 데이터셋을 생성합니다. 이어서 모델의 출력을 타깃 레이블과 비교하는 사용자 정의 스코어링 함수를 정의하고(이 함수도 `@weave.op`으로 추적), 마지막으로 데이터셋과 스코어러를 지정해 모든 것을 `weave.Evaluation`에 감싼 뒤, `evaluate()`를 호출하여 평가 파이프라인을 비동기적으로 실행합니다.
 
 ```python lines
 # 1. Weave 모델 구성
@@ -103,12 +107,12 @@ examples = [
     {"id": "2", "sentence": sentences[2], "target": labels[2]},
 ]
 
-# 3. 평가를 위한 스코어링 함수 정의
+# 3. 평가를 위한 채점 함수 정의
 @weave.op()
 def fruit_name_score(target: dict, output: FruitExtract) -> dict:
     target_flavors = [f.strip().lower() for f in target["flavor"].split(",")]
     output_flavors = [f.strip().lower() for f in output.flavor.split(",")]
-    # 타겟 풍미가 출력 풍미에 포함되어 있는지 확인
+    # 출력 flavor에 target flavor가 하나라도 포함되어 있는지 확인
     matches = any(tf in of for tf in target_flavors for of in output_flavors)
     return {"correct": matches}
 
@@ -121,7 +125,9 @@ evaluation = weave.Evaluation(
 await evaluation.evaluate(model)
 ```
 
-## 🚀 더 많은 예제를 찾으시나요?
+<div id="looking-for-more-examples">
+  ## 🚀 더 많은 예제가 필요하신가요?
+</div>
 
-- [엔드투엔드 평가 파이프라인 구축 방법](/weave/tutorial-eval)을 알아보세요.
-- [RAG 애플리케이션 구축 및 평가 방법](/weave/tutorial-rag)을 알아보세요.
+* [end-to-end 평가 파이프라인](/ko/weave/tutorial-eval)을 구축하는 방법을 알아보세요.
+* [RAG 애플리케이션을 직접 구축하며 평가](/ko/weave/tutorial-rag)하는 방법을 알아보세요.

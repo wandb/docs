@@ -1,10 +1,10 @@
 ---
-title: W&B で run を再開する際、resume パラメータはどのように使用すればよいですか？
+title: W&B で run を再開するときに resume パラメーターをどのように使えばよいですか？
 ---
 
-W&B で `resume` パラメータを使用するには、`wandb.init()` の `resume` 引数を設定し、`entity`、`project`、および `id` を指定します。`resume` 引数は、`"must"` または `"allow"` の 値 を受け取ります。
+W&amp;B で `resume` パラメーターを使用するには、`entity`、`project`、`id` を指定して `wandb.init()` の `resume` 引数を設定します。`resume` 引数には `"must"` または `"allow"` の値を指定できます。
 
-  ```python
+```python
   with  wandb.init(entity="your-entity", project="your-project", id="your-run-id", resume="must") as run:
-      # ここにトレーニングコードを記述します
-  ```
+      # トレーニングコードをここに記述
+```

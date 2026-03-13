@@ -1,90 +1,86 @@
 ---
-title: 概要
-description: Weights & Biases Weave を使用して構築するための実践的な ガイド と例
+title: "概要"
+description: "Weights & Biases Weave を使って構築するための実践的なガイドとサンプル"
 mode: wide
 ---
 
-Weights & Biases Weave クックブックコレクションへようこそ。これらの実践的なガイドでは、 Weave を使用してアプリケーションを構築するための実用的な例とベストプラクティスを紹介します。
+Weights &amp; Biases Weave クックブックコレクションへようこそ。これらのハンズオンガイドでは、Weave を使ったアプリケーション構築のための実践的なサンプルとベストプラクティスを紹介します。
 
 <CardGroup cols={3}>
-  <Card
-    title="クイックスタート"
-    icon="rocket"
-    href="/weave/cookbooks/Intro_to_Weave_Hello_Trace"
-  >
-    トレースと評価の基本をカバーする実践的な例を通じて、 Weave のジャーニーを始めましょう。
+  <Card title="はじめに" icon="rocket" href="/ja/weave/cookbooks/Intro_to_Weave_Hello_Trace">
+    トレースと評価の基本を押さえた実践的なハンズオンサンプルを通じて Weave の学習を始めましょう。
   </Card>
-  
-  <Card
-    title="評価 ＆ Datasets"
-    icon="chart-line"
-    href="/weave/cookbooks/leaderboard_quickstart"
-  >
-    評価の作成方法、 Datasets の活用方法、モデル比較のためのリーダーボードの構築方法を学びます。
+
+  <Card title="Evaluations と Datasets" icon="chart-line" href="/ja/weave/cookbooks/leaderboard_quickstart">
+    評価を作成し、データセットを扱い、モデル比較のためのリーダーボードを構築する方法を学びます。
   </Card>
-  
-  <Card
-    title="Models ＆ プロンプト"
-    icon="brain"
-    href="/weave/cookbooks/Models_and_Weave_Integration_Demo"
-  >
-    実世界の例を用いて、モデル管理、プロンプトエンジニアリング、最適化手法を探求します。
+
+  <Card title="Models とプロンプト" icon="brain" href="/ja/weave/cookbooks/Models_and_Weave_Integration_Demo">
+    実践的なサンプルを通じて、モデル管理、プロンプトエンジニアリング、および最適化手法について学びます。
   </Card>
-  
-  <Card
-    title="高度なトピック"
-    icon="code-branch"
-    href="/weave/cookbooks/multi-agent-structured-output"
-  >
-    マルチエージェントシステム、コード生成、専門的なパイプラインを含む複雑なユースケースを深く掘り下げます。
+
+  <Card title="高度なトピック" icon="code-branch" href="/ja/weave/cookbooks/multi-agent-structured-output">
+    マルチエージェントシステム、コード生成、専用のパイプラインなどの複雑なユースケースを深く掘り下げます。
   </Card>
-  
-  <Card
-    title="プロダクション ＆ モニタリング"
-    icon="shield-check"
-    href="/weave/cookbooks/online_monitoring"
-  >
-    モニタリング、フィードバック収集、セーフティガードレールなど、プロダクション対応のパターンを実装します。
+
+  <Card title="本番運用とモニタリング" icon="shield-check" href="/ja/weave/cookbooks/online_monitoring">
+    モニタリング、フィードバック収集、安全性のためのガードレールに関する本番運用向けパターンの実装方法を学びます。
   </Card>
-  
-  <Card
-    title="API ＆ インテグレーション"
-    icon="plug"
-    href="/weave/cookbooks/weave_via_service_api"
-  >
-    サービス API を使用して Weave を統合し、外部システムと接続する方法を学びます。
+
+  <Card title="API とインテグレーション" icon="plug" href="/ja/weave/cookbooks/weave_via_service_api">
+    サービス API を使って Weave をインテグレーションし、外部システムと接続する方法を学びます。
   </Card>
 </CardGroup>
 
-## 注目のクックブック
+<div id="featured-cookbooks">
+  ## 注目のクックブック
+</div>
 
-### クイックスタート
-- [Hello Trace](/weave/cookbooks/Intro_to_Weave_Hello_Trace) - Weave トレースの第一歩
-- [Hello Eval](/weave/cookbooks/Intro_to_Weave_Hello_Eval) - 評価コンセプトの紹介
+<div id="getting-started">
+  ### はじめに
+</div>
 
-### 評価 ＆ Datasets
-- [Leaderboard Quickstart](/weave/cookbooks/leaderboard_quickstart) - モデル比較リーダーボードの構築
-- [HuggingFace Datasets](/weave/cookbooks/hf_dataset_evals) - HF データセットを使用したモデル評価
-- [Import from CSV](/weave/cookbooks/import_from_csv) - CSV データの読み込みと活用
+* [Hello Trace](/ja/weave/cookbooks/Intro_to_Weave_Hello_Trace) - Weave tracing を始めるための最初のステップ
+* [Hello Eval](/ja/weave/cookbooks/Intro_to_Weave_Hello_Eval) - evaluation の基本概念への入門
 
-### Models ＆ プロンプト
-- [Models and Weave Integration](/weave/cookbooks/Models_and_Weave_Integration_Demo) - 包括的なモデル統合ガイド
-- [Chain of Density](/weave/cookbooks/chain_of_density) - 高度なプロンプティング手法
-- [DSPy Prompt Optimization](/weave/cookbooks/dspy_prompt_optimization) - プログラムによるプロンプトの最適化
-- [NotDiamond Custom Routing](/weave/cookbooks/notdiamond_custom_routing) - インテリジェントなモデルルーティングの実装
+<div id="evaluations-datasets">
+  ### 評価とデータセット
+</div>
 
-### 高度なトピック
-- [Multi-Agent Structured Output](/weave/cookbooks/multi-agent-structured-output) - 複雑なマルチエージェントシステム
-- [Code Generation](/weave/cookbooks/codegen) - コード生成パイプラインの構築
-- [OCR Pipeline](/weave/cookbooks/ocr-pipeline) - OCR によるドキュメント処理
-- [Audio Processing](/weave/cookbooks/audio_with_weave) - Weave での音声データの取り扱い
+* [Leaderboard クイックスタート](/ja/weave/cookbooks/leaderboard_quickstart) - モデル比較用のリーダーボードを構築する
+* [HuggingFace Datasets](/ja/weave/cookbooks/hf_dataset_evals) - HF データセットを使ってモデルを評価する
+* [Import from CSV](/ja/weave/cookbooks/import_from_csv) - CSV データを読み込んで操作する
 
-### プロダクション ＆ モニタリング
-- [Online Monitoring](/weave/cookbooks/online_monitoring) - リアルタイムのシステムモニタリング
-- [Production Feedback](/weave/cookbooks/feedback_prod) - ユーザーフィードバックの収集と分析
-- [Scorers as Guardrails](/weave/cookbooks/scorers_as_guardrails) - 安全対策の実装
-- [Custom Model Costs](/weave/cookbooks/custom_model_cost) - コストの追跡と最適化
-- [PII Protection](/weave/cookbooks/pii) - 機密データの安全な取り扱い
+<div id="models-prompts">
+  ### Models &amp; Prompts
+</div>
 
-### API ＆ インテグレーション
-- [Service API Usage](/weave/cookbooks/weave_via_service_api) - 直接的な API 統合パターン
+* [Models and Weave Integration](/ja/weave/cookbooks/Models_and_Weave_Integration_Demo) - 包括的な モデル インテグレーション ガイド
+* [Chain of Density](/ja/weave/cookbooks/chain_of_density) - 高度なプロンプト設計手法
+* [DSPy Prompt Optimization](/ja/weave/cookbooks/dspy_prompt_optimization) - プロンプトをプログラムで最適化する
+* [NotDiamond Custom Routing](/ja/weave/cookbooks/notdiamond_custom_routing) - インテリジェントな モデル ルーティングを実装する
+
+<div id="advanced-topics">
+  ### 高度なトピック
+</div>
+
+* [マルチエージェント構造化出力](/ja/weave/cookbooks/multi-agent-structured-output) - 複雑なマルチエージェントシステム
+* [コード生成](/ja/weave/cookbooks/codegen) - コード生成パイプラインの構築
+* [OCR パイプライン](/ja/weave/cookbooks/ocr-pipeline) - OCR を用いた文書処理
+* [音声処理](/ja/weave/cookbooks/audio_with_weave) - Weave で音声データを扱う
+
+<div id="production-monitoring">
+  ### 本番運用と監視
+</div>
+
+* [オンライン監視](/ja/weave/cookbooks/online_monitoring) - リアルタイムにシステムを監視
+* [本番環境でのフィードバック](/ja/weave/cookbooks/feedback_prod) - ユーザー フィードバックを収集して分析
+* [スコアラーによるガードレール](/ja/weave/cookbooks/scorers_as_guardrails) - 安全対策を実装
+* [カスタム モデル コスト](/ja/weave/cookbooks/custom_model_cost) - コストを追跡して最適化
+* [PII 保護](/ja/weave/cookbooks/pii) - 機密データを安全に扱う
+
+<div id="api-integration">
+  ### API とインテグレーション
+</div>
+
+* [Service API の利用](/ja/weave/cookbooks/weave_via_service_api) - API を直接利用するインテグレーション パターン

@@ -3,9 +3,11 @@ title: setup()
 namespace: python_sdk_actions
 python_object_type: function
 ---
-import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py" />
+
 
 ### <kbd>function</kbd> `setup`
 
@@ -13,23 +15,23 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 setup(settings: 'Settings | None' = None) → _WandbSetup
 ```
 
-현재 프로세스와 그 자식 프로세스에서 사용할 수 있도록 W&B를 준비합니다.
+현재 프로세스와 그 하위 프로세스에서 W&amp;B를 사용할 수 있도록 준비합니다.
 
-일반적으로 `wandb.init()`에 의해 암시적으로 호출되므로 이 함수를 직접 호출하지 않아도 무방합니다.
+일반적으로는 `wandb.init()`에서 암묵적으로 호출되므로 별도로 호출할 필요는 없습니다.
 
-멀티 프로세스 환경에서 wandb를 사용하는 경우, 자식 프로세스를 시작하기 전에 부모 프로세스에서 `wandb.setup()`을 호출하면 성능과 리소스 활용도를 높일 수 있습니다.
+여러 프로세스에서 wandb를 사용할 때는, 자식 프로세스를 시작하기 전에 부모 프로세스에서 `wandb.setup()`을 호출하면 성능과 리소스 활용이 개선될 수 있습니다.
 
-`wandb.setup()`은 `os.environ`을 수정하며, 자식 프로세스가 수정된 환경 변수를 상속받는 것이 중요합니다.
+`wandb.setup()`은 `os.environ`을 수정하며, 수정된 환경 변수를 자식 프로세스가 상속받는 것이 중요합니다.
 
-`wandb.teardown()`도 함께 참고하세요.
+`wandb.teardown()`도 참고하세요.
 
 **Args:**
 
- - `settings`: 전역적으로 적용할 설정입니다. 이후 호출되는 `wandb.init()`에 의해 이 설정이 덮어씌워질 수 있습니다.
+* `settings`: 전역적으로 적용할 설정. 이후에 호출되는 `wandb.init()`에서 재정의될 수 있습니다.
 
 **Example:**
 
- ```python
+```python
 import multiprocessing
 
 import wandb
@@ -42,7 +44,7 @@ def run_experiment(params):
 
 
 if __name__ == "__main__":
-    # 백엔드 시작 및 전역 설정 지정
+    # 백엔드 시작 및 전역 설정 구성
     wandb.setup(settings={"project": "my_project"})
 
     # 실험 파라미터 정의
@@ -62,6 +64,6 @@ if __name__ == "__main__":
     for p in processes:
          p.join()
 
-    # 선택 사항: 명시적으로 백엔드 종료
+    # 선택 사항: 백엔드 명시적 종료
     wandb.teardown()
 ```

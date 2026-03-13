@@ -1,0 +1,9 @@
+---
+title: Wandb Docker Run
+---
+
+`docker run` をラップし、環境変数 WANDB_API_KEY と WANDB_DOCKER を設定します。
+
+また、システム上に nvidia-docker 実行ファイルが存在し、かつ --runtime が設定されていない場合は、runtime を nvidia に設定します。
+
+詳しくは `docker run --help` を参照してください。

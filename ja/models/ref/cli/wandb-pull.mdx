@@ -1,37 +1,45 @@
 ---
-title: wandb pull
+title: "wandb pull"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-pull.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンド用の導入コンテンツを追加するには:
+  1. スニペットファイル /snippets/_includes/cli/wandb-pull.mdx を作成します
+  2. そのファイルに導入コンテンツを追加します
+  3. 以下の 2 行だけを残し、このコメントブロック全体を削除します:
 
-import WandbPull from "/snippets/en/_includes/cli/wandb-pull.mdx";
+  import WandbPull from "/snippets/_includes/cli/wandb-pull.mdx";
 
-<WandbPull/>
+  <WandbPull/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  スニペットは次回の再生成時に自動検出されます。
+  */}
 
-Weights & Biases からファイルをプルします。
+Weights &amp; Biases からファイルを取得
 
-## Usage（使用法）
+
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
 wandb pull RUN [OPTIONS]
 ```
 
-## Arguments（引数）
+
+<div id="arguments">
+  ## 引数
+</div>
 
 | 引数 | 説明 | 必須 |
 | :--- | :--- | :--- |
-| `RUN` | 説明なし | はい |
+| `RUN` | 説明はありません | はい |
 
-## Options（オプション）
+<div id="options">
+  ## オプション
+</div>
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--project`, `-p` | ダウンロードしたい Projects。 |
-| `--entity`, `-e` | リストのスコープを制限する Entities。（デフォルト: models） |
+| `--project`, `-p` | ダウンロードする プロジェクト。 |
+| `--entity`, `-e` | リストの対象とする Entity。 (デフォルト: models) |

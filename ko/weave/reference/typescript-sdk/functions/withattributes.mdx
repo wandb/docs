@@ -1,39 +1,54 @@
 ---
-title: withAttributes
-description: TypeScript SDK 레퍼런스
+title: "withAttributes"
+description: "TypeScript SDK 레퍼런스"
 ---
 
-# withAttributes
+<div id="withattributes">
+  # withAttributes
+</div>
 
-▸ **withAttributes**\<`T`\>(`attrs`, `fn`): `Promise`\<`T`\> \| `T`
+▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
 
-현재 실행 컨텍스트에 속성(attributes)을 부여하여 `fn` 내부에서 생성된 모든 호출이 해당 속성을 자동으로 상속받도록 합니다. 속성은 추적 서버의 호출 레코드에 기록되며 Weave UI 및 필터링에 표시됩니다. 따라서 요청 ID, 테넌트, Experiments 등을 기반으로 Runs 에 태그를 지정하는 데 매우 유용합니다.
+현재 실행 컨텍스트에 attributes를 연결하여, `fn` 내부에서 생성되는 모든 호출이
+자동으로 해당 attributes를 상속받도록 합니다. Attributes는 trace 서버의 call
+record에 기록되고 Weave UI/필터링에 노출되므로, 요청 ID, 테넌트, 실험 등으로
+runs를 태깅하는 데 이상적입니다.
 
-Example:
+예시:
+
 ```ts
 await withAttributes({requestId: 'abc'}, async () => {
   await myOp();
 });
 ```
 
-#### Type parameters
 
-| Name |
+<div id="type-parameters">
+  #### 타입 매개변수
+</div>
+
+| 이름 |
 | :------ |
 | `T` |
 
-#### Parameters
+<div id="parameters">
+  #### 매개변수
+</div>
 
-| Name | Type |
+| 이름 | 타입 |
 | :------ | :------ |
 | `attrs` | `Record`\<`string`, `any`\> |
 | `fn` | () => `T` \| `Promise`\<`T`\> |
 
-#### Returns
+<div id="returns">
+  #### 반환값
+</div>
 
 `Promise`\<`T`\> \| `T`
 
-#### Defined in
+<div id="defined-in">
+  #### 정의 위치
+</div>
 
 [clientApi.ts:193](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L193)
 

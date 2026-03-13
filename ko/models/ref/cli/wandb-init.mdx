@@ -1,33 +1,39 @@
 ---
-title: wandb init
+title: "wandb init"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-init.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  이 명령어에 대한 소개 내용을 추가하려면:
+  1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-init.mdx
+  2. 해당 파일에 소개 내용을 추가합니다
+  3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남겨 두세요:
 
-import WandbInit from "/snippets/en/_includes/cli/wandb-init.mdx";
+  import WandbInit from "/snippets/_includes/cli/wandb-init.mdx";
 
-<WandbInit/>
+  <WandbInit/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  스니펫은 다음에 재생성할 때 자동으로 감지됩니다.
+  */}
 
-Weights & Biases를 사용하도록 디렉토리를 설정합니다.
+Weights &amp; Biases를 사용해 디렉터리 구성하기
 
-## Usage
+
+<div id="usage">
+  ## 사용 방법
+</div>
 
 ```bash
 wandb init [OPTIONS]
 ```
 
-## Options
 
-| Option | Description |
+<div id="options">
+  ## 옵션
+</div>
+
+| 옵션 | 설명 |
 | :--- | :--- |
-| `--project`, `-p` | 사용할 Projects 를 지정합니다. |
-| `--entity`, `-e` | 프로젝트의 범위를 지정할 Entities 를 설정합니다. |
-| `--reset` | 설정을 초기화합니다. (기본값: False) |
-| `--mode`, `-m` | "online", "offline" 또는 "disabled" 중 하나를 선택할 수 있습니다. 기본값은 online입니다. |
+| `--project`, `-p` | 사용할 프로젝트. |
+| `--entity`, `-e` | 프로젝트 범위를 지정할 엔티티. |
+| `--reset` | 설정을 초기화합니다(기본값: False). |
+| `--mode`, `-m` | "online", "offline" 또는 "disabled"일 수 있습니다. 기본값은 "online"입니다. |

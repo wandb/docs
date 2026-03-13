@@ -1,0 +1,159 @@
+---
+title: Self-Managed インフラストラクチャ要件
+description: W&B Self-Managed デプロイ向けのインフラストラクチャおよびソフトウェア要件
+---
+
+import SelfManagedVersionRequirements from "/snippets/ja/_includes/self-managed-version-requirements.mdx";
+import SelfManagedHardwareRequirements from "/snippets/ja/_includes/self-managed-hardware-requirements.mdx";
+import SelfManagedMysqlRequirements from "/snippets/ja/_includes/self-managed-mysql-requirements.mdx";
+import SelfManagedMysqlDatabaseCreation from "/snippets/ja/_includes/self-managed-mysql-database-creation.mdx";
+import SelfManagedRedisRequirements from "/snippets/ja/_includes/self-managed-redis-requirements.mdx";
+import SelfManagedObjectStorageRequirements from "/snippets/ja/_includes/self-managed-object-storage-requirements.mdx";
+import ByobProvisioningLink from "/snippets/ja/_includes/byob-provisioning-link.mdx";
+import SelfManagedNetworkingRequirements from "/snippets/ja/_includes/self-managed-networking-requirements.mdx";
+import SelfManagedSslTlsRequirements from "/snippets/ja/_includes/self-managed-ssl-tls-requirements.mdx";
+import SelfManagedObtainLicense from "/snippets/ja/_includes/self-managed-obtain-license.mdx";
+
+このページでは、W&amp;B Self-Managed をデプロイするために必要なインフラストラクチャおよびソフトウェア要件の網羅的な概要を示します。デプロイを開始する前に、これらの要件を確認してください。
+
+<Note>
+  W&amp;B は、[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) や [W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) などのフルマネージドなデプロイ オプションを推奨します。W&amp;B のフルマネージドサービスは、ほとんど設定が不要で、簡単かつ安全に利用できます。
+</Note>
+
+アーキテクチャ全体のガイダンスについては、[リファレンスアーキテクチャ](/ja/platform/hosting/self-managed/ref-arch/) を参照してください。
+
+<div id="software-version-requirements">
+  ## ソフトウェアのバージョン要件
+</div>
+
+<SelfManagedVersionRequirements />
+
+<div id="hardware-requirements">
+  ## ハードウェア要件
+</div>
+
+<SelfManagedHardwareRequirements />
+
+ユースケース (Models のみ、Weave のみ、または両方) に応じた詳細なサイジングの推奨事項については、[リファレンスアーキテクチャのサイジングに関するセクション](/ja/platform/hosting/self-managed/ref-arch/#sizing)を参照してください。
+
+<div id="kubernetes">
+  ## Kubernetes
+</div>
+
+W&amp;B Server は、複数の pod を管理する [Kubernetes Operator](/ja/platform/hosting/self-managed/operator/) としてデプロイされます。Kubernetes クラスターは次の要件を満たしている必要があります：
+
+* **Version**: 上記の [Software version requirements](#software-version-requirements) を参照
+* **Ingress controller**: 適切に設定され、正常に動作している ingress controller (Nginx、Istio、Traefik、またはクラウドプロバイダー提供の ingress) 
+* **Persistent volumes**: 永続ボリュームをプロビジョニングできること
+* **CPU architecture**: Intel または AMD の 64-bit (ARM はサポートされていません) 
+
+W&amp;B は、クラウド、オンプレミス、およびエアギャップ環境での [OpenShift Kubernetes クラスター](https://www.redhat.com/en/technologies/cloud-computing/openshift) へのデプロイをサポートします。具体的な設定手順については、Operator ガイドの [OpenShift section](/ja/platform/hosting/self-managed/operator/#openshift-kubernetes-clusters) を参照してください。
+
+ロードバランサーおよび ingress の設定を含む、Kubernetes の完全な要件については、[reference architecture Kubernetes section](/ja/platform/hosting/self-managed/ref-arch/#kubernetes) を参照してください。
+
+<div id="mysql-database">
+  ## MySQL データベース
+</div>
+
+<SelfManagedMysqlRequirements />
+
+**W&amp;B では、本番環境でのデプロイにはマネージド型データベースサービスの利用を強く推奨します。** 具体的には、AWS RDS Aurora MySQL、Google Cloud SQL for MySQL、Azure Database for MySQL などです。マネージドサービスは、自動バックアップ、モニタリング、高可用性、パッチ適用などを提供し、運用の複雑さを大幅に軽減します。
+
+<div id="mysql-configuration-parameters">
+  ### MySQL の設定パラメーター
+</div>
+
+独自の MySQL インスタンスを実行している場合は、以下の設定で MySQL を構成してください。
+
+```
+binlog_format = 'ROW'
+binlog_row_image = 'MINIMAL'
+innodb_flush_log_at_trx_commit = 1
+innodb_online_alter_log_max_size = 268435456
+max_prepared_stmt_count = 1048576
+sort_buffer_size = '67108864'
+sync_binlog = 1
+```
+
+これらの設定は、W&amp;B によって最適なパフォーマンスと信頼性が得られることが検証されています。
+
+<div id="database-creation">
+  ### データベースの作成
+</div>
+
+MySQL データベースとユーザーを手動で作成する手順については、次を参照してください。
+
+<SelfManagedMysqlDatabaseCreation />
+
+バックアップ、パフォーマンス、監視、可用性などに関する追加の検討事項については、[リファレンスアーキテクチャの MySQL セクション](/ja/platform/hosting/self-managed/ref-arch/#mysql)を参照してください。
+
+<div id="redis">
+  ## Redis
+</div>
+
+<SelfManagedRedisRequirements />
+
+W&amp;B は、以下の環境にある Redis インスタンスに接続できます。
+
+* [AWS Elasticache](https://aws.amazon.com/pm/elasticache/)
+* [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
+* [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
+* お使いのクラウド環境またはオンプレミス インフラストラクチャ上にホストされた Redis デプロイ
+
+<div id="object-storage">
+  ## オブジェクトストレージ
+</div>
+
+<SelfManagedObjectStorageRequirements />
+
+<ByobProvisioningLink />
+
+<div id="configure-wb-to-use-your-bucket">
+  ### W&amp;B でバケットを使用するように設定する
+</div>
+
+バケットのプロビジョニングが完了したら、Operator の Helm values で W&amp;B がそのバケットを使用するように設定します。詳細は、[Operator object storage configuration セクション](/ja/platform/hosting/self-managed/operator/#object-storage-bucket)を参照してください。
+
+<div id="networking">
+  ## ネットワーク
+</div>
+
+<SelfManagedNetworkingRequirements />
+
+<div id="dns">
+  ### DNS
+</div>
+
+W&amp;B デプロイメントの完全修飾ドメイン名 (FQDN) は、A レコードを使用して ingress / ロードバランサーの IP アドレスに名前解決される必要があります。
+
+<div id="load-balancer-and-ingress">
+  ### ロードバランサーと ingress
+</div>
+
+W&amp;B Kubernetes Operator は、Kubernetes ingress controller を使用してサービスを公開します。ingress controller は、URL パスに基づいてサービスのエンドポイントにルーティングします。ingress controller は、機械学習ペイロードを実行するすべてのマシンや、Web ブラウザー経由でサービスにアクセスするすべてのマシンから到達可能である必要があります。
+
+ロードバランサーの詳細なオプション、ingress controller の要件、および設定例については、[リファレンスアーキテクチャのロードバランサーセクション](/ja/platform/hosting/self-managed/ref-arch/#load-balancer-and-ingress)を参照してください。
+
+<div id="ssltls">
+  ## SSL/TLS
+</div>
+
+<SelfManagedSslTlsRequirements />
+
+<div id="license">
+  ## ライセンス
+</div>
+
+すべての Self-Managed デプロイにおいて、有効な W&amp;B Server ライセンスが必要です。
+
+<SelfManagedObtainLicense />
+
+<div id="next-steps">
+  ## 次のステップ
+</div>
+
+インフラストラクチャがこれらの要件を満たしていることを確認したら、以下を参照してください。
+
+* **クラウドおよびオンプレミス環境でのデプロイ**: Helm と Terraform のデプロイオプションについては、[Deploy W&amp;B with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。
+* **エアギャップ環境でのデプロイ**: インターネットから分離された環境向けには、[Deploy on Air-Gapped Kubernetes](/ja/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped) を参照してください。
+* **すべてのデプロイ方法**: コアとなる Kubernetes Operator デプロイガイドについては、[Deploy with Kubernetes Operator](/ja/platform/hosting/self-managed/operator) を参照してください。

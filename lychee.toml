@@ -55,27 +55,48 @@ exclude = [
   # Match any URL containing /images/ (works for both relative and absolute paths)
   '/images/',
   # Match full URLs to image directories on any domain (including preview sites)
+  # Image directories (full URLs to images anywhere)
   '(http|https)://[^/]+/images/',
+
+  # Example, fake, and test URLs
   '(http|https)://kubeflow\.mysite\.com',
   '(http|https)://my-fake-url\.com',
   '(http|https)://my\.domain\.net',
-  'https://wiki.python.org/moin/UsingPickle',
+
+  # Known persistent timeouts, bans, or unwanted crawler targets
+  '(http|https)://.*\.?auth0\.com',
+  'https://cognito-idp.us-east-1.amazonaws.com',
+
+  # Social and community sites commonly rate-limiting or banning bots
   '(http|https)://.*\.?discord\.com',
   '(http|https)://drive\.google\.com',
   '(http|https)://.*\.?slack\.com',
-  '(http|https)://x\.com',
   '(http|https)://twitter\.com',
-  '(http|https)://.*\.?auth0\.com',
-  'https://cognito-idp.us-east-1.amazonaws.com',
+  '(http|https)://x\.com',
+
+  # Other documented 3rd-party services that frequently timeout or 403
+  '(http|https)://dspy-docs\.vercel\.app',
+  '(http|https)://helm\.sh',
+  '(http|https)://.*\.?hhs\.gov',
+  '(http|https)://istio\.io',
+  '(http|https)://kubernetes\.io',
+  '(http|https)://letsencrypt\.org',
   '(http|https)://.*\.?netapp\.com',
   '(http|https)://netflixtechblog\.com',
   '(http|https)://.*\.?opentelemetry\.io',
   '(http|https)://.*\.?portal\.azure\.com',
-  '(http|https)://.*\.?hhs\.gov',
+  '(http|https)://prodi\.gy',
+  '(http|https)://slurm\.schedmd\.com',
+
+  # Public knowledge or code resource with non-200/robot issues
+  'https://wiki.python.org/moin/UsingPickle',
+
+  # GitHub-related: rate limits or breaks the crawler, but not all of github.com
   '(http|https)://([^/]+\.)?github\.com/wandb',
+
+  # W&B production infra — only public marketing/docs domains, not full github org
   '^(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
   '^(http|https)://wandb\.(ai|com|me)',
-  '(http|https)://dspy-docs\.vercel\.app',
   # W&B Inference API base URL - returns 400 for GET without auth (expected)
   'https://api\.inference\.wandb\.ai/v1',
   '(http|https)://winogrande\.allenai\.org',

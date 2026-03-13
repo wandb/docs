@@ -1,0 +1,26 @@
+---
+title: "Registry 삭제"
+---
+
+```python
+"""
+W&B에서 레지스트리를 삭제합니다.
+"""
+import wandb
+
+# 레지스트리 및 컬렉션 세부 정보 정의
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+
+# 전체 레지스트리 경로 구성
+registry_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# W&B API 초기화
+api = wandb.Api()
+
+# 삭제할 레지스트리 가져오기
+fetched_registry = api.registry("<registry_name>")
+
+# 레지스트리 삭제
+fetched_registry.delete()
+```

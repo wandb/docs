@@ -1,0 +1,15 @@
+---
+title: 사용자 지정 요약 메트릭 기록
+---
+
+```python
+"""
+W&B에 사용자 정의 요약 메트릭을 기록합니다.
+"""
+import wandb
+import random 
+
+with wandb.init(project="<project>") as run:
+    # 1에서 10 사이의 임의 정수 값으로 사용자 정의 요약 메트릭을 기록합니다
+    run.summary["<metric_name>"] = random.randint(1, 10)
+```

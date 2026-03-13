@@ -1,0 +1,70 @@
+---
+title: API キーのセキュリティ
+---
+
+<div id="store-and-handle-api-keys-securely">
+  ## API キーを安全に保管・取り扱う
+</div>
+
+API キー は W&B アカウントへのアクセス権を与えるものなので、パスワード同様に保護する必要があります。以下のベストプラクティスに従ってください。
+
+<div id="recommended-storage-methods">
+  ### 推奨される保管方法
+</div>
+
+- **Secrets マネージャー**: [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/)、[HashiCorp Vault](https://developer.hashicorp.com/vault)、[Azure Key Vault](https://azure.microsoft.com/en-us/products/key-vault)、[Google Secret Manager](https://cloud.google.com/security/products/secret-manager) などの専用のシークレット管理システムを使用する。
+- **パスワードマネージャー**: 信頼できるパスワードマネージャーアプリケーションを使用する。
+- **OS レベルのキーチェーン**: macOS Keychain、Windows Credential Manager、Linux Secret Service にキーを保管する。ただし本番環境での使用には推奨されない。
+
+<div id="what-to-avoid">
+  ### 避けるべきこと
+</div>
+
+- Git などのバージョン管理システムに API キーをコミットしないでください。
+- API キーをプレーンテキストの設定ファイルに保存しないでください。
+- OS の `ps` などのコマンド出力に表示されてしまうため、コマンドラインで API キーを渡さないでください。
+- メールやチャットなどの暗号化されていないチャネルで API キーを共有することは避けてください。
+- ソースコードに API キーをハードコードしないでください。
+
+API キー が漏えいした場合は、直ちに W&B アカウントからその API キーを削除し、[support](mailto:support@wandb.ai) または担当の AISE に連絡してください。
+
+<div id="environment-variables">
+  ### 環境変数
+</div>
+
+コード内で API キーを使用する場合は、環境変数を介して渡してください。
+
+```bash
+export WANDB_API_KEY="your-api-key-here"
+```
+
+この方法を使うと、キーをソースコード内に埋め込まずに済み、必要になったときにローテーションしやすくなります。
+
+<Warning>
+  コマンドと同じ行で環境変数を設定するのは避けてください。その方法だと、`ps` のような OS コマンドの出力に表示されてしまいます。
+
+  ```bash
+  # このパターンは避けてください。プロセス管理ツールで API キー が漏洩するおそれがあります
+  export WANDB_API_KEY="your-api-key-here" ./my-script.sh
+  ```
+</Warning>
+
+<div id="sdk-version-compatibility">
+  ### SDK バージョンの互換性
+</div>
+
+新しい API キーは従来のキーより長くなっています。古いバージョンの `wandb` または `weave` SDK で認証する場合、API キーの長さに関するエラーが発生することがあります。
+
+**解決策**: SDK を新しいバージョンに更新します:
+
+- `wandb` SDK v0.22.3+
+
+    ```bash
+    pip install --upgrade wandb==0.22.3
+    ```
+- `weave` SDK v0.52.17+
+    ```bash
+    pip install --upgrade weave==0.52.17
+    ```
+
+すぐに SDK をアップグレードできない場合は、回避策として `WANDB_API_KEY` 環境変数を使って API キーを設定してください。

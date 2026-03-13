@@ -35,7 +35,7 @@ To enable lineage graph tracking, you need to mark artifacts as [inputs](/models
 
 ### Track the input of a run
 
-Mark an artifact as the input (or dependency) of a run with the [`wandb.Run.use_artifact()`](/ref/python/experiments/run/#method-runuse_artifact)
+Mark an artifact as the input (or dependency) of a run with the [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#method-runuse_artifact)
 method. Specify the name of the artifact and an optional alias to reference a specific version of that artifact. The name of the
 artifact is in the format `<artifact_name>:<version>` or `<artifact_name>:<alias>`.
 
@@ -53,8 +53,8 @@ with wandb.init(entity="<entity>", project="<project>") as run:
 
 ### Track the output of a run
 
-Use [`wandb.Run.log_artifact()`](/ref/python/experiments/run#log_artifact) to declare an artifact as an output of a run. First,
-create an artifact with the [`wandb.Artifact()`](/ref/python/experiments/artifact/#wandb.Artifact) constructor. Then, log the
+Use [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) to declare an artifact as an output of a run. First,
+create an artifact with the [`wandb.Artifact()`](/models/ref/python/experiments/artifact#wandb.Artifact) constructor. Then, log the
 artifact as an output of the run with `wandb.Run.log_artifact()`.
 
 Replace values enclosed in angle brackets (`< >`) with your values:

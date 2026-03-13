@@ -1,43 +1,45 @@
 ---
-title: Run をフォークする
-description: オリジナルの run に影響を与えることなく、実験 内の特定の時点から異なる パラメータ や モデル を探索できます。
+description: ある実験の特定のポイントから、元の run に影響を与えずに、異なるパラメーターやモデルを探索します。
+title: run をフォークする
 ---
 
 <Warning>
-Run のフォーク機能はプライベートプレビュー版です。この機能へのアクセスを希望される場合は、W&B サポート（support@wandb.com）までご連絡ください。
+  run をフォークする機能は現在活発に開発中で、プライベートプレビュー段階です。この機能へのアクセスをリクエストするには、support@wandb.com まで W&amp;B Support にお問い合わせください。
 </Warning>
 
-オリジナルの Run に影響を与えることなく、実験の特定のポイントから異なる パラメータ や モデル を探索することができます。これを行うには、既存の W&B Run をフォークします。
+実験の特定のポイントから、元の run に影響を与えずに、異なるハイパーパラメーターやモデルを探索できます。そのためには、既存の W&amp;B run からフォークします。
 
-Run をフォークすると、W&B はソースとなる Run の Run ID と指定された ステップ を使用して、新しい Run を作成します。フォークされた Run には、そのステップまでのソース Run のすべての データ が含まれます。フォークしたステップ以降は、オリジナルの Run とは独立して、フォークされた Run に新しい データを ログ 記録できます。
+run からフォークすると、W&amp;B はフォーク元の run の [一意の ID](/ja/models/runs/run-identifiers#unique-run-identifiers) と指定した step を使って新しい run を作成します。フォーク元 run のサマリー メトリクスはフォークされた run にコピーされます。フォークされた run は、指定した step までのフォーク元 run のすべての履歴とファイルを共有します。
 
-<Note>
-* Run のフォークには、[`wandb`](https://pypi.org/project/wandb/) SDK バージョン 0.16.5 以上が必要です。
-* Run のフォークには、単調増加するステップが必要です。[`define_metric()`](/models/ref/python/experiments/run#define_metric) で定義された非単調なステップを使用している Run からはフォークできません。非単調なステップは、Run の履歴やシステム メトリクス の時系列順序を損なうためです。
-</Note>
-
-既存の Run からフォークするには、[`wandb.init()`](/models/ref/python/functions/init) の `fork_from` パラメータ を使用します。ソースとなる Run の一意な `run ID` と、フォークを開始したい `step` を指定してください。
+フォークした step 以降は、元の run とは独立してフォークされた run に新しいデータをログできます。
 
 <Note>
-Run ID の詳細や確認方法については、[Unique run identifiers](/models/runs/run-identifiers#unique-run-identifiers) を参照してください。
+  * run のフォークには [`wandb`](https://pypi.org/project/wandb/) SDK バージョン &gt;= 0.16.5 が必要です
+  * run のフォークには単調増加する step が必要です。[`define_metric()`](/ja/models/ref/python/experiments/run#define_metric) で定義された非単調な step を使う run からはフォークできません。非単調な step は run history とシステム メトリクスの時間順序を崩します。
 </Note>
 
-## 以前にログを記録した Run からのフォーク
+フォーク元の run の一意の `run ID` と、フォークした run を開始したい `step` を、[`wandb.init()`](/ja/models/ref/python/functions/init) の `fork_from` に引数として指定します。
 
-以下の コードスニペット は、以前に W&B にログを記録した Run からフォークする方法を示しています。別の スクリプト や ノートブック の Run、または別の ユーザー やサービスアカウントによってログ記録された Run からフォークする場合にこの方法を使用します。
+<div id="fork-from-a-previously-logged-run">
+  ## 以前にログした run からフォークする
+</div>
 
-`<source-run-id>`、`<project>`、および `<entity>` を自身の 値 に置き換えてください。
+次のコードスニペットは、以前に W&amp;B にログした run からフォークする方法を示します。
+
+まず、フォーク元にしたい run の run ID を取得します。次に、[`wandb.init()`](/ja/models/ref/python/functions/init) の `fork_from` に、run ID とフォーク元にしたいステップを引数として指定します。
+
+次のコードを Python スクリプトまたはノートブックのセルにコピー＆ペーストします。`<source-run-id>`、`<project>`、`<entity>` をご自身の値に置き換えてください。
 
 ```python
 import wandb
 
-# フォーク元のソース Run の一意な ID
+# フォーク元のソース run の一意の ID
 source_run_id = "<source-run-id>"
 
-# フォークするステップを指定
+# フォーク元のステップを指定する
 fork_step = 200
 
-# Run をフォークする
+# run をフォークする
 with wandb.init(
     project="<project>",
     entity="<entity>",
@@ -46,47 +48,55 @@ with wandb.init(
     pass
 ```
 
-## 同じスクリプト内の Run からのフォーク
+<div id="fork-from-a-run-in-the-same-script">
+  ## 同じスクリプト内の run からフォークする
+</div>
 
-以下の コードスニペット は、同じ スクリプト 内の Run からフォークする方法を示しています。これは、同じ スクリプト や ノートブック 内の特定のポイントから、異なる パラメータ や モデル を探索したい場合に便利です。
+次のコードスニペットは、同じスクリプト内で run を作成し、その run からフォークする方法を示しています。これは、W&amp;B App で run ID を調べることなく、作成したばかりの run からフォークしたい場合に該当します。
+
+まず、run を初期化してデータをいくつかログに記録します。次に、元の run オブジェクトの `id` プロパティを使用して、その run の ID を取得します。最後に、新しい run を初期化し、元の run の ID とフォーク元にしたいステップを [`wandb.init()`](/ja/models/ref/python/functions/init) の `fork_from` に引数として渡します。
 
 ```python
 import wandb
 
-# Run を初期化
+# Initialize a run
 with wandb.init(
     project="<project>",
     entity="<entity>"
 ) as original_run:
-    # ...トレーニングロジックをここに記述...
+    # ...training logic goes here ...
     pass
 
-# フォークするステップを指定
-fork_step = 200
+# Specify the step to fork from
+fork_step = int("<num>")
 
-# オリジナルの Run ID を使用し、フォークするステップを指定
+# Use the original run's ID and specify the step to fork from
 with wandb.init(
     project="<project>",
     entity="<entity>",
     fork_from=f"{original_run.id}?_step={fork_step}",
 ) as forked_run:
-    # ...トレーニングロジックをここに記述...
+    # ...training logic goes here ...
     pass
 ```
 
-オリジナルの Run の一意な Run ID を取得するには、`original_run.id` プロパティを使用します。
+<Tip>
+  元の run の一意の ID を取得するには、`original_run.id` プロパティを使用します。
+</Tip>
 
-### スクリプトの例
+<div id="example-script">
+  ### スクリプト例
+</div>
 
-例えば、以下のコード例では、まず Run をフォークし、次にトレーニングステップ 200 からフォークされた Run に メトリクス を ログ 記録する方法を示しています。
+次のコード例は、まず run を fork し、その後、トレーニングステップ 200 から fork した run にメトリクスをログする方法を示します。
 
-以下の コード を Python スクリプト または ノートブック のセルにコピー＆ペーストしてください。`<project>` と `<entity>` は自身の 値 に置き換えてください。
+次のコードを Python スクリプトまたはノートブック セルにコピーしてペーストし、`<project>` と `<entity>` をご自身の値に置き換えてください。
 
 ```python
 import wandb
 import math
 
-# 最初の Run を初期化してメトリクスをログ記録する
+# 最初の run を初期化してメトリクスをログする
 with wandb.init(
     project="<project>",
     entity="<entity>"
@@ -94,26 +104,26 @@ with wandb.init(
     for i in range(300):
         run1.log({"metric": i})
 
-# 最初の Run の特定のステップからフォークし、
-# ステップ 200 からメトリクスをログ記録する
+# 最初の run の特定のステップから fork し、
+# ステップ 200 からメトリクスをログする
 with wandb.init(
     project="<project>", 
     entity="<entity>", 
     fork_from=f"{run1.id}?_step=200"
 ) as run2:
-    # 新しい Run でログ記録を継続する
-    # 最初の数ステップは、run1 と同じメトリクスをログ記録する
-    # ステップ 250 以降は、スパイクのあるパターンでログ記録を開始する
+    # 新しい run でログを継続する
+    # 最初の数ステップは run1 のメトリクスをそのままログする
+    # ステップ 250 以降はスパイクパターンのログを開始する
     for i in range(200, 300):
         if i < 250:
-            # スパイクなしで run1 から継続してログ記録
+            # スパイクなしで run1 からログを継続する
             metric_value = i
         else:
-            # ステップ 250 からスパイクのある振る舞いを導入
-            metric_value = i + (2 * math.sin(i / 3.0))  # わずかなスパイクパターンを適用
+            # ステップ 250 からスパイク動作を導入する
+            metric_value = i + (2 * math.sin(i / 3.0))  # 緩やかなスパイクパターンを適用する
 
-        # 両方のメトリクスを1回でログ記録し、
-        # 同じステップで記録されるようにする
+        # 同じステップでログされるよう、両方のメトリクスを
+        # 1 回の呼び出しでログする
         run2.log({
             "metric": metric_value,
             "additional_metric": i * 1.1
@@ -121,11 +131,11 @@ with wandb.init(
 ```
 
 <Note>
-**Rewind とフォークの互換性**
+  **rewind と forking の互換性**
 
-フォークは、Run の管理と試行に柔軟性を持たせることで [`rewind`](/models/runs/rewind/) を補完します。
+  Forking は、run の管理や実験をより柔軟に行えるようにすることで、[`rewind`](/ja/models/runs/rewind/) を補完します。
 
-Run をフォークする場合、W&B は特定のポイントで Run から新しいブランチを作成し、異なる パラメータ や モデル を試せるようにします。
+  run から fork すると、W&amp;B は特定の時点でその run から分岐した新しいブランチを作成し、異なるパラメーターや モデル を試せるようにします。
 
-Run を rewind する場合、W&B は Run の履歴そのものを修正または変更できるようにします。
+  run を rewind すると、W&amp;B では run の履歴そのものをさかのぼって修正・変更できるようになります。
 </Note>

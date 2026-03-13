@@ -1,0 +1,87 @@
+---
+title: "トレースを無効にする"
+description: "W&B Weave のトレースを無効化したり、条件付きでオフにする方法を学ぶ"
+---
+
+利用している環境やニーズに応じて、アプリケーションにおける Weave トレースのレベルを制御するためのさまざまなオプションがあります。
+
+<div id="environment-variable">
+  ## 環境変数
+</div>
+
+プログラム全体でトレースを無条件に無効化したい場合は、環境変数 `WEAVE_DISABLED` を `true` に設定してください。
+
+`WEAVE_DISABLED` は関数定義時に一度だけ読み込まれます。この変数を使って、実行時にトレースを切り替えることはできません。
+
+<div id="client-initialization">
+  ## クライアントの初期化
+</div>
+
+特定の初期化処理に対して、ある条件に応じてトレースを有効にしたい場合があります。そのような場合は、`disabled` フラグを init の設定で指定してクライアントを初期化できます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    # Initialize the client
+    client = weave.init(..., settings={"disabled": True})
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    This feature is not available for the TypeScript SDK yet.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="context-manager">
+  ## コンテキストマネージャー
+</div>
+
+特定のコードブロックについて条件付きで tracing を無効化するには、tracing コンテキストマネージャーを使用できます。`with tracing_disabled()` を使用すると、`with` ブロック内で実行される関数呼び出しに対してのみ tracing を抑制します。どの呼び出しをログ対象外にするかを範囲指定するために、アプリケーションコード内で使用します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    from weave.trace.context.call_context import tracing_disabled
+
+    client = weave.init('your-team/your-project-name')
+
+    @weave.op
+    def my_op():
+        ...
+
+    with tracing_disabled():
+        my_op()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は、まだ TypeScript SDK では利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+tracing の動作は関数が定義された時点で固定されますが、アプリケーションロジックと組み合わせることで、実行時に制御できます。たとえば、コンテキストマネージャーを条件分岐でラップして、実行時の値に基づいて tracing を動的に有効化または無効化できます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    if should_trace:
+        my_op()
+    else:
+        with tracing_disabled():
+            my_op()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は、まだ TypeScript SDK では利用できません。
+    ```
+  </Tab>
+</Tabs>

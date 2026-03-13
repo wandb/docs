@@ -1,59 +1,75 @@
 ---
-title: wandb beta sync
+title: "wandb beta sync"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-sync.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドに導入文を追加するには:
+  1. スニペットファイル /snippets/_includes/cli/wandb-beta-sync.mdx を作成します
+  2. 導入文をそのファイルに追加します
+  3. 次の 2 行だけを残し、このコメントブロック全体を削除します:
 
-import WandbBetaSync from "/snippets/en/_includes/cli/wandb-beta-sync.mdx";
+  import WandbBetaSync from "/snippets/_includes/cli/wandb-beta-sync.mdx";
 
-<WandbBetaSync/>
+  <WandbBetaSync/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  スニペットは次回の再生成時に自動検出されます。
+  */}
 
 PATHS で指定された .wandb ファイルをアップロードします。
 
-これは `wandb sync` のベータ版再実装です。機能が完全ではなく、動作が保証されているわけでもありません。また、今後の wandb のリリースにおいて、後方互換性のない形で変更される可能性があります。
+これは `wandb sync` のベータ版の再実装です。まだ機能が完全ではなく、動作も保証されておらず、さらに wandb のどのリリースにおいても後方互換性のない形で変更される可能性があります。
 
-PATHS には、.wandb ファイル、.wandb ファイルを含む run ディレクトリー、および run ディレクトリーを含む "wandb" ディレクトリーを指定できます。
+PATHS には、.wandb ファイル、.wandb ファイルを含む run ディレクトリ、および run ディレクトリを含む &quot;wandb&quot; ディレクトリを含めることができます。
 
-例えば、ディレクトリー内のすべての Runs を同期するには：
+例えば、ディレクトリ内のすべての run を同期するには次のようにします。
 
+```bash
 wandb beta sync ./wandb
+```
 
 特定の run を同期するには：
 
+```bash
 wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+```
 
-または同等の方法として：
+あるいは、同等のコードは次のとおりです：
 
+```bash
 wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+```
 
-## 使用法
+
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
 wandb beta sync [PATHS] [OPTIONS]
 ```
 
-## 引数
+
+<div id="arguments">
+  ## 引数
+</div>
 
 | 引数 | 説明 | 必須 |
 | :--- | :--- | :--- |
-| `PATHS` | 説明なし | いいえ |
+| `PATHS` | 説明はありません | いいえ |
 
-## オプション
+<div id="options">
+  ## オプション
+</div>
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--live` | ログが記録されている最中の run を同期します。run を生成しているプロセスが正常に終了せずにクラッシュした場合、この処理はハングする可能性があります。(デフォルト: False) |
-| `-e`, `--entity` | 同期されるすべての Runs に使用する Entity の上書き設定。(デフォルト: ) |
-| `-p`, `--project` | 同期されるすべての Runs に使用する Project の上書き設定。(デフォルト: ) |
-| `--id` | 同期されるすべての Runs に使用する run ID の上書き設定。これを設定して複数のファイル（同じ Entity および Project）を同期する場合、ファイルは開始時間の順に同期されます。これは、同じ run の再開された複数のフラグメントを同期することを目的としています。(デフォルト: ) |
-| `--skip-synced` | このコマンドですでに同期済みの Runs をスキップします。(デフォルト: True) |
-| `--dry-run` | 何もアップロードせずに、実行される内容を表示します。(デフォルト: False) |
-| `-v`, `--verbose` | より詳細な情報を表示します。(デフォルト: False) |
-| `-n` | 一度に同期する Runs の最大数。同じ run の一部である複数のファイルを同期する場合、この設定に関係なく、ファイルは開始時間の順に逐次同期されます。これは、レジュームされた Runs や --id パラメータを使用した場合に発生します。(デフォルト: 5) |
+| `--live` | run のログ記録中に同期します。run を生成しているプロセスが正常に終了しなかった場合、このコマンドがハングする可能性があります。 (デフォルト: False) |
+| `-e`, `--entity` | 同期対象となるすべての run に対して使用する entity の上書き設定。 (デフォルト: ) |
+| `-p`, `--project` | 同期対象となるすべての run に対して使用するプロジェクトの上書き設定。 (デフォルト: ) |
+| `--id` | 同期対象となるすべての run に対して使用する run ID の上書き設定。これを設定し、かつ複数のファイルを同期する場合（同じ entity とプロジェクトの場合）、ファイルは開始時刻の順に同期されます。これは、同じ run の再開された複数のフラグメントを同期する用途を想定しています。 (デフォルト: ) |
+| `--job-type` | 同期対象となるすべての run に対する job type の上書き設定。 (デフォルト: ) |
+| `--replace-tags` | `'old1=new1,old2=new2'` の形式でタグ名を変更します。 (デフォルト: ) |
+| `--skip-synced` | このコマンドですでに同期済みの run をスキップします。 (デフォルト: True) |
+| `--dry-run` | 何もアップロードせずに、実行内容を表示します。 (デフォルト: False) |
+| `-v`, `--verbose` | より詳細な情報を表示します。 (デフォルト: False) |
+| `-n` | 一度に同期する run の最大数。同じ run の一部である複数ファイルを同期する場合、この設定に関係なく、ファイルは開始時刻順に順次同期されます。これは再開された run、または `--id` パラメーターを使用している場合に発生します。 (デフォルト: 5) |

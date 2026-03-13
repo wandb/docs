@@ -1,71 +1,75 @@
 ---
-title: アルゴリズムをローカルで管理する
-description: W&B クラウド ホスト型サービスを使用する代わりに、ローカルで検索および停止アルゴリズムを実行します。
+description: W&B のクラウドホスト型サービスを使用せずに、ローカルで探索アルゴリズムと停止アルゴリズムを実行します。
+title: ローカルでアルゴリズムを管理する
 ---
 
-ハイパーパラメーターの controller は、デフォルトでは Weights & Biases によってクラウドサービスとしてホストされています。 W&B の エージェント は controller と通信し、トレーニングに使用する次の パラメータ セットを決定します。また、controller は、どの Runs を停止できるかを判断するための早期終了アルゴリズムの実行も担当します。
+ハイパーパラメーターコントローラーは、デフォルトでは Weights &amp; Biases によってクラウドサービスとしてホストされています。W&amp;B エージェントは、トレーニングに使用する次のパラメーターセットを決定するために、このコントローラーと通信します。また、どの run を停止できるかを判断するためのアーリーストッピングアルゴリズムを実行する役割も担います。
 
-ローカルコントローラの機能を使用すると、 ユーザー は検索および停止アルゴリズムをローカルで開始できます。ローカルコントローラを使用することで、 ユーザー はコードを検査およびインストルメントして問題をデバッグしたり、クラウドサービスに組み込むことができる新機能を開発したりすることが可能になります。
+ローカルコントローラー機能を使用すると、ユーザーは探索アルゴリズムおよび停止アルゴリズムをローカルで開始できます。ローカルコントローラーにより、ユーザーはコードを検査および計測して問題をデバッグしたり、クラウドサービスに組み込める新機能を開発したりできます。
 
 <Warning>
-この機能は、 Sweeps ツールの新しいアルゴリズムのより迅速な開発とデバッグをサポートするために提供されています。実際のハイパーパラメーター最適化のワークロードを想定したものではありません。
+  この機能は、Sweeps ツール向けの新しいアルゴリズムの開発およびデバッグを高速化するために提供されています。実運用のハイパーパラメーター最適化ワークロードを想定したものではありません。
 </Warning>
 
-始める前に、W&B SDK（ `wandb` ）をインストールする必要があります。コマンドラインに次の コードスニペット を入力してください。
+開始する前に、まず W&amp;B SDK（`wandb`）をインストールする必要があります。次のコードスニペットをコマンドラインに入力してください。
 
 ```
 pip install wandb sweeps 
 ```
 
-以下の例では、設定ファイルとトレーニングループが Python スクリプト または Jupyter Notebook ですでに定義されていることを前提としています。設定ファイルの定義方法の詳細については、 [Define sweep configuration](/models/sweeps/define-sweep-configuration/) を参照してください。
+次の例では、Python スクリプトまたは Jupyter Notebook 内で、設定ファイルとトレーニングループがすでに定義されていることを前提としています。設定ファイルの定義方法の詳細については、[sweep 設定の定義](/ja/models/sweeps/define-sweep-configuration/) を参照してください。
 
-### コマンドラインからローカルコントローラを実行する
+<div id="run-the-local-controller-from-the-command-line">
+  ### コマンドラインからローカルコントローラーを実行する
+</div>
 
-W&B がクラウドサービスとしてホストするハイパーパラメーターコントローラを使用する場合と同様に、 sweep を初期化します。W&B の sweep ジョブにローカルコントローラを使用することを示すために、コントローラフラグ（ `--controller` ）を指定します。
+W&amp;B がクラウドサービスとして提供するハイパーパラメーターコントローラーを通常どおり使用するときと同じ要領で sweep を初期化します。W&amp;B sweep ジョブでローカルコントローラーを使用することを示すために、コントローラー用のフラグ（`controller`）を指定します。
 
 ```bash
 wandb sweep --controller config.yaml
 ```
 
-あるいは、 sweep の初期化とローカルコントローラの指定を 2 つのステップに分けることもできます。
+別の方法として、sweep の初期化とローカルコントローラーを使用する指定を、2 つの手順に分けることもできます。
 
-ステップを分けるには、まず sweep の YAML 設定ファイルに次の キー と 値 を追加します。
+手順を分けるには、まず sweep の YAML 設定ファイルに次のキーと値のペアを追加します。
 
 ```yaml
 controller:
   type: local
 ```
 
-次に、 sweep を初期化します。
+次に sweep を初期化します。
 
 ```bash
 wandb sweep config.yaml
 ```
 
-`wandb sweep` は sweep ID を生成します。 sweep を初期化した後、 [`wandb controller`](/models/ref/python/functions/controller) でコントローラを起動します。
+`wandb sweep` は sweep ID を生成します。sweep を初期化したら、[`wandb controller`](/ja/models/ref/python/functions/controller) でコントローラーを起動します。
 
 ```bash
 wandb controller {user}/{entity}/{sweep_id}
 ```
 
-ローカルコントローラの使用を指定したら、 sweep を実行するために 1 つ以上の Sweep エージェント を開始します。通常と同じ方法で W&B Sweep を開始します。詳細については、 [Start sweep agents](/models/sweeps/start-sweep-agents/) を参照してください。
+ローカルコントローラーを使用するよう指定したら、1 つ以上の Sweep エージェントを起動して sweep を実行します。通常どおりに W&amp;B Sweep を開始してください。詳しくは、[Start sweep agents](/ja/models/sweeps/start-sweep-agents/) を参照してください。
 
 ```bash
 wandb sweep sweep_ID
 ```
 
-### W&B Python SDK でローカルコントローラを実行する
+<div id="run-a-local-controller-with-wb-python-sdk">
+  ### W&amp;B Python SDK でローカルコントローラーを実行する
+</div>
 
-以下の コードスニペット は、W&B Python SDK を使用してローカルコントローラを指定し、使用する方法を示しています。
+次のコードスニペットは、W&amp;B Python SDK でローカルコントローラーを指定して使用する方法を示します。
 
-Python SDK でコントローラを使用する最も簡単な方法は、 sweep ID を [`wandb.controller`](/models/ref/python/functions/controller) メソッド に渡すことです。次に、返された オブジェクト の `run` メソッド を使用して sweep ジョブを開始します。
+Python SDK でコントローラーを使用する最も簡単な方法は、sweep ID を [`wandb.controller`](/ja/models/ref/python/functions/controller) メソッドに渡すことです。次に、返り値のオブジェクトの `run` メソッドを使って sweep ジョブを開始します。
 
 ```python
 sweep = wandb.controller(sweep_id)
 sweep.run()
 ```
 
-コントローラループをより詳細に制御したい場合：
+コントローラー ループをより細かく制御したい場合は、以下のようにします。
 
 ```python
 import wandb
@@ -77,7 +81,7 @@ while not sweep.done():
     time.sleep(5)
 ```
 
-あるいは、提供される パラメータ をさらに制御したい場合：
+提供されるパラメーターを、さらに細かく制御できます:
 
 ```python
 import wandb
@@ -89,7 +93,7 @@ while not sweep.done():
     sweep.print_status()
 ```
 
-sweep のすべてを コード で指定したい場合は、次のように記述できます。
+sweep をすべてコードで指定したい場合は、次のように書くことができます：
 
 ```python
 import wandb

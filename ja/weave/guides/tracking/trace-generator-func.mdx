@@ -1,0 +1,75 @@
+---
+title: "ジェネレーター関数のトレース"
+description: "W&B Weave のトレース機能で同期・非同期ジェネレーター関数を追跡する"
+---
+
+W&amp;B Weave は、同期および非同期のジェネレーター関数のトレースをサポートしており、深くネストしたパターンにも対応しています。
+
+<Warning>
+  ジェネレーターは値を遅延的に `yield` するため、Weave が出力をログに記録するのは、ジェネレーターが完全に消費されたときのみです (たとえばリストに変換したとき) 。
+  Weave がトレース内で出力を取得できるようにするには、ジェネレーターを完全に消費してください (たとえば `list()` を使う) 。
+</Warning>
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    from typing import Generator
+    import weave
+
+    weave.init("my-project")
+
+    # この関数はシンプルな同期ジェネレーターを使用します。
+    # Weave はこの呼び出しとその入力 (`x`) をトレースしますが、
+    # 出力値が記録されるのは、ジェネレーターが消費された後のみです（たとえば `list()` を使った場合）。
+    @weave.op
+    def basic_gen(x: int) -> Generator[int, None, None]:
+        yield from range(x)
+
+    # ジェネレーターのパイプライン内で使われる通常の同期関数です。
+    # この関数の呼び出しも Weave によって個別にトレースされます。
+    @weave.op
+    def inner(x: int) -> int:
+        return x + 1
+
+    # 別のトレース対象関数 (`inner`) を呼び出す同期ジェネレーターです。
+    # `yield` されるそれぞれの値は、個別の `inner` 呼び出しのトレースから得られます。
+    @weave.op
+    def nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            yield inner(i)
+
+    # 上記のジェネレーターを合成した、より複雑なジェネレーターです。
+    # ここでのトレースは階層的な呼び出しツリーを生成します:
+    # - `deeply_nested_generator`（親）
+    #   - `nested_generator`（子）
+    #     - `inner`（孫）
+    @weave.op
+    def deeply_nested_generator(x: int) -> Generator[int, None, None]:
+        for i in range(x):
+            for j in nested_generator(i):
+                yield j
+
+    # Weave が出力を取得するには、ジェネレーターを「消費」する必要があります。
+    # これは同期ジェネレーターと非同期ジェネレーターの両方に当てはまります。
+    res = deeply_nested_generator(4)
+    list(res)  # すべてのネストした呼び出しと `yield` をトレースさせる
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    This feature is not available in the TypeScript SDK yet.
+    ```
+  </Tab>
+</Tabs>
+
+次のスクリーンショットは、前述のコードのトレースを選択した **Traces** ページを示しています。中央のペインには、選択されたトレースのトレースツリーが表示されています。トレースツリーには、`deeply_nested_generator`、`nested_generator`、`inner` の各 Ops が階層構造で示されています。
+![Weave Traces ページで、深くネストした Ops を示すトレースツリーが選択されている様子](/weave/guides/tracking/imgs/generators.png)
+
+<div id="consuming-generators">
+  ## ジェネレーターの消費
+</div>
+
+Weave は、ジェネレーターを最後まで消費し終えた後にのみ、その出力を取得します。ジェネレーターは、それを反復処理することで消費します (たとえば `list()`、`for` ループ、あるいは枯渇するまで `next()` を使うなど) 。`async for` や同等の方法で消費する場合も、非同期ジェネレーターについて同じことが当てはまります。
+
+関数やメソッドを `@weave.op` でデコレートする方法の詳細は、[呼び出しの作成](/ja/weave/guides/tracking/create-call) を参照してください。

@@ -1,19 +1,21 @@
 ---
-title: Stable Baselines 3
-description: W&B를 Stable Baseline 3와 통합하는 방법.
+description: W&B를 Stable Baselines 3와 인테그레이션하는 방법입니다.
+title: Stable Baselines 3 PyTorch
 ---
 
-[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\)는 PyTorch 기반의 신뢰할 수 있는 강화학습 알고리즘 구현체 모음입니다. W&B의 SB3 인테그레이션은 다음과 같은 기능을 제공합니다:
+[Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\)는 PyTorch로 구현된 강화 학습 알고리즘을 신뢰성 있게 제공하는 구현 모음입니다. W&B의 SB3 인테그레이션은 다음을 수행합니다: 
 
-* 손실(loss) 및 에피소드 리턴(episodic returns)과 같은 메트릭 기록.
-* 게임을 플레이하는 에이전트의 비디오 업로드.
-* 트레이닝된 모델 저장.
-* 모델의 하이퍼파라미터 로그 기록.
-* 모델 그레이디언트 히스토그램 로그 기록.
+* 손실 값 및 에피소드 반환값과 같은 메트릭을 기록합니다.
+* 에이전트가 게임을 플레이하는 비디오를 업로드합니다.
+* 트레이닝된 모델을 저장합니다.
+* 모델의 하이퍼파라미터를 로깅합니다.
+* 모델 그래디언트 히스토그램을 로깅합니다.
 
-[SB3 트레이닝 run 예시](https://wandb.ai/wandb/sb3/runs/1jyr6z10)를 확인해 보세요.
+[SB3 트레이닝 run 예시](https://wandb.ai/wandb/sb3/runs/1jyr6z10)를 확인하세요.
 
-## SB3 Experiments 로그 기록하기
+<div id="log-your-sb3-experiments">
+  ## SB3 Experiments 로깅하기
+</div>
 
 ```python
 from wandb.integration.sb3 import WandbCallback
@@ -22,21 +24,26 @@ model.learn(..., callback=WandbCallback())
 ```
 
 <Frame>
-    <img src="/images/integrations/stable_baselines_demo.gif" alt="Stable Baselines 3 training with W&B"  />
+  <img src="/images/integrations/stable_baselines_demo.gif" alt="W&B를 사용한 Stable Baselines 3 트레이닝" />
 </Frame>
 
-## WandbCallback 인수
 
-| 인수 | 용도 |
+<div id="wandbcallback-arguments">
+  ## WandbCallback 인자
+</div>
+
+| 인자 | 용도 |
 | :--- | :--- |
-| `verbose` | sb3 출력의 상세 수준 |
-| `model_save_path` | 모델이 저장될 폴더 경로. 기본값은 \`None\`이며 모델이 로그에 기록되지 않음 |
-| `model_save_freq` | 모델 저장 주기 |
-| `gradient_save_freq` | 그레이디언트 로그 기록 주기. 기본값은 0이며 그레이디언트가 로그에 기록되지 않음 |
+| `verbose` | sb3 출력의 상세 정도를 설정합니다. |
+| `model_save_path` | 모델이 저장될 폴더의 경로입니다. 기본값은 `None`이므로 모델은 로깅되지 않습니다. |
+| `model_save_freq` | 모델을 저장하는 주기입니다. |
+| `gradient_save_freq` | 그래디언트를 로깅하는 주기입니다. 기본값은 0이므로 그래디언트는 로깅되지 않습니다. |
 
-## 기본 예제
+<div id="basic-example">
+  ## 기본 예제
+</div>
 
-W&B SB3 인테그레이션은 TensorBoard의 로그 출력을 사용하여 메트릭을 로그로 기록합니다.
+W&amp;B SB3 인테그레이션은 TensorBoard의 로그 출력값을 사용해 메트릭을 기록합니다
 
 ```python
 import gym
@@ -56,14 +63,14 @@ run = wandb.init(
     project="sb3",
     config=config,
     sync_tensorboard=True,  # sb3의 tensorboard 메트릭 자동 업로드
-    monitor_gym=True,  # 게임을 플레이하는 에이전트의 비디오 자동 업로드
+    monitor_gym=True,  # 에이전트가 게임을 플레이하는 영상 자동 업로드
     save_code=True,  # 선택 사항
 )
 
 
 def make_env():
     env = gym.make(config["env_name"])
-    env = Monitor(env)  # 리턴과 같은 통계 기록
+    env = Monitor(env)  # 리턴 등의 통계 기록
     return env
 
 

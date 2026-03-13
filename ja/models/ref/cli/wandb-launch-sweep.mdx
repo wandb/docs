@@ -1,40 +1,48 @@
 ---
-title: wandb launch-sweep
+title: "wandb launch-sweep"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-launch-sweep.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドの導入用コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-launch-sweep.mdx
+  2. そのファイルに導入用コンテンツを追加します
+  3. 次の 2 行だけを残し、このコメントブロック全体を削除します:
 
-import WandbLaunchSweep from "/snippets/en/_includes/cli/wandb-launch-sweep.mdx";
+  import WandbLaunchSweep from "/snippets/_includes/cli/wandb-launch-sweep.mdx";
 
-<WandbLaunchSweep/>
+  <WandbLaunchSweep/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  スニペットは次回の再生成時に自動検出されます。
+  */}
 
-W&B Launch Sweep を実行します（実験的機能）。
+W&amp;B Launch の sweep を実行します（実験的機能）。
 
-## Usage
+
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
 wandb launch-sweep [CONFIG] [OPTIONS]
 ```
 
-## Arguments
+
+<div id="arguments">
+  ## 引数
+</div>
 
 | 引数 | 説明 | 必須 |
 | :--- | :--- | :--- |
 | `CONFIG` | 説明はありません | いいえ |
 
-## Options
+<div id="options">
+  ## オプション
+</div>
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--queue`, `-q` | Sweep をプッシュするキューの名前 |
-| `--project`, `-p` | エージェント が監視する Project の名前。指定された場合、設定ファイルで渡されたプロジェクトの 値 を上書きします |
-| `--entity`, `-e` | 使用する Entity。デフォルトは現在ログインしている User です |
-| `--resume_id`, `-r` | 8文字の Sweep ID を渡して Launch Sweep を再開します。キューの指定が必須です |
-| `--prior_run`, `-R` | この Sweep に追加する既存の Run の ID |
+| `--queue`, `-q` | sweep をプッシュするキューの名前 |
+| `--project`, `-p` | エージェントが監視するプロジェクト名。指定された場合、設定ファイルで指定されたプロジェクト値より優先されます |
+| `--entity`, `-e` | 使用するエンティティ。デフォルトは現在ログイン中のユーザーです |
+| `--resume_id`, `-r` | 8 文字の sweep ID を指定して Launch sweep を再開します。キューが必須です |
+| `--prior_run`, `-R` | この sweep に追加する既存の run の ID |

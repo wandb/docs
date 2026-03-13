@@ -1,8 +1,8 @@
 ---
-title: 1 つずつではなく、複数の Runs をまとめて削除するにはどうすればよいですか？
+title: 複数の run を一度に削除するにはどうすればよいですか？
 ---
 
-[public API](/models/ref/python/public-api/api) を使用して、1 回の操作で複数の Runs を削除できます。
+[public API](/ja/models/ref/python/public-api/api) を使用すると、複数の run を一度の操作で削除できます。
 
 ```python
 import wandb
@@ -10,7 +10,6 @@ import wandb
 api = wandb.Api()
 runs = api.runs('<entity>/<project>')
 for run in runs:
-    # 条件に合致する場合
     if <condition>:
         run.delete()
 ```

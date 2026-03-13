@@ -1,19 +1,27 @@
 ---
-title: DSPy
-description: DSPy 모듈 및 함수를 사용하여 이루어진 호출을 자동으로 추적하고 로그를 남기려면 Weave 를 사용하세요.
+title: "DSPy"
+description: "Weave를 사용하여 DSPy 모듈과 함수에서 이루어지는 호출을 자동으로 추적하고 기록합니다"
 ---
 
-<a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
+import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
-[DSPy](https://dspy-docs.vercel.app/) 는 특히 파이프라인 내에서 LM이 한 번 이상 사용될 때, LM 프롬프트와 가중치를 알고리즘적으로 최적화하기 위한 프레임워크입니다. Weave 는 DSPy 모듈 및 함수를 사용하여 수행된 호출을 자동으로 추적하고 로그를 기록합니다.
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb" />
 
-## Tracing
+  <GitHubLink url="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb" />
+</div>
 
-개발 및 프로덕션 단계 모두에서 언어 모델 애플리케이션의 트레이스를 중앙 위치에 저장하는 것이 중요합니다. 이러한 트레이스는 디버깅에 유용할 뿐만 아니라, 애플리케이션을 개선하는 데 도움이 되는 데이터셋으로 활용될 수 있습니다.
+[DSPy](https://dspy.ai)는 특히 파이프라인 내에서 LM을 한 번 이상 사용할 때, LM 프롬프트와 가중치를 알고리즘적으로 최적화하기 위한 프레임워크입니다. Weave는 DSPy 모듈과 함수를 사용해 수행되는 호출을 자동으로 추적하고 로깅합니다.
 
-Weave 는 [DSPy](https://dspy-docs.vercel.app/) 에 대한 트레이스를 자동으로 캡처합니다. 추적을 시작하려면 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` 을 호출하고 평소와 같이 라이브러리를 사용하세요.
+
+<div id="tracing">
+  ## 트레이싱
+</div>
+
+언어 모델 애플리케이션의 트레이스를 개발 및 프로덕션 환경 모두에서 중앙화된 위치에 저장하는 것은 중요합니다. 이러한 트레이스는 디버깅에 유용할 뿐만 아니라, 애플리케이션을 개선하는 데 도움이 되는 데이터셋으로도 활용할 수 있습니다.
+
+Weave는 [DSPy](https://dspy.ai)에 대한 트레이스를 자동으로 캡처합니다. 추적을 시작하려면 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`를 호출한 다음 라이브러리를 평소처럼 사용하면 됩니다.
 
 ```python lines
 import os
@@ -22,7 +30,6 @@ import weave
 
 os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
 
-# 프로젝트 초기화
 weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
 
 lm = dspy.LM('openai/gpt-4o-mini')
@@ -31,13 +38,16 @@ classify = dspy.Predict("sentence -> sentiment")
 classify(sentence="it's a charming and often affecting journey.")
 ```
 
-[![dspy_trace.png](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![dspy\_trace.png](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
-Weave 는 DSPy 프로그램의 모든 LM 호출을 기록하여 입력, 출력 및 메타데이터에 대한 세부 정보를 제공합니다.
+Weave는 DSPy 프로그램에서 발생하는 모든 LM 호출을 로깅하여 입력, 출력 및 메타데이터에 대한 자세한 정보를 제공합니다.
 
-## 커스텀 DSPy Modules 및 Signatures 추적하기
 
-`Module` 은 프롬프팅 기법을 추상화하며 학습 가능한 파라미터를 가진 DSPy 프로그램의 빌딩 블록입니다. `Signature` 는 DSPy Module 의 입력/출력 행동을 선언적으로 명시한 것입니다. Weave 는 DSPy 프로그램의 모든 내장 및 커스텀 Signatures 와 Modules 를 자동으로 추적합니다.
+<div id="track-your-own-dspy-modules-and-signatures">
+  ## 직접 정의한 DSPy Module과 Signature 추적
+</div>
+
+`Module`은 DSPy 프로그램에서 프롬프트 기법을 추상화하며, 학습 가능한 파라미터를 포함하는 기본 구성 요소입니다. `Signature`는 DSPy Module의 입력/출력 동작을 선언적으로 정의한 것입니다. Weave는 DSPy 프로그램에 포함된 모든 기본 제공 및 사용자 정의 Signature와 Module을 자동으로 추적합니다.
 
 ```python lines
 import os
@@ -55,17 +65,17 @@ class Outline(dspy.Signature):
     title: str = dspy.OutputField()
     sections: list[str] = dspy.OutputField()
     section_subheadings: dict[str, list[str]] = dspy.OutputField(
-        desc="섹션 제목에서 소제목으로의 매핑"
+        desc="mapping from section headings to subheadings"
     )
 
 
 class DraftSection(dspy.Signature):
-    """기사의 최상위 섹션을 초안으로 작성합니다."""
+    """기사의 최상위 섹션 초안을 작성합니다."""
 
     topic: str = dspy.InputField()
     section_heading: str = dspy.InputField()
     section_subheadings: list[str] = dspy.InputField()
-    content: str = dspy.OutputField(desc="마크다운 형식의 섹션")
+    content: str = dspy.OutputField(desc="markdown-formatted section")
 
 
 class DraftArticle(dspy.Module):
@@ -94,13 +104,14 @@ draft_article = DraftArticle()
 article = draft_article(topic="World Cup 2002")
 ```
 
-[![](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![Weave에서 DSPy 사용자 정의 모듈 트레이스, 모듈 실행 흐름 및 트레이스 세부 정보](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
 
-## DSPy 프로그램의 최적화 및 평가
+<div id="optimization-and-evaluation-of-your-dspy-program">
+  ## DSPy 프로그램의 최적화 및 평가
+</div>
 
-Weave 는 또한 DSPy 옵티마이저 및 평가(Evaluation) 호출에 대한 트레이스를 자동으로 캡처하며, 이를 통해 개발 세트에서 DSPy 프로그램의 성능을 개선하고 평가할 수 있습니다.
-
+Weave는 또한 DSPy 옵티마이저와 Evaluation 호출에서 발생하는 트레이스를 자동으로 캡처하여, 개발 세트에서 DSPy 프로그램의 성능을 개선하고 평가하는 데 사용할 수 있습니다.
 
 ```python lines
 import os
@@ -116,10 +127,9 @@ def accuracy_metric(answer, output, trace=None):
 
 module = dspy.ChainOfThought("question -> answer: str, explanation: str")
 optimizer = dspy.BootstrapFewShot(metric=accuracy_metric)
-# 모델 최적화 컴파일
 optimized_module = optimizer.compile(
     module, trainset=SAMPLE_EVAL_DATASET, valset=SAMPLE_EVAL_DATASET
 )
 ```
 
-[![](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![최적화 프로세스와 성능 향상을 보여주는 Weave의 DSPy 옵티마이저 트레이스](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)

@@ -2,9 +2,9 @@
 title: Launch API
 ---
 
-<Card title="ソースコードを表示" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch.py#L249-L331" icon="github"/>
+<Card title="ソースコードを表示" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch.py#L249-L331" icon="github" />
 
-W&B Launch の実験をローンチします。
+W&amp;B Launch を使った実験を開始します。
 
 ```python
 launch(
@@ -25,39 +25,41 @@ launch(
 ) -> AbstractRun
 ```
 
-| 引数 | 説明 |
-| :--- | :--- |
-|  `job` |  wandb.Job への文字列参照。例: `wandb/test/my-job:latest` |
-|  `api` |  `wandb.apis.internal` からの wandb Api インスタンス。 |
-|  `entry_point` |  プロジェクト内で実行するエントリポイント。デフォルトでは、wandb URI の場合は元の run で使用されたエントリポイント、Git リポジトリ URI の場合は `main.py` が使用されます。 |
-|  `version` |  Git ベースのプロジェクトの場合、コミットハッシュまたはブランチ名のいずれか。 |
-|  `name` |  ローンチされる run の名前。 |
-|  `resource` |  run の実行バックエンド。 |
-|  `resource_args` |  リモートバックエンドで run をローンチするためのリソース関連の引数。構築された Launch 設定の `resource_args` キーの下に保存されます。 |
-|  `project` |  ローンチされた run の送信先となるターゲット Projects。 |
-|  `entity` |  ローンチされた run の送信先となるターゲット Entities。 |
-|  `config` |  run の設定を含む辞書。 "resource_args" キーの下にリソース固有の引数を含めることもできます。 |
-|  `synchronous` |  run の完了を待機している間、プロセスをブロックするかどうか。デフォルトは `True` です。 `synchronous` が `False` で `backend` が "local-container" の場合、このメソッドはリターンしますが、ローカルの run が完了するまで終了時に現在のプロセスがブロックされることに注意してください。現在のプロセスが中断された場合、このメソッドを介してローンチされた非同期の run も終了されます。 `synchronous` が `True` で run が失敗した場合、現在のプロセスもエラーになります。 |
-|  `run_id` |  run の ID（最終的に `name` フィールドを置き換えるためのもの）。 |
-|  `repository` |  リモートレジストリのリポジトリパスの文字列名。 |
+| Arguments       | Description                                                                                                                                                                                                                                               |
+| :-------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `job`           | wandb Job への文字列参照。例: wandb/test/my-job:latest                                                                                                                                                                                                             |
+| `api`           | wandb.apis.internal からの wandb API のインスタンス。                                                                                                                                                                                                                |
+| `entry_point`   | プロジェクト内で実行するエントリーポイント。wandb URI の場合は元の run で使用されたエントリーポイント、Git リポジトリ URI の場合は main.py がデフォルト。                                                                                                                                                             |
+| `version`       | Git ベースのプロジェクトに対するコミットハッシュまたはブランチ名。                                                                                                                                                                                                                       |
+| `name`          | run を起動する際に使用する run 名。                                                                                                                                                                                                                                    |
+| `resource`      | run の実行バックエンド。                                                                                                                                                                                                                                            |
+| `resource_args` | リモートバックエンドで Runs を起動するためのリソース関連の引数。構築される Launch 設定の `resource_args` に保存される。                                                                                                                                                                               |
+| `project`       | 起動した run を送信する対象の プロジェクト。                                                                                                                                                                                                                                 |
+| `entity`        | 起動した run を送信する対象の Entity。                                                                                                                                                                                                                                 |
+| `config`        | run の設定を含む辞書。キー &quot;resource&#95;args&quot; の下にリソース固有の引数を含めることもできる。                                                                                                                                                                                     |
+| `synchronous`   | run の完了を待つ間ブロックするかどうか。デフォルトは True。`synchronous` が False で `backend` が &quot;local-container&quot; の場合、このメソッドは復帰するが、現在のプロセスはローカルの run が完了するまで終了時にブロックされる。現在のプロセスが中断された場合、このメソッド経由で起動された非同期 run は終了される。`synchronous` が True で run が失敗した場合、現在のプロセスもエラーで終了する。 |
+| `run_id`        | run の ID（最終的に :name: フィールドを置き換える予定）                                                                                                                                                                                                                       |
+| `repository`    | リモートレジストリのリポジトリパスを表す文字列                                                                                                                                                                                                                                   |
 
-#### 例:
+
+<div id="example">
+  #### 例：
+</div>
 
 ```python
 from wandb.sdk.launch import launch
 
 job = "wandb/jobs/Hello World:latest"
 params = {"epochs": 5}
-# W&B プロジェクトを実行し、ローカルホスト上に
-# 再現可能な Docker 環境を作成します
+# W&B プロジェクトを実行し、ローカルホスト上に再現可能な Docker 環境を作成する
 api = wandb.apis.internal.Api()
 launch(api, job, parameters=params)
 ```
 
-| 返り値 | 説明 |
-| :--- | :--- |
-|  ローンチされた run に関する情報（例：run ID）を公開する `wandb.launch.SubmittedRun` のインスタンス。 |
+| Returns                                                                                              | Description                                                           |
+| :--------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------- |
+| an instance of`wandb.launch.SubmittedRun` exposing information (e.g. run ID) about the launched run. | 起動された run に関する情報（例: run ID）を提供する `wandb.launch.SubmittedRun` のインスタンス。 |
 
-| 例外 | 説明 |
-| :--- | :--- |
-|  `wandb.exceptions.ExecutionError` | ブロッキングモードでローンチされた run が失敗した場合に発生します。 |
+| Raises                                                                                | Description                                                              |
+| :------------------------------------------------------------------------------------ | :----------------------------------------------------------------------- |
+| `wandb.exceptions.ExecutionError` If a run launched in blocking mode is unsuccessful. | `wandb.exceptions.ExecutionError` は、ブロッキング モードで起動された run が失敗した場合に送出されます。 |

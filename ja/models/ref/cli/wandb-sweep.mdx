@@ -1,47 +1,55 @@
 ---
-title: wandb sweep
+title: "wandb sweep"
 ---
 
 {/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-sweep.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
+  このコマンドの導入文を追加するには:
+  1. スニペットファイル /snippets/_includes/cli/wandb-sweep.mdx を作成します
+  2. そのファイルに導入文を追加します
+  3. このコメントブロック全体を削除し、以下の 2 行だけを残します:
 
-import WandbSweep from "/snippets/en/_includes/cli/wandb-sweep.mdx";
+  import WandbSweep from "/snippets/_includes/cli/wandb-sweep.mdx";
 
-<WandbSweep/>
+  <WandbSweep/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+  スニペットは次回の再生成時に自動検出されます。
+  */}
 
-ハイパーパラメーター探索（ Sweeps ）を初期化します。様々な組み合わせをテストすることで、機械学習モデルのコスト関数を最適化するハイパーパラメーターを探索します。
+ハイパーパラメーター sweep を初期化します。さまざまな組み合わせを試して、機械学習モデルのコスト関数を最適化するハイパーパラメーターを探索します。
 
-## 使用法
+
+<div id="usage">
+  ## 使用方法
+</div>
 
 ```bash
 wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
 ```
 
-## 引数
+
+<div id="arguments">
+  ## 引数
+</div>
 
 | 引数 | 説明 | 必須 |
 | :--- | :--- | :--- |
-| `CONFIG_YAML_OR_SWEEP_ID` | 説明なし | はい |
+| `CONFIG_YAML_OR_SWEEP_ID` | 説明はありません | はい |
 
-## オプション
+<div id="options">
+  ## オプション
+</div>
 
 | オプション | 説明 |
 | :--- | :--- |
-| `--project`, `-p` | Sweep から作成された W&B Runs の送信先となる Projects 名。プロジェクトが指定されていない場合、 Run は Uncategorized というラベルのプロジェクトに送信されます。 |
-| `--entity`, `-e` | Sweep によって作成された W&B Runs の送信先となる Users 名または Teams 名。指定する Entities が既に存在することを確認してください。エンティティを指定しない場合、 Run は通常ユーザー名であるデフォルトのエンティティに送信されます。 |
-| `--controller` | ローカルの controller を実行する（デフォルト: False） |
-| `--verbose` | 詳細な出力を表示する（デフォルト: False） |
-| `--name` | Sweep の名前。名前が指定されない場合は Sweep ID が使用されます。 |
-| `--program` | Sweep プログラムを設定する |
-| `--update` | 保留中の Sweep を更新する |
-| `--stop` | Sweep を終了し、新しい Runs の実行を停止します。現在実行中の Runs は完了させます。（デフォルト: False） |
-| `--cancel` | Sweep をキャンセルし、すべての実行中の Runs を強制終了して、新しい Runs の実行を停止します。（デフォルト: False） |
-| `--pause` | Sweep を一時停止し、新しい Runs の実行を一時的に停止します。（デフォルト: False） |
-| `--resume` | Sweep を再開し、新しい Runs の実行を続行します。（デフォルト: False） |
-| `--prior_run`, `-R` | この Sweep に追加する既存の Run の ID |
+| `--project`, `-p` | sweep から作成される W&B runs を送信する プロジェクト 名。プロジェクト が指定されていない場合、run は Uncategorized というラベルが付いた プロジェクト に送信されます。 |
+| `--entity`, `-e` | sweep によって作成された W&B runs を送信したい ユーザー名 または チーム名。指定した entity がすでに存在していることを確認してください。entity を指定しない場合、run はデフォルトの entity（通常はあなたのユーザー名）に送信されます。 |
+| `--controller` | ローカル controller を実行（デフォルト: False） |
+| `--verbose` | 詳細な出力を表示（デフォルト: False） |
+| `--name` | sweep の名前。名前が指定されていない場合は sweep ID が使用されます。 |
+| `--program` | sweep のプログラムを設定 |
+| `--update` | 保留中の sweep を更新 |
+| `--stop` | sweep を完了し、新しい run の実行を停止して、現在実行中の run の終了を待ちます。（デフォルト: False） |
+| `--cancel` | sweep をキャンセルし、実行中のすべての run を強制終了して、新しい run の実行を停止します。（デフォルト: False） |
+| `--pause` | sweep を一時停止し、新しい run の実行を一時的に停止します。（デフォルト: False） |
+| `--resume` | sweep を再開し、新しい run の実行を再開します。（デフォルト: False） |
+| `--prior_run`, `-R` | この sweep に追加する既存の run の ID |

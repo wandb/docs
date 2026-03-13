@@ -1,95 +1,103 @@
 ---
-title: Evaluations에서 동적 Leaderboards 생성하기
-description: Dynamic Leaderboards를 사용하면 평가 결과에서 직접 Leaderboard 뷰를 구성, 사용자 정의, 저장 및
-  업데이트할 수 있습니다.
+title: "Evaluations에서 동적 Leaderboard 생성하기"
+description: "동적 Leaderboard를 사용하면 evaluation 내에서 바로 Leaderboard 뷰를 설정, 사용자 지정, 저장 및 업데이트할 수 있습니다."
 ---
 
-Weave Evaluations을 사용할 때 실험 결과를 Leaderboards로 시각화하고 커스터마이징할 수 있습니다. 
+Weave Evaluations를 사용할 때, 실험 결과를 Leaderboard 형태로 시각화하고 사용자 지정할 수 있습니다. 
 
-저장된 Leaderboard 뷰는 동적으로 작동합니다:
+저장된 Leaderboard 뷰는 동적으로 업데이트됩니다:
 
 - 새로운 evaluation run이 추가될 때
 - 그리고 결과가 저장된 필터와 일치할 때
 
-Leaderboard는 수동 설정 없이도 이를 포함하도록 자동으로 업데이트됩니다.
+Leaderboard는 수동으로 다시 설정할 필요 없이 자동으로 업데이트되어, 해당 run들을 포함하게 됩니다.
 
-이를 통해 실험과 함께 진화하는 영구적인 Leaderboard로 뷰를 활용할 수 있습니다.
+이를 통해 실험의 진행에 따라 함께 발전하는 지속적인 Leaderboard 뷰로 활용할 수 있습니다.
 
+<div id="visualize-evaluation-results-in-a-leaderboard">
+  ## Leaderboard에서 Evaluation 결과 시각화하기
+</div>
 
-## Leaderboard에서 Evaluation 결과 시각화하기
-
-프로젝트에 Weave Evaluation 데이터가 포함되어 있으면, evaluation 테이블을 사용하여 필터링된 결과 서브셋을 기반으로 Weave Leaderboard 뷰를 빠르게 생성할 수 있습니다.
+프로젝트에 Weave Evaluation 데이터가 있는 경우, Evaluation 테이블을 사용해서 필터링된 결과 하위 집합을 기반으로 Weave Leaderboard 뷰를 빠르게 생성할 수 있습니다.
 
 Weave Leaderboard를 생성하려면:
+
 1. [wandb.ai](https://wandb.ai)로 이동합니다.
 2. Weave 사이드바 메뉴에서 **Evaluations**를 클릭합니다.
-3. 비교하려는 Models, Datasets 또는 run으로 데이터를 좁히기 위해 evaluation 테이블에 필터를 적용합니다.
-4. **evaluation table toolbar**에서 **Visualize**를 클릭합니다. 
-   Weave는 테이블에서 현재 필터링된 데이터만을 사용하여 Leaderboard 패널을 자동으로 생성합니다.
-5. Leaderboard 패널 헤더에서 **Configure**를 클릭하여 **Edit Leaderboard** 패널을 엽니다.   
-   **Edit Leaderboard** 패널에서는 Models, Datasets, Scorers 및 메트릭이 표시되는 방식을 정밀하게 제어할 수 있습니다.
+3. 비교하려는 모델, 데이터셋, run만 남도록 Evaluation 테이블에 필터를 적용합니다.
+4. **evaluation table toolbar**에서 **Visualize**를 클릭합니다.  
+   Weave는 테이블에서 현재 필터링된 데이터만 사용하여 Leaderboard 패널을 자동으로 생성합니다.
+5. Leaderboard 패널 헤더에서 **Configure**를 클릭하여 **Edit Leaderboard** 패널을 엽니다.  
+   **Edit Leaderboard** 패널에서는 모델, 데이터셋, 스코어러, 메트릭의 표시 방식을 세밀하게 제어할 수 있습니다.
 
-다음은 필터링된 evaluation 테이블이 Leaderboard로 시각화되는 방식과 결과 Leaderboard를 설정하는 위치를 보여줍니다.
-
-<Frame>
-![필터가 적용된 evaluation 테이블, 테이블 툴바의 Visualize 버튼, 그리고 패널 헤더에 Configure 버튼이 있는 오른쪽의 결과 Leaderboard 패널을 보여주는 Evaluations 페이지.](/weave/guides/evaluation/img/configure-leaderboard.png)
-</Frame>
-
-### 가시성 및 커스텀 이름을 사용한 Leaderboard 요소 설정
-
-다음은 Models, Datasets, Scorers, Metrics의 네 가지 설정 탭이 있는 **Edit Leaderboard** 패널을 보여줍니다.
+아래는 필터링된 Evaluation 테이블이 Leaderboard로 시각화되는 모습과, 생성된 Leaderboard를 구성하는 위치를 보여줍니다.
 
 <Frame>
-![Leaderboard를 설정하는 데 사용되는 Models, Datasets, Scorers, Metrics 탭이 오른쪽에 열려 있는 Edit Leaderboard 패널을 보여주는 Evaluations 페이지.](/weave/guides/evaluation/img/edit-leaderboard.png)
+![Evaluations 페이지에서 필터가 적용된 Evaluation 테이블, 테이블 툴바의 Visualize 버튼, 그리고 오른쪽 패널 헤더에 Configure 버튼이 있는 결과 Leaderboard 패널을 보여줍니다.](/weave/guides/evaluation/img/configure-leaderboard.png)
 </Frame>
 
-**Edit Leaderboard** 패널에서 다음을 수행할 수 있습니다:
+<div id="configure-leaderboard-elements-with-visibility-and-custom-names">
+  ### Leaderboard 요소의 표시 여부와 사용자 지정 이름 설정
+</div>
+
+다음은 네 개의 설정 탭(Models, Datasets, Scorers, Metrics)이 있는 **Edit Leaderboard** 패널의 예시입니다.
+
+<Frame>
+![Evaluations 페이지에서 오른쪽에 Edit Leaderboard 패널이 열려 있으며, 리더보드를 설정하기 위한 Models, Datasets, Scorers, Metrics 탭이 표시되어 있습니다.](/weave/guides/evaluation/img/edit-leaderboard.png)
+</Frame>
+
+**Edit Leaderboard** 패널에서 다음 작업을 수행할 수 있습니다:
 
 - **표시 활성화/비활성화**  
-  Leaderboard에 표시할 Models, Datasets, Scorers 및 메트릭을 체크하거나 체크 해제하여 선택합니다.
+  Leaderboard에 표시할 모델, 데이터셋, 스코어러, 메트릭을 표시 여부를 체크/해제하여 선택합니다.
 
-- **Models, Datasets 및 Scorers 이름 변경**  
-  표시하기 쉬운 이름을 할당합니다 (예: 모델 run의 이름을 `GPT-4`로 변경하거나 데이터셋 이름을 `JokesV1`로 변경).
+- **모델, 데이터셋, 스코어러 이름 변경**  
+  보기 편한 이름을 지정합니다(예: 모델 run의 이름을 `GPT-4`로 바꾸거나 데이터셋을 `JokesV1`으로 변경).
 
-  이름이 변경된 항목은 다음과 같습니다:
-  - Leaderboard에 즉시 업데이트됨
-  - 클릭 가능한 상태로 유지되어 사이드 패널에서 기본 참조를 계속 열 수 있음
-  - Leaderboard 뷰가 사용되는 모든 곳에 자동으로 전파됨
+  이름을 변경한 항목은:
+  - Leaderboard에 즉시 반영되며
+  - 여전히 클릭 가능해서 사이드 패널에서 해당 원본 객체를 열 수 있고
+  - Leaderboard 뷰가 사용되는 모든 위치에 자동으로 반영됩니다
 
-이를 통해 기본 오브젝트를 변경하지 않고도 의미 있고 읽기 쉬운 이름을 사용하여 실험을 더 쉽게 비교할 수 있습니다.
+이를 통해 기본 객체를 변경하지 않고도 사람이 읽기 쉬운 의미 있는 이름으로 실험을 더 쉽게 비교할 수 있습니다.
 
+<div id="configure-leaderboard-metric-behavior-and-coloring">
+  ### Leaderboard 메트릭 동작 및 색상 설정
+</div>
 
-### Leaderboard 메트릭 행동 및 색상 설정
+**Edit Leaderboard** 패널에서 각 메트릭에 대해 다음 중 어떤 기준을 사용할지 설정할 수 있습니다:
 
-**Edit Leaderboard** 패널에서 각 메트릭에 대해 다음 여부를 지정할 수 있습니다:
+- **값이 클수록 좋음**, 또는
+- **값이 작을수록 좋음**
 
-- **Higher values are better** (높은 값이 더 좋음), 또는
-- **Lower values are better** (낮은 값이 더 좋음)
+이 설정은 Leaderboard에서 색상이 표시되는 방식에 직접적인 영향을 줍니다:
 
-이 설정은 Leaderboard 색상 지정에 직접적인 영향을 미칩니다:
+- 초록색은 *더 나은* 값을 강조 표시합니다.
+- 빨간색은 *더 나쁜* 값을 강조 표시합니다.
+- “값이 클수록 좋음”과 “값이 작을수록 좋음”을 전환하면 색상이 자동으로 반전됩니다.
 
-- 초록색은 더 *나은* 값을 강조합니다.
-- 빨간색은 더 *나쁜* 값을 강조합니다.
-- "higher is better"와 "lower is better" 사이를 전환하면 색상이 자동으로 반전됩니다.
+이렇게 하면 정확도, 지연 시간, 에러율처럼 서로 다른 유형의 메트릭에서도 시각적 신호가 항상 올바르게 유지됩니다.
 
-이를 통해 다양한 유형의 메트릭(예: 정확도 vs 지연 시간 또는 오류율)에서 시각적 신호가 정확하게 유지되도록 합니다.
+<div id="save-and-reuse-leaderboard-views">
+  ## 리더보드 뷰 저장 및 재사용
+</div>
 
+**Edit Leaderboard** 패널에서 **Save**를 클릭해 사용자 지정한 리더보드를 재사용 가능한 뷰로 저장할 수 있습니다.
 
-## Leaderboard 뷰 저장 및 재사용
+저장된 리더보드 뷰에는 다음이 포함됩니다:
 
-**Edit Leaderboard** 패널에서 **Save**를 클릭하여 커스터마이징한 Leaderboard를 재사용 가능한 뷰로 저장할 수 있습니다.
-
-저장된 Leaderboard 뷰는 다음을 캡처합니다:
-- 선택된 Models, Datasets, Scorers 및 메트릭
-- 변경된 표시 레이블
-- 메트릭 방향 설정 (높은 값 또는 낮은 값이 더 좋음)
+- 선택한 모델, 데이터셋, 스코어러, 메트릭
+- 변경된 표시 레이블 이름
+- 메트릭 방향 설정(값이 클수록/작을수록 더 좋은지)
 - 적용된 필터
 
-### 저장된 뷰 간 전환
+<div id="switch-between-saved-views">
+  ### 저장된 뷰 전환하기
+</div>
 
-Evaluations 페이지 제목 옆의 **메뉴 아이콘 (☰)**을 클릭하여 저장된 뷰를 엽니다. 다음을 수행할 수 있습니다:
+저장된 뷰를 열려면 Evaluations 페이지 제목 옆에 있는 **메뉴 아이콘(☰)** 을 클릭합니다. 다음 작업을 수행할 수 있습니다:
 
-- **default** 뷰로 돌아가 전체 데이터셋을 확인합니다.
-- 저장된 뷰를 다시 열어 모든 커스터마이징을 즉시 복원합니다.
+- 전체 데이터셋을 보려면 **기본** 뷰로 돌아갑니다.
+- 저장된 뷰를 다시 열어 모든 사용자 지정 내용을 즉시 복원합니다.
 
-저장된 뷰를 다시 열면 모든 이름 변경 및 메트릭 설정이 보존됩니다.
+저장된 뷰를 다시 열면, 변경한 이름과 메트릭 설정이 모두 그대로 유지됩니다.
