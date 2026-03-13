@@ -82,7 +82,7 @@ Automatic instrumentation works by registering a module loader hook:
 - **CommonJS projects:** No additional configuration is required.
 - **ESM projects:** Node must be started with the `--import=weave/instrument` flag so the instrumentation loads before other modules.
 
-The following code sample assumes an ESM project. If you need help setting up your project or determining which type you are using, see [TypeScript SDK: Third-Party Integration Guide](/weave/guides/integrations/js).
+If you need help setting up your project or determining which type you are using, see [TypeScript SDK: Third-Party Integration Guide](/weave/guides/integrations/js).
 
 In the following code sample, an OpenAI Agent is created and integrated with Weave for traceability. First, update `your-team-name/your-project-name` in the Weave project initialization to real values. A `get_weather` tool is defined that returns a sample weather report. An agent named `Hello world` is configured with basic instructions and access to the weather tool. The main function runs the agent with a sample input (`What's the weather in Tokyo?`) and outputs the final response.
 
@@ -121,14 +121,7 @@ async function main() {
 main();
 ```
 
-The example code on this page uses ESM syntax. In CommonJS projects, the equivalent import statement is:
-```typescript lines
-const weave = require("weave");
-const { Agent, run, tool } = require("@openai/agents");
-const { z } = require("zod");
-```
-
-In CommonJS, it is critical that the import of weave libraries happens **before** the import of the agent library. If your code cannot follow this ordering, use the manual instrumentation technique that follows.
+In CommonJS, the `import * as weave from "weave"` statement must appear **before** `import { Agent, run, tool } from "@openai/agents"` for automatic instrumentation. If your code cannot follow this ordering, use the manual instrumentation technique that follows.
 
 
 ### Manual instrumentation

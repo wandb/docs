@@ -22,36 +22,60 @@ TypeScript projects can use either the CommonJS or ESM module system.
 
 ### CommonJS
 
-For CommonJS projects, no special configuration is required. Automatic instrumentation works out of the box.  In the folder where your code is:
+For CommonJS projects, automatic instrumentation works out of the box.
 
-1. Install Weave:
+1. Configure your project for CommonJS.
 
-   ```bash
-   npm install weave
+   Create or update your `package.json`:
+
+   ```json
+   {
+     "type": "commonjs"
+   }
    ```
 
-2. Compile your TypeScript file.
-
-   Run:
-
-   ```bash
-   npx tsc
-   ```
-
-   This assumes your `tsconfig.json` outputs compiled files to a `dist` directory:
+   Create a `tsconfig.json` with CommonJS-compatible settings:
 
    ```json
    {
      "compilerOptions": {
+       "module": "CommonJS",
+       "target": "es2022",
+       "verbatimModuleSyntax": false,
        "rootDir": ".",
        "outDir": "dist"
      }
    }
    ```
 
-   After compiling, for an example local file `test.ts`, the file will be available as `dist/test.js`.
+   These settings configure TypeScript to compile for CommonJS:
 
-3. Run the compiled file with Node.js:
+   - **`module: "CommonJS"`** — Compiles modules to CommonJS format (`require`/`module.exports`).
+     For details on this compiler option, see [TypeScript - Module](https://www.typescriptlang.org/tsconfig/#module).
+
+   - **`target: "es2022"`** *(Recommended)* — Emits modern JavaScript compatible with recent Node.js versions.
+     For details on this compiler option, see [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
+
+   - **`verbatimModuleSyntax: false`** — Allows ESM-style `import`/`export` syntax in source files while emitting CommonJS output.
+     For details on this compiler option, see [TypeScript - Verbatim Module Syntax](https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax).
+
+2. Install Weave and any other required libraries:
+
+   ```bash
+   npm install weave
+   ```
+
+3. Compile your TypeScript file.
+
+   For an example file `test.ts`:
+
+   ```bash
+   npx tsc
+   ```
+
+   This compiles the file to `dist/test.js`.
+
+4. Run the compiled file with Node.js:
 
    ```bash
    node dist/test.js
@@ -78,9 +102,9 @@ To use Weave with an ESM TypeScript project, configure your project for Node.js 
    ```json
    {
      "compilerOptions": {
-       "target": "es2022",
        "module": "nodenext",
        "moduleResolution": "nodenext",
+       "target": "es2022",
        "rootDir": ".",
        "outDir": "dist"
      }
@@ -98,7 +122,7 @@ To use Weave with an ESM TypeScript project, configure your project for Node.js 
    - **`target: "es2022"`** *(Recommended)* — Emits modern JavaScript compatible with recent Node.js versions.  
      For details on this compiler option, see [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
 
-2. Install Weave:
+2. Install Weave and any other required libraries:
 
    ```bash
    npm install weave
