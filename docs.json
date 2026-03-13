@@ -835,6 +835,7 @@
                         "group": "Frameworks",
                         "pages": [
                           "weave/guides/integrations/openai_agents",
+                          "weave/guides/integrations/openai-realtime-audio",
                           "weave/guides/integrations/langchain",
                           "weave/guides/integrations/llamaindex",
                           "weave/guides/integrations/dspy",
