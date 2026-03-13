@@ -41,7 +41,6 @@ For CommonJS projects, automatic instrumentation works out of the box.
      "compilerOptions": {
        "module": "CommonJS",
        "target": "es2022",
-       "verbatimModuleSyntax": false,
        "rootDir": ".",
        "outDir": "dist"
      }
@@ -56,8 +55,6 @@ For CommonJS projects, automatic instrumentation works out of the box.
    - **`target: "es2022"`** *(Recommended)* — Emits modern JavaScript compatible with recent Node.js versions.
      For details on this compiler option, see [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
 
-   - **`verbatimModuleSyntax: false`** — Allows ESM-style `import`/`export` syntax in source files while emitting CommonJS output.
-     For details on this compiler option, see [TypeScript - Verbatim Module Syntax](https://www.typescriptlang.org/tsconfig/#verbatimModuleSyntax).
 
 2. Install Weave and any other required libraries:
 
