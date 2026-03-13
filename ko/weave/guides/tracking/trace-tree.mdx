@@ -23,14 +23,14 @@ Trace 뷰로 이동하려면 다음을 수행하세요:
 
 Traces 페이지는 세 개의 핵심 패널로 구성됩니다:
 
-* **왼쪽 패널**: 이 프로젝트의 모든 trace run이 표시되는, 정렬 및 페이지 단위 탐색이 가능한 목록입니다.
-  * 이 traces 테이블에는 토큰, 비용, 지연 시간 등의 추가 데이터가 표시됩니다.
-* **가운데 패널**: 선택한 trace에 대한 대화형 trace 뷰입니다. trace 트리는 trace 내에서 추적된 모든 메서드의 계층 구조를 보여줍니다.
-  * trace 트리는 trace 동안 호출된, `@weave.op()` 데코레이터가 적용된 함수인 [ops](/ko/weave/guides/tracking/ops#automatically-track-function-calls-using-ops)를 표시합니다.
-* **오른쪽 패널**: 선택한 trace 내에서 선택된 op에 대한 세부 정보를 표시합니다.
+* **왼쪽 패널**: 프로젝트의 모든 트레이스를 보여주는, 정렬 및 페이지 매김이 가능한 목록입니다.
+  * 이 트레이스 테이블에는 토큰, 비용, 지연 시간 등의 추가 데이터가 포함됩니다.
+* **가운데 패널**: 선택한 트레이스에 대한 대화형 트레이스 뷰입니다. 트레이스 트리는 트레이스 내에서 추적된 모든 메서드의 계층 구조를 보여줍니다.
+  * 트레이스 트리는 트레이스 동안 호출된, `@weave.op()` 데코레이터가 적용된 함수인 [ops](/ko/weave/guides/tracking/ops#automatically-track-function-calls-using-ops)를 표시합니다.
+* **오른쪽 패널**: 선택한 트레이스 내에서 선택한 op의 세부 정보입니다.
 
 <Frame>
-  ![Traces 페이지에서 선택된 trace와 선택된 op 세부 정보가 표시된 모습](/weave/guides/tracking/imgs/trace-tree-full.png)
+  ![선택한 트레이스와 선택한 op의 세부 정보를 보여주는 Traces 페이지](/weave/guides/tracking/imgs/trace-tree-full.png)
 </Frame>
 
 <div id="filter-within-a-trace">
