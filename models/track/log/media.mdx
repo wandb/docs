@@ -34,7 +34,9 @@ Log images to track inputs, outputs, filter weights, activations, and more.
 
 Images can be logged directly from NumPy arrays, as PIL images, or from the filesystem. 
 
-Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
+Each time you log images from a step, they are available in the UI. Expand the image panel, then use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
+
+To compare images or videos from different runs, steps, or indices in one view, use [Compare mode](/models/app/features/panels/media#compare-mode) in a media panel.
 
 <Note>
 It's recommended to log fewer than 50 images per step to prevent logging from becoming a bottleneck during training and image loading from becoming a bottleneck when viewing results.
@@ -664,4 +666,3 @@ run.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
 For more usage information, see [`html-file`](/models/ref/query-panel/html-file).
-
