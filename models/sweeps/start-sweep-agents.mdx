@@ -35,6 +35,8 @@ Copy and paste the code snippet below and replace `sweep_id` with your sweep ID:
 ```bash
 wandb agent sweep_id
 ```
+
+For graceful shutdown when you interrupt the agent (for example, with Ctrl+C), use `wandb agent --forward-signals sweep_id` so the current run receives the signal and can shut down cleanly. See [Signal handling and sweep runs](/models/sweeps/signal-handling-sweep-runs) for details.
 </Tab>
 <Tab title="Python script or notebook">
 Use [`wandb.agent()`](/models/ref/python/functions/agent) to start a sweep. Provide the sweep ID that W&B returns when you initialized the sweep along with the name of the function that is the entrypoint to your training script.
@@ -44,6 +46,8 @@ Copy and paste the code snippet below and replace `<sweep_id>` with your sweep I
 ```python
 wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
 ```
+
+To forward signals to the training run when you interrupt the agent (for example, Ctrl+C), pass `forward_signals=True`: `wandb.agent(sweep_id="<sweep_id>", function="<function_name>", forward_signals=True)`. See [Signal handling and sweep runs](/models/sweeps/signal-handling-sweep-runs) for details.
 
 See [Python script or notebook tab](/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) in Add W&B to your code for an example of how to set up your training script if you use this method.
 

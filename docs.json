@@ -260,6 +260,7 @@
                       "models/sweeps/parallelize-agents",
                       "models/sweeps/visualize-sweep-results",
                       "models/sweeps/pause-resume-and-cancel-sweeps",
+                      "models/sweeps/signal-handling-sweep-runs",
                       "models/sweeps/useful-resources",
                       "models/sweeps/local-controller",
                       "models/sweeps/troubleshoot-sweeps",
