@@ -811,6 +811,7 @@
                     "pages": [
                       "weave/guides/integrations",
                       "weave/guides/integrations/autopatching",
+                      "weave/guides/integrations/js",
                       {
                         "group": "LLM Providers",
                         "pages": [
@@ -830,7 +831,6 @@
                           "weave/guides/integrations/together_ai"
                         ]
                       },
-                      "weave/guides/integrations/local_models",
                       {
                         "group": "Frameworks",
                         "pages": [
@@ -847,8 +847,7 @@
                           "weave/guides/integrations/koog",
                           "weave/guides/integrations/autogen",
                           "weave/guides/integrations/verdict",
-                          "weave/guides/integrations/verifiers",
-                          "weave/guides/integrations/js"
+                          "weave/guides/integrations/verifiers"
                         ]
                       },
                       {
@@ -856,7 +855,8 @@
                         "pages": [
                           "weave/guides/integrations/mcp"
                         ]
-                      }
+                      },
+                      "weave/guides/integrations/local_models"
                     ]
                   },
                   {

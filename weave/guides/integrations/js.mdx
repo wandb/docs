@@ -18,28 +18,153 @@ Weave will generally handle this automatically. However, there may be [edge case
 
 ## Usage instructions
 
-You can either use CommonJS and ESM.
+TypeScript projects can use either the CommonJS or ESM module system.
 
-### CommonJS 
+### CommonJS
 
-For CommonJS, no special configuration is required. Automatic patching works out of the box. Simply install Weave:
+For CommonJS projects, automatic instrumentation works out of the box.
+
+1. Configure your project for CommonJS.
+
+   Create or update your `package.json`:
+
+   ```json
+   {
+     "type": "commonjs"
+   }
+   ```
+
+   Create a `tsconfig.json` with CommonJS-compatible settings:
+
+   ```json
+   {
+     "compilerOptions": {
+       "module": "CommonJS",
+       "target": "es2022",
+       "rootDir": ".",
+       "outDir": "dist"
+     }
+   }
+   ```
+
+   These settings configure TypeScript to compile for CommonJS:
+
+   - **`module: "CommonJS"`** — Compiles modules to CommonJS format (`require`/`module.exports`).
+     For details on this compiler option, see [TypeScript - Module](https://www.typescriptlang.org/tsconfig/#module).
+
+   - **`target: "es2022"`** *(Recommended)* — Emits modern JavaScript compatible with recent Node.js versions.
+     For details on this compiler option, see [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
+
+
+2. Install Weave and any other required libraries:
+
+   ```bash
+   npm install weave
+   ```
+
+3. Compile your TypeScript file.
+
+   For an example file `test.ts`:
+
+   ```bash
+   npx tsc
+   ```
+
+   This compiles the file to `dist/test.js`.
+
+4. Run the compiled file with Node.js:
+
+   ```bash
+   node dist/test.js
+   ```
+
+Because CommonJS uses Node.js's `require` module loader, Weave can automatically instrument supported libraries without requiring the `--import` flag used in ESM projects.
+
+### ESM
+
+To use Weave with an ESM TypeScript project, configure your project for Node.js ESM, compile your code with `tsc`, and start Node.js with the `--import` flag so Weave can register its instrumentation before other modules load.
+
+1. Configure your project for ESM.
+
+   Create or update your `package.json`:
+
+   ```json
+   {
+     "type": "module"
+   }
+   ```
+
+   Create a `tsconfig.json` with Node-compatible ESM settings:
+
+   ```json
+   {
+     "compilerOptions": {
+       "module": "nodenext",
+       "moduleResolution": "nodenext",
+       "target": "es2022",
+       "rootDir": ".",
+       "outDir": "dist"
+     }
+   }
+   ```
+
+   These settings configure TypeScript to compile for modern Node.js ESM:
+
+   - **`module: "nodenext"`** — Compiles modules using Node.js ESM semantics.  
+     For details on this compiler option, see [TypeScript - Module](https://www.typescriptlang.org/tsconfig/#module).
+
+   - **`moduleResolution: "nodenext"`** — Ensures module resolution follows Node.js ESM rules.  
+     For details on this compiler option, see [TypeScript - Module Resolution](https://www.typescriptlang.org/tsconfig/#moduleResolution).
+
+   - **`target: "es2022"`** *(Recommended)* — Emits modern JavaScript compatible with recent Node.js versions.  
+     For details on this compiler option, see [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
+
+2. Install Weave and any other required libraries:
+
+   ```bash
+   npm install weave
+   ```
+
+3. Compile your TypeScript file.
+
+   For an example file `test.ts`:
+
+   ```bash
+   npx tsc
+   ```
+
+   This compiles the file to `dist/test.js`.
+
+4. Run the compiled file with Node.js and preload the Weave instrumentation:
+
+   ```bash
+   node --import=weave/instrument dist/test.js
+   ```
+
+  The `--import` flag ensures the `weave/instrument` module loads before other modules so Weave can automatically instrument supported libraries and integrations.
+
+   Weave must be installed locally in the project you run.
+
+### If you're unsure which type of project you have
+
+If you run a TypeScript file directly with a tool such as:
 
 ```bash
-npm install weave
+npx tsx test.ts
 ```
 
-### ESM 
+the module system may be determined implicitly by your environment.  
+For consistent behavior, it is recommended to define a `package.json` and `tsconfig.json` explicitly.
 
-For ESM, use Node's `--import` flag to enable auto-instrumentation. The `weave/instrument` module is available as long as the `weave` package is installed.
+To determine whether a project uses CommonJS or ESM, check the `type` field in `package.json`:
 
-1. Install Weave:
-    ```bash
-    npm install weave
-    ```
-2. Import the `weave/instrument` module:
-    ```bash
-    node --import=weave/instrument dist/main.js
-    ```
+```json
+"type": "module"
+```
+
+- If `type` is `"module"`, the project uses **ESM**.
+- If the `type` field is missing or set to `"commonjs"`, the project uses **CommonJS**.
+
 
 ## Advanced usage and troubleshooting
 
@@ -60,7 +185,7 @@ export NODE_OPTIONS="--import=weave/instrument"
 
 ### Bundler compatibility
 
-Some frameworks and bundlers, such as Next.js, may bundle third-party libraries in ways that break Node’s ability to patch them at runtime.
+Some frameworks and bundlers, such as Next.js, may bundle third-party libraries in ways that prevent Node.js from patching them at runtime.
 
 If this describes your setup, try the following steps:
 
