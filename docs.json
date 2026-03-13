@@ -98,8 +98,7 @@
                       "platform/hosting/self-managed/rate-limits",
                       "platform/hosting/self-managed/operator",
                       "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
-                      "platform/hosting/server-upgrade-process",
-                      "platform/hosting/self-managed/disable-automatic-app-version-updates"
+                      "platform/hosting/server-upgrade-process"
                     ]
                   }
                 ]
@@ -1248,8 +1247,7 @@
                         ]
                       },
                       "ja/platform/hosting/self-managed/bare-metal",
-                      "ja/platform/hosting/server-upgrade-process",
-                      "ja/platform/hosting/self-managed/disable-automatic-app-version-updates"
+                      "ja/platform/hosting/server-upgrade-process"
                     ]
                   }
                 ]
@@ -2435,8 +2433,7 @@
                         ]
                       },
                       "ko/platform/hosting/self-managed/bare-metal",
-                      "ko/platform/hosting/server-upgrade-process",
-                      "ko/platform/hosting/self-managed/disable-automatic-app-version-updates"
+                      "ko/platform/hosting/server-upgrade-process"
                     ]
                   }
                 ]
