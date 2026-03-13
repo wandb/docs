@@ -1,38 +1,84 @@
 ---
-title: "wandb restore"
+title: wandb restore
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-restore.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbRestore from "/snippets/en/_includes/cli/wandb-restore.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbRestore/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3138" />
 
-Restore code, config and docker state for a run. Retrieves code from latest commit if code was not saved with `wandb.save()` or `wandb.init(save_code=True)`.
+
 
 ## Usage
 
 ```bash
-wandb restore RUN [OPTIONS]
+Usage: restore [OPTIONS] RUN
 ```
+
+## Description
+
+Restore the code, config, and Docker state from a previous run.
+
+    Recreate the environment of a previous W&B run so you can
+    reproduce it. Run this command from the same git repository
+    as the original run, unless you pass the `--no-git` flag.
+
+    Restore in three steps:
+
+    1. Git — Check out the original commit on a new branch (`wandb/run_id`),
+       fetch and apply any saved diff patch, and fall back to an upstream
+       commit if the original commit cannot be found.
+    2. Config — Write the run config to `wandb/config.yaml`.
+    3. Docker — If the run used Docker, start the same image with the
+       original command.
+
+    Accept run in any of these formats:
+
+    - `run_id`
+    - `project:run_id`
+    - `entity/project:run_id`
+    - `entity/project/run_id`
+
+## Examples
+
+Restore a run with run ID "abcd1234" in the default project and entity
+
+```bash
+wandb restore abcd1234
+```
+
+    Restore a run from the "foobar" project and "team-awesome" entity with
+    run ID "abcd1234"
+
+```bash
+wandb restore team-awesome/foobar-project:abcd1234
+```
+
+    Restore run "abcd1234" without restoring git state. Only restore config
+    and Docker state.
+
+```bash
+wandb restore --no-git abcd1234
+```
+
+    Restore run "abcd1234" in detached HEAD mode instead of creating a branch
+
+```bash
+wandb restore --no-branch abcd1234
+```
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `RUN` | No description available | Yes |
+| Name | Default | Type |
+|------|---------|------|
+| `run` | STR | None | True |
 
 ## Options
 
-| Option | Description |
-| :--- | :--- |
-| `--no-git` | Don't restore git state (default: False) |
-| `--branch` | Whether to create a branch or checkout detached (default: True) |
-| `--project`, `-p` | The project you wish to upload to. |
-| `--entity`, `-e` | The entity to scope the listing to. |
+| Flag | Type | Description |
+|------|------|-------------|
+| `--no-git` | BOOL Flag | Skip git restoration. Only restore config and Docker state. **Default**: False |
+| `--branch` | BOOL Flag | Create a wandb/run_id branch or check out the commit in detached HEAD mode. **Default**: True |
+| `--project, -p` | STR | Specify the project to look up the run in. **Default**: None |
+| `--entity, -e` | STR | Specify the entity to scope the run lookup to. **Default**: None |

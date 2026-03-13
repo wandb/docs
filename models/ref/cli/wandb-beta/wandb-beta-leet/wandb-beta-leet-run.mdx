@@ -1,31 +1,41 @@
 ---
-title: "wandb beta leet run"
+title: wandb beta leet run
 ---
-{/*
-  To add introductory content for this command:
-  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-leet-run.mdx
-  2. Add your intro content to that file
-  3. Delete this entire comment block and keep only the two lines below:
 
-import WandbBetaLeetRun from "/snippets/en/_includes/cli/wandb-beta-leet-run.mdx";
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<WandbBetaLeetRun/>
 
-  The snippet will be auto-detected on the next regeneration.
-*/}
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/beta.py#L73" />
 
-Launch the LEET TUI.
 
-PATH can be a .wandb file, a run directory, or a wandb directory. If omitted, searches for the latest run.
 
 ## Usage
 
 ```bash
-wandb beta leet run [PATH]
+Usage: run [OPTIONS] [PATH]
 ```
+
+## Description
+
+Launch the LEET TUI.
+
+    `PATH` can be a `.wandb` file, a run directory, or a wandb directory.
+    If omitted, searches for the latest run.
+    
+
+## Examples
+
+
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `PATH` | No description available | No |
+| Name | Default | Type |
+|------|---------|------|
+| `path` | PATH | None | False |
+
+## Options
+
+| Flag | Type | Description |
+|------|------|-------------|
+| `-h, --help` | BOOL Flag | Show this message and exit. **Default**: False |

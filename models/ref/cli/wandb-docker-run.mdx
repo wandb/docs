@@ -1,18 +1,53 @@
 ---
-title: "wandb docker-run"
+title: wandb docker-run
 ---
-import WandbDockerRun from "/snippets/en/_includes/cli/wandb-docker-run.mdx";
 
-<WandbDockerRun/>
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2373" />
+
+
 
 ## Usage
 
 ```bash
-wandb docker-run [DOCKER_RUN_ARGS]
+Usage: docker-run [OPTIONS] [DOCKER_RUN_ARGS]...
 ```
+
+## Description
+
+Wrap `docker run` and inject W&B environment variables automatically.
+
+    Pass all arguments through to `docker run` while injecting:
+
+    - `WANDB_API_KEY` — Use the current API key so the container can
+    authenticate with W&B without manual configuration.
+    - `WANDB_DOCKER` — Record the resolved image ID so W&B can track
+    which Docker image produced the run.
+
+    If `nvidia-docker` is detected on the host and `--runtime` is not
+    already set, add `--runtime nvidia` to the command to enable GPU support
+    by default.
+
+## Examples
+
+Run `python train.py` inside the "my-image" container. W&B automatically
+    injects your API key and the resolved image ID.
+
+```bash
+wandb docker-run my-image python train.py
+```
+
 
 ## Arguments
 
-| Argument | Description | Required |
-| :--- | :--- | :--- |
-| `DOCKER_RUN_ARGS` | No description available | No |
+| Name | Default | Type |
+|------|---------|------|
+| `docker_run_args` | STR | None | False |
+
+## Options
+
+| Flag | Type | Description |
+|------|------|-------------|
+
