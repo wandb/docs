@@ -399,8 +399,9 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "Create RL Training Job",
-        "operationId": "create_training_job_v1_preview_training_jobs_post",
+        "summary": "Create Rl Training Job",
+        "description": "Create a new RL (Reinforcement Learning) training job.",
+        "operationId": "Create_RL_Training_Job_v1_preview_training_jobs_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -445,9 +446,9 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "Create SFT Training Job",
+        "summary": "Create Sft Training Job",
         "description": "Create a new SFT (Supervised Fine-Tuning) training job.",
-        "operationId": "create_sft_training_job_v1_preview_sft_training_jobs_post",
+        "operationId": "Create_SFT_Training_Job_v1_preview_sft_training_jobs_post",
         "requestBody": {
           "content": {
             "application/json": {
