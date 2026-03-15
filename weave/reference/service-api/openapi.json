@@ -1937,6 +1937,117 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Annotation Queues"
+        ],
+        "summary": "Annotation Queue Delete",
+        "description": "Delete (soft-delete) an annotation queue.",
+        "operationId": "annotation_queue_delete_annotation_queues__queue_id__delete",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Queue Id"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationQueueDeleteRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Annotation Queues"
+        ],
+        "summary": "Annotation Queue Update",
+        "description": "Update an annotation queue's metadata (name, description, scorer_refs).",
+        "operationId": "annotation_queue_update_annotation_queues__queue_id__put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Queue Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnnotationQueueUpdateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationQueueUpdateRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/annotation_queues/{queue_id}/items": {
@@ -5225,6 +5336,19 @@
         "title": "AnnotationQueueCreateRes",
         "description": "Response from creating an annotation queue."
       },
+      "AnnotationQueueDeleteRes": {
+        "properties": {
+          "queue": {
+            "$ref": "#/components/schemas/AnnotationQueueSchema"
+          }
+        },
+        "type": "object",
+        "required": [
+          "queue"
+        ],
+        "title": "AnnotationQueueDeleteRes",
+        "description": "Response from deleting an annotation queue."
+      },
       "AnnotationQueueItemProgressUpdateBody": {
         "properties": {
           "project_id": {
@@ -5689,6 +5813,85 @@
         ],
         "title": "AnnotationQueueStatsSchema",
         "description": "Statistics for a single annotation queue."
+      },
+      "AnnotationQueueUpdateBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "examples": [
+              "Updated Queue Name"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "examples": [
+              "Updated description"
+            ]
+          },
+          "scorer_refs": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scorer Refs",
+            "examples": [
+              [
+                "weave:///entity/project/scorer/error_severity:abc123",
+                "weave:///entity/project/scorer/resolution_quality:def456"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "title": "AnnotationQueueUpdateBody",
+        "description": "Request body for updating an annotation queue (queue_id comes from path).\n\nAll fields except project_id are optional - only provided fields will be updated."
+      },
+      "AnnotationQueueUpdateRes": {
+        "properties": {
+          "queue": {
+            "$ref": "#/components/schemas/AnnotationQueueSchema"
+          }
+        },
+        "type": "object",
+        "required": [
+          "queue"
+        ],
+        "title": "AnnotationQueueUpdateRes",
+        "description": "Response from updating an annotation queue."
       },
       "AnnotationQueuesQueryReq": {
         "properties": {
@@ -7021,6 +7224,13 @@
             },
             "type": "object",
             "title": "Call Usage"
+          },
+          "unfinished_call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unfinished Call Ids"
           }
         },
         "type": "object",
@@ -7345,6 +7555,18 @@
             ],
             "title": "Template Vars",
             "description": "Dictionary of template variables to substitute in prompt messages. Variables in messages like '{variable_name}' will be replaced with the corresponding values. Applied to both prompt messages (if prompt is provided) and regular messages."
+          },
+          "vertex_credentials": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vertex Credentials",
+            "description": "JSON string of Vertex AI service account credentials. When provided for vertex_ai models (e.g. vertex_ai/gemini-2.5-pro), used for authentication instead of api_key. Not persisted in trace storage."
           }
         },
         "type": "object",
@@ -11631,6 +11853,18 @@
             },
             "type": "array",
             "title": "Datacenters"
+          },
+          "deprecation_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deprecation Date",
+            "description": "Date when the model is deprecated (YYYY-MM-DD). Omitted from output if not set."
           }
         },
         "type": "object",
@@ -12874,6 +13108,13 @@
             },
             "type": "object",
             "title": "Call Usage"
+          },
+          "unfinished_call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unfinished Call Ids"
           }
         },
         "type": "object",

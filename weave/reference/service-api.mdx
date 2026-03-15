@@ -22,6 +22,156 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
 
 ### Calls
 
+- **[POST /call/end](https://docs.wandb.ai/weave/reference/service-api/calls/call-end-call-end)** - Call End
+- **[POST /call/read](https://docs.wandb.ai/weave/reference/service-api/calls/call-read-call-read)** - Call Read
+- **[POST /call/start](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-call-start)** - Call Start
+- **[POST /call/update](https://docs.wandb.ai/weave/reference/service-api/calls/call-update-call-update)** - Call Update
+- **[POST /call/upsert_batch](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch-call-upsert-batch)** - Call Start Batch
+- **[POST /calls/delete](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete-calls-delete)** - Calls Delete
+- **[POST /calls/query_stats](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stats-calls-query-stats)** - Calls Query Stats
+- **[POST /calls/stats](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats-calls-stats)** - Call Stats
+- **[POST /calls/stream_query](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream-calls-stream-query)** - Calls Query Stream
+- **[POST /calls/usage](https://docs.wandb.ai/weave/reference/service-api/calls/calls-usage-calls-usage)** - Calls Usage
+- **[POST /trace/usage](https://docs.wandb.ai/weave/reference/service-api/calls/trace-usage-trace-usage)** - Trace Usage
+
+### Costs
+
+- **[POST /cost/create](https://docs.wandb.ai/weave/reference/service-api/costs/cost-create-cost-create)** - Cost Create
+- **[POST /cost/purge](https://docs.wandb.ai/weave/reference/service-api/costs/cost-purge-cost-purge)** - Cost Purge
+- **[POST /cost/query](https://docs.wandb.ai/weave/reference/service-api/costs/cost-query-cost-query)** - Cost Query
+
+### Feedback
+
+- **[POST /feedback/batch/create](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create-batch-feedback-batch-create)** - Feedback Create Batch
+- **[POST /feedback/create](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create-feedback-create)** - Feedback Create
+- **[POST /feedback/purge](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-purge-feedback-purge)** - Feedback Purge
+- **[POST /feedback/query](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-query-feedback-query)** - Feedback Query
+- **[POST /feedback/replace](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-replace-feedback-replace)** - Feedback Replace
+
+### Files
+
+- **[POST /file/content](https://docs.wandb.ai/weave/reference/service-api/files/file-content-file-content)** - File Content
+- **[POST /file/create](https://docs.wandb.ai/weave/reference/service-api/files/file-create-file-create)** - File Create
+- **[POST /files/query_stats](https://docs.wandb.ai/weave/reference/service-api/files/files-stats-files-query-stats)** - Files Stats
+
+### Objects
+
+- **[POST /obj/create](https://docs.wandb.ai/weave/reference/service-api/objects/obj-create-obj-create)** - Obj Create
+- **[POST /obj/delete](https://docs.wandb.ai/weave/reference/service-api/objects/obj-delete-obj-delete)** - Obj Delete
+- **[POST /obj/read](https://docs.wandb.ai/weave/reference/service-api/objects/obj-read-obj-read)** - Obj Read
+- **[POST /objs/query](https://docs.wandb.ai/weave/reference/service-api/objects/objs-query-objs-query)** - Objs Query
+
+### OpenTelemetry
+
+- **[POST /otel/v1/traces](https://docs.wandb.ai/weave/reference/service-api/opentelemetry/export-trace-otel-v1-traces)** - Export Trace
+
+### Refs
+
+- **[POST /refs/read_batch](https://docs.wandb.ai/weave/reference/service-api/refs/refs-read-batch-refs-read-batch)** - Refs Read Batch
+
+### Service
+
+- **[GET /geolocate](https://docs.wandb.ai/weave/reference/service-api/service/get-caller-location-geolocate)** - Get Caller Location
+- **[GET /health](https://docs.wandb.ai/weave/reference/service-api/service/read-root-health)** - Read Root
+- **[GET /server_info](https://docs.wandb.ai/weave/reference/service-api/service/server-info-server-info)** - Server Info
+- **[GET /version](https://docs.wandb.ai/weave/reference/service-api/service/read-version-version)** - Read Version
+
+### Tables
+
+- **[POST /table/create](https://docs.wandb.ai/weave/reference/service-api/tables/table-create-table-create)** - Table Create
+- **[POST /table/create_from_digests](https://docs.wandb.ai/weave/reference/service-api/tables/table-create-from-digests-table-create-from-digests)** - Table Create From Digests
+- **[POST /table/query](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-table-query)** - Table Query
+- **[POST /table/query_stats](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats-table-query-stats)** - Table Query Stats
+- **[POST /table/query_stats_batch](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats-batch-table-query-stats-batch)** - Table Query Stats Batch
+- **[POST /table/update](https://docs.wandb.ai/weave/reference/service-api/tables/table-update-table-update)** - Table Update
+
+### Threads
+
+- **[POST /threads/stream_query](https://docs.wandb.ai/weave/reference/service-api/threads/threads-query-stream-threads-stream-query)** - Threads Query Stream
+
+### Inference
+
+- **[GET /inference/router/openrouter/models](https://docs.wandb.ai/weave/reference/service-api/inference/inference-router-openrouter-models-inference-router-openrouter-models)** - Inference Router Openrouter Models
+- **[GET /inference/v1{path}](https://docs.wandb.ai/weave/reference/service-api/inference/inference-get-inference-v1-path-)** - Inference Get
+- **[POST /inference/v1{path}](https://docs.wandb.ai/weave/reference/service-api/inference/inference-post-inference-v1-path-)** - Inference Post
+
+### Annotation Queues
+
+- **[POST /annotation_queues](https://docs.wandb.ai/weave/reference/service-api/annotation queues/annotation-queue-create-annotation-queues)** - Annotation Queue Create
+- **[POST /annotation_queues/query](https://docs.wandb.ai/weave/reference/service-api/annotation queues/annotation-queues-query-stream-annotation-queues-query)** - Annotation Queues Query Stream
+- **[POST /annotation_queues/stats](https://docs.wandb.ai/weave/reference/service-api/annotation queues/annotation-queues-stats-annotation-queues-stats)** - Annotation Queues Stats
+- **[DELETE /annotation_queues/{queue_id}](https://docs.wandb.ai/weave/reference/service-api/annotation queues/annotation-queue-delete-annotation-queues--queue-id-)** - Annotation Queue Delete
+- **[GET /annotation_queues/{queue_id}](https://docs.wandb.ai/weave/reference/service-api/annotation queues/annotation-queue-read-annotation-queues--queue-id-)** - Annotation Queue Read
+- **[PUT /annotation_queues/{queue_id}](https://docs.wandb.ai/weave/reference/service-api/annotation queues/annotation-queue-update-annotation-queues--queue-id-)** - Annotation Queue Update
+- **[POST /annotation_queues/{queue_id}/items](https://docs.wandb.ai/weave/reference/service-api/annotation queues/annotation-queue-add-calls-annotation-queues--queue-id--items)** - Annotation Queue Add Calls
+- **[POST /annotation_queues/{queue_id}/items/query](https://docs.wandb.ai/weave/reference/service-api/annotation queues/annotation-queue-items-query-annotation-queues--queue-id--items-query)** - Annotation Queue Items Query
+- **[POST /annotation_queues/{queue_id}/items/{item_id}/progress](https://docs.wandb.ai/weave/reference/service-api/annotation queues/annotation-queue-item-progress-update-annotation-queues--queue-id--items--item-id--progress)** - Annotation Queue Item Progress Update
+
+### Evaluations
+
+- **[POST /evaluations/evaluate_model](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluate-model-evaluations-evaluate-model)** - Evaluate Model
+- **[POST /evaluations/status](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-status-evaluations-status)** - Evaluation Status
+- **[GET /v2/{entity}/{project}/evaluations](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-list-v2--entity---project--evaluations)** - Evaluation List
+- **[POST /v2/{entity}/{project}/evaluations](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-create-v2--entity---project--evaluations)** - Evaluation Create
+- **[DELETE /v2/{entity}/{project}/evaluations/{object_id}](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-delete-v2--entity---project--evaluations--object-id-)** - Evaluation Delete
+- **[GET /v2/{entity}/{project}/evaluations/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/evaluations/evaluation-read-v2--entity---project--evaluations--object-id--versions--digest-)** - Evaluation Read
+
+### Images
+
+- **[POST /image/create](https://docs.wandb.ai/weave/reference/service-api/images/image-create-image-create)** - Image Create
+
+### Ops
+
+- **[GET /v2/{entity}/{project}/ops](https://docs.wandb.ai/weave/reference/service-api/ops/op-list-v2--entity---project--ops)** - Op List
+- **[POST /v2/{entity}/{project}/ops](https://docs.wandb.ai/weave/reference/service-api/ops/op-create-v2--entity---project--ops)** - Op Create
+- **[DELETE /v2/{entity}/{project}/ops/{object_id}](https://docs.wandb.ai/weave/reference/service-api/ops/op-delete-v2--entity---project--ops--object-id-)** - Op Delete
+- **[GET /v2/{entity}/{project}/ops/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/ops/op-read-v2--entity---project--ops--object-id--versions--digest-)** - Op Read
+
+### Datasets
+
+- **[GET /v2/{entity}/{project}/datasets](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-list-v2--entity---project--datasets)** - Dataset List
+- **[POST /v2/{entity}/{project}/datasets](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-create-v2--entity---project--datasets)** - Dataset Create
+- **[DELETE /v2/{entity}/{project}/datasets/{object_id}](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-delete-v2--entity---project--datasets--object-id-)** - Dataset Delete
+- **[GET /v2/{entity}/{project}/datasets/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/datasets/dataset-read-v2--entity---project--datasets--object-id--versions--digest-)** - Dataset Read
+
+### Scorers
+
+- **[GET /v2/{entity}/{project}/scorers](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-list-v2--entity---project--scorers)** - Scorer List
+- **[POST /v2/{entity}/{project}/scorers](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-create-v2--entity---project--scorers)** - Scorer Create
+- **[DELETE /v2/{entity}/{project}/scorers/{object_id}](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-delete-v2--entity---project--scorers--object-id-)** - Scorer Delete
+- **[GET /v2/{entity}/{project}/scorers/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/scorers/scorer-read-v2--entity---project--scorers--object-id--versions--digest-)** - Scorer Read
+
+### Models
+
+- **[GET /v2/{entity}/{project}/models](https://docs.wandb.ai/weave/reference/service-api/models/model-list-v2--entity---project--models)** - Model List
+- **[POST /v2/{entity}/{project}/models](https://docs.wandb.ai/weave/reference/service-api/models/model-create-v2--entity---project--models)** - Model Create
+- **[DELETE /v2/{entity}/{project}/models/{object_id}](https://docs.wandb.ai/weave/reference/service-api/models/model-delete-v2--entity---project--models--object-id-)** - Model Delete
+- **[GET /v2/{entity}/{project}/models/{object_id}/versions/{digest}](https://docs.wandb.ai/weave/reference/service-api/models/model-read-v2--entity---project--models--object-id--versions--digest-)** - Model Read
+
+### Evaluation Runs
+
+- **[DELETE /v2/{entity}/{project}/evaluation_runs](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-delete-v2--entity---project--evaluation-runs)** - Evaluation Run Delete
+- **[GET /v2/{entity}/{project}/evaluation_runs](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-list-v2--entity---project--evaluation-runs)** - Evaluation Run List
+- **[POST /v2/{entity}/{project}/evaluation_runs](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-create-v2--entity---project--evaluation-runs)** - Evaluation Run Create
+- **[GET /v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-read-v2--entity---project--evaluation-runs--evaluation-run-id-)** - Evaluation Run Read
+- **[POST /v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}/finish](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-finish-v2--entity---project--evaluation-runs--evaluation-run-id--finish)** - Evaluation Run Finish
+
+### Predictions
+
+- **[DELETE /v2/{entity}/{project}/predictions](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-delete-v2--entity---project--predictions)** - Prediction Delete
+- **[GET /v2/{entity}/{project}/predictions](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-list-v2--entity---project--predictions)** - Prediction List
+- **[POST /v2/{entity}/{project}/predictions](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-create-v2--entity---project--predictions)** - Prediction Create
+- **[GET /v2/{entity}/{project}/predictions/{prediction_id}](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-read-v2--entity---project--predictions--prediction-id-)** - Prediction Read
+- **[POST /v2/{entity}/{project}/predictions/{prediction_id}/finish](https://docs.wandb.ai/weave/reference/service-api/predictions/prediction-finish-v2--entity---project--predictions--prediction-id--finish)** - Prediction Finish
+
+### Scores
+
+- **[DELETE /v2/{entity}/{project}/scores](https://docs.wandb.ai/weave/reference/service-api/scores/score-delete-v2--entity---project--scores)** - Score Delete
+- **[GET /v2/{entity}/{project}/scores](https://docs.wandb.ai/weave/reference/service-api/scores/score-list-v2--entity---project--scores)** - Score List
+- **[POST /v2/{entity}/{project}/scores](https://docs.wandb.ai/weave/reference/service-api/scores/score-create-v2--entity---project--scores)** - Score Create
+- **[GET /v2/{entity}/{project}/scores/{score_id}](https://docs.wandb.ai/weave/reference/service-api/scores/score-read-v2--entity---project--scores--score-id-)** - Score Read
+### Calls
+
 - **[POST /call/end](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - Call End
 - **[POST /call/read](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - Call Read
 - **[POST /call/start](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - Call Start
