@@ -28,6 +28,10 @@
   "background": {
     "decoration": "gradient"
   },
+  "banner": {
+    "content": "The W&B Mobile App for iOS is here. [Monitor training runs and explore your projects](/platform/hosting/monitoring-usage/mobile-app) from your iPhone or iPad.",
+    "dismissible": true
+  },
   "contextual": {
     "options": [
       {
@@ -163,7 +167,8 @@
                 "pages": [
                   "platform/hosting/monitoring-usage/audit-logging",
                   "platform/hosting/monitoring-usage/slack-alerts",
-                  "platform/hosting/monitoring-usage/org_dashboard"
+                  "platform/hosting/monitoring-usage/org_dashboard",
+                  "platform/hosting/monitoring-usage/mobile-app"
                 ]
               },
               {
@@ -172,7 +177,8 @@
                   "pricing",
                   "blog",
                   "courses",
-                  "security"
+                  "security",
+                  "support/index"
                 ]
               }
             ]
@@ -640,6 +646,7 @@
                       "models/ref/cli/wandb-online",
                       "models/ref/cli/wandb-projects",
                       "models/ref/cli/wandb-pull",
+                      "models/ref/cli/wandb-purge-cache",
                       "models/ref/cli/wandb-restore",
                       {
                         "group": "wandb server",
@@ -722,11 +729,12 @@
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/create-call",
                           "weave/guides/tracking/trace-tree",
+                          "weave/guides/tools/comparison",
                           "weave/guides/tracking/querying-calls"
                         ]
                       },
                       {
-                        "group": "Advanced tracing",
+                        "group": "Advanced Ops",
                         "pages": [
                           "weave/guides/tracking/trace-generator-func",
                           "weave/tutorial-tracing_2",
@@ -734,7 +742,8 @@
                           "weave/guides/tracking/ops",
                           "weave/guides/tools/attributes",
                           "weave/guides/core-types/media",
-                          "weave/guides/tracking/view-call"
+                          "weave/guides/tracking/view-call",
+                          "weave/guides/tracking/trace-disable"
                         ]
                       },
                       {
@@ -746,12 +755,9 @@
                           "weave/guides/tracking/set-call-display"
                         ]
                       },
-                      "weave/guides/tracking/trace-disable",
                       "weave/guides/tracking/costs",
                       "weave/guides/tools/saved-views",
-                      "weave/guides/tools/comparison",
                       "weave/guides/tracking/trace-plots",
-                      "weave/guides/tools/attributes",
                       "weave/guides/tracking/trace-to-run",
                       "weave/guides/tools/weave-in-workspaces"
                     ]
@@ -1016,6 +1022,7 @@
                 "pages": [
                   "pricing",
                   "weave/details/limits",
+                  "weave/guides/troubleshooting",
                   "weave/details/faqs"
                 ]
               },
@@ -1065,7 +1072,8 @@
                 "pages": [
                   "inference/api-reference",
                   "inference/api-reference/chat-completions",
-                  "inference/api-reference/list-models"
+                  "inference/api-reference/list-models",
+                  "inference/api-reference/errors"
                 ]
               },
               "inference/examples",
@@ -1200,16 +1208,6 @@
             ]
           },
           {
-            "tab": "Support",
-            "icon": "/icons/cropped-reports.svg",
-            "pages": [
-              "support/index",
-              "support/models_redirector",
-              "support/weave_redirector",
-              "support/inference_redirector"
-            ]
-          },
-          {
             "tab": "Support: W&B Models",
             "hidden": true,
             "pages": [
@@ -1223,7 +1221,6 @@
               "support/models/tags/billing",
               "support/models/tags/charts",
               "support/models/tags/connectivity",
-              "support/models/tags/crashing-and-hanging-runs",
               "support/models/tags/environment-variables",
               "support/models/tags/experiments",
               "support/models/tags/hyperparameter",
@@ -1237,6 +1234,7 @@
               "support/models/tags/python",
               "support/models/tags/reports",
               "support/models/tags/resuming",
+              "support/models/tags/run-crashes",
               "support/models/tags/runs",
               "support/models/tags/security",
               "support/models/tags/storage",
@@ -1254,8 +1252,14 @@
             "hidden": true,
             "pages": [
               "support/weave/index",
-              "support/weave/tags/faqs",
-              "support/weave/tags/troubleshooting"
+              "support/weave/tags/client-info",
+              "support/weave/tags/code-capture",
+              "support/weave/tags/data-capture",
+              "support/weave/tags/evaluation",
+              "support/weave/tags/performance",
+              "support/weave/tags/system-info",
+              "support/weave/tags/trace-data",
+              "support/weave/tags/ui-rendering"
             ]
           },
           {
@@ -1264,9 +1268,10 @@
             "pages": [
               "support/inference/index",
               "support/inference/tags/administrator",
-              "support/inference/tags/api-errors",
+              "support/inference/tags/authentication-access",
               "support/inference/tags/billing",
-              "support/inference/tags/inference"
+              "support/inference/tags/quotas-rate-limits",
+              "support/inference/tags/server-errors"
             ]
           }
         ]
