@@ -319,6 +319,61 @@ While TypeScript doesn't have automatic cleanup with context managers, `logSumma
 
 
 
+### Link to an existing dataset
+
+When you pass raw dicts as `inputs` to `log_prediction`, Weave re-ingests the data with every evaluation run. For large datasets, this is inefficient because the same data is stored multiple times.
+
+To avoid this, publish your dataset to Weave first, then pass the published dataset's rows as `inputs`. Published rows carry internal references that Weave resolves instead of re-ingesting. This gives you the same linked experience as the standard [Evaluation framework](../core-types/evaluations), where each prediction links back to a specific dataset row in the Weave UI.
+
+The following example shows how to publish a dataset and link to it in the `EvaluationLogger`. Once you have retrieved the dataset, you can access and iterate over it like any other dataset.
+
+<Tabs>
+<Tab title="Python">
+```python
+import weave
+from weave import EvaluationLogger
+
+weave.init("your-team-name/your-project-name")
+
+# Publish the dataset (only needs to happen once)
+dataset = weave.Dataset(
+    name="my_eval_dataset",
+    rows=[
+        {"question": "What is 1+1?", "expected": "2"},
+        {"question": "What is 2+2?", "expected": "4"},
+        {"question": "What is 3+3?", "expected": "6"},
+    ],
+)
+weave.publish(dataset)
+
+# Retrieve the published dataset
+dataset = weave.ref("my_eval_dataset").get()
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript
+import weave, {EvaluationLogger, Dataset} from 'weave';
+
+await weave.init('your-team-name/your-project-name');
+
+// Publish the dataset (only needs to happen once)
+const dataset = new Dataset({
+  name: 'my_eval_dataset',
+  rows: [
+    {question: 'What is 1+1?', expected: '2'},
+    {question: 'What is 2+2?', expected: '4'},
+    {question: 'What is 3+3?', expected: '6'},
+  ],
+});
+const datasetRef = await dataset.save();
+
+// Retrieve the published dataset
+const published = await datasetRef.get();
+```
+</Tab>
+</Tabs>
+
+
 ### Get outputs before logging
 
 You can first compute your model outputs, then separately log predictions and scores. This allows for better separation of evaluation and logging logic.
