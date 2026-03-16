@@ -28,6 +28,10 @@
   "background": {
     "decoration": "gradient"
   },
+  "banner": {
+    "content": "The W&B Mobile App for iOS is here. [Monitor training runs and explore your projects](/platform/hosting/monitoring-usage/mobile-app) from your iPhone or iPad.",
+    "dismissible": true
+  },
   "contextual": {
     "options": [
       {
@@ -74,6 +78,7 @@
               "index",
               "get-started",
               "platform/mcp-server",
+              "platform/wb-skills",
               {
                 "group": "Deployment options",
                 "pages": [
@@ -162,7 +167,8 @@
                 "pages": [
                   "platform/hosting/monitoring-usage/audit-logging",
                   "platform/hosting/monitoring-usage/slack-alerts",
-                  "platform/hosting/monitoring-usage/org_dashboard"
+                  "platform/hosting/monitoring-usage/org_dashboard",
+                  "platform/hosting/monitoring-usage/mobile-app"
                 ]
               },
               {
@@ -641,6 +647,7 @@
                       "models/ref/cli/wandb-online",
                       "models/ref/cli/wandb-projects",
                       "models/ref/cli/wandb-pull",
+                      "models/ref/cli/wandb-purge-cache",
                       "models/ref/cli/wandb-restore",
                       {
                         "group": "wandb server",
@@ -724,11 +731,12 @@
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/create-call",
                           "weave/guides/tracking/trace-tree",
+                          "weave/guides/tools/comparison",
                           "weave/guides/tracking/querying-calls"
                         ]
                       },
                       {
-                        "group": "Advanced tracing",
+                        "group": "Advanced Ops",
                         "pages": [
                           "weave/guides/tracking/trace-generator-func",
                           "weave/tutorial-tracing_2",
@@ -736,7 +744,8 @@
                           "weave/guides/tracking/ops",
                           "weave/guides/tools/attributes",
                           "weave/guides/core-types/media",
-                          "weave/guides/tracking/view-call"
+                          "weave/guides/tracking/view-call",
+                          "weave/guides/tracking/trace-disable"
                         ]
                       },
                       {
@@ -748,12 +757,9 @@
                           "weave/guides/tracking/set-call-display"
                         ]
                       },
-                      "weave/guides/tracking/trace-disable",
                       "weave/guides/tracking/costs",
                       "weave/guides/tools/saved-views",
-                      "weave/guides/tools/comparison",
                       "weave/guides/tracking/trace-plots",
-                      "weave/guides/tools/attributes",
                       "weave/guides/tracking/trace-to-run",
                       "weave/guides/tools/weave-in-workspaces"
                     ]
