@@ -1239,7 +1239,7 @@ GET /scim/Groups
 
 You can configure team-level [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) during team creation by including a `storageBucket` object. If omitted, the team uses default or instance-level storage. Provision the bucket (policy, CORS, credentials) and determine the storage address format per provider using the BYOB guide. The `storageBucket` object has the following sub-fields:
 
-- **Required**: `name` (bucket name), `provider` (one of `AWS`, `GCP`, `AZURE`, `MINIO`, `COREWEAVE`).
+- **Required**: `name` (bucket name), `provider` (one of 'coreweave`, `aws`, `gcp`, `azure`, `minio`). Case-sensitive.
 - **Optional**: `path` (path prefix within the bucket), `kmsKeyId` (KMS key for encryption, for example for AWS), `awsExternalId` (AWS cross-account access), `azureTenantId` (Azure tenant ID), `azureClientId` (Azure managed identity client ID).
 
 W&B validates that the bucket exists and is reachable before creating the team. If validation fails, the SCIM request fails and the team is not created.
