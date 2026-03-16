@@ -74,6 +74,7 @@
               "index",
               "get-started",
               "platform/mcp-server",
+              "platform/wb-skills",
               {
                 "group": "Deployment options",
                 "pages": [
@@ -82,9 +83,10 @@
                   {
                     "group": "Dedicated Cloud",
                     "pages": [
-                      "platform/hosting/hosting-options/dedicated_cloud",
-                      "platform/hosting/hosting-options/dedicated_regions",
-                      "platform/hosting/export-data-from-dedicated-cloud"
+                      "platform/hosting/hosting-options/dedicated-cloud",
+                      "platform/hosting/hosting-options/dedicated-cloud/rate-limits",
+                      "platform/hosting/hosting-options/dedicated-cloud/regions",
+                      "platform/hosting/hosting-options/dedicated-cloud/export-data"
                     ]
                   },
                   {
@@ -93,6 +95,7 @@
                       "platform/hosting/hosting-options/self-managed",
                       "platform/hosting/self-managed/ref-arch",
                       "platform/hosting/self-managed/requirements",
+                      "platform/hosting/self-managed/rate-limits",
                       "platform/hosting/self-managed/operator",
                       "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
                       "platform/hosting/server-upgrade-process"
@@ -719,11 +722,12 @@
                           "weave/guides/tracking/tracing",
                           "weave/guides/tracking/create-call",
                           "weave/guides/tracking/trace-tree",
+                          "weave/guides/tools/comparison",
                           "weave/guides/tracking/querying-calls"
                         ]
                       },
                       {
-                        "group": "Advanced tracing",
+                        "group": "Advanced Ops",
                         "pages": [
                           "weave/guides/tracking/trace-generator-func",
                           "weave/tutorial-tracing_2",
@@ -731,7 +735,8 @@
                           "weave/guides/tracking/ops",
                           "weave/guides/tools/attributes",
                           "weave/guides/core-types/media",
-                          "weave/guides/tracking/view-call"
+                          "weave/guides/tracking/view-call",
+                          "weave/guides/tracking/trace-disable"
                         ]
                       },
                       {
@@ -743,12 +748,11 @@
                           "weave/guides/tracking/set-call-display"
                         ]
                       },
-                      "weave/guides/tracking/trace-disable",
+
                       "weave/guides/tracking/costs",
                       "weave/guides/tools/saved-views",
-                      "weave/guides/tools/comparison",
+
                       "weave/guides/tracking/trace-plots",
-                      "weave/guides/tools/attributes",
                       "weave/guides/tracking/trace-to-run",
                       "weave/guides/tools/weave-in-workspaces"
                     ]
@@ -3886,6 +3890,22 @@
     {
       "source": "/platform/hosting/secure-storage-connector",
       "destination": "/platform/hosting/data-security/secure-storage-connector"
+    },
+    {
+      "source": "/platform/hosting/hosting-options/dedicated_cloud",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud"
+    },
+    {
+      "source": "/platform/hosting/hosting-options/rate-limits-dedicated-cloud",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud/rate-limits"
+    },
+    {
+      "source": "/platform/hosting/hosting-options/dedicated_regions",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud/regions"
+    },
+    {
+      "source": "/platform/hosting/export-data-from-dedicated-cloud",
+      "destination": "/platform/hosting/hosting-options/dedicated-cloud/export-data"
     },
     {
       "source": "/platform/hosting/self-managed/install-on-public-cloud",
