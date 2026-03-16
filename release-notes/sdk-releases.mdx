@@ -6,6 +6,28 @@ rss: true
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="0.25.1" description="March 10, 2026">
+## Added
+
+- New run console logs pane in `wandb beta leet` command. Toggle with `l`.
+- New system metrics pane in multi-run workspace mode in `wandb beta leet` command. Toggle with `s`.
+- `wandb beta leet` command now supports system metrics filtering. Toggle with `\`.
+- `ArtifactType.collections()` now supports filtering and ordering of collections.
+- A warning is now logged if `run.log_artifact` does not create a new version because the artifact content is identical to an existing version.
+- The new method `Project.collections()` fetches filtered and ordered artifact collections in a project.
+- The new `wandb purge-cache` CLI command cleans up cached files.
+
+## Fixed
+- Fixed a rare deadlock caused when garbage collection triggers at an unlucky time and runs a `__del__` method that prints.
+- Fixed a bug where loading multiple runs with `api.Runs("...")`, then attempting to get a single run's user with code like the following could fail with an `AttributeError`:
+
+    ```python
+    for run in runs:
+      print(run.user)
+    ```
+
+</Update>
+
 <Update label="0.25.0" description="February 12, 2026">
 ## Notable changes
 - Python 3.8 is no longer supported.
