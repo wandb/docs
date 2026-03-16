@@ -1,1 +1,5 @@
-W&B Automations follow a simple pattern: when an **event** occurs and optional **conditions** are met, an **action** runs automatically. For example, when a run fails (event), notify a Slack channel (action). Or when the `production` alias is added to an artifact (event), call a webhook to trigger deployment (action). Events and available conditions depend on whether the automation is scoped to a [project](/models/automations/automation-events#project) or a [registry](/models/automations/automation-events#registry).
+W&B Automations follow a simple pattern: when an **event** occurs and optional **conditions** are met, an **action** runs automatically. For example:
+- When a run fails (event), notify a Slack channel (action).
+- When the `production` alias is added to an artifact (event), call a webhook to trigger deployment (action).
+
+Events and available conditions differ for an automation scoped to a [project](/models/automations/automation-events#project) or a [registry](/models/automations/automation-events#registry). See [Automation events and scopes](/models/automations/automation-events).

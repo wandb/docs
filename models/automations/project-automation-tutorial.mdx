@@ -13,21 +13,21 @@ import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-fu
 
 This tutorial walks you through building a **project** automation triggered by run status: when a run in your project transitions to **Failed**, W&B sends a Slack notification.
 
-<Tip>For guidance creating a Registry automation, see [Tutorial: Registry artifact alias automation](/models/automations/registry-automation-tutorial).</Tip>
+<TutorialDiagramProject/>
 
-<AutomationsMentalModel/>
+<Tip>For guidance creating a Registry automation, see [Tutorial: Registry artifact alias automation](/models/automations/registry-automation-tutorial).</Tip>
 
 ## Prerequisites
 
 - A W&B project.
 - A [Slack integration](/models/automations/create-automations/slack#add-a-slack-integration) configured in **Team Settings**.
 
-## Project automation: run failure alert
+## Create a project automation
 
 This automation is scoped to a **project**. When a run in that project transitions to **Failed**, W&B sends a Slack notification.
 
 <Tabs>
-<Tab title="Create in the UI">
+<Tab title="W&B App">
 1. Open the project and click the **Automations** tab in the sidebar, then click **Create automation**.
 1. Choose the event **Run state change**. Set the state to **Failed**. Optionally add a run name or user filter to limit which runs trigger the automation.
 1. Click **Next step**. Set **Action type** to **Slack notification** and select the Slack channel.
@@ -35,7 +35,7 @@ This automation is scoped to a **project**. When a run in that project transitio
 
 For more detail, see [Create a Slack automation](/models/automations/create-automations/slack#create-an-automation) (Project tab).
 </Tab>
-<Tab title="Create with the API">
+<Tab title="Python">
 Use the public API to create the same automation with a project scope and run-state filter:
 
 ```python
