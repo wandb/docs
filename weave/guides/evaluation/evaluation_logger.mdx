@@ -339,9 +339,9 @@ weave.init("your-team-name/your-project-name")
 dataset = weave.Dataset(
     name="my_eval_dataset",
     rows=[
-        {"question": "What is 1+1?", "expected": "2"},
-        {"question": "What is 2+2?", "expected": "4"},
-        {"question": "What is 3+3?", "expected": "6"},
+      {"question": "What is the capitol of France?", "expected": "Paris"},
+      {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
+      {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
     ],
 )
 weave.publish(dataset)
@@ -360,9 +360,9 @@ await weave.init('your-team-name/your-project-name');
 const dataset = new Dataset({
   name: 'my_eval_dataset',
   rows: [
-    {question: 'What is 1+1?', expected: '2'},
-    {question: 'What is 2+2?', expected: '4'},
-    {question: 'What is 3+3?', expected: '6'},
+    {"question": "What is the capitol of France?", "expected": "Paris"},
+    {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
+    {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
   ],
 });
 const datasetRef = await dataset.save();
