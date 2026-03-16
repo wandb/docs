@@ -1,24 +1,19 @@
 ---
 title: "Store and track versions of prompts"
-description: "Store, organize, and track versions of your prompts for LLM applications"
+description: "Retrieve and manage versions of your prompts for LLM applications"
 ---
 
-Creating, evaluating, and refining prompts is a core activity for AI engineers.
-Small changes to a prompt can have big impacts on your application's behavior.
-W&B Weave lets you create prompts, save and retrieve them, and evolve them over time.
+This page explains how prompt versioning works and how to reference, retrieve, and use specific versions in code and in production. Prompts are created and published as described in [Creating prompt objects](/weave/guides/core-types/prompts.mdx).
 
-
-
-When you publish one of these objects with `weave.publish`, it appears in your Weave project on the [Prompts page](#view-prompts).
-
+When you publish a prompt with `weave.publish`, Weave creates an immutable version. Each version can be referenced by name and version, retrieved in code with `weave.ref(...).get()`, and viewed in the Weave UI.
 
 # Manage prompt versions
 
 Prompts in Weave are stored as **versioned objects**. Each time you publish a prompt, Weave creates an immutable version that can be retrieved and used later. This allows you to safely iterate on prompts while ensuring that evaluations, experiments, and production systems can reference the exact prompt version they were run with.
 
-This page explains how prompt versions are created, how to retrieve a specific version in code, and how to inspect and compare versions in the Weave UI.
+Prompt versions are accessed using Weave object references. This page explains how prompt versions are created, how to retrieve a specific version in code, and how to inspect and compare versions in the Weave UI.
 
-Prompts are created and published as described in [Creating prompt objects](/weave/guides/core-types/prompts.mdx).
+
 
 
 
@@ -30,67 +25,62 @@ Each version is immutable. Once created, the contents of that version cannot be 
 
 Versioning enables you to:
 
-- reproduce past experiments
-- safely iterate on prompt changes
-- roll out prompt updates in a controlled way
-
-Each prompt version receives a unique identifier that can be used to retrieve that version later.
+- reproduce past experiments.
+- safely iterate on prompt changes.
+- roll out prompt updates in a controlled way.
 
 
 
 ## Reference a prompt version
 
-Prompt versions are referenced using the standard Weave object reference format:
+Prompt versions are referenced using a Weave object ref URI.
 
-```
-entity/project/prompt_name:version
-```
+A fully qualified Weave object ref URI looks like this:
 
-For example:
-
-```
-support_prompt:3
+```text
+weave://<entity>/<project>/object/<object_name>:<object_version>
 ```
 
-This reference identifies a specific version of the prompt.
+- _entity_: W&B entity (username or team name)
+- _project_: W&B project
+- _object_name_: object name
+- _object_version_: either a version hash, a string like `v0` or `v1`, or an alias like `:latest`. All objects have the `:latest` alias.
 
-You can also reference the most recent version:
+For example, a fully qualified Weave prompt URI looks like this:
 
+```text
+weave:///your-team-name/your-project-name/object/support_prompt:v3
 ```
-support_prompt:latest
-```
-
-However, using `latest` is typically recommended only during development. Production systems should reference a specific version to ensure consistent behavior.
 
 
 
 ## Retrieve a prompt version in code
 
-You can retrieve a prompt version using a Weave object reference.
+To retrieve a prompt, create a reference to its name and version, then call `.get()` to load it. A ref points to a stored object; `.get()` fetches that object so you can use it in your application.
 
-```python
+You can construct refs with a few different styles.
+
+- `weave.ref(<name>)`: requires `weave.init(...)` to have been called. Refers to the `:latest` version.
+- `weave.ref(<name>:<version>)`: requires `weave.init(...)` to have been called.
+- `weave.ref(<fully_qualified_ref_uri>)`: can be constructed without calling `weave.init`.
+
+Example:
+
+```python lines
 import weave
 
-prompt = weave.ref("entity/project/support_prompt:3").get()
+weave.init("your-team-name/your-project-name")
+
+prompt = weave.ref("support_prompt:v3").get()
 ```
 
-The `ref()` function creates a reference to the stored object, and `.get()` retrieves the prompt object.
-
-Once retrieved, you can use the prompt in your application like any other prompt.
-
-Referencing a specific version ensures your application uses the exact prompt version you expect.
+The example above loads the `support_prompt:v3` version so you can use it in your application.
 
 
 
 ## Use prompt versions in production
 
-When deploying prompts in production systems, we recommend that you pin a specific prompt version rather than referencing the latest version.
-
-For example:
-
-```
-support_prompt:7
-```
+When deploying prompts in production systems, pin a specific prompt version rather than referencing the latest version. In your production application, load that version with `weave.ref(<name>:<version>).get()`.
 
 Pinning a version ensures that production behavior remains stable even if new prompt versions are published later.
 
@@ -105,19 +95,19 @@ This approach allows teams to safely iterate on prompts without unexpectedly cha
 
 
 
-
-## <a id="view-prompts" aria-label="View and Compare Prompt Versions"></a>View and Compare Prompt Versions
+## <a id="view-prompts" aria-label="View and compare prompt versions"></a>View and compare prompt versions
 
 Weave automatically tracks every version of your prompts, creating a complete history of how your prompts evolve. This versioning system is crucial for prompt engineering workflows, allowing you to experiment safely, track what changes improved or hurt performance, and easily roll back to previous versions if needed. Each time you publish a prompt with the same name but different content, Weave creates a new version while preserving all previous versions. 
 
 To view versions of the prompt in the UI:
 
-1. Open your project in the UI and click the **Assets** button in the left menu. This opens the Assets page.
-2. From the Assets page, click **Prompts**. This opens the Prompts page where your project's prompts are listed.
+1. Navigate to [wandb.ai](https://wandb.ai/) and select your project.
+In the Weave project sidebar, click **Assets**. This opens the Assets page.
+2. In the Assets page, click **Prompts**. This opens the Prompts page where your project's prompts are listed.
 3. Under the **Versions** column, click **(x) Versions** for the prompt you want to view. This opens a list of prompt versions.
 
-![Screenshot of viewing a prompt object](/weave/guides/core-types/imgs/prompt-object.png)
+![UI of Prompt Assets, showing the versions of the selected prompt.](/weave/guides/core-types/imgs/prompt-object.png)
 
-4. (Optional) You can compare versions of prompts by clicking the checkboxes beside the listed prompts and then clicking the **Compare** button. This allows you to see the diff between your prompts.
+4. (Optional) You can compare versions of prompts by clicking the checkboxes beside the listed prompts and then clicking the **Compare** button in the table toolbar. This allows you to see the diff between your prompts.
 
-![Screenshot of prompt comparison](/weave/guides/core-types/imgs/prompt-comparison.png)
+![The Compare prompts UI showing a diff between two different prompt versions.](/weave/guides/core-types/imgs/prompt-comparison.png)
