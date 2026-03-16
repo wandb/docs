@@ -5,6 +5,8 @@
 # Repo and ops directories (not part of published docs)
 scripts/
 runbooks/
+node_modules/
+.github/
 
 # Top-level config and assets (not doc pages)
 # Note: Do not exclude .js or .css. Mintlify loads
