@@ -645,6 +645,7 @@
                       "models/ref/cli/wandb-online",
                       "models/ref/cli/wandb-projects",
                       "models/ref/cli/wandb-pull",
+                      "models/ref/cli/wandb-purge-cache",
                       "models/ref/cli/wandb-restore",
                       {
                         "group": "wandb server",
@@ -754,10 +755,8 @@
                           "weave/guides/tracking/set-call-display"
                         ]
                       },
-
                       "weave/guides/tracking/costs",
                       "weave/guides/tools/saved-views",
-
                       "weave/guides/tracking/trace-plots",
                       "weave/guides/tracking/trace-to-run",
                       "weave/guides/tools/weave-in-workspaces"
