@@ -7,8 +7,9 @@ scripts/
 runbooks/
 
 # Top-level config and assets (not doc pages)
-/*.js
-/*.css
+# Note: Do not exclude .js or .css. Mintlify loads
+# these automatically if present in the content root.
+
 /*.yaml
 /*.toml
 /*.txt
