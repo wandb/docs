@@ -28,6 +28,10 @@
   "background": {
     "decoration": "gradient"
   },
+  "banner": {
+    "content": "The W&B Mobile App for iOS is here. [Monitor training runs and explore your projects](/platform/hosting/monitoring-usage/mobile-app) from your iPhone or iPad.",
+    "dismissible": true
+  },
   "contextual": {
     "options": [
       {
@@ -163,7 +167,8 @@
                 "pages": [
                   "platform/hosting/monitoring-usage/audit-logging",
                   "platform/hosting/monitoring-usage/slack-alerts",
-                  "platform/hosting/monitoring-usage/org_dashboard"
+                  "platform/hosting/monitoring-usage/org_dashboard",
+                  "platform/hosting/monitoring-usage/mobile-app"
                 ]
               },
               {
