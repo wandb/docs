@@ -4,6 +4,8 @@ description: Choose a tutorial to build a project run-failure alert or a registr
 ---
 import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
 import AutomationsMentalModel from "/snippets/en/_includes/automations/mental-model.mdx";
+import TutorialDiagramProject from "/snippets/en/_includes/automations/tutorial-diagram-project.mdx";
+import TutorialDiagramRegistry from "/snippets/en/_includes/automations/tutorial-diagram-registry.mdx";
 
 <Info>
 <EnterpriseCloudOnly/>
@@ -16,10 +18,10 @@ These tutorials walk you through building an automation using the UI or the API.
 
 <AutomationsMentalModel/>
 
-```mermaid
-flowchart LR
-  ProjAlert[Project: run failure alert]
-  RegWebhook[Registry: alias to webhook]
-  Test[Test and verify]
-  ProjAlert --> RegWebhook --> Test
-```
+**Project automation: run failure alert**
+
+<TutorialDiagramProject/>
+
+**Registry automation: alias added to webhook**
+
+<TutorialDiagramRegistry/>
