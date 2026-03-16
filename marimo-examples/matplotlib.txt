@@ -1,0 +1,27 @@
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+from matplotlib import colors
+
+np.random.seed(19680801)
+
+datasets = [
+    (i+1)/10 * np.random.rand(10, 20)
+    for i in range(4)
+]
+
+fig, axs = plt.subplots(2, 2)
+fig.suptitle('Multiple images')
+
+# create a single norm to be shared across all images
+norm = colors.Normalize(vmin=np.min(datasets), vmax=np.max(datasets))
+
+images = []
+for ax, data in zip(axs.flat, datasets):
+    images.append(ax.imshow(data, norm=norm))
+
+fig.colorbar(images[0], ax=axs, orientation='horizontal', fraction=.1)
+
+plt.show()
+```
