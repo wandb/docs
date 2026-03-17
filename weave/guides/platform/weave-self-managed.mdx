@@ -16,7 +16,7 @@ Self-managed Weave deployments rely on [ClickHouseDB](https://clickhouse.com/) t
 For a detailed reference architecture, see [W&B Self-Managed Reference Architecture](https://docs.wandb.ai/guides/hosting/self-managed/ref-arch/#models-and-weave).
 </Tip>
 
-## Important Setup Notes
+## Important setup notes
 
 The configuration examples in this guide are for reference only. Because each organization's Kubernetes environment is unique, your self-hosted instance will likely require you to adjust:
 
@@ -57,7 +57,7 @@ Self-managed Weave instances require the following resources:
 Do not make sizing decisions based on these prerequisites list alone. Resource needs vary significantly based on trace volume and usage patterns. See the detailed [Resource Requirements](#resource-requirements) section for explicit cluster-sizing guidance.
 </Warning>
 
-### Required Tools
+### Required tools
 
 To set up your instance, you need the following tools:
 
@@ -65,7 +65,7 @@ To set up your instance, you need the following tools:
 - `helm` v3.0+
 - AWS credentials (if using S3) or access to S3-compatible storage
 
-### Network Requirements
+### Network requirements
 
 Your Kubernetes cluster requires the following network setup:
 
@@ -1005,7 +1005,7 @@ weave-trace:
     WF_CLICKHOUSE_REPLICATED_CLUSTER: "weavecluster" # <-- This value
 ```
 
-## Resource Requirements
+## Resource requirements
 
 <Warning>
 The resource allocations below are **example starting points only**. Actual requirements vary significantly based on:
@@ -1018,7 +1018,7 @@ The resource allocations below are **example starting points only**. Actual requ
 **Always consult with your W&B Solutions Architect team** to determine appropriate sizing for your specific use case. Under-provisioned resources can lead to performance issues, while over-provisioning wastes infrastructure costs.
 </Warning>
 
-### Minimum Production Setup
+### Minimum production setup
 
 | Component         | Replicas   | CPU Request / Limit | Memory Request / Limit | Storage   |
 | ----------------- | ---------- | ------------------- | ---------------------- | --------- |
@@ -1029,7 +1029,7 @@ The resource allocations below are **example starting points only**. Actual requ
 
 _Suitable for: Development, testing, or low-volume production environments_
 
-### Recommended Production Setup
+### Recommended production setup
 
 For production workloads with high trace volume:
 
@@ -1044,7 +1044,7 @@ _Suitable for: High-volume production environments_
 
 For ultra-high volume deployments, contact your W&B Solutions Architect team for custom sizing recommendations based on your specific trace volume and performance requirements.
 
-## Advanced Configuration
+## Advanced configuration
 
 This section covers customization options for self-managed Weave deployments, including scaling ClickHouse capacity through vertical scaling or horizontal scaling, updating ClickHouse versions by modifying image tags in both keeper and server configurations, and monitoring ClickHouse health.
 
@@ -1073,7 +1073,7 @@ To increase ClickHouse capacity, you can:
    - Consult ClickHouse's documentation for shard management
    - **Contact a W&B Solutions Architect** before implementing horizontal scaling in production
 
-### Using Different ClickHouse Versions
+### Using different ClickHouse versions
 
 To use a different ClickHouse version, update the image tag in both ch-keeper.yaml and ch-server.yaml:
 
@@ -1107,7 +1107,7 @@ kubectl get pods -n clickhouse -l app=clickhouse-server
 
 ClickHouse data is stored in S3, providing inherent backup capabilities through S3 versioning and bucket replication features. For backup strategies specific to your deployment, consult with your W&B Solutions Architect team and refer to the [ClickHouse backup documentation](https://clickhouse.com/docs/en/operations/backup).
 
-## Security Considerations
+## Security considerations
 
 1. **Credentials**: Store ClickHouse passwords in Kubernetes secrets, not plain text
 2. **Network Policies**: Consider implementing NetworkPolicies to restrict ClickHouse access
@@ -1148,7 +1148,7 @@ kubectl apply -f wandb-cr.yaml
 kubectl get pods -n wandb | grep weave-trace
 ```
 
-## Additional Resources
+## Additional resources
 
 - [Altinity ClickHouse Operator Documentation](https://docs.altinity.com/altinitykubernetesoperator/)
 - [ClickHouse Documentation](https://clickhouse.com/docs)
