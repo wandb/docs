@@ -573,6 +573,7 @@
                           "models/ref/python/public-api/member",
                           "models/ref/python/public-api/project",
                           "models/ref/python/public-api/projects",
+                          "models/ref/python/public-api/projectartifactcollections",
                           "models/ref/python/public-api/registry",
                           "models/ref/python/public-api/reports",
                           "models/ref/python/public-api/run",
