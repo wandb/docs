@@ -1,5 +1,5 @@
 {
-  "theme": "palm",
+  "theme": "mint",
   "$schema": "https://mintlify.com/docs.json",
   "name": "Weights & Biases Documentation",
   "colors": {
@@ -66,7 +66,15 @@
     }
   },
   "navigation": {
-    "global": {},
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Support",
+          "icon": "/icons/cropped-reports.svg",
+          "href": "/support/index?assistant"
+        }
+      ]
+    },
     "languages": [
       {
         "language": "en",
@@ -177,8 +185,7 @@
                   "pricing",
                   "blog",
                   "courses",
-                  "security",
-                  "support/index"
+                  "security"
                 ]
               }
             ]
@@ -1205,6 +1212,13 @@
                   "platform/launch/launch-library/launchagent"
                 ]
               }
+            ]
+          },
+          {
+            "tab": "Support",
+            "hidden": true,
+            "pages": [
+              "support/index"
             ]
           },
           {
