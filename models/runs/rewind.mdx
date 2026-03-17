@@ -86,7 +86,7 @@ with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_ste
         run.log({"additional_metric": i * 1.1, "step": i})
 ```
 
-The following image shows the updated project's workpace. Note the following changes in the plot after the rewind:
+The following image shows the updated project's workspace. Note the following changes in the plot after the rewind:
 
 - The line plot shows the original linear line from step 0 to step 200 and the new subtle wavy pattern starts from step 250 (left image).
 - W&B created a new plot (right plot) labeled `additional_metric` that starts from step 200.
