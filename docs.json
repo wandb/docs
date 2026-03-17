@@ -1208,6 +1208,7 @@
           },
           {
             "tab": "Support",
+            "icon": "/icons/cropped-reports.svg",
             "pages": [
               "support/index"
             ]
