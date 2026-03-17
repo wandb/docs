@@ -747,10 +747,8 @@
                           "weave/guides/tracking/set-call-display"
                         ]
                       },
-
                       "weave/guides/tracking/costs",
                       "weave/guides/tools/saved-views",
-
                       "weave/guides/tracking/trace-plots",
                       "weave/guides/tracking/trace-to-run",
                       "weave/guides/tools/weave-in-workspaces"
@@ -1862,11 +1860,12 @@
                           "ja/weave/guides/tracking/tracing",
                           "ja/weave/guides/tracking/create-call",
                           "ja/weave/guides/tracking/trace-tree",
+                          "ja/weave/guides/tools/comparison",
                           "ja/weave/guides/tracking/querying-calls"
                         ]
                       },
                       {
-                        "group": "高度なトレーシング",
+                        "group": "高度な運用",
                         "pages": [
                           "ja/weave/guides/tracking/trace-generator-func",
                           "ja/weave/tutorial-tracing_2",
@@ -1874,7 +1873,8 @@
                           "ja/weave/guides/tracking/ops",
                           "ja/weave/guides/tools/attributes",
                           "ja/weave/guides/core-types/media",
-                          "ja/weave/guides/tracking/view-call"
+                          "ja/weave/guides/tracking/view-call",
+                          "ja/weave/guides/tracking/trace-disable"
                         ]
                       },
                       {
@@ -1886,12 +1886,9 @@
                           "ja/weave/guides/tracking/set-call-display"
                         ]
                       },
-                      "ja/weave/guides/tracking/trace-disable",
                       "ja/weave/guides/tracking/costs",
                       "ja/weave/guides/tools/saved-views",
-                      "ja/weave/guides/tools/comparison",
                       "ja/weave/guides/tracking/trace-plots",
-                      "ja/weave/guides/tools/attributes",
                       "ja/weave/guides/tracking/trace-to-run",
                       "ja/weave/guides/tools/weave-in-workspaces"
                     ]
@@ -3002,11 +2999,12 @@
                           "ko/weave/guides/tracking/tracing",
                           "ko/weave/guides/tracking/create-call",
                           "ko/weave/guides/tracking/trace-tree",
+                          "ko/weave/guides/tools/comparison",
                           "ko/weave/guides/tracking/querying-calls"
                         ]
                       },
                       {
-                        "group": "고급 트레이싱",
+                        "group": "고급 운영 기능",
                         "pages": [
                           "ko/weave/guides/tracking/trace-generator-func",
                           "ko/weave/tutorial-tracing_2",
@@ -3014,7 +3012,8 @@
                           "ko/weave/guides/tracking/ops",
                           "ko/weave/guides/tools/attributes",
                           "ko/weave/guides/core-types/media",
-                          "ko/weave/guides/tracking/view-call"
+                          "ko/weave/guides/tracking/view-call",
+                          "ko/weave/guides/tracking/trace-disable"
                         ]
                       },
                       {
@@ -3026,12 +3025,9 @@
                           "ko/weave/guides/tracking/set-call-display"
                         ]
                       },
-                      "ko/weave/guides/tracking/trace-disable",
                       "ko/weave/guides/tracking/costs",
                       "ko/weave/guides/tools/saved-views",
-                      "ko/weave/guides/tools/comparison",
                       "ko/weave/guides/tracking/trace-plots",
-                      "ko/weave/guides/tools/attributes",
                       "ko/weave/guides/tracking/trace-to-run",
                       "ko/weave/guides/tools/weave-in-workspaces"
                     ]

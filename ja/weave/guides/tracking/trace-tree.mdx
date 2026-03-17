@@ -23,14 +23,14 @@ Trace ビューを開くには、次の手順を実行します。
 
 Traces ページは、3 つの主要なパネルで構成されています。
 
-* **左パネル**: プロジェクト内のすべての trace run を、並べ替えやページネーション付きで一覧表示します。
+* **左パネル**: プロジェクト内のすべての traces を、並べ替え可能でページ分割された一覧として表示します。
   * この traces テーブルには、tokens、cost、latency などの追加データが含まれます。
-* **中央パネル**: 選択した trace のインタラクティブな trace ビューです。trace tree は、その trace 内でトラッキングされたすべてのメソッドの階層構造を表示します。
-  * trace tree には、trace 中に呼び出された `@weave.op()` デコレータ付き関数である [ops](/ja/weave/guides/tracking/ops#automatically-track-function-calls-using-ops) が表示されます。
-* **右パネル**: 選択した trace 内で選択した op の詳細を表示します。
+* **中央パネル**: 選択した trace のインタラクティブな trace ビューです。トレース ツリーは、その trace 内で追跡されたすべてのメソッドの階層構造を表示します。
+  * トレース ツリーには、trace 中に呼び出された、`@weave.op()` でデコレートされた関数である [ops](/ja/weave/guides/tracking/ops#automatically-track-function-calls-using-ops) が表示されます。
+* **右パネル**: 選択した trace 内で選択した op の詳細です。
 
 <Frame>
-  ![Traces ページで選択された trace と選択された op の詳細を表示している例](/weave/guides/tracking/imgs/trace-tree-full.png)
+  ![選択した trace と選択した op の詳細を表示している Traces ページ](/weave/guides/tracking/imgs/trace-tree-full.png)
 </Frame>
 
 <div id="filter-within-a-trace">
