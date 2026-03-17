@@ -75,10 +75,36 @@
             "tab": "Platform",
             "icon": "/icons/cropped-artifacts.svg",
             "pages": [
-              "index",
-              "get-started",
-              "platform/mcp-server",
-              "platform/wb-skills",
+              {
+                "group": "W&B Docs",
+                "pages": [
+                  "index",
+                  "get-started",
+                  "platform/mcp-server",
+                  "platform/wb-skills",
+                  {
+                    "group": "Release Notes",
+                    "expanded": false,
+                    "pages": [
+                      "release-notes",
+                      {
+                        "group": "W&B Server",
+                        "pages": [
+                          "release-notes/server-releases",
+                          "release-notes/server-releases-archived"
+                        ]
+                      },
+                      {
+                        "group": "W&B SDK",
+                        "pages": [
+                          "release-notes/sdk-releases"
+                        ]
+                      },
+                      "release-notes/release-policies"
+                    ]
+                  }
+                ]
+              },
               {
                 "group": "Deployment options",
                 "pages": [
@@ -700,7 +726,8 @@
                     ]
                   }
                 ]
-              }
+              },
+              "support/models/index"
             ]
           },
           {
@@ -1022,21 +1049,8 @@
               {
                 "group": "Details & Support",
                 "pages": [
-                  "pricing",
                   "weave/details/limits",
-                  "weave/details/faqs"
-                ]
-              },
-              {
-                "group": "Open Source",
-                "pages": [
-                  "weave/open-source"
-                ]
-              },
-              {
-                "group": "Community",
-                "pages": [
-                  "weave/community"
+                  "support/weave/index"
                 ]
               }
             ]
@@ -1077,7 +1091,8 @@
                 ]
               },
               "inference/examples",
-              "inference/ui-guide"
+              "inference/ui-guide",
+              "support/inference/index"
             ]
           },
           {
@@ -1109,27 +1124,6 @@
                 ],
                 "openapi": "training/api-reference/openapi.json"
               }
-            ]
-          },
-          {
-            "tab": "Release Notes",
-            "icon": "/icons/cropped-reports.svg",
-            "pages": [
-              "release-notes",
-              {
-                "group": "W&B Server",
-                "pages": [
-                  "release-notes/server-releases",
-                  "release-notes/server-releases-archived"
-                ]
-              },
-              {
-                "group": "W&B SDK",
-                "pages": [
-                  "release-notes/sdk-releases"
-                ]
-              },
-              "release-notes/release-policies"
             ]
           },
           {
@@ -1291,118 +1285,140 @@
             "icon": "/icons/cropped-artifacts.svg",
             "pages": [
               "ja/index",
-              "ja/get-started",
-              {
-                "group": "Deployment options",
-                "pages": [
-                  "ja/platform/hosting",
-                  "ja/platform/hosting/hosting-options/multi_tenant_cloud",
+                  "ja/get-started",
+                  "platform/wb-skills",
                   {
-                    "group": "Dedicated Cloud",
+                    "group": "Release Notes",
+                    "expanded": false,
                     "pages": [
-                      "ja/platform/hosting/hosting-options/dedicated_cloud",
-                      "ja/platform/hosting/hosting-options/dedicated_regions",
-                      "ja/platform/hosting/export-data-from-dedicated-cloud"
+                      "ja/release-notes",
+                      {
+                        "group": "W&B Server",
+                        "pages": [
+                          "ja/release-notes/server-releases",
+                          "ja/release-notes/server-releases-archived"
+                        ]
+                      },
+                      {
+                        "group": "W&B SDK",
+                        "pages": [
+                          "ja/release-notes/sdk-releases"
+                        ]
+                      },
+                      "ja/release-notes/release-policies"
                     ]
                   },
                   {
-                    "group": "Self-Managed",
+                    "group": "Deployment options",
                     "pages": [
-                      "ja/platform/hosting/hosting-options/self-managed",
-                      "ja/platform/hosting/self-managed/ref-arch",
+                      "ja/platform/hosting",
+                      "ja/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
-                        "group": "Run W&B Server on Kubernetes",
+                        "group": "Dedicated Cloud",
                         "pages": [
-                          "ja/platform/hosting/operator",
-                          "ja/platform/hosting/self-managed/operator-airgapped"
+                          "ja/platform/hosting/hosting-options/dedicated_cloud",
+                          "ja/platform/hosting/hosting-options/dedicated_regions",
+                          "ja/platform/hosting/export-data-from-dedicated-cloud"
                         ]
                       },
                       {
-                        "group": "Install on public cloud",
+                        "group": "Self-Managed",
                         "pages": [
-                          "ja/platform/hosting/self-managed/aws-tf",
-                          "ja/platform/hosting/self-managed/gcp-tf",
-                          "ja/platform/hosting/self-managed/azure-tf"
+                          "ja/platform/hosting/hosting-options/self-managed",
+                          "ja/platform/hosting/self-managed/ref-arch",
+                          {
+                            "group": "Run W&B Server on Kubernetes",
+                            "pages": [
+                              "ja/platform/hosting/operator",
+                              "ja/platform/hosting/self-managed/operator-airgapped"
+                            ]
+                          },
+                          {
+                            "group": "Install on public cloud",
+                            "pages": [
+                              "ja/platform/hosting/self-managed/aws-tf",
+                              "ja/platform/hosting/self-managed/gcp-tf",
+                              "ja/platform/hosting/self-managed/azure-tf"
+                            ]
+                          },
+                          "ja/platform/hosting/self-managed/bare-metal",
+                          "ja/platform/hosting/server-upgrade-process",
+                          "ja/platform/hosting/self-managed/disable-automatic-app-version-updates"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Configure W&B",
+                    "pages": [
+                      {
+                        "group": "Settings",
+                        "pages": [
+                          "ja/platform/app/settings-page",
+                          "ja/platform/app/settings-page/user-settings",
+                          "ja/platform/app/settings-page/billing-settings",
+                          "ja/platform/app/settings-page/emails",
+                          "ja/platform/app/settings-page/teams",
+                          "ja/platform/secrets",
+                          "ja/platform/app/settings-page/storage"
                         ]
                       },
-                      "ja/platform/hosting/self-managed/bare-metal",
-                      "ja/platform/hosting/server-upgrade-process",
-                      "ja/platform/hosting/self-managed/disable-automatic-app-version-updates"
+                      {
+                        "group": "Identity and access management (IAM)",
+                        "pages": [
+                          "ja/platform/hosting/iam/org_team_struct",
+                          {
+                            "group": "Authentication",
+                            "pages": [
+                              "ja/platform/hosting/iam/ldap",
+                              "ja/platform/hosting/iam/sso",
+                              "ja/platform/hosting/iam/identity_federation",
+                              "ja/platform/hosting/iam/service-accounts"
+                            ]
+                          },
+                          {
+                            "group": "Access management",
+                            "pages": [
+                              "ja/platform/hosting/iam/access-management-intro",
+                              "ja/platform/hosting/iam/access-management/manage-organization",
+                              "ja/platform/hosting/iam/access-management/restricted-projects"
+                            ]
+                          },
+                          "ja/platform/hosting/iam/automate_iam",
+                          "ja/platform/hosting/iam/scim",
+                          "ja/platform/hosting/iam/advanced_env_vars"
+                        ]
+                      },
+                      {
+                        "group": "Data security",
+                        "pages": [
+                          "ja/platform/hosting/data-security/secure-storage-connector",
+                          "ja/platform/hosting/data-security/presigned-urls",
+                          "ja/platform/hosting/data-security/ip-allowlisting",
+                          "ja/platform/hosting/data-security/private-connectivity",
+                          "ja/platform/hosting/data-security/data-encryption"
+                        ]
+                      },
+                      "ja/platform/hosting/env-vars"
+                    ]
+                  },
+                  {
+                    "group": "Monitoring and usage",
+                    "pages": [
+                      "ja/platform/hosting/monitoring-usage/audit-logging",
+                      "ja/platform/hosting/monitoring-usage/slack-alerts",
+                      "ja/platform/hosting/monitoring-usage/org_dashboard"
+                    ]
+                  },
+                  {
+                    "group": "Resources",
+                    "pages": [
+                      "ja/pricing",
+                      "ja/blog",
+                      "ja/courses",
+                      "ja/security"
                     ]
                   }
-                ]
-              },
-              {
-                "group": "Configure W&B",
-                "pages": [
-                  {
-                    "group": "Settings",
-                    "pages": [
-                      "ja/platform/app/settings-page",
-                      "ja/platform/app/settings-page/user-settings",
-                      "ja/platform/app/settings-page/billing-settings",
-                      "ja/platform/app/settings-page/emails",
-                      "ja/platform/app/settings-page/teams",
-                      "ja/platform/secrets",
-                      "ja/platform/app/settings-page/storage"
-                    ]
-                  },
-                  {
-                    "group": "Identity and access management (IAM)",
-                    "pages": [
-                      "ja/platform/hosting/iam/org_team_struct",
-                      {
-                        "group": "Authentication",
-                        "pages": [
-                          "ja/platform/hosting/iam/ldap",
-                          "ja/platform/hosting/iam/sso",
-                          "ja/platform/hosting/iam/identity_federation",
-                          "ja/platform/hosting/iam/service-accounts"
-                        ]
-                      },
-                      {
-                        "group": "Access management",
-                        "pages": [
-                          "ja/platform/hosting/iam/access-management-intro",
-                          "ja/platform/hosting/iam/access-management/manage-organization",
-                          "ja/platform/hosting/iam/access-management/restricted-projects"
-                        ]
-                      },
-                      "ja/platform/hosting/iam/automate_iam",
-                      "ja/platform/hosting/iam/scim",
-                      "ja/platform/hosting/iam/advanced_env_vars"
-                    ]
-                  },
-                  {
-                    "group": "Data security",
-                    "pages": [
-                      "ja/platform/hosting/data-security/secure-storage-connector",
-                      "ja/platform/hosting/data-security/presigned-urls",
-                      "ja/platform/hosting/data-security/ip-allowlisting",
-                      "ja/platform/hosting/data-security/private-connectivity",
-                      "ja/platform/hosting/data-security/data-encryption"
-                    ]
-                  },
-                  "ja/platform/hosting/env-vars"
-                ]
-              },
-              {
-                "group": "Monitoring and usage",
-                "pages": [
-                  "ja/platform/hosting/monitoring-usage/audit-logging",
-                  "ja/platform/hosting/monitoring-usage/slack-alerts",
-                  "ja/platform/hosting/monitoring-usage/org_dashboard"
-                ]
-              },
-              {
-                "group": "Resources",
-                "pages": [
-                  "ja/pricing",
-                  "ja/blog",
-                  "ja/courses",
-                  "ja/security"
-                ]
-              }
             ]
           },
           {
@@ -2304,7 +2320,8 @@
                 "pages": [
                   "ja/weave/community"
                 ]
-              }
+              },
+              "support/weave/index"
             ]
           },
           {
@@ -2342,7 +2359,8 @@
                 ]
               },
               "ja/inference/examples",
-              "ja/inference/ui-guide"
+              "ja/inference/ui-guide",
+              "support/inference/index"
             ]
           },
           {
@@ -2370,27 +2388,6 @@
                   "directory": "training/api-reference"
                 }
               }
-            ]
-          },
-          {
-            "tab": "Release Notes",
-            "icon": "/icons/cropped-reports.svg",
-            "pages": [
-              "ja/release-notes",
-              {
-                "group": "W&B Server",
-                "pages": [
-                  "ja/release-notes/server-releases",
-                  "ja/release-notes/server-releases-archived"
-                ]
-              },
-              {
-                "group": "W&B SDK",
-                "pages": [
-                  "ja/release-notes/sdk-releases"
-                ]
-              },
-              "ja/release-notes/release-policies"
             ]
           },
           {
@@ -2478,118 +2475,140 @@
             "icon": "/icons/cropped-artifacts.svg",
             "pages": [
               "ko/index",
-              "ko/get-started",
-              {
-                "group": "Deployment options",
-                "pages": [
-                  "ko/platform/hosting",
-                  "ko/platform/hosting/hosting-options/multi_tenant_cloud",
+                  "ko/get-started",
+                  "platform/wb-skills",
                   {
-                    "group": "Dedicated Cloud",
+                    "group": "Release Notes",
+                    "expanded": false,
                     "pages": [
-                      "ko/platform/hosting/hosting-options/dedicated_cloud",
-                      "ko/platform/hosting/hosting-options/dedicated_regions",
-                      "ko/platform/hosting/export-data-from-dedicated-cloud"
+                      "ko/release-notes",
+                      {
+                        "group": "W&B Server",
+                        "pages": [
+                          "ko/release-notes/server-releases",
+                          "ko/release-notes/server-releases-archived"
+                        ]
+                      },
+                      {
+                        "group": "W&B SDK",
+                        "pages": [
+                          "ko/release-notes/sdk-releases"
+                        ]
+                      },
+                      "ko/release-notes/release-policies"
                     ]
                   },
                   {
-                    "group": "Self-Managed",
+                    "group": "Deployment options",
                     "pages": [
-                      "ko/platform/hosting/hosting-options/self-managed",
-                      "ko/platform/hosting/self-managed/ref-arch",
+                      "ko/platform/hosting",
+                      "ko/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
-                        "group": "Run W&B Server on Kubernetes",
+                        "group": "Dedicated Cloud",
                         "pages": [
-                          "ko/platform/hosting/operator",
-                          "ko/platform/hosting/self-managed/operator-airgapped"
+                          "ko/platform/hosting/hosting-options/dedicated_cloud",
+                          "ko/platform/hosting/hosting-options/dedicated_regions",
+                          "ko/platform/hosting/export-data-from-dedicated-cloud"
                         ]
                       },
                       {
-                        "group": "Install on public cloud",
+                        "group": "Self-Managed",
                         "pages": [
-                          "ko/platform/hosting/self-managed/aws-tf",
-                          "ko/platform/hosting/self-managed/gcp-tf",
-                          "ko/platform/hosting/self-managed/azure-tf"
+                          "ko/platform/hosting/hosting-options/self-managed",
+                          "ko/platform/hosting/self-managed/ref-arch",
+                          {
+                            "group": "Run W&B Server on Kubernetes",
+                            "pages": [
+                              "ko/platform/hosting/operator",
+                              "ko/platform/hosting/self-managed/operator-airgapped"
+                            ]
+                          },
+                          {
+                            "group": "Install on public cloud",
+                            "pages": [
+                              "ko/platform/hosting/self-managed/aws-tf",
+                              "ko/platform/hosting/self-managed/gcp-tf",
+                              "ko/platform/hosting/self-managed/azure-tf"
+                            ]
+                          },
+                          "ko/platform/hosting/self-managed/bare-metal",
+                          "ko/platform/hosting/server-upgrade-process",
+                          "ko/platform/hosting/self-managed/disable-automatic-app-version-updates"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Configure W&B",
+                    "pages": [
+                      {
+                        "group": "Settings",
+                        "pages": [
+                          "ko/platform/app/settings-page",
+                          "ko/platform/app/settings-page/user-settings",
+                          "ko/platform/app/settings-page/billing-settings",
+                          "ko/platform/app/settings-page/emails",
+                          "ko/platform/app/settings-page/teams",
+                          "ko/platform/secrets",
+                          "ko/platform/app/settings-page/storage"
                         ]
                       },
-                      "ko/platform/hosting/self-managed/bare-metal",
-                      "ko/platform/hosting/server-upgrade-process",
-                      "ko/platform/hosting/self-managed/disable-automatic-app-version-updates"
+                      {
+                        "group": "Identity and access management (IAM)",
+                        "pages": [
+                          "ko/platform/hosting/iam/org_team_struct",
+                          {
+                            "group": "Authentication",
+                            "pages": [
+                              "ko/platform/hosting/iam/ldap",
+                              "ko/platform/hosting/iam/sso",
+                              "ko/platform/hosting/iam/identity_federation",
+                              "ko/platform/hosting/iam/service-accounts"
+                            ]
+                          },
+                          {
+                            "group": "Access management",
+                            "pages": [
+                              "ko/platform/hosting/iam/access-management-intro",
+                              "ko/platform/hosting/iam/access-management/manage-organization",
+                              "ko/platform/hosting/iam/access-management/restricted-projects"
+                            ]
+                          },
+                          "ko/platform/hosting/iam/automate_iam",
+                          "ko/platform/hosting/iam/scim",
+                          "ko/platform/hosting/iam/advanced_env_vars"
+                        ]
+                      },
+                      {
+                        "group": "Data security",
+                        "pages": [
+                          "ko/platform/hosting/data-security/secure-storage-connector",
+                          "ko/platform/hosting/data-security/presigned-urls",
+                          "ko/platform/hosting/data-security/ip-allowlisting",
+                          "ko/platform/hosting/data-security/private-connectivity",
+                          "ko/platform/hosting/data-security/data-encryption"
+                        ]
+                      },
+                      "ko/platform/hosting/env-vars"
+                    ]
+                  },
+                  {
+                    "group": "Monitoring and usage",
+                    "pages": [
+                      "ko/platform/hosting/monitoring-usage/audit-logging",
+                      "ko/platform/hosting/monitoring-usage/slack-alerts",
+                      "ko/platform/hosting/monitoring-usage/org_dashboard"
+                    ]
+                  },
+                  {
+                    "group": "Resources",
+                    "pages": [
+                      "ko/pricing",
+                      "ko/blog",
+                      "ko/courses",
+                      "ko/security"
                     ]
                   }
-                ]
-              },
-              {
-                "group": "Configure W&B",
-                "pages": [
-                  {
-                    "group": "Settings",
-                    "pages": [
-                      "ko/platform/app/settings-page",
-                      "ko/platform/app/settings-page/user-settings",
-                      "ko/platform/app/settings-page/billing-settings",
-                      "ko/platform/app/settings-page/emails",
-                      "ko/platform/app/settings-page/teams",
-                      "ko/platform/secrets",
-                      "ko/platform/app/settings-page/storage"
-                    ]
-                  },
-                  {
-                    "group": "Identity and access management (IAM)",
-                    "pages": [
-                      "ko/platform/hosting/iam/org_team_struct",
-                      {
-                        "group": "Authentication",
-                        "pages": [
-                          "ko/platform/hosting/iam/ldap",
-                          "ko/platform/hosting/iam/sso",
-                          "ko/platform/hosting/iam/identity_federation",
-                          "ko/platform/hosting/iam/service-accounts"
-                        ]
-                      },
-                      {
-                        "group": "Access management",
-                        "pages": [
-                          "ko/platform/hosting/iam/access-management-intro",
-                          "ko/platform/hosting/iam/access-management/manage-organization",
-                          "ko/platform/hosting/iam/access-management/restricted-projects"
-                        ]
-                      },
-                      "ko/platform/hosting/iam/automate_iam",
-                      "ko/platform/hosting/iam/scim",
-                      "ko/platform/hosting/iam/advanced_env_vars"
-                    ]
-                  },
-                  {
-                    "group": "Data security",
-                    "pages": [
-                      "ko/platform/hosting/data-security/secure-storage-connector",
-                      "ko/platform/hosting/data-security/presigned-urls",
-                      "ko/platform/hosting/data-security/ip-allowlisting",
-                      "ko/platform/hosting/data-security/private-connectivity",
-                      "ko/platform/hosting/data-security/data-encryption"
-                    ]
-                  },
-                  "ko/platform/hosting/env-vars"
-                ]
-              },
-              {
-                "group": "Monitoring and usage",
-                "pages": [
-                  "ko/platform/hosting/monitoring-usage/audit-logging",
-                  "ko/platform/hosting/monitoring-usage/slack-alerts",
-                  "ko/platform/hosting/monitoring-usage/org_dashboard"
-                ]
-              },
-              {
-                "group": "Resources",
-                "pages": [
-                  "ko/pricing",
-                  "ko/blog",
-                  "ko/courses",
-                  "ko/security"
-                ]
-              }
             ]
           },
           {
@@ -3491,7 +3510,8 @@
                 "pages": [
                   "ko/weave/community"
                 ]
-              }
+              },
+              "support/weave/index"
             ]
           },
           {
@@ -3529,7 +3549,8 @@
                 ]
               },
               "ko/inference/examples",
-              "ko/inference/ui-guide"
+              "ko/inference/ui-guide",
+              "support/inference/index"
             ]
           },
           {
@@ -3557,27 +3578,6 @@
                   "directory": "training/api-reference"
                 }
               }
-            ]
-          },
-          {
-            "tab": "Release Notes",
-            "icon": "/icons/cropped-reports.svg",
-            "pages": [
-              "ko/release-notes",
-              {
-                "group": "W&B Server",
-                "pages": [
-                  "ko/release-notes/server-releases",
-                  "ko/release-notes/server-releases-archived"
-                ]
-              },
-              {
-                "group": "W&B SDK",
-                "pages": [
-                  "ko/release-notes/sdk-releases"
-                ]
-              },
-              "ko/release-notes/release-policies"
             ]
           },
           {
@@ -4517,7 +4517,7 @@
       "destination": "/support/models/articles/do-run-finished-alerts-work-in-notebooks"
     },
     {
-      "source": "/models/support/run_marked_crashed_wb\u2019s_training_fine_locally",
+      "source": "/models/support/run_marked_crashed_wb’s_training_fine_locally",
       "destination": "/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i"
     },
     {
@@ -4545,7 +4545,7 @@
       "destination": "/support/models/articles/why-is-the-same-metric-appearing-more-th"
     },
     {
-      "source": "/models/support/save_code\u200c",
+      "source": "/models/support/save_code‌",
       "destination": "/support/models/articles/how-do-i-save-code"
     },
     {
@@ -4838,7 +4838,19 @@
     },
     {
       "source": "/weave/guides/tracking/faqs",
-      "destination": "weave/details/faqs"
+      "destination": "/support/weave/index"
+    },
+    {
+      "source": "/weave/details/faqs",
+      "destination": "/support/weave/index"
+    },
+    {
+      "source": "/weave/community",
+      "destination": "/support/weave/index"
+    },
+    {
+      "source": "/weave/open-source",
+      "destination": "/support/weave/index"
     },
     {
       "source": "/weave/guides/tools/limits",
