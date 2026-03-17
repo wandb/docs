@@ -249,7 +249,7 @@ Weave에서 Scorer는 AI 출력값을 평가하고 평가 메트릭을 반환하
 
     `datasetRow` 키가 scorer의 이름 규칙과 정확히 일치하지 않더라도 의미상 비슷할 수 있습니다. 이 경우 `Evaluation`의 `columnMapping` 옵션을 사용해 컬럼을 매핑할 수 있습니다.
 
-    매핑은 항상 scorer 관점에서 정의되며, 형태는 `{scorer_key: dataset_column_name}`입니다.
+    매핑은 항상 scorer 관점에서 정의되며, 즉 `{scorer_key: dataset_column_name}`입니다.
 
     예시:
 
@@ -427,7 +427,7 @@ Weave op에 scorer를 적용하려면, 연산 결과와 추적 정보에 모두 
   ## 점수 분석
 </div>
 
-이 섹션에서는 단일 호출, 여러 호출, 그리고 특정 스코어러가 채점한 모든 호출의 점수를 분석하는 방법을 설명합니다.
+이 섹션에서는 단일 Call, 여러 Call, 그리고 특정 Scorer가 채점한 모든 Call의 점수를 분석하는 방법을 설명합니다.
 
 <div id="analyze-a-single-calls-scores">
   ### 단일 호출 점수 분석

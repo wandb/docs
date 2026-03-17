@@ -1,0 +1,38 @@
+---
+title: "Weave는 함수에 대해 어떤 정보를 수집하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+함수는 데코레이터를 통해 수동으로, 또는 활성화된 인테그레이션의 일부로 자동으로 Weave [Op](/ko/weave/guides/tracking/ops)로 지정할 수 있습니다. Op가 실행되면 Weave는 분석에 도움이 되도록 자세한 정보를 캡처합니다. 기본값과 다르게 기록하고 싶다면, Weave에서 무엇을 로깅할지 세밀하게 제어할 수 있습니다. 설정 예제는 아래를 참조하세요.
+
+* **코드 캡처** - Weave는 Op의 소스 코드를 표현한 내용을 캡처합니다. 여기에는 인라인 주석이 포함되며, 호출된 비-Op 함수의 소스나 변수 값도 재귀적으로 캡처됩니다. 코드 캡처를 사용하면 변경 사항이 소스 제어 시스템에 저장되지 않았더라도 함수가 어떤 작업을 수행했는지 확인할 수 있습니다. 코드 캡처는 Op 버전 관리의 일부로 사용되므로, 시간에 따라 코드가 어떻게 평가되었는지 파악할 수 있습니다. 코드 캡처가 비활성화된 경우에는 대신 해시 값이 사용됩니다.
+
+* **함수 이름, 입력 및 출력** - 함수 이름은 캡처되지만 [재정의](/ko/weave/guides/tracking/tracing/#call-display-name)할 수 있습니다. 입력과 출력은 JSON 기반 표현으로 캡처됩니다. 입력의 경우 값과 함께 인수 이름도 캡처됩니다. Weave에서는 입력과 출력의 [로깅을 사용자 지정](/ko/weave/guides/tracking/ops#customize-logged-inputs-and-outputs)할 수 있습니다. 즉, 로깅되는 내용을 추가, 제거 또는 수정하는 함수를 지정할 수 있습니다.
+
+* **Op 호출 계층 구조** - 다른 Op가 실행 중인 컨텍스트에서 Op가 호출되면, 중간에 비-Op 함수가 실행되는 경우에도 이 관계가 캡처됩니다. Op 호출 간의 이러한 관계는 &quot;트레이스 트리&quot;를 제공하는 데 사용됩니다.
+
+* **실행 상태 및 예외** - Weave는 함수가 실행 중인지, 완료되었는지, 또는 오류가 발생했는지를 추적합니다. 실행 중 예외가 발생하면 오류 메시지와 스택 트레이스가 기록됩니다.
+
+* **시스템 정보** - Weave는 클라이언트가 실행 중인 운영 체제에 대한 정보와 자세한 버전 정보를 캡처할 수 있습니다.
+
+* **클라이언트 정보** - Weave는 사용 중인 프로그래밍 언어와 해당 언어 및 Weave 클라이언트 라이브러리의 자세한 버전 정보 등 Weave 클라이언트 자체에 대한 정보를 캡처할 수 있습니다.
+
+* **타이밍** - 실행 시작 시간과 종료 시간이 캡처되며, 지연 시간 계산에도 사용됩니다.
+
+* **토큰 사용량** - 일부 [인테그레이션](/ko/weave/guides/integrations/)에서는 LLM 토큰 사용량이 자동으로 로깅될 수 있습니다.
+
+* **사용자 및 run 컨텍스트** - 로깅은 W&amp;B 사용자 계정에 연결됩니다. 이 정보는 모든 wandb Run 컨텍스트와 함께 캡처됩니다.
+
+* **파생 정보** - Weave는 로깅된 원시 정보에서 파생 정보를 계산할 수 있습니다. 예를 들어, 토큰 사용량과 사용된 모델에 대한 정보를 기준으로 비용 추정값이 계산될 수 있습니다. Weave는 또한 여러 호출에 걸쳐 일부 정보를 집계합니다.
+
+* **직접 선택한 추가 정보** - 호출의 일부로 [맞춤형 메타데이터를 `weave.attributes`와 함께 로깅](/ko/weave/guides/core-types/models#track-production-calls)하거나 호출에 [피드백](/ko/weave/guides/tracking/feedback#add-feedback-to-a-call)을 첨부하도록 선택할 수 있습니다.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[데이터 캡처](/ko/support/weave/tags/data-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[코드 캡처](/ko/support/weave/tags/code-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[클라이언트 정보](/ko/support/weave/tags/client-info)</Badge><Badge stroke shape="pill" color="orange" size="md">[시스템 정보](/ko/support/weave/tags/system-info)</Badge>

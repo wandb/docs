@@ -1,0 +1,23 @@
+---
+title: "기존 run에 아티팩트를 로깅하려면 어떻게 하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원팀 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+가끔은 아티팩트를 이전에 로그된 run의 출력으로 표시해야 할 수 있습니다. 이 경우 이전 run을 다시 초기화한 다음, 다음과 같이 새 아티팩트를 로그합니다:
+
+```python
+with wandb.init(id="existing_run_id", resume="allow") as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    artifact.add_file("my_data/file.txt")
+    run.log_artifact(artifact)
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge>

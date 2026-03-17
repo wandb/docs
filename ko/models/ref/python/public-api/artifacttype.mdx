@@ -59,13 +59,19 @@ collection(name: 'str') → ArtifactCollection
 ### <kbd>method</kbd> `ArtifactType.collections`
 
 ```python
-collections(per_page: 'int' = 50) → ArtifactCollections
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → ArtifactCollections
 ```
 
-이 아티팩트 타입과 관련된 모든 아티팩트 컬렉션을 가져옵니다.
+이 아티팩트 유형과 연결된 모든 아티팩트 컬렉션을 가져옵니다. 
 
-**Args:**
+**인자:**
 
-* `per_page` (int):  페이지당 가져올 아티팩트 컬렉션 개수입니다.  기본값은 50입니다.
+- `filters` (dict):  쿼리에 적용할 필터의 선택적 매핑입니다. 
+ - `order` (str):  결과의 정렬 순서를 지정하는 선택적 문자열입니다. `order` 앞에 `+`를 붙이면 오름차순(기본값)으로 정렬됩니다. `order` 앞에 `-`를 붙이면 내림차순으로 정렬됩니다. 기본 정렬 순서는 컬렉션 ID 기준 내림차순입니다. 
+ - `per_page` (int):  페이지당 가져올 아티팩트 컬렉션 수입니다. 기본값은 50입니다. 
 
-***
+---

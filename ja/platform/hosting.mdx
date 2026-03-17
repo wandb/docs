@@ -1,22 +1,23 @@
 ---
 title: Deployment options overview
+description: "Multi-tenant Cloud、Dedicated Cloud、Self-Managed のインストールを含む W&B のデプロイオプションを比較します。"
 sidebarTitle: Overview
 no_list: true
 ---
 
-W&amp;B は、組織のインフラストラクチャおよびセキュリティ要件を満たすために、さまざまな形態でデプロイできます。
+W&amp;B は、組織のインフラストラクチャーおよびセキュリティ要件を満たすために、さまざまな方法でデプロイできます。
 
 <Tip title="はじめに">
   すぐに使い始めるには、W&amp;B は [Multi-tenant Cloud](https://wandb.ai/home) を推奨します。
 
-  一部の機能には [Enterprise](https://wandb.ai/site/pricing/) ライセンスが必要です。これらの機能を試すには、[Enterprise trial](https://wandb.ai/site/enterprise-trial/) に登録し、デプロイメントタイプを選択してください。
+  一部の機能には [Enterprise](https://wandb.ai/site/pricing/) ライセンスが必要です。これらの機能を試すには、[Enterprise trial](https://wandb.ai/site/enterprise-trial/) に登録し、デプロイタイプを選択してください。
 </Tip>
 
 <CardGroup cols={1}>
   <a id="wb-multi-tenant-cloud" aria-label="W&B Multi-tenant Cloud" />
 
   <Card title="W&B Multi-tenant Cloud">
-    W&amp;B のクラウドインフラストラクチャ上にデプロイされた、完全マネージドサービスです。必要なスケールで W&amp;B 製品にシームレスにアクセスでき、コスト効率の高い料金オプションが用意されており、最新の機能が継続的に提供されます。プライベートデプロイメントのセキュリティを必要とせず、セルフサービスでのオンボーディングが重要で、かつコスト効率を重視する場合は、製品トライアルや本番の AI ワークフローの運用に Multi-tenant Cloud を使用することを W&amp;B は推奨します。
+    W&amp;B のクラウドインフラストラクチャー上にデプロイされた完全マネージドサービスです。必要な規模で W&amp;B の製品にシームレスにアクセスでき、コスト効率の高い料金オプションが用意され、最新の機能や機能改善が継続的に提供されます。プライベートデプロイのセキュリティを必要とせず、セルフサービスでのオンボーディングが重要で、コスト効率を重視する場合、製品トライアルや本番 AI ワークフローの管理には、W&amp;B は Multi-tenant Cloud の使用を推奨します。
 
     詳細は **[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud)** を参照してください。
   </Card>
@@ -24,7 +25,7 @@ W&amp;B は、組織のインフラストラクチャおよびセキュリティ
   <a id="wb-dedicated-cloud" aria-label="W&B Dedicated Cloud" />
 
   <Card title="W&B Dedicated Cloud">
-    W&amp;B のクラウドインフラストラクチャ上にデプロイされた、シングルテナントの完全マネージドサービスです。データ所在地を含む厳格なガバナンス・コントロールへの準拠が求められ、高度なセキュリティ機能が必要であり、かつ必要なインフラストラクチャをセキュリティ・スケーラビリティ・パフォーマンス要件を満たす形で自前で構築・運用することなく AI の運用コストを最適化したい組織にとって、W&amp;B を導入するのに最適な選択肢です。
+    W&amp;B のクラウドインフラストラクチャー上にデプロイされた、シングルテナントの完全マネージドサービスです。データ所在地を含む厳格なガバナンス管理への準拠が求められ、高度なセキュリティ機能を必要とし、さらに、セキュリティ、スケール、パフォーマンスの要件を満たすインフラストラクチャーを自社で構築・管理することなく、AI の運用コストを最適化したい組織にとって、W&amp;B の導入先として最適な選択肢です。
 
     詳細は **[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud)** を参照してください。
   </Card>
@@ -32,7 +33,7 @@ W&amp;B は、組織のインフラストラクチャおよびセキュリティ
   <a id="wb-Self-Managed" aria-label="W&B Self-Managed" />
 
   <Card title="W&B Self-Managed">
-    管理しているインフラストラクチャ上に W&amp;B Server をデプロイして運用します。W&amp;B Server は、W&amp;B Platform とそれがサポートする W&amp;B 製品を実行するための自己完結型のパッケージ化された仕組みです。既存のインフラストラクチャがすべてオンプレミスである場合や、W&amp;B Dedicated Cloud では満たせない厳格な規制要件が組織にある場合には、このオプションを W&amp;B は推奨します。このオプションでは、W&amp;B Server を支えるインフラストラクチャのプロビジョニング、および継続的な保守とアップグレードを含め、すべてをお客様自身が管理する責任を負います。
+    自社で管理するインフラストラクチャー上に W&amp;B Server をデプロイして運用します。W&amp;B Server は、W&amp;B Platform と、それがサポートする W&amp;B 製品を実行するための自己完結型のパッケージです。既存のインフラストラクチャーがすべてオンプレミスである場合や、W&amp;B Dedicated Cloud では満たせない厳格な規制要件が組織にある場合には、W&amp;B はこのオプションを推奨します。このオプションでは、W&amp;B Server を支えるインフラストラクチャーのプロビジョニング、継続的な保守、アップグレードのすべてをお客様自身の責任で管理する必要があります。
 
     詳細は **[W&amp;B Self-Managed](/ja/platform/hosting/hosting-options/self-managed)** を参照してください。
   </Card>

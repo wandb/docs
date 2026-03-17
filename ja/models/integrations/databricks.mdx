@@ -1,9 +1,9 @@
 ---
-description: W&B を Databricks と統合する方法。
+description: "W&B を Databricks と統合し、Spark クラスターで実験の追跡、メトリクスのログ記録、モデル管理を行います。"
 title: Databricks
 ---
 
-W&B は [Databricks](https://www.databricks.com/) 環境内で W&B Jupyter Notebook のエクスペリエンスをカスタマイズすることで Databricks と統合します。
+W&B は、Databricks 環境で W&B Jupyter ノートブックのエクスペリエンスをカスタマイズすることで、[Databricks](https://www.databricks.com/) と統合します。
 
 <div id="configure-databricks">
   ## Databricks を設定する
@@ -57,7 +57,7 @@ with wandb.init() as run:
   ### Sweeps
 </div>
 
-wandb.sweep() または wandb.agent() を使用するノートブックでは、次の（一時的な）セットアップが必要です：
+wandb.sweep() または wandb.agent() を使用するノートブックでは、 (一時的に) セットアップが必要です:
 
 ```python
 import os

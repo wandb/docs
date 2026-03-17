@@ -1,15 +1,16 @@
 ---
-title: Launch 작업 생성하기
+title: Launch 잡 생성하기
+description: "Git 리포지토리, 코드 아티팩트 또는 Docker 이미지를 사용해 `wandb launch` 명령으로 W&B Launch 잡을 생성합니다."
 ---
 
-<Card title="Colab에서 실행해 보기" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python" />
+<Card title="Colab에서 사용해 보기" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python" />
 
-Launch job은 W&amp;B run을 재현하기 위한 설계도입니다. job은 워크로드를 실행하는 데 필요한 소스 코드, 종속성, 입력을 캡처하는 W&amp;B Artifacts입니다.
+Launch 잡은 W&amp;B run을 재현하기 위한 청사진입니다. 잡은 워크로드를 실행하는 데 필요한 소스 코드, 의존성, 입력을 담고 있는 W&amp;B Artifacts입니다.
 
-`wandb launch` 명령어로 job을 생성하고 실행합니다.
+`wandb launch` 명령으로 잡을 생성하고 실행합니다.
 
 <Note>
-  작업을 실행하지 않고 job만 생성하려면 `wandb job create` 명령어를 사용하세요. 자세한 내용은 [명령어 레퍼런스 문서](/ko/models/ref/cli/wandb-job/wandb-job-create)를 참고하세요.
+  실행을 제출하지 않고 잡을 생성하려면 `wandb job create` 명령을 사용하세요. 자세한 내용은 [명령어 참조 문서](/ko/models/ref/cli/wandb-job/wandb-job-create)를 참고하세요.
 </Note>
 
 <div id="git-jobs">

@@ -1,9 +1,9 @@
 ---
 title: ツールの呼び出し
-description: W&B Inference でツールを呼び出す方法
+description: "W&B Inference で関数呼び出しとツール呼び出しを使用し、生成中にモデルが外部ツールや API を呼び出せるようにします。"
 ---
 
-ツール呼び出し機能を使用すると、モデルの応答の一部としてツールを呼び出せるようにすることで、モデルの機能を拡張できます。現在、W&B Inference では関数呼び出しのみがサポートされています。 
+ツール呼び出し機能を使用すると、モデルの応答の一部としてツールを呼び出せるようにすることで、モデルの機能を拡張できます。現在、W&amp;B Inference では関数呼び出しのみがサポートされています。
 
 関数を呼び出すには、モデルへのリクエストの一部として関数とその引数を指定します。モデルは、リクエストを満たすために関数を実行する必要があるかどうかを判断し、必要に応じて関数の引数の値を指定します。
 
@@ -45,6 +45,7 @@ description: W&B Inference でツールを呼び出す方法
     print(response.choices[0].message.tool_calls)
     ```
   </Tab>
+
   <Tab title="Bash">
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \

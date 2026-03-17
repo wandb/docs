@@ -1,0 +1,34 @@
+---
+title: "API エラーコード 503 - 現在、エンジンが過負荷状態です"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルは直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+&quot;The engine is currently overloaded, please try again later&quot; というメッセージを伴う 503 エラーは、W&amp;B Inference サーバーへのアクセスが集中しており、現在リクエストを処理できないことを意味します。
+
+<div id="why-this-happens">
+  ## この現象が発生する理由
+</div>
+
+需要が高い時間帯には、推論エンジンが一時的に過負荷状態になることがあります。これは一過性の状態であり、通常はトラフィックが落ち着くと自然に解消されます。
+
+<div id="what-you-can-do">
+  ## 対処方法
+</div>
+
+1. **少し時間を置いてから再試行する**
+   * リクエストを再試行する前に、数秒待ちます
+   * 混雑を悪化させないよう、指数バックオフを使用します
+
+2. **リクエストの間隔を空ける**
+   * 多数のリクエストを送信している場合は、時間を空けて送信することを検討します
+   * リクエストのキューイングを実装して、トラフィックの急増を平準化します
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[サーバー エラー](/ja/support/inference/tags/server-errors)</Badge>

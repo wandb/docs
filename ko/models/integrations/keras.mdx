@@ -1,16 +1,17 @@
 ---
 title: Keras
+description: "W&B Keras 콜백을 사용해 실험을 추적하고, 모델 체크포인트를 로깅하며, 훈련 중 예측을 시각화합니다."
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 {/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" /> */}
 
-Keras 콜백을 사용해 실험을 추적하고, 모델 체크포인트를 로깅하며, 모델 예측을 시각화할 수 있습니다. Keras 콜백은 Python SDK 버전 `0.13.4` 이상에서 `wandb.integration.keras` 모듈로 제공됩니다.
+Keras 콜백을 사용해 실험을 추적하고, 모델 체크포인트를 로깅하며, 모델 예측을 시각화할 수 있습니다. Keras 콜백은 Python SDK 버전 `0.13.4` 이상에서 `wandb.integration.keras` 모듈로부터 임포트하여 사용할 수 있습니다.
 
-W&amp;B Keras 인테그레이션은 다음 콜백을 제공합니다:
+W&amp;B Keras 통합은 다음 콜백을 제공합니다:
 
-* **`WandbMetricsLogger`** : 이 콜백은 [Experiment Tracking](/ko/models/track/)에 사용합니다. 트레이닝 및 검증 메트릭과 시스템 메트릭을 W&amp;B에 로깅합니다.
+* **`WandbMetricsLogger`** : 이 콜백은 [Experiment Tracking](/ko/models/track/)에 사용합니다. 훈련 및 검증 메트릭과 시스템 메트릭을 W&amp;B에 로깅합니다.
 * **`WandbModelCheckpoint`** : 이 콜백은 모델 체크포인트를 W&amp;B [Artifacts](/ko/models/artifacts/)에 로깅하는 데 사용합니다.
 * **`WandbEvalCallback`**: 이 기본 콜백은 모델 예측을 W&amp;B [Tables](/ko/models/tables/)에 로깅하여 인터랙티브하게 시각화할 수 있도록 합니다.
 

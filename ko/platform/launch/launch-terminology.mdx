@@ -1,8 +1,9 @@
 ---
 title: Launch 용어 및 개념
+description: "작업, 큐, 대상 리소스, 에이전트, 에이전트 환경을 포함한 W&B Launch의 주요 개념을 알아보세요."
 ---
 
-W&amp;B Launch를 사용하면 [jobs](#launch-job)를 [queues](#launch-queue)에 등록하여 run을 생성합니다. Job은 W&amp;B로 계측된 Python 스크립트입니다. Queue는 [target resource](#target-resources)에서 실행할 job 목록을 보관합니다. [Agents](#launch-agent)는 queue에서 job을 가져와 해당 target resource에서 실행합니다. W&amp;B는 Launch job을 [runs](/ko/models/runs/)를 추적할 때와 비슷한 방식으로 추적합니다.
+W&amp;B Launch를 사용하면 [작업](#launch-job)을 [큐](#launch-queue)에 대기열로 추가하여 run을 생성합니다. 작업은 W&amp;B로 계측된 python 스크립트입니다. 큐는 [대상 리소스](#target-resources)에서 실행할 작업 목록을 보관합니다. [에이전트](#launch-agent)는 큐에서 작업을 가져와 대상 리소스에서 작업을 실행합니다. W&amp;B는 Launch 작업을 [runs](/ko/models/runs/)를 추적하는 방식과 유사하게 추적합니다.
 
 <div id="launch-job">
   ### Launch job

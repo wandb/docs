@@ -1,15 +1,15 @@
 ---
-description: W&B を Kubeflow Pipelines と連携する方法。
+description: "W&B を Kubeflow Pipelines と統合して、ML パイプライン コンポーネント全体で実験を追跡し、メトリクスを可視化します。"
 title: Kubeflow Pipelines (kfp)
 ---
 
 import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
 
-[Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/overview/)は、Docker コンテナに基づいて移植性とスケーラビリティに優れた機械学習 (ML) ワークフローを構築およびデプロイするためのプラットフォームです。
+[Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/overview/)は、Docker コンテナに基づく、移植性とスケーラビリティに優れた機械学習 (ML) ワークフローを構築およびデプロイするためのプラットフォームです。
 
-この インテグレーションにより、ユーザーは kfp の Python 関数型コンポーネントにデコレータを適用して、パラメーターと Artifacts を自動的に W&amp;B に記録できます。
+この統合により、ユーザーは kfp の Python 関数コンポーネントにデコレーターを適用して、パラメーターとアーティファクトを自動的に W&B にログできます。
 
-この機能は `wandb==0.12.11` から利用可能で、`kfp<2.0.0` が必要です。
+この機能は `wandb==0.12.11` で有効になり、`kfp<2.0.0` が必要です。
 
 <div id="sign-up-and-create-an-api-key">
   ## サインアップして API キーを作成する

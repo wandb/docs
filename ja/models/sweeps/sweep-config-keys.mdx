@@ -1,24 +1,25 @@
 ---
 title: Sweep 設定オプション
+description: "method、metric、parameters、early termination、command など、W&B Sweep のすべての設定キーに関するリファレンス。"
 ---
 
 sweep 設定は入れ子になったキーと値のペアで構成されます。sweep 設定内のトップレベルキーを使って、探索するパラメーター ([`parameter`](./sweep-config-keys#parameters) キー) 、パラメーター空間の探索手法 ([`method`](./sweep-config-keys#method) キー) など、sweep 検索の特性を定義します。
 
 次の表に、トップレベルの sweep 設定キーとその概要を示します。各キーの詳細については、それぞれのセクションを参照してください。
 
-| Top-level keys                        | Description                       |
-| ------------------------------------- | --------------------------------- |
+| Top-level keys                        | Description                         |
+| ------------------------------------- | ----------------------------------- |
 | `program`                             |  (必須) 実行するトレーニングスクリプト               |
-| `entity`                              | この sweep 用の entity                |
-| `project`                             | この sweep 用のプロジェクト                 |
-| `description`                         | sweep のテキスト説明                     |
-| `name`                                | sweep の名前。W&amp;B UI に表示されます。     |
+| `entity`                              | この sweep 用の entity                  |
+| `project`                             | この sweep 用のプロジェクト                   |
+| `description`                         | sweep のテキスト説明                       |
+| `name`                                | sweep の名前。W&amp;B UI に表示されます。       |
 | [`method`](#method)                   |  (必須) 探索戦略                          |
 | [`metric`](#metric)                   | 最適化するメトリクス (特定の探索戦略および早期終了条件でのみ使用)  |
 | [`parameters`](#parameters)           |  (必須) 探索するパラメーター範囲                  |
-| [`early_terminate`](#early_terminate) | 任意の早期終了条件                         |
-| [`command`](#command)                 | トレーニングスクリプトを呼び出し、引数を渡すためのコマンド構造   |
-| `run_cap`                             | この sweep に対する Runs の最大数           |
+| [`early_terminate`](#early_terminate) | 任意の早期終了条件                           |
+| [`command`](#command)                 | トレーニングスクリプトを呼び出し、引数を渡すためのコマンド構造     |
+| `run_cap`                             | この sweep に対する Runs の最大数             |
 
 sweep 設定の構造についての詳細は、[Sweep configuration](./sweep-config-keys) を参照してください。
 

@@ -1,0 +1,22 @@
+---
+title: "`.log()` と `.summary` の違いは何ですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルは直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+サマリーは表に表示され、ログには後でプロットするためのすべての値が保存されます。
+
+たとえば、精度が変化するたびに `run.log()` を呼び出します。デフォルトでは、そのメトリクスに対して手動設定がない限り、`run.log()` によってサマリー値が更新されます。
+
+散布図と平行座標プロットはサマリー値を使用し、折れ線プロットには `run.log` によって記録されたすべての値が表示されます。
+
+一部のユーザーは、ログされた最新の精度ではなく最適な精度を反映するために、サマリーを手動で設定することを好みます。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[チャート](/ja/support/models/tags/charts)</Badge>

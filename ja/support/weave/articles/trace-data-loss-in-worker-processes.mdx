@@ -1,0 +1,60 @@
+---
+title: "ワーカープロセスにおける trace データの損失"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+Weave は、アプリケーションのパフォーマンスへの影響を最小限に抑えるため、バックグラウンドスレッドでトレース データをアップロードします。ただし、マルチプロセッシングやタスク キュー システム、または Celery のようなワーカープロセスを使用している場合、バックグラウンドスレッドによるトレースのアップロードが完了する前にワーカープロセスが終了すると、トレース データは失われます。
+
+ワーカープロセスでのデータ損失を防ぐには、ワーカー タスクが完了する前に `client.flush()` または `client.finish()` を呼び出して、バックグラウンドアップロードが完了するようにする必要があります。
+
+これらの method には、それぞれ異なる目的があります。
+
+* `weave.flush()`: シンプルで、進捗表示なしにフラッシュします。Weave をワーカープロセスや CI 環境に組み込んでいる場合に推奨されます。
+* `weave.finish()`: 進捗バーやステータス コールバックによる進捗フィードバックが含まれます。対話的なスクリプトやノートブックに推奨されます。
+
+どちらの method も、すべてのバックグラウンドアップロードが完了するまで処理をブロックするため、ワーカープロセスの終了時にトレース データが失われることはありません。
+
+次の例では `client.finish()` を示します。
+
+```python
+from celery import Celery
+import weave
+
+app = Celery('tasks')
+
+@app.task
+def process_task(input_data):
+    weave.init("your-team-name/your-project-name")
+
+    try:
+        # トレースを作成するタスクロジック
+        result = your_processing_function(input_data)
+
+        # タスク完了前にすべてのトレースがアップロードされていることを確認する
+        weave.finish()
+
+        return result
+    finally:
+        pass
+```
+
+`with` コンテキストマネージャーを使用すると、終了時に `weave.finish()` が自動的に呼び出されます：
+
+```python
+with weave.init("your-team-name/your-project-name") as client:
+    result = your_processing_function(input_data)
+
+    return result
+```
+
+`weave.flush()` を使用すると、アプリケーションのパフォーマンスを改善することもできます。詳しくは [Flushing](/ja/support/weave/articles/long-eval-clean-up-times) を参照してください。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[トレースデータ](/ja/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[パフォーマンス](/ja/support/weave/tags/performance)</Badge>

@@ -1,0 +1,20 @@
+---
+title: "스윕의 run에서 모델을 가장 잘 로깅하는 방법은 무엇인가요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일은 직접 수정하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+[sweep](/ko/models/sweeps/)에서 모델을 로깅하는 효과적인 방법 중 하나는 해당 sweep용 모델 아티팩트를 만드는 것입니다. 각 버전은 sweep의 서로 다른 run을 나타냅니다. 다음과 같이 구현하세요:
+
+```python
+wandb.Artifact(name="sweep_name", type="model")
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>

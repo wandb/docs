@@ -1,5 +1,5 @@
 ---
-description: W&B を Docker と連携させる方法。
+description: "APIキー、環境変数、ローカルファイルストレージを設定して、Docker コンテナー内で W&B を実行します。"
 title: Docker
 ---
 
@@ -7,13 +7,13 @@ title: Docker
   ## Docker インテグレーション
 </div>
 
-W&amp;B は、コードを実行した Docker イメージへの参照情報を保存できるため、過去の実験を、その run が実行されたのとまったく同じ環境で復元できます。wandb ライブラリは、この状態を保持するために **WANDB_DOCKER** 環境変数を参照します。W&amp;B では、この状態を自動的に設定するためのヘルパーをいくつか提供しています。
+W&amp;B は、コードを実行した Docker イメージへの参照情報を保存できるため、過去の実験を、その run が実行されたのとまったく同じ環境で復元できます。wandb ライブラリは、この状態を保持するために **WANDB&#95;DOCKER** 環境変数を参照します。W&amp;B では、この状態を自動的に設定するためのヘルパーをいくつか提供しています。
 
 <div id="local-development">
   ### ローカル開発
 </div>
 
-`wandb docker` は、Docker コンテナーを起動し、wandb の環境変数を渡し、ローカルのコードをマウントし、wandb がインストールされていることを保証するためのコマンドです。デフォルトでは、このコマンドは TensorFlow、PyTorch、Keras、Jupyter がインストールされた Docker イメージを使用します。同じコマンドを使って、自分の Docker イメージを起動することもできます: `wandb docker my/image:latest`。このコマンドは、現在のディレクトリをコンテナー内の "/app" ディレクトリにマウントしますが、これは "--dir" フラグで変更できます。
+`wandb docker` は、Docker コンテナーを起動し、wandb の環境変数を渡し、ローカルのコードをマウントし、wandb がインストールされていることを保証するためのコマンドです。デフォルトでは、このコマンドは TensorFlow、PyTorch、Keras、Jupyter がインストールされた Docker イメージを使用します。同じコマンドを使って、自分の Docker イメージを起動することもできます: `wandb docker my/image:latest`。このコマンドは、現在のディレクトリをコンテナー内の &quot;/app&quot; ディレクトリにマウントしますが、これは &quot;--dir&quot; フラグで変更できます。
 
 <div id="production">
   ### 本番環境

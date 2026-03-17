@@ -1,0 +1,28 @@
+---
+title: "Files 탭에 표시되지 않는 파일은 어떻게 확인하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 편집하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원팀 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+Files 탭에는 최대 10,000개의 파일이 표시됩니다. 모든 파일을 다운로드하려면 [공개 API](/ko/models/ref/python/public-api/api)를 사용하세요:
+
+```python
+import wandb
+
+api = wandb.Api()
+run = api.run('<entity>/<project>/<run_id>')
+run.file('<file>').download()
+
+for f in run.files():
+    if <condition>:
+        f.download()
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

@@ -1,11 +1,11 @@
 ---
 title: Agno
-description: "OpenTelemetry를 사용해 Weave에서 Agno 멀티에이전트 시스템을 트레이싱하여 에이전트 상호작용, 툴 호출, 공유 메모리 동작, 멀티모달 워크플로우를 캡처하고 AI 에이전트 시스템을 종합적으로 관측할 수 있습니다."
+description: "OpenTelemetry를 사용해 Weave에서 Agno 멀티 에이전트 시스템을 트레이싱하여 에이전트 상호작용, 도구 호출, 멀티모달 워크플로를 캡처할 수 있습니다."
 ---
 
-[Agno](https://docs.agno.com/) 에이전트와 툴 호출을 [OpenTelemetry (OTEL)](https://opentelemetry.io/)을 사용해 Weave에서 트레이싱할 수 있습니다. Agno는 공유 메모리, 지식, 추론 기능을 갖춘 멀티에이전트 시스템을 구축하기 위한 Python 프레임워크입니다. 경량이고 모델에 구애받지 않으며 고성능을 목표로 설계되었고, 텍스트, 이미지, 오디오, 비디오 처리를 포함한 멀티모달 기능을 지원합니다.
+[Agno](https://docs.agno.com/) 에이전트와 도구 호출을 [OpenTelemetry (OTEL)](https://opentelemetry.io/)을 사용해 Weave에서 트레이싱할 수 있습니다. Agno는 공유 메모리, 지식, 추론을 갖춘 멀티 에이전트 시스템을 구축하기 위한 Python 프레임워크입니다. 경량이고 모델에 구애받지 않으며 매우 높은 성능을 내도록 설계되었고, 텍스트, 이미지, 오디오, 비디오 처리를 포함한 멀티모달 기능을 지원합니다.
 
-이 가이드는 OTEL을 사용해 Agno 에이전트와 툴 호출을 트레이싱하고, 해당 트레이스를 Weave에서 시각화하는 방법을 설명합니다. 필요한 의존성을 설치하고, 데이터를 Weave로 전송하는 OTEL 트레이서를 구성하고, Agno 에이전트와 툴을 계측하는 방법을 학습하게 됩니다.
+이 가이드는 OTEL을 사용해 Agno 에이전트와 도구 호출을 트레이싱하고, 해당 트레이스를 Weave에서 시각화하는 방법을 설명합니다. 필요한 종속성을 설치하고, 데이터를 Weave로 보내도록 OTEL 트레이서를 설정하고, Agno 에이전트와 도구를 계측하는 방법을 배우게 됩니다.
 
 <Tip>
   Weave에서 OTEL 트레이싱에 대한 자세한 내용은 [OTEL 트레이스를 Weave로 보내기](../tracking/otel)를 참조하세요.

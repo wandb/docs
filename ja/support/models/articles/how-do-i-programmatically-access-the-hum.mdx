@@ -1,0 +1,24 @@
+---
+title: "人間が読める run 名にプログラムからアクセスするにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームへ戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+[`wandb.Run`](/ja/models/ref/python/experiments/run) の `.name` 属性には、次のようにアクセスできます。
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run_name = run.name
+   print(f"人間が読める run 名は: {run_name}")
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

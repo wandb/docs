@@ -1,0 +1,29 @@
+---
+title: "異なる 2 つの時間スケールでメトリクスをログできますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームへ戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+たとえば、トレーニング accuracy をバッチごとに、検証 accuracy をエポックごとにログしたい場合です。
+
+はい。`batch` や `epoch` のようなインデックスを、メトリクスとあわせてログしてください。ある step では `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` を使い、別の step では `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` を使います。UI では、各チャートで目的の値を x 軸に設定してください。特定のインデックスのデフォルト x 軸を設定するには、[Run.define&#95;metric()](/ja/models/ref/python/experiments/run#define_metric) を使用します。この例では、次のコードを使用します。
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run.define_metric("batch")
+   run.define_metric("epoch")
+
+   run.define_metric("train_accuracy", step_metric="batch")
+   run.define_metric("val_accuracy", step_metric="epoch")
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>

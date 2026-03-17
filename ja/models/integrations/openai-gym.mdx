@@ -1,10 +1,10 @@
 ---
-description: W&B を OpenAI Gym と連携させる方法。
+description: "強化学習の Experiments を追跡し、エピソードのパフォーマンス動画を記録するために、W&B を OpenAI Gym と連携させます。"
 title: OpenAI Gym
 ---
 
 <Note>
-  &quot;2021 年以降 Gym をメンテナンスしてきたチームは、以降のすべての開発を [Gymnasium](https://github.com/Farama-Foundation/Gymnasium)（Gym のドロップイン代替版で、`import gymnasium as gym`）に移行しており、Gym には今後いっさい更新が行われません。&quot;（[出典](https://github.com/openai/gym#the-team-that-has-been-maintaining-gym-since-2021-has-moved-all-future-development-to-gymnasium-a-drop-in-replacement-for-gym-import-gymnasium-as-gym-and-gym-will-not-be-receiving-any-future-updates-please-switch-over-to-gymnasium-as-soon-as-youre-able-to-do-so-if-youd-like-to-read-more-about-the-story-behind-this-switch-please-check-out-this-blog-post)）
+  &quot;2021 年以降 Gym をメンテナンスしてきたチームは、以降のすべての開発を [Gymnasium](https://github.com/Farama-Foundation/Gymnasium) (Gym のドロップイン代替版で、`import gymnasium as gym`) に移行しており、Gym には今後いっさい更新が行われません。&quot; ([出典](https://github.com/openai/gym#the-team-that-has-been-maintaining-gym-since-2021-has-moved-all-future-development-to-gymnasium-a-drop-in-replacement-for-gym-import-gymnasium-as-gym-and-gym-will-not-be-receiving-any-future-updates-please-switch-over-to-gymnasium-as-soon-as-youre-able-to-do-so-if-youd-like-to-read-more-about-the-story-behind-this-switch-please-check-out-this-blog-post)) 
 
   Gym はもはや積極的に開発が行われているプロジェクトではないため、Gymnasium とのインテグレーションをお試しください。
 </Note>
@@ -13,7 +13,7 @@ title: OpenAI Gym
 
 Gym とのインテグレーションはとても軽量です。`gym` からログされている[動画ファイル名を参照](https://github.com/wandb/wandb/blob/master/wandb/integration/gym/__init__.py#L15)し、その名前を付けるか、一致するものが見つからない場合は `"videos"` にフォールバックするだけです。より細かく制御したい場合は、いつでも手動で[動画をログ](/ja/models/track/log/media/)できます。
 
-[CleanRL](https://github.com/vwxyzjn/cleanrl) による [OpenRL Benchmark](https://wandb.me/openrl-benchmark-report) は、OpenAI Gym のサンプルにこのインテグレーションを利用しています。Gym をどのように使用するかを示すソースコード（[特定の run で使用されたコード](https://wandb.ai/cleanrl/cleanrl.benchmark/runs/2jrqfugg/code?workspace=user-costa-huang)を含む）を参照できます。
+[CleanRL](https://github.com/vwxyzjn/cleanrl) による [OpenRL Benchmark](https://wandb.me/openrl-benchmark-report) は、OpenAI Gym のサンプルにこのインテグレーションを利用しています。Gym をどのように使用するかを示すソースコード ([特定の run で使用されたコード](https://wandb.ai/cleanrl/cleanrl.benchmark/runs/2jrqfugg/code?workspace=user-costa-huang)を含む) を参照できます。
 
 <Frame>
   <img src="/images/integrations/open_ai_report_example.png" alt="OpenAI Gym ダッシュボード" />

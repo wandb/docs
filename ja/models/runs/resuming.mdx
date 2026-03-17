@@ -1,5 +1,5 @@
 ---
-description: 一時停止または終了した W&B Run を再開する
+description: "wandb.init() の resume パラメーターオプションを使用して、一時停止、停止、またはクラッシュした W&B runs を再開します。"
 title: run を再開する
 ---
 
@@ -107,22 +107,22 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 </Note>
 
 <div id="resume-preemptible-sweeps-runs">
-  ## プリエンプト可能な Sweeps の run を再開する
+  ## プリエンプト可能な Sweeps の実行を再開する
 </div>
 
-中断された [sweep](/ja/models/sweeps/) run を自動的にキューに入れ直します。これは、preemptible キュー内の SLURM ジョブ、EC2 スポットインスタンス、Google Cloud の preemptible VM など、プリエンプションが発生しうる計算環境で sweep エージェントを実行している場合に特に有用です。
+中断された [sweep](/ja/models/sweeps/) の実行を自動的にキューに入れ直します。これは、プリエンプト可能なキュー内の SLURM ジョブ、EC2 スポットインスタンス、Google Cloud の プリエンプト可能 VM など、プリエンプションの対象となるコンピュート環境で sweep エージェントを実行する場合に特に便利です。
 
-[`mark_preempting`](/ja/models/ref/python/experiments/run#mark_preempting) 関数を使用して、中断された sweep run を自動的にキューに入れ直します。例：
+[`mark_preempting`](/ja/models/ref/python/experiments/run#mark_preempting) 関数を使用すると、中断された sweep の実行を自動的にキューに入れ直すことができます。例えば、次のようにします。
 
 ```python
 with wandb.init() as run:
     run.mark_preempting()
 ```
 
-次の表は、sweep run の終了ステータスに基づいて W&amp;B が run をどのように扱うかを示しています。
+次の表は、sweep の実行の終了ステータスに基づいて W&amp;B が実行をどのように処理するかを示しています。
 
-| Status         | Behavior                                                                                                                                           |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Status code 0  | run は正常に終了したと見なされ、再度キューに追加されることはありません。                                                                                                             |
-| Nonzero status | W&amp;B は自動的に、その run を sweep に関連付けられた run queue に追加します。                                                                                            |
-| No status      | run は sweep run queue に追加されます。Sweep agent は、キューが空になるまで run queue から run を取り出して実行します。キューが空になると、sweep queue は sweep の探索アルゴリズムに基づいて新しい run の生成を再開します。 |
+|Status| Behavior |
+|------| ---------|
+|Status code 0| 実行は正常に終了したと見なされ、キューに入れ直されません。 |
+|Nonzero status| W&amp;B は自動的に、その実行を sweep に関連付けられた実行キューに追加します。|
+|No status| 実行は sweep の実行キューに追加されます。Sweep エージェントは、キューが空になるまで実行キューから実行を取り出します。キューが空になると、sweep キューは sweep の検索アルゴリズムに基づいて新しい実行の生成を再開します。|

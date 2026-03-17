@@ -1,11 +1,11 @@
 ---
 title: Koog
-description: "Kotlin ベースの Koog エージェントを Weave の組み込み OpenTelemetry サポートでトレースし、単一実行と複雑なワークフロー実行、ツール呼び出し、プロンプト、コンプリーションをキャプチャして、Kotlin 製 AI アプリケーションを完全に可観測化します。"
+description: "OpenTelemetry を使用して Weave で Kotlin ベースの Koog エージェントをトレースし、AI アプリケーションのツール呼び出し、プロンプト、completion を取得します。"
 ---
 
-[Koog](https://docs.koog.ai/) は、単一実行および複雑なワークフロー エージェントを構築するための Kotlin ベースのフレームワークです。Koog には OpenTelemetry (OTEL) のサポートが組み込まれており、トレースを直接 Weave にエクスポートできます。これにより、プロンプト、コンプリーション、ツール呼び出し、エージェント実行全体に対して豊富な可観測性を得られます。
+[Koog](https://docs.koog.ai/) は、単一実行および複雑なワークフロー エージェントを構築するための Kotlin ベースのフレームワークです。Koog には OpenTelemetry (OTEL) のサポートが組み込まれており、トレースを直接 Weave にエクスポートできるため、プロンプト、completion、ツール呼び出し、エージェント実行全体を詳細に可視化できます。
 
-Weave exporter を有効にすると、Koog は OpenTelemetry の span を Weave プロジェクトに転送できるようになり、デバッグやパフォーマンス解析を行いながら、より高速に反復できます。
+Weave exporter を有効にすると、Koog は OpenTelemetry の span を Weave プロジェクトに転送するため、デバッグ、パフォーマンス分析、そしてより迅速な反復が可能になります。
 
 <Frame>
 ![Koog](/weave/guides/integrations/imgs/koog.png)

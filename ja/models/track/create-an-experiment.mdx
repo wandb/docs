@@ -1,5 +1,5 @@
 ---
-description: W&B Experiment を作成する。
+description: "Python SDK を使用して run の初期化、ハイパーパラメーター、メトリクスのログをトラッキングする W&B Experiment を作成します。"
 title: W&B Experiment を作成する
 ---
 
@@ -47,7 +47,7 @@ with wandb.init(
   ### ハイパーパラメーターの辞書を保存する
 </div>
 
-learning rate（学習率）やモデルの種類などのハイパーパラメーターを辞書として保存します。config に記録したモデル設定は、後で結果を整理・検索する際に役立ちます。
+learning rate (学習率) やモデルの種類などのハイパーパラメーターを辞書として保存します。config に記録したモデル設定は、後で結果を整理・検索する際に役立ちます。
 
 ```python
 with wandb.init(
@@ -124,13 +124,13 @@ with wandb.init(
   ## 次のステップ: 実験を可視化する
 </div>
 
-W&amp;B ダッシュボードを、機械学習モデルの結果を整理して可視化するための中央ハブとして利用できます。数回クリックするだけで、[並列座標プロット](/ja/models/app/features/panels/parallel-coordinates/)、[パラメーター重要度解析](/ja/models/app/features/panels/parameter-importance/)、[その他のグラフタイプ](/ja/models/app/features/panels/) といったリッチでインタラクティブなチャートを作成できます。
+W&amp;B Dashboard を、機械学習モデルの結果を整理して可視化するための中心的な場所として活用しましょう。数回クリックするだけで、[並列座標プロット](/ja/models/app/features/panels/parallel-coordinates/)、[パラメーター重要度分析](/ja/models/app/features/panels/parameter-importance/)、[その他のチャートタイプ](/ja/models/app/features/panels/) などの、リッチでインタラクティブなチャートを作成できます。
 
 <Frame>
-  <img src="/images/sweeps/quickstart_dashboard_example.png" alt="クイックスタート Sweeps ダッシュボードの例" />
+  <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example" />
 </Frame>
 
-Experiments と特定の run を表示する方法の詳細については、[Experiments の結果を可視化する](/ja/models/track/workspaces/) を参照してください。
+実験や特定の run の表示方法について詳しくは、[実験の結果を可視化する](/ja/models/track/workspaces/) を参照してください。
 
 <div id="best-practices">
   ## ベストプラクティス

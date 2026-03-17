@@ -1,5 +1,5 @@
 ---
-description: W&B の環境変数を設定します。
+description: "認証、プロジェクト設定、ログモードなどのために、環境変数を使用して W&B SDK の動作を設定します。"
 title: 環境変数
 ---
 
@@ -26,6 +26,7 @@ os.environ["WANDB_MODE"] = "offline"
 # Run オブジェクトおよび関連クラスに sweep ID のトラッキングを追加する
 os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 ```
+
 
 <div id="optional-environment-variables">
   ## オプションの環境変数
@@ -76,7 +77,7 @@ os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 [Singularity](https://singularity.lbl.gov/index.html) でコンテナを実行している場合は、上記の環境変数の先頭に `SINGULARITYENV_` を付けて指定できます。Singularity の環境変数に関する詳細については、[こちら](https://singularity.lbl.gov/docs-environment-metadata#environment) を参照してください。
 
 <div id="running-on-aws">
-  ## AWS での実行
+  ## AWS で実行する
 </div>
 
-AWS でバッチジョブを実行している場合、W&amp;B の認証情報を使ってマシンを簡単に認証できます。[User Settings](https://wandb.ai/settings) で API キーを作成し、`WANDB_API_KEY` 環境変数を [AWS Batch ジョブ仕様](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters) で設定します。
+AWS でバッチジョブを実行している場合は、W&amp;B の認証情報でマシンを簡単に認証できます。[ユーザー設定](https://wandb.ai/settings) で APIキー を作成し、[AWS バッチジョブの仕様](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html#parameters) で `WANDB_API_KEY` 環境変数を設定します。

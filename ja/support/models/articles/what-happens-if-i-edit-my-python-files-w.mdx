@@ -1,0 +1,19 @@
+---
+title: "sweep の実行中に Python ファイルを編集した場合はどうなりますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポートホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+sweep の実行中は:
+
+* sweep で使用している `train.py` スクリプトが変更されても、sweep は引き続き元の `train.py` を使用します
+* `train.py` スクリプトが参照するファイル (`helper.py` スクリプト内のヘルパー関数など) が変更されると、sweep は更新後の `helper.py` を使用し始めます。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>

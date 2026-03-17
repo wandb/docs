@@ -1,0 +1,19 @@
+---
+title: "스윕이 실행 중일 때 Python 파일을 수정하면 어떻게 되나요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일을 직접 편집하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+스윕이 실행되는 동안:
+
+* 스윕이 사용하는 `train.py` 스크립트가 변경되더라도, 스윕은 계속 기존 `train.py`를 사용합니다.
+* `train.py` 스크립트가 참조하는 파일(예: `helper.py` 스크립트의 헬퍼 함수)이 변경되면, 스윕은 업데이트된 `helper.py`를 사용하기 시작합니다.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>

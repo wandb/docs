@@ -1,13 +1,13 @@
 ---
 title: "온라인 모니터링"
-description: "W&amp;B Weave와 함께 온라인 모니터링을 사용하는 방법을 알아보세요"
+description: "W&amp;B Weave를 사용해 프로덕션 환경의 LLM 애플리케이션에 대한 온라인 모니터링을 설정하고 성능 및 품질 메트릭을 추적합니다."
 ---
 
 <Note>
-  이 노트북은 대화형입니다. 로컬에서 실행하거나 아래 링크를 통해 열 수 있습니다:
+  이 노트북은 대화형입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
 
   * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
-  * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
+  * [GitHub에서 소스 뷰](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
 </Note>
 
 <div id="integrating-with-weave-production-dashboard">
@@ -166,7 +166,7 @@ def process_calls(calls):
             {
                 "Call ID": call.id,
                 "Trace ID": call.trace_id,  # 트레이스를 검색하는 데 사용할 수 있는 고유 ID
-                "Display Name": call.display_name,  # UI 또는 프로그래밍 방식으로 설정할 수 있는 선택 사항 이름
+                "Display Name": call.display_name,  # UI 또는 프로그래밍 방식으로 설정할 수 있는 선택적 이름
                 "Latency (ms)": latency,
                 "Thumbs Up": thumbs_up,
                 "Thumbs Down": thumbs_down,

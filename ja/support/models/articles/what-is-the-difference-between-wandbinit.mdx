@@ -1,0 +1,20 @@
+---
+title: "wandb.init の各モードの違いは何ですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポートホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+次のモードを利用できます。
+
+* `online` (default): クライアントはデータを wandb サーバーに送信します。
+* `offline`: クライアントは、データを wandb サーバーに送信する代わりに、マシン上にローカルに保存します。後でデータを同期するには、[`wandb sync`](/ja/models/ref/cli/wandb-sync) コマンドを使用します。
+* `disabled`: クライアントはモック オブジェクトを返して動作をシミュレートし、あらゆるネットワーク通信を防止します。ログ記録はすべて無効になりますが、すべての API method スタブは引き続き呼び出せます。このモードは通常、テストで使用されます。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

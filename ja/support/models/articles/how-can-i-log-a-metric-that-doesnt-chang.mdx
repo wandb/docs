@@ -1,0 +1,16 @@
+---
+title: "最終評価の精度のように、時間が経っても変化しないメトリクスをログするにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+`run.log({'final_accuracy': 0.9})` を使用すると、最終精度が正しく更新されます。デフォルトでは、`run.log({'final_accuracy': <value>})` によって `run.settings['final_accuracy']` が更新され、Runs 表にその値が反映されます。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>

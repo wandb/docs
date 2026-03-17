@@ -1,5 +1,6 @@
 ---
-title: 모델 로깅
+title: 모델 로깅하기
+description: "모델 아티팩트를 W&B run에 로깅하고, 나중에 `log_model` 및 `use_model` SDK 메서드를 사용해 가져올 수 있습니다."
 ---
 
 import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
@@ -102,7 +103,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
       run.log_model(path=full_path, name="MNIST")
   ```
 
-  사용자가 `log_model`을 호출했을 때 `MNIST`라는 이름의 모델 아티팩트가 생성되고, `model.h5` 파일이 해당 모델 아티팩트에 추가됩니다. 터미널 또는 노트북에는 모델이 로그된 run과 관련 정보를 어디에서 확인할 수 있는지에 대한 안내가 출력됩니다.
+  `log_model`을 호출하면 `MNIST`라는 이름의 모델 아티팩트가 생성되고, `model.h5` 파일이 해당 모델 아티팩트에 추가됩니다. 터미널 또는 노트북에는 모델이 로그된 run과 관련 정보를 어디에서 확인할 수 있는지에 대한 안내가 출력됩니다.
 
   ```python
   View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw

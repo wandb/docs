@@ -1,0 +1,18 @@
+---
+title: "모델을 트레이닝하는 중 인터넷 연결이 끊기면 어떻게 되나요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일을 직접 편집하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+라이브러리가 인터넷에 연결할 수 없으면 재시도 루프에 들어가며, 네트워크가 복구될 때까지 메트릭을 계속 스트리밍하려고 시도합니다. 이 동안에도 프로그램은 계속 실행됩니다.
+
+인터넷이 연결되지 않은 머신에서 실행하려면 `WANDB_MODE=offline`으로 설정하세요. 이 설정은 메트릭을 하드 드라이브에 로컬로 저장합니다. 나중에 `wandb sync DIRECTORY`를 실행해 데이터를 서버로 스트리밍하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[장애](/ko/support/models/tags/outage)</Badge>

@@ -1,0 +1,20 @@
+---
+title: "스윕 로그를 로컬에 저장하는 디렉터리를 어떻게 변경할 수 있나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+환경 변수 `WANDB_DIR`를 설정하여 W&amp;B run 데이터의 로깅 디렉터리를 지정합니다. 예를 들면 다음과 같습니다:
+
+```python
+os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>

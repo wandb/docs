@@ -1,10 +1,11 @@
 ---
 title: コードの保存と差分
+description: "コードの保存を有効にし、コード比較を使って W&B の run 間でコードを比較し、Jupyter セッション履歴を記録します。"
 ---
 
-デフォルトでは、W&amp;B は最新の Git コミットハッシュのみを保存します。UI で Experiments 間のコードを動的に比較できるように、追加のコード関連機能を有効にできます。
+デフォルトでは、W&B は最新の git コミットハッシュのみを保存します。UI で実験間のコードを動的に比較できるように、追加のコード関連機能を有効にできます。
 
-`wandb` バージョン 0.8.28 以降では、W&amp;B は `wandb.init()` を呼び出しているメインのトレーニングファイルのコードを保存できるようになりました。
+`wandb` バージョン 0.8.28 以降では、W&B は `wandb.init()` を呼び出しているメインのトレーニングファイルのコードを保存できます。 
 
 <div id="save-library-code">
   ## ライブラリコードを保存する
@@ -36,16 +37,16 @@ wandb.init(settings=wandb.Settings(code_dir="."))
 これにより、現在のディレクトリとそのすべてのサブディレクトリ内にある Python のソースコードファイルがすべて [Artifacts](/ja/models/ref/python/experiments/artifact)として保存されます。保存対象とするソースコードファイルの種類や場所をより細かく制御したい場合は、[リファレンスドキュメント](/ja/models/ref/python/experiments/run#log_code)を参照してください。
 
 <div id="set-code-saving-in-the-ui">
-  ### UI でコード保存を設定する
+  ### UI でコードの保存を設定する
 </div>
 
-コード保存をプログラム経由で設定するだけでなく、W&amp;B アカウントの Settings からこの機能を切り替えることもできます。なお、これを有効にすると、あなたのアカウントに関連付けられているすべての Teams でコード保存が有効になります。
+コードの保存をプログラムで設定するだけでなく、W&B アカウントの Settings でこの機能を切り替えることもできます。なお、これを有効にすると、あなたのアカウントに関連付けられているすべての Teams でコードの保存が有効になります。
 
-> デフォルトでは、W&amp;B はすべての Teams に対してコード保存を無効にしています。
+> デフォルトでは、W&B はすべての Teams でコードの保存を無効にしています。
 
-1. W&amp;B アカウントにログインします。
-2. **Settings** &gt; **Privacy** に移動します。
-3. **Project and content security** の下にある **Disable default code saving** をオンに切り替えます。
+1. W&B アカウントにログインします。
+2. **Settings** > **Privacy** に移動します。
+3. **Project and content security** の下で、**Disable default code saving** をオンにします。 
 
 <div id="code-comparer">
   ## コード比較

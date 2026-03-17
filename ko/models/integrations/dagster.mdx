@@ -1,21 +1,21 @@
 ---
-description: W&B를 Dagster와 인테그레이션하는 방법에 대한 가이드입니다.
+description: "자동 로깅 및 모니터링으로 ML 실험을 추적하고 데이터 파이프라인을 관리할 수 있도록 W&B를 Dagster와 통합합니다."
 title: Dagster
 ---
 
-Dagster와 W&amp;B (W&amp;B)를 함께 사용하여 MLOps 파이프라인을 오케스트레이션하고 ML 자산을 관리하세요. W&amp;B 인테그레이션을 사용하면 Dagster 내에서 다음 작업을 쉽게 수행할 수 있습니다:
+Dagster와 W&amp;B (W&amp;B)를 함께 사용하여 MLOps 파이프라인을 오케스트레이션하고 ML 에셋을 관리하세요. W&amp;B 통합을 사용하면 Dagster 내에서 다음 작업을 쉽게 수행할 수 있습니다:
 
 * [W&amp;B Artifact](/ko/models/artifacts)를 생성하고 사용합니다.
 * [W&amp;B Registry](/ko/models/registry)에서 Registered Models를 생성하고 사용합니다.
-* [W&amp;B Launch](/ko/platform/launch)를 사용해 전용 컴퓨트에서 트레이닝 잡을 실행합니다.
-* ops 및 assets에서 [wandb](/ko/models/ref/python) 클라이언트를 사용합니다.
+* [W&amp;B Launch](/ko/platform/launch)를 사용해 전용 컴퓨트에서 훈련 작업을 실행합니다.
+* ops 및 에셋에서 [wandb](/ko/models/ref/python) 클라이언트를 사용합니다.
 
-W&amp;B-Dagster 인테그레이션은 W&amp;B 전용 Dagster resource와 IO Manager를 제공합니다:
+W&amp;B Dagster 통합은 W&amp;B 전용 Dagster 리소스와 IO Manager를 제공합니다:
 
-* `wandb_resource`: W&amp;B API에 인증하고 통신하는 데 사용되는 Dagster resource입니다.
-* `wandb_artifacts_io_manager`: W&amp;B Artifacts를 사용하는 데 사용되는 Dagster IO Manager입니다.
+* `wandb_resource`: W&amp;B API에 인증하고 통신하는 데 사용되는 Dagster 리소스입니다.
+* `wandb_artifacts_io_manager`: W&amp;B Artifacts를 사용하기 위한 Dagster IO Manager입니다.
 
-다음 가이드는 Dagster에서 W&amp;B를 사용하기 위한 사전 요구 사항을 충족하는 방법, ops 및 assets에서 W&amp;B Artifacts를 생성하고 사용하는 방법, W&amp;B Launch 사용 방법과 권장 모범 사례를 보여줍니다.
+다음 가이드에서는 Dagster에서 W&amp;B를 사용하기 위한 사전 요구 사항을 충족하는 방법, ops 및 에셋에서 W&amp;B Artifacts를 생성하고 사용하는 방법, W&amp;B Launch를 사용하는 방법과 권장 모범 사례를 보여줍니다.
 
 <div id="before-you-get-started">
   ## 시작하기 전에

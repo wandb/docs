@@ -1,0 +1,73 @@
+---
+title: サポート
+mode: "center"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_index.mdx.j2
+  */}
+
+import {Banner} from "/snippets/Banner.jsx";
+import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
+
+<Banner title="何をお探しですか？" background="/images/support/support_banner.png">
+  サポート記事、製品ドキュメント、<br />
+  W&amp;B コミュニティで情報を検索できます。
+</Banner>
+
+<HelpQuestionForm />
+
+<div id="browse-support-articles-by-product">
+  ## 製品ごとにサポート記事を閲覧
+</div>
+
+<CardGroup cols={3}>
+  <Card title="W&B Models" href="/ja/support/models/index" arrow="true" icon="/icons/cropped-models.svg">
+    180 件の記事 · 33 タグ
+  </Card>
+
+  <Card title="W&B Weave" href="/ja/support/weave/index" arrow="true" icon="/icons/cropped-weave.svg">
+    15 件の記事 · 8 タグ
+  </Card>
+
+  <Card title="W&B Inference" href="/ja/support/inference/index" arrow="true" icon="/icons/cropped-inference.svg">
+    7 件の記事 · 5 タグ
+  </Card>
+</CardGroup>
+
+<div id="featured-articles">
+  ## おすすめ記事
+</div>
+
+<div id="wb-models">
+  ### W&amp;B Models
+</div>
+
+<Card title="トレーニングコードで run の名前を設定するには？" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+  トレーニングスクリプトの冒頭で、wandb.init を呼び出し...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+</Card>
+
+<Card title="sweep でカスタム CLI コマンドを使用するには？" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  トレーニング ... の場合は、カスタム CLI コマンドで W&amp;B Sweeps を使用できます
+
+  <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
+</Card>
+
+<Card title="メトリクスをオフラインで保存して、あとで W&B に同期できますか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  デフォルトでは、wandb.init はメトリクスを同期するプロセスを開始し...
+
+  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+</Card>
+
+<Card title="wandb.init はトレーニングプロセスで何を行いますか？" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  wandb.init がトレーニングスクリプトで実行されると、API 呼び出しで...
+
+  <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+</Card>
+
+<Card title="お探しの情報が見つかりませんか？" href="mailto:support@wandb.com" icon="circle-info">
+  サポートに問い合わせる
+</Card>

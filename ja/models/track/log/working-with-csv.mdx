@@ -1,5 +1,5 @@
 ---
-description: W&B へのデータのインポートとログ
+description: "可視化、比較、分析のために、CSV ファイルを表および Artifacts として W&B にインポートし、ダッシュボードで利用します。"
 title: 実験で CSV ファイルをトラッキングする
 ---
 
@@ -92,6 +92,7 @@ with wandb.init(project="tables-walkthrough") as run:
     # Artifacts としてログして利用可能な行数の上限を増やす！
     run.log_artifact(iris_table_artifact)
 ```
+
 
 <div id="import-and-log-your-csv-of-experiments">
   ## Experiments の CSV をインポートしてログとして記録する

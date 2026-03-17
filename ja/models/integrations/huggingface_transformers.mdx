@@ -1,5 +1,6 @@
 ---
 title: Hugging Face Transformers
+description: "W&B を Hugging Face Transformers Trainer と組み合わせて使用し、実験追跡、モデルのチェックポイント保存、データセットのバージョン管理を行います。"
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
@@ -7,7 +8,7 @@ import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-strea
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Optimize_Hugging_Face_models_with_Weights_&_Biases.ipynb" />
 
-[Hugging Face Transformers](https://huggingface.co/docs/transformers/index) ライブラリを使うと、BERT のような最先端の NLP モデルや、mixed precision や gradient checkpointing のようなトレーニング手法を簡単に利用できます。[W&amp;B integration](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback) を使うと、その使いやすさを損なうことなく、インタラクティブで一元管理されたダッシュボードに、豊富で柔軟な実験管理やモデルのバージョン管理機能を追加できます。
+[Hugging Face Transformers](https://huggingface.co/docs/transformers/index) ライブラリを使うと、BERT のような最先端の NLP モデルや、mixed precision や gradient checkpointing のようなトレーニング手法を簡単に利用できます。[W&B インテグレーション](https://huggingface.co/transformers/main_classes/callback.html#transformers.integrations.WandbCallback) を使うと、その使いやすさを損なうことなく、インタラクティブで一元化されたダッシュボードに、豊富で柔軟な実験追跡やモデルのバージョン管理を追加できます。
 
 <div id="next-level-logging-in-few-lines">
   ## 数行のコードでロギングを次のレベルへ
@@ -566,7 +567,7 @@ wandb.init(
 </details>
 
 <div id="get-help-or-request-features">
-  ## ヘルプや機能をリクエストする
+  ## サポートを受ける、または機能をリクエストする
 </div>
 
-Hugging Face の W&amp;B インテグレーションに関する問題や質問、機能リクエストがある場合は、[Hugging Face フォーラムのこのスレッド](https://discuss.huggingface.co/t/logging-experiment-tracking-with-w-b/498) に投稿するか、Hugging Face の [Transformers GitHub リポジトリ](https://github.com/huggingface/transformers) で issue を作成してください。
+Hugging Face と W&amp;B のインテグレーションに関する問題、質問、または機能リクエストがある場合は、[Hugging Face forums のこちらのスレッド](https://discuss.huggingface.co/t/logging-experiment-tracking-with-w-b/498) に気軽に投稿するか、Hugging Face の [Transformers GitHub repo](https://github.com/huggingface/transformers) で issue を作成してください。

@@ -1,0 +1,23 @@
+---
+title: "W&B는 `multiprocessing` 라이브러리를 사용하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원팀 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+예, W&amp;B는 `multiprocessing` 라이브러리를 사용합니다. 다음과 같은 오류 메시지는 문제가 있을 수 있음을 나타냅니다:
+
+```
+An attempt has been made to start a new process before the current process 
+has finished its bootstrapping phase.
+```
+
+이 문제를 해결하려면 `if __name__ == "__main__":`로 진입점 보호 구문을 추가하세요. 이 구문은 스크립트에서 W&amp;B를 직접 실행할 때 필요합니다.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

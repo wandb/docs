@@ -1,0 +1,34 @@
+---
+title: "InitStartError: wandb プロセスとの通信中にエラーが発生しました"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+このエラーは、ライブラリがサーバーにデータを同期するプロセスの起動時に問題が発生したことを示しています。
+
+以下の回避策で、特定の環境におけるこの問題を解決できます：
+
+<Tabs>
+  <Tab title="Linux と OS X">
+    ```python
+    wandb.init(settings=wandb.Settings(start_method="fork"))
+    ```
+  </Tab>
+
+  <Tab title="Google Colab">
+    バージョン `0.13.0` より前では、次を使用してください。
+
+    ```python
+    wandb.init(settings=wandb.Settings(start_method="thread"))
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/ja/support/models/tags/run-crashes)</Badge>

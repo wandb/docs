@@ -1,5 +1,6 @@
 ---
 title: run 초기화
+description: "실험 추적을 시작하기 위해 wandb.init()으로 W&B run을 초기화하고, 하나의 프로세스에서 동시 run을 처리하는 방법도 설명합니다."
 ---
 
 [`wandb.init()`](/ko/models/ref/python/functions/init)으로 W&amp;B Run을 초기화합니다.
@@ -13,19 +14,19 @@ title: run 초기화
 </Note>
 
 <div id="single-run-per-process">
-  ## 프로세스당 하나의 run
+  ## 프로세스당 단일 run
 </div>
 
-다음 예제 코드 스니펫은 W&amp;B Python SDK를 import한 후 run을 초기화하는 방법을 보여줍니다.
+다음 예제 코드 스니펫은 W&amp;B Python SDK를 import하고 run을 초기화하는 방법을 보여줍니다.
 
 ```python title="basic.py"
 import wandb
 
 with wandb.init(entity="nico", project="awesome-project") as run:
-    # 여기에 트레이닝 로직을 작성하세요
+    # Your training logic here
 ```
 
-다음은 이 코드 스니펫의 출력입니다:
+이 코드 스니펫은 다음과 같은 출력을 생성합니다:
 
 ```bash
 🚀 View run exalted-darkness-6 at: 
@@ -33,7 +34,7 @@ https://wandb.ai/nico/awesome-project/runs/pgbn9y21
 Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 ```
 
-출력 결과를 보면 W&amp;B가 엔티티 `nico`의 프로젝트 `awesome-project`에 run `exalted-darkness-6`을(를) 기록했음을 알 수 있습니다. `pgbn9y21`은(는) 이 run에 대해 W&amp;B가 생성한 고유 run ID입니다.
+출력 결과를 보면 W&amp;B가 엔티티 `nico` 아래의 프로젝트 `awesome-project`에 run `exalted-darkness-6`을 로깅한다는 것을 알 수 있습니다. `pgbn9y21`은 이 run에 대해 W&amp;B가 생성한 고유한 run ID입니다.
 
 <div id="multiple-runs-in-one-process">
   ## 하나의 프로세스에서 여러 run 사용
