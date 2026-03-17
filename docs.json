@@ -1021,7 +1021,6 @@
                 "pages": [
                   "pricing",
                   "weave/details/limits",
-                  "weave/guides/troubleshooting",
                   "weave/details/faqs"
                 ]
               },
@@ -1071,8 +1070,7 @@
                 "pages": [
                   "inference/api-reference",
                   "inference/api-reference/chat-completions",
-                  "inference/api-reference/list-models",
-                  "inference/api-reference/errors"
+                  "inference/api-reference/list-models"
                 ]
               },
               "inference/examples",
