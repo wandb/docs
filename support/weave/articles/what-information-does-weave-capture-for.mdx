@@ -6,8 +6,6 @@ Built with DocEngine. Do not edit this MDX file directly.
 Template: /sites/wandb-docs/templates/support_article.mdx.j2
 */}
 
-<Card title="Return to Support Home" icon="arrow-left" href="/support/index" horizontal />
-
 A function can be designated as a Weave [Op](/weave/guides/tracking/ops) either manually through a decorator or automatically as part of an enabled integration. When an Op executes, Weave captures detailed information to support your analysis. Weave provides you with fine grained control over what is logged in case you would like something different than the default; see below for configuration examples.
 
 - **Code capture** - Weave captures a representation of the Op's source code. This includes inline comments as well as recursively capturing the value of variables or the source of non-Op functions that were called. Code capture allows you to see what your function was doing even if the change was not saved to your source control system. Code capture is used as part of Op versioning, allowing you to understand the evaluation of your code over time. If code capture is disabled, a hash value will be used instead.
