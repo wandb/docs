@@ -66,15 +66,7 @@
     }
   },
   "navigation": {
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Support",
-          "icon": "/icons/cropped-reports.svg",
-          "href": "/support/index?assistant"
-        }
-      ]
-    },
+    "global": { },
     "languages": [
       {
         "language": "en",
@@ -1216,7 +1208,6 @@
           },
           {
             "tab": "Support",
-            "hidden": true,
             "pages": [
               "support/index"
             ]
