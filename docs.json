@@ -1,5 +1,5 @@
 {
-  "theme": "palm",
+  "theme": "mint",
   "$schema": "https://mintlify.com/docs.json",
   "name": "Weights & Biases Documentation",
   "colors": {
@@ -4076,10 +4076,6 @@
     {
       "source": "/self-hosted/*",
       "destination": "/platform/hosting/hosting-options/self-managed"
-    },
-    {
-      "source": "/support/*",
-      "destination": "/models/support"
     },
     {
       "source": "/sweeps/faq/",
