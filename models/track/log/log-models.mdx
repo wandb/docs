@@ -111,11 +111,11 @@ Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
 ## Download and use a logged model
 Use the [`use_model`](/models/ref/python/experiments/run#use_model) function to access and download models files previously logged to a W&B run. 
 
-Provide the name of the model artifact where the model files you are want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
+Provide the name of the model artifact where the model files you want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
 
-If you did not define `name` when originally logged the files with `log_model`, the default name assigned is the basename of the input path, prepended with the run ID.
+If you did not define `name` when you originally logged the files with `log_model`, the default name assigned is the basename of the input path, prepended with the run ID.
 
-Ensure to replace other the values enclosed in `<>` with your own:
+Ensure to replace the values enclosed in `<>` with your own:
  
 ```python
 import wandb
