@@ -1,10 +1,11 @@
 ---
-title: レジストリから Artifacts をダウンロードする
+title: レジストリからアーティファクトをダウンロードする
+description: "パスを構築して Python SDK を使用し、W&B Registry コレクションにリンクされたアーティファクトをダウンロードします。"
 ---
 
-W&amp;B Python SDK を使用して、レジストリにリンクされた Artifacts をダウンロードします。 Artifacts をダウンロードして使用するには、レジストリ名、コレクション名、そしてダウンロードしたい Artifacts バージョンのエイリアスまたはインデックスを把握しておく必要があります。
+W&B Python SDK を使用して、レジストリにリンクされたアーティファクトをダウンロードします。アーティファクトをダウンロードして使用するには、レジストリの名前、コレクションの名前、そしてダウンロードしたいアーティファクト バージョンのエイリアスまたはインデックスを知っている必要があります。
 
-Artifacts のプロパティが分かったら、[リンクされた Artifacts へのパスを構築](#construct-path-to-linked-artifact)して Artifacts をダウンロードできます。あるいは、W&amp;B App UI から [事前生成されたコードスニペットをコピーしてペースト](#copy-and-paste-pre-generated-code-snippet)して、レジストリにリンクされた Artifacts をダウンロードすることもできます。
+アーティファクトのプロパティが分かったら、[リンクされたアーティファクトへのパスを構築](#construct-path-to-linked-artifact)してアーティファクトをダウンロードできます。あるいは、W&B App UI から [事前生成されたコードスニペットをコピー＆ペースト](#copy-and-paste-pre-generated-code-snippet)して、レジストリにリンクされたアーティファクトをダウンロードすることもできます。
 
 <div id="construct-path-to-linked-artifact">
   ## リンクされた Artifacts へのパスを作成する

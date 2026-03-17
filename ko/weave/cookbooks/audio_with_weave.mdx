@@ -1,12 +1,13 @@
 ---
 title: "Weave에서 오디오 사용하기"
-description: "W&B Weave에서 오디오를 사용하는 방법을 알아보세요"
+description: "W&B Weave의 오디오 로깅 및 트레이싱 기능을 사용해 LLM 애플리케이션에서 오디오 데이터를 추적하고 평가하세요."
 ---
 
 <Note>
-이 노트북은 인터랙티브 노트북입니다. 로컬에서 실행하거나 아래 링크 중 하나를 사용하세요:
-- [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
-- [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
+  이 노트북은 인터랙티브 노트북입니다. 로컬에서 실행하거나 아래 링크 중 하나를 사용하세요:
+
+  * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
+  * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
 </Note>
 
 ## 
@@ -137,6 +138,7 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
     return wave.open("output.wav", "rb")
 ```
 
+
 <div id="testing">
   ## 테스트
 </div>
@@ -204,6 +206,7 @@ _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
+
 <div id="microphone-configuration">
   ## 마이크 설정
 </div>
@@ -238,6 +241,7 @@ OAI_SAMPLE_RATE = (
 )
 OUTPUT_DEVICE_CHANNELS = 1  # 모노 출력을 위해 1로 설정
 ```
+
 
 <div id="openai-realtime-api-schema-implementation">
   ## OpenAI Realtime API 스키마 구현
@@ -833,6 +837,7 @@ class StreamingWavWriter:
         assert self.in_memory, "버퍼는 스트림이 메모리에 있을 때만 사용할 수 있습니다."
         return self.buffer
 ```
+
 
 <div id="realtime-audio-model">
   ## 실시간 오디오 모델

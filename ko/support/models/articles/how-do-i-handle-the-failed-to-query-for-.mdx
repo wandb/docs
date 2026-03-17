@@ -1,0 +1,32 @@
+---
+title: "'Failed to query for notebook' 오류는 어떻게 해결하나요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+오류 메시지 `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"`가 표시되면 환경 변수를 설정해 해결하세요. 설정하는 방법은 여러 가지가 있습니다:
+
+<Tabs>
+  <Tab title="Notebook">
+    ```python
+    %env "WANDB_NOTEBOOK_NAME" "notebook name here"
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    import os
+
+    os.environ["WANDB_NOTEBOOK_NAME"] = "notebook name here"
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[노트북](/ko/support/models/tags/notebooks)</Badge><Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge>

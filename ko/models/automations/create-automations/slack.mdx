@@ -1,5 +1,6 @@
 ---
-title: "Slack 자동화 만들기"
+title: Slack 자동화 생성하기
+description: "Slack 통합을 설정하고 특정 이벤트에서 Slack 채널로 알림을 보내는 W&B 자동화를 생성합니다."
 ---
 
 import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.mdx";
@@ -8,12 +9,12 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
   <EnterpriseCloudOnly />
 </Info>
 
-이 페이지에서는 Slack [automation](/ko/models/automations/)을 생성하는 방법을 설명합니다. 웹훅 automation을 생성하려면 [웹훅 automation 생성하기](/ko/models/automations/create-automations/webhook/)를 참조하세요.
+이 페이지에서는 Slack [자동화](/ko/models/automations/)를 생성하는 방법을 설명합니다. 웹훅 자동화를 생성하려면 [웹훅 자동화 생성하기](/ko/models/automations/create-automations/webhook/)를 대신 참조하세요.
 
-Slack automation을 생성하는 전체적인 단계는 다음과 같습니다.
+대략적으로 보면, Slack 자동화를 생성하려면 다음 단계를 수행합니다:
 
-1. [Slack 인테그레이션 추가](#add-a-slack-integration)를 통해 W&amp;B가 Slack 인스턴스와 채널에 게시할 수 있도록 권한을 부여합니다.
-2. 모니터링할 [event](/ko/models/automations/automation-events/)와 알림을 보낼 채널을 정의하는 [automation 생성](#create-an-automation)을 수행합니다.
+1. [Slack 통합 추가](#add-a-slack-integration): W&amp;B가 Slack 인스턴스와 채널에 게시할 수 있도록 권한을 부여합니다.
+2. [자동화 생성](#create-an-automation): 확인할 [이벤트](/ko/models/automations/automation-events/)와 알림을 보낼 채널을 정의합니다.
 
 <div id="add-a-slack-integration">
   ## Slack 인테그레이션 추가

@@ -1,0 +1,18 @@
+---
+title: "W&B에 수백만 개의 step을 log하면 어떻게 되나요? 브라우저에서는 어떻게 렌더링되나요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일은 직접 편집하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+전송되는 포인트 수는 UI에서 그래프가 로드되는 시간에 영향을 줍니다. 선 하나에 1,000개가 넘는 포인트가 있으면, 백엔드는 브라우저로 전송하기 전에 데이터를 1,000개 포인트로 다운샘플링합니다. 이 샘플링은 비결정적이므로 페이지를 새로고침할 때마다 샘플링되는 포인트가 달라집니다.
+
+메트릭당 10,000개 미만의 포인트만 로깅하세요. 선 하나에 100만 개가 넘는 포인트를 로깅하면 페이지 로드 시간이 크게 늘어납니다. 정확도를 유지하면서도 로깅량을 최소화하는 전략은 이 [Colab](https://wandb.me/log-hf-colab)에서 확인하세요. 설정과 요약 메트릭 열이 500개를 초과하면 테이블에는 500개만 표시됩니다.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>

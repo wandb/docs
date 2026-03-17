@@ -1,0 +1,18 @@
+---
+title: "같은 메트릭이 두 번 이상 표시되는 이유는 무엇인가요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+같은 키로 여러 데이터 유형을 로깅하면 데이터베이스에서 별도로 분리되어 저장됩니다. 그 결과 UI 드롭다운에 동일한 메트릭 이름의 항목이 여러 개 표시됩니다. 그룹화되는 데이터 유형은 `number`, `string`, `bool`, `other`(주로 배열), 그리고 `Histogram`이나 `Image` 같은 모든 `wandb` 데이터 유형입니다. 이 문제를 방지하려면 각 키에는 하나의 유형만 전송하세요.
+
+메트릭 이름은 대소문자를 구분하지 않습니다. `"My-Metric"`과 `"my-metric"`처럼 대소문자만 다른 이름은 사용하지 마세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>

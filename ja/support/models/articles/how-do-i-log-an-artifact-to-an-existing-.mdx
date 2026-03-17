@@ -1,0 +1,23 @@
+---
+title: "既存の run にアーティファクトをログするには、どうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+場合によっては、以前にログした run の出力としてアーティファクトをマークする必要があります。この場合は、以前の run を再初期化し、次のように新しいアーティファクトをログします：
+
+```python
+with wandb.init(id="existing_run_id", resume="allow") as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    artifact.add_file("my_data/file.txt")
+    run.log_artifact(artifact)
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>

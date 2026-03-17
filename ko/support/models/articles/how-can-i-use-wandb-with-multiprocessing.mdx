@@ -1,0 +1,25 @@
+---
+title: "예를 들어 분산 트레이닝과 같은 멀티프로세싱 환경에서 wandb를 어떻게 사용할 수 있나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+트레이닝 프로그램이 여러 프로세스를 사용하는 경우, `wandb.init()`를 호출하지 않은 프로세스에서는 wandb 메서드를 호출하지 않도록 프로그램을 구성하세요.
+
+다중 프로세스 트레이닝은 다음 방법으로 관리하세요:
+
+1. 모든 프로세스에서 `wandb.init`를 호출하고 [group](/ko/models/runs/grouping) 키워드 인수를 사용해 공유 그룹을 생성합니다. 각 프로세스에는 자체 wandb run이 생성되며, UI에서 해당 트레이닝 프로세스들이 함께 그룹화되어 표시됩니다.
+2. 하나의 프로세스에서만 `wandb.init`를 호출하고, 로그할 데이터를 [multiprocessing 큐](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes)를 통해 전달합니다.
+
+<Note>
+  이러한 방법에 대한 자세한 설명과 Torch DDP를 사용한 코드 예제는 [분산 트레이닝 가이드](/ko/models/track/log/distributed-training)를 참고하세요.
+</Note>
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

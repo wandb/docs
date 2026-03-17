@@ -1378,7 +1378,8 @@
                 "pages": [
                   "ja/platform/hosting/monitoring-usage/audit-logging",
                   "ja/platform/hosting/monitoring-usage/slack-alerts",
-                  "ja/platform/hosting/monitoring-usage/org_dashboard"
+                  "ja/platform/hosting/monitoring-usage/org_dashboard",
+                  "ja/platform/hosting/monitoring-usage/mobile-app"
                 ]
               },
               {
@@ -1783,6 +1784,7 @@
                           "ja/models/ref/python/public-api/member",
                           "ja/models/ref/python/public-api/project",
                           "ja/models/ref/python/public-api/projects",
+                          "ja/models/ref/python/public-api/projectartifactcollections",
                           "ja/models/ref/python/public-api/registry",
                           "ja/models/ref/python/public-api/reports",
                           "ja/models/ref/python/public-api/run",
@@ -1855,6 +1857,7 @@
                       "ja/models/ref/cli/wandb-online",
                       "ja/models/ref/cli/wandb-projects",
                       "ja/models/ref/cli/wandb-pull",
+                      "ja/models/ref/cli/wandb-purge-cache",
                       "ja/models/ref/cli/wandb-restore",
                       {
                         "group": "wandb サーバー",
@@ -1908,8 +1911,7 @@
                     ]
                   }
                 ]
-              },
-              "ja/models/support"
+              }
             ]
           },
           {
@@ -2231,7 +2233,6 @@
                 "pages": [
                   "ja/pricing",
                   "ja/weave/details/limits",
-                  "ja/weave/guides/troubleshooting",
                   "ja/weave/details/faqs"
                 ]
               },
@@ -2281,8 +2282,7 @@
                 "pages": [
                   "ja/inference/api-reference",
                   "ja/inference/api-reference/chat-completions",
-                  "ja/inference/api-reference/list-models",
-                  "ja/inference/api-reference/errors"
+                  "ja/inference/api-reference/list-models"
                 ]
               },
               "ja/inference/examples",
@@ -2342,6 +2342,13 @@
             ]
           },
           {
+            "tab": "サポート",
+            "icon": "/icons/cropped-reports.svg",
+            "pages": [
+              "ja/support/index"
+            ]
+          },
+          {
             "tab": "W&B Launch",
             "icon": "/icons/cropped-launch.svg",
             "hidden": true,
@@ -2350,11 +2357,11 @@
               "ja/platform/launch/walkthrough",
               "ja/platform/launch/launch-terminology",
               {
-                "group": "Launch のセットアップ",
+                "group": "Launch を設定する",
                 "pages": [
                   "ja/platform/launch/set-up-launch",
                   {
-                    "group": "コンピュート リソースの設定",
+                    "group": "コンピューティングリソースを設定する",
                     "pages": [
                       "ja/platform/launch/setup-launch-docker",
                       "ja/platform/launch/setup-launch-kubernetes",
@@ -2367,7 +2374,7 @@
                 ]
               },
               {
-                "group": "ジョブの作成とデプロイ",
+                "group": "ジョブを作成してデプロイする",
                 "pages": [
                   "ja/platform/launch/create-and-deploy-jobs",
                   "ja/platform/launch/create-launch-job",
@@ -2377,7 +2384,7 @@
                 ]
               },
               {
-                "group": "高度な設定",
+                "group": "詳細",
                 "pages": [
                   "ja/platform/launch/sweeps-on-launch",
                   "ja/platform/launch/launch-queue-observability",
@@ -2385,7 +2392,7 @@
                 ]
               },
               {
-                "group": "Launch に関する FAQ",
+                "group": "Launch FAQ",
                 "pages": [
                   "ja/platform/launch/launch-faq",
                   "ja/platform/launch/launch-faq/best_practices_launch_effectively",
@@ -2414,6 +2421,73 @@
                   "ja/platform/launch/launch-library/launchagent"
                 ]
               }
+            ]
+          },
+          {
+            "tab": "サポート: W&B Models",
+            "hidden": true,
+            "pages": [
+              "ja/support/models/index",
+              "ja/support/models/tags/academic",
+              "ja/support/models/tags/administrator",
+              "ja/support/models/tags/alerts",
+              "ja/support/models/tags/anonymous",
+              "ja/support/models/tags/artifacts",
+              "ja/support/models/tags/aws",
+              "ja/support/models/tags/billing",
+              "ja/support/models/tags/charts",
+              "ja/support/models/tags/connectivity",
+              "ja/support/models/tags/environment-variables",
+              "ja/support/models/tags/experiments",
+              "ja/support/models/tags/hyperparameter",
+              "ja/support/models/tags/inference",
+              "ja/support/models/tags/logs",
+              "ja/support/models/tags/metrics",
+              "ja/support/models/tags/notebooks",
+              "ja/support/models/tags/outage",
+              "ja/support/models/tags/privacy",
+              "ja/support/models/tags/projects",
+              "ja/support/models/tags/python",
+              "ja/support/models/tags/reports",
+              "ja/support/models/tags/resuming",
+              "ja/support/models/tags/run-crashes",
+              "ja/support/models/tags/runs",
+              "ja/support/models/tags/security",
+              "ja/support/models/tags/storage",
+              "ja/support/models/tags/sweeps",
+              "ja/support/models/tags/tables",
+              "ja/support/models/tags/team-management",
+              "ja/support/models/tags/tensorboard",
+              "ja/support/models/tags/user-management",
+              "ja/support/models/tags/workspaces",
+              "ja/support/models/tags/wysiwyg"
+            ]
+          },
+          {
+            "tab": "サポート: W&B Weave",
+            "hidden": true,
+            "pages": [
+              "ja/support/weave/index",
+              "ja/support/weave/tags/client-info",
+              "ja/support/weave/tags/code-capture",
+              "ja/support/weave/tags/data-capture",
+              "ja/support/weave/tags/evaluation",
+              "ja/support/weave/tags/performance",
+              "ja/support/weave/tags/system-info",
+              "ja/support/weave/tags/trace-data",
+              "ja/support/weave/tags/ui-rendering"
+            ]
+          },
+          {
+            "tab": "サポート: W&B Inference",
+            "hidden": true,
+            "pages": [
+              "ja/support/inference/index",
+              "ja/support/inference/tags/administrator",
+              "ja/support/inference/tags/authentication-access",
+              "ja/support/inference/tags/billing",
+              "ja/support/inference/tags/quotas-rate-limits",
+              "ja/support/inference/tags/server-errors"
             ]
           }
         ],
@@ -2517,7 +2591,8 @@
                 "pages": [
                   "ko/platform/hosting/monitoring-usage/audit-logging",
                   "ko/platform/hosting/monitoring-usage/slack-alerts",
-                  "ko/platform/hosting/monitoring-usage/org_dashboard"
+                  "ko/platform/hosting/monitoring-usage/org_dashboard",
+                  "ko/platform/hosting/monitoring-usage/mobile-app"
                 ]
               },
               {
@@ -2922,6 +2997,7 @@
                           "ko/models/ref/python/public-api/member",
                           "ko/models/ref/python/public-api/project",
                           "ko/models/ref/python/public-api/projects",
+                          "ko/models/ref/python/public-api/projectartifactcollections",
                           "ko/models/ref/python/public-api/registry",
                           "ko/models/ref/python/public-api/reports",
                           "ko/models/ref/python/public-api/run",
@@ -2994,6 +3070,7 @@
                       "ko/models/ref/cli/wandb-online",
                       "ko/models/ref/cli/wandb-projects",
                       "ko/models/ref/cli/wandb-pull",
+                      "ko/models/ref/cli/wandb-purge-cache",
                       "ko/models/ref/cli/wandb-restore",
                       {
                         "group": "wandb 서버",
@@ -3047,8 +3124,7 @@
                     ]
                   }
                 ]
-              },
-              "ko/models/support"
+              }
             ]
           },
           {
@@ -3370,7 +3446,6 @@
                 "pages": [
                   "ko/pricing",
                   "ko/weave/details/limits",
-                  "ko/weave/guides/troubleshooting",
                   "ko/weave/details/faqs"
                 ]
               },
@@ -3420,8 +3495,7 @@
                 "pages": [
                   "ko/inference/api-reference",
                   "ko/inference/api-reference/chat-completions",
-                  "ko/inference/api-reference/list-models",
-                  "ko/inference/api-reference/errors"
+                  "ko/inference/api-reference/list-models"
                 ]
               },
               "ko/inference/examples",
@@ -3481,6 +3555,13 @@
             ]
           },
           {
+            "tab": "지원팀",
+            "icon": "/icons/cropped-reports.svg",
+            "pages": [
+              "ko/support/index"
+            ]
+          },
+          {
             "tab": "W&B Launch",
             "icon": "/icons/cropped-launch.svg",
             "hidden": true,
@@ -3493,7 +3574,7 @@
                 "pages": [
                   "ko/platform/launch/set-up-launch",
                   {
-                    "group": "컴퓨트 리소스 구성",
+                    "group": "컴퓨팅 리소스 설정",
                     "pages": [
                       "ko/platform/launch/setup-launch-docker",
                       "ko/platform/launch/setup-launch-kubernetes",
@@ -3524,7 +3605,7 @@
                 ]
               },
               {
-                "group": "Launch 자주 묻는 질문",
+                "group": "Launch FAQ",
                 "pages": [
                   "ko/platform/launch/launch-faq",
                   "ko/platform/launch/launch-faq/best_practices_launch_effectively",
@@ -3553,6 +3634,73 @@
                   "ko/platform/launch/launch-library/launchagent"
                 ]
               }
+            ]
+          },
+          {
+            "tab": "지원팀: W&B Models",
+            "hidden": true,
+            "pages": [
+              "ko/support/models/index",
+              "ko/support/models/tags/academic",
+              "ko/support/models/tags/administrator",
+              "ko/support/models/tags/alerts",
+              "ko/support/models/tags/anonymous",
+              "ko/support/models/tags/artifacts",
+              "ko/support/models/tags/aws",
+              "ko/support/models/tags/billing",
+              "ko/support/models/tags/charts",
+              "ko/support/models/tags/connectivity",
+              "ko/support/models/tags/environment-variables",
+              "ko/support/models/tags/experiments",
+              "ko/support/models/tags/hyperparameter",
+              "ko/support/models/tags/inference",
+              "ko/support/models/tags/logs",
+              "ko/support/models/tags/metrics",
+              "ko/support/models/tags/notebooks",
+              "ko/support/models/tags/outage",
+              "ko/support/models/tags/privacy",
+              "ko/support/models/tags/projects",
+              "ko/support/models/tags/python",
+              "ko/support/models/tags/reports",
+              "ko/support/models/tags/resuming",
+              "ko/support/models/tags/run-crashes",
+              "ko/support/models/tags/runs",
+              "ko/support/models/tags/security",
+              "ko/support/models/tags/storage",
+              "ko/support/models/tags/sweeps",
+              "ko/support/models/tags/tables",
+              "ko/support/models/tags/team-management",
+              "ko/support/models/tags/tensorboard",
+              "ko/support/models/tags/user-management",
+              "ko/support/models/tags/workspaces",
+              "ko/support/models/tags/wysiwyg"
+            ]
+          },
+          {
+            "tab": "지원팀: W&B Weave",
+            "hidden": true,
+            "pages": [
+              "ko/support/weave/index",
+              "ko/support/weave/tags/client-info",
+              "ko/support/weave/tags/code-capture",
+              "ko/support/weave/tags/data-capture",
+              "ko/support/weave/tags/evaluation",
+              "ko/support/weave/tags/performance",
+              "ko/support/weave/tags/system-info",
+              "ko/support/weave/tags/trace-data",
+              "ko/support/weave/tags/ui-rendering"
+            ]
+          },
+          {
+            "tab": "지원팀: W&B Inference",
+            "hidden": true,
+            "pages": [
+              "ko/support/inference/index",
+              "ko/support/inference/tags/administrator",
+              "ko/support/inference/tags/authentication-access",
+              "ko/support/inference/tags/billing",
+              "ko/support/inference/tags/quotas-rate-limits",
+              "ko/support/inference/tags/server-errors"
             ]
           }
         ],
@@ -4418,7 +4566,7 @@
       "destination": "/support/models/articles/do-run-finished-alerts-work-in-notebooks"
     },
     {
-      "source": "/models/support/run_marked_crashed_wb\u2019s_training_fine_locally",
+      "source": "/models/support/run_marked_crashed_wb’s_training_fine_locally",
       "destination": "/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i"
     },
     {
@@ -4446,7 +4594,7 @@
       "destination": "/support/models/articles/why-is-the-same-metric-appearing-more-th"
     },
     {
-      "source": "/models/support/save_code\u200c",
+      "source": "/models/support/save_code‌",
       "destination": "/support/models/articles/how-do-i-save-code"
     },
     {

@@ -1,0 +1,16 @@
+---
+title: "環境変数は wandb.init() に渡したパラメーターを上書きしますか？"
+---
+
+{/*
+  DocEngine でビルドされています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+`wandb.init` に渡した引数は、環境変数より優先されます。環境変数が設定されていないときにシステムのデフォルト以外の既定ディレクトリを設定するには、`wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))` を使用します。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>

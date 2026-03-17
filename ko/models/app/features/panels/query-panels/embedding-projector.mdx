@@ -13,8 +13,8 @@ title: 객체 임베딩
   ## 임베딩 예제
 </div>
 
-- [실시간 인터랙티브 데모 리포트](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq) 
-- [Colab 예제](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
+* [실시간 인터랙티브 데모 리포트](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq)
+* [Colab 예제](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
 
 <div id="hello-world">
   ### Hello World
@@ -89,15 +89,15 @@ with wandb.init(project="embedding_tutorial") as run:
 
 임베딩은 여러 가지 형식으로 로깅할 수 있습니다:
 
-1. **단일 임베딩 컬럼:** 종종 데이터가 이미 "행렬"과 유사한 형식일 수 있습니다. 이 경우 단일 임베딩 컬럼을 만들 수 있으며, 셀 값의 데이터 타입은 `list[int]`, `list[float]`, 또는 `np.ndarray`일 수 있습니다.
+1. **단일 임베딩 컬럼:** 종종 데이터가 이미 &quot;행렬&quot;과 유사한 형식일 수 있습니다. 이 경우 단일 임베딩 컬럼을 만들 수 있으며, 셀 값의 데이터 타입은 `list[int]`, `list[float]`, 또는 `np.ndarray`일 수 있습니다.
 2. **여러 개의 숫자 컬럼:** 위의 두 예시에서처럼, 이 방식은 각 차원마다 하나의 컬럼을 만드는 접근 방식입니다. 현재 셀 값으로는 파이썬 `int` 또는 `float` 타입을 허용합니다.
 
 <Frame>
-    <img src="/images/weave/logging_options.png" alt="단일 임베딩 컬럼"  />
+  <img src="/images/weave/logging_options.png" alt="단일 임베딩 컬럼" />
 </Frame>
 
 <Frame>
-    <img src="/images/weave/logging_option_image_right.png" alt="여러 개의 숫자 컬럼"  />
+  <img src="/images/weave/logging_option_image_right.png" alt="여러 개의 숫자 컬럼" />
 </Frame>
 
 또한 모든 테이블과 마찬가지로, 테이블을 구성하는 방법에 대해 다양한 옵션이 있습니다:
@@ -115,13 +115,13 @@ with wandb.init(project="embedding_tutorial") as run:
 `2D Projection`을 선택한 후 톱니바퀴 아이콘을 클릭해서 렌더링 설정을 수정할 수 있습니다. 위에서 설명한 대로 사용할 열을 선택하는 것 외에, 관심 있는 알고리즘(및 해당 파라미터)을 선택할 수 있습니다. 아래에서는 각각 UMAP과 t-SNE에 대한 파라미터를 확인할 수 있습니다.
 
 <Frame>
-    <img src="/images/weave/plotting_options_left.png" alt="UMAP 파라미터"  />
+  <img src="/images/weave/plotting_options_left.png" alt="UMAP 파라미터" />
 </Frame>
 
 <Frame>
-    <img src="/images/weave/plotting_options_right.png" alt="t-SNE 파라미터"  />
+  <img src="/images/weave/plotting_options_right.png" alt="t-SNE 파라미터" />
 </Frame>
 
 <Note>
-참고: 현재 세 가지 알고리즘 모두에 대해 행 1000개와 차원 50개로 이루어진 무작위 서브셋으로 다운샘플링합니다.
+  참고: 현재 세 가지 알고리즘 모두에 대해 행 1000개와 차원 50개로 이루어진 무작위 서브셋으로 다운샘플링합니다.
 </Note>

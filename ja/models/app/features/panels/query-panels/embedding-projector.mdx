@@ -13,8 +13,8 @@ title: オブジェクトを埋め込みとして表現する
   ## 埋め込みの例
 </div>
 
-- [ライブ対話型デモ レポート](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq) 
-- [Colab の例](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
+* [ライブ対話型デモ レポート](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq)
+* [Colab の例](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
 
 <div id="hello-world">
   ### Hello World
@@ -87,39 +87,39 @@ with wandb.init(project="embedding_tutorial") as run:
 
 埋め込みは、さまざまな形式でログできます。
 
-1. **単一の埋め込み列:** 多くの場合、データはすでに「行列」に似た形式になっています。この場合、単一の埋め込み列を作成できます。この列では、セル値のデータ型として `list[int]`、`list[float]`、または `np.ndarray` を使用できます。
-2. **複数の数値列:** 上記 2 つの例では、このアプローチを用いて各次元ごとに列を作成しています。現在、セルには Python の `int` または `float` を受け付けています。
+1. **単一の埋め込み列:** 多くの場合、データはすでに「行列」のような形式になっています。この場合は、単一の埋め込み列を作成できます。この列では、セル値のデータ型として `list[int]`、`list[float]`、または `np.ndarray` を使用できます。
+2. **複数の数値列:** 上記 2 つの例では、このアプローチを使用して、各次元ごとに列を作成しています。現在、セルには Python の `int` または `float` を使用できます。
 
 <Frame>
-    <img src="/images/weave/logging_options.png" alt="単一の埋め込み列"  />
+  <img src="/images/weave/logging_options.png" alt="単一の埋め込み列" />
 </Frame>
 
 <Frame>
-    <img src="/images/weave/logging_option_image_right.png" alt="複数の数値列"  />
+  <img src="/images/weave/logging_option_image_right.png" alt="複数の数値列" />
 </Frame>
 
-さらに、他のすべてのテーブルと同様に、テーブルの構築方法についても多くのオプションがあります。
+さらに、他のすべての表と同様に、表の構築方法にも多くのオプションがあります。
 
-1. **DataFrame** から直接作成: `wandb.Table(dataframe=df)`
-2. **データのリスト** から直接作成: `wandb.Table(data=[...], columns=[...])`
-3. テーブルを **1 行ずつインクリメンタルに構築**（コード内でループがある場合に便利）: `table.add_data(...)` を使ってテーブルに行を追加します
-4. テーブルに **埋め込み列を追加**（埋め込み形式の予測値リストがある場合に便利）: `table.add_col("col_name", ...)`
-5. **計算列を追加**（テーブル全体に適用したい関数やモデルがある場合に便利）: `table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`
+1. `wandb.Table(dataframe=df)` を使用して **DataFrame** から直接作成
+2. `wandb.Table(data=[...], columns=[...])` を使用して **データのリスト** から直接作成
+3. 表を **1 行ずつ段階的に構築** (コード内でループがある場合に便利) 。`table.add_data(...)` を使用して表に行を追加します
+4. 表に **埋め込み列を追加** (埋め込み形式の予測値リストがある場合に便利) : `table.add_col("col_name", ...)`
+5. **計算列を追加** (表に対して適用したい関数やモデルがある場合に便利) : `table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`
 
 <div id="plotting-options">
   ## プロットオプション
 </div>
 
-`2D Projection` を選択した後、歯車アイコンをクリックしてレンダリング設定を編集できます。対象となる列（上記参照）を選択するだけでなく、使用したいアルゴリズムとそのパラメーターも選択できます。以下に、それぞれ UMAP と t-SNE のパラメーターを示しています。
+`2D Projection` を選択した後、歯車アイコンをクリックしてレンダリング設定を編集できます。対象となる列 (上記参照) を選択するだけでなく、使用したいアルゴリズムとそのパラメーターも選択できます。以下に、それぞれ UMAP と t-SNE のパラメーターを示しています。
 
 <Frame>
-    <img src="/images/weave/plotting_options_left.png" alt="UMAP パラメーター"  />
+  <img src="/images/weave/plotting_options_left.png" alt="UMAP パラメーター" />
 </Frame>
 
 <Frame>
-    <img src="/images/weave/plotting_options_right.png" alt="t-SNE パラメーター"  />
+  <img src="/images/weave/plotting_options_right.png" alt="t-SNE パラメーター" />
 </Frame>
 
 <Note>
-注意: 現在、3 つのアルゴリズムすべてに対して、1000 行・50 次元のランダムなサブセットにダウンサンプリングしています。
+  注意: 現在、3 つのアルゴリズムすべてに対して、1000 行・50 次元のランダムなサブセットにダウンサンプリングしています。
 </Note>

@@ -1,0 +1,41 @@
+---
+title: "API エラーコード 401 - 認証に失敗しました"
+---
+
+{/*
+  Built with DocEngine. Do not edit this MDX file directly.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームへ戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+&quot;Authentication failed&quot; というメッセージを伴う 401 エラーは、認証情報が正しくないか、W&amp;B プロジェクトの entity および/または名が正しくないことを意味します。
+
+<div id="why-this-happens">
+  ## この問題が発生する理由
+</div>
+
+W&amp;B Inference API では、リクエストを処理するために有効な認証情報が必要です。このエラーは、次の場合に発生します。
+
+* APIキー が無効、期限切れ、または失効している
+* W&amp;B プロジェクトの entity 名が正しくない
+* W&amp;B プロジェクト名が正しくない
+
+<div id="what-you-can-do">
+  ## できること
+</div>
+
+1. **APIキーを確認する**
+   * アカウントに対応する正しい APIキーを使用していることを確認してください
+   * 必要に応じて、[W&amp;B の設定](https://wandb.ai/settings) から APIキーを再生成してください
+
+2. **プロジェクトの詳細を確認する**
+   * W&amp;B プロジェクトの entity (組織名またはユーザー名) が正しいことを確認してください
+   * プロジェクト名が既存のプロジェクト名と一致していることを確認してください
+
+3. **サポートに連絡する**
+   * 認証情報を確認しても問題が解決しない場合は、[W&amp;B サポート](mailto:support@wandb.com) にお問い合わせください
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[認証とアクセス](/ja/support/inference/tags/authentication-access)</Badge>

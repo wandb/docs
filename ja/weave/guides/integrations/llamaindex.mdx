@@ -1,11 +1,11 @@
 ---
 title: LlamaIndex
-description: "Weave を使って LlamaIndex アプリケーションを自動的にトレースおよびデバッグし、すべての LLM 呼び出し、RAG パイプライン、エージェントのステップ、評価を取得して、データ接続型 AI ワークフローに対する包括的な可観測性を実現します。"
+description: "Weave を使って LlamaIndex アプリケーションをトレースおよびデバッグし、LLM Call、RAG パイプライン、エージェントのステップ、評価を自動的に取得します。"
 ---
 
-Weave は、[LlamaIndex Python library](https://github.com/run-llama/llama_index) を通じて行われるすべての呼び出しのトラッキングとログ取得を簡素化するように設計されています。
+Weave は、[LlamaIndex Python library](https://github.com/run-llama/llama_index) を通じて行われるすべての Call のトラッキングとログ取得を簡素化するように設計されています。
 
-LLM を扱う際、デバッグは避けられません。モデル呼び出しが失敗したり、出力の形式が誤っていたり、入れ子になったモデル呼び出しが混乱を招いたりする場合、問題の特定は困難になり得ます。[LlamaIndex](https://docs.llamaindex.ai/en/stable/) アプリケーションは多くの場合、複数のステップと LLM 呼び出しの実行から構成されるため、チェーンやエージェントの内部動作を理解することが重要です。
+LLM を扱う際、デバッグは避けられません。モデル Call が失敗したり、出力の形式が誤っていたり、入れ子になったモデル Call が混乱を招いたりする場合、問題の特定は困難になり得ます。[LlamaIndex](https://docs.llamaindex.ai/en/stable/) アプリケーションは多くの場合、複数のステップと LLM Call の実行から構成されるため、チェーンやエージェントの内部動作を理解することが重要です。
 
 Weave は、LlamaIndex アプリケーションのトレースを自動的に取得することで、このプロセスを簡素化します。これにより、アプリケーションのパフォーマンスを監視・分析できるようになり、LLM ワークフローのデバッグや最適化が容易になります。Weave は評価ワークフローにも役立ちます。
 
@@ -13,7 +13,7 @@ Weave は、LlamaIndex アプリケーションのトレースを自動的に取
   ## はじめに
 </div>
 
-まずは、スクリプトの冒頭で `weave.init()` を呼び出すだけです。`weave.init()` の引数には、トレースを整理するための プロジェクト名を指定します。
+まずは、スクリプトの冒頭で `weave.init()` を呼び出すだけです。`weave.init()` の引数には、トレースを整理するためのプロジェクト名を指定します。
 
 ```python lines {5}
 import weave
@@ -29,7 +29,7 @@ response = chat_engine.chat(
 print(response)
 ```
 
-上の例では、シンプルな LlamaIndex チャットエンジンを作成しており、その内部では OpenAI の API 呼び出しが行われています。以下のトレースを確認してください:
+上の例では、シンプルな LlamaIndex チャットエンジンを作成しており、その内部では OpenAI の API Call が行われています。以下のトレースを確認してください:
 
 [![simple\_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
 

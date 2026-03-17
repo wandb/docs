@@ -11,17 +11,17 @@ W&amp;B의 글로벌 함수는 `wandb.init()`이나 `wandb.login()`처럼 직접
   ## 사용 가능한 함수
 </div>
 
-| 함수 | 설명 |
-|----------|-------------|
-| [`init()`](/ko/models/ref/python/functions/init) | 새로운 run을 시작하고 W&amp;B에 추적 정보와 로그를 기록합니다. 보통 ML 트레이닝 파이프라인에서 가장 먼저 호출하는 함수입니다. |
-| [`login()`](/ko/models/ref/python/functions/login) | 플랫폼에서 현재 머신을 인증할 수 있도록 W&amp;B 로그인 자격 증명을 설정합니다. |
-| [`setup()`](/ko/models/ref/python/functions/setup) | 현재 프로세스와 하위 프로세스에서 W&amp;B를 사용할 수 있도록 준비합니다. 멀티프로세스 애플리케이션에 유용합니다. |
-| [`teardown()`](/ko/models/ref/python/functions/teardown) | W&amp;B 리소스를 정리하고 백엔드 프로세스를 종료합니다. |
-| [`sweep()`](/ko/models/ref/python/functions/sweep) | 최적의 모델 설정을 찾기 위해 하이퍼파라미터 스윕을 초기화합니다. |
-| [`agent()`](/ko/models/ref/python/functions/agent) | 하이퍼파라미터 최적화 실험을 실행할 스윕 에이전트를 생성합니다. |
-| [`controller()`](/ko/models/ref/python/functions/controller) | 스윕 에이전트와 그 실행을 관리하고 제어합니다. |
-| [`restore()`](/ko/models/ref/python/functions/restore) | 작업을 재개할 수 있도록 이전 run 또는 실험 상태를 복원합니다. |
-| [`finish()`](/ko/models/ref/python/functions/finish) | 현재 run을 종료하고 리소스를 정리합니다. |
+| 함수                                                        | 설명                                                                            |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| [`init()`](/ko/models/ref/python/functions/init)             | 새로운 run을 시작하고 W&amp;B에 추적 정보와 로그를 기록합니다. 보통 ML 트레이닝 파이프라인에서 가장 먼저 호출하는 함수입니다. |
+| [`login()`](/ko/models/ref/python/functions/login)           | 플랫폼에서 현재 머신을 인증할 수 있도록 W&amp;B 로그인 자격 증명을 설정합니다.                              |
+| [`setup()`](/ko/models/ref/python/functions/setup)           | 현재 프로세스와 하위 프로세스에서 W&amp;B를 사용할 수 있도록 준비합니다. 멀티프로세스 애플리케이션에 유용합니다.            |
+| [`teardown()`](/ko/models/ref/python/functions/teardown)     | W&amp;B 리소스를 정리하고 백엔드 프로세스를 종료합니다.                                            |
+| [`sweep()`](/ko/models/ref/python/functions/sweep)           | 최적의 모델 설정을 찾기 위해 하이퍼파라미터 스윕을 초기화합니다.                                          |
+| [`agent()`](/ko/models/ref/python/functions/agent)           | 하이퍼파라미터 최적화 실험을 실행할 스윕 에이전트를 생성합니다.                                           |
+| [`controller()`](/ko/models/ref/python/functions/controller) | 스윕 에이전트와 그 실행을 관리하고 제어합니다.                                                    |
+| [`restore()`](/ko/models/ref/python/functions/restore)       | 작업을 재개할 수 있도록 이전 run 또는 실험 상태를 복원합니다.                                         |
+| [`finish()`](/ko/models/ref/python/functions/finish)         | 현재 run을 종료하고 리소스를 정리합니다.                                                      |
 
 <div id="example">
   ## 예시

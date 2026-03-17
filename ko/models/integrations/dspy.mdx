@@ -1,20 +1,20 @@
 ---
-description: W&B로 DSPy 프로그램을 추적하고 최적화합니다.
+description: "프롬프트, 평가, 컴파일된 모듈 성능을 로깅하기 위해 W&B로 DSPy 프로그램을 추적하고 최적화합니다."
 title: DSPy
 ---
 
-W&amp;B를 DSPy와 함께 사용하여 언어 모델 프로그램을 추적하고 최적화하세요. W&amp;B는 [Weave DSPy 인테그레이션](/ko/weave/guides/integrations/dspy)을(를) 보완하여 다음을 제공합니다:
+W&amp;B를 DSPy와 함께 사용하여 언어 모델 프로그램을 추적하고 최적화하세요. W&amp;B는 [Weave DSPy 통합](/ko/weave/guides/integrations/dspy)을 보완하여 다음을 제공합니다:
 
 * 시간에 따른 평가 메트릭 추적
-* 프로그램 시그니처 변화를 위한 W&amp;B Tables
-* MIPROv2와 같은 DSPy 옵티마이저와의 인테그레이션
+* 프로그램 시그니처 진화를 위한 W&amp;B Tables
+* MIPROv2와 같은 DSPy 옵티마이저와의 통합
 
-DSPy 모듈을 최적화할 때 종합적인 관측 기능을 확보하려면 W&amp;B와 Weave 모두에서 인테그레이션을 활성화하세요.
+DSPy 모듈을 최적화할 때 포괄적인 관측 기능을 확보하려면 W&amp;B와 Weave 모두에서 통합을 활성화하세요.
 
 <Info>
   **Note**
 
-  `wandb==0.21.2` 및 `weave==0.52.5`부터는 Weave가 W&amp;B와 함께 사용할 때 자동으로 초기화됩니다:
+  `wandb==0.21.2` 및 `weave==0.52.5`부터는 W&amp;B와 함께 사용할 때 Weave가 자동으로 초기화됩니다:
 
   * `weave`를 임포트한 다음 `wandb.init()`을 호출하는 경우(스크립트 환경)
   * `wandb.init()`을 먼저 호출한 뒤 나중에 `weave`를 임포트하는 경우(노트북/Jupyter 환경)

@@ -1,21 +1,21 @@
 ---
-description: W&B を Dagster と連携させる方法のガイドです。
+description: "自動ログ記録とモニタリングにより、W&B を Dagster と統合して ML 実験を追跡し、データ パイプラインを管理します。"
 title: Dagster
 ---
 
-Dagster と W&amp;B (W&amp;B) を使用して MLOps パイプラインをオーケストレートし、ML アセットを管理できます。W&amp;B とのインテグレーションにより、Dagster 内で次のことが簡単に行えます。
+Dagster と W&amp;B (W&amp;B) を使用して MLOps パイプラインをオーケストレーションし、ML アセットを維持します。W&amp;B との統合により、Dagster 内で次のことを簡単に行えます。
 
-* [W&amp;B Artifact](/ja/models/artifacts) を作成・利用する。
-* [W&amp;B Registry](/ja/models/registry) で Registered Models を利用および作成する。
-* [W&amp;B Launch](/ja/platform/launch) を使って、専用コンピュート上でトレーニング ジョブを実行する。
-* ops とアセット内で [wandb](/ja/models/ref/python) クライアントを使用する。
+* [W&amp;B Artifact](/ja/models/artifacts) を作成して使用する。
+* [W&amp;B Registry](/ja/models/registry) で Registered Models を使用して作成する。
+* [W&amp;B Launch](/ja/platform/launch) を使用して、専用コンピュートでトレーニング ジョブを実行する。
+* ops とアセットで [wandb](/ja/models/ref/python) クライアントを使用する。
 
-W&amp;B Dagster インテグレーションは、W&amp;B 固有の Dagster リソースと IO マネージャーを提供します。
+W&amp;B Dagster 統合は、W&amp;B 固有の Dagster リソースと IO Manager を提供します。
 
 * `wandb_resource`: W&amp;B API への認証と通信に使用される Dagster リソース。
-* `wandb_artifacts_io_manager`: W&amp;B Artifacts を利用するために使用される Dagster IO マネージャー。
+* `wandb_artifacts_io_manager`: W&amp;B Artifacts を利用するために使用される Dagster IO Manager。
 
-このガイドでは、Dagster で W&amp;B を使用するための前提条件の満たし方、ops とアセットで W&amp;B Artifacts を作成および使用する方法、W&amp;B Launch の使い方と推奨されるベストプラクティスを説明します。
+次のガイドでは、Dagster で W&amp;B を使用するための前提条件を満たす方法、ops とアセットで W&amp;B Artifacts を作成して使用する方法、W&amp;B Launch の使用方法、および推奨されるベスト プラクティスを説明します。
 
 <div id="before-you-get-started">
   ## 始める前に
@@ -581,7 +581,7 @@ def get_path(context, path):
    context.log.info(path)
 ```
 
-3. Artifact オブジェクト全体を取得するには（内容をローカルにダウンロードした状態で）:
+3. Artifact オブジェクト全体を取得するには (内容をローカルにダウンロードした状態で) :
 
 ```python
 @asset(
@@ -868,7 +868,7 @@ def use_onnx_model(context, my_onnx_model, my_test_set):
 },
 ```
 
-この設定では、エイリアス `special_alias` が付いた Artifact パーティションのテーブル `default_table_name` からデータを取得します（`blue` はこの設定内での名称です）。
+この設定では、エイリアス `special_alias` が付いた Artifact パーティションのテーブル `default_table_name` からデータを取得します (`blue` はこの設定内での名称です) 。
 
 ### 高度な使い方
 
@@ -902,7 +902,7 @@ Dagster インテグレーションは次のことに役立ちます：
 
 このインテグレーションでは、`run_launch_agent` というインポート可能な `@op` を提供します。これは Launch Agent を起動し、手動で停止されるまで常駐プロセスとして実行します。
 
-エージェントは Launch キューをポーリングし、ジョブを順番に実行する（または外部サービスにディスパッチして実行させる）プロセスです。
+エージェントは Launch キューをポーリングし、ジョブを順番に実行する (または外部サービスにディスパッチして実行させる) プロセスです。
 
 [Launch ページ](/ja/platform/launch)を参照してください。
 
@@ -1019,7 +1019,7 @@ def run_launch_job_example():
    複雑なユースケースでは、Dagster ジョブ内で Artifact を直接構築できます。ソースのインテグレーション名とバージョン、使用された Python バージョン、pickle プロトコルバージョンなどのメタデータ拡充のために、Artifact オブジェクトをインテグレーションに渡すことを推奨します。
 
 3. ファイル、ディレクトリ、および外部参照をメタデータ経由で Artifacts に追加する。
-   インテグレーションの `wandb_artifact_configuration` オブジェクトを使用して、任意のファイル、ディレクトリ、または外部参照（Amazon S3、GCS、HTTP など）を追加します。詳細については、[Artifact configuration セクション](#configuration-1) の発展的な例を参照してください。
+   インテグレーションの `wandb_artifact_configuration` オブジェクトを使用して、任意のファイル、ディレクトリ、または外部参照 (Amazon S3、GCS、HTTP など) を追加します。詳細については、[Artifact configuration セクション](#configuration-1) の発展的な例を参照してください。
 
 4. Artifact が生成される場合は、@op ではなく @asset を使用する。
    Artifacts はアセットです。Dagster がそのアセットを管理する場合は、asset を使用することを推奨します。これにより、Dagit Asset Catalog における可観測性が向上します。
@@ -1065,6 +1065,6 @@ wandb.init(
    デフォルトでは、インテグレーションは Artifact 全体をダウンロードします。非常に大きな Artifacts を使用している場合は、必要なファイルやオブジェクトだけを取得するようにするとよいでしょう。これにより、処理速度とリソース効率が向上します。
 
 9. Python オブジェクトについては、ユースケースに合わせて pickling モジュールを選択・調整する。
-   デフォルトでは、W&amp;B のインテグレーションは標準の [pickle](https://docs.python.org/3/library/pickle.html) モジュールを使用します。しかし、いくつかのオブジェクトはこれと互換性がありません。たとえば、yield を含む関数は pickle しようとするとエラーになります。W&amp;B は、他の Pickle ベースのシリアライゼーションモジュール（[dill](https://github.com/uqfoundation/dill)、[cloudpickle](https://github.com/cloudpipe/cloudpickle)、[joblib](https://github.com/joblib/joblib)）もサポートしています。
+   デフォルトでは、W&amp;B のインテグレーションは標準の [pickle](https://docs.python.org/3/library/pickle.html) モジュールを使用します。しかし、いくつかのオブジェクトはこれと互換性がありません。たとえば、yield を含む関数は pickle しようとするとエラーになります。W&amp;B は、他の Pickle ベースのシリアライゼーションモジュール ([dill](https://github.com/uqfoundation/dill)、[cloudpickle](https://github.com/cloudpipe/cloudpickle)、[joblib](https://github.com/joblib/joblib)) もサポートしています。
 
 また、シリアライズ済みの文字列を返したり、直接 Artifact を作成したりすることで、[ONNX](https://onnx.ai/) や [PMML](https://en.wikipedia.org/wiki/Predictive_Model_Markup_Language) のような、より高度なシリアライゼーションを利用することもできます。どの方法が適切かはユースケースによって異なるため、このトピックに関する既存の文献を参照してください。

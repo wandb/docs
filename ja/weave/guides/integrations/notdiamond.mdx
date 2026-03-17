@@ -1,9 +1,9 @@
 ---
 title: "Not Diamond ¬◇"
-description: "Not Diamond を使用して、ニーズに最適なモデルへプロンプトをルーティングしつつ、精度を最大化しコストを削減します"
+description: "Not Diamond を使用して、ニーズに最適なモデルへプロンプトをルーティングしつつ、精度を最大化してコストを削減します"
 ---
 
-複雑な LLM ワークフローを構築する際、ユーザーは精度、コスト、または呼び出しレイテンシーに応じて異なるモデルにプロンプトを送る必要が生じる場合があります。[Not Diamond][nd] を使用すると、これらのワークフロー内のプロンプトをニーズに合った適切なモデルへルーティングでき、精度を最大化しつつモデルコストを削減できます。
+複雑な LLM ワークフローを構築する際には、精度、コスト、または呼び出しレイテンシーに応じて異なるモデルにプロンプトを送る必要が生じることがあります。[Not Diamond][nd] を使用すると、これらのワークフロー内でプロンプトをニーズに最適なモデルにルーティングできるため、モデルコストを抑えながら精度の最大化に役立ちます。
 
 <div id="getting-started">
   ## はじめに
@@ -47,12 +47,13 @@ print("Provider model: ", provider.model) # gpt-4o、claude-3-5-sonnet-20240620 
 ```
 
 <div id="custom-routing">
-  ## カスタムルーティング
+  ## カスタム ルーティング
 </div>
 
-また、[Evaluations][evals] 上で独自の [custom router] をトレーニングし、特定のユースケース向けに評価結果に応じて Not Diamond がプロンプトをルーティングできるようにすることもできます。
+[評価][evals] で独自の [カスタム ルーター] をトレーニングすることで、特定のユースケースに応じて Not Diamond が
+評価結果に基づいてプロンプトをルーティングできるようになります。
 
-まずはカスタムルーターをトレーニングします：
+まず、カスタム ルーターをトレーニングします:
 
 ```python lines
 from weave.flow.eval import EvaluationResults
@@ -76,7 +77,8 @@ preference_id = train_router(
 )
 ```
 
-この preference ID を任意の `model_select` リクエストで再利用すると、評価データに対してパフォーマンスを最大化しつつコストを最小化するようにプロンプトをルーティングできます。
+この preference ID を任意の `model_select` リクエストで再利用することで、プロンプトをルーティングし、
+評価データでのパフォーマンスを最大化し、コストを最小限に抑えることができます:
 
 ```python lines
 from notdiamond import NotDiamond
@@ -96,15 +98,16 @@ session_id, provider = client.chat.completions.model_select(
     preference_id=preference_id
 )
 
-print("LLM called: ", provider.provider)  # openai, anthropic など
-print("Provider model: ", provider.model) # gpt-4o, claude-3-5-sonnet-20240620 など
+print("LLM called: ", provider.provider)  # openai、anthropic など
+print("Provider model: ", provider.model) # gpt-4o、claude-3-5-sonnet-20240620 など
 ```
+
 
 <div id="additional-support">
   ## 追加サポート
 </div>
 
-さらなるサポートが必要な場合は、[docs] を参照するか、[support] までご連絡ください。
+さらにサポートが必要な場合は、[docs] を参照するか、[お問い合わせください][support]。
 
 [account]: https://app.notdiamond.ai
 

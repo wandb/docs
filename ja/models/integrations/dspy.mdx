@@ -1,5 +1,5 @@
 ---
-description: W&B を使用して DSPy プログラムをトラッキングおよび最適化します。
+description: "W&B を使用して DSPy プログラムをトラッキングおよび最適化し、プロンプト、評価、コンパイル済みモジュールのパフォーマンスをログします。"
 title: DSPy
 ---
 
@@ -16,8 +16,8 @@ DSPy モジュールを最適化する際に包括的なオブザーバビリテ
 
   `wandb==0.21.2` および `weave==0.52.5` 以降では、W&amp;B と併用した場合に Weave が自動的に初期化されます。
 
-  * `weave` をインポートしてから `wandb.init()` を呼び出す場合 (スクリプトの場合) 
-  * 先に `wandb.init()` を呼び出し、その後で `weave` をインポートする場合 (notebook/Jupyter の場合) 
+  * `weave` をインポートしてから `wandb.init()` を呼び出す場合 (スクリプトの場合)
+  * 先に `wandb.init()` を呼び出し、その後で `weave` をインポートする場合 (notebook/Jupyter の場合)
 
   明示的に `weave.init(...)` を呼び出す必要はありません。
 </Info>

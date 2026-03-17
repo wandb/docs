@@ -1,0 +1,20 @@
+---
+title: "ローカルで sweep がログする先のディレクトリを変更するにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポートホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+環境変数 `WANDB_DIR` を設定して、W&amp;B run データのログ保存ディレクトリを指定します。たとえば次のとおりです。
+
+```python
+os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>

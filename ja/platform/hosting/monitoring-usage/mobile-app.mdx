@@ -1,0 +1,62 @@
+---
+title: W&B Mobile App（iOS）
+description: iPhone や iPad からトレーニング run を追跡し、折れ線グラフを表示して、W&B Models プロジェクトを確認できます。
+tag: 新着
+---
+
+<Columns cols={4}>
+  <Frame>
+    ![W\&B モバイルアプリの runs リストビュー](/images/mobile-app/project-panels.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B モバイルアプリの run 詳細ビュー](/images/mobile-app/manage-alerts.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B モバイルアプリの Projects ビュー](/images/mobile-app/projects.png)
+  </Frame>
+
+  <Frame>
+    ![W\&B モバイルアプリの Workspace ビュー](/images/mobile-app/project-runs.png)
+  </Frame>
+</Columns>
+
+iOS 向け W&amp;B Mobile App を使えば、どこにいても W&amp;B Models プロジェクトの状況を確認できます。iPhone や iPad から、トレーニング run をリアルタイムで追跡し、折れ線グラフを表示して、プロジェクトの履歴を確認し、チームの進捗を追えます。
+
+<Info>
+  モバイルアプリは [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) アカウントでのみ利用できます。[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) または [Self-Managed](/ja/platform/hosting/hosting-options/self-managed) のデプロイでは利用できません。
+</Info>
+
+<div id="download-the-app">
+  ## アプリをダウンロード
+</div>
+
+<Card title="App Store からダウンロード" href="https://apps.apple.com/us/app/6755162576" icon="apple" />
+
+<div id="features">
+  ## 機能
+</div>
+
+* **トレーニング Runs を追跡**: Runs のステータス、メトリクス、折れ線グラフをリアルタイムで確認
+* **プロジェクト履歴を確認**: W&amp;B の各プロジェクトを横断して閲覧・検索できます。
+* **最新情報を見逃さない**: 通知を使えば、ノートPC を開かなくても実験の更新を受け取れます。
+
+<div id="set-up-notifications">
+  ## 通知を設定する
+</div>
+
+通知は、次の 2 つの方法で設定できます。
+
+**メトリクスしきい値アラート**
+
+1. run に移動します。
+2. グラフをタップして全画面表示にします。
+3. 右上のベルアイコンをタップします。
+4. 今後の Runs が指定したメトリクスしきい値を超えたときに通知されるよう設定します。
+
+**run 失敗アラート**
+
+1. プロジェクトに移動します。
+2. 右上の 3 点メニューをタップします。
+3. **Run failed alert** を選択すると、そのプロジェクトで今後発生する run の失敗に対する通知を受け取れます。

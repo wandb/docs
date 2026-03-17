@@ -1,11 +1,11 @@
 ---
-description: W&B Experiment를 생성합니다.
-title: Experiment 생성
+description: "Python SDK를 사용하여 run 초기화, 하이퍼파라미터, 메트릭 로깅을 추적하는 W&B 실험을 생성합니다."
+title: 실험 생성
 ---
 
-W&amp;B Python SDK를 사용하여 머신러닝 실험을 추적할 수 있습니다. 그런 다음 인터랙티브 대시보드에서 결과를 검토하거나, 데이터를 Python으로 내보내 [W&amp;B Public API](/ko/models/ref/python/public-api/)를 통해 프로그래밍 방식으로 액세스할 수 있습니다.
+W&amp;B Python SDK를 사용하여 머신러닝 실험을 추적할 수 있습니다. 그런 다음 대화형 대시보드에서 결과를 검토하거나, 데이터를 Python으로 내보내 [W&amp;B Public API](/ko/models/ref/python/public-api/)를 통해 프로그래밍 방식으로 액세스할 수 있습니다.
 
-이 가이드는 W&amp;B의 구성 요소를 사용하여 W&amp;B Experiment를 생성하는 방법을 설명합니다.
+이 가이드는 W&amp;B의 구성 요소를 사용하여 W&amp;B 실험을 생성하는 방법을 설명합니다.
 
 <div id="how-to-create-a-wb-experiment">
   ## W&amp;B Experiment 생성 방법
@@ -122,16 +122,16 @@ with wandb.init(
 ```
 
 <div id="next-steps-visualize-your-experiment">
-  ## 다음 단계: 실험 시각화하기
+  ## Next steps: 실험 시각화하기
 </div>
 
-W&amp;B 대시보드를 머신러닝 모델 결과를 정리하고 시각화하는 중앙 허브로 활용하세요. 몇 번의 클릭만으로 [평행좌표 플롯](/ko/models/app/features/panels/parallel-coordinates/), [파라미터 중요도 분석](/ko/models/app/features/panels/parameter-importance/), [추가 차트 유형](/ko/models/app/features/panels/)과 같은 풍부하고 대화형 차트를 구성할 수 있습니다.
+W&amp;B 대시보드를 머신러닝 모델의 결과를 정리하고 시각화하는 중심 공간으로 활용하세요. 몇 번의 클릭만으로 [평행좌표 플롯](/ko/models/app/features/panels/parallel-coordinates/), [파라미터 중요도 분석](/ko/models/app/features/panels/parameter-importance/), [추가 차트 유형](/ko/models/app/features/panels/)과 같은 풍부하고 대화형 차트를 구성할 수 있습니다.
 
 <Frame>
-  <img src="/images/sweeps/quickstart_dashboard_example.png" alt="퀵스타트 Sweeps 대시보드 예시" />
+  <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Quickstart Sweeps Dashboard example" />
 </Frame>
 
-실험과 개별 run을 시각화하는 방법에 대한 자세한 내용은 [실험 결과 시각화](/ko/models/track/workspaces/)를 참조하세요.
+실험과 특정 run을 보는 방법에 대한 자세한 내용은 [실험 결과 시각화](/ko/models/track/workspaces/)를 참조하세요.
 
 <div id="best-practices">
   ## 모범 사례

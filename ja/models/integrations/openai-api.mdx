@@ -1,5 +1,5 @@
 ---
-description: W&B を OpenAI API と併用する方法。
+description: "W&B を OpenAI API と使用して、チャット補完、ファインチューニングジョブ、トークン使用量メトリクスをログに記録し、監視します。"
 title: OpenAI API
 ---
 
@@ -7,16 +7,16 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb" />
 
-W&amp;B OpenAI API インテグレーションを使用すると、ファインチューニング済みモデルを含むすべての OpenAI モデルに対するリクエスト、レスポンス、トークン数、およびモデルのメタデータをログに記録できます。
+W&amp;B OpenAI API インテグレーションを使用すると、ファインチューニング済みモデルを含むすべての OpenAI モデルについて、リクエスト、レスポンス、トークン数、モデルのメタデータをログに記録できます。
 
 <Note>
-  [OpenAI fine-tuning integration](./openai-fine-tuning) では、W&amp;B を使用してファインチューニング 実験、モデル、データセットを追跡し、結果を同僚と共有する方法を確認できます。
+  [OpenAI fine-tuning integration](./openai-fine-tuning) を参照して、W&amp;B を使用してファインチューニングの実験、モデル、データセットを追跡し、結果を同僚と共有する方法を確認してください。
 </Note>
 
-API の入力と出力をログに記録することで、さまざまなプロンプトの性能をすばやく評価し、温度などの異なるモデル設定を比較し、トークン使用量などのその他の使用状況メトリクスを追跡できます。
+API の入力と出力をログに記録することで、さまざまなプロンプトのパフォーマンスをすばやく評価し、温度などの異なるモデル設定を比較し、トークン使用量などのその他の使用状況メトリクスを追跡できます。
 
 <Frame>
-  <img src="/images/integrations/open_ai_autolog.png" alt="OpenAI API 自動ロギング" />
+  <img src="/images/integrations/open_ai_autolog.png" alt="OpenAI API automatic logging" />
 </Frame>
 
 <div id="install-openai-python-api-library">

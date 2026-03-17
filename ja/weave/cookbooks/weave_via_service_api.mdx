@@ -179,7 +179,7 @@ else:
   ### 複雑な trace を開始する
 </div>
 
-次のコードは、複数の span を持つ、より複雑な trace を作成する方法を示します。例としては、RAG（Retrieval-Augmented Generation）でドキュメント検索を行い、その後に LLM を呼び出すケースが挙げられます。最初の部分では、全体の処理を表す親 trace（`payload_parent_start`）を初期化します。この場合の処理は、ユーザーのクエリ `Can you summarize the key points of this document?` を処理することです。
+次のコードは、複数の span を持つ、より複雑な trace を作成する方法を示します。例としては、RAG (Retrieval-Augmented Generation) でドキュメント検索を行い、その後に LLM を呼び出すケースが挙げられます。最初の部分では、全体の処理を表す親 trace (`payload_parent_start`) を初期化します。この場合の処理は、ユーザーのクエリ `Can you summarize the key points of this document?` を処理することです。
 
 `payload_parent_start` オブジェクトは、多段階ワークフローの最初のステップを表現しており、`url_start` エンドポイントを使用して Weave に処理内容をログします。
 

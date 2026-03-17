@@ -1,12 +1,12 @@
 ---
-description: W&B를 Ray Tune과 인테그레이션하는 방법.
+description: "하이퍼파라미터 튜닝 trial을 추적하고, 메트릭을 로깅하며, 실험 결과를 비교할 수 있도록 W&B를 Ray Tune과 인테그레이션합니다."
 title: Ray Tune
 ---
 
-W&B는 [Ray](https://github.com/ray-project/ray)와 통합하기 위해 두 가지 경량 인테그레이션을 제공합니다.
+W&amp;B는 [Ray](https://github.com/ray-project/ray)와 통합하기 위해 두 가지 경량 인테그레이션을 제공합니다.
 
-- `WandbLoggerCallback` 함수는 Tune에 리포트된 메트릭을 wandb API에 자동으로 로깅합니다.
-- 함수 API와 함께 사용할 수 있는 `setup_wandb()` 함수는 Tune의 트레이닝 정보를 사용해 wandb API를 자동으로 초기화합니다. 예를 들어 `run.log()`를 사용해 트레이닝 과정을 로깅하는 등, 평소와 같이 wandb API를 사용할 수 있습니다.
+* `WandbLoggerCallback` 함수는 Tune에 리포트된 메트릭을 wandb API에 자동으로 로깅합니다.
+* 함수 API와 함께 사용할 수 있는 `setup_wandb()` 함수는 Tune의 트레이닝 정보를 사용해 wandb API를 자동으로 초기화합니다. 예를 들어 `run.log()`를 사용해 트레이닝 과정을 로깅하는 등, 평소와 같이 wandb API를 사용할 수 있습니다.
 
 <div id="configure-the-integration">
   ## 인테그레이션 구성

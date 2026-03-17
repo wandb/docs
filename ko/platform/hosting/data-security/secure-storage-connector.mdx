@@ -1,5 +1,6 @@
 ---
 title: 사용자 소유 버킷(BYOB) 사용
+description: "사용자 소유 버킷(BYOB) 기능을 사용하여 W&B 아티팩트와 데이터를 사용자의 클라우드 저장소 버킷에 저장합니다."
 ---
 
 import ByobContextNote from "/snippets/ko/_includes/byob-context-note.mdx";
@@ -525,27 +526,27 @@ W&amp;B는 다음 스토리지 제공자에 연결할 수 있습니다:
 </div>
 
 <Note>
-  인스턴스 수준에서 CoreWeave AI Object Storage를 사용하는 경우, 아래 지침을 따르지 말고 대신 [W&amp;B support](mailto:support@wandb.com)에 문의하십시오. 셀프서비스 설정은 아직 지원되지 않습니다.
+  인스턴스 수준의 CoreWeave AI Object Storage에 대해서는 아래 지침을 따르지 말고 [W&amp;B support](mailto:support@wandb.com)에 문의하세요. 셀프서비스 설정은 아직 지원되지 않습니다.
 </Note>
 
-**Dedicated Cloud**의 경우: 버킷 정보를 W&amp;B 팀과 공유하면, 팀에서 Dedicated Cloud 인스턴스를 구성해 줍니다.
+**Dedicated Cloud**의 경우: 버킷 세부 정보를 W&amp;B 팀과 공유하면 Dedicated Cloud 인스턴스를 설정해 줍니다.
 
 **Self-Managed**의 경우, W&amp;B App을 사용하여 인스턴스 수준 BYOB를 설정할 수 있습니다:
 
 1. `admin` 역할을 가진 사용자로 W&amp;B에 로그인합니다.
 2. 상단의 사용자 아이콘을 클릭한 다음 **System Console**을 클릭합니다.
 3. **Settings** &gt; **System Connections**로 이동합니다.
-4. **Bucket Storage** 섹션에서, **Identity** 필드에 지정된 주체가 새 버킷에 대한 액세스 권한을 가지고 있는지 확인합니다.
+4. **Bucket Storage** 섹션에서 **Identity** 필드의 ID에 새 버킷에 대한 액세스 권한이 부여되어 있는지 확인합니다.
 5. **Provider**를 선택합니다.
 6. **Bucket Name**을 입력합니다.
-7. 선택적으로 새 버킷에서 사용할 **Path**를 입력합니다.
+7. 필요에 따라 새 버킷에서 사용할 **Path**를 입력합니다.
 8. **Save**를 클릭합니다.
 
 <div id="team-level-byob">
   ### 팀 수준 BYOB
 </div>
 
-W&amp;B App에서 팀을 생성할 때 팀 수준 BYOB를 설정할 수 있습니다. 다음 두 가지 옵션 중에서 선택할 수 있습니다:
+W&amp;B App에서 팀을 생성할 때 또는 [SCIM API](/ko/platform/hosting/iam/scim#create-team)를 사용하여(`storageBucket` 선택 항목이 포함된 POST Groups) 팀 수준 BYOB를 설정할 수 있습니다. 다음 두 가지 옵션 중에서 선택할 수 있습니다:
 
 * **기존 버킷 사용**: 먼저 버킷의 [스토리지 위치를 확인](#determine-the-storage-address)해야 합니다.
 * **새 버킷 생성** (멀티 테넌트 클라우드에서만 사용 가능): 팀을 생성할 때 W&amp;B가 클라우드 제공자에 버킷을 자동으로 생성할 수 있습니다. 이는 CoreWeave, AWS, Google Cloud에서 지원됩니다.

@@ -1,0 +1,18 @@
+---
+title: "wandb는 로그를 어떻게 스트리밍하고 디스크에 기록하나요?"
+---
+
+{/*
+  DocEngine로 빌드되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+W&amp;B는 장애 상황을 처리하고 `WANDB_MODE=offline` 설정을 지원하기 위해 이벤트를 메모리의 큐에 저장한 뒤 비동기적으로 디스크에 기록합니다. 따라서 로깅 후에도 동기화할 수 있습니다.
+
+터미널에서 로컬 run 디렉터리 경로를 확인하세요. 이 디렉터리에는 데이터 저장소 역할을 하는 `.wandb` 파일이 포함되어 있습니다. 이미지 로깅의 경우, W&amp;B는 이미지를 클라우드 저장소에 업로드하기 전에 `media/images` 하위 디렉터리에 저장합니다.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge>

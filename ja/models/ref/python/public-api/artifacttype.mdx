@@ -10,15 +10,15 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `ArtifactType`
 
-指定されたタイプに基づくクエリ条件を満たす Artifacts オブジェクト。 
+指定したタイプに基づくクエリを満たすアーティファクト オブジェクト。
 
-**Args:**
+**引数:**
 
-- `client`:  W&B に対するクエリに使用するクライアント インスタンス。 
- - `entity`:  プロジェクトの所有者であるエンティティ（ユーザーまたはチーム）。 
- - `project`:  Artifacts タイプをクエリする対象のプロジェクト名。 
- - `type_name`:  Artifacts タイプの名前。 
- - `attrs`:  ArtifactType を初期化するための任意の属性。省略された場合、オブジェクトは初期化時に W&B から属性を読み込みます。 
+* `client`:  W&amp;B のクエリに使用する `client` インスタンス。
+* `entity`:  プロジェクトを所有する entity (ユーザーまたはチーム) 。
+* `project`:  アーティファクト タイプをクエリする対象のプロジェクト名。
+* `type_name`:  アーティファクト タイプの名前。
+* `attrs`:  ArtifactType を初期化するための省略可能な属性です。省略した場合、オブジェクトは初期化時に W&amp;B から属性を読み込みます。 
 
 ### <kbd>property</kbd> ArtifactType.id
 
@@ -57,13 +57,19 @@ collection(name: 'str') → ArtifactCollection
 ### <kbd>method</kbd> `ArtifactType.collections`
 
 ```python
-collections(per_page: 'int' = 50) → ArtifactCollections
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → ArtifactCollections
 ```
 
-この Artifacts タイプに関連付けられているすべての Artifacts コレクションを取得します。
+このアーティファクト タイプに関連付けられているすべてのアーティファクト コレクションを取得します。
 
 **引数:**
 
-* `per_page` (int):  1 ページあたりに取得する Artifacts コレクションの数。既定値は 50。
+- `filters` (dict): クエリに適用するフィルターのマッピング（省略可能）。
+ - `order` (str): 結果の並び順を指定する文字列（省略可能）。`order` の先頭に `+` を付けると昇順（デフォルト）になり、`-` を付けると降順になります。デフォルトの並び順は、アーティファクト コレクション ID の降順です。
+ - `per_page` (int): 1 ページあたりに取得するアーティファクト コレクション数。デフォルトは 50 です。
 
-***
+---

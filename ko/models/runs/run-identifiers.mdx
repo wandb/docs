@@ -70,16 +70,16 @@ run의 고유 ID는 W&amp;B Python SDK를 사용해 코드에서 찾거나, W&am
 </Tip>
 
 <div id="create-a-custom-run-id">
-  ### 사용자 지정 run ID 생성
+  ### 사용자 지정 run ID 만들기
 </div>
 
-run을 초기화할 때 원하는 run ID를 문자열 형태로 `id` 매개변수에 전달하세요:
+run을 초기화할 때 원하는 run ID를 문자열로 `id` 파라미터에 전달하세요:
 
 ```python
 import wandb
 
 with wandb.init(entity="<project>", project="<project>", id="<run-id>") as run:
-    # 여기에 코드를 작성하세요
+    # Your code here
 ```
 
 <div id="run-name">

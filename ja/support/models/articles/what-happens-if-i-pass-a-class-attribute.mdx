@@ -1,0 +1,16 @@
+---
+title: "wandb.Run.log() にクラス属性を渡すとどうなりますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+`wandb.Run.log()` にクラス属性を渡さないでください。ネットワーク呼び出しが実行される前に、属性の値が変わる可能性があります。メトリクスをクラス属性として保存する場合は、`wandb.Run.log()` の呼び出し時点の属性値とログされるメトリクスが一致するよう、ディープコピーを使用してください。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

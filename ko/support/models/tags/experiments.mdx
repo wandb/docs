@@ -1,0 +1,155 @@
+---
+title: "Experiments"
+tag: "36"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  Template: /sites/wandb-docs/templates/support_tag.mdx.j2
+  */}
+
+<Card title="지원 홈으로 돌아가기" icon="arrow-left" href="/ko/support/index" horizontal />
+
+<Card title="run 이름을 run ID로 바로 설정할 수 있나요?" href="/ko/support/models/articles/can-i-just-set-the-run-name-to-the-run-i" arrow="true" horizontal>
+  예. run 이름을 run ID로 덮어쓰려면 다음을 사용하세요 ...
+</Card>
+
+<Card title="서로 다른 두 가지 시간 척도로 메트릭을 log할 수 있나요?" href="/ko/support/models/articles/can-i-log-metrics-on-two-different-time-" arrow="true" horizontal>
+  예를 들어, 배치마다 트레이닝 정확도를 log하고 v ...
+</Card>
+
+<Card title="wandb를 오프라인으로 실행할 수 있나요?" href="/ko/support/models/articles/can-i-run-wandb-offline" arrow="true" horizontal>
+  오프라인 머신에서 트레이닝이 수행되는 경우 다음을 사용 ...
+</Card>
+
+<Card title="W&B는 `multiprocessing` 라이브러리를 사용하나요?" href="/ko/support/models/articles/does-wb-use-the-multiprocessing-library" arrow="true" horizontal>
+  예, W&amp;B는 multiprocessing 라이브러리를 사용합니다. 오류 메시지 ...
+</Card>
+
+<Card title="logging이 트레이닝을 방해하나요?" href="/ko/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
+  &quot;logging 함수가 지연 실행되나요? 저는 ...에 의존하고 싶지 않습니다 ...
+</Card>
+
+<Card title="이 도구는 트레이닝 데이터를 추적하거나 저장하나요?" href="/ko/support/models/articles/does-your-tool-track-or-store-training-d" arrow="true" horizontal>
+  SHA 또는 고유 식별자를 wandb.Run.config.update(. ...에 전달하세요
+</Card>
+
+<Card title="내 Runs에 log된 데이터에 직접 프로그래밍 방식으로 액세스하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-access-the-data-logged-to-my-r" arrow="true" horizontal>
+  history 객체는 wandb.log로 log된 메트릭을 추적합니다. Ac ...
+</Card>
+
+<Card title="에포크 또는 step 전반에서 이미지나 미디어를 비교하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-can-i-compare-images-or-media-across" arrow="true" horizontal>
+  이미지 패널을 펼친 다음 step 슬라이더를 사용해 탐색하세요 ...
+</Card>
+
+<Card title="트레이닝 코드에서 run 이름을 어떻게 설정할 수 있나요?" href="/ko/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+  트레이닝 스크립트 시작 부분에서 wandb.init를 wit ...와 함께 호출하세요
+</Card>
+
+<Card title="`wandb` 파일의 로컬 위치를 어떻게 지정할 수 있나요?" href="/ko/support/models/articles/how-can-i-define-the-local-location-for-" arrow="true" horizontal>
+  * WANDB DIR 경로 또는 wandb.init(dir path ) : 위치를 제어합니다 ...
+</Card>
+
+<Card title="W&B UI에서 log한 chart와 미디어를 어떻게 정리할 수 있나요?" href="/ko/support/models/articles/how-can-i-organize-my-logged-charts-and-" arrow="true" horizontal>
+  / 문자는 W&amp;B UI에서 log된 패널을 구분합니다. 기본적으로 ...
+</Card>
+
+<Card title="내 run과 연결된 git 커밋을 어떻게 저장할 수 있나요?" href="/ko/support/models/articles/how-can-i-save-the-git-commit-associated" arrow="true" horizontal>
+  wandb.init가 호출되면 시스템이 자동으로 수집합니다 ...
+</Card>
+
+<Card title="Files 탭에 표시되지 않는 파일은 어떻게 볼 수 있나요?" href="/ko/support/models/articles/how-can-i-see-files-that-do-not-appear-i" arrow="true" horizontal>
+  Files 탭에는 최대 10,000개의 파일이 표시됩니다. 다운로드하려면 ...
+</Card>
+
+<Card title="multiprocessing과 함께 wandb를 사용하려면 어떻게 해야 하나요? 예: 분산 트레이닝" href="/ko/support/models/articles/how-can-i-use-wandb-with-multiprocessing" arrow="true" horizontal>
+  트레이닝 프로그램이 여러 프로세스를 사용하는 경우 구조를 ...
+</Card>
+
+<Card title="Tables에 Plotly 또는 Bokeh Charts를 추가하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into" arrow="true" horizontal>
+  Plotly 또는 Bokeh figure를 table에 직접 인테그레이션하는 것은 ...
+</Card>
+
+<Card title="스크립트에서 무작위 run 이름을 얻으려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-get-the-random-run-name-in-my-s" arrow="true" horizontal>
+  현재 run을 저장하려면 run 객체의 .save() 방법을 호출하세요.  ...
+</Card>
+
+<Card title="하나의 스크립트에서 여러 run을 실행하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-launch-multiple-runs-from-one-s" arrow="true" horizontal>
+  여러 run에 log하려면 새 run을 시작하기 전에 이전 run을 종료하세요 ...
+</Card>
+
+<Card title="값 목록을 어떻게 log하나요?" href="/ko/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
+  이 예제에서는 손실을 몇 가지 다른 방식으로 로깅하는 방법을 보여줍니다 ...
+</Card>
+
+<Card title="범례가 있는 plot에 여러 선을 어떻게 그리나요?" href="/ko/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w" arrow="true" horizontal>
+  wandb.plot.line series로 여러 선이 있는 맞춤형 chart를 생성합니다 ...
+</Card>
+
+<Card title="사람이 읽기 쉬운 run 이름에 프로그래밍 방식으로 어떻게 접근하나요?" href="/ko/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
+  wandb.Run의 .name 속성은 (/models/ref/python/exper ...
+</Card>
+
+<Card title="제 run에 이름을 지정하지 않았습니다. run 이름은 어디에서 오나요?" href="/ko/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
+  run 이름을 명시적으로 지정하지 않으면 W&amp;B가 임의의 이름을 할당합니다 ...
+</Card>
+
+<Card title="InitStartError: wandb 프로세스와 통신하는 중 오류" href="/ko/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
+  이 오류는 라이브러리에서 다음과 같은 문제를 감지했음을 나타냅니다 ...
+</Card>
+
+<Card title="메트릭을 오프라인으로 저장한 뒤 나중에 W&B와 동기화할 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  기본적으로 wandb.init는 메트릭을 동기화하는 프로세스를 시작합니다 ...
+</Card>
+
+<Card title="UI에서는 제 run 상태가 `crashed`로 표시되지만 제 머신에서는 여전히 실행 중입니다. 데이터를 복구하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
+  트레이닝 중에 머신과의 연결이 끊겼을 가능성이 높습니다. ...
+</Card>
+
+<Card title="wandb.init는 제 트레이닝 프로세스에 어떤 영향을 주나요?" href="/ko/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  트레이닝 스크립트에서 wandb.init()가 실행되면 API 호출이 생성을 수행합니다 ...
+</Card>
+
+<Card title="클래스 속성을 wandb.Run.log()에 전달하면 어떻게 되나요?" href="/ko/support/models/articles/what-happens-if-i-pass-a-class-attribute" arrow="true" horizontal>
+  클래스 속성을 wandb.Run.log()에 전달하지 마세요. 속성은 ...
+</Card>
+
+<Card title="W&B에 수백만 개의 step을 log하면 어떻게 되나요? 브라우저에서는 어떻게 렌더링되나요?" href="/ko/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
+  전송되는 포인트 수는 그래프 로딩 시간에 영향을 줍니다 ...
+</Card>
+
+<Card title="W&B를 제 프로젝트에 통합하고 싶지만 이미지나 미디어는 전혀 업로드하고 싶지 않다면 어떻게 하나요?" href="/ko/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
+  W&amp;B는 스칼라만 log하는 프로젝트도 지원하며, 이를 명시적으로 허용합니다 ...
+</Card>
+
+<Card title="일부 메트릭은 배치마다 log하고, 일부 메트릭은 에포크에서만 log하고 싶다면 어떻게 하나요?" href="/ko/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  각 배치에서 특정 메트릭을 log하고 plot을 표준화하려면, ...
+</Card>
+
+<Card title="wandb.init 모드의 차이점은 무엇인가요?" href="/ko/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
+  다음 모드를 사용할 수 있습니다: online(기본값): 클라이언트가 전송합니다 ...
+</Card>
+
+<Card title="제가 log한 것보다 데이터 포인트가 더 적게 보이는 이유는 무엇인가요?" href="/ko/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Step 이외의 X축에 대해 메트릭을 시각화할 때, ...
+</Card>
+
+<Card title="CSV 메트릭 내보내기에서 step이 누락되는 이유는 무엇인가요?" href="/ko/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
+  내보내기 limits로 인해 전체 run 이력을 가져오지 못할 수 있습니다 ...
+</Card>
+
+<Card title="특정 문자가 포함된 메트릭을 정렬하거나 Filter할 수 없는 이유는 무엇인가요?" href="/ko/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
+  W&amp;B의 메트릭 이름은 GraphQL 명명 규칙을 따라야 합니다 ...
+</Card>
+
+<Card title="그래프에 아무것도 표시되지 않는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
+  &quot;No visualization data logged yet&quot; 메시지가 표시되면, ...
+</Card>
+
+<Card title="같은 메트릭이 두 번 이상 나타나는 이유는 무엇인가요?" href="/ko/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
+  같은 키로 다양한 데이터 유형을 기록하는 경우, 이를 분리하 ...
+</Card>
+
+<Card title="wandb가 내 트레이닝 속도를 늦추나요?" href="/ko/support/models/articles/will-wandb-slow-down-my-training" arrow="true" horizontal>
+  정상적인 조건에서 wandb는 트레이닝 성능에 미치는 영향이 미미하 ...
+</Card>

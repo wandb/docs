@@ -29,7 +29,7 @@ __init__(
     per_page: 'int' = 50,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    api: 'public.Api | None' = None
+    service_api: 'ServiceApi | None' = None
 )
 ```
 
@@ -39,7 +39,7 @@ __init__(
 * `entity`:  (str) 프로젝트를 소유한 엔터티(사용자 이름 또는 팀).
 * `project`:  (str) run들을 가져올 프로젝트 이름.
 * `filters`:  (Optional[Dict[str, Any]]) run 쿼리에 적용할 필터 사전.
-* `order`:  (str) 정렬 기준은 `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`가 될 수 있습니다.  정렬 기준 앞에 `+`를 붙이면 오름차순(기본값)이고,  `-`를 붙이면 내림차순입니다.  기본 정렬 기준은 가장 오래된 것부터 최신까지의 `run.created_at`입니다.
+* `order`:  (str) 정렬 기준은 `created_at`, `heartbeat_at`, `config.*.value`, 또는 `summary_metrics.*`가 될 수 있습니다.  정렬 기준 앞에 `+`를 붙이면 오름차순(기본값)이고,  `-`를 붙이면 내림차순입니다.  기본 정렬 기준은 가장 오래된 것부터 최신까지의 `run.created&#95;at`입니다.
 * `per_page`:  (int) 요청당 가져올 run 개수(기본값은 50).
 * `include_sweeps`:  (bool) run에 스윕 정보를 포함할지 여부. 기본값은 True입니다.
 

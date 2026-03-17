@@ -1,0 +1,23 @@
+---
+title: "W&B では `multiprocessing` ライブラリを使用していますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームへ戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+はい、W&amp;B は `multiprocessing` ライブラリを使用しています。次のようなエラーメッセージは、問題が発生している可能性を示しています。
+
+```
+An attempt has been made to start a new process before the current process 
+has finished its bootstrapping phase.
+```
+
+これを解決するには、`if __name__ == "__main__":` を追加してエントリーポイントを保護します。この保護は、スクリプトから W&amp;B を直接実行する場合に必要です。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

@@ -1,5 +1,6 @@
 ---
-title: モデルをログに記録する
+title: モデルをログする
+description: "モデルのアーティファクトを W&B の run にログし、後で log_model と use_model の SDK メソッドを使って取得します。"
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
@@ -42,7 +43,7 @@ import wandb
 # W&B の run を初期化する
 with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 
-    # モデルをログに記録する
+    # モデルをログする
     run.log_model(path="<path-to-model>", name="<name>")
 ```
 
@@ -102,7 +103,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
       run.log_model(path=full_path, name="MNIST")
   ```
 
-  ユーザーが `log_model` を呼び出すと、`MNIST` という名前のモデル Artifacts が作成され、ファイル `model.h5` がそのモデル Artifacts に追加されます。ターミナルまたはノートブックには、モデルがログされた run に関する情報の確認場所が出力されます。
+  `log_model` を呼び出すと、`MNIST` という名前のモデル Artifacts が作成され、ファイル `model.h5` がそのモデル Artifacts に追加されます。ターミナルまたはノートブックには、モデルがログされた run に関する情報の確認場所が出力されます。
 
   ```python
   View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
@@ -110,6 +111,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
   Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
   ```
 </details>
+
 
 <div id="download-and-use-a-logged-model">
   ## ログ済みモデルをダウンロードして使用する

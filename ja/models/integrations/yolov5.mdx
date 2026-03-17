@@ -1,5 +1,6 @@
 ---
 title: YOLOv5
+description: "YOLOv5 に組み込まれた W&B インテグレーションを使用して、実験追跡、モデルのバージョニング、予測の可視化を行います。"
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
@@ -8,10 +9,10 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 [Ultralytics の YOLOv5](https://www.ultralytics.com/yolo) (「You Only Look Once」) モデルファミリーは、面倒な手間をかけることなく、畳み込みニューラルネットワークによるリアルタイムの物体検出を可能にします。
 
-[W&amp;B](https://wandb.com) は YOLOv5 に直接統合されており、実験メトリクスのトラッキング、モデルとデータセットのバージョニング、リッチなモデル予測の可視化などを提供します。**YOLO の実験を実行する前に `pip install` を 1 回実行するだけで済むほど簡単です。**
+[W&amp;B](https://wandb.com) は YOLOv5 に直接統合されており、実験メトリクスの追跡、モデルとデータセットのバージョニング、リッチなモデル予測の可視化などを提供します。**YOLO の実験を実行する前に `pip install` を 1 回実行するだけで済むほど簡単です。**
 
 <Note>
-  すべての W&amp;B ロギング機能は、[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) などのデータ並列マルチ GPU トレーニングと互換性があります。
+  すべての W&amp;B ログ機能は、[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) などのデータ並列マルチ GPU トレーニングと互換性があります。
 </Note>
 
 <div id="track-core-experiments">

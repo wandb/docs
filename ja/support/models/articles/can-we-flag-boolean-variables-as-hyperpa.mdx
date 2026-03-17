@@ -1,0 +1,16 @@
+---
+title: "真偽値の変数をハイパーパラメーターとして指定できますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+<Card title="サポート ホームに戻る" icon="arrow-left" href="/ja/support/index" horizontal />
+
+設定のコマンド セクションで `${args_no_boolean_flags}` マクロを使用して、ハイパーパラメーターをブール フラグとして渡します。このマクロは、ブール パラメーターをフラグとして自動的に含めます。`param` が `True` の場合、コマンドには `--param` が渡されます。`param` が `False` の場合、そのフラグは省略されます。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>

@@ -23,7 +23,7 @@ __init__(
     attrs: 'Mapping | None' = None,
     include_sweeps: 'bool' = True,
     lazy: 'bool' = True,
-    api: 'public.Api | None' = None
+    service_api: 'ServiceApi | None' = None
 )
 ```
 
@@ -40,7 +40,7 @@ __init__(
 
 * `tags` ([str]):  run に関連付けられたタグのリスト
 * `url` (str):  この run の URL
-* `id` (str):  run の一意な識別子（デフォルトは 8 文字）
+* `id` (str):  run の一意な識別子 (デフォルトは 8 文字) 
 * `name` (str):  run の名前
 * `state` (str):  次のいずれか: running, finished, crashed, killed, preempting, preempted
 * `config` (dict):  run に関連付けられたハイパーパラメーターの dict
@@ -62,6 +62,7 @@ Run オブジェクトを初期化します。
 Run は常に、wandb.Api のインスタンスである api から api.runs() を呼び出すことで初期化されます。
 
 ***
+
 
 ### <kbd>property</kbd> Run.config
 
