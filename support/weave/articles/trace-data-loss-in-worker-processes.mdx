@@ -6,8 +6,6 @@ Built with DocEngine. Do not edit this MDX file directly.
 Template: /sites/wandb-docs/templates/support_article.mdx.j2
 */}
 
-<Card title="Return to Support Home" icon="arrow-left" href="/support/index" horizontal />
-
 Weave uploads trace data in background threads to minimize impact on your application's performance. However, when using a multiprocessing or task queue system or a worker processes like Celery, trace data will be lost if the worker process exits before background threads finish uploading traces.
 
 To prevent data loss in worker processes, you must ensure that background uploads complete by calling `client.flush()` or `client.finish()` before the worker task completes.

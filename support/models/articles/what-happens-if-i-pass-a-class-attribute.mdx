@@ -6,8 +6,6 @@ Built with DocEngine. Do not edit this MDX file directly.
 Template: /sites/wandb-docs/templates/support_article.mdx.j2
 */}
 
-<Card title="Return to Support Home" icon="arrow-left" href="/support/index" horizontal />
-
 Avoid passing class attributes into `wandb.Run.log()`. Attributes may change before the network call executes. When storing metrics as class attributes, use a deep copy to ensure the logged metric matches the attribute's value at the time of the `wandb.Run.log()` call.
 
 ---
