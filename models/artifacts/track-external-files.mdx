@@ -12,7 +12,7 @@ You can interact with reference artifact similarly to non-reference artifacts. I
 <Note>
 If you log an artifact that does not track external files, W&B saves the artifact's files to W&B servers. This is the default behavior when you log artifacts with the W&B Python SDK.
 
-If you log an artifact that does tracks external files, W&B logs metadata about the the object, such as the object's ETag and size. If object versioning is enabled on the bucket, the version ID is also logged.
+If you log an artifact that tracks external files, W&B logs metadata about the object, such as the object's ETag and size. If object versioning is enabled on the bucket, the version ID is also logged.
 </Note>
 
 The following sections describe how to track external reference artifacts.
@@ -83,9 +83,9 @@ By default, W&B imposes a 10,000 object limit when adding an object prefix. You 
 
 ## Download an artifact from an external bucket
 
-W&B  retrieves the files from the underlying bucket when it downloads a reference artifact using the metadata recorded when the artifact is logged. If your bucket has object versioning enabled, W&B retrieves the object version that corresponds to the state of the file at the time an artifact was logged. As you evolve the contents of your bucket, you can always point to the exact version of your data a given model was trained on,  because the artifact serves as a snapshot of your bucket during the training run.
+W&B retrieves the files from the underlying bucket when it downloads a reference artifact using the metadata recorded when the artifact is logged. If your bucket has object versioning enabled, W&B retrieves the object version that corresponds to the state of the file at the time an artifact was logged. As you evolve the contents of your bucket, you can always point to the exact version of your data a given model was trained on, because the artifact serves as a snapshot of your bucket during the training run.
 
-The following code sample shows how to download a reference artifact. The the APIs for downloading artifacts are the same for both reference and non-reference artifacts:
+The following code sample shows how to download a reference artifact. The APIs for downloading artifacts are the same for both reference and non-reference artifacts:
 
 ```python
 import wandb
