@@ -144,7 +144,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
 ## How Scorers Work
 
-### Scorer Keyword Arguments
+### Scorer keyword arguments
 
 <Tabs>
   <Tab title="Python">
@@ -239,7 +239,7 @@ While this guide shows you how to create custom scorers, Weave comes with a vari
 
     Sometimes your `datasetRow` keys will not exactly match the scorer's naming scheme, but they are semantically similar. You can map the columns using the `Evaluation`'s `columnMapping` option.
 
-    The mapping is always from the scorer's perspective, i.e. `{scorer_key: dataset_column_name}`.
+    The mapping is always from the scorer's perspective, that is, `{scorer_key: dataset_column_name}`.
 
     Example:
 
@@ -404,7 +404,7 @@ Scorer functions always receive the original dataset examples, without any prepr
 
 For usage information and an example, see [Using `preprocess_model_input` to format dataset rows before evaluating](../core-types/evaluations#using-preprocess_model_input-to-format-dataset-rows-before-evaluating).
 
-## Score Analysis
+## Score analysis
 
 In this section, we'll show you how to analyze the scores for a single call, multiple calls, and all calls scored by a specific scorer.
 

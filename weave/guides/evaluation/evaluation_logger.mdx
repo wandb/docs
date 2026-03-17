@@ -181,7 +181,7 @@ console.log('Evaluation logging complete. View results in the Weave UI.');
 
 Use awaitable API when you need to ensure each operation completes before proceeding, such as when managing error handling or sequential dependencies. 
 
-In the the following example, instead of calling `logPrediction()` without `await`, it uses `logPredictionAsync()` with `await` to ensure each operation completes before proceeding to the next one:
+In the following example, instead of calling `logPrediction()` without `await`, it uses `logPredictionAsync()` with `await` to ensure each operation completes before proceeding to the next one:
 
 ```typescript lines
 // Use logPredictionAsync instead of logPrediction

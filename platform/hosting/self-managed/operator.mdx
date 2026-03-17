@@ -166,7 +166,7 @@ For deployment-specific considerations, see [Environment-specific considerations
 
 This method allows for customized deployments tailored to specific requirements, leveraging Terraform's infrastructure-as-code approach for consistency and repeatability. The official W&B Helm-based Terraform Module is located [here](https://registry.terraform.io/modules/wandb/wandb/helm/latest). 
 
-The following code can be used as a starting point and includes all necessary configuration options for a production grade deployment: 
+Use the following code as a starting point. It includes all necessary configuration options for a production grade deployment: 
 
 ```hcl
 module "wandb" {
@@ -407,7 +407,7 @@ The steps in this section are common for any deployment option.
 
    Ensure to define variables in your `tvfars` file before you deploy because the `namespace` variable is a string that prefixes all resources created by Terraform.
 
-   The combination of `subdomain` and `domain` will form the FQDN that W&B will be configured. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
+   The combination of `subdomain` and `domain` forms the FQDN for your W&B instance. In the example above, the W&B FQDN will be `wandb-aws.wandb.ml` and the DNS `zone_id` where the FQDN record will be created.
 
    Both `allowed_inbound_cidr` and `allowed_inbound_ipv6_cidr` also require setting. In the module, this is a mandatory input. The proceeding example permits access from any source to the W&B installation.
 
@@ -1049,7 +1049,7 @@ There are two ways to log in to the management console:
 
 <Tabs>
 <Tab title="Option 1 (Recommended)">
-1. Open the W&B application in the browser and login. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
+1. Open the W&B application in the browser and log in. Log in to the W&B application with `${HOST_URI}/`, for example `https://wandb.company-name.com/`
 2. Access the console. Click on the icon in the top right corner and then click **System console**. Only users with admin privileges can see the **System console** entry.
 
     <Frame>
@@ -1070,7 +1070,7 @@ W&B recommends you access the console using the following steps only if Option 1
     kubectl get secret wandb-password -o jsonpath='{.data.password}' | base64 -d
     ```
     Copy the password.
-3. Login to the console. Paste the copied password, then click **Login**.
+3. Log in to the console. Paste the copied password, then click **Login**.
 </Tab>
 </Tabs>
 
@@ -1641,7 +1641,7 @@ global:
       password: ""
 ```
 
-### Environment Variables
+### Environment variables
 ```yaml
 global:
   extraEnv:
@@ -1753,7 +1753,7 @@ app:
 
 The same concept applies to `console`, `weave`, `weave-trace` and `parquet`.
 
-## Configuration Reference for W&B Operator
+## Configuration reference for W&B Operator
 
 This section describes configuration options for W&B Kubernetes operator (`wandb-controller-manager`). The operator receives its configuration in the form of a YAML file. 
 

@@ -1,5 +1,6 @@
 ---
 title: Log models
+description: "Log model artifacts to a W&B run and retrieve them later using the log_model and use_model SDK methods."
 ---
 import { ColabLink } from '/snippets/_includes/colab-link.mdx';
 
@@ -96,7 +97,7 @@ with wandb.init(entity="charlie", project="mnist-experiments", config=config) as
     run.log_model(path=full_path, name="MNIST")
 ```
 
-When the user called `log_model`, a model artifact named `MNIST` was created and the file `model.h5` was added to the model artifact. Your terminal or notebook will print information of where to find information about the run the model was logged to.
+When you call `log_model`, a model artifact named `MNIST` is created and the file `model.h5` is added to the model artifact. Your terminal or notebook will print information of where to find information about the run the model was logged to.
 
 ```python
 View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
@@ -110,11 +111,11 @@ Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
 ## Download and use a logged model
 Use the [`use_model`](/models/ref/python/experiments/run#use_model) function to access and download models files previously logged to a W&B run. 
 
-Provide the name of the model artifact where the model files you are want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
+Provide the name of the model artifact where the model files you want to retrieve are stored. The name you provide must match the name of an existing logged model artifact.
 
-If you did not define `name` when originally logged the files with `log_model`, the default name assigned is the basename of the input path, prepended with the run ID.
+If you did not define `name` when you originally logged the files with `log_model`, the default name assigned is the basename of the input path, prepended with the run ID.
 
-Ensure to replace other the values enclosed in `<>` with your own:
+Ensure to replace the values enclosed in `<>` with your own:
  
 ```python
 import wandb
