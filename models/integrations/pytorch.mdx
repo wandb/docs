@@ -108,7 +108,7 @@ import wandb
 wandb.login()
 ```
 
-## Define the Experiment and Pipeline
+## Define the experiment and pipeline
 
 ### Track metadata and hyperparameters with `wandb.init`
 
@@ -211,7 +211,7 @@ def make(config):
     return model, train_loader, test_loader, criterion, optimizer
 ```
 
-### Define the Data Loading and Model
+### Define the data loading and model
 
 Now, we need to specify how the data is loaded and what the model looks like.
 
@@ -277,7 +277,7 @@ class ConvNet(nn.Module):
         return out
 ```
 
-### Define Training Logic
+### Define training logic
 
 Moving on in our `model_pipeline`, it's time to specify how we `train`.
 
@@ -357,7 +357,7 @@ def train_log(loss, example_ct, epoch):
         print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
 
-### Define Testing Logic
+### Define testing logic
 
 Once the model is done training, we want to test it:
 run it against some fresh data from production, perhaps,
@@ -459,11 +459,11 @@ That's all there is to running a hyperparameter sweep.
 </Frame>
 
 
-## Example Gallery
+## Example gallery
 
 Explore examples of projects tracked and visualized with W&B in our [Gallery →](https://app.wandb.ai/gallery).
 
-## Advanced Setup
+## Advanced setup
 1. [Environment variables](/platform/hosting/env-vars/): Set API keys in environment variables so you can run training on a managed cluster.
 2. [Offline mode](/models/support/run_wandb_offline/): Use `dryrun` mode to train offline and sync results later.
 3. [On-prem](/platform/hosting/hosting-options/self-managed): Install W&B in a private cloud or air-gapped servers in your own infrastructure. We have local installations for everyone from academics to enterprise teams.

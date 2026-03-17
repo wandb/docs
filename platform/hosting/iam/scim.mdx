@@ -15,7 +15,7 @@ W&B's SCIM API is compatible with major identity providers including Okta, enabl
 
 For practical Python examples demonstrating how to interact with the SCIM API, visit our [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) repository.
 
-### Supported Features
+### Supported features
 - **Filtering**: The API supports filtering for `/Users` and `/Groups` endpoints
 - **PATCH Operations**: Supports PATCH for partial resource updates
 - **ETag Support**: Conditional updates using ETags for conflict detection  
@@ -210,7 +210,7 @@ The definition of "active" differs by deployment type:
 </Tab>
 </Tabs>
 
-### Create User
+### Create user
 
 Creates a new user in your organization.
 
@@ -347,7 +347,7 @@ POST /scim/Users
 </Tab>
 </Tabs>
 
-### Delete User
+### Delete user
 
 <Warning>
 **Maintain admin access**
@@ -641,7 +641,7 @@ PATCH /scim/Users
 </Tab>
 </Tabs>
 
-### Reactivate User
+### Reactivate user
 
 Reactivates a previously deactivated user in your organization.
 
@@ -721,7 +721,7 @@ PATCH /scim/Users/abc
 </Tab>
 </Tabs>
 
-### Assign Organization Role
+### Assign organization role
 
 Assigns an organization-level role to a user.
 
@@ -806,7 +806,7 @@ PATCH /scim/Users/abc
 </Tab>
 </Tabs>
 
-### Assign Team Role
+### Assign team role
 
 Assigns a team-level role to a user.
 
@@ -1109,7 +1109,7 @@ When you create a SCIM group in your IAM, it creates and maps to a W&B Team, and
 
 When a W&B Team is created using SCIM, all organization-level service accounts are automatically added to the team, to maintain the service account's access to team resources.
 
-### Filtering Groups
+### Filtering groups
 
 The `/Groups` endpoint supports filtering to search for specific teams:
 
@@ -2027,7 +2027,7 @@ DELETE /scim/Roles/abc
 </Tab>
 </Tabs>
 
-## Advanced Features
+## Advanced features
 
 ### ETag Support
 
