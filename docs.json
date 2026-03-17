@@ -3697,6 +3697,10 @@
       "destination": "/models"
     },
     {
+      "source": "/support/index",
+      "destination": "/support"
+    },
+    {
       "source": "/getting-started/",
       "destination": "/get-started/"
     },
