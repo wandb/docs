@@ -1,0 +1,16 @@
+---
+title: "공용 머신에서 올바른 wandb 사용자 계정으로 로그인하려면 어떻게 해야 하나요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일은 직접 편집하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+공유 머신을 사용할 때는 인증을 위해 `WANDB_API_KEY` 환경 변수를 설정하여 run이 올바른 WandB 계정에 로그되도록 하세요. 이 변수가 환경에 설정되어 있으면 로그인 시 올바른 자격 증명이 사용됩니다. 또는 스크립트에서 환경 변수를 직접 설정할 수도 있습니다.
+
+`export WANDB_API_KEY=X` 명령을 실행하고, X를 API 키로 바꾸세요. API 키는 [wandb.ai/settings](https://wandb.ai/settings)에서 생성하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[로그](/ko/support/models/tags/logs)</Badge>

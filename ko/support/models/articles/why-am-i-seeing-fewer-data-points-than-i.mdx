@@ -1,0 +1,45 @@
+---
+title: "기록한 것보다 데이터 포인트가 적게 표시되는 이유는 무엇인가요?"
+---
+
+{/*
+  DocEngine로 빌드되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+`Step` 이외의 X축을 기준으로 메트릭을 시각화하면 데이터 포인트 수가 더 적게 표시될 수 있습니다. 메트릭이 동기화된 상태를 유지하려면 동일한 `Step`에서 로깅되어야 합니다. 샘플 간을 보간할 때는 동일한 `Step`에서 로깅된 메트릭만 샘플링됩니다.
+
+**지침**
+
+메트릭을 하나의 `log()` 호출로 묶으세요. 예를 들어, 다음과 같이 하는 대신:
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
+```
+
+사용:
+
+```python
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
+```
+
+step 파라미터를 수동으로 제어하려면 다음과 같이 코드에서 메트릭을 동기화하세요:
+
+```python
+with wandb.init() as run:
+    step = 100  # 예시 step 값
+    # 동일한 step에서 Precision과 Recall 로그
+    run.log({"Precision": precision, "Recall": recall}, step=step)
+```
+
+메트릭이 같은 `step`에 기록되고 함께 샘플링되도록 두 `log()` 호출 모두에서 `step` 값이 동일해야 합니다. 각 호출에서 `step` 값은 단조롭게 증가해야 합니다. 그렇지 않으면 `step` 값은 무시됩니다.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>

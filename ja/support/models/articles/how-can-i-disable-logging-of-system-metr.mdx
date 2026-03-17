@@ -1,0 +1,18 @@
+---
+title: "W&B へのシステムメトリクスのログ記録を無効にするには？"
+---
+
+{/*
+    DocEngine によって生成されています。この MDX ファイルを直接編集しないでください。
+    テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+    */}
+
+[システム メトリクス](/ja/models/ref/python/experiments/system-metrics) のログ記録を無効にするには、`_disable_stats` を `True` に設定します:
+
+```python
+wandb.init(settings=wandb.Settings(x_disable_stats=True))
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Metrics](/ja/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>

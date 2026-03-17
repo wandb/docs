@@ -1,0 +1,17 @@
+---
+title: "複数のアーキテクチャや run でアーティファクトを使用するには？"
+---
+
+{/*
+    DocEngine で生成されています。この MDX ファイルは直接編集しないでください。
+    テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+    */}
+
+モデルをバージョン管理するには、さまざまな method があります。Artifacts には、特定のニーズに合わせてモデルをバージョン管理するためのツールがあります。複数のモデルアーキテクチャを試すプロジェクトで一般的な方法は、アーキテクチャごとにアーティファクトを分けることです。次の step を検討してください。
+
+1. 異なるモデルアーキテクチャごとに新しいアーティファクトを作成します。アーティファクトの `metadata` 属性を使用して、run の `config` と同様に、アーキテクチャの詳細な説明を追加します。
+2. 各モデルについて、`log_artifact` を使用してチェックポイントを定期的にログします。W&amp;B はこれらのチェックポイントの履歴を作成し、最新のものに `latest` エイリアスを付けます。任意のモデルアーキテクチャの最新のチェックポイントは、`architecture-name:latest` を使用して参照します。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>

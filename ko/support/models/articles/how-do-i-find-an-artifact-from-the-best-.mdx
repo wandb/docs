@@ -1,0 +1,24 @@
+---
+title: "스윕에서 최적의 run에 해당하는 아티팩트는 어떻게 찾나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+스윕에서 가장 성능이 좋은 run의 아티팩트를 가져오려면 다음 코드를 사용하세요:
+
+```python
+api = wandb.Api()
+sweep = api.sweep("entity/project/sweep_id")
+runs = sorted(sweep.runs, key=lambda run: run.summary.get("val_acc", 0), reverse=True)
+best_run = runs[0]
+for artifact in best_run.logged_artifacts():
+    artifact_path = artifact.download()
+    print(artifact_path)
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge>

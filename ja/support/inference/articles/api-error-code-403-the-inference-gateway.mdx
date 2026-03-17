@@ -1,0 +1,30 @@
+---
+title: "API エラーコード 403 - お使いの組織では推論ゲートウェイが有効になっていません"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+&quot;お使いの組織では推論ゲートウェイが有効になっていません&quot; というメッセージが表示される 403 エラーは、組織で推論ゲートウェイが有効になっておらず、W&amp;B Inference を使用するにはこれを有効にする必要があることを意味します。
+
+<div id="why-this-happens">
+  ## この現象が発生する理由
+</div>
+
+W&amp;B Inference を利用するには、組織レベルで推論ゲートウェイを有効にする必要があります。組織でこの機能が有効になっていない場合、すべての API リクエストは 403 エラーで拒否されます。
+
+<div id="what-you-can-do">
+  ## できること
+</div>
+
+1. **W&amp;B 管理者に連絡する**
+   * 組織の W&amp;B 管理者に、推論ゲートウェイを有効にしてもらうよう依頼してください
+
+2. **W&amp;B サポートに問い合わせる**
+   * 管理者が誰かわからない場合や、ゲートウェイの有効化についてサポートが必要な場合は、[W&amp;B サポート](mailto:support@wandb.com) にお問い合わせください
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[認証とアクセス](/ja/support/inference/tags/authentication-access)</Badge><Badge stroke shape="pill" color="orange" size="md">[管理者](/ja/support/inference/tags/administrator)</Badge>

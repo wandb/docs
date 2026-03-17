@@ -1,0 +1,86 @@
+---
+title: "W&B Inference의 서버 오류(500, 503)는 어떻게 해결하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 편집하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+서버 오류는 W&amp;B Inference 서비스에 일시적인 문제가 있음을 나타냅니다.
+
+<div id="error-types">
+  ## 오류 유형
+</div>
+
+<div id="500-internal-server-error">
+  ### 500 - 내부 서버 오류
+</div>
+
+**메시지:** &quot;요청을 처리하는 동안 서버에 오류가 발생했습니다&quot;
+
+이 오류는 서버 측의 일시적인 내부 오류입니다.
+
+<div id="503-service-overloaded">
+  ### 503 - 서비스 과부하
+</div>
+
+**메시지:** &quot;엔진이 현재 과부하 상태입니다. 잠시 후 다시 시도해 주세요&quot;
+
+서비스에 트래픽이 몰려 있습니다.
+
+<div id="how-to-handle-server-errors">
+  ## 서버 오류를 처리하는 방법
+</div>
+
+1. **재시도하기 전에 잠시 기다리기**
+   * 500 오류: 30~60초 대기
+   * 503 오류: 60~120초 대기
+
+2. **지수 백오프 사용**
+   ```python
+   import time
+   import openai
+
+   def call_with_retry(client, messages, model, max_retries=5):
+       for attempt in range(max_retries):
+           try:
+               return client.chat.completions.create(
+                   model=model,
+                   messages=messages
+               )
+           except Exception as e:
+               if "500" in str(e) or "503" in str(e):
+                   if attempt < max_retries - 1:
+                       wait_time = min(60, (2 ** attempt))
+                       time.sleep(wait_time)
+                   else:
+                       raise
+               else:
+                   raise
+   ```
+
+3. **적절한 타임아웃 설정**
+   * HTTP 클라이언트의 타임아웃 값을 늘리기
+   * 더 안정적으로 처리할 수 있도록 비동기 작업 고려
+
+<div id="when-to-contact-support">
+  ## 지원팀에 문의해야 하는 경우
+</div>
+
+다음과 같은 경우 지원팀에 문의하세요:
+
+* 오류가 10분 이상 지속되는 경우
+* 특정 시간대에 실패가 반복되는 패턴이 보이는 경우
+* 오류 메시지에 추가 세부 정보가 포함된 경우
+
+다음 정보를 제공하세요:
+
+* 오류 메시지 및 코드
+* 오류가 발생한 시간
+* 코드 스니펫(API 키 제거)
+* W&amp;B entity 및 프로젝트 이름
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ko/support/models/tags/inference)</Badge>

@@ -1,0 +1,17 @@
+---
+title: "여러 아키텍처와 run에 걸쳐 아티팩트 사용하기?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+모델 버전을 관리하는 방법은 여러 가지가 있습니다. Artifacts는 특정 요구 사항에 맞는 모델 버전 관리 도구를 제공합니다. 여러 모델 아키텍처를 탐색하는 프로젝트에서 흔히 사용하는 방법은 아키텍처별로 아티팩트를 분리하는 것입니다. 다음 step을 따르세요:
+
+1. 서로 다른 각 모델 아키텍처마다 새 아티팩트를 생성합니다. 아티팩트의 `metadata` 속성을 사용해 아키텍처에 대한 자세한 설명을 제공하세요. 이는 run에 `config`를 사용하는 방식과 비슷합니다.
+2. 각 모델에 대해 `log_artifact`로 체크포인트를 주기적으로 기록합니다. W&amp;B는 이러한 체크포인트의 이력을 구성하고, 가장 최근 체크포인트에 `latest` alias를 붙입니다. `architecture-name:latest`를 사용해 각 모델 아키텍처의 최신 체크포인트를 참고하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge>

@@ -1,0 +1,16 @@
+---
+title: "共有マシンで正しい wandb ユーザーとしてログインするにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine でビルドされています。この MDX ファイルは直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+共有マシンを使用する場合は、認証用に `WANDB_API_KEY` 環境変数を設定し、run が正しい W&amp;B アカウントにログするようにしてください。この変数が環境で読み込まれている場合、ログイン時に正しい認証情報が提供されます。あるいは、スクリプト内で環境変数を直接設定することもできます。
+
+`export WANDB_API_KEY=X` コマンドを実行し、X をご自身の APIキー に置き換えてください。APIキー は [wandb.ai/settings](https://wandb.ai/settings) で作成してください。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[ログ](/ja/support/models/tags/logs)</Badge>

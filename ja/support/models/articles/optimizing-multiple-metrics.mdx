@@ -1,0 +1,37 @@
+---
+title: "複数のメトリクスの最適化"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+単一の run で複数のメトリクスを最適化するには、各メトリクスの加重和を使用します。
+
+```python
+with wandb.init() as run:
+  # 個々のメトリクスをログする
+  metric_a = run.summary.get("metric_a", 0.5)
+  metric_b = run.summary.get("metric_b", 0.7)
+  # ... 必要に応じて他のメトリクスをログする
+  metric_n = run.summary.get("metric_n", 0.9)
+
+  # メトリクスを重みで結合する
+  # 最適化の目標に応じて重みを調整する
+  # 例えば、metric_a と metric_n をより重視したい場合:  
+  metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
+  run.log({"metric_combined": metric_combined})
+```
+
+新しい複合メトリクスをログし、それを最適化の目標として設定します:
+
+```yaml
+metric:
+  name: metric_combined
+  goal: minimize
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>

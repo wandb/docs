@@ -1,0 +1,16 @@
+---
+title: "同じメトリクスが複数回表示されるのはなぜですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+同じキーでさまざまなデータ型をログすると、データベースではそれらが別々に保存されます。その結果、UI のドロップダウンに同じメトリクス名の項目が複数表示されます。分類されるデータ型は、`number`、`string`、`bool`、`other` (主に配列) 、および `Histogram` や `Image` などの `wandb` データ型です。この問題を防ぐには、1 つのキーにつき 1 つの型だけを送信してください。
+
+メトリクス名では大文字と小文字は区別されません。`"My-Metric"` と `"my-metric"` のように、大文字と小文字だけが異なる名前の使用は避けてください。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>

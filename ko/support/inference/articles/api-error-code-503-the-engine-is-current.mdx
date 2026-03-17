@@ -1,0 +1,32 @@
+---
+title: "API 오류 코드 503 - 엔진이 현재 과부하 상태입니다"
+---
+
+{/*
+  Built with DocEngine. Do not edit this MDX file directly.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+&quot;The engine is currently overloaded, please try again later&quot;라는 메시지와 함께 503 오류가 발생하면, 이는 W&amp;B Inference 서버에 현재 트래픽이 몰려 있어 지금은 요청을 처리할 수 없다는 의미입니다.
+
+<div id="why-this-happens">
+  ## 이런 현상이 발생하는 이유
+</div>
+
+수요가 많은 시간대에는 추론 엔진이 일시적으로 과부하 상태가 될 수 있습니다. 이는 일시적인 현상이며, 일반적으로 트래픽이 줄어들면 저절로 해결됩니다.
+
+<div id="what-you-can-do">
+  ## 할 수 있는 일
+</div>
+
+1. **잠시 후 다시 시도**
+   * 요청을 다시 시도하기 전에 몇 초 정도 기다리세요
+   * 혼잡을 더 악화시키지 않도록 지수 백오프를 사용하세요
+
+2. **요청 분산**
+   * 요청을 많이 보내는 경우, 시간 간격을 두고 보내는 것을 고려하세요
+   * 트래픽 급증을 완화하기 위해 요청 큐를 구현하세요
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[서버 오류](/ko/support/inference/tags/server-errors)</Badge>

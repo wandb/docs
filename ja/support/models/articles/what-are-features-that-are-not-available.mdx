@@ -1,0 +1,25 @@
+---
+title: "匿名ユーザーはどの機能を利用できませんか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+* **永続データはありません**: Runs は匿名アカウントで 7 日間保存されます。匿名の run データは、通常のアカウントに保存して引き継ぐことができます。
+
+<Frame>
+  <img src="/images/app_ui/anon_mode_no_data.png" alt="匿名モードのインターフェース" />
+</Frame>
+
+* **アーティファクトはログできません**: 匿名の run にアーティファクトをログしようとすると、コマンドラインに警告が表示されます。
+  ```bash
+  wandb: WARNING Artifacts logged anonymously cannot be claimed and expire after 7 days.
+  ```
+
+* **プロフィールや設定ページはありません**: これらは通常のアカウントでのみ有用なため、UI には一部のページが含まれません。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[匿名](/ja/support/models/tags/anonymous)</Badge>

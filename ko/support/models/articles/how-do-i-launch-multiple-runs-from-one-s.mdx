@@ -1,0 +1,69 @@
+---
+title: "하나의 스크립트에서 여러 run을 시작하려면 어떻게 해야 하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+단일 스크립트에서 여러 run을 기록하려면 새 run을 시작하기 전에 이전 run을 종료하세요.
+
+권장되는 방법은 `wandb.init()`를 컨텍스트 매니저로 사용하는 것입니다.
+이렇게 하면 스크립트에서 예외가 발생할 경우 run이 종료되고 실패로 표시됩니다:
+
+```python
+import wandb
+
+for x in range(10):
+    with wandb.init() as run:
+        for y in range(100):
+            run.log({"metric": x + y})
+```
+
+`run.finish()`를 직접 호출할 수도 있습니다:
+
+```python
+import wandb
+
+for x in range(10):
+    run = wandb.init()
+
+    try:
+        for y in range(100):
+            run.log({"metric": x + y})
+
+    except Exception:
+        run.finish(exit_code=1)
+        raise
+
+    finally:
+        run.finish()
+```
+
+<div id="multiple-active-runs">
+  ## 여러 활성 run
+</div>
+
+wandb 0.19.10부터는 `reinit` 설정을 `"create_new"`로 지정해
+여러 run을 동시에 활성 상태로 만들 수 있습니다.
+
+```python
+import wandb
+
+with wandb.init(reinit="create_new") as tracking_run:
+    for x in range(10):
+        with wandb.init(reinit="create_new") as run:
+            for y in range(100):
+                run.log({"x_plus_y": x + y})
+
+            tracking_run.log({"x": x})
+```
+
+`reinit="create_new"`에 대한 자세한 내용과 W&amp;B
+통합 관련 유의사항을 포함한 정보는 [프로세스당 여러 run](/ko/models/runs/initialize-run)을
+참조하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

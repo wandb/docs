@@ -1,0 +1,18 @@
+---
+title: "시스템 메트릭 기록 빈도는 어떻게 변경하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+[시스템 메트릭](/ko/models/ref/python/experiments/system-metrics)을 기록하는 빈도를 설정하려면 `_stats_sampling_interval`을 초 단위의 실수값으로 설정하세요. 기본값: `10.0`.
+
+```python
+wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>

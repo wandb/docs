@@ -1,0 +1,14 @@
+---
+title: "wandb가 트레이닝 속도를 늦추나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+W&amp;B는 정상적인 사용 환경에서는 트레이닝 성능에 미치는 영향이 매우 적습니다. 정상적인 사용에는 초당 1회 미만으로 로깅하고, step당 데이터를 몇 메가바이트 수준으로 제한하는 것이 포함됩니다. W&amp;B는 비차단 함수 호출을 사용하는 별도 프로세스에서 실행되므로, 짧은 네트워크 중단이나 간헐적인 디스크 읽기/쓰기 문제가 발생해도 성능이 저하되지 않습니다. 대용량 데이터를 과도하게 로깅하면 디스크 I/O 문제가 발생할 수 있습니다. 추가 문의 사항이 있으면 지원팀에 문의하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

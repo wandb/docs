@@ -1,0 +1,45 @@
+---
+title: "W&B の情報メッセージを抑制するにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+ノートブックで次のようなログメッセージを抑制するには:
+
+```
+INFO SenderThread:11484 [sender.py:finish():979]
+```
+
+ログレベルを `logging.ERROR` に設定すると、エラーのみが表示され、info レベルのログ出力は抑制されます。
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.ERROR)
+```
+
+ログ出力を大幅に減らすには、`WANDB_QUIET` 環境変数を `True` に設定してください。ログ出力を完全に無効にするには、`WANDB_SILENT` 環境変数を `True` に設定してください。ノートブックでは、`wandb.login` を実行する前に `WANDB_QUIET` または `WANDB_SILENT` を設定してください。
+
+<Tabs>
+  <Tab title="ノートブック">
+    ```python
+    %env WANDB_SILENT=True
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    import os
+
+    os.environ["WANDB_SILENT"] = "True"
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[ノートブック](/ja/support/models/tags/notebooks)</Badge><Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>

@@ -1,0 +1,20 @@
+---
+title: "내 run에 로그된 데이터에 직접 프로그래밍 방식으로 액세스하려면 어떻게 해야 하나요?"
+---
+
+{/*
+  DocEngine으로 빌드되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+이력 객체는 `wandb.log`로 기록한 메트릭을 추적합니다. API를 사용해 이력 객체에 접근합니다:
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+print(run.history())
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

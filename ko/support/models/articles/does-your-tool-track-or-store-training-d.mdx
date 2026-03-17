@@ -1,0 +1,14 @@
+---
+title: "도구에서 트레이닝 데이터를 추적하거나 저장하나요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일은 직접 편집하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+데이터셋을 트레이닝 run에 연결하려면 SHA 또는 고유 식별자를 `wandb.Run.config.update(...)`에 전달하세요. `wandb.Run.save()`를 로컬 파일 이름과 함께 호출하지 않는 한 W&amp;B는 데이터를 저장하지 않습니다.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

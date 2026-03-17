@@ -88,6 +88,26 @@ artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 
 ***
 
+### <kbd>method</kbd> `Project.collections`
+
+```python
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.ProjectArtifactCollections
+```
+
+このプロジェクトに関連するすべてのアーティファクト コレクションを返します。
+
+**引数:**
+
+* `filters`:  クエリに適用するフィルターのマッピング (省略可) 。
+* `order`:  結果の並び順を指定する文字列 (省略可) 。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
+* `per_page`:  1 ページあたりに取得するアーティファクト コレクションの数。デフォルトは 50 です。
+
+---
+
 ### <kbd>method</kbd> `Project.sweeps`
 
 ```python

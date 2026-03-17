@@ -1,0 +1,21 @@
+---
+title: "W&B でこれらの Version ID と ETag を取得するにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine によって生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+W&amp;B でアーティファクト参照がログされ、バケットでバージョニングが有効になっている場合、バージョン ID が Amazon S3 UI に表示されます。W&amp;B でこれらのバージョン ID と ETag を取得するには、アーティファクトを取得して、対応するマニフェスト エントリにアクセスします。たとえば、次のとおりです。
+
+```python
+artifact = run.use_artifact("my_table:latest")
+for entry in artifact.manifest.entries.values():
+    versionID = entry.extra.get("versionID")
+    etag = entry.extra.get("etag")
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>

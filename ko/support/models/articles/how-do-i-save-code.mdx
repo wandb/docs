@@ -1,0 +1,20 @@
+---
+title: "코드를 저장하려면 어떻게 해야 하나요?\u200c"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 편집하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+run을 시작하는 메인 스크립트나 노트북을 저장하려면 `wandb.init`에서 `save_code=True`를 사용하세요. run의 모든 코드를 저장하려면 Artifacts로 코드를 버전 관리하세요. 다음 예시는 이 과정을 보여줍니다:
+
+```python
+code_artifact = wandb.Artifact(type="code")
+code_artifact.add_file("./train.py")
+wandb.log_artifact(code_artifact)
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge>

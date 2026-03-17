@@ -1,0 +1,18 @@
+---
+title: "`wandb` ファイルのローカルの保存場所を指定するにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+* `WANDB_DIR=<path>` or `wandb.init(dir=<path>)`: トレーニングスクリプト用に作成される `wandb` フォルダーの場所を制御します。デフォルトは `./wandb` です。このフォルダーには run のデータとログが保存されます
+* `WANDB_ARTIFACT_DIR=<path>` or `wandb.Artifact().download(root="<path>")`: アーティファクトのダウンロード先の場所を制御します。デフォルトは `./artifacts` です
+* `WANDB_CACHE_DIR=<path>`: `wandb.Artifact` を呼び出したときに、アーティファクトが作成および保存される場所です。デフォルトは `~/.cache/wandb` です
+* `WANDB_CONFIG_DIR=<path>`: 設定ファイルが保存される場所です。デフォルトは `~/.config/wandb` です
+* `WANDB_DATA_DIR=<PATH>`: アーティファクトのアップロード時にステージングに使用される場所を制御します。デフォルトは `~/.cache/wandb-data/` です。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

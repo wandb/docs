@@ -1,0 +1,16 @@
+---
+title: "AWS Batch, ECS 등의 클라우드 인프라에서 W&B Sweeps를 사용할 수 있나요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+모든 W&amp;B Sweep 에이전트가 `sweep_id`에 액세스할 수 있도록 하려면, 해당 에이전트가 `sweep_id`를 읽어 실행할 수 있는 방법을 구현하세요.
+
+예를 들어, Amazon EC2 인스턴스를 시작한 다음 해당 인스턴스에서 `wandb agent`를 실행하세요. SQS 큐를 사용해 `sweep_id`를 여러 EC2 인스턴스에 전달할 수 있습니다. 그러면 각 인스턴스가 큐에서 `sweep_id`를 가져와 프로세스를 시작할 수 있습니다.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[AWS](/ko/support/models/tags/aws)</Badge>

@@ -1,0 +1,18 @@
+---
+title: "システムメトリクスをログする頻度を変更するにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+[システム メトリクス](/ja/models/ref/python/experiments/system-metrics) をログする頻度を設定するには、`_stats_sampling_interval` を秒単位の浮動小数点数に設定します。デフォルト: `10.0`。
+
+```python
+wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>

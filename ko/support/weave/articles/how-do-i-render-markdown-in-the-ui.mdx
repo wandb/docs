@@ -1,0 +1,14 @@
+---
+title: "UI에서 Markdown을 어떻게 렌더링하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 편집하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+저장하기 전에 문자열을 `weave.Markdown(...)`으로 감싸고, 저장할 때는 `weave.publish(...)`를 사용하세요. Weave는 렌더링 방식을 확인할 때 객체의 타입을 사용하며, `weave.Markdown`은 미리 정의된 UI 렌더러에 매핑됩니다. 값은 UI에서 서식이 적용된 Markdown 객체로 표시됩니다. 전체 코드 샘플은 [호출 뷰](/ko/weave/guides/tracking/tracing#viewing-calls)를 참조하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[UI 렌더링](/ko/support/weave/tags/ui-rendering)</Badge>

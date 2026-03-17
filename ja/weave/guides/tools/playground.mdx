@@ -156,15 +156,15 @@ Playground では、試行回数を設定することで、同じ入力に対し
 パネル内のメッセージに対して、**Copy**、**Delete**、**Edit**、**Retry** の操作を行うことができます。
 
 <div id="message-composer-input-field">
-  ### メッセージコンポーザー（入力フィールド）
+  ### メッセージコンポーザー (入力フィールド)
 </div>
 
-**Message composer** は、新しいメッセージを モデル に送信するための入力欄です。
+新しいメッセージを モデル に送信するには、**Message composer** を使用します。
 
 メッセージのロールを選択し、実行用のメッセージを送信できます。ほとんどの対話は **User** メッセージとして作成されます。テストしたいインストラクションを変更する場合は、**System** や **Assistant** メッセージを追加できます。
 
 <Frame>
-![Weave Playground では、上部にプロンプト定義エリア、中央にメッセージ履歴、下部に新しいメッセージを送信するためのメッセージコンポーザーが表示されている。](/weave/guides/tools/imgs/playground_chat_input.png)
+  ![Weave Playground では、上部にプロンプト定義エリア、中央にメッセージ履歴、下部に新しいメッセージを送信するためのメッセージコンポーザーが表示されている。](/weave/guides/tools/imgs/playground_chat_input.png)
 </Frame>
 
 <div id="view-message-history">
@@ -325,7 +325,7 @@ flowchart LR
 ```
 
 <div id="saved-models">
-  ## 保存済みのモデル
+  ## 保存済みモデル
 </div>
 
 <div id="save-a-model">
@@ -354,10 +354,10 @@ flowchart LR
   ### 保存済みモデルを更新する
 </div>
 
-既存の [保存済みモデル](#save-a-model) を編集してパラメーターを微調整したり、その設定を更新したりできます。これにより、保存済みモデルをユースケースに合わせて進化させ続けることができます。
+既存の [保存済みモデル](#save-a-model) を編集してパラメーターを微調整したり、設定を更新したりできます。これにより、保存済みモデルをユースケースに合わせて進化させ続けることができます。
 
-1. プロンプトヘッダーの **Select a model** ドロップダウンから **Saved Models** を選択します。
+1. プロンプトヘッダーの **Select a model** ドロップダウンで **Saved Models** を選択します。
 2. 保存済みモデルの一覧から、更新したい保存済みモデルを選択します。
 3. プロンプトヘッダーの **Chat settings (<Icon icon="sliders" iconType="regular" />)** ボタンをクリックして **Chat settings** パネルを開きます。
-4. **Chat settings** パネルで、必要に応じてパラメーターを調整します。また、Weave コールトラッキングのオン/オフを切り替えたり、[関数を追加](#add-a-function)したりできます。
-5. **Update model** をクリックします。モデルが更新され、**Select a model** ドロップダウン内の **Saved Models** からアクセスできるようになります。保存済みモデルのバージョンは自動的に繰り上げられます。
+4. **Chat settings** パネルで、必要に応じてパラメーターを調整します。また、Weave Call トラッキングのオン/オフを切り替えたり、[関数を追加](#add-a-function)したりできます。
+5. **Update model** をクリックします。これによりモデルが更新され、**Select a model** ドロップダウンの **Saved Models** からアクセスできるようになります。保存済みモデルのバージョンは自動的に繰り上がります。

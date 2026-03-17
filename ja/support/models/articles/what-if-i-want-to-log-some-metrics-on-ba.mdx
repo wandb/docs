@@ -1,0 +1,22 @@
+---
+title: "一部のメトリクスはバッチごとに、別のメトリクスはエポックごとにのみログしたい場合はどうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+各バッチで特定のメトリクスをログし、プロットを統一するには、目的の x 軸の値もメトリクスと一緒にログします。カスタム プロットでは、[編集] をクリックしてカスタム x 軸を選択します。
+
+```python
+import wandb
+
+with wandb.init() as run:
+    run.log({"batch": batch_idx, "loss": 0.3})
+    run.log({"epoch": epoch, "val_acc": 0.94})
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>

@@ -1,0 +1,16 @@
+---
+title: "W&B に数百万もの step をログすると何が起こりますか？ ブラウザーではどのように表示されますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+送信されるポイント数は、UI でのグラフの読み込み時間に影響します。1,000 ポイントを超える折れ線については、バックエンドがデータを 1,000 ポイントまでサンプリングしてからブラウザーに送信します。このサンプリングは非決定的であるため、ページを再読み込みするたびにサンプリングされるポイントが変わります。
+
+各メトリクスについて、ログするポイント数は 10,000 未満にしてください。1 本の折れ線に 100 万ポイントを超えてログすると、ページの読み込み時間が大幅に増加します。accuracy を損なわずにログ量を最小限に抑える方法については、この [Colab](https://wandb.me/log-hf-colab) を参照してください。config と summary メトリクス の列数が 500 を超える場合、表に表示されるのは 500 列のみです。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>

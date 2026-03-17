@@ -1,0 +1,16 @@
+---
+title: "run に関連付けられた git commit を保存するにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine によって生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+`wandb.init` が呼び出されると、システムはリモート リポジトリへのリンクや最新コミットの SHA などの Git 情報を自動的に収集します。この情報は [run ページ](/ja/models/runs/#view-logged-runs) に表示されます。この情報を表示するには、スクリプトの実行時の現在の作業ディレクトリが Git 管理下のフォルダー内にあることを確認してください。
+
+Git コミットと実験の実行に使用したコマンドはユーザーには表示されますが、外部ユーザーには表示されません。公開プロジェクトでも、これらの詳細は非公開のままです。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

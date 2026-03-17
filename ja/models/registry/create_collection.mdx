@@ -1,17 +1,18 @@
 ---
 title: コレクションを作成する
+description: "W&B Registry 内でリンクされたアーティファクト バージョンのコレクションを作成し、受け入れるアーティファクト タイプを設定します。"
 ---
 
-*collection* は、レジストリ内の関連する Artifacts バージョンの集合です。各 collection は個別のタスクやユースケースを表します。
+*コレクション* は、レジストリ内でリンクされたアーティファクト バージョンの集合です。各コレクションは、個別のタスクまたはユースケースを表します。 
 
-例えば、1 つのレジストリの中に複数の collection を作成できます。各 collection には、MNIST、CIFAR-10、ImageNet など、異なるデータセットを含めることができます。
+たとえば、1 つのレジストリ内に複数のコレクションを持つことができます。各コレクションには、MNIST、CIFAR-10、または ImageNet などの異なるデータセットが含まれます。
 
-別の例として、"chatbot" という名前のレジストリを用意し、その中にモデル Artifacts 用の collection、データセット Artifacts 用の collection、ファインチューニング済みモデル Artifacts 用の collection を含めることもできます。
+別の例として、"chatbot" というレジストリがあり、その中にモデル アーティファクト用のコレクション、データセット アーティファクト用の別のコレクション、さらにファインチューニング済みモデル アーティファクト用の別のコレクションを含めることもできます。
 
-レジストリとその collection をどのように構成するかは、あなた次第です。
+レジストリとそのコレクションをどのように構成するかは、あなた次第です。
 
 <Note>
-W&B Model Registry に慣れている場合は、Registered Models という用語をご存じかもしれません。Model Registry における Registered Models は、現在の W&B Registry では collection と呼ばれるようになりました。
+W&B Model Registry に慣れている場合は、registered models をご存じかもしれません。Model Registry の registered models は、現在 W&B Registry ではコレクションと呼ばれています。
 </Note>
 
 <div id="collection-types">
@@ -144,25 +145,26 @@ with wandb.init(entity = "<team_entity>", project = "<project>") as run:
   run.link_artifact(artifact = artifact, target_path = target_path)
 ```
 
+
 <div id="interactively-create-a-collection">
-  ### 対話的にコレクションを作成する
+  ### インタラクティブにコレクションを作成する
 </div>
 
-次の手順では、W&B Registry を使用して対話的にコレクションを作成する方法を説明します。
+以下の手順では、W&B Registry を使用してインタラクティブにコレクションを作成する方法を説明します。
 
-1. https://wandb.ai/registry/ にアクセスして W&B Registry を開きます。
+1. https://wandb.ai/registry/ にある W&B Registry に移動します。
 2. レジストリを選択します。
 3. 右上隅にある **Create collection** ボタンをクリックします。
-4. **Name** フィールドにコレクションの名前を入力します。 
-5. **Type** ドロップダウンからタイプを選択します。 または、そのレジストリでカスタム Artifacts タイプが有効になっている場合は、このコレクションで受け付ける Artifacts タイプを 1 つ以上指定します。
-6. 必要に応じて **Description** フィールドにコレクションの説明を入力します。
-7. 必要に応じて **Tags** フィールドに 1 つ以上のタグを追加します。 
+4. **Name** フィールドにコレクション名を入力します。 
+5. **Type** ドロップダウンからタイプを選択します。あるいは、レジストリでカスタム artifact type が有効になっている場合は、このコレクションが受け入れる 1 つ以上の artifact type を入力します。
+6. 必要に応じて、**Description** フィールドにコレクションの説明を入力します。
+7. 必要に応じて、**Tags** フィールドに 1 つ以上のタグを追加します。 
 8. **Link version** をクリックします。
-9. **Project** ドロップダウンから、 Artifacts が保存されているプロジェクトを選択します。
-10. **Artifact** コレクションのドロップダウンから、対象の Artifacts を選択します。
-11. **Version** ドロップダウンから、コレクションにリンクしたい Artifacts のバージョンを選択します。
+9. **Project** ドロップダウンから、アーティファクトが保存されているプロジェクトを選択します。
+10. **Artifact** コレクションのドロップダウンから、アーティファクトを選択します。
+11. **Version** ドロップダウンから、コレクションにリンクしたいアーティファクト バージョンを選択します。
 12. **Create collection** ボタンをクリックします。
 
 <Frame>
-    <img src="/images/registry/create_collection.gif" alt="Create a new collection"  />
+    <img src="/images/registry/create_collection.gif" alt="新しいコレクションを作成する"  />
 </Frame>

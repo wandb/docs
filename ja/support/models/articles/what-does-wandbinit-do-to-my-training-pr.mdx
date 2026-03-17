@@ -1,0 +1,14 @@
+---
+title: "wandb.init はトレーニング プロセスにどのような影響を与えますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+トレーニングスクリプトで `wandb.init()` が実行されると、API 呼び出しによってサーバー上に run オブジェクトが作成されます。新しいプロセスが開始され、メトリクスのストリーミングと収集を行うことで、メインプロセスは通常どおり動作できます。スクリプトはローカルファイルに書き込みを行い、別プロセスはシステムメトリクスを含むデータをサーバーにストリーミングします。ストリーミングを無効にするには、トレーニングディレクトリで `wandb off` を実行するか、`WANDB_MODE` 環境変数を `offline` に設定します。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

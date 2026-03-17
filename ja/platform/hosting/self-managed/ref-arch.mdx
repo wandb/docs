@@ -1,19 +1,19 @@
 ---
 title: リファレンスアーキテクチャ
-description: W&B リファレンスアーキテクチャ
+description: "Kubernetes、MySQL、オブジェクトストレージ、ネットワークを対象とした、セルフマネージド W&B デプロイ向けのリファレンスアーキテクチャを確認してください。"
 ---
 
 import SelfManagedVersionRequirements from "/snippets/ja/_includes/self-managed-version-requirements.mdx";
 import SelfManagedNetworkingRequirements from "/snippets/ja/_includes/self-managed-networking-requirements.mdx";
 import SelfManagedSslTlsRequirements from "/snippets/ja/_includes/self-managed-ssl-tls-requirements.mdx";
 
-このページでは、W&amp;B デプロイメント向けのリファレンスアーキテクチャを説明し、本番環境でのプラットフォーム運用を支える推奨インフラストラクチャとリソースの概要を示します。
+このページでは、W&amp;B デプロイ向けのリファレンスアーキテクチャを説明し、本番環境のプラットフォーム デプロイを支える推奨インフラストラクチャーとリソースの概要を示します。
 
-選択した W&amp;B のデプロイメント環境に応じて、さまざまなサービスを利用してデプロイメントのレジリエンスを高めることができます。
+選択した W&amp;B のデプロイ環境に応じて、さまざまなサービスを活用してデプロイのレジリエンスを高めることができます。
 
-たとえば、大手クラウドプロバイダーは、データベースの設定、メンテナンス、高可用性、およびレジリエンスに関する複雑さを軽減する堅牢なマネージドデータベースサービスを提供しています。
+たとえば、大手クラウドプロバイダーは、データベースの構成、メンテナンス、高可用性、レジリエンスの複雑さを軽減する、堅牢なマネージドデータベースサービスを提供しています。
 
-このリファレンスアーキテクチャでは、代表的なデプロイメントシナリオをいくつか取り上げ、W&amp;B デプロイメントをクラウドベンダーのサービスと統合して、パフォーマンスと信頼性を最適化する方法を示します。
+このリファレンスアーキテクチャでは、一般的なデプロイシナリオをいくつか取り上げ、W&amp;B デプロイをクラウドベンダーのサービスと統合して、パフォーマンスと信頼性を最適化する方法を示します。
 
 <div id="before-you-start">
   ## はじめに

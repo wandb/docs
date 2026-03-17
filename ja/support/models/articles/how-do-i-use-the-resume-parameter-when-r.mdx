@@ -1,0 +1,18 @@
+---
+title: "W&B で run を再開するときに resume パラメーターを使用するにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+W&amp;B で `resume` パラメーターを使用するには、`entity`、`project`、`id` を指定して、`wandb.init()` の `resume` 引数を設定します。`resume` 引数には `"must"` または `"allow"` を指定できます。
+
+```python
+  run = wandb.init(entity="your-entity", project="your-project", id="your-run-id", resume="must")
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[再開](/ja/support/models/tags/resuming)</Badge>

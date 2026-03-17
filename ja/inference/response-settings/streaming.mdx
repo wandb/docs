@@ -1,6 +1,6 @@
 ---
 title: "ストリーミング応答を有効にする"
-description: W&B Inference でストリーミング出力を使用する方法
+description: "W&B Inference でストリーミング出力を有効にして、生成中のモデル応答を段階的に受け取ります。"
 ---
 
 モデルが応答を生成するのに時間がかかる場合があります。
@@ -36,6 +36,7 @@ description: W&B Inference でストリーミング出力を使用する方法
             print(chunk) # CompletionUsage オブジェクトを表示
     ```
   </Tab>
+
   <Tab title="Bash">
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \

@@ -1,0 +1,24 @@
+---
+title: "run 이름을 run ID로 설정할 수 있나요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+예.
+
+run 이름을 run ID로 덮어쓰려면 다음 코드 스니펫을 사용하세요:
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run.name = run.id
+   run.save()
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

@@ -1,0 +1,14 @@
+---
+title: "클래스 속성을 wandb.Run.log()에 전달하면 어떻게 되나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+클래스 속성을 `wandb.Run.log()`에 전달하지 마세요. 네트워크 호출이 실행되기 전에 속성 값이 변경될 수 있습니다. 메트릭을 클래스 속성에 저장하는 경우, `wandb.Run.log()` 호출 시점의 속성 값과 기록된 메트릭이 일치하도록 깊은 복사를 사용하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

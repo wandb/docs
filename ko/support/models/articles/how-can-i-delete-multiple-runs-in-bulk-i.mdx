@@ -1,0 +1,24 @@
+---
+title: "한 번에 하나씩 삭제하는 대신 여러 개의 run을 일괄 삭제하려면 어떻게 해야 하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 편집하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+여러 run을 한 번에 삭제하려면 [공개 API](/ko/models/ref/python/public-api/api)를 사용하세요:
+
+```python
+import wandb
+
+api = wandb.Api()
+runs = api.runs('<entity>/<project>')
+for run in runs:
+    if <condition>:
+        run.delete()
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Projects](/ko/support/models/tags/projects)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>

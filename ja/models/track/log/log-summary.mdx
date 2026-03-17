@@ -1,5 +1,6 @@
 ---
 title: ログに記録するサマリーメトリクス
+description: "run.summary を使用して、best accuracy や minimum loss などの単一のサマリー メトリクスを W&amp;B run で追跡およびカスタマイズします。"
 ---
 
 トレーニング中に時間とともに変化する値に加えて、モデルや前処理ステップを要約する単一の値を追跡することも重要な場合がよくあります。この情報は W&amp;B Run の `summary` 辞書にログします。Run の summary 辞書は numpy 配列、PyTorch テンソル、TensorFlow テンソルを扱えます。値がこれらの型のいずれかの場合、テンソル全体をバイナリファイルとして保存し、min、mean、variance、percentile などの高レベルなメトリクスを summary オブジェクトに保持します。

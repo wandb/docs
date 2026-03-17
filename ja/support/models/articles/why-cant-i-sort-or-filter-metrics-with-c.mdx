@@ -1,0 +1,58 @@
+---
+title: "特定の文字を含むメトリクスを並べ替えたりフィルターしたりできないのはなぜですか？"
+---
+
+{/*
+  Built with DocEngine. Do not edit this MDX file directly.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+W&amp;B のメトリクス名は、UI で適切に並べ替えやフィルターができるよう、GraphQL の命名規則に従う必要があります。
+
+<div id="valid-metric-names">
+  ## 有効なメトリクス名
+</div>
+
+* **使用できる文字**: 英字 (A-Z, a-z)、数字 (0-9)、およびアンダースコア (&#95;)
+* **先頭文字**: 名前は英字またはアンダースコアで始まる必要があります
+* **パターン**: メトリクス名は `/^[_a-zA-Z][_a-zA-Z0-9]*$/` に一致する必要があります
+
+これらのルールに従わないメトリクスは、W&amp;B UI で並べ替えやフィルターができない場合があります。
+
+<div id="examples">
+  ## 例
+</div>
+
+**有効なメトリクス名:**
+
+```python
+with wandb.init() as run:
+  run.log({"accuracy": 0.9, "val_loss": 0.1, "epoch_5": 5})
+  run.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
+```
+
+**無効なメトリクス名 (避けてください) ：**
+
+```python
+with wandb.init() as run:
+  run.log({"acc,val": 0.9})  # カンマを含む
+  run.log({"loss-train": 0.1})  # ハイフンを含む
+  run.log({"test acc": 0.95})  # スペースを含む
+  run.log({"5_fold_cv": 0.8})  # 数字で始まる
+```
+
+<div id="recommended-solution">
+  ## 推奨される解決方法
+</div>
+
+無効な文字は、アンダースコアなどの有効な文字に置き換えてください。
+
+* `"test acc"` ではなく `"test_acc"` を使用します
+* `"loss-train"` ではなく `"loss_train"` を使用します
+* `"acc,val"` ではなく `"acc_val"` を使用します
+
+詳細は [メトリクス名の制約](/ja/models/track/log/#metric-naming-constraints) を参照してください。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>

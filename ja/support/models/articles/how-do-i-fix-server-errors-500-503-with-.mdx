@@ -1,0 +1,86 @@
+---
+title: "W&B Inference で発生するサーバーエラー (500、503) を修正するにはどうすればよいですか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+サーバー エラーは、W&amp;B Inference サービスで一時的な問題が発生していることを示しています。
+
+<div id="error-types">
+  ## エラーの種類
+</div>
+
+<div id="500-internal-server-error">
+  ### 500 - 内部サーバー エラー
+</div>
+
+**メッセージ:** &quot;サーバーでリクエストの処理中にエラーが発生しました&quot;
+
+これはサーバー側で発生した一時的な内部エラーです。
+
+<div id="503-service-overloaded">
+  ### 503 - サービスが過負荷状態です
+</div>
+
+**メッセージ:** &quot;エンジンは現在過負荷状態です。しばらくしてから再度お試しください&quot;
+
+サービスへのトラフィックが増加しています。
+
+<div id="how-to-handle-server-errors">
+  ## サーバーエラーへの対処方法
+</div>
+
+1. **再試行する前に待つ**
+   * 500 エラー: 30〜60 秒待つ
+   * 503 エラー: 60〜120 秒待つ
+
+2. **エクスポネンシャルバックオフを使用する**
+   ```python
+   import time
+   import openai
+
+   def call_with_retry(client, messages, model, max_retries=5):
+       for attempt in range(max_retries):
+           try:
+               return client.chat.completions.create(
+                   model=model,
+                   messages=messages
+               )
+           except Exception as e:
+               if "500" in str(e) or "503" in str(e):
+                   if attempt < max_retries - 1:
+                       wait_time = min(60, (2 ** attempt))
+                       time.sleep(wait_time)
+                   else:
+                       raise
+               else:
+                   raise
+   ```
+
+3. **適切なタイムアウトを設定する**
+   * HTTP クライアントのタイムアウト値を延長する
+   * より適切に処理するために非同期処理を検討する
+
+<div id="when-to-contact-support">
+  ## サポートに連絡すべき場合
+</div>
+
+次の場合はサポートに連絡してください。
+
+* エラーが 10 分以上続く
+* 特定の時間帯に失敗が集中して発生する
+* エラーメッセージに追加の詳細が含まれている
+
+次の情報を提供してください。
+
+* エラーメッセージとエラーコード
+* エラーが発生した時刻
+* コードスニペット (APIキー を削除したもの)
+* W&amp;B entity とプロジェクト名
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ja/support/models/tags/inference)</Badge>

@@ -1,0 +1,16 @@
+---
+title: "Weave は function の実行速度に影響しますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+Weave のログのオーバーヘッドは、通常、LLM の呼び出しに比べるとごくわずかです。
+Op の実行速度に対する Weave の影響を最小限に抑えるため、ネットワーク処理はバックグラウンド スレッドで行われます。
+プログラムの終了時には、キューに残っているデータがログされる間、停止しているように見えることがあります。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[パフォーマンス](/ja/support/weave/tags/performance)</Badge>

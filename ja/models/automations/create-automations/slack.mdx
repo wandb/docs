@@ -1,5 +1,6 @@
 ---
-title: Slack 自動化を作成する
+title: Slack オートメーションを作成する
+description: "Slack インテグレーションを設定し、特定のイベントで Slack チャンネルに通知を送信する W&B オートメーションを作成します。"
 ---
 
 import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.mdx";
@@ -8,12 +9,12 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
   <EnterpriseCloudOnly />
 </Info>
 
-このページでは、Slack の[オートメーション](/ja/models/automations/)を作成する方法を説明します。Webhook オートメーションを作成するには、代わりに [Webhook オートメーションの作成](/ja/models/automations/create-automations/webhook/)を参照してください。
+このページでは、Slack [オートメーション](/ja/models/automations/)を作成する方法を説明します。Webhook オートメーションを作成するには、代わりに [Webhook オートメーションの作成](/ja/models/automations/create-automations/webhook/)を参照してください。
 
-概要として、Slack のオートメーションを作成するには次の手順を実行します。
+大まかに言うと、Slack オートメーションを作成するには、次の手順を行います。
 
-1. [Slack インテグレーションを追加](#add-a-slack-integration)して、Slack のインスタンスとチャンネルに投稿するための権限を W&amp;B に付与します。
-2. [オートメーションを作成](#create-an-automation)し、監視対象の[イベント](/ja/models/automations/automation-events/)と通知先チャンネルを定義します。
+1. [Slack インテグレーションを追加](#add-a-slack-integration)して、Slack インスタンスとチャンネルへの投稿を W&amp;B に許可します。
+2. [オートメーションを作成](#create-an-automation)して、監視する[イベント](/ja/models/automations/automation-events/)と通知するチャンネルを定義します。
 
 <div id="add-a-slack-integration">
   ## Slack インテグレーションを追加する

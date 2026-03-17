@@ -1,0 +1,26 @@
+---
+title: "トレース ページの読み込みが遅い"
+---
+
+{/*
+  Built with DocEngine. Do not edit this MDX file directly.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+トレース ページの読み込みが遅い場合は、表示する行数を減らして読み込み時間を改善してください。デフォルト値は `50` です。行数は UI で減らすことも、クエリパラメーターを使用して減らすこともできます。
+
+<div id="adjust-via-the-ui-recommended">
+  ### UI で調整する (推奨)
+</div>
+
+トレース ページの右下にある **Per page** コントロールを使用して、表示する行数を調整します。デフォルトの `50` に加えて、`10`、`25`、`100` に設定することもできます。
+
+<div id="use-query-parameters">
+  ### クエリパラメーターを使用する
+</div>
+
+手動で行う場合は、クエリ URL 内の `pageSize` クエリパラメーターを最大値 `100` より小さい値に変更できます。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Trace Data](/ja/support/weave/tags/trace-data)</Badge>

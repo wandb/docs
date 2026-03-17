@@ -1,0 +1,37 @@
+---
+title: "`Est. Runs` 열이란 무엇인가요?"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일은 직접 편집하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+W&amp;B는 이산 검색 공간으로 W&amp;B Sweep을 생성할 때 생성되는 Runs의 예상 개수를 제공합니다. 이 총합은 검색 공간의 데카르트 곱을 반영합니다.
+
+예를 들어, 다음 검색 공간을 살펴보겠습니다:
+
+<Frame>
+  <img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="예상 Runs 열" />
+</Frame>
+
+이 경우 데카르트 곱은 9입니다. W&amp;B는 앱 UI에서 이 값을 예상 run 수(**Est. Runs**)로 표시합니다:
+
+<Frame>
+  <img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="Sweep run 예상치" />
+</Frame>
+
+예상 Run 개수를 프로그래밍 방식으로 가져오려면 W&amp;B SDK의 Sweep 객체에서 `expected_run_count` 속성을 사용하세요:
+
+```python
+sweep_id = wandb.sweep(
+    sweep_configs, project="your_project_name", entity="your_entity_name"
+)
+api = wandb.Api()
+sweep = api.sweep(f"your_entity_name/your_project_name/sweeps/{sweep_id}")
+print(f"EXPECTED RUN COUNT = {sweep.expected_run_count}")
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[하이퍼파라미터](/ko/support/models/tags/hyperparameter)</Badge>

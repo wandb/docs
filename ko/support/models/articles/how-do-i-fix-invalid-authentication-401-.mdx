@@ -1,0 +1,62 @@
+---
+title: "W&B Inference에서 Invalid Authentication (401) 오류를 해결하려면 어떻게 해야 하나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일을 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+401 Invalid Authentication 오류는 API 키가 유효하지 않거나 W&amp;B 프로젝트 entity/name이 올바르지 않다는 뜻입니다.
+
+<div id="verify-your-api-key">
+  ## API 키 확인
+</div>
+
+1. [사용자 설정](https://wandb.ai/settings)에서 새 API 키를 생성하세요.
+2. API 키를 안전하게 보관하세요.
+
+<div id="check-your-project-configuration">
+  ## 프로젝트 설정 확인
+</div>
+
+프로젝트가 `<your-team>/<your-project>` 형식으로 올바르게 지정되었는지 확인하세요:
+
+**Python 예시:**
+
+```python
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",
+    project="<your-team>/<your-project>",  # W&B 팀 및 프로젝트와 일치해야 합니다
+)
+```
+
+**Bash 예시:**
+
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>"
+```
+
+<div id="common-mistakes">
+  ## 흔한 실수
+</div>
+
+* 팀 이름 대신 개인 entity를 사용
+* 팀 또는 프로젝트 이름의 철자를 잘못 입력
+* 팀과 프로젝트 사이의 슬래시 누락
+* 만료되었거나 삭제된 API 키 사용
+
+<div id="still-having-issues">
+  ## 여전히 문제가 있나요?
+</div>
+
+* W&amp;B 계정에 팀과 프로젝트가 있는지 확인하세요
+* 지정된 팀에 대한 액세스 권한이 있는지 확인하세요
+* 현재 API 키가 작동하지 않으면 새 API 키를 생성해 보세요
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ko/support/models/tags/inference)</Badge>

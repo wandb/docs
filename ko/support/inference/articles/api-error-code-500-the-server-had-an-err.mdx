@@ -1,0 +1,31 @@
+---
+title: "API 오류 코드 500 - 요청을 처리하는 중 서버에서 오류가 발생했습니다"
+---
+
+{/*
+  DocEngine으로 생성되었습니다. 이 MDX 파일을 직접 편집하지 마세요.
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+&quot;The server had an error while processing your request&quot;라는 메시지가 표시되는 500 오류는 W&amp;B Inference 측의 내부 서버 오류를 의미합니다.
+
+<div id="why-this-happens">
+  ## 이런 현상이 발생하는 이유
+</div>
+
+내부 서버 오류는 일반적으로 서버 측의 일시적인 문제로 인해 발생하는 일시적 오류입니다. 이는 사용자의 요청이나 설정으로 인해 발생하는 것이 아닙니다.
+
+<div id="what-you-can-do">
+  ## 할 수 있는 작업
+</div>
+
+1. **잠시 기다렸다가 다시 시도**
+   * 몇 초 정도 기다린 후 요청을 다시 시도하세요
+   * 자동 재시도에는 지수 백오프를 사용하세요
+
+2. **문제가 계속되면 지원팀에 문의**
+   * 여러 차례 재시도한 후에도 500 오류가 계속 발생하면, 요청에 대한 세부 정보와 함께 [W&amp;B 지원팀](mailto:support@wandb.com)에 문의하세요
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[서버 오류](/ko/support/inference/tags/server-errors)</Badge>

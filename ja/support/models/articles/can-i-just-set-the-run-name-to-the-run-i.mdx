@@ -1,0 +1,22 @@
+---
+title: "run 名をそのまま run ID に設定できますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+はい。run 名を run ID で上書きするには、次のコード スニペットを使用します：
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run.name = run.id
+   run.save()
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

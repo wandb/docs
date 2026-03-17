@@ -1,10 +1,33 @@
 ---
 title: "W&B SDK リリース"
+description: "新機能、バグ修正、破壊的変更を含む W&B Python SDK のバージョン別リリースノートを確認します。"
 sidebarTitle: "すべてのリリース"
 rss: true
 ---
 
 このページは W&amp;B Python SDK (`wandb` パッケージ) のリリースノートです。W&amp;B Server については [W&amp;B Server リリースノート](/ja/release-notes/server-releases) を参照してください。
+
+<Update label="0.25.1" description="March 10, 2026">
+  ## 追加
+
+  * `wandb beta leet` コマンドに、新しい run コンソールログ ペインを追加しました。`l` で切り替えます。
+  * `wandb beta leet` コマンドの複数 run ワークスペース モードに、新しいシステム メトリクス ペインを追加しました。`s` で切り替えます。
+  * `wandb beta leet` コマンドがシステム メトリクスのフィルタリングをサポートするようになりました。`\` で切り替えます。
+  * `ArtifactType.collections()` が、コレクションのフィルタリングと並べ替えをサポートするようになりました。
+  * アーティファクトの内容が既存のバージョンと同一で、`run.log_artifact` が新しいバージョンを作成しなかった場合に、警告をログするようになりました。
+  * 新しい method `Project.collections()` は、プロジェクト内のフィルター済みおよび並べ替え済みのアーティファクト コレクションを取得します。
+  * 新しい `wandb purge-cache` CLI コマンドで、キャッシュされたファイルをクリーンアップできます。
+
+  ## 修正
+
+  * ガベージ コレクションが不運なタイミングで発生し、出力を行う `__del__` method を実行したときに起きる、まれなデッドロックを修正しました。
+  * `api.Runs("...")` で複数の run を読み込んだ後、以下のようなコードで単一の run のユーザーを取得しようとすると `AttributeError` で失敗することがあったバグを修正しました。
+
+    ```python
+    for run in runs:
+      print(run.user)
+    ```
+</Update>
 
 <Update label="0.25.0" description="February 12, 2026">
   ## 主な変更点
@@ -56,32 +79,32 @@ rss: true
   これらのリグレッションは 0.24.0 で導入されました。
 </Update>
 
-<Update label="0.24.0" description="January 13, 2026">
+<Update label="0.24.0" description="2026年1月13日">
   <Warning>
-    このリリースは PyPI から削除されています。このバージョンは使用しないでください。このバージョンを使用している場合は、直ちに v0.24.1 以降のバージョンにアップグレードしてください。v0.24.1 で修正されたリグレッションにより、`wandb==0.24.0` で作成された run では一部のデータのアップロードに失敗する可能性があります。
+    このリリースは PyPI から削除されました。このバージョンは使用しないでください。このバージョンを使用している場合は、ただちに v0.24.1 以降にアップグレードしてください。v0.24.1 で修正されたリグレッションにより、`wandb==0.24.0` で作成された run では一部のデータのアップロードに失敗する可能性があります。
   </Warning>
 
-  ## 主な変更点
+  ## 主な変更
 
-  このバージョンでは、レガシーかつ非推奨となっていた `wandb.beta.workflows` モジュールと、その中の `log_model()` / `use_model()` / `link_model()` 関数が削除されました。これは正式な破壊的変更です。
+  このバージョンでは、レガシーかつ非推奨の `wandb.beta.workflows` モジュールと、その `log_model()`/`use_model()`/`link_model()` 関数が削除されました。これは正式な破壊的変更です。
 
   ## 追加
 
-  * `wandb agent` と `wandb.agent()` で、エージェントからその sweep の子 run へ SIGINT/SIGTERM などの捕捉可能なシグナルを転送するための `forward_signals` フラグ (CLI: `--forward-signals/-f`) を受け付けるようになり、エージェント プロセスを中断した際に、よりクリーンにシャットダウンできるようになりました。
-  * `wandb beta sync` が、ログ記録中の run を同期するための `--live` オプションをサポートするようになりました。
+  * `wandb agent` と `wandb.agent()` で、`forward_signals` フラグ (CLI: `--forward-signals/-f`) を受け付けるようになりました。これにより、SIGINT/SIGTERM などの捕捉可能なシグナルをエージェントからその sweep の子 run に中継でき、エージェントプロセスを中断した際によりクリーンにシャットダウンできるようになります。
+  * `wandb beta sync` で、ログ記録中の run を同期するための `--live` オプションがサポートされるようになりました。
 
   ## 削除
 
-  * 非推奨だった `wandb.beta.workflows` モジュールと、その中の `log_model()`、`use_model()`、`link_model()` 関数を削除しました。これらの最新の後継は、それぞれ `Run.log_artifact`、`Run.use_artifact`、`Run.link_artifact` メソッドです。
+  * 非推奨だった `wandb.beta.workflows` モジュールと、その `log_model()`、`use_model()`、`link_model()` 関数を削除しました。これらの現在の後継は、それぞれ `Run.log_artifact`、`Run.use_artifact`、`Run.link_artifact` メソッドです。
 
   ## 修正
 
-  * 例外が発生しなかった場合に渡される `None` 値を受け付けられるように、`Run.__exit__` の型アノテーションを修正しました。
-  * `random.seed()` を呼び出した後に Artifacts を作成すると発生していた `Invalid Client ID digest` エラーを修正しました。ランダム状態を決定論的にシードした場合に Client ID が衝突する可能性がありました。
-  * 空の Artifacts を一覧表示する際に発生していた CLI エラーを修正しました。
-  * Sweeps run に対して `api.run()` を呼び出した場合のリグレッションを修正しました。
-  * run の終了時に表示される「View run at」メッセージに、URL が含まれないことがあった問題を修正しました。
-  * `wandb.Api()` からクエリされた Runs が、VSCode ノートブック内で壊れた HTML ウィンドウではなく、文字列表現として表示されるようになりました。
+  * 例外が送出されない場合に渡される `None` 値を受け付けるよう、`Run.__exit__` の型アノテーションを修正しました。
+  * `random.seed()` の呼び出し後にアーティファクトを作成すると `Invalid Client ID digest` エラーが発生する問題を修正しました。乱数状態が決定論的に seed されている場合、Client ID が衝突することがありました。
+  * 空の Artifacts を list する際の CLI エラーを修正しました。
+  * Sweeps の run に対して `api.run()` を呼び出す際のリグレッションを修正しました。
+  * run の終了時に出力される &quot;View run at&quot; メッセージに、URL が含まれないことがある問題を修正しました。
+  * `wandb.Api()` からクエリされた Runs が、壊れた HTML ウィンドウではなく VSCode notebooks で文字列表現を表示するようになりました。
 </Update>
 
 <Update label="v0.23.1" description="2025年12月2日">
@@ -106,7 +129,7 @@ rss: true
   * `wandb.Image()` は非推奨警告を出力しなくなりました。
   * `Registry.description` と `ArtifactCollection.description` は空文字列を拒否しなくなりました。
   * `Artifact` オブジェクトのインスタンス化が大幅に高速になりました。
-  * シンボリックリンクが無効または利用できない場合（例: ボリュームをまたぐ場合や Windows で Developer Mode が無効な場合）、`wandb.Run.save()` はハードリンク、その後必要に応じてコピーにフォールバックするようになりました（該当する場合、ファイルポリシーを「live」から「now」にダウングレードします）。
+  * シンボリックリンクが無効または利用できない場合 (例: ボリュームをまたぐ場合や Windows で Developer Mode が無効な場合) 、`wandb.Run.save()` はハードリンク、その後必要に応じてコピーにフォールバックするようになりました (該当する場合、ファイルポリシーを「live」から「now」にダウングレードします) 。
   * Artifact コレクションのエイリアスは、`ArtifactCollection` のインスタンス化時ではなく `ArtifactCollection.aliases` にアクセスしたときに遅延取得されるようになり、`Api.artifact_collections()` や `Api.registries().collections()` などのパフォーマンスが向上しました。
   * ログイン時には、`wandb.init(settings=wandb.Settings(api_key="..."))` で明示的に指定された API キーが使用されるようになりました。`run.log_artifact` で Artifacts をログする場合は、その run のキーが使用されます。
   * W&amp;B LEET TUI が、負の Y 軸目盛り値や特定のシステムメトリクスの基準単位／表示単位を正しく表示するようになりました。
@@ -117,24 +140,24 @@ rss: true
 <Update label="v0.23.0" description="2025年11月11日">
   ## 追加
 
-  * 実験的な `wandb beta leet` コマンドを追加しました。Lightweight Experiment Exploration Tool であり、ローカルで W&amp;B runs を表示し、リアルタイムのメトリクス可視化とシステムモニタリングを行うためのターミナル UI です。
-  * registry API で、個々の registry のユーザーおよびチームメンバーをプログラムから管理できるようになりました。
-  * `Registry.id` が `Registry` オブジェクトの（読み取り専用）プロパティとして追加されました。
+  * 実験的な `wandb beta leet` コマンド - Lightweight Experiment Exploration Tool - W&amp;B の runs をリアルタイムのメトリクス可視化とシステムモニタリング付きでローカル表示するためのターミナル UI。
+  * レジストリ API が、個々のレジストリのユーザーおよびチームメンバーをプログラムで管理できるようになりました。
+  * `Registry.id` が、`Registry` オブジェクトの (読み取り専用) プロパティとして追加されました。
 
   ## 修正
 
-  * `Artifact.files()` は、`names` パラメーターでフィルタリングした際に、`len()` が正しい値を返すようになりました。
-  * ファイルアップロードの進捗表示において、現在値が総ファイルサイズをまれに超えてしまう問題を修正しました。
-  * `Artifact.link()` は、エラーを送出する代わりに未保存の Artifacts をログするようになり、`Run.link_artifact()` の動作と一貫性が取れるようになりました。
-  * VSCode の Jupyter notebook 拡張機能で ipython notebook を実行している場合でも、自動コード保存が動作するようになりました。
-  * `Artifact.metadata` に無限大の浮動小数点数を含む Artifacts をログする場合、リクエスト再試行のタイムアウトを待つのではなく、早い段階で `ValueError` を送出するようになりました。
+  * `Artifact.files()` で、`names` パラメーターによるフィルタリング時の `len()` が正しくなりました。
+  * ファイルアップロード進行状況の分子が、ファイルの合計サイズを超えることがなくなりました。
+  * `Artifact.link()` が、`Run.link_artifact()` の動作に合わせて、エラーを送出する代わりに未保存のアーティファクトをログするようになりました。
+  * VSCode の Jupyter notebook 拡張機能で ipython notebooks を実行する際に、自動コード保存が動作するようになりました。
+  * `Artifact.metadata` に無限大の float を含むアーティファクトをログする場合、リクエストの再試行がタイムアウトするのを待つのではなく、早い段階で `ValueError` を送出するようになりました。
 </Update>
 
 <Update label="v0.22.3" description="2025年10月28日">
   ## 追加
 
   * サイズおよび時間ベースのマルチパートコンソールログファイルのチャンク分割のために、`console_chunk_max_seconds` と `console_chunk_max_bytes` 設定を追加しました。
-  * Registry API クエリメソッド（`Api.registries()`, `Registry.{collections,versions}()`, `Api.registries().{collections,versions}()`）で、ページネーションされた結果のデフォルトのバッチサイズを上書きするための `per_page` キーワード引数が利用可能になりました。
+  * Registry API クエリメソッド (`Api.registries()`, `Registry.{collections,versions}()`, `Api.registries().{collections,versions}()`) で、ページネーションされた結果のデフォルトのバッチサイズを上書きするための `per_page` キーワード引数が利用可能になりました。
 
   ## 変更
 
@@ -150,7 +173,7 @@ rss: true
   * tfevents ファイルがリアルタイムに書き込まれている場合に、TensorBoard の同期が停止してしまうことがある問題を修正しました。
   * `Artifact.manifest` が、最初に使用されるまで artifact manifest のダウンロード **および** ダウンロード URL の生成を遅延するようになりました。manifest がローカルで変更されていない場合、`Artifact.size` と `Artifact.digest` は、完全な manifest を取得するのを待たずに返せるようになりました。
   * `artifact.add_reference` を介した GCS フォルダ参照のアップロードを修正しました。
-  * SDK が Jupyter セッションにおけるノートブックパスを、サーバーのルートディレクトリを使用して正しく推論するようになり、その結果、サブディレクトリ（例: `code/nested/<notebook>.ipynb`）内でもコードの保存が機能するようになりました。
+  * SDK が Jupyter セッションにおけるノートブックパスを、サーバーのルートディレクトリを使用して正しく推論するようになり、その結果、サブディレクトリ (例: `code/nested/<notebook>.ipynb`) 内でもコードの保存が機能するようになりました。
 
   GitHub 上の [v0.22.3 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.22.3) を参照してください。
 </Update>
@@ -168,12 +191,12 @@ rss: true
   ## 追加
 
   * チェックサムキャッシュを用いた再検証処理により、artifacts ダウンロードを最適化しました。
-  * run の一覧取得時のパフォーマンス向上のために、`Api().runs()` で遅延ロードをサポートしました。新しい `lazy=True` パラメーター（デフォルト）により、最初は必要最小限のメタデータのみを読み込み、config や summary のような重いフィールドはアクセス時に自動的にオンデマンドで読み込まれます。
+  * run の一覧取得時のパフォーマンス向上のために、`Api().runs()` で遅延ロードをサポートしました。新しい `lazy=True` パラメーター (デフォルト) により、最初は必要最小限のメタデータのみを読み込み、config や summary のような重いフィールドはアクセス時に自動的にオンデマンドで読み込まれます。
   * artifacts を作成する際に `storage_region` オプションを追加しました。ユーザーは wandb.ai を使用する際に、`wandb.Artifact(storage_region="coreweave-us")` を指定することで、CoreWeave のインフラストラクチャ上で artifacts のアップロード／ダウンロードをより高速に行うために、[CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage) を利用できます。
 
   ## 修正
 
-  * `Api.artifact_exists()` と `Api.artifact_collection_exists()` が、タイムアウトエラーに遭遇した場合に（誤って）`False` を返すのではなく、例外を送出するようになりました。
+  * `Api.artifact_exists()` と `Api.artifact_collection_exists()` が、タイムアウトエラーに遭遇した場合に (誤って) `False` を返すのではなく、例外を送出するようになりました。
 
   GitHub 上の [v0.22.1 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.22.1) を参照してください。
 </Update>
@@ -181,25 +204,25 @@ rss: true
 <Update label="v0.22.0" description="2025年9月18日">
   ## 主な変更点
 
-  このバージョンでは、MacOS 10 のサポートを削除しました。
+  このバージョンでは、MacOS 10 のサポートを終了しました。
 
   ## 削除
 
-  * 複数のセキュリティおよびサプライチェーン上の考慮事項により、MacOS 10.x をターゲットとしたビルドを削除しました。
+  * セキュリティおよびサプライチェーンに関する複数の考慮事項を踏まえ、MacOS 10.x 向けのビルドを削除しました。
 
   ## 修正
 
-  * 異なるアクティブな run で run を再開しようとした場合、先に `run.finish()` を呼び出すか、`reinit='create_new'` パラメーター付きで `wandb.init()` を呼び出さない限り、エラーを送出するようになりました。
-  * wandb server &lt; 0.51.0（`project.internalId` が gql API に追加される前）での `Api().runs()` の動作を修正しました。
-  * Sweeps: `import readline` を直接または間接的に行う（例: Python 3.13 での `import torch`）`command` run スクリプトが、デッドロックしないようになりました。
+  * 別のアクティブな run が存在する状態で run を再開すると、先に `run.finish()` を呼び出すか、`wandb.init()` をパラメーター `reinit='create_new'` を指定して呼び出さない限り、エラーが発生するようになりました。
+  * wandb server &lt;  0.51.0 における `Api().runs()` を修正しました (`project.internalId` が gql API に追加された場合) 。
+  * Sweeps: 直接または間接的に `import readline` を行う `command` run スクリプト (例: Python 3.13 での `import torch`) で、デッドロックが発生しなくなりました。
 
-  GitHub 上の [v0.22.0 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.22.0) を参照してください。
+  GitHub 上の [v0.22.0 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.22.0)を参照してください。
 </Update>
 
 <Update label="v0.21.4" description="2025年9月11日">
   ## 追加
 
-  * DSPy インテグレーションを追加しました。評価メトリクスを経時的に追跡し、予測結果とプログラムシグネチャの変遷を W&amp;B Tables にログし、DSPy プログラムを W&amp;B Artifacts（完全なプログラム、または状態を JSON/PKL 形式で）として保存できます。
+  * DSPy インテグレーションを追加しました。評価メトリクスを経時的に追跡し、予測結果とプログラムシグネチャの変遷を W&amp;B Tables にログし、DSPy プログラムを W&amp;B Artifacts (完全なプログラム、または状態を JSON/PKL 形式で) として保存できます。
 
   GitHub 上の [v0.21.4 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.21.4)を参照してください。
 </Update>
@@ -345,28 +368,28 @@ rss: true
 
   * 不正な型の引数が渡された場合に、さまざまな API が `ValueError` やその他の汎用的なエラーではなく `TypeError` を送出するようになりました。
   * さまざまな Artifacts および Automations API が、サーバー エラーに遭遇した際にサーバー側のエラーメッセージをそのまま提示できるよう、`ValueError` ではなく `CommError` を送出するようになりました。
-  * `wandb.sdk.wandb_run.Run::save` メソッドは、`glob_str` 引数が必須になりました。
+  * `wandb.sdk.wandb_run.Run::save` method では、`glob_str` 引数が必須になりました。
 
   ## 削除
 
   * `service` プロセスを無効化するサポートを削除しました。`x_disable_service`/`_disable_service` 設定および `WANDB_DISABLE_SERVICE`/`WANDB_X_DISABLE_SERVICE` 環境変数は非推奨となり、使用するとエラーを送出するようになりました。
   * `wandb` をインポートしただけの状態で `wandb.docker` を使用できる機能を削除しました。
     * `wandb.docker` は `wandb` のパブリック インターフェースの一部ではなく、後方互換性のない変更が行われる可能性があります。使用しないでください。
-  * no-op の `sync` 引数を `wandb.Run::log` 関数から削除しました。
-  * 非推奨だった `wandb.sdk.wandb_run.Run.mode` プロパティを削除しました。
-  * 非推奨だった `wandb.sdk.wandb_run.Run::join` メソッドを削除しました。
+  * no-op の `sync` 引数を `wandb.Run::log` function から削除しました。
+  * 非推奨だった `wandb.sdk.wandb_run.Run.mode` property を削除しました。
+  * 非推奨だった `wandb.sdk.wandb_run.Run::join` method を削除しました。
 
   ## 非推奨
 
   * `start_method` 設定は非推奨となり、もはや効果はありません。安全に無視されます。
-  * `Artifact.use_as` プロパティおよび `run.use_artifact()` の `use_as` パラメーターは、W&amp;B Launch では使用されていなかったため非推奨になりました。
+  * `Artifact.use_as` property および `run.use_artifact()` の `use_as` parameter は、W&amp;B Launch では使用されていなかったため非推奨になりました。
 
   ## 修正
 
   * `wandb.setup()` を呼び出したプロセスの子プロセス内で `wandb.teardown()` を呼び出しても、`WandbServiceNotOwnedError` が送出されなくなりました。
     * このエラーは、W&amp;B Sweeps 使用時に発生する可能性がありました。
   * 分岐 (fork または rewind) が要求されたオフライン run が正しく同期されるようになりました。
-  * Job の wait&#95;until&#95;running メソッド内で例外を送出する際、その例外を文字列としてログに記録するようになりました。
+  * Job の wait&#95;until&#95;running method 内で例外を送出する際、その例外を文字列としてログするようになりました。
   * TensorFlow データで初期化された `wandb.Image` が、NumPy 配列で初期化された場合とは異なる方法で正規化されていた問題を修正しました。
   * `wandb login` を使用しても、`wandb.require("legacy-service")` に関する警告が表示されなくなりました。
   * `Table` (または内部 Artifacts を作成するその他のオブジェクト) を、ID に特殊文字を含む run からログしても、`ValueError` が送出されなくなりました。
@@ -2211,24 +2234,24 @@ rss: true
   * フォルダーに対する s3 リファレンスアップロードのリグレッションを修正。
   * バックエンドでの衝突を処理できるように artifact の commit ロジックを修正。
   * リトライ ロジックで `None` レスポンスをチェックする安全確認を追加。
-  * Launch 上に Sweeps を追加（現在 MVP）。
+  * Launch 上に Sweeps を追加 (現在 MVP) 。
   * 機能テストのディレクトリおよびファイル名を変更。
 
   ### クリーンアップ
 
   * `_to_dict` ヘルパーの条件の順序を修正。
   * PR 3709 への changelog の壊れたリンクを修正。
-  * 公開 API クエリ（QueuedJob API）を修正。
+  * 公開 API クエリ (QueuedJob API) を修正。
   * local runners を local-container および local-process にリネーム。
   * wandb/filesync ディレクトリ内のファイルに型アノテーションを追加。
   * すべてのテストディレクトリを再構成し、共通のルートディレクトリを持たせるように変更。
   * テスト設定を修正し、`CircleCi` 上でより大きなマシンを追加。
   * `wandb-service-user` の README ファイルの誤字を修正。
   * 回帰テスト用の artifact が壊れていた問題を修正。
-  * 未使用ファイル（`py27` 関連）および空の `submodules` 宣言を削除。
+  * 未使用ファイル (`py27` 関連) および空の `submodules` 宣言を削除。
   * cloudpickle に対する model reg 用依存関係の extra を追加。
   * 非推奨のスレッディングエイリアスを置き換え。
-  * `sdk` の README を、リネームされた（local -&gt; server）コマンドに合わせて更新。
+  * `sdk` の README を、リネームされた (local -&gt; server) コマンドに合わせて更新。
 
   GitHub 上の [v0.12.21 の changelog](https://github.com/wandb/wandb/releases/tag/v0.12.21) を参照してください。
 </Update>
@@ -3281,7 +3304,7 @@ rss: true
   ## バグ修正
 
   * yaml のパースエラー処理ロジックを修正しました。
-  * torch の docstring のスペルミスを修正しました（@mkkb473 に感謝します）。
+  * torch の docstring のスペルミスを修正しました (@mkkb473 に感謝します) 。
 
   GitHub 上の [v0.9.6 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.9.6)を参照してください。
 </Update>
@@ -3289,7 +3312,7 @@ rss: true
 <Update label="v0.9.5" description="2020年8月17日">
   ## 機能改善
 
-  * sklearn のプロットから未使用の y&#95;probas を削除しました（@dreamflasher に感謝します）。
+  * sklearn のプロットから未使用の y&#95;probas を削除しました (@dreamflasher に感謝します) 。
   * Artifacts 用の新しい削除 API を追加しました。
 
   ## バグ修正
@@ -3297,7 +3320,7 @@ rss: true
   * ログインしていない場合の `wandb restore` を修正しました。
   * Windows における Artifacts のダウンロードパスを修正しました。
   * アップロード時に 408 エラーが発生した場合にリトライするようにしました。
-  * マスクの数値型を修正しました（@numpee に感謝します）。
+  * マスクの数値型を修正しました (@numpee に感謝します) 。
   * Artifacts 参照の名前の取り違えを修正しました。
 
   GitHub 上の [v0.9.5 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.9.5)を参照してください。
@@ -3345,15 +3368,15 @@ rss: true
   * wandb sync 用の大きな wandb-history.jsonl ファイルの同期を改善しました。
   * ローカル Artifacts の整合性を検証するための新しい Artifact.verify メソッドを追加しました。
   * API コマンド用のテストハーネスを改善しました。
-  * run ディレクトリ名に含まれる時刻を UTC ではなくローカル時刻で保存するようにしました（@aiyolo に感謝します）。
+  * run ディレクトリ名に含まれる時刻を UTC ではなくローカル時刻で保存するようにしました (@aiyolo に感謝します) 。
   * 全体的に docstring を改善しました。
-  * Wandb.Table が、データフレームをテーブルとしてロギングするための `dataframe` 引数をサポートするようになりました。
+  * Wandb.Table が、データフレームをテーブルとしてログするための `dataframe` 引数をサポートするようになりました。
 
   ## バグ修正
 
   * Artifacts が Python 2 で動作するようになりました。
   * Artifacts のデフォルトダウンロード先が Windows でも動作するようになりました。
-  * GCS 参照が正しくキャッシュおよびダウンロードされるようにしました（@yoks に感謝します）。
+  * GCS 参照が正しくキャッシュおよびダウンロードされるようにしました (@yoks に感謝します) 。
   * NumPy 配列を JSON にエンコードする処理を修正しました。
   * 文字列比較のエラーメッセージを修正しました。
 

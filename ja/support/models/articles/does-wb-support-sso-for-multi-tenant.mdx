@@ -1,0 +1,22 @@
+---
+title: "W&B はマルチテナントで SSO をサポートしていますか?"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルは直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+W&amp;B は、Auth0 を介してマルチテナント環境向けのシングルサインオン (SSO) をサポートしています。SSO インテグレーションは、Okta や Azure AD など、OIDC 準拠の任意のアイデンティティプロバイダーと互換性があります。OIDC プロバイダーを設定するには、次の手順に従ってください。
+
+* アイデンティティプロバイダーで Single Page Application (SPA) を作成します。
+* `grant_type` を `implicit` フローに設定します。
+* コールバック URI を `https://wandb.auth0.com/login/callback` に設定します。
+
+**W&amp;B の要件**
+
+設定が完了したら、アプリケーションの `Client ID` と `Issuer URL` を添えて、カスタマーサクセスマネージャー (CSM) に連絡してください。W&amp;B は、これらの情報を使用して Auth0 接続を確立し、SSO を有効化します。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[セキュリティ](/ja/support/models/tags/security)</Badge>

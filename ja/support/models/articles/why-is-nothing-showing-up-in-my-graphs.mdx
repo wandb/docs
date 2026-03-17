@@ -1,0 +1,14 @@
+---
+title: "グラフに何も表示されないのはなぜですか？"
+---
+
+{/*
+    DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+    テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+    */}
+
+「No visualization data logged yet」というメッセージが表示される場合、スクリプトではまだ最初の `wandb.log` 呼び出しが実行されていません。これは、run が 1 回の step を完了するまでに時間がかかる場合に発生することがあります。データをより早くログするには、エポックの最後だけでなく、各エポック内で複数回ログしてください。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>

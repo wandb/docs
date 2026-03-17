@@ -1,0 +1,14 @@
+---
+title: "Weave のデータ取り込み量はどのように計算されますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+取り込みバイト数とは、お客様に代わって当社が受信、処理、保存するバイト数を指します。これには、trace メタデータ、LLM の入力/出力、およびお客様が明示的に Weave にログするその他のあらゆる情報が含まれますが、通信オーバーヘッド (例: HTTP ヘッダー) や、長期 storage に保存されないその他のデータは含まれません。バイトが「取り込み済み」としてカウントされるのは、受信されて保存された時点の 1 回のみです。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Data Capture](/ja/support/weave/tags/data-capture)</Badge>

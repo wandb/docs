@@ -1,0 +1,14 @@
+---
+title: "Weave 데이터 수집량은 어떻게 계산되나요?"
+---
+
+{/*
+  DocEngine로 생성되었습니다. 이 MDX 파일은 직접 수정하지 마세요.
+  템플릿: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+수집된 바이트는 고객을 대신해 당사가 수신, 처리하고 저장하는 바이트를 의미합니다. 여기에는 트레이스 메타데이터, LLM 입력/출력, 그리고 사용자가 Weave에 명시적으로 기록한 기타 모든 정보가 포함되지만, 통신 오버헤드(예: HTTP 헤더)나 장기 저장소에 저장되지 않는 기타 데이터는 포함되지 않습니다. 바이트는 수신되어 저장되는 시점에 한해 한 번만 &quot;수집됨&quot;으로 계산합니다.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[데이터 캡처](/ko/support/weave/tags/data-capture)</Badge>

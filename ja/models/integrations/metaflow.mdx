@@ -1,9 +1,10 @@
 ---
-description: W&B を Metaflow と統合する方法。
+description: "W&B を Metaflow と統合して、メトリクスとアーティファクトを自動的にログし、実験を追跡して ML ワークフローを管理します。"
 title: Metaflow
 ---
 
 import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
+
 
 <div id="overview">
   ## 概要
@@ -220,9 +221,9 @@ API キー は、マシンを W&amp;B に認証させるためのものです。
 | Local      | ログに記録されない                    | `df`            | `pd.DataFrame`  |
 
 <div id="is-artifact-lineage-tracked">
-  ### Artifacts の lineage は追跡されますか？
+  ### アーティファクトのリネージは追跡されますか？
 </div>
 
-はい。ステップ A の出力でありステップ B の入力でもある Artifacts がある場合、lineage の DAG は自動的に構築されます。
+はい。step A の出力であり、step B の入力でもあるアーティファクトがある場合、リネージ DAG が自動的に構築されます。
 
-このような挙動の例については、この [notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) と、それに対応する [W&amp;B Artifacts ページ](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph) を参照してください。
+この動作の例については、この [ノートブック](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) と、それに対応する [W&amp;B Artifacts ページ](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph) を参照してください。

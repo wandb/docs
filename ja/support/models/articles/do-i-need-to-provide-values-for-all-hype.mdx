@@ -1,0 +1,47 @@
+---
+title: "W&B Sweep では、すべてのハイパーパラメーターに値を指定する必要がありますか？ デフォルトを設定できますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  テンプレート: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+`(run.config())` を使用して sweep の設定からハイパーパラメーター名と値にアクセスします。これは辞書のように機能します。
+
+sweep の外部の run では、`wandb.init()` の `config` 引数に辞書を渡して `wandb.Run.config()` の値を設定します。sweep では、`wandb.init()` に指定した設定はデフォルト値として機能し、sweep で上書きできます。
+
+動作を明示的に指定するには `rwandb.Run.config.setdefaults()` を使用します。以下のコード スニペットは両方の method を示しています。
+
+<Tabs>
+  <Tab title="wandb.init()">
+    ```python
+    # ハイパーパラメーターのデフォルト値を設定
+    config_defaults = {"lr": 0.1, "batch_size": 256}
+
+    # run を開始し、デフォルト値を指定
+    # これらは sweep で上書きできます
+    with wandb.init(config=config_defaults) as run:
+        # ここにトレーニング コードを追加
+        ...
+    ```
+  </Tab>
+
+  <Tab title="config.setdefaults()">
+    ```python
+    # ハイパーパラメーターのデフォルト値を設定
+    config_defaults = {"lr": 0.1, "batch_size": 256}
+
+    # run を開始
+    with wandb.init() as run:
+        # sweep で設定されていない値を更新
+        run.config.setdefaults(config_defaults)
+
+        # ここにトレーニング コードを追加
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>

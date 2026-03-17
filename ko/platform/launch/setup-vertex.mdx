@@ -1,13 +1,13 @@
 ---
-title: '튜토리얼: Vertex AI에서 W&B Launch 설정하기'
+title: '튜토리얼: Vertex AI에서 W&B Launch 설정'
+description: "CustomJob 사양과 Artifact Registry를 사용하여 Google Cloud Vertex AI에서 ML 워크로드용 W&B Launch를 설정합니다."
 ---
 
-W&amp;B Launch를 사용하여 Vertex AI 트레이닝 작업으로 실행할 작업을 제출할 수 있습니다. Vertex AI 트레이닝 작업을 사용하면 Vertex AI 플랫폼에서 제공된 알고리즘이나 커스텀 알고리즘을 사용해 머신 러닝 모델을 트레이닝할 수 있습니다. Launch 작업이 시작되면 Vertex AI가 기본 인프라, 스케일링, 오케스트레이션을 관리합니다.
+W&B Launch를 사용하여 Vertex AI 훈련 작업으로 실행할 작업을 제출할 수 있습니다. Vertex AI 훈련 작업을 사용하면 Vertex AI 플랫폼에서 제공되는 알고리즘 또는 커스텀 알고리즘을 사용해 머신 러닝 모델을 훈련할 수 있습니다. Launch 작업이 시작되면 Vertex AI가 기본 인프라, 확장, 오케스트레이션을 관리합니다.
 
-W&amp;B Launch는 `google-cloud-aiplatform` SDK의 `CustomJob` 클래스를 통해 Vertex AI와 연동됩니다. `CustomJob`의 파라미터는 Launch 큐 설정으로 제어할 수 있습니다. Vertex AI는 Google Cloud 외부의 프라이빗 레지스트리에서 이미지를 가져오도록 설정할 수 없습니다. 이는 Vertex AI를 W&amp;B Launch와 함께 사용하려면 컨테이너 이미지를 Google Cloud 또는 퍼블릭 레지스트리에 저장해야 함을 의미합니다. Vertex AI 작업에서 컨테이너 이미지를 사용할 수 있도록 만드는 방법에 대해서는 Vertex AI 문서를 참조하세요.
+W&B Launch는 `google-cloud-aiplatform` SDK의 `CustomJob` 클래스를 통해 Vertex AI와 함께 작동합니다. `CustomJob`의 매개변수는 Launch 큐 구성으로 제어할 수 있습니다. Vertex AI는 Google Cloud 외부의 프라이빗 레지스트리에서 이미지를 가져오도록 구성할 수 없습니다. 즉, Vertex AI를 W&B Launch와 함께 사용하려면 컨테이너 이미지를 Google Cloud 또는 퍼블릭 레지스트리에 저장해야 합니다. Vertex 작업에서 컨테이너 이미지에 액세스할 수 있도록 하는 방법에 대한 자세한 내용은 Vertex AI 문서를 참조하세요.
 
-{/* Vertex AI에서 Launch 구성도 */}
-
+{/* Component Diagram of Launch in Vertex AI */}
 
 <div id="prerequisites">
   ## 사전 준비 사항

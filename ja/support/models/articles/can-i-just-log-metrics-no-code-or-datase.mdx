@@ -1,0 +1,25 @@
+---
+title: "コードやデータセットの例を使わず、メトリクスだけをログできますか？"
+---
+
+{/*
+  DocEngine で生成されています。この MDX ファイルを直接編集しないでください。
+  Template: /sites/wandb-docs/templates/support_article.mdx.j2
+  */}
+
+デフォルトでは、W&amp;B はデータセットのサンプルをログしません。デフォルトでは、W&amp;B はコードとシステムメトリクスをログします。
+
+環境変数を使ってコードのログを無効にする method は 2 つあります。
+
+1. `WANDB_DISABLE_CODE` を `true` に設定すると、すべてのコード追跡が無効になります。この操作により、git SHA と diff patch を取得できなくなります。
+2. `WANDB_IGNORE_GLOBS` を `*.patch` に設定すると、diff patch のサーバーへの同期を停止できます。その一方で、`wandb restore` で適用できるよう、ローカルでは引き続き利用できます。
+
+管理者の場合は、チームの設定でチームのコード保存を無効にすることもできます。
+
+1. `https://wandb.ai/<team>/settings` にアクセスして、チームの設定を開きます。`<team>` はチーム名です。
+2. Privacy セクションまでスクロールします。
+3. **Enable code saving by default** を切り替えます。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[管理者](/ja/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[チーム管理](/ja/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>

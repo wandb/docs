@@ -1,6 +1,6 @@
 ---
 title: "Codegen"
-description: "W&B Weave에서 codegen을 사용하는 방법을 알아보세요"
+description: "프롬프트, 출력, 품질 메트릭을 트레이스할 수 있도록 W&B Weave로 코드 생성 파이프라인을 구축하고 평가하세요."
 ---
 
 <Note>
@@ -86,13 +86,13 @@ selected_examples = human_eval["test"][:3]
   ## 구조화된 출력과 Pydantic 모델 활용
 </div>
 
-이 코드 생성 파이프라인에서는 OpenAI의 [structured outputs 모드](https://platform.openai.com/docs/guides/structured-outputs)와 Pydantic 모델을 활용하여 언어 모델로부터 일관되고 형식이 잘 정돈된 응답을 보장합니다. 이 접근 방식은 다음과 같은 장점이 있습니다:
+이 코드 생성 파이프라인에서는 OpenAI의 [구조화된 출력 모드](https://platform.openai.com/docs/guides/structured-outputs)와 Pydantic 모델을 활용하여 언어 모델로부터 일관되고 형식이 잘 정돈된 응답을 보장합니다. 이 접근 방식은 다음과 같은 장점이 있습니다:
 
-1. **타입 안정성**: 예상되는 출력에 대해 Pydantic 모델을 정의함으로써, 생성된 코드, 프로그램 실행기, 단위 테스트에 대해 엄격한 구조를 적용합니다.
-2. **더 쉬운 파싱**: structured outputs 모드를 사용하면, 모델의 응답을 미리 정의된 Pydantic 모델로 직접 파싱할 수 있어 복잡한 후처리의 필요성을 줄일 수 있습니다.
-3. **향상된 신뢰성**: 기대하는 정확한 포맷을 명시함으로써, 언어 모델로부터 예기치 않거나 잘못된 형식의 출력이 생성될 가능성을 줄입니다.
+1. **타입 안정성**: 예상되는 출력에 대해 Pydantic 모델을 정의함으로써, 생성된 코드, 프로그램 실행기, 단위 테스트에 엄격한 구조를 적용합니다.
+2. **더 쉬운 파싱**: 구조화된 출력 모드를 사용하면 모델의 응답을 미리 정의된 Pydantic 모델로 직접 파싱할 수 있어 복잡한 후처리의 필요성을 줄일 수 있습니다.
+3. **향상된 신뢰성**: 기대하는 정확한 형식을 명시함으로써, 언어 모델로부터 예기치 않거나 잘못된 형식의 출력이 생성될 가능성을 줄입니다.
 
-다음은 Pydantic 모델을 정의하고 OpenAI의 structured outputs와 함께 사용하는 방법의 예시입니다:
+다음은 Pydantic 모델을 정의하고 OpenAI의 구조화된 출력과 함께 사용하는 방법의 예시입니다:
 
 ```python lines
 class GeneratedCode(BaseModel):

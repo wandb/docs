@@ -1,5 +1,5 @@
 ---
-description: W&B로 트리 기반 모델을 추적하세요.
+description: "W&B를 XGBoost와 통합해 그래디언트 부스팅 메트릭, feature importance, 모델 성능을 자동으로 로깅하세요."
 title: XGBoost
 ---
 
@@ -7,10 +7,10 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" />
 
-`wandb` 라이브러리는 XGBoost 트레이닝 중 생성되는 메트릭, 구성(config) 및 저장된 booster를 로깅하기 위한 `WandbCallback` 콜백을 제공합니다. 여기에서 XGBoost `WandbCallback`의 출력 결과를 보여주는 [실시간 W&amp;B 대시보드](https://wandb.ai/morg/credit_scorecard)를 확인할 수 있습니다.
+`wandb` 라이브러리는 XGBoost로 학습하는 동안 메트릭, 설정 및 저장된 부스터를 로깅하기 위한 `WandbCallback` 콜백을 제공합니다. 여기에서 XGBoost `WandbCallback`의 출력 결과를 보여주는 [실시간 W&amp;B Dashboard](https://wandb.ai/morg/credit_scorecard)를 확인할 수 있습니다.
 
 <Frame>
-  <img src="/images/integrations/xgb_dashboard.png" alt="XGBoost를 사용하는 W&B 대시보드" />
+  <img src="/images/integrations/xgb_dashboard.png" alt="XGBoost를 사용하는 W&B Dashboard" />
 </Frame>
 
 <div id="get-started">
