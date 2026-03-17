@@ -1,0 +1,23 @@
+---
+title: "How do I programmatically access the human-readable run name?"
+---
+{/*
+Built with DocEngine. Do not edit this MDX file directly.
+Template: /sites/wandb-docs/templates/support_article.mdx.j2
+*/}
+
+<Card title="Return to Support Home" icon="arrow-left" href="/support/index" horizontal />
+
+The `.name` attribute of a [`wandb.Run`](/models/ref/python/experiments/run) is accessible as follows:
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run_name = run.name
+   print(f"The human-readable run name is: {run_name}")
+```
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
