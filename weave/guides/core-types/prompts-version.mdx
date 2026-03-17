@@ -61,7 +61,7 @@ To retrieve a prompt, create a reference to its name and version, then call `.ge
 You can construct refs with a few different styles.
 
 - `weave.ref(<name>)`: requires `weave.init(...)` to have been called. Refers to the `:latest` version.
-- `weave.ref(<name>:<version>)`: requires `weave.init(...)` to have been called.
+- `weave.ref(<name>:<version>)`:  Retrieves the specified version of a prompt. Requires calling `weave.init(...)`.
 - `weave.ref(<fully_qualified_ref_uri>)`: can be constructed without calling `weave.init`.
 
 Example:
