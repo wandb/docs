@@ -1134,6 +1134,13 @@
             ]
           },
           {
+            "tab": "Support",
+            "icon": "/icons/cropped-reports.svg",
+            "pages": [
+              "support/index"
+            ]
+          },
+          {
             "tab": "W&B Launch",
             "icon": "/icons/cropped-launch.svg",
             "hidden": true,
@@ -1206,6 +1213,73 @@
                   "platform/launch/launch-library/launchagent"
                 ]
               }
+            ]
+          },
+          {
+            "tab": "Support: W&B Models",
+            "hidden": true,
+            "pages": [
+              "support/models/index",
+              "support/models/tags/academic",
+              "support/models/tags/administrator",
+              "support/models/tags/alerts",
+              "support/models/tags/anonymous",
+              "support/models/tags/artifacts",
+              "support/models/tags/aws",
+              "support/models/tags/billing",
+              "support/models/tags/charts",
+              "support/models/tags/connectivity",
+              "support/models/tags/environment-variables",
+              "support/models/tags/experiments",
+              "support/models/tags/hyperparameter",
+              "support/models/tags/inference",
+              "support/models/tags/logs",
+              "support/models/tags/metrics",
+              "support/models/tags/notebooks",
+              "support/models/tags/outage",
+              "support/models/tags/privacy",
+              "support/models/tags/projects",
+              "support/models/tags/python",
+              "support/models/tags/reports",
+              "support/models/tags/resuming",
+              "support/models/tags/run-crashes",
+              "support/models/tags/runs",
+              "support/models/tags/security",
+              "support/models/tags/storage",
+              "support/models/tags/sweeps",
+              "support/models/tags/tables",
+              "support/models/tags/team-management",
+              "support/models/tags/tensorboard",
+              "support/models/tags/user-management",
+              "support/models/tags/workspaces",
+              "support/models/tags/wysiwyg"
+            ]
+          },
+          {
+            "tab": "Support: W&B Weave",
+            "hidden": true,
+            "pages": [
+              "support/weave/index",
+              "support/weave/tags/client-info",
+              "support/weave/tags/code-capture",
+              "support/weave/tags/data-capture",
+              "support/weave/tags/evaluation",
+              "support/weave/tags/performance",
+              "support/weave/tags/system-info",
+              "support/weave/tags/trace-data",
+              "support/weave/tags/ui-rendering"
+            ]
+          },
+          {
+            "tab": "Support: W&B Inference",
+            "hidden": true,
+            "pages": [
+              "support/inference/index",
+              "support/inference/tags/administrator",
+              "support/inference/tags/authentication-access",
+              "support/inference/tags/billing",
+              "support/inference/tags/quotas-rate-limits",
+              "support/inference/tags/server-errors"
             ]
           }
         ]
