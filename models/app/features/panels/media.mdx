@@ -55,13 +55,13 @@ Customize the display of the panel's individual items.
 
 - Optionally limit the **Max runs to include** in the panel.
 - Optionally specify a **Media display limit** to limit the number of media items to include per run.
-- **Images and videos**: Set **Panel mode**:
+- Set **Panel mode**:
     - **Gallery** (default): Specify the number of columns and whether  shows a single item per step, run (default), or index.
     - **Grid**: Specify the number of columns, the x axis (defaults to **Log Step**), and the y axis (defaults to **Run**).
     - **Compare**: Compare up to 4 media items side by side, optionally fanning out by step or index. See [Compare mode](#compare-mode) for details.
-- **Images and videos**: Turn on or off (default) **Use original size**.
-- **Images and videos**: Turn on (default) or off **Fit to available space**.
-- **Point clouds**: Optionally turn on the right-handed system for plotting points, rather than the default left-handed system.
+- **Use original size**: If off (default), images and videos in the panel are scaled to appear the same size. No effect in **Compare** mode.
+- **Fit to available space**: If on (default), images and videos in the panel are scaled to take up as much room as possible in the panel. In **Gallery** mode, each image fills the panel width. In **Grid** mode, each image fills the grid width. No effect in **Compare** mode.
+- **Right-handed system**: If on, point clouds use the rightt-handed system for plotting points, rather than the default left-handed system.
 
 ### All media panels in a section
 To customize the default settings for all media panels in a section, overriding workspace settings for media panels:
@@ -107,19 +107,20 @@ Compare mode is useful for image or video generation workflows like diffusion or
 To use compare mode:
 1. Open a media panel in your workspace (for images or video).
 1. Set **Panel mode** to **Compare**.
-1. Configure the grid by specifying the number of columns and the fan out mode. The best grid geometry depends how your runs log media.
+1. Configure the grid's dimensions and density by specifying the number of columns and the fan out mode. The best grid geometry depends how your runs log media.
     - **Number of columns**: How many items to show per row, from `1` to `4`.
-    - **Fan out**: Control what a row represents.
-        - **None**: (default): No fan-out. For each run, each grid column shows a single logged item.
-        - **Step**: Fan out along the step axis. For each run, each grid row shows a single logged item at a given step.
-        - **Index**: Fan out along the index axis. When you log several items per step (for example, `run.log({"images": [img0, img1, img2, img3]})`), each item has an index. When you fan out by index, each grid row shows shows the item logged at a given step:index combination.
+    - **Fan out**: Control the granularity of media to display per grid row. The best setting depends on how many media items you log per step per run, and whether you need a quick "vibe check" or deep analysis.
+        - **None**: (default): No fan-out. Each grid column represents a run, and each grid row represents a logged image or video.
+            <Frame>![Screenshot showing a media panel in compare mode with two runs and no fan out](/images/models/compare-mode-fan-out-none.png)</Frame>
+        - **Step**: Fan out along the step axis. Each grid column represents a run, and each grid row shows the first image or video logged at a run:step combination.
+            <Frame>![Screenshot showing a media panel in compare mode with two runs and fan out by step](/images/models/compare-mode-fan-out-by-step.png)</Frame>
+        - **Index**: Fan out along the index axis, useful when you log several items per step (for example, `run.log({"images": [img0, img1, img2, img3]})`). Each row cell shows the image or video logged at a given run:step:index combination.
+            <Frame>![Screenshot showing a media panel in compare mode with two runs and fan out by index](/images/models/compare-mode-fan-out-by-index.png)</Frame>
 1. Configure whether a given variable affects a single tile (**Individual**) or all tiles (**Linked**).
     - **Media key**: Defaults to **Linked**.
     - **Run**: Defaults to **Individual**.
     - **Step**: Defaults to **Linked**.
     - **Index**: Defaults to **Linked**.
-
-![Media panel showing two images in compare mode](/images/models/media_compare_mode.png)
 
 Your selection is saved so you can return to the same comparison later without reconfiguring the panel.
 
