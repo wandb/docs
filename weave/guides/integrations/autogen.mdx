@@ -40,7 +40,7 @@ import weave
 weave.init("autogen-demo")
 ```
 
-## Tracing a Simple Model Client
+## Tracing a simple model client
 
 Weave can trace calls made directly to model clients within AutoGen.
 
@@ -94,7 +94,7 @@ asyncio.run(simple_client_call_stream())
 
 ### Weave records cached calls
 
-AutoGen's `ChatCompletionCache` can be used, and Weave will trace these interactions, showing whether a response came from the cache or a new call.
+You can use AutoGen's `ChatCompletionCache`, and Weave traces these interactions, showing whether a response came from the cache or a new call.
 
 ```python lines
 
@@ -120,7 +120,7 @@ asyncio.run(run_cache_client())
 [![autogen-cached-client.png](/weave/guides/integrations/imgs/autogen/autogen-cached-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee11-fded-72c2-baaa-7c0ba2a7cd3b%3FhideTraceTree%3D0)
 
 
-## Tracing an Agent with Tool Calls
+## Tracing an agent with tool calls
 
 Weave traces agents and their tool usage, providing visibility into how agents select and execute tools.
 
@@ -152,7 +152,7 @@ asyncio.run(run_agent_with_tools())
 
 [![autogen-agent-tools.png](/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee13-e5ca-72a1-b7b6-4b263fad89e3%3FhideTraceTree%3D0)
 
-## Tracing a GroupChat - RoundRobin
+## Tracing a GroupChat - round robin
 
 Interactions within group chats, such as `RoundRobinGroupChat`, are traced by Weave, allowing you to follow the conversation flow between agents.
 
@@ -199,7 +199,7 @@ asyncio.run(run_round_robin_group_chat())
 
 [![round_robin_group_chat.png](/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fparambharat%2Fautogen-demo%2Fop%2Frun_round_robin_group_chat%3A*%22%5D%7D&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f16c-26ce-7b32-8f0c-2366d29038a3%3FdescendentCallId%3D0196f16c-26ce-7b32-8f0c-2366d29038a3%26hideTraceTree%3D0)
 
-## Tracing Memory
+## Tracing memory
 
 AutoGen's memory components can be traced with Weave. You can use `@weave.op()` to group memory operations under a single trace for better readability.
 
@@ -378,7 +378,7 @@ asyncio.run(run_rag_agent())
 
 [![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
 
-## Tracing Agent Runtimes
+## Tracing agent runtimes
 
 Weave can trace operations within AutoGen's agent runtimes, like `SingleThreadedAgentRuntime`. Using `@weave.op()` around the runtime execution function can group related traces.
 
@@ -458,9 +458,9 @@ asyncio.run(run_agent_runtime())
 
 [![autogen-runtime.png](/weave/guides/integrations/imgs/autogen/autogen-runtime.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1d-6246-7f11-afb1-3a1874f79023%3FhideTraceTree%3D0)
 
-## Tracing Workflows (Sequential)
+## Tracing workflows (sequential)
 
-Complex agent workflows, defining sequences of agent interactions, can be traced. `@weave.op()` can be used to provide a high-level trace for the entire workflow.
+You can trace complex agent workflows that define sequences of agent interactions. Use `@weave.op()` to provide a high-level trace for the entire workflow.
 
 ```python lines {108}
 
@@ -596,7 +596,7 @@ asyncio.run(run_agent_workflow())
 
 [![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
 
-## Tracing Code Executor
+## Tracing code executor
 
 <Warning>
 **Docker Required**
@@ -706,7 +706,7 @@ asyncio.run(run_codegen())
 
 [![autogen-codegen.png](/weave/guides/integrations/imgs/autogen/autogen-codegen.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f173-21c2-7540-9dc7-fbab0b94ce0e%3FhideTraceTree%3D0)
 
-## Learn More
+## Learn more
 
 - **Weave**:
     - [Tracing Guide](/weave/guides/tracking/tracing)

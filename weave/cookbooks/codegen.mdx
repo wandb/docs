@@ -1,6 +1,6 @@
 ---
 title: "Codegen"
-description: "Learn how to use codegen with W&B Weave"
+description: "Build and evaluate code generation pipelines with W&B Weave to trace prompts, outputs, and quality metrics."
 ---
 
 <Note>
@@ -75,7 +75,7 @@ selected_examples = human_eval["test"][:3]
 Weave automatically tracks OpenAI API calls, including inputs, outputs, and metadata. This means you don't need to add any additional logging code for your OpenAI interactions – Weave handles it seamlessly in the background.
 </Note>
 
-## Leveraging Structured Outputs and Pydantic Models
+## Leveraging structured outputs and Pydantic models
 
 In this code generation pipeline, we utilize OpenAI's [structured outputs mode](https://platform.openai.com/docs/guides/structured-outputs) and Pydantic models to ensure consistent and well-formatted responses from the language model. This approach offers several advantages:
 
@@ -95,7 +95,7 @@ class FormattedGeneratedCode(BaseModel):
     full_code: str
 ```
 
-## Implementing a Code Formatter
+## Implementing a code formatter
 
 To ensure consistent and clean code output, we implement a `CodeFormatter` class using Weave operations. This formatter applies various linting and styling rules to the generated code, program runner, and unit tests.
 

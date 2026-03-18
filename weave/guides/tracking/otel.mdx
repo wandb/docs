@@ -451,7 +451,7 @@ npx ts-node openllmetry_example.ts
 </Tab>
 </Tabs>
 
-### Without Instrumentation
+### Without instrumentation
 
 If you would prefer to use OTel directly instead of an instrumentation package, you may do so. Span attributes will be parsed according to the OpenTelemetry semantic conventions described at [https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/](https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-spans/).
 
@@ -1306,11 +1306,11 @@ main();
 
 After sending these traces, you can view them in the Weave UI under the **Threads** tab, where they'll be grouped by `thread_id` and each turn will appear as a separate row.
 
-## Attribute Mappings
+## Attribute mappings
 
 Weave automatically maps OpenTelemetry span attributes from various instrumentation frameworks to its internal data model. When multiple attribute names map to the same field, Weave applies them in priority order, allowing frameworks to coexist in the same traces.
 
-### Supported Frameworks
+### Supported frameworks
 
 Weave supports attribute conventions from the following observability frameworks and SDKs:
 
@@ -1323,7 +1323,7 @@ Weave supports attribute conventions from the following observability frameworks
 - **OpenLit**: OpenLit observability attributes (`gen_ai.content.completion`)
 - **Langfuse**: Langfuse tracing attributes (`langfuse.startTime`, `langfuse.endTime`)
 
-### Attribute Reference
+### Attribute reference
 
 | Attribute Field Name              | W&B Mapping                   | Description                                 | Type                        | Example                                        |
 |:----------------------------------|:------------------------------|:--------------------------------------------|:----------------------------|:-----------------------------------------------|
