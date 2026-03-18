@@ -1134,7 +1134,7 @@
             "tab": "Support",
             "icon": "/icons/cropped-reports.svg",
             "pages": [
-              "support/index"
+              "support"
             ]
           },
           {
@@ -1216,7 +1216,7 @@
             "tab": "Support: W&B Models",
             "hidden": true,
             "pages": [
-              "support/models/index",
+              "support/models",
               "support/models/tags/academic",
               "support/models/tags/administrator",
               "support/models/tags/alerts",
@@ -1256,7 +1256,7 @@
             "tab": "Support: W&B Weave",
             "hidden": true,
             "pages": [
-              "support/weave/index",
+              "support/weave",
               "support/weave/tags/client-info",
               "support/weave/tags/code-capture",
               "support/weave/tags/data-capture",
@@ -1271,7 +1271,7 @@
             "tab": "Support: W&B Inference",
             "hidden": true,
             "pages": [
-              "support/inference/index",
+              "support/inference",
               "support/inference/tags/administrator",
               "support/inference/tags/authentication-access",
               "support/inference/tags/billing",
