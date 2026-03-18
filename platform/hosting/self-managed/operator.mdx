@@ -498,6 +498,7 @@ This is the most straightforward deployment option configuration that creates al
 
      namespace   = var.namespace
      domain_name = var.domain_name
+     license     = var.license
      subdomain   = var.subdomain
      zone_id     = var.zone_id
 
@@ -722,6 +723,14 @@ This is the most straightforward deployment option configuration that creates al
      host                   = "https://${module.wandb.cluster_endpoint}"
      cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
      token                  = data.google_client_config.current.access_token
+   }
+
+   provider "helm" {
+     kubernetes {
+       host                   = "https://${module.wandb.cluster_endpoint}"
+       cluster_ca_certificate = base64decode(module.wandb.cluster_ca_certificate)
+       token                  = data.google_client_config.current.access_token
+     }
    }
 
    # Spin up all required services
