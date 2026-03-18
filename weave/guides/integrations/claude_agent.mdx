@@ -5,6 +5,13 @@ description: "Use W&B Weave with the Claude Agent SDK to trace your agent's quer
 
 The [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) is a Python SDK by Anthropic for building agent applications with Claude. W&B Weave automatically traces Claude Agent SDK calls when you call `weave.init()`, capturing queries, tool use, and multi-turn conversations.
 
+## Prerequisites
+
+Before running the code example:
+ - Update `your-team-name` appropriately for calling `weave.init()` on code line 109.
+ - Set `WANDB_API_KEY` and `ANTHROPIC_API_KEY` in your environment.
+   - For more information on W&B API keys, see [API keys](/platform/app/settings-page/user-settings#api-keys).
+
 ## Installation
 
 Install the required dependencies using `pip`:
@@ -12,12 +19,6 @@ Install the required dependencies using `pip`:
 ```bash
 pip install weave claude-agent-sdk
 ```
-
-## Prerequisites
-
-Before running the code example:
- - Update `your-team-name` appropriately for calling `weave.init()` on code line 109.
- - Set `WANDB_API_KEY` and `ANTHROPIC_API_KEY` in your environment.
 
 ## Get started
 
