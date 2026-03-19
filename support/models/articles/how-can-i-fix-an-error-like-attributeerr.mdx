@@ -1,10 +1,7 @@
 ---
-title: "How can I fix an error like `AttributeError: module \u0027wandb\u0027 has no attribute ...`?"
+title: "How can I fix an error like `AttributeError: module 'wandb' has no attribute ...`?"
+keywords: ["Run Crashes"]
 ---
-{/*
-Built with DocEngine. Do not edit this MDX file directly.
-Template: /sites/wandb-docs/templates/support_article.mdx.j2
-*/}
 
 If you encounter an error like `AttributeError: module 'wandb' has no attribute 'init'` or `AttributeError: module 'wandb' has no attribute 'login'` when importing `wandb` in Python, `wandb` is not installed or the installation is corrupted, but a `wandb` directory exists in the current working directory. To fix this error, uninstall `wandb`, delete the directory, then install `wandb`:
 
