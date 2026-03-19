@@ -37,7 +37,7 @@ weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_versi
 - _your-team-name_: W&B entity (username or team name)
 - _your-project-name_: W&B project
 - _object_name_: object name
-- _object_version_: either a version hash, a version index like `v0` or `v1`, or an alias like `:latest` or `:production`. All objects have the `:latest` alias. For stable references, prefer aliases or version hashes over version indices.
+- _object_version_: either a version hash, a version index like `v0` or `v1`, or an alias like `:latest` or `:production`. All objects have the `:latest` alias, which automatically points to the most recently published version.
 
 For example, a fully qualified Weave prompt URI looks like this:
 
@@ -52,7 +52,7 @@ To retrieve a prompt, create a reference to its name and version, then call `.ge
 You can construct refs with a few different styles:
 
 - `weave.ref(<name>)`: Retrieves the `:latest` version of a prompt. Requires calling `weave.init(...)`.
-- `weave.ref(<name>:<version_or_alias>)`:  Retrieves the specified version or alias of a prompt. Requires calling `weave.init(...)`. Prefer aliases (e.g. `production`) or digest hashes over version indices (e.g. `v3`), which can shift.
+- `weave.ref(<name>:<alias_or_version>)`: Retrieves a prompt by alias, version hash, or version index. Requires calling `weave.init(...)`. Prefer aliases (e.g. `production`) over version indices (e.g. `v3`), which can shift.
 - `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the prompt located at the specified [fully qualified ref URI](#construct-a-fully-qualified-ref-uri). Does not require calling `weave.init(...)`.
 
 
