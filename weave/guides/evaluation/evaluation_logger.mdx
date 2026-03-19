@@ -319,6 +319,61 @@ While TypeScript doesn't have automatic cleanup with context managers, `logSumma
 
 
 
+### Link to an existing dataset
+
+When you pass raw datasets as `inputs` to `log_prediction`, Weave re-ingests the data with every evaluation run. This stores duplicate data, which may waste space if the dataset is large or if a large number of evaluations reuse it.
+
+To avoid this duplication, publish your dataset to Weave before running any evaluations, then pass the published dataset's rows as `inputs`. Weave resolves references to published rows using internal references instead of re-ingesting the data. This technique gives you the same linked experience as the standard [Evaluation framework](../core-types/evaluations), where each prediction links back to a specific dataset row in the Weave UI.
+
+The following example publishes a dataset and links to it in the `EvaluationLogger`, before retrieving and iterating over it like any other dataset.
+
+<Tabs>
+<Tab title="Python">
+```python
+import weave
+from weave import EvaluationLogger
+
+weave.init("your-team-name/your-project-name")
+
+# Publish the dataset (only needs to happen once)
+dataset = weave.Dataset(
+    name="my_eval_dataset",
+    rows=[
+      {"question": "What is the capitol of France?", "expected": "Paris"},
+      {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
+      {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
+    ],
+)
+weave.publish(dataset)
+
+# Retrieve the published dataset
+dataset = weave.ref("my_eval_dataset").get()
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript
+import weave, {EvaluationLogger, Dataset} from 'weave';
+
+await weave.init('your-team-name/your-project-name');
+
+// Publish the dataset (only needs to happen once)
+const dataset = new Dataset({
+  name: 'my_eval_dataset',
+  rows: [
+    {"question": "What is the capitol of France?", "expected": "Paris"},
+    {"question": "What U.S. state is Seattle in?", "expected": "Washington"},
+    {"question": "In what country is Mount Fuji located in?", "expected": "Japan"},
+  ],
+});
+const datasetRef = await dataset.save();
+
+// Retrieve the published dataset
+const published = await datasetRef.get();
+```
+</Tab>
+</Tabs>
+
+
 ### Get outputs before logging
 
 You can first compute your model outputs, then separately log predictions and scores. This allows for better separation of evaluation and logging logic.
