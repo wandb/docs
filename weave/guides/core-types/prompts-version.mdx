@@ -73,11 +73,11 @@ prompt = weave.ref("support_prompt:production").get()
 
 ## Use prompt versions in production
 
-When deploying prompts in production systems, use an [alias](#prompt-tags-and-aliases) like `production` rather than a version index like `v3`. In your production application, load the prompt with `weave.ref(<name>:<alias>).get()`.
+When deploying prompts in production systems, use an [alias](#prompt-tags-and-aliases) like `production` rather than a version index or latest version. In your production application, load the prompt with `weave.ref(<name>:<alias>).get()`.
 
-Aliases are stable named pointers — they always resolve to the version you assigned them to. Version indices (`v0`, `v1`, ...) are computed from timestamps and can shift if the same content is re-published, so they are not safe to use as long-lived references.
+Aliases are stable named pointers that always resolve to the version you assigned them to. Version indices (`v0`, `v1`, ...) are computed from timestamps and can shift if the same content is re-published, so they are not safe to use as long-lived references.
 
-Using an alias ensures that production behavior remains stable and predictable. When you're ready to promote a new version, move the alias — all consumers automatically pick up the change.
+Using an alias ensures that production behavior remains stable and predictable. When you're ready to promote a new version, move the alias and all consumers automatically pick up the change.
 
 A common workflow looks like this:
 
@@ -92,8 +92,6 @@ client = weave.init("your-team-name/your-project-name")
 
 # Load whatever version "production" currently points to
 prompt = weave.ref("my-prompt:production").get()
-
-response = chat_model.invoke(prompt.format(question=user_input))
 ```
 
 This approach allows teams to safely iterate on prompts without unexpectedly changing production behavior.
