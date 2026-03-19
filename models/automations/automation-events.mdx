@@ -2,12 +2,7 @@
 title: Automation events and scopes
 description: "Learn about events and scopes that trigger W&B Automations, including artifact changes, run status, and metric conditions."
 ---
-import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
 import MultiTenantCloudOnly from "/snippets/en/_includes/multi-tenant-cloud-only.mdx";
-
-<Info>
-<EnterpriseCloudOnly/>
-</Info>
 
 An automation can start when a specific event occurs within a project or registry. This page describes the events that can trigger an automation within each scope. Learn more about automations in the [Automations overview](/models/automations) or [Create an automation](/models/automations/create-automations).
 
@@ -134,7 +129,6 @@ For example, trigger an automation when `accuracy` has a z-score above 2, which 
 - A z-score of +2.0 means the metric is 2 standard deviations above average.
 - A z-score of -2.0 means the metric is 2 standard deviations below average.
 - Values beyond ±2 are often considered statistically significant outliers.
-
 
 #### Run filters
 This section describes how the automation selects runs to evaluate.
