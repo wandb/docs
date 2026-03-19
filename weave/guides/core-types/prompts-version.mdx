@@ -19,10 +19,6 @@ Weave automatically tracks every version of your prompts, creating a complete hi
 
 Each version is immutable. Once created, the contents of that version cannot be changed. If you update a prompt and publish it again, Weave creates a new version while preserving previous versions.
 
-:::warning
-Version indices like `v0`, `v1`, `v2` are computed from creation timestamps and are **not guaranteed to be stable**. In rare cases, re-publishing identical content can cause version indices to shift. Use [aliases](#prompt-tags-and-aliases) instead of version numbers to create stable references to specific prompt versions.
-:::
-
 Versioning enables you to:
 
 - Reproduce past experiments.
@@ -41,7 +37,7 @@ weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_versi
 - _your-team-name_: W&B entity (username or team name)
 - _your-project-name_: W&B project
 - _object_name_: object name
-- _object_version_: either a version hash, a string like `v0` or `v1`, or an alias like `:latest` or `:production`. All objects have the `:latest` alias. For stable references, prefer aliases or version hashes over version indices like `v0`.
+- _object_version_: either a version hash, a version index like `v0` or `v1`, or an alias like `:latest` or `:production`. All objects have the `:latest` alias. For stable references, prefer aliases or version hashes over version indices.
 
 For example, a fully qualified Weave prompt URI looks like this:
 
