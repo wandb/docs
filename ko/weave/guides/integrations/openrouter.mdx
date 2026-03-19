@@ -1,0 +1,43 @@
+---
+title: OpenRouter
+description: 자동 Weave 인테그레이션과 함께 OpenRouter의 통합 인터페이스를 사용하여 다양한 LLM을 활용하세요.
+---
+
+Openrouter.ai는 OpenAI GPT-4, Anthropic Claude, Google Gemini와 같은 기반 모델뿐만 아니라 Llama-3, Mixtral 등 [다양한 오픈 소스 모델](https://openrouter.ai/models)을 모두 지원하는 LLM 통합 인터페이스입니다. 일부 모델은 무료로 제공되기도 합니다.
+
+OpenRouter는 REST API 및 OpenAI SDK 호환성([문서](https://docs.together.ai/docs/openai-api-compatibility))을 제공하며, Weave는 이를 자동으로 감지하고 통합합니다 (자세한 내용은 OpenRouter [빠른 시작](https://openrouter.ai/docs/quick-start)을 참조하세요).
+
+기존 OpenAI SDK 코드를 OpenRouter로 전환하려면, API 키를 [OpenRouter API](https://openrouter.ai/docs/api-keys) 키로 바꾸고, `base_url`을 `https://openrouter.ai/api/v1`로, 모델을 OpenRouter의 여러 [채팅 모델](https://openrouter.ai/docs/models) 중 하나로 변경하면 됩니다. `weave.init()`을 호출할 때 trace를 기록할 프로젝트 이름을 입력하세요. 별도로 지정하지 않으면 기본 엔티티가 사용됩니다. 기본 엔티티를 확인하거나 업데이트하려면 W&B Models 문서의 [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team)를 참조하세요.
+
+```python lines {5,10-12}
+import os
+import openai
+import weave
+
+weave.init('openrouter-weave')
+
+system_content = "You are a travel agent. Be descriptive and helpful."
+user_content = "Tell me about San Francisco"
+
+client = openai.OpenAI(
+    api_key=os.environ.get("OPENROUTER_API_KEY"),
+    base_url="https://openrouter.ai/api/v1",
+)
+chat_completion = client.chat.completions.create(
+    extra_headers={
+    "HTTP-Referer": $YOUR_SITE_URL, # 선택 사항, openrouter.ai 순위에 앱을 포함하려는 경우 사용합니다.
+    "X-Title": $YOUR_APP_NAME, # 선택 사항. openrouter.ai의 순위에 표시됩니다.
+    },
+    model="meta-llama/llama-3.1-8b-instruct:free",
+    messages=[
+        {"role": "system", "content": system_content},
+        {"role": "user", "content": user_content},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+response = chat_completion.choices[0].message.content
+print("Model response:\n", response)
+```
+
+이것은 시작을 위한 간단한 예시입니다. 더 복잡한 유스 케이스를 위해 Weave를 사용자 정의 함수와 통합하는 방법에 대한 자세한 내용은 [OpenAI](/weave/guides/integrations/openai#track-your-own-ops) 가이드를 참조하세요.

@@ -1,26 +1,30 @@
 ---
-title: レポートをクローンしてエクスポートする
-description: W&B レポートを PDF または LaTeX としてエクスポートします。
+title: Reports の複製とエクスポート
+description: W&B Reports を PDF または LaTeX としてエクスポートします。
 ---
 
-## レポートをエクスポート
+<Note>
+W&B Report および Workspace API はパブリックプレビュー版です。
+</Note>
 
-レポートを PDF または LaTeX としてエクスポートします。レポート内でケバブアイコンを選択し、ドロップダウンメニューを展開します。**Download** を選択し、PDF または LaTeX の出力形式を選択します。
+## Reports のエクスポート
 
-## レポートをクローン
+Reports を PDF または LaTeX としてエクスポートします。 Report 内でケバブアイコン（3つの点）を選択してドロップダウンメニューを展開します。 **Download** を選択し、PDF または LaTeX のいずれかの出力形式を選択してください。
+
+## Reports の複製
 
 <Tabs>
-<Tab title="App UI">
-レポート内でケバブアイコンを選択し、ドロップダウンメニューを展開します。**Clone this report** ボタンを選択します。モーダルでクローンされたレポートの保存先を選択します。**Clone report** を選択します。
+<Tab title="W&B App">
+Report 内でケバブアイコンを選択してドロップダウンメニューを展開します。 **Clone this report** ボタンを選択します。 モーダルウィンドウで、複製した Report の保存先を選択します。 **Clone report** を選択してください。
 
 <Frame>
-    <img src="/images/reports/clone_reports.gif"  />
+    <img src="/images/reports/clone_reports.gif" alt="Cloning reports"  />
 </Frame>
 
-プロジェクトのテンプレートと形式を再利用するためにレポートをクローンします。チームのアカウント内でプロジェクトをクローンした場合、クローンされたプロジェクトはチームに表示されます。個人のアカウント内でプロジェクトをクローンした場合、そのプロジェクトはそのユーザーのみに表示されます。
+Project のテンプレートやフォーマットを再利用するために Report を複製します。 Teams アカウント内で Project を複製した場合、複製された Project は Team メンバーに表示されます。 個人のアカウント内で複製された Project は、その Users にのみ表示されます。
 </Tab>
-<Tab title="Python SDK">
-テンプレートとして使用するために URL からレポートをロードします。
+<Tab title="Report and Workspace API">
+URL から Report をロードして、テンプレートとして使用します。
 
 ```python
 report = wr.Report(

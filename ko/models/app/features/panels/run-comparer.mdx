@@ -1,16 +1,26 @@
 ---
-title: Compare run metrics
-description: 여러 run에서 메트릭 비교
+title: Run 메트릭 비교
+description: 여러 Runs의 메트릭 비교
 ---
 
-Run Comparer를 사용하여 여러 run에서 어떤 메트릭이 다른지 확인하세요.
+Run Comparer를 사용하여 프로젝트 내 여러 Runs 간의 차이점과 공통점을 확인하세요.
 
-<Frame>
-    <img src="/images/app_ui/visualization_add.gif"  />
-</Frame>
+## Run Comparer 패널 추가하기
 
-1. 페이지 오른쪽 상단에서 **패널 추가** 버튼을 선택합니다.
-2. 나타나는 왼쪽 패널에서 Evaluation 드롭다운을 확장합니다.
-3. **Run Comparer**를 선택합니다.
+1. 페이지 우측 상단의 **Add panels** 버튼을 선택합니다.
+1. **Evaluation** 섹션에서 **Run comparer**를 선택합니다.
 
-**Diff Only** 옵션을 켜서 여러 run에서 값이 동일한 행을 숨깁니다.
+## Run Comparer 사용하기
+Run Comparer는 프로젝트에서 보여지는 상위 10개 Runs의 설정 및 로그된 메트릭을 각 Run마다 하나의 열로 표시합니다.
+
+- 비교할 Runs를 변경하려면 좌측의 Runs 리스트에서 검색, 필터, 그룹화 또는 정렬 기능을 사용하세요. Run Comparer가 자동으로 업데이트됩니다.
+- Run Comparer 상단의 검색 필드를 사용하여 Python 버전이나 Run 생성 시간과 같은 설정 키(configuration key) 또는 메타데이터 키(metadata key)를 필터링하거나 검색할 수 있습니다.
+- 차이점만 빠르게 확인하고 동일한 값은 숨기려면 패널 상단의 **Diff only**를 토글하세요.
+- 열 너비나 행 높이를 조정하려면 패널 상단의 포맷팅 버튼을 사용하세요.
+- 설정이나 메트릭 값을 복사하려면 해당 값 위에 마우스를 올린 뒤 복사 버튼을 클릭하세요. 화면에 표시하기에 너무 긴 값이라도 전체 값이 복사됩니다.
+
+<Note>
+기본적으로 Run Comparer는 [`job_type`](/models/ref/python/functions/init) 값이 다른 Runs를 별도로 구분하지 않습니다. 즉, 프로젝트 내에서 비교 대상이 아닌 Runs를 비교하게 될 수도 있습니다. 예를 들어, 트레이닝 Run과 모델 평가(model evaluation) Run을 비교할 수 있습니다. 트레이닝 Run에는 Run 로그, 하이퍼파라미터, 트레이닝 손실 메트릭 및 모델 자체가 포함될 수 있습니다. 평가 Run은 해당 모델을 사용하여 새로운 트레이닝 데이터에 대한 모델의 성능을 확인할 수 있습니다.
+
+Runs Table에서 Runs 리스트를 검색, 필터, 그룹화 또는 정렬하면 Run Comparer가 자동으로 업데이트되어 상위 10개 Runs를 비교합니다. `job_type` 등으로 리스트를 필터링하거나 정렬하여 유사한 Runs끼리 비교되도록 Runs Table 내에서 필터링 또는 검색을 활용하세요. [Runs 필터링하기](/models/runs/filter-runs/)에서 더 자세한 내용을 확인할 수 있습니다.
+</Note>

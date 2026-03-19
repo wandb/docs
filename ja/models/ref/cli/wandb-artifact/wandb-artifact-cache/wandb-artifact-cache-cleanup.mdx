@@ -1,18 +1,36 @@
 ---
-title: wandb アーティファクト cache cleanup
+title: wandb artifact cache cleanup
 ---
 
-**使用方法**
+{/*
+  このコマンドの紹介コンテンツを追加するには：
+  1. スニペットファイルを作成：/snippets/en/_includes/cli/wandb-artifact-cache-cleanup.mdx
+  2. そのファイルに紹介文を追加
+  3. このコメントブロック全体を削除し、以下の2行のみを残してください：
 
-`wandb artifact cache cleanup [OPTIONS] TARGET_SIZE`
+import WandbArtifactCacheCleanup from "/snippets/en/_includes/cli/wandb-artifact-cache-cleanup.mdx";
 
-**概要**
+<WandbArtifactCacheCleanup/>
 
-Artifactsのキャッシュから、使用頻度の低いファイルをクリーンアップします
+  次回の再生成時にスニペットが自動検出されます。
+*/}
 
+Artifacts キャッシュから、使用頻度の低いファイルをクリーンアップします。
 
-**オプション**
+## Usage（使用法）
 
-| **オプション** | **説明** |
+```bash
+wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
+```
+
+## Arguments（引数）
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `TARGET_SIZE` | 説明なし | はい |
+
+## Options（オプション）
+
+| オプション | 説明 |
 | :--- | :--- |
-| `--remove-temp / --no-remove-temp` | 一時ファイルを削除します |
+| `--remove-temp` | 一時ファイルを削除する（デフォルト：False） |

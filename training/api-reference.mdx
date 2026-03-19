@@ -1,10 +1,10 @@
 ---
 title: API Overview
-description: Complete API documentation for W&B Training
+description: "Browse the W&B Training API endpoints for chat completions, models, training jobs, and health checks with authentication details."
 ---
 
 <Note>
-The W&B Training API provides endpoints for managing and interacting with serverless reinforcement learning training jobs. The API is OpenAI-compatible for chat completions.
+The W&B Training API provides endpoints for managing and interacting with training jobs, including serverless reinforcement learning (RL) and supervised fine-tuning (SFT). The API is OpenAI-compatible for chat completions.
 </Note>
 
 ## Authentication
@@ -23,12 +23,13 @@ Authorization: Bearer YOUR_API_KEY
 https://api.training.wandb.ai/v1
 ```
 
-## Available Endpoints
+## Available endpoints
 
 
 ### chat-completions
 
 - **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Create Chat Completion
+- **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Create Chat Completion
 
 ### models
 
@@ -40,7 +41,8 @@ https://api.training.wandb.ai/v1
 
 ### training-jobs
 
-- **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-training-job)** - Create Training Job
+- **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - Create SFT Training Job
+- **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - Create RL Training Job
 - **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - Get Training Job
 - **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - Get Training Job Events
 
@@ -49,10 +51,11 @@ https://api.training.wandb.ai/v1
 - **[GET /v1/health](https://docs.wandb.ai/training/api-reference/health/health-check)** - Health Check
 - **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/health/system-check)** - System Check
 
-## Related Resources
+## Related resources
 
 - [W&B Training overview](/training)
 - [Prerequisites](/training/prerequisites)
+- [Serverless SFT](/training/sft-training)
 - [Use your trained models](/training/serverless-rl/use-trained-models)
 - [Available models](/training/serverless-rl/available-models)
 - [Usage limits](/training/serverless-rl/usage-limits)

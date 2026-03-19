@@ -1,0 +1,126 @@
+---
+title: Evaluations へのイントロダクション
+description: W&B Weave を使用した 評価 (Evaluations) の イントロダクション (intro) について学習します
+---
+
+<Note>
+これは対話型の ノートブック です。ローカルで実行するか、以下のリンクを使用してください。
+- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
+- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
+</Note>
+
+## 🔑 事前準備
+
+Weave の評価を実行する前に、以下の準備を完了してください。
+
+1. W&B Weave SDK をインストールし、 [APIキー](https://wandb.ai/settings#apikeys) でログインします。
+2. OpenAI SDK をインストールし、 [APIキー](https://platform.openai.com/api-keys) でログインします。
+3. W&B の Projects を初期化します。
+
+```python lines
+# 依存関係のインストールとインポート
+!pip install wandb weave openai -q
+
+import os
+from getpass import getpass
+
+from openai import OpenAI
+from pydantic import BaseModel
+
+import weave
+
+# 🔑 APIキーの設定
+# このセルを実行すると getpass により APIキー の入力が求められます。入力内容はターミナルには表示されません。
+#####
+print("---")
+print(
+    "W&B APIキーの作成はこちら: https://wandb.ai/settings#apikeys"
+)
+os.environ["WANDB_API_KEY"] = getpass("W&B APIキーを入力してください: ")
+print("---")
+print("OpenAI APIキーはこちらで生成できます: https://platform.openai.com/api-keys")
+os.environ["OPENAI_API_KEY"] = getpass("OpenAI APIキーを入力してください: ")
+print("---")
+#####
+
+# 🏠 W&B の プロジェクト 名を入力
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 あなたの W&B プロジェクト 名
+```
+
+## 🐝 初めての評価を実行する
+
+以下の コード サンプルは、 Weave の `Model` および `Evaluation` API を使用して LLM を評価する方法を示しています。まず、 `weave.Model` を継承して Weave の Models を定義し、 モデル 名とプロンプト形式を指定して、 `@weave.op` で `predict` メソッド をトレースします。 `predict` メソッド は OpenAI にプロンプトを送信し、 Pydantic スキーマ（ `FruitExtract` ）を使用してレスポンスを構造化された出力にパースします。次に、入力文と期待されるターゲットで構成される小さな評価用 Datasets を作成します。続いて、 モデル の出力とターゲットラベルを比較するカスタムスコアリング関数（これも `@weave.op` でトレース）を定義します。最後に、すべてを `weave.Evaluation` にラップし、 Datasets とスコアラーを指定して、 `evaluate()` を呼び出し、評価 パイプライン を非同期で実行します。
+
+```python lines
+# 1. Weave モデルを構築
+class FruitExtract(BaseModel):
+    fruit: str
+    color: str
+    flavor: str
+
+class ExtractFruitsModel(weave.Model):
+    model_name: str
+    prompt_template: str
+
+    @weave.op()
+    def predict(self, sentence: str) -> dict:
+        client = OpenAI()
+
+        response = client.beta.chat.completions.parse(
+            model=self.model_name,
+            messages=[
+                {
+                    "role": "user",
+                    "content": self.prompt_template.format(sentence=sentence),
+                }
+            ],
+            response_format=FruitExtract,
+        )
+        result = response.choices[0].message.parsed
+        return result
+
+model = ExtractFruitsModel(
+    name="gpt4o",
+    model_name="gpt-4o",
+    prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) as json, from the following text : {sentence}',
+)
+
+# 2. サンプルを集める
+sentences = [
+    "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+    "Pounits are a bright green color and are more savory than sweet.",
+    "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them.",
+]
+labels = [
+    {"fruit": "neoskizzles", "color": "purple", "flavor": "candy"},
+    {"fruit": "pounits", "color": "green", "flavor": "savory"},
+    {"fruit": "glowls", "color": "orange", "flavor": "sour, bitter"},
+]
+examples = [
+    {"id": "0", "sentence": sentences[0], "target": labels[0]},
+    {"id": "1", "sentence": sentences[1], "target": labels[1]},
+    {"id": "2", "sentence": sentences[2], "target": labels[2]},
+]
+
+# 3. 評価のためのスコアリング関数を定義
+@weave.op()
+def fruit_name_score(target: dict, output: FruitExtract) -> dict:
+    target_flavors = [f.strip().lower() for f in target["flavor"].split(",")]
+    output_flavors = [f.strip().lower() for f in output.flavor.split(",")]
+    # ターゲットのフレーバーのいずれかが出力のフレーバーに含まれているかチェック
+    matches = any(tf in of for tf in target_flavors for of in output_flavors)
+    return {"correct": matches}
+
+# 4. 評価を実行
+evaluation = weave.Evaluation(
+    name="fruit_eval",
+    dataset=examples,
+    scorers=[fruit_name_score],
+)
+await evaluation.evaluate(model)
+```
+
+## 🚀 他の例をお探しですか？
+
+- [評価パイプラインをエンドツーエンドで構築する方法](/weave/tutorial-eval) を学ぶ。
+- [RAGアプリケーションを構築して評価する方法](/weave/tutorial-rag) を学ぶ。

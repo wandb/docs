@@ -1,16 +1,17 @@
 ---
-title: "Store and track versions of prompts"
-description: "Store, organize, and track versions of your prompts for LLM applications"
+title: "Creating prompt objects"
+description: "Create, publish, and use prompt objects for LLM applications"
 ---
 
 Creating, evaluating, and refining prompts is a core activity for AI engineers.
 Small changes to a prompt can have big impacts on your application's behavior.
-W&B Weave lets you create prompts, save and retrieve them, and evolve them over time.
+W&B Weave lets you create prompts, publish them, and evolve them over time.
 
-Weave is unopinionated about how a Prompt is constructed. If your needs are simple, you can use our built-in `weave.StringPrompt` or `weave.MessagesPrompt` classes. If your needs are more complex, you can subclass those or our base class `weave.Prompt` and override the
-`format` method.
+This page covers how to create prompt objects and publish them. For referencing, retrieving, and managing versions of published prompts, see [Store and track versions of prompts](/weave/guides/core-types/prompts-version.mdx).
 
-When you publish one of these objects with `weave.publish`, it appears in your Weave project on the [Prompts page](#view-prompts).
+If your prompt needs are simple, you can use the built-in `weave.StringPrompt` or `weave.MessagesPrompt` classes. If your needs are more complex, you can subclass those or the base class `weave.Prompt` and override the `format` method.
+
+When you publish a prompt with `weave.publish`, it appears in your Weave project on the [Prompts page](/weave/guides/core-types/prompts-version.mdx#view-prompts).
 
 ## StringPrompt
 
@@ -284,18 +285,3 @@ This also works with `MessagesPrompt`.
   </Tab>
 </Tabs>
 
-## <a id="view-prompts"></a>View and Compare Prompt Versions
-
-Weave automatically tracks every version of your prompts, creating a complete history of how your prompts evolve. This versioning system is crucial for prompt engineering workflows, allowing you to experiment safely, track what changes improved or hurt performance, and easily roll back to previous versions if needed. Each time you publish a prompt with the same name but different content, Weave creates a new version while preserving all previous versions. 
-
-To view versions of the prompt in the UI:
-
-1. Open your project in the UI and click the **Assets** button in the left menu. This opens the Assets page.
-2. From the Assets page, click **Prompts**. This opens the Prompts page where your project's prompts are listed.
-3. Under the **Versions** column, click **(x) Versions** for the prompt you want to view. This opens a list of prompt versions.
-
-![Screenshot of viewing a prompt object](/weave/guides/core-types/imgs/prompt-object.png)
-
-4. (Optional) You can compare versions of prompts by clicking the checkboxes beside the listed prompts and then clicking the **Compare** button. This allows you to see the diff between your prompts.
-
-![Screenshot of prompt comparison](/weave/guides/core-types/imgs/prompt-comparison.png)

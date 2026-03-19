@@ -2,18 +2,38 @@
 title: wandb エージェント
 ---
 
-**使用方法**
+{/*
+  このコマンドの導入コンテンツを追加するには：
+  1. スニペットファイルを作成： /snippets/en/_includes/cli/wandb-agent.mdx
+  2. そのファイルにイントロダクションの内容を追加
+  3. このコメントブロック全体を削除し、以下の2行のみを残してください：
 
-`wandb agent [OPTIONS] SWEEP_ID`
+import WandbAgent from "/snippets/en/_includes/cli/wandb-agent.mdx";
 
-**概要**
+<WandbAgent/>
 
-W&B エージェントを実行します
+  次回の再生成時にスニペットが自動検出されます。
+*/}
 
-**オプション**
+W&B エージェント を実行します。
 
-| **オプション** | **説明** |
+## 使用法
+
+```bash
+wandb agent SWEEP_ID [OPTIONS]
+```
+
+## 引数（Arguments）
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `SWEEP_ID` | 説明なし | はい |
+
+## オプション
+
+| オプション | 説明 |
 | :--- | :--- |
-| `-p, --project` | sweep から作成された W&B runs が送信されるプロジェクトの名前。プロジェクトが指定されていない場合、run は「Uncategorized」というラベルのプロジェクトに送信されます。 |
-| `-e, --entity` | sweep によって作成された W&B runs を送信したいユーザー名またはチーム名。指定した entity が既に存在することを確認してください。entity を指定しない場合、run は通常ユーザー名であるデフォルトの entity に送信されます。 |
-| `--count` | このエージェントの最大 run 数。 |
+| `--project`, `-p` | Sweep から作成された W&B Runs の送信先となる Projects の名前。プロジェクトが指定されていない場合、run は「Uncategorized」というラベルのプロジェクトに送信されます。 |
+| `--entity`, `-e` | Sweep によって作成された W&B Runs の送信先となる Teams 名または Users 名。指定する Entity が既に存在することを確認してください。Entity を指定しない場合、run は通常ユーザー名であるデフォルトの Entity に送信されます。 |
+| `--count` | この エージェント が実行する最大 Runs 数。 |
+| `--forward-signals`, `-f` | エージェント に配信されたシグナル（例：SIGINT/SIGTERM）を子プロセスである run に転送し、クリーンにシャットダウンできるようにします。（デフォルト：False） |

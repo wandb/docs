@@ -1,6 +1,6 @@
 ---
-title: "Weave via Service API"
-description: "Learn how to use weave via service api with W&B Weave"
+title: "Use the Weave Service API to trace"
+description: "Learn how to use Weave tracing via service api with W&B Weave"
 ---
 
 <Note>
@@ -162,7 +162,7 @@ The following sections walk you through creating a more complex trace with child
 
 The following code demonstrates how to create a more complex trace with multiple spans. An example of this would be a Retrieval-Augmented Generation (RAG) lookup followed by an LLM call. The first part initializes a parent trace(`payload_parent_start`) that represents the overall operation. In this case, the operation is  processing the user query `Can you summarize the key points of this document?`.
 
-The `payload_parent_start` object mimics the initial step in a multi-step workflow, logging the the operation in Weave using the `url_start` endpoint.
+The `payload_parent_start` object mimics the initial step in a multi-step workflow, logging the operation in Weave using the `url_start` endpoint.
 
 On success, this code will output a message indicating that the parent call was logged:
 

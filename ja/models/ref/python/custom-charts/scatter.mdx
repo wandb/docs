@@ -1,0 +1,62 @@
+---
+title: scatter()
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py" />
+
+### <kbd>function</kbd> `scatter`
+
+```python
+scatter(
+    table: 'wandb.Table',
+    x: 'str',
+    y: 'str',
+    title: 'str' = '',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+wandb.Table の データ から散布図を作成します。
+
+**Args:**
+
+- `table`: 可視化する データ を含む W&B Table 。
+- `x`: x軸に使用するカラム名。
+- `y`: y軸に使用するカラム名。
+- `title`: 散布図のタイトル。
+- `split_table`: W&B UI 上で テーブル を別のセクションに分割するかどうか。 `True` の場合、 テーブル は "Custom Chart Tables" という名前のセクションに表示されます。デフォルトは `False` です。
+
+**Returns:**
+
+- `CustomChart`: W&B に ログ を記録できるカスタムチャート オブジェクト。チャートを ログ に記録するには、 `wandb.log()` に渡します。
+
+**Example:**
+
+```python
+import math
+import random
+import wandb
+
+# 異なる高度における気温の変化を時間経過とともにシミュレート
+data = [
+    [i, random.uniform(-10, 20) - 0.005 * i + 5 * math.sin(i / 50)]
+    for i in range(300)
+]
+
+# 高度 (m) と気温 (°C) のカラムを持つ W&B table を作成
+table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
+
+# W&B run を初期化し、散布図をログに記録
+with wandb.init(project="temperature-altitude-scatter") as run:
+    # 散布図を作成してログに記録
+    scatter_plot = wandb.plot.scatter(
+         table=table,
+         x="altitude (m)",
+         y="temperature (°C)",
+         title="Altitude vs Temperature",
+    )
+    run.log({"altitude-temperature-scatter": scatter_plot})
+```

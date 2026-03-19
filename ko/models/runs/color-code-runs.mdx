@@ -1,0 +1,129 @@
+---
+title: 의미론적 run 차트 범례
+description: 차트에 의미론적 범례(semantic legend) 생성하기
+---
+
+메트릭 또는 설정 파라미터를 기반으로 W&B Runs 에 색상을 지정하여 시각적으로 의미 있는 라인 플롯과 플롯 범례를 생성하세요. 성능 메트릭 (최고, 최저 또는 최신 값) 에 따라 Runs 의 색상을 지정함으로써 여러 실험 전반의 패턴과 트렌드를 식별할 수 있습니다. W&B 는 선택한 파라미터 값에 따라 자동으로 Runs 를 색상 코드화된 버킷으로 그룹화합니다.
+
+Runs 에 메트릭 또는 설정 기반 색상을 사용하려면 다음 두 가지 설정을 구성해야 합니다:
+
+### 키 기반 색상 켜기
+
+1. W&B 프로젝트로 이동합니다.
+2. 프로젝트 사이드바에서 **Workspace** 탭을 선택합니다.
+3. 오른쪽 상단 모서리에 있는 **Settings** 아이콘을 클릭합니다.
+4. 드로어에서 **Runs** 를 선택합니다.
+5. **Run colors** 섹션에서 **Key-based colors** 를 선택합니다.
+6. 다음 옵션들을 구성합니다:
+    - **Key** 드롭다운에서 Runs 에 색상을 할당하는 데 사용할 메트릭을 선택합니다.
+    - **Y value** 드롭다운에서 Runs 에 색상을 할당하는 데 사용할 y 값을 선택합니다.
+    - 버킷 수를 2에서 8 사이의 값으로 설정합니다.
+
+<Note>
+키 기반 색상을 사용하면 [Run 색상 커스텀하기](/models/runs/run-colors) 옵션을 사용할 수 없습니다.
+</Note>
+
+다음 섹션에서는 메트릭 및 y 값을 설정하는 방법과 Runs 에 색상을 할당하는 데 사용되는 버킷을 커스텀하는 방법에 대해 설명합니다.
+
+### 예시: loss 메트릭을 사용한 키 기반 색상 지정
+
+이 예시 플롯에서 Runs 는 그레이디언트로 색상이 지정되며, 어두운 색상은 더 높은 loss 값을 나타내고 밝은 색상은 더 낮은 loss 값을 나타냅니다. Y value 는 각 run 의 가장 최근 loss 값을 사용하도록 `latest` 로 설정되었습니다.
+ 
+<Image src="/images/app_ui/run-colors-key-based.png" alt="키 기반 색상 지정을 사용하여 loss 값에 따라 색상이 지정된 Runs를 보여주는 W&B Workspace." />
+
+## 메트릭 설정
+
+**Key** 드롭다운의 메트릭 옵션은 [사용자가 W&B에 로그한](/models/runs/color-code-runs/#custom-metrics) 키-값 쌍과 W&B 에서 정의한 [기본 메트릭](/models/runs/color-code-runs/#default-metrics)에서 파생됩니다.
+
+### 기본 메트릭
+
+* `Relative Time (Process)`: Run 이 시작된 이후의 상대적 시간 (초 단위).
+* `Relative Time (Wall)`: Run 이 시작된 이후의 상대적 시간으로, 실제 시계 시간 (wall clock time) 에 맞게 조정됨 (초 단위).
+* `Wall Time`: 에포크 이후의 실제 시계 시간 (초 단위).
+* `Step`: Run 의 스텝 번호로, 일반적으로 트레이닝 또는 평가 진행 상황을 추적하는 데 사용됩니다.
+
+### 커스텀 메트릭
+
+트레이닝 또는 평가 스크립트에서 로그된 커스텀 메트릭을 기반으로 Runs 의 색상을 지정하고 의미 있는 플롯 범례를 만드세요. 커스텀 메트릭은 키-값 쌍으로 로그되며, 여기서 키는 메트릭의 이름이고 값은 메트릭 값입니다.
+
+예를 들어, 다음 코드 조각은 트레이닝 루프 중에 정확도 (`"acc"` 키) 와 손실 (`"loss"` 키) 을 로그합니다:
+
+```python
+import wandb
+import random
+
+epochs = 10
+
+# 프로젝트 "basic-intro"로 W&B run 초기화
+with wandb.init(project="basic-intro") as run:
+  # 메트릭을 로그하는 트레이닝 루프를 시뮬레이션하는 블록
+  offset = random.random() / 5
+  for epoch in range(2, epochs):
+      acc = 1 - 2 ** -epoch - random.random() / epoch - offset
+      loss = 2 ** -epoch + random.random() / epoch + offset
+
+      # 스크립트에서 W&B로 메트릭 로그
+      run.log({"acc": acc, "loss": loss})
+```
+
+**Key** 드롭다운에서 `"acc"` 와 `"loss"` 를 모두 선택할 수 있습니다.
+
+## 설정 키 설정
+
+**Key** 드롭다운의 설정 옵션은 W&B run 을 초기화할 때 `config` 파라미터에 전달하는 키-값 쌍에서 파생됩니다. 설정 키는 일반적으로 트레이닝 또는 평가 스크립트에서 사용되는 하이퍼파라미터나 기타 설정을 로그하는 데 사용됩니다.
+
+```python
+import wandb
+
+# 하이퍼파라미터 및 설정 정의
+config = {
+  "learning_rate": 0.01,
+  "batch_size": 32,
+  "optimizer": "adam"
+}
+
+# 설정과 함께 W&B run 초기화
+with wandb.init(project="basic-intro", config=config) as run:
+  # 트레이닝 코드를 여기에 작성하세요
+  pass
+```
+
+**Key** 드롭다운에서 `"learning_rate"`, `"batch_size"`, `"optimizer"` 를 선택할 수 있습니다.
+
+## y 값 설정
+
+다음 옵션 중에서 선택할 수 있습니다:
+
+- **Latest**: 각 라인의 마지막 로그된 스텝의 Y 값을 기준으로 색상을 결정합니다.
+- **Max**: 메트릭에 대해 로그된 가장 높은 Y 값을 기준으로 색상을 지정합니다.
+- **Min**: 메트릭에 대해 로그된 가장 낮은 Y 값을 기준으로 색상을 지정합니다.
+
+## 버킷 커스텀하기
+
+버킷은 선택한 메트릭 또는 설정 키를 기반으로 W&B 가 Runs 를 분류하는 데 사용하는 값의 범위입니다. 버킷은 지정된 메트릭 또는 설정 키의 값 범위에 걸쳐 고르게 분포되며 각 버킷에는 고유한 색상이 할당됩니다. 해당 버킷의 범위에 속하는 Runs 는 그 색상으로 표시됩니다.
+
+다음을 고려해 보세요:
+
+<Frame>
+    <img src="/images/track/color-coding-runs.png" alt="Color coded runs"  />
+</Frame>
+
+- **Key** 가 `"Accuracy"` (`"acc"` 로 약칭) 로 설정됨.
+- **Y value** 가 `"Max"` 로 설정됨.
+
+이 구성을 통해 W&B 는 각 run 의 정확도 값을 기준으로 색상을 지정합니다. 색상은 연한 노란색에서 진한 색상까지 다양합니다. 밝은 색상은 낮은 정확도 값을 나타내고, 진한 색상은 높은 정확도 값을 나타냅니다.
+
+메트릭에 대해 6개의 버킷이 정의되며, 각 버킷은 정확도 값의 범위를 나타냅니다. **Buckets** 섹션 내에서 다음과 같은 버킷 범위가 정의됩니다:
+
+- 버킷 1: (Min - 0.7629)
+- 버킷 2: (0.7629 - 0.7824)
+- 버킷 3: (0.7824 - 0.8019)
+- 버킷 4: (0.8019 - 0.8214)
+- 버킷 5: (0.8214 - 0.8409)
+- 버킷 6: (0.8409 - Max)
+
+아래의 라인 플롯에서 정확도가 가장 높은 run (0.8232) 은 진한 보라색 (버킷 5) 으로 표시되고, 정확도가 가장 낮은 run (0.7684) 은 연한 오렌지색 (버킷 2) 으로 표시됩니다. 다른 Runs 는 정확도 값에 따라 색상이 지정되며, 색상 그레이디언트가 상대적인 성능을 나타냅니다.
+
+<Frame>
+    <img src="/images/track/color-code-runs-plot.png" alt="Color coded runs plot"  />
+</Frame>

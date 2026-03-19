@@ -1,0 +1,32 @@
+---
+title: MetricZScoreFilter
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+
+## <kbd>class</kbd> `MetricZScoreFilter`
+메트릭의 z-score를 사용자가 정의한 임계값과 비교하는 필터입니다.
+
+### <kbd>method</kbd> `MetricZScoreFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    window: 'int' = 30,
+    threshold: 'Annotated | Annotated' = 3.0,
+    change_dir: 'ChangeDir' = ANY
+) → None
+```
+
+**Args:**
+
+ - `name` (str): 관찰할 메트릭의 이름.
+ - `window` (int): 메트릭의 평균과 표준 편차를 계산할 윈도우의 크기.
+ - `threshold` (Union[Annotated, Annotated]): z-score에 대한 임계값.
+ - `change_dir` (ChangeDir): 감시할 z-score 변화의 방향.
+
+**Returns:**
+ `MetricZScoreFilter` 오브젝트.

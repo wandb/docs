@@ -1,0 +1,62 @@
+---
+title: 키보드 단축키
+description: W&B 에서 사용할 수 있는 키보드 단축키에 대해 알아보세요.
+---
+
+import LEETShortcuts from "/snippets/en/_includes/leet-keyboard-shortcuts.mdx";
+
+W&B는 실험, Workspace, 그리고 데이터를 더욱 효율적으로 탐색하고 상호작용할 수 있도록 키보드 단축키를 지원합니다. 이 가이드는 W&B App 및 W&B LEET (Lightweight Experiment Exploration Tool) 터미널 UI에서 사용할 수 있는 키보드 단축키를 다룹니다.
+
+<Tabs>
+<Tab title="App">
+
+다음 키보드 단축키는 W&B App에서 작동합니다.
+
+## Workspace 관리
+
+| 단축키 | 설명 |
+|----------|-------------|
+| **Cmd+Z** (macOS) / **Ctrl+Z** (Windows/Linux) | Workspace 또는 패널 수정 등 UI에서 수행한 변경 사항을 실행 취소합니다. |
+| **Cmd+Shift+Z** (macOS) / **Ctrl+Y** (Windows/Linux) | Workspace에서 이전에 실행 취소한 변경 사항을 다시 실행합니다. |
+
+## 탐색
+
+| 단축키 | 설명 |
+|----------|-------------|
+| **Tab** | 대화형 요소 간을 이동합니다. |
+| **Cmd+J** (macOS) / **Ctrl+J** (Windows/Linux) | 사이드바의 Workspaces 탭과 Runs 탭 사이를 전환합니다. |
+| **Cmd+K** (macOS) / **Ctrl+K** (Windows/Linux) | Projects, Runs 및 기타 리소스를 검색할 수 있는 빠른 검색 대화 상자를 엽니다. |
+| **Esc** | W&B App 전체에서 패널 전체 화면 보기 종료, 설정 창 닫기, 빠른 검색 대화 상자 닫기, 에디터 종료 또는 기타 오버레이를 닫습니다. |
+
+## 패널 탐색
+
+| 단축키 | 설명 |
+|----------|-------------|
+| **왼쪽 화살표 / 오른쪽 화살표** | 전체 화면 모드일 때 섹션 내의 패널을 차례대로 이동합니다. |
+| **Esc** | 패널 전체 화면 보기를 종료하고 Workspace로 돌아갑니다. |
+| **Cmd+왼쪽 화살표 / Cmd+오른쪽 화살표** (macOS)<br/>**Ctrl+왼쪽 화살표 / Ctrl+오른쪽 화살표** (Windows/Linux) | 미디어 패널을 전체 화면 모드로 볼 때 step 슬라이더를 이동합니다. |
+
+## Reports
+
+| 단축키 | 설명 |
+|----------|-------------|
+| **Delete / Backspace** | Report에서 선택한 패널 그리드를 삭제합니다. |
+| **Enter** | Report에서 "/mark"를 입력한 후 Markdown 블록을 삽입합니다. |
+| **Esc** | Report 에디터를 종료합니다. |
+| **Tab** | Report 내의 대화형 요소 간을 이동합니다. |
+
+## 참고 사항
+
+- 대부분의 키보드 단축키는 macOS에서는 **Cmd**를, Windows/Linux에서는 **Ctrl**을 사용합니다.
+- W&B App은 일부 브라우저 기본 단축키에 대해 커스텀 핸들링을 구현합니다.
+- 일부 단축키는 컨텍스트에 따라 다르며 애플리케이션의 특정 영역에서만 작동합니다.
+
+</Tab>
+<Tab title="LEET">
+
+다음 키보드 단축키는 W&B LEET (Lightweight Experiment Exploration Tool) 터미널 UI에서 작동합니다. LEET를 실행하려면 터미널에서 `wandb beta leet`를 실행하세요. 자세한 내용은 [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet/)를 참조하세요.
+
+<LEETShortcuts />
+
+</Tab>
+</Tabs>

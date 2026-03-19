@@ -1,21 +1,20 @@
 ---
-title: How do I plot multiple lines on a plot with a legend?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: 범례(legend)와 함께 차트에 여러 개의 선을 그리는 방법은 무엇인가요?
 ---
 
-`wandb.plot.line_series()`를 사용하여 여러 줄로 된 사용자 정의 차트를 만드세요. 라인 차트를 보려면 [프로젝트 페이지](/ko/models/track/project-page/)로 이동하세요. 범례를 추가하려면 `wandb.plot.line_series()`에 `keys` 인수를 포함하세요. 예:
+`wandb.plot.line_series()`를 사용하여 다중 선형 커스텀 차트를 생성하세요. [project page](/models/track/project-page/)로 이동하여 라인 차트를 확인할 수 있습니다. 범례를 추가하려면 `wandb.plot.line_series()`에 `keys` 인수를 포함하세요. 예시:
 
 ```python
-wandb.log(
-    {
-        "my_plot": wandb.plot.line_series(
-            xs=x_data, ys=y_data, keys=["metric_A", "metric_B"]
-        )
-    }
-)
+
+with wandb.init(project="my_project") as run:
+
+    run.log(
+        {
+            "my_plot": wandb.plot.line_series(
+                xs=x_data, ys=y_data, keys=["metric_A", "metric_B"]
+            )
+        }
+    )
 ```
 
-**여러 줄** 탭 아래의 [여기](/ko/models/track/log/plots/#basic-charts)에서 여러 줄 플롯에 대한 추가 세부 정보를 참조하세요.
+다중 선형 플롯에 대한 자세한 내용은 [여기](/models/track/log/plots/#basic-charts)의 **Multi-line** 탭에서 확인할 수 있습니다.

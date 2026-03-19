@@ -1,9 +1,5 @@
 ---
-title: How do I get the random run name in my script?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: 스크립트에서 임의로 생성된 Run 이름을 어떻게 가져오나요?
 ---
 
-`wandb.run.save()`를 호출하여 현재 run을 저장합니다. `wandb.run.name`을 사용하여 이름을 검색합니다.
+run 오브젝트의 `.save()` 메소드를 호출하여 현재 run 을 저장합니다. run 오브젝트의 `name` 속성을 사용하여 이름을 가져옵니다.

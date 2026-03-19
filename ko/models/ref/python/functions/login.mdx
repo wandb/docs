@@ -1,0 +1,61 @@
+---
+title: ' thoughtful
+
+  login()'
+namespace: python_sdk_actions
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py" />
+
+### <kbd>function</kbd> `login`
+
+```python
+login(
+    key: 'str | None' = None,
+    relogin: 'bool | None' = None,
+    host: 'str | None' = None,
+    force: 'bool | None' = None,
+    timeout: 'int | None' = None,
+    verify: 'bool' = False,
+    referrer: 'str | None' = None,
+    anonymous: 'DoNotSet' = <object object at 0x100745f80>
+) → bool
+```
+
+W&B 에 로그인합니다.
+
+인증이 필요한 대부분의 W&B 메소드는 암시적으로 로그인할 수 있으므로 일반적으로 이 함수를 직접 사용할 필요는 없습니다. 이 함수는 `wandb login` CLI 에 대응하는 프로그래밍 방식의 인터페이스입니다.
+
+이 함수는 세션에 대한 글로벌 자격 증명(이 호출 이후 현재 Python 프로세스의 모든 wandb 사용에 영향을 미침)과 필요한 경우 .netrc 파일을 업데이트합니다.
+
+`WANDB_IDENTITY_TOKEN_FILE` 환경 변수 등을 통해 `identity_token_file` 설정이 되어 있는 경우, 이 함수는 아무런 동작도 수행하지 않습니다.
+
+그렇지 않고 명시적인 API 키가 제공되면, 해당 키를 사용하고 시스템의 .netrc 파일에 기록합니다. 키가 제공되지 않았지만 세션이 이미 인증된 상태라면, 세션 키를 사용하여 검증을 수행하며(verify 가 True 인 경우), .netrc 파일은 업데이트하지 않습니다.
+
+위의 조건 중 어느 것도 해당되지 않는 경우, 다음 순서에 따라 API 키를 가져옵니다:
+
+- `WANDB_API_KEY` 환경 변수
+- 시스템 또는 Workspace 설정 파일의 `api_key` 설정
+- .netrc 파일 (`~/.netrc`, `~/_netrc` 또는 `NETRC` 환경 변수로 지정된 경로)
+- 대화형 프롬프트 (사용 가능한 경우)
+
+**Args:**
+
+- `key`: 사용할 API 키입니다.
+- `relogin`: True 인 경우, .netrc 나 환경 변수 등을 읽지 않고 대화형 프롬프트를 통해 API 키를 새로 가져옵니다.
+- `host`: 연결할 W&B 서버 URL 입니다.
+- `force`: True 인 경우, 대화형 프롬프트에서 오프라인 모드 선택을 허용하지 않습니다.
+- `timeout`: 대화형 프롬프트에서 사용자 입력을 기다리는 시간(초)입니다. 비대화형 환경에서 대화형 프롬프트가 잘못 표시되는 경우를 대비한 안전장치로 사용할 수 있습니다.
+- `verify`: W&B 서버에서 자격 증명을 검증하고, 실패 시 `AuthenticationError`를 발생시킵니다.
+- `referrer`: 분석을 위해 URL 로그인 요청에 사용할 referrer 입니다.
+
+**Returns:**
+
+- `bool`: `key`가 성공적으로 설정되었는지 여부를 반환합니다.
+
+**Raises:**
+
+- `AuthenticationError`: `api_key`가 서버 검증에 실패한 경우 발생합니다.
+- `UsageError`: `api_key`를 설정할 수 없고 tty 가 없는 경우 발생합니다.

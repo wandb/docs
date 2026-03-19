@@ -1,0 +1,69 @@
+---
+title: XGBoost
+description: W&B를 통해 트리(Tree) 모델을 트래킹하세요.
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" />
+
+`wandb` 라이브러리는 XGBoost 트레이닝에서 메트릭, 설정(configs) 및 저장된 부스터를 로그하기 위한 `WandbCallback` 콜백을 제공합니다. 여기에서 XGBoost `WandbCallback`의 출력값이 포함된 [라이브 W&B Dashboard](https://wandb.ai/morg/credit_scorecard)를 확인하실 수 있습니다.
+
+<Frame>
+    <img src="/images/integrations/xgb_dashboard.png" alt="W&B Dashboard using XGBoost"  />
+</Frame>
+
+## 시작하기
+
+XGBoost 메트릭, 설정 및 부스터 모델을 W&B로 로그하는 방법은 `WandbCallback`을 XGBoost에 전달하는 것만큼 간단합니다:
+
+```python
+from wandb.integration.xgboost import WandbCallback
+import xgboost as XGBClassifier
+
+...
+# wandb run 시작
+with wandb.init() as run:
+  # 모델에 WandbCallback 전달
+  bst = XGBClassifier()
+  bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
+```
+
+XGBoost와 W&B를 사용한 로깅에 대해 더 자세히 알아보려면 [이 노트북](https://wandb.me/xgboost)을 열어보세요.
+
+## `WandbCallback` 레퍼런스
+
+### 기능
+XGBoost 모델에 `WandbCallback`을 전달하면 다음과 같은 작업이 수행됩니다:
+- 부스터 모델 설정을 W&B에 로그합니다.
+- rmse, accuracy 등 XGBoost가 수집한 평가 메트릭을 W&B에 로그합니다.
+- 트레이닝 메트릭을 W&B에 로그합니다 (eval_set에 데이터를 제공한 경우).
+- 최적의 점수(best score)와 최적의 반복 횟수(best iteration)를 로그합니다.
+- 트레이닝된 모델을 저장하고 W&B Artifacts 에 업로드합니다 (`log_model = True`인 경우).
+- 피처 중요도(feature importance) 플롯을 로그합니다 (`log_feature_importance=True`인 경우, 기본값).
+- 최적의 평가 메트릭을 `wandb.Run.summary`에 캡처합니다 (`define_metric=True`인 경우, 기본값).
+
+### 인수
+- `log_model`: (boolean) True인 경우 모델을 저장하고 W&B Artifacts 에 업로드합니다.
+
+- `log_feature_importance`: (boolean) True인 경우 피처 중요도 막대 그래프를 로그합니다.
+
+- `importance_type`: (str) 트리 모델의 경우 `{weight, gain, cover, total_gain, total_cover}` 중 하나입니다. 선형 모델의 경우 weight입니다.
+
+- `define_metric`: (boolean) True(기본값)인 경우 `run.summary`에서 트레이닝의 마지막 스텝 대신 최적의 스텝에서의 모델 성능을 캡처합니다.
+
+
+[WandbCallback 소스 코드](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)를 검토하실 수 있습니다.
+
+추가 예제는 [GitHub 예제 저장소](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)에서 확인하세요.
+
+## Sweeps 로 하이퍼파라미터 튜닝하기
+
+모델에서 최고의 성능을 끌어내기 위해서는 트리 깊이(tree depth)나 학습률(learning rate)과 같은 하이퍼파라미터를 튜닝해야 합니다. W&B [Sweeps](/models/sweeps/) 는 대규모 하이퍼파라미터 테스트 실험을 설정, 오케스트레이션 및 분석하기 위한 강력한 툴킷입니다.
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
+
+이 [XGBoost & Sweeps 파이썬 스크립트](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)를 직접 실행해 볼 수도 있습니다.
+
+<Frame>
+    <img src="/images/integrations/xgboost_sweeps_example.png" alt="XGBoost performance comparison"  />
+</Frame>

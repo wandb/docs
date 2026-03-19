@@ -1,5 +1,5 @@
 ---
-description: How to integrate W&B with Metaflow.
+description: "Integrate W&B with Metaflow to track experiments and manage ML workflows with automatic metric and artifact logging."
 title: Metaflow
 ---
 
@@ -7,7 +7,7 @@ import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-strea
 
 ## Overview
 
-[Metaflow](https://docs.metaflow.org) is a framework created by [Netflix](https://netflixtechblog.com) for creating and running ML workflows.
+[Metaflow](https://docs.metaflow.org) is a framework created by Netflix for creating and running ML workflows.
 
 This integration lets users apply decorators to Metaflow [steps and flows](https://docs.metaflow.org/metaflow/basics) to automatically log parameters and artifacts to W&B.
 
@@ -166,7 +166,7 @@ You can access the information we've captured in three ways: inside the original
 | `others`   | <ul><li><code>True</code>: Log anything else that is serializable as a pickle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                |
 | `settings` | <ul><li><code>wandb.Settings(...)</code>: Specify your own <code>wandb</code> settings for this step or flow</li><li><code>None</code>: Equivalent to passing <code>wandb.Settings()</code></li></ul><p>By default, if:</p><ul><li><code>settings.run_group</code> is <code>None</code>, it will be set to <code>\{flow_name\}/\{run_id\}</code></li><li><code>settings.run_job_type</code> is <code>None</code>, it will be set to <code>\{run_job_type\}/\{step_name\}</code></li></ul> |
 
-## Frequently Asked Questions
+## Frequently asked questions
 
 ### What exactly do you log? Do you log all instance and local variables?
 

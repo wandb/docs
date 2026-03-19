@@ -1,13 +1,10 @@
 ---
-title: How do I use the resume parameter when resuming a run in W&B?
-support:
-- resuming
-toc_hide: true
-type: docs
+title: W&B에서 run을 재개할 때 resume 파라미터를 어떻게 사용하나요?
 ---
 
-W&B에서 `resume` 파라미터를 사용하려면 `wandb.init()`에서 `resume` 인수를 설정하고 `entity`, `project`, `id`를 지정하세요. `resume` 인수는 `"must"` 또는 `"allow"` 값을 허용합니다.
+W&B 에서 `resume` 파라미터를 사용하려면, `entity`, `project`, `id`를 지정한 상태에서 `wandb.init()`의 `resume` 인수를 설정하십시오. `resume` 인수는 `"must"` 또는 `"allow"` 값을 허용합니다.
 
-```python
-run = wandb.init(entity="your-entity", project="your-project", id="your-run-id", resume="must")
-```
+  ```python
+  with  wandb.init(entity="your-entity", project="your-project", id="your-run-id", resume="must") as run:
+      # 여기에 트레이닝 코드를 작성하세요
+  ```

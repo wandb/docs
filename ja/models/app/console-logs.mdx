@@ -1,0 +1,153 @@
+---
+title: コンソールログ
+---
+
+実験を run すると、コンソールにさまざまなメッセージが表示されることがあります。W&B はこれらのコンソールログをキャプチャし、W&B App に表示します。これらのメッセージを使用して、実験の 振る舞い のデバッグや監視を行ってください。
+
+## コンソールログの表示
+
+W&B App で Run のコンソールログにアクセスするには、以下の手順に従います：
+
+1. W&B App で対象の **Projects** に移動します。
+2. **Runs** テーブルから特定の Run を選択します。
+3. プロジェクトサイドバーにある **Logs** タブをクリックします。
+
+<Note>
+W&B は、1 つの Run に対して最大 100,000 行のログを保存します。W&B App では、一度に最大 10,000 行のログが表示されます。ログをスクロールして古い行を表示させることで、保存されているすべてのログを確認できます。
+</Note>
+
+{/* ## コンソールログのフィールド
+
+W&B App 内で、コンソールログテーブルに表示されるフィールドを変更できます。 */}
+
+## コンソールログの種類
+
+W&B は、情報メッセージ、警告、エラーの数種類のコンソールログをキャプチャし、ログの重要度を示すプレフィックスを付与します。
+
+### 情報メッセージ（Informational messages）
+情報メッセージは、Run の進捗やステータスに関する更新情報を提供します。通常、`wandb:` というプレフィックスが付きます。
+
+```text
+wandb: Starting Run: abc123
+wandb: Run data is saved locally in ./wandb/run-20240125_120000-abc123
+```
+
+### 警告メッセージ（Warning messages）
+実行は停止しないものの、潜在的な問題に関する警告には `WARNING:` というプレフィックスが付きます。
+
+```text
+WARNING Found .wandb file, not streaming tensorboard metrics.
+WARNING These runs were logged with a previous version of wandb.
+```
+
+### エラーメッセージ（Error messages）
+重大な問題に関するエラーメッセージには `ERROR:` というプレフィックスが付きます。これらは、Run が正常に完了するのを妨げる可能性のある問題を示しています。
+
+```text
+ERROR Unable to save notebook session history.
+ERROR Failed to save notebook.
+```
+
+## コンソールログの設定
+
+コード内で `wandb.init()` に `wandb.Settings` オブジェクトを渡すことで、W&B がコンソールログをどのように処理するかを 設定 できます。`wandb.Settings` 内で以下の パラメータ を設定し、コンソールログの 振る舞い を制御できます：
+
+- `show_errors`: `True` に設定すると、エラーメッセージが W&B App に表示されます。`False` に設定すると、エラーメッセージは表示されません。
+- `silent`: `True` に設定すると、すべての W&B コンソール出力が抑制されます。これは、コンソールの ノイズ を最小限に抑えたい プロダクション 環境で役立ちます。
+- `show_warnings`: `True` に設定すると、警告メッセージが W&B App に表示されます。`False` に設定すると、警告メッセージは表示されません。
+- `show_info`: `True` に設定すると、情報メッセージが W&B App に表示されます。`False` に設定すると、情報メッセージは表示されません。
+
+以下の例は、これらの 設定 を構成する方法を示しています：
+
+```python
+import wandb
+
+settings = wandb.Settings(
+    show_errors=True,  # エラーメッセージを W&B App に表示する
+    silent=False,      # すべての W&B コンソール出力を無効にする
+    show_warnings=True # 警告メッセージを W&B App に表示する
+)
+
+with wandb.init(settings=settings) as run:
+    # ここにトレーニングコードを記述
+    run.log({"accuracy": 0.95})
+```
+
+## カスタムロギング
+
+W&B は アプリケーション からのコンソールログをキャプチャしますが、独自のロギング設定を妨げることはありません。Python 組み込みの `print()` 関数や `logging` モジュールを使用してメッセージを記録できます。
+
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    for i in range(100, 1000, 100):
+        # これは W&B にログを記録し、コンソールにも出力します
+        run.log({"epoch": i, "loss": 0.1 * i})
+        print(f"epoch: {i} loss: {0.1 * i}")
+```
+
+コンソールログは以下のようになります：
+
+```text
+1 epoch:  100 loss: 1.3191105127334595
+2 epoch:  200 loss: 0.8664389848709106
+3 epoch:  300 loss: 0.6157898902893066
+4 epoch:  400 loss: 0.4961796700954437
+5 epoch:  500 loss: 0.42592573165893555
+6 epoch:  600 loss: 0.3771176040172577
+7 epoch:  700 loss: 0.3393910825252533
+8 epoch:  800 loss: 0.3082585036754608
+9 epoch:  900 loss: 0.28154927492141724
+```
+
+## タイムスタンプ
+
+各コンソールログのエントリには、自動的にタイムスタンプが追加されます。これにより、各ログメッセージがいつ生成されたかを追跡できます。
+
+コンソールログのタイムスタンプの表示/非表示を切り替えることができます。コンソールページの左上隅にある **Timestamp visible** ドロップダウンを選択してください。
+
+## コンソールログの検索
+
+コンソールログページの上部にある検索バーを使用して、キーワードでログをフィルタリングできます。特定の用語、ラベル、またはエラーメッセージを検索できます。
+
+## カスタムラベルによるフィルタリング
+
+<Warning>
+`x_` で始まるパラメータ（`x_label` など）はパブリックプレビュー版です。フィードバックを提供するには、[W&B リポジトリで GitHub issue](https://github.com/wandb/wandb) を作成してください。
+</Warning>
+
+`wandb.Settings` の `x_label` 引数 に渡したラベルに基づいて、コンソールログページの上部にある UI 検索バーからログをフィルタリングできます。
+
+```python
+import wandb
+
+# プライマリノードで Run を初期化
+with wandb.init(
+    entity="entity",
+    project="project",
+    settings=wandb.Settings(
+        x_label="custom_label"  # (オプション) ログフィルタリング用のカスタムラベル
+    )
+) as run:
+    # ここにコードを記述
+```
+
+## コンソールログのダウンロード
+
+W&B App で Run のコンソールログをダウンロードするには、以下の手順に従います：
+
+1. W&B App で対象の **Projects** に移動します。
+2. **Runs** テーブルから特定の Run を選択します。
+3. プロジェクトサイドバーにある **Logs** タブをクリックします。
+4. コンソールログページの右上隅にあるダウンロードボタンをクリックします。
+
+
+## コンソールログのコピー
+
+W&B App で Run のコンソールログをコピーするには、以下の手順に従います：
+
+1. W&B App で対象の **Projects** に移動します。
+2. **Runs** テーブルから特定の Run を選択します。
+3. プロジェクトサイドバーにある **Logs** タブをクリックします。
+4. コンソールログページの右上隅にあるコピーボタンをクリックします。

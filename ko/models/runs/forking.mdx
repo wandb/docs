@@ -1,92 +1,131 @@
 ---
-title: Fork a run
-description: W&B run 포크하기
+title: Run 포크하기
+description: 원본 run에 영향을 주지 않고 실험의 특정 시점부터 다른 파라미터나 Models를 탐색해 보세요.
 ---
 
 <Warning>
-run 포크 기능은 비공개 미리보기로 제공됩니다. 이 기능에 대한 엑세스를 요청하려면 support@wandb.com으로 W&B 지원팀에 문의하십시오.
+Run 을 포크하는 기능은 현재 프라이빗 프리뷰 단계입니다. 이 기능에 대한 엑세스 권한을 요청하려면 support@wandb.com 으로 W&B 지원팀에 문의하세요.
 </Warning>
 
-기존 W&B run에서 "포크"하려면 [`wandb.init()`](/ko/models/ref/python/init)으로 run을 초기화할 때 `fork_from`을 사용하십시오. run에서 포크하면 W&B는 소스 run의 `run ID` 및 `step`을 사용하여 새 run을 생성합니다.
+기존의 실험에 영향을 주지 않고 특정 시점부터 다른 파라미터나 모델을 탐색할 수 있습니다. 이를 위해 기존의 W&B Run 을 포크(fork)하세요.
 
-run을 포크하면 원래 run에 영향을 주지 않고 실험의 특정 시점에서 다른 파라미터 또는 Models를 탐색할 수 있습니다.
+Run 을 포크하면, W&B는 소스 Run 의 Run ID와 지정된 Step 을 사용하여 새로운 Run 을 생성합니다. 포크된 Run 에는 해당 Step 까지의 소스 Run 데이터가 모두 포함됩니다. 포크 지점 이후부터는 기존 Run 과 독립적으로 포크된 Run 에 새로운 데이터를 로그할 수 있습니다.
 
 <Note>
-* run을 포크하려면 [`wandb`](https://pypi.org/project/wandb/) SDK 버전 >= 0.16.5가 필요합니다
-* run을 포크하려면 단조 증가하는 steps이 필요합니다. [`define_metric()`](/ko/models/ref/python/run#define_metric)으로 정의된 비단조 steps을 사용하여 포크 지점을 설정하면 run 기록 및 시스템 메트릭의 필수적인 시간순서가 손상되므로 사용할 수 없습니다.
+* Run 을 포크하려면 [`wandb`](https://pypi.org/project/wandb/) SDK 버전이 0.16.5 이상이어야 합니다.
+* Run 을 포크하려면 Step 이 단조 증가(monotonically increasing)해야 합니다. [`define_metric()`](/models/ref/python/experiments/run#define_metric) 으로 정의된 비단조 Step 을 사용하는 Run 에서는 포크할 수 없습니다. 비단조 Step 은 Run 히스토리와 시스템 메트릭의 시간 순서를 깨뜨립니다.
 </Note>
 
-## 포크된 run 시작
+기존 Run 에서 포크하려면 [`wandb.init()`](/models/ref/python/functions/init) 의 `fork_from` 파라미터를 사용하세요. 소스 Run 의 고유한 `run ID` 와 포크를 시작할 `step` 을 지정해야 합니다.
 
-run을 포크하려면 [`wandb.init()`](/ko/models/ref/python/init)에서 `fork_from` 인수를 사용하고 포크할 소스 `run ID`와 소스 run의 `step`을 지정하십시오.
+<Note>
+Run ID가 무엇인지, 그리고 어떻게 찾는지 알아보려면 [Unique run identifiers](/models/runs/run-identifiers#unique-run-identifiers) 를 참조하세요.
+</Note>
+
+## 이전에 로그된 Run 에서 포크하기
+
+다음 코드 조각은 이전에 W&B에 로그된 Run 에서 포크하는 방법을 보여줍니다. 다른 스크립트나 노트북에 있는 Run , 또는 다른 사용자나 서비스 계정에 의해 로그된 Run 에서 포크할 때 이 방법을 사용하세요.
+
+`<source-run-id>`, `<project>`, `<entity>` 를 실제 값으로 바꾸세요.
 
 ```python
 import wandb
 
-# 나중에 포크할 run을 초기화합니다
-original_run = wandb.init(project="your_project_name", entity="your_entity_name")
-# ... 트레이닝 또는 로깅 수행 ...
-original_run.finish()
+# 포크할 소스 Run의 고유 ID
+source_run_id = "<source-run-id>"
 
-# 특정 step에서 run을 포크합니다
-forked_run = wandb.init(
-    project="your_project_name",
-    entity="your_entity_name",
-    fork_from=f"{original_run.id}?_step=200",
-)
+# 포크할 Step 지정
+fork_step = 200
+
+# Run 포크하기
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{source_run_id}?_step={fork_step}",
+) as forked_run:
+    pass
 ```
 
-### 변경 불가능한 run ID 사용
+## 동일한 스크립트 내의 Run 에서 포크하기
 
-특정 run에 대한 일관되고 변경되지 않는 참조를 보장하려면 변경 불가능한 run ID를 사용하십시오. 사용자 인터페이스에서 변경 불가능한 run ID를 얻으려면 다음 단계를 따르십시오.
+다음 코드 조각은 동일한 스크립트 내의 Run 에서 포크하는 방법을 보여줍니다. 이는 동일한 스크립트나 노트북 내의 특정 지점에서 다른 파라미터나 모델을 탐색하고 싶을 때 유용합니다.
 
-1. **Overview 탭에 엑세스:** 소스 run 페이지의 [**Overview 탭**](/ko/./#overview-tab)으로 이동합니다.
+```python
+import wandb
 
-2. **변경 불가능한 Run ID 복사:** **Overview** 탭의 오른쪽 상단에 있는 `...` 메뉴(세 개의 점)를 클릭합니다. 드롭다운 메뉴에서 `Copy Immutable Run ID` 옵션을 선택합니다.
+# Run 초기화
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as original_run:
+    # ...트레이닝 로직이 여기에 들어갑니다...
+    pass
 
-이러한 단계를 따르면 run에 대한 안정적이고 변경되지 않는 참조를 갖게 되어 run을 포크하는 데 사용할 수 있습니다.
+# 포크할 Step 지정
+fork_step = 200
 
-## 포크된 run에서 계속하기
-포크된 run을 초기화한 후 새 run에 계속 로그할 수 있습니다. 연속성을 위해 동일한 메트릭을 로그하고 새 메트릭을 도입할 수 있습니다.
+# 원본 Run의 ID를 사용하고 포크할 Step을 지정합니다
+with wandb.init(
+    project="<project>",
+    entity="<entity>",
+    fork_from=f"{original_run.id}?_step={fork_step}",
+) as forked_run:
+    # ...트레이닝 로직이 여기에 들어갑니다...
+    pass
+```
 
-예를 들어 다음 코드 예제에서는 먼저 run을 포크한 다음 트레이닝 step 200부터 포크된 run에 메트릭을 로그하는 방법을 보여줍니다.
+`original_run.id` 속성을 사용하여 원본 Run 의 고유 ID를 가져올 수 있습니다.
+
+### 예시 스크립트
+
+예를 들어, 다음 코드는 먼저 Run 을 포크한 다음, 트레이닝 Step 200부터 포크된 Run 에 메트릭을 로그하는 방법을 보여줍니다.
+
+다음 코드를 복사하여 Python 스크립트나 노트북 셀에 붙여넣으세요. `<project>` 와 `<entity>` 를 실제 값으로 바꾸세요.
 
 ```python
 import wandb
 import math
 
-# 첫 번째 run을 초기화하고 일부 메트릭을 로그합니다
-run1 = wandb.init("your_project_name", entity="your_entity_name")
-for i in range(300):
-    run1.log({"metric": i})
-run1.finish()
+# 첫 번째 Run을 초기화하고 일부 메트릭을 로그합니다
+with wandb.init(
+    project="<project>",
+    entity="<entity>"
+) as run1:
+    for i in range(300):
+        run1.log({"metric": i})
 
-# 특정 step에서 첫 번째 run에서 포크하고 step 200부터 메트릭을 로그합니다
-run2 = wandb.init(
-    "your_project_name", entity="your_entity_name", fork_from=f"{run1.id}?_step=200"
-)
+# 특정 Step에서 첫 번째 Run으로부터 포크하고
+# Step 200부터 메트릭 로그를 시작합니다
+with wandb.init(
+    project="<project>", 
+    entity="<entity>", 
+    fork_from=f"{run1.id}?_step=200"
+) as run2:
+    # 새로운 Run에서 로그를 계속합니다
+    # 처음 몇 Step 동안은 run1의 메트릭을 그대로 로그합니다
+    # Step 250 이후부터는 스파이크 패턴을 로그하기 시작합니다
+    for i in range(200, 300):
+        if i < 250:
+            # 스파이크 없이 run1에서 이어지는 메트릭 값
+            metric_value = i
+        else:
+            # Step 250부터 스파이크 행동(spikey behavior)을 도입합니다
+            metric_value = i + (2 * math.sin(i / 3.0))  # 미세한 스파이크 패턴 적용
 
-# 새 run에서 계속 로깅합니다
-# 처음 몇 steps 동안은 run1에서 메트릭을 그대로 로깅합니다
-# Step 250 이후에는 스파이크 패턴 로깅을 시작합니다
-for i in range(200, 300):
-    if i < 250:
-        run2.log({"metric": i})  # 스파이크 없이 run1에서 계속 로깅합니다
-    else:
-        # Step 250부터 스파이크 행동을 도입합니다
-        subtle_spike = i + (2 * math.sin(i / 3.0))  # 미묘한 스파이크 패턴을 적용합니다
-        run2.log({"metric": subtle_spike})
-    # 모든 steps에서 새 메트릭을 추가로 로깅합니다
-    run2.log({"additional_metric": i * 1.1})
-run2.finish()
+        # 두 메트릭이 동일한 Step에 로그되도록
+        # 단일 호출로 두 메트릭을 모두 로그합니다
+        run2.log({
+            "metric": metric_value,
+            "additional_metric": i * 1.1
+        })
 ```
 
 <Note>
-** 되감기 및 포크 호환성**
+**Rewind 및 Forking 호환성**
 
-포크는 run을 관리하고 실험하는 데 더 많은 유연성을 제공하여 [`되감기`](/ko/models/runs/rewind/)를 보완합니다.
+포크 기능은 Run 관리 및 실험에 더 많은 유연성을 제공함으로써 [`rewind`](/models/runs/rewind/) 기능을 보완합니다.
 
-run에서 포크하면 W&B는 특정 시점에서 run에서 새 분기를 생성하여 다른 파라미터 또는 Models를 시도합니다.
+Run 에서 포크를 하면, W&B는 특정 시점에 Run 의 새로운 브랜치를 생성하여 다른 파라미터나 모델을 시도할 수 있게 합니다.
 
-run을 되감으면 W&B를 통해 run 기록 자체를 수정하거나 변경할 수 있습니다.
+Run 을 Rewind 하면, W&B는 Run 히스토리 자체를 수정하거나 정정할 수 있게 해줍니다.
 </Note>

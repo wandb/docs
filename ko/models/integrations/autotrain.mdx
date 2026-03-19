@@ -1,0 +1,128 @@
+---
+title: Hugging Face AutoTrain
+---
+
+[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) 은 자연어 처리 (NLP), 컴퓨터 비전 (CV), 음성 처리 및 정형 데이터 (Tabular) 작업을 위한 최첨단 모델을 트레이닝할 수 있는 노코드 (no-code) 툴입니다.
+
+[W&B](https://wandb.com/) 는 Hugging Face AutoTrain 에 직접 인테그레이션되어, 실험 트래킹 및 설정 관리를 제공합니다. 실험을 위한 CLI 커맨드에 단일 파라미터를 추가하는 것만으로 간단하게 사용할 수 있습니다.
+
+<Frame>
+    <img src="/images/integrations/hf-autotrain-1.png" alt="실험 메트릭 로그 기록"  />
+</Frame>
+
+## 필수 구성 요소 설치
+
+`autotrain-advanced` 와 `wandb` 를 설치합니다.
+
+<Tabs>
+<Tab title="Command Line">
+```shell
+pip install --upgrade autotrain-advanced wandb
+```
+</Tab>
+<Tab title="Notebook">
+```notebook
+!pip install --upgrade autotrain-advanced wandb
+```
+</Tab>
+</Tabs>
+
+이 가이드에서는 이러한 기능들을 시연하기 위해, 수학 데이터셋으로 LLM 을 파인튜닝하여 [GSM8k 벤치마크](https://github.com/openai/grade-school-math) 의 `pass@1` 에서 SoTA 결과를 달성하는 과정을 보여줍니다.
+
+## 데이터셋 준비
+
+Hugging Face AutoTrain 이 제대로 작동하려면 커스텀 CSV 데이터셋이 특정 형식을 갖추어야 합니다.
+
+- 트레이닝 파일에는 트레이닝에 사용될 `text` 컬럼이 반드시 포함되어야 합니다. 최상의 결과를 얻으려면 `text` 컬럼의 데이터가 `### Human: Question?### Assistant: Answer.` 형식을 따라야 합니다. [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco) 에서 좋은 예시를 확인할 수 있습니다.
+
+    하지만, [MetaMathQA 데이터셋](https://huggingface.co/datasets/meta-math/MetaMathQA) 에는 `query`, `response`, `type` 컬럼이 포함되어 있습니다. 먼저 이 데이터셋을 전처리합니다. `type` 컬럼을 제거하고 `query` 와 `response` 컬럼의 내용을 `### Human: Query?### Assistant: Response.` 형식의 새로운 `text` 컬럼으로 병합합니다. 트레이닝에는 결과 데이터셋인 [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath) 를 사용합니다.
+
+## `autotrain` 을 사용하여 트레이닝하기
+
+커맨드라인이나 노트북에서 `autotrain` advanced 를 사용하여 트레이닝을 시작할 수 있습니다. `--log` 인수를 사용하거나, `--log wandb` 를 사용하여 결과를 [W&B Run](/models/runs/) 에 로그합니다.
+
+<Tabs>
+<Tab title="Command Line">
+```shell
+autotrain llm \
+    --train \
+    --model HuggingFaceH4/zephyr-7b-alpha \
+    --project-name zephyr-math \
+    --log wandb \
+    --data-path data/ \
+    --text-column text \
+    --lr 2e-5 \
+    --batch-size 4 \
+    --epochs 3 \
+    --block-size 1024 \
+    --warmup-ratio 0.03 \
+    --lora-r 16 \
+    --lora-alpha 32 \
+    --lora-dropout 0.05 \
+    --weight-decay 0.0 \
+    --gradient-accumulation 4 \
+    --logging_steps 10 \
+    --fp16 \
+    --use-peft \
+    --use-int4 \
+    --merge-adapter \
+    --push-to-hub \
+    --token <huggingface-token> \
+    --repo-id <huggingface-repository-address>
+```
+</Tab>
+<Tab title="Notebook">
+```notebook
+# 하이퍼파라미터 설정
+learning_rate = 2e-5
+num_epochs = 3
+batch_size = 4
+block_size = 1024
+trainer = "sft"
+warmup_ratio = 0.03
+weight_decay = 0.
+gradient_accumulation = 4
+lora_r = 16
+lora_alpha = 32
+lora_dropout = 0.05
+logging_steps = 10
+
+# 트레이닝 실행
+!autotrain llm \
+    --train \
+    --model "HuggingFaceH4/zephyr-7b-alpha" \
+    --project-name "zephyr-math" \
+    --log "wandb" \
+    --data-path data/ \
+    --text-column text \
+    --lr str(learning_rate) \
+    --batch-size str(batch_size) \
+    --epochs str(num_epochs) \
+    --block-size str(block_size) \
+    --warmup-ratio str(warmup_ratio) \
+    --lora-r str(lora_r) \
+    --lora-alpha str(lora_alpha) \
+    --lora-dropout str(lora_dropout) \
+    --weight-decay str(weight_decay) \
+    --gradient-accumulation str(gradient_accumulation) \
+    --logging-steps str(logging_steps) \
+    --fp16 \
+    --use-peft \
+    --use-int4 \
+    --merge-adapter \
+    --push-to-hub \
+    --token str(hf_token) \
+    --repo-id "rishiraj/zephyr-math"
+```
+</Tab>
+</Tabs>
+
+
+<Frame>
+    <img src="/images/integrations/hf-autotrain-2.gif" alt="실험 설정 저장"  />
+</Frame>
+
+## 추가 리소스
+
+* [Rishiraj Acharya](https://huggingface.co/rishiraj) 가 작성한 [AutoTrain Advanced 가 이제 실험 트래킹을 지원합니다](https://huggingface.co/blog/rishiraj/log-autotrain)
+* [Hugging Face AutoTrain 문서](https://huggingface.co/docs/autotrain/index)

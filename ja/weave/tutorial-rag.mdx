@@ -1,0 +1,772 @@
+---
+title: RAG アプリケーション の評価
+description: LLM ジャッジを用いた Weave による RAG アプリケーションの構築と評価
+---
+
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prereqs.mdx";
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+<ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
+<GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
+</div>
+
+検索拡張生成 (RAG) は、カスタム知識ベースにアクセスできるジェネレーティブ AI アプリケーションを構築する一般的な手法です。
+
+![Evals hero](/images/evals-hero.png)
+
+## 学習内容:
+
+このガイドでは、以下の方法を説明します：
+
+* 知識ベースの構築
+* 関連ドキュメントを見つける検索（retrieval）ステップを含む RAG アプリケーションの作成
+* Weave を使用した検索ステップのトレース
+* LLM ジャッジ（LLM judge）を使用した RAG アプリケーションの評価によるコンテキスト精度の測定
+* カスタムスコアリング関数の定義
+
+<WeaveQuickstartPrereqs/>
+
+## 知識ベースの構築
+
+まず、記事の埋め込み（embeddings）を計算します。通常、これは記事に対して一度だけ行い、埋め込みとメタデータをデータベースに保存しますが、ここでは簡略化のため、スクリプトを実行するたびに実行します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    from openai import OpenAI
+    import weave
+    from weave import Model
+    import numpy as np
+    import json
+    import asyncio
+
+    articles = [
+        "Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial “tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too,” one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.",
+        "Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.",
+        "Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities",
+        "Rivian and Lucid shares plunge after weak EV earnings reports Shares of electric vehicle makers Rivian and Lucid fell Thursday after the companies reported stagnant production in their fourth-quarter earnings after the bell Wednesday. Rivian shares sank about 25 percent, and Lucids stock dropped around 17 percent. Rivian forecast it will make 57,000 vehicles in 2024, slightly less than the 57,232 vehicles it produced in 2023. Lucid said it expects to make 9,000 vehicles in 2024, more than the 8,428 vehicles it made in 2023.",
+        "Mauritius blocks Norwegian cruise ship over fears of a potential cholera outbreak Local authorities on Sunday denied permission for the Norwegian Dawn ship, which has 2,184 passengers and 1,026 crew on board, to access the Mauritius capital of Port Louis, citing “potential health risks.” The Mauritius Ports Authority said Sunday that samples were taken from at least 15 passengers on board the cruise ship. A spokesperson for the U.S.-headquartered Norwegian Cruise Line Holdings said Sunday that 'a small number of guests experienced mild symptoms of a stomach-related illness' during Norwegian Dawns South Africa voyage.",
+        "Intuitive Machines lands on the moon in historic first for a U.S. company Intuitive Machines Nova-C cargo lander, named Odysseus after the mythological Greek hero, is the first U.S. spacecraft to soft land on the lunar surface since 1972. Intuitive Machines is the first company to pull off a moon landing — government agencies have carried out all previously successful missions. The company's stock surged in extended trading Thursday, after falling 11 percent in regular trading.",
+        "Lunar landing photos: Intuitive Machines Odysseus sends back first images from the moon Intuitive Machines cargo moon lander Odysseus returned its first images from the surface. Company executives believe the lander caught its landing gear sideways on the moon's surface while touching down and tipped over. Despite resting on its side, the company's historic IM-1 mission is still operating on the moon.",
+    ]
+
+    def docs_to_embeddings(docs: list) -> list:
+        openai = OpenAI()
+        document_embeddings = []
+        for doc in docs:
+            response = (
+                openai.embeddings.create(input=doc, model="text-embedding-3-small")
+                .data[0]
+                .embedding
+            )
+            document_embeddings.append(response)
+        return document_embeddings
+
+    # 注：通常は一度だけ実行し、埋め込みとメタデータをデータベースに保存します
+    article_embeddings = docs_to_embeddings(articles)
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript lines
+    require('dotenv').config();
+    import { OpenAI } from 'openai';
+    import * as weave from 'weave';
+
+    interface Article {
+        text: string;
+        embedding?: number[];
+    }
+
+    const articles: Article[] = [
+        { 
+            text: `Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too, one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.`
+        },
+        { 
+            text: `Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.`
+        },
+        { 
+            text: `Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities`
+        }
+    ];
+
+    function cosineSimilarity(a: number[], b: number[]): number {
+        const dotProduct = a.reduce((sum, val, i) => sum + val * b[i], 0);
+        const magnitudeA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
+        const magnitudeB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
+        return dotProduct / (magnitudeA * magnitudeB);
+    }
+
+    const docsToEmbeddings = weave.op(async function(docs: Article[]): Promise<Article[]> {
+        const openai = new OpenAI();
+        const enrichedDocs = await Promise.all(docs.map(async (doc) => {
+            const response = await openai.embeddings.create({
+                input: doc.text,
+                model: "text-embedding-3-small"
+            });
+            return {
+                ...doc,
+                embedding: response.data[0].embedding
+            };
+        }));
+        return enrichedDocs;
+    });
+    ```
+  </Tab>
+</Tabs>
+
+## RAG アプリの作成
+
+次に、検索関数 `get_most_relevant_document` を `@weave.op()` デコレータでラップし、 `Model` クラスを作成します。 `weave.init('<team-name>/rag-quickstart')` を呼び出して、後で確認できるように関数のすべての入力と出力の追跡を開始します。チーム名を指定しない場合、出力は [W&B デフォルトチームまたは Entity](/platform/app/settings-page/user-settings#default-team) に記録されます。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    from openai import OpenAI
+    import weave
+    from weave import Model
+    import numpy as np
+    import asyncio
+
+    @weave.op()
+    def get_most_relevant_document(query):
+        openai = OpenAI()
+        query_embedding = (
+            openai.embeddings.create(input=query, model="text-embedding-3-small")
+            .data[0]
+            .embedding
+        )
+        similarities = [
+            np.dot(query_embedding, doc_emb)
+            / (np.linalg.norm(query_embedding) * np.linalg.norm(doc_emb))
+            for doc_emb in article_embeddings
+        ]
+        # 最も類似度の高いドキュメントのインデックスを取得
+        most_relevant_doc_index = np.argmax(similarities)
+        return articles[most_relevant_doc_index]
+
+    class RAGModel(Model):
+        system_message: str
+        model_name: str = "gpt-3.5-turbo-1106"
+
+        @weave.op()
+        def predict(self, question: str) -> dict: # 注: `question` は後で評価行からデータを選択するために使用されます
+            from openai import OpenAI
+            context = get_most_relevant_document(question)
+            client = OpenAI()
+            query = f"""Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
+            Context:
+            \"\"\"
+            {context}
+            \"\"\"
+            Question: {question}"""
+            response = client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "system", "content": self.system_message},
+                    {"role": "user", "content": query},
+                ],
+                temperature=0.0,
+                response_format={"type": "text"},
+            )
+            answer = response.choices[0].message.content
+            return {'answer': answer, 'context': context}
+    
+    # チーム名とプロジェクト名を設定します
+    weave.init('<team-name>/rag-quickstart')
+    model = RAGModel(
+        system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
+    )
+    model.predict("What significant result was reported about Zealand Pharma's obesity trial?")
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript lines
+    class RAGModel {
+        private openai: OpenAI;
+        private systemMessage: string;
+        private modelName: string;
+        private articleEmbeddings: Article[];
+
+        constructor(config: {
+            systemMessage: string;
+            modelName?: string;
+            articleEmbeddings: Article[];
+        }) {
+            this.openai = new OpenAI();
+            this.systemMessage = config.systemMessage;
+            this.modelName = config.modelName || "gpt-3.5-turbo-1106";
+            this.articleEmbeddings = config.articleEmbeddings;
+            this.predict = weave.op(this, this.predict);
+        }
+
+        async predict(question: string): Promise<{
+            answer: string;
+            context: string;
+        }> {
+            const context = await this.getMostRelevantDocument(question);
+            
+            const response = await this.openai.chat.completions.create({
+                model: this.modelName,
+                messages: [
+                    { role: "system", content: this.systemMessage },
+                    { role: "user", content: `Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
+                        Context:
+                        """
+                        ${context}
+                        """
+                        Question: ${question}` }
+                ],
+                temperature: 0
+            });
+
+            return {
+                answer: response.choices[0].message.content || "",
+                context
+            };
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## LLM ジャッジによる評価
+
+アプリケーションを評価するための単純な方法がない場合、一つのアプローチとして LLM を使用してその側面を評価することが挙げられます。ここでは、LLM ジャッジを使用して、与えられた回答に到達する際にコンテキストが有用であったかどうかを確認するようにプロンプトを出すことで、コンテキスト精度（context precision）を測定する例を示します。このプロンプトは、人気の高い [RAGAS フレームワーク](https://docs.ragas.io/) から着想を得たものです。
+
+### スコアリング関数の定義
+
+[評価パイプラインの構築チュートリアル](/weave/tutorial-eval) と同様に、アプリをテストするための一連のサンプル行とスコアリング関数を定義します。スコアリング関数は 1 つの行を受け取り、それを評価します。入力引数は行の辞書内の対応するキーと一致させる必要があるため、ここでの `question` は辞書から取得されます。 `output` はモデルの出力です。モデルへの入力は、その入力引数に基づいてサンプルから取得されるため、ここでも `question` になります。この例では、並列で高速に実行するために `async` 関数を使用しています。非同期（async）についての簡単な紹介が必要な場合は、[こちら](https://docs.python.org/3/library/asyncio.html) を参照してください。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    from openai import OpenAI
+    import weave
+    import asyncio
+
+    @weave.op()
+    async def context_precision_score(question, output):
+        context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
+        Output in only valid JSON format.
+
+        question: {question}
+        context: {context}
+        answer: {answer}
+        verdict: """
+        client = OpenAI()
+
+        prompt = context_precision_prompt.format(
+            question=question,
+            context=output['context'],
+            answer=output['answer'],
+        )
+
+        response = client.chat.completions.create(
+            model="gpt-4-turbo-preview",
+            messages=[{"role": "user", "content": prompt}],
+            response_format={ "type": "json_object" }
+        )
+        response_message = response.choices[0].message
+        response = json.loads(response_message.content)
+        return {
+            "verdict": int(response["verdict"]) == 1,
+        }
+
+    questions = [
+        {"question": "What significant result was reported about Zealand Pharma's obesity trial?"},
+        {"question": "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?"},
+        {"question": "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?"},
+        {"question": "What were Rivian and Lucid's vehicle production forecasts for 2024?"},
+        {"question": "Why was the Norwegian Dawn cruise ship denied access to Mauritius?"},
+        {"question": "Which company achieved the first U.S. moon landing since 1972?"},
+        {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
+    ]
+    evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
+    asyncio.run(evaluation.evaluate(model)) # 注: 評価対象のモデルを定義する必要があります
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript lines
+    const contextPrecisionScore = weave.op(async function(args: {
+        datasetRow: QuestionRow;
+        modelOutput: { answer: string; context: string; }
+    }): Promise<ScorerResult> {
+        const openai = new OpenAI();
+        
+        const prompt = `Given question, answer and context verify if the context was useful...`;
+
+        const response = await openai.chat.completions.create({
+            model: "gpt-4-turbo-preview",
+            messages: [{ role: "user", content: prompt }],
+            response_format: { type: "json_object" }
+        });
+
+        const result = JSON.parse(response.choices[0].message.content || "{}");
+        return {
+            verdict: parseInt(result.verdict) === 1
+        };
+    });
+
+    const evaluation = new weave.Evaluation({
+        dataset: createQuestionDataset(),
+        scorers: [contextPrecisionScore]
+    });
+
+    await evaluation.evaluate({
+        model: weave.op((args: { datasetRow: QuestionRow }) => 
+            model.predict(args.datasetRow.question)
+        )
+    });
+    ```
+  </Tab>
+</Tabs>
+
+### オプション: `Scorer` クラスの定義
+
+一部のアプリケーションでは、カスタム評価クラスを作成したい場合があります。例えば、特定のパラメータ（チャットモデル、プロンプトなど）、各行の特定のスコアリング、および集計スコアの特定の計算を備えた標準化された `LLMJudge` クラスを作成する場合などです。Weave はすぐに使用できる `Scorer` クラスのリストを定義しており、カスタム `Scorer` の作成も容易にしています。次の例は、カスタム `class CorrectnessLLMJudge(Scorer)` を作成する方法を示しています。
+
+ハイレベルな手順として、カスタム Scorer の作成は非常にシンプルです：
+
+1. `weave.flow.scorer.Scorer` を継承するカスタムクラスを定義する
+2. `score` 関数をオーバーライドし、関数の各呼び出しを追跡したい場合は `@weave.op()` を追加する
+   - この関数は、モデルの予測が渡される `output` 引数を定義する必要があります。モデルが "None" を返す可能性がある場合に備えて、 `Optional[dict]` 型として定義します。
+   - その他の引数は、一般的な `Any` や `dict` にすることも、 `weave.Evaluate` クラスを使用してモデルを評価するために使用されるデータセットから特定の列を選択することもできます。これらは、 `preprocess_model_input` が使用されている場合は、それが適用された後の 1 行の列名またはキーと完全に一致している必要があります。
+3. _（任意）:_ 集計スコアの計算をカスタマイズするには、 `summarize` 関数をオーバーライドします。カスタム関数を定義しない場合、デフォルトで Weave は `weave.flow.scorer.auto_summarize` 関数を使用します。
+   - この関数には `@weave.op()` デコレータが必要です。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    from weave import Scorer
+
+    class CorrectnessLLMJudge(Scorer):
+        prompt: str
+        model_name: str
+        device: str
+
+        @weave.op()
+        async def score(self, output: Optional[dict], query: str, answer: str) -> Any:
+            """pred、query、target を比較して予測の正しさをスコアリングします。
+            引数:
+                - output: 評価されるモデルから提供される辞書
+                - query: 質問内容 - データセットで定義
+                - answer: 正解の回答 - データセットで定義
+            戻り値:
+                - 単一の辞書 {メトリクス名: 単一の評価値}"""
+
+            # get_model は、提供されたパラメータ (OpenAI, HF...) に基づく一般的なモデル取得用として定義されています
+            eval_model = get_model(
+                model_name = self.model_name,
+                prompt = self.prompt
+                device = self.device,
+            )
+            # 評価を高速化するための非同期評価 - これは必ずしも async である必要はありません
+            grade = await eval_model.async_predict(
+                {
+                    "query": query,
+                    "answer": answer,
+                    "result": output.get("result"),
+                }
+            )
+            # 出力のパース - pydantic を使用するとより堅牢に行えます
+            evaluation = "incorrect" not in grade["text"].strip().lower()
+
+            # Weave に表示される列名
+            return {"correct": evaluation}
+
+        @weave.op()
+        def summarize(self, score_rows: list) -> Optional[dict]:
+            """スコアリング関数によって各行に対して計算されたすべてのスコアを集計します。
+            引数:
+                - score_rows: 辞書のリスト。各辞書にはメトリクスとスコアが含まれます
+            戻り値:
+                - 入力と同じ構造のネストされた辞書"""
+
+            # 何も提供されない場合は weave.flow.scorer.auto_summarize 関数が使用されます
+            # return auto_summarize(score_rows)
+
+            valid_data = [x.get("correct") for x in score_rows if x.get("correct") is not None]
+            count_true = list(valid_data).count(True)
+            int_data = [int(x) for x in valid_data]
+
+            sample_mean = np.mean(int_data) if int_data else 0
+            sample_variance = np.var(int_data) if int_data else 0
+            sample_error = np.sqrt(sample_variance / len(int_data)) if int_data else 0
+
+            # 余分な "correct" レイヤーは必須ではありませんが、UI に構造を追加します
+            return {
+                "correct": {
+                    "true_count": count_true,
+                    "true_fraction": sample_mean,
+                    "stderr": sample_error,
+                }
+            }
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+これを scorer として使用するには、初期化して `Evaluation` の `scorers` 引数に次のように渡します：
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    evaluation = weave.Evaluation(dataset=questions, scorers=[CorrectnessLLMJudge()])
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+## 全体のまとめ
+
+RAG アプリで同様の結果を得るためには：
+
+- LLM 呼び出しと検索ステップ関数を `weave.op()` でラップする
+- (任意) `predict` 関数とアプリの詳細を含む `Model` サブクラスを作成する
+- 評価用のサンプルを収集する
+- 1 つのサンプルをスコアリングするスコアリング関数を作成する
+- `Evaluation` クラスを使用して、サンプルに対して評価を実行する
+
+**注意:** Evaluations の非同期実行により、OpenAI や Anthropic などのモデルのレートリミットが発生することがあります。これを防ぐために、環境変数を設定して並列ワーカーの数を制限できます（例： `WEAVE_PARALLELISM=3`）。
+
+以下にコードの全容を示します。
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {34,52-77}
+    from openai import OpenAI
+    import weave
+    from weave import Model
+    import numpy as np
+    import json
+    import asyncio
+
+    # 評価に使用するサンプル
+    articles = [
+        "Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial “tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too,” one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.",
+        "Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.",
+        "Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if it's stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities",
+        "Rivian and Lucid shares plunge after weak EV earnings reports Shares of electric vehicle makers Rivian and Lucid fell Thursday after the companies reported stagnant production in their fourth-quarter earnings after the bell Wednesday. Rivian shares sank about 25 percent, and Lucids stock dropped around 17 percent. Rivian forecast it will make 57,000 vehicles in 2024, slightly less than the 57,232 vehicles it produced in 2023. Lucid said it expects to make 9,000 vehicles in 2024, more than the 8,428 vehicles it made in 2023.",
+        "Mauritius blocks Norwegian cruise ship over fears of a potential cholera outbreak Local authorities on Sunday denied permission for the Norwegian Dawn ship, which has 2,184 passengers and 1,026 crew on board, to access the Mauritius capital of Port Louis, citing “potential health risks.” The Mauritius Ports Authority said Sunday that samples were taken from at least 15 passengers on board the cruise ship. A spokesperson for the U.S.-headquartered Norwegian Cruise Line Holdings said Sunday that 'a small number of guests experienced mild symptoms of a stomach-related illness' during Norwegian Dawns South Africa voyage.",
+        "Intuitive Machines lands on the moon in historic first for a U.S. company Intuitive Machines Nova-C cargo lander, named Odysseus after the mythological Greek hero, is the first U.S. spacecraft to soft land on the lunar surface since 1972. Intuitive Machines is the first company to pull off a moon landing — government agencies have carried out all previously successful missions. The company's stock surged in extended trading Thursday, after falling 11 percent in regular trading.",
+        "Lunar landing photos: Intuitive Machines Odysseus sends back first images from the moon Intuitive Machines cargo moon lander Odysseus returned its first images from the surface. Company executives believe the lander caught its landing gear sideways on the surface of the moon while touching down and tipped over. Despite resting on its side, the company's historic IM-1 mission is still operating on the moon.",
+    ]
+
+    def docs_to_embeddings(docs: list) -> list:
+        openai = OpenAI()
+        document_embeddings = []
+        for doc in docs:
+            response = (
+                openai.embeddings.create(input=doc, model="text-embedding-3-small")
+                .data[0]
+                .embedding
+            )
+            document_embeddings.append(response)
+        return document_embeddings
+
+    # 注：通常は記事に対して一度だけ実行し、埋め込みとメタデータをデータベースに保存します
+    article_embeddings = docs_to_embeddings(articles)
+
+    # 検索ステップにデコレータを追加
+    @weave.op()
+    def get_most_relevant_document(query):
+        openai = OpenAI()
+        query_embedding = (
+            openai.embeddings.create(input=query, model="text-embedding-3-small")
+            .data[0]
+            .embedding
+        )
+        similarities = [
+            np.dot(query_embedding, doc_emb)
+            / (np.linalg.norm(query_embedding) * np.linalg.norm(doc_emb))
+            for doc_emb in article_embeddings
+        ]
+        # 最も類似したドキュメントのインデックスを取得
+        most_relevant_doc_index = np.argmax(similarities)
+        return articles[most_relevant_doc_index]
+
+    # アプリの詳細と、レスポンスを生成する predict 関数を持つ Model サブクラスを作成
+    class RAGModel(Model):
+        system_message: str
+        model_name: str = "gpt-3.5-turbo-1106"
+
+        @weave.op()
+        def predict(self, question: str) -> dict: # 注: `question` は後で評価行からデータを選択するために使用されます
+            from openai import OpenAI
+            context = get_most_relevant_document(question)
+            client = OpenAI()
+            query = f"""Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
+            Context:
+            \"\"\"
+            {context}
+            \"\"\"
+            Question: {question}"""
+            response = client.chat.completions.create(
+                model=self.model_name,
+                messages=[
+                    {"role": "system", "content": self.system_message},
+                    {"role": "user", "content": query},
+                ],
+                temperature=0.0,
+                response_format={"type": "text"},
+            )
+            answer = response.choices[0].message.content
+            return {'answer': answer, 'context': context}
+
+    # チーム名とプロジェクト名を設定
+    weave.init('<team-name>/rag-quickstart')
+    model = RAGModel(
+        system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
+    )
+
+    # 質問と出力を使用してスコアを生成するスコアリング関数
+    @weave.op()
+    async def context_precision_score(question, output):
+        context_precision_prompt = """Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
+        Output in only valid JSON format.
+
+        question: {question}
+        context: {context}
+        answer: {answer}
+        verdict: """
+        client = OpenAI()
+
+        prompt = context_precision_prompt.format(
+            question=question,
+            context=output['context'],
+            answer=output['answer'],
+        )
+
+        response = client.chat.completions.create(
+            model="gpt-4-turbo-preview",
+            messages=[{"role": "user", "content": prompt}],
+            response_format={ "type": "json_object" }
+        )
+        response_message = response.choices[0].message
+        response = json.loads(response_message.content)
+        return {
+            "verdict": int(response["verdict"]) == 1,
+        }
+
+    questions = [
+        {"question": "What significant result was reported about Zealand Pharma's obesity trial?"},
+        {"question": "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?"},
+        {"question": "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?"},
+        {"question": "What were Rivian and Lucid's vehicle production forecasts for 2024?"},
+        {"question": "Why was the Norwegian Dawn cruise ship denied access to Mauritius?"},
+        {"question": "Which company achieved the first U.S. moon landing since 1972?"},
+        {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
+    ]
+
+    # Evaluation オブジェクトを定義し、スコアリング関数と一緒にサンプルの質問を渡す
+    evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
+    asyncio.run(evaluation.evaluate(model))
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```typescript lines
+    require('dotenv').config();
+    import { OpenAI } from 'openai';
+    import * as weave from 'weave';
+
+    interface Article {
+        text: string;
+        embedding?: number[];
+    }
+
+    const articles: Article[] = [
+        { 
+            text: `Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too, one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.`
+        },
+        { 
+            text: `Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.`
+        },
+        { 
+            text: `Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities`
+        }
+    ];
+
+    function cosineSimilarity(a: number[], b: number[]): number {
+        const dotProduct = a.reduce((sum, val, i) => sum + val * b[i], 0);
+        const magnitudeA = Math.sqrt(a.reduce((sum, val) => sum + val * val, 0));
+        const magnitudeB = Math.sqrt(b.reduce((sum, val) => sum + val * val, 0));
+        return dotProduct / (magnitudeA * magnitudeB);
+    }
+
+    const docsToEmbeddings = weave.op(async function(docs: Article[]): Promise<Article[]> {
+        const openai = new OpenAI();
+        const enrichedDocs = await Promise.all(docs.map(async (doc) => {
+            const response = await openai.embeddings.create({
+                input: doc.text,
+                model: "text-embedding-3-small"
+            });
+            return {
+                ...doc,
+                embedding: response.data[0].embedding
+            };
+        }));
+        return enrichedDocs;
+    });
+
+    class RAGModel {
+        private openai: OpenAI;
+        private systemMessage: string;
+        private modelName: string;
+        private articleEmbeddings: Article[];
+
+        constructor(config: {
+            systemMessage: string;
+            modelName?: string;
+            articleEmbeddings: Article[];
+        }) {
+            this.openai = new OpenAI();
+            this.systemMessage = config.systemMessage;
+            this.modelName = config.modelName || "gpt-3.5-turbo-1106";
+            this.articleEmbeddings = config.articleEmbeddings;
+            this.predict = weave.op(this, this.predict);
+        }
+
+        private async getMostRelevantDocument(query: string): Promise<string> {
+            const queryEmbedding = await this.openai.embeddings.create({
+                input: query,
+                model: "text-embedding-3-small"
+            });
+
+            const similarities = this.articleEmbeddings.map(doc => {
+                if (!doc.embedding) return 0;
+                return cosineSimilarity(queryEmbedding.data[0].embedding, doc.embedding);
+            });
+
+            const mostRelevantIndex = similarities.indexOf(Math.max(...similarities));
+            return this.articleEmbeddings[mostRelevantIndex].text;
+        }
+
+        async predict(question: string): Promise<{
+            answer: string;
+            context: string;
+        }> {
+            const context = await this.getMostRelevantDocument(question);
+            
+            const response = await this.openai.chat.completions.create({
+                model: this.modelName,
+                messages: [
+                    { role: "system", content: this.systemMessage },
+                    { 
+                        role: "user", 
+                        content: `Use the following information to answer the subsequent question. If the answer cannot be found, write "I don't know."
+                        Context:
+                        """
+                        ${context}
+                        """
+                        Question: ${question}`
+                    }
+                ],
+                temperature: 0
+            });
+
+            return {
+                answer: response.choices[0].message.content || "",
+                context
+            };
+        }
+    }
+
+    interface ScorerResult {
+        verdict: boolean;
+    }
+
+    interface QuestionRow {
+        question: string;
+    }
+
+    function createQuestionDataset(): weave.Dataset<QuestionRow> {
+        return new weave.Dataset<QuestionRow>({
+            id: 'rag-questions',
+            rows: [
+                { question: "What significant result was reported about Zealand Pharma's obesity trial?" },
+                { question: "How much did Berkshire Hathaway's cash levels increase in the fourth quarter?" },
+                { question: "What is the goal of Highmark Health's integration of Google Cloud and Epic Systems technology?" }
+            ]
+        });
+    }
+
+    const contextPrecisionScore = weave.op(async function(args: {
+        datasetRow: QuestionRow;
+        modelOutput: { answer: string; context: string; }
+    }): Promise<ScorerResult> {
+        const openai = new OpenAI();
+        
+        const prompt = `Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as "1" if useful and "0" if not with json output.
+        Output in only valid JSON format.
+
+        question: ${args.datasetRow.question}
+        context: ${args.modelOutput.context}
+        answer: ${args.modelOutput.answer}
+        verdict: `;
+
+        const response = await openai.chat.completions.create({
+            model: "gpt-4-turbo-preview",
+            messages: [{ role: "user", content: prompt }],
+            response_format: { type: "json_object" }
+        });
+
+        const result = JSON.parse(response.choices[0].message.content || "{}");
+        return {
+            verdict: parseInt(result.verdict) === 1
+        };
+    });
+
+    async function main() {
+        // チーム名とプロジェクト名を設定
+        await weave.init('<team-name>/rag-quickstart');
+        
+        const articleEmbeddings = await docsToEmbeddings(articles);
+        
+        const model = new RAGModel({
+            systemMessage: "You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source.",
+            articleEmbeddings
+        });
+
+        const evaluation = new weave.Evaluation({
+            dataset: createQuestionDataset(),
+            scorers: [contextPrecisionScore]
+        });
+
+        const results = await evaluation.evaluate({
+            model: weave.op((args: { datasetRow: QuestionRow }) => 
+                model.predict(args.datasetRow.question)
+            )
+        });
+        
+        console.log('Evaluation results:', results);
+    }
+
+    if (require.main === module) {
+        main().catch(console.error);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## 結論
+
+このチュートリアルでは、この例の検索ステップのように、アプリケーションのさまざまなステップにオブザーバビリティを構築する方法を説明しました。また、アプリケーションのレスポンスを自動的に評価するための LLM ジャッジのような、より複雑なスコアリング関数を構築する方法も学びました。
+
+## 次のステップ
+
+エンジニア向けの実践的な RAG テクニックをより深く学ぶには、[RAG++ コース](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs&utm_medium=code&utm_campaign=weave_docs) をチェックしてください。Weights & Biases、Cohere、Weaviate によるプロダクション対応のソリューションを学び、パフォーマンスの最適化、コスト削減、アプリケーションの精度と関連性の向上を実現する方法を習得できます。

@@ -1,0 +1,46 @@
+---
+title: OnLinkArtifact
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+## <kbd>class</kbd> `OnLinkArtifact`
+새로운 아티팩트가 컬렉션에 연결될 때 발생합니다.
+
+예시:
+"my-collection" 컬렉션에 "prod" 에일리어스로 아티팩트가 연결될 때 트리거되는 이벤트를 정의합니다.
+
+```python
+from wandb import Api
+from wandb.automations import OnLinkArtifact, ArtifactEvent
+
+api = Api()
+collection = api.artifact_collection(name="my-collection", type_name="model")
+
+event = OnLinkArtifact(
+    scope=collection,
+    filter=ArtifactEvent.alias.eq("prod"),
+)
+```
+
+### <kbd>method</kbd> `OnLinkArtifact.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[LINK_ARTIFACT]' = LINK_ARTIFACT,
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | FilterExpr | dict[str, Any]' = And(())
+) → None
+```
+
+**Args:**
+
+ - `event_type` (Literal[LINK_ARTIFACT]): 
+ - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): 이벤트의 범위(scope)입니다.
+ - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): 이 이벤트가 트리거되기 위해 필요한 추가 조건들입니다.
+
+**Returns:**
+ `OnLinkArtifact` 오브젝트를 반환합니다.

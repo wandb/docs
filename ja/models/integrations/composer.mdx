@@ -1,0 +1,100 @@
+---
+title: MosaicML Composer
+description: ニューラルネットワーク をトレーニングするための最先端のアルゴリズム
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/mosaicml/MosaicML_Composer_and_wandb.ipynb" />
+
+[Composer](https://github.com/mosaicml/composer) は、ニューラルネットワークをより良く、より速く、より安価にトレーニングするためのライブラリです。ニューラルネットワークのトレーニングを加速し、汎化性能を向上させるための多くの最先端の手法が含まれており、多くの異なる拡張機能を簡単に組み合わせることができるオプションの [Trainer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/using_the_trainer.html) API も提供されています。
+
+W&B は、ML 実験を記録するための軽量なラッパーを提供します。しかし、これら2つを自分自身で組み合わせる必要はありません。W&B は [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) を通じて、Composer ライブラリに直接組み込まれています。
+
+## W&B へのログ記録を開始する
+
+```python
+from composer import Trainer
+from composer.loggers import WandBLogger
+
+trainer = Trainer(..., logger=WandBLogger())
+```
+
+<Frame>
+    <img src="/images/integrations/n6P7K4M.gif" alt="Interactive dashboards"  />
+</Frame>
+
+## Composer の `WandBLogger` を使用する
+
+Composer ライブラリは、`Trainer` 内の [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) クラスを使用してメトリクスを W&B にログ記録します。ロガーをインスタンス化して `Trainer` に渡すだけで簡単に利用できます。
+
+```python
+wandb_logger = WandBLogger(project="gpt-5", log_artifacts=True)
+trainer = Trainer(logger=wandb_logger)
+```
+
+## ロガーの引数
+
+以下は `WandbLogger` のパラメータです。全リストと説明については [Composer documentation](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html) を参照してください。
+
+| パラメータ | 説明 |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `project` | W&B Projects 名 (str, optional) |
+| `group` | W&B グループ名 (str, optional) |
+| `name` | W&B Runs 名。指定されない場合、State.run_name が使用されます (str, optional) |
+| `entity` | W&B Entities 名。ユーザー名や W&B Teams 名など (str, optional) |
+| `tags` | W&B タグ (List[str], optional) |
+| `log_artifacts` | チェックポイントを W&B にログ記録するかどうか。デフォルト: `false` (bool, optional) |
+| `rank_zero_only` | rank-zero プロセスのみでログを記録するかどうか。Artifacts をログに記録する場合、すべての rank でログを記録することを強く推奨します。rank ≥1 からの Artifacts は保存されないため、関連情報が破棄される可能性があります。例えば、Deepspeed ZeRO を使用する場合、すべての rank からの Artifacts がないとチェックポイントから復元することが不可能になります。デフォルト: `True` (bool, optional) |
+| `init_kwargs` | `wandb.init()` に渡す引数（wandb の `config` など）。`wandb.init()` が受け付けるパラメータについては、[`wandb.init()` parameters](/models/ref/python/functions/init) を参照してください。 |
+
+典型的な使用例は以下の通りです：
+
+```python
+init_kwargs = {"notes":"Testing higher learning rate in this experiment", 
+               "config":{"arch":"Llama",
+                         "use_mixed_precision":True
+                         }
+               }
+
+wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
+```
+
+## 予測サンプルのログ記録
+
+[Composer's Callbacks](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) システムを使用して、`WandBLogger` 経由で W&B にログを記録するタイミングを制御できます。この例では、検証用画像と予測のサンプルがログ記録されます。
+
+```python
+import wandb
+from composer import Callback, State, Logger
+
+class LogPredictions(Callback):
+    def __init__(self, num_samples=100, seed=1234):
+        super().__init__()
+        self.num_samples = num_samples
+        self.data = []
+        
+    def eval_batch_end(self, state: State, logger: Logger):
+        """バッチごとに予測を計算し、self.data に保存します"""
+        
+        if state.timer.epoch == state.max_duration: # 最後の検証エポック時
+            if len(self.data) < self.num_samples:
+                n = self.num_samples
+                x, y = state.batch_pair
+                outputs = state.outputs.argmax(-1)
+                data = [[wandb.Image(x_i), y_i, y_pred] for x_i, y_i, y_pred in list(zip(x[:n], y[:n], outputs[:n]))]
+                self.data += data
+            
+    def eval_end(self, state: State, logger: Logger):
+        with wandb.init() as run:
+            "wandb.Table を作成してログに記録します"
+            columns = ['image', 'ground truth', 'prediction']
+            table = wandb.Table(columns=columns, data=self.data[:self.num_samples])
+            run.log({'sample_table':table}, step=int(state.timer.batch))         
+...
+
+trainer = Trainer(
+    ...
+    loggers=[WandBLogger()],
+    callbacks=[LogPredictions()]
+)
+```

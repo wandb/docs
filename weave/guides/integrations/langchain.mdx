@@ -3,7 +3,7 @@ title: "LangChain"
 description: "Use Weave to track and log all calls made through the LangChain Python library"
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_langchain.ipynb">
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_langchain.ipynb" aria-label="Open in Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
@@ -11,10 +11,10 @@ Weave is designed to make tracking and logging all calls made through the [LangC
 
 When working with LLMs, debugging is inevitable. Whether a model call fails, an output is misformatted, or nested model calls create confusion, pinpointing issues can be challenging. LangChain applications often consist of multiple steps and LLM call invocations, making it crucial to understand the inner workings of your chains and agents.
 
-Weave simplifies this process by automatically capturing traces for your [LangChain](https://python.langchain.com/v0.2/docs/introduction/) applications. This enables you to monitor and analyze your application's performance, making it easier to debug and optimize your LLM workflows.
+Weave simplifies this process by automatically capturing traces for your [LangChain](https://docs.langchain.com/oss/python/langchain/overview) applications. This enables you to monitor and analyze your application's performance, making it easier to debug and optimize your LLM workflows.
 
 
-## Getting Started
+## Getting started
 
 To get started, simply call `weave.init()` at the beginning of your script. The argument in weave.init() is a project name that will help you organize your traces.
 
@@ -36,7 +36,7 @@ output = llm_chain.invoke({"number": 2})
 print(output)
 ```
 
-## Tracking Call Metadata
+## Tracking call metadata
 
 To track metadata from your LangChain calls, you can use the [`weave.attributes`](/weave/reference/python-sdk#function-attributes) context manager. This context manager allows you to set custom metadata for a specific block of code, such as a chain or a single request.
 
@@ -70,7 +70,7 @@ Weave automatically captures traces for your LangChain applications. It will tra
 
 [![langchain_trace.png](/weave/guides/integrations/imgs/langchain_trace.png)](https://wandb.ai/parambharat/langchain_demo/weave/calls)
 
-## Manually Tracing Calls
+## Manually tracing calls
 
 In addition to automatic tracing, you can manually trace calls using the `WeaveTracer` callback or the `weave_tracing_enabled` context manager. These methods are akin to using request callbacks in individual parts of a LangChain application.
 
@@ -107,7 +107,7 @@ output = llm_chain.invoke({"number": 2}, config=config) # <-- this enables traci
 llm_chain.invoke({"number": 4})  # <-- this will not have tracing enabled for langchain calls but openai calls will still be traced
 ```
 
-### Using `weave_tracing_enabled` Context Manager
+### Using `weave_tracing_enabled` context manager
 
 Alternatively, you can use the `weave_tracing_enabled` context manager to enable tracing for specific blocks of code.
 
@@ -142,11 +142,11 @@ Upon calling `weave.init`, tracing is enabled by setting the environment variabl
 
 ## Relation to LangChain Callbacks
 
-### Auto Logging
+### Auto logging
 
 The automatic logging provided by `weave.init()` is similar to passing a constructor callback to every component in a LangChain application. This means that all interactions, including prompt templates, chains, LLM calls, tools, and agent steps, are tracked globally across your entire application.
 
-### Manual Logging
+### Manual logging
 
 The manual logging methods (`WeaveTracer` and `weave_tracing_enabled`) are similar to using request callbacks in individual parts of a LangChain application. These methods provide finer control over which parts of your application are traced:
 
@@ -263,6 +263,6 @@ This code generates an evaluation trace that can be visualized in the Weave UI:
 By integrating Weave with Langchain, you can ensure comprehensive logging and monitoring of your LLM applications, facilitating easier debugging and performance optimization.
 
 
-## Known Issues
+## Known issues
 
 - **Tracing Async Calls** - A bug in the implementation of the `AsyncCallbackManager` in Langchain results in async calls not being traced in the correct order. We have filed a [PR](https://github.com/langchain-ai/langchain/pull/23909) to fix this. Therefore, the order of calls in the trace may not be accurate when using `ainvoke`, `astream` and `abatch` methods in Langchain Runnables.

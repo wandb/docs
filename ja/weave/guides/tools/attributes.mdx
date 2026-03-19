@@ -1,0 +1,352 @@
+---
+title: 属性の定義とログの記録
+description: 属性を使用して、 トレース や 評価 にメタデータを追加します。
+---
+
+Weave における Attributes（属性）を使用すると、トレースや Evaluations にカスタムの メタデータ を付加できます。この メタデータ には、環境名、モデル の バージョン 、実験 ID、ユーザー ID、またはその他のコンテキスト情報を含めることができ、Weave データの整理、フィルタリング、分析に役立ちます。
+
+Weave では、属性を追加する2つの方法を提供しています。
+
+*   **コールごとの属性**: `weave.attributes()` を使用して、特定のオペレーションや コード ブロックに メタデータ を追加します。
+*   **グローバル属性**: `global_attributes` フィールドを使用して初期化時に属性を設定し、プロジェクト 内のすべての トレース と Evaluations に適用します。
+
+トレース や Evaluation の実行中に ログ 記録されたすべての属性は UI で確認できます。その後、これらを使用して データのフィルタリングやグループ化を行うことができます。
+
+<Tip>
+`call.attributes` は、コールが開始されると変更できません。op を呼び出す前にこの コンテキスト マネージャーを使用して メタデータ を設定してください。
+</Tip>
+
+## コールごとの属性
+
+`weave.attributes()` コンテキスト マネージャーを使用すると、特定のトレース対象オペレーションに メタデータ を追加できます。これにより、特定の関数呼び出しや Evaluation の実行にコンテキスト情報をタグ付けできます。
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+
+weave.init("attribute-check")
+
+@weave.op
+def my_function(name: str):
+    return f"Hello, {name}!"
+
+# 特定のコールに属性を追加する
+with weave.attributes({'env': 'production', 'user_id': '12345'}):
+    result = my_function("World")
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import {init, op, withAttributes} from 'weave';
+
+async function main() {
+  await init('your-team/attribute-example');
+
+  const myFunction = op(async function myFunction(name: string) {
+    return `Hello, {name}!`;
+  });
+
+  // 特定のコールに属性を追加する
+  const result = await withAttributes(
+    {env: 'production', user_id: '12345'},
+    async () => myFunction('World')
+  );
+
+  console.log('Result:', result);
+}
+
+main().catch(console.error);
+```
+</Tab>
+</Tabs>
+
+この関数は、コンテキスト マネージャー ブロック（Python）または コールバック 関数（TypeScript）内のすべてのトレース対象オペレーションに属性を付加します。
+
+また、`weave.attributes()` コンテキストをネストすることもできます。内側のコンテキストは、同じ キー に対して外側のコンテキストを上書きします。
+
+<Tabs>
+<Tab title="Python">
+```python lines
+@weave.op
+def process_data(data: str):
+    return data.upper()
+
+# 外側のコンテキスト
+with weave.attributes({
+    "env": "production",
+    "version": "1.0.0",
+    "region": "us-west-2"
+}):
+    process_data("hello")  # 3つの属性すべてを持つ
+    
+    # 内側のコンテキストが 'version' を上書きする
+    with weave.attributes({
+        "version": "1.1.0",
+        "experiment": "exp-456"
+    }):
+        process_data("world")  # env='production', version='1.1.0', region='us-west-2', experiment='exp-456' を持つ
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import {init, op, withAttributes} from 'weave';
+
+async function main() {
+  await init('your-team/attribute-example');
+
+  const processData = op(async function processData(data: string) {
+    return data.toUpperCase();
+  });
+  
+  // 外側のコンテキスト
+  await withAttributes(
+    {
+      env: 'production',
+      version: '1.0.0',
+      region: 'us-west-2'
+    },
+    async () => {
+      await processData('hello');  // 3つの属性すべてを持つ
+      
+      // 内側のコンテキストが 'version' を上書きする
+      await withAttributes(
+        {
+          version: '1.1.0',
+          experiment: 'exp-456'
+        },
+        async () => {
+          await processData('world');  // env='production', version='1.1.0', region='us-west-2', experiment='exp-456' を持つ
+        }
+      );
+    }
+  );
+}
+
+main().catch(console.error);
+```
+</Tab>
+</Tabs>
+
+## グローバル属性
+
+Weave の初期化時にグローバル属性を設定すると、プロジェクト 内の **すべて** の トレース と Evaluations に自動的に適用されます。これは、環境、デプロイメント バージョン 、チーム情報などの プロジェクト 全体の メタデータ を伝播させるのに便利です。
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+
+weave.init(
+    "my-project",
+    global_attributes={
+        "env": "production",
+        "app_version": "2.1.0",
+        "region": "us-west-2",
+        "team": "ml-platform"
+    }
+)
+
+# global_attributes 辞書は、これ以降のすべてのオペレーションにこれらの属性を適用します
+@weave.op
+def my_function():
+    return "Hello"
+
+my_function()  # 自動的にすべてのグローバル属性を持つ
+
+# Evaluations にもグローバル属性が付与される
+evaluation = weave.Evaluation(dataset=examples, scorers=[scorer])
+asyncio.run(evaluation.evaluate(model))  # すべてのグローバル属性を持つ
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import {init, op, withAttributes} from 'weave';
+
+async function main() {
+    await init('your-team/attribute-example', {
+        globalAttributes: {
+            env: 'production',
+            app_version: '2.1.0',
+            region: 'us-west-2',
+            team: 'ml-platform'
+        }
+    });
+    
+    // globalAttributes オブジェクトは、これ以降のすべてのオペレーションにこれらの属性を適用します
+    const myFunction = op(async function myFunction() {
+        return 'Hello';
+    });
+    
+    const result = await myFunction();  // 自動的にすべてのグローバル属性を持つ
+    console.log('Result:', result);
+}
+main().catch(console.error);
+```
+</Tab>
+</Tabs>
+
+### グローバル属性とコールごとの属性の組み合わせ
+
+グローバル属性とコールごとの属性を組み合わせて使用できます。同じ キー を持つコールごとの属性は、グローバル属性を上書きします。
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+
+# グローバル属性を設定する
+weave.init(
+    "my-project",
+    global_attributes={
+        "env": "production",
+        "app_version": "2.1.0"
+    }
+)
+
+@weave.op
+def process(data: str):
+    return data
+
+# このコールは env='production', app_version='2.1.0' を持つ
+process("test1")
+
+# このコールは env='staging', app_version='2.1.0', experiment='A' を持つ
+with weave.attributes({'env': 'staging', 'experiment': 'A'}):
+    process("test2")
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import {init, op, withAttributes} from 'weave';
+
+async function main() {
+    // グローバル属性を設定する
+    await init('your-team/attribute-example', {
+    globalAttributes: {
+        env: 'production',
+        app_version: '2.1.0'
+    }
+    });
+
+    const process = op(async function process(data: string) {
+    return data;
+    });
+
+    // このコールは env='production', app_version='2.1.0' を持つ
+    await process('test1');
+
+    // このコールは env='staging', app_version='2.1.0', experiment='A' を持つ
+    await withAttributes(
+    {env: 'staging', experiment: 'A'},
+    async () => process('test2')
+    );
+}
+main().catch(console.error);
+```
+</Tab>
+</Tabs>
+
+## 実行中の属性の取得
+
+コールに ログ 記録されている現在の属性セットを返します。これは、コールのデバッグや、条件付きロジックのコンテキスト把握に役立ちます。
+
+<Tabs>
+<Tab title="Python">
+
+以下の例では、Weave デコレータを設定して `process_data` 関数を ログ 記録し、ログ 記録する属性を構成してから、実行時にそれらを返します。
+
+```python lines 
+import weave
+
+weave.init("your-team/your-project")
+
+@weave.op
+def process_data(data: str):
+    # op 内で現在のコールを取得する
+    call = weave.get_current_call()
+    if call:
+        print(f"Attributes: {call.attributes}")
+    return data.upper()
+
+# 属性を設定して関数を実行する
+with weave.attributes({
+    "env": "production",
+    "version": "1.0.0",
+    "region": "us-west-2"
+}):
+    process_data("hello")
+    
+    with weave.attributes({
+        "version": "1.1.0",
+        "experiment": "exp-456"
+    }):
+        process_data("world")
+```
+
+出力結果:
+```shell
+Attributes: {'env': 'production', 'version': '1.0.0', 'region': 'us-west-2'}
+Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'experiment': 'exp-456'}
+```
+
+<Note>
+`weave.get_current_call()` は、`@weave.op` デコレータが付いた関数 **内部** でのみ機能します。op の外部では `None` を返します。
+</Note>
+</Tab>
+<Tab title="TypeScript">
+
+Weave TypeScript SDK を使用すると、`client.getCurrentAttributes()` を使用して現在の属性を取得できます。Weave Python SDK とは異なり、TypeScript の属性は op 内だけでなく、`withAttributes()` コンテキスト内であればどこからでもアクセスできます。
+
+```typescript lines
+import * as weave from 'weave';
+import { withAttributes } from 'weave';
+
+async function main() {
+  const client = await weave.init('your-team/your-project');
+
+  const processData = weave.op(async function processData(data: string) {
+    // op 内部でも属性にアクセス可能
+    const attrs = client.getCurrentAttributes();
+    console.log('Attributes inside op:', attrs);
+    return data.toUpperCase();
+  });
+
+  // 属性を設定して関数を実行する
+  await withAttributes(
+    {
+      env: 'production',
+      version: '1.0.0',
+      region: 'us-west-2'
+    },
+    async () => {
+      // コンテキスト内のどこからでも属性を取得可能
+      console.log('Current attributes:', client.getCurrentAttributes());
+      await processData('hello');
+
+      await withAttributes(
+        {
+          version: '1.1.0',
+          experiment: 'exp-456'
+        },
+        async () => {
+          console.log('Nested attributes:', client.getCurrentAttributes());
+          await processData('world');
+        }
+      );
+    }
+  );
+}
+
+main().catch(console.error);
+```
+
+出力結果:
+```shell
+Current attributes: { env: 'production', version: '1.0.0', region: 'us-west-2' }
+Attributes inside op: { env: 'production', version: '1.0.0', region: 'us-west-2' }
+Nested attributes: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
+Attributes inside op: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
+```
+</Tab>
+</Tabs>

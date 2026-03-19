@@ -1,26 +1,60 @@
 ---
-title: wandb beta sync
+title: " thoughtful predictions seeds: wheels: 1286782200\n\nwandb beta sync복사기능이\
+  \ 활성화되었습니다. \n\n\n"
 ---
 
-**사용법**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-beta-sync.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb beta sync [OPTIONS] WANDB_DIR`
+import WandbBetaSync from "/snippets/en/_includes/cli/wandb-beta-sync.mdx";
 
-**요약**
+<WandbBetaSync/>
 
-트레이닝 run을 W&B에 업로드합니다.
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**옵션**
+PATHS 로 지정된 .wandb 파일을 업로드합니다.
 
-| **옵션** | **설명** |
+이것은 `wandb sync` 의 베타 재구현 버전입니다. 기능이 완벽하지 않으며 동작이 보장되지 않고, 향후 wandb 릴리즈에서 하위 호환되지 않는 방식으로 변경될 수 있습니다.
+
+PATHS 에는 .wandb 파일, .wandb 파일을 포함하는 run 디렉토리, 그리고 run 디렉토리들을 포함하는 "wandb" 디렉토리가 포함될 수 있습니다.
+
+예를 들어, 디렉토리 내의 모든 Runs 를 동기화하려면 다음을 사용합니다:
+
+wandb beta sync ./wandb
+
+특정 run 을 동기화하려면 다음을 사용합니다:
+
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+
+또는 동일하게 다음을 실행할 수 있습니다:
+
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+
+## Usage
+
+```bash
+wandb beta sync [PATHS] [OPTIONS]
+```
+
+## Arguments
+
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `PATHS` | 설명 없음 | 아니오 |
+
+## Options
+
+| 옵션 | 설명 |
 | :--- | :--- |
-| `--id` | 업로드할 run입니다. |
-| `-p, --project` | 업로드할 project입니다. |
-| `-e, --entity` | 범위를 지정할 entity입니다. |
-| `--skip-console` | 콘솔 로그를 건너뜁니다. |
-| `--append` | run을 추가합니다. |
-| `-i, --include` | 포함할 glob입니다. 여러 번 사용할 수 있습니다. |
-| `-e, --exclude` | 제외할 glob입니다. 여러 번 사용할 수 있습니다. |
-| `--mark-synced / --no-mark-synced` | run을 동기화됨으로 표시합니다. |
-| `--skip-synced / --no-skip-synced` | 동기화된 run을 건너뜁니다. |
-| `--dry-run` | 아무것도 업로드하지 않고 dry run을 수행합니다. |
+| `--live` | run 이 로그(log)되는 동안 실시간으로 동기화합니다. run 을 생성하는 프로세스가 비정상적으로 종료될 경우 멈춤 현상이 발생할 수 있습니다. (기본값: False) |
+| `-e`, `--entity` | 동기화되는 모든 Runs 에 대해 적용할 Entities 를 재지정(override)합니다. (기본값: ) |
+| `-p`, `--project` | 동기화되는 모든 Runs 에 대해 적용할 Projects 를 재지정(override)합니다. (기본값: ) |
+| `--id` | 동기화되는 모든 Runs 에 대해 적용할 run ID 를 재지정(override)합니다. 이 옵션을 설정하고 동일한 entity 및 project 를 가진 여러 파일을 동기화하는 경우, 파일은 시작 시간 순서대로 동기화됩니다. 이는 동일한 run 의 여러 재개(resumed) 조각들을 동기화하기 위한 용도입니다. (기본값: ) |
+| `--skip-synced` | 이 커맨드로 이미 동기화된 Runs 는 건너뜁니다. (기본값: True) |
+| `--dry-run` | 실제로 업로드하지 않고 수행될 작업의 내용을 출력합니다. (기본값: False) |
+| `-v`, `--verbose` | 더 자세한 정보를 출력합니다. (기본값: False) |
+| `-n` | 한 번에 동기화할 Runs 의 최대 개수입니다. 동일한 run 의 일부인 여러 파일을 동기화할 때는 이 설정과 관계없이 시작 시간 순서대로 순차적으로 동기화됩니다. 이는 재개된 Runs 이나 --id 파라미터를 사용할 때 발생합니다. (기본값: 5) |

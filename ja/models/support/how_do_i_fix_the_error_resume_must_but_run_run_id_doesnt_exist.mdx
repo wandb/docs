@@ -1,15 +1,11 @@
 ---
-title: '`resume=''must'' but run (<run_id>) doesn''t exist` エラーをどのように修正しますか？'
-support:
-  - resuming
-  - runs
-toc_hide: true
-type: docs
+title: '`resume=''must''` を指定しているが run (`<run_id>`) が存在しないというエラーを解決するにはどうすればよいですか？'
 ---
-`resume='must' but run (<run_id>) doesn't exist` というエラーが発生した場合、再開しようとしている run が Project または Entity 内に存在しません。正しいインスタンスにログインし、Project と Entity が設定されていることを確認してください。
+
+`resume='must' but run (<run_id>) doesn't exist` というエラーが発生した場合、再開しようとしている Run がその Project または Entity 内に存在しません。正しいインスタンスにログインしていること、および Project と Entity が正しく設定されていることを確認してください。
 
 ```python
 wandb.init(entity=<entity>, project=<project>, id=<run-id>, resume='must')
 ```
 
-[`wandb login --relogin`](/ja/models/ref/cli/wandb-login) を実行して、認証されていることを確認してください。
+[`wandb login --relogin`](/models/ref/cli/wandb-login) を実行して、認証されていることを確認してください。

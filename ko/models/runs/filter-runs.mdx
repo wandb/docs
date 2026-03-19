@@ -1,61 +1,112 @@
 ---
-title: Filter and search runs
-description: 프로젝트 페이지에서 사이드바 및 테이블을 사용하는 방법
+title: ' thoughtful
+
+  Run 필터링'
+description: 익스프레션 에디터(expression editor)를 사용하여 Runs 테이블에서 run을 필터링하는 방법을 알아보세요.
 ---
 
-W&B에 기록된 run으로부터 얻은 통찰력을 프로젝트 페이지에서 활용하세요. **Workspace** 페이지와 **Runs** 페이지 모두에서 run을 필터링하고 검색할 수 있습니다.
+Runs Table의 표현식 에디터를 사용하여 이름, 상태, [태그](#filter-runs-with-tags) 또는 기타 속성을 기반으로 Runs를 필터링하세요.
 
-## Run 필터링
+필터를 추가할 때 먼저 필드(예: tags, timestamp 또는 entity)를 선택합니다. 각 필드에는 텍스트, 시간 또는 ID와 같은 기본 타입이 있습니다.
 
-필터 버튼을 사용하여 상태, 태그 또는 기타 속성을 기준으로 run을 필터링합니다.
+표시되는 연산자 목록(예: is, in, &ge;, within last)은 이 타입에 따라 달라집니다. 필드를 선택하면 UI에는 해당 필드 타입에 유효한 연산자만 표시됩니다.
 
-### 태그로 Run 필터링
+## 타입별 공통 연산자
 
-필터 버튼을 사용하여 태그를 기준으로 run을 필터링합니다.
+| 필터 타입 | 예시 필드 | 공통 연산자 | 사용 예시 |
+| ----------- | -------------- | ---------------- | ------------- |
+| Tags        | `tags`           | is, is not, in, not in  | `tags is "baseline"` |
+| Time        | `created timestamp`      | &le;, &ge;, within last | `created timestamp` &ge; `01/16/2026` |
+| String      | `state`         | &equals;, &ne;, IN, NOT IN | `state = "finished"` |
 
-<Frame>
-    <img src="/images/app_ui/filter_runs.gif"  />
-</Frame>
+<Note>
+위 표는 사용 가능한 필드 및 연산자의 일부 서브셋만 보여줍니다. 표현식 에디터에서 모든 사용 가능한 필드와 연산자를 확인할 수 있습니다.
+</Note>
 
-### 정규식으로 Run 필터링
+## 필터 표현식 생성하기
 
-정규식으로 원하는 결과를 얻을 수 없는 경우, [태그](/ko/models/runs/tags/)를 사용하여 Runs Table에서 run을 필터링할 수 있습니다. 태그는 run 생성 시 또는 완료 후에 추가할 수 있습니다. 태그가 run에 추가되면 아래 GIF와 같이 태그 필터를 추가할 수 있습니다.
+1. Projects 사이드바에서 **Runs** 탭으로 이동합니다.
+2. Runs Table 상단에 있는 깔대기 모양의 **Filter** 버튼을 선택합니다.
+3. 왼쪽에서 오른쪽 순서로 컬럼 이름, 논리 연산자, 필터 값을 선택하여 필터 표현식을 생성합니다.
+4. 추가 필터를 적용하려면 선택적으로 **New Filter**를 선택합니다.
 
-<Frame>
-    <img src="/images/app_ui/tags.gif" alt="If regex doesn't provide you the desired results, you can make use of tags to filter out the runs in Runs Table"  />
-</Frame>
-
-## Run 검색
-
- regex 를 사용하여 지정한 정규식으로 run을 찾습니다. 검색 상자에 쿼리를 입력하면 Workspace의 그래프에서 보이는 run과 테이블의 행이 필터링됩니다.
-
-## Run 그룹화
-
-숨겨진 열을 포함하여 하나 이상의 열을 기준으로 run을 그룹화하려면 다음을 수행합니다.
-
-1. 검색 상자 아래에 있는 줄이 그어진 종이 모양의 **Group** 버튼을 클릭합니다.
-2. 결과를 그룹화할 열을 하나 이상 선택합니다.
-3. 그룹화된 run 세트는 기본적으로 축소됩니다. 확장하려면 그룹 이름 옆에 있는 화살표를 클릭합니다.
-
-## 최소값 및 최대값으로 Run 정렬
-
-기록된 메트릭의 최소값 또는 최대값으로 run 테이블을 정렬합니다. 이는 가장 좋거나 가장 나쁜 기록 값을 보려는 경우에 특히 유용합니다.
-
-다음 단계에서는 기록된 최소값 또는 최대값을 기준으로 특정 메트릭으로 run 테이블을 정렬하는 방법을 설명합니다.
-
-1. 정렬하려는 메트릭이 있는 열 위에 마우스 커서를 올립니다.
-2. 케밥 메뉴(세 개의 세로선)를 선택합니다.
-3. 드롭다운에서 **Show min** 또는 **Show max**를 선택합니다.
-4. 동일한 드롭다운에서 **Sort by asc** 또는 **Sort by desc**를 선택하여 각각 오름차순 또는 내림차순으로 정렬합니다.
+다음 이미지는 loss 값이 `1`보다 작거나 같은 Runs를 필터링하는 모습입니다:
 
 <Frame>
-    <img src="/images/app_ui/runs_min_max.gif"  />
+    <img src="/images/data_vis/filter.png" alt="Incorrect predictions filter"  />
 </Frame>
 
-## Run에 대한 종료 시간 검색
 
-클라이언트 프로세스에서 마지막 heartbeat를 기록하는 `End Time`이라는 열을 제공합니다. 이 필드는 기본적으로 숨겨져 있습니다.
+다음 섹션에서는 Runs Table에서 Runs를 필터링하는 몇 가지 예시를 보여줍니다.
 
-## Run 테이블을 CSV로 내보내기
 
-다운로드 버튼을 사용하여 모든 run, 하이퍼파라미터 및 요약 메트릭 테이블을 CSV로 내보냅니다.
+### 예시: 태그로 Runs 필터링하기
+
+태그를 기반으로 Runs를 필터링합니다:
+
+1. Projects 사이드바에서 **Runs** 탭을 클릭합니다.
+2. Runs Table 상단에 있는 깔대기 모양의 **Filter** 버튼을 선택합니다.
+3. 첫 번째 드롭다운 메뉴에서 `"Tags"`를 선택하고 논리 연산자를 선택합니다.
+4. 두 번째 드롭다운 메뉴에서 is, is not, in, 또는 not in을 선택합니다.
+5. 세 번째 드롭다운 메뉴에서 필터링하려는 태그 이름을 입력합니다.
+
+<Frame>
+    <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" />
+</Frame>
+
+
+## 기본 필터
+
+기본적으로 W&B는 다음 필터를 제공합니다:
+
+* **Show only my works**: 현재 사용자가 생성한 Runs만 표시합니다.
+* **Hide crashed runs**: `crashed` 상태인 Runs를 숨깁니다.
+
+기본 필터는 필터 표현식 에디터의 **New filter** 버튼 아래에 토글 형태로 나타납니다.
+
+## 필터 제거하기
+
+Runs Table에서 필터를 제거하려면:
+1. Runs Table 상단의 깔대기 모양 **Filter** 버튼을 클릭합니다.
+2. 제거하려는 필터 옆의 `x` 아이콘을 선택합니다.
+
+{/*
+## Run 색상 편집
+
+새로운 Run이 생성되면 기본 색상이 할당됩니다. 색상 미리보기를 클릭하여 특정 Run의 색상을 편집할 수 있습니다.
+*/}
+
+
+{/*
+Run 이름 옆의 초록색 점을 확인하세요. 이는 해당 Run이 테이블과 그래프 범례에서 활성화되어 있음을 나타냅니다.
+*/}
+
+{/*
+## Runs 일괄 선택
+
+여러 Runs를 한 번에 삭제하거나 Runs 그룹에 태그를 지정할 수 있습니다. 일괄 선택을 통해 Runs Table을 더 쉽게 정리할 수 있습니다.
+
+<Frame>
+    <img src="/images/app_ui/howto_bulk_select.gif"  />
+</Frame>
+*/}
+
+{/*
+## 테이블의 모든 Runs 선택
+
+테이블 왼쪽 상단의 체크박스를 클릭하고 "Select all runs"를 클릭하여 현재 필터 세트와 일치하는 모든 Run을 선택합니다.
+
+<Frame>
+    <img src="/images/app_ui/all_runs_select.gif"  />
+</Frame>
+*/}
+
+{/*
+## 테이블 컬럼 검색
+
+**Columns** 버튼을 사용하여 테이블 UI 가이드에서 컬럼을 검색하세요.
+
+<Frame>
+    <img src="/images/app_ui/search_columns.gif"  />
+</Frame>
+*/}

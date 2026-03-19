@@ -34,7 +34,7 @@ jobs:
         with:
           # Configuration is in lychee.toml
           # Check all URLs from sitemap
-          args: "urls.txt"
+          args: "--config lychee.toml urls.txt"
           output: ./lychee-report.md
           format: markdown
           fail: false

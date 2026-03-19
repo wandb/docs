@@ -1,0 +1,254 @@
+---
+title: W&B Models を使い始める
+---
+
+機械学習ワークフローにおけるモデルのアーティファクトを追跡、共有、管理するために、いつ、どのように W&B を使用するかを学びます。このページでは、各タスクに適した W&B API を使用して、実験のログ記録、レポートの作成、およびログ記録されたデータへのアクセス方法について説明します。
+
+このチュートリアルでは以下を使用します：
+
+* [W&B Python SDK](/models/ref/python) (`wandb.sdk`): トレーニング中の実験をログに記録し、監視するため。
+* [W&B Public API](/models/ref/python/public-api) (`wandb.apis.public`): ログに記録された実験データのクエリと分析を行うため。
+* [W&B Reports and Workspaces API](/models/ref/wandb_workspaces) (`wandb.wandb-workspaces`): 学びをまとめるためのレポートを作成するため。
+
+## サインアップと API キーの作成
+マシンを W&B で認証するには、まず [wandb.ai/settings](https://wandb.ai/settings) で APIキー を生成する必要があります。APIキー をコピーし、安全に保管してください。
+
+## パッケージのインストールとインポート
+
+W&B ライブラリと、このウォークスルーで必要となる他のいくつかのパッケージをインストールします。
+
+```python
+pip install wandb
+```
+
+W&B Python SDK をインポートします：
+
+
+```python
+import wandb
+```
+
+以下のコードブロックで、あなたのチームの entity を指定してください：
+
+
+```python
+TEAM_ENTITY = "<Team_Entity>" # あなたのチームの entity に置き換えてください
+PROJECT = "my-awesome-project"
+```
+
+## モデルのトレーニング
+
+以下のコードは、モデルのトレーニング、メトリクスのログ記録、およびモデルを Artifacts として保存するという、基本的な機械学習ワークフローをシミュレートします。
+
+トレーニング中に W&B とやり取りするには、W&B Python SDK (`wandb.sdk`) を使用します。[`wandb.Run.log()`](/models/ref/python/experiments/run/#method-runlog) を使用して損失（loss）をログに記録し、[`wandb.Artifact`](/models/ref/python/experiments/artifact) を使用してトレーニング済みモデルを Artifacts として保存し、最後に [`Artifact.add_file`](/models/ref/python/experiments/artifact#add_file) を使用してモデルファイルを追加します。
+
+```python
+import random # データのシミュレーション用
+
+def model(training_data: int) -> int:
+    """デモンストレーション用のモデルシミュレーション。"""
+    return training_data * 2 + random.randint(-1, 1)  
+
+# 重みとノイズのシミュレーション
+weights = random.random() # ランダムな重みを初期化
+noise = random.random() / 5  # ノイズをシミュレートするための小さなランダムノイズ
+
+# ハイパーパラメーターと設定
+config = {
+    "epochs": 10,  # トレーニングするエポック数
+    "learning_rate": 0.01,  # オプティマイザーの学習率
+}
+
+# コンテキストマネージャーを使用して W&B Runs を初期化および終了
+with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:    
+    # トレーニングループのシミュレーション
+    for epoch in range(config["epochs"]):
+        xb = weights + noise  # シミュレートされた入力トレーニングデータ
+        yb = weights + noise * 2  # シミュレートされたターゲット出力（入力ノイズの2倍）
+        
+        y_pred = model(xb)  # モデルの予測
+        loss = (yb - y_pred) ** 2  # 平均二乗誤差（MSE）損失
+
+        print(f"epoch={epoch}, loss={loss}")
+        # エポックと損失を W&B にログ記録
+        run.log({
+            "epoch": epoch,
+            "loss": loss,
+        })
+
+    # モデルアーティファクトの一意の名前
+    model_artifact_name = f"model-demo"  
+
+    # シミュレートされたモデルファイルを保存するローカルパス
+    PATH = "model.txt" 
+
+    # モデルをローカルに保存
+    with open(PATH, "w") as f:
+        f.write(str(weights)) # モデルの重みをファイルに保存
+
+    # アーティファクトオブジェクトを作成
+    # ローカルに保存されたモデルをアーティファクトオブジェクトに追加
+    artifact = wandb.Artifact(name=model_artifact_name, type="model", description="My trained model")
+    artifact.add_file(local_path=PATH)
+    artifact.save()
+```
+
+前のコードブロックの重要なポイントは以下の通りです：
+* トレーニング中のメトリクスをログに記録するには `wandb.Run.log()` を使用します。
+* モデル（データセットなど）を Artifacts として W&B プロジェクトに保存するには `wandb.Artifact` を使用します。
+
+モデルをトレーニングして Artifacts として保存したので、それを W&B のレジストリに公開できます。[`wandb.Run.use_artifact()`](/models/ref/python/experiments/run/#method-runuse_artifact) を使用してプロジェクトからアーティファクトを取得し、Model Registry への公開準備をします。`wandb.Run.use_artifact()` には2つの重要な目的があります：
+* プロジェクトからアーティファクトオブジェクトを取得する。
+* アーティファクトを run の入力としてマークし、再現性とトレーサビリティを確保する。詳細は [リネージマップの作成と表示](/models/registry/lineage/) を参照してください。
+
+## ダッシュボードでトレーニングデータを表示する
+
+https://wandb.ai/login からアカウントにログインします。
+
+**Projects** の下に `my-awesome-project`（または上記でプロジェクト名として使用したもの）が表示されているはずです。これをクリックして、プロジェクトの Workspace に入ります。
+
+ここから、実行したすべての Run に関する詳細を確認できます。このスクリーンショットでは、コードが数回再実行され、いくつかの Runs が生成されており、それぞれにランダムに生成された名前が付いています。
+
+<Frame>
+    <img src="/images/quickstart/quickstart_image.png" />
+</Frame>
+
+
+## モデルを W&B Registry に公開する
+
+組織内の他のユーザーとモデルを共有するには、`wandb.Run.link_artifact()` を使用して [コレクション](/models/registry/create_collection/) に公開します。以下のコードはアーティファクトを [レジストリ](/models/registry) にリンクし、チームがアクセスできるようにします。
+
+```python
+# アーティファクト名は、チームのプロジェクト内の特定のアーティファクトバージョンを指定します
+artifact_name = f'{TEAM_ENTITY}/{PROJECT}/{model_artifact_name}:v0'
+print("Artifact name: ", artifact_name)
+
+REGISTRY_NAME = "Model" # W&B でのレジストリ名
+COLLECTION_NAME = "DemoModels"  # レジストリ内のコレクション名
+
+# レジストリ内のアーティファクトのターゲットパスを作成
+target_path = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
+print("Target path: ", target_path)
+
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
+    model_artifact = run.use_artifact(artifact_or_name=artifact_name, type="model")
+    run.link_artifact(artifact=model_artifact, target_path=target_path)
+```
+
+`wandb.Run.link_artifact()` を実行すると、モデルアーティファクトはレジストリ内の `DemoModels` コレクションに入ります。そこから、バージョン履歴、[リネージマップ](/models/registry/lineage/)、その他の [メタデータ](/models/registry/registry_cards/) などの詳細を確認できます。
+
+アーティファクトをレジストリにリンクする方法の追加情報については、[アーティファクトをレジストリにリンクする](/models/registry/link_version/) を参照してください。
+
+## 推論のためにレジストリからモデルアーティファクトを取得する
+
+推論にモデルを使用するには、`wandb.Run.use_artifact()` を使用してレジストリから公開されたアーティファクトを取得します。これによりアーティファクトオブジェクトが返され、[`wandb.Artifact.download()`](/models/ref/python/experiments/artifact/#method-artifactdownload) を使用してアーティファクトをローカルファイルにダウンロードできます。
+
+```python
+REGISTRY_NAME = "Model"  # W&B でのレジストリ名
+COLLECTION_NAME = "DemoModels"  # レジストリ内のコレクション名
+VERSION = 0 # 取得するアーティファクトのバージョン
+
+model_artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
+print(f"Model artifact name: {model_artifact_name}")
+
+with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
+    registry_model = run.use_artifact(artifact_or_name=model_artifact_name)
+    local_model_path = registry_model.download()
+```
+
+レジストリからアーティファクトを取得する方法の詳細については、[レジストリからアーティファクトをダウンロードして使用する](/models/registry/download_use_artifact/) を参照してください。
+
+使用している機械学習フレームワークによっては、重みをロードする前にモデルのアーキテクチャーを再構築する必要がある場合があります。これは使用している特定のフレームワークやモデルに依存するため、読者への演習として残しておきます。
+
+
+## レポートで発見を共有する
+
+<Note>
+W&B Report および Workspace API はパブリックプレビュー中です。
+</Note>
+
+作業を要約するために [レポート](/models/reports/) を作成して共有しましょう。プログラムでレポートを作成するには、[W&B Report and Workspace API](/models/ref/wandb_workspaces/reports) を使用します。
+
+まず、W&B Reports API をインストールします：
+
+```python
+pip install wandb wandb-workspaces -qqq
+```
+
+以下のコードブロックは、マークダウン、パネルグリッドなど、複数のブロックを含むレポートを作成します。ブロックを追加したり、既存のブロックの内容を変更したりして、レポートをカスタマイズできます。
+
+コードブロックの出力には、作成されたレポートの URL へのリンクが表示されます。ブラウザでこのリンクを開いてレポートを表示できます。
+
+```python
+import wandb_workspaces.reports.v2 as wr
+
+experiment_summary = """これは、W&B を使用してシンプルなモデルをトレーニングするために実施された実験の要約です。"""
+dataset_info = """トレーニングに使用されたデータセットは、シンプルなモデルによって生成された合成データで構成されています。"""
+model_info = """モデルは、ノイズを含む入力データに基づいて出力を予測するシンプルな線形回帰モデルです。"""
+
+report = wr.Report(
+    project=PROJECT,
+    entity=TEAM_ENTITY,
+    title="My Awesome Model Training Report",
+    description=experiment_summary,
+    blocks= [
+        wr.TableOfContents(),
+        wr.H2("Experiment Summary"),
+        wr.MarkdownBlock(text=experiment_summary),
+        wr.H2("Dataset Information"),
+        wr.MarkdownBlock(text=dataset_info),
+        wr.H2("Model Information"),
+        wr.MarkdownBlock(text = model_info),
+        wr.PanelGrid(
+            panels=[
+                wr.LinePlot(title="Train Loss", x="Step", y=["loss"], title_x="Step", title_y="Loss")
+                ],
+            ),  
+    ]
+
+)
+
+# レポートを W&B に保存
+report.save()
+```
+
+プログラムでレポートを作成する方法や、W&B App を使用してインタラクティブにレポートを作成する方法の詳細については、W&B Docs 開発者ガイドの [レポートの作成](/models/reports/create-a-report/) を参照してください。
+
+## レジストリへのクエリ
+[W&B Public APIs](/models/ref/python/public-api/) を使用して、W&B の履歴データのクエリ、分析、管理を行います。これは、アーティファクトのリネージの追跡、異なるバージョンの比較、モデルの経時的なパフォーマンス分析に役立ちます。
+
+以下のコードブロックは、特定のコレクション内のすべてのアーティファクトを Model Registry から照会する方法を示しています。コレクションを取得し、そのバージョンを反復処理して、各アーティファクトの名前とバージョンを出力します。
+
+```python
+import wandb
+
+# wandb API を初期化
+api = wandb.Api()
+
+# 文字列 `model` を含み、
+# かつ `text-classification` タグまたは `latest` エイリアスのいずれかを持つすべてのアーティファクトバージョンを検索します
+registry_filters = {
+    "name": {"$regex": "model"}
+}
+
+# 論理 $or 演算子を使用してアーティファクトバージョンをフィルタリングします
+version_filters = {
+    "$or": [
+        {"tag": "text-classification"},
+        {"alias": "latest"}
+    ]
+}
+
+# フィルターに一致するすべてのアーティファクトバージョンのイテラブルを返します
+artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
+
+# 見つかった各アーティファクトの名前、コレクション、エイリアス、タグ、作成日時を出力します
+for art in artifacts:
+    print(f"artifact name: {art.name}")
+    print(f"collection artifact belongs to: { art.collection.name}")
+    print(f"artifact aliases: {art.aliases}")
+    print(f"tags attached to artifact: {art.tags}")
+    print(f"artifact created at: {art.created_at}\n")
+```
+
+レジストリのクエリに関する詳細については、[MongoDB スタイルのクエリでレジストリアイテムを検索する](/models/registry/search_registry/#query-registry-items-with-mongodb-style-queries) を参照してください。

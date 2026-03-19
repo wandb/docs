@@ -1,0 +1,127 @@
+---
+title: セマンティックな run プロットの凡例
+description: チャートのセマンティック凡例を作成する
+---
+
+メトリクスや設定パラメータに基づいて W&B Runs を色分けすることで、視覚的に分かりやすい折れ線グラフとプロットの凡例を作成できます。パフォーマンスメトリクス（最大値、最小値、または最新値）に応じて Runs を色付けし、実験全体にわたるパターンやトレンドを特定します。W&B は、選択したパラメータの値に基づいて、Runs を自動的に色分けされた bucket にグループ化します。
+
+Runs にメトリクスまたは設定ベースの色を使用するには、2 つの設定を行う必要があります。
+
+### キーベースの色設定を有効にする
+
+1. W&B プロジェクトに移動します。
+2. プロジェクトのサイドバーから **Workspace** タブを選択します。
+3. 右上隅にある **Settings** アイコンをクリックします。
+4. ドロワーから **Runs** を選択します。
+5. **Run colors** セクションで、 **Key-based colors** を選択します。
+6. 以下のオプションを設定します：
+    - **Key** ドロップダウンから、Runs の色割り当てに使用したいメトリクスを選択します。
+    - **Y value** ドロップダウンから、Runs の色割り当てに使用したい y 値を選択します。
+    - bucket の数を 2 から 8 の間の値に設定します。
+
+<Note>
+キーベースの色設定を使用する場合、 [Run の色をカスタマイズする](/models/runs/run-colors) オプションは利用できません。
+</Note>
+
+以下のセクションでは、メトリクスと y 値の設定方法、および Runs の色割り当てに使用される bucket のカスタマイズ方法について説明します。
+
+### 例：loss メトリクスによるキーベースの色分け
+
+このプロットの例では、Runs がグラデーションで色分けされており、濃い色は高い loss 値を、薄い色は低い loss 値を表しています。各 Run の最新の loss 値を使用して色を割り当てるために、Y 値は `latest` に設定されています。
+ 
+<Image src="/images/app_ui/run-colors-key-based.png" alt="W&B workspace showing runs colored based on their loss values using key-based coloring." />
+
+## メトリクスを設定する
+
+**Key** ドロップダウンのメトリクスオプションは、 [W&B にログ記録した](/models/runs/color-code-runs/#custom-metrics) キーと値のペア、および W&B によって定義された [デフォルトメトリクス](/models/runs/color-code-runs/#default-metrics) から派生します。
+
+### デフォルトメトリクス
+
+* `Relative Time (Process)`：Run の開始からの経過時間（秒単位）。
+* `Relative Time (Wall)`：Run の開始からの経過時間（秒単位）。実時間に合わせて調整されます。
+* `Wall Time`：Run の実時間（エポックからの秒単位）。
+* `Step`：Run のステップ番号。通常、トレーニングや評価の進捗を追跡するために使用されます。
+
+### カスタムメトリクス
+
+トレーニングまたは評価スクリプトによってログ記録されたカスタムメトリクスに基づいて、Runs を色分けし、意味のあるプロット凡例を作成します。カスタムメトリクスはキーと値のペアとしてログ記録され、キーはメトリクスの名前、値はメトリクスの値です。
+
+例えば、次のコードスニペットはトレーニングループ中に精度（ `"acc"` キー）と損失（ `"loss"` キー）をログ記録します。
+
+```python
+import wandb
+import random
+
+epochs = 10
+
+with wandb.init(project="basic-intro") as run:
+  # トレーニングループをシミュレートしてメトリクスをログ記録するブロック
+  offset = random.random() / 5
+  for epoch in range(2, epochs):
+      acc = 1 - 2 ** -epoch - random.random() / epoch - offset
+      loss = 2 ** -epoch + random.random() / epoch + offset
+
+      # スクリプトから W&B にメトリクスをログ記録
+      run.log({"acc": acc, "loss": loss})
+```
+
+**Key** ドロップダウン内で、 `"acc"` と `"loss"` の両方がオプションとして選択可能になります。
+
+## 設定キー（Configuration key）をセットする
+
+**Key** ドロップダウンの設定オプションは、W&B run を初期化するときに `config` パラメータに渡すキーと値のペアから派生します。設定キーは通常、トレーニングまたは評価スクリプトで使用されるハイパーパラメーターやその他の設定を記録するために使用されます。
+
+```python
+import wandb
+
+# 設定（config）の定義
+config = {
+  "learning_rate": 0.01,
+  "batch_size": 32,
+  "optimizer": "adam"
+}
+
+with wandb.init(project="basic-intro", config=config) as run:
+  # ここにトレーニングコードを記述
+  pass
+```
+
+**Key** ドロップダウン内で、 `"learning_rate"` 、 `"batch_size"` 、および `"optimizer"` がオプションとして選択可能になります。
+
+## Y 値をセットする
+
+以下のオプションから選択できます。
+
+- **Latest**: 各ラインの最後にログ記録されたステップの Y 値に基づいて色を決定します。
+- **Max**: メトリクスに対してログ記録された最高の Y 値に基づいて色を決定します。
+- **Min**: メトリクスに対してログ記録された最低の Y 値に基づいて色を決定します。
+
+## bucket をカスタマイズする
+
+bucket は、選択したメトリクスまたは設定キーに基づいて Runs を分類するために W&B が使用する値の範囲です。bucket は指定されたメトリクスまたは設定キーの値の範囲全体に均等に分散され、各 bucket には一意の色が割り当てられます。その bucket の範囲内に収まる Runs は、その色で表示されます。
+
+以下を考慮してください：
+
+<Frame>
+    <img src="/images/track/color-coding-runs.png" alt="Color coded runs"  />
+</Frame>
+
+- **Key** が `"Accuracy"` （略記 `"acc"` ）に設定されている。
+- **Y value** が `"Max"` に設定されている。
+
+この設定により、W&B は各 Run をその精度（accuracy）の値に基づいて色分けします。色は薄い黄色から濃い色まで変化します。薄い色は精度の値が低いことを示し、濃い色は精度の値が高いことを示します。
+
+このメトリクスに対して 6 つの bucket が定義されており、各 bucket は精度の値の範囲を表しています。 **Buckets** セクション内では、以下の範囲の bucket が定義されています。
+
+- Bucket 1: (Min - 0.7629)
+- Bucket 2: (0.7629 - 0.7824)
+- Bucket 3: (0.7824 - 0.8019)
+- Bucket 4: (0.8019 - 0.8214)
+- Bucket 5: (0.8214 - 0.8409)
+- Bucket 6: (0.8409 - Max)
+
+下の折れ線グラフでは、最も精度が高い Run（0.8232）は濃い紫色（Bucket 5）で色付けされ、最も精度が低い Run（0.7684）は薄いオレンジ色（Bucket 2）で色付けされています。他の Runs もその精度値に基づいて色付けされ、色のグラデーションが相対的なパフォーマンスを示しています。
+
+<Frame>
+    <img src="/images/track/color-code-runs-plot.png" alt="Color coded runs plot"  />
+</Frame>

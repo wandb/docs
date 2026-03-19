@@ -1,0 +1,106 @@
+---
+title: PyTorch
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch/Simple_PyTorch_Integration.ipynb" />
+
+PyTorch は Python で最も人気のある ディープラーニング フレームワーク の一つであり、特に研究者の間で広く利用されています。 W&B は、 勾配 の ログ 記録から CPU および GPU での コード のプロファイリングまで、 PyTorch を第一級市民としてサポートしています。
+
+また、 [example repo](https://github.com/wandb/examples) では スクリプト の例を確認できます。これには、 [Fashion MNIST](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion) で [Hyperband](https://arxiv.org/abs/1603.06560) を使用した ハイパーパラメーター 最適化の例や、それによって生成された [W&B Dashboard](https://wandb.ai/wandb/keras-fashion-mnist/runs/5z1d85qs) が含まれています。
+
+## `run.watch` による 勾配 の ログ 記録
+
+勾配 を自動的に ログ 記録するには、 [`wandb.Run.watch()`](/models/ref/python/experiments/run.md/#method-runwatch) を呼び出し、 PyTorch モデル を渡します。
+
+```python
+import wandb
+
+with wandb.init(config=args) as run:
+
+    model = ...  # モデルのセットアップ
+
+    # マジックメソッド
+    run.watch(model, log_freq=100)
+
+    model.train()
+    for batch_idx, (data, target) in enumerate(train_loader):
+        output = model(data)
+        loss = F.nll_loss(output, target)
+        loss.backward()
+        optimizer.step()
+        if batch_idx % args.log_interval == 0:
+            run.log({"loss": loss})
+```
+
+同じ スクリプト 内で複数の モデル を追跡する必要がある場合は、各 モデル に対して個別に [`wandb.Run.watch()`](/models/ref/python/experiments/run/#method-runwatch) を呼び出すことができます。
+
+<Warning>
+勾配、 メトリクス、およびグラフは、順伝播（forward pass） _および_ 逆伝播（backward pass）の後に `wandb.Run.log()` が呼び出されるまで ログ 記録されません。
+</Warning>
+
+## 画像とメディアの ログ 記録
+
+画像 データを含む PyTorch の `Tensors` を [`wandb.Image`](/models/ref/python/data-types/image) に渡すと、 [`torchvision`](https://pytorch.org/vision/stable/index.html) のユーティリティが使用され、自動的に画像に変換されます。
+
+```python
+with wandb.init(project="my_project", entity="my_entity") as run:
+    images_t = ...  # PyTorch Tensorsとして画像を生成またはロード
+    run.log({"examples": [wandb.Image(im) for im in images_t]})
+```
+
+PyTorch やその他の フレームワーク でリッチメディアを W&B に ログ 記録する方法の詳細については、 [メディアロギングガイド](/models/track/log/media/) を参照してください。
+
+メディアと一緒に、 モデル の 予測 や派生した メトリクス などの 情報 を含めたい場合は、 `wandb.Table` を使用します。
+
+```python
+with wandb.init() as run:
+    my_table = wandb.Table()
+
+    my_table.add_column("image", images_t)
+    my_table.add_column("label", labels)
+    my_table.add_column("class_prediction", predictions_t)
+
+    # W&BにTableをログ記録
+    run.log({"mnist_predictions": my_table})
+```
+
+<Frame>
+    <img src="/images/integrations/pytorch_example_table.png" alt="PyTorch model results"  />
+</Frame>
+
+データセット や モデル の ログ 記録と可視化の詳細については、 [W&B Tables ガイド](/models/tables/) を参照してください。
+
+## PyTorch コード のプロファイリング
+
+<Frame>
+    <img src="/images/integrations/pytorch_example_dashboard.png" alt="PyTorch execution traces"  />
+</Frame>
+
+W&B は [PyTorch Kineto](https://github.com/pytorch/kineto) の [Tensorboard プラグイン](https://github.com/pytorch/kineto/blob/master/tb_plugin/README) と直接連携し、 PyTorch コード のプロファイリング、 CPU および GPU 通信の詳細な検査、ボトルネックの特定と最適化のための ツール を提供します。
+
+```python
+profile_dir = "path/to/run/tbprofile/"
+profiler = torch.profiler.profile(
+    schedule=schedule,  # スケジューリングの詳細についてはprofilerのドキュメントを参照
+    on_trace_ready=torch.profiler.tensorboard_trace_handler(profile_dir),
+    with_stack=True,
+)
+
+with profiler:
+    ...  # ここでプロファイリングしたいコードを実行
+    # 詳細な使用方法についてはprofilerのドキュメントを参照
+
+# wandb Artifactを作成
+profile_art = wandb.Artifact("trace", type="profile")
+# pt.trace.jsonファイルをArtifactに追加
+profile_art.add_file(glob.glob(profile_dir + ".pt.trace.json"))
+# artifactを保存
+profile_art.save()
+```
+
+動作するサンプル コード は、 [この Colab](https://wandb.me/trace-colab) で確認および実行できます。
+
+<Warning>
+インタラクティブな トレース 閲覧 ツール は Chrome Trace Viewer に基づいており、 Google Chrome ブラウザで最適に動作します。
+</Warning>

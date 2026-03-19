@@ -2,27 +2,46 @@
 title: wandb sweep
 ---
 
-**使用法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-sweep.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID`
+import WandbSweep from "/snippets/en/_includes/cli/wandb-sweep.mdx";
 
-**概要**
+<WandbSweep/>
 
-ハイパーパラメーター探索を初期化します。機械学習モデルのコスト関数を最適化するために、さまざまな組み合わせをテストしてハイパーパラメーターを検索します。
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**オプション**
+ハイパーパラメーター探索（ Sweeps ）を初期化します。様々な組み合わせをテストすることで、機械学習モデルのコスト関数を最適化するハイパーパラメーターを探索します。
 
-| **オプション** | **説明** |
+## 使用法
+
+```bash
+wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
+```
+
+## 引数
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `CONFIG_YAML_OR_SWEEP_ID` | 説明なし | はい |
+
+## オプション
+
+| オプション | 説明 |
 | :--- | :--- |
-| `-p, --project` | sweep から作成された W&B によって送信されるプロジェクトの名前です。プロジェクトが指定されない場合、run は Uncategorized というラベルのプロジェクトに送信されます。 |
-| `-e, --entity` | sweep によって作成された W&B run を送信したいユーザー名またはチーム名です。指定した entity が既に存在することを確認してください。entity を指定しない場合、run は通常は自分のユーザー名であるデフォルトの entity に送信されます。 |
-| `--controller` | ローカルコントローラを実行します |
-| `--verbose` | 詳細情報を表示します |
-| `--name` | sweep の名前です。名前が指定されていない場合は、sweep ID が使用されます。 |
-| `--program` | sweep プログラムを設定します |
-| `--update` | 保留中の sweep を更新します |
-| `--stop` | 新しい run の実行を停止して、現在実行中の run が終了するように sweep を終了します。 |
-| `--cancel` | 実行中のすべての run を停止し、新しい run の実行を停止するために sweep をキャンセルします。 |
-| `--pause` | 新しい run の実行を一時的に停止するために sweep を一時停止します。 |
-| `--resume` | 新しい run の実行を再開するために sweep を再開します。 |
-| `--prior_run` | この sweep に追加する既存の run の ID |
+| `--project`, `-p` | Sweep から作成された W&B Runs の送信先となる Projects 名。プロジェクトが指定されていない場合、 Run は Uncategorized というラベルのプロジェクトに送信されます。 |
+| `--entity`, `-e` | Sweep によって作成された W&B Runs の送信先となる Users 名または Teams 名。指定する Entities が既に存在することを確認してください。エンティティを指定しない場合、 Run は通常ユーザー名であるデフォルトのエンティティに送信されます。 |
+| `--controller` | ローカルの controller を実行する（デフォルト: False） |
+| `--verbose` | 詳細な出力を表示する（デフォルト: False） |
+| `--name` | Sweep の名前。名前が指定されない場合は Sweep ID が使用されます。 |
+| `--program` | Sweep プログラムを設定する |
+| `--update` | 保留中の Sweep を更新する |
+| `--stop` | Sweep を終了し、新しい Runs の実行を停止します。現在実行中の Runs は完了させます。（デフォルト: False） |
+| `--cancel` | Sweep をキャンセルし、すべての実行中の Runs を強制終了して、新しい Runs の実行を停止します。（デフォルト: False） |
+| `--pause` | Sweep を一時停止し、新しい Runs の実行を一時的に停止します。（デフォルト: False） |
+| `--resume` | Sweep を再開し、新しい Runs の実行を続行します。（デフォルト: False） |
+| `--prior_run`, `-R` | この Sweep に追加する既存の Run の ID |

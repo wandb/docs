@@ -1,0 +1,176 @@
+---
+title: Volcano를 사용하여 multinode Launch 작업 실행하기
+---
+
+이 튜토리얼은 Kubernetes에서 W&B와 Volcano를 사용하여 멀티노드 트레이닝 작업을 Launch 하는 과정을 안내합니다.
+
+## 개요
+
+이 튜토리얼에서는 W&B Launch 를 사용하여 Kubernetes에서 멀티노드 작업을 실행하는 방법을 배웁니다. 진행 단계는 다음과 같습니다:
+
+- W&B 계정과 Kubernetes 클러스터가 있는지 확인합니다.
+- Volcano 작업을 위한 Launch 큐를 생성합니다.
+- Kubernetes 클러스터에 Launch 에이전트를 배포합니다.
+- 분산 트레이닝 작업을 생성합니다.
+- 분산 트레이닝을 Launch 합니다.
+
+## 사전 요구 사항
+
+시작하기 전에 다음이 필요합니다:
+
+- W&B 계정
+- Kubernetes 클러스터
+
+## Launch 큐 생성하기
+
+첫 번째 단계는 Launch 큐를 생성하는 것입니다. [wandb.ai/launch](https://wandb.ai/launch)로 이동하여 화면 오른쪽 상단에 있는 파란색 **Create a queue** 버튼을 누르세요. 화면 오른쪽에서 큐 생성 창이 나타납니다. Entities 를 선택하고, 이름을 입력한 다음, 큐의 유형으로 **Kubernetes**를 선택합니다.
+
+설정(configuration) 섹션에 [volcano job](https://volcano.sh/en/docs/vcjob/) 템플릿을 입력합니다. 이 큐에서 Launch 되는 모든 Runs 는 이 작업 명세(job specification)를 사용하여 생성되므로, 필요에 따라 이 설정을 수정하여 작업을 커스터마이징할 수 있습니다.
+
+이 설정 블록은 Kubernetes 작업 명세, Volcano 작업 명세 또는 Launch 하려는 기타 커스텀 리소스 정의(CRD)를 수용할 수 있습니다. [설정 블록의 매크로](/platform/launch/set-up-launch/)를 사용하여 이 명세의 내용을 동적으로 설정할 수 있습니다.
+
+이 튜토리얼에서는 [volcano의 pytorch 플러그인](https://github.com/volcano-sh/volcano/blob/master/docs/user-guide/how_to_use_pytorch_plugin)을 사용하는 멀티노드 PyTorch 트레이닝용 설정을 사용합니다. 다음 설정을 YAML 또는 JSON으로 복사하여 붙여넣을 수 있습니다:
+
+<Tabs><Tab title="YAML">
+```yaml
+kind: Job
+spec:
+  tasks:
+    - name: master
+      policies:
+        - event: TaskCompleted
+          action: CompleteJob
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: master
+              image: ${image_uri}
+              imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
+    - name: worker
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: worker
+              image: ${image_uri}
+              workingDir: /home
+              imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
+  plugins:
+    pytorch:
+      - --master=master
+      - --worker=worker
+      - --port=23456
+  minAvailable: 1
+  schedulerName: volcano
+metadata:
+  name: wandb-job-${run_id}
+  labels:
+    wandb_entity: ${entity_name}
+    wandb_project: ${project_name}
+  namespace: wandb
+apiVersion: batch.volcano.sh/v1alpha1
+```
+</Tab><Tab title="JSON">
+```json
+{
+  "kind": "Job",
+  "spec": {
+    "tasks": [
+      {
+        "name": "master",
+        "policies": [
+          {
+            "event": "TaskCompleted",
+            "action": "CompleteJob"
+          }
+        ],
+        "replicas": 1,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "master",
+                "image": "${image_uri}",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "OnFailure"
+          }
+        }
+      },
+      {
+        "name": "worker",
+        "replicas": 1,
+        "template": {
+          "spec": {
+            "containers": [
+              {
+                "name": "worker",
+                "image": "${image_uri}",
+                "workingDir": "/home",
+                "imagePullPolicy": "IfNotPresent"
+              }
+            ],
+            "restartPolicy": "OnFailure"
+          }
+        }
+      }
+    ],
+    "plugins": {
+      "pytorch": [
+        "--master=master",
+        "--worker=worker",
+        "--port=23456"
+      ]
+    },
+    "minAvailable": 1,
+    "schedulerName": "volcano"
+  },
+  "metadata": {
+    "name": "wandb-job-${run_id}",
+    "labels": {
+      "wandb_entity": "${entity_name}",
+      "wandb_project": "${project_name}"
+    },
+    "namespace": "wandb"
+  },
+  "apiVersion": "batch.volcano.sh/v1alpha1"
+}
+```
+</Tab></Tabs>
+
+창 하단의 **Create queue** 버튼을 클릭하여 큐 생성을 완료합니다.
+
+## Volcano 설치하기
+
+Kubernetes 클러스터에 Volcano를 설치하려면 [공식 설치 가이드](https://volcano.sh/en/docs/installation/)를 따르세요.
+
+## Launch 에이전트 배포하기
+
+큐를 생성했으므로, 이제 큐에서 작업을 가져와 실행할 Launch 에이전트를 배포해야 합니다. 가장 쉬운 방법은 [W&B의 공식 `helm-charts` 저장소에 있는 `launch-agent` 차트](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용하는 것입니다. README의 지침에 따라 Kubernetes 클러스터에 차트를 설치하고, 이전에 생성한 큐를 에이전트가 폴링하도록 설정해야 합니다.
+
+## 트레이닝 작업 생성하기
+
+Volcano의 PyTorch 플러그인은 PyTorch 코드에서 DDP를 올바르게 사용하고 있다면 `MASTER_ADDR`, `RANK`, `WORLD_SIZE`와 같이 PyTorch DDP 작동에 필요한 환경 변수를 자동으로 구성합니다. 커스텀 Python 코드에서 DDP를 사용하는 자세한 방법은 [PyTorch 문서](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)를 참조하세요.
+
+<Note>
+Volcano의 PyTorch 플러그인은 [PyTorch Lightning `Trainer`를 통한 멀티노드 트레이닝](https://lightning.ai/docs/pytorch/stable/common/trainer.html#num-nodes)과도 호환됩니다.
+</Note>
+
+## Launch
+
+이제 큐와 클러스터가 설정되었으므로 분산 트레이닝을 Launch 할 차례입니다. 시작을 위해 Volcano의 PyTorch 플러그인을 사용하여 무작위 데이터로 간단한 다층 퍼셉트론(MLP)을 트레이닝하는 [작업](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)을 사용하겠습니다. 해당 작업의 소스 코드는 [여기](https://github.com/wandb/launch-jobs/tree/main/jobs/distributed_test)에서 확인할 수 있습니다.
+
+이 작업을 Launch 하려면 [해당 작업의 페이지](https://wandb.ai/wandb/multinodetest/jobs/QXJ0aWZhY3RDb2xsZWN0aW9uOjc3MDcwNTg1/runs/latest)로 이동하여 화면 오른쪽 상단에 있는 **Launch** 버튼을 클릭하세요. 작업을 실행할 큐를 선택하라는 메시지가 표시됩니다.
+
+![](/images/launch/launching_multinode_job.png)
+
+1. 작업 파라미터를 원하는 대로 설정합니다.
+2. 이전에 생성한 큐를 선택합니다.
+3. **Resource config** 섹션에서 Volcano 작업을 수정하여 작업의 파라미터를 변경합니다. 예를 들어, `worker` 태스크의 `replicas` 필드를 변경하여 워커의 수를 조정할 수 있습니다.
+4. **Launch**를 클릭합니다.
+
+W&B UI에서 진행 상황을 모니터링하고 필요한 경우 작업을 중지할 수 있습니다.

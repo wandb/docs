@@ -1,0 +1,15 @@
+---
+title: W&B 트레이닝
+description: 강화학습을 사용하여 모델 사후 학습 (Post-train) 하기
+mode: wide
+---
+
+현재 퍼블릭 프리뷰로 제공되는 W&B Training은 거대 언어 모델(LLM)의 포스트 트레이닝(post-training)을 위한 서버리스 강화학습(reinforcement learning)을 제공합니다. 이를 통해 모델이 멀티 턴(multi-turn) 및 에이전트(agent) 중심의 작업을 수행할 때의 신뢰성을 높이는 동시에, 속도 향상과 비용 절감을 실현합니다. 강화학습(RL)은 모델이 자신의 출력값에 대한 피드백을 통해 행동(behavior)을 개선하는 트레이닝 기법입니다.
+
+W&B Training은 다음과 같은 솔루션과 인테그레이션(integration)을 지원합니다:
+
+* [ART](https://art.openpipe.ai/getting-started/about): 유연한 RL 파인튜닝 프레임워크.
+* [RULER](https://openpipe.ai/blog/ruler): 범용 검증 도구(universal verifier).
+* [CoreWeave Cloud](https://docs.coreweave.com/docs/platform)의 풀 매니지드 백엔드.
+
+시작하려면 [사전 요구 사항](/training/prerequisites)을 충족하여 서비스 사용을 준비한 후, [OpenPipe의 서버리스 RL 퀵스타트](https://art.openpipe.ai/getting-started/quick-start)를 참조하여 모델의 포스트 트레이닝 방법을 알아보세요.

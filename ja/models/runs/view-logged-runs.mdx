@@ -1,0 +1,137 @@
+---
+title: プロジェクト内の特定の Run を表示する
+description: W&B App または W&B の ターミナル UI を使用して、特定のログされた Run とそのプロパティを表示する方法について説明します。
+---
+
+現在のステータス、Artifacts、メトリクスなど、特定の run に関する情報を表示します。
+
+
+## ログ記録された run の表示
+
+W&B App または `wandb beta leet` ターミナル UI を使用して、Runs を表示および監視できます。
+
+<Tabs>
+<Tab title="WA&B App">
+
+W&B App で特定の run を表示するには：
+
+1. [W&B App](https://wandb.ai/home) にアクセスします。
+2. run を初期化した際に指定した W&B プロジェクトに移動します。
+3. プロジェクトのサイドバーで、**Workspace** タブを選択します。
+4. run セレクター内で、表示したい run をクリックするか、run 名の一部を入力して一致する Runs をフィルタリングします。
+
+また、ブラウザに URL を入力して、特定の run の Workspace に直接アクセスすることもできます。特定の run の URL パスは以下の形式になります：
+
+```text
+https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
+```
+
+山括弧 (`< >`) で囲まれた値を、実際のチーム名、プロジェクト名、および [run ID](/models/runs/run-identifiers#run-id) に置き換えてください。
+
+[Overview](/models/runs/view-logged-runs#overview)、[Logs](/models/runs/view-logged-runs#logs)、[Files](/models/runs/view-logged-runs#files)、[Code](/models/runs/view-logged-runs#code)、[Artifacts](/models/runs/view-logged-runs#artifacts) の各タブを切り替えて、run のプロパティを確認できます。
+
+</Tab>
+<Tab title="LEET">
+
+`wandb beta leet` ターミナル UI を使用して、ターミナル上でローカルに run を表示するには：
+
+1. スクリプトからローカルで run を開始した場合は、コードを実行したディレクトリーに移動します。そこには `wandb/` ディレクトリーがあり、その中に run ごとのサブディレクトリーと `latest-run/` シンボリックリンクが含まれています。各 run ディレクトリーには、`run-<run-ID>.wandb` という形式で名前が付けられたトランザクションログが含まれています。
+
+    ローカルで run を開始せずに、代わりに `.wandb` トランザクションログファイルをダウンロードした場合は、その場所を確認しておいてください。
+2. 以下のコマンドのいずれかを使用して `wandb beta leet` を起動します：
+
+   ```bash
+   # ./wandb/latest-run/ に保存されている最新の run を表示する
+   wandb beta leet
+   
+   # run ディレクトリーを指定する
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+   
+   # .wandb ファイルを指定する
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+   ```
+
+![LEET ターミナル UI での run 表示のデモスクリーンショット](/images/leet/leet-tui.png)
+
+LEET は 3 つのパネルインターフェースを表示します：
+
+- **左サイドバー**: 環境変数、設定、サマリー統計を含む run の概要
+- **中央パネル**: ログ記録されたメトリクスを示す点字スタイルのラインチャートを備えたメトリクスグリッド
+- **右サイドバー**: GPU/CPU/RAM の使用率を含むシステムメトリクス
+
+以下のキーボードショートカットで操作を開始できます：
+
+- `h` または `?` - すべてのキーボードショートカットを表示
+- `/` - パターンでメトリクスをフィルタリング
+- `[` / `]` - 左右のサイドバーを切り替え
+- `n` / `N` - メトリクスページ間の移動
+- `q` / `CMD+C` - 終了
+
+詳細については [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) リファレンスを参照してください。
+
+</Tab>
+</Tabs>
+
+
+### Overview
+**Overview** タブを使用して、プロジェクト内の特定の run に関する以下のような情報を確認できます：
+
+* **Author**: run を作成した W&B Entity。
+* **Command**: run を初期化したコマンド。
+* **Description**: 提供された run の説明。run 作成時に説明を指定しなかった場合、このフィールドは空になります。W&B App または Python SDK を使用してプログラムで run に説明を追加できます。
+* **Tracked Hours**: 一時停止や待機期間を除き、run がアクティブに計算またはデータをログ記録していた時間の合計。このメトリクスは、run に費やされた実際の計算時間を把握するのに役立ちます。
+* **Runtime**: run の開始から終了までの総時間を測定します。これは、run が一時停止していた時間やリソースを待っていた時間を含む、実経過時間（ウォールクロックタイム）です。このメトリクスは、run の完全な経過時間を提供します。
+* **Git repository**: run に関連付けられた git リポジトリ。このフィールドを表示するには、[git を有効にする](/platform/app/settings-page/user-settings/#personal-github-integration) 必要があります。
+* **Host name**: W&B が run を計算した場所。マシン上でローカルに run を初期化した場合は、マシンの名前が表示されます。
+* **Name**: run の名前。
+* **OS**: run を初期化したオペレーティングシステム。
+* **Python executable**: run を開始したコマンド。
+* **Python version**: run を作成した Python バージョン。
+* **Run path**: `entity/project/run-ID` 形式のユニークな run 識別子。
+* **Start time**: run を初期化した時のタイムスタンプ。
+* **State**: [run のステータス](/models/runs/run-states)。
+* **System hardware**: W&B が run の計算に使用したハードウェア。
+* **Tags**: 文字列のリスト。タグは、関連する Runs をまとめたり、`baseline` や `production` のような一時的なラベルを適用したりして整理するのに便利です。
+* **W&B CLI version**: run コマンドを実行したマシンにインストールされている W&B CLI のバージョン。
+* **Git state**: run が初期化されたリポジトリまたは作業ディレクトリーの最新の git コミット SHA。run 作成時に Git を有効にしなかった場合、または git 情報が利用できない場合、このフィールドは空になります。
+
+W&B は、overview セクションの下に以下の情報を保存します：
+
+* **Artifact Outputs**: run によって生成された Artifact の出力。
+* **Config**: [`wandb.Run.config`](/models/track/config/) で保存された設定パラメータのリスト。
+* **Summary**: [`wandb.Run.log()`](/models/track/log/) で保存されたサマリーパラメータのリスト。デフォルトでは、W&B はこの値を最後にログ記録された値に設定します。
+
+プロジェクト概要の例は [こちら](https://wandb.ai/stacey/deep-drive/overview) で確認できます。
+
+
+### Logs 
+**Log** タブには、標準出力 (`stdout`) や標準エラー出力 (`stderr`) など、コマンドラインに出力された内容が表示されます。
+
+<Frame>
+    <img src="/images/runs/run_logs_info.png" alt="Run logs tab" />
+</Frame>
+
+右上隅の **Download** ボタンをクリックして、ログファイルをダウンロードできます。
+
+Logs タブの例は [こちら](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs) で確認できます。
+
+### Files
+**Files** タブを使用して、モデルのチェックポイントや検証セットの例など、特定の run に関連付けられたファイルを表示します。
+
+<Frame>
+    <img src="/images/runs/runs_files_info.png" alt="Run files tab" />
+</Frame>
+
+Files タブの例は [こちら](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/files/media/images) で確認できます。
+
+### Code
+**Code** タブには、特定の run に関連付けられたコードファイルが表示されます。これには、実行されたメインスクリプトだけでなく、run の環境の一部であった追加のコードファイルも含まれます。
+
+
+### Artifacts
+
+**Artifacts** タブには、指定した run の入力および出力 [Artifacts](/models/artifacts/) がリスト表示されます。
+
+<Frame>
+    <img src="/images/runs/runs_artifacts_info.png" alt="Run artifacts tab" />
+</Frame>

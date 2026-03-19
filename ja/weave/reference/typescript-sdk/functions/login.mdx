@@ -1,0 +1,32 @@
+---
+title: ログイン
+description: TypeScript SDK リファレンス
+---
+
+# login
+
+▸ **login**(`apiKey`, `host?`): `Promise`\<`void`\>
+
+提供された APIキー を使用して Weights & Biases (W&B) にログインします。
+この関数は、将来の使用のために認証情報を netrc ファイルに保存しようと試みますが、ファイルシステムへの書き込みができない場合でも処理を続行します。
+
+#### パラメータ
+
+| 名前 | 型 | 説明 |
+| :------ | :------ | :------ |
+| `apiKey` | `string` | あなたの W&B APIキー。 |
+| `host?` | `string` | (オプション) ホスト名 (通常、カスタム W&B サーバー を使用している場合にのみ必要です)。 |
+
+#### 戻り値
+
+`Promise`\<`void`\>
+
+`Throws`
+
+APIキー が指定されていない場合、または Weave トレース サーバー への接続が確認できない場合にスローされます。
+
+#### 定義場所
+
+[clientApi.ts:23](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L23)
+
+___

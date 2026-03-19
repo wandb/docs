@@ -1,32 +1,41 @@
 ---
-title: Move runs
+title: 다른 프로젝트 또는 팀으로 run 이동하기
+description: W&B App을 사용하여 프로젝트 또는 Teams 간에 Runs 를 이동할 수 있습니다.
 ---
 
-이 페이지에서는 run 을 한 프로젝트에서 다른 프로젝트로, 팀 내부 또는 외부로, 또는 한 팀에서 다른 팀으로 이동하는 방법을 보여줍니다. 현재 위치와 새 위치에서 run 에 대한 엑세스 권한이 있어야 합니다.
-
 <Note>
-run 을 이동하면 연결된 이전 Artifacts 는 이동되지 않습니다. 아티팩트를 수동으로 이동하려면 [`wandb artifact get`](/ko/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK 코맨드 또는 [`Api.artifact` API](/ko/models/ref/python/public-api/api/#artifact)를 사용하여 아티팩트를 다운로드한 다음 [wandb artifact put](/ko/models/ref/cli/wandb-artifact/wandb-artifact-put/) 또는 `Api.artifact` API를 사용하여 run 의 새 위치에 업로드합니다.
+시작하기 전에 Runs 를 Projects 또는 Teams 간에 이동할 수 있는 권한이 있는지 확인하세요. 해당 Run 의 현재 위치와 이동하려는 위치 모두에 대한 엑세스 권한이 있어야 합니다.
 </Note>
 
-**Runs** 탭을 사용자 정의하려면 [Project page](/ko/models/track/project-page/#runs-tab)를 참조하세요.
+Runs 를 한 Project 에서 다른 Project 로, 또는 Teams 간에 이동하는 방법은 다음과 같습니다:
 
-## 프로젝트 간에 run 이동
+1. 이동하려는 Runs 가 포함된 Project 로 이동합니다.
+2. Project 사이드바에서 **Runs** 탭을 선택합니다.
+3. 이동하려는 Runs 옆의 체크박스를 선택합니다.
+4. 테이블 상단의 **Move to project** 버튼을 클릭합니다.
+5. 드롭다운에서 대상 Team 과 Project 를 선택합니다.
 
-run 을 한 프로젝트에서 다른 프로젝트로 이동하려면 다음을 수행합니다.
+<Note>
+Run 을 이동할 때, 해당 Run 과 연관된 과거의 Artifacts 는 함께 이동되지 않습니다. Artifact 를 수동으로 이동하려면, [`wandb artifact get`](/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK 코맨드나 [`Api.artifact` API](/models/ref/python/public-api/api/#artifact) 를 사용하여 Artifact 를 다운로드한 후, [`wandb artifact put`](/models/ref/cli/wandb-artifact/wandb-artifact-put/) 또는 `Api.artifact` API 를 사용하여 Run 의 새 위치로 업로드할 수 있습니다.
+</Note>
 
-1. 이동하려는 run 이 포함된 프로젝트로 이동합니다.
-2. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
-3. 이동하려는 run 옆에 있는 확인란을 선택합니다.
-4. 테이블 위의 **Move** 버튼을 선택합니다.
-5. 드롭다운에서 대상 프로젝트를 선택합니다.
+{/* ## Runs 를 Group 으로 이동하기
 
+기존 Group 으로 이동하거나 새 Group 을 생성하여 Runs 를 그룹화할 수 있습니다.
 
-## 팀으로 run 이동
+1. 이동하려는 Runs 가 포함된 Project 로 이동합니다.
+2. Project 사이드바에서 **Runs** 탭을 선택합니다.
+3. 이동하려는 Runs 옆의 체크박스를 선택합니다.
+4. 테이블 상단의 **Move to group** 버튼을 선택합니다.
+5. 모달창에서 대상 Group 을 선택하거나 새 Group 을 생성합니다.
+6. **Move** 를 클릭합니다. */}
 
-자신이 멤버인 팀으로 run 을 이동합니다.
+{/* #### Runs 일괄 관리
+이 섹션에서는 하나 이상의 Run Groups 에 걸쳐 여러 Runs 를 한 번에 관리하는 방법을 설명합니다.
 
-1. 이동하려는 run 이 포함된 프로젝트로 이동합니다.
-2. 프로젝트 사이드바에서 **Runs** 탭을 선택합니다.
-3. 이동하려는 run 옆에 있는 확인란을 선택합니다.
-4. 테이블 위의 **Move** 버튼을 선택합니다.
-5. 드롭다운에서 대상 팀 및 프로젝트를 선택합니다.
+1. 필요한 경우, **Group** 컬럼을 기준으로 [컬럼별 그룹화 토글](#toggle-grouping-by-column-in-the-ui)을 설정합니다.
+1. Group 을 확장하여 해당 Runs 를 확인합니다. 단일 일괄 작업을 통해 서로 다른 Group 의 Runs 를 동일한 대상 Group 으로 이동할 수 있습니다. 관련된 모든 Group 을 확장하세요.
+1. Group 내의 모든 Runs 를 선택하려면 Group 이름 옆의 체크박스를 클릭합니다.
+1. 개별 Run 을 선택하려면 해당 체크박스를 클릭합니다.
+1. 모든 Group 의 모든 Runs 를 선택하려면 **Name** 컬럼 헤더 옆의 체크박스를 클릭합니다.
+1. 테이블 상단에서 일괄 작업 항목을 선택합니다: **Tag**, **Move to group**, **Move to project**, 또는 **New sweep**. */}

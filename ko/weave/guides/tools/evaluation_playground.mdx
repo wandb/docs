@@ -1,0 +1,121 @@
+---
+title: Evaluation Playground를 사용하여 모델 성능 비교하기
+description: Weave 의 인터랙티브 플레이그라운드를 사용하여 코드 없이 모델 성능을 비교하고 평가하세요. 시각적 인터페이스에서 커스텀
+  Datasets 와 LLM judges 를 사용하여 평가를 실행함으로써 시스템 프롬프트, Models 및 스코어링 기준을 테스트할 수 있습니다.
+---
+
+# Evaluation Playground
+
+Evaluation Playground를 사용하면 기존 Models 에 엑세스하고 Datasets 및 LLM scoring judges를 사용하여 성능을 비교할 수 있습니다. 이를 통해 별도의 코드를 작성하지 않고도 Models 를 실험하고 비교할 수 있습니다. 또한 playground에서 개발한 Models, scorers, Datasets 를 나중에 개발 및 배포를 위해 저장할 수도 있습니다.
+
+예를 들어, Evaluation Playground를 열고 이전에 저장한 두 개의 Models 를 추가한 다음, 새로 만들거나 이전에 저장한 질의응답 스타일의 Datasets 를 기반으로 성능을 평가할 수 있습니다. 그런 다음 인터페이스에서 새로운 모델을 추가하고 system prompts를 적용한 후, 세 가지 Models 모두에 대해 새로운 평가를 실행하여 서로의 성능을 비교해 볼 수 있습니다.
+
+<Frame>
+![Evaluation Playground 인터페이스](/weave/guides/evaluation/img/eval-playground-ui.png)
+</Frame>
+
+## Playground에서 평가 설정하기
+
+Evaluation Playground에서 평가를 설정하는 방법은 다음과 같습니다:
+
+1. [Weave UI](https://wandb.ai/wandb/quickstart_playground/weave/playground)를 열고 평가를 수행할 Projects 를 엽니다. 그러면 Traces 페이지가 나타납니다.
+2. Traces 페이지의 왼쪽 메뉴에서 **Playground** 아이콘을 클릭한 다음, Playground 페이지에서 **Evaluate** 탭을 선택합니다. Evaluate 페이지에서 다음 중 하나를 수행할 수 있습니다:
+    * **Load a demo example**: MoonshotAI Kimi K2 모델을 예상 출력값에 대해 평가하고 LLM judge를 사용하여 정확성을 판단하는 사전 정의된 설정을 로드합니다. 이 설정을 사용하여 인터페이스를 실험해 볼 수 있습니다.
+    * **Start from scratch**: 직접 구성을 시작할 수 있도록 빈 설정을 로드합니다.
+3. **Start from scratch**를 선택한 경우, **Title** 및 **Description** 필드에 평가에 대한 설명이 담긴 제목과 설명을 추가합니다.
+
+다음 섹션의 안내에 따라 Datasets, Models 및 scorers를 설정하세요.
+
+### Dataset 추가하기
+
+[Datasets](../core-types/datasets) 는 사용자 입력 예시와 그에 대한 모델의 예상 응답을 모아놓은 컬렉션입니다. 평가 중에 playground는 각 테스트 입력을 모델에 제공하고, 출력을 수집한 다음, 정확도와 같이 선택한 메트릭을 기반으로 출력에 점수를 매깁니다. UI에서 직접 Datasets 를 생성하거나, 프로젝트에 이미 저장된 기존 Datasets 를 추가하거나, 새로운 Datasets 를 업로드할 수 있습니다.
+
+다음 형식의 Datasets 를 업로드할 수 있습니다:
+
+* `.csv`
+* `.tsv`
+* `.json`
+* `.jsonl`
+
+Datasets 를 Weave에 맞게 포맷팅하고 저장하는 방법에 대한 자세한 내용은 Datasets 페이지를 참조하세요.
+
+**Dataset** 섹션에서 Datasets 를 추가하려면:
+
+1. 드롭다운 메뉴를 클릭한 다음 다음 중 하나를 선택합니다:
+    * **Start from scratch**: UI에서 새로운 Datasets 를 생성합니다.
+    * **Upload a file**: 로컬 머신에서 Datasets 를 업로드합니다.
+    * 프로젝트에 이미 저장된 기존 Datasets 를 선택합니다.
+2. 선택 사항: **Save**를 클릭하여 나중에 사용할 수 있도록 프로젝트에 Datasets 를 저장합니다.
+
+옵션을 선택하면 UI의 오른쪽 창에 Datasets 가 표시되며, 각 필드를 클릭하여 필요에 따라 편집할 수 있습니다. **Add row**를 클릭하여 Datasets 에 새로운 행을 추가할 수도 있습니다.
+
+<Note>
+UI를 통한 편집은 새로운 Datasets 에 대해서만 가능합니다.
+
+또한 scorers가 데이터에 엑세스할 수 있도록 Datasets 의 컬럼 이름을 `user_input`과 `expected_output`으로 적절하게 지정하는 것이 중요합니다.
+</Note>
+
+### Model 추가하기
+
+Weave에서 [Models](/weave/guides/core-types/models) 는 AI 모델(예: GPT)과 평가 중에 모델이 작동하는 방식을 정의하는 환경(이 경우 system prompt)의 조합입니다. 프로젝트의 기존 Models 를 선택하거나 평가할 새로운 모델을 생성할 수 있으며, 동일한 Datasets 및 scorer로 동시에 평가하기 위해 여러 Models 를 한 번에 추가할 수 있습니다. **playground 기능을 사용하여 생성된 Models 만 사용할 수 있습니다.**
+
+Evaluation Playground의 **Models** 섹션에서 모델을 추가하려면:
+
+1. **Add Model**을 클릭하고 드롭다운 메뉴에서 **New Model**을 선택하거나 기존 모델을 선택합니다.
+2. **New Model**을 선택한 경우 다음 필드를 설정합니다:
+    * **Name**: 새 모델에 대한 설명이 포함된 이름을 추가합니다.
+    * **LLM Model**: OpenAI의 GPT-4와 같이 새 모델의 기반이 될 파운데이션 모델을 선택합니다. 이미 엑세스 권한을 설정한 파운데이션 모델 목록에서 선택하거나, **Add AI provider**를 선택하고 모델을 선택하여 파운데이션 모델에 대한 엑세스를 추가할 수 있습니다. 공급자를 추가하면 해당 공급자에 대한 엑세스 자격 증명을 입력하라는 메시지가 표시됩니다. Weave를 사용하여 모델에 엑세스하는 데 필요한 API 키, 엔드포인트 및 추가 설정 정보를 찾는 방법은 공급자의 문서를 참조하세요.
+    * **System Prompt**: 모델이 어떻게 행동해야 하는지에 대한 지침을 제공합니다. 예를 들어, `You are a helpful assistant specializing in Python programming.`과 같이 입력합니다. Datasets 의 `user_input`은 이후 메시지로 전송되므로 system prompt에 포함할 필요가 없습니다.
+
+    기존 모델을 선택하면 모델 이름 옆에 기존 모델의 버전을 선택할 수 있는 새 필드가 나타나며 다른 추가 필드는 설정할 필요가 없습니다. 평가 전후에 기존 모델을 변경하려면 [Prompt Playground](../tools/playground)를 사용하세요.
+
+3. 선택 사항: **Save**를 클릭하여 나중에 사용할 수 있도록 프로젝트에 모델을 저장합니다.
+4. 선택 사항: **Add Model**을 다시 클릭하고 필요한 만큼 다른 Models 를 추가하여 동시에 평가할 수 있습니다.
+
+### Scorer 추가하기
+
+[Scorers](../evaluation/scorers) 는 LLM judges를 사용하여 AI 모델 출력의 품질을 측정하고 평가합니다. 프로젝트의 기존 scorers를 선택하거나 모델 평가를 위한 새로운 scorers를 생성할 수 있습니다.
+
+Evaluation Playground에서 scorer를 추가하려면:
+
+1. **Add Scorer**를 클릭한 다음 다음 필드를 설정합니다:
+    * **Name**: scorer에 대한 설명이 포함된 이름을 추가합니다.
+    * **Type**: 점수 출력 방식을 boolean(불리언) 또는 number(숫자) 중에서 선택합니다. Boolean scorers는 모델의 출력이 설정된 판정 파라미터를 충족했는지 여부에 따라 이진값인 `True` 또는 `False`를 반환합니다. Number scorers는 모델의 출력이 판정 파라미터를 얼마나 잘 충족했는지에 대한 일반적인 등급으로 `0`에서 `1` 사이의 점수를 출력합니다.
+    * **LLM-as-a-judge-model**: scorer의 judge로 사용할 파운데이션 모델을 선택합니다. **Models** 섹션의 LLM Model 필드와 마찬가지로, 이미 엑세스를 설정한 파운데이션 모델 중에서 선택하거나 새로운 엑세스를 설정할 수 있습니다.
+    * **Scoring Prompt**: LLM judge가 무엇을 기준으로 점수를 매겨야 하는지에 대한 파라미터를 제공합니다. 예를 들어, 환각(hallucinations) 현상을 확인하려면 다음과 유사한 scoring prompt를 입력할 수 있습니다:
+
+        ```
+        Given the following context and answer, determine if the answer contains any information not supported by the context.
+
+        User input: {user_input}
+        Expected output: {expected_output}
+        Model Output: {output}
+
+        Is the model output correct?
+        ```
+
+        Datasets 의 필드와 응답값을 `{user_input}`, `{expected_output}`, `{output}`과 같이 scoring prompt의 변수로 사용할 수 있습니다. 사용 가능한 변수 목록을 보려면 UI에서 **Insert variable**을 클릭하세요.
+
+2. 선택 사항: **Save**를 클릭하여 나중에 사용할 수 있도록 프로젝트에 scorer를 저장합니다.
+
+### 평가 실행하기
+
+Datasets, Models, scorers 설정이 완료되면 평가를 실행할 수 있습니다.
+
+* Evaluation Playground에서 평가를 실행하려면 **Run eval**을 클릭합니다.
+
+Weave는 추가된 각 모델에 대해 개별 평가를 실행하고 Datasets 를 사용하여 이루어진 각 요청에 대한 메트릭을 수집합니다. Weave는 나중에 검토할 수 있도록 이러한 각 평가를 **Evals** 섹션에 저장합니다.
+
+### 평가 결과 검토하기
+
+평가가 완료되면 playground에 모델에 대한 각 요청에서 수집된 다양한 메트릭을 보여주는 리포트가 열립니다.
+
+<Frame>
+![Evals 히어로](/images/weave/evals-hero.png)
+</Frame>
+
+**Dataset results** 탭에는 입력값, 예상 출력값, 모델의 실제 출력값, 레이턴시, 토큰 사용량 및 스코어링 결과가 표시됩니다. **Row** 컬럼의 ID를 클릭하여 특정 요청 세트에 대한 메트릭의 상세 뷰를 열 수 있습니다. 탭 바로 아래에 있는 표시 형식 버튼을 사용하여 리포트 셀의 표시 형식을 변경할 수도 있습니다.
+
+**Summary** 탭은 데이터의 시각적 표현과 함께 각 모델의 성능에 대한 개요를 제공합니다.
+
+평가 결과를 열고 비교하는 방법에 대한 자세한 내용은 [Evaluations](../core-types/evaluations) 를 참조하세요.
