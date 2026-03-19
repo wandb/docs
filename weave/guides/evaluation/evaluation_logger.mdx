@@ -321,7 +321,7 @@ While TypeScript doesn't have automatic cleanup with context managers, `logSumma
 
 ### Link to an existing dataset
 
-When you pass raw dicts as `inputs` to `log_prediction`, Weave re-ingests the data with every evaluation run. For large datasets, this is inefficient because the same data is stored multiple times.
+When you pass raw datasets as `inputs` to `log_prediction`, Weave re-ingests the data with every evaluation run. This stores duplicate data, which may waste space if the dataset is large or if a large number of evaluations reuse it.
 
 To avoid this duplication, publish your dataset to Weave before running any evaluations, then pass the published dataset's rows as `inputs`. Weave resolves references to published rows using internal references instead of re-ingesting the data. This technique gives you the same linked experience as the standard [Evaluation framework](../core-types/evaluations), where each prediction links back to a specific dataset row in the Weave UI.
 
