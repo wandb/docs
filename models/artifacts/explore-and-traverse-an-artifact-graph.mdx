@@ -18,14 +18,69 @@ Tracking artifact lineage provides several key advantages:
 
 To view an artifact's lineage graph:
 
-1. Navigate to the W&B App.
-2. Select the project that contains the run or artifact you want to explore.
-3. Click on the **Artifacts** tab in the project sidebar.
-4. Select the **Lineage** tab.
+1. Navigate to your project's workspace in the W&B App.
+2. Click on the **Artifacts** tab in the project sidebar.
+3. Select an artifact, then click the **Lineage** tab.
+
+## Navigate lineage graphs
+
+The lineage graph is a visual representation of the relationships between artifacts and runs in an ML experiment. Use the W&B App UI or the Python SDK to explore and traverse an artifact's lineage graph.
+
+<Tabs>
+<Tab title="W&B App UI">
+
+Nodes with green icons represent runs. Nodes with blue icons represent artifacts. Arrows between nodes indicate the input and output of a run or artifact.
+
+Artifact nodes display the artifact's name along with the version of the artifact in the form `<artifact_name>:<version>`. An artifact's type is displayed above the name of the artifact.
+
+<Note>
+You can view the type and the name of artifact in both the left sidebar and in the lineage graph node.
+</Note>
+
+
+Run nodes display the run's name.
 
 <Frame>
-    <img src="/images/artifacts/lineage1.gif" alt="Getting to the Lineage tab"  />
+    <img src="/images/artifacts/lineage2.png" alt="Run and artifact nodes"  />
 </Frame>
+
+Click any individual run to get more information about that runs such as the run's: start time, time duration, author, job type, and more. Click any individual artifact to get more information about the artifact's: aliases, creation time, type, version, description, the run that logged the artifact, file size, and more.
+
+<Frame>
+    <img src="/images/artifacts/lineage3a.gif" alt="Previewing a run"  />
+</Frame>
+
+Runs that create multiple versions of the same artifact are grouped together in a cluster. Click on a specific artifact version listed within the cluster to view specific information about that artifact version. 
+
+<Frame>
+    <img src="/images/artifacts/lineage_multiple_artifact_versions.png" alt="Cluster of artifact versions in a lineage graph"  />
+</Frame>
+
+Click and drag a node to rearrange the graph to customize the layout. You can also zoom in and out of the graph to get a better view of the nodes and their relationships.
+
+<Frame>
+    <img src="/images/artifacts/lineage_rearrange_nodes.gif" alt="Rearranging nodes in a lineage graph"  />
+</Frame>
+
+Hover your mouse over a node and click on the eye icon to hide or show a node in the graph. This is useful for decluttering the graph to focus on specific nodes and their relationships.
+
+</Tab>
+<Tab title="W&B Python SDK">
+
+Programmatically navigate a graph using the W&B Python SDK. Use an artifact object's
+[`logged_by()`](/models/ref/python/experiments/artifact#method-artifact-logged-by) and [`used_by()`](/models/ref/python/experiments/artifact#method-artifact-used-by) methods to walk the graph:
+
+```python
+with wandb.init() as run:
+    artifact = run.use_artifact("artifact_name:latest")
+
+    # Walk up and down the graph from an artifact:
+    producer_run = artifact.logged_by()
+    consumer_runs = artifact.used_by()
+```
+
+</Tab>
+</Tabs>
 
 
 ## Enable lineage graph tracking 
@@ -73,29 +128,6 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   run.log_artifact(artifact_or_path = artifact)
 ```
 
-
-## Navigate lineage graphs
-
-The artifact or job type you provide appears in front of its name, with artifacts represented by blue icons and runs represented by green icons. Arrows detail the input and output of a run or artifact on the graph. 
-
-<Frame>
-    <img src="/images/artifacts/lineage2.png" alt="Run and artifact nodes"  />
-</Frame>
-
-<Note>
-You can view the type and the name of artifact in both the left sidebar and in the **Lineage** tab.
-</Note>
-
-<Frame>
-    <img src="/images/artifacts/lineage2a.gif" alt="Inputs and outputs"  />
-</Frame>
-
-For a more detailed view, click any individual artifact or run to get more information on a particular object.
-
-<Frame>
-    <img src="/images/artifacts/lineage3a.gif" alt="Previewing a run"  />
-</Frame>
-
 ## Artifact clusters
 
 When a level of the graph has five or more runs or artifacts, it creates a cluster. A cluster has a search bar to find specific versions of runs or artifacts and pulls an individual node from a cluster to continue investigating the lineage of a node inside a cluster. 
@@ -106,15 +138,4 @@ Clicking on a node opens a preview with an overview of the node. Clicking on the
     <img src="/images/artifacts/lineage3b.gif" alt="Searching a run cluster"  />
 </Frame>
 
-## Navigate an artifact graph programmatically
-Programmatically navigate a graph using the W&B Python SDK. Use an artifact object's
-[`logged_by()`](/models/ref/python/experiments/artifact#method-artifact-logged-by) and [`used_by()`](/models/ref/python/experiments/artifact#method-artifact-used-by) methods to walk the graph:
 
-```python
-with wandb.init() as run:
-    artifact = run.use_artifact("artifact_name:latest")
-
-    # Walk up and down the graph from an artifact:
-    producer_run = artifact.logged_by()
-    consumer_runs = artifact.used_by()
-```

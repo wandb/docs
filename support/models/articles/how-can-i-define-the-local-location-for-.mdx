@@ -1,10 +1,7 @@
 ---
 title: "How can I define the local location for `wandb` files?"
+keywords: ["Environment Variables", "Experiments"]
 ---
-{/*
-Built with DocEngine. Do not edit this MDX file directly.
-Template: /sites/wandb-docs/templates/support_article.mdx.j2
-*/}
 
 - `WANDB_DIR=<path>` or `wandb.init(dir=<path>)`: Controls the location of the `wandb` folder created for your training script. Defaults to `./wandb`. This folder stores Run's data and logs
 - `WANDB_ARTIFACT_DIR=<path>` or `wandb.Artifact().download(root="<path>")`: Controls the location where artifacts are downloaded. Defaults to `./artifacts`
