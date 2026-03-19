@@ -84,7 +84,7 @@ Automatic instrumentation works by registering a module loader hook:
 
 If you need help setting up your project or determining which type you are using, see [TypeScript SDK: Third-Party Integration Guide](/weave/guides/integrations/js).
 
-In the following code sample, an OpenAI Agent is created and integrated with Weave for traceability. First, update `your-team-name/your-project-name` in the Weave project initialization to real values. A `get_weather` tool is defined that returns a sample weather report. An agent named `Hello world` is configured with basic instructions and access to the weather tool. The main function runs the agent with a sample input (`What's the weather in Tokyo?`) and outputs the final response.
+The following code sample creates an OpenAI Agent and integrates it with Weave for traceability. First, update your-team-name/your-project-name in the Weave project initialization to real values. The sample defines a `get_weather` tool that returns a sample weather report, then configures an agent named `Hello world` with basic instructions and access to the weather tool. The main function runs the agent with a sample input (`What's the weather in Tokyo?`) and outputs the final response.
 
 ```typescript lines
 import * as weave from "weave";
