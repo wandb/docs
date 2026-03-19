@@ -24,7 +24,7 @@ This tutorial walks you through building a **project** automation triggered by r
 
 ## Create a project automation
 
-This automation is scoped to a **project**. When a run in that project transitions to **Failed**, W&B sends a Slack notification.
+Follow these instructions to set up a project-scoped automation: When a run in the project transitions to **Failed**, W&B sends a Slack notification.
 
 <Tabs>
 <Tab title="W&B App">
@@ -63,8 +63,17 @@ automation = api.create_automation(
 </Tabs>
 
 ## Test the automation
+Create a run and log it to the project, explicitly marking it as failed:
 
-Start a run in the project and mark it failed (for example, `run.finish(exit_code=1)`). Within a short time you should see a Slack message with the run link and status.
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    run.log({"loss": 1.23})
+    run.finish(exit_code=1)
+```
+
+Within a short time you should see a Slack message with the run link and status.
 
 <TutorialNotebook/>
 

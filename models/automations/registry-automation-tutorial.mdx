@@ -11,7 +11,7 @@ import TutorialGoFurther from "/snippets/en/_includes/automations/tutorial-go-fu
 <EnterpriseCloudOnly/>
 </Info>
 
-This tutorial walks you through building a **registry** automation triggered by artifact metadata: when an artifact in your registry gets a specific alias (for example, `production`), W&B sends a `POST` request to your webhook.
+This tutorial walks you through building a **registry** automation triggered by artifact metadata: when an artifact in your registry gets a specific alias (for example, **production**), W&B sends a POST request to your webhook.
 
 <TutorialDiagramRegistry/>
 
@@ -20,23 +20,23 @@ This tutorial walks you through building a **registry** automation triggered by 
 ## Prerequisites
 
 - A [webhook](/models/automations/create-automations/webhook#create-a-webhook) configured in **Team Settings**.
-- A [registry](/models/registry/create_registry) with at least one collection, or reuse an existing registry.
+- A W&B [registry](/models/registry/create_registry) with at least one collection, or reuse an existing registry.
 
 ## Create a registry automation
 
-This automation is scoped to a **registry**. When an artifact in any collection in that registry gets a specific alias (for example, `production`), W&B sends a POST request to your webhook.
+Follow these instructions to set up a registry-scoped automation: When an artifact in any collection in that registry gets a specific alias (for example, **production**), W&B sends a POST request to your webhook.
 
 <Tabs>
 <Tab title="W&B App">
 1. Open the registry and click the **Automations** tab, then click **Create automation**.
-1. Choose the event **An artifact alias is added**. Enter an **Alias regex** that matches the alias you care about (for example, `production` or `staging`).
+1. Choose the event **An artifact alias is added**. Enter an **Alias regex** that matches the alias you care about (for example, **production** or **staging**).
 1. Click **Next step**. Set **Action type** to **Webhooks** and select your webhook. If the webhook expects a payload, paste a JSON body and use [payload variables](/models/automations/create-automations/webhook#payload-variables) such as `${artifact_collection_name}` and `${artifact_version_string}`.
 1. Click **Next step**. Give the automation a name and optional description, then click **Create automation**.
 
 For more detail, see [Create a webhook automation](/models/automations/create-automations/webhook#create-an-automation) (Registry tab).
 </Tab>
 <Tab title="Python">
-Use the public API to create a registry-scoped automation that fires when an alias matching a pattern is added. You need the registry (or a collection in it) for scope and a webhook integration.
+Use the public API to create the same automation with a collection scope and alias filter:
 
 ```python
 import wandb
@@ -44,7 +44,6 @@ from wandb.automations import OnAddArtifactAlias, ArtifactEvent, SendWebhook
 
 api = wandb.Api()
 
-# Scope to a collection in the registry (or use registry scope if supported by the API)
 collection = api.artifact_collection(name="my-model", type_name="model")
 webhook_integration = next(api.webhook_integrations(entity="my-team"))
 
@@ -52,7 +51,14 @@ event = OnAddArtifactAlias(
     scope=collection,
     filter=ArtifactEvent.alias.eq("production"),
 )
-action = SendWebhook.from_integration(webhook_integration, payload={"event": "${event_type}", "model": "${artifact_collection_name}", "version": "${artifact_version_string}"})
+action = SendWebhook.from_integration(
+    webhook_integration,
+    payload={
+        "event": "${event_type}",
+        "model": "${artifact_collection_name}",
+        "version": "${artifact_version_string}",
+    },
+)
 
 automation = api.create_automation(
     event >> action,
@@ -65,11 +71,29 @@ automation = api.create_automation(
 
 ## Test the automation
 
-Add the alias (for example, `production`) to an artifact version in the registry (UI or API). Your webhook endpoint should receive a POST with the payload you configured.
+Add the alias (for example, **production**) to an artifact version in the registry, using the W&B App or the public API. For example:
 
-<Note>
-You can scope the event to a collection (as above) or to a registry when the API supports it. Check the [Automations API reference](/models/ref/python/public-api/automations) and [OnAddArtifactAlias](/models/ref/python/automations/onaddartifactalias) for the current signatures.
-</Note>
+```python
+import wandb
+
+with wandb.init(project="my-project") as run:
+    artifact = wandb.Artifact("my-model", type="model")
+    # ... log files or metadata to artifact as needed ...
+    run.log_artifact(artifact)
+    run.wait()  # Ensure the artifact is logged before proceeding
+
+# Add an alias to the latest version in the collection
+api = wandb.Api()
+collection = api.artifact_collection(name="my-model", type_name="model")
+version = next(collection.versions())  # Get the latest version
+
+version.aliases.append("production")
+version.save()
+print("Added alias 'production' to", version.name)
+
+```
+
+Within a short time your webhook endpoint should receive a POST with the payload you configured.
 
 <TutorialNotebook/>
 
