@@ -5,10 +5,6 @@ description: Use Weave to automatically trace your calls to the OpenAI Realtime 
 
 Weave's integration with [OpenAI's Realtime API](https://developers.openai.com/api/docs/guides/realtime/) allows you to automatically trace your application's speech-to-speech interactions as they occur. You can use this to capture conversations between your agents and users to review and evaluate agent performance.
 
-<Note>
-The Weave TypeScript SDK does not currently support OpenAI Realtime Audio integration.
-</Note>
-
 ## Integrate realtime traces
 
 Weave automatically patches into the OpenAI Realtime API and only requires a few additional lines of code to start capturing audio interactions from your application. The following code imports Weave and the Realtime API integration:
@@ -25,11 +21,12 @@ patch_openai_realtime()
 
 Once imported into your code and executed, Weave automatically traces the interactions between the user and the OpenAI Realtime API.
 
-### OpenAI Agents SDK example
+### Run a realtime voice assistant with the OpenAI Agents SDK
 
-The following example application executes a real-time voice assistant that streams microphone audio to OpenAI's Realtime API and plays back the AI's spoken responses through your local machine's speaker. It uses the OpenAI Agents SDK's `RealtimeAgent` and `RealtimeRunner`, with Weave patched in via `patch_openai_realtime()` to trace the session. 
+This example runs a real-time voice assistant that streams microphone audio to OpenAI's Realtime API and plays back the AI's spoken responses through your local machine's speaker. The application uses the OpenAI Agents SDK with `RealtimeAgent` and `RealtimeRunner`, and enables Weave tracing by patching with `patch_openai_realtime()`.
 
-To use the code:
+To run the example:
+
 1. Start your Python environment and install the following libraries:
 
     <Tabs>
@@ -67,7 +64,7 @@ To use the code:
     DEFAULT_WEAVE_PROJECT = "<your-team-name/your-project-name>"
 
     FORMAT = pyaudio.paInt16
-    RATE = 24000  # Required by the OpenAI Realtime API
+    RATE = 24000  # Required by the OpenAI Realtime API.
     CHUNK = 1024
     MAX_INPUT_CHANNELS = 1
     MAX_OUTPUT_CHANNELS = 1
@@ -105,7 +102,7 @@ To use the code:
     def init_weave(project_name: str | None = None) -> None:
         name = project_name or DEFAULT_WEAVE_PROJECT
         weave.init(name)
-        patch_openai_realtime()  # Enables automatic tracing of Realtime API sessions
+        patch_openai_realtime()  # Enables automatic tracing of Realtime API sessions.
 
 
     mic_enabled = True
@@ -213,7 +210,7 @@ To use the code:
         async with await s_runner.run() as session:
             # Stream mic input to the Realtime API, sending silence when muted.
             async def send_mic_audio():
-                silence = b'\x00' * CHUNK * 2  # 2 bytes per sample (16-bit PCM)
+                silence = b'\x00' * CHUNK * 2  # 2 bytes per sample (16-bit PCM).
                 try:
                     while True:
                         raw_data = mic.read(CHUNK, exception_on_overflow=False)
@@ -228,7 +225,7 @@ To use the code:
                             print(f"Mic Level: {' ' * 50} | 🎙 OFF", end="\r")
                             await session.send_audio(silence)
 
-                        await asyncio.sleep(0)  # Yield to the event loop between reads
+                        await asyncio.sleep(0)  # Yield to the event loop between reads.
                 except Exception:
                     pass
 
@@ -252,7 +249,7 @@ To use the code:
                 mic_task.cancel()
 
         # Cleanup
-        audio_output_queue.put(None)  # Signal playback thread to exit
+        audio_output_queue.put(None)  # Signal playback thread to exit.
         mic.close()
         speaker.close()
         p.terminate()
@@ -280,17 +277,14 @@ Once running, press **T** on your keyboard to mute or unmute the mic. The assist
 
 As you speak to the assistant, Weave captures traces that you can explore in the Weave UI, including the audio from the session.
 
-### WebSockets example
+### Run a realtime voice assistant using WebSockets
 
-The following example connects directly to the OpenAI Realtime API over WebSockets instead of using the Agents SDK. It streams microphone audio to the API, plays back spoken responses, and supports tool calling (weather lookups, math evaluation, code execution, and file writing). Weave traces the session the same way as the Agents SDK example: call `weave.init()` and `patch_openai_realtime()` before opening the connection.
+The following example connects directly to the OpenAI Realtime API over WebSockets. It streams microphone audio to the API, plays back spoken responses, and supports tool calling (weather lookups, math evaluation, code execution, and file writing). Weave traces the session the using `weave.init()` and `patch_openai_realtime()`.
 
-To use the code:
+To run the example:
 
 1. Start your Python environment and install the following libraries:
 
-    ```bash
-
-    ```
     <Tabs>
       <Tab title="uv">
       ```bash
@@ -334,7 +328,7 @@ To use the code:
             expression: A math expression to evaluate, e.g. '2 + 2'.
         """
         try:
-            result = eval(expression)  # noqa: S307
+            result = eval(expression)
             return str(result)
         except Exception as e:
             return f"Error: {e}"
@@ -367,7 +361,7 @@ To use the code:
                 output += f"\n(exit code {result.returncode})"
             return output or "(no output)"
         except subprocess.TimeoutExpired:
-            return "Error: script timed out after 30 seconds"
+            return "Error: script timed out after 30 seconds."
         finally:
             script_path.unlink(missing_ok=True)
 
@@ -418,7 +412,7 @@ To use the code:
         write_file,
     )
 
-    # Audio format (must be PCM16 for the Realtime API)
+    # Audio format (must be PCM16 for the Realtime API).
     FORMAT = pyaudio.paInt16
     RATE = 24000
     CHUNK = 1024
@@ -430,7 +424,7 @@ To use the code:
 
     DEBUG_WRITE_LOG = False
 
-    # Map tool name -> callable for function call dispatch
+    # Map tool name -> callable for function call dispatch.
     TOOL_REGISTRY: dict[str, Callable[..., Any]] = {
         "get_weather": get_weather,
         "calculate": calculate,
@@ -438,7 +432,7 @@ To use the code:
         "write_file": write_file,
     }
 
-    # Raw tool definitions for the Realtime API session config
+    # Raw tool definitions for the Realtime API session config.
     TOOL_DEFINITIONS = [
         {
             "type": "function",
@@ -565,7 +559,7 @@ To use the code:
 
         print(f"[Function Result] {result}")
 
-        # Send the function call output back to the model
+        # Send the function call output back to the model.
         await send_event(ws, {
             "type": "conversation.item.create",
             "item": {
@@ -575,7 +569,7 @@ To use the code:
             },
         })
 
-        # Trigger a new response so the model incorporates the function result
+        # Trigger a new response so the model incorporates the function result.
         await send_event(ws, {"type": "response.create"})
 
 
@@ -596,13 +590,13 @@ To use the code:
             while True:
                 raw_data = mic.read(CHUNK, exception_on_overflow=False)
 
-                # Visual volume meter
+                # Visual volume meter.
                 audio_data = np.frombuffer(raw_data, dtype=np.int16).astype(np.float64)
                 rms = np.sqrt(np.mean(audio_data**2))
                 meter = int(min(rms / 50, 50))
                 print(f"Mic Level: {'█' * meter}{' ' * (50 - meter)} |", end="\r")
 
-                # Base64-encode and send audio chunk
+                # Base64-encode and send audio chunk.
                 b64_audio = base64.b64encode(raw_data).decode("utf-8")
                 await send_event(ws, {
                     "type": "input_audio_buffer.append",
@@ -615,7 +609,7 @@ To use the code:
 
 
     async def receive_events(ws, audio_output_queue: queue.Queue) -> None:
-        # Accumulate function call arguments across delta events
+        # Accumulate function call arguments across delta events.
         pending_calls: dict[str, dict] = {}
         async for raw_message in ws:
             if DEBUG_WRITE_LOG:
@@ -657,7 +651,7 @@ To use the code:
             elif event_type == "response.output_text.done":
                 pass
 
-            # Audio output deltas - queue for playback
+            # Audio output deltas - queue for playback.
             elif event_type == "response.output_audio.delta":
                 audio_bytes = base64.b64decode(event.get("delta", ""))
                 audio_output_queue.put(audio_bytes)
@@ -668,7 +662,7 @@ To use the code:
             elif event_type == "response.output_audio_transcript.done":
                 pass
 
-            # Function call started - initialize pending call
+            # Function call started - initialize pending call.
             elif event_type == "response.output_item.added":
                 item = event.get("item", {})
                 if item.get("type") == "function_call" and item.get("status") == "in_progress":
@@ -680,7 +674,7 @@ To use the code:
                     }
                     print(f"\n[Function Call Started] {item.get('name', '')}")
 
-            # Function call argument deltas - accumulate
+            # Function call argument deltas - accumulate.
             elif event_type == "response.function_call_arguments.delta":
                 item_id = event.get("item_id", "")
                 if item_id in pending_calls:
@@ -690,7 +684,7 @@ To use the code:
                 item_id = event.get("item_id", "")
                 call_info = pending_calls.pop(item_id, None)
                 if call_info is None:
-                    # Fallback: use data directly from the done event
+                    # Fallback: use data directly from the done event.
                     call_info = {
                         "call_id": event.get("call_id"),
                         "name": event.get("name"),
@@ -726,7 +720,7 @@ To use the code:
         input_device_index = int(p.get_default_input_device_info()['index'])
         output_device_index = int(p.get_default_output_device_info()['index'])
 
-        # Channel count must match the device's capabilities or pyaudio will error on open
+        # Channel count must match the device's capabilities or pyaudio errors upon open.
         input_info = p.get_device_info_by_index(input_device_index)
         output_info = p.get_device_info_by_index(output_device_index)
         input_channels = min(int(input_info['maxInputChannels']), 1)
@@ -788,7 +782,7 @@ To use the code:
                     pass
 
         # Cleanup
-        audio_output_queue.put(None)  # signal playback thread to exit
+        audio_output_queue.put(None)  # Signal playback thread to exit.
         mic.close()
         speaker.close()
         p.terminate()
