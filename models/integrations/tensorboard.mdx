@@ -75,7 +75,7 @@ run.finish()
 ```
 
 <Warning>
-You must call either `wandb.init()` or `wandb.tensorboard.patch()` **before** calling `tf.summary.create_file_writer()` or constructing a `SummaryWriter()` via `torch.utils.tensorboard`.
+You must call either `wandb.init()` or `wandb.tensorboard.patch()` **before** calling `tf.summary.create_file_writer()` or constructing a `SummaryWriter` via `torch.utils.tensorboard`.
 </Warning>
 
 ### How do I sync historical TensorBoard runs?
