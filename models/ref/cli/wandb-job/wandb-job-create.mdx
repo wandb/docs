@@ -38,6 +38,7 @@ Create a job from a source, without a wandb run.
 | `job_type` | Choice | None | True |
 | `path` | STR | None | True |
 
+
 ## Options
 
 | Flag | Type | Description |
@@ -53,3 +54,4 @@ Create a job from a source, without a wandb run.
 | `--build-context, -b` | STR | Path to the build context from the root of the job source code. If provided, this is used as the base path for the Dockerfile and entrypoint. **Default**: None |
 | `--base-image, -B` | STR | Base image to use for the job. Incompatible with image jobs. **Default**: None |
 | `--dockerfile, -D` | STR | Path to the Dockerfile for the job. If --build-context is provided, the Dockerfile path will be relative to the build context. **Default**: None |
+
