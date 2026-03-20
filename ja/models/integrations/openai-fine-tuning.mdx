@@ -1,5 +1,5 @@
 ---
-description: W&B を使って OpenAI モデルをファインチューニングする方法。
+description: "W&B を使って OpenAI モデルをファインチューニングし、トレーニングメトリクスをログし、ジョブを監視し、モデルのパフォーマンスを経時的に比較します。"
 title: OpenAI ファインチューニング
 ---
 
@@ -7,14 +7,13 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://wandb.me/openai-colab" />
 
-OpenAI GPT-3.5 や GPT-4 モデルのファインチューニングに関するメトリクスと設定を W&amp;B にログとして記録しましょう。W&amp;B エコシステムを活用して、ファインチューニング実験、モデル、データセットを追跡し、結果を同僚と共有できます。
+OpenAI GPT-3.5 または GPT-4 モデルのファインチューニングメトリクスと構成を W&B にログしましょう。W&B エコシステムを活用して、ファインチューニング実験、モデル、データセットを追跡し、その結果を同僚と共有できます。
 
 <Note>
-  ファインチューニング可能なモデルの一覧については、[OpenAI のドキュメント](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned)を参照してください。
+ファインチューニングできるモデルの一覧については、[OpenAI ドキュメント](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned)を参照してください。
 </Note>
 
-ファインチューニングのために W&amp;B を OpenAI と連携させる方法に関する補足情報については、OpenAI ドキュメントの [W&amp;B Integration](https://developers.openai.com/cookbook/examples/third_party/gpt_finetuning_with_wandb) セクションを参照してください。
-
+ファインチューニングのために W&B を OpenAI と統合する方法に関する補足情報については、OpenAI ドキュメントの [W&B Integration](https://developers.openai.com/cookbook/examples/third_party/gpt_finetuning_with_wandb) セクションを参照してください。
 
 <div id="install-or-update-openai-python-api">
   ## OpenAI Python API をインストールまたは更新する

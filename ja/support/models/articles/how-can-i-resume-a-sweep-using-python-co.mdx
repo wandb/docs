@@ -1,0 +1,22 @@
+---
+title: "Python コードで sweep を再開するにはどうすればよいですか？"
+keywords: ["Sweeps", "Python"]
+---
+
+sweep を再開するには、`sweep_id` を `wandb.agent()` 関数に渡します。
+
+```python
+import wandb
+
+sweep_id = "your_sweep_id"
+
+def train():
+    # トレーニングコードをここに記述
+    pass
+
+wandb.agent(sweep_id=sweep_id, function=train)
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[Python](/ja/support/models/tags/python)</Badge>

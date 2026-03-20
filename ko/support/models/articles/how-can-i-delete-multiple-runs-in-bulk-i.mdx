@@ -1,0 +1,20 @@
+---
+title: "한 번에 하나씩 삭제하는 대신 여러 개의 run을 일괄 삭제하려면 어떻게 해야 하나요?"
+keywords: ["Projects", "Runs"]
+---
+
+여러 run을 한 번에 삭제하려면 [공개 API](/ko/models/ref/python/public-api/api)를 사용하세요:
+
+```python
+import wandb
+
+api = wandb.Api()
+runs = api.runs('<entity>/<project>')
+for run in runs:
+    if <condition>:
+        run.delete()
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Projects](/ko/support/models/tags/projects)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ko/support/models/tags/runs)</Badge>

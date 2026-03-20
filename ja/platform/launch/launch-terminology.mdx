@@ -1,8 +1,9 @@
 ---
 title: Launch の用語と概念
+description: "ジョブ、キュー、ターゲットリソース、エージェント、エージェント環境など、W&B Launch の主要な概念を学びます。"
 ---
 
-W&amp;B Launch では、run を作成するために [jobs](#launch-job) を [queues](#launch-queue) に投入します。job は W&amp;B 用にインスツルメントされた Python スクリプトです。queue は、[target resource](#target-resources) 上で実行する job の一覧を保持します。[Agents](#launch-agent) は queues から jobs を取得し、target resources 上で jobs を実行します。W&amp;B は Launch jobs を、W&amp;B が [runs](/ja/models/runs/) を追跡する場合と同様の方法で追跡します。
+W&amp;B Launch では、run を作成するために [ジョブ](#launch-job) を [キュー](#launch-queue) に追加します。ジョブは W&amp;B 用にインスツルメントされた Python スクリプトです。キューは、[ターゲットリソース](#target-resources) 上で実行するジョブの一覧を保持します。[エージェント](#launch-agent) はキューからジョブを取得し、ターゲットリソース上でジョブを実行します。W&amp;B は Launch ジョブを、W&amp;B が [runs](/ja/models/runs/) を追跡する場合と同様の方法で追跡します。
 
 <div id="launch-job">
   ### Launch ジョブ
@@ -11,8 +12,8 @@ W&amp;B Launch では、run を作成するために [jobs](#launch-job) を [qu
 Launch ジョブは、完了すべきタスクを表す特定の種類の [W&amp;B Artifact](/ja/models/artifacts/) です。たとえば、一般的な Launch ジョブには、モデル のトレーニングやモデル 評価のトリガーなどがあります。ジョブ定義には次の内容が含まれます：
 
 * 少なくとも 1 つの実行可能なエントリポイントを含む Python コードおよびその他のファイルアセット
-* 入力（設定パラメーター）と出力（記録されるメトリクス）に関する情報
-* 環境に関する情報（例：`requirements.txt`、ベースとなる `Dockerfile`）
+* 入力 (設定パラメーター) と出力 (記録されるメトリクス) に関する情報
+* 環境に関する情報 (例：`requirements.txt`、ベースとなる `Dockerfile`) 
 
 ジョブ定義には主に 3 種類あります：
 

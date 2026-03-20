@@ -1,10 +1,10 @@
 ---
 title: API 概要
-description: W&B Training 用の完全な API ドキュメント
+description: "認証の詳細とともに、chat completions、Models、トレーニングジョブ、ヘルスチェック用の W&B Training API エンドポイントを参照します。"
 ---
 
 <Note>
-  W&amp;B Training API は、サーバーレス強化学習 (RL) や教師ありファインチューニング (SFT) を含むトレーニング ジョブを管理・操作するためのエンドポイントを提供します。この API は chat completions API として OpenAI 互換です。
+  W&amp;B Training API は、サーバーレス強化学習 (RL) や教師ありファインチューニング (SFT) を含むトレーニングジョブを管理および操作するためのエンドポイントを提供します。この API は chat completions に関して OpenAI 互換です。
 </Note>
 
 <div id="authentication">
@@ -52,8 +52,8 @@ https://api.training.wandb.ai/v1
   ### training-jobs
 </div>
 
-* **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - SFT トレーニングジョブを作成
-* **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - RL トレーニングジョブを作成
+* **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - Sft トレーニングジョブを作成
+* **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - Rl トレーニングジョブを作成
 * **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - トレーニングジョブを取得
 * **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - トレーニングジョブのイベントを取得
 
@@ -72,5 +72,5 @@ https://api.training.wandb.ai/v1
 * [前提条件](/ja/training/prerequisites)
 * [Serverless SFT](/ja/training/sft-training)
 * [トレーニング済みモデルを利用する](/ja/training/serverless-rl/use-trained-models)
-* [利用可能なモデル](/ja/training/serverless-rl/available-models)
+* [利用可能なModels](/ja/training/serverless-rl/available-models)
 * [利用制限](/ja/training/serverless-rl/usage-limits)

@@ -1,6 +1,6 @@
 ---
 title: "스트리밍 응답 활성화"
-description: W&B Inference에서 스트리밍 출력을 사용하는 방법
+description: "W&B Inference에서 스트리밍 출력을 활성화하여 모델 응답이 생성되는 대로 점진적으로 받아보세요."
 ---
 
 때때로 모델이 응답을 생성하는 데 시간이 걸릴 수 있습니다.
@@ -37,6 +37,7 @@ description: W&B Inference에서 스트리밍 출력을 사용하는 방법
             print(chunk) # CompletionUsage 객체를 출력
     ```
   </Tab>
+
   <Tab title="Bash">
     ```bash
     curl https://api.inference.wandb.ai/v1/chat/completions \

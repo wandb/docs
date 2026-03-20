@@ -1,0 +1,10 @@
+---
+title: "ローカルでは問題なくトレーニングできているのに、W&B で run が crashed とマークされるのはなぜですか？"
+keywords: ["run の異常終了"]
+---
+
+これは接続の問題を示しています。サーバーがインターネット接続を失い、データが W&amp;B に同期されなくなると、システムは短い再試行期間の後に run をクラッシュしたものとしてマークします。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[run の異常終了](/ja/support/models/tags/run-crashes)</Badge>

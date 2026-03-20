@@ -1,12 +1,13 @@
 ---
 title: "Weave でのオーディオ"
-description: "W&B Weave でオーディオを扱う方法を学ぶ"
+description: "W&B Weave のオーディオ ログ機能とトレース機能を使用して、LLM アプリケーションのオーディオ データを追跡および評価します。"
 ---
 
 <Note>
-これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを使用してください：
-- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
-- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを使用してください：
+
+  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
+  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/audio_with_weave.ipynb)
 </Note>
 
 ## 
@@ -137,6 +138,7 @@ def prompt_endpoint_and_log_trace(system_prompt=None, user_prompt=None):
     return wave.open("output.wav", "rb")
 ```
 
+
 <div id="testing">
   ## テスト
 </div>
@@ -204,6 +206,7 @@ _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
+
 <div id="microphone-configuration">
   ## マイクの設定
 </div>
@@ -238,6 +241,7 @@ OAI_SAMPLE_RATE = (
 )
 OUTPUT_DEVICE_CHANNELS = 1  # モノラル出力の場合は 1 に設定する
 ```
+
 
 <div id="openai-realtime-api-schema-implementation">
   ## OpenAI Realtime API スキーマ実装
@@ -789,7 +793,7 @@ def parse_server_event(event_data: dict) -> ServerEvent:
 ```
 
 <div id="audio-stream-writer-to-disk-and-in-memory">
-  ## Audio Stream Writer（ディスクおよびメモリへの書き込み）
+  ## Audio Stream Writer (ディスクおよびメモリへの書き込み)
 </div>
 
 ```python lines
@@ -833,6 +837,7 @@ class StreamingWavWriter:
         assert self.in_memory, "バッファはストリームがメモリ上にある場合のみ利用可能です。"
         return self.buffer
 ```
+
 
 <div id="realtime-audio-model">
   ## Realtime Audio Model

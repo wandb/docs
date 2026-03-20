@@ -1,14 +1,14 @@
 ---
-description: W&B でテーブルをログに記録します。
-title: テーブルのログ記録
+description: "実験の run からの構造化データを可視化してクエリするために、W&B 表を作成し、データを追加してログします。"
+title: 表をログする
 ---
 
-`wandb.Table` を使用して、W&amp;B で可視化やクエリを行うためのデータをログに記録します。このガイドでは、次の内容について説明します。
+`wandb.Table` を使用して、W&B で可視化やクエリを行うためのデータをログします。このガイドでは、次の内容について説明します。
 
-1. [テーブルを作成](./log-tables#create-tables)
+1. [表を作成](./log-tables#create-tables)
 2. [データを追加](./log-tables#add-data)
 3. [データを取得](./log-tables#retrieve-data)
-4. [テーブルを保存](./log-tables#save-tables)
+4. [表を保存](./log-tables#save-tables)
 
 <div id="create-tables">
   ## テーブルを作成する
@@ -124,10 +124,10 @@ with wandb.init(project="my_project") as run:
   ## データを取得する
 </div>
 
-データが Table に格納されたら、列または行単位でアクセスできます。
+データが表に入ったら、列または行単位でアクセスできます。
 
-1. **Row Iterator**: Table の行イテレータ（`for ndx, row in table.iterrows(): ...` など）を使って、データの各行を効率的に走査できます。
-2. **Get a Column**: `table.get_column("col_name")` を使って、データの 1 列を取得できます。便利なように、`convert_to="numpy"` を指定すると、その列をプリミティブ型の NumPy NDArray に変換できます。これは列に `wandb.Image` などのメディア型が含まれている場合に、元のデータへ直接アクセスするのに役立ちます。
+1. **Row Iterator**: `for ndx, row in table.iterrows(): ...` などの表の行イテレータを使って、データの各行を効率的に反復処理できます。
+2. **Get a Column**: `table.get_column("col_name")` を使って、データの 1 列を取得できます。便利な機能として、`convert_to="numpy"` を渡すと、その列をプリミティブ型の NumPy NDArray に変換できます。これは列に `wandb.Image` などのメディア型が含まれている場合に、基になるデータへ直接アクセスするのに役立ちます。
 
 <div id="save-tables">
   ## テーブルを保存する

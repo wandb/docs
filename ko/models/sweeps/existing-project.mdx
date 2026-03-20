@@ -25,16 +25,16 @@ title: '튜토리얼: 프로젝트에서 스윕 잡 생성하기'
   ## 2. 스윕 생성하기
 </div>
 
-프로젝트 페이지의 프로젝트 사이드바에서 [Sweep 탭](./sweeps-ui)을 열고 **Create Sweep**을 선택합니다.
+프로젝트 페이지에서 프로젝트 사이드바의 [Sweep tab](./visualize-sweep-results)을 열고 **Create Sweep**을 선택합니다.
 
 <Frame>
-    <img src="/images/sweeps/sweep1.png" alt="Sweep 개요"  />
+    <img src="/images/sweeps/sweep1.png" alt="Sweep overview"  />
 </Frame>
 
-자동으로 생성된 설정은 완료된 run을 기반으로 스윕할 값들을 추론합니다. 시도할 하이퍼파라미터 범위를 지정하도록 설정을 수정하세요. 스윕을 실행하면, 호스팅된 W&B 스윕 서버에서 새로운 프로세스가 시작됩니다. 이 중앙 집중식 서비스는 트레이닝 작업을 실행하는 머신인 에이전트를 조율합니다.
+자동 생성된 구성은 완료한 Runs를 바탕으로 스윕할 값을 추정합니다. 어떤 범위의 하이퍼파라미터를 시도할지 지정하도록 구성을 수정하세요. 스윕을 시작하면 호스팅된 W&B 스윕 서버에서 새 프로세스가 시작됩니다. 이 중앙 집중식 서비스는 에이전트, 즉 트레이닝 작업을 실행하는 머신을 조정합니다.
 
 <Frame>
-    <img src="/images/sweeps/sweep2.png" alt="Sweep 설정"  />
+    <img src="/images/sweeps/sweep2.png" alt="Sweep configuration"  />
 </Frame>
 
 <div id="3-launch-agents">

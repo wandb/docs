@@ -1,0 +1,14 @@
+---
+title: "継続的インテグレーションや内部ツールから起動した run をどうすればログできますか？"
+keywords: ["Runs", "Logs"]
+---
+
+W&amp;B にログする自動テストや内部ツールを実行するには、チーム設定ページで **サービスアカウント** を作成します。これにより、継続的インテグレーション経由で実行されるものを含む自動化ジョブで、サービス用 APIキーを使用できるようになります。サービスアカウントのジョブを特定のユーザーに紐付けるには、`WANDB_USERNAME` または `WANDB_USER_EMAIL` 環境変数を設定します。
+
+<Frame>
+  <img src="/images/track/common_questions_automate_runs.png" alt="サービスアカウントの作成" />
+</Frame>
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Logs](/ja/support/models/tags/logs)</Badge>

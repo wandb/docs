@@ -159,12 +159,12 @@ Playground에서는 시도 횟수를 설정하여 동일한 입력에 대해 여
   ### 메시지 작성기(입력 필드)
 </div>
 
-**Message composer**는 모델에 새 메시지를 전송하는 데 사용됩니다.
+모델에 새 메시지를 보내려면 **Message composer**를 사용하세요.
 
-메시지 역할을 선택하고, 실행할 메시지를 제출할 수 있습니다. 대부분의 상호작용은 **User** 메시지로 구성됩니다. 테스트 중인 지침이 바뀔 때 **System** 또는 **Assistant** 메시지를 추가할 수 있습니다.
+메시지 역할을 선택하고, 실행할 메시지를 제출할 수 있습니다. 대부분의 상호작용은 **User** 메시지로 작성됩니다. 테스트 중인 지침이 변경될 때 **System** 또는 **Assistant** 메시지를 추가할 수 있습니다.
 
 <Frame>
-![상단에는 프롬프트 정의 영역, 중간에는 메시지 기록, 하단에는 새 메시지를 보내기 위한 메시지 작성기가 있는 Weave Playground 화면.](/weave/guides/tools/imgs/playground_chat_input.png)
+![상단에는 프롬프트 정의 영역, 중간에는 메시지 이력, 하단에는 새 메시지를 보내기 위한 메시지 작성기가 있는 Weave Playground 화면.](/weave/guides/tools/imgs/playground_chat_input.png)
 </Frame>
 
 <div id="view-message-history">
@@ -179,8 +179,8 @@ Playground에서는 시도 횟수를 설정하여 동일한 입력에 대해 여
   ## LLM 비교
 </div>
 
-Playground에서는 LLM을 서로 비교할 수 있습니다. 비교하려면 오른쪽에 있는 Playground 도구 모음에서 **Add Chat (<Icon icon="plus" iconType="solid" />)** 버튼을 클릭합니다. 그러면 기존 채팅 옆에 두 번째 채팅이 열립니다.
-두 번째 채팅에서는 모델 선택, 설정 조정, 함수 추가 등 기존 채팅과 동일한 기능을 사용할 수 있습니다.
+Playground에서는 LLM을 서로 비교할 수 있습니다. 비교를 수행하려면 오른쪽 Playground 툴바에서 **Add Chat (<Icon icon="plus" iconType="solid" />)** 버튼을 클릭합니다. 그러면 원래 채팅 옆에 두 번째 채팅이 열립니다.
+두 번째 채팅에서는 모델 선택, 설정 조정, 함수 추가 등 원래 채팅과 동일한 기능을 사용할 수 있습니다.
 
 <div id="custom-providers">
   ## 사용자 지정 프로바이더
@@ -358,7 +358,7 @@ flowchart LR
 기존 [저장된 모델](#save-a-model)을 편집해 파라미터를 미세 조정하거나 설정을 갱신하세요. 이렇게 하면 저장된 모델이 사용 사례와 함께 발전할 수 있습니다.
 
 1. 프롬프트 헤더의 **Select a model** 드롭다운에서 **Saved Models**를 선택합니다.
-2. 저장된 모델 목록에서 업데이트할 저장된 모델을 선택합니다. 
+2. 저장된 모델 목록에서 업데이트할 저장된 모델을 선택합니다.
 3. 프롬프트 헤더에서 **Chat settings (<Icon icon="sliders" iconType="regular" />)** 버튼을 클릭해 **Chat settings** 패널을 엽니다.
 4. **Chat settings** 패널에서 원하는 대로 파라미터를 조정합니다. Weave 호출 추적을 켜거나 끌 수 있고, [함수를 추가](#add-a-function)할 수도 있습니다.
-5. **Update model**을 클릭합니다. 모델이 업데이트되며, **Select a model** 드롭다운의 **Saved Models**에서 사용할 수 있습니다. 저장된 모델의 버전은 자동으로 증가합니다.
+5. **Update model**을 클릭합니다. 이렇게 하면 모델이 업데이트되고 **Select a model** 드롭다운의 **Saved Models**에서 사용할 수 있게 됩니다. 저장된 모델의 버전은 자동으로 증가합니다.

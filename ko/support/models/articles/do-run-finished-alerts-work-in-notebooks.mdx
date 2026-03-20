@@ -1,0 +1,12 @@
+---
+title: "노트북에서 'Run Finished' 알림이 작동하나요?"
+keywords: ["알림", "노트북"]
+---
+
+아니요. **사용자 설정**의 **Run Finished** 설정으로 활성화되는 **Run Finished** 알림은 Python 스크립트에서만 작동하며, 각 셀 실행마다 알림이 전송되는 것을 방지하기 위해 Jupyter Notebook 환경에서는 비활성화된 상태로 유지됩니다.
+
+대신 노트북 환경에서는 `run.alert()`를 사용하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[알림](/ko/support/models/tags/alerts)</Badge><Badge stroke shape="pill" color="orange" size="md">[노트북](/ko/support/models/tags/notebooks)</Badge>

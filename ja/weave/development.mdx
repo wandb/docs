@@ -1,35 +1,36 @@
 ---
 title: '開発'
-description: 'ローカルで変更をプレビューしてドキュメントを更新する'
+description: "W&B Weave ドキュメントサイトに更新を公開する前に、ローカルでドキュメントの変更をプレビューしてテストします。"
 ---
 
 <Info>
-  **前提条件**: 事前に Node.js（バージョン 19 以上）をインストールしてください。 <br />
-  続行する前に `docs.json` に移行し、旧 `mint.json` ファイルを削除してください。
+  **前提条件**: 続行する前に Node.js (バージョン 19 以上) をインストールしてください。 <br />
+  続行する前に ```docs.json``` にアップグレードし、従来の ```mint.json``` ファイルを削除してください。
 </Info>
 
 お使いのオペレーティングシステムで Mintlify をインストールして実行するには、次の手順に従ってください。
 
-**ステップ 1**: Mintlify をインストールします:
+**Step 1**: Mintlify をインストールします:
 
 <CodeGroup>
+
   ```bash npm
   npm i -g mintlify
   ```
 
-  ```bash yarn
-  yarn global add mintlify
-  ```
+```bash yarn
+yarn global add mintlify
+```
+
 </CodeGroup>
 
-**ステップ 2**: docs ディレクトリ（`docs.json` ファイルがある場所）に移動し、次のコマンドを実行します:
+**Step 2**: docs ディレクトリ（`docs.json` ファイルがある場所）に移動し、次のコマンドを実行します:
 
 ```bash
 mintlify dev
 ```
 
-ドキュメントのローカルプレビューには `http://localhost:3000` からアクセスできます。
-
+ドキュメントのローカルプレビューは `http://localhost:3000` で利用できます。
 
 <div id="custom-ports">
   ### カスタムポート

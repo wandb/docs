@@ -1,5 +1,6 @@
 ---
 title: "이전 W&B Server 릴리스"
+description: "지원이 종료된 이전 W&B Server 버전의 보관된 릴리스 노트를 살펴보세요."
 sidebarTitle: "이전 릴리스"
 rss: true
 ---
@@ -157,7 +158,7 @@ import EolReminder from '/snippets/ko/_includes/release-notes-support-eol-remind
 
   ## Features
 
-  * W&amp;B Experiments의 새로운 Full Fidelity line plot은 x축을 따라 모든 데이터를 집계해 각 버킷의 최소값, 최대값, 평균값을 표시함으로써 트레이닝 메트릭의 가시성을 높여 주며, 사용자가 다운샘플링에 따른 손실 없이 이상치를 쉽게 찾아내고 고충실도 세부 정보를 확대해 볼 수 있도록 합니다. [문서에서 더 알아보기](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling).
+  * W&amp;B Experiments의 새로운 Full Fidelity line plot은 x축을 따라 모든 데이터를 집계해 각 버킷의 최소값, 최대값, 마지막 값(마지막 값이 기본 선을 그립니다)을 표시함으로써 트레이닝 메트릭의 가시성을 높여 주며, 사용자가 다운샘플링에 따른 손실 없이 이상치를 쉽게 찾아내고 고충실도 세부 정보를 확대해 볼 수 있도록 합니다. [문서에서 더 알아보기](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling).
   * 이제 Dedicated Cloud 및 Self-Managed 인스턴스에서 [팀 수준 BYOB(secure storage connector)를 위한 cross-cloud 스토리지 버킷](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob)을 사용할 수 있습니다. 예를 들어 AWS 상의 W&amp;B 인스턴스에서 팀 수준 BYOB를 위해 Azure Blob Storage 또는 Google Cloud Storage를 구성할 수 있으며, 각 cross-cloud 조합에 대해서도 동일하게 설정할 수 있습니다.
   * 같은 맥락에서 이제 Dedicated Cloud 및 Self-Managed 인스턴스에서 [MinIO와 같은 S3-compatible 스토리지 버킷을 팀 수준 BYOB(secure storage connector)로](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) 사용할 수 있습니다. 예를 들어 Google Cloud 상의 W&amp;B 인스턴스에서 클라우드 또는 온프렘 환경에 호스팅된 MinIO 버킷을 팀 수준 BYOB로 구성할 수 있습니다.
   * 이제 관리자는 Dedicated Cloud 또는 Self-Managed 인스턴스에서 [SCIM API의 DELETE User 엔드포인트](https://docs.wandb.ai/platform/hosting/iam/scim#delete-user)를 사용해 사용자의 완전 삭제를 자동화할 수 있습니다. 사용자 비활성화 작업은 [PATCH User 엔드포인트](https://docs.wandb.ai/platform/hosting/iam/scim#deactivate-user)를 사용하도록 재구현되었으며, 여기에 [사용자 재활성화 작업](https://docs.wandb.ai/platform/hosting/iam/scim#reactivate-user)이 추가되었습니다.

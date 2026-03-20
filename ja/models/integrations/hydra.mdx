@@ -1,5 +1,5 @@
 ---
-description: Hydra と W&B を統合する方法。
+description: "ML 実験向けの複雑な設定を管理し、ハイパーパラメーターを自動的にログするために Hydra と W&B を統合する方法。"
 title: Hydra
 ---
 
@@ -25,10 +25,10 @@ def run_experiment(cfg):
 ```
 
 <div id="track-hyperparameters">
-  ## ハイパーパラメーターを追跡する
+  ## ハイパーパラメーターをトラッキングする
 </div>
 
-Hydra は [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) を、設定用の辞書とやり取りするためのデフォルトのインターフェースとして使用します。`OmegaConf` の辞書は組み込みの辞書型のサブクラスではないため、Hydra の `Config` をそのまま `wandb.Run.config` に渡すと、ダッシュボード上で予期しない結果を招く可能性があります。`wandb.Run.config` に渡す前に、`omegaconf.DictConfig` を組み込みの `dict` 型に変換する必要があります。
+Hydra は [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) を、設定辞書とやり取りするためのデフォルトのインターフェースとして使用します。`OmegaConf` の辞書はプリミティブな辞書のサブクラスではないため、Hydra の `Config` をそのまま `wandb.Run.config` に渡すと、ダッシュボード上で予期しない結果につながります。`wandb.Run.config` に渡す前に、`omegaconf.DictConfig` をプリミティブな `dict` 型に変換する必要があります。
 
 ```python
 @hydra.main(config_path="configs/", config_name="defaults")

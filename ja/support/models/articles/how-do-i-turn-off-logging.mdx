@@ -1,0 +1,19 @@
+---
+title: "ログをオフにするにはどうすればよいですか？"
+keywords: ["ログ"]
+---
+
+コマンド `wandb offline` は環境変数 `WANDB_MODE=offline` を設定し、データがリモートの W&amp;B サーバーに同期されるのを防ぎます。この操作はすべてのプロジェクトに影響し、W&amp;B サーバーにデータがログされなくなります。
+
+警告メッセージを抑制するには、次のコードを使用します。
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.WARNING)
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[ログ](/ja/support/models/tags/logs)</Badge>

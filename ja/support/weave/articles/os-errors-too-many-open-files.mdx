@@ -1,0 +1,20 @@
+---
+title: "OS エラー - 開いているファイルが多すぎる"
+keywords: ["パフォーマンス"]
+---
+
+<div id="errno-24-too-many-open-files">
+  ### `[Errno 24]: 開いているファイルが多すぎる`
+</div>
+
+このエラーは、開いているファイル数がオペレーティングシステムで設定された上限を超えると発生します。Weave では、大規模な画像データセットを扱う際に発生することがあります。Weave は画像処理に `PIL` を使用しており、プログラムの実行中はファイルディスクリプターを開いたまま保持します。
+
+この問題を解決するには、`ulimit` を使用して、開いているファイル数のシステム上限を `65,536` に引き上げます。
+
+```bash
+ulimit -n 65536
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Performance](/ja/support/weave/tags/performance)</Badge>

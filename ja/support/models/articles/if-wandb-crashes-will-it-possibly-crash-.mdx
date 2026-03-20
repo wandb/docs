@@ -1,0 +1,10 @@
+---
+title: "wandb がクラッシュした場合、トレーニング run もクラッシュする可能性はありますか？"
+keywords: ["run のクラッシュ"]
+---
+
+トレーニング run への干渉を避けることは非常に重要です。W&amp;B は別プロセスで動作するため、W&amp;B でクラッシュが発生してもトレーニングは継続されます。インターネット接続が切断された場合、W&amp;B は [wandb.ai](https://wandb.ai) へのデータ送信を継続的に再試行します。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[run のクラッシュ](/ja/support/models/tags/run-crashes)</Badge>

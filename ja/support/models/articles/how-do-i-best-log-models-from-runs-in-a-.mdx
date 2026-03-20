@@ -1,0 +1,14 @@
+---
+title: "sweep 内の run からモデルをログする最適な方法は何ですか？"
+keywords: ["Artifacts", "Sweeps"]
+---
+
+[sweep](/ja/models/sweeps/) でモデルをログする効果的な方法の 1 つは、その sweep 用のモデル アーティファクトを作成することです。各バージョンは、sweep 内の異なる run を表します。次のように実装します。
+
+```python
+wandb.Artifact(name="sweep_name", type="model")
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>

@@ -1,16 +1,17 @@
 ---
 title: 감사 로그로 사용자 활동 추적하기
+description: "배포 유형 전반에서 W&B 감사 로그에 액세스하고, 가져오고, 분석하는 방법과 로그 스키마 및 추적되는 작업을 설명합니다."
 ---
 
 W&amp;B 감사 로그를 사용하여 조직 내 사용자 활동을 추적하고 엔터프라이즈 거버넌스 요구 사항을 충족하세요. 감사 로그는 JSON 형식으로 제공됩니다. [감사 로그 스키마](#audit-log-schema)를 참조하세요.
 
 감사 로그에 액세스하는 방법은 W&amp;B 플랫폼 배포 유형에 따라 다릅니다.
 
-| W&amp;B Platform Deployment type                                           | Audit logs access mechanism                                                                                                                                                                                                                                        |
-| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| W&amp;B Platform Deployment type                                              | Audit logs access mechanism                                                                                                                                                                                                                                           |
+| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)       | <ul><li>[Instance-level BYOB](/ko/platform/hosting/data-security/secure-storage-connector): 인스턴스 수준 버킷(BYOB)으로 10분마다 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용해 가져올 수도 있습니다.</li><li>기본 인스턴스 수준 스토리지: [API](#fetch-audit-logs-using-api)로만 가져올 수 있습니다.</li></ul> |
-| [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise 플랜에서만 제공됩니다. [API](#fetch-audit-logs-using-api)로만 가져올 수 있습니다.                                                                                                                                                                                           |
-| [Self-Managed](/ko/platform/hosting/hosting-options/self-managed)             | 인스턴스 수준 버킷으로 10분마다 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용해 가져올 수도 있습니다.                                                                                                                                                                                    |
+| [Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise 플랜에서만 제공됩니다. [API](#fetch-audit-logs-using-api)로만 가져올 수 있습니다.                                                                                                                                                                                              |
+| [Self-Managed](/ko/platform/hosting/hosting-options/self-managed)             | 인스턴스 수준 버킷으로 10분마다 동기화됩니다. [API](#fetch-audit-logs-using-api)를 사용해 가져올 수도 있습니다.                                                                                                                                                                                       |
 
 감사 로그를 가져온 후 [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery), [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric) 같은 도구로 분석할 수 있습니다. 일부 감사 로그 분석 도구는 JSON을 지원하지 않을 수 있습니다. 분석 전에 JSON 형식 감사 로그를 어떻게 변환해야 하는지에 대한 지침과 요구 사항은 사용하는 분석 도구의 문서를 참조하세요.
 

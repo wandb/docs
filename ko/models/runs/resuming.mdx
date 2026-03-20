@@ -1,5 +1,5 @@
 ---
-description: 일시 중지되었거나 종료된 W&B run 재개
+description: "wandb.init()의 resume 파라미터 옵션을 사용해 일시 중지되었거나 중지되었거나 비정상 종료된 W&B run을 재개합니다."
 title: run 재개
 ---
 
@@ -107,22 +107,22 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 </Note>
 
 <div id="resume-preemptible-sweeps-runs">
-  ## 선점형 Sweeps run 재시작
+  ## 선점형 Sweeps run 재개
 </div>
 
-중단된 [스윕](/ko/models/sweeps/) run을 자동으로 다시 대기열에 넣습니다. 이는 선점이 발생할 수 있는 컴퓨팅 환경(예: 선점형 큐에 있는 SLURM 작업, EC2 스팟 인스턴스, Google Cloud 선점형 VM)에서 스윕 에이전트를 실행하는 경우에 특히 유용합니다.
+중단된 [sweep](/ko/models/sweeps/) run을 자동으로 다시 큐에 넣습니다. 이는 선점이 발생할 수 있는 컴퓨팅 환경(예: 선점형 큐의 SLURM 작업, EC2 스팟 인스턴스, Google Cloud 선점형 VM)에서 sweep 에이전트를 실행하는 경우에 특히 유용합니다.
 
-[`mark_preempting`](/ko/models/ref/python/experiments/run#mark_preempting) 함수를 사용하여 중단된 스윕 run을 자동으로 다시 대기열에 넣을 수 있습니다. 예를 들어:
+중단된 sweep run을 자동으로 다시 큐에 넣으려면 [`mark_preempting`](/ko/models/ref/python/experiments/run#mark_preempting) 함수를 사용하세요. 예를 들면 다음과 같습니다.
 
 ```python
 with wandb.init() as run:
     run.mark_preempting()
 ```
 
-다음 표는 스윕 run의 종료 상태에 따라 W&amp;B가 run을 어떻게 처리하는지 설명합니다.
+다음 표는 sweep run의 종료 상태에 따라 W&amp;B가 run을 어떻게 처리하는지 설명합니다.
 
-| Status         | Behavior                                                                                                           |
-| -------------- | ------------------------------------------------------------------------------------------------------------------ |
-| Status code 0  | run이 정상적으로 종료된 것으로 간주되며, 다시 큐에 추가되지 않습니다.                                                                          |
-| Nonzero status | W&amp;B가 해당 run을 스윕에 연결된 run 큐에 자동으로 추가합니다.                                                                        |
-| No status      | run이 스윕 run 큐에 추가됩니다. 스윕 에이전트는 큐가 빌 때까지 run 큐에서 run을 가져와 실행합니다. 큐가 비면, 스윕 큐는 스윕 검색 알고리즘을 기반으로 새로운 run을 생성하기 시작합니다. |
+|Status| Behavior |
+|------| ---------|
+|Status code 0| run이 성공적으로 종료된 것으로 간주되며 다시 큐에 들어가지 않습니다.|
+|Nonzero status| W&amp;B는 해당 run을 sweep에 연결된 run 큐에 자동으로 추가합니다.|
+|No status| run이 sweep run 큐에 추가됩니다. Sweep 에이전트는 큐가 빌 때까지 run 큐에서 run을 가져옵니다. 큐가 비면, sweep 큐는 sweep 검색 알고리즘을 기반으로 새 run 생성을 재개합니다.|

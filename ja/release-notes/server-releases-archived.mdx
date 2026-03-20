@@ -1,5 +1,6 @@
 ---
 title: "アーカイブ済み W&B Server リリース"
+description: "サポート終了 (EOL) となった旧バージョンの W&B Server のアーカイブ済みリリースノートを参照できます。"
 sidebarTitle: "アーカイブ済みリリース"
 rss: true
 ---
@@ -158,7 +159,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 機能
 
-  * W&amp;B Experiments の新しい Full Fidelity line plot は、x 軸に沿ってすべてのデータを集約し、各バケット内の最小値・最大値・平均値を表示することでトレーニング メトリクス の可視性を高め、ユーザーが外れ値を簡単に見つけ、ダウンサンプリングによる損失なしに高忠実度な詳細へズームインできるようにします。[ドキュメントで詳しく学ぶ](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling)。
+  * W&amp;B Experiments の新しい Full Fidelity line plot は、x 軸に沿ってすべてのデータを集約し、各バケット内の最小値・最大値・最後の値 (最後の値がメインの線として描画されます) を表示することでトレーニング メトリクス の可視性を高め、ユーザーが外れ値を簡単に見つけ、ダウンサンプリングによる損失なしに高忠実度な詳細へズームインできるようにします。[ドキュメントで詳しく学ぶ](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling)。
   * Dedicated Cloud と Self-Managed インスタンスで、[チームレベル BYOB (secure storage connector) 向けのクラウド間ストレージバケット](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) を使用できるようになりました。たとえば、AWS 上の W&amp;B インスタンスで、チームレベル BYOB 向けに Azure Blob Storage や Google Cloud Storage を構成でき、他のクラウド間の組み合わせについても同様です。
   * 同様に、Dedicated Cloud と Self-Managed インスタンスで、[MinIO などの S3 互換ストレージバケットをチームレベル BYOB (secure storage connector) に使用](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) できるようになりました。たとえば、Google Cloud 上の W&amp;B インスタンスで、クラウドまたはオンプレミスにホストされた MinIO バケットをチームレベル BYOB 向けに構成できます。
   * 管理者は、Dedicated Cloud または Self-Managed インスタンスで [SCIM API の DELETE User エンドポイント](https://docs.wandb.ai/platform/hosting/iam/scim#delete-user) を使用してユーザーの完全削除を自動化できるようになりました。ユーザーの無効化操作は [PATCH User エンドポイント](https://docs.wandb.ai/platform/hosting/iam/scim#deactivate-user) を使用するように再実装され、加えて [ユーザー再有効化操作](https://docs.wandb.ai/platform/hosting/iam/scim#reactivate-user) が導入されました。

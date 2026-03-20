@@ -1,13 +1,12 @@
 ---
-title: "オンライン監視"
-description: "W&B Weave でオンライン監視を使う方法を学ぶ"
+title: "オンラインモニタリング"
+description: "W&B Weave を使用して本番環境の LLM アプリケーション向けにオンラインモニタリングを設定し、パフォーマンスと品質のメトリクスを追跡します。"
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクのいずれかを使用してください:
-
-  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
-  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
+これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを使用してください:
+- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
+- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/online_monitoring.ipynb)
 </Note>
 
 <div id="integrating-with-weave-production-dashboard">
@@ -83,13 +82,14 @@ def init_weave_client(project_name):
 client = init_weave_client(PROJECT_NAME)
 ```
 
+
 <div id="22-fetching-calls-data-from-weave">
-  ## 2.2 Weave からコール データを取得する
+  ## 2.2 Weave から Call データを取得する
 </div>
 
-Weave からコール データを取得するには、次の 2 つの方法があります。
+Weave から Call データを取得するには、次の 2 つの方法があります:
 
-1. コール単位でデータを取得する
+1. Call ごとにデータを取得する
 2. 高レベル API を使用する
 
 <div id="221-fetching-data-call-by-call">
@@ -180,6 +180,7 @@ python
 df_calls = process_calls(calls)
 df_calls.head(3)
 ```
+
 
 <div id="222-using-high-level-apis">
   ### 2.2.2 高レベル API の使用

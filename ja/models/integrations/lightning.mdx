@@ -1,5 +1,6 @@
 ---
 title: PyTorch Lightning
+description: "組み込みの WandbLogger を使用して、PyTorch Lightning で W&B による実験管理とモデルのチェックポイント保存を行えます。"
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
@@ -10,6 +11,7 @@ import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-strea
 {/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pytorch-lightning/Optimize_PyTorch_Lightning_models_with_Weights_%26_Biases.ipynb" /> */}
 
 PyTorch Lightning は、PyTorch コードを整理し、分散トレーニングや 16 ビット精度などの高度な機能を簡単に追加できる軽量なラッパーを提供します。W&amp;B は、ML 実験を記録するための軽量なラッパーを提供します。ただし、これら 2 つを自分で組み合わせる必要はありません。W&amp;B は、[`WandbLogger`](https://lightning.ai/docs/pytorch/stable/api/lightning.pytorch.loggers.wandb.html#module-lightning.pytorch.loggers.wandb) を通じて PyTorch Lightning ライブラリに直接組み込まれています。
+
 
 <div id="integrate-with-lightning">
   ## Lightning と連携する

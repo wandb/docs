@@ -1,12 +1,13 @@
 ---
-title: 테이블 기록
+title: 테이블 로깅
+description: "Python SDK를 사용하여 immutable, mutable, incremental을 포함한 다양한 로깅 모드로 W&B Tables를 생성하고 로깅합니다."
 ---
 
-W&amp;B Tables를 사용하여 표 형식 데이터를 시각화하고 기록할 수 있습니다. W&amp;B Table은 각 열이 하나의 데이터 타입을 가지는 2차원 데이터 그리드입니다. 각 행은 W&amp;B [run](/ko/models/runs/)에 기록된 하나 이상의 데이터 포인트를 나타냅니다. W&amp;B Tables는 기본형 및 수치형 타입뿐만 아니라, 중첩 리스트, 딕셔너리, 리치 미디어 타입도 지원합니다.
+W&amp;B Tables를 사용하여 표 형식 데이터를 시각화하고 로깅할 수 있습니다. W&amp;B Table은 각 열이 단일 데이터 타입을 가지는 2차원 데이터 그리드입니다. 각 행은 W&amp;B [run](/ko/models/runs/)에 로깅된 하나 이상의 데이터 포인트를 나타냅니다. W&amp;B Tables는 기본형 및 수치형 타입뿐만 아니라 중첩 리스트, 딕셔너리, 리치 미디어 타입도 지원합니다.
 
-W&amp;B Table은 W&amp;B의 [data type](/ko/models/ref/python/data-types/) 중 하나인 특수한 데이터 타입으로, [아티팩트](/ko/models/artifacts/) 객체로 기록됩니다.
+W&amp;B Table은 W&amp;B의 특수한 [data type](/ko/models/ref/python/data-types/)이며, [artifact](/ko/models/artifacts/) 객체로 로깅됩니다.
 
-W&amp;B Python SDK를 사용하여 [테이블 객체를 생성하고 기록](#create-and-log-a-new-table)합니다. 테이블 객체를 생성할 때, 테이블의 컬럼과 데이터, 그리고 [mode](#table-logging-modes)를 지정합니다. mode는 ML 실험 동안 테이블이 어떻게 기록되고 업데이트되는지를 결정합니다.
+W&amp;B Python SDK를 사용하여 [테이블 객체를 생성하고 로깅](#create-and-log-a-new-table)합니다. 테이블 객체를 생성할 때 테이블의 열과 데이터, 그리고 [mode](#table-logging-modes)를 지정합니다. mode는 ML 실험 동안 테이블이 어떻게 로깅되고 업데이트되는지를 결정합니다.
 
 <Note>
   `INCREMENTAL` mode는 W&amp;B Server v0.70.0 이상에서 지원됩니다.

@@ -1,19 +1,19 @@
 ---
 title: 레퍼런스 아키텍처
-description: W&B 레퍼런스 아키텍처
+description: "Kubernetes, MySQL, 오브젝트 스토리지 및 네트워킹을 다루는 Self-Managed W&B 배포용 레퍼런스 아키텍처를 검토하세요."
 ---
 
 import SelfManagedVersionRequirements from "/snippets/ko/_includes/self-managed-version-requirements.mdx";
 import SelfManagedNetworkingRequirements from "/snippets/ko/_includes/self-managed-networking-requirements.mdx";
 import SelfManagedSslTlsRequirements from "/snippets/ko/_includes/self-managed-ssl-tls-requirements.mdx";
 
-이 페이지에서는 W&amp;B 배포를 위한 기준 아키텍처를 설명하고, 플랫폼의 프로덕션 배포를 지원하기 위해 권장되는 인프라와 리소스를 개괄적으로 제시합니다.
+이 페이지에서는 W&amp;B 배포를 위한 레퍼런스 아키텍처를 설명하고, 플랫폼의 프로덕션 배포를 지원하기 위해 권장되는 인프라와 리소스를 간략히 설명합니다.
 
-W&amp;B를 어떤 환경에 배포하느냐에 따라, 여러 서비스가 배포의 복원력과 신뢰성을 향상하는 데 도움을 줄 수 있습니다.
+W&amp;B에 대해 선택한 배포 환경에 따라 다양한 서비스가 배포의 복원력을 강화하는 데 도움이 될 수 있습니다.
 
-예를 들어, 주요 클라우드 제공업체는 데이터베이스 설정, 유지 관리, 고가용성 및 복원성의 복잡성을 줄여주는 견고한 매니지드 데이터베이스 서비스를 제공합니다.
+예를 들어, 주요 클라우드 제공업체는 데이터베이스 구성, 유지 관리, 고가용성, 복원력의 복잡성을 줄이는 데 도움이 되는 강력한 매니지드 데이터베이스 서비스를 제공합니다.
 
-이 기준 아키텍처는 몇 가지 일반적인 배포 시나리오를 다루며, 최적의 성능과 안정성을 위해 W&amp;B 배포를 클라우드 제공업체 서비스와 통합하는 방법을 보여줍니다.
+이 레퍼런스 아키텍처는 몇 가지 일반적인 배포 시나리오를 다루며, 최적의 성능과 안정성을 위해 W&amp;B 배포를 클라우드 공급업체 서비스와 통합하는 방법을 보여줍니다.
 
 <div id="before-you-start">
   ## 시작하기 전에

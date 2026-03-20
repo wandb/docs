@@ -5,6 +5,8 @@ title: Sweep の結果を可視化する
 
 W&amp;B Sweeps の結果を W&amp;B App で可視化します。[W&amp;B App](https://wandb.ai/home) に移動します。Sweep を初期化したときに指定したプロジェクトを選択します。プロジェクトの [Workspace](/ja/models/track/workspaces/) にリダイレクトされます。プロジェクト サイドバーで **Sweep アイコン** (ほうきのアイコン) を選択します。Sweep UI から、リストの中から目的の Sweep 名を選択します。
 
+sweep リストには、各 sweep の状態 (**State**) 、作成時刻 (**Created**) 、開始したユーザー (**Creator**) 、完了した run 数 (**Run count**) 、および合計の **Compute time** が表示されます。離散的な探索空間に対するグリッドサーチでは、W&amp;B は **Est. Runs** (予想される run 数) も表示します。リストから sweep を開くと、アプリから一時停止、再開、停止、または強制終了できます。CLI で同じ操作を行うには、[Manage sweeps](/ja/models/sweeps/pause-resume-and-cancel-sweeps/) を参照してください。
+
 デフォルトで、W&amp;B は W&amp;B Sweep ジョブを開始すると、並列座標プロット、パラメーター重要度プロット、および散布図を自動的に作成します。
 
 <Frame>

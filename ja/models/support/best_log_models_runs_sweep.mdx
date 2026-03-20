@@ -1,9 +1,0 @@
----
-title: sweep 内の run から モデル を最適にログするには？
----
-
-[sweep](/ja/models/sweeps/) で モデル をログするための効果的な方法の 1 つは、その sweep 用の モデル Artifacts を作成することです。各バージョンが、その sweep 内の異なる run を表します。実装方法は次のとおりです。
-
-```python
-wandb.Artifact(name="sweep_name", type="model")
-```

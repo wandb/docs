@@ -1,15 +1,15 @@
 ---
-description: W&B Sweep を初期化する
+description: "sweep の設定を使用してハイパーパラメーター探索を開始するために、Python SDK または CLI を使用して W&B Sweep を初期化します。"
 title: Sweep を初期化する
 ---
 
-W&amp;B は *Sweep Controller* を使って、クラウド上（standard）やローカル（local）の 1 台以上のマシンにまたがる sweep を管理します。1 つの run が完了すると、Sweep Controller は次に実行する新しい run を記述した新しい指示セットを発行します。これらの指示は、実際に run を実行する *agents* によって取得されます。一般的な W&amp;B Sweep では、controller は W&amp;B サーバー上で動作し、agent は *あなたの* マシン上で動作します。
+W&amp;B は *Sweep Controller* を使って、クラウド上 (standard) やローカル (local) の 1 台以上のマシンにまたがる sweep を管理します。1 つの run が完了すると、Sweep Controller は次に実行する新しい run を記述した新しい指示セットを発行します。これらの指示は、実際に run を実行する *agents* によって取得されます。一般的な W&amp;B Sweep では、controller は W&amp;B サーバー上で動作し、agent は *あなたの* マシン上で動作します。
 
 次のコードスニペットは、CLI および Jupyter Notebook や Python スクリプト内で sweep を初期化する方法を示します。
 
 <Warning>
   1. sweep を初期化する前に、YAML ファイル、またはスクリプト内のネストされた Python 辞書オブジェクトのいずれかで sweep の設定が定義されていることを確認してください。詳細は [Define sweep configuration](/ja/models/sweeps/define-sweep-configuration/) を参照してください。
-  2. W&amp;B Sweep と W&amp;B Run は同じプロジェクト内に存在する必要があります。そのため、W&amp;B を初期化するときに指定する名前（[`wandb.init()`](/ja/models/ref/python/functions/init)）は、W&amp;B Sweep を初期化するときに指定するプロジェクト名（[`wandb.sweep()`](/ja/models/ref/python/functions/sweep)）と一致していなければなりません。
+  2. W&amp;B Sweep と W&amp;B Run は同じプロジェクト内に存在する必要があります。そのため、W&amp;B を初期化するときに指定する名前 ([`wandb.init()`](/ja/models/ref/python/functions/init)) は、W&amp;B Sweep を初期化するときに指定するプロジェクト名 ([`wandb.sweep()`](/ja/models/ref/python/functions/sweep)) と一致していなければなりません。
 </Warning>
 
 <Tabs>

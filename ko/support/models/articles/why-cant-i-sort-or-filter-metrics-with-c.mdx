@@ -1,0 +1,54 @@
+---
+title: "특정 문자가 포함된 메트릭을 왜 정렬하거나 필터링할 수 없나요?"
+keywords: ["Experiments", "메트릭"]
+---
+
+W&amp;B에서 메트릭 이름은 UI에서 올바르게 정렬 및 필터링될 수 있도록 GraphQL 명명 규칙을 따라야 합니다.
+
+<div id="valid-metric-names">
+  ## 유효한 메트릭 이름
+</div>
+
+* **허용되는 문자**: 영문자(A-Z, a-z), 숫자(0-9), 밑줄(&#95;)
+* **시작 문자**: 이름은 영문자 또는 밑줄(&#95;)로 시작해야 합니다
+* **패턴**: 메트릭 이름은 `/^[_a-zA-Z][_a-zA-Z0-9]*$/` 패턴과 일치해야 합니다
+
+이 규칙을 따르지 않는 메트릭은 W&amp;B UI에서 정렬 또는 필터링이 되지 않을 수 있습니다.
+
+<div id="examples">
+  ## 예제
+</div>
+
+**유효한 메트릭 이름:**
+
+```python
+with wandb.init() as run:
+  run.log({"accuracy": 0.9, "val_loss": 0.1, "epoch_5": 5})
+  run.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
+```
+
+**유효하지 않은 메트릭 이름(다음은 피하세요):**
+
+```python
+with wandb.init() as run:
+  run.log({"acc,val": 0.9})  # 쉼표 포함
+  run.log({"loss-train": 0.1})  # 하이픈 포함
+  run.log({"test acc": 0.95})  # 공백 포함
+  run.log({"5_fold_cv": 0.8})  # 숫자로 시작
+```
+
+<div id="recommended-solution">
+  ## 권장 해결 방법
+</div>
+
+유효하지 않은 문자를 밑줄(&#95;)과 같은 유효한 문자로 바꾸세요:
+
+* `"test acc"` 대신 `"test_acc"`를 사용하세요
+* `"loss-train"` 대신 `"loss_train"`을 사용하세요
+* `"acc,val"` 대신 `"acc_val"`을 사용하세요
+
+자세한 내용은 [메트릭 이름 지정 제약 조건](/ko/models/track/log/#metric-naming-constraints)을 참조하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>

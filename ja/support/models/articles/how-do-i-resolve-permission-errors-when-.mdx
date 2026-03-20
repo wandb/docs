@@ -1,0 +1,30 @@
+---
+title: "run をログするときに権限エラーが発生する場合はどうすればよいですか?"
+keywords: ["Runs", "セキュリティ"]
+---
+
+W&amp;B entity に run をログする際の権限エラーを解決するには、次の手順に従ってください。
+
+* **entity とプロジェクト名を確認する**: コード内の W&amp;B entity 名とプロジェクト名のスペルおよび大文字・小文字の区別が正しいことを確認してください。
+* **権限を確認する**: 管理者から必要な権限が付与されていることを確認してください。
+* **ログイン認証情報を確認する**: 正しい W&amp;B アカウントにログインしていることを確認してください。次のコードを使用して run を作成し、テストしてください。
+  ```python
+  import wandb
+
+  run = wandb.init(entity="your_entity", project="your_project")
+  run.log({'example_metric': 1})
+  run.finish()
+  ```
+* **APIキーを設定する**: `WANDB_API_KEY` 環境変数を使用してください。
+  ```bash
+  export WANDB_API_KEY='your_api_key'
+  ```
+* **ホスト情報を確認する**: カスタム デプロイの場合は、ホスト URL を設定してください。
+  ```bash
+  wandb login --relogin --host=<host-url>
+  export WANDB_BASE_URL=<host-url>
+  ```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[セキュリティ](/ja/support/models/tags/security)</Badge>

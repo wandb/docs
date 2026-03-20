@@ -1,0 +1,39 @@
+---
+title: "값 목록을 기록하려면 어떻게 해야 하나요?"
+keywords: ["로그", "Experiments"]
+---
+
+이 예제에서는 [`wandb.Run.log()`](/ko/models/ref/python/experiments/run/#method-runlog/)을 사용해 손실값을 몇 가지 서로 다른 방식으로 로깅하는 방법을 보여줍니다.
+
+<Tabs>
+  <Tab title="사전 사용하기">
+    ```python
+    import wandb
+
+    # 새 run 초기화
+    with wandb.init(project="log-list-values", name="log-dict") as run:
+        # 손실값을 사전으로 로깅
+        losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+        run.log({"losses": losses})
+        run.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
+    ```
+  </Tab>
+
+  <Tab title="히스토그램으로">
+    ```python
+    import wandb
+
+    # 새 run 초기화
+    with wandb.init(project="log-list-values", name="log-hist") as run:
+        # 손실값을 히스토그램으로 로깅
+        losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+        run.log({"losses": wandb.Histogram(losses)})
+    ```
+  </Tab>
+</Tabs>
+
+자세한 내용은 [로깅 문서](/ko/models/track/log/)를 참조하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[로그](/ko/support/models/tags/logs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>

@@ -1,12 +1,12 @@
 ---
-description: W&B を Ray Tune と連携する方法。
+description: "W&B を Ray Tune と統合して、ハイパーパラメーター調整の試行を追跡し、メトリクスをログし、実験結果を比較します。"
 title: Ray Tune
 ---
 
-W&B は、2 つの軽量なインテグレーションを提供することで [Ray](https://github.com/ray-project/ray) と連携します。
+W&B は、2 つの軽量なインテグレーションを提供することで [Ray](https://github.com/ray-project/ray) と統合します。
 
-- `WandbLoggerCallback` 関数は、Tune にレポートされたメトリクスを自動的に wandb API に記録します。
-- 関数 API と一緒に使用できる `setup_wandb()` 関数は、Tune のトレーニング情報を使用して wandb API を自動的に初期化します。`run.log()` を使用してトレーニングプロセスをログするなど、通常どおり wandb API を使用できます。
+- `WandbLoggerCallback` 関数は、Tune に報告されたメトリクスを Wandb API に自動的にログします。
+- 関数 API と一緒に使用できる `setup_wandb()` 関数は、Tune のトレーニング情報を使用して Wandb API を自動的に自動初期化します。`run.log()` を使用してトレーニングプロセスをログするなど、通常どおり Wandb API を使用できます。
 
 <div id="configure-the-integration">
   ## インテグレーションを設定する
@@ -24,17 +24,17 @@ wandb の config エントリの内容は、キーワード引数として `wand
   ### パラメーター
 </div>
 
-`project (str)`: wandb プロジェクト名。必須。
+`project (str)`: `wandb` プロジェクトの名前。必須。
 
-`api_key_file (str)`: wandb API キーが含まれるファイルへのパス。
+`api_key_file (str)`: `wandb` APIキーを含むファイルへのパス。
 
-`api_key (str)`: wandb API キー。`api_key_file` を設定する代わりの指定方法。
+`api_key (str)`: `wandb` APIキー。`api_key_file` を設定する代わりに使用します。
 
 `excludes (list)`: ログから除外するメトリクスのリスト。
 
-`log_config (bool)`: 結果辞書の `config` パラメーターをログに記録するかどうか。デフォルトは False。
+`log_config (bool)`: 結果の辞書の `config` パラメーターをログするかどうか。デフォルトは False。
 
-`upload_checkpoints (bool)`: True の場合、モデルのチェックポイントを Artifacts としてアップロードします。デフォルトは False。
+`upload_checkpoints (bool)`: True の場合、モデルのチェックポイントがアーティファクトとしてアップロードされます。デフォルトは False。
 
 <div id="example">
   ### 例
@@ -76,7 +76,7 @@ results = tuner.fit()
 from ray.air.integrations.wandb import setup_wandb
 ```
 
-このユーティリティ関数は、Ray Tune で wandb を使うための初期化を行うものです。基本的な使い方としては、トレーニング関数内で `setup_wandb()` を呼び出してください。
+このユーティリティ関数は、Ray Tune で使用する Wandb を初期化するのに役立ちます。基本的な使い方として、トレーニング関数内で `setup_wandb()` を呼び出してください：
 
 ```python
 from ray.air.integrations.wandb import setup_wandb
@@ -109,6 +109,7 @@ tuner = tune.Tuner(
 )
 results = tuner.fit()
 ```
+
 
 <div id="example-code">
   ## サンプルコード
