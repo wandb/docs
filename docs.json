@@ -4846,15 +4846,15 @@
     },
     {
       "source": "/weave/details/faqs",
-      "destination": "/support/weave/index"
+      "destination": "/support/weave"
     },
     {
       "source": "/weave/community",
-      "destination": "/support/weave/index"
+      "destination": "/support/weave"
     },
     {
       "source": "/weave/open-source",
-      "destination": "/support/weave/index"
+      "destination": "/support/weave"
     },
     {
       "source": "/weave/guides/tools/limits",
