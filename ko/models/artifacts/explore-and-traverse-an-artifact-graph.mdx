@@ -23,13 +23,7 @@ W&amp;B는 &#95;lineage graph&#95;라고 불리는 방향 비순환 그래프(DA
 3. 프로젝트 사이드바에서 **Artifacts** 탭을 클릭합니다.
 4. **Lineage** 탭을 선택합니다.
 
-<Frame>
-  <img src="/images/artifacts/lineage1.gif" alt="Lineage 탭으로 이동하기" />
-</Frame>
-
-<div id="enable-lineage-graph-tracking">
-  ## 라인리지 그래프 추적 활성화하기
-</div>
+## 계보 그래프 추적 활성화하기
 
 라인리지 그래프 추적을 활성화하려면 W&amp;B Python SDK를 사용해서 아티팩트를 run의 [입력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph) 또는
 [출력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run)으로 지정해야 합니다.
@@ -90,11 +84,7 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   왼쪽 사이드바와 **Lineage** 탭 모두에서 아티팩트의 유형과 이름을 확인할 수 있습니다.
 </Note>
 
-<Frame>
-  <img src="/images/artifacts/lineage2a.gif" alt="입력과 출력" />
-</Frame>
-
-더 자세히 보려면 개별 아티팩트나 run을 클릭해 해당 객체에 대한 추가 정보를 확인합니다.
+더 자세한 보기를 원하시면, 특정 Artifact 나 run 을 클릭하여 해당 오브젝트에 대한 상세 정보를 확인하세요.
 
 <Frame>
   <img src="/images/artifacts/lineage3a.gif" alt="Run 미리보기" />

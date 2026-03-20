@@ -1,10 +1,7 @@
 ---
-title: "What happens when I log millions of steps to W\u0026B? How is that rendered in the browser?"
+title: "What happens when I log millions of steps to W&B? How is that rendered in the browser?"
+keywords: ["Experiments", "Metrics"]
 ---
-{/*
-Built with DocEngine. Do not edit this MDX file directly.
-Template: /sites/wandb-docs/templates/support_article.mdx.j2
-*/}
 
 The number of points sent affects the loading time of graphs in the UI. For lines exceeding 1,000 points, the backend samples the data down to 1,000 points before sending it to the browser. This sampling is nondeterministic, resulting in different sampled points upon page refresh.
 

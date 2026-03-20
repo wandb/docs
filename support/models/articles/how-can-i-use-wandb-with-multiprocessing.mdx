@@ -1,10 +1,7 @@
 ---
 title: "How can I use wandb with multiprocessing, e.g. distributed training?"
+keywords: ["Experiments"]
 ---
-{/*
-Built with DocEngine. Do not edit this MDX file directly.
-Template: /sites/wandb-docs/templates/support_article.mdx.j2
-*/}
 
 If a training program uses multiple processes, structure the program to avoid making wandb method calls from processes without `wandb.init()`. 
 

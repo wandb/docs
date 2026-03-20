@@ -266,7 +266,6 @@
                       "models/sweeps/useful-resources",
                       "models/sweeps/local-controller",
                       "models/sweeps/troubleshoot-sweeps",
-                      "models/sweeps/sweeps-ui",
                       "models/sweeps/existing-project"
                     ]
                   },
@@ -788,6 +787,7 @@
                       "weave/tutorial-weave_models",
                       "weave/guides/core-types/models",
                       "weave/guides/core-types/prompts",
+                      "weave/guides/core-types/prompts-version",
                       "weave/guides/tracking/objects"
                     ]
                   },
@@ -813,6 +813,7 @@
                     "pages": [
                       "weave/guides/integrations",
                       "weave/guides/integrations/autopatching",
+                      "weave/guides/integrations/js",
                       {
                         "group": "LLM Providers",
                         "pages": [
@@ -832,11 +833,12 @@
                           "weave/guides/integrations/together_ai"
                         ]
                       },
-                      "weave/guides/integrations/local_models",
                       {
                         "group": "Frameworks",
                         "pages": [
                           "weave/guides/integrations/openai_agents",
+                          "weave/guides/integrations/openai-realtime-audio",
+                          "weave/guides/integrations/claude_agent",
                           "weave/guides/integrations/langchain",
                           "weave/guides/integrations/llamaindex",
                           "weave/guides/integrations/dspy",
@@ -849,8 +851,7 @@
                           "weave/guides/integrations/koog",
                           "weave/guides/integrations/autogen",
                           "weave/guides/integrations/verdict",
-                          "weave/guides/integrations/verifiers",
-                          "weave/guides/integrations/js"
+                          "weave/guides/integrations/verifiers"
                         ]
                       },
                       {
@@ -858,7 +859,8 @@
                         "pages": [
                           "weave/guides/integrations/mcp"
                         ]
-                      }
+                      },
+                      "weave/guides/integrations/local_models"
                     ]
                   },
                   {
@@ -1132,7 +1134,7 @@
             "tab": "Support",
             "icon": "/icons/cropped-reports.svg",
             "pages": [
-              "support/index"
+              "support"
             ]
           },
           {
@@ -1214,7 +1216,7 @@
             "tab": "Support: W&B Models",
             "hidden": true,
             "pages": [
-              "support/models/index",
+              "support/models",
               "support/models/tags/academic",
               "support/models/tags/administrator",
               "support/models/tags/alerts",
@@ -1254,7 +1256,7 @@
             "tab": "Support: W&B Weave",
             "hidden": true,
             "pages": [
-              "support/weave/index",
+              "support/weave",
               "support/weave/tags/client-info",
               "support/weave/tags/code-capture",
               "support/weave/tags/data-capture",
@@ -1269,7 +1271,7 @@
             "tab": "Support: W&B Inference",
             "hidden": true,
             "pages": [
-              "support/inference/index",
+              "support/inference",
               "support/inference/tags/administrator",
               "support/inference/tags/authentication-access",
               "support/inference/tags/billing",
@@ -3791,6 +3793,14 @@
     },
     {
       "source": "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui/",
       "destination": "/models/sweeps"
     },
     {
