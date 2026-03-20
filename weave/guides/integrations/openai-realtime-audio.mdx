@@ -5,6 +5,10 @@ description: Use Weave to automatically trace your calls to the OpenAI Realtime 
 
 Weave's integration with [OpenAI's Realtime API](https://developers.openai.com/api/docs/guides/realtime/) allows you to automatically trace your application's speech-to-speech interactions as they occur. You can use this to capture conversations between your agents and users to review and evaluate agent performance.
 
+<Note>
+The Weave TypeScript SDK does not currently support OpenAI Realtime Audio integration.
+</Note>
+
 ## Integrate realtime traces
 
 Weave automatically patches into the OpenAI Realtime API and only requires a few additional lines of code to start capturing audio interactions from your application. The following code imports Weave and the Realtime API integration:
@@ -28,9 +32,18 @@ The following example application executes a real-time voice assistant that stre
 To use the code:
 1. Start your Python environment and install the following libraries:
 
-    ```bash
-    pip install weave openai-agents websockets pyaudio numpy 
-    ```
+    <Tabs>
+      <Tab title="uv">
+      ```bash
+      uv add weave openai-agents websockets pyaudio numpy
+      ```
+      </Tab>
+      <Tab title="pip">
+      ```bash
+      pip install weave openai-agents websockets pyaudio numpy
+      ```
+      </Tab>
+    </Tabs>
 
 1. Create a file titled `weave_voice_assistant.py` and add the following code to it.
 
@@ -276,8 +289,20 @@ To use the code:
 1. Start your Python environment and install the following libraries:
 
     ```bash
-    pip install weave websockets pyaudio numpy
+
     ```
+    <Tabs>
+      <Tab title="uv">
+      ```bash
+      uv add weave websockets pyaudio numpy
+      ```
+      </Tab>
+      <Tab title="pip">
+      ```bash
+      pip install weave websockets pyaudio numpy
+      ```
+      </Tab>
+    </Tabs>
 
 1. Create a file titled `tool_definitions.py` and add the following tool definitions to it. The main application imports from this module.
 
