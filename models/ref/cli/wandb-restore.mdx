@@ -5,7 +5,7 @@ title: wandb restore
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3138" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3124" />
 
 
 
@@ -17,54 +17,68 @@ Usage: restore [OPTIONS] RUN
 
 ## Description
 
-Restore the code, config, and Docker state from a previous run.
+Restore the code, config, or Docker environement from a previous W&B run.
 
-    Recreate the environment of a previous W&B run so you can
-    reproduce it. Run this command from the same git repository
-    as the original run, unless you pass the `--no-git` flag.
+    Recreate the environment of a previous run so you can reproduce it. Requires
+    authentication with W&B.
 
-    Restore in three steps:
+    Restore up to three pieces of state, depending on what the original
+    run recorded:
 
-    1. Git — Check out the original commit on a new branch (`wandb/run_id`),
-       fetch and apply any saved diff patch, and fall back to an upstream
-       commit if the original commit cannot be found.
-    2. Config — Write the run config to `wandb/config.yaml`.
-    3. Docker — If the run used Docker, start the same image with the
-       original command.
+    1. Config (always) — Write the run config to wandb/config.yaml.
+    2. Git (if available) — Check out the original commit on a new
+       wandb/run_id branch. Fetch and apply any saved diff patch.
+       If the original commit cannot be found,
+       fall back to an upstream commit if the original cannot be found.
+       Run this command from the same git repository as the original run. Skip
+       this step with `--no-git`.
+    3. Docker (if available) — If the run was executed inside a Docker
+       container, start the same image with the original command.
 
-    Accept run in any of these formats:
+    If the run has no git history and no Docker image,
+    restore only the config.
 
-    - `run_id`
-    - `project:run_id`
-    - `entity/project:run_id`
-    - `entity/project/run_id`
+    Accept the run identifier in any of the following formats:
+
+    - run_id
+    - project:run_id
+    - entity/project:run_id
+    - entity/project/run_id
 
 ## Examples
 
-Restore a run with run ID "abcd1234" in the default project and entity
+Restore a run with run ID  in the default project
+    (stored as the WANDB_PROJECT environment variable) and entity
+    (set from WANDB_ENTITY or the authenticated user's default entity):
 
 ```bash
 wandb restore abcd1234
 ```
 
     Restore a run from the "foobar" project and "team-awesome" entity with
-    run ID "abcd1234"
+    run ID abcd1234:
 
 ```bash
-wandb restore team-awesome/foobar-project:abcd1234
+wandb restore team-awesome/foobar-project/abcd1234
 ```
 
-    Restore run "abcd1234" without restoring git state. Only restore config
-    and Docker state.
+    Restore run abcd1234 without restoring git state. Only restore config
+    and Docker state:
 
 ```bash
 wandb restore --no-git abcd1234
 ```
 
-    Restore run "abcd1234" in detached HEAD mode instead of creating a branch
+    Restore run abcd1234 in detached HEAD mode instead of creating a branch:
 
 ```bash
 wandb restore --no-branch abcd1234
+```
+
+    Restore run abcd1234 from another team's project:
+
+```bash
+wandb restore other-team/their-project:abcd1234
 ```
 
 

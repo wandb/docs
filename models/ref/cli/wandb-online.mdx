@@ -5,7 +5,7 @@ title: wandb online
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3342" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3340" />
 
 
 
@@ -23,11 +23,20 @@ Re-enable cloud syncing for W&B runs.
     sync data to the W&B cloud.
 
     Undo a previous call to `wandb offline`.
-    
 
 ## Examples
 
+Re-enable cloud syncing after working offline:
 
+```bash
+wandb online
+```
+
+    Re-enable cloud syncing, then run a training script:
+
+```bash
+wandb online && python train.py
+```
 
 
 ## Arguments

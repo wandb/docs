@@ -5,7 +5,7 @@ title: wandb sweep
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L897" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L899" />
 
 
 
@@ -24,7 +24,7 @@ Create, update, or manage a hyperparameter sweep.
     Register the sweep with the W&B server and print the sweep ID
     and a command to start an agent.
 
-    Provide a sweep ID (or full path `entity/project/sweep_id`) with a
+    Provide a sweep ID (or full path entity/project/sweep_id) with a
     state flag (`--stop`, `--cancel`, `--pause`, or `--resume`) to manage
     an existing sweep.
 
@@ -34,7 +34,7 @@ Create, update, or manage a hyperparameter sweep.
 
 ## Examples
 
-Create a sweep using the configuration defined in `sweep_config.yaml`. Use
+Create a sweep using the configuration defined in sweep_config.yaml. Use
     the current user's default entity and project.
 
 ```bash
@@ -48,7 +48,7 @@ wandb sweep sweep_config.yaml
 wandb sweep -p foobar-project -e team-awesome sweep_config.yaml
 ```
 
-    Update sweep `abcd1234` with a new configuration from `sweep_config.yaml`.
+    Update sweep abcd1234 with a new configuration from sweep_config.yaml.
     This is useful for changing the parameters or search strategy of an
     active sweep.
 
@@ -56,19 +56,19 @@ wandb sweep -p foobar-project -e team-awesome sweep_config.yaml
 wandb sweep --update abcd1234 sweep_config.yaml
 ```
 
-    Stop sweep `abcd1234` under the "team-awesome" entity and "foobar-project" project.
+    Stop sweep abcd1234 under the "team-awesome" entity and "foobar-project" project.
 
 ```bash
 wandb sweep --stop team-awesome/foobar-project/abcd1234
 ```
 
-    Cancel sweep `abcd1234` in the current user's default entity and project.
+    Cancel sweep abcd1234 in the current user's default entity and project.
 
 ```bash
 wandb sweep --cancel abcd1234
 ```
 
-    Pause sweep `abcd1234` in the current user's default entity and
+    Pause sweep abcd1234 in the current user's default entity and
     project. Later, resume the sweep.
 
 ```bash
@@ -80,14 +80,14 @@ wandb sweep --resume abcd1234
 ```
 
     Create a sweep with a local controller that uses the configuration
-    in `sweep_config.yaml`.
+    in sweep_config.yaml.
 
 ```bash
 wandb sweep --controller sweep_config.yaml
 ```
 
     Create a new sweep and include two previously completed runs
-    (run ID `abcd1234` and run ID `efgh5678`) so their results are incorporated
+    (run ID abcd1234 and run ID efgh5678) so their results are incorporated
     into the sweep's hyperparameter search.
 
 ```bash

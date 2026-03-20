@@ -5,7 +5,7 @@ title: wandb docker
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2425" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2426" />
 
 
 
@@ -17,44 +17,40 @@ Usage: docker [OPTIONS] [DOCKER_RUN_ARGS]... [DOCKER_IMAGE]
 
 ## Description
 
-Run your code in a docker container.
+Run code in a Docker container with W&B configured.
 
-    Run your program inside a Docker image with W&B configured. Set the
-    `WANDB_DOCKER` and `WANDB_API_KEY` environment variables in the
-    container and mount the current working directory at `/app` by
-    default.
+    Start a Docker container, inject the WANDB_DOCKERs environment
+    variable, and mount the current working directory at `/app` by
+    default. Inject WANDB_API_KEY if logged in. Override the
+    container entrypoint to ensure `wandb` is installed.
 
-    Pass additional arguments to insert them into `docker run` before the
-    image name. If you do not specify an image, select a default image
-    automatically.
+    Pass additional arguments to insert them into `docker run` before
+    the image name. Use a default image if none is specified.
 
-    Override the container entrypoint by default to ensure `wandb` is
-    installed. If you pass `--jupyter`, ensure Jupyter is installed and
-    start JupyterLab on port 8888.
+    Use `--jupyter` to install and start JupyterLab on port 8888.
+    Enable the NVIDIA runtime automatically if NVIDIA Docker is
+    available on the host.
 
-    If NVIDIA Docker is available, use the NVIDIA runtime automatically.
+    Requires Docker to be installed and running on the host machine.
 
-    To set W&B environment variables for an existing `docker run`
+    To inject W&B environment variables into an existing `docker run`
     command without modifying the entrypoint, use `wandb docker-run`.
 
 ## Examples
 
-Run the default W&B Docker image and mount `/mnt/dataset` into the container
-    at `/app/data`.
+Run the default image and mount a dataset into the container:
 
 ```bash
 wandb docker -v /mnt/dataset:/app/data
 ```
 
-    Run the specified TensorFlow notebook image and start JupyterLab in the
-    container (port 8888 by default).
+    Run a TensorFlow image and start JupyterLab:
 
 ```bash
 wandb docker gcr.io/kubeflow-images-public/tensorflow-1.12.0-notebook-cpu:v0.4.0 --jupyter
 ```
 
-    Run the specified GPU-enabled image, disable TTY allocation, and execute the
-    given training command.
+    Run a GPU-enabled image with a training command:
 
 ```bash
 wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py --epochs=5"

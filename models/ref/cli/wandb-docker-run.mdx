@@ -5,7 +5,7 @@ title: wandb docker-run
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2373" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2375" />
 
 
 
@@ -21,19 +21,18 @@ Wrap `docker run` and inject W&B environment variables automatically.
 
     Pass all arguments through to `docker run` while injecting:
 
-    - `WANDB_API_KEY` — Use the current API key so the container can
-    authenticate with W&B without manual configuration.
-    - `WANDB_DOCKER` — Record the resolved image ID so W&B can track
-    which Docker image produced the run.
+    - WANDB_API_KEY — Inject the current API key if logged in so
+      the container can authenticate with W&B.
+    - `WANDB_DOCKER` — Inject the resolved image ID if the image can
+      be detected from the arguments so W&B can track which Docker
+      image produced the run.
 
-    If `nvidia-docker` is detected on the host and `--runtime` is not
-    already set, add `--runtime nvidia` to the command to enable GPU support
-    by default.
+    Add `--runtime nvidia` automatically if `nvidia-docker` is detected
+    on the host and `--runtime` is not already set.
 
 ## Examples
 
-Run `python train.py` inside the "my-image" container. W&B automatically
-    injects your API key and the resolved image ID.
+Run the Python script train.py inside the "my-image" container:
 
 ```bash
 wandb docker-run my-image python train.py

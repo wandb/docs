@@ -5,7 +5,7 @@ title: wandb artifact cache cleanup
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3037" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3027" />
 
 
 
@@ -19,9 +19,9 @@ Usage: cleanup [OPTIONS] TARGET_SIZE
 
 Reduce the local artifact cache size.
 
-    Remove less frequently used files until the cache is at or below
-    the `TARGET_SIZE`. `TARGET_SIZE` accepts human-readable formats (for example,
-    10GB or 500MB).
+    Remove the least recently accessed files first until the cache is
+    at or below the TARGET_SIZE. TARGET_SIZE accepts human-readable
+    formats (for example, 10GB or 500MB).
 
 ## Examples
 

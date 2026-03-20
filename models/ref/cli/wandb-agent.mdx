@@ -5,7 +5,7 @@ title: wandb agent
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1943" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1945" />
 
 
 
@@ -26,16 +26,16 @@ Start a sweep agent.
     is stopped, cancelled, or the `--count` limit is reached.
 
     Find the sweep ID in:
-      * The W&B App at `https://wandb.ai/entity/project/sweeps`. Replace
-        `entity` and `project` with your entity and project names.
-      * The output of the `wandb sweep` command when you create a new sweep.
+      - The W&B App at https://wandb.ai/entity/project/sweeps. Replace
+        entity and project with your entity and project names.
+      - The output of the `wandb sweep` command when you create a new sweep.
 
     The sweep ID can include the entity and project path
-    (`entity/project/sweep_id`) or the eight character sweep ID alone.
+    (entity/project/sweep_id) or the eight character sweep ID alone.
 
 ## Examples
 
-Start an agent for a sweep with a sweep ID of "wbyz9876"
+Start an agent for a sweep with a sweep ID of wbyz9876
 
 ```bash
 wandb agent wbyz9876

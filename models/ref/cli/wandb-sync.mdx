@@ -20,8 +20,8 @@ Usage: sync [OPTIONS] [PATH]...
 Upload existing local W&B run data to the cloud.
 
     Sync offline or incomplete runs from the local `wandb` directory to
-    the W&B server. If `PATH` is provided, sync runs at that path. If no
-    path is given, search for a `./wandb` directory, then a `wandb/`
+    the W&B server. If PATH is provided, sync runs at that path. If no
+    path is given, search for a ./wandb directory, then a wandb/
     subdirectory.
 
     Run without arguments to print a summary of synced and unsynced
@@ -31,12 +31,14 @@ Upload existing local W&B run data to the cloud.
     by default. When using `--sync-all`, disable TensorBoard by
     default (use `--sync-tensorboard` to enable it).
 
-    `PATH` is a `.wandb` file or a run directory that contains a `.wandb` file.
-    A typical path looks like
-    `./wandb/run-YYYYMMDD_HHMMSS-RUN_ID/run-RUN_ID.wandb`,
-    where `run-YYYYMMDD_HHMMSS-RUN_ID` is the run directory and
-    `run-RUN_ID.wandb` is the `.wandb` file. `YYYYMMDD_HHMMSS` is the
-    timestamp of when the run was created and `RUN_ID` is the unique ID
+    PATH is a .wandb file or a run directory that contains a .wandb file.
+    A typical path looks like:
+
+    ./wandb/run-YYYYMMDD_HHMMSS-RUN_ID/run-RUN_ID.wandb
+
+    where run-YYYYMMDD_HHMMSS-RUN_ID is the run directory and
+    run-RUN_ID.wandb is the .wandb file. YYYYMMDD_HHMMSS is the
+    timestamp of when the run was created and RUN_ID is the unique ID
     of the run.
 
 ## Examples
@@ -47,13 +49,13 @@ Show a summary of local runs and their sync status
 wandb sync
 ```
 
-    Sync a run that is locally saved at `./wandb/run-20170617_000000-abcd1234`
+    Sync run ID abcd1234 that is locally saved locally in the ./wandb/run-20170617_000000-abcd1234 directory
 
 ```bash
 wandb sync ./wandb/run-20170617_000000-abcd1234
 ```
 
-    Sync a specific run by its `.wandb` filepath
+    Sync run abcd1234 by its local .wandb filepath (./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb)
 
 ```bash
 wandb sync ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
@@ -65,7 +67,7 @@ wandb sync ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
 wandb sync --sync-all
 ```
 
-    Sync a run in the "foobar-project" project and "team-awesome" entity by its `.wandb` filepath
+    Sync a run in the "foobar-project" project and "team-awesome" entity by its .wandb filepath
 
 ```bash
 wandb sync --project foobar-project --entity team-awesome ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb

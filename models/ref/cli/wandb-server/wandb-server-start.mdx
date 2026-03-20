@@ -5,7 +5,7 @@ title: wandb server start
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2609" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2606" />
 
 
 
@@ -19,38 +19,31 @@ Usage: start [OPTIONS]
 
 Start a local W&B server in a Docker container.
 
-    Pull and run the `wandb/local` Docker image (local instance
-    of the W&B server).
+    Pull and run the wandb/local Docker image. Map the specified host
+    port to port 8080 in the container and mount a persistent Docker
+    volume named "wandb" to store data.
 
-    Map the specified port on the host to port `8080` in the container and
-    mount a persistent Docker volume named `wandb` to store data.
-
-    If a newer image is available, notify the user to upgrade to the latest
-    version (`wandb server start --upgrade`).
-
-    If a container named `wandb-local` is already running, notify the user
-    to stop it before starting a new one.
-
-    Set the `base_url` setting to the local server URL so that W&B client
-    calls use the local server. If no API key is found, prompt the user to log in.
+    Configure the "base_url" setting to point to the local server so
+    that subsequent W&B client calls use it. Prompt for login if no
+    API key is found.
 
     Requires Docker to be installed and running on the host machine.
 
 ## Examples
 
-Launch a local W&B server on port 8080 in the background.
+Start a local W&B server on the default port (8080):
 
 ```bash
 wandb server start
 ```
 
-    Run the server on port 9090 instead of the default 8080.
+    Start the server on port 9090:
 
 ```bash
 wandb server start -p 9090
 ```
 
-    Run the server in the foreground so logs stream directly to the terminal
+    Start the server in the foreground:
 
 ```bash
 wandb server start --no-daemon
