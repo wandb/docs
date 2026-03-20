@@ -1,0 +1,20 @@
+---
+title: "1 つずつではなく、複数の run をまとめて削除するにはどうすればよいですか？"
+keywords: ["Projects", "Runs"]
+---
+
+複数の run を一度に削除するには、[公開 API](/ja/models/ref/python/public-api/api) を使用します。
+
+```python
+import wandb
+
+api = wandb.Api()
+runs = api.runs('<entity>/<project>')
+for run in runs:
+    if <condition>:
+        run.delete()
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Projects](/ja/support/models/tags/projects)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>

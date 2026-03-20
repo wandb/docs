@@ -1,0 +1,12 @@
+---
+title: "モデルのトレーニング中にインターネット接続が切れるとどうなりますか？"
+keywords: ["環境変数", "障害"]
+---
+
+ライブラリがインターネットに接続できない場合、再試行ループに入り、ネットワークが復旧するまでメトリクスのストリーミングを試み続けます。この間もプログラムは実行を続けます。
+
+インターネットに接続できないマシンで実行するには、`WANDB_MODE=offline` を設定します。この設定では、メトリクスはハードドライブにローカルに保存されます。後で `wandb sync DIRECTORY` を実行して、データをサーバーにストリーミングします。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[障害](/ja/support/models/tags/outage)</Badge>

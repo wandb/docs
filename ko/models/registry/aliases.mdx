@@ -1,5 +1,6 @@
 ---
 title: 별칭으로 아티팩트 버전 참조하기
+description: "기본, 커스텀 및 보호된 별칭을 사용해 W&B Registry에서 특정 아티팩트 버전을 참조합니다."
 ---
 
 하나 이상의 별칭을 사용해 특정 [artifact version](/ko/models/artifacts/create-a-new-artifact-version/)을 참조할 수 있습니다. [W&amp;B는 동일한 이름으로 연결된 각 아티팩트에](/ko/models/registry/aliases/#default-aliases) 자동으로 별칭을 할당합니다. 또한 [하나 이상의 커스텀 별칭을 만들어](/ko/models/registry/aliases/#custom-aliases) 특정 아티팩트 버전을 참조할 수도 있습니다.
@@ -94,7 +95,7 @@ W&amp;B Registry 또는 Python SDK를 사용하여 커스텀 별칭을 생성할
 
 [protected alias](/ko/models/registry/aliases/#protected-aliases)를 사용하면 수정하거나 삭제해서는 안 되는 아티팩트 버전에 레이블을 지정하고 해당 버전을 식별할 수 있습니다. 예를 들어, 조직의 머신 러닝 프로덕션 파이프라인에서 사용 중인 아티팩트 버전에 레이블을 지정하고 식별하기 위해 `production` protected alias를 사용하는 방법을 고려할 수 있습니다.
 
-[Registry admin](/ko/models/registry/configure_registry/#registry-roles) 사용자와 **Admin** 역할을 가진 [service accounts](/ko/models/support/service_account_useful/)는 protected alias를 생성하고 아티팩트 버전에 protected alias를 추가하거나 제거할 수 있습니다. **Member**, **Viewer**, **Restricted Viewer** 역할을 가진 Users와 service accounts는 보호된 버전의 연결을 해제하거나 protected alias를 포함하는 컬렉션을 삭제할 수 없습니다. 자세한 내용은 [Configure registry access](/ko/models/registry/configure_registry/)를 참조하세요.
+[Registry admin](/ko/models/registry/configure_registry/#registry-roles) 사용자와 **Admin** 역할을 가진 [service accounts](/ko/support/models/articles/what-is-a-service-account-and-why-is-it-)는 protected alias를 생성하고 아티팩트 버전에 protected alias를 추가하거나 제거할 수 있습니다. **Member**, **Viewer**, **Restricted Viewer** 역할을 가진 Users와 service accounts는 보호된 버전의 연결을 해제하거나 protected alias를 포함하는 컬렉션을 삭제할 수 없습니다. 자세한 내용은 [Configure registry access](/ko/models/registry/configure_registry/)를 참조하세요.
 
 일반적인 protected alias는 다음과 같습니다.
 

@@ -1,0 +1,14 @@
+---
+title: "コードのテスト時に wandb を無効にできますか？"
+keywords: ["Artifacts"]
+---
+
+テスト用に W&amp;B を no-operation (NOOP) として設定するには、`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定します。
+
+<Note>
+  `wandb.init(mode="disabled")` を使用しても、W&amp;B が `WANDB_CACHE_DIR` にアーティファクトを保存することは防げません。
+</Note>
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>

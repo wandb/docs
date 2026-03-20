@@ -1,0 +1,29 @@
+---
+title: "API error code 429 - リクエストの同時実行制限に達しました"
+keywords: ["クォータとレート制限"]
+---
+
+&quot;Concurrency limit reached for requests&quot; というメッセージを含む 429 エラーは、W&amp;B Inference API に対して同時リクエストを送りすぎていることを意味します。
+
+<div id="why-this-happens">
+  ## これが発生する理由
+</div>
+
+W&amp;B Inference では、公平な利用とサービスの安定性を確保するため、同時実行制限を設けています。お使いのアカウントからの同時リクエスト数が許可された上限を超えると、追加のリクエストは 429 ステータスコードで拒否されます。
+
+<div id="what-you-can-do">
+  ## できること
+</div>
+
+1. **同時リクエストを減らす**
+   * アプリケーションにリクエストのキューイングまたはスロットリングを実装する
+   * 失敗したリクエストを再試行する際は、指数バックオフを使用する
+
+2. **制限を引き上げる**
+   * 現在のプランの同時実行数の制限を確認し、必要に応じてアップグレードする
+
+詳細は [使用状況と制限](/ja/inference/usage-limits/) を参照してください。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[クォータとレート制限](/ja/support/inference/tags/quotas-rate-limits)</Badge>

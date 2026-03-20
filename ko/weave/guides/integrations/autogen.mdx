@@ -44,10 +44,10 @@ weave.init("autogen-demo")
 ```
 
 <div id="tracing-a-simple-model-client">
-  ## 간단한 모델 클라이언트 트레이싱
+  ## 간단한 모델 클라이언트 트레이스
 </div>
 
-Weave는 AutoGen 내에서 모델 클라이언트에 직접 수행되는 호출을 트레이싱할 수 있습니다.
+Weave는 AutoGen 내에서 모델 클라이언트에 직접 수행되는 호출을 트레이스할 수 있습니다.
 
 <div id="tracing-a-client-create-call">
   ### 클라이언트 생성 호출 트레이싱
@@ -164,8 +164,8 @@ asyncio.run(run_agent_with_tools())
 
 [![autogen-agent-tools.png](/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee13-e5ca-72a1-b7b6-4b263fad89e3%3FhideTraceTree%3D0)
 
-<div id="tracing-a-groupchat-roundrobin">
-  ## GroupChat 추적 - RoundRobin
+<div id="tracing-a-groupchat-round-robin">
+  ## GroupChat 추적 - round robin
 </div>
 
 `RoundRobinGroupChat`와 같은 그룹 채팅 내 상호작용은 Weave에서 트레이싱되므로, 에이전트 간 대화 흐름을 추적할 수 있습니다.
@@ -479,10 +479,10 @@ asyncio.run(run_agent_runtime())
 [![autogen-runtime.png](/weave/guides/integrations/imgs/autogen/autogen-runtime.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1d-6246-7f11-afb1-3a1874f79023%3FhideTraceTree%3D0)
 
 <div id="tracing-workflows-sequential">
-  ## 트레이싱 워크플로(순차형)
+  ## 워크플로 트레이스(순차형)
 </div>
 
-에이전트 간 상호작용의 순서를 정의하는 복잡한 에이전트 워크플로도 트레이싱할 수 있습니다. 전체 워크플로에 대한 상위 수준 트레이스를 남기려면 `@weave.op()`을(를) 사용할 수 있습니다.
+에이전트 간 상호작용의 순서를 정의하는 복잡한 에이전트 워크플로도 트레이스할 수 있습니다. 전체 워크플로에 대한 상위 수준 트레이스를 제공하려면 `@weave.op()`을(를) 사용하세요.
 
 ```python lines {108}
 from autogen_core import TopicId, type_subscription

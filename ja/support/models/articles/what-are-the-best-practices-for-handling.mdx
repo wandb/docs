@@ -1,0 +1,120 @@
+---
+title: "W&B Inference エラーを処理するためのベストプラクティスは何ですか？"
+keywords: ["Inference"]
+---
+
+W&amp;B Inference のエラーを適切に処理し、信頼性の高いアプリケーションを維持するために、以下のベストプラクティスに従ってください。
+
+<div id="1-always-implement-error-handling">
+  ## 1. 常にエラー処理を実装する
+</div>
+
+API 呼び出しを try-except ブロックで囲みます:
+
+```python
+import openai
+
+try:
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=messages
+    )
+except Exception as e:
+    print(f"Error: {e}")
+    # 適切にエラーを処理する
+```
+
+<div id="2-use-retry-logic-with-exponential-backoff">
+  ## 2. 指数バックオフを用いた再試行ロジックを使用する
+</div>
+
+```python
+import time
+from typing import Optional
+
+def call_inference_with_retry(
+    client, 
+    messages, 
+    model: str,
+    max_retries: int = 3,
+    base_delay: float = 1.0
+) -> Optional[str]:
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            
+            # 指数バックオフで遅延を計算する
+            delay = base_delay * (2 ** attempt)
+            print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
+            time.sleep(delay)
+    
+    return None
+```
+
+<div id="3-monitor-your-usage">
+  ## 3. 使用状況を監視する
+</div>
+
+* W&amp;B Billing ページでクレジット使用量を確認する
+* 制限に達する前にアラートを設定する
+* アプリケーションで API の使用状況をログする
+
+<div id="4-handle-specific-error-codes">
+  ## 4. 特定のエラーコードを処理する
+</div>
+
+```python
+def handle_inference_error(error):
+    error_str = str(error)
+    
+    if "401" in error_str:
+        # Invalid authentication
+        raise ValueError("Check your API key and project configuration")
+    elif "402" in error_str:
+        # Out of credits
+        raise ValueError("Insufficient credits")
+    elif "429" in error_str:
+        # Rate limited
+        return "retry"
+    elif "500" in error_str or "503" in error_str:
+        # Server error
+        return "retry"
+    else:
+        # Unknown error
+        raise
+```
+
+<div id="5-set-appropriate-timeouts">
+  ## 5. 適切なタイムアウトを設定する
+</div>
+
+ユースケースに応じて適切なタイムアウトを設定します：
+
+```python
+# レスポンスが長い場合
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="your-api-key",
+    timeout=60.0  # 60秒のタイムアウト
+)
+```
+
+<div id="additional-tips">
+  ## 追加のヒント
+</div>
+
+* デバッグしやすくするため、タイムスタンプ付きでエラーをログする
+* 並行処理への対応を改善するため、非同期処理を使用する
+* 本番システムにはサーキットブレーカーを実装する
+* 必要に応じてレスポンスをキャッシュし、API 呼び出しを減らす
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Inference](/ja/support/models/tags/inference)</Badge>

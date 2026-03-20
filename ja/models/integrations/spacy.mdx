@@ -1,5 +1,6 @@
 ---
 title: spaCy
+description: "W&B と spaCy v3 を統合して、WandbLogger config を使用し、トレーニング メトリクス を追跡するとともに、モデル とデータセット をバージョン管理します。"
 ---
 
 import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
@@ -84,16 +85,16 @@ model_log_interval = 1000
 | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `project_name`         | `str`。W&amp;B Project の名前。まだ存在しない場合は、その Project が自動的に作成されます。                                                                                                                      |
 | `remove_config_values` | `List[str]`。W&amp;B にアップロードする前に config から除外する値のリスト。デフォルトは `[]`。                                                                                                                   |
-| `model_log_interval`   | `Optional int`。デフォルトは `None`。設定すると、[model versioning](/ja/models/registry/) と [Artifacts](/ja/models/artifacts/) によるモデルのバージョン管理が有効になります。モデルのチェックポイントをログする間隔（ステップ数）を指定します。デフォルトは `None`。 |
+| `model_log_interval`   | `Optional int`。デフォルトは `None`。設定すると、[model versioning](/ja/models/registry/) と [Artifacts](/ja/models/artifacts/) によるモデルのバージョン管理が有効になります。モデルのチェックポイントをログする間隔 (ステップ数) を指定します。デフォルトは `None`。 |
 | `log_dataset_dir`      | `Optional str`。パスを指定すると、トレーニング開始時にそのデータセットが Artifact としてアップロードされます。デフォルトは `None`。                                                                                                 |
 | `entity`               | `Optional str`。指定した場合、run は指定された entity 内に作成されます。                                                                                                                                 |
 | `run_name`             | `Optional str`。指定した場合、run は指定された名前で作成されます。                                                                                                                                        |
 
 <div id="start-training">
-  ## トレーニングを開始する
+  ## トレーニングを開始
 </div>
 
-`WandbLogger` を spaCy のトレーニング用設定に追加したら、通常どおり `spacy train` を実行できます。
+`WandbLogger` を spaCy のトレーニング config に追加したら、通常どおり `spacy train` を実行できます。
 
 <Tabs>
   <Tab title="コマンドライン">
@@ -127,4 +128,4 @@ model_log_interval = 1000
   </Tab>
 </Tabs>
 
-トレーニングが開始されると、トレーニング run の [W&amp;B ページ](/ja/models/runs/) へのリンクが出力されます。このリンクを開くと、その run の実験管理 [ダッシュボード](/ja/models/track/workspaces/) を W&amp;B web UI で確認できます。
+トレーニングが開始されると、トレーニング run の [W&amp;B ページ](/ja/models/runs/) へのリンクが出力されます。このリンクを開くと、W&amp;B Web UI のこの run の実験管理 [ダッシュボード](/ja/models/track/workspaces/) に移動できます。

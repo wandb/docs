@@ -1,0 +1,31 @@
+---
+title: "Trace データが切り捨てられる"
+keywords: ["トレースデータ"]
+---
+
+大きなトレース データは、Weave UI で一部が切り取られることがあります。この問題は、デフォルトのトレース出力が生のカスタム Python オブジェクトであり、Weave でシリアライズできないために発生します。
+
+大きなトレース データが切り取られないようにするには、すべてのトレース データを返す文字列の辞書を定義してください。
+
+```python
+import weave
+
+class MyObj:
+    def __init__(self, x: int):
+        self.x = x
+
+    def __repr__(self):
+        return f"MyObj(x={self.x})"
+
+    def to_dict(self):
+        return {"x": self.x}
+
+@weave.op()
+def make_my_obj():
+    x = "s" * 10_000
+    return MyObj(x)
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[トレースデータ](/ja/support/weave/tags/trace-data)</Badge>

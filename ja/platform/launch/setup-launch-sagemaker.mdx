@@ -1,15 +1,16 @@
 ---
 title: 'チュートリアル: SageMaker で W&B Launch をセットアップする'
+description: "ECR、S3、IAM のセットアップ手順を使用して、Amazon SageMaker にトレーニング ジョブを送信するように W&B Launch を設定します。"
 ---
 
 W&amp;B Launch を使用して Amazon SageMaker に Launch ジョブを送信し、SageMaker プラットフォーム上で提供済みまたはカスタムのアルゴリズムを使って機械学習 モデルをトレーニングできます。SageMaker はコンピュートリソースの起動と解放を自動で行うため、EKS クラスターを持たない Teams にとっても有力な選択肢となります。
 
 Amazon SageMaker に接続された W&amp;B Launch キューに送信された Launch ジョブは、[CreateTrainingJob API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingJob.html) を使って SageMaker Training Job として実行されます。`CreateTrainingJob` API に渡される引数は、Launch キューの設定で制御します。
 
-Amazon SageMaker は [Docker イメージを使ってトレーニング ジョブを実行します](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-training-algo-dockerfile.html)。SageMaker が取得するイメージは Amazon Elastic Container Registry (ECR) に保存されている必要があります。つまり、トレーニングに使用するイメージは ECR 上に保存されていなければなりません。 
+Amazon SageMaker は [Docker イメージを使ってトレーニング ジョブを実行します](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-training-algo-dockerfile.html)。SageMaker が取得するイメージは Amazon Elastic Container Registry (ECR) に保存されている必要があります。つまり、トレーニングに使用するイメージは ECR 上に保存されていなければなりません。
 
 <Note>
-このガイドでは SageMaker Training Job の実行方法を説明します。Amazon SageMaker 上に推論用の モデルをデプロイする方法については、[この Launch ジョブの例](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_sagemaker_endpoints)を参照してください。
+  このガイドでは SageMaker Training Job の実行方法を説明します。Amazon SageMaker 上に推論用の モデルをデプロイする方法については、[この Launch ジョブの例](https://github.com/wandb/launch-jobs/tree/main/jobs/deploy_to_sagemaker_endpoints)を参照してください。
 </Note>
 
 <div id="prerequisites">

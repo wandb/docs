@@ -399,8 +399,9 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "RL トレーニングジョブを作成",
-        "operationId": "create_training_job_v1_preview_training_jobs_post",
+        "summary": "RL トレーニング ジョブを作成",
+        "description": "新しい RL（強化学習）トレーニング ジョブを作成します。",
+        "operationId": "Create_RL_Training_Job_v1_preview_training_jobs_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -445,9 +446,9 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "SFT トレーニングジョブを作成",
+        "summary": "SFT トレーニング ジョブを作成",
         "description": "新しい SFT（教師ありファインチューニング）トレーニングジョブを作成します。",
-        "operationId": "create_sft_training_job_v1_preview_sft_training_jobs_post",
+        "operationId": "Create_SFT_Training_Job_v1_preview_sft_training_jobs_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1886,6 +1887,7 @@
             "anyOf": [
               {
                 "type": "integer",
+                "maximum": 9223372036854776000,
                 "minimum": -1
               },
               {
@@ -4335,7 +4337,8 @@
               ]
             },
             "type": "array",
-            "title": "Messages And Choices"
+            "title": "Messages And Choices",
+            "default": []
           },
           "tools": {
             "anyOf": [
@@ -4361,7 +4364,8 @@
           },
           "reward": {
             "type": "number",
-            "title": "Reward"
+            "title": "Reward",
+            "default": 0
           },
           "initial_policy_version": {
             "anyOf": [
@@ -4403,24 +4407,6 @@
             "title": "Metrics",
             "default": {}
           },
-          "auto_metrics": {
-            "additionalProperties": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "integer"
-                },
-                {
-                  "type": "boolean"
-                }
-              ]
-            },
-            "type": "object",
-            "title": "Auto Metrics",
-            "default": {}
-          },
           "metadata": {
             "additionalProperties": {
               "anyOf": [
@@ -4460,10 +4446,6 @@
           }
         },
         "type": "object",
-        "required": [
-          "messages_and_choices",
-          "reward"
-        ],
         "title": "Trajectory"
       },
       "TrajectoryGroup": {

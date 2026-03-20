@@ -1,5 +1,5 @@
 ---
-description: W&B で決定木をトラッキングする。
+description: "W&B を XGBoost と統合して、勾配ブースティングのメトリクス、特徴量重要度、モデル性能を自動的にログする。"
 title: XGBoost
 ---
 
@@ -7,10 +7,10 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" />
 
-`wandb` ライブラリには、XGBoost によるトレーニングのメトリクス、設定、および保存されたブースターを記録するための `WandbCallback` コールバックがあります。ここでは、XGBoost の `WandbCallback` からの出力を含む [ライブ W&amp;B ダッシュボード](https://wandb.ai/morg/credit_scorecard) を参照できます。
+`wandb` ライブラリには、XGBoost でのトレーニングからメトリクス、設定、および保存された booster をログするための `WandbCallback` コールバックがあります。ここでは、XGBoost の `WandbCallback` からの出力を含む [ライブ W&amp;B ダッシュボード](https://wandb.ai/morg/credit_scorecard) を確認できます。
 
 <Frame>
-  <img src="/images/integrations/xgb_dashboard.png" alt="XGBoost を使用した W&B ダッシュボード" />
+  <img src="/images/integrations/xgb_dashboard.png" alt="W&B Dashboard using XGBoost" />
 </Frame>
 
 <div id="get-started">

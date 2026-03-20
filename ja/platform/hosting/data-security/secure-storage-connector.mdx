@@ -1,5 +1,6 @@
 ---
-title: "独自バケットの利用 (BYOB)"
+title: Bring your own bucket (BYOB)
+description: "Bring Your Own Bucket (BYOB) 機能を使用して、W&B Artifacts とデータを独自のクラウドストレージバケットに保存します。"
 ---
 
 import ByobContextNote from "/snippets/ja/_includes/byob-context-note.mdx";
@@ -525,7 +526,7 @@ W&amp;B は次のストレージプロバイダーに接続できます。
 </div>
 
 <Note>
-  インスタンス レベルで CoreWeave AI Object Storage を利用する場合は、この手順には従わず、[W&amp;B support](mailto:support@wandb.com) にお問い合わせください。セルフサービスでの設定はまだサポートされていません。
+  インスタンス レベルで CoreWeave AI Object Storage を利用する場合は、この手順には従わず、[W&amp;B サポート](mailto:support@wandb.com) にお問い合わせください。セルフサービスでの設定はまだサポートされていません。
 </Note>
 
 **Dedicated Cloud** の場合: バケットの詳細を W&amp;B チームと共有してください。W&amp;B チームが Dedicated Cloud インスタンスを設定します。
@@ -533,7 +534,7 @@ W&amp;B は次のストレージプロバイダーに接続できます。
 **Self-Managed** の場合、W&amp;B App を使用してインスタンス レベルの BYOB を設定できます。
 
 1. `admin` ロールを持つユーザーとして W&amp;B にログインします。
-2. 画面上部のユーザー アイコンをクリックし、**System Console** をクリックします。
+2. 上部のユーザー アイコンをクリックし、**System Console** をクリックします。
 3. **Settings** &gt; **System Connections** に移動します。
 4. **Bucket Storage** セクションで、**Identity** フィールドのアイデンティティに新しいバケットへのアクセス権が付与されていることを確認します。
 5. **Provider** を選択します。
@@ -545,15 +546,15 @@ W&amp;B は次のストレージプロバイダーに接続できます。
   ### チームレベル BYOB
 </div>
 
-W&amp;B App を使ってチームを作成する際に、チームレベル BYOB を設定できます。オプションは次の 2 つです。
+W&amp;B App でチームを作成するとき、または [SCIM API](/ja/platform/hosting/iam/scim#create-team) (任意の `storageBucket` を含む POST Groups) を使用するときに、チームレベル BYOB を設定できます。オプションは次の 2 つです。
 
-* **既存のバケットを使用する**: まずはバケットの [ストレージの場所を確認](#determine-the-storage-address) する必要があります。
-* **新しいバケットを作成する** (マルチテナントクラウドのみ) : チームを作成するときに、W&amp;B がクラウドプロバイダー上に自動的にバケットを作成できます。CoreWeave、AWS、Google Cloud に対応しています。
+* **既存のバケットを使用する**: まずバケットの[ストレージの場所を特定](#determine-the-storage-address)する必要があります。
+* **新しいバケットを作成する** (Multi-tenant Cloud のみ) : チームを作成するときに、W&amp;B がクラウドプロバイダー上に自動的にバケットを作成できます。これは CoreWeave、AWS、Google Cloud でサポートされています。
 
 <Note>
-  - チームが作成された後は、そのストレージを変更することはできません。
-  - インスタンスレベル BYOB については、代わりに [Instance level BYOB](#instance-level-byob) を参照してください。
-  - チーム向けに CoreWeave ストレージを設定する予定がある場合は、[CoreWeave の要件](#coreweave-requirements) を確認し、CoreWeave 上でバケットが正しく設定されていることとチームの設定が正しいことを検証するように、[support](mailto:support@wandb.com) に連絡してください。チーム作成後はストレージの詳細を変更できないため、この手順が重要です。
+  - チームが作成された後は、そのストレージを変更できません。
+  - インスタンス レベルの BYOB については、代わりに [インスタンス レベルの BYOB](#instance-level-byob) を参照してください。
+  - チーム向けに CoreWeave ストレージを設定する予定がある場合は、[CoreWeave の要件](#coreweave-requirements) を確認し、チーム作成後はストレージの詳細を変更できないため、CoreWeave でバケットが正しく設定されていることの確認とチーム設定の検証のために、[サポート](mailto:support@wandb.com) にお問い合わせください。
 </Note>
 
 続行するには、デプロイタイプを選択してください。

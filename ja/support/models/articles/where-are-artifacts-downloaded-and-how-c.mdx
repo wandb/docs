@@ -1,0 +1,23 @@
+---
+title: "アーティファクトはどこにダウンロードされますか？また、その保存先を制御するにはどうすればよいですか？"
+keywords: ["Artifacts", "環境変数"]
+---
+
+デフォルトでは、アーティファクトは `artifacts/` フォルダにダウンロードされます。保存先を変更するには:
+
+* [`wandb.Artifact().download`](/ja/models/ref/python/public-api/api) に `root` を指定します:
+
+  ```python
+  wandb.Artifact().download(root="<path_to_download>")
+  ```
+
+* `WANDB_ARTIFACT_DIR` の [環境変数](/ja/models/track/environment-variables) を設定します:
+
+  ```python
+  import os
+  os.environ["WANDB_ARTIFACT_DIR"] = "<path_to_download>"
+  ```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>

@@ -1,0 +1,10 @@
+---
+title: "SLURM で sweep を実行するにはどうすればよいですか？"
+keywords: ["Sweeps"]
+---
+
+[SLURM scheduling system](https://slurm.schedmd.com/documentation.html) で Sweeps を使用する場合は、スケジュールされた各ジョブで `wandb agent --count 1 SWEEP_ID` を実行します。このコマンドは 1 つのトレーニングジョブを実行した後に終了するため、ハイパーパラメーター探索の並列性を活用しながら、リソース要求に必要な実行時間の予測を容易にします。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>

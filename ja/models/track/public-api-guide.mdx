@@ -150,17 +150,17 @@ importer.import_runs(runs, namespace=Namespace(entity, project))
   3. システムメトリクスおよびカスタムチャート（`run.log` で明示的にログされていないもの）はインポートされません */}
 
 <div id="export-data">
-  ## データのエクスポート
+  ## データをエクスポート
 </div>
 
-Public API を使用して、W&amp;B に保存したデータをエクスポートまたは更新します。この API を使用する前に、スクリプトからデータをログとして記録してください。詳しくは [クイックスタート](/ja/models/quickstart/) を参照してください。
+Public API を使用して、W&amp;B に保存したデータをエクスポートまたは更新できます。この API を使用する前に、スクリプトからデータをログしてください。詳細については、[Quickstart](/ja/models/quickstart/) を参照してください。
 
 **Public API のユースケース**
 
-* **データのエクスポート**: Jupyter Notebook でのカスタム解析用にデータフレームを取得します。データを探索したあと、その結果を新しい分析 run を作成してログすることで同期できます。例: `wandb.init(job_type="analysis")`
-* **既存の Runs の更新**: W&amp;B run に関連付けてログされたデータを更新できます。たとえば、複数の run の config を更新して、アーキテクチャや、元々はログしていなかったハイパーパラメーターなどの追加情報を含めたい場合などです。
+* **データをエクスポート**: Jupyter Notebook でカスタム分析を行うために、データフレームを取得します。データを調査した後は、新しい analysis run を作成して結果をログすることで、調査結果を同期できます。例: `wandb.init(job_type="analysis")`
+* **既存の Runs を更新**: W&amp;B run に関連付けてログしたデータを更新できます。たとえば、複数の run の config を更新して、アーキテクチャや、もともとログしていなかったハイパーパラメータなどの追加情報を含めたい場合があります。
 
-利用可能な関数の詳細については、[生成されたリファレンスドキュメント](/ja/models/ref/python/public-api/) を参照してください。
+利用可能な関数の詳細については、[Generated Reference Docs](/ja/models/ref/python/public-api/) を参照してください。
 
 <div id="create-an-api-key">
   ### API キーを作成する
@@ -237,7 +237,6 @@ with wandb.init(project="public-api-example") as run:
 
 ```python
 {
-    "_runtime": 4,
     "_step": 4,
     "_timestamp": 1644345412,
     "_wandb": {"runtime": 3},
@@ -250,7 +249,7 @@ with wandb.init(project="public-api-example") as run:
   ### サンプリング
 </div>
 
-デフォルトの history メソッドは、メトリクスを一定数のサンプル（デフォルトは 500。`samples` &#95;&#95; 引数で変更可能）にサンプリングします。大規模な run のすべてのデータをエクスポートしたい場合は、`run.scan_history()` メソッドを使用できます。詳細については、[API Reference](/ja/models/ref/python/public-api) を参照してください。
+デフォルトの history メソッドは、メトリクスを一定数のサンプル (デフォルトは 500。`samples` &#95;&#95; 引数で変更可能) にサンプリングします。大規模な run のすべてのデータをエクスポートしたい場合は、`run.scan_history()` メソッドを使用できます。詳細については、[API Reference](/ja/models/ref/python/public-api) を参照してください。
 
 <div id="querying-multiple-runs">
   ### 複数の run をクエリする

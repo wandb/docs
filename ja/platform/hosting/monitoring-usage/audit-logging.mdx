@@ -1,16 +1,17 @@
 ---
 title: 監査ログでユーザーアクティビティを追跡する
+description: "ログスキーマと追跡対象のアクションを含め、さまざまなデプロイ種別にわたって W&B 監査ログにアクセスし、取得して、分析します。"
 ---
 
 W&amp;B の監査ログを使用して、組織内でのユーザーアクティビティを追跡し、エンタープライズガバナンス要件への準拠に役立てます。監査ログは JSON 形式で提供されます。詳しくは [Audit log schema](#audit-log-schema) を参照してください。
 
 監査ログへのアクセス方法は、W&amp;B プラットフォームのデプロイ種別によって異なります。
 
-| W&amp;B Platform Deployment type                                           | Audit logs access mechanism                                                                                                                                                                                                                                                   |
-| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| W&amp;B Platform Deployment type                                              | Audit logs access mechanism                                                                                                                                                                                                                                                      |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud)       | <ul><li>[Instance-level BYOB](/ja/platform/hosting/data-security/secure-storage-connector): インスタンスレベルのバケット (BYOB) に 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。</li><li>デフォルトのインスタンスレベルストレージ: [API](#fetch-audit-logs-using-api) を使用してのみ取得できます。</li></ul> |
-| [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise プランでのみ利用可能です。[API](#fetch-audit-logs-using-api) を使用してのみ取得できます。                                                                                                                                                                                                     |
-| [Self-Managed](/ja/platform/hosting/hosting-options/self-managed)             | インスタンスレベルのバケットに 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。                                                                                                                                                                                            |
+| [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise プランでのみ利用可能です。[API](#fetch-audit-logs-using-api) を使用してのみ取得できます。                                                                                                                                                                                                        |
+| [Self-Managed](/ja/platform/hosting/hosting-options/self-managed)             | インスタンスレベルのバケットに 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。                                                                                                                                                                                               |
 
 監査ログを取得した後は、[Pandas](https://pandas.pydata.org/docs/index.html)、[Amazon Redshift](https://aws.amazon.com/redshift/)、[Google BigQuery](https://cloud.google.com/bigquery)、[Microsoft Fabric](https://www.microsoft.com/microsoft-fabric) などのツールを使用して分析できます。一部の監査ログ分析ツールは JSON をサポートしていない場合があります。分析に先立って JSON 形式の監査ログを変換するためのガイドラインや要件については、使用する分析ツールのドキュメントを参照してください。
 

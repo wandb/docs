@@ -1,11 +1,11 @@
 ---
-description: 방향 비순환 W&amp;B Artifact 그래프를 탐색합니다.
-title: 아티팩트 계보 그래프 살펴보기
+description: "방향 비순환 그래프로 W&B run의 입력과 출력을 추적할 수 있도록 아티팩트 리니지 그래프를 보고 탐색합니다."
+title: 아티팩트 리니지 그래프 살펴보기
 ---
 
-W&amp;B는 &#95;lineage graph&#95;라고 불리는 방향 비순환 그래프(DAG)를 사용하여 run 입력과 출력을 추적합니다. 계보 그래프는 ML 실험에서 아티팩트와 run 간 관계를 시각적으로 표현한 것입니다. 이 그래프는 원시 데이터 수집부터 모델 트레이닝과 평가에 이르기까지, 데이터와 모델이 ML 라이프사이클의 여러 단계를 거치며 어떻게 흐르는지를 보여 줍니다.
+W&amp;B는 &#95;리니지 그래프&#95;라고 불리는 방향 비순환 그래프(DAG)를 사용하여 run 입력과 출력을 추적합니다. 리니지 그래프는 ML 실험에서 아티팩트와 run 간 관계를 시각적으로 표현한 것입니다. 이 그래프는 원시 데이터 수집부터 모델 트레이닝과 평가에 이르기까지, 데이터와 모델이 ML 라이프사이클의 여러 단계를 거치며 어떻게 흐르는지를 보여 줍니다.
 
-아티팩트 계보를 추적하면 다음과 같은 주요 이점이 있습니다:
+아티팩트 리니지를 추적하면 다음과 같은 주요 이점이 있습니다:
 
 * **재현성**: 디버깅, 실험, 검증을 위해 실험, 모델, 결과를 다시 생성할 수 있도록 해 줍니다.
 * **버전 관리**: 아티팩트의 시간에 따른 변경 사항을 추적하여, 필요할 때 이전 데이터나 모델 버전으로 되돌릴 수 있게 해 줍니다.
@@ -13,17 +13,76 @@ W&amp;B는 &#95;lineage graph&#95;라고 불리는 방향 비순환 그래프(DA
 * **협업**: 실험 이력을 투명하게 만들어 중복 작업을 줄이고 개발 속도를 높여, 팀 간 협업과 팀워크 향상에 도움이 됩니다.
 
 <div id="view-an-artifacts-lineage-graph">
-  ## 아티팩트의 lineage 그래프 보기
+  ## 아티팩트의 리니지 그래프 보기
 </div>
 
-아티팩트의 lineage 그래프를 보려면:
+아티팩트의 리니지 그래프를 보려면:
 
-1. W&amp;B App으로 이동합니다.
-2. 탐색하려는 run 또는 아티팩트가 포함된 프로젝트를 선택합니다.
-3. 프로젝트 사이드바에서 **Artifacts** 탭을 클릭합니다.
-4. **Lineage** 탭을 선택합니다.
+1. W&amp;B App에서 프로젝트의 워크스페이스로 이동합니다.
+2. 프로젝트 사이드바에서 **Artifacts** 탭을 클릭합니다.
+3. 아티팩트를 선택한 다음 **Lineage** 탭을 클릭합니다.
 
-## 계보 그래프 추적 활성화하기
+<div id="navigate-lineage-graphs">
+  ## 리니지 그래프 이동
+</div>
+
+리니지 그래프는 ML 실험에서 아티팩트와 run 간의 관계를 시각적으로 나타낸 것입니다. W&amp;B App UI 또는 Python SDK를 사용해 아티팩트의 리니지 그래프를 탐색하고 따라갈 수 있습니다.
+
+<Tabs>
+  <Tab title="W&B App UI">
+    초록색 아이콘이 있는 노드는 run을 나타냅니다. 파란색 아이콘이 있는 노드는 아티팩트를 나타냅니다. 노드 사이의 화살표는 run 또는 아티팩트의 입력과 출력을 나타냅니다.
+
+    아티팩트 노드는 `<artifact_name>:<version>` 형식으로 아티팩트 이름과 버전을 표시합니다. 아티팩트의 유형은 아티팩트 이름 위에 표시됩니다.
+
+    <Note>
+      왼쪽 사이드바와 리니지 그래프 노드 모두에서 아티팩트의 유형과 이름을 볼 수 있습니다.
+    </Note>
+
+    Run 노드는 run의 이름을 표시합니다.
+
+    <Frame>
+      <img src="/images/artifacts/lineage2.png" alt="run 및 아티팩트 노드" />
+    </Frame>
+
+    개별 run을 클릭하면 시작 시간, 소요 시간, 작성자, 작업 유형 등 해당 run에 대한 자세한 정보를 확인할 수 있습니다. 개별 아티팩트를 클릭하면 별칭, 생성 시간, 유형, 버전, 설명, 아티팩트를 로깅한 run, 파일 크기 등 해당 아티팩트에 대한 자세한 정보를 확인할 수 있습니다.
+
+    <Frame>
+      <img src="/images/artifacts/lineage3a.gif" alt="run 미리 보기" />
+    </Frame>
+
+    동일한 아티팩트의 여러 버전을 생성하는 Runs는 하나의 클러스터로 그룹화됩니다. 클러스터 내에 나열된 특정 아티팩트 버전을 클릭하면 해당 버전에 대한 구체적인 정보를 볼 수 있습니다.
+
+    <Frame>
+      <img src="/images/artifacts/lineage_multiple_artifact_versions.png" alt="리니지 그래프의 아티팩트 버전 클러스터" />
+    </Frame>
+
+    노드를 클릭해 끌면 그래프를 재배열하여 레이아웃을 사용자 지정할 수 있습니다. 그래프를 확대하거나 축소해 노드와 그 관계를 더 잘 볼 수도 있습니다.
+
+    <Frame>
+      <img src="/images/artifacts/lineage_rearrange_nodes.gif" alt="리니지 그래프에서 노드 재배열하기" />
+    </Frame>
+
+    노드 위에 마우스를 올리고 눈 아이콘을 클릭해 그래프에서 노드를 숨기거나 표시할 수 있습니다. 이렇게 하면 그래프를 덜 복잡하게 만들어 특정 노드와 그 관계에 집중하는 데 도움이 됩니다.
+  </Tab>
+
+  <Tab title="W&B Python SDK">
+    W&amp;B Python SDK를 사용해 프로그래밍 방식으로 그래프를 탐색할 수 있습니다. 아티팩트 객체의
+    [`logged_by()`](/ko/models/ref/python/experiments/artifact#method-artifact-logged-by) 및 [`used_by()`](/ko/models/ref/python/experiments/artifact#method-artifact-used-by) 메서드를 사용해 그래프를 따라가세요:
+
+    ```python
+    with wandb.init() as run:
+        artifact = run.use_artifact("artifact_name:latest")
+
+        # 아티팩트에서 그래프를 따라 위아래로 이동합니다:
+        producer_run = artifact.logged_by()
+        consumer_runs = artifact.used_by()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="enable-lineage-graph-tracking">
+  ## 라인리지 그래프 추적 활성화하기
+</div>
 
 라인리지 그래프 추적을 활성화하려면 W&amp;B Python SDK를 사용해서 아티팩트를 run의 [입력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph) 또는
 [출력](/ko/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run)으로 지정해야 합니다.
@@ -70,26 +129,6 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   run.log_artifact(artifact_or_path = artifact)
 ```
 
-<div id="navigate-lineage-graphs">
-  ## 계보 그래프 탐색
-</div>
-
-지정한 아티팩트 또는 job 유형이 이름 앞에 표시되며, 아티팩트는 파란 아이콘으로, run은 초록색 아이콘으로 표시됩니다. 그래프의 화살표는 run 또는 아티팩트의 입력과 출력을 나타냅니다.
-
-<Frame>
-  <img src="/images/artifacts/lineage2.png" alt="Run 및 아티팩트 노드" />
-</Frame>
-
-<Note>
-  왼쪽 사이드바와 **Lineage** 탭 모두에서 아티팩트의 유형과 이름을 확인할 수 있습니다.
-</Note>
-
-더 자세한 보기를 원하시면, 특정 Artifact 나 run 을 클릭하여 해당 오브젝트에 대한 상세 정보를 확인하세요.
-
-<Frame>
-  <img src="/images/artifacts/lineage3a.gif" alt="Run 미리보기" />
-</Frame>
-
 <div id="artifact-clusters">
   ## 아티팩트 클러스터
 </div>
@@ -101,18 +140,3 @@ with wandb.init(entity="<entity>", project="<project>") as run:
 <Frame>
   <img src="/images/artifacts/lineage3b.gif" alt="run 클러스터에서 검색하기" />
 </Frame>
-
-<div id="navigate-an-artifact-graph-programmatically">
-  ## 프로그래밍 방식으로 아티팩트 그래프 탐색하기
-</div>
-
-W&amp;B Python SDK를 사용하여 그래프를 프로그래밍 방식으로 탐색합니다. 아티팩트 객체의 [`logged_by()`](/ko/models/ref/python/experiments/artifact#method-artifact-logged-by) 및 [`used_by()`](/ko/models/ref/python/experiments/artifact#method-artifact-used-by) 메서드를 사용해 그래프를 순회하세요:
-
-```python
-with wandb.init() as run:
-    artifact = run.use_artifact("artifact_name:latest")
-
-    # 아티팩트에서 그래프를 위아래로 탐색합니다:
-    producer_run = artifact.logged_by()
-    consumer_runs = artifact.used_by()
-```

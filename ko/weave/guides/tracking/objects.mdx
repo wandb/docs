@@ -35,8 +35,7 @@ Weave의 직렬화 레이어는 객체를 저장하고 버전을 관리합니다
   <Tab title="Python">
     ```python lines
     import weave
-    # 프로젝트 'intro-example'에 대한 추적을 초기화합니다
-    weave.init('intro-example')
+    weave.init("your-team-name/your-project-name")
     # 리스트를 저장하면서 이름을 'cat-names'로 지정합니다
     weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
     ```
@@ -48,8 +47,7 @@ Weave의 직렬화 레이어는 객체를 저장하고 버전을 관리합니다
     ```typescript lines
     import * as weave from 'weave'
 
-    // 프로젝트 'intro-example'에 대한 추적을 초기화합니다
-    const client = await weave.init('intro-example')
+    const client = await weave.init("your-team-name/your-project-name")
 
     // 배열을 저장하면서 이름을 'cat-names'로 지정합니다
     client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
@@ -70,7 +68,7 @@ Weave의 직렬화 레이어는 객체를 저장하고 버전을 관리합니다
     Ref를 생성한 다음, 해당 Ref에서 객체를 다시 가져올 수 있습니다.
 
     ```python lines
-    weave.init('intro-example')
+    weave.init("your-team-name/your-project-name")
     cat_names = weave.ref('cat-names').get()
     ```
   </Tab>
@@ -91,7 +89,7 @@ Weave의 직렬화 레이어는 객체를 저장하고 버전을 관리합니다
     객체 버전을 삭제하려면 객체 ref에서 `.delete()`를 호출하세요.
 
     ```python lines
-    weave.init('intro-example')
+    weave.init("your-team-name/your-project-name")
     cat_names_ref = weave.ref('cat-names:v1')
     cat_names_ref.delete()
     ```
@@ -106,23 +104,23 @@ Weave의 직렬화 레이어는 객체를 저장하고 버전을 관리합니다
   </Tab>
 </Tabs>
 
-<div id="ref-styles">
-  ## Ref 스타일
+<div id="constructing-object-refs">
+  ## 객체 ref 구성하기
 </div>
 
-완전 한정 Weave 객체 ref URI는 다음과 같습니다:
+Weave에서 완전 수식된 객체 ref URI는 다음과 같습니다:
 
-```
-weave://<entity>/<project>/object/<object_name>:<object_version>
+```text
+weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
 ```
 
-* *entity*: wandb 엔티티(사용자 이름 또는 팀)
-* *project*: wandb 프로젝트
+* *your-team-name*: W&amp;B entity(사용자 이름 또는 팀 이름)
+* *your-project-name*: W&amp;B 프로젝트
 * *object&#95;name*: 객체 이름
-* *object&#95;version*: 버전 해시, v0, v1...과 같은 문자열, 또는 &quot;:latest&quot;와 같은 별칭 중 하나입니다. 모든 객체에는 &quot;:latest&quot; 별칭이 있습니다.
+* *object&#95;version*: 버전 해시, `v0` 또는 `v1` 같은 문자열, 또는 `:latest` 같은 별칭입니다. 모든 객체에는 `:latest` 별칭이 있습니다.
 
-Ref는 몇 가지 다른 방식으로 작성할 수 있습니다.
+몇 가지 다른 방식으로 ref를 구성할 수 있습니다:
 
-* `weave.ref(<name>)`: `weave.init(<project>)`이(가) 먼저 호출되어 있어야 합니다. &quot;:latest&quot; 버전을 가리킵니다.
-* `weave.ref(<name>:<version>)`: `weave.init(<project>)`이(가) 먼저 호출되어 있어야 합니다.
-* `weave.ref(<fully_qualified_ref_uri>)`: `weave.init`을 호출하지 않고도 작성할 수 있습니다.
+* `weave.ref(<name>)`: 객체의 `:latest` 버전을 가져옵니다. `weave.init(...)`를 호출해야 합니다.
+* `weave.ref(<name>:<version>)`:  객체의 지정된 버전을 가져옵니다. `weave.init(...)`를 호출해야 합니다.
+* `weave.ref(<fully_qualified_ref_uri>)`: 지정된 전체 객체 ref URI에 있는 객체를 가져옵니다. `weave.init(...)`를 호출할 필요가 없습니다.

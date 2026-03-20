@@ -1,5 +1,6 @@
 ---
 title: OIDC で SSO を設定する
+description: "Okta、Azure AD、AWS Cognito などのアイデンティティプロバイダーで OpenID Connect を使用して、W&B インスタンスの SSO を設定します。"
 ---
 
 W&amp;B による OpenID Connect (OIDC) 互換のアイデンティティプロバイダーのサポートにより、Okta、Keycloak、Auth0、Google、Entra などの外部アイデンティティプロバイダーを通じて、ユーザー ID とグループメンバーシップを管理できます。
@@ -238,9 +239,9 @@ W&amp;B のコンテキストでは、アクセストークンはユーザーに
 SSO を設定するには、管理者権限と次の情報が必要です。
 
 * OIDC Client ID
-* OIDC Auth method (`implicit` または `pkce`) 
+* OIDC Auth method (`implicit` または `pkce`)
 * OIDC Issuer URL
-* OIDC Client Secret (任意。IdP の設定方法に依存) 
+* OIDC Client Secret (任意。IdP の設定方法に依存)
 
 IdP が OIDC Client Secret を要求する場合は、[environment variables](/ja/platform/hosting/env-vars) の `GORILLA_OIDC_SECRET` を指定します。
 
@@ -282,7 +283,7 @@ IdP が OIDC Client Secret を要求する場合は、[environment variables](/j
   </Tab>
 
   <Tab title="System settings">
-    1. Weights &amp; Biases インスタンスにサインインします。
+    1. Weights &amp; Biases インスタンスにログインします。
 
     2. W&amp;B App に移動します。
 

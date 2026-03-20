@@ -1,5 +1,5 @@
 ---
-description: W&B에 테이블을 로깅합니다.
+description: "실험 run의 구조화된 데이터를 시각화하고 쿼리할 수 있도록 W&B Tables를 생성하고, 채우고, 로깅합니다."
 title: 테이블 로깅
 ---
 
@@ -124,10 +124,10 @@ with wandb.init(project="my_project") as run:
   ## 데이터 가져오기
 </div>
 
-데이터가 Table 안에 들어가면 열 또는 행 단위로 접근할 수 있습니다:
+데이터가 테이블에 들어가면 열 또는 행 단위로 액세스할 수 있습니다:
 
-1. **Row Iterator**: 사용자는 `for ndx, row in table.iterrows(): ...` 와 같이 Table의 row iterator를 사용해 데이터의 각 행을 효율적으로 순회할 수 있습니다.
-2. **열 가져오기 (Get a Column)**: 사용자는 `table.get_column("col_name")` 을 사용해 특정 열의 데이터를 가져올 수 있습니다. 편의상 `convert_to="numpy"` 를 전달하여 해당 열을 NumPy 기본 자료형 NDArray로 변환할 수 있습니다. 이는 열에 `wandb.Image` 와 같은 미디어 타입이 들어 있어 그 내부 데이터를 직접 액세스해야 할 때 유용합니다.
+1. **Row Iterator**: `for ndx, row in table.iterrows(): ...` 와 같이 테이블의 row iterator를 사용해 데이터의 각 행을 효율적으로 순회합니다.
+2. **Get a Column**: `table.get_column("col_name")` 을 사용해 특정 열의 데이터를 가져옵니다. 편의상 `convert_to="numpy"` 를 전달하여 해당 열을 NumPy 기본 자료형 NDArray로 변환할 수 있습니다. 이는 열에 `wandb.Image` 와 같은 미디어 타입이 들어 있어 기본 데이터에 직접 액세스해야 할 때 유용합니다.
 
 <div id="save-tables">
   ## 테이블 저장

@@ -1,12 +1,13 @@
 ---
 title: "Feedback Prod"
-description: "W&B Weave で feedback prod を使用する方法を学びます"
+description: "W&B Weave のフィードバック追跡機能を使用して、本番環境で LLM の出力に対するユーザーフィードバックを収集して分析します。"
 ---
 
 <Note>
-これはインタラクティブなノートブックです。ローカルで実行するか、次のリンクを使用してください：
-- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
-- [GitHub 上のソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
+  これはインタラクティブなノートブックです。ローカルで実行するか、次のリンクを使用してください：
+
+  * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
+  * [GitHub 上のソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
 </Note>
 
 ## 
@@ -150,7 +151,7 @@ def display_chat_prompt():
                     {"role": "assistant", "content": result["response"]}
                 )
 
-                # フィードバックを特定のレスポンスに紐付けるために weave の呼び出しオブジェクトを保存する
+                # 特定のレスポンスにフィードバックを紐付けるために weave の呼び出しオブジェクトを保存する
                 st.session_state.calls.append(call)
 
                 # 新しいメッセージ用のフィードバックボタンをレンダリングする
@@ -179,10 +180,11 @@ if __name__ == "__main__":
     main()
 ```
 
-`streamlit run chatbot.py` を実行して、このアプリケーションを起動できます。
 
-これで、このアプリケーションと対話し、各応答の後にフィードバックボタンをクリックできます。
-Weave UI にアクセスして、関連付けられたフィードバックを確認してください。
+`streamlit run chatbot.py` でこれを実行できます。
+
+これで、このアプリケーションを操作し、各応答の後にフィードバック ボタンをクリックできます。
+関連付けられたフィードバックを確認するには、Weave UI にアクセスしてください。
 
 <div id="explanation">
   ## 解説
@@ -228,4 +230,4 @@ call.feedback.add_reaction("👍")  # App UI を通じたユーザーの反応
   ## まとめ
 </div>
 
-このチュートリアルでは、Streamlit でチャット UI を構築し、入力と出力を Weave で記録するとともに、ユーザーからのフィードバックを収集するための 👍👎 ボタンも実装しました。
+このチュートリアルでは、入出力を Weave で記録し、ユーザー フィードバックを収集するための 👍👎 ボタンを備えた Streamlit のチャット UI を構築しました。

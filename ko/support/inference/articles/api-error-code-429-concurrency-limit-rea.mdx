@@ -1,0 +1,29 @@
+---
+title: "API 오류 코드 429 - 요청의 동시성 한도에 도달했습니다"
+keywords: ["할당량 및 요청 속도 제한"]
+---
+
+&quot;Concurrency limit reached for requests&quot;라는 메시지가 포함된 429 오류는 W&amp;B Inference API에 동시 요청을 너무 많이 보내고 있음을 의미합니다.
+
+<div id="why-this-happens">
+  ## 이런 현상이 발생하는 이유
+</div>
+
+W&amp;B Inference는 공정한 사용과 서비스 안정성을 보장하기 위해 동시성 한도를 적용합니다. 계정에서 동시에 보내는 요청 수가 허용된 동시성 한도를 초과하면 추가 요청은 429 상태 코드와 함께 거부됩니다.
+
+<div id="what-you-can-do">
+  ## 수행할 수 있는 조치
+</div>
+
+1. **동시 요청 수 줄이기**
+   * 애플리케이션에서 요청 큐잉 또는 스로틀링을 구현하세요
+   * 실패한 요청을 재시도할 때는 지수 백오프를 사용하세요
+
+2. **한도 늘리기**
+   * 플랜의 동시성 한도를 검토하고, 필요하면 업그레이드하세요
+
+자세한 내용은 [사용량 정보 및 한도](/ko/inference/usage-limits/)를 참조하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[할당량 및 요청 속도 제한](/ko/support/inference/tags/quotas-rate-limits)</Badge>

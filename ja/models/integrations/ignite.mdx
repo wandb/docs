@@ -1,12 +1,12 @@
 ---
-description: W&B を PyTorch Ignite と統合する方法。
+description: "W&B を PyTorch Ignite と統合して、トレーニング メトリクス、モデル パラメーター、実験設定を自動的にログする方法。"
 title: PyTorch Ignite
 ---
 
-* この [W&B レポートの例 →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg) で結果の可視化を確認できます
+* この [W&amp;B レポートの例 →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg) で結果の可視化を確認できます
 * この [ホスト済みノートブックの例 →](https://colab.research.google.com/drive/15e-yGOvboTzXU4pe91Jg-Yr7sae3zBOJ#scrollTo=ztVifsYAmnRr) でコードを実際に実行してみてください
 
-Ignite は W&B ハンドラーをサポートしており、トレーニングおよび検証中にメトリクス、モデル / オプティマイザーのパラメーター、勾配を記録できます。モデルのチェックポイントを W&B クラウドに記録するためにも使用できます。このクラスは wandb モジュールのラッパーでもあります。つまり、このラッパーを使って任意の wandb 関数を呼び出すことができます。モデル パラメーターや勾配を保存する方法についての例を参照してください。
+Ignite は W&amp;B ハンドラーをサポートしており、トレーニングおよび検証中にメトリクス、モデル / オプティマイザーのパラメーター、勾配を記録できます。モデルのチェックポイントを W&amp;B クラウドに記録するためにも使用できます。このクラスは wandb モジュールのラッパーでもあります。つまり、このラッパーを使って任意の wandb 関数を呼び出すことができます。モデル パラメーターや勾配を保存する方法についての例を参照してください。
 
 <div id="basic-setup">
   ## 基本的なセットアップ

@@ -1,18 +1,19 @@
 ---
 title: Keras
+description: "W&B Keras コールバックを使用して、実験を管理し、モデルのチェックポイントをログし、トレーニング中の予測を可視化します。"
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 {/* <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases_keras.ipynb" /> */}
 
-Keras のコールバックを使って実験を管理し、モデルのチェックポイントを記録し、モデル予測を可視化します。Keras のコールバックは、Python SDK バージョン `0.13.4` 以上で `wandb.integration.keras` モジュールとして利用できます。
+Keras のコールバックを使用して実験を管理し、モデルのチェックポイントをログし、モデル予測を可視化します。Keras のコールバックは、Pyhon SDK バージョン `0.13.4` 以上で `wandb.integration.keras` モジュールから利用できます。
 
-W&amp;B Keras インテグレーションは、以下のコールバックを提供します。
+W&amp;B Keras インテグレーションは、以下のコールバックを提供します:
 
-* **`WandbMetricsLogger`** : このコールバックは [Experiment Tracking](/ja/models/track/) に使用します。トレーニングおよび検証のメトリクスとシステムメトリクスを W&amp;B に記録します。
-* **`WandbModelCheckpoint`** : このコールバックは、モデルのチェックポイントを W&amp;B [Artifacts](/ja/models/artifacts/) に記録するために使用します。
-* **`WandbEvalCallback`**: このベースとなるコールバックは、インタラクティブに可視化するためにモデル予測を W&amp;B [Tables](/ja/models/tables/) に記録します。
+* **`WandbMetricsLogger`** : このコールバックは [Experiment Tracking](/ja/models/track/) に使用します。トレーニングおよび検証のメトリクスとシステムメトリクスを W&amp;B にログします。
+* **`WandbModelCheckpoint`** : このコールバックは、モデルのチェックポイントを W&amp;B [Artifacts](/ja/models/artifacts/) にログするために使用します。
+* **`WandbEvalCallback`**: このベースコールバックは、インタラクティブに可視化するためにモデル予測を W&amp;B [Tables](/ja/models/tables/) にログします。
 
 <div id="install-and-import-keras-integration">
   ## Keras インテグレーションをインストールしてインポートする
@@ -80,7 +81,7 @@ with wandb.init(config={"batch_size": 64}) as run:
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/keras/Use_WandbModelCheckpoint_in_your_Keras_workflow.ipynb" />
 
-`WandbModelCheckpoint` コールバックを使用して、Keras モデル（`SavedModel` 形式）または モデル の重みを定期的に保存し、 モデル バージョニングのためにそれらを `wandb.Artifact` として W&amp;B にアップロードします。
+`WandbModelCheckpoint` コールバックを使用して、Keras モデル (`SavedModel` 形式) または モデル の重みを定期的に保存し、 モデル バージョニングのためにそれらを `wandb.Artifact` として W&amp;B にアップロードします。
 
 このコールバックは [`tf.keras.callbacks.ModelCheckpoint()`](https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint) を継承しており、チェックポイント処理のロジックは親コールバック側で行われます。
 
@@ -133,7 +134,7 @@ with wandb.init(config={"bs": 12}) as run:
   ### N エポックごとにチェックポイントをログする
 </div>
 
-デフォルトでは（`save_freq="epoch"`）、コールバックは各エポック終了後にチェックポイントを作成し、それを Artifacts としてアップロードします。特定のバッチ数ごとにチェックポイントを作成するには、`save_freq` に整数を指定します。`N` エポックごとにチェックポイントを作成するには、`train` データローダーの要素数を計算し、それを `save_freq` に渡します。
+デフォルトでは (`save_freq="epoch"`) 、コールバックは各エポック終了後にチェックポイントを作成し、それを Artifacts としてアップロードします。特定のバッチ数ごとにチェックポイントを作成するには、`save_freq` に整数を指定します。`N` エポックごとにチェックポイントを作成するには、`train` データローダーの要素数を計算し、それを `save_freq` に渡します。
 
 ```python
 WandbModelCheckpoint(
@@ -146,7 +147,7 @@ WandbModelCheckpoint(
   ### TPU アーキテクチャ上でチェックポイントを効率的に記録する
 </div>
 
-TPU 上でチェックポイントを行う際に、`UnimplementedError: File system scheme '[local]' not implemented` というエラーメッセージが発生する場合があります。これは、モデルディレクトリ（`filepath`）としてクラウドストレージバケットのパス（`gs://bucket-name/...`）を使用する必要があり、そのバケットが TPU サーバーからアクセス可能でなければならないためです。これに対して、W&amp;B はチェックポイントにローカルパスを使用し、そのローカルパスが Artifacts としてアップロードされます。
+TPU 上でチェックポイントを行う際に、`UnimplementedError: File system scheme '[local]' not implemented` というエラーメッセージが発生する場合があります。これは、モデルディレクトリ (`filepath`) としてクラウドストレージバケットのパス (`gs://bucket-name/...`) を使用する必要があり、そのバケットが TPU サーバーからアクセス可能でなければならないためです。これに対して、W&amp;B はチェックポイントにローカルパスを使用し、そのローカルパスが Artifacts としてアップロードされます。
 
 ```python
 checkpoint_options = tf.saved_model.SaveOptions(experimental_io_device="/job:localhost")
@@ -174,7 +175,7 @@ WandbModelCheckpoint(
 * `on_train_begin` でデータテーブルをログする。
 * `on_epoch_end` で予測テーブルをログする。
 
-次の例では、画像分類タスクに `WandbClfEvalCallback` を使用します。このコールバックの例では、検証データ（`data_table`）を W&amp;B にログし、推論を実行して、各エポックの最後に予測（`pred_table`）を W&amp;B にログします。
+次の例では、画像分類タスクに `WandbClfEvalCallback` を使用します。このコールバックの例では、検証データ (`data_table`) を W&amp;B にログし、推論を実行して、各エポックの最後に予測 (`pred_table`) を W&amp;B にログします。
 
 ```python
 import wandb
@@ -306,22 +307,22 @@ with wandb.init(config={"hyper": "parameter"}) as run:
 | `monitor`                  | (str) 監視対象とするメトリクス名。デフォルトは `val_loss`。                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `mode`                     | (str) `{`auto`, `min`, `max`}` のいずれか。 `min` - 監視対象が最小になったときにモデルを保存 `max` - 監視対象が最大になったときにモデルを保存 `auto` - モデルをいつ保存するかを自動的に推定する (デフォルト)。                                                                                                                                                                                                                                                                                                    |
 | `save_model`               | True - monitor の値がこれまでのすべてのエポックを上回ったときにモデルを保存する / False - モデルを保存しない                                                                                                                                                                                                                                                                                                                                                                       |
-| `save_graph`               | （boolean）True の場合、モデルグラフを wandb に保存する（デフォルトは True）。                                                                                                                                                                                                                                                                                                                                                                                       |
+| `save_graph`               |  (boolean) True の場合、モデルグラフを wandb に保存する (デフォルトは True) 。                                                                                                                                                                                                                                                                                                                                                                                       |
 | `save_weights_only`        | (boolean) True の場合、`model.save_weights(filepath)` を用いてモデルの重みのみを保存します。False の場合は、モデル全体を保存します)。                                                                                                                                                                                                                                                                                                                                             |
-| `log_weights`              | （boolean）True の場合、モデルの各レイヤーの重みのヒストグラムを保存する。                                                                                                                                                                                                                                                                                                                                                                                               |
-| `log_gradients`            | （boolean）True の場合、トレーニング中の勾配のヒストグラムをログに記録する。                                                                                                                                                                                                                                                                                                                                                                                              |
+| `log_weights`              |  (boolean) True の場合、モデルの各レイヤーの重みのヒストグラムを保存する。                                                                                                                                                                                                                                                                                                                                                                                               |
+| `log_gradients`            |  (boolean) True の場合、トレーニング中の勾配のヒストグラムをログに記録する。                                                                                                                                                                                                                                                                                                                                                                                              |
 | `training_data`            | (tuple) `model.fit` に渡される `(X,y)` と同じ形式のタプル。勾配を計算するために使用され、`log_gradients` が `True` の場合は必須です。                                                                                                                                                                                                                                                                                                                                             |
 | `validation_data`          | (tuple) `model.fit` に渡されるものと同じ形式の `(X,y)`。wandb が可視化するためのデータセットです。このフィールドを設定すると、各エポックごとに wandb が少数の予測を実行し、その結果を後で可視化できるように保存します。                                                                                                                                                                                                                                                                                                          |
 | `generator`                | (generator) wandb で可視化するための検証データを返す generator。 この generator は `(X,y)` のタプルを返す必要があります。`validate_data` か generator のいずれか一方を設定して、wandb が特定のデータ例を可視化できるようにします。                                                                                                                                                                                                                                                                                |
 | `validation_steps`         | (int) `validation_data` が generator の場合、検証セット全体を処理するために generator を何ステップ実行するか。                                                                                                                                                                                                                                                                                                                                                            |
 | `labels`                   | (list) 多クラス分類器を構築していて、データを wandb で可視化する場合、このラベルのリストを使うと数値出力をわかりやすい文字列に変換できます。二値分類器の場合は、2 つのラベル [`label for false`, `label for true`] を要素に持つリストを渡すことができます。`validate_data` と `generator` がどちらも false の場合、この引数は何も行いません。                                                                                                                                                                                                                      |
-| `predictions`              | （int）可視化のために各エポックで生成する予測の数。最大値は 100。                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `predictions`              |  (int) 可視化のために各エポックで生成する予測の数。最大値は 100。                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `input_type`               | (string) 可視化用の モデル 入力の型。次のいずれかを指定します: (`image`, `images`, `segmentation_mask`)。                                                                                                                                                                                                                                                                                                                                                           |
 | `output_type`              | (string) モデル出力の種類で、可視化に役立ちます。次のいずれかを指定できます: (`image`, `images`, `segmentation_mask`)。                                                                                                                                                                                                                                                                                                                                                     |
 | `log_evaluation`           | (boolean) True の場合、検証データと モデル の予測結果を各エポックごとに含む Table を保存します。詳細については `validation_indexes`、`validation_row_processor`、`output_row_processor` を参照してください。                                                                                                                                                                                                                                                                                     |
-| `class_colors`             | （[float, float, float]）入力または出力がセグメンテーション マスクの場合、各クラスに対する RGB タプル（範囲 0–1）を含む配列。                                                                                                                                                                                                                                                                                                                                                            |
+| `class_colors`             |  ([float, float, float]) 入力または出力がセグメンテーション マスクの場合、各クラスに対する RGB タプル (範囲 0–1) を含む配列。                                                                                                                                                                                                                                                                                                                                                            |
 | `log_batch_frequency`      | (integer) None の場合、コールバックは各エポックでログを記録します。整数値が設定されている場合、コールバックは `log_batch_frequency` バッチごとにトレーニング メトリクスをログします。                                                                                                                                                                                                                                                                                                                            |
-| `log_best_prefix`          | （string）None の場合、追加のサマリー メトリクスは記録しない。文字列を指定した場合、その接頭辞を付けた監視対象メトリクスとエポックの値を記録し、その結果をサマリー メトリクスとして保存する。                                                                                                                                                                                                                                                                                                                                     |
+| `log_best_prefix`          |  (string) None の場合、追加のサマリー メトリクスは記録しない。文字列を指定した場合、その接頭辞を付けた監視対象メトリクスとエポックの値を記録し、その結果をサマリー メトリクスとして保存する。                                                                                                                                                                                                                                                                                                                                     |
 | `validation_indexes`       | ([wandb.data&#95;types.&#95;TableLinkMixin]) 各検証サンプルに対応付けるインデックスキーの順序付きリスト。`log_evaluation` が True で `validation_indexes` を指定した場合は、検証データの Table は作成されません。代わりに、各予測を `TableLinkMixin` によって表される行に関連付けます。行キーの一覧を取得するには `Table.get_index() ` を使用します。                                                                                                                                                                                           |
 | `validation_row_processor` | (Callable) 検証データに適用する関数で、主にデータの可視化に使用します。関数は `ndx` (int) と `row` (dict) を受け取ります。モデルに単一の入力しかない場合、`row["input"]` にはその行の入力データが含まれます。そうでない場合は、入力スロットの名前が含まれます。`fit` 関数が単一のターゲットを取る場合、`row["target"]` にはその行のターゲットデータが含まれます。そうでない場合は、出力スロットの名前が含まれます。例えば、入力データが単一の配列であり、そのデータを Image として可視化したい場合、プロセッサとして `lambda ndx, row: {"img": wandb.Image(row["input"])}` を指定します。`log_evaluation` が False の場合、または `validation_indexes` が指定されている場合は無視されます。 |
 | `output_row_processor`     | (Callable) `validation_row_processor` と同様ですが、モデルの出力に対して適用されます。`row["output"]` にはモデルの出力結果が含まれます。                                                                                                                                                                                                                                                                                                                                           |

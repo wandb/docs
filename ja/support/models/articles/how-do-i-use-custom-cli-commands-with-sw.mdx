@@ -1,0 +1,62 @@
+---
+title: "sweep でカスタム CLI コマンドを使用するにはどうすればよいですか？"
+keywords: ["Sweeps"]
+---
+
+トレーニングの設定でコマンドライン引数を渡せる場合、カスタム CLI コマンドで W&amp;B Sweeps を使用できます。
+
+以下の例では、コード スニペットに bash ターミナルでユーザーが `train.py` という Python スクリプトを実行し、スクリプトが解析する値を渡してトレーニングする様子を示しています。
+
+```bash
+/usr/bin/env python train.py -b \
+    your-training-config \
+    --batchsize 8 \
+    --lr 0.00001
+```
+
+カスタムコマンドを実装するには、YAML ファイルの `command` キーを変更します。前の例をもとにすると、設定は次のようになります。
+
+```yaml
+program:
+  train.py
+method: grid
+parameters:
+  batch_size:
+    value: 8
+  lr:
+    value: 0.0001
+command:
+  - ${env}
+  - python
+  - ${program}
+  - "-b"
+  - your-training-config
+  - ${args}
+```
+
+The `${args}` キーは、sweep 設定内のすべてのパラメーターを `argparse` 用に `--param1 value1 --param2 value2` の形式で展開します。
+
+`argparse` 以外の追加引数については、以下を実装します。
+
+```python
+parser = argparse.ArgumentParser()
+args, unknown = parser.parse_known_args()
+```
+
+<Note>
+  環境によっては、`python` が Python 2 を指す場合があります。Python 3 を確実に呼び出せるようにするには、コマンドの設定で `python3` を使用してください。
+
+  ```yaml
+  program:
+    script.py
+  command:
+    - ${env}
+    - python3
+    - ${program}
+    - ${args}
+  ```
+</Note>
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>

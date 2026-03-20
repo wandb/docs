@@ -7,10 +7,17 @@ description: "Weave 기능에 프로그래밍 방식으로 액세스할 수 있�
   ## 기본 URL
 </div>
 
+[W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 및 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)의 경우 다음 기본 URL을 사용하세요:
+
 ```
 https://trace.wandb.ai
 ```
 
+[W&amp;B 자체 관리형 인스턴스](/ko/weave/guides/platform/weave-self-managed)에서는 다음을 사용하세요:
+
+```
+https://<your-subdomain>.wandb.io/traces
+```
 
 <div id="authentication">
   ## 인증
@@ -22,7 +29,6 @@ https://trace.wandb.ai
 curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
 ```
 
-
 <div id="available-endpoints">
   ## 사용 가능한 엔드포인트
 </div>
@@ -31,86 +37,86 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
   ### 호출
 </div>
 
-- **[POST /call/end](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - 호출 종료
-- **[POST /call/read](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - 호출 조회
-- **[POST /call/start](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - 호출 시작
-- **[POST /call/update](https://docs.wandb.ai/weave/reference/service-api/calls/call-update)** - 호출 업데이트
-- **[POST /call/upsert_batch](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch)** - 호출 일괄 시작
-- **[POST /calls/delete](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete)** - 호출 삭제
-- **[POST /calls/query_stats](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stats)** - 호출 통계 쿼리
-- **[POST /calls/stream_query](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream)** - 호출 스트림 쿼리
+* **[POST /call/end](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - 호출 종료
+* **[POST /call/read](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - 호출 조회
+* **[POST /call/start](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - 호출 시작
+* **[POST /call/update](https://docs.wandb.ai/weave/reference/service-api/calls/call-update)** - 호출 업데이트
+* **[POST /call/upsert&#95;batch](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch)** - 호출 일괄 시작
+* **[POST /calls/delete](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete)** - 호출 삭제
+* **[POST /calls/query&#95;stats](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stats)** - 호출 통계 쿼리
+* **[POST /calls/stream&#95;query](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream)** - 호출 스트림 쿼리
 
 <div id="costs">
   ### 비용
 </div>
 
-- **[POST /cost/create](https://docs.wandb.ai/weave/reference/service-api/costs/cost-create)** - 비용 생성
-- **[POST /cost/purge](https://docs.wandb.ai/weave/reference/service-api/costs/cost-purge)** - 비용 삭제
-- **[POST /cost/query](https://docs.wandb.ai/weave/reference/service-api/costs/cost-query)** - 비용 조회
+* **[POST /cost/create](https://docs.wandb.ai/weave/reference/service-api/costs/cost-create)** - 비용 생성
+* **[POST /cost/purge](https://docs.wandb.ai/weave/reference/service-api/costs/cost-purge)** - 비용 삭제
+* **[POST /cost/query](https://docs.wandb.ai/weave/reference/service-api/costs/cost-query)** - 비용 조회
 
 <div id="feedback">
   ### 피드백
 </div>
 
-- **[POST /feedback/create](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create)** - 피드백 생성
-- **[POST /feedback/purge](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-purge)** - 피드백 완전 삭제
-- **[POST /feedback/query](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-query)** - 피드백 조회
-- **[POST /feedback/replace](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-replace)** - 피드백 대체
+* **[POST /feedback/create](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create)** - 피드백 생성
+* **[POST /feedback/purge](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-purge)** - 피드백 완전 삭제
+* **[POST /feedback/query](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-query)** - 피드백 조회
+* **[POST /feedback/replace](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-replace)** - 피드백 대체
 
 <div id="files">
   ### Files
 </div>
 
-- **[POST /file/content](https://docs.wandb.ai/weave/reference/service-api/files/file-content)** - 파일 내용
-- **[POST /file/create](https://docs.wandb.ai/weave/reference/service-api/files/file-create)** - 파일 생성
+* **[POST /file/content](https://docs.wandb.ai/weave/reference/service-api/files/file-content)** - 파일 내용
+* **[POST /file/create](https://docs.wandb.ai/weave/reference/service-api/files/file-create)** - 파일 생성
 
 <div id="objects">
   ### Objects
 </div>
 
-- **[POST /obj/create](https://docs.wandb.ai/weave/reference/service-api/objects/obj-create)** - Obj 생성
-- **[POST /obj/delete](https://docs.wandb.ai/weave/reference/service-api/objects/obj-delete)** - Obj 삭제
-- **[POST /obj/read](https://docs.wandb.ai/weave/reference/service-api/objects/obj-read)** - Obj 읽기
-- **[POST /objs/query](https://docs.wandb.ai/weave/reference/service-api/objects/objs-query)** - Objs 조회
+* **[POST /obj/create](https://docs.wandb.ai/weave/reference/service-api/objects/obj-create)** - Obj 생성
+* **[POST /obj/delete](https://docs.wandb.ai/weave/reference/service-api/objects/obj-delete)** - Obj 삭제
+* **[POST /obj/read](https://docs.wandb.ai/weave/reference/service-api/objects/obj-read)** - Obj 읽기
+* **[POST /objs/query](https://docs.wandb.ai/weave/reference/service-api/objects/objs-query)** - Objs 조회
 
 <div id="opentelemetry">
   ### OpenTelemetry
 </div>
 
-- **[POST /otel/v1/trace](https://docs.wandb.ai/weave/reference/service-api/opentelemetry/export-trace)** - 트레이스 내보내기
+* **[POST /otel/v1/trace](https://docs.wandb.ai/weave/reference/service-api/opentelemetry/export-trace)** - 트레이스 내보내기
 
 <div id="refs">
   ### Refs
 </div>
 
-- **[POST /refs/read_batch](https://docs.wandb.ai/weave/reference/service-api/refs/refs-read-batch)** - Refs 일괄 읽기
+* **[POST /refs/read&#95;batch](https://docs.wandb.ai/weave/reference/service-api/refs/refs-read-batch)** - Refs 일괄 읽기
 
 <div id="service">
   ### 서비스
 </div>
 
-- **[GET /health](https://docs.wandb.ai/weave/reference/service-api/service/read-root)** - 루트 조회
-- **[GET /server_info](https://docs.wandb.ai/weave/reference/service-api/service/server-info)** - 서버 정보
+* **[GET /health](https://docs.wandb.ai/weave/reference/service-api/service/read-root)** - 루트 조회
+* **[GET /server&#95;info](https://docs.wandb.ai/weave/reference/service-api/service/server-info)** - 서버 정보
 
 <div id="tables">
   ### 테이블
 </div>
 
-- **[POST /table/create](https://docs.wandb.ai/weave/reference/service-api/tables/table-create)** - 테이블 생성
-- **[POST /table/query](https://docs.wandb.ai/weave/reference/service-api/tables/table-query)** - 테이블 쿼리
-- **[POST /table/query_stats](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats)** - 테이블 쿼리 통계
-- **[POST /table/update](https://docs.wandb.ai/weave/reference/service-api/tables/table-update)** - 테이블 업데이트
-- **[POST /table/query_stream](https://docs.wandb.ai/weave/reference/service-api/table-query-stream)** - 테이블 쿼리 스트림
+* **[POST /table/create](https://docs.wandb.ai/weave/reference/service-api/tables/table-create)** - 테이블 생성
+* **[POST /table/query](https://docs.wandb.ai/weave/reference/service-api/tables/table-query)** - 테이블 쿼리
+* **[POST /table/query&#95;stats](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats)** - 테이블 쿼리 통계
+* **[POST /table/update](https://docs.wandb.ai/weave/reference/service-api/tables/table-update)** - 테이블 업데이트
+* **[POST /table/query&#95;stream](https://docs.wandb.ai/weave/reference/service-api/table-query-stream)** - 테이블 쿼리 스트림
 
 <div id="threads">
   ### 스레드
 </div>
 
-- **[POST /threads/stream_query](https://docs.wandb.ai/weave/reference/service-api/threads/threads-query-stream)** - Threads 쿼리 스트림
+* **[POST /threads/stream&#95;query](https://docs.wandb.ai/weave/reference/service-api/threads/threads-query-stream)** - Threads 쿼리 스트림
 
 <div id="completions">
   ### 완성(Completions)
 </div>
 
-- **[POST /completions/create](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create)** - Completions 생성
-- **[POST /completions/create_stream](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create-stream)** - 스트리밍 Completions 생성
+* **[POST /completions/create](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create)** - Completions 생성
+* **[POST /completions/create&#95;stream](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create-stream)** - 스트리밍 Completions 생성

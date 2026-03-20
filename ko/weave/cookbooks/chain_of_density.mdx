@@ -1,12 +1,13 @@
 ---
 title: "Chain Of Density"
-description: "W&B Weave에서 Chain of Density를 사용하는 방법을 알아보세요"
+description: "반복적인 텍스트 압축 및 평가를 위해 W&B Weave를 사용해 chain-of-density 요약 기법을 구현합니다."
 ---
 
 <Note>
-이 노트북은 인터랙티브 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
-- [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/chain_of_density.ipynb)
-- [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/chain_of_density.ipynb)
+  이 노트북은 인터랙티브 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+
+  * [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/chain_of_density.ipynb)
+  * [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/chain_of_density.ipynb)
 </Note>
 
 <div id="summarization-using-chain-of-density">
@@ -89,7 +90,7 @@ anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
   ## ArxivPaper 모델 정의
 </div>
 
-데이터를 표현하기 위한 간단한 `ArxivPaper` 클래스를 정의하겠습니다:
+데이터를 표현하기 위해 간단한 `ArxivPaper` 클래스를 만들겠습니다:
 
 ```python lines
 # ArxivPaper 모델 정의
@@ -108,19 +109,20 @@ arxiv_paper = ArxivPaper(
     updated=datetime(2024, 6, 7, 8, 43, 7, tzinfo=timezone.utc),
     published=datetime(2024, 6, 7, 8, 43, 7, tzinfo=timezone.utc),
     title="CRAG -- Comprehensive RAG Benchmark",
-    authors=["Xiao Yang", "Kai Sun", "Hao Xin"],  # 간결성을 위해 생략
+    authors=["Xiao Yang", "Kai Sun", "Hao Xin"],  # 간략화를 위해 생략
     summary="Retrieval-Augmented Generation (RAG) has recently emerged as a promising solution...",  # 생략
     pdf_url="https://arxiv.org/pdf/2406.04744",
 )
 ```
 
-이 클래스는 ArXiv 논문의 메타데이터와 내용을 담고 있으며, 요약 파이프라인의 입력으로 사용됩니다.
+이 클래스는 요약 파이프라인의 입력으로 사용될 ArXiv 논문의 메타데이터와 본문을 캡슐화합니다.
+
 
 <div id="load-pdf-content">
   ## PDF 콘텐츠 불러오기
 </div>
 
-전체 논문 내용을 다루기 위해 PDF에서 텍스트를 로드하고 추출하는 함수를 추가하겠습니다:
+전체 논문 내용을 다루기 위해 PDF에서 텍스트를 불러오고 추출하는 함수를 추가합니다:
 
 ```python lines
 @weave.op()
@@ -140,14 +142,15 @@ def load_pdf(pdf_url: str) -> str:
     return text
 ```
 
+
 <div id="implement-chain-of-density-summarization">
   ## Chain of Density 요약 구현
 </div>
 
-이제 Weave 연산을 사용하여 핵심 CoD 요약 로직을 구현해 보겠습니다:
+이제 Weave 연산을 사용해 CoD 요약의 핵심 로직을 구현해 보겠습니다:
 
 <Frame>
-  ![Chain of Density 요약 파이프라인 실행을 보여주는 Weave trace 시각화](/media/summarization/summarization_trace.png)
+  ![Chain of Density 요약 파이프라인 실행을 보여주는 Weave 트레이스 시각화](/media/summarization/summarization_trace.png)
 </Frame>
 
 ```python lines
@@ -225,22 +228,23 @@ def chain_of_density_summarization(
     }
 ```
 
-각 함수가 하는 일은 다음과 같습니다:
+각 함수는 다음과 같은 역할을 합니다:
 
-* `summarize_current_summary`: 현재 상태를 기반으로 한 번의 요약 단계를 생성합니다.
-* `iterative_density_summarization`: `summarize_current_summary`를 여러 번 호출하여 CoD 기법을 적용합니다.
-* `chain_of_density_summarization`: 전체 요약 프로세스를 오케스트레이션하고 결과를 반환합니다.
+* `summarize_current_summary`: 현재 상태를 바탕으로 단일 요약 반복을 생성합니다.
+* `iterative_density_summarization`: `summarize_current_summary`를 여러 번 호출해 CoD 기법을 적용합니다.
+* `chain_of_density_summarization`: 전체 요약 과정을 조정하고 결과를 반환합니다.
 
-`@weave.op()` 데코레이터를 사용하면 Weave가 이 함수들의 입력, 출력, 실행을 추적하도록 할 수 있습니다.
+`@weave.op()` 데코레이터를 사용하면 Weave가 이러한 함수의 입력, 출력, 실행 과정을 추적할 수 있습니다.
+
 
 <div id="create-a-weave-model">
-  ## Weave Model 생성
+  ## Weave Model 만들기
 </div>
 
-이제 요약 파이프라인을 Weave Model로 감싸서 만들어 보겠습니다:
+이제 요약 파이프라인을 Weave Model로 감싸 보겠습니다:
 
 <Frame>
-  ![Chain of Density 요약을 위한 Weave Model 설정 인터페이스로, 모델 설정과 파라미터가 표시되어 있음](/media/summarization/model.png)
+  ![모델 설정과 파라미터가 표시된 Chain of Density 요약용 Weave Model 설정 인터페이스](/media/summarization/model.png)
 </Frame>
 
 ```python lines
@@ -261,19 +265,20 @@ class ArxivChainOfDensityPipeline(weave.Model):
         return result
 ```
 
-이 `ArxivChainOfDensityPipeline` 클래스는 요약 로직을 Weave Model로 캡슐화하여 다음과 같은 주요 이점을 제공합니다:
+이 `ArxivChainOfDensityPipeline` 클래스는 요약 로직을 Weave 모델로 캡슐화하여 다음과 같은 주요 이점을 제공합니다:
 
-1. 자동 실험 추적: Weave가 모델의 각 run마다 입력, 출력, 파라미터를 자동으로 캡처합니다.
-2. 버전 관리: 모델의 속성이나 코드에 대한 변경 사항이 자동으로 버전 관리되어, 요약 파이프라인이 시간에 따라 어떻게 발전하는지에 대한 명확한 이력을 생성합니다.
-3. 재현성: 버전 관리와 추적을 통해 이전의 어떤 결과나 요약 파이프라인 설정도 쉽게 재현할 수 있습니다.
-4. 하이퍼파라미터 관리: `model`과 `density_iterations` 같은 모델 속성이 명확하게 정의되고 서로 다른 run 전반에 걸쳐 추적되므로, 실험을 수월하게 진행할 수 있습니다.
-5. Weave 생태계와의 인테그레이션: `weave.Model`을 사용하면 평가 및 서빙 기능과 같은 다른 Weave 도구와 매끄럽게 인테그레이션할 수 있습니다.
+1. 자동 실험 추적: Weave는 모델의 각 run에 대한 입력, 출력, 파라미터를 캡처합니다.
+2. 버전 관리: 모델의 속성이나 코드 변경 사항은 자동으로 버전 관리되며, 이를 통해 요약 파이프라인이 시간에 따라 어떻게 발전하는지에 대한 명확한 이력이 생성됩니다.
+3. 재현성: 버전 관리와 추적을 통해 요약 파이프라인의 이전 결과나 설정을 쉽게 재현할 수 있습니다.
+4. 하이퍼파라미터 관리: `model`, `density_iterations`와 같은 모델 속성이 서로 다른 run 전반에 걸쳐 명확하게 정의되고 추적되므로 실험이 수월해집니다.
+5. Weave 생태계와의 인테그레이션: `weave.Model`을 사용하면 evaluations 및 서빙 기능과 같은 다른 Weave 도구와 원활하게 인테그레이션할 수 있습니다.
+
 
 <div id="implement-evaluation-metrics">
   ## 평가 메트릭 구현
 </div>
 
-요약의 품질을 평가하기 위해 간단한 평가 메트릭을 구현합니다.
+요약의 품질을 평가하기 위해 간단한 평가 메트릭을 구현하겠습니다:
 
 ```python lines
 import json
@@ -325,16 +330,17 @@ def evaluate_summary(
     }
 ```
 
-이러한 평가 함수는 Claude 모델을 사용해 생성된 요약의 관련성, 간결성, 기술적 정확성을 기준으로 품질을 평가합니다.
+이러한 평가 함수는 Claude 모델을 사용해 관련성, 간결성, 기술적 정확성을 기준으로 생성된 요약의 품질을 평가합니다.
+
 
 <div id="create-a-weave-dataset-and-run-evaluation">
-  ## Weave Dataset 생성 및 평가 실행
+  ## Weave Dataset 만들기 및 평가 실행
 </div>
 
-파이프라인을 평가하기 위해 Weave Dataset을 생성하고 평가를 실행합니다.
+파이프라인을 평가하기 위해 Weave Dataset을 만들고 평가를 실행해 보겠습니다.
 
 <Frame>
-  ![데이터셋 선택 및 설정 옵션과 함께 평가용 Weave Dataset 설정 인터페이스](/media/summarization/dataset.png)
+  ![데이터셋 선택 및 설정 옵션이 있는 평가용 Weave Dataset 설정 인터페이스](/media/summarization/dataset.png)
 </Frame>
 
 ```python lines
@@ -352,12 +358,12 @@ dataset = weave.Dataset(
 weave.publish(dataset)
 ```
 
-이번 평가에서는 LLM-as-a-judge 접근 방식을 사용할 것입니다. 이 기법은 한 모델이나 시스템이 생성한 출력물의 품질을 평가하기 위해 다른 언어 모델을 활용하는 방법입니다. 전통적인 메트릭으로는 한계가 있을 수 있는 작업에서 LLM의 이해 및 추론 능력을 활용해 보다 정교한 평가를 제공할 수 있습니다.
+평가에는 LLM-as-a-judge 접근 방식을 사용하겠습니다. 이 기법은 한 언어 모델을 사용해 다른 모델이나 시스템이 생성한 출력의 품질을 평가하는 방식입니다. 특히 기존 메트릭만으로는 충분하지 않을 수 있는 작업에서 LLM의 이해력과 추론 능력을 활용해 더 세밀한 평가를 제공합니다.
 
 [![arXiv](https://img.shields.io/badge/arXiv-2306.05685-b31b1b.svg)](https://arxiv.org/abs/2306.05685)
 
 <Frame>
-  ![Chain of Density 요약 결과, 메트릭, 성능 비교를 포함한 Weave 평가 대시보드](/media/summarization/eval_dash.png)
+  ![Chain of Density 요약 결과, 메트릭, 성능 비교를 보여주는 Weave 평가 대시보드](/media/summarization/eval_dash.png)
 </Frame>
 
 ```python lines
@@ -373,21 +379,22 @@ arxiv_chain_of_density_pipeline = ArxivChainOfDensityPipeline()
 results = await evaluation.evaluate(arxiv_chain_of_density_pipeline)
 ```
 
-이 코드는 예시 ArXiv 논문으로 데이터셋을 생성하고, 품질 스코어러를 정의한 뒤, 요약 파이프라인에 대한 평가를 수행합니다.
+이 코드는 샘플 ArXiv 논문을 사용해 데이터셋을 생성하고, 품질 스코어러를 정의한 다음, 요약 파이프라인을 평가합니다.
+
 
 <div id="conclusion">
   ## 결론
 </div>
 
-이 예제에서는 Weave를 사용해 ArXiv 논문을 위한 Chain of Density 요약 파이프라인을 구현하는 방법을 보여주었습니다. 다음과 같은 내용을 다루었습니다:
+이 예제에서는 Weave를 사용해 ArXiv 논문용 Chain of Density 요약 파이프라인을 구현하는 방법을 보여주었습니다. 다음과 같은 내용을 살펴보았습니다.
 
-1. 요약 과정의 각 단계에 대해 Weave operation을 생성하는 방법
-2. 파이프라인을 Weave Model로 래핑하여 손쉽게 추적 및 평가하는 방법
-3. Weave operation을 사용해 커스텀 평가 메트릭을 구현하는 방법
-4. 데이터셋을 생성하고 파이프라인을 평가하는 방법
+1. 요약 프로세스의 각 단계에 대한 Weave 오퍼레이션 만들기
+2. 손쉽게 추적하고 평가할 수 있도록 파이프라인을 Weave Model로 래핑하기
+3. Weave 오퍼레이션을 사용해 사용자 정의 평가 메트릭 구현하기
+4. 데이터셋을 만들고 파이프라인 평가 실행하기
 
-Weave의 매끄러운 인테그레이션을 통해 요약 과정 전반에 걸쳐 입력, 출력, 중간 단계를 모두 추적할 수 있으므로, LLM 애플리케이션을 디버깅하고 최적화하며 평가하기가 더 쉬워집니다.
-이 예제를 확장해 더 큰 데이터셋을 처리하거나, 더 정교한 평가 메트릭을 구현하거나, 다른 LLM 워크플로우와 인테그레이션할 수 있습니다.
+Weave의 매끄러운 통합을 통해 요약 프로세스 전반의 입력, 출력, 중간 단계를 추적할 수 있으므로 LLM 애플리케이션을 더 쉽게 디버깅하고, 최적화하고, 평가할 수 있습니다.
+이 예제를 확장해 더 큰 데이터셋을 처리하거나, 더 정교한 평가 메트릭을 구현하거나, 다른 LLM 워크플로와 통합할 수 있습니다.
 
 <a 
   href="https://wandb.ai/wandb_fc/arxiv-reader/reports/Building-a-bot-to-summarize-arXiv-papers-as-PDFs-using-Anthrophic-and-W-B-Weave--Vmlldzo4Nzg0ODI4"

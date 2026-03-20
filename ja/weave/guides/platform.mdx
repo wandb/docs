@@ -26,13 +26,13 @@ Weave は、以下のデプロイオプションで利用できます。
   ## データセキュリティ
 </div>
 
-* **SaaS クラウド:** すべての Weave ユーザーのデータは、クラウドネイティブな暗号化を用いて暗号化された共有の Clickhouse Cloud クラスターに保存されます。共有のコンピュートサービスがデータを処理し、W&amp;B の organization、team、project から成るセキュリティコンテキストにより分離を確保します。
+* **SaaS Cloud:** すべての Weave ユーザーのデータは、クラウドネイティブな暗号化を用いて暗号化された共有の Clickhouse Cloud クラスターに保存されます。共有のコンピュートサービスがデータを処理し、W&amp;B の organization、team、project から成るセキュリティコンテキストにより分離を確保します。
 
-* **専用クラウド:** データは、任意に選択したクラウドおよびリージョン内の一意の Clickhouse Cloud クラスターに保存されます。一意のコンピュート環境がデータを処理し、さらに次のような追加の保護が適用されます。
+* **専用クラウド:** データは、任意に選択したクラウドとリージョン内の専用の Clickhouse Cloud クラスターに保存されます。専用のコンピュート環境がデータを処理し、さらに次のような追加の保護が適用されます。
   * **[IP allowlisting](/ja/platform/hosting/data-security/ip-allowlisting):** 特定の IP アドレスからのみインスタンスへのアクセスを許可します。これはオプション機能です。
   * **[Private connectivity](/ja/platform/hosting/data-security/private-connectivity):** クラウドプロバイダーのプライベートネットワークを経由してデータを安全にルーティングします。これはオプション機能です。
-  * **[Data encryption](/ja/platform/hosting/data-security/data-encryption):** W&amp;B は、W&amp;B が管理する一意の暗号鍵を使用して、保存データ (data at rest) を暗号化します。
-  * **Clickhouse クラスターのセキュリティ:** W&amp;B は、クラウドプロバイダーのプライベートネットワーク経由で、Dedicated Cloud インスタンス専用の一意の Clickhouse Cloud クラスターに接続します。さらに、Clickhouse のファイルレベル暗号化を活用しつつ、W&amp;B が管理する一意の暗号鍵を用いてクラスター自体も暗号化します。
+  * **[Data encryption](/ja/platform/hosting/data-security/data-encryption):** W&amp;B は、W&amp;B が管理する専用の暗号鍵を使用して保存データを暗号化します。
+  * **Clickhouse クラスターのセキュリティ:** W&amp;B は、クラウドプロバイダーのプライベートネットワーク経由で、Dedicated Cloud インスタンス専用の Clickhouse Cloud クラスターに接続します。さらに、Clickhouse のファイルレベル暗号化を活用しつつ、W&amp;B が管理する専用の暗号鍵を用いてクラスター自体も暗号化します。
 
 <Warning>
   [The W&amp;B Platform secure storage connector or BYOB](/ja/platform/hosting/data-security/secure-storage-connector) は Weave では利用できません。

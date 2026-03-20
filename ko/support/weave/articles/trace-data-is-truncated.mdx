@@ -1,0 +1,31 @@
+---
+title: "트레이스 데이터가 잘려서 표시됩니다"
+keywords: ["트레이스 데이터"]
+---
+
+때때로 큰 트레이스 데이터가 Weave UI에서 일부만 잘립니다. 이 문제는 기본 트레이스 출력이 Weave가 직렬화하는 방법을 모르는 가공되지 않은 맞춤형 Python 객체이기 때문에 발생합니다.
+
+큰 트레이스 데이터가 잘리지 않도록 하려면, 모든 트레이스 데이터를 반환하도록 문자열로 이루어진 사전을 정의하세요.
+
+```python
+import weave
+
+class MyObj:
+    def __init__(self, x: int):
+        self.x = x
+
+    def __repr__(self):
+        return f"MyObj(x={self.x})"
+
+    def to_dict(self):
+        return {"x": self.x}
+
+@weave.op()
+def make_my_obj():
+    x = "s" * 10_000
+    return MyObj(x)
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[트레이스 데이터](/ko/support/weave/tags/trace-data)</Badge>

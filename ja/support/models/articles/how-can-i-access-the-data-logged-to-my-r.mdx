@@ -1,0 +1,16 @@
+---
+title: "自分の run にログしたデータに、直接プログラムからアクセスするにはどうすればよいですか？"
+keywords: ["Experiments"]
+---
+
+history オブジェクトは、`wandb.log` でログしたメトリクスを追跡します。API を使用して history オブジェクトにアクセスできます。
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+print(run.history())
+```
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

@@ -1,0 +1,48 @@
+---
+title: "API error code 403 - Country, region, or territory not supported"
+keywords: ["認証とアクセス"]
+---
+
+&quot;Country, region, or territory not supported&quot; というメッセージの 403 エラーは、サポート対象外の場所から W&amp;B Inference にアクセスしていることを意味します。
+
+<div id="why-this-happens">
+  ## これが発生する理由
+</div>
+
+W&amp;B Inference は、コンプライアンスおよび規制要件により、地理的な制限があります。このサービスにアクセスできるのは、サポートされる地理的な場所からのみです。
+
+<div id="what-you-can-do">
+  ## できること
+</div>
+
+1. **地理的な制限を確認する**
+   * 現在サポートされる場所の一覧については、[geographic restrictions](/ja/inference/usage-limits/#geographic-restrictions)を確認してください
+
+2. **サポートされる場所から利用する**
+   * サポートされる国または地域にいるときにサービスにアクセスしてください
+   * サポートされる場所にある組織のリソースの利用を検討してください
+
+3. **担当アカウントチームに連絡する**
+   * エンタープライズのお客様は、担当のアカウントエグゼクティブに選択肢を相談できます
+   * 組織によっては特別な取り決めがある場合があります
+
+<div id="error-details">
+  ## エラーの詳細
+</div>
+
+このエラーが表示されたら:
+
+```
+{
+  "error": {
+    "code": 403,
+    "message": "Country, region, or territory not supported"
+  }
+}
+```
+
+これは、API リクエスト時点での IP アドレスの所在地によって決まります。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[認証とアクセス](/ja/support/inference/tags/authentication-access)</Badge>

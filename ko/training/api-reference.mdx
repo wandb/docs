@@ -1,10 +1,10 @@
 ---
 title: API 개요
-description: W&B Training을 위한 전체 API 문서
+description: "인증 세부 정보와 함께 chat completions, Models, training jobs 및 헬스 체크를 위한 W&B Training API 엔드포인트를 찾아보세요."
 ---
 
 <Note>
-  W&amp;B Training API는 서버리스 강화학습(RL)과 지도 파인튜닝(SFT)을 포함한 트레이닝 작업을 관리하고 상호 작용할 수 있는 엔드포인트를 제공합니다. 이 API는 chat completion 기능에서 OpenAI와 호환됩니다.
+  W&amp;B Training API는 서버리스 강화 학습(RL)과 지도 파인튜닝(SFT)을 포함한 training jobs를 관리하고 상호 작용하기 위한 엔드포인트를 제공합니다. 이 API는 chat completions에 대해 OpenAI와 호환됩니다.
 </Note>
 
 <div id="authentication">
@@ -28,7 +28,7 @@ https://api.training.wandb.ai/v1
 ```
 
 <div id="available-endpoints">
-  ## 지원되는 엔드포인트
+  ## 사용 가능한 엔드포인트
 </div>
 
 <div id="chat-completions">
@@ -52,8 +52,8 @@ https://api.training.wandb.ai/v1
   ### training-jobs
 </div>
 
-* **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - SFT 트레이닝 작업 생성
-* **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - RL 트레이닝 작업 생성
+* **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - Sft 트레이닝 작업 생성
+* **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - Rl 트레이닝 작업 생성
 * **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - 트레이닝 작업 조회
 * **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - 트레이닝 작업 이벤트 조회
 
@@ -71,6 +71,6 @@ https://api.training.wandb.ai/v1
 * [W&amp;B Training 개요](/ko/training)
 * [사전 준비 사항](/ko/training/prerequisites)
 * [서버리스 SFT](/ko/training/sft-training)
-* [학습된 모델 사용하기](/ko/training/serverless-rl/use-trained-models)
-* [사용 가능한 모델](/ko/training/serverless-rl/available-models)
+* [학습된 Models 사용하기](/ko/training/serverless-rl/use-trained-models)
+* [사용 가능한 Models](/ko/training/serverless-rl/available-models)
 * [사용량 한도](/ko/training/serverless-rl/usage-limits)

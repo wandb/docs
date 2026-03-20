@@ -1,0 +1,21 @@
+---
+title: "W&B UI でログしたチャートやメディアを整理するにはどうすればよいですか？"
+keywords: ["Experiments"]
+---
+
+`/` 文字は、W&amp;B UI でログされたパネルを区切ります。デフォルトでは、ログされた項目名の `/` より前の部分が、「パネルセクション」と呼ばれるパネルのグループを定義します。
+
+```python
+import wandb
+
+with wandb.init() as run:
+
+   run.log({"val/loss": 1.1, "val/acc": 0.3})
+   run.log({"train/loss": 0.1, "train/acc": 0.94})
+```
+
+[Workspace](/ja/models/track/project-page#workspace-tab) の設定で、最初のセグメント、または `/` で区切られたすべてのセグメントに基づいて、パネルのグループ化を調整します。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

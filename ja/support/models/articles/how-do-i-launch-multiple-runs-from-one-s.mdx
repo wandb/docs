@@ -1,0 +1,62 @@
+---
+title: "1 つのスクリプトから複数の run を起動するにはどうすればよいですか？"
+keywords: ["Experiments"]
+---
+
+1 つのスクリプト内で複数の run をログするには、新しい run を開始する前に前の run を終了してください。
+
+これを行う推奨の方法は、`wandb.init()` をコンテキストマネージャーとして使用することです。こうすると、スクリプトで例外が送出された場合に run が終了し、失敗としてマークされます。
+
+```python
+import wandb
+
+for x in range(10):
+    with wandb.init() as run:
+        for y in range(100):
+            run.log({"metric": x + y})
+```
+
+`run.finish()` を明示的に呼び出すこともできます：
+
+```python
+import wandb
+
+for x in range(10):
+    run = wandb.init()
+
+    try:
+        for y in range(100):
+            run.log({"metric": x + y})
+
+    except Exception:
+        run.finish(exit_code=1)
+        raise
+
+    finally:
+        run.finish()
+```
+
+<div id="multiple-active-runs">
+  ## 同時にアクティブな複数の run
+</div>
+
+wandb 0.19.10 以降では、`reinit` 設定を `"create_new"` にすると、複数の run を同時にアクティブにできます。
+
+```python
+import wandb
+
+with wandb.init(reinit="create_new") as tracking_run:
+    for x in range(10):
+        with wandb.init(reinit="create_new") as run:
+            for y in range(100):
+                run.log({"x_plus_y": x + y})
+
+            tracking_run.log({"x": x})
+```
+
+`reinit="create_new"` の詳細 (W&amp;B インテグレーションに関する注意事項を含む) については、
+[1 つのプロセスで複数の run](/ja/models/runs/initialize-run) を参照してください。
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

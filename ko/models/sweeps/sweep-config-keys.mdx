@@ -1,5 +1,6 @@
 ---
 title: 스윕 설정 옵션
+description: "method, metric, parameters, early termination, command를 포함한 모든 W&B Sweep 설정 키에 대한 참조입니다."
 ---
 
 스윕 설정은 중첩된 키-값 쌍으로 구성됩니다. 스윕 설정의 최상위 키를 사용해, 탐색할 파라미터([`parameter`](./sweep-config-keys#parameters) 키), 파라미터 공간을 탐색하는 방법론([`method`](./sweep-config-keys#method) 키) 등 스윕 탐색의 특성을 정의합니다.
@@ -91,7 +92,7 @@ YAML 파일이나 Python 스크립트에서 최상위 키로 `parameters`를 지
   #### 랜덤 검색
 </div>
 
-분포를 기반으로 각 반복마다 사전 정보 없이 무작위로 선택한 하이퍼파라미터 값 집합을 사용합니다. 랜덤 검색은 명령줄, Python 스크립트 내, 또는 [the W&amp;B App](/ko/models/sweeps/sweeps-ui/)에서 프로세스를 중지하지 않는 한 계속 실행됩니다.
+분포를 기반으로 각 반복마다 사전 정보 없이 무작위로 선택한 하이퍼파라미터 값 집합을 사용합니다. 랜덤 검색은 명령줄, Python 스크립트 내, 또는 [the W&amp;B App](/ko/models/sweeps/visualize-sweep-results/)에서 프로세스를 중지하지 않는 한 계속 실행됩니다.
 
 랜덤 검색(`method: random`)을 선택하는 경우 메트릭 키와 함께 분포 범위를 지정합니다.
 
@@ -99,11 +100,11 @@ YAML 파일이나 Python 스크립트에서 최상위 키로 `parameters`를 지
   #### 베이즈 검색
 </div>
 
-[랜덤](#random-search) 검색과 [그리드](#grid-search) 검색과는 달리, 베이즈 모델은 정보를 바탕으로 의사 결정을 내립니다. 베이즈 최적화는 확률 모델을 사용해, 목적 함수를 직접 평가하기 전에 대리 함수(surrogate function)에서 다양한 값을 시험해 보는 반복적 과정을 통해 어떤 값을 사용할지 결정합니다. 베이즈 검색은 소수의 연속형 파라미터에 대해서는 잘 동작하지만, 파라미터 수가 많아지면 확장성이 떨어집니다. 베이즈 검색에 대한 더 자세한 내용은 [Bayesian Optimization Primer 논문](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf)을 참고하세요.
+[랜덤](#random-search) 검색과 [그리드](#grid-search) 검색과는 달리, 베이즈 모델은 정보를 바탕으로 의사 결정을 내립니다. 베이즈 최적화는 확률 모델을 사용해, 목적 함수를 평가하기 전에 대리 함수(surrogate function)에서 값을 시험하는 반복적 과정을 통해 어떤 값을 사용할지 결정합니다. 베이즈 검색은 소수의 연속형 파라미터에 대해서는 잘 동작하지만, 확장성은 떨어집니다. 베이즈 검색에 대한 더 자세한 내용은 [Bayesian Optimization Primer 논문](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf)을 참고하세요.
 
-{/* 베이즈 최적화에는 여러 가지 기법이 있습니다. W&B는 가우시안 프로세스를 사용하여 하이퍼파라미터와 모델 메트릭 간의 관계를 모델링합니다. 자세한 내용은 이 논문을 참조하세요. [LINK] */}
+{/* There are different Bayesian optimization methods. W&B uses a Gaussian process to model the relationship between hyperparameters and the model metric. For more information, see this paper. [LINK] */}
 
-Bayesian search는 커맨드 라인, Python 스크립트, 또는 [W&amp;B App](/ko/models/sweeps/sweeps-ui/)에서 프로세스를 중지하지 않는 한 계속 실행됩니다.
+베이즈 검색은 명령줄, Python 스크립트 내, 또는 [the W&amp;B App](/ko/models/sweeps/visualize-sweep-results/)에서 프로세스를 중지하지 않는 한 계속 실행됩니다.
 
 <div id="distribution-options-for-random-and-bayesian-search">
   ### 랜덤 및 베이지안 검색을 위한 분포 옵션

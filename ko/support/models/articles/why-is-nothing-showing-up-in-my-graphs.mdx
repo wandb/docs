@@ -1,0 +1,10 @@
+---
+title: "그래프에 아무것도 표시되지 않는 이유는 무엇인가요?"
+keywords: ["Experiments", "메트릭"]
+---
+
+&quot;No visualization data logged yet&quot; 메시지가 표시되면 스크립트가 아직 첫 번째 `wandb.log` 호출을 실행하지 않은 것입니다. 이 상황은 run이 첫 step을 완료하는 데 시간이 오래 걸릴 때 발생할 수 있습니다. 데이터가 더 빨리 기록되도록 하려면 에포크가 끝날 때만 기록하지 말고 에포크마다 여러 번 기록하세요.
+
+***
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>

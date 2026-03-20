@@ -1,15 +1,16 @@
 ---
 title: run の初期化
+description: "wandb.init() を使用して W&B の run を初期化し、実験の追跡を開始します。これには、1 つのプロセス内で複数の run の同時実行への対応も含まれます。"
 ---
 
-[`wandb.init()`](/ja/models/ref/python/functions/init) を使って W&amp;B の run を初期化します。
+[`wandb.init()`](/ja/models/ref/python/functions/init) を使用して W&amp;B の Run を初期化します。
 
-デフォルトでは、`wandb.init()` を呼び出したときに、各 Python プロセスには同時に 1 つのアクティブな run しかないと W&amp;B はみなします。`wandb.init()` を再度呼び出すと、W&amp;B は同じ run を返すか、古い run を終了してから新しい run を開始します。同一プロセス内で `wandb.init()` を複数回呼び出した場合の挙動は、環境 (notebook か非 notebook か) と `reinit` 設定によって異なります。
+デフォルトでは、`wandb.init()` を呼び出したときに、各 Python プロセスには同時に 1 つのアクティブな run しかないと W&amp;B は想定します。`wandb.init()` を再度呼び出すと、W&amp;B は同じ run を返すか、古い run を終了してから新しい run を開始します。同一プロセス内で `wandb.init()` を複数回呼び出した場合に W&amp;B がどのように処理するかは、環境 (notebook か非 notebook か) と `reinit` の設定によって異なります。
 
-同じプロセス内で複数のアクティブな run を管理する方法については、[Multiple runs in one process](/ja/models/runs/initialize-run#multiple-runs-in-one-process) を参照してください。
+同じプロセス内で複数のアクティブな run を管理する方法については、[1 つのプロセス内で複数の run](/ja/models/runs/initialize-run#multiple-runs-in-one-process) を参照してください。
 
 <Note>
-  W&amp;B は、`wandb.init()` を呼び出す際に `with` ブロックを使用することを推奨します。これにより、ブロックの終了時に W&amp;B が run を正しく終了処理し、すべてのデータをアップロードできるようになります。
+  W&amp;B は、`wandb.init()` を呼び出す際に `with` ブロックを使用することを推奨します。これにより、ブロックの終了時に W&amp;B が run を適切に終了処理し、すべてのデータをアップロードできるようになります。
 </Note>
 
 <div id="single-run-per-process">
@@ -22,10 +23,10 @@ title: run の初期化
 import wandb
 
 with wandb.init(entity="nico", project="awesome-project") as run:
-    # トレーニングロジックをここに記述
+    # Your training logic here
 ```
 
-このコード スニペットを実行すると、次のような出力になります：
+このコードスニペットを実行すると、次のような出力が生成されます。
 
 ```bash
 🚀 View run exalted-darkness-6 at: 
@@ -33,7 +34,7 @@ https://wandb.ai/nico/awesome-project/runs/pgbn9y21
 Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 ```
 
-この出力から、W&amp;B が entity `nico` の配下にある project `awesome-project` に run `exalted-darkness-6` を記録していることがわかります。`pgbn9y21` は、この run に対して W&amp;B が生成した一意の run ID です。
+この出力は、W&amp;B が entity `nico` 配下の project `awesome-project` に run `exalted-darkness-6` をログしていることを示しています。`pgbn9y21` は、この run に対して W&amp;B が生成する一意の run ID です。
 
 <div id="multiple-runs-in-one-process">
   ## 1 つのプロセス内で複数の run を扱う

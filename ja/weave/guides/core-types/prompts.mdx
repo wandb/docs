@@ -1,16 +1,17 @@
 ---
-title: "プロンプトのバージョンを保存して追跡する"
-description: "LLM アプリケーション向けのプロンプトを保存・整理し、バージョンを追跡する"
+title: "プロンプト オブジェクトを作成する"
+description: "LLM アプリケーション向けのプロンプト オブジェクトを作成、公開、使用する"
 ---
 
 プロンプトの作成、評価、改良は、AI エンジニアにとって重要な作業です。
 プロンプトに対する小さな変更でも、アプリケーションの挙動に大きな影響を与える可能性があります。
-W&B Weave を使うと、プロンプトを作成し、保存・取得し、時間の経過とともに発展させることができます。
+W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の経過とともに発展させることができます。
 
-Weave は Prompt の構成方法について特定のやり方を強制しません。要件がシンプルな場合は、組み込みの `weave.StringPrompt` や `weave.MessagesPrompt` クラスを使用できます。より複雑な要件がある場合は、それらやベースクラスである `weave.Prompt` を継承し、
-`format` メソッドをオーバーライドできます。
+このページでは、プロンプト オブジェクトを作成して公開する方法を説明します。公開済みプロンプトの参照、取得、バージョン管理については、[プロンプトのバージョンを保存して追跡する](/ja/weave/guides/core-types/prompts-version.mdx) を参照してください。
 
-これらのオブジェクトのいずれかを `weave.publish` で公開すると、Weave プロジェクト内の [Prompts ページ](#view-prompts) に表示されます。
+プロンプトの要件がシンプルな場合は、組み込みの `weave.StringPrompt` や `weave.MessagesPrompt` クラスを使用できます。より複雑な要件がある場合は、それらやベースクラスである `weave.Prompt` を継承し、`format` メソッドをオーバーライドできます。
+
+プロンプトを `weave.publish` で公開すると、Weave プロジェクト内の [Prompts ページ](/ja/weave/guides/core-types/prompts-version.mdx#view-prompts) に表示されます。
 
 <div id="stringprompt">
   ## StringPrompt
@@ -45,6 +46,7 @@ Weave は Prompt の構成方法について特定のやり方を強制しませ
     )
     ```
   </Tab>
+
   <Tab title="TypeScript">
     ```typescript lines
     import * as weave from 'weave';
@@ -90,7 +92,7 @@ Weave は Prompt の構成方法について特定のやり方を強制しませ
   ## MessagesPrompt
 </div>
 
-`MessagesPrompt` を使うと、複数ターンの会話やチャットベースのプロンプトをログとして記録できます。完全な会話フローを表すメッセージ オブジェクト（"system"、"user"、"assistant" などのロールを持つ）の配列を保持します。複数のメッセージ間でコンテキストを維持する必要があるチャットベースの LLM や、特定の会話パターンを定義したい場合、再利用可能な会話テンプレートを作成したい場合には、これを使用することを推奨します。
+`MessagesPrompt` を使うと、複数ターンの会話やチャットベースのプロンプトをログとして記録できます。完全な会話フローを表すメッセージ オブジェクト (&quot;system&quot;、&quot;user&quot;、&quot;assistant&quot; などのロールを持つ) の配列を保持します。複数のメッセージ間でコンテキストを維持する必要があるチャットベースの LLM や、特定の会話パターンを定義したい場合、再利用可能な会話テンプレートを作成したい場合には、これを使用することを推奨します。
 
 <Tabs>
   <Tab title="Python">
@@ -119,6 +121,7 @@ Weave は Prompt の構成方法について特定のやり方を強制しませ
     )
     ```
   </Tab>
+
   <Tab title="TypeScript">
     ```typescript lines
     import * as weave from 'weave';
@@ -187,6 +190,7 @@ Weave は Prompt の構成方法について特定のやり方を強制しませ
     )
     ```
   </Tab>
+
   <Tab title="TypeScript">
     ```typescript lines {8,23}
     import * as weave from 'weave';
@@ -251,6 +255,7 @@ Weave は Prompt の構成方法について特定のやり方を強制しませ
     )
     ```
   </Tab>
+
   <Tab title="TypeScript">
     ```typescript lines {8,29}
     import * as weave from 'weave';
@@ -289,19 +294,3 @@ Weave は Prompt の構成方法について特定のやり方を強制しませ
     ```
   </Tab>
 </Tabs>
-
-## <a id="view-prompts" aria-label="プロンプトバージョンを表示および比較"></a>プロンプトバージョンを表示および比較
-
-Weave はプロンプトのすべてのバージョンを自動的に追跡し、プロンプトがどのように進化してきたかの完全な履歴を作成します。このバージョニングシステムはプロンプトエンジニアリングのワークフローに不可欠であり、安全に試行錯誤し、どの変更がパフォーマンスを改善または悪化させたかを追跡し、必要に応じて簡単に以前のバージョンへロールバックできるようにします。同じ名前で内容が異なるプロンプトを公開するたびに、Weave はそれまでのすべてのバージョンを保持したまま新しいバージョンを作成します。 
-
-UI でプロンプトのバージョンを表示するには、次の手順を実行します。
-
-1. UI で自分のプロジェクトを開き、左側メニューの **Assets** ボタンをクリックします。Assets ページが開きます。
-2. Assets ページから **Prompts** をクリックします。プロジェクトのプロンプトが一覧表示される Prompts ページが開きます。
-3. **Versions** 列で、表示したいプロンプトの **(x) Versions** をクリックします。プロンプトのバージョン一覧が開きます。
-
-![プロンプトオブジェクトを表示しているスクリーンショット](/weave/guides/core-types/imgs/prompt-object.png)
-
-4. （オプション）一覧に表示されているプロンプトの横にあるチェックボックスをクリックし、続いて **Compare** ボタンをクリックすることで、プロンプトのバージョンを比較できます。これにより、プロンプト間の差分を確認できます。
-
-![プロンプト比較のスクリーンショット](/weave/guides/core-types/imgs/prompt-comparison.png)
