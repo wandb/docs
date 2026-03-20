@@ -269,7 +269,6 @@
                       "models/sweeps/useful-resources",
                       "models/sweeps/local-controller",
                       "models/sweeps/troubleshoot-sweeps",
-                      "models/sweeps/sweeps-ui",
                       "models/sweeps/existing-project"
                     ]
                   },
@@ -3892,6 +3891,14 @@
     },
     {
       "source": "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui/",
       "destination": "/models/sweeps"
     },
     {
