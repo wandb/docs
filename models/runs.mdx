@@ -139,3 +139,53 @@ Notes that you add to a specific run appear on the run page in the **Overview** 
 3. Select the run you want to add a note to from the run selector
 4. Choose the **Overview** tab
 5. Select the pencil icon next to the **Description** field and add your notes */}
+
+
+## Run attributes
+
+
+Internally, W&B stores run attributes as JSON files for three different objects: `run.config`, `run.summary`, and `run.history`.
+
+Continuing from the previous example, the following JSON object shows the attributes of run's configuration (`run.config`):
+
+```json
+{
+  "_wandb": {
+    "value": {
+      "cli_version": "0.25.0",
+      "m": [],
+      "python_version": "3.10.0",
+      "t": {
+        "3": [
+          16
+        ],
+        "4": "3.10.0",
+        "5": "0.25.0",
+        "12": "0.25.0", 
+        "13": "darwin-arm64"
+      }
+    }
+  },
+  "epochs": {
+    "value": 100
+  },
+  "learning_rate": {
+    "value": 0.01
+  }
+}
+```
+
+Summary metrics are the most recent logged values for a run.
+
+```json
+{
+  "_runtime": 0,
+  "_step": 99,
+  "_timestamp": 1773696666.303637,
+  "_wandb.runtime": 0,
+  "accuracy": 0.9448340173699504,
+  "loss": 0.0524316074042725
+}
+```
+
+You can view the run's [configuration](/models/track/config) and [summary metrics](/models/track/log/log-summary#log-summary-metrics) in the W&B App UI. Prograammatically access the run's configuration and summary metrics with the `wandb.Run.config` and `wandb.Run.summary` properties, respectively. You can also use the W&B Public API to access a run's configuration and summary metrics with the `wandb.Api.Run.config` and `wandb.Api.Run.summary` properties, respectively. 

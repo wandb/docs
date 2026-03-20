@@ -159,18 +159,6 @@ Use the Public API to export or update data that you have saved to W&B. Before u
 
 See the [Generated Reference Docs](/models/ref/python/public-api/) for details on available functions.
 
-### Create an API key
-
-An API key authenticates your machine to W&B.
-
-<ApiKeyCreate/>
-
-<ApiKeySecurity/>
-
-
-### Find the run path
-
-To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ](/models/track/public-api-guide/#overview-tab)to get the run path.
 
 
 ### Export run data
@@ -194,48 +182,7 @@ The most commonly used attributes of a run object are:
 
 You can also modify or update the data of past runs. By default a single instance of an api object will cache all network requests. If your use case requires real time information in a running script, call `api.flush()` to get updated values.
 
-### Understanding different run attributes
 
-The following code snippet shows how to create a run, log some data, and then access the run's attributes:
-
-```python
-import wandb
-import random
-
-with wandb.init(project="public-api-example") as run:
-    n_epochs = 5
-    config = {"n_epochs": n_epochs}
-    run.config.update(config)
-    for n in range(run.config.get("n_epochs")):
-        run.log(
-            {"val": random.randint(0, 1000), "loss": (random.randint(0, 1000) / 1000.00)}
-        )
-```
-
-The following sections describe the different outputs for the above run object attributes
-
-##### `run.config`
-
-```python
-{"n_epochs": 5}
-```
-    
-#### `run.summary`
-
-```python
-{
-    "_runtime": 4,
-    "_step": 4,
-    "_timestamp": 1644345412,
-    "_wandb": {"runtime": 3},
-    "loss": 0.041,
-    "val": 525,
-}
-```
-
-### Sampling
-
-The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` __ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](/models/ref/python/public-api).
 
 ### Querying multiple runs
 
@@ -296,29 +243,12 @@ Calling `api.runs` returns a `Runs` object that is iterable and acts like a list
 
 If errors occur while talking to W&B servers a `wandb.CommError` will be raised. The original exception can be introspected via the `exc` attribute.
 
-### Get the latest git commit through the API
+{/* ### Get the latest git commit through the API
 
-In the UI, click on a run and then click the Overview tab on the run page to see the latest git commit. It's also in the file `wandb-metadata.json` . Using the public API, you can get the git hash with `run.commit`.
+In the UI, click on a run and then click the Overview tab on the run page to see the latest git commit. It's also in the file `wandb-metadata.json` . Using the public API, you can get the git hash with `run.commit`. */}
 
-### Get a run's name and ID during a run
-
-After calling `wandb.init()` you can access the random run ID or the human readable run name from your script like this:
-
-- Unique run ID (8 character hash): `run.id`
-- Random run name (human readable): `run.name`
-
-If you're thinking about ways to set useful identifiers for your runs, here's what we recommend:
-
-- **Run ID**: leave it as the generated hash. This needs to be unique across runs in your project.
-- **Run name**: This should be something short, readable, and preferably unique so that you can tell the difference between different lines on your charts.
-- **Run notes**: This is a great place to put a quick description of what you're doing in your run. You can set this with `wandb.init(notes="your notes here")`
-- **Run tags**: Track things dynamically in run tags, and use filters in the UI to filter your table down to just the runs you care about. You can set tags from your script and then edit them in the UI, both in the runs table and the overview tab of the run page. See the detailed instructions [here](/models/runs/tags/).
 
 ## Public API Examples
-
-### Export data to visualize in matplotlib or seaborn
-
-Check out our [API examples](/models/ref/python/public-api/) for some common export patterns. You can also click the download button on a custom plot or on the expanded runs table to download a CSV from your browser.
 
 ### Read metrics from a run
 
@@ -335,18 +265,7 @@ if run.state == "finished":
         print(row["_timestamp"], row["accuracy"])
 ```
 
-### Filter runs
 
-You can filter by using the MongoDB Query Language.
-
-#### Date
-
-```python
-runs = api.runs(
-    "<entity>/<project>",
-    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
-)
-```
 
 ### Read specific metrics from a run
 
@@ -395,7 +314,7 @@ optimizer                             rmsprop                 adam
 
 ### Update metrics for a run, after the run has finished
 
-This example sets the accuracy of a previous run to `0.9`. It also modifies the accuracy histogram of a previous run to be the histogram of `numpy_array`.
+This example sets the accuracy of a previous run to `0.9`
 
 ```python
 import wandb
@@ -404,7 +323,6 @@ api = wandb.Api()
 
 run = api.run("<entity>/<project>/<run_id>")
 run.summary["accuracy"] = 0.9
-run.summary["accuracy_histogram"] = wandb.Histogram(numpy_array)
 run.summary.update()
 ```
 

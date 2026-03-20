@@ -99,6 +99,16 @@ with wandb.init(entity="<project>", project="<project>", name="<run-name>") as r
     # Your code here
 ```
 
+### Find the run path
+
+The run path consists of the entity, project, and run ID  in this format: `<entity>/<project>/<run_id>`. 
+
+1. Navigate to your W&B project.
+2. Select the **Workspace** or **Runs** tab.
+3. Search or scroll to the run you want to find the run path for.
+4. Click on the run to open the run's **Overview** page.
+5. Copy and paste the run path from the **Run path** field.
+
 ### Rename a run
 
 Rename a run after initializing it programmatically with the Python SDK or interactively in the W&B App.

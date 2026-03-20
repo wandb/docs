@@ -52,6 +52,20 @@ Filter runs based on their tags:
     <img src="/images/app_ui/filter_runs.gif" alt="Filter runs by tags" />
 </Frame>
 
+### Example: Filter runs with a timestamp
+
+You can filter by using the MongoDB Query Language.
+
+The following example filters runs created between two timestamps using the W&B Public API:
+
+```python
+runs = api.runs(
+    "<entity>/<project>",
+    {"$and": [{"created_at": {"$lt": "YYYY-MM-DDT##", "$gt": "YYYY-MM-DDT##"}}]},
+)
+```
+
+See the [API guide](/models/ref/python/public-api/api#method-api-runs) for more examples of filtering runs with the API.
 
 ## Default filters
 
