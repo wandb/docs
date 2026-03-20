@@ -1,18 +1,18 @@
 ---
-description: Update an existing Artifact inside and outside of a W&B Run.
+description: Update an existing artifact while a run is active or using only the Public API.
 title: Update an artifact
 ---
 
-Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to update the artifact on the W&B servers. You can update an artifact during a W&B Run or outside of a Run.
+Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to persist changes on the W&B servers. You can do this while a run is active, or with [`wandb.Api`](/models/ref/python/public-api/api) without calling `wandb.init()`.
 
 <Note>
 **When to use Artifact.save() or wandb.Run.log_artifact()**
 
-- Use `Artifact.save()` to update an existing artifact without creating a new run.
+- Use `Artifact.save()` to update an existing artifact without starting a new run.
 - Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.
 </Note>
 
-Use the W&B Public API ([`wandb.Api`](/models/ref/python/public-api/api)) to update an artifact outside of a run. Use the Artifact API ([`wandb.Artifact`](/models/ref/python/experiments/artifact)) to update an artifact during a run.
+Use the W&B Public API ([`wandb.Api`](/models/ref/python/public-api/api)) to update an artifact without calling `wandb.init()`. Use the Artifact API ([`wandb.Artifact`](/models/ref/python/experiments/artifact)) while a run is active.
 
 <Warning>
 You can not update the alias of artifact linked to a model in Model Registry.
@@ -31,8 +31,8 @@ with wandb.init(project="<example>") as run:
     artifact.save()
 ```
 </Tab>
-<Tab title="Outside of a run">
-The following code example demonstrates how to update the description of an artifact using the `wandb.Api` API:
+<Tab title="Public API only">
+The following example updates an artifact with [`wandb.Api`](/models/ref/python/public-api/api) and no active run:
 
 ```python
 import wandb
