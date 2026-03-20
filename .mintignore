@@ -7,8 +7,6 @@ scripts/
 runbooks/
 node_modules/
 .github/
-.github/*
-.github/**
 
 # Top-level config and assets (not doc pages)
 # Note: Do not exclude .js or .css. Mintlify loads
