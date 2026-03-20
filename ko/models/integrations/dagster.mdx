@@ -34,7 +34,7 @@ W&amp;B 내에서 Dagster를 사용하려면 다음 리소스가 필요합니다
 </div>
 
 1. [W&amp;B에 로그인](https://wandb.ai/login)합니다. 참고: W&amp;B Server를 사용하는 경우, 관리자에게 인스턴스 호스트 이름을 요청하세요.
-2. [User Settings](https://wandb.ai/settings)에서 API 키를 생성합니다. 프로덕션 환경에서는 해당 키를 소유하도록 [service account](/ko/models/support/service_account_useful)를 사용하는 것을 권장합니다.
+2. [User Settings](https://wandb.ai/settings)에서 API 키를 생성합니다. 프로덕션 환경에서는 해당 키를 소유하도록 [service account](/ko/support/models/articles/what-is-a-service-account-and-why-is-it-)를 사용하는 것을 권장합니다.
 3. 해당 API 키에 대한 환경 변수를 설정합니다: `export WANDB_API_KEY=YOUR_KEY`.
 
 다음 예제에서는 Dagster 코드에서 API 키를 어디에 지정해야 하는지 보여줍니다. `wandb_config` 중첩 사전 안에 본인의 entity와 프로젝트 이름을 지정해야 합니다. 다른 W&amp;B 프로젝트를 사용하고 싶다면, 서로 다른 ops/assets에 서로 다른 `wandb_config` 값을 전달할 수 있습니다. 전달할 수 있는 키들에 대한 자세한 내용은 아래 설정(Configuration) 섹션을 참조하세요.
