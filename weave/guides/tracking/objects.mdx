@@ -30,8 +30,7 @@ Weave's serialization layer saves and versions objects.
 
     ```python lines
     import weave
-    # Initialize tracking to the project 'intro-example'
-    weave.init('intro-example')
+    weave.init("your-team-name/your-project-name")
     # Save a list, giving it the name 'cat-names'
     weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
     ```
@@ -43,8 +42,7 @@ Weave's serialization layer saves and versions objects.
     ```typescript lines
     import * as weave from 'weave'
 
-    // Initialize tracking to the project 'intro-example'
-    const client = await weave.init('intro-example')
+    const client = await weave.init("your-team-name/your-project-name")
 
     // Save an array, giving it the name 'cat-names'
     client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
@@ -64,7 +62,7 @@ When you save an object with a name, Weave creates the first version of that obj
     You can construct a ref and then fetch the object back.
 
     ```python lines
-    weave.init('intro-example')
+    weave.init("your-team-name/your-project-name")
     cat_names = weave.ref('cat-names').get()
     ```
 
@@ -83,7 +81,7 @@ When you save an object with a name, Weave creates the first version of that obj
     To delete a version of an object, call `.delete()` on the object ref.
 
     ```python lines
-    weave.init('intro-example')
+    weave.init("your-team-name/your-project-name")
     cat_names_ref = weave.ref('cat-names:v1')
     cat_names_ref.delete()
     ```
@@ -98,21 +96,20 @@ When you save an object with a name, Weave creates the first version of that obj
   </Tab>
 </Tabs>
 
-## Ref styles
+## Constructing object refs
 
-A fully qualified Weave object ref URI looks like this:
+In Weave, a fully qualified object ref URI looks like this:
 
+```text
+weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
 ```
-weave://<entity>/<project>/object/<object_name>:<object_version>
-```
-
-- _entity_: wandb entity (username or team)
-- _project_: wandb project
+- _your-team-name_: W&B entity (username or team name)
+- _your-project-name_: W&B project
 - _object_name_: object name
-- _object_version_: either a version hash, a string like v0, v1..., or an alias like ":latest". All objects have the ":latest" alias.
+- _object_version_: either a version hash, a string like `v0` or `v1`, or an alias like `:latest`. All objects have the `:latest` alias.
 
-You can construct refs with a few different styles.
+You can construct refs with a few different styles:
 
-- `weave.ref(<name>)`: requires `weave.init(<project>)` to have been called. Refers to the ":latest" version.
-- `weave.ref(<name>:<version>)`: requires `weave.init(<project>)` to have been called.
-- `weave.ref(<fully_qualified_ref_uri>)`: can be constructed without calling weave.init.
+- `weave.ref(<name>)`: Retrieves the `:latest` version of an object. Requires calling `weave.init(...)`.
+- `weave.ref(<name>:<version>)`:  Retrieves the specified version of an object. Requires calling `weave.init(...)`.
+- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the object located at the specified fully qualified object ref URI.  Does not require calling `weave.init`.
