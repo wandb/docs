@@ -25,7 +25,7 @@ trainer = Trainer(logger=wandb_logger)
 ```
 
 <Note>
-**Using wandb.log():** The `WandbLogger` logs to W&B using the Trainer's `global_step`. If you make additional calls to `wandb.log` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
+**Using wandb.log():** The `WandbLogger` logs to W&B using the Trainer's `global_step`. If you make additional calls to `wandb.log()` directly in your code, **do not** use the `step` argument in `wandb.log()`. 
 
 Instead, log the Trainer's `global_step` like your other metrics:
 
@@ -396,7 +396,7 @@ Here you can organize your best models by task, manage model lifecycle, facilita
 
 The `WandbLogger` has `log_image`, `log_text` and `log_table` methods for logging media.
 
-You can also directly call `wandb.log` or `trainer.logger.experiment.log` to log other media types such as Audio, Molecules, Point Clouds, 3D Objects and more.
+You can also directly call `wandb.log()` or `trainer.logger.experiment.log` to log other media types such as Audio, Molecules, Point Clouds, 3D Objects and more.
 
 <Tabs>
 <Tab title="Log Images">

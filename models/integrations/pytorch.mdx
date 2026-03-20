@@ -110,7 +110,7 @@ wandb.login()
 
 ## Define the experiment and pipeline
 
-### Track metadata and hyperparameters with `wandb.init`
+### Track metadata and hyperparameters with `wandb.init()`
 
 Programmatically, the first thing we do is define our experiment:
 what are the hyperparameters? what metadata is associated with this run?
@@ -172,11 +172,11 @@ def model_pipeline(hyperparameters):
 ```
 
 The only difference here from a standard pipeline
-is that it all occurs inside the context of `wandb.init`.
+is that it all occurs inside the context of `wandb.init()`.
 Calling this function sets up a line of communication
 between your code and our servers.
 
-Passing the `config` dictionary to `wandb.init`
+Passing the `config` dictionary to `wandb.init()`
 immediately logs all that information to us,
 so you'll always know what hyperparameter values
 you set your experiment to use.
@@ -285,7 +285,7 @@ Two `wandb` functions come into play here: `watch` and `log`.
 
 ## Track gradients with `run.watch()` and everything else with `run.log()`
 
-`run.watch` will log the gradients and the parameters of your model,
+`run.watch()` will log the gradients and the parameters of your model,
 every `log_freq` steps of training.
 
 All you need to do is call it before you start training.
@@ -423,7 +423,7 @@ Navigate to the Run page and check out these tabs:
 3. **Logs**, which has a copy of anything pushed to standard out during training
 4. **Files**, where, once training is complete, you can click on the `model.onnx` to view our network with the [Netron model viewer](https://github.com/lutzroeder/netron).
 
-Once the run in finished, when the `with wandb.init` block exits,
+Once the run in finished, when the `with wandb.init()` block exits,
 we'll also print a summary of the results in the cell output.
 
 

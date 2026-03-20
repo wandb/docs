@@ -144,11 +144,11 @@ with wandb.init(project="<project_name>", entity="<entity>") as run:
 W&B recommends that you use a context manager to ensure that your run is properly closed, even if an error occurs. If you do not use a context manager, you must call `run.finish()` to close the run and log all the data to W&B.
 
 <Tip>
-**When to call `wandb.init`**
+**When to call `wandb.init()`**
 
 Call `wandb.init()` as early as possible. W&B captures stdout, stderr, and error messages, which makes debugging easier.
 
-Wrap your entire training loop in a `wandb.init` context manager to ensure that all relevant information is captured in the run. This includes any error messages, which can be crucial for debugging.
+Wrap your entire training loop in a `wandb.init()` context manager to ensure that all relevant information is captured in the run. This includes any error messages, which can be crucial for debugging.
 </Tip>
 
 ### Set `wandb` as an optional dependency
@@ -170,7 +170,7 @@ python train.py ... --use-wandb
 </Tab>
 </Tabs>
 
-* Or, set `wandb` to be `disabled` in `wandb.init`:
+* Or, set `wandb` to be `disabled` in `wandb.init()`:
 
 <Tabs>
 <Tab title="Python">
@@ -292,7 +292,7 @@ See [`wandb.Run.log()`](/models/ref/python/experiments/run#method-run-log) for m
 
 If you perform multiple calls to `wandb.Run.log()` for the same training step, the wandb SDK increments an internal step counter for each call to `wandb.Run.log()`. This counter may not align with the training step in your training loop.
 
-To avoid this situation, define your x-axis step explicitly with `run.define_metric`, one time, immediately after you call `wandb.init`:
+To avoid this situation, define your x-axis step explicitly with `run.define_metric()`, one time, immediately after you call `wandb.init()`:
 
 ```python
 with wandb.init(...) as run:
