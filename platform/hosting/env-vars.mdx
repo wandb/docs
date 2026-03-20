@@ -35,7 +35,9 @@ In addition to configuring instance level settings via the System Settings admin
 | `WANDB_DIR`                        | Where to store all generated files. If unset, defaults to the `wandb` directory relative to your training script. Make sure this directory exists and the running user has permission to write to it. This does not control the location of downloaded artifacts, which you can set using the `WANDB_ARTIFACT_DIR` environment variable. |
 | `WANDB_IDENTITY_TOKEN_FILE`        | For [identity federation](/platform/hosting/iam/identity_federation/), the absolute path to the local directory where Java Web Tokens (JWTs) are stored. |
 <Note>
-Use the GORILLA_DATA_RETENTION_PERIOD environment variable cautiously. Data is removed immediately once the environment variable is set. We also recommend that you backup both the database and the storage bucket before you enable this flag.
+Use the `GORILLA_DATA_RETENTION_PERIOD` environment variable cautiously. It applies to **deleted run data** (including run-associated files such as media after deletion flows). It does **not** delete artifacts; use artifact deletion and `GORILLA_ARTIFACT_GC_ENABLED` as described in [Delete an artifact](/models/artifacts/delete-artifacts). For how deleting runs and files relates to storage and this setting, see [When deleted run data is removed from storage](/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage) in **Delete runs**. Data is removed according to the retention window once the variable is set. Back up both the database and the storage bucket before you enable or change this value.
+
+Background removal of objects from your bucket is **best-effort** and not guaranteed to finish within a specific time. For expectations, troubleshooting, and how this relates to storage costs, see [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage).
 </Note>
 
 ## Advanced reliability settings

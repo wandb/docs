@@ -159,6 +159,7 @@
                       "platform/hosting/data-security/data-encryption"
                     ]
                   },
+                  "platform/hosting/managing-bucket-storage",
                   "platform/hosting/env-vars"
                 ]
               },

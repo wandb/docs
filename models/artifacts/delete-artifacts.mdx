@@ -8,6 +8,10 @@ Delete artifacts interactively with the W&B App or programmatically with the W&B
 
 The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions.
 
+<Note>
+Garbage collection is **best-effort**. W&B does not guarantee how quickly freed space appears in your object storage after you delete an artifact. Large deployments or backlogs can take longer than expected. For how this fits with run data, retention settings, and optional operator actions, see [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage).
+</Note>
+
 ## Artifact garbage collection workflow
 
 The following diagram illustrates the complete artifact garbage collection process:
@@ -24,7 +28,7 @@ graph TB
     SDKDelete --> SoftDelete
     TTLDelete --> SoftDelete
     
-    SoftDelete --> GCWait[(Wait for<br/>Garbage Collection<br/>Process)]
+    SoftDelete --> GCWait[(Wait for<br/>best-effort<br/>Garbage Collection)]
     
     GCWait --> GCRun[Garbage Collection<br/>Process Runs<br/><br/>- Reviews all soft-deleted artifacts<br/>- Checks file dependencies]
     
@@ -196,7 +200,9 @@ Artifacts with protected aliases have special deletion restrictions. [Protected 
 
 
 ## Enable garbage collection based on how W&B is hosted
-Garbage collection is enabled by default if you use W&B's shared cloud. Based on how you host W&B, you might need to take additional steps to enable garbage collection, this includes:
+Garbage collection is enabled by default if you use W&B's shared cloud. Based on how you host W&B, you might need to take additional steps to enable garbage collection (below). Even when garbage collection is enabled, cleanup timing is not guaranteed. See [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage) for expectations on Dedicated Cloud and Self-Managed buckets.
+
+This includes:
 
 
 * Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
