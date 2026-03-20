@@ -15,7 +15,7 @@ Prompt versions are accessed using Weave object references. This page explains h
 
 ## How prompt versions are created
 
-Weave automatically tracks every version of your prompts, creating a complete history of how your prompts evolve. This versioning system is crucial for prompt engineering workflows, allowing you to experiment safely, track what changes improved or hurt performance, and easily roll back to previous versions if needed. Each time you publish a prompt with the same name but different content, Weave creates a new version while preserving all previous versions. 
+Weave automatically tracks every version of your prompts, creating a complete history of how your prompts evolve. This versioning system is crucial for prompt engineering workflows, allowing you to experiment safely, track what changes improved or hurt performance, and easily roll back to previous versions if needed. Each time you publish a prompt with the same name but different content, Weave creates a new version while preserving all previous versions.
 
 Each version is immutable. Once created, the contents of that version cannot be changed. If you update a prompt and publish it again, Weave creates a new version while preserving previous versions.
 
@@ -53,7 +53,7 @@ You can construct refs with a few different styles:
 
 - `weave.ref(<name>)`: Retrieves the `:latest` version of a prompt. Requires calling `weave.init(...)`.
 - `weave.ref(<name>:<version>)`:  Retrieves the specified version of a prompt. Requires calling `weave.init(...)`.
-- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the prompt located at the specified [fully qualified ref URI](#construct-a-fully-qualified-ref-uri). Does not require calling `weave.init`.
+- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the prompt located at the specified [fully qualified ref URI](#construct-a-fully-qualified-ref-uri). Does not require calling `weave.init(...)`.
 
 
 The following example loads the `support_prompt:v3` version so you can use it in your application:
@@ -121,9 +121,10 @@ The following code example will add a prompt `my-prompt` to your project with th
 ```python Python lines
 import weave
 
+// TODO: Set 'your-team-name/your-project-name' to correct values.
 client = weave.init('your-team-name/your-project-name')
 
-# Publish two versions of a prompt
+# Publish two versions of a prompt.
 v0_ref = weave.publish(
     weave.StringPrompt("Answer the user's question: {question}"),
     name="my-prompt",
@@ -183,7 +184,7 @@ ref = weave.publish(
 )
 
 ```
-```plaintext Typescript lines
+```plaintext TypeScript lines
 This feature is not available in the TypeScript SDK yet.
 ```
 </CodeGroup>
