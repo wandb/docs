@@ -978,14 +978,18 @@
                       {
                         "group": "Functions",
                         "pages": [
+                          "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "weave/reference/typescript-sdk/functions/init",
+                          "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
                           "weave/reference/typescript-sdk/functions/op",
+                          "weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "weave/reference/typescript-sdk/functions/weaveaudio",
                           "weave/reference/typescript-sdk/functions/weaveimage",
                           "weave/reference/typescript-sdk/functions/withattributes",
+                          "weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
