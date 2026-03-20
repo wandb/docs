@@ -26,7 +26,7 @@ accelerator.init_trackers(
 
 ...
 
-# Log to wandb by calling `accelerator.log`, `step` is optional
+# Log to wandb by calling accelerator.log(); step is optional
 accelerator.log({"train_loss": 1.12, "valid_loss": 0.8}, step=global_step)
 
 

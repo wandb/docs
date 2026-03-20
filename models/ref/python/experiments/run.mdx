@@ -329,7 +329,7 @@ Customize metrics logged with `wandb.Run.log()`.
  - `hidden`:  Hide this metric from automatic plots. 
  - `summary`:  Specify aggregate metrics added to summary.  Supported aggregations include "min", "max", "mean", "last",  "first", "best", "copy" and "none". "none" prevents a summary  from being generated. "best" is used together with the goal  parameter, "best" is deprecated and should not be used, use  "min" or "max" instead. "copy" is deprecated and should not be  used. 
  - `goal`:  Specify how to interpret the "best" summary type.  Supported options are "minimize" and "maximize". "goal" is  deprecated and should not be used, use "min" or "max" instead. 
- - `overwrite`:  If false, then this call is merged with previous  `define_metric` calls for the same metric by using their  values for any unspecified parameters. If true, then  unspecified parameters overwrite values specified by  previous calls. 
+ - `overwrite`:  If false, then this call is merged with previous  `run.define_metric()` calls for the same metric by using their  values for any unspecified parameters. If true, then  unspecified parameters overwrite values specified by  previous calls. 
 
 
 
@@ -397,7 +397,7 @@ Subsequent "upserts" with the same distributed ID will result in a new version.
  - `artifact_or_path`:  A path to the contents of this artifact,  can be in the following forms: 
             - `/local/directory` 
             - `/local/directory/file.txt` 
-            - `s3://bucket/path`  You can also pass an Artifact object created by calling  `wandb.Artifact`. 
+            - `s3://bucket/path`  You can also pass an Artifact object created by calling  `wandb.Artifact()`. 
  - `name`:  An artifact name. May be prefixed with entity/project.  Valid names can be in the following forms: 
             - name:version 
             - name:alias 
@@ -542,7 +542,7 @@ Only one level of nesting is supported; `run.log({"a/b/c": 1})` produces a secti
 
 `run.log()` is not intended to be called more than a few times per second. For optimal performance, limit your logging to once every N iterations, or collect data over multiple iterations and log it in a single step. 
 
-By default, each call to `log` creates a new "step". The step must always increase, and it is not possible to log to a previous step. You can use any metric as the X axis in charts. See [Custom log axes](https://docs.wandb.ai/guides/track/log/customize-logging-axes/) for more details. 
+By default, each call to `run.log()` creates a new "step". The step must always increase, and it is not possible to log to a previous step. You can use any metric as the X axis in charts. See [Custom log axes](https://docs.wandb.ai/guides/track/log/customize-logging-axes/) for more details. 
 
 In many cases, it is better to treat the W&B step like you'd treat a timestamp rather than a training step. 
 
@@ -745,7 +745,7 @@ Declare an artifact as an output of a run.
  - `artifact_or_path`:  (str or Artifact) A path to the contents of this artifact,  can be in the following forms: 
             - `/local/directory` 
             - `/local/directory/file.txt` 
-            - `s3://bucket/path`  You can also pass an Artifact object created by calling  `wandb.Artifact`. 
+            - `s3://bucket/path`  You can also pass an Artifact object created by calling  `wandb.Artifact()`. 
  - `name`:  (str, optional) An artifact name. Valid names can be in the following forms: 
             - name:version 
             - name:alias 
@@ -1057,7 +1057,7 @@ use_artifact(
 
 Declare an artifact as an input to a run. 
 
-Call `download` or `file` on the returned object to get the contents locally. 
+Call `.download()` or `.file()` on the returned object to get the contents locally. 
 
 
 
