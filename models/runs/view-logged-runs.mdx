@@ -99,7 +99,7 @@ W&B stores the following information below the overview section:
 You can use the search box aboce the Config and Summary sections to filter for specific parameters. For example, if you enter `acc` in the search box, W&B filters for all parameters with `acc` in their name such as `accuracy` and `val_acc`.
 
 <Note>
-    W&B does not search for nested config or summary parameters. For example, if you log a nested config parameter with `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`, W&B does not return the `learning_rate` parameter if you search for `learning_rate` in the search box. You can only find the `learning_rate` parameter by searching for `model`.
+W&B does not search for nested config or summary parameters. For example, if you log a nested config parameter with `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`, W&B does not return the `learning_rate` parameter if you search for `learning_rate` in the search box. You can only find the `learning_rate` parameter by searching for `model`.
 </Note>
 
 View an example project overview [here](https://wandb.ai/stacey/deep-drive/overview). 
