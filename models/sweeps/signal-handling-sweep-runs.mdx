@@ -3,7 +3,7 @@ description: Learn how W&B Sweeps handle UNIX signals, exit codes, and preemptio
 title: Signal handling and sweep runs
 ---
 
-This page provides details about how W&B Sweeps handle system signals and process exit codes, to help you run sweeps reliably in preemptible environments such as SLURM, EC2 Spot, or Google Cloud preemptible VMs. These sections explain how to interrupt runs cleanly from the keyboard and gives details to help you understand and predict run requeue behavior. For details about how runs are requeued when preempted, see [Resume preemptible Sweeps runs](/models/runs/resuming#resume-preemptible-sweeps-runs).
+This page provides details about how W&B Sweeps handle system signals and process exit codes, to help you run sweeps reliably in preemptible environments such as SLURM, EC2 Spot, or Google Cloud preemptible VMs. These sections explain how to interrupt runs cleanly from the keyboard and give details to help you understand and predict run requeue behavior. For details about how runs are requeued when preempted, see [Resume preemptible Sweeps runs](/models/runs/resuming#resume-preemptible-sweeps-runs).
 
 ## Exit status and signals
 
@@ -16,18 +16,18 @@ W&B uses the training process exit status to decide whether a run is requeued an
 
 This applies whether the process exits from a signal handler, from an exception, or from an explicit `sys.exit()` call. Understanding and relying on this contract is vitally important in preemptible or cluster environments.
 
-When the process exits due to a [**catchable** signal](#catchable-signals-sigint-sigterm-sighup) (`SIGINT`, `SIGTERM`, `SIGHUP`), your handler can run, log to W&B, and then call `sys.exit(1)` (or another non-zero code). W&B records that exit code and the same [requeue rules](/models/runs/resuming#resume-preemptible-sweeps-runs) apply. When the process is killed by the operating system kernel with [**`SIGKILL`**](#sigkill-uncatchable), the process cannot run exit hooks, so no final summary is written and the run may appear as crashed or killed; the agent still starts the next run.
+When the process exits due to a [**catchable** signal](#catchable-signals-and-preemption), your handler can run, call [`wandb.run.mark_preempting()`](/models/ref/python/experiments/run#mark_preempting) if you want the run requeued, perform cleanup (for example, save a checkpoint), then exit with a non-zero code. A common convention is `sys.exit(128 + signum)` for termination by signal. W&B records that exit code and the same [requeue rules](/models/runs/resuming#resume-preemptible-sweeps-runs) apply. When the process is killed by the operating system kernel with [**`SIGKILL`**](#sigkill-uncatchable), the process cannot run exit hooks, so no final summary is written and the run may appear as crashed or killed; the agent still starts the next run.
 
-## Catchable signals (`SIGINT`, `SIGTERM`, `SIGHUP`)
+## Catchable signals and preemption
 
 You can register custom signal handlers in your training script. When a catchable signal is delivered, your handler runs; metrics already sent to W&B are preserved, and the agent detects the process exit and starts the next run.
 
 **Best practices:**
 
 - Register handlers early (for example, before entering the main training loop).
-- In the handler, log to W&B if useful, perform cleanup (for example, save a checkpoint), then exit with a non-zero code so requeue behavior is correct when using `mark_preempting()`.
+- In the handler, call [`wandb.run.mark_preempting()`](/models/ref/python/experiments/run#mark_preempting) when you intend the run to be requeued after preemption, perform cleanup (for example, save a checkpoint), then exit with a non-zero code. Avoid logging ad hoc metrics for the signal alone; a signal can be transient, and a dedicated metric can be misleading next to normal training metrics.
 
-The following example registers handlers for `SIGINT` and `SIGTERM`, logs the signal to W&B, and exits with code 1:
+The following example registers handlers for `SIGUSR1` (a typical cluster preemption signal) and `SIGTERM`. It leaves `SIGINT` free for interactive use (for example, manual cancellation from the terminal). The handler calls `wandb.run.mark_preempting()` and exits using `128 + signum`:
 
 ```python
 import signal
@@ -37,12 +37,14 @@ import wandb
 
 def signal_handler(signum, frame):
     if wandb.run is not None:
-        wandb.log({"signal_received": signum})
-    sys.exit(1)
+        # Optional: save a model checkpoint, flush buffers, and so on.
+        print(f"Preempted with signal: {signal.Signals(signum).name}.")
+        wandb.run.mark_preempting()
+    sys.exit(128 + signum)
 
 
 def train():
-    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGUSR1, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
 
     with wandb.init() as run:
@@ -62,16 +64,19 @@ if __name__ == "__main__":
 
 ## Forwarding signals from agent to child
 
-The sweep agent runs your training script as a child process. When you interrupt the **agent** (for example, with Ctrl+C or when a scheduler sends `SIGTERM` to the job), the **child** (training process) does not receive the signal by default; the training script cannot run its handler or call `mark_preempting()`. This is described in [GitHub #3667](https://github.com/wandb/wandb/issues/3667).
+When you use the [`wandb agent`](/models/ref/cli/wandb-agent) CLI, the agent runs your training script as a **child process**. When you interrupt the **agent** (for example, with Ctrl+C or when a scheduler sends `SIGTERM` to the job), the **child** (training process) does not receive the signal by default; the training script cannot run its handler or call `mark_preempting()`. This is described in [GitHub #3667](https://github.com/wandb/wandb/issues/3667).
 
-To let the child shut down gracefully and optionally mark the run as preempting, forward signals from the agent to the child:
+To let the child shut down gracefully and call `wandb.run.mark_preempting()` in a handler, run the CLI agent with `--forward-signals`:
 
-- **CLI**: Run the agent with the `--forward-signals` flag: `wandb agent --forward-signals entity/project/sweep_ID`
-- **Python**: Pass `forward_signals=True` to [`wandb.agent()`](/models/ref/python/functions/agent)
+```bash
+wandb agent --forward-signals entity/project/sweep_ID
+```
 
-When the agent receives `SIGINT` or `SIGTERM`, it forwards the signal to the child so your training script's handler can run, call `mark_preempting()` and `wandb.finish(exit_code=1)` if needed, and exit with a non-zero code.
+Signal forwarding is **not** supported for [`wandb.agent()`](/models/ref/python/functions/agent) in the Python API. That path runs your training function in a thread, not as a separate child process, so the same forwarding behavior does not apply.
 
-See the [wandb agent](/models/ref/cli/wandb-agent) CLI reference and the [wandb.agent()](/models/ref/python/functions/agent) Python reference for details.
+When the CLI agent receives `SIGINT` or `SIGTERM` with forwarding enabled, it relays the signal to the child so your training script's handler can run, call `wandb.run.mark_preempting()` and [`wandb.finish()`](/models/ref/python/experiments/run#finish) with a non-zero exit code if needed, and exit with a non-zero code. If you press Ctrl+C twice on the agent process, the agent receives `SIGTERM` by default. With `--forward-signals`, `SIGINT` can be forwarded to the child so your handler runs.
+
+See the [wandb agent](/models/ref/cli/wandb-agent) CLI reference for details.
 
 ## Preemptible clusters like `SLURM`
 
@@ -79,10 +84,10 @@ On preemption, the **training process** must receive the signal, mark the run as
 
 **Ensure the training process receives the signal:**
 
-1. **When the scheduler signals the agent**: Run the agent with `wandb agent --forward-signals` so that when the scheduler (or user) sends a signal to the agent, the agent forwards it to the child. The child's handler can then call `mark_preempting()`, `wandb.finish(exit_code=1)`, and `sys.exit(1)`.
+1. **When the scheduler signals the agent**: Run the agent with `wandb agent --forward-signals` so that when the scheduler (or user) sends a signal to the agent, the agent forwards it to the child. The child's handler can then call `wandb.run.mark_preempting()`, [`wandb.finish(exit_code=...)`](/models/ref/python/experiments/run#finish) with a non-zero code, and `sys.exit(128 + signum)` (or another non-zero exit code).
 2. **When the scheduler signals the launch script (not the agent directly)**: Have the launch script send the preemption signal directly to the training process. For example, the training script writes its process ID to a file; the launch script traps the cluster signal (for example `SIGUSR1`) and runs `kill -SIGUSR1 $(cat $PID_FILE)` so the training process's handler runs.
 
-**In the training script:** Register a handler for the signal your cluster uses (for example `SIGTERM` or `SIGUSR1`). In the handler, call `wandb.run.mark_preempting()` if a run is active, then `wandb.finish(exit_code=1)` and `sys.exit(1)` so the run is requeued. See [Resume preemptible Sweeps runs](/models/runs/resuming#resume-preemptible-sweeps-runs) for the requeue table and `mark_preempting()` usage.
+**In the training script:** Register a handler for the signal your cluster uses (for example `SIGTERM` or `SIGUSR1`). In the handler, call `wandb.run.mark_preempting()` if a run is active, then finish the run with a non-zero exit code and `sys.exit(128 + signum)` (or another non-zero code) so the run is requeued. See [Resume preemptible Sweeps runs](/models/runs/resuming#resume-preemptible-sweeps-runs) for when runs are requeued and how that interacts with `mark_preempting()`.
 
 **Sweep state:** Run `wandb sweep entity/project/sweep_ID --resume` before starting the agent so the sweep is in resume mode and will hand out requeued runs.
 
@@ -92,7 +97,7 @@ On preemption, the **training process** must receive the signal, mark the run as
 
 You cancel a sweep using the W&B API, not an OS signal. Run a command like `wandb sweep --cancel entity/project/sweep_ID`. The server tells the agent to exit, and the agent then terminates running child processes and stops. There can be a short delay (on the order of the agent's API polling interval) before cancellation takes effect.
 
-Runs are terminated abruptly. The child processes have no chance to run user-defined signal handlers. Use `--cancel` when you want to stop the entire sweep and mark it cancelled. For graceful shutdown of the current run, send a signal to the run (or use `--forward-signals` and signal the agent). For graceful sweep completion, use [`wandb sweep --stop`](/models/sweeps/pause-resume-and-cancel-sweeps#stop-a-sweep) instead of `--cancel`.
+Cancellation delivers **`SIGKILL`** to runs. Child processes have no chance to run user-defined signal handlers. The same applies when you use the **Cancel** control on the Sweeps UI. Use `--cancel` when you want to stop the entire sweep and mark it cancelled. For graceful shutdown of the current run, send a catchable signal to the run (or use `--forward-signals` with the CLI agent and signal the agent). For graceful sweep completion, use [`wandb sweep --stop`](/models/sweeps/pause-resume-and-cancel-sweeps#stop-a-sweep) instead of `--cancel`.
 
 See [Manage sweeps](/models/sweeps/pause-resume-and-cancel-sweeps) for pause, resume, stop, and cancel options.
 
@@ -100,4 +105,24 @@ See [Manage sweeps](/models/sweeps/pause-resume-and-cancel-sweeps) for pause, re
 
 If you send a signal to the **agent** process (not the child training process), the agent may exit while the child continues running as an orphan. The orphan may keep printing to your terminal, and the shell may not show a new prompt until you press Enter.
 
+Unless you use `--forward-signals` with the CLI agent, stopping the agent does not guarantee the child training process stops.
+
 To confirm the agent has exited, use an OS command like `ps -p <agent_pid>` or `pgrep -f "wandb agent"` instead of relying on prompt appearance.
+
+## Reference: `mark_preempting()` and final run state
+
+The table below summarizes how run state depends on **when** you call `mark_preempting()` and how the process exits. It assumes you use the [`wandb agent`](/models/ref/cli/wandb-agent) CLI with your training program as a subprocess.
+
+| Scenario | No `mark_preempting()` | Signal handler calls `mark_preempting()` and exits non-zero | `mark_preempting()` always called right after `init()` |
+| --- | --- | --- | --- |
+| Run completes normally with exit code 0 | FINISHED | FINISHED | FINISHED |
+| Run fails with non-zero exit code | FAILED | FAILED | PREEMPTED |
+| Run receives `SIGKILL` | CRASHED after about five minutes | CRASHED after about five minutes (uncatchable) | PREEMPTED after about five minutes |
+| Run receives `SIGINT` | KILLED | PREEMPTED (with a `SIGINT` handler) | PREEMPTED |
+| Run receives another signal (for example `SIGTERM` or `SIGUSR1`) | CRASHED after about five minutes | PREEMPTED (with a matching handler) | PREEMPTED after about five minutes |
+
+If you only call `mark_preempting()` inside a signal handler, you do not cover cases where the handler never runs, such as `SIGKILL`.
+
+If you always call `mark_preempting()` immediately after `wandb.init()`, any failure can be treated as preemption and the run may be requeued repeatedly, including for bugs or bad configuration.
+
+For environments with a well-defined preemption signal, the usual approach is a **signal handler** that calls `mark_preempting()` and exits non-zero, not an unconditional call after `init()`.
