@@ -10,7 +10,7 @@ title: Embed objects
 
 [Embeddings](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture) are used to represent objects (people, images, posts, words, etc...) with a list of numbers - sometimes referred to as a _vector_. In machine learning and data science use cases, embeddings can be generated using a variety of approaches across a range of applications. This page assumes the reader is familiar with embeddings and is interested in visually analyzing them inside of W&B.
 
-## Embedding Examples
+## Embedding examples
 
 - [Live Interactive Demo Report](https://wandb.ai/timssweeney/toy_datasets/reports/Feature-Report-W-B-Embeddings-Projector--VmlldzoxMjg2MjY4?accessToken=bo36zrgl0gref1th5nj59nrft9rc4r71s53zr2qvqlz68jwn8d8yyjdz73cqfyhq) 
 - [Example Colab](https://colab.research.google.com/drive/1DaKL4lZVh3ETyYEM1oJ46ffjpGs8glXA#scrollTo=D--9i6-gXBm_).
@@ -76,7 +76,7 @@ After running the above code, again we are presented with a Table in the UI. By 
     <img src="/images/weave/embedding_projector.png" alt="MNIST digits projection"  />
 </Frame>
 
-## Logging Options
+## Logging options
 
 You can log embeddings in a number of different formats:
 
@@ -98,7 +98,7 @@ Furthermore, just like all tables, you have many options regarding how to constr
 4. Add an **embedding column** to your table (great if you have a list of predictions in the form of embeddings): `table.add_col("col_name", ...)`
 5. Add a **computed column** (great if you have a function or model you want to map over your table): `table.add_computed_columns(lambda row, ndx: {"embedding": model.predict(row)})`
 
-## Plotting Options
+## Plotting options
 
 After selecting `2D Projection`, you can click the gear icon to edit the rendering settings. In addition to selecting the intended columns (see above), you can select an algorithm of interest (along with the desired parameters). Below you can see the parameters for UMAP and t-SNE respectively.
 

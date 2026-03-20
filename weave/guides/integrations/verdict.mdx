@@ -13,7 +13,7 @@ When working with AI evaluation pipelines, debugging is crucial. Whether a pipel
 
 Weave simplifies this process by automatically capturing traces for your [Verdict](https://verdict.readthedocs.io/) applications. This enables you to monitor and analyze your pipeline's performance, making it easier to debug and optimize your AI evaluation workflows.
 
-## Getting Started
+## Getting started
 
 To get started, simply call `weave.init(project=...)` at the beginning of your script. Use the `project` argument to log to a specific W&B Team name with `team-name/project-name` or do `project-name` to log to your default team/entity.
 
@@ -79,7 +79,7 @@ Weave automatically captures traces for your Verdict applications. It will track
 
 You can view the traces in the Weave web interface, showing the hierarchical structure of your pipeline execution.
 
-## Pipeline Tracing Example
+## Pipeline tracing example
 
 Here's a more complex example showing how Weave traces nested pipeline operations:
 
@@ -269,9 +269,9 @@ print(scores)
 
 This creates an evaluation trace that shows how your Verdict pipeline performs across different test cases.
 
-## Best Practices
+## Best practices
 
-### Performance Monitoring
+### Performance monitoring
 Weave automatically captures timing information for all pipeline operations. You can use this to identify performance bottlenecks:
 
 ```python lines {6}
@@ -297,7 +297,7 @@ for i in range(3):
         result = pipeline.run(data)
 ```
 
-### Error Handling
+### Error handling
 Weave automatically captures exceptions that occur during pipeline execution:
 
 ```python lines {6}

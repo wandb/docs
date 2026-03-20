@@ -1,5 +1,5 @@
 ---
-description: Resume a paused or exited W&B Run
+description: "Resume paused, stopped, or crashed W&B runs using the resume parameter options in wandb.init()."
 title: Resume a run
 ---
 
@@ -113,7 +113,7 @@ Use the [`mark_preempting`](/models/ref/python/experiments/run#mark_preempting) 
 with wandb.init() as run:
     run.mark_preempting()
 ```
-The following table outlines how W&B handles runs based on the exit status of the sweep run.
+The following table outlines how W&B handles runs based on the exit status of a sweep run.
 
 |Status| Behavior |
 |------| ---------|

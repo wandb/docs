@@ -1,10 +1,33 @@
 ---
 title: "W&B SDK releases"
+description: "View release notes for the W&B Python SDK including new features, bug fixes, and breaking changes by version."
 sidebarTitle: "All releases"
 rss: true
 ---
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
+
+<Update label="0.25.1" description="March 10, 2026">
+## Added
+
+- New run console logs pane in `wandb beta leet` command. Toggle with `l`.
+- New system metrics pane in multi-run workspace mode in `wandb beta leet` command. Toggle with `s`.
+- `wandb beta leet` command now supports system metrics filtering. Toggle with `\`.
+- `ArtifactType.collections()` now supports filtering and ordering of collections.
+- A warning is now logged if `run.log_artifact` does not create a new version because the artifact content is identical to an existing version.
+- The new method `Project.collections()` fetches filtered and ordered artifact collections in a project.
+- The new `wandb purge-cache` CLI command cleans up cached files.
+
+## Fixed
+- Fixed a rare deadlock caused when garbage collection triggers at an unlucky time and runs a `__del__` method that prints.
+- Fixed a bug where loading multiple runs with `api.Runs("...")`, then attempting to get a single run's user with code like the following could fail with an `AttributeError`:
+
+    ```python
+    for run in runs:
+      print(run.user)
+    ```
+
+</Update>
 
 <Update label="0.25.0" description="February 12, 2026">
 ## Notable changes
@@ -371,7 +394,7 @@ This version removes the ability to disable the `service` process. This is a bre
   - S3 paths use the format `s3://bucket/path/to/log/dir` and rely on the default credentials set through `aws configure`
   - Azure paths use the format `az://account/container/path/to/log/dir` and the `az login` credentials, but also require the `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_KEY` environment variables to be set. Some other environment variables are supported as well, see [here](https://pkg.go.dev/gocloud.dev@v0.41.0/blob/azureblob#hdr-URLs).
 - Added support for initializing some Media objects with `pathlib.Path`.
-- New setting `x_skip_transaction_log` that allows to skip the transaction log. Note: Should be used with caution, as it removes the gurantees about recoverability.
+- New setting `x_skip_transaction_log` that allows to skip the transaction log. Note: Should be used with caution, as it removes the guarantees about recoverability.
 - `normalize` parameter to `wandb.Image` initialization to normalize pixel values for Images initialized with a numpy array or pytorch tensor.
 
 ## Changed
@@ -2426,7 +2449,7 @@ View the [v0.13.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.1
 - Adds an option to pass `remote url` and `commit hash` as arguments to settings or as environment variables.
 - Improves time resolution for tracked metrics and for system metrics.
 - Defaults to project name from the sweep config when project is not specified in the `wandb.sweep()` call.
-- Adds support to use namespace set user by the the launch agent.
+- Adds support to use namespace set user by the launch agent.
 - Adds telemetry to track when a run might be overwritten.
 - Adds a tool to export `wandb`'s history into `sqlite`.
 - Replaces some `Mapping[str, ...]` types with `NamedTuples`.
@@ -2469,7 +2492,7 @@ View the [v0.13.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.0
 
 - Fixes config not showing up until the run finish.
 - Adds new types to the TypeRegistry to handling artifact objects in jobs and run configs.
-- Adds new query to the the internal api getting the state of the run.
+- Adds new query to the internal api getting the state of the run.
 - Replaces unsafe yaml loaders with yaml.safe_load.
 - Improves testing tooling by allowing to specify shards in manual testing.
 - Fixes ROC and PR curves in the sklearn integration by stratifying sampling.
@@ -3881,7 +3904,7 @@ View the [v0.9.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.3) 
 - Configurable download directory for artifacts.
 - New Artifact.verify method to ensure the integrity of local artifacts.
 - Use_artifact no longer requires `type`.
-- Deleted artifacts can now be be recommitted.
+- Deleted artifacts can now be recommitted.
 - Lidar scenes now support vectors.
 
 ## Bug Fix
