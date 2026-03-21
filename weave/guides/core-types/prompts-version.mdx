@@ -64,8 +64,8 @@ To view versions of the prompt in the UI:
 
 You can organize prompt versions using aliases and tags. These labels help identify and reference specific versions.
 
-- An alias is a unique name that points to one prompt version at a time. It can be used to get a reference to the prompt it points to.
-- Tags are descriptive labels on a version. A version can have many tags. Use tags to organize and find versions in the UI and in code.
+- Alias: A unique name that resolves to a single prompt version. You can move an alias to point to a different version at any time, making it useful for stable references like production or staging.
+- Tag: A descriptive label attached to a version. A version can have multiple tags. Use tags to categorize and filter versions, such as reviewed or passed-eval.
 
 To set aliases and tags for your prompts in the UI:
 1. In the Weave project sidebar, click **Assets**. This opens the Assets page.
@@ -166,7 +166,7 @@ You can construct refs with a few different styles:
 
 - `weave.ref(<name>)`: Retrieves the `:latest` version of a prompt. Requires calling `weave.init(...)`.
 - `weave.ref(<name>:<alias_or_version>)`: Retrieves a prompt by alias, version hash, or version index. Requires calling `weave.init(...)`. Prefer aliases (e.g. `production`) over version indices (e.g. `v3`), which can shift.
-- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the prompt located at the specified [fully qualified ref URI](#construct-a-fully-qualified-ref-uri). Does not require calling `weave.init`.
+- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the prompt located at the specified [fully qualified ref URI](#construct-a-fully-qualified-ref-uri). Does not require calling `weave.init(...)`.
 
 The following example loads the `support_prompt` prompt by its `production` alias:
 
@@ -180,7 +180,7 @@ prompt = weave.ref("support_prompt:production").get()
 
 ## Use prompt versions in production
 
-When deploying prompts in production systems, use an [alias](#prompt-tags-and-aliases) like `production` rather than a version index or latest version. In your production application, load the prompt with `weave.ref(<name>:<alias>).get()`.
+When deploying prompts in production systems, use an [alias](#add-prompt-tags-and-aliases) like `production` rather than a version index or latest version. In your production application, load the prompt with `weave.ref(<name>:<alias>).get()`.
 
 Aliases are stable named pointers that always resolve to the version you assigned them to. Version indices (`v0`, `v1`, ...) are computed from timestamps and can shift if the same content is re-published, so they are not safe to use as long-lived references.
 
