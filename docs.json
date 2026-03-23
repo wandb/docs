@@ -604,6 +604,14 @@
                         "pages": [
                           "models/ref/cli/wandb-beta",
                           {
+                            "group": "core",
+                            "pages": [
+                              "models/ref/cli/wandb-beta/wandb-beta-core",
+                              "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-start",
+                              "models/ref/cli/wandb-beta/wandb-beta-core/wandb-beta-core-stop"
+                            ]
+                          },
+                          {
                             "group": "beta leet",
                             "pages": [
                               "models/ref/cli/wandb-beta/wandb-beta-leet",
