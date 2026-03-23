@@ -27,7 +27,7 @@ run.log({'loss': 0.2}, step=step)
 Use `wandb.Run.log()` to log consecutive values for each `step`: 0, 1, 2, and so on. It is not possible to write to a specific history step. W&B only writes to the "current" and "next" step.
 </Warning>
 
-{/* You can set `commit=False` in `run.log()` to accumulate metrics, just be sure to eventually call `run.log()` with `commit=True` (the default) to persist the metrics.
+{/* You can set `commit=False` in `wandb.Run.log()` to accumulate metrics, just be sure to eventually call `run.log()` with `commit=True` (the default) to persist the metrics.
 
 ```python
 run.log({'loss': 0.2}, commit=False)
