@@ -329,7 +329,7 @@ def plain_text(body: str) -> str:
     allowlist, and whitespace collapse.
 
     Allowed characters after cleanup: letters, digits, space, underscore,
-    equals, and ``.,:;!?&'"()-/``.
+    equals, and ``.,:;!?&'"()-/@+``.
 
     Parameters
     ----------
@@ -443,7 +443,7 @@ def plain_text(body: str) -> str:
     text = text.translate(_PLAIN_TEXT_TYPOGRAPHIC_TO_ASCII)
 
     # Allowlist: drop anything that could still be markup or stray symbols.
-    text = re.sub(r"[^a-zA-Z0-9 .,:;!?&'\"()\-/_=]", " ", text)
+    text = re.sub(r"[^a-zA-Z0-9 .,:;!?&'\"()\-/_=@+]", " ", text)
     return re.sub(r"\s+", " ", text).strip()
 
 
