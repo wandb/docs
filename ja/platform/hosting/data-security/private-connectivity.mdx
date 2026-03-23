@@ -1,23 +1,23 @@
 ---
-title: 専用クラウドへのプライベート接続を設定します
+title: 専用クラウド へのプライベート接続の 設定
 ---
 
-クラウドプロバイダーの安全なプライベートネットワークを介して、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud/) インスタンスに接続できます。これは、AI ワークロードから W&B API へのアクセス、およびオプションでユーザーのブラウザから W&B アプリ UI へのアクセスにも適用されます。プライベート接続を使用する場合、関連するリクエストとレスポンスはパブリックネットワークやインターネットを経由しません。
+クラウドプロバイダーの安全なプライベートネットワークを介して、 [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) インスタンスに接続できます。これは、AI ワークロードから W&B API へのアクセス、およびオプションで Users のブラウザから W&B アプリ UI へのアクセスにも適用されます。プライベート接続を使用する場合、関連するリクエストとレスポンスはパブリックネットワークやインターネットを経由しません。
 
 <Note>
-安全なプライベート接続は、専用クラウドの高度なセキュリティオプションとして間もなく利用可能になります。
+安全なプライベート接続は、 Dedicated Cloud の高度なセキュリティオプションとして近日公開予定です。
 </Note>
 
-安全なプライベート接続は、AWS、GCP、および Azure 上の専用クラウドインスタンスで利用可能です：
+安全なプライベート接続は、 AWS 、 Google Cloud 、 Azure 上の Dedicated Cloud インスタンスで利用可能です。
 
-* AWS で [AWS Privatelink](https://aws.amazon.com/privatelink/) を使用
-* GCP で [GCP Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) を使用
-* Azure で [Azure Private Link](https://azure.microsoft.com/products/private-link) を使用
+* AWS では [AWS Privatelink](https://aws.amazon.com/privatelink/) を使用
+* Google Cloud では [Google Cloud Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) を使用
+* Azure では [Azure Private Link](https://azure.microsoft.com/products/private-link) を使用
 
-一度有効にすると、W&B はインスタンス用のプライベートエンドポイントサービスを作成し、接続するための関連する DNS URI を提供します。それにより、クラウドアカウント内にプライベートエンドポイントを作成し、関連するトラフィックをプライベートエンドポイントサービスにルーティングできます。プライベートエンドポイントは、クラウド VPC または VNet 内で動作する AI トレーニングワークロードに対して、設定が容易です。ユーザーブラウザから W&B アプリ UI へのトラフィックに対しても同じメカニズムを使用するには、企業ネットワークからクラウドアカウント内のプライベートエンドポイントへの適切な DNS ベースのルーティングを設定する必要があります。
+有効化されると、 W&B はインスタンス用のプライベートエンドポイントサービスを作成し、接続に関連する DNS URI を提供します。これにより、お客様のクラウドプラットフォームのアカウント内に、プライベートエンドポイントサービスへトラフィックをルーティングするプライベートエンドポイントを作成できます。プライベートエンドポイントは、クラウドの VPC または VNet 内で実行されている AI トレーニングワークロードに対して簡単にセットアップできます。 Users のブラウザから W&B アプリ UI へのトラフィックにも同じ仕組みを使用するには、企業ネットワークからクラウドプラットフォームアカウント内のプライベートエンドポイントへ、適切な DNS ベースのルーティングを 設定 する必要があります。
 
 <Note>
-この機能を使用したい場合は、W&B チームにご連絡ください。
+この機能の利用をご希望の場合は、 W&B チームまでお問い合わせください。
 </Note>
 
-[IP allowlisting](/ja/platform/hosting/data-security/ip-allowlisting/) とともに安全なプライベート接続を使用できます。IP allowlisting のために安全なプライベート接続を使用する場合、W&B は可能であれば、IP allowlisting を特権的な場所からのインスタンス管理のために使用しつつ、AI ワークロードからのすべてのトラフィックと、ユーザーブラウザからのトラフィックの大部分に対して安全なプライベート接続を確保することをお勧めします。
+安全なプライベート接続は、 [IP allowlisting](./ip-allowlisting) と併用できます。 IP allowlisting に安全なプライベート接続を使用する場合、 W&B では、AI ワークロードからのすべてのトラフィックと、可能であれば Users のブラウザからの大部分のトラフィックに安全なプライベート接続を使用し、特権的な場所からのインスタンス管理には IP allowlisting を使用することを推奨しています。

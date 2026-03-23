@@ -1,6 +1,6 @@
 ---
 title: Call tools
-description: How to call tools with W&B Inference
+description: "Use function and tool calling with W&B Inference to let models invoke external tools and APIs during generation."
 ---
 
 Tool calling allows you to extend a model's capabilities to include invoking tools as part of its response. W&B Inference only supports calling functions at this time. 
@@ -14,7 +14,7 @@ To call functions, specify them and their arguments as part of your request to t
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Available from https://wandb.ai/authorize
+        api_key="<your-api-key>",  # Create an API key at https://wandb.ai/settings
     )
 
     response = client.chat.completions.create(

@@ -1,51 +1,51 @@
 ---
-title: W&B プラットフォームを GCP にデプロイする
-description: GCP で W&B サーバー をホスティングする。
+title: Google クラウド 上での W&B プラットフォーム のデプロイ
+description: Google クラウド での W&B Server のホスティング。
 ---
 
 <Note>
-W&B は、[W&B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) または [W&B 専用クラウド](/ja/platform/hosting/hosting-options/dedicated_cloud/) のデプロイメントタイプなどの完全管理されたデプロイメントオプションを推奨しています。W&B の完全管理サービスはシンプルで安全に使用でき、設定はほとんど必要ありません。
+W&Bでは、[W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) や [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud/) デプロイメントタイプのような、フルマネージドなデプロイオプションを推奨しています。W&Bのフルマネージドサービスはシンプルかつ安全に利用でき、設定は最小限、あるいは全く必要ありません。
 </Note>
 
-W&B Server のセルフマネージドを選択した場合、W&B は [W&B Server GCP Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) を使用して GCP 上にプラットフォームをデプロイすることを推奨しています。
+セルフマネージド（Self-Managed）の W&B Server を選択した場合は、[W&B Server Google Cloud Terraform Module](https://registry.terraform.io/modules/wandb/wandb/google/latest) を使用して Google Cloud 上にプラットフォームをデプロイすることを推奨します。
 
-このモジュールのドキュメントは詳細で、使用可能なすべてのオプションが含まれています。
+このモジュールのドキュメントは広範囲にわたっており、利用可能なすべてのオプションが記載されています。
 
-始める前に、Terraform 用の [リモートバックエンド](https://developer.hashicorp.com/terraform/language/backend/remote) のいずれかを選択し、[ステートファイル](https://developer.hashicorp.com/terraform/language/state) を保存することをお勧めします。
+開始する前に、[State File](https://developer.hashicorp.com/terraform/language/state) を保存するために、Terraform で利用可能な [リモートバックエンド](https://developer.hashicorp.com/terraform/language/backend/remote) のいずれかを選択しておくことをお勧めします。
 
-ステートファイルは、コンポーネントを再作成することなく、アップグレードを展開したり、デプロイメントに変更を加えたりするために必要なリソースです。
+State File は、すべてのコンポーネントを再作成することなく、デプロイメントのアップグレードや変更を行うために必要なリソースです。
 
-Terraform モジュールは以下の `必須` コンポーネントをデプロイします：
+Terraform モジュールは、以下の「必須」コンポーネントをデプロイします。
 
 - VPC
 - Cloud SQL for MySQL
 - Cloud Storage バケット
 - Google Kubernetes Engine
-- KMS 暗号キー
-- ロードバランサ
+- KMS 暗号化キー
+- ロードバランサー
 
-他のデプロイメントオプションには次のオプションコンポーネントが含まれることがあります：
+その他のデプロイオプションには、以下のオプションコンポーネントを含めることもできます。
 
-- Redis のためのメモリストア
-- Pub/Sub メッセージシステム
+- Redis 用の Memory Store
+- Pub/Sub メッセージングシステム
 
-## 事前要件の許可
+## 必要な権限
 
-Terraform を実行するアカウントには、使用される GCP プロジェクトにおいて `roles/owner` の役割が必要です。
+Terraform を実行するアカウントは、使用する Google Cloud プロジェクトにおいて `roles/owner` ロールを持っている必要があります。
 
 ## 一般的な手順
 
-このトピックの手順は、このドキュメントでカバーされている任意のデプロイメントオプションに共通です。
+このセクションの手順は、このドキュメントで扱うすべてのデプロイオプションに共通するものです。
 
 1. 開発環境を準備します。
    - [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) をインストールします。
-   - 使用するコードを含む Git リポジトリを作成することをお勧めしますが、ファイルをローカルに保持することもできます。
+   - 使用するコードを管理する Git リポジトリを作成することを推奨しますが、ローカルにファイルを保持することも可能です。
    - [Google Cloud Console](https://console.cloud.google.com/) でプロジェクトを作成します。
-   - GCP に認証します（`gcloud` を[インストール](https://cloud.google.com/sdk/docs/install) しておくことを確認してください）
+   - Google Cloud で認証を行います（事前に [gcloud のインストール](https://cloud.google.com/sdk/docs/install) を済ませてください）。
      `gcloud auth application-default login`
 2. `terraform.tfvars` ファイルを作成します。
 
-   `tvfars` ファイルの内容はインストールタイプに応じてカスタマイズできますが、最低限の推奨事項は以下の例のようになります。
+   `tfvars` ファイルの内容はインストールタイプに応じてカスタマイズ可能ですが、推奨される最小構成は以下の例のようになります。
 
    ```bash
    project_id  = "wandb-project"
@@ -57,13 +57,13 @@ Terraform を実行するアカウントには、使用される GCP プロジ�
    domain_name = "wandb.ml"
    ```
 
-   ここで定義する変数はデプロイメントの前に決定する必要があります。`namespace` 変数は、Terraform によって作成されたすべてのリソースにプレフィックスとして付ける文字列になります。
+   ここで定義する変数は、デプロイ前に決定しておく必要があります。`namespace` 変数は、Terraform によって作成されるすべてのリソースのプレフィックスとなる文字列になります。
 
-   `subdomain` と `domain` の組み合わせが W&B が設定される FQDN を形成します。上記の例では、W&B FQDN は `wandb-gcp.wandb.ml` となります。
+   `subdomain` と `domain_name` の組み合わせが、W&B が設定される FQDN になります。上記の例では、W&B の FQDN は `wandb-gcp.wandb.ml` となります。
 
 3. `variables.tf` ファイルを作成します。
 
-   `terraform.tfvars` で設定されたすべてのオプションに対して、Terraform は対応する変数宣言を求めます。
+   `terraform.tfvars` で設定した各オプションに対して、Terraform では対応する変数宣言が必要です。
 
    ```
    variable "project_id" {
@@ -102,13 +102,13 @@ Terraform を実行するアカウントには、使用される GCP プロジ�
    }
    ```
 
-## デプロイメント - 推奨 (~20 分)
+## デプロイ - 推奨構成（所要時間：約20分）
 
-これは `Mandatory` コンポーネントをすべて作成し、`Kubernetes Cluster` に `W&B` の最新バージョンをインストールする最も単純なデプロイメントオプション設定です。
+これは最もシンプルなデプロイオプションで、すべての「必須」コンポーネントを作成し、`Kubernetes クラスター` に最新バージョンの `W&B` をインストールします。
 
 1. `main.tf` を作成します。
 
-   [一般的な手順](#general-steps) でファイルを作成したのと同じディレクトリに、次の内容の `main.tf` ファイルを作成します：
+   [一般的な手順](#一般的な手順) でファイルを作成したのと同じディレクトリーに、以下の内容で `main.tf` ファイルを作成します。
 
    ```
    provider "google" {
@@ -131,7 +131,7 @@ Terraform を実行するアカウントには、使用される GCP プロジ�
      token                  = data.google_client_config.current.access_token
    }
 
-   # 必須サービスをすべて起動
+   # すべての必須サービスを起動
    module "wandb" {
      source  = "wandb/wandb/google"
      version = "~> 5.0"
@@ -142,7 +142,7 @@ Terraform を実行するアカウントには、使用される GCP プロジ�
      subdomain   = var.subdomain
    }
 
-   # プロビジョニングされた IP アドレスで DNS を更新する必要があります
+   # プロビジョニングされたIPアドレスでDNSを更新する必要があります
    output "url" {
      value = module.wandb.url
    }
@@ -158,18 +158,18 @@ Terraform を実行するアカウントには、使用される GCP プロジ�
 
 2. W&B をデプロイします。
 
-   W&B をデプロイするには、次のコマンドを実行します：
+   W&B をデプロイするには、以下のコマンドを実行します。
 
    ```
    terraform init
    terraform apply -var-file=terraform.tfvars
    ```
 
-## REDIS キャッシュを使用したデプロイメント
+## Redis キャッシュを使用したデプロイ
 
-別のデプロイメントオプションでは、`Redis` を使用して SQL クエリをキャッシュし、実験のメトリクスをロードする際のアプリケーションの応答速度を向上させます。
+別のデプロイオプションとして、`Redis` を使用して SQL クエリをキャッシュし、Experiments のメトリクスを読み込む際のアプリケーションの応答速度を向上させることができます。
 
-推奨される [Deployment option section](#deployment---recommended-20-mins) に示されている同じ `main.tf` ファイルに `create_redis = true` のオプションを追加する必要があります。
+キャッシュを有効にするには、推奨される [デプロイセクション](#デプロイ---推奨構成所要時間約20分) で指定したのと同じ `main.tf` ファイルに、オプション `create_redis = true` を追加します。
 
 ```
 [...]
@@ -183,18 +183,18 @@ module "wandb" {
   domain_name  = var.domain_name
   subdomain    = var.subdomain
   allowed_inbound_cidrs = ["*"]
-  # Redis を有効化
+  # Redisを有効化
   create_redis = true
 
 }
 [...]
 ```
 
-## 外部キューを使用したデプロイメント
+## 外部キューを使用したデプロイ
 
-デプロイメントオプション 3 は外部の `メッセージブローカー` を有効化することから成ります。これは W&B が組み込みのブローカーを提供しているため、オプションです。性能改善はもたらしません。
+3つ目のデプロイオプションは、外部の `message broker` を有効にすることです。W&B にはブローカーが組み込まれているため、これはオプションです。このオプションによってパフォーマンスが向上するわけではありません。
 
-メッセージブローカーを提供する GCP リソースは `Pub/Sub` であり、これを有効にするには、推奨される [Deployment option section](#deployment---recommended-20-mins) に示されている同じ `main.tf` に `use_internal_queue = false` のオプションを追加する必要があります。
+メッセージブローカーを提供する Google Cloud リソースは `Pub/Sub` です。これを有効にするには、推奨される [デプロイセクション](#デプロイ---推奨構成所要時間約20分) で指定したのと同じ `main.tf` に、オプション `use_internal_queue = false` を追加します。
 
 ```
 [...]
@@ -208,7 +208,7 @@ module "wandb" {
   domain_name        = var.domain_name
   subdomain          = var.subdomain
   allowed_inbound_cidrs = ["*"]
-  # Pub/Sub を作成して使用
+  # Pub/Subを作成して使用する
   use_internal_queue = false
 
 }
@@ -217,43 +217,46 @@ module "wandb" {
 
 ```
 
-## その他のデプロイメントオプション
+## その他のデプロイオプション
 
-すべてのデプロイメントオプションを組み合わせて、すべての設定を同じファイルに追加することができます。 [Terraform Module](https://github.com/wandb/terraform-google-wandb) は、標準のオプションや `Deployment - Recommended` で見つかる最小限の設定と共に組み合わせることができる複数のオプションを提供しています。
+これら3つのデプロイオプションを組み合わせて、すべての設定を同じファイルに追加することも可能です。
+[Terraform Module](https://github.com/wandb/terraform-google-wandb) は、標準オプションや `デプロイ - 推奨構成` にある最小限の設定と組み合わせて使用できる複数のオプションを提供しています。
+
+{/* ## アップグレード (近日公開予定) */}
 
 ## 手動設定
 
-GCP ストレージバケットを W&B のファイルストレージバックエンドとして使用するには、以下を作成する必要があります：
+Google Cloud Storage バケットを W&B のファイルストレージバックエンドとして使用するには、以下を作成する必要があります。
 
-* [PubSub Topic と Subscription](#create-pubsub-topic-and-subscription)
-* [ストレージバケット](#create-storage-bucket)
-* [PubSub 通知](#create-pubsub-notification)
+* [Pub/Sub トピックとサブスクリプション](#pubsub-トピックとサブスクリプションの作成)
+* [Storage バケット](#storage-バケットの作成)
+* [Pub/Sub 通知](#pubsub-通知の作成)
 
-### PubSub Topic と Subscription の作成
+### Pub/Sub トピックとサブスクリプションの作成
 
-以下の手順に従って、PubSub トピックとサブスクリプションを作成します：
+以下の手順に従って、Pub/Sub トピックとサブスクリプションを作成します。
 
-1. GCP Console 内の Pub/Sub サービスに移動します。
-2. **Create Topic** を選択してトピックに名前を付けます。
-3. ページの下部で、**Create subscription** を選択します。 **Delivery Type** が **Pull** に設定されていることを確認します。
-4. **Create** をクリックします。
+1. Google Cloud Console 内の Pub/Sub サービスに移動します。
+2. **トピックを作成** を選択し、トピックの名前を入力します。
+3. ページの下部で **サブスクリプションを作成** を選択します。**配信タイプ** が **プル** に設定されていることを確認してください。
+4. **作成** をクリックします。
 
-サービスアカウントまたはインスタンスが実行中のアカウントが、このサブスクリプションの `pubsub.admin` ロールを持っていることを確認します。 詳細については、https://cloud.google.com/pubsub/docs/access-control#console を参照してください。
+インスタンスを実行しているサービスアカウントまたはアカウントが、このサブスクリプションに対して `pubsub.admin` ロールを持っていることを確認してください。詳細は https://cloud.google.com/pubsub/docs/access-control#console を参照してください。
 
-### ストレージバケットの作成
+### Storage バケットの作成
 
 1. **Cloud Storage バケット** ページに移動します。
-2. **Create bucket** を選択してバケットに名前を付けます。 **Standard** の [ストレージクラス](https://cloud.google.com/storage/docs/storage-classes) を選択していることを確認します。
+2. **バケットを作成** を選択し、バケットの名前を入力します。[ストレージクラス](https://cloud.google.com/storage/docs/storage-classes) は **Standard** を選択してください。
 
-インスタンスが実行中のサービスアカウントまたはアカウントが、以下の条件をすべて満たしていることを確認してください：
-* 前のステップで作成したバケットへのアクセス
-* このバケットに対する `storage.objectAdmin` ロール。 詳細については、https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add を参照してください。
+インスタンスを実行しているサービスアカウントまたはアカウントが、以下の両方を持っていることを確認してください。
+* 前の手順で作成したバケットへのアクセス権
+* このバケットに対する `storage.objectAdmin` ロール。詳細は https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-add を参照してください。
 
 <Note>
-インスタンスは署名付きファイル URL を作成するために GCP で `iam.serviceAccounts.signBlob` の権限も必要です。 サービスアカウントまたはインスタンスが実行する IAM メンバーに `サービスアカウントトークンクリエーター` のロールを追加して、権限を有効にします。
+インスタンスは、署名付きファイル URL を作成するために、Google Cloud の `iam.serviceAccounts.signBlob` 権限も必要です。権限を有効にするには、インスタンスが実行されているサービスアカウントまたは IAM メンバーに `Service Account Token Creator` ロールを追加してください。
 </Note>
 
-3. CORS アクセスを有効化します。これはコマンドラインのみで実行できます。まず、以下の CORS 設定を含む JSON ファイルを作成します。
+3. CORS アクセスを有効にします。これはコマンドラインからのみ行えます。まず、以下の CORS 設定を含む JSON ファイルを作成します。
 
 ```
 cors:
@@ -267,52 +270,52 @@ cors:
    - Content-Type
 ```
 
-ここでの origin の値のスキーム、ホスト、およびポートが正確に一致していることを確認してください。
+origin の値のスキーム、ホスト、ポートは正確に一致させる必要があることに注意してください。
 
-4. `gcloud` が正しくインストールされ、適切な GCP プロジェクトにログインしていることを確認してください。
-5. 次に、以下を実行します：
+4. `gcloud` がインストールされており、正しい Google Cloud プロジェクトにログインしていることを確認します。
+5. 次に、以下を実行します。
 
 ```bash
 gcloud storage buckets update gs://<BUCKET_NAME> --cors-file=<CORS_CONFIG_FILE>
 ```
 
-### PubSub 通知の作成
-コマンドラインで以下の手順に従って、ストレージバケットから Pub/Sub トピックへの通知ストリームを作成します。
+### Pub/Sub 通知の作成
+以下の手順をコマンドラインで実行し、Storage バケットから Pub/Sub トピックへの通知ストリームを作成します。
 
 <Note>
-通知ストリームを作成するには CLI を使用する必要があります。`gcloud` がインストールされていることを確認してください。
+通知ストリームの作成には CLI を使用する必要があります。`gcloud` がインストールされていることを確認してください。
 </Note>
 
-1. GCP プロジェクトにログインします。
-2. ターミナルで次の操作を実行します：
+1. Google Cloud プロジェクトにログインします。
+2. ターミナルで以下を実行します。
 
 ```bash
-gcloud pubsub topics list  # トピックの名前を参照用にリスト表示
-gcloud storage ls          # バケットの名前を参照用にリスト表示
+gcloud pubsub topics list  # 参照用にトピック名のリストを表示
+gcloud storage ls          # 参照用にバケット名のリストを表示
 
 # バケット通知を作成
 gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NAME>
 ```
 
-[Cloud Storage のウェブサイトにさらに参考資料があります。](https://cloud.google.com/storage/docs/reporting-changes)
+[詳細なリファレンスは Cloud Storage のウェブサイトで確認できます。](https://cloud.google.com/storage/docs/reporting-changes)
 
-### W&B サーバーの設定
+### W&B Server の設定
 
-1. 最後に、W&B の `System Connections` ページに http(s)://YOUR-W&B-SERVER-HOST/console/settings/system を開きます。
-2. プロバイダーとして `Google Cloud Storage (gcs)` を選択します。
-3. GCS バケットの名前を提供します。
+1. 最後に、W&B の `System Connections` ページ（`http(s)://YOUR-W&B-SERVER-HOST/console/settings/system`）に移動します。
+2. プロバイダーに `Google Cloud Storage (gcs)` を選択します。
+3. GCS バケットの名前を入力します。
 
 <Frame>
-    <img src="/images/hosting/configure_file_store_gcp.png"  />
+    <img src="/images/hosting/configure_file_store_gcp.png" alt="Google Cloud ファイルストレージの設定"  />
 </Frame>
 
-4. **設定を更新** を押して、新しい設定を適用します。
+4. **Update settings** を押して新しい設定を適用します。
 
-## W&B サーバーのアップグレード
+## W&B Server のアップグレード
 
-ここに示された手順に従って W&B を更新します：
+W&B を更新するには、以下の手順に従ってください。
 
-1. あなたの `wandb_app` モジュールに `wandb_version` を追加します。アップグレードしたい W&B のバージョンを指定します。例えば、以下の行は W&B バージョン `0.48.1` を指定します：
+1. `wandb_app` モジュールの設定に `wandb_version` を追加します。アップグレードしたい W&B のバージョンを指定してください。例えば、以下の行は W&B バージョン `0.58.1` を指定しています。
 
   ```
   module "wandb_app" {
@@ -324,7 +327,11 @@ gcloud storage buckets notifications create gs://<BUCKET_NAME> --topic=<TOPIC_NA
   ```
 
   <Note>
-代わりに、`wandb_version` を `terraform.tfvars` に追加し、同じ名前の変数を作成して、リテラル値の代わりに `var.wandb_version` を使用することができます。
+あるいは、`terraform.tfvars` に `wandb_version` を追加し、同名の変数を作成して、リテラル値の代わりに `var.wandb_version` を使用することもできます。
 </Note>
 
-2. 設定を更新した後、[Deployment option section](#deployment---recommended-20-mins) に記載されている手順を完了します。
+2. 設定を更新した後、[デプロイセクション](#デプロイ---推奨構成所要時間約20分) で説明した手順を完了させます。
+```
+terraform init
+terraform apply -var-file=terraform.tfvars
+```

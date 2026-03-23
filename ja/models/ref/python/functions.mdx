@@ -1,0 +1,49 @@
+---
+title: Global Functions の概要
+description: W&B Python SDK におけるグローバル関数
+module: null
+no_list: true
+---
+
+W&B におけるグローバル関数は、`wandb.init()` や `wandb.login()` のように直接呼び出すトップレベルの関数です。特定のクラスに属するメソッドとは異なり、これらの関数はオブジェクトをインスタンス化することなく、W&B のコア機能に直接アクセスできるようにします。
+
+## 利用可能な関数
+
+| 関数 | 説明 |
+|----------|-------------|
+| [`init()`](/models/ref/python/functions/init) | W&B でトラッキングとログ記録を行うための新しい Runs を開始します。これは通常、ML トレーニングパイプラインで最初に呼び出す関数です。 |
+| [`login()`](/models/ref/python/functions/login) | W&B のログイン認証情報を設定し、マシンをプラットフォームに対して認証します。 |
+| [`setup()`](/models/ref/python/functions/setup) | 現在のプロセスとその子プロセスで W&B を使用するための準備を行います。マルチプロセスアプリケーションで有用です。 |
+| [`teardown()`](/models/ref/python/functions/teardown) | W&B のリソースをクリーンアップし、バックエンドプロセスを終了します。 |
+| [`sweep()`](/models/ref/python/functions/sweep) | 最適なモデル設定を探索するためのハイパーパラメーター探索（ Sweeps ）を初期化します。 |
+| [`agent()`](/models/ref/python/functions/agent) | ハイパーパラメーター最適化の実験を実行するための sweep agent を作成します。 |
+| [`controller()`](/models/ref/python/functions/controller) | sweep agent とその実行を管理および制御します。 |
+| [`restore()`](/models/ref/python/functions/restore) | 作業を再開するために、以前の run や実験の状態を復元します。 |
+| [`finish()`](/models/ref/python/functions/finish) | run を終了し、リソースをクリーンアップします。 |
+
+## 例
+
+最も一般的なワークフローは、W&B での認証、run の初期化、そしてトレーニングループからの値（精度や損失など）のログ記録で始まります。最初のステップは `wandb` をインポートし、グローバル関数である `login()` と `init()` を使用することです。
+
+```python
+import wandb
+
+# W&Bで認証
+wandb.login()
+
+# ハイパーパラメーターとメタデータ
+config = {
+   "learning_rate": 0.01,
+   "epochs": 10,
+}
+
+# runが記録されるプロジェクト
+project = "my-awesome-project"
+
+# 新しい run を初期化
+with wandb.init(project=project, config=config) as run:
+   # ここにトレーニングコードを記述...
+   
+   # W&Bに値をログ記録
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

@@ -127,7 +127,7 @@ When handling the Vale feedback and using it to rewrite the following markdown c
 - Use the Oxford comma when appropriate.
 - Commas and periods must go inside quotation marks.
 - Headings must use sentence-style capitalization.
-- Do NOT change URLs in the text (for example wandb.ai/authorize)
+- Do NOT change URLs in the text (for example wandb.ai/settings)
 - Remove instances of indirect, soft terms like "may," "might," and "should." Technical documentation is prescriptive and documents exactly what happens and when.
 - We want to hit a Flesch-Kincaid readability level of 7th grade and Flesch-Kincaid ease-of-reading score above 70.
 - If Vale reports violations of a Microsoft rule and a Google rule and the error messages seem to conflict, favor the Google style guide.

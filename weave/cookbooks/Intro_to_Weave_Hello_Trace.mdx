@@ -13,7 +13,7 @@ This is an interactive notebook. You can run it locally or use the links below:
 
 Before you can begin tracing in Weave, complete the following prerequisites.
 
-1. Install the W&B Weave SDK and log in with your [API key](https://wandb.ai/settings#api).
+1. Install the W&B Weave SDK and log in with your [API key](https://wandb.ai/settings#apikeys).
 2. Install the OpenAI SDK and log in with your [API key](https://platform.openai.com/api-keys).
 3. Initialize your W&B project.
 
@@ -34,9 +34,9 @@ import weave
 #####
 print("---")
 print(
-    "You can find your Weights and Biases API key here: https://wandb.ai/settings#api"
+    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
 )
-os.environ["WANDB_API_KEY"] = getpass("Enter your Weights and Biases API key: ")
+os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
 print("---")
 print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
 os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
@@ -78,4 +78,3 @@ extract_fruit(sentence)
 - Check out the [Quickstart guide](/weave/quickstart).
 - Learn more about [advanced tracing topics](/weave/tutorial-tracing_2).
 - Learn more about [tracing in Weave](/weave/guides/tracking/tracing)
-

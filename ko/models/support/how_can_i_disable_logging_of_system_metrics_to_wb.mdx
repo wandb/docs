@@ -1,13 +1,8 @@
 ---
-title: How can I disable logging of system metrics to W&B?
-support:
-- metrics
-- runs
-toc_hide: true
-type: docs
+title: 시스템 메트릭이 W&B에 로그되는 것을 어떻게 비활성화할 수 있나요?
 ---
 
-[시스템 메트릭](/ko/models/ref/system-metrics/)의 로깅을 비활성화하려면 `_disable_stats`를 `True`로 설정하세요:
+[system metrics](/models/ref/python/experiments/system-metrics/) 로그를 비활성화하려면 `_disable_stats`를 `True`로 설정하세요:
 
 ```python
 wandb.init(settings=wandb.Settings(x_disable_stats=True))

@@ -32,16 +32,26 @@ jobs:
             const branch = context.payload.deployment.ref;
             const deploymentSha = context.payload.deployment.sha;
             
-            // Find PRs for this branch
+            // Find PRs for this branch (check all states to detect recently merged)
             const prs = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
               head: `${context.repo.owner}:${branch}`,
-              state: 'open'
+              state: 'all',
+              sort: 'updated',
+              direction: 'desc',
+              per_page: 1
             });
             
             if (prs.data.length > 0) {
               const pr = prs.data[0];
+              
+              // Check if PR is already closed - preview likely torn down
+              if (pr.state === 'closed') {
+                core.warning(`PR #${pr.number} is already ${pr.merged_at ? 'merged' : 'closed'}. Preview likely torn down. Skipping comment update.`);
+                core.setOutput('skip_update', 'true');
+                return null;
+              }
               
               // Check if this deployment is for the latest commit in the PR
               const prHeadSha = pr.head.sha;
@@ -56,12 +66,12 @@ jobs:
               core.setOutput('base_ref', pr.base.ref);
               core.setOutput('base_sha', pr.base.sha);
               core.setOutput('skip_update', 'false');
-              core.info(`Found PR #${pr.number} for branch ${branch}`);
+              core.info(`Found open PR #${pr.number} for branch ${branch}`);
               core.info(`Base branch: ${pr.base.ref} (${pr.base.sha})`);
               core.info(`Deployment SHA matches PR head: ${deploymentSha}`);
               return pr.number;
             } else {
-              core.warning(`No open PR found for branch ${branch}`);
+              core.warning(`No PR found for branch ${branch}`);
               core.setOutput('skip_update', 'true');
               return null;
             }

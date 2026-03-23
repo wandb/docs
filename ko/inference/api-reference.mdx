@@ -1,0 +1,49 @@
+---
+title: API 개요
+description: W&B Inference 서비스에 대한 전체 API 레퍼런스
+---
+
+W&B Inference API를 사용하여 파운데이션 모델에 프로그래밍 방식으로 엑세스하는 방법을 알아보세요.
+
+## Base URL
+
+다음 주소에서 Inference 서비스에 엑세스할 수 있습니다:
+
+```plaintext
+https://api.inference.wandb.ai/v1
+```
+
+<Note>
+**중요**
+
+이 엔드포인트를 사용하려면 다음이 필요합니다:
+- Inference 크레딧이 있는 W&B 계정
+- 유효한 W&B API 키
+
+둘 이상의 팀에 속해 있거나 사용 내역을 특정 프로젝트의 결과로 기록하려면 팀 및 프로젝트 ID도 필요합니다. 코드 샘플에서 이는 `<your-team>/<your-project>`로 표시됩니다. 지정하지 않으면 기본 Entity와 `inference`라는 프로젝트 이름이 사용됩니다.
+</Note>
+
+## Available methods
+
+W&B Inference API는 파운데이션 모델과 상호작용할 수 있도록 OpenAI와 호환되는 엔드포인트를 제공합니다:
+
+- **[Chat Completions](/inference/api-reference/chat-completions)** - 다양한 파운데이션 모델을 사용하여 채팅 답변을 생성합니다.
+- **[List Models](/inference/api-reference/list-models)** - 사용 가능한 모든 모델과 해당 ID 목록을 가져옵니다.
+
+## 인증
+
+모든 API 요청에는 W&B API 키를 사용한 인증이 필요합니다. [wandb.ai/settings](https://wandb.ai/settings)에서 API 키를 생성하세요.
+
+요청 헤더에 API 키를 포함하세요:
+- OpenAI SDK 사용 시: `api_key` 파라미터로 설정
+- 직접 API 호출 시: `Authorization: Bearer <your-api-key>` 사용
+
+## 에러 핸들링
+
+에러 코드의 전체 목록과 해결 방법은 [API Errors](/inference/api-reference/errors)를 참조하세요.
+
+## 다음 단계
+
+- [사용 예시](/inference/examples)를 통해 API 작동 방식을 확인해보세요.
+- [UI](/inference/ui-guide)에서 모델을 탐색해보세요.
+- 계정의 [사용량 제한](/inference/usage-limits)을 확인하세요.

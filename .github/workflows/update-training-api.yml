@@ -14,8 +14,7 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v6
-      with:
-        fetch-depth: 0
+      # Shallow clone - no git history needed, only checks git status
       
     - name: Set up Python
       uses: actions/setup-python@v6
@@ -69,12 +68,13 @@ jobs:
     - name: Create Pull Request
       if: steps.check-changes.outputs.has_changes == 'true'
       id: create-pr
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@v8
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        base: main
         commit-message: "chore: Update Training API documentation"
         title: "Update Training API documentation"
-        draft: false
+        draft: true
         body: |
           This PR updates the Training API documentation based on the latest OpenAPI specification.
           

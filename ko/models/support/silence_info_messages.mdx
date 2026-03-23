@@ -1,28 +1,25 @@
 ---
-title: How do I silence W&B info messages?
-support:
-- notebooks
-- environment variables
-toc_hide: true
-type: docs
+title: W&B 안내 메시지를 어떻게 숨길 수 있나요?
 ---
 
-다음과 같이 노트북에서 로그 메시지를 표시하지 않으려면:
+노트북에서 다음과 같은 로그 메시지를 숨기려면:
 
 ```
 INFO SenderThread:11484 [sender.py:finish():979]
-```
+``` 
 
-로그 수준을 `logging.ERROR`로 설정하여 오류만 표시하고 정보 수준 로그 출력을 표시하지 않도록 합니다.
+로그 레벨을 `logging.ERROR`로 설정하여 에러만 표시하고 안내(info) 레벨의 로그 출력은 억제하십시오.
 
 ```python
 import logging
 
+# wandb 로거 가져오기
 logger = logging.getLogger("wandb")
+# 로그 레벨을 ERROR로 설정
 logger.setLevel(logging.ERROR)
 ```
 
-로그 출력을 완전히 끄려면 `WANDB_SILENT` 환경 변수를 설정합니다. `wandb.login`을 실행하기 전에 노트북 셀에서 이 작업을 수행해야 합니다.
+로그 출력을 대폭 줄이려면 `WANDB_QUIET` 환경 변수를 `True`로 설정하십시오. 로그 출력을 완전히 끄려면 `WANDB_SILENT` 환경 변수를 `True`로 설정하십시오. 노트북에서는 `wandb.login`을 실행하기 전에 `WANDB_QUIET` 또는 `WANDB_SILENT`를 설정해야 합니다.
 
 <Tabs>
 <Tab title="Notebook">

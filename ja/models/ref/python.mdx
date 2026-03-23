@@ -1,45 +1,37 @@
 ---
-title: Python ライブラリ
+title: Python SDK 0.24.0
+module: null
 ---
 
-wandb を使用して機械学習の作業を追跡します。
+`wandb` からアクセス可能な W&B Python SDK を使用すると、モデルのトレーニングや ファインチューニング、さらには 実験 から プロダクション に至るまでの モデル 管理が可能になります。
 
-モデルをトレーニングおよびファインチューンし、実験からプロダクションに至るまでモデルを管理します。
+> この SDK を使用してトレーニングや ファインチューニング を行った後、[Public API](/models/ref/python/public-api) を使用して ログ 記録された データ のクエリや分析を行ったり、[Reports and Workspaces API](/models/ref/wandb_workspaces) を使用して作業内容をまとめたウェブ公開可能な [レポート](/models/reports/) を作成したりすることができます。
 
-ガイドや例については、https://docs.wandb.ai をご覧ください。
+## インストールとセットアップ
 
-スクリプトやインタラクティブなノートブックについては、https://github.com/wandb/examples をご覧ください。
+### サインアップと APIキー の作成
 
-リファレンスドキュメントについては、https://docs.wandb.com/ref/python をご覧ください。
+マシンを W&B で認証するには、まず [User Settings](https://wandb.ai/settings) で APIキー を生成する必要があります。
 
-## クラス
+### パッケージのインストールとインポート
 
-[`class Artifact`](/ja/models/ref/python/artifact/): データセットおよびモデルのバージョン管理のための柔軟で軽量な構成要素。
+W&B ライブラリ をインストールします。
 
-[`class Run`](/ja/models/ref/python/run/): wandb によってログされる計算の単位。通常、これは機械学習の実験です。
+```
+pip install wandb
+```
 
-## 関数
+### W&B Python SDK のインポート:
 
-[`agent(...)`](/ja/models/ref/python/agent/): 一つ以上の sweep agent を開始します。
+```python
+import wandb
 
-[`controller(...)`](/ja/models/ref/python/controller/): パブリックな sweep コントローラのコンストラクタです。
+# チームの entity を指定します
+entity = "<team_entity>"
 
-[`finish(...)`](/ja/models/ref/python/finish/): run を終了し、残りのデータをアップロードします。
+# run が記録される Project
+project = "my-awesome-project"
 
-[`init(...)`](/ja/models/ref/python/init/): 新しい run を開始して W&B へ追跡しログします。
-
-[`log(...)`](/ja/models/ref/python/log/): run のデータをアップロードします。
-
-[`login(...)`](/ja/models/ref/python/login/): W&B ログイン資格情報を設定します。
-
-[`save(...)`](/ja/models/ref/python/save/): 一つ以上のファイルを W&B に同期します。
-
-[`sweep(...)`](/ja/models/ref/python/sweep/): ハイパーパラメーター探索を初期化します。
-
-[`watch(...)`](/ja/models/ref/python/watch/): 指定された PyTorch のモデルにフックし、勾配とモデルの計算グラフを監視します。
-
-| その他のメンバー | Description |
-| :--- | :--- |
-|  `__version__`<a id="__version__"></a> |  `'0.19.8'` |
-|  `config`<a id="config"></a> |   |
-|  `summary`<a id="summary"></a> |   |
+with wandb.init(entity=entity, project=project) as run:
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

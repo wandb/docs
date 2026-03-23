@@ -64,6 +64,9 @@ A sweep orchestrates multiple runs to explore hyperparameter combinations. Under
 - **Sweep status** controls whether new runs are created (Running, Paused, Stopped, Cancelled, Finished, Failed, Crashed)
 - **Run status** reflects the execution state of individual runs (Pending, Running, Finished, Failed, Crashed, Killed)
 
+### Stop an individual run
+When you [stop a run](/models/runs/stop-runs) in a sweep, the sweep agent automatically kicks off the next run in the sweep. This allows you to skip poorly performing configurations without interrupting the sweep's overall progress.
+
 ### Best practices
 
 - Use `--pause` instead of cancel when you want to temporarily halt exploration without losing running experiments

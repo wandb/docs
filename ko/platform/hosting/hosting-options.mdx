@@ -1,0 +1,32 @@
+---
+title: 배포 옵션
+---
+
+이 섹션에서는 W&B를 배포할 수 있는 다양한 방법을 설명합니다.
+
+## W&B Multi-tenant Cloud
+[W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud)는 업그레이드, 유지 관리, 플랫폼 보안 및 용량 계획을 포함하여 W&B에서 완전히 관리합니다. Multi-tenant Cloud는 [Google Cloud의 북미 리전](https://cloud.google.com/compute/docs/regions-zones)에 있는 W&B의 Google Cloud 계정에 배포됩니다. [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector)을 사용하면 선택적으로 W&B Artifacts 및 기타 관련 민감 데이터를 귀하의 클라우드 또는 온프레미스 인프라에 저장할 수 있습니다.
+
+[W&B Multi-tenant Cloud](/platform/hosting/#wb-multi-tenant-cloud)를 확인하거나 [무료로 시작하기](https://app.wandb.ai/login?signup=true)를 이용해 보세요.
+
+## W&B Dedicated Cloud
+[W&B Dedicated Cloud](/platform/hosting/#wb-dedicated-cloud)는 엔터프라이즈 기업을 위해 설계된 싱글 테넌트 방식의 완전 관리형 플랫폼입니다. W&B Dedicated Cloud는 W&B의 AWS, Google Cloud 또는 Azure 계정에 배포됩니다. Dedicated Cloud는 Multi-tenant Cloud보다 더 많은 유연성을 제공하면서도 W&B Self-Managed보다 복잡성이 낮습니다. 업그레이드, 유지 관리, 플랫폼 보안 및 용량 계획은 W&B에서 관리합니다. 각 Dedicated Cloud 인스턴스는 다른 W&B Dedicated Cloud 인스턴스로부터 격리된 네트워크, 컴퓨팅 및 스토리지를 가집니다.
+
+귀하의 W&B 관련 메타데이터 및 데이터는 격리된 클라우드 스토리지에 저장되며, 격리된 클라우드 컴퓨팅 서비스를 사용하여 처리됩니다. [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector)을 통해 선택적으로 Artifacts 및 기타 관련 민감 데이터를 귀하의 클라우드 또는 온프레미스 인프라에 저장할 수 있습니다.
+
+W&B Dedicated Cloud에는 중요한 보안 기능 및 기타 기업 친화적인 기능을 지원하는 [엔터프라이즈 라이선스](/platform/hosting/hosting-options/self-managed/)가 포함되어 있습니다.
+
+고급 보안 또는 규정 준수 요구 사항이 있는 조직의 경우, HIPAA 준수, Single Sign On 또는 Customer Managed Encryption Keys (CMEK)와 같은 기능을 **Enterprise** 지원과 함께 사용할 수 있습니다. [추가 정보 요청하기](https://wandb.ai/site/contact).
+
+[W&B Dedicated Cloud](/platform/hosting/#wb-dedicated-cloud)를 확인하거나 [무료로 시작하기](https://app.wandb.ai/login?signup=true)를 이용해 보세요.
+
+## W&B Self-Managed
+[W&B Self-Managed](/platform/hosting/hosting-options/self-managed/)는 귀하의 온프레미스 또는 직접 관리하는 클라우드 인프라에서 귀하가 직접 전체를 관리하는 방식입니다. 귀하의 IT/DevOps/MLOps 팀은 다음 사항에 대한 책임을 집니다:
+- 배포 프로비저닝.
+- 조직의 정책 및 해당하는 경우 [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)에 따른 인프라 보안 확보.
+- 업그레이드 관리 및 패치 적용.
+- Self-Managed W&B Server 인스턴스의 지속적인 유지 관리.
+
+선택적으로 W&B Self-Managed를 위한 엔터프라이즈 라이선스를 취득할 수 있습니다. 엔터프라이즈 라이선스에는 중요한 보안 및 기타 기업 친화적인 기능에 대한 지원이 포함됩니다.
+
+[W&B Self-Managed](/platform/hosting/hosting-options/self-managed/)를 확인하거나 [참조 아키텍처](/platform/hosting/self-managed/ref-arch/) 가이드를 검토해 보세요.

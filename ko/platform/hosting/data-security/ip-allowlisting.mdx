@@ -1,13 +1,13 @@
 ---
-title: Configure IP allowlisting for Dedicated Cloud
+title: 전용 클라우드용 IP 허용 목록(allowlisting) 구성
 ---
 
-승인된 IP 어드레스 목록에서만 [전용 클라우드](/ko/platform/hosting/hosting-options/dedicated_cloud) 인스턴스에 대한 엑세스를 제한할 수 있습니다. 이는 AI 워크로드에서 W&B API로의 엑세스와 사용자 브라우저에서 W&B 앱 UI로의 엑세스에도 적용됩니다. 전용 클라우드 인스턴스에 대해 IP 허용 목록이 설정되면 W&B는 승인되지 않은 다른 위치에서 오는 모든 요청을 거부합니다. 전용 클라우드 인스턴스에 대한 IP 허용 목록을 구성하려면 W&B 팀에 문의하십시오.
+허가된 IP 주소 목록에서만 [전용 클라우드](/platform/hosting/hosting-options/dedicated_cloud) 인스턴스에 접속할 수 있도록 액세스를 제한할 수 있습니다. 이는 AI 워크로드에서 W&B API로의 액세스와 사용자 브라우저에서 W&B 앱 UI로의 액세스 모두에 적용됩니다. 전용 클라우드 인스턴스에 IP 허용 목록(allowlisting)이 설정되면, W&B는 승인되지 않은 다른 위치의 모든 요청을 거부합니다. 전용 클라우드 인스턴스에 대한 IP 허용 목록을 구성하려면 W&B 팀에 문의하세요.
 
-IP 허용 목록은 AWS, GCP 및 Azure의 전용 클라우드 인스턴스에서 사용할 수 있습니다.
+IP 허용 목록 기능은 AWS, Google Cloud 및 Azure의 전용 클라우드 인스턴스에서 사용할 수 있습니다.
 
-[보안 사설 연결](/ko/platform/hosting/data-security/private-connectivity/)과 함께 IP 허용 목록을 사용할 수 있습니다. 보안 사설 연결과 함께 IP 허용 목록을 사용하는 경우 W&B는 AI 워크로드의 모든 트래픽과 가능한 경우 사용자 브라우저의 대부분의 트래픽에 대해 보안 사설 연결을 사용하는 동시에 권한 있는 위치에서 인스턴스 관리를 위해 IP 허용 목록을 사용하는 것이 좋습니다.
+IP 허용 목록을 [보안 프라이빗 연결](./private-connectivity)과 함께 사용할 수 있습니다. 보안 프라이빗 연결과 IP 허용 목록을 함께 사용하는 경우, W&B는 가능하다면 AI 워크로드의 모든 트래픽과 사용자 브라우저 트래픽의 대부분에 보안 프라이빗 연결을 사용하고, 권한이 있는 위치에서의 인스턴스 관리를 위해 IP 허용 목록을 사용할 것을 권장합니다.
 
 <Warning>
-W&B는 개별 `/32` IP 어드레스가 아닌 회사 또는 비즈니스 이그레스 게이트웨이에 할당된 [CIDR 블록](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)을 사용하는 것이 좋습니다. 개별 IP 어드레스를 사용하는 것은 확장성이 떨어지고 클라우드당 엄격한 제한이 있습니다.
+W&B는 개별 `/32` IP 주소보다는 회사 또는 비즈니스 이그레스(egress) 게이트웨이에 할당된 [CIDR 블록](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)을 사용할 것을 강력히 권장합니다. 개별 IP 주소를 사용하는 방식은 확장이 불가능하며 클라우드별로 엄격한 제한이 있습니다.
 </Warning>

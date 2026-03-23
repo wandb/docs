@@ -1,20 +1,17 @@
 ---
-title: Why are steps missing from a CSV metric export?
-support:
-- experiments
-- runs
-toc_hide: true
-type: docs
+title: CSV 메트릭 내보내기에서 일부 Step이 누락되는 이유는 무엇인가요?
 ---
 
-내보내기 제한으로 인해 전체 run 이력은 CSV로 내보내거나 `run.history` API를 사용하여 내보낼 수 없습니다. 전체 run 이력에 엑세스하려면 Parquet 형식을 사용하여 run 이력 아티팩트를 다운로드하세요.
+내보내기 제한으로 인해 전체 Run 기록을 CSV로 내보내거나 `run.history` API를 사용하여 가져오는 것이 제한될 수 있습니다. 전체 Run 기록에 엑세스하려면, Parquet 형식을 사용하여 Run 기록 Artifacts 를 다운로드하세요:
 
 ```python
 import wandb
 import pandas as pd
 
-run = wandb.init()
-artifact = run.use_artifact('<entity>/<project>/<run-id>-history:v0', type='wandb-history')
-artifact_dir = artifact.download()
-df = pd.read_parquet('<path to .parquet file>')
+with wandb.init() as run:
+    # <entity>/<project>/<run-id>-history:v0 형식으로 아티팩트를 사용합니다.
+    artifact = run.use_artifact('<entity>/<project>/<run-id>-history:v0', type='wandb-history')
+    artifact_dir = artifact.download()
+    # 다운로드된 .parquet 파일 경로를 읽어옵니다.
+    df = pd.read_parquet('<path to .parquet file>')
 ```

@@ -1,15 +1,19 @@
 ---
-title: Find registry items 
---- 
+title: Find registry items
+description: "Learn how to search for registries, collections, and artifact versions in the W&B Registry using the global search bar or queries."
+---
 
-Use the [global search bar in the W&B Registry](./search_registry#search-for-registry-items) to find a registry, collection, artifact version tag, collection tag, or alias. You can use MongoDB-style queries to [filter registries, collections, and artifact versions](./search_registry#query-registry-items-with-mongodb-style-queries) based on specific criteria using the W&B Python SDK.
+Use the [global search bar in the W&B Registry](./search_registry#search-for-registry-items) to find a registry, collection, artifact version tag, collection tag, or alias. You can use queries to [filter registries, collections, and artifact versions](/models/registry/search_registry#query-registry-items) based on specific criteria using the W&B Python SDK.
 
+<Info>
+The syntax and available operators you can use to query W&B Registry is similar, but not identical, to MongoDB queries.
+</Info>
 
 Only items that you have permission to view appear in the search results.
 
 ## Search for registry items
 
-To search for a registry item:
+Use the W&B App to search for a registry item:
 
 1. Navigate to the W&B Registry.
 2. Specify the search term in the search bar at the top of the page. Press Enter to search.
@@ -20,9 +24,23 @@ Search results appear below the search bar if the term you specify matches an ex
     <img src="/images/registry/search_registry.gif" alt="Searching within a Registry"  />
 </Frame>
 
-## Query registry items with MongoDB-style queries
+## Query registry items
 
-Use the [`wandb.Api().registries()`](/models/ref/python/public-api/api#registries) and [query predicates](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) to filter registries, collections, and artifact versions based on one or more [MongoDB-style queries](https://www.mongodb.com/docs/compass/current/query/filter/). 
+Use [`wandb.Api().registries()`](/models/ref/python/public-api/api#registries) and *query predicates* to filter registries, collections, and artifact versions. A query predicate is a condition that specifies the criteria that returned items must meet.
+
+To create a query predicate, use a JSON-like dictionary that consists of [query name](/models/registry/search_registry#filterable-fields), one or more [operators](/models/registry/search_registry#supported-operators), and values. The following code snippet shows the general structure of a query predicate:
+
+```python
+{
+    "query_name": {
+        "operator": value
+    }
+}
+```
+
+The following sections describe the available registry [query names](/models/registry/search_registry#filterable-fields), [supported operators](/models/registry/search_registry#supported-operators), and [example queries](/models/registry/search_registry#example-queries).
+
+### Filterable fields
 
 The following table lists query names you can use based on the type of item you want to filter:
 
@@ -31,6 +49,40 @@ The following table lists query names you can use based on the type of item you 
 | registries | `name`, `description`, `created_at`, `updated_at` |
 | collections | `name`, `tag`, `description`, `created_at`, `updated_at` |
 | versions | `tag`, `alias`, `created_at`, `updated_at`, `metadata` |
+
+### Supported operators
+
+W&B supports the following comparison and logical operators for filtering registry items:
+
+#### Comparison operators
+
+| Operator | Description |
+| ----- | ----- |
+| `$eq` | Equal to |
+| `$ne` | Not equal to |
+| `$gt` | Greater than |
+| `$gte` | Greater than or equal to |
+| `$lt` | Less than |
+| `$lte` | Less than or equal to |
+
+#### Logical operators
+
+| Operator | Description |
+| ----- | ----- |
+| `$and` | Performs [AND](https://en.wikipedia.org/wiki/Logical_conjunction) logic to one or more conditions |
+| `$or` | Performs [OR](https://en.wikipedia.org/wiki/Logical_disjunction) logic to one or more conditions |
+| `$nor` | Performs [NOR](https://en.wikipedia.org/wiki/Logical_NOR) logic to one or more conditions |
+| `$not` | Performs [NOT](https://en.wikipedia.org/wiki/Negation) logic to a condition |
+
+#### Other operators
+
+| Operator | Description |
+| ----- | ----- |
+| `$regex` | Regular expression pattern matching |
+| `$exists` | Field exists/doesn't exist |
+| `$contains` | String contains value |
+
+### Example queries
 
 The following code examples demonstrate some common search scenarios. 
 
@@ -102,8 +154,6 @@ version_filters = {
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
 
-See the MongoDB documentation for more information on [logical query operators](https://www.mongodb.com/docs/manual/reference/operator/query-logical/).
-
 Each item in the `artifacts` iterable in the previous code snippet is an instance of the `Artifact` class. This means that you can access each artifact's attributes, such as `name`, `collection`, `aliases`, `tags`, `created_at`, and more:
 
 ```python
@@ -115,7 +165,6 @@ for art in artifacts:
     print(f"artifact created at: {art.created_at}\n")
 ```
 For a complete list of an artifact object's attributes, see the [Artifacts Class](/models/ref/python/experiments/artifact/) in the API Reference docs. 
-
 
 Filter all artifact versions, independent of registry or collection, created between 2024-01-08 and 2025-03-04 at 13:10 UTC:
 
@@ -131,6 +180,6 @@ artifact_filters = {
 artifacts = api.registries().collections().versions(filter=artifact_filters)
 ```
 
-Specify the date and time in the format `YYYY-MM-DD HH:MM:SS`. You can omit the hours, minutes, and seconds if you want to filter by date only.
-
-See the MongoDB documentation for more information on [query predicates](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/logical/).
+<Note>
+Specify the date and time in `YYYY-MM-DD HH:MM:SS` format for `created_at` and `updated_at` queries. You can omit the hours, minutes, and seconds if you want to filter by date only.
+</Note>

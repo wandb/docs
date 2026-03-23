@@ -12,6 +12,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import textwrap
 from pathlib import Path
 from typing import List, Optional
 
@@ -109,7 +110,11 @@ def install_dependencies(weave_version="latest"):
 
 
 def fix_code_fence_indentation(text: str) -> str:
-    """Fix code fence indentation issues in markdown."""
+    """Fix code fence indentation issues in markdown.
+    
+    Uses textwrap.dedent() to remove common leading whitespace from code blocks,
+    following standard Python text processing patterns.
+    """
     lines = text.split("\n")
     result_lines = []
     i = 0
@@ -135,34 +140,40 @@ def fix_code_fence_indentation(text: str) -> str:
                 code_lines = lines[i + 1 : closing_fence_idx]
                 
                 if code_lines:
-                    # Find the minimum indentation
-                    min_indent = float("inf")
-                    for code_line in code_lines:
-                        if code_line.strip():
-                            indent = len(code_line) - len(code_line.lstrip())
-                            min_indent = min(min_indent, indent)
+                    # Use textwrap.dedent() to remove common leading whitespace
+                    code_text = "\n".join(code_lines)
+                    dedented_code = textwrap.dedent(code_text)
+                    deindented_code_lines = dedented_code.split("\n")
                     
-                    if min_indent != float("inf"):
-                        # De-indent the code block
-                        deindented_code_lines = []
-                        for code_line in code_lines:
-                            if code_line.strip():
-                                deindented_code_lines.append(code_line[min_indent:])
-                            else:
-                                deindented_code_lines.append(code_line)
-                        
-                        # Add the fences and code
-                        result_lines.append(fence_content)
-                        result_lines.extend(deindented_code_lines)
-                        result_lines.append("```")
-                        
-                        i = closing_fence_idx + 1
-                        continue
+                    # Add the fences and code
+                    result_lines.append(fence_content)
+                    result_lines.extend(deindented_code_lines)
+                    result_lines.append("```")
+                    
+                    i = closing_fence_idx + 1
+                    continue
         
         result_lines.append(line)
         i += 1
     
     return "\n".join(result_lines)
+
+
+def convert_source_badges_to_buttons(content: str) -> str:
+    """Convert shields.io source badge images to SourceLink components.
+    
+    This avoids Mintlify's image lightbox from triggering when clicking source links.
+    
+    Converts:
+        <a href="..."><img ... src="...badge/-source..." ></a>
+    To:
+        <SourceLink url="..." />
+    """
+    # Pattern matches both self-closing (/>) and non-self-closing (>) img tags
+    # lazydocs generates non-self-closing tags: <img ... >
+    pattern = r'<a href="(https://github\.com/wandb/weave/blob/[^"]+)">\s*<img[^>]*src="https://img\.shields\.io/badge/-source[^"]*"[^>]*/?>\s*</a>'
+    replacement = r'<SourceLink url="\1" />'
+    return re.sub(pattern, replacement, content)
 
 
 def convert_docusaurus_to_mintlify(content: str, module_name: str) -> str:
@@ -190,6 +201,8 @@ title: "{title}"
 description: "Python SDK reference for {module_name}"
 ---
 
+import {{ SourceLink }} from '/snippets/en/_includes/source-link.mdx';
+
 """
         content = frontmatter + content
     
@@ -199,7 +212,7 @@ description: "Python SDK reference for {module_name}"
 def generate_module_docs(module, module_name: str, src_root_path: str, version: str = "master") -> str:
     """Generate documentation for a single module."""
     # Use the specific version tag for source links
-    src_url = f"https://github.com/wandb/weave/blob/{version}"
+    src_url = f"https://github.com/wandb/weave/blob/v{version}"
     if version == "latest":
         src_url = "https://github.com/wandb/weave/blob/master"
     
@@ -225,13 +238,26 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
             sections.append(process_object(obj, generator, module_name))
     else:
         # Fall back to processing all public members
+        # Track objects we've already documented to avoid duplicates from aliases
+        documented_objects = set()
+        
         for name in dir(module):
             if name.startswith("_"):
                 continue
             
             obj = getattr(module, name)
-            if hasattr(obj, "__module__") and obj.__module__ != module_name:
+            
+            # For the root "weave" module, include re-exported items from submodules
+            # Otherwise, only include items that belong to this specific module
+            if module_name != "weave" and hasattr(obj, "__module__") and obj.__module__ != module_name:
                 continue
+            
+            # Skip if we've already documented this object (handles aliases)
+            # Use id() to check object identity, not equality
+            obj_id = id(obj)
+            if obj_id in documented_objects:
+                continue
+            documented_objects.add(obj_id)
             
             sections.append(process_object(obj, generator, module_name))
     
@@ -254,6 +280,16 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
     # Fix unclosed <b> tags that break MDX parsing
     # Remove <b>` at the start of lines that don't have a closing </b>
     content = re.sub(r'^- <b>`([^`\n]*?)$', r'- \1', content, flags=re.MULTILINE)
+    
+    # Remove malformed table separators that lazydocs sometimes generates
+    # These appear as standalone lines with just dashes (------) which break markdown parsing
+    content = re.sub(r'\n\s*------+\s*\n', '\n\n', content)
+    
+    # Fix lazydocs bug: inline code fences in Examples sections
+    # lazydocs incorrectly wraps text after colons (like "Basic usage:") with inline backticks
+    # Pattern: " text: ``` code```" should be "text:\n```python\ncode"
+    # This happens when lazydocs misapplies _RE_ARGSTART in Examples sections
+    content = re.sub(r'^ ([\w\s]+): ``` (.*?)```\n(    >>> )', r' \1:\n\n```python\n\2\n\3', content, flags=re.MULTILINE)
     
     # Fix parameter lists that have been broken by lazydocs
     # Strategy: Parse all parameters into a structured format, then reconstruct them properly
@@ -357,6 +393,9 @@ def generate_module_docs(module, module_name: str, src_root_path: str, version: 
         return '\n'.join(fixed_lines)
     
     content = fix_parameter_lists(content)
+    
+    # Convert source badge images to text buttons (avoids Mintlify lightbox issue)
+    content = convert_source_badges_to_buttons(content)
     
     # Convert to Mintlify format
     content = convert_docusaurus_to_mintlify(content, module_name)

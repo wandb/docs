@@ -1,0 +1,385 @@
+---
+title: Registry
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/registries/registry.py" />
+
+## <kbd>class</kbd> `Registry`
+Registry 내의 단일 registry입니다.
+
+### <kbd>method</kbd> `Registry.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    organization: 'str',
+    entity: 'str',
+    name: 'str',
+    attrs: 'RegistryFragment | None' = None
+)
+```
+
+---
+
+### <kbd>property</kbd> Registry.allow_all_artifact_types
+
+registry에서 모든 artifact 유형이 허용되는지 여부를 반환합니다.
+
+`True`인 경우 모든 유형의 Artifacts를 추가할 수 있습니다. `False`인 경우 `artifact_types`에 나열된 유형으로 제한됩니다.
+
+**Returns:**
+ - `bool`: allow_all_artifact_types 속성 값.
+---
+
+### <kbd>property</kbd> Registry.artifact_types
+
+registry에서 허용되는 artifact 유형을 반환합니다.
+
+`allow_all_artifact_types`가 `True`이면 `artifact_types`는 이전에 저장되었거나 현재 registry에서 사용 중인 유형을 나타냅니다. `allow_all_artifact_types`가 `False`이면 Artifacts는 `artifact_types`에 있는 유형으로 제한됩니다.
+
+**Note:**
+
+> 이전에 저장된 artifact 유형은 삭제할 수 없습니다.
+>
+
+**Example:**
+ ```python
+import wandb
+
+registry = wandb.Api().create_registry()
+registry.artifact_types.append("model")
+registry.save()  # 한 번 저장되면, artifact 유형 `model`은 삭제할 수 없습니다.
+registry.artifact_types.append("accidentally_added")
+registry.artifact_types.remove(
+     "accidentally_added"
+)  # 아직 저장되지 않은 유형만 삭제할 수 있습니다.
+``` 
+
+**Returns:**
+ - `AddOnlyArtifactTypesList`: artifact_types 속성 값.
+---
+
+### <kbd>property</kbd> Registry.created_at
+
+registry가 생성된 시간의 타임스탬프입니다.
+
+**Returns:**
+ - `str`: created_at 속성 값.
+---
+
+### <kbd>property</kbd> Registry.description
+
+registry에 대한 설명입니다.
+
+**Returns:**
+ - `str | None`: description 속성 값.
+---
+
+### <kbd>property</kbd> Registry.entity
+
+registry의 조직 entity입니다.
+
+**Returns:**
+ - `str`: entity 속성 값.
+---
+
+### <kbd>property</kbd> Registry.full_name
+
+`wandb-registry-` 접두사를 포함한 registry의 전체 이름입니다.
+
+**Returns:**
+ - `str`: full_name 속성 값.
+---
+
+### <kbd>property</kbd> Registry.id
+
+이 registry의 고유 ID입니다.
+
+**Returns:**
+ - `str`: id 속성 값.
+---
+
+### <kbd>property</kbd> Registry.name
+
+`wandb-registry-` 접두사를 제외한 registry의 이름입니다.
+
+**Returns:**
+ - `str`: name 속성 값.
+---
+
+### <kbd>property</kbd> Registry.organization
+
+registry의 조직 이름입니다.
+
+**Returns:**
+ - `str`: organization 속성 값.
+---
+
+### <kbd>property</kbd> Registry.path
+
+---
+
+### <kbd>property</kbd> Registry.updated_at
+
+registry가 마지막으로 업데이트된 시간의 타임스탬프입니다.
+
+**Returns:**
+ - `str`: updated_at 속성 값.
+---
+
+### <kbd>property</kbd> Registry.visibility
+
+registry의 가시성 설정입니다.
+
+**Returns:**
+ 
+ - `Literal["organization", "restricted"]`: 가시성 수준.
+        - "organization": 조직 내 누구나 이 registry를 볼 수 있습니다. 나중에 UI의 설정에서 역할을 편집할 수 있습니다.
+        - "restricted": UI를 통해 초대된 멤버만 이 registry에 엑세스할 수 있습니다. 공개 공유는 비활성화됩니다.
+
+**Returns:**
+ - `Literal['organization', 'restricted']`: visibility 속성 값.
+---
+
+### <kbd>method</kbd> `Registry.add_members`
+
+```python
+add_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
+```
+
+이 registry에 Users 또는 Teams를 추가합니다.
+
+**Args:**
+ 
+ - `members`: registry에 추가할 Users 또는 Teams입니다. `User` 오브젝트, `Team` 오브젝트 또는 해당 문자열 ID를 허용합니다.
+
+**Returns:**
+ 필요한 경우 추가 메소드 체이닝을 위해 이 registry를 반환합니다.
+
+**Raises:**
+ 
+ - `TypeError`: 인수로 전달된 멤버가 없는 경우 발생합니다.
+ - `ValueError`: User 또는 Team ID를 유추하거나 파싱할 수 없는 경우 발생합니다.
+
+**Examples:**
+ ```python
+import wandb
+
+api = wandb.Api()
+
+# 기존 registry 가져오기
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.add_members(user1, user2)
+
+my_team = api.team(name="my-team")
+registry.add_members(my_team)
+``` 
+
+---
+
+### <kbd>method</kbd> `Registry.collections`
+
+```python
+collections(
+    filter: 'dict[str, Any] | None' = None,
+    per_page: 'PositiveInt' = 100
+) → Collections
+```
+
+registry에 속한 컬렉션들을 반환합니다.
+
+---
+
+### <kbd>classmethod</kbd> `Registry.create`
+
+```python
+create(
+    client: 'RetryingClient',
+    organization: 'str',
+    name: 'str',
+    visibility: "Literal['organization', 'restricted']",
+    description: 'str | None' = None,
+    artifact_types: 'list[str] | None' = None
+) → Self
+```
+
+새로운 registry를 생성합니다.
+
+registry 이름은 조직 내에서 고유해야 합니다. 이 함수는 `api.create_registry()`를 사용하여 호출해야 합니다.
+
+**Args:**
+ 
+ - `client`: GraphQL 클라이언트.
+ - `organization`: 조직의 이름.
+ - `name`: registry의 이름 (`wandb-registry-` 접두사 제외).
+ - `visibility`: 가시성 수준 ('organization' 또는 'restricted').
+ - `description`: registry에 대한 선택적 설명.
+ - `artifact_types`: 허용되는 artifact 유형의 선택적 목록.
+
+**Returns:**
+ 
+ - `Registry`: 새로 생성된 Registry 오브젝트.
+
+**Raises:**
+ 
+ - `ValueError`: 조직 내에 동일한 이름의 registry가 이미 존재하거나 생성이 실패한 경우 발생합니다.
+
+---
+
+### <kbd>method</kbd> `Registry.delete`
+
+```python
+delete() → None
+```
+
+registry를 삭제합니다. 이 작업은 되돌릴 수 없습니다.
+
+---
+
+### <kbd>method</kbd> `Registry.load`
+
+```python
+load() → None
+```
+
+백엔드에서 registry 속성을 로드합니다.
+
+---
+
+### <kbd>method</kbd> `Registry.members`
+
+```python
+members() → list[UserMember | TeamMember]
+```
+
+이 registry의 현재 멤버(Users 및 Teams)를 반환합니다.
+
+---
+
+### <kbd>method</kbd> `Registry.remove_members`
+
+```python
+remove_members(*members: 'User | UserMember | Team | TeamMember | str') → Self
+```
+
+이 registry에서 Users 또는 Teams를 제거합니다.
+
+**Args:**
+ 
+ - `members`: registry에서 제거할 Users 또는 Teams입니다. `User` 오브젝트, `Team` 오브젝트 또는 해당 문자열 ID를 허용합니다.
+
+**Returns:**
+ 필요한 경우 추가 메소드 체이닝을 위해 이 registry를 반환합니다.
+
+**Raises:**
+ 
+ - `TypeError`: 인수로 전달된 멤버가 없는 경우 발생합니다.
+ - `ValueError`: User 또는 Team ID를 유추하거나 파싱할 수 없는 경우 발생합니다.
+
+**Examples:**
+ ```python
+import wandb
+
+api = wandb.Api()
+
+# 기존 registry 가져오기
+registry = api.registry(name="my-registry", organization="my-org")
+
+user1 = api.user(username="some-user")
+user2 = api.user(username="other-user")
+registry.remove_members(user1, user2)
+
+old_team = api.team(name="old-team")
+registry.remove_members(old_team)
+``` 
+
+---
+
+### <kbd>method</kbd> `Registry.save`
+
+```python
+save() → None
+```
+
+registry 속성을 백엔드에 저장합니다.
+
+---
+
+### <kbd>method</kbd> `Registry.team_members`
+
+```python
+team_members() → list[TeamMember]
+```
+
+이 registry의 현재 멤버 Teams를 반환합니다.
+
+---
+
+### <kbd>method</kbd> `Registry.update_member`
+
+```python
+update_member(
+    member: 'User | UserMember | Team | TeamMember | str',
+    role: 'MemberRole | str'
+) → Self
+```
+
+이 registry 내 멤버(User 또는 Team)의 역할을 업데이트합니다.
+
+**Args:**
+ 
+ - `member`: 역할을 업데이트할 User 또는 Team입니다. `User` 오브젝트, `Team` 오브젝트 또는 해당 문자열 ID를 허용합니다.
+ - `role`: 멤버에게 할당할 새로운 역할입니다. 다음 중 하나일 수 있습니다:
+        - "admin" 
+        - "member" 
+        - "viewer" 
+        - "restricted_viewer" (W&B 서버에서 지원하는 경우)
+
+**Returns:**
+ 필요한 경우 추가 메소드 체이닝을 위해 이 registry를 반환합니다.
+
+**Raises:**
+ 
+ - `ValueError`: User 또는 Team ID를 유추할 수 없는 경우 발생합니다.
+
+**Examples:**
+ registry의 모든 Users를 관리자(admin)로 설정하기: ```python
+import wandb
+
+api = wandb.Api()
+
+# 기존 registry 가져오기
+registry = api.registry(name="my-registry", organization="my-org")
+
+for member in registry.user_members():
+    registry.update_member(member.user, role="admin")
+``` 
+
+---
+
+### <kbd>method</kbd> `Registry.user_members`
+
+```python
+user_members() → list[UserMember]
+```
+
+이 registry의 현재 멤버 Users를 반환합니다.
+
+---
+
+### <kbd>method</kbd> `Registry.versions`
+
+```python
+versions(
+    filter: 'dict[str, Any] | None' = None,
+    per_page: 'PositiveInt' = 100
+) → Versions
+```
+
+registry에 속한 버전들을 반환합니다.

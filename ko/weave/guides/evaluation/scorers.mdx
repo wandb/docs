@@ -1,0 +1,460 @@
+---
+title: Scoring 개요
+description: Weave Scorers를 사용하여 AI 출력을 평가하고 평가 메트릭을 반환합니다.
+---
+
+Weave에서 Scorer는 AI 출력값을 평가하고 평가 메트릭을 반환하는 데 사용됩니다. Scorer는 AI의 출력값을 받아 이를 분석하고 결과 dictionary를 반환합니다. Scorer는 필요한 경우 입력 데이터를 참조로 사용할 수 있으며, 평가에 대한 설명이나 추론과 같은 추가 정보를 출력할 수도 있습니다.
+
+<Tabs>
+  <Tab title="Python">
+    Scorer는 평가 중에 `weave.Evaluation` 오브젝트에 전달됩니다. Weave에는 두 가지 유형의 Scorer가 있습니다.
+
+    1.  **함수 기반 Scorer:** `@weave.op` 데코레이터가 지정된 간단한 Python 함수입니다.
+    2.  **클래스 기반 Scorer:** 더 복잡한 평가를 위해 `weave.Scorer`를 상속받는 Python 클래스입니다.
+
+    Scorer는 반드시 dictionary를 반환해야 하며, 여러 메트릭, 중첩된 메트릭, 그리고 LLM 평가자가 추론 과정에 대해 반환한 텍스트와 같은 비수치 값을 반환할 수 있습니다.
+
+  </Tab>
+  <Tab title="TypeScript">
+    Scorer는 평가 중에 `weave.Evaluation` 오브젝트에 전달되는 특수한 op입니다.
+  </Tab>
+</Tabs>
+
+## 나만의 Scorer 만들기
+
+<Tip>
+**바로 사용 가능한 Scorer**
+이 가이드에서는 커스텀 Scorer를 만드는 방법을 설명하지만, Weave는 다음과 같이 즉시 사용할 수 있는 다양한 [사전 정의된 Scorer](./builtin_scorers.mdx) 및 [로컬 SLM Scorer](./weave_local_scorers.mdx)를 제공합니다.
+- [환각(Hallucination) 감지](./builtin_scorers#hallucinationfreescorer)
+- [요약 품질](./builtin_scorers#summarizationscorer)
+- [임베딩 유사도](./builtin_scorers#embeddingsimilarityscorer)
+- [유해성 감지(로컬)](./weave_local_scorers#weavetoxicityscorerv1)
+- [컨텍스트 관련성 점수(로컬)](./weave_local_scorers#weavecontextrelevancescorerv1)
+- 그 외 다수!
+</Tip>
+
+### 함수 기반 Scorer
+
+<Tabs>
+  <Tab title="Python">
+    이들은 dictionary를 반환하고 `@weave.op` 데코레이터가 지정된 함수입니다. 다음과 같은 간단한 평가에 적합합니다.
+
+    ```python lines
+    import weave
+
+    @weave.op
+    def evaluate_uppercase(text: str) -> dict:
+        return {"text_is_uppercase": text.isupper()}
+
+    my_eval = weave.Evaluation(
+        dataset=[{"text": "HELLO WORLD"}],
+        scorers=[evaluate_uppercase]
+    )
+    ```
+
+    평가가 실행되면 `evaluate_uppercase`는 텍스트가 모두 대문자인지 확인합니다.
+
+  </Tab>
+  <Tab title="TypeScript">
+    이들은 `modelOutput`과 선택적으로 `datasetRow`를 포함하는 오브젝트를 인수로 받는 `weave.op`로 감싸진 함수입니다. 다음과 같은 간단한 평가에 적합합니다.
+    ```typescript lines
+    import * as weave from 'weave'
+
+    const evaluateUppercase = weave.op(
+        ({modelOutput}) => modelOutput.toUpperCase() === modelOutput,
+        {name: 'textIsUppercase'}
+    );
+
+    const myEval = new weave.Evaluation({
+        dataset: [{text: 'HELLO WORLD'}],
+        scorers: [evaluateUppercase],
+    })
+    ```
+
+  </Tab>
+</Tabs>
+
+### 클래스 기반 Scorer
+
+<Tabs>
+  <Tab title="Python">
+    추가적인 Scorer 메타데이터를 추적해야 하거나, LLM 평가자를 위해 다양한 프롬프트를 시도하거나, 여러 함수 호출을 수행해야 하는 등 더 고급 평가가 필요한 경우 `Scorer` 클래스를 사용할 수 있습니다.
+
+    **요구 사항:**
+
+    1.  `weave.Scorer`를 상속받습니다.
+    2.  `@weave.op` 데코레이터가 지정된 `score` 메소드를 정의합니다.
+    3.  `score` 메소드는 반드시 dictionary를 반환해야 합니다.
+
+    예시:
+
+    ```python lines {7}
+    import weave
+    from openai import OpenAI
+    from weave import Scorer
+
+    llm_client = OpenAI()
+
+    class SummarizationScorer(Scorer):
+        model_id: str = "gpt-4o"
+        system_prompt: str = "Evaluate whether the summary is good."
+
+        @weave.op
+        def some_complicated_preprocessing(self, text: str) -> str:
+            processed_text = "Original text: \n" + text + "\n"
+            return processed_text
+
+        @weave.op
+        def call_llm(self, summary: str, processed_text: str) -> dict:
+            res = llm_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": self.system_prompt},
+                    {"role": "user", "content": (
+                        f"Analyze how good the summary is compared to the original text."
+                        f"Summary: {summary}\n{processed_text}"
+                    )}])
+            return {"summary_quality": res}
+
+        @weave.op
+        def score(self, output: str, text: str) -> dict:
+            """요약 품질을 평가합니다.
+
+            Args:
+                output: AI 시스템이 생성한 요약본
+                text: 요약 대상이 되는 원문
+            """
+            processed_text = self.some_complicated_preprocessing(text)
+            eval_result = self.call_llm(summary=output, processed_text=processed_text)
+            return {"summary_quality": eval_result}
+
+    evaluation = weave.Evaluation(
+        dataset=[{"text": "The quick brown fox jumps over the lazy dog."}],
+        scorers=[summarization_scorer])
+    ```
+
+    이 클래스는 요약본을 원문과 비교하여 품질이 얼마나 좋은지 평가합니다.
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript에서 지원되지 않습니다.
+    ```
+  </Tab>
+</Tabs>
+
+## Scorer 작동 방식
+
+### Scorer 키워드 인수
+
+<Tabs>
+  <Tab title="Python">
+    Scorer는 AI 시스템의 출력값과 Datasets 행의 입력 데이터 모두에 엑세스할 수 있습니다.
+
+    - **입력:** "label"이나 "target" 컬럼과 같이 Datasets 행의 데이터를 Scorer에서 사용하려는 경우, Scorer 정의에 `label` 또는 `target` 키워드 인수를 추가하여 쉽게 사용할 수 있습니다.
+
+    예를 들어, Datasets에서 "label"이라는 컬럼을 사용하고 싶다면 Scorer 함수(또는 `score` 클래스 메소드)의 파라미터 리스트는 다음과 같을 것입니다.
+
+    ```python lines
+    @weave.op
+    def my_custom_scorer(output: str, label: int) -> dict:
+        ...
+    ```
+
+    Weave `Evaluation`이 실행되면 AI 시스템의 출력값이 `output` 파라미터로 전달됩니다. 또한 `Evaluation`은 추가적인 Scorer 인수 이름을 Datasets 컬럼과 자동으로 일치시키려고 시도합니다. Scorer 인수나 Datasets 컬럼을 커스터마이징하는 것이 어려운 경우, 아래에 설명된 컬럼 매핑을 사용할 수 있습니다.
+
+    - **출력:** AI 시스템의 출력값에 엑세스하려면 Scorer 함수의 서명에 `output` 파라미터를 포함하세요.
+
+    ### `column_map`을 사용한 컬럼 이름 매핑
+
+    때로는 `score` 메소드의 인수 이름이 Datasets의 컬럼 이름과 일치하지 않을 수 있습니다. 이럴 때 `column_map`을 사용하여 해결할 수 있습니다.
+
+    클래스 기반 Scorer를 사용하는 경우, Scorer 클래스를 초기화할 때 `Scorer`의 `column_map` 속성에 dictionary를 전달하세요. 이 dictionary는 `score` 메소드의 인수 이름을 Datasets의 컬럼 이름에 `{scorer_keyword_argument: dataset_column_name}` 순서로 매핑합니다.
+
+    예시:
+
+    ```python lines
+    import weave
+    from weave import Scorer
+
+    # 요약할 뉴스 기사가 포함된 데이터셋
+    dataset = [
+        {"news_article": "The news today was great...", "date": "2030-04-20", "source": "Bright Sky Network"},
+        ...
+    ]
+
+    # Scorer 클래스
+    class SummarizationScorer(Scorer):
+
+        @weave.op
+        def score(self, output, text) -> dict:
+            """
+                output: LLM 요약 시스템의 출력 요약본
+                text: 요약되는 원문
+            """
+            ...  # 요약 품질 평가
+
+    # `text` 인수를 `news_article` 데이터 컬럼에 매핑하는 컬럼 매핑이 포함된 Scorer 생성
+    scorer = SummarizationScorer(column_map={"text" : "news_article"})
+    ```
+
+    이제 `score` 메소드의 `text` 인수는 `news_article` Datasets 컬럼의 데이터를 받게 됩니다.
+
+    **참고:**
+
+    - 컬럼을 매핑하는 또 다른 방법은 `Scorer`를 서브클래싱하고 컬럼을 명시적으로 매핑하도록 `score` 메소드를 오버로드하는 것입니다.
+
+    ```python lines
+    import weave
+    from weave import Scorer
+
+    class MySummarizationScorer(SummarizationScorer):
+
+        @weave.op
+        def score(self, output: str, news_article: str) -> dict:  # 타입 힌트 추가
+            # score 메소드를 오버로드하고 컬럼을 수동으로 매핑
+            return super().score(output=output, text=news_article)
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    Scorer는 AI 시스템의 출력값과 Datasets 행의 내용 모두에 엑세스할 수 있습니다.
+
+    Scorer 정의에 `datasetRow` 키워드 인수를 추가하여 Datasets 행에서 관련 컬럼에 쉽게 엑세스할 수 있습니다.
+
+    ```typescript lines
+    const myScorer = weave.op(
+        ({modelOutput, datasetRow}) => {
+            return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
+        },
+        {name: 'myScorer'}
+    );
+    ```
+
+    ### `columnMapping`을 사용한 컬럼 이름 매핑
+    <Warning>
+
+    TypeScript에서는 이 기능이 현재 개별 Scorer가 아닌 `Evaluation` 오브젝트에 있습니다.
+
+    </Warning>
+
+    때때로 `datasetRow` 키의 이름이 Scorer의 명명 규칙과 정확히 일치하지 않지만 의미상으로는 유사한 경우가 있습니다. 이때 `Evaluation`의 `columnMapping` 옵션을 사용하여 컬럼을 매핑할 수 있습니다.
+
+    매핑은 항상 Scorer의 관점에서 이루어집니다. 즉, `{scorer_key: dataset_column_name}` 형식입니다.
+
+    예시:
+
+    ```typescript lines
+    const myScorer = weave.op(
+        ({modelOutput, datasetRow}) => {
+            return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
+        },
+        {name: 'myScorer'}
+    );
+
+    const myEval = new weave.Evaluation({
+        dataset: [{expected: 2}],
+        scorers: [myScorer],
+        columnMapping: {expectedOutputTimesTwo: 'expected'}
+    });
+    ```
+
+  </Tab>
+</Tabs>
+
+### Scorer의 최종 요약
+
+<Tabs>
+  <Tab title="Python">
+    평가 중에 Scorer는 Datasets의 각 행에 대해 계산됩니다. 평가에 대한 최종 점수를 제공하기 위해 출력값의 반환 유형에 따른 `auto_summarize`를 제공합니다.
+    - 수치형 컬럼에 대해서는 평균이 계산됩니다.
+    - 불리언(Boolean) 컬럼에 대해서는 개수와 비율이 계산됩니다.
+    - 그 외의 컬럼 유형은 무시됩니다.
+
+    `Scorer` 클래스의 `summarize` 메소드를 오버라이드하여 최종 점수를 계산하는 나만의 방식을 제공할 수 있습니다. `summarize` 함수는 다음을 요구합니다.
+
+    - 단일 파라미터 `score_rows`: 이는 Datasets의 단일 행에 대해 `score` 메소드가 반환한 점수들을 담고 있는 dictionary들의 리스트입니다.
+    - 요약된 점수를 포함하는 dictionary를 반환해야 합니다.
+
+    **왜 이것이 유용한가요?**
+
+    Datasets에 대한 최종 점수 값을 결정하기 전에 모든 행에 대한 점수를 먼저 매겨야 할 때 유용합니다.
+
+    ```python lines
+    class MyBinaryScorer(Scorer):
+        """
+        전체 출력값이 타겟과 일치하면 True, 그렇지 않으면 False를 반환합니다.
+        """
+
+        @weave.op
+        def score(self, output, target):
+            return {"match": output == target}
+
+        def summarize(self, score_rows: list) -> dict:
+            full_match = all(row["match"] for row in score_rows)
+            return {"full_match": full_match}
+    ```
+
+    > 이 예시에서 기본 `auto_summarize`는 True의 개수와 비율을 반환했을 것입니다.
+
+    더 자세히 알고 싶다면 [CorrectnessLLMJudge](/weave/tutorial-rag#optional-defining-a-scorer-class)의 구현을 확인하세요.
+
+  </Tab>
+  <Tab title="TypeScript">
+    평가 중에 Scorer는 Datasets의 각 행에 대해 계산됩니다. 최종 점수를 제공하기 위해 출력 유형에 따라 집계하는 내부 `summarizeResults` 함수를 사용합니다.
+    - 수치형 컬럼에 대해서는 평균이 계산됩니다.
+    - 불리언 컬럼에 대해서는 개수와 비율이 계산됩니다.
+    - 그 외의 컬럼 유형은 무시됩니다.
+
+    현재 커스텀 요약 기능은 지원하지 않습니다.
+
+  </Tab>
+</Tabs>
+
+### Call에 Scorer 적용하기
+
+Weave op에 Scorer를 적용하려면 작업 결과와 추적 정보에 모두 엑세스할 수 있는 `.call()` 메소드를 사용해야 합니다. 이를 통해 Scorer 결과를 Weave 데이터베이스의 특정 Call과 연결할 수 있습니다.
+
+`.call()` 메소드 사용법에 대한 자세한 내용은 [Calling Ops](../tracking/tracing#calling-ops#getting-a-handle-to-the-call-object-during-execution) 가이드를 참조하세요.
+
+<Tabs>
+  <Tab title="Python">
+    기본적인 예시는 다음과 같습니다.
+
+    ```python lines
+    # 결과와 Call 오브젝트를 모두 가져옵니다.
+    result, call = generate_text.call("Say hello")
+
+    # Scorer를 적용합니다.
+    score = await call.apply_scorer(MyScorer())
+    ```
+
+    동일한 Call에 여러 Scorer를 적용할 수도 있습니다.
+
+    ```python lines
+    # 여러 Scorer를 병렬로 적용합니다.
+    await asyncio.gather(
+        call.apply_scorer(quality_scorer),
+        call.apply_scorer(toxicity_scorer)
+    )
+    ```
+
+    **참고:**
+    - Scorer 결과는 Weave 데이터베이스에 자동으로 저장됩니다.
+    - Scorer는 메인 작업이 완료된 후 비동기적으로 실행됩니다.
+    - UI에서 Scorer 결과를 확인하거나 API를 통해 쿼리할 수 있습니다.
+
+    Scorer를 가드레일이나 모니터로 사용하는 방법(프로덕션 모범 사례 및 전체 예시 포함)에 대한 자세한 내용은 [Guardrails and Monitors 가이드](./guardrails_and_monitors)를 참조하세요.
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    이 기능은 아직 TypeScript에서 지원되지 않습니다.
+    ```
+  </Tab>
+</Tabs>
+
+### `preprocess_model_input` 사용하기
+
+`preprocess_model_input` 파라미터를 사용하여 평가 중에 Datasets 예시가 모델에 전달되기 전에 수정할 수 있습니다.
+
+<Important>
+`preprocess_model_input` 함수는 모델의 예측 함수로 전달되기 전의 입력값만 변환합니다.
+
+Scorer 함수는 전처리가 적용되지 않은 원본 Datasets 예시를 항상 그대로 받습니다.
+</Important>
+
+사용법 및 예시는 [평가 전 데이터셋 행 형식을 맞추기 위해 preprocess_model_input 사용하기](../core-types/evaluations#using-preprocess_model_input-to-format-dataset-rows-before-evaluating)를 참조하세요.
+
+## 점수 분석
+
+이 섹션에서는 단일 Call, 여러 Call, 그리고 특정 Scorer에 의해 점수가 매겨진 모든 Call의 점수를 분석하는 방법을 보여줍니다.
+
+### 단일 Call의 점수 분석
+
+#### 단일 Call API
+
+단일 Call에 대한 호출 내역을 검색하려면 `get_call` 메소드를 사용합니다.
+
+```python lines
+client = weave.init("my-project")
+
+# 단일 Call 가져오기
+call = client.get_call("call-uuid-here")
+
+# 점수가 포함된 Call의 피드백 가져오기
+feedback = list(call.feedback)
+```
+
+#### 단일 Call UI
+
+<Frame>
+![Call 점수 탭](/weave/guides/evaluation/img/call_scores_tab.png)
+</Frame>
+
+개별 Call에 대한 점수는 Call 상세 페이지의 "Scores" 탭에 표시됩니다.
+
+### 여러 Call의 점수 분석
+
+#### 여러 Call API
+
+여러 Call에 대한 호출 내역을 검색하려면 `get_calls` 메소드를 사용합니다.
+
+```python lines
+client = weave.init("my-project")
+
+# 여러 Call 가져오기 - 원하는 필터를 사용하고 피드백을 포함합니다.
+calls = client.get_calls(..., include_feedback=True)
+
+# Call을 반복하며 점수가 포함된 피드백에 엑세스합니다.
+for call in calls:
+    feedback = list(call.feedback)
+```
+
+#### 여러 Call UI
+
+<Frame>
+![여러 Call 탭](/weave/guides/evaluation/img/traces_table_scores.png)
+</Frame>
+
+여러 Call에 대한 점수는 Traces 테이블의 "Scores" 컬럼 아래에 표시됩니다.
+
+### 특정 Scorer로 점수가 매겨진 모든 Call 분석
+
+#### Scorer별 모든 Call API
+
+특정 Scorer에 의해 점수가 매겨진 모든 Call을 검색하려면 `get_calls` 메소드를 사용합니다.
+
+```python lines
+client = weave.init("my-project")
+
+# 특정 Scorer의 모든 버전으로 점수가 매겨진 모든 Call을 가져오려면 Scorer 이름(일반적으로 클래스 이름)을 사용합니다.
+calls = client.get_calls(scored_by=["MyScorer"], include_feedback=True)
+
+# Scorer의 특정 버전으로 점수가 매겨진 모든 Call을 가져오려면 전체 ref를 사용합니다.
+# Ref는 Scorer 오브젝트나 UI를 통해 얻을 수 있습니다.
+calls = client.get_calls(scored_by=[myScorer.ref.uri()], include_feedback=True)
+
+# Call을 반복하며 점수가 포함된 피드백에 엑세스합니다.
+for call in calls:
+    feedback = list(call.feedback)
+```
+
+#### Scorer별 모든 Call UI
+
+마지막으로, Scorer에 의해 점수가 매겨진 모든 Call을 보고 싶다면 UI에서 Scorers 탭으로 이동하여 "Programmatic Scorer" 탭을 선택합니다. 해당 Scorer를 클릭하여 Scorer 상세 페이지를 엽니다.
+
+<Frame>
+![Scorer 상세 페이지](/weave/guides/evaluation/img/scorer_detail_page.png)
+</Frame>
+
+다음으로, `Scores` 아래의 `View Traces` 버튼을 클릭하여 해당 Scorer로 점수가 매겨진 모든 Call을 확인합니다.
+
+<Frame>
+![Scorer 버전으로 필터링된 Call](/weave/guides/evaluation/img/filtered_calls_to_scorer_version.png)
+</Frame>
+
+기본적으로 선택한 Scorer 버전으로 설정됩니다. 버전 필터를 제거하면 해당 Scorer의 모든 버전으로 점수가 매겨진 모든 Call을 볼 수 있습니다.
+
+<Frame>
+![Scorer 이름으로 필터링된 Call](/weave/guides/evaluation/img/filtered_calls_scorer_name.png)
+</Frame>

@@ -1,30 +1,30 @@
 ---
-title: 各 Artifacts バージョンはどれくらいのストレージを使用しますか?
-support:
-  - artifacts
-  - storage
-toc_hide: true
-type: docs
+title: 各 Artifact バージョンはどのくらいのストレージを使用しますか？
 ---
-2 つの Artifacts のバージョン間で変更されたファイルのみがストレージコストの対象となります。
+
+2 つの Artifacts バージョン間で変更されたファイルのみが、ストレージコストの対象となります。
 
 <Frame>
-    <img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifacts 'dataset' の v1 では、異なる画像は 5 枚中 2 枚のみで、そのため占有率は 40% にとどまります。"  />
+<img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifact deduplication" />
 </Frame>
 
-2 つの画像ファイル `cat.png` と `dog.png` を含む画像 Artifact `animals` を考えてみましょう:
+例えば、`cat.png` と `dog.png` という 2 つの画像ファイルを含む、`animals` という名前の Artifacts を考えてみましょう。
 
+```
 images
 |-- cat.png (2MB) # `v0` で追加
 |-- dog.png (1MB) # `v0` で追加
+```
 
-この Artifact にはバージョン `v0` が割り当てられます。
+この Artifacts にはバージョン `v0` が割り当てられます。
 
-新しい画像 `rat.png` を追加すると、新しい Artifact のバージョン `v1` が次の内容で作成されます:
+新しい画像 `rat.png` を追加すると、以下の内容を含む新しい Artifacts バージョン `v1` が作成されます。
 
+```
 images
 |-- cat.png (2MB) # `v0` で追加
 |-- dog.png (1MB) # `v0` で追加
 |-- rat.png (3MB) # `v1` で追加
+```
 
-バージョン `v1` は合計 6MB をトラックしますが、`v0` と 3MB を共有しているため、占有するスペースは 3MB のみです。`v1` を削除すると、`rat.png` に関連する 3MB のストレージが回収されます。`v0` を削除すると、`cat.png` と `dog.png` のストレージコストは `v1` に移され、ストレージサイズは 6MB に増加します。
+バージョン `v1` は合計 6MB のファイルを追跡していますが、残りの 3MB は `v0` と共有されているため、実際に占有するスペースは 3MB のみです。`v1` を削除すると、`rat.png` に関連付けられていた 3MB のストレージが解放されます。`v0` を削除すると、`cat.png` と `dog.png` のストレージコストが `v1` に引き継がれ、`v1` のストレージサイズは 6MB に増加します。

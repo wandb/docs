@@ -23,7 +23,7 @@ git: A git source, with an entrypoint either in the path or provided explicitly 
 ## Usage
 
 ```bash
-wandb create JOB_TYPE PATH [OPTIONS]
+wandb job create JOB_TYPE PATH [OPTIONS]
 ```
 
 ## Arguments
@@ -48,5 +48,3 @@ wandb create JOB_TYPE PATH [OPTIONS]
 | `--build-context`, `-b` | Path to the build context from the root of the job source code. If provided, this is used as the base path for the Dockerfile and entrypoint. |
 | `--base-image`, `-B` | Base image to use for the job. Incompatible with image jobs. |
 | `--dockerfile`, `-D` | Path to the Dockerfile for the job. If --build-context is provided, the Dockerfile path will be relative to the build context. |
-| `--service`, `-s` | Service configurations in format serviceName=policy. Valid policies: always, never |
-| `--schema` | Path to the schema file for the job. |

@@ -1,35 +1,36 @@
 ---
-title: なぜログされたデータポイントが少なく表示されるのですか？
-support:
-  - experiments
-  - metrics
-toc_hide: true
-type: docs
+title: ログしたはずのデータポイントより少なく表示されるのはなぜですか？
 ---
-メトリクスを `Step` 以外の X 軸に対して視覚化する場合、データポイントが少なくなることがあります。メトリクスは同じ `Step` でログする必要があり、同期を維持します。同じ `Step` でログされるメトリクスのみが、サンプル間の補間中にサンプリングされます。
+
+`Step` 以外の X 軸でメトリクスを可視化する場合、データポイントが少なく表示されることがあります。メトリクスを同期させるには、同じ `Step` でログを記録する必要があります。サンプル間の補間が行われる際、同じ `Step` でログが記録されたメトリクスのみがサンプリングされます。
 
 **ガイドライン**
 
-メトリクスを単一の `log()` 呼び出しにバンドルします。例えば、以下のようにするのではなく:
+メトリクスは単一の `log()` 呼び出しにまとめます。例えば、以下のような書き方の代わりに：
 
 ```python
-wandb.log({"Precision": precision})
-...
-wandb.log({"Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
 ```
 
-以下のようにします:
+次のように記述します：
 
 ```python
-wandb.log({"Precision": precision, "Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
 ```
 
-ステップパラメータを手動で制御する場合、コード内でメトリクスを次のように同期させます:
+step パラメータを手動で制御して、コード内でメトリクスを同期させるには、以下のように記述します：
 
 ```python
-wandb.log({"Precision": precision}, step=step)
-...
-wandb.log({"Recall": recall}, step=step)
+with wandb.init() as run:
+    step = 100  # ステップ値の例
+    # Precision と Recall を同じステップでログに記録
+    run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
-メトリクスを同じステップでログし、同時にサンプリングするために、両方の `log()` 呼び出しで `step` 値が同じままであることを確認してください。`step` 値は各呼び出しで単調に増加する必要があります。そうでない場合、`step` 値は無視されます。
+メトリクスが同じステップで記録され、一緒にサンプリングされるように、両方の `log()` 呼び出しで `step` の値が同じであることを確認してください。また、`step` の値は呼び出しごとに単調増加する必要があります。そうでない場合、`step` の値は無視されます。

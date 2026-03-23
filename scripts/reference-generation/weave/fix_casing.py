@@ -12,108 +12,47 @@ import shutil
 from pathlib import Path
 
 def fix_typescript_casing(base_path):
-    """Fix TypeScript SDK file casing."""
-    print("Fixing TypeScript SDK file casing...")
+    """Fix TypeScript SDK file casing - ensure all files use lowercase."""
+    print("Fixing TypeScript SDK file casing to lowercase...")
     
-    ts_base = Path(base_path) / "weave/reference/typescript-sdk/weave"
+    ts_base = Path(base_path) / "weave/reference/typescript-sdk"
     if not ts_base.exists():
         print(f"  TypeScript SDK path not found: {ts_base}")
         return
     
-    # Define correct names for each directory
-    casing_rules = {
-        "classes": {
-            "dataset": "Dataset",
-            "evaluation": "Evaluation", 
-            "weaveclient": "WeaveClient",
-            "weaveobject": "WeaveObject",
-        },
-        "interfaces": {
-            "callschema": "CallSchema",
-            "callsfilter": "CallsFilter",
-            "weaveaudio": "WeaveAudio",
-            "weaveimage": "WeaveImage",
-        },
-        "functions": {
-            # Functions should be lowercase/camelCase
-            "init": "init",
-            "login": "login",
-            "op": "op",
-            "requirecurrentcallstackentry": "requireCurrentCallStackEntry",
-            "requirecurrentchildsummary": "requireCurrentChildSummary",
-            "weaveaudio": "weaveAudio",
-            "weaveimage": "weaveImage",
-            "wrapopenai": "wrapOpenAI",
-        },
-        "type-aliases": {
-            "op": "Op",  # Type alias Op is uppercase
-            "opdecorator": "OpDecorator",
-            "messagesprompt": "MessagesPrompt",
-            "stringprompt": "StringPrompt",
-        }
-    }
+    # All TypeScript SDK files should use lowercase filenames for consistency
+    # This applies to classes, functions, interfaces, and type-aliases
+    subdirs_to_check = ["classes", "functions", "interfaces", "type-aliases"]
     
-    for dir_name, rules in casing_rules.items():
-        dir_path = ts_base / dir_name
+    for subdir in subdirs_to_check:
+        dir_path = ts_base / subdir
         if not dir_path.exists():
             continue
             
         for file in dir_path.glob("*.mdx"):
-            basename = file.stem.lower()
-            if basename in rules:
-                correct_name = rules[basename]
-                if file.stem != correct_name:
-                    new_path = file.parent / f"{correct_name}.mdx"
-                    print(f"  Renaming: {file.name} → {correct_name}.mdx")
-                    shutil.move(str(file), str(new_path))
+            # Convert filename to lowercase
+            lowercase_name = file.stem.lower()
+            if file.stem != lowercase_name:
+                new_path = file.parent / f"{lowercase_name}.mdx"
+                print(f"  Renaming: {file.name} → {lowercase_name}.mdx")
+                shutil.move(str(file), str(new_path))
 
 def fix_python_casing(base_path):
-    """Fix Python SDK file casing."""
-    print("Fixing Python SDK file casing...")
+    """Fix Python SDK file casing for WEAVE reference docs only."""
+    print("Fixing Weave Python SDK file casing...")
     
-    py_base = Path(base_path) / "models/ref/python/public-api"
+    # IMPORTANT: This should ONLY touch Weave reference docs, never Models reference docs
+    py_base = Path(base_path) / "weave/reference/python-sdk"
     if not py_base.exists():
-        print(f"  Python SDK path not found: {py_base}")
+        print(f"  Weave Python SDK path not found: {py_base}")
         return
     
-    # Python class files that should be uppercase
-    uppercase_files = {
-        "artifactcollection": "ArtifactCollection",
-        "artifactcollections": "ArtifactCollections",
-        "artifactfiles": "ArtifactFiles",
-        "artifacttype": "ArtifactType",
-        "artifacttypes": "ArtifactTypes",
-        "betareport": "BetaReport",
-        "file": "File",
-        "member": "Member",
-        "project": "Project",
-        "registry": "Registry",
-        "run": "Run",
-        "runartifacts": "RunArtifacts",
-        "sweep": "Sweep",
-        "team": "Team",
-        "user": "User",
-    }
+    # For Weave Python SDK, we generally want lowercase filenames
+    # Only specific files might need special casing - currently none known
+    # Most Weave modules use lowercase with underscores (e.g., weave_client.mdx)
     
-    # Files that should remain lowercase
-    lowercase_files = ["api", "artifacts", "automations", "files", "projects", 
-                       "reports", "runs", "sweeps", "_index"]
-    
-    for file in py_base.glob("*.mdx"):
-        basename = file.stem.lower()
-        
-        if basename in uppercase_files:
-            correct_name = uppercase_files[basename]
-            if file.stem != correct_name:
-                new_path = file.parent / f"{correct_name}.mdx"
-                print(f"  Renaming: {file.name} → {correct_name}.mdx")
-                shutil.move(str(file), str(new_path))
-        elif basename in lowercase_files:
-            # Ensure these stay lowercase
-            if file.stem != basename:
-                new_path = file.parent / f"{basename}.mdx"
-                print(f"  Renaming: {file.name} → {basename}.mdx")
-                shutil.move(str(file), str(new_path))
+    print(f"  Weave Python SDK files are generated with correct casing")
+    print(f"  No casing changes needed for Weave reference documentation")
 
 def main():
     """Main function to fix all casing issues."""

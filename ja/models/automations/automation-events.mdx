@@ -1,0 +1,151 @@
+---
+title: オートメーションのイベントとスコープ
+---
+import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.mdx";
+import MultiTenantCloudOnly from "/snippets/en/_includes/multi-tenant-cloud-only.mdx";
+
+<Info>
+<EnterpriseCloudOnly/>
+</Info>
+
+オートメーションは、Project または Registry 内で特定のイベントが発生したときに開始できます。このページでは、各スコープ内でオートメーションのトリガーとなるイベントについて説明します。オートメーションの詳細については、[Automations overview](/models/automations/) または [Create an automation](/models/automations/create-automations/) をご覧ください。
+
+## Registry
+このセクションでは、[Registry](/models/registry/) におけるオートメーションのスコープとイベントについて説明します。
+
+### Scopes
+[Registry](/models/registry/) オートメーションは、将来追加されるコレクションを含め、特定の Registry 内の任意のコレクションで発生するイベントを監視します。
+
+### Events <a id="registry-events"></a>
+Registry オートメーションでは、以下のイベントを監視できます。
+- **A new version is linked to a collection (新しいバージョンがコレクションにリンクされた)**: 新しい Models や Datasets が Registry に追加されたときに、テストや検証を実行します。
+- **An artifact alias is added (Artifact エイリアスが追加された)**: 新しい Artifact バージョンに特定の エイリアス が適用されたときに、ワークフローの特定のステップをトリガーします。例えば、モデルに `production` エイリアスが適用されたときにデプロイを実行します。
+
+## Project
+このセクションでは、[Project](/models/track/project-page/) におけるオートメーションのスコープとイベントについて説明します。
+
+### Scopes
+Project レベルのオートメーションは、プロジェクト内の任意のコレクションで発生するイベントを監視します。指定するイベントに応じて、オートメーションのスコープをさらに制限することができます。
+
+### Artifact events
+このセクションでは、オートメーションのトリガーとなる Artifact 関連のイベントについて説明します。
+
+- **A new version is added to an artifact (Artifact に新しいバージョンが追加された)**: Artifact の各バージョンに対して定期的なアクションを適用します。例えば、新しいデータセットの Artifact バージョンが作成されたときにトレーニングジョブを開始します。
+- **An artifact alias is added (Artifact エイリアスが追加された)**: プロジェクト内の新しい Artifact バージョンに、指定した **Alias regex** に一致する エイリアス が適用されたときに、ワークフローの特定のステップをトリガーします。例えば、Artifact に `test-set-quality-check` エイリアスが適用されたときに一連の下流プロセッシングステップを実行したり、新しい Artifact バージョンに `latest` エイリアスが付与されるたびにワークフローを実行したりします。特定の時点で特定の エイリアス を持てるのは、1つの Artifact バージョンのみです。
+- **An artifact tag is added (Artifact タグが追加された)**: プロジェクト内の Artifact バージョンに、指定した **Tag regex** に一致するタグが適用されたときに、ワークフローの特定のステップをトリガーします。例えば、`^europe.*` を指定して、`europe` で始まるタグが Artifact バージョンに追加されたときに地域固有のワークフローをトリガーします。Artifact タグはグルーピングやフィルタリングに使用され、特定のタグを複数の Artifact バージョンに同時に割り当てることができます。
+
+### Run events
+オートメーションは、[Run のステータス](/models/runs/run-states) の変更、または [メトリクスの値](/models/track/log#what-data-is-logged-with-specific-wb-api-calls) の変更によってトリガーされます。
+
+#### Run status change (Run ステータスの変更)
+<Note>
+- <MultiTenantCloudOnly/>
+- **Killed** ステータスの Run はオートメーションをトリガーできません。このステータスは、管理者ユーザーによって Run が強制停止されたことを示します。
+</Note>
+
+Run の [ステータス](/models/runs/run-states) が **Running**、**Finished**、または **Failed** に変更されたときにワークフローをトリガーします。オプションで、Users または Run 名のフィルターを指定して、オートメーションをトリガーできる Run をさらに制限できます。
+
+<Frame>
+![Screenshot showing a run status change automation](/images/automations/run_status_change.png)
+</Frame>
+
+Run ステータスは Run 全体のプロパティであるため、Run ステータスオートメーションは Workspace からではなく、**Automations** ページからのみ作成できます。
+
+#### Run metrics change (Run メトリクスの変更)
+<Note>
+<MultiTenantCloudOnly/>
+</Note>
+
+Run の履歴にあるメトリクス、または CPU 使用率を追跡する `cpu` などの [システムメトリクス](/models/ref/python/experiments/system-metrics) のログ記録された値に基づいてワークフローをトリガーします。W&B は 15 秒ごとにシステムメトリクスを自動的に ログ 記録します。
+
+Run メトリクスオートメーションは、プロジェクトの **Automations** タブ、または Workspace の折れ線グラフパネルから直接作成できます。
+
+Run メトリクスオートメーションをセットアップするには、メトリクスの値を指定したしきい値と比較する方法を設定します。選択肢はイベントタイプや指定したフィルターによって異なります。
+
+オプションで、Users または Run 名のフィルターを指定して、オートメーションをトリガーできる Run をさらに制限できます。
+
+##### Threshold (しきい値)
+**Run metrics threshold met** イベントでは、以下を設定します。
+1. 考慮する最新のログ値のウィンドウ（デフォルトは 5）。
+1. ウィンドウ内の **Average**（平均）、**Min**（最小）、または **Max**（最大）のどれを評価するか。
+1. 比較方法：
+      - Above (より大きい)
+      - Above or equal to (以上)
+      - Below (より小さい)
+      - Below or equal to (以下)
+      - Not equal to (等しくない)
+      - Equal to (等しい)
+
+例えば、平均 `accuracy` が `.6` を超えたときにオートメーションをトリガーします。
+
+<Frame>
+![Screenshot showing a run metrics threshold automation](/images/automations/run_metrics_threshold_automation.png)
+</Frame>
+
+##### Change threshold (変化のしきい値)
+**Run metrics change threshold met** イベントでは、オートメーションは開始するかどうかを確認するために 2 つの「ウィンドウ」を使用します。
+
+- 考慮する最新のログ値の _現在のウィンドウ (current window)_（デフォルトは 10）。
+- 考慮する最新のログ値の _以前のウィンドウ (prior window)_（デフォルトは 50）。
+
+現在のウィンドウと以前のウィンドウは連続しており、重複しません。
+
+オートメーションを作成するには、以下を設定します。
+1. ログ値の現在のウィンドウ（デフォルトは 10）。
+1. ログ値の以前のウィンドウ（デフォルトは 50）。
+1. 値を相対値（Relative）または絶対値（Absolute）のどちらで評価するか（デフォルトは **Relative**）。
+1. 比較方法：
+      - Increases by at least (少なくとも〜増加)
+      - Decreases by at least (少なくとも〜減少)
+      - Increases or decreases by at least (少なくとも〜増加または減少)
+
+例えば、平均 `loss` が少なくとも `.25` 減少したときにオートメーションをトリガーします。
+
+<Frame>
+![Screenshot showing a run metrics change threshold automation](/images/automations/run_metrics_change_threshold_automation.png)
+</Frame>
+
+#### Run metrics z-score change (Run メトリクスの z-score 変化)
+<Note>
+<MultiTenantCloudOnly/>
+</Note>
+
+メトリクスの z-score（標準スコア）が指定されたしきい値を超えたときに、W&B はオートメーションをトリガーできます。z-score は、プロジェクト内の設定可能な Run ウィンドウ（デフォルトは 30 Runs）にわたる、そのメトリクスの平均からどれだけの標準偏差があるかを測定します。
+
+z-score をイベントトリガーとして使用するには、**Run metrics z-score threshold met** イベントを選択します。
+
+z-score に基づくオートメーションは、モデルやトレーニングプロセスが進むにつれて変化する可能性のある絶対的なしきい値をチェックすることなく、異常なパフォーマンスについてチームに通知し続けることができます。
+
+Run メトリクスの z-score オートメーションは、プロジェクトの **Automations** タブ、または Workspace の折れ線グラフパネルから直接作成できます。
+
+z-score オートメーションを作成するには、以下を設定します。
+1. ターゲットとなる z-score のしきい値。正の浮動小数点数で指定します（例: 2.0）。
+1. 平均値を決定するためのログ値のウィンドウ（デフォルトは 30）。
+1. 比較方法：
+   - Above (パフォーマンスが異常に高いときにトリガー)
+   - Below (パフォーマンスが異常に低いときにトリガー)
+   - Either above or below (高いとき、または低いときの両方)
+
+例えば、`accuracy` の z-score が 2 を超えたときにオートメーションをトリガーするように設定します。これは、その Run がプロジェクト内の他の Runs よりも大幅に優れたパフォーマンスを示していることを意味します。
+
+**z-score 値の理解:**
+- z-score が 0 の場合、メトリクスは平均値であることを意味します。
+- z-score が +2.0 の場合、メトリクスが平均より 2 標準偏差高いことを意味します。
+- z-score が -2.0 の場合、メトリクスが平均より 2 標準偏差低いことを意味します。
+- ±2 を超える値は、統計的に有意な外れ値と見なされることがよくあります。
+
+#### Run filters
+このセクションでは、オートメーションが評価対象の Runs をどのように選択するかについて説明します。
+
+- デフォルトでは、プロジェクト内のすべての Run がイベント発生時にオートメーションをトリガーします。以下のいずれかのフィルターを設定することで、オートメーションをトリガーする Runs を制限できます。
+  - **Filter to one user's runs**: 指定した ユーザー が作成した Runs のみに制限します。
+  - **Filter on run name**: 名前が指定した正規表現に一致する Runs のみに制限します。
+
+  詳細は [Create automations](/models/automations/create-automations/) を参照してください。
+- 各 Run は個別に考慮され、それぞれがオートメーションをトリガーする可能性があります。
+- 各 Run の値は別々のウィンドウに入れられ、しきい値と個別に比較されます。
+- 24 時間の期間内で、特定のオートメーションは 1 つの Run につき最大 1 回まで実行されます。
+
+## 次のステップ
+- [Create a Slack automation](/models/automations/create-automations/slack/)
+- [Create a webhook automation](/models/automations/create-automations/webhook/)

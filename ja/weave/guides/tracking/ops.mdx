@@ -1,0 +1,235 @@
+---
+title: Ops を使用して関数呼び出しを自動的に追跡する
+description: Weave ですべてのコールを自動的にログに記録する、バージョン管理された関数
+---
+
+Weave の op は、すべての呼び出しを自動的にログに記録する バージョン管理 された関数です。
+
+<Tabs>
+  <Tab title="Python">
+    op を作成するには、Python 関数を `@weave.op()` でデコレートします。
+
+    ```python lines lines
+    import weave
+
+    @weave.op()
+    def track_me(v):
+        return v + 5
+
+    weave.init('intro-example')
+    track_me(15)
+    ```
+
+    op を呼び出すと、前回の呼び出しからコードが変更されている場合に新しい op バージョンが作成され、関数の入力と出力が ログ に記録されます。
+
+
+    `@weave.op()` でデコレートされた関数は、呼び出す前に `weave.init('your-project-name')` を呼び出さない限り、通常どおり動作します（コードの バージョン管理 や追跡は行われません）。
+
+
+    op は Weave ツールベルトを使用して、[提供（serve）](/weave/guides/tools/serve) または [デプロイ（deploy）](/weave/guides/tools/deploy) することができます。
+
+  </Tab>
+  <Tab title="TypeScript">
+    op を作成するには、TypeScript 関数を `weave.op` でラップします。
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    function trackMe(v: number) {
+        return v + 5
+    }
+
+    const trackMeOp = weave.op(trackMe)
+    trackMeOp(15)
+
+    // インラインで記述することも可能で、こちらの方が便利な場合があります
+    const trackMeInline = weave.op((v: number) => v + 5)
+    trackMeInline(15)
+    ```
+
+  </Tab>
+</Tabs>
+
+## 表示名のカスタマイズ
+
+<Tabs>
+  <Tab title="Python">
+    `@weave.op` デコレータの `name` パラメータを設定することで、op の表示名をカスタマイズできます。
+
+    ```python lines
+    @weave.op(name="custom_name")
+    def func():
+        ...
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+## kind と color の適用
+
+Weave UI で op をより適切に整理するために、コード内の `@weave.op` デコレータに `kind` と `color` 引数を追加して、カスタムの kind と color を適用できます。例えば、次のコードは親関数に `LLM` `kind` と `blue` `color` を適用し、ネストされた関数に `tool` `kind` と `red` `color` を適用します。
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+
+weave.init("<your-team-name>/<your-project-name>")
+
+@weave.op(kind="LLM", color="blue")
+def llm_func():
+    @weave.op(kind="tool", color="red")
+    def tool_func():
+        return "tool result"
+
+    tool_result = tool_func()
+    
+    return f"llm result with {tool_result}"
+
+llm_func()
+```
+</Tab>
+<Tab title="TypeScript">
+```plaintext
+この機能は TypeScript ではまだ利用できません。
+```
+</Tab>
+</Tabs>
+
+これにより、Weave UI 上の op に color と kind が次のように適用されます。
+
+<Frame>
+![Weave UI。LLM kind と blue color を持つ親呼び出しと、tool kind と red color を持つネストされた呼び出しが表示されています。](/images/weave/weave_colors_kinds.png)
+</Frame>
+
+利用可能な `kind` の 値 は以下の通りです：
+
+* `agent`
+* `llm`
+* `tool`
+* `search`
+
+利用可能な `color` の 値 は以下の通りです：
+
+* `red`
+* `orange`
+* `yellow`
+* `green`
+* `blue`
+* `purple`
+
+
+## ログに記録される入力と出力のカスタマイズ
+
+<Tabs>
+  <Tab title="Python">
+    元の関数を変更せずに Weave に記録される データ を変更したい場合（例：機密データの非表示など）、`postprocess_inputs` と `postprocess_output` を op デコレータに渡すことができます。
+
+    `postprocess_inputs` は、キーが 引数 名で 値 が 引数 の 値 である辞書を受け取り、変換された入力を辞書として返します。
+
+    `postprocess_output` は、通常関数から返される任意の 値 を受け取り、変換された出力を返します。
+
+    ```python lines
+    from dataclasses import dataclass
+    from typing import Any
+    import weave
+
+    @dataclass
+    class CustomObject:
+        x: int
+        secret_password: str
+
+    def postprocess_inputs(inputs: dict[str, Any]) -> dict[str, Any]:
+        # "hide_me" 以外の入力を返す
+        return {k:v for k,v in inputs.items() if k != "hide_me"}
+
+    def postprocess_output(output: CustomObject) -> CustomObject:
+        # パスワードを伏せ字にして返す
+        return CustomObject(x=output.x, secret_password="REDACTED")
+
+    @weave.op(
+        postprocess_inputs=postprocess_inputs,
+        postprocess_output=postprocess_output,
+    )
+    def func(a: int, hide_me: str) -> CustomObject:
+        return CustomObject(x=a, secret_password=hide_me)
+
+    weave.init('hide-data-example') # 🐝
+    func(a=1, hide_me="password123")
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+## サンプリングレートの制御
+
+<Tabs>
+  <Tab title="Python">
+    `@weave.op` デコレータの `tracing_sample_rate` パラメータを設定することで、op の呼び出しがトレースされる頻度を制御できます。これは、呼び出しの サブセット のみをトレースすればよい高頻度の op に役立ちます。
+
+    サンプリングレートはルート呼び出しにのみ適用されることに注意してください。op にサンプリングレートが設定されていても、別の op から先に呼び出された場合、そのサンプリングレートは無視されます。
+
+    ```python lines
+    @weave.op(tracing_sample_rate=0.1)  # 呼び出しの約10%のみをトレース
+    def high_frequency_op(x: int) -> int:
+        return x + 1
+
+    @weave.op(tracing_sample_rate=1.0)  # 常にトレース（デフォルト）
+    def always_traced_op(x: int) -> int:
+        return x + 1
+    ```
+
+    op の呼び出しがサンプリングされない場合：
+    - 関数は通常通り実行されます
+    - トレース データ は Weave に送信されません
+    - その呼び出しにおける子 op もトレースされません
+
+    サンプリングレートは 0.0 から 1.0 の間で指定する必要があります。
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+## コールリンク出力の制御
+
+ログ 記録中にコールリンクの出力を抑制したい場合は、環境 変数 `WEAVE_PRINT_CALL_LINK` を `false` に設定できます。これは、出力の冗長性を減らし、ログ を整理したい場合に便利です。
+
+```bash
+export WEAVE_PRINT_CALL_LINK=false
+```
+
+## op の削除
+
+<Tabs>
+  <Tab title="Python">
+    op の バージョン を削除するには、op の ref に対して `.delete()` を呼び出します。
+
+    ```python lines
+    weave.init('intro-example')
+    my_op_ref = weave.ref('track_me:v1')
+    my_op_ref.delete()
+    ```
+
+    削除された op に アクセス しようとするとエラーが発生します。
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>

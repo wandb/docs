@@ -1,0 +1,442 @@
+---
+title: プログラマブルな ワークスペース
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<Note>
+W&B Report および Workspace API はパブリックプレビュー版です。
+</Note>
+
+<ColabLink url="https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb" />
+
+プログラムによる Workspace の作成、管理、カスタマイズを通じて、機械学習の実験をより効果的に整理・可視化できます。 [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) W&B ライブラリを使用すると、設定の定義、パネルレイアウトの設定、セクションの整理を行うことができます。 URL を使用して Workspace を読み込み、変更したり、式を使用して Runs をフィルタリングやグループ化したり、 Runs の外観をカスタマイズしたりすることが可能です。
+
+`wandb-workspaces` は、 W&B [Workspaces](/models/track/workspaces/) および [Reports](/models/reports/) をプログラムで作成・カスタマイズするための Python ライブラリです。
+
+このチュートリアルでは、 `wandb-workspaces` を使用して、設定の定義、パネルレイアウトの構成、セクションの整理を行い、 Workspace を作成・カスタマイズする方法を説明します。
+
+## このノートブックの使い方
+* 各セルを 1 つずつ実行してください。
+* セル実行後に表示される URL をコピー＆ペーストして、 Workspace に適用された変更を確認してください。
+
+
+<Note>
+Workspace のプログラムによる操作は、現在 [Saved workspaces views](/models/track/workspaces/#saved-workspace-views) でサポートされています。 Saved workspaces views は、 Workspace の共同作業用スナップショットです。チームの誰でも、保存された Workspace ビューを表示、編集、保存できます。
+</Note>
+
+## 1. 依存関係のインストールとインポート
+
+
+```python
+# 依存関係をインストール
+!pip install wandb wandb-workspaces rich
+```
+
+
+```python
+# 依存関係をインポート
+import os
+import wandb
+import wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr # パネルを追加するために Reports API を使用します
+
+# 出力フォーマットを改善
+%load_ext rich
+```
+
+## 2. 新しい Project と Workspace の作成
+
+このチュートリアルでは、 `wandb_workspaces` API を試すために、新しい Project を作成します。
+
+注: 一意の `Saved view` URL を使用して既存の Workspace を読み込むこともできます。その方法は次のコードブロックを参照してください。
+
+
+```python
+# W&B の初期化とログイン
+wandb.login()
+
+# 新しいプロジェクトを作成し、サンプルデータをログに記録する関数
+def create_project_and_log_data():
+    project = "workspace-api-example"  # デフォルトのプロジェクト名
+
+    # サンプルデータをログに記録するための run を初期化
+    with wandb.init(project=project, name="sample_run") as run:
+        for step in range(100):
+            run.log({
+                "Step": step,
+                "val_loss": 1.0 / (step + 1),
+                "val_accuracy": step / 100.0,
+                "train_loss": 1.0 / (step + 2),
+                "train_accuracy": step / 110.0,
+                "f1_score": step / 100.0,
+                "recall": step / 120.0,
+            })
+    return project
+
+# 新しいプロジェクトを作成しデータをログに記録
+project = create_project_and_log_data()
+entity = wandb.Api().default_entity
+```
+
+### (オプション) 既存の Project と Workspace を読み込む
+新しい Project を作成する代わりに、自分自身の既存の Project と Workspace を読み込むことができます。これを行うには、一意の Workspace URL を見つけ、文字列として `ws.Workspace.from_url` に渡します。 URL の形式は `https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc` です。
+
+例:
+
+```python
+wandb.login()
+
+workspace = ws.Workspace.from_url("https://wandb.ai/[SOURCE-ENTITY]/[SOURCE-USER]?nw=abc").
+
+workspace = ws.Workspace(
+    entity="NEW-ENTITY",
+    project=NEW-PROJECT,
+    name="NEW-SAVED-VIEW-NAME"
+)
+```
+
+## 3. プログラムによる Workspace の例
+以下は、プログラムによる Workspace 機能の使用例です。
+
+
+```python
+# Workspace、セクション、パネルで利用可能なすべての設定オブジェクトを確認します。
+all_settings_objects = [x for x in dir(ws) if isinstance(getattr(ws, x), type)]
+all_settings_objects
+```
+
+### `saved view` を使用して Workspace を作成する
+この例では、新しい Workspace を作成し、そこにセクションとパネルを配置する方法を示します。 Workspace は通常の Python オブジェクトのように編集できるため、柔軟性と使いやすさが向上します。
+
+
+```python
+def sample_workspace_saved_example(entity: str, project: str) -> str:
+    workspace: ws.Workspace = ws.Workspace(
+        name="Example W&B Workspace",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Validation Metrics",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.BarPlot(metrics=["val_accuracy"]),
+                    wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+                ],
+                is_open=True,
+            ),
+        ],
+    )
+    workspace.save()
+    print("Sample Workspace saved.")
+    return workspace.url
+
+workspace_url: str = sample_workspace_saved_example(entity, project)
+```
+
+### URL から Workspace を読み込む
+元の設定に影響を与えずに Workspace を複製し、カスタマイズします。これを行うには、既存の Workspace を読み込み、新しいビューとして保存します。
+
+
+```python
+def save_new_workspace_view_example(url: str) -> None:
+    workspace: ws.Workspace = ws.Workspace.from_url(url)
+
+    workspace.name = "Updated Workspace Name"
+    workspace.save_as_new_view()
+
+    print(f"Workspace saved as new view.")
+
+save_new_workspace_view_example(workspace_url)
+```
+
+これで Workspace の名前が "Updated Workspace Name" に変更されました。
+
+### 基本設定
+以下のコードは、 Workspace の作成、パネルを含むセクションの追加、および Workspace 全体、個別のセクション、パネルの設定を行う方法を示しています。
+
+
+```python
+# カスタム設定で Workspace を作成および設定する関数
+def custom_settings_example(entity: str, project: str) -> None:
+    workspace: ws.Workspace = ws.Workspace(name="An example workspace", entity=entity, project=project)
+    workspace.sections = [
+        ws.Section(
+            name="Validation",
+            panels=[
+                wr.LinePlot(x="Step", y=["val_loss"]),
+                wr.LinePlot(x="Step", y=["val_accuracy"]),
+                wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+                wr.ScalarChart(metric="recall", groupby_aggfunc="mean"),
+            ],
+            is_open=True,
+        ),
+        ws.Section(
+            name="Training",
+            panels=[
+                wr.LinePlot(x="Step", y=["train_loss"]),
+                wr.LinePlot(x="Step", y=["train_accuracy"]),
+            ],
+            is_open=False,
+        ),
+    ]
+
+    workspace.settings = ws.WorkspaceSettings(
+        x_axis="Step",
+        x_min=0,
+        x_max=75,
+        smoothing_type="gaussian",
+        smoothing_weight=20.0,
+        ignore_outliers=False,
+        remove_legends_from_panels=False,
+        tooltip_number_of_runs="default",
+        tooltip_color_run_names=True,
+        max_runs=20,
+        point_visualization_method="bucketing",
+        auto_expand_panel_search_results=False,
+    )
+
+    section = workspace.sections[0]
+    section.panel_settings = ws.SectionPanelSettings(
+        x_min=25,
+        x_max=50,
+        smoothing_type="none",
+    )
+
+    panel = section.panels[0]
+    panel.title = "Validation Loss Custom Title"
+    panel.title_x = "Custom x-axis title"
+
+    workspace.save()
+    print("Workspace with custom settings saved.")
+
+# 関数を実行して Workspace を作成および設定
+custom_settings_example(entity, project)
+```
+
+これで "An example workspace" という別の保存済みビューが表示されます。
+
+## Runs のカスタマイズ
+以下のコードセルでは、プログラムによって Runs のフィルタリング、色の変更、グループ化、ソートを行う方法を説明します。
+
+各例の一般的なワークフローは、 `ws.RunsetSettings` の適切なパラメータに引数として目的のカスタマイズを指定することです。
+
+### Runs のフィルタリング
+Python の式や `wandb.log` で記録したメトリクス、または **Created Timestamp** のように自動的に記録されるメトリクスを使用してフィルタを作成できます。また、 W&B App UI で表示される **Name**、 **Tags**、 **ID** などでフィルタを参照することも可能です。
+
+次の例では、 validation loss のサマリー、 validation accuracy のサマリー、および指定された正規表現に基づいて Runs をフィルタリングする方法を示します。
+
+
+```python
+def advanced_filter_example(entity: str, project: str) -> None:
+    # プロジェクト内のすべての runs を取得
+    runs: list = wandb.Api().runs(f"{entity}/{project}")
+
+    # 複数のフィルタを適用：val_loss < 0.1、val_accuracy > 0.8、および run 名が正規表現パターンに一致
+    workspace: ws.Workspace = ws.Workspace(
+        name="Advanced Filtered Workspace with Regex",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Advanced Filtered Section",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                ],
+                is_open=True,
+            ),
+        ],
+        runset_settings=ws.RunsetSettings(
+            filters=[
+                (ws.Summary("val_loss") < 0.1),  # 'val_loss' サマリーで runs をフィルタリング
+                (ws.Summary("val_accuracy") > 0.8),  # 'val_accuracy' サマリーで runs をフィルタリング
+                (ws.Metric("ID").isin([run.id for run in wandb.Api().runs(f"{entity}/{project}")])),
+            ],
+            regex_query=True,
+        )
+    )
+
+    # 's' で始まる run 名に一致させるための正規表現検索を追加
+    workspace.runset_settings.query = "^s"
+    workspace.runset_settings.regex_query = True
+
+    workspace.save()
+    print("Workspace with advanced filters and regex search saved.")
+
+advanced_filter_example(entity, project)
+```
+
+フィルタ式のリストを渡すと、論理演算の "AND" が適用されることに注意してください。
+
+### Runs の色を変更する
+この例では、 Workspace 内の Runs の色を変更する方法を示します。
+
+
+```python
+def run_color_example(entity: str, project: str) -> None:
+    # プロジェクト内のすべての runs を取得
+    runs: list = wandb.Api().runs(f"{entity}/{project}")
+
+    # run に動的に色を割り当てる
+    run_colors: list = ['purple', 'orange', 'teal', 'magenta']
+    run_settings: dict = {}
+    for i, run in enumerate(runs):
+        run_settings[run.id] = ws.RunSettings(color=run_colors[i % len(run_colors)])
+
+    workspace: ws.Workspace = ws.Workspace(
+        name="Run Colors Workspace",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Run Colors Section",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                ],
+                is_open=True,
+            ),
+        ],
+        runset_settings=ws.RunsetSettings(
+            run_settings=run_settings
+        )
+    )
+
+    workspace.save()
+    print("Workspace with run colors saved.")
+
+run_color_example(entity, project)
+```
+
+### Runs のグループ化
+
+この例では、特定のメトリクスで Runs をグループ化する方法を示します。
+
+
+
+```python
+def grouping_example(entity: str, project: str) -> None:
+    workspace: ws.Workspace = ws.Workspace(
+        name="Grouped Runs Workspace",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Grouped Runs",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                ],
+                is_open=True,
+            ),
+        ],
+        runset_settings=ws.RunsetSettings(
+            groupby=[ws.Metric("Name")]
+        )
+    )
+    workspace.save()
+    print("Workspace with grouped runs saved.")
+
+grouping_example(entity, project)
+```
+
+### Runs のソート
+この例では、 validation loss のサマリーに基づいて Runs をソートする方法を示します。
+
+
+```python
+def sorting_example(entity: str, project: str) -> None:
+    workspace: ws.Workspace = ws.Workspace(
+        name="Sorted Runs Workspace",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Sorted Runs",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                ],
+                is_open=True,
+            ),
+        ],
+        runset_settings=ws.RunsetSettings(
+            order=[ws.Ordering(ws.Summary("val_loss"))] # val_loss サマリーを使用して順序付け
+        )
+    )
+    workspace.save()
+    print("Workspace with sorted runs saved.")
+
+sorting_example(entity, project)
+```
+
+## 4. 全体のまとめ：包括的な例
+
+この例では、包括的な Workspace を作成し、その設定を構成し、セクションにパネルを追加する方法を示します。
+
+
+```python
+def full_end_to_end_example(entity: str, project: str) -> None:
+    # プロジェクト内のすべての runs を取得
+    runs: list = wandb.Api().runs(f"{entity}/{project}")
+
+    # run に動的に色を割り当て、run 設定を作成
+    run_colors: list = ['red', 'blue', 'green', 'orange', 'purple', 'teal', 'magenta', '#FAC13C']
+    run_settings: dict = {}
+    for i, run in enumerate(runs):
+        run_settings[run.id] = ws.RunSettings(color=run_colors[i % len(run_colors)], disabled=False)
+
+    workspace: ws.Workspace = ws.Workspace(
+        name="My Workspace Template",
+        entity=entity,
+        project=project,
+        sections=[
+            ws.Section(
+                name="Main Metrics",
+                panels=[
+                    wr.LinePlot(x="Step", y=["val_loss"]),
+                    wr.LinePlot(x="Step", y=["val_accuracy"]),
+                    wr.ScalarChart(metric="f1_score", groupby_aggfunc="mean"),
+                ],
+                is_open=True,
+            ),
+            ws.Section(
+                name="Additional Metrics",
+                panels=[
+                    wr.ScalarChart(metric="precision", groupby_aggfunc="mean"),
+                    wr.ScalarChart(metric="recall", groupby_aggfunc="mean"),
+                ],
+            ),
+        ],
+        settings=ws.WorkspaceSettings(
+            x_axis="Step",
+            x_min=0,
+            x_max=100,
+            smoothing_type="none",
+            smoothing_weight=0,
+            ignore_outliers=False,
+            remove_legends_from_panels=False,
+            tooltip_number_of_runs="default",
+            tooltip_color_run_names=True,
+            max_runs=20,
+            point_visualization_method="bucketing",
+            auto_expand_panel_search_results=False,
+        ),
+        runset_settings=ws.RunsetSettings(
+            query="",
+            regex_query=False,
+            filters=[
+                ws.Summary("val_loss") < 1,
+                ws.Metric("Name") == "sample_run",
+            ],
+            groupby=[ws.Metric("Name")],
+            order=[ws.Ordering(ws.Summary("Step"), ascending=True)],
+            run_settings=run_settings
+        )
+    )
+    workspace.save()
+    print("Workspace created and saved.")
+
+full_end_to_end_example(entity, project)
+```

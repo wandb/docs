@@ -32,7 +32,7 @@ In the example below, the **model name, temperature and system prompt will be tr
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {26,33-34}
     import json
     from openai import OpenAI
 
@@ -58,7 +58,6 @@ In the example below, the **model name, temperature and system prompt will be tr
         return response.choices[0].message.content
 
     # Sub-class with a weave.Model
-    # highlight-next-line
     class ExtractDinos(weave.Model):
         client: OpenAI = None
         model_name: str
@@ -66,9 +65,7 @@ In the example below, the **model name, temperature and system prompt will be tr
         system_prompt: str
 
         # Ensure your function is called `invoke` or `predict`
-        # highlight-next-line
         @weave.op()
-        # highlight-next-line
         def invoke(self, sentence: str) -> dict:
             dino_data  = extract_dinos(self, sentence)
             return json.loads(dino_data)
@@ -86,14 +83,13 @@ Now you can instantiate and call the model with `invoke`:
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {7,18}
     weave.init('jurassic-park')
     client = OpenAI()
 
     system_prompt = """Extract any dinosaur `name`, their `common_name`, \
     names and whether its `diet` is a herbivore or carnivore, in JSON format."""
 
-    # highlight-next-line
     dinos = ExtractDinos(
         client=client,
         model_name='gpt-4o',
@@ -105,7 +101,6 @@ Now you can instantiate and call the model with `invoke`:
     both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
     Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
 
-    # highlight-next-line
     result = dinos.invoke(sentence)
     print(result)
     ```
@@ -140,9 +135,8 @@ Once you have the URI of the Model object, you can export and re-use it. Note th
 
 <Tabs>
   <Tab title="Python">
-    ```python lines
+    ```python lines {2}
     # the exported weave model is already initialised and ready to be called
-    # highlight-next-line
     new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
 
     # set the client to the openai client again

@@ -1,0 +1,69 @@
+---
+title: YOLOv5
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/yolo/Train_and_Debug_YOLOv5_Models_with_Weights_%26_Biases_.ipynb" />
+
+[Ultralytics의 YOLOv5](https://ultralytics.com/yolo) ("You Only Look Once") 모델 패밀리는 복잡한 과정 없이 컨볼루션 신경망을 통한 실시간 오브젝트 검출을 가능하게 합니다.
+
+[W&B](https://wandb.com) 는 YOLOv5에 직접 통합되어 experiment 메트릭 트래킹, 모델 및 데이터셋 버전 관리, 풍부한 모델 예측값 시각화 등을 제공합니다. **YOLO 실험을 시작하기 전에 단 한 번의 `pip install`을 실행하는 것만으로 이 모든 기능을 쉽게 사용할 수 있습니다.**
+
+<Note>
+모든 W&B 로그 기능은 [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)와 같은 데이터 병렬 처리 멀티 GPU 트레이닝과 호환됩니다.
+</Note>
+
+## 핵심 실험 트래킹
+`wandb`를 설치하는 것만으로 시스템 메트릭, 모델 메트릭 및 미디어가 대화형 [Dashboards](/models/track/workspaces/) 에 기록되는 내장형 W&B [로깅 기능](/models/track/log/) 이 활성화됩니다.
+
+```python
+pip install wandb
+git clone https://github.com/ultralytics/yolov5.git
+python yolov5/train.py  # 작은 데이터셋으로 작은 네트워크 트레이닝
+```
+
+wandb가 표준 출력(stdout)에 표시하는 링크를 따라가기만 하면 됩니다.
+
+<Frame>
+    <img src="/images/integrations/yolov5_experiment_tracking.png" alt="이 모든 차트와 그 이상의 기능을 제공합니다."  />
+</Frame>
+
+## 인테그레이션 커스터마이징
+
+YOLO에 몇 가지 간단한 커맨드라인 인수를 전달하여 더 많은 W&B 기능을 활용할 수 있습니다.
+
+* `--save_period`에 숫자를 전달하면, W&B는 매 `save_period` 에포크마다 [모델 버전](/models/registry/) 을 저장합니다. 모델 버전에는 모델 가중치가 포함되며 검증 세트에서 가장 성능이 좋은 모델에 태그를 지정합니다.
+* `--upload_dataset` 플래그를 활성화하면 데이터 버전 관리를 위해 데이터셋도 업로드합니다.
+* `--bbox_interval`에 숫자를 전달하면 [데이터 시각화](../) 기능이 켜집니다. 매 `bbox_interval` 에포크마다 검증 세트에 대한 모델의 출력값이 W&B로 업로드됩니다.
+
+<Tabs>
+<Tab title="모델 버전 관리만 사용">
+```python
+python yolov5/train.py --epochs 20 --save_period 1
+```
+</Tab>
+<Tab title="모델 버전 관리 및 데이터 시각화 사용">
+```python
+python yolov5/train.py --epochs 20 --save_period 1 \
+  --upload_dataset --bbox_interval 1
+```
+</Tab>
+</Tabs>
+
+<Note>
+모든 W&B 계정에는 데이터셋과 모델을 위한 100 GB의 무료 스토리지가 제공됩니다.
+</Note>
+
+실행 결과는 다음과 같습니다.
+
+<Frame>
+    <img src="/images/integrations/yolov5_model_versioning.png" alt="모델 버전 관리"  />
+</Frame>
+
+<Frame>
+    <img src="/images/integrations/yolov5_data_visualization.png" alt="데이터 시각화"  />
+</Frame>
+
+<Note>
+데이터 및 모델 버전 관리를 사용하면 설정 없이 어떤 기기에서든 중단되거나 중지된 실험을 재개할 수 있습니다. 자세한 내용은 [Colab ](https://wandb.me/yolo-colab) 을 확인하세요.
+</Note>

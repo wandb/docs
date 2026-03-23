@@ -95,6 +95,16 @@ After running the scripts:
    grep "training/api-reference" docs.json
    ```
 
+## Known Issues and Workarounds
+
+### Missing Tags on Health Endpoints (RESOLVED)
+
+**Issue**: The upstream Training API's OpenAPI spec was missing `tags` fields on the health endpoints (`/v1/health` and `/v1/system-check`). This caused Mintlify to place these endpoints in an incorrect navigation hierarchy with an extra "API Reference" layer in the breadcrumb.
+
+**Status**: ✅ **FIXED** - The upstream fix was deployed on January 21, 2026 via [PR #213](https://github.com/coreweave/serverless-training/pull/213). The health endpoints now correctly include `"tags": ["health"]` in the OpenAPI spec.
+
+**Temporary Workaround**: The `sync_openapi_spec.py` script includes a `patch_spec()` function that automatically adds the missing tags when syncing. This workaround can be removed once the next sync pulls the fixed spec from production.
+
 ## Troubleshooting
 
 ### 502 Bad Gateway Errors

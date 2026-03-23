@@ -1,0 +1,85 @@
+---
+title: 모델 체크포인트 평가하기
+description: CoreWeave 가 관리하는 인프라를 사용하여 VLLM 호환 모델 체크포인트 평가하기
+---
+import ReviewEvaluationResults from "/snippets/en/_includes/llm-eval-jobs/review-evaluation-results.mdx";
+import RerunEvaluation from "/snippets/en/_includes/llm-eval-jobs/rerun-evaluation.mdx";
+import ExportEvaluation from "/snippets/en/_includes/llm-eval-jobs/export-evaluation.mdx";
+import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
+
+<PreviewLink />
+
+이 페이지에서는 CoreWeave가 관리하는 인프라를 사용하여 W&B Models에 있는 모델 체크포인트에 대해 일련의 평가 벤치마크를 실행하는 [LLM Evaluation Jobs](/models/launch) 사용 방법을 설명합니다. 공개적으로 액세스 가능한 URL에서 서빙되는 호스팅된 API 모델을 평가하려면 [Evaluate an API-hosted model](/models/launch/evaluate-hosted-model)을 대신 참조하세요.
+
+## 사전 요구 사항
+1. LLM Evaluation Jobs에 대한 [요구 사항 및 제한 사항](/models/launch#more-details)을 검토하세요.
+1. 특정 벤치마크를 실행하려면 Teams 관리자가 필요한 API 키를 [team-scoped secrets](/platform/secrets#add-a-secret)로 추가해야 합니다. 모든 Teams 멤버는 평가 작업을 구성할 때 해당 시크릿을 지정할 수 있습니다. 요구 사항은 [Evaluation model catalog](/models/launch/evaluations)를 참조하세요.
+    - **OpenAPI API 키**: OpenAI 모델을 사용하여 점수를 매기는 벤치마크에서 사용됩니다. 벤치마크를 선택한 후 **Scorer API key** 필드가 나타나면 필수입니다. 시크릿 이름은 `OPENAI_API_KEY`여야 합니다.
+    - **Hugging Face 사용자 엑세스 토큰**: 하나 이상의 게이트(gated) Hugging Face 데이터셋에 대한 엑세스가 필요한 `lingoly` 및 `lingoly2`와 같은 특정 벤치마크에 필요합니다. 벤치마크를 선택한 후 **Hugging Face Token** 필드가 나타나면 필수입니다. API 키는 관련 데이터셋에 대한 엑세스 권한이 있어야 합니다. [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) 및 [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)에 대한 Hugging Face 문서를 참조하세요.
+1. 평가 결과를 위한 새로운 [W&B Projects](/models/track/project-page)를 생성합니다. 왼쪽 탐색 창에서 **Create new project**를 클릭합니다.
+1. 모델을 VLLM 호환 형식으로 패키징하고 W&B Models에 Artifacts로 저장합니다. 다른 유형의 Artifacts를 벤치마킹하려고 하면 실패합니다. 한 가지 방법은 이 페이지 하단의 [Example: Prepare a model](#example-prepare-your-model)을 참조하세요.
+1. 특정 벤치마크의 작동 방식과 구체적인 요구 사항을 이해하기 위해 해당 문서를 검토하세요. 편의를 위해 [Available evaluation benchmarks](/models/launch/evaluations) 레퍼런스에 관련 링크가 포함되어 있습니다.
+
+## 모델 평가하기
+다음 단계에 따라 평가 작업을 설정하고 시작하세요:
+
+1. W&B에 로그인한 후 왼쪽 탐색 창에서 **Launch**를 클릭합니다. **LLM Evaluation Jobs** 페이지가 표시됩니다.
+1. **Evaluate model checkpoint**를 클릭하여 평가 작업을 설정합니다.
+1. 평가 결과를 저장할 대상 Projects를 선택합니다.
+1. **Model artifact** 섹션에서 평가할 준비가 된 모델의 Projects, Artifacts 및 버전을 지정합니다.
+1. **Evaluations**를 클릭한 다음 최대 4개의 벤치마크를 선택합니다.
+1. OpenAI 모델을 사용하여 점수를 매기는 벤치마크를 선택하면 **Scorer API key** 필드가 표시됩니다. 해당 필드를 클릭한 다음 `OPENAI_API_KEY` 시크릿을 선택합니다. 편의를 위해 Teams 관리자는 이 창에서 **Create secret**을 클릭하여 시크릿을 생성할 수 있습니다.
+1. Hugging Face의 게이트 데이터셋에 대한 엑세스가 필요한 벤치마크를 선택하면 **Hugging Face token** 필드가 표시됩니다. [관련 데이터셋에 대한 엑세스를 요청](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user)한 다음, Hugging Face 사용자 엑세스 토큰이 포함된 시크릿을 선택합니다.
+1. 선택적으로, 평가할 최대 벤치마크 샘플 수를 제한하려면 **Sample limit**을 양의 정수로 설정합니다. 그렇지 않으면 태스크의 모든 샘플이 포함됩니다.
+1. 리더보드를 자동으로 생성하려면 **Publish results to leaderboard**를 클릭합니다. 리더보드는 Workspace 패널에 모든 평가를 함께 표시하며, Reports에서 공유할 수도 있습니다.
+1. **Launch**를 클릭하여 평가 작업을 시작합니다.
+1. 페이지 상단의 원형 화살표 아이콘을 클릭하여 최근 run 모달을 엽니다. 평가 작업은 다른 최근 Runs와 함께 표시됩니다. 완료된 run의 이름을 클릭하여 단일 run 보기에서 열거나, **Leaderboard** 링크를 클릭하여 리더보드를 직접 엽니다. 자세한 내용은 [결과 보기](#view-the-results)를 참조하세요.
+
+<Tip>
+첫 번째 모델을 평가한 후에는 다음 평가 작업을 구성할 때 많은 필드가 가장 최근 값으로 미리 채워집니다.
+</Tip>
+
+이 예시 평가 작업은 Artifacts에 대해 두 개의 벤치마크를 실행합니다:
+
+<Frame>
+![모델 체크포인트 평가 작업 예시](/images/models/llm-evaluation-jobs/model-checkpoint-job-example.png)
+</Frame>
+
+이 예시 리더보드는 여러 모델의 성능을 함께 시각화합니다:
+
+<Frame>
+![여러 벤치마크 태스크에 대한 여러 모델의 성능을 시각화하는 리더보드 예시](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
+</Frame>
+
+<ReviewEvaluationResults />
+
+<RerunEvaluation />
+
+<ExportEvaluation />
+
+## 예시: 모델 준비하기
+모델을 준비하려면 W&B Models에서 모델을 로드하고, 모델 가중치를 VLLM 호환 형식으로 패키징한 후 결과를 저장합니다. 다음은 이를 수행하는 한 가지 방법의 예입니다:
+
+```python lines
+import os
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+# 모델 로드
+model_name = "your-model-name"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+# vLLM 호환 형식으로 저장
+save_dir = "path/to/save"
+tokenizer.save_pretrained(save_dir)
+model.save_pretrained(save_dir)
+
+# W&B Models에 저장
+import wandb
+wandb_run = wandb.init(entity="your-entity-name", project="your-project-name")
+artifact = wandb.Artifact(name="your-artifact-name")
+artifact.add_dir(save_dir)
+logged_artifact = wandb_run.log_artifact(artifact)
+logged_artifact.wait()
+wandb.finish()
+```

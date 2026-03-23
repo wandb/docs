@@ -1,21 +1,29 @@
 ---
 title: コードに W&B (wandb) を追加する
-description: Python コード スクリプトまたは Jupyter Notebook に W&B を追加します。
+description: Python コード スクリプト や Jupyter Notebook に W&B を追加します。
 ---
 
-W&B Python SDKをスクリプトやJupyterノートブックに追加する方法は数多くあります。以下は、W&B Python SDKを独自のコードに統合するための「ベストプラクティス」の例です。
+このガイドでは、ハイパーパラメーター探索の最適化のために、W&BをPythonトレーニングスクリプトやノートブックに統合する方法についての推奨事項を説明します。
 
-### オリジナルトレーニングスクリプト
+## 元のトレーニングスクリプト
 
-次のPythonスクリプトのコードを持っているとしましょう。`main` という関数を定義し、典型的なトレーニングループを模倣します。各エポックごとに、トレーニングおよび検証データセットに対して精度と損失が計算されます。この例の目的のために値はランダムに生成されます。
+モデルをトレーニングするPythonスクリプト（以下を参照）があると仮定します。ゴールは、検証精度（`val_acc`）を最大化するハイパーパラメーターを見つけることです。
 
-ハイパーパラメーター値を格納するための辞書 `config` を定義しました。セルの最後に、モックトレーニングコードを実行するために `main` 関数を呼び出します。
+Pythonスクリプトでは、`train_one_epoch` と `evaluate_one_epoch` の2つの関数を定義します。`train_one_epoch` 関数は1エポック分のトレーニングをシミュレートし、トレーニングの精度と損失を返します。`evaluate_one_epoch` 関数は、検証データセットでのモデル評価をシミュレートし、検証の精度と損失を返します。
+
+学習率（`lr`）、バッチサイズ（`batch_size`）、エポック数（`epochs`）などのハイパーパラメーター値を含む設定辞書（`config`）を定義します。設定辞書の値がトレーニングプロセスを制御します。
+
+次に、典型的なトレーニングループを模した `main` という関数を定義します。各エポックで、トレーニングデータセットと検証データセットに対して精度と損失が計算されます。
+
+<Note>
+このコードは模擬トレーニングスクリプトです。モデルのトレーニングは行わず、ランダムな精度と損失の値を生成することでトレーニングプロセスをシミュレートしています。このコードの目的は、W&Bをトレーニングスクリプトに統合する方法を示すことです。
+</Note>
 
 ```python
 import random
 import numpy as np
 
-def train_one_epoch(epoch, lr, bs):
+def train_one_epoch(epoch, lr, batch_size):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
     loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
     return acc, loss
@@ -25,106 +33,38 @@ def evaluate_one_epoch(epoch):
     loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
     return acc, loss
 
-# ハイパーパラメーター値を含む設定変数
-config = {"lr": 0.0001, "bs": 16, "epochs": 5}
+# ハイパーパラメーターの値を持つconfig変数
+config = {"lr": 0.0001, "batch_size": 16, "epochs": 5}
 
 def main():
-    # 固定値を定義する代わりに `wandb.config` から値を定義していることに注意
     lr = config["lr"]
-    bs = config["bs"]
+    batch_size = config["batch_size"]
     epochs = config["epochs"]
 
     for epoch in np.arange(1, epochs):
-        train_acc, train_loss = train_one_epoch(epoch, lr, bs)
+        train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
         val_acc, val_loss = evaluate_one_epoch(epoch)
 
         print("epoch: ", epoch)
         print("training accuracy:", train_acc, "training loss:", train_loss)
-        print("validation accuracy:", val_acc, "training loss:", val_loss)        
+        print("validation accuracy:", val_acc, "validation loss:", val_loss)
+
+if __name__ == "__main__":
+    main()
 ```
 
-### W&B Python SDKを用いたトレーニングスクリプト
+次のセクションでは、トレーニング中のハイパーパラメーターとメトリクスを追跡するために、PythonスクリプトにW&Bを追加します。W&Bを使用して、検証精度（`val_acc`）を最大化する最適なハイパーパラメーターを見つけます。
 
-以下のコード例は、W&B Python SDKをコードに追加する方法を示しています。CLIでW&B Sweepジョブを開始する場合、CLIタブを探索したいでしょう。JupyterノートブックやPythonスクリプト内でW&B Sweepジョブを開始する場合、Python SDKタブを探索してください。
+
+## トレーニングスクリプトにW&Bを追加する
+
+トレーニングスクリプトを更新してW&Bを含めます。PythonスクリプトまたはノートブックにW&Bを統合する方法は、Sweeps をどのように管理するかによって異なります。
+
+W&B Python SDKを使用して Sweeps の開始、停止、管理を行う場合は、**Python script or notebook** タブの手順に従ってください。代わりにW&B CLIを使用する場合は、**CLI** タブの手順に従ってください。
 
 <Tabs>
-<Tab title="Python スクリプトまたはノートブック">
-W&B Sweepを作成するために、コード例に以下を追加しました:
-
-1. Weights & Biases Python SDKをインポートします。
-2. キーと値のペアがスイープ設定を定義する辞書オブジェクトを作成します。次の例では、バッチサイズ (`batch_size`), エポック (`epochs`), および学習率 (`lr`) のハイパーパラメーターが各スイープで変化します。スイープ設定の作成方法についての詳細は、[Define sweep configuration](/ja/models/sweeps/define-sweep-configuration/)を参照してください。
-3. スイープ設定辞書を[`wandb.sweep`](/ja/models/ref/python/sweep)に渡します。これによりスイープが初期化され、スイープID (`sweep_id`) が返されます。スイープの初期化方法についての詳細は、[Initialize sweeps](/ja/models/sweeps/initialize-sweeps/)を参照してください。
-4. [`wandb.init()`](/ja/models/ref/python/init) APIを使用して、データを同期およびログ化しながら、バックグラウンドプロセスを生成して [W&B Run](/ja/models/ref/python/run) として実行します。
-5. (オプション) 固定値を定義する代わりに `wandb.config` から値を定義します。
-6. `wandb.log` を使用して最適化したいメトリクスをログします。設定で定義されたメトリクスを必ずログしてください。この例では、設定辞書 (`sweep_configuration`) で `val_acc` を最大化するスイープを定義しました。
-7. [`wandb.agent`](/ja/models/ref/python/agent) API呼び出しを使用してスイープを開始します。スイープID、スイープが実行する関数の名前 (`function=main`)、および試行する最大run数を4に設定します (`count=4`)。W&B Sweepの開始方法についての詳細は、[Start sweep agents](/ja/models/sweeps/start-sweep-agents/)を参照してください。
-
-```python
-import wandb
-import numpy as np
-import random
-
-# スイープ設定を定義
-sweep_configuration = {
-    "method": "random",
-    "name": "sweep",
-    "metric": {"goal": "maximize", "name": "val_acc"},
-    "parameters": {
-        "batch_size": {"values": [16, 32, 64]},
-        "epochs": {"values": [5, 10, 15]},
-        "lr": {"max": 0.1, "min": 0.0001},
-    },
-}
-
-# 設定を渡してスイープを初期化します。
-# (オプション) プロジェクト名を指定
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
-
-
-# `wandb.config` からハイパーパラメーターを受け取り、
-# モデルをトレーニングしてメトリクスを返すトレーニング関数を定義
-def train_one_epoch(epoch, lr, bs):
-    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
-    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
-    return acc, loss
-
-
-def evaluate_one_epoch(epoch):
-    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
-    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
-    return acc, loss
-
-
-def main():
-    run = wandb.init()
-
-    # 固定値を定義する代わりに `wandb.config`
-    # から値を定義していることに注意
-    lr = wandb.config.lr
-    bs = wandb.config.batch_size
-    epochs = wandb.config.epochs
-
-    for epoch in np.arange(1, epochs):
-        train_acc, train_loss = train_one_epoch(epoch, lr, bs)
-        val_acc, val_loss = evaluate_one_epoch(epoch)
-
-        wandb.log(
-            {
-                "epoch": epoch,
-                "train_acc": train_acc,
-                "train_loss": train_loss,
-                "val_acc": val_acc,
-                "val_loss": val_loss,
-            }
-        )
-
-
-# スイープジョブを開始
-wandb.agent(sweep_id, function=main, count=4)
-```
-</Tab>
 <Tab title="CLI">
-W&B Sweepを作成するために、最初にYAML設定ファイルを作成します。設定ファイルにはスイープが探索するハイパーパラメーターを含んでいます。次の例では、バッチサイズ (`batch_size`), エポック (`epochs`), および学習率 (`lr`) のハイパーパラメーターが各スイープで変化します。
+sweep configuration を含むYAML設定ファイルを作成します。この設定ファイルには、sweep に探索させたいハイパーパラメーターが含まれます。次の例では、各 sweep 中にバッチサイズ（`batch_size`）、エポック数（`epochs`）、および学習率（`lr`）のハイパーパラメーターが変化します。
 
 ```yaml
 # config.yaml
@@ -135,8 +75,8 @@ metric:
   goal: maximize
   name: val_acc
 parameters:
-  batch_size: 
-    values: [16,32,64]
+  batch_size:
+    values: [16, 32, 64]
   lr:
     min: 0.0001
     max: 0.1
@@ -144,17 +84,17 @@ parameters:
     values: [5, 10, 15]
 ```
 
-W&B Sweep設定の作成方法についての詳細は、[Define sweep configuration](/ja/models/sweeps/define-sweep-configuration/)を参照してください。
+W&B Sweep の設定作成方法の詳細については、[Define sweep configuration](/models/sweeps/define-sweep-configuration/) を参照してください。
 
-YAMLファイルで `program` のキーにPythonスクリプトの名前を必ず指定してください。
+YAMLファイルの `program` キーには、Pythonスクリプトの名前を指定する必要があります。
 
-次に、コード例に以下を追加します:
+次に、コード例に以下を追加します。
 
-1. Weights & Biases Python SDK (`wandb`) と PyYAML (`yaml`) をインポートします。PyYAMLはYAML設定ファイルを読み込むために使用します。
+1. W&B Python SDK (`wandb`) と PyYAML (`yaml`) をインポートします。PyYAMLはYAML設定ファイルを読み込むために使用されます。
 2. 設定ファイルを読み込みます。
-3. [`wandb.init()`](/ja/models/ref/python/init) APIを使用して、データを同期およびログ化しながら、バックグラウンドプロセスを生成して [W&B Run](/ja/models/ref/python/run) として実行します。configパラメーターに設定オブジェクトを渡します。
-4. 固定値を使用する代わりに `wandb.config` からハイパーパラメーター値を定義します。
-5. `wandb.log` を使用して最適化したいメトリクスをログします。設定で定義されたメトリクスを必ずログしてください。この例では、設定辞書 (`sweep_configuration`) で `val_acc` を最大化するスイープを定義しました。
+3. [`wandb.init()`](/models/ref/python/functions/init) を使用して、データを [W&B Run](/models/ref/python/experiments/run) として同期およびログ記録するためのバックグラウンドプロセスを開始します。config オブジェクトを config パラメータに渡します。
+4. 値をハードコードする代わりに、`wandb.Run.config` からハイパーパラメーター値を定義します。
+5. 最適化したいメトリクスを [`wandb.Run.log()`](/models/ref/python/experiments/run.md/#method-runlog) でログ記録します。設定で定義したメトリクスをログに記録する必要があります。設定辞書（この例では `sweep_configuration`）内で、`val_acc` の値を最大化するように sweep を定義しています。
 
 ```python
 import wandb
@@ -163,7 +103,7 @@ import random
 import numpy as np
 
 
-def train_one_epoch(epoch, lr, bs):
+def train_one_epoch(epoch, lr, batch_size):
     acc = 0.25 + ((epoch / 30) + (random.random() / 10))
     loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
     return acc, loss
@@ -176,136 +116,167 @@ def evaluate_one_epoch(epoch):
 
 
 def main():
-    # 標準のハイパーパラメーターをセットアップします
+    # デフォルトのハイパーパラメーターを設定
     with open("./config.yaml") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
-    run = wandb.init(config=config)
+    with wandb.init(config=config) as run:
+        for epoch in np.arange(1, run.config['epochs']):
+            train_acc, train_loss = train_one_epoch(epoch, run.config['lr'], run.config['batch_size'])
+            val_acc, val_loss = evaluate_one_epoch(epoch)
+            run.log(
+                {
+                    "epoch": epoch,
+                    "train_acc": train_acc,
+                    "train_loss": train_loss,
+                    "val_acc": val_acc,
+                    "val_loss": val_loss,
+                }
+            )
 
-    # 固定値を定義する代わりに `wandb.config`
-    # から値を定義していることに注意
-    lr = wandb.config.lr
-    bs = wandb.config.batch_size
-    epochs = wandb.config.epochs
-
-    for epoch in np.arange(1, epochs):
-        train_acc, train_loss = train_one_epoch(epoch, lr, bs)
-        val_acc, val_loss = evaluate_one_epoch(epoch)
-
-        wandb.log(
-            {
-                "epoch": epoch,
-                "train_acc": train_acc,
-                "train_loss": train_loss,
-                "val_acc": val_acc,
-                "val_loss": val_loss,
-            }
-        )
-
-
-# メイン関数を呼び出します。
+# main関数を呼び出し
 main()
 ```
 
-CLIに移動します。CLI内で、スイープエージェントが試行する最大run数を設定します。これは任意のステップです。次の例では最大回数を5に設定しています。
+CLIで、sweep agent が試行する最大 run 数を設定します。これはオプションです。この例では最大数を5に設定します。
 
 ```bash
 NUM=5
 ```
 
-次に、[`wandb sweep`](/ja/models/ref/cli/wandb-sweep) コマンドを使用してスイープを初期化します。YAMLファイルの名前を指定します。プロジェクトフラグ（`--project`）のためにプロジェクト名を指定することもできます:
+次に、[`wandb sweep`](/models/ref/cli/wandb-sweep) コマンドで sweep を初期化します。YAMLファイルの名前を指定します。オプションで、プロジェクトフラグ (`--project`) に Projects 名を指定します。
 
 ```bash
 wandb sweep --project sweep-demo-cli config.yaml
 ```
 
-これによりスイープIDが返されます。スイープの初期化方法についての詳細は、[Initialize sweeps](/ja/models/sweeps/initialize-sweeps/)を参照してください。
+これにより sweep ID が返されます。sweep の初期化方法の詳細については、[Initialize sweeps](./initialize-sweeps) を参照してください。
 
-スイープIDをコピーし、次のコードスニペットの `sweepID` を置き換えて、[`wandb agent`](/ja/models/ref/cli/wandb-agent) コマンドでスイープジョブを開始します:
+sweep ID をコピーし、次のコードスニペットの `sweepID` を置き換えて、[`wandb agent`](/models/ref/cli/wandb-agent) コマンドで sweep ジョブを開始します。
 
 ```bash
 wandb agent --count $NUM your-entity/sweep-demo-cli/sweepID
 ```
 
-スイープジョブの開始方法についての詳細は、[Start sweep jobs](/ja/models/sweeps/start-sweep-agents/)を参照してください。
+詳細については、[Start sweep jobs](./start-sweep-agents) を参照してください。
+</Tab>
+<Tab title="Python script or notebook">
+以下の手順に従って、PythonスクリプトにW&Bを追加します。
+
+1. キーと値のペアで [sweep configuration](/models/sweeps/define-sweep-configuration/) を定義する辞書オブジェクトを作成します。sweep configuration では、W&Bに探索させたいハイパーパラメーターと、最適化したいメトリクスを定義します。前の例に引き続き、各 sweep 中に変化させるハイパーパラメーターは、バッチサイズ（`batch_size`）、エポック数（`epochs`）、および学習率（`lr`）です。検証スコアの精度を最大化したいので、`"goal": "maximize"` と設定し、最適化したい変数の名前（この場合は `val_acc`）を `"name": "val_acc"` と設定します。
+2. sweep configuration 辞書を [`wandb.sweep()`](/models/ref/python/functions/sweep) に渡します。これにより sweep が初期化され、sweep ID (`sweep_id`) が返されます。詳細については、[Initialize sweeps](./initialize-sweeps) を参照してください。
+3. スクリプトの冒頭で W&B Python SDK (`wandb`) をインポートします。
+4. `main` 関数内で、[`wandb.init()`](/models/ref/python/functions/init) を使用して、データを [W&B Run](/models/ref/python/experiments/run) として同期およびログ記録するためのバックグラウンドプロセスを生成します。`wandb.init()` メソッドに引数としてプロジェクト名を渡します。プロジェクト名を渡さない場合、W&Bはデフォルトのプロジェクト名を使用します。
+5. `wandb.Run.config` オブジェクトからハイパーパラメーター値を取得します。これにより、ハードコードされた値の代わりに sweep configuration 辞書で定義されたハイパーパラメーター値を使用できるようになります。
+6. [`wandb.Run.log()`](/models/ref/python/experiments/run.md/#method-runlog) を使用して、最適化しているメトリクスをW&Bにログ記録します。設定で定義したメトリクスをログに記録する必要があります。例えば、最適化するメトリクスを `val_acc` と定義した場合は、`val_acc` をログに記録しなければなりません。メトリクスをログに記録しないと、W&Bは何を最適化すればよいか判断できません。設定辞書（この例では `sweep_configuration`）内で、`val_acc` の値を最大化するように sweep を定義しています。
+7. [`wandb.agent()`](/models/ref/python/functions/agent) で sweep を開始します。sweep ID と sweep が実行する関数の名前（`function=main`）を指定し、試行する最大 run 数を4回（`count=4`）に指定します。
+
+
+これらをすべてまとめると、スクリプトは以下のようになります。
+
+```python
+import wandb # W&B Python SDKをインポート
+import numpy as np
+import random
+import argparse
+
+def train_one_epoch(epoch, lr, batch_size):
+    acc = 0.25 + ((epoch / 30) + (random.random() / 10))
+    loss = 0.2 + (1 - ((epoch - 1) / 10 + random.random() / 5))
+    return acc, loss
+
+def evaluate_one_epoch(epoch):
+    acc = 0.1 + ((epoch / 20) + (random.random() / 10))
+    loss = 0.25 + (1 - ((epoch - 1) / 10 + random.random() / 6))
+    return acc, loss
+
+def main(args=None):
+    # sweep agentによって呼び出される場合、argsはNoneになるため、
+    # sweep configからprojectを使用します
+    project = args.project if args else None
+    
+    with wandb.init(project=project) as run:
+        # `wandb.Run.config` オブジェクトからハイパーパラメーター値を取得
+        lr = run.config["lr"]
+        batch_size = run.config["batch_size"]
+        epochs = run.config["epochs"]
+
+        # トレーニングループを実行し、パフォーマンス値をW&Bにログ記録
+        for epoch in np.arange(1, epochs):
+            train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
+            val_acc, val_loss = evaluate_one_epoch(epoch)
+            run.log(
+                {
+                    "epoch": epoch,
+                    "train_acc": train_acc,
+                    "train_loss": train_loss,
+                    "val_acc": val_acc, # 最適化されるメトリクス
+                    "val_loss": val_loss,
+                }
+            )
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--project", type=str, default="sweep-example", help="W&B project name")
+    args = parser.parse_args()
+
+    # sweep config辞書を定義
+    sweep_configuration = {
+        "method": "random",
+        "name": "sweep",
+        # 最適化したいメトリクス
+        # 例えば、検証精度を最大化したい場合は
+        # "goal": "maximize" と設定し、最適化したい
+        # 変数の名前（この場合は "val_acc"）を指定します
+        "metric": {
+            "goal": "maximize",
+            "name": "val_acc"
+            },
+        "parameters": {
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "lr": {"max": 0.1, "min": 0.0001},
+        },
+    }
+
+    # 設定辞書を渡してsweepを初期化
+    sweep_id = wandb.sweep(sweep=sweep_configuration, project=args.project)
+
+    # sweepジョブを開始
+    wandb.agent(sweep_id, function=main, count=4)
+```
 </Tab>
 </Tabs>
 
-## メトリクスをログする際の考慮事項
 
-スイープ設定で指定したメトリクスを明示的にW&Bにログすることを確認してください。スイープのメトリクスをサブディレクトリ内でログしないでください。
+<Note>
+**sweep におけるW&Bへのメトリクスのログ記録**
 
-例えば、以下の擬似コードを考えてみてください。ユーザーが検証損失 (`"val_loss": loss`) をログしたいとします。まず、ユーザーは辞書に値を渡しますが、`wandb.log` に渡される辞書は辞書内のキーと値のペアに明示的にアクセスしていません:
+sweep configuration と `wandb.Run.log()` の両方で、定義した最適化対象のメトリクスをログに記録する必要があります。例えば、sweep configuration 内で最適化するメトリクスを `val_acc` と定義した場合、`val_acc` もW&Bにログ記録しなければなりません。メトリクスをログに記録しないと、W&Bは何を最適化すればよいか判断できません。
 
 ```python
-# W&B Pythonライブラリをインポートし、W&Bにログイン
-import wandb
-import random
-
-def train():
-    offset = random.random() / 5
-    acc = 1 - 2**-epoch - random.random() / epoch - offset
-    loss = 2**-epoch + random.random() / epoch + offset
-
-    val_metrics = {"val_loss": loss, "val_acc": acc}
-    return val_metrics
-
-
-def main():
-    wandb.init(entity="<entity>", project="my-first-sweep")
-    val_metrics = train()
-    # 不正確。辞書内のキーと値のペアに明示的にアクセスする必要があります。
-    # 次のコードブロックでメトリクスを正しくログする方法を参照してください。
-    wandb.log({"val_loss": val_metrics})
-
-
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "val_loss"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
-
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
-
-wandb.agent(sweep_id, function=main, count=10)
+with wandb.init() as run:
+    val_loss, val_acc = train()
+    run.log(
+        {
+            "val_loss": val_loss,
+            "val_acc": val_acc
+            }
+        )
 ```
 
-代わりに、Python辞書内でキーと値のペアに明示的にアクセスしてください。例えば、次のコードは `wandb.log` メソッドに辞書を渡す際にキーと値のペアを指定しています:
+以下は、W&Bへのメトリクスログ記録の誤った例です。sweep configuration で最適化されるメトリクスは `val_acc` ですが、コードでは `validation` というキーの下のネストされた辞書内に `val_acc` をログ記録しています。メトリクスは、ネストされた辞書内ではなく、直接ログに記録する必要があります。
 
-```python title="train.py"
-# W&B Pythonライブラリをインポートし、W&Bにログイン
-import wandb
-import random
-
-
-def train():
-    offset = random.random() / 5
-    acc = 1 - 2**-epoch - random.random() / epoch - offset
-    loss = 2**-epoch + random.random() / epoch + offset
-
-    val_metrics = {"val_loss": loss, "val_acc": acc}
-    return val_metrics
-
-
-def main():
-    wandb.init(entity="<entity>", project="my-first-sweep")
-    val_metrics = train()
-    wandb.log({"val_loss", val_metrics["val_loss"]})
-
-
-sweep_configuration = {
-    "method": "random",
-    "metric": {"goal": "minimize", "name": "val_loss"},
-    "parameters": {
-        "x": {"max": 0.1, "min": 0.01},
-        "y": {"values": [1, 3, 7]},
-    },
-}
-
-sweep_id = wandb.sweep(sweep=sweep_configuration, project="my-first-sweep")
-
-wandb.agent(sweep_id, function=main, count=10)
+```python
+with wandb.init() as run:
+    val_loss, val_acc = train()
+    run.log(
+        {
+            "validation": {
+                "val_loss": val_loss, 
+                "val_acc": val_acc
+                }
+            }
+        )
 ```
+</Note>

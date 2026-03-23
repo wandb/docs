@@ -1,0 +1,67 @@
+---
+title: Weights & Biases ドキュメンテーション
+description: Weights & Biases のすべての製品のドキュメントを表示する
+sidebarTitle: Home
+mode: wide
+---
+import {Banner} from "/snippets/Banner.jsx";
+import {HomeWrapper} from "/snippets/home.jsx";
+import {ProductCard} from "/snippets/ProductCard.jsx";
+
+<HomeWrapper>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ProductCard
+        title="W&B Models"
+        iconSrc="icons/cropped-models.svg"
+        href="/models"
+        subtitle="AI モデルの開発"
+    >
+        W&B Models を使用して、 AI モデルの開発を管理します。トレーニング、ファインチューニング、 Reports 、ハイパーパラメーター Sweeps の自動化、バージョン管理と再現性のための Model Registry などの機能が含まれます。
+        <br/>
+        <br/>
+        • <a href="/models">イントロダクション</a><br/>
+        • <a href="/models/quickstart">クイックスタート</a><br/>
+        • <a href="https://www.youtube.com/watch?v=tHAFujRhZLA">YouTube チュートリアル</a><br/>
+    </ProductCard>
+
+    <ProductCard
+        title="W&B Weave"
+        iconSrc="icons/cropped-weave.svg"
+        href="/weave"
+        subtitle="アプリでの AI モデルの活用"
+    >   
+        W&B Weave を使用して、コード内の AI モデルを管理します。トレース、出力の評価、コスト見積もり、ホストされた推論サービス、および異なる大規模言語モデル（ LLM ）や設定を比較するためのプレイグラウンドなどの機能が含まれます。
+        <br/>
+        <br/>
+        • <a href="/weave">イントロダクション</a><br/>
+        • <a href="/weave/quickstart">クイックスタート</a><br/>
+        • <a href="https://www.youtube.com/watch?v=IQcGGNLN3zo">YouTube デモ</a><br/>
+    </ProductCard>
+    
+    <ProductCard
+        title="W&B Inference"
+        iconSrc="icons/cropped-inference.svg"
+        href="/inference"
+        subtitle="基盤モデルへのアクセス"
+    >
+        W&B Inference を使用して、 OpenAI 互換の API を通じて主要なオープンソース基盤モデルにアクセスします。複数のモデルオプション、使用状況のトラッキング、トレースや評価のための Weave とのインテグレーションなどの機能が含まれます。
+        <br/>
+        <br/>
+        • <a href="/inference">イントロダクション</a><br/>
+        • <a href="https://wandb.ai/inference">プレイグラウンドで試す</a>
+    </ProductCard>
+
+    <ProductCard
+        title="W&B Training"
+        iconSrc="icons/cropped-training.svg"
+        href="/training"
+        subtitle="モデルのポストトレーニング"
+    >
+        現在パブリックプレビュー中の W&B Training を使用して、サーバーレスの強化学習（ RL ）を用いた大規模言語モデルのポストトレーニングを行います。フルマネージドの GPU インフラストラクチャー、 ART や RULER とのインテグレーション、マルチターンのエージェントタスク向けの自動スケーリングなどの機能が含まれます。
+        <br/>
+        <br/>
+        • <a href="/training">イントロダクション</a><br/>
+        • <a href="/training/prerequisites">クイックスタート</a><br/>
+    </ProductCard>
+</div>
+</HomeWrapper>

@@ -1,0 +1,93 @@
+---
+title: チュートリアル： Vertex AI 上で W&B Launch をセットアップする
+---
+
+W&B Launch を使用して、Vertex AI のトレーニングジョブとしてジョブを送信し実行することができます。Vertex AI トレーニングジョブでは、Vertex AI プラットフォーム上で提供されているアルゴリズム、またはカスタムアルゴリズムを使用して 機械学習 モデルを トレーニング できます。 Launch ジョブが開始されると、Vertex AI が基盤となる インフラストラクチャー 、スケーリング、オーケストレーション を管理します。
+
+W&B Launch は、`google-cloud-aiplatform` SDK の `CustomJob` クラスを介して Vertex AI と連携します。`CustomJob` の パラメータ は、 Launch キューの 設定 で制御できます。Vertex AI は、Google Cloud 外部のプライベートレジストリからイメージをプルするように設定することはできません。つまり、Vertex AI を W&B Launch で使用する場合、コンテナイメージを Google Cloud または公開レジストリに保存する必要があります。コンテナイメージを Vertex ジョブからアクセス可能にする方法の詳細については、Vertex AI のドキュメントを参照してください。
+
+{/* Component Diagram of Launch in Vertex AI */}
+
+## 事前準備
+
+1. **Vertex AI API が有効な Google Cloud プロジェクトを作成またはアクセスします。** API の有効化に関する詳細は、[Google Cloud API コンソールのドキュメント](https://support.google.com/googleapi/answer/6158841?hl=en)を参照してください。
+2. **Google Cloud Artifact Registry リポジトリを作成** して、Vertex で実行するイメージを保存します。詳細は [Google Cloud Artifact Registry のドキュメント](https://cloud.google.com/artifact-registry/docs/overview)を参照してください。
+3. **ステージング用の GCS バケットを作成** して、Vertex AI が メタデータ を保存できるようにします。この バケット は、ステージング バケット として使用するために、Vertex AI のワークロードと同じリージョンにある必要があることに注意してください。同じ バケット をステージングとビルドコンテキストの両方に使用できます。
+4. **サービスアカウントを作成** し、Vertex AI ジョブを起動するために必要な権限を付与します。サービスアカウントへの権限割り当てに関する詳細は、[Google Cloud IAM のドキュメント](https://cloud.google.com/iam/docs/creating-managing-service-accounts)を参照してください。
+5. **サービスアカウントに Vertex ジョブを管理する権限を付与します**
+
+| 権限 | リソーススコープ | 説明 |
+| ------------------------------ | --------------------- | ---------------------------------------------------------------------------------------- |
+| `aiplatform.customJobs.create` | 指定した Google Cloud プロジェクト | プロジェクト内での新しい 機械学習 ジョブの作成を許可します。 |
+| `aiplatform.customJobs.list` | 指定した Google Cloud プロジェクト | プロジェクト内の 機械学習 ジョブの一覧表示を許可します。 |
+| `aiplatform.customJobs.get` | 指定した Google Cloud プロジェクト | 特定の 機械学習 ジョブに関する 情報 の取得を許可します。 |
+
+<Note>
+Vertex AI ワークロードに標準以外のサービスアカウントの ID を使用させたい場合は、サービスアカウントの作成と必要な権限について Vertex AI のドキュメントを参照してください。 Launch キュー 設定 の `spec.service_account` フィールドを使用して、W&B Runs 用のカスタムサービスアカウントを選択できます。
+</Note>
+
+## Vertex AI 用のキューを設定する
+
+Vertex AI リソースのキュー 設定 では、Vertex AI Python SDK の `CustomJob` コンストラクタへの入力、および `CustomJob` の `run` メソッド への入力を指定します。リソースの 設定 は、`spec` キーと `run` キーの下に保存されます。
+
+- `spec` キーには、Vertex AI Python SDK における [`CustomJob` コンストラクタ](https://cloud.google.com/vertex-ai/docs/pipelines/customjob-component) の名前付き 引数 の 値 が含まれます。
+- `run` キーには、Vertex AI Python SDK における `CustomJob` クラスの `run` メソッド の名前付き 引数 の 値 が含まれます。
+
+実行 環境 のカスタマイズは、主に `spec.worker_pool_specs` リストで行われます。ワーカープールスペックは、ジョブを実行するワーカーのグループを定義します。デフォルト 設定 のワーカースペックでは、アクセラレータなしの単一の `n1-standard-4` マシンを要求します。必要に応じて、マシンタイプ、アクセラレータタイプ、および数を変更できます。
+
+利用可能なマシンタイプとアクセラレータタイプの詳細については、[Vertex AI ドキュメント](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/MachineSpec)を参照してください。
+
+## キューを作成する
+
+コンピューティングリソースとして Vertex AI を使用するキューを W&B アプリで作成します。
+
+1. [Launch ページ](https://wandb.ai/launch) に移動します。
+2. **Create Queue** ボタンをクリックします。
+3. キューを作成する **Entity** を選択します。
+4. **Name** フィールドにキューの名前を入力します。
+5. **Resource** として **Google Cloud Vertex AI** を選択します。
+6. **Configuration** フィールド内に、前のセクションで定義した Vertex AI `CustomJob` に関する 情報 を入力します。デフォルトでは、W&B は以下のような YAML および JSON のリクエストボディを自動入力します。
+
+```yaml
+spec:
+  worker_pool_specs:
+    - machine_spec:
+        machine_type: n1-standard-4
+        accelerator_type: ACCELERATOR_TYPE_UNSPECIFIED
+        accelerator_count: 0
+      replica_count: 1
+      container_spec:
+        image_uri: ${image_uri}
+  staging_bucket: <REQUIRED>
+run:
+  restart_job_on_worker_restart: false
+```
+
+7. キューを 設定 したら、**Create Queue** ボタンをクリックします。
+
+最低限、以下を指定する必要があります。
+
+- `spec.worker_pool_specs` : ワーカープール仕様の空でないリスト。
+- `spec.staging_bucket` : Vertex AI のアセットと メタデータ のステージングに使用される GCS バケット。
+
+<Warning>
+一部の Vertex AI ドキュメントでは、ワーカープール仕様のすべての キー がキャメルケース（例：`workerPoolSpecs`）で示されています。Vertex AI Python SDK では、これらの キー にスネークケース（例：`worker_pool_specs`）を使用します。
+
+Launch キュー 設定 のすべての キー はスネークケースを使用する必要があります。
+</Warning>
+
+## Launch エージェントを設定する
+
+Launch エージェント は、デフォルトで `~/.config/wandb/launch-config.yaml` にある設定ファイルを通じて 設定 可能です。
+
+```yaml
+max_jobs: <n-concurrent-jobs> # 同時実行ジョブの最大数
+queues:
+  - <queue-name> # キュー名
+```
+
+Launch エージェント に Vertex AI で実行されるイメージをビルドさせたい場合は、[Advanced agent set up](./setup-agent-advanced) を参照してください。
+
+## エージェントの権限を設定する
+
+このサービスアカウントとして認証する方法は複数あります。これは、Workload Identity、ダウンロードしたサービスアカウントの JSON、 環境 変数、Google Cloud Platform コマンドライン ツール、またはこれらの方法の組み合わせによって実現できます。

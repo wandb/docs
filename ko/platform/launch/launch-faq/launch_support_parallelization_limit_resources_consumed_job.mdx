@@ -1,0 +1,18 @@
+---
+title: ' think
+
+  Launch는 병렬화를 지원하나요? Job이 사용하는 리소스를 어떻게 제한할 수 있나요?'
+---
+
+Launch 는 여러 GPU 및 노드에 걸쳐 작업을 확장할 수 있도록 지원합니다. 자세한 내용은 [Volcano 인테그레이션 가이드](/models/tutorials/volcano/)를 참조하세요.
+
+각 Launch 에이전트는 동시에 실행할 수 있는 최대 작업 수를 결정하는 `max_jobs` 파라미터로 설정됩니다. 적절한 Launch 인프라에 연결되어 있다면 여러 에이전트가 단일 큐를 가리킬 수 있습니다.
+
+리소스 설정에서 큐 또는 작업 Run 수준으로 CPU, GPU, 메모리 및 기타 리소스에 대한 제한을 설정할 수 있습니다. Kubernetes 에서 리소스 제한이 있는 큐를 설정하는 방법에 대한 정보는 [Kubernetes 설정 가이드](/platform/launch/setup-launch-kubernetes/)를 참조하세요.
+
+Sweeps 의 경우, 동시 Runs 수를 제한하려면 큐 설정에 다음 블록을 포함하세요:
+
+```yaml title="queue config"
+  scheduler:
+    num_workers: 4
+```

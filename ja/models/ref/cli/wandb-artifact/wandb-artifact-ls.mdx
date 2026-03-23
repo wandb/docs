@@ -1,17 +1,36 @@
 ---
-title: wandb アーティファクト ls
+title: wandb artifact ls
 ---
 
-**使用方法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-ls.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb artifact ls [OPTIONS] PATH`
+import WandbArtifactLs from "/snippets/en/_includes/cli/wandb-artifact-ls.mdx";
 
-**概要**
+<WandbArtifactLs/>
 
-wandb プロジェクト内のすべてのアーティファクトを一覧表示します
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**オプション**
+W&B Project 内のすべての Artifacts を一覧表示します。
 
-| **オプション** | **説明** |
+## 使用法
+
+```bash
+wandb artifact ls PATH [OPTIONS]
+```
+
+## 引数
+
+| 引数 | 説明 | 必須 |
+| :--- | :--- | :--- |
+| `PATH` | 説明なし | はい |
+
+## オプション
+
+| オプション | 説明 |
 | :--- | :--- |
-| `-t, --type` | 一覧表示するアーティファクトのタイプ |
+| `--type`, `-t` | 表示する Artifacts のタイプ |

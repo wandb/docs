@@ -1,17 +1,13 @@
 ---
-title: How do I deal with network issues?
-support:
-- connectivity
-toc_hide: true
-type: docs
+title: 네트워크 문제는 어떻게 해결하나요?
 ---
 
-SSL 또는 네트워크 오류가 발생하는 경우(예: `wandb: Network error (ConnectionError), entering retry loop`), 다음 해결 방법을 사용하세요.
+`wandb: Network error (ConnectionError), entering retry loop`와 같은 SSL 또는 네트워크 오류가 발생하는 경우 다음 솔루션을 사용하세요.
 
-1. SSL 인증서를 업그레이드하세요. Ubuntu 서버에서 `update-ca-certificates`를 실행합니다. 유효한 SSL 인증서는 보안 위험을 완화하기 위해 트레이닝 로그를 동기화하는 데 필수적입니다.
-2. 네트워크 연결이 불안정한 경우, [선택적 환경 변수](/ko/models/track/environment-variables/#optional-environment-variables) `WANDB_MODE`를 `offline`으로 설정하여 오프라인 모드로 작동하고, 인터넷 엑세스가 가능한 장치에서 나중에 파일을 동기화합니다.
-3. 로컬에서 실행되고 클라우드 서버와 동기화를 피하는 [W&B Private Hosting](/ko/platform/hosting/) 사용을 고려하세요.
+1. SSL 인증서를 업그레이드하세요. Ubuntu 서버에서는 `update-ca-certificates`를 실행합니다. 보안 리스크를 완화하면서 트레이닝 로그를 동기화하려면 유효한 SSL 인증서가 필수적입니다.
+2. 네트워크 연결이 불안정한 경우, [선택적 환경 변수](/models/track/environment-variables/#optional-environment-variables)인 `WANDB_MODE`를 `offline`으로 설정하여 오프라인 모드로 운영하고, 나중에 인터넷 엑세스가 가능한 기기에서 파일을 동기화하세요.
+3. 로컬에서 실행되어 클라우드 서버로의 동기화를 피할 수 있는 [W&B Private Hosting](/platform/hosting/) 사용을 고려해 보세요.
 
-`SSL CERTIFICATE_VERIFY_FAILED` 오류의 경우, 이 문제는 회사 방화벽에서 발생할 수 있습니다. 로컬 CA를 구성하고 다음을 실행합니다.
+`SSL CERTIFICATE_VERIFY_FAILED` 오류의 경우, 회사 방화벽으로 인해 문제가 발생할 수 있습니다. 로컬 CA를 구성하고 다음을 실행하세요.
 
 `export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt`

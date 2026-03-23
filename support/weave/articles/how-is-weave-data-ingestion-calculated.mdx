@@ -1,0 +1,10 @@
+---
+title: "How is Weave data ingestion calculated?"
+keywords: ["Data Capture"]
+---
+
+We define ingested bytes as bytes that we receive, process, and store on your behalf. This includes trace metadata, LLM inputs/outputs, and any other information you explicitly log to Weave, but does not include communication overhead (e.g., HTTP headers) or any other data that is not placed in long-term storage. We count bytes as "ingested" only once at the time they are received and stored.
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Data Capture](/support/weave/tags/data-capture)</Badge>

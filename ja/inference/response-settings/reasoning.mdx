@@ -1,0 +1,47 @@
+---
+title: 推論情報の表示
+description: W&B Inference のレスポンスで推理（Reasoning）を返し、表示する方法
+---
+
+[OpenAI's GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b) のような推論モデルは、最終的な回答に加えて、推論ステップに関する情報を出力の一部として返します。これは自動的に行われ、追加の入力 パラメータ は必要ありません。
+
+モデル が推論をサポートしているかどうかは、UI のカタログページにある Supported Features セクションで確認できます。
+
+推論情報は、レスポンスの `reasoning_content` フィールドに含まれています。このフィールドは、他の モデル の出力には存在しません。
+
+<Tabs>
+<Tab title="Python">
+```python
+import openai
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",  # https://wandb.ai/settings で APIキー を作成してください
+)
+
+response = client.chat.completions.create(
+    model="openai/gpt-oss-20b",
+    messages=[
+        {"role": "user", "content": "3.11 and 3.8, which is greater?"}
+    ],
+)
+
+print(response.choices[0].message.reasoning_content)
+print("--------------------------------")
+print(response.choices[0].message.content)
+```
+</Tab>
+<Tab title="Bash">
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -d '{
+    "model": "openai/gpt-oss-20b",
+    "messages": [
+      { "role": "user", "content": "3.11 and 3.8, which is greater?" }
+    ],
+  }'
+```
+</Tab>
+</Tabs>

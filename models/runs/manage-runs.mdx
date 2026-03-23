@@ -1,41 +1,41 @@
 ---
-title: Move runs
+title: Move a run to a different project or team
+description: Move runs between projects or teams using the W&B App.
 ---
 
-This page shows how to move a run from one project to another, into or out of a team, or from one team to another. You must have access to the run at its current and new locations.
+<Note>
+Before you begin, ensure you have the necessary permissions to move runs between projects or teams. You must have access to the run at its current and new locations.
+</Note>
+
+To move runs from one project to another or between teams:
+
+1. Navigate to the project that contains the runs you want to move.
+2. Select the **Runs** tab from the project sidebar.
+3. Select the checkbox next to the runs you want to move.
+4. Click the **Move to project** button above the table.
+5. Select the destination team and project from the dropdown.
 
 <Note>
 When you move a run, historical artifacts associated with it are not moved. To move an artifact manually, you can use the [`wandb artifact get`](/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK command or the [`Api.artifact` API](/models/ref/python/public-api/api/#artifact) to download the artifact, then use [`wandb artifact put`](/models/ref/cli/wandb-artifact/wandb-artifact-put/) or the `Api.artifact` API to upload it to the run's new location.
 </Note>
 
-To customize the **Runs** tab, refer to [Project page](/models/track/project-page/#runs-tab).
+{/* ## Move runs to a group
 
-If you group runs into experiments, refer to [Set a group in the UI](/models/runs/grouping/#set-a-group-in-the-ui).
-
-## Move runs between your projects
-
-To move runs from one project to another:
+You can group runs by moving them into an existing group or creating a new group.
 
 1. Navigate to the project that contains the runs you want to move.
 2. Select the **Runs** tab from the project sidebar.
 3. Select the checkbox next to the runs you want to move.
-4. Choose the **Move** button above the table.
-5. Select the destination project from the dropdown.
+4. Choose the **Move to group** button above the table.
+5. In the modal, select the target group or create a new group.
+6. Click **Move**. */}
 
-<Frame>
-    <img src="/images/app_ui/howto_move_runs.gif" alt="Demo of moving a run between projects"  />
-</Frame>
+{/* #### Manage runs in bulk
+This section shows how to manage multiple runs at once, across one or more run groups.
 
-## Move runs to a team
-
-Move runs to a team you are a member of:
-
-1. Navigate to the project that contains the runs you want to move.
-2. Select the **Runs** tab from the project sidebar.
-3. Select the checkbox next to the runs you want to move.
-4. Choose the **Move** button above the table.
-5. Select the destination team and project from the dropdown.
-
-<Frame>
-    <img src="/images/app_ui/demo_move_runs.gif" alt="Demo of moving a run to a team"  />
-</Frame>
+1. If necessary, [toggle grouping by columns](#toggle-grouping-by-column-in-the-ui), grouping by the **Group** column.
+1. Expand a group to view its runs. In a single bulk operation, you can move runs from different groups to the same target group. Expand all relevant groups.
+1. To select all runs in a group, click the checkbox next to the group name.
+1. To select individual runs, click their checkboxes.
+1. To select all runs in all groups, click the checkbox next to the **Name** column heading.
+1. Above the table, choose a bulk operation: **Tag**, **Move to group**, **Move to project**, or **New sweep**. */}
