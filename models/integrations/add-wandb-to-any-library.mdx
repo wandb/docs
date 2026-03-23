@@ -292,7 +292,7 @@ See [`wandb.Run.log()`](/models/ref/python/experiments/run#method-run-log) for m
 
 If you perform multiple calls to `wandb.Run.log()` for the same training step, the wandb SDK increments an internal step counter for each call to `wandb.Run.log()`. This counter may not align with the training step in your training loop.
 
-To avoid this situation, define your x-axis step explicitly with `run.define_metric()`, one time, immediately after you call `wandb.init()`:
+To avoid this situation, define your x-axis step explicitly with `wandb.Run.define_metric()`, one time, immediately after you call `wandb.init()`:
 
 ```python
 with wandb.init(...) as run:
