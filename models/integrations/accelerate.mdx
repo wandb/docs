@@ -40,7 +40,7 @@ Explaining more, you need to:
 - a project name via `project_name`
 - any parameters you want to pass to [`wandb.init()`](/models/ref/python/functions/init) via a nested dict to `init_kwargs`
 - any other experiment config information you want to log to your wandb run, via `config`
-3. Use the `.log()` method to log to Weigths & Biases; the `step` argument is optional
+3. Use the `wandb.Run.log()` method to log to Weigths & Biases; the `step` argument is optional
 4. Call `.end_training()` when finished training
 
 ## Access the W&B tracker
