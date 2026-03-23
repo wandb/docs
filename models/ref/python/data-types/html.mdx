@@ -1,8 +1,11 @@
 ---
-title: "Html"
+title: Html
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py" />
 
 
 
@@ -14,9 +17,9 @@ W&B class for logging HTML content to W&B.
 
 ```python
 __init__(
-    data: Union[str, pathlib.Path, ForwardRef('TextIO')],
-    inject: bool = True,
-    data_is_not_path: bool = False
+    data: 'str | pathlib.Path | TextIO',
+    inject: 'bool' = True,
+    data_is_not_path: 'bool' = False
 ) → None
 ```
 

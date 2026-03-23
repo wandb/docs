@@ -1,0 +1,20 @@
+---
+title: "Op"
+description: "TypeScript SDK reference"
+---
+
+# Op
+
+Ƭ **Op**\<`T`\>: \{ `__boundThis?`: [`WeaveObject`](../classes/weaveobject) ; `__isOp`: ``true`` ; `__name`: `string` ; `__parameterNames?`: `ParameterNamesOption` ; `__savedRef?`: `OpRef` \| `Promise`\<`OpRef`\> ; `__wrappedFunction`: `T` ; `invoke`: `CallMethod`\<`T`\>  } & `T` & (...`args`: `Parameters`\<`T`\>) => `ReturnType`\<`T`\> extends `AsyncIterable`\<infer U\> ? `AsyncIterable`\<`Awaited`\<`U`\>\> : `Promise`\<`Awaited`\<`ReturnType`\<`T`\>\>\>
+
+#### Type parameters
+
+| Name | Type |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### Defined in
+
+[opType.ts:7](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/opType.ts#L7)
+
+___

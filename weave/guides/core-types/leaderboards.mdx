@@ -1,5 +1,5 @@
 ---
-title: "Leaderboards"
+title: "Compare and rank models"
 description: "Compare and rank different model versions based on evaluation metrics"
 ---
 
@@ -10,6 +10,9 @@ Leaderboards are ideal for:
 - Tracking model performance regressions
 - Coordinating shared evaluation workflows
 
+<Note>
+Leaderboard creation is only available for the Weave UI and Weave Python SDK. TypeScript users can create and manage leaderboards using the [Weave UI](#using-the-ui).
+</Note>
 
 ## Create a Leaderboard
 
@@ -211,7 +214,7 @@ print(results)
 
 ### View and interpret the Leaderboard
 
-After the script finishes running, view view the leaderboard:
+After the script finishes running, view the leaderboard:
 
 1. In the **Weave UI**, go to the **Leaders** tab. If it's not visible, click **More**, then select **Leaders**.
 2. Click on the name of your leaderboard—e.g. `Summarization Model Comparison`.

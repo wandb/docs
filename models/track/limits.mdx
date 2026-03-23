@@ -53,22 +53,20 @@ If your workspace suddenly slows down, check whether recent runs have unintentio
 
 ### Value width
 
-Limit the size of a single logged value to under 1 MB and the total size of a single `run.log` call to under 25 MB. This limit does not apply to `wandb.Media` types like `wandb.Image`, `wandb.Audio`, etc.
+Limit the size of a single logged value to under 1 MB and the total size of a single `wandb.Run.log()` call to under 25 MB. This limit does not apply to `wandb.Media` types like `wandb.Image`, `wandb.Audio`, etc.
 
 ```python
 import wandb
 
-run = wandb.init(project="wide-values")
+with wandb.init(project="wide-values") as run:
 
-# not recommended
-run.log({"wide_key": range(10000000)})
+    # not recommended
+    run.log({"wide_key": range(10000000)})
 
-# not recommended
-with open("large_file.json", "r") as f:
-    large_data = json.load(f)
-    run.log(large_data)
-
-run.finish()
+    # not recommended
+    with open("large_file.json", "r") as f:
+        large_data = json.load(f)
+        run.log(large_data)
 ```
 
 Wide values can affect the plot load times for all metrics in the run, not just the metric with the wide values.
@@ -187,7 +185,7 @@ By default, a workspace is _automatic_, and generates standard panels for each l
 1. Use [Quick add](/models/app/features/panels/#quick-add) to selectively add panels for the logged keys you need to visualize.
 
 <Note>
-Deleting unused panels one at a time has little impact on performance. Instead, reset the workspace and seletively add back only those panels you need.
+Deleting unused panels one at a time has little impact on performance. Instead, reset the workspace and selectively add back only those panels you need.
 </Note>
 
 To learn more about configuring your workspace, refer to [Panels](/models/app/features/panels/).

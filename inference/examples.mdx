@@ -33,7 +33,7 @@ weave.init("<your-team>/<your-project>")
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
 
-    # Get your API key from https://wandb.ai/authorize
+    # Create an API key at https://wandb.ai/settings
     api_key="<your-api-key>",
 
     # Optional: Team and project for usage tracking
@@ -94,7 +94,7 @@ class WBInferenceModel(weave.Model):
     def predict(self, prompt: str) -> str:
         client = openai.OpenAI(
             base_url="https://api.inference.wandb.ai/v1",
-            # Get your API key from https://wandb.ai/authorize
+            # Create an API key at https://wandb.ai/settings
             api_key="<your-api-key>",
             # Optional: Team and project for usage tracking
             project="<your-team>/<your-project>",
@@ -139,7 +139,7 @@ spec = leaderboard.Leaderboard(
 weave.publish(spec)
 ```
 
-After running this code, go to your W&B account at [https://wandb.ai/](https://wandb.ai/) and:
+After running this code, navigate to your W&B account at [https://wandb.ai/](https://wandb.ai/) and:
 
 - Select the **Traces** tab to [view your traces](/weave/guides/tracking/tracing)
 - Select the **Evals** tab to [view your model evaluations](/weave/guides/core-types/evaluations)

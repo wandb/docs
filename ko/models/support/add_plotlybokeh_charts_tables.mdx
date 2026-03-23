@@ -1,14 +1,8 @@
 ---
-title: How do I add Plotly or Bokeh Charts into Tables?
-support:
-- experiments
-- tables
-- charts
-toc_hide: true
-type: docs
+title: Plotly 또는 Bokeh 차트를 Tables 에 어떻게 추가하나요?
 ---
 
-Plotly 또는 Bokeh figure를 테이블에 직접 통합하는 것은 지원되지 않습니다. 대신, figure를 HTML로 내보내고 해당 HTML을 테이블에 포함하세요. 아래는 인터랙티브 Plotly 및 Bokeh 차트를 사용하여 이를 보여주는 예제입니다.
+Plotly 또는 Bokeh figure를 테이블에 직접 통합하는 것은 지원되지 않습니다. 대신 figure를 HTML로 내보낸 후 테이블에 해당 HTML을 포함하세요. 아래는 인터랙티브한 Plotly 및 Bokeh 차트를 사용하는 예시입니다.
 
 <Tabs>
 <Tab title="Using Plotly">
@@ -17,27 +11,27 @@ import wandb
 import plotly.express as px
 
 # 새로운 run 초기화
-run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
+with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
-# 테이블 생성
-table = wandb.Table(columns=["plotly_figure"])
+    # 테이블 생성
+    table = wandb.Table(columns=["plotly_figure"])
 
-# Plotly figure의 경로 정의
-path_to_plotly_html = "./plotly_figure.html"
+    # Plotly figure를 저장할 경로 정의
+    path_to_plotly_html = "./plotly_figure.html"
 
-# Plotly figure 생성
-fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
+    # Plotly figure 생성
+    fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-# Plotly figure를 HTML로 내보내기
-# auto_play를 False로 설정하면 애니메이션 Plotly 차트가 자동으로 재생되는 것을 방지합니다.
-fig.write_html(path_to_plotly_html, auto_play=False)
+    # Plotly figure를 HTML로 내보내기
+    # auto_play를 False로 설정하면 애니메이션이 포함된 Plotly 차트가 자동으로 재생되는 것을 방지합니다.
+    fig.write_html(path_to_plotly_html, auto_play=False)
 
-# Plotly figure를 HTML 파일로 테이블에 추가
-table.add_data(wandb.Html(path_to_plotly_html))
+    # Plotly figure를 HTML 파일로 테이블에 추가
+    table.add_data(wandb.Html(path_to_plotly_html))
 
-# 테이블 로그
-run.log({"test_table": table})
-wandb.finish()
+    # 테이블 로그 기록
+    run.log({"test_table": table})
+
 ```
 </Tab>
 <Tab title="Using Bokeh">
@@ -71,10 +65,12 @@ audio_path = "hello.wav"
 save_audio_with_bokeh_plot_to_html(audio_path, html_file_name)
 
 wandb_html = wandb.Html(html_file_name)
-run = wandb.init(project="audio_test")
-my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
-run.log({"audio_table": my_table})
-run.finish()
+# wandb run 초기화
+with wandb.init(project="audio_test") as run:
+    # 테이블 생성 및 HTML 데이터 추가
+    my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
+    # 테이블 로그 기록
+    run.log({"audio_table": my_table})
 ```
 </Tab>
 </Tabs>

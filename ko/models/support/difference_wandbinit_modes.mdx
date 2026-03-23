@@ -1,13 +1,9 @@
 ---
-title: What is the difference between wandb.init modes?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: wandb.init 모드 간의 차이점은 무엇인가요?
 ---
 
-다음 모드를 사용할 수 있습니다.
+사용 가능한 모드는 다음과 같습니다:
 
-* `online` (기본값): 클라이언트가 데이터를 wandb 서버로 보냅니다.
-* `offline`: 클라이언트가 데이터를 wandb 서버로 보내는 대신 로컬 머신에 데이터를 저장합니다. 나중에 데이터를 동기화하려면 [`wandb sync`](/ko/models/ref/cli/wandb-sync) 코맨드를 사용하세요.
-* `disabled`: 클라이언트가 모의 오브젝트를 반환하여 작업을 시뮬레이션하고 네트워크 통신을 방지합니다. 모든 로깅이 꺼져 있지만 모든 API 메소드 스텁은 호출 가능한 상태로 유지됩니다. 이 모드는 일반적으로 테스트에 사용됩니다.
+* `online` (기본값): 클라이언트가 데이터를 wandb 서버 로 보냅니다.
+* `offline`: 클라이언트가 데이터를 wandb 서버 로 보내는 대신 로컬 머신에 저장합니다. 나중에 데이터를 동기화하려면 [`wandb sync`](/models/ref/cli/wandb-sync) 코맨드 를 사용하세요.
+* `disabled`: 클라이언트가 모의(mocked) 오브젝트 를 반환하여 동작을 시뮬레이션하며 모든 네트워크 통신을 차단합니다. 모든 로그 기록이 비활성화되지만, 모든 API 메소드 스텁은 여전히 호출 가능한 상태로 유지됩니다. 이 모드는 주로 테스트 용도로 사용됩니다.

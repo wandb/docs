@@ -2,16 +2,25 @@
 title: wandb offline
 ---
 
-**사용법**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-offline.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb offline [OPTIONS]`
+import WandbOffline from "/snippets/en/_includes/cli/wandb-offline.mdx";
 
-**요약**
+<WandbOffline/>
 
-W&B 동기화 비활성화
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
+W&B 에 로그된 데이터를 클라우드에 업로드하지 않고 로컬에 저장합니다.
 
-**옵션**
+오프라인 Runs 를 업로드하려면 `wandb online` 또는 `wandb sync` 를 사용하세요.
 
-| **옵션** | **설명** |
-| :--- | :--- |
+## 사용법
+
+```bash
+wandb offline
+```

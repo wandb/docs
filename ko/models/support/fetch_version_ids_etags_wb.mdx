@@ -1,16 +1,13 @@
 ---
-title: How can I fetch these Version IDs and ETags in W&B?
-support:
-- artifacts
-toc_hide: true
-type: docs
+title: W&B에서 이러한 버전 IDs와 ETags를 어떻게 가져올 수 있나요?
 ---
 
-만약 아티팩트 참조가 W&B에 기록되고 버킷에서 버전 관리가 활성화되어 있다면, 버전 ID가 Amazon S3 UI에 나타납니다. 이러한 버전 ID와 ETag를 W&B에서 검색하려면, 아티팩트를 가져와서 해당 매니페스트 항목에 엑세스하세요. 예를 들어:
+W&B 에 아티팩트 레퍼런스를 로그하고 버킷에 버전 관리가 활성화되어 있는 경우, Amazon S3 UI 에 버전 ID 가 표시됩니다. W&B 에서 이러한 버전 ID 와 ETag 를 가져오려면, 아티팩트를 가져온 다음 해당 manifest 항목에 엑세스하세요. 예시는 다음과 같습니다:
 
 ```python
 artifact = run.use_artifact("my_table:latest")
 for entry in artifact.manifest.entries.values():
+    # entry 에서 versionID와 etag 정보를 가져옵니다.
     versionID = entry.extra.get("versionID")
     etag = entry.extra.get("etag")
 ```

@@ -1,29 +1,47 @@
 ---
 title: Html
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/html.py#L18-L107" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/html.py" />
 
-임의의 HTML을 위한 Wandb 클래스입니다.
+## <kbd>class</kbd> `Html`
+HTML 콘텐츠를 W&B에 로그하기 위한 W&B 클래스입니다.
 
-```python
-Html(
-    data: Union[str, 'TextIO'],
-    inject: bool = (True)
-) -> None
-```
-
-| ARG | Description |
-| :--- | :--- |
-|  `data` |  (문자열 또는 IO 오브젝트) wandb에 표시할 HTML |
-|  `inject` |  (부울) HTML 오브젝트에 스타일시트를 추가합니다. False로 설정하면 HTML이 변경되지 않고 전달됩니다. |
-
-## 메소드
-
-### `inject_head`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/html.py#L59-L74)
+### <kbd>method</kbd> `Html.__init__`
 
 ```python
-inject_head() -> None
+__init__(
+    data: Union[str, pathlib.Path, ForwardRef('TextIO')],
+    inject: bool = True,
+    data_is_not_path: bool = False
+) → None
 ```
+
+W&B HTML 오브젝트를 생성합니다.
+
+**Args:**
+  - `data`: ".html" 확장자를 가진 파일의 경로 문자열이거나, 리터럴 HTML을 포함하는 문자열 또는 IO 오브젝트입니다.
+  - `inject`: HTML 오브젝트에 스타일시트를 추가합니다. False로 설정하면 HTML이 변경되지 않고 그대로 전달됩니다.
+  - `data_is_not_path`: False로 설정하면 데이터를 파일 경로로 취급합니다.
+
+**Examples:**
+파일 경로를 제공하여 초기화할 수 있습니다:
+
+```python
+with wandb.init() as run:
+    # index.html 파일 경로를 사용하여 HTML 객체 생성 및 로그
+    run.log({"html": wandb.Html("./index.html")})
+``` 
+
+또는 문자열이나 IO 오브젝트에 리터럴 HTML을 제공하여 초기화할 수도 있습니다:
+
+```python
+with wandb.init() as run:
+    # HTML 문자열을 직접 사용하여 HTML 객체 생성 및 로그
+    run.log({"html": wandb.Html("<h1>Hello, world!</h1>")})
+``` 
+
+---

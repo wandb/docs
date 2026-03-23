@@ -1,227 +1,259 @@
 ---
-title: 外部ファイルをトラックする
-description: W&B の外部に保存されたファイルも、Amazon S3 バケット、GCS バケット、HTTP ファイルサーバー、または NFS 共有内のファイルとしてトラックできます。
+title: 外部ファイルのトラッキング
+description: 外部 バケット 、HTTP ファイル サーバー 、または NFS シェアに保存されたファイルを追跡します。
 ---
 
-**リファレンスアーティファクト**を使用して、Amazon S3 バケット、GCS バケット、Azure blob、HTTP ファイルサーバー、または NFS シェアなど、W&B システムの外部に保存されたファイルをトラッキングします。 W&B [CLI](/ja/models/ref/cli)を使用して、[W&B Run](/ja/models/ref/python/run)の外部でアーティファクトをログします。
+W&B サーバーの外に保存されているファイルを追跡・利用するには、**リファレンス Artifacts** を使用します。一般的な外部ストレージソリューションには、CoreWeave AI Object Storage、Amazon Simple Storage Service (Amazon S3) バケット、GCS バケット、Azure blob、HTTP ファイルサーバー、NFS シェアなどがあります。
 
-### Run の外部でアーティファクトをログする
+リファレンス Artifacts は、通常（非リファレンス）の Artifacts と同様に動作します。主な違いは、リファレンス Artifacts にはファイルサイズや MD5 チェックサムなどのファイルに関する メタデータ のみが含まれる点です。ファイル自体がお客様のシステムから外に出ることはありません。
 
-W&B は、run の外部でアーティファクトをログするときに run を作成します。各アーティファクトは run に属し、run はプロジェクトに属します。アーティファクト (バージョン) もコレクションに属し、タイプを持ちます。
-
-[`wandb artifact put`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put) コマンドを使用して、W&B の run の外部でアーティファクトを W&B サーバーにアップロードします。アーティファクトを属させたいプロジェクトの名前とアーティファクトの名前 (`project/artifact_name`) を指定します。必要に応じて、タイプ (`TYPE`) を指定します。以下のコードスニペットでは、アップロードしたいアーティファクトのファイルパスに `PATH` を置き換えてください。
-
-```bash
-$ wandb artifact put --name project/artifact_name --type TYPE PATH
-```
-
-指定したプロジェクトが存在しない場合、W&B は新しいプロジェクトを作成します。アーティファクトのダウンロード方法については、[アーティファクトのダウンロードと使用](/ja/models/artifacts/download-and-use-an-artifact/)を参照してください。
-
-## W&B の外部でアーティファクトをトラッキングする
-
-W&B Artifacts をデータセットのバージョン管理やモデルのリネージに使用し、**リファレンスアーティファクト**を使用して W&B サーバーの外部に保存されたファイルをトラッキングします。このモードでは、アーティファクトはファイルに関するメタデータ (例えば、URL、サイズ、チェックサム) のみを保存します。基礎データはシステムから離れることはありません。ファイルとディレクトリーを W&B サーバーに保存する方法については、[クイックスタート](/ja/models/artifacts/artifacts-walkthrough/)を参照してください。
-
-以下は、リファレンスアーティファクトを作成し、それをワークフローに最適に組み込む方法を説明します。
-
-### Amazon S3 / GCS / Azure Blob Storage リファレンス
-
-W&B Artifacts をデータセットとモデルのバージョン管理に使用して、クラウドストレージバケットでのリファレンスをトラッキングします。アーティファクトリファレンスを使用すると、既存のストレージレイアウトに変更を加えることなく、バケットの上にシームレスにトラッキングをレイヤリングできます。
-
-Artifacts は基礎となるクラウドストレージベンダー (AWS、GCP、Azure など) を抽象化します。次のセクションで説明される情報は、Amazon S3、Google Cloud Storage、Azure Blob Storage に共通して適用されます。
+リファレンス Artifacts は、通常の Artifacts と同じように操作できます。W&B App では、ファイルブラウザを使用してリファレンス Artifact の内容を閲覧したり、完全な依存関係グラフを探索したり、Artifact のバージョン履歴をスキャンしたりできます。ただし、データ自体が Artifact 内に含まれていないため、UI 上で画像や音声などのリッチメディアをレンダリングすることはできません。
 
 <Note>
-W&B Artifacts は、MinIO を含む任意の Amazon S3 互換インターフェースをサポートしています。 `AWS_S3_ENDPOINT_URL` 環境変数を MinIO サーバーを指すように設定すれば、以下のスクリプトはそのまま動作します。
+外部ファイルを追跡しない Artifact を ログ に記録する場合、W&B は Artifact のファイルを W&B サーバーに保存します。これは、W&B Python SDK で Artifacts を ログ に記録する際のデフォルトの 振る舞い です。
+
+外部ファイルを追跡する Artifact を ログ に記録する場合、W&B はオブジェクトの ETag やサイズなどの メタデータ を ログ に記録します。バケットでオブジェクトの バージョン管理 が有効になっている場合は、バージョン ID も ログ に記録されます。
 </Note>
 
-次の構造を持つバケットがあると仮定します：
+以下のセクションでは、外部リファレンス Artifacts を追跡する方法について説明します。
 
-```bash
+## 外部バケット内の Artifact を追跡する
+
+W&B Python SDK を使用して、W&B の外部に保存されているファイルへの参照を追跡します。
+
+1. `wandb.init()` で run を初期化します。
+2. `wandb.Artifact()` で Artifact オブジェクトを作成します。
+3. Artifact オブジェクトの `wandb.Artifact.add_reference()` メソッドを使用して、バケットパスへの参照を指定します。
+4. `run.log_artifact()` で Artifact の メタデータ を ログ に記録します。
+
+```python
+import wandb
+
+# W&B runを初期化
+with wandb.init(project="my-project") as run:
+
+  # Artifactオブジェクトを作成
+  artifact = wandb.Artifact(name="name", type="type")
+
+  # バケットパスへの参照を追加
+  artifact.add_reference(uri = "uri/to/your/bucket/path")
+
+  # Artifactのメタデータをログに記録
+  run.log_artifact(artifact)
+```
+
+例として、バケットが以下の ディレクトリー 構造を持っていると仮定します。
+
+```text
 s3://my-bucket
-+-- datasets/
-|		+-- mnist/
-+-- models/
-		+-- cnn/
+
+|datasets/
+  |-- mnist/
+|models/
+  |-- cnn/
 ```
 
-`mnist/` の下には、私たちのデータセットである画像のコレクションがあります。アーティファクトでそれをトラッキングしましょう：
+`datasets/mnist/` ディレクトリー には画像のコレクションが含まれています。この `datasets/mnist/` ディレクトリー を Datasets Artifact として追跡するには、以下のように指定します。
+
+1. Artifact に `"mnist"` などの名前を付けます。
+2. Artifact オブジェクトを構築する際、`type` パラメータ を `"dataset"` に設定します (`wandb.Artifact(type="dataset")`)。
+3. `wandb.Artifact.add_reference()` を呼び出す際に、`datasets/mnist/` ディレクトリー へのパスを Amazon S3 URI (`s3://my-bucket/datasets/mnist/`) として提供します。
+4. `run.log_artifact()` で Artifact を ログ に記録します。
+
+以下の コードスニペット は、リファレンス Artifact `mnist:latest` を作成します。
 
 ```python
 import wandb
 
-run = wandb.init()
-artifact = wandb.Artifact("mnist", type="dataset")
-artifact.add_reference("s3://my-bucket/datasets/mnist")
-run.log_artifact(artifact)
+with wandb.init(project="my-project") as run:
+  artifact = wandb.Artifact(name="mnist", type="dataset")
+  artifact.add_reference(uri="s3://my-bucket/datasets/mnist")
+  run.log_artifact(artifact)
 ```
 
-<Warning>
-デフォルトでは、W&B はオブジェクトプリフィックスを追加する際に 10,000 オブジェクトの制限を課しています。この制限は、`add_reference` の呼び出しで `max_objects=` を指定することによって調整できます。
-</Warning>
-
-新しいリファレンスアーティファクト `mnist:latest` は、通常のアーティファクトと非常に似た外観と挙動を持っています。唯一の違いは、アーティファクトが S3/GCS/Azure オブジェクトに関するメタデータ (例えば、ETag、サイズ、バージョン ID) のみを含んでいることです (バケットにオブジェクトのバージョン管理が有効になっている場合)。
-
-W&B は、使用するクラウドプロバイダーに基づいてクレデンシャルを探すデフォルトのメカニズムを使用します。クラウドプロバイダーからのドキュメントを読み、使用されるクレデンシャルについて詳しく学びましょう。
-
-| クラウドプロバイダー | クレデンシャルドキュメント |
-| -------------- | ------------------------- |
-| AWS            | [Boto3 ドキュメント](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
-| GCP            | [Google Cloud ドキュメント](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
-| Azure          | [Azure ドキュメント](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
-
-AWS では、バケットが設定されたユーザーのデフォルトリージョンに位置していない場合、`AWS_REGION` 環境変数をバケットリージョンに一致させる必要があります。
-
-このアーティファクトを通常のアーティファクトのように扱うことができます。アプリ UI では、ファイルブラウザを使用してリファレンスアーティファクトの内容を閲覧したり、完全な依存関係グラフを探索したり、アーティファクトのバージョン履歴をスキャンしたりできます。
-
-<Warning>
-画像、オーディオ、ビデオ、ポイントクラウドといったリッチメディアは、バケットの CORS 設定によってアプリ UI で適切にレンダリングされない可能性があります。バケットの CORS 設定で **app.wandb.ai** を許可リストに追加することで、アプリ UI でこれらのリッチメディアが正しくレンダリングされるようになります。
-
-パネルは、プライベートバケットの場合アプリ UI でレンダリングされないかもしれません。もし会社が VPN を使用している場合は、VPN 内の IP をホワイトリストに追加するようにバケットのアクセスポリシーを更新できます。
-</Warning>
-
-### リファレンスアーティファクトをダウンロードする
-
-```python
-import wandb
-
-run = wandb.init()
-artifact = run.use_artifact("mnist:latest", type="dataset")
-artifact_dir = artifact.download()
-```
-
-W&B は、リファレンスアーティファクトをダウンロードする際に、アーティファクトがログされたときに記録されたメタデータを使用して、基となるバケットからファイルを取得します。バケットにオブジェクトのバージョン管理が有効になっている場合、W&B はアーティファクトがログされた時点のファイルの状態に対応するオブジェクトバージョンを取得します。これは、バケットの内容が進化しても、アーティファクトがトレーニングされた特定の反復にあなたのデータを指し示すことができることを意味します。アーティファクトはトレーニング時点でのバケットのスナップショットとして機能します。
+W&B App 内では、ファイルブラウザを使用してリファレンス Artifact の内容を確認したり、[完全な依存関係グラフを探索](/models/artifacts/explore-and-traverse-an-artifact-graph/)したり、Artifact のバージョン履歴をスキャンしたりできます。データ自体が Artifact 内に含まれていないため、W&B App は画像や音声などのリッチメディアをレンダリングしません。
 
 <Note>
-ワークフローの一環としてファイルを上書きする場合は、W&B はストレージバケットの「オブジェクトバージョン管理」を有効にすることを推奨します。バケットにバージョン管理が有効になっている場合、上書きされたファイルへのリファレンスを持つアーティファクトも依然として無傷であることになります。なぜなら、古いバージョンのオブジェクトが保持されるからです。
-
-ユースケースに基づいて、オブジェクトバージョン管理を有効にする手順をお読みください。[AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html)、[GCP](https://cloud.google.com/storage/docs/using-object-versioning#set)、[Azure](https://learn.microsoft.com/azure/storage/blobs/versioning-enable)。
+W&B Artifacts は、CoreWeave Storage や MinIO を含む、あらゆる Amazon S3 互換インターフェースをサポートしています。以下のスクリプトは、環境変数 `AWS_S3_ENDPOINT_URL` を CoreWeave Storage または MinIO サーバーを指すように設定することで、両方のプロバイダーでそのまま動作します。
 </Note>
 
-### すべてを結び付ける
+<Warning>
+デフォルトでは、W&B はオブジェクトプレフィックスを追加する際に 10,000 オブジェクトの制限を設けています。この制限を調整するには、`wandb.Artifact.add_reference()` を呼び出す際に `max_objects=` を指定します。
+</Warning>
 
-次のコード例は、トレーニングジョブに供給される Amazon S3、GCS、または Azure 上のデータセットをトラッキングするために使用できる単純なワークフローを示しています：
+## 外部バケットから Artifact をダウンロードする
+
+リファレンス Artifact をダウンロードする際、W&B は Artifact が ログ に記録されたときに記録された メタデータ を使用して、基盤となるバケットからファイルを取得します。バケットでオブジェクトの バージョン管理 が有効になっている場合、W&B は Artifact が ログ に記録された時点のファイルの状態に対応するオブジェクト バージョン を取得します。バケットの内容が変化しても、Artifact が トレーニング run 中のバケットの スナップショット として機能するため、特定の モデル が トレーニング された際の正確な バージョン の データ を常に参照できます。
+
+以下の コードスニペット は、リファレンス Artifact をダウンロードする方法を示しています。Artifact をダウンロードするための API は、リファレンス Artifact と非リファレンス Artifact の両方で共通です。
 
 ```python
 import wandb
 
-run = wandb.init()
-
-artifact = wandb.Artifact("mnist", type="dataset")
-artifact.add_reference("s3://my-bucket/datasets/mnist")
-
-# アーティファクトをトラッキングし、それを
-# この run の入力としてマークします。
-# バケット内のファイルが変更された場合にのみ、新しい
-# アーティファクトバージョンがログされます。
-run.use_artifact(artifact)
-
-artifact_dir = artifact.download()
-
-# トレーニングをここで実行...
+with wandb.init(project="my-project") as run:
+  artifact = run.use_artifact("mnist:latest", type="dataset")
+  artifact_dir = artifact.download()
 ```
 
-モデルをトラッキングするために、トレーニングスクリプトがモデルファイルをバケットにアップロードした後に、モデルアーティファクトをログできます：
+<Note>
+ワークフローの一部としてファイルを上書きする場合は、ストレージバケットで「オブジェクトの バージョン管理 (Object Versioning)」を有効にすることをお勧めします。
+
+バージョン管理 が有効であれば、Artifact が ログ に記録された後にファイルが上書きされたとしても、Artifact をダウンロードする際に W&B は常に正しい バージョン のファイルを取得できます。
+
+ユースケース に応じて、オブジェクトの バージョン管理 を有効にするための手順を確認してください: [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/using-object-versioning#set), [Azure](https://learn.microsoft.com/azure/storage/blobs/versioning-enable)
+</Note>
+
+## 外部バケットからの追加とダウンロード
+
+以下の コードスニペット は、データセット を Amazon S3 バケットにアップロードし、それをリファレンス Artifact で追跡してからダウンロードする例です。
 
 ```python
 import boto3
 import wandb
 
-run = wandb.init()
+with wandb.init() as run:
+  # ここでトレーニングを行う...
 
-# トレーニングをここで実行...
+  s3_client = boto3.client("s3")
+  s3_client.upload_file(file_name="my_model.h5", bucket="my-bucket", object_name="models/cnn/my_model.h5")
 
-s3_client = boto3.client("s3")
-s3_client.upload_file("my_model.h5", "my-bucket", "models/cnn/my_model.h5")
+  # モデルArtifactをログに記録
+  model_artifact = wandb.Artifact("cnn", type="model")
+  model_artifact.add_reference("s3://my-bucket/models/cnn/")
+  run.log_artifact(model_artifact)
+```
 
-model_artifact = wandb.Artifact("cnn", type="model")
-model_artifact.add_reference("s3://my-bucket/models/cnn/")
-run.log_artifact(model_artifact)
+後ほど、モデル Artifact をダウンロードできます。Artifact の名前とタイプを指定します。
+
+```python
+import wandb
+
+with wandb.init() as run:
+  artifact = run.use_artifact(artifact_or_name = "cnn", type="model")
+  datadir = artifact.download()
 ```
 
 <Note>
-GCP または Azure のリファレンスでのアーティファクトのトラッキング方法についてのエンドツーエンドのガイドを読むには、次のレポートをご覧ください：
+Google Cloud または Azure でリファレンスによって Artifacts を追跡する方法のエンドツーエンドのチュートリアルについては、以下の レポート を参照してください。
 
-* [リファレンスでのアーティファクトトラッキングガイド](https://wandb.ai/stacey/artifacts/reports/Tracking-Artifacts-by-Reference--Vmlldzo1NDMwOTE)
-* [Microsoft Azure でのリファレンスアーティファクトの作業](https://wandb.ai/andrea0/azure-2023/reports/Efficiently-Harnessing-Microsoft-Azure-Blob-Storage-with-Weights-Biases--Vmlldzo0NDA2NDgw)
+* [Guide to Tracking Artifacts by Reference with Google Cloud](https://wandb.ai/stacey/artifacts/reports/Tracking-Artifacts-by-Reference--Vmlldzo1NDMwOTE)
+* [Working with Reference Artifacts in Microsoft Azure](https://wandb.ai/andrea0/azure-2023/reports/Efficiently-Harnessing-Microsoft-Azure-Blob-Storage-with-Weights-Biases--Vmlldzo0NDA2NDgw)
 </Note>
 
-### ファイルシステムリファレンス
+## クラウドストレージの認証情報
 
-データセットへの高速アクセスのためのもう一つの一般的なパターンは、NFS マウントポイントをトレーニングジョブを実行するすべてのマシンでリモートファイルシステムに公開することです。これは、クラウドストレージバケットよりもさらに簡単なソリューションになる可能性があります。トレーニングスクリプトの視点からは、ファイルはちょうどローカルファイルシステムに置かれているかのように見えるからです。幸運にも、その使いやすさは、ファイルシステムへのリファレンスをトラッキングするために Artifacts を使用する場合にも当てはまります。ファイルシステムがマウントされているかどうかに関係なくです。
+W&B は、使用しているクラウドプロバイダーに基づいたデフォルトの認証情報検索メカニズムを使用します。使用される認証情報の詳細については、各クラウドプロバイダーの ドキュメント を参照してください。
 
-次の構造を持つファイルシステムが `/mount` にマウントされていると仮定します：
+| クラウドプロバイダー | 認証情報ドキュメント |
+| -------------- | ------------------------- |
+| CoreWeave AI Object Storage | [CoreWeave AI Object Storage documentation](https://docs.coreweave.com/docs/products/storage/object-storage/how-to/manage-access-keys/cloud-console-tokens) |
+| AWS            | [Boto3 documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/credentials.html#configuring-credentials) |
+| Google Cloud            | [Google Cloud documentation](https://cloud.google.com/docs/authentication/provide-credentials-adc) |
+| Azure          | [Azure documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) |
 
-```bash
+AWS の場合、バケットが設定済みの ユーザー のデフォルトリージョンにない場合は、バケットのリージョンに合わせて `AWS_REGION` 環境変数を設定する必要があります。
+
+<Warning>
+画像、音声、ビデオ、ポイントクラウドなどのリッチメディアは、バケットの CORS 設定によっては App UI でのレンダリングに失敗する場合があります。バケットの CORS 設定で **app.wandb.ai** を許可リストに追加することで、W&B App がこれらのリッチメディアを適切に表示できるようになります。
+
+リッチメディアが App UI でレンダリングされない場合は、バケットの CORS ポリシーで `app.wandb.ai` が許可されていることを確認してください。
+</Warning>
+
+## ファイルシステム内の Artifact を追跡する
+
+データセット への アクセス における一般的なパターンは、トレーニング ジョブを実行するすべてのマシンに対して、リモートファイルシステムへの NFS マウントポイントを公開することです。トレーニングスクリプト の観点からはファイルがローカルの ファイルシステム にあるように見えるため、これはクラウドストレージバケットの代替ソリューションとなります。
+
+ファイルシステム 内の Artifact を追跡するには：
+
+1. `wandb.init()` で run を初期化します。
+2. `wandb.Artifact()` で Artifact オブジェクトを作成します。
+3. Artifact オブジェクトの `wandb.Artifact.add_reference()` メソッドを使用して、ファイルシステムパスへの参照を指定します。
+4. `run.log_artifact()` で Artifact の メタデータ を ログ に記録します。
+
+マウントされた ファイルシステム 内のファイルを追跡するには、以下の コードスニペット をコピー＆ペーストしてください。山括弧 (`< >`) で囲まれた 値 は、ご自身のものに置き換えてください。
+
+```python
+import wandb
+
+# runを初期化
+with wandb.init(entity="<entity>", project="<project>") as run:
+
+  # Artifactオブジェクトを作成
+  artifact = wandb.Artifact(name="<name>", type="<type>")
+
+  # ファイルシステムパスへの参照を追加
+  artifact.add_reference("file:///path/to/dataset/")
+
+  # Artifactをログに記録（メタデータのみ）
+  run.log_artifact(artifact)
+```
+
+URL 内のトリプルスラッシュに注意してください。最初のコンポーネントは ファイルシステム 参照の使用を示す `file://` プレフィックスです。2 番目のコンポーネントは ファイルシステム のルート `/` です。残りのコンポーネントは、追跡したい ディレクトリー またはファイルへのパスです。
+
+例として、`/mount` にマウントされた ファイルシステム が以下の構造を持っているとします。
+
+```text
 mount
-+-- datasets/
-|		+-- mnist/
-+-- models/
-		+-- cnn/
+|datasets/
+  |-- mnist/
+|models/
+  |-- cnn/
 ```
 
-`mnist/` の下には、私たちのデータセットである画像のコレクションがあります。アーティファクトでそれをトラッキングしましょう：
+`datasets/mnist/` ディレクトリー を Datasets Artifact として追跡したい場合、以下の コードスニペット を使用できます。
 
 ```python
 import wandb
 
-run = wandb.init()
-artifact = wandb.Artifact("mnist", type="dataset")
-artifact.add_reference("file:///mount/datasets/mnist/")
-run.log_artifact(artifact)
+with wandb.init() as run:
+  artifact = wandb.Artifact("mnist", type="dataset")
+  artifact.add_reference("file:///mount/datasets/mnist/")
+  run.log_artifact(artifact)
 ```
 
-デフォルトでは、W&B はディレクトリへのリファレンスを追加する際に 10,000 ファイルの制限を課しています。この制限は、`add_reference` の呼び出しで `max_objects=` を指定することによって調整できます。
+これにより、`/mount/datasets/mnist/` の下に保存されているファイルを指すリファレンス Artifact `mnist:latest` が作成されます。
 
-URL のトリプルスラッシュに注目してください。最初のコンポーネントは、ファイルシステムリファレンスの使用を示す `file://` プレフィックスです。二番目は、データセットのパス `/mount/datasets/mnist/` です。
+<Warning>
+デフォルトでは、W&B は ディレクトリー への参照を追加する際に 10,000 ファイルの制限を設けています。この制限を調整するには、`wandb.Artifact.add_reference()` を呼び出す際に `max_objects=` を指定します。
+</Warning>
 
-結果として得られるアーティファクト `mnist:latest` は通常のアーティファクトのように見え、機能します。唯一の違いは、アーティファクトがファイルに関するメタデータ (サイズや MD5 チェックサムなど) のみを含んでいることです。ファイル自体はシステムから離れることはありません。
-
-このアーティファクトを通常のアーティファクトのように操作できます。UI では、ファイルブラウザを使用してリファレンスアーティファクトの内容を閲覧したり、完全な依存関係グラフを探索したり、アーティファクトのバージョン履歴をスキャンしたりできます。ただし、アーティファクト自体にデータが含まれていないため、UI では画像、オーディオなどのリッチメディアをレンダリングできません。
-
-リファレンスアーティファクトをダウンロードするのは簡単です：
+同様に、`models/cnn/my_model.h5` に保存されている モデル を追跡するには、以下の コードスニペット を使用できます。
 
 ```python
 import wandb
 
-run = wandb.init()
-artifact = run.use_artifact("entity/project/mnist:latest", type="dataset")
-artifact_dir = artifact.download()
+with wandb.init() as run:
+
+  # ここでトレーニングを行う...
+
+  # モデルをディスクに書き込む
+
+  # Artifactオブジェクトを作成
+  model_artifact = wandb.Artifact("cnn", type="model")
+
+  # モデルファイルパスへの参照を追加
+  model_artifact.add_reference("file:///mount/cnn/my_model.h5")
+
+  # W&BにArtifactをログとして記録
+  run.log_artifact(model_artifact)
 ```
 
-ファイルシステムリファレンスの場合、`download()` 操作は参照されたパスからファイルをコピーして、アーティファクトディレクトリを構築します。上記の例では、`/mount/datasets/mnist` の内容がディレクトリ `artifacts/mnist:v0/` にコピーされます。アーティファクトが上書きされたファイルへのリファレンスを含む場合、`download()` はエラーを投げます。アーティファクトがもはや再構築できないからです。
+## 外部ファイルシステムから Artifact をダウンロードする
 
-すべてをまとめると、ここにマウントされたファイルシステムの下のデータセットをトラッキングして、トレーニングジョブに供給するために使用できる簡単なワークフローがあります：
+リファレンスされた ファイルシステム からファイルをダウンロードするには、非リファレンス Artifact と同じ API を使用します。
+
+1. `wandb.init()` で run を初期化します。
+2. `wandb.Run.use_artifact()` メソッドを使用して、ダウンロードしたい Artifact を指定します。
+3. Artifact の `wandb.Artifact.download()` メソッドを呼び出して、参照先の ファイルシステム からファイルをダウンロードします。
 
 ```python
-import wandb
-
-run = wandb.init()
-
-artifact = wandb.Artifact("mnist", type="dataset")
-artifact.add_reference("file:///mount/datasets/mnist/")
-
-# アーティファクトをトラッキングし、それを
-# この run の入力としてマークします。ディレクトリ下の
-# ファイルが変更された場合にのみ、新しいアーティファクト
-# バージョンがログされます。
-run.use_artifact(artifact)
-
-artifact_dir = artifact.download()
-
-# トレーニングをここで実行...
+with wandb.init() as run:
+  artifact = run.use_artifact("entity/project/mnist:latest", type="dataset")
+  artifact_dir = artifact.download()
 ```
 
-モデルをトラッキングするために、トレーニングスクリプトがモデルファイルをマウントポイントに書き込んだ後に、モデルアーティファクトをログできます：
+W&B は `/mount/datasets/mnist` の内容を `artifacts/mnist:v0/` ディレクトリー にコピーします。
 
-```python
-import wandb
-
-run = wandb.init()
-
-# トレーニングをここで実行...
-
-# モデルをディスクに書き込む
-
-model_artifact = wandb.Artifact("cnn", type="model")
-model_artifact.add_reference("file:///mount/cnn/my_model.h5")
-run.log_artifact(model_artifact)
-```
+<Info>
+`Artifact.download()` は、Artifact を再構成できない場合にエラーをスローします。例えば、上書きされたファイルへの参照が Artifact に含まれている場合、Artifact を再構成できなくなるため、`Artifact.download()` はエラーをスローします。
+</Info>

@@ -1,0 +1,48 @@
+---
+title: "init\n\nW&B [Runs](https://docs.wandb.ai/guides/runs)를 초기화하고 프로세스를 시작합니다.\n\
+  \n`wandb.init()`을 호출하면 W&B에 새로운 Run을 생성하고 메타데이터를 스트리밍하기 위한 백그라운드 프로세스가 시작됩니다.\n\n\
+  스크립트가 시작될 때 `wandb.init()`을 한 번만 호출하면 됩니다. 분산 트레이닝 상황에서는 각 프로세스에서 `wandb.init()`을\
+  \ 한 번씩 호출해야 합니다.\n\n### 사용법\n\n```python\nimport wandb\n\n# 프로젝트와 설정(config)과 함께\
+  \ W&B Run 초기화\nwandb.init(\n    project=\"my-awesome-project\",\n    config={\n\
+  \        \"learning_rate\": 0.02,\n        \"architecture\": \"CNN\",\n        \"\
+  dataset\": \"CIFAR-10\",\n        \"epochs\": 10,\n    }\n)\n```\n\n하나의 스크립트에서 여러\
+  \ Run을 순차적으로 수행하려면, 각 Run이 끝날 때 [`wandb.finish()`](finish.md)를 호출해야 합니다.\n\n###\
+  \ 주요 인수\n\n- **project**: (str, optional) Run이 저장될 프로젝트의 이름입니다. 프로젝트가 존재하지 않으면 자동으로\
+  \ 생성됩니다.\n- **entity**: (str, optional) Run을 저장할 팀 또는 사용자 이름입니다.\n- **config**:\
+  \ (dict, optional) 하이퍼파라미터나 설정 데이터를 저장합니다.\n- **name**: (str, optional) Run에 대한\
+  \ 고유한 이름을 지정합니다. 지정하지 않으면 임의의 이름(예: \"gentle-sun-1\")이 부여됩니다.\n- **job_type**: (str,\
+  \ optional) \"train\", \"eval\", \"test\"와 같이 Run의 유형을 구분합니다.\n- **notes**: (str,\
+  \ optional) Run에 대한 긴 설명을 적을 수 있습니다.\n- **tags**: (list, optional) Run을 필터링하기 위한\
+  \ 태그 목록입니다.\n\n전체 인수 목록과 자세한 설명은 [W&B SDK 레퍼런스 가이드](https://docs.wandb.ai/ref/python/init)를\
+  \ 참조하세요."
+description: TypeScript SDK 레퍼런스
+---
+
+# init
+
+▸ **init**(`project`, `settings?`): `Promise`\<[`WeaveClient`](../classes/weaveclient)\>
+
+Weave tracing 기능 작동에 필수적인 Weave 클라이언트를 초기화합니다.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `project` | `string` | W&B 프로젝트 이름 (프로젝트명 또는 entity/project 형식). 만약 W&B 팀을 지정하지 않으면 (예: 'team/project'), 기본 Entities 가 사용됩니다. 기본 Entities 를 확인하거나 업데이트하려면 다음의 User Settings 가이드를 참조하세요. https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team |
+| `settings?` | `SettingsInit` | (선택 사항) Weave tracing 설정 |
+
+#### Returns
+
+`Promise`\<[`WeaveClient`](../classes/weaveclient)\>
+
+초기화된 Weave 클라이언트를 반환하는 Promise입니다.
+
+`Throws`
+
+초기화에 실패할 경우
+
+#### Defined in
+
+[clientApi.ts:83](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L83)
+
+___

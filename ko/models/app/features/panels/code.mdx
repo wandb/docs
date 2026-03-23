@@ -1,69 +1,71 @@
 ---
-title: Save and diff code
+title: 코드 저장 및 차이점 비교 (diff)
 ---
 
-기본적으로 W&B는 가장 최근의 git 커밋 해시만 저장합니다. 더 많은 코드 기능을 켜면 UI에서 Experiments 간의 코드를 동적으로 비교할 수 있습니다.
+기본적으로 W&B는 최신 git commit hash만 저장합니다. UI에서 여러 실험 사이의 코드를 동적으로 비교하기 위해 더 많은 코드 기능을 활성화할 수 있습니다.
 
-`wandb` 버전 0.8.28부터 W&B는 `wandb.init()`을 호출하는 메인 트레이닝 파일의 코드를 저장할 수 있습니다.
+`wandb` 버전 0.8.28부터, W&B는 `wandb.init()`을 호출하는 메인 트레이닝 파일의 코드를 저장할 수 있습니다. 
 
-## 라이브러리 코드 저장
+## 라이브러리 코드 저장하기
 
-코드 저장을 활성화하면 W&B는 `wandb.init()`을 호출한 파일의 코드를 저장합니다. 추가 라이브러리 코드를 저장하려면 다음 세 가지 옵션이 있습니다.
+코드 저장을 활성화하면, W&B는 `wandb.init()`을 호출한 파일의 코드를 저장합니다. 추가적인 라이브러리 코드를 저장하려면 다음 세 가지 옵션이 있습니다:
 
-### `wandb.init()`을 호출한 후 `wandb.run.log_code(".")` 호출
+### `wandb.init()` 호출 후 `wandb.Run.log_code(".")` 호출하기
 
 ```python
 import wandb
 
-wandb.init()
-wandb.run.log_code(".")
+# run 오브젝트를 사용하여 코드 로그
+with wandb.init() as run:
+  run.log_code(".")
 ```
 
-### `code_dir`이 설정된 settings 오브젝트를 `wandb.init`에 전달
+### `code_dir`이 설정된 settings 오브젝트를 `wandb.init()`에 전달하기
 
 ```python
 import wandb
 
+# settings 파라미터를 통해 코드 디렉토리 설정
 wandb.init(settings=wandb.Settings(code_dir="."))
 ```
 
-이렇게 하면 현재 디렉토리와 모든 하위 디렉토리의 모든 파이썬 소스 코드 파일이 [artifact](/ko/models/ref/python/artifact)로 캡처됩니다. 저장되는 소스 코드 파일의 유형 및 위치를 보다 세밀하게 제어하려면 [참조 문서](/ko/models/ref/python/run#log_code)를 참조하세요.
+이 방식은 현재 디렉토리와 모든 하위 디렉토리에 있는 모든 파이썬 소스 코드 파일을 [아티팩트](/models/ref/python/experiments/artifact)로 캡처합니다. 저장되는 소스 코드 파일의 유형과 위치를 더 자세히 제어하려면 [레퍼런스 문서](/models/ref/python/experiments/run#log_code)를 참조하세요.
 
-### UI에서 코드 저장 설정
+### UI에서 코드 저장 설정하기
 
-프로그래밍 방식으로 코드 저장을 설정하는 것 외에도 W&B 계정 설정에서 이 기능을 토글할 수도 있습니다. 이는 계정과 연결된 모든 Teams에 대해 코드 저장을 활성화합니다.
+프로그래밍 방식으로 코드 저장을 설정하는 것 외에도, W&B 계정 설정(Settings)에서 이 기능을 토글할 수 있습니다. 이 설정을 변경하면 계정과 연결된 모든 팀에 대해 코드 저장이 활성화됩니다.
 
-> 기본적으로 W&B는 모든 Teams에 대해 코드 저장을 비활성화합니다.
+> 기본적으로 W&B는 모든 팀에 대해 코드 저장을 비활성화해 둡니다.
 
 1. W&B 계정에 로그인합니다.
 2. **Settings** > **Privacy**로 이동합니다.
-3. **Project and content security**에서 **Disable default code saving**을 켭니다.
+3. **Project and content security** 아래에서 **Disable default code saving**을 끕니다(On 상태이면 비활성화된 것입니다).
 
-## 코드 비교기
-서로 다른 W&B Runs에서 사용된 코드를 비교합니다.
+## 코드 비교 도구 (Code comparer)
+서로 다른 W&B runs에서 사용된 코드를 비교해 보세요:
 
-1. 페이지 오른쪽 상단에서 **Add panels** 버튼을 선택합니다.
+1. 페이지 오른쪽 상단 모서리에 있는 **Add panels** 버튼을 선택합니다.
 2. **TEXT AND CODE** 드롭다운을 확장하고 **Code**를 선택합니다.
 
 <Frame>
-    <img src="/images/app_ui/code_comparer.png"  />
+    <img src="/images/app_ui/code_comparer.png" alt="Code comparer panel"  />
 </Frame>
 
-## Jupyter 세션 기록
+## Jupyter 세션 히스토리
 
-W&B는 Jupyter 노트북 세션에서 실행된 코드의 기록을 저장합니다. Jupyter 내에서 **wandb.init()**을 호출하면 W&B는 현재 세션에서 실행된 코드의 기록이 포함된 Jupyter 노트북을 자동으로 저장하는 훅을 추가합니다.
+W&B는 Jupyter 노트북 세션에서 실행된 코드의 히스토리를 저장합니다. Jupyter 내부에서 **wandb.init()**을 호출하면, W&B는 현재 세션에서 실행된 코드 히스토리를 포함하는 Jupyter 노트북을 자동으로 저장하는 훅을 추가합니다. 
 
-1. 코드가 포함된 project 워크스페이스로 이동합니다.
+1. 코드가 포함된 프로젝트 Workspace로 이동합니다.
 2. 왼쪽 네비게이션 바에서 **Artifacts** 탭을 선택합니다.
-3. **code** artifact를 확장합니다.
+3. **code** 아티팩트를 확장합니다.
 4. **Files** 탭을 선택합니다.
 
 <Frame>
-    <img src="/images/app_ui/jupyter_session_history.gif"  />
+    <img src="/images/app_ui/jupyter_session_history.gif" alt="Jupyter session history"  />
 </Frame>
 
-이렇게 하면 iPython의 display 메소드를 호출하여 생성된 모든 출력과 함께 세션에서 실행된 셀이 표시됩니다. 이를 통해 지정된 Run 내에서 Jupyter 내에서 실행된 코드를 정확히 볼 수 있습니다. 가능한 경우 W&B는 코드 디렉토리에서도 찾을 수 있는 노트북의 최신 버전도 저장합니다.
+여기에 세션에서 실행된 셀들과 iPython의 display 메소드 호출로 생성된 모든 출력이 표시됩니다. 이를 통해 특정 run에서 Jupyter 내에서 정확히 어떤 코드가 실행되었는지 확인할 수 있습니다. 가능한 경우 W&B는 노트북의 가장 최신 버전도 저장하며, 이 역시 코드 디렉토리에서 찾을 수 있습니다.
 
 <Frame>
-    <img src="/images/app_ui/jupyter_session_history_display.png"  />
+    <img src="/images/app_ui/jupyter_session_history_display.png" alt="Jupyter session output"  />
 </Frame>

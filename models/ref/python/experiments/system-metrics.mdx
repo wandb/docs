@@ -12,6 +12,67 @@ This page provides detailed information about the system metrics that are tracke
 `wandb` automatically logs system metrics every 15 seconds.
 </Note>
 
+## View system metrics
+You can view and monitor system metrics using the W&B App or the `wandb beta leet` terminal UI.
+
+<Tabs>
+<Tab title="App">
+
+To view system metrics in the W&B App:
+
+1. Navigate to your project in the W&B App.
+2. Select a run from the **Runs** table.
+3. In the workspace, look for the **System** section which displays charts for:
+   - GPU utilization and memory
+   - CPU usage
+   - Memory usage
+   - Disk I/O
+   - Network traffic
+
+You can customize which system metrics to display by adding panels to your workspace. See [Panels](/models/app/features/panels/) for more information on creating and customizing visualizations.
+
+</Tab>
+<Tab title="LEET">
+
+To view system metrics for a run in your terminal using the `wandb beta leet` terminal UI:
+
+1. If you started the run locally from a script, navigate to the directory where you ran your code. It contains a `wandb/` directory with a subdirectory per run and a `latest-run/` symbolic link. Each run directory contains a transaction log named in the format `run-<run-ID>.wandb`.
+
+    If you did not start the run locally but downloaded a `.wandb` transaction log file instead, make a note of its location.
+2. Start `wandb beta leet` using one of these commands:
+
+   ```bash
+   # View the latest run, stored in ./wandb/latest-run/
+   wandb beta leet
+   
+   # Specify a run directory
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+   
+   # Specify a .wandb file
+   wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+   ```
+
+![Screenshot demonstrating viewing a run in the LEET terminal UI](/images/leet/leet-tui.png)
+
+LEET displays system metrics in the **right sidebar**, showing:
+- GPU utilization (%) and memory usage (GB)
+- CPU usage
+- RAM usage (GB)
+- Disk I/O
+- Network activity
+
+Get started with these keyboard shortcuts:
+- `h` or `?` - View all keyboard shortcuts
+- `/` - Filter metrics by pattern
+- `[` / `]` - Toggle left/right sidebars
+- `n` / `N` - Navigate between metric pages
+- `q` / `CMD+C` - Quit
+
+See [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) for more details.
+
+</Tab>
+</Tabs>
+
 ## CPU
 
 ### Process CPU Percent (CPU)

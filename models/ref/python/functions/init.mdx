@@ -1,8 +1,11 @@
 ---
-title: "init"
+title: init()
+namespace: python_sdk_actions
+python_object_type: function
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_init.py" />
 
 
 
@@ -26,7 +29,6 @@ init(
     job_type: 'str | None' = None,
     mode: "Literal['online', 'offline', 'disabled', 'shared'] | None" = None,
     force: 'bool | None' = None,
-    anonymous: "Literal['never', 'allow', 'must'] | None" = None,
     reinit: "bool | Literal[None, 'default', 'return_previous', 'finish_previous', 'create_new']" = None,
     resume: "bool | Literal['allow', 'never', 'must', 'auto'] | None" = None,
     resume_from: 'str | None' = None,
@@ -35,7 +37,8 @@ init(
     tensorboard: 'bool | None' = None,
     sync_tensorboard: 'bool | None' = None,
     monitor_gym: 'bool | None' = None,
-    settings: 'Settings | dict[str, Any] | None' = None
+    settings: 'Settings | dict[str, Any] | None' = None,
+    anonymous: 'DoNotSet' = <object object at 0x107d3d240>
 ) → Run
 ```
 
@@ -70,10 +73,6 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
     - `"disabled"`: Disables all W&B functionality, making the run’s methods  no-ops. Typically used in testing to bypass W&B operations. 
     - `"shared"`: (This is an experimental feature). Allows multiple processes,  possibly on different machines, to simultaneously log to the same run.  In this approach you use a primary node and one or more worker nodes  to log data to the same run. Within the primary node you  initialize a run. For each worker node, initialize a run  using the run ID used by the primary node. 
  - `force`:  Determines if a W&B login is required to run the script. If `True`,  the user must be logged in to W&B; otherwise, the script will not  proceed. If `False` (default), the script can proceed without a login,  switching to offline mode if the user is not logged in. 
- - `anonymous`:  Specifies the level of control over anonymous data logging.  Available options are: 
-    - `"never"` (default): Requires you to link your W&B account before  tracking the run. This prevents unintentional creation of anonymous  runs by ensuring each run is associated with an account. 
-    - `"allow"`: Enables a logged-in user to track runs with their account,  but also allows someone running the script without a W&B account  to view the charts and data in the UI. 
-    - `"must"`: Forces the run to be logged to an anonymous account, even  if the user is logged in. 
  - `reinit`:  Shorthand for the "reinit" setting. Determines the behavior of  `wandb.init()` when a run is active. 
  - `resume`:  Controls the behavior when resuming a run with the specified `id`.  Available options are: 
     - `"allow"`: If a run with the specified `id` exists, it will resume  from the last step; otherwise, a new run will be created. 
@@ -86,7 +85,7 @@ Run IDs must not contain any of the following special characters `/ \ # ? % :`
  - `fork_from`:  Specifies a point in a previous run from which to fork a new  run, using the format `{id}?_step={step}`. This creates a new run that  resumes logging from the specified step in the target run’s history.  The target run must be part of the current project.  If an `id` argument is also provided, it must be different from the  `fork_from` argument, an error will be raised if they are the same.  `resume`, `resume_from` and `fork_from` cannot be used together, only  one of them can be used at a time.  Note that this feature is in beta and may change in the future. 
  - `save_code`:  Enables saving the main script or notebook to W&B, aiding in  experiment reproducibility and allowing code comparisons across runs in  the UI. By default, this is disabled, but you can change the default to  enable on your settings page. 
  - `tensorboard`:  Deprecated. Use `sync_tensorboard` instead. 
- - `sync_tensorboard`:  Enables automatic syncing of W&B logs from TensorBoard  or TensorBoardX, saving relevant event files for viewing in the W&B UI.
+ - `sync_tensorboard`:  Enables automatic syncing of W&B logs from TensorBoard  or TensorBoardX, saving relevant event files for viewing in  the W&B UI. 
  - `monitor_gym`:  Enables automatic logging of videos of the environment when  using OpenAI Gym. 
  - `settings`:  Specifies a dictionary or `wandb.Settings` object with advanced  settings for the run. 
 

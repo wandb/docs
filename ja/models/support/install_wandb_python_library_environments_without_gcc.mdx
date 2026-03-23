@@ -1,24 +1,22 @@
 ---
-title: gcc が環境にない場合、wandb Python ライブラリをインストールする方法は？
-support:
-  - python
-toc_hide: true
-type: docs
+title: gcc がない 環境 で wandb Python ライブラリ を インストール する には どうすれば よい ですか？
 ---
-`wandb` をインストールする際に以下のエラーが発生した場合:
+
+`wandb` のインストール中に、以下のようなエラーが発生した場合：
 
 ```
 unable to execute 'gcc': No such file or directory
 error: command 'gcc' failed with exit status 1
 ```
 
-プリビルドのホイールから `psutil` を直接インストールしてください。Python バージョンとオペレーティングシステムを [https://pywharf.github.io/pywharf-pkg-repo/psutil](https://pywharf.github.io/pywharf-pkg-repo/psutil) で確認してください。
+プリビルドされた wheel から直接 `psutil` をインストールしてください。ご使用の Python バージョンとオペレーティングシステムに適合するものを [https://pywharf.github.io/pywharf-pkg-repo/psutil](https://pywharf.github.io/pywharf-pkg-repo/psutil) で確認してください。
 
-例えば、Linux 上で Python 3.8 の場合、`psutil` をインストールするには:
+例えば、Linux 上の Python 3.8 に `psutil` をインストールする場合は以下のようになります：
 
 ```bash
+# wheel の URL を指定
 WHEEL_URL=https://github.com/pywharf/pywharf-pkg-repo/releases/download/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl#sha256=adc36dabdff0b9a4c84821ef5ce45848f30b8a01a1d5806316e068b5fd669c6d
 pip install $WHEEL_URL
 ```
 
-`psutil` をインストールした後、`pip install wandb` を実行して `wandb` のインストールを完了してください。
+`psutil` のインストールが完了した後、`pip install wandb` を実行して `wandb` のインストールを完了させてください。

@@ -1,0 +1,46 @@
+---
+title: Together AI
+description: Together AI のオープンソース LLM を、Weave の OpenAI SDK 互換機能を使用して追跡および評価できます。これにより、
+  モデル 呼び出し、 ファインチューニング ワークフロー、およびホストされた モデル とのシームレスな インテグレーション が可能になります。
+---
+
+Together AI は、オープンソース LLM に焦点を当てた、生成 AI モデルの構築およびファインチューニングのためのプラットフォームであり、顧客が自身の Models をファインチューンしてホストすることを可能にします。
+
+<Info>
+
+`together` Python パッケージに対する完全な Weave サポートは現在開発中です。
+
+</Info>
+
+`together` Python パッケージへの完全な Weave サポートは現在開発中ですが、Together は OpenAI SDK 互換性（[docs](https://docs.together.ai/docs/openai-api-compatibility)）をサポートしており、Weave はこれを自動的に検出して統合します。
+
+Together API の使用に切り替えるには、API キーを [Together API](https://docs.together.ai/docs/get-started#access-your-api-key) キーに、`base_url` を `https://api.together.xyz/v1` に、そして model を同社の [チャットモデル](https://docs.together.ai/docs/inference-models#chat-models) のいずれかに変更するだけです。
+
+```python lines {5, 10-13}
+import os
+import openai
+import weave
+
+weave.init('together-weave')
+
+system_content = "You are a travel agent. Be descriptive and helpful."
+user_content = "Tell me about San Francisco"
+
+client = openai.OpenAI(
+    api_key=os.environ.get("TOGETHER_API_KEY"),
+    base_url="https://api.together.xyz/v1",
+)
+chat_completion = client.chat.completions.create(
+    model="mistralai/Mixtral-8x7B-Instruct-v0.1",
+    messages=[
+        {"role": "system", "content": system_content},
+        {"role": "user", "content": user_content},
+    ],
+    temperature=0.7,
+    max_tokens=1024,
+)
+response = chat_completion.choices[0].message.content
+print("Together response:\n", response)
+```
+
+これは使い始めるための簡単な例ですが、より複雑な use case で Weave を独自の関数と統合する方法の詳細については、[OpenAI](/weave/guides/integrations/openai#track-your-own-ops) ガイドを参照してください。

@@ -1,0 +1,74 @@
+---
+title: roc_curve()
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py" />
+
+### <kbd>function</kbd> `roc_curve`
+
+```python
+roc_curve(
+    y_true: 'Sequence[numbers.Number]',
+    y_probas: 'Sequence[Sequence[float]] | None' = None,
+    labels: 'list[str] | None' = None,
+    classes_to_plot: 'list[numbers.Number] | None' = None,
+    title: 'str' = 'ROC Curve',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+受信者操作特性（ROC）曲線チャートを作成します。
+
+**Args:**
+
+- `y_true`: ターゲット変数の真のクラスラベル（正解）。形状は (num_samples,) である必要があります。
+- `y_probas`: 各クラスの予測確率または決定スコア。形状は (num_samples, num_classes) である必要があります。
+- `labels`: `y_true` のクラスインデックスに対応する、人間が読みやすいラベル。例えば、`labels=['dog', 'cat']` の場合、プロット内ではクラス 0 が 'dog'、クラス 1 が 'cat' として表示されます。None の場合、`y_true` の生のクラスインデックスが使用されます。デフォルトは None です。
+- `classes_to_plot`: ROC 曲線に含めるユニークなクラスラベルの サブセット。None の場合、`y_true` に含まれるすべてのクラスがプロットされます。デフォルトは None です。
+- `title`: ROC 曲線プロットのタイトル。デフォルトは "ROC Curve" です。
+- `split_table`: W&B UI 上でテーブルを別のセクションに分割するかどうか。`True` の場合、テーブルは "Custom Chart Tables" という名前のセクションに表示されます。デフォルトは `False` です。
+
+**Returns:**
+
+- `CustomChart`: W&B に ログ 可能なカスタムチャートオブジェクト。チャートを ログ するには、`wandb.log()` に渡します。
+
+**Raises:**
+
+- `wandb.Error`: numpy、pandas、または scikit-learn が見つからない場合。
+
+**Example:**
+
+```python
+import numpy as np
+import wandb
+
+# 3つの疾患を持つ医学的診断分類問題をシミュレート
+n_samples = 200
+n_classes = 3
+
+# 真のラベル: 各サンプルに "Diabetes"（糖尿病）、"Hypertension"（高血圧）、
+# または "Heart Disease"（心臓病）を割り当て
+disease_labels = ["Diabetes", "Hypertension", "Heart Disease"]
+# 0: Diabetes, 1: Hypertension, 2: Heart Disease
+y_true = np.random.choice([0, 1, 2], size=n_samples)
+
+# 予測確率: 予測をシミュレートし、各サンプルの合計が1になるようにする
+y_probas = np.random.dirichlet(np.ones(n_classes), size=n_samples)
+
+# プロットするクラスを指定（3つの疾患すべてをプロット）
+classes_to_plot = [0, 1, 2]
+
+# W&B run を初期化し、疾患分類の ROC 曲線プロットをログする
+with wandb.init(project="medical_diagnosis") as run:
+    roc_plot = wandb.plot.roc_curve(
+         y_true=y_true,
+         y_probas=y_probas,
+         labels=disease_labels,
+         classes_to_plot=classes_to_plot,
+         title="ROC Curve for Disease Classification",
+    )
+    run.log({"roc-curve": roc_plot})
+```

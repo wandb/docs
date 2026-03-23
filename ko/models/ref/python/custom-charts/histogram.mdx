@@ -1,0 +1,60 @@
+---
+title: 히스토그램
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py" />
+
+### <kbd>function</kbd> `histogram`
+
+```python
+histogram(
+    table: 'wandb.Table',
+    value: 'str',
+    title: 'str' = '',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+W&B Table 로부터 히스토그램 차트를 생성합니다. 
+
+**Args:**
+
+ - `table`:  히스토그램 데이터를 포함하고 있는 W&B Table 입니다. 
+ - `value`:  bin 축(x축)의 레이블입니다. 
+ - `title`:  히스토그램 플롯의 제목입니다. 
+ - `split_table`:  W&B UI에서 Table 을 별도의 섹션으로 분리할지 여부입니다. `True` 인 경우, Table 은 "Custom Chart Tables"라는 이름의 섹션에 표시됩니다. 기본값은 `False` 입니다. 
+
+**Returns:**
+
+ - `CustomChart`:  W&B 에 로그할 수 있는 커스텀 차트 오브젝트입니다. 차트를 로그하려면 `wandb.log()` 에 전달하세요. 
+
+**Example:**
+
+```python
+import math
+import random
+import wandb
+
+# 랜덤 데이터 생성
+data = [[i, random.random() + math.sin(i / 10)] for i in range(100)]
+
+# W&B Table 생성
+table = wandb.Table(
+    data=data,
+    columns=["step", "height"],
+)
+
+# 히스토그램 플롯 생성
+histogram = wandb.plot.histogram(
+    table,
+    value="height",
+    title="My Histogram",
+)
+
+# W&B 에 히스토그램 플롯 로그
+with wandb.init(...) as run:
+    run.log({"histogram-plot1": histogram})
+```

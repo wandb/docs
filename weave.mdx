@@ -4,35 +4,56 @@ description: "Track, test, and improve language model apps with W&B Weave"
 mode: wide
 ---
 
-<Info>
-W&B Inference comes free with your account. Get access to open source models through the API and Weave Playground.
-- [Quickstart](/weave/quickstart-inference)
-- [Product page](https://wandb.ai/site/inference)
-</Info>
+W&B Weave is an observability and evaluation platform that helps you track, evaluate, and improve your LLM application. With Weave, you can:
 
-W&B Weave helps you build better language model apps. Use Weave to track, test, and improve your apps:
-
-- **Track & Watch**: See how your language model calls work in live systems.
-- **Test Changes**: Try new prompts, data, and models safely.
-- **Run Tests**: Test models and prompts in the Playground.
-- **Check Performance**: Use response evaluation tools to track and measure how well your LLM app performs.
-- **Add Safety**: Protect your app with content filters and prompt guards.
-
-Connect Weave to your code with:
-- [Python SDK](/weave/reference/python-sdk)
-- [TypeScript SDK](/weave/reference/typescript-sdk)
-- [Service API](/weave/reference/service-api)
-
-Weave works with many language model providers, local models, and tools.
+* [Observe and debug](/weave/quickstart) your LLM application
+* [Evaluate](/weave/tutorial-eval) your application’s responses using LLM judges and custom scorers
 
 ## Get started
 
-New to Weave? Start with the [Python quickstart](/weave/quickstart) or TypeScript quickstart.
+The following docs guide you through the basics of how to use Weave's suite of tools.
 
-## Advanced guides
+<CardGroup cols={3}>
+  <Card
+    title="Quickstart: Track LLM inputs & outputs"
+    icon="chart-line"
+    href="/weave/quickstart"
+  >
+    Start by tracing a basic call to an LLM and reviewing the data in your W&B account.
+  </Card>
 
-Explore advanced topics:
+  <Card
+    title="Get started evaluating your app"
+    icon="clipboard-check"
+    href="/weave/tutorial-eval"
+  >
+    Learn how to build an evaluation pipeline using Weave scorers to test and track your application's performance.
+  </Card>
 
-- **[Integrations](/weave/guides/integrations/)**: Connect Weave with popular language model providers, such as OpenAI and Anthropic.
-- **[Cookbooks](/weave/cookbooks/Intro_to_Weave_Hello_Trace)**: See examples of how to use Weave in our interactive notebooks.
-- **[W&B AI Academy](https://wandb.ai/site/courses)**: Build advanced retrieval systems, improve language model prompting, and fine-tune models.
+  <Card
+    title="Evaluate a RAG application"
+    icon="search"
+    href="/weave/tutorial-rag"
+  >
+    Build and evaluate RAG applications using Weave with LLM judges to measure retrieval quality.
+  </Card>
+</CardGroup>
+
+## Install Weave
+
+W&B Weave provides Python and TypeScript libraries. To install the Weave library, run the following command:
+
+<Tabs>
+  <Tab title="Python">
+    ```bash
+    pip install weave
+    ```
+  </Tab>
+  <Tab title="TypeScript">
+    ```bash
+    pnpm install weave
+    ```
+  </Tab>
+</Tabs>
+
+To start using the Weave library, create a [Weights & Biases (W&B) account](https://wandb.ai) and an [API key at User Settings](https://wandb.ai/settings). The API key allows you to authenticate to your W&B account and start sending data to it.

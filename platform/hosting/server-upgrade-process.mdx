@@ -51,6 +51,10 @@ Update your license and version with Terraform. The proceeding table lists W&B m
    ```
 ## Update with Helm
 
+<Warning>
+The `wandb` Helm chart is deprecated and no longer supported. It deployed a single pod and has been replaced by the [W&B Kubernetes Operator](/platform/hosting/self-managed/operator). If you are still using this chart, follow the [migration guide](/platform/hosting/self-managed/operator#migrate-self-managed-instances-to-wb-operator) to move to the operator.
+</Warning>
+
 ### Update W&B with spec
 
 1. Specify a new version by modifying the `image.tag` and/or `license` values in your Helm chart `*.yaml` configuration file:
@@ -96,6 +100,6 @@ For more details, see the [upgrade guide](https://github.com/wandb/helm-charts/b
 This method only works for updating licenses that are not set with an environment variable in the W&B server container, typically in Self-Managed Docker installations.
 
 1. Obtain a new license from the [W&B Deployment Page](https://deploy.wandb.ai/), ensuring it matches the correct organization and deployment ID for the deployment you are looking to upgrade.
-2. Access the W&B Admin UI at `<host-url>/system-settings`.
+2. Access the **License** page in the W&B App. Click **Settings** > **License** or browse to `<host-url>/console/settings/license`.
 3. Navigate to the license management section.
 4. Enter the new license key and save your changes.

@@ -1,5 +1,5 @@
 ---
-description: How to Fine-Tune Cohere models using W&B.
+description: "Fine-tune Cohere models with W&B experiment tracking to log training metrics and monitor model performance."
 title: Cohere fine-tuning
 ---
 With W&B you can log your Cohere model's fine-tuning metrics and configuration to analyze and understand the performance of your models and share the results with your colleagues.
@@ -10,7 +10,7 @@ This [guide from Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb
 
 To add Cohere fine-tuning logging to your W&B workspace:
 
-1. Create a `WandbConfig` with your W&B API key, W&B `entity` and `project` name. You can find your W&B API key at https://wandb.ai/authorize
+1. Create a `WandbConfig` with your W&B API key, W&B `entity` and `project` name. Create an API key at https://wandb.ai/settings
 
 2. Pass this config to the `FinetunedModel` object along with your model name, dataset and hyperparameters to kick off your fine-tuning run.
 

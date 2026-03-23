@@ -1,0 +1,5 @@
+---
+title: Kubernetes において エージェント にはどのような権限が必要ですか？
+---
+
+以下の Kubernetes マニフェストは、 `wandb` ネームスペース内に `wandb-launch-agent` という名前のロールを作成します。このロールにより、 エージェント は `wandb` ネームスペース内で Pod、ConfigMap、Secret の作成、および Pod ログ への アクセス が可能になります。 `wandb-cluster-role` は、 エージェント が指定された任意のネームスペースにわたって Pod の作成、Pod ログ への アクセス 、Secret や Job の作成、および Job ステータスの確認を行うことを可能にします。

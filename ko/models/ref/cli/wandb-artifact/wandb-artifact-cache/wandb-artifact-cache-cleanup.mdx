@@ -2,16 +2,35 @@
 title: wandb artifact cache cleanup
 ---
 
-**사용법**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-artifact-cache-cleanup.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb artifact cache cleanup [OPTIONS] TARGET_SIZE`
+import WandbArtifactCacheCleanup from "/snippets/en/_includes/cli/wandb-artifact-cache-cleanup.mdx";
 
-**요약**
+<WandbArtifactCacheCleanup/>
 
-덜 자주 사용되는 파일을 Artifacts 캐시에서 정리합니다.
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**옵션**
+Artifacts 캐시에서 사용 빈도가 낮은 파일을 정리합니다.
 
-| **옵션** | **설명** |
+## 사용법
+
+```bash
+wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
+```
+
+## 인수
+
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `TARGET_SIZE` | 설명 없음 | 예 |
+
+## 옵션
+
+| 옵션 | 설명 |
 | :--- | :--- |
-| `--remove-temp / --no-remove-temp` | 임시 파일을 제거합니다. |
+| `--remove-temp` | 임시 파일 삭제 (기본값: False) |

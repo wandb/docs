@@ -1,0 +1,39 @@
+---
+title: レジストリを削除する
+---
+
+このページでは、Team 管理者または Registry 管理者が Registry を削除する方法について説明します。
+
+- Team 管理者は、組織内のすべての Registry を削除できます。
+- Registry 管理者は、自身が作成した Registry を削除できます。
+
+Registry を削除すると、その Registry に属するコレクションも削除されますが、Registry にリンクされている Artifacts は削除されません。それらの Artifacts は、元々ログが記録された元の Projects にそのまま残ります。
+
+<Tabs>
+<Tab title="Python SDK">
+プログラムで Registry を削除するには、`wandb` API の `delete()` メソッドを使用します。以下の例では、次の手順を示します。
+
+1. `api.registry()` を使用して、削除したい Registry を取得します。
+2. 返された Registry オブジェクトに対して `delete()` メソッドを呼び出し、Registry を削除します。
+
+```python
+import wandb
+
+# W&B API を初期化
+api = wandb.Api()
+
+# 削除したい Registry を取得
+fetched_registry = api.registry("<registry_name>")
+
+# Registry を削除
+fetched_registry.delete()
+```
+</Tab>
+<Tab title="W&B App">
+1. https://wandb.ai/registry/ から W&B Registry に移動します。
+2. 削除したい Registry を選択します。
+3. 右上隅の歯車アイコンをクリックして、Registry の settings を表示します。
+4. Registry を削除するには、settings ページの右上隅にあるゴミ箱アイコンをクリックします。
+5. 表示されるモーダルで削除する Registry の名前を入力して確認し、**Delete** をクリックします。
+</Tab>
+</Tabs>

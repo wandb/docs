@@ -1,52 +1,95 @@
 ---
-title: Customize log axes
+title: 로그 축 커스텀하기
 ---
 
-`define_metric`을 사용하여 **사용자 정의 x축**을 설정하세요. 사용자 정의 x축은 트레이닝 중 과거의 다른 타임 스텝에 비동기적으로 로그해야 하는 상황에서 유용합니다. 예를 들어, 에피소드별 보상과 스텝별 보상을 추적할 수 있는 RL에서 유용할 수 있습니다.
+메트릭을 W&B에 로그할 때 커스텀 x-축을 설정할 수 있습니다. 기본적으로 W&B는 메트릭을 *steps*로 기록합니다. 각 step은 `wandb.Run.log()` API 호출에 해당합니다. 
 
-[Google Colab에서 `define_metric`을 직접 사용해 보세요 →](http://wandb.me/define-metric-colab)
-
-### 축 사용자 정의
-
-기본적으로 모든 메트릭은 W&B 내부 `step`인 동일한 x축에 대해 기록됩니다. 때로는 이전 스텝에 로그하거나 다른 x축을 사용하고 싶을 수 있습니다.
-
-다음은 기본 스텝 대신 사용자 정의 x축 메트릭을 설정하는 예입니다.
+예를 들어, 다음 스크립트에는 10번 반복하는 `for` 루프가 있습니다. 각 반복에서 스크립트는 `validation_loss`라는 메트릭을 로그하고 step 번호를 1씩 증가시킵니다.
 
 ```python
 import wandb
 
-wandb.init()
-# 사용자 정의 x축 메트릭 정의
-wandb.define_metric("custom_step")
-# 어떤 메트릭을 기준으로 플롯할지 정의
-wandb.define_metric("validation_loss", step_metric="custom_step")
-
-for i in range(10):
+with wandb.init() as run:
+  # range 함수는 0부터 9까지의 숫자 시퀀스를 생성합니다
+  for i in range(10):
     log_dict = {
-        "train_loss": 1 / (i + 1),
-        "custom_step": i**2,
-        "validation_loss": 1 / (i + 1),
+        "validation_loss": 1/(i+1)   
     }
-    wandb.log(log_dict)
+    run.log(log_dict)
 ```
 
-x축은 glob을 사용하여 설정할 수도 있습니다. 현재 문자열 접두사가 있는 glob만 사용할 수 있습니다. 다음 예제는 접두사 `"train/"`가 있는 기록된 모든 메트릭을 x축 `"train/step"`에 플롯합니다.
+프로젝트의 Workspace 에서 `validation_loss` 메트릭은 `wandb.Run.log()`가 호출될 때마다 1씩 증가하는 `step` x-축을 기준으로 플롯됩니다. 위 코드의 경우, x-축은 step 번호 0, 1, 2, ..., 9를 보여줍니다.
+
+<Frame>
+    <img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses `step` as the x-axis."  />
+</Frame>
+
+특정 상황에서는 로그 스케일 x-축과 같이 다른 x-축을 기준으로 메트릭을 로그하는 것이 더 합리적일 수 있습니다. [`define_metric()`](/models/ref/python/experiments/run/#define_metric) 메소드를 사용하여 로그하는 모든 메트릭을 커스텀 x-축으로 사용할 수 있습니다.
+
+y-축으로 표시할 메트릭은 `name` 파라미터로 지정합니다. `step_metric` 파라미터는 x-축으로 사용할 메트릭을 지정합니다. 커스텀 메트릭을 로그할 때는 사전(dictionary) 형태의 키-값 쌍으로 x-축과 y-축 모두에 대한 값을 지정하세요. 
+
+커스텀 x-축 메트릭을 설정하려면 다음 코드조각을 복사하여 붙여넣으세요. `<>` 안의 값들을 본인의 값으로 바꿉니다.
 
 ```python
 import wandb
 
-wandb.init()
-# 사용자 정의 x축 메트릭 정의
-wandb.define_metric("train/step")
-# 다른 모든 train/ 메트릭이 이 스텝을 사용하도록 설정
-wandb.define_metric("train/*", step_metric="train/step")
+custom_step = "<custom_step>"  # 커스텀 x-축의 이름
+metric_name = "<metric>"  # y-축 메트릭의 이름
 
-for i in range(10):
-    log_dict = {
-        "train/step": 2**i,  # 내부 W&B 스텝으로 지수적 증가
-        "train/loss": 1 / (i + 1),  # x축은 train/step
-        "train/accuracy": 1 - (1 / (1 + i)),  # x축은 train/step
-        "val/loss": 1 / (1 + i),  # x축은 내부 wandb step
-    }
-    wandb.log(log_dict)
+with wandb.init() as run:
+    # step 메트릭(x-축)과 이에 대해 로그할 메트릭(y-축)을 지정합니다
+    run.define_metric(step_metric = custom_step, name = metric_name)
+
+    for i in range(10):
+        log_dict = {
+            custom_step : int,  # x-축의 값
+            metric_name : int,  # y-축의 값
+        }
+        run.log(log_dict)
 ```
+
+예를 들어, 다음 코드조각은 `x_axis_squared`라는 커스텀 x-축을 생성합니다. 커스텀 x-축의 값은 for 루프 인덱스 `i`의 제곱(`i**2`)입니다. y-축은 Python의 내장 `random` 모듈을 사용한 validation loss(`"validation_loss"`)의 가상 값들로 구성됩니다.
+
+```python
+import wandb
+import random
+
+with wandb.init() as run:
+    run.define_metric(step_metric = "x_axis_squared", name = "validation_loss")
+
+    for i in range(10):
+        log_dict = {
+            "x_axis_squared": i**2,
+            "validation_loss": random.random(),
+        }
+        run.log(log_dict)
+```
+
+다음 이미지는 W&B 앱 UI에 생성된 플롯을 보여줍니다. `validation_loss` 메트릭은 for 루프 인덱스 `i`의 제곱인 커스텀 x-축 `x_axis_squared`를 기준으로 플롯됩니다. x-축 값은 각각 `0, 1, 2, ..., 9`의 제곱에 해당하는 `0, 1, 4, 9, 16, 25, 36, 49, 64, 81`임을 확인할 수 있습니다.
+
+<Frame>
+    <img src="/images/experiments/custom_x_axes.png" alt="Line plot panel that uses a custom x axis. Values are logged to W&B as the square of the loop number."  />
+</Frame>
+
+문자열 접두사(prefix)와 함께 `globs`를 사용하여 여러 메트릭에 대해 커스텀 x-축을 설정할 수 있습니다. 예를 들어, 다음 코드조각은 `train/*` 접두사가 붙은 로그된 메트릭들을 x-축 `train/step`에 플롯합니다.
+
+```python
+import wandb
+
+with wandb.init() as run:
+
+    # 다른 모든 train/ 메트릭이 이 step을 사용하도록 설정합니다
+    run.define_metric("train/*", step_metric="train/step")
+
+    for i in range(10):
+        log_dict = {
+            "train/step": 2**i,  # 내부 W&B step에 따라 지수적으로 증가
+            "train/loss": 1 / (i + 1),  # x-축은 train/step
+            "train/accuracy": 1 - (1 / (1 + i)),  # x-축은 train/step
+            "val/loss": 1 / (1 + i),  # x-축은 내부 W&B step
+        }
+        run.log(log_dict)
+```
+
+
+{/* [Google Colab에서 `define_metric` 시도해보기](https://wandb.me/define-metric-colab). */}

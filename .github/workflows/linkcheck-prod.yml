@@ -1,0 +1,49 @@
+name: Link checker - production site
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "5 0 1 * *" # Monthly on the 1st at 12:05 AM UTC
+
+jobs:
+  linkChecker:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write # Required for creating issues
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download and parse sitemap
+        run: |
+          echo "Fetching sitemap from https://docs.wandb.ai/sitemap.xml..."
+          curl -s https://docs.wandb.ai/sitemap.xml | \
+          grep -o '<loc>[^<]*</loc>' | \
+          sed 's/<loc>//g; s/<\/loc>//g' > urls.txt
+          
+          URL_COUNT=$(wc -l < urls.txt | tr -d ' ')
+          echo "Found ${URL_COUNT} URLs in sitemap"
+          
+          # Show first few URLs for verification
+          echo "Sample URLs:"
+          head -5 urls.txt
+
+      - name: Link Checker
+        id: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Configuration is in lychee.toml
+          # Check all URLs from sitemap
+          args: "--config lychee.toml urls.txt"
+          output: ./lychee-report.md
+          format: markdown
+          fail: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Issue From File
+        if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v6
+        with:
+          title: Fix broken links in docs.wandb.ai
+          content-filepath: ./lychee-report.md
+          labels: report, automated issue

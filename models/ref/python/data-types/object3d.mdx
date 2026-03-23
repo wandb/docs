@@ -1,8 +1,11 @@
 ---
-title: "Object3D"
+title: Object3D
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
 
 
 
@@ -14,9 +17,9 @@ W&B class for 3D point clouds.
 
 ```python
 __init__(
-    data_or_path: Union[ForwardRef('np.ndarray'), str, pathlib.Path, ForwardRef('TextIO'), dict],
-    caption: Optional[str] = None,
-    **kwargs: Optional[str, ForwardRef('FileFormat3D')]
+    data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+    caption: 'str | None' = None,
+    **kwargs: 'str | FileFormat3D | None'
 ) → None
 ```
 

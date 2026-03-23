@@ -1,0 +1,82 @@
+---
+title: 구조화된 출력 활성화
+description: W&B Inference 응답에서 structured output을 구성하는 방법
+---
+
+Structured Output은 [JSON mode](/inference/response-settings/json-mode)와 유사하지만, 모델의 응답이 사용자가 지정한 스키마를 준수하도록 보장한다는 추가적인 장점이 있습니다. 가능한 경우 JSON mode 대신 Structured Output을 사용하는 것을 권장합니다.
+
+Structured Output을 활성화하려면 요청 시 `response_format` 유형을 `json_schema`로 지정하세요:
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import json
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="<your-api-key>",  # https://wandb.ai/settings 에서 API 키를 생성하세요
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "system", "content": "Extract the event information."},
+            {"role": "user", "content": "Alice and Bob are going to a science fair on Friday."},
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "CalendarEventResponse",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "date": {"type": "string"},
+                        "participants": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["name", "date", "participants"],
+                    "additionalProperties": False,
+                },
+            },
+        },
+    )
+
+    content = response.choices[0].message.content
+    parsed = json.loads(content)
+    print(parsed)
+    ```
+  </Tab>
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "system", "content": "Extract the event information."},
+            {"role": "user", "content": "Alice and Bob are going to a science fair on Friday."},
+        ],
+        "response_format": {
+            "type": "json_schema",
+            "json_schema": {
+                "name": "CalendarEventResponse",
+                "strict": True,
+                "schema": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "date": {"type": "string"},
+                        "participants": {"type": "array", "items": {"type": "string"}},
+                    },
+                    "required": ["name", "date", "participants"],
+                    "additionalProperties": False,
+                },
+            },
+        },
+      }'
+    ```
+  </Tab>
+</Tabs>

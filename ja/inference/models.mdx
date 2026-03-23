@@ -1,0 +1,48 @@
+---
+title: 利用可能な Models
+description: W&B Inference で利用可能なファウンデーション Models を閲覧する
+mode: wide
+---
+
+W&B Inference は、いくつかのオープンソースの基盤 モデル への アクセス を提供します。各 モデル にはそれぞれ異なる強みと ユースケース があります。
+
+## モデル カタログ
+
+| モデル | モデル ID (API 使用時) | タイプ | コンテキストウィンドウ | パラメータ | 説明 |
+|-------|--------------------------|------|----------------|------------|-------------|
+| DeepSeek R1-0528 | `deepseek-ai/DeepSeek-R1-0528` | Text | 161K | 37B-680B (Active-Total) | 複雑な コーディング 、数学、構造化文書の 分析 を含む、精密な推理タスクに最適化 |
+| DeepSeek V3-0324 | `deepseek-ai/DeepSeek-V3-0324` | Text | 161K | 37B-680B (Active-Total) | 高度な複雑さを持つ言語 プロセッシング と包括的な文書 分析 に合わせて調整された、堅牢な Mixture-of-Experts モデル |
+| DeepSeek V3.1 | `deepseek-ai/DeepSeek-V3.1` | Text | 128K | 37B-671B (Active-Total) | プロンプトテンプレートを介して思考モードと非思考モードの両方をサポートする大型ハイブリッド モデル |
+| Meta Llama 3.1 8B | `meta-llama/Llama-3.1-8B-Instruct` | Text | 128K | 8B (Total) | 応答性の高い多言語 チャットボット インタラクションに最適化された効率的な対話型 モデル |
+| Meta Llama 3.1 70B | `meta-llama/Llama-3.1-70B-Instruct` | Text | 128K | 70B (Total) | 応答性の高い多言語 チャットボット インタラクションに最適化された効率的な対話型 モデル |
+| Meta Llama 3.3 70B | `meta-llama/Llama-3.3-70B-Instruct` | Text | 128K | 70B (Total) | 対話タスク、詳細な指示への追従、 コーディング に優れた多言語 モデル |
+| Meta Llama 4 Scout | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | Text, Vision | 64K | 17B-109B (Active-Total) | テキストと画像の理解を統合したマルチモーダル モデル で、視覚タスクと複合 分析 に理想的 |
+| Microsoft Phi 4 Mini 3.8B | `microsoft/Phi-4-mini-instruct` | Text | 128K | 3.8B (Active-Total) | リソース制約のある 環境 での高速なレスポンスに最適な、コンパクトで効率的な モデル |
+| Moonshot AI Kimi K2 | `moonshotai/Kimi-K2-Instruct` | Text | 128K | 32B-1T (Active-Total) | 複雑な ツール の利用、推論、 コード 合成に最適化された Mixture-of-Experts モデル |
+| Moonshot AI Kimi K2 Instruct 0905 | `moonshotai/Kimi-K2-Instruct-0905` | Text | 262K | 32B-1T | Kimi K2 Mixture-of-Experts 言語 モデル の最新 バージョン 。320億の活性 パラメータ と合計1兆の パラメータ を特徴とする |
+| OpenAI GPT OSS 20B | `openai/gpt-oss-20b` | Text | 131K | 3.6B-20B (Active-Total) | 推論機能を備え、OpenAIのHarmonyレスポンス形式でトレーニングされた低レイテンシの Mixture-of-Experts モデル |
+| OpenAI GPT OSS 120B | `openai/gpt-oss-120b` | Text | 131K | 5.1B-117B (Active-Total) | 高度な推論、 エージェント 的な ユースケース 、および汎用目的のために設計された効率的な Mixture-of-Experts モデル |
+| OpenPipe Qwen3 14B Instruct | `OpenPipe/Qwen3-14B-Instruct` | Text | 32.8K | 14.8B (Active-Total) | 効率的な多言語、高密度、命令 チューニング 済み モデル 。ファインチューニングによる エージェント 構築のために OpenPipe によって最適化 |
+| Qwen2.5 14B Instruct | `Qwen/Qwen2.5-14B-Instruct` | Text | 32.8K | 14.7B-14.7B (Active-Total) | ツール 利用と構造化出力のサポートを備えた、高密度の多言語命令 チューニング 済み モデル |
+| Qwen3 235B A22B Thinking-2507 | `Qwen/Qwen3-235B-A22B-Thinking-2507` | Text | 262K | 22B-235B (Active-Total) | 構造化された推論、数学、およびロングフォーム生成に最適化された高性能 Mixture-of-Experts モデル |
+| Qwen3 235B A22B-2507 | `Qwen/Qwen3-235B-A22B-Instruct-2507` | Text | 262K | 22B-235B (Active-Total) | 論理的推論に最適化された、効率的な多言語 Mixture-of-Experts 命令 チューニング 済み モデル |
+| Qwen3 Coder 480B A35B | `Qwen/Qwen3-Coder-480B-A35B-Instruct` | Text | 262K | 35B-480B (Active-Total) | 関数呼び出し、 ツール 利用、および長いコンテキストの推論などの コーディング タスクに最適化された Mixture-of-Experts モデル |
+| Z.AI GLM 4.5 | `zai-org/GLM-4.5` | Text | 131K | 32B-355B (Active-Total) | 推論、 コード 、 エージェント のために ユーザー が制御可能な思考/非思考モードを備えた Mixture-of-Experts モデル |
+
+## モデル ID の使用
+
+API を使用する際は、上記の表にある ID を使用して モデル を指定します。例：
+
+```python
+# モデル ID を使用してチャット補完を作成する例
+response = client.chat.completions.create(
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    messages=[...]
+)
+```
+
+## 次のステップ
+
+- 各 モデル の [利用制限と価格](/inference/usage-limits/) を確認する
+- これらの モデル の使用方法について [API リファレンス](/inference/api-reference/) を参照する
+- [W&B Playground](/inference/ui-guide/) で モデル を試す

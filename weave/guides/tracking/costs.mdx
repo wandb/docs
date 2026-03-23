@@ -1,7 +1,10 @@
 ---
-title: "Costs"
+title: "Track custom costs"
 description: "Track and manage costs for LLM operations in Weave"
 ---
+W&B Weave automatically calculates the cost of each LLM call by tracking token usage and applying the pricing for the model used, allowing you to monitor and analyze application spend directly in your traces and evaluations.
+
+You can also track custom costs when you need different pricing, internal cost models, or costs for operations that Weave does not price automatically.
 
 ## Adding a custom cost
 
@@ -24,7 +27,7 @@ description: "Track and manage costs for LLM operations in Weave"
         completion_token_cost=0.02
     )
 
-    client.add_costs(
+    client.add_cost(
         llm_id="your_model_name",
         prompt_token_cost=10,
         completion_token_cost=20,

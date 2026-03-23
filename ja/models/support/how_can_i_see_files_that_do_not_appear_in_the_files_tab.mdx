@@ -1,23 +1,18 @@
 ---
-title: ファイルタブに表示されないファイルを見るにはどうすればよいですか？
-support:
-  - experiments
-toc_hide: true
-type: docs
+title: Files タブに表示されないファイルを確認するにはどうすればよいですか？
 ---
-Files タブは最大 10,000 個のファイルを表示します。すべてのファイルをダウンロードするには、[パブリック API](/ja/models/ref/python/public-api/api) を使用します。
+
+Files タブには最大 10,000 個のファイルが表示されます。すべてのファイルをダウンロードするには、[public API](/models/ref/python/public-api/api) を使用してください。
 
 ```python
 import wandb
 
-# APIを使用してエンティティ、プロジェクト、およびrunを取得
 api = wandb.Api()
 run = api.run('<entity>/<project>/<run_id>')
-# 特定のファイルをダウンロード
 run.file('<file>').download()
 
-# 条件に応じたファイルをダウンロード
+# すべてのファイルをループしてダウンロードする例
 for f in run.files():
-    if <condition>:
+    if <condition>: # 条件に一致する場合
         f.download()
 ```

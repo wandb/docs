@@ -1,8 +1,11 @@
 ---
-title: "Molecule"
+title: Molecule
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py" />
 
 
 
@@ -14,9 +17,9 @@ W&B class for 3D Molecular data.
 
 ```python
 __init__(
-    data_or_path: Union[str, pathlib.Path, ForwardRef('TextIO')],
-    caption: Optional[str] = None,
-    **kwargs: str
+    data_or_path: 'str | pathlib.Path | TextIO',
+    caption: 'str | None' = None,
+    **kwargs: 'str'
 ) → None
 ```
 

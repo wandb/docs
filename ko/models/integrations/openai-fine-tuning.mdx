@@ -1,0 +1,176 @@
+---
+title: OpenAI Fine-Tuning
+description: W&B를 사용하여 OpenAI 모델을 파인튜닝 하는 방법.
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://wandb.me/openai-colab" />
+
+OpenAI GPT-3.5 또는 GPT-4 모델의 파인튜닝 메트릭과 설정을 W&B에 로그하세요. W&B 에코시스템을 활용하여 파인튜닝 실험, Models, Datasets을 추적하고 결과를 동료들과 공유할 수 있습니다.
+
+<Note>
+파인튜닝 가능한 모델 목록은 [OpenAI 문서](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned)를 참조하세요.
+</Note>
+
+W&B를 OpenAI와 통합하여 파인튜닝하는 방법에 대한 추가 정보는 OpenAI 문서의 [W&B Integration](https://platform.openai.com/docs/guides/fine-tuning/weights-and-biases-integration) 섹션을 참조하세요.
+
+## OpenAI Python API 설치 또는 업데이트
+
+W&B OpenAI 파인튜닝 인테그레이션은 OpenAI 버전 1.0 이상에서 작동합니다. 최신 버전의 [OpenAI Python API](https://pypi.org/project/openai/) 라이브러리는 PyPI 문서를 참조하세요.
+
+OpenAI Python API를 설치하려면 다음을 실행하세요:
+```python
+pip install openai
+```
+
+이미 OpenAI Python API가 설치되어 있다면 다음으로 업데이트할 수 있습니다:
+```python
+pip install -U openai
+```
+
+## OpenAI 파인튜닝 결과 동기화
+
+W&B를 OpenAI의 파인튜닝 API와 통합하여 파인튜닝 메트릭과 설정을 W&B에 로그하세요. 이를 위해 `wandb.integration.openai.fine_tuning` 모듈의 `WandbLogger` 클래스를 사용합니다.
+
+```python
+from wandb.integration.openai.fine_tuning import WandbLogger
+
+# 파인튜닝 로직
+
+WandbLogger.sync(fine_tune_job_id=FINETUNE_JOB_ID)
+```
+
+<Frame>
+    <img src="/images/integrations/open_ai_auto_scan.png" alt="OpenAI auto-scan feature"  />
+</Frame>
+
+### 파인튜닝 동기화
+
+스크립트에서 결과를 동기화하세요.
+
+```python
+from wandb.integration.openai.fine_tuning import WandbLogger
+
+# 한 줄 코맨드
+WandbLogger.sync()
+
+# 선택적 파라미터 전달
+WandbLogger.sync(
+    fine_tune_job_id=None,
+    num_fine_tunes=None,
+    project="OpenAI-Fine-Tune",
+    entity=None,
+    overwrite=False,
+    model_artifact_name="model-metadata",
+    model_artifact_type="model",
+    **kwargs_wandb_init
+)
+```
+
+### Reference
+
+| 인수 | 설명 |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| fine_tune_job_id | `client.fine_tuning.jobs.create`를 사용하여 파인튜닝 job을 생성할 때 받는 OpenAI Fine-Tune ID입니다. 이 인수가 None(기본값)인 경우, 아직 동기화되지 않은 모든 OpenAI 파인튜닝 job이 W&B로 동기화됩니다. |
+| openai_client | 초기화된 OpenAI 클라이언트를 `sync`에 전달합니다. 클라이언트가 제공되지 않으면 로거 자체에서 클라이언트를 초기화합니다. 기본값은 None입니다. |
+| num_fine_tunes | ID가 제공되지 않으면 동기화되지 않은 모든 파인튜닝 결과가 W&B에 로그됩니다. 이 인수를 통해 동기화할 최근 파인튜닝 결과의 개수를 선택할 수 있습니다. 예를 들어 5인 경우, 가장 최근의 5개 파인튜닝 결과를 선택합니다. |
+| project | 파인튜닝 메트릭, Models, 데이터 등이 로그될 W&B 프로젝트 이름입니다. 기본 프로젝트 이름은 "OpenAI-Fine-Tune"입니다. |
+| entity | Runs를 보낼 W&B 사용자 이름 또는 팀 이름입니다. 기본적으로 사용자의 기본 엔티티(보통 사용자 이름)가 사용됩니다. |
+| overwrite | 동일한 파인튜닝 job에 대해 기존 wandb run을 덮어쓰고 로그를 강제 실행합니다. 기본값은 False입니다. |
+| wait_for_job_success | OpenAI 파인튜닝 job이 시작되면 보통 시간이 어느 정도 걸립니다. 파인튜닝 job이 완료되는 즉시 메트릭이 W&B에 로그되도록 하기 위해, 이 설정은 60초마다 파인튜닝 job 상태가 `succeeded`로 변경되는지 확인합니다. 성공이 확인되면 메트릭이 자동으로 W&B에 동기화됩니다. 기본적으로 True로 설정되어 있습니다. |
+| model_artifact_name | 로그되는 모델 아티팩트의 이름입니다. 기본값은 `"model-metadata"`입니다. |
+| model_artifact_type | 로그되는 모델 아티팩트의 유형입니다. 기본값은 `"model"`입니다. |
+| \*\*kwargs_wandb_init | [`wandb.init()`](/models/ref/python/functions/init)에 직접 전달되는 추가 인수들입니다. |
+
+## 데이터셋 버전 관리 및 시각화
+
+### 버전 관리
+
+파인튜닝을 위해 OpenAI에 업로드한 트레이닝 및 검증 데이터는 원활한 버전 관리를 위해 W&B Artifacts로 자동 로그됩니다. 아래는 Artifacts에 저장된 트레이닝 파일의 모습입니다. 여기에서 이 파일을 로그한 W&B run, 로그된 시간, 데이터셋의 버전, 메타데이터, 그리고 트레이닝 데이터에서 학습된 모델까지의 DAG 계보(lineage)를 확인할 수 있습니다.
+
+<Frame>
+    <img src="/images/integrations/openai_data_artifacts.png" alt="W&B Artifacts with training datasets"  />
+</Frame>
+
+### 시각화
+
+데이터셋은 W&B Tables로 시각화되어 데이터를 탐색, 검색 및 상호작용할 수 있습니다. 아래 W&B Tables를 사용하여 시각화된 트레이닝 샘플을 확인해 보세요.
+
+<Frame>
+    <img src="/images/integrations/openai_data_visualization.png" alt="OpenAI data"  />
+</Frame>
+
+## 파인튜닝된 모델 및 모델 버전 관리
+
+OpenAI는 파인튜닝된 모델의 ID를 제공합니다. 모델 가중치에 직접 엑세스할 수 없으므로, `WandbLogger`는 모델의 상세 정보(하이퍼파라미터, 데이터 파일 ID 등)와 `fine_tuned_model` ID가 포함된 `model_metadata.json` 파일을 생성하여 W&B Artifact로 로그합니다.
+
+이 모델(메타데이터) 아티팩트는 [W&B Registry](/models/registry/)의 모델과 연결될 수 있습니다.
+
+<Frame>
+    <img src="/images/integrations/openai_model_metadata.png" alt="OpenAI model metadata"  />
+</Frame>
+
+## 자주 묻는 질문 (FAQ)
+
+### W&B에서 내 파인튜닝 결과를 팀과 어떻게 공유하나요?
+
+다음과 같이 팀 계정에 파인튜닝 job을 로그하세요:
+
+```python
+WandbLogger.sync(entity="YOUR_TEAM_NAME")
+```
+
+### 내 Runs를 어떻게 정리할 수 있나요?
+
+W&B Runs는 자동으로 정리되며 job 유형, 기본 모델, 학습률, 트레이닝 파일 이름 및 기타 하이퍼파라미터와 같은 모든 설정 파라미터를 기반으로 필터링/정렬할 수 있습니다.
+
+또한, Runs의 이름을 변경하거나 메모를 추가하고, 태그를 생성하여 그룹화할 수 있습니다.
+
+정리가 완료되면 Workspace를 저장하고 이를 사용하여 Reports를 생성하거나, Runs 및 저장된 Artifacts(트레이닝/검증 파일)에서 데이터를 가져올 수 있습니다.
+
+### 파인튜닝된 모델에 어떻게 엑세스하나요?
+
+파인튜닝된 모델 ID는 아티팩트(`model_metadata.json`) 및 설정(config)으로 W&B에 로그됩니다.
+
+```python
+import wandb
+    
+with wandb.init(project="OpenAI-Fine-Tune", entity="YOUR_TEAM_NAME") as run:
+    ft_artifact = run.use_artifact("ENTITY/PROJECT/model_metadata:VERSION")
+    artifact_dir = ft_artifact.download()
+```
+
+여기서 `VERSION`은 다음 중 하나입니다:
+
+* `v2`와 같은 버전 번호
+* `ft-xxxxxxxxx`와 같은 파인튜닝 ID
+* `latest`와 같이 자동으로 추가되거나 수동으로 추가된 에일리어스
+
+그런 다음 다운로드한 `model_metadata.json` 파일을 읽어 `fine_tuned_model` ID에 엑세스할 수 있습니다.
+
+### 파인튜닝 동기화에 실패하면 어떻게 하나요?
+
+파인튜닝 결과가 W&B에 성공적으로 로그되지 않은 경우, `overwrite=True`를 사용하고 파인튜닝 job ID를 전달할 수 있습니다.
+
+```python
+WandbLogger.sync(
+    fine_tune_job_id="FINE_TUNE_JOB_ID",
+    overwrite=True,
+)
+```
+
+### W&B로 내 데이터셋과 모델을 추적할 수 있나요?
+
+트레이닝 및 검증 데이터는 W&B Artifacts로 자동 로그됩니다. 파인튜닝된 모델의 ID를 포함한 메타데이터 또한 Artifacts로 로그됩니다.
+
+`wandb.Artifact`, `wandb.Run.log` 등과 같은 로우 레벨 wandb API를 사용하여 파이프라인을 언제든지 제어할 수 있습니다. 이를 통해 데이터와 모델의 완전한 추적성을 확보할 수 있습니다.
+
+<Frame>
+    <img src="/images/integrations/open_ai_faq_can_track.png" alt="OpenAI tracking FAQ"  />
+</Frame>
+
+## 리소스
+
+* [OpenAI 파인튜닝 문서](https://platform.openai.com/docs/guides/fine-tuning/)는 매우 상세하며 많은 유용한 팁을 포함하고 있습니다.
+* [데모 Colab](https://wandb.me/openai-colab)
+* [How to Fine-Tune Your OpenAI GPT-3.5 and GPT-4 Models with W&B](https://wandb.me/openai-report) 리포트

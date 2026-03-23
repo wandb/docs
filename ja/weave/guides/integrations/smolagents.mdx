@@ -1,0 +1,116 @@
+---
+title: Smolagents
+description: Weave の自動トレーシング機能を使用して、Smolagents のエージェント アプリケーションを追跡・分析できます。OpenAI、Hugging
+  Face、Anthropic などの LLM プロバイダーにわたる ツール 呼び出し、モデル 推論、マルチステップの ワークフロー をキャプチャします。
+---
+
+<Warning>
+このページに掲載されているすべてのコード例は Python で記述されています。
+</Warning>
+
+このページでは、[Smolagents](https://huggingface.co/docs/smolagents/en/index) を W&B Weave と統合して、エージェントアプリケーションを追跡および分析する方法について説明します。モデルの推論のログ記録、関数呼び出しの監視、および Weave の Traces 機能とバージョニング機能を使用した実験の整理方法を学びます。提供されている例に従うことで、貴重なインサイトを取得し、アプリケーションを効率的にデバッグし、異なるモデル設定を比較することができます。これらすべては Weave のウェブインターフェース内で行えます。
+
+## 概要
+
+Smolagents は、強力なエージェントアプリケーションを構築するための最小限の抽象化を提供するシンプルなフレームワークです。OpenAI、Hugging Face Transformers、Anthropic など、複数の LLM プロバイダーをサポートしています。
+
+Weave は [Smolagents](https://huggingface.co/docs/smolagents/en/index) のトレースを自動的に取得します。トラッキングを開始するには、`weave.init()` を呼び出し、通常通りライブラリを使用するだけです。
+
+## 事前準備
+
+1. Weave で Smolagents を使用する前に、必要なライブラリをインストールするか、最新バージョンにアップグレードしてください。次のコマンドは `smolagents`、`openai`、`weave` をインストールまたはアップグレードし、出力を抑制します。
+
+    ```python lines
+    pip install -U smolagents openai weave -qqq
+    ```
+
+2. Smolagents は、OpenAI、Hugging Face Transformers、Anthropic などの複数の LLM プロバイダーをサポートしています。対応する環境変数を設定して、選択したプロバイダーの APIキー を設定します。
+
+    ```python lines
+    import os
+    import getpass
+
+    os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
+    ```
+
+## 基本的なトレース
+
+言語モデルアプリケーションのトレースを中央の場所に保存することは、開発およびプロダクションにおいて不可欠です。これらのトレースはデバッグに役立ち、アプリケーションを改善するための貴重な Datasets として機能します。
+
+Weave は [Smolagents](https://huggingface.co/docs/smolagents/en/index) のトレースを自動的に取得します。トラッキングを開始するには、`weave.init()` を呼び出して Weave を初期化し、その後は通常どおりライブラリを使用します。
+
+次の例では、ツールを使用する LLM エージェントへの推論呼び出しを Weave でログ記録する方法を示します。このシナリオでは：
+
+- Smolagents の `OpenAIServerModel` を使用して言語モデル（OpenAI の `gpt-4o`）を定義します。
+- エージェントが必要に応じて呼び出すことができる検索ツール（`DuckDuckGoSearchTool`）を設定します。
+- ツールとモデルを渡して `ToolCallingAgent` を構築します。
+- 検索ツールをトリガーするクエリをエージェント経由で実行します。
+- Weave は各関数とモデルの呼び出しをログに記録し、ウェブインターフェースを介して検査できるようにします。
+
+```python lines
+import weave
+from smolagents import DuckDuckGoSearchTool, OpenAIServerModel, ToolCallingAgent
+
+# Weave を初期化
+weave.init(project_name="smolagents")
+
+# Smolagents でサポートされている LLM プロバイダーを定義
+model = OpenAIServerModel(model_id="gpt-4o")
+
+# クエリに基づいて DuckDuckGo ウェブ検索ツールを定義
+search_tool = DuckDuckGoSearchTool()
+
+# ツール呼び出しエージェントを定義
+agent = ToolCallingAgent(tools=[search_tool], model=model)
+answer = agent.run(
+    "Get me just the title of the page at url 'https://wandb.ai/geekyrakshit/story-illustration/reports/Building-a-GenAI-assisted-automatic-story-illustrator--Vmlldzo5MTYxNTkw'?"
+)
+```
+
+コードサンプルを実行したら、Weave のプロジェクトダッシュボードに移動してトレースを確認してください。
+
+<Frame>
+![Weave は各推論呼び出しをログに記録し、入力、出力、メタデータに関する詳細を提供します。](/weave/guides/integrations/imgs/smolagents-trace.png)
+</Frame>
+
+## カスタムツールのトレース
+
+`smolagents` の `@tool` デコレータを関数に付与するか、`smolagents.Tool` クラスを継承することで、エージェントワークフロー用のカスタムツールを宣言できます。
+
+Weave は Smolagents ワークフローのカスタムツール呼び出しを自動的に追跡します。次の例は、カスタム Smolagents ツール呼び出しを Weave でログ記録する方法を示しています。
+
+- カスタム関数 `get_weather` が定義され、Smolagents の `@tool` でデコレートされています。これにより、エージェントが推論プロセスの一部として呼び出せるようになります。
+- この関数は場所と、摂氏出力用のオプションのフラグを受け取ります。
+- `OpenAIServerModel` を使用して言語モデルがインスタンス化されます。
+- カスタムツールとモデルを使用して `ToolCallingAgent` が作成されます。
+- エージェントがクエリを実行すると、`get_weather` ツールを選択して呼び出します。
+- Weave はモデルの推論とカスタムツールの呼び出しの両方をログに記録し、引数 (arguments) と戻り値を含めます。
+
+```python lines
+from typing import Optional
+
+import weave
+from smolagents import OpenAIServerModel, ToolCallingAgent, tool
+
+weave.init(project_name="smolagents")
+
+@tool
+def get_weather(location: str, celsius: Optional[bool] = False) -> str:
+    """
+    指定された場所の今後数日間の天気を取得します。
+    引数:
+        location: 場所。
+        celsius: 温度に摂氏を使用するかどうか。
+    """
+    return f"The weather in {location} is sunny with temperatures around 7°C."
+
+model = OpenAIServerModel(model_id="gpt-4o")
+agent = ToolCallingAgent(tools=[get_weather], model=model)
+answer = agent.run("What is the weather in Tokyo?")
+```
+
+コードサンプルを実行したら、Weave のプロジェクトダッシュボードに移動してトレースを確認してください。
+
+<Frame>
+![Weave は各カスタムツール呼び出しをログに記録します。](/weave/guides/integrations/imgs/smolagents-custom-tool.png)
+</Frame>

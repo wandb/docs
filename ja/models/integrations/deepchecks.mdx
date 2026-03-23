@@ -1,0 +1,58 @@
+---
+title: DeepChecks
+description: W&B を DeepChecks と統合する方法。
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb" />
+
+DeepChecks は、データセットの整合性の検証、分布の検査、データ分割の妥当性確認、モデルの評価、異なるモデル間の比較など、機械学習モデルとデータのバリデーションを最小限の手間で実行できるようにサポートします。
+
+[DeepChecks と W&B インテグレーションの詳細はこちら ->](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
+
+## はじめに
+
+DeepChecks を W&B と共に使用するには、まず [W&B アカウント](https://wandb.ai/site) に登録する必要があります。DeepChecks の W&B インテグレーションを使えば、以下のように素早く開始できます。
+
+```python
+import wandb
+
+wandb.login()
+
+# deepchecks から check をインポート
+from deepchecks.checks import ModelErrorAnalysis
+
+# check を実行
+result = ModelErrorAnalysis()
+
+# その結果を wandb にプッシュ
+result.to_wandb()
+```
+
+また、DeepChecks のテストスイート全体を W&B にログ記録することも可能です。
+
+```python
+import wandb
+
+wandb.login()
+
+# deepchecks から full_suite テストをインポート
+from deepchecks.suites import full_suite
+
+# DeepChecks テストスイートを作成して実行
+suite_result = full_suite().run(...)
+
+# これらの結果を wandb にプッシュ
+# ここで必要な wandb.init の設定や引数を渡すことができます
+suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-suite"})
+```
+
+## 例
+
+[こちらの Reports](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) では、DeepChecks と W&B を組み合わせた際の効果を確認できます。
+
+<Frame>
+    <img src="/images/integrations/deepchecks_example.png" alt="Deepchecks data validation results"  />
+</Frame>
+
+この W&B インテグレーションに関するご質問や問題がある場合は、[DeepChecks の GitHub リポジトリ](https://github.com/deepchecks/deepchecks) で Issue を作成してください。内容を確認し、回答させていただきます。

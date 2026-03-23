@@ -2,10 +2,10 @@ name: Update Service API Documentation
 
 on:
   workflow_dispatch:
-  schedule:
-    # Run weekly on Mondays at 9 AM UTC
-    - cron: '0 9 * * 1'
   workflow_call:
+  schedule:
+    # Run monthly on the 1st at 00:00 UTC
+    - cron: '0 0 1 * *'
 
 jobs:
   update-service-api:
@@ -13,9 +13,8 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5
-      with:
-        fetch-depth: 0
+      uses: actions/checkout@v6
+      # Shallow clone - no git history needed, only checks git status
       
     - name: Set up Python
       uses: actions/setup-python@v6
@@ -37,7 +36,7 @@ jobs:
       id: sync-spec
       run: |
         echo "Syncing OpenAPI specification from remote service..."
-        OUTPUT=$(python scripts/reference-generation/sync_openapi_spec.py 2>&1)
+        OUTPUT=$(python scripts/reference-generation/weave/sync_openapi_spec.py 2>&1)
         echo "$OUTPUT"
         
         # Check if spec changed
@@ -53,12 +52,12 @@ jobs:
       if: steps.sync-spec.outputs.spec_changed == 'true'
       run: |
         echo "Updating Service API landing page with current endpoints..."
-        python scripts/reference-generation/update_service_api_landing.py
+        python scripts/reference-generation/weave/update_service_api_landing.py
         
     - name: Fix Service API Links
       run: |
         echo "Converting Service API links to fully qualified URLs..."
-        python scripts/reference-generation/fix_service_api_links.py
+        python scripts/reference-generation/weave/fix_service_api_links.py
         
     - name: Check for changes
       id: check-changes
@@ -74,12 +73,13 @@ jobs:
     - name: Create Pull Request
       if: steps.check-changes.outputs.has_changes == 'true'
       id: create-pr
-      uses: peter-evans/create-pull-request@v7
+      uses: peter-evans/create-pull-request@v8
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        base: main
         commit-message: "chore: Update Service API documentation"
         title: "Update Service API documentation"
-        draft: false
+        draft: true
         body: |
           This PR updates the Service API documentation based on the latest OpenAPI specification.
           
@@ -105,6 +105,15 @@ jobs:
           automated
           service-api
           weave
+    
+    - name: Request review
+      if: steps.create-pr.outputs.pull-request-number
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh pr edit ${{ steps.create-pr.outputs.pull-request-number }} \
+          --add-reviewer dbrian57
+        echo "Review requested from dbrian57"
     
     - name: Display Result
       run: |

@@ -1,0 +1,112 @@
+---
+title: op
+description: TypeScript SDK リファレンス
+---
+
+# op
+
+▸ **op**\<`T`\>(`fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+
+#### 型パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `fn` | `T` |
+| `options?` | `OpOptions`\<`T`\> |
+
+#### 戻り値
+
+[`Op`](../type-aliases/op)\<`T`\>
+
+#### 定義
+
+[op.ts:369](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L369)
+
+▸ **op**\<`T`\>(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)\<`T`\>
+
+#### 型パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `thisArg` | `any` |
+| `fn` | `T` |
+| `options?` | `OpOptions`\<`T`\> |
+
+#### 戻り値
+
+[`Op`](../type-aliases/op)\<`T`\>
+
+#### 定義
+
+[op.ts:374](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L374)
+
+▸ **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`\<`any`\>
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `target` | `Object` |
+| `propertyKey` | `string` \| `symbol` |
+| `descriptor` | `TypedPropertyDescriptor`\<`any`\> |
+
+#### 戻り値
+
+`TypedPropertyDescriptor`\<`any`\>
+
+#### 定義
+
+[op.ts:380](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L380)
+
+▸ **op**\<`T`\>(`value`, `context`): [`Op`](../type-aliases/op)\<`T`\>
+
+#### 型パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `value` | `T` |
+| `context` | `MethodDecoratorContext` |
+
+#### 戻り値
+
+[`Op`](../type-aliases/op)\<`T`\>
+
+#### 定義
+
+[op.ts:386](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L386)
+
+▸ **op**(`options`): `MethodDecorator`
+
+#### パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `options` | `Partial`\<`OpOptions`\<`any`\>\> |
+
+#### 戻り値
+
+`MethodDecorator`
+
+#### 定義
+
+[op.ts:391](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L391)
+
+___

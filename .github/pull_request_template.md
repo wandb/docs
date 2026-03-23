@@ -5,9 +5,9 @@
 
 <!-- Optionally, uncomment the heading and add details about how you tested the change and how reviewers should test it. For example:
 ## Testing
-- [ ] Local build succeeds without errors or broken internal links (`hugo server`)
+- [ ] Local build succeeds without errors (`mint dev`)
+- [ ] Local link check succeeds without errors (`mint broken-links`)
 - [ ] PR tests succeed
-- [ ] The Lychee Github action run against the PR branch reports no broken links
 
 Replace the `[ ]` with `[x]` to check off the item instead of leaving it unchecked.
 

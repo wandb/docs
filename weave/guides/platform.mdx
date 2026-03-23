@@ -1,12 +1,12 @@
 ---
-title: "Platform & Security"
-description: "Weave deployment options and security features"
+title: "Deployment options and security features"
+description: "Learn about Weave's deployment options, IAM management, and data security features."
 ---
 
 Weave is available on the following deployment options:
 
 - **[W&B Multi-tenant Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/multi_tenant_cloud):** A multi-tenant, fully-managed platform deployed in W&B's Google Cloud Platform (Google Cloud) account in a North America region.
-- **[W&B Dedicated Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/dedicated_cloud):** Generally available on AWS, Google Cloud, and Azure. 
+- **[W&B Dedicated Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/dedicated-cloud):** Generally available on AWS, Google Cloud, and Azure. 
 - **[Self-Managed instances](/weave/guides/platform/weave-self-managed):** For teams that prefer to host Weave independently, guidance is available from your W&B team to evaluate deployment options.
 
 ## Identity and Access Management
@@ -18,9 +18,9 @@ Use the identity and access management capabilities for secure authentication an
 - **Use W&B projects to organize initiatives:** Organize initiatives within teams and configure the required [visibility scope](/platform/hosting/iam/access-management/restricted-projects), including the `restricted` scope for sensitive collaborations.
 - **Role-based access control:** Configure access at the [team](/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user) or [project](/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user) level to ensure users access data on a need-to-know basis.
 - **Scoped service accounts:** Automate Gen AI workflows using service accounts scoped to your organization or team.
-- **[SCIM API and Python SDK](/platform/hosting/iam/automate_iam):** Manage users and teams efficiently with SCIM API and Python SDK.
+- **[SCIM API and Python SDK](/platform/hosting/iam/automate_iam):** Manage users and teams efficiently with the SCIM API and the Python SDK.
 
-## Data Security
+## Data security
 
 - **SaaS Cloud:** Data for all Weave users is stored in a shared Clickhouse Cloud cluster, encrypted using cloud-native encryption. Shared compute services process the data, ensuring isolation through a security context comprising your W&B organization, team, and project.
 

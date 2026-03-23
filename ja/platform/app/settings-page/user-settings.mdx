@@ -1,73 +1,131 @@
 ---
-title: ユーザー設定を管理する
-description: プロフィール情報、アカウントのデフォルト設定、アラート、ベータ版製品への参加、GitHub インテグレーション、ストレージ使用量、アカウントの有効化、チームの作成をユーザー設定で管理します。
+title: ユーザー 設定 を管理する
+description: ユーザー設定 では、プロファイル情報、アカウントのデフォルト設定、アラート、ベータ版製品への参加、GitHub integration 、ストレージの使用状況、アカウントのアクティベーションの管理、および
+  Teams の作成を行うことができます。
 ---
 
-ナビゲートして、 ユーザープロフィールページに移動し、右上のユーザーアイコンを選択します。 ドロップダウンメニューから、**Settings** を選択します。
+import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
+
+ユーザープロフィールページに移動し、右上のユーザーアイコンを選択します。ドロップダウンから **Settings** を選択してください。
 
 ## Profile
 
-**Profile** セクションでは、アカウント名と所属機関を管理および変更できます。オプションで、経歴、所在地、個人や所属機関のウェブサイトのリンクを追加したり、プロフィール画像をアップロードしたりできます。
+**Profile** セクションでは、アカウント名や所属機関の管理・変更が可能です。任意で自己紹介（biography）、場所、個人または所属機関のウェブサイトへのリンクを追加したり、プロフィール画像をアップロードしたりできます。
 
-## イントロの編集
+## Edit your intro
 
-イントロを編集するには、プロフィールの上部にある **Edit** をクリックします。 開く WYSIWYG エディターは Markdown をサポートしています。
-1. 行を編集するには、それをクリックします。 時間を短縮するために、`/` を入力し、リストから Markdown を選択できます。
-1. アイテムのドラッグハンドルを使って移動します。
+イントロダクションを編集するには、プロフィールの最上部にある **Edit** をクリックします。WYSIWYG エディターが開き、Markdown をサポートしています。
+1. 行を編集するには、その行をクリックします。時間を節約するために、 `/` を入力してリストから Markdown を選択することもできます。
+1. アイテムのドラッグハンドルを使用して移動できます。
 1. ブロックを削除するには、ドラッグハンドルをクリックしてから **Delete** をクリックします。
-1. 変更を保存するには、**Save** をクリックします。
+1. 変更を保存するには、 **Save** をクリックします。
 
-### SNS バッジの追加
+### ソーシャルバッジの追加
 
-`@weights_biases` アカウントのフォローバッジを X に追加するには、HTML の `<img>` タグを含む Markdown スタイルのリンクを追加します。そのバッジ画像にリンクさせます。
+X の `@weights_biases` アカウントのフォローバッジを追加するには、バッジ画像を指す HTML `<img>` タグを含む Markdown 形式のリンクを追加します。
 
-<Frame>
-[<img src="https://img.shields.io/twitter/follow/weights_biases?style=social" alt="X: @weights_biases"/>](https://x.com/intent/follow?screen_name=weights_biases)
-</Frame>
+```markdown
+[![X: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://x.com/intent/follow?screen_name=weights_biases)
+```
+`<img>` タグでは、 `width` 、 `height` 、またはその両方を指定できます。片方だけ指定した場合、画像の比率は維持されます。
 
-`<img>` タグでは、`width`、`height`、またはその両方を指定できます。どちらか一方だけを指定すると、画像の比率は維持されます。
+## Default team
+複数の Teams に所属している場合、 **Default team** セクションで、 run や Weave のトレースでチームが指定されていない時に使用されるデフォルトチームを設定できます。1つのチームにのみ所属している場合、そのチームがデフォルトとなり、このセクションは表示されません。
 
-## Teams
+続行するにはタブを選択してください。
 
-**Team** セクションで新しいチームを作成します。 新しいチームを作成するには、**New team** ボタンを選択し、次の情報を提供します。
-
-* **Team name** - チームの名前。チーム名はユニークでなければなりません。チーム名は変更できません。
-* **Team type** - **Work** または **Academic** ボタンを選択します。
-* **Company/Organization** - チームの会社または組織の名前を提供します。 ドロップダウンメニューから会社または組織を選択します。 オプションで新しい組織を提供することもできます。
+<Tabs>
+<Tab title="Multi-tenant Cloud">
+**Default location to create new projects in** の横にあるドロップダウンをクリックし、デフォルトのチームを選択します。
+</Tab>
+<Tab title="Dedicated Cloud / Self-Managed">
+1. **Default location to create new projects in** の横にあるドロップダウンをクリックし、デフォルトのチームまたは個人の Entity を選択します。
+1. (**任意**) 管理者が **Account** > **Settings** > **Privacy** でパブリックな Projects を有効にしている場合、新しい Projects のデフォルトの公開範囲を設定します。 **Default project privacy in your personal account** の横にあるボタンをクリックし、 **Private** (デフォルト) または **Public** を選択します。
+1. (**任意**) 管理者が **Account** > **Settings** > **Privacy** で [デフォルトのコード保存と diff 表示](/models/app/features/panels/code/) を有効にしている場合、自身の run でこれを有効にするには、 **Enable code saving in your personal account** をクリックします。
+</Tab>
+</Tabs>
 
 <Note>
-管理者アカウントのみがチームを作成できます。
+自動化された 環境 で スクリプト を実行する際にデフォルトのチームを指定するには、 `WANDB_ENTITY` [環境変数](https://docs.wandb.ai/models/track/environment-variables) を使用してデフォルトの場所を指定できます。
 </Note>
 
-## ベータ機能
+## Teams
+**Teams** セクションには、所属しているすべてのチームがリストされます。
 
-**Beta Features** セクションでは、開発中の新製品の楽しいアドオンやプレビューをオプションで有効にできます。有効にしたいベータ機能の横にある切り替えスイッチを選択します。
+1. チーム名をクリックすると、チームページに移動します。
+1. 他のチームに参加する権限がある場合、 **We found teams for you to join** の横にある **View teams** をクリックします。
+1. 任意で **Hide teams in public profile** をオンにします。
 
-## アラート
+<Note>
+チームの作成や管理については、 [Manage teams](/platform/app/settings-page/teams/) を参照してください。
+</Note>
 
-Runs がクラッシュしたり、終了したり、カスタムアラートを設定した際に通知を受け取ります。[wandb.alert()](/ja/models/runs/alert/) を使用して電子メールまたは Slack 経由で通知を受け取ります。受け取りたいアラートイベントタイプの横にあるスイッチを切り替えます。
+## API keys
 
-* **Runs finished**: Weights and Biases の run が正常に完了したかどうか。
-* **Run crashed**: run が終了しなかった場合の通知。
+**API Keys** セクションでは、W&B サービスでの認証に使用する個人の APIキー を管理できます。
 
-アラートの設定と管理方法の詳細については、[Send alerts with wandb.alert](/ja/models/runs/alert/) を参照してください。
+### APIキー の表示
 
-## 個人 GitHub インテグレーション
+APIキー のテーブルには以下が表示されます：
+- **Key ID**: 各 APIキー の最初の部分で、識別のために使用されます。
+- **Name**: キー作成時に指定した説明的な名前。
+- **Created**: キーが作成された日時。
+- **Last used**: 最後に使用されたタイムスタンプ。
 
-個人の Github アカウントを接続します。 Github アカウントを接続するには：
+<Note>
+セキュリティのため、テーブルにはキー ID (キーの最初の部分) のみが表示されます。完全なシークレット APIキー は、作成時に一度だけ表示されます。
+</Note>
 
-1. **Connect Github** ボタンを選択します。これにより、オープン認証（OAuth）ページにリダイレクトされます。
-2. **Organization access** セクションでアクセスを許可する組織を選択します。
-3. **Authorize** **wandb** を選択します。
+キーの名前または ID の一部を入力して、 APIキー のリストを検索・フィルタリングできます。
 
-## アカウントの削除
+### 新しい APIキー の作成
 
-アカウントを削除するには、**Delete Account** ボタンを選択します。
+<ApiKeyCreate/>
+
+### APIキー の削除
+
+APIキー を削除して アクセス 権限を取り消すには：
+
+1. APIキー のテーブルで削除したいキーを見つけます。
+2. キーの横にある削除ボタンをクリックします。
+3. 削除を確認します。
 
 <Warning>
-アカウントの削除は元に戻せません。
+APIキー を削除すると、そのキーを使用している スクリプト やサービスからの アクセス 権限が即座に取り消されます。古いキーを削除する前に、すべてのシステムが新しいキーを使用するように更新されていることを確認してください。
 </Warning>
 
-## ストレージ
+<ApiKeySecurity/>
 
-**Storage** セクションでは、Weights and Biases サーバーにおけるアカウントの総メモリ使用量について説明しています。 デフォルトのストレージプランは 100GB です。ストレージと料金の詳細については、[Pricing](https://wandb.ai/site/pricing) ページをご覧ください。
+## Beta features
+
+**Beta Features** セクションでは、開発中の新機能のアドオンや先行プレビューを任意で有効にできます。有効にしたいベータ機能の横にあるトグルスイッチを切り替えてください。
+
+## Alerts
+
+run がクラッシュしたとき、終了したとき、または [wandb.Run.alert()](/models/runs/alert/) で設定したカスタムアラートがトリガーされたときに通知を受け取ることができます。通知は Email または Slack で受け取れます。アラートを受け取りたいイベントタイプの横にあるスイッチを切り替えてください。
+
+* **Runs finished**: Weights & Biases の run が正常に終了したかどうか。
+* **Run crashed**: run が終了に失敗した際の通知。
+
+アラートの設定と管理に関する詳細は、 [Send alerts with wandb.Run.alert()](/models/runs/alert/) を参照してください。
+
+## Personal GitHub integration
+
+個人の GitHub アカウントを接続します。接続手順は以下の通りです：
+
+1. **Connect Github** ボタンを選択します。これにより、OAuth（認可）ページにリダイレクトされます。
+2. **Organization access** セクションで、 アクセス を許可する組織を選択します。
+3. **Authorize wandb** を選択します。
+
+## Delete your account
+
+アカウントを削除するには、 **Delete Account** ボタンを選択します。
+
+<Warning>
+アカウントの削除は取り消すことができません。
+</Warning>
+
+## Storage
+
+**Storage** セクションには、Weights & Biases サーバー上でアカウントが消費している総メモリ使用量が表示されます。デフォルトのストレージプランは 100GB です。ストレージと価格の詳細については、 [Pricing](https://wandb.ai/site/pricing) ページを参照してください。

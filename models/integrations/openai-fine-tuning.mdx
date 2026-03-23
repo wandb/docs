@@ -1,8 +1,10 @@
 ---
-description: How to Fine-Tune OpenAI models using W&B.
+description: "Fine-tune OpenAI models with W&B to log training metrics, monitor jobs, and compare model performance over time."
 title: OpenAI Fine-Tuning
 ---
-<Card title="Try in Colab" href="https://wandb.me/openai-colab" icon="python"/>
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://wandb.me/openai-colab" />
 
 Log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration to W&B. Utilize the W&B ecosystem to track your fine-tuning experiments, models, and datasets and share your results with your colleagues.
 
@@ -10,7 +12,7 @@ Log your OpenAI GPT-3.5 or GPT-4 model's fine-tuning metrics and configuration t
 See the [OpenAI documentation](https://platform.openai.com/docs/guides/fine-tuning/which-models-can-be-fine-tuned) for a list of models that you can fine tune.
 </Note>
 
-See the [W&B Integration](https://platform.openai.com/docs/guides/fine-tuning/weights-and-biases-integration) section in the OpenAI documentation for supplemental information on how to integrate W&B with OpenAI for fine-tuning.
+See the [W&B Integration](https://developers.openai.com/cookbook/examples/third_party/gpt_finetuning_with_wandb) section in the OpenAI documentation for supplemental information on how to integrate W&B with OpenAI for fine-tuning.
 
 
 ## Install or update OpenAI Python API
@@ -85,7 +87,7 @@ WandbLogger.sync(
 | model_artifact_type      | The type of the model artifact that is logged. Defaults to `"model"`.                    |
 | \*\*kwargs_wandb_init  | Aany additional argument passed directly to [`wandb.init()`](/models/ref/python/functions/init)                    |
 
-## Dataset Versioning and Visualization
+## Dataset versioning and visualization
 
 ### Versioning
 
@@ -115,7 +117,7 @@ This model (metadata) artifact can further be linked to a model in the [W&B Regi
 </Frame>
 
 
-## Frequently Asked Questions
+## Frequently asked questions
 
 ### How do I share my fine-tune results with my team in W&B?
 

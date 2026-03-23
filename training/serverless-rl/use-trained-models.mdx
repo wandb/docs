@@ -6,14 +6,14 @@ description: Make inference requests to the models you've trained
 After training a model with Serverless RL, it is automatically available for inference.
 
 To send requests to your trained model, you need:
-* Your [W&B API key](https://wandb.ai/authorize)
+* Your [W&B API key](https://wandb.ai/settings)
 * The [Training API's](/training/api-reference) base URL, `https://api.training.wandb.ai/v1/`
 * Your model's endpoint
 
 The model's endpoint uses the following schema:
 
 ```
-wandb-artifact://<entity>/<project>/<model-name>:<step>
+wandb-artifact:///<entity>/<project>/<model-name>:<step>
 ```
 
 The schema consists of:
@@ -26,7 +26,7 @@ The schema consists of:
 For example, if your W&B team is named `email-specialists`, your project is called `mail-search`, your trained model is named `agent-001`, and you wanted to deploy it on step 25, the endpoint looks like this:
 
 ```
-wandb-artifact://email-specialists/mail-search/agent-001:step25
+wandb-artifact:///email-specialists/mail-search/agent-001:step25
 ```
 
 Once you have your endpoint, you can integrate it into your normal inference workflows. The following examples show how to make inference requests to your trained model using a cURL request or the [Python OpenAI SDK](https://github.com/openai/openai-python).
@@ -63,7 +63,7 @@ client = OpenAI(
 )
 
 response = client.chat.completions.create(
-    model=f"wandb-artifact://{ENTITY}/{PROJECT}/my-model:step100",
+    model=f"wandb-artifact:///{ENTITY}/{PROJECT}/my-model:step100",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": "Summarize our training run."},

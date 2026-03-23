@@ -1,65 +1,67 @@
 ---
-title: Experiments
-description: W&B로 기계 학습 실험을 추적하세요.
+title: Experiments 개요
+description: thoughtful west W&B를 사용하여 기계학습 실험을 추적하세요.
 ---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
 
-<CardGroup cols={2}>
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" icon="python"/>
-<Card title="Try in W&B" href="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" icon="sliders-up"/>
+<CardGroup cols={4}>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" />
+<TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
 </CardGroup>
 
-몇 줄의 코드로 기계 학습 Experiments 를 추적하세요. 그런 다음 [대화형 대시보드](/ko/models/track/workspaces/)에서 결과를 검토하거나, [Public API](/ko/models/ref/python/public-api/)를 사용하여 프로그래밍 방식으로 엑세스할 수 있도록 데이터를 Python으로 내보낼 수 있습니다.
+몇 줄의 코드만으로 기계학습 실험을 트래킹하세요. 그런 다음 [대화형 대시보드](/models/track/workspaces/)에서 결과를 검토하거나, [Public API](/models/ref/python/public-api/)를 사용하여 프로그래밍 방식으로 데이터를 Python으로 내보낼 수 있습니다. 
 
-[PyTorch](/ko/guides/integrations/pytorch), [Keras](/ko/guides/integrations/keras), 또는 [Scikit](/ko/guides/integrations/scikit)과 같은 널리 사용되는 프레임워크를 사용하는 경우 W&B Integrations 를 활용하세요. W&B 를 코드에 추가하는 방법에 대한 정보 및 전체 인테그레이션 목록은 [Integration 가이드](/ko/guides/integrations/)를 참조하세요.
+[Keras](/models/integrations/keras) 또는 [Scikit](/models/integrations/scikit)과 같은 인기 있는 프레임워크를 사용하는 경우 W&B Integrations를 활용해 보세요. 전체 인테그레이션 목록과 코드에 W&B를 추가하는 방법은 [인테그레이션 가이드](/models/integrations)를 참조하세요.
 
 <Frame>
-    <img src="/images/experiments/experiments_landing_page.png"  />
+    <img src="/images/experiments/experiments_landing_page.png" alt="Experiments dashboard"  />
 </Frame>
 
-위의 이미지는 여러 [runs](/ko/models/runs/)에서 메트릭을 보고 비교할 수 있는 대시보드 의 예시를 보여줍니다.
+위 이미지는 여러 [runs](/models/runs/)의 메트릭을 보고 비교할 수 있는 대시보드 예시를 보여줍니다.
 
 ## 작동 방식
 
-몇 줄의 코드로 기계 학습 experiment 를 추적합니다.
-1. [W&B run](/ko/models/runs/)을 만듭니다.
-2. 학습률 또는 모델 유형과 같은 하이퍼파라미터 사전을 구성 ([`run.config`](/ko/models/track/config/))에 저장합니다.
-3. 정확도 및 손실과 같은 트레이닝 루프에서 시간 경과에 따른 메트릭 ([`run.log()`](/ko/models/track/log/))을 기록합니다.
-4. 모델 weights 또는 예측 테이블과 같은 run 의 출력을 저장합니다.
+몇 줄의 코드만으로 기계학습 실험을 트래킹할 수 있습니다:
+1. [W&B Run](/models/runs/)을 생성합니다.
+2. 학습률이나 모델 유형과 같은 하이퍼파라미터 사전을 설정([`wandb.Run.config`](/models/track/config/))에 저장합니다.
+3. 트레이닝 루프에서 정확도와 손실 같은 메트릭([`wandb.Run.log()`](/models/track/log/))을 시간에 따라 로그합니다.
+4. 모델 가중치나 예측값 테이블과 같은 run의 결과물을 저장합니다.
 
-다음 코드는 일반적인 W&B experiment 추적 워크플로우를 보여줍니다.
+다음 코드는 일반적인 W&B 실험 트래킹 워크플로우를 보여줍니다:
 
 ```python
-# Start a run.
+# run을 시작합니다.
 #
-# When this block exits, it waits for logged data to finish uploading.
-# If an exception is raised, the run is marked failed.
+# 이 블록이 종료되면 로그된 데이터의 업로드가 완료될 때까지 기다립니다.
+# 예외가 발생하면 run은 실패로 표시됩니다.
 with wandb.init(entity="", project="my-project-name") as run:
-  # Save mode inputs and hyperparameters.
+  # 모델 입력값과 하이퍼파라미터를 저장합니다.
   run.config.learning_rate = 0.01
 
-  # Run your experiment code.
+  # 실험 코드를 실행합니다.
   for epoch in range(num_epochs):
-    # Do some training...
+    # 트레이닝 수행...
 
-    # Log metrics over time to visualize model performance.
+    # 모델 성능을 시각화하기 위해 시간에 따른 메트릭을 로그합니다.
     run.log({"loss": loss})
 
-  # Upload model outputs as artifacts.
+  # 모델 결과물을 Artifacts로 업로드합니다.
   run.log_artifact(model)
 ```
 
 ## 시작하기
 
-유스 케이스에 따라 다음 리소스를 탐색하여 W&B Experiments 를 시작하세요.
+사용자의 유스 케이스에 따라 W&B Experiments를 시작하기 위한 다음 리소스들을 살펴보세요:
 
-* 데이터셋 artifact 를 생성, 추적 및 사용하는 데 사용할 수 있는 W&B Python SDK 코맨드에 대한 단계별 개요는 [W&B 퀵스타트](/ko/models/quickstart/)를 참조하세요.
-* 다음 방법을 배우려면 이 챕터를 살펴보세요.
-  * experiment 생성
-  * Experiments 구성
-  * Experiments 에서 데이터 기록
-  * Experiments 결과 보기
-* [W&B API Reference Guide](/ko/models/ref/) 내에서 [W&B Python Library](/ko/models/ref/python/)를 탐색합니다.
+* 데이터셋 아티팩트를 생성, 트래킹 및 사용하는 데 필요한 W&B Python SDK 코맨드에 대한 단계별 개요는 [W&B 퀵스타트](/models/quickstart/)를 읽어보세요.
+* 이 챕터에서 다음 방법들을 알아보세요:
+  * 실험 생성하기
+  * 실험 설정하기
+  * 실험 데이터 로그하기
+  * 실험 결과 보기
+* [W&B API 레퍼런스 가이드](/models/ref/python/) 내의 [W&B Python 라이브러리](/models/ref/python/)를 살펴보세요.
 
 ## 모범 사례 및 팁
 
-Experiments 및 로깅에 대한 모범 사례 및 팁은 [Best Practices: Experiments and Logging](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-experiments-and-logging) 를 참조하세요.
+실험 및 로그에 대한 모범 사례와 팁은 [모범 사례: 실험 및 로그](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-experiments-and-logging)를 참조하세요.

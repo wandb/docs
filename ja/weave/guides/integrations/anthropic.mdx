@@ -1,0 +1,286 @@
+---
+title: Anthropic
+description: Weave を使用して、Anthropic SDK 経由で行われた LLM コールを自動的に追跡し、ログを記録します
+---
+
+ thought
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_anthropic.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+Weave をコードに統合すると、[Python](https://github.com/anthropics/anthropic-sdk-python) および [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript) 用の Anthropic SDK で行われた LLM 呼び出しを自動的に追跡し、ログを記録します。Weave は Anthropic の `Messages.create` メソッドを自動的に呼び出すことでこれを実現します。
+
+## トレース (Traces)
+
+コードに `weave.init("your-team-name/your-project-name")` を追加すると、Weave は Anthropic SDK の トレース を自動的にキャプチャします。`weave.init()` の 引数 としてチーム名を指定しない場合、Weave は出力を [デフォルトの W&B entity](/platform/app/settings-page/user-settings/#default-team) にログ記録します。プロジェクト名を指定しない場合、Weave の初期化は失敗します。
+
+以下の例は、Anthropic への基本的な呼び出しに Weave を統合する方法を示しています。
+
+<Tabs>
+  <Tab title="Python">
+```python lines {6}
+import weave    
+# 通常通り anthropic ライブラリを使用します
+import os
+from anthropic import Anthropic
+
+weave.init("anthropic_project")
+
+client = Anthropic(
+    api_key=os.environ.get("ANTHROPIC_API_KEY"),
+)
+
+message = client.messages.create(
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": "犬に関するジョークを教えて",
+        }
+    ],
+    model="claude-3-opus-20240229",
+)
+print(message.content)
+```
+  </Tab>
+  <Tab title="TypeScript">
+```typescript
+import Anthropic from '@anthropic-ai/sdk';
+import * as weave from 'weave';
+import { wrapAnthropic } from 'weave';
+
+await weave.init('anthropic_project');
+
+// Anthropic クライアントをラップしてトレースを有効にします
+const client = wrapAnthropic(new Anthropic());
+
+const message = await client.messages.create({
+    max_tokens: 1024,
+    messages: [
+        {
+            role: 'user',
+            content: '犬に関するジョークを教えて',
+        }
+    ],
+    model: 'claude-3-opus-20240229',
+});
+
+console.log(message.content);
+```
+  </Tab>
+</Tabs>
+
+コードに `weave.init()` を含めることで、Weave は自動的に トレース 情報をキャプチャし、リンクを出力します。リンクをクリックすると、Weave UI で トレース を確認できます。
+
+[![anthropic_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
+
+## 独自の op でラップする
+
+Weave の op は、実験を進める際に行われる コード の バージョン管理 を自動化し、その入力と出力をキャプチャします。[`@weave.op()`](https://wandb.github.io/weave/guides/tracking/ops) (Python) でデコレートするか、[`weave.op()`](/weave/reference/typescript-sdk/functions/op) (TypeScript) でラップして [`Anthropic.messages.create`](https://docs.anthropic.com/en/api/messages-examples) を呼び出すことで、Weave が入力と出力を追跡します。
+
+以下の例は、関数を追跡する方法を示しています。
+
+<Tabs>
+  <Tab title="Python">
+```python lines {5,10,24}
+import weave
+import os
+from anthropic import Anthropic
+
+weave.init("anthropic_project")
+client = Anthropic(
+    api_key=os.environ.get("ANTHROPIC_API_KEY"),
+)
+
+@weave.op()
+def call_anthropic(user_input:str, model:str) -> str:
+    message = client.messages.create(
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": user_input,
+        }
+        ],
+        model=model,
+    )
+    return message.content[0].text
+
+@weave.op()
+def generate_joke(topic: str) -> str:
+    return call_anthropic(f"{topic} に関するジョークを教えて", model="claude-3-haiku-20240307")
+
+print(generate_joke("ニワトリ"))
+print(generate_joke("車"))
+```
+  </Tab>
+  <Tab title="TypeScript">
+```typescript
+import Anthropic from '@anthropic-ai/sdk';
+import * as weave from 'weave';
+import { wrapAnthropic } from 'weave';
+
+await weave.init('anthropic_project');
+const client = wrapAnthropic(new Anthropic());
+
+const callAnthropic = weave.op(async function callAnthropic(
+    userInput: string,
+    model: string
+): Promise<string> {
+    const message = await client.messages.create({
+        max_tokens: 1024,
+        messages: [
+            {
+                role: 'user',
+                content: userInput,
+            }
+        ],
+        model: model,
+    });
+    const content = message.content[0];
+    return content.type === 'text' ? content.text : '';
+});
+
+const generateJoke = weave.op(async function generateJoke(
+    topic: string
+): Promise<string> {
+    return callAnthropic(`${topic} に関するジョークを教えて`, 'claude-3-haiku-20240307');
+});
+
+console.log(await generateJoke('ニワトリ'));
+console.log(await generateJoke('車'));
+```
+  </Tab>
+</Tabs>
+
+関数を `weave.op()` でデコレートまたはラップすることで、Weave は関数の コード 、入力、および出力をキャプチャします。op を使用して、ネストされた関数を含む任意の関数を追跡できます。
+
+[![anthropic_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://wandb.github.io/weave/guides/tracking/ops)
+
+## 実験を容易にするための `Model` の作成
+
+<Note>
+`weave.Model` クラスは Weave Python SDK でのみ利用可能です。TypeScript の場合は、`weave.op()` ラッパーを使用して、構造化された パラメータ を持つ関数を追跡してください。
+</Note>
+
+多くの要素が動いている場合、実験の整理は困難です。[`Model`](/weave/guides/core-types/models) クラスを使用することで、システムプロンプトや使用している モデル など、アプリケーションの実験的な詳細をキャプチャして整理できます。これにより、アプリケーションの異なるイテレーションの整理と比較が容易になります。
+
+コード の バージョン管理 や入力/出力のキャプチャに加えて、[`Model`](/weave/guides/core-types/models) は アプリケーション の 振る舞い を制御する構造化された パラメータ をキャプチャします。これにより、どの パラメータ が最適かを判断するのに役立ちます。また、Weave Models は `serve` や [`Evaluation`](/weave/guides/core-types/evaluations) と併用することも可能です。
+
+以下の例では、`model` と `temperature` を使用して実験を行うことができます。
+
+```python lines
+import weave    
+# 通常通り anthropic ライブラリを使用します
+import os
+from anthropic import Anthropic
+weave.init('joker-anthropic')
+
+class JokerModel(weave.Model): # `weave.Model` に変更
+  model: str
+  temperature: float
+  
+  @weave.op()
+  def predict(self, topic): # `predict` に変更
+    client = Anthropic()
+    message = client.messages.create(
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": f"{topic} に関するジョークを教えて",
+        }
+        ],
+        model=self.model,
+        temperature=self.temperature
+    )
+    return message.content[0].text
+
+
+joker = JokerModel(
+    model="claude-3-haiku-20240307",
+    temperature = 0.1)
+result = joker.predict("ニワトリとロボット")
+print(result)
+```
+
+これらの 値 のいずれかを変更するたびに、Weave は `JokerModel` の新しい バージョン を作成し追跡します。これにより、 トレース データと コード の変更を関連付けることができ、どの 設定 が ユースケース に最適かを判断するのに役立ちます。
+
+[![anthropic_model.png](/weave/guides/integrations/imgs/anthropic_model.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
+
+## ツール (function calling)
+
+Anthropic は、Claude が関数呼び出しを要求できるようにする [tools](https://docs.anthropic.com/en/docs/tool-use) インターフェースを提供しています。Weave は、会話全体を通じてツールの定義、ツール使用リクエスト、およびツールの 結果 を自動的に追跡します。
+
+以下の簡略化された例は、Anthropic のツール設定を示しています。
+
+<Tabs>
+  <Tab title="Python">
+```python lines
+message = client.messages.create(
+    max_tokens=1024,
+    messages=[
+        {
+            "role": "user",
+            "content": "サンフランシスコの天気はどうですか？",
+        }
+    ],
+    tools=[
+        {
+            "name": "get_weather",
+            "description": "指定された場所の現在の天気を取得します",
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "都市と州。例: San Francisco, CA",
+                    }
+                },
+                "required": ["location"],
+            },
+        },
+    ],
+    model=model,
+)
+
+print(message)
+```
+  </Tab>
+  <Tab title="TypeScript">
+```typescript
+const message = await client.messages.create({
+    max_tokens: 1024,
+    messages: [
+        {
+            role: 'user',
+            content: "サンフランシスコの天気はどうですか？",
+        }
+    ],
+    tools: [
+        {
+            name: 'get_weather',
+            description: '指定された場所の現在の天気を取得します',
+            input_schema: {
+                type: 'object',
+                properties: {
+                    location: {
+                        type: 'string',
+                        description: '都市と州。例: San Francisco, CA',
+                    }
+                },
+                required: ['location'],
+            },
+        },
+    ],
+    model: 'claude-3-opus-20240229',
+});
+
+console.log(message);
+```
+  </Tab>
+</Tabs>
+
+Weave は、会話の各ステップにおけるツールの定義、Claude のツール使用リクエスト、およびツールの 結果 を自動的にキャプチャします。
+
+[![anthropic_tool.png](/weave/guides/integrations/imgs/anthropic_tool.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)

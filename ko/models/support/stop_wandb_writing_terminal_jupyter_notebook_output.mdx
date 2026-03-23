@@ -1,27 +1,25 @@
 ---
-title: How do I stop wandb from writing to my terminal or my Jupyter notebook output?
-support:
-- environment variables
-toc_hide: true
-type: docs
+title: wandb 가 터미널이나 Jupyter 노트북 출력창에 로그를 기록하는 것을 어떻게 중단하나요?
 ---
 
-환경 변수 [`WANDB_SILENT`](/ko/models/support/environment_variables/) 를 `true` 로 설정하세요.
+환경 변수 [`WANDB_SILENT`](/models/track/environment-variables/)를 `true`로 설정하세요.
 
 <Tabs>
-<Tab title="Python">
+  <Tab title="Python">
 ```python
 os.environ["WANDB_SILENT"] = "true"
 ```
-</Tab>
-<Tab title="Notebook">
+  </Tab>
+  <Tab title="Notebook">
 ```python
+# 노트북 환경에서 설정
 %env WANDB_SILENT=true
 ```
-</Tab>
-<Tab title="Command-Line">
+  </Tab>
+  <Tab title="Command-Line">
 ```shell
+# 코맨드 라인에서 설정
 WANDB_SILENT=true
 ```
-</Tab>
+  </Tab>
 </Tabs>

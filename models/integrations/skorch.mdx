@@ -1,5 +1,5 @@
 ---
-description: How to integrate W&B with Skorch.
+description: "Integrate W&B with Skorch to log scikit-learn compatible PyTorch model training metrics and hyperparameters."
 title: Skorch
 ---
 
@@ -15,7 +15,7 @@ See [example run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=u
 |`save_model` | bool (default=True)| Whether to save a checkpoint of the best model and upload it to your Run on W&B.|
 |`keys_ignored`| str or list of str (default=None) | Key or list of keys that should not be logged to tensorboard. Note that in addition to the keys provided by the user, keys such as those starting with `event_` or ending on `_best` are ignored by default.|
 
-## Example Code
+## Example code
 
 We've created a few examples for you to see how the integration works:
 
@@ -31,8 +31,6 @@ from skorch.callbacks import WandbLogger
 
 # Create a wandb Run
 wandb_run = wandb.init()
-# Alternative: Create a wandb Run without a W&B account
-wandb_run = wandb.init(anonymous="allow")
 
 # Log hyper-parameters (optional)
 wandb_run.config.update({"learning rate": 1e-3, "batch size": 32})

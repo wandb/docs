@@ -1,0 +1,78 @@
+---
+title: Artifacts
+description: Create, update, download, and manage W&B Artifacts for data versioning.
+---
+
+import ArtifactCreate from '/snippets/en/_includes/code-examples/artifact_create.mdx';
+import ArtifactCreateTrackExternal from '/snippets/en/_includes/code-examples/artifact_create_track_external.mdx';
+import ArtifactDelete from '/snippets/en/_includes/code-examples/artifact_delete.mdx';
+import ArtifactDeleteCollection from '/snippets/en/_includes/code-examples/artifact_delete_collection.mdx';
+import ArtifactDownloadPartial from '/snippets/en/_includes/code-examples/artifact_download_partial.mdx';
+import ArtifactsDownload from '/snippets/en/_includes/code-examples/artifacts_download.mdx';
+import ArtifactAddAlias from '/snippets/en/_includes/code-examples/artifact_add_alias.mdx';
+import ArtifactAddAliasExisting from '/snippets/en/_includes/code-examples/artifact_add_alias_existing.mdx';
+import ArtifactAddTag from '/snippets/en/_includes/code-examples/artifact_add_tag.mdx';
+import ArtifactAddTagExisting from '/snippets/en/_includes/code-examples/artifact_add_tag_existing.mdx';
+import ArtifactTtl from '/snippets/en/_includes/code-examples/artifact_ttl.mdx';
+import ArtifactTtlExisting from '/snippets/en/_includes/code-examples/artifact_ttl_existing.mdx';
+import ArtifactUpdate from '/snippets/en/_includes/code-examples/artifact_update.mdx';
+import ArtifactUpdateExisting from '/snippets/en/_includes/code-examples/artifact_update_existing.mdx';
+
+Create, update, download, and manage W&B Artifacts for data versioning.
+
+## Create and log an artifact
+
+<ArtifactCreate />
+
+## Track an external artifact by adding a reference to a cloud storage bucket path
+
+<ArtifactCreateTrackExternal />
+
+## Delete specific artifact version from a run
+
+<ArtifactDelete />
+
+## Delete an artifact collection
+
+<ArtifactDeleteCollection />
+
+## Download specific files or sub-folders from artifacts
+
+<ArtifactDownloadPartial />
+
+## Download files or entire artifacts
+
+<ArtifactsDownload />
+
+## Add one or more aliases to an artifact when logging it
+
+<ArtifactAddAlias />
+
+## Add an alias to an existing artifact
+
+<ArtifactAddAliasExisting />
+
+## Add a tag to an artifact when logging it
+
+<ArtifactAddTag />
+
+## Add a tag to an existing artifact
+
+<ArtifactAddTagExisting />
+
+## Create and log an artifact with a TTL policy
+
+<ArtifactTtl />
+
+## Update the TTL policy of an existing artifact
+
+<ArtifactTtlExisting />
+
+## Update an existing artifact's description within a run
+
+<ArtifactUpdate />
+
+## Given an existing artifact, update its description, metadata, and aliases without creating a new run
+
+<ArtifactUpdateExisting />
+

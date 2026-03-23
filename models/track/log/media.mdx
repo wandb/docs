@@ -2,9 +2,9 @@
 description: Log rich media, from 3D point clouds and molecules to HTML and histograms
 title: Log media and objects
 ---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
-
-<Card title="Try in Colab" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb" icon="python"/>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb" />
 
 We support images, video, audio, and more. Log rich media to explore your results and visually compare your runs, models, and datasets. Read on for examples and how-to guides.
 
@@ -34,7 +34,9 @@ Log images to track inputs, outputs, filter weights, activations, and more.
 
 Images can be logged directly from NumPy arrays, as PIL images, or from the filesystem. 
 
-Each time you log images from a step, we save them to show in the UI. Expand the image panel, and use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
+Each time you log images from a step, they are available in the UI. Expand the image panel, then use the step slider to look at images from different steps. This makes it easy to compare how a model's output changes during training.
+
+To compare images or videos from different runs, steps, or indices in one view, use [Compare mode](/models/app/features/panels/media#compare-mode) in a media panel.
 
 <Note>
 It's recommended to log fewer than 50 images per step to prevent logging from becoming a bottleneck during training and image loading from becoming a bottleneck when viewing results.
@@ -625,7 +627,7 @@ For more usage information, see [`video-file`](/models/ref/query-panel/video-fil
 
 ### Text
 
-Use `wandb.Table` to log text in tables to show up in the UI. By default, the column headers are `["Input", "Output", "Expected"]`. To ensure optimal UI performance, the default maximum number of rows is set to 10,000. However, users can explicitly override the maximum with `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
+Use `wandb.Table` to log text in tables to show up in the UI. By default, the column headers are `["Input", "Output", "Expected"]`. To ensure optimal UI performance, the default maximum number of rows is set to 10,000. However, you can explicitly override the maximum with `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
 
 ```python
 with wandb.init(project="my_project") as run:
@@ -657,11 +659,10 @@ run.log({"custom_file": wandb.Html(open("some.html"))})
 run.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 ```
 
-Custom HTML can be logged at any key, and this exposes an HTML panel on the run page. By default, we inject default styles; you can turn off default styles by passing `inject=False`.
+Log custom HTML at any key to expose an HTML panel on the run page. By default, we inject default styles; you can turn off default styles by passing `inject=False`.
 
 ```python
 run.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
 For more usage information, see [`html-file`](/models/ref/query-panel/html-file).
-
