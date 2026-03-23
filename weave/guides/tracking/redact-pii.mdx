@@ -44,13 +44,11 @@ To get started with the Sensitive Data Protection feature in Weave, complete the
 
     For a full list of the entities that can be detected and redacted, see [PII entities supported by Presidio](https://microsoft.github.io/presidio/supported_entities/).
 
-4. (Optional) Exclude specific entities from redaction using the `redact_pii_exclude_fields` parameter. This is useful when you want to keep the default redaction but preserve certain entity types:
+4. (Optional) Exclude specific entities from redaction using the `redact_pii_exclude_fields` parameter. This is useful when you want to keep the default redaction but preserve certain entity types. The following example demonstrates how to redact all [default entities](#entities-redacted-by-default) except `EMAIL_ADDRESS` and `PERSON`:
 
     ```python lines
     weave.init("my-project", settings={"redact_pii": True, "redact_pii_exclude_fields":["EMAIL_ADDRESS", "PERSON"]})
     ```
-
-    In this example, all [default entities](#entities-redacted-by-default) are redacted except for `EMAIL_ADDRESS` and `PERSON`.
 
 ## Entities redacted by default
 
