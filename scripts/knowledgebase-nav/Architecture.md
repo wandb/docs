@@ -62,7 +62,8 @@ flowchart TD
   LOOP --> P1[crawl_articles]
   P1 --> P2[build_tag_index]
   P2 --> P3[render_tag_pages]
-  P3 --> P4[render_product_index]
+  P3 --> P3b[cleanup_stale_tag_pages]
+  P3b --> P4[render_product_index]
   P4 --> P5[sync_all_support_article_footers]
   P5 --> P6[Record product_stats]
   P6 --> LOOP
@@ -129,8 +130,8 @@ Functions are grouped below the way they appear in the source file. Names refer 
 
 ### Article structure and footers
 
-- **`parse_frontmatter`**, **`_extract_body`** split YAML front matter, main body, and the trailing keyword footer (last `\n---` before Badges).
-- **`_split_frontmatter_raw`**, **`_split_main_body_and_trailing_footer`** support footer rewriting without losing the front matter block.
+- **`parse_frontmatter`**, **`_extract_body`** split YAML front matter and main body. `_extract_body` uses `_BADGE_START` as the boundary and trims a trailing `---` line cosmetically.
+- **`_split_frontmatter_raw`** splits the raw MDX into the front matter block and the remainder for footer rewriting.
 - **`_normalize_keywords`** coerces `keywords` front matter to a list of strings (YAML list; a single string becomes one tag with a warning; other types warn and become an empty list).
 - **`_keywords_list_for_footer`** returns normalized `keywords` for footer generation (delegates to **`_normalize_keywords`**).
 - **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`** implement surgical tab-Badge sync. Managed Badges are enclosed in `_BADGE_START` / `_BADGE_END` marker comments; the function matches markers when present and falls back to regex for pre-marker articles. New footers append a blank line, markers, and Badges.
@@ -138,7 +139,7 @@ Functions are grouped below the way they appear in the source file. Names refer 
 
 ### Body previews (Card snippets)
 
-- **`plain_text`** strips Markdown, links, URLs, HTML or MDX tags, and similar so previews stay plain text (U+00A0 to space after entity decode, typographic quotes mapped to ASCII, allowlist keeps `_` and `=` for identifiers).
+- **`plain_text`** strips Markdown (including horizontal rules), links, URLs, HTML or MDX tags, and similar so previews stay plain text (U+00A0 to space after entity decode, typographic quotes mapped to ASCII, allowlist keeps `_` and `=` for identifiers).
 - **`extract_body_preview`** applies `plain_text`, truncates to `BODY_PREVIEW_MAX_LENGTH`, and adds `BODY_PREVIEW_SUFFIX` when needed.
 
 ### Slugs and crawling
@@ -155,6 +156,7 @@ Functions are grouped below the way they appear in the source file. Names refer 
 
 - **`tojson_unicode`**, **`create_template_env`** configure Jinja2 for MDX (templates use the `tojson_unicode` filter for YAML front matter values).
 - **`render_tag_pages`** writes `support/<product>/tags/<tag-slug>.mdx`.
+- **`cleanup_stale_tag_pages`** deletes `.mdx` files in the tags directory that were not just generated, keeping the directory and `docs.json` free of stale entries.
 - **`render_product_index`** writes `support/<product>.mdx`.
 
 ### Site-wide updates
@@ -178,7 +180,8 @@ Functions are grouped below the way they appear in the source file. Names refer 
 
 - **Monolithic script**: one file holds all logic so the workflow and contributors have a single place to read and change behavior.
 - **Allowed keywords**: `config.yaml` lists valid tags per product; unknown tags still generate pages but emit warnings so content is never dropped silently.
-- **Tab Badge ownership**: only `<Badge>` elements linking to `/support/<product>/tags/...` are derived from `keywords`. These are wrapped in marker comments so the generator does not need regex matching after migration. The `---` line is not required for sync; crawl/preview parsing may still use the last `\n---` before Badges when present.
+- **Tab Badge ownership**: only `<Badge>` elements linking to `/support/<product>/tags/...` are derived from `keywords`. These are wrapped in marker comments so the generator does not need regex matching after migration. The `---` line between body and badges is cosmetic; `_extract_body` uses `_BADGE_START` as the boundary and trims a trailing `---` only as cleanup.
+- **Stale tag cleanup**: tag pages that no longer correspond to any article keyword are deleted after generation, before `docs.json` is updated. This keeps the tags directory and navigation free of orphaned entries.
 - **Marker-based editing**: all auto-generated sections (article tab Badges, `support.mdx` count lines, and featured articles) use MDX comment markers. This makes managed regions visible to writers and lets the generator replace content precisely without fragile regex anchors. Each marker pair has a migration path that wraps bare content on first run.
 - **Golden tests**: compare generated tag pages, product index pages, article files (including footer markers), support tabs in `docs.json`, and root `support.mdx` to the committed tree so output drift is visible as a unified diff.
 

@@ -268,7 +268,12 @@ class TestParseFrontmatter:
 
             ---
 
+            {/* ---- AUTO-GENERATED: tab badges ----
+              Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+              Do not edit between these markers by hand.
+            ---- */}
             <Badge>Tag</Badge>
+            {/* ---- END AUTO-GENERATED: tab badges ---- */}
         """), encoding="utf-8")
 
         fm, body = generate_tags.parse_frontmatter(mdx)
@@ -347,6 +352,60 @@ class TestParseFrontmatter:
 
         fm, body = generate_tags.parse_frontmatter(mdx)
         assert body == "Just a body, no badges."
+
+    def test_parse_frontmatter_hr_in_body_preserved(self, tmp_path):
+        """A --- horizontal rule inside the body is not treated as a footer boundary."""
+        mdx = tmp_path / "test.mdx"
+        mdx.write_text(textwrap.dedent("""\
+            ---
+            title: "HR"
+            keywords: ["Alpha"]
+            ---
+
+            Part one.
+
+            ---
+
+            Part two.
+
+            {/* ---- AUTO-GENERATED: tab badges ----
+              Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+              Do not edit between these markers by hand.
+            ---- */}
+            <Badge stroke shape="pill" color="orange" size="md">[Alpha](/support/widgets/tags/alpha)</Badge>
+            {/* ---- END AUTO-GENERATED: tab badges ---- */}
+        """), encoding="utf-8")
+
+        _, body = generate_tags.parse_frontmatter(mdx)
+        assert "Part one." in body
+        assert "Part two." in body
+        assert "---" in body
+        assert "AUTO-GENERATED" not in body
+
+    def test_parse_frontmatter_marker_text_excluded_from_body(self, tmp_path):
+        """Marker comments and Badge elements are excluded from the body."""
+        mdx = tmp_path / "test.mdx"
+        mdx.write_text(textwrap.dedent("""\
+            ---
+            title: "Short"
+            keywords: ["Alpha"]
+            ---
+
+            One sentence.
+
+            ---
+
+            {/* ---- AUTO-GENERATED: tab badges ----
+              Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+              Do not edit between these markers by hand.
+            ---- */}
+            <Badge stroke shape="pill" color="orange" size="md">[Alpha](/support/widgets/tags/alpha)</Badge>
+            {/* ---- END AUTO-GENERATED: tab badges ---- */}
+        """), encoding="utf-8")
+
+        _, body = generate_tags.parse_frontmatter(mdx)
+        assert body == "One sentence."
+        assert "Badge" not in body
 
 
 # ===========================================================================
