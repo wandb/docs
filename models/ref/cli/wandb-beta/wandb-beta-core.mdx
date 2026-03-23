@@ -1,0 +1,45 @@
+---
+title: wandb beta core
+---
+
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/beta.py#L228" />
+
+
+
+## Usage
+
+```bash
+core [OPTIONS] COMMAND [ARGS]...
+```
+
+## Description
+
+Manage a shared local wandb-core service for multi-process workloads.
+
+    wandb-core is the local backend process that handles run data,
+    file uploads, and system metrics collection. By default, each
+    process that calls wandb.init() starts its own backend. On a
+    machine running many independent workers, that duplicates work
+    and wastes CPU and memory.
+
+    Use these commands to start one detached wandb-core instance and
+    point multiple workers on the same machine at it with the
+    WANDB_SERVICE environment variable.
+
+    For shell scripts, capture the raw WANDB_SERVICE value from stdout:
+
+        $ export WANDB_SERVICE="$(wandb beta core start)"
+
+    The shared service exits after 10 minutes of idleness by default.
+    Override this with --idle-timeout on the start command.
+
+## Subcommands
+
+| Command | Description |
+|---------|-------------|
+| [`wandb beta core start`](wandb-beta-core/wandb-beta-core-start) | Start a detached wandb-core service. |
+| [`wandb beta core stop`](wandb-beta-core/wandb-beta-core-stop) | Stop a detached wandb-core service. |
+
