@@ -1,0 +1,23 @@
+---
+title: W&B Launch 는 이미지를 어떻게 빌드하나요?
+---
+
+ thoughtful
+이미지를 빌드하는 단계는 job 소스와 리소스 설정에 지정된 가속기(accelerator) 베이스 이미지에 따라 달라집니다.
+
+<Note>
+큐를 설정하거나 job을 제출할 때, 큐 또는 job 리소스 설정에 베이스 가속기 이미지를 포함하세요:
+```json
+{
+    "builder": {
+        "accelerator": {
+            "base_image": "image-name"
+        }
+    }
+}
+```
+</Note>
+
+빌드 프로세스는 job 유형 및 제공된 가속기 베이스 이미지에 따라 다음 작업을 포함합니다:
+
+| | apt를 사용하여 Python 설치 | Python 패키지 설치 | 사용자 및 작업 디렉토리(workdir) 생성 | 이미리에 코드 복사 | 진입점(entrypoint) 설정 | |

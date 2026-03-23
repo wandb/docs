@@ -1,50 +1,99 @@
 ---
-title: ログ オブジェクト と メディア
-description: メトリクス、ビデオ、カスタムプロットなどを追跡する
+title: 概要
+description: メトリクス、ビデオ、カスタムプロットなどを追跡します
 ---
 
-W&B Python SDK を使用して、メトリクス、メディア、またはカスタムオブジェクトの辞書をステップにログします。W&B は各ステップごとにキーと値のペアを収集し、`wandb.log()` でデータをログするたびにそれらを統一された辞書に格納します。スクリプトからログされたデータは、`wandb` と呼ばれるディレクトリにローカルに保存され、その後 W&B クラウドまたは [プライベートサーバー](/ja/platform/hosting/) に同期されます。
+import MetricNamingRules from "/snippets/en/_includes/metric-naming-rules.mdx";
+import MetricNamingExamples from "/snippets/en/_includes/metric-naming-examples.mdx";
+
+W&B Python SDK を使用して、メトリクス、メディア、またはカスタムオブジェクトの 辞書 を特定のステップに ログ 記録します。 W&B は各ステップでキーと値のペアを収集し、 `wandb.Run.log()` を使用してデータが ログ 記録されるたびに、それらを1つの統合された 辞書 に保存します。 スクリプト から ログ 記録された データ は、マシンの `wandb` という名前の ディレクトリー にローカルで保存され、その後 W&B クラウド または [プライベート サーバー](/platform/hosting/) に同期されます。
 
 <Note>
-キーと値のペアは、各ステップに同じ値を渡した場合にのみ統一された辞書に保存されます。`step` に異なる値をログした場合、W&B はすべての収集されたキーと値をメモリに書き込みます。
+キーと値のペアが1つの統合された 辞書 に保存されるのは、各ステップで同じ値を渡した場合のみです。 `step` に対して異なる値を ログ 記録した場合、 W&B は収集されたすべてのキーと値をメモリに書き込みます。
 </Note>
 
-デフォルトでは、`wandb.log` を呼び出すたびに新しい `step` になります。W&B は、チャートやパネルを作成する際にステップをデフォルトの x 軸として使用します。カスタムの x 軸を作成して使用するか、カスタムの要約メトリックをキャプチャすることも選択できます。詳細は、[ログの軸をカスタマイズする](/ja/models/track/log/customize-logging-axes/)を参照してください。
+デフォルトでは、 `wandb.Run.log()` の各呼び出しが新しい `step` になります。 W&B は、 チャート や パネル を作成する際のデフォルトの x 軸としてステップを使用します。 オプションで、カスタム x 軸を作成して使用したり、カスタム サマリー メトリクス をキャプチャしたりすることもできます。 詳細については、 [ログ軸のカスタマイズ](/models/track/log/customize-logging-axes/) を参照してください。
+
+{/* [INSERT BETTER EXAMPLE] */}
+{/* If you want to log to a single history step from lots of different places in your code you can pass a step index to `run.log()` as follows:
+
+```python
+run.log({'loss': 0.2}, step=step)
+``` */}
+
+{/* [INSERT EXAMPLE] */}
 
 <Warning>
-`wandb.log()` を使用して、各 `step` の連続する値をログします: 0, 1, 2, といった具合です。特定の履歴ステップに書き込むことは不可能です。W&B は「現在」と「次」のステップにのみ書き込みます。
+`wandb.Run.log()` を使用して、各 `step` に対して 0, 1, 2 といった連続した値を ログ 記録してください。 特定の履歴ステップに書き込むことはできません。 W&B は「現在」と「次」のステップにのみ書き込みます。
 </Warning>
 
-## 自動でログされるデータ
+{/* You can set `commit=False` in `run.log` to accumulate metrics, just be sure to eventually call `run.log` with `commit=True` (the default) to persist the metrics.
 
-W&B は、W&B Experiment 中に次の情報を自動でログします：
+```python
+run.log({'loss': 0.2}, commit=False)
+# Somewhere else when I'm ready to report this step:
+run.log({'accuracy': 0.8})
+``` */}
 
-* **システムメトリクス**: CPU と GPU の使用率、ネットワークなど。これらは [run ページ](/ja/models/runs/) のシステムタブに表示されます。GPU に関しては、[`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface) で取得されます。
-* **コマンドライン**: stdout と stderr が取得され、[run ページ](/ja/models/runs/) のログタブに表示されます。
 
-アカウントの [Settings ページ](https://wandb.ai/settings)で[コードの保存](http://wandb.me/code-save-colab)をオンにして、以下をログします：
+## 自動的にログ記録されるデータ
 
-* **Git コミット**: 最新の git コミットを取得し、run ページの overview タブに表示されます。コミットされていない変更がある場合は `diff.patch` ファイルも表示されます。
-* **依存関係**: `requirements.txt` ファイルがアップロードされ、run ページのファイルタブに表示されます。run 用に `wandb` ディレクトリに保存したファイルも含まれます。
+W&B は、 W&B Experiments の実行中に以下の情報を自動的に ログ 記録します。
 
-## 特定の W&B API 呼び出しでログされるデータ
 
-W&B を使用することで、ログしたいものを正確に決定できます。次に、よくログされるオブジェクトのリストを示します：
+* **システムメトリクス**: CPU および GPU 使用率、ネットワークなど。 GPU については、 [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface) を使用して取得されます。
+* **コマンドライン**: 標準出力 (stdout) と標準エラー出力 (stderr) が取得され、 [run ページ](/models/runs/) の logs タブに表示されます。
 
-* **Datasets**: 画像や他のデータセットサンプルを W&B にストリームするためには、特にログする必要があります。
-* **Plots**: グラフを追跡するために `wandb.plot` を `wandb.log` と一緒に使用します。詳細は[ログでのグラフ](/ja/models/track/log/plots/)を参照してください。
-* **Tables**: `wandb.Table` を使用してデータをログし、W&B でビジュアライズおよびクエリを行います。詳細は[ログでのテーブル](/ja/models/track/log/log-tables/)を参照してください。
-* **PyTorch 勾配**: モデルの重みの勾配を UI にヒストグラムとして表示するために `wandb.watch(model)` を追加します。
-* **設定情報**: ハイパーパラメーター、データセットへのリンク、使用しているアーキテクチャーの名前などを設定パラメーターとしてログします。このように渡します：`wandb.init(config=your_config_dictionary)`。詳細は[PyTorch インテグレーション](/ja/guides/integrations/pytorch)ページをご覧ください。
-* **メトリクス**: `wandb.log` を使用してモデルのメトリクスを表示します。トレーニングループ内で精度や損失のようなメトリクスをログすると、UI にライブ更新グラフが表示されます。
+アカウントの [設定ページ](https://wandb.ai/settings) で [Code Saving](https://wandb.me/code-save-colab) を有効にすると、以下が ログ 記録されます。
+
+* **Git commit**: 最新の git commit を取得し、 run ページの Overviewタブ に表示します。また、未コミットの変更がある場合は `diff.patch` ファイルも表示されます。
+* **依存関係**: `requirements.txt` ファイルがアップロードされ、 run ページの files タブに表示されます。また、その run の `wandb` ディレクトリー に保存したすべてのファイルも表示されます。
+
+
+## 特定の W&B API 呼び出しでログ記録されるデータは？
+
+W&B では、何を ログ 記録するかを正確に決定できます。 以下は、一般的に ログ 記録される オブジェクト のリストです。
+
+* **Datasets**: W&B にストリーミングするには、画像やその他の データセット サンプルを明示的に ログ 記録する必要があります。
+* **Plots**: `wandb.plot()` を `wandb.Run.log()` と組み合わせて使用し、 チャート を追跡します。 詳細については [Log Plots](/models/track/log/plots/) を参照してください。
+* **Tables**: `wandb.Table` を使用して、 W&B で視覚化およびクエリするための データ を ログ 記録します。 詳細については [Log Tables](/models/track/log/log-tables/) を参照してください。
+* **PyTorch 勾配**: `wandb.Run.watch(model)` を追加すると、 UI 上で重みの 勾配 をヒストグラムとして確認できます。
+* **設定情報**: ハイパーパラメーター 、 データセット へのリンク、または使用している アーキテクチャー 名を 設定 パラメータとして ログ 記録します。これらは次のように渡されます： `wandb.init(config=your_config_dictionary)`。
+* **メトリクス**: `wandb.Run.log()` を使用して モデル の メトリクス を確認します。 トレーニング ループ内から精度や損失などの メトリクス を ログ 記録すると、 UI 上でライブ更新されるグラフが表示されます。
+
+
+
+## メトリクス命名の制約
+
+GraphQL の制限により、 W&B の メトリクス 名は特定の命名規則に従う必要があります。
+
+<MetricNamingRules/>
+
+<Warning>
+メトリクス 名に無効な文字（カンマ、スペース、特殊記号など）を使用しないでください。 W&B UI でのソート、クエリ、表示に問題が発生する可能性があります。
+</Warning>
+
+<MetricNamingExamples/>
 
 ## 一般的なワークフロー
 
-1. **最高の精度を比較する**: Runs 間でメトリクスの最高値を比較するには、そのメトリクスの要約値を設定します。デフォルトでは、各キーの最後にログした値が要約に設定されます。これは UI のテーブルで、要約メトリクスに基づいて run を並べ替えたりフィルタリングしたりするのに便利です。_best_ の精度に基づいてテーブルまたは棒グラフで run を比較するのに役立ちます。例：`wandb.run.summary["best_accuracy"] = best_accuracy`
-2. **複数のメトリクスを1つのチャートで表示**: `wandb.log` の同じ呼び出し内で複数のメトリクスをログすると、例えばこうなります: `wandb.log({"acc": 0.9, "loss": 0.1})`。UI ではどちらもプロットすることができます。
-3. **x 軸をカスタマイズする**: 同じログ呼び出しにカスタム x 軸を追加して、W&B ダッシュボードで別の軸に対してメトリクスを視覚化します。例：`wandb.log({'acc': 0.9, 'epoch': 3, 'batch': 117})`。特定のメトリクスに対するデフォルトの x 軸を設定するには、[Run.define_metric()](/ja/models/ref/python/run#define_metric) を使用してください。
-4. **リッチメディアとチャートをログする**: `wandb.log` は、[画像やビデオのようなメディア](/ja/models/track/log/media/)から[tables](/ja/models/track/log/log-tables/)や[charts](/ja/models/app/features/custom-charts/)に至るまで、多様なデータタイプのログをサポートしています。
+1. **最高精度の比較**: Runs 間で メトリクス の最高値を比較するには、その メトリクス の サマリー 値を設定します。 デフォルトでは、 サマリー は各 キー に対して最後に ログ 記録された値に設定されます。 これは UI の テーブル で役立ち、 サマリー メトリクス に基づいて Runs をソートおよびフィルタリングできるため、最終的な精度ではなく _最高の_ 精度に基づいて、 テーブル や棒グラフで Runs を比較するのに役立ちます。 例: `wandb.run.summary["best_accuracy"] = best_accuracy`
+
+2. **1つのチャートで複数のメトリクスを表示**: 同じ呼び出しで複数の メトリクス を ログ 記録します。 例:
+    ```python
+    with wandb.init() as run:
+      run.log({"acc": 0.9, "loss": 0.1})
+    ```
+    その後、 UI で両方の メトリクス をプロットできます。
+3. **x 軸のカスタマイズ**: 同じ ログ 呼び出しにカスタム x 軸を追加して、 W&B ダッシュボード で別の軸に対して メトリクス を視覚化します。 例:
+    ```python
+    with wandb.init() as run:
+      run.log({'acc': 0.9, 'epoch': 3, 'batch': 117})
+    ```
+    特定の メトリクス に対してデフォルトの x 軸を設定するには、 [Run.define_metric()](/models/ref/python/experiments/run#define_metric) を使用します。
+
+4. **リッチメディアとチャートのログ記録**: `wandb.Run.log()` は、 [画像やビデオなどのメディア](/models/track/log/media/) から [Tables](/models/track/log/log-tables/) 、 [カスタムチャート](/models/app/features/custom-charts/) まで、幅広い データ タイプ の ログ 記録をサポートしています。
 
 ## ベストプラクティスとヒント
 
-Experiments やログのためのベストプラクティスとヒントについては、[Best Practices: Experiments and Logging](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-experiments-and-logging) を参照してください。
+Experiments と ログ 記録に関する ベストプラクティス とヒントについては、 [Best Practices: Experiments and Logging](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w&b-experiments-and-logging) を参照してください。

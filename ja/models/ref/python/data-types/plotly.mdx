@@ -1,30 +1,35 @@
 ---
 title: Plotly
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/plotly.py#L33-L82" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py" />
 
-Wandb クラスは plotly のプロット用です。
+
+
+
+## <kbd>class</kbd> `Plotly`
+Plotly プロットのための W&B クラスです。
+
+### <kbd>method</kbd> `Plotly.__init__`
 
 ```python
-Plotly(
-    val: Union['plotly.Figure', 'matplotlib.artist.Artist']
+__init__(
+    val: Union[ForwardRef('plotly.Figure'), ForwardRef('matplotlib.artist.Artist')]
 )
 ```
 
-| Arg | Description |
-| :--- | :--- |
-|  `val` |  matplotlib または plotly の図 |
+Plotly オブジェクト を初期化します。
 
-## メソッド
 
-### `make_plot_media`
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/plotly.py#L42-L50)
+**Args:**
+ 
+ - `val`: Matplotlib または Plotly の figure。
 
-```python
-@classmethod
-make_plot_media(
-    val: Union['plotly.Figure', 'matplotlib.artist.Artist']
-) -> Union[Image, 'Plotly']
-```
+
+
+
+---

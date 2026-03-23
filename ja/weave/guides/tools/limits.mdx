@@ -1,0 +1,54 @@
+---
+title: 制限事項と期待される振る舞い
+description: Weave の制限事項、既知の問題、および期待される 振る舞い の一覧
+---
+
+* リトライ可能なリクエストについて、 Weave は最初のエラーを受信してから 1 秒後にリトライを開始し、その後、試行間の時間を 5 分を上限として倍増させます。リクエストは 36 時間後にタイムアウトします。
+
+* 例外を発生させる代わりに、 [`.call()`](/weave/guides/tracking/tracing#creating-calls) は例外をキャプチャし、 `call.exception` に保存します。実行中に例外を発生させる必要がある場合は、次のように [`__should_raise` パラメータ](/weave/reference/python-sdk/trace/op#function-call) を設定してください：
+
+    ```python showLineNumbers
+    # これは例外を発生させます
+    result, call = foo.call(__should_raise=True)
+    ```
+
+* 専用の Weave インスタンスは、異なる OpenTelemetry イングレス URL を使用します。正式なエンドポイント情報については、 [Send OpenTelemetry Traces](/weave/guides/tracking/otel) を参照してください。
+
+* Weave は、大きな トレース データ オブジェクト を切り捨てることがあります。これは、デフォルトの トレース 出力が、 Weave がシリアル化の方法を認識していない生のカスタム Python オブジェクト であるために発生します。すべての トレース データ を返すには、次のように文字列の 辞書 を定義します：
+
+    ```python
+    import weave
+    
+    class MyObj:
+        """大きな文字列属性を持つオブジェクト。"""
+        def __init__(self, x: int):
+            self.x = x
+    
+        def __repr__(self):
+            return f"MyObj(x={self.x})"
+    
+        def to_dict(self):
+            return {"x": self.x}
+    
+    @weave.op()
+    def make_my_obj():
+        x = "a" * 10_000
+        return MyObj(x)
+    
+    def main():
+        weave.init("<entity/project>")
+    
+        # MyObjを処理するトレース可能な演算を定義
+        @weave.op()
+        def process_obj(obj: MyObj) -> int:
+            return len(obj.x)
+    
+        # 大きなMyObjインスタンスを作成して処理
+        large_obj = make_my_obj()
+        length = process_obj(large_obj)
+        print(f"Length of x in MyObj: {length}")
+        print("dict:", large_obj.to_dict())
+    
+    if __name__ == "__main__":
+        main()
+    ```

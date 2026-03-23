@@ -1,6 +1,6 @@
 ---
 title: "Online Monitoring"
-description: "Learn how to use online monitoring with W&B Weave"
+description: "Set up online monitoring for LLM applications in production using W&B Weave to track performance and quality metrics."
 ---
 
 <Note>
@@ -33,7 +33,7 @@ To follow along this tutorial you'll only need to install the following packages
 
 # 2. Implementation
 
-## 2.1 Initializing Weave Client and Defining Costs
+## 2.1 Initializing Weave client and defining costs
 
 First, we'll set up a function to initialize the Weave client and add costs for each model.
 
@@ -74,14 +74,14 @@ def init_weave_client(project_name):
 client = init_weave_client(PROJECT_NAME)
 ```
 
-## 2.2 Fetching Calls Data from Weave
+## 2.2 Fetching calls data from Weave
 
 In order to fetch call data from Weave, we have two options:
 
 1. Fetching Data call-by-call
 2. Using high-level APIs
 
-### 2.2.1 Fetching Data call-by-call
+### 2.2.1 Fetching data call-by-call
 
 The first option to access data from Weave is to retrieve a list of filtered calls and extract the wanted data call-by-call. For that we can use the `calls_query_stream` API to fetch the calls data from Weave:
 

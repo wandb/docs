@@ -1,13 +1,8 @@
 ---
-title: How do I best log models from runs in a sweep?
-support:
-- artifacts
-- sweeps
-toc_hide: true
-type: docs
+title: Sweep 의 Run 에서 Models 를 가장 잘 로그하는 방법은 무엇인가요?
 ---
 
-[스윕](/ko/models/sweeps/)에서 모델을 로깅하는 효과적인 방법 중 하나는 스윕을 위한 모델 아티팩트를 생성하는 것입니다. 각 버전은 스윕의 서로 다른 run을 나타냅니다. 다음과 같이 구현합니다.
+[Sweeps](/models/sweeps/) 에서 모델을 로그하는 효과적인 방법 중 하나는 해당 스윕을 위한 모델 아티팩트(artifact)를 생성하는 것입니다. 각 버전은 스윕의 서로 다른 run 을 나타냅니다. 다음과 같이 구현하세요:
 
 ```python
 wandb.Artifact(name="sweep_name", type="model")

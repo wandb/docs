@@ -1,0 +1,460 @@
+---
+title: スコアリングの概要
+description: Weave Scorers を使用して AI の出力を評価し、評価メトリクス を返します
+---
+
+Weave において、Scorers は AI の出力を評価し、評価メトリクスを返すために使用されます。これらは AI の出力を受け取り、それを分析して結果の辞書を返します。Scorers は必要に応じて入力データを参照として使用でき、評価の際の説明や理由などの追加情報を出力することも可能です。
+
+<Tabs>
+  <Tab title="Python">
+    Scorers は評価中に `weave.Evaluation` オブジェクトに渡されます。Weave には 2 種類の Scorer があります。
+
+    1.  **関数ベースの Scorers:** `@weave.op` でデコレートされたシンプルな Python 関数。
+    2.  **クラスベースの Scorers:** より複雑な評価のために `weave.Scorer` を継承した Python クラス。
+
+    Scorers は必ず辞書を返す必要があり、複数のメトリクス、ネストされたメトリクス、および LLM エバリュエーターから返される推論プロセスのような非数値（テキスト）を返すことができます。
+
+  </Tab>
+  <Tab title="TypeScript">
+    Scorers は、評価中に `weave.Evaluation` オブジェクトに渡される特別な op です。
+  </Tab>
+</Tabs>
+
+## 独自の Scorer を作成する
+
+<Tip>
+**すぐに使える Scorers**
+このガイドではカスタム Scorer の作成方法を説明していますが、Weave には以下のような、すぐに利用可能な[定義済み Scorer](./builtin_scorers.mdx)や[ローカル SLM Scorer](./weave_local_scorers.mdx)が用意されています。
+- [ハルシネーション検出](./builtin_scorers#hallucinationfreescorer)
+- [要約の品質](./builtin_scorers#summarizationscorer)
+- [埋め込みの類似度](./builtin_scorers#embeddingsimilarityscorer)
+- [毒性検出 (ローカル)](./weave_local_scorers#weavetoxicityscorerv1)
+- [コンテキスト関連性スコアリング (ローカル)](./weave_local_scorers#weavecontextrelevancescorerv1)
+- その他多数！
+</Tip>
+
+### 関数ベースの Scorers
+
+<Tabs>
+  <Tab title="Python">
+    これらは `@weave.op` でデコレートされ、辞書を返す関数です。以下のようなシンプルな評価に最適です。
+
+    ```python lines
+    import weave
+
+    @weave.op
+    def evaluate_uppercase(text: str) -> dict:
+        return {"text_is_uppercase": text.isupper()}
+
+    my_eval = weave.Evaluation(
+        dataset=[{"text": "HELLO WORLD"}],
+        scorers=[evaluate_uppercase]
+    )
+    ```
+
+    評価が実行されると、 `evaluate_uppercase` はテキストがすべて大文字かどうかをチェックします。
+
+  </Tab>
+  <Tab title="TypeScript">
+    これらは `weave.op` でラップされた関数で、 `modelOutput` とオプションで `datasetRow` を含むオブジェクトを受け取ります。以下のようなシンプルな評価に最適です。
+    ```typescript lines
+    import * as weave from 'weave'
+
+    const evaluateUppercase = weave.op(
+        ({modelOutput}) => modelOutput.toUpperCase() === modelOutput,
+        {name: 'textIsUppercase'}
+    );
+
+    const myEval = new weave.Evaluation({
+        dataset: [{text: 'HELLO WORLD'}],
+        scorers: [evaluateUppercase],
+    })
+    ```
+
+  </Tab>
+</Tabs>
+
+### クラスベースの Scorers
+
+<Tabs>
+  <Tab title="Python">
+    より高度な評価、特に追加の Scorer メタデータを追跡する必要がある場合や、LLM エバリュエーターに異なるプロンプトを試す場合、または複数の関数呼び出しを行う場合には、 `Scorer` クラスを使用できます。
+
+    **要件:**
+
+    1.  `weave.Scorer` を継承すること。
+    2.  `@weave.op` でデコレートされた `score` メソッドを定義すること。
+    3.  `score` メソッドは辞書を返すこと。
+
+    例:
+
+    ```python lines {7}
+    import weave
+    from openai import OpenAI
+    from weave import Scorer
+
+    llm_client = OpenAI()
+
+    class SummarizationScorer(Scorer):
+        model_id: str = "gpt-4o"
+        system_prompt: str = "Evaluate whether the summary is good."
+
+        @weave.op
+        def some_complicated_preprocessing(self, text: str) -> str:
+            processed_text = "Original text: \n" + text + "\n"
+            return processed_text
+
+        @weave.op
+        def call_llm(self, summary: str, processed_text: str) -> dict:
+            res = llm_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": self.system_prompt},
+                    {"role": "user", "content": (
+                        f"Analyze how good the summary is compared to the original text."
+                        f"Summary: {summary}\n{processed_text}"
+                    )}])
+            return {"summary_quality": res}
+
+        @weave.op
+        def score(self, output: str, text: str) -> dict:
+            """要約の品質をスコアリングします。
+
+            Args:
+                output: AIシステムによって生成された要約
+                text: 要約される元のテキスト
+            """
+            processed_text = self.some_complicated_preprocessing(text)
+            eval_result = self.call_llm(summary=output, processed_text=processed_text)
+            return {"summary_quality": eval_result}
+
+    evaluation = weave.Evaluation(
+        dataset=[{"text": "The quick brown fox jumps over the lazy dog."}],
+        scorers=[summarization_scorer])
+    ```
+
+    このクラスは、元のテキストと比較して要約がどれだけ優れているかを評価します。
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+## Scorer の仕組み
+
+### Scorer のキーワード引数
+
+<Tabs>
+  <Tab title="Python">
+    Scorers は AI システムからの出力と、データセットの行からの入力データの両方にアクセスできます。
+
+    - **入力:** Scorer にデータセット行のデータ（ "label" や "target" 列など）を使用させたい場合は、Scorer の定義に `label` や `target` といったキーワード引数を追加するだけで、簡単に利用可能になります。
+
+    例えば、データセットから "label" という名前の列を使用したい場合、Scorer 関数（または `score` クラスメソッド）のパラメータリストは以下のようになります。
+
+    ```python lines
+    @weave.op
+    def my_custom_scorer(output: str, label: int) -> dict:
+        ...
+    ```
+
+    Weave の `Evaluation` が実行されると、AI システムの出力が `output` パラメータに渡されます。また、 `Evaluation` は追加の Scorer 引数名をデータセットの列名に自動的に一致させようと試みます。Scorer の引数やデータセットの列をカスタマイズすることが難しい場合は、後述するカラムマッピングを使用できます。
+
+    - **出力:** AI システムの出力にアクセスするために、Scorer 関数のシグネチャに `output` パラメータを含めてください。
+
+    ### `column_map` による列名のマッピング
+
+    `score` メソッドの引数名がデータセットの列名と一致しないことがあります。これは `column_map` を使用して解決できます。
+
+    クラスベースの Scorer を使用している場合は、Scorer クラスを初期化する際に `column_map` 属性に辞書を渡します。この辞書は、 `score` メソッドの引数名をデータセットの列名に `{scorer_keyword_argument: dataset_column_name}` の形式でマッピングします。
+
+    例:
+
+    ```python lines
+    import weave
+    from weave import Scorer
+
+    # 要約対象のニュース記事を含むデータセット
+    dataset = [
+        {"news_article": "The news today was great...", "date": "2030-04-20", "source": "Bright Sky Network"},
+        ...
+    ]
+
+    # Scorer クラス
+    class SummarizationScorer(Scorer):
+
+        @weave.op
+        def score(self, output, text) -> dict:
+            """
+                output: LLM要約システムからの出力要約
+                text: 要約されるテキスト
+            """
+            ...  # 要約の品質を評価
+    
+    # `text` 引数を `news_article` データ列にマッピングした Scorer を作成
+    scorer = SummarizationScorer(column_map={"text" : "news_article"})
+    ```
+
+    これで、 `score` メソッドの `text` 引数は `news_article` データセット列からデータを受け取ります。
+
+    **備考:**
+
+    - 列をマッピングするためのもう一つの同等なオプションは、 `Scorer` をサブクラス化し、列を明示的にマッピングするように `score` メソッドをオーバーロードすることです。
+
+    ```python lines
+    import weave
+    from weave import Scorer
+
+    class MySummarizationScorer(SummarizationScorer):
+
+        @weave.op
+        def score(self, output: str, news_article: str) -> dict:  # 型ヒントを追加
+            # scoreメソッドをオーバーロードし、手動で列をマッピングする
+            return super().score(output=output, text=news_article)
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    Scorers は AI システムからの出力と、データセット行の内容の両方にアクセスできます。
+
+    Scorer 定義に `datasetRow` キーワード引数を追加することで、データセット行から関連する列に簡単にアクセスできます。
+
+    ```typescript lines
+    const myScorer = weave.op(
+        ({modelOutput, datasetRow}) => {
+            return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
+        },
+        {name: 'myScorer'}
+    );
+    ```
+
+    ### `columnMapping` による列名のマッピング
+    <Warning>
+
+    TypeScript では、この機能は現在各 Scorer ではなく、 `Evaluation` オブジェクトにあります。
+
+    </Warning>
+
+    `datasetRow` のキーが Scorer の命名規則と正確に一致しない場合でも、意味的に類似していることがあります。 `Evaluation` の `columnMapping` オプションを使用して列をマッピングできます。
+
+    マッピングは常に Scorer の視点から行われます（例： `{scorer_key: dataset_column_name}` ）。
+
+    例:
+
+    ```typescript lines
+    const myScorer = weave.op(
+        ({modelOutput, datasetRow}) => {
+            return modelOutput * 2 === datasetRow.expectedOutputTimesTwo;
+        },
+        {name: 'myScorer'}
+    );
+
+    const myEval = new weave.Evaluation({
+        dataset: [{expected: 2}],
+        scorers: [myScorer],
+        columnMapping: {expectedOutputTimesTwo: 'expected'}
+    });
+    ```
+
+  </Tab>
+</Tabs>
+
+### Scorer の最終的な集計 (summarization)
+
+<Tabs>
+  <Tab title="Python">
+    評価中、Scorer はデータセットの各行に対して計算されます。評価の最終的なスコアを提供するために、出力の返り値の型に応じた `auto_summarize` 機能を提供しています。
+    - 数値列については平均値が計算されます
+    - ブール値列についてはカウントと割合が計算されます
+    - その他の列タイプは無視されます
+
+    `Scorer` クラスの `summarize` メソッドをオーバーライドして、最終スコアを計算する独自の方法を提供できます。 `summarize` 関数は以下を期待します。
+
+    - 単一のパラメータ `score_rows`: これは辞書のリストで、各辞書にはデータセットの 1 行に対して `score` メソッドから返されたスコアが含まれます。
+    - 集計されたスコアを含む辞書を返す必要があります。
+
+    **なぜこれが便利なのか？**
+
+    データセットの最終的なスコア値を決定する前に、すべての行をスコアリングする必要がある場合に役立ちます。
+
+    ```python lines
+    class MyBinaryScorer(Scorer):
+        """
+        完全な出力がターゲットと一致すれば True、そうでなければ False を返します
+        """
+
+        @weave.op
+        def score(self, output, target):
+            return {"match": output == target}
+
+        def summarize(self, score_rows: list) -> dict:
+            full_match = all(row["match"] for row in score_rows)
+            return {"full_match": full_match}
+    ```
+
+    > この例では、デフォルトの `auto_summarize` は True のカウントと割合を返していたはずです。
+
+    詳細については、 [CorrectnessLLMJudge](/weave/tutorial-rag#optional-defining-a-scorer-class) の実装を確認してください。
+
+  </Tab>
+  <Tab title="TypeScript">
+    評価中、Scorer はデータセットの各行に対して計算されます。最終的なスコアを提供するために、出力タイプに応じて集計を行う内部の `summarizeResults` 関数を使用します。
+    - 数値列については平均値が計算されます
+    - ブール値列についてはカウントと割合が計算されます
+    - その他の列タイプは無視されます
+
+    現在、カスタムの集計（summarization）はサポートされていません。
+
+  </Tab>
+</Tabs>
+
+### Call への Scorer の適用
+
+Weave の ops に Scorer を適用するには、操作の結果とその追跡情報の両方にアクセスできる `.call()` メソッドを使用する必要があります。これにより、Scorer の結果を Weave データベース内の特定の call に関連付けることができます。
+
+`.call()` メソッドの使用方法の詳細については、 [Calling Ops](../tracking/tracing#calling-ops#getting-a-handle-to-the-call-object-during-execution) ガイドを参照してください。
+
+<Tabs>
+  <Tab title="Python">
+    基本的な例を次に示します。
+
+    ```python lines
+    # 結果と Call オブジェクトの両方を取得
+    result, call = generate_text.call("Say hello")
+
+    # Scorer を適用
+    score = await call.apply_scorer(MyScorer())
+    ```
+
+    同じ call に対して複数の Scorer を適用することもできます。
+
+    ```python lines
+    # 複数の Scorer を並列で適用
+    await asyncio.gather(
+        call.apply_scorer(quality_scorer),
+        call.apply_scorer(toxicity_scorer)
+    )
+    ```
+
+    **備考:**
+    - Scorer の結果は自動的に Weave のデータベースに保存されます
+    - Scorer はメインの操作が完了した後、非同期で実行されます
+    - Scorer の結果は UI で表示したり、API 経由でクエリしたりできます
+
+    ガードレールやモニターとして Scorer を使用する方法の詳細（プロダクションでのベストプラクティスや完全な例を含む）については、 [Guardrails and Monitors ガイド](./guardrails_and_monitors)をご覧ください。
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。
+    ```
+  </Tab>
+</Tabs>
+
+### `preprocess_model_input` の使用
+
+`preprocess_model_input` パラメータを使用すると、評価中にデータセットの例がモデルに到達する前にそれらを変更できます。
+
+<Important>
+`preprocess_model_input` 関数は、モデルの予測関数に渡される前の入力のみを変換します。
+
+Scorer 関数は、前処理が適用されていないオリジナルのデータセットの例を常に受け取ります。
+</Important>
+
+使用方法と例については、 [Using `preprocess_model_input` to format dataset rows before evaluating](../core-types/evaluations#using-preprocess_model_input-to-format-dataset-rows-before-evaluating) を参照してください。
+
+## スコア分析
+
+このセクションでは、単一の call、複数の call、および特定の Scorer によってスコアリングされたすべての call のスコアを分析する方法を説明します。
+
+### 単一の Call のスコアを分析する
+
+#### 単一 Call API
+
+単一の call に対する呼び出しを取得するには、 `get_call` メソッドを使用できます。
+
+```python lines
+client = weave.init("my-project")
+
+# 単一の call を取得
+call = client.get_call("call-uuid-here")
+
+# スコアを含む call のフィードバックを取得
+feedback = list(call.feedback)
+```
+
+#### 単一 Call UI
+
+<Frame>
+![Call Scores Tab](/weave/guides/evaluation/img/call_scores_tab.png)
+</Frame>
+
+個々の call のスコアは、call 詳細ページの "Scores" タブの下に表示されます。
+
+### 複数の Call のスコアを分析する
+
+#### 複数 Call API
+
+複数の call に対する呼び出しを取得するには、 `get_calls` メソッドを使用できます。
+
+```python lines
+client = weave.init("my-project")
+
+# 複数の call を取得 - 任意のフィルタを使用し、feedback を含める
+calls = client.get_calls(..., include_feedback=True)
+
+# call を反復処理し、スコアを含む feedback にアクセスする
+for call in calls:
+    feedback = list(call.feedback)
+```
+
+#### 複数 Call UI
+
+<Frame>
+![Multiple Calls Tab](/weave/guides/evaluation/img/traces_table_scores.png)
+</Frame>
+
+複数の call のスコアは、トレーステーブルの "Scores" 列の下に表示されます。
+
+### 特定の Scorer によってスコアリングされたすべての Call を分析する
+
+#### Scorer ごとの全 Call API
+
+特定の Scorer によってスコアリングされたすべての call を取得するには、 `get_calls` メソッドを使用できます。
+
+```python lines
+client = weave.init("my-project")
+
+# 任意のバージョンの Scorer によってスコアリングされたすべての call を取得するには、Scorer 名（通常はクラス名）を使用します
+calls = client.get_calls(scored_by=["MyScorer"], include_feedback=True)
+
+# 特定のバージョンの Scorer によってスコアリングされたすべての call を取得するには、完全な ref を使用します
+# Ref は Scorer オブジェクトまたは UI から取得できます。
+calls = client.get_calls(scored_by=[myScorer.ref.uri()], include_feedback=True)
+
+# call を反復処理し、スコアを含む feedback にアクセスする
+for call in calls:
+    feedback = list(call.feedback)
+```
+
+#### Scorer ごとの全 Call UI
+
+最後に、Scorer によってスコアリングされたすべての call を確認したい場合は、UI の Scorers タブに移動し、 "Programmatic Scorer" タブを選択します。対象の Scorer をクリックして Scorer 詳細ページを開きます。
+
+<Frame>
+![Scorer Details Page](/weave/guides/evaluation/img/scorer_detail_page.png)
+</Frame>
+
+次に、 `Scores` の下にある `View Traces` ボタンをクリックして、その Scorer によってスコアリングされたすべての call を表示します。
+
+<Frame>
+![Filtered Calls to Scorer Version](/weave/guides/evaluation/img/filtered_calls_to_scorer_version.png)
+</Frame>
+
+これはデフォルトで選択されたバージョンの Scorer にフィルタリングされます。バージョンフィルタを削除すると、その Scorer の任意のバージョンによってスコアリングされたすべての call を表示できます。
+
+<Frame>
+![Filtered Calls to Scorer Name](/weave/guides/evaluation/img/filtered_calls_scorer_name.png)
+</Frame>

@@ -1,0 +1,93 @@
+---
+title: Beta 리포트
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/reports.py" />
+
+## <kbd>class</kbd> `BetaReport`
+BetaReport 는 W&B 에서 생성된 Reports 와 관련된 클래스입니다.
+
+이 클래스는 Reports 의 속성(이름, 설명, User, spec, 타임스탬프)에 대한 access 와 연관된 Runs, 섹션을 가져오고 리포트를 HTML로 렌더링하는 메소드들을 제공합니다.
+
+**Attributes:**
+
+ - `id` (string): 리포트의 고유 식별자.
+ - `display_name` (string): 사람이 읽기 좋은 리포트의 표시 이름.
+ - `name` (string): 리포트의 이름. 더 사용자 친화적인 이름을 원하시면 `display_name` 을 사용하세요.
+ - `description` (string): 리포트에 대한 설명.
+ - `user` (User): 리포트를 생성한 사용자 정보(사용자 이름, 이메일)가 포함된 사전.
+ - `spec` (dict): 리포트의 spec.
+ - `url` (string): 리포트의 URL.
+ - `updated_at` (string): 마지막 업데이트 타임스탬프.
+ - `created_at` (string): 리포트가 생성된 타임스탬프.
+
+### <kbd>method</kbd> `BetaReport.__init__`
+
+```python
+__init__(client, attrs, entity=None, project=None)
+```
+
+---
+
+### <kbd>property</kbd> BetaReport.created_at
+
+---
+
+### <kbd>property</kbd> BetaReport.description
+
+---
+
+### <kbd>property</kbd> BetaReport.display_name
+
+---
+
+### <kbd>property</kbd> BetaReport.id
+
+---
+
+### <kbd>property</kbd> BetaReport.name
+
+---
+
+### <kbd>property</kbd> BetaReport.sections
+
+리포트에서 패널 섹션(그룹)을 가져옵니다.
+
+---
+
+### <kbd>property</kbd> BetaReport.spec
+
+---
+
+### <kbd>property</kbd> BetaReport.updated_at
+
+---
+
+### <kbd>property</kbd> BetaReport.url
+
+---
+
+### <kbd>property</kbd> BetaReport.user
+
+---
+
+### <kbd>method</kbd> `BetaReport.runs`
+
+```python
+runs(section, per_page=50, only_selected=True)
+```
+
+리포트의 특정 섹션과 연관된 Runs 를 가져옵니다.
+
+---
+
+### <kbd>method</kbd> `BetaReport.to_html`
+
+```python
+to_html(height=1024, hidden=False)
+```
+
+이 리포트를 표시하는 iframe이 포함된 HTML을 생성합니다.

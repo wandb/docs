@@ -1,205 +1,162 @@
 ---
 title: テーブル
+namespace: python_sdk_data_type
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/table.py" />
+
+## <kbd>class</kbd> `Table`
+
+`Table` クラスは、表形式のデータを表示および分析するために使用されます。
+
+従来の表計算ソフトとは異なり、 テーブル は、スカラー値、文字列、numpy 配列、および `wandb.data_types.Media` のほとんどのサブクラスなど、多数のデータ型をサポートしています。つまり、`Images`、`Video`、`Audio`、その他のリッチでアノテーションされたメディアを、他の従来のスカラー値と一緒に テーブル に直接埋め込むことができます。
+
+このクラスは、W&B Tables を生成するために使用される主要なクラスです https://docs.wandb.ai/guides/models/tables/。
+
+### <kbd>method</kbd> `Table.__init__`
+
+```python
+__init__(
+    columns=None,
+    data=None,
+    rows=None,
+    dataframe=None,
+    dtype=None,
+    optional=True,
+    allow_mixed_types=False,
+    log_mode: Optional[Literal['IMMUTABLE', 'MUTABLE', 'INCREMENTAL']] = 'IMMUTABLE'
+)
+```
+
+Table オブジェクトを初期化します。
+
+`rows` はレガシーな理由で利用可能ですが、使用すべきではありません。`Table` クラスは Pandas API を模倣するために `data` を使用します。
+
+**引数:**
+
+- `columns`: (List[str]) テーブル 内の列名。デフォルトは `["Input", "Output", "Expected"]` です。
+- `data`: (List[List[any]]) 行指向の 2 次配列 値。
+- `dataframe`: (pandas.DataFrame) テーブル の作成に使用される DataFrame オブジェクト。これが設定されている場合、`data` および `columns` 引数は無視されます。
+- `rows`: (List[List[any]]) 行指向の 2 次配列 値。
+- `optional`: (Union[bool, List[bool]]) `None` 値を許可するかどうかを決定します。デフォルトは True です。
+    - 単一の bool 値の場合、作成時に指定されたすべての列に対してオプション性が強制されます。
+    - bool 値のリストの場合、各列にオプション性が適用されます。`columns` と同じ長さである必要があります。
+- `allow_mixed_types`: (bool) 列に混合型を許可するかどうかを決定します（型検証を無効にします）。デフォルトは False です。
+- `log_mode`: Optional[str] 変更が発生したときに テーブル がどのように ログ 記録されるかを制御します。オプション:
+    - "IMMUTABLE" (デフォルト): テーブル は一度だけ ログ 記録できます。テーブル が変更された後の後続の ログ 記録の試みは、何もしません（no-ops）。
+    - "MUTABLE": テーブル は変更後に再 ログ 記録でき、 ログ 記録されるたびに新しい Artifacts バージョンを作成します。
+    - "INCREMENTAL": テーブル データは段階的に ログ 記録され、各 ログ で前回の ログ 以降の新しいデータを含む新しい Artifacts エントリが作成されます。
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L183-L909" icon="github"/>
-
-Table クラスは表形式のデータを表示および分析するために使用されます。
+### <kbd>method</kbd> `Table.add_column`
 
 ```python
-Table(
-    columns=None, data=None, rows=None, dataframe=None, dtype=None, optional=(True),
-    allow_mixed_types=(False)
-)
+add_column(name, data, optional=False)
 ```
 
-従来のスプレッドシートとは異なり、Tables は多くの種類のデータをサポートしています:
-スカラー値、文字列、numpy 配列、および `wandb.data_types.Media` のほとんどのサブクラス。
-これにより、`Images`、`Video`、`Audio`、および他の種類のリッチで注釈のあるメディアを
-従来のスカラー値と並べて Tables に直接埋め込むことができます。
+テーブル にデータの列を追加します。
 
-このクラスは、UI の Table Visualizer を生成するために使用される主要なクラスです: [https://docs.wandb.ai/models/tables/](/ja/models/tables/).
+**引数:**
 
-| 引数 | Description |
-| :--- | :--- |
-|  `columns` |  (List[str]) テーブル内の列の名前。デフォルトは["Input", "Output", "Expected"]です。 |
-|  `data` |  (List[List[any]]) 2D 行指向の配列。 |
-|  `dataframe` |  (pandas.DataFrame) テーブルの作成に使用される DataFrame オブジェクト。設定されている場合、`data` と `columns` 引数は無視されます。 |
-|  `optional` |  (Union[bool,List[bool]]) `None` の値を許可するかどうかを決定します。デフォルトは True です - 単一の bool 値が指定された場合、構築時に指定されたすべての列において任意性が確保されます - bool 値のリストである場合、各列に適用される任意性が適用されます - `columns` と同じ長さでなければなりません。bool 値のリストはそれぞれの列に適用されます。 |
-|  `allow_mixed_types` |  (bool) 列に混合タイプを許可するかどうかを決定します（タイプ検証を無効にします）。デフォルトは False です。 |
+- `name`: (str) - 列の一意の名前
+- `data`: (list | np.array) - 同質なデータの列
+- `optional`: (bool) - null のような 値 が許可されるかどうか
 
-## メソッド
+---
 
-### `add_column`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L797-L836)
+### <kbd>method</kbd> `Table.add_computed_columns`
 
 ```python
-add_column(
-    name, data, optional=(False)
-)
+add_computed_columns(fn)
 ```
 
-テーブルにデータ列を追加します。
+既存のデータに基づいて 1 つ以上の計算列を追加します。
 
-| 引数 | Description |
-| :--- | :--- |
-|  `name` |  (str) - 列の一意の名前 |
-|  `data` |  (list | np.array) - 同種のデータの列 |
-|  `optional` |  (bool) - null 値が許可されるかどうか |
+**引数:**
 
-### `add_computed_columns`
+- `fn`: 1 つまたは 2 つの パラメータ、`ndx` (int) と `row` (dict) を受け取る関数。その行の新しい列を表す 辞書（新しい列名が キー）を返すことが期待されます。
+    - `ndx` は行のインデックスを表す整数です。`include_ndx` が `True` に設定されている場合にのみ含まれます。
+    - `row` は既存の列を キー とした 辞書 です。
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L887-L909)
+---
+
+### <kbd>method</kbd> `Table.add_data`
 
 ```python
-add_computed_columns(
-    fn
-)
+add_data(*data)
 ```
 
-既存のデータに基づいて1つ以上の計算列を追加します。
+テーブル に新しい行データを追加します。
 
-| 引数 | Description |
-| :--- | :--- |
-|  `fn` |  ndx（int）および row（dict）という1つまたは2つのパラメータを受け取り、新しい列のキーを新しい列名として指定した辞書を返す関数です。`ndx` は行のインデックスを示す整数です。`include_ndx` が `True` に設定されている場合にのみ含まれます。`row` は既存の列にキー付けされた辞書です。 |
+テーブル 内の最大行数は `wandb.Table.MAX_ARTIFACT_ROWS` によって決定されます。
 
-### `add_data`
+データの長さは テーブル の列の長さと一致する必要があります。
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L423-L456)
+---
+
+### <kbd>method</kbd> `Table.add_row`
 
 ```python
-add_data(
-    *data
-)
+add_row(*row)
 ```
 
-テーブルに新しいデータ行を追加します。テーブル内の最大行数は `wandb.Table.MAX_ARTIFACT_ROWS` によって決定されます。
+非推奨です。代わりに `Table.add_data` メソッドを使用してください。
 
-データの長さはテーブル列の長さと一致する必要があります。
+---
 
-### `add_row`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L418-L421)
+### <kbd>method</kbd> `Table.cast`
 
 ```python
-add_row(
-    *row
-)
-```
-
-非推奨; 代わりに add_data を使用してください。
-
-### `cast`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L315-L371)
-
-```python
-cast(
-    col_name, dtype, optional=(False)
-)
+cast(col_name, dtype, optional=False)
 ```
 
 列を特定のデータ型にキャストします。
 
-これは通常の Python クラスの1つである場合もあれば、内部の W&B タイプの1つであり、例えば wandb.Image や wandb.Classes のインスタンスのようなサンプルオブジェクトである場合もあります。
+これは、通常の Python クラス、内部の W&B 型、または `wandb.Image` や `wandb.Classes` のインスタンスのような例 オブジェクト のいずれかになります。
 
-| 引数 | Description |
-| :--- | :--- |
-|  `col_name` |  (str) - キャストする列の名前。 |
-|  `dtype` |  (class, wandb.wandb_sdk.interface._dtypes.Type, any) - 目的の dtype。 |
-|  `optional` |  (bool) - 列に None を許可するかどうか。 |
+**引数:**
 
-### `get_column`
+- `col_name` (str): キャストする列の名前。
+- `dtype` (class, wandb.wandb_sdk.interface._dtypes.Type, any): ターゲットの dtype。
+- `optional` (bool): 列が None を許可するかどうか。
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L838-L861)
+---
+
+### <kbd>method</kbd> `Table.get_column`
 
 ```python
-get_column(
-    name, convert_to=None
-)
+get_column(name, convert_to=None)
 ```
 
-テーブルから列を取得し、オプションで NumPy オブジェクトに変換します。
+テーブル から列を取得し、オプションでそれを NumPy オブジェクト に変換します。
 
-| 引数 | Description |
-| :--- | :--- |
-|  `name` |  (str) - 列の名前 |
-|  `convert_to` |  (str, optional) - "numpy": 基礎となるデータを numpy オブジェクトに変換します |
+**引数:**
 
-### `get_dataframe`
+- `name`: (str) - 列の名前
+- `convert_to`: (str, optional)
+    - "numpy": 基になる データを numpy オブジェクト に変換します。
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L872-L878)
+---
+
+### <kbd>method</kbd> `Table.get_dataframe`
 
 ```python
 get_dataframe()
 ```
 
-テーブルの `pandas.DataFrame` を返します。
+テーブル の `pandas.DataFrame` を返します。
 
-### `get_index`
+---
 
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L863-L870)
+### <kbd>method</kbd> `Table.get_index`
 
 ```python
 get_index()
 ```
 
-リンクを作成するために他のテーブルで使用する行インデックスの配列を返します。
+リンクを作成するために他の テーブル で使用するための行インデックスの配列を返します。
 
-### `index_ref`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L880-L885)
-
-```python
-index_ref(
-    index
-)
-```
-
-テーブル内の行のインデックスの参照を取得します。
-
-### `iterrows`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L674-L688)
-
-```python
-iterrows()
-```
-
-行ごとにテーブルデータを返し、行のインデックスと関連するデータを表示します。
-
-| Yields | Description |
-| :--- | :--- |
-
-***
-
-index : int  
-行のインデックス。この値を他の W&B テーブルで使用することで、テーブル間の関係が自動的に構築されます  
-row : List[any]  
-行のデータ。
-
-### `set_fk`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L695-L699)
-
-```python
-set_fk(
-    col_name, table, table_col
-)
-```
-
-### `set_pk`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/table.py#L690-L693)
-
-```python
-set_pk(
-    col_name
-)
-```
-
-| クラス変数 | Description |
-| :--- | :--- |
-|  `MAX_ARTIFACT_ROWS`<a id="MAX_ARTIFACT_ROWS"></a> |  `200000` |
-|  `MAX_ROWS`<a id="MAX_ROWS"></a> |  `10000` |
+---

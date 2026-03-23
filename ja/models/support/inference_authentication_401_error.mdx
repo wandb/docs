@@ -1,0 +1,43 @@
+---
+title: W&B Inference での Invalid Authentication (401) エラーはどのように修正すればよいですか？
+---
+
+401 Invalid Authentication エラーは、APIキーが無効であるか、W&B のエンティティ（ Entity ）名やプロジェクト（ Project ）名が正しくないことを意味します。
+
+## APIキーを確認する
+
+1. [ユーザー設定 (User Settings)](https://wandb.ai/settings) で新しい APIキー を作成します。
+2. APIキー は安全に保管してください。
+
+## プロジェクト設定を確認する
+
+プロジェクト（ Project ）が `<your-team>/<your-project>` の形式で正しく記述されているか確認してください。
+
+**Python の例:**
+```python
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",
+    project="<your-team>/<your-project>",  # W&B の Team と Project 名に一致させる必要があります
+)
+```
+
+**Bash の例:**
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>"
+```
+
+## よくある間違い
+
+- チーム名（ Team name ）の代わりに個人のエンティティ（ Entity ）を使用している
+- チーム名やプロジェクト名のスペルミス
+- チーム名とプロジェクト名の間のスラッシュ（/）が抜けている
+- 有効期限切れ、または削除済みの APIキー を使用している
+
+## それでも解決しない場合
+
+- W&B アカウントにその Team と Project が存在することを確認してください
+- 指定した Team への アクセス 権限があることを確認してください
+- 現在のキーが機能しない場合は、新しい APIキー の作成を試してください

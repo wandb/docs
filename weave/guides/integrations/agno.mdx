@@ -1,6 +1,6 @@
 ---
 title: Agno
-description: "Trace Agno multi-agent systems with Weave using OpenTelemetry, capturing agent interactions, tool calls, shared memory operations, and multi-modal workflows for comprehensive observability of your AI agent systems."
+description: "Trace Agno multi-agent systems with Weave using OpenTelemetry to capture agent interactions, tool calls, and multi-modal workflows."
 ---
 
 You can trace [Agno](https://docs.agno.com/) agent and tool calls in Weave using [OpenTelemetry (OTEL)](https://opentelemetry.io/). Agno is a Python framework for building multi-agent systems with shared memory, knowledge, and reasoning. It's designed to be lightweight, model-agnostic, and highly performant, supporting multi-modal capabilities including text, image, audio, and video processing.
@@ -65,7 +65,7 @@ from opentelemetry import trace
 WANDB_BASE_URL = "https://trace.wandb.ai"
 # Your W&B entity/project name e.g. "myteam/myproject"
 PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
-# Your W&B API key (found at https://wandb.ai/authorize)
+# Create a W&B API key at https://wandb.ai/settings
 WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
@@ -249,7 +249,7 @@ This multi-agent trace will show the coordination between different agents in We
 ![A trace visualization of Agno multi-agent team](./imgs/agno/agno_team_trace.png)
 </Frame>
 
-## Work with Reasoning Agents
+## Work with reasoning agents
 
 Agno provides built-in reasoning capabilities that help agents think through problems step-by-step. These reasoning processes are also captured in traces:
 

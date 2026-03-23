@@ -1,0 +1,83 @@
+---
+title: 계보 그래프 및 감사 기록
+description: 계보 그래프를 사용하여 연결된 아티팩트의 이력을 시각화하고 컬렉션의 이력을 감사하세요.
+---
+
+계보 그래프를 사용하여 연결된 아티팩트의 이력을 시각화하세요. 컬렉션의 이력을 감사(Audit)하여 해당 컬렉션 내의 아티팩트에 발생한 변경 사항을 추적할 수 있습니다.
+
+## 계보 그래프 (Lineage graphs)
+
+W&B Registry 내의 컬렉션에서 ML 실험에 사용된 아티팩트의 이력을 볼 수 있습니다. 이 이력을 _계보 그래프 (lineage graph)_ 라고 합니다.
+
+계보 그래프는 다음을 보여줍니다:
+* [run의 입력으로 사용된](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-input-of-a-run) Artifacts.
+* [run의 출력으로 생성된](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run) Artifacts.
+
+즉, 계보 그래프는 run의 입력과 출력을 보여줍니다.
+
+예를 들어, 다음 이미지는 ML 실험 전반에 걸쳐 생성되고 사용된 아티팩트들의 전형적인 계보 그래프를 보여줍니다:
+
+<Frame>
+    <img src="/images/registry/registry_lineage.png" alt="Registry lineage"  />
+</Frame>
+
+왼쪽에서 오른쪽으로 이미지는 다음을 보여줍니다:
+1. 여러 Runs가 `split_zoo_dataset:v4` 아티팩트를 로그합니다.
+2. "rural-feather-20" run이 트레이닝을 위해 `split_zoo_dataset:v4` 아티팩트를 사용합니다.
+3. "rural-feather-20" run의 출력은 `zoo-ylbchv20:v0`라는 이름의 모델 아티팩트입니다.
+4. "northern-lake-21"이라는 run이 모델을 평가하기 위해 모델 아티팩트 `zoo-ylbchv20:v0`를 사용합니다.
+
+
+컬렉션 내 아티팩트의 계보 그래프를 보려면:
+
+1. W&B Registry로 이동합니다.
+2. 아티팩트가 포함된 컬렉션을 선택합니다.
+3. 드롭다운에서 계보 그래프를 보려는 아티팩트 버전을 선택합니다.
+4. **Lineage** 탭을 선택합니다.
+5. 노드를 선택하여 run 또는 아티팩트에 대한 자세한 정보를 확인합니다.
+
+
+<Info>
+W&B Python SDK를 사용하여 run의 입력과 출력을 추적하는 방법을 알아보려면 [계보 그래프 추적 활성화](/models/artifacts/explore-and-traverse-an-artifact-graph#enable-lineage-graph-tracking)를 참조하세요.
+</Info>
+
+다음 이미지는 계보 그래프에서 노드를 선택했을 때 확장된 run(`rural-feather-20`)의 상세 뷰를 보여줍니다:
+
+<Frame>
+    <img src="/images/registry/lineage_expanded_node.png" alt="Expanded lineage node"  />
+</Frame>
+
+
+다음 이미지는 계보 그래프에서 아티팩트 노드를 선택했을 때 확장된 아티팩트(`zoo-ylbchv20:v0`)의 상세 뷰를 보여줍니다:
+
+<Frame>
+    <img src="/images/registry/lineage_expanded_artifact_node.png" alt="Expanded artifact node details"  />
+</Frame>
+
+
+<Info>
+컬렉션의 일부가 아닌 W&B에 로그한 Artifacts에 대해서도 계보 그래프를 볼 수 있습니다. 자세한 내용은 [아티팩트 그래프 탐색](/models/artifacts/explore-and-traverse-an-artifact-graph)을 참조하세요.
+</Info>
+ 
+
+## 컬렉션 이력 감사 (Audit a collection's history)
+
+조직의 멤버들이 해당 컬렉션에 대해 수행한 작업을 확인하세요. 다음 사항을 볼 수 있습니다:
+
+- 아티팩트 버전에 에일리어스가 추가되거나 제거되었는지 여부.
+- 컬렉션에 아티팩트 버전이 추가되거나 제거되었는지 여부.
+
+두 작업 모두 작업을 수행한 사용자와 작업이 발생한 날짜를 확인할 수 있습니다.
+
+컬렉션의 작업 이력을 보려면:
+
+1. W&B Registry로 이동합니다.
+2. 작업 이력을 보려는 컬렉션을 선택합니다.
+3. 컬렉션 이름 옆의 드롭다운 메뉴를 선택합니다.
+4. **Action History** 옵션을 선택합니다.
+
+{/* run 노드를 선택하여 run ID, run 이름, run 상태 등 해당 run의 상세 정보를 확인하세요. 예를 들어, 이어지는 이미지는 `rural-feather-20` run에 대한 정보를 보여줍니다:
+
+
+
+아티팩트 노드를 선택하여 전체 이름, 유형, 생성 시간 및 관련 에일리어스와 같은 해당 아티팩트의 상세 정보를 확인하세요. */}

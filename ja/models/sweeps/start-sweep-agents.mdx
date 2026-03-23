@@ -1,60 +1,100 @@
 ---
-title: sweep エージェントを開始または停止する
-description: 1 台または複数のマシン上で W&B Sweep Agent を開始または停止します。
+title: sweep agent を開始する
+description: 1つ以上のマシンで W&B Sweep Agent を開始または停止します。
 ---
 
-W&B Sweep を 1 台以上のマシン上の 1 台以上のエージェントで開始します。W&B Sweep エージェントは、ハイパーパラメーターを取得するために W&B Sweep を初期化したときにローンンチされた W&B サーバーにクエリを送り、それらを使用してモデル トレーニングを実行します。
+1 つまたは複数のマシン上の、1 つまたは複数のエージェントで Sweeps を開始します。 sweep agent は、 [sweep を初期化](/models/sweeps/initialize-sweeps) した際に定義された sweep configuration を使用して、異なる ハイパーパラメーター の組み合わせを探索します。 W&B は、 sweep agent が試行する ハイパーパラメーター の組み合わせごとに、新しい Run を作成します。
 
-W&B Sweep エージェントを開始するには、W&B Sweep を初期化したときに返された W&B Sweep ID を指定します。W&B Sweep ID の形式は次のとおりです。
+sweep の一時停止、再開、停止、またはキャンセル方法については、 [Sweeps の管理](/models/sweeps/pause-resume-and-cancel-sweeps) を参照してください。
+
+<Note>
+続行する前に、以下を確認してください：
+* トレーニングスクリプト が、 W&B で ハイパーパラメーター の組み合わせを作成および追跡するように 設定 されていること。詳細については、 [コードに W&B を追加する](./add-w-and-b-to-your-code#training-script-with-w%26b-python-sdk) を参照してください。
+* sweep 用の [設定ファイル](./define-sweep-configuration) が定義されていること。
+</Note>
+
+以下の コードスニペット は、 CLI 、および Jupyter Notebook または Python スクリプト 内で エージェント を開始する方法を示しています。どちらの方法でも、 sweep を初期化したときに W&B から返された sweep ID を指定します。 sweep ID の形式は次のとおりです。
 
 ```bash
 entity/project/sweep_ID
 ```
 
-ここで:
+ここで：
 
-* entity: W&B のユーザー名またはチーム名。
-* project: W&B Run の出力を保存したいプロジェクトの名前。プロジェクトが指定されていない場合、run は「未分類」プロジェクトに置かれます。
-* sweep_ID: W&B によって生成される疑似ランダムな一意の ID。
-
-Jupyter ノートブックまたは Python スクリプト内で W&B Sweep エージェントを開始する場合、W&B Sweep が実行する関数の名前を指定します。
-
-次のコードスニペットは、W&B でエージェントを開始する方法を示しています。ここでは、既に設定ファイルを持っており、W&B Sweep を初期化済みであると仮定しています。設定ファイルを定義する方法について詳しくは、[Define sweep configuration](/ja/models/sweeps/define-sweep-configuration/) を参照してください。
+* `entity`: あなたの W&B ユーザー名または チーム 名。
+* `project`: W&B が Run の出力を保存する プロジェクト の名前。 プロジェクト が指定されていない場合、 W&B は Run を "Uncategorized" という名前の プロジェクト に配置します。
+* `sweep_ID`: W&B によって生成された疑似ランダムで一意の ID。
 
 <Tabs>
 <Tab title="CLI">
-`sweep agent` コマンドを使用してスイープを開始します。スイープを初期化するときに返されたスイープ ID を指定します。以下のコードスニペットをコピーして貼り付け、`sweep_id` をスイープ ID に置き換えてください:
+sweep を開始するには、 `wandb agent` コマンド を使用します。 sweep を初期化したときに W&B から返された sweep ID を指定してください。
+
+以下の コードスニペット をコピーして貼り付け、 `sweep_id` を実際の sweep ID に置き換えてください。
 
 ```bash
 wandb agent sweep_id
 ```
 </Tab>
 <Tab title="Python script or notebook">
-W&B Python SDK ライブラリを使用してスイープを開始します。スイープを初期化するときに返されたスイープ ID を指定します。さらに、スイープが実行する関数の名前も指定します。
+sweep を開始するには、 [`wandb.agent()`](/models/ref/python/functions/agent) を使用します。 sweep を初期化したときに W&B から返された sweep ID と、 トレーニングスクリプト のエントリポイントとなる関数の名前を指定します。
+
+以下の コードスニペット をコピーして貼り付け、 `<sweep_id>` を実際の sweep ID に、 `<function_name>` をトレーニング関数の名前に置き換えてください。
 
 ```python
-wandb.agent(sweep_id=sweep_id, function=function_name)
+wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
 ```
+
+この方法を使用する場合の トレーニングスクリプト のセットアップ例については、「コードに W&B を追加する」の [Python script or notebook タブ](/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) を参照してください。
+
+<Warning>
+**マルチプロセッシング**
+
+Python 標準ライブラリの `multiprocessing` または PyTorch の `pytorch.multiprocessing` パッケージを使用する場合、 `wandb.agent()` と `wandb.sweep()` の呼び出しを `if __name__ == '__main__':` で囲む必要があります。例：
+
+```python
+if __name__ == '__main__':
+    wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
+```
+
+この慣習に従ってコードを囲むことで、スクリプトが直接実行されたときのみ実行され、ワーカープロセスでモジュールとしてインポートされたときには実行されないことが保証されます。
+
+マルチプロセッシングの詳細については、 [Python 標準ライブラリ `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) または [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。 `if __name__ == '__main__':` の慣習については、 https://realpython.com/if-name-main-python/ を参照してください。
+</Warning>
 </Tab>
 </Tabs>
 
-### W&B エージェントを停止
+### sweep agent が試行する Run の数を制限する
 
 <Warning>
-ランダムおよびベイズ探索は永遠に実行されます。プロセスをコマンドライン、Python スクリプト内、または [Sweeps UI](/ja/models/sweeps/visualize-sweep-results/) から停止する必要があります。
+ランダム探索および ベイズ探索 は永続的に実行されます。 コマンドライン 、 Python スクリプト 内、または [Sweeps UI](./visualize-sweep-results) から プロセス を停止する必要があります。
 </Warning>
 
-オプションで、Sweep agent が試みるべき W&B Runs の数を指定します。以下のコードスニペットは、Jupyter ノートブック、Python スクリプト内で最大の [W&B Runs](/ja/models/ref/python/run) 数を設定する方法を示しています。
+sweep agent が試行すべき Run の回数を指定します。以下の コードスニペット は、 CLI 、 Jupyter Notebook 、および Python スクリプト 内で、 [W&B Runs](/models/ref/python/experiments/run) の最大数を設定する方法を示しています。
 
 <Tabs>
+<Tab title="CLI">
+まず、 [`wandb sweep`](/models/ref/cli/wandb-sweep) コマンド で sweep を初期化します。詳細については、 [Sweeps の初期化](./initialize-sweeps) を参照してください。
+
+```
+wandb sweep config.yaml
+```
+
+次に、 count フラグに整数値を渡して、試行する Run の最大数を設定します。
+
+```python
+NUM=10
+SWEEPID="dtzl1o7u"
+wandb agent --count $NUM $SWEEPID
+```
+</Tab>
 <Tab title="Python script or notebook">
-まず、スイープを初期化します。詳細は [Initialize sweeps](/ja/models/sweeps/initialize-sweeps/) を参照してください。
+まず、 sweep を初期化します。詳細については、 [Sweeps の初期化](./initialize-sweeps) を参照してください。
 
 ```
 sweep_id = wandb.sweep(sweep_config)
 ```
 
-次にスイープジョブを開始します。スイープ初期化から生成されたスイープ ID を提供します。試行する run の最大数を設定するために count パラメータに整数値を渡します。
+次に、 sweep ジョブを開始します。 sweep の初期化で生成された sweep ID を指定します。 count パラメータ に整数値を渡して、試行する Run の最大数を設定します。
 
 ```python
 sweep_id, count = "dtzl1o7u", 10
@@ -62,22 +102,7 @@ wandb.agent(sweep_id, count=count)
 ```
 
 <Warning>
-スイープエージェントが終了した後に新しい run を同じスクリプトまたはノートブック内で開始する場合は、新しい run を開始する前に `wandb.teardown()` を呼び出す必要があります。
+sweep agent が終了した後に、同じスクリプトまたは ノートブック 内で新しい Run を開始する場合は、新しい Run を開始する前に `wandb.teardown()` を呼び出す必要があります。
 </Warning>
-</Tab>
-<Tab title="CLI">
-まず、[`wandb sweep`](/ja/models/ref/cli/wandb-sweep) コマンドでスイープを初期化します。詳細は [Initialize sweeps](/ja/models/sweeps/initialize-sweeps/) を参照してください。
-
-```
-wandb sweep config.yaml
-```
-
-試行する run の最大数を設定するために、count フラグに整数値を渡します。
-
-```python
-NUM=10
-SWEEPID="dtzl1o7u"
-wandb agent --count $NUM $SWEEPID
-```
 </Tab>
 </Tabs>

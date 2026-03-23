@@ -1,0 +1,31 @@
+---
+title: Serve
+description: Weave ops와 Models를 API 엔드포인트로 노출하기
+---
+
+Weave Model 에 대한 Weave ref 가 있다면 다음 명령어를 실행할 수 있습니다:
+
+```
+weave serve <ref>
+```
+
+이 명령어는 해당 모델을 위한 FastAPI 서버를 실행합니다. 모델을 대화형으로 쿼리하려면 [http://0.0.0.0:9996/docs](http://0.0.0.0:9996/docs) 를 방문하세요.
+
+## FastAPI 설치
+
+```bash
+pip install fastapi uvicorn
+```
+
+## Model 서빙하기
+
+터미널에서 다음을 호출하세요:
+
+```bash
+weave serve <your model ref>
+```
+
+모델 페이지로 이동하여 UI에서 복사하면 모델의 ref를 얻을 수 있습니다. 형식은 다음과 같습니다:
+`weave://your_entity/project-name/YourModel:<hash>`
+
+이를 사용하려면 Swagger UI 링크로 이동하여 predict 엔드포인트를 클릭한 다음 "Try it out!"을 클릭하세요.

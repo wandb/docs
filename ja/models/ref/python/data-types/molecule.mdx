@@ -1,75 +1,30 @@
 ---
-title: Molecule
+title: 分子
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/molecule.py#L25-L241" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/molecule.py" />
 
-Wandb クラスは 3D 分子データ用です。
+## <kbd>class</kbd> `Molecule`
+3D 分子データのための W&B クラスです。
 
-```python
-Molecule(
-    data_or_path: Union[str, 'TextIO'],
-    caption: Optional[str] = None,
-    **kwargs
-) -> None
-```
-
-| Args | Description |
-| :--- | :--- |
-|  `data_or_path` |  (string, io) Molecule はファイル名または io オブジェクトから初期化できます。 |
-|  `caption` |  (string) 表示用の分子に関連付けられたキャプション。 |
-
-## メソッド
-
-### `from_rdkit`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/molecule.py#L99-L163)
+### <kbd>method</kbd> `Molecule.__init__`
 
 ```python
-@classmethod
-from_rdkit(
-    data_or_path: "RDKitDataType",
+__init__(
+    data_or_path: Union[str, pathlib.Path, ForwardRef('TextIO')],
     caption: Optional[str] = None,
-    convert_to_3d_and_optimize: bool = (True),
-    mmff_optimize_molecule_max_iterations: int = 200
-) -> "Molecule"
+    **kwargs: str
+) → None
 ```
 
-RDKit がサポートするファイル/オブジェクトタイプを wandb.Molecule に変換します。
+Molecule オブジェクト を初期化します。
 
-| Args | Description |
-| :--- | :--- |
-|  `data_or_path` |  (string, rdkit.Chem.rdchem.Mol) Molecule はファイル名または rdkit.Chem.rdchem.Mol オブジェクトから初期化できます。 |
-|  `caption` |  (string) 表示用の分子に関連付けられたキャプション。 |
-|  `convert_to_3d_and_optimize` |  (bool) 3D 座標を持つ rdkit.Chem.rdchem.Mol に変換します。これは複雑な分子の場合、時間がかかるため、高価な操作です。 |
-|  `mmff_optimize_molecule_max_iterations` |  (int) rdkit.Chem.AllChem.MMFFOptimizeMolecule で使用する反復回数 |
+**Args:**
+ 
+ - `data_or_path`: Molecule はファイル名または io オブジェクトから初期化できます。
+ - `caption`: 表示用に分子に関連付けられるキャプション。
 
-### `from_smiles`
-
-[ソースを表示](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/molecule.py#L165-L202)
-
-```python
-@classmethod
-from_smiles(
-    data: str,
-    caption: Optional[str] = None,
-    sanitize: bool = (True),
-    convert_to_3d_and_optimize: bool = (True),
-    mmff_optimize_molecule_max_iterations: int = 200
-) -> "Molecule"
-```
-
-SMILES 文字列を wandb.Molecule に変換します。
-
-| Args | Description |
-| :--- | :--- |
-|  `data` |  (string) SMILES 文字列。 |
-|  `caption` |  (string) 表示用の分子に関連付けられたキャプション |
-|  `sanitize` |  (bool) RDKit の定義により、分子が化学的に妥当かどうかをチェックします。 |
-|  `convert_to_3d_and_optimize` |  (bool) 3D 座標で rdkit.Chem.rdchem.Mol に変換します。複雑な分子の場合、時間がかかるため、高価な操作です。 |
-|  `mmff_optimize_molecule_max_iterations` |  (int) rdkit.Chem.AllChem.MMFFOptimizeMolecule で使用する反復回数 |
-
-| クラス変数 | Description |
-| :--- | :--- |
-|  `SUPPORTED_RDKIT_TYPES`<a id="SUPPORTED_RDKIT_TYPES"></a> |   |
-|  `SUPPORTED_TYPES`<a id="SUPPORTED_TYPES"></a> |   |
+---

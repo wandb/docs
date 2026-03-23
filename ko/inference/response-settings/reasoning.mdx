@@ -1,0 +1,47 @@
+---
+title: 추론 정보 보기
+description: W&B Inference 응답에서 추론(Reasoning) 과정을 반환하고 확인하는 방법
+---
+
+[OpenAI의 GPT OSS 20B](https://huggingface.co/openai/gpt-oss-20b)와 같은 Reasoning 모델은 최종 답변 외에도 출력 결과의 일부로 추론 단계에 대한 정보를 포함합니다. 이는 자동으로 수행되며 추가적인 입력 파라미터는 필요하지 않습니다.
+
+모델이 추론 기능을 지원하는지 여부는 UI의 카탈로그 페이지 내 Supported Features 섹션에서 확인할 수 있습니다.
+
+추론 정보는 응답의 `reasoning_content` 필드에서 확인할 수 있습니다. 이 필드는 다른 모델의 출력에는 포함되지 않습니다.
+
+<Tabs>
+<Tab title="Python">
+```python
+import openai
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",  # https://wandb.ai/settings 에서 API 키를 생성하세요.
+)
+
+response = client.chat.completions.create(
+    model="openai/gpt-oss-20b",
+    messages=[
+        {"role": "user", "content": "3.11 and 3.8, which is greater?"}
+    ],
+)
+
+print(response.choices[0].message.reasoning_content)
+print("--------------------------------")
+print(response.choices[0].message.content)
+```
+</Tab>
+<Tab title="Bash">
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-api-key>" \
+  -d '{
+    "model": "openai/gpt-oss-20b",
+    "messages": [
+      { "role": "user", "content": "3.11 and 3.8, which is greater?" }
+    ],
+  }'
+```
+</Tab>
+</Tabs>

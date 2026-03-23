@@ -1,47 +1,47 @@
 ---
-title: W&B Platform
+title: 배포 옵션 개요
+sidebarTitle: Overview
 no_list: true
 ---
 
-W&B Platform은 [Core](/ko/models/core), [Models](/ko/models/) 및 [Weave](/ko/guides/weave/)와 같은 W&B 제품을 지원하는 기본적인 인프라, 툴링 및 거버넌스 스캐폴딩입니다.
+W&B는 조직의 인프라 및 보안 요구 사항을 충족하기 위해 다양한 방식으로 배포될 수 있습니다.
 
-W&B Platform은 세 가지의 다양한 배포 옵션으로 제공됩니다:
+<Tip title="시작하기">
+빠르게 시작하려면 W&B의 [Multi-tenant Cloud](https://wandb.ai/home)를 권장합니다.
 
-* [W&B Multi-tenant Cloud](#wb-multi-tenant-cloud)
-* [W&B Dedicated Cloud](#wb-dedicated-cloud)
-* [W&B Self-Managed](#wb-Self-Managed)
+일부 기능은 [Enterprise](https://wandb.ai/site/pricing/) 라이선스가 필요합니다. 이러한 기능을 사용해 보려면 [Enterprise 트라이얼](https://wandb.ai/site/enterprise-trial)에 가입하고 배포 유형을 선택하세요.
+</Tip>
 
-다음 책임 매트릭스는 주요 차이점을 간략하게 설명합니다:
+<CardGroup cols={1}>
+  <a id="wb-multi-tenant-cloud"></a><Card title="W&B Multi-tenant Cloud">
+    W&B의 클라우드 인프라에 배포된 완전 관리형 서비스로, 비용 효율적인 가격 옵션과 최신 기능에 대한 지속적인 업데이트와 함께 원하는 규모로 W&B 제품에 원활하게 엑세스할 수 있습니다. W&B는 제품 트라이얼을 진행하거나, 프라이빗 배포의 보안 수준이 굳이 필요하지 않고 셀프 서비스 온보딩과 비용 효율성이 중요한 프로덕션 AI 워크플로우를 관리하려는 경우 Multi-tenant Cloud 사용을 권장합니다.
+    
+    자세한 내용은 **[W&B Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud)**를 참조하세요.
+  </Card>
+  
+  <a id="wb-dedicated-cloud"></a><Card title="W&B Dedicated Cloud">
+    W&B의 클라우드 인프라에 배포된 싱글 테넌트 기반의 완전 관리형 서비스입니다. 데이터 보존(data residency)을 포함한 엄격한 거버넌스 제어 준수가 필요하고, 고급 보안 기능이 필요하며, 보안·규모·성능 특성을 갖춘 인프라를 직접 구축 및 관리하지 않고 AI 운영 비용을 최적화하려는 조직에 가장 적합한 옵션입니다.
+    
+    자세한 내용은 **[전용 클라우드 (W&B Dedicated Cloud)](/platform/hosting/hosting-options/dedicated_cloud/)**를 참조하세요.
+  </Card>
+  
+  <a id="wb-Self-Managed"></a><Card title="W&B Self-Managed">
+    직접 관리하는 인프라에 W&B 서버를 배포하고 관리합니다. W&B 서버는 W&B 플랫폼과 지원되는 W&B 제품을 실행하기 위한 독립된 패키지 메커니즘입니다. 모든 기존 인프라가 온프레미스에 있거나, 조직에 전용 클라우드로 충족되지 않는 엄격한 규제 요구 사항이 있는 경우 이 옵션을 권장합니다. 이 옵션을 선택하면 W&B 서버를 지원하는 데 필요한 인프라의 프로비저닝, 지속적인 유지 관리 및 업그레이드에 대한 모든 책임을 집니다.
+    
+    자세한 내용은 **[W&B Self-Managed](/platform/hosting/hosting-options/self-managed/)**를 참조하세요.
+  </Card>
+</CardGroup>
+
+## 주요 차이점
+이 표는 배포 유형 간의 몇 가지 주요 차이점을 보여줍니다.
 
 |                                      | Multi-tenant Cloud                | Dedicated Cloud                                                     | Self-Managed |
 |--------------------------------------|-----------------------------------|---------------------------------------------------------------------|------------------|
-| MySQL / DB 관리                | W&B에서 완전 호스팅 및 관리     | W&B에서 클라우드 또는 고객 선택 지역에서 완전 호스팅 및 관리 | 고객이 완전 호스팅 및 관리 |
-| 오브젝트 스토리지 (S3/GCS/Blob storage) | **옵션 1**: W&B에서 완전 호스팅<br />**옵션 2**: 고객은 [Secure Storage Connector](/ko/platform/hosting/data-security/secure-storage-connector)를 사용하여 팀별로 자체 버킷을 구성할 수 있습니다.  | **옵션 1**: W&B에서 완전 호스팅<br />**옵션 2**: 고객은 [Secure Storage Connector](/ko/platform/hosting/data-security/secure-storage-connector)를 사용하여 인스턴스 또는 팀별로 자체 버킷을 구성할 수 있습니다. | 고객이 완전 호스팅 및 관리 |
-| SSO 지원                          | Auth0를 통해 W&B에서 관리             | **옵션 1**: 고객 관리<br />**옵션 2**: Auth0를 통해 W&B에서 관리 | 고객이 완전 관리   |
-| W&B Service (App)                    | W&B에서 완전 관리              | W&B에서 완전 관리                                                | 고객이 완전 관리          |
-| 앱 보안                         | W&B에서 완전 관리              | W&B와 고객의 공동 책임                           | 고객이 완전 관리         |
-| 유지 관리 (업그레이드, 백업 등)    | W&B에서 관리 | W&B에서 관리 | 고객이 관리 |
+| MySQL / DB 관리                | W&B에서 완전 호스팅 및 관리     | 고객이 선택한 클라우드 또는 리전에서 W&B가 완전 호스팅 및 관리 | 고객이 직접 호스팅 및 관리 |
+| 오브젝트 스토리지 (S3/GCS/Blob storage) | **옵션 1**: W&B에서 완전 호스팅<br />**옵션 2**: [Secure Storage Connector](/platform/hosting/data-security/secure-storage-connector)를 사용하여 팀별로 자체 버킷 구성 가능  | **옵션 1**: W&B에서 완전 호스팅<br />**옵션 2**: [Secure Storage Connector](/platform/hosting/data-security/secure-storage-connector)를 사용하여 인스턴스 또는 팀별로 자체 버킷 구성 가능 | 고객이 직접 호스팅 및 관리 |
+| SSO 지원                          | Auth0를 통해 W&B가 관리             | **옵션 1**: 고객이 관리<br />**옵션 2**: Auth0를 통해 W&B가 관리 | 고객이 직접 관리   |
+| W&B 서비스 (App)                    | W&B에서 완전 관리              | W&B에서 완전 관리                                                | 고객이 직접 관리          |
+| App 보안                         | W&B에서 완전 관리              | W&B와 고객의 공동 책임                           | 고객이 직접 관리         |
+| 유지 관리 (업그레이드, 백업 등) | W&B에서 관리 | W&B에서 관리 | 고객이 직접 관리 |
 | 지원                              | 지원 SLA                       | 지원 SLA                                                         | 지원 SLA |
-| 지원되는 클라우드 인프라       | GCP                               | AWS, GCP, Azure                                                     | AWS, GCP, Azure, On-Prem bare-metal |
-
-## 배포 옵션
-다음 섹션에서는 각 배포 유형에 대한 개요를 제공합니다.
-
-### W&B Multi-tenant Cloud
-W&B Multi-tenant Cloud는 W&B의 클라우드 인프라에 배포된 완전 관리형 서비스로, 원하는 규모로 W&B 제품에 원활하게 엑세스하고, 비용 효율적인 가격 옵션을 활용하며, 최신 기능 및 업데이트를 지속적으로 받을 수 있습니다. 프라이빗 배포의 보안이 필요하지 않고, 셀프 서비스 온보딩이 중요하며, 비용 효율성이 중요한 경우 프로덕션 AI 워크플로우를 관리하기 위해 Multi-tenant Cloud를 사용하는 것이 좋습니다.
-
-자세한 내용은 [W&B Multi-tenant Cloud](/ko/platform/hosting/#wb-multi-tenant-cloud)를 참조하십시오.
-
-### W&B Dedicated Cloud
-W&B Dedicated Cloud는 W&B의 클라우드 인프라에 배포된 싱글 테넌트, 완전 관리형 서비스입니다. 데이터 상주를 포함한 엄격한 거버넌스 제어를 준수해야 하고, 고급 보안 기능이 필요하며, 보안, 확장성 및 성능 특성을 갖춘 필요한 인프라를 구축 및 관리하지 않고도 AI 운영 비용을 최적화하려는 경우 W&B를 온보딩하는 데 가장 적합합니다.
-
-자세한 내용은 [W&B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated_cloud/)를 참조하십시오.
-
-### W&B Self-Managed
-이 옵션을 사용하면 자체 관리형 인프라에 W&B Server를 배포하고 관리할 수 있습니다. W&B Server는 W&B Platform 및 지원되는 W&B 제품을 실행하기 위한 자체 포함 패키지 메커니즘입니다. 기존 인프라가 모두 온프레미스에 있거나, W&B Dedicated Cloud에서 충족되지 않는 엄격한 규제 요구 사항이 있는 경우 이 옵션을 사용하는 것이 좋습니다. 이 옵션을 사용하면 W&B Server를 지원하는 데 필요한 인프라의 프로비저닝, 지속적인 유지 관리 및 업그레이드를 완전히 책임져야 합니다.
-
-자세한 내용은 [W&B Self-Managed](/ko/platform/hosting/hosting-options/self-managed/)를 참조하십시오.
-
-## 다음 단계
-
-W&B 제품을 사용해 보려면 [Multi-tenant Cloud](https://wandb.ai/home)를 사용하는 것이 좋습니다. 엔터프라이즈 친화적인 설정을 찾고 있다면 [여기](https://wandb.ai/site/enterprise-trial)에서 트라이얼에 적합한 배포 유형을 선택하십시오.
+| 지원되는 클라우드 인프라       | Google Cloud                               | AWS, Google Cloud, Azure                                                     | AWS, Google Cloud, Azure, 온프레미스 베어메탈 |

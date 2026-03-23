@@ -1,0 +1,659 @@
+---
+title: アーカイブされた W&B サーバー のリリース
+sidebarTitle: Archived releases
+rss: true
+---
+import EolReminder from '/snippets/en/_includes/release-notes-support-eol-reminder.mdx';
+
+このページには、サポートが終了し、現在は提供されていない旧バージョンの W&B Server のリリースノートが含まれています。
+- サポートされている Server リリースについては、 [W&B Server リリースノート](/release-notes/server-releases) を参照してください。
+- W&B Server のリリーススケジュールとサポートに関する詳細は、 [W&B Server リリースポリシー](/release-notes/release-policies) を参照してください。
+
+<EolReminder/>
+
+{/* To archive a release, move its <Update> entries (including patches)
+    from server-releases.mdx to just below here */}
+
+<Update label="v0.63.0" description="December 10, 2024">
+## Features
+
+**[W&B Weave](https://wandb.ai/site/weave/) が AWS 上の Dedicated Cloud で一般提供（GA）されました。Generative AI アプリケーションの確かな構築とプロダクション環境への導入を検討されている場合は、W&B チームまでお問い合わせください。**
+
+<Frame>
+![Weave UI](https://github.com/user-attachments/assets/22786cbc-7d69-4505-b329-78cb87734d19)
+</Frame>
+
+このリリースには、以下の追加アップデートが含まれています。
+
+* W&B Models が **_Azure パブリッククラウド_** とシームレスに統合されました。Azure サブスクリプションから Azure リージョンに Dedicated Cloud インスタンスを直接作成し、Azure ISV リソースとして管理できるようになりました。[この統合はプライベートプレビュー中](https://wandb.ai/site/partners/azure) です。
+* 分散 run において、ログやメトリクスをラベル（例：node）ごとに区別するため、run 設定オブジェクトに `x_label`（例：node-0）を割り当てることが可能になりました。これにより、システムメトリクスやコンソールログをラベルごとにグループ化し、Workspace で可視化できます。
+* **_近日公開_** ：今週のパッチリリースにより、組織レベルのサービスアカウントを使用して、インスタンス内のすべての Teams にわたる W&B ワークロードを自動化できるようになります。サービスアカウントのアクセス範囲をより詳細に制御したい場合は、既存のチームレベルのサービスアカウントも引き続き使用可能です。
+    * 組織レベルのサービスアカウントが Registry を操作できるようになります。これらのサービスアカウントは招待モーダルを使用してレジストリに招待でき、それぞれの組織ロールとともにメンバーテーブルに表示されます。
+
+## Fixes
+
+* `Create Artifact` 権限を含むカスタムロールを作成したユーザーが、プロジェクトにアーティファクトをログ記録できない問題を修正しました。
+* BYOB でサブパスサポートが設定されているインスタンスにおいて、ファイルのメタデータログ記録に関する問題を修正しました。
+* 組織レジストリの Automations で使用されている Webhook の削除をブロックするようにしました。
+</Update>
+
+<Update label="v0.61.0" description="October 17, 2024">
+## Features
+
+**これはミニ機能およびパッチリリースであり、月次の W&B server メジャーリリースとは異なるスケジュールで提供されます。**
+
+* 組織管理者は、組織ダッシュボードから Models のシートと、Models および [W&B Weave](/weave/) の両方のアクセス制御をシームレスに設定できるようになりました。この変更により、Dedicated Cloud または Self-Managed インスタンスで [Weave](/weave/) が有効な場合のユーザー管理が効率化されます。
+    * [Weave](/weave/) の価格設定は、使用シート数ではなくコンセンプション（消費）ベースです。シート管理は Models 製品にのみ適用されます。
+* [チームレベルおよび制限付きスコープのプロジェクトに対して、プロジェクトレベルでアクセスロールを設定](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/) できるようになりました。これにより、同じチーム内の異なるプロジェクトでユーザーに異なるアクセスロールを割り当てることが可能になり、エンタープライズのガバナンスニーズに適合する強力な制御が追加されます。
+
+
+## Fixes
+
+* リリースアップグレードに伴う基盤となるデータベーススキーマの変更が、プラットフォームの起動時にタイムアウトする可能性がある問題を修正しました。
+* 基盤となる Parquet ストアサービスのパフォーマンスをさらに改善し、ユーザーのチャート読み込み時間を短縮しました。Parquet ストアサービスは、Dedicated Cloud および [W&B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator) に基づく Self-Managed インスタンスでのみ利用可能です。
+* 基盤となる Parquet ストアサービスの高 CPU 使用率の問題に対処し、効率的なチャート読み込みの信頼性を向上させました。Parquet ストアサービスは、Dedicated Cloud および [W&B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator) に基づく Self-Managed インスタンスでのみ利用可能です。
+</Update>
+
+<Update label="v0.60.0" description="September 26, 2024">
+<Note>
+リリースのバージョニングに関する問題により、0.60.0 は 0.58.0 の後の次のメジャーリリースとなります。0.59.0 は 0.58.0 のパッチリリースの 1 つでした。
+</Note>
+
+## Features
+* Web Content Accessibility Guidelines (WCAG) 標準の Level AA 2.2 適合（1.1.1）に向けた最終アップデート。
+* W&B kubernetes operator を使用している Self-Managed インスタンスにおいて、自動バージョンアップグレードをオフにできるようになりました。ご希望の場合は W&B チームにリクエストしてください。
+  W&B では、各バージョンの 6 ヶ月のサポート終了期間を遵守するため、すべてのインスタンスを定期的にアップグレードすることを求めています。W&B は 6 ヶ月以上前のバージョンをサポートしていません。
+
+## Fixes
+* Dedicated Cloud および Self-Managed インスタンスのインスタンス管理者が、個人 Entity 内の Workspace にアクセスできるようにバグを修正しました。
+* SCIM Groups および Users の GET エンドポイントにおいて、レスポンスからサービスアカウントを除外するようにしました。これらのエンドポイントからは、サービスアカウント以外のユーザーのみが返されるようになります。
+* チーム管理者がユーザーをチームから削除する際に、同時にインスタンス全体からも削除できてしまうユーザー管理のバグを修正しました。インスタンスまたは組織全体からのユーザー削除は、インスタンス管理者または組織管理者が担当します。
+
+## Performance improvements
+* メトリクスが多数存在する Workspace において、パネルの追加にかかるレイテンシを最大 90% 削減しました。
+* Run が頻繁に再開される場合の、blob ストレージへの Parquet エクスポートの信頼性とパフォーマンスを向上させました。
+  Parquet 形式での blob ストレージへの Run エクスポートは、Dedicated Cloud および W&B kubernetes operator を使用して有効化された Self-Managed インスタンスで利用可能です。
+</Update>
+
+<Update label="v0.58.1" description="September 4, 2024">
+## Features
+* **Secure storage connector (Bring your own bucket)** 機能でサブパスをサポートしました。インスタンスまたはチームレベルでバケットを設定する際にサブパスを指定できます。これは新規のバケット設定にのみ適用され、既存の設定済みバケットには適用されません。
+* Google Cloud および Azure 上の新しい Dedicated Cloud インスタンスにおける W&B 管理のストレージは、デフォルトで **W&B 管理のクラウドネイティブキー** で暗号化されるようになります。これは AWS インスタンスでは既に提供されています。各インスタンスのストレージは、そのインスタンス固有のキーで暗号化されます。これまでは、Google Cloud および Azure 上のすべてのインスタンスは、デフォルトのクラウドプロバイダー管理の暗号化キーに依存していました。
+* Run の config および summary のフィールドをクリックしてコピーできるようにしました。
+* Self-Managed インスタンスで W&B kubernetes operator を使用している場合、オプションで controller manager にカスタム CA を使用できるようになりました。
+* W&B kubernetes operator をデフォルトで非 root コンテキストで実行するように変更し、OpenShift の Security Context Constraints (SCCs) に適合させました。この変更により、セキュリティポリシーを遵守しながら OpenShift 上での Self-Managed インスタンスのデプロイがスムーズになります。
+
+## Fixes
+* Workspace から Report へパネルをエクスポートする際、パネル検索の正規表現が正しく反映されるように問題を修正しました。
+* `GORILLA_DISABLE_PERSONAL_ENTITY` を `true` に設定しても、ユーザーが個人 Entity でプロジェクトを作成したり、既存のプロジェクトに書き込んだりすることを禁止できない問題を修正しました。
+
+## Performance improvements
+* 10万以上のポイントがログ記録された実験において、パフォーマンスと安定性を大幅に向上させました。Self-Managed インスタンスでは、W&B kubernetes operator を使用してデプロイが管理されている場合に利用可能です。
+* 大規模な Workspace で変更を保存する際に非常に遅くなる、または失敗する問題を修正しました。
+* 大規模な Workspace で Workspace セクションを開く際のレイテンシを改善しました。
+</Update>
+
+<Update label="v0.57.2" description="July 24, 2024">
+## Features
+
+**アイデンティティフェデレーション機能を使用することで、JWT (JSON Web Tokens) を用いて wandb SDK または CLI から W&B インスタンスにアクセスできるようになりました。この機能はプレビュー中です。** 詳細は [アイデンティティフェデレーション](https://docs.wandb.ai/platform/hosting/iam/identity_federation) を参照し、不明な点は W&B チームまでお問い合わせください。
+
+* Workspace のパネルを Reports にエクスポートするための、新しい `Add to reports` ドロワーの改善。
+* アーティファクトプロジェクトブラウザにおける Artifacts メタデータのフィルタリング。
+* `${artifact_metadata.KEY}` を介して Webhook ペイロードにアーティファクトメタデータを渡せるようにしました。
+* RunSystemMetrics コンポーネントに GPU メモリ使用量パネルを追加し、アプリのフロントエンドにおける Run の GPU メトリクス可視化を強化しました。
+* モバイルユーザー向けに、よりスムーズで直感的な Workspace 体験を提供できるようになりました。
+* Google Cloud または Azure 上で W&B Dedicated Cloud を使用している場合、インスタンスのプライベート接続を有効にできるようになりました。これにより、AI ワークロード（およびオプションでブラウザクライアント）からのすべてのトラフィックが、クラウドプロバイダーのプライベートネットワークのみを通過することを保証できます。詳細は [プライベート接続](https://docs.wandb.ai/platform/hosting/data-security/private-connectivity) を参照し、W&B チームまでお問い合わせください。
+* チームレベルのサービスアカウントが、チーム設定ビューの新しいタブに個別に表示されるようになりました。サービスアカウントはメンバータブには表示されなくなります。また、APIキーは非表示になり、チーム管理者のみがコピーできるようになりました。
+* Dedicated Cloud が Google Cloud のソウルリージョンで利用可能になりました。
+
+## Fixes
+
+* 多くのプロットでガウシアンスムージングが非常に強力にかかりすぎていた問題を修正しました。
+* UI Workspace において `Ignore Outliers in Chart Scaling` ボタンを押しても効果がない問題を修正しました。
+* 無効化されたユーザーを組織に招待することを禁止しました。
+* SCIM API を使用してインスタンスに追加されたユーザーが正常にオンボーディングできない問題を修正しました。
+
+## Performance improvements
+
+* パネルの設定を編集して変更を適用する際のパフォーマンスを大幅に向上させました。
+* 大規模な Workspace における Run の表示/非表示の切り替えのレスポンスを改善しました。
+* 大規模な Workspace におけるプロットのチャートホバーおよびブラッシングのパフォーマンスを向上させました。
+* 多くのキーを持つ Workspace におけるメモリ使用量を削減し、読み込み時間を短縮しました。
+</Update>
+
+<Update label="v0.56.0" description="June 29, 2024">
+<Note>
+リリースのバージョニングに関する問題により、0.56.0 は 0.54.0 の後の次のメジャーリリースとなります。0.55.0 は 0.54.0 のパッチリリースでした。
+</Note>
+
+## Features
+
+* W&B Experiments の新しい Full Fidelity ラインプロットにより、x 軸に沿ってすべてのデータを集計し、各バケット内の最小値、最大値、平均値を表示することで、トレーニングメトリクスの視認性が向上しました。これにより、ダウンサンプリングによる損失なしに、外れ値を簡単に見つけたり、高忠実度の詳細をズームしたりできるようになります。[ドキュメントで詳細を見る](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling)。
+* Dedicated Cloud および Self-Managed インスタンスにおいて、チームレベルの BYOB（セキュアストレージコネクタ）で [クロスクラウドストレージバケット](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) を使用できるようになりました。例えば、AWS 上の W&B インスタンスで Azure Blob Storage や Google Cloud Storage をチームレベルの BYOB として設定することが可能です。
+* 同様に、Dedicated Cloud および Self-Managed インスタンスにおいて、チームレベルの BYOB（セキュアストレージコネクタ）で [MinIO などの S3 互換ストレージバケット](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) を使用できるようになりました。例えば、Google Cloud 上の W&B インスタンスで、クラウドまたはオンプレミスにホストされた MinIO バケットをチームレベルの BYOB として設定できます。
+* 管理者は、[SCIM API の DELETE User エンドポイント](https://docs.wandb.ai/platform/hosting/iam/scim#delete-user) を使用して、Dedicated Cloud または Self-Managed インスタンス内のユーザーの完全削除を自動化できるようになりました。ユーザーの無効化操作は [PATCH User エンドポイント](https://docs.wandb.ai/platform/hosting/iam/scim#deactivate-user) を使用して再実装され、併せて [ユーザーの再有効化操作](https://docs.wandb.ai/platform/hosting/iam/scim#reactivate-user) も導入されました。
+* SCIM API を使用している場合、他にもいくつかの細かな改善があります：
+  認証失敗時により適切なエラーメッセージを表示するようにしました。
+  関連するエンドポイントにおいて、ユーザーのフルネームが利用可能な場合は SCIM User オブジェクトでフルネームを返すようにしました。
+
+## Fixes
+
+* Report 内の Runset から検索ワードを削除する際、コピー＆ペースト操作中の選択テキストの適切な処理を確保することで、パネルが削除されたり Report がクラッシュしたりする問題を解決しました。
+* Slate のアップグレードおよび要素の正規化プロセスの追加チェックに起因していた、Report 内の箇条書き項目のインデントに関する問題を修正しました。
+* Report が編集モードのときにパネルからテキストを選択できない問題を解決しました。
+* Command-C を使用して Report 内のパネルグリッド全体をコピー＆ペーストできない問題を修正しました。
+* チームで `Hide this team from all non-members` 設定が有効な場合に、マジックリンクによる Report の共有が機能しない問題を修正しました。
+* 明示的に招待されたユーザーのみがアクセスできるようにし、プロジェクトメンバーとチームロールに基づいた権限を実装することで、制限付きプロジェクトの適切な処理を導入しました。
+* インスタンス管理者が自身の名前付き Workspace への書き込み、他の個人および共有 Workspace の読み取り、プライベートおよびパブリックプロジェクト内の共有ビューへの書き込みができるように修正しました。
+* フィルタを編集しようとすると、個別のフィルタ以外をスキップしながらインデックスカウントをインクリメンタルに保持していたために、インデックスが範囲外になり Report がクラッシュする問題を解決しました。
+* Runset の選択を解除すると、有効な Runset 内の Run のみが返されるようにすることで、Report 内のメディアパネルがクラッシュする問題を修正しました。
+* フックの順序変更によるフック違反エラーのために、初期読み込み時にパラメータの重要度パネルがクラッシュする問題を解決しました。
+* 小規模な Workspace でスクロールダウンして戻った際にチャートデータが再読み込みされるのを防ぎ、パフォーマンスを向上させ、動作が重い感覚を解消しました。
+</Update>
+
+<Update label="v0.54.0" description="May 24, 2024">
+## Features
+* Microsoft Azure 上の Dedicated Cloud または Self-Managed インスタンスにおいて、チームレベルで Secure storage connector (BYOB) を設定できるようになりました。
+  [こちらの Terraform モジュール](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) を参照し、不明な点は W&B チームまでお問い合わせください。
+* 組織管理者は、組織ダッシュボードの `Settings` タブから組織レベルでプライバシー設定を行うことで、すべての W&B Teams 全体にプライバシー設定を強制できるようになりました。
+  W&B では、このような強制的な変更を行う前に、チーム管理者や他のユーザーに通知することを推奨しています。
+* アーティファクトリネージ DAG の直接リネージオプションを有効化しました。
+* 組織管理者またはインスタンス管理者が、W&B チームに自動参加したり自身を追加したりすることを制限できるようになりました。これにより、Data & AI の役割を持つユーザーのみがチーム内のプロジェクトにアクセスできるようになります。
+  W&B は、この設定を有効にする前にすべての影響を理解し、慎重に判断することを推奨します。詳細は W&B チームにお問い合わせください。
+* AWS 上の Dedicated Cloud がソウル（韓国）リージョンでも利用可能になりました。
+
+## Fixes
+* モバイルで Reports が読み込めない問題を修正しました。
+* Run の overview にある git diff ファイルへのリンクを修正しました。
+* 特定のユーザーにおいて組織ダッシュボードの読み込み時に断続的に発生していた問題を修正しました。
+</Update>
+
+<Update label="v0.52.2" description="April 25, 2024">
+## Features
+
+* SSO プロバイダーからの OIDC クレームを使用して、組織内のユーザーのユーザー名とフルネームを強制できるようになりました。ご興味がある場合は、W&B チームまたはサポートまでお問い合わせください。
+* すべてのプロジェクトが W&B Teams 内で作成され、管理者のガイドラインに従って管理されることを保証するために、組織内での個人プロジェクトの使用を禁止できるようになりました。ご興味がある場合は、W&B チームまたはサポートまでお問い合わせください。
+* Artifacts Lineage DAG ビューにおいて、Run またはアーティファクトのクラスター内のすべてのバージョンを展開するオプションを追加しました。
+* Artifacts Lineage DAG の UI 改善：クラスター内の各エントリのタイプが表示されるようになりました。
+
+## Fixes
+* メディアバンクの画像パネルにページネーションを追加しました。グリッドの外観を強化し、ページネーション制御を改善することで、1 ページあたり最大 32 枚の画像を表示できるようにし、オフセットの不整合に対する回避策を導入しました。
+* クロスヘア UI の表示に不可欠な `isHovered` パラメータを強制することで、システムチャートのツールチップが表示されない問題を解決しました。
+* メディアパネル内の画像に対する max-width プロパティを解除し、以前すべての画像に適用されていた意図しないスタイルの制約を修正しました。
+* Launch ドロワーにおける config オーバーライドの不具合を修正しました。
+* Run からクローンする際の Launch ドロワーの挙動を修正しました。
+</Update>
+
+<Update label="v0.51.0" description="March 20, 2024">
+## Features
+
+* Workspace バーのオーバーフローメニューにある「Save as a new view」をクリックすることで、任意の Workspace の複数のビューを保存できるようになりました。
+  詳細は [Saved workspace views](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views) を参照してください。
+
+  <Frame>
+  ![Image showing saved views](https://github.com/wandb/server/assets/7208315/862a36ac-8ce4-49e7-8677-d87d54ab1e54)
+  </Frame>
+* 機密データや機密情報に関連する AI ワークフローで共同作業を行う場合、[プロジェクトの公開範囲を Restricted（制限付き）に設定](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/) できるようになりました。
+  チーム内に **restricted project** を作成すると、チームから特定のメンバーを追加できます。他の公開範囲とは異なり、チームのすべてのメンバーが制限付きプロジェクトへの暗黙的なアクセス権を得ることはありません。
+* **Run Overview ページのパフォーマンス強化**: 読み込み速度が 91% 向上し、検索機能は 99.9% 改善されました。また、Config および Summary データに対する正規表現検索も利用可能です。
+* **Artifacts Lineage DAG の新しい UX**: 同一レベルの 5 つ以上のノードに対するクラスタリング、ノードの詳細を確認するためのプレビューウィンドウを導入し、グラフの読み込み速度を大幅に向上させました。
+* Launch によって実行された Run で使用されたテンプレート変数の値（例：GPU のタイプや数）が、キューの Run リストに表示されるようになりました。これにより、どの Run がどのリソースを要求しているかを確認しやすくなります。
+* Launch で Run をクローンする際、クローン元の Run で使用されていたオーバーライド、キュー、テンプレート変数の値が事前選択されるようになりました。
+* インスタンス管理者の組織ダッシュボードに `Teams` タブが表示されるようになりました。組織のガイドラインに従ってチームの活動を監視したり、チーム管理者が不在の際にチームをサポートしたりするために、特定のチームに参加するために使用できます。
+* SCIM User API の GET エンドポイントのレスポンスに `groups` 属性が含まれるようになり、ユーザーが所属するグループ / チームの ID が返されるようになりました。
+* Google Cloud 上のすべての Dedicated Cloud インスタンスが、新しい [W&B Kubernetes Operator](https://docs.wandb.ai/platform/hosting/operator/) を使用して管理されるようになりました。これにより、新しい Parquet Store サービスも利用可能になりました。
+  Parquet store を使用すると、Run の履歴データを Parquet 形式で blob ストレージに、パフォーマンス高くコスト効率よく保存できます。AWS および Azure 上の Dedicated Cloud インスタンスは、既に operator を使用して管理されており、Parquet store が含まれています。
+* AWS 上の Dedicated Cloud インスタンスがリレーショナルデータストレージの最新バージョンを使用するように更新され、コンピューティングインフラストラクチャがより高いパフォーマンスを持つ新しい世代にアップグレードされました。
+
+> **事前通知**: 次のリリース以降、SSRF 脆弱性やその他の関連する脅威ベクトルから保護するため、IP アドレスベースの Webhook URL の使用を禁止します。Automations で Webhook を使用しているすべてのお客様は、エンドポイントに対して有効な A レコードを追加することを強く推奨します。
+
+## Fixes
+
+* ラインプロットで式のタブがレンダリングされない問題を修正しました。
+* チャートや Run テーブルで Sweep ごとにグループ化されている場合、Sweep の表示名を使用するようにしました。
+* ジョブのバージョンを選択した際に、自動的に Run ページに移動するようにしました。
+</Update>
+
+<Update label="v0.50.2" description="February 26, 2024">
+## Feature
+* 検索結果を自動展開するパネルバンク設定を追加しました。
+* Run キューアイテムの問題に関する視認性を向上させました。
+* AWS 上の Dedicated Cloud ユーザーは、Privatelink を使用してデプロイメントに安全に接続できるようになりました。
+  この機能はプライベートプレビュー中であり、GA 時には上位の価格プランに含まれる予定です。ご興味がある場合は、W&B チームまでお問い合わせください。
+* [SCIM ロール割り当て API](https://docs.wandb.ai/platform/hosting/iam/scim/#assign-organization-level-role-to-user) を使用して、組織またはチームスコープのユーザーロール割り当てを自動化できるようになりました。
+* AWS および Azure 上のすべての Dedicated Cloud インスタンスが、新しい W&B Kubernetes Operator を使用して管理されるようになりました。これにより、新しい Parquet Store サービスも利用可能になりました。このサービスにより、Run の履歴データを Parquet 形式で blob ストレージにパフォーマンス高くコスト効率よく保存でき、Run の評価に使用されるチャートやプロットでの関連履歴データの読み込みが高速化されます。
+* W&B Kubernetes Operator とそれに伴う Parquet Store サービスが Self-Managed インスタンスでも利用可能になりました。既に Kubernetes を使用して W&B をホストしているお客様は、operator の使用方法について W&B チームにお問い合わせください。将来的に operator を通じて提供される最新のパフォーマンス改善や新サービスを利用するために、他のお客様にも Kubernetes への移行を強く推奨します。移行の計画については、喜んでお手伝いさせていただきます。
+
+## Fixes
+* Sweep スケジューラを介してテンプレート変数が適切に渡されるようにしました。
+* スケジューラが Sweep YAML ジェネレーターを汚染していた問題を修正しました。
+* 検索やソートが適用されている場合に、チームメンバーページでユーザーロールが正しく表示されるようにしました。
+* 組織管理者が Dedicated Cloud または Self-Managed サーバーインスタンス内の個人プロジェクトを再び削除できるようになりました。
+* 保留中のユーザーに対する SCIM GET groups API のバリデーションを追加しました。
+</Update>
+
+<Update label="v0.49.0" description="January 18, 2024">
+
+## Features
+* チーム設定ページで、チームのデフォルト TTL (time-to-live またはスケジュール削除) ポリシーを設定できるようになりました。
+  TTL ポリシーの設定または編集を、管理者のみ、または管理者とメンバーの両方に制限できます。
+* Webhook の作成中または作成後に、チーム設定 UI で Webhook のテストとデバッグができるようになりました。
+  W&B はダミーのペイロードを送信し、受信サーバーのレスポンスを表示します。
+* View Details スライダーで Automation のプロパティを表示できるようになりました。
+  これには、トリガーイベントとアクションの概要、アクションの設定、作成日、および Webhook Automations をテストするためのコピー可能な curl コマンドが含まれます。
+* Launch overview において、エージェントのハートビートを最後の成功した Run の時刻に置き換えました。
+* サービスアカウントが Report API を使用して Report を作成できるようになりました。
+* 新しいロール管理 API を使用して、カスタムロールの管理を自動化できるようになりました。
+* AWS 上の Dedicated Cloud デプロイメントで Kubernetes Operator を有効にしました。
+* Google Cloud 上の Dedicated Cloud デプロイメントで使用される管理キャッシュ用に、競合しない IP アドレス範囲を設定できるようにしました。
+
+## Fixes
+* Reports 内の Runset 追加ボタンのクリック可能範囲を更新しました。
+* 適切な切り詰めグルーピングメッセージを表示するようにしました。
+* Reports の公開ボタンがちらつくのを防ぎました。
+* Reports セクションで水平線が折りたたまれる問題を修正しました。
+* 特定のビューでセクション追加ボタンが隠れてしまう問題を修正しました。
+* プロット内でセマンティックバージョニングなどを文字列として扱えるようにしました。
+* キュー設定定義でテンプレート変数を使用する際の引用符の要件を削除しました。
+* Launch キューのソート順を改善しました。
+* 大規模な Workspace を検索する際に、パネルセクションを自動で開かないようにしました。
+* グループ化された Run のラベルテキストを変更しました。
+* 検索中にすべてのセクションを開閉できるようにしました。
+</Update>
+
+<Update label="v0.48.0" description="December 20, 2023">
+## Features
+* Launch の優先順位付けに必要なすべてのフロントエンドの変更を実施。
+  Launch を使用して他のジョブよりも重要なジョブを実行する方法については、 [こちらのブログ](https://wandb.ai/wandb_fc/launch-releases/reports/Introducing-Priority-Based-Job-Management-with-W-B-Launch--Vmlldzo2MzE2NjI2) を参照してください。
+* チームサービスアカウントのアクセス制御とユーザー属性に関する以下の変更：
+  * トレーニング環境でチームが設定されている場合、そのチームのサービスアカウントを使用して、そのチーム内のプライベートまたはパブリックプロジェクトに Run をログ記録できます。環境変数 `WANDB_USERNAME` または `WANDB_USER_EMAIL` が設定されており、そのユーザーがチームの一員である場合に限り、それらの Run をユーザーに紐付けることができます。
+  * トレーニング環境でチームが設定されておらず、サービスアカウントが使用されている場合、Run はサービスアカウントのチーム内の指定されたプロジェクトにログ記録されます。これらも、環境変数 `WANDB_USERNAME` または `WANDB_USER_EMAIL` が設定されており、ユーザーがチームの一員である場合にのみユーザーに紐付けられます。
+  * チームサービスアカウントは、別のチームのプライベートプロジェクトに Run をログ記録することは **できません** が、他のチームのパブリックプロジェクトにはログ記録できます。
+
+## Fixes
+ * サイズが大きすぎる Run セレクターの列幅を縮小しました。
+ * Custom Roles プレビュー機能に関連するいくつかのバグを修正しました。
+</Update>
+
+<Update label="v0.47.2" description="December 1, 2023">
+
+## Features
+* **特定の権限を持つカスタムロールを使用して、チーム内のアクセス制御をカスタマイズできるようになりました。**
+  エンタープライズのお客様にプレビューとして提供されています。不明な点は W&B アカウントチームまたはサポートにお問い合わせください。
+* Run 検索の細かな改善。
+* 長いテキストに対応するため Run 検索の自動リサイズを実装。
+* Webhook Automations の Automations テーブルから、URL、シークレット、作成日などの Webhook の詳細を直接確認できるようになりました。
+
+## Fixes
+
+* グループ値が数値のように見える文字列である場合の Run のグルーピングを修正しました。
+* Report パネルのドラッグ操作の不安定さを解消しました。
+* パブリッククラウドのものと一致するように棒グラフの仕様を更新しました。
+* パネルのパディングとプロットのマージンを整理しました。
+* Workspace 設定のベータ版を復元しました。
+</Update>
+
+<Update label="v0.46.0" description="November 15, 2023">
+
+## Features
+* AWS 上のデプロイメントにおいて、Webhook および Automations で W&B Secrets を使用できるようになりました。
+  シークレットは AWS Secret Manager に安全に保存されます。provision には terraform-aws-wandb モジュールを使用してください。
+* より多くの情報を表示するように Webhook テーブルを更新しました。
+* UI での文字列の使い勝手を向上させるため、長い文字列の切り詰め処理を改善しました。
+* Report セクションへのスクロール遅延を短縮しました。
+* weave1 パネルに白い背景を追加しました。
+* Reports 内の weave1 パネルへのディープリンクを許可しました。
+* Reports 内の weave1 パネルのリサイズを許可しました。
+* ホームページのバナーに CLI ログインの手順を表示するようにしました。
+* 何らかの理由で招待メールが送信できない場合でも、ユーザー招待が成功するようにしました。
+* エージェントの概要ページに関連するキューのリストを追加しました。
+
+## Fixes
+* パネルオーバーレイのコピー機能で値が抜け落ちる問題を修正しました。
+* Report 作成時のインポートモーダルの CSS を修正しました。
+* 凡例をオフにしたときに非表示にする機能のデグレードを修正しました。
+* Report のコメントのハイライトを修正しました。
+* ビューの LoadMetadataList() に関するすべてのキャッシュを削除しました。
+* Run 検索が伸びるように調整しました。
+* `X-WANDB-USERNAME` ヘッダーのユーザー ID と Launch エージェントを関連付けるようにしました。
+</Update>
+
+<Update label="v0.45.0" description="October 25, 2023">
+## Features
+* 環境変数 `GORILLA_ARTIFACT_GC_ENABLED=true` とクラウドオブジェクトのバージョン管理またはソフト削除を使用して、アーティファクトのガベージコレクションを有効にできるようにしました。
+* terraform モジュール `terraform-azurerm-wandb` がシークレットストアとして Azure Key Vault をサポートしました。
+  Azure 上のデプロイメントで、Webhook および Automations で W&B Secrets を使用できるようになりました。シークレットは Azure Key Vault に安全に保存されます。
+
+## Fixes
+* 履歴の削除を妨げていた無効な早期終了を削除しました。
+* Run を移動/コピーする際に、キーセット情報が抜け落ちないようにしました。
+* 廃止されたストレージプランやアーティファクト請求プランを一切使用しないようにミューテーションを更新しました。
+* useRemoteServer 内の skip フラグを尊重するようにしました。
+</Update>
+
+<Update label="v0.44.1" description="October 12, 2023">
+
+## Features
+**SaaS および Server に OpenAI プロキシ UI を追加**
+
+<Frame>
+![Image showing the new OpenAI proxy UI](https://github.com/wandb/server/assets/7208315/8bc78df9-e0e7-455e-8c74-975caa96eccf)
+</Frame>
+
+**その他：**
+
+* AWS Terraform モジュール `terraform-google-wandb` の新バージョン v1.19.0 が利用可能になりました。
+* カスタマーシークレットストアとして AWS Secret Manager のサポートを追加しました。これは terraform モジュール `terraform-aws-wandb` を更新してリリースした後に有効化できます。
+* カスタマーシークレットストアとして Azure Key Vault のサポートを追加しました。これは terraform モジュール `terraform-azurerm-wandb` を更新してリリースした後に有効化できます。
+
+## Fixes
+* モデルレジストリ UI の使い勝手を向上させました。
+* Run が Sweep の最適化目標を達成したかどうかの判定において、int 値が無視されないようにしました。
+* Workspace の読み込みパフォーマンスを向上させるため、Run データをキャッシュするようにしました。
+* コレクションテーブルにおける TTL の表示を改善しました。
+* サービスアカウントをワークフロー（レジストリ）管理者に設定できるようにしました。
+* Workspace で切り詰められた Run タグのツールチップを追加しました。
+* Report ページのスクロールを修正しました。
+* チャートツールチップ用に `y` データ値をコピーするようにしました。
+* ローカルで Webhook のシークレットを照会するようにしました。
+* パネル設定におけるドメインズームの不具合を修正しました。
+* 環境変数 `GORILLA_CUSTOMER_SECRET_STORE_SOURCE` が設定されていない場合、カスタマーシークレットストア UI を非表示にするようにしました。
+* langchain を最新バージョンに更新しました。
+* クイックスタートに W&B Prompts を追加しました。
+* AWS MI が terraform-kubernetes-wandb v1.12.0 を使用するように更新しました。
+* チーム設定ページで正しい Teams プランの追跡時間を表示し、使用量ページでは非表示にしました。
+</Update>
+
+<Update label="v0.43.0" description="October 2, 2023">
+Server 0.43.0 には、スクロールバーがある場合の Run テーブル下部の修正を含む、多数の細かなバグ修正とパフォーマンス改善が含まれています。その他の修正は以下をご覧ください：
+
+<Frame>
+![Demo of fixed Runs table](https://github.com/wandb/server/assets/117778861/e4fe9656-b382-4328-80e4-edc4fcae1c88)
+</Frame>
+
+## Fixes
+ - Workspace の読み込みパフォーマンスを劇的に向上させました。
+ - 無効なパネル追加メニュー内の壊れたドキュメントリンクを修正しました。
+ - Report 内でエディタなしで childPanel をレンダリングするようにしました。
+ - 編集時にパネルグリッドからテキストをコピーできるようにしました。
+ - 'length' キーで Run overview がクラッシュする問題を修正しました。
+ - スクロールバーがある場合の Run テーブル下部のパディングを調整しました。
+ - 不要な履歴キーキャッシュの読み込みを排除しました。
+ - Teams 決済モーダルのエラーハンドリングを修正しました。
+ - Weave Python オートトレーサーにおけるメモリリーク、過剰なファイルストリーム送信、および孤立プロセスの問題を修正しました。
+</Update>
+
+<Update label="v0.42.0" description="September 14, 2023">
+
+## Features
+- W&B Artifacts が time-to-live (TTL) ポリシーをサポートしました。
+  <Frame>
+  ![Image illustrating TTL policies for artifacts](https://github.com/wandb/server/assets/117778861/fcfe9484-5adb-4ace-8e88-9c9a344d94ef)
+  </Frame>
+
+  保持および time-to-live (TTL) ポリシーを設定できるようになったことで、W&B にログ記録された Artifacts の削除と保持をより詳細に制御できるようになりました。特定の Artifacts をいつ削除するかを決定し、既存の Artifacts のポリシーを更新したり、上流または下流の Artifacts に TTL ポリシーを設定したりできます。
+- Sweeps 作成時に Launch ドロワーを使用できるようにしました。
+- Run キューアイテムの削除を可能にしました。
+- 最小/最大集計のネストされたドロップダウンを追加しました。
+- ユーザーが複数の S3 互換バケットを接続できるようにしました。
+- ディスク I/O システムメトリクスを追加しました。
+- 権限設定に従来の方法を使用できるようにしました。
+- CustomerSecretStore を有効化しました。
+- CustomerSecretStore のバックエンドとして Kubernetes を追加しました。
+
+## Fixes
+- 進行中のストレージ計算リファクタリングのため、ストレージおよびアーティファクトの請求書を無効にしました。
+- パネル削除のバグを修正しました。
+- プロジェクトオートメーションスライダーから link-version イベントタイプを削除しました。
+- アーティファクトタイプ名の大文字スタイルを解除しました。
+- 色なしタグがレンダリング時に色を変えないように維持しました。
+- 再開時に Launch ドロワーに古いデフォルトが残る問題を修正しました。
+- アーティファクト作成中にエイリアスオートメーションをトリガーするようにしました。
+- 無限読み込みタグフィルタにおけるエッジケースの失敗を修正しました。
+</Update>
+
+<Update label="v0.41.0" description="August 28, 2023">
+
+## Features
+
+- 新しい Launch ランディングページ
+
+  <Frame>
+  ![Image showing the new Launch landing page](https://github.com/wandb/server/assets/97066933/3bd0ecfe-1fcb-412f-92d3-6d3ce8f849d6)
+  </Frame>
+
+
+  Launch のホームページを刷新し、Launch を使い始めるユーザーがより簡単にセットアップできるようにしました。詳細なドキュメントへ簡単にアクセスしたり、3つのクイックスタートステップに従って Launch キューとエージェントを作成し、すぐにジョブを開始したりできます。
+- OpenAI のリクエストとレスポンスを追跡するための新しいリバースプロキシを追加しました。
+- エージェント概要ページにエージェントのバージョンを表示するようにしました。
+- 新しいモデルレジストリワークフローをすべてのユーザーに対して機能フラグから外しました。
+
+## Fixes
+- ストレージエクスプローラーで空のプロジェクトが無限読み込みを引き起こす問題を修正しました。
+- Run キューアイテムが失敗した際に Run を失敗としてマークするようにしました。
+- OpenAI プロキシアーティファクトの保存に正しいバケットを使用するようにしました。
+- ホストによって SEO タグが正しくレンダリングされない問題を修正しました。
+- コンテキストのデッドライン時にもバックグラウンドでエクスポートをトリガーするようにしました。
+- Run が初期化された際に、保留（pending）状態の Run を実行中（running）に移行させるようにしました。
+- Launch キューに最近完了したジョブと失敗したジョブが表示されるようにクエリを修正しました。
+</Update>
+
+<Update label="v0.40.0" description="August 18, 2023">
+
+## Features
+- Webhooks により、CI/CD パイプライン内で特定のイベントが発生したときに特定のアクションをトリガーする Webhook Automations を使用して、シームレスなモデル CI/CD ワークフローが可能になります。Webhook を使用して、ML エンジニアリングと DevOps の間のクリーンなハンドオフポイントを促進します。[Model Evaluation（モデル評価）](https://www.youtube.com/watch?v=7j-Mtbo-E74) と [Model Deployment（モデルデプロイ）](https://www.youtube.com/watch?v=g5UiAFjM2nA) の実践例については、リンク先のデモ動画をご覧ください。詳細は [ドキュメント](/models/automations/create-automations/webhook/) を参照してください。
+  <Frame>
+  ![Image showing webhook configuration](https://github.com/wandb/server/assets/97066933/88ebcb78-a2e6-42ed-8a37-1be0b7556a3a)
+  </Frame>
+- すべてのお客様向けに新しいユーザーアクティビティダッシュボードを導入しました。
+
+## Fixes
+- 組織が保持できる登録済みモデルの数の制限を削除しました。
+- よく使われるプロットを見つけやすくするため、Workspace に検索履歴を追加しました。
+- Reports の「いいね」アイコンをハートから星に変更しました。
+- Run のグループがある Workspace ビューで、選択された Run を変更できるようになりました。
+- パネルグリッドが重複する問題を修正しました。
+- Sweeps on Launch において、ジョブごとのリソース設定オーバーライドを渡せるようになりました。
+- */admin/users* から新しい組織ダッシュボードへのリダイレクトを追加しました。
+- LDAP の接続が切れる問題を修正しました。
+- Run の完全削除（permadeletion）に関する改善を行いました。
+</Update>
+
+<Update label="v0.39.0" description="July 27, 2023">
+## Features
+
+**刷新された組織ダッシュボード**
+
+<Frame>
+![Revamped Organization Dashboard showing user activity, run creation statistics, and member management features](https://github.com/wandb/server/assets/47005026/ecfda350-2fc2-4023-a98c-d8eb67498957)
+</Frame>
+
+W&B 管理者がアクセスできる刷新された組織ダッシュボードにより、誰が W&B を最大限に活用しているかを簡単に把握できるようになりました。誰が Run や Report を作成したか、誰が W&B をアクティブに使用しているか、誰の招待が保留中かなどの詳細を確認でき、これらすべてを CSV でエクスポートして組織内で共有できます。 [アクセス管理](https://docs.wandb.ai/platform/hosting/iam/access-management-intro/) について詳細を見る。
+
+Dedicated Cloud のお客様については、この機能が有効になっています。Self-Managed のお客様は、W&B サポートまでご連絡いただければ、有効化に向けて対応させていただきます。
+
+## Fixes
+
+- サービス API キーの使用をチーム管理者に制限しました。
+- Agents ページに Launch エージェントの設定が表示されるようになりました。
+- 単一の Launch ジョブを表示中にナビゲーションパネルを追加しました。
+- Automations で関連するジョブの設定パラメータを表示できるようになりました。
+- グループ化された Run がライブアップデートされない問題を修正しました。
+- マジックリンクおよび通常のリンク URL の余分な `/` を削除しました。
+- インクリメンタルアーティファクトのベースをチェックするようにしました。
+- ユーザーを複数のチームに招待しても、組織内のシートを過剰に消費しないようにしました。
+</Update>
+
+<Update label="v0.38.0" description="July 13, 2023">
+## Features
+
+- メトリクス可視化の強化
+  <Frame>
+  ![Enhanced metric visualization interface supporting up to 100 metrics with time-weighted exponential moving averages](https://github.com/wandb/server/assets/47005026/1bb0b16c-eaae-4348-be0d-cc788b67853e)
+  </Frame>
+
+  コアとなるメトリクス可視化体験の向上を継続しています。正規表現を使用してプロットにレンダリングするメトリクスを定義し、一度に最大 100 個のメトリクスを表示できるようになりました。また、大規模なデータをより正確に表現するために、プロットに新しい時間加重指数移動平均スムージングアルゴリズムを追加しました（ [サポートされているすべてのアルゴリズム](https://docs.wandb.ai/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback) を確認してください）。
+
+## Fixes
+* アーティファクトのダウンロード速度を大幅に改善：100万ファイルのアーティファクトベンチマークで 6 倍以上の高速化を実現しました。SDK バージョン 0.15.5 以上にアップグレードしてください。
+* (Launch) Optuna が [Sweeps on Launch のスイープスケジューラ](https://docs.wandb.ai/guides/launch/sweeps-on-launch#create-a-custom-sweep-scheduler) として利用可能になり、ハイパーパラメータのより効率的な探索が可能になりました。
+* Run データの完全削除（permadeletion）が利用可能になりました（デフォルトはオフ）。これは環境変数 `GORILLA_DATA_RETENTION_PERIOD` を時間単位で指定することで有効にできます。削除は永久的であるため、この変数を更新する前には十分注意し、必要に応じて W&B サポートにご相談ください。アーティファクトはこの設定では削除されません。
+* Report 共有メールにプレビューが含まれるように更新しました。
+* プロジェクト内の Reports に対する HTML サニタイズルールを緩和しました。これにより、Report のレンダリングで稀に発生していた問題が解消されます。
+* チャート設定で正規表現にマッチできるメトリクスの最大数を拡張しました。以前は常に 10 でしたが、現在は最大 100 です。
+* メディアパネルのステップスライダーが表示されているメディアと同期しなくなる問題を修正しました。
+* プロットのスムージングオプションとして、時間加重指数移動平均を追加しました。
+* Workspace の「Search panels」テキストボックスがユーザーの最後の検索内容を保持するようになりました。
+* Run がグループ化されているときにユーザー名フィルタを適用してもエラーが発生しないようにしました。
+* (Launch) Launch タブの読み込みが大幅に高速化され、通常 2 秒未満になりました。
+* (Launch) キュー設定を JSON の代わりに YAML を使用して編集できるオプションを追加しました。また、キュー設定の編集方法がより明確になりました。
+* (Launch) Run がクラッシュまたは失敗した際に、UI 上にエラーメッセージを表示するようにしました。
+* (Launch) ジョブ作成時にプロジェクトを指定しない場合、`wandb.init` の `WANDB_PROJECT` の値を使用するようにしました。
+* (Launch) カスタムアクセラレータイメージのサポートを更新しました。ビルド時に非対話モードで実行されるようになり、一部のイメージでブロックされていた問題が解消されます。
+* (Launch) スイープの Run 作成者が、実際の作成者ではなくエージェントのサービスアカウントになっていた問題を修正しました。
+* (Launch) Launch ドロワーの外をクリックしても、ドロワーが自動的に閉じないようにしました。
+* (Launch) スイープによってエンキューされたがまだ実行されていないトレーニングジョブが、後でスイープを停止した際にキューから正しく削除されない問題を修正しました。
+* (Launch) チームの一員でないユーザーに対して Launch ナビゲーションリンクを非表示にしました。
+* (Launch) エージェントログのフォーマットと表示の問題を修正しました。
+* Automations パネルにおけるスクロール、リサイズ、クローンの問題を修正しました。
+* アーティファクトのアクション履歴のページネーションを修正しました。
+* `AWS_S3_ENDPOINT_URL` 環境変数が設定され SDK 側から渡された場合に、VPC エンドポイント URL を使用した署名付き URL のサポートを追加しました。
+* 組織名に「&」が含まれている場合のエンタープライズダッシュボードのリンクを修正しました。
+* タグの色が一貫するように更新しました。
+</Update>
+
+<Update label="v0.36.0" description="June 14, 2023">
+## Features
+- Launch による Run のクローン
+  <Frame>
+  ![Run cloning interface in W&B Launch allowing hyperparameter adjustments and infrastructure selection](https://github.com/wandb/server/assets/47005026/4aebe22a-70c9-4186-be74-feaf73c1b2d2)
+  </Frame>
+
+  Run を繰り返したいが、ハイパーパラメータを少し調整したい場合（例：より大きなマシンを活用するためにバッチサイズを上げるなど）、W&B Launch を使用して簡単に Run をクローンできるようになりました。Run overview に移動して Clone をクリックすると、新しいハイパーパラメータを指定してジョブを実行する新しいインフラストラクチャを選択できます。詳細は [Launch ドキュメント](https://docs.wandb.ai/guides/launch) を参照してください。
+
+## Fixes
+ - 監査ログに Report の作成および更新アクションを追加しました。
+ - SDK を通じて読み取られた Artifacts が [監査ログ](https://docs.wandb.ai/platform/hosting/audit-logging/) に記録されるようになりました。
+ - Report 作成時に、新しい Report に追加するすべてのプロットを選択するボタンを追加しました。
+ - Report リンク経由で登録した新しい閲覧専用ユーザーは、通常の登録プロセスではなく、直接 Report に案内されるようになりました。
+ - チーム管理者が保護されたエイリアスを追加できるようになりました。
+ - メディアパネルの中間ステップの処理を改善しました。
+ - 匿名ユーザーに対して Model Registry ホームページの非アクティブな「New Model」ボタンを削除しました。
+ - プロットの凡例からデータをコピーする機能をすべてのユーザーにロールアウトしました。
+ - Model Registry のオンボーディングチェックリストの不正確な進捗インジケーターを修正しました。
+ - ジョブ名にスラッシュが含まれている場合に Automations ページがクラッシュする問題を修正しました。
+ - ユーザーが誤ったユーザープロファイルを更新できてしまう問題を修正しました。
+ - 環境変数で指定された期間が経過した後に、Run とそれに関連するメトリクスを永久に削除するオプションを追加しました。
+</Update>
+
+<Update label="v0.35.0" description="June 7, 2023">
+
+## Security
+最近ログインしたユーザーの API キーがログに記録される問題を修正しました。デバッグバンドルの `gorilla.log` にある `FetchAuthUserByAPIKey` を確認し、見つかったキーはローテートしてください。
+
+## Features
+- Launch エージェントのログが W&B アプリで確認できるようになりました。
+  <Frame>
+  ![Image showing Launch agent logs in GUI](https://github.com/wandb/server/assets/97066933/9d68dc0d-54c9-4024-a108-ffb5a1500fa8)
+  </Frame>
+
+  [W&B Launch](https://docs.wandb.ai/guides/launch) を使用すると、機械学習ジョブを多種多様な専用コンピューティング環境に投入できます。このアップデートにより、AWS や Google Cloud コンソールにログインすることなく、W&B を使用してこれらのリモート環境で実行されているジョブの監視とデバッグが可能になりました。
+
+## Fixes
+- Logs タブが 1000 行で切り詰められないようにしました。
+- アーティファクトファイルのページネーションが無限ループに陥る可能性があるシナリオを修正しました。
+- 成功のトーストメッセージが表示されないバグを修正しました。
+- Run テーブルが正しく git コミット値を表示するようにしました。
+</Update>
+
+<Update label="v0.34.0" description="May 31, 2023">
+
+## Features 
+
+- 新しい Model Registry UI
+
+  <Frame>
+  ![New Model Registry UI featuring list view, model filtering, version management, and automation controls](https://github.com/wandb/server/assets/97066933/3fedbdb8-aa79-4fb6-aab8-bddd8899e8dc)
+  </Frame>
+
+  膨大なモデルのリストを管理し、モデルレジストリ内の Entity 間をシームレスに移動しやすくしました。この新しい UI により、ユーザーは以下のことが可能になります：
+- すべての登録済みモデルを確認
+- 特定のチーム内の登録済みモデルにフィルタリング
+- 新しいリストビューにより、各パネルを展開して中の個々のバージョン、各バージョンのエイリアス、メタデータ、Run メトリクスを確認。このクイックビューからバージョンをクリックすると、そのバージョンビューに移動可能
+- 「View Details」をクリックして概要を直接確認
+- 各登録済みモデルに存在するバージョン数、コンシューマー数、オートメーション数のプレビューを確認
+- Automations を直接作成
+- プレビューでメタデータ列と詳細を確認
+- モデルのアクセス制御を変更
+
+## Fixes
+- ユニバーサル検索のランキング結果を改善するため、検索機能を向上させました。
+- モデルレジストリで複数のタグを一度に追加/削除できる機能を追加しました。
+- 長いコンテンツを正しくスクロールできるように FileMarkdown 機能を強化しました。
+- デフォルトのチーム選択ドロップダウンをスクロール可能にしました。
+- 追跡時間の使用量に基づく Tier 1/2/3 プランの UI アクセス制限を解除しました。
+- LLM トレースビューアのスパンにツールチップを追加しました。
+- フルスクリーン時に LLM トレースのタイムライン/詳細が水平に分割されるようにしました。
+- Model Registry のエントリに Entity / チームのバッジを追加しました。
+- ログアウトしたユーザーのナビゲーションバーの体験を改善しました。
+- アーティファクトが過剰な組織で UI がブロックされる問題を避けるため、ストレージ/アーティファクトのバナーを無効にしました。
+- ユーザーのアバターが正しく表示されない問題を修正しました。
+- Azure Git URL での Launch の使用に関する問題を修正しました。
+- エアダップ環境でも Launch 設定ボックスが機能するようにしました。
+- Launch キュー作成において、管理者以外のユーザーに対してチームを（非表示ではなく）無効状態で表示するようにしました。
+- 埋め込みプロジェクターのレンダリングに関する問題を修正しました。
+- 大文字小文字が混在するユーザー名でパスワードリセットができない場合があった問題を修正しました。
+- Azure で特殊文字を含むファイルがメディアパネルに表示されるようにしました。
+- タイムスタンプのインライン表示形式を上書きできる機能を追加しました。
+- ログインしていない状態でもカスタムチャートを含む Reports が読み込まれるようにしました。
+- 幅の広い GIF がフルスクリーンビューからはみ出さないようにしました。
+- デフォルトの Automations 上限を 20 から 200 に引き上げました。
+- 登録済みモデルのバージョンエイリアスを削除できそうに見える（実際にはバックエンドで削除できなかった）バグを修正しました。
+</Update>
+
+<Update label="v0.33.0" description="May 10, 2023">
+## Features
+
+- Prompts: ズームとパン
+  <Frame>
+  ![Demo of zooming and panning](https://github.com/wandb/server/assets/97066933/c6580dff-f003-4767-86f2-ad26d40108fb)
+  </Frame>
+  プロンプトトレーサーの新しいズームおよびパン操作により、複雑な LLM プロンプトのチェーンをより簡単に探索できるようになりました。
+- モデルレジストリ管理者ロール
+  <Frame>
+  ![Image showing Model registry admin role](https://github.com/wandb/server/assets/97066933/b0fc6389-b8a6-437a-91a3-a991e69bca0d)
+  </Frame>
+  モデルレジストリ管理者向けの新しいロールにより、モデルのプロモーションプロセスを制御できます。これらのユーザーは、保護されたエイリアス（例：「challenger」や「prod」）のリストを管理したり、モデルバージョンに保護されたエイリアスを適用または削除したりできます。
+- Viewer（閲覧者）ロール
+  W&B Server に Viewer ロールが導入され、W&B での学びをより広い範囲で共有できるようになりました。このロールを持つユーザーは、チームが作成したものをすべて閲覧できますが、作成、編集、削除はできません。これらのシートは従来の W&B Server シートとは別にカウントされるため、ライセンスの更新については W&B アカウントチームにお問い合わせください。
+- 共有機能の改善：オプションのマジックリンク、および閲覧者の登録の簡素化
+  チーム管理者は、チームとそのメンバーに対するマジックリンク共有をオフにできるようになりました。チーム設定で公開共有を無効にすることで、チームのプライバシー管理を強化できます。また、Report リンクを受け取ったユーザーが登録後に W&B で Report にアクセスしやすくなりました。
+- Report 作成機能の改善
+  <Frame>
+  ![Improved report composition interface with enhanced draft publication, editing, and collaboration features](https://github.com/wandb/server/assets/97066933/c2858fd5-d2f6-47e3-9e93-f8d048df4f59)
+  </Frame>
+  Reports は、W&B での学びを ML チーム以外のメンバーを含む組織全体で共有するのに役立ちます。Reports の作成と共有をできるだけシンプルで摩擦のないものにするため、下書きの公開、編集、管理、共有の UX を改善し、チームが Reports で協力する方法を強化しました。
+- ナビゲーションの更新
+  W&B がカバーする ML ワークフローの領域が広がるにつれ、アプリケーション内での移動が難しくなっているというフィードバックをいただきました。そのため、ナビゲーションサイドバーを更新して製品エリアのラベルを明確にし、特定の詳細画面にバックリンクを追加しました。また、機能の強力さをより反映させるため、「Triggers」を「Automations」に改称しました。
+
+## Fixes
+- Workspace や Report のプロットにホバーした際、Cmd+C または Ctrl+C を使用して、ホバーコントロールに表示されている Run 名やプロット値をコピーできるようになりました。
+- デフォルトの Workspace への変更が自動保存されないようになりました。
+- Overview → Summary セクションのメトリクスがカンマ区切りでフォーマットされるようになりました。
+- 管理者以外のユーザーがチームを作成できるようにするインストールレベルのオプションを追加しました（デフォルトはオフ。有効にするには W&B サポートにお問い合わせください）。
+- Weave プロットが対数スケールをサポートしました。
+- パラメータを表示するためのスペースを確保するため、Launch パネルを水平方向に拡張できるようにしました。
+- Launch パネルでキューがアクティブかどうかを示すようにしました。
+- Launch パネルで Run をログ記録するプロジェクトを選択できるようになりました。
+- Launch キューをチーム管理者のみが作成できるように制限しました。
+- Launch パネルでの Markdown サポートを改善しました。
+- 空の Launch キュー設定に対するエラーメッセージを改善しました。
+- Sweeps の平行座標プロットのフィルタが、選択されたすべての Runset に適用されるようになりました。
+- Sweeps でメトリクスが必須ではなくなりました。
+- W&B の外部（Azure Blob Storage）に保存された参照アーティファクトファイルの追跡サポートを追加しました。
+- Reports での Markdown 編集のバグを修正しました。
+- フルスクリーンの Weave パネルが元のパネルと設定変更を共有できるようになりました。
+- 空のテーブルの表示を改善しました。
+- ログの最初の数文字が切り取られるバグを修正しました。
+</Update>

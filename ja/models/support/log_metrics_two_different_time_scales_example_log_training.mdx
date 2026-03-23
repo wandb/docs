@@ -1,21 +1,21 @@
 ---
-title: メトリクスを異なる時間スケールでログすることはできますか？
-support:
-  - experiments
-  - metrics
-toc_hide: true
-type: docs
+title: 2 つの異なる時間軸でメトリクスをログに記録することはできますか？
 ---
-バッチごとのトレーニング精度とエポックごとの検証精度をログに記録したい場合を考えてみましょう。
 
-はい、`batch` や `epoch` のようなインデックスをメトリクスと一緒にログに記録できます。`wandb.log({'train_accuracy': 0.9, 'batch': 200})` を使って、一つのステップで記録し、`wandb.log({'val_accuracy': 0.8, 'epoch': 4})` を別のステップで使用します。 UI では、各チャートの x 軸として目的の値を設定します。特定のインデックスに対してデフォルトの x 軸を設定するには、[Run.define_metric()](/ja/models/ref/python/run#define_metric) を使用します。提供された例に対しては、以下のコードを使用します。
+例えば、バッチごとのトレーニング精度と、エポックごとの検証精度を ログ に記録したいとします。
+
+その場合は、メトリクス と一緒に `batch` や `epoch` といったインデックスを ログ に記録します。あるステップで `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` を使用し、別のステップで `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` を使用します。UI 上で、各チャートの X 軸として目的の 値 を設定してください。特定のインデックスをデフォルトの X 軸として設定するには、 [Run.define_metric()](/models/ref/python/experiments/run/#define_metric) を使用します。前述の例の場合、以下の コード を使用します。
 
 ```python
-wandb.init()
+import wandb
 
-wandb.define_metric("batch")
-wandb.define_metric("epoch")
+# run を初期化
+with wandb.init() as run:
+   # インデックスとなるメトリクスを定義
+   run.define_metric("batch")
+   run.define_metric("epoch")
 
-wandb.define_metric("train_accuracy", step_metric="batch")
-wandb.define_metric("val_accuracy", step_metric="epoch")
+   # 各メトリクスに対応するステップメトリクスを指定
+   run.define_metric("train_accuracy", step_metric="batch")
+   run.define_metric("val_accuracy", step_metric="epoch")
 ```

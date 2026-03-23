@@ -35,14 +35,12 @@ os.environ["ANTHROPIC_API_KEY"] = "<your-anthropic-api-key>"
 
 Initialize Weave at the beginning of your script to start capturing traces.
 
-```python lines
-# highlight-next-line
+```python lines {2}
 import weave
-# highlight-next-line
 weave.init("autogen-demo")
 ```
 
-## Tracing a Simple Model Client
+## Tracing a simple model client
 
 Weave can trace calls made directly to model clients within AutoGen.
 
@@ -96,7 +94,7 @@ asyncio.run(simple_client_call_stream())
 
 ### Weave records cached calls
 
-AutoGen's `ChatCompletionCache` can be used, and Weave will trace these interactions, showing whether a response came from the cache or a new call.
+You can use AutoGen's `ChatCompletionCache`, and Weave traces these interactions, showing whether a response came from the cache or a new call.
 
 ```python lines
 
@@ -122,7 +120,7 @@ asyncio.run(run_cache_client())
 [![autogen-cached-client.png](/weave/guides/integrations/imgs/autogen/autogen-cached-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee11-fded-72c2-baaa-7c0ba2a7cd3b%3FhideTraceTree%3D0)
 
 
-## Tracing an Agent with Tool Calls
+## Tracing an agent with tool calls
 
 Weave traces agents and their tool usage, providing visibility into how agents select and execute tools.
 
@@ -154,7 +152,7 @@ asyncio.run(run_agent_with_tools())
 
 [![autogen-agent-tools.png](/weave/guides/integrations/imgs/autogen/autogen-agent-tools.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee13-e5ca-72a1-b7b6-4b263fad89e3%3FhideTraceTree%3D0)
 
-## Tracing a GroupChat - RoundRobin
+## Tracing a GroupChat - round robin
 
 Interactions within group chats, such as `RoundRobinGroupChat`, are traced by Weave, allowing you to follow the conversation flow between agents.
 
@@ -166,7 +164,6 @@ from autogen_agentchat.teams import RoundRobinGroupChat
 # we add this weave op here because we want to trace the entire group chat
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op
 async def run_round_robin_group_chat(model_name="gpt-4o"):
     model_client = OpenAIChatCompletionClient(model=model_name)
@@ -202,7 +199,7 @@ asyncio.run(run_round_robin_group_chat())
 
 [![round_robin_group_chat.png](/weave/guides/integrations/imgs/autogen/round_robin_group_chat.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fparambharat%2Fautogen-demo%2Fop%2Frun_round_robin_group_chat%3A*%22%5D%7D&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f16c-26ce-7b32-8f0c-2366d29038a3%3FdescendentCallId%3D0196f16c-26ce-7b32-8f0c-2366d29038a3%26hideTraceTree%3D0)
 
-## Tracing Memory
+## Tracing memory
 
 AutoGen's memory components can be traced with Weave. You can use `@weave.op()` to group memory operations under a single trace for better readability.
 
@@ -214,7 +211,6 @@ from autogen_core.memory import ListMemory, MemoryContent, MemoryMimeType
 # the memory add calls along with the memory get calls under a single trace
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op
 async def run_memory_agent(model_name="gpt-4o"):
     user_memory = ListMemory()
@@ -270,8 +266,7 @@ Retrieval Augmented Generation (RAG) workflows, including document indexing and 
 The RAG example requires `chromadb`. Install it with `pip install chromadb`.
 </Note>
 
-```python lines
-# highlight-next-line
+```python lines {1,65}
 # !pip install -q chromadb 
 # Ensure chromadb is installed in your environment: `pip install chromadb`
 
@@ -336,7 +331,6 @@ class SimpleDocumentIndexer:
                 print(f"Error indexing {source}: {str(e)}")
         return total_chunks
 
-# highlight-next-line
 @weave.op
 async def run_rag_agent(model_name="gpt-4o"):
     rag_memory = ChromaDBVectorMemory(
@@ -384,11 +378,11 @@ asyncio.run(run_rag_agent())
 
 [![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
 
-## Tracing Agent Runtimes
+## Tracing agent runtimes
 
 Weave can trace operations within AutoGen's agent runtimes, like `SingleThreadedAgentRuntime`. Using `@weave.op()` around the runtime execution function can group related traces.
 
-```python lines
+```python lines {50}
 from dataclasses import dataclass
 from typing import Callable
 
@@ -438,7 +432,6 @@ class Checker(RoutedAgent):
 # the entire agent runtime call under a single trace
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op
 async def run_agent_runtime() -> None:
     runtime = SingleThreadedAgentRuntime()
@@ -465,11 +458,11 @@ asyncio.run(run_agent_runtime())
 
 [![autogen-runtime.png](/weave/guides/integrations/imgs/autogen/autogen-runtime.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1d-6246-7f11-afb1-3a1874f79023%3FhideTraceTree%3D0)
 
-## Tracing Workflows (Sequential)
+## Tracing workflows (sequential)
 
-Complex agent workflows, defining sequences of agent interactions, can be traced. `@weave.op()` can be used to provide a high-level trace for the entire workflow.
+You can trace complex agent workflows that define sequences of agent interactions. Use `@weave.op()` to provide a high-level trace for the entire workflow.
 
-```python lines
+```python lines {108}
 
 from autogen_core import TopicId, type_subscription
 from autogen_core.models import ChatCompletionClient, SystemMessage, UserMessage
@@ -577,7 +570,6 @@ class UserAgent(RoutedAgent):
 # the entire agent workflow under a single trace
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op(call_display_name="Sequential Agent Workflow")
 async def run_agent_workflow(model_name="gpt-4o"):
     model_client = OpenAIChatCompletionClient(model=model_name)
@@ -604,7 +596,7 @@ asyncio.run(run_agent_workflow())
 
 [![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
 
-## Tracing Code Executor
+## Tracing code executor
 
 <Warning>
 **Docker Required**
@@ -613,7 +605,7 @@ This example involves code execution using Docker and may not work in all enviro
 
 Weave traces the generation and execution of code by AutoGen agents.
 
-```python lines
+```python lines {69}
 
 import tempfile
 from autogen_core import DefaultTopicId
@@ -682,7 +674,6 @@ class Executor(RoutedAgent):
 # the entire code gen workflow under a single trace
 # it's completely optional but highly recommended to use it
 
-# highlight-next-line
 @weave.op(call_display_name="CodeGen Agent Workflow")
 async def run_codegen(model_name="gpt-4o"): # Updated model
     work_dir = tempfile.mkdtemp()
@@ -715,7 +706,7 @@ asyncio.run(run_codegen())
 
 [![autogen-codegen.png](/weave/guides/integrations/imgs/autogen/autogen-codegen.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196f173-21c2-7540-9dc7-fbab0b94ce0e%3FhideTraceTree%3D0)
 
-## Learn More
+## Learn more
 
 - **Weave**:
     - [Tracing Guide](/weave/guides/tracking/tracing)

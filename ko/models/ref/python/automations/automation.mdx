@@ -1,0 +1,44 @@
+---
+title: 자동화
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/automations.py" />
+
+## <kbd>class</kbd> `Automation`
+편집 기능을 지원하는 저장된 W&B 자동화의 로컬 인스턴스입니다.
+
+### <kbd>method</kbd> `Automation.__init__`
+
+```python
+__init__(
+    typename__: 'Literal' = 'Trigger',
+    id: 'str',
+    created_at: 'datetime',
+    updated_at: 'datetime | None' = None,
+    name: 'str',
+    description: 'str | None',
+    enabled: 'bool',
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope | ProjectScope',
+    event: 'SavedEvent',
+    action: 'SavedLaunchJobAction | SavedNotificationAction | SavedWebhookAction | SavedNoOpAction'
+) → None
+```
+
+**Args:**
+ 
+ - `typename__` (Literal): 
+ - `id` (str): 
+ - `created_at` (datetime): 이 자동화가 생성된 날짜와 시간입니다.
+ - `updated_at` (Optional[datetime]): 해당되는 경우, 이 자동화가 마지막으로 업데이트된 날짜와 시간입니다.
+ - `name` (str): 이 자동화의 이름입니다.
+ - `description` (Optional[str]): 이 자동화에 대한 선택적 설명입니다.
+ - `enabled` (bool): 이 자동화의 활성화 여부입니다. 활성화된 자동화만 트리거됩니다.
+ - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope, ProjectScope]): 트리거 이벤트가 발생해야 하는 범위입니다.
+ - `event` (SavedEvent): 이 자동화를 트리거할 이벤트입니다.
+ - `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): 이 자동화가 트리거될 때 실행될 액션입니다.
+
+**Returns:**
+ `Automation` 오브젝트.

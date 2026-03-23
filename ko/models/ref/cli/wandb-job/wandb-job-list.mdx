@@ -2,17 +2,30 @@
 title: wandb job list
 ---
 
-**사용법**
+{/*
+  이 코맨드에 대한 도입 콘텐츠를 추가하려면:
+  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-job-list.mdx
+  2. 해당 파일에 도입 내용을 추가하세요
+  3. 이 주석 블록 전체를 삭제하고 아래의 두 줄만 남겨두세요:
 
-`wandb job list [OPTIONS]`
+import WandbJobList from "/snippets/en/_includes/cli/wandb-job-list.mdx";
 
-**요약**
+<WandbJobList/>
 
-프로젝트의 jobs 목록을 표시합니다.
+  다음 재생성 시 스니펫이 자동으로 감지됩니다.
+*/}
 
-**옵션**
+Project 내의 job 리스트 출력
 
-| **옵션** | **설명** |
+## Usage
+
+```bash
+wandb job list [OPTIONS]
+```
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-p, --project` | jobs 목록을 표시할 프로젝트입니다. |
-| `-e, --entity` | jobs이 속한 엔티티입니다. |
+| `--project`, `-p` | job 리스트를 확인할 Project. |
+| `--entity`, `-e` | job이 속한 Entity (기본값: models) |

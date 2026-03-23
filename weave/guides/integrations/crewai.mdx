@@ -24,12 +24,11 @@ pip install crewai weave
 
 Now we will create a CrewAI Crew and trace the execution using Weave. To get started, simply call `weave.init()` at the beginning of your script. The argument in weave.init() is a project name where the traces will be logged.
 
-```python lines
+```python lines {5}
 import weave
 from crewai import Agent, Task, Crew, LLM, Process
 
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init(project_name="crewai_demo")
 
 # Create an LLM with a temperature of 0 to ensure deterministic outputs
@@ -102,7 +101,7 @@ pip install 'crewai[tools]'
 
 In this example, we are using the `SerperDevTool` to enable our 'Research Analyst' agent to search relevant information on the internet. Learn more about this tool and API requirements [here](https://docs.crewai.com/tools/serperdevtool).
 
-```python lines
+```python lines {12}
 # .... existing imports ....
 from crewai_tools import SerperDevTool
 
@@ -114,7 +113,6 @@ researcher = Agent(
     llm=llm,
     verbose=True,
     allow_delegation=False,
-    # highlight-next-line
     tools=[SerperDevTool()],
 )
 
@@ -131,10 +129,9 @@ The integration automatically patches all the tools available in the [`crewAI-to
 
 ## Getting Started with Flow
 
-```python lines
+```python lines {3}
 import weave
 # Initialize Weave with your project name
-# highlight-next-line
 weave.init("crewai_demo")
 
 from crewai.flow.flow import Flow, listen, router, start
@@ -221,11 +218,10 @@ Wrapping this function with `@weave.op` starts capturing inputs, outputs and app
 
 Let's take the example of research analyst and writer. We add a guardrail to validate the length of the generated report.
 
-```python lines
+```python lines {4,36}
 # .... existing imports and weave initialization ....
 
 # Decorate your guardrail function with `@weave.op()`
-# highlight-next-line
 @weave.op(name="guardrail-validate_blog_content")
 def validate_blog_content(result: TaskOutput) -> Tuple[bool, Any]:
     # Get raw string result
@@ -258,7 +254,6 @@ writing_task = Task(
     description='Write a detailed report based on the research under 200 words',
     expected_output='The report should be easy to read and understand. Use bullet points where applicable.',
     agent=writer,
-    # highlight-next-line
     guardrail=validate_blog_content,
 )
 

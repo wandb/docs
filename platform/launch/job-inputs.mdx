@@ -1,5 +1,6 @@
 ---
 title: Manage job inputs
+description: "Programmatically manage and configure job inputs like hyperparameters and file-based configs for W&B Launch jobs."
 ---
 The core experience of Launch is easily experimenting with different job inputs like hyperparameters and datasets, and routing these jobs to appropriate hardware. Once a job is created, users beyond the original author can adjust these inputs via the W&B GUI or CLI. For information on how job inputs can be set when launching from the CLI or UI, see the [Enqueue jobs](./add-job-to-queue) guide.
 
@@ -87,7 +88,7 @@ to load the run config input values anywhere in the job code.
 
 ## Reconfigure a file
 
-The Launch SDK also provides a way to manage input values stored in config files in the job code. This is a common pattern in many deep learning and large language model use cases, like this [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) example or this [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)). 
+The Launch SDK also provides a way to manage input values stored in config files in the job code. This is a common pattern in many deep learning and large language model use cases, like this [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) example or this [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml). 
 
 <Note>
 [Sweeps on Launch](/platform/launch/sweeps-on-launch/) does not support the use of config file inputs as sweep parameters. Sweep parameters must be controlled through the `Run.config` object.

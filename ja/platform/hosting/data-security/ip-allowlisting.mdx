@@ -1,13 +1,13 @@
 ---
-title: 専用クラウドのための IP 許可リストを設定する
+title: 専用クラウドの IP allowlisting の設定
 ---
 
-You can restrict access to your [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated_cloud) インスタンスを許可された IP アドレスのリストからのみとすることができます。これは、AI ワークロードから W&B API へのアクセスおよびユーザーのブラウザから W&B アプリの UI へのアクセスにも適用されます。Dedicated Cloud インスタンスに対して IP ホワイトリストが設定されると、W&B は他の許可されていない場所からの要求を拒否します。Dedicated Cloud インスタンスの IP ホワイトリスト設定については、W&B チームにお問い合わせください。
+[専用クラウド](/platform/hosting/hosting-options/dedicated_cloud) インスタンスへのアクセスを、許可された IP アドレスのリストのみに制限することができます。これは、AI ワークロードから W&B API へのアクセス、および Users のブラウザから W&B アプリ UI へのアクセスの両方に適用されます。専用クラウド インスタンスに対して IP 許可リスト（IP allowlisting）が設定されると、W&B はその他の許可されていない場所からのリクエストをすべて拒否します。専用クラウド インスタンスの IP 許可リストを設定するには、担当の W&B チームにお問い合わせください。
 
-IP ホワイトリストは、AWS、GCP、Azure 上の Dedicated Cloud インスタンスで利用可能です。
+IP 許可リストは、AWS、Google Cloud、Azure 上の 専用クラウド インスタンスで利用可能です。
 
-[セキュアなプライベート接続](/ja/platform/hosting/data-security/private-connectivity/) とともに IP ホワイトリストを使用できます。セキュアなプライベート接続とともに IP ホワイトリストを使用する場合、W&B は AI ワークロードからのすべてのトラフィックおよび可能であればユーザーのブラウザからのトラフィックの大部分にセキュアなプライベート接続を使用し、特権のある場所からのインスタンス管理には IP ホワイトリストを使用することを推奨します。
+IP 許可リストを [セキュアなプライベート接続](./private-connectivity) と併用することもできます。セキュアなプライベート接続と IP 許可リストを組み合わせて使用する場合、W&B では、AI ワークロードからのすべてのトラフィックおよび Users のブラウザからの大半のトラフィックに可能な限りセキュアなプライベート接続を使用し、特権的な場所からのインスタンス管理に IP 許可リストを使用することを推奨しています。
 
 <Warning>
-W&B は、個々の `/32` IP アドレスではなく、企業または事業 egress ゲートウェイに割り当てられた [CIDR ブロック](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) の使用を強く推奨します。個々の IP アドレスの使用は、スケーラブルではなく、クラウドごとに厳しい制限があります。
+W&B では、個別の `/32` IP アドレスではなく、企業やビジネスの出力（egress）ゲートウェイに割り当てられた [CIDR ブロック](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) を使用することを強く推奨します。個別の IP アドレスの使用はスケーラビリティに欠け、クラウドごとに厳格な制限があります。
 </Warning>

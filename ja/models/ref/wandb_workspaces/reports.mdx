@@ -1,0 +1,837 @@
+---
+title: Reports
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/internal.py" />
+
+<Note>
+W&B Reports および Workspace API はパブリックプレビュー中です。
+</Note>
+
+W&B Reports API をプログラムから操作するための Python ライブラリです。
+
+```python
+import wandb_workspaces.reports.v2 as wr
+
+report = wr.Report(
+     entity="entity",
+     project="project",
+     title="An amazing title",
+     description="A descriptive description.",
+)
+
+blocks = [
+     wr.PanelGrid(
+         panels=[
+             wr.LinePlot(x="time", y="velocity"),
+             wr.ScatterPlot(x="time", y="acceleration"),
+         ]
+     )
+]
+
+report.blocks = blocks
+report.save()
+```
+
+## <kbd>class</kbd> `BarPlot`
+2D 棒グラフを表示するパネルオブジェクトです。
+
+**Attributes:**
+
+ - `title` (Optional[str]): プロットの上部に表示されるテキスト。
+ - `metrics` (LList[MetricType]): orientation Literal["v", "h"]: 棒グラフの向き。垂直 ("v") または水平 ("h") のいずれかを設定します。デフォルトは水平 ("h") です。
+ - `range_x` (Tuple[float | None, float | None]): x 軸の範囲を指定するタプル。
+ - `title_x` (Optional[str]): x 軸のラベル。
+ - `title_y` (Optional[str]): y 軸のラベル。
+ - `groupby` (Optional[str]): Reports が情報を取得する W&B プロジェクトにログ記録されたメトリクスに基づいて、run をグループ化します。
+ - `groupby_aggfunc` (Optional[GroupAgg]): 指定された関数で run を集計します。オプションには "mean"、"min"、"max"、"median"、"sum"、"samples"、または `None` があります。
+ - `groupby_rangefunc` (Optional[GroupArea]): 範囲に基づいて run をグループ化します。オプションには "minmax"、"stddev"、"stderr"、"none"、"samples"、または `None` があります。
+ - `max_runs_to_show` (Optional[int]): プロットに表示する run の最大数。
+ - `max_bars_to_show` (Optional[int]): 棒グラフに表示する棒の最大数。
+ - `custom_expressions` (Optional[LList[str]]): 棒グラフで使用されるカスタム式のリスト。
+ - `legend_template` (Optional[str]): 凡例のテンプレート。
+ - `font_size` ( Optional[FontSize]): 折れ線グラフのフォントサイズ。オプションには "small"、"medium"、"large"、"auto"、または `None` があります。
+ - `line_titles` (Optional[dict]): 線のタイトル。キーは線名、値はタイトルです。
+ - `line_colors` (Optional[dict]): 線の色。キーは線名、値は色です。
+ - `aggregate` (Optional[bool]): `True` に設定すると、データを集計します。
+
+---
+
+## <kbd>class</kbd> `BlockQuote`
+引用テキストのブロック。
+
+**Attributes:**
+
+ - `text` (str): 引用ブロックのテキスト。
+
+---
+
+## <kbd>class</kbd> `CalloutBlock`
+コールアウトテキストのブロック。
+
+**Attributes:**
+
+ - `text` (str): コールアウトのテキスト。
+
+---
+
+## <kbd>class</kbd> `CheckedList`
+チェックボックス付きのアイテムリスト。`CheckedList` 内に 1 つ以上の `CheckedListItem` を追加します。
+
+**Attributes:**
+
+ - `items` (LList[CheckedListItem]): 1 つ以上の `CheckedListItem` オブジェクトのリスト。
+
+---
+
+## <kbd>class</kbd> `CheckedListItem`
+チェックボックス付きのリストアイテム。`CheckedList` 内に 1 つ以上の `CheckedListItem` を追加します。
+
+**Attributes:**
+
+ - `text` (str): リストアイテムのテキスト。
+ - `checked` (bool): チェックボックスがチェックされているかどうか。デフォルトでは `False` に設定されています。
+
+---
+
+## <kbd>class</kbd> `CodeBlock`
+コードブロック。
+
+**Attributes:**
+
+ - `code` (str): ブロック内のコード。
+ - `language` (Optional[Language]): コードの言語。指定された言語はシンタックスハイライトに使用されます。デフォルトは "python" です。オプションには 'javascript', 'python', 'css', 'json', 'html', 'markdown', 'yaml' があります。
+
+---
+
+## <kbd>class</kbd> `CodeComparer`
+2 つの異なる run 間のコードを比較するパネルオブジェクト。
+
+**Attributes:**
+
+ - `diff` (Literal['split', 'unified']): コードの差分を表示する方法。"split" または "unified" を選択できます。
+
+---
+
+## <kbd>class</kbd> `Config`
+run の config オブジェクトにログ記録されたメトリクス。config オブジェクトは通常、`run.config[name] = ...` を使用するか、キーをメトリクス名、値をそのメトリクスの値とした辞書として config を渡すことでログ記録されます。
+
+**Attributes:**
+
+ - `name` (str): メトリクスの名前。
+
+---
+
+## <kbd>class</kbd> `CustomChart`
+カスタムチャートを表示するパネル。チャートは Weave クエリによって定義されます。
+
+**Attributes:**
+
+ - `query` (dict): カスタムチャートを定義するクエリ。キーはフィールド名、値はクエリです。
+ - `chart_name` (str): カスタムチャートのタイトル。
+ - `chart_fields` (dict): プロットの軸を定義するキーと値のペア。キーはラベル、値はメトリクスです。
+ - `chart_strings` (dict): チャート内の文字列を定義するキーと値のペア。
+
+---
+
+### <kbd>classmethod</kbd> `from_table`
+
+```python
+from_table(
+    table_name: str,
+    chart_fields: dict = None,
+    chart_strings: dict = None
+)
+```
+
+テーブルからカスタムチャートを作成します。
+
+**引数:**
+
+ - `table_name` (str): テーブルの名前。
+ - `chart_fields` (dict): チャートに表示するフィールド。
+ - `chart_strings` (dict): チャートに表示する文字列。
+
+---
+
+## <kbd>class</kbd> `Gallery`
+Reports や URL のギャラリーをレンダリングするブロック。
+
+**Attributes:**
+
+ - `items` (List[Union[`GalleryReport`, `GalleryURL`]]): `GalleryReport` および `GalleryURL` オブジェクトのリスト。
+
+---
+
+## <kbd>class</kbd> `GalleryReport`
+ギャラリー内のレポートへの参照。
+
+**Attributes:**
+
+ - `report_id` (str): レポートの ID。
+
+---
+
+## <kbd>class</kbd> `GalleryURL`
+外部リソースへの URL。
+
+**Attributes:**
+
+ - `url` (str): リソースの URL。
+ - `title` (Optional[str]): リソースのタイトル。
+ - `description` (Optional[str]): リソースの説明。
+ - `image_url` (Optional[str]): 表示する画像の URL。
+
+---
+
+## <kbd>class</kbd> `GradientPoint`
+グラデーション内のポイント。
+
+**Attributes:**
+
+ - `color`: ポイントの色。
+ - `offset`: グラデーション内でのポイントの位置。値は 0 から 100 の間である必要があります。
+
+---
+
+## <kbd>class</kbd> `H1`
+指定されたテキストの H1 見出し。
+
+**Attributes:**
+
+ - `text` (str): 見出しのテキスト。
+ - `collapsed_blocks` (Optional[LList["BlockTypes"]]): 見出しが折りたたまれているときに表示するブロック。
+
+---
+
+## <kbd>class</kbd> `H2`
+指定されたテキストの H2 見出し。
+
+**Attributes:**
+
+ - `text` (str): 見出しのテキスト。
+ - `collapsed_blocks` (Optional[LList["BlockTypes"]]): 見出しが折りたたまれているときに表示する 1 つ以上のブロック。
+
+---
+
+## <kbd>class</kbd> `H3`
+指定されたテキストの H3 見出し。
+
+**Attributes:**
+
+ - `text` (str): 見出しのテキスト。
+ - `collapsed_blocks` (Optional[LList["BlockTypes"]]): 見出しが折りたたまれているときに表示する 1 つ以上のブロック。
+
+---
+
+## <kbd>class</kbd> `Heading`
+
+---
+
+## <kbd>class</kbd> `HorizontalRule`
+HTML の水平線。
+
+---
+
+## <kbd>class</kbd> `Image`
+画像をレンダリングするブロック。
+
+**Attributes:**
+
+ - `url` (str): 画像の URL。
+ - `caption` (str): 画像のキャプション。キャプションは画像の下に表示されます。
+
+---
+
+## <kbd>class</kbd> `InlineCode`
+インラインコード。コードの後に改行文字を追加しません。
+
+**Attributes:**
+
+ - `text` (str): レポートに表示したいコード。
+
+---
+
+## <kbd>class</kbd> `InlineLatex`
+インライン LaTeX Markdown。LaTeX Markdown の後に改行文字を追加しません。
+
+**Attributes:**
+
+ - `text` (str): レポートに表示したい LaTeX Markdown。
+
+---
+
+## <kbd>class</kbd> `LatexBlock`
+LaTeX テキストのブロック。
+
+**Attributes:**
+
+ - `text` (str): LaTeX テキスト。
+
+---
+
+## <kbd>class</kbd> `Layout`
+レポート内のパネルのレイアウト。パネルのサイズと位置を調整します。
+
+**Attributes:**
+
+ - `x` (int): パネルの x 位置。
+ - `y` (int): パネルの y 位置。
+ - `w` (int): パネルの幅。
+ - `h` (int): パネルの高さ。
+
+---
+
+## <kbd>class</kbd> `LinePlot`
+2D 折れ線グラフを持つパネルオブジェクト。
+
+**Attributes:**
+
+ - `title` (Optional[str]): プロットの上部に表示されるテキスト。
+ - `x` (Optional[MetricType]): Reports が情報を取得する W&B プロジェクトにログ記録されたメトリクスの名前。指定されたメトリクスは x 軸に使用されます。
+ - `y` (LList[MetricType]): Reports が情報を取得する W&B プロジェクトにログ記録された 1 つ以上のメトリクス。指定されたメトリクスは y 軸に使用されます。
+ - `range_x` (Tuple[float | `None`, float | `None`]): x 軸の範囲を指定するタプル。
+ - `range_y` (Tuple[float | `None`, float | `None`]): y 軸の範囲を指定するタプル。
+ - `log_x` (Optional[bool]): 10 を底とする対数スケールを使用して x 座標をプロットします。
+ - `log_y` (Optional[bool]): 10 を底とする対数スケールを使用して y 座標をプロットします。
+ - `title_x` (Optional[str]): x 軸のラベル。
+ - `title_y` (Optional[str]): y 軸のラベル。
+ - `ignore_outliers` (Optional[bool]): `True` に設定すると、外れ値をプロットしません。
+ - `groupby` (Optional[str]): Reports が情報を取得する W&B プロジェクトにログ記録されたメトリクスに基づいて run をグループ化します。
+ - `groupby_aggfunc` (Optional[GroupAgg]): 指定された関数で run を集計します。オプションには "mean"、"min"、"max"、"median"、"sum"、"samples"、または `None` があります。
+ - `groupby_rangefunc` (Optional[GroupArea]): 範囲に基づいて run をグループ化します。オプションには "minmax"、"stddev"、"stderr"、"none"、"samples"、または `None` があります。
+ - `smoothing_factor` (Optional[float]): 平滑化タイプに適用する平滑化係数。許容される値は 0 から 1 の範囲です。
+ - `smoothing_type Optional[SmoothingType]`: 指定された分布に基づいてフィルターを適用します。オプションには "exponentialTimeWeighted"、"exponential"、"gaussian"、"average"、または "none" があります。
+ - `smoothing_show_original` (Optional[bool]): `True` に設定すると、元のデータを表示します。
+ - `max_runs_to_show` (Optional[int]): 折れ線グラフに表示する run の最大数。
+ - `custom_expressions` (Optional[LList[str]]): データに適用するカスタム式。
+ - `plot_type Optional[LinePlotStyle]`: 生成する折れ線グラフのタイプ。オプションには "line"、"stacked-area"、または "pct-area" があります。
+ - `font_size Optional[FontSize]`: 折れ線グラフのフォントサイズ。オプションには "small"、"medium"、"large"、"auto"、または `None` があります。
+ - `legend_position Optional[LegendPosition]`: 凡例の配置場所。オプションには "north"、"south"、"east"、"west"、または `None` があります。
+ - `legend_template` (Optional[str]): 凡例のテンプレート。
+ - `aggregate` (Optional[bool]): `True` に設定すると、データを集計します。
+ - `xaxis_expression` (Optional[str]): x 軸の式。
+ - `legend_fields` (Optional[LList[str]]): 凡例に含めるフィールド。
+ - `metric_regex` (Optional[str]): y 軸のメトリクスに一致する正規表現パターン。バックエンドはこのパターンを使用して、一致するメトリクスを選択します。
+
+---
+
+## <kbd>class</kbd> `Link`
+URL へのリンク。
+
+**Attributes:**
+
+ - `text` (Union[str, TextWithInlineComments]): リンクのテキスト。
+ - `url` (str): リンク先。
+
+---
+
+## <kbd>class</kbd> `MarkdownBlock`
+Markdown テキストのブロック。一般的な Markdown 構文を使用するテキストを記述する場合に便利です。
+
+**Attributes:**
+
+ - `text` (str): Markdown テキスト。
+
+---
+
+## <kbd>class</kbd> `MarkdownPanel`
+Markdown をレンダリングするパネル。
+
+**Attributes:**
+
+ - `markdown` (str): Markdown パネルに表示したいテキスト。
+
+---
+
+## <kbd>class</kbd> `MediaBrowser`
+ギャラリーまたはグリッドレイアウトでメディアファイルを表示するパネル。
+
+**Attributes:**
+
+ - `title` (Optional[str]): パネルのタイトル。
+ - `num_columns` (Optional[int]): グリッドの列数。
+ - `media_keys` (LList[str]): メディアファイルに対応するメディアキーのリスト。
+ - `mode` (Optional[Literal["gallery", "grid"]]): パネルの表示モード。指定されない場合、提供された軸から推測されます。gallery_axis と grid 軸の両方が指定されている場合に必要です。
+ - `gallery_axis` (Optional[Literal["step", "index", "run"]]): ギャラリーモードで軸に使用するフィールド。
+ - `grid_x_axis` (Optional[Literal["step", "index", "run"]]): グリッドモードで x 軸に使用するフィールド。
+ - `grid_y_axis` (Optional[Literal["step", "index", "run"]]): グリッドモードで y 軸に使用するフィールド。
+
+---
+
+## <kbd>class</kbd> `Metric`
+プロジェクトにログ記録され、レポートに表示されるメトリクス。
+
+**Attributes:**
+
+ - `name` (str): メトリクスの名前。
+
+---
+
+## <kbd>class</kbd> `OrderBy`
+順序付けの基準となるメトリクス。
+
+**Attributes:**
+
+ - `name` (str): メトリクスの名前。
+ - `ascending` (bool): 昇順でソートするかどうか。デフォルトでは `False` に設定されています。
+
+---
+
+## <kbd>class</kbd> `OrderedList`
+番号付きリスト内のアイテムリスト。
+
+**Attributes:**
+
+ - `items` (LList[TextLikeField]): 1 つ以上の `OrderedListItem` オブジェクトのリスト。各アイテムは文字列または TextLike オブジェクトのリストにすることができます。
+
+---
+
+## <kbd>class</kbd> `OrderedListItem`
+順序付きリスト内のリストアイテム。
+
+**Attributes:**
+
+ - `text` (str): リストアイテムのテキスト。
+
+---
+
+## <kbd>class</kbd> `P`
+テキストのパラグラフ。
+
+**Attributes:**
+
+ - `text` (str): パラグラフのテキスト。
+
+---
+
+## <kbd>class</kbd> `Panel`
+パネルグリッド内で可視化を表示するパネル。
+
+**Attributes:**
+
+ - `layout` (Layout): `Layout` オブジェクト。
+
+---
+
+## <kbd>class</kbd> `PanelGrid`
+runset とパネルで構成されるグリッド。それぞれ `Runset` オブジェクトと `Panel` オブジェクトを使用して runset とパネルを追加します。
+
+利用可能なパネルには以下のものがあります： `LinePlot`, `ScatterPlot`, `BarPlot`, `ScalarChart`, `CodeComparer`, `ParallelCoordinatesPlot`, `ParameterImportancePlot`, `RunComparer`, `MediaBrowser`, `MarkdownPanel`, `CustomChart`, `WeavePanel`, `WeavePanelSummaryTable`, `WeavePanelArtifactVersionedFile`.
+
+**Attributes:**
+
+ - `runsets` (LList["Runset"]): 1 つ以上の `Runset` オブジェクトのリスト。
+ - `hide_run_sets` (bool): レポート閲覧者に対してパネルグリッドの run set を非表示にするかどうか。
+ - `panels` (LList["PanelTypes"]): 1 つ以上の `Panel` オブジェクトのリスト。
+ - `active_runset` (int): runset 内に表示したい run の数。デフォルトでは 0 に設定されています。
+ - `custom_run_colors` (dict): キーが run の名前、値が 16 進数値で指定された色であるキーと値のペア。
+
+---
+
+## <kbd>class</kbd> `ParallelCoordinatesPlot`
+並行座標プロットを表示するパネルオブジェクト。
+
+**Attributes:**
+
+ - `columns` (LList[ParallelCoordinatesPlotColumn]): 1 つ以上の `ParallelCoordinatesPlotColumn` オブジェクトのリスト。
+ - `title` (Optional[str]): プロットの上部に表示されるテキスト。
+ - `gradient` (Optional[LList[GradientPoint]]): グラデーションポイントのリスト。
+ - `font_size` (Optional[FontSize]): 折れ線グラフのフォントサイズ。オプションには "small"、"medium"、"large"、"auto"、または `None` があります。
+
+---
+
+## <kbd>class</kbd> `ParallelCoordinatesPlotColumn`
+並行座標プロット内の列。指定された `metric` の順序によって、並行座標プロットの並行軸 (x 軸) の順序が決まります。
+
+**Attributes:**
+
+ - `metric` (str | Config | SummaryMetric): Reports が情報を取得する W&B プロジェクトにログ記録されたメトリクスの名前。
+ - `display_name` (Optional[str]): メトリクスの表示名
+ - `inverted` (Optional[bool]): メトリクスを反転させるかどうか。
+ - `log` (Optional[bool]): メトリクスに対数変換を適用するかどうか。
+
+---
+
+## <kbd>class</kbd> `ParameterImportancePlot`
+選択したメトリクスの予測において、各ハイパーパラメーターがどの程度重要であるかを示すパネル。
+
+**Attributes:**
+
+ - `with_respect_to` (str): パラメータの重要度を比較する対象となるメトリクス。一般的なメトリクスには、loss や accuracy などがあります。指定するメトリクスは、Reports が情報を取得するプロジェクト内にログ記録されている必要があります。
+
+---
+
+## <kbd>class</kbd> `Report`
+W&B Report を表すオブジェクト。返されたオブジェクトの `blocks` 属性を使用してレポートをカスタマイズします。Report オブジェクトは自動的には保存されません。変更を永続化するには `save()` メソッドを使用してください。
+
+**Attributes:**
+
+ - `project` (str): 読み込みたい W&B プロジェクトの名前。指定されたプロジェクトはレポートの URL に表示されます。
+ - `entity` (str): レポートを所有する W&B entity。entity はレポートの URL に表示されます。
+ - `title` (str): レポートのタイトル。タイトルはレポートの上部に H1 見出しとして表示されます。
+ - `description` (str): レポートの説明。説明はレポートのタイトルの下に表示されます。
+ - `blocks` (LList[BlockTypes]): 1 つ以上の HTML タグ、プロット、グリッド、runset などのリスト。
+ - `width` (Literal['readable', 'fixed', 'fluid']): レポートの幅。オプションには 'readable'、'fixed'、'fluid' があります。
+
+---
+
+### <kbd>property</kbd> url
+
+レポートがホストされている URL。レポートの URL は `https://wandb.ai/{entity}/{project_name}/reports/` で構成されます。ここで `{entity}` と `{project_name}` は、それぞれレポートが属する entity とプロジェクトの名前です。
+
+---
+
+### <kbd>method</kbd> `delete`
+
+```python
+delete() → bool
+```
+
+このレポートを W&B から削除します。
+
+これにより、このレポートを参照しているドラフトビューもすべて削除されます。
+
+**戻り値:**
+
+ - `bool`: 削除操作がバックエンドによって成功として認識された場合は `True`、そうでない場合は `False`。
+
+---
+
+### <kbd>classmethod</kbd> `from_url`
+
+```python
+from_url(url: str, as_model: bool = False)
+```
+
+現在の環境にレポートを読み込みます。レポートがホストされている URL を渡します。
+
+**引数:**
+
+ - `url` (str): レポートがホストされている URL。
+ - `as_model` (bool): True の場合、Report オブジェクトの代わりにモデルオブジェクトを返します。デフォルトでは `False` に設定されています。
+
+---
+
+### <kbd>method</kbd> `save`
+
+```python
+save(draft: bool = False, clone: bool = False)
+```
+
+レポートオブジェクトに加えられた変更を保存します。
+
+---
+
+### <kbd>method</kbd> `to_html`
+
+```python
+to_html(height: int = 1024, hidden: bool = False) → str
+```
+
+このレポートを表示する iframe を含む HTML を生成します。通常、Python ノートブック内で使用されます。
+
+**引数:**
+
+ - `height` (int): iframe の高さ。
+ - `hidden` (bool): True の場合、iframe を非表示にします。デフォルトは `False` です。
+
+---
+
+## <kbd>class</kbd> `RunComparer`
+Reports が情報を取得するプロジェクトの異なる run 間のメトリクスを比較するパネル。
+
+**Attributes:**
+
+ - `diff_only` (Optional[Literal["split", `True`]]): プロジェクト内の run 間の差異のみを表示します。この機能は W&B Report UI でオンとオフを切り替えることができます。
+
+---
+
+## <kbd>class</kbd> `Runset`
+パネルグリッドに表示する run のセット。
+
+**Attributes:**
+
+ - `entity` (str): run が保存されているプロジェクトを所有している、または適切な権限を持つ entity。
+ - `project` (str): run が保存されているプロジェクトの名前。
+ - `name` (str): run set の名前。デフォルトで `Run set` に設定されます。
+ - `query` (str): run をフィルタリングするためのクエリ文字列。
+ - `filters` (Union[str, LList[expr.FilterExpr]]): run に適用するフィルター。以下の形式が可能です：
+        - 文字列式：例、"Config('lr') = 0.001 and State = 'finished'"
+ - `サポートされている演算子`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+        - FilterExpr オブジェクトのリスト：例、[expr.Config('lr') == 0.001]
+ - `groupby` (LList[str]): グループ化の基準となるメトリクス名のリスト。サポートされている形式は以下の通りです：
+        - "group" または "run.group": run 属性でグループ化
+        - "config.param": config パラメータでグループ化
+        - "summary.metric": サマリーメトリクスでグループ化
+ - `order` (LList[OrderBy]): 順序付けのための `OrderBy` オブジェクトのリスト。
+ - `custom_run_colors` (LList[OrderBy]): run ID を色にマッピングする辞書。
+
+**例:**
+ ```python
+    # 文字列フィルターを使用する場合
+    wr.Runset(
+         entity="my-entity",
+         project="my-project",
+         filters="Config('learning_rate') = 0.001 and State = 'finished'"
+    )
+
+    # FilterExpr リストを使用する場合
+    wr.Runset(
+         entity="my-entity",
+         project="my-project",
+         filters=[expr.Config("learning_rate") == 0.001]
+    )
+    ```
+
+---
+
+### <kbd>method</kbd> `convert_filterexpr_list_to_string`
+
+```python
+convert_filterexpr_list_to_string()
+```
+
+内部処理のために FilterExpr リストを文字列式に変換します。
+
+---
+
+## <kbd>class</kbd> `RunsetGroup`
+runset のグループを表示する UI 要素。
+
+**Attributes:**
+
+ - `runset_name` (str): runset の名前。
+ - `keys` (Tuple[RunsetGroupKey, ...]): グループ化の基準となるキー。1 つ以上の `RunsetGroupKey` オブジェクトを渡してグループ化します。
+
+---
+
+## <kbd>class</kbd> `RunsetGroupKey`
+メトリクスタイプと値によって runset をグループ化します。`RunsetGroup` の一部です。グループ化の基準となるメトリクスタイプと値をキーと値のペアとして指定します。
+
+**Attributes:**
+
+ - `key` (Type[str] | Type[Config] | Type[SummaryMetric] | Type[Metric]): グループ化の基準となるメトリクスタイプ。
+ - `value` (str): グループ化の基準となるメトリクスの値。
+
+---
+
+## <kbd>class</kbd> `ScalarChart`
+スカラーチャートを表示するパネルオブジェクト。
+
+**Attributes:**
+
+ - `title` (Optional[str]): プロットの上部に表示されるテキスト。
+ - `metric` (MetricType): Reports が情報を取得する W&B プロジェクトにログ記録されたメトリクスの名前。
+ - `groupby_aggfunc` (Optional[GroupAgg]): 指定された関数で run を集計します。オプションには "mean"、"min"、"max"、"median"、"sum"、"samples"、または `None` があります。
+ - `groupby_rangefunc` (Optional[GroupArea]): 範囲に基づいて run をグループ化します。オプションには "minmax"、"stddev"、"stderr"、"none"、"samples"、または `None` があります。
+ - `custom_expressions` (Optional[LList[str]]): スカラーチャートで使用されるカスタム式のリスト。
+ - `legend_template` (Optional[str]): 凡例のテンプレート。
+ - `font_size Optional[FontSize]`: 折れ線グラフのフォントサイズ。オプションには "small"、"medium"、"large"、"auto"、または `None` があります。
+
+---
+
+## <kbd>class</kbd> `ScatterPlot`
+2D または 3D 散布図を表示するパネルオブジェクト。
+
+**引数:**
+
+ - `title` (Optional[str]): プロットの上部に表示されるテキスト。
+ - `x Optional[SummaryOrConfigOnlyMetric]`: Reports が情報を取得する W&B プロジェクトにログ記録されたメトリクスの名前。指定されたメトリクスは x 軸に使用されます。
+ - `y Optional[SummaryOrConfigOnlyMetric]`: Reports が情報を取得する W&B プロジェクトにログ記録された 1 つ以上のメトリクス。指定されたメトリクスは y 軸内にプロットされます。 z Optional[SummaryOrConfigOnlyMetric]:
+ - `range_x` (Tuple[float | `None`, float | `None`]): x 軸の範囲を指定するタプル。
+ - `range_y` (Tuple[float | `None`, float | `None`]): y 軸の範囲を指定するタプル。
+ - `range_z` (Tuple[float | `None`, float | `None`]): z 軸の範囲を指定するタプル。
+ - `log_x` (Optional[bool]): 10 を底とする対数スケールを使用して x 座標をプロットします。
+ - `log_y` (Optional[bool]): 10 を底とする対数スケールを使用して y 座標をプロットします。
+ - `log_z` (Optional[bool]): 10 を底とする対数スケールを使用して z 座標をプロットします。
+ - `running_ymin` (Optional[bool]): 移動平均または移動平均を適用します。
+ - `running_ymax` (Optional[bool]): 移動平均または移動平均を適用します。
+ - `running_ymean` (Optional[bool]): 移動平均または移動平均を適用します。
+ - `legend_template` (Optional[str]): 凡例の形式を指定する文字列。
+ - `gradient` (Optional[LList[GradientPoint]]): プロットの色のグラデーションを指定するグラデーションポイントのリスト。
+ - `font_size` (Optional[FontSize]): 折れ線グラフのフォントサイズ。オプションには "small"、"medium"、"large"、"auto"、または `None` があります。
+ - `regression` (Optional[bool]): `True` の場合、散布図に回帰線がプロットされます。
+
+---
+
+## <kbd>class</kbd> `SoundCloud`
+SoundCloud プレイヤーをレンダリングするブロック。
+
+**Attributes:**
+
+ - `html` (str): SoundCloud プレイヤーを埋め込むための HTML コード。
+
+---
+
+## <kbd>class</kbd> `Spotify`
+Spotify プレイヤーをレンダリングするブロック。
+
+**Attributes:**
+
+ - `spotify_id` (str): トラックまたはプレイリストの Spotify ID。
+
+---
+
+## <kbd>class</kbd> `SummaryMetric`
+レポートに表示されるサマリーメトリクス。
+
+**Attributes:**
+
+ - `name` (str): メトリクスの名前。
+
+---
+
+## <kbd>class</kbd> `TableOfContents`
+レポートで指定された H1、H2、および H3 HTML ブロックを使用して、セクションとサブセクションのリストを含むブロック。
+
+---
+
+## <kbd>class</kbd> `TextWithInlineComments`
+インラインコメント付きのテキストブロック。
+
+**Attributes:**
+
+ - `text` (str): ブロックのテキスト。
+
+---
+
+## <kbd>class</kbd> `Twitter`
+Twitter フィードを表示するブロック。
+
+**Attributes:**
+
+ - `html` (str): Twitter フィードを表示するための HTML コード。
+
+---
+
+## <kbd>class</kbd> `UnorderedList`
+箇条書きリスト内のアイテムリスト。
+
+**Attributes:**
+
+ - `items` (LList[TextLikeField]): 1 つ以上の `UnorderedListItem` オブジェクトのリスト。各アイテムは文字列または TextLike オブジェクトのリストにすることができます。
+
+---
+
+## <kbd>class</kbd> `UnorderedListItem`
+順序なしリスト内のリストアイテム。
+
+**Attributes:**
+
+ - `text` (str): リストアイテムのテキスト。
+
+---
+
+## <kbd>class</kbd> `Video`
+ビデオをレンダリングするブロック。
+
+**Attributes:**
+
+ - `url` (str): ビデオの URL。
+
+---
+
+## <kbd>class</kbd> `WeaveBlockArtifact`
+W&B にログ記録されたアーティファクトを表示するブロック。クエリは次の形式を取ります。
+
+```python
+project('entity', 'project').artifact('artifact-name')
+```
+
+API 名に含まれる "Weave" という用語は、LLM の追跡と評価に使用される W&B Weave ツールキットを指すものではありません。
+
+**Attributes:**
+
+ - `entity` (str): アーティファクトが保存されているプロジェクトを所有している、または適切な権限を持つ entity。
+ - `project` (str): アーティファクトが保存されているプロジェクト。
+ - `artifact` (str): 取得するアーティファクトの名前。
+ - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: アーティファクトパネルに表示するタブ。
+
+---
+
+## <kbd>class</kbd> `WeaveBlockArtifactVersionedFile`
+W&B アーティファクトにログ記録されたバージョン付きファイルを表示するブロック。クエリは次の形式を取ります。
+
+```python
+project('entity', 'project').artifactVersion('name', 'version').file('file-name')
+```
+
+API 名に含まれる "Weave" という用語は、LLM の追跡と評価に使用される W&B Weave ツールキットを指すものではありません。
+
+**Attributes:**
+
+ - `entity` (str): アーティファクトが保存されているプロジェクトを所有している、または適切な権限を持つ entity。
+ - `project` (str): アーティファクトが保存されているプロジェクト。
+ - `artifact` (str): 取得するアーティファクトの名前。
+ - `version` (str): 取得するアーティファクトのバージョン。
+ - `file` (str): 取得するアーティファクトに保存されているファイルの名前。
+
+---
+
+## <kbd>class</kbd> `WeaveBlockSummaryTable`
+W&B Table、pandas DataFrame、プロット、または W&B にログ記録されたその他の値を表示するブロック。クエリは次の形式を取ります。
+
+```python
+project('entity', 'project').runs.summary['value']
+```
+
+API 名に含まれる "Weave" という用語は、LLM の追跡と評価に使用される W&B Weave ツールキットを指すものではありません。
+
+**Attributes:**
+
+ - `entity` (str): 値がログ記録されているプロジェクトを所有している、または適切な権限を持つ entity。
+ - `project` (str): 値がログ記録されているプロジェクト。
+ - `table_name` (str): テーブル、DataFrame、プロット、または値の名前。
+
+---
+
+## <kbd>class</kbd> `WeavePanel`
+クエリを使用してカスタムコンテンツを表示するために使用できる空のクエリパネル。
+
+API 名に含まれる "Weave" という用語は、LLM の追跡と評価に使用される W&B Weave ツールキットを指すものではありません。
+
+---
+
+## <kbd>class</kbd> `WeavePanelArtifact`
+W&B にログ記録されたアーティファクトを表示するパネル。
+
+API 名に含まれる "Weave" という用語は、LLM の追跡と評価に使用される W&B Weave ツールキットを指すものではありません。
+
+**Attributes:**
+
+ - `artifact` (str): 取得するアーティファクトの名前。
+ - `tab Literal["overview", "metadata", "usage", "files", "lineage"]`: アーティファクトパネルに表示するタブ。
+
+---
+
+## <kbd>class</kbd> `WeavePanelArtifactVersionedFile`
+W&B アーティファクトにログ記録されたバージョン付きファイルを表示するパネル。
+
+```python
+project('entity', 'project').artifactVersion('name', 'version').file('file-name')
+```
+
+API 名に含まれる "Weave" という用語は、LLM の追跡と評価に使用される W&B Weave ツールキットを指すものではありません。
+
+**Attributes:**
+
+ - `artifact` (str): 取得するアーティファクトの名前。
+ - `version` (str): 取得するアーティファクトのバージョン。
+ - `file` (str): 取得するアーティファクトに保存されているファイルの名前。
+
+---
+
+## <kbd>class</kbd> `WeavePanelSummaryTable`
+W&B Table、pandas DataFrame、プロット、または W&B にログ記録されたその他の値を表示するパネル。クエリは次の形式を取ります。
+
+```python
+runs.summary['value']
+```
+
+API 名に含まれる "Weave" という用語は、LLM の追跡と評価に使用される W&B Weave ツールキットを指すものではありません。
+
+**Attributes:**
+
+ - `table_name` (str): テーブル、DataFrame、プロット、または値の名前。

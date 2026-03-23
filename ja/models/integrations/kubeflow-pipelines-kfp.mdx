@@ -1,0 +1,190 @@
+---
+title: Kubeflow Pipelines (kfp)
+description: W&B を Kubeflow Pipelines と統合する方法。
+---
+
+import ApiKeyCreateStreamlined from "/snippets/en/_includes/api-key-create-streamlined.mdx";
+
+[Kubeflow Pipelines (kfp)](https://www.kubeflow.org/docs/components/pipelines/overview/) は、 Docker コンテナベースでポータブルかつスケーラブルな 機械学習 (ML) ワークフローを構築・デプロイするためのプラットフォームです。
+
+この インテグレーション を使用すると、 kfp の Python 関数コンポーネントにデコレータを適用するだけで、パラメータや アーティファクト を W&B に自動的に ログ 記録できます。
+
+この機能は `wandb==0.12.11` から有効になっており、 `kfp<2.0.0` が必要です。
+
+## サインアップと APIキー の作成
+
+APIキー は、お使いのマシンを W&B に対して認証するために使用されます。 APIキー はユーザープロフィールから生成できます。
+
+<ApiKeyCreateStreamlined/>
+
+1. 右上隅にあるユーザープロフィールアイコンをクリックします。
+1. **User Settings** を選択し、 **API Keys** セクションまでスクロールします。
+
+## `wandb` ライブラリのインストールとログイン
+
+ローカル環境に `wandb` ライブラリをインストールしてログインするには：
+
+<Tabs>
+<Tab title="Command Line">
+1. `WANDB_API_KEY` [環境変数](/models/track/environment-variables/) に APIキー を設定します。
+
+    ```bash
+    export WANDB_API_KEY=<your_api_key>
+    ```
+
+1. `wandb` ライブラリをインストールしてログインします。
+
+    ```shell
+    pip install wandb
+
+    wandb login
+    ```
+</Tab>
+<Tab title="Python">
+```bash
+pip install wandb
+```
+```python
+import wandb
+wandb.login()
+```
+</Tab>
+<Tab title="Python notebook">
+```notebook
+!pip install wandb
+
+import wandb
+wandb.login()
+```
+</Tab>
+</Tabs>
+
+
+## コンポーネントへのデコレータ追加
+
+`@wandb_log` デコレータを追加し、通常通りコンポーネントを作成します。これにより、パイプラインを実行するたびに、入力/出力 パラメータ と アーティファクト が W&B に自動的に ログ 記録されます。
+
+```python
+from kfp import components
+from wandb.integration.kfp import wandb_log
+
+
+@wandb_log
+def add(a: float, b: float) -> float:
+    return a + b
+
+
+add = components.create_component_from_func(add)
+```
+
+## コンテナへの環境変数の受け渡し
+
+コンテナに対して明示的に [環境変数](/models/track/environment-variables/) を渡す必要がある場合があります。双方向のリンクを有効にするには、 `WANDB_KUBEFLOW_URL` 環境変数 に Kubeflow Pipelines インスタンスのベース URL（例: `https://kubeflow.mysite.com`）を設定してください。
+
+```python
+import os
+from kubernetes.client.models import V1EnvVar
+
+
+def add_wandb_env_variables(op):
+    env = {
+        "WANDB_API_KEY": os.getenv("WANDB_API_KEY"),
+        "WANDB_BASE_URL": os.getenv("WANDB_BASE_URL"),
+    }
+
+    for name, value in env.items():
+        op = op.add_env_variable(V1EnvVar(name, value))
+    return op
+
+
+@dsl.pipeline(name="example-pipeline")
+def example_pipeline(param1: str, param2: int):
+    conf = dsl.get_pipeline_conf()
+    conf.add_op_transformer(add_wandb_env_variables)
+```
+
+## プログラムによるデータへのアクセス
+
+### Kubeflow Pipelines UI 経由
+
+W&B で ログ 記録された Kubeflow Pipelines UI 上の任意の Run をクリックします。
+
+* 入出力の詳細は、 `Input/Output` タブおよび `ML Metadata` タブで確認できます。
+* `Visualizations` タブから W&B ウェブアプリを表示できます。
+
+<Frame>
+    <img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="W&B in Kubeflow UI"  />
+</Frame>
+
+### ウェブアプリ UI 経由
+
+ウェブアプリ UI には、 Kubeflow Pipelines の `Visualizations` タブと同じ内容が表示されますが、より広い画面で操作できます。ウェブアプリ UI についての詳細は [こちら](/models/app) をご覧ください。
+
+<Frame>
+    <img src="/images/integrations/kubeflow_pipelines.png" alt="Run details"  />
+</Frame>
+
+<Frame>
+    <img src="/images/integrations/kubeflow_via_app.png" alt="Pipeline DAG"  />
+</Frame>
+
+### Public API 経由（プログラムによるアクセス）
+
+* プログラムによる アクセス については、 [Public API ドキュメント](/models/ref/python/public-api/) を参照してください。
+
+### Kubeflow Pipelines から W&B へのコンセプトマッピング
+
+Kubeflow Pipelines のコンセプトと W&B の対応表は以下の通りです。
+
+| Kubeflow Pipelines | W&B | W&B内での場所 |
+| ------------------ | --- | --------------- |
+| Input Scalar | [`config`](/models/) | [Overviewタブ](/models/runs/#overview-tab) |
+| Output Scalar | [`summary`](/models/) | [Overviewタブ](/models/runs/#overview-tab) |
+| Input Artifact | Input Artifact | [Artifactsタブ](/models/runs/#artifacts-tab) |
+| Output Artifact | Output Artifact | [Artifactsタブ](/models/runs/#artifacts-tab) |
+
+## きめ細かなログ記録
+
+ログ 記録をより詳細に制御したい場合は、コンポーネント内で `wandb.log` や `wandb.log_artifact` を呼び出すことができます。
+
+### 明示的な `wandb.log_artifacts` の呼び出し
+
+以下の例では、 モデル を トレーニング しています。 `@wandb_log` デコレータは関連する入出力を自動的に追跡します。 トレーニング プロセスを ログ 記録したい場合は、次のように明示的に ログ を追加できます：
+
+```python
+@wandb_log
+def train_model(
+    train_dataloader_path: components.InputPath("dataloader"),
+    test_dataloader_path: components.InputPath("dataloader"),
+    model_path: components.OutputPath("pytorch_model"),
+):
+    with wandb.init() as run:
+        ...
+        for epoch in epochs:
+            for batch_idx, (data, target) in enumerate(train_dataloader):
+                ...
+                if batch_idx % log_interval == 0:
+                    run.log(
+                        {"epoch": epoch, "step": batch_idx * len(data), "loss": loss.item()}
+                    )
+            ...
+            run.log_artifact(model_artifact)
+```
+
+### 暗黙的な wandb インテグレーションの使用
+
+[サポートされているフレームワークインテグレーション](/models/integrations) を使用している場合は、 コールバック を直接渡すことも可能です。
+
+```python
+@wandb_log
+def train_model(
+    train_dataloader_path: components.InputPath("dataloader"),
+    test_dataloader_path: components.InputPath("dataloader"),
+    model_path: components.OutputPath("pytorch_model"),
+):
+    from pytorch_lightning.loggers import WandbLogger
+    from pytorch_lightning import Trainer
+
+    trainer = Trainer(logger=WandbLogger())
+    ...  # トレーニングを実行
+```
