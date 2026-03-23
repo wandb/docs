@@ -1,25 +1,22 @@
 ---
-title: How do I handle the 'Failed to query for notebook' error?
-support:
-- notebooks
-- environment variables
-toc_hide: true
-type: docs
+title: '''Failed to query for notebook'' 에러를 어떻게 해결하나요?'
 ---
 
-`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` 오류 메시지가 발생하면 환경 변수를 설정하여 해결하십시오. 이를 수행하는 방법에는 여러 가지가 있습니다.
+`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"`와 같은 에러 메시지가 발생하는 경우, 환경 변수를 설정하여 문제를 해결할 수 있습니다. 여러 가지 메소드를 통해 이 설정을 수행할 수 있습니다:
 
 <Tabs>
 <Tab title="Notebook">
 ```python
-%env "WANDB_NOTEBOOK_NAME" "여기에 노트북 이름"
+# 노트북 내에서 환경 변수 설정
+%env "WANDB_NOTEBOOK_NAME" "notebook name here"
 ```
 </Tab>
 <Tab title="Python">
 ```python
 import os
 
-os.environ["WANDB_NOTEBOOK_NAME"] = "여기에 노트북 이름"
+# os.environ을 사용하여 환경 변수 설정
+os.environ["WANDB_NOTEBOOK_NAME"] = "notebook name here"
 ```
 </Tab>
 </Tabs>

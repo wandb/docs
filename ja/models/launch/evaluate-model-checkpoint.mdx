@@ -1,0 +1,85 @@
+---
+title: モデルの チェックポイント を評価する
+description: CoreWeave によって管理される インフラストラクチャー を使用して、VLLM 互換の モデル チェックポイント を評価します。
+---
+import ReviewEvaluationResults from "/snippets/en/_includes/llm-eval-jobs/review-evaluation-results.mdx";
+import RerunEvaluation from "/snippets/en/_includes/llm-eval-jobs/rerun-evaluation.mdx";
+import ExportEvaluation from "/snippets/en/_includes/llm-eval-jobs/export-evaluation.mdx";
+import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
+
+<PreviewLink />
+
+このページでは、[LLM Evaluation Jobs](/models/launch) を使用して、CoreWeave が管理するインフラストラクチャー上で、W&B Models 内のモデルチェックポイントに対して一連の評価ベンチマークを実行する方法について説明します。公開アクセス可能な URL で提供されているホスト型 API モデルを評価する場合は、代わりに [Evaluate an API-hosted model](/models/launch/evaluate-hosted-model) を参照してください。
+
+## 事前準備
+1. LLM Evaluation Jobs の [要件と制限事項](/models/launch#more-details) を確認してください。
+1. 特定のベンチマークを実行するには、チーム管理者が [チームスコープのシークレット](/platform/secrets#add-a-secret) として必要な APIキー を追加する必要があります。チームメンバー は、評価ジョブの設定時にそのシークレットを指定できます。要件については、[Evaluation model catalog](/models/launch/evaluations) を参照してください。
+    - **OpenAPI APIキー**: スコアリングに OpenAI モデルを使用するベンチマークで使用されます。ベンチマークを選択した後に **Scorer API key** フィールドが表示される場合に必要です。シークレット名は `OPENAI_API_KEY` である必要があります。
+    - **Hugging Face ユーザーアクセス件トークン**: `lingoly` や `lingoly2` など、ゲート（承認制）付きの Hugging Face データセットへのアクセスが必要な特定のベンチマークで必要です。ベンチマークを選択した後に **Hugging Face Token** フィールドが表示される場合に必要です。この APIキー は、関連するデータセットへのアクセス権を持っている必要があります。詳細は、Hugging Face のドキュメント [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) および [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) を参照してください。
+1. 評価結果を保存するための新しい [W&B Projects](/models/track/project-page) を作成します。左側のナビゲーションから **Create new project** をクリックします。
+1. モデルを VLLM 互換フォーマットでパッケージ化し、W&B Models の Artifacts として保存します。これ以外のタイプの Artifacts でベンチマークを試みると失敗します。一つの方法として、このページの最後にある [例：モデルの準備](#example-prepare-your-model) を参照してください。
+1. 各ベンチマークのドキュメントを確認して、その 仕組み と特定の要件を理解してください。利便性のため、[Available evaluation benchmarks](/models/launch/evaluations) リファレンスに関連リンクが含まれています。
+
+## モデルを評価する
+以下の手順に従って、評価ジョブをセットアップし、ローンチします。
+
+1. W&B にログインし、左側のナビゲーションで **Launch** をクリックします。**LLM Evaluation Jobs** ページが表示されます。
+1. **Evaluate model checkpoint** をクリックして、評価ジョブをセットアップします。
+1. 評価結果を保存する送信先 Projects を選択します。
+1. **Model artifact** セクションで、評価する準備済みモデルの Projects、Artifact、および バージョン を指定します。
+1. **Evaluations** をクリックし、最大 4 つのベンチマークを選択します。
+1. スコアリングに OpenAI モデルを使用するベンチマークを選択した場合、**Scorer API key** フィールドが表示されます。それをクリックし、`OPENAI_API_KEY` シークレットを選択します。利便性のため、チーム管理者はこのドロワーから **Create secret** をクリックしてシークレットを作成することもできます。
+1. Hugging Face のゲート付きデータセットへのアクセスが必要なベンチマークを選択した場合、**Hugging Face token** フィールドが表示されます。[関連するデータセットへのアクセスをリクエスト](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) した後、Hugging Face ユーザーアクセス件トークンを含むシークレットを選択します。
+1. オプションで、**Sample limit** に正の整数を設定して、評価するベンチマークサンプルの最大数を制限できます。指定しない場合は、タスク内のすべてのサンプルが含まれます。
+1. リーダーボードを自動的に作成するには、**Publish results to leaderboard** をクリックします。リーダーボードは、Workspace パネルにすべての評価をまとめて表示し、Reports で共有することもできます。
+1. **Launch** をクリックして評価ジョブをローンチします。
+1. ページ上部の円形の矢印アイコンをクリックして、最近の run モーダルを開きます。評価ジョブは他の最近の Runs と共に表示されます。完了した run の名前をクリックしてシングル run ビューで開くか、**Leaderboard** リンクをクリックしてリーダーボードを直接開きます。詳細は [結果を表示する](#view-the-results) を参照してください。
+
+<Tip>
+最初のモデルを評価した後は、次の評価ジョブを設定する際に、多くのフィールドに最新の値が事前入力されます。
+</Tip>
+
+この評価ジョブの例では、Artifact に対して 2 つのベンチマークを実行しています。
+
+<Frame>
+![モデルチェックポイント評価ジョブの例](/images/models/llm-evaluation-jobs/model-checkpoint-job-example.png)
+</Frame>
+
+このリーダーボードの例では、複数のモデルのパフォーマンスをまとめて可視化しています。
+
+<Frame>
+![複数のベンチマークタスクに対する複数のモデルのパフォーマンスを可視化するリーダーボードの例](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
+</Frame>
+
+<ReviewEvaluationResults />
+
+<RerunEvaluation />
+
+<ExportEvaluation />
+
+## 例：モデルの準備
+モデルを準備するには、W&B Models にモデルをロードし、モデルの重みを VLLM 互換フォーマットでパッケージ化して、その 結果 を保存します。以下にその一例を示します。
+
+```python lines
+import os
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+# モデルのロード
+model_name = "your-model-name"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+
+# vLLM互換フォーマットで保存
+save_dir = "path/to/save"
+tokenizer.save_pretrained(save_dir)
+model.save_pretrained(save_dir)
+
+# W&B Modelsに保存
+import wandb
+wandb_run = wandb.init(entity="your-entity-name", project="your-project-name")
+artifact = wandb.Artifact(name="your-artifact-name")
+artifact.add_dir(save_dir)
+logged_artifact = wandb_run.log_artifact(artifact)
+logged_artifact.wait()
+wandb.finish()
+```

@@ -84,7 +84,7 @@ Allow a collection of runs to collaborate on a version before committing it. Thi
 Consider the following example. Different runs (labelled below as **Run 1**, **Run 2**, and **Run 3**) add a different image file to the same artifact with `upsert_artifact`.
 
 
-#### Run 1:
+#### Run 1
 
 ```python
 with wandb.init() as run:
@@ -95,7 +95,7 @@ with wandb.init() as run:
     run.upsert_artifact(artifact, distributed_id="my_dist_artifact")
 ```
 
-#### Run 2:
+#### Run 2
 
 ```python
 with wandb.init() as run:

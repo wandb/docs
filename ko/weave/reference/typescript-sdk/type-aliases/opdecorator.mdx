@@ -1,0 +1,32 @@
+---
+title: OpDecorator
+description: TypeScript SDK 레퍼런스
+---
+
+# OpDecorator
+
+Ƭ **OpDecorator**\<`T`\>: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) => `T` \| `void` & (`target`: `Object`, `propertyKey`: `string` \| `symbol`, `descriptor`: `TypedPropertyDescriptor`\<`T`\>) => `TypedPropertyDescriptor`\<`T`\> \| `void`
+
+데코레이터를 위한 헬퍼 타입입니다.
+이 타입은 레거시 데코레이터와 Stage 3 데코레이터 모두에서 사용할 수 있는 데코레이터 함수를 나타냅니다.
+
+Stage 3 데코레이터의 경우:
+  target: 데코레이트되는 함수 (T)
+  context: MethodDecoratorContext
+
+레거시 데코레이터의 경우:
+  target: 프로토타입 (인스턴스 메소드) 또는 생성자 (정적 메소드)
+  propertyKey: 메소드 이름
+  descriptor: 메소드를 포함하는 속성 디스크립터 (property descriptor)
+
+#### 타입 파라미터
+
+| 이름 | 타입 |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### 정의 위치
+
+[opType.ts:41](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/opType.ts#L41)
+
+## Functions

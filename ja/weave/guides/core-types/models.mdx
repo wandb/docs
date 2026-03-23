@@ -1,0 +1,85 @@
+---
+title: Models を使用して アプリケーション の バージョン を追跡する
+description: データ と コード を組み合わせた構造化された Models を使用して、アプリケーション の バージョン を追跡します。
+---
+
+`Model` とは、データ（設定、学習済みモデルの重み、その他の情報を含む）と、そのモデルがどのように動作するかを定義するコードの組み合わせです。コードをこの API と互換性のある構造にすることで、アプリケーションの バージョン管理 を構造化された方法で行えるようになり、実験 の内容をより体系的に追跡できるようになります。
+
+<Tabs>
+  <Tab title="Python">
+    Weave でモデルを作成するには、以下が必要です：
+
+    - `weave.Model` を継承したクラス
+    - すべてのパラメータに対する型定義
+    - `@weave.op()` デコレータが付与された、型定義済みの `predict` 関数
+
+    ```python lines
+    from weave import Model
+    import weave
+
+    class YourModel(Model):
+        attribute1: str
+        attribute2: int
+
+        @weave.op()
+        def predict(self, input_data: str) -> dict:
+            # モデルのロジックをここに記述します
+            prediction = self.attribute1 + ' ' + input_data
+            return {'pred': prediction}
+    ```
+
+    通常通り、以下のようにモデルを呼び出すことができます：
+
+    ```python lines
+    import weave
+    weave.init('intro-example')
+
+    model = YourModel(attribute1='hello', attribute2=5)
+    model.predict('world')
+    ```
+
+    これにより、`predict` を呼び出すたびに、モデルの 設定 とともに入出力が追跡されます。
+
+    ## Models の自動 バージョン管理
+
+    モデルを定義する パラメータ や コード を変更すると、これらの変更が ログ に記録され、バージョン が更新されます。
+    これにより、モデルの異なる バージョン 間で 予測 を比較できるようになります。プロンプトの微調整や、最新の LLM の試行、異なる 設定 間での 予測 の比較に活用してください。
+
+    例えば、ここで新しいモデルを作成します：
+
+    ```python lines
+    import weave
+    weave.init('intro-example')
+
+    model = YourModel(attribute1='howdy', attribute2=10)
+    model.predict('world')
+    ```
+
+    これを実行すると、UI 上でこの Model の 2 つの バージョン が作成され、それぞれに異なる呼び出し履歴が追跡されていることが確認できます。
+
+    ## Models のサービング
+
+    モデルをサーブするには、以下を呼び出すだけで簡単に FastAPI サーバーを立ち上げることができます：
+
+    ```bash
+    weave serve <your model ref>
+    ```
+
+    詳細な手順については、[serve](/weave/guides/tools/serve) を参照してください。
+
+    ## プロダクション環境の呼び出しを追跡する
+
+    プロダクション環境での呼び出しを区別するために、予測 に属性を追加して、UI や API で簡単にフィルタリングできるようにすることができます。
+
+    ```python lines
+    with weave.attributes({'env': 'production'}):
+        model.predict('world')
+    ```
+
+  </Tab>
+  <Tab title="TypeScript">
+    ```plaintext
+    この機能は TypeScript ではまだ利用できません。今後のアップデートにご期待ください！
+    ```
+  </Tab>
+</Tabs>

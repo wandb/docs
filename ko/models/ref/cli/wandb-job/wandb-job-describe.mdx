@@ -1,16 +1,32 @@
 ---
-title: wandb job describe
+title: ' thoughtful Pitches:
+
+  wandb job describe'
 ---
 
-**사용법**
+{/*
+  이 코맨드에 대한 도입 콘텐츠를 추가하려면:
+  1. 스니펫 파일을 생성하십시오: /snippets/en/_includes/cli/wandb-job-describe.mdx
+  2. 해당 파일에 도입 콘텐츠를 추가하십시오
+  3. 이 주석 블록 전체를 삭제하고 아래의 두 줄만 남겨두십시오:
 
-`wandb job describe [OPTIONS] JOB`
+import WandbJobDescribe from "/snippets/en/_includes/cli/wandb-job-describe.mdx";
 
-**요약**
+<WandbJobDescribe/>
 
-Launch job에 대해 설명합니다. entity/project/job-name:alias-or-version 형식으로 Launch job을 제공하세요.
+  다음 재생성 시 스니펫이 자동으로 감지됩니다.
+*/}
 
-**옵션**
+Launch job에 대한 정보를 표시합니다. Launch job을 다음 형식으로 제공하십시오: entity/project/job-name:alias-or-version
 
-| **옵션** | **설명** |
-| :--- | :--- |
+## Usage
+
+```bash
+wandb job describe JOB
+```
+
+## Arguments
+
+| Argument | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `JOB` | 설명 없음 | Yes |

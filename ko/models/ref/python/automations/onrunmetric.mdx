@@ -1,0 +1,46 @@
+---
+title: OnRunMetric
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+## <kbd>class</kbd> `OnRunMetric`
+사용자가 정의한 조건을 충족하는 run metric입니다.
+
+예시:
+"my-project" 프로젝트의 모든 run 에 대해, "my-metric" 지표의 최근 5개 값의 평균이 123.45를 초과할 때 트리거되는 이벤트를 정의합니다:
+
+```python
+from wandb import Api
+from wandb.automations import OnRunMetric, RunEvent
+
+api = Api()
+project = api.project(name="my-project")
+
+event = OnRunMetric(
+    scope=project,
+    filter=RunEvent.metric("my-metric").avg(5).gt(123.45),
+)
+```
+
+### <kbd>method</kbd> `OnRunMetric.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]',
+    scope: 'ProjectScope',
+    filter: 'RunMetricFilter'
+) → None
+```
+
+**Args:**
+ 
+ - `event_type` (Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]): 
+ - `scope` (ProjectScope): 이벤트의 범위: 반드시 프로젝트여야 합니다.
+ - `filter` (RunMetricFilter): 이 이벤트가 트리거되기 위해 충족해야 하는 run 및/또는 metric 조건입니다.
+
+**Returns:**
+ `OnRunMetric` 오브젝트.

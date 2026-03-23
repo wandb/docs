@@ -1,0 +1,58 @@
+---
+title: ホストされた API モデル を評価する
+description: CoreWeave によって管理される インフラストラクチャー を使用して、ホストされた API モデル を評価する
+---
+import ReviewEvaluationResults from "/snippets/en/_includes/llm-eval-jobs/review-evaluation-results.mdx";
+import RerunEvaluation from "/snippets/en/_includes/llm-eval-jobs/rerun-evaluation.mdx";
+import ExportEvaluation from "/snippets/en/_includes/llm-eval-jobs/export-evaluation.mdx";
+import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
+
+<PreviewLink />
+
+このページでは、[LLM Evaluation Jobs](/models/launch) を使用して、CoreWeave が管理するインフラストラクチャーを利用し、公開アクセス可能な URL にあるホストされた API モデルに対して一連の評価ベンチマークを実行する方法を説明します。W&B Models に artifact として保存されたモデルチェックポイントを評価する場合は、代わりに [Evaluate a model checkpoint](/models/launch/evaluate-model-checkpoint) を参照してください。
+
+## 前提条件
+1. LLM Evaluation Jobs の [要件と制限事項](/models/launch#more-details) を確認してください。
+1. 特定のベンチマークを実行するには、チーム管理者がチームスコープのシークレットとして必要な APIキー を追加する必要があります。チームメンバーは、評価ジョブの設定時にそのシークレットを指定できます。
+    - **OpenAPI APIキー**: スコアリングに OpenAI モデルを使用するベンチマークで使用されます。ベンチマークを選択した後に **Scorer API key** フィールドが表示される場合に必要です。シークレット名は `OPENAI_API_KEY` である必要があります。
+    - **Hugging Face ユーザーアクセストークン**: `lingoly` や `lingoly2` など、ゲート（アクセス制限）付きの Hugging Face データセットへのアクセスが必要な特定のベンチマークで必要です。ベンチマークを選択した後に **Hugging Face Token** フィールドが表示される場合に必要です。APIキー は関連するデータセットへのアクセス権を持っている必要があります。詳細は Hugging Face のドキュメント [User access tokens](https://huggingface.co/docs/hub/en/security-tokens) および [accessing gated datasets](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) を参照してください。
+    - [W&B Inference](/inference) で提供されるモデルを評価するには、組織またはチーム管理者が任意の値を設定した `WANDB_API_KEY` を作成する必要があります。このシークレットは、実際には認証には使用されません。
+1. 評価対象のモデルは、公開アクセス可能な URL で利用可能である必要があります。組織またはチーム管理者は、認証用の APIキー を含むチームスコープのシークレットを作成する必要があります。
+1. 評価結果を保存するための新しい [W&B Project](/models/track/project-page) を作成します。左側のナビゲーションから **Create new project** をクリックします。
+1. 仕組みを理解し、特定の要件を確認するために、各ベンチマークのドキュメントを確認してください。利便性のために、[Available evaluation benchmarks](/models/launch/evaluations) リファレンスに関連リンクが含まれています。
+
+## モデルの評価
+以下の手順に従って、評価ジョブをセットアップし、 Launch します。
+
+1. W&B にログインし、左側のナビゲーションで **Launch** をクリックします。**LLM Evaluation Jobs** ページが表示されます。
+1. **Evaluate hosted API model** をクリックして、評価をセットアップします。
+1. 評価結果を保存する送信先の Project を選択します。
+1. **Model** セクションで、評価するベース URL とモデル名を指定し、認証に使用する APIキー を選択します。モデル名は、[AI Security Institute](https://inspect.aisi.org.uk/providers.html#openai-api) で定義されている OpenAI 互換の形式で指定してください。例えば、OpenAI モデルは `openai/<model-name>` という構文で指定します。ホストされているモデルプロバイダーとモデルの包括的なリストについては、[AI Security Institute's model provider reference](https://inspect.aisi.org.uk/providers.html) を参照してください。
+      - [W&B Inference](/inference) で提供されるモデルを評価するには、ベース URL を `https://api.inference.wandb.ai/v1` に設定し、モデル名を `openai-api/wandb/<model_id>` という構文で指定します。詳細は [Inference model catalog](/inference/models) を参照してください。
+      - [OpenRouter](https://inspect.aisi.org.uk/providers.html#openrouter) プロバイダーを使用するには、モデル名の前に `openrouter` を付け、`openrouter/<model-name>` という構文で指定します。
+      - カスタムの OpenAI 準拠モデルを評価するには、モデル名を `openai-api/wandb/<model-name>` という構文で指定します。
+1. **Select evaluations** をクリックし、実行するベンチマークを最大4つまで選択します。
+1. スコアリングに OpenAI モデルを使用するベンチマークを選択した場合、**Scorer API key** フィールドが表示されます。それをクリックし、`OPENAI_API_KEY` シークレットを選択します。利便性のために、チーム管理者はこのドロワーから **Create secret** をクリックしてシークレットを作成することもできます。
+1. Hugging Face のゲート付きデータセットへのアクセスが必要なベンチマークを選択した場合、**Hugging Face token** フィールドが表示されます。[関連するデータセットへのアクセスをリクエスト](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user) した後、Hugging Face ユーザーアクセストークンを含むシークレットを選択します。
+1. オプションで、**Sample limit** に正の整数を設定して、評価するベンチマークサンプルの最大数を制限できます。設定しない場合は、タスク内のすべてのサンプルが含まれます。
+1. リーダーボードを自動的に作成するには、**Publish results to leaderboard** をクリックします。リーダーボードは Workspace パネルにすべての評価をまとめて表示し、Report で共有することもできます。
+1. **Launch** をクリックして、評価ジョブを Launch します。
+1. ページ上部の円形の矢印アイコンをクリックして、最近の run モーダルを開きます。評価ジョブは他の最近の Runs と一緒に表示されます。完了した run の名前をクリックして単一 run ビューで開くか、**Leaderboard** リンクをクリックしてリーダーボードを直接開きます。詳細は [View the results](#view-the-results) を参照してください。
+
+この例のジョブは、OpenAI モデル `o4-mini` に対して `simpleqa` ベンチマークを実行します。
+
+<Frame>
+![ホストされたモデルの評価ジョブの例](/images/models/llm-evaluation-jobs/hosted-model-job-example.png)
+</Frame>
+
+このリーダーボードの例では、複数の OpenAI モデルのパフォーマンスをまとめて可視化しています。
+
+<Frame>
+![複数のホストされたモデルのパフォーマンスを可視化するリーダーボードの例](/images/models/llm-evaluation-jobs/hosted-model-leaderboard-example.png)
+</Frame>
+
+<ReviewEvaluationResults />
+
+<RerunEvaluation />
+
+<ExportEvaluation />

@@ -1,15 +1,15 @@
 ---
-title: What if I want to log some metrics on batches and some metrics only on epochs?
-support:
-- experiments
-- metrics
-toc_hide: true
-type: docs
+title: 배치 단위로 일부 메트릭 을 로그 하고, 에포크 단위로만 다른 메트릭 을 로그 하려면 어떻게 해야 하나요?
 ---
 
-각 배치에서 특정 메트릭을 로그하고 플롯을 표준화하려면 원하는 x축 값과 함께 메트릭을 로그하세요. 사용자 정의 플롯에서 편집을 클릭하고 사용자 정의 x축을 선택합니다.
+각 배치에서 특정 메트릭을 로그하고 차트를 표준화하려면, 원하는 x축 값을 메트릭과 함께 로그하세요. 커스텀 차트에서 편집(edit)을 클릭하고 커스텀 x축을 선택할 수 있습니다.
 
 ```python
-wandb.log({"batch": batch_idx, "loss": 0.3})
-wandb.log({"epoch": epoch, "val_acc": 0.94})
+import wandb
+
+with wandb.init() as run:
+    # 배치 인덱스와 손실(loss)을 로그합니다
+    run.log({"batch": batch_idx, "loss": 0.3})
+    # 에포크와 검증 정확도(val_acc)를 로그합니다
+    run.log({"epoch": epoch, "val_acc": 0.94})
 ```

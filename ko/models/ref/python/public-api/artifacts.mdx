@@ -1,0 +1,33 @@
+---
+title: Artifacts
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+## <kbd>class</kbd> `Artifacts`
+프로젝트와 연결된 아티팩트 버전들의 반복 가능한 (iterable) 컬렉션입니다.
+
+특정 기준에 따라 결과를 좁히기 위해 선택적으로 필터를 전달할 수 있습니다.
+
+**Args:**
+
+ - `client`: W&B 쿼리에 사용할 클라이언트 인스턴스.
+ - `entity`: 프로젝트를 소유한 Entity (사용자 또는 팀).
+ - `project`: 아티팩트를 쿼리할 프로젝트의 이름.
+ - `collection_name`: 쿼리할 아티팩트 컬렉션의 이름.
+ - `type`: 쿼리할 아티팩트의 유형. 일반적인 예로 "dataset" 또는 "model" 등이 있습니다.
+ - `filters`: 쿼리에 적용할 필터의 선택적 매핑.
+ - `order`: 결과의 순서를 지정하는 선택적 문자열.
+ - `per_page`: 페이지당 가져올 아티팩트 버전의 수. 기본값은 50입니다.
+ - `tags`: 태그로 아티팩트를 필터링하기 위한 선택적 문자열 또는 문자열 리스트.
+
+### <kbd>property</kbd> Artifacts.cursor
+
+---
+
+### <kbd>property</kbd> Artifacts.more
+
+---

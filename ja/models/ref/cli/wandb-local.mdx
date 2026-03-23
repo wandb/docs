@@ -1,0 +1,33 @@
+---
+title: wandb local
+---
+
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-local.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
+
+import WandbLocal from "/snippets/en/_includes/cli/wandb-local.mdx";
+
+<WandbLocal/>
+
+  The snippet will be auto-detected on the next regeneration.
+*/}
+
+ローカルの W&B コンテナを起動します (非推奨です。 `wandb server --help` を参照してください)
+
+## 使用法
+
+```bash
+wandb local [OPTIONS]
+```
+
+## オプション
+
+| オプション | 説明 |
+| :--- | :--- |
+| `--port`, `-p` | W&B local をバインドするホストポート (デフォルト: 8080) |
+| `--env`, `-e` | wandb/local に渡す環境変数 (デフォルト: []) |
+| `--daemon` | デーモンモードで実行するかどうか (デフォルト: True) |
+| `--upgrade` | 最新の バージョン にアップグレードする (デフォルト: False) |

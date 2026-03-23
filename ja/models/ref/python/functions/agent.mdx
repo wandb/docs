@@ -1,0 +1,34 @@
+---
+title: agent()
+namespace: python_sdk_actions
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py" />
+
+### <kbd>function</kbd> `agent`
+
+```python
+agent(
+    sweep_id: str,
+    function: Optional[Callable] = None,
+    entity: Optional[str] = None,
+    project: Optional[str] = None,
+    count: Optional[int] = None,
+    forward_signals: bool = False
+) → None
+```
+
+1 つ以上の sweep agent を起動します。
+
+sweep agent は `sweep_id` を使用して、自身がどの Sweeps の一部であるか、どの関数を実行すべきか、そして（オプションで）何個のエージェントを実行するかを判断します。
+
+**Args:**
+
+ - `sweep_id`: Sweeps の一意の識別子。 sweep ID は W&B CLI または Python SDK によって生成されます。
+ - `function`: sweep config で指定された "program" の代わりに呼び出す関数。
+ - `entity`: Sweeps によって作成された W&B Runs の送信先となるユーザー名またはチーム名。指定する Entities があらかじめ存在することを確認してください。エンティティを指定しない場合、 run は通常ユーザー名であるデフォルトのエンティティに送信されます。
+ - `project`: Sweeps から作成された W&B Runs の送信先となる Projects の名前。プロジェクトが指定されていない場合、 run は "Uncategorized" というラベルのプロジェクトに送信されます。
+ - `count`: 試行する sweep config の トライアル 数。
+ - `forward_signals`: エージェントが受信したシグナルを子 プロセス に転送するかどうか。CLI エージェントでのみサポートされています。

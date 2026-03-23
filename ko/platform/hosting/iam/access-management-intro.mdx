@@ -1,30 +1,39 @@
 ---
-title: Access management
+title: 액세스 관리
 ---
 
-## 조직 내에서 사용자 및 팀 관리하기
-고유한 조직 도메인으로 W&B에 처음 가입하는 사용자는 해당 조직의 *인스턴스 관리자 역할*로 지정됩니다. 조직 관리자는 특정 사용자에게 팀 관리자 역할을 할당합니다.
+## 조직 내 사용자 및 Teams 관리
+고유한 조직 도메인으로 W&B에 가입한 첫 번째 사용자는 해당 조직의 *인스턴스 관리자 역할 (instance administrator role)* 을 할당받습니다. 조직 관리자는 특정 사용자에게 팀 관리자 역할을 할당합니다.
 
 <Note>
-W&B는 조직에 둘 이상의 인스턴스 관리자를 두는 것을 권장합니다. 이는 기본 관리자가 없을 때 관리 작업을 계속할 수 있도록 보장하는 가장 좋은 방법입니다.
+W&B는 조직 내에 두 명 이상의 인스턴스 관리자를 두는 것을 권장합니다. 이는 주 관리자가 부재 중일 때도 관리 작업을 계속할 수 있도록 보장하는 모범 사례입니다.
 </Note>
 
-*팀 관리자*는 팀 내에서 관리 권한을 가진 조직의 사용자입니다.
+*팀 관리자 (team administrator)* 는 조직 내 사용자 중 팀 내 관리 권한을 가진 사용자입니다.
 
-조직 관리자는 `https://wandb.ai/account-settings/`에서 조직의 계정 설정을 엑세스하고 사용하여 사용자를 초대하고, 사용자의 역할을 할당하거나 업데이트하고, 팀을 만들고, 조직에서 사용자를 제거하고, 청구 관리자를 할당하는 등의 작업을 수행할 수 있습니다. 자세한 내용은 [사용자 추가 및 관리](/ko/platform/hosting/iam/access-management/manage-organization/#add-and-manage-users)를 참조하세요.
+조직 관리자는 `https://wandb.ai/account-settings/` 에 있는 조직의 계정 설정에 엑세스하여 사용자를 초대하고, 사용자의 역할을 할당하거나 업데이트하며, Teams 를 생성하고, 조직에서 사용자를 제거하고, 결제 관리자를 지정하는 등의 작업을 수행할 수 있습니다. 자세한 내용은 [사용자 추가 및 관리](/platform/hosting/iam/access-management/manage-organization/#add-and-manage-users) 를 참조하세요.
 
 조직 관리자가 팀을 생성하면 인스턴스 관리자 또는 팀 관리자는 다음을 수행할 수 있습니다.
 
-- 기본적으로 관리자만 해당 팀에 사용자를 초대하거나 팀에서 사용자를 제거할 수 있습니다. 이 행동 을 변경하려면 [팀 설정](/ko/platform/app/settings-page/teams/#privacy)을 참조하세요.
-- 팀 멤버의 역할을 할당하거나 업데이트합니다.
-- 새 사용자가 조직에 가입할 때 자동으로 팀에 추가합니다.
+- 기본적으로 관리자만 해당 팀에 사용자를 초대하거나 팀에서 사용자를 제거할 수 있습니다. 이 behavior 를 변경하려면 [Team settings](/platform/app/settings-page/teams/#privacy) 를 참조하세요.
+- 팀 멤버 의 역할을 할당하거나 업데이트합니다.
+- 새로운 사용자가 조직에 가입할 때 자동으로 팀에 추가합니다.
 
-조직 관리자와 팀 관리자는 모두 `https://wandb.ai/<your-team-name>`에서 팀 대시보드 를 사용하여 팀을 관리합니다. 자세한 내용과 팀의 기본 개인 정보 보호 설정을 구성하려면 [팀 추가 및 관리](/ko/platform/hosting/iam/access-management/manage-organization/#add-and-manage-teams)를 참조하세요.
+조직 관리자와 팀 관리자 모두 `https://wandb.ai/<your-team-name>` 에 있는 팀 대시보드 를 사용하여 Teams 를 관리합니다. 자세한 정보 및 팀의 기본 개인정보 보호 설정 구성은 [Teams 추가 및 관리](/platform/hosting/iam/access-management/manage-organization/#add-and-manage-teams) 를 참조하세요.
+
+## 관리자 엑세스 유지
+인스턴스 또는 조직에 항상 최소 한 명 이상의 관리자 사용자가 존재하도록 해야 합니다. 그렇지 않으면 어떤 사용자도 조직의 W&B 계정을 구성하거나 유지 관리할 수 없게 됩니다.
+
+사용자가 대화형으로 관리되는 경우, 다른 관리자 사용자를 포함하여 사용자를 삭제하려면 관리자 엑세스 권한이 필요합니다. 이는 유일한 관리자 사용자가 삭제되는 리스크를 줄이는 데 도움이 됩니다.
+
+하지만 조직에서 자동화된 프로세스 를 사용하여 W&B에서 사용자의 권한을 해제하는 경우, 권한 해제 작업으로 인해 인스턴스 또는 조직의 마지막 남은 관리자가 의도치 않게 제거될 수 있습니다.
+
+운영 절차 수립에 대한 지원이 필요하거나 관리자 엑세스 권한을 복구하려면 [고객 지원](mailto:support@wandb.com) 으로 문의하세요.
 
 ## 특정 Projects 에 대한 가시성 제한
 
-W&B project 의 범위를 정의하여 누가 W&B runs 를 보고, 편집하고, 제출할 수 있는지 제한합니다. 팀이 민감하거나 기밀 데이터를 다루는 경우 project 를 볼 수 있는 사람을 제한하는 것이 특히 유용합니다.
+W&B 프로젝트 의 범위를 정의하여 누가 해당 프로젝트를 보고, 편집하고, W&B runs 를 제출할 수 있는지 제한하세요. 프로젝트를 볼 수 있는 사람을 제한하는 것은 팀이 민감하거나 기밀인 데이터 를 다룰 때 특히 유용합니다.
 
-조직 관리자, 팀 관리자 또는 project 소유자는 project 의 가시성을 설정하고 편집할 수 있습니다.
+조직 관리자, 팀 관리자 또는 프로젝트 소유자는 프로젝트의 가시성을 설정하고 편집할 수 있습니다.
 
-자세한 내용은 [Project visibility](/ko/platform/hosting/iam/access-management/restricted-projects/)를 참조하세요.
+자세한 내용은 [Project visibility](/platform/hosting/iam/access-management/restricted-projects/) 를 참조하세요.

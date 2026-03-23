@@ -1,0 +1,22 @@
+```python
+"""
+Delete a registry from W&B.
+"""
+import wandb
+
+# Define registry and collection details
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+
+# Construct the full registry path
+registry_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# Initialize the W&B API
+api = wandb.Api()
+
+# Fetch the registry you want to delete
+fetched_registry = api.registry("<registry_name>")
+
+# Deleting a registry
+fetched_registry.delete()
+```

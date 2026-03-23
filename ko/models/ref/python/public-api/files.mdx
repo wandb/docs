@@ -1,72 +1,66 @@
 ---
 title: Files
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+
+## <kbd>class</kbd> `Files`
+`File` 오브젝트 컬렉션에 대한 lazy iterator입니다.
+
+Run 중에 W&B에 업로드된 파일을 엑세스하고 관리합니다. 대규모 파일 컬렉션을 반복할 때 페이지네이션을 자동으로 처리합니다.
+
+**Example:**
+ ```python
+from wandb.apis.public.files import Files
+from wandb.apis.public.api import Api
+
+# 예시 run 오브젝트
+run = Api().run("entity/project/run-id")
+
+# run 내의 파일들을 반복하기 위해 Files 오브젝트 생성
+files = Files(api.client, run)
+
+# 파일 반복 처리
+for file in files:
+     print(file.name)
+     print(file.url)
+     print(file.size)
+
+     # 파일 다운로드
+     file.download(root="download_directory", replace=True)
+``` 
+
+### <kbd>method</kbd> `Files.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    run: 'Run',
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    upload: 'bool' = False,
+    pattern: 'str | None' = None
+)
+```
+
+`File` 오브젝트 컬렉션에 대한 lazy iterator를 초기화합니다.
+
+파일은 필요에 따라 W&B 서버 에서 페이지 단위로 가져옵니다.
+
+**Args:**
+ 
+ - `client`: 파일을 포함하고 있는 run 오브젝트 
+ - `run`: 파일을 포함하고 있는 run 오브젝트 
+ - `names` (list, optional): 파일을 필터링하기 위한 파일 이름 리스트 
+ - `per_page` (int, optional): 페이지당 가져올 파일 수 
+ - `upload` (bool, optional): `True`인 경우, 각 파일에 대한 업로드 URL을 가져옵니다. 
+ - `pattern` (str, optional): W&B에서 파일을 반환할 때 일치시킬 패턴. 이 패턴은 MySQL의 LIKE 구문을 사용하므로, .json으로 끝나는 모든 파일을 매칭하려면 "%.json"이 됩니다. names와 pattern이 모두 제공되면 ValueError가 발생합니다. 
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L44-L107" icon="github"/>
+### <kbd>property</kbd> Files.length
 
-`File` 오브젝트의 반복 가능한 컬렉션입니다.
-
-```python
-Files(
-    client, run, names=None, per_page=50, upload=(False)
-)
-```
-
-| 속성 | Description |
-| :--- | :--- |
-
-## 메소드
-
-### `convert_objects`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L100-L104)
-
-```python
-convert_objects()
-```
-
-### `next`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L72-L79)
-
-```python
-next()
-```
-
-### `update_variables`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/files.py#L97-L98)
-
-```python
-update_variables()
-```
-
-### `__getitem__`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L65-L70)
-
-```python
-__getitem__(
-    index
-)
-```
-
-### `__iter__`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L26-L28)
-
-```python
-__iter__()
-```
-
-### `__len__`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/paginator.py#L30-L35)
-
-```python
-__len__()
-```
-
-| 클래스 변수 |  |
-| :--- | :--- |
-| `QUERY`<a id="QUERY"></a> |   |
+---

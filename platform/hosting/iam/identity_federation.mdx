@@ -1,5 +1,6 @@
 ---
 title: Use federated identities with SDK
+description: "Use identity federation with JSON Web Tokens (JWTs) to authenticate with the W&B SDK and CLI without API keys."
 ---
 
 Use identity federation to sign in using your organizational credentials through W&B SDK. If your W&B organization admin has configured SSO for your organization, then you already use your organizational credentials to sign-in to the W&B app UI. In that sense, identity federation is like SSO for W&B SDK, but by using JSON Web Tokens (JWTs) directly. You can use identity federation as an alternative to API keys.
@@ -18,9 +19,9 @@ For the purpose of this document, the terms `identity provider` and `JWT issuer`
 
 As a first step, an organization admin must set up a federation between your W&B organization and a publicly accessible JWT issuer.
 
-* Go to the **Settings** tab in your organization dashboard
-* In the **Authentication** option, press `Set up JWT Issuer`
-* Add the JWT issuer URL in the text box and press `Create`
+* Navigate to the **Settings** tab in your organization dashboard
+* In the **Authentication** option, click **Set up JWT Issuer**
+* Add the JWT issuer URL in the text box and click **Create**
 
 W&B will automatically look for a OIDC discovery document at the path `${ISSUER_URL}/.well-known/openid-configuration`, and try to find the JSON Web Key Set (JWKS) at a relevant URL in the discovery document. The JWKS is used for real-time validation of the JWTs to ensure that those have been issued by the relevant identity provider.
 
@@ -45,7 +46,7 @@ As part of the workflow to exchange the JWT for a W&B access token and then acce
 * The JWT signature is verified using the JWKS at the W&B organization level. This is the first line of defense, and if this fails, that means there's a problem with your JWKS or how your JWT is signed.
 * The `iss` claim in the JWT should be equal to the issuer URL configured at the organization level.
 * The `sub` claim in the JWT should be equal to the user's email address as configured in the W&B organization.
-* The `aud` claim in the JWT should be equal to the name of the W&B organization which houses the project that you are accessing as part of your AI workflow. In case of [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instances, you could configure an instance-level environment variable `SKIP_AUDIENCE_VALIDATION` to `true` to skip validation of the audience claim, or use `wandb` as the audience.
+* The `aud` claim in the JWT should be equal to the name of the W&B organization which houses the project that you are accessing as part of your AI workflow. In case of [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) or [Self-Managed](/platform/hosting/hosting-options/self-managed) instances, you could configure an instance-level environment variable `SKIP_AUDIENCE_VALIDATION` to `true` to skip validation of the audience claim, or use `wandb` as the audience.
 * The `exp` claim in the JWT is checked to see if the token is valid or has expired and needs to be refreshed.
 
 ## External service accounts
@@ -54,9 +55,9 @@ W&B has supported built-in service accounts with long-lived API keys for long. W
 
 To configure an external service account:
 
-* Go to the **Service Accounts** tab for your team
-* Press `New service account`
-* Provide a name for the service account, select `Federated Identity` as the `Authentication Method`, provide a `Subject`, and press `Create`
+* Navigate to the **Service Accounts** tab for your team
+* Click **New service account**
+* Provide a name for the service account, select `Federated Identity` as the `Authentication Method`, provide a `Subject`, and click **Create**
 
 The `sub` claim in the external service account's JWT should be same as what the team admin configures as its subject in the team-level **Service Accounts** tab. That claim is verified as part of [JWT validation](#jwt-validation). The `aud` claim requirement is similar to that for human user JWTs.
 

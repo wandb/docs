@@ -1,0 +1,158 @@
+---
+title: 使用例
+description: 実践的な コード 例を使用して W&B Inference を使用する方法を学びます
+linkTitle: Examples
+---
+
+これらの例では、Tracing（トレース）、Evaluation（評価）、および比較のために Weave を使用して W&B Inference を利用する方法を示します。
+
+## 基本的な例：Weave を使用した Llama 3.1 8B のトレース
+
+この例では、**Llama 3.1 8B** モデルにプロンプトを送信し、その呼び出しを Weave でトレースする方法を示します。Tracing は LLM 呼び出しの完全な入力と出力をキャプチャし、パフォーマンスを監視し、Weave UI で結果を分析できるようにします。
+
+<Tip>
+[Weave での Tracing](/weave/guides/tracking/tracing) についての詳細はこちらをご覧ください。
+</Tip>
+
+この例の内容：
+- チャットコンプリーションリクエストを行う `@weave.op()` デコレータ付きの関数を定義します。
+- トレースが記録され、W&B の Entities および Projects にリンクされます。
+- 関数は自動的にトレースされ、入力、出力、レイテンシ、および メタデータ がログに記録されます。
+- 結果は ターミナル に出力され、トレースは [https://wandb.ai](https://wandb.ai) の **Traces** タブに表示されます。
+
+この例を実行する前に、[事前準備](/inference/prerequisites/) を完了させてください。
+
+```python
+import weave
+import openai
+
+# トレースのための Weave Team と Project を設定
+weave.init("<your-team>/<your-project>")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # https://wandb.ai/settings で APIキー を作成してください
+    api_key="<your-api-key>",
+
+    # オプション: 使用状況トラッキングのための Team と Project
+    project="wandb/inference-demo",
+)
+
+# Weave でモデル呼び出しをトレース
+@weave.op()
+def run_chat():
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Tell me a joke."}
+        ],
+    )
+    return response.choices[0].message.content
+
+# トレースされた呼び出しを実行し、ログを記録
+output = run_chat()
+print(output)
+```
+
+コードを実行した後、以下の方法で Weave のトレースを確認できます：
+1. ターミナル に表示されたリンク（例：`https://wandb.ai/<your-team>/<your-project>/r/call/01977f8f-839d-7dda-b0c2-27292ef0e04g`）をクリックする
+2. または、[https://wandb.ai](https://wandb.ai) にアクセスして **Traces** タブを選択する
+
+## 応用例：Weave Evaluations と Leaderboards の使用
+
+モデル呼び出しのトレースに加えて、パフォーマンスの評価やリーダーボードの公開も可能です。この例では、質疑応答 データセット を使用して 2 つの モデル を比較します。
+
+この例を実行する前に、[事前準備](/inference/prerequisites/) を完了させてください。
+
+```python
+import os
+import asyncio
+import openai
+import weave
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+# トレースのための Weave Team と Project を設定
+weave.init("<your-team>/<your-project>")
+
+dataset = [
+    {"input": "What is 2 + 2?", "target": "4"},
+    {"input": "Name a primary color.", "target": "red"},
+]
+
+@weave.op
+def exact_match(target: str, output: str) -> float:
+    return float(target.strip().lower() == output.strip().lower())
+
+class WBInferenceModel(weave.Model):
+    model: str
+
+    @weave.op
+    def predict(self, prompt: str) -> str:
+        client = openai.OpenAI(
+            base_url="https://api.inference.wandb.ai/v1",
+            # https://wandb.ai/settings で APIキー を作成してください
+            api_key="<your-api-key>",
+            # オプション: 使用状況トラッキングのための Team と Project
+            project="<your-team>/<your-project>",
+        )
+        resp = client.chat.completions.create(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return resp.choices[0].message.content
+
+llama = WBInferenceModel(model="meta-llama/Llama-3.1-8B-Instruct")
+deepseek = WBInferenceModel(model="deepseek-ai/DeepSeek-V3-0324")
+
+def preprocess_model_input(example):
+    return {"prompt": example["input"]}
+
+evaluation = weave.Evaluation(
+    name="QA",
+    dataset=dataset,
+    scorers=[exact_match],
+    preprocess_model_input=preprocess_model_input,
+)
+
+async def run_eval():
+    await evaluation.evaluate(llama)
+    await evaluation.evaluate(deepseek)
+
+asyncio.run(run_eval())
+
+spec = leaderboard.Leaderboard(
+    name="Inference Leaderboard",
+    description="Compare models on a QA dataset",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluation).uri(),
+            scorer_name="exact_match",
+            summary_metric_path="mean",
+        )
+    ],
+)
+
+weave.publish(spec)
+```
+
+このコードを実行した後、[https://wandb.ai/](https://wandb.ai/) の W&B アカウントにアクセスして以下を確認してください：
+
+- **Traces** タブを選択して [トレースを表示](/weave/guides/tracking/tracing)
+- **Evals** タブを選択して [モデルの評価を表示](/weave/guides/core-types/evaluations)
+- **Leaders** タブを選択して [作成されたリーダーボードを表示](/weave/guides/core-types/leaderboards)
+
+<Frame>
+    <img src="/images/inference/inference-advanced-evals.png" alt="モデルの評価を表示"  />
+</Frame>
+
+<Frame>
+    <img src="/images/inference/inference-advanced-leaderboard.png" alt="リーダーボードを表示"  />
+</Frame>
+
+## 次のステップ
+
+- [API リファレンス](/inference/api-reference/) で利用可能なすべての メソッド を確認する
+- [UI ガイド](/inference/ui-guide/) で モデル を試す

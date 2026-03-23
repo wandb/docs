@@ -1,22 +1,35 @@
 ---
-title: wandb ローンンチ-エージェント
+title: wandb launch-agent
 ---
 
-**使用方法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-launch-agent.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb launch-agent [OPTIONS]`
+import WandbLaunchAgent from "/snippets/en/_includes/cli/wandb-launch-agent.mdx";
 
-**概要**
+<WandbLaunchAgent/>
 
-W&B ローンンチ エージェントを実行します。
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**オプション**
+W&B Launch エージェント を実行します。
 
-| **オプション** | **説明** |
+## Usage (使用法)
+
+```bash
+wandb launch-agent [OPTIONS]
+```
+
+## Options (オプション)
+
+| オプション | 説明 |
 | :--- | :--- |
-| `-q, --queue` | エージェントが監視するキューの名前。複数の -q フラグをサポート。 |
-| `-e, --entity` | 使用するエンティティ。デフォルトでは現在ログイン中のユーザーが使用されます。 |
-| `-l, --log-file` | 内部エージェント ログの出力先。stdout の場合は - を使用。 デフォルトでは、すべてのエージェントログは wandb/ サブディレクトリーまたは WANDB_DIR に設定されている場合は debug.log に保存されます。 |
-| `-j, --max-jobs` | このエージェントが並行して実行できる最大のローンンチジョブ数。デフォルトは 1。上限なしの場合は -1 に設定します。 |
-| `-c, --config` | 使用するエージェントコンフィグ yaml へのパス |
-| `-v, --verbose` | 詳細出力を表示 |
+| `--queue`, `-q` | エージェント が監視するキューの名前。複数の -q フラグがサポートされています。 |
+| `--entity`, `-e` | 使用する Entities。デフォルトは現在ログインしている Users です。 |
+| `--log-file`, `-l` | 内部 エージェント ログ の出力先。stdout の場合は - を使用します。デフォルトでは、すべての エージェント ログ は `wandb/` サブディレクトリー 内の `debug.log`、または `WANDB_DIR` が設定されている場合はその場所に保存されます。 |
+| `--max-jobs`, `-j` | この エージェント が並列で実行できる Launch ジョブの最大数。デフォルトは 1 です。上限をなくすには -1 を設定してください。 |
+| `--config`, `-c` | 使用する エージェント 設定 yaml へのパス。 |
+| `--verbose`, `-v` | 詳細な出力を表示します (デフォルト: 0)。 |

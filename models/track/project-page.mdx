@@ -19,7 +19,7 @@ Each project contains the following tabs:
 * [Workspace](/models/track/project-page/#workspace-tab): personal visualization sandbox
 * [Runs](#runs-tab): A table that lists all the runs in your project
 * [Automations](#automations-tab): Automations configured in your project
-* [Sweeps](/models/sweeps/): automated exploration and optimization
+* [Sweeps](/models/sweeps): automated exploration and optimization
 * [Reports](/models/track/project-page/#reports-tab): saved snapshots of notes, runs, and graphs
 * [Artifacts](#artifacts-tab): Contains all runs and the artifacts associated with that run
 
@@ -44,7 +44,7 @@ Details about the project include:
 
 The **Details** tab also includes instructions for accessing and exporting the project's data and metrics, downloading the best model from a sweep, and more. 
 
-[View a live example project](https://app.wandb.ai/example-team/sweep-demo/overview)
+[View a live example project](https://wandb.ai/example-team/sweep-demo/overview)
 
 <Frame>
     <img src="/images/track/overview_tab_image.png" alt="Project overview tab"  />
@@ -72,13 +72,14 @@ A project's *workspace* gives you a personal sandbox to compare experiments. Use
 * **Group**: select a config column to dynamically group your runs, for example by architecture. Grouping makes plots show up with a line along the mean value, and a shaded region for the variance of points on the graph.
 * **Sort**: pick a value to sort your runs by, for example runs with the lowest loss or highest accuracy. Sorting will affect which runs show up on the graphs.
 * **Expand button**: expand the sidebar into the full table
+* **Minimize**: press **Cmd+.** (macOS) or **Ctrl+.** (Windows/Linux) to collapse or restore the Runs selector. See [Keyboard shortcuts](/models/app/keyboard-shortcuts) for details.
 * **Run count**: the number in parentheses at the top is the total number of runs in the project. The number (N visualized) is the number of runs that have the eye turned on and are available to be visualized in each plot. In the example below, the graphs are only showing the first 10 of 183 runs. Edit a graph to increase the max number of runs visible.
 
 If you pin, hide, or change the order of columns in the [Runs tab](#runs-tab), the Runs sidebar reflects these customizations.
 
 **Panels layout**: use this scratch space to explore results, add and remove charts, and compare versions of your models based on different metrics
 
-[View a live example](https://app.wandb.ai/example-team/sweep-demo)
+[View a live example](https://wandb.ai/example-team/sweep-demo)
 
 <Frame>
     <img src="/images/app_ui/workspace_tab_example.png" alt="Project workspace"  />
@@ -174,11 +175,7 @@ From left to right they are: column name, operator, and the filter value.
 
 </Tab>
 <Tab title="Group">
-Click the **Group** button above the table to group all rows by the value in a particular column. 
-
-<Frame>
-    <img src="/images/data_vis/group.png" alt="Error distribution analysis"  />
-</Frame>
+Click the **Group** button above the table to group all rows by the value in a particular column. For more information on how to group runs, see [Organize runs into groups](/models/runs/grouping).
 
 </Tab>
 </Tabs>
@@ -187,11 +184,11 @@ Click the **Group** button above the table to group all rows by the value in a p
 {/* ## Automations tab */}
 
 ## Automations tab
-Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job. For more information, see [Automations](/models/automations/).
+Automate downstream actions for versioning artifacts. To create an automation, define trigger events and resulting actions. Actions include executing a webhook or launching a W&B job. For more information, see [Automations](/models/automations).
 
 ## Sweeps tab
 
-Start a new [sweep](/models/sweeps/) from your project.
+Start a new [sweep](/models/sweeps) from your project.
 
 <Frame>
     <img src="/images/app_ui/sweeps-tab.png" alt="Sweeps tab"  />
@@ -209,7 +206,7 @@ To view a report, select the **Reports** tab from the project sidebar, then sele
 
 ## Artifacts tab
 
-View all [artifacts](/models/artifacts/) associated with a project, from training datasets and [fine-tuned models](/models/registry/) to [tables of metrics and media](/models/tables/tables-walkthrough/).
+View all [artifacts](/models/artifacts) associated with a project, from training datasets and [fine-tuned models](/models/registry) to [tables of metrics and media](/models/tables/tables-walkthrough).
 
 
 ### Metadata panel
@@ -235,7 +232,7 @@ To view an artifact's metadata:
 
 The usage panel provides a code snippet for downloading the artifact for use outside of the web app, for example on a local machine. This section also indicates and links to the run which output the artifact and any runs which use the artifact as an input.
 
-To view the art
+To view the artifact usage:
 
 1. Select the **Artifacts** tab from the project sidebar.
 2. Select an artifact from the list to view the details page for the latest version of that artifact.
@@ -292,7 +289,7 @@ You can create a project in the W&B App or programmatically by specifying a proj
 In the W&B App, you can create a project from the **Projects** page or from a team's landing page.
 
 From the **Projects** page:
-1. Click the global navigation icon in the upper left. The navigation sidebar opens.
+1. Click the global navigation icon in the upper left. The project sidebar opens.
 1. In the **Projects** section of the navigation, click **View all** to open the project overview page.
 1. Click **Create new project**.
 1. Set **Team** to the name of the team that will own the project.
@@ -302,7 +299,7 @@ From the **Projects** page:
 1. Click **Create project**.
 
 From a team's landing page:
-1. Click the global navigation icon in the upper left. The navigation sidebar opens.
+1. Click the global navigation icon in the upper left. The project sidebar opens.
 1. In the **Teams** section of the navigation, click the name of a team to open its landing page.
 1. In the landing page, click **Create new project**.
 1. **Team** is automatically set to the team that owns the landing page you were viewing. If necessary, change the team.
@@ -327,7 +324,7 @@ Refer to the [`wandb.init()` API reference](/models/ref/python/functions/init/#e
 Add a star to a project to mark that project as important. Projects that you and your team mark as important with stars appear at the top of your organization's homepage.
 
 
-For example, the proceeding image shows two projects that are marked as important, the `zoo_experiment` and `registry_demo`. Both projects appear within the top of the organization's homepage within the **Starred projects** section.
+For example, the following image shows two projects that are marked as important, the `zoo_experiment` and `registry_demo`. Both projects appear within the top of the organization's homepage within the **Starred projects** section.
 <Frame>
     <img src="/images/track/star-projects.png" alt="Starred projects section"  />
 </Frame>
@@ -339,7 +336,7 @@ There are two ways to mark a project as important: within a project's overview t
 <Tab title="Project overview">
 1. Navigate to your W&B project on the W&B App at `https://wandb.ai/<team>/<project-name>`.
 2. Select the **Overview** tab from the project sidebar.
-3. Choose the star icon in the upper right corner next to the **Edit** button.
+3. Click the star icon in the upper right corner next to the **Edit** button.
 
 <Frame>
     <img src="/images/track/star-project-overview-tab.png" alt="Star project from overview"  />
@@ -370,12 +367,12 @@ You can delete your project by clicking the three dots on the right of the overv
 
 1. Navigate to your W&B project
 2. Select the **Overview** tab from the project sidebar.
-3. Choose the dot menu in the upper right hand corner.
+3. Click the dot menu in the upper right hand corner.
 4. Select **Delete project** from the dropdown menu.
 
 
 <Frame>
-    <img src="/images/app_ui/delete_project.png"  />
+    <img src="/images/app_ui/delete_project.png" alt="Project overview menu with delete project option in the dropdown" />
 </Frame>
 
 <Warning>
@@ -392,7 +389,7 @@ Descriptions you add to your page appear in the **Overview** tab of your profile
 
 1. Navigate to your W&B project
 2. Select the **Overview** tab from the project sidebar
-3. Choose Edit in the upper right hand corner
+3. Click **Edit** in the upper right hand corner
 4. Add your notes in the **Description** field
 5. Select the **Save** button
 
@@ -407,7 +404,7 @@ You can also create a W&B Report to add plots and markdown side by side. Use dif
 
 1. Navigate to your W&B project
 2. Select the **Workspace** tab from the project sidebar
-3. Choose the **Add panels** button from the top right corner
+3. Click the **Add panels** button from the top right corner
 4. Select the **TEXT AND CODE** dropdown from the modal that appears
 5. Select **Markdown**
 6. Add your notes in the markdown panel that appears in your workspace

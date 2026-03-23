@@ -1,5 +1,6 @@
 ---
 title: Manage users, groups, and roles with SCIM
+description: "Use the SCIM API to manage users, groups, and custom roles in a W&B organization with automated provisioning."
 ---
 
 <Note>
@@ -14,7 +15,7 @@ W&B's SCIM API is compatible with major identity providers including Okta, enabl
 
 For practical Python examples demonstrating how to interact with the SCIM API, visit our [`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) repository.
 
-### Supported Features
+### Supported features
 - **Filtering**: The API supports filtering for `/Users` and `/Groups` endpoints
 - **PATCH Operations**: Supports PATCH for partial resource updates
 - **ETag Support**: Conditional updates using ETags for conflict detection  
@@ -209,7 +210,7 @@ The definition of "active" differs by deployment type:
 </Tab>
 </Tabs>
 
-### Create User
+### Create user
 
 Creates a new user in your organization.
 
@@ -346,7 +347,7 @@ POST /scim/Users
 </Tab>
 </Tabs>
 
-### Delete User
+### Delete user
 
 <Warning>
 **Maintain admin access**
@@ -640,7 +641,7 @@ PATCH /scim/Users
 </Tab>
 </Tabs>
 
-### Reactivate User
+### Reactivate user
 
 Reactivates a previously deactivated user in your organization.
 
@@ -720,7 +721,7 @@ PATCH /scim/Users/abc
 </Tab>
 </Tabs>
 
-### Assign Organization Role
+### Assign organization role
 
 Assigns an organization-level role to a user.
 
@@ -739,7 +740,11 @@ Assigns an organization-level role to a user.
 | `value` | string | Yes | Role name (`admin` or `member`) |
 
 <Note>
-The `viewer` role is deprecated and can no longer be set in the UI. W&B assigns the `member` role to a user if you attempt to assign the `viewer` role using SCIM. The user is automatically provisioned with Models and Weave seats if possible. Otherwise, a `Seat limit reached` error is logged. For organizations that use **Registry**, the user is automatically assigned the `viewer` role in registries that are visible at the organization level.
+The organization-scoped `viewer` role is deprecated and can no longer be assigned in the UI. If you use SCIM to assign the `viewer` role to a user:
+- They are assigned the `member` role in the organization.
+- They are assigned a Models `viewer` seat, instead of a `full` seat. This allows view-only access to Models and full access to Registry. If no Models seats are available, a `Seat limit reached` error is logged and the member is added with no Models access. This can be updated later if a seat is available.
+- They are assigned a Weave `viewer` seat, instead of a `full` seat. This allows view-only access to Weave. If no Weave seats are available, a `Seat limit reached` error is logged and the member is added with no Weave access. This can be updated later if a seat is available.
+- They are assigned the Registry `viewer` role in registries that are visible at the organization level.
 </Note>
 
 #### Example
@@ -801,7 +806,7 @@ PATCH /scim/Users/abc
 </Tab>
 </Tabs>
 
-### Assign Team Role
+### Assign team role
 
 Assigns a team-level role to a user.
 
@@ -1098,13 +1103,13 @@ PATCH /scim/Users/abc
 
 ## Group resource
 
-When you create a SCIM group in your IAM, it creates and maps to a W&B Team, and other SCIM group operations operate on the team.
+When you create a SCIM group in your IAM, it creates and maps to a W&B Team, and other SCIM group operations operate on the team. To configure custom storage during team creation, include `storageBucket` in the request.
 
 ### Service Accounts
 
 When a W&B Team is created using SCIM, all organization-level service accounts are automatically added to the team, to maintain the service account's access to team resources.
 
-### Filtering Groups
+### Filtering groups
 
 The `/Groups` endpoint supports filtering to search for specific teams:
 
@@ -1231,12 +1236,23 @@ GET /scim/Groups
 | --- | --- | --- |
 | `displayName` | String | Yes |
 | `members` | Multi-Valued Array | Yes (`value` sub-field is required and maps to a user ID) |
-#### Example
+| `storageBucket` | Object | No |
 
-Creating a team called `wandb-support` with `dev-user2` as its member.
+You can configure team-level [Bring your own bucket (BYOB)](/platform/hosting/data-security/secure-storage-connector) during team creation by including a `storageBucket` object. If omitted, the team uses default or instance-level storage. Provision the bucket (policy, CORS, credentials) and determine the storage address format per provider using the BYOB guide. The `storageBucket` object has the following sub-fields:
+
+- **Required**: `name` (bucket name), `provider` (one of 'coreweave`, `aws`, `gcp`, `azure`, `minio`). Case-sensitive.
+- **Optional**: `path` (path prefix within the bucket), `kmsKeyId` (KMS key for encryption, for example for AWS), `awsExternalId` (AWS cross-account access), `azureTenantId` (Azure tenant ID), `azureClientId` (Azure managed identity client ID).
+
+W&B validates that the bucket exists and is reachable before creating the team. If validation fails, the SCIM request fails and the team is not created.
+
+An invalid `provider` value returns `400 Bad Request` with a SCIM error that lists the allowed values.
+
+#### Examples
+
+These examples show how to create a team without custom storage and with BYOB storage on a specific provider. Select a tab for the desired storage configuration for an example request, and select the **Response** tab for an example response.
 
 <Tabs>
-<Tab title="Request">
+<Tab title="Request (no BYOB)">
 ```bash
 POST /scim/Groups
 ```
@@ -1253,6 +1269,106 @@ POST /scim/Groups
 }
 ```
 </Tab>
+<Tab title="CoreWeave">
+```bash
+POST /scim/Groups
+Content-Type: application/scim+json
+```
+
+```json
+{
+  "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+  "displayName": "ml-training-team",
+  "members": [
+    {
+      "value": "user@example.com",
+      "display": "user@example.com"
+    }
+  ],
+  "storageBucket": {
+    "name": "wandb-coreweave-bucket",
+    "provider": "coreweave",
+    "path": "ml-training/experiments"
+  }
+}
+```
+</Tab>
+<Tab title="AWS S3">
+```bash
+POST /scim/Groups
+Content-Type: application/scim+json
+```
+
+```json
+{
+  "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+  "displayName": "ml-team",
+  "members": [
+    {
+      "value": "user@example.com",
+      "display": "user@example.com"
+    }
+  ],
+  "storageBucket": {
+    "name": "my-company-wandb-data",
+    "provider": "s3",
+    "path": "ml-team/experiments",
+    "kmsKeyId": "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012",
+    "awsExternalId": "wandb-external-id-abc123"
+  }
+}
+```
+</Tab>
+<Tab title="GCS">
+```bash
+POST /scim/Groups
+Content-Type: application/scim+json
+```
+
+```json
+{
+  "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+  "displayName": "data-science-team",
+  "members": [
+    {
+      "value": "VXNlcjox",
+      "display": "jane.doe@example.com"
+    },
+    {
+      "value": "VXNlcjoy",
+      "display": "john.smith@example.com"
+    }
+  ],
+  "storageBucket": {
+    "name": "my-gcs-bucket",
+    "provider": "gcs",
+    "path": "data-science/runs"
+  }
+}
+```
+</Tab>
+<Tab title="Azure">
+```bash
+POST /scim/Groups
+Content-Type: application/scim+json
+```
+
+```json
+{
+  "schemas": ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+  "displayName": "research-team",
+  "members": [],
+  "storageBucket": {
+    "name": "wandbstorage",
+    "provider": "azure",
+    "path": "research/artifacts",
+    "azureTenantId": "12345678-1234-1234-1234-123456789012",
+    "azureClientId": "87654321-4321-4321-4321-210987654321"
+  }
+}
+```
+</Tab>
+
 <Tab title="Response">
 ```bash
 (Status 201)
@@ -1911,7 +2027,7 @@ DELETE /scim/Roles/abc
 </Tab>
 </Tabs>
 
-## Advanced Features
+## Advanced features
 
 ### ETag Support
 
