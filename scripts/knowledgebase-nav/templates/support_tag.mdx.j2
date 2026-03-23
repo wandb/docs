@@ -1,0 +1,11 @@
+---
+title: {{ tag | tojson_unicode }}
+tag: {{ articles | length | string | tojson_unicode }}
+generator: knowledgebase-nav
+---
+
+{% for article in articles %}
+<Card title="{{ article.title_attr }}" href="/{{ article.page_path }}" arrow="true" horizontal>
+  {{ article.body_preview }}
+</Card>
+{% endfor %}
