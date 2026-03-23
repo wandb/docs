@@ -238,6 +238,8 @@
                       },
                       "models/track/jupyter",
                       "models/track/limits",
+                      "models/track/sdk-architecture",
+                      "models/track/sdk-performance",
                       "models/track/reproduce_experiments",
                       "models/track/public-api-guide",
                       "models/track/environment-variables"
@@ -1460,6 +1462,8 @@
                       },
                       "ja/models/track/jupyter",
                       "ja/models/track/limits",
+                      "ja/models/track/sdk-architecture",
+                      "ja/models/track/sdk-performance",
                       "ja/models/track/reproduce_experiments",
                       "ja/models/track/public-api-guide",
                       "ja/models/track/environment-variables"
@@ -2647,6 +2651,8 @@
                       },
                       "ko/models/track/jupyter",
                       "ko/models/track/limits",
+                      "ko/models/track/sdk-architecture",
+                      "ko/models/track/sdk-performance",
                       "ko/models/track/reproduce_experiments",
                       "ko/models/track/public-api-guide",
                       "ko/models/track/environment-variables"
