@@ -28,10 +28,6 @@
   "background": {
     "decoration": "gradient"
   },
-  "banner": {
-    "content": "The W&B Mobile App for iOS is here. [Monitor training runs and explore your projects](/platform/hosting/monitoring-usage/mobile-app) from your iPhone or iPad.",
-    "dismissible": true
-  },
   "contextual": {
     "options": [
       {
@@ -268,7 +264,6 @@
                       "models/sweeps/useful-resources",
                       "models/sweeps/local-controller",
                       "models/sweeps/troubleshoot-sweeps",
-                      "models/sweeps/sweeps-ui",
                       "models/sweeps/existing-project"
                     ]
                   },
@@ -3891,6 +3886,14 @@
     },
     {
       "source": "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui/",
       "destination": "/models/sweeps"
     },
     {
