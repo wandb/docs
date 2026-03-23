@@ -6,7 +6,7 @@ title: Update an artifact
 Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Update a run previously logged to W&B with the W&B Public API with ([`wandb.Api`](/models/ref/python/public-api/api)). Use `wandb.Run.save()` to update an artifact when is first initialized and still active. 
 
 <Note>
-**When to use Artifact.save() or wandb.Run.log_artifact()**
+**When to use wandb.Artifact.save() or wandb.Run.log_artifact()**
 
 - Use `Artifact.save()` to update an existing artifact without starting a new run.
 - Use `wandb.Run.log_artifact()` to create a new artifact and associate it with a specific run.
