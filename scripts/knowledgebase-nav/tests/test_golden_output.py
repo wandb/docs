@@ -12,6 +12,7 @@ and reports the exact difference as a unified diff.
 What it tests:
     - Every tag page: support/<product>/tags/<tag>.mdx
     - Product index pages: support/<product>.mdx (for example support/models.mdx)
+    - Article footers: support/<product>/articles/*.mdx (tab-page Badge sync)
     - docs.json support navigation tabs (page lists, tab names, ordering)
     - Root support.mdx (product card count lines)
 
@@ -50,8 +51,9 @@ import generate_tags  # noqa: E402
 # scripts/knowledgebase-nav/tests/test_golden_output.py
 WANDB_DOCS_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 
-# Products to test (must match config.yaml)
-PRODUCTS = ["models", "weave", "inference"]
+CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.yaml"
+_config = generate_tags.load_config(CONFIG_PATH)
+PRODUCTS = [p["slug"] for p in _config["products"]]
 
 # Mark all tests in this module as integration tests so they can be
 # run separately from the fast unit tests.
@@ -135,6 +137,7 @@ def generated_output(golden_repo_root, tmp_path_factory):
         - "root": Path to the temporary repo copy
         - "tag_pages": dict mapping relative path to file content
         - "product_indexes": dict mapping support/<slug>.mdx to file content
+        - "article_files": dict mapping relative path to file content
         - "docs_json": the parsed docs.json dict
         - "support_mdx": full text of generated support.mdx
     """
@@ -168,6 +171,15 @@ def generated_output(golden_repo_root, tmp_path_factory):
                 rel_path = f"support/{product}/tags/{mdx_file.name}"
                 tag_pages[rel_path] = mdx_file.read_text(encoding="utf-8")
 
+    # Collect generated article files (footer sync may have modified them)
+    article_files = {}
+    for product in PRODUCTS:
+        articles_dir = tmp_root / "support" / product / "articles"
+        if articles_dir.exists():
+            for mdx_file in sorted(articles_dir.glob("*.mdx")):
+                rel_path = f"support/{product}/articles/{mdx_file.name}"
+                article_files[rel_path] = mdx_file.read_text(encoding="utf-8")
+
     # Read the generated docs.json
     docs_json = json.loads((tmp_root / "docs.json").read_text(encoding="utf-8"))
 
@@ -186,6 +198,7 @@ def generated_output(golden_repo_root, tmp_path_factory):
         "root": tmp_root,
         "tag_pages": tag_pages,
         "product_indexes": product_indexes,
+        "article_files": article_files,
         "docs_json": docs_json,
         "support_mdx": support_mdx,
     }
@@ -349,6 +362,70 @@ class TestProductIndexPagesMatchExisting:
         assert len(self.generated["product_indexes"]) == len(PRODUCTS), (
             f"Expected {len(PRODUCTS)} product index files, got "
             f"{len(self.generated['product_indexes'])}"
+        )
+
+
+# ===========================================================================
+# Tests: Article files match existing (footer sync)
+# ===========================================================================
+
+
+class TestArticleFilesMatchExisting:
+    """
+    Verify that every article file after footer sync is byte-for-byte
+    identical to the existing file in the wandb-docs repository.
+
+    The generator rewrites tab-page Badge links on each article to match
+    ``keywords`` in front matter. Running the pipeline on already-correct
+    files should produce no changes.
+    """
+
+    @pytest.fixture(autouse=True)
+    def _setup(self, golden_repo_root, generated_output):
+        self.repo_root = golden_repo_root
+        self.generated = generated_output
+
+    def test_all_article_files_match(self):
+        """
+        Every article file should be identical after the pipeline runs.
+        Collects all mismatches and reports them together.
+        """
+        mismatches = []
+
+        for rel_path in sorted(self.generated["article_files"].keys()):
+            existing_path = self.repo_root / rel_path
+            if not existing_path.exists():
+                mismatches.append(f"  NEW (no existing file): {rel_path}")
+                continue
+
+            expected = _read_file(existing_path)
+            actual = self.generated["article_files"][rel_path]
+
+            if expected != actual:
+                diff = _unified_diff(expected, actual, rel_path)
+                mismatches.append(f"  DIFFERS: {rel_path}\n{textwrap.indent(diff, '    ')}")
+
+        if mismatches:
+            pytest.fail(
+                f"Article file mismatches found ({len(mismatches)}):\n"
+                + "\n".join(mismatches)
+            )
+
+    def test_article_file_count_matches(self):
+        """
+        The set of article files should be the same before and after the
+        pipeline (no files created or deleted).
+        """
+        existing_count = 0
+        for product in PRODUCTS:
+            articles_dir = self.repo_root / "support" / product / "articles"
+            if articles_dir.exists():
+                existing_count += len(list(articles_dir.glob("*.mdx")))
+
+        generated_count = len(self.generated["article_files"])
+        assert generated_count == existing_count, (
+            f"Generated output has {generated_count} article files "
+            f"but {existing_count} exist on disk."
         )
 
 

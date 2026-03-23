@@ -88,14 +88,14 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref }}
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.11"
 
       # Speeds up repeated runs on the same runner image; key bumps when
       # requirements.txt changes.
       - name: Cache pip packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('scripts/knowledgebase-nav/requirements.txt') }}
@@ -121,7 +121,7 @@ jobs:
       # Creates, updates, or deletes a single PR comment identified by an
       # HTML marker so repeated pushes do not pile up duplicate comments.
       - name: Upsert generator warnings on PR
-        if: always() && github.event_name == 'pull_request'
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
@@ -176,7 +176,7 @@ jobs:
       # pushes with no diff (action is a no-op).
       - name: Commit generated changes
         if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false) }}
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: regenerate support tag pages and docs.json navigation"
           file_pattern: "support.mdx support/*/articles/*.mdx support/*/tags/*.mdx support/*.mdx docs.json"
