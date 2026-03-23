@@ -9,13 +9,15 @@ title: run 포크하기
 
 실험의 특정 지점에서 원본 run에 영향을 주지 않고 다른 하이퍼파라미터나 모델을 탐색할 수 있습니다. 이를 위해 기존 W&amp;B run을 포크하면 됩니다.
 
-run을 포크하면 W&amp;B는 소스 run의 [고유 ID](/ko/models/runs/run-identifiers#unique-run-identifiers)와 지정한 step을 사용해 새 run을 생성합니다. 소스 run의 요약 메트릭은 포크된 run으로 복사됩니다. 포크된 run은 지정한 step까지의 소스 run의 모든 기록과 파일을 공유합니다.
+run을 포크하면 W&amp;B는 소스 run의 [고유 ID](/ko/models/runs/run-identifiers#unique-run-identifiers)와 지정한 step을 사용해 새 run을 생성합니다. 소스 run의 요약 메트릭은 포크된 run으로 복사됩니다. 포크된 run은 지정한 step까지의 소스 run의 모든 이력과 파일을 공유합니다.
 
 포크 기준 step 이후에는 원본 run과 독립적으로 포크된 run에 새 데이터를 로깅할 수 있습니다.
 
+아래 코드로 생성된 포크된 run의 [라이브 데모](https://wandb.ai/wandb/test-fork-run/workspace?nw=nwuserjuliarose)를 확인하세요.
+
 <Note>
   * run을 포크하려면 [`wandb`](https://pypi.org/project/wandb/) SDK 버전이 0.16.5 이상이어야 합니다.
-  * run을 포크하려면 step이 단조 증가해야 합니다. [`define_metric()`](/ko/models/ref/python/experiments/run#define_metric)으로 정의된, 단조 증가하지 않는 step을 사용하는 run에서는 포크할 수 없습니다. 단조 증가하지 않는 step은 run 기록과 시스템 메트릭의 시간 순서를 깨뜨립니다.
+  * run을 포크하려면 step이 단조 증가해야 합니다. [`define_metric()`](/ko/models/ref/python/experiments/run#define_metric)으로 정의된, 단조 증가하지 않는 step을 사용하는 run에서는 포크할 수 없습니다. 단조 증가하지 않는 step은 run 이력과 시스템 메트릭의 시간 순서를 깨뜨립니다.
 </Note>
 
 [`wandb.init()`](/ko/models/ref/python/functions/init)의 `fork_from` 인수로 소스 run의 고유한 `run ID`와 포크된 run을 시작하려는 `step`을 지정하세요.

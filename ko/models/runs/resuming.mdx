@@ -1,18 +1,18 @@
 ---
-description: "wandb.init()의 resume 파라미터 옵션을 사용해 일시 중지되었거나 중지되었거나 비정상 종료된 W&B run을 재개합니다."
+description: "wandb.init()의 resume 파라미터 옵션을 사용해 일시 중지되었거나 중지되었거나 크래시된 W&B run을 재개합니다."
 title: run 재개
 ---
 
-`wandb.init()`에서 `resume` 매개변수를 설정해 run이 중지되거나 비정상 종료될 때 W&amp;B가 어떻게 동작할지 지정합니다. run을 초기화하면 W&amp;B는 run ID가 이미 존재하는지 확인하고, `resume` 값에 따라 동작을 적용합니다.
+`wandb.init()`에서 `resume` 파라미터를 설정해 run이 중지되거나 크래시될 경우 W&amp;B가 어떻게 응답할지 지정합니다. run을 초기화하면 W&amp;B는 run ID가 이미 존재하는지 확인하고, `resume` 값에 따라 정의된 동작을 적용합니다.
 
-다음 표는 `resume` 매개변수에 전달한 인수와 run ID 존재 여부에 따라 W&amp;B가 어떻게 동작하는지 보여줍니다.
+다음 표는 `resume` 파라미터에 전달된 인수와 run ID의 존재 여부에 따라 W&amp;B의 동작을 보여줍니다.
 
-| Argument  | Description                                                                        | Run ID exists                                      | Run ID does not exist               | Use case                            |
-| --------- | ---------------------------------------------------------------------------------- | -------------------------------------------------- | ----------------------------------- | ----------------------------------- |
-| `"must"`  | W&amp;B는 run ID로 지정된 run을 반드시 재개해야 합니다.                                            | W&amp;B는 동일한 run ID로 run을 재개합니다. 마지막 step부터 재개합니다. | W&amp;B는 오류를 발생시킵니다.                | 반드시 동일한 run ID를 사용해야 하는 run을 재개할 때. |
-| `"allow"` | run ID가 있으면 W&amp;B가 run을 재개하도록 허용합니다.                                             | W&amp;B는 동일한 run ID로 run을 재개합니다. 마지막 step부터 재개합니다. | W&amp;B는 지정한 run ID로 새 run을 초기화합니다. | 기존 run을 덮어쓰지 않고 run을 재개할 때.         |
-| `"never"` | W&amp;B가 run ID로 지정된 run을 절대 재개하지 않도록 합니다.                                         | 지정한 ID를 가진 run이 이미 존재하면 오류를 발생시킵니다.                | W&amp;B는 지정한 run ID로 새 run을 초기화합니다. |                                     |
-| `"auto"`  | run ID가 있으면 W&amp;B가 자동으로 run 재개를 시도하도록 허용합니다. 실패한 프로세스와 동일한 디렉터리에서 run을 다시 시작합니다. | W&amp;B는 동일한 run ID로 run을 재개합니다.                   | W&amp;B는 지정한 run ID로 새 run을 초기화합니다. | run이 자동으로 재개되도록 설정할 때.              |
+|Argument | Description | Run ID exists| Run ID does not exist | Use case |
+| --- | --- | -- | --| -- |
+| `"must"` | W&amp;B는 run ID로 지정된 run을 반드시 재개해야 합니다. | W&amp;B는 동일한 run ID로 run을 재개합니다. 마지막 step부터 재개합니다. | W&amp;B는 오류를 발생시킵니다. | 반드시 동일한 run ID를 사용해야 하는 run을 재개할 때. |
+| `"allow"`| run ID가 존재하면 W&amp;B가 run을 재개하도록 허용합니다. | W&amp;B는 동일한 run ID로 run을 재개합니다. 마지막 step부터 재개합니다. | W&amp;B는 지정된 run ID로 새 run을 초기화합니다. | 기존 run을 덮어쓰지 않고 run을 재개할 때. |
+| `"never"`| W&amp;B가 run ID로 지정된 run을 절대 재개하지 않도록 합니다. | 지정된 ID를 가진 run이 이미 존재하면 오류를 발생시킵니다. | W&amp;B는 지정된 run ID로 새 run을 초기화합니다. | |
+| `"auto"`| run ID가 존재하면 W&amp;B가 자동으로 run 재개를 시도하도록 허용합니다. 실패한 프로세스와 동일한 디렉터리에서 run을 다시 시작합니다. | W&amp;B는 동일한 run ID로 run을 재개합니다. | W&amp;B는 지정된 run ID로 새 run을 초기화합니다. | run이 자동으로 재개되도록 설정할 때. |
 
 <Note>
   **`auto`와 `allow`를 언제 사용해야 하나요?**
@@ -23,6 +23,7 @@ title: run 재개
 </Note>
 
 아래의 모든 예제에서 `<>`로 둘러싸인 값은 실제 값으로 바꾸세요.
+<Tip>[재개된 run의 라이브 데모 보기](https://wandb.ai/wandb/resume-run/workspace?nw=nwuserjuliarose).</Tip>
 
 <div id="resume-a-run-that-must-use-the-same-run-id">
   ## 동일한 run ID를 사용해야 하는 run 재개하기

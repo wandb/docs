@@ -1,148 +1,149 @@
 ---
 title: "Experiments"
 tag: "36"
+generator: knowledgebase-nav
 ---
 
-<Card title="run 名を run ID に設定してもよいですか？" href="/ja/support/models/articles/can-i-just-set-the-run-name-to-the-run-i" arrow="true" horizontal>
-  はい。run 名を run ID で上書きするには、次の ...
+<Card title="run 名を run ID に設定するだけでよいですか？" href="/ja/support/models/articles/can-i-just-set-the-run-name-to-the-run-i" arrow="true" horizontal>
+  はい。run 名を run ID で上書きするには、次のコードスニペットを使用します。
 </Card>
 
 <Card title="2 つの異なる時間スケールでメトリクスをログできますか？" href="/ja/support/models/articles/can-i-log-metrics-on-two-different-time-" arrow="true" horizontal>
-  たとえば、batch ごとにトレーニング accuracy をログし、v ...
+  たとえば、バッチごとにトレーニング accuracy をログし、エポックごとに検証 accuracy をログしたい場合です。はい。batch や ... のようなログインデックス
 </Card>
 
 <Card title="wandb をオフラインで実行できますか？" href="/ja/support/models/articles/can-i-run-wandb-offline" arrow="true" horizontal>
-  オフラインのマシンでトレーニングを行う場合は、次の ...
+  オフラインのマシンでトレーニングを行う場合は、結果をサーバーにアップロードするために次の手順を使用します: 1. 環境変数を設定 ...
 </Card>
 
 <Card title="W&B は `multiprocessing` ライブラリを使用しますか？" href="/ja/support/models/articles/does-wb-use-the-multiprocessing-library" arrow="true" horizontal>
-  はい。W&amp;B は multiprocessing ライブラリを使用します。エラー メッセージ ...
+  はい。W&amp;B は multiprocessing ライブラリを使用します。次のようなエラーメッセージは、問題の可能性があることを示しています: これを解決するには ...
 </Card>
 
 <Card title="ログはトレーニングをブロックしますか？" href="/ja/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
-  &quot;logging function は遅延実行されますか？ ...
+  「logging function は lazy ですか？ローカルでコードを実行している間、結果をサーバーに送信するためにネットワークに依存したくありません ...
 </Card>
 
-<Card title="このツールはトレーニング データを追跡または保存しますか？" href="/ja/support/models/articles/does-your-tool-track-or-store-training-d" arrow="true" horizontal>
-  SHA または一意の識別子を wandb.Run.config.update(. ...
+<Card title="このツールはトレーニングデータをトラッキングまたは保存しますか？" href="/ja/support/models/articles/does-your-tool-track-or-store-training-d" arrow="true" horizontal>
+  データセットをトレーニング run に関連付けるには、SHA または一意の識別子を wandb.Run.config.update(...) に渡します。W&amp;B は ... を保存しません
 </Card>
 
-<Card title="Runs にログしたデータに直接プログラムからアクセスするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-access-the-data-logged-to-my-r" arrow="true" horizontal>
-  history オブジェクトは wandb.log でログされたメトリクスを追跡します。Ac ...
+<Card title="Runs にログされたデータに直接プログラムからアクセスするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-access-the-data-logged-to-my-r" arrow="true" horizontal>
+  history object は、wandb.log でログされたメトリクスをトラッキングします。API を使用して history object にアクセスします:
 </Card>
 
 <Card title="エポックや step をまたいで画像やメディアを比較するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-compare-images-or-media-across" arrow="true" horizontal>
-  画像パネルを展開し、step スライダーを使用して t ...
+  画像パネルを展開し、step スライダーを使用して異なる step の画像間を移動します。この操作により ...
 </Card>
 
-<Card title="トレーニング コードで run の名前を設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-  トレーニング スクリプトの先頭で、wandb.init を呼び出し wit ...
+<Card title="トレーニングコードで run の名前を設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+  トレーニングスクリプトの先頭で、実験名を指定して wandb.init を呼び出します。たとえば: wandb.init(name=&quot;my&#95;aweso ...
 </Card>
 
-<Card title="`wandb` ファイルのローカル保存先を指定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-define-the-local-location-for-" arrow="true" horizontal>
-  * WANDB DIR path または wandb.init(dir path ) : 保存先を制御します ...
+<Card title="`wandb` ファイルのローカル保存場所を指定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-define-the-local-location-for-" arrow="true" horizontal>
+  WANDB&#95;DIR= または wandb.init(dir= ): トレーニングスクリプト用に作成される wandb フォルダーの場所を制御します。デフォルトでは ...
 </Card>
 
 <Card title="W&B UI でログしたチャートやメディアを整理するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-organize-my-logged-charts-and-" arrow="true" horizontal>
-  / 文字は W&amp;B UI でログされたパネルを区切ります。デフォルトでは de ...
+  / 文字は、W&amp;B UI でログされたパネルを区切ります。デフォルトでは、ログされた項目名の / より前の部分が ... を定義します
 </Card>
 
 <Card title="run に関連付けられた git commit を保存するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-save-the-git-commit-associated" arrow="true" horizontal>
-  wandb.init が呼び出されると、システムは自動的に collect ...
+  wandb.init が呼び出されると、システムはリモート repository の link や ... を含む git 情報を自動的に収集します
 </Card>
 
 <Card title="Files タブに表示されないファイルを確認するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-see-files-that-do-not-appear-i" arrow="true" horizontal>
-  Files タブには最大 10,000 個のファイルが表示されます。ダウンロードするには a ...
+  Files タブには最大 10,000 個のファイルが表示されます。すべてのファイルをダウンロードするには、public API を使用します:
 </Card>
 
-<Card title="multiprocessing を使用して wandb を使うにはどうすればよいですか？たとえば分散トレーニングの場合" href="/ja/support/models/articles/how-can-i-use-wandb-with-multiprocessing" arrow="true" horizontal>
-  トレーニング プログラムが複数の process を使用する場合は、the ...
+<Card title="multiprocessing を使用する wandb、たとえば分散トレーニングで wandb を使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-use-wandb-with-multiprocessing" arrow="true" horizontal>
+  トレーニングプログラムが複数のプロセスを使用する場合は、wandb を初期化していないプロセスから wandb メソッドを呼び出さないようにプログラムを構成します ...
 </Card>
 
-<Card title="Tables に Plotly または Bokeh Charts を追加するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into" arrow="true" horizontal>
-  Plotly または Bokeh figure を tables に直接インテグレーションすることは ...
+<Card title="Tables に Plotly または Bokeh チャートを追加するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-add-plotly-or-bokeh-charts-into" arrow="true" horizontal>
+  Plotly または Bokeh の図を tables に直接統合することはサポートされていません。代わりに、図を HTML にエクスポートして含め ...
 </Card>
 
-<Card title="スクリプトでランダムな run 名を取得するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-get-the-random-run-name-in-my-s" arrow="true" horizontal>
-  run オブジェクトの .save() method を呼び出して、現在の run を保存します。 ...
+<Card title="スクリプト内でランダムな run 名を取得するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-get-the-random-run-name-in-my-s" arrow="true" horizontal>
+  現在の run を保存するには、run オブジェクトの `.save()` メソッドを呼び出します。名前は、run オブジェクトの `name` 属性から取得します。
 </Card>
 
-<Card title="1 つのスクリプトから複数の Runs を起動するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-launch-multiple-runs-from-one-s" arrow="true" horizontal>
-  複数の run をログするには、新しい run を開始する前に前の run を終了します ...
+<Card title="1 つのスクリプトから複数の Runs を起動するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-launch-multiple-runs-from-one-s" arrow="true" horizontal>
+  1 つのスクリプト内で複数の runs をログするには、新しい run を開始する前に前の run を終了します。これを行う推奨方法は ...
 </Card>
 
-<Card title="値の list をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
-  これらの例では、損失をいくつか異なる方法でログする方法を示します ...
+<Card title="値の list をログするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
+  これらの例では、`wandb.Run.log()` を使用して損失をいくつかの異なる方法でログする方法を示します。詳細は、... に関するドキュメントを参照してください。
 </Card>
 
 <Card title="凡例付きのプロットに複数の線をプロットするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-plot-multiple-lines-on-a-plot-w" arrow="true" horizontal>
-  wandb.plot.line series で複数線の custom チャートを作成します ...
+  `wandb.plot.line_series()` を使用して複数線のカスタムチャートを作成します。線チャートを表示するには、プロジェクトページに移動します。... するには
 </Card>
 
 <Card title="人が読める run 名にプログラムからアクセスするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
-  wandb.Run の .name 属性 (/models/ref/python/exper ...
+  `wandb.Run` の `.name` 属性には、次のようにアクセスできます:
 </Card>
 
-<Card title="run に名前を付けませんでした。run 名はどこから来ているのですか?" href="/ja/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
-  run に明示的に名前が付けられていない場合、W&amp;B はランダムな名前を割り当てます ...
+<Card title="run に名前を付けませんでした。run 名はどこから来るのですか?" href="/ja/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
+  run に明示的に名前が付けられていない場合、W&amp;B はプロジェクト内で識別できるようにランダムな名前を割り当てます。ランダムな名前の例は ...
 </Card>
 
-<Card title="InitStartError: wandb process との通信エラー" href="/ja/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
-  このエラーは、ライブラリで問題が発生したことを示しています ...
+<Card title="InitStartError: wandb プロセスとの通信エラー" href="/ja/support/models/articles/initstarterror-error-communicating-with-" arrow="true" horizontal>
+  このエラーは、サーバーにデータを同期するプロセスの起動時にライブラリで問題が発生したことを示しています。こ ...
 </Card>
 
-<Card title="メトリクスをオフラインで保存して、あとで W&B に同期できますか?" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  デフォルトでは、wandb.init はメトリクスを同期する process を開始します ...
+<Card title="メトリクスをオフラインで保存して、後で W&B に同期することはできますか?" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  デフォルトでは、`wandb.init` はメトリクスをリアルタイムでクラウドに同期するプロセスを開始します。オフラインで使用するには、2 つの環境変数を設定します ...
 </Card>
 
-<Card title="UI では run の状態が `crashed` ですが、マシン上ではまだ実行中です。データを取り戻すにはどうすればよいですか?" href="/ja/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
-  トレーニング中にマシンとの接続が失われた可能性があります。 ...
+<Card title="UI では run の状態が `crashed` になっていますが、マシン上ではまだ実行中です。データを取り戻すにはどうすればよいですか?" href="/ja/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
+  トレーニング中にマシンとの接続が失われた可能性があります。`wandb sync PATH_TO_RUN` を実行してデータを復旧します (/models/ref/ ...
 </Card>
 
-<Card title="wandb.init はトレーニング process に対して何をしますか?" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  トレーニング script で wandb.init() が実行されると、API call によって作成され ...
+<Card title="`wandb.init` はトレーニングプロセスに対して何をしますか?" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  トレーニングスクリプト内で `wandb.init()` が実行されると、API 呼び出しによってサーバー上に run オブジェクトが作成されます。新しいプロセスが開始されて ...
 </Card>
 
-<Card title="class 属性を wandb.Run.log() に渡すと何が起こりますか?" href="/ja/support/models/articles/what-happens-if-i-pass-a-class-attribute" arrow="true" horizontal>
-  class 属性を wandb.Run.log() に渡すのは避けてください。属性 ...
+<Card title="クラス属性を `wandb.Run.log()` に渡すとどうなりますか?" href="/ja/support/models/articles/what-happens-if-i-pass-a-class-attribute" arrow="true" horizontal>
+  クラス属性を `wandb.Run.log()` に渡すのは避けてください。ネットワーク呼び出しが実行される前に属性が変わる可能性があります。保存時には ...
 </Card>
 
-<Card title="数百万の step を W&B にログするとどうなりますか? ブラウザーではどのように表示されますか?" href="/ja/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
-  送信される点の数は、グラフの読み込み時間に影響します ...
+<Card title="W&B に数百万の steps をログするとどうなりますか? それはブラウザでどのように表示されますか?" href="/ja/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
+  送信されるポイント数は、UI でのグラフの読み込み時間に影響します。1,000 ポイントを超える線については、バックエンドが ...
 </Card>
 
-<Card title="W&B をプロジェクトに統合したいが、画像や media は一切アップロードしたくない場合はどうなりますか?" href="/ja/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
-  W&amp;B は、scalar のみをログするプロジェクトもサポートしており、expl ...
+<Card title="W&B を自分のプロジェクトに統合したいものの、画像やメディアは一切アップロードしたくない場合はどうすればよいですか?" href="/ja/support/models/articles/what-if-i-want-to-integrate-wb-into-my-p" arrow="true" horizontal>
+  W&amp;B は、アップロードするファイルやデータを明示的に指定できるため、スカラーのみをログするプロジェクトもサポートします。これについては ...
 </Card>
 
-<Card title="一部のメトリクスは batch ごとに、別のメトリクスはエポックごとにのみログしたい場合はどうなりますか?" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  各 batch で特定のメトリクスをログし、プロットを標準化するには、...
+<Card title="一部のメトリクスはバッチごとに、別のメトリクスはエポックごとにだけログしたい場合はどうすればよいですか?" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  各バッチで特定のメトリクスをログし、プロットを標準化するには、必要な x 軸の値をメトリクスと一緒にログします。... では
 </Card>
 
-<Card title="wandb.init の mode の違いは何ですか?" href="/ja/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
-  利用可能な mode は次のとおりです: online (default): client は送信し ...
+<Card title="wandb.init のモードの違いは何ですか？" href="/ja/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
+  利用可能なモードは次のとおりです。online (デフォルト) : クライアントがデータを wandb サーバーに送信します。offline: クライアントがデータを保存します ...
 </Card>
 
-<Card title="ログしたよりも少ないデータ点しか表示されないのはなぜですか?" href="/ja/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
-  Step 以外の X 軸に対してメトリクスを可視化する場合、...
+<Card title="ログした数よりデータポイントが少なく表示されるのはなぜですか？" href="/ja/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Step 以外の X 軸に対してメトリクスを可視化する場合、表示されるデータポイントは少なくなることがあります。メトリクスは同じ ...
 </Card>
 
-<Card title="CSV メトリクス export で step が欠けているのはなぜですか?" href="/ja/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
-  export の制限により、run の history 全体を取得できないことがあります ...
+<Card title="CSV メトリクスのエクスポートで step が欠けるのはなぜですか？" href="/ja/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
+  エクスポートの制限により、run の history 全体を CSV としてエクスポートしたり、run.history API を使用したりできないことがあります。これにアクセスするには ...
 </Card>
 
-<Card title="特定の文字を含むメトリクスを sort や filter できないのはなぜですか?" href="/ja/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
-  W&amp;B のメトリクス名は、GraphQL の命名規則に従う必要があります ...
+<Card title="特定の文字を含むメトリクスをソートまたはフィルターできないのはなぜですか？" href="/ja/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
+  W&amp;B のメトリクス名は、UI で正しくソートおよびフィルターできるよう、GraphQL の命名規則に従う必要があります。 ...
 </Card>
 
-<Card title="グラフに何も表示されないのはなぜですか?" href="/ja/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
-  「No visualization data logged yet」というメッセージが表示される場合、...
+<Card title="グラフに何も表示されないのはなぜですか？" href="/ja/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
+  「No visualization data logged yet」というメッセージが表示される場合、スクリプトで最初の wandb.log Call がまだ実行されていません。これは ...
 </Card>
 
-<Card title="同じメトリクスが複数回表示されるのはなぜですか?" href="/ja/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
-  同じキーでさまざまなデータタイプをログすると、別々に表示されることがあります ...
+<Card title="同じメトリクスが複数回表示されるのはなぜですか？" href="/ja/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
+  同じ Key でさまざまなデータタイプをログすると、データベース内でそれらは別々に扱われます。その結果、 ...
 </Card>
 
-<Card title="wandb でトレーニングは遅くなりますか？" href="/ja/support/models/articles/will-wandb-slow-down-my-training" arrow="true" horizontal>
-  通常の条件では、W&amp;B がトレーニング性能に与える影響は最小限です ...
+<Card title="wandb はトレーニングを遅くしますか？" href="/ja/support/models/articles/will-wandb-slow-down-my-training" arrow="true" horizontal>
+  W&amp;B は通常の利用条件であれば、トレーニングのパフォーマンスへの影響は最小限です。通常の使用には、次の頻度でログすることが含まれます ...
 </Card>

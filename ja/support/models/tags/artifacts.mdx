@@ -1,56 +1,57 @@
 ---
 title: "Artifacts"
 tag: "13"
+generator: knowledgebase-nav
 ---
 
-<Card title="コードをテストするときに wandb をオフにできますか？" href="/ja/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod" arrow="true" horizontal>
-  wandb.init(mode &quot;disabled&quot;) を使用するか、WANDB MODE disabled を設定します ...
+<Card title="コードのテスト時に wandb をオフにできますか？" href="/ja/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod" arrow="true" horizontal>
+  `wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定して、テスト時には W&amp;B を no-operation (NOOP) として動作させます ...
 </Card>
 
-<Card title="W&B でこれらの Version IDs と ETags を取得するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-fetch-these-version-ids-and-et" arrow="true" horizontal>
-  アーティファクト参照が W&amp;B にログされ、バージョニングが ...
+<Card title="W&B でこれらの Version ID と ETag を取得するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-fetch-these-version-ids-and-et" arrow="true" horizontal>
+  アーティファクト参照が W&amp;B にログされ、bucket でバージョン管理が有効になっている場合、Version ID は Amaz ... に表示されます
 </Card>
 
-<Card title="run によってログまたは使用されたアーティファクトを検索するにはどうすればよいですか？アーティファクトを生成または使用した Runs を検索するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-find-the-artifacts-logged-or-c" arrow="true" horizontal>
-  W&amp;B は、各 run によってログされたアーティファクトと、各 run で使用されたアーティファクトを追跡します ...
+<Card title="run でログまたは使用されたアーティファクトを検索するにはどうすればよいですか？アーティファクトを生成または使用した Runs を検索するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-find-the-artifacts-logged-or-c" arrow="true" horizontal>
+  W&amp;B は各 run によってログされたアーティファクトと、各 run で使用されたアーティファクトをトラッキングして、アーティファクトグラフを構築します。このグラフは二部 ... です
 </Card>
 
-<Card title="sweep の run からモデルを最適にログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
-  sweep でモデルをログする効果的な方法の 1 つは (/model ...
+<Card title="sweep 内の Runs から Models をログする最適な方法は何ですか？" href="/ja/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
+  sweep でモデルをログする効果的な方法の 1 つは、その sweep 用のモデル アーティファクトを作成することです。各バージョンは ... を表します
 </Card>
 
-<Card title="sweep で最良の run からアーティファクトを検索するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-find-an-artifact-from-the-best-" arrow="true" horizontal>
-  sweep で最も高いパフォーマンスを示した run からアーティファクトを取得するには ...
+<Card title="sweep 内の最良の run からアーティファクトを検索するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-find-an-artifact-from-the-best-" arrow="true" horizontal>
+  sweep で最も高い性能を示した run からアーティファクトを取得するには、次のコードを使用します:
 </Card>
 
 <Card title="既存の run にアーティファクトをログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-an-artifact-to-an-existing-" arrow="true" horizontal>
-  場合によっては、アーティファクトを出力としてマークする必要があります ...
+  場合によっては、以前にログされた run の出力としてアーティファクトをマークする必要があります。この場合は、t ... を再初期化します
 </Card>
 
 <Card title="コードを保存するにはどうすればよいですか？‌" href="/ja/support/models/articles/how-do-i-save-code" arrow="true" horizontal>
-  メイン スクリプトまたは ... を保存するには、wandb.init で save code True を使用します
+  `wandb.init` で `save_code=True` を使用して、run を開始するメイン スクリプトまたはノートブックを保存します。run のすべてのコードを保存するには、...
 </Card>
 
 <Card title="アーティファクトに保持ポリシーまたは有効期限ポリシーを設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-set-a-retention-or-expiration-p" arrow="true" horizontal>
-  機密データを含むアーティファクトを管理したり、... をスケジュールしたりするには
+  機密データを含むアーティファクトを管理したり、アーティファクト バージョンの削除をスケジュールしたりするには、TTL (time-to-liv ...) を設定します
 </Card>
 
-<Card title="各アーティファクト バージョンはどれくらいのストレージを使用しますか？" href="/ja/support/models/articles/how-much-storage-does-each-artifact-vers" arrow="true" horizontal>
-  2 つのアーティファクト バージョン間で変更されたファイルだけがストレージの ...
+<Card title="各アーティファクト バージョンはどれくらいの storage を使用しますか？" href="/ja/support/models/articles/how-much-storage-does-each-artifact-vers" arrow="true" horizontal>
+  storage コストが発生するのは、2 つのアーティファクト バージョン間で変更されたファイルだけです。animals という名前の画像アーティファクトを考えると、...
 </Card>
 
-<Card title="run と一緒に削除されたアーティファクトを後から復元することはできますか？" href="/ja/support/models/articles/is-it-possible-to-recover-an-artifact-af" arrow="true" horizontal>
-  run を削除すると、関連付けられた ... も削除するかどうかを確認するプロンプトが表示されます
+<Card title="run とともに削除されたアーティファクトを復元することはできますか？" href="/ja/support/models/articles/is-it-possible-to-recover-an-artifact-af" arrow="true" horizontal>
+  run を削除すると、関連付けられたアーティファクトも削除するかどうかを確認するプロンプトが表示されます。このオプションを選択すると、... が完全に削除されます
 </Card>
 
-<Card title="複数のアーキテクチャと runs でアーティファクトを使用するには？" href="/ja/support/models/articles/using-artifacts-with-multiple-architectu" arrow="true" horizontal>
-  モデルをバージョン管理する method はさまざまです。Artifacts は ...
+<Card title="複数のアーキテクチャと Runs で Artifacts を使用するには？" href="/ja/support/models/articles/using-artifacts-with-multiple-architectu" arrow="true" horizontal>
+  モデルをバージョン管理する method はさまざまです。Artifacts は、特定のニーズに合わせたモデルのバージョン管理ツールを提供します。...
 </Card>
 
 <Card title="アーティファクトはどこにダウンロードされますか？また、それを制御するにはどうすればよいですか？" href="/ja/support/models/articles/where-are-artifacts-downloaded-and-how-c" arrow="true" horizontal>
-  デフォルトでは、アーティファクトは artifacts/ フォルダーにダウンロードされます。... するには
+  デフォルトでは、アーティファクトは `artifacts/` フォルダーにダウンロードされます。場所を変更するには: `wandb.Artifact().download` に渡します: S ...
 </Card>
 
-<Card title="自分のアーティファクトにアクセスできるのは誰ですか？" href="/ja/support/models/articles/who-has-access-to-my-artifacts" arrow="true" horizontal>
-  Artifacts は親プロジェクトからアクセス権限を継承します ...
+<Card title="自分のアーティファクトには誰がアクセスできますか？" href="/ja/support/models/articles/who-has-access-to-my-artifacts" arrow="true" horizontal>
+  アーティファクトは親プロジェクトからアクセス権限を継承します: 非公開プロジェクトでは、team members のみがアーティファクトにアクセスできます ...
 </Card>
