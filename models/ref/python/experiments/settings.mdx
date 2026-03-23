@@ -279,7 +279,7 @@ __init__(
    the "create_new" option.
    - "finish_previous": Finish all active runs, then return a new run.
    - "create_new": Create a new run without modifying other active runs.
-   Does not update `wandb.run` and top-level functions like `wandb.log()`.
+   Does not update `wandb.Run` and top-level functions like `wandb.Run.log()`.
    Because of this, some older integrations that rely on the global run
    will not work.
    Can also be a boolean, but this is deprecated. False is the same as
