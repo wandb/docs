@@ -3,7 +3,7 @@ title: "Evaluate using local scorers"
 description: "Small language models that run locally to evaluate AI system safety and quality"
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/scorers_local_weave_scorers.ipynb">
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/scorers_local_weave_scorers.ipynb" aria-label="Open in Google Colab">
 <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
 </a>
 
@@ -15,12 +15,13 @@ The model weights are publicly available in W&B Artifacts, and are automatically
 
 The object returned by these scorers contains a `passed` boolean attribute indicating whether the input text is safe or high quality, as well as a `metadata` attribute that contains more detail such as the raw score from the model.
 
-<Tip>
-While local scorers can be run on CPUs and GPUs, use GPUs for best performance.  
-</Tip>
+While you can run local scorers on CPUs, we recommend using GPUs for best performance.
 
-<Tabs>
-  <Tab title="Python">
+<Note>
+Local scorers are only available for the Weave Python SDK. They are not yet available for the Weave TypeScript SDK yet.
+
+To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/evaluation/scorers#function-based-scorers).
+</Note>
 
     ## Prerequisites
 
@@ -319,11 +320,3 @@ While local scorers can be run on CPUs and GPUs, use GPUs for best performance.
     print(f"Output contains PII: {not result.passed}")
     print(result)
     ```
-
-  </Tab>
-  <Tab title="TypeScript">
-    Weave local scorers are not available in TypeScript yet. Stay tuned!
-
-    To use Weave scorers in TypeScript, see [function-based scorers](/weave/guides/evaluation/scorers#function-based-scorers).
-  </Tab>
-</Tabs>

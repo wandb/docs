@@ -1,19 +1,19 @@
 ---
-title: Export data from Dedicated Cloud
-description: 전용 클라우드에서 데이터 내보내기
+title: 전용 클라우드 에서 데이터 내보내기
+description: 전용 클라우드 에서 데이터 내보내기
 ---
 
-전용 클라우드 인스턴스에서 관리하는 모든 데이터를 내보내려면 W&B SDK API를 사용하여 [Import and Export API](/ko/models/ref/python/public-api/)로 run, 메트릭, Artifacts 등을 추출할 수 있습니다. 다음 표는 주요 내보내기 유스 케이스를 다룹니다.
+전용 클라우드 (Dedicated Cloud) 인스턴스에서 관리되는 모든 데이터를 내보내려면, W&B SDK API를 사용하여 [Import and Export API](/models/ref/python/public-api/)를 통해 Runs, 메트릭, Artifacts 등을 추출할 수 있습니다. 다음 표는 주요 데이터 내보내기 유스 케이스를 다룹니다.
 
 | 목적 | 문서 |
 |---------|---------------|
-| 프로젝트 메타데이터 내보내기 | [Projects API](/ko/models/ref/python/public-api/projects/) |
-| 프로젝트에서 run 내보내기 | [Runs API](/ko/models/ref/python/public-api/runs/) |
-| Reports 내보내기 | [Reports API](/ko/models/reports/clone-and-export-reports/) |
-| Artifacts 내보내기 | [Artifact 그래프 탐색](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/), [Artifacts 다운로드 및 사용](/ko/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
+| 프로젝트 메타데이터 내보내기 | [Projects API](/models/ref/python/public-api/projects) |
+| 프로젝트 내 Runs 내보내기 | [Runs API](/models/ref/python/public-api/runs) |
+| Reports 내보내기 | [Report and Workspace API](/models/reports/clone-and-export-reports/) |
+| Artifacts 내보내기 | [Artifacts 그래프 탐색](/models/artifacts/explore-and-traverse-an-artifact-graph/), [Artifacts 다운로드 및 사용](/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
-[Secure Storage Connector](/ko/platform/app/settings-page/teams/#secure-storage-connector)를 사용하여 전용 클라우드에 저장된 Artifacts를 관리하는 경우 W&B SDK API를 사용하여 Artifacts를 내보낼 필요가 없을 수 있습니다.
+[Secure Storage Connector](/platform/app/settings-page/teams/#secure-storage-connector)를 사용하여 전용 클라우드에 저장된 Artifacts를 관리하는 경우, W&B SDK API를 사용하여 Artifacts를 내보낼 필요가 없을 수도 있습니다.
 
 <Note>
-W&B SDK API를 사용하여 모든 데이터를 내보내는 것은 run, Artifacts 등이 많은 경우 속도가 느릴 수 있습니다. W&B는 전용 클라우드 인스턴스에 과부하가 걸리지 않도록 적절한 크기의 배치로 내보내기 프로세스를 실행하는 것이 좋습니다.
+Runs나 Artifacts 등의 데이터 양이 방대할 경우 W&B SDK API를 사용하여 모든 데이터를 내보내는 프로세스가 느려질 수 있습니다. W&B는 전용 클라우드 인스턴스에 과부하를 주지 않도록 적절한 크기의 배치 단위로 내보내기 프로세스를 실행할 것을 권장합니다.
 </Note>

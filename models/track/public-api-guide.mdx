@@ -4,6 +4,9 @@ description: Import data from MLFlow, export or update data that you have saved 
 title: Import and export data
 ---
 
+import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+import ApiKeySecurity from "/snippets/en/_includes/api-key-security.mdx";
+
 Export data or import data  with W&B Public APIs.
 
 <Note>
@@ -145,7 +148,7 @@ importer.import_all(
 2. Imported run tables appear to be blank in the workspace, but if you nav to the Artifacts tab and click the equivalent run table artifact you should see the table as expected.
 3. System metrics and custom charts (not explicitly logged with `run.log`) are not imported */}
 
-## Export Data
+## Export data
 
 Use the Public API to export or update data that you have saved to W&B. Before using this API, log data from your script. Check the [Quickstart](/models/quickstart/) for more details.
 
@@ -158,15 +161,11 @@ See the [Generated Reference Docs](/models/ref/python/public-api/) for details o
 
 ### Create an API key
 
-An API key authenticates your machine to W&B. You can generate an API key from your user profile.
+An API key authenticates your machine to W&B.
 
-<Note>
-For a more streamlined approach, you can generate an API key by going directly to the [W&B authorization page](https://wandb.ai/authorize). Copy the displayed API key and save it in a secure location such as a password manager.
-</Note>
+<ApiKeyCreate/>
 
-1. Click your user profile icon in the upper right corner.
-1. Select **User Settings**, then scroll to the **API Keys** section.
-1. Click **Reveal**. Copy the displayed API key. To hide the API key, reload the page.
+<ApiKeySecurity/>
 
 
 ### Find the run path
@@ -174,7 +173,7 @@ For a more streamlined approach, you can generate an API key by going directly t
 To use the Public API, you'll often need the run path which is `<entity>/<project>/<run_id>`. In the app UI, open a run page and click the [Overview tab ](/models/track/public-api-guide/#overview-tab)to get the run path.
 
 
-### Export Run Data
+### Export run data
 
 Download data from a finished or active run. Common usage includes downloading a dataframe for custom analysis in a Jupyter notebook, or using custom logic in an automated environment.
 
@@ -225,7 +224,6 @@ The following sections describe the different outputs for the above run object a
 
 ```python
 {
-    "_runtime": 4,
     "_step": 4,
     "_timestamp": 1644345412,
     "_wandb": {"runtime": 3},
@@ -238,7 +236,7 @@ The following sections describe the different outputs for the above run object a
 
 The default history method samples the metrics to a fixed number of samples (the default is 500, you can change this with the `samples` __ argument). If you want to export all of the data on a large run, you can use the `run.scan_history()` method. For more details see the [API Reference](/models/ref/python/public-api).
 
-### Querying Multiple Runs
+### Querying multiple runs
 
 <Tabs>
 <Tab title="DataFrame and CSVs">
@@ -276,7 +274,7 @@ run.finish()
 ```
 </Tab>
 <Tab title="MongoDB Style">
-The W&B API also provides a way for you to query across runs in a project with api.runs(). The most common use case is exporting runs data for custom analysis. The query interface is the same as the one [MongoDB uses](https://docs.mongodb.com/manual/reference/operator/query).
+The W&B API also provides a way for you to query across runs in a project with api.runs(). The most common use case is exporting runs data for custom analysis. The query interface is the same as the one [MongoDB uses](https://www.mongodb.com/docs/manual/reference/mql/query-predicates/).
 
 ```python
 runs = api.runs(
@@ -293,7 +291,7 @@ Calling `api.runs` returns a `Runs` object that is iterable and acts like a list
 
 `api.runs` also accepts an `order` keyword argument. The default order is `-created_at`. To order results ascending, specify `+created_at`. You can also sort by config or summary values. For example, `summary.val_acc` or `config.experiment_name`.
 
-### Error Handling
+### Error handling
 
 If errors occur while talking to W&B servers a `wandb.CommError` will be raised. The original exception can be introspected via the `exc` attribute.
 
@@ -338,7 +336,7 @@ if run.state == "finished":
 
 ### Filter runs
 
-You can filters by using the MongoDB Query Language.
+You can filter by using the MongoDB Query Language.
 
 #### Date
 
@@ -432,7 +430,7 @@ Renaming a column only applies to tables. Charts will still refer to metrics by 
 
 ### Update config for an existing run
 
-This examples updates one of your configuration settings.
+This example updates one of your configuration settings.
 
 ```python
 import wandb

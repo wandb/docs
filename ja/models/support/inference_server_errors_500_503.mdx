@@ -1,0 +1,66 @@
+---
+title: W&B Inference でサーバーエラー（500、503）が発生した場合、どのように修正すればよいですか？
+---
+
+サーバーエラーは、W&B Inference サービスにおける一時的な問題を示しています。
+
+## エラーの種類
+
+### 500 - Internal Server Error
+**メッセージ:** "The server had an error while processing your request"
+
+これはサーバー側で発生した一時的な内部エラーです。
+
+### 503 - Service Overloaded
+**メッセージ:** "The engine is currently overloaded, please try again later"
+
+サービスが高トラフィックの状態にあります。
+
+## サーバーエラーの対処方法
+
+1. **再試行する前に待機する**
+   - 500 エラー: 30〜60 秒待機
+   - 503 エラー: 60〜120 秒待機
+
+2. **指数バックオフ（Exponential Backoff）を使用する**
+   ```python
+   import time
+   import openai
+   
+   def call_with_retry(client, messages, model, max_retries=5):
+       for attempt in range(max_retries):
+           try:
+               # チャット補完を呼び出す
+               return client.chat.completions.create(
+                   model=model,
+                   messages=messages
+               )
+           except Exception as e:
+               # 500または503エラーの場合、再試行を行う
+               if "500" in str(e) or "503" in str(e):
+                   if attempt < max_retries - 1:
+                       # 待機時間を計算（最大60秒）
+                       wait_time = min(60, (2 ** attempt))
+                       time.sleep(wait_time)
+                   else:
+                       raise
+               else:
+                   raise
+   ```
+
+3. **適切なタイムアウトを設定する**
+   - HTTP クライアントのタイムアウト値を増やします
+   - より効率的な処理のために非同期操作（async）を検討してください
+
+## サポートへの連絡タイミング
+
+以下のような場合はサポートに連絡してください：
+- エラーが 10 分以上続く場合
+- 特定の時間帯に失敗のパターンが見られる場合
+- エラーメッセージに詳細な情報が含まれている場合
+
+提供していただく情報：
+- エラーメッセージとエラーコード
+- エラーが発生した時刻
+- 使用している コードスニペット（APIキー は削除してください）
+- W&B の Entities および Projects 名

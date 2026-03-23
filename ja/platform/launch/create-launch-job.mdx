@@ -1,0 +1,156 @@
+---
+title: Launch ジョブを作成する
+---
+
+<Card title="Colab で試す" href="https://colab.research.google.com/drive/1wX0OSVxZJDHRsZaOaOEDx-lLUrO1hHgP" icon="python"/>
+
+Launch のジョブは、W&B Runs を再現するためのブループリントです。ジョブは、ワークロードの実行に必要なソースコード、依存関係、および入力を取得する W&B Artifacts です。
+
+`wandb launch` コマンドを使用して、ジョブを作成および実行します。
+
+<Note>
+実行のために送信せずにジョブを作成するには、 `wandb job create` コマンドを使用します。詳細については、 [コマンドリファレンスドキュメント](/models/ref/cli/wandb-job/wandb-job-create) を参照してください。
+</Note>
+
+## Git ジョブ
+
+W&B Launch を使用すると、リモート git リポジトリ内の特定のコミット、ブランチ、またはタグからコードやその他の追跡対象アセットをクローンする、Git ベースのジョブを作成できます。 `--uri` または `-u` フラグを使用してコードを含む URI を指定し、オプションで `--build-context` フラグを使用してサブディレクトリを指定します。
+
+次のコマンドを使用して、git リポジトリから "hello world" ジョブを実行します。
+
+```bash
+wandb launch --uri "https://github.com/wandb/launch-jobs.git" --build-context jobs/hello_world --dockerfile Dockerfile.wandb --project "hello-world" --job-name "hello-world" --entry-point "python job.py"
+```
+
+このコマンドは以下の処理を行います。
+1. [W&B Launch ジョブリポジトリ](https://github.com/wandb/launch-jobs) を一時ディレクトリにクローンします。
+2. **hello** プロジェクト内に **hello-world-git** という名前のジョブを作成します。このジョブは、リポジトリのデフォルトブランチのヘッドにあるコミットに関連付けられます。
+3. `jobs/hello_world` ディレクトリと `Dockerfile.wandb` から dockerコンテナ イメージをビルドします。
+4. コンテナを起動し、 `python job.py` を実行します。
+
+特定のブランチまたはコミットハッシュからジョブをビルドするには、 `-g` または `--git-hash` 引数を追加します。引数の完全なリストについては、 `wandb launch --help` を実行してください。
+
+### リモート URL 形式
+
+Launch ジョブに関連付けられた git リモートは、HTTPS または SSH URL のいずれかになります。URL のタイプによって、ジョブのソースコードを取得するために使用されるプロトコルが決まります。
+
+| リモート URL タイプ | URL 形式 | アクセスと認証の要件 |
+| ----------| ------------------- | ------------------------------------------ |
+| https      | `https://github.com/organization/repository.git`  | git リモートで認証するためのユーザー名とパスワード |
+| ssh        | `git@github.com:organization/repository.git` | git リモートで認証するための SSH キー |
+
+なお、正確な URL 形式はホスティングプロバイダーによって異なります。 `wandb launch --uri` で作成されたジョブは、提供された `--uri` で指定された転送プロトコルを使用します。
+
+## コードアーティファクトジョブ
+
+ジョブは、W&B Artifacts に保存されている任意のソースコードから作成できます。 `--uri` または `-u` 引数にローカルディレクトリを指定して、新しいコードアーティファクトとジョブを作成します。
+
+まず、空のディレクトリを作成し、以下の内容を含む `main.py` という名前の Python スクリプトを追加します。
+
+```python
+import wandb
+
+# run を初期化してメトリクスをログ記録
+with wandb.init() as run:
+    run.log({"metric": 0.5})
+```
+
+以下の内容を含む `requirements.txt` ファイルを追加します。
+
+```txt
+wandb>=0.17.1
+```
+
+ディレクトリをコードアーティファクトとしてログ記録し、次のコマンドでジョブをローンンチします。
+
+```bash
+wandb launch --uri . --job-name hello-world-code --project launch-quickstart --entry-point "python main.py"
+```
+
+上記のコマンドは以下の処理を行います。
+1. 現在のディレクトリを `hello-world-code` という名前のコードアーティファクトとしてログ記録します。
+2. `launch-quickstart` プロジェクト内に `hello-world-code` という名前のジョブを作成します。
+3. 現在のディレクトリと Launch のデフォルトの Dockerfile から dockerコンテナ イメージをビルドします。デフォルトの Dockerfile は `requirements.txt` ファイルをインストールし、エントリーポイントを `python main.py` に設定します。
+
+## イメージジョブ
+
+あるいは、あらかじめ作成された Docker イメージからジョブを構築することもできます。これは、ML コード用のビルドシステムがすでに確立されている場合や、コードや要件を調整する必要はないが、ハイパーパラメーターや異なるインフラストラクチャーの規模で実験したい場合に便利です。
+
+イメージは Docker レジストリからプルされ、指定されたエントリーポイント（指定がない場合はデフォルトのエントリーポイント）で実行されます。 `--docker-image` オプションに完全なイメージタグを渡して、Docker イメージからジョブを作成して実行します。
+
+作成済みのイメージからシンプルなジョブを実行するには、次のコマンドを使用します。
+
+```bash
+wandb launch --docker-image "wandb/job_hello_world:main" --project "hello-world"           
+```
+
+## ジョブの自動作成
+
+W&B は、Launch で作成されていない場合でも、ソースコードが追跡されているすべての Run に対してジョブを自動的に作成し追跡します。以下の 3 つの条件のいずれかを満たす場合、Run はソースコードが追跡されているとみなされます。
+- Run に関連付けられた git リモートとコミットハッシュがある。
+- Run がコードアーティファクトをログ記録した。 [`Run.log_code`](/models/ref/python/experiments/run#log_code) を参照してください。
+- Run が、 `WANDB_DOCKER` 環境変数がイメージタグに設定された dockerコンテナ 内で実行された。
+
+Launch ジョブが W&B Run によって自動的に作成される場合、Git リモート URL はローカルの git リポジトリから推測されます。
+
+### Launch ジョブ名
+
+デフォルトでは、W&B はジョブ名を自動的に生成します。名前は、ジョブの作成方法（GitHub、コードアーティファクト、または Docker イメージ）に応じて生成されます。あるいは、環境変数または W&B Python SDK を使用して Launch ジョブの名前を定義することもできます。
+
+次の表は、ジョブソースに基づいてデフォルトで使用されるジョブの命名規則を示しています。
+
+| ソース | 命名規則 |
+| ------------- | --------------------------------------- |
+| GitHub        | `job-<git-remote-url>-<path-to-script>` |
+| コードアーティファクト | `job-<code-artifact-name>`              |
+| Docker イメージ  | `job-<image-name>`                      |
+
+W&B 環境変数または W&B Python SDK でジョブに名前を付ける
+
+<Tabs>
+<Tab title="環境変数">
+`WANDB_JOB_NAME` 環境変数を希望のジョブ名に設定します。例：
+
+```bash
+WANDB_JOB_NAME=awesome-job-name
+```
+</Tab>
+<Tab title="W&B Python SDK">
+`wandb.Settings` でジョブの名前を定義します。次に、 `wandb.init` で W&B を初期化するときにこのオブジェクトを渡します。例：
+
+```python
+settings = wandb.Settings(job_name="my-job-name")
+wandb.init(settings=settings)
+```
+</Tab>
+</Tabs>
+
+<Note>
+docker イメージジョブの場合、バージョンエイリアスがジョブのエイリアスとして自動的に追加されます。
+</Note>
+
+## コンテナ化
+
+ジョブはコンテナ内で実行されます。イメージジョブはビルド済みの Docker イメージを使用しますが、Git ジョブとコードアーティファクトジョブはコンテナのビルドステップが必要です。
+
+ジョブのコンテナ化は、 `wandb launch` の引数やジョブソースコード内のファイルを使用してカスタマイズできます。
+
+### ビルドコンテキスト
+
+ビルドコンテキストという用語は、コンテナイメージをビルドするために Docker デーモンに送信されるファイルとディレクトリのツリーを指します。デフォルトでは、Launch はジョブソースコードのルートをビルドコンテキストとして使用します。サブディレクトリをビルドコンテキストとして指定するには、ジョブの作成およびローンンチ時に `wandb launch` の `--build-context` 引数を使用します。
+
+<Note>
+`--build-context` 引数は、複数のプロジェクトを含むモノリポジトリを参照する Git ジョブを扱う場合に特に便利です。サブディレクトリをビルドコンテキストとして指定することで、モノリポジトリ内の特定のプロジェクトに対してコンテナイメージをビルドできます。
+
+`--build-context` 引数の使用例については、上記の [Git ジョブの例](#git-ジョブ) を参照してください。
+</Note>
+
+### Dockerfile
+
+Dockerfile は、Docker イメージをビルドするための指示が含まれるテキストファイルです。デフォルトでは、Launch は `requirements.txt` ファイルをインストールするデフォルトの Dockerfile を使用します。カスタム Dockerfile を使用するには、 `wandb launch` の `--dockerfile` 引数でファイルへのパスを指定します。
+
+Dockerfile のパスは、ビルドコンテキストからの相対パスで指定します。例えば、ビルドコンテキストが `jobs/hello_world` で、Dockerfile が `jobs/hello_world` ディレクトリにある場合、 `--dockerfile` 引数は `Dockerfile.wandb` に設定する必要があります。 `--dockerfile` 引数の使用例については、上記の [Git ジョブの例](#git-ジョブ) を参照してください。
+
+### Requirements ファイル
+
+カスタム Dockerfile が提供されない場合、Launch はビルドコンテキスト内でインストールする Python 依存関係を探します。ビルドコンテキストのルートに `requirements.txt` ファイルが見つかった場合、Launch はそのファイルに記載されている依存関係をインストールします。そうでない場合、 `pyproject.toml` ファイルが見つかれば、Launch は `project.dependencies` セクションから依存関係をインストールします。

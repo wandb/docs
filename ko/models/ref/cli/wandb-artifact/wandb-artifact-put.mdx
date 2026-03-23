@@ -2,23 +2,42 @@
 title: wandb artifact put
 ---
 
-**사용법**
+{/*
+  이 코맨드에 대한 도입 콘텐츠를 추가하려면:
+  1. 스니펫 파일을 생성하세요: /snippets/en/_includes/cli/wandb-artifact-put.mdx
+  2. 해당 파일에 도입 내용을 추가하세요
+  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 남겨두세요:
 
-`wandb artifact put [OPTIONS] PATH`
+import WandbArtifactPut from "/snippets/en/_includes/cli/wandb-artifact-put.mdx";
 
-**요약**
+<WandbArtifactPut/>
 
-아티팩트를 wandb에 업로드합니다.
+  스니펫은 다음 재생성 시 자동으로 감지됩니다.
+*/}
 
-**옵션**
+Artifacts 를 wandb에 업로드합니다.
 
-| **옵션** | **설명** |
+## Usage
+
+```bash
+wandb artifact put PATH [OPTIONS]
+```
+
+## Arguments
+
+| Argument | Description | Required |
+| :--- | :--- | :--- |
+| `PATH` | 설명 없음 | Yes |
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-n, --name` | 업로드할 아티팩트의 이름: 프로젝트/artifact_name |
-| `-d, --description` | 이 아티팩트에 대한 설명 |
-| `-t, --type` | 아티팩트의 유형 |
-| `-a, --alias` | 이 아티팩트에 적용할 에일리어스 |
-| `--id` | 업로드할 run입니다. |
-| `--resume` | 현재 디렉토리에서 마지막 run을 재개합니다. |
-| `--skip_cache` | 아티팩트 파일을 업로드하는 동안 캐싱을 건너뜁니다. |
-| `--policy [mutable\|immutable]` | 아티팩트 파일을 업로드하는 동안 스토리지 정책을 설정합니다. |
+| `--name`, `-n` | 푸시할 Artifact 의 이름: project/artifact_name |
+| `--description`, `-d` | 이 Artifact 에 대한 설명 |
+| `--type`, `-t` | Artifact 의 타입 (기본값: dataset) |
+| `--alias`, `-a` | 이 Artifact 에 적용할 에일리어스 (기본값: ['latest']) |
+| `--id` | 업로드하려는 대상 Run 입니다. |
+| `--resume` | 현재 디렉토리의 마지막 Run 을 재개합니다. |
+| `--skip_cache` | Artifact 파일을 업로드하는 동안 캐싱을 건너뜁니다. (기본값: False) |
+| `--policy` | Artifact 파일을 업로드하는 동안 스토리지 정책을 설정합니다. (기본값: mutable) |

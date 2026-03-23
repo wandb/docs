@@ -1,0 +1,34 @@
+---
+title: agent()
+namespace: python_sdk_actions
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py" />
+
+### <kbd>function</kbd> `agent`
+
+```python
+agent(
+    sweep_id: str,
+    function: Optional[Callable] = None,
+    entity: Optional[str] = None,
+    project: Optional[str] = None,
+    count: Optional[int] = None,
+    forward_signals: bool = False
+) → None
+```
+
+하나 이상의 스윕 에이전트를 시작합니다.
+
+스윕 에이전트는 `sweep_id`를 사용하여 자신이 어떤 Sweeps 에 속해 있는지, 어떤 함수를 실행할지, 그리고 (선택적으로) 얼마나 많은 에이전트를 실행할지를 파악합니다.
+
+**Args:**
+
+ - `sweep_id`: 스윕의 고유 식별자입니다. 스윕 ID 는 W&B CLI 또는 Python SDK 에 의해 생성됩니다.
+ - `function`: 스윕 설정(sweep config)에 지정된 "program" 대신 호출할 함수입니다.
+ - `entity`: 스윕에 의해 생성된 W&B Runs 를 보낼 사용자 이름 또는 팀 이름입니다. 지정하는 Entity 가 이미 존재하는지 확인하세요. Entity 를 지정하지 않으면 Run 은 대개 사용자 이름인 기본 Entity 로 전송됩니다.
+ - `project`: 스윕에서 생성된 W&B Runs 가 전송될 프로젝트의 이름입니다. 프로젝트를 지정하지 않으면 Run 은 "Uncategorized"라는 레이블이 붙은 프로젝트로 전송됩니다.
+ - `count`: 시도할 스윕 설정 트라이얼의 횟수입니다.
+ - `forward_signals`: 에이전트가 수신한 시그널을 자식 프로세스로 전달할지 여부입니다. CLI 에이전트에서만 지원됩니다.

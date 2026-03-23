@@ -1,33 +1,46 @@
 ---
-title: wandb ローンンチ
+title: wandb Launch
 ---
 
-**Usage**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-launch.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb launch [OPTIONS]`
+import WandbLaunch from "/snippets/en/_includes/cli/wandb-launch.mdx";
 
-**Summary**
+<WandbLaunch/>
 
-W&B ジョブ をローンンチまたはキューに追加します。詳細は https://wandb.me/launch を参照してください。
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**Options**
+W&B Job を ローンチ またはキューに追加します。詳細は https://wandb.me/launch を参照してください。
 
-| **Option** | **Description** |
+## Usage
+
+```bash
+wandb launch [OPTIONS]
+```
+
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `-u, --uri (str)` | ローカルパスまたはローンンチする git リポジトリ uri 。指定された場合、このコマンドは指定された uri からジョブを作成します。 |
-| `-j, --job (str)` | ローンンチするジョブの名前。指定されると、ローンンチには uri が不要です。 |
-| `--entry-point` | プロジェクト内のエントリーポイント。[デフォルト: main]。エントリーポイントが見つからない場合、指定された名前のプロジェクトファイルをスクリプトとして実行しようとします。'.py' ファイルは 'python' を使用し、'.sh' ファイルは環境変数 $SHELL によって指定されたデフォルトのシェルを使用して実行します。指定された場合、設定ファイルを使用して渡されたエントリーポイントの値を上書きします。 |
-| `--build-context (str)` | ソースコード内のビルドコンテキストのパス。デフォルトはソースコードのルート。-u と互換性があります。 |
-| `--name` | run を実行する際に使用する run の名前。指定されない場合、ランダムな run 名が割り当てられます。指定された場合、設定ファイルを使用して渡された名前を上書きします。 |
-| `-e, --entity (str)` | 新しい run が送信されるターゲットエンティティの名前。デフォルトは、ローカルの wandb/settings フォルダで設定されたエンティティを使用します。指定された場合、設定ファイルを使用して渡されたエンティティの値を上書きします。 |
-| `-p, --project (str)` | 新しい run が送信されるターゲットプロジェクトの名前。デフォルトは、ソース uri または Github run の場合、git リポジトリ名を使用します。指定された場合、設定ファイルを使用して渡されたプロジェクトの値を上書きします。 |
-| `-r, --resource` | run に使用する実行リソース。サポートされている値: 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'。リソース設定のないキューにプッシュする場合、これは必須のパラメータです。指定された場合、設定ファイルを使用して渡されたリソースの値を上書きします。 |
-| `-d, --docker-image` | 使用したい特定の Docker イメージ。形式は name:tag 。指定された場合、設定ファイルを使用して渡された Docker イメージの値を上書きします。 |
-| `--base-image` | ジョブコードを実行する Docker イメージ。--docker-image と互換性がありません。 |
-| `-c, --config` | JSON ファイル（'.json' で終わる必要があります）または JSON 文字列のパス。ローンンチ設定として渡されます。launch run がどのように設定されるかの指示。 |
-| `-v, --set-var` | 許可リストが有効になっているキューのために、キーと値のペアとしてテンプレート変数の値を設定します。例: `--set-var key1=value1 --set-var key2=value2` |
-| `-q, --queue` | プッシュする run キューの名前。指定されない場合、単一の run を直接ローンンチします。引数なしで指定された場合 (`--queue`)、キュー 'default' がデフォルトとなります。それ以外の場合、指定された名前が引数として供給されたプロジェクトとエンティティの下に存在する必要があります。 |
-| `--async` | ジョブを非同期に実行するためのフラグ。デフォルトは false です。つまり、--async が設定されていない限り、wandb launch はジョブの終了を待ちます。このオプションは --queue と互換性がありません。エージェントを使用して非同期オプションを実行する場合は、wandb launch-agent で設定する必要があります。 |
-| `--resource-args` | JSON ファイル（'.json' で終わる必要があります）または計算リソースに引数として渡される JSON 文字列のパス。提供されるべき正確な内容は実行バックエンドごとに異なります。このファイルのレイアウトについてはドキュメントを参照してください。 |
-| `--dockerfile` | ジョブをビルドするために使用される Dockerfile のパス。ジョブのルートに対する相対パス。 |
-| `--priority [critical|high|medium|low]` | --queue が指定された場合、ジョブの優先度を設定します。優先度の高いジョブから優先的にローンンチされます。優先度の順序は、最も高い順に、critical、high、medium、low です。 |
+| `--uri`, `-u` | ローンチ するローカルパスまたは git リポジトリの URI。指定された場合、この コマンド は指定された URI から Job を作成します。 |
+| `--job`, `-j` | ローンチ する Job の名前。これが渡された場合、ローンチ に URI は必要ありません。 |
+| `--entry-point`, `-E` | プロジェクト 内の エントリポイント。[デフォルト: main]。エントリポイントが見つからない場合は、指定された名前の プロジェクト ファイルを スクリプト として実行しようとします。 .py ファイルの実行には 'python' を、 .sh ファイルの実行にはデフォルトのシェル（ 環境 変数 $SHELL で指定）を使用します。渡された場合、 設定 ファイルで渡されたエントリポイントの 値 を上書きします。 |
+| `--build-context` | ソース コード 内のビルドコンテキストへのパス。デフォルトはソース コード のルートです。 -u とのみ互換性があります。 |
+| `--name` | ローンチ する Run の名前。指定しない場合、ランダムな Run 名が ローンチ に使用されます。渡された場合、 設定 ファイルで渡された名前を上書きします。 |
+| `--entity`, `-e` | 新しい Run が送信されるターゲット Entities の名前。デフォルトでは、ローカルの wandb/settings フォルダで設定された Entity が使用されます。渡された場合、 設定 ファイルで渡された Entity の 値 を上書きします。 |
+| `--project`, `-p` | 新しい Run が送信されるターゲット Projects の名前。デフォルトでは、ソース URI から取得した プロジェクト 名、または GitHub の場合は git リポジトリ名が使用されます。渡された場合、 設定 ファイルで渡された プロジェクト の 値 を上書きします。 |
+| `--resource`, `-r` | Run に使用する実行リソース。サポートされている 値 : 'local-process', 'local-container', 'kubernetes', 'sagemaker', 'gcp-vertex'。リソース 設定 のないキューにプッシュする場合、これは必須の パラメータ です。渡された場合、 設定 ファイルで渡されたリソースの 値 を上書きします。 |
+| `--docker-image`, `-d` | 使用する特定の Docker イメージ。 name:tag の形式で指定します。渡された場合、 設定 ファイルで渡された Docker イメージの 値 を上書きします。 |
+| `--base-image`, `-B` | Job コード を実行するための Docker ベースイメージ。 --docker-image とは併用できません。 |
+| `--config`, `-c` | ローンチ 設定 として渡される JSON ファイルへのパス（ '.json' で終わる必要があります）または JSON 文字列。 ローンチ された Run の 設定 方法を指示します。 |
+| `--set-var`, `-v` | 許可リストが有効なキューに対して、テンプレート変数の 値 を key-value ペアとして設定します。例: `--set-var key1=value1 --set-var key2=value2` |
+| `--queue`, `-q` | プッシュ先の Run キューの名前。指定しない場合は、単一の Run を直接 ローンチ します。 引数 なし（ `--queue` ）で指定された場合、デフォルトのキュー 'default' になります。名前が指定された場合、指定された Run キューは、提供された プロジェクト および Entity の下に存在する必要があります。 |
+| `--async` | Job を非同期で実行するためのフラグ。デフォルトは false です。つまり、 --async が設定されていない限り、 wandb launch は Job の終了を待ちます。このオプションは --queue と併用できません。 エージェント で実行する場合の非同期オプションは wandb launch-agent で設定する必要があります。(デフォルト: False) |
+| `--resource-args`, `-R` | コンピュートリソースにリソース 引数 として渡される JSON ファイルへのパス（ '.json' で終わる必要があります）または JSON 文字列。提供すべき正確な内容は、各実行バックエンドによって異なります。このファイルのレイアウトについてはドキュメントを参照してください。 |
+| `--dockerfile`, `-D` | Job をビルドするために使用される Dockerfile のパス。 Job のルートからの相対パスで指定します。 |
+| `--priority`, `-P` | --queue が渡されたときに、 Job の優先度を設定します。優先度の高い ローンチ Job が先に処理されます。優先度の高い順に critical, high, medium, low です。 |

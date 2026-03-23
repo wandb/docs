@@ -1,0 +1,79 @@
+---
+title: Use W&B Skills
+description: Install W&B Skills to teach your coding agent how to train models, build agents, and analyze experiments using W&B's AI development platform.
+---
+
+W&B Skills are reusable instruction sets that teach coding agents how to use W&B effectively. Instead of manually guiding your agent through W&B APIs and best practices, install Skills so that the agent can work with experiment tracking, tracing, evaluations, and monitoring on its own.
+
+Skills work with several major coding agents, including:
+* Claude Code
+* Codex
+* Cursor
+* GitHub Copilot
+* Gemini CLI
+
+For a full list of supported agents, see the [W&B Skills CLI documentation](https://github.com/vercel-labs/skills#supported-agents).
+
+## W&B Skills capabilities
+
+Skills covers both the [W&B Models SDK](/models/ref) (training runs, metrics, artifacts, sweeps) and the [Weave SDK](/weave/reference/python-sdk) (traces, evaluations, scorers). Includes helper libraries, reference docs, and data analysis patterns.
+
+| Workflow | Capabilities |
+|----------|-------------|
+| **Model training** | <ul><li>Log metrics and rich media during training and fine-tuning.</li><li>Track and compare experiments.</li><li>Analyze runs and results, such as loss curves and accuracy scores.</li><li>Tune hyperparameters.</li></ul> |
+| **Agent building** | <ul><li>Trace agentic AI applications.</li><li>Analyze traces and classify failure modes.</li><li>Evaluate models and agents with labeled datasets.</li><li>Run online evaluations for production monitoring.</li></ul> |
+
+## Prerequisites
+
+Skills requires the following:
+
+* [Node.js](https://nodejs.org/) (for the `npx` command).
+* A W&B API key. Create one at [wandb.ai/authorize](https://wandb.ai/authorize) and then set it as an environment variable:
+    ```shell
+    export WANDB_API_KEY=<your-api-key>
+    ```
+* (Optional) Set your W&B project name as a `WANDB_PROJECT` environment variable. This allows your agent to target the correct W&B project without you specifying it each time.
+
+## Install W&B Skills
+
+To install W&B Skills globally, run the following command with the `--global` flag:
+
+```bash
+npx skills add wandb/skills --skill '*' --yes --global
+```
+
+To install Skills for a specific project, run the following command from your project directory:
+
+```bash
+npx skills add wandb/skills --skill '*' --yes
+```
+
+You can also install Skills for specific agents using the `--agent` flag:
+
+```bash
+npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
+```
+
+For list of `--agent` and `--skill` options, see the [skills CLI documentation](https://github.com/vercel-labs/skills#supported-agents).
+
+## Use W&B Skills
+
+Once installed, you can ask the agent to perform W&B-related tasks for your project. The following example prompts demonstrate some of the tasks your agent can do with W&B Skills:
+
+* "Log training metrics for my PyTorch model to W&B."
+* "Analyze the loss curves for my last 10 runs and identify the best performing configuration."
+* "Trace my LangChain agent and log the results to Weave."
+* "Run an evaluation on my agent using the test dataset and summarize the results."
+* "Find the failure modes in my last evaluation and classify them."
+* "Compare the configs of run A and run B and show me the differences."
+
+## Usage tips
+
+Skills performs better when you use more specific queries versus broader open-ended questions. The following table provides some recommended example prompts versus prompts that are too vague.
+
+| Recommended | Not recommended |
+|-------------|-----------------|
+| "What is the final validation loss for my last 5 runs?" | "How is my model doing?" |
+| "Summarize the token usage across my last 10 traces." | "Show me all my traces." |
+| "Compare the configs of run A and run B." | "What are my best runs?" |
+| "What eval had the highest F1 score?" | "How are my evaluations going?" |

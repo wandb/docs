@@ -1,0 +1,269 @@
+---
+title: CrewAI
+description: 멀티 에이전트 애플리케이션의 모니터링 및 트레이싱을 위해 CrewAI를 Weave와 통합하기
+---
+
+<a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_crewai.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+CrewAI는 LangChain이나 다른 에이전트 프레임워크에 완전히 독립적으로 처음부터 구축된 가볍고 매우 빠른 Python 프레임워크입니다. CrewAI는 개발자에게 하이레벨의 단순함 ([Crews](https://docs.crewai.com/guides/crews/first-crew))과 정밀한 로우레벨 제어 ([Flows](https://docs.crewai.com/guides/flows/first-flow))를 모두 제공하여, 모든 시나리오에 맞춤화된 자율 AI 에이전트를 만드는 데 이상적입니다. [CrewAI에 대한 자세한 내용은 여기](https://docs.crewai.com/introduction)에서 확인할 수 있습니다.
+
+AI 에이전트로 작업할 때는 에이전트 간의 상호작용을 디버깅하고 모니터링하는 것이 매우 중요합니다. CrewAI 애플리케이션은 종종 여러 에이전트가 함께 작업하는 방식으로 구성되므로, 에이전트들이 어떻게 협업하고 통동하는지 이해하는 것이 필수적입니다. Weave는 CrewAI 애플리케이션의 trace를 자동으로 캡처하여 이 프로세스를 단순화하며, 에이전트의 성능과 상호작용을 모니터링하고 분석할 수 있게 해줍니다.
+
+이 인테그레이션은 Crews와 Flows를 모두 지원합니다.
+
+## Crew 시작하기
+
+이 예제를 실행하려면 CrewAI ([자세한 내용](https://docs.crewai.com/installation))와 weave를 설치해야 합니다:
+
+```
+pip install crewai weave
+```
+
+이제 CrewAI Crew를 생성하고 Weave를 사용하여 실행을 추적해 보겠습니다. 시작하려면 스크립트 시작 부분에서 `weave.init()`을 호출하면 됩니다. `weave.init()`의 인수는 trace가 로깅될 프로젝트 이름입니다.
+
+```python lines {5}
+import weave
+from crewai import Agent, Task, Crew, LLM, Process
+
+# 프로젝트 이름으로 Weave 초기화
+weave.init(project_name="crewai_demo")
+
+# 결정론적 출력을 보장하기 위해 temperature를 0으로 설정하여 LLM 생성
+llm = LLM(model="gpt-4o-mini", temperature=0)
+
+# 에이전트 생성
+researcher = Agent(
+    role='Research Analyst',
+    goal='Find and analyze the best investment opportunities',
+    backstory='Expert in financial analysis and market research',
+    llm=llm,
+    verbose=True,
+    allow_delegation=False,
+)
+
+writer = Agent(
+    role='Report Writer',
+    goal='Write clear and concise investment reports',
+    backstory='Experienced in creating detailed financial reports',
+    llm=llm,
+    verbose=True,
+    allow_delegation=False,
+)
+
+# 태스크 생성
+research_task = Task(
+    description='Deep research on the {topic}',
+    expected_output='Comprehensive market data including key players, market size, and growth trends.',
+    agent=researcher
+)
+
+writing_task = Task(
+    description='Write a detailed report based on the research',
+    expected_output='The report should be easy to read and understand. Use bullet points where applicable.',
+    agent=writer
+)
+
+# 크루 생성
+crew = Crew(
+    agents=[researcher, writer],
+    tasks=[research_task, writing_task],
+    verbose=True,
+    process=Process.sequential,
+)
+
+# 크루 실행
+result = crew.kickoff(inputs={"topic": "AI in material science"})
+print(result)
+```
+
+Weave는 에이전트 상호작용, 태스크 실행, LLM 호출을 포함하여 CrewAI 라이브러리를 통해 이루어지는 모든 호출을 추적하고 로그를 남깁니다. Weave 웹 인터페이스에서 trace를 확인할 수 있습니다.
+
+[![crew_trace.png](/weave/guides/integrations/imgs/crewai/crew.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Crew.kickoff%3A*%22%5D%7D&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c7ac-bd52-7390-95a7-309370e9e058%3FhideTraceTree%3D0&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
+
+<Note>
+CrewAI는 kickoff 프로세스를 더 잘 제어할 수 있도록 `kickoff()`, `kickoff_for_each()`, `kickoff_async()`, `kickoff_for_each_async()`와 같은 여러 메소드를 제공합니다. 이 인테그레이션은 이 모든 메소드로부터의 trace 로깅을 지원합니다.
+</Note>
+
+## Tools 추적하기
+
+CrewAI 툴은 웹 검색 및 데이터 분석부터 협업 및 동료 간 태스크 위임에 이르기까지 에이전트에게 다양한 기능을 부여합니다. 인테그레이션을 통해 이러한 툴들도 추적할 수 있습니다.
+
+위의 예제에서 인터넷을 검색하고 가장 관련성 높은 결과를 반환할 수 있는 툴에 대한 엑세스 권한을 부여하여 생성된 리포트의 품질을 높여보겠습니다.
+
+먼저 추가 종속성을 설치합니다.
+
+```
+pip install 'crewai[tools]'
+```
+
+이 예제에서는 'Research Analyst' 에이전트가 인터넷에서 관련 정보를 검색할 수 있도록 `SerperDevTool`을 사용합니다. 이 툴과 API 요구 사항에 대한 자세한 내용은 [여기](https://docs.crewai.com/tools/serperdevtool)에서 확인하세요.
+
+```python lines {12}
+# .... 기존 import 구문 ....
+from crewai_tools import SerperDevTool
+
+# 에이전트에게 툴 제공
+researcher = Agent(
+    role='Research Analyst',
+    goal='Find and analyze the best investment opportunities',
+    backstory='Expert in financial analysis and market research',
+    llm=llm,
+    verbose=True,
+    allow_delegation=False,
+    tools=[SerperDevTool()],
+)
+
+# .... 기존 코드 ....
+```
+
+인터넷 엑세스 권한이 있는 에이전트로 이 Crew를 실행하면 더 나은, 더 관련성 높은 결과가 생성됩니다. 아래 이미지와 같이 툴 사용 내역이 자동으로 추적됩니다.
+
+[![crew_with_tool_trace.png](/weave/guides/integrations/imgs/crewai/crew_with_tool.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Crew.kickoff%3A*%22%5D%7D&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c7c7-0213-7f42-b130-caa93a79316c%3FdescendentCallId%3D0195c7c7-0a16-7f11-8cfd-9dedf1d03b3b&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
+
+<Note>
+이 인테그레이션은 [`crewAI-tools`](https://github.com/crewAIInc/crewAI-tools) 리포지토리에서 사용 가능한 모든 툴을 자동으로 패치합니다.
+</Note>
+
+## Flow 시작하기
+
+```python lines {3}
+import weave
+# 프로젝트 이름으로 Weave 초기화
+weave.init("crewai_demo")
+
+from crewai.flow.flow import Flow, listen, router, start
+from litellm import completion
+
+
+class CustomerFeedbackFlow(Flow):
+    model = "gpt-4o-mini"
+
+    @start()
+    def fetch_feedback(self):
+        print("Fetching customer feedback")
+        # 실제 시나리오에서는 이를 API 호출로 대체할 수 있습니다.
+        # 이 예제에서는 고객 피드백을 시뮬레이션합니다.
+        feedback = (
+            "I had a terrible experience with the product. "
+            "It broke after one use and customer service was unhelpful."
+        )
+        self.state["feedback"] = feedback
+        return feedback
+
+    @router(fetch_feedback)
+    def analyze_feedback(self, feedback):
+        # 언어 모델을 사용하여 감성 분석
+        prompt = (
+            f"Analyze the sentiment of this customer feedback and "
+            "return only 'positive' or 'negative':\n\n"
+            f"Feedback: {feedback}"
+        )
+        response = completion(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        sentiment = response["choices"][0]["message"]["content"].strip().lower()
+        # 응답이 모호한 경우 기본값을 negative로 설정
+        if sentiment not in ["positive", "negative"]:
+            sentiment = "negative"
+        return sentiment
+
+    @listen("positive")
+    def handle_positive_feedback(self):
+        # 긍정적인 피드백에 대한 감사 메시지 생성
+        prompt = "Generate a thank you message for a customer who provided positive feedback."
+        response = completion(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        thank_you_message = response["choices"][0]["message"]["content"].strip()
+        self.state["response"] = thank_you_message
+        return thank_you_message
+
+    @listen("negative")
+    def handle_negative_feedback(self):
+        # 부정적인 피드백에 대한 사과 메시지와 서비스 개선 약속 생성
+        prompt = (
+            "Generate an apology message to a customer who provided negative feedback and offer assistance or a solution."
+        )
+        response = completion(
+            model=self.model,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        apology_message = response["choices"][0]["message"]["content"].strip()
+        self.state["response"] = apology_message
+        return apology_message
+
+# Flow 인스턴스화 및 실행
+flow = CustomerFeedbackFlow()
+result = flow.kickoff()
+print(result)
+```
+
+[![flow.png](/weave/guides/integrations/imgs/crewai/flow.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Flow.kickoff%3A*%22%5D%7D&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c7e3-7a63-7283-bef4-9e0eb2f0eab1&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
+
+<Note>
+이 인테그레이션은 `Flow.kickoff` 엔트리 포인트와 사용 가능한 모든 데코레이터(`@start`, `@listen`, `@router`, `@or_`, `@and_`)를 자동으로 패치합니다.
+</Note>
+
+## Crew Guardrail - 고유 op 추적
+
+태스크 가드레일은 태스크 출력이 다음 태스크로 전달되기 전에 이를 검증하고 변환하는 방법을 제공합니다. 간단한 Python 함수를 사용하여 에이전트의 실행을 실시간으로 검증할 수 있습니다.
+
+이 함수를 `@weave.op`로 감싸면 입력, 출력 및 앱 로직 캡처가 시작되므로 에이전트를 통해 데이터가 어떻게 검증되는지 디버깅할 수 있습니다. 또한 git에 커밋되지 않은 임시 세부 정보를 캡처하기 위해 실험을 진행함에 따라 코드 버전 관리를 자동으로 시작합니다.
+
+Research Analyst와 Writer의 예시를 들어보겠습니다. 생성된 리포트의 길이를 검증하기 위해 가드레일을 추가합니다.
+
+```python lines {4,36}
+# .... 기존 import 및 weave 초기화 ....
+
+# 가드레일 함수에 `@weave.op()` 데코레이터 적용
+@weave.op(name="guardrail-validate_blog_content")
+def validate_blog_content(result: TaskOutput) -> Tuple[bool, Any]:
+    # raw 문자열 결과 가져오기
+    result = result.raw
+
+    """Blog 콘텐츠가 요구 사항을 충족하는지 검증합니다."""
+    try:
+        # 단어 수 확인
+        word_count = len(result.split())
+
+        if word_count > 200:
+            return (False, {
+                "error": "Blog content exceeds 200 words",
+                "code": "WORD_COUNT_ERROR",
+                "context": {"word_count": word_count}
+            })
+
+        # 추가 검증 로직
+        return (True, result.strip())
+    except Exception as e:
+        return (False, {
+            "error": "Unexpected error during validation",
+            "code": "SYSTEM_ERROR"
+        })
+
+
+# .... 기존 에이전트 및 research analyst 태스크 ....
+
+writing_task = Task(
+    description='Write a detailed report based on the research under 200 words',
+    expected_output='The report should be easy to read and understand. Use bullet points where applicable.',
+    agent=writer,
+    guardrail=validate_blog_content,
+)
+
+# .... 기존 크루 실행 코드 ....
+```
+
+가드레일 함수에 `@weave.op`를 데코레이팅하는 것만으로 실행 시간, 내부에서 LLM을 사용한 경우 토큰 정보, 코드 버전 등과 함께 이 함수에 대한 입력 및 출력을 추적할 수 있습니다.
+
+[![guardrail.png](/weave/guides/integrations/imgs/crewai/crew_with_guardrail.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Crew.kickoff%3A*%22%5D%7D&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c838-38cb-71a2-8a15-651ecddf9d89%3FdescendentCallId%3D0195c838-8632-7173-846d-f230e7272c20&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
+
+## 결론
+
+이 인테그레이션에 대해 개선해야 할 점이 있으면 언제든지 알려주세요. 문제가 발생하면 [여기](https://github.com/wandb/weave/issues/new/choose)에서 이슈를 생성해 주세요.
+
+CrewAI를 사용하여 강력한 멀티 에이전트 시스템을 구축하는 방법에 대한 자세한 내용은 [다양한 예제](https://github.com/crewAIInc/crewAI-examples)와 [문서](https://docs.crewai.com/introduction)를 통해 확인할 수 있습니다.

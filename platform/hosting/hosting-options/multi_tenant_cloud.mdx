@@ -1,6 +1,6 @@
 ---
 title: Multi-tenant Cloud
-description: Deploy Multi-tenant Cloud in production
+description: "Learn about W&B Multi-tenant Cloud, a fully managed deployment on Google Cloud with built-in compliance and data security."
 ---
 
 W&B Multi-tenant Cloud is a fully managed platform deployed in W&B's Google Cloud account in [Google Cloud's North America regions](https://cloud.google.com/compute/docs/regions-zones). W&B Multi-tenant Cloud utilizes autoscaling in Google Cloud to ensure that the platform scales appropriately based on increases or decreases in traffic.
@@ -14,7 +14,7 @@ W&B Multi-tenant Cloud scales to meet your organization's needs, and supports lo
 ## Compliance
 W&B Multi-tenant Cloud's hosting platform meets the requirements of the [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), published by the [Auditing Standards Board of the American Institute of Certified Public Accountants (AICPA)](https://www.aicpa-cima.com/home). A SOC 2 report evaluates a service organization’s controls for security, availability, processing integrity, confidentiality, and privacy. W&B Multi-tenant Cloud is subject to periodic internal and external audits to verify continued compliance. Refer to the [W&B Security Portal](https://security.wandb.ai/) to request the SOC 2 report and other security and compliance documents.
 
-<Tip>W&B Multi-tenant Cloud does not meet the requirements of the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). If your organization is subject to HIPAA, consider [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) instead.</Tip>
+<Tip>W&B Multi-tenant Cloud does not meet the requirements of the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). If your organization is subject to HIPAA, consider [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) instead.</Tip>
 
 ## Data security
 
@@ -23,6 +23,14 @@ For users on Free or Pro plans, all data is only stored in the shared cloud stor
 Users on an Enterprise plan can [bring their own bucket (BYOB) using the secure storage connector](/platform/hosting/data-security/secure-storage-connector) at the [team level](/platform/hosting/data-security/secure-storage-connector#configuration-options) to store their files such as models, datasets, and more. You can configure a single bucket for multiple teams or you can use separate buckets for different W&B Teams. If you do not configure BYOB for a team, the team's data is stored in the shared cloud storage.
 
 You are responsible for ensuring that your deployment complies with your organization's policies and [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), if applicable.
+
+## Data retention policy
+Multi-tenant Cloud retains the following items for 7 days after deletion:
+- Runs and history
+- Non-artifact run files, such as media, configuration files, and log files
+- Artifacts and artifact references
+
+Until this period elapses, these items can be restored. Contact [support](mailto:support@wandb.ai) or your AISE for assistance.
 
 ## Identity and access management (IAM)
 If you are on an Enterprise plan, enhanced identity and access managements capabilities allow for secure authentication and effective authorization for your W&B deployment:

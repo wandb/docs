@@ -1,0 +1,73 @@
+---
+title: Run 상태
+description: W&B run 이 가질 수 있는 다양한 상태에 대해 알아보세요.
+---
+
+[Run state](/models/runs/run-states#run-states) 는 W&B run 의 현재 상태를 나타냅니다. W&B 앱이나 W&B Python SDK 를 사용하여 프로그래밍 방식으로 run 의 [상태를 확인](/models/runs/run-states#view-the-state-of-a-run) 할 수 있습니다.
+
+## Run states
+다음 표는 run 이 가질 수 있는 가능한 상태들을 설명합니다:
+
+| State | Description |
+| ----- | ----- |
+| `Crashed` | 내부 프로세스에서 heartbeat 전송이 중단된 상태입니다. 이는 주로 머신이 충돌(crash)할 때 발생합니다. | 
+| `Failed` | run 이 0이 아닌 종료 상태 코드(exit status)로 종료되었습니다. | 
+| `Finished`| run 이 종료되어 데이터 동기화가 완전히 완료되었거나, `wandb.Run.finish()` 가 호출되었습니다. |
+| `Killed` | run 이 완료되기 전에 강제로 중단되었습니다. |
+| `Running` | run 이 여전히 실행 중이며 최근에 heartbeat 를 보냈습니다. |
+| `Pending` | run 이 예약되었지만 아직 시작되지 않았습니다 (Sweeps 및 Launch 작업에서 흔히 발생). |
+
+### Run states in sweeps
+
+Run 이 [sweep](/models/sweeps/) 의 일부인 경우, 각 run 의 상태는 sweep 의 상태와 독립적으로 작동합니다:
+
+- **개별 run 상태**는 각 run 의 실행 상태(Running, Finished, Failed 등)를 반영합니다.
+- **Sweep status**는 새로운 run 의 생성 여부를 제어하며, 기존 run 의 실행 방식에는 영향을 주지 않습니다.
+- sweep 을 일시 중지하거나 중지해도 이미 실행 중인 run 에는 영향을 미치지 않습니다.
+- sweep 을 취소할 때만 실행 중인 run 이 강제로 종료됩니다 (상태가 `Killed` 로 변경됨).
+
+sweep 과 run 상태가 어떻게 상호작용하는지에 대한 자세한 설명은 [Understanding sweep and run statuses](/models/sweeps/pause-resume-and-cancel-sweeps#understanding-sweep-and-run-statuses) 를 참조하세요.
+
+## View the state of a run
+
+Python SDK 또는 W&B 앱을 사용하여 프로그래밍 방식 또는 대화형으로 run 의 상태를 확인할 수 있습니다.
+
+<Tabs>
+<Tab title="Python SDK">
+
+[`wandb.Api.Run`](/models/ref/python/public-api/runs) 오브젝트의 `state` 속성을 사용하여 run 의 현재 상태에 엑세스합니다.
+
+다음 코드조각은 지정된 프로젝트 내의 모든 run 상태를 가져와서 출력합니다. 다음 코드조각을 복사하여 Python 환경에 붙여넣으세요. 꺾쇠괄호 (`< >`)로 묶인 값들을 실제 값으로 바꿉니다:
+
+```python
+import wandb
+
+api = wandb.Api()
+
+# <entity>/<project> 부분을 실제 값으로 변경하세요
+runs = api.runs(path="<entity>/<project>")
+
+# run 오브젝트의 속성에 엑세스
+for run in runs:
+    print(f"Run: {run.name}")
+    print(f"Run state: {run.state}")
+    print()
+```
+
+다양한 기준에 따라 프로젝트에서 run 을 가져오기 위해 여러 필터를 적용할 수 있습니다. 프로그래밍 방식으로 run 을 필터링하는 방법에 대해 자세히 알아보려면 [Filter runs](/models/runs/filter-runs) 를 참조하세요.
+
+</Tab>
+<Tab title="W&B App">
+
+W&B 앱에서 run 의 상태를 확인하는 방법:
+
+1. 해당 W&B 프로젝트로 이동합니다.
+2. 프로젝트 사이드바에서 **Workspace** 또는 **Runs** 탭을 선택합니다.
+3. 확인하려는 run 을 검색하거나 스크롤하여 찾습니다.
+4. 해당 run 을 선택하여 run 개요 페이지를 엽니다.
+5. **Overview** 탭을 선택합니다.
+
+**State** 필드 옆에서 run 의 현재 상태를 확인할 수 있습니다.
+
+</Tab>
+</Tabs>

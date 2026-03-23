@@ -1,0 +1,93 @@
+---
+title: Weave Trace 뷰 탐색하기
+description: LLM 및 에이전트 기반 앱의 복잡한 실행 경로를 이해하려면 Weave 의 Trace 뷰를 사용하세요.
+---
+
+Weave Trace 뷰는 LLM 및 에이전트 기반 애플리케이션의 복잡한 실행 경로를 이해할 수 있도록 설계되었습니다. 수십 개의 중첩된 호출이 있는 에이전트 앱을 디버깅하든, 단일 모델 prediction 의 흐름을 추적하든, Trace 뷰는 발생한 상황에 대한 명확한 시각화를 제공합니다. 또한 애플리케이션 흐름을 파악하고 이해할 수 있는 다양한 대안 뷰를 제공합니다.
+
+이 가이드에서는 trace 스택을 이동하고, 코드에서 호출된 함수를 필터링 및 검색하며, 시각적 표현 방식을 전환하는 방법 등을 설명합니다.
+
+## 시작하기
+
+Trace 뷰에 접속하려면:
+1. [https://wandb.ai](https://wandb.ai) 로 이동하여 Projects 를 선택합니다.
+2. 사이드바 메뉴에서 **Traces** 를 선택하여 해당 프로젝트에 저장된 모든 trace를 확인합니다.
+3. 특정 trace를 선택하여 Trace Details 뷰를 엽니다. Trace Details 뷰에는 trace 실행의 계층적 분석을 보여주는 추가 패널들이 표시됩니다.
+
+## Traces 페이지 개요
+
+Traces 페이지는 세 개의 핵심 패널로 구성됩니다:
+
+- **왼쪽 패널**: 프로젝트의 모든 trace run 에 대한 정렬 및 페이지 이동이 가능한 리스트입니다.
+  - 이 traces 테이블에는 토큰, 비용(cost), 레이턴시와 같은 추가 데이터가 포함됩니다.
+- **중앙 패널**: 선택한 trace에 대한 대화형 trace 뷰입니다. Trace 트리는 trace 내에서 추적된 모든 메소드의 계층 구조를 보여줍니다.
+  - Trace 트리는 trace 도중 호출된 `@weave.op()` 데코레이터가 적용된 함수인 [ops](/weave/guides/tracking/ops#automatically-track-function-calls-using-ops) 를 표시합니다.
+- **오른쪽 패널**: 선택한 trace 내에서 선택된 op에 대한 세부 정보입니다.
+
+<Frame>
+![선택된 trace와 선택된 op 상세 정보를 보여주는 Traces 페이지](/weave/guides/tracking/imgs/trace-tree-full.png)
+</Frame>
+
+### Trace 내 필터링
+
+- **이름 기반 Regex 필터**: Trace 트리 상단의 텍스트 필드를 사용하여 `tool`, `openai.response.create` 와 같은 이름이나 타입으로 op를 필터링합니다.
+- **메트릭**: 비용, 토큰, 레이턴시 등 사용 가능한 데이터 메트릭의 표시 여부를 제어합니다.
+
+### Trace 탐색
+Trace 트리는 trace 내에서 추적된 모든 메소드의 계층 구조를 보여줍니다. 트리 위아래로 이동하려면 `Cmd` (macOS) 또는 `Alt` (Windows/Linux) + 위쪽 화살표 (↑) / 아래쪽 화살표 (↓) 를 사용하세요.
+
+Trace 트리 아래에는 트리 내의 상태를 빠르게 탐색할 수 있는 여러 스크러버(scrubber)가 있습니다. 슬라이더를 사용하여 전략적으로 trace를 탐색할 수 있습니다.
+
+패널을 확장하여 사용 가능한 모든 스크러버를 확인하세요:
+- **Timeline**: Trace 내 이벤트의 시간 순서입니다.
+- **Peers**: 동일한 타입을 공유하는 op들입니다. 예를 들어, `predict` 라는 함수의 상세 정보를 확인 중이라면, 이 스크러버를 사용하여 trace 내 다음 `predict` 실행으로 즉시 이동할 수 있습니다.
+- **Siblings**: 동일한 부모를 가진 op들입니다. 부모 함수 호출 아래에 중첩된 op들을 차례로 확인하려면 이 스크러버를 사용하세요.
+- **Stack**: 콜 스택을 위아래로 트래버스합니다.
+- **Path**: (code composition view에서만 사용 가능) 선택된 호출과 동일한 코드 경로를 가진 모든 호출을 차례로 확인합니다.
+
+<Frame>
+![검색 필터와 스크러버를 보여주는 Trace 트리 패널](/weave/guides/tracking/imgs/trace-tree-scrubbers.png)
+</Frame>
+
+### 대안 Trace 트리 뷰
+
+패널 상단에서 필요에 따라 trace 트리의 여러 시각적 표현 방식을 전환할 수 있습니다. 디버깅 목적에 맞춰 뷰를 변경하세요. 호출 로직을 이해하려면 **code composition view**를, 시간에 따른 성능을 파악하려면 **flame graph view**를, 구조를 파악하려면 **graph view**를 사용하세요.
+
+#### Traces (기본값)
+
+Trace 트리의 기본 뷰는 스택 계층 구조, op별 비용(사용 가능한 경우), 실행 시간 및 상태 표시기를 보여줍니다.
+
+#### Code composition view
+
+code composition view에서 박스는 op와 그 중첩된 호출을 나타냅니다. 이는 함수 호출의 흐름을 시각화하는 데 유용합니다. 이 뷰에서는 박스를 선택하여 해당 op를 상세히 조사하고 호출 경로를 필터링할 수 있습니다.
+
+<Frame>
+![trace의 코드 뷰를 보여주는 Trace 뷰](/weave/guides/tracking/imgs/trace-tree-code-view.png)
+</Frame>
+
+#### Flame graph
+
+flame graph 뷰는 실행 깊이와 기간을 타임라인 기반으로 시각화하여 제공합니다. 이는 시간에 따른 성능 진단을 이해하려고 할 때 유용합니다. 프레임을 선택하여 하위 trace를 격리해 볼 수 있습니다.
+
+<Frame>
+![trace 내 op들의 flame graph를 보여주는 Trace 뷰](/weave/guides/tracking/imgs/trace-tree-flame-view.png)
+</Frame>
+
+#### Graph view
+
+graph 뷰는 op 간의 계층적 관계를 보여줍니다. 부모/자식 관계를 이해하는 데 유용합니다.
+
+<Frame>
+![trace 내 op들과 그 관계를 기능적 그래프 뷰로 보여주는 Trace 뷰](/weave/guides/tracking/imgs/trace-tree-graph-view.png)
+</Frame>
+
+### Trace op 세부 정보 확인
+
+Trace 트리에서 op를 선택하면 다음 패널에 해당 op의 세부 정보가 표시됩니다. 이 정보는 다음 탭으로 그룹화됩니다:
+
+- **Call**: op 실행에 대한 입력과 출력입니다.
+- **Code**: 호출이 이루어질 때 사용된 코드입니다.
+- **Feedback**: 해당 op에 대해 사용 가능한 모든 [feedback](/weave/guides/tracking/feedback) 입니다. Weave 내에서 직접 또는 API를 통해 피드백을 제공할 수 있습니다.
+- **Scores**: 해당 op에 대해 사용 가능한 모든 [scores](/weave/guides/evaluation/scorers) 입니다. 호출은 Evaluations 를 실행하여 점수가 매겨집니다.
+- **Summary**: op에 대한 일반 정보입니다.
+- **Use:** 프로그래밍 방식으로 호출을 가져오고 반응, 메모 또는 피드백을 추가하는 데 사용할 수 있는 코드조각 입니다.

@@ -1,51 +1,51 @@
 ---
 title: オーディオ
+namespace: python_sdk_data_type
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/audio.py" />
+
+## <kbd>class</kbd> `Audio`
+オーディオクリップを扱うための W&B クラスです。
+
+### <kbd>method</kbd> `Audio.__init__`
+
+```python
+__init__(
+    data_or_path: Union[str, pathlib.Path, list, ForwardRef('np.ndarray')],
+    sample_rate: Optional[int] = None,
+    caption: Optional[str] = None
+)
+```
+
+オーディオファイルへのパス、またはオーディオデータの NumPy 配列を受け取ります。
+
+**Args:**
+
+ - `data_or_path`: オーディオファイルへのパス、またはオーディオデータの NumPy 配列。
+ - `sample_rate`: サンプルレート。生の NumPy 配列としてオーディオデータを渡す場合に必要です。
+ - `caption`: オーディオと一緒に表示されるキャプション。
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L13-L157" icon="github"/>
-
-オーディオクリップ用の Wandb クラス。
+### <kbd>classmethod</kbd> `Audio.durations`
 
 ```python
-Audio(
-    data_or_path, sample_rate=None, caption=None
-)
+durations(audio_list)
 ```
 
-| Args | Description |
-| :--- | :--- |
-|  `data_or_path` |  (string または numpy array) オーディオファイルへのパス、またはオーディオデータの numpy 配列。 |
-|  `sample_rate` |  (int) サンプルレート、生の numpy 配列のオーディオデータを渡す場合に必要。 |
-|  `caption` |  (string) オーディオと一緒に表示するキャプション。 |
+オーディオファイルの長さを計算します。
 
-## メソッド
+---
 
-### `durations`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L115-L117)
+### <kbd>classmethod</kbd> `Audio.sample_rates`
 
 ```python
-@classmethod
-durations(
-    audio_list
-)
+sample_rates(audio_list)
 ```
 
-### `resolve_ref`
+オーディオファイルのサンプルレートを取得します。
 
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L131-L143)
-
-```python
-resolve_ref()
-```
-
-### `sample_rates`
-
-[ソースを見る](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/audio.py#L119-L121)
-
-```python
-@classmethod
-sample_rates(
-    audio_list
-)
-```
+---

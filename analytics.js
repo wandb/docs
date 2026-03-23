@@ -116,3 +116,13 @@ function wpConsentSync() {
       Optanon.ShowBanner();
     }
   }
+
+  // OneTrust cookies settings button start
+  (function() {
+    const btn = document.createElement('button');
+    btn.id = 'ot-sdk-btn';
+    btn.className = 'ot-sdk-show-settings';
+    btn.textContent = 'Cookie settings';
+    document.body.appendChild(btn);
+  })();
+  // OneTrust cookies settings button end

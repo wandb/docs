@@ -1,30 +1,35 @@
 ---
 title: Plotly
+namespace: python_sdk_data_type
+python_object_type: class
 ---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/plotly.py#L33-L82" icon="github"/>
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/plotly.py" />
 
-plotly plot을 위한 Wandb 클래스입니다.
+
+
+
+## <kbd>class</kbd> `Plotly`
+Plotly 차트를 위한 W&B 클래스입니다. 
+
+### <kbd>method</kbd> `Plotly.__init__`
 
 ```python
-Plotly(
-    val: Union['plotly.Figure', 'matplotlib.artist.Artist']
+__init__(
+    val: Union[ForwardRef('plotly.Figure'), ForwardRef('matplotlib.artist.Artist')]
 )
 ```
 
-| ARG | Description |
-| :--- | :--- |
-|  `val` |  matplotlib 또는 plotly figure |
+Plotly 오브젝트를 초기화합니다. 
 
-## 메소드
 
-### `make_plot_media`
 
-[View source](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/sdk/data_types/plotly.py#L42-L50)
+**Args:**
+ 
+ - `val`:  Matplotlib 또는 Plotly figure. 
 
-```python
-@classmethod
-make_plot_media(
-    val: Union['plotly.Figure', 'matplotlib.artist.Artist']
-) -> Union[Image, 'Plotly']
-```
+
+
+
+---

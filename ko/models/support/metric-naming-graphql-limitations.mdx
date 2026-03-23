@@ -1,0 +1,27 @@
+---
+title: 특수 문자가 포함된 메트릭을 정렬하거나 필터링할 수 없는 이유는 무엇인가요?
+---
+
+import Text from "/snippets/ko/_includes/metric-naming-rules.mdx";
+import Text2 from "/snippets/ko/_includes/metric-naming-examples.mdx";
+
+W&B 의 메트릭 이름은 UI 에서 원활하게 정렬하고 필터링할 수 있도록 GraphQL 네이밍 규칙을 따라야 합니다.
+
+## 유효한 메트릭 이름
+
+<Text/>
+
+이 규칙을 따르지 않는 메트릭은 W&B UI 에서 정렬이나 필터링이 불가능할 수 있습니다.
+
+## 예시
+
+<Text2/>
+
+## 권장 해결 방법
+
+유효하지 않은 문자를 언더스코어( _ )와 같은 유효한 문자로 대체하세요:
+- `"test acc"` 대신 `"test_acc"` 사용
+- `"loss-train"` 대신 `"loss_train"` 사용
+- `"acc,val"` 대신 `"acc_val"` 사용
+
+더 자세한 정보는 [Metric naming constraints](/models/track/log/#metric-naming-constraints) 를 참조하세요.

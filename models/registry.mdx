@@ -83,7 +83,7 @@ with wandb.init(project="registry_quickstart") as run:
 
 W&B automatically creates a collection for you if the collection you specify in the returned run object's `wandb.Run.link_artifact(target_path = "")` method does not exist within the registry you specify.
 
-Continuing from the previous example, after you run the script, navigate to W&B Registry to view artifact versions that you and other members of your organization publish. Select **Registry** in the left sidebar below **Applications**. Select the `"Model"` registry. Within the registry, you should see the `"first-collection"` collection with your linked artifact version.
+Continuing from the previous example, after you run the script, navigate to W&B Registry to view artifact versions that you and other members of your organization publish. Select **Registry** in the project sidebar below **Applications**. Select the `"Model"` registry. Within the registry, you should see the `"first-collection"` collection with your linked artifact version.
 
 Once you link an artifact version to a collection within a registry, members of your organization can [view](/models/registry/lineage), [download](/models/registry/search_registry), [organize](/models/registry/organize-with-tags), and manage your artifact versions, create downstream automations, and more if they have the proper permissions.
 

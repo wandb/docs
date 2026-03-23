@@ -5,79 +5,24 @@ description: Explore W&B integrations with ML frameworks, cloud platforms, and w
 
 W&B integrates with popular machine learning frameworks, cloud platforms, and workflow orchestration tools to help you track experiments, log metrics, and manage models seamlessly.
 
-## Getting started
+## Popular ML integrations:
 
-If you're looking to integrate W&B with a library not listed here, see [Add W&B to any library](/models/integrations/add-wandb-to-any-library) for best practices and implementation guidance.
+<CardGroup cols={2}>
+<Card title="PyTorch Lightning" href="/models/integrations/lightning">
+Integrate W&B with your PyTorch Lightning code to add experiment tracking to your pipeline.
+</Card>
+<Card title="HuggingFace Transformers" href="/models/integrations/huggingface">
+Optimize HuggingFace Transformer models with W&B for experiment tracking and model management.
+</Card>
+</CardGroup>
 
-## ML frameworks and libraries
+<CardGroup cols={2}>
+<Card title="Keras" href="/models/integrations/keras">
+Use W&B and Keras for machine learning experiment tracking, dataset versioning, and project collaboration.
+</Card>
+<Card title="YOLOv5" href="/models/integrations/yolov5">
+Use the "You Only Look Once" (aka YOLOv5) real-time object detection framework and W&B to track model metrics, inspect model outputs, and restart interrupted runs.
+</Card>
+</CardGroup>
 
-### ML frameworks
-
-Integrate W&B with popular machine learning frameworks:
-
-- [Catalyst](/models/integrations/catalyst)
-- [DeepChem](/models/integrations/deepchem)
-- [DSPy](/models/integrations/dspy)
-- [Keras](/models/integrations/keras)
-- [LightGBM](/models/integrations/lightgbm)
-- [MMEngine](/models/integrations/mmengine)
-- [MMF](/models/integrations/mmf)
-- [PaddleDetection](/models/integrations/paddledetection)
-- [PaddleOCR](/models/integrations/paddleocr)
-- [PyTorch Lightning](/models/integrations/lightning)
-- [PyTorch Ignite](/models/integrations/ignite)
-- [Skorch](/models/integrations/skorch)
-- [TensorFlow](/models/integrations/tensorflow)
-- [XGBoost](/models/integrations/xgboost)
-
-### ML libraries
-
-Extend your workflow with these ML libraries:
-
-- [Deepchecks](/models/integrations/deepchecks)
-- [Hugging Face](/models/integrations/huggingface)
-- [Diffusers](/models/integrations/diffusers)
-- [AutoTrain](/models/integrations/autotrain)
-- [Fast.ai](/models/integrations/fastai)
-- [Fast.ai v1](/models/integrations/fastai/v1)
-- [Composer](/models/integrations/composer)
-- [OpenAI Gym](/models/integrations/openai-gym)
-- [Prodigy](/models/integrations/prodigy)
-- [PyTorch Geometric](/models/integrations/pytorch-geometric)
-- [TorchTune](/models/integrations/torchtune)
-- [Scikit-learn](/models/integrations/scikit)
-- [Simple Transformers](/models/integrations/simpletransformers)
-- [spaCy](/models/integrations/spacy)
-- [Stable Baselines 3](/models/integrations/stable-baselines-3)
-- [Ultralytics](/models/integrations/ultralytics)
-
-## Cloud platforms
-
-Deploy and train models on cloud platforms with W&B:
-
-- [Amazon SageMaker](/models/integrations/sagemaker)
-- [Databricks](/models/integrations/databricks)
-- [Azure OpenAI Fine-tuning](/models/integrations/azure-openai-fine-tuning)
-- [OpenAI Fine-tuning](/models/integrations/openai-fine-tuning)
-- [Cohere Fine-tuning](/models/integrations/cohere-fine-tuning)
-- [OpenAI API](/models/integrations/openai-api)
-- [NVIDIA NIM](/models/integrations/nim)
-
-## Workflow orchestration
-
-Integrate W&B with workflow orchestration tools:
-
-- [Kubeflow Pipelines (KFP)](/models/integrations/kubeflow-pipelines-kfp)
-- [Metaflow](/models/integrations/metaflow)
-- [Dagster](/models/integrations/dagster)
-- [Hydra](/models/integrations/hydra)
-
-## Other integrations
-
-Additional tools and integrations:
-
-- [Docker](/models/integrations/docker)
-- [TensorBoard](/models/integrations/tensorboard)
-- [W&B for Julia](/models/integrations/w-and-b-for-julia)
-- [YOLOX](/models/integrations/yolox)
-- [YOLOv5](/models/integrations/yolov5)
+If the library you use is not supported natively, you can still integrate W&B using the W&B [Python SDK](/docs/library/integrations/python-sdk). See [Add W&B to any library](/models/integrations/add-wandb-to-any-library) for best practices and implementation guidance.

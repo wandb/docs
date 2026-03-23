@@ -1,0 +1,39 @@
+---
+title: controller()
+namespace: python_sdk_actions
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
+
+
+
+
+### <kbd>function</kbd> `controller`
+
+```python
+controller(
+    sweep_id_or_config: Optional[str, Dict] = None,
+    entity: Optional[str] = None,
+    project: Optional[str] = None
+) → _WandbController
+```
+
+パブリックな sweep コントローラのコンストラクタです。
+
+
+
+**Examples:**
+ ```python
+import wandb
+
+# コントローラの初期化
+tuner = wandb.controller(...)
+print(tuner.sweep_config)
+print(tuner.sweep_id)
+# 探索アルゴリズムの設定
+tuner.configure_search(...)
+# 早期終了ルールの設定
+tuner.configure_stopping(...)
+```

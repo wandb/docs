@@ -1,0 +1,125 @@
+---
+title: DSPy
+description: DSPy のモジュールや関数を使用して行われた呼び出しを、Weave を使って自動的に追跡し ログ に記録します
+---
+
+<a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+[DSPy](https://dspy-docs.vercel.app/) は、特に関数学習モデル（LM）をパイプライン内で 1 回以上使用する場合に、LM のプロンプトと重みをアルゴリズム的に最適化するための フレームワーク です。 Weave は、DSPy のモジュールや関数を使用して行われた呼び出しを自動的に追跡し、ログを記録します。
+
+## トレース
+
+開発中および プロダクション の両方において、言語モデル アプリケーション の トレース を中央の場所に保存しておくことは重要です。これらの トレース はデバッグに役立つだけでなく、アプリケーション を改善するための データセット としても活用できます。
+
+Weave は [DSPy](https://dspy-docs.vercel.app/) の トレース を自動的にキャプチャします。追跡を開始するには、`weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` を呼び出し、通常通り ライブラリ を使用してください。
+
+```python lines
+import os
+import dspy
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+
+# Weaveを初期化
+weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+
+lm = dspy.LM('openai/gpt-4o-mini')
+dspy.configure(lm=lm)
+classify = dspy.Predict("sentence -> sentiment")
+classify(sentence="it's a charming and often affecting journey.")
+```
+
+[![dspy_trace.png](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+
+Weave は DSPy プログラム内のすべての LM 呼び出しを ログ に記録し、入力、出力、および メタデータ に関する詳細を提供します。
+
+## 独自の DSPy モジュールとシグネチャの追跡
+
+`Module` は、プロンプト技法を抽象化する DSPy プログラムの学習可能な パラメータ を持つ構成要素です。 `Signature` は、DSPy モジュールの入力/出力の 振る舞い を宣言的に指定するものです。 Weave は、DSPy プログラム内のすべての組み込みおよびカスタムの `Signature` と `Module` を自動的に追跡します。
+
+```python lines
+import os
+import dspy
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+
+weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+
+class Outline(dspy.Signature):
+    """トピックの徹底的な概要のアウトラインを作成する。"""
+
+    topic: str = dspy.InputField()
+    title: str = dspy.OutputField()
+    sections: list[str] = dspy.OutputField()
+    section_subheadings: dict[str, list[str]] = dspy.OutputField(
+        desc="セクション見出しから小見出しへのマッピング"
+    )
+
+
+class DraftSection(dspy.Signature):
+    """記事のトップレベルセクションをドラフトする。"""
+
+    topic: str = dspy.InputField()
+    section_heading: str = dspy.InputField()
+    section_subheadings: list[str] = dspy.InputField()
+    content: str = dspy.OutputField(desc="markdown形式のセクション内容")
+
+
+class DraftArticle(dspy.Module):
+    def __init__(self):
+        self.build_outline = dspy.ChainOfThought(Outline)
+        self.draft_section = dspy.ChainOfThought(DraftSection)
+
+    def forward(self, topic):
+        outline = self.build_outline(topic=topic)
+        sections = []
+        for heading, subheadings in outline.section_subheadings.items():
+            section, subheadings = (
+                f"## {heading}",
+                [f"### {subheading}" for subheading in subheadings],
+            )
+            section = self.draft_section(
+                topic=outline.title,
+                section_heading=section,
+                section_subheadings=subheadings,
+            )
+            sections.append(section.content)
+        return dspy.Prediction(title=outline.title, sections=sections)
+
+
+draft_article = DraftArticle()
+article = draft_article(topic="World Cup 2002")
+```
+
+[![](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+
+
+## DSPy プログラムの最適化と評価
+
+Weave は DSPy オプティマイザー と評価（Evaluation）呼び出しの トレース も自動的にキャプチャします。これらを使用して、開発用 データセット に対する DSPy プログラムのパフォーマンスを向上させ、評価することができます。
+
+
+```python lines
+import os
+import dspy
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+
+def accuracy_metric(answer, output, trace=None):
+    predicted_answer = output["answer"].lower()
+    return answer["answer"].lower() == predicted_answer
+
+module = dspy.ChainOfThought("question -> answer: str, explanation: str")
+optimizer = dspy.BootstrapFewShot(metric=accuracy_metric)
+# 最適化の実行
+optimized_module = optimizer.compile(
+    module, trainset=SAMPLE_EVAL_DATASET, valset=SAMPLE_EVAL_DATASET
+)
+```
+
+[![](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)

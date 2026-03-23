@@ -1,0 +1,383 @@
+---
+title: OpenAI
+description: OpenAI を Weave と統合して、トレーシング、評価、モニタングを実行する
+---
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_openai.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+<Note>
+セットアップなしで Weave 上で OpenAI モデルを試してみたいですか？ [LLM Playground](../tools/playground) をお試しください。
+</Note>
+
+## トレース (Tracing)
+
+開発中およびプロダクション環境の両方で、LLM アプリケーションの トレース を中央データベースに保存することは重要です。これらの トレース は、デバッグや、アプリケーションを改善する際の 評価 に使用するトリッキーな例の データセット を構築するのに役立ちます。
+
+Weave は [openai python library](https://platform.openai.com/docs/libraries/python-library) の トレース を自動的にキャプチャできます。
+
+お好みの プロジェクト 名を指定して `weave.init(<project-name>)` を呼び出すことで、キャプチャを開始します。OpenAI は、インポートするタイミングに関係なく自動的にパッチが適用されます。
+
+`weave.init()` を呼び出す際に W&B の チーム を指定しない場合は、デフォルトの Entity が使用されます。デフォルトの Entity の確認や更新については、W&B Models ドキュメントの [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) を参照してください。
+
+**自動パッチ適用 (Automatic Patching)**
+
+Weave は、`weave.init()` の前後のどちらでインポートされたかにかかわらず、OpenAI に自動的にパッチを適用します。
+
+<CodeGroup>
+```python Python lines {4}
+from openai import OpenAI
+import weave
+
+weave.init('emoji-bot')  # OpenAI は自動的にパッチされます！
+
+client = OpenAI()
+response = client.chat.completions.create(
+  model="gpt-4",
+  messages=[
+    {
+      "role": "system",
+      "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+    },
+    {
+      "role": "user",
+      "content": "How are you?"
+    }
+  ]
+)
+```
+
+```typescript TypeScript
+import { OpenAI } from 'openai';
+import { wrapOpenAI } from '@wandb/weave';
+
+const openai = wrapOpenAI(new OpenAI());
+
+// これで OpenAI へのすべての呼び出しがトレースされます
+openai.chat.completions.create(
+  {
+    model: "gpt-4",
+    messages: [
+      {
+        role: "system",
+        content: "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+      },
+      {
+        role: "user",
+        content: "How are you?"
+      }
+    ]
+  }
+);
+```
+</CodeGroup>
+
+**明示的なパッチ適用 (任意)**
+
+きめ細かな制御が必要な場合は、引き続き明示的にパッチを適用することもできます。
+
+```python lines {3,4}
+import weave
+
+weave.init('emoji-bot')
+weave.integrations.patch_openai()  # OpenAI のトレースを有効化
+
+from openai import OpenAI
+client = OpenAI()
+response = client.chat.completions.create(
+  model="gpt-4",
+  messages=[
+    {"role": "user", "content": "Make me a emoji"}
+  ]
+)
+```
+
+[実際のトレースを表示](https://wandb.ai/capecape/emoji-bot/weave/calls/01928a78-6d8a-7e20-9b8c-0cbc8318a0c8)
+
+<Tip>
+[OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) や [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview) の関数呼び出しツールもキャプチャします。
+</Tip>
+
+## 構造化出力 (Structured Outputs)
+
+Weave は OpenAI を使用した構造化出力もサポートしています。これは、LLM のレスポンスが特定の形式に従うようにするのに役立ちます。
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+from pydantic import BaseModel
+import weave
+
+class UserDetail(BaseModel):
+    name: str
+    age: int
+
+client = OpenAI()
+weave.init('extract-user-details')
+
+completion = client.beta.chat.completions.parse(
+    model="gpt-4o-2024-08-06",
+    messages=[
+        {"role": "system", "content": "Extract the user details from the message."},
+        {"role": "user", "content": "My name is David and I am 30 years old."},
+    ],
+    response_format=UserDetail,
+)
+
+user_detail = completion.choices[0].message.parsed
+print(user_detail)
+```
+</CodeGroup>
+
+## 非同期サポート (Async Support)
+
+Weave は OpenAI の非同期関数もサポートしています。
+
+<CodeGroup>
+```python Python
+from openai import AsyncOpenAI
+import weave
+
+client = AsyncOpenAI()
+weave.init('async-emoji-bot')
+
+async def call_openai():
+    response = await client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "system", 
+                "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+            },
+            {
+                "role": "user",
+                "content": "How are you?"
+            }
+        ]
+    )
+    return response
+
+# 非同期関数を呼び出す
+result = await call_openai()
+```
+</CodeGroup>
+
+## ストリーミングサポート (Streaming Support)
+
+Weave は OpenAI からのストリーミングレスポンスもサポートしています。
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('streaming-emoji-bot')
+
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {
+            "role": "system", 
+            "content": "You are AGI. You will be provided with a message, and your task is to respond using emojis only."
+        },
+        {
+            "role": "user",
+            "content": "How are you?"
+        }
+    ],
+    stream=True
+)
+
+for chunk in response:
+    print(chunk.choices[0].delta.content or "", end="")
+```
+</CodeGroup>
+
+## 関数呼び出しのトレース (Tracing Function Calls)
+
+Weave は、ツールを使用する際に OpenAI によって行われる関数呼び出しも トレース します。
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('function-calling-bot')
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather",
+            "description": "Get the weather in a given location",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "The location to get the weather for"
+                    },
+                    "unit": {
+                        "type": "string",
+                        "enum": ["celsius", "fahrenheit"],
+                        "description": "The unit to return the temperature in"
+                    }
+                },
+                "required": ["location"]
+            }
+        }
+    }
+]
+
+response = client.chat.completions.create(
+    model="gpt-4",
+    messages=[
+        {
+            "role": "user",
+            "content": "What's the weather like in New York?"
+        }
+    ],
+    tools=tools
+)
+
+print(response.choices[0].message.tool_calls)
+```
+</CodeGroup>
+
+## Batch API
+
+Weave は、複数のリクエストを処理するための OpenAI Batch API もサポートしています。
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('batch-processing')
+
+# バッチファイルを作成
+batch_input = [
+    {
+        "custom_id": "request-1",
+        "method": "POST",
+        "url": "/v1/chat/completions",
+        "body": {
+            "model": "gpt-4",
+            "messages": [{"role": "user", "content": "Hello, how are you?"}]
+        }
+    },
+    {
+        "custom_id": "request-2", 
+        "method": "POST",
+        "url": "/v1/chat/completions",
+        "body": {
+            "model": "gpt-4",
+            "messages": [{"role": "user", "content": "What's the weather like?"}]
+        }
+    }
+]
+
+# バッチを送信
+batch = client.batches.create(
+    input_file_id="your-file-id",
+    endpoint="/v1/chat/completions",
+    completion_window="24h"
+)
+
+# バッチ結果を取得
+completed_batch = client.batches.retrieve(batch.id)
+```
+</CodeGroup>
+
+## Assistants API
+
+Weave は、会話型 AI アプリケーションを構築するための OpenAI Assistants API もサポートしています。
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('assistant-bot')
+
+# アシスタントを作成
+assistant = client.beta.assistants.create(
+    name="Math Assistant",
+    instructions="You are a personal math tutor. Answer questions about math.",
+    model="gpt-4"
+)
+
+# スレッドを作成
+thread = client.beta.threads.create()
+
+# スレッドにメッセージを追加
+message = client.beta.threads.messages.create(
+    thread_id=thread.id,
+    role="user",
+    content="What is 2+2?"
+)
+
+# アシスタントを実行
+run = client.beta.threads.runs.create(
+    thread_id=thread.id,
+    assistant_id=assistant.id
+)
+
+# アシスタントのレスポンスを取得
+messages = client.beta.threads.messages.list(thread_id=thread.id)
+```
+</CodeGroup>
+
+## コスト追跡 (Cost Tracking)
+
+Weave は OpenAI API 呼び出しのコストを自動的に追跡します。Weave UI でコストの内訳を確認できます。
+
+<Note>
+コスト追跡はすべての OpenAI モデルで利用可能であり、最新の OpenAI 料金に基づいて計算されます。
+</Note>
+
+## カスタム関数のトレース
+
+`@weave.op` デコレータを使用することで、OpenAI を使用するカスタム関数も トレース できます。
+
+<CodeGroup>
+```python Python
+from openai import OpenAI
+import weave
+
+client = OpenAI()
+weave.init('custom-function-bot')
+
+@weave.op
+def generate_response(prompt: str) -> str:
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+    return response.choices[0].message.content
+
+# この関数呼び出しがトレースされます
+result = generate_response("Hello, how are you?")
+```
+</CodeGroup>
+
+## 次のステップ
+
+OpenAI の トレース 設定が完了したので、以下のことが行えます。
+
+1. **Weave UI で トレース を表示する**: Weave プロジェクト にアクセスして、OpenAI 呼び出しの トレース を確認します。
+2. **評価 を作成する**: トレース を使用して 評価 用の データセット を構築します。
+3. **パフォーマンスを監視する**: レイテンシ、コスト、その他の メトリクス を追跡します。
+4. **問題をデバッグする**: トレース を使用して、LLM アプリケーション内で何が起きているかを把握します。
+
+これらのトピックの詳細については、[評価ガイド](../evaluation/scorers) および [モニタリングガイド](../tracking) を参照してください。

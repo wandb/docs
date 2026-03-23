@@ -1,0 +1,14 @@
+---
+title: "How can I change the directory my sweep logs to locally?"
+keywords: ["Sweeps"]
+---
+
+Set the logging directory for W&B run data by configuring the environment variable `WANDB_DIR`. For example:
+
+```python
+os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
+```
+
+---
+
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge>

@@ -1,17 +1,30 @@
 ---
-title: wandb 有効
+title: wandb 有効化済み
 ---
 
-**使用方法**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-enabled.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb enabled [OPTIONS]`
+import WandbEnabled from "/snippets/en/_includes/cli/wandb-enabled.mdx";
 
-**概要**
+<WandbEnabled/>
 
-W&B を有効にします。
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**オプション**
+W&B を有効化します。
 
-| **オプション** | **説明** |
+## Usage (使用法)
+
+```bash
+wandb enabled [OPTIONS]
+```
+
+## Options (オプション)
+
+| オプション | 説明 |
 | :--- | :--- |
-| `--service` | W&B サービスを有効にする [デフォルト: True] |
+| `--service` | W&B サービスを有効にします (デフォルト: True) |

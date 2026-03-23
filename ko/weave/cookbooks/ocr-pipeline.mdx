@@ -1,0 +1,320 @@
+---
+title: Weave를 사용하여 컴퓨터 비전 파이프라인 Trace 및 Evaluate 하기
+description: W&B Weave를 사용하여 컴퓨터 비전 파이프라인을 추적(trace)하고 평가(evaluate)하는 방법을 알아보세요.
+---
+
+<Note>
+이것은 인터랙티브 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+- [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/ocr-pipeline.ipynb)
+- [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/ocr-pipeline.ipynb)
+</Note>
+
+## 사전 요구 사항
+
+시작하기 전에 필요한 라이브러리를 설치 및 임포트하고, W&B API 키를 가져온 다음 Weave 프로젝트를 초기화하세요.
+
+```python lines
+# 필요한 종속성 설치
+!pip install openai weave -q
+
+import json
+import os
+
+from google.colab import userdata
+from openai import OpenAI
+
+import weave
+
+# API 키 가져오기
+os.environ["OPENAI_API_KEY"] = userdata.get(
+    "OPENAI_API_KEY"
+)  # 왼쪽 메뉴의 collab 환경 비밀 변수(secrets)에서 키를 설정하세요
+os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")
+
+# 프로젝트 이름 설정
+# PROJECT 값을 사용자의 프로젝트 이름으로 변경하세요
+PROJECT = "vlm-handwritten-ner"
+
+# Weave 프로젝트 초기화
+weave.init(PROJECT)
+```
+
+## 1. Weave를 사용하여 프롬프트 생성 및 반복 실험
+
+모델이 엔티티를 적절하게 추출하도록 가이드하려면 훌륭한 프롬프트 엔지니어링이 필수적입니다. 먼저, 이미지 데이터에서 무엇을 추출하고 어떻게 형식을 맞출지 모델에 지시하는 기본 프롬프트를 만듭니다. 그런 다음, 추적 및 반복 실험을 위해 프롬프트를 Weave에 저장합니다.
+
+```python lines
+# Weave를 사용하여 프롬프트 오브젝트 생성
+prompt = """
+이 이미지에서 읽을 수 있는 모든 텍스트를 추출하세요. 추출된 엔티티를 유효한 JSON 형식으로 구성하세요.
+추가 텍스트를 반환하지 말고 JSON만 반환하세요. ```json```을 포함하지 마세요.
+다음 형식을 사용하세요:
+{"Patient Name": "James James","Date": "4/22/2025","Patient ID": "ZZZZZZZ123","Group Number": "3452542525"}
+"""
+system_prompt = weave.StringPrompt(prompt)
+# 프롬프트를 Weave에 게시(publish)
+weave.publish(system_prompt, name="NER-prompt")
+```
+
+다음으로, 출력 오류를 줄이는 데 도움이 되도록 더 많은 지침과 검증 규칙을 추가하여 프롬프트를 개선합니다.
+
+```python lines
+better_prompt = """
+당신은 정밀 OCR 어시스턴트입니다. 환자 정보 이미지가 주어지면, 정확히 다음 필드들을 하나의 JSON 오브젝트로 추출하세요. 그 외에는 아무것도 추출하지 마세요:
+
+- Patient Name
+- Date (MM/DD/YYYY)
+- Patient ID
+- Group Number
+
+검증 규칙:
+1. 날짜는 MM/DD/YY 형식이어야 합니다. 그렇지 않으면 Date를 ""로 설정하세요.
+2. Patient ID는 영숫자여야 합니다. 읽을 수 없는 경우 ""로 설정하세요.
+3. 월과 일은 항상 0을 채워 두 자리로 만드세요 (예: "04/07/25").
+4. 마크업, 주석 또는 코드 펜스(code fences)를 생략하세요.
+5. 정확히 위 네 개의 키만 포함된 유효한 JSON을 반환하세요.
+
+추가 텍스트를 반환하지 말고 JSON만 반환하세요. ```json```을 포함하지 마세요.
+출력 예시:
+{"Patient Name":"James James","Date":"04/22/25","Patient ID":"ZZZZZZZ123","Group Number":"3452542525"}
+"""
+# 프롬프트 수정
+system_prompt = weave.StringPrompt(better_prompt)
+# 수정된 프롬프트를 Weave에 게시
+weave.publish(system_prompt, name="NER-prompt")
+```
+
+## 2. 데이터셋 가져오기
+
+다음으로, OCR 파이프라인의 입력으로 사용할 수필 메모 데이터셋을 가져옵니다.
+
+데이터셋의 이미지는 이미 `base64`로 인코딩되어 있어, 별도의 전처리 없이 LLM에서 바로 데이터를 사용할 수 있습니다.
+
+```python lines
+# 다음 Weave 프로젝트에서 데이터셋 가져오기
+dataset = weave.ref(
+    "weave://wandb-smle/vlm-handwritten-ner/object/NER-eval-dataset:G8MEkqWBtvIxPYAY23sXLvqp8JKZ37Cj0PgcG19dGjw"
+).get()
+
+# 데이터셋에서 특정 예시 엑세스
+example_image = dataset.rows[3]["image_base64"]
+
+# example_image 표시
+from IPython.display import HTML, display
+
+html = f'<img src="{example_image}" style="max-width: 100%; height: auto;">'
+display(HTML(html))
+```
+
+## 3. NER 파이프라인 구축
+
+이제 NER 파이프라인을 구축합니다. 파이프라인은 두 개의 함수로 구성됩니다:
+
+1. `encode_image` 함수: 데이터셋에서 PIL 이미지를 받아 VLM에 전달할 수 있는 이미지의 `base64` 인코딩 문자열 표현을 반환합니다.
+2. `extract_named_entities_from_image` 함수: 이미지와 시스템 프롬프트를 받아 시스템 프롬프트에 설명된 대로 해당 이미지에서 추출된 엔티티를 반환합니다.
+
+```python lines
+# GPT-4-Vision을 사용하는 추적 가능한 함수
+def extract_named_entities_from_image(image_base64) -> dict:
+    # LLM 클라이언트 초기화
+    client = OpenAI()
+
+    # 지시 프롬프트 설정
+    # 선택적으로 Weave에 저장된 프롬프트를 사용할 수 있습니다: weave.ref("weave://wandb-smle/vlm-handwritten-ner/object/NER-prompt:FmCv4xS3RFU21wmNHsIYUFal3cxjtAkegz2ylM25iB8").get().content.strip()
+    prompt = better_prompt
+
+    response = client.responses.create(
+        model="gpt-4.1",
+        input=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "input_text", "text": prompt},
+                    {
+                        "type": "input_image",
+                        "image_url": image_base64,
+                    },
+                ],
+            }
+        ],
+    )
+
+    return response.output_text
+```
+
+이제 다음과 같은 기능을 수행하는 `named_entity_recognation` 함수를 만듭니다:
+- 이미지 데이터를 NER 파이프라인으로 전달
+- 결과가 포함된 올바른 형식의 JSON 반환
+
+[`@weave.op()` 데코레이터](/weave/reference/python-sdk/trace/op)를 사용하여 W&B UI에서 함수 실행을 자동으로 추적하고 기록하세요.
+
+`named_entity_recognation`이 실행될 때마다 전체 추적 결과가 Weave UI에 표시됩니다. 추적 내용을 보려면 Weave 프로젝트의 **Traces** 탭으로 이동하세요.
+
+```python lines
+# 평가를 위한 NER 함수
+@weave.op()
+def named_entity_recognation(image_base64, id):
+    result = {}
+    try:
+        # 1) vision op를 호출하여 JSON 문자열을 가져옵니다
+        output_text = extract_named_entities_from_image(image_base64)
+
+        # 2) JSON을 정확히 한 번 파싱합니다
+        result = json.loads(output_text)
+
+        print(f"처리됨: {str(id)}")
+    except Exception as e:
+        print(f"{str(id)} 처리 실패: {e}")
+    return result
+```
+
+마지막으로, 데이터셋에 대해 파이프라인을 실행하고 결과를 확인합니다.
+
+다음 코드는 데이터셋을 루프하며 결과를 로컬 파일 `processing_results.json`에 저장합니다. 결과는 Weave UI에서도 확인할 수 있습니다.
+
+```python lines
+# 결과 출력
+results = []
+
+# 데이터셋의 모든 이미지를 루프
+for row in dataset.rows:
+    result = named_entity_recognation(row["image_base64"], str(row["id"]))
+    result["image_id"] = str(row["id"])
+    results.append(result)
+
+# 모든 결과를 JSON 파일로 저장
+output_file = "processing_results.json"
+with open(output_file, "w") as f:
+    json.dump(results, f, indent=2)
+
+print(f"결과가 다음 위치에 저장되었습니다: {output_file}")
+```
+
+Weave UI의 **Traces** 테이블에서 다음과 유사한 화면을 볼 수 있습니다.
+
+<Frame>
+![Screenshot 2025-05-02 at 12.03.00 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pm.png)
+</Frame>
+
+## 4. Weave를 사용하여 파이프라인 평가
+
+VLM을 사용하여 NER을 수행하는 파이프라인을 만들었으므로, 이제 Weave를 사용하여 이를 체계적으로 평가하고 성능을 확인할 수 있습니다. Weave의 평가에 대한 자세한 내용은 [Evaluations 개요](/weave/guides/core-types/evaluations)에서 확인할 수 있습니다.
+
+Weave Evaluation의 핵심 요소는 [Scorers](/weave/guides/evaluation/scorers)입니다. Scorer는 AI 출력을 평가하고 평가 메트릭을 반환하는 데 사용됩니다. AI의 출력을 받아 분석하고 결과 사전을 반환합니다. Scorer는 필요한 경우 입력 데이터를 참조로 사용할 수 있으며, 평가 결과에 대한 설명이나 추론과 같은 추가 정보를 출력할 수도 있습니다.
+
+이 섹션에서는 파이프라인을 평가하기 위해 두 가지 Scorer를 만듭니다:
+1. Programatic Scorer
+2. LLM-as-a-judge Scorer
+
+### Programatic scorer
+
+프로그래밍 방식의 Scorer인 `check_for_missing_fields_programatically`는 모델 출력(`named_entity_recognition` 함수의 출력)을 받아 결과에서 어떤 `keys`가 누락되었거나 비어 있는지 식별합니다.
+
+이 체크는 모델이 필드를 캡처하지 못한 샘플을 식별하는 데 유용합니다.
+
+```python lines
+# Scorer 실행 추적을 위해 weave.op() 추가
+@weave.op()
+def check_for_missing_fields_programatically(model_output):
+    # 모든 항목에 필요한 필수 키
+    required_fields = {"Patient Name", "Date", "Patient ID", "Group Number"}
+
+    for key in required_fields:
+        if (
+            key not in model_output
+            or model_output[key] is None
+            or str(model_output[key]).strip() == ""
+        ):
+            return False  # 누락되거나 비어 있는 필드가 있는 항목입니다
+
+    return True  # 모든 필수 필드가 존재하며 비어 있지 않습니다
+```
+
+### LLM-as-a-judge scorer
+
+평가의 다음 단계에서는 평가가 실제 NER 성능을 반영하도록 이미지 데이터와 모델 출력을 모두 제공합니다. 모델 출력뿐만 아니라 이미지 내용도 명시적으로 참조됩니다.
+
+이 단계에서 사용되는 Scorer인 `check_for_missing_fields_with_llm`은 LLM(구체적으로 OpenAI의 `gpt-4o`)을 사용하여 점수를 매깁니다. `eval_prompt`의 내용에 명시된 대로 `check_for_missing_fields_with_llm`은 `Boolean` 값을 출력합니다. 모든 필드가 이미지의 정보와 일치하고 형식이 올바르면 Scorer는 `true`를 반환합니다. 필드가 누락되었거나, 비어 있거나, 올바르지 않거나, 일치하지 않는 경우 결과는 `false`가 되며 Scorer는 문제를 설명하는 메시지도 함께 반환합니다.
+
+```python lines
+# LLM-as-a-judge를 위한 시스템 프롬프트
+
+eval_prompt = """
+당신은 OCR 검증 시스템입니다. 당신의 역할은 이미지에서 추출된 구조화된 텍스트가 해당 이미지의 정보를 정확하게 반영하는지 평가하는 것입니다.
+구조화된 텍스트만 검증하고 이미지를 정보의 원천(source of truth)으로 사용하세요.
+
+예상되는 입력 텍스트 형식:
+{"Patient Name": "First Last", "Date": "04/23/25", "Patient ID": "131313JJH", "Group Number": "35453453"}
+
+평가 기준:
+- 네 개의 필드가 모두 존재해야 합니다.
+- 어떤 필드도 비어 있거나 플레이스홀더/잘못된 형식의 값을 포함해서는 안 됩니다.
+- "Date"는 MM/DD/YY 형식이어야 합니다 (예: "04/07/25") (날짜 앞에 0을 채우는 것이 허용됩니다).
+
+채점:
+- **모든 필드**가 이미지의 정보와 일치하고 형식이 올바른 경우 {"Correct": true, "Reason": ""}를 반환합니다.
+- 필드가 하나라도 누락되었거나, 비어 있거나, 올바르지 않거나, 일치하지 않는 경우 {"Correct": false, "Reason": "EXPLANATION"}를 반환합니다.
+
+출력 요구 사항:
+- 유효한 JSON 오브젝트만 응답하세요.
+- "Correct"는 JSON 불리언이어야 합니다: true 또는 false (문자열이나 숫자가 아님).
+- "Reason"은 모든 문제를 나타내는 짧고 구체적인 문자열이어야 합니다. 예: "Patient Name mismatch", "Date not zero-padded", 또는 "Missing Group Number".
+- 추가 설명이나 서식을 반환하지 마세요.
+
+응답은 반드시 다음 중 하나여야 합니다:
+{"Correct": true, "Reason": null}
+또는
+{"Correct": false, "Reason": "EXPLANATION_HERE"}
+"""
+
+# Scorer 실행 추적을 위해 weave.op() 추가
+@weave.op()
+def check_for_missing_fields_with_llm(model_output, image_base64):
+    client = OpenAI()
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "developer", "content": [{"text": eval_prompt, "type": "text"}]},
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": image_base64,
+                        },
+                    },
+                    {"type": "text", "text": str(model_output)},
+                ],
+            },
+        ],
+        response_format={"type": "json_object"},
+    )
+    response = json.loads(response.choices[0].message.content)
+    return response
+```
+
+## 5. Evaluation 실행
+
+마지막으로, 전달된 `dataset`을 자동으로 루프하고 그 결과를 Weave UI에 함께 로깅하는 evaluation 호출을 정의합니다.
+
+다음 코드는 평가를 시작하고 NER 파이프라인의 모든 출력에 대해 두 가지 Scorers를 적용합니다. 결과는 Weave UI의 **Evals** 탭에서 확인할 수 있습니다.
+
+```python lines
+evaluation = weave.Evaluation(
+    dataset=dataset,
+    scorers=[
+        check_for_missing_fields_with_llm,
+        check_for_missing_fields_programatically,
+    ],
+    name="Evaluate_4.1_NER",
+)
+
+print(await evaluation.evaluate(named_entity_recognation))
+```
+
+위 코드가 실행되면 Weave UI의 Evaluation 테이블로 연결되는 링크가 생성됩니다. 링크를 따라가서 결과를 확인하고 선택한 모델, 프롬프트, 데이터셋에 걸쳐 파이프라인의 다양한 반복 실험을 비교해 보세요. Weave UI는 팀을 위해 아래에 표시된 것과 같은 시각화를 자동으로 생성합니다.
+
+<Frame>
+![Screenshot 2025-05-02 at 12.26.15 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-122615-pm.png)
+</Frame>

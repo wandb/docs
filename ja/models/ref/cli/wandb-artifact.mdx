@@ -2,24 +2,19 @@
 title: wandb アーティファクト
 ---
 
-**使用方法**
+Artifacts とやり取りするためのコマンド
 
-`wandb artifact [OPTIONS] COMMAND [ARGS]...`
+## Usage
 
-**概要**
+```bash
+wandb artifact COMMAND [ARGS]...
+```
 
-アーティファクトと対話するためのコマンド
+## Commands
 
-**オプション**
-
-| **オプション** | **説明** |
+| コマンド | 説明 |
 | :--- | :--- |
-
-**コマンド**
-
-| **コマンド** | **説明** |
-| :--- | :--- |
-| cache | アーティファクトキャッシュと対話するためのコマンド |
-| get | wandb からアーティファクトをダウンロード |
-| ls | wandb プロジェクト内のすべてのアーティファクトをリスト表示 |
-| put | wandb にアーティファクトをアップロード |
+| [cache](/models/ref/cli/wandb-artifact/wandb-artifact-cache) | Artifacts のキャッシュを操作するためのコマンド |
+| [get](/models/ref/cli/wandb-artifact/wandb-artifact-get) | W&B から アーティファクト をダウンロードする |
+| [ls](/models/ref/cli/wandb-artifact/wandb-artifact-ls) | W&B の Projects 内にあるすべての アーティファクト を一覧表示する |
+| [put](/models/ref/cli/wandb-artifact/wandb-artifact-put) | W&B に アーティファクト をアップロードする |

@@ -1,12 +1,8 @@
 ---
-title: システム メトリクスをログする頻度をどのように変更できますか？
-support:
-  - metrics
-  - runs
-toc_hide: true
-type: docs
+title: システムメトリクスのログ記録の頻度を変更するにはどうすればよいですか？
 ---
-頻度を設定して[システムメトリクス](/ja/models/ref/system-metrics/)をログするには、`_stats_sampling_interval` を秒数で設定します。これは浮動小数点として表現されます。デフォルトは `10.0` です。
+
+[システムメトリクス](/models/ref/python/experiments/system-metrics/) のログを記録する頻度を設定するには、`_stats_sampling_interval` に秒数を float 型で指定します。デフォルト値は `10.0` です。
 
 ```python
 wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
