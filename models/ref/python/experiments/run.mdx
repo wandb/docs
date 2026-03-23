@@ -542,7 +542,7 @@ Only one level of nesting is supported; `run.log({"a/b/c": 1})` produces a secti
 
 `run.log()` is not intended to be called more than a few times per second. For optimal performance, limit your logging to once every N iterations, or collect data over multiple iterations and log it in a single step. 
 
-By default, each call to `run.log()` creates a new "step". The step must always increase, and it is not possible to log to a previous step. You can use any metric as the X axis in charts. See [Custom log axes](https://docs.wandb.ai/guides/track/log/customize-logging-axes/) for more details. 
+By default, each call to `wandb.Run.log()` creates a new "step". The step must always increase, and it is not possible to log to a previous step. You can use any metric as the X axis in charts. See [Custom log axes](https://docs.wandb.ai/guides/track/log/customize-logging-axes/) for more details. 
 
 In many cases, it is better to treat the W&B step like you'd treat a timestamp rather than a training step. 
 
