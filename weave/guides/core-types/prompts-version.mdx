@@ -5,17 +5,17 @@ description: "Retrieve and manage versions of your prompts for LLM applications"
 
 After [creating and publishing prompts](/weave/guides/core-types/prompts.mdx), you can reference, retrieve, and use specific versions in code and in production.
 
-When you publish a prompt with `weave.publish`, Weave creates an immutable version. Each version can be referenced by name and version, retrieved in code with `weave.ref(...).get()`, and viewed in the Weave UI.
+When you publish a prompt with `weave.publish`, W&B Weave creates an immutable version. Each version can be referenced by name and version, retrieved in code with `weave.ref(...).get()`, and viewed in the Weave UI.
 
 # Prompt versions
 
-Prompts in Weave are stored as **versioned objects**.  This allows you to safely iterate on prompts while ensuring that evaluations, experiments, and production systems can reference the exact prompt version they were run with.
+Prompts in Weave are stored as **versioned objects**. This allows you to safely iterate on prompts while ensuring that evaluations, experiments, and production systems can reference the exact prompt version they were run with.
 
 Prompt versions are accessed using Weave object references. This page explains how prompt versions are created, how to retrieve a specific version in code, and how to inspect and compare versions in the Weave UI.
 
 ## How prompt versions are created
 
-Weave automatically tracks every version of your prompts, creating a complete history of how your prompts evolve. This versioning system is crucial for prompt engineering workflows, allowing you to experiment safely, track what changes improved or hurt performance, and easily roll back to previous versions if needed. Each time you publish a prompt with the same name but different content, Weave creates a new version while preserving all previous versions. 
+Weave automatically tracks every version of your prompts, creating a complete history of how your prompts evolve. This versioning system is crucial for prompt engineering workflows, allowing you to experiment safely, track what changes improved or hurt performance, and easily roll back to previous versions if needed. Each time you publish a prompt with the same name but different content, Weave creates a new version while preserving all previous versions.
 
 Each version is immutable. Once created, the contents of that version cannot be changed. If you update a prompt and publish it again, Weave creates a new version while preserving previous versions.
 
@@ -53,8 +53,7 @@ You can construct refs with a few different styles:
 
 - `weave.ref(<name>)`: Retrieves the `:latest` version of a prompt. Requires calling `weave.init(...)`.
 - `weave.ref(<name>:<version>)`:  Retrieves the specified version of a prompt. Requires calling `weave.init(...)`.
-- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the prompt located at the specified [fully qualified ref URI](#construct-a-fully-qualified-ref-uri).  Does not require calling `weave.init()`.
-
+- `weave.ref(<fully_qualified_ref_uri>)`: Retrieves the prompt located at the specified [fully qualified ref URI](#construct-a-fully-qualified-ref-uri). Does not require calling `weave.init(...)`.
 
 The following example loads the `support_prompt:v3` version so you can use it in your application:
 
@@ -94,3 +93,101 @@ To view versions of the prompt in the UI:
 5. (Optional) You can compare versions of prompts by clicking the checkboxes beside the listed prompts and then clicking the **Compare** button in the table toolbar. This allows you to see the diff between your prompts.
 
 ![The Compare prompts UI showing a diff between two different prompt versions.](/weave/guides/core-types/imgs/prompt-comparison.png)
+
+## Add prompt tags and aliases
+
+You can organize prompt versions using aliases and tags. These labels help identify and reference specific versions.
+
+- Alias: A unique name that resolves to a single prompt version. You can move an alias to point to a different version at any time, making it useful for stable references like production or staging.
+- Tag: A descriptive label attached to a version. A version can have multiple tags. Use tags to categorize and filter versions, such as reviewed or passed-eval.
+
+To set aliases and tags for your prompts in the UI:
+1. In the Weave project sidebar, click **Assets**. This opens the Assets page.
+1. In the Assets page, click **Prompts**. Note that you can view assigned `Aliases` and `Tags` in the table.
+1. In the Prompts table, click the link of the prompt you want to change.
+1. In the prompt detail panel for your selected prompt, the title bar displays the name of the prompt and a specific version. Choose the version of the prompt you want to update.
+1. In the panel toolbar, use the controls to add and remove assigned aliases and tags to this specific version.
+
+![A selected prompt version in the prompt detail panel on the Prompts page, showing controls for Aliases and Tags.](/weave/guides/core-types/imgs/prompt-alias-tags.png)
+
+### Modify tags and aliases in code
+
+Tags and aliases can also be managed in code, for tasks such as: 
+- Publishing prompts with tags and aliases inline. 
+- Pointing aliases at specific versions and resolving them to load prompts.
+- Adding, removing, or listing tags and aliases on versions.
+
+The following code example adds a prompt `my-prompt` to your project with three versions, each having various tags and aliases. Update `'your-team-name/your-project-name'` accordingly for your project.
+
+<CodeGroup>
+```python Python lines
+import weave
+
+// TODO: Set 'your-team-name/your-project-name' to correct values.
+client = weave.init('your-team-name/your-project-name')
+
+# Publish two versions of a prompt.
+v0_ref = weave.publish(
+    weave.StringPrompt("Answer the user's question: {question}"),
+    name="my-prompt",
+)
+v1_ref = weave.publish(
+    weave.StringPrompt("Answer the user's question helpfully and concisely: {question}"),
+    name="my-prompt",
+)
+
+# --- Aliases: named pointers to a specific version. ---
+
+# Point aliases at a version.
+client.set_aliases(v0_ref, "staging")
+client.set_aliases(v1_ref, "production")
+
+# Retrieve aliases for a version.
+client.get_aliases(v1_ref)  # ["production", "latest"]
+
+# Move an alias by setting it on a different version.
+client.set_aliases(v0_ref, "production")  # Automatically detaches from v1.
+
+# Resolve an alias to load the object.
+prompt = weave.ref("my-prompt:production").get()
+
+# List all aliases in the project.
+client.list_aliases()
+
+# Remove an alias.
+client.remove_aliases(v0_ref, "production")
+
+# --- Tags: labels on a specific version. ---
+
+# Add tags to a version.
+client.add_tags(v0_ref, ["reviewed", "passed-eval"])
+client.add_tags(v1_ref, ["reviewed", "needs-improvement"])
+
+# Get tags for a version.
+client.get_tags(v0_ref)  # ["passed-eval", "reviewed"]
+
+# List all distinct tags in the project.
+client.list_tags()
+
+# Remove tags from a version.
+client.remove_tags(v1_ref, ["needs-improvement"])
+
+# --- Combined: fetch both in a single call. ---
+
+tags, aliases = client.get_tags_and_aliases(v0_ref)
+
+# --- Publish with tags and aliases inline. ---
+
+ref = weave.publish(
+    weave.StringPrompt("Be brief: {question}"),
+    name="my-prompt",
+    tags=["reviewed"],
+    aliases=["production"],
+)
+
+```
+```plaintext TypeScript lines
+This feature is not available in the TypeScript SDK yet.
+```
+</CodeGroup>
+When you run the example, Weave prints links to your objects in the Weave dashboard. Follow the links to see your prompts.
