@@ -108,7 +108,7 @@ with wandb.init() as run:
 
 #### Run 3
 
-Must run after Run 1 and Run 2 complete. The Run that calls `run.finish_artifact()` can include files in the artifact, but does not need to.
+Must run after Run 1 and Run 2 complete. The Run that calls `wandb.Run.finish_artifact()` can include files in the artifact, but does not need to.
 
 ```python
 with wandb.init() as run:
