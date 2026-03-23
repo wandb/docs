@@ -97,7 +97,7 @@ with wandb.init(entity="charlie", project="mnist-experiments", config=config) as
     run.log_model(path=full_path, name="MNIST")
 ```
 
-When you call `run.log_model()`, a model artifact named `MNIST` is created and the file `model.h5` is added to the model artifact. Your terminal or notebook will print information of where to find information about the run the model was logged to.
+When you call `wandb.Run.log_model()`, a model artifact named `MNIST` is created and the file `model.h5` is added to the model artifact. Your terminal or notebook will print information of where to find information about the run the model was logged to.
 
 ```python
 View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
