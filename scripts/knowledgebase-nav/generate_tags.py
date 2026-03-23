@@ -29,8 +29,12 @@ Phase 3. Generate product index pages (group-generator pattern):
 Phase 4. Sync tab-page Badges:
     For each support article, rewrites only ``<Badge>`` links to
     ``/support/<product>/tags/...`` so they match ``keywords`` in front matter.
-    Tech writers do not maintain those Badges by hand. Runs after tag pages
-    are generated so articles are not modified if earlier phases fail.
+    Tech writers do not maintain those Badges by hand. Badges are wrapped in
+    MDX comment markers (``_BADGE_START`` / ``_BADGE_END``) so the generator
+    can find them without regex matching on subsequent runs. Articles that
+    predate the markers are migrated automatically on the first run. Runs
+    after tag pages are generated so articles are not modified if earlier
+    phases fail.
 
 Phase 5. Update docs.json navigation (meta-generator pattern):
     Reads the existing docs.json, finds or creates hidden support tabs for
@@ -38,7 +42,11 @@ Phase 5. Update docs.json navigation (meta-generator pattern):
     the file back while preserving all unrelated navigation entries.
 
 Phase 6. Update support.mdx (meta-generator pattern):
-    Refreshes article and tag counts on the root support landing page.
+    Refreshes article and tag counts on the root support landing page
+    (count lines are wrapped in ``{/* auto-generated counts */}`` markers
+    so writers can add other content in each Card body), and regenerates
+    the featured-articles section from articles that have
+    ``featured: true`` in front matter.
 
 Inputs
 ------
@@ -52,12 +60,15 @@ Outputs
 - Updated support article MDX files at support/<product>/articles/*.mdx
   (only ``<Badge>`` components whose Markdown link targets
   ``/support/<product>/tags/...`` are rewritten from ``keywords``; other
-  Badges and body text are left alone. If no such Badges exist yet, a blank
-  line and tab Badges are appended when ``keywords`` is non-empty)
+  Badges and body text are left alone. Managed Badges are wrapped in
+  ``_BADGE_START`` / ``_BADGE_END`` marker comments. If no such Badges
+  exist yet, a blank line, markers, and tab Badges are appended when
+  ``keywords`` is non-empty)
 - Tag page MDX files at support/<product>/tags/<tag-slug>.mdx
 - Product index MDX files at support/<product>.mdx
 - Updated docs.json with correct support navigation tabs
-- Updated support.mdx product card counts
+- Updated support.mdx product card counts (inside marker comments)
+  and featured-articles section (inside marker comments)
 
 Usage
 -----
@@ -619,6 +630,10 @@ def _keywords_list_for_footer(
     return _normalize_keywords(frontmatter.get("keywords", []), article_path)
 
 
+_BADGE_START = "{/* ---- AUTO-GENERATED: tab badges ----\n  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.\n  Do not edit between these markers by hand.\n---- */}"
+_BADGE_END = "{/* ---- END AUTO-GENERATED: tab badges ---- */}"
+
+
 def _tab_badge_pattern(product_slug: str) -> re.Pattern[str]:
     """
     Match a Mintlify ``<Badge>`` whose inner Markdown link targets this
@@ -648,15 +663,16 @@ def build_tab_badges_mdx(product_slug: str, keywords: List[str]) -> str:
 
 def build_keyword_footer_mdx(product_slug: str, keywords: List[str]) -> str:
     """
-    Build text to append when an article has no tab Badges yet: a blank line
-    then the tab ``<Badge>`` elements (no ``---`` horizontal rule).
+    Build text to append when an article has no tab Badges yet.
 
-    Used when appending because the article has no tab-page Badges yet.
-    Returns empty when ``keywords`` is empty.
+    Wraps the Badges in marker comments so future runs can find and
+    replace them without regex matching.  Returns empty when
+    ``keywords`` is empty.
     """
     if not keywords:
         return ""
-    return "\n\n" + build_tab_badges_mdx(product_slug, keywords)
+    badges = build_tab_badges_mdx(product_slug, keywords)
+    return f"\n\n{_BADGE_START}\n{badges}\n{_BADGE_END}"
 
 
 def _replace_tab_badges_in_body(
@@ -667,25 +683,44 @@ def _replace_tab_badges_in_body(
     """
     Replace or remove only tab-page Badges; append a default footer if needed.
 
-    Finds ``<Badge>`` elements whose link path is
-    ``/support/<product_slug>/tags/...``, removes them (right to left), then
-    inserts the new Badge string at the position of the first removed match.
-    Text before, between, and after those Badges (including other Badges,
-    prose, and content after the last tab Badge) is preserved.
+    Prefers marker comments (``_BADGE_START`` / ``_BADGE_END``) when present:
+    everything between the markers (inclusive) is replaced with the new
+    marked block, or removed when ``keywords`` is empty.
 
-    If there are no such Badges and ``keywords`` is non-empty, appends
-    ``build_keyword_footer_mdx`` (blank line plus Badges) to the trimmed body.
+    Falls back to regex matching for articles that have not yet been
+    migrated to markers: finds ``<Badge>`` elements whose link path is
+    ``/support/<product_slug>/tags/...``, removes them, and inserts the
+    new marked block at the position of the first removed match.
+
+    If neither markers nor matching Badges exist and ``keywords`` is
+    non-empty, appends ``build_keyword_footer_mdx`` (blank line plus
+    marked Badges) to the trimmed body.
     """
+    start_idx = body_and_footer.find(_BADGE_START)
+    end_idx = body_and_footer.find(_BADGE_END)
+
+    if start_idx != -1 and end_idx != -1:
+        end_idx += len(_BADGE_END)
+        if keywords:
+            new_block = f"{_BADGE_START}\n{build_tab_badges_mdx(product_slug, keywords)}\n{_BADGE_END}"
+        else:
+            new_block = ""
+        return body_and_footer[:start_idx] + new_block + body_and_footer[end_idx:]
+
+    # Migration path: find bare tab Badges and wrap them in markers.
     pattern = _tab_badge_pattern(product_slug)
     matches = list(pattern.finditer(body_and_footer))
-    new_badges = build_tab_badges_mdx(product_slug, keywords)
 
     if matches:
         out = body_and_footer
         for m in reversed(matches):
             out = out[: m.start()] + out[m.end() :]
         insert_pos = matches[0].start()
-        return out[:insert_pos] + new_badges + out[insert_pos:]
+        if keywords:
+            new_block = f"{_BADGE_START}\n{build_tab_badges_mdx(product_slug, keywords)}\n{_BADGE_END}"
+        else:
+            new_block = ""
+        return out[:insert_pos] + new_block + out[insert_pos:]
 
     if keywords:
         return body_and_footer.rstrip() + build_keyword_footer_mdx(product_slug, keywords)
@@ -1280,8 +1315,108 @@ def update_docs_json(
 
 
 # ---------------------------------------------------------------------------
-# Phase 6: Update support.mdx product cards (meta-generator pattern)
+# Phase 6: Update support.mdx (counts and featured articles)
 # ---------------------------------------------------------------------------
+
+_FEATURED_START = "{/* ---- AUTO-GENERATED: featured articles ----"
+_FEATURED_END = "{/* ---- END AUTO-GENERATED: featured articles ---- */}"
+
+
+def _build_featured_section_mdx(
+    all_featured: Dict[str, Tuple[str, List[Dict[str, Any]]]],
+) -> str:
+    """
+    Build the auto-managed featured-articles block for support.mdx.
+
+    Parameters
+    ----------
+    all_featured : dict
+        Mapping of product slug to a ``(display_name, featured_articles)``
+        tuple.  Products with no featured articles are skipped.
+
+    Returns
+    -------
+    str
+        The MDX content between (but not including) the start and end
+        markers.  Includes the hint comment for tech writers.
+    """
+    hint = (
+        "{/* ---- AUTO-GENERATED: featured articles ----\n"
+        "  This section is managed by scripts/knowledgebase-nav/generate_tags.py.\n"
+        "  To feature an article, add \"featured: true\" to its front matter.\n"
+        "  To remove it, set \"featured: false\" or remove the field.\n"
+        "  Do not edit the content between these markers by hand.\n"
+        "---- */}"
+    )
+    parts = [hint]
+
+    if all_featured:
+        parts.append("\n## Featured articles")
+
+    for slug in sorted(all_featured):
+        display_name, articles = all_featured[slug]
+        if not articles:
+            continue
+        parts.append(f"\n### {display_name}\n")
+        for article in articles:
+            badges = " ".join(
+                f'<Badge stroke shape="pill" color="orange" size="md">'
+                f'[{tl["name"]}]({tl["href"]})</Badge>'
+                for tl in article["tag_links"]
+            )
+            parts.append(
+                f'<Card title="{article["title_attr"]}" '
+                f'href="/{article["page_path"]}" arrow="true" horizontal>\n'
+                f"  {article['body_preview']}\n"
+                f"\n"
+                f"{badges} \n"
+                f"</Card>"
+            )
+
+    parts.append("")
+    parts.append(_FEATURED_END)
+    return "\n".join(parts)
+
+
+def update_support_featured(
+    repo_root: Path,
+    all_featured: Dict[str, Tuple[str, List[Dict[str, Any]]]],
+) -> None:
+    """
+    Replace the featured-articles section of support.mdx between markers.
+
+    Looks for ``_FEATURED_START`` and ``_FEATURED_END`` in support.mdx
+    and replaces everything between them (inclusive) with a freshly
+    generated block.  If the markers are missing, emits a warning and
+    leaves the file unchanged.
+
+    Parameters
+    ----------
+    repo_root : Path
+        Path to the root of the wandb-docs repository.
+    all_featured : dict
+        Mapping of product slug to ``(display_name, featured_articles)``.
+    """
+    support_path = repo_root / "support.mdx"
+    content = support_path.read_text(encoding="utf-8")
+
+    start_idx = content.find(_FEATURED_START)
+    end_idx = content.find(_FEATURED_END)
+
+    if start_idx == -1 or end_idx == -1:
+        warnings.warn(
+            "Could not find featured-article markers in support.mdx. "
+            "Skipping featured section update."
+        )
+        return
+
+    end_idx += len(_FEATURED_END)
+    new_block = _build_featured_section_mdx(all_featured)
+    new_content = content[:start_idx] + new_block + content[end_idx:]
+
+    if new_content != content:
+        support_path.write_text(new_content, encoding="utf-8")
+
 
 def update_support_index(
     repo_root: Path,
@@ -1355,17 +1490,40 @@ def update_support_index(
 
         new_count_line = f"  {article_count} {article_word} &middot; {tag_count} {tag_word}"
 
-        # Match the pattern: a Card with href="/support/<slug>" on one line,
-        # followed by a line with article/tag counts.
-        # The regex captures the Card opening tag line and replaces only
-        # the count line that follows it.
+        _COUNTS_OPEN = r"[ \t]+\{/\* auto-generated counts \*/\}\n"
+        _COUNTS_CLOSE = r"\n[ \t]+\{/\* end auto-generated counts \*/\}"
+
+        # Prefer the marker-wrapped format; fall back to bare count line
+        # for migration.
         pattern = (
             r'(<Card[^>]*href="/support/' + re.escape(slug) + r'"[^>]*>\n)'
-            r'[ \t]+\d+ articles? &middot; \d+ tags?'
+            + _COUNTS_OPEN
+            + r'[ \t]+\d+ articles? &middot; \d+ tags?'
+            + _COUNTS_CLOSE
         )
-        replacement = r'\g<1>' + new_count_line
+        replacement = (
+            r'\g<1>'
+            + "  {/* auto-generated counts */}\n"
+            + new_count_line
+            + "\n  {/* end auto-generated counts */}"
+        )
 
-        content, count = re.subn(pattern, replacement, content)
+        new_content, count = re.subn(pattern, replacement, content)
+        if count == 0:
+            # Migration: bare count line without markers.
+            pattern = (
+                r'(<Card[^>]*href="/support/' + re.escape(slug) + r'"[^>]*>\n)'
+                r'[ \t]+\d+ articles? &middot; \d+ tags?'
+            )
+            replacement = (
+                r'\g<1>'
+                + "  {/* auto-generated counts */}\n"
+                + new_count_line
+                + "\n  {/* end auto-generated counts */}"
+            )
+            new_content, count = re.subn(pattern, replacement, content)
+
+        content = new_content
 
         if count == 0:
             warnings.warn(
@@ -1387,7 +1545,8 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
 
     Orchestrates all phases: crawl articles, generate tag pages, generate
     product index pages, sync tab-page Badges on articles, update docs.json
-    navigation, and update support.mdx product card counts.
+    navigation, and update support.mdx product card counts and featured
+    articles.
 
     Parameters
     ----------
@@ -1403,7 +1562,7 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     - Writes tag page MDX files under support/<product>/tags/
     - Writes product index MDX files at support/<product>.mdx
     - Overwrites docs.json with updated navigation
-    - Updates support.mdx with current article/tag counts
+    - Updates support.mdx with current article/tag counts and featured articles
     - Prints summary information to stdout
     - Emits warnings for unknown keywords, invalid ``keywords`` types, skipped
       articles, missing ``support.mdx`` cards, and footer sync failures
@@ -1421,6 +1580,9 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
 
     # Track article and tag counts per product for the support.mdx update step
     product_stats: Dict[str, Dict[str, int]] = {}
+
+    # Track featured articles per product for the support.mdx featured section
+    all_featured: Dict[str, Tuple[str, List[Dict[str, Any]]]] = {}
 
     print("=" * 60)
     print("Knowledgebase Nav Generator")
@@ -1453,6 +1615,9 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
         )
         print(f"  Generated product index (featured: {len(featured)} articles)")
 
+        if featured:
+            all_featured[slug] = (display_name, featured)
+
         # Phase 4: Sync tab-page Badges from front matter keywords
         # Runs after tag pages exist so articles are not updated if
         # earlier phases fail.
@@ -1471,10 +1636,11 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     print(f"\n--- docs.json ---")
     print(f"  Updated navigation for {len(products)} products")
 
-    # Phase 6: Update support.mdx product card counts
+    # Phase 6: Update support.mdx product card counts and featured articles
     update_support_index(repo_root, product_stats)
+    update_support_featured(repo_root, all_featured)
     print(f"\n--- support.mdx ---")
-    print(f"  Updated product card counts")
+    print(f"  Updated product card counts and featured articles")
     print(f"\n{'=' * 60}")
     print("Done.")
 

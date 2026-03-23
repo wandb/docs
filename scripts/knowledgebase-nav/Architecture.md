@@ -32,7 +32,7 @@ flowchart LR
   GEN --> ART
 ```
 
-The arrow back to **articles** means phase 1 updates only `<Badge>` links that point at tag pages under `/support/<product>/tags/`. Other content (including `---`, other Badges, and text after tab Badges) is not rewritten.
+The arrow back to **articles** means phase 4 updates only `<Badge>` links that point at tag pages under `/support/<product>/tags/`, wrapped in MDX comment markers. Other content (including `---`, other Badges, and text outside the markers) is not rewritten.
 
 ## Automation workflow
 
@@ -68,7 +68,8 @@ flowchart TD
   P6 --> LOOP
   LOOP -->|done| P7[update_docs_json]
   P7 --> P8[update_support_index]
-  P8 --> DONE([Done])
+  P8 --> P9[update_support_featured]
+  P9 --> DONE([Done])
 ```
 
 ## Per-product data flow
@@ -132,7 +133,7 @@ Functions are grouped below the way they appear in the source file. Names refer 
 - **`_split_frontmatter_raw`**, **`_split_main_body_and_trailing_footer`** support footer rewriting without losing the front matter block.
 - **`_normalize_keywords`** coerces `keywords` front matter to a list of strings (YAML list; a single string becomes one tag with a warning; other types warn and become an empty list).
 - **`_keywords_list_for_footer`** returns normalized `keywords` for footer generation (delegates to **`_normalize_keywords`**).
-- **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`** implement surgical tab-Badge sync (append a blank line plus Badges when no tab Badges exist yet).
+- **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`** implement surgical tab-Badge sync. Managed Badges are enclosed in `_BADGE_START` / `_BADGE_END` marker comments; the function matches markers when present and falls back to regex for pre-marker articles. New footers append a blank line, markers, and Badges.
 - **`sync_support_article_footer`**, **`sync_all_support_article_footers`** write article files when tab Badges are out of date with `keywords`.
 
 ### Body previews (Card snippets)
@@ -159,7 +160,8 @@ Functions are grouped below the way they appear in the source file. Names refer 
 ### Site-wide updates
 
 - **`update_docs_json`** updates or creates hidden `Support: <display_name>` tabs under `navigation.languages` where `language` is `en`, setting `pages` to the product index plus sorted tag paths.
-- **`update_support_index`** regex-updates count lines on product Cards in root `support.mdx`.
+- **`update_support_index`** updates count lines on product Cards in root `support.mdx`. Prefers `{/* auto-generated counts */}` markers; falls back to regex for migration.
+- **`update_support_featured`** regenerates the featured-articles section between `_FEATURED_START` / `_FEATURED_END` markers in root `support.mdx`.
 
 ### CLI
 
@@ -169,13 +171,16 @@ Functions are grouped below the way they appear in the source file. Names refer 
 
 - **`BODY_PREVIEW_MAX_LENGTH`** and **`BODY_PREVIEW_SUFFIX`** control Card preview length and ellipsis.
 - **`DOCS_JSON_NAV_LANGUAGE`** is `"en"` and scopes navigation edits to the English tree only.
+- **`_BADGE_START`** / **`_BADGE_END`** are the MDX comment markers that wrap managed tab Badges on each article page.
+- **`_FEATURED_START`** / **`_FEATURED_END`** are the MDX comment markers that wrap the featured-articles section in root `support.mdx`.
 
 ## Design choices
 
 - **Monolithic script**: one file holds all logic so the workflow and contributors have a single place to read and change behavior.
 - **Allowed keywords**: `config.yaml` lists valid tags per product; unknown tags still generate pages but emit warnings so content is never dropped silently.
-- **Tab Badge ownership**: only `<Badge>` elements linking to `/support/<product>/tags/...` are derived from `keywords`. The `---` line is not required for sync; crawl/preview parsing may still use the last `\n---` before Badges when present.
-- **Golden tests**: compare generated tag pages, product index pages, support tabs in `docs.json`, and root `support.mdx` to the committed tree so output drift is visible as a unified diff.
+- **Tab Badge ownership**: only `<Badge>` elements linking to `/support/<product>/tags/...` are derived from `keywords`. These are wrapped in marker comments so the generator does not need regex matching after migration. The `---` line is not required for sync; crawl/preview parsing may still use the last `\n---` before Badges when present.
+- **Marker-based editing**: all auto-generated sections (article tab Badges, `support.mdx` count lines, and featured articles) use MDX comment markers. This makes managed regions visible to writers and lets the generator replace content precisely without fragile regex anchors. Each marker pair has a migration path that wraps bare content on first run.
+- **Golden tests**: compare generated tag pages, product index pages, article files (including footer markers), support tabs in `docs.json`, and root `support.mdx` to the committed tree so output drift is visible as a unified diff.
 
 ## Related reading
 

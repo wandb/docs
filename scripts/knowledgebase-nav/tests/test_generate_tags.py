@@ -139,9 +139,19 @@ def sample_repo(tmp_path):
 
         <CardGroup cols={3}>
         <Card title="W&B Widgets" href="/support/widgets" arrow="true" icon="/icons/cropped-widgets.svg">
+          {/* auto-generated counts */}
           0 articles &middot; 0 tags
+          {/* end auto-generated counts */}
         </Card>
         </CardGroup>
+
+        {/* ---- AUTO-GENERATED: featured articles ----
+          This section is managed by scripts/knowledgebase-nav/generate_tags.py.
+          To feature an article, add "featured: true" to its front matter.
+          To remove it, set "featured: false" or remove the field.
+          Do not edit the content between these markers by hand.
+        ---- */}
+        {/* ---- END AUTO-GENERATED: featured articles ---- */}
     """), encoding="utf-8")
 
     return tmp_path
@@ -1219,13 +1229,13 @@ class TestKeywordFooter:
         assert generate_tags.build_tab_badges_mdx("models", []) == ""
 
     def test_build_keyword_footer_single(self):
-        """One keyword produces a blank line plus one Badge with the correct href."""
+        """One keyword produces a blank line, markers, and one Badge."""
         s = generate_tags.build_keyword_footer_mdx("weave", ["Code Capture"])
         assert s.startswith("\n\n")
-        assert "---" not in s
         assert "[Code Capture](/support/weave/tags/code-capture)</Badge>" in s
         assert '<Badge stroke shape="pill" color="orange" size="md">' in s
-        assert s.endswith("</Badge>")
+        assert "AUTO-GENERATED: tab badges" in s
+        assert s.endswith("{/* ---- END AUTO-GENERATED: tab badges ---- */}")
 
     def test_build_keyword_footer_preserves_keyword_order(self):
         """Badge order follows the keywords list order, not alphabetical."""
@@ -1233,7 +1243,7 @@ class TestKeywordFooter:
         assert s.index("Beta") < s.index("Alpha")
 
     def test_sync_adds_footer_when_missing(self, tmp_path):
-        """An article with no tab Badges yet gets a blank line plus Badges (no ---)."""
+        """An article with no tab Badges yet gets markers and Badges appended."""
         p = tmp_path / "a.mdx"
         p.write_text(
             textwrap.dedent("""\
@@ -1250,12 +1260,11 @@ class TestKeywordFooter:
         out = p.read_text()
         assert "Body only." in out
         assert "/support/widgets/tags/alpha" in out
-        body_after_fm = out.split("---", 2)[2]
-        assert "\n\n---\n\n" not in body_after_fm
-        assert out.endswith("</Badge>")
+        assert "AUTO-GENERATED: tab badges" in out
+        assert out.endswith("{/* ---- END AUTO-GENERATED: tab badges ---- */}")
 
     def test_sync_idempotent_when_footer_matches(self, tmp_path):
-        """If the footer already matches front matter, the file is not rewritten."""
+        """If the marked footer already matches front matter, the file is not rewritten."""
         content = textwrap.dedent("""\
             ---
             title: "T"
@@ -1266,14 +1275,18 @@ class TestKeywordFooter:
 
             ---
 
+            {/* ---- AUTO-GENERATED: tab badges ----
+              Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+              Do not edit between these markers by hand.
+            ---- */}
             <Badge stroke shape="pill" color="orange" size="md">[Alpha](/support/widgets/tags/alpha)</Badge>
-            """).rstrip("\n")
+            {/* ---- END AUTO-GENERATED: tab badges ---- */}""")
         p = tmp_path / "a.mdx"
         p.write_text(content, encoding="utf-8")
         assert generate_tags.sync_support_article_footer(p, "widgets") is False
 
-    def test_sync_preserves_blank_line_after_last_badge(self, tmp_path):
-        """EOF after </Badge> (for example a trailing blank line) must be kept."""
+    def test_sync_preserves_blank_line_after_end_marker(self, tmp_path):
+        """EOF after the end marker (for example a trailing blank line) is kept."""
         p = tmp_path / "a.mdx"
         p.write_text(
             textwrap.dedent("""\
@@ -1286,14 +1299,19 @@ class TestKeywordFooter:
 
                 ---
 
+                {/* ---- AUTO-GENERATED: tab badges ----
+                  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+                  Do not edit between these markers by hand.
+                ---- */}
                 <Badge stroke shape="pill" color="orange" size="md">[Alpha](/support/widgets/tags/alpha)</Badge>
+                {/* ---- END AUTO-GENERATED: tab badges ---- */}
 
                 """),
             encoding="utf-8",
         )
         assert generate_tags.sync_support_article_footer(p, "widgets") is False
         out = p.read_text()
-        assert out.endswith("</Badge>\n\n")
+        assert out.endswith("---- */}\n\n")
 
     def test_sync_fixes_wrong_href(self, tmp_path):
         """Wrong tag slug in a tab-page Badge href is replaced (path must match tab pattern)."""
@@ -1317,7 +1335,7 @@ class TestKeywordFooter:
         assert "/support/widgets/tags/alpha" in p.read_text()
 
     def test_sync_fixes_wrong_href_preserves_eof_after_badges(self, tmp_path):
-        """Only Badge markup changes; trailing newlines after </Badge> stay the same."""
+        """Badge href changes are wrapped in markers; trailing newlines are kept."""
         p = tmp_path / "a.mdx"
         p.write_text(
             textwrap.dedent("""\
@@ -1337,7 +1355,7 @@ class TestKeywordFooter:
         assert generate_tags.sync_support_article_footer(p, "widgets") is True
         out = p.read_text()
         assert "/support/widgets/tags/alpha" in out
-        assert out.endswith("</Badge>\n\n")
+        assert out.endswith("---- */}\n\n")
 
     def test_sync_without_horizontal_rule_updates_tab_badges(self, tmp_path):
         """Tab Badges are synced even when the --- line was removed."""
@@ -1377,7 +1395,12 @@ class TestKeywordFooter:
 
                 ---
 
+                {/* ---- AUTO-GENERATED: tab badges ----
+                  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+                  Do not edit between these markers by hand.
+                ---- */}
                 <Badge stroke shape="pill" color="orange" size="md">[Alpha](/support/widgets/tags/alpha)</Badge>
+                {/* ---- END AUTO-GENERATED: tab badges ---- */}
                 """),
             encoding="utf-8",
         )

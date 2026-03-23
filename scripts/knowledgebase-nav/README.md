@@ -4,11 +4,11 @@ A standalone script that regenerates knowledgebase nav pages and updates the `do
 
 The generator reads MDX article files from `support/<product>/articles/`, aggregates them by keyword tags, and:
 
-- **Updates tab-page Badges on articles.** Only `<Badge>` components whose link goes to `/support/<product>/tags/<tag-slug>` are rewritten from `keywords` (order preserved). Other Badges, prose, and anything after those tab Badges stay as you wrote them. If an article has no tab Badges yet, the generator appends a blank line and those Badges when `keywords` is non-empty.
+- **Updates tab-page Badges on articles.** Only `<Badge>` components whose link goes to `/support/<product>/tags/<tag-slug>` are rewritten from `keywords` (order preserved). Managed Badges are wrapped in MDX comment markers (`{/* AUTO-GENERATED: tab badges */}` and `{/* END AUTO-GENERATED: tab badges */}`) so the generator can locate them without regex matching on subsequent runs. Other Badges, prose, and anything outside the markers stay as you wrote them. If a new article has no tab Badges yet, the generator will insert them for you when `keywords` is non-empty.
 - **Produces tag pages** at `support/<product>/tags/<tag-slug>.mdx`. Each lists the articles tagged with that keyword as Mintlify Card components.
 - **Product index pages** at `support/<product>.mdx`. Each shows a "Featured articles" section (if any) and a "Browse by category" listing of all tags with article counts.
 - **Updated `docs.json` navigation.** Hidden support tabs are updated to reflect the current set of tag pages.
-- **Updated root `support.mdx`.** The generator replaces the article and tag count lines inside each product `<Card>` (matched by `href="/support/<slug>"`) so the landing page stays in sync with the crawl.
+- **Updated root `support.mdx`.** The generator replaces the article and tag count lines inside each product `<Card>` (matched by `href="/support/<slug>"`) so the landing page stays in sync with the crawl. Count lines are wrapped in `{/* auto-generated counts */}` and `{/* end auto-generated counts */}` markers so writers can add other content in the Card body. The featured-articles section is also managed between its own markers.
 
 The generator runs automatically through GitHub Actions (workflow file `.github/workflows/knowledgebase-nav.yml`) when a pull request is opened, updated with new commits, or reopened, and at least one changed file matches `support/**` or `scripts/knowledgebase-nav/**`. You can also run that workflow manually from the Actions tab for previews.
 
@@ -19,48 +19,6 @@ The generator runs automatically through GitHub Actions (workflow file `.github/
 This section walks through the common tasks you will perform as an article author. For normal changes, you can rely on the CI workflow: it regenerates navigation when you open a pull request, so you do not need Python on your machine.
 
 If you want to run the generator locally (for example to preview footers and tag pages before you push), see [Running the generator locally](#running-the-generator-locally).
-
-### Running the generator locally
-
-You do not need to run the generator locally to open a pull request. The CI workflow runs it automatically when you open a PR. If you want to run the generator locally (for example to preview footers and tag pages before you push), continue reading this section.
-
-These steps are written for **macOS**. They use a **virtual environment** so packages install only for this project and do not affect your system Python.
-
-**Prerequisites:** [Python](https://www.python.org/downloads/) 3.11 or another current Python 3 release (3.11 is what CI uses).
-
-1. Open Terminal and go to the root of the `wandb-docs` clone (the directory that contains `docs.json` and `support/`).
-
-2. Create a virtual environment in a folder named `.venv` (you can pick another name, but keep that folder out of git commits), then activate it:
-
-   ```bash
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
-
-   After activation, your prompt usually starts with `(.venv)`.
-
-3. Upgrade `pip` (recommended once per new venv), then install the generator dependencies:
-
-   ```bash
-   python -m pip install --upgrade pip
-   python -m pip install -r scripts/knowledgebase-nav/requirements.txt
-   ```
-
-4. Run the script from the repo root:
-
-   ```bash
-   python scripts/knowledgebase-nav/generate_tags.py --repo-root .
-   ```
-
-   The command updates article footers, tag pages, product indexes, `docs.json`, and `support.mdx` in your working tree. Review the changes with `git diff` before you commit.
-
-5. When you are done, leave the virtual environment:
-
-   ```bash
-   deactivate
-   ```
-
-Next time you want to run the generator, activate the same `.venv` again (repeat only the activation command from step 2), then run step 4.
 
 ### Adding a new article to an existing tag
 
@@ -83,7 +41,7 @@ Next time you want to run the generator, activate the same `.venv` again (repeat
 
    The `keywords` list controls which tag pages the article appears on. Each keyword must exactly match an entry in `config.yaml` (case-sensitive). For example, use `"Environment Variables"`, not `"environment variables"` or `"Env Vars"`.
 
-3. Write the article body content after the front matter. You can stop after the last paragraph. When the workflow runs, it updates only the tab-page `<Badge>` links (targets under `/support/<product>/tags/`) to match `keywords`. You may add a `---` line or other text yourself; those choices are left alone. The first time tab Badges are needed, the generator appends a blank line and the Badges at the end of the body (no `---` is added automatically).
+3. Write the article body content after the front matter. You can stop after the last paragraph. When the workflow runs, it updates only the tab-page `<Badge>` links (targets under `/support/<product>/tags/`) to match `keywords`, wrapped in MDX comment markers. You may add a `---` line or other text yourself; anything outside the markers is left alone. The first time tab Badges are needed, the generator appends a blank line, markers, and the Badges at the end of the body (no `---` is added automatically).
 
 4. Open a pull request. The workflow checks out your branch, runs the generator, and commits any updates to article footers, tag pages, product index pages, `docs.json`, and `support.mdx` when those files change. You do not need to edit generated files by hand. **Pull requests from forks** still run the generator (so logs show problems), but GitHub cannot push commits back to your fork. Run the generator locally and push the regenerated files, or ask a maintainer to regenerate after merge.
 
@@ -136,17 +94,61 @@ Featured articles appear in the "Featured articles" section at the top of the pr
    ---
    ```
 
-2. To remove featured status, either set `featured: false` or remove the `featured` line entirely. Articles without the field default to not featured.
+2. To remove featured status, either set `featured: false` or remove the `featured` line entirely. Articles without the field are not featured.
 
 3. There is no hard limit on how many articles can be featured per product, but we recommend keeping it to 3-5 for a clean layout.
 
 ### Front matter quick reference
 
-| Field | Required | Default | Description |
-|-------|----------|---------|-------------|
-| `title` | Expected | `""` if omitted | Article title. Used in Cards and listings. The generator does not fail if it is missing. |
+| Field      | Required | Default         | Description                                                                                                                                                                                                                                                                                                                                                                                             |
+|------------|----------|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `title`    | Expected | `""` if omitted | Article title. Used in Cards and listings. The generator does not fail if it is missing.                                                                                                                                                                                                                                                                                                                |
 | `keywords` | Expected | `[]` if omitted | YAML list of tag names. Each should match an entry in `config.yaml` (case-sensitive). Controls which tag pages the article appears on. If the list is empty or missing, the article is not listed under any tag. If you accidentally use a single string (for example `keywords: "Security"`), the generator treats it as one tag and emits a warning. Other non-list types are ignored with a warning. |
-| `featured` | No | `false` | Set to `true` to feature the article on the product index page. |
+| `featured` | No       | `false`         | Set to `true` to feature the article on the product index page.                                                                                                                                                                                                                                                                                                                                         |
+
+### Running the generator locally
+
+**You do not need to run the generator locally to open a pull request.** The CI workflow runs it automatically when you open a PR.
+
+If you want to run the generator locally (for example to preview footers and tag pages before you push), follow the instructions in this section.
+
+These steps are written for **macOS**. They use a **virtual environment** so packages install only for this project and do not affect your system Python.
+
+**Prerequisites:** [Python](https://www.python.org/downloads/) 3.11 or another current Python 3 release (3.11 is what CI uses).
+
+1. Open Terminal and go to the root of the `wandb-docs` clone (the directory that contains `docs.json` and `support/`).
+
+2. Create a virtual environment in a folder named `.venv` (you can pick another name, but keep that folder out of git commits), then activate it:
+
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+   After activation, your prompt usually starts with `(.venv)`.
+
+3. Upgrade `pip` (recommended once per new venv), then install the generator dependencies:
+
+   ```bash
+   python -m pip install --upgrade pip
+   python -m pip install -r scripts/knowledgebase-nav/requirements.txt
+   ```
+
+4. Run the script from the repo root:
+
+   ```bash
+   python scripts/knowledgebase-nav/generate_tags.py --repo-root .
+   ```
+
+   The command updates article footers, tag pages, product indexes, `docs.json`, and `support.mdx` in your working tree. Review the changes with `git diff` before you commit.
+
+5. When you are done, leave the virtual environment:
+
+   ```bash
+   deactivate
+   ```
+
+Next time you want to run the generator, activate the same `.venv` again (repeat only the activation command from step 2), then run step 4.
 
 ---
 
@@ -181,11 +183,11 @@ The script runs one pipeline after loading `config.yaml` and Jinja2 templates. T
 
 3. **Generate product index pages** (`render_product_index`): Renders `support/<product>.mdx` with optional "Featured articles" and a "Browse by category" section from `support_product_index.mdx.j2`.
 
-4. **Sync tab Badges** (`sync_all_support_article_footers`, `sync_support_article_footer`, `build_tab_badges_mdx`, `build_keyword_footer_mdx`): For each `support/<product>/articles/*.mdx` file, finds each `<Badge>` whose Markdown link targets `/support/<product>/tags/...` and replaces those with one Badge per `keywords` entry (in list order). Other Badges and the rest of the body are not edited. If there are no such Badges yet and `keywords` is non-empty, appends a blank line and the tab Badges (no `---`). If `keywords` is empty, removes tab-page Badges only. Runs after tag pages are generated so articles are not modified if earlier phases fail.
+4. **Sync tab Badges** (`sync_all_support_article_footers`, `sync_support_article_footer`, `build_tab_badges_mdx`, `build_keyword_footer_mdx`): For each `support/<product>/articles/*.mdx` file, replaces managed `<Badge>` links with one Badge per `keywords` entry (in list order). Managed Badges are enclosed in MDX comment markers (`_BADGE_START` / `_BADGE_END`); the generator matches markers when present and falls back to regex matching for articles that predate markers. Other Badges and the rest of the body are not edited. If there are no such Badges yet and `keywords` is non-empty, appends a blank line, markers, and the tab Badges (no `---`). If `keywords` is empty, removes the marker block (or bare tab-page Badges). Runs after tag pages are generated so articles are not modified if earlier phases fail.
 
 5. **Update docs.json** (`update_docs_json`): Reads `docs.json`, finds the English entry (`navigation.languages[]` where `language == "en"`), then finds or creates hidden tabs named `Support: <display_name>`. Each tab's `pages` list is `support/<slug>` followed by sorted tag page paths. Other language entries and non-support tabs are left unchanged.
 
-6. **Update support landing counts** (`update_support_index`): Edits the repository root `support.mdx` in place, updating the line after each product `<Card>` whose `href` is `/support/<slug>` so it reflects current article and tag counts (including singular or plural labels).
+6. **Update support landing page** (`update_support_index`, `update_support_featured`): Edits the repository root `support.mdx` in place. Count lines inside each product `<Card>` are matched by `{/* auto-generated counts */}` markers (falling back to regex for migration), and replaced with current article and tag counts (including singular or plural labels). The featured-articles section between its own markers is regenerated from articles with `featured: true`.
 
 ### Running locally
 
@@ -215,6 +217,7 @@ The golden-file module (`test_golden_output.py`) is marked `@pytest.mark.integra
 
 - Every tag page under `support/<product>/tags/*.mdx` matches the real repo byte-for-byte (including that generated and existing tag file sets match).
 - Each product index `support/<product>.mdx` matches the real repo byte-for-byte.
+- Every article under `support/<product>/articles/*.mdx` matches the real repo byte-for-byte (catches regressions in footer sync and marker formatting).
 - Support tabs in `docs.json` (names, `pages` order, `hidden: true`) match the real file, and tabs that do not start with `Support:` are unchanged.
 - Root `support.mdx` matches the real file byte-for-byte.
 
@@ -225,7 +228,17 @@ If `docs.json` is not found at the repository root the tests resolve to (the par
 1. Add a new entry to `config.yaml` under `products:` with `slug`, `display_name`, and `allowed_keywords`.
 2. Create the directory `support/<slug>/articles/` in the repo.
 3. Add at least one article MDX file with appropriate front matter.
-4. Add a product `<Card>` to the root `support.mdx` with `href="/support/<slug>"` and a count line in the form `N articles &middot; M tags` on the following line. Without this pattern, the generator warns and leaves that card unchanged.
+4. Add a product `<Card>` to the root `support.mdx` with `href="/support/<slug>"` and a marker-wrapped count line:
+
+   ```
+   <Card title="W&B NewProduct" href="/support/<slug>" arrow="true" icon="/icons/cropped-newproduct.svg">
+     {/* auto-generated counts */}
+     0 articles &middot; 0 tags
+     {/* end auto-generated counts */}
+   </Card>
+   ```
+
+   Without the markers (or the bare count-line pattern for migration), the generator warns and leaves that card unchanged.
 
 5. Run the generator (or open a PR). It creates the `tags/` directory as needed, generates tag pages and the product index page, adds or updates the hidden support tab in `docs.json`, and refreshes counts on `support.mdx`.
 
@@ -268,7 +281,7 @@ Workflow name: **Knowledgebase Nav** (file `.github/workflows/knowledgebase-nav.
 
 **Tag page not appearing in docs.json**: Verify the keyword is used in at least one article's `keywords` front matter and that the generator ran successfully.
 
-**Golden test failures after intentional changes**: If you intentionally changed templates, slug logic, body preview rules, keyword footer formatting, product index output, `docs.json` support tabs, or `support.mdx` count lines, the golden test will fail. Run the generator from the repo root, commit the updated generated files, then re-run the golden tests.
+**Golden test failures after intentional changes**: If you intentionally changed templates, slug logic, body preview rules, keyword footer formatting (including marker comments), product index output, `docs.json` support tabs, or `support.mdx` count lines or featured-article markers, the golden test will fail. Run the generator from the repo root, commit the updated generated files, then re-run the golden tests.
 
 **Warning about a missing product card in `support.mdx`**: A product in `config.yaml` has no matching `<Card href="/support/<slug>">` or the count line does not match the expected pattern. Add or fix the card so counts can update.
 

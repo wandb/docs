@@ -32,10 +32,12 @@
 #
 # Why checkout uses repository + ref expressions
 # -----------------------------------------------
-# For pull_request, GitHub exposes head.repo.full_name (base repo or fork)
-# and head.sha (exact commit). Using only the branch name (for example
-# github.head_ref) as ref fails when the branch lives on a fork because that
-# branch name does not exist on the upstream clone.
+# Same-repo PRs use github.head_ref (the branch name) so git is on a real
+# branch and git-auto-commit can push without a detached-HEAD warning.
+#
+# Fork PRs use the SHA (github.event.pull_request.head.sha) because the
+# branch name does not exist on the upstream clone. Detached HEAD is fine
+# here since the auto-commit step is skipped for forks anyway.
 #
 # ------------------------------------------------------------------
 
@@ -85,7 +87,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref }}
+          ref: ${{ github.event_name == 'pull_request' && (github.event.pull_request.head.repo.fork && github.event.pull_request.head.sha || github.head_ref) || github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref }}
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v6
