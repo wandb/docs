@@ -1,133 +1,146 @@
 ---
-description: Group training and evaluation runs into larger experiments
-title: Group runs into experiments
+description: Organize your runs into groups and other properties.
+title: Organize runs
 ---
 
-Group individual jobs into experiments by passing a unique **group** name to **wandb.init()**.
+Organize your runs into *groups*. A group is a collection of runs that share a common purpose, such as training runs for a specific model or evaluation runs for a specific dataset.
 
-## Use cases
+You can also organize runs by other properties such as *job type*. [Job types](/models/runs/grouping#organize-runs-by-job-type) indicate the function of a run, such as `preprocessing`, `training`, or `evaluation`.
 
-1. **Distributed training:** Use grouping if your experiments are split up into different pieces with separate training and evaluation scripts that should be viewed as parts of a larger whole.
-2. **Multiple processes**: Group multiple smaller processes together into an experiment.
-3. **K-fold cross-validation**: Group together runs with different random seeds to see a larger experiment. Here's [an example](https://github.com/wandb/examples/tree/master/examples/wandb-sweeps/sweeps-cross-validation) of k-fold cross-validation with sweeps and grouping.
+{/* 
+### Define groups using environment variables
 
-There are several ways to set grouping:
+Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [Environment Variables](/models/track/environment-variables/). **Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` */}
 
-### 1. Set group in your script
+## Organize runs into groups
 
-Pass an optional group and `job_type` to `wandb.init()`. This gives you a dedicated group page for each experiment, which contains the individual runs. For example:`wandb.init(group="experiment_1", job_type="eval")`
-
-### 2. Set a group environment variable
-
-Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [Environment Variables](/models/track/environment-variables/). **Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()`
-
-### 3. Toggle grouping by columns in the UI
-
-You can dynamically group by any column, including a column that is hidden. For example, if you use `wandb.Run.config` to log batch size or learning rate, you can then group by those hyperparameters dynamically in the web app. The **Group by** feature is distinct from a [run's run group](/models/runs/grouping/). You can group runs by run group. To move a run to a different run group, refer to [Set a group in the UI](#set-a-group-in-the-ui).
+You can add runs to a group programmatically using the W&B Python SDK or interactively in the W&B App.
 
 <Note>
-In the list of runs, the **Group** column is hidden by default.
+W&B stores group names as a run [`wandb.Run.group`](/models/ref/python/experiments/run#property-run-group) property.
 </Note>
 
-To group runs by one or more columns:
 
-1. Click **Group**.
-1. Click the names of one or more columns.
-1. If you selected more than one column, drag them to change the grouping order.
-1. Click anywhere outside of the form to dismiss it.
+<Tabs>
+<Tab title="Python SDK">
+Programmatically add one or more runs to a group with the W&B Python SDK. Pass the name of your group as an argument to the `group` parameter when you initialize a run with `wandb.init(group="")`. You can use group names to organize and filter runs in the W&B App.
 
-### 4. Manage groups in the UI
+The following example creates three groups named `A`, `B`, and `C`. Each group contains three runs.
 
-#### Manage a run
-After a run is initialized, you can move it to a new group from your workspace or its **Runs** page.
+```python
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+
+for group in ["A", "B", "C"]:
+    for i in range(3):
+        with wandb.init(entity=entity, project=project, group=group, name=f"{group}_run_{i}") as run:
+            # Simulate some training
+            for step in range(100):
+                run.log({
+                    "acc": 0.5 + (step / 100) * 0.3 + (i * 0.05),
+                    "loss": 1.0 - (step / 100) * 0.5
+                })
+```
+
+In the project's workspace, you can view runs organized by group. The following image illustrates organizing the runs table by group name. Three groups named `A`, `B`, and `C` appear in the runs table, each containing three runs.
+
+<Frame>
+    <img src="/images/runs/group_name_3_groups.png" alt="Runs table grouped by group name"  />
+</Frame>
+</Tab>
+<Tab title="W&B App">
 
 1. Navigate to your W&B project.
-1. Select the **Workspace** or **Runs** tab from the project sidebar.
-1. To move a single run, search or scroll to it. Hover over the run name, click the three vertical dots, then click **Move to another group**.
-1. To create a new group, click **New group**. Type a group name, then submit the form.
-1. To delete a run, click the three vertical dots, then click **Delete run**.
-1. To move a run, select the new group from the list, then click **Move**.
+2. Select the **Runs** tab from the project sidebar.
+3. Above the list of runs, click the **Group** button.
+4. Click the checkbox next to one or more runs you want to group.
+5. Select **Move to group**.
+6. In the drawer, select an existing group or create a new group.
+</Tab>
+</Tabs>
 
-#### Manage runs in bulk
-This section shows how to manage multiple runs at once, across one or more run groups.
 
-1. If necessary, [toggle grouping by columns](#toggle-grouping-by-column-in-the-ui), grouping by the **Group** column.
-1. Expand a group to view its runs. In a single bulk operation, you can move runs from different groups to the same target group. Expand all relevant groups.
-1. To select all runs in a group, click the checkbox next to the group name.
-1. To select individual runs, click their checkboxes.
-1. To select all runs in all groups, click the checkbox next to the **Name** column heading.
-1. Above the table, choose a bulk operation: **Tag**, **Move to group**, **Move to project**, or **New sweep**.
+### View groups
 
-#### Create a group
-To create a new run group:
+View runs organized by group in the W&B App:
+
+1. In your project sidebar, select the **Runs** tab.
+2. Above the list of runs, click the **Group** button.
+3. From the dropdown, select a **Group**.
+
+### Move runs between groups
+
+Move runs from one group to another group:
+
 1. Navigate to your W&B project.
-1. Select the **Workspace** or **Runs** tab from the project sidebar.
-1. Click **New group**. Type a group name, then submit the form.
+1. Select the **Runs** tab from the project sidebar.
+1. Select one or more runs by clicking their checkboxes.
+1. Above the table, click **Move to group**.
+1. Within the drawer, select the target group or create a new group.
+1. Click **Move**.
 
-#### Delete a group
+### Remove runs from a group
+
+1. Navigate to your W&B project.
+1. Select the **Runs** tab from the project sidebar.
+1. Above the list of runs, click the **Group** button.
+1. From the dropdown, select the **X** next to the name of the group you want to remove.
+
+### Delete a group
 To delete a group, remove all runs from it. This automatically deletes the group.
 
-### Customize how runs are displayed
-You can customize how runs are displayed in your project from the **Workspace** or **Runs** tabs. Both tabs use the same display configuration.
+## Organize runs by job type
 
-To customize which columns are visible:
-1. Above the list of runs, click **Columns**.
-1. Click the name of a hidden column to show it. Click the name of a visible column to hide it.
-  
-    You can optionally search by column name using fuzzy search, an exact match, or regular expressions. Drag columns to change their order.
-1. Click **Done** to close the column browser.
+Organize runs by their *job type*. A job type indicates the function of a run, such as `preprocessing`, `training`, or `evaluation`. 
 
-To sort the list of runs by any visible column:
+<Note>
+View a run's job type by accessing the run's [`wandb.Run.job_type`](/models/ref/python/experiments/run#property-run-job-type) property.
+</Note>
 
-1. Hover over the column name, then click its action `...` menu.
-1. Click **Sort ascending** or **Sort descending**.
+Add a job type to a run by passing the `job_type` parameter to `wandb.init(job_type="")`. For example, the following code snippet creates runs with job types of either `training` or `evaluation`:
 
-Pinned columns are shown on the right-hand side. To pin or unpin a column:
-1. Hover over the column name, then click its action `...` menu.
-1. Click **Pin column** or **Unpin column**.
+```python
+import wandb
 
-By default, long run names are truncated in the middle for readability. To customize the truncation of run names:
+entity = "<entity>"
+project = "<project>"
 
-1. Click the action `...` menu at the top of the list of runs.
-1. Set **Run name cropping** to crop the end, middle, or beginning.
+for job_type in ["training", "evaluation"]:
+    for i in range(2):
+        with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
+            # Simulate some process
+            for step in range(50):
+                run.log({
+                    "metric1": 0.2 + (step / 50) * 0.4 + (i * 0.03),
+                    "metric2": 0.8 - (step / 50) * 0.3
+                })
 
-## Distributed training with grouping
+```
 
-Suppose you set grouping in `wandb.init()`, we will group runs by default in the UI. You can toggle this on and off by clicking the **Group** button at the top of the table. Here's an [example project](https://wandb.ai/carey/group-demo?workspace=user-carey) generated from [sample code](https://wandb.me/grouping) where we set grouping. You can click on each "Group" row in the sidebar to get to a dedicated group page for that experiment.
-
-<Frame>
-    <img src="/images/track/distributed_training_wgrouping_1.png" alt="Grouped runs view"  />
-</Frame>
-
-From the project page above, you can click a **Group** in the left sidebar to get to a dedicated page like [this one](https://wandb.ai/carey/group-demo/groups/exp_5?workspace=user-carey):
+The following image shows runs organized by job type:
 
 <Frame>
-    <img src="/images/track/distributed_training_wgrouping_2.png" alt="Group details page"  />
+    <img src="/images/runs/group_job_type.png" alt="Ungrouped runs table"  />
 </Frame>
 
-## Grouping dynamically in the UI
+### View runs organized by job type
 
-You can group runs by any column, for example by hyperparameter. Here's an example of what that looks like:
+View runs organized by group in the W&B App:
 
-* **Sidebar**: Runs are grouped by the number of epochs.
-* **Graphs**: Each line represents the group's mean, and the shading indicates the variance. This behavior can be changed in the graph settings.
+1. In your project sidebar, select the **Runs** tab.
+2. Above the list of runs, click the **Group** button.
+3. From the dropdown, select **Job Type**.
 
-<Frame>
-    <img src="/images/track/demo_grouping.png" alt="Dynamic grouping by epochs"  />
-</Frame>
 
-## Turn off grouping
 
-Click the grouping button and clear group fields at any time, which returns the table and graphs to their ungrouped state.
 
-<Frame>
-    <img src="/images/track/demo_no_grouping.png" alt="Ungrouped runs table"  />
-</Frame>
 
-## Grouping graph settings
 
-Click the edit button in the upper right corner of a graph and select the **Advanced** tab to change the line and shading. You can select the mean, minimum, or maximum value for the line in each group. For the shading, you can turn off shading, and show the min and max, the standard deviation, and the standard error.
 
-<Frame>
-    <img src="/images/track/demo_grouping_options_for_line_plots.gif" alt="Line plot grouping options"  />
-</Frame>
+
+
+
+
+

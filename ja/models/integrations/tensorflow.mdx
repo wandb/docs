@@ -1,0 +1,94 @@
+---
+title: TensorFlow
+---
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/drive/1JCpAbjkCFhYMT7LCQ399y35TS3jlMpvM" />
+
+## はじめに
+
+すでに TensorBoard を使用している場合、wandb との連携は非常に簡単です。
+
+```python
+import tensorflow as tf
+import wandb
+```
+
+## カスタムメトリクスのログ記録
+
+TensorBoard にログ出力されていない追加のカスタムメトリクスを記録する必要がある場合は、コード内で `run.log()` を呼び出すことができます：`run.log({"custom": 0.8}) `
+
+TensorBoard を同期している場合、`run.log()` の step 引数の設定は無効になります。別のステップ数を設定したい場合は、以下のようにステップメトリクスとともにメトリクスをログに記録できます：
+
+``` python
+with wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True) as run:
+    run.log({"custom": 0.8, "global_step":global_step}, step=global_step)
+```
+
+## TensorFlow Estimators hook
+
+ログの内容をより詳細に制御したい場合、wandb は TensorFlow Estimators 用の hook も提供しています。これにより、グラフ内のすべての `tf.summary` の値をログに記録します。
+
+```python
+import tensorflow as tf
+import wandb
+
+run = wandb.init(config=tf.FLAGS)
+
+# steps_per_log ごとにログを記録する hook を追加
+estimator.train(hooks=[wandb.tensorflow.WandbHook(steps_per_log=1000)])
+run.finish()
+```
+
+## 手動でのログ記録
+
+TensorFlow でメトリクスを記録する最もシンプルな方法は、TensorFlow ロガーを使用して `tf.summary` をログ出力することです：
+
+```python
+import wandb
+run = wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True)
+with tf.Session() as sess:
+    # ...
+    wandb.tensorflow.log(tf.summary.merge_all())
+```
+
+TensorFlow 2 では、カスタムループを使用してモデルをトレーニングする推奨される方法は `tf.GradientTape` を使用することです。詳細は [TensorFlow カスタムトレーニングのウォークスルー](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough) を参照してください。カスタム TensorFlow トレーニングループに `wandb` を組み込んでメトリクスをログに記録するには、以下のスニペットを参考にしてください：
+
+```python
+    with tf.GradientTape() as tape:
+        # 予測値（確率）を取得
+        predictions = model(features)
+        # 損失（loss）を計算
+        loss = loss_func(labels, predictions)
+
+    # メトリクスをログに記録
+    run.log("loss": loss.numpy())
+    # 勾配（gradients）を取得
+    gradients = tape.gradient(loss, model.trainable_variables)
+    # 重み（weights）を更新
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+```
+
+[TensorFlow 2 におけるトレーニングループのカスタマイズの完全な例](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) もご覧いただけます。
+
+## W&B は TensorBoard とどう違うのですか？
+
+W&B の共同創業者たちが開発を始めたとき、彼らは OpenAI で TensorBoard に不満を感じていた ユーザー のための ツール を構築したいと考えていました。私たちが改善に注力した点は以下の通りです。
+
+1. **モデルの再現**: W&B は 実験管理 、探索、そして後のモデル再現に優れています。メトリクスだけでなく、ハイパーパラメーター や コード の バージョン も取得し、プロジェクトが再現可能になるよう バージョン 管理ステータスや モデル の チェックポイント を保存できます。
+2. **自動整理**: コラボレーターから プロジェクト を引き継ぐとき、休暇から戻ったとき、あるいは古い プロジェクト を再開するときでも、W&B を使えば試行されたすべての モデル を簡単に確認できるため、誰も 実験 の再実行に時間や GPU サイクル、電力を浪費することはありません。
+3. **高速で柔軟なインテグレーション**: W&B は 5 分で プロジェクト に追加できます。無料のオープンソース Python パッケージをインストールし、コードに数行追加するだけで、モデル を実行するたびに適切にログに記録されたメトリクスと記録が得られます。
+4. **永続的で中央集約されたダッシュボード**: ローカルマシン、共有ラボの クラスター 、クラウド のスポットインスタンスなど、どこで モデル をトレーニングしても、結果は同じ中央集約された ダッシュボード に共有されます。異なるマシンから TensorBoard ファイルをコピーして整理する手間は不要です。
+5. **強力な Tables**: 異なる モデル の 結果 を検索、フィルタリング、ソート、グループ化できます。数千の モデル バージョン を見渡し、異なるタスクに対して最高のパフォーマンスを発揮する モデル を見つけるのが簡単です。TensorBoard は大規模な プロジェクト でうまく動作するように構築されていません。
+6. **コラボレーションのためのツール**: 複雑な 機械学習 プロジェクト の整理に W&B を活用してください。W&B へのリンクを共有するのは簡単で、プライベートな Teams を使用して全員が共有 プロジェクト に 結果 を送信できます。また、Reports を通じたコラボレーションもサポートしており、インタラクティブな 可視化 を追加し、Markdown で作業内容を説明できます。これは、作業ログの保持、指導者への 学び の共有、ラボやチームへの 結果 発表に最適な方法です。
+
+[無料アカウント](https://wandb.ai) で始めましょう。
+
+## サンプル
+
+インテグレーション の仕組みを確認できるサンプルをいくつか用意しました。
+
+* [Github の例](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-estimator-mnist/mnist.py): TensorFlow Estimators を使用した MNIST の例
+* [Github の例](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-cnn-fashion/train.py): 生の TensorFlow を使用した Fashion MNIST の例
+* [Wandb ダッシュボード](https://app.wandb.ai/l2k2/examples-tf-estimator-mnist/runs/p0ifowcb): W&B 上で 結果 を表示
+* TensorFlow 2 でのトレーニングループのカスタマイズ - [記事](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) | [ダッシュボード](https://app.wandb.ai/sayakpaul/custom_training_loops_tf)

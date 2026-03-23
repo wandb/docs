@@ -1,70 +1,88 @@
 ---
-title: Project
+title: 프로젝트
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
+
+## <kbd>class</kbd> `Project`
+Project는 Runs를 위한 네임스페이스입니다.
+
+### <kbd>method</kbd> `Project.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    attrs: 'Mapping[str, Any]'
+) → Project
+```
+
+**Args:**
+ 
+ - `client`: W&B API 클라이언트 인스턴스. 
+ - `name` (str): 프로젝트의 이름. 
+ - `entity` (str): 프로젝트를 소유한 엔티티 이름. 
+
+엔티티와 연결된 단일 프로젝트입니다. 
+
+**Args:**
+ 
+ - `client`: W&B 쿼리에 사용되는 API 클라이언트. 
+ - `entity`: 프로젝트를 소유한 엔티티. 
+ - `project`: 쿼리할 프로젝트의 이름. 
+ - `attrs`: 프로젝트의 속성. 
+
 ---
 
-<Card title="View the source code" href="https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L79-L154" icon="github"/>
+### <kbd>property</kbd> Project.id
 
-project는 runs를 위한 네임스페이스입니다.
+---
 
-```python
-Project(
-    client, entity, project, attrs
-)
-```
+### <kbd>property</kbd> Project.path
 
-| 속성 | Description |
-| :--- | :--- |
+프로젝트의 경로를 반환합니다. 경로는 엔티티와 프로젝트 이름을 포함하는 리스트입니다. 
 
-## Methods
+**Returns:**
+ - `list[str]`: 경로 속성 값.
 
-### `artifacts_types`
+---
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L112-L114)
+### <kbd>property</kbd> Project.url
 
-```python
-artifacts_types(
-    per_page=50
-)
-```
+프로젝트의 URL을 반환합니다. 
 
-### `display`
+**Returns:**
+ - `str`: url 속성 값.
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L16-L37)
+---
+
+### <kbd>method</kbd> `Project.artifacts_types`
 
 ```python
-display(
-    height=420, hidden=(False)
-) -> bool
+artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
-Jupyter에서 이 오브젝트를 표시합니다.
+이 프로젝트와 관련된 모든 Artifacts 타입을 반환합니다. 
 
-### `snake_to_camel`
+---
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/attrs.py#L12-L14)
+### <kbd>method</kbd> `Project.sweeps`
 
 ```python
-snake_to_camel(
-    string
-)
+sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
-### `sweeps`
+이 프로젝트에 포함된 Sweeps의 페이지네이션된 컬렉션을 반환합니다. 
 
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L116-L154)
+**Args:**
+ 
+ - `per_page`: API 요청당 가져올 Sweeps의 수. 
 
-```python
-sweeps()
-```
+**Returns:**
+ `Sweep` 오브젝트의 반복 가능한 컬렉션인 `Sweeps` 오브젝트. 
 
-### `to_html`
-
-[소스 보기](https://www.github.com/wandb/wandb/tree/637bddf198525810add5804059001b1b319d6ad1/wandb/apis/public/projects.py#L96-L104)
-
-```python
-to_html(
-    height=420, hidden=(False)
-)
-```
-
-이 project를 표시하는 iframe을 포함하는 HTML을 생성합니다.
+---

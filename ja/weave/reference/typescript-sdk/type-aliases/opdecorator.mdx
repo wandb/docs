@@ -1,0 +1,32 @@
+---
+title: OpDecorator
+description: TypeScript SDK リファレンス
+---
+
+# OpDecorator
+
+Ƭ **OpDecorator**\<`T`\>: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) => `T` \| `void` & (`target`: `Object`, `propertyKey`: `string` \| `symbol`, `descriptor`: `TypedPropertyDescriptor`\<`T`\>) => `TypedPropertyDescriptor`\<`T`\> \| `void`
+
+デコレータ用のヘルパー型です。
+これは、レガシー（Legacy）と Stage 3 の両方のデコレータで使用できるデコレータ関数を表します。
+
+Stage 3 デコレータの場合：
+  target: デコレートされる関数 (T)
+  context: MethodDecoratorContext
+
+レガシーデコレータの場合：
+  target: プロトタイプ（インスタンスメソッド）またはコンストラクタ（静的メソッド）
+  propertyKey: メソッド名
+  descriptor: メソッドを含むプロパティ記述子（property descriptor）
+
+#### 型パラメータ
+
+| 名前 | 型 |
+| :------ | :------ |
+| `T` | extends (...`args`: `any`[]) => `any` |
+
+#### 定義箇所
+
+[opType.ts:41](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/opType.ts#L41)
+
+## Functions

@@ -1,0 +1,557 @@
+---
+title: W&B Inference で Weave を学ぶ
+---
+
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prereqs.mdx";
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+<ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
+<GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
+</div>
+
+このガイドでは、W&B Weave を [W&B Inference](https://docs.wandb.ai/inference/) と組み合わせて使用する方法を紹介します。W&B Inference を使用すると、独自のインフラストラクチャーを構築したり、複数のプロバイダーからの API キーを管理したりすることなく、ライブのオープンソースモデルを使用して LLM アプリケーションを構築し、トレース（Traces）することができます。W&B API キーがあれば、[W&B Inference でホストされているすべてのモデル](https://docs.wandb.ai/inference/models/)とやり取りできます。
+
+## 学習内容
+
+このガイドでは、以下の方法を説明します。
+
+- Weave と W&B Inference のセットアップ
+- 自動トレース機能を備えた基本的な LLM アプリケーションの構築
+- 複数のモデルの比較
+- データセットを用いたモデルパフォーマンスの評価（Evaluations）
+- Weave UI での結果の確認
+
+<WeaveQuickstartPrereqs/>
+
+## 最初の LLM コールをトレースする
+
+まず、以下のコード例をコピー＆ペーストしてください。このコード例では、W&B Inference の Llama 3.1-8B を使用します。
+
+このコードを実行すると、Weave は以下のことを行います。
+- LLM コールを自動的にトレースします
+- インプット、アウトプット、レイテンシ、トークン使用量をログに記録します
+- Weave UI でトレースを表示するためのリンクを提供します
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+import openai
+
+# Weave を初期化 - your-team/your-project に置き換えてください
+weave.init("<team-name>/inference-quickstart")
+
+# W&B Inference を指す OpenAI 互換クライアントを作成
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="YOUR_WANDB_API_KEY",  # 実際の API キーに置き換えてください
+    project="<team-name>/my-first-weave-project",  # 使用状況トラッキングに必要です
+)
+
+# 関数をデコレートしてトレースを有効にします。標準の OpenAI クライアントを使用します。
+@weave.op()
+def ask_llama(question: str) -> str:
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": question}
+        ],
+    )
+    return response.choices[0].message.content
+
+# 関数を呼び出す - Weave がすべてを自動的にトレースします
+result = ask_llama("What are the benefits of using W&B Weave for LLM development?")
+print(result)
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave';
+import OpenAI from 'openai';
+
+// Weave を初期化 - "<>" で囲まれた値をご自身のものに置き換えてください。
+await weave.init("<team-name>/inference-quickstart")
+
+// W&B Inference を指す OpenAI 互換クライアントを作成
+const client = new OpenAI({
+    baseURL: 'https://api.inference.wandb.ai/v1',  // W&B Inference エンドポイント
+    apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY', // API キーに置き換えるか、WANDB_API_KEY 環境変数を設定してください
+});
+
+// トレースを有効にするために関数を weave.op でラップします
+const askLlama = weave.op(async function askLlama(question: string): Promise<string> {
+const response = await client.chat.completions.create({
+    model: 'meta-llama/Llama-3.1-70B-Instruct',
+    messages: [
+    { role: 'system', content: 'You are a helpful assistant.' },
+    { role: 'user', content: question }
+    ],
+});
+return response.choices[0].message.content || '';
+});
+
+// 関数を呼び出す - Weave がすべてを自動的にトレースします
+const result = await askLlama('What are the benefits of using W&B Weave for LLM development?');
+console.log(result);
+```
+</Tab>
+</Tabs>
+
+## テキスト要約アプリケーションの構築
+
+次に、Weave がネストされたオペレーションをどのようにトレースするかを示す、基本的な要約アプリのコードを実行してみましょう。
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+import openai
+
+# Weave を初期化 - "<>" で囲まれた値をご自身のものに置き換えてください。
+weave.init("<team-name>/inference-quickstart")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="YOUR_WANDB_API_KEY",  # 実際の API キーに置き換えてください
+    project="<team-name>/my-first-weave-project",  # 使用状況トラッキングに必要です
+)
+
+@weave.op()
+def extract_key_points(text: str) -> list[str]:
+    """テキストからキーポイントを抽出します。"""
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "Extract 3-5 key points from the text. Return each point on a new line."},
+            {"role": "user", "content": text}
+        ],
+    )
+    # 空行を除いたレスポンスを返します
+    return [line for line in response.choices[0].message.content.strip().splitlines() if line.strip()]
+
+@weave.op()
+def create_summary(key_points: list[str]) -> str:
+    """キーポイントに基づいて簡潔な要約を作成します。"""
+    points_text = "\n".join(f"- {point}" for point in key_points)
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=[
+            {"role": "system", "content": "Create a one-sentence summary based on these key points."},
+            {"role": "user", "content": f"Key points:\n{points_text}"}
+        ],
+    )
+    return response.choices[0].message.content
+
+@weave.op()
+def summarize_text(text: str) -> dict:
+    """メインの要約パイプライン。"""
+    key_points = extract_key_points(text)
+    summary = create_summary(key_points)
+    return {
+        "key_points": key_points,
+        "summary": summary
+    }
+
+# サンプルテキストで試してみる
+sample_text = """
+The Apollo 11 mission was a historic spaceflight that landed the first humans on the Moon 
+on July 20, 1969. Commander Neil Armstrong and lunar module pilot Buzz Aldrin descended 
+to the lunar surface while Michael Collins remained in orbit. Armstrong became the first 
+person to step onto the Moon, followed by Aldrin 19 minutes later. They spent about 
+two and a quarter hours together outside the spacecraft, collecting samples and taking photographs.
+"""
+
+result = summarize_text(sample_text)
+print("Key Points:", result["key_points"])
+print("\nSummary:", result["summary"])
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave';
+import OpenAI from 'openai';
+
+// Weave を初期化 - your-team/your-project に置き換えてください
+await weave.init('<team-name>/inference-quickstart');
+
+const client = new OpenAI({
+baseURL: 'https://api.inference.wandb.ai/v1',
+apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY',  // API キーに置き換えるか、WANDB_API_KEY 環境変数を設定してください
+});
+
+const extractKeyPoints = weave.op(async function extractKeyPoints(text: string): Promise<string[]> {
+const response = await client.chat.completions.create({
+    model: 'meta-llama/Llama-3.1-8B-Instruct',
+    messages: [
+    { role: 'system', content: 'Extract 3-5 key points from the text. Return each point on a new line.' },
+    { role: 'user', content: text }
+    ],
+});
+// 空行を除いたレスポンスを返します
+const content = response.choices[0].message.content || '';
+return content.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+});
+
+const createSummary = weave.op(async function createSummary(keyPoints: string[]): Promise<string> {
+const pointsText = keyPoints.map(point => `- ${point}`).join('\n');
+const response = await client.chat.completions.create({
+    model: 'meta-llama/Llama-3.1-8B-Instruct',
+    messages: [
+    { role: 'system', content: 'Create a one-sentence summary based on these key points.' },
+    { role: 'user', content: `Key points:\n${pointsText}` }
+    ],
+});
+return response.choices[0].message.content || '';
+});
+
+const summarizeText = weave.op(async function summarizeText(text: string): Promise<{key_points: string[], summary: string}> {
+const keyPoints = await extractKeyPoints(text);
+const summary = await createSummary(keyPoints);
+return {
+    key_points: keyPoints,
+    summary: summary
+};
+});
+
+// サンプルテキストで試してみる
+const sampleText = `
+The Apollo 11 mission was a historic spaceflight that landed the first humans on the Moon 
+on July 20, 1969. Commander Neil Armstrong and lunar module pilot Buzz Aldrin descended 
+to the lunar surface while Michael Collins remained in orbit. Armstrong became the first 
+person to step onto the Moon, followed by Aldrin 19 minutes later. They spent about 
+two and a quarter hours together outside the spacecraft, collecting samples and taking photographs.
+`;
+
+const result = await summarizeText(sampleText);
+console.log('Key Points:', result.key_points);
+console.log('\nSummary:', result.summary);
+```
+</Tab>
+</Tabs>
+
+## 複数のモデルを比較する
+
+W&B Inference は複数のモデルへのアクセスを提供します。以下のコードを使用して、Llama と DeepSeek のそれぞれのレスポンスのパフォーマンスを比較してみましょう。
+
+<Tabs>
+<Tab title="Python">
+```python lines
+import weave
+import openai
+
+# Weave を初期化 - your-team/your-project に置き換えてください
+weave.init("<team-name>/inference-quickstart")
+
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="YOUR_WANDB_API_KEY",  # 実際の API キーに置き換えてください
+    project="<team-name>/my-first-weave-project",  # 使用状況トラッキングに必要です
+)
+
+# 異なる LLM を比較するための Model クラスを定義
+class InferenceModel(weave.Model):
+    model_name: str
+    
+    @weave.op()
+    def predict(self, question: str) -> str:
+        response = client.chat.completions.create(
+            model=self.model_name,
+            messages=[
+                {"role": "user", "content": question}
+            ],
+        )
+        return response.choices[0].message.content
+
+# 異なるモデルのインスタンスを作成
+llama_model = InferenceModel(model_name="meta-llama/Llama-3.1-8B-Instruct")
+deepseek_model = InferenceModel(model_name="deepseek-ai/DeepSeek-V3-0324")
+
+# レスポンスを比較
+test_question = "Explain quantum computing in one paragraph for a high school student."
+
+print("Llama 3.1 8B response:")
+print(llama_model.predict(test_question))
+print("\n" + "="*50 + "\n")
+print("DeepSeek V3 response:")
+print(deepseek_model.predict(test_question))
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import * as weave from 'weave';
+import OpenAI from 'openai';
+
+// Weave を初期化 - your-team/your-project に置き換えてください
+await weave.init("<team-name>/inference-quickstart")
+
+const client = new OpenAI({
+  baseURL: 'https://api.inference.wandb.ai/v1',
+  apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY', // API キーに置き換えるか、WANDB_API_KEY 環境変数を設定してください
+});
+
+// weave.op を使用してモデル関数を作成（TypeScript では weave.Model はサポートされていません）
+function createModel(modelName: string) {
+  return weave.op(async function predict(question: string): Promise<string> {
+    const response = await client.chat.completions.create({
+      model: modelName,
+      messages: [
+        { role: 'user', content: question }
+      ],
+    });
+    return response.choices[0].message.content || '';
+  });
+}
+
+// 異なるモデルのインスタンスを作成
+const llamaModel = createModel('meta-llama/Llama-3.1-8B-Instruct');
+const deepseekModel = createModel('deepseek-ai/DeepSeek-V3-0324');
+
+// レスポンスを比較
+const testQuestion = 'Explain quantum computing in one paragraph for a high school student.';
+
+console.log('Llama 3.1 8B response:');
+console.log(await llamaModel(testQuestion));
+console.log('\n' + '='.repeat(50) + '\n');
+console.log('DeepSeek V3 response:');
+console.log(await deepseekModel(testQuestion));
+```
+</Tab>
+</Tabs>
+
+## モデルパフォーマンスの評価（Evaluations）
+
+Weave に組み込まれた `EvaluationLogger` を使用して、Q&A タスクにおけるモデルのパフォーマンスを評価します。これにより、自動集計、トークン使用量の取得、UI での高度な比較機能を備えた構造化された評価（Evaluations）トラッキングが可能になります。
+
+前のセクションで使用したスクリプトに、以下のコードを追加してください。
+
+<Tabs>
+<Tab title="Python">
+```python lines
+from typing import Optional
+from weave import EvaluationLogger
+
+# シンプルなデータセットを作成
+dataset = [
+    {"question": "What is 2 + 2?", "expected": "4"},
+    {"question": "What is the capital of France?", "expected": "Paris"},
+    {"question": "Name a primary color", "expected_one_of": ["red", "blue", "yellow"]},
+]
+
+# スコアラーを定義
+@weave.op()
+def accuracy_scorer(expected: str, output: str, expected_one_of: Optional[list[str]] = None) -> dict:
+    """モデル出力の正確性をスコア付けします。"""
+    output_clean = output.strip().lower()
+    
+    if expected_one_of:
+        is_correct = any(option.lower() in output_clean for option in expected_one_of)
+    else:
+        is_correct = expected.lower() in output_clean
+    
+    return {"correct": is_correct, "score": 1.0 if is_correct else 0.0}
+
+# Weave の EvaluationLogger を使用してモデルを評価
+def evaluate_model(model: InferenceModel, dataset: list[dict]):
+    """Weave 組み込みの評価フレームワークを使用してデータセットの評価を実行します。"""
+    # トークン使用量をキャプチャするために、モデルを呼び出す前に EvaluationLogger を初期化します
+    # これは W&B Inference でコストを追跡するために特に重要です
+    # モデル名を有効な形式に変換します（英数字以外の文字をアンダースコアに置き換えます）
+    safe_model_name = model.model_name.replace("/", "_").replace("-", "_").replace(".", "_")
+    eval_logger = EvaluationLogger(
+        model=safe_model_name,
+        dataset="qa_dataset"
+    )
+    
+    for example in dataset:
+        # モデルの予測を取得
+        output = model.predict(example["question"])
+        
+        # 予測をログに記録
+        pred_logger = eval_logger.log_prediction(
+            inputs={"question": example["question"]},
+            output=output
+        )
+        
+        # 出力をスコア付け
+        score = accuracy_scorer(
+            expected=example.get("expected", ""),
+            output=output,
+            expected_one_of=example.get("expected_one_of")
+        )
+        
+        # スコアをログに記録
+        pred_logger.log_score(
+            scorer="accuracy",
+            score=score["score"]
+        )
+        
+        # この予測のロギングを終了
+        pred_logger.finish()
+    
+    # サマリーをログに記録 - Weave が正確性スコアを自動的に集計します
+    eval_logger.log_summary()
+    print(f"Evaluation complete for {model.model_name} (logged as: {safe_model_name}). View results in the Weave UI.")
+
+# 複数のモデルを比較 - Weave 評価フレームワークの主要機能
+models_to_compare = [
+    llama_model,
+    deepseek_model,
+]
+
+for model in models_to_compare:
+    evaluate_model(model, dataset)
+
+# Weave UI で Evals タブに移動し、モデル間の結果を比較します
+```
+</Tab>
+<Tab title="TypeScript">
+```typescript lines
+import { EvaluationLogger } from 'weave';
+
+// シンプルなデータセットを作成
+interface DatasetExample {
+  question: string;
+  expected?: string;
+  expected_one_of?: string[];
+}
+
+const dataset: DatasetExample[] = [
+  { question: 'What is 2 + 2?', expected: '4' },
+  { question: 'What is the capital of France?', expected: 'Paris' },
+  { question: 'Name a primary color', expected_one_of: ['red', 'blue', 'yellow'] },
+];
+
+// スコアラーを定義
+const accuracyScorer = weave.op(function accuracyScorer(args: {
+  expected: string;
+  output: string;
+  expected_one_of?: string[];
+}): { correct: boolean; score: number } {
+  const outputClean = args.output.trim().toLowerCase();
+  
+  let isCorrect: boolean;
+  if (args.expected_one_of) {
+    isCorrect = args.expected_one_of.some(option => 
+      outputClean.includes(option.toLowerCase())
+    );
+  } else {
+    isCorrect = outputClean.includes(args.expected.toLowerCase());
+  }
+  
+  return { correct: isCorrect, score: isCorrect ? 1.0 : 0.0 };
+});
+
+// Weave の EvaluationLogger を使用してモデルを評価
+async function evaluateModel(
+  model: (question: string) => Promise<string>,
+  modelName: string,
+  dataset: DatasetExample[]
+): Promise<void> {
+  // トークン使用量をキャプチャするために、モデルを呼び出す前に EvaluationLogger を初期化します
+  // これは W&B Inference でコストを追跡するために特に重要です
+  // モデル名を有効な形式に変換します（英数字以外の文字をアンダースコアに置き換えます）
+  const safeModelName = modelName.replace(/\//g, '_').replace(/-/g, '_').replace(/\./g, '_');
+  const evalLogger = new EvaluationLogger({
+    name: 'inference_evaluation',
+    model: { name: safeModelName },
+    dataset: 'qa_dataset'
+  });
+  
+  for (const example of dataset) {
+    // モデルの予測を取得
+    const output = await model(example.question);
+    
+    // 予測をログに記録
+    const predLogger = evalLogger.logPrediction(
+      { question: example.question },
+      output
+    );
+    
+    // 出力をスコア付け
+    const score = await accuracyScorer({
+      expected: example.expected || '',
+      output: output,
+      expected_one_of: example.expected_one_of
+    });
+    
+    // スコアをログに記録
+    predLogger.logScore('accuracy', score.score);
+    
+    // この予測のロギングを終了
+    predLogger.finish();
+  }
+  
+  // サマリーをログに記録 - Weave が正確性スコアを自動的に集計します
+  await evalLogger.logSummary();
+  console.log(`Evaluation complete for ${modelName} (logged as: {safeModelName}). View results in the Weave UI.`);
+}
+
+// 複数のモデルを比較 - Weave 評価フレームワークの主要機能
+const modelsToCompare = [
+  { model: llamaModel, name: 'meta-llama/Llama-3.1-8B-Instruct' },
+  { model: deepseekModel, name: 'deepseek-ai/DeepSeek-V3-0324' },
+];
+
+for (const { model, name } of modelsToCompare) {
+  await evaluateModel(model, name, dataset);
+}
+
+// Weave UI で Evals タブに移動し、モデル間の結果を比較します
+```
+</Tab>
+</Tabs>
+
+これらの例を実行すると、ターミナルにトレースへのリンクが返されます。リンクをクリックして、Weave UI でトレースを表示します。
+
+Weave UI では以下のことが可能です。
+- すべての LLM コールのタイムラインを確認する
+- 各オペレーションのインプットとアウトプットを検査する
+- トークン使用量と推定コスト（EvaluationLogger によって自動的に取得されます）を表示する
+- レイテンシとパフォーマンスメトリクスを分析する
+- **Evals** タブに移動して集計された評価結果を確認する
+- **Compare** 機能を使用して異なるモデル間のパフォーマンスを分析する
+- 特定の例をページ送りして、同じインプットに対して異なるモデルがどのように動作したかを確認する
+
+## 利用可能なモデル
+
+利用可能なモデルの完全なリストについては、W&B Inference ドキュメントの [Available Models セクション](https://docs.wandb.ai/inference/models/) を参照してください。
+
+## 次のステップ
+
+- **Playground を使用する**: Weave Playground で [対話的にモデルを試す](/weave/guides/tools/playground#access-the-playground)
+- **評価（Evaluations）を構築する**: LLM アプリケーションの [体系的な評価](/weave/guides/core-types/evaluations) について学ぶ
+- **他のインテグレーションを試す**: Weave は [OpenAI、Anthropic など多くに対応](/weave/guides/integrations) しています
+
+## トラブルシューティング
+
+<details>
+<summary>認証エラー</summary>
+
+認証エラーが発生した場合:
+1. 有効な W&B アカウントがあることを確認してください
+2. [wandb.ai/settings](https://wandb.ai/settings) の正しい API キーを使用しているか確認してください
+3. プロジェクト名が `team-name/project-name` の形式に従っているか確認してください
+
+</details>
+
+<details>
+<summary>レート制限エラー</summary>
+
+W&B Inference にはプロジェクトごとの同時実行制限があります。レート制限に達した場合:
+- 同時リクエスト数を減らす
+- コールの間に遅延を追加する
+- より高い制限のためにプランのアップグレードを検討する
+
+詳細については、[W&B Inference の制限に関するドキュメント](https://docs.wandb.ai/inference/usage-limits/) を参照してください。
+
+</details>
+
+<details>
+<summary>クレジット不足</summary>
+
+無料枠には制限されたクレジットが含まれています。詳細は [使用量と制限に関するドキュメント](https://docs.wandb.ai/inference/usage-limits/) を参照してください。
+
+</details>

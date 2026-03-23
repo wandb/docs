@@ -1,34 +1,49 @@
 ---
-title: Use W&B Multi-tenant SaaS
+title: 멀티 테넌트 클라우드
+description: 프로덕션 환경에 Multi-tenant 클라우드 배포하기
 ---
 
-W&B Multi-tenant Cloud는 W&B의 Google Cloud Platform (GCP) 계정의 [GCP의 북미 지역](https://cloud.google.com/compute/docs/regions-zones)에 배포된 완전 관리형 플랫폼입니다. W&B Multi-tenant Cloud는 트래픽 증가 또는 감소에 따라 플랫폼이 적절하게 확장되도록 GCP에서 자동 확장을 활용합니다.
+W&B Multi-tenant Cloud는 [Google Cloud의 북미 리전](https://cloud.google.com/compute/docs/regions-zones)에 있는 W&B의 Google Cloud 계정에 배포된 완전 관리형 플랫폼입니다. W&B Multi-tenant Cloud는 Google Cloud의 오토스케일링 기술을 활용하여 트래픽의 증감에 따라 플랫폼이 적절하게 확장되도록 보장합니다.
 
 <Frame>
-    <img src="/images/hosting/multi_tenant_cloud_arch.png"  />
+    <img src="/images/hosting/multi_tenant_cloud_arch.png" alt="Multi-tenant Cloud architecture diagram"  />
 </Frame>
+
+W&B Multi-tenant Cloud는 조직의 요구 사항에 맞춰 확장되며, Project 당 최대 250,000개의 메트릭과 메트릭당 최대 100만 개의 데이터 포인트를 로깅할 수 있도록 지원합니다. 더 대규모의 배포가 필요한 경우 [support](mailto:support@wandb.com)에 문의하세요.
+
+## 준수 사항 (Compliance)
+W&B Multi-tenant Cloud의 호스팅 플랫폼은 [미국 공인회계사 협회(AICPA)](https://www.aicpa-cima.com/home)의 [감사 기준 위원회(ASB)](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2)에서 발표한 **Service and Organization Controls (SOC) 2 Type 2** 요구 사항을 충족합니다. SOC 2 리포트는 보안, 가용성, 처리 무결성, 기밀성 및 개인정보 보호에 대한 서비스 조직의 통제 항목을 평가합니다. W&B Multi-tenant Cloud는 지속적인 규정 준수 여부를 확인하기 위해 정기적인 내부 및 외부 감사를 받습니다. SOC 2 리포트 및 기타 보안 및 규정 준수 문서를 요청하려면 [W&B Security Portal](https://security.wandb.ai/)을 참조하세요.
+
+<Tip>W&B Multi-tenant Cloud는 [미국 의료정보 보호법(HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html)의 요구 사항을 충족하지 않습니다. 조직이 HIPAA의 적용을 받는 경우, 대신 [W&B Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) 사용을 고려해 보세요.</Tip>
 
 ## 데이터 보안
 
-엔터프라이즈 플랜 사용자가 아닌 경우 모든 데이터는 공유 클라우드 스토리지에만 저장되고 공유 클라우드 컴퓨팅 서비스로 처리됩니다. 요금제에 따라 스토리지 제한이 적용될 수 있습니다.
+Free 또는 Pro 플랜을 사용하는 Users 의 경우, 모든 데이터는 공유 클라우드 스토리지에만 저장되며 공유 클라우드 컴퓨팅 서비스를 통해 처리됩니다. 요금제에 따라 스토리지 제한이 적용될 수 있습니다.
 
-엔터프라이즈 플랜 사용자는 [보안 스토리지 커넥터를 사용하여 자체 버킷(BYOB)을 가져올 수 있습니다](/ko/platform/hosting/data-security/secure-storage-connector) [팀 레벨](/ko/platform/hosting/data-security/secure-storage-connector#configuration-options)에서 모델, 데이터셋 등과 같은 파일을 저장할 수 있습니다. 여러 팀에 대해 단일 버킷을 구성하거나 여러 W&B Teams에 대해 별도의 버킷을 사용할 수 있습니다. 팀에 대해 보안 스토리지 커넥터를 구성하지 않으면 해당 데이터는 공유 클라우드 스토리지에 저장됩니다.
+Enterprise 플랜의 Users 는 [Team 레벨](/platform/hosting/data-security/secure-storage-connector#configuration-options)에서 [보안 스토리지 커넥터를 사용하여 고유 버킷(BYOB)을 가져와](/platform/hosting/data-security/secure-storage-connector) Models, Datasets 등의 파일을 저장할 수 있습니다. 여러 Teams 에 대해 단일 버킷을 구성하거나, 서로 다른 W&B Teams 에 대해 별도의 버킷을 사용할 수 있습니다. Team 에 대해 BYOB를 구성하지 않으면 해당 Team 의 데이터는 공유 클라우드 스토리지에 저장됩니다.
 
-## ID 및 엑세스 관리 (IAM)
-엔터프라이즈 플랜을 사용하는 경우 W&B 조직에서 안전한 인증 및 효과적인 권한 부여를 위해 ID 및 엑세스 관리 기능을 사용할 수 있습니다. Multi-tenant Cloud의 IAM에 사용할 수 있는 기능은 다음과 같습니다.
+귀하는 배포가 조직의 정책 및 해당하는 경우 [보안 기술 구현 가이드(STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)를 준수하도록 보장할 책임이 있습니다.
 
-* OIDC 또는 SAML을 사용한 SSO 인증. 조직에 대해 SSO를 구성하려면 W&B 팀 또는 지원팀에 문의하세요.
-* 조직 범위 내에서 그리고 팀 내에서 [적절한 user 역할을 구성합니다](/ko/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role).
-* W&B project의 범위를 정의하여 누가 W&B runs를 보고, 편집하고, 제출할 수 있는지 [제한된 projects](/ko/platform/hosting/iam/access-management/restricted-projects)으로 제한합니다.
+## 데이터 보관 정책
+Multi-tenant Cloud는 삭제 후 7일 동안 다음 항목을 보관합니다:
+- Runs 및 히스토리
+- 미디어, 설정 파일, 로그 파일과 같은 Artifact 가 아닌 run 파일
+- Artifacts 및 Artifact 참조
+
+이 기간이 지나기 전까지는 해당 항목들을 복구할 수 있습니다. 도움이 필요하시면 [support](mailto:support@wandb.ai) 또는 담당 AISE에게 문의하세요.
+
+## ID 및 액세스 관리 (IAM)
+Enterprise 플랜을 사용 중인 경우, 강화된 ID 및 액세스 관리 기능을 통해 W&B 배포에 대한 안전한 인증과 효과적인 권한 부여가 가능합니다:
+
+* OIDC 또는 SAML을 사용한 SSO 인증. 조직을 위해 SSO를 구성하려면 W&B 팀이나 지원팀에 문의하세요.
+* 조직 범위 및 Team 내에서 [적절한 사용자 역할 구성](/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role).
+* [제한된 프로젝트 (restricted projects)](/platform/hosting/iam/access-management/restricted-projects) 기능을 통해 W&B Project 의 범위를 정의하여 해당 프로젝트를 보거나 편집하고 W&B Runs 를 제출할 수 있는 사람을 제한합니다.
 
 ## 모니터링
-Organization 관리자는 계정 보기의 `Billing` 탭에서 계정 사용량 및 청구를 관리할 수 있습니다. Multi-tenant Cloud에서 공유 클라우드 스토리지를 사용하는 경우 관리자는 조직의 여러 팀에서 스토리지 사용량을 최적화할 수 있습니다.
+조직 관리자는 계정 뷰의 `Billing` 탭에서 사용량 및 결제를 관리할 수 있습니다. Multi-tenant Cloud에서 공유 클라우드 스토리지를 사용하는 경우, 관리자는 조직 내 여러 Teams 의 스토리지 사용량을 최적화할 수 있습니다.
 
 ## 유지 관리
-W&B Multi-tenant Cloud는 멀티 테넌트, 완전 관리형 플랫폼입니다. W&B Multi-tenant Cloud는 W&B에서 관리하므로 W&B 플랫폼을 프로비저닝하고 유지 관리하는 오버헤드 및 비용이 발생하지 않습니다.
-
-## 규정 준수
-Multi-tenant Cloud에 대한 보안 제어는 내부 및 외부에서 주기적으로 감사됩니다. SOC2 보고서 및 기타 보안 및 규정 준수 문서를 요청하려면 [W&B Security Portal](https://security.wandb.ai/)를 참조하세요.
+W&B Multi-tenant Cloud는 멀티 테넌트 방식의 완전 관리형 플랫폼입니다. W&B에서 직접 관리하므로, 사용자는 W&B 플랫폼을 프로비저닝하고 유지 관리하는 데 드는 오버헤드와 비용을 부담하지 않습니다.
 
 ## 다음 단계
-엔터프라이즈 기능이 필요하지 않은 경우 [Multi-tenant Cloud에 직접 엑세스](https://wandb.ai)하세요. 엔터프라이즈 플랜을 시작하려면 [이 양식](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial)을 제출하세요.
+대부분의 기능을 무료로 시작하려면 [Multi-tenant Cloud에 직접 액세스](https://wandb.ai)하세요. 강화된 데이터 보안 및 IAM 기능을 사용해 보려면 [Enterprise 트라이얼을 요청](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial)하세요.

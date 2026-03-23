@@ -1,0 +1,312 @@
+---
+title: Leaderboard 퀵스타트
+description: thoughtful_instruction W&B Weave 를 사용하여 leaderboard 퀵스타트 를 활용하는 방법을 알아보세요.
+---
+
+<Note>
+이것은 인터랙티브 노트북입니다. 로컬에서 실행하거나 아래 링크를 사용할 수 있습니다:
+- [Google Colab에서 열기](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
+- [GitHub에서 소스 보기](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
+</Note>
+
+# Leaderboard 퀵스타트
+
+이 노트북에서는 Weave의 Leaderboard를 사용하여 다양한 데이터셋과 스코어링 함수 전반에 걸친 모델 성능을 비교하는 방법을 배웁니다. 구체적으로 다음 과정을 진행합니다:
+
+1. 가짜 우편번호(zip code) 데이터로 구성된 데이터셋 생성
+2. 스코어링 함수를 작성하고 베이스라인 모델 평가
+3. 이러한 기법을 사용하여 모델 vs 평가 매트릭스 분석
+4. Weave UI에서 Leaderboard 확인
+
+## Step 1: 가짜 우편번호 데이터셋 생성
+
+먼저 가짜 우편번호 데이터 리스트를 생성하는 `generate_dataset_rows` 함수를 만듭니다.
+
+```python lines
+import json
+
+from openai import OpenAI
+from pydantic import BaseModel
+
+class Row(BaseModel):
+    zip_code: str
+    city: str
+    state: str
+    avg_temp_f: float
+    population: int
+    median_income: int
+    known_for: str
+
+class Rows(BaseModel):
+    rows: list[Row]
+
+def generate_dataset_rows(
+    location: str = "United States", count: int = 5, year: int = 2022
+):
+    client = OpenAI()
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "도움이 되는 어시스턴트입니다."},
+            {
+                "role": "user",
+                "content": f"{year}년 기준 {location}의 랜덤 우편번호에 대한 데이터를 {count}개 생성해 주세요.",
+            },
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Rows.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)["rows"]
+python
+import weave
+
+weave.init("leaderboard-demo")
+```
+
+## Step 2: 스코어링 함수 작성
+
+다음으로 3가지 스코어링 함수를 작성합니다:
+
+1. `check_concrete_fields`: 모델 출력이 예상 도시(city) 및 주(state)와 일치하는지 확인합니다.
+2. `check_value_fields`: 모델 출력이 예상 인구 및 가구 소득 중앙값의 10% 이내에 있는지 확인합니다.
+3. `check_subjective_fields`: LLM을 사용하여 모델 출력이 예상되는 "known for(유명한 것)" 필드와 일치하는지 확인합니다.
+
+```python lines
+@weave.op
+def check_concrete_fields(city: str, state: str, output: dict):
+    return {
+        "city_match": city == output["city"],
+        "state_match": state == output["state"],
+    }
+
+@weave.op
+def check_value_fields(
+    avg_temp_f: float, population: int, median_income: int, output: dict
+):
+    return {
+        "avg_temp_f_err": abs(avg_temp_f - output["avg_temp_f"]) / avg_temp_f,
+        "population_err": abs(population - output["population"]) / population,
+        "median_income_err": abs(median_income - output["median_income"])
+        / median_income,
+    }
+
+@weave.op
+def check_subjective_fields(zip_code: str, known_for: str, output: dict):
+    client = OpenAI()
+
+    class Response(BaseModel):
+        correct_known_for: bool
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "도움이 되는 어시스턴트입니다."},
+            {
+                "role": "user",
+                "content": f"내 학생이 우편번호 {zip_code}가 무엇으로 가장 유명한지 질문을 받았습니다. 정답은 '{known_for}'인데, 학생은 '{output['known_for']}'라고 답했습니다. 이 답변이 맞습니까?",
+            },
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Response.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)
+```
+
+## Step 3: 간단한 Evaluation 생성
+
+가짜 데이터와 스코어링 함수를 사용하여 간단한 Evaluation을 정의합니다.
+
+```python lines
+rows = generate_dataset_rows()
+evaluation = weave.Evaluation(
+    name="United States - 2022",
+    dataset=rows,
+    scorers=[
+        check_concrete_fields,
+        check_value_fields,
+        check_subjective_fields,
+    ],
+)
+```
+
+## Step 4: 베이스라인 모델 평가
+
+고정된 응답을 반환하는 베이스라인 모델을 평가합니다.
+
+```python lines
+@weave.op
+def baseline_model(zip_code: str):
+    return {
+        "city": "New York",
+        "state": "NY",
+        "avg_temp_f": 50.0,
+        "population": 1000000,
+        "median_income": 100000,
+        "known_for": "The Big Apple",
+    }
+
+await evaluation.evaluate(baseline_model)
+```
+
+## Step 5: 추가 모델 생성
+
+베이스라인과 비교할 2개의 모델을 더 생성합니다.
+
+```python lines
+@weave.op
+def gpt_4o_mini_no_context(zip_code: str):
+    client = OpenAI()
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": f"""Zip code {zip_code}"""}],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Row.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)
+
+await evaluation.evaluate(gpt_4o_mini_no_context)
+python
+@weave.op
+def gpt_4o_mini_with_context(zip_code: str):
+    client = OpenAI()
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "user",
+                "content": f"""다음 우편번호 {zip_code}에 대한 질문에 답해 주세요:
+                   1. 도시는 어디인가요?
+                   2. 주는 어디인가요?
+                   3. 화씨 기준 평균 기온은 얼마인가요?
+                   4. 인구는 얼마인가요?
+                   5. 소득 중앙값은 얼마인가요?
+                   6. 이 우편번호에서 가장 유명한 것은 무엇인가요?
+                   """,
+            }
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Row.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)
+
+await evaluation.evaluate(gpt_4o_mini_with_context)
+```
+
+## Step 6: 추가 Evaluation 생성
+
+이제 모델과 Evaluation의 매트릭스를 평가합니다.
+
+```python lines
+scorers = [
+    check_concrete_fields,
+    check_value_fields,
+    check_subjective_fields,
+]
+evaluations = [
+    weave.Evaluation(
+        name="United States - 2022",
+        dataset=weave.Dataset(
+            name="United States - 2022",
+            rows=generate_dataset_rows("United States", 5, 2022),
+        ),
+        scorers=scorers,
+    ),
+    weave.Evaluation(
+        name="California - 2022",
+        dataset=weave.Dataset(
+            name="California - 2022", rows=generate_dataset_rows("California", 5, 2022)
+        ),
+        scorers=scorers,
+    ),
+    weave.Evaluation(
+        name="United States - 2000",
+        dataset=weave.Dataset(
+            name="United States - 2000",
+            rows=generate_dataset_rows("United States", 5, 2000),
+        ),
+        scorers=scorers,
+    ),
+]
+models = [
+    baseline_model,
+    gpt_4o_mini_no_context,
+    gpt_4o_mini_with_context,
+]
+
+for evaluation in evaluations:
+    for model in models:
+        await evaluation.evaluate(
+            model, __weave={"display_name": evaluation.name + ":" + model.__name__}
+        )
+```
+
+## Step 7: Leaderboard 확인
+
+UI의 Leaderboard 탭으로 이동하여 "Create Leaderboard"를 클릭하면 새로운 Leaderboard를 만들 수 있습니다.
+
+Python에서 직접 Leaderboard를 생성할 수도 있습니다:
+
+```python lines
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+spec = leaderboard.Leaderboard(
+    name="Zip Code World Knowledge",
+    description="""
+이 Leaderboard는 우편번호에 대한 상식 측면에서 모델의 성능을 비교합니다.
+
+### 컬럼 설명
+
+1. **State Match against `United States - 2022`**: 모델이 주(state)를 정확하게 식별한 우편번호의 비율입니다.
+2. **Avg Temp F Error against `California - 2022`**: 모델의 평균 기온 예측치에 대한 평균 절대 오차(MAE)입니다.
+3. **Correct Known For against `United States - 2000`**: 모델이 우편번호에서 가장 유명한 것을 정확하게 식별한 비율입니다.
+""",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluations[0]).uri(),
+            scorer_name="check_concrete_fields",
+            summary_metric_path="state_match.true_fraction",
+        ),
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluations[1]).uri(),
+            scorer_name="check_value_fields",
+            should_minimize=True,
+            summary_metric_path="avg_temp_f_err.mean",
+        ),
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluations[2]).uri(),
+            scorer_name="check_subjective_fields",
+            summary_metric_path="correct_known_for.true_fraction",
+        ),
+    ],
+)
+
+ref = weave.publish(spec)
+```

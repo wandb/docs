@@ -1,6 +1,6 @@
 ---
-description: How to integrate W&B with Stable Baseline 3.
-title: Stable Baselines 3
+description: "Integrate W&B with Stable Baselines3 to track reinforcement learning experiments and log training performance."
+title: Stable Baselines 3 PyTorch
 ---
 
 [Stable Baselines 3](https://github.com/DLR-RM/stable-baselines3) \(SB3\) is a set of reliable implementations of reinforcement learning algorithms in PyTorch. W&B's SB3 integration: 
@@ -34,7 +34,7 @@ model.learn(..., callback=WandbCallback())
 | `model_save_freq` | Frequency to save the model |
 | `gradient_save_freq` | Frequency to log gradient. The default value is 0 so the gradients are not logged |
 
-## Basic Example
+## Basic example
 
 The W&B SB3 integration uses the logs output from TensorBoard to log your metrics 
 

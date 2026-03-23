@@ -1,0 +1,69 @@
+---
+title: fastai v1
+---
+
+<Note>
+このドキュメントは fastai v1 用です。
+現行バージョンの fastai を使用している場合は、 [fastai のページ](../) を参照してください。
+</Note>
+
+fastai v1 を使用した スクリプト では、モデル のトポロジー、損失、メトリクス、重み、勾配、予測 サンプル、および最良の トレーニング 済み モデル を自動的に ログ 記録できる コールバック を提供しています。
+
+```python
+import wandb
+from wandb.fastai import WandbCallback
+
+wandb.init()
+
+# callback_fnsにWandbCallbackを指定して学習器を初期化
+learn = cnn_learner(data, model, callback_fns=WandbCallback)
+learn.fit(epochs)
+```
+
+ログ 記録される データ は、コールバック のコンストラクタを通じて設定可能です。
+
+```python
+from functools import partial
+
+# partialを使用して引数を渡す例
+learn = cnn_learner(
+    data, model, callback_fns=partial(WandbCallback, input_type="images")
+)
+```
+
+トレーニング を開始する際のみに `WandbCallback` を使用することも可能です。この場合、インスタンス化する必要があります。
+
+```python
+learn.fit(epochs, callbacks=WandbCallback(learn))
+```
+
+その段階で カスタム パラメータ を渡すこともできます。
+
+```python
+learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
+```
+
+## サンプルコード
+
+インテグレーション の動作を確認するための例をいくつか用意しました：
+
+**Fastai v1**
+
+* [シンプソンズのキャラクター分類](https://github.com/borisdayma/simpsons-fastai) : Fastai モデル の追跡と比較を行うシンプルな デモ
+* [Fastai によるセマンティックセグメンテーション](https://github.com/borisdayma/semantic-segmentation) : 自動運転車向けの ニューラルネットワーク の最適化
+
+## オプション
+
+`WandbCallback()` クラスは以下のオプションをサポートしています：
+
+| キーワード 引数 | デフォルト | 説明 |
+| :--- | :--- | :--- |
+| learn | N/A | フック する fast.ai の learner。 |
+| save_model | True | ステップごとに改善が見られた場合に モデル を保存します。また、トレーニング 終了時に最良の モデル をロードします。 |
+| mode | auto | `min` 、 `max` 、または `auto` : `monitor` で指定された トレーニング メトリクス をステップ間で比較する方法。 |
+| monitor | None | 最良の モデル を保存するためにパフォーマンスを測定する トレーニング メトリクス。 None の場合はデフォルトで validation loss が使用されます。 |
+| log | gradients | `gradients` 、 `parameters` 、 `all` 、または None。損失と メトリクス は常に ログ 記録されます。 |
+| input_type | None | `images` または `None` 。 予測 サンプルの表示に使用されます。 |
+| validation_data | None | `input_type` が設定されている場合に、予測 サンプルに使用される データ。 |
+| predictions | 36 | `input_type` が設定され、 `validation_data` が `None` の場合に作成する 予測 の数。 |
+| seed | 12345 | `input_type` が設定され、 `validation_data` が `None` の場合に、予測 サンプルのための乱数生成器を初期化します。 |

@@ -1,0 +1,354 @@
+---
+title: Minikube를 사용하여 단일 노드 GPU 클러스터 구성하기
+---
+
+GPU 워크로드를 스케줄링하고 실행할 수 있는 Minikube 클러스터에서 W&B Launch를 설정합니다.
+
+<Note>
+이 가이드는 여러 개의 GPU가 있는 머신에 직접 엑세스할 수 있는 사용자를 대상으로 합니다. 클라우드 머신을 대여하는 사용자를 위한 가이드가 아닙니다.
+
+클라우드 머신에서 minikube 클러스터를 설정하려는 경우, W&B는 해당 클라우드 제공업체를 사용하여 GPU 지원 기능이 있는 Kubernetes 클러스터를 생성할 것을 권장합니다. 예를 들어, AWS, Google Cloud, Azure, Coreweave 및 기타 클라우드 제공업체는 GPU 지원 Kubernetes 클러스터를 생성하는 툴을 제공합니다.
+
+단일 GPU가 있는 머신에서 GPU 스케줄링을 위한 minikube 클러스터를 설정하려는 경우, W&B는 [Launch Docker queue](/platform/launch/setup-launch-docker/)를 사용할 것을 권장합니다. 재미 삼아 이 가이드를 따라 하실 수는 있지만, GPU 스케줄링이 큰 효용이 없을 것입니다.
+</Note>
+
+## 배경
+
+[NVIDIA container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/index.html) 덕분에 Docker에서 GPU 기반 워크플로우를 쉽게 실행할 수 있게 되었습니다. 한 가지 제한 사항은 볼륨별 GPU 스케줄링에 대한 네이티브 지원이 부족하다는 점입니다. `docker run` 코맨드로 GPU를 사용하려면 ID별로 특정 GPU를 요청하거나 존재하는 모든 GPU를 요청해야 하므로, 많은 분산 GPU 기반 워크로드를 처리하기에는 비실용적입니다. Kubernetes는 볼륨 요청에 따른 스케줄링을 지원하지만, 최근까지 GPU 스케줄링 기능이 있는 로컬 Kubernetes 클러스터를 설정하는 데는 상당한 시간과 노력이 필요했습니다. 단일 노드 Kubernetes 클러스터를 실행하는 데 가장 인기 있는 툴 중 하나인 Minikube는 최근 [GPU 스케줄링 지원](https://minikube.sigs.k8s.io/docs/tutorials/nvidia/) 기능을 출시했습니다. 이 가이드에서는 멀티 GPU 머신에 Minikube 클러스터를 생성하고 W&B Launch를 사용하여 클러스터에 동시 Stable Diffusion 추론 작업을 런칭해 보겠습니다.
+
+## 사전 요구 사항
+
+시작하기 전에 다음 사항이 필요합니다:
+
+1. W&B 계정.
+2. 다음이 설치되고 실행 중인 Linux 머신:
+   1. Docker 런타임
+   2. 사용하려는 모든 GPU의 드라이버
+   3. Nvidia container toolkit
+
+<Note>
+이 가이드를 테스트하고 작성하기 위해 4개의 NVIDIA Tesla T4 GPU가 연결된 Google Cloud Compute Engine `n1-standard-16` 인스턴스를 사용했습니다.
+</Note>
+
+## Launch 작업을 위한 큐 생성
+
+먼저, Launch 작업을 위한 launch 큐를 생성합니다.
+
+1. [wandb.ai/launch](https://wandb.ai/launch)로 이동합니다 (프라이빗 W&B 서버를 사용하는 경우 `<your-wandb-url>/launch`).
+2. 화면 오른쪽 상단에서 파란색 **Create a queue** 버튼을 클릭합니다. 화면 오른쪽에서 큐 생성 드로어가 나타납니다.
+3. Entity를 선택하고, 이름을 입력한 다음, 큐 유형으로 **Kubernetes**를 선택합니다.
+4. 드로어의 **Config** 섹션은 launch 큐를 위한 [Kubernetes job specification](https://kubernetes.io/docs/concepts/workloads/controllers/job/)을 입력하는 곳입니다. 이 큐에서 실행되는 모든 Runs는 이 작업 사양을 사용하여 생성되므로, 필요에 따라 이 설정을 수정하여 작업을 커스터마이징할 수 있습니다. 이 가이드에서는 아래의 샘플 설정을 YAML 또는 JSON 형식으로 큐 설정에 복사하여 붙여넣으세요:
+
+<Tabs>
+<Tab title="YAML">
+```yaml
+spec:
+  template:
+    spec:
+      containers:
+        - image: ${image_uri}
+          resources:
+            limits:
+              cpu: 4
+              memory: 12Gi
+              nvidia.com/gpu: '{{gpus}}'
+      restartPolicy: Never
+  backoffLimit: 0
+```
+</Tab>
+<Tab title="JSON">
+```json
+{
+  "spec": {
+    "template": {
+      "spec": {
+        "containers": [
+          {
+            "image": "${image_uri}",
+            "resources": {
+              "limits": {
+                "cpu": 4,
+                "memory": "12Gi",
+                "nvidia.com/gpu": "{{gpus}}"
+              }
+            }
+          }
+        ],
+        "restartPolicy": "Never"
+      }
+    },
+    "backoffLimit": 0
+  }
+}
+```
+</Tab>
+</Tabs>
+
+큐 설정에 대한 자세한 내용은 [Set up Launch on Kubernetes](/platform/launch/setup-launch-kubernetes/) 및 [Advanced queue setup guide](/platform/launch/setup-queue-advanced/)를 참조하세요.
+
+`${image_uri}` 및 `{{gpus}}` 문자열은 큐 설정에서 사용할 수 있는 두 가지 종류의 변수 템플릿 예시입니다. `${image_uri}` 템플릿은 에이전트에 의해 실행되는 작업의 이미지 URI로 대체됩니다. `{{gpus}}` 템플릿은 작업을 제출할 때 Launch UI, CLI 또는 SDK에서 오버라이드할 수 있는 템플릿 변수를 생성하는 데 사용됩니다. 이 값들은 작업 사양에 배치되어 작업에 사용되는 이미지와 GPU 리소스를 제어하는 올바른 필드를 수정하게 됩니다.
+
+5. **Parse configuration** 버튼을 클릭하여 `gpus` 템플릿 변수 커스터마이징을 시작합니다.
+6. **Type**을 `Integer`로 설정하고 **Default**, **Min**, **Max**를 원하는 값으로 설정합니다. 템플릿 변수의 제약 조건을 위반하여 이 큐에 run을 제출하려는 시도는 거부됩니다.
+
+<Frame>
+    <img src="/images/tutorials/minikube_gpu/create_queue.png" alt="Queue creation drawer"  />
+</Frame>
+
+7. **Create queue**를 클릭하여 큐를 생성합니다. 새로 생성된 큐의 큐 페이지로 리다이렉트됩니다.
+
+다음 섹션에서는 생성한 큐에서 작업을 가져와 실행할 수 있는 에이전트를 설정합니다.
+
+## Docker + NVIDIA CTK 설정
+
+머신에 이미 Docker와 Nvidia container toolkit이 설정되어 있다면 이 섹션은 건너뛰어도 됩니다.
+
+시스템에 Docker 컨테이너 엔진을 설정하는 방법은 [Docker 문서](https://docs.docker.com/engine/install/)를 참조하세요.
+
+Docker가 설치되면 [Nvidia 문서의 안내](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)에 따라 Nvidia container toolkit을 설치합니다.
+
+컨테이너 런타임이 GPU에 엑세스할 수 있는지 확인하려면 다음을 실행하세요:
+
+```bash
+docker run --gpus all ubuntu nvidia-smi
+```
+
+머신에 연결된 GPU를 설명하는 `nvidia-smi` 출력이 표시되어야 합니다. 예를 들어, 저희의 설정에서는 다음과 같은 출력이 나타납니다:
+
+```
+Wed Nov  8 23:25:53 2023
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 525.105.17   Driver Version: 525.105.17   CUDA Version: 12.0     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla T4            Off  | 00000000:00:04.0 Off |                    0 |
+| N/A   38C    P8     9W /  70W |      2MiB / 15360MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   1  Tesla T4            Off  | 00000000:00:05.0 Off |                    0 |
+| N/A   38C    P8     9W /  70W |      2MiB / 15360MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   2  Tesla T4            Off  | 00000000:00:06.0 Off |                    0 |
+| N/A   40C    P8     9W /  70W |      2MiB / 15360MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+|   3  Tesla T4            Off  | 00000000:00:07.0 Off |                    0 |
+| N/A   39C    P8     9W /  70W |      2MiB / 15360MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+```
+
+## Minikube 설정
+
+Minikube의 GPU 지원에는 `v1.32.0` 이상의 버전이 필요합니다. 최신 설치 도움말은 [Minikube 설치 문서](https://minikube.sigs.k8s.io/docs/start/)를 참조하세요. 이 가이드에서는 다음 코맨드를 사용하여 최신 Minikube 릴리스를 설치했습니다:
+
+```yaml
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+
+다음 단계는 GPU를 사용하여 minikube 클러스터를 시작하는 것입니다. 머신에서 다음을 실행하세요:
+
+```yaml
+minikube start --gpus all
+```
+
+위 코맨드의 출력은 클러스터가 성공적으로 생성되었는지 여부를 나타냅니다.
+
+## Launch 에이전트 시작
+
+새 클러스터를 위한 launch 에이전트는 `wandb launch-agent`를 직접 호출하거나 [W&B에서 관리하는 helm chart](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent)를 사용하여 배포함으로써 시작할 수 있습니다.
+
+이 가이드에서는 호스트 머신에서 직접 에이전트를 실행합니다.
+
+<Note>
+컨테이너 외부에서 에이전트를 실행한다는 것은 로컬 Docker 호스트를 사용하여 클러스터에서 실행할 이미지를 빌드할 수 있음을 의미하기도 합니다.
+</Note>
+
+로컬에서 에이전트를 실행하려면 기본 Kubernetes API 컨텍스트가 Minikube 클러스터를 가리키는지 확인하세요. 그런 다음 아래를 실행합니다:
+
+```bash
+pip install "wandb[launch]"
+```
+
+에이전트의 의존성을 설치합니다. 에이전트 인증을 설정하려면 `wandb login`을 실행하거나 `WANDB_API_KEY` 환경 변수를 설정하세요.
+
+에이전트를 시작하려면 다음 코맨드를 실행하세요:
+
+```bash
+wandb launch-agent -j <max-number-concurrent-jobs> -q <queue-name> -e <queue-entity>
+```
+
+터미널에서 launch 에이전트가 폴링 메시지를 출력하기 시작하는 것을 볼 수 있습니다.
+
+축하합니다, 이제 launch 큐를 폴링하는 launch 에이전트가 생겼습니다. 큐에 작업이 추가되면 에이전트가 이를 선택하여 Minikube 클러스터에서 실행되도록 스케줄링합니다.
+
+## 작업 Launch 하기
+
+에이전트에게 작업을 보내보겠습니다. W&B 계정에 로그인된 터미널에서 다음으로 간단한 "hello world"를 실행할 수 있습니다:
+
+```yaml
+wandb launch -d wandb/job_hello_world:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
+```
+
+원하는 작업이나 이미지로 테스트할 수 있지만, 클러스터가 이미지를 가져올 수 있는지 확인하세요. 추가 가이드는 [Minikube 문서](https://minikube.sigs.k8s.io/docs/handbook/registry/)를 참조하세요. [공개된 작업 중 하나를 사용하여 테스트](https://wandb.ai/wandb/jobs/jobs?workspace=user-bcanfieldsherman)할 수도 있습니다.
+
+## (선택 사항) NFS를 이용한 모델 및 데이터 캐싱
+
+ML 워크로드에서는 여러 작업이 동일한 데이터에 엑세스해야 하는 경우가 많습니다. 예를 들어, 데이터셋이나 모델 가중치와 같은 대용량 에셋을 반복적으로 다운로드하는 것을 피하기 위해 공유 캐시를 원할 수 있습니다. Kubernetes는 [persistent volumes 및 persistent volume claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/)를 통해 이를 지원합니다. Persistent volumes를 사용하여 Kubernetes 워크로드에 `volumeMounts`를 생성하고 공유 캐시에 대한 직접적인 파일 시스템 엑세스를 제공할 수 있습니다.
+
+이 단계에서는 모델 가중치를 위한 공유 캐시로 사용할 수 있는 NFS(Network File System) 서버를 설정합니다. 첫 번째 단계는 NFS를 설치하고 설정하는 것입니다. 이 프로세스는 운영 체제에 따라 다릅니다. VM이 Ubuntu를 실행 중이므로 `nfs-kernel-server`를 설치하고 `/srv/nfs/kubedata`에 export를 설정했습니다:
+
+```bash
+sudo apt-get install nfs-kernel-server
+sudo mkdir -p /srv/nfs/kubedata
+sudo chown nobody:nogroup /srv/nfs/kubedata
+sudo sh -c 'echo "/srv/nfs/kubedata *(rw,sync,no_subtree_check,no_root_squash,no_all_squash,insecure)" >> /etc/exports'
+sudo exportfs -ra
+sudo systemctl restart nfs-kernel-server
+```
+
+호스트 파일 시스템에서의 서버 export 위치와 NFS 서버의 로컬 IP 주소를 메모해 두세요. 다음 단계에서 이 정보가 필요합니다.
+
+다음으로, 이 NFS를 위한 persistent volume 및 persistent volume claim을 생성해야 합니다. Persistent volumes는 고도로 커스터마이징이 가능하지만, 여기서는 단순함을 위해 간단한 설정을 사용하겠습니다.
+
+아래 YAML을 `nfs-persistent-volume.yaml`이라는 파일에 복사하고, 원하는 볼륨 용량과 클레임 요청을 입력하세요. `PersistentVolume.spec.capcity.storage` 필드는 기본 볼륨의 최대 크기를 제어합니다. `PersistentVolumeClaim.spec.resources.requests.stroage`는 특정 클레임에 할당된 볼륨 용량을 제한하는 데 사용할 수 있습니다. 여기서는 두 필드에 동일한 값을 사용하는 것이 합리적입니다.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-pv
+spec:
+  capacity:
+    storage: 100Gi # 원하는 용량으로 설정하세요.
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: <your-nfs-server-ip> # TODO: 여기에 입력하세요.
+    path: '/srv/nfs/kubedata' # 또는 커스텀 경로
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi # 원하는 용량으로 설정하세요.
+  storageClassName: ''
+  volumeName: nfs-pv
+```
+
+다음으로 클러스터에 리소스를 생성합니다:
+
+```yaml
+kubectl apply -f nfs-persistent-volume.yaml
+```
+
+Run에서 이 캐시를 사용하려면 launch 큐 설정에 `volumes`와 `volumeMounts`를 추가해야 합니다. launch 설정을 편집하려면 [wandb.ai/launch](https://wandb.ai/launch)로 돌아가(또는 wandb 서버 사용자의 경우 `<your-wandb-url>/launch`), 큐를 찾아 큐 페이지로 이동한 다음 **Edit config** 탭을 클릭합니다. 원본 설정을 다음과 같이 수정할 수 있습니다:
+
+<Tabs>
+<Tab title="YAML">
+```yaml
+spec:
+  template:
+    spec:
+      containers:
+        - image: ${image_uri}
+          resources:
+            limits:
+              cpu: 4
+              memory: 12Gi
+              nvidia.com/gpu: "{{gpus}}"
+					volumeMounts:
+            - name: nfs-storage
+              mountPath: /root/.cache
+      restartPolicy: Never
+			volumes:
+        - name: nfs-storage
+          persistentVolumeClaim:
+            claimName: nfs-pvc
+  backoffLimit: 0
+```
+</Tab>
+<Tab title="JSON">
+```json
+{
+  "spec": {
+    "template": {
+      "spec": {
+        "containers": [
+          {
+            "image": "${image_uri}",
+            "resources": {
+              "limits": {
+                "cpu": 4,
+                "memory": "12Gi",
+                "nvidia.com/gpu": "{{gpus}}"
+              },
+              "volumeMounts": [
+                {
+                  "name": "nfs-storage",
+                  "mountPath": "/root/.cache"
+                }
+              ]
+            }
+          }
+        ],
+        "restartPolicy": "Never",
+        "volumes": [
+          {
+            "name": "nfs-storage",
+            "persistentVolumeClaim": {
+              "claimName": "nfs-pvc"
+            }
+          }
+        ]
+      }
+    },
+    "backoffLimit": 0
+  }
+}
+```
+</Tab>
+</Tabs>
+
+이제 작업을 실행하는 컨테이너의 `/root/.cache`에 NFS가 마운트됩니다. 컨테이너가 `root` 이외의 사용자로 실행되는 경우 마운트 경로를 조정해야 합니다. Huggingface 라이브러리와 W&B Artifacts 모두 기본적으로 `$HOME/.cache/`를 사용하므로 다운로드는 한 번만 발생하게 됩니다.
+
+## Stable Diffusion 실습
+
+새로운 시스템을 테스트하기 위해 Stable Diffusion의 추론 파라미터를 실험해 보겠습니다.
+기본 프롬프트와 합리적인 파라미터로 간단한 Stable Diffusion 추론 작업을 실행하려면 다음을 수행하세요:
+
+```
+wandb launch -d wandb/job_stable_diffusion_inference:main -p <target-wandb-project> -q <your-queue-name> -e <your-queue-entity>
+```
+
+위 코맨드는 `wandb/job_stable_diffusion_inference:main` 컨테이너 이미지를 큐에 제출합니다.
+에이전트가 작업을 선택하고 클러스터에서 실행되도록 스케줄링하면, 연결 상태에 따라 이미지를 가져오는 데 시간이 걸릴 수 있습니다.
+[wandb.ai/launch](https://wandb.ai/launch)의 큐 페이지에서 작업 상태를 확인할 수 있습니다.
+
+Run이 완료되면 지정한 프로젝트에 작업 아티팩트가 생성됩니다.
+프로젝트의 작업 페이지(`<project-url>/jobs`)에서 작업 아티팩트를 확인할 수 있습니다. 기본 이름은 `job-wandb_job_stable_diffusion_inference`이지만, 작업 페이지에서 작업 이름 옆의 연필 아이콘을 클릭하여 원하는 이름으로 변경할 수 있습니다.
+
+이제 이 작업을 사용하여 클러스터에서 더 많은 Stable Diffusion 추론을 실행할 수 있습니다.
+작업 페이지의 오른쪽 상단에 있는 **Launch** 버튼을 클릭하여 새로운 추론 작업을 설정하고 큐에 제출할 수 있습니다. 작업 설정 페이지에는 원래 실행의 파라미터가 미리 채워져 있지만, launch 드로어의 **Overrides** 섹션에서 값을 수정하여 원하는 대로 변경할 수 있습니다.
+
+<Frame>
+    <img src="/images/tutorials/minikube_gpu/sd_launch_drawer.png" alt="Launch UI"  />
+</Frame>

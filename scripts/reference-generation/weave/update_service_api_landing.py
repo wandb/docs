@@ -96,13 +96,24 @@ def generate_endpoints_section(endpoints: Dict[str, List[Tuple[str, str, str, st
         if tag not in category_order:
             category_order.append(tag)
     
+    # Track which categories we've already written to prevent duplicate H3s
+    written_categories = set()
+    
     for category in category_order:
-        if category not in endpoints:
+        if category not in endpoints or category in written_categories:
             continue
-            
+        
+        written_categories.add(category)
         lines.append(f"\n### {category}\n\n")
         
+        # Deduplicate endpoints within the category by (method, path) to avoid listing the same endpoint twice
+        seen_endpoints = set()
         for method, path, operation_id, summary in endpoints[category]:
+            endpoint_key = (method, path)
+            if endpoint_key in seen_endpoints:
+                continue
+            seen_endpoints.add(endpoint_key)
+            
             url = generate_endpoint_url(operation_id, category)
             lines.append(f"- **[{method} {path}]({url})** - {summary}\n")
     

@@ -1,0 +1,37 @@
+---
+title: run の色のカスタマイズ
+---
+
+W&B は、Projects 内で作成された各 Runs に対して自動的に色を割り当てます。 Runs のデフォルトの色を変更することで、テーブルやグラフ上で他の Runs と視覚的に区別しやすくすることができます。テーブル内のすべての Runs の色をデフォルトに戻すには、Workspace をリセットしてください。
+
+Runs の色はローカルスコープで適用されます。 Projects ページでは、カスタムカラーはあなた自身の Workspace にのみ適用されます。 Reports では、Runs のカスタムカラーはセクションレベルでのみ適用されます。同じ Runs を異なるセクションで表示する場合、セクションごとに異なるカスタムカラーを使用することが可能です。
+
+## デフォルトの Runs の色を編集する
+
+1. Projects のサイドバーから **Runs** タブをクリックします。
+2. **Name** 列にある Runs 名の隣のドットをクリックします。
+3. カラーパレットまたはカラーピッカーから色を選択するか、HEX コードを入力します。
+
+<Image src="/images/runs/run-color-palette.png" alt="Edit default run color in project workspace" />
+
+## Runs の色をランダム化する
+
+テーブル内のすべての Runs の色をランダムに変更するには：
+
+1. Projects のサイドバーから **Runs** タブをクリックします。
+2. **Name** 列のヘッダーにホバーし、3つのドット（**...**）をクリックして、ドロップダウンメニューから **Randomize run colors** を選択します。
+
+<Note>
+Runs の色をランダム化するオプションは、ソート、フィルタリング、検索、グルーピングなど、何らかの方法で Runs のテーブルを操作した後にのみ利用可能になります。
+</Note>
+
+## Runs の色をリセットする
+
+{/* The option to randomize run colors is only available if there are at least two runs in the table or selector, and you have made some kind of modification to the view (sorting, filtering, searching, or grouping). */}
+
+テーブル内のすべての Runs の色をデフォルトに戻すには：
+
+1. Projects のサイドバーから **Runs** タブをクリックします。
+2. **Name** 列のヘッダーにホバーし、3つのドット（**...**）をクリックして、ドロップダウンメニューから **Reset colors** を選択します。
+
+<Image src="/images/runs/reset-run-colors.png" alt="Reset run colors in project workspace" />

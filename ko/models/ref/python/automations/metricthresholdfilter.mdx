@@ -1,0 +1,39 @@
+---
+title: MetricThresholdFilter
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/_filters/run_metrics.py" />
+
+
+
+## <kbd>class</kbd> `MetricThresholdFilter`
+**절대적인** 메트릭 값을 사용자가 정의한 임계값과 비교하는 필터입니다.
+
+값은 단일 값일 수도 있고, 여러 값의 윈도우에 대한 집계된 결과일 수도 있습니다.
+
+
+### <kbd>method</kbd> `MetricThresholdFilter.__init__`
+
+```python
+__init__(
+    name: 'str',
+    agg: 'Agg | None' = None,
+    window: 'int' = 1,
+    cmp: 'Literal['$gte', '$gt', '$lt', '$lte']',
+    threshold: 'Annotated | Annotated'
+) → None
+```
+
+**Args:**
+ 
+ - `name` (str): 
+ - `agg` (Optional[Agg]): 
+ - `window` (int): 
+ - `cmp` (Literal['$gte', '$gt', '$lt', '$lte']): 메트릭 값(왼쪽)과 임계값(오른쪽) 사이의 비교 연산자입니다.
+ - `threshold` (Union[Annotated, Annotated]): 
+
+**Returns:**
+ `MetricThresholdFilter` 오브젝트.

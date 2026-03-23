@@ -1,0 +1,115 @@
+---
+title: Style Guide 데모
+description: 커스텀 W&B 브랜드 스타일 데모
+---
+
+# 스타일 가이드 데모
+
+이 페이지는 W&B 문서에 구현된 커스텀 브랜드 스타일을 보여줍니다.
+
+## 1. 타이포그래피
+
+### Source Serif 4가 적용된 제목
+
+# H1 제목 - Source Serif 4
+## H2 제목 - Source Serif 4
+### H3 제목 - Source Serif 4
+#### H4 제목 - Source Serif 4
+
+본문 텍스트는 다양한 플랫폼에서 최적의 가독성을 제공하기 위해 시스템 폰트 스택을 사용합니다.
+
+## 2. 브랜드 컬러
+
+<div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginBottom: '2rem'}}>
+  <div style={{padding: '1rem', background: 'var(--wandb-gold)', color: 'var(--moon-900)', borderRadius: '8px'}}>
+    W&B Gold
+    #ffcc33
+  </div>
+  <div style={{padding: '1rem', background: 'var(--wandb-teal-500)', color: 'white', borderRadius: '8px'}}>
+    W&B Teal
+    #13a9ba
+  </div>
+  <div style={{padding: '1rem', background: 'var(--moon-100)', color: 'var(--moon-800)', borderRadius: '8px'}}>
+    Moon 100
+    #f5f6f7
+  </div>
+</div>
+
+링크는 일관성을 위해 <a href="#">청록색(teal colors)</a>을 사용합니다.
+
+## 3. 배너 컴포넌트
+
+<div className="help-banner custom-banner">
+  <h2>도움말 및 지원 배너</h2>
+  <p>이 배너는 텍스트 그림자가 포함된 지원 배경 이미지를 사용합니다.</p>
+</div>
+
+<div className="card-banner custom-banner">
+  <h3>카드 배너</h3>
+  <p>정보성 콘텐츠를 위한 은은한 회색 배경의 배너입니다.</p>
+</div>
+
+<div className="gradient-banner custom-banner">
+  <h3>그레이디언트 배너</h3>
+  <p>눈에 띄는 공지 사항을 위해 선셋 그레이디언트를 사용합니다.</p>
+</div>
+
+<div className="wandb-banner custom-banner">
+  <h3>W&B 브랜드 배너</h3>
+  <p>공식 W&B 골드 그레이디언트를 사용합니다.</p>
+</div>
+
+## 4. 버튼 스타일
+
+<div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem'}}>
+  <button className="cta-button">CTA 버튼</button>
+  <button className="primary-button">기본 버튼</button>
+  <button className="brand-button">브랜드 버튼</button>
+  <a href="#" className="contact-button">문의하기 버튼</a>
+</div>
+
+## 5. 그레이디언트 배경
+
+<div className="hero-gradient">
+  <h2>그레이디언트가 적용된 히어로 섹션</h2>
+  <p>히어로 섹션이나 중요한 공지 사항을 위해 선셋 그레이디언트를 사용합니다.</p>
+</div>
+
+<div className="card-gradient">
+  <h3>은은한 그레이디언트 카드</h3>
+  <p>지나치지 않으면서 시각적 흥미를 더해주는 카드 컴포넌트용 은은한 그레이디언트 오버레이입니다.</p>
+</div>
+
+<div style={{fontSize: '2rem', fontWeight: 'bold', marginTop: '2rem'}}>
+  <span className="text-gradient-wandb">W&B 그레이디언트 텍스트 효과</span>
+</div>
+
+## 사용 예시
+
+### MDX 내 배너
+```mdx
+<div className="help-banner custom-banner">
+  <h2>제목을 입력하세요</h2>
+  <p>내용을 입력하세요</p>
+</div>
+```
+
+### MDX 내 버튼
+```mdx
+<button className="primary-button">클릭하세요</button>
+```
+
+### 그레이디언트 섹션
+```mdx
+<div className="hero-gradient">
+  <h1>W&B에 오신 것을 환영합니다</h1>
+  <p>더 나은 모델을 더 빠르게 구축하세요</p>
+</div>
+```
+
+## 참고 사항
+
+- 모든 스타일은 다크 모드를 자동으로 지원합니다
+- 색상은 유지관리가 쉽도록 CSS 변수로 정의되어 있습니다
+- 그레이디언트는 브랜드 컬러를 일관되게 사용합니다
+- 호버 효과는 인터랙티브한 피드백을 제공합니다

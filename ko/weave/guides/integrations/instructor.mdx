@@ -1,0 +1,173 @@
+---
+title: Instructor
+description: thoughtful mini-thought Weave의 Instructor 인테그레이션으로 LLM의 구조화된 데이터 추출을
+  추적하고 평가하세요. Pydantic 모델 검증, 재시도 로직, JSON 스키마 적용 과정을 캡처하여 신뢰할 수 있는 구조화된 출력 워크플로우를
+  구축할 수 있습니다.
+---
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_instructor.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+[Instructor](https://python.useinstructor.com/) 는 LLM으로부터 JSON과 같은 구조화된 데이터를 쉽게 얻을 수 있게 해주는 경량 라이브러리입니다.
+
+## Tracing
+
+개발 단계와 production 환경 모두에서 언어 모델 애플리케이션의 trace를 중앙 위치에 저장하는 것이 중요합니다. 이러한 trace는 디버깅에 유용하며, 애플리케이션을 개선하는 데 도움이 되는 데이터셋으로 활용될 수 있습니다.
+
+Weave 는 [Instructor](https://python.useinstructor.com/) 에 대한 trace를 자동으로 캡처합니다. 추적을 시작하려면 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` 을 호출하고 평소처럼 라이브러리를 사용하세요.
+
+```python lines
+import instructor
+import weave
+from pydantic import BaseModel
+from openai import OpenAI
+
+
+# 원하는 출력 구조 정의
+class UserInfo(BaseModel):
+    user_name: str
+    age: int
+
+# Weave 초기화
+weave.init(project_name="instructor-test")
+
+# OpenAI 클라이언트 패치
+client = instructor.from_openai(OpenAI())
+
+# 자연어에서 구조화된 데이터 추출
+user_info = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    response_model=UserInfo,
+    messages=[{"role": "user", "content": "John Doe is 30 years old."}],
+)
+```
+
+| ![](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif)                                                                        |
+|-----------------------------------------------------------------------------------------------------------------------|
+| 이제 Weave 가 Instructor를 사용하여 이루어진 모든 LLM 호출을 추적하고 로그를 남깁니다. Weave 웹 인터페이스에서 trace를 확인할 수 있습니다. |
+
+## 직접 만든 op 추적하기
+
+함수를 `@weave.op` 로 래핑하면 입력, 출력 및 애플리케이션 로직 캡처가 시작되어 애플리케이션을 통해 데이터가 어떻게 흐르는지 디버깅할 수 있습니다. op를 깊게 중첩하여 추적하고자 하는 함수들의 트리를 구축할 수 있습니다. 또한 실험을 진행함에 따라 git에 커밋되지 않은 임시 세부 사항들을 캡처하기 위해 자동으로 코드의 버전 관리를 시작합니다.
+
+단순히 [`@weave.op`](/weave/guides/tracking/ops) 데코레이터가 적용된 함수를 생성하면 됩니다.
+
+아래 예시에서는 `@weave.op` 로 래핑된 메트릭 함수인 `extract_person` 함수가 있습니다. 이를 통해 OpenAI chat completion 호출과 같은 중간 단계가 어떻게 이루어지는지 확인할 수 있습니다.
+
+```python lines
+import instructor
+import weave
+from openai import OpenAI
+from pydantic import BaseModel
+
+
+# 원하는 출력 구조 정의
+class Person(BaseModel):
+    person_name: str
+    age: int
+
+
+# Weave 초기화
+weave.init(project_name="instructor-test")
+
+# OpenAI 클라이언트 패치
+lm_client = instructor.from_openai(OpenAI())
+
+
+# 자연어에서 구조화된 데이터 추출
+@weave.op()
+def extract_person(text: str) -> Person:
+    return lm_client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": text},
+        ],
+        response_model=Person,
+    )
+
+
+person = extract_person("My name is John and I am 20 years old")
+```
+
+| ![](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png) |
+|---|
+| `extract_person` 함수에 `@weave.op` 데코레이터를 추가하면 입력, 출력 및 함수 내부에서 이루어진 모든 내부 LM 호출을 추적합니다. 또한 Weave 는 Instructor에 의해 생성된 구조화된 오브젝트를 자동으로 추적하고 버전을 관리합니다. |
+
+## 더 쉬운 실험을 위해 `Model` 만들기
+
+움직이는 부분이 많을 때 실험을 체계화하는 것은 어렵습니다. [`Model`](../core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델과 같은 애플리케이션의 실험적 세부 사항을 캡처하고 정리할 수 있습니다. 이는 애플리케이션의 서로 다른 반복(iteration)을 정리하고 비교하는 데 도움이 됩니다. 
+
+코드 버전 관리 및 입력/출력 캡처 외에도, [`Model`](../core-types/models) 은 애플리케이션의 행동을 제어하는 구조화된 파라미터를 캡처하여 어떤 파라미터가 가장 잘 작동했는지 쉽게 찾을 수 있게 해줍니다. 또한 Weave Models를 `serve` (아래 참조) 및 [`Evaluation`](../core-types/evaluations) 와 함께 사용할 수 있습니다.
+
+아래 예시에서는 `PersonExtractor` 로 실험을 할 수 있습니다. 이 중 하나를 변경할 때마다 `PersonExtractor` 의 새로운 _버전_ 이 생성됩니다.
+
+```python lines
+import asyncio
+from typing import List, Iterable
+
+import instructor
+import weave
+from openai import AsyncOpenAI
+from pydantic import BaseModel
+
+
+# 원하는 출력 구조 정의
+class Person(BaseModel):
+    person_name: str
+    age: int
+
+
+# Weave 초기화
+weave.init(project_name="instructor-test")
+
+# OpenAI 클라이언트 패치
+lm_client = instructor.from_openai(AsyncOpenAI())
+
+
+class PersonExtractor(weave.Model):
+    openai_model: str
+    max_retries: int
+
+    @weave.op()
+    async def predict(self, text: str) -> List[Person]:
+        model = await lm_client.chat.completions.create(
+            model=self.openai_model,
+            response_model=Iterable[Person],
+            max_retries=self.max_retries,
+            stream=True,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a perfect entity extraction system",
+                },
+                {
+                    "role": "user",
+                    "content": f"Extract `{text}`",
+                },
+            ],
+        )
+        return [m async for m in model]
+
+
+model = PersonExtractor(openai_model="gpt-4", max_retries=2)
+asyncio.run(model.predict("John is 30 years old"))
+```
+
+| ![](/weave/guides/integrations/imgs/instructor/instructor_weave_model.png) |
+|---------------------------------------------------------------------------|
+| [`Model`](../core-types/models) 을 사용한 호출 추적 및 버전 관리 |
+
+## Weave Model 서빙하기
+
+`weave.Model` 오브젝트에 대한 weave reference가 주어지면, fastapi 서버를 띄우고 이를 [`serve`](https://wandb.github.io/weave/guides/tools/serve) 할 수 있습니다.
+
+| [![](/weave/guides/integrations/imgs/instructor/instructor_serve.png)](https://wandb.ai/geekyrakshit/instructor-test/weave/objects/PersonExtractor/versions/xXpMsJvaiTOjKafz1TnHC8wMgH5ZAAwYOaBMvHuLArI) |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 모델로 이동하여 UI에서 복사함으로써 모든 `weave.Model` 의 weave reference를 찾을 수 있습니다.                                                      |
+
+터미널에서 다음 코맨드를 사용하여 모델을 서빙할 수 있습니다:
+
+```shell
+weave serve weave://your_entity/project-name/YourModel:<hash>
+```

@@ -1,0 +1,54 @@
+---
+title: LLM Evaluation Jobs
+description: W&B 내에서 체크포인트 모델 또는 호스팅된 API 모델을 평가하고, 자동으로 생성되는 리더보드를 사용하여 결과를 분석하세요.
+---
+import PreviewLink from '/snippets/en/_includes/llm-eval-jobs/preview.mdx';
+
+[LLM Evaluation Jobs](/models/launch) 는 CoreWeave에서 관리하는 인프라를 사용하여 LLM 모델의 성능을 평가하기 위한 벤치마킹 프레임워크입니다. 현대적이고 업계 표준인 다양한 [model evaluation benchmarks](/models/launch/evaluations) 중에서 선택한 다음, W&B Models 의 자동 리더보드와 차트를 사용하여 결과를 확인, 분석 및 공유하세요. LLM Evaluation Jobs 를 사용하면 직접 GPU 인프라를 배포하고 유지 관리해야 하는 복잡함이 사라집니다.
+
+<PreviewLink />
+
+{/*
+<CardGroup cols={4}>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Intro_to_Weights_%26_Biases.ipynb" />
+<TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
+</CardGroup>
+*/}
+
+## 작동 방식
+몇 단계만으로 모델 체크포인트 또는 공개적으로 엑세스 가능한 호스팅된 OpenAI 호환 모델을 평가하세요:
+
+1. W&B Models 에서 평가 job을 설정합니다. 벤치마크 및 리더보드 생성 여부와 같은 설정을 정의합니다.
+1. 평가 job을 Launch 합니다.
+1. 결과와 리더보드를 확인하고 분석합니다.
+
+동일한 대상 프로젝트로 평가 job을 Launch 할 때마다 프로젝트의 리더보드가 자동으로 업데이트됩니다.
+
+<Frame>
+![Example evalution job leaderboard](/images/models/llm-evaluation-jobs/model-checkpoint-leaderboard-example.png)
+</Frame>
+
+## 다음 단계
+- [Evaluation benchmark catalog](/models/launch/evaluations) 둘러보기
+- [모델 체크포인트 평가하기](/models/launch/evaluate-model-checkpoint)
+- [API 호스팅 모델 평가하기](/models/launch/evaluate-hosted-model)
+
+## 상세 정보
+
+### 가격 정책
+LLM Evaluation Jobs 는 관리할 인프라 없이 완전히 관리되는 CoreWeave 컴퓨팅 환경에서 대중적인 벤치마크를 통해 모델 체크포인트 또는 호스팅된 API를 평가합니다. 유휴 시간이 아닌 실제 소비된 리소스에 대해서만 비용을 지불합니다. 가격은 컴퓨팅과 스토리지의 두 가지 구성 요소로 나뉩니다. 컴퓨팅은 퍼블릭 프리뷰 기간 동안 무료이며, 정식 출시 시 가격을 공지할 예정입니다. 저장된 결과에는 Models runs 에 저장된 메트릭 및 예시별 트레이스가 포함됩니다. 스토리지는 데이터 볼륨에 따라 매월 청구됩니다. 프리뷰 기간 동안 LLM Evaluation Jobs 는 Multi-tenant 클라우드에서만 사용할 수 있습니다. 자세한 내용은 [Pricing](https://wandb.ai/pricing) 페이지를 참조하세요.
+
+### Job 제한 사항
+개별 평가 job에는 다음과 같은 제한 사항이 있습니다:
+- 평가할 모델의 최대 크기는 컨텍스트를 포함하여 86 GB입니다.
+- 각 job은 GPU 2개로 제한됩니다.
+
+### 요구 사항
+- 모델 체크포인트를 평가하려면 모델 가중치가 VLLM 호환 아티팩트로 패키징되어야 합니다. 자세한 내용과 예시 코드는 [예시: 모델 준비하기](/models/launch/evaluate-model-checkpoint#example-prepare-a-model)를 참조하세요.
+- OpenAI 호환 모델을 평가하려면 해당 모델이 공개 URL에서 엑세스 가능해야 하며, 조직 또는 팀 관리자가 인증을 위한 API 키를 팀 시크릿(team secret)으로 설정해야 합니다.
+- 특정 벤치마크는 점수 산정을 위해 OpenAI 모델을 사용합니다. 이러한 벤치마크를 실행하려면 조직 또는 팀 관리자가 필요한 API 키를 팀 시크릿으로 설정해야 합니다. 벤치마크에 이 요구 사항이 있는지 확인하려면 [Evaluation benchmark catalog](/models/launch/evaluations)를 참조하세요.
+- 특정 벤치마크는 Hugging Face의 gated 데이터셋에 대한 엑세스가 필요합니다. 이러한 벤치마크 중 하나를 실행하려면 조직 또는 팀 관리자가 Hugging Face에서 해당 gated 데이터셋에 대한 엑세스를 요청하고, Hugging Face 사용자 엑세스 토큰을 생성하여 팀 시크릿으로 설정해야 합니다. 벤치마크에 이 요구 사항이 있는지 확인하려면 [Evaluation benchmark catalog](/models/launch/evaluations)를 참조하세요.
+
+이러한 요구 사항을 충족하기 위한 자세한 내용과 지침은 다음을 참조하세요:
+- [모델 체크포인트 평가하기](/models/launch/evaluate-hosted-model)
+- [호스팅된 API 모델 평가하기](/models/launch/evaluate-model-checkpoint)

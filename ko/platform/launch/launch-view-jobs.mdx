@@ -1,0 +1,56 @@
+---
+title: Launch 작업 보기
+---
+
+다음 페이지에서는 큐에 추가된 Launch jobs 에 대한 정보를 확인하는 방법을 설명합니다.
+
+## jobs 보기
+
+W&B App에서 큐에 추가된 jobs 를 확인합니다.
+
+1. https://wandb.ai/home 에 있는 W&B App으로 이동합니다.
+2. 왼쪽 사이드바의 **Applications** 섹션에서 **Launch** 를 선택합니다.
+3. **All entities** 드롭다운을 선택하고 해당 Launch job 이 속한 Entity 를 선택합니다.
+4. Launch Application 페이지에서 접이식 UI를 확장하여 특정 큐에 추가된 jobs 목록을 확인합니다.
+
+<Note>
+Launch 에이전트가 Launch job 을 실행할 때 Run 이 생성됩니다. 즉, 목록에 표시된 각 Run 은 해당 큐에 추가된 특정 job 에 대응합니다.
+</Note>
+
+예를 들어, 다음 이미지는 `job-source-launch_demo-canonical`이라는 job 에서 생성된 두 개의 Runs 를 보여줍니다. 이 job 은 `Start queue`라는 이름의 큐에 추가되었습니다. 큐에 나열된 첫 번째 Run 의 이름은 `resilient-snowball`이고 두 번째 Run 의 이름은 `earthy-energy-165`입니다.
+
+<Frame>
+    <img src="/images/launch/launch_jobs_status.png" alt="Launch jobs status view"  />
+</Frame>
+
+W&B App UI 내에서 Launch jobs 로부터 생성된 Runs 에 대한 다음과 같은 추가 정보를 찾을 수 있습니다:
+   - **Run**: 해당 job 에 할당된 W&B Run 의 이름입니다.
+   - **Job ID**: job 의 이름입니다.
+   - **Project**: Run 이 속한 Project 의 이름입니다.
+   - **Status**: 큐에 있는 Run 의 상태입니다.
+   - **Author**: Run 을 생성한 W&B Entity 입니다.
+   - **Creation date**: 큐가 생성된 타임스탬프입니다.
+   - **Start time**: job 이 시작된 타임스탬프입니다.
+   - **Duration**: job 의 Run 을 완료하는 데 걸린 시간(초)입니다.
+
+## jobs 목록 보기
+W&B CLI를 사용하여 Project 내에 존재하는 jobs 목록을 확인합니다. W&B job list 코맨드를 사용하고, `--project`와 `--entity` 플래그에 각각 Launch job 이 속한 Project 와 Entity 의 이름을 입력합니다.
+
+```bash
+ wandb job list --entity your-entity --project project-name
+```
+
+## job 상태 확인하기
+
+다음 표는 큐에 있는 Run 이 가질 수 있는 상태를 정의합니다:
+
+| 상태 | 설명 |
+| --- | --- |
+| **Idle** | Run 이 큐에 있지만 활성 에이전트가 없는 상태입니다. |
+| **Queued** | Run 이 큐에서 에이전트가 처리하기를 기다리는 상태입니다. |
+| **Pending** | 에이전트가 Run 을 선택했지만 아직 시작되지 않은 상태입니다. 이는 클러스터의 리소스를 사용할 수 없기 때문일 수 있습니다. |
+| **Running** | Run 이 현재 실행 중입니다. |
+| **Killed** | 사용자에 의해 job 이 종료되었습니다. |
+| **Crashed** | Run 이 데이터 전송을 중단했거나 성공적으로 시작되지 않았습니다. |
+| **Failed** | Run 이 0이 아닌 종료 코드로 종료되었거나 시작에 실패했습니다. |
+| **Finished** | job 이 성공적으로 완료되었습니다. |

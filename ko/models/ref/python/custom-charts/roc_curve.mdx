@@ -1,0 +1,75 @@
+---
+title: roc_curve()
+namespace: python_sdk_custom_charts
+python_object_type: function
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py" />
+
+### <kbd>function</kbd> `roc_curve`
+
+```python
+roc_curve(
+    y_true: 'Sequence[numbers.Number]',
+    y_probas: 'Sequence[Sequence[float]] | None' = None,
+    labels: 'list[str] | None' = None,
+    classes_to_plot: 'list[numbers.Number] | None' = None,
+    title: 'str' = 'ROC Curve',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+Receiver Operating Characteristic (ROC) 커브 차트를 생성합니다.
+
+**Args:**
+
+ - `y_true`: 타겟 변수의 실제 클래스 라벨 (그라운드 트루스). 형태는 (num_samples,) 여야 합니다.
+ - `y_probas`: 각 클래스에 대해 예측된 확률 또는 결정 점수. 형태는 (num_samples, num_classes) 여야 합니다.
+ - `labels`: `y_true` 의 클래스 인덱스에 해당하는 사람이 읽을 수 있는 라벨. 예를 들어, `labels=['dog', 'cat']` 인 경우 플롯에서 클래스 0은 'dog', 클래스 1은 'cat'으로 표시됩니다. None인 경우, `y_true` 의 원래 클래스 인덱스가 사용됩니다. 기본값은 None입니다.
+ - `classes_to_plot`: ROC 커브에 포함할 고유 클래스 라벨의 서브셋. None인 경우, `y_true` 에 있는 모든 클래스가 플롯됩니다. 기본값은 None입니다.
+ - `title`: ROC 커브 플롯의 제목. 기본값은 "ROC Curve"입니다.
+ - `split_table`: 테이블을 W&B UI에서 별도의 섹션으로 분리할지 여부. `True` 인 경우, 테이블은 "Custom Chart Tables"라는 이름의 섹션에 표시됩니다. 기본값은 `False` 입니다.
+
+**Returns:**
+
+ - `CustomChart`: W&B에 로그할 수 있는 커스텀 차트 오브젝트. 차트를 로그하려면 `wandb.log()` 에 전달하세요.
+
+**Raises:**
+
+ - `wandb.Error`: numpy, pandas 또는 scikit-learn을 찾을 수 없는 경우.
+
+**Example:**
+
+ ```python
+import numpy as np
+import wandb
+
+# 세 가지 질병에 대한 의료 진단 분류 문제 시뮬레이션
+n_samples = 200
+n_classes = 3
+
+# 실제 라벨: 각 샘플에 "Diabetes", "Hypertension", "Heart Disease" 할당
+# 각 샘플에 할당
+disease_labels = ["Diabetes", "Hypertension", "Heart Disease"]
+# 0: Diabetes, 1: Hypertension, 2: Heart Disease
+y_true = np.random.choice([0, 1, 2], size=n_samples)
+
+# 예측 확률: 각 샘플의 확률 합이 1이 되도록 시뮬레이션
+# 각 샘플에 대해
+y_probas = np.random.dirichlet(np.ones(n_classes), size=n_samples)
+
+# 플롯할 클래스 지정 (세 가지 질병 모두 플롯)
+classes_to_plot = [0, 1, 2]
+
+# W&B run을 초기화하고 질병 분류를 위한 ROC 커브 플롯을 로그합니다
+with wandb.init(project="medical_diagnosis") as run:
+    roc_plot = wandb.plot.roc_curve(
+         y_true=y_true,
+         y_probas=y_probas,
+         labels=disease_labels,
+         classes_to_plot=classes_to_plot,
+         title="ROC Curve for Disease Classification",
+    )
+    run.log({"roc-curve": roc_plot})
+```

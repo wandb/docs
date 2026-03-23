@@ -1,0 +1,42 @@
+---
+title: W&B サーバー の自動アップデートを無効にする
+description: W&B Server の自動アップデートを無効にする方法について説明します。
+---
+
+このページでは、W&B Server の自動バージョンアップグレードを無効にし、特定のバージョンに固定（ピン留め）する方法について説明します。以下の手順は、[W&B Kubernetes Operator](/platform/hosting/operator/) によって管理されているデプロイメントにのみ適用されます。
+
+<Note>
+W&B は、W&B Server のメジャーリリースをその初回リリース日から12ヶ月間サポートします。 **Self-Managed** インスタンスをご利用のお客様は、サポートを維持するために期限内にアップグレードを行う責任があります。サポート対象外のバージョンを使い続けることは避けてください。W&B は、**Self-Managed** インスタンスをご利用のお客様に対し、サポートの維持、最新機能の利用、パフォーマンスの向上、および修正の適用のために、少なくとも四半期に一度は最新リリースでデプロイメントを更新することを強く推奨しています。
+</Note>
+
+## 要件
+
+- W&B Kubernetes Operator `v1.13.0` 以降
+- System Console `v2.12.2` 以降
+
+これらの要件を満たしているか確認するには、インスタンスの W&B カスタムリソースまたは Helm チャートを参照してください。`operator-wandb` および `system-console` コンポーネントの `version` 値を確認してください。
+
+## 自動アップデートの無効化
+1. `admin` ロールを持つ ユーザー として W&B アプリにログインします。
+2. 上部の ユーザー アイコンをクリックし、**System Console** をクリックします。
+3. **Settings** > **Advanced** に移動し、**Other** タブを選択します。
+4. **Disable Auto Upgrades** セクションで、**Pin specific version** をオンにします。
+5. **Select a version** ドロップダウンをクリックし、W&B Server のバージョンを選択します。
+6. **Save** をクリックします。
+
+    <Frame>
+    <img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="Disable Automatic Updates Saved"  />
+    </Frame>
+
+    自動アップグレードがオフになり、W&B Server は選択した バージョン に固定されます。
+1. 自動アップグレードがオフになっていることを確認します。**Operator** タブに移動し、リコンシリエーション（調整）ログから `Version pinning is enabled` という文字列を検索します。
+
+```
+│info 2025-04-17T17:24:16Z wandb default No changes found
+│info 2025-04-17T17:24:16Z wandb default Active spec found
+│info 2025-04-17T17:24:16Z wandb default Desired spec
+│info 2025-04-17T17:24:16Z wandb default License
+│info 2025-04-17T17:24:16Z wandb default Version Pinning is enabled
+│info 2025-04-17T17:24:16Z wandb default Found Weights & Biases instance, processing the spec...
+│info 2025-04-17T17:24:16Z wandb default === Reconciling Weights & Biases instance...
+```

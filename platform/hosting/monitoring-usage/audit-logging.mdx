@@ -1,5 +1,6 @@
 ---
 title: Track user activity with audit logs
+description: "Access, fetch, and analyze W&B audit logs across deployment types, including the log schema and tracked actions."
 ---
 
 Use W&B audit logs to track user activity within your organization and to conform to your enterprise governance requirements. Audit logs are available in JSON format. Refer to [Audit log schema](#audit-log-schema).
@@ -8,7 +9,7 @@ How to access audit logs depends on your W&B platform deployment type:
 
 | W&B Platform Deployment type | Audit logs access mechanism |
 |----------------------------|--------------------------------|
-| [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) | <ul><li>[Instance-level BYOB](/platform/hosting/data-security/secure-storage-connector): Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api).</li><li>Default instance-level storage: Available only by using [the API](#fetch-audit-logs-using-api).</li></ul> |
+| [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) | <ul><li>[Instance-level BYOB](/platform/hosting/data-security/secure-storage-connector): Synced to instance-level bucket (BYOB) every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api).</li><li>Default instance-level storage: Available only by using [the API](#fetch-audit-logs-using-api).</li></ul> |
 | [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud) | Available for Enterprise plans only. Available only by using [the API](#fetch-audit-logs-using-api). |
 | [Self-Managed](/platform/hosting/hosting-options/self-managed) | Synced to instance-level bucket every 10 minutes. Also available using [the API](#fetch-audit-logs-using-api). |
 
@@ -18,7 +19,7 @@ For more details about the format of the logs, see [Audit log schema](#audit-log
 
 ## Audit log retention
 - If you require audit logs to be retained for a specific period of time, W&B recommends periodically transferring logs to long-term storage, either using storage buckets or the Audit Logging API.
-- If you are subject to the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html), audit logs must be retained for a minimum of 6 years in an environment where they cannot be deleted or modified by any internal or exterrnal actor before the end of the mandatory retention period. For HIPAA-compliant [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud) instances with [BYOB](/platform/hosting/data-security/secure-storage-connector), you must configure guardrails for your managed storage, including any long-term retention storage.
+- If you are subject to the [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://hhs.gov/hipaa/for-professionals/index.html), audit logs must be retained for a minimum of 6 years in an environment where they cannot be deleted or modified by any internal or exterrnal actor before the end of the mandatory retention period. For HIPAA-compliant [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud) instances with [BYOB](/platform/hosting/data-security/secure-storage-connector), you must configure guardrails for your managed storage, including any long-term retention storage.
 
 ## Audit log schema
 This table shows all keys which may appear in an audit log entry, ordered alphabetically. Depending on the action and the circumstances, a specific log entry may include only a subset of the possible fields.
@@ -49,7 +50,7 @@ This table shows all keys which may appear in an audit log entry, ordered alphab
 
 Personally identifiable information (PII), such as email addresses and the names of projects, teams, and reports, is available only using the API endpoint option.
 - For [Self-Managed](/platform/hosting/hosting-options/self-managed) and 
-  [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), an organization admin can [exclude PII](#exclude-pii) when fetching audit logs.
+  [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), an organization admin can [exclude PII](#exclude-pii) when fetching audit logs.
 - For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
 
 ## Before you begin
@@ -69,17 +70,17 @@ To fetch audit logs:
 
 1. Determine the correct API endpoint for your instance:
 
-- [Self-Managed](/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
-- [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud): `<instance-name>.wandb.io/admin/audit_logs`
-- [Multi-tenant Cloud (Enterprise required)](/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
+    - [Self-Managed](/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
+    - [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud): `<instance-name>.wandb.io/admin/audit_logs`
+    - [Multi-tenant Cloud (Enterprise required)](/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
 
     In the following steps, replace `<API-endpoint>` with your API endpoint.
 1. (Optional) Construct query parameters to append to the endpoint. In the following steps, replace `<parameters>` with the resulting string.
     - `anonymize`: if the URL includes the parameter `anonymize=true`, remove any PII. Otherwise, PII is included. Refer to [Exclude PII when fetching audit logs](#exclude-pii-when-fetching-audit-logs). Not supported for Multi-tenant Cloud, where all fields are included, including PII.
     - Configure the date window of logs to fetch using a combination of `numdays` and `startDate`. Each parameter is optional, and they interact.
       - If neither parameter is included, only today's logs are fetched.
-      - `numDays`: An integer indicating the number of days backward from `startDate` to fetch logs. If it is omitted or set to `0`, logs are fetched for `startDate` only. **Multi-tenant Cloud** organizations can fetch up to 7 days of audit logs. In other words, if you set `numDays=9`, the effective parameter is `numDays=7`.
-      - `startDate`: Controls the newest logs to fetch, in the format `startDate=YYYY-MM-DD`. If it is omitted or explicitly set to today's date, logs are fetched from today to `numDays` (up to `7` for Multi-tenant Cloud).
+      - `numDays`: An integer indicating the number of days backward from `startDate` to fetch logs. If it is omitted or set to `0`, logs are fetched for `startDate` only. On **Multi-tenant Cloud**, you can fetch a maximum of 7 days of audit logs, even if you set `numDays` to a larger value.
+      - `startDate`: Supported on **Multi-tenant Cloud** only. Controls the newest logs to fetch, in the format `startDate=YYYY-MM-DD`. If it is omitted or explicitly set to today's date, logs are fetched from today to `numDays`.
 1. Construct the fully qualified endpoint URL in the format `<API-endpoint>?<parameters>`.
 1. Execute an HTTP `GET` request on the fully qualified API endpoint using a web browser or a tool like [Postman](https://www.postman.com/downloads/), [HTTPie](https://httpie.io/), or cURL.
 
@@ -89,7 +90,7 @@ The API response contains new-line separated JSON objects. Objects will include 
 To use basic authentication with your API key to access the audit logs API, set the HTTP request's `Authorization` header to the string `Basic` followed by a space, then the base-64 encoded string in the format `username:API-KEY`. In other words, replace the username and API key with your values separated with a `:` character, then base-64-encode the result. For example, to authorize as `demo:p@55w0rd`, the header should be `Authorization: Basic ZGVtbzpwQDU1dzByZA==`.
 
 ### Exclude PII when fetching audit logs <a id="exclude-pii"></a>
-For [Self-Managed](/platform/hosting/hosting-options/self-managed) and [Dedicated Cloud](/platform/hosting/hosting-options/dedicated_cloud), a W&B organization or instance admin can exclude PII when fetching audit logs. For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
+For [Self-Managed](/platform/hosting/hosting-options/self-managed) and [Dedicated Cloud](/platform/hosting/hosting-options/dedicated-cloud), a W&B organization or instance admin can exclude PII when fetching audit logs. For [Multi-tenant Cloud](/platform/hosting/hosting-options/multi_tenant_cloud), the API endpoint always returns relevant fields for audit logs, including PII. This is not configurable.
 
 
 To exclude PII, pass the `anonymize=true` URL parameter. For example, if your W&B instance URL is `https://mycompany.wandb.io` and you would like to get audit logs for user activity within the last week and exclude PII, use an API endpoint like:
@@ -121,10 +122,10 @@ This table describes possible actions that can be recorded by W&B, sorted alphab
 | `team:delete`                 | Team is deleted.
 | `team:invite_user`            | User is invited to team.
 | `team:uninvite`               | User or service account is uninvited from team.
-| `user:create_api_key`         | API key for the user is created. <sup><a href="#1">1</a></sup>
+| `user:create_api_key`         | API key for the user or service account is created. <sup><a href="#1">1</a></sup>
 | `user:create`                 | User is created. <sup><a href="#1">1</a></sup>
 | `user:deactivate`             | User is deactivated. <sup><a href="#1">1</a></sup>
-| `user:delete_api_key`         | API key for the user is deleted. <sup><a href="#1">1</a></sup>
+| `user:delete_api_key`         | API key for the user or service account is deleted. <sup><a href="#1">1</a></sup>
 | `user:initiate_login`         | User initiates log in. <sup><a href="#1">1</a></sup>
 | `user:login`                  | User logs in. <sup><a href="#1">1</a></sup>
 | `user:logout`                 | User logs out. <sup><a href="#1">1</a></sup>

@@ -17,10 +17,10 @@ A class for logging videos to W&B.
 
 ```python
 __init__(
-    data_or_path: Union[str, pathlib.Path, ForwardRef('np.ndarray'), ForwardRef('TextIO'), ForwardRef('BytesIO')],
-    caption: Optional[str] = None,
-    fps: Optional[int] = None,
-    format: Optional[Literal['gif', 'mp4', 'webm', 'ogg']] = None
+    data_or_path: 'str | pathlib.Path | np.ndarray | TextIO | BytesIO',
+    caption: 'str | None' = None,
+    fps: 'int | None' = None,
+    format: "Literal['gif', 'mp4', 'webm', 'ogg'] | None" = None
 )
 ```
 

@@ -1,9 +1,5 @@
 ---
-title: Does your tool track or store training data?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: 귀하의 툴은 트레이닝 데이터를 추적하거나 저장하나요?
 ---
 
-SHA 또는 고유 식별자를 `wandb.config.update(...)`에 전달하여 데이터셋을 트레이닝 run과 연결합니다. W\&B는 `wandb.save`가 로컬 파일 이름으로 호출되지 않는 한 데이터를 저장하지 않습니다.
+데이터셋을 트레이닝 run 에 연결하려면 SHA 또는 고유 식별자를 `wandb.Run.config.update(...)` 에 전달하세요. 로컬 파일 이름과 함께 `wandb.Run.save()` 를 호출하지 않으면 W&B 에는 아무런 데이터도 저장되지 않습니다.

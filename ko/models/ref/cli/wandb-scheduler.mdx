@@ -2,15 +2,29 @@
 title: wandb scheduler
 ---
 
-**사용법**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-scheduler.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb scheduler [OPTIONS] SWEEP_ID`
+import WandbScheduler from "/snippets/en/_includes/cli/wandb-scheduler.mdx";
 
-**요약**
+<WandbScheduler/>
 
-W&B Launch 스윕 스케줄러를 실행합니다 (실험적).
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**옵션**
+W&B Launch Sweep 스케줄러를 실행합니다 (실험적 기능)
 
-| **옵션** | **설명** |
-| :--- | :--- |
+## 사용법
+
+```bash
+wandb scheduler SWEEP_ID
+```
+
+## 인수
+
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `SWEEP_ID` | 설명 없음 | 예 |

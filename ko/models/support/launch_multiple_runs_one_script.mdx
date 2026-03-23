@@ -1,34 +1,54 @@
 ---
-title: How do I launch multiple runs from one script?
-support:
-- experiments
-toc_hide: true
-type: docs
+title: 하나의 스크립트에서 여러 개의 run 을 실행하려면 어떻게 해야 하나요?
 ---
 
-`wandb.init` 과 `run.finish()` 를 사용하여 단일 스크립트 내에서 여러 개의 run을 로그로 기록하세요.
+단일 스크립트 내에서 여러 개의 Runs 를 log 하려면, 새로운 run 을 시작하기 전에 이전 run 을 종료해야 합니다.
 
-1. `run = wandb.init(reinit=True)` 를 사용하여 run의 재초기화를 허용합니다.
-2. 로깅을 완료하려면 각 run의 끝에서 `run.finish()` 를 호출합니다.
-
-```python
-import wandb
-
-for x in range(10):
-    run = wandb.init(reinit=True)
-    for y in range(100):
-        wandb.log({"metric": x + y})
-    run.finish()
-```
-
-또는 Python context manager를 사용하여 로깅을 자동으로 완료합니다.
+가장 권장되는 방법은 `wandb.init()` 을 컨텍스트 매니저(context manager)로 사용하는 것입니다. 이 방식을 사용하면 스크립트에서 예외가 발생하더라도 해당 run 이 자동으로 종료되고 실패로 표시됩니다.
 
 ```python
 import wandb
 
 for x in range(10):
-    run = wandb.init(reinit=True)
-    with run:
+    with wandb.init() as run:
         for y in range(100):
             run.log({"metric": x + y})
 ```
+
+또는 다음과 같이 `run.finish()` 를 명시적으로 호출할 수도 있습니다.
+
+```python
+import wandb
+
+for x in range(10):
+    run = wandb.init()
+
+    try:
+        for y in range(100):
+            run.log({"metric": x + y})
+
+    except Exception:
+        run.finish(exit_code=1)
+        raise
+
+    finally:
+        run.finish()
+```
+
+## 동시에 활성화된 여러 개의 Runs
+
+wandb 0.19.10 버전부터는 `reinit` 설정을 `"create_new"` 로 지정하여 동시에 활성화된 여러 개의 Runs 를 생성할 수 있습니다.
+
+```python
+import wandb
+
+with wandb.init(reinit="create_new") as tracking_run:
+    for x in range(10):
+        with wandb.init(reinit="create_new") as run:
+            for y in range(100):
+                run.log({"x_plus_y": x + y})
+
+            tracking_run.log({"x": x})
+```
+
+W&B integration 시 주의사항을 포함하여 `reinit="create_new"` 에 대한 자세한 정보는 [프로세스당 여러 개의 Runs](/models/runs/initialize-run/) 페이지를 참조하세요.

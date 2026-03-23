@@ -1,0 +1,314 @@
+---
+title: Leaderboard クイックスタート
+description: thoughtful mini-token-diet   W&B Weave で leaderboard クイックスタートを使用する方法を紹介します
+---
+
+<Note>
+これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを使用してください：
+- [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
+- [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
+</Note>
+
+# Leaderboard クイックスタート
+
+このノートブックでは、Weave の Leaderboard を使用して、さまざまな Datasets やスコアリング関数にわたる モデル のパフォーマンスを比較する方法を学びます。具体的には、以下の手順で行います：
+
+1. 架空の郵便番号データの Datasets を生成する。
+2. スコアリング関数を作成し、baseline モデル を評価する。
+3. これらの手法を用いて、複数の モデル と 評価（Evaluations）の行列を評価する。
+4. Weave UI で Leaderboard を確認する。
+
+## ステップ 1: 架空の郵便番号データの Datasets を生成する
+
+まず、架空の郵便番号データのリストを生成する関数 `generate_dataset_rows` を作成します。
+
+```python lines
+import json
+
+from openai import OpenAI
+from pydantic import BaseModel
+
+class Row(BaseModel):
+    zip_code: str
+    city: str
+    state: str
+    avg_temp_f: float
+    population: int
+    median_income: int
+    known_for: str
+
+class Rows(BaseModel):
+    rows: list[Row]
+
+def generate_dataset_rows(
+    location: str = "United States", count: int = 5, year: int = 2022
+):
+    client = OpenAI()
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {
+                "role": "user",
+                "content": f"Please generate {count} rows of data for random zip codes in {location} for the year {year}.",
+            },
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Rows.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)["rows"]
+python
+import weave
+
+# プロジェクトを初期化
+weave.init("leaderboard-demo")
+```
+
+## ステップ 2: スコアリング関数の作成
+
+次に、3 つのスコアリング関数を作成します：
+
+1. `check_concrete_fields`: モデル の出力が期待される市（city）と州（state）に一致するかをチェックします。
+2. `check_value_fields`: モデル の出力が、期待される人口（population）および世帯年収中央値（median income）の 10% 以内にあるかをチェックします。
+3. `check_subjective_fields`: LLM を使用して、モデル の出力が期待される「有名なもの（known for）」フィールドと一致するかをチェックします。
+
+```python lines
+@weave.op
+def check_concrete_fields(city: str, state: str, output: dict):
+    return {
+        "city_match": city == output["city"],
+        "state_match": state == output["state"],
+    }
+
+@weave.op
+def check_value_fields(
+    avg_temp_f: float, population: int, median_income: int, output: dict
+):
+    return {
+        "avg_temp_f_err": abs(avg_temp_f - output["avg_temp_f"]) / avg_temp_f,
+        "population_err": abs(population - output["population"]) / population,
+        "median_income_err": abs(median_income - output["median_income"])
+        / median_income,
+    }
+
+@weave.op
+def check_subjective_fields(zip_code: str, known_for: str, output: dict):
+    client = OpenAI()
+
+    class Response(BaseModel):
+        correct_known_for: bool
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {
+                "role": "user",
+                "content": f"My student was asked what the zip code {zip_code} is best known best for. The right answer is '{known_for}', and they said '{output['known_for']}'. Is their answer correct?",
+            },
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Response.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)
+```
+
+## ステップ 3: シンプルな 評価（Evaluation）の作成
+
+次に、生成したデータとスコアリング関数を使用して、シンプルな 評価 オブジェクト を定義します。
+
+```python lines
+rows = generate_dataset_rows()
+evaluation = weave.Evaluation(
+    name="United States - 2022",
+    dataset=rows,
+    scorers=[
+        check_concrete_fields,
+        check_value_fields,
+        check_subjective_fields,
+    ],
+)
+```
+
+## ステップ 4: baseline モデル を評価する
+
+静的なレスポンスを返す baseline モデル を評価します。
+
+```python lines
+@weave.op
+def baseline_model(zip_code: str):
+    return {
+        "city": "New York",
+        "state": "NY",
+        "avg_temp_f": 50.0,
+        "population": 1000000,
+        "median_income": 100000,
+        "known_for": "The Big Apple",
+    }
+
+# 評価の実行
+await evaluation.evaluate(baseline_model)
+```
+
+## ステップ 5: さらに モデル を作成する
+
+baseline と比較するために、さらに 2 つの モデル を作成します。
+
+```python lines
+@weave.op
+def gpt_4o_mini_no_context(zip_code: str):
+    client = OpenAI()
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": f"""Zip code {zip_code}"""}],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Row.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)
+
+await evaluation.evaluate(gpt_4o_mini_no_context)
+python
+@weave.op
+def gpt_4o_mini_with_context(zip_code: str):
+    client = OpenAI()
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "user",
+                "content": f"""Please answer the following questions about the zip code {zip_code}:
+                   1. What is the city?
+                   2. What is the state?
+                   3. What is the average temperature in Fahrenheit?
+                   4. What is the population?
+                   5. What is the median income?
+                   6. What is the most well known thing about this zip code?
+                   """,
+            }
+        ],
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "response_format",
+                "schema": Row.model_json_schema(),
+            },
+        },
+    )
+
+    return json.loads(completion.choices[0].message.content)
+
+await evaluation.evaluate(gpt_4o_mini_with_context)
+```
+
+## ステップ 6: さらに 評価（Evaluations）を作成する
+
+モデル と 評価（Evaluations）の行列を評価します。
+
+```python lines
+scorers = [
+    check_concrete_fields,
+    check_value_fields,
+    check_subjective_fields,
+]
+evaluations = [
+    weave.Evaluation(
+        name="United States - 2022",
+        dataset=weave.Dataset(
+            name="United States - 2022",
+            rows=generate_dataset_rows("United States", 5, 2022),
+        ),
+        scorers=scorers,
+    ),
+    weave.Evaluation(
+        name="California - 2022",
+        dataset=weave.Dataset(
+            name="California - 2022", rows=generate_dataset_rows("California", 5, 2022)
+        ),
+        scorers=scorers,
+    ),
+    weave.Evaluation(
+        name="United States - 2000",
+        dataset=weave.Dataset(
+            name="United States - 2000",
+            rows=generate_dataset_rows("United States", 5, 2000),
+        ),
+        scorers=scorers,
+    ),
+]
+models = [
+    baseline_model,
+    gpt_4o_mini_no_context,
+    gpt_4o_mini_with_context,
+]
+
+for evaluation in evaluations:
+    for model in models:
+        await evaluation.evaluate(
+            model, __weave={"display_name": evaluation.name + ":" + model.__name__}
+        )
+```
+
+## ステップ 7: Leaderboard の確認
+
+UI の Leaderboard タブに移動し、「Create Leaderboard」をクリックすることで新しい Leaderboard を作成できます。
+
+また、Python から直接 Leaderboard を生成することも可能です：
+
+```python lines
+from weave.flow import leaderboard
+from weave.trace.ref_util import get_ref
+
+spec = leaderboard.Leaderboard(
+    name="Zip Code World Knowledge",
+    description="""
+この Leaderboard は、郵便番号に関する一般知識における モデル のパフォーマンスを比較します。
+
+### カラム
+
+1. **State Match against `United States - 2022`**: モデルが州を正しく識別できた郵便番号の割合。
+2. **Avg Temp F Error against `California - 2022`**: モデルの平均気温予測の平均絶対誤差。
+3. **Correct Known For against `United States - 2000`**: モデルがその郵便番号で最も有名なものを正しく識別できた郵便番号の割合。
+""",
+    columns=[
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluations[0]).uri(),
+            scorer_name="check_concrete_fields",
+            summary_metric_path="state_match.true_fraction",
+        ),
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluations[1]).uri(),
+            scorer_name="check_value_fields",
+            should_minimize=True,
+            summary_metric_path="avg_temp_f_err.mean",
+        ),
+        leaderboard.LeaderboardColumn(
+            evaluation_object_ref=get_ref(evaluations[2]).uri(),
+            scorer_name="check_subjective_fields",
+            summary_metric_path="correct_known_for.true_fraction",
+        ),
+    ],
+)
+
+ref = weave.publish(spec)
+```

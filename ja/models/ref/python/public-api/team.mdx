@@ -1,0 +1,111 @@
+---
+title: チーム
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+
+## <kbd>class</kbd> `Team`
+W&B Teams を表すクラスです。
+
+このクラスは、 Teams の作成、メンバーの招待、サービスアカウントの管理など、W&B Teams を管理するための メソッド を提供します。チーム属性を処理するために Attrs を継承しています。
+
+### <kbd>method</kbd> `Team.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    name: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
+)
+```
+
+**Args:**
+ 
+ - `client` (`wandb.apis.public.Api`): 使用する API インスタンス
+ - `name` (str): チームの名前
+ - `attrs` (dict): チーム属性のオプション 辞書 
+
+
+
+**Note:**
+
+> Teams の管理には適切な権限が必要です。 
+
+
+
+
+
+
+
+
+
+---
+
+### <kbd>classmethod</kbd> `Team.create`
+
+```python
+create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
+```
+
+新しいチームを作成します。
+
+
+
+**Args:**
+ 
+ - `api`: (`Api`) 使用する API インスタンス
+ - `team`: (str) チームの名前
+ - `admin_username`: (str) チームの管理者 ユーザー のオプションのユーザー名。デフォルトは現在の ユーザー です。
+
+
+
+**Returns:**
+ `Team` オブジェクト 
+
+---
+
+### <kbd>method</kbd> `Team.create_service_account`
+
+```python
+create_service_account(description: 'str') → Member | None
+```
+
+チームのサービスアカウントを作成します。
+
+
+
+**Args:**
+ 
+ - `description`: (str) このサービスアカウントの説明
+
+
+
+**Returns:**
+ サービスアカウントの `Member` オブジェクト 、失敗した場合は None
+
+---
+
+### <kbd>method</kbd> `Team.invite`
+
+```python
+invite(username_or_email: 'str', admin: 'bool' = False) → bool
+```
+
+ユーザー をチームに招待します。
+
+
+
+**Args:**
+ 
+ - `username_or_email`: (str) 招待したい ユーザー のユーザー名またはメール アドレス 
+ - `admin`: (bool) この ユーザー をチーム管理者に設定するかどうか。デフォルトは `False` です。
+
+
+
+**Returns:**
+ 成功した場合は `True` 、 ユーザー が既に招待されているか存在しない場合は `False` 
+
+---

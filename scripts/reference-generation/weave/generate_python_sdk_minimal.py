@@ -24,9 +24,44 @@ def install_weave(version="latest"):
 
 
 def get_docstring(obj):
-    """Extract and format docstring."""
+    """Extract and format docstring for MDX compatibility."""
+    import re
+    
     doc = inspect.getdoc(obj)
-    return doc if doc else "No description available."
+    if not doc:
+        return "No description available."
+    
+    # Remove Pydantic documentation links that reference non-existent concept pages
+    # These come from Pydantic's own docstrings and aren't relevant for our docs
+    # Pattern: [text](../concepts/anything.md) or similar concept page links
+    doc = re.sub(r'\[([^\]]+)\]\(\.\./concepts/[^\)]+\)', r'\1', doc)
+    doc = re.sub(r'\[([^\]]+)\]\(\./concepts/[^\)]+\)', r'\1', doc)
+    doc = re.sub(r'\[([^\]]+)\]\(concepts/[^\)]+\)', r'\1', doc)
+    
+    # Remove "Usage Documentation" admonition blocks that contain broken links
+    doc = re.sub(r'!!! abstract "Usage Documentation"\s+\[`[^`]+`\]\([^\)]+\)\s*\n\s*\n', '', doc)
+    
+    # Escape curly braces for MDX (they're interpreted as JSX expressions)
+    # We need to be careful to only escape braces that aren't in code blocks
+    lines = doc.split('\n')
+    result_lines = []
+    in_code_block = False
+    
+    for line in lines:
+        # Check if this is a code block marker (triple backticks or indented code after ::)
+        if line.strip().startswith('```'):
+            in_code_block = not in_code_block
+            result_lines.append(line)
+        elif not in_code_block:
+            # Escape curly braces outside of code blocks
+            # Replace { with \{ and } with \}
+            line = line.replace('{', '\\{').replace('}', '\\}')
+            result_lines.append(line)
+        else:
+            # Inside code block, keep as-is
+            result_lines.append(line)
+    
+    return '\n'.join(result_lines)
 
 
 def get_function_signature(func):

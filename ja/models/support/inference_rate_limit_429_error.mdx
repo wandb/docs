@@ -1,0 +1,42 @@
+---
+title: W&B Inference でレート制限エラー (429) が発生するのはなぜですか？
+---
+
+レート制限エラー（429）は、同時実行制限を超えた場合に発生します。
+
+**エラー:** "Concurrency limit reached for requests"
+
+**解決策:**
+- 並列リクエストの数を減らす
+- リクエスト間にディレイ（遅延）を追加する
+- エクスポネンシャルバックオフ（指数関数的後退）を実装する
+- 注意: レート制限は W&B の Project ごとに適用されます
+
+## レート制限を回避するための ベストプラクティス
+
+1. **エクスポネンシャルバックオフを用いたリトライロジックの実装:**
+   ```python
+   import time
+   
+   def retry_with_backoff(func, max_retries=3):
+       for i in range(max_retries):
+           try:
+               return func()
+           except Exception as e:
+               # 429エラーが発生し、リトライ回数が上限に達していない場合に待機
+               if "429" in str(e) and i < max_retries - 1:
+                   time.sleep(2 ** i)
+               else:
+                   raise
+   ```
+
+2. **並列リクエストの代わりにバッチ プロセッシング を使用する**
+
+3. **W&B の Billing ページで使用状況をモニタリングする**
+
+## デフォルトの利用上限額（Spending caps）
+
+- **Pro アカウント:** $6,000/月
+- **Enterprise アカウント:** $700,000/年
+
+制限の調整については、担当の営業責任者またはサポートまでお問い合わせください。

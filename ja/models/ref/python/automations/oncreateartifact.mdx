@@ -1,0 +1,46 @@
+---
+title: OnCreateArtifact
+namespace: automations_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+
+
+## <kbd>class</kbd> `OnCreateArtifact`
+新しい Artifacts が作成された際に発生するイベントです。
+
+例:
+"my-collection" というコレクション内に新しい Artifacts が作成されたときにトリガーされるイベントを定義します。
+
+```python
+from wandb import Api
+from wandb.automations import OnCreateArtifact
+
+api = Api()
+collection = api.artifact_collection(name="my-collection", type_name="model")
+
+event = OnCreateArtifact(scope=collection)
+```
+
+
+### <kbd>method</kbd> `OnCreateArtifact.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[CREATE_ARTIFACT]' = CREATE_ARTIFACT,
+    scope: '_ArtifactSequenceScope | _ArtifactPortfolioScope',
+    filter: 'And | Or | Nor | Not | Lt | Gt | Lte | Gte | Eq | Ne | In | NotIn | Exists | Regex | Contains | FilterExpr | dict[str, Any]' = And(())
+) → None
+```
+
+**Args:**
+ 
+ - `event_type` (Literal[CREATE_ARTIFACT]): 
+ - `scope` (Union[_ArtifactSequenceScope, _ArtifactPortfolioScope]): イベントのスコープ。Artifacts コレクションである必要があります。
+ - `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントがトリガーされるために必要な追加条件（ある場合）。
+
+**Returns:**
+ `OnCreateArtifact` オブジェクト。

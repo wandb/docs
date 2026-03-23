@@ -10,7 +10,7 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
 ## <kbd>class</kbd> `MetricChangeFilter`
-Defines a filter that compares a change in a run metric against a user-defined threshold.
+Filter that compares a **change** in a metric value to a user-defined threshold.
 
 The change is calculated over "tumbling" windows, i.e. the difference
 between the current window and the non-overlapping prior window.
@@ -38,7 +38,7 @@ __init__(
  - `window` (int): 
  - `cmp` (None): Ignored.
  - `threshold` (Union[Annotated, Annotated]): 
- - `prior_window` (int): Size of the prior window over which the metric is aggregated (ignored if `agg is None`).
+ - `prior_window` (int): Size of the "prior" metric aggregation window (ignored if `agg` is ``None``).
    If omitted, defaults to the size of the current window.
  - `change_type` (ChangeType): 
  - `change_dir` (ChangeDir): 

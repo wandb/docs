@@ -1,21 +1,29 @@
 ---
 title: "wandb enabled"
 ---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-enabled.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-**Usage**
+import WandbEnabled from "/snippets/en/_includes/cli/wandb-enabled.mdx";
 
-`wandb enabled [OPTIONS]`
+<WandbEnabled/>
 
-**Summary**
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
 Enable W&B.
 
+## Usage
 
-**Options**
+```bash
+wandb enabled [OPTIONS]
+```
 
-| **Option** | **Description** |
+## Options
+
+| Option | Description |
 | :--- | :--- |
-| `--service` | Enable W&B service  [default: True] |
-
-
-
+| `--service` | Enable W&B service (default: True) |

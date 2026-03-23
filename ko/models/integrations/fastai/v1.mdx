@@ -1,0 +1,69 @@
+---
+title: fastai v1
+---
+
+<Note>
+이 문서는 fastai v1을 위한 것입니다.
+최신 버전의 fastai를 사용 중이라면 [fastai 페이지](../)를 참조하세요.
+</Note>
+
+fastai v1을 사용하는 스크립트의 경우, 모델 토폴로지, 손실(losses), 메트릭, 가중치, 그레이디언트, 샘플 예측값 및 최적의 트레이닝된 모델을 자동으로 로그할 수 있는 콜백을 제공합니다.
+
+```python
+import wandb
+from wandb.fastai import WandbCallback
+
+wandb.init()
+
+# 콜백 함수로 WandbCallback을 추가합니다.
+learn = cnn_learner(data, model, callback_fns=WandbCallback)
+learn.fit(epochs)
+```
+
+로그 요청 데이터는 콜백 생성자를 통해 설정할 수 있습니다.
+
+```python
+from functools import partial
+
+# input_type을 "images"로 설정하여 콜백을 구성합니다.
+learn = cnn_learner(
+    data, model, callback_fns=partial(WandbCallback, input_type="images")
+)
+```
+
+트레이닝을 시작할 때만 WandbCallback을 사용하는 것도 가능합니다. 이 경우 인스턴스를 직접 생성해야 합니다.
+
+```python
+learn.fit(epochs, callbacks=WandbCallback(learn))
+```
+
+이 단계에서도 커스텀 파라미터를 전달할 수 있습니다.
+
+```python
+learn.fit(epochs, callbacks=WandbCallback(learn, input_type="images"))
+```
+
+## 예제 코드
+
+인테그레이션이 어떻게 작동하는지 확인할 수 있는 몇 가지 예제를 준비했습니다:
+
+**Fastai v1**
+
+* [Simpsons 캐릭터 분류](https://github.com/borisdayma/simpsons-fastai)[: ](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-Hugging-Face-Model-Performance--VmlldzoxMDE2MTU)Fastai 모델을 추적하고 비교하는 간단한 데모
+* [Fastai를 이용한 시멘틱 세그멘테이션](https://github.com/borisdayma/semantic-segmentation): 자율주행 자동차를 위한 신경망 최적화
+
+## 옵션
+
+`WandbCallback()` 클래스는 다음과 같은 옵션들을 지원합니다:
+
+| 키워드 인수 | 기본값 | 설명 |
+| ---------------- | --------- | -------------------------------------------------------------------------------------------------------- |
+| learn            | N/A       | 훅(hook)을 연결할 fast.ai learner. |
+| save_model       | True      | 각 단계에서 개선된 경우 모델을 저장합니다. 트레이닝 종료 시 최적의 모델을 로드합니다. |
+| mode             | auto      | `min`, `max`, 또는 `auto`: `monitor`에 지정된 트레이닝 메트릭을 단계별로 비교하는 방법입니다. |
+| monitor          | None      | 최적의 모델을 저장하기 위해 성능을 측정하는 트레이닝 메트릭입니다. None인 경우 기본값은 validation loss입니다. |
+| log              | gradients | `gradients`, `parameters`, `all`, 또는 None. 손실과 메트릭은 항상 로그됩니다. |
+| input_type       | None      | `images` 또는 `None`. 샘플 예측값을 표시하는 데 사용됩니다. |
+| validation_data  | None      | `input_type`이 설정된 경우 샘플 예측에 사용되는 데이터입니다. |
+| predictions      | 36        | `input_type`은 설정되어 있고 `validation_data`가 `None`인 경우 생성할 예측값의 개수입니다. |
+| seed             | 12345     | `input_type`은 설정되어 있고 `validation_data`가 `None`인 경우 샘플 예측을 위한 난수 생성기를 초기화합니다. |

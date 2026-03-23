@@ -1,7 +1,12 @@
 ---
-description: W&B Quickstart
+description: "Install W&B and start tracking, visualizing, and managing machine learning experiments in minutes."
 title: W&B Quickstart
 ---
+
+import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
+import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
 Install W&B to track, visualize, and manage machine learning experiments of any size.
 
 <Note>
@@ -10,7 +15,16 @@ Are you looking for information on W&B Weave? See the [Weave Python SDK quicksta
 
 ## Sign up and create an API key
 
-To authenticate your machine with W&B, generate an API key from your user profile or at [wandb.ai/authorize](https://wandb.ai/authorize). Copy the API key and store it securely.
+To authenticate your machine with W&B, you need an API key.
+
+<ApiKeyCreate/>
+
+This quickstart is also available as a Colab notebook:
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
+<GitHubLink url="https://github.com/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
+</div>
 
 ## Install the `wandb` library and log in
 
@@ -109,7 +123,6 @@ with wandb.init(project=project, config=config) as run:
         print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
         run.log({"accuracy": acc, "loss": loss})
 ```
-
 Visit [wandb.ai/home](https://wandb.ai/home) to view recorded metrics such as accuracy and loss and how they changed during each training step. The following image shows the loss and accuracy tracked from each run. Each run object appears in the **Runs** column with generated names.
 
 <Frame>
@@ -126,4 +139,4 @@ Explore more features of the W&B ecosystem:
 4. Automate hyperparameter searches and optimize models with [W&B Sweeps](/models/sweeps).
 5. Analyze runs, visualize model predictions, and share insights on a [central dashboard](/models/tables).
 6. Visit [W&B AI Academy](https://wandb.ai/site/courses/) to learn about LLMs, MLOps, and W&B Models through hands-on courses.
-7. Visit [weave-docs.wandb.ai](/weave) to learn how to track track, experiment with, evaluate, deploy, and improve your LLM-based applications using Weave. 
+7. Visit [weave-docs.wandb.ai](/weave) to learn how to track, experiment with, evaluate, deploy, and improve your LLM-based applications using Weave. 

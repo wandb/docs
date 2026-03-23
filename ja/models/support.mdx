@@ -3,62 +3,66 @@ title: サポート
 ---
 
 import {Banner} from "/snippets/Banner.jsx";
+import ApiKeyFind from "/snippets/en/_includes/api-key-find.mdx";
+import OrgServiceAccountCreate from "/snippets/en/_includes/org-service-account-create.mdx";
+import TeamServiceAccountCreate from "/snippets/en/_includes/team-service-account-create.mdx";
 
-<Banner title="どのようにお手伝いできますか?" background="/images/support/support_banner.png" >
-サポート記事、製品ドキュメント、<br/>
-そして W&B コミュニティからのヘルプを検索してください。
+<Banner title="どのようなお手伝いができますか？" background="/images/support/support_banner.png">
+  サポート記事、プロダクトドキュメント、<br/>
+W&B コミュニティからヘルプを検索してください。
 </Banner>
 
-## 注目の記事
+## おすすめの記事
 
-以下は全てのカテゴリーで最もよくある質問です。
+すべてのカテゴリーで最もよくある質問をいくつか紹介します。
 
-* [`wandb.init` をトレーニング プロセスにどう影響させますか？](/ja/models/support/wandbinit_training_process/)
-* [スイープでカスタム CLI コマンドを使用するにはどうすればよいですか？](/ja/models/support/custom_cli_commands_sweeps/)
-* [メトリクスをオフラインで保存して、後で W&B に同期することは可能ですか？](/ja/models/support/same_metric_appearing_more/)
-* [トレーニング コードで run の名前を設定するにはどうすればよいですか？](/ja/models/support/configure_name_run_training_code/)
+* [`wandb.init` はトレーニングプロセスにどのような影響を与えますか？](/models/support/wandbinit_training_process/)
+* [Sweeps でカスタム CLI コマンドを使用するにはどうすればよいですか？](/models/support/custom_cli_commands_sweeps/)
+* [メトリクスをオフラインで保存し、後で W&B に同期することは可能ですか？](/models/support/same_metric_appearing_more/)
+* [トレーニングコード内で Run の名前を設定するにはどうすればよいですか？](/models/support/configure_name_run_training_code/)
 
-探しているものが見つからない場合は、以下の[人気のカテゴリー](#popular-categories)を参照するか、カテゴリーに基づいて記事を検索してください。
+
+お探しの情報が見つからない場合は、以下の [人気カテゴリー](#popular-categories) を参照するか、カテゴリーに基づいて記事を検索してください。
 
 <Card
-  title="それでも探しているものが見つからないですか？"
-  href="mailto:support@wandb.com"
+  title="まだお探しの情報が見つかりませんか？"
+  link="mailto:support@wandb.com"
   icon="circle-info"
-  horizontal
 >
-  サポートに連絡
+  サポートに連絡する
 </Card>
 
-<Update tags={["administrator", "academic", "user management"]}>
-<Accordion title="学生として学術プランを利用することは できますか？">
 
-学生は次のステップに従って、アカデミックプランに申し込むことができます：
+<Update tags={["Administrator", "Academic", "User Management"]}>
+<Accordion title="学生としてアカデミックプランを利用できますか？">
 
-- [wandb.com の Pricing ページ](https://wandb.ai/site/pricing) を訪問します。
-- アカデミックプランに申し込む。
-- または、[https://wandb.ai/academic_application](https://wandb.ai/academic_application) を訪れて 30 日間のトライアルを開始し、アカデミックプランに変換してください。
+学生の方は、以下の手順でアカデミックプランを申請できます：
+
+- [wandb.com の料金ページ](https://wandb.ai/site/pricing) にアクセスします。
+- アカデミックプランを申請します。
+- または、30 日間のトライアルから開始し、[W&B アカデミック申請ページ](https://wandb.ai/academic_application) にアクセスしてアカデミックプランに切り替えることも可能です。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="あなたの Artifacts へのアクセス権を持っているのは誰ですか？">
+<Update tags={["Artifacts"]}>
+<Accordion title="誰が私の Artifacts にアクセスできますか？">
 
-Artifacts は、その親プロジェクトからアクセス権限を継承します:
+Artifacts は、親となる Projects からアクセス権限を継承します：
 
-* プライベートプロジェクトでは、Artifacts にアクセスできるのはチームメンバーのみです。
-* パブリックプロジェクトでは、全ユーザーが Artifacts を読むことができますが、作成または変更することができるのはチームメンバーのみです。
-* オープンプロジェクトでは、全ユーザーが Artifacts を読んだり書いたりできます。
+* プライベートプロジェクトでは、Teams メンバーのみが Artifacts にアクセスできます。
+* パブリックプロジェクトでは、すべての Users が Artifacts を読み取ることができますが、作成や変更ができるのは Teams メンバーのみです。
+* オープンプロジェクトでは、すべての Users が Artifacts の読み書きを行えます。
 
 ## Artifacts ワークフロー
 
-このセクションでは、Artifacts の管理と編集に関するワークフローを概説します。多くのワークフローは [the W&B API](/ja/models/track/public-api-guide/)、および W&B に保存されたデータへのアクセスを提供する [クライアントライブラリ](/ja/models/ref/python/) のコンポーネントを利用しています。
+このセクションでは、Artifacts の管理と編集のためのワークフローの概要を説明します。多くのワークフローは、W&B に保存されたデータへのアクセスを提供する [W&B API](/models/track/public-api-guide)（[クライアントライブラリ](/models/ref/python/) のコンポーネント）を利用します。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="自分の run にログされたデータに直接アクセスするにはどうしたらよいですか？また、プログラム経由でのアクセス方法は？">
+<Update tags={["Experiments"]}>
+<Accordion title="Runs にログ記録されたデータに、プログラムから直接アクセスするにはどうすればよいですか？">
 
-履歴オブジェクトは `wandb.log` でログされたメトリクスを追跡します。API を使用して履歴オブジェクトにアクセスします:
+History オブジェクトは、`wandb.log` で記録されたメトリクスを追跡します。API を使用して History オブジェクトにアクセスします：
 
 ```python
 api = wandb.Api()
@@ -68,59 +72,59 @@ print(run.history())
 </Accordion>
 </Update>
 
-<Update tags={["sweeps"]}>
-<Accordion title="sweep に追加の値を加える方法はありますか、それとも新しい sweep を始める必要がありますか？">
+<Update tags={["Sweeps"]}>
+<Accordion title="Sweep に値を追加する方法はありますか、それとも新しく開始する必要がありますか？">
 
-W&B Sweep が開始すると、Sweep configuration を変更することはできません。ただし、任意のテーブルビューに移動し、チェックボックスを使用して runs を選択してから、**Create sweep** メニューオプションを選択して、以前の runs に基づいた新しい Sweep configuration を生成することができます。
+W&B Sweep が開始されると、Sweep 設定を変更することはできません。ただし、テーブルビューに移動し、チェックボックスで Runs を選択してから、**Create sweep** メニューオプションを選択することで、以前の Runs に基づいた新しい Sweep 設定を生成できます。
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "user management"]}>
-<Accordion title="追加の席を増やす方法はありますか？">
+<Update tags={["Administrator", "User Management"]}>
+<Accordion title="シート数を増やす方法はありますか？">
 
-アカウントに席を追加するには、次の手順に従ってください:
+アカウントにシートを追加するには、以下の手順に従ってください：
 
-- サポートが必要な場合は、アカウントエグゼクティブまたはサポートチーム（support@wandb.com）に連絡してください。
-- 組織名と希望する席の数を提供してください。
+- 担当の Account Executive またはサポートチーム (support@wandb.com) に連絡して支援を依頼してください。
+- 組織名（Organization name）と希望するシート数をお知らせください。
 </Accordion>
 </Update>
 
-<Update tags={["experiments", "tables", "charts"]}>
-<Accordion title="Tables に Plotly または Bokeh チャートを追加するにはどうすればよいですか？">
+<Update tags={["Experiments", "Tables", "Charts"]}>
+<Accordion title="Plotly や Bokeh のチャートを Tables に追加するにはどうすればよいですか？">
 
-Plotly または Bokeh の図をテーブルに直接統合することはサポートされていません。代わりに、図を HTML にエクスポートし、HTML をテーブルに含めてください。以下に、対話型の Plotly と Bokeh グラフを使用した例を示します。
+Plotly または Bokeh のフィギュアを直接テーブルに統合することはサポートされていません。代わりに、フィギュアを HTML にエクスポートし、その HTML をテーブルに含めてください。以下に、インタラクティブな Plotly および Bokeh チャートを使用した例を示します。
 
 <Tabs>
-<Tab title="Using Plotly">
+<Tab title="Plotly を使用する場合">
 ```python
 import wandb
 import plotly.express as px
 
-# 新しい run の初期化
-run = wandb.init(project="log-plotly-fig-tables", name="plotly_html")
+# 新しい run を初期化
+with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
-# テーブルの作成
-table = wandb.Table(columns=["plotly_figure"])
+    # テーブルを作成
+    table = wandb.Table(columns=["plotly_figure"])
 
-# Plotly 図のパスを定義
-path_to_plotly_html = "./plotly_figure.html"
+    # Plotly フィギュアのパスを定義
+    path_to_plotly_html = "./plotly_figure.html"
 
-# Plotly 図の作成
-fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
+    # Plotly フィギュアを作成
+    fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-# Plotly 図を HTML にエクスポート
-# auto_play を False に設定すると、アニメーションされた Plotly グラフの自動再生が防止されます
-fig.write_html(path_to_plotly_html, auto_play=False)
+    # Plotly フィギュアを HTML にエクスポート
+    # auto_play を False に設定すると、アニメーション化された Plotly チャートが自動的に再生されるのを防げます
+    fig.write_html(path_to_plotly_html, auto_play=False)
 
-# Plotly 図を HTML ファイルとしてテーブルに追加
-table.add_data(wandb.Html(path_to_plotly_html))
+    # Plotly フィギュアを HTML ファイルとしてテーブルに追加
+    table.add_data(wandb.Html(path_to_plotly_html))
 
-# テーブルのログ
-run.log({"test_table": table})
-wandb.finish()
+    # テーブルをログに記録
+    run.log({"test_table": table})
+
 ```
 </Tab>
-<Tab title="Using Bokeh">
+<Tab title="Bokeh を使用する場合">
 ```python
 from scipy.signal import spectrogram
 import holoviews as hv
@@ -151,54 +155,53 @@ audio_path = "hello.wav"
 save_audio_with_bokeh_plot_to_html(audio_path, html_file_name)
 
 wandb_html = wandb.Html(html_file_name)
-run = wandb.init(project="audio_test")
-my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
-run.log({"audio_table": my_table})
-run.finish()
+with wandb.init(project="audio_test") as run:
+    my_table = wandb.Table(columns=["audio_with_plot"], data=[[wandb_html], [wandb_html]])
+    run.log({"audio_table": my_table})
 ```
 </Tab>
 </Tabs>
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "team management"]}>
-<Accordion title="複数の Teams に同じサービス アカウントを追加することは可能ですか？">
+<Update tags={["Administrator", "Team Management"]}>
+<Accordion title="同じサービスアカウントを複数の Teams に追加することは可能ですか？">
 
-サービスアカウントは、W&B 内の複数の Teams に追加することはできません。各サービスアカウントは特定の Team に紐付けられています。
+W&B では、1 つのサービスアカウントを複数の Teams に追加することはできません。各サービスアカウントは特定のチームに紐付けられています。
 </Accordion>
 </Update>
 
-<Update tags={["reports"]}>
-<Accordion title="レポートに複数の著者を追加する">
+<Update tags={["Reports"]}>
+<Accordion title="レポートに複数の著者を設定する">
 
-レポートにすべての貢献者を正確に記載するには、複数の著者を追加します。
+複数の著者を追加することで、レポート内のすべての貢献者を正確にクレジット表示できます。
 
-複数の著者を追加するには、著者の名前の横にある **+** アイコンをクリックします。これにより、レポートにアクセスできるすべてのユーザーが表示されたドロップダウンメニューが開きます。著者として追加したいユーザーを選択してください。
+複数の著者を追加するには、著者名の横にある **+** アイコンをクリックします。これにより、レポートへのアクセス権を持つすべての Users が表示されたドロップダウンメニューが開きます。著者として追加したい Users を選択してください。
 
 <Frame>
-    <img src="/images/reports/reports_faq_add_multiple_reports.gif"  />
+  <img src="/images/reports/reports_faq_add_multiple_reports.gif" alt="Adding multiple report authors" />
 </Frame>
 </Accordion>
 </Update>
 
-<Update tags={["administrator"]}>
-<Accordion title="自分のローカルインスタンスの管理者である場合、どのように管理すればよいですか？">
+<Update tags={["Administrator"]}>
+<Accordion title="ローカルインスタンスの管理者の場合、どのように管理すればよいですか？">
 
-自分がインスタンスの管理者である場合は、ユーザーの追加やチームの作成についての手順を確認するために、[ユーザー管理](/ja/platform/hosting/iam/access-management/manage-organization) セクションをレビューしてください。
+インスタンスの管理者である場合は、Users の追加や Teams の作成に関する手順について、[User Management](/platform/hosting/iam/access-management/manage-organization) セクションを確認してください。
 </Accordion>
 </Update>
 
-<Update tags={["python"]}>
-<Accordion title="Weights and バイアス の anaconda パッケージはありますか？">
+<Update tags={["Python"]}>
+<Accordion title="Weights and Biases の Anaconda パッケージはありますか？">
 
-`pip` または `conda` を使用してインストール可能な Anaconda パッケージがあります。`conda` の場合、[conda-forge](https://conda-forge.org) チャンネルからパッケージを取得してください。
+`pip` または `conda` のいずれかを使用してインストール可能な Anaconda パッケージがあります。`conda` の場合は、[conda-forge](https://conda-forge.org) チャンネルからパッケージを取得してください。
 
 <Tabs>
 <Tab title="pip">
 ```shell
-# conda 環境の作成
+# conda 環境を作成
 conda create -n wandb-env python=3.8 anaconda
-# 環境をアクティベートする
+# 環境をアクティベート
 conda activate wandb-env
 # pip を使用して wandb をインストール
 pip install wandb
@@ -212,70 +215,74 @@ conda install wandb --channel conda-forge
 </Tab>
 </Tabs>
 
-インストールの問題については、Anaconda の[パッケージを管理するためのドキュメント](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html)を参照してください。
+インストールの問題については、Anaconda の [パッケージ管理に関するドキュメント](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html) を参照してください。
 </Accordion>
 </Update>
 
-<Update tags={["anonymous"]}>
-<Accordion title="匿名ユーザーが利用できない機能は何ですか？">
+<Update tags={["Anonymous"]}>
+<Accordion title="匿名 Users が利用できない機能は何ですか？">
 
-* **永続的なデータはありません**: Runs は匿名アカウントで 7 日間保存されます。匿名 run データを正規のアカウントに保存することで取得できます。
+* **データの永続性なし**: 匿名アカウントでは Runs は 7 日間保存されます。匿名 Run のデータは、実際のアカウントに保存することで引き継ぐことができます。
 
 <Frame>
-    <img src="/images/app_ui/anon_mode_no_data.png"  />
+<img src="/images/app_ui/anon_mode_no_data.png" alt="Anonymous mode interface" />
 </Frame>
 
-* **アーティファクトログはありません**: 匿名 run にアーティファクトをログしようとすると、コマンドラインに警告が表示されます。
+* **Artifacts のログ記録不可**: 匿名 Run に Artifacts を記録しようとすると、コマンドラインに警告が表示されます：
     ```bash
     wandb: WARNING Artifacts logged anonymously cannot be claimed and expire after 7 days.
     ```
 
-* **プロフィールや設定ページはありません**: UI には特定のページが含まれていません。これらのページは正規のアカウントにのみ有用です。
+* **プロフィールや設定ページなし**: 実際のアカウントでのみ有用なため、UI には特定のページが含まれません。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts", "storage"]}>
-<Accordion title="各 Artifacts バージョンはどれくらいのストレージを使用しますか?">
+<Update tags={["Artifacts", "Storage"]}>
+<Accordion title="各 Artifact バージョンはどのくらいのストレージを使用しますか？">
 
-2 つの Artifacts のバージョン間で変更されたファイルのみがストレージコストの対象となります。
+2 つの Artifact バージョン間で変更されたファイルのみがストレージコストを発生させます。
 
 <Frame>
-    <img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifacts 'dataset' の v1 では、異なる画像は 5 枚中 2 枚のみで、そのため占有率は 40% にとどまります。"  />
+<img src="/images/artifacts/artifacts-dedupe.PNG" alt="Artifact deduplication"/>
 </Frame>
 
-2 つの画像ファイル `cat.png` と `dog.png` を含む画像 Artifact `animals` を考えてみましょう:
+`cat.png` と `dog.png` の 2 つの画像ファイルを含む `animals` という名前の画像 Artifact を例に考えます：
 
+```
 images
 |-- cat.png (2MB) # `v0` で追加
 |-- dog.png (1MB) # `v0` で追加
+```
 
 この Artifact にはバージョン `v0` が割り当てられます。
 
-新しい画像 `rat.png` を追加すると、新しい Artifact のバージョン `v1` が次の内容で作成されます:
+新しい画像 `rat.png` を追加すると、以下の内容を含む新しい Artifact バージョン `v1` が作成されます：
 
+```
 images
 |-- cat.png (2MB) # `v0` で追加
 |-- dog.png (1MB) # `v0` で追加
 |-- rat.png (3MB) # `v1` で追加
+```
 
-バージョン `v1` は合計 6MB をトラックしますが、`v0` と 3MB を共有しているため、占有するスペースは 3MB のみです。`v1` を削除すると、`rat.png` に関連する 3MB のストレージが回収されます。`v0` を削除すると、`cat.png` と `dog.png` のストレージコストは `v1` に移され、ストレージサイズは 6MB に増加します。
+バージョン `v1` は合計 6MB を追跡しますが、残りの 3MB を `v0` と共有しているため、占有するスペースは 3MB のみです。`v1` を削除すると、`rat.png` に関連付けられた 3MB のストレージが解放されます。`v0` を削除すると、`cat.png` と `dog.png` のストレージコストが `v1` に転送され、そのストレージサイズは 6MB に増加します。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="複数のアーキテクチャーと run で Artifacts を使用する方法は？">
+<Update tags={["Artifacts"]}>
+<Accordion title="複数のアーキテクチャーと Runs で Artifacts を使用する場合のベストプラクティスは？">
 
-様々なモデルのバージョン管理方法があります。Artifacts は特定のニーズに合わせたモデルバージョン管理のためのツールを提供します。複数のモデル アーキテクチャーを探索するプロジェクトに共通のアプローチは、アーキテクチャーごとにアーティファクトを分けることです。次のステップを考慮してください。
+モデルをバージョン管理する方法は様々です。Artifacts は、特定のニーズに合わせたモデルのバージョン管理ツールを提供します。複数のモデルアーキテクチャーを探索するプロジェクトでの一般的なアプローチは、アーキテクチャーごとに Artifacts を分けることです。以下の手順を検討してください：
 
-1. 各異なるモデル アーキテクチャーに新しいアーティファクトを作成します。アーティファクトの `metadata` 属性を使用して、アーキテクチャーの詳細な説明を提供します。これは run の `config` の使用と似ています。
-2. 各モデルについて、定期的にチェックポイントを `log_artifact` でログします。W&B はこれらのチェックポイントの履歴を構築し、最新のものには `latest` エイリアスを付けます。`architecture-name:latest` を使用して、任意のモデル アーキテクチャーの最新のチェックポイントを参照してください。
+1. 異なるモデルアーキテクチャーごとに新しい Artifact を作成します。Artifacts の `metadata` 属性を使用して、Run の `config` と同様に、アーキテクチャーの詳細な説明を提供します。
+2. 各モデルについて、`log_artifact` を使用して定期的にチェックポイントを記録します。W&B はこれらのチェックポイントの履歴を構築し、最新のものに `latest` エイリアスを付けます。`architecture-name:latest` を使用して、任意のモデルアーキテクチャーの最新のチェックポイントを参照できます。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts", "sweeps"]}>
-<Accordion title="run の sweep からモデルを最適にログする方法は？">
+<Update tags={["Artifacts", "Sweeps"]}>
+<Accordion title="Sweep の Runs からモデルをログに記録する最善の方法は何ですか？">
 
-モデルを [sweep](/ja/models/sweeps/) でログする効果的なアプローチの一つとして、sweep 用のモデル アーティファクトを作成する方法があります。各バージョンは sweep からの異なる run を表します。次のように実装します：
+[Sweep](/models/sweeps/) でモデルを記録する効果的な方法の 1 つは、その Sweep 用のモデル Artifact を作成することです。各バージョンは Sweep の異なる Run を表します。以下のように実装します：
 
 ```python
 wandb.Artifact(name="sweep_name", type="model")
@@ -283,56 +290,56 @@ wandb.Artifact(name="sweep_name", type="model")
 </Accordion>
 </Update>
 
-<Update tags={["hyperparameter", "sweeps", "runs"]}>
-<Accordion title="ハイパーパラメーター検索を整理するためのベストプラクティス">
+<Update tags={["Hyperparameter", "Sweeps", "Runs"]}>
+<Accordion title="ハイパーパラメーター探索を整理するためのベストプラクティス">
 
-ユニークなタグを `wandb.init(tags='your_tag')` で設定します。これにより、プロジェクトページの Runs Table で対応するタグを選択することで、プロジェクト run を効率的にフィルタリングできます。
+`wandb.init(tags='your_tag')` でユニークなタグを設定します。これにより、プロジェクトページの Runs Table で対応するタグを選択することで、プロジェクトの Runs を効率的にフィルタリングできます。
 
-wandb.init の詳細については、[ドキュメント](/ja/models/ref/python/init)を参照してください。
+`wandb.init()` の詳細については、[`wandb.init()` リファレンス](/models/ref/python/functions/init) を参照してください。
 </Accordion>
 </Update>
 
-<Update tags={["security"]}>
-<Accordion title="バグ報奨金制度はありますか？">
+<Update tags={["Security"]}>
+<Accordion title="バグバウンティプログラムはありますか？">
 
-Weights and Biases にはバグバウンティプログラムがあります。詳細はセキュリティポータルをアクセスしてください: [https://security.wandb.ai/](https://security.wandb.ai/).
+Weights & Biases にはバグバウンティプログラムがあります。詳細は [W&B セキュリティポータル](https://security.wandb.ai/) をご覧ください。
 </Accordion>
 </Update>
 
-<Update tags={["administrator"]}>
-<Accordion title="サブスクリプションをキャンセルするにはどうすればいいですか？">
+<Update tags={["Administrator"]}>
+<Accordion title="サブスクリプションをキャンセルするにはどうすればよいですか？">
 
 - サポートチーム (support@wandb.com) に連絡してください。
-- 組織名、アカウントに関連付けられたメール、およびユーザー名を提供してください。
+- 組織名、アカウントに関連付けられたメールアドレス、およびユーザー名を提供してください。
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "academic", "user management"]}>
-<Accordion title="アカウントを法人から学術用に変更するにはどうすれば良いですか？">
+<Update tags={["Administrator", "Academic", "User Management"]}>
+<Accordion title="アカウントを企業用からアカデミック用に変更するにはどうすればよいですか？">
 
-Weights & Biases でアカウントを企業用から学術用に変更するには、次の手順に従ってください。
+W&B でアカウントを企業用からアカデミック用に変更するには、以下の手順に従ってください：
 
-1. **学術用メールをリンクする**:
-   - アカウント設定に アクセス します。
-   - 学術用メールを追加し、プライマリメールとして設定します。
+1. **アカデミックメールをリンクする**:
+   - アカウント設定にアクセスします。
+   - アカデミックメールを追加し、プライマリメールとして設定します。
 
-2. **学術プランに応募する**:
-   - [https://wandb.ai/academic_application](https://wandb.ai/academic_application) にある学術応募ページを訪問します。
-   - 応募用紙を送信し、レビューを受けます。
+2. **アカデミックプランを申請する**:
+   - [W&B アカデミック申請ページ](https://wandb.ai/academic_application) にアクセスします。
+   - 審査のために申請書を提出します。
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "billing"]}>
+<Update tags={["Administrator", "Billing"]}>
 <Accordion title="請求先住所を変更するにはどうすればよいですか？">
 
-アドレスを変更するには、サポートチーム（support@wandb.com）に連絡してください。
+請求先住所を変更するには、サポートチーム (support@wandb.com) に連絡してください。
 </Accordion>
 </Update>
 
-<Update tags={["sweeps"]}>
-<Accordion title="自分の sweep ログを保存するディレクトリーをローカルに変更するにはどうすればいいですか？">
+<Update tags={["Sweeps"]}>
+<Accordion title="Sweep がローカルにログを記録するディレクトリーを変更するにはどうすればよいですか？">
 
-W&B run のデータのログディレクトリーを設定するには、環境変数 `WANDB_DIR` を設定します。例えば：
+環境変数 `WANDB_DIR` を設定することで、W&B の Run データのログディレクトリーを設定できます。例：
 
 ```python
 os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
@@ -340,15 +347,14 @@ os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
 </Accordion>
 </Update>
 
-<Update tags={["runs"]}>
-<Accordion title="run 完了後に割り当てられたグループを変更することは可能ですか？">
+<Update tags={["Runs"]}>
+<Accordion title="完了した Run に割り当てられたグループを後から変更することは可能ですか？">
 
-完了した run に割り当てられたグループを API を使用して変更することができます。この機能は Web UI には表示されません。次のコードを使用してグループを更新してください：
+API を使用して、完了した Run に割り当てられたグループを変更できます。この機能はウェブ UI には表示されません。以下のコードを使用してグループを更新してください：
 
 ```python
 import wandb
 
-# APIを使用して group を変更する
 api = wandb.Api()
 run = api.run("<ENTITY>/<PROJECT>/<RUN_ID>")
 run.group = "NEW-GROUP-NAME"
@@ -357,79 +363,79 @@ run.update()
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "user management"]}>
-<Accordion title="ユーザー名を変更することはできますか？">
+<Update tags={["Administrator", "User Management"]}>
+<Accordion title="ユーザー名を変更することは可能ですか？">
 
-アカウント作成後、ユーザー名を変更することはできません。代わりに、希望のユーザー名で新しいアカウントを作成してください。
+アカウント作成後にユーザー名を変更することはできません。代わりに、希望するユーザー名で新しいアカウントを作成してください。
 </Accordion>
 </Update>
 
-<Update tags={["python"]}>
+<Update tags={["Python"]}>
 <Accordion title="W&B クライアントは Python 2 をサポートしていますか？">
 
-W&B クライアントライブラリは、バージョン 0.10 まで Python 2.7 と Python 3 の両方をサポートしていました。Python 2.7 のサポートは Python 2 の終焉に伴い、バージョン 0.11 で終了しました。Python 2.7 システムで `pip install --upgrade wandb` を実行すると、0.10.x シリーズの新しいリリースのみがインストールされます。0.10.x シリーズのサポートは重要なバグ修正とパッチのみが含まれます。Python 2.7 をサポートする 0.10.x シリーズの最後のバージョンは 0.10.33 です。
+W&B クライアントライブラリは、バージョン 0.10 まで Python 2.7 と Python 3 の両方をサポートしていました。Python 2 の EOL（製品寿命終了）に伴い、バージョン 0.11 で Python 2.7 のサポートを終了しました。Python 2.7 システムで `pip install --upgrade wandb` を実行すると、0.10.x シリーズの新リリースのみがインストールされます。0.10.x シリーズのサポートには、重大なバグ修正とパッチのみが含まれます。Python 2.7 をサポートする 0.10.x シリーズの最終バージョンは 0.10.33 です。
 </Accordion>
 </Update>
 
-<Update tags={["python"]}>
+<Update tags={["Python"]}>
 <Accordion title="W&B クライアントは Python 3.5 をサポートしていますか？">
 
-W&B クライアントライブラリは、バージョン 0.11 まで Python 3.5 をサポートしていました。Python 3.5 のサポートは、バージョン 0.12 で終了しました。これにより、Python 3.5 のサポート終了と一致しています。詳細は、[version 0.12 release notes](https://github.com/wandb/wandb/releases/tag/v0.12.0) をご覧ください。
+W&B クライアントライブラリは、バージョン 0.11 まで Python 3.5 をサポートしていました。Python 3.5 の EOL に合わせ、バージョン 0.12 でサポートを終了しました。詳細については、[バージョン 0.12 リリースノート](https://github.com/wandb/wandb/releases/tag/v0.12.0) をご覧ください。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="エポックまたはステップを通じて画像やメディアを比較するにはどうすればいいですか？">
+<Update tags={["Experiments"]}>
+<Accordion title="エポックやステップをまたいで画像やメディアを比較するにはどうすればよいですか？">
 
-画像パネルを展開し、ステップスライダーを使用して異なるステップからの画像をナビゲートします。このプロセスは、トレーニング中の Models の出力変化を比較するのを助けます。
+画像パネルを展開し、ステップスライダーを使用して異なるステップの画像間を移動します。このプロセスにより、トレーニング中のモデル出力の変化を容易に比較できます。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="トレーニングコードで run の名前をどのように設定できますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="トレーニングコード内で Run の名前を設定するにはどうすればよいですか？">
 
-トレーニングスクリプトの最初に、実験名を指定して `wandb.init` を呼び出します。例: `wandb.init(name="my_awesome_run")`.
+トレーニングスクリプトの冒頭で、実験名を指定して `wandb.init` を呼び出します。例：`wandb.init(name="my_awesome_run")`。
 </Accordion>
 </Update>
 
-<Update tags={["reports", "wysiwyg"]}>
-<Accordion title="WYSIWYGに変換されたレポートをMarkdownに戻したいです。">
+<Update tags={["Reports", "Wysiwyg"]}>
+<Accordion title="レポートを WYSIWYG に変換しましたが、Markdown に戻したいです。">
 
-レポート変換が上部のメッセージを通じて行われた場合、赤い「Revert」ボタンをクリックして、以前の状態に戻してください。変換後に行われた変更は失われることに注意してください。
+上部のメッセージを通じてレポートの変換を行った場合は、赤い「Revert」ボタンをクリックして以前の状態を復元してください。変換後に行った変更は失われることに注意してください。
 
-単一の Markdown ブロックが変換された場合、`cmd+z` を使用して元に戻します。
+単一の Markdown ブロックを変換した場合は、`cmd+z` で元に戻せます。
 
-セッションが終了していて、元に戻すオプションが利用できない場合は、下書きを破棄するか、最後に保存されたバージョンから編集を続けることを検討してください。どちらも機能しない場合は、W&B サポートに連絡してください。
+セッションが終了しているなどの理由で元に戻すオプションが利用できない場合は、ドラフトを破棄するか、最後に保存されたバージョンから編集することを検討してください。どちらも機能しない場合は、W&B サポートまでご連絡ください。
 </Accordion>
 </Update>
 
-<Update tags={["crashing and hanging runs"]}>
-<Accordion title="wandb がクラッシュした場合、トレーニング run もクラッシュする可能性がありますか？">
+<Update tags={["Crashing And Hanging Runs"]}>
+<Accordion title="wandb がクラッシュした場合、トレーニング Run もクラッシュしますか？">
 
-トレーニング run への干渉を避けることは非常に重要です。W&B は別のプロセスで動作するため、W&B がクラッシュしてもトレーニングは継続されます。インターネットの接続障害が発生した場合でも、W&B は継続的に [wandb.ai](https://wandb.ai) へのデータ送信を再試行します。
+トレーニング Run への干渉を避けることは極めて重要です。W&B は別のプロセスで動作するため、W&B がクラッシュしてもトレーニングは継続されます。インターネットが切断された場合、W&B は [wandb.ai](https://wandb.ai) へのデータ送信を継続的に再試行します。
 </Accordion>
 </Update>
 
-<Update tags={["user management"]}>
-<Accordion title="削除されたアカウントで以前使用したメールアドレスを使用して、新しいアカウントを作成することは可能ですか？">
+<Update tags={["User Management"]}>
+<Accordion title="削除されたアカウントで以前使用していたメールアドレスで、新しいアカウントを作成することは可能ですか？">
 
-新しいアカウントは、削除されたアカウントに以前関連付けられていたメールを使用することができます。
+削除されたアカウントに以前関連付けられていたメールアドレスを使用して、新しいアカウントを作成できます。
 </Accordion>
 </Update>
 
-<Update tags={["team management"]}>
-<Accordion title="チームを作成できるのは誰ですか？チームから人を追加または削除できるのは誰ですか？プロジェクトを削除できるのは誰ですか？">
+<Update tags={["Team Management"]}>
+<Accordion title="誰が Teams を作成できますか？誰がチームへのメンバーの追加や削除を行えますか？誰が Projects を削除できますか？">
 
-リファレンスについては、役割と権限の詳細を参照してください: [Team Roles and Permissions](/ja/platform/app/settings-page/teams/#team-roles-and-permissions).
+ロールと権限の詳細については、こちらのリンクを参照してください：[Team Roles and Permissions](/platform/app/settings-page/teams#team-roles-and-permissions)。
 </Accordion>
 </Update>
 
-<Update tags={["sweeps"]}>
-<Accordion title="スイープでカスタム CLI コマンドを使用するにはどうすれば良いですか？">
+<Update tags={["Sweeps"]}>
+<Accordion title="Sweeps でカスタム CLI コマンドを使用するにはどうすればよいですか？">
 
-W&B スイープは、トレーニング設定がコマンドライン引数を通過する場合、カスタム CLI コマンドと共に使用できます。
+トレーニング設定がコマンドライン引数を渡すようになっている場合、カスタム CLI コマンドで W&B Sweeps を使用できます。
 
-以下の例では、コードスニペットが bash ターミナルを示しており、ユーザーが `train.py` という名前の Python スクリプトをトレーニングし、スクリプトが解析する値を提供しています。
+以下の例では、コードスニペットは `train.py` という名前の Python スクリプトをトレーニングし、スクリプトがパースする値を指定している bash ターミナルを示しています。
 
 ```bash
 /usr/bin/env python train.py -b \
@@ -438,7 +444,7 @@ W&B スイープは、トレーニング設定がコマンドライン引数を�
     --lr 0.00001
 ```
 
-カスタムコマンドを実装するには、YAML ファイル内の `command` キーを修正します。前の例に基づくと、設定は次のようになります:
+カスタムコマンドを実装するには、YAML ファイルの `command` キーを変更します。前の例に基づくと、設定は以下のようになります：
 
 ```yaml
 program:
@@ -458,9 +464,9 @@ command:
   - ${args}
 ```
 
-`${args}` キーは、スイープ設定内のすべてのパラメータを `argparse` 用に `--param1 value1 --param2 value2` という形式に展開します。
+`${args}` キーは、スイープ設定内のすべてのパラメータに展開され、`argparse` 用に `--param1 value1 --param2 value2` の形式でフォーマットされます。
 
-`argparse` 以外の追加の引数については、次を実装してください:
+`argparse` 以外の追加引数については、以下のように実装してください：
 
 ```python
 parser = argparse.ArgumentParser()
@@ -468,7 +474,7 @@ args, unknown = parser.parse_known_args()
 ```
 
 <Note>
-環境によっては、`python` が Python 2 を指す場合があります。Python 3 を呼び出すには、コマンド設定で `python3` を使用してください。
+環境によっては、`python` が Python 2 を指す場合があります。Python 3 が呼び出されるようにするには、コマンド設定で `python3` を使用してください：
 
 ```yaml
 program:
@@ -483,194 +489,194 @@ command:
 </Accordion>
 </Update>
 
-<Update tags={["workspaces"]}>
+<Update tags={["Workspaces"]}>
 <Accordion title="ダークモードはありますか？">
 
-ダークモードはベータ版であり、アクセシビリティに最適化されていません。ダークモードを有効にするには:
+ダークモードはベータ版であり、アクセシビリティについては最適化されていません。ダークモードを有効にするには：
 
-1. [https://wandb.ai/settings](https://wandb.ai/settings) でアカウント設定に移動します。
+1. [W&B アカウント設定](https://wandb.ai/settings) に移動します。
 2. **Public preview features** セクションまでスクロールします。
 3. **UI Display** で、ドロップダウンから **Dark mode** を選択します。
 </Accordion>
 </Update>
 
-<Update tags={["connectivity"]}>
-<Accordion title="ネットワークの問題にどのように対処すればよいですか？">
+<Update tags={["Connectivity"]}>
+<Accordion title="ネットワークの問題にはどう対処すればよいですか？">
 
-SSL またはネットワークエラーが発生した場合、例えば `wandb: Network error (ConnectionError), entering retry loop` というエラーが表示される場合、次の解決策を試してください。
+`wandb: Network error (ConnectionError), entering retry loop` などの SSL またはネットワークエラーが発生した場合は、以下の解決策を試してください：
 
-1. SSL 証明書をアップグレードします。Ubuntu サーバーでは、`update-ca-certificates` を実行します。有効な SSL 証明書は、トレーニングログを同期してセキュリティリスクを軽減するために不可欠です。
-2. ネットワーク接続が不安定な場合は、[オプションの環境変数](/ja/models/track/environment-variables/#optional-environment-variables) `WANDB_MODE` を `offline` に設定してオフラインモードで操作し、後でインターネットにアクセス可能なデバイスからファイルを同期します。
-3. [W&B Private Hosting](/ja/platform/hosting/) の利用を検討してください。これによりローカルで実行し、クラウドサーバーへの同期を回避できます。
+1. SSL 証明書をアップグレードします。Ubuntu サーバーでは `update-ca-certificates` を実行します。セキュリティリスクを軽減しながらトレーニングログを同期するには、有効な SSL 証明書が不可欠です。
+2. ネットワーク接続が不安定な場合は、[オプションの環境変数](/models/track/environment-variables#optional-environment-variables) `WANDB_MODE` を `offline` に設定してオフラインモードで動作させ、後でインターネット接続のあるデバイスからファイルを同期します。
+3. クラウドサーバーへの同期を避け、ローカルで実行される [W&B Private Hosting](/platform/hosting/) の使用を検討してください。
 
-`SSL CERTIFICATE_VERIFY_FAILED` エラーについて、この問題は企業のファイアウォールに起因する可能性があります。ローカルの CA を設定して、次を実行します。
+`SSL CERTIFICATE_VERIFY_FAILED` エラーの場合、会社側のファイアウォールが原因である可能性があります。ローカル CA を設定し、以下を実行してください：
 
 `export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt`
 </Accordion>
 </Update>
 
-<Update tags={["charts"]}>
-<Accordion title="カスタムチャートプリセットを削除するにはどうすれば良いですか？">
+<Update tags={["Charts"]}>
+<Accordion title="カスタムチャートのプリセットを削除するにはどうすればよいですか？">
 
-カスタムチャートエディタにアクセスします。現在選択されているチャートタイプをクリックすると、すべてのプリセットを表示するメニューが開きます。削除したいプリセットの上にマウスを置き、ゴミ箱アイコンをクリックします。
+カスタムチャートエディターにアクセスします。現在選択されているチャートタイプをクリックして、すべてのプリセットを表示するメニューを開きます。削除したいプリセットの上にホバーし、ゴミ箱アイコンをクリックします。
 
 <Frame>
-    <img src="/images/app_ui/delete_custome_chart_preset.gif"  />
+<img src="/images/app_ui/delete_custome_chart_preset.gif" alt="Deleting chart preset" />
 </Frame>
 </Accordion>
 </Update>
 
-<Update tags={["administrator"]}>
-<Accordion title="組織アカウントを削除するにはどうすればよいですか？">
+<Update tags={["Administrator"]}>
+<Accordion title="組織（Organization）アカウントを削除するにはどうすればよいですか？">
 
-組織アカウントを削除するには、以下の手順に従い、サポートチーム（support@wandb.com）に連絡してください。
+組織アカウントを削除するには、サポートチーム (support@wandb.com) に連絡してください。
 </Accordion>
 </Update>
 
-<Update tags={["reports", "wysiwyg"]}>
+<Update tags={["Reports", "Wysiwyg"]}>
 <Accordion title="パネルグリッドを削除するにはどうすればよいですか？">
 
-パネルグリッドを選択し、削除またはバックスペースを押します。右上隅にあるドラッグハンドルをクリックしてパネルグリッドを選択します。
+パネルグリッドを選択し、delete キーまたは backspace キーを押します。右上隅のドラッグハンドルをクリックして、パネルグリッドを選択します。
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "team management"]}>
-<Accordion title="アカウントからTeamsを削除するにはどうすればいいですか？">
+<Update tags={["Administrator", "Team Management"]}>
+<Accordion title="アカウントからチームを削除するにはどうすればよいですか？">
 
-アカウントからチームを削除するには:
+アカウントからチームを削除するには：
 
-- 管理者としてチームの設定にアクセスします。
-- ページの一番下にある **Delete** ボタンをクリックします。
+- 管理者としてチーム設定にアクセスします。
+- ページ下部にある **Delete** ボタンをクリックします。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="自分の run に名前を付けませんでした。run 名はどこから来ているのですか？">
+<Update tags={["Experiments"]}>
+<Accordion title="Run に名前を付けていません。この Run 名はどこから来ているのですか？">
 
-run が明示的に名前を付けられていない場合、W&B はランダムな名前を割り当てて、プロジェクト内でそれを識別します。ランダムな名前の例としては、`pleasant-flower-4` や `misunderstood-glade-2` があります。
+Run に明示的に名前を付けない場合、W&B はプロジェクト内で識別するためにランダムな名前を割り当てます。ランダムな名前の例には、`pleasant-flower-4` や `misunderstood-glade-2` などがあります。
 </Accordion>
 </Update>
 
 <Update tags={["Charts"]}>
 <Accordion title="`.log()` と `.summary` の違いは何ですか？">
 
-要約は表に表示され、 ログには将来のプロットのためにすべての値が保存されます。
+Summary はテーブルに表示され、Log は将来のプロットのためにすべての値を保存します。
 
-例えば、精度が変わるたびに `wandb.log` を呼び出します。デフォルトでは、そのメトリクスに対するサマリーの値を手動で設定しない限り、`wandb.log()` がサマリー値を更新します。
+例えば、精度（accuracy）が変化するたびに `run.log()` を呼び出します。デフォルトでは、メトリクスに対して手動で設定されない限り、`run.log()` は Summary の値を更新します。
 
-散布図と並列座標プロットはサマリーの値を使用しますが、ラインプロットは`.log` によって記録されたすべての値を表示します。
+散布図や並行座標プロットは Summary の値を使用し、折れ線グラフは `run.log` で記録されたすべての値を表示します。
 
-一部のユーザーは、 ログに記録された最新の精度ではなく、最適な精度を反映するように、サマリーを手動で設定することを好みます。
+Users によっては、最後にログに記録された精度ではなく、最適（optimal）な精度を反映させるために Summary を手動で設定することを好む場合もあります。
 </Accordion>
 </Update>
 
-<Update tags={["team management"]}>
-<Accordion title="チームと Entities の違いは何ですか？ユーザーとして、Entities は私にとって何を意味しますか？">
+<Update tags={["Team Management"]}>
+<Accordion title="チームとエンティティ（Entity）の違いは何ですか？ユーザーにとってエンティティは何を意味しますか？">
 
-チームは、同じ Projects に取り組む Users のコラボレーションワークスペースとして機能します。エンティティは、ユーザー名またはチーム名を表します。W&B で run をログする際、`wandb.init(entity="example-team")` を使ってエンティティを個人またはチームアカウントに設定します。
+チームは、同じプロジェクトに取り組む Users のための共同作業用ワークスペースとして機能します。エンティティは、ユーザー名またはチーム名のいずれかを表します。W&B で Runs を記録する際は、`wandb.init(entity="example-team")` を使用して、エンティティを個人アカウントまたはチームアカウントに設定します。
 </Accordion>
 </Update>
 
-<Update tags={["team management", "administrator"]}>
-<Accordion title="チームと組織の違いは何ですか？">
+<Update tags={["Team Management", "Administrator"]}>
+<Accordion title="チームと組織（Organization）の違いは何ですか？">
 
-チームは、同じProjectに取り組むUsersのための共同作業用Workspaceとして機能します。組織は、請求やアカウント管理に関連して、複数のTeamsを含むことができる上位レベルのEntitiesとして機能します。
+チームは、同じプロジェクトに取り組む Users のための共同作業用ワークスペースとして機能します。組織は、複数の Teams を含めることができる上位レベルのエンティティであり、多くの場合、請求（billing）やアカウント管理に関連付けられます。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="wandb.init モードの違いは何ですか？">
+<Update tags={["Experiments"]}>
+<Accordion title="wandb.init の各モードの違いは何ですか？">
 
-これらのモードが利用可能です:
+以下のモードが利用可能です：
 
-* `online` (デフォルト): クライアントはデータをwandb サーバーに送信します。
-* `offline`: クライアントはデータをwandb サーバーに送信する代わりに、マシン上にローカルで保存します。後でデータを同期するには、[`wandb sync`](/ja/models/ref/cli/wandb-sync) コマンドを使用してください。
-* `disabled`: クライアントはモックされたオブジェクトを返すことで操作をシミュレートし、ネットワーク通信を防ぎます。すべてのログはオフになりますが、すべてのAPI メソッドスタブは呼び出し可能なままです。このモードは通常、テストに使用されます。
+* `online` (デフォルト): クライアントはデータを wandb サーバーに送信します。
+* `offline`: クライアントはデータを wandb サーバーに送信せず、マシン上にローカルに保存します。後でデータを同期するには [`wandb sync`](/models/ref/cli/wandb-sync) コマンドを使用します。
+* `disabled`: クライアントはモックオブジェクトを返すことで動作をシミュレートし、ネットワーク通信を一切行いません。すべてのログ記録はオフになりますが、すべての API メソッドスタブは呼び出し可能なままです。このモードは主にテストに使用されます。
 </Accordion>
 </Update>
 
-<Update tags={["tensorboard"]}>
-<Accordion title="W&B は TensorBoard とどう違いますか？">
+<Update tags={["Tensorboard"]}>
+<Accordion title="W&B は TensorBoard とどう違うのですか？">
 
-W&B は TensorBoard と連携し、実験管理ツールを改善します。創業者は TensorBoard ユーザーが直面する一般的な課題を解決するために W&B を作成しました。主な改善点は以下の通りです：
+W&B は TensorBoard と統合し、実験管理ツールを改善します。W&B の創設者は、TensorBoard ユーザーが直面する一般的な不満を解消するために W&B を作成しました。主な改善点は以下の通りです：
 
-1. **モデル再現性**: W&B は実験、探索、モデルの再現を促進します。メトリクス、ハイパーパラメーター、コードバージョンをキャプチャし、モデルのチェックポイントを保存して再現性を確保します。
+1. **モデルの再現性**: W&B は実験、探索、およびモデルの再現を容易にします。メトリクス、ハイパーパラメーター、コードバージョンをキャプチャし、モデルのチェックポイントを保存して再現性を確保します。
 
-2. **自動化された組織化**: W&B は、すべての試行されたモデルの概要を提供することで、プロジェクト引き継ぎや休暇を効率化し、古い実験の再実行を防いで時間を節約します。
+2. **自動整理**: W&B は、試行したすべてのモデルの概要を提供することで、プロジェクトの引き継ぎや休暇中の対応を効率化し、古い実験の再実行を防ぐことで時間を節約します。
 
-3. **迅速なインテグレーション**: 5 分で W&B をプロジェクトに統合します。無料のオープンソース Python パッケージをインストールし、いくつかのコード行を追加します。ログされたメトリクスと記録は、各モデル run と共に表示されます。
+3. **迅速な統合**: 5 分でプロジェクトに W&B を統合できます。無料のオープンソース Python パッケージをインストールし、数行のコードを追加するだけです。モデルの Run ごとにログに記録されたメトリクスとレコードが表示されます。
 
-4. **一元化されたダッシュボード**: トレーニングがどこで行われていても、一貫したダッシュボードにアクセスできます（ローカル、ラボのクラスター、クラウドのスポットインスタンスなど）。異なるマシン間での TensorBoard ファイルの管理が不要です。
+4. **一元化されたダッシュボード**: ローカル、ラボのクラスター、クラウドのスポットインスタンスなど、トレーニング場所に関わらず一貫したダッシュボードにアクセスできます。異なるマシン間で TensorBoard ファイルを管理する必要がなくなります。
 
-5. **強力なフィルタリングテーブル**: 様々なモデルからの結果を効率的に検索、フィルタリング、並べ替え、グループ化します。異なるタスクに最適なモデルを簡単に特定でき、TensorBoard が大規模なプロジェクトでしばしば苦労する点で優れています。
+5. **堅牢なフィルタリングテーブル**: 様々なモデルの結果を効率的に検索、フィルタリング、ソート、グループ化できます。TensorBoard が大規模プロジェクトで苦労しがちな、異なるタスクにおけるベストパフォーマンスモデルの特定も容易です。
 
-6. **コラボレーションツール**: W&B は複雑な機械学習プロジェクトのためのコラボレーションを強化します。プロジェクトリンクを共有し、プライベートチームを利用して結果を共有します。インタラクティブな可視化とマークダウンの説明を使用してレポートを作成し、作業ログやプレゼンテーションに利用します。
+6. **コラボレーションツール**: W&B は、複雑な機械学習プロジェクトのコラボレーションを強化します。プロジェクトリンクを共有したり、結果共有のためにプライベートチームを活用したりできます。インタラクティブな可視化と Markdown の説明を含むレポートを作成し、作業ログやプレゼンテーションに利用できます。
 </Accordion>
 </Update>
 
-<Update tags={["billing", "administrator"]}>
+<Update tags={["Billing", "Administrator"]}>
 <Accordion title="サブスクリプションプランをダウングレードするにはどうすればよいですか？">
 
-サブスクリプションプランをダウングレードするには、current プランの詳細と希望プランを support@wandb.com のサポートチームにお問い合わせください。
+サブスクリプションプランをダウングレードするには、現在のプランの詳細と希望するプランを添えて、サポートチーム (support@wandb.com) までご連絡ください。
 </Accordion>
 </Update>
 
-<Update tags={["reports"]}>
-<Accordion title="レポートを編集および共有できるのは誰ですか？">
+<Update tags={["Reports"]}>
+<Accordion title="レポートの編集と共有は誰ができますか？">
 
-レポートが個人のプライベートプロジェクト内で作成された場合、そのプロジェクトはそのユーザーのみに表示されます。ユーザーはプロジェクトをチームや公開することができます。
+個人のプライベートプロジェクト内で作成された Reports は、そのユーザーにのみ表示されます。ユーザーはプロジェクトをチームまたはパブリックに共有できます。
 
-チームプロジェクトでは、管理者またはレポートを作成したメンバーが他のチームメンバーに対する編集アクセスと表示アクセスの権限を切り替えることができます。チームメンバーはレポートを共有できます。
+チームプロジェクトでは、管理者またはレポートを作成したメンバーが、他のチームメンバーに対して編集アクセス権または閲覧アクセス権を切り替えることができます。チームメンバーはレポートを共有できます。
 
-レポートを共有するには、右上の **Share** ボタンを選択します。メールアドレスを入力するか、マジックリンクをコピーします。メールで招待されたユーザーはレポートを閲覧するために W&B にログインする必要がありますが、マジックリンクを持っているユーザーはログインする必要がありません。
+レポートを共有するには、右上隅にある **Share** ボタンを選択します。メールアドレスを入力するか、マジックリンクをコピーしてください。メールで招待された Users は、レポートを閲覧するために W&B にログインする必要がありますが、マジックリンクを持つ Users はログイン不要です。
 
-共有されたレポートは表示専用アクセスを維持します。
+共有されたレポートは、閲覧専用アクセス権が維持されます。
 </Accordion>
 </Update>
 
-<Update tags={["reports"]}>
+<Update tags={["Reports"]}>
 <Accordion title="レポートの埋め込み">
 
-あなたのレポートを埋め込むことで共有できます。レポートの右上にある **Share** ボタンをクリックし、ポップアップウィンドウの下部から埋め込みコードをコピーします。
+レポートを埋め込むことで共有できます。レポートの右上にある **Share** ボタンをクリックし、ポップアップウィンドウの下部から埋め込みコードをコピーしてください。
 
 <Frame>
-    <img src="/images/reports/emgedding_reports.gif"  />
+<img src="/images/reports/emgedding_reports.gif" alt="Embedding reports" />
 </Frame>
 </Accordion>
 </Update>
 
-<Update tags={["sweeps"]}>
-<Accordion title="スイープでコードログを有効にするにはどうすれば良いですか？">
+<Update tags={["Sweeps"]}>
+<Accordion title="Sweeps でコードのログ記録を有効にするにはどうすればよいですか？">
 
-スイープのためのコード ログを有効にするには、W&B Run を初期化した後に `wandb.log_code()` を追加します。この操作は、W&B のプロファイル設定でコード ログが有効になっている場合でも必要です。詳細なコード ログについては、[こちらの `wandb.log_code()` ドキュメント](/ja/models/ref/python/run#log_code)を参照してください。
+Sweeps でコードのログ記録を有効にするには、W&B Run を初期化した後に `wandb.log_code()` を追加します。これは、W&B プロフィール設定でコードのログ記録が有効になっている場合でも必要です。高度なコードログ記録については、[こちらの `wandb.log_code()` ドキュメント](/models/ref/python/experiments/run#log_code) を参照してください。
 </Accordion>
 </Update>
 
-<Update tags={["environment variables"]}>
-<Accordion title="環境変数は、 wandb.init() に渡されたパラメータを上書きしますか?">
+<Update tags={["Environment Variables"]}>
+<Accordion title="環境変数は wandb.init() に渡されたパラメータを上書きしますか？">
 
-`wandb.init` に渡された引数は環境変数を上書きします。環境変数が設定されていないときにシステムデフォルト以外のデフォルトディレクトリを設定するには、`wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))` を使用します。
+`wandb.init` に渡された引数は環境変数を上書きします。環境変数が設定されていない場合にシステムデフォルト以外のデフォルトディレクトリーを設定するには、`wandb.init(dir=os.getenv("WANDB_DIR", my_default_override))` を使用してください。
 </Accordion>
 </Update>
 
-<Update tags={["sweeps", "hyperparameter"]}>
+<Update tags={["Sweeps", "Hyperparameter"]}>
 <Accordion title="`Est. Runs` カラムとは何ですか？">
 
-W&B は、離散的な探索空間を持つ W&B Sweep を作成する際に生成される Run の推定数を提供します。この合計値は、探索空間のデカルト積を反映しています。
+W&B は、離散的な探索空間を持つ W&B Sweep を作成する際に生成される、推定 Run 数を提供します。この合計は、探索空間のデカルト積を反映しています。
 
-たとえば、次の探索空間を考えてみましょう：
-
-<Frame>
-    <img src="/images/sweeps/sweeps_faq_whatisestruns_1.png"  />
-</Frame>
-
-この場合、デカルト積は 9 になります。W&B は、アプリケーション UI にこの値を推定された run の数 (**Est. Runs**) として表示します：
+例えば、以下のような探索空間を考えます：
 
 <Frame>
-    <img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp"  />
+<img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="Estimated runs column" />
 </Frame>
 
-プログラムから推定 Run 数を取得するには、W&B SDK 内の Sweep オブジェクトの `expected_run_count` 属性を使用してください。
+この場合、デカルト積は 9 になります。W&B はアプリ UI にこの値を推定 Run 数（**Est. Runs**）として表示します：
+
+<Frame>
+<img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="Sweep run estimation" />
+</Frame>
+
+プログラムで推定 Run 数を取得するには、W&B SDK 内の Sweep オブジェクトの `expected_run_count` 属性を使用します：
 
 ```python
 sweep_id = wandb.sweep(
@@ -683,10 +689,10 @@ print(f"EXPECTED RUN COUNT = {sweep.expected_run_count}")
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "user management"]}>
-<Accordion title="W&B の組織から Users のリストをエクスポートする方法は？">
+<Update tags={["Administrator", "User Management"]}>
+<Accordion title="W&B 組織から Users のリストをエクスポートするにはどうすればよいですか？">
 
-W&B 組織からユーザーのリストをエクスポートするには、管理者が以下のコードで SCIM API を使用します。
+W&B 組織から Users のリストをエクスポートするには、管理者が以下のコードを使用して SCIM API を利用します：
 
 ```python
 import base64
@@ -696,8 +702,8 @@ def encode_base64(username, key):
     auth_string = f'{username}:{key}'
     return base64.b64encode(auth_string.encode('utf-8')).decode('utf-8')
 
-username = ''  # 組織の管理者ユーザー名
-key = ''  # API キー
+username = ''  # 組織管理者のユーザー名
+key = ''  # APIキー
 scim_base_url = 'https://api.wandb.ai/scim/v2'
 users_endpoint = f'{scim_base_url}/Users'
 headers = {
@@ -711,14 +717,14 @@ for user in response.json()['Resources']:
     users.append([user['userName'], user['emails']['Value']])
 ```
 
-スクリプトを修正して、必要に応じて出力を保存してください。
+必要に応じて、出力を保存するようにスクリプトを変更してください。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="W&B でこれらのバージョン ID と ETag を取得するにはどうすればよいですか？">
+<Update tags={["Artifacts"]}>
+<Accordion title="W&B でこれらの Version ID や ETag を取得するにはどうすればよいですか？">
 
-W&Bでアーティファクト参照がログされ、バケットでバージョン管理が有効になっている場合、バージョンIDがAmazon S3 UIに表示されます。これらのバージョンIDとETagsをW&Bで取得するには、アーティファクトを取得し、対応するマニフェストエントリにアクセスします。例えば:
+W&B で Artifact の参照がログに記録され、バケットでバージョニングが有効になっている場合、Amazon S3 UI に Version ID が表示されます。W&B でこれらの Version ID や ETag を取得するには、Artifact を取得し、対応するマニフェストエントリにアクセスします。例：
 
 ```python
 artifact = run.use_artifact("my_table:latest")
@@ -729,59 +735,52 @@ for entry in artifact.manifest.entries.values():
 </Accordion>
 </Update>
 
-<Update tags={["logs"]}>
-<Accordion title="どのファイルを確認すれば、コードがクラッシュしたときの原因がわかりますか？">
+<Update tags={["Logs"]}>
+<Accordion title="コードがクラッシュした際、どのファイルをチェックすべきですか？">
 
-実行中のコードのディレクトリー内にある、`wandb/run-<date>_<time>-<run-id>/logs` にある `debug.log` と `debug-internal.log` を確認してください。
+該当する Run について、コードを実行しているディレクトリー内の `wandb/run-<date>_<time>-<run-id>/logs` にある `debug.log` と `debug-internal.log` を確認してください。
 </Accordion>
 </Update>
 
-<Update tags={["connectivity", "outage"]}>
-<Accordion title="Filestream のレート制限を超えたエラーをどのように解決できますか？">
+<Update tags={["Connectivity", "Outage"]}>
+<Accordion title="Filestream rate limit exceeded エラーを解決するにはどうすればよいですか？">
 
-To resolve the "Filestream rate limit exceeded" error in Weights & Biases (W&B), follow these steps:
+W&B で "Filestream rate limit exceeded" エラーを解決するには、以下の手順に従ってください：
 
-**ログの最適化**:
-  - API リクエストを減らすために、ログの頻度を減らすか、バッチログを使用します。
-  - 実験の開始時間をずらして、API リクエストが同時に発生しないようにします。
+**ログ記録の最適化**:
+  - ログの記録頻度を減らすか、ログをバッチ処理して API リクエストを削減します。
+  - API リクエストが集中しないよう、実験の開始時間をずらします。
 
 **障害の確認**:
-  - [W&B status updates](https://status.wandb.com) を確認し、一時的なサーバー側の問題でないことを確認します。
+  - [W&B ステータスアップデート](https://status.wandb.com) を確認し、サーバー側の一時的な問題が原因でないことを確認します。
 
 **サポートに連絡**:
-  - Rate limit の増加をリクエストするために、実験のセットアップの詳細を記載して、W&B サポート (support@wandb.com) に連絡します。
+  - 実験設定の詳細を添えて W&B サポート (support@wandb.com) に連絡し、レート制限の引き上げを依頼してください。
 </Accordion>
 </Update>
 
-<Update tags={["reports"]}>
-<Accordion title="不要なReportsのフィルタリングと削除">
+<Update tags={["Reports"]}>
+<Accordion title="不要なレポートをフィルタリングして削除する">
 
-検索バーを使用してレポート一覧を絞り込みます。不必要なレポートを選択して個別に削除するか、すべてのレポートを選択して「Delete Reports」をクリックし、プロジェクトから削除します。
+検索バーを使用してレポートリストをフィルタリングします。不要なレポートを選択して個別に削除するか、すべてのレポートを選択して「Delete Reports」をクリックし、プロジェクトから削除します。
 
 <Frame>
-    <img src="/images/reports/delete_runs.gif" alt="不要なレポートとドラフトを削除"  />
+<img src="/images/reports/delete_runs.gif" alt="Delete unwanted reports and drafts" />
 </Frame>
 </Accordion>
 </Update>
 
-<Update tags={["security", "user management"]}>
-<Accordion title="APIキーをどのように見つけるのですか？">
+<Update tags={["Security", "User Management"]}>
+<Accordion title="自分の APIキー はどこにありますか？">
 
-W&B（Weights and バイアス）の APIキーを見つけるには、次の手順に従います。
-
-- W&Bにログイン：[https://wandb.ai/authorize](https://wandb.ai/authorize)
-- または、プロフィールにアクセス：
-  1. 右上のユーザープロフィールをクリック。
-  2. 「ユーザー設定」を選択。
-  3. 「Danger Zone」セクションまでスクロール。
-  4. 「APIキー」の横にある「Reveal」をクリック。
+<ApiKeyFind/>
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="sweep で最良の run から Artifacts を見つけるにはどうすればよいですか？">
+<Update tags={["Artifacts"]}>
+<Accordion title="Sweep のベスト Run から Artifact を見つけるにはどうすればよいですか？">
 
-アーティファクトを sweep の中で最も良いパフォーマンスを示した run から取得するには、次のコードを使用します。
+Sweep で最高のパフォーマンスを示した Run から Artifacts を取得するには、以下のコードを使用してください：
 
 ```python
 api = wandb.Api()
@@ -795,129 +794,133 @@ for artifact in best_run.logged_artifacts():
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="run によってログされた、または使用された Artifacts をどのように見つけることができますか？Artifacts を生成または使用した run をどのように見つけられますか？">
+<Update tags={["Artifacts"]}>
+<Accordion title="Run によってログ記録または使用された Artifacts を見つけるには？Artifact を作成または使用した Runs を見つけるには？">
 
-W&B は、各 run によってログされた Artifacts と、artifact graph を構築するために各 run で使用された Artifacts を追跡します。このグラフは、run と Artifacts を表すノードを持つ二部グラフで、有向非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deebdd5/graph) で見ることができます（グラフを展開するには「Explode」をクリックしてください）。
+W&B は、各 Run によってログ記録された Artifacts と、各 Run が使用した Artifacts を追跡して Artifact グラフを構築します。このグラフは、Runs と Artifacts をノードとする二部有向非巡回グラフです。例は [こちら](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) で確認できます（「Explode」をクリックしてグラフを展開してください）。
 
-Public API を使用して、Artifacts または run からプログラム的にグラフをナビゲートします。
+Public API を使用して、Artifact または Run のいずれかから開始してプログラムでグラフをたどることができます。
 
 <Tabs>
-<Tab title="Artifacts から">
+<Tab title="Artifact から">
+
 ```python
 api = wandb.Api()
 
 artifact = api.artifact("project/artifact:alias")
 
-# アーティファクトからグラフを上方向にたどる:
+# Artifact からグラフを遡る:
 producer_run = artifact.logged_by()
-# アーティファクトからグラフを下方向にたどる:
+# Artifact からグラフを辿る:
 consumer_runs = artifact.used_by()
 
-# run からグラフを下方向にたどる:
+# Run からグラフを辿る:
 next_artifacts = consumer_runs[0].logged_artifacts()
-# run からグラフを上方向にたどる:
+# Run からグラフを遡る:
 previous_artifacts = producer_run.used_artifacts()
 ```
+
 </Tab>
 <Tab title="Run から">
+
 ```python
 api = wandb.Api()
 
 run = api.run("entity/project/run_id")
 
-# run からグラフを下方向にたどる:
+# Run からグラフを辿る:
 produced_artifacts = run.logged_artifacts()
-# run からグラフを上方向にたどる:
+# Run からグラフを遡る:
 consumed_artifacts = run.used_artifacts()
 
-# アーティファクトからグラフを上方向にたどる:
+# Artifact からグラフを遡る:
 earlier_run = consumed_artifacts[0].logged_by()
-# アーティファクトからグラフを下方向にたどる:
+# Artifact からグラフを辿る:
 consumer_runs = produced_artifacts[0].used_by()
 ```
+
 </Tab>
 </Tabs>
 </Accordion>
 </Update>
 
-<Update tags={["sweeps"]}>
-<Accordion title="ブール変数をハイパーパラメーターとしてフラグを立てることはできますか？">
+<Update tags={["Sweeps"]}>
+<Accordion title="ブーリアン（真偽値）変数をハイパーパラメーターとしてフラグ指定できますか？">
 
-設定のコマンドセクションでハイパーパラメーターをブールフラグとして渡すには、`${args_no_boolean_flags}` マクロを使用します。このマクロは、ブールパラメータを自動的にフラグとして含めます。もし `param` が `True` の場合、コマンドは `--param` を受け取ります。`param` が `False` の場合、フラグは省略されます。
+設定のコマンドセクションで `${args_no_boolean_flags}` マクロを使用することで、ハイパーパラメーターをブーリアンフラグとして渡すことができます。このマクロは、ブーリアンパラメータを自動的にフラグとして含めます。`param` が `True` の場合、コマンドは `--param` を受け取ります。`param` が `False` の場合、フラグは省略されます。
 </Accordion>
 </Update>
 
-<Update tags={["tensorboard"]}>
-<Accordion title="あなたの平滑化アルゴリズムにはどのような式を使用していますか？">
+<Update tags={["Tensorboard"]}>
+<Accordion title="スムージングアルゴリズムにはどのような式を使用していますか？">
 
-The exponential moving average formula は TensorBoard で使用されているものと一致します。
+指数移動平均（EMA）の式は TensorBoard で使用されているものと一致しています。
 
-詳細については、この [Stack OverFlow の説明](https://stackoverflow.com/questions/42281844/what-is-the-mathematics-behind-the-smoothing-parameter-in-tensorboards-scalar/75421930#75421930) を参照してください。TensorBoard のスムージング アルゴリズムのソース コード（執筆時点）は [こちら](https://github.com/tensorflow/tensorboard/blob/34877f15153e1a2087316b9952c931807a122aa7/tensorboard/components/vz_line_chart2/line-chart.ts#L699) で見ることができます。
+同等の Python 実装の詳細については、[Stack OverFlow での解説](https://stackoverflow.com/questions/42281844/what-is-the-mathematics-behind-the-smoothing-parameter-in-tensorboards-scalar/75421930#75421930) を参照してください。TensorBoard のスムージングアルゴリズムのソースコード（執筆時点）は [こちら](https://github.com/tensorflow/tensorboard/blob/34877f15153e1a2087316b9952c931807a122aa7/tensorboard/components/vz_line_chart2/line-chart.ts#L699) にあります。
 </Accordion>
 </Update>
 
-<Update tags={["workspaces"]}>
-<Accordion title="本当に優れた機能はどこに隠れていて、どこでそれらを見つけることができるでしょうか？">
+<Update tags={["Workspaces"]}>
+<Accordion title="隠されている非常に便利な機能はどこで見つかりますか？">
 
-一部の機能は、チームの**Beta Features**セクション内のフィーチャーフラグの下に隠されています。
+一部の機能は、チーム設定の **Beta Features** セクションにある機能フラグの下に隠されています。
 
 <Frame>
-    <img src="/images/technical_faq/beta_features.png" alt="フィーチャーフラグの下に隠された利用可能なベータ機能"  />
+<img src="/images/technical_faq/beta_features.png" alt="Available beta features hidden under a feature flag" />
 </Frame>
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
+<Update tags={["Experiments"]}>
 <Accordion title="グラフに何も表示されないのはなぜですか？">
 
-"まだ可視化データがログされていません" というメッセージが表示される場合、スクリプトが最初の `wandb.log` 呼び出しを実行していないことを意味します。この状況は、run がステップを完了するのに長い時間がかかる場合に発生することがあります。データのログを迅速化するために、エポックの終わりだけでなく エポックごとに複数回ログを行ってください。
+"No visualization data logged yet" というメッセージが表示される場合、スクリプトで最初の `wandb.log` 呼び出しがまだ実行されていません。これは、Run が 1 ステップの完了に長い時間を要している場合に発生することがあります。データのログ記録を早めるには、エポックの最後だけでなく、エポック内に複数回ログを記録するようにしてください。
 </Accordion>
 </Update>
 
-<Update tags={["runs", "workspaces"]}>
-<Accordion title="同じグループ内の各 run の色をどのように変更できますか？">
+<Update tags={["Runs", "Workspaces"]}>
+<Accordion title="同じグループ内の各 Run の色を変更できますか？">
 
-同じグループ内の個別の run の色を変更することはできません。同じグループのすべての run は共通の色を共有します。
+グループ内の個々の Run の色を変更することはできません。同じグループ内のすべての Runs は共通の色を共有します。
 </Accordion>
 </Update>
 
-<Update tags={["runs"]}>
-<Accordion title="ランをタグでグループ化できますか？">
+<Update tags={["Runs"]}>
+<Accordion title="タグで Runs をグループ化できますか？">
 
-run は複数のタグを持つことができるため、タグによるグループ化はサポートされていません。これらの run に対して [`config`](/ja/models/track/config/) オブジェクトに値を追加し、この config 値でグループ化してください。これは [API](/ja/models/track/config/#set-the-configuration-after-your-run-has-finished) を使用して達成できます。
+1 つの Run に複数のタグを付けることができるため、タグによるグループ化はサポートされていません。代わりに、これらの Runs の [`config`](/models/track/config) オブジェクトに値を追加し、その設定値でグループ化してください。これは [API](/models/track/config#set-the-configuration-after-your-run-has-finished) を使用して行えます。
 </Accordion>
 </Update>
 
-<Update tags={["workspaces", "runs"]}>
-<Accordion title="'Group' 機能を使用せずに run をグループ化できますか？">
+<Update tags={["Workspaces", "Runs"]}>
+<Accordion title="'Group' 機能を使わずに Runs をグループ化できますか？">
 
-はい、tags やカスタムメタデータを使用して runs を分類することもできます。これは、プロジェクトの Workspace および Runs ビューで利用可能な `Group` ボタンを使用して行えます。
+はい、タグやカスタムメタデータを使用して Runs をカテゴリ分けすることも可能です。これはプロジェクトの Workspace や Runs ビューにある `Group` ボタンを使用して行えます。
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "team management"]}>
-<Accordion title="チームから外れるにはどうすればいいですか？">
+<Update tags={["Administrator", "Team Management"]}>
+<Accordion title="チームから削除してもらうにはどうすればよいですか？">
 
-チームの 管理者は、チーム 設定の **Users** タブから [チームからあなたを削除する](/ja/platform/app/settings-page/teams/) ことができます。
+チーム管理者は、チーム設定の **Users** タブからあなたを [チームから削除](/platform/app/settings-page/teams) できます。
 </Accordion>
 </Update>
 
-<Update tags={["environment variables", "experiments"]}>
-<Accordion title="`wandb` ファイルのローカル場所をどのように定義できますか?">
+<Update tags={["Environment Variables", "Experiments"]}>
+<Accordion title="`wandb` ファイルのローカルな場所を定義するにはどうすればよいですか？">
 
-- `WANDB_DIR=<path>` または `wandb.init(dir=<path>)`: トレーニングスクリプトのために作成された `wandb` フォルダの場所を制御します。デフォルトは `./wandb` です。このフォルダには Run のデータとログが保存されます。
-- `WANDB_ARTIFACT_DIR=<path>` または `wandb.Artifact().download(root="<path>")`: アーティファクトがダウンロードされる場所を制御します。デフォルトは `./artifacts` です。
-- `WANDB_CACHE_DIR=<path>`: これは `wandb.Artifact` を呼び出した際にアーティファクトが作成・保存される場所です。デフォルトは `~/.cache/wandb` です。
+- `WANDB_DIR=<path>` または `wandb.init(dir=<path>)`: トレーニングスクリプト用に作成される `wandb` フォルダーの場所を制御します。デフォルトは `./wandb` です。このフォルダーには Run のデータとログが保存されます。
+- `WANDB_ARTIFACT_DIR=<path>` または `wandb.Artifact().download(root="<path>")`: Artifacts がダウンロードされる場所を制御します。デフォルトは `./artifacts` です。
+- `WANDB_CACHE_DIR=<path>`: `wandb.Artifact` を呼び出した際に Artifacts が作成・保存される場所です。デフォルトは `~/.cache/wandb` です。
 - `WANDB_CONFIG_DIR=<path>`: 設定ファイルが保存される場所です。デフォルトは `~/.config/wandb` です。
-- `WANDB_DATA_DIR=<PATH>`: アップロード中のアーティファクトのステージングに使用される場所を制御します。デフォルトは `~/.cache/wandb-data/` です。
+- `WANDB_DATA_DIR=<PATH>`: アップロード中に Artifacts をステージングするために使用される場所を制御します。デフォルトは `~/.cache/wandb-data/` です。
 </Accordion>
 </Update>
 
-<Update tags={["projects", "runs"]}>
-<Accordion title="複数の run を一度に削除するにはどうすればいいですか？">
+<Update tags={["Projects", "Runs"]}>
+<Accordion title="一度に 1 つずつではなく、一括で複数の Runs を削除するにはどうすればよいですか？">
 
-[public API](/ja/models/ref/python/public-api/api) を使用して、単一の操作で複数の run を削除します。
+[public API](/models/ref/python/public-api/api) を使用して、1 回の操作で複数の Runs を削除します：
 
 ```python
 import wandb
@@ -926,22 +929,22 @@ api = wandb.Api()
 runs = api.runs('<entity>/<project>')
 for run in runs:
     if <condition>:
-        run.delete()  # 条件が合えば run を削除
+        run.delete()
 ```
 </Accordion>
 </Update>
 
-<Update tags={["user management"]}>
-<Accordion title="ユーザー アカウントを削除するにはどうすればよいですか？">
+<Update tags={["User Management"]}>
+<Accordion title="ユーザーアカウントを削除するにはどうすればよいですか？">
 
-アカウントを削除するには、[ユーザー設定](/ja/platform/app/settings-page/user-settings/#delete-your-account)で **アカウントを削除** をクリックします。この操作は取り消し不可能で、直ちに有効となります。
+[ユーザー設定](/platform/app/settings-page/user-settings#delete-your-account) の **Delete account** をクリックして、ユーザーアカウントを削除します。この操作は取り消し不可能であり、即座に有効になることに注意してください。
 </Accordion>
 </Update>
 
-<Update tags={["metrics", "runs"]}>
-<Accordion title="W&B へのシステムメトリクスのログを無効にするにはどうすればいいですか？">
+<Update tags={["Metrics", "Runs"]}>
+<Accordion title="システムメトリクスの W&B へのログ記録を無効にするにはどうすればよいですか？">
 
-[システムメトリクス](/ja/models/ref/system-metrics/)のログを無効にするには、`_disable_stats` を `True` に設定します:
+[システムメトリクス](/models/ref/python/experiments/system-metrics) のログ記録を無効にするには、`_disable_stats` を `True` に設定します：
 
 ```python
 wandb.init(settings=wandb.Settings(x_disable_stats=True))
@@ -949,27 +952,27 @@ wandb.init(settings=wandb.Settings(x_disable_stats=True))
 </Accordion>
 </Update>
 
-<Update tags={["user management"]}>
-<Accordion title="W&B サーバーにログインするにはどうすればいいですか？">
+<Update tags={["User Management"]}>
+<Accordion title="W&B サーバーにログインするにはどうすればよいですか？">
 
-ログイン URL は、次のいずれかの方法で設定します:
+以下のいずれかの方法でログイン URL を設定します：
 
-- [環境変数](/ja/models/track/environment-variables/) `WANDB_BASE_URL` をサーバーの URL に設定します。
-- [`wandb login`](/ja/models/ref/cli/wandb-login) の `--host` フラグをサーバーの URL に設定します。
+- [環境変数](/models/track/environment-variables) `WANDB_BASE_URL` をサーバー URL に設定します。
+- [`wandb login`](/models/ref/cli/wandb-login) の `--host` フラグをサーバー URL に設定します。
 </Accordion>
 </Update>
 
-<Update tags={["logs", "metrics"]}>
-<Accordion title="以前のステップからのログをどのように上書きできますか？">
+<Update tags={["Logs", "Metrics"]}>
+<Accordion title="以前のステップのログを上書きするにはどうすればよいですか？">
 
-前のステップからのログを上書きするには、[フォーキング](/ja/models/runs/forking/)と[巻き戻し](/ja/models/runs/rewind/)を使用してください。
+以前のステップのログを上書きするには、[Forking](/models/runs/forking) と [Rewind](/models/runs/rewind) を使用します。
 </Accordion>
 </Update>
 
-<Update tags={["metrics", "runs"]}>
-<Accordion title="システム メトリクスをログする頻度をどのように変更できますか？">
+<Update tags={["Metrics", "Runs"]}>
+<Accordion title="システムメトリクスのログ記録頻度を変更するにはどうすればよいですか？">
 
-頻度を設定して[システムメトリクス](/ja/models/ref/system-metrics/)をログするには、`_stats_sampling_interval` を秒数で設定します。これは浮動小数点として表現されます。デフォルトは `10.0` です。
+[システムメトリクス](/models/ref/python/experiments/system-metrics) のログ記録頻度を設定するには、`_stats_sampling_interval` を秒数（float 型）で指定します。デフォルトは `10.0` です。
 
 ```python
 wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
@@ -977,10 +980,10 @@ wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
 </Accordion>
 </Update>
 
-<Update tags={["crashing and hanging runs"]}>
-<Accordion title="`AttributeError: module 'wandb' has no attribute ...` のようなエラーをどのように修正できますか？">
+<Update tags={["Crashing And Hanging Runs"]}>
+<Accordion title="`AttributeError: module 'wandb' has no attribute ...` のようなエラーを修正するにはどうすればよいですか？">
 
-`wandb` を Python でインポートする際に `AttributeError: module 'wandb' has no attribute 'init'` や `AttributeError: module 'wandb' has no attribute 'login'` といったエラーが発生した場合、`wandb` がインストールされていないか、インストールが破損している可能性がありますが、カレントワーキングディレクトリーには `wandb` ディレクトリーが存在しています。このエラーを修正するには、`wandb` をアンインストールし、そのディレクトリーを削除してから `wandb` をインストールしてください:
+Python で `wandb` をインポートする際に `AttributeError: module 'wandb' has no attribute 'init'` や `AttributeError: module 'wandb' has no attribute 'login'` などのエラーが発生する場合、`wandb` がインストールされていないかインストールが壊れていますが、現在の作業ディレクトリーに `wandb` ディレクトリーが存在しています。これを修正するには、`wandb` をアンインストールし、そのディレクトリーを削除してから、`wandb` をインストールし直してください：
 
 ```bash
 pip uninstall wandb; rm -rI wandb; pip install wandb
@@ -988,21 +991,18 @@ pip uninstall wandb; rm -rI wandb; pip install wandb
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="ファイルタブに表示されないファイルを見るにはどうすればよいですか？">
+<Update tags={["Experiments"]}>
+<Accordion title="Files タブに表示されないファイルを見るにはどうすればよいですか？">
 
-Files タブは最大 10,000 個のファイルを表示します。すべてのファイルをダウンロードするには、[パブリック API](/ja/models/ref/python/public-api/api) を使用します。
+Files タブには最大 10,000 ファイルまで表示されます。すべてのファイルをダウンロードするには、[public API](/models/ref/python/public-api/api) を使用してください：
 
 ```python
 import wandb
 
-# APIを使用してエンティティ、プロジェクト、およびrunを取得
 api = wandb.Api()
 run = api.run('<entity>/<project>/<run_id>')
-# 特定のファイルをダウンロード
 run.file('<file>').download()
 
-# 条件に応じたファイルをダウンロード
 for f in run.files():
     if <condition>:
         f.download()
@@ -1010,64 +1010,376 @@ for f in run.files():
 </Accordion>
 </Update>
 
-<Update tags={["resuming", "runs"]}>
-<Accordion title="`resume='must' but run (<run_id>) doesn't exist` エラーをどのように修正しますか？">
+<Update tags={["Resuming", "Runs"]}>
+<Accordion title="`resume='must' but run (<run_id>) doesn't exist` エラーを修正するにはどうすればよいですか？">
 
-`resume='must' but run (<run_id>) doesn't exist` というエラーが発生した場合、再開しようとしている run が Project または Entity 内に存在しません。正しいインスタンスにログインし、Project と Entity が設定されていることを確認してください。
+`resume='must' but run (<run_id>) doesn't exist` というエラーが発生する場合、再開しようとしている Run がプロジェクトまたはエンティティ内に存在しません。正しいインスタンスにログインしていること、およびプロジェクトとエンティティが設定されていることを確認してください：
 
 ```python
 wandb.init(entity=<entity>, project=<project>, id=<run-id>, resume='must')
 ```
 
-[`wandb login --relogin`](/ja/models/ref/cli/wandb-login) を実行して、認証されていることを確認してください。
+[`wandb login --relogin`](/models/ref/cli/wandb-login) を実行して、認証されているか確認してください。
 </Accordion>
 </Update>
 
-<Update tags={["reports"]}>
+<Update tags={["Reports"]}>
 <Accordion title="LaTeX の組み込み">
 
-レポートに LaTeX をシームレスに統合できます。LaTeX を追加するには、新しいレポートを作成し、リッチテキストエリアにコメントを書き始め、カスタム可視化とテーブルを保存します。
+LaTeX はレポートにシームレスに統合できます。LaTeX を追加するには、新しいレポートを作成し、リッチテキストエリアにノートを書き込み、カスタム可視化やテーブルを保存します。
 
-新しい行で「/」を押して、LaTeX コンテンツを挿入するためにインライン方程式タブに移動します。
+新しい行で `/` を押し、インライン数式タブに移動して LaTeX コンテンツを挿入します。
 </Accordion>
 </Update>
 
-<Update tags={["connectivity", "crashing and hanging runs"]}>
-<Accordion title="wandb で run の初期化タイムアウトエラーを解決するにはどうすればいいですか？">
+<Update tags={["Inference"]}>
+<Accordion title="W&B Inference での Invalid Authentication (401) エラーを修正するには？">
 
-run の初期化タイムアウトエラーを解決するには、次の手順を実行してください。
+401 Invalid Authentication エラーは、API キーが無効であるか、W&B プロジェクトのエンティティ/名が正しくないことを意味します。
 
-- **初期化を再試行する**: run を再起動してみてください。
-- **ネットワーク接続を確認する**: 安定したインターネット接続を確認してください。
-- **wandb のバージョンを更新する**: 最新バージョンの wandb をインストールしてください。
-- **タイムアウト設定を増やす**: `WANDB_INIT_TIMEOUT` 環境変数を修正します:
-  
+## APIキー の確認
+
+1. [ユーザー設定](https://wandb.ai/settings) で新しい APIキー を作成します。
+2. APIキー を安全に保管してください。
+
+## プロジェクト設定の確認
+
+プロジェクトが `<your-team>/<your-project>` の形式で正しく記述されているか確認してください：
+
+**Python の例:**
+```python
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="<your-api-key>",
+    project="<your-team>/<your-project>",  # W&B のチームとプロジェクトに一致させる必要があります
+)
+```
+
+**Bash の例:**
+```bash
+curl https://api.inference.wandb.ai/v1/chat/completions \
+  -H "Authorization: Bearer <your-api-key>" \
+  -H "OpenAI-Project: <your-team>/<your-project>"
+```
+
+## よくある間違い
+
+- チーム名の代わりに個人エンティティを使用している
+- チーム名またはプロジェクト名のスペルミス
+- チームとプロジェクトの間のスラッシュ（/）の欠落
+- 期限切れまたは削除された APIキー の使用
+
+## まだ解決しない場合
+
+- W&B アカウントにチームとプロジェクトが存在することを確認してください
+- 指定したチームへのアクセス権があることを確認してください
+- 現在のキーが機能しない場合は、新しい APIキー を作成してみてください
+</Accordion>
+</Update>
+
+<Update tags={["Inference"]}>
+<Accordion title="W&B Inference エラーを処理するためのベストプラクティスは何ですか？">
+
+W&B Inference エラーを適切に処理し、信頼性の高いアプリケーションを維持するために、以下のベストプラクティスに従ってください。
+
+## 1. 常にエラーハンドリングを実装する
+
+API 呼び出しを try-except ブロックで囲みます：
+
+```python
+import openai
+
+try:
+    response = client.chat.completions.create(
+        model="meta-llama/Llama-3.1-8B-Instruct",
+        messages=messages
+    )
+except Exception as e:
+    print(f"Error: {e}")
+    # 適切にエラーを処理
+```
+
+## 2. 指数バックオフを伴うリトライロジックを使用する
+
+```python
+import time
+from typing import Optional
+
+def call_inference_with_retry(
+    client, 
+    messages, 
+    model: str,
+    max_retries: int = 3,
+    base_delay: float = 1.0
+) -> Optional[str]:
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=messages
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            
+            # 指数バックオフによる遅延を計算
+            delay = base_delay * (2 ** attempt)
+            print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
+            time.sleep(delay)
+    
+    return None
+```
+
+## 3. 使用状況の監視
+
+- W&B 請求（Billing）ページでクレジット使用量を追跡します。
+- 制限に達する前にアラートを設定します。
+- アプリケーションで API 使用状況をログに記録します。
+
+## 4. 特定のエラーコードの処理
+
+```python
+def handle_inference_error(error):
+    error_str = str(error)
+    
+    if "401" in error_str:
+        # 認証無効
+        raise ValueError("APIキー とプロジェクト設定を確認してください")
+    elif "402" in error_str:
+        # クレジット不足
+        raise ValueError("クレジットが不足しています")
+    elif "429" in error_str:
+        # レート制限
+        return "retry"
+    elif "500" in error_str or "503" in error_str:
+        # サーバーエラー
+        return "retry"
+    else:
+        # 未知のエラー
+        raise
+```
+
+## 5. 適切なタイムアウトの設定
+
+ユースケースに合わせて合理的なタイムアウトを設定してください：
+
+```python
+# 長いレスポンスの場合
+client = openai.OpenAI(
+    base_url='https://api.inference.wandb.ai/v1',
+    api_key="your-api-key",
+    timeout=60.0  # 60秒のタイムアウト
+)
+```
+
+## その他のヒント
+
+- デバッグのためにタイムスタンプ付きでエラーを記録します。
+- 並行処理をより良く扱うために非同期（async）操作を使用します。
+- 本番システムにはサーキットブレーカーを実装します。
+- 必要に応じてレスポンスをキャッシュし、API 呼び出しを削減します。
+</Accordion>
+</Update>
+
+<Update tags={["Inference"]}>
+<Accordion title="W&B Inference でクォータ不足エラー (402) が発生するのはなぜですか？">
+
+クォータ不足エラー (402) は、プランの残存クレジットがなくなったときに発生します。
+
+**エラー:** "You exceeded your current quota, please check your plan and billing details"
+
+**解決策:**
+
+- W&B 請求（Billing）ページでクレジット残高を確認してください。
+- クレジットを追加購入するか、プランをアップグレードしてください。
+- [サポート](https://wandb.ai/site/contact) に制限の引き上げを依頼してください。
+
+</Accordion>
+</Update>
+
+<Update tags={["Inference"]}>
+<Accordion title="W&B Inference で国または地域がサポートされていないと言われるのはなぜですか？">
+
+「Country, region, or territory not supported」というメッセージを伴う 403 エラーは、サポートされていない場所から W&B Inference にアクセスしていることを意味します。
+
+## 発生の理由
+
+W&B Inference は、コンプライアンスおよび規制要件により地理的な制限があります。サービスは、サポートされている地理的な場所からのみアクセス可能です。
+
+## 対処法
+
+1. **利用規約の確認**
+   - サポートされている場所の最新リストについては、[利用規約](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions) を確認してください。
+
+2. **サポートされている場所からの利用**
+   - サポートされている国または地域にいるときにサービスにアクセスしてください。
+   - サポートされている場所にある組織のリソースの使用を検討してください。
+
+3. **担当チームへの連絡**
+   - エンタープライズプランをご利用の場合は、担当の Account Executive にオプションを相談できます。
+   - 組織によっては特別な取り決めがある場合があります。
+
+## エラーの詳細
+
+このエラーが表示される場合：
+```
+{
+  "error": {
+    "code": 403,
+    "message": "Country, region, or territory not supported"
+  }
+}
+```
+
+これは、API リクエスト時の IP アドレスの場所によって判断されます。
+</Accordion>
+</Update>
+
+<Update tags={["Inference"]}>
+<Accordion title="W&B Inference でレート制限エラー (429) が発生するのはなぜですか？">
+
+レート制限エラー (429) は、同時実行制限を超えたときに発生します。
+
+**エラー:** "Concurrency limit reached for requests"
+
+**解決策:**
+- 並列リクエストの数を減らします。
+- リクエスト間に遅延を追加します。
+- 指数バックオフを実装します。
+- 注意：レート制限は W&B プロジェクトごとに適用されます。
+
+## レート制限を避けるためのベストプラクティス
+
+1. **指数バックオフを伴うリトライロジックの実装:**
+   ```python
+   import time
+   
+   def retry_with_backoff(func, max_retries=3):
+       for i in range(max_retries):
+           try:
+               return func()
+           except Exception as e:
+               if "429" in str(e) and i < max_retries - 1:
+                   time.sleep(2 ** i)
+               else:
+                   raise
+   ```
+
+2. **並列リクエストの代わりにバッチ処理を使用する**
+
+3. **W&B 請求（Billing）ページで利用状況を監視する**
+
+## デフォルトの支出上限
+
+- **Pro アカウント:** $6,000/月
+- **Enterprise アカウント:** $700,000/年
+
+制限を調整するには、担当の Account Executive またはサポートに連絡してください。
+</Accordion>
+</Update>
+
+<Update tags={["Inference"]}>
+<Accordion title="W&B Inference でサーバーエラー (500, 503) が発生した場合の修正方法は？">
+
+サーバーエラーは、W&B Inference サービスの一時的な問題を示しています。
+
+## エラータイプ
+
+### 500 - Internal Server Error
+**メッセージ:** "The server had an error while processing your request"
+
+これはサーバー側の一時的な内部エラーです。
+
+### 503 - Service Overloaded
+**メッセージ:** "The engine is currently overloaded, please try again later"
+
+サービスが高トラフィックの状態にあります。
+
+## サーバーエラーの処理方法
+
+1. **再試行する前に待機する**
+   - 500 エラー: 30〜60 秒待機します。
+   - 503 エラー: 60〜120 秒待機します。
+
+2. **指数バックオフを使用する**
+   ```python
+   import time
+   import openai
+   
+   def call_with_retry(client, messages, model, max_retries=5):
+       for attempt in range(max_retries):
+           try:
+               return client.chat.completions.create(
+                   model=model,
+                   messages=messages
+               )
+           except Exception as e:
+               if "500" in str(e) or "503" in str(e):
+                   if attempt < max_retries - 1:
+                       wait_time = min(60, (2 ** attempt))
+                       time.sleep(wait_time)
+                   else:
+                       raise
+               else:
+                   raise
+   ```
+
+3. **適切なタイムアウトの設定**
+   - HTTP クライアントのタイムアウト値を増やします。
+   - 処理を改善するために非同期操作を検討してください。
+
+## サポートに連絡すべきタイミング
+
+以下の場合、サポートに連絡してください：
+- エラーが 10 分以上続く場合
+- 特定の時間帯に失敗するパターンが見られる場合
+- エラーメッセージに追加の詳細が含まれている場合
+
+提供していただきたい情報：
+- エラーメッセージとコード
+- エラーが発生した時刻
+- コードスニペット（APIキー は削除してください）
+- W&B のエンティティ名とプロジェクト名
+</Accordion>
+</Update>
+
+<Update tags={["Connectivity", "Crashing And Hanging Runs"]}>
+<Accordion title="wandb での Run 初期化タイムアウトエラーを解決するには？">
+
+Run の初期化タイムアウトエラーを解決するには、以下の手順に従ってください：
+
+- **初期化の再試行**: Run を再開してみてください。
+- **ネットワーク接続の確認**: 安定したインターネット接続を確認してください。
+- **wandb バージョンの更新**: 最新バージョンの wandb をインストールしてください。
+- **タイムアウト設定の引き上げ**: `WANDB_INIT_TIMEOUT` 環境変数を変更します：
   ```python
   import os
   os.environ['WANDB_INIT_TIMEOUT'] = '600'
   ```
-
-- **デバッグを有効にする**: 詳細なログを取得するために `WANDB_DEBUG=true` と `WANDB_CORE_DEBUG=true` を設定します。
-- **設定を確認する**: API キーとプロジェクト設定が正しいことを確認してください。
-- **ログを確認する**: `debug.log`, `debug-internal.log`, `debug-core.log`, `output.log` を検査してエラーを確認してください。
+- **デバッグの有効化**: 詳細なログを取得するために `WANDB_DEBUG=true` および `WANDB_CORE_DEBUG=true` を設定します。
+- **設定の検証**: APIキー とプロジェクト設定が正しいか確認してください。
+- **ログの確認**: エラーの詳細について `debug.log`、`debug-internal.log`、`debug-core.log`、および `output.log` を検査してください。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="InitStartError: wandb プロセスとの通信エラー">
+<Update tags={["Experiments"]}>
+<Accordion title="InitStartError: Error communicating with wandb process">
 
-このエラーは、ライブラリがサーバーにデータを同期するプロセスの起動に問題があることを示しています。
+このエラーは、データをサーバーと同期させるプロセスの起動にライブラリが失敗したことを示しています。
 
-以下の回避策は、特定の環境で問題を解決します。
+特定の環境では、以下の回避策で問題が解決します：
 
 <Tabs>
-<Tab title="Linux and OS X">
+<Tab title="Linux および OS X">
 ```python
 wandb.init(settings=wandb.Settings(start_method="fork"))
 ```
+
 </Tab>
 <Tab title="Google Colab">
-バージョン `0.13.0` より前のものには、次を使用してください：
+
+`0.13.0` より前のバージョンの場合は、以下を使用してください：
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
@@ -1077,163 +1389,187 @@ wandb.init(settings=wandb.Settings(start_method="thread"))
 </Accordion>
 </Update>
 
-<Update tags={["reports", "wysiwyg", "tables"]}>
+<Update tags={["Reports", "Wysiwyg", "Tables"]}>
 <Accordion title="テーブルを挿入するにはどうすればよいですか？">
 
-Markdown からの直接的な WYSIWYG 相当の機能がない唯一のものがテーブルとして残っています。テーブルを追加するには、Markdown ブロックを挿入し、その中にテーブルを作成します。
+Tables は、Markdown の機能の中で直接的な WYSIWYG 版が存在しない唯一の機能です。テーブルを追加するには、Markdown ブロックを挿入し、その中でテーブルを作成してください。
 </Accordion>
 </Update>
 
-<Update tags={["python"]}>
-<Accordion title="gcc が環境にない場合、wandb Python ライブラリをインストールする方法は？">
+<Update tags={["Python"]}>
+<Accordion title="gcc のない環境で wandb Python ライブラリをインストールするにはどうすればよいですか？">
 
-`wandb` をインストールする際に以下のエラーが発生した場合:
+`wandb` のインストール中に以下のようなエラーが発生した場合：
 
 ```
 unable to execute 'gcc': No such file or directory
 error: command 'gcc' failed with exit status 1
 ```
 
-プリビルドのホイールから `psutil` を直接インストールしてください。Python バージョンとオペレーティングシステムを [https://pywharf.github.io/pywharf-pkg-repo/psutil](https://pywharf.github.io/pywharf-pkg-repo/psutil) で確認してください。
+プリビルドされた Wheel から直接 `psutil` をインストールしてください。お使いの Python バージョンと OS に適したものを [https://pywharf.github.io/pywharf-pkg-repo/psutil](https://pywharf.github.io/pywharf-pkg-repo/psutil) で確認してください。
 
-例えば、Linux 上で Python 3.8 の場合、`psutil` をインストールするには:
+例えば、Linux 上の Python 3.8 に `psutil` をインストールする場合：
 
 ```bash
 WHEEL_URL=https://github.com/pywharf/pywharf-pkg-repo/releases/download/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl#sha256=adc36dabdff0b9a4c84821ef5ce45848f30b8a01a1d5806316e068b5fd669c6d
 pip install $WHEEL_URL
 ```
 
-`psutil` をインストールした後、`pip install wandb` を実行して `wandb` のインストールを完了してください。
+`psutil` のインストール後、`pip install wandb` を実行して `wandb` のインストールを完了させます。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="プロジェクトに W&B を統合したいが、画像やメディアをアップロードしたくない場合はどうすればいいですか？">
+<Update tags={["Experiments"]}>
+<Accordion title="W&B をプロジェクトに統合したいのですが、画像やメディアをアップロードしたくない場合は？">
 
-W&B は、アップロードするファイルまたはデータの明示的な指定を許可することにより、スカラーのみをログする Projects をサポートしています。画像を使用せずにログを行う [PyTorch の例](http://wandb.me/pytorch-colab) を参照してください。
+W&B は、アップロードするファイルやデータを明示的に指定できるようにすることで、スカラー（scalar）のみを記録するプロジェクトもサポートしています。画像を使用せずにログを記録する方法を示す、[PyTorch での例](https://wandb.me/pytorch-colab) を参照してください。
 </Accordion>
 </Update>
 
-<Update tags={["environment variables"]}>
-<Accordion title="モデルのトレーニング中にインターネット接続が切れた場合、何が起こりますか？">
+<Update tags={["Environment Variables", "Outage"]}>
+<Accordion title="モデルのトレーニング中にインターネット接続が失われたらどうなりますか？">
 
-ライブラリがインターネットに接続できない場合、再試行ループに入り、ネットワークが復旧するまでメトリクスのストリームを試み続けます。この間、プログラムは実行を継続します。
+ライブラリがインターネットに接続できない場合、リトライループに入り、ネットワークが復旧するまでメトリクスのストリーミングを試み続けます。その間もプログラムは実行を継続します。
 
-インターネットなしでマシン上で実行するには、`WANDB_MODE=offline` を設定します。この設定は、メトリクスをローカルのハードドライブに保存します。その後、`wandb sync ディレクトリー` を呼び出して、データをサーバーにストリームします。
+インターネットのないマシンで実行するには、`WANDB_MODE=offline` を設定します。この設定では、メトリクスはハードドライブにローカル保存されます。後で `wandb sync DIRECTORY` を呼び出すことで、データをサーバーにストリーミングできます。
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "team management"]}>
-<Accordion title="W&B の Team に参加するにはどうすればいいですか？">
+<Update tags={["Administrator", "Team Management"]}>
+<Accordion title="W&B でチームに追加してもらうにはどうすればよいですか？">
 
 チームに参加するには、以下の手順に従ってください：
 
-- 招待を依頼するために、チームの管理者または管理者権限を持つ人に連絡します。
-- チームに参加するための指示が記載された招待メールを確認し、指示に従ってください。
+- チーム管理者または管理権限を持つ人に連絡して、招待を依頼してください。
+- 招待メールを確認し、指示に従ってチームに参加してください。
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "team management", "metrics"]}>
-<Accordion title="メトリクスをログするだけで、コードやDatasetsの例は必要ありませんか?">
+<Update tags={["Administrator", "Team Management", "Metrics"]}>
+<Accordion title="コードやデータセットの例を除いて、メトリクスのみを記録することはできますか？">
 
-デフォルトでは、W&B は Datasets の例をログしません。デフォルトで、W&B はコードとシステムメトリクスをログします。
+デフォルトでは、W&B はデータセットの例を記録しませんが、コードとシステムメトリクスは記録します。
 
-環境変数でコードログをオフにする方法が2つあります：
+環境変数を使用してコードのログ記録をオフにする方法は 2 つあります：
 
-1. `WANDB_DISABLE_CODE` を `true` に設定して、すべてのコード追跡をオフにします。この操作により、git SHA と差分パッチの取得が防止されます。
-2. `WANDB_IGNORE_GLOBS` を `*.patch` に設定して、アプリケーションを使用して `wandb restore` でローカルに保存し続ける一方で、サーバーへの差分パッチの同期を停止します。
+1. `WANDB_DISABLE_CODE` を `true` に設定して、すべてのコード追跡をオフにします。これにより、Git SHA や diff パッチの取得が行われなくなります。
+2. `WANDB_IGNORE_GLOBS` を `*.patch` に設定して、diff パッチのサーバーへの同期を停止します。ローカルには残るため、`wandb restore` で適用可能です。
 
-管理者として、Teams の設定でコード保存をオフにすることもできます：
+管理者は、チーム設定でチーム全体のコード保存をオフにすることもできます：
 
-1. `https://wandb.ai/<team>/settings` にある Teams の設定に移動します。`<team>` はチームの名前です。
-2. プライバシーセクションまでスクロールします。
-3. **Enable code saving by default** を切り替えます。
+1. `https://wandb.ai/<team>/settings` からチームの設定に移動します（`<team>` はチーム名）。
+2. Privacy セクションまでスクロールします。
+3. **Enable code saving by default** のトグルをオフにします。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="ラン名を run ID に設定するだけでいいのですか？">
+<Update tags={["Experiments"]}>
+<Accordion title="Run 名を Run ID と同じに設定できますか？">
 
-はい。 run ID で run 名を上書きするには、次のコードスニペットを使用します:
+はい。Run 名を Run ID で上書きするには、以下のコードスニペットを使用してください：
 
 ```python
 import wandb
 
-wandb.init()
-wandb.run.name = wandb.run.id
-wandb.run.save()
+with wandb.init() as run:
+   run.name = run.id
+   run.save()
 ```
 </Accordion>
 </Update>
 
-<Update tags={["crashing and hanging runs"]}>
-<Accordion title="wandb でジョブを終了するにはどうすればいいですか？">
+<Update tags={["Crashing And Hanging Runs"]}>
+<Accordion title="W&B でジョブを強制終了するにはどうすればよいですか？">
 
-キーボードで `Ctrl+D` を押して、W&B を使用したスクリプトを停止します。
+W&B が組み込まれたスクリプトを停止するには、キーボードで `Ctrl+D` を押します。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="1 つのスクリプトから複数の run をどうやってローンチしますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="1 つのスクリプトから複数の Runs を開始するにはどうすればよいですか？">
 
-`wandb.init` と `run.finish()` を使用して、単一のスクリプト内で複数の run をログする方法:
+1 つのスクリプト内で複数の Runs を記録するには、新しい Run を開始する前に前の Run を終了させる必要があります。
 
-1. `run = wandb.init(reinit=True)` を使用して、run の再初期化を許可します。
-2. 各 run の最後に `run.finish()` を呼び出して、ログを完了します。
+推奨される方法は、`wandb.init()` をコンテキストマネージャーとして使用することです。これにより、Run が自動的に終了し、スクリプトで例外が発生した場合は失敗としてマークされます。
 
 ```python
 import wandb
 
 for x in range(10):
-    run = wandb.init(reinit=True)
-    for y in range(100):
-        wandb.log({"metric": x + y})
-    run.finish()
-```
-
-または、Python のコンテキストマネージャを利用して自動的にログを完了します:
-
-```python
-import wandb
-
-for x in range(10):
-    run = wandb.init(reinit=True)
-    with run:
+    with wandb.init() as run:
         for y in range(100):
             run.log({"metric": x + y})
 ```
+
+また、明示的に `run.finish()` を呼び出すこともできます：
+
+```python
+import wandb
+
+for x in range(10):
+    run = wandb.init()
+
+    try:
+        for y in range(100):
+            run.log({"metric": x + y})
+
+    except Exception:
+        run.finish(exit_code=1)
+        raise
+
+    finally:
+        run.finish()
+```
+
+## 複数のアクティブな Runs
+
+wandb 0.19.10 以降では、`reinit` 設定を `"create_new"` に設定することで、複数の Run を同時にアクティブにできます。
+
+```python
+import wandb
+
+with wandb.init(reinit="create_new") as tracking_run:
+    for x in range(10):
+        with wandb.init(reinit="create_new") as run:
+            for y in range(100):
+                run.log({"x_plus_y": x + y})
+
+            tracking_run.log({"x": x})
+```
+
+`reinit="create_new"` に関する詳細や、W&B インテグレーションに関する注意点については、[1つのプロセスで複数のRunsを実行する](/models/runs/initialize-run) を参照してください。
 </Accordion>
 </Update>
 
-<Update tags={["administrator"]}>
-<Accordion title="ローカルインスタンスで問題が発生した場合、どのファイルをチェックすればよいですか？">
+<Update tags={["Administrator"]}>
+<Accordion title="ローカルインスタンスで問題が発生した際、どのファイルをチェックすべきですか？">
 
-`Debug Bundle` を確認してください。管理者は、右上の W&B アイコンを選択後、`Debug Bundle` を選ぶことで `/system-admin` ページから取得できます。
+`Debug Bundle` を確認してください。管理者は、右上隅の W&B アイコンから `/system-admin` ページに移動し、`Debug Bundle` を選択することで取得できます。
 
 <Frame>
-    <img src="/images/technical_faq/local_system_settings.png" alt="ローカルインスタンスの管理者としてシステム 設定 ページにアクセスする"  />
+<img src="/images/technical_faq/debug_bundle.png" alt="Debug Bundle download" />
 </Frame>
 <Frame>
-    <img src="/images/technical_faq/debug_bundle.png" alt="ローカルインスタンスの管理者として Debug Bundle をダウンロードする"  />
+<img src="/images/technical_faq/local_system_settings.png" alt="System settings" />
 </Frame>
 </Accordion>
 </Update>
 
-<Update tags={["runs", "metrics"]}>
-<Accordion title="run が完了した後に追加のメトリクスをログするにはどうすればいいですか？">
+<Update tags={["Runs", "Metrics"]}>
+<Accordion title="Run 完了後に追加のメトリクスをログに記録するにはどうすればよいですか？">
 
-実験管理にはいくつかの方法があります。
+実験を管理する方法はいくつかあります。
 
-複雑なワークフローの場合、複数の run を使用し、[`wandb.init`](/ja/models/track/create-an-experiment/) でグループパラメータを設定し、すべてのプロセスに対して一意の値を持たせます。これにより、[**Runs** タブ](/ja/models/track/project-page/#runs-tab) はテーブルをグループ ID でまとめ、可視化を正しく機能させます。このアプローチでは、結果を 1 か所にログしながら、同時に実験とトレーニング run を行うことができます。
+複雑なワークフローの場合は、複数の Runs を使用し、[`wandb.init()`](/models/track/create-an-experiment) のグループパラメータを単一の実験内のすべてのプロセスで共通のユニークな値に設定します。[**Runs** タブ](/models/track/project-page#runs-tab) ではテーブルがグループ ID でグループ化され、可視化が適切に機能します。このアプローチにより、並行する実験やトレーニング Run を行いながら、結果を 1 か所に記録できます。
 
-よりシンプルなワークフローの場合、`wandb.init` を `resume=True` および `id=UNIQUE_ID` とともに呼び出し、同じ `id=UNIQUE_ID` でもう一度 `wandb.init` を呼び出します。通常通り [`wandb.log`](/ja/models/track/log/) または `wandb.summary` でログを記録し、run の値はそれに応じて更新されます。
+より単純なワークフローの場合は、`resume=True` と `id=UNIQUE_ID` を指定して `wandb.init()` を呼び出し、その後同じ `id=UNIQUE_ID` で再度 `wandb.init()` を呼び出します。通常通り [`run.log()`](/models/track/log/) や `run.summary()` でログを記録すれば、Run の値が適切に更新されます。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="既存の run に Artifacts をログするにはどうすればよいですか？">
+<Update tags={["Artifacts"]}>
+<Accordion title="既存の Run に Artifact をログ記録するにはどうすればよいですか？">
 
-時々、以前にログを記録した run の出力としてアーティファクトをマークする必要があります。この場合、古い run を再初期化し、新しいアーティファクトを次のようにログします:
+以前に記録した Run の出力として Artifact をマークする必要がある場合があります。その場合は、以下のように古い Run を再初期化して新しい Artifacts を記録します：
 
 ```python
 with wandb.init(id="existing_run_id", resume="allow") as run:
@@ -1244,201 +1580,258 @@ with wandb.init(id="existing_run_id", resume="allow") as run:
 </Accordion>
 </Update>
 
-<Update tags={["runs", "logs"]}>
-<Accordion title="継続的なインテグレーションや内部ツールによってローンンチされた run をどのようにログしますか？">
+<Update tags={["Runs", "Logs"]}>
+<Accordion title="継続的インテグレーション（CI）や内部ツールから起動された Runs をログに記録するにはどうすればよいですか？">
 
-W&B にログを記録する自動テストや内部ツールをローンチするには、チーム設定ページで **Service Account** を作成します。このアクションにより、継続的インテグレーションを通じて実行されるものを含む自動化されたジョブのためのサービス API キーの使用が可能になります。サービスアカウントジョブを特定のユーザーに帰属させるには、`WANDB_USERNAME` または `WANDB_USER_EMAIL` 環境変数を設定します。
+W&B にログを記録する自動テストや内部ツールを起動するには、チーム設定ページで **Service Account** を作成します。これにより、継続的インテグレーションを通じて実行されるジョブを含む自動化されたジョブにサービス APIキー を使用できるようになります。サービスアカウントのジョブを特定のユーザーに紐付けるには、`WANDB_USERNAME` または `WANDB_USER_EMAIL` 環境変数を設定してください。
 
 <Frame>
-    <img src="/images/track/common_questions_automate_runs.png" alt="自動化されたジョブのためにチーム設定ページでサービスアカウントを作成する"  />
+<img src="/images/track/common_questions_automate_runs.png" alt="Creating service account" />
 </Frame>
 </Accordion>
 </Update>
 
-<Update tags={["logs", "experiments"]}>
-<Accordion title="値のリストをログするにはどうすればよいですか？">
+<Update tags={["Logs", "Experiments"]}>
+<Accordion title="値のリストをログに記録するにはどうすればよいですか？">
 
-これらの例は、異なる方法で損失をログとして記録する [`wandb.log()`](/ja/models/ref/python/log/) の使い方を示しています。
+以下の例では、[`wandb.Run.log()`](/models/ref/python/experiments/run/#method-runlog/) を使用して損失（losses）をログに記録するいくつかの方法を示しています。
+
 <Tabs>
-<Tab title="辞書を使う">
+<Tab title="辞書（dictionary）を使用する場合">
 ```python
-wandb.log({f"losses/loss-{ii}": loss for ii, 
-  loss in enumerate(losses)})
+import wandb
+
+# 新しい run を初期化
+with wandb.init(project="log-list-values", name="log-dict") as run:
+    # 損失をリストとして辞書でログに記録
+    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+    run.log({"losses": losses})
+    run.log({f"losses/loss-{ii}": loss for ii, loss in enumerate(losses)})
 ```
 </Tab>
 <Tab title="ヒストグラムとして">
 ```python
-# 損失をヒストグラムに変換します
-wandb.log({"losses": wandb.Histogram(losses)})  
+import wandb
+
+# 新しい run を初期化
+with wandb.init(project="log-list-values", name="log-hist") as run:
+    # 損失をヒストグラムとしてログに記録
+    losses = [0.1, 0.2, 0.3, 0.4, 0.5]
+    run.log({"losses": wandb.Histogram(losses)})
 ```
 </Tab>
 </Tabs>
 
-詳細は [ログのドキュメント](/ja/models/track/log/) を参照してください。
+詳細は [ログ記録に関するドキュメント](/models/track/log/) を参照してください。
 </Accordion>
 </Update>
 
-<Update tags={["runs"]}>
-<Accordion title="時間とともに変化しない、最終評価の精度などの指標をどのように記録できますか？">
+<Update tags={["Runs"]}>
+<Accordion title="最終評価精度のような、時間経過で変化しないメトリクスを記録するにはどうすればよいですか？">
 
-`wandb.log({'final_accuracy': 0.9})` を使用すると、最終精度が正しく更新されます。デフォルトでは、`wandb.log({'final_accuracy': <値>})` は `wandb.settings['final_accuracy']` を更新し、これは実行テーブルの値を反映します。
+`run.log({'final_accuracy': 0.9})` を使用すると、最終精度が正しく更新されます。デフォルトでは、`run.log({'final_accuracy': <value>})` は `run.settings['final_accuracy']` を更新し、これが Runs テーブルに反映されます。
 </Accordion>
 </Update>
 
-<Update tags={["experiments", "metrics"]}>
-<Accordion title="エポックごとだけメトリクスをログし、バッチごとのメトリクスのログを避けたい場合はどうすればよいですか？">
+<Update tags={["Experiments", "Metrics"]}>
+<Accordion title="バッチごととエポックごとに異なるメトリクスを記録したい場合は？">
 
-各バッチで特定のメトリクスをログし、プロットを標準化するために、希望する x 軸の値とメトリクスを一緒にログします。カスタムプロットで編集をクリックし、カスタム x 軸を選択してください。
+各バッチで特定のメトリクスを記録し、プロットを標準化するには、メトリクスと一緒に希望する X 軸の値を記録します。カスタムプロットで「edit」をクリックし、カスタム X 軸を選択します。
 
 ```python
-wandb.log({"batch": batch_idx, "loss": 0.3})
-wandb.log({"epoch": epoch, "val_acc": 0.94})
+import wandb
+
+with wandb.init() as run:
+    run.log({"batch": batch_idx, "loss": 0.3})
+    run.log({"epoch": epoch, "val_acc": 0.94})
 ```
 </Accordion>
 </Update>
 
-<Update tags={["experiments", "metrics"]}>
-<Accordion title="メトリクスを異なる時間スケールでログすることはできますか？">
+<Update tags={["Experiments", "Metrics"]}>
+<Accordion title="2 つの異なる時間軸でメトリクスを記録できますか？">
 
-バッチごとのトレーニング精度とエポックごとの検証精度をログに記録したい場合を考えてみましょう。
+例えば、バッチごとにトレーニング精度を、エポックごとに検証精度を記録したい場合です。
 
-はい、`batch` や `epoch` のようなインデックスをメトリクスと一緒にログに記録できます。`wandb.log({'train_accuracy': 0.9, 'batch': 200})` を使って、一つのステップで記録し、`wandb.log({'val_accuracy': 0.8, 'epoch': 4})` を別のステップで使用します。 UI では、各チャートの x 軸として目的の値を設定します。特定のインデックスに対してデフォルトの x 軸を設定するには、[Run.define_metric()](/ja/models/ref/python/run#define_metric) を使用します。提供された例に対しては、以下のコードを使用します。
+はい、メトリクスと一緒に `batch` や `epoch` のようなインデックスを記録してください。あるステップで `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` を呼び出し、別のステップで `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` を呼び出します。UI では、各チャートに対して希望する値を X 軸として設定してください。特定のインデックスをデフォルトの X 軸として設定するには、[Run.define_metric()](/models/ref/python/experiments/run#define_metric) を使用します。この例では、以下のコードを使用します：
 
 ```python
-wandb.init()
+import wandb
 
-wandb.define_metric("batch")
-wandb.define_metric("epoch")
+with wandb.init() as run:
+   run.define_metric("batch")
+   run.define_metric("epoch")
 
-wandb.define_metric("train_accuracy", step_metric="batch")
-wandb.define_metric("val_accuracy", step_metric="epoch")
+   run.define_metric("train_accuracy", step_metric="batch")
+   run.define_metric("val_accuracy", step_metric="epoch")
 ```
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="何百万ものステップを W&B にログするとどうなりますか？ブラウザ上ではどのようにレンダリングされますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="数百万ステップを W&B に記録するとどうなりますか？ブラウザではどのようにレンダリングされますか？">
 
-グラフに送信されるポイントの数は、UI の読み込み時間に影響を与えます。1,000 ポイントを超えるラインでは、バックエンドがデータを 1,000 ポイントにサンプリングしてからブラウザに送信します。このサンプリングは非決定論的であり、ページを更新するたびに異なるサンプルポイントとなります。
+送信されるデータポイントの数は、UI のグラフの読み込み時間に影響します。1,000 ポイントを超える折れ線グラフの場合、バックエンドはブラウザに送信する前にデータを 1,000 ポイントにダウンサンプリングします。このサンプリングは非決定的であるため、ページをリフレッシュするたびにサンプリングされるポイントが異なる場合があります。
 
-1 メトリクスあたり 10,000 ポイント未満のログを記録してください。1 行に 100 万ポイントを超えてログを記録すると、ページの読み込み時間が大幅に増加します。この [Colab](http://wandb.me/log-hf-colab) で、正確性を犠牲にせずにログのフットプリントを最小化するための戦略を探ってください。500 列以上の config とサマリーメトリクスがある場合、テーブルに表示されるのは 500 列のみです。
+1 つのメトリクスにつき 10,000 ポイント未満に抑えるようにしてください。1 つの線で 100 万ポイント以上を記録すると、ページの読み込み時間が大幅に長くなります。精度を犠牲にせずにログのフットプリントを最小限に抑える戦略については、こちらの [Colab](https://wandb.me/log-hf-colab) を参照してください。設定（config）やサマリーメトリクスが 500 カラムを超えると、テーブルには 500 までしか表示されません。
 </Accordion>
 </Update>
 
-<Update tags={["team management"]}>
-<Accordion title="個人のEntityとチームのEntityにログを取るのはいつにすべきですか？">
+<Update tags={["Team Management"]}>
+<Accordion title="個人エンティティとチームエンティティのどちらに記録すべきですか？">
 
-個人の Entities は、2024年5月21日以降に作成されたアカウントでは利用できません。 W&B は、全てのユーザーに対して、結果の共有を可能にするため、新しい Projects を Team にログすることを推奨しています。
+個人エンティティ（Personal Entities）は、2024 年 5 月 21 日以降に作成されたアカウントでは利用できません。W&B は、結果を共有できるように、すべての Users が新しいプロジェクトを Teams に記録することを推奨しています。
 </Accordion>
 </Update>
 
-<Update tags={["logs"]}>
-<Accordion title="共有マシンで正しい wandb User にログするにはどうすればよいですか？">
+<Update tags={["Logs"]}>
+<Accordion title="共有マシンで正しい W&B ユーザーとしてログを記録するには？">
 
-共有マシンを使用する場合、`WANDB_API_KEY` 環境変数を設定して認証を行うことで、正しい WandB アカウントに run がログを生成するようにしてください。環境でソースされている場合、この変数はログイン時に正しい認証情報を提供します。あるいは、スクリプト内で直接環境変数を設定することもできます。
+共有マシンを使用する際、認証のために `WANDB_API_KEY` 環境変数を設定することで、Runs が正しい W&B アカウントに記録されるようにします。環境でソース指定されている場合、この変数はログイン時に正しい認証情報を提供します。または、スクリプト内で直接環境変数を設定することもできます。
 
-`export WANDB_API_KEY=X` コマンドを実行し、X をあなたの API キーに置き換えてください。ログインしているユーザーは、自分の API キーを [wandb.ai/authorize](https://app.wandb.ai/authorize) で見つけることができます。
+コマンド `export WANDB_API_KEY=X` を実行してください（X はあなたの APIキー に置き換えてください）。APIキー は [wandb.ai/settings](https://wandb.ai/settings) で作成できます。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="トレーニングを妨げるログはありますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="ログの記録はトレーニングをブロックしますか？">
 
-" ロギング機能は遅延するのでしょうか？ローカルの操作を実行しながら、結果を サーバー に送信する際にネットワークに依存したくありません。"
+「ログ機能は遅延実行されますか？ローカル操作の実行中に、サーバーに結果を送信するためにネットワークに依存したくありません。」
 
-`wandb.log` 関数はローカルファイルに1行を書き込み、ネットワークコールをブロックしません。`wandb.init` を呼び出すと、同じマシン上で新しいプロセスが開始されます。このプロセスはファイルシステムの変更を監視し、Web サービスと非同期で通信することで、ローカル操作が中断されることなく続行できるようにします。
+`wandb.log` 関数はローカルファイルに 1 行書き込むだけで、ネットワーク呼び出しをブロックしません。`wandb.init` を呼び出すと、同じマシン上で新しいプロセスが開始されます。このプロセスがファイルシステムの変更を監視し、ウェブサービスと非同期に通信するため、ローカル操作は中断されることなく継続されます。
 </Accordion>
 </Update>
 
-<Update tags={["logs"]}>
-<Accordion title="ログをオフにするにはどうすればいいですか？">
+<Update tags={["Logs"]}>
+<Accordion title="ログ記録をオフにするにはどうすればよいですか？">
 
-`wandb offline` コマンドは、環境変数 `WANDB_MODE=offline` を設定し、データがリモート W&B サーバーと同期されないようにします。このアクションはすべての Projects に影響を与え、データの W&B サーバーへのログを停止します。
+コマンド `wandb offline` は環境変数 `WANDB_MODE=offline` を設定し、リモートの W&B サーバーへのデータ同期を防ぎます。この操作はすべてのプロジェクトに影響し、W&B サーバーへのデータログ記録を停止します。
 
-警告メッセージを抑制するには、以下のコードを使用します。
+警告メッセージを抑制するには、以下のコードを使用してください：
 
 ```python
 import logging
 
-# ロガーを取得
 logger = logging.getLogger("wandb")
-# ログレベルを WARNING に設定
 logger.setLevel(logging.WARNING)
 ```
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "billing", "team management"]}>
-<Accordion title="チームプランに月額サブスクリプションオプションはありますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="特定の文字を含むメトリクスをソートやフィルタリングできないのはなぜですか？">
+
+W&B のメトリクス名は、UI で正しくソートおよびフィルタリングできるように、GraphQL の命名規則に従う必要があります。
+
+## 有効なメトリクス名
+
+* **使用可能な文字**: 英文字 (A-Z, a-z)、数字 (0-9)、アンダースコア (_)
+* **先頭の文字**: 名前は英文字またはアンダースコアで始まる必要があります
+* **パターン**: メトリクス名は `/^[_a-zA-Z][_a-zA-Z0-9]*$/` に一致する必要があります
+
+これらの規則に従わないメトリクスは、W&B UI でソートやフィルタリングができない場合があります。
+
+## 例
+
+**有効なメトリクス名:**
+```python
+with wandb.init() as run:
+  run.log({"accuracy": 0.9, "val_loss": 0.1, "epoch_5": 5})
+  run.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
+```
+
+**無効なメトリクス名（これらは避けてください）:**
+```python
+with wandb.init() as run:
+  run.log({"acc,val": 0.9})  # カンマが含まれている
+  run.log({"loss-train": 0.1})  # ハイフンが含まれている
+  run.log({"test acc": 0.95})  # スペースが含まれている
+  run.log({"5_fold_cv": 0.8})  # 数字で始まっている
+```
+
+
+## 推奨される解決策
+
+無効な文字をアンダースコアなどの有効な文字に置き換えてください：
+- `"test acc"` の代わりに `"test_acc"`
+- `"loss-train"` の代わりに `"loss_train"`
+- `"acc,val"` の代わりに `"acc_val"`
+
+詳細は [メトリクス命名の制約](/models/track/log/#metric-naming-constraints) を参照してください。
+</Accordion>
+</Update>
+
+<Update tags={["Administrator", "Billing", "Team Management"]}>
+<Accordion title="Teams プランに月額サブスクリプションのオプションはありますか？">
 
 Teams プランには月額サブスクリプションのオプションはありません。このサブスクリプションは年単位で請求されます。
 </Accordion>
 </Update>
 
-<Update tags={["runs"]}>
-<Accordion title="1 つの Project から別の Project に run を移動することは可能ですか？">
+<Update tags={["Runs"]}>
+<Accordion title="Run をあるプロジェクトから別のプロジェクトに移動することは可能ですか？">
 
-run をあるプロジェクトから別のプロジェクトに移動するには、次の手順に従います：
+以下の手順で、Run をあるプロジェクトから別のプロジェクトに移動できます：
 
-- 移動する run があるプロジェクトページに移動します。
-- **Runs** タブをクリックして、run のテーブルを開きます。
-- 移動する run を選択します。
+- 移動したい Run があるプロジェクトページに移動します。
+- **Runs** タブをクリックして Runs テーブルを開きます。
+- 移動する Runs を選択します。
 - **Move** ボタンをクリックします。
-- 移動先のプロジェクトを選択し、操作を確認します。
+- 移動先のプロジェクトを選択し、操作を確定します。
 
-W&B は UI を介して run の移動をサポートしていますが、run のコピーはサポートしていません。run にログされた アーティファクト は新しいプロジェクトには転送されません。run の新しい場所にアーティファクト を手動で移動するには、[`wandb artifact get`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK コマンドまたは [`Api.artifact` API](/ja/models/ref/python/public-api/api/#artifact) を使用してアーティファクトをダウンロードし、[wandb artifact put](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put/) または `Api.artifact` API を使用して run の新しい場所にアップロードできます。
+W&B は UI を通じた Run の移動をサポートしていますが、Run のコピーはサポートしていません。Runs と一緒にログ記録された Artifacts は、新しいプロジェクトには転送されません。Artifacts を手動で新しい場所に移動するには、[`wandb artifact get`](/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK コマンドや [`Api.artifact` API](/models/ref/python/public-api/api/#artifact) を使用して Artifact をダウンロードし、その後 [wandb artifact put](/models/ref/cli/wandb-artifact/wandb-artifact-put/) または `Api.artifact` API を使用してアップロードしてください。
 </Accordion>
 </Update>
 
-<Update tags={["reports"]}>
-<Accordion title="異なる選択された run を持つ複数のチャートを取得する方法とは？">
+<Update tags={["Reports"]}>
+<Accordion title="異なる Runs を選択した複数のチャートを作成するには？">
 
-W&B Reports を使って、次のステップに従ってください:
+W&B Reports で以下の手順に従います：
 
 1. 複数のパネルグリッドを作成します。
-2. 各パネルグリッドに対して、目的の run セットを選択するフィルターを適用します。
+2. 各パネルグリッドに対してフィルタを適用し、希望する Run セットを選択します。
 3. パネルグリッド内で目的のチャートを生成します。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="分散トレーニングのようなマルチプロセッシングで wandb をどのように使用できますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="マルチプロセッシング（分散トレーニングなど）で wandb を使用するにはどうすればよいですか？">
 
-トレーニングプログラムが複数のプロセスを使用する場合、`wandb.init()` なしでプロセスから wandb メソッド呼び出しを行わないようにプログラムを構築してください。
+トレーニングプログラムが複数のプロセスを使用する場合、`wandb.init()` を実行していないプロセスから wandb メソッドを呼び出さないようにプログラムを構成してください。
 
-マルチプロセスのトレーニングを管理するには、以下のアプローチを使用します。
+マルチプロセストレーニングは、以下の方法で管理します：
 
-1. すべてのプロセスで `wandb.init` を呼び出し、[group](/ja/models/runs/grouping/) キーワード引数を使用して共有グループを作成します。各プロセスは独自の wandb run を持ち、UI はトレーニング プロセスを一緒にグループ化します。
-2. ただ一つのプロセスから `wandb.init` を呼び出し、[multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes) を通じてログ記録するデータを渡します。
+1. すべてのプロセスで `wandb.init` を呼び出し、[Group](/models/runs/grouping) キーワード引数を使用して共有グループを作成します。各プロセスが独自の wandb run を持ち、UI 上でトレーニングプロセスがグループ化されます。
+2. 1 つのプロセスからのみ `wandb.init` を呼び出し、[multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes) を通じてログに記録するデータを渡します。
 
 <Note>
-これらのアプローチの詳細な説明と、Torch DDP のコード例を含む [分散トレーニングガイド](/ja/models/track/log/distributed-training/) を参照してください。
+これらのアプローチの詳細な説明や Torch DDP を使用したコード例については、[分散トレーニングガイド](/models/track/log/distributed-training) を参照してください。
 </Note>
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
+<Update tags={["Experiments"]}>
 <Accordion title="W&B は `multiprocessing` ライブラリを使用していますか？">
 
-はい、W&B は `multiprocessing` ライブラリを使用しています。以下のようなエラーメッセージが表示される場合、問題がある可能性があります。
+はい、W&B は `multiprocessing` ライブラリを使用しています。以下のようなエラーメッセージは、問題が発生している可能性を示しています：
 
 ```
 An attempt has been made to start a new process before the current process 
 has finished its bootstrapping phase.
 ```
 
-これを解決するには、`if __name__ == "__main__":` でエントリポイント保護を追加してください。これは W&B をスクリプトから直接実行する場合に必要な保護です。
+これを解決するには、`if __name__ == "__main__":` によるエントリポイントの保護を追加してください。これは、スクリプトから直接 W&B を実行する際に必要です。
 </Accordion>
 </Update>
 
-<Update tags={["sweeps"]}>
-<Accordion title="すべてのハイパーパラメーターの値を W&B Sweep の一部として提供する必要がありますか。デフォルト値を設定できますか？">
+<Update tags={["Sweeps"]}>
+<Accordion title="W&B Sweep の一部としてすべてのハイパーパラメーターの値を提供する必要がありますか？デフォルトを設定できますか？">
 
-ハイパーパラメーターの名前と値にアクセスするには、辞書のように振る舞う `wandb.config` を使って、sweep configuration から取得します。
+辞書のように機能する `(run.config())` を使用して、スイープ設定からハイパーパラメーターの名前と値にアクセスできます。
 
-sweep の外で run を行う場合、`wandb.config` の値を設定するには、辞書を `wandb.init` の `config` 引数に渡します。sweep では、`wandb.init` に提供される任意の設定がデフォルト値として機能し、sweep がそれを上書きできます。
+スイープ以外の Run の場合は、`wandb.init()` の `config` 引数に辞書を渡すことで `wandb.Run.config()` の値を設定します。スイープでは、`wandb.init()` に提供された設定はデフォルト値として機能し、スイープによって上書きされる可能性があります。
 
-明示的な振る舞いには `config.setdefaults` を使用します。以下のコードスニペットは両方のメソッドを示しています：
+明示的な動作をさせるには `rwandb.Run.config.setdefaults()` を使用します。以下のコードスニペットは両方の方法を示しています：
 
 <Tabs>
 <Tab title="wandb.init()">
@@ -1446,10 +1839,10 @@ sweep の外で run を行う場合、`wandb.config` の値を設定するには
 # ハイパーパラメーターのデフォルト値を設定
 config_defaults = {"lr": 0.1, "batch_size": 256}
 
-# run を開始し、デフォルトを指定
-# sweep がこれを上書きできます
+# run を開始し、スイープが
+# 上書き可能なデフォルト値を提供
 with wandb.init(config=config_defaults) as run:
-    # トレーニングコードをここに追加
+    # ここにトレーニングコードを追加
     ...
 ```
 </Tab>
@@ -1460,27 +1853,37 @@ config_defaults = {"lr": 0.1, "batch_size": 256}
 
 # run を開始
 with wandb.init() as run:
-    # sweep によって設定されていない値を更新
+    # スイープで設定されていない値を更新
     run.config.setdefaults(config_defaults)
 
-    # トレーニングコードをここに追加
+    # ここにトレーニングコードを追加
 ```
 </Tab>
 </Tabs>
 </Accordion>
 </Update>
 
-<Update tags={["sweeps", "metrics"]}>
-<Accordion title="複数のメトリクスの最適化">
+<Update tags={["Sweeps", "Metrics"]}>
+<Accordion title="複数のメトリクスを最適化する">
 
-複数のメトリクスを単一の run で最適化するには、個々のメトリクスの加重平均を使用します。
+1 回の Run で複数のメトリクスを最適化するには、個々のメトリクスの重み付き合計を使用します。
 
 ```python
-metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
-wandb.log({"metric_combined": metric_combined})
+with wandb.init() as run:
+  # 個別のメトリクスをログに記録
+  metric_a = run.summary.get("metric_a", 0.5)
+  metric_b = run.summary.get("metric_b", 0.7)
+  # ... 必要に応じて他のメトリクスをログ
+  metric_n = run.summary.get("metric_n", 0.9)
+
+  # メトリクスを重み付きで組み合わせる
+  # 最適化の目標に応じて重みを調整
+  # 例えば、metric_a と metric_n をより重視する場合：
+  metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
+  run.log({"metric_combined": metric_combined})
 ```
 
-新しい組み合わせメトリクスをログし、それを最適化の目標として設定します:
+新しい複合メトリクスをログに記録し、それを最適化の目的（objective）として設定します：
 
 ```yaml
 metric:
@@ -1490,260 +1893,272 @@ metric:
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="W&B UI でログしたチャートやメディアをどのように整理できますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="W&B UI でログに記録されたチャートやメディアを整理するにはどうすればよいですか？">
 
-`/` 文字は W&B UI でログされたパネルを区切ります。デフォルトでは、`/` の前のログされたアイテムの名前のセグメントが、「パネルセクション」として知られるパネルのグループを定義します。
-
-```python
-wandb.log({"val/loss": 1.1, "val/acc": 0.3})
-wandb.log({"train/loss": 0.1, "train/acc": 0.94})
-```
-
-[Workspace](/ja/models/track/project-page/#workspace-tab) 設定で、`/` で区切られた最初のセグメントまたはすべてのセグメントに基づいてパネルのグループ化を調整します。
-</Accordion>
-</Update>
-
-<Update tags={["workspaces"]}>
-<Accordion title="64 ビット符号付き整数の '最大値を超えた' エラーをどのように修正しますか？">
-
-このエラーを解決するには、URL の末尾に `?workspace=clear` を追加して Enter キーを押します。この操作により、プロジェクトページ ワークスペースのクリアされたバージョンに移動します。
-</Accordion>
-</Update>
-
-<Update tags={["experiments"]}>
-<Accordion title="wandb.log() に クラス属性 を渡した場合どうなりますか？">
-
-クラス属性を `wandb.log()` に渡すことは避けてください。属性はネットワーク呼び出しが実行される前に変更される可能性があります。メトリクスをクラス属性として保存する場合は、 ログ に記録されたメトリクスが `wandb.log()` 呼び出し時の属性の値と一致するように、ディープコピーを使用してください。
-</Accordion>
-</Update>
-
-<Update tags={["metrics"]}>
-<Accordion title="メトリックの最大値をプロットすることは可能ですか、それともステップごとにプロットする必要がありますか？">
-
-メトリックの散布図を作成します。 **Edit** メニューを開き、 **Annotations** を選択します。そこから、値のランニング最大値をプロットします。
-</Accordion>
-</Update>
-
-<Update tags={["experiments"]}>
-<Accordion title="プロットで凡例付きの複数の線を描画するにはどうすればよいですか？">
-
-`wandb.plot.line_series()` を使って複数行のカスタムチャートを作成します。 ラインチャートを表示するには、[プロジェクトページ](/ja/models/track/project-page/) に移動します。凡例を追加するには、`wandb.plot.line_series()` に `keys` 引数を含めます。例えば：
-
-```python
-wandb.log(
-    {
-        "my_plot": wandb.plot.line_series(
-            xs=x_data, ys=y_data, keys=["metric_A", "metric_B"]
-        )
-    }
-)
-```
-
-**Multi-line** タブの下にある複数行のプロットに関する追加の詳細は [こちら](/ja/models/track/log/plots/#basic-charts) を参照してください。
-</Accordion>
-</Update>
-
-<Update tags={["experiments"]}>
-<Accordion title="人間が読みやすい Run 名をプログラムで取得するにはどうすればいいですか？">
-
-`.name` 属性は、[`wandb.Run`](/ja/models/ref/python/run) から以下のようにアクセスできます:
+W&B UI では `/` 文字がログに記録されたパネルを区切ります。デフォルトでは、ログ項目の名前の `/` より前の部分が「Panel Section」と呼ばれるパネルのグループを定義します。
 
 ```python
 import wandb
 
-wandb.init()
-run_name = wandb.run.name
+with wandb.init() as run:
+
+   run.log({"val/loss": 1.1, "val/acc": 0.3})
+   run.log({"train/loss": 0.1, "train/acc": 0.94})
+```
+
+[Workspace](/models/track/project-page#workspace-tab) の設定で、最初のセグメント、または `/` で区切られたすべてのセグメントに基づいてパネルのグループ化を調整できます。
+</Accordion>
+</Update>
+
+<Update tags={["Workspaces"]}>
+<Accordion title="'overflows maximum values of a signed 64 bits integer' エラーを修正するには？">
+
+このエラーを解決するには、URL の末尾に `?workspace=clear` を追加して Enter キーを押してください。これにより、プロジェクトページのワークスペースのクリアされたバージョンが表示されます。
+</Accordion>
+</Update>
+
+<Update tags={["Experiments"]}>
+<Accordion title="クラス属性を wandb.Run.log() に渡すとどうなりますか？">
+
+クラス属性を `wandb.Run.log()` に渡すのは避けてください。ネットワーク呼び出しが実行される前に属性が変更される可能性があります。メトリクスをクラス属性として保存する場合は、ディープコピー（deep copy）を使用して、ログに記録されるメトリクスが `wandb.Run.log()` 呼び出し時点の属性値と一致するようにしてください。
+</Accordion>
+</Update>
+
+<Update tags={["Metrics"]}>
+<Accordion title="メトリクスをステップごとにプロットするのではなく、最大値をプロットすることは可能ですか？">
+
+メトリクスの散布図を作成します。**Edit** メニューを開き、**Annotations** を選択します。そこから、値のランニング最大値（running maximum）をプロットするように設定します。
+</Accordion>
+</Update>
+
+<Update tags={["Experiments"]}>
+<Accordion title="1 つのプロットに凡例付きで複数の線を表示するにはどうすればよいですか？">
+
+`wandb.plot.line_series()` を使用してマルチラインのカスタムチャートを作成します。[プロジェクトページ](/models/track/project-page) に移動して、折れ線グラフを確認してください。凡例を追加するには、`wandb.plot.line_series()` に `keys` 引数を含めます。例：
+
+```python
+
+with wandb.init(project="my_project") as run:
+
+    run.log(
+        {
+            "my_plot": wandb.plot.line_series(
+                xs=x_data, ys=y_data, keys=["metric_A", "metric_B"]
+            )
+        }
+    )
+```
+
+マルチラインプロットの詳細は、[こちら](/models/track/log/plots#basic-charts) の **Multi-line** タブを参照してください。
+</Accordion>
+</Update>
+
+<Update tags={["Experiments"]}>
+<Accordion title="人間が読める形式の Run 名にプログラムでアクセスするにはどうすればよいですか？">
+
+[`wandb.Run`](/models/ref/python/experiments/run) の `.name` 属性には以下のようにアクセスできます：
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run_name = run.name
+   print(f"The human-readable run name is: {run_name}")
 ```
 </Accordion>
 </Update>
 
-<Update tags={["privacy", "projects"]}>
-<Accordion title="プロジェクトを公開にするにはどうすればいいですか？">
+<Update tags={["Privacy", "Projects"]}>
+<Accordion title="プロジェクトのプライバシーを変更するにはどうすればよいですか？">
 
-プロジェクトを公開にするには、次の手順を行います。
+プロジェクトのプライバシー（可視性）を変更するには：
 
-1. Weights & Biases のウェブアプリでプロジェクトページにアクセスします。
-2. ナビゲーションバーのロックアイコンをクリックしてプライバシー設定を開きます。
-3. 「公開」を選択し、誰でも公開範囲を許可します。
-4. 変更を保存します。
+1. W&B アプリで、プロジェクト内の任意のページから左ナビゲーションの **Overview** をクリックします。
+1. 右上の **Edit** をクリックします。
+1. **Project visibility** に新しい値を選択します：
 
-制限により「公開」オプションが利用できない場合は、次のオプションを検討してください。
+    - **Team** (デフォルト): チームメンバーのみがプロジェクトの閲覧と編集が可能です。
+    - **Restricted**: 招待されたメンバーのみがプロジェクトにアクセスでき、パブリックアクセスはオフになります。
+    - **Open**: 誰でも Runs の送信や Reports の作成ができますが、編集できるのはチームメンバーのみです。教室での利用、公開ベンチマークコンペティション、その他の一時的なコンテキストにのみ適しています。
+    - **Public**: 誰でもプロジェクトを閲覧できますが、編集できるのはチームメンバーのみです。
 
-- Reports を介して閲覧専用リンクを共有する。
-- 組織の管理者にアシスタンスを求める。
-- アカウント設定を確認し、公開 Projects の許可を確認する。
+        <Note>
+        W&B 管理者が **Public** 可視化をオフにしている場合、これを選択することはできません。代わりに閲覧専用の [W&B Report](/models/reports/collaborate-on-reports#share-a-report) を共有するか、W&B 組織の管理者に相談してください。
+        </Note>
+1. **Save** をクリックします。
+    
+プロジェクトをより厳密なプライバシー設定に更新した場合、アクセス権を復元するために個々の Users を再度招待する必要がある場合があります。
 </Accordion>
 </Update>
 
-<Update tags={["notebooks", "environment variables"]}>
-<Accordion title="ノートブックのクエリに失敗しましたというエラーはどのように対処しますか？">
+<Update tags={["Notebooks", "Environment Variables"]}>
+<Accordion title="'Failed to query for notebook' エラーへの対処法は？">
 
-`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` というエラーメッセージが表示された場合は、環境変数を設定することで解決できます。これを達成するための複数のメソッドがあります:
+`"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"` というエラーメッセージが表示された場合は、環境変数を設定することで解決できます。いくつかの方法があります：
 
 <Tabs>
-<Tab title="Notebook">
+<Tab title="ノートブック内">
 ```python
-%env "WANDB_NOTEBOOK_NAME" "ノートブック名はこちら"
+%env "WANDB_NOTEBOOK_NAME" "notebook name here"
 ```
 </Tab>
-<Tab title="python">
+<Tab title="Python">
 ```python
 import os
 
-os.environ["WANDB_NOTEBOOK_NAME"] = "ノートブック名はこちら"
+os.environ["WANDB_NOTEBOOK_NAME"] = "notebook name here"
 ```
 </Tab>
 </Tabs>
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="スクリプトでランダムな run 名を取得するにはどうすればよいですか？">
+<Update tags={["Experiments"]}>
+<Accordion title="スクリプト内でランダムな Run 名を取得するにはどうすればよいですか？">
 
-`wandb.run.save()` を呼び出して現在の run を保存します。`wandb.run.name` を使用して名前を取得します。
+Run オブジェクトの `.save()` メソッドを呼び出して現在の Run を保存します。Run オブジェクトの `name` 属性を使用して名前を取得してください。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="run と一緒に削除された後に Artifacts を復元することは可能ですか？">
+<Update tags={["Artifacts"]}>
+<Accordion title="Run と共に削除された Artifact を復元することは可能ですか？">
 
-run を削除する際に、関連する Artifacts を削除するかどうかのプロンプトが表示されます。このオプションを選択すると、Artifacts は完全に削除され、run 自体が後で復元されても、回復することは不可能になります。
+Run を削除する際、関連する Artifacts も削除するかどうかを尋ねるプロンプトが表示されます。このオプションを選択すると Artifacts は永久に削除され、後で Run 自体を復元したとしても復元することはできません。
 </Accordion>
 </Update>
 
-<Update tags={["runs"]}>
-<Accordion title="削除された run をどのように復元できますか？">
+<Update tags={["Runs"]}>
+<Accordion title="削除された Runs を復元するにはどうすればよいですか？">
 
-削除された run を復元するには、次の手順を完了してください：
+削除された Runs を復元するには、以下の手順を完了してください：
 
-- プロジェクトの概要ページに移動します。
-- 右上の 3 つの点をクリックします。
-- **最近削除された run を復元** を選択します。
+- Project Overview ページに移動します。
+- 右上隅にある 3 つのドットをクリックします。
+- **Undelete recently deleted runs** を選択します。
 
-**注意**：
-- 過去 7 日以内に削除された run のみ復元できます。
-- 復元がオプションでない場合は、W&B API を使用してログを手動でアップロードできます。
+**注意**:
+- 復元できるのは、過去 7 日以内に削除された Runs のみです。
+- 復元オプションがない場合は、W&B API を使用して手動でログをアップロードできます。
 </Accordion>
 </Update>
 
-<Update tags={["reports", "workspaces"]}>
+<Update tags={["Reports", "Workspaces"]}>
 <Accordion title="データの更新">
 
-ワークスペースは自動的に更新されたデータをロードします。自動リフレッシュはReportsには適用されません。Reportデータを更新するにはページをリロードしてください。
+Workspaces は更新されたデータを自動的に読み込みます。オートリフレッシュは Reports には適用されません。レポートデータを更新するには、ページをリロードしてください。
 </Accordion>
 </Update>
 
-<Update tags={["user management"]}>
-<Accordion title="アカウントのパスワード再設定メールを受信できない場合、アカウントへのアクセスをどうすれば再取得できますか？">
+<Update tags={["User Management"]}>
+<Accordion title="パスワードリセットメールが届かない場合、どうすればアカウントへのアクセスを回復できますか？">
 
-アカウントへのアクセスを再取得するためには、パスワードリセットのメールを受け取れない場合:
+パスワードリセットメールを受信できずアカウントへのアクセスを回復できない場合：
 
-1. **スパムまたは迷惑メールフォルダを確認:** メールがそこにフィルターされていないか確認してください。
-2. **メールを確認:** アカウントに関連付けられた正しいメールアドレスを確認してください。
-3. **SSOオプションを確認:** 利用可能な場合は「Googleでサインイン」のようなサービスを使用してください。
-4. **サポートに連絡:** 問題が解決しない場合は、サポート (support@wandb.com) に連絡し、ユーザー名とメールアドレスを提供してサポートを受けてください。
+1. **迷惑メールフォルダを確認する:** メールがフィルタリングされていないか確認してください。
+2. **メールアドレスの確認:** アカウントに関連付けられた正しいメールアドレスであることを確認してください。
+3. **SSO オプションを確認する:** 利用可能な場合は「Google でサインイン」などのサービスを使用してください。
+4. **サポートに連絡する:** 問題が解決しない場合は、サポート (support@wandb.com) に連絡し、ユーザー名とメールアドレスを提供して支援を依頼してください。
 </Accordion>
 </Update>
 
-<Update tags={["administrator"]}>
-<Accordion title="チームスペースからProjectsを管理者権限なしで削除するにはどうすればいいですか？">
+<Update tags={["Administrator"]}>
+<Accordion title="管理者権限なしでチームスペースからプロジェクトを削除するにはどうすればよいですか？">
 
-チームスペースからProjectsを管理者権限なしで削除するには、次のオプションを選択してください:
+管理者権限なしでチームスペースからプロジェクトを削除するには、以下のオプションがあります：
 
-- 現在の管理者にProjectsを削除するように依頼します。
-- 管理者に一時的にProjects管理のアクセス権を付与するように依頼します。
+- 現在の管理者にプロジェクトの削除を依頼してください。
+- 管理者にプロジェクト管理のための一時的なアクセス権限を付与するよう依頼してください。
 
-管理者に連絡できない場合は、請求管理者または組織内の他の権限を持つユーザーに支援を求めてください。
+管理者に連絡できない場合は、組織内の請求（billing）管理者または別の権限を持つユーザーに支援を求めてください。
 </Accordion>
 </Update>
 
-<Update tags={["projects"]}>
-<Accordion title="プロジェクトの名前を変更するにはどうすればいいですか？">
+<Update tags={["Projects"]}>
+<Accordion title="プロジェクト名を変更するにはどうすればよいですか？">
 
-プロジェクトをリネームするには:
+プロジェクト名を変更するには：
 
-- プロジェクトの概要に移動します。
+- Project overview に移動します。
 - **Edit Project** をクリックします。
 
-注:
+注意：
 
-- `model-registry` のようにプロジェクト名が保護されている場合、名前を変更することはできません。保護された名前についてはサポートにお問い合わせください。
+- `model-registry` などの保護されたプロジェクト名は変更できません。保護された名前に関する支援については、サポートにお問い合わせください。
 </Accordion>
 </Update>
 
-<Update tags={["administrator"]}>
-<Accordion title="ライセンスが期限切れになった場合、どのように更新しますか？">
+<Update tags={["Administrator"]}>
+<Accordion title="期限切れのライセンスを更新するにはどうすればよいですか？">
 
-有効期限が切れたライセンスを更新するには、更新プロセスのサポートや新しいライセンスキーを受け取るために、support@wandb.com のサポートチームに連絡してください。
+期限切れのライセンスを更新するには、サポートチーム (support@wandb.com) に連絡して更新プロセスの支援を受け、新しいライセンスキーを受け取ってください。
 </Accordion>
 </Update>
 
-<Update tags={["reports", "wysiwyg"]}>
-<Accordion title="レポートは、Markdown から変換した後に見た目が異なります。">
+<Update tags={["Reports", "Wysiwyg"]}>
+<Accordion title="Markdown から変換した後のレポートの見た目が異なります。">
 
-WYSIWYG に移行した後も元の外観を維持することが目標ですが、変換プロセスは完全ではありません。もし重大な不一致が発生した場合は、それらを評価のためにReportsしてください。Usersは編集セッションが終了するまで以前の状態に戻すことができます。
+目標は WYSIWYG への移行後も元の外観を維持することですが、変換プロセスは完璧ではありません。大きな不一致が生じた場合は、評価のために報告してください。ユーザーは編集セッションが終了するまで、以前の状態に戻すことができます。
 </Accordion>
 </Update>
 
-<Update tags={["reports", "wysiwyg"]}>
-<Accordion title="レポートは WYSIWYG に変更した後、動作が遅くなりました。">
+<Update tags={["Reports", "Wysiwyg"]}>
+<Accordion title="WYSIWYG への変更後、レポートの動作が遅くなりました">
 
-古いハードウェアや非常に大きなレポートでは、パフォーマンスの問題が発生する可能性があります。これを緩和するために、現在使用していないレポートのセクションを折りたたんでください。
+古いハードウェアや非常に大きなレポートでは、パフォーマンスの問題が発生することがあります。これを軽減するには、現在使用していないレポートのセクションを折りたたんでください。
 </Accordion>
 </Update>
 
-<Update tags={["reports"]}>
+<Update tags={["Reports"]}>
 <Accordion title="レポートで Markdown を使用できますか？">
 
-はい。ドキュメント内のどこでも「/mark」と入力し、エンターキーを押すと Markdown ブロックを挿入できます。これにより、以前と同様に Markdown で編集できます。
+はい。ドキュメントの任意の場所で「/mark」と入力して Enter キーを押すと、Markdown ブロックが挿入されます。これにより、以前と同様に Markdown で編集できます。
 </Accordion>
 </Update>
 
-<Update tags={["user management"]}>
-<Accordion title="W&B アカウントの完全削除を依頼するにはどうすればいいですか？">
+<Update tags={["User Management"]}>
+<Accordion title="W&B アカウントの完全な削除をリクエストするにはどうすればよいですか？">
 
-W&B アカウントを削除するには、**設定** ページに移動し、下までスクロールして **アカウント削除** ボタンをクリックします。
+W&B アカウントを削除するには、**User settings** ページに移動し、一番下までスクロールして **Delete Account** ボタンをクリックしてください。
 </Accordion>
 </Update>
 
-<Update tags={["sweeps", "hyperparameter", "runs"]}>
-<Accordion title="グリッド検索を再度実行できますか？">
+<Update tags={["Sweeps", "Hyperparameter", "Runs"]}>
+<Accordion title="グリッド検索（Grid Search）を再実行できますか？">
 
-クラッシュのために一部の W&B Run の再実行が必要な場合、グリッド検索が完了したにもかかわらず、特定の W&B Run を削除して再実行します。その後、[スイープコントロールページ](/ja/models/sweeps/sweeps-ui/)で **再開** ボタンを選択します。新しい Sweep ID を使用して新しい W&B スイープ エージェントを開始します。
+グリッド検索が完了したものの、クラッシュなどの理由で一部の W&B Runs を再実行する必要がある場合は、特定の W&B Runs を削除して再実行してください。その後、[Sweep コントロールページ](/models/sweeps/sweeps-ui) で **Resume** ボタンを選択します。新しい Sweep ID を使用して、新しい W&B Sweep agents を開始してください。
 
-完了した W&B Run パラメータの組み合わせは再実行されません。
+完了済みの W&B Run のパラメータの組み合わせは再実行されません。
 </Accordion>
 </Update>
 
-<Update tags={["user management"]}>
+<Update tags={["User Management"]}>
 <Accordion title="アカウントのログイン問題を解決するにはどうすればよいですか？">
 
-ログイン問題を解決するために、以下の手順を実行してください:
+ログイン問題を解決するには、以下の手順に従ってください：
 
-- **アクセス確認**: 正しいメールアドレスまたはユーザー名を使用していることを確認し、関連する Teams または Projects に所属しているか確認してください。
+- **アクセスの確認**: 正しいメールアドレスまたはユーザー名を使用しているか確認し、関連する Teams や Projects への所属を確認してください。
 - **ブラウザのトラブルシューティング**:
-  - キャッシュされたデータの干渉を避けるために、シークレットウィンドウを使用します。
-  - ブラウザのキャッシュをクリアします。
-  - 別のブラウザまたはデバイスからログインを試みます。
+  - キャッシュデータの干渉を避けるため、シークレットウィンドウを使用してください。
+  - ブラウザのキャッシュをクリアしてください。
+  - 別のブラウザやデバイスからログインを試みてください。
 - **SSO と権限**:
-  - アイデンティティプロバイダー（IdP）や Single Sign-On（SSO）の設定を確認します。
-  - SSO を使用している場合、適切な SSO グループに含まれていることを確認します。
+  - ID プロバイダー (IdP) とシングルサインオン (SSO) の設定を確認してください。
+  - SSO を使用している場合は、適切な SSO グループに含まれていることを確認してください。
 - **技術的な問題**:
-  - さらなるトラブルシューティングのために、特定のエラーメッセージをメモします。
-  - 問題が続く場合は、追加のサポートを求めてサポートチームに連絡してください。
+  - 詳細なトラブルシューティングのために、特定のエラーメッセージをメモしてください。
+  - 問題が解決しない場合は、サポートチームに詳細な支援を求めてください。
 </Accordion>
 </Update>
 
-<Update tags={["runs", "security"]}>
-<Accordion title="run の権限エラーをログで解決するにはどうすればいいですか?">
+<Update tags={["Runs", "Security"]}>
+<Accordion title="Run をログ記録する際の権限エラーを解決するには？">
 
-W&B エンティティへの run ログ中に権限エラーが発生した場合は、次の手順を実行します:
+W&B エンティティに Run をログ記録する際の権限エラーを解決するには、以下の手順に従ってください：
 
-- **エンティティとプロジェクト名の確認**: コード内の W&B エンティティとプロジェクト名のスペルと大文字小文字を確認します。
-- **権限の確認**: 管理者によって必要な権限が付与されていることを確認します。
-- **ログイン資格情報の確認**: 正しい W&B アカウントにログインしていることを確認します。次のコードを使用して run を作成してテストします:
-  
+- **エンティティ名とプロジェクト名の確認**: コード内の W&B エンティティ名とプロジェクト名の綴り、大文字小文字が正しいか確認してください。
+- **権限の確認**: 管理者によって必要な権限が付与されていることを確認してください。
+- **ログイン情報の確認**: 正しい W&B アカウントにログインしていることを確認してください。以下のコードで Run を作成してテストしてください：
   ```python
   import wandb
 
@@ -1751,15 +2166,11 @@ W&B エンティティへの run ログ中に権限エラーが発生した場�
   run.log({'example_metric': 1})
   run.finish()
   ```
-  
-- **API キーの設定**: `WANDB_API_KEY` 環境変数を使用します:
-  
+- **APIキー の設定**: `WANDB_API_KEY` 環境変数を使用してください：
   ```bash
   export WANDB_API_KEY='your_api_key'
   ```
-  
-- **ホスト情報の確認**: カスタムデプロイメントの場合、ホスト URL を設定します:
-  
+- **ホスト情報の確認**: カスタムデプロイメントの場合は、ホスト URL を設定してください：
   ```bash
   wandb login --relogin --host=<host-url>
   export WANDB_BASE_URL=<host-url>
@@ -1767,10 +2178,10 @@ W&B エンティティへの run ログ中に権限エラーが発生した場�
 </Accordion>
 </Update>
 
-<Update tags={["resuming"]}>
-<Accordion title="W&B で run を再開する際に resume パラメータをどのように使用しますか？">
+<Update tags={["Resuming"]}>
+<Accordion title="W&B で Run を再開する際に resume パラメータを使用するには？">
 
-W&B で `resume` パラメータを使用するには、`entity`、`project`、および `id` を指定して、`resume` 引数を `wandb.init()` に設定します。`resume` 引数は `"must"` または `"allow"` の値を受け付けます。
+W&B で `resume` パラメータを使用するには、`wandb.init()` で `entity`、`project`、および `id` を指定した上で、`resume` 引数を設定します。`resume` 引数は `"must"` または `"allow"` の値を受け入れます。
 
   ```python
   run = wandb.init(entity="your-entity", project="your-project", id="your-run-id", resume="must")
@@ -1778,10 +2189,10 @@ W&B で `resume` パラメータを使用するには、`entity`、`project`、�
 </Accordion>
 </Update>
 
-<Update tags={["sweeps", "python"]}>
-<Accordion title="Python コードを使って sweep を再開するにはどうすればいいですか？">
+<Update tags={["Sweeps", "Python"]}>
+<Accordion title="Python コードを使用してスイープを再開するにはどうすればよいですか？">
 
-sweep を再開するには、`sweep_id` を `wandb.agent()` 関数に渡します。
+スイープを再開するには、`wandb.agent()` 関数に `sweep_id` を渡します。
 
 ```python
 import wandb
@@ -1789,7 +2200,7 @@ import wandb
 sweep_id = "your_sweep_id"
 
 def train():
-    # トレーニングコードはこちら
+    # トレーニングコード
     pass
 
 wandb.agent(sweep_id=sweep_id, function=train)
@@ -1797,268 +2208,270 @@ wandb.agent(sweep_id=sweep_id, function=train)
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="アーティファクトに保持ポリシーや有効期限を設定するにはどうすれば良いですか？">
+<Update tags={["Artifacts"]}>
+<Accordion title="Artifact に保持ポリシーや有効期限ポリシーを設定するにはどうすればよいですか？">
 
-アーティファクトに機密データを含む場合やアーティファクトのバージョンの削除をスケジュールするには、TTL (time-to-live) ポリシーを設定します。詳しい手順は、[TTL ガイド](/ja/models/artifacts/ttl/) を参照してください。
+機密データを含む Artifacts を管理したり、Artifact バージョンの削除をスケジュールしたりするには、TTL (time-to-live) ポリシーを設定します。詳細な手順については、[TTL ガイド](/models/artifacts/ttl) を参照してください。
 </Accordion>
 </Update>
 
-<Update tags={["administrator", "security"]}>
-<Accordion title="アクセスを変更または無効にするにはどうすればよいですか？">
+<Update tags={["Administrator", "Security"]}>
+<Accordion title="アクセス権のローテーションや取り消しを行うには？">
 
-個人およびサービスアカウントのキーは、ローテーションまたは取り消すことができます。新しい API キーまたはサービスアカウント ユーザーを作成し、新しいキーを使用するようにスクリプトを再設定してください。再設定後、プロフィールまたはチームから古い API キーを削除してください。
+個人用キーやサービスアカウントキーのローテーションや取り消しが可能です。新しい APIキー またはサービスアカウントユーザーを作成し、新しいキーを使用するようにスクリプトを再設定してください。再設定後、プロフィールまたはチームから古い APIキー を削除してください。
 </Accordion>
 </Update>
 
-<Update tags={["alerts", "notebooks"]}>
-<Accordion title="ノートブックで 'Run Finished' アラートは機能しますか?">
+<Update tags={["Alerts", "Notebooks"]}>
+<Accordion title="'Run Finished' アラートはノートブックで機能しますか？">
 
-No. **Run Finished** アラート (**Run Finished** 設定をユーザー設定で有効にする) は Python スクリプトでのみ機能し、各セルの実行に対する通知を避けるために Jupyter ノートブック 環境では無効になっています。
+いいえ。**Run Finished** アラート（ユーザー設定の **Run Finished** 設定で有効化）は Python スクリプトでのみ動作し、セルが実行されるたびに通知が来るのを避けるため、Jupyter Notebook 環境ではオフになっています。
 
-ノートブック 環境では `wandb.alert()` を使用してください。
+ノートブック環境では、代わりに `run.alert()` を使用してください。
 </Accordion>
 </Update>
 
-<Update tags={["crashing and hanging runs"]}>
-<Accordion title="W&B で run がローカルで正常にトレーニングされているのにクラッシュしたと表示されるのはなぜですか？">
+<Update tags={["Crashing And Hanging Runs"]}>
+<Accordion title="ローカルでは正常にトレーニングされているのに、W&B で Run が crashed とマークされるのはなぜですか？">
 
-サーバーがインターネットアクセスを失い、データが W&B への同期を停止した場合、接続の問題を示します。短期間の再試行期間後、システムは run をクラッシュしたとマークします。
+これは接続の問題を示しています。サーバーがインターネットアクセスを失い、データの W&B への同期が停止すると、短期間のリトライ後、システムはその Run を crashed としてマークします。
 </Accordion>
 </Update>
 
-<Update tags={["anonymous"]}>
-<Accordion title="アカウントを持っていない人が run の結果を見るにはどうすれば良いですか？">
+<Update tags={["Anonymous"]}>
+<Accordion title="アカウントを持っていない人が Run の結果を見るには？">
 
-もし、誰かがスクリプトを `anonymous="allow"` で実行した場合:
+`anonymous="allow"` を指定してスクリプトを実行した場合：
 
-1. **一時アカウントの自動作成**: W&B はサインイン済みのアカウントを確認します。アカウントが存在しない場合、W&B は新しい匿名アカウントを作成し、そのセッションのために APIキー を保存します。
-2. **結果をすばやくログ**: ユーザーはスクリプトを何度も実行し、W&B ダッシュボードで結果を即座に確認できます。これらの未請求の匿名 run は 7日間利用可能です。
-3. **データが役立つときに請求**: ユーザーが W&B で価値のある結果を確認したら、ページ上部のバナー内のボタンをクリックして、run データを実際のアカウントに保存できます。請求しない場合、run データは 7日後に削除されます。
+1. **一時アカウントの自動作成**: W&B はサインイン済みのアカウントを確認します。存在しない場合、W&B は新しい匿名アカウントを作成し、そのセッション用の APIキー を保存します。
+2. **迅速な結果ログ記録**: ユーザーは繰り返しスクリプトを実行し、W&B ダッシュボードで即座に結果を確認できます。これらの未登録の匿名 Runs は 7 日間利用可能です。
+3. **有用なデータの登録**: W&B で価値のある結果が見つかったら、ページ上部のバナーにあるボタンをクリックして、Run データを実際のアカウントに保存できます。登録しない場合、Run データは 7 日後に削除されます。
 
 <Warning>
-**匿名 run リンクは機密です**。これらのリンクは、誰でも実験結果を 7日間表示および請求することを許可します。そのため、信頼できる個人とだけリンクを共有してください。著者の身元を隠して結果を公開したい場合は、サポート support@wandb.com にお問い合わせください。
+**匿名 Run のリンクは慎重に扱ってください**。これらのリンクは、7 日間誰でも実験結果を閲覧し、自分のアカウントに登録することを許可するため、信頼できる相手にのみ共有してください。著者の身元を隠したまま結果を公開共有したい場合は、support@wandb.com までお問い合わせください。
 </Warning>
 
-W&B ユーザーがスクリプトを見つけて実行すると、その結果は、通常の run のように適切にアカウントにログされます。
+W&B ユーザーがスクリプトを見つけて実行した場合、その結果は通常の Run と同様に、そのユーザーのアカウントに正しく記録されます。
 </Accordion>
 </Update>
 
-<Update tags={["sweeps"]}>
-<Accordion title="SLURM で sweeps を実行するにはどうすればよいですか？">
+<Update tags={["Sweeps"]}>
+<Accordion title="SLURM でスイープを実行するにはどうすればよいですか？">
 
-スイープを [SLURM スケジューリングシステム](https://slurm.schedmd.com/documentation.html) で使用する場合、各スケジュールされたジョブで `wandb agent --count 1 SWEEP_ID` を実行します。このコマンドは、1つのトレーニングジョブを実行してから終了し、ハイパーパラメーター探索の並列性を活用しながら、リソース要求のランタイム予測を容易にします。
+[SLURM スケジューリングシステム](https://slurm.schedmd.com/documentation.html) でスイープを使用する場合、各スケジュールされたジョブ内で `wandb agent --count 1 SWEEP_ID` を実行してください。このコマンドは単一のトレーニングジョブを実行して終了するため、ハイパーパラメーター探索の並列性を活かしつつ、リソースリクエストのための実行時間予測が容易になります。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="wandb をオフラインで実行することはできますか?">
+<Update tags={["Experiments"]}>
+<Accordion title="wandb をオフラインで実行できますか？">
 
-オフラインマシンでトレーニングが行われる場合、以下の手順を使用して結果をサーバーにアップロードします:
+オフラインのマシンでトレーニングを行う場合は、以下の手順で結果をサーバーにアップロードします：
 
 1. 環境変数 `WANDB_MODE=offline` を設定し、インターネット接続なしでメトリクスをローカルに保存します。
-2. アップロードの準備ができたら、ディレクトリーで `wandb init` を実行してプロジェクト名を設定します。
-3. `wandb sync YOUR_RUN_DIRECTORY` を使用してメトリクスをクラウドサービスに転送し、ホストされたウェブアプリで結果にアクセスします。
+2. アップロードの準備ができたら、ディレクトリー内で `wandb init` を実行してプロジェクト名を設定します。
+3. `wandb sync YOUR_RUN_DIRECTORY` を使用して、メトリクスをクラウドサービスに転送し、ホストされたウェブアプリで結果にアクセスします。
 
-Run がオフラインであることを確認するには、`wandb.init()` を実行した後に `run.settings._offline` または `run.settings.mode` を確認してください。
+Run がオフラインであることを確認するには、`wandb.init()` 実行後に `run.settings._offline` または `run.settings.mode` を確認してください。
 </Accordion>
 </Update>
 
-<Update tags={["projects", "runs"]}>
-<Accordion title="1つのプロジェクトに対していくつの run を作成できますか？">
+<Update tags={["Projects", "Runs"]}>
+<Accordion title="1 つのプロジェクトにいくつの Runs を作成できますか？">
 
-各プロジェクトの run は約 10,000 に制限し、最適なパフォーマンスを維持してください。
+最適なパフォーマンスを得るために、各プロジェクトの Runs 数は約 10,000 以内に抑えてください。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="私の run の状態は UI 上では `crashed` ですが、マシン上ではまだ実行中です。データを取り戻すにはどうすればいいですか？">
+<Update tags={["Experiments"]}>
+<Accordion title="UI 上では Run の状態が `crashed` ですが、マシン上ではまだ動作しています。データを取り戻すにはどうすればよいですか？">
 
-トレーニング中にマシンへの接続が失われた可能性があります。データを回復するには、[`wandb sync [PATH_TO_RUN]`](/ja/models/ref/cli/wandb-sync) を実行してください。 run へのパスは、進行中の Run ID に一致する `wandb` ディレクトリー内のフォルダーです。
+トレーニング中にマシンへの接続が切断された可能性があります。[`wandb sync [PATH_TO_RUN]`](/models/ref/cli/wandb-sync) を実行してデータを復旧してください。Run へのパスは、`wandb` ディレクトリー内の、実行中の Run ID と一致するフォルダーです。
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="なぜ同じ指標が複数回表示されるのでしょうか？">
+<Update tags={["Experiments"]}>
+<Accordion title="同じメトリクスが複数回表示されるのはなぜですか？">
 
-同じキーの下にさまざまなデータ型をログする場合、それらをデータベースで分割します。これにより、UIのドロップダウンに同じメトリクス名の複数のエントリが表示されます。グループ化されるデータ型は `number`、`string`、`bool`、`other`（主に配列）および `Histogram` や `Image` などの任意の `wandb` データ型です。この問題を防ぐために、キーごとに一種類のみ送信してください。
+同じキーで異なるデータタイプをログに記録すると、データベース内で分割されます。その結果、UI のドロップダウンに同じメトリクス名のエントリが複数表示されます。グループ化されるデータタイプは、`number`、`string`、`bool`、`other`（主に配列）、および `Histogram` や `Image` などの W&B データタイプです。この問題を避けるために、1 つのキーに対して 1 つのタイプのみを送信するようにしてください。
 
-メトリクス名は大文字と小文字が区別されません。`"My-Metric"` と `"my-metric"` のように、大文字と小文字だけが異なる名前の使用を避けてください。
+メトリクス名は大文字と小文字を区別しません。`"My-Metric"` と `"my-metric"` のように、大文字小文字のみが異なる名前の使用は避けてください。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="コードをどのように保存しますか？">
+<Update tags={["Artifacts"]}>
+<Accordion title="コードを保存するにはどうすればよいですか？">
 
-`wandb.init` で `save_code=True` を使用して、run を起動するメインスクリプトまたはノートブックを保存します。run のすべてのコードを保存するには、アーティファクトでコードをバージョン管理します。次の例はこのプロセスを示しています:
+`wandb.init` で `save_code=True` を使用すると、Run を起動したメインスクリプトまたはノートブックを保存できます。Run のすべてのコードを保存するには、Artifacts でコードをバージョン管理してください。以下の例はこのプロセスを示しています：
 
 ```python
 code_artifact = wandb.Artifact(type="code")
-# ./train.py を追加
 code_artifact.add_file("./train.py")
-# アーティファクトをログ
 wandb.log_artifact(code_artifact)
 ```
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="run に関連する git commit をどのように保存できますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="Run に関連付けられた Git コミットを保存するにはどうすればよいですか？">
 
-`wandb.init` が呼び出されると、システムはリモートリポジトリのリンクや最新のコミットの SHA を含む git 情報を自動的に収集します。この情報は [runs ページ](/ja/models/runs/#view-logged-runs) に表示されます。スクリプトを実行する際は、作業しているディレクトリーが git 管理フォルダー内であることを確認して、この情報を表示します。
+`wandb.init` が呼び出されると、システムは自動的に Git 情報（リモートリポジトリのリンクや最新コミットの SHA など）を収集します。この情報は [Run ページ](/models/runs/#view-logged-runs) に表示されます。この情報を表示するには、スクリプト実行時のカレント作業ディレクトリーが Git 管理下のフォルダー内にあることを確認してください。
 
-git コミットと、実験を実行するために使用したコマンドはユーザーには見えますが、外部ユーザーからは隠されています。公開プロジェクトでは、これらの詳細は非公開のままです。
+Git コミットと実験の実行に使用されたコマンドは、実行ユーザーには表示されますが、外部ユーザーからは隠されます。パブリックプロジェクトでも、これらの詳細はプライベートなままです。
 </Accordion>
 </Update>
 
-<Update tags={["experiments", "environment variables", "metrics"]}>
-<Accordion title="W&B にメトリクスをオフラインで保存し、後で同期することはできますか？">
+<Update tags={["Experiments", "Environment Variables", "Metrics"]}>
+<Accordion title="メトリクスをオフラインで保存し、後で W&B に同期することは可能ですか？">
 
-`wandb.init` はデフォルトでメトリクスをリアルタイムでクラウドに同期するプロセスを開始します。オフラインで使用する場合は、オフラインモードを有効にし、後で同期できるように2つの環境変数を設定してください。
+デフォルトでは、`wandb.init` はメトリクスをクラウドにリアルタイムで同期するプロセスを開始します。オフラインで使用する場合は、2 つの環境変数を設定してオフラインモードを有効にし、後で同期させることができます。
 
-次の環境変数を設定します:
+以下の環境変数を設定してください：
 
-1. `WANDB_API_KEY=$KEY`、ここで `$KEY` はあなたの [settings page](https://app.wandb.ai/settings) から取得した API キーです。
+1. `WANDB_API_KEY=$KEY`（`$KEY` は [ユーザー設定](https://wandb.ai/settings) で作成した APIキー です）。
 2. `WANDB_MODE="offline"`。
 
-スクリプトでこれを実装する例を以下に示します:
+スクリプト内での実装例を以下に示します：
 
 ```python
 import wandb
 import os
 
-os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"  # あなたの API キーをここに
-os.environ["WANDB_MODE"] = "offline"  # オフラインモードを設定
+os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"
+os.environ["WANDB_MODE"] = "offline"
 
 config = {
-    "dataset": "CIFAR10",  # データセットを指定
-    "machine": "offline cluster",  # オフライン クラスターを指定
-    "model": "CNN",  # モデルを指定
-    "learning_rate": 0.01,  # 学習率を指定
-    "batch_size": 128,  # バッチサイズを指定
+    "dataset": "CIFAR10",
+    "machine": "offline cluster",
+    "model": "CNN",
+    "learning_rate": 0.01,
+    "batch_size": 128,
 }
 
-wandb.init(project="offline-demo")  # W&B プロジェクトを初期化
-
-for i in range(100):
-    wandb.log({"accuracy": i})  # メトリクスをログ
+with wandb.init(project="offline-demo") as run:
+    for i in range(100):
+        run.log({"accuracy": i})
 ```
 
-サンプルのターミナル出力は以下の通りです:
+ターミナル出力のサンプルは以下の通りです：
 
 <Frame>
-    <img src="/images/experiments/sample_terminal_output.png"  />
+<img src="/images/experiments/sample_terminal_output.png" alt="Offline mode terminal output" />
 </Frame>
 
-作業が完了した後、データをクラウドに同期するために以下のコマンドを実行します:
+作業完了後、以下のコマンドを実行してデータをクラウドに同期します：
 
 ```shell
 wandb sync wandb/dryrun-folder-name
 ```
 
 <Frame>
-    <img src="/images/experiments/sample_terminal_output_cloud.png"  />
+<img src="/images/experiments/sample_terminal_output_cloud.png" alt="Cloud sync terminal output" />
 </Frame>
 </Accordion>
 </Update>
 
-<Update tags={["administrator"]}>
-<Accordion title="私の組織における保存されたバイト数、追跡されたバイト数、および追跡時間を確認するにはどうすればいいですか？">
+<Update tags={["Administrator"]}>
+<Accordion title="組織の Bytes stored（保存済みバイト）、Bytes tracked（追跡済みバイト）、Tracked hours（追跡時間）を確認するには？">
 
-組織の設定内で、保存されたバイト数、追跡されたバイト数、および追跡時間を表示します：
+組織設定内で、組織の Bytes stored、Bytes tracked、および Tracked hours を確認できます：
 
 1. `https://wandb.ai/account-settings/<organization-name>/settings` で組織の設定に移動します。
 2. **Billing** タブを選択します。
-3. **Usage this billing period** セクション内で、**View usage** ボタンを選択します。
+3. **Usage this billing period** セクションで、**View usage** ボタンを選択します。
 
-`<>` で囲まれた値は、あなたの組織の名前に置き換えてください。
+`<>` で囲まれた部分は、ご自身の組織名に置き換えてください。
 </Accordion>
 </Update>
 
-<Update tags={["experiments", "metrics"]}>
-<Accordion title="なぜログされたデータポイントが少なく表示されるのですか？">
+<Update tags={["Experiments", "Metrics"]}>
+<Accordion title="ログに記録したデータポイントよりも少ない数しか表示されないのはなぜですか？">
 
-メトリクスを `Step` 以外の X 軸に対して視覚化する場合、データポイントが少なくなることがあります。メトリクスは同じ `Step` でログする必要があり、同期を維持します。同じ `Step` でログされるメトリクスのみが、サンプル間の補間中にサンプリングされます。
+`Step` 以外の X 軸に対してメトリクスを可視化する場合、データポイントが少なく表示されることが予想されます。メトリクスが同期を保つには、同じ `Step` でログ記録される必要があります。サンプリング間の補間中には、同じ `Step` で記録されたメトリクスのみがサンプリングされます。
 
 **ガイドライン**
 
-メトリクスを単一の `log()` 呼び出しにバンドルします。例えば、以下のようにするのではなく:
+メトリクスを単一の `log()` 呼び出しにまとめてください。例えば、次のようにする代わりに：
 
 ```python
-wandb.log({"Precision": precision})
-...
-wandb.log({"Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision})
+    ...
+    run.log({"Recall": recall})
 ```
 
-以下のようにします:
+次のように記述します：
 
 ```python
-wandb.log({"Precision": precision, "Recall": recall})
+import wandb
+with wandb.init() as run:
+    run.log({"Precision": precision, "Recall": recall})
 ```
 
-ステップパラメータを手動で制御する場合、コード内でメトリクスを次のように同期させます:
+ステップパラメータを手動で制御し、コード内でメトリクスを同期させるには、以下のようにします：
 
 ```python
-wandb.log({"Precision": precision}, step=step)
-...
-wandb.log({"Recall": recall}, step=step)
+with wandb.init() as run:
+    step = 100  # ステップ値の例
+    # 同じステップで Precision と Recall をログ記録
+    run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
-メトリクスを同じステップでログし、同時にサンプリングするために、両方の `log()` 呼び出しで `step` 値が同じままであることを確認してください。`step` 値は各呼び出しで単調に増加する必要があります。そうでない場合、`step` 値は無視されます。
+2 つの `log()` 呼び出しで `step` の値が同じであることを確認してください。これにより、メトリクスが同じステップの下で記録され、一緒にサンプリングされます。`step` の値は、各呼び出しにおいて単調増加（monotonically increase）する必要があります。そうでない場合、`step` の値は無視されます。
 </Accordion>
 </Update>
 
-<Update tags={["alerts"]}>
-<Accordion title="Microsoft Teams に run アラートを送るにはどうすれば良いですか？">
+<Update tags={["Alerts"]}>
+<Accordion title="Microsoft Teams に Run アラートを送信するにはどうすればよいですか？">
 
-Teams で W&B アラートを受け取るには、以下の手順に従ってください。
+Teams で W&B アラートを受信するには、以下の手順に従ってください：
 
-- **Teams チャンネルのためのメール アドレスを設定します。** アラートを受信したい Teams チャンネル用のメール アドレスを作成します。
-- **W&B アラートメールを Teams チャンネルのメール アドレスに転送します。** W&B を設定してメールでアラートを送信し、これらのメールを Teams チャンネルのメールに転送してください。
+- **Teams チャンネルのメールアドレスを設定する。** アラートを受信したい Teams チャンネル用のメールアドレスを作成します。
+- **W&B アラートメールを Teams チャンネルのメールアドレスに転送する。** W&B がメールでアラートを送信するように設定し、それらのメールを Teams チャンネルのメールアドレスに転送するように設定してください。
 </Accordion>
 </Update>
 
-<Update tags={["administrator"]}>
-<Accordion title="サービスアカウントとは何か、それはなぜ役立つのか？">
+<Update tags={["Administrator"]}>
+<Accordion title="サービスアカウントとは何ですか？なぜ便利なのですか？">
 
-サービスアカウント (エンタープライズ専用機能) は、人間ではないユーザーまたはマシンがチームや Projects 全体で一般的なタスクを自動化するためのもので、特定の人間ユーザーに特化しないタスクに使用されます。チーム内でサービスアカウントを作成し、その APIキー を使用してチーム内の Projects を読み書きすることができます。
+**サービスアカウント** は人間以外の ID（マシン ID）を表し、Teams や Projects を横断して共通のタスクを自動化できます。サービスアカウントは、CI/CD パイプライン、自動トレーニングジョブ、その他のマシン間ワークフローに最適です。
 
-他にも、サービスアカウントは、wandb にログを記録する自動化されたジョブ、例えば定期的な再トレーニングやナイトリービルドなどを追跡するのに便利です。必要に応じて、これらの機械がローンチした Runs に `WANDB_USERNAME` や `WANDB_USER_EMAIL` などの [環境変数](/ja/models/track/environment-variables/) を関連付けることができます。
+サービスアカウントの主なメリット：
+- **ライセンスの消費なし**: サービスアカウントはユーザーシートやライセンスを消費しません。
+- **専用の APIキー**: 自動化ワークフロー用の安全な認証情報。
+- **ユーザー属性（User attribution）**: オプションで自動化された Runs を特定のユーザーに紐付けることが可能。
+- **エンタープライズ対応**: 大規模な本番自動化向けに構築されています。
+- **委任された操作**: サービスアカウントは、それを作成したユーザーまたは組織に代わって操作します。
 
-[チームサービスアカウントの振る舞い](/ja/platform/app/settings-page/teams/#team-service-account-behavior) を参照して詳細を確認してください。
+特に、定期的な再トレーニングやナイトリービルドなど、wandb にログ記録される自動ジョブの追跡に便利です。必要であれば、[環境変数](/models/track/environment-variables) `WANDB_USERNAME` または `WANDB_USER_EMAIL` を使用して、これらのマシンから起動された Runs にユーザー名を関連付けることができます。
 
-チームのサービスアカウントの APIキー は `<WANDB_HOST_URL>/<your-team-name>/service-accounts` で取得できます。また、チームの **Team settings** に移動して **Service Accounts** タブを参照することもできます。
+ベストプラクティスや詳細な設定手順を含むサービスアカウントの包括的な情報については、[サービスアカウントを使用してワークフローを自動化する](/platform/hosting/iam/service-accounts) を参照してください。チームコンテキストでのサービスアカウントの振る舞いについては、[Team Service Account Behavior](/platform/app/settings-page/teams#team-service-account-behavior) を参照してください。
 
-チームの新しいサービスアカウントを作成するには:
-* チームの **Service Accounts** タブで **+ 新しいサービスアカウント** ボタンを押します
-* **Name** フィールドで名前を指定します
-* 認証メソッドとして **Generate API key (Built-in)** を選択します
-* **Create** ボタンを押します
-* 新しく作成したサービスアカウントの **Copy API key** ボタンをクリックし、それを秘密の管理者や他の安全でアクセス可能な場所に保存します
+<TeamServiceAccountCreate/>
 
 <Note>
-**Built-in** サービスアカウントの他に、W&B は [SDK と CLI 用のアイデンティティフェデレーション](/ja/platform/hosting/iam/identity_federation/#external-service-accounts) を使用した **外部サービスアカウント** もサポートしています。サービスアイデンティティを使用して W&B タスクを自動化したい場合は、JSON Web Tokens (JWT) を発行できるあなたのアイデンティティプロバイダで管理される外部サービスアカウントを使用してください。
+**組み込み（Built-in）** のサービスアカウント以外にも、W&B は [SDK および CLI 用の ID フェデレーション](/platform/hosting/iam/identity_federation#external-service-accounts) を使用した **外部（External）サービスアカウント** もサポートしています。JSON Web Token (JWT) を発行できる ID プロバイダーで管理されているサービス ID を使用して W&B タスクを自動化したい場合は、外部サービスアカウントを使用してください。
 </Note>
 </Accordion>
 </Update>
 
-<Update tags={["charts"]}>
-<Accordion title="カスタムチャートで「ステップスライダー」を表示するにはどうすればよいですか？">
+<Update tags={["Charts"]}>
+<Accordion title="カスタムチャートに「ステップスライダー」を表示するにはどうすればよいですか？">
 
-“その他の設定” ページのカスタム チャート エディタでこのオプションを有効にします。`summaryTable` の代わりに `historyTable` を使用するようにクエリを変更すると、カスタム チャート エディタで「ステップ セレクタを表示」のオプションが提供されます。この機能には、ステップを選択するためのスライダーが含まれています。
+カスタムチャートエディターの「Other settings」ページでこのオプションを有効にします。クエリを `summaryTable` ではなく `historyTable` を使用するように変更すると、カスタムチャートエディターに「Show step selector」オプションが表示されます。この機能には、ステップを選択するためのスライダーが含まれます。
 </Accordion>
 </Update>
 
-<Update tags={["notebooks", "environment variables"]}>
-<Accordion title="W&B の情報メッセージを消音するにはどうすればいいですか？">
+<Update tags={["Notebooks", "Environment Variables"]}>
+<Accordion title="W&B の情報メッセージを消すにはどうすればよいですか？">
 
-ノートブックで次のようなログメッセージを抑制するには:
+ノートブックで以下のようなログメッセージを抑制するには：
 
 ```
 INFO SenderThread:11484 [sender.py:finish():979]
-```
+``` 
 
-ログレベルを `logging.ERROR` に設定してエラーのみを表示し、情報レベルのログ出力を抑制します。
+ログレベルを `logging.ERROR` に設定してエラーのみを表示させ、情報レベルのログ出力を抑制します。
 
 ```python
 import logging
@@ -2067,10 +2480,10 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-ログ出力を完全にオフにするには、`WANDB_SILENT` 環境変数を設定します。これは `wandb.login` を実行する前にノートブックセル内で行う必要があります。
+ログ出力を大幅に削減するには、環境変数 `WANDB_QUIET` を `True` に設定します。ログ出力を完全にオフにするには、環境変数 `WANDB_SILENT` を `True` に設定してください。ノートブックでは、`wandb.login` を実行する前に `WANDB_QUIET` または `WANDB_SILENT` を設定します：
 
 <Tabs>
-<Tab title="ノートブック">
+<Tab title="ノートブック内">
 ```python
 %env WANDB_SILENT=True
 ```
@@ -2086,32 +2499,32 @@ os.environ["WANDB_SILENT"] = "True"
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="wandb はトレーニングを遅くしますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="W&B はトレーニングを遅くしますか？">
 
-W&B は通常の使用条件下でトレーニングパフォーマンスに最小限の影響しか与えません。通常の使用には、1 秒に 1 回以下の頻度でログを作成し、1 ステップあたり数メガバイト以内にデータを制限することが含まれます。W&B は非ブロッキング関数呼び出しを使用して別のプロセスで動作し、短時間のネットワーク障害やディスクの読み書きの断続的な問題がパフォーマンスを妨げないようにします。大量のデータを過剰にログすると、ディスク I/O の問題につながる可能性があります。詳細については、サポートにお問い合わせください。
+通常の利用条件下では、W&B がトレーニングパフォーマンスに与える影響は最小限です。通常の利用とは、1 秒間に 1 回未満の頻度でログを記録し、1 ステップあたり数メガバイトにデータを抑えることを指します。W&B は非ブロッキングな関数呼び出しを伴う別プロセスで動作するため、一時的なネットワーク障害や断続的なディスクの読み書きの問題がパフォーマンスを妨げることはありません。大量のデータを過剰にログ記録すると、ディスク I/O の問題につながる可能性があります。詳細についてはサポートにお問い合わせください。
 </Accordion>
 </Update>
 
-<Update tags={["security"]}>
-<Accordion title="W&B はマルチテナントに SSO をサポートしていますか？">
+<Update tags={["Security"]}>
+<Accordion title="W&B はマルチテナント向けに SSO をサポートしていますか？">
 
-W&B は、Auth0 を通じたマルチテナント提供のためにシングルサインオン (SSO) をサポートしています。SSO インテグレーションは、Okta や Azure AD など、OIDC 準拠の任意のアイデンティティプロバイダーと互換性があります。OIDC プロバイダーを設定するには、次の手順に従います:
+W&B は、Auth0 を通じてマルチテナント提供向けのシングルサインオン (SSO) をサポートしています。SSO 統合は、Okta や Azure AD など、任意の OIDC 準拠の ID プロバイダーと互換性があります。OIDC プロバイダーを設定するには、以下の手順に従ってください：
 
-* アイデンティティプロバイダーでシングルページアプリケーション (SPA) を作成します。
+* ID プロバイダー上で Single Page Application (SPA) を作成します。
 * `grant_type` を `implicit` フローに設定します。
 * コールバック URI を `https://wandb.auth0.com/login/callback` に設定します。
 
 **W&B の要件**
 
-セットアップを完了したら、アプリケーションの `Client ID` と `Issuer URL` をお客様サクセスマネージャー (CSM) に連絡してください。W&B はこれらの詳細を使用して Auth0 接続を確立し、SSO を有効にします。
+設定完了後、アプリケーションの `Client ID` と `Issuer URL` を添えて、カスタマーサクセスマネージャー (CSM) に連絡してください。W&B はこれらの詳細を使用して Auth0 接続を確立し、SSO を有効にします。
 </Accordion>
 </Update>
 
-<Update tags={["environment variables"]}>
-<Accordion title="私のターミナルまたは Jupyter ノートブック出力に書き込むのを wandb にやめさせるにはどうすればいいですか？">
+<Update tags={["Environment Variables"]}>
+<Accordion title="wandb がターミナルや Jupyter ノートブックの出力に書き込むのを停止するにはどうすればよいですか？">
 
-環境変数 [`WANDB_SILENT`](/ja/models/support/environment_variables/) を `true` に設定します。
+環境変数 [`WANDB_SILENT`](/models/track/environment-variables) を `true` に設定してください。
 
 <Tabs>
 <Tab title="Python">
@@ -2119,12 +2532,12 @@ W&B は、Auth0 を通じたマルチテナント提供のためにシングル�
 os.environ["WANDB_SILENT"] = "true"
 ```
 </Tab>
-<Tab title="Notebook">
+<Tab title="ノートブック内">
 ```python
 %env WANDB_SILENT=true
 ```
 </Tab>
-<Tab title="Command-Line">
+<Tab title="コマンドライン">
 ```shell
 WANDB_SILENT=true
 ```
@@ -2133,187 +2546,184 @@ WANDB_SILENT=true
 </Accordion>
 </Update>
 
-<Update tags={["storage"]}>
-<Accordion title="ストレージメーターが run を削除した後に更新されないのはなぜですか？">
+<Update tags={["Storage"]}>
+<Accordion title="Run を削除してもストレージメーターが更新されないのはなぜですか？">
 
-- After deleting a run, the storage meter is not updated immediately due to processing delays.
-- The backend system takes time to synchronize and accurately reflect usage changes.
-- If the storage meter is not updated, please wait for the changes to be processed.
+- 処理の遅延により、Run の削除直後にはストレージメーターが更新されません。
+- バックエンドシステムが同期し、使用量の変化を正確に反映させるまでに時間がかかります。
+- ストレージメーターが更新されない場合は、処理が完了するまでお待ちください。
 </Accordion>
 </Update>
 
-<Update tags={["environment variables"]}>
-<Accordion title="wandb はどのようにしてログをストリームし、ディスクに書き込むのですか?">
+<Update tags={["Environment Variables"]}>
+<Accordion title="wandb はどのようにログをストリーミングし、ディスクに書き込みますか？">
 
-W&B はメモリでイベントをキューに入れ、非同期にディスクに書き込みを行って、失敗を管理し、`WANDB_MODE=offline` の設定をサポートし、ログ後の同期を可能にします。
+W&B はイベントをメモリ上のキューに入れ、非同期にディスクに書き込みます。これにより障害を管理し、`WANDB_MODE=offline` 設定をサポートし、ログ記録後の同期を可能にします。
 
-ターミナルで、ローカルな run ディレクトリーへのパスを確認します。このディレクトリーには、データストアとして機能する `.wandb` ファイルが含まれています。画像のログでは、W&B はクラウドストレージにアップロードする前に、`media/images` サブディレクトリーに画像を保存します。
+ターミナルでは、ローカル Run ディレクトリーへのパスを確認できます。このディレクトリーには、データストアとして機能する `.wandb` ファイルが含まれています。画像ログについては、W&B はクラウドストレージにアップロードする前に、`media/images` サブディレクトリーに画像を保存します。
 </Accordion>
 </Update>
 
-<Update tags={["sweeps", "aws"]}>
-<Accordion title="クラウド インフラストラクチャー（AWS Batch、ECS など）で W&B スイープを使用できますか？">
+<Update tags={["Sweeps", "Aws"]}>
+<Accordion title="AWS Batch や ECS などのクラウドインフラで W&B Sweeps を使用できますか？">
 
-`W&B` sweep エージェントがアクセスできるようにするために、これらのエージェントが `sweep_id` を読み取り、実行するためのメソッドを実装します。
+任意の W&B Sweep agent がアクセスできるように `sweep_id` を公開するには、これらのエージェントが `sweep_id` を読み取って実行するためのメソッドを実装してください。
 
-例えば、Amazon EC2 インスタンスをローンチし、その上で `wandb agent` を実行します。SQS キューを使用して `sweep_id` を複数の EC2 インスタンスにブロードキャストします。各インスタンスはその後、キューから `sweep_id` を取得し、プロセスを開始することができます。
+例えば、Amazon EC2 インスタンスを起動し、その上で `wandb agent` を実行します。SQS キューを使用して、複数の EC2 インスタンスに `sweep_id` をブロードキャストします。各インスタンスはキューから `sweep_id` を取得してプロセスを開始できます。
 </Accordion>
 </Update>
 
-<Update tags={["sweeps", "aws"]}>
-<Accordion title="Sweeps と SageMaker を使用できますか？">
+<Update tags={["Sweeps", "Aws"]}>
+<Accordion title="Sweeps と SageMaker を併用できますか？">
 
-W&B を認証するには、以下の手順を完了してください。Amazon SageMaker の組み込み推定器を使用する場合、`requirements.txt` ファイルを作成します。認証および `requirements.txt` ファイルの設定に関する詳細は、[SageMaker インテグレーション](/ja/guides/integrations/sagemaker) ガイドを参照してください。
+W&B を認証するには、組み込みの Amazon SageMaker エスティメーターを使用している場合、以下の手順を完了して `requirements.txt` ファイルを作成してください。認証と `requirements.txt` ファイルの設定に関する詳細は、[SageMaker インテグレーション](/models/integrations/sagemaker) ガイドを参照してください。
 
 <Note>
-[GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker) で完全な例を見つけ、[ブログ](https://wandb.ai/site/articles/running-sweeps-with-sagemaker)で追加の洞察を得ることができます。\
-SageMaker と W&B を使用して感情分析をデプロイするための[チュートリアル](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE)にアクセスしてください。
+完全な例は [GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker) に、さらなる洞察は [ブログ](https://wandb.ai/site/articles/running-sweeps-with-sagemaker) にあります。\
+SageMaker と W&B を使用した感情分析器のデプロイについては、[Deploy Sentiment Analyzer Using SageMaker and W&B チュートリアル](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE) をご覧ください。
 </Note>
 </Accordion>
 </Update>
 
-<Update tags={["environment variables"]}>
-<Accordion title="同じマシンでアカウントを切り替えるにはどうすればいいですか？">
+<Update tags={["Environment Variables"]}>
+<Accordion title="同じマシンでアカウントを切り替えるにはどうすればよいですか？">
 
-2つの W&B アカウントを同じマシンから管理するには、両方の API キーをファイルに保存します。以下のコードをリポジトリで使用し、キーを安全に切り替えることで、秘密キーがソース管理にチェックインされるのを防ぎます。
+同じマシンで 2 つの W&B アカウントを管理するには、両方の APIキー をファイルに保存してください。秘密キーがソース管理にチェックインされるのを防ぐため、リポジトリ内で以下のコードを使用してキーを安全に切り替えます。
 
 ```python
-# キーを切り替えるコード例
 if os.path.exists("~/keys.json"):
     os.environ["WANDB_API_KEY"] = json.loads("~/keys.json")["work_account"]
 ```
 </Accordion>
 </Update>
 
-<Update tags={["metrics"]}>
+<Update tags={["Metrics"]}>
 <Accordion title="システムメトリクスはどのくらいの頻度で収集されますか？">
 
-メトリクスはデフォルトで 10 秒ごとに収集されます。より高解像度のメトリクスが必要な場合は、contact@wandb.com にメールしてください。
+メトリクスはデフォルトで 10 秒ごとに収集されます。より高い解像度のメトリクスについては、contact@wandb.com までメールでお問い合わせください。
 </Accordion>
 </Update>
 
-<Update tags={["team management"]}>
-<Accordion title="チームとは何か、またそれに関する詳細情報はどこで見つけられますか？">
+<Update tags={["Team Management"]}>
+<Accordion title="チームとは何ですか？どこで詳細情報を確認できますか？">
 
-チームに関する追加情報は、[teams section](/ja/platform/app/settings-page/teams/)をご覧ください。
+チームに関する詳細については、[Teams セクション](/platform/app/settings-page/teams) をご覧ください。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts"]}>
-<Accordion title="コードをテストするときに wandb をオフにできますか？">
+<Update tags={["Artifacts"]}>
+<Accordion title="コードのテスト時に wandb をオフにできますか？">
 
-`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定して、W&B をテスト目的で何もしない (NOOP) 状態に設定します。
+テスト目的で W&B を何もしない（NOOP）設定にするには、`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定してください。
 
 <Note>
-`wandb.init(mode="disabled")` を使用しても、W&B が Artifacts を `WANDB_CACHE_DIR` に保存するのを防ぐことはできません。
+`wandb.init(mode="disabled")` を使用しても、W&B が `WANDB_CACHE_DIR` に Artifacts を保存するのを防ぐことはできません。
 </Note>
 </Accordion>
 </Update>
 
-<Update tags={["experiments"]}>
-<Accordion title="あなたのツールはトレーニングデータを追跡または保存しますか？">
+<Update tags={["Experiments"]}>
+<Accordion title="トレーニングデータの追跡や保存は行われますか？">
 
-`wandb.config.update(...)` に SHA または一意の識別子を渡して、データセットをトレーニング run と関連付けます。W&B は、ローカルファイル名で `wandb.save` が呼び出されない限りデータを保存しません。
+データセットをトレーニング Run に関連付けるには、SHA やユニークな識別子を `wandb.Run.config.update(...)` に渡します。`wandb.Run.save()` がローカルファイル名と共に呼び出されない限り、W&B はデータを保存しません。
 </Accordion>
 </Update>
 
-<Update tags={["user management", "team management"]}>
-<Accordion title="どのような種類の役割があり、それぞれどのような違いがありますか？">
+<Update tags={["User Management", "Team Management"]}>
+<Accordion title="どのようなロール（役割）があり、それらの違いは何ですか？">
 
-[こちらの](/ja/platform/app/settings-page/teams/#team-roles-and-permissions)ページで利用可能な役割と権限の概要をご覧ください。
+利用可能なロールと権限の概要については、[Team roles and permissions](/platform/app/settings-page/teams#team-roles-and-permissions) ページをご覧ください。
 </Accordion>
 </Update>
 
-<Update tags={["billing"]}>
-<Accordion title="支払い方法をどうやって更新しますか？">
+<Update tags={["Billing"]}>
+<Accordion title="支払い方法を更新するにはどうすればよいですか？">
 
-支払い方法を更新するには、次のステップに従ってください:
+支払い方法を更新するには、以下の手順に従ってください：
 
-1. **プロフィールページに移動する**: まず、あなたのユーザープロフィールページに移動します。
-2. **組織を選択する**: アカウントセレクターから関連する組織を選びます。
-3. **請求設定にアクセスする**: **アカウント**の下で、**請求**を選択します。
+1. **プロフィールページに移動する**: まず、ユーザープロフィールページに移動します。
+2. **組織（Organization）を選択する**: アカウントセレクターから該当する組織を選択します。
+3. **Billing 設定にアクセスする**: **Account** の下にある **Billing** を選択します。
 4. **新しい支払い方法を追加する**:
-   - **支払い方法を追加**をクリックします。
-   - 新しいカードの詳細を入力し、それを**主要**な支払い方法にするオプションを選択します。
+   - **Add payment method** をクリックします。
+   - 新しいカードの詳細を入力し、それを **primary**（優先）な支払い方法にするオプションを選択します。
 
-> **注:** 請求を管理するには、あなたが組織の請求管理者として割り当てられている必要があります。
+> **注意:** 請求を管理するには、組織の請求管理者（billing admin）として割り当てられている必要があります。
 </Accordion>
 </Update>
 
-<Update tags={["reports"]}>
+<Update tags={["Reports"]}>
 <Accordion title="レポートに CSV をアップロードする">
 
-レポートに CSV をアップロードするには、`wandb.Table` フォーマットを使用します。Python スクリプトで CSV を読み込み、`wandb.Table` オブジェクトとしてログします。この操作により、データがレポート内でテーブルとして表示されます。
+レポートに CSV をアップロードするには、`wandb.Table` 形式を使用してください。Python スクリプトで CSV を読み込み、それを `wandb.Table` オブジェクトとして記録します。この操作により、レポート内でデータがテーブルとしてレンダリングされます。
 </Accordion>
 </Update>
 
-<Update tags={["reports"]}>
+<Update tags={["Reports"]}>
 <Accordion title="レポートに画像をアップロードする">
 
-新しい行で「/」キーを押し、Image オプションまでスクロールして、画像を レポート にドラッグ＆ドロップします。
+新しい行で `/` を押し、Image オプションまでスクロールして、画像をレポートにドラッグアンドドロップしてください。
 
 <Frame>
-    <img src="/images/reports/add_an_image.gif"  />
+<img src="/images/reports/add_an_image.gif" alt="Adding image to report" />
 </Frame>
 </Accordion>
 </Update>
 
-<Update tags={["privacy", "security"]}>
-<Accordion title="W&B の チーム メンバー は 私 の データ を 見る こと が できます か？">
+<Update tags={["Privacy", "Security"]}>
+<Accordion title="W&B チームメンバーは私のデータを見ることができますか？">
 
-W&B の主要なエンジニアとサポートスタッフは、ユーザーの許可を得てデバッグのためにログされた値にアクセスします。すべてのデータストアは保存時にデータを暗号化し、監査ログがアクセスを記録します。W&B の社員からの完全なデータセキュリティを確保するためには、独自のインフラストラクチャー内に W&B サーバーを運用するセルフホスト型ソリューションのライセンスを取得してください。
+W&B の主要なエンジニアやサポートスタッフは、ユーザーの許可を得た上で、デバッグ目的でログ記録された値にアクセスすることがあります。すべてのデータストアは保存時に暗号化され、アクセスは監査ログに記録されます。W&B 従業員からの完全なデータセキュリティを確保するには、自身のインフラストラクチャー内で W&B サーバーを実行するための Self-Managed ソリューションをライセンス契約してください。
 </Accordion>
 </Update>
 
-<Update tags={["connectivity", "outage"]}>
-<Accordion title="W&B に障害がありますか？">
+<Update tags={["Connectivity", "Outage"]}>
+<Accordion title="W&B で障害が発生していますか？">
 
-W&B マルチテナントクラウドが停止しているかどうかは、W&B ステータスページ [https://status.wandb.com](https://status.wandb.com) を訪問して確認してください。
+[wandb.ai](https://wandb.ai) 上の W&B Multi-tenant Cloud で障害が発生しているかどうかは、[https://status.wandb.com](https://status.wandb.com) の W&B ステータスページで確認できます。
 </Accordion>
 </Update>
 
-<Update tags={["environment variables", "experiments"]}>
-<Accordion title="私のトレーニングプロセスで wandb.init は何をしますか？">
+<Update tags={["Environment Variables", "Experiments"]}>
+<Accordion title="wandb.init はトレーニングプロセスにどのような影響を与えますか？">
 
-`wandb.init()` がトレーニングスクリプトで実行されると、API 呼び出しによりサーバー上に run オブジェクトが作成されます。新しいプロセスが開始され、ストリームとメトリクスの収集が行われ、主要なプロセスは通常通り機能します。スクリプトはローカルファイルに書き込みを行い、別のプロセスがシステムメトリクスを含むデータをサーバーにストリームします。ストリーミングをオフにするには、トレーニングディレクトリから `wandb off` を実行するか、`WANDB_MODE` 環境変数を `offline` に設定します。
+トレーニングスクリプトで `wandb.init()` が実行されると、サーバー上に Run オブジェクトを作成するための API 呼び出しが行われます。メトリクスをストリーミングして収集するための新しいプロセスが開始され、プライマリプロセスは通常通り機能し続けることができます。スクリプトがローカルファイルに書き込む一方で、別のプロセスがシステムメトリクスを含むデータをサーバーにストリーミングします。ストリーミングをオフにするには、トレーニングディレクトリーから `wandb off` を実行するか、環境変数 `WANDB_MODE` を `offline` に設定してください。
 </Accordion>
 </Update>
 
-<Update tags={["sweeps"]}>
-<Accordion title="Python ファイルを編集すると、sweep 実行中に何が起こりますか？">
+<Update tags={["Sweeps"]}>
+<Accordion title="スイープの実行中に Python ファイルを編集するとどうなりますか？">
 
-スイープが実行中の場合:
-- スイープが使用する `train.py` スクリプトが変更された場合、スイープは元の `train.py` を使用し続けます。
-- スイープが参照する `train.py` スクリプト内のファイルが変更された場合、例えば `helper.py` スクリプト内の補助関数など、スイープは更新された `helper.py` を使用し始めます。
+スイープの実行中に：
+- スイープが使用している `train.py` スクリプトが変更された場合、スイープは元の `train.py` を使い続けます。
+- `train.py` スクリプトが参照しているファイル（`helper.py` スクリプト内のヘルパー関数など）が変更された場合、スイープは更新された `helper.py` を使い始めます。
 </Accordion>
 </Update>
 
-<Update tags={["artifacts", "environment variables"]}>
-<Accordion title="アーティファクトはどこにダウンロードされ、どうやってそれを制御できますか？">
+<Update tags={["Artifacts", "Environment Variables"]}>
+<Accordion title="Artifacts はどこにダウンロードされますか？また、それを制御するには？">
 
-デフォルトでは、Artifacts は `artifacts/` フォルダにダウンロードされます。場所を変更するには次のようにします。
+デフォルトでは、Artifacts は `artifacts/` フォルダーにダウンロードされます。場所を変更するには：
 
-- [`wandb.Artifact().download`](/ja/models/ref/python/public-api/api) に渡します:
+- [`wandb.Artifact().download`](/models/ref/python/public-api/api) にパスを渡します：
 
     ```python
-    # ダウンロードのためのパスを指定します
     wandb.Artifact().download(root="<path_to_download>")
     ```
 
-- `WANDB_ARTIFACT_DIR` [環境変数](/ja/models/track/environment-variables/) を設定します:
+- `WANDB_ARTIFACT_DIR` [環境変数](/models/track/environment-variables) を設定します：
 
     ```python
-    # 環境変数を設定します
     import os
     os.environ["WANDB_ARTIFACT_DIR"] = "<path_to_download>"
     ```
 </Accordion>
 </Update>
 
-<Update tags={["experiments", "runs"]}>
-<Accordion title="CSV メトリックエクスポートにステップが欠落しているのはなぜですか？">
+<Update tags={["Experiments", "Runs"]}>
+<Accordion title="CSV 形式でのメトリクスエクスポートでステップが欠落しているのはなぜですか？">
 
-エクスポート制限により、実行履歴全体をCSVとしてエクスポートしたり、`run.history` APIを使用したりすることができない場合があります。完全な実行履歴にアクセスするには、Parquet形式を使用して実行履歴アーティファクトをダウンロードしてください。
+エクスポート制限により、Run History のすべてが CSV として、または `run.history` API を使用してエクスポートされない場合があります。完全な Run History にアクセスするには、Parquet 形式を使用して Run History の Artifact をダウンロードしてください：
 
 ```python
 import wandb
@@ -2327,10 +2737,9 @@ df = pd.read_parquet('<path to .parquet file>')
 </Accordion>
 </Update>
 
-<Update tags={["python"]}>
-<Accordion title="Python でのみ動作しますか？">
+<Update tags={["Python"]}>
+<Accordion title="これは Python でしか使えませんか？">
 
-ライブラリは Python 2.7 以降、および Python 3.6 以降をサポートしています。アーキテクチャーは他のプログラミング言語とのインテグレーションを容易にします。他の言語をモニタリングするには、[contact@wandb.com](mailto:contact@wandb.com) にお問い合わせください。
+このライブラリは Python 2.7 以降、および Python 3.6 以降をサポートしています。このアーキテクチャーは、他のプログラミング言語との統合も容易にするように設計されています。他の言語のモニタリングについては、[contact@wandb.com](mailto:contact@wandb.com) までお問い合わせください。
 </Accordion>
 </Update>
-

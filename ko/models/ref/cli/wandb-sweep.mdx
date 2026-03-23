@@ -1,28 +1,49 @@
 ---
-title: wandb sweep
+title: ' thoughtful ditch:
+
+  wandb sweep'
 ---
 
-**사용법**
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-sweep.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
 
-`wandb sweep [OPTIONS] CONFIG_YAML_OR_SWEEP_ID`
+import WandbSweep from "/snippets/en/_includes/cli/wandb-sweep.mdx";
 
-**요약**
+<WandbSweep/>
 
-하이퍼파라미터 스윕을 초기화합니다. 다양한 조합을 테스트하여 기계 학습 모델의 비용 함수를 최적화하는 하이퍼파라미터를 검색합니다.
+  The snippet will be auto-detected on the next regeneration.
+*/}
 
-**옵션**
+하이퍼파라미터 스윕 을 초기화합니다. 다양한 조합을 테스트하여 기계학습 모델의 비용 함수를 최적화하는 하이퍼파라미터를 검색합니다.
 
-| **옵션** | **설명** |
+## Usage
+
+```bash
+wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
+```
+
+## Arguments
+
+| 인수 | 설명 | 필수 여부 |
+| :--- | :--- | :--- |
+| `CONFIG_YAML_OR_SWEEP_ID` | 설명 없음 | 예 |
+
+## Options
+
+| 옵션 | 설명 |
 | :--- | :--- |
-| `-p, --project` | 스윕에서 생성된 W&B run이 전송될 **Project** 이름입니다. **Project** 가 지정되지 않은 경우, run은 Uncategorized 라는 **Project** 로 전송됩니다. |
-| `-e, --entity` | 스윕에서 생성된 W&B run을 전송할 사용자 이름 또는 팀 이름입니다. 지정한 **Entity** 가 이미 존재하는지 확인하십시오. **Entity** 를 지정하지 않으면 run은 기본 **Entity** (일반적으로 사용자 이름)로 전송됩니다. |
-| `--controller` | 로컬 컨트롤러 실행 |
-| `--verbose` | 자세한 출력 표시 |
-| `--name` | 스윕의 이름입니다. 이름이 지정되지 않은 경우 스윕 ID가 사용됩니다. |
+| `--project`, `-p` | Sweeps 에서 생성된 W&B Runs 가 전송될 Projects 의 이름입니다. 프로젝트를 지정하지 않으면 Run 은 Uncategorized 라는 이름의 프로젝트로 전송됩니다. |
+| `--entity`, `-e` | Sweeps 에 의해 생성된 W&B Runs 를 전송할 Users 이름 또는 Teams 이름입니다. 지정하는 Entity 가 이미 존재하는지 확인하세요. Entity 를 지정하지 않으면 기본 Entity(보통 사용자 이름)로 전송됩니다. |
+| `--controller` | 로컬 컨트롤러 실행 (기본값: False) |
+| `--verbose` | 상세 출력 표시 (기본값: False) |
+| `--name` | Sweeps 의 이름입니다. 이름을 지정하지 않으면 스윕 ID가 사용됩니다. |
 | `--program` | 스윕 프로그램 설정 |
-| `--update` | 보류 중인 스윕 업데이트 |
-| `--stop` | 새 run 실행을 중지하고 현재 실행 중인 run이 완료되도록 스윕을 종료합니다. |
-| `--cancel` | 실행 중인 모든 run을 중단하고 새 run 실행을 중지하도록 스윕을 취소합니다. |
-| `--pause` | 새 run 실행을 일시적으로 중지하도록 스윕을 일시 중지합니다. |
-| `--resume` | 새 run 실행을 계속하도록 스윕을 재개합니다. |
-| `--prior_run` | 이 스윕에 추가할 기존 run의 ID |
+| `--update` | 대기 중인 스윕 업데이트 |
+| `--stop` | 스윕을 종료하여 새로운 Run 의 실행을 중단하고 현재 실행 중인 Run 은 완료되도록 합니다. (기본값: False) |
+| `--cancel` | 스윕을 취소하여 모든 실행 중인 Run 을 종료하고 새로운 Run 의 실행을 중단합니다. (기본값: False) |
+| `--pause` | 스윕을 일시 중지하여 새로운 Run 의 실행을 일시적으로 중단합니다. (기본값: False) |
+| `--resume` | 스윕을 재개하여 새로운 Run 의 실행을 계속합니다. (기본값: False) |
+| `--prior_run`, `-R` | 이 스윕에 추가할 기존 Run 의 ID |

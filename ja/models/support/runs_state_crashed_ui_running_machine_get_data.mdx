@@ -1,8 +1,5 @@
 ---
-title: 私の run の状態は UI 上では `crashed` ですが、マシン上ではまだ実行中です。データを取り戻すにはどうすればいいですか？
-support:
-  - experiments
-toc_hide: true
-type: docs
+title: UI 上で Run のステータスが `crashed` と表示されているのに、自分のマシン上ではまだ実行が続いています。データを復旧するにはどうすればよいですか？
 ---
-トレーニング中にマシンへの接続が失われた可能性があります。データを回復するには、[`wandb sync [PATH_TO_RUN]`](/ja/models/ref/cli/wandb-sync) を実行してください。 run へのパスは、進行中の Run ID に一致する `wandb` ディレクトリー内のフォルダーです。
+
+トレーニング中にマシンへの接続が切断された可能性があります。 [`wandb sync [PATH_TO_RUN]`](/models/ref/cli/wandb-sync) を実行してデータを復旧してください。 Run へのパスは、 `wandb` ディレクトリー内にある、進行中の Run の Run ID と一致するフォルダーです。

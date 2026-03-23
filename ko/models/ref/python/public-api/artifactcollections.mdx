@@ -1,0 +1,25 @@
+---
+title: ArtifactCollections
+namespace: public_apis_namespace
+python_object_type: class
+---
+import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+## <kbd>class</kbd> `ArtifactCollections`
+Projects 내의 특정 타입에 대한 Artifact 컬렉션입니다.
+
+**Args:**
+
+ - `client`: W&B 쿼리에 사용할 클라이언트 인스턴스입니다.
+ - `entity`: Projects 를 소유한 Entity (사용자 또는 팀)입니다.
+ - `project`: Artifact 컬렉션을 조회할 Projects 의 이름입니다.
+ - `type_name`: 컬렉션을 가져올 Artifact 타입의 이름입니다.
+ - `per_page`: 페이지당 가져올 Artifact 컬렉션의 수입니다. 기본값은 50입니다.
+
+### <kbd>property</kbd> ArtifactCollections.cursor
+
+---
+
+### <kbd>property</kbd> ArtifactCollections.more

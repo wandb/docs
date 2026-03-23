@@ -1,14 +1,152 @@
 ---
 title: "W&B SDK releases"
+description: "View release notes for the W&B Python SDK including new features, bug fixes, and breaking changes by version."
 sidebarTitle: "All releases"
 rss: true
 ---
 
 This page includes release notes for the W&B Python SDK (`wandb` package). For W&B Server, see [W&B Server release notes](/release-notes/server-releases).
 
+<Update label="0.25.1" description="March 10, 2026">
+## Added
+
+- New run console logs pane in `wandb beta leet` command. Toggle with `l`.
+- New system metrics pane in multi-run workspace mode in `wandb beta leet` command. Toggle with `s`.
+- `wandb beta leet` command now supports system metrics filtering. Toggle with `\`.
+- `ArtifactType.collections()` now supports filtering and ordering of collections.
+- A warning is now logged if `run.log_artifact` does not create a new version because the artifact content is identical to an existing version.
+- The new method `Project.collections()` fetches filtered and ordered artifact collections in a project.
+- The new `wandb purge-cache` CLI command cleans up cached files.
+
+## Fixed
+- Fixed a rare deadlock caused when garbage collection triggers at an unlucky time and runs a `__del__` method that prints.
+- Fixed a bug where loading multiple runs with `api.Runs("...")`, then attempting to get a single run's user with code like the following could fail with an `AttributeError`:
+
+    ```python
+    for run in runs:
+      print(run.user)
+    ```
+
+</Update>
+
+<Update label="0.25.0" description="February 12, 2026">
+## Notable changes
+- Python 3.8 is no longer supported.
+
+## Added
+- The `wandb beta leet` TUI now supports multi-run workspaces.
+- Configure `wandb beta leet`'s persisted configuration interactively with the `wandb beta leet config` command.
+- Access the project owner's user information with the `owner` property of `wandb.apis.public.Project`.
+
+## Fixed
+- Fixed a bug where a sweep agent for a deleted sweep could run indefinitely with repeated 404 errors.
+- Fixed a bug where a `wandb-core` crash could produce extremely long and repetitive tracebacks in older Python versions.
+- Fixed a regression introduced in v0.24.0 where a TensorBoard sync could stop after syncing 1 MB of data.
+</Update>
+
+<Update label="0.24.2" description="February 4, 2026">
+## Added
+
+- `wandb.Api()` now supports Federated Auth (JWT based authentication).
+
+## Fixed
+
+- The presigned download URL is now refreshed if it expires during artifact file downloads.
+</Update>
+
+<Update label="0.24.1" description="January 29, 2026">
+## Notable Changes
+
+- Runs created with `wandb==0.24.0` may fail to upload some data, which this release fixes. Missing data is stored in the run's `.wandb` file and can be reuploaded with `wandb sync`.
+
+## Added
+
+- `download_history_exports` in `api.Run` class to download exported run history in parquet file format.
+
+## Changed
+
+- When a settings file (such as `./wandb/settings` or `~/.config/wandb/settings`) contains an invalid setting, all settings files are ignored and an error is printed.
+
+## Fixed
+- After `wandb login --host <invalid-url>`, using `wandb login --host <valid-url>` works as usual.
+- Fixed a bug where `wandb beta sync` can get stuck on `Syncing...` and fail to load credentials.
+- Fixed a bug that could occasionally lead to unuploaded data. Now, all data is stored in the run's `.wandb` file and can be reuploaded with `wandb sync`.
+
+These regressions were introduced in 0.24.0.
+</Update>
+
+<Update label="0.24.0" description="January 13, 2026">
+<Warning>
+This release has been removed from PyPI. Do not use this version. If you are on this version, upgrade to v0.24.1 or a newer version immediately. Due to a regression fixed in v0.24.1, runs created with `wandb==0.24.0` may fail to upload some data.
+</Warning>
+
+## Notable Changes
+
+This version removes the legacy, deprecated `wandb.beta.workflows` module, including its `log_model()`/`use_model()`/`link_model()` functions. This is formally a breaking change.
+
+## Added
+- `wandb agent` and `wandb.agent()` now accept a `forward_signals` flag (CLI: `--forward-signals/-f`) to relay SIGINT/SIGTERM and other catchable signals from the agent to its sweep child runs, enabling cleaner shutdowns when you interrupt an agent process.
+- `wandb beta sync` now supports a `--live` option for syncing a run while it's being logged.
+
+## Removed
+- Removed the deprecated `wandb.beta.workflows` module, including its `log_model()`, `use_model()`, and `link_model()` functions, and whose modern successors are the `Run.log_artifact`, `Run.use_artifact`, and `Run.link_artifact` methods, respectively.
+
+## Fixed
+- Fixed `Run.__exit__` type annotations to accept `None` values, which are passed when no exception is raised.
+- Fixed `Invalid Client ID digest` error when creating artifacts after calling `random.seed()`. Client IDs could collide when random state was seeded deterministically..
+- Fixed CLI error when listing empty artifacts.
+- Fixed regression for calling `api.run()` on a Sweeps run.
+- Fixed the "View run at" message printed at the end of a run which sometimes did not include a URL.
+- Runs queried from wandb.Api() now display a string representation in VSCode notebooks instead of a broken HTML window.
+</Update>
+
+<Update label="v0.23.1" description="December 2, 2025">
+## Added
+
+- Regex support in metrics and run overview filters in `wandb beta leet` command.
+- Chart inspection in `wandb beta leet` command: right-click and drag to show (x, y) at the nearest data point; hold Alt for synchronized inspection across all visible charts.
+- The Automations API now supports creating and editing automations that trigger on run states.
+- The Automations API now supports basic zscore automation events.
+- `beta_history_scan` method to `Run` objects for faster history scanning performance with `wandb.Api`.
+
+## Changed
+
+- `wandb.Api()` now raises a `UsageError` if `WANDB_IDENTITY_TOKEN_FILE` is set and an explicit API key is not provided.
+
+## Deprecated
+
+- Anonymous mode is deprecated and will emit warnings. This deprecation includes the `anonymous` setting, the `WANDB_ANONYMOUS` environment variable, `wandb.init(anonymous=...)`, and commands `wandb login --anonymously` and `wandb.login(anonymous=...)`.
+
+## Fixed
+
+- `wandb.Image()` no longer prints a deprecation warning.
+- `Registry.description` and `ArtifactCollection.description` no longer reject empty strings.
+- Instantiating `Artifact` objects is now significantly faster.
+- `wandb.Run.save()` now falls back to hardlinks and, if needed, copying (downgrading the 'live' file policy to 'now', if applicable) when symlinks are disabled or unavailable (e.g., cross‑volume or no Developer Mode on Windows).
+- Artifact collection aliases are now fetched lazily on accessing `ArtifactCollection.aliases` instead of on instantiating `ArtifactCollection`, improving performance of `Api.artifact_collections()`, `Api.registries().collections()`, etc.
+- Use explicitly provided API key in `wandb.init(settings=wandb.Settings(api_key="..."))` for login. Use the key from run when logging artifacts via `run.log_artifact`.
+- W&B LEET TUI correctly displays negative Y axis tick values and base/display units of certain system metrics.
+- Fixed a rare infinite loop in `console_capture.py`.
+- File upload/download now respects `WANDB_X_EXTRA_HTTP_HEADERS` except for [reference artifacts](/models/artifacts/track-external-files).
+</Update>
+
+<Update label="v0.23.0" description="November 11, 2025">
+## Added
+
+- Experimental `wandb beta leet` command - Lightweight Experiment Exploration Tool - a terminal UI for viewing W&B runs locally with real-time metrics visualization and system monitoring.
+- The registry API now supports programmatic management of user and team members of individual registries.
+- `Registry.id` has been added as a (read-only) property of `Registry` objects.
+
+## Fixed
+
+- `Artifact.files()` now has a correct `len()` when filtering by the `names` parameter.
+- The numerator for file upload progress no longer occasionally exceeds the total file size.
+- `Artifact.link()` now logs unsaved artifacts instead of raising an error, consistent with the behavior of `Run.link_artifact()`.
+- Automatic code saving now works when running ipython notebooks in VSCode's Jupyter notebook extension.
+- Logging an artifact with infinite floats in `Artifact.metadata` now raises a `ValueError` early, instead of waiting on request retries to time out.
+</Update>
+
 <Update label="v0.22.3" description="October 28, 2025">
-
-
 ## Added
 
 - Settings `console_chunk_max_seconds` and `console_chunk_max_bytes` for size- and time-based multipart console logs file chunking.
@@ -256,7 +394,7 @@ This version removes the ability to disable the `service` process. This is a bre
   - S3 paths use the format `s3://bucket/path/to/log/dir` and rely on the default credentials set through `aws configure`
   - Azure paths use the format `az://account/container/path/to/log/dir` and the `az login` credentials, but also require the `AZURE_STORAGE_ACCOUNT` and `AZURE_STORAGE_KEY` environment variables to be set. Some other environment variables are supported as well, see [here](https://pkg.go.dev/gocloud.dev@v0.41.0/blob/azureblob#hdr-URLs).
 - Added support for initializing some Media objects with `pathlib.Path`.
-- New setting `x_skip_transaction_log` that allows to skip the transaction log. Note: Should be used with caution, as it removes the gurantees about recoverability.
+- New setting `x_skip_transaction_log` that allows to skip the transaction log. Note: Should be used with caution, as it removes the guarantees about recoverability.
 - `normalize` parameter to `wandb.Image` initialization to normalize pixel values for Images initialized with a numpy array or pytorch tensor.
 
 ## Changed
@@ -2311,7 +2449,7 @@ View the [v0.13.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.1
 - Adds an option to pass `remote url` and `commit hash` as arguments to settings or as environment variables.
 - Improves time resolution for tracked metrics and for system metrics.
 - Defaults to project name from the sweep config when project is not specified in the `wandb.sweep()` call.
-- Adds support to use namespace set user by the the launch agent.
+- Adds support to use namespace set user by the launch agent.
 - Adds telemetry to track when a run might be overwritten.
 - Adds a tool to export `wandb`'s history into `sqlite`.
 - Replaces some `Mapping[str, ...]` types with `NamedTuples`.
@@ -2354,7 +2492,7 @@ View the [v0.13.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.13.0
 
 - Fixes config not showing up until the run finish.
 - Adds new types to the TypeRegistry to handling artifact objects in jobs and run configs.
-- Adds new query to the the internal api getting the state of the run.
+- Adds new query to the internal api getting the state of the run.
 - Replaces unsafe yaml loaders with yaml.safe_load.
 - Improves testing tooling by allowing to specify shards in manual testing.
 - Fixes ROC and PR curves in the sklearn integration by stratifying sampling.
@@ -3766,7 +3904,7 @@ View the [v0.9.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.9.3) 
 - Configurable download directory for artifacts.
 - New Artifact.verify method to ensure the integrity of local artifacts.
 - Use_artifact no longer requires `type`.
-- Deleted artifacts can now be be recommitted.
+- Deleted artifacts can now be recommitted.
 - Lidar scenes now support vectors.
 
 ## Bug Fix

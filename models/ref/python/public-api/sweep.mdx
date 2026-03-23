@@ -27,7 +27,13 @@ The set of runs associated with the sweep.
 ### <kbd>method</kbd> `Sweep.__init__`
 
 ```python
-__init__(client, entity, project, sweep_id, attrs=None)
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    sweep_id: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
+)
 ```
 
 
@@ -47,6 +53,10 @@ The sweep configuration used for the sweep.
 
 The entity associated with the sweep. 
 
+
+
+**Returns:**
+ - `str`: The entity property value.
 ---
 
 ### <kbd>property</kbd> Sweep.expected_run_count
@@ -97,6 +107,10 @@ Deprecated. Use `Sweep.entity` instead.
 
 
 
+
+
+**Returns:**
+ - `str`: The username property value.
 ---
 
 ### <kbd>method</kbd> `Sweep.best_run`
@@ -118,7 +132,7 @@ get(
     project: 'str | None' = None,
     sid: 'str | None' = None,
     order: 'str | None' = None,
-    query: 'str | None' = None,
+    query: 'Document | None' = None,
     **kwargs
 )
 ```
@@ -143,7 +157,7 @@ Execute a query against the cloud backend.
 ### <kbd>method</kbd> `Sweep.to_html`
 
 ```python
-to_html(height=420, hidden=False)
+to_html(height: 'int' = 420, hidden: 'bool' = False) → str
 ```
 
 Generate HTML containing an iframe displaying this sweep. 

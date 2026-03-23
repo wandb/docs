@@ -1,0 +1,20 @@
+---
+title: ' sunlight
+
+  <thought
+
+  Launch は並列化をサポートしていますか？ ジョブが消費するリソースを制限するにはどうすればよいですか？'
+---
+
+Launch は、複数の GPU やノードにまたがるジョブのスケーリングをサポートしています。詳細は [Volcano インテグレーションガイド](/models/tutorials/volcano/) を参照してください。
+
+各 Launch エージェントは `max_jobs` パラメータで設定され、同時に実行できるジョブの最大数を決定します。適切な Launch インフラストラクチャーに接続されている限り、複数のエージェントで単一のキューを参照することが可能です。
+
+リソース設定において、キューまたはジョブの Run レベルで CPU、GPU、メモリ、その他のリソースに制限を設定できます。Kubernetes 上でリソース制限を設けたキューをセットアップする方法については、[Kubernetes セットアップガイド](/platform/launch/setup-launch-kubernetes/) を参照してください。
+
+Sweeps の場合、同時実行される Runs の数を制限するには、キューの設定に以下のブロックを含めてください。
+
+```yaml title="queue config"
+  scheduler:
+    num_workers: 4
+```

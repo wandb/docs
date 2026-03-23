@@ -1,0 +1,130 @@
+---
+title: Google
+description: Google GenAI 모델 호출을 추적하고 로그를 남기기 위해 Weave 를 사용하세요
+---
+
+<a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_google.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
+<Note>
+설정 없이 [LLM Playground](../tools/playground)를 사용하여 Weave 에서 Google AI 모델을 실험해 볼 수 있습니다.
+</Note>
+
+이 페이지는 Google Vertex AI API 및 Google Gemini API와 함께 W&B Weave 를 사용하는 방법을 설명합니다.
+
+Weave 를 사용하여 Google GenAI 애플리케이션을 평가, 모니터링 및 반복할 수 있습니다. Weave 는 다음 서비스에 대한 트레이스를 자동으로 캡처합니다:
+
+1. [Google GenAI SDK](https://github.com/googleapis/python-genai): Python SDK, Node.js SDK, Go SDK 및 REST를 통해 엑세스할 수 있습니다.
+2. [Google Vertex AI API](https://cloud.google.com/vertex-ai/docs): Google의 Gemini 모델 및 [다양한 파트너 모델](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models)에 대한 엑세스를 제공합니다.
+
+<Note>
+현재 지원 중단된 [Gemini API용 Google AI Python SDK](https://github.com/google-gemini/deprecated-generative-ai-python)도 지원합니다. 단, 이 지원 역시 지원 중단 예정이며 향후 버전에서 제거될 예정입니다.
+</Note>
+
+## 시작하기
+
+Weave 는 [Google GenAI SDK](https://github.com/googleapis/python-genai)의 트레이스를 자동으로 캡처합니다. 추적을 시작하려면 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`을 호출하고 라이브러리를 평소처럼 사용하세요.
+
+```python lines
+import os
+from google import genai
+import weave
+
+# 프로젝트 초기화
+weave.init(project_name="google-genai")
+
+google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
+response = google_client.models.generate_content(
+    model="gemini-2.0-flash",
+    contents="What's the capital of France?",
+)
+```
+
+[![dspy_trace.png](/weave/guides/integrations/imgs/google-genai-trace.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
+
+Weave 는 또한 [Vertex APIs](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models)의 트레이스를 자동으로 캡처합니다. 추적을 시작하려면 `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`을 호출하고 라이브러리를 평소처럼 사용하세요.
+
+```python lines
+import vertexai
+import weave
+from vertexai.generative_models import GenerativeModel
+
+# 프로젝트 초기화
+weave.init(project_name="vertex-ai-test")
+vertexai.init(project="<YOUR-VERTEXAIPROJECT-NAME>", location="<YOUR-VERTEXAI-PROJECT-LOCATION>")
+model = GenerativeModel("gemini-1.5-flash-002")
+response = model.generate_content(
+    "What's a good name for a flower shop specialising in selling dried flower bouquets?"
+)
+```
+
+## 자체 op 추적하기
+
+함수를 `@weave.op`로 래핑하면 입력, 출력 및 앱 로직 캡처가 시작되어 앱을 통해 데이터가 흐르는 방식을 디버그할 수 있습니다. op를 깊게 중첩하고 추적하려는 함수 트리를 구축할 수 있습니다. 또한 실험을 진행하면서 git에 커밋되지 않은 세부 사항을 캡처하기 위해 코드의 버전 관리도 자동으로 시작합니다.
+
+[`@weave.op`](/weave/guides/tracking/ops) 데코레이터가 적용된 함수를 만들기만 하면 됩니다.
+
+아래 예시에서 `recommend_places_to_visit` 함수는 도시의 방문 장소를 추천하는 `@weave.op` 래핑 함수입니다.
+
+```python lines
+import os
+from google import genai
+import weave
+
+# 프로젝트 초기화
+weave.init(project_name="google-genai")
+google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
+
+
+@weave.op()
+def recommend_places_to_visit(city: str, model: str = "gemini-1.5-flash"):
+    response = google_client.models.generate_content(
+        model=model,
+        contents="You are a helpful assistant meant to suggest all budget-friendly places to visit in a city",
+    )
+    return response.text
+
+
+recommend_places_to_visit("New York")
+recommend_places_to_visit("Paris")
+recommend_places_to_visit("Kolkata")
+```
+
+[![dspy_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
+
+## 더 쉬운 실험을 위해 `Model` 만들기
+
+많은 구성 요소가 움직일 때 실험을 정리하는 것은 어렵습니다. [`Model`](../core-types/models) 클래스를 사용하면 시스템 프롬프트나 사용 중인 모델과 같은 앱의 실험 세부 정보를 캡처하고 정리할 수 있습니다. 이는 앱의 다양한 반복 버전을 정리하고 비교하는 데 도움이 됩니다.
+
+코드 버전 관리 및 입력/출력 캡처 외에도, [`Model`](../core-types/models)은 애플리케이션의 행동을 제어하는 구조화된 파라미터를 캡처하여 어떤 파라미터가 가장 효과적이었는지 쉽게 찾을 수 있도록 합니다. Weave Models 는 `serve` 및 [`Evaluation`](../core-types/evaluations)과 함께 사용할 수도 있습니다.
+
+아래 예시에서 `CityVisitRecommender`를 사용하여 실험할 수 있습니다. 이를 변경할 때마다 `CityVisitRecommender`의 새로운 _버전_이 생성됩니다.
+
+```python lines
+import os
+from google import genai
+import weave
+
+# 프로젝트 초기화
+weave.init(project_name="google-genai")
+google_client = genai.Client(api_key=os.getenv("GOOGLE_GENAI_KEY"))
+
+
+class CityVisitRecommender(weave.Model):
+    model: str
+
+    @weave.op()
+    def predict(self, city: str) -> str:
+        response = google_client.models.generate_content(
+            model=self.model,
+            contents="You are a helpful assistant meant to suggest all budget-friendly places to visit in a city",
+        )
+        return response.text
+
+
+city_recommender = CityVisitRecommender(model="gemini-1.5-flash")
+print(city_recommender.predict("New York"))
+print(city_recommender.predict("San Francisco"))
+print(city_recommender.predict("Los Angeles"))
+```

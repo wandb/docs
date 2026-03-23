@@ -21,7 +21,7 @@ An artifact object that satisfies query based on the specified type.
  - `entity`:  The entity (user or team) that owns the project. 
  - `project`:  The name of the project to query for artifact types. 
  - `type_name`:  The name of the artifact type. 
- - `attrs`:  Optional mapping of attributes to initialize the artifact type. If not provided,  the object will load its attributes from W&B upon initialization. 
+ - `attrs`:  Optional attributes to initialize the ArtifactType.  If omitted, the object will load its attributes from W&B upon  initialization. 
 
 
 ### <kbd>property</kbd> ArtifactType.id
@@ -65,7 +65,11 @@ Get a specific artifact collection by name.
 ### <kbd>method</kbd> `ArtifactType.collections`
 
 ```python
-collections(per_page: 'int' = 50) → ArtifactCollections
+collections(
+    filters: 'Mapping[str, Any] | None' = None,
+    order: 'str | None' = None,
+    per_page: 'int' = 50
+) → ArtifactCollections
 ```
 
 Get all artifact collections associated with this artifact type. 
@@ -74,6 +78,8 @@ Get all artifact collections associated with this artifact type.
 
 **Args:**
  
+ - `filters` (dict):  Optional mapping of filters to apply to the query. 
+ - `order` (str):  Optional string to specify the order of the results.  If you prepend order with a + order is ascending (default).  If you prepend order with a - order is descending.  The default order is the collection ID in descending order. 
  - `per_page` (int):  The number of artifact collections to fetch per page.  Default is 50. 
 
 ---
