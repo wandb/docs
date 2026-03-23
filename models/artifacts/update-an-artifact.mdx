@@ -3,7 +3,7 @@ description: Update an existing artifact while a run is active or using only the
 title: Update an artifact
 ---
 
-Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Call the `save()` method to persist changes on the W&B servers. You can do this while a run is active, or with [`wandb.Api`](/models/ref/python/public-api/api) without calling `wandb.init()`.
+Pass desired values to update the `description`, `metadata`, and `alias` of an artifact. Update a run previously logged to W&B with the W&B Public API with ([`wandb.Api`](/models/ref/python/public-api/api)). Use `wandb.Run.save()` to update an artifact when is first initialized and still active. 
 
 <Note>
 **When to use Artifact.save() or wandb.Run.log_artifact()**
