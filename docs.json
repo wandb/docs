@@ -2222,7 +2222,7 @@
                       "ja/weave/reference/service-api"
                     ],
                     "openapi": {
-                      "source": "weave/reference/service-api/openapi.json",
+                      "source": "ja/weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     }
                   }
@@ -2316,7 +2316,7 @@
                 "pages": [
                   "ja/training/api-reference"
                 ],
-                "openapi": "training/api-reference/openapi.json"
+                "openapi": "ja/training/api-reference/openapi.json"
               }
             ]
           },
@@ -3437,7 +3437,7 @@
                       "ko/weave/reference/service-api"
                     ],
                     "openapi": {
-                      "source": "weave/reference/service-api/openapi.json",
+                      "source": "ko/weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     }
                   }
@@ -3531,7 +3531,7 @@
                 "pages": [
                   "ko/training/api-reference"
                 ],
-                "openapi": "training/api-reference/openapi.json"
+                "openapi": "ko/training/api-reference/openapi.json"
               }
             ]
           },
