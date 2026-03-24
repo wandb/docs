@@ -12,13 +12,13 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 W&amp;B によって記録される計算の単位です。通常は ML の実験を指します。
 
-新しい run を作成するには [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) を呼び出します。`wandb.init()` は新しい run を開始し、`wandb.Run` オブジェクトを返します。各 run には一意の ID (run ID) が割り当てられます。W&amp;B では、コンテキストマネージャー (`with` 文) を使用して run を自動的に終了することを推奨しています。
+新しい run を作成するには [`wandb.init()`](/ja/ref/python/init/) を呼び出します。`wandb.init()` は新しい run を開始し、`wandb.Run` オブジェクトを返します。各 run には一意の ID (run ID) が割り当てられます。W&amp;B では、コンテキストマネージャー (`with` 文) を使用して run を自動的に終了することを推奨しています。
 
 分散トレーニングの実験では、プロセスごとに 1 つの run を使用して各プロセスを個別に追跡することも、すべてのプロセスを 1 つの run にまとめて追跡することもできます。詳細については、[Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) を参照してください。
 
-`wandb.Run.log()` を使用して run にデータをログできます。`wandb.Run.log()` を使ってログしたものはすべて、その run に送信されます。詳細については、[Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) または [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API リファレンスページを参照してください。
+`wandb.Run.log()` を使用して run にデータをログできます。`wandb.Run.log()` を使ってログしたものはすべて、その run に送信されます。詳細については、[Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) または [`wandb.init`](/ja/ref/python/init/) API リファレンスページを参照してください。
 
-[`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) 名前空間には、別の `Run` オブジェクトがあります。このオブジェクトは、すでに作成済みの run とやり取りするために使用します。
+[`wandb.apis.public`](/ja/ref/python/public-api/api/) 名前空間には、別の `Run` オブジェクトがあります。このオブジェクトは、すでに作成済みの run とやり取りするために使用します。
 
 **Attributes:**
 
@@ -492,7 +492,7 @@ with wandb.init() as run:
 
 ログされたデータは、[wandb.ai](https://wandb.ai) のワークスペースで可視化したり、W&amp;B アプリの [self-hosted instance](https://docs.wandb.ai/guides/hosting) 上でローカルに可視化したり、[Public API](https://docs.wandb.ai/guides/track/public-api-guide) を使ってデータをエクスポートし、Jupyter Notebook などでローカルに可視化・探索したりできます。
 
-ログする値はスカラーである必要はありません。画像、音声、動画など、任意の [W&amp;B supported Data Type](https://docs.wandb.ai/ref/python/data-types/) をログできます。たとえば、`wandb.Table` を使って構造化データをログできます。詳細は、チュートリアル [Log tables, visualize and query data](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) を参照してください。
+ログする値はスカラーである必要はありません。画像、音声、動画など、任意の [W&amp;B supported Data Type](/ja/ref/python/data-types/) をログできます。たとえば、`wandb.Table` を使って構造化データをログできます。詳細は、チュートリアル [Log tables, visualize and query data](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) を参照してください。
 
 W&amp;B は、名前にスラッシュ (`/`) を含むメトリクスを、最後のスラッシュより前の文字列を使って名前が付けられたセクションに整理します。たとえば、次の例では &quot;train&quot; と &quot;validate&quot; という 2 つのセクションが作成されます。
 

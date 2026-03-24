@@ -35,7 +35,7 @@ response = co.chat(
 print(response.text)
 ```
 
-`weave.init()` を呼び出すときに W&amp;B team を指定しない場合は、デフォルト entity が使用されます。デフォルト entity を確認または更新するには、W&amp;B Models ドキュメントの [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) を参照してください。
+`weave.init()` を呼び出すときに W&amp;B team を指定しない場合は、デフォルト entity が使用されます。デフォルト entity を確認または更新するには、W&amp;B Models ドキュメントの [User Settings](/ja/platform/app/settings-page/user-settings/#default-team) を参照してください。
 
 cohere モデルの強力な機能の 1 つに [connectors](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations) があり、これを使うとエンドポイント側で他の API へのリクエストを行えるようになります。レスポンスには、connector から返されたドキュメントへのリンクとなる引用情報付きで、生成されたテキストが含まれます。
 

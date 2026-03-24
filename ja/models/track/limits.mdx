@@ -126,7 +126,7 @@ with wandb.init(project="metric-frequency") as run:
     )
 ```
 
-{/* 各 step に対する API 呼び出し回数を最小限に抑えるために、`commit=False` を渡して `run.log` 呼び出しでのバッチ処理を有効にします。詳しくは `run.log` の [ドキュメント](/models/ref/python/experiments/run/#method-runlog) を参照してください。 */}
+{/* 各 step に対する API 呼び出し回数を最小限に抑えるために、`commit=False` を渡して `run.log` 呼び出しでのバッチ処理を有効にします。詳しくは `run.log` の [ドキュメント](/ja/models/ref/python/experiments/run/#method-runlog) を参照してください。 */}
 
 <Note>
   ガイドラインの上限を超えた場合でも W&amp;B は引き続きログしたデータを受け付けますが、ページの読み込みに時間がかかる可能性があります。

@@ -49,7 +49,7 @@ description: "Call 객체 구조와 속성에 대한 레퍼런스"
   * Weave의 계산된 summary 데이터:
     * `costs`: LLM 모델 사용량 데이터와 토큰 가격 데이터를 기반으로 계산된 호출의 총 비용입니다. 비용 계산에 대한 자세한 내용은 [Track costs](/ko/weave/guides/tracking/costs)를 참조하세요.
     * `latency_ms`: `started_at`과 `ended_at` 사이에 경과한 시간을 밀리초 단위로 나타냅니다. `status`가 `RUNNING`이면 `null`입니다.
-    * `status`: 실행 상태입니다: `SUCCESS`, `ERROR`, `RUNNING`, `DESCENDANT_ERROR`(호출 자체는 성공했지만 하위 호출에서 오류가 발생했음을 의미합니다). {/* [empty ref](/weave/reference/python-sdk/trace_server/trace_server_interface#class-tracestatus)*/}
+    * `status`: 실행 상태입니다: `SUCCESS`, `ERROR`, `RUNNING`, `DESCENDANT_ERROR`(호출 자체는 성공했지만 하위 호출에서 오류가 발생했음을 의미합니다). {/* [empty ref](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-tracestatus)*/}
 
 * W&amp;B와의 인테그레이션은 `wb_user_id` 및 `wb_run_id`를 통해 이루어집니다.
 

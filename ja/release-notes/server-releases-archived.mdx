@@ -69,13 +69,13 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * Organization admin は、organization のダッシュボードから、Models のシート数および Models と [W&amp;B Weave](/ja/weave/) のアクセス制御をシームレスに設定できるようになりました。この変更により、Dedicated Cloud または Self-Managed インスタンスで [Weave](/ja/weave/) が有効化されている場合に、ユーザー管理をより効率的に行えるようになります。
     * [Weave](/ja/weave/) の料金は、利用シート数ベースではなく利用量ベースです。シート管理は Models プロダクトにのみ適用されます。
-  * [team および制限付きスコープのプロジェクト向けに、プロジェクトレベルで access role を設定](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/) できるようになりました。これにより、同じ team 内の異なるプロジェクトごとに、同一ユーザーに異なる access role を割り当てられるようになり、エンタープライズのガバナンス要件に対応するための強力な制御を追加できます。
+  * [team および制限付きスコープのプロジェクト向けに、プロジェクトレベルで access role を設定](/ja/platform/hosting/iam/access-management/restricted-projects/) できるようになりました。これにより、同じ team 内の異なるプロジェクトごとに、同一ユーザーに異なる access role を割り当てられるようになり、エンタープライズのガバナンス要件に対応するための強力な制御を追加できます。
 
   ## 修正
 
   * リリースアップグレードの一部として行われる基盤となるデータベーススキーマの変更が、プラットフォーム起動時にタイムアウトする可能性があった問題を修正しました。
-  * 基盤となる parquet store サービスにさらなるパフォーマンス改善を加え、ユーザー向けのチャート読み込み時間を一層短縮しました。parquet store サービスは Dedicated Cloud および [W&amp;B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator) ベースの Self-Managed インスタンスでのみ利用可能です。
-  * 基盤となる parquet store サービスで高い CPU 使用率が発生する問題に対処し、効率的なチャート読み込みをユーザーにとってより信頼性の高いものにしました。parquet store サービスは Dedicated Cloud および [W&amp;B kubernetes operator](https://docs.wandb.ai/platform/hosting/operator) ベースの Self-Managed インスタンスでのみ利用可能です。
+  * 基盤となる parquet store サービスにさらなるパフォーマンス改善を加え、ユーザー向けのチャート読み込み時間を一層短縮しました。parquet store サービスは Dedicated Cloud および [W&amp;B kubernetes operator](/ja/platform/hosting/operator) ベースの Self-Managed インスタンスでのみ利用可能です。
+  * 基盤となる parquet store サービスで高い CPU 使用率が発生する問題に対処し、効率的なチャート読み込みをユーザーにとってより信頼性の高いものにしました。parquet store サービスは Dedicated Cloud および [W&amp;B kubernetes operator](/ja/platform/hosting/operator) ベースの Self-Managed インスタンスでのみ利用可能です。
 </Update>
 
 <Update label="v0.60.0" description="2024年9月26日">
@@ -126,14 +126,14 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 <Update label="v0.57.2" description="2024年7月24日">
   ## 機能
 
-  **アイデンティティ フェデレーション機能を使用して、JWTs (JSON Web Tokens) を使い、wandb SDK や CLI から自分の W&amp;B インスタンスへアクセスできるようになりました。この機能はプレビュー段階です。** 詳細は [Identity federation](https://docs.wandb.ai/platform/hosting/iam/identity_federation) を参照し、不明点があれば W&amp;B の担当チームにお問い合わせください。
+  **アイデンティティ フェデレーション機能を使用して、JWTs (JSON Web Tokens) を使い、wandb SDK や CLI から自分の W&amp;B インスタンスへアクセスできるようになりました。この機能はプレビュー段階です。** 詳細は [Identity federation](/ja/platform/hosting/iam/identity_federation) を参照し、不明点があれば W&amp;B の担当チームにお問い合わせください。
 
   * Workspace パネルを Reports にエクスポートするための `Add to reports` ドロワーを改善しました。
   * artifact プロジェクト ブラウザでの Artifacts メタデータ フィルタリング。
   * `${artifact_metadata.KEY}` を使って、webhook ペイロードに artifact メタデータを渡せるようになりました。
   * RunSystemMetrics コンポーネントに GPU メモリ使用量パネルを追加し、アプリ フロントエンドでの run の GPU メトリクス可視化を強化しました。
   * モバイル ユーザーにとって、Workspace の操作性がよりスムーズで直感的になりました。
-  * Google Cloud または Azure 上の W&amp;B Dedicated Cloud を使用している場合、インスタンスに対してプライベート接続を有効化できるようになりました。これにより、AI ワークロードからのすべてのトラフィックと、オプションでブラウザー クライアントからのトラフィックが、クラウド プロバイダーのプライベート ネットワークのみを通過するようにできます。詳細は [Private connectivity](https://docs.wandb.ai/platform/hosting/data-security/private-connectivity) を参照し、不明点があれば W&amp;B の担当チームにお問い合わせください。
+  * Google Cloud または Azure 上の W&amp;B Dedicated Cloud を使用している場合、インスタンスに対してプライベート接続を有効化できるようになりました。これにより、AI ワークロードからのすべてのトラフィックと、オプションでブラウザー クライアントからのトラフィックが、クラウド プロバイダーのプライベート ネットワークのみを通過するようにできます。詳細は [Private connectivity](/ja/platform/hosting/data-security/private-connectivity) を参照し、不明点があれば W&amp;B の担当チームにお問い合わせください。
   * チーム単位のサービス アカウントが、チーム設定ビュー内の新しいタブで個別に表示されるようになりました。サービス アカウントは、Members タブには表示されなくなりました。また、API キー は非表示となり、チーム管理者のみがコピーできます。
   * Dedicated Cloud が Google Cloud のソウル リージョンでも利用可能になりました。
 
@@ -159,10 +159,10 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ## 機能
 
-  * W&amp;B Experiments の新しい Full Fidelity line plot は、x 軸に沿ってすべてのデータを集約し、各バケット内の最小値・最大値・最後の値 (最後の値がメインの線として描画されます) を表示することでトレーニング メトリクス の可視性を高め、ユーザーが外れ値を簡単に見つけ、ダウンサンプリングによる損失なしに高忠実度な詳細へズームインできるようにします。[ドキュメントで詳しく学ぶ](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling)。
-  * Dedicated Cloud と Self-Managed インスタンスで、[チームレベル BYOB (secure storage connector) 向けのクラウド間ストレージバケット](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) を使用できるようになりました。たとえば、AWS 上の W&amp;B インスタンスで、チームレベル BYOB 向けに Azure Blob Storage や Google Cloud Storage を構成でき、他のクラウド間の組み合わせについても同様です。
-  * 同様に、Dedicated Cloud と Self-Managed インスタンスで、[MinIO などの S3 互換ストレージバケットをチームレベル BYOB (secure storage connector) に使用](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) できるようになりました。たとえば、Google Cloud 上の W&amp;B インスタンスで、クラウドまたはオンプレミスにホストされた MinIO バケットをチームレベル BYOB 向けに構成できます。
-  * 管理者は、Dedicated Cloud または Self-Managed インスタンスで [SCIM API の DELETE User エンドポイント](https://docs.wandb.ai/platform/hosting/iam/scim#delete-user) を使用してユーザーの完全削除を自動化できるようになりました。ユーザーの無効化操作は [PATCH User エンドポイント](https://docs.wandb.ai/platform/hosting/iam/scim#deactivate-user) を使用するように再実装され、加えて [ユーザー再有効化操作](https://docs.wandb.ai/platform/hosting/iam/scim#reactivate-user) が導入されました。
+  * W&amp;B Experiments の新しい Full Fidelity line plot は、x 軸に沿ってすべてのデータを集約し、各バケット内の最小値・最大値・最後の値 (最後の値がメインの線として描画されます) を表示することでトレーニング メトリクス の可視性を高め、ユーザーが外れ値を簡単に見つけ、ダウンサンプリングによる損失なしに高忠実度な詳細へズームインできるようにします。[ドキュメントで詳しく学ぶ](/ja/models/app/features/panels/line-plot/sampling)。
+  * Dedicated Cloud と Self-Managed インスタンスで、[チームレベル BYOB (secure storage connector) 向けのクラウド間ストレージバケット](/ja/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) を使用できるようになりました。たとえば、AWS 上の W&amp;B インスタンスで、チームレベル BYOB 向けに Azure Blob Storage や Google Cloud Storage を構成でき、他のクラウド間の組み合わせについても同様です。
+  * 同様に、Dedicated Cloud と Self-Managed インスタンスで、[MinIO などの S3 互換ストレージバケットをチームレベル BYOB (secure storage connector) に使用](/ja/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) できるようになりました。たとえば、Google Cloud 上の W&amp;B インスタンスで、クラウドまたはオンプレミスにホストされた MinIO バケットをチームレベル BYOB 向けに構成できます。
+  * 管理者は、Dedicated Cloud または Self-Managed インスタンスで [SCIM API の DELETE User エンドポイント](/ja/platform/hosting/iam/scim#delete-user) を使用してユーザーの完全削除を自動化できるようになりました。ユーザーの無効化操作は [PATCH User エンドポイント](/ja/platform/hosting/iam/scim#deactivate-user) を使用するように再実装され、加えて [ユーザー再有効化操作](/ja/platform/hosting/iam/scim#reactivate-user) が導入されました。
   * SCIM API を使用している場合、次のようないくつかの小さな改善も確認できます:
     認証に失敗した場合に、API はより適切なエラーメッセージを返すようになりました。
     関連するエンドポイントは、利用可能な場合に SCIM User オブジェクトでユーザーのフルネームを返すようになりました。
@@ -222,12 +222,12 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ## 機能
 
   * ワークスペースバーのオーバーフローメニューから「Save as a new view」をクリックすることで、任意のワークスペースについて複数のビューを保存できるようになりました。
-    詳細は [Saved workspace views](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views) を参照してください。
+    詳細は [Saved workspace views](/ja/models/app/pages/workspaces#create-saved-workspace-views) を参照してください。
 
     <Frame>
       ![保存されたビューを表示している画像](https://github.com/wandb/server/assets/7208315/862a36ac-8ce4-49e7-8677-d87d54ab1e54)
     </Frame>
-  * 機密データや秘匿データに関連する AI ワークフローで共同作業を行いたい場合、[プロジェクトの公開範囲を Restricted に設定](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/) できるようになりました。\
+  * 機密データや秘匿データに関連する AI ワークフローで共同作業を行いたい場合、[プロジェクトの公開範囲を Restricted に設定](/ja/platform/hosting/iam/access-management/restricted-projects/) できるようになりました。\
     チーム内で **restricted project** を作成すると、そのチームから特定のメンバーだけを追加できます。他のプロジェクトの公開範囲とは異なり、チームの全メンバーが restricted project へ自動的にアクセス権を得ることはありません。
   * **Run Overview ページのパフォーマンスを強化**: 読み込みが 91% 高速化され、検索機能も 99.9% 改善されました。さらに Config および Summary データに対する RegEx 検索も利用できます。
   * **Artifacts Lineage DAG の新しい UX** により、同じ階層に 5 個以上ノードがある場合のクラスタリング、ノード詳細を確認できるプレビューウィンドウ、グラフ読み込み時間の大幅な高速化が導入されました。
@@ -235,7 +235,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * Launch で run をクローンする際、クローン元の run で使用されたオーバーライド、queue、テンプレート変数の値があらかじめ選択された状態になります。
   * インスタンス管理者は、組織のダッシュボード内に `Teams` タブが表示されるようになりました。これは、組織のガイドラインに沿ってチームのアクティビティを監視したり、チーム管理者が不在のときにチームを支援したりするために、必要に応じて特定のチームに参加する用途で利用できます。
   * SCIM User API の GET エンドポイントで `groups` 属性が返されるようになりました。これには、ユーザーが所属するグループ / Teams の id が含まれます。
-  * Google Cloud 上のすべての Dedicated Cloud インスタンスが、新しい [W&amp;B Kubernetes Operator](https://docs.wandb.ai/platform/hosting/operator/) を使って管理されるようになりました。これに伴い、新しい Parquet Store サービスも利用可能です。\
+  * Google Cloud 上のすべての Dedicated Cloud インスタンスが、新しい [W&amp;B Kubernetes Operator](/ja/platform/hosting/operator/) を使って管理されるようになりました。これに伴い、新しい Parquet Store サービスも利用可能です。\
     Parquet store により、blob ストレージ内に Parquet 形式で run 履歴データを高性能かつコスト効率よく保存できます。AWS および Azure 上の Dedicated Cloud インスタンスはすでに operator によって管理されており、Parquet store も含まれています。
   * AWS 上の Dedicated Cloud インスタンスが、最新バージョンのリレーショナルデータストレージを使用するよう更新され、コンピュートインフラストラクチャもより高性能な新世代へとアップグレードされました。
 
@@ -255,7 +255,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * run キューアイテムの問題をより把握しやすく表示
   * AWS 上の Dedicated Cloud 顧客は、AWS PrivateLink を使用してデプロイメントへ安全に接続できるようになりました。\
     この機能は現在プライベートプレビュー段階であり、GA 時には上位の料金プランの一部となる予定です。関心がある場合は担当の W&amp;B チームにお問い合わせください。
-  * [SCIM role assignment API](https://docs.wandb.ai/platform/hosting/iam/scim/#assign-organization-level-role-to-user) を使用して、組織またはチーム単位でユーザーのロール割り当てを自動化できるようになりました。
+  * [SCIM role assignment API](/ja/platform/hosting/iam/scim/#assign-organization-level-role-to-user) を使用して、組織またはチーム単位でユーザーのロール割り当てを自動化できるようになりました。
   * AWS と Azure 上のすべての Dedicated Cloud インスタンスは、新しい W&amp;B Kubernetes Operator を使用して管理されるようになりました。これに伴い、新しい Parquet Store サービスも利用可能になりました。このサービスにより、blob ストレージ上に Parquet 形式で run 履歴データを高性能かつコスト効率よく保存できます。その結果、run の評価に使用されるチャートやプロットで、関連する履歴データをより高速に読み込めるようになります。
   * W&amp;B Kubernetes Operator と、それに付随する Parquet Store サービスが Self-Managed インスタンスでも利用可能になりました。すでに Kubernetes を使用して W&amp;B をホストしているお客様は、operator の利用方法について担当の W&amp;B チームにお問い合わせください。また、将来 operator 経由で提供される最新のパフォーマンス改善や新しいサービスを受け取るために、他のお客様にも Kubernetes への移行を強く推奨します。そのような移行計画についても、当社は喜んで支援いたします。
 
@@ -514,7 +514,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     ![刷新された Organization Dashboard がユーザーアクティビティ、run 作成の統計、およびメンバー管理機能を表示している画像](https://github.com/wandb/server/assets/47005026/ecfda350-2fc2-4023-a98c-d8eb67498957)
   </Frame>
 
-  W&amp;B 管理者がアクセスできる Organization Dashboard を全面的に刷新し、どのユーザーが最も W&amp;B を活用しているかをより簡単に把握できるようにしました。誰が run や Reports を作成しているか、誰が積極的に W&amp;B を使用しているか、誰の招待が保留中なのかなどの詳細を確認でき、これらすべてを CSV 形式でエクスポートして組織内で共有できます。[アクセス管理](https://docs.wandb.ai/platform/hosting/iam/access-management-intro/) の詳細をご覧ください。
+  W&amp;B 管理者がアクセスできる Organization Dashboard を全面的に刷新し、どのユーザーが最も W&amp;B を活用しているかをより簡単に把握できるようにしました。誰が run や Reports を作成しているか、誰が積極的に W&amp;B を使用しているか、誰の招待が保留中なのかなどの詳細を確認でき、これらすべてを CSV 形式でエクスポートして組織内で共有できます。[アクセス管理](/ja/platform/hosting/iam/access-management-intro/) の詳細をご覧ください。
 
   Dedicated Cloud のお客様には、この機能はすでに有効化されています。Self-Managed 版 W&amp;B のお客様は、W&amp;B サポートまでご連絡ください。一緒に有効化方法を検討させていただきます。
 
@@ -539,7 +539,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
       ![最大 100 個のメトリクスと時間加重指数移動平均に対応した拡張メトリクス可視化インターフェース](https://github.com/wandb/server/assets/47005026/1bb0b16c-eaae-4348-be0d-cc788b67853e)
     </Frame>
 
-    コアとなるメトリクス可視化のエクスペリエンスを継続的に強化しています。正規表現を使ってプロットに描画するメトリクスを指定できるようになり、一度に最大 100 個のメトリクスを表示できます。また、大規模なデータをより正確に表現するために、プロット用の新しい時間加重指数移動平均スムージングアルゴリズムを追加しました（[サポートされているアルゴリズムの一覧はこちら](https://docs.wandb.ai/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback)）。
+    コアとなるメトリクス可視化のエクスペリエンスを継続的に強化しています。正規表現を使ってプロットに描画するメトリクスを指定できるようになり、一度に最大 100 個のメトリクスを表示できます。また、大規模なデータをより正確に表現するために、プロット用の新しい時間加重指数移動平均スムージングアルゴリズムを追加しました（[サポートされているアルゴリズムの一覧はこちら](/ja/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback)）。
 
   ## 修正
 
@@ -584,7 +584,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   ## 修正
 
   * 監査ログにレポートの作成および更新アクションを追加しました。
-  * SDK 経由で読み取られた Artifacts が [監査ログ](https://docs.wandb.ai/platform/hosting/audit-logging/) に記録されるようになりました。
+  * SDK 経由で読み取られた Artifacts が [監査ログ](/ja/platform/hosting/audit-logging/) に記録されるようになりました。
   * レポート作成時に、新しいレポートに追加するすべてのプロットを選択するボタンを追加しました。
   * レポートリンク経由でサインアップする新しい閲覧専用ユーザーは、通常のサインアッププロセスを経ずに、レポートへ直接リダイレクトされるようになりました。
   * Team 管理者が保護されたエイリアスを追加できるようになりました。

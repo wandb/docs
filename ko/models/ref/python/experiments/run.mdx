@@ -13,13 +13,13 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 W&amp;B에 의해 로깅되는 하나의 계산 단위입니다. 일반적으로 하나의 ML 실험을 의미합니다.
 
-새 run을 생성하려면 [`wandb.init()`](https://docs.wandb.ai/ref/python/init/)을 호출합니다. `wandb.init()`은 새 run을 시작하고 `wandb.Run` 객체를 반환합니다. 각 run은 고유한 ID(run ID)에 연결됩니다. W&amp;B에서는 컨텍스트 매니저(`with` 문)를 사용해 run을 자동으로 종료할 것을 권장합니다.
+새 run을 생성하려면 [`wandb.init()`](/ko/ref/python/init/)을 호출합니다. `wandb.init()`은 새 run을 시작하고 `wandb.Run` 객체를 반환합니다. 각 run은 고유한 ID(run ID)에 연결됩니다. W&amp;B에서는 컨텍스트 매니저(`with` 문)를 사용해 run을 자동으로 종료할 것을 권장합니다.
 
 분산 트레이닝 실험의 경우, 프로세스당 하나의 run을 사용해 각 프로세스를 개별적으로 추적하거나, 모든 프로세스를 단일 run으로 함께 추적할 수 있습니다. 자세한 내용은 [분산 트레이닝 실험 로깅](https://docs.wandb.ai/guides/track/log/distributed-training)을 참조하세요.
 
-`wandb.Run.log()`를 사용하여 run에 데이터를 기록할 수 있습니다. `wandb.Run.log()`를 사용해 로깅한 모든 항목은 해당 run으로 전송됩니다. 자세한 내용은 [실험 생성](https://docs.wandb.ai/guides/track/create-an-experiment/) 또는 [`wandb.init`](https://docs.wandb.ai/ref/python/init/) API 레퍼런스 페이지를 참조하세요.
+`wandb.Run.log()`를 사용하여 run에 데이터를 기록할 수 있습니다. `wandb.Run.log()`를 사용해 로깅한 모든 항목은 해당 run으로 전송됩니다. 자세한 내용은 [실험 생성](https://docs.wandb.ai/guides/track/create-an-experiment/) 또는 [`wandb.init`](/ko/ref/python/init/) API 레퍼런스 페이지를 참조하세요.
 
-[`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) 네임스페이스에는 또 다른 `Run` 객체가 있습니다. 이 객체는 이미 생성된 run과 상호작용할 때 사용합니다.
+[`wandb.apis.public`](/ko/ref/python/public-api/api/) 네임스페이스에는 또 다른 `Run` 객체가 있습니다. 이 객체는 이미 생성된 run과 상호작용할 때 사용합니다.
 
 **Attributes:**
 
@@ -482,7 +482,7 @@ with wandb.init() as run:
 
 로그된 데이터를 [wandb.ai](https://wandb.ai)의 Workspace에서 시각화하거나, W&amp;B 앱의 [self-hosted 인스턴스](https://docs.wandb.ai/guides/hosting)에서 로컬로 시각화하거나, 데이터를 내보낸 뒤 Jupyter 노트북 등에서 [Public API](https://docs.wandb.ai/guides/track/public-api-guide)를 사용해 로컬에서 시각화하고 탐색할 수 있습니다.
 
-로그되는 값은 반드시 스칼라일 필요는 없습니다. 이미지, 오디오, 비디오 등과 같이 [W&amp;B에서 지원하는 Data Type](https://docs.wandb.ai/ref/python/data-types/)이라면 어떤 것이든 기록할 수 있습니다. 예를 들어, `wandb.Table`을 사용해 구조화된 데이터를 로그할 수 있습니다. 더 자세한 내용은 [테이블 로그, 데이터 시각화 및 쿼리](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) 튜토리얼을 참조하세요.
+로그되는 값은 반드시 스칼라일 필요는 없습니다. 이미지, 오디오, 비디오 등과 같이 [W&amp;B에서 지원하는 Data Type](/ko/ref/python/data-types/)이라면 어떤 것이든 기록할 수 있습니다. 예를 들어, `wandb.Table`을 사용해 구조화된 데이터를 로그할 수 있습니다. 더 자세한 내용은 [테이블 로그, 데이터 시각화 및 쿼리](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) 튜토리얼을 참조하세요.
 
 W&amp;B는 이름에 슬래시(`/`)가 포함된 메트릭을, 마지막 슬래시 앞의 텍스트를 사용해 이름이 지정된 섹션으로 구성합니다. 예를 들어, 다음과 같은 경우 &quot;train&quot;과 &quot;validate&quot;라는 두 개의 섹션이 생성됩니다:
 

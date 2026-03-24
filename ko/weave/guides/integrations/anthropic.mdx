@@ -80,7 +80,7 @@ description: "Weave를 사용해 Anthropic SDK를 통해 이루어지는 LLM 호
   ## 사용자 정의 ops로 래핑하기
 </div>
 
-Weave ops는 실험하는 동안 코드를 자동으로 버전 관리하고, 그 입력과 출력을 캡처합니다. [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) (Python)으로 데코레이트하거나 [`weave.op()`](/ko/weave/reference/typescript-sdk/functions/op) (TypeScript)로 래핑한 뒤 [`Anthropic.messages.create`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)를 호출하면, Weave가 입력과 출력을 자동으로 추적합니다.
+Weave ops는 실험하는 동안 코드를 자동으로 버전 관리하고, 그 입력과 출력을 캡처합니다. [`@weave.op()`](/ko/weave/guides/tracking/ops) (Python)으로 데코레이트하거나 [`weave.op()`](/ko/weave/reference/typescript-sdk/functions/op) (TypeScript)로 래핑한 뒤 [`Anthropic.messages.create`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages)를 호출하면, Weave가 입력과 출력을 자동으로 추적합니다.
 
 다음 예시는 함수를 추적하는 방법을 보여줍니다:
 
@@ -160,7 +160,7 @@ Weave ops는 실험하는 동안 코드를 자동으로 버전 관리하고, 그
 
 함수를 `weave.op()`으로 데코레이트하거나 래핑하면, Weave가 함수의 코드와 입력, 출력을 캡처합니다. ops는 중첩 함수를 포함해 원하는 어떤 함수에도 사용할 수 있습니다.
 
-[![anthropic\_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
+[![anthropic\_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](/ko/weave/guides/tracking/ops)
 
 <div id="create-a-model-for-easier-experimentation">
   ## 실험을 더 쉽게 하기 위해 `Model` 생성하기
