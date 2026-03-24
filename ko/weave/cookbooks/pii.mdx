@@ -440,9 +440,9 @@ client = weave.init(
 
 다음 예제에서는 PII 마스킹 및 익명화 메서드를 Weave Models에 통합하고, 그 결과를 Weave Traces에서 확인합니다.
 
-먼저 [Weave Model](https://docs.wandb.ai/weave/guides/core-types/models)을 생성합니다. Weave Model은 설정, 모델 가중치, 그리고 모델이 어떻게 동작하는지를 정의하는 코드와 같은 정보를 결합한 것입니다.
+먼저 [Weave Model](/ko/weave/guides/core-types/models)을 생성합니다. Weave Model은 설정, 모델 가중치, 그리고 모델이 어떻게 동작하는지를 정의하는 코드와 같은 정보를 결합한 것입니다.
 
-우리 모델에는 Anthropic API를 호출하는 `predict` 함수를 포함합니다. Anthropic의 Claude Sonnet은 [Traces](https://docs.wandb.ai/weave/quickstart)를 사용해 LLM 호출을 추적하면서 감성 분석을 수행하는 데 사용됩니다. Claude Sonnet은 텍스트 블록을 입력으로 받아 *positive*, *negative*, *neutral* 중 하나의 감성 분류를 출력합니다. 또한 PII 데이터가 LLM으로 전송되기 전에 마스킹되거나 익명화되도록 보장하기 위해 후처리 함수를 포함합니다.
+우리 모델에는 Anthropic API를 호출하는 `predict` 함수를 포함합니다. Anthropic의 Claude Sonnet은 [Traces](/ko/weave/quickstart)를 사용해 LLM 호출을 추적하면서 감성 분석을 수행하는 데 사용됩니다. Claude Sonnet은 텍스트 블록을 입력으로 받아 *positive*, *negative*, *neutral* 중 하나의 감성 분류를 출력합니다. 또한 PII 데이터가 LLM으로 전송되기 전에 마스킹되거나 익명화되도록 보장하기 위해 후처리 함수를 포함합니다.
 
 이 코드를 실행하면 Weave 프로젝트 페이지에 대한 링크와 함께, 실행한 특정 트레이스(LLM 호출)에 대한 링크를 받게 됩니다.
 

@@ -50,7 +50,7 @@ Call をエクスポートするには、次の手順に従います。
   </Tab>
 
   <Tab title="HTTP API">
-    最も強力なクエリ レイヤーは Service API です。Service API を使用してコールを取得するには、[`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) エンドポイントにリクエストを送信します。
+    最も強力なクエリ レイヤーは Service API です。Service API を使用してコールを取得するには、[`/calls/stream_query`](https://docs.wandb.ai/ja/weave/reference/service-api/calls/calls-query-stream) エンドポイントにリクエストを送信します。
 
     ```bash
     curl -L 'https://trace.wandb.ai/calls/stream_query' \
@@ -115,7 +115,7 @@ Call をエクスポートするには、次の手順に従います。
   ## Call メトリクスをエクスポート
 </div>
 
-Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) を使用すると、Call データ自体を取得せずに、Calls に関するメトリクスを取得することもできます。これにより、レイテンシやコストなど、Calls に関する情報をすばやく効率的に取得し、合計、平均、最小、最大、件数で集計できます。たとえば、次の情報を取得できます。
+Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.wandb.ai/ja/weave/reference/service-api/calls/call-stats) を使用すると、Call データ自体を取得せずに、Calls に関するメトリクスを取得することもできます。これにより、レイテンシやコストなど、Calls に関する情報をすばやく効率的に取得し、合計、平均、最小、最大、件数で集計できます。たとえば、次の情報を取得できます。
 
 * 総トークン使用量
 * 平均レイテンシ
@@ -290,4 +290,4 @@ Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.w
 }
 ```
 
-メトリクスは最大 31 日間の期間でクエリできます。詳細および利用可能なオプションについては、[Service API リファレンス](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) を参照してください。
+メトリクスは最大 31 日間の期間でクエリできます。詳細および利用可能なオプションについては、[Service API リファレンス](https://docs.wandb.ai/ja/weave/reference/service-api/calls/call-stats) を参照してください。

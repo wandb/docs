@@ -439,9 +439,9 @@ client = weave.init(
 
 次の例では、PII のマスキングおよび匿名化メソッドを Weave Models に統合し、その結果を Weave Traces でプレビューします。
 
-まず、[Weave Model](https://docs.wandb.ai/weave/guides/core-types/models) を作成します。Weave Model は、設定、モデル重み、モデルの動作を定義するコードなどの情報を組み合わせたものです。
+まず、[Weave Model](/ja/weave/guides/core-types/models) を作成します。Weave Model は、設定、モデル重み、モデルの動作を定義するコードなどの情報を組み合わせたものです。
 
-このモデルには、Anthropic API を呼び出す `predict` 関数を含めます。Anthropic の Claude Sonnet は、[Traces](https://docs.wandb.ai/weave/quickstart) を使って LLM 呼び出しをトレースしながら感情分析を実行します。Claude Sonnet はテキストブロックを受け取り、次のいずれかの感情クラスとして出力します: *positive*、*negative*、*neutral*。さらに、PII データが LLM に送信される前に必ずマスキングまたは匿名化されるよう、後処理用の関数も含めます。
+このモデルには、Anthropic API を呼び出す `predict` 関数を含めます。Anthropic の Claude Sonnet は、[Traces](/ja/weave/quickstart) を使って LLM 呼び出しをトレースしながら感情分析を実行します。Claude Sonnet はテキストブロックを受け取り、次のいずれかの感情クラスとして出力します: *positive*、*negative*、*neutral*。さらに、PII データが LLM に送信される前に必ずマスキングまたは匿名化されるよう、後処理用の関数も含めます。
 
 このコードを実行すると、Weave プロジェクトページへのリンクと、実行した特定の trace（LLM 呼び出し）へのリンクが表示されます。
 

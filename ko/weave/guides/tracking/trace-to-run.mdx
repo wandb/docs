@@ -7,7 +7,7 @@ description: "실험 추적을 위해 Weave 트레이스를 W&B run에 연결하
   ## Traces 테이블에서 W&amp;B run 확인하기
 </div>
 
-W&amp;B Weave를 사용하면 코드의 함수 호출을 추적하고, 이 호출들이 실행된 [W&amp;B runs](https://docs.wandb.ai/models/runs/)와 직접 연결할 수 있습니다.
+W&amp;B Weave를 사용하면 코드의 함수 호출을 추적하고, 이 호출들이 실행된 [W&amp;B runs](/ko/models/runs/)와 직접 연결할 수 있습니다.
 `@weave.op()`으로 함수를 트레이싱하고 `wandb.init()` 컨텍스트 안에서 호출하면, Weave가 해당 트레이스를 자동으로 해당 W&amp;B run에 연결합니다.
 연결된 run의 링크는 Traces 테이블에 표시됩니다.
 

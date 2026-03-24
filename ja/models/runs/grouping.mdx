@@ -10,7 +10,7 @@ title: run を整理する
 {/* 
   ### 環境変数を使用してグループを定義する
 
-  `WANDB_RUN_GROUP` を使用して、run 用のグループを環境変数として指定します。詳細については、[Environment Variables](/models/track/environment-variables/) に関するドキュメントを参照してください。**Group** はプロジェクト内で一意であり、そのグループ内のすべての run で共有される必要があります。`wandb.util.generate_id()` を使用して、一意の 8 文字の文字列を生成し、すべてのプロセスで使用できます。たとえば、`os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` のように設定します。 */}
+  `WANDB_RUN_GROUP` を使用して、run 用のグループを環境変数として指定します。詳細については、[Environment Variables](/ja/models/track/environment-variables/) に関するドキュメントを参照してください。**Group** はプロジェクト内で一意であり、そのグループ内のすべての run で共有される必要があります。`wandb.util.generate_id()` を使用して、一意の 8 文字の文字列を生成し、すべてのプロセスで使用できます。たとえば、`os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` のように設定します。 */}
 
 <div id="organize-runs-into-groups">
   ## run をグループにまとめる
