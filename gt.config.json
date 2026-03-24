@@ -98,8 +98,8 @@
         "./**/AGENTS.md",
         "./**/OWNERS.md",
         "./**/MAINTAINERS.md",
-        "/scripts/**",
-        "/runbooks/**"
+        "./scripts/**",
+        "./runbooks/**"
       ]
     }
   },
