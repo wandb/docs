@@ -136,6 +136,7 @@ jobs:
             --repo-root . \
             --warnings-file generator-warnings.log \
             --run-url "${RUN_URL}" \
+            --run-id "${GITHUB_RUN_ID}" \
             --include-marker \
             > comment-body.md
 
@@ -163,6 +164,7 @@ jobs:
             --repo-root . \
             --warnings-file generator-warnings.log \
             --run-url "${RUN_URL}" \
+            --run-id "${GITHUB_RUN_ID}" \
             >> "${GITHUB_STEP_SUMMARY}"
 
       # Surfaces an Actions notice when the commit step below is skipped.

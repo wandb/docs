@@ -83,6 +83,73 @@ _UNKNOWN_KEYWORD_RE = re.compile(
     r"Unknown keyword '([^']+)'",
 )
 
+# GitHub Actions checks out the repo under a path like
+# ``/home/runner/work/<repo>/<repo>/``. Strip that prefix from messages so PR
+# comments show repo-relative paths when paths appear inside a warning body.
+_CI_WORKSPACE_PREFIX_RE = re.compile(r"/home/runner/work/[^/]+/[^/]+/")
+
+# Standard library warning line (see ``warnings._formatwarnmsg`` / default
+# ``formatwarning``): ``path:lineno: Category: message``.
+_WARNING_LINE_RE = re.compile(
+    r"^(.+?):(\d+):\s*([\w]+Warning):\s*(.+)$",
+)
+
+
+# ---------------------------------------------------------------------------
+# Formatting captured stderr for pull request comments
+# ---------------------------------------------------------------------------
+
+
+def normalize_ci_paths(text: str) -> str:
+    """Remove GitHub Actions workspace prefix from paths embedded in text."""
+    return _CI_WORKSPACE_PREFIX_RE.sub("", text)
+
+
+def format_warnings_for_display(warnings_text: str) -> str:
+    """
+    Turn raw stderr from the generator into short Markdown list items.
+
+    Python prints each warning as a line ``file:lineno: UserWarning: ...`` and
+    often a second indented line showing ``warnings.warn(``. Readers care about
+    the message, not the runner-specific absolute path or the scaffolding line.
+
+    Lines that match the standard warning pattern become ``- message`` bullets.
+    Continuation lines that only show ``warnings.warn(`` are skipped. Any other
+    non-empty lines are kept with CI paths stripped (rare).
+
+    Parameters
+    ----------
+    warnings_text
+        Full text read from ``generator-warnings.log``.
+
+    Returns
+    -------
+    str
+        Markdown bullet list, or empty string if ``warnings_text`` is blank.
+    """
+    if not warnings_text.strip():
+        return ""
+
+    out_lines: List[str] = []
+    for line in warnings_text.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+
+        m = _WARNING_LINE_RE.match(line.rstrip())
+        if m:
+            msg = normalize_ci_paths(m.group(4).strip())
+            out_lines.append(f"- {msg}")
+            continue
+
+        # Skip indented continuation (for example ``  warnings.warn(``).
+        if line.startswith((" ", "\t")):
+            continue
+
+        out_lines.append(f"- {normalize_ci_paths(line.rstrip())}")
+
+    return "\n".join(out_lines).strip()
+
 
 # ---------------------------------------------------------------------------
 # Parsing ``git diff --name-status`` lines
@@ -311,6 +378,7 @@ def build_report_markdown(
     unknown_keywords: Set[str],
     warnings_text: str,
     run_url: Optional[str] = None,
+    run_id: Optional[str] = None,
 ) -> str:
     """
     Build the Markdown body **without** the HTML comment marker.
@@ -322,8 +390,8 @@ def build_report_markdown(
     Otherwise builds a short report starting with ``REPORT_TITLE``, then bullet
     lines (counts only), optional "no categorized file changes" when warnings
     exist but nothing matched our path rules, a fenced code block with the raw
-    warnings log if present, and an optional italic link line when ``run_url``
-    is provided.
+    warnings log if present, and an optional footer link when ``run_url`` is
+    set (with ``run_id`` in the link text when provided).
 
     Parameters
     ----------
@@ -332,9 +400,15 @@ def build_report_markdown(
     unknown_keywords
         Distinct unknown tags from :func:`distinct_unknown_keywords_from_warnings`.
     warnings_text
-        Raw stderr captured from the generator.
+        Raw stderr captured from the generator. The Generator warnings section
+        uses :func:`format_warnings_for_display` when it can parse standard
+        warning lines; otherwise it falls back to a fenced copy of the raw log.
     run_url
-        If set, appended as ``*From [workflow run](url)*`` for traceability.
+        If set, appended as a footer link to the Actions run.
+    run_id
+        GitHub Actions ``GITHUB_RUN_ID`` (same number as in ``/actions/runs/<id>``).
+        If set with ``run_url``, the link text is ``workflow run <id>`` so the
+        number is visible without hovering.
 
     Returns
     -------
@@ -408,13 +482,20 @@ def build_report_markdown(
         lines_out.append("")
         lines_out.append("### Generator warnings")
         lines_out.append("")
-        lines_out.append("```")
-        lines_out.append(warnings_text.rstrip("\n"))
-        lines_out.append("```")
+        formatted_warnings = format_warnings_for_display(warnings_text)
+        if formatted_warnings.strip():
+            lines_out.append(formatted_warnings)
+        else:
+            lines_out.append("```")
+            lines_out.append(warnings_text.rstrip("\n"))
+            lines_out.append("```")
 
     if run_url:
         lines_out.append("")
-        lines_out.append(f"*From [workflow run]({run_url})*")
+        if run_id:
+            lines_out.append(f"*From [workflow run {run_id}]({run_url})*")
+        else:
+            lines_out.append(f"*From [workflow run]({run_url})*")
 
     return "\n".join(lines_out)
 
@@ -506,6 +587,13 @@ def main() -> None:
         help="Link to the GitHub Actions workflow run (optional).",
     )
     parser.add_argument(
+        "--run-id",
+        default=None,
+        help=(
+            "Workflow run id (GITHUB_RUN_ID) for the footer link text (optional)."
+        ),
+    )
+    parser.add_argument(
         "--include-marker",
         action="store_true",
         help="Prefix output with the HTML marker for PR comment upserts.",
@@ -536,6 +624,7 @@ def main() -> None:
         unknown_set,
         warnings_text,
         run_url=args.run_url,
+        run_id=args.run_id,
     )
     out = format_pr_body(inner, include_marker=args.include_marker)
     sys.stdout.write(out)

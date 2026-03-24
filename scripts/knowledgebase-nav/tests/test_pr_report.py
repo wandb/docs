@@ -178,6 +178,24 @@ def test_build_report_fallback():
     assert out == pr_report.REPORT_FALLBACK_BODY
 
 
+def test_build_report_footer_includes_run_id():
+    """
+    The footer should embed ``GITHUB_RUN_ID`` in the Markdown link label.
+
+    The URL still points at the run; the id matches the ``/actions/runs/<id>`` segment.
+    """
+    empty = {k: 0 for k in pr_report.categorize_name_status_lines([])}
+    empty["docs_json"] = 1
+    out = pr_report.build_report_markdown(
+        empty,
+        set(),
+        "",
+        run_url="https://github.com/org/repo/actions/runs/12345",
+        run_id="12345",
+    )
+    assert "*From [workflow run 12345](https://github.com/org/repo/actions/runs/12345)*" in out
+
+
 def test_build_report_with_counts():
     """
     Non-zero buckets should appear as bullet lines under ``REPORT_TITLE``.
@@ -192,6 +210,26 @@ def test_build_report_with_counts():
     assert pr_report.REPORT_TITLE in out
     assert "Articles with tab Badges updated: 2 articles" in out
     assert "docs.json updated" in out
+
+
+def test_format_warnings_for_display_strips_path_and_scaffolding():
+    """
+    CI stderr includes a long path and a second ``warnings.warn(`` line.
+
+    Output should be a single Markdown bullet with only the UserWarning message.
+    """
+    raw = (
+        "/home/runner/work/docs/docs/scripts/knowledgebase-nav/generate_tags.py:"
+        "969: UserWarning: Unknown keyword 'foobar' used in article "
+        "'Adding multiple authors to a report'. Add it to config.yaml to "
+        "suppress this warning.\n"
+        "  warnings.warn(\n"
+    )
+    out = pr_report.format_warnings_for_display(raw)
+    assert "home/runner" not in out
+    assert "warnings.warn" not in out
+    assert "Unknown keyword 'foobar'" in out
+    assert out.startswith("- ")
 
 
 def test_format_pr_body_includes_marker():
