@@ -1227,6 +1227,7 @@
               "support/models/tags/environment-variables",
               "support/models/tags/experiments",
               "support/models/tags/foobar2",
+              "support/models/tags/foobar3",
               "support/models/tags/hyperparameter",
               "support/models/tags/inference",
               "support/models/tags/logs",
