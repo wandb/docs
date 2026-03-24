@@ -820,6 +820,8 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
         - ``body_preview`` (str): Truncated plain-text preview of the body.
         - ``page_path`` (str): The URL path without leading slash
           (for example ``support/models/articles/my-article``).
+        - ``mdx_path`` (str): Repo-relative path to the MDX file using forward
+          slashes (for example ``support/models/articles/my-article.mdx``).
         - ``file_stem`` (str): The filename without extension
           (for example ``my-article``).
         - ``tag_links`` (list of dict): Badge link data for each keyword,
@@ -865,6 +867,8 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
             for kw in keywords
         ]
 
+        mdx_rel = mdx_file.relative_to(repo_root).as_posix()
+
         articles.append({
             "title": title,
             "title_attr": title.replace('"', "&quot;"),
@@ -872,6 +876,7 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
             "featured": bool(featured),
             "body_preview": body_preview,
             "page_path": f"support/{product_slug}/articles/{file_stem}",
+            "mdx_path": mdx_rel,
             "file_stem": file_stem,
             "tag_links": article_tag_links,
         })
@@ -966,10 +971,10 @@ def build_tag_index(
         for keyword in article.get("keywords", []):
             # Warn on unknown keywords, but only once per keyword
             if keyword not in allowed_set and keyword not in warned_keywords:
+                source = article.get("mdx_path") or article.get("title", "?")
                 warnings.warn(
-                    f"Unknown keyword '{keyword}' used in article "
-                    f"'{article.get('title', '?')}'. Add it to config.yaml "
-                    f"to suppress this warning."
+                    f"Unknown keyword '{keyword}' used in '{source}'. "
+                    f"Add it to config.yaml to suppress this warning."
                 )
                 warned_keywords.add(keyword)
 

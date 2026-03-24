@@ -595,6 +595,7 @@ class TestCrawlArticles:
         assert article["keywords"] == ["Alpha", "Beta"]
         assert article["featured"] is True
         assert article["page_path"] == "support/widgets/articles/article-one"
+        assert article["mdx_path"] == "support/widgets/articles/article-one.mdx"
         assert article["file_stem"] == "article-one"
         assert isinstance(article["body_preview"], str)
         assert isinstance(article["tag_links"], list)
@@ -771,7 +772,11 @@ class TestBuildTagIndex:
         still appear in the index.  This prevents silent data loss.
         """
         articles = [
-            {"title": "A", "keywords": ["Unknown"]},
+            {
+                "title": "A",
+                "keywords": ["Unknown"],
+                "mdx_path": "support/widgets/articles/example.mdx",
+            },
         ]
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
@@ -780,6 +785,7 @@ class TestBuildTagIndex:
             assert "Unknown" in index
             assert len(w) == 1
             assert "Unknown keyword 'Unknown'" in str(w[0].message)
+            assert "support/widgets/articles/example.mdx" in str(w[0].message)
 
     def test_unknown_keyword_warned_only_once(self):
         """
