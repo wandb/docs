@@ -973,7 +973,7 @@ def build_tag_index(
             if keyword not in allowed_set and keyword not in warned_keywords:
                 source = article.get("mdx_path") or article.get("title", "?")
                 warnings.warn(
-                    f"Unknown keyword '{keyword}' used in '{source}'. "
+                    f"Unknown keyword `{keyword}` used in `{source}`. "
                     f"Add it to config.yaml to suppress this warning."
                 )
                 warned_keywords.add(keyword)

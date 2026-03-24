@@ -78,9 +78,9 @@ REPORT_FALLBACK_BODY = f"{REPORT_TITLE}\n\n{REPORT_FALLBACK_PARAGRAPH}"
 
 # ``re.compile`` builds a reusable pattern. Parentheses in the pattern form a
 # **capture group**: ``findall`` returns only the text that matched inside the
-# quotes. This mirrors the f-string used in ``generate_tags.build_tag_index``.
+# backticks. This mirrors the f-string used in ``generate_tags.build_tag_index``.
 _UNKNOWN_KEYWORD_RE = re.compile(
-    r"Unknown keyword '([^']+)'",
+    r"Unknown keyword `([^`]+)`",
 )
 
 # GitHub Actions checks out the repo under a path like
@@ -349,6 +349,8 @@ def categorize_name_status_lines(lines: List[str]) -> Dict[str, int]:
 def distinct_unknown_keywords_from_warnings(warnings_text: str) -> Set[str]:
     """
     Collect distinct keyword strings from "Unknown keyword" warning lines.
+
+    Expects ``generate_tags`` format: ``Unknown keyword `tag` used in ...``.
 
     The generator may emit the same unknown tag for several articles; we count
     **distinct** tags so the PR summary matches how many new ``config.yaml``

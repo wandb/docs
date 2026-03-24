@@ -158,9 +158,9 @@ def test_unknown_keyword_distinct():
     unordered collection of unique items.
     """
     text = """
-    /path/gen.py:1: UserWarning: Unknown keyword 'Foo' used in 'support/x/a.mdx'.
-    /path/gen.py:2: UserWarning: Unknown keyword 'Foo' used in 'support/x/b.mdx'.
-    /path/gen.py:3: UserWarning: Unknown keyword 'Bar' used in 'support/x/c.mdx'.
+    /path/gen.py:1: UserWarning: Unknown keyword `Foo` used in `support/x/a.mdx`.
+    /path/gen.py:2: UserWarning: Unknown keyword `Foo` used in `support/x/b.mdx`.
+    /path/gen.py:3: UserWarning: Unknown keyword `Bar` used in `support/x/c.mdx`.
     """
     s = pr_report.distinct_unknown_keywords_from_warnings(text)
     assert s == {"Foo", "Bar"}
@@ -220,15 +220,15 @@ def test_format_warnings_for_display_strips_path_and_scaffolding():
     """
     raw = (
         "/home/runner/work/docs/docs/scripts/knowledgebase-nav/generate_tags.py:"
-        "969: UserWarning: Unknown keyword 'foobar' used in "
-        "'support/models/articles/adding-multiple-authors-to-a-report.mdx'. "
+        "969: UserWarning: Unknown keyword `foobar` used in "
+        "`support/models/articles/adding-multiple-authors-to-a-report.mdx`. "
         "Add it to config.yaml to suppress this warning.\n"
         "  warnings.warn(\n"
     )
     out = pr_report.format_warnings_for_display(raw)
     assert "home/runner" not in out
     assert "warnings.warn" not in out
-    assert "Unknown keyword 'foobar'" in out
+    assert "Unknown keyword `foobar`" in out
     assert out.startswith("- ")
 
 
