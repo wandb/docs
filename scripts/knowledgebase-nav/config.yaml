@@ -1,0 +1,81 @@
+# ---------------------------------------------------------------------------
+# Knowledgebase Nav Configuration
+# ---------------------------------------------------------------------------
+# This file defines the products and allowed keywords (tags) for the
+# knowledgebase nav generator. The generator reads this file to know which
+# products to crawl and which keywords are valid for each product.
+#
+# To add a new product:
+#   1. Add a new entry under "products:" with slug, display_name, and
+#      allowed_keywords.
+#   2. Create the directory support/<slug>/articles/ in the repo.
+#   3. Add at least one article with keywords from the allowed list.
+#
+# To add a new keyword to an existing product:
+#   1. Add the keyword string to that product's allowed_keywords list,
+#      in alphabetical order.
+#   2. Use the exact same string (case-sensitive) in article front matter.
+#
+# If an article uses a keyword not listed here, the generator still creates
+# the tag page but prints a warning. Resolve the warning by adding the
+# keyword to this file.
+# ---------------------------------------------------------------------------
+
+products:
+  - slug: models
+    display_name: "W&B Models"
+    allowed_keywords:
+      - Academic
+      - Administrator
+      - Alerts
+      - Anonymous
+      - Artifacts
+      - AWS
+      - Billing
+      - Charts
+      - Connectivity
+      - Environment Variables
+      - Experiments
+      - Hyperparameter
+      - Inference
+      - Logs
+      - Metrics
+      - Notebooks
+      - Outage
+      - Privacy
+      - Projects
+      - Python
+      - Reports
+      - Resuming
+      - Run Crashes
+      - Runs
+      - Security
+      - Storage
+      - Sweeps
+      - Tables
+      - Team Management
+      - Tensorboard
+      - User Management
+      - Workspaces
+      - Wysiwyg
+
+  - slug: weave
+    display_name: "W&B Weave"
+    allowed_keywords:
+      - Client Info
+      - Code Capture
+      - Data Capture
+      - Evaluation
+      - Performance
+      - System Info
+      - Trace Data
+      - UI Rendering
+
+  - slug: inference
+    display_name: "W&B Inference"
+    allowed_keywords:
+      - Administrator
+      - Authentication & Access
+      - Billing
+      - Quotas & Rate Limits
+      - Server Errors

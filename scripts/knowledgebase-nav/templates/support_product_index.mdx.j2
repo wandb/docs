@@ -1,0 +1,24 @@
+---
+title: {{ ("Support: " ~ product_name) | tojson_unicode }}
+generator: knowledgebase-nav
+---
+
+{% if featured_articles %}
+## Featured articles
+
+{% for article in featured_articles %}
+<Card title="{{ article.title_attr }}" href="/{{ article.page_path }}" arrow="true" horizontal>
+  {{ article.body_preview }}
+
+  {% for tl in article.tag_links %}<Badge stroke shape="pill" color="orange" size="md">[{{ tl.name }}]({{ tl.href }})</Badge> {% endfor %}
+
+</Card>
+{% endfor %}
+{% endif %}
+## Browse by category
+
+{% for tag in tag_categories %}
+<Card title="{{ tag.name }}" href="{{ tag.href }}" arrow="true">
+  {{ tag.count }} article{{ "s" if tag.count != 1 else "" }}
+</Card>
+{% endfor %}
