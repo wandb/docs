@@ -95,7 +95,7 @@ exclude = [
   '(http|https)://([^/]+\.)?github\.com/wandb',
 
   # W&B production infra — only public marketing/docs domains, not full github org
-  '^(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
+  '^(http|https)://(api|app|deploy|docs|trace|www)\.wandb\.(ai|com)',
   '^(http|https)://wandb\.(ai|com|me)',
   # W&B Inference API base URL - returns 400 for GET without auth (expected)
   'https://api\.inference\.wandb\.ai/v1',
