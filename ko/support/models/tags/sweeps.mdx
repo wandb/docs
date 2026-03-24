@@ -1,68 +1,69 @@
 ---
 title: "Sweeps"
 tag: "16"
+generator: knowledgebase-nav
 ---
 
 <Card title="하이퍼파라미터 검색을 구성하는 모범 사례" href="/ko/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
-  wandb.init(tags &#39;your tag&#39;)로 고유한 태그를 설정하세요. 이렇게 하면 ...
+  wandb.init(tags=&#39;your&#95;tag&#39;)로 고유한 태그를 설정하세요. 이렇게 하면 해당 태그를 선택해 프로젝트 run을 효율적으로 필터링할 수 있습 ...
 </Card>
 
-<Card title="그리드 검색을 다시 실행할 수 있나요?" href="/ko/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
-  그리드 검색이 완료되었지만 일부 W&amp;B Runs를 다시 실행해야 하는 경우 ...
+<Card title="grid search를 다시 실행할 수 있나요?" href="/ko/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
+  grid search가 완료되었지만 충돌로 인해 일부 W&amp;B Runs를 다시 실행해야 하는 경우, 해당 W&amp;B Runs를 삭제해 재실행하세요. 이 ...
 </Card>
 
-<Card title="Sweeps와 SageMaker를 사용할 수 있나요?" href="/ko/support/models/articles/can-i-use-sweeps-and-sagemaker" arrow="true" horizontal>
-  W&amp;B를 인증하려면 다음 단계를 완료하세요. a를 생성하고 ...
+<Card title="스윕과 SageMaker를 함께 사용할 수 있나요?" href="/ko/support/models/articles/can-i-use-sweeps-and-sagemaker" arrow="true" horizontal>
+  W&amp;B 인증을 하려면 다음 단계를 완료하세요. 기본 제공 Amazon SageMaker 환경을 사용하는 경우 requirements.txt 파일을 생성하 ...
 </Card>
 
 <Card title="불리언 변수를 하이퍼파라미터로 지정할 수 있나요?" href="/ko/support/models/articles/can-we-flag-boolean-variables-as-hyperpa" arrow="true" horizontal>
-  명령 section에서 args no boolean flags 매크로를 사용하세요 ...
+  하이퍼파라미터를 불리언 플래그로 전달하려면 설정의 command 섹션에서 매크로를 사용하세요. 이 매크로는 자동으로 ...
 </Card>
 
-<Card title="AWS Batch, ECS 등과 같은 클라우드 인프라에서 W&B Sweeps를 사용할 수 있나요?" href="/ko/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast" arrow="true" horizontal>
-  어떤 W&amp;B Sweep 에이전트든 액세스할 수 있도록 sweep id를 게시하려면 ...
+<Card title="AWS Batch, ECS 등 클라우드 인프라에서 W&B Sweeps를 사용할 수 있나요?" href="/ko/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast" arrow="true" horizontal>
+  모든 W&amp;B Sweep agent가 sweep&#95;id에 액세스할 수 있도록 게시하려면, 이러한 에이전트가 이를 조회하고 실행할 수 있는 방법을 구현하 ...
 </Card>
 
 <Card title="W&B Sweep의 일부로 모든 하이퍼파라미터 값들을 제공해야 하나요? 기본값을 설정할 수 있나요?" href="/ko/support/models/articles/do-i-need-to-provide-values-for-all-hype" arrow="true" horizontal>
-  sweep config ...에서 하이퍼파라미터 이름과 값을 가져오세요
+  사전처럼 동작하는 (run.config())를 사용해 스윕 설정에서 하이퍼파라미터 이름과 값에 액세스하세요.  ...
 </Card>
 
-<Card title="스윕 로그가 로컬에 저장되는 디렉터리를 어떻게 변경할 수 있나요?" href="/ko/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
-  ...을 구성하여 W&amp;B run 데이터의 로깅 디렉터리를 설정하세요
+<Card title="스윕이 로컬에 로그를 저장하는 디렉터리를 어떻게 변경할 수 있나요?" href="/ko/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
+  환경 변수 WANDB&#95;DIR를 설정하여 W&amp;B run 데이터의 로깅 디렉터리를 지정하세요. 예를 들면 다음과 같습니다:
 </Card>
 
 <Card title="Python 코드로 스윕을 재개하려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-resume-a-sweep-using-python-co" arrow="true" horizontal>
-  스윕을 재개하려면 sweep id를 wandb.agent() fu ...에 전달하세요
+  스윕을 재개하려면 sweep&#95;id를 wandb.agent() 함수에 전달하세요.
 </Card>
 
-<Card title="스윕의 run에서 모델을 가장 잘 로깅하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
-  스윕에서 모델을 로깅하는 효과적인 방법 중 하나는 (/model ...
+<Card title="스윕의 runs에서 모델을 가장 잘 로깅하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
+  스윕에서 모델을 로깅하는 효과적인 방법 중 하나는 스윕용 모델 아티팩트를 생성하는 것입니다. 각 버전은 ...
 </Card>
 
 <Card title="Sweeps에서 코드 로깅을 활성화하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
-  스윕의 코드 로깅을 활성화하려면 wandb.log code()를 afte ... 뒤에 추가하세요
+  스윕에서 코드 로깅을 활성화하려면 W&amp;B Run을 초기화한 후 wandb.log&#95;code()를 추가하세요. 이 작업은 ...
 </Card>
 
 <Card title="스윕에서 맞춤형 CLI 명령을 사용하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  트레이닝 ...
+  트레이닝 설정이 명령줄 인자를 전달한다면 맞춤형 CLI 명령과 함께 W&amp;B Sweeps를 사용할 수 있습니다. 예제에서는 ...
 </Card>
 
 <Card title="SLURM에서 스윕을 어떻게 실행해야 하나요?" href="/ko/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
-  SLURM 스케줄링 시스템(https:// ...과 함께 스윕을 사용할 때
+  SLURM 스케줄링 시스템과 함께 스윕을 사용할 때는 예약된 각 작업에서 wandb agent --count 1 SWEEP&#95;ID를 실행하세요. 이 명령 ...
 </Card>
 
-<Card title="스윕에 값을 추가할 방법이 있나요, 아니면 새로 시작해야 하나요?" href="/ko/support/models/articles/is-there-a-way-to-add-extra-values-to-a-" arrow="true" horizontal>
-  W&amp;B Sweep가 시작되면 Sweep configu ...를 변경할 수 없습니다
+<Card title="스윕에 값을 더 추가할 수 있나요, 아니면 새로 시작해야 하나요?" href="/ko/support/models/articles/is-there-a-way-to-add-extra-values-to-a-" arrow="true" horizontal>
+  W&amp;B Sweep가 시작되면 Sweep 설정을 변경할 수 없습니다. 하지만 아무 table 뷰로 이동해 선택한 다음 ...
 </Card>
 
 <Card title="여러 메트릭 최적화" href="/ko/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
-  단일 run에서 여러 메트릭을 최적화하려면 weighted ...를 사용하세요
+  단일 run에서 여러 메트릭을 최적화하려면 개별 메트릭의 가중합을 사용하세요. 새로 결합된 메트릭을 로깅하 ...
 </Card>
 
 <Card title="스윕이 실행되는 동안 Python 파일을 편집하면 어떻게 되나요?" href="/ko/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
-  스윕이 실행되는 동안: - train.py 스크립트 which the ...
+  스윕이 실행되는 동안: 스윕이 사용하는 train.py 스크립트가 변경되면, 스윕은 계속 원래 t ...를 사용합니다
 </Card>
 
 <Card title="`Est. Runs` 열은 무엇인가요?" href="/ko/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
-  W&amp;B는 crea ...할 때 생성되는 Runs의 예상 개수를 제공합니다
+  W&amp;B는 이산 검색 공간으로 W&amp;B Sweep를 생성할 때 생성되는 Runs의 예상 개수를 제공합니다. 이 총합은 re ...
 </Card>

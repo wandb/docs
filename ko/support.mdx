@@ -14,22 +14,41 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 <HelpQuestionForm />
 
 <div id="browse-support-articles-by-product">
-  ## 제품별 지원팀 문서 찾아보기
+  ## 제품별 지원팀 문서 둘러보기
 </div>
 
 <CardGroup cols={3}>
   <Card title="W&B Models" href="/ko/support/models" arrow="true" icon="/icons/cropped-models.svg">
-    180개 문서 · 33개 태그
+    {/* auto-generated counts */}
+
+    문서 180개 · 태그 33개
+
+    {/* end auto-generated counts */}
   </Card>
 
   <Card title="W&B Weave" href="/ko/support/weave" arrow="true" icon="/icons/cropped-weave.svg">
-    15개 문서 · 8개 태그
+    {/* auto-generated counts */}
+
+    문서 15개 · 태그 8개
+
+    {/* end auto-generated counts */}
   </Card>
 
   <Card title="W&B Inference" href="/ko/support/inference" arrow="true" icon="/icons/cropped-inference.svg">
-    7개 문서 · 5개 태그
+    {/* auto-generated counts */}
+
+    문서 7개 · 태그 5개
+
+    {/* end auto-generated counts */}
   </Card>
 </CardGroup>
+
+{/* ---- AUTO-GENERATED: 추천 문서 ----
+  이 섹션은 scripts/knowledgebase-nav/generate_tags.py 스크립트로 관리됩니다.
+  문서를 추천 문서로 표시하려면 프런트매터에 "featured: true"를 추가하세요.
+  제거하려면 "featured: false"로 설정하거나 해당 필드를 삭제하세요.
+  이 표시자 사이의 내용은 직접 수정하지 마세요.
+  ---- */}
 
 <div id="featured-articles">
   ## 추천 문서
@@ -40,28 +59,30 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 </div>
 
 <Card title="트레이닝 코드에서 run 이름은 어떻게 설정하나요?" href="/ko/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-  트레이닝 스크립트 시작 부분에서 wandb.init를 호출하세...
+  트레이닝 스크립트 시작 부분에서 실험 이름과 함께 wandb.init를 호출하세요. 예를 들어: wandb.init(name=&quot;my&#95;aweso ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 </Card>
 
 <Card title="Sweeps에서 맞춤형 CLI 명령은 어떻게 사용하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  트레이닝 ...
+  트레이닝 설정이 명령줄 인자를 전달하면 맞춤형 CLI 명령과 함께 W&amp;B Sweeps를 사용할 수 있습니다. 예제에서는  ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
 </Card>
 
 <Card title="메트릭을 오프라인에 저장한 뒤 나중에 W&B와 동기화할 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  기본적으로 wandb.init는 메트릭을 동기화하는 프로세스를 시...
+  기본적으로 wandb.init는 메트릭을 실시간으로 클라우드에 동기화하는 프로세스를 시작합니다. 오프라인으로 사용하려면 두 가지 환경 변수를 설정하세 ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 </Card>
 
 <Card title="wandb.init는 내 트레이닝 프로세스에서 어떤 역할을 하나요?" href="/ko/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  wandb.init가 트레이닝 스크립트에서 실행되면 API 호출이 creat...
+  wandb.init()가 트레이닝 스크립트에서 실행되면 API 호출이 서버에 run 객체를 생성합니다. 새 프로세스가 시작되어  ...
 
   <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 </Card>
+
+{/* ---- END AUTO-GENERATED: 추천 문서 ---- */}
 
 <Card title="원하는 내용을 아직 찾지 못하셨나요?" href="mailto:support@wandb.com" icon="circle-info">
   지원팀에 문의하기

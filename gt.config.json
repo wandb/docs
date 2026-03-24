@@ -74,8 +74,7 @@
     },
     "mdx": {
       "include": [
-        "./**/*.mdx",
-        "./**/*.md"
+        "./**/*.mdx"
       ],
       "transform": {
         "match": "^(snippets/)?(.*)$",
@@ -98,7 +97,9 @@
         "./**/GOVERNANCE.md",
         "./**/AGENTS.md",
         "./**/OWNERS.md",
-        "./**/MAINTAINERS.md"
+        "./**/MAINTAINERS.md",
+        "/scripts/**",
+        "/runbooks/**"
       ]
     }
   },

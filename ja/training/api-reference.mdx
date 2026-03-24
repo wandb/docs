@@ -74,3 +74,40 @@ https://api.training.wandb.ai/v1
 * [トレーニング済みモデルを利用する](/ja/training/serverless-rl/use-trained-models)
 * [利用可能なModels](/ja/training/serverless-rl/available-models)
 * [利用制限](/ja/training/serverless-rl/usage-limits)
+
+<div id="available-endpoints">
+  ## 利用可能なエンドポイント
+</div>
+
+<div id="chat-completions">
+  ### chat-completions
+</div>
+
+* **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Chat Completion を作成する
+* **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Chat Completion を作成する
+
+<div id="models">
+  ### Models
+</div>
+
+* **[POST /v1/preview/models](https://docs.wandb.ai/training/api-reference/models/create-model)** - モデルを作成
+* **[DELETE /v1/preview/models/{model_id}](https://docs.wandb.ai/training/api-reference/models/delete-model)** - モデルを削除
+* **[DELETE /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/delete-model-checkpoints)** - モデルのチェックポイントを削除
+* **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/list-model-checkpoints)** - モデルのチェックポイント一覧を取得
+* **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log)** - ログを記録
+
+<div id="training-jobs">
+  ### training-jobs
+</div>
+
+* **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - Sft トレーニングジョブを作成
+* **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - Rl トレーニングジョブを作成
+* **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - トレーニングジョブを取得
+* **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - トレーニングジョブのイベントを取得
+
+<div id="health">
+  ### ヘルス
+</div>
+
+* **[GET /v1/health](https://docs.wandb.ai/training/api-reference/health/health-check)** - ヘルスチェック
+* **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/health/system-check)** - システムチェック
