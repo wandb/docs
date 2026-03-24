@@ -39,6 +39,13 @@
 # branch name does not exist on the upstream clone. Detached HEAD is fine
 # here since the auto-commit step is skipped for forks anyway.
 #
+# PR comment vs auto-commit
+# -------------------------
+# After this workflow pushes the chore commit below, GitHub starts a second
+# run (synchronize). That run would post the same navigation report again and
+# overwrite the comment from the run that mattered. We skip the PR comment
+# step when the checked-out HEAD is exactly that chore commit.
+#
 # ------------------------------------------------------------------
 
 name: Knowledgebase Nav
@@ -89,6 +96,20 @@ jobs:
           repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
           ref: ${{ github.event_name == 'pull_request' && (github.event.pull_request.head.repo.fork && github.event.pull_request.head.sha || github.head_ref) || github.event_name == 'workflow_dispatch' && github.event.inputs.branch || github.ref }}
 
+      # Same message as git-auto-commit-action below (first line only).
+      - name: Detect chore-only navigation commit (skip PR comment on next run)
+        id: nav_commit
+        if: github.event_name == 'pull_request'
+        run: |
+          CHORE_SUBJECT="chore: regenerate support tag pages and docs.json navigation"
+          FIRST="$(git log -1 --pretty=%B | head -n1)"
+          if [ "${FIRST}" = "${CHORE_SUBJECT}" ]; then
+            echo "is_auto_nav_commit=true" >> "${GITHUB_OUTPUT}"
+            echo "HEAD is the auto-generated navigation commit; PR comment step will be skipped."
+          else
+            echo "is_auto_nav_commit=false" >> "${GITHUB_OUTPUT}"
+          fi
+
       - name: Set up Python 3.11
         uses: actions/setup-python@v6
         with:
@@ -124,7 +145,7 @@ jobs:
       # repeated pushes do not pile up duplicate comments. Includes navigation
       # counts from git diff and generator stderr (see scripts/knowledgebase-nav/pr_report.py).
       - name: Upsert knowledgebase navigation report on PR
-        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false && steps.nav_commit.outputs.is_auto_nav_commit != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
