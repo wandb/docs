@@ -1,33 +1,34 @@
 ---
 title: "サポート: W&B Models"
+generator: knowledgebase-nav
 ---
 
 <div id="featured-articles">
   ## 注目の記事
 </div>
 
-<Card title="トレーニング コードで run 名を設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-  トレーニング スクリプトの冒頭で、wandb.init を呼び出し...
+<Card title="トレーニング コードで run の名前を設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+  トレーニング スクリプトの冒頭で、実験名を指定して wandb.init を Call します。たとえば: wandb.init(name=&quot;my&#95;aweso ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 </Card>
 
 <Card title="Sweeps でカスタム CLI コマンドを使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  トレーニング ... の場合は、W&amp;B Sweeps でカスタム CLI コマンドを使用できます
+  トレーニング構成でコマンドライン引数が渡される場合、W&amp;B Sweeps でカスタム CLI コマンドを使用できます。この例では  ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
 </Card>
 
-<Card title="メトリクスをオフラインで保存し、後で W&B に Sync することはできますか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  デフォルトでは、wandb.init はメトリクスを Sync するプロセスを開始し...
+<Card title="メトリクスをオフラインで保存し、後で W&B に同期することはできますか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  デフォルトでは、wandb.init はメトリクスをクラウドにリアルタイムで同期するプロセスを開始します。オフラインで使用するには、2 つの環境変数を設定 ...
 
-  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Metrics](/ja/support/models/tags/metrics)</Badge>
 </Card>
 
 <Card title="wandb.init はトレーニング プロセスに対して何をしますか？" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  wandb.init がトレーニング スクリプトで実行されると、API Call によって作成さ...
+  トレーニング スクリプトで wandb.init() が実行されると、API Call によってサーバー上に run オブジェクトが作成されます。新しいプロセスが開始され、st ...
 
-  <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+  <Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 </Card>
 
 <div id="browse-by-category">

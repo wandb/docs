@@ -1,68 +1,69 @@
 ---
 title: "メトリクス"
 tag: "16"
+generator: knowledgebase-nav
 ---
 
-<Card title="コードやデータセットの例なしで、メトリクスだけをログできますか？" href="/ja/support/models/articles/can-i-just-log-metrics-no-code-or-datase" arrow="true" horizontal>
-  デフォルトでは、W&amp;B はデータセットの例をログしません。デフォルトでは、W ...
+<Card title="メトリクスだけをログして、コードやデータセットの例はログしないようにできますか？" href="/ja/support/models/articles/can-i-just-log-metrics-no-code-or-datase" arrow="true" horizontal>
+  デフォルトでは、W&amp;B はデータセットの例をログしません。デフォルトでは、W&amp;B はコードとシステム メトリクスをログします。これを変更するには 2 つの method があり ...
 </Card>
 
 <Card title="2 つの異なる時間スケールでメトリクスをログできますか？" href="/ja/support/models/articles/can-i-log-metrics-on-two-different-time-" arrow="true" horizontal>
-  たとえば、バッチごとにトレーニング accuracy をログし、v ...
+  たとえば、バッチごとにトレーニング accuracy をログし、エポックごとに検証 accuracy をログしたい場合です。はい、batch や epoch などのログ インデックスを ...
 </Card>
 
-<Card title="システム メトリクスをログする頻度を変更するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
-  システム メトリクスをログする頻度を設定するには、(/models/re ...
+<Card title="システム メトリクスをログする頻度はどのように変更できますか？" href="/ja/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
+  システム メトリクスをログする頻度を設定するには、&#95;stats&#95;sampling&#95;interval を秒数 (浮動小数点数) に設定し ...
 </Card>
 
-<Card title="W&B へのシステム メトリクスのログを無効にするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
-  システム メトリクスのログを無効にするには、(/models/ref/python/exp ...
+<Card title="W&B へのシステム メトリクスのロギングを無効にするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
+  システム メトリクスのロギングを無効にするには、&#95;disable&#95;stats を True に設定します:
 </Card>
 
 <Card title="run の完了後に追加のメトリクスをログするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
-  実験を管理する方法はいくつかあります。複雑なワークフローでは ...
+  Experiments を管理する方法はいくつかあります。複雑な workflow では、複数の run を使用し、w ... で group parameters を設定します。
 </Card>
 
 <Card title="前の step のログを上書きするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
-  前の step のログを上書きするには、forking を使用します (/models/ ...
+  前の step のログを上書きするには、forking と rewind を使用します。
 </Card>
 
 <Card title="システム メトリクスはどのくらいの頻度で収集されますか？" href="/ja/support/models/articles/how-often-are-system-metrics-collected" arrow="true" horizontal>
-  メトリクスはデフォルトで 10 秒ごとに収集されます。より高い解像度では ...
+  メトリクスはデフォルトで 10 秒ごとに収集されます。より高解像度のメトリクスが必要な場合は、contact@wandb.com にメールしてください。
 </Card>
 
 <Card title="step ごとではなく、メトリクスの最大値をプロットすることは可能ですか？" href="/ja/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr" arrow="true" horizontal>
-  メトリクスの散布図を作成します。Edit メニューを開いて ...
+  そのメトリクスの散布図を作成します。Edit メニューを開いて Annotations を選択します。そこから、... の累積最大値をプロットできます。
 </Card>
 
-<Card title="メトリクスをオフラインで保存し、後で W&B に同期することは可能ですか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  デフォルトでは、wandb.init はメトリクスをすぐに同期するプロセスを開始します ...
+<Card title="メトリクスをオフラインで保存し、あとで W&B に Sync することは可能ですか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに Sync する process を開始します。オフラインで使用するには、2 つの環境変数を設定し ...
 </Card>
 
 <Card title="複数のメトリクスの最適化" href="/ja/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
-  1 つの run で複数のメトリクスを最適化するには、重み付き ...
+  単一の run で複数のメトリクスを最適化するには、個々のメトリクスの加重和を使用します。新しい結合メトリクスをログし ...
 </Card>
 
 <Card title="W&B に何百万もの step をログするとどうなりますか？ブラウザーではどのように表示されますか？" href="/ja/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
-  送信されるポイント数は、グラフの読み込み時間に影響します ...
+  送信されるポイント数は、UI でのグラフの読み込み時間に影響します。1,000 ポイントを超える線については、バックエンドが sa ...
 </Card>
 
-<Card title="一部のメトリクスをバッチ単位で、別のメトリクスをエポック単位でのみログしたい場合はどうなりますか？" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  各バッチで特定のメトリクスをログし、プロットを標準化するには、...
+<Card title="一部のメトリクスはバッチ単位で、別のメトリクスはエポック単位でのみログしたい場合はどうすればよいですか？" href="/ja/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  各バッチで特定のメトリクスをログし、プロットを標準化するには、必要な x 軸の値をメトリクスと一緒にログします。... では
 </Card>
 
-<Card title="ログした数より少ないデータ ポイントしか表示されないのはなぜですか？" href="/ja/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
-  Step 以外の X 軸に対してメトリクスを可視化する場合、...
+<Card title="ログした数よりデータポイントが少なく見えるのはなぜですか？" href="/ja/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Step 以外の X 軸に対してメトリクスを可視化する場合、表示されるデータポイントが少なくなることがあります。メトリクスは同じ ... でログする必要があります。
 </Card>
 
 <Card title="特定の文字を含むメトリクスを並べ替えたりフィルターしたりできないのはなぜですか？" href="/ja/support/models/articles/why-cant-i-sort-or-filter-metrics-with-c" arrow="true" horizontal>
-  W&amp;B のメトリクス名は、GraphQL の命名規則に従う必要があります ...
+  W&amp;B でのメトリクス名は、UI で適切に並べ替えやフィルターができるよう、GraphQL の命名規則に従う必要があります。...
 </Card>
 
 <Card title="グラフに何も表示されないのはなぜですか？" href="/ja/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
-  &quot;No visualization data logged yet&quot; というメッセージが表示された場合、...
+  「No visualization data logged yet」というメッセージが表示される場合、script が最初の wandb.log Call を実行していません。これは ...
 </Card>
 
 <Card title="同じメトリクスが複数回表示されるのはなぜですか？" href="/ja/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
-  同じキーの下でさまざまなデータ型をログする場合は、それらを分けて ...
+  同じキーの下でさまざまなデータ型をログする場合は、それらはデータベース内で別々に保存されます。これにより、その ...
 </Card>
