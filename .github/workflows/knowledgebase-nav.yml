@@ -116,56 +116,54 @@ jobs:
         if: always()
         run: |
           if [ -s generator-warnings.log ]; then
-            echo "::warning::Knowledgebase Nav Generator produced warnings (see PR comment)"
+            echo "::warning::Knowledgebase Nav Generator produced warnings (see PR comment or job summary)"
             cat generator-warnings.log
           fi
 
-      # Creates, updates, or deletes a single PR comment identified by an
-      # HTML marker so repeated pushes do not pile up duplicate comments.
-      - name: Upsert generator warnings on PR
+      # Creates or updates a single PR comment identified by an HTML marker so
+      # repeated pushes do not pile up duplicate comments. Includes navigation
+      # counts from git diff and generator stderr (see scripts/knowledgebase-nav/pr_report.py).
+      - name: Upsert knowledgebase navigation report on PR
         if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          MARKER="<!-- knowledgebase-nav-warnings -->"
+          MARKER="<!-- knowledgebase-nav-report -->"
 
-          # Find an existing comment with the marker.
+          python scripts/knowledgebase-nav/pr_report.py \
+            --repo-root . \
+            --warnings-file generator-warnings.log \
+            --run-url "${RUN_URL}" \
+            --include-marker \
+            > comment-body.md
+
           COMMENT_ID=$(gh api \
             "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
             --paginate -q ".[] | select(.body | contains(\"${MARKER}\")) | .id" \
           | head -n1)
 
-          if [ -s generator-warnings.log ]; then
-            {
-              echo "${MARKER}"
-              echo "### Knowledgebase Nav Generator warnings"
-              echo ""
-              echo '```'
-              cat generator-warnings.log
-              echo '```'
-              echo ""
-              echo "*From [workflow run](${RUN_URL})*"
-            } > comment-body.md
-
-            if [ -n "${COMMENT_ID}" ]; then
-              gh api \
-                "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
-                -X PATCH -F "body=@comment-body.md"
-              echo "Updated existing warnings comment ${COMMENT_ID}"
-            else
-              gh pr comment "${PR_NUMBER}" --body-file comment-body.md
-              echo "Created new warnings comment"
-            fi
+          if [ -n "${COMMENT_ID}" ]; then
+            gh api \
+              "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
+              -X PATCH -F "body=@comment-body.md"
+            echo "Updated existing knowledgebase navigation report comment ${COMMENT_ID}"
           else
-            if [ -n "${COMMENT_ID}" ]; then
-              gh api \
-                "repos/${{ github.repository }}/issues/comments/${COMMENT_ID}" \
-                -X DELETE
-              echo "Deleted stale warnings comment ${COMMENT_ID} (no warnings this run)"
-            fi
+            gh pr comment "${PR_NUMBER}" --body-file comment-body.md
+            echo "Created new knowledgebase navigation report comment"
           fi
+
+      - name: Write knowledgebase navigation report to job summary
+        if: always() && github.event_name == 'workflow_dispatch'
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python scripts/knowledgebase-nav/pr_report.py \
+            --repo-root . \
+            --warnings-file generator-warnings.log \
+            --run-url "${RUN_URL}" \
+            >> "${GITHUB_STEP_SUMMARY}"
 
       # Surfaces an Actions notice when the commit step below is skipped.
       - name: Fork PR (no push to fork)
