@@ -73,7 +73,9 @@ exclude = [
   '(http|https)://.*\.?portal\.azure\.com',
   '(http|https)://.*\.?hhs\.gov',
   '(http|https)://([^/]+\.)?github\.com/wandb',
-  '^(http|https)://(api|app|deploy|docs|www)\.wandb\.(ai|com)',
+
+  # W&B production infra — only public marketing/docs domains, not full github org
+  '^(http|https)://(api|app|deploy|docs|trace|www)\.wandb\.(ai|com)',
   '^(http|https)://wandb\.(ai|com|me)',
   '(http|https)://dspy-docs\.vercel\.app',
   # W&B Inference API base URL - returns 400 for GET without auth (expected)
