@@ -222,7 +222,7 @@ def test_format_warnings_for_display_strips_path_and_scaffolding():
         "/home/runner/work/docs/docs/scripts/knowledgebase-nav/generate_tags.py:"
         "969: UserWarning: Unknown keyword `foobar` used in "
         "`support/models/articles/adding-multiple-authors-to-a-report.mdx`. "
-        "Add it to config.yaml to suppress this warning.\n"
+        "Add it to `scripts/knowledgebase-nav/config.yaml` to suppress this warning.\n"
         "  warnings.warn(\n"
     )
     out = pr_report.format_warnings_for_display(raw)

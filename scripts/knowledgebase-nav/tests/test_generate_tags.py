@@ -786,6 +786,7 @@ class TestBuildTagIndex:
             assert len(w) == 1
             assert "Unknown keyword `Unknown`" in str(w[0].message)
             assert "support/widgets/articles/example.mdx" in str(w[0].message)
+            assert "scripts/knowledgebase-nav/config.yaml" in str(w[0].message)
 
     def test_unknown_keyword_warned_only_once(self):
         """

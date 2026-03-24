@@ -929,6 +929,8 @@ def get_featured_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]
 def build_tag_index(
     articles: List[Dict[str, Any]],
     allowed_keywords: List[str],
+    *,
+    config_yaml_path: str = "scripts/knowledgebase-nav/config.yaml",
 ) -> Dict[str, List[Dict[str, Any]]]:
     """
     Build a mapping from tag names to lists of articles that use that tag.
@@ -944,6 +946,9 @@ def build_tag_index(
         The article dictionaries for a single product.
     allowed_keywords : list of str
         The keywords recognized for this product (from config.yaml).
+    config_yaml_path : str, optional
+        Repo-relative path to the config file, shown in unknown-keyword
+        warnings. Defaults to ``scripts/knowledgebase-nav/config.yaml``.
 
     Returns
     -------
@@ -974,7 +979,7 @@ def build_tag_index(
                 source = article.get("mdx_path") or article.get("title", "?")
                 warnings.warn(
                     f"Unknown keyword `{keyword}` used in `{source}`. "
-                    f"Add it to config.yaml to suppress this warning."
+                    f"Add it to `{config_yaml_path}` to suppress this warning."
                 )
                 warned_keywords.add(keyword)
 
@@ -1613,6 +1618,13 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     config = load_config(config_path)
     products = config["products"]
 
+    try:
+        config_yaml_display = config_path.resolve().relative_to(
+            repo_root.resolve()
+        ).as_posix()
+    except ValueError:
+        config_yaml_display = config_path.as_posix()
+
     # Set up Jinja2 templates from the templates/ directory next to this script
     script_dir = Path(__file__).resolve().parent
     templates_dir = script_dir / "templates"
@@ -1643,7 +1655,11 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
         print(f"  Found {len(articles)} articles")
 
         # Phase 1b: Build the tag index
-        tag_index = build_tag_index(articles, allowed_keywords)
+        tag_index = build_tag_index(
+            articles,
+            allowed_keywords,
+            config_yaml_path=config_yaml_display,
+        )
         print(f"  Found {len(tag_index)} unique tags")
 
         # Phase 2: Generate tag pages and remove stale ones
