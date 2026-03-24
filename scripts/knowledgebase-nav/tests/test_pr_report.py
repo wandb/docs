@@ -208,7 +208,7 @@ def test_build_report_with_counts():
     empty["docs_json"] = 1
     out = pr_report.build_report_markdown(empty, set(), "")
     assert pr_report.REPORT_TITLE in out
-    assert "Articles with tab Badges updated: 2 articles" in out
+    assert "Articles with Badges updated: 2 articles" in out
     assert "docs.json updated" in out
 
 

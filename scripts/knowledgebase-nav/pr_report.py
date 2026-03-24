@@ -434,7 +434,7 @@ def build_report_markdown(
     if buckets["articles_badges_updated"] > 0:
         n = buckets["articles_badges_updated"]
         lines_out.append(
-            f"- Articles with tab Badges updated: {n} article{'s' if n != 1 else ''}."
+            f"- Articles with Badges updated: {n} article{'s' if n != 1 else ''}."
         )
         added_bullet = True
     if buckets["tag_pages_modified"] > 0:
