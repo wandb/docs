@@ -71,7 +71,7 @@ with wandb.init(project="my-project") as run:
   run.log_artifact(artifact)
 ```
 
-W&B App 内では、ファイルブラウザを使用してリファレンス Artifact の内容を確認したり、[完全な依存関係グラフを探索](/models/artifacts/explore-and-traverse-an-artifact-graph/)したり、Artifact のバージョン履歴をスキャンしたりできます。データ自体が Artifact 内に含まれていないため、W&B App は画像や音声などのリッチメディアをレンダリングしません。
+W&B App 内では、ファイルブラウザを使用してリファレンス Artifact の内容を確認したり、[完全な依存関係グラフを探索](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/)したり、Artifact のバージョン履歴をスキャンしたりできます。データ自体が Artifact 内に含まれていないため、W&B App は画像や音声などのリッチメディアをレンダリングしません。
 
 <Note>
 W&B Artifacts は、CoreWeave Storage や MinIO を含む、あらゆる Amazon S3 互換インターフェースをサポートしています。以下のスクリプトは、環境変数 `AWS_S3_ENDPOINT_URL` を CoreWeave Storage または MinIO サーバーを指すように設定することで、両方のプロバイダーでそのまま動作します。

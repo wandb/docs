@@ -76,7 +76,7 @@ YAML 파일이나 Python 스크립트에서 `parameters`를 최상위 키로 지
 그리드 검색이 연속적인 탐색 공간 내에서 탐색하는 경우 무한히 실행됩니다.
 
 #### 랜덤 검색 (Random search)
-분포를 기반으로 각 반복에서 무작위로 하이퍼파라미터 값 세트를 선택합니다. 랜덤 검색은 커맨드라인, Python 스크립트 내부 또는 [W&B 앱](/models/sweeps/sweeps-ui/)에서 프로세스를 중단하지 않는 한 영원히 실행됩니다.
+분포를 기반으로 각 반복에서 무작위로 하이퍼파라미터 값 세트를 선택합니다. 랜덤 검색은 커맨드라인, Python 스크립트 내부 또는 [W&B 앱](/ko/models/sweeps/sweeps-ui/)에서 프로세스를 중단하지 않는 한 영원히 실행됩니다.
 
 랜덤 검색(`method: random`)을 선택한 경우 metric 키로 분포 공간을 지정하세요.
 
@@ -85,7 +85,7 @@ YAML 파일이나 Python 스크립트에서 `parameters`를 최상위 키로 지
 
 {/* 다양한 베이지안 최적화 방법이 있습니다. W&B는 가우시안 프로세스를 사용하여 하이퍼파라미터와 모델 메트릭 간의 관계를 모델링합니다. 자세한 내용은 이 논문을 참조하세요. [LINK] */}
 
-베이지안 탐색은 커맨드라인, Python 스크립트 내부 또는 [W&B 앱](/models/sweeps/sweeps-ui/)에서 프로세스를 중단하지 않는 한 영원히 실행됩니다.
+베이지안 탐색은 커맨드라인, Python 스크립트 내부 또는 [W&B 앱](/ko/models/sweeps/sweeps-ui/)에서 프로세스를 중단하지 않는 한 영원히 실행됩니다.
 
 ### 랜덤 검색 및 베이지안 탐색을 위한 분포 옵션
 `parameter` 키 내에 하이퍼파라미터의 이름을 중첩시킵니다. 다음으로 `distribution` 키를 지정하고 값에 대한 분포를 지정합니다.
@@ -143,12 +143,12 @@ bracket 스케줄을 생성하려면 `min_iter` 또는 `max_iter` 중 하나를 
 | `strict`   | 원래 Hyperband 논문을 더 밀접하게 따라 run을 공격적으로 프루닝하는 'strict' 모드를 활성화합니다. 기본값은 false입니다. |
 
 <Note>
-Hyperband는 몇 분마다 한 번씩 종료할 [runs](/models/ref/python/experiments/run)를 확인합니다. run이나 반복 주기가 짧은 경우 종료 run 타임스탬프가 지정된 brackets와 다를 수 있습니다.
+Hyperband는 몇 분마다 한 번씩 종료할 [runs](/ko/models/ref/python/experiments/run)를 확인합니다. run이나 반복 주기가 짧은 경우 종료 run 타임스탬프가 지정된 brackets와 다를 수 있습니다.
 </Note>
 
 ## `command` 
 
-{/* [`wandb agent`](/models/ref/cli/wandb-agent)로 생성된 에이전트는 기본적으로 다음 형식의 코맨드를 받습니다: */}
+{/* [`wandb agent`](/ko/models/ref/cli/wandb-agent)로 생성된 에이전트는 기본적으로 다음 형식의 코맨드를 받습니다: */}
 
 `command` 키 내의 중첩된 값을 사용하여 형식과 내용을 수정할 수 있습니다. 파일 이름과 같은 고정된 구성 요소를 직접 포함할 수 있습니다.
 

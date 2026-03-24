@@ -47,7 +47,7 @@ wandb.agent(sweep_id, function=main, count=10)
 ## トレーニングコードのセットアップ
 `wandb.Run.config` から ハイパーパラメーター の値を受け取り、それらを使用して モデル をトレーニングし、 メトリクス を返すトレーニング関数を定義します。
 
-オプションで、 W&B Runs の出力を保存する プロジェクト 名を指定します（ [`wandb.init()`](/models/ref/python/functions/init) の project パラメータ）。 プロジェクト が指定されていない場合、 run は "Uncategorized" プロジェクト に分類されます。
+オプションで、 W&B Runs の出力を保存する プロジェクト 名を指定します（ [`wandb.init()`](/ja/models/ref/python/functions/init) の project パラメータ）。 プロジェクト が指定されていない場合、 run は "Uncategorized" プロジェクト に分類されます。
 
 <Note>
 sweep と run は同じ プロジェクト 内にある必要があります。したがって、 W&B を初期化する際に指定する名前は、 sweep を初期化する際に指定する プロジェクト 名と一致させる必要があります。
@@ -68,7 +68,7 @@ def main():
 
 ## sweep configuration による検索空間の定義
 
-辞書 形式で、 sweep 対象となる ハイパーパラメーター を指定します。設定オプションの詳細については、 [Define sweep configuration](/models/sweeps/define-sweep-configuration/) を参照してください。
+辞書 形式で、 sweep 対象となる ハイパーパラメーター を指定します。設定オプションの詳細については、 [Define sweep configuration](/ja/models/sweeps/define-sweep-configuration/) を参照してください。
 
 上記の例では、 ランダム検索 (`'method':'random'`) を使用する sweep configuration を示しています。この sweep では、設定にリストされた バッチサイズ 、 エポック 、 学習率の中からランダムに値のセットを選択します。
 
@@ -100,7 +100,7 @@ sweep の初期化に関する詳細は、 [Initialize sweeps](./initialize-swee
 
 ## sweep の開始
 
-[`wandb.agent()`](/models/ref/python/functions/agent) API コールを使用して sweep を開始します。
+[`wandb.agent()`](/ja/models/ref/python/functions/agent) API コールを使用して sweep を開始します。
 
 ```python
 wandb.agent(sweep_id, function=main, count=10)
@@ -123,7 +123,7 @@ if __name__ == '__main__':
 
 ## 結果の視覚化（オプション）
 
-プロジェクト を開き、 W&B App ダッシュボード でリアルタイムの結果を確認します。数回のクリックで、 [平行座標プロット](/models/app/features/panels/parallel-coordinates/) 、 [パラメータの重要度](/models/app/features/panels/parameter-importance/) 分析、 [その他のチャートタイプ](/models/app/features/panels/) などのリッチで インタラクティブなグラフ を作成できます。
+プロジェクト を開き、 W&B App ダッシュボード でリアルタイムの結果を確認します。数回のクリックで、 [平行座標プロット](/ja/models/app/features/panels/parallel-coordinates/) 、 [パラメータの重要度](/ja/models/app/features/panels/parameter-importance/) 分析、 [その他のチャートタイプ](/ja/models/app/features/panels/) などのリッチで インタラクティブなグラフ を作成できます。
 
 <Frame>
     <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Sweeps Dashboard example"  />

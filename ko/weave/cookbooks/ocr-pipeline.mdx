@@ -146,7 +146,7 @@ def extract_named_entities_from_image(image_base64) -> dict:
 - 이미지 데이터를 NER 파이프라인으로 전달
 - 결과가 포함된 올바른 형식의 JSON 반환
 
-[`@weave.op()` 데코레이터](/weave/reference/python-sdk/trace/op)를 사용하여 W&B UI에서 함수 실행을 자동으로 추적하고 기록하세요.
+[`@weave.op()` 데코레이터](/ko/weave/reference/python-sdk/trace/op)를 사용하여 W&B UI에서 함수 실행을 자동으로 추적하고 기록하세요.
 
 `named_entity_recognation`이 실행될 때마다 전체 추적 결과가 Weave UI에 표시됩니다. 추적 내용을 보려면 Weave 프로젝트의 **Traces** 탭으로 이동하세요.
 
@@ -198,9 +198,9 @@ Weave UI의 **Traces** 테이블에서 다음과 유사한 화면을 볼 수 있
 
 ## 4. Weave를 사용하여 파이프라인 평가
 
-VLM을 사용하여 NER을 수행하는 파이프라인을 만들었으므로, 이제 Weave를 사용하여 이를 체계적으로 평가하고 성능을 확인할 수 있습니다. Weave의 평가에 대한 자세한 내용은 [Evaluations 개요](/weave/guides/core-types/evaluations)에서 확인할 수 있습니다.
+VLM을 사용하여 NER을 수행하는 파이프라인을 만들었으므로, 이제 Weave를 사용하여 이를 체계적으로 평가하고 성능을 확인할 수 있습니다. Weave의 평가에 대한 자세한 내용은 [Evaluations 개요](/ko/weave/guides/core-types/evaluations)에서 확인할 수 있습니다.
 
-Weave Evaluation의 핵심 요소는 [Scorers](/weave/guides/evaluation/scorers)입니다. Scorer는 AI 출력을 평가하고 평가 메트릭을 반환하는 데 사용됩니다. AI의 출력을 받아 분석하고 결과 사전을 반환합니다. Scorer는 필요한 경우 입력 데이터를 참조로 사용할 수 있으며, 평가 결과에 대한 설명이나 추론과 같은 추가 정보를 출력할 수도 있습니다.
+Weave Evaluation의 핵심 요소는 [Scorers](/ko/weave/guides/evaluation/scorers)입니다. Scorer는 AI 출력을 평가하고 평가 메트릭을 반환하는 데 사용됩니다. AI의 출력을 받아 분석하고 결과 사전을 반환합니다. Scorer는 필요한 경우 입력 데이터를 참조로 사용할 수 있으며, 평가 결과에 대한 설명이나 추론과 같은 추가 정보를 출력할 수도 있습니다.
 
 이 섹션에서는 파이프라인을 평가하기 위해 두 가지 Scorer를 만듭니다:
 1. Programatic Scorer

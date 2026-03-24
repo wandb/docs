@@ -14,7 +14,7 @@ import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 </Note>
 
 ## 핵심 실험 트래킹
-`wandb`를 설치하는 것만으로 시스템 메트릭, 모델 메트릭 및 미디어가 대화형 [Dashboards](/models/track/workspaces/) 에 기록되는 내장형 W&B [로깅 기능](/models/track/log/) 이 활성화됩니다.
+`wandb`를 설치하는 것만으로 시스템 메트릭, 모델 메트릭 및 미디어가 대화형 [Dashboards](/ko/models/track/workspaces/) 에 기록되는 내장형 W&B [로깅 기능](/ko/models/track/log/) 이 활성화됩니다.
 
 ```python
 pip install wandb
@@ -32,7 +32,7 @@ wandb가 표준 출력(stdout)에 표시하는 링크를 따라가기만 하면 
 
 YOLO에 몇 가지 간단한 커맨드라인 인수를 전달하여 더 많은 W&B 기능을 활용할 수 있습니다.
 
-* `--save_period`에 숫자를 전달하면, W&B는 매 `save_period` 에포크마다 [모델 버전](/models/registry/) 을 저장합니다. 모델 버전에는 모델 가중치가 포함되며 검증 세트에서 가장 성능이 좋은 모델에 태그를 지정합니다.
+* `--save_period`에 숫자를 전달하면, W&B는 매 `save_period` 에포크마다 [모델 버전](/ko/models/registry/) 을 저장합니다. 모델 버전에는 모델 가중치가 포함되며 검증 세트에서 가장 성능이 좋은 모델에 태그를 지정합니다.
 * `--upload_dataset` 플래그를 활성화하면 데이터 버전 관리를 위해 데이터셋도 업로드합니다.
 * `--bbox_interval`에 숫자를 전달하면 [데이터 시각화](../) 기능이 켜집니다. 매 `bbox_interval` 에포크마다 검증 세트에 대한 모델의 출력값이 W&B로 업로드됩니다.
 

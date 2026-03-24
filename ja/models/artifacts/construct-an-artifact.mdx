@@ -3,17 +3,17 @@ title: アーティファクトを作成する
 description: W&B Artifact の作成とログ記録。1つまたは複数のファイル、あるいは URI 参照を Artifact に追加する方法について学びます。
 ---
 
-W&B Python SDKを使用して、 [W&B Runs](/models/ref/python/experiments/run) から Artifacts を構築します。 [ファイル、ディレクトリー、URI、および並列実行された run からのファイルを Artifacts に追加](#artifacts-へのファイルの追加) することができます。ファイルを Artifacts に追加した後、その Artifacts を W&B サーバーまたは [独自のプライベートサーバー](/platform/hosting/hosting-options/self-managed) に保存します。各 Artifacts はひとつの run に関連付けられます。
+W&B Python SDKを使用して、 [W&B Runs](/ja/models/ref/python/experiments/run) から Artifacts を構築します。 [ファイル、ディレクトリー、URI、および並列実行された run からのファイルを Artifacts に追加](#artifacts-へのファイルの追加) することができます。ファイルを Artifacts に追加した後、その Artifacts を W&B サーバーまたは [独自のプライベートサーバー](/ja/platform/hosting/hosting-options/self-managed) に保存します。各 Artifacts はひとつの run に関連付けられます。
 
 Amazon S3 に保存されているファイルなどの外部ファイルを追跡する方法については、 [外部ファイルの追跡](./track-external-files) ページを参照してください。
 
 ## Artifacts の構築方法
 
-[W&B Artifact](/models/ref/python/experiments/artifact) は以下の3つのステップで構築します：
+[W&B Artifact](/ja/models/ref/python/experiments/artifact) は以下の3つのステップで構築します：
 
 ### 1. `wandb.Artifact()` で Artifacts の Python オブジェクトを作成する
 
-[`wandb.Artifact()`](/models/ref/python/experiments/artifact) クラスを初期化して Artifacts オブジェクトを作成します。以下のパラメータを指定してください：
+[`wandb.Artifact()`](/ja/models/ref/python/experiments/artifact) クラスを初期化して Artifacts オブジェクトを作成します。以下のパラメータを指定してください：
 
 * **Name**: Artifacts の名前を指定します。名前は一意で、説明的、かつ覚えやすいものである必要があります。Artifacts 名は、W&B App UI で Artifacts を特定するため、およびその Artifacts を使用したい時の両方で使われます。
 * **Type**: タイプを指定します。タイプはシンプルで説明的であり、機械学習パイプラインの単一のステップに対応している必要があります。一般的な Artifacts タイプには `'dataset'` や `'model'` が含まれます。
@@ -26,7 +26,7 @@ W&B は指定された "name" と "type" を使用して、有向非巡回グラ
 Artifacts は、`type` パラメータに異なるタイプを指定したとしても、同じ名前を持つことはできません。言い換えれば、`dataset` タイプの `cats` という名前の Artifacts と、`model` タイプの同名の Artifacts を作成することはできません。
 </Warning>
 
-Artifacts オブジェクトを初期化する際に、オプションで説明（description）とメタデータを指定できます。利用可能な属性やパラメータの詳細については、Python SDK リファレンスガイドの [`wandb.Artifact`](/models/ref/python/experiments/artifact) クラス定義を参照してください。
+Artifacts オブジェクトを初期化する際に、オプションで説明（description）とメタデータを指定できます。利用可能な属性やパラメータの詳細については、Python SDK リファレンスガイドの [`wandb.Artifact`](/ja/models/ref/python/experiments/artifact) クラス定義を参照してください。
 
 以下のコードスニペットをコピー＆ペーストして、Artifacts オブジェクトを作成します。 `<name>` と `<type>` プレースホルダーを自身の値に置き換えてください。：
 
@@ -41,25 +41,25 @@ artifact = wandb.Artifact(name="<name>", type="<type>")
 
 ファイル、ディレクトリー、外部 URI 参照（Amazon S3 など）などを Artifacts オブジェクトに追加します。
 
-単一のファイルを追加するには、Artifacts オブジェクトの [`Artifact.add_file()`](/models/ref/python/experiments/artifact#add_file) メソッドを使用します：
+単一のファイルを追加するには、Artifacts オブジェクトの [`Artifact.add_file()`](/ja/models/ref/python/experiments/artifact#add_file) メソッドを使用します：
 
 ```python
 artifact.add_file(local_path="path/to/file.txt", name="<name>")
 ```
 
-Artifacts への異なるファイルタイプの追加に関する詳細は、次のセクション [単一ファイルの追加](/models/artifacts/construct-an-artifact#add-a-single-file) を参照してください。
+Artifacts への異なるファイルタイプの追加に関する詳細は、次のセクション [単一ファイルの追加](/ja/models/artifacts/construct-an-artifact#add-a-single-file) を参照してください。
 
-ディレクトリーを追加するには、 [`Artifact.add_dir()`](/models/ref/python/experiments/artifact#add_dir) メソッドを使用します：
+ディレクトリーを追加するには、 [`Artifact.add_dir()`](/ja/models/ref/python/experiments/artifact#add_dir) メソッドを使用します：
 
 ```python
 artifact.add_dir(local_path="path/to/directory", name="<name>")
 ```
 
-Artifacts への異なるファイルタイプの追加に関する詳細は、次のセクション [複数ファイルの追加](/models/artifacts/construct-an-artifact#add-multiple-files) を参照してください。
+Artifacts への異なるファイルタイプの追加に関する詳細は、次のセクション [複数ファイルの追加](/ja/models/artifacts/construct-an-artifact#add-multiple-files) を参照してください。
 
 ### 3. Artifacts を W&B サーバーに保存する
 
-最後に、Artifacts を W&B サーバーに保存します。 run オブジェクトの [`wandb.Run.log_artifact()`](/models/ref/python/experiments/run#log_artifact) メソッドを使用して Artifacts を保存します。
+最後に、Artifacts を W&B サーバーに保存します。 run オブジェクトの [`wandb.Run.log_artifact()`](/ja/models/ref/python/experiments/run#log_artifact) メソッドを使用して Artifacts を保存します。
 
 ```python
 with wandb.init(project="<project>", job_type="<job-type>") as run:
@@ -181,7 +181,7 @@ artifact.add_dir(local_path="path/file.format", name="optional-prefix")
 
 W&B ライブラリが処理可能なスキームを持つ URI の場合、Artifacts は再現性のためにチェックサムやその他の情報を追跡します。
 
-[`add_reference`](/models/ref/python/experiments/artifact#add_reference) メソッドを使用して、外部 URI 参照を Artifacts に追加します。 `'uri'` 文字列を自身の URI に置き換えてください。オプションで、 `name` パラメータに Artifacts 内の希望するパスを指定できます。
+[`add_reference`](/ja/models/ref/python/experiments/artifact#add_reference) メソッドを使用して、外部 URI 参照を Artifacts に追加します。 `'uri'` 文字列を自身の URI に置き換えてください。オプションで、 `name` パラメータに Artifacts 内の希望するパスを指定できます。
 
 ```python
 # URI 参照を追加
@@ -270,7 +270,7 @@ with wandb.init(group=group_name) as run:
 
 ## ログに記録された Artifacts やその他のメタデータのパスを確認する
 
-以下のコードスニペットは、 [W&B Public API](/models/ref/python/public-api/) を使用して、ファイル名や URL を含む run 内のファイルをリスト化する方法を示しています。 `<entity/project/run-id>` プレースホルダーを自身の値に置き換えてください：
+以下のコードスニペットは、 [W&B Public API](/ja/models/ref/python/public-api/) を使用して、ファイル名や URL を含む run 内のファイルをリスト化する方法を示しています。 `<entity/project/run-id>` プレースホルダーを自身の値に置き換えてください：
 
 ```python
 from wandb.apis.public.files import Files
@@ -289,4 +289,4 @@ for file in files:
     print(f"Path to file in the bucket: {file.direct_url}")
 ```
 
-利用可能な属性やメソッドの詳細については、 [File](/models/ref/python/public-api/file) クラスを参照してください。
+利用可能な属性やメソッドの詳細については、 [File](/ja/models/ref/python/public-api/file) クラスを参照してください。

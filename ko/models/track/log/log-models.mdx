@@ -12,20 +12,20 @@ import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 <Note>
 다음 API는 experiment tracking 워크플로우의 일부로 Models 를 추적하는 데 유용합니다. 이 페이지에 나열된 API를 사용하여 run 에 Models 를 로그하고, 메트릭, 테이블, 미디어 및 기타 오브젝트에 액세스하세요.
 
-다음과 같은 경우 [W&B Artifacts](/models/artifacts/) 를 사용하는 것이 좋습니다:
+다음과 같은 경우 [W&B Artifacts](/ko/models/artifacts/) 를 사용하는 것이 좋습니다:
 - Models 외에도 데이터셋, 프롬프트 등 다양한 버전의 직렬화된 데이터를 생성하고 추적하려는 경우.
-- W&B에서 추적되는 모델이나 기타 오브젝트의 [계보 그래프 (lineage graphs)](/models/artifacts/explore-and-traverse-an-artifact-graph/) 를 탐색하려는 경우.
-- 이러한 메소드로 생성된 모델 Artifacts 와 상호작용( [속성 업데이트](/models/artifacts/update-an-artifact/) (메타데이터, 에일리어스 및 설명)) 하려는 경우.
+- W&B에서 추적되는 모델이나 기타 오브젝트의 [계보 그래프 (lineage graphs)](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/) 를 탐색하려는 경우.
+- 이러한 메소드로 생성된 모델 Artifacts 와 상호작용( [속성 업데이트](/ko/models/artifacts/update-an-artifact/) (메타데이터, 에일리어스 및 설명)) 하려는 경우.
 
-W&B Artifacts 및 고급 버전 관리 유스 케이스에 대한 자세한 내용은 [Artifacts](/models/artifacts/) 문서를 참조하세요.
+W&B Artifacts 및 고급 버전 관리 유스 케이스에 대한 자세한 내용은 [Artifacts](/ko/models/artifacts/) 문서를 참조하세요.
 </Note>
 
 ## run 에 모델 로그 기록
-[`log_model`](/models/ref/python/experiments/run#log_model) 을 사용하여 지정한 디렉토리 내의 콘텐츠를 포함하는 모델 아티팩트를 로그합니다. [`log_model`](/models/ref/python/experiments/run#log_model) 메소드는 결과 모델 아티팩트를 해당 W&B run 의 출력으로 표시합니다.
+[`log_model`](/ko/models/ref/python/experiments/run#log_model) 을 사용하여 지정한 디렉토리 내의 콘텐츠를 포함하는 모델 아티팩트를 로그합니다. [`log_model`](/ko/models/ref/python/experiments/run#log_model) 메소드는 결과 모델 아티팩트를 해당 W&B run 의 출력으로 표시합니다.
 
-모델을 W&B run 의 입력 또는 출력으로 표시하면 모델의 종속성과 모델의 연결 관계를 추적할 수 있습니다. W&B App UI 내에서 모델의 계보를 확인하세요. 자세한 내용은 [Artifacts](/models/artifacts/) 챕터의 [Artifacts 그래프 탐색 및 트래버스](/models/artifacts/explore-and-traverse-an-artifact-graph/) 페이지를 참조하세요.
+모델을 W&B run 의 입력 또는 출력으로 표시하면 모델의 종속성과 모델의 연결 관계를 추적할 수 있습니다. W&B App UI 내에서 모델의 계보를 확인하세요. 자세한 내용은 [Artifacts](/ko/models/artifacts/) 챕터의 [Artifacts 그래프 탐색 및 트래버스](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/) 페이지를 참조하세요.
 
-`path` 파라미터에 모델 파일이 저장된 경로를 제공하세요. 경로는 로컬 파일, 디렉토리 또는 `s3://bucket/path` 와 같은 외부 버킷에 대한 [참조 URI](/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) 일 수 있습니다.
+`path` 파라미터에 모델 파일이 저장된 경로를 제공하세요. 경로는 로컬 파일, 디렉토리 또는 `s3://bucket/path` 와 같은 외부 버킷에 대한 [참조 URI](/ko/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) 일 수 있습니다.
 
 `<>` 로 묶인 값들을 본인의 값으로 교체해야 합니다.
 
@@ -42,10 +42,10 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 선택적으로 `name` 파라미터에 모델 아티팩트의 이름을 제공할 수 있습니다. `name` 을 지정하지 않으면, W&B는 입력 경로의 기본 이름(basename) 앞에 run ID를 붙여 이름으로 사용합니다.
 
 <Note>
-사용자 또는 W&B가 모델에 할당한 `name` 을 기억해 두세요. [`wandb.Run.use_model()`](/models/ref/python/experiments/run#use_model) 메소드로 모델 경로를 가져올 때 모델의 이름이 필요합니다.
+사용자 또는 W&B가 모델에 할당한 `name` 을 기억해 두세요. [`wandb.Run.use_model()`](/ko/models/ref/python/experiments/run#use_model) 메소드로 모델 경로를 가져올 때 모델의 이름이 필요합니다.
 </Note>
 
-파라미터에 대한 자세한 내용은 API 레퍼런스의 [`log_model`](/models/ref/python/experiments/run#log_model) 을 참조하세요.
+파라미터에 대한 자세한 내용은 API 레퍼런스의 [`log_model`](/ko/models/ref/python/experiments/run#log_model) 을 참조하세요.
 
 <details>
 
@@ -108,7 +108,7 @@ Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
 
 
 ## 로그된 모델 다운로드 및 사용
-이전에 W&B run 에 로그된 모델 파일을 엑세스하고 다운로드하려면 [`use_model`](/models/ref/python/experiments/run#use_model) 함수를 사용하세요.
+이전에 W&B run 에 로그된 모델 파일을 엑세스하고 다운로드하려면 [`use_model`](/ko/models/ref/python/experiments/run#use_model) 함수를 사용하세요.
 
 가져오려는 모델 파일이 저장된 모델 아티팩트의 이름을 입력하세요. 제공하는 이름은 기존에 로그된 모델 아티팩트 이름과 일치해야 합니다.
 
@@ -126,7 +126,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
     downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-[use_model](/models/ref/python/experiments/run#use_model) 함수는 다운로드된 모델 파일의 경로를 반환합니다. 나중에 이 모델을 연결하려면 이 경로를 기억해 두세요. 위의 코드 조각에서 반환된 경로는 `downloaded_model_path` 라는 변수에 저장됩니다.
+[use_model](/ko/models/ref/python/experiments/run#use_model) 함수는 다운로드된 모델 파일의 경로를 반환합니다. 나중에 이 모델을 연결하려면 이 경로를 기억해 두세요. 위의 코드 조각에서 반환된 경로는 `downloaded_model_path` 라는 변수에 저장됩니다.
 
 <details>
 
@@ -149,4 +149,4 @@ with wandb.init(project=project, entity=entity) as run:
 ```
 </details>
 
-파라미터 및 반환 타입에 대한 자세한 내용은 API 레퍼런스의 [`use_model`](/models/ref/python/experiments/run#use_model) 을 참조하세요.
+파라미터 및 반환 타입에 대한 자세한 내용은 API 레퍼런스의 [`use_model`](/ko/models/ref/python/experiments/run#use_model) 을 참조하세요.

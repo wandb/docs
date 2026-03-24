@@ -45,7 +45,7 @@ API 키는 사용자의 장비를 W&B에 인증합니다. 사용자 프로필에
 
 <Tabs>
 <Tab title="Command Line">
-1. `WANDB_API_KEY` [환경 변수](/models/track/environment-variables/)를 사용자의 API 키로 설정합니다.
+1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 사용자의 API 키로 설정합니다.
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -80,7 +80,7 @@ wandb.login()
 </Tab>
 </Tabs>
 
-W&B를 처음 사용하신다면 [퀵스타트](/models/quickstart/) 가이드를 먼저 확인해 보시는 것을 추천합니다.
+W&B를 처음 사용하신다면 [퀵스타트](/ko/models/quickstart/) 가이드를 먼저 확인해 보시는 것을 추천합니다.
 
 
 ### 프로젝트 이름 지정
@@ -159,7 +159,7 @@ TensorFlow를 사용하시나요? PyTorch `Trainer`를 TensorFlow용 `TFTrainer`
 ### 모델 체크포인트 활성화
 
 
-[Artifacts](/models/artifacts/)를 사용하면 최대 100GB의 모델과 데이터셋을 무료로 저장할 수 있으며, W&B [Registry](/models/registry/)를 활용할 수 있습니다. Registry를 통해 모델을 등록하고 탐색, 평가하거나 스테이징 준비 또는 프로덕션 환경 배포를 관리할 수 있습니다.
+[Artifacts](/ko/models/artifacts/)를 사용하면 최대 100GB의 모델과 데이터셋을 무료로 저장할 수 있으며, W&B [Registry](/ko/models/registry/)를 활용할 수 있습니다. Registry를 통해 모델을 등록하고 탐색, 평가하거나 스테이징 준비 또는 프로덕션 환경 배포를 관리할 수 있습니다.
 
 Hugging Face 모델 체크포인트를 Artifacts에 로깅하려면 `WANDB_LOG_MODEL` 환경 변수를 다음 중 하나로 설정하세요:
 
@@ -188,7 +188,7 @@ os.environ["WANDB_LOG_MODEL"] = "checkpoint"
 </Tab>
 </Tabs>
 
-이제부터 초기화하는 모든 Transformers `Trainer`는 모델을 W&B 프로젝트에 업로드합니다. 로깅된 모델 체크포인트는 [Artifacts](/models/artifacts/) UI를 통해 확인할 수 있으며, 전체 모델 이력(model lineage)을 포함합니다 (UI에서 모델 체크포인트 예시를 [여기](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)에서 확인하세요).
+이제부터 초기화하는 모든 Transformers `Trainer`는 모델을 W&B 프로젝트에 업로드합니다. 로깅된 모델 체크포인트는 [Artifacts](/ko/models/artifacts/) UI를 통해 확인할 수 있으며, 전체 모델 이력(model lineage)을 포함합니다 (UI에서 모델 체크포인트 예시를 [여기](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)에서 확인하세요).
 
 
 <Note>
@@ -197,9 +197,9 @@ os.environ["WANDB_LOG_MODEL"] = "checkpoint"
 </Note>
 
 #### W&B Registry
-Artifacts에 체크포인트를 로깅한 후에는 [Registry](/models/registry/)를 사용하여 최적의 모델 체크포인트를 등록하고 팀 전체에서 중앙 관리할 수 있습니다. Registry를 사용하면 태스크별로 최적의 모델을 정리하고, 모델 수명 주기를 관리하며, 전체 ML 수명 주기를 추적 및 감사하고, 다운스트림 액션을 [자동화](/models/automations/)할 수 있습니다.
+Artifacts에 체크포인트를 로깅한 후에는 [Registry](/ko/models/registry/)를 사용하여 최적의 모델 체크포인트를 등록하고 팀 전체에서 중앙 관리할 수 있습니다. Registry를 사용하면 태스크별로 최적의 모델을 정리하고, 모델 수명 주기를 관리하며, 전체 ML 수명 주기를 추적 및 감사하고, 다운스트림 액션을 [자동화](/ko/models/automations/)할 수 있습니다.
 
-모델 Artifact를 연결하는 방법은 [Registry](/models/registry/)를 참조하세요.
+모델 Artifact를 연결하는 방법은 [Registry](/ko/models/registry/)를 참조하세요.
  
 ### 트레이닝 중 평가 결과 시각화
 
@@ -231,14 +231,14 @@ run.finish()
 
 ### 결과 시각화
 
-트레이닝 결과를 로깅한 후에는 [W&B Dashboard](/models/track/workspaces/)에서 결과를 동적으로 탐색할 수 있습니다. 수십 개의 Runs를 한 번에 비교하고, 흥미로운 발견 내용을 확대하며, 유연한 대화형 시각화를 통해 복잡한 데이터에서 인사이트를 이끌어내는 것이 매우 쉽습니다.
+트레이닝 결과를 로깅한 후에는 [W&B Dashboard](/ko/models/track/workspaces/)에서 결과를 동적으로 탐색할 수 있습니다. 수십 개의 Runs를 한 번에 비교하고, 흥미로운 발견 내용을 확대하며, 유연한 대화형 시각화를 통해 복잡한 데이터에서 인사이트를 이끌어내는 것이 매우 쉽습니다.
 
 ## 고급 기능 및 FAQ
 
 ### 최적의 모델을 어떻게 저장하나요?
 `Trainer`에 `load_best_model_at_end=True`가 포함된 `TrainingArguments`를 전달하면, W&B는 가장 성능이 좋은 모델 체크포인트를 Artifacts에 저장합니다.
 
-모델 체크포인트를 Artifacts로 저장하면 [Registry](/models/registry/)로 승격시킬 수 있습니다. Registry에서는 다음을 수행할 수 있습니다:
+모델 체크포인트를 Artifacts로 저장하면 [Registry](/ko/models/registry/)로 승격시킬 수 있습니다. Registry에서는 다음을 수행할 수 있습니다:
 - ML 태스크별로 최적의 모델 버전 정리.
 - 모델 중앙 집중화 및 팀 공유.
 - 프로덕션용 모델 스테이징 또는 추가 평가를 위한 북마크.
@@ -410,7 +410,7 @@ trainer.add_callback(progress_callback)
 
 ### 어떤 추가 W&B 설정이 가능한가요?
 
-환경 변수를 설정하여 `Trainer`로 로깅되는 내용을 더 자세히 설정할 수 있습니다. W&B 환경 변수의 전체 목록은 [여기에서 확인할 수 있습니다](/platform/hosting/env-vars).
+환경 변수를 설정하여 `Trainer`로 로깅되는 내용을 더 자세히 설정할 수 있습니다. W&B 환경 변수의 전체 목록은 [여기에서 확인할 수 있습니다](/ko/platform/hosting/env-vars).
 
 | 환경 변수 | 용도 |
 | -------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -441,7 +441,7 @@ WANDB_SILENT=true
 
 `Trainer`가 사용하는 `WandbCallback`은 `Trainer`가 초기화될 때 내부적으로 `wandb.init`을 호출합니다. 또는 `Trainer`를 초기화하기 전에 직접 `wandb.init`을 호출하여 수동으로 Runs를 설정할 수도 있습니다. 이렇게 하면 W&B run 설정을 완벽하게 제어할 수 있습니다.
 
-`init`에 전달할 수 있는 예시는 다음과 같습니다. `wandb.init()`에 대한 자세한 내용은 [`wandb.init()` 레퍼런스](/models/ref/python/functions/init)를 확인하세요.
+`init`에 전달할 수 있는 예시는 다음과 같습니다. `wandb.init()`에 대한 자세한 내용은 [`wandb.init()` 레퍼런스](/ko/models/ref/python/functions/init)를 확인하세요.
 
 ```python
 wandb.init(

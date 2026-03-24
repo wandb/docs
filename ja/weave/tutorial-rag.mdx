@@ -119,7 +119,7 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
 
 ## RAG アプリの作成
 
-次に、検索関数 `get_most_relevant_document` を `@weave.op()` デコレータでラップし、 `Model` クラスを作成します。 `weave.init('<team-name>/rag-quickstart')` を呼び出して、後で確認できるように関数のすべての入力と出力の追跡を開始します。チーム名を指定しない場合、出力は [W&B デフォルトチームまたは Entity](/platform/app/settings-page/user-settings#default-team) に記録されます。
+次に、検索関数 `get_most_relevant_document` を `@weave.op()` デコレータでラップし、 `Model` クラスを作成します。 `weave.init('<team-name>/rag-quickstart')` を呼び出して、後で確認できるように関数のすべての入力と出力の追跡を開始します。チーム名を指定しない場合、出力は [W&B デフォルトチームまたは Entity](/ja/platform/app/settings-page/user-settings#default-team) に記録されます。
 
 <Tabs>
   <Tab title="Python">
@@ -239,7 +239,7 @@ import WeaveQuickstartPrereqs from "/snippets/en/_includes/weave-quickstart-prer
 
 ### スコアリング関数の定義
 
-[評価パイプラインの構築チュートリアル](/weave/tutorial-eval) と同様に、アプリをテストするための一連のサンプル行とスコアリング関数を定義します。スコアリング関数は 1 つの行を受け取り、それを評価します。入力引数は行の辞書内の対応するキーと一致させる必要があるため、ここでの `question` は辞書から取得されます。 `output` はモデルの出力です。モデルへの入力は、その入力引数に基づいてサンプルから取得されるため、ここでも `question` になります。この例では、並列で高速に実行するために `async` 関数を使用しています。非同期（async）についての簡単な紹介が必要な場合は、[こちら](https://docs.python.org/3/library/asyncio.html) を参照してください。
+[評価パイプラインの構築チュートリアル](/ja/weave/tutorial-eval) と同様に、アプリをテストするための一連のサンプル行とスコアリング関数を定義します。スコアリング関数は 1 つの行を受け取り、それを評価します。入力引数は行の辞書内の対応するキーと一致させる必要があるため、ここでの `question` は辞書から取得されます。 `output` はモデルの出力です。モデルへの入力は、その入力引数に基づいてサンプルから取得されるため、ここでも `question` になります。この例では、並列で高速に実行するために `async` 関数を使用しています。非同期（async）についての簡単な紹介が必要な場合は、[こちら](https://docs.python.org/3/library/asyncio.html) を参照してください。
 
 <Tabs>
   <Tab title="Python">

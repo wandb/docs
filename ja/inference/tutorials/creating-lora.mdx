@@ -76,11 +76,11 @@ W&B Inference を使用すると、一部のベースモデルでカスタム Lo
 
 大まかに言うと、このスクリプトは以下のことを行います。
 
-1. W&B にログインします。W&B Models の [Hugging Face Transformers インテグレーション](https://docs.wandb.ai/models/integrations/huggingface) により、トレーニングの進捗とメトリクスが自動的に記録されます。
+1. W&B にログインします。W&B Models の [Hugging Face Transformers インテグレーション](/ja/models/integrations/huggingface) により、トレーニングの進捗とメトリクスが自動的に記録されます。
 2. Hugging Face からベースモデル（[OpenPipe/Qwen3-14B-Instruct](https://huggingface.co/OpenPipe/Qwen3-14B-Instruct)）をロードします。
 3. ファイルの先頭付近で定数として定義された rank や alpha などのハイパーパラメーターを使用して LoRA を設定します。
 4. ファイルから例をデータセットにロードし、[SFTTrainer](https://huggingface.co/docs/trl/en/sft_trainer) を実行します。デフォルトでは、スクリプトはすべての例を使用します。
-5. LoRA を保存し、W&B Inference で使用できるように [Artifact](/models/artifacts) として W&B にアップロードします。
+5. LoRA を保存し、W&B Inference で使用できるように [Artifact](/ja/models/artifacts) として W&B にアップロードします。
 
 スクリプトが完了したら、ブラウザで最後に表示された URL を開き、保存された Artifact を確認してください。次のように表示されます。
 `Artifact URL: https://wandb.ai/<yourentity>/create-lora-tutorial/artifacts/lora/OpenPipe_Qwen3-14B-Instruct_cowboy/v0`
@@ -148,7 +148,7 @@ def provision_lora(jsonl_path, max_examples=None):
         max_examples: 使用するトレーニング例の最大数（None の場合はすべての例を使用）
 
     注意: これは W&B Hugging Face インテグレーションを使用します。
-    https://docs.wandb.ai/models/integrations/huggingface
+    /ja/models/integrations/huggingface
     """
     # 一時ディレクトリーを作成
     lora_dir = tempfile.mkdtemp(prefix="identity_lora_")
@@ -318,7 +318,7 @@ uv run create_lora.py cowboy_examples.jsonl
 
 <Frame>![LoRA in Playground UI](/images/inference/inference-lora-playground.png)</Frame>
 
-コードから新しく作成した LoRA を使用するには、[Use Serverless LoRA Inference](/inference/lora#workflow) ガイドのステップバイステップの指示を参照してください。
+コードから新しく作成した LoRA を使用するには、[Use Serverless LoRA Inference](/ja/inference/lora#workflow) ガイドのステップバイステップの指示を参照してください。
 
 ## 次のステップ
 

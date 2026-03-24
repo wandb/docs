@@ -32,7 +32,7 @@ wandb.login()
 
 機械学習の 実験 を作成、追跡、可視化します。手順は以下の通りです。
 
-1. [run](/models/runs/) を初期化し、追跡したい ハイパーパラメーター を渡します。
+1. [run](/ja/models/runs/) を初期化し、追跡したい ハイパーパラメーター を渡します。
 2. トレーニングループ内で、精度（accuracy）や損失（loss）などの メトリクス を ログ 記録します。
 
 ```python
@@ -73,7 +73,7 @@ W&B プロジェクト で機械学習のパフォーマンスを確認します
 
 以下のコードセルでは、シンプルな MNIST 分類器を定義してトレーニングします。トレーニング中、W&B が URL を出力するのが確認できます。プロジェクト ページのリンクをクリックすると、結果が W&B プロジェクト にリアルタイムでストリーミングされる様子を見ることができます。
 
-W&B の run は、[メトリクス](/models/runs/#workspace-tab) 、システム 情報 、[ハイパーパラメーター](/models/runs/#overview-tab) 、[ターミナル出力](/models/runs/#logs-tab) を自動的に ログ 記録します。また、モデルの入力と出力を備えた [インタラクティブなテーブル](/models/tables/) も表示されます。
+W&B の run は、[メトリクス](/ja/models/runs/#workspace-tab) 、システム 情報 、[ハイパーパラメーター](/ja/models/runs/#overview-tab) 、[ターミナル出力](/ja/models/runs/#logs-tab) を自動的に ログ 記録します。また、モデルの入力と出力を備えた [インタラクティブなテーブル](/ja/models/tables/) も表示されます。
 
 ### PyTorch Dataloader のセットアップ
 以下のセルでは、機械学習 モデル のトレーニングに必要な便利な関数を定義します。これらの関数自体は W&B 特有のものではないため、ここでは詳しく説明しません。 [forward pass と backward トレーニングループ](https://pytorch.org/tutorials/beginner/nn_tutorial.html) の定義方法、[PyTorch DataLoaders](https://pytorch.org/tutorials/beginner/basics/data_tutorial.html) を使用した トレーニングデータ の読み込み方法、[`torch.nn.Sequential` クラス](https://pytorch.org/docs/stable/generated/torch.nn.Sequential.html) を使用した PyTorch モデル の定義方法の詳細については、PyTorch のドキュメントを参照してください。
@@ -174,7 +174,7 @@ def log_image_table(images, predicted, labels, probs):
 
 以下の コード は、モデル トレーニング を行い、チェックポイント を プロジェクト に保存します。通常と同じように モデル チェックポイント を使用して、トレーニング 中に モデル がどのように機能したかを評価します。
 
-W&B では、保存した モデル や モデル チェックポイント を、チームや組織の他のメンバーと簡単に共有することもできます。チーム外のメンバーと モデル や モデル チェックポイント を共有する方法については、[W&B Registry](/models/registry/) を参照してください。
+W&B では、保存した モデル や モデル チェックポイント を、チームや組織の他のメンバーと簡単に共有することもできます。チーム外のメンバーと モデル や モデル チェックポイント を共有する方法については、[W&B Registry](/ja/models/registry/) を参照してください。
 
 ```python
 import wandb
@@ -262,7 +262,7 @@ with wandb.init(project=project, config=config) as run:
 
 ## (任意) W&B Alert の設定
 
-[W&B Alerts](/models/runs/alert/) を作成して、Python コード から Slack やメールにアラートを送信します。
+[W&B Alerts](/ja/models/runs/alert/) を作成して、Python コード から Slack やメールにアラートを送信します。
 
 コードからトリガーされる Slack またはメールのアラートを初めて送信する場合は、次の 2 つの手順を実行します。
 
@@ -303,7 +303,7 @@ with wandb.init(project="pytorch-intro") as run:
             break
 ```
 
-詳細については、[W&B Alerts overview](/models/runs/alert/) を参照してください。
+詳細については、[W&B Alerts overview](/ja/models/runs/alert/) を参照してください。
 
 ## 次のステップ
 次のチュートリアルでは、W&B Sweeps を使用して ハイパーパラメーター 最適化を行う方法を学びます。

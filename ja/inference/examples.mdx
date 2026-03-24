@@ -11,7 +11,7 @@ linkTitle: Examples
 この例では、**Llama 3.1 8B** モデルにプロンプトを送信し、その呼び出しを Weave でトレースする方法を示します。Tracing は LLM 呼び出しの完全な入力と出力をキャプチャし、パフォーマンスを監視し、Weave UI で結果を分析できるようにします。
 
 <Tip>
-[Weave での Tracing](/weave/guides/tracking/tracing) についての詳細はこちらをご覧ください。
+[Weave での Tracing](/ja/weave/guides/tracking/tracing) についての詳細はこちらをご覧ください。
 </Tip>
 
 この例の内容：
@@ -20,7 +20,7 @@ linkTitle: Examples
 - 関数は自動的にトレースされ、入力、出力、レイテンシ、および メタデータ がログに記録されます。
 - 結果は ターミナル に出力され、トレースは [https://wandb.ai](https://wandb.ai) の **Traces** タブに表示されます。
 
-この例を実行する前に、[事前準備](/inference/prerequisites/) を完了させてください。
+この例を実行する前に、[事前準備](/ja/inference/prerequisites/) を完了させてください。
 
 ```python
 import weave
@@ -64,7 +64,7 @@ print(output)
 
 モデル呼び出しのトレースに加えて、パフォーマンスの評価やリーダーボードの公開も可能です。この例では、質疑応答 データセット を使用して 2 つの モデル を比較します。
 
-この例を実行する前に、[事前準備](/inference/prerequisites/) を完了させてください。
+この例を実行する前に、[事前準備](/ja/inference/prerequisites/) を完了させてください。
 
 ```python
 import os
@@ -140,9 +140,9 @@ weave.publish(spec)
 
 このコードを実行した後、[https://wandb.ai/](https://wandb.ai/) の W&B アカウントにアクセスして以下を確認してください：
 
-- **Traces** タブを選択して [トレースを表示](/weave/guides/tracking/tracing)
-- **Evals** タブを選択して [モデルの評価を表示](/weave/guides/core-types/evaluations)
-- **Leaders** タブを選択して [作成されたリーダーボードを表示](/weave/guides/core-types/leaderboards)
+- **Traces** タブを選択して [トレースを表示](/ja/weave/guides/tracking/tracing)
+- **Evals** タブを選択して [モデルの評価を表示](/ja/weave/guides/core-types/evaluations)
+- **Leaders** タブを選択して [作成されたリーダーボードを表示](/ja/weave/guides/core-types/leaderboards)
 
 <Frame>
     <img src="/images/inference/inference-advanced-evals.png" alt="モデルの評価を表示"  />
@@ -154,5 +154,5 @@ weave.publish(spec)
 
 ## 次のステップ
 
-- [API リファレンス](/inference/api-reference/) で利用可能なすべての メソッド を確認する
-- [UI ガイド](/inference/ui-guide/) で モデル を試す
+- [API リファレンス](/ja/inference/api-reference/) で利用可能なすべての メソッド を確認する
+- [UI ガイド](/ja/inference/ui-guide/) で モデル を試す

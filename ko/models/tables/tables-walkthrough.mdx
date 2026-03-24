@@ -13,11 +13,11 @@ W&B를 사용하여 테이블을 로그합니다. 새로운 테이블을 직접 
 <Tabs>
 <Tab title="테이블 구성하기">
 새로운 Table을 구성하고 로그하려면 다음을 사용합니다:
-- [`wandb.init()`](/models/ref/python/functions/init): 결과를 추적하기 위한 [run](/models/runs/)을 생성합니다.
-- [`wandb.Table()`](/models/ref/python/data-types/table): 새로운 테이블 오브젝트를 생성합니다.
+- [`wandb.init()`](/ko/models/ref/python/functions/init): 결과를 추적하기 위한 [run](/ko/models/runs/)을 생성합니다.
+- [`wandb.Table()`](/ko/models/ref/python/data-types/table): 새로운 테이블 오브젝트를 생성합니다.
   - `columns`: 컬럼 이름을 설정합니다.
   - `data`: 각 행의 콘텐츠를 설정합니다.
-- [`wandb.Run.log()`](/models/ref/python/experiments/run.md/#method-runlog): 테이블을 W&B에 저장하기 위해 로그합니다.
+- [`wandb.Run.log()`](/ko/models/ref/python/experiments/run.md/#method-runlog): 테이블을 W&B에 저장하기 위해 로그합니다.
 
 예시 코드는 다음과 같습니다:
 ```python
@@ -45,7 +45,7 @@ with wandb.init(project="df-table") as run:
   run.log({"Table Name": my_table})
 ```
 
-지원되는 데이터 타입에 대한 자세한 내용은 W&B API 레퍼런스 가이드의 [`wandb.Table`](/models/ref/python/data-types/table) 섹션을 참조하세요.
+지원되는 데이터 타입에 대한 자세한 내용은 W&B API 레퍼런스 가이드의 [`wandb.Table`](/ko/models/ref/python/data-types/table) 섹션을 참조하세요.
 </Tab>
 </Tabs>
 

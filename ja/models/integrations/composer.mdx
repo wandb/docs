@@ -45,7 +45,7 @@ trainer = Trainer(logger=wandb_logger)
 | `tags` | W&B タグ (List[str], optional) |
 | `log_artifacts` | チェックポイントを W&B にログ記録するかどうか。デフォルト: `false` (bool, optional) |
 | `rank_zero_only` | rank-zero プロセスのみでログを記録するかどうか。Artifacts をログに記録する場合、すべての rank でログを記録することを強く推奨します。rank ≥1 からの Artifacts は保存されないため、関連情報が破棄される可能性があります。例えば、Deepspeed ZeRO を使用する場合、すべての rank からの Artifacts がないとチェックポイントから復元することが不可能になります。デフォルト: `True` (bool, optional) |
-| `init_kwargs` | `wandb.init()` に渡す引数（wandb の `config` など）。`wandb.init()` が受け付けるパラメータについては、[`wandb.init()` parameters](/models/ref/python/functions/init) を参照してください。 |
+| `init_kwargs` | `wandb.init()` に渡す引数（wandb の `config` など）。`wandb.init()` が受け付けるパラメータについては、[`wandb.init()` parameters](/ja/models/ref/python/functions/init) を参照してください。 |
 
 典型的な使用例は以下の通りです：
 

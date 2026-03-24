@@ -68,7 +68,7 @@ W&B 의 인테그레이션은 LlamaIndex 의 이 기능을 활용하여 [`WeaveC
 
 ## 더 쉬운 실험을 위한 `Model` 생성
 
-다양한 유스 케이스를 위한 애플리케이션에서 프롬프트, 모델 설정, 추론 파라미터와 같은 여러 구성 요소가 섞여 있는 LLM 을 체계화하고 평가하는 것은 어려운 일입니다. [`weave.Model`](/weave/guides/core-types/models)을 사용하면 시스템 프롬프트나 사용하는 모델과 같은 실험적인 세부 사항을 캡처하고 체계화하여 서로 다른 반복 회차(iteration)를 더 쉽게 비교할 수 있습니다.
+다양한 유스 케이스를 위한 애플리케이션에서 프롬프트, 모델 설정, 추론 파라미터와 같은 여러 구성 요소가 섞여 있는 LLM 을 체계화하고 평가하는 것은 어려운 일입니다. [`weave.Model`](/ko/weave/guides/core-types/models)을 사용하면 시스템 프롬프트나 사용하는 모델과 같은 실험적인 세부 사항을 캡처하고 체계화하여 서로 다른 반복 회차(iteration)를 더 쉽게 비교할 수 있습니다.
 
 다음 예시는 [weave/data](https://github.com/wandb/weave/tree/master/data) 폴더에 있는 데이터를 사용하여 `WeaveModel` 내에서 LlamaIndex 쿼리 엔진을 구축하는 방법을 보여줍니다.
 
@@ -147,7 +147,7 @@ print(response)
 
 ## `weave.Evaluation`으로 평가 수행하기
 
-평가(Evaluation)는 애플리케이션의 성능을 측정하는 데 도움을 줍니다. [`weave.Evaluation`](/weave/guides/core-types/evaluations) 클래스를 사용하면 모델이 특정 태스크나 Datasets 에서 얼마나 잘 수행되는지 캡처할 수 있어, 서로 다른 모델과 애플리케이션의 반복 회차를 더 쉽게 비교할 수 있습니다. 다음 예시는 우리가 만든 모델을 평가하는 방법을 보여줍니다.
+평가(Evaluation)는 애플리케이션의 성능을 측정하는 데 도움을 줍니다. [`weave.Evaluation`](/ko/weave/guides/core-types/evaluations) 클래스를 사용하면 모델이 특정 태스크나 Datasets 에서 얼마나 잘 수행되는지 캡처할 수 있어, 서로 다른 모델과 애플리케이션의 반복 회차를 더 쉽게 비교할 수 있습니다. 다음 예시는 우리가 만든 모델을 평가하는 방법을 보여줍니다.
 
 ```python lines {25,32,36}
 import asyncio

@@ -21,7 +21,7 @@ W&B Registry 의 [글로벌 검색 바](./search_registry#레지스트리-항목
 
 ## MongoDB 스타일 쿼리로 레지스트리 항목 쿼리
 
-[`wandb.Api().registries()`](/models/ref/python/public-api/api#registries) 와 [쿼리 서술어 (query predicates)](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate)를 사용하여 하나 이상의 [MongoDB 스타일 쿼리](https://www.mongodb.com/docs/compass/current/query/filter/)를 기반으로 레지스트리, 컬렉션 및 artifact 버전을 필터링할 수 있습니다.
+[`wandb.Api().registries()`](/ko/models/ref/python/public-api/api#registries) 와 [쿼리 서술어 (query predicates)](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate)를 사용하여 하나 이상의 [MongoDB 스타일 쿼리](https://www.mongodb.com/docs/compass/current/query/filter/)를 기반으로 레지스트리, 컬렉션 및 artifact 버전을 필터링할 수 있습니다.
 
 다음 표는 필터링하려는 항목 유형에 따라 사용할 수 있는 쿼리 이름을 나열합니다:
 
@@ -33,7 +33,7 @@ W&B Registry 의 [글로벌 검색 바](./search_registry#레지스트리-항목
 
 다음 코드 예제는 몇 가지 일반적인 검색 시나리오를 보여줍니다.
 
-`wandb.Api().registries()` 메소드를 사용하려면 먼저 W&B Python SDK ([`wandb`](/models/ref/python/)) 라이브러리를 임포트하세요:
+`wandb.Api().registries()` 메소드를 사용하려면 먼저 W&B Python SDK ([`wandb`](/ko/models/ref/python/)) 라이브러리를 임포트하세요:
 
 ```python
 import wandb
@@ -115,7 +115,7 @@ for art in artifacts:
     print(f"artifact created at: {art.created_at}\n")
 ```
 
-artifact 오브젝트 속성의 전체 목록은 API 레퍼런스 문서의 [Artifacts Class](/models/ref/python/experiments/artifact/)를 참조하세요.
+artifact 오브젝트 속성의 전체 목록은 API 레퍼런스 문서의 [Artifacts Class](/ko/models/ref/python/experiments/artifact/)를 참조하세요.
 
 레지스트리나 컬렉션에 관계없이 2024-01-08부터 2025-03-04 13:10 UTC 사이에 생성된 모든 artifact 버전 필터링:
 

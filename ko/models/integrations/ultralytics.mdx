@@ -46,7 +46,7 @@ from wandb.integration.ultralytics import add_wandb_callback
 from ultralytics import YOLO
 ```
 
-원하는 `YOLO` 모델을 초기화하고, 모델로 인퍼런스를 수행하기 전에 `add_wandb_callback` 함수를 호출합니다. 이렇게 하면 트레이닝, 파인튜닝, 검증 또는 인퍼런스를 수행할 때 실험 로그와 이미지가 자동으로 저장됩니다. 이때 W&B의 [컴퓨터 비전 태스크용 인터랙티브 오버레이](/models/track/log/media/#image-overlays-in-tables) 를 사용하여 정답(ground-truth)과 각각의 예측값이 오버레이된 이미지와 추가적인 분석 정보가 [`wandb.Table`](/models/tables/) 에 기록됩니다.
+원하는 `YOLO` 모델을 초기화하고, 모델로 인퍼런스를 수행하기 전에 `add_wandb_callback` 함수를 호출합니다. 이렇게 하면 트레이닝, 파인튜닝, 검증 또는 인퍼런스를 수행할 때 실험 로그와 이미지가 자동으로 저장됩니다. 이때 W&B의 [컴퓨터 비전 태스크용 인터랙티브 오버레이](/ko/models/track/log/media/#image-overlays-in-tables) 를 사용하여 정답(ground-truth)과 각각의 예측값이 오버레이된 이미지와 추가적인 분석 정보가 [`wandb.Table`](/ko/models/tables/) 에 기록됩니다.
 
 ```python
 with wandb.init(project="ultralytics", job_type="train") as run:
@@ -69,7 +69,7 @@ Ultralytics 트레이닝 또는 파인튜닝 워크플로우에서 W&B로 추적
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/TB76U9O"  ><a href="https://imgur.com/a/TB76U9O">YOLO Fine-tuning Experiments</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 
-[W&B Table](/models/tables/) 을 사용하여 에포크별 검증 결과를 시각화하는 방법은 다음과 같습니다:
+[W&B Table](/ko/models/tables/) 을 사용하여 에포크별 검증 결과를 시각화하는 방법은 다음과 같습니다:
 
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/kU5h7W4"  ><a href="https://imgur.com/a/kU5h7W4">WandB Validation Visualization Table</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8"></script>
 
@@ -102,7 +102,7 @@ from ultralytics.engine.model import YOLO
 !wget https://raw.githubusercontent.com/wandb/examples/ultralytics/colabs/ultralytics/assets/img5.png
 ```
 
-`wandb.init()` 을 사용하여 W&B [run](/models/runs/) 을 초기화합니다. 그다음, 원하는 `YOLO` 모델을 초기화하고 인퍼런스를 수행하기 전에 `add_wandb_callback` 함수를 호출합니다. 이렇게 하면 인퍼런스 수행 시 [컴퓨터 비전 태스크용 인터랙티브 오버레이](/models/track/log/media/#image-overlays-in-tables) 가 적용된 이미지와 추가 분석 데이터가 [`wandb.Table`](/models/tables/) 에 자동으로 로그됩니다.
+`wandb.init()` 을 사용하여 W&B [run](/ko/models/runs/) 을 초기화합니다. 그다음, 원하는 `YOLO` 모델을 초기화하고 인퍼런스를 수행하기 전에 `add_wandb_callback` 함수를 호출합니다. 이렇게 하면 인퍼런스 수행 시 [컴퓨터 비전 태스크용 인터랙티브 오버레이](/ko/models/track/log/media/#image-overlays-in-tables) 가 적용된 이미지와 추가 분석 데이터가 [`wandb.Table`](/ko/models/tables/) 에 자동으로 로그됩니다.
 
 ```python
 # W&B Run 초기화
@@ -132,7 +132,7 @@ with wandb.init(project="ultralytics", job_type="inference") as run:
 <blockquote class="imgur-embed-pub" lang="en" data-id="a/UTSiufs"  ><a href="https://imgur.com/a/UTSiufs">WandB Image Overlay</a></blockquote><script async src="https://s.imgur.com/min/embed.js" charset="utf-8"></script>
 
 
-더 자세한 내용은 [W&B 이미지 오버레이 가이드](/models/track/log/media/#image-overlays) 를 참조하세요.
+더 자세한 내용은 [W&B 이미지 오버레이 가이드](/ko/models/track/log/media/#image-overlays) 를 참조하세요.
 
 ## 추가 자료
 

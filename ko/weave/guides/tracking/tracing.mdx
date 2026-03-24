@@ -23,7 +23,7 @@ Weave 에서 Calls를 생성하는 세 가지 주요 방법이 있습니다:
 
 <Tabs>
   <Tab title="Python">
-    Weave 는 `openai`, `anthropic`, `cohere`, `mistral`과 같은 [일반적인 LLM 라이브러리에 대한 호출](/weave/guides/integrations)을 자동으로 추적합니다. 프로그램 시작 시 [`weave.init('project_name')`](/weave/reference/python-sdk#function-init)을 호출하기만 하면 됩니다:
+    Weave 는 `openai`, `anthropic`, `cohere`, `mistral`과 같은 [일반적인 LLM 라이브러리에 대한 호출](/ko/weave/guides/integrations)을 자동으로 추적합니다. 프로그램 시작 시 [`weave.init('project_name')`](/ko/weave/reference/python-sdk#function-init)을 호출하기만 하면 됩니다:
 
     <Tip>
     [`weave.init`의 `autopatch_settings` 인수를 사용하여](#특정-인테그레이션-활성화) Weave 의 기본 추적 동작을 제어할 수 있습니다.
@@ -54,7 +54,7 @@ Weave 에서 Calls를 생성하는 세 가지 주요 방법이 있습니다:
 
   </Tab>
   <Tab title="TypeScript">
-    Weave 는 `openai`와 같은 [일반적인 LLM 라이브러리에 대한 호출](/weave/guides/integrations)을 자동으로 추적합니다.
+    Weave 는 `openai`와 같은 [일반적인 LLM 라이브러리에 대한 호출](/ko/weave/guides/integrations)을 자동으로 추적합니다.
 
     ```typescript lines
     import OpenAI from 'openai'
@@ -79,7 +79,7 @@ Weave 에서 Calls를 생성하는 세 가지 주요 방법이 있습니다:
     });
     ```
 
-    JS / TS 프로젝트를 위한 전체 설정 가이드는 [TypeScript SDK: Third-Party Integration Guide](/weave/guides/integrations/js)를 참조하세요.
+    JS / TS 프로젝트를 위한 전체 설정 가이드는 [TypeScript SDK: Third-Party Integration Guide](/ko/weave/guides/integrations/js)를 참조하세요.
 
   </Tab>
 </Tabs>
@@ -92,7 +92,7 @@ Call의 `summary` 사전(dictionary)에 메트릭이나 다른 사후 호출 값
 
 <Tabs>
   <Tab title="Python">
-    Weave 를 사용하면 [`@weave.op`](/weave/reference/python-sdk/#function-op) 데코레이터를 사용하여 이러한 호출을 수동으로 추적할 수 있습니다. 예:
+    Weave 를 사용하면 [`@weave.op`](/ko/weave/reference/python-sdk/#function-op) 데코레이터를 사용하여 이러한 호출을 수동으로 추적할 수 있습니다. 예:
 
     ```python lines lines
     import weave
@@ -167,7 +167,7 @@ Call의 `summary` 사전(dictionary)에 메트릭이나 다른 사후 호출 값
 
   </Tab>
   <Tab title="TypeScript">
-    Weave 를 사용하면 [`weave.op`](/weave/reference/typescript-sdk/functions/op)으로 함수를 래핑하여 이러한 호출을 수동으로 추적할 수 있습니다. 예:
+    Weave 를 사용하면 [`weave.op`](/ko/weave/reference/typescript-sdk/functions/op)으로 함수를 래핑하여 이러한 호출을 수동으로 추적할 수 있습니다. 예:
 
     ```typescript lines
     import * as weave from 'weave'
@@ -263,7 +263,7 @@ Call의 `summary` 사전(dictionary)에 메트릭이나 다른 사후 호출 값
     <Note>
     `__weave` 사전을 사용하면 호출 표시 이름을 설정하며, 이는 Op 표시 이름보다 우선합니다.
     </Note>
-    2. 호출별로 표시 이름을 변경합니다. 이는 `Call` 오브젝트를 반환하는 [`Op.call`](/weave/reference/python-sdk/trace/op#function-call) 메소드를 사용하며, 그런 다음 [`Call.set_display_name`](/weave/reference/python-sdk/trace/weave_client#method-set_display_name)을 사용하여 표시 이름을 설정할 수 있습니다.
+    2. 호출별로 표시 이름을 변경합니다. 이는 `Call` 오브젝트를 반환하는 [`Op.call`](/ko/weave/reference/python-sdk/trace/op#function-call) 메소드를 사용하며, 그런 다음 [`Call.set_display_name`](/ko/weave/reference/python-sdk/trace/weave_client#method-set_display_name)을 사용하여 표시 이름을 설정할 수 있습니다.
     ```python lines lines
     result, call = my_function.call("World")
     call.set_display_name("My Custom Display Name")
@@ -344,7 +344,7 @@ Call의 `summary` 사전(dictionary)에 메트릭이나 다른 사후 호출 값
     });
     ```
 
-    실행 후에도 [호출의 표시 이름을 업데이트](/weave/guides/tracking/tracing#set-display-name)할 수 있습니다.
+    실행 후에도 [호출의 표시 이름을 업데이트](/ko/weave/guides/tracking/tracing#set-display-name)할 수 있습니다.
   </Tab>
 </Tabs>
 
@@ -352,7 +352,7 @@ Call의 `summary` 사전(dictionary)에 메트릭이나 다른 사후 호출 값
 
 <Tabs>
   <Tab title="Python">
-    기본적으로 병렬 호출은 Weave 에서 모두 별도의 루트 호출로 나타납니다. 동일한 부모 `op` 아래에 올바르게 중첩되게 하려면 [`ThreadPoolExecutor`](/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor)를 사용하세요.
+    기본적으로 병렬 호출은 Weave 에서 모두 별도의 루트 호출로 나타납니다. 동일한 부모 `op` 아래에 올바르게 중첩되게 하려면 [`ThreadPoolExecutor`](/ko/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor)를 사용하세요.
 
     다음 코드 샘플은 `ThreadPoolExecutor` 사용법을 보여줍니다. 
     첫 번째 함수인 `func`는 `x`를 받아 `x+1`을 반환하는 간단한 `op`입니다. 두 번째 함수인 `outer`는 입력 리스트를 받는 또 다른 `op`입니다. 
@@ -422,8 +422,8 @@ API를 직접 사용하여 수동으로 Calls를 생성할 수도 있습니다.
     </Tab>
 
     <Tab title="HTTP API">
-    * 호출 시작: [POST `/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)
-    * 호출 종료: [POST `/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)
+    * 호출 시작: [POST `/call/start`](/ko/weave/reference/service-api/calls/call-start)
+    * 호출 종료: [POST `/call/end`](/ko/weave/reference/service-api/calls/call-end)
     ```bash
     curl -L 'https://trace.wandb.ai/call/start' \
     -H 'Content-Type: application/json' \
@@ -525,7 +525,7 @@ API를 직접 사용하여 수동으로 Calls를 생성할 수도 있습니다.
 
 </Tab>
 <Tab title="Python">
-Weave Python SDK를 사용하여 호출을 보려면 [`get_call`](/weave/reference/python-sdk/trace/weave_client#method-get_call) 메소드를 사용할 수 있습니다:
+Weave Python SDK를 사용하여 호출을 보려면 [`get_call`](/ko/weave/reference/python-sdk/trace/weave_client#method-get_call) 메소드를 사용할 수 있습니다:
 
 ```python lines
 import weave
@@ -554,7 +554,7 @@ console.log(call)
 </Tab>
 
 <Tab title="HTTP API">
-Service API를 사용하여 호출을 보려면 [`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) 엔드포인트에 요청을 보낼 수 있습니다.
+Service API를 사용하여 호출을 보려면 [`/call/read`](/ko/weave/reference/service-api/calls/call-read) 엔드포인트에 요청을 보낼 수 있습니다.
 
 ```bash
 curl -L 'https://trace.wandb.ai/call/read' \
@@ -659,7 +659,7 @@ Calls는 생성된 후에는 대부분 불변이지만, 지원되는 몇 가지 
 
 <Tabs>
 <Tab title="Python">
-호출의 표시 이름을 설정하려면 [`Call.set_display_name()`](/weave/reference/python-sdk/trace/weave_client#method-set-display-name) 메소드를 사용할 수 있습니다.
+호출의 표시 이름을 설정하려면 [`Call.set_display_name()`](/ko/weave/reference/python-sdk/trace/weave_client#method-set-display-name) 메소드를 사용할 수 있습니다.
 
 ```python lines lines
 import weave
@@ -675,7 +675,7 @@ call.set_display_name("My Custom Display Name")
 ```
 </Tab>
 <Tab title="TypeScript">
-호출의 표시 이름을 설정하려면 [`client.updateCall`](/weave/reference/typescript-sdk/classes/weaveclient#updatecall)을 사용하여 호출 ID로 직접 업데이트하세요:
+호출의 표시 이름을 설정하려면 [`client.updateCall`](/ko/weave/reference/typescript-sdk/classes/weaveclient#updatecall)을 사용하여 호출 ID로 직접 업데이트하세요:
 
 ```typescript lines
 import * as weave from 'weave'
@@ -689,7 +689,7 @@ await client.updateCall('call-uuid-here', 'My Custom Display Name')
 
 </Tab>
 <Tab title="HTTP API">
-Service API를 사용하여 호출의 표시 이름을 설정하려면 [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) 엔드포인트에 요청을 보낼 수 있습니다.
+Service API를 사용하여 호출의 표시 이름을 설정하려면 [`/call/update`](/ko/weave/reference/service-api/calls/call-update) 엔드포인트에 요청을 보낼 수 있습니다.
 
 ```bash
 curl -L 'https://trace.wandb.ai/call/update' \
@@ -708,13 +708,13 @@ curl -L 'https://trace.wandb.ai/call/update' \
 
 ### 피드백 추가 
 
-자세한 내용은 [Feedback Documentation](/weave/guides/tracking/feedback)을 참조하세요.
+자세한 내용은 [Feedback Documentation](/ko/weave/guides/tracking/feedback)을 참조하세요.
 
 ### Call 삭제
 
 <Tabs>
 <Tab title="Python">
-Python API를 사용하여 Call을 삭제하려면 [`Call.delete`](/weave/reference/python-sdk/trace/weave_client#method-delete) 메소드를 사용할 수 있습니다.
+Python API를 사용하여 Call을 삭제하려면 [`Call.delete`](/ko/weave/reference/python-sdk/trace/weave_client#method-delete) 메소드를 사용할 수 있습니다.
 
 ```python lines lines
 import weave
@@ -736,7 +736,7 @@ call.delete()
 ```
 </Tab>
 <Tab title="HTTP API">
-Service API를 사용하여 호출을 삭제하려면 [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) 엔드포인트에 요청을 보낼 수 있습니다.
+Service API를 사용하여 호출을 삭제하려면 [`/calls/delete`](/ko/weave/reference/service-api/calls/calls-delete) 엔드포인트에 요청을 보낼 수 있습니다.
 
 ```bash
 curl -L 'https://trace.wandb.ai/calls/delete' \
@@ -802,7 +802,7 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
 
 <Tabs>
     <Tab title="Python">
-    Python API를 사용하여 호출을 가져오려면 [`client.get_calls`](/weave/reference/python-sdk/trace/weave_client#method-get_calls) 메소드를 사용할 수 있습니다:
+    Python API를 사용하여 호출을 가져오려면 [`client.get_calls`](/ko/weave/reference/python-sdk/trace/weave_client#method-get_calls) 메소드를 사용할 수 있습니다:
 
     ```python lines
     import weave
@@ -816,7 +816,7 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
 
     </Tab>
     <Tab title="TypeScript">
-    TypeScript API를 사용하여 호출을 가져오려면 [`client.getCalls`](/weave/reference/typescript-sdk/classes/weaveclient#getcalls) 메소드를 사용할 수 있습니다.
+    TypeScript API를 사용하여 호출을 가져오려면 [`client.getCalls`](/ko/weave/reference/typescript-sdk/classes/weaveclient#getcalls) 메소드를 사용할 수 있습니다.
     ```typescript
     import * as weave from 'weave'
 
@@ -828,7 +828,7 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
     ```
     </Tab>
     <Tab title="HTTP API">
-    가장 강력한 쿼리 레이어는 Service API에 있습니다. Service API를 사용하여 호출을 가져오려면 [`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) 엔드포인트에 요청을 보낼 수 있습니다.
+    가장 강력한 쿼리 레이어는 Service API에 있습니다. Service API를 사용하여 호출을 가져오려면 [`/calls/stream_query`](/ko/weave/reference/service-api/calls/calls-query-stream) 엔드포인트에 요청을 보낼 수 있습니다.
 
     ```bash
     curl -L 'https://trace.wandb.ai/calls/stream_query' \
@@ -889,7 +889,7 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
 
 ### Call 스키마
 
-필드 전체 목록은 [스키마](/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)를 참조하세요.
+필드 전체 목록은 [스키마](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)를 참조하세요.
 
 | 속성 | 타입 | 설명 |
 |----------|------|-------------|
@@ -926,11 +926,11 @@ curl -L 'https://trace.wandb.ai/calls/delete' \
 
 ## Saved views 
 
-Trace 테이블 구성, 필터 및 정렬을 _저장된 뷰_로 저장하여 선호하는 설정에 빠르게 엑세스할 수 있습니다. UI 및 Python SDK를 통해 저장된 뷰를 구성하고 엑세스할 수 있습니다. 자세한 내용은 [Saved Views](/weave/guides/tools/saved-views)를 참조하세요.
+Trace 테이블 구성, 필터 및 정렬을 _저장된 뷰_로 저장하여 선호하는 설정에 빠르게 엑세스할 수 있습니다. UI 및 Python SDK를 통해 저장된 뷰를 구성하고 엑세스할 수 있습니다. 자세한 내용은 [Saved Views](/ko/weave/guides/tools/saved-views)를 참조하세요.
 
 ## Traces 테이블에서 W&B run 보기
 
-Weave 를 사용하면 코드의 함수 호출을 추적하고 이들이 실행된 [W&B runs](https://docs.wandb.ai/models/runs/)에 직접 링크할 수 있습니다. 
+Weave 를 사용하면 코드의 함수 호출을 추적하고 이들이 실행된 [W&B runs](/ko/models/runs/)에 직접 링크할 수 있습니다. 
 @weave.op()으로 함수를 추적하고 wandb.init() 컨텍스트 내에서 호출하면, Weave 는 자동으로 해당 trace를 W&B run과 연결합니다. 
 연관된 runs에 대한 링크는 Traces 테이블에 표시됩니다.
 
@@ -1078,16 +1078,16 @@ const client = wrapOpenAI(new OpenAI())
 await weave.init('your-team/my-project')
 ```
 
-ESM 설정 및 문제 해결에 대한 자세한 내용은 [TypeScript SDK Integration Guide](/weave/guides/integrations/js)를 참조하세요.
+ESM 설정 및 문제 해결에 대한 자세한 내용은 [TypeScript SDK Integration Guide](/ko/weave/guides/integrations/js)를 참조하세요.
 </Tab>
 </Tabs>
-자세한 내용은 [How to use Weave with PII data](/weave/cookbooks/pii)를 참조하세요.
+자세한 내용은 [How to use Weave with PII data](/ko/weave/cookbooks/pii)를 참조하세요.
 
 ## FAQs
 
 ### 대규모 trace가 잘리는 현상을 어떻게 방지하나요?
 
-자세한 내용은 [문제 해결 가이드](/weave/guides/troubleshooting)의 [Trace 데이터가 잘림](/weave/guides/troubleshooting#trace-data-is-truncated) 섹션을 참조하세요.
+자세한 내용은 [문제 해결 가이드](/ko/weave/guides/troubleshooting)의 [Trace 데이터가 잘림](/ko/weave/guides/troubleshooting#trace-data-is-truncated) 섹션을 참조하세요.
 
 ### 추적을 어떻게 비활성화하나요?
 

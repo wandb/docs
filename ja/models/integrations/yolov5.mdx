@@ -14,7 +14,7 @@ import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 </Note>
 
 ## コアな実験を追跡する
-`wandb` をインストールするだけで、システムメトリクス、モデルメトリクス、メディアをインタラクティブな [Dashboards](/models/track/workspaces/) に記録する、組み込みの W&B [ログ機能](/models/track/log/) が有効になります。
+`wandb` をインストールするだけで、システムメトリクス、モデルメトリクス、メディアをインタラクティブな [Dashboards](/ja/models/track/workspaces/) に記録する、組み込みの W&B [ログ機能](/ja/models/track/log/) が有効になります。
 
 ```python
 pip install wandb
@@ -32,7 +32,7 @@ python yolov5/train.py  # 小さなデータセットで小さなネットワー
 
 YOLO にいくつかのシンプルな コマンド ライン 引数 を渡すことで、さらに多くの W&B 機能を活用できます。
 
-* `--save_period` に数値を渡すと、 W&B は `save_period` エポック ごとに [モデルバージョン](/models/registry/) を保存します。モデルバージョンには モデル の重みが含まれ、 検証セット で最もパフォーマンスの高いモデルにタグが付けられます。
+* `--save_period` に数値を渡すと、 W&B は `save_period` エポック ごとに [モデルバージョン](/ja/models/registry/) を保存します。モデルバージョンには モデル の重みが含まれ、 検証セット で最もパフォーマンスの高いモデルにタグが付けられます。
 * `--upload_dataset` フラグを有効にすると、データセットもアップロードされ、データの バージョン管理 が行われます。
 * `--bbox_interval` に数値を渡すと、 [Data Visualization](../) が有効になります。 `bbox_interval` エポック ごとに、 検証セット に対する モデル の出力が W&B にアップロードされます。
 

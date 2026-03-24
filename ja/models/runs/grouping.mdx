@@ -5,19 +5,19 @@ description: Run をグループやその他のプロパティに整理します
 
 Runs を *グループ* に整理しましょう。グループとは、特定のモデルのトレーニング run や、特定のデータセットの評価 run など、共通の目的を共有する Runs のコレクションです。
 
-また、*ジョブタイプ* などの他のプロパティで Runs を整理することもできます。[ジョブタイプ](/models/runs/grouping#organize-runs-by-job-type) は、`preprocessing`（前処理）、`training`（トレーニング）、`evaluation`（評価）など、run の機能を示します。
+また、*ジョブタイプ* などの他のプロパティで Runs を整理することもできます。[ジョブタイプ](/ja/models/runs/grouping#organize-runs-by-job-type) は、`preprocessing`（前処理）、`training`（トレーニング）、`evaluation`（評価）など、run の機能を示します。
 
 {/* 
 ### Define groups using environment variables
 
-Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [Environment Variables](/models/track/environment-variables/). **Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` */}
+Use `WANDB_RUN_GROUP` to specify a group for your runs as an environment variable. For more on this, check our docs for [Environment Variables](/ja/models/track/environment-variables/). **Group** should be unique within your project and shared by all runs in the group. You can use `wandb.util.generate_id()` to generate a unique 8 character string to use in all your processes— for example, `os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` */}
 
 ## Runs をグループに整理する
 
 W&B Python SDK を使用してプログラムで、または W&B App でインタラクティブに、Runs をグループに追加できます。
 
 <Note>
-W&B はグループ名を run の [`wandb.Run.group`](/models/ref/python/experiments/run#property-run-group) プロパティとして保存します。
+W&B はグループ名を run の [`wandb.Run.group`](/ja/models/ref/python/experiments/run#property-run-group) プロパティとして保存します。
 </Note>
 
 <Tabs>
@@ -94,7 +94,7 @@ Runs をあるグループから別のグループに移動します：
 Runs をその *ジョブタイプ* で整理します。ジョブタイプは、`preprocessing`、`training`、`evaluation` など、run の機能を示します。
 
 <Note>
-run の [`wandb.Run.job_type`](/models/ref/python/experiments/run#property-run-job-type) プロパティにアクセスすることで、run のジョブタイプを確認できます。
+run の [`wandb.Run.job_type`](/ja/models/ref/python/experiments/run#property-run-job-type) プロパティにアクセスすることで、run のジョブタイプを確認できます。
 </Note>
 
 `wandb.init(job_type="")` に `job_type` 引数を渡すことで、run にジョブタイプを追加します。例えば、次のコードスニペットは、ジョブタイプが `training` または `evaluation` の Runs を作成します。

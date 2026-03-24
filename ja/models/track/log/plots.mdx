@@ -3,7 +3,7 @@ title: Experiments からプロットを作成・追跡する
 description: 機械学習の Experiments から図を生成し、追跡します。
 ---
 
-`wandb.plot` メソッドを使用すると、トレーニング中に時間の経過とともに変化するグラフを含め、`wandb.Run.log()` でグラフを追跡できます。カスタムチャートフレームワークの詳細については、[カスタムチャートのウォークスルー](/models/app/features/custom-charts/walkthrough/)を参照してください。
+`wandb.plot` メソッドを使用すると、トレーニング中に時間の経過とともに変化するグラフを含め、`wandb.Run.log()` でグラフを追跡できます。カスタムチャートフレームワークの詳細については、[カスタムチャートのウォークスルー](/ja/models/app/features/custom-charts/walkthrough/)を参照してください。
 
 ### 基本的なグラフ
 
@@ -233,7 +233,7 @@ with wandb.init() as run:
 
 ### インタラクティブなカスタムチャート
 
-完全にカスタマイズするには、組み込みの [Custom Chart プリセット](/models/app/features/custom-charts/walkthrough/) を微調整するか、新しいプリセットを作成してチャートを保存します。チャート ID を使用して、スクリプトからそのカスタムプリセットに直接データをログ記録します。
+完全にカスタマイズするには、組み込みの [Custom Chart プリセット](/ja/models/app/features/custom-charts/walkthrough/) を微調整するか、新しいプリセットを作成してチャートを保存します。チャート ID を使用して、スクリプトからそのカスタムプリセットに直接データをログ記録します。
 
 ```python
 import wandb
@@ -262,7 +262,7 @@ with wandb.init() as run:
 
 ### Matplotlib および Plotly のプロット
 
-`wandb.plot()` を使用した W&B [Custom Charts](/models/app/features/custom-charts/walkthrough/) の代わりに、[matplotlib](https://matplotlib.org/) や [Plotly](https://plotly.com/) で生成されたチャートをログに記録することもできます。
+`wandb.plot()` を使用した W&B [Custom Charts](/ja/models/app/features/custom-charts/walkthrough/) の代わりに、[matplotlib](https://matplotlib.org/) や [Plotly](https://plotly.com/) で生成されたチャートをログに記録することもできます。
 
 ```python
 import wandb

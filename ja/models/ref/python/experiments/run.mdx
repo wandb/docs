@@ -10,13 +10,13 @@ import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 ## <kbd>class</kbd> `Run`
 W&B によってログを記録される計算の単位です。通常、これは 1 つの ML 実験（Experiment）を指します。
 
-新しい run を作成するには [`wandb.init()`](https://docs.wandb.ai/ref/python/init/) を呼び出します。`wandb.init()` は新しい run を開始し、`wandb.Run` オブジェクトを返します。各 run は固有の ID（run ID）に関連付けられています。W&B では、run を自動的に終了させるためにコンテキストマネージャ（`with` 文）の使用を推奨しています。
+新しい run を作成するには [`wandb.init()`](/ja/ref/python/init/) を呼び出します。`wandb.init()` は新しい run を開始し、`wandb.Run` オブジェクトを返します。各 run は固有の ID（run ID）に関連付けられています。W&B では、run を自動的に終了させるためにコンテキストマネージャ（`with` 文）の使用を推奨しています。
 
-分散トレーニングの実験では、プロセスごとに 1 つの run を使用して各プロセスを個別に追跡するか、すべてのプロセスを 1 つの run で追跡することができます。詳細は [Log distributed training experiments](https://docs.wandb.ai/guides/track/log/distributed-training) を参照してください。
+分散トレーニングの実験では、プロセスごとに 1 つの run を使用して各プロセスを個別に追跡するか、すべてのプロセスを 1 つの run で追跡することができます。詳細は [Log distributed training experiments](/ja/guides/track/log/distributed-training) を参照してください。
 
-`wandb.Run.log()` を使用して run にデータをログ出力できます。`wandb.Run.log()` を使用してログに記録されたものはすべてその run に送信されます。詳細は [Create an experiment](https://docs.wandb.ai/guides/track/create-an-experiment/) または [`wandb.init`](https://docs.wandb.ai/ref/python/init/) の API リファレンスページを参照してください。
+`wandb.Run.log()` を使用して run にデータをログ出力できます。`wandb.Run.log()` を使用してログに記録されたものはすべてその run に送信されます。詳細は [Create an experiment](/ja/guides/track/create-an-experiment/) または [`wandb.init`](/ja/ref/python/init/) の API リファレンスページを参照してください。
 
-[`wandb.apis.public`](https://docs.wandb.ai/ref/python/public-api/api/) ネームスペースにも別の `Run` オブジェクトがあります。このオブジェクトは、すでに作成された run を操作するために使用します。
+[`wandb.apis.public`](/ja/ref/python/public-api/api/) ネームスペースにも別の `Run` オブジェクトがあります。このオブジェクトは、すでに作成された run を操作するために使用します。
 
 **Attributes:**
 
@@ -103,7 +103,7 @@ run に関連付けられたジョブタイプの名前。
 
 run のジョブタイプは、W&B App の run の Overview ページで確認できます。
 
-これを使用して、"training"、"evaluation"、"inference" などのジョブタイプごとに run を分類できます。これは、同じプロジェクト内に異なるジョブタイプの run が複数ある場合に、W&B UI で run を整理したりフィルタリングしたりするのに役立ちます。詳細は [Organize runs](https://docs.wandb.ai/guides/runs/#organize-runs) を参照してください。
+これを使用して、"training"、"evaluation"、"inference" などのジョブタイプごとに run を分類できます。これは、同じプロジェクト内に異なるジョブタイプの run が複数ある場合に、W&B UI で run を整理したりフィルタリングしたりするのに役立ちます。詳細は [Organize runs](/ja/guides/runs/#organize-runs) を参照してください。
 
 **Returns:**
  - `str`: job_type プロパティの値。
@@ -429,7 +429,7 @@ log(
 
 run データをアップロードします。
 
-スカラー、画像、ビデオ、ヒストグラム、プロット、テーブルなどのデータを run からログに記録するには `log` を使用します。コードスニペット、ベストプラクティスなどは、[Log objects and media](https://docs.wandb.ai/guides/track/log) を参照してください。
+スカラー、画像、ビデオ、ヒストグラム、プロット、テーブルなどのデータを run からログに記録するには `log` を使用します。コードスニペット、ベストプラクティスなどは、[Log objects and media](/ja/guides/track/log) を参照してください。
 
 基本的な使い方：
 
@@ -442,9 +442,9 @@ with wandb.init() as run:
 
 上記のコードスニペットは、loss と accuracy を run の history に保存し、これらのメトリクスの summary の値を更新します。
 
-ログに記録されたデータは、[wandb.ai](https://wandb.ai) の Workspace、または W&B アプリの [セルフホストインスタンス](https://docs.wandb.ai/guides/hosting) で視覚化できます。また、[Public API](https://docs.wandb.ai/guides/track/public-api-guide) を使用して、Jupyter ノートブックなどでローカルにデータをエクスポートして探索することも可能です。
+ログに記録されたデータは、[wandb.ai](https://wandb.ai) の Workspace、または W&B アプリの [セルフホストインスタンス](/ja/guides/hosting) で視覚化できます。また、[Public API](/ja/guides/track/public-api-guide) を使用して、Jupyter ノートブックなどでローカルにデータをエクスポートして探索することも可能です。
 
-ログに記録する値はスカラーである必要はありません。画像、オーディオ、ビデオなど、[W&B がサポートする任意のデータ型](https://docs.wandb.ai/ref/python/data-types/)をログに記録できます。例えば、`wandb.Table` を使用して構造化データをログに記録できます。詳細は [Log tables, visualize and query data](https://docs.wandb.ai/guides/models/tables/tables-walkthrough) チュートリアルを参照してください。
+ログに記録する値はスカラーである必要はありません。画像、オーディオ、ビデオなど、[W&B がサポートする任意のデータ型](/ja/ref/python/data-types/)をログに記録できます。例えば、`wandb.Table` を使用して構造化データをログに記録できます。詳細は [Log tables, visualize and query data](/ja/guides/models/tables/tables-walkthrough) チュートリアルを参照してください。
 
 W&B は、名前にスラッシュ（`/`）が含まれるメトリクスを、最後のスラッシュの前のテキストを使用したセクションに整理します。例えば、以下は "train" と "validate" という 2 つのセクションを作成します：
 
@@ -465,7 +465,7 @@ with wandb.init() as run:
 
 `run.log()` は 1 秒間に数回以上呼び出されることを想定していません。最適なパフォーマンスを得るには、N 回のイテレーションごとに 1 回ログを記録するか、複数のイテレーションにわたってデータを収集し、単一のステップでログを記録するように制限してください。
 
-デフォルトでは、`log` を呼び出すたびに新しい「ステップ」が作成されます。ステップは常に増加する必要があり、過去のステップにログを記録することはできません。チャートでは任意のメトリクスを X 軸として使用できます。詳細は [Custom log axes](https://docs.wandb.ai/guides/track/log/customize-logging-axes/) を参照してください。
+デフォルトでは、`log` を呼び出すたびに新しい「ステップ」が作成されます。ステップは常に増加する必要があり、過去のステップにログを記録することはできません。チャートでは任意のメトリクスを X 軸として使用できます。詳細は [Custom log axes](/ja/guides/track/log/customize-logging-axes/) を参照してください。
 
 多くの場合、W&B のステップをトレーニングステップとしてではなく、タイムスタンプのように扱うのがより適切です。
 

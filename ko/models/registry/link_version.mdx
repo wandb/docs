@@ -2,7 +2,7 @@
 title: 아티팩트 버전을 컬렉션에 연결하기
 ---
 
-Artifact 버전을 조직에서 사용할 수 있도록 하려면, W&B Registry의 [collection](/models/registry/create_collection)에 해당 버전을 *link*하세요. Linking을 통해 해당 버전은 [비공개 프로젝트 레벨 스코어에서 공유 가능한 조직 레벨 스코프](/models/registry/create_registry#visibility-types)로 이동합니다. Artifact 버전은 [W&B Python SDK를 사용하여 프로그래밍 방식으로 또는 W&B App에서 대화형으로](/models/registry/link_version#link-an-artifact-to-a-collection) link할 수 있습니다.
+Artifact 버전을 조직에서 사용할 수 있도록 하려면, W&B Registry의 [collection](/ko/models/registry/create_collection)에 해당 버전을 *link*하세요. Linking을 통해 해당 버전은 [비공개 프로젝트 레벨 스코어에서 공유 가능한 조직 레벨 스코프](/ko/models/registry/create_registry#visibility-types)로 이동합니다. Artifact 버전은 [W&B Python SDK를 사용하여 프로그래밍 방식으로 또는 W&B App에서 대화형으로](/ko/models/registry/link_version#link-an-artifact-to-a-collection) link할 수 있습니다.
 
 Artifact를 link하면, W&B는 소스 Artifact와 collection 엔트리 사이에 참조를 생성합니다. link된 버전은 프로젝트 내의 run에서 로그된 소스 Artifact 버전을 가리킵니다. collection에 있는 link된 버전과 로그된 프로젝트의 소스 버전을 모두 확인할 수 있습니다.
 
@@ -13,7 +13,7 @@ Artifact를 link하면, W&B는 소스 Artifact와 collection 엔트리 사이에
 <Note>
 시작하기 전에 다음 사항을 확인하세요:
 * collection이 허용하는 Artifact 유형. collection 유형에 대한 자세한 내용은 [Create a collection](./create_collection) 내의 "Collection types"를 참조하세요.
-* collection이 속한 registry가 이미 존재하는지 확인하세요. registry 존재 여부를 확인하려면 [Registry App으로 이동하여](/models/registry/search_registry) registry 이름을 검색하세요.
+* collection이 속한 registry가 이미 존재하는지 확인하세요. registry 존재 여부를 확인하려면 [Registry App으로 이동하여](/ko/models/registry/search_registry) registry 이름을 검색하세요.
 </Note>
 
 {/* <Note>
@@ -26,7 +26,7 @@ If an artifact version logs metrics (such as by using `wandb.Run.log_artifact()`
 Watch a [video demonstrating linking a version](https://www.youtube.com/watch?v=2i_n1ExgO0A) (8 min).
 </Note> */}
 
-[`wandb.Run.link_artifact()`](/ref/python/experiments/run#link_artifact") 또는 [`wandb.Artifact.link()`](/ref/python/experiments/artifact#method-artifactlink")를 사용하여 프로그래밍 방식으로 Artifact 버전을 collection에 link합니다.
+[`wandb.Run.link_artifact()`](/ko/ref/python/experiments/run#link_artifact") 또는 [`wandb.Artifact.link()`](/ko/ref/python/experiments/artifact#method-artifactlink")를 사용하여 프로그래밍 방식으로 Artifact 버전을 collection에 link합니다.
 
 <Note>
 [run의 컨텍스트 내에서](#run의-컨텍스트-내에서-artifact-버전-link하기) Artifact 버전을 link하려면 `wandb.Run.link_artifact()`를 사용하세요. [run의 컨텍스트 외부에서](#run의-컨텍스트-외부에서-artifact-버전-link하기) *기존 Artifact 버전*을 link하려면 `wandb.Artifact.link()`를 사용하세요.
@@ -146,11 +146,11 @@ artifact.link(target_path = target_path)
 {/* <Note>
 **Linked vs source artifact versions**
 
-* Source version: the artifact version inside a team's project that is logged to a [run](/models/track/runs/).
+* Source version: the artifact version inside a team's project that is logged to a [run](/ko/models/track/runs/).
 * Linked version: the artifact version that is published to the registry. This is a pointer to the source artifact, and is the exact same artifact version, just made available in the scope of the registry.
 </Note> */}
 
-Registry App에서 [link된 Artifact의 메타데이터, 버전 데이터, 사용량, 계보(lineage) 정보](/models/registry/link_version#view-linked-artifacts-in-a-registry") 등을 확인할 수 있습니다.
+Registry App에서 [link된 Artifact의 메타데이터, 버전 데이터, 사용량, 계보(lineage) 정보](/ko/models/registry/link_version#view-linked-artifacts-in-a-registry) 등을 확인할 수 있습니다.
 
 ## Registry에서 link된 Artifact 확인하기
 
@@ -193,7 +193,7 @@ W&B는 팀의 이름을 팀의 entity로 사용합니다. 예를 들어, 팀 이
 2. 사이트의 URL을 복사합니다. `https://wandb.ai/<team>` 형식을 가집니다. 여기서 `<team>`은 팀의 이름이자 팀의 entity입니다.
 
 #### 팀 entity에서 로그하기
-1. [`wandb.init()`](/models/ref/python/functions/init)으로 run을 초기화할 때 팀을 entity로 지정하세요. run을 초기화할 때 `entity`를 지정하지 않으면 run은 기본 entity를 사용하며, 이는 팀 entity일 수도 있고 아닐 수도 있습니다.
+1. [`wandb.init()`](/ko/models/ref/python/functions/init)으로 run을 초기화할 때 팀을 entity로 지정하세요. run을 초기화할 때 `entity`를 지정하지 않으면 run은 기본 entity를 사용하며, 이는 팀 entity일 수도 있고 아닐 수도 있습니다.
 
     ```python 
     import wandb   
@@ -207,7 +207,7 @@ W&B는 팀의 이름을 팀의 entity로 사용합니다. 예를 들어, 팀 이
     ```python
     artifact = wandb.Artifact(name="<artifact_name>", type="<type>")
     ```
-    Artifact 로그에 대해서는 [Construct artifacts](/models/artifacts/construct-an-artifact/)를 참조하세요.
+    Artifact 로그에 대해서는 [Construct artifacts](/ko/models/artifacts/construct-an-artifact/)를 참조하세요.
 3. Artifact가 개인 entity에 로그된 경우, 조직 내의 entity로 다시 로그해야 합니다.
 
 ### W&B App UI에서 registry 경로 확인하기

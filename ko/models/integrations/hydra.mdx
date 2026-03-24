@@ -42,7 +42,7 @@ def run_experiment(cfg):
 
 ## 멀티프로세싱 문제 해결
 
-프로세스가 시작될 때 멈추는 경우, [알려진 문제](/models/track/log/distributed-training/) 로 인한 것일 수 있습니다. 이를 해결하려면 `wandb.init()` 에 추가적인 설정 파라미터를 추가하여 wandb의 멀티프로세싱 프로토콜을 변경해 보세요:
+프로세스가 시작될 때 멈추는 경우, [알려진 문제](/ko/models/track/log/distributed-training/) 로 인한 것일 수 있습니다. 이를 해결하려면 `wandb.init()` 에 추가적인 설정 파라미터를 추가하여 wandb의 멀티프로세싱 프로토콜을 변경해 보세요:
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
@@ -56,7 +56,7 @@ $ export WANDB_START_METHOD=thread
 
 ## 하이퍼파라미터 최적화
 
-[W&B Sweeps](/models/sweeps/) 는 확장성이 뛰어난 하이퍼파라미터 탐색 플랫폼으로, 최소한의 코드 수정만으로 W&B Experiments 에 대한 흥미로운 통찰력과 시각화를 제공합니다. Sweeps 는 코딩 요구 사항 없이 Hydra 프로젝트와 원활하게 통합됩니다. 필요한 것은 평소와 같이 sweep할 다양한 파라미터를 설명하는 설정 파일뿐입니다.
+[W&B Sweeps](/ko/models/sweeps/) 는 확장성이 뛰어난 하이퍼파라미터 탐색 플랫폼으로, 최소한의 코드 수정만으로 W&B Experiments 에 대한 흥미로운 통찰력과 시각화를 제공합니다. Sweeps 는 코딩 요구 사항 없이 Hydra 프로젝트와 원활하게 통합됩니다. 필요한 것은 평소와 같이 sweep할 다양한 파라미터를 설명하는 설정 파일뿐입니다.
 
 간단한 `sweep.yaml` 파일 예시는 다음과 같습니다:
 

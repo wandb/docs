@@ -38,7 +38,7 @@ with wandb.init(entity = '<team_name>', project = '<project_name>')  as run:
     download_path = fetched_artifact.download()  
 ```
 
-`wandb.Run.use_artifact()` 메소드는 [run](/models/runs/) 을 생성함과 동시에 다운로드한 Artifacts 를 해당 run 의 입력으로 마킹합니다.
+`wandb.Run.use_artifact()` 메소드는 [run](/ko/models/runs/) 을 생성함과 동시에 다운로드한 Artifacts 를 해당 run 의 입력으로 마킹합니다.
 Artifacts 를 run 의 입력으로 마킹하면 W&B가 해당 Artifacts 의 계보(lineage)를 추적할 수 있게 됩니다.
 
 run 을 생성하고 싶지 않다면 `wandb.Api()` 오브젝트를 사용하여 Artifacts 에 액세스할 수 있습니다.
@@ -83,7 +83,7 @@ with wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME) as run:
 ```
 </details>
 
-파라미터 및 반환 타입에 대한 자세한 내용은 API 레퍼런스의 [`wandb.Run.use_artifact()`](/models/ref/python/experiments/run#use_artifact) 및 [`Artifact.download()`](/models/ref/python/experiments/artifact#download) 를 참조하세요.
+파라미터 및 반환 타입에 대한 자세한 내용은 API 레퍼런스의 [`wandb.Run.use_artifact()`](/ko/models/ref/python/experiments/run#use_artifact) 및 [`Artifact.download()`](/ko/models/ref/python/experiments/artifact#download) 를 참조하세요.
 
 <Note>
 **여러 조직에 속한 개인 Entity 사용자**

@@ -10,22 +10,22 @@ import { TryProductLink } from '/snippets/en/_includes/try-product-link.mdx';
 <TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
 </CardGroup>
 
-몇 줄의 코드만으로 기계학습 실험을 트래킹하세요. 그런 다음 [대화형 대시보드](/models/track/workspaces/)에서 결과를 검토하거나, [Public API](/models/ref/python/public-api/)를 사용하여 프로그래밍 방식으로 데이터를 Python으로 내보낼 수 있습니다. 
+몇 줄의 코드만으로 기계학습 실험을 트래킹하세요. 그런 다음 [대화형 대시보드](/ko/models/track/workspaces/)에서 결과를 검토하거나, [Public API](/ko/models/ref/python/public-api/)를 사용하여 프로그래밍 방식으로 데이터를 Python으로 내보낼 수 있습니다. 
 
-[Keras](/models/integrations/keras) 또는 [Scikit](/models/integrations/scikit)과 같은 인기 있는 프레임워크를 사용하는 경우 W&B Integrations를 활용해 보세요. 전체 인테그레이션 목록과 코드에 W&B를 추가하는 방법은 [인테그레이션 가이드](/models/integrations)를 참조하세요.
+[Keras](/ko/models/integrations/keras) 또는 [Scikit](/ko/models/integrations/scikit)과 같은 인기 있는 프레임워크를 사용하는 경우 W&B Integrations를 활용해 보세요. 전체 인테그레이션 목록과 코드에 W&B를 추가하는 방법은 [인테그레이션 가이드](/ko/models/integrations)를 참조하세요.
 
 <Frame>
     <img src="/images/experiments/experiments_landing_page.png" alt="Experiments dashboard"  />
 </Frame>
 
-위 이미지는 여러 [runs](/models/runs/)의 메트릭을 보고 비교할 수 있는 대시보드 예시를 보여줍니다.
+위 이미지는 여러 [runs](/ko/models/runs/)의 메트릭을 보고 비교할 수 있는 대시보드 예시를 보여줍니다.
 
 ## 작동 방식
 
 몇 줄의 코드만으로 기계학습 실험을 트래킹할 수 있습니다:
-1. [W&B Run](/models/runs/)을 생성합니다.
-2. 학습률이나 모델 유형과 같은 하이퍼파라미터 사전을 설정([`wandb.Run.config`](/models/track/config/))에 저장합니다.
-3. 트레이닝 루프에서 정확도와 손실 같은 메트릭([`wandb.Run.log()`](/models/track/log/))을 시간에 따라 로그합니다.
+1. [W&B Run](/ko/models/runs/)을 생성합니다.
+2. 학습률이나 모델 유형과 같은 하이퍼파라미터 사전을 설정([`wandb.Run.config`](/ko/models/track/config/))에 저장합니다.
+3. 트레이닝 루프에서 정확도와 손실 같은 메트릭([`wandb.Run.log()`](/ko/models/track/log/))을 시간에 따라 로그합니다.
 4. 모델 가중치나 예측값 테이블과 같은 run의 결과물을 저장합니다.
 
 다음 코드는 일반적인 W&B 실험 트래킹 워크플로우를 보여줍니다:
@@ -54,13 +54,13 @@ with wandb.init(entity="", project="my-project-name") as run:
 
 사용자의 유스 케이스에 따라 W&B Experiments를 시작하기 위한 다음 리소스들을 살펴보세요:
 
-* 데이터셋 아티팩트를 생성, 트래킹 및 사용하는 데 필요한 W&B Python SDK 코맨드에 대한 단계별 개요는 [W&B 퀵스타트](/models/quickstart/)를 읽어보세요.
+* 데이터셋 아티팩트를 생성, 트래킹 및 사용하는 데 필요한 W&B Python SDK 코맨드에 대한 단계별 개요는 [W&B 퀵스타트](/ko/models/quickstart/)를 읽어보세요.
 * 이 챕터에서 다음 방법들을 알아보세요:
   * 실험 생성하기
   * 실험 설정하기
   * 실험 데이터 로그하기
   * 실험 결과 보기
-* [W&B API 레퍼런스 가이드](/models/ref/python/) 내의 [W&B Python 라이브러리](/models/ref/python/)를 살펴보세요.
+* [W&B API 레퍼런스 가이드](/ko/models/ref/python/) 내의 [W&B Python 라이브러리](/ko/models/ref/python/)를 살펴보세요.
 
 ## 모범 사례 및 팁
 

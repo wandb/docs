@@ -44,7 +44,7 @@ log_every_n_steps: 5
 
 レシピの設定ファイルの `metric_logger` セクションを修正することで、W&B ロギングを有効にできます。 `_component_` を `torchtune.utils.metric_logging.WandBLogger` クラスに変更します。また、 `project` 名や `log_every_n_steps` を渡して、ロギングの振る舞いをカスタマイズすることも可能です。
 
-また、 [wandb.init()](/models/ref/python/functions/init) メソッドと同様に、他の任意の `kwargs` を渡すことができます。例えば、チームで作業している場合は、 `WandBLogger` クラスに `entity` 引数を渡してチーム名を指定できます。
+また、 [wandb.init()](/ja/models/ref/python/functions/init) メソッドと同様に、他の任意の `kwargs` を渡すことができます。例えば、チームで作業している場合は、 `WandBLogger` クラスに `entity` 引数を渡してチーム名を指定できます。
 
 <Tabs>
 <Tab title="レシピ">
@@ -116,7 +116,7 @@ self._metric_logger.log_dict(
 
 torchtune ライブラリは、さまざまな [チェックポイント形式](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html) をサポートしています。使用しているモデルのオリジンに応じて、適切な [checkpointer クラス](https://pytorch.org/torchtune/stable/deep_dives/checkpointer.html) に切り替える必要があります。
 
-モデルのチェックポイントを [W&B Artifacts](/models/artifacts/) に保存したい場合、最も簡単な解決策は、対応するレシピ内の `save_checkpoint` 関数をオーバーライドすることです。
+モデルのチェックポイントを [W&B Artifacts](/ja/models/artifacts/) に保存したい場合、最も簡単な解決策は、対応するレシピ内の `save_checkpoint` 関数をオーバーライドすることです。
 
 以下は、モデルのチェックポイントを W&B Artifacts に保存するために `save_checkpoint` 関数をオーバーライドする方法の例です。
 

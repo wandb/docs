@@ -51,7 +51,7 @@ chat_completion = client.chat.completions.create(
 
 함수를 `@weave.op` 로 감싸면 입력, 출력 및 앱 로직을 캡처하기 시작하여 앱을 통해 데이터가 어떻게 흐르는지 디버깅할 수 있습니다. op 를 깊게 중첩하여 트래킹하려는 함수의 트리 구조를 구축할 수 있습니다. 또한 git 에 커밋되지 않은 임시 세부 사항을 캡처하기 위해 실험 중에 코드의 버전을 자동으로 관리하기 시작합니다.
 
-[`@weave.op`](/weave/guides/tracking/ops) 데코레이터가 적용된 함수를 만들기만 하면 됩니다.
+[`@weave.op`](/ko/weave/guides/tracking/ops) 데코레이터가 적용된 함수를 만들기만 하면 됩니다.
 
 아래 예시에서 `recommend_places_to_visit` 함수는 특정 도시에서 방문할 장소를 추천하는 함수로, `@weave.op` 로 감싸져 있습니다.
 

@@ -24,7 +24,7 @@ with wandb.init() as run:
     <img src="/images/experiments/standard_axes.png" alt="Line plot panel that uses `step` as the x-axis."  />
 </Frame>
 
-특정 상황에서는 로그 스케일 x-축과 같이 다른 x-축을 기준으로 메트릭을 로그하는 것이 더 합리적일 수 있습니다. [`define_metric()`](/models/ref/python/experiments/run/#define_metric) 메소드를 사용하여 로그하는 모든 메트릭을 커스텀 x-축으로 사용할 수 있습니다.
+특정 상황에서는 로그 스케일 x-축과 같이 다른 x-축을 기준으로 메트릭을 로그하는 것이 더 합리적일 수 있습니다. [`define_metric()`](/ko/models/ref/python/experiments/run/#define_metric) 메소드를 사용하여 로그하는 모든 메트릭을 커스텀 x-축으로 사용할 수 있습니다.
 
 y-축으로 표시할 메트릭은 `name` 파라미터로 지정합니다. `step_metric` 파라미터는 x-축으로 사용할 메트릭을 지정합니다. 커스텀 메트릭을 로그할 때는 사전(dictionary) 형태의 키-값 쌍으로 x-축과 y-축 모두에 대한 값을 지정하세요. 
 

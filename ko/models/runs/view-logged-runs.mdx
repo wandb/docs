@@ -26,9 +26,9 @@ W&B 앱에서 특정 run을 보려면 다음 단계를 따르세요:
 https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
 ```
 
-꺽쇠괄호(`< >`)로 묶인 값을 실제 팀 이름, 프로젝트 이름 및 [run ID](/models/runs/run-identifiers#run-id)로 바꿉니다.
+꺽쇠괄호(`< >`)로 묶인 값을 실제 팀 이름, 프로젝트 이름 및 [run ID](/ko/models/runs/run-identifiers#run-id)로 바꿉니다.
 
-[Overview](/models/runs/view-logged-runs#overview), [Logs](/models/runs/view-logged-runs#logs), [Files](/models/runs/view-logged-runs#files), [Code](/models/runs/view-logged-runs#code), 그리고 [Artifacts](/models/runs/view-logged-runs#artifacts) 탭을 탐색하여 run의 속성을 확인해 보세요.
+[Overview](/ko/models/runs/view-logged-runs#overview), [Logs](/ko/models/runs/view-logged-runs#logs), [Files](/ko/models/runs/view-logged-runs#files), [Code](/ko/models/runs/view-logged-runs#code), 그리고 [Artifacts](/ko/models/runs/view-logged-runs#artifacts) 탭을 탐색하여 run의 속성을 확인해 보세요.
 
 </Tab>
 <Tab title="LEET">
@@ -67,7 +67,7 @@ LEET는 세 개의 패널 인터페이스를 표시합니다:
 - `n` / `N` - 메트릭 페이지 간 이동
 - `q` / `CMD+C` - 종료
 
-자세한 내용은 [`wandb beta leet`](/models/ref/cli/wandb-beta/wandb-beta-leet) 레퍼런스를 참조하세요.
+자세한 내용은 [`wandb beta leet`](/ko/models/ref/cli/wandb-beta/wandb-beta-leet) 레퍼런스를 참조하세요.
 
 </Tab>
 </Tabs>
@@ -81,7 +81,7 @@ LEET는 세 개의 패널 인터페이스를 표시합니다:
 * **Description**: 사용자가 제공한 run에 대한 설명입니다. run을 생성할 때 설명을 지정하지 않으면 이 필드는 비어 있습니다. W&B 앱이나 Python SDK를 사용하여 프로그래밍 방식으로 run에 설명을 추가할 수 있습니다.
 * **Tracked Hours**: 일시 중지나 대기 시간을 제외하고 run이 활발하게 컴퓨팅하거나 데이터를 로깅하는 시간입니다. 이 메트릭은 run에 소요된 실제 계산 시간을 이해하는 데 도움이 됩니다.
 * **Runtime**: run의 시작부터 끝까지의 총 시간을 측정합니다. 일시 중지되거나 리소스를 대기하는 시간을 포함하여 run이 진행된 실제 시간(wall-clock time)입니다. 이 메트릭은 run에 경과된 전체 시간을 제공합니다.
-* **Git repository**: run과 연결된 git 저장소입니다. 이 필드를 보려면 [git을 활성화](/platform/app/settings-page/user-settings/#personal-github-integration)해야 합니다.
+* **Git repository**: run과 연결된 git 저장소입니다. 이 필드를 보려면 [git을 활성화](/ko/platform/app/settings-page/user-settings/#personal-github-integration)해야 합니다.
 * **Host name**: W&B가 run을 컴퓨팅하는 위치입니다. 로컬 머신에서 run을 초기화한 경우 머신의 이름이 표시됩니다.
 * **Name**: run의 이름입니다.
 * **OS**: run을 초기화한 운영 체제입니다.
@@ -89,7 +89,7 @@ LEET는 세 개의 패널 인터페이스를 표시합니다:
 * **Python version**: run을 생성한 Python 버전을 지정합니다.
 * **Run path**: `entity/project/run-ID` 형식의 고유한 run 식별자입니다.
 * **Start time**: run을 초기화한 타임스탬프입니다.
-* **State**: [run의 상태](/models/runs/run-states)입니다.
+* **State**: [run의 상태](/ko/models/runs/run-states)입니다.
 * **System hardware**: W&B가 run을 컴퓨팅하는 데 사용하는 하드웨어입니다.
 * **Tags**: 문자열 리스트입니다. 태그는 관련 Runs를 함께 구성하거나 `baseline` 또는 `production`과 같은 임시 레이블을 적용하는 데 유용합니다.
 * **W&B CLI version**: run 커맨드를 호스팅한 머신에 설치된 W&B CLI 버전입니다.
@@ -98,8 +98,8 @@ LEET는 세 개의 패널 인터페이스를 표시합니다:
 W&B는 개요 섹션 아래에 다음 정보를 저장합니다:
 
 * **Artifact Outputs**: run에 의해 생성된 Artifact 출력입니다.
-* **Config**: [`wandb.Run.config`](/models/track/config/)로 저장된 설정 파라미터 리스트입니다.
-* **Summary**: [`wandb.Run.log()`](/models/track/log/)로 저장된 요약 파라미터 리스트입니다. 기본적으로 W&B는 이 값을 마지막으로 로그된 값으로 설정합니다.
+* **Config**: [`wandb.Run.config`](/ko/models/track/config/)로 저장된 설정 파라미터 리스트입니다.
+* **Summary**: [`wandb.Run.log()`](/ko/models/track/log/)로 저장된 요약 파라미터 리스트입니다. 기본적으로 W&B는 이 값을 마지막으로 로그된 값으로 설정합니다.
 
 프로젝트 개요 예시는 [여기](https://wandb.ai/stacey/deep-drive/overview)에서 확인할 수 있습니다. 
 
@@ -130,7 +130,7 @@ W&B는 개요 섹션 아래에 다음 정보를 저장합니다:
 
 ### Artifacts
 
-**Artifacts** 탭은 지정된 run에 대한 입력 및 출력 [Artifacts](/models/artifacts/)를 나열합니다.
+**Artifacts** 탭은 지정된 run에 대한 입력 및 출력 [Artifacts](/ko/models/artifacts/)를 나열합니다.
 
 <Frame>
     <img src="/images/runs/runs_artifacts_info.png" alt="Run artifacts tab" />

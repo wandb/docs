@@ -42,7 +42,7 @@ ML 트레이닝 파이프라인에서 트레이닝 스크립트의 시작 부분
 
 `wandb.log()`로 데이터를 기록하기 전에 `wandb.init()`을 호출하여 run을 시작합니다. 데이터 로깅이 완료되면 `wandb.finish()`를 호출하여 run을 종료합니다. `wandb.finish()`를 호출하지 않으면 스크립트가 종료될 때 run이 종료됩니다.
 
-자세한 예제를 포함하여 `wandb.init()` 사용에 대한 자세한 내용은 [가이드 및 FAQ](https://docs.wandb.ai/models/track/launch)를 확인하십시오.
+자세한 예제를 포함하여 `wandb.init()` 사용에 대한 자세한 내용은 [가이드 및 FAQ](/ko/models/track/launch)를 확인하십시오.
 
 #### 예시:
 
@@ -106,7 +106,7 @@ with wandb.init(config=config) as run:
 
 | 반환 | Description |
 | :--- | :--- |
-|  현재 run에 대한 핸들인 `Run` 오브젝트입니다. 이 오브젝트를 사용하여 데이터 로깅, 파일 저장 및 run 완료와 같은 작업을 수행합니다. 자세한 내용은 [Run API](https://docs.wandb.ai/models/ref/python/experiments/run/)를 참조하십시오. |
+|  현재 run에 대한 핸들인 `Run` 오브젝트입니다. 이 오브젝트를 사용하여 데이터 로깅, 파일 저장 및 run 완료와 같은 작업을 수행합니다. 자세한 내용은 [Run API](/ko/models/ref/python/experiments/run/)를 참조하십시오. |
 
 | 발생 | Description |
 | :--- | :--- |

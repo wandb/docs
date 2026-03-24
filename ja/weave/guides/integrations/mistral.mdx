@@ -50,7 +50,7 @@ chat_response = client.chat.complete(
 
 ## 独自の op でラップする
 
-Weave の op は、 実験 中の コード を自動的に バージョン管理 することで 結果 の *再現性* を高め、入力と出力をキャプチャします。 [`@weave.op()`](/weave/guides/tracking/ops) デコレータを付けた関数を作成し、その中で [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion/) を呼び出すだけで、 Weave が自動的に入力と出力を追跡します。チーズレコメンダーでこれをどのように行うか見てみましょう。
+Weave の op は、 実験 中の コード を自動的に バージョン管理 することで 結果 の *再現性* を高め、入力と出力をキャプチャします。 [`@weave.op()`](/ja/weave/guides/tracking/ops) デコレータを付けた関数を作成し、その中で [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion/) を呼び出すだけで、 Weave が自動的に入力と出力を追跡します。チーズレコメンダーでこれをどのように行うか見てみましょう。
 
 ```python lines {1}
 @weave.op()
@@ -79,9 +79,9 @@ cheese_recommender(region="Netherlands", model="mistral-large-latest")
 
 ## より簡単な実験のために `Model` を作成する
 
-多くの可動パーツがある場合、 実験 を整理するのは困難です。 [`Model`](/weave/guides/core-types/models) クラスを使用すると、システムプロンプトや使用している モデル など、 アプリケーション の 実験 詳細をキャプチャして整理できます。これにより、 アプリケーション の異なる反復の整理と比較が容易になります。
+多くの可動パーツがある場合、 実験 を整理するのは困難です。 [`Model`](/ja/weave/guides/core-types/models) クラスを使用すると、システムプロンプトや使用している モデル など、 アプリケーション の 実験 詳細をキャプチャして整理できます。これにより、 アプリケーション の異なる反復の整理と比較が容易になります。
 
-コード の バージョン管理 や入出力のキャプチャに加えて、 [`Model`](/weave/guides/core-types/models) は アプリケーション の 振る舞い を制御する構造化された パラメータ をキャプチャするため、どの パラメータ が最適であったかを簡単に見つけることができます。また、 Weave の Models は `serve` や [`Evaluation`](/weave/guides/core-types/evaluations) と併用することもできます。
+コード の バージョン管理 や入出力のキャプチャに加えて、 [`Model`](/ja/weave/guides/core-types/models) は アプリケーション の 振る舞い を制御する構造化された パラメータ をキャプチャするため、どの パラメータ が最適であったかを簡単に見つけることができます。また、 Weave の Models は `serve` や [`Evaluation`](/ja/weave/guides/core-types/evaluations) と併用することもできます。
 
 以下の例では、 `model` や `country` を使って 実験 できます。これらを変更するたびに、 `CheeseRecommender` の新しい *バージョン* が作成されます。
 

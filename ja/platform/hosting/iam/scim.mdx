@@ -10,7 +10,7 @@ title: SCIM を使用した Users、グループ、およびロールの管理
 
 System for Cross-domain Identity Management (SCIM) API を使用すると、インスタンスまたは組織の管理者は、W&B 組織内の Users、Groups、およびカスタムロールを管理できます。SCIM のグループは W&B の Teams にマッピングされます。
 
-W&B の SCIM API は Okta を含む主要なアイデンティティプロバイダーと互換性があり、ユーザーのプロビジョニングとデプロビジョニングの自動化を可能にします。Okta やその他のアイデンティティプロバイダーを使用した SSO の設定については、[SSO ドキュメント](/platform/hosting/iam/sso/)を参照してください。
+W&B の SCIM API は Okta を含む主要なアイデンティティプロバイダーと互換性があり、ユーザーのプロビジョニングとデプロビジョニングの自動化を可能にします。Okta やその他のアイデンティティプロバイダーを使用した SSO の設定については、[SSO ドキュメント](/ja/platform/hosting/iam/sso/)を参照してください。
 
 SCIM API とのやり取りを示す Python の実用的な例については、[`wandb-scim`](https://github.com/wandb/examples/tree/master/wandb-scim) リポジトリをご覧ください。
 
@@ -21,7 +21,7 @@ SCIM API とのやり取りを示す Python の実用的な例については、
 - **サービスアカウント認証**: 組織のサービスアカウントから API にアクセスできます。
 
 <Note>
-複数のエンタープライズ [Multi-tenant SaaS](/platform/hosting/hosting-options/multi_tenant_cloud) 組織の管理者である場合、API キーを使用した SCIM API リクエストが正しい組織に反映されるよう、リクエスト送信先の組織を設定する必要があります。プロフィール画像をクリックし、**User Settings** をクリックしてから、**Default API organization** の設定を確認してください。
+複数のエンタープライズ [Multi-tenant SaaS](/ja/platform/hosting/hosting-options/multi_tenant_cloud) 組織の管理者である場合、API キーを使用した SCIM API リクエストが正しい組織に反映されるよう、リクエスト送信先の組織を設定する必要があります。プロフィール画像をクリックし、**User Settings** をクリックしてから、**Default API organization** の設定を確認してください。
 
 選択したホスティングオプションによって、このページの例で使用されている `<host-url>` プレースホルダーの値が決まります。
 
@@ -49,7 +49,7 @@ Authorization: Basic ZGVtbzpwQDU1dzByZA==
 ```
 
 ### サービスアカウント
-自動化やインテグレーションには、組織スコープのサービスアカウントを使用してください。HTTP `Authorization` ヘッダーを `Basic <base64(:API-KEY)>`（先頭のコロンと空のユーザー名に注意）として構築します。サービスアカウントの API キーは、組織ダッシュボードの **Service account** タブで確認できます。[組織スコープのサービスアカウント](/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts)を参照してください。
+自動化やインテグレーションには、組織スコープのサービスアカウントを使用してください。HTTP `Authorization` ヘッダーを `Basic <base64(:API-KEY)>`（先頭のコロンと空のユーザー名に注意）として構築します。サービスアカウントの API キーは、組織ダッシュボードの **Service account** タブで確認できます。[組織スコープのサービスアカウント](/ja/platform/hosting/iam/service-accounts/#organization-scoped-service-accounts)を参照してください。
 
 例として、API キー `sa-p@55w0rd` で認証する場合:
 ```bash
@@ -120,7 +120,7 @@ GET /scim/Users/abc
 
 「アクティブ」の定義は、デプロイメントタイプによって異なります。
 - **専用クラウド / セルフマネージド**: ユーザーがサインイン、W&B App のページの閲覧、Runs の記録、SDK の使用、または何らかの形での W&B サーバーとのやり取りを行った場合にアクティブとみなされます。
-- **Multi-tenant クラウド**: 2025年5月8日以降に、組織にスコープされた監査可能なアクションを実行した場合にアクティブとみなされます。全リストについては [監査ログアクション](/platform/hosting/monitoring-usage/audit-logging#actions) を参照してください。
+- **Multi-tenant クラウド**: 2025年5月8日以降に、組織にスコープされた監査可能なアクションを実行した場合にアクティブとみなされます。全リストについては [監査ログアクション](/ja/platform/hosting/monitoring-usage/audit-logging#actions) を参照してください。
 
 </Tab>
 </Tabs>
@@ -204,7 +204,7 @@ GET /scim/Users
 
 「アクティブ」の定義は、デプロイメントタイプによって異なります。
 - **専用クラウド / セルフマネージド**: ユーザーがサインイン、W&B App のページの閲覧、Runs の記録、SDK の使用、または何らかの形での W&B サーバーとのやり取りを行った場合にアクティブとみなされます。
-- **Multi-tenant クラウド**: 2025年5月8日以降に、組織にスコープされた監査可能なアクションを実行した場合にアクティブとみなされます。詳細は [監査ログアクション](/platform/hosting/monitoring-usage/audit-logging#actions) を参照してください。
+- **Multi-tenant クラウド**: 2025年5月8日以降に、組織にスコープされた監査可能なアクションを実行した場合にアクティブとみなされます。詳細は [監査ログアクション](/ja/platform/hosting/monitoring-usage/audit-logging#actions) を参照してください。
 
 </Tab>
 </Tabs>
@@ -647,7 +647,7 @@ PATCH /scim/Users
 <Note>
 - ユーザーの再有効化はユーザーに対してのみ機能し、サービスアカウントには機能しません。サービスアカウントの再有効化はサポートされていません。サービスアカウントは W&B Team の設定で管理してください。
 
-- ユーザーの再有効化は [Multi-tenant クラウド](/platform/hosting/hosting-options/multi_tenant_cloud) ではサポートされていません。アクセスを復元するには、ユーザーを組織に再度追加してください。[ユーザーの作成](#create-user-request-multi-tenant) を参照してください。Multi-tenant クラウドでは、ユーザーのアカウントは組織によって管理されません。ユーザーを再有効化しようとすると、HTTP `400` エラーが発生します。
+- ユーザーの再有効化は [Multi-tenant クラウド](/ja/platform/hosting/hosting-options/multi_tenant_cloud) ではサポートされていません。アクセスを復元するには、ユーザーを組織に再度追加してください。[ユーザーの作成](#create-user-request-multi-tenant) を参照してください。Multi-tenant クラウドでは、ユーザーのアカウントは組織によって管理されません。ユーザーを再有効化しようとすると、HTTP `400` エラーが発生します。
     ```json
     {
         "schemas": [

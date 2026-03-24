@@ -80,7 +80,7 @@ WandbLogger.sync(
 | wait_for_job_success | OpenAI 파인튜닝 job이 시작되면 보통 시간이 어느 정도 걸립니다. 파인튜닝 job이 완료되는 즉시 메트릭이 W&B에 로그되도록 하기 위해, 이 설정은 60초마다 파인튜닝 job 상태가 `succeeded`로 변경되는지 확인합니다. 성공이 확인되면 메트릭이 자동으로 W&B에 동기화됩니다. 기본적으로 True로 설정되어 있습니다. |
 | model_artifact_name | 로그되는 모델 아티팩트의 이름입니다. 기본값은 `"model-metadata"`입니다. |
 | model_artifact_type | 로그되는 모델 아티팩트의 유형입니다. 기본값은 `"model"`입니다. |
-| \*\*kwargs_wandb_init | [`wandb.init()`](/models/ref/python/functions/init)에 직접 전달되는 추가 인수들입니다. |
+| \*\*kwargs_wandb_init | [`wandb.init()`](/ko/models/ref/python/functions/init)에 직접 전달되는 추가 인수들입니다. |
 
 ## 데이터셋 버전 관리 및 시각화
 
@@ -104,7 +104,7 @@ WandbLogger.sync(
 
 OpenAI는 파인튜닝된 모델의 ID를 제공합니다. 모델 가중치에 직접 엑세스할 수 없으므로, `WandbLogger`는 모델의 상세 정보(하이퍼파라미터, 데이터 파일 ID 등)와 `fine_tuned_model` ID가 포함된 `model_metadata.json` 파일을 생성하여 W&B Artifact로 로그합니다.
 
-이 모델(메타데이터) 아티팩트는 [W&B Registry](/models/registry/)의 모델과 연결될 수 있습니다.
+이 모델(메타데이터) 아티팩트는 [W&B Registry](/ko/models/registry/)의 모델과 연결될 수 있습니다.
 
 <Frame>
     <img src="/images/integrations/openai_model_metadata.png" alt="OpenAI model metadata"  />

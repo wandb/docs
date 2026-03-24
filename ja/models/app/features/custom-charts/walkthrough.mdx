@@ -8,7 +8,7 @@ description: W&B UI におけるカスタムチャート機能の使用方法に
 
 ## 1. W&B へのデータのログ記録
 
-まず、スクリプトでデータをログに記録します。ハイパーパラメーターのように、トレーニングの開始時に設定される単一のポイントには [wandb.Run.config](/models/track/config/) を使用してください。時系列に沿った複数のポイントには [wandb.Run.log()](/models/track/log/) を使用し、カスタムの 2D 配列は `wandb.Table()` でログを記録します。ログを記録する キー (key) ごとに、最大 10,000 データポイントまでのログ記録を推奨しています。
+まず、スクリプトでデータをログに記録します。ハイパーパラメーターのように、トレーニングの開始時に設定される単一のポイントには [wandb.Run.config](/ja/models/track/config/) を使用してください。時系列に沿った複数のポイントには [wandb.Run.log()](/ja/models/track/log/) を使用し、カスタムの 2D 配列は `wandb.Table()` でログを記録します。ログを記録する キー (key) ごとに、最大 10,000 データポイントまでのログ記録を推奨しています。
 
 ```python
 with wandb.init() as run: 

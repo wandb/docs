@@ -27,13 +27,13 @@ System Settings の管理 UI を介してインスタンスレベルの設定を
 | `GORILLA_ALLOW_USER_TEAM_CREATION` | true に設定すると、管理者以外の ユーザー も新しい Teams を作成できるようになります。デフォルトは false です。 |
 | `GORILLA_CUSTOMER_SECRET_STORE_SOURCE` | W&B Weave で使用されるチームシークレットを保存するためのシークレットマネージャーを設定します。以下のシークレットマネージャーがサポートされています： <ul><li><b>内部シークレットマネージャー</b> (デフォルト): <code>k8s-secretmanager://wandb-secret</code></li><li><b>AWS Secret Manager</b>: <code>aws-secretmanager</code></li><li><b>Google Cloud Secret Manager</b>: <code>gcp-secretmanager</code></li><li><b>Azure</b>: <code>az-secretmanger</code></li></ul> |
 | `GORILLA_DATA_RETENTION_PERIOD` | 削除された Runs の データを保持する期間（時間）。削除された Run データは復旧不可能です。入力値に `h` を付けてください（例：`"24h"`）。 |
-| `GORILLA_DISABLE_PERSONAL_ENTITY` | true に設定すると、[個人エンティティ](/models/support/difference_team_entity_user_entity_mean_me/) をオフにします。個人のエンティティでの新しい個人 プロジェクト の作成を禁止し、既存の個人 プロジェクト への書き込みも防止します。 |
+| `GORILLA_DISABLE_PERSONAL_ENTITY` | true に設定すると、[個人エンティティ](/ja/models/support/difference_team_entity_user_entity_mean_me/) をオフにします。個人のエンティティでの新しい個人 プロジェクト の作成を禁止し、既存の個人 プロジェクト への書き込みも防止します。 |
 | `ENABLE_REGISTRY_UI` | true に設定すると、新しい W&B Registry UI が有効になります。 |
-| `GORILLA_ARTIFACT_GC_ENABLED` | true に設定すると、削除された Artifacts のガベージコレクションが有効になります。セルフマネージド デプロイメント では必須です。詳細は [Artifact の削除](/models/artifacts/delete-artifacts) を参照してください。 |
+| `GORILLA_ARTIFACT_GC_ENABLED` | true に設定すると、削除された Artifacts のガベージコレクションが有効になります。セルフマネージド デプロイメント では必須です。詳細は [Artifact の削除](/ja/models/artifacts/delete-artifacts) を参照してください。 |
 | `WANDB_ARTIFACT_DIR` | ダウンロードしたすべての Artifacts を保存する場所。未設定の場合、トレーニングスクリプト からの相対パスにある `artifacts` ディレクトリー がデフォルトになります。この ディレクトリー が存在し、実行 ユーザー が書き込み権限を持っていることを確認してください。これは、生成された メタデータ ファイルの場所（`WANDB_DIR` 環境変数で設定可能）は制御しません。 |
 | `WANDB_DATA_DIR` | ステージング Artifacts をアップロードする場所。デフォルトの場所は、`platformdirs` Python パッケージの `user_data_dir` の値を使用するため、プラットフォーム によって異なります。この ディレクトリー が存在し、実行 ユーザー が書き込み権限を持っていることを確認してください。 |
 | `WANDB_DIR` | 生成されたすべてのファイルを保存する場所。未設定の場合、トレーニングスクリプト からの相対パスにある `wandb` ディレクトリー がデフォルトになります。この ディレクトリー が存在し、実行 ユーザー が書き込み権限を持っていることを確認してください。これは、ダウンロードされた Artifacts の場所（`WANDB_ARTIFACT_DIR` 環境変数で設定可能）は制御しません。 |
-| `WANDB_IDENTITY_TOKEN_FILE` | [アイデンティティフェデレーション](/platform/hosting/iam/identity_federation/) 用の、Java Web Tokens (JWT) が保存されているローカル ディレクトリー への絶対パス。 |
+| `WANDB_IDENTITY_TOKEN_FILE` | [アイデンティティフェデレーション](/ja/platform/hosting/iam/identity_federation/) 用の、Java Web Tokens (JWT) が保存されているローカル ディレクトリー への絶対パス。 |
 
 <Note>
 GORILLA_DATA_RETENTION_PERIOD 環境変数は慎重に使用してください。環境変数が設定されると、データは即座に削除されます。このフラグを有効にする前に、データベースとストレージ バケット の両方を バックアップ することをお勧めします。

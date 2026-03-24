@@ -8,7 +8,7 @@ import ApiKeyCreate from "/snippets/en/_includes/api-key-create.mdx";
 W&B をインストールして、あらゆる規模の機械学習 実験 を追跡、可視化、管理しましょう。
 
 <Note>
-W&B Weave に関する情報をお探しですか？ [Weave Python SDK クイックスタート](/weave/quickstart) または [Weave TypeScript SDK クイックスタート](/weave/reference/generated_typescript_docs/intro-notebook) をご覧ください。
+W&B Weave に関する情報をお探しですか？ [Weave Python SDK クイックスタート](/ja/weave/quickstart) または [Weave TypeScript SDK クイックスタート](/ja/weave/reference/generated_typescript_docs/intro-notebook) をご覧ください。
 </Note>
 
 ## サインアップと APIキー の作成
@@ -21,7 +21,7 @@ W&B Weave に関する情報をお探しですか？ [Weave Python SDK クイッ
 
 <Tabs>
 <Tab title="Command Line">
-1. `WANDB_API_KEY` [環境変数](/models/track/environment-variables/) を設定します。
+1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) を設定します。
 
     ```bash
     export WANDB_API_KEY=<your_api_key>
@@ -55,7 +55,7 @@ wandb.login()
 
 ## Run の初期化と ハイパーパラメーター の追跡
 
-Python スクリプト または ノートブック で、 [`wandb.init()`](/models/ref/python/experiments/run/) を使用して W&B の run オブジェクト を初期化します。 `config` パラメータ に 辞書 を使用して、 ハイパーパラメーター の名前と 値 を指定します。 `with` ステートメント内では、 メトリクス やその他の情報を W&B に ログ 記録できます。
+Python スクリプト または ノートブック で、 [`wandb.init()`](/ja/models/ref/python/experiments/run/) を使用して W&B の run オブジェクト を初期化します。 `config` パラメータ に 辞書 を使用して、 ハイパーパラメーター の名前と 値 を指定します。 `with` ステートメント内では、 メトリクス やその他の情報を W&B に ログ 記録できます。
 
 ```python
 import wandb
@@ -80,7 +80,7 @@ with wandb.init(project=project, config=config) as run:
 次のセクションでは、トレーニング run をシミュレートし、精度（accuracy）と損失（loss）の メトリクス を W&B に ログ 記録する完全な例を紹介します。
 
 <Info>
-[Runs](/models/runs/) は W&B のコア要素です。 run を使用して [メトリクスを追跡](/models/track/) したり、 [ログを作成](/models/track/log/) したり、 Artifacts を追跡したりできます。
+[Runs](/ja/models/runs/) は W&B のコア要素です。 run を使用して [メトリクスを追跡](/ja/models/track/) したり、 [ログを作成](/ja/models/track/log/) したり、 Artifacts を追跡したりできます。
 </Info>
 
 ## 機械学習トレーニング実験の作成
@@ -123,10 +123,10 @@ with wandb.init(project=project, config=config) as run:
 
 W&B エコシステムのさらなる機能を探索しましょう。
 
-1. PyTorch などの フレームワーク 、Hugging Face などの ライブラリ 、SageMaker などのサービスを W&B と組み合わせる [W&B インテグレーション チュートリアル](/models/integrations) を読んでください。
-2. [Reports](/models/reports) を使用して、 Runs を整理し、 可視化 を自動化し、 学び を要約して、共同作業者と最新情報を共有しましょう。
-3. [Artifacts](/models/artifacts) を作成して、機械学習 パイプライン 全体で データセット 、 モデル 、依存関係、および 結果 を追跡します。
-4. [Sweeps](/models/sweeps) を使用して ハイパーパラメーター 探索を自動化し、 モデル を最適化します。
-5. [中央ダッシュボード](/models/tables) で Runs を分析し、 モデル の 予測 を 可視化 し、洞察を共有します。
+1. PyTorch などの フレームワーク 、Hugging Face などの ライブラリ 、SageMaker などのサービスを W&B と組み合わせる [W&B インテグレーション チュートリアル](/ja/models/integrations) を読んでください。
+2. [Reports](/ja/models/reports) を使用して、 Runs を整理し、 可視化 を自動化し、 学び を要約して、共同作業者と最新情報を共有しましょう。
+3. [Artifacts](/ja/models/artifacts) を作成して、機械学習 パイプライン 全体で データセット 、 モデル 、依存関係、および 結果 を追跡します。
+4. [Sweeps](/ja/models/sweeps) を使用して ハイパーパラメーター 探索を自動化し、 モデル を最適化します。
+5. [中央ダッシュボード](/ja/models/tables) で Runs を分析し、 モデル の 予測 を 可視化 し、洞察を共有します。
 6. [W&B AI Academy](https://wandb.ai/site/courses/) にアクセスして、実践的な コース を通じて LLM、MLOps、および W&B Models について学びましょう。
 7. [weave-docs.wandb.ai](/weave) にアクセスして、 Weave を使用して LLM ベースの アプリケーション を追跡、実験、評価、デプロイ、および改善する方法を学びましょう。

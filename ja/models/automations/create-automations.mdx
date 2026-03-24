@@ -8,7 +8,7 @@ import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.md
 <EnterpriseCloudOnly/>
 </Info>
 
-このページでは、 W&B [オートメーション](/models/automations/) の作成と管理の概要について説明します。詳細な手順については、 [Slack オートメーションの作成](/models/automations/create-automations/slack/) または [Webhook オートメーションの作成](/models/automations/create-automations/webhook/) を参照してください。
+このページでは、 W&B [オートメーション](/ja/models/automations/) の作成と管理の概要について説明します。詳細な手順については、 [Slack オートメーションの作成](/ja/models/automations/create-automations/slack/) または [Webhook オートメーションの作成](/ja/models/automations/create-automations/webhook/) を参照してください。
 
 <Note>
 オートメーションの関連チュートリアルをお探しですか？
@@ -18,18 +18,18 @@ import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.md
 </Note>
 
 ## 要件
-- チーム管理者は、チームの Projects のオートメーション、および Webhook、シークレット、 Slack インテグレーションなどのオートメーションコンポーネントを作成および管理できます。 [チーム設定](/platform/app/settings-page/teams/) を参照してください。
-- レジストリのオートメーションを作成するには、レジストリへのアクセス権が必要です。 [レジストリアクセスの設定](/models/registry/configure_registry/#registry-roles) を参照してください。
+- チーム管理者は、チームの Projects のオートメーション、および Webhook、シークレット、 Slack インテグレーションなどのオートメーションコンポーネントを作成および管理できます。 [チーム設定](/ja/platform/app/settings-page/teams/) を参照してください。
+- レジストリのオートメーションを作成するには、レジストリへのアクセス権が必要です。 [レジストリアクセスの設定](/ja/models/registry/configure_registry/#registry-roles) を参照してください。
 - Slack オートメーションを作成するには、選択した Slack インスタンスおよびチャンネルに投稿する権限が必要です。
 
 ## オートメーションの作成
 オートメーションは、 Project またはレジストリの **Automations** タブから作成します。オートメーションを作成する大まかな手順は以下の通りです：
 
-1. 必要に応じて、アクセストークン、パスワード、 SSH キーなど、オートメーションに必要な機密文字列ごとに [W&B シークレットを作成](/platform/secrets/) します。シークレットは **チーム設定** で定義します。シークレットは主に Webhook オートメーションで使用されます。
+1. 必要に応じて、アクセストークン、パスワード、 SSH キーなど、オートメーションに必要な機密文字列ごとに [W&B シークレットを作成](/ja/platform/secrets/) します。シークレットは **チーム設定** で定義します。シークレットは主に Webhook オートメーションで使用されます。
 1. チームレベルの Webhook または Slack インテグレーションを設定し、 W&B があなたに代わって Slack への投稿や Webhook の実行を行うことを許可します。単一の Webhook または Slack インテグレーションを複数のオートメーションで使用できます。これらのアクションは **チーム設定** で定義します。
 1. Project またはレジストリでオートメーションを作成し、監視するイベントと実行するアクション（ Slack への投稿や Webhook の実行など）を指定します。 Webhook オートメーションを作成する際は、送信するペイロードを設定します。
 
-また、 Workspace のラインプロットから、表示されているメトリクスに対して [run メトリクスオートメーション](/models/automations/automation-events/#run-events) を素早く作成することもできます：
+また、 Workspace のラインプロットから、表示されているメトリクスに対して [run メトリクスオートメーション](/ja/models/automations/automation-events/#run-events) を素早く作成することもできます：
 
 1. パネルの上にカーソルを置き、パネル上部にあるベルのアイコンをクリックします。
 
@@ -40,19 +40,19 @@ import EnterpriseCloudOnly from "/snippets/en/_includes/enterprise-cloud-only.md
 
 詳細は以下を参照してください：
 
-- [Slack オートメーションの作成](/models/automations/create-automations/slack/)
-- [Webhook オートメーションの作成](/models/automations/create-automations/webhook/)
+- [Slack オートメーションの作成](/ja/models/automations/create-automations/slack/)
+- [Webhook オートメーションの作成](/ja/models/automations/create-automations/webhook/)
 
 ## オートメーションの表示と管理
 Project またはレジストリの **Automations** タブからオートメーションを表示・管理できます。
 
 - オートメーションの詳細を表示するには、その名前をクリックします。
-- オートメーションの実行履歴を表示するには、名前をクリックして **History** タブを選択します。詳細は [オートメーション履歴の表示](/models/automations/view-automation-history) を参照してください。
+- オートメーションの実行履歴を表示するには、名前をクリックして **History** タブを選択します。詳細は [オートメーション履歴の表示](/ja/models/automations/view-automation-history) を参照してください。
 - オートメーションを編集するには、アクションメニュー `...` をクリックし、 **Edit automation** をクリックします。
 - オートメーションを削除するには、アクションメニュー `...` をクリックし、 **Delete automation** をクリックします。
 
 ## 次のステップ
-- [オートメーションのイベントとスコープ](/models/automations/automation-events/) について詳しく学ぶ
-- [Slack オートメーションの作成](/models/automations/create-automations/slack/)
-- [Webhook オートメーションの作成](/models/automations/create-automations/webhook/)
-- [シークレットの作成](/platform/secrets/)
+- [オートメーションのイベントとスコープ](/ja/models/automations/automation-events/) について詳しく学ぶ
+- [Slack オートメーションの作成](/ja/models/automations/create-automations/slack/)
+- [Webhook オートメーションの作成](/ja/models/automations/create-automations/webhook/)
+- [シークレットの作成](/ja/platform/secrets/)

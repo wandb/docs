@@ -13,11 +13,11 @@ W&B で Table の ログ を記録します。新しい Table を構築するか
 <Tabs>
 <Tab title="Table を構築する">
 新しい Table を構築して ログ に記録するには、以下を使用します：
-- [`wandb.init()`](/models/ref/python/functions/init): 結果を追跡するための [run](/models/runs/) を作成します。
-- [`wandb.Table()`](/models/ref/python/data-types/table): 新しい Table オブジェクト を作成します。
+- [`wandb.init()`](/ja/models/ref/python/functions/init): 結果を追跡するための [run](/ja/models/runs/) を作成します。
+- [`wandb.Table()`](/ja/models/ref/python/data-types/table): 新しい Table オブジェクト を作成します。
   - `columns`: カラム名を設定します。
   - `data`: 各行の内容を設定します。
-- [`wandb.Run.log()`](/models/ref/python/experiments/run.md/#method-runlog): Table を ログ に記録して W&B に保存します。
+- [`wandb.Run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog): Table を ログ に記録して W&B に保存します。
 
 以下に例を示します：
 ```python
@@ -45,7 +45,7 @@ with wandb.init(project="df-table") as run:
   run.log({"Table Name": my_table})
 ```
 
-サポートされている データ 型の詳細については、 W&B API リファレンス ガイド の [`wandb.Table`](/models/ref/python/data-types/table) を参照してください。
+サポートされている データ 型の詳細については、 W&B API リファレンス ガイド の [`wandb.Table`](/ja/models/ref/python/data-types/table) を参照してください。
 </Tab>
 </Tabs>
 

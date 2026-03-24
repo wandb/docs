@@ -21,7 +21,7 @@ registry アイテムを検索するには：
 
 ## MongoDB スタイルのクエリによる registry アイテムのクエリ
 
-[`wandb.Api().registries()`](/models/ref/python/public-api/api#registries) と [クエリ述語 (query predicates)](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) を使用して、1 つ以上の [MongoDB スタイルクエリ](https://www.mongodb.com/docs/compass/current/query/filter/) に基づいて registry、collection、および artifact バージョンをフィルタリングします。
+[`wandb.Api().registries()`](/ja/models/ref/python/public-api/api#registries) と [クエリ述語 (query predicates)](https://www.mongodb.com/docs/manual/reference/glossary/#std-term-query-predicate) を使用して、1 つ以上の [MongoDB スタイルクエリ](https://www.mongodb.com/docs/compass/current/query/filter/) に基づいて registry、collection、および artifact バージョンをフィルタリングします。
 
 次の表は、フィルタリングしたいアイテムのタイプに基づいて使用できるクエリ名の一覧です。
 
@@ -33,7 +33,7 @@ registry アイテムを検索するには：
 
 以下の コード 例は、一般的な検索シナリオを示しています。
 
-`wandb.Api().registries()` メソッドを使用するには、まず W&B Python SDK ([`wandb`](/models/ref/python/)) ライブラリ をインポートします。
+`wandb.Api().registries()` メソッドを使用するには、まず W&B Python SDK ([`wandb`](/ja/models/ref/python/)) ライブラリ をインポートします。
 
 ```python
 import wandb
@@ -115,7 +115,7 @@ for art in artifacts:
     print(f"artifact created at: {art.created_at}\n")
 ```
 
-artifact オブジェクト の属性の完全なリストについては、API リファレンスドキュメントの [Artifacts Class](/models/ref/python/experiments/artifact/) を参照してください。
+artifact オブジェクト の属性の完全なリストについては、API リファレンスドキュメントの [Artifacts Class](/ja/models/ref/python/experiments/artifact/) を参照してください。
 
 registry や collection に関係なく、2024-01-08 から 2025-03-04 13:10 UTC の間に作成されたすべての artifact バージョンをフィルタリングする：
 

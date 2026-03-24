@@ -149,14 +149,14 @@ importer.import_all(
 
 ## 데이터 내보내기
 
-Public API를 사용하여 W&B에 저장한 데이터를 내보내거나 업데이트하세요. 이 API를 사용하기 전에 스크립트에서 데이터를 로깅해야 합니다. 자세한 내용은 [Quickstart](/models/quickstart/)를 확인하세요.
+Public API를 사용하여 W&B에 저장한 데이터를 내보내거나 업데이트하세요. 이 API를 사용하기 전에 스크립트에서 데이터를 로깅해야 합니다. 자세한 내용은 [Quickstart](/ko/models/quickstart/)를 확인하세요.
 
 **Public API 유스 케이스**
 
 - **데이터 내보내기**: Jupyter Notebook에서 커스텀 분석을 위해 데이터프레임을 가져옵니다. 데이터를 탐색한 후에는 새로운 분석 Run을 생성하고 결과를 로깅하여 발견한 내용(findings)을 동기화할 수 있습니다. 예: `wandb.init(job_type="analysis")`
 - **기존 Runs 업데이트**: W&B Run과 연관되어 로깅된 데이터를 업데이트할 수 있습니다. 예를 들어, 원래 로깅되지 않았던 아키텍처나 하이퍼파라미터 같은 추가 정보를 포함하도록 일련의 Runs 설정을 업데이트하고 싶을 때 유용합니다.
 
-사용 가능한 함수에 대한 자세한 내용은 [생성된 레퍼런스 문서](/models/ref/python/public-api/)를 참조하세요.
+사용 가능한 함수에 대한 자세한 내용은 [생성된 레퍼런스 문서](/ko/models/ref/python/public-api/)를 참조하세요.
 
 ### API 키 생성
 
@@ -168,7 +168,7 @@ API 키는 해당 머신을 W&B에 인증합니다.
 
 ### Run 경로 찾기
 
-Public API를 사용하려면 보통 `<entity>/<project>/<run_id>` 형태의 Run 경로가 필요합니다. 앱 UI에서 Run 페이지를 열고 [Overview 탭](/models/track/public-api-guide/#overview-tab)을 클릭하여 Run 경로를 확인하세요.
+Public API를 사용하려면 보통 `<entity>/<project>/<run_id>` 형태의 Run 경로가 필요합니다. 앱 UI에서 Run 페이지를 열고 [Overview 탭](/ko/models/track/public-api-guide/#overview-tab)을 클릭하여 Run 경로를 확인하세요.
 
 ### Run 데이터 내보내기
 
@@ -233,7 +233,7 @@ with wandb.init(project="public-api-example") as run:
 
 ### 샘플링
 
-기본 history 메소드는 메트릭을 고정된 수의 샘플로 샘플링합니다(기본값은 500이며, `samples` 인수로 변경할 수 있습니다). 대규모 Run의 모든 데이터를 내보내고 싶다면 `run.scan_history()` 메소드를 사용할 수 있습니다. 자세한 내용은 [API 레퍼런스](/models/ref/python/public-api)를 참조하세요.
+기본 history 메소드는 메트릭을 고정된 수의 샘플로 샘플링합니다(기본값은 500이며, `samples` 인수로 변경할 수 있습니다). 대규모 Run의 모든 데이터를 내보내고 싶다면 `run.scan_history()` 메소드를 사용할 수 있습니다. 자세한 내용은 [API 레퍼런스](/ko/models/ref/python/public-api)를 참조하세요.
 
 ### 여러 Runs 쿼리하기
 
@@ -310,13 +310,13 @@ Runs에 유용한 식별자를 설정하는 방법은 다음과 같습니다:
 - **Run ID**: 생성된 해시 그대로 두는 것이 좋습니다. 이는 Project 내의 모든 Runs 사이에서 고유해야 합니다.
 - **Run 이름**: 차트에서 서로 다른 라인을 구분할 수 있도록 짧고 읽기 쉬우며 가급적 고유한 이름을 사용하는 것이 좋습니다.
 - **Run 메모**: Run에서 무엇을 하고 있는지에 대한 간단한 설명을 넣기에 좋습니다. `wandb.init(notes="메모 내용")`으로 설정할 수 있습니다.
-- **Run 태그**: Run 태그로 항목을 동적으로 추적하고, UI의 필터를 사용하여 원하는 Runs만 필터링하세요. 스크립트에서 태그를 설정한 후 UI의 Runs 테이블이나 Run 페이지의 Overview 탭에서 수정할 수 있습니다. 자세한 안내는 [여기](/models/runs/tags/)를 참조하세요.
+- **Run 태그**: Run 태그로 항목을 동적으로 추적하고, UI의 필터를 사용하여 원하는 Runs만 필터링하세요. 스크립트에서 태그를 설정한 후 UI의 Runs 테이블이나 Run 페이지의 Overview 탭에서 수정할 수 있습니다. 자세한 안내는 [여기](/ko/models/runs/tags/)를 참조하세요.
 
 ## Public API 예시
 
 ### matplotlib 또는 seaborn 시각화를 위해 데이터 내보내기
 
-일반적인 내보내기 패턴은 [API 예시](/models/ref/python/public-api/)를 확인하세요. 커스텀 플롯이나 확장된 Runs 테이블에서 다운로드 버튼을 클릭하여 브라우저에서 CSV를 다운로드할 수도 있습니다.
+일반적인 내보내기 패턴은 [API 예시](/ko/models/ref/python/public-api/)를 확인하세요. 커스텀 플롯이나 확장된 Runs 테이블에서 다운로드 버튼을 클릭하여 브라우저에서 CSV를 다운로드할 수도 있습니다.
 
 ### Run에서 메트릭 읽기
 

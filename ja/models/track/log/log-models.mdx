@@ -12,20 +12,20 @@ import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 <Note>
 以下の API は、実験管理ワークフローの一部として Models を追跡するのに役立ちます。このページに記載されている API を使用して、run に Models をログ記録し、メトリクス、テーブル、メディア、その他のオブジェクトにアクセスしてください。
 
-以下の場合は、[W&B Artifacts](/models/artifacts/) の使用を推奨します：
+以下の場合は、[W&B Artifacts](/ja/models/artifacts/) の使用を推奨します：
 - Models 以外にも、データセットやプロンプトなど、シリアル化されたデータの異なるバージョンを作成・管理したい場合。
-- W&B で追跡されているモデルやその他のオブジェクトの [リネージグラフ](/models/artifacts/explore-and-traverse-an-artifact-graph/) を確認したい場合。
-- これらのメソッドによって作成されたモデルアーティファクトに対して、[プロパティの更新](/models/artifacts/update-an-artifact/)（メタデータ、エイリアス、説明文）などの操作を行いたい場合。
+- W&B で追跡されているモデルやその他のオブジェクトの [リネージグラフ](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/) を確認したい場合。
+- これらのメソッドによって作成されたモデルアーティファクトに対して、[プロパティの更新](/ja/models/artifacts/update-an-artifact/)（メタデータ、エイリアス、説明文）などの操作を行いたい場合。
 
-W&B Artifacts や高度なバージョン管理のユースケースに関する詳細は、[Artifacts](/models/artifacts/) のドキュメントを参照してください。
+W&B Artifacts や高度なバージョン管理のユースケースに関する詳細は、[Artifacts](/ja/models/artifacts/) のドキュメントを参照してください。
 </Note>
 
 ## run へのモデルのログ記録
-指定したディレクトリー内のコンテンツを含むモデルアーティファクトをログ記録するには、[`log_model`](/models/ref/python/experiments/run#log_model) を使用します。[`log_model`](/models/ref/python/experiments/run#log_model) メソッドは、生成されたモデルアーティファクトを W&B run の出力としてマークします。
+指定したディレクトリー内のコンテンツを含むモデルアーティファクトをログ記録するには、[`log_model`](/ja/models/ref/python/experiments/run#log_model) を使用します。[`log_model`](/ja/models/ref/python/experiments/run#log_model) メソッドは、生成されたモデルアーティファクトを W&B run の出力としてマークします。
 
-モデルを W&B run の入力または出力としてマークすることで、モデルの依存関係や関連付けを追跡できます。モデルのリネージは W&B App の UI で確認できます。詳細については、[Artifacts](/models/artifacts/) チャプター内の [Explore and traverse artifact graphs](/models/artifacts/explore-and-traverse-an-artifact-graph/) ページを参照してください。
+モデルを W&B run の入力または出力としてマークすることで、モデルの依存関係や関連付けを追跡できます。モデルのリネージは W&B App の UI で確認できます。詳細については、[Artifacts](/ja/models/artifacts/) チャプター内の [Explore and traverse artifact graphs](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/) ページを参照してください。
 
-モデルファイルが保存されているパスを `path` パラメーターに指定します。パスには、ローカルファイル、ディレクトリー、または `s3://bucket/path` のような外部バケットへの [参照URI](/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) を指定できます。
+モデルファイルが保存されているパスを `path` パラメーターに指定します。パスには、ローカルファイル、ディレクトリー、または `s3://bucket/path` のような外部バケットへの [参照URI](/ja/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) を指定できます。
 
 `<>` で囲まれた値は、ご自身の環境の値に置き換えてください。
 
@@ -42,10 +42,10 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
 オプションで、`name` パラメーターにモデルアーティファクトの名前を指定できます。`name` が指定されない場合、W&B は入力パスのベース名に run ID をプレフィックスとして付けたものを名前として使用します。
 
 <Note>
-自身で設定した、あるいは W&B が割り当てた `name` を控えておいてください。[`wandb.Run.use_model()`](/models/ref/python/experiments/run#use_model) メソッドを使用してモデルのパスを取得する際に、そのモデル名が必要になります。
+自身で設定した、あるいは W&B が割り当てた `name` を控えておいてください。[`wandb.Run.use_model()`](/ja/models/ref/python/experiments/run#use_model) メソッドを使用してモデルのパスを取得する際に、そのモデル名が必要になります。
 </Note>
 
-パラメーターの詳細については、APIリファレンスの [`log_model`](/models/ref/python/experiments/run#log_model) を参照してください。
+パラメーターの詳細については、APIリファレンスの [`log_model`](/ja/models/ref/python/experiments/run#log_model) を参照してください。
 
 <details>
 
@@ -108,7 +108,7 @@ Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
 
 
 ## ログ記録されたモデルのダウンロードと使用
-以前に W&B run にログ記録されたモデルファイルにアクセスしてダウンロードするには、[`use_model`](/models/ref/python/experiments/run#use_model) 関数を使用します。
+以前に W&B run にログ記録されたモデルファイルにアクセスしてダウンロードするには、[`use_model`](/ja/models/ref/python/experiments/run#use_model) 関数を使用します。
 
 取得したいモデルファイルが格納されているモデルアーティファクトの名前を指定します。指定する名前は、既存のログ記録されたモデルアーティファクトの名前と一致している必要があります。
 
@@ -126,7 +126,7 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
     downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-[use_model](/models/ref/python/experiments/run#use_model) 関数は、ダウンロードされたモデルファイルのパスを返します。後でこのモデルをリンクしたい場合に備えて、このパスを保持しておいてください。上記のコードスニペットでは、返されたパスは `downloaded_model_path` という変数に格納されています。
+[use_model](/ja/models/ref/python/experiments/run#use_model) 関数は、ダウンロードされたモデルファイルのパスを返します。後でこのモデルをリンクしたい場合に備えて、このパスを保持しておいてください。上記のコードスニペットでは、返されたパスは `downloaded_model_path` という変数に格納されています。
 
 <details>
 
@@ -149,4 +149,4 @@ with wandb.init(project=project, entity=entity) as run:
 ```
 </details>
 
-パラメーターと戻り値の型については、APIリファレンスの [`use_model`](/models/ref/python/experiments/run#use_model) を参照してください。
+パラメーターと戻り値の型については、APIリファレンスの [`use_model`](/ja/models/ref/python/experiments/run#use_model) を参照してください。

@@ -10,12 +10,12 @@ Line plots는 기본적으로 `wandb.Run.log()`를 통해 기록된 메트릭을
 </Frame>
 
 <Tip>
-[CoreWeave](https://coreweave.com) 인프라에서 실행되는 [Runs](/models/runs)의 경우, [CoreWeave Mission Control](https://www.coreweave.com/mission-control)이 컴퓨팅 인프라를 모니터링합니다. 오류가 발생하면 W&B는 해당 프로젝트의 Workspace에 있는 Run의 플롯에 인프라 정보를 채웁니다. 자세한 내용은 [Visualize CoreWeave infrastructure alerts](/models/runs#visualize-coreweave-infrastructure-alerts)를 참조하세요.
+[CoreWeave](https://coreweave.com) 인프라에서 실행되는 [Runs](/ko/models/runs)의 경우, [CoreWeave Mission Control](https://www.coreweave.com/mission-control)이 컴퓨팅 인프라를 모니터링합니다. 오류가 발생하면 W&B는 해당 프로젝트의 Workspace에 있는 Run의 플롯에 인프라 정보를 채웁니다. 자세한 내용은 [Visualize CoreWeave infrastructure alerts](/ko/models/runs#visualize-coreweave-infrastructure-alerts)를 참조하세요.
 </Tip>
 
 ## Line plot 설정 편집
 
-이 섹션에서는 개별 Line plot 패널, 섹션 내의 모든 Line plot 패널 또는 Workspace 전체의 모든 Line plot 패널에 대한 설정을 편집하는 방법을 설명합니다. Line plot 설정에 대한 포괄적인 상세 정보는 [Line plot reference](/models/app/features/panels/line-plot/reference)를 참조하세요.
+이 섹션에서는 개별 Line plot 패널, 섹션 내의 모든 Line plot 패널 또는 Workspace 전체의 모든 Line plot 패널에 대한 설정을 편집하는 방법을 설명합니다. Line plot 설정에 대한 포괄적인 상세 정보는 [Line plot reference](/ko/models/app/features/panels/line-plot/reference)를 참조하세요.
 
 ### 개별 Line plot
 개별 Line plot의 설정은 섹션 또는 Workspace의 Line plot 설정보다 우선 적용됩니다. Line plot을 사용자 정의하려면 다음 단계를 따르세요:
@@ -31,20 +31,20 @@ Line plot 설정은 다음과 같은 탭으로 구성됩니다:
 * **Legend**: 패널 범례의 모양과 내용을 사용자 정의합니다.
 * **Expressions**: 축에 대해 커스텀 계산식을 추가합니다.
 
-각 설정에 대한 자세한 정보는 [Line plot reference](/models/app/features/panels/line-plot/reference)를 확인하세요.
+각 설정에 대한 자세한 정보는 [Line plot reference](/ko/models/app/features/panels/line-plot/reference)를 확인하세요.
 
 ### 섹션 내 모든 Line plots
 
 섹션 내의 모든 Line plot에 대한 기본 설정을 사용자 정의하여 Workspace의 Line plot 설정을 덮어쓰려면 다음 단계를 따르세요:
 1. 섹션의 기어 아이콘을 클릭하여 설정을 엽니다.
-1. 나타나는 사이드 메뉴에서 **Data** 또는 **Display preferences** 탭을 선택하여 섹션의 기본 설정을 구성합니다. 각 **Data** 설정에 대한 자세한 내용은 [Line plot reference](/models/app/features/panels/line-plot/reference)를 참조하세요. 각 디스플레이 기본 설정에 대한 자세한 내용은 [Configure section layout](../#configure-section-layout)을 참조하세요.
+1. 나타나는 사이드 메뉴에서 **Data** 또는 **Display preferences** 탭을 선택하여 섹션의 기본 설정을 구성합니다. 각 **Data** 설정에 대한 자세한 내용은 [Line plot reference](/ko/models/app/features/panels/line-plot/reference)를 참조하세요. 각 디스플레이 기본 설정에 대한 자세한 내용은 [Configure section layout](../#configure-section-layout)을 참조하세요.
 
 ### Workspace 내 모든 Line plots 
 Workspace 내의 모든 Line plot에 대한 기본 설정을 사용자 정의하려면 다음 단계를 따르세요:
 1. **Settings** 레이블이 있는 기어 아이콘인 Workspace 설정을 클릭합니다.
 1. **Line plots**를 클릭합니다.
 1. 나타나는 사이드 메뉴에서 **Data** 또는 **Display preferences** 탭을 선택하여 Workspace의 기본 설정을 구성합니다.
-    - 각 **Data** 설정에 대한 자세한 내용은 [Line plot reference](/models/app/features/panels/line-plot/reference)를 참조하세요.
+    - 각 **Data** 설정에 대한 자세한 내용은 [Line plot reference](/ko/models/app/features/panels/line-plot/reference)를 참조하세요.
     - 각 **Display preferences** 섹션에 대한 자세한 내용은 [Workspace display preferences](../#configure-workspace-layout)를 참조하세요. Workspace 레벨에서 Line plot의 기본 **Zooming** behavior를 설정할 수 있습니다. 이 설정은 일치하는 x축 키를 가진 Line plot들 간에 줌을 동기화할지 여부를 제어합니다. 기본값은 비활성화되어 있습니다.
 
 
@@ -135,7 +135,7 @@ with wandb.init() as run:
         run.log({"accuracy": acc, "custom_x": i * 10})
 ```
 
-자세한 내용은 [Customize log axes](/models/track/log/customize-logging-axes#customize-log-axes)를 참조하세요.
+자세한 내용은 [Customize log axes](/ko/models/track/log/customize-logging-axes#customize-log-axes)를 참조하세요.
 
 
 ## Zoom
@@ -155,11 +155,11 @@ with wandb.init() as run:
 </Frame>
 
 ## Run 메트릭 알림 생성하기
-[Automations](/models/automations/)을 사용하여 Run 메트릭이 지정한 조건을 충족할 때 팀에 알림을 보냅니다. Automation은 Slack 채널에 포스트하거나 webhook을 실행할 수 있습니다.
+[Automations](/ko/models/automations/)을 사용하여 Run 메트릭이 지정한 조건을 충족할 때 팀에 알림을 보냅니다. Automation은 Slack 채널에 포스트하거나 webhook을 실행할 수 있습니다.
 
-Line plot에서 해당 플롯이 보여주는 메트릭에 대한 [run metrics notification](/models/automations/automation-events/#run-events)을 빠르게 생성할 수 있습니다:
+Line plot에서 해당 플롯이 보여주는 메트릭에 대한 [run metrics notification](/ko/models/automations/automation-events/#run-events)을 빠르게 생성할 수 있습니다:
 
 1. 패널 위로 마우스를 가져간 후 종 모양 아이콘을 클릭합니다.
 1. 기본 또는 고급 설정 컨트롤을 사용하여 Automation을 구성합니다. 예를 들어, Automation의 범위를 제한하기 위해 Run 필터를 적용하거나 절대 임계값을 설정할 수 있습니다.
 
-[Automations](/models/automations/)에 대해 자세히 알아보세요.
+[Automations](/ko/models/automations/)에 대해 자세히 알아보세요.

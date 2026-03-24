@@ -3,9 +3,9 @@ title: 스윕 에이전트 시작하기
 description: 하나 또는 여러 대의 머신에서 W&B 스윕 에이전트 를 시작하거나 중지합니다.
 ---
 
-하나 이상의 머신에서 하나 이상의 에이전트로 Sweeps 를 시작하세요. Sweep 에이전트는 [Sweeps 초기화](/models/sweeps/initialize-sweeps) 시 정의한 sweep 구성을 사용하여 다양한 하이퍼파라미터 조합을 탐색합니다. W&B는 sweep 에이전트가 시도하는 각 하이퍼파라미터 조합에 대해 새로운 run 을 생성합니다.
+하나 이상의 머신에서 하나 이상의 에이전트로 Sweeps 를 시작하세요. Sweep 에이전트는 [Sweeps 초기화](/ko/models/sweeps/initialize-sweeps) 시 정의한 sweep 구성을 사용하여 다양한 하이퍼파라미터 조합을 탐색합니다. W&B는 sweep 에이전트가 시도하는 각 하이퍼파라미터 조합에 대해 새로운 run 을 생성합니다.
 
-Sweeps 를 일시 중지, 재개, 중지 또는 취소하는 방법은 [Sweeps 관리](/models/sweeps/pause-resume-and-cancel-sweeps) 를 참조하세요.
+Sweeps 를 일시 중지, 재개, 중지 또는 취소하는 방법은 [Sweeps 관리](/ko/models/sweeps/pause-resume-and-cancel-sweeps) 를 참조하세요.
 
 <Note>
 계속하기 전에 다음 사항을 확인하세요:
@@ -36,7 +36,7 @@ wandb agent sweep_id
 ```
 </Tab>
 <Tab title="Python script or notebook">
-[`wandb.agent()`](/models/ref/python/functions/agent) 를 사용하여 Sweeps 를 시작합니다. Sweeps 를 초기화할 때 W&B가 반환한 sweep ID와 트레이닝 스크립트의 진입점(entrypoint)이 되는 함수 이름을 입력하세요.
+[`wandb.agent()`](/ko/models/ref/python/functions/agent) 를 사용하여 Sweeps 를 시작합니다. Sweeps 를 초기화할 때 W&B가 반환한 sweep ID와 트레이닝 스크립트의 진입점(entrypoint)이 되는 함수 이름을 입력하세요.
 
 아래의 코드조각을 복사하여 붙여넣고 `<sweep_id>`를 사용자의 sweep ID로, `<function_name>`을 트레이닝 함수 이름으로 바꾸세요:
 
@@ -44,7 +44,7 @@ wandb agent sweep_id
 wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
 ```
 
-이 방법을 사용하는 경우 트레이닝 스크립트를 설정하는 방법은 코드에 W&B 추가하기의 [Python script or notebook 탭](/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) 예시를 참조하세요.
+이 방법을 사용하는 경우 트레이닝 스크립트를 설정하는 방법은 코드에 W&B 추가하기의 [Python script or notebook 탭](/ko/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) 예시를 참조하세요.
 
 <Warning>
 **멀티프로세싱(Multiprocessing)**
@@ -70,11 +70,11 @@ if __name__ == '__main__':
 Random search와 베이지안 탐색은 무한히 실행됩니다. 커맨드라인, Python 스크립트 내부 또는 [Sweeps UI](./visualize-sweep-results) 에서 프로세스를 직접 중지해야 합니다.
 </Warning>
 
-sweep 에이전트가 시도해야 할 run 의 횟수를 지정하세요. 다음 코드조각은 CLI와 Jupyter Notebook, Python 스크립트에서 최대 [W&B Runs](/models/ref/python/experiments/run) 횟수를 설정하는 방법을 보여줍니다.
+sweep 에이전트가 시도해야 할 run 의 횟수를 지정하세요. 다음 코드조각은 CLI와 Jupyter Notebook, Python 스크립트에서 최대 [W&B Runs](/ko/models/ref/python/experiments/run) 횟수를 설정하는 방법을 보여줍니다.
 
 <Tabs>
 <Tab title="CLI">
-먼저, [`wandb sweep`](/models/ref/cli/wandb-sweep) 커맨드로 Sweeps 를 초기화합니다. 자세한 내용은 [Sweeps 초기화](./initialize-sweeps) 를 참조하세요.
+먼저, [`wandb sweep`](/ko/models/ref/cli/wandb-sweep) 커맨드로 Sweeps 를 초기화합니다. 자세한 내용은 [Sweeps 초기화](./initialize-sweeps) 를 참조하세요.
 
 ```
 wandb sweep config.yaml

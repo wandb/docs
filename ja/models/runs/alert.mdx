@@ -15,17 +15,17 @@ Runs がクラッシュした場合や、カスタムトリガーが発生した
 </Frame>
 
 <Note>
-W&B Alerts を使用するには、コードに `run.alert()` を追加する必要があります。コードを変更せずに Slack に通知する別の方法として [Automations](/models/automations/) があります。これは、[Artifacts](/models/artifacts/) の バージョン が作成されたときや、[run metric](/models/runs/) がしきい値に達した、あるいは変化したときなど、W&B 上のイベントに基づいて通知を行います。
+W&B Alerts を使用するには、コードに `run.alert()` を追加する必要があります。コードを変更せずに Slack に通知する別の方法として [Automations](/ja/models/automations/) があります。これは、[Artifacts](/ja/models/artifacts/) の バージョン が作成されたときや、[run metric](/ja/models/runs/) がしきい値に達した、あるいは変化したときなど、W&B 上のイベントに基づいて通知を行います。
 
 例えば、オートメーションを使用して、新しい バージョン が作成されたときに Slack チャンネルに通知したり、アーティファクトに `production` エイリアス が追加されたときに自動テストの webhook を実行したり、Run の `loss` が許容範囲内の場合にのみバリデーションジョブを開始したりできます。
 
-[Automations の概要](/models/automations/) を読むか、[オートメーションを作成](/models/automations/create-automations/) してください。
+[Automations の概要](/ja/models/automations/) を読むか、[オートメーションを作成](/ja/models/automations/create-automations/) してください。
 </Note>
 
 <Note>
 以下のガイドは、マルチテナント・クラウドのアラートにのみ適用されます。
 
-プライベートクラウド または W&B 専用クラウド で [W&B Server](/platform/hosting/) を使用している場合は、[W&B Server での Slack アラートの設定](/platform/hosting/monitoring-usage/slack-alerts) を参照して Slack アラートを設定してください。
+プライベートクラウド または W&B 専用クラウド で [W&B Server](/ja/platform/hosting/) を使用している場合は、[W&B Server での Slack アラートの設定](/ja/platform/hosting/monitoring-usage/slack-alerts) を参照して Slack アラートを設定してください。
 </Note>
 
 アラートを設定するには、以下のセクションで詳しく説明する手順を実行してください：

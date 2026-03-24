@@ -34,7 +34,7 @@ os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 | 변수명 | 사용법 |
 | --------------------------- | ---------- |
 | `WANDB_API_KEY` | 계정과 연결된 인증 키를 설정합니다. [사용자 설정](https://wandb.ai/settings)에서 API 키를 생성하세요. 원격 머신에서 `wandb login`을 실행하지 않은 경우 반드시 설정해야 합니다. |
-| `WANDB_BASE_URL` | [wandb/local](/platform/hosting/)을 사용하는 경우, 이 환경 변수를 `http://YOUR_IP:YOUR_PORT`로 설정해야 합니다. |
+| `WANDB_BASE_URL` | [wandb/local](/ko/platform/hosting/)을 사용하는 경우, 이 환경 변수를 `http://YOUR_IP:YOUR_PORT`로 설정해야 합니다. |
 | `WANDB_CACHE_DIR` | 기본값은 \~/.cache/wandb이며, 이 환경 변수로 위치를 변경할 수 있습니다. |
 | `WANDB_CONFIG_DIR` | 기본값은 \~/.config/wandb이며, 이 환경 변수로 위치를 변경할 수 있습니다. |
 | `WANDB_CONFIG_PATHS` | wandb.config로 로드할 yaml 파일의 쉼표로 구분된 리스트입니다. [config](./config#파일-기반-설정)를 참조하세요. |
@@ -50,14 +50,14 @@ os.environ["WANDB_SWEEP_ID"] = "b05fq58z"
 | `WANDB_HOST` | 시스템에서 제공하는 호스트네임 대신 wandb 인터페이스에서 보고 싶은 호스트네임으로 설정하세요. |
 | `WANDB_IGNORE_GLOBS` | 무시할 파일 글로브(glob)의 쉼표로 구분된 리스트를 설정하세요. 이 파일들은 클라우드에 동기화되지 않습니다. |
 | `WANDB_JOB_NAME` | `wandb`에 의해 생성된 모든 job의 이름을 지정합니다. |
-| `WANDB_JOB_TYPE` | 서로 다른 유형의 runs를 나타내기 위해 "training" 또는 "evaluation"과 같은 job 유형을 지정합니다. 자세한 정보는 [grouping](/models/runs/grouping/)을 참조하세요. |
+| `WANDB_JOB_TYPE` | 서로 다른 유형의 runs를 나타내기 위해 "training" 또는 "evaluation"과 같은 job 유형을 지정합니다. 자세한 정보는 [grouping](/ko/models/runs/grouping/)을 참조하세요. |
 | `WANDB_MODE` | "offline"으로 설정하면 wandb는 run 메타데이터를 로컬에 저장하고 서버에 동기화하지 않습니다. `disabled`로 설정하면 wandb가 완전히 꺼집니다. |
 | `WANDB_NAME` | 사용자가 읽을 수 있는 run의 이름입니다. 설정하지 않으면 무작위로 생성됩니다. |
 | `WANDB_NOTEBOOK_NAME` | jupyter에서 실행 중인 경우 이 변수로 노트북 이름을 설정할 수 있습니다. 자동으로 감지하려고 시도합니다. |
 | `WANDB_NOTES` | run에 대한 자세한 메모입니다. 마크다운을 사용할 수 있으며 나중에 UI에서 수정할 수 있습니다. |
 | `WANDB_PROJECT` | run과 연결된 Project입니다. `wandb init`으로도 설정할 수 있지만, 환경 변수가 해당 값을 오버라이드합니다. |
 | `WANDB_RESUME` | 기본값은 _never_입니다. _auto_로 설정하면 wandb가 실패한 runs를 자동으로 재개합니다. _must_로 설정하면 시작 시 run이 반드시 존재해야 합니다. 항상 고유한 ID를 직접 생성하려면 _allow_로 설정하고 항상 `WANDB_RUN_ID`를 설정하세요. |
-| `WANDB_RUN_GROUP` | runs를 자동으로 그룹화하기 위해 실험 이름을 지정합니다. 자세한 정보는 [grouping](/models/runs/grouping/)을 참조하세요. |
+| `WANDB_RUN_GROUP` | runs를 자동으로 그룹화하기 위해 실험 이름을 지정합니다. 자세한 정보는 [grouping](/ko/models/runs/grouping/)을 참조하세요. |
 | `WANDB_RUN_ID` | 스크립트의 단일 run에 해당하는 전역적으로 고유한 문자열(프로젝트당)로 설정하세요. 64자 이내여야 합니다. 단어가 아닌 문자는 대시(-)로 변환됩니다. 실패 시 기존 run을 재개하는 데 사용할 수 있습니다. |
 | `WANDB_QUIET` | 표준 출력으로 로깅되는 구문을 중요한 구문으로만 제한하려면 `true`로 설정하세요. 이 변수가 설정되면 모든 로그는 `$WANDB_DIR/debug.log`에 기록됩니다. |
 | `WANDB_SILENT` | wandb 로그 구문을 소거하려면 `true`로 설정하세요. 스크립트 명령에 유용합니다. 이 변수가 설정되면 모든 로그는 `$WANDB_DIR/debug.log`에 기록됩니다. |
