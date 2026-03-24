@@ -2458,7 +2458,7 @@
             "default": "function"
           },
           "function": {
-            "$ref": "#/components/schemas/FunctionDefinition"
+            "$ref": "#/components/schemas/vllm__entrypoints__openai__engine__protocol__FunctionDefinition"
           }
         },
         "additionalProperties": true,
@@ -3341,43 +3341,6 @@
           "arguments"
         ],
         "title": "FunctionCall"
-      },
-      "FunctionDefinition": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "parameters": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Parameters"
-          }
-        },
-        "additionalProperties": true,
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "FunctionDefinition"
       },
       "HTTPValidationError": {
         "properties": {
@@ -4526,6 +4489,13 @@
           "type": {
             "type": "string",
             "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
           }
         },
         "type": "object",
@@ -4575,6 +4545,43 @@
               }
             ],
             "title": "Strict"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "FunctionDefinition"
+      },
+      "vllm__entrypoints__openai__engine__protocol__FunctionDefinition": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "parameters": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parameters"
           }
         },
         "additionalProperties": true,
