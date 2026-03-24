@@ -3,11 +3,13 @@ title: Log summary metrics
 description: "Track and customize single summary metrics like best accuracy or minimum loss on a W&B run using run.summary."
 ---
 
-In addition to values that change over time during training, it is often important to track a single value that summarizes a model or a preprocessing step. Log this information in a W&B Run's `summary` dictionary. A Run's summary dictionary can handle numpy arrays, PyTorch tensors or TensorFlow tensors. When a value is one of these types we persist the entire tensor in a binary file and store high level metrics in the summary object, such as min, mean, variance, percentiles, and more.
+In addition to values that change over time during training, it is often important to track a single value that summarizes a model or a preprocessing step. Log this information in run's `summary` dictionary. A run's summary dictionary can handle numpy arrays, PyTorch tensors or TensorFlow tensors.
 
-The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a W&B Run. If a summary metric dictionary is modified, the previous value is lost.
+<Info>
+The last value logged with `wandb.Run.log()` is automatically set as the summary dictionary in a run. If a summary metric dictionary is modified, the previous value is lost.
+</Info>
 
-The following code snippet demonstrates how to provide a custom summary metric to W&B:
+The following code snippet demonstrates how to provide a summary metric for the best accuracy value during training:
 
 ```python
 import wandb
@@ -33,9 +35,9 @@ run.summary.update()
 
 ## Customize summary metrics
 
-Custom summary metrics are useful for capturing model performance at the best step of training in your `run.summary`. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
+Use `wandb.Run.define_metric()` to specify how metrics should be aggregated in your run's summary instead of using the last logged value. For example, you might want to capture the maximum accuracy or the minimum loss value, instead of the final value.
 
-By default, the summary uses the final value from history. To customize summary metrics, pass the `summary` argument in `define_metric`. It accepts the following values:
+To customize summary metrics, pass the `summary` argument in `define_metric`. It accepts the following values:
 
 * `"min"`
 * `"max"`
