@@ -19,17 +19,36 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 
 <CardGroup cols={3}>
   <Card title="W&B Models" href="/ja/support/models" arrow="true" icon="/icons/cropped-models.svg">
-    180 記事 · 33 タグ
+    {/* auto-generated counts */}
+
+    180 件の記事 · 33 個のタグ
+
+    {/* end auto-generated counts */}
   </Card>
 
   <Card title="W&B Weave" href="/ja/support/weave" arrow="true" icon="/icons/cropped-weave.svg">
-    15 記事 · 8 タグ
+    {/* auto-generated counts */}
+
+    15 件の記事 · 8 個のタグ
+
+    {/* end auto-generated counts */}
   </Card>
 
   <Card title="W&B Inference" href="/ja/support/inference" arrow="true" icon="/icons/cropped-inference.svg">
-    7 記事 · 5 タグ
+    {/* auto-generated counts */}
+
+    7 件の記事 · 5 個のタグ
+
+    {/* end auto-generated counts */}
   </Card>
 </CardGroup>
+
+{/* ---- AUTO-GENERATED: 注目の記事 ----
+  このセクションは scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  記事を注目として表示するには、front matter に "featured: true" を追加します。
+  削除するには、"featured: false" に設定するか、フィールドを削除します。
+  これらのマーカーの間の内容は手動で編集しないでください。
+  ---- */}
 
 <div id="featured-articles">
   ## 注目の記事
@@ -39,30 +58,32 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
   ### W&amp;B Models
 </div>
 
-<Card title="トレーニング コード内で run の名前をどう設定すればよいですか？" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-  トレーニング スクリプトの冒頭で、wandb.init を呼び出し...
+<Card title="トレーニングコードで run の名前を設定するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+  トレーニングスクリプトの冒頭で、実験名を指定して wandb.init を呼び出します。たとえば、wandb.init(name=&quot;my&#95;aweso ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 </Card>
 
-<Card title="sweep でカスタム CLI コマンドを使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  トレーニング ... の場合、カスタム CLI コマンドで W&amp;B Sweeps を使用できます...
+<Card title="sweeps でカスタム CLI コマンドを使用するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  トレーニング設定でコマンドライン引数を渡す場合は、カスタム CLI コマンドで W&amp;B Sweeps を使用できます。例では ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
 </Card>
 
-<Card title="メトリクスをオフラインで保存して、後で W&B に同期することは可能ですか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  デフォルトでは、wandb.init はメトリクスを同期するプロセスを開始し...
+<Card title="メトリクスをオフラインで保存して、後で W&B に同期することはできますか？" href="/ja/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  デフォルトでは、wandb.init はメトリクスをリアルタイムでクラウドに同期するプロセスを開始します。オフラインで使用するには、2 つの環境変 ...
 
-  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
+  <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Metrics](/ja/support/models/tags/metrics)</Badge>
 </Card>
 
-<Card title="wandb.init はトレーニング プロセスに対して何を行いますか？" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  wandb.init がトレーニング スクリプトで実行されると、API call によって...
+<Card title="wandb.init はトレーニングプロセスに対して何をしますか？" href="/ja/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  トレーニングスクリプトで wandb.init() が実行されると、API 呼び出しによってサーバー上に run オブジェクトが作成されます。新しいプロセスが開始されて st ...
 
-  <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
+  <Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/ja/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 </Card>
 
-<Card title="お探しの情報が見つかりませんか？" href="mailto:support@wandb.com" icon="circle-info">
+{/* ---- END AUTO-GENERATED: 注目の記事 ---- */}
+
+<Card title="お探しの情報がまだ見つかりませんか？" href="mailto:support@wandb.com" icon="circle-info">
   サポートに問い合わせる
 </Card>

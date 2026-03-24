@@ -5,7 +5,7 @@ description: "LLM 애플리케이션용 프롬프트 버전 조회 및 관리"
 
 [프롬프트 생성 및 게시](/ko/weave/guides/core-types/prompts.mdx) 후에는 코드와 프로덕션에서 특정 버전을 레퍼런스로 사용하고 조회하며 사용할 수 있습니다.
 
-`weave.publish`로 프롬프트를 게시하면 Weave가 변경 불가능한 버전을 생성합니다. 각 버전은 이름과 버전으로 레퍼런스로 사용할 수 있고, `weave.ref(...).get()`으로 코드에서 조회할 수 있으며, Weave UI에서 확인할 수 있습니다.
+`weave.publish`로 프롬프트를 게시하면 W&amp;B Weave가 변경 불가능한 버전을 생성합니다. 각 버전은 이름과 버전으로 레퍼런스로 사용할 수 있고, `weave.ref(...).get()`으로 코드에서 조회할 수 있으며, Weave UI에서 확인할 수 있습니다.
 
 <div id="prompt-versions">
   # Prompt versions
@@ -62,7 +62,7 @@ ref는 몇 가지 방식으로 생성할 수 있습니다:
 
 * `weave.ref(<name>)`: 프롬프트의 `:latest` 버전을 조회합니다. `weave.init(...)` 호출이 필요합니다.
 * `weave.ref(<name>:<version>)`:  지정한 버전의 프롬프트를 조회합니다. `weave.init(...)` 호출이 필요합니다.
-* `weave.ref(<fully_qualified_ref_uri>)`: 지정된 [정규화된 ref URI](#construct-a-fully-qualified-ref-uri)에 있는 프롬프트를 조회합니다.  `weave.init(...)` 호출은 필요하지 않습니다.
+* `weave.ref(<fully_qualified_ref_uri>)`: 지정된 [정규화된 ref URI](#construct-a-fully-qualified-ref-uri)에 있는 프롬프트를 조회합니다. `weave.init(...)` 호출은 필요하지 않습니다.
 
 다음 예시는 애플리케이션에서 사용할 수 있도록 `support_prompt:v3` 버전을 로드합니다:
 
@@ -104,3 +104,109 @@ UI에서 프롬프트 버전을 보려면 다음 단계를 따르세요.
 5. (선택) 목록에 있는 프롬프트 옆의 체크박스를 클릭한 다음 테이블 툴바에서 **Compare** 버튼을 클릭하면 프롬프트 버전을 비교할 수 있습니다. 그러면 프롬프트 간 diff를 확인할 수 있습니다.
 
 ![서로 다른 두 프롬프트 버전 간의 diff를 보여주는 Compare prompts UI.](/weave/guides/core-types/imgs/prompt-comparison.png)
+
+<div id="add-prompt-tags-and-aliases">
+  ## 프롬프트 태그 및 별칭 추가
+</div>
+
+별칭과 태그를 사용해 프롬프트 버전을 정리할 수 있습니다. 이러한 레이블은 특정 버전을 식별하고 레퍼런스로 사용하는 데 도움이 됩니다.
+
+* 별칭: 단일 프롬프트 버전으로 확인되는 고유한 이름입니다. 언제든지 별칭이 다른 버전을 가리키도록 옮길 수 있으므로, production 또는 staging 같은 안정적인 레퍼런스에 유용합니다.
+* 태그: 버전에 연결되는 설명용 레이블입니다. 하나의 버전에 여러 태그를 붙일 수 있습니다. reviewed 또는 passed-eval처럼 버전을 분류하고 필터링할 때 태그를 사용하세요.
+
+UI에서 프롬프트의 별칭과 태그를 설정하려면 다음과 같이 하세요.
+
+1. Weave 프로젝트 사이드바에서 **Assets**를 클릭합니다. 그러면 Assets 페이지가 열립니다.
+2. Assets 페이지에서 **Prompts**를 클릭합니다. 표에서 할당된 `Aliases`와 `Tags`를 볼 수 있습니다.
+3. Prompts 표에서 변경하려는 프롬프트의 링크를 클릭합니다.
+4. 선택한 프롬프트의 상세 패널에서 제목 표시줄에 프롬프트 이름과 특정 버전이 표시됩니다. 업데이트할 프롬프트 버전을 선택합니다.
+5. 패널 툴바에서 컨트롤을 사용해 이 특정 버전에 할당된 별칭과 태그를 추가하거나 제거합니다.
+
+![Prompts 페이지의 프롬프트 상세 패널에서 선택된 프롬프트 버전과 Aliases 및 Tags 컨트롤이 표시된 모습](/weave/guides/core-types/imgs/prompt-alias-tags.png)
+
+<div id="modify-tags-and-aliases-in-code">
+  ### 코드에서 태그 및 별칭 수정
+</div>
+
+태그와 별칭은 코드에서도 관리할 수 있으며, 다음과 같은 작업에 활용할 수 있습니다:
+
+* 태그와 별칭을 인라인으로 지정해 프롬프트를 게시합니다.
+* 특정 버전을 가리키도록 별칭을 설정하고, 이를 해석해 프롬프트를 로드합니다.
+* 버전에 태그와 별칭을 추가, 제거하거나 목록을 확인합니다.
+
+다음 코드 예제는 각각 여러 태그와 별칭을 가진 세 개 버전의 프롬프트 `my-prompt`를 프로젝트에 추가합니다. 프로젝트에 맞게 `'your-team-name/your-project-name'`를 수정하세요.
+
+<CodeGroup>
+  ```python Python lines
+  import weave
+
+  // TODO: 'your-team-name/your-project-name'를 올바른 값으로 설정하세요.
+  client = weave.init('your-team-name/your-project-name')
+
+  # 프롬프트의 두 버전을 게시합니다.
+  v0_ref = weave.publish(
+      weave.StringPrompt("Answer the user's question: {question}"),
+      name="my-prompt",
+  )
+  v1_ref = weave.publish(
+      weave.StringPrompt("Answer the user's question helpfully and concisely: {question}"),
+      name="my-prompt",
+  )
+
+  # --- 별칭: 특정 버전을 가리키는 이름 있는 포인터입니다. ---
+
+  # 버전에 별칭을 지정합니다.
+  client.set_aliases(v0_ref, "staging")
+  client.set_aliases(v1_ref, "production")
+
+  # 버전의 별칭을 조회합니다.
+  client.get_aliases(v1_ref)  # ["production", "latest"]
+
+  # 다른 버전에 설정해 별칭을 이동합니다.
+  client.set_aliases(v0_ref, "production")  # v1에서 자동으로 분리됩니다.
+
+  # 별칭을 해석해 객체를 로드합니다.
+  prompt = weave.ref("my-prompt:production").get()
+
+  # 프로젝트의 모든 별칭을 나열합니다.
+  client.list_aliases()
+
+  # 별칭을 제거합니다.
+  client.remove_aliases(v0_ref, "production")
+
+  # --- 태그: 특정 버전에 붙는 레이블입니다. ---
+
+  # 버전에 태그를 추가합니다.
+  client.add_tags(v0_ref, ["reviewed", "passed-eval"])
+  client.add_tags(v1_ref, ["reviewed", "needs-improvement"])
+
+  # 버전의 태그를 조회합니다.
+  client.get_tags(v0_ref)  # ["passed-eval", "reviewed"]
+
+  # 프로젝트의 모든 고유 태그를 나열합니다.
+  client.list_tags()
+
+  # 버전에서 태그를 제거합니다.
+  client.remove_tags(v1_ref, ["needs-improvement"])
+
+  # --- 결합: 단일 Call로 둘 다 가져옵니다. ---
+
+  tags, aliases = client.get_tags_and_aliases(v0_ref)
+
+  # --- 태그와 별칭을 인라인으로 지정해 게시합니다. ---
+
+  ref = weave.publish(
+      weave.StringPrompt("Be brief: {question}"),
+      name="my-prompt",
+      tags=["reviewed"],
+      aliases=["production"],
+  )
+
+  ```
+
+  ```plaintext TypeScript lines
+  이 기능은 아직 TypeScript SDK에서 사용할 수 없습니다.
+  ```
+</CodeGroup>
+
+예제를 실행하면 Weave가 Weave 대시보드에 있는 객체 링크를 출력합니다. 링크를 따라가 프롬프트를 확인하세요.
