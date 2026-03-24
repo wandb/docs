@@ -820,6 +820,8 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
         - ``body_preview`` (str): Truncated plain-text preview of the body.
         - ``page_path`` (str): The URL path without leading slash
           (for example ``support/models/articles/my-article``).
+        - ``mdx_path`` (str): Repo-relative path to the MDX file using forward
+          slashes (for example ``support/models/articles/my-article.mdx``).
         - ``file_stem`` (str): The filename without extension
           (for example ``my-article``).
         - ``tag_links`` (list of dict): Badge link data for each keyword,
@@ -865,6 +867,8 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
             for kw in keywords
         ]
 
+        mdx_rel = mdx_file.relative_to(repo_root).as_posix()
+
         articles.append({
             "title": title,
             "title_attr": title.replace('"', "&quot;"),
@@ -872,6 +876,7 @@ def crawl_articles(repo_root: Path, product_slug: str) -> List[Dict[str, Any]]:
             "featured": bool(featured),
             "body_preview": body_preview,
             "page_path": f"support/{product_slug}/articles/{file_stem}",
+            "mdx_path": mdx_rel,
             "file_stem": file_stem,
             "tag_links": article_tag_links,
         })
@@ -924,6 +929,8 @@ def get_featured_articles(articles: List[Dict[str, Any]]) -> List[Dict[str, Any]
 def build_tag_index(
     articles: List[Dict[str, Any]],
     allowed_keywords: List[str],
+    *,
+    config_yaml_path: str = "scripts/knowledgebase-nav/config.yaml",
 ) -> Dict[str, List[Dict[str, Any]]]:
     """
     Build a mapping from tag names to lists of articles that use that tag.
@@ -939,6 +946,9 @@ def build_tag_index(
         The article dictionaries for a single product.
     allowed_keywords : list of str
         The keywords recognized for this product (from config.yaml).
+    config_yaml_path : str, optional
+        Repo-relative path to the config file, shown in unknown-keyword
+        warnings. Defaults to ``scripts/knowledgebase-nav/config.yaml``.
 
     Returns
     -------
@@ -966,10 +976,10 @@ def build_tag_index(
         for keyword in article.get("keywords", []):
             # Warn on unknown keywords, but only once per keyword
             if keyword not in allowed_set and keyword not in warned_keywords:
+                source = article.get("mdx_path") or article.get("title", "?")
                 warnings.warn(
-                    f"Unknown keyword '{keyword}' used in article "
-                    f"'{article.get('title', '?')}'. Add it to config.yaml "
-                    f"to suppress this warning."
+                    f"Unknown keyword `{keyword}` used in `{source}`. "
+                    f"Add it to `{config_yaml_path}` to suppress this warning."
                 )
                 warned_keywords.add(keyword)
 
@@ -1608,6 +1618,13 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
     config = load_config(config_path)
     products = config["products"]
 
+    try:
+        config_yaml_display = config_path.resolve().relative_to(
+            repo_root.resolve()
+        ).as_posix()
+    except ValueError:
+        config_yaml_display = config_path.as_posix()
+
     # Set up Jinja2 templates from the templates/ directory next to this script
     script_dir = Path(__file__).resolve().parent
     templates_dir = script_dir / "templates"
@@ -1638,7 +1655,11 @@ def run_pipeline(repo_root: Path, config_path: Path) -> None:
         print(f"  Found {len(articles)} articles")
 
         # Phase 1b: Build the tag index
-        tag_index = build_tag_index(articles, allowed_keywords)
+        tag_index = build_tag_index(
+            articles,
+            allowed_keywords,
+            config_yaml_path=config_yaml_display,
+        )
         print(f"  Found {len(tag_index)} unique tags")
 
         # Phase 2: Generate tag pages and remove stale ones
