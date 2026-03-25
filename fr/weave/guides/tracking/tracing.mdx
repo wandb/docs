@@ -1,0 +1,45 @@
+---
+title: "Comprendre les Ops et les appels"
+description: "Découvrez comment les Ops et les appels constituent le fondement du système de traçage de W&B Weave."
+---
+
+<div id="ops">
+  ## Ops
+</div>
+
+Une **Op** est une fonction versionnée et suivie. Lorsque vous décorez une fonction avec `@weave.op()` (Python) ou que vous l’enveloppez avec `weave.op()` (TypeScript), Weave capture automatiquement son code, ses entrées, ses sorties et ses métadonnées d’exécution. Les ops sont les éléments de base du traçage, des évaluateurs utilisés pour l’évaluation et de tout calcul suivi.
+
+<CodeGroup>
+  ```python Python
+      @weave.op
+      async def my_function(){
+        ...  }
+  ```
+
+  ```typescript Typescript
+  function myFunction() {
+      ...
+  }
+
+  const myFunctionOp = weave.op(myFunction)
+  ```
+</CodeGroup>
+
+<div id="calls">
+  ## Appels
+</div>
+
+Un **Appel** est l&#39;exécution enregistrée d&#39;une Op. Chaque fois qu&#39;une Op s&#39;exécute, Weave crée un Appel qui capture :
+
+* Les arguments d&#39;entrée
+* La valeur de sortie
+* Le temps d&#39;exécution et la latence
+* Les relations parent-enfant (pour les appels imbriqués)
+* Toutes les erreurs survenues
+
+Les appels apparaissent sous forme de **Traces** dans l&#39;interface Weave et fournissent les données nécessaires au débogage, à l&#39;analyse et à l&#39;évaluation. Pour voir la structure complète de l&#39;objet Appel et ses propriétés, consultez la [référence du schéma des appels](/fr/weave/guides/tracking/call-schema-reference).
+
+Les appels sont similaires aux spans du modèle de données [OpenTelemetry](https://opentelemetry.io). Un Appel peut :
+
+* Appartenir à une trace (une collection d&#39;appels dans le même contexte d&#39;exécution)
+* Avoir des Appels parents et enfants, formant une structure arborescente

@@ -1,0 +1,75 @@
+---
+title: Annoter des collections
+description: "Ajoutez des descriptions et de la documentation aux collections W&B Registry pour aider les utilisateurs à comprendre leur objectif et leur contenu."
+---
+
+Ajoutez à vos collections un texte clair et facile à lire pour aider les utilisateurs à comprendre l’objectif de la collection et les artefacts qu’elle contient.
+
+Selon la collection, vous pouvez inclure des informations sur les données d’entraînement, l’architecture du modèle, la tâche, la licence, les références et le déploiement. La liste suivante présente quelques sujets utiles à documenter dans une collection :
+
+W&amp;B recommande d’inclure au minimum ces détails :
+
+* **Résumé** : L’objectif de la collection, ainsi que le framework de machine learning utilisé pour l’expérience de machine learning.
+* **Licence** : Les conditions juridiques et les autorisations associées à l’utilisation du modèle de machine learning. Cela aide les utilisateurs du modèle à comprendre le cadre juridique dans lequel ils peuvent utiliser le modèle. Les licences courantes incluent Apache 2.0, MIT et GPL.
+* **Références** : Citations ou références vers des articles de recherche pertinents, des jeux de données ou des ressources externes.
+
+Si votre collection contient des données d’entraînement, envisagez d’inclure ces détails supplémentaires :
+
+* **Données d’entraînement** : Décrivez les données d’entraînement utilisées.
+* **Traitement** : Traitements appliqués au jeu de données d’entraînement.
+* **Stockage des données** : Où ces données sont stockées et comment y accéder.
+
+Si votre collection contient un modèle de machine learning, envisagez d’inclure ces détails supplémentaires :
+
+* **Architecture** : Informations sur l’architecture du modèle, les couches et les choix de conception spécifiques.
+* **Tâche** : Le type précis de tâche ou de problème pour lequel le modèle de la collection a été conçu. Il s’agit d’une catégorisation des capacités prévues du modèle.
+* **Désérialiser le modèle** : Indiquez comment une personne de votre équipe peut charger le modèle en mémoire.
+* **Déploiement** : Détails sur la manière et l’endroit où le modèle est déployé, ainsi que des indications sur la façon dont il est intégré à d’autres systèmes d’entreprise, comme des plateformes d’orchestration de flux de travail.
+
+<div id="add-a-description-to-a-collection">
+  ## Ajouter une description à une collection
+</div>
+
+Ajoutez une description à une collection, de manière interactive ou programmatique, à l’aide de l’interface W&amp;B Registry ou du SDK Python.
+
+<Tabs>
+  <Tab title="Interface W&B Registry">
+    1. Accédez au [W&amp;B Registry](https://wandb.ai/registry/).
+    2. Cliquez sur une collection.
+    3. Sélectionnez **Voir les détails** à côté du nom de la collection.
+    4. Dans le champ **Description**, saisissez des informations sur votre collection. Vous pouvez mettre le texte en forme avec le [langage Markdown](https://www.markdownguide.org/).
+  </Tab>
+
+  <Tab title="SDK Python">
+    Utilisez la méthode [`wandb.Api().artifact_collection()`](/fr/models/ref/python/public-api/api#artifact_collection) pour accéder à la description d&#39;une collection. Utilisez la propriété `description` de l&#39;objet renvoyé pour ajouter ou mettre à jour la description de la collection.
+
+    Spécifiez le type de la collection pour le paramètre `type_name` et le nom complet de la collection pour le paramètre `name`. Le nom d&#39;une collection se compose du préfixe « wandb-registry », du nom du registre et du nom de la collection, séparés par des barres obliques :
+
+    ```text
+    wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}
+    ```
+
+    Copiez-collez l&#39;extrait de code suivant dans votre script Python ou votre notebook. Remplacez les valeurs entre chevrons (`<>`) par les vôtres.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+
+    collection = api.artifact_collection(
+      type_name = "<collection_type>", 
+      name = "<collection_name>"
+      )
+
+
+    collection.description = "This is a description."
+    collection.save()  
+    ```
+  </Tab>
+</Tabs>
+
+Par exemple, l&#39;image suivante montre une collection qui documente l&#39;architecture d&#39;un modèle, son usage prévu, des informations sur les performances et plus encore.
+
+<Frame>
+  <img src="/images/registry/registry_card.png" alt="Carte de collection" />
+</Frame>

@@ -1,0 +1,135 @@
+---
+title: "DSPy"
+description: "Utilisez Weave pour suivre et journaliser automatiquement les appels effectués à l’aide des modules et fonctions DSPy"
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb" />
+</div>
+
+[DSPy](https://dspy.ai) est un framework permettant d’optimiser algorithmiquement les prompts et les pondérations des LM, en particulier lorsque les LM sont utilisés une ou plusieurs fois dans un pipeline. Weave suit automatiquement les appels effectués à l’aide des modules et fonctions DSPy et les journalise.
+
+
+<div id="tracing">
+  ## Tracing
+</div>
+
+Il est important de stocker les traces des applications basées sur des modèles de langage dans un emplacement central, aussi bien pendant le développement qu’en production. Ces traces peuvent être utiles pour le débogage et servir de jeu de données pour vous aider à améliorer votre application.
+
+Weave capturera automatiquement les traces pour [DSPy](https://dspy.ai). Pour commencer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
+
+```python lines
+import os
+import dspy
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+
+weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+
+lm = dspy.LM('openai/gpt-4o-mini')
+dspy.configure(lm=lm)
+classify = dspy.Predict("sentence -> sentiment")
+classify(sentence="it's a charming and often affecting journey.")
+```
+
+[![dspy\_trace.png](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+
+Weave journalise tous les appels au LM dans votre programme DSPy et fournit des détails sur les entrées, les sorties et les métadonnées.
+
+
+<div id="track-your-own-dspy-modules-and-signatures">
+  ## Suivez vos propres modules et signatures DSPy
+</div>
+
+Un `Module` est l’élément de base d’un programme DSPy, doté de paramètres apprenables, qui encapsule une technique de prompting. Une `Signature` est une spécification déclarative du comportement d’entrée/sortie d’un module DSPy. Weave suit automatiquement toutes les `Signatures` et tous les `Modules` intégrés et personnalisés dans vos programmes DSPy.
+
+```python lines
+import os
+import dspy
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+
+weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+
+class Outline(dspy.Signature):
+    """Outline a thorough overview of a topic."""
+
+    topic: str = dspy.InputField()
+    title: str = dspy.OutputField()
+    sections: list[str] = dspy.OutputField()
+    section_subheadings: dict[str, list[str]] = dspy.OutputField(
+        desc="mapping from section headings to subheadings"
+    )
+
+
+class DraftSection(dspy.Signature):
+    """Draft a top-level section of an article."""
+
+    topic: str = dspy.InputField()
+    section_heading: str = dspy.InputField()
+    section_subheadings: list[str] = dspy.InputField()
+    content: str = dspy.OutputField(desc="markdown-formatted section")
+
+
+class DraftArticle(dspy.Module):
+    def __init__(self):
+        self.build_outline = dspy.ChainOfThought(Outline)
+        self.draft_section = dspy.ChainOfThought(DraftSection)
+
+    def forward(self, topic):
+        outline = self.build_outline(topic=topic)
+        sections = []
+        for heading, subheadings in outline.section_subheadings.items():
+            section, subheadings = (
+                f"## {heading}",
+                [f"### {subheading}" for subheading in subheadings],
+            )
+            section = self.draft_section(
+                topic=outline.title,
+                section_heading=section,
+                section_subheadings=subheadings,
+            )
+            sections.append(section.content)
+        return dspy.Prediction(title=outline.title, sections=sections)
+
+
+draft_article = DraftArticle()
+article = draft_article(topic="World Cup 2002")
+```
+
+[![trace d’un module DSPy personnalisé dans Weave avec le flux d’exécution du module et les détails de la trace](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+
+
+<div id="optimization-and-evaluation-of-your-dspy-program">
+  ## Optimisation et évaluation de votre programme DSPy
+</div>
+
+Weave capture également automatiquement des traces pour les optimiseurs DSPy et les appels d’Évaluation, que vous pouvez utiliser pour améliorer et évaluer les performances de votre programme DSPy sur un jeu de développement.
+
+```python lines
+import os
+import dspy
+import weave
+
+os.environ["OPENAI_API_KEY"] = "<YOUR-OPENAI-API-KEY>"
+weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")
+
+def accuracy_metric(answer, output, trace=None):
+    predicted_answer = output["answer"].lower()
+    return answer["answer"].lower() == predicted_answer
+
+module = dspy.ChainOfThought("question -> answer: str, explanation: str")
+optimizer = dspy.BootstrapFewShot(metric=accuracy_metric)
+optimized_module = optimizer.compile(
+    module, trainset=SAMPLE_EVAL_DATASET, valset=SAMPLE_EVAL_DATASET
+)
+```
+
+[![trace de l’optimiseur DSPy dans Weave avec le processus d’optimisation et des améliorations de performances](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)

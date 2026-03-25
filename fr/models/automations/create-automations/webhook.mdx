@@ -1,0 +1,365 @@
+---
+title: Créer une automatisation webhook
+description: "Créez une automatisation webhook dans W&B pour envoyer des requêtes HTTP à des services externes lorsque certains événements se produisent."
+---
+
+import EnterpriseCloudOnly from "/snippets/fr/_includes/enterprise-cloud-only.mdx";
+
+<Info>
+  <EnterpriseCloudOnly />
+</Info>
+
+Cette page explique comment créer une [automatisation](/fr/models/automations/) de webhook. Pour créer une automatisation Slack, référez-vous plutôt à [Créer une automatisation Slack](/fr/models/automations/create-automations/slack/).
+
+Dans les grandes lignes, pour créer une automatisation de webhook, suivez ces étapes :
+
+1. Si nécessaire, [créez un secret W&amp;B](/fr/platform/secrets/) pour chaque chaîne de caractères sensible requise par l’automatisation, comme un jeton d’accès, un mot de passe ou une clé SSH. Les secrets sont définis dans vos **Team Settings**.
+2. [Créez un webhook](#create-a-webhook) pour définir le point de terminaison et les détails d’autorisation, et accorder à l’intégration l’accès aux secrets dont elle a besoin.
+3. [Créez l’automatisation](#create-an-automation) pour définir l’[événement](/fr/models/automations/automation-events/) à surveiller et la charge utile que W&amp;B enverra. Accordez à l’automatisation l’accès aux secrets dont elle a besoin pour la charge utile.
+
+<div id="create-a-webhook">
+  ## Créer un webhook
+</div>
+
+Un administrateur d’équipe peut ajouter un webhook pour l’équipe.
+
+<Note>
+  Si le webhook nécessite un jeton Bearer ou si sa charge utile doit inclure une chaîne sensible, [créez un secret qui le contient](/fr/platform/secrets/#add-a-secret) avant de créer le webhook. Vous pouvez configurer au maximum un jeton d’accès et un autre secret pour un webhook. Les exigences d’authentification et d’autorisation de votre webhook sont déterminées par le service de webhook.
+</Note>
+
+1. Connectez-vous à W&amp;B et accédez à la page **Team Settings**.
+2. Dans la section **Webhooks**, cliquez sur **New webhook**.
+3. Indiquez un nom pour le webhook.
+4. Indiquez l’URL du point de terminaison du webhook.
+5. Si le webhook nécessite un jeton Bearer, définissez **Access token** sur le [secret](/fr/platform/secrets/) qui le contient. Lorsque vous utilisez l’automatisation de webhook, W&amp;B définit l’en-tête HTTP `Authorization: Bearer` sur le jeton d’accès, et vous pouvez accéder au jeton dans la [variable de charge utile](#payload-variables) `${ACCESS_TOKEN}`. Pour en savoir plus sur la structure de la requête `POST` que W&amp;B envoie au service de webhook, voir [dépanner votre webhook](#troubleshoot-your-webhook).
+6. Si le webhook nécessite un mot de passe ou une autre chaîne sensible dans sa charge utile, définissez **Secret** sur le secret qui la contient. Lorsque vous configurez l’automatisation qui utilise le webhook, vous pouvez accéder au secret comme [variable de charge utile](#payload-variables) en préfixant son nom par `$`.
+
+   Si le jeton d’accès du webhook est stocké dans un secret, vous devez *également* effectuer l’étape suivante pour spécifier ce secret comme jeton d’accès.
+7. Pour vérifier que W&amp;B peut se connecter au point de terminaison et s’y authentifier :
+
+   1. Facultativement, indiquez une charge utile de test. Pour vous référer à un secret auquel le webhook a accès dans la charge utile, préfixez son nom par `$`. Cette charge utile est utilisée uniquement pour le test et n’est pas enregistrée. Vous configurez la charge utile d’une automatisation lorsque vous [créez l’automatisation](#create-a-webhook-automation). Voir [dépanner votre webhook](#troubleshoot-your-webhook) pour voir où le secret et le jeton d’accès sont spécifiés dans la requête `POST`.
+   2. Cliquez sur **Test**. W&amp;B tente de se connecter au point de terminaison du webhook à l’aide des identifiants que vous avez configurés. Si vous avez fourni une charge utile, W&amp;B l’envoie.
+
+   Si le test échoue, vérifiez la configuration du webhook et essayez à nouveau. Si nécessaire, référez-vous à [dépanner votre webhook](#troubleshoot-your-webhook).
+
+<Frame>
+  ![Capture d’écran montrant deux webhooks dans une équipe](/images/automations/webhooks.png)
+</Frame>
+
+Vous pouvez maintenant [créer une automatisation](#create-a-webhook-automation) qui utilise le webhook.
+
+<div id="create-an-automation">
+  ## Créer une automatisation
+</div>
+
+Après avoir [configuré un webhook](#create-a-webhook), sélectionnez **Registre** ou **Projet**, puis suivez ces étapes pour créer une automatisation qui déclenche le webhook.
+
+<Tabs>
+  <Tab title="Registre">
+    Un administrateur du registre peut créer des automatisations dans ce registre. Les automatisations du registre s’appliquent à toutes les collections du registre, y compris à celles qui seront ajoutées ultérieurement.
+
+    1. Connectez-vous à W&amp;B.
+
+    2. Cliquez sur le nom d’un registre pour en afficher les détails.
+
+    3. Pour créer une automatisation au niveau du registre, cliquez sur l’onglet **Automatisations**, puis sur **Créer une automatisation**.
+
+    4. Choisissez l’[événement](/fr/models/automations/automation-events/#registry-events) à surveiller.
+
+       Renseignez tous les champs supplémentaires qui s’affichent. Par exemple, si vous sélectionnez **Un alias d’artefact est ajouté**, vous devez spécifier **Alias regex**.
+
+       Cliquez sur **Étape suivante**.
+
+    5. Sélectionnez l’équipe propriétaire du [webhook](#create-a-webhook).
+
+    6. Définissez **Type d’action** sur **Webhooks**, puis sélectionnez le [webhook](#create-a-webhook) à utiliser.
+
+    7. Si vous avez configuré un jeton d’accès pour le webhook, vous pouvez y accéder dans la [variable de charge utile](#payload-variables) `${ACCESS_TOKEN}`. Si vous avez configuré un secret pour le webhook, vous pouvez y accéder dans la charge utile en faisant précéder son nom de `$`. Les exigences de votre webhook dépendent du service du webhook.
+
+    8. Cliquez sur **Étape suivante**.
+
+    9. Saisissez un nom pour l’automatisation. Vous pouvez également ajouter une description. Cliquez sur **Créer une automatisation**.
+  </Tab>
+
+  <Tab title="Projet">
+    Un administrateur W&amp;B peut créer des automatisations dans un projet.
+
+    1. Connectez-vous à W&amp;B et accédez à la page du projet.
+    2. Dans la barre latérale du projet, cliquez sur **Automatisations**, puis sur **Créer une automatisation**.
+
+       Vous pouvez aussi créer rapidement, à partir d’un graphique en courbes dans l’espace de travail, une [automatisation de métrique de run](/fr/models/automations/automation-events/#run-events) pour la métrique affichée. Survolez le panneau, puis cliquez sur l’icône en forme de cloche en haut du panneau.
+
+       <Frame>
+         <img src="/images/automations/run_metric_automation_from_panel.png" alt="Emplacement de l’icône en forme de cloche de l’automatisation" />
+       </Frame>
+    3. Choisissez l’[événement](/fr/models/automations/automation-events/#project) à surveiller, par exemple lorsqu’un alias d’artefact est ajouté ou lorsqu’une métrique de run atteint un seuil donné.
+
+       1. Renseignez tous les champs supplémentaires qui s’affichent, en fonction de l’événement. Par exemple, si vous sélectionnez **Un alias d’artefact est ajouté**, vous devez spécifier **Alias regex**.
+
+          1. Pour les automatisations déclenchées par un run, vous pouvez facultativement spécifier un ou plusieurs filtres de run.
+
+             * **Filtrer sur les runs d’un seul utilisateur** : incluez uniquement les runs créés par l’utilisateur spécifié. Cliquez sur le bouton bascule pour activer le filtre, puis indiquez un nom d’utilisateur.
+             * **Filtrer sur le nom du run** : incluez uniquement les runs dont le nom correspond à l’expression régulière fournie. Cliquez sur le bouton bascule pour activer le filtre, puis indiquez une expression régulière.
+
+          L’automatisation s’applique à toutes les collections du projet, y compris à celles qui seront ajoutées ultérieurement.
+       2. Cliquez sur **Étape suivante**.
+    4. Sélectionnez l’équipe propriétaire du [webhook](#create-a-webhook).
+    5. Définissez **Type d’action** sur **Webhooks**, puis sélectionnez le [webhook](#create-a-webhook) à utiliser.
+    6. Si votre webhook nécessite une charge utile, construisez-la et collez-la dans le champ **Payload**. Si vous avez configuré un jeton d’accès pour le webhook, vous pouvez y accéder dans la [variable de charge utile](#payload-variables) `${ACCESS_TOKEN}`. Si vous avez configuré un secret pour le webhook, vous pouvez y accéder dans la charge utile en faisant précéder son nom de `$`. Les exigences de votre webhook dépendent du service du webhook.
+    7. Cliquez sur **Étape suivante**.
+    8. Saisissez un nom pour l’automatisation. Vous pouvez également ajouter une description. Cliquez sur **Créer une automatisation**.
+  </Tab>
+</Tabs>
+
+<div id="view-and-manage-automations">
+  ## Afficher et gérer les automatisations
+</div>
+
+<Tabs>
+  <Tab title="Registre">
+    Gérez les automatisations d&#39;un registre depuis l&#39;onglet **Automatisations** du registre.
+
+    * Pour afficher les détails d&#39;une automatisation, cliquez sur son nom.
+    * Pour modifier une automatisation, cliquez sur son menu d&#39;action `...`, puis sur **Modifier l&#39;automatisation**.
+    * Pour supprimer une automatisation, cliquez sur son menu d&#39;action `...`, puis sur **Supprimer l&#39;automatisation**. Une confirmation est requise.
+  </Tab>
+
+  <Tab title="Projet">
+    Un administrateur W&amp;B peut afficher et gérer les automatisations d&#39;un projet depuis l&#39;onglet **Automatisations** du projet.
+
+    * Pour afficher les détails d&#39;une automatisation, cliquez sur son nom.
+    * Pour modifier une automatisation, cliquez sur son menu d&#39;action `...`, puis sur **Modifier l&#39;automatisation**.
+    * Pour supprimer une automatisation, cliquez sur son menu d&#39;action `...`, puis sur **Supprimer l&#39;automatisation**. Une confirmation est requise.
+  </Tab>
+</Tabs>
+
+<div id="payload-reference">
+  ## Référence de la charge utile
+</div>
+
+Utilisez ces sections pour construire la charge utile de votre webhook. Pour plus de détails sur la façon de tester votre webhook et sa charge utile, référez-vous à [dépanner votre webhook](#troubleshoot-your-webhook).
+
+<div id="payload-variables">
+  ### Variables de charge utile
+</div>
+
+Cette section décrit les variables que vous pouvez utiliser pour construire la charge utile de votre webhook.
+
+| Variable                      | Détails                                                                                                                                                                                                                                                                                |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `${project_name}`             | Nom du projet auquel appartient la mutation qui a déclenché l’action.                                                                                                                                                                                                                  |
+| `${entity_name}`              | Nom de l’entité ou de l’équipe à laquelle appartient la mutation qui a déclenché l’action.                                                                                                                                                                                             |
+| `${event_type}`               | Type d’événement qui a déclenché l’action.                                                                                                                                                                                                                                             |
+| `${event_author}`             | Utilisateur qui a déclenché l’action.                                                                                                                                                                                                                                                  |
+| `${alias}`                    | Contient l’alias d’un artefact si l’automatisation est déclenchée par l’événement **Un alias d’artefact est ajouté**. Pour les autres automatisations, cette variable est vide.                                                                                                        |
+| `${tag}`                      | Contient les tags d’un artefact si l’automatisation est déclenchée par l’événement **Un tag d’artefact est ajouté**. Pour les autres automatisations, cette variable est vide.                                                                                                         |
+| `${artifact_collection_name}` | Nom de la collection d’artifacts à laquelle la version d’artefact est associée.                                                                                                                                                                                                        |
+| `${artifact_metadata.<KEY>}`  | Valeur d’une clé de métadonnées arbitraire de premier niveau de la version d’artefact qui a déclenché l’action. Remplacez `<KEY>` par le nom d’une clé de métadonnées de premier niveau. Seules les clés de métadonnées de premier niveau sont disponibles dans la charge utile du webhook. |
+| `${artifact_version}`         | Représentation [`Wandb.Artifact`](/fr/models/ref/python/experiments/artifact.md/) de la version d’artefact qui a déclenché l’action.                                                                                                                                                      |
+| `${artifact_version_string}`  | Représentation `string` de la version d’artefact qui a déclenché l’action.                                                                                                                                                                                                             |
+| `${ACCESS_TOKEN}`             | Valeur du jeton d’accès configuré dans le [webhook](#create-a-webhook), si un jeton d’accès est configuré. Le jeton d’accès est automatiquement transmis dans l’en-tête HTTP `Authorization: Bearer`.                                                                                  |
+| `${SECRET_NAME}`              | Si configuré, valeur d’un secret configuré dans le [webhook](#create-a-webhook). Remplacez `SECRET_NAME` par le nom du secret.                                                                                                                                                         |
+
+<div id="payload-examples">
+  ### Exemples de charges utiles
+</div>
+
+Cette section présente des exemples de charges utiles de webhook pour quelques cas d’usage courants. Les exemples montrent comment utiliser les [variables de charge utile](#payload-variables).
+
+<Tabs>
+  <Tab title="Événement repository dispatch du dépôt GitHub">
+    <Note>
+      Vérifiez que vos jetons d’accès disposent des autorisations requises pour déclencher votre flux de travail GHA. Pour plus d’informations, [voir la documentation GitHub correspondante](https://docs.github.com/en/rest/repos/repos?#create-a-repository-dispatch-event).
+    </Note>
+
+    Envoyez un événement repository dispatch depuis W&amp;B pour déclencher une action GitHub. Par exemple, supposons que vous ayez un fichier de flux de travail GitHub qui accepte un événement repository dispatch comme déclencheur pour la clé `on` :
+
+    ```yaml
+    on:
+    repository_dispatch:
+      types: BUILD_AND_DEPLOY
+    ```
+
+    La charge utile du dépôt pourrait ressembler à ceci :
+
+    ```json
+    {
+      "event_type": "BUILD_AND_DEPLOY",
+      "client_payload": 
+      {
+        "event_author": "${event_author}",
+        "artifact_version": "${artifact_version}",
+        "artifact_version_string": "${artifact_version_string}",
+        "artifact_collection_name": "${artifact_collection_name}",
+        "project_name": "${project_name}",
+        "entity_name": "${entity_name}"
+        }
+    }
+    ```
+
+    <Note>
+      La clé `event_type` de la charge utile du webhook doit correspondre au champ `types` dans le fichier YAML du flux de travail GitHub.
+    </Note>
+
+    Le contenu et l’emplacement des chaînes de modèle générées dépendent de l’événement ou de la version du modèle pour lequel l’automatisation est configurée. `${event_type}` aura pour rendu `LINK_ARTIFACT` ou `ADD_ARTIFACT_ALIAS`. Voir ci-dessous un exemple de correspondance :
+
+    ```text
+    ${event_type} --> "LINK_ARTIFACT" or "ADD_ARTIFACT_ALIAS"
+    ${event_author} --> "<wandb-user>"
+    ${artifact_version} --> "wandb-artifact://_id/QXJ0aWZhY3Q6NTE3ODg5ODg3""
+    ${artifact_version_string} --> "<entity>/model-registry/<registered_model_name>:<alias>"
+    ${artifact_collection_name} --> "<registered_model_name>"
+    ${project_name} --> "model-registry"
+    ${entity_name} --> "<entity>"
+    ```
+
+    Utilisez des template strings pour transmettre dynamiquement le contexte de W&amp;B à GitHub Actions et à d&#39;autres outils. Si ces outils peuvent appeler des scripts Python, ils peuvent utiliser les artefacts de modèle enregistrés via l&#39;[API W&amp;B](/fr/models/artifacts/download-and-use-an-artifact/).
+
+    * Pour plus d&#39;informations sur repository dispatch, voir la [documentation officielle sur GitHub Marketplace](https://github.com/marketplace/actions/repository-dispatch).
+
+    * Regardez les vidéos [Webhook Automations for Model Evaluation](https://www.youtube.com/watch?v=7j-Mtbo-E74\&ab_channel=Weights%26Biases) et [Webhook Automations for Model Deployment](https://www.youtube.com/watch?v=g5UiAFjM2nA\&ab_channel=Weights%26Biases), qui expliquent comment créer des automatisations pour l&#39;évaluation et le déploiement de modèles.
+
+    * Consultez un [rapport](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw) W&amp;B qui illustre comment utiliser une automatisation par webhook GitHub Actions pour la CI de modèle. Consultez ce [dépôt GitHub](https://github.com/hamelsmu/wandb-modal-webhook) pour découvrir comment créer une CI de modèle avec un webhook Modal Labs.
+  </Tab>
+
+  <Tab title="Notification Microsoft Teams">
+    Cet exemple de payload illustre comment notifier votre canal Teams via un webhook :
+
+    ```json
+    {
+    "@type": "MessageCard",
+    "@context": "http://schema.org/extensions",
+    "summary": "New Notification",
+    "sections": [
+      {
+        "activityTitle": "Notification from WANDB",
+        "text": "This is an example message sent via Teams webhook.",
+        "facts": [
+          {
+            "name": "Author",
+            "value": "${event_author}"
+          },
+          {
+            "name": "Event Type",
+            "value": "${event_type}"
+          }
+        ],
+        "markdown": true
+      }
+    ]
+    }
+    ```
+
+    Vous pouvez utiliser des template strings pour injecter des données W&amp;B dans votre payload au moment de l’exécution (comme dans l’exemple Teams ci-dessus).
+  </Tab>
+
+  <Tab title="Notifications Slack">
+    <Note>
+      Cette section est fournie à titre historique. Si vous utilisez actuellement un webhook pour intégrer Slack, W&amp;B vous recommande de mettre à jour votre configuration pour utiliser plutôt la [nouvelle intégration Slack](#create-a-slack-automation).
+    </Note>
+
+    Configurez votre application Slack et ajoutez un webhook entrant en suivant les instructions mises en évidence dans la [documentation de l’API Slack](https://api.slack.com/messaging/webhooks). Assurez-vous que le secret indiqué sous `Bot User OAuth Token` correspond au jeton d’accès de votre webhook W&amp;B.
+
+    Voici un exemple de payload :
+
+    ```json
+    {
+        "text": "New alert from WANDB!",
+    "blocks": [
+        {
+                "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Registry event: ${event_type}"
+            }
+        },
+            {
+                "type":"section",
+                "text": {
+                "type": "mrkdwn",
+                "text": "New version: ${artifact_version_string}"
+            }
+            },
+            {
+            "type": "divider"
+        },
+            {
+                "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Author: ${event_author}"
+            }
+            }
+        ]
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="troubleshoot-your-webhook">
+  ## Dépanner votre webhook
+</div>
+
+Dépannez votre webhook de manière interactive avec l’interface de l’application W&amp;B ou par programmation à l’aide d’un script Bash. Vous pouvez dépanner un webhook lorsque vous créez un nouveau webhook ou modifiez un webhook existant.
+
+Pour plus de détails sur le format utilisé par W&amp;B pour la requête `POST`, référez-vous à l’onglet **Script Bash**.
+
+<Tabs>
+  <Tab title="Interface de l’application W&B">
+    Un administrateur d’équipe peut tester un webhook de manière interactive avec l’interface de l’application W&amp;B.
+
+    1. Accédez à la page des paramètres de votre équipe W&amp;B.
+    2. Faites défiler jusqu’à la section **Webhooks**.
+    3. Cliquez sur les trois points horizontaux (icône « meatball ») à côté du nom de votre webhook.
+    4. Sélectionnez **Test**.
+    5. Dans le panneau qui s’affiche, collez votre requête POST dans le champ affiché.
+       <Frame>
+         <img src="/images/models/webhook_ui.png" alt="Démonstration du test d’une charge utile de webhook" />
+       </Frame>
+    6. Cliquez sur **Test webhook**. Dans l’interface de l’application W&amp;B, W&amp;B affiche la réponse de votre point de terminaison.
+       <Frame>
+         <img src="/images/models/webhook_ui_testing.gif" alt="Démonstration du test d’un webhook" />
+       </Frame>
+
+    Regardez la vidéo [Testing Webhooks in W&amp;B](https://www.youtube.com/watch?v=bl44fDpMGJw\&ab_channel=Weights%26Biases) pour voir une démonstration.
+  </Tab>
+
+  <Tab title="Script Bash">
+    Ce script shell montre une méthode permettant de générer une requête `POST` similaire à celle que W&amp;B envoie à l’automatisation de votre webhook lorsqu’elle est déclenchée.
+
+    Copiez-collez le code ci-dessous dans un script shell pour dépanner votre webhook. Indiquez vos propres valeurs pour :
+
+    * `ACCESS_TOKEN`
+    * `SECRET`
+    * `PAYLOAD`
+    * `API_ENDPOINT`
+
+    ```bash webhook_test.sh
+    #!/bin/bash
+
+    # Votre jeton d’accès et votre secret
+    ACCESS_TOKEN="your_api_key"
+    SECRET="your_api_secret"
+
+    # Les données que vous souhaitez envoyer (par exemple, au format JSON 
+    format)
+    PAYLOAD='{"key1": "value1", "key2": "value2"}'
+
+    # Générer la signature HMAC
+    # Pour des raisons de sécurité, W&B inclut la 
+    X-Wandb-Signature dans l’en-tête, calculée
+    # à partir de la charge utile et de la clé secrète partagée 
+    associée au webhook
+    # à l’aide de l’algorithme HMAC avec SHA-256.
+    SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst 
+    -sha256 -hmac "$SECRET" -binary | base64)
+
+    # Effectuer la requête cURL
+    curl -X POST \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer $ACCESS_TOKEN" \
+      -H "X-Wandb-Signature: $SIGNATURE" \
+      -d "$PAYLOAD" API_ENDPOINT
+    ```
+  </Tab>
+</Tabs>

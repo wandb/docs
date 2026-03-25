@@ -1,0 +1,23 @@
+---
+title: ProjectArtifactCollections
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+
+## <kbd>class</kbd> `ProjectArtifactCollections`
+
+Collections d’artefacts d’un projet.
+
+**Arguments :**
+
+* `client`:  Instance client à utiliser pour interroger W&amp;B.
+* `entity`:  L’entité (utilisateur ou équipe) propriétaire du projet.
+* `project`:  Le nom du projet à interroger pour les collections d’artefacts.
+* `filters`:  Mappage facultatif des filtres à appliquer à la requête.
+* `order`:  Chaîne facultative permettant de spécifier l’ordre des résultats. Si vous faites précéder l’ordre d’un +, l’ordre est croissant (par défaut). Si vous faites précéder l’ordre d’un -, l’ordre est décroissant.
+* `per_page`:  Le nombre de collections d’artefacts à récupérer par page. La valeur par défaut est 50. 

@@ -1,0 +1,21 @@
+---
+title: "Comment corriger une erreur du type `AttributeError: module 'wandb' has no attribute ...` ?"
+keywords: ["Échecs de run"]
+---
+
+Si vous rencontrez une erreur telle que `AttributeError: module 'wandb' has no attribute 'init'` ou `AttributeError: module 'wandb' has no attribute 'login'` lorsque vous importez `wandb` en Python, cela signifie que `wandb` n’est pas installé ou que l’installation est corrompue, mais qu’un répertoire `wandb` existe dans le répertoire de travail actuel. Pour corriger cette erreur, désinstallez `wandb`, supprimez le répertoire, puis réinstallez `wandb` :
+
+```bash
+pip uninstall wandb; rm -rI wandb; pip install wandb
+```
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas à la main le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Crashs de run](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

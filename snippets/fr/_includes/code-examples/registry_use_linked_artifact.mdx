@@ -1,0 +1,25 @@
+---
+title: Utiliser un artefact lié du registre
+---
+
+```python
+"""
+Récupérer une version spécifique d'un artefact depuis une collection de registre.
+"""
+
+import wandb
+
+# Définir les détails du registre, de la collection et de la version de l'artefact
+registry = "<registry_name>"
+collection = "<collection_name>"
+version = "<version>"
+
+# Construire le nom complet de l'artefact avec la version
+artifact_name = f"wandb-registry-{registry}/{collection}:{version}"
+
+# Initialiser l'API W&B
+api = wandb.Api()
+
+# Récupérer l'artefact depuis la collection et la version du registre spécifiées
+artifact = api.artifact(name = artifact_name)
+```

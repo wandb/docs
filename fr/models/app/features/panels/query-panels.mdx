@@ -1,0 +1,241 @@
+---
+description: Certaines fonctionnalités de cette page sont en version bêta et masquées derrière un feature flag.
+  Ajoutez `weave-plot` à votre bio sur votre page de profil pour déverrouiller toutes les fonctionnalités associées.
+title: Aperçu des panneaux de requête
+---
+
+<Note>
+  Vous cherchez W&amp;B Weave, la suite d’outils de W&amp;B pour créer des applications d’IA générative ? Consultez la documentation de Weave ici : [wandb.me/weave](https://wandb.github.io/weave/?utm_source=wandb_docs\&utm_medium=docs\&utm_campaign=weave-nudge).
+</Note>
+
+Utilisez les panneaux de requête pour interroger et visualiser vos données de manière interactive.
+
+<Frame>
+  <img src="/images/weave/pretty_panel.png" alt="Panneau de requête" />
+</Frame>
+
+{/* <Note>
+  Voir le [rapport de benchmark Keras XLA](http://wandb.me/keras-xla-benchmark) pour découvrir comment cette équipe a utilisé des panneaux de requêtes pour visualiser ses résultats.
+  </Note> */}
+
+<div id="create-a-query-panel">
+  ## Créer un panneau de requête
+</div>
+
+Ajoutez une requête à votre espace de travail ou à un rapport.
+
+<Tabs>
+  <Tab title="Espace de travail du projet">
+    1. Accédez à l’espace de travail de votre projet.
+    2. Dans le coin supérieur droit, cliquez sur `Add panel`.
+    3. Dans le menu déroulant, sélectionnez `Query panel`.
+  </Tab>
+
+  <Tab title="Rapport W&B">
+    Saisissez, puis sélectionnez `/Query panel`.
+
+    <Frame>
+      <img src="/images/weave/add_weave_panel_report_1.png" alt="Option « panneau de requête »" />
+    </Frame>
+
+    Vous pouvez également associer une requête à un ensemble de runs :
+
+    1. Dans votre rapport, saisissez, puis sélectionnez `/Panel grid`.
+    2. Cliquez sur le bouton `Add panel`.
+    3. Dans le menu déroulant, sélectionnez `Query panel`.
+  </Tab>
+</Tabs>
+
+<div id="query-components">
+  ## Composants de requête
+</div>
+
+<div id="expressions">
+  ### Expressions
+</div>
+
+Utilisez des expressions de requête pour interroger les données stockées dans W&amp;B, comme les runs, les artefacts, les modèles, les tableaux, etc.
+
+<div id="example-query-a-table">
+  #### Exemple : interroger un tableau
+</div>
+
+Supposons que vous souhaitiez effectuer une requête sur un tableau W&amp;B. Dans votre code d’entraînement, vous journalisez un tableau nommé `"cifar10_sample_table"` :
+
+```python
+import wandb
+with wandb.init() as run:
+  run.log({"cifar10_sample_table":<MY_TABLE>})
+```
+
+Dans le panneau de requête, vous pouvez interroger votre tableau à l’aide de :
+
+```python
+runs.summary["cifar10_sample_table"]
+```
+
+<Frame>
+  <img src="/images/weave/basic_weave_expression.png" alt="Expression de requête de tableau" />
+</Frame>
+
+Décomposons cela :
+
+* `runs` est une variable automatiquement injectée dans les expressions du panneau de requête lorsque celui-ci se trouve dans un Workspace. Sa « valeur » est la liste des runs visibles dans ce Workspace précis. [Pour en savoir plus sur les différents attributs disponibles dans un run, voir ici](/fr/models/track/public-api-guide/#understanding-the-different-attributes).
+* `summary` est un op qui renvoie l’objet Summary d’un Run. Les ops sont *mappées*, ce qui signifie que cet op est appliqué à chaque Run de la liste et produit ainsi une liste d’objets Summary.
+* `["cifar10_sample_table"]` est un op Pick (indiqué par des crochets), avec `predictions` comme paramètre. Comme les objets Summary se comportent comme des dictionnaires ou des maps, cette opération sélectionne le champ `predictions` dans chaque objet Summary.
+
+Pour apprendre à écrire vos propres requêtes de manière interactive, consultez la [démo du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
+
+<div id="configurations">
+  ### Configurations
+</div>
+
+Sélectionnez l’icône d’engrenage dans le coin supérieur gauche du panneau pour afficher la configuration de la requête. Cela permet à l’utilisateur de configurer le type de panneau et les paramètres du panneau de résultats.
+
+<Frame>
+  <img src="/images/weave/weave_panel_config.png" alt="Menu de configuration du panneau" />
+</Frame>
+
+<div id="result-panels">
+  ### Panneaux de résultats
+</div>
+
+Enfin, le panneau de résultat de la requête affiche le résultat de l’expression de requête à l’aide du panneau de requête sélectionné, configuré via la configuration pour présenter les données sous une forme interactive. Les images suivantes montrent un tableau et un graphique des mêmes données.
+
+<Frame>
+  <img src="/images/weave/result_panel_table.png" alt="Panneau de résultat en tableau" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/result_panel_plot.png" alt="Panneau de résultat en graphique" />
+</Frame>
+
+<div id="basic-operations">
+  ## Opérations de base
+</div>
+
+Vous pouvez effectuer les opérations courantes suivantes dans vos panneaux de requête.
+
+<div id="sort">
+  ### Tri
+</div>
+
+Triez à partir des options de colonne :
+
+<Frame>
+  <img src="/images/weave/weave_sort.png" alt="Options de tri de colonne" />
+</Frame>
+
+<div id="filter">
+  ### Filtre
+</div>
+
+Vous pouvez soit filtrer directement dans la requête, soit utiliser le bouton de filtre situé dans l&#39;angle supérieur gauche (deuxième image)
+
+<Frame>
+  <img src="/images/weave/weave_filter_1.png" alt="Syntaxe de filtrage de la requête" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/weave_filter_2.png" alt="Bouton de filtre" />
+</Frame>
+
+<div id="map">
+  ### Map
+</div>
+
+Les opérations Map parcourent des listes et appliquent une fonction à chaque élément des données. Vous pouvez le faire directement dans une requête de panneau ou en insérant une nouvelle colonne à partir des options de colonne.
+
+<Frame>
+  <img src="/images/weave/weave_map.png" alt="Requête d'opération Map" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/weave_map.gif" alt="Insertion d'une colonne Map" />
+</Frame>
+
+<div id="groupby">
+  ### Regrouper par
+</div>
+
+Vous pouvez effectuer un regroupement à l’aide d’une requête ou via les options de colonne.
+
+<Frame>
+  <img src="/images/weave/weave_groupby.png" alt="Regrouper par requête" />
+</Frame>
+
+<Frame>
+  <img src="/images/weave/weave_groupby.gif" alt="Regrouper via les options de colonne" />
+</Frame>
+
+<div id="concat">
+  ### Concat
+</div>
+
+L’opération concat permet de concaténer 2 tableaux et d’effectuer une concaténation ou une jointure depuis les Paramètres du panneau.
+
+<div id="join">
+  ### Jointure
+</div>
+
+Il est également possible de joindre des tableaux directement dans la requête. Prenez l’expression de requête suivante :
+
+```python
+project("luis_team_test", "weave_example_queries").runs.summary["short_table_0"].table.rows.concat.join(\
+project("luis_team_test", "weave_example_queries").runs.summary["short_table_1"].table.rows.concat,\
+(row) => row["Label"],(row) => row["Label"], "Table1", "Table2",\
+"false", "false")
+```
+
+<Frame>
+  <img src="/images/weave/weave_join.png" alt="Opération de jointure de tableaux" />
+</Frame>
+
+Le tableau de gauche est généré à partir de :
+
+```python
+project("luis_team_test", "weave_example_queries").\
+runs.summary["short_table_0"].table.rows.concat.join
+```
+
+Le tableau de droite est généré à partir de :
+
+```python
+project("luis_team_test", "weave_example_queries").\
+runs.summary["short_table_1"].table.rows.concat
+```
+
+Où :
+
+* `(row) => row["Label"]` sont les sélecteurs de chaque tableau, qui déterminent sur quelle colonne effectuer la jointure
+* `"Table1"` et `"Table2"` sont les noms de chaque tableau lors de la jointure
+* `true` et `false` correspondent aux paramètres de jointure interne/externe à gauche et à droite
+
+<div id="runs-object">
+  ## Objet Runs
+</div>
+
+Utilisez les panneaux de requête pour accéder à l’objet `runs`. Les objets run stockent les enregistrements de vos expériences. Vous trouverez plus de détails dans [Accéder à l’objet runs](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object), mais voici un aperçu rapide de ce que contient l’objet `runs` :
+
+* `summary` : Un dictionnaire d’informations qui résume les résultats du run. Il peut s’agir de scalaires comme la précision et la perte, ou de fichiers volumineux. Par défaut, `wandb.Run.log()` définit `summary` sur la valeur finale d’une série temporelle enregistrée. Vous pouvez également définir directement le contenu de `summary`. Considérez `summary` comme les sorties du run.
+* `history` : Une liste de dictionnaires destinée à stocker les valeurs qui changent pendant l’entraînement du modèle, comme la perte. La commande `wandb.Run.log()` ajoute des éléments à cet objet.
+* `config` : Un dictionnaire contenant les informations de configuration du run, comme les hyperparamètres d’un run d’entraînement ou les méthodes de prétraitement d’un run qui crée un artefact de jeu de données. Considérez cela comme les « entrées » du run
+
+<Frame>
+  <img src="/images/weave/weave_runs_object.png" alt="Structure de l’objet runs" />
+</Frame>
+
+<div id="access-artifacts">
+  ## Accéder aux Artifacts
+</div>
+
+Artifacts est un concept fondamental de W&amp;B. Il s&#39;agit d&#39;une collection versionnée et nommée de fichiers et de répertoires. Utilisez Artifacts pour suivre les poids de modèles, les jeux de données et tout autre fichier ou répertoire. Artifacts est stocké dans W&amp;B et peut être téléchargé ou utilisé dans d&#39;autres runs. Vous trouverez plus de détails et des exemples dans [Accéder aux artefacts](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts). On accède généralement à Artifacts à partir de l&#39;objet `project` :
+
+* `project.artifactVersion()` : renvoie la version spécifique de l&#39;artefact pour un nom et une version donnés dans un projet
+* `project.artifact("")` : renvoie l&#39;artefact correspondant à un nom donné dans un projet. Vous pouvez ensuite utiliser `.versions` pour obtenir la liste de toutes les versions de cet artefact
+* `project.artifactType()` : renvoie l&#39;`artifactType` correspondant à un nom donné dans un projet. Vous pouvez ensuite utiliser `.artifacts` pour obtenir la liste de tous les artefacts de ce type
+* `project.artifactTypes` : renvoie la liste de tous les types d&#39;artefact du projet
+
+<Frame>
+  <img src="/images/weave/weave_artifacts.png" alt="Méthodes d'accès aux artefacts" />
+</Frame>

@@ -1,0 +1,62 @@
+---
+title: histogram
+namespace: python_sdk_custom_charts
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/histogram.py" />
+
+
+### <kbd>fonction</kbd> `histogram`
+
+```python
+histogram(
+    table: 'wandb.Table',
+    value: 'str',
+    title: 'str' = '',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+Construit un graphique d&#39;histogramme à partir d&#39;un tableau W&amp;B.
+
+**Arguments :**
+
+* `table`:  Le tableau W&amp;B contenant les données de l&#39;histogramme.
+* `value`:  Le libellé de l&#39;axe des classes (axe x).
+* `title`:  Le titre du graphique d&#39;histogramme.
+* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée  &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+
+**Retourne :**
+
+* `CustomChart`:  Un objet de graphique personnalisé pouvant être enregistré dans W&amp;B. Pour enregistrer le  graphique, transmettez-le à `wandb.log()`.
+
+**Exemple :**
+
+```python
+import math
+import random
+import wandb
+
+# Générer des données aléatoires
+data = [[i, random.random() + math.sin(i / 10)] for i in range(100)]
+
+# Créer un tableau W&B
+table = wandb.Table(
+    data=data,
+    columns=["step", "height"],
+)
+
+# Créer un graphique histogramme
+histogram = wandb.plot.histogram(
+    table,
+    value="height",
+    title="My Histogram",
+)
+
+# Enregistrer le graphique histogramme dans W&B
+with wandb.init(...) as run:
+    run.log({"histogram-plot1": histogram})
+```

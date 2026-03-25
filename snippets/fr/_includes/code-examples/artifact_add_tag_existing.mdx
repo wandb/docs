@@ -1,0 +1,15 @@
+---
+title: Ajouter un tag à un artefact existant
+---
+
+```python
+"""
+Ajoute un tag à un artefact W&B existant.
+"""
+import wandb
+
+# Récupérer un artefact existant et lui ajouter un tag
+artifact = wandb.Api().artifact("entity/project/artifact:version")
+artifact.tags = ["new-tag"]
+artifact.save()
+```

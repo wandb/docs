@@ -1,0 +1,145 @@
+---
+title: Enregistrer des métriques de synthèse
+description: "Suivez et personnalisez des métriques de synthèse individuelles, comme la meilleure précision ou la perte minimale, sur un run W&B à l’aide de run.summary."
+---
+
+En plus des valeurs qui évoluent au fil du temps pendant l’entraînement, il est souvent important de suivre une valeur unique qui résume un modèle ou une étape de prétraitement. Enregistrez ces informations dans le dictionnaire `summary` d’un run W&amp;B. Le dictionnaire `summary` d’un run peut contenir des tableaux numpy, des tenseurs PyTorch ou des tenseurs TensorFlow. Lorsqu’une valeur est de l’un de ces types, nous enregistrons l’intégralité du tenseur dans un fichier binaire et stockons des métriques de haut niveau dans l’objet summary, telles que le minimum, la moyenne, la variance, les percentiles, etc.
+
+La dernière valeur enregistrée avec `wandb.Run.log()` est automatiquement définie dans le dictionnaire `summary` d’un run W&amp;B. Si le dictionnaire d’une métrique de synthèse est modifié, la valeur précédente est perdue.
+
+L’extrait de code suivant montre comment fournir une métrique de synthèse personnalisée à W&amp;B :
+
+```python
+import wandb
+import argparse
+
+with wandb.init(config=args) as run:
+  best_accuracy = 0
+  for epoch in range(1, args.epochs + 1):
+      test_loss, test_accuracy = test()
+      if test_accuracy > best_accuracy:
+          run.summary["best_accuracy"] = test_accuracy
+          best_accuracy = test_accuracy
+```
+
+Vous pouvez mettre à jour l’attribut summary d’un run W&amp;B existant une fois l’entraînement terminé. Utilisez l’[API publique W&amp;B](/fr/models/ref/python/public-api/) pour mettre à jour l’attribut summary :
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+run.summary["tensor"] = np.random.random(1000)
+run.summary.update()
+```
+
+<div id="customize-summary-metrics">
+  ## Personnaliser les métriques de synthèse
+</div>
+
+Les métriques de synthèse personnalisées sont utiles pour capturer la performance du modèle à la meilleure étape de l’entraînement dans votre `run.summary`. Par exemple, vous pouvez vouloir capturer la précision maximale ou la valeur minimale de la perte, plutôt que la valeur finale.
+
+Par défaut, la synthèse utilise la valeur finale de l’historique. Pour personnaliser les métriques de synthèse, passez l’argument `summary` à `define_metric`. Il accepte les valeurs suivantes :
+
+* `"min"`
+* `"max"`
+* `"mean"`
+* `"best"`
+* `"last"`
+* `"none"`
+
+Vous pouvez utiliser `"best"` uniquement si vous définissez également l’argument facultatif `objective` sur `"minimize"` ou `"maximize"`.
+
+L’exemple suivant ajoute à la synthèse les valeurs min et max de la perte et de la précision :
+
+```python
+import wandb
+import random
+
+random.seed(1)
+
+with wandb.init() as run:
+    # Valeurs minimales et maximales du résumé pour la perte
+    run.define_metric("loss", summary="min")
+    run.define_metric("loss", summary="max")
+
+    # Valeurs minimales et maximales du résumé pour la précision
+    run.define_metric("acc", summary="min")
+    run.define_metric("acc", summary="max")
+
+    for i in range(10):
+        log_dict = {
+            "loss": random.uniform(0, 1 / (i + 1)),
+            "acc": random.uniform(1 / (i + 1), 1),
+        }
+        run.log(log_dict)
+```
+
+<div id="view-summary-metrics">
+  ## Consulter les métriques de synthèse
+</div>
+
+Consultez les valeurs de synthèse sur la page **Aperçu** d’un run ou dans le tableau des runs du projet.
+
+<Tabs>
+  <Tab title="Aperçu du run">
+    1. Accédez à l’application W&amp;B.
+    2. Sélectionnez l’onglet **Workspace** dans la barre latérale du projet.
+    3. Cliquez sur le run qui a enregistré les valeurs de synthèse. La page du run s’ouvre avec l’onglet **Aperçu** affiché par défaut.
+    4. Consultez les valeurs de synthèse dans la section **Summary**.
+
+    <Frame>
+      <img src="/images/track/customize_summary.png" alt="Aperçu du run" />
+    </Frame>
+  </Tab>
+
+  <Tab title="Tableau des runs">
+    1. Accédez à l’application W&amp;B.
+    2. Sélectionnez l’onglet **Runs**.
+    3. Dans le tableau des runs, vous pouvez consulter les valeurs de synthèse dans les colonnes correspondant au nom de la valeur de synthèse.
+  </Tab>
+
+  <Tab title="API publique W&B">
+    Vous pouvez utiliser l’API publique W&amp;B pour récupérer les valeurs de synthèse d’un run.
+
+    L’exemple de code suivant montre une façon de récupérer les valeurs de synthèse enregistrées pour un run spécifique à l’aide de l’API publique W&amp;B et de pandas :
+
+    ```python
+    import wandb
+    import pandas
+
+    entity = "<your-entity>"
+    project = "<your-project>"
+    run_name = "<your-run-name>" # Nom du run avec les valeurs de synthèse
+
+    all_runs = []
+
+    for run in api.runs(f"{entity}/{project_name}"):
+        print("Fetching details for run: ", run.id, run.name)
+        run_data = {
+                  "id": run.id,
+                  "name": run.name,
+                  "url": run.url,
+                  "state": run.state,
+                  "tags": run.tags,
+                  "config": run.config,
+                  "created_at": run.created_at,
+                  "system_metrics": run.system_metrics,
+                  "summary": run.summary,
+                  "project": run.project,
+                  "entity": run.entity,
+                  "user": run.user,
+                  "path": run.path,
+                  "notes": run.notes,
+                  "read_only": run.read_only,
+                  "history_keys": run.history_keys,
+                  "metadata": run.metadata,
+              }
+        all_runs.append(run_data)
+      
+    # Convertir en DataFrame  
+    df = pd.DataFrame(all_runs)
+
+    # Obtenir la ligne en fonction du nom de la colonne (run) et convertir en dictionnaire
+    df[df['name']==run_name].summary.reset_index(drop=True).to_dict()
+    ```
+  </Tab>
+</Tabs>

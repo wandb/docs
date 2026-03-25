@@ -1,0 +1,104 @@
+---
+title: "Créer des Leaderboards dynamiques dans Evaluations"
+description: "Les Leaderboards dynamiques vous permettent de configurer, personnaliser, enregistrer et mettre à jour des vues de Leaderboard directement depuis une évaluation."
+---
+
+Lorsque vous travaillez avec Weave Evaluations, vous pouvez visualiser et personnaliser les résultats de vos expériences sous forme de Leaderboards.
+
+Les vues de Leaderboard enregistrées sont dynamiques :
+
+* À mesure que de nouveaux runs d&#39;évaluation sont ajoutés
+* Et à mesure que de nouveaux résultats correspondent aux filtres enregistrés
+
+Le Leaderboard se met automatiquement à jour pour les inclure, sans reconfiguration manuelle.
+
+Vous pouvez ainsi utiliser des vues comme des leaderboards persistants qui évoluent avec vos expériences.
+
+<div id="visualize-evaluation-results-in-a-leaderboard">
+  ## Visualiser les résultats d’évaluation dans un Leaderboard
+</div>
+
+Lorsque votre projet contient des données d’évaluation Weave, vous pouvez utiliser le tableau d’évaluation pour créer rapidement une vue Leaderboard Weave basée sur un sous-ensemble filtré de résultats.
+
+Pour créer un Leaderboard Weave :
+
+1. Accédez à [wandb.ai](https://wandb.ai).
+2. Dans le menu latéral de Weave, cliquez sur **Evaluations**.
+3. Appliquez des filtres au tableau d’évaluation pour limiter les données aux modèles, jeux de données ou runs que vous souhaitez comparer.
+4. Dans la **barre d’outils du tableau d’évaluation**, cliquez sur **Visualize**.
+   Weave crée automatiquement un panneau Leaderboard en utilisant uniquement les données actuellement filtrées dans le tableau.
+5. Dans l’en-tête du panneau Leaderboard, cliquez sur **Configurer** pour ouvrir le panneau **Edit Leaderboard**.
+   Le panneau **Edit Leaderboard** vous permet de contrôler finement l’affichage des modèles, des jeux de données, des évaluateurs et des métriques.
+
+L’exemple suivant montre comment un tableau d’évaluation filtré est visualisé sous forme de Leaderboard et où configurer le Leaderboard obtenu.
+
+<Frame>
+  ![Page Evaluations affichant le tableau d’évaluation avec des filtres appliqués, le bouton Visualize dans la barre d’outils du tableau et le panneau Leaderboard obtenu à droite avec le bouton Configure dans l’en-tête du panneau.](/weave/guides/evaluation/img/configure-leaderboard.png)
+</Frame>
+
+<div id="configure-leaderboard-elements-with-visibility-and-custom-names">
+  ### Configurer les éléments du Leaderboard avec leur visibilité et des noms personnalisés
+</div>
+
+L’illustration suivante montre le panneau **Edit Leaderboard** avec quatre onglets de configuration : Models, Datasets, Scorers et Metrics.
+
+<Frame>
+  ![Page Evaluations montrant le panneau Edit Leaderboard ouvert à droite, avec des onglets Models, Datasets, Scorers et Metrics pour configurer le Leaderboard.](/weave/guides/evaluation/img/edit-leaderboard.png)
+</Frame>
+
+Dans le panneau **Edit Leaderboard**, vous pouvez :
+
+* **Activer/désactiver l’affichage**
+  Sélectionnez les modèles, jeux de données, évaluateurs et métriques à afficher dans le Leaderboard en les cochant ou en les décochant.
+
+* **Renommer les modèles, jeux de données et évaluateurs**
+  Attribuez des noms d’affichage plus explicites (par exemple, en renommant un run de modèle en `GPT-4` ou un jeu de données en `JokesV1`).
+
+  Éléments renommés :
+
+  * Sont mis à jour immédiatement dans le Leaderboard
+  * Restent cliquables, ce qui vous permet de toujours ouvrir la référence sous-jacente dans le panneau latéral
+  * Se propagent automatiquement partout où la vue Leaderboard est utilisée
+
+Cela facilite la comparaison des expériences avec des noms explicites et faciles à lire, sans modifier les objets sous-jacents.
+
+<div id="configure-leaderboard-metric-behavior-and-coloring">
+  ### Configurer le comportement des métriques du Leaderboard et leur code couleur
+</div>
+
+Dans le panneau **Edit Leaderboard**, pour chaque métrique, vous pouvez indiquer si :
+
+* **Les valeurs les plus élevées sont les meilleures**, ou
+* **Les valeurs les plus faibles sont les meilleures**
+
+Ce paramètre affecte directement le code couleur du Leaderboard :
+
+* Le vert met en évidence la *meilleure* valeur.
+* Le rouge met en évidence la *moins bonne* valeur.
+* Les couleurs s’inversent automatiquement lorsque vous passez de « plus élevé est mieux » à « plus faible est mieux ».
+
+Cela garantit que les repères visuels restent pertinents pour différents types de métriques (par exemple, la précision par rapport à la latence ou au taux d’erreur).
+
+<div id="save-and-reuse-leaderboard-views">
+  ## Enregistrer et réutiliser des vues de Leaderboard
+</div>
+
+Dans le panneau **Modifier le Leaderboard**, vous pouvez enregistrer votre Leaderboard personnalisé comme vue de Leaderboard réutilisable en cliquant sur **Enregistrer**.
+
+La vue de Leaderboard enregistrée inclut :
+
+* Les modèles, jeux de données, évaluateurs et métriques sélectionnés
+* Les libellés d’affichage que vous avez renommés
+* Les paramètres de direction des métriques (une valeur plus élevée ou plus faible est préférable)
+* Les filtres appliqués
+
+<div id="switch-between-saved-views">
+  ### Passer d’une vue enregistrée à l’autre
+</div>
+
+Cliquez sur l’**icône de menu (☰)** à côté du titre de la page Evaluations pour ouvrir les vues enregistrées. Vous pouvez :
+
+* Revenir à la vue **par défaut** pour voir le jeu de données complet.
+* Rouvrir une vue enregistrée pour rétablir instantanément toutes les personnalisations.
+
+Lorsque vous rouvrez une vue enregistrée, tous les renommages et les paramètres de métrique sont conservés.

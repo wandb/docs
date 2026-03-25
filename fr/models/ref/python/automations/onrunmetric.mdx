@@ -1,0 +1,51 @@
+---
+title: OnRunMetric
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+
+## <kbd>class</kbd> `OnRunMetric`
+
+Une métrique de run répond à une condition définie par l’utilisateur.
+
+Exemples :
+Définissez un événement qui se déclenche pour n’importe quel run du projet &quot;my-project&quot; lorsque
+la moyenne des 5 dernières valeurs de la métrique &quot;my-metric&quot; dépasse 123.45 :
+
+```python
+from wandb import Api
+from wandb.automations import OnRunMetric, RunEvent
+
+api = Api()
+project = api.project(name="my-project")
+
+event = OnRunMetric(
+    scope=project,
+    filter=RunEvent.metric("my-metric").avg(5).gt(123.45),
+)
+```
+
+
+### <kbd>méthode</kbd> `OnRunMetric.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[RUN_METRIC_THRESHOLD, RUN_METRIC_CHANGE, RUN_METRIC_ZSCORE]',
+    scope: 'ProjectScope',
+    filter: 'RunMetricFilter'
+) → None
+```
+
+**Arguments :**
+
+* `event_type` (Literal[RUN&#95;METRIC&#95;THRESHOLD, RUN&#95;METRIC&#95;CHANGE, RUN&#95;METRIC&#95;ZSCORE]):
+* `scope` (ProjectScope) : Portée de l’événement : il doit s’agir d’un projet.
+* `filter` (RunMetricFilter) : Condition(s) sur le run et/ou la métrique à remplir pour que cet événement se déclenche.
+
+**Retourne :**
+Un objet `OnRunMetric`.

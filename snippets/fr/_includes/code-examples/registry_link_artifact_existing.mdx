@@ -1,0 +1,24 @@
+---
+title: Lier un artefact existant au registre
+---
+
+```python
+"""
+Créer un artefact W&B et le lier à une collection dans un registre. Si la
+collection n'existe pas, W&B la crée.
+"""
+import wandb
+
+# Créer un objet artefact
+artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
+
+# Définir les noms du registre et de la collection
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+target_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# Initialiser un run
+with wandb.init(entity = "<entity>", project = "<project>") as run:
+  # Lier l'artefact à une collection. Si la collection n'existe pas, W&B la crée.
+  run.link_artifact(artifact = artifact, target_path = target_path)
+```

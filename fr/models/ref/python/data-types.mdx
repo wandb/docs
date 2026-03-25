@@ -1,0 +1,63 @@
+---
+title: Aperçu des types de données
+description: Types de données dans le SDK Python de W&B pour journaliser des médias et des données structurées
+module: wandb.sdk.data_types
+no_list: true
+---
+
+Dans W&amp;B, les types de données sont des classes qui encapsulent des médias et des données structurées afin de les journaliser dans des runs. Ils comprennent des composants de visualisation dans l’interface de W&amp;B et gèrent la sérialisation, le stockage et la récupération des données.
+
+<div id="available-data-types">
+  ## Types de données disponibles
+</div>
+
+| Type de données                                      | Description                                                                                            |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| [`Image`](/fr/models/ref/python/data-types/image)       | Journaliser des images avec prise en charge des masques, des boîtes englobantes et de la segmentation. |
+| [`Video`](/fr/models/ref/python/data-types/video)       | Suivre les données vidéo associées aux sorties de modèle ou aux échantillons de jeu de données.        |
+| [`Audio`](/fr/models/ref/python/data-types/audio)       | Journaliser des échantillons audio pour les tâches de traitement audio.                                |
+| [`Table`](/fr/models/ref/python/data-types/table)       | Créer des tableaux pouvant contenir différents types de médias.                                        |
+| [`Plotly`](/fr/models/ref/python/data-types/plotly)     | Journaliser des graphiques Plotly pour la visualisation de données.                                    |
+| [`Html`](/fr/models/ref/python/data-types/html)         | Intégrer du contenu HTML personnalisé.                                                                 |
+| [`Object3D`](/fr/models/ref/python/data-types/object3d) | Visualiser des nuages de points et des maillages 3D.                                                   |
+| [`Molecule`](/fr/models/ref/python/data-types/molecule) | Journaliser des structures moléculaires pour la chimie computationnelle.                               |
+
+<div id="examples">
+  ## Exemples
+</div>
+
+Cet exemple utilise une `Image` :
+
+```python
+import wandb
+import matplotlib.pyplot as plt
+
+# Générer une image à des fins de démonstration
+path_to_img = "/path/to/cafe.png"
+im = plt.imread(path_to_img)
+
+# Initialiser un nouveau run
+with wandb.init(project="awesome-project") as run:
+
+    # Journaliser l'image
+    run.log({"img": [wandb.Image(im, caption="Cafe")]})
+```
+
+Cet exemple utilise un `Table` pour journaliser un tableau contenant à la fois du texte et des étiquettes :
+
+```python
+import wandb
+
+# Initialiser un nouveau run
+with wandb.init(project="visualize-predictions", name="tables") as run:
+
+    # Créer des données tabulaires à partir d'une liste de listes
+    data = [["Cat", "1", "1"],["Dog", "0", "-1"]]
+    run.log({"Table 1": wandb.Table(data=data, columns=["Text", "Predicted Label", "True Label"])})
+
+    # Créer des données tabulaires avec la méthode `wandb.Table.add_data()`
+    table = wandb.Table(columns=["Text", "Predicted Label", "True Label"])
+    table.add_data("Cat", "1", "1")
+    table.add_data("Dog", "0", "-1")
+    run.log({"Table 2": table})
+```

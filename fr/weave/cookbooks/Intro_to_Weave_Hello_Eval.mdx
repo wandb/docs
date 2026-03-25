@@ -1,0 +1,133 @@
+---
+title: "Introduction aux évaluations"
+description: "Découvrez comment utiliser cette introduction aux évaluations avec W&B Weave"
+---
+
+<Note>
+  Il s’agit d’un notebook interactif. Vous pouvez le run localement ou utiliser les liens ci-dessous :
+
+  * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
+  * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
+</Note>
+
+<div id="prerequisites">
+  ## 🔑 Prérequis
+</div>
+
+Avant de pouvoir run une évaluation Weave, assurez-vous d’avoir rempli les prérequis suivants.
+
+1. Installez le SDK W&amp;B Weave et connectez-vous avec votre [clé API](https://wandb.ai/settings#apikeys).
+2. Installez le SDK OpenAI et connectez-vous avec votre [clé API](https://platform.openai.com/api-keys).
+3. Initialisez votre projet W&amp;B.
+
+```python lines
+# Installer les dépendances et importer les modules
+!pip install wandb weave openai -q
+
+import os
+from getpass import getpass
+
+from openai import OpenAI
+from pydantic import BaseModel
+
+import weave
+
+# 🔑 Configurer vos clés API
+# Runner cette cellule vous demandera votre clé API via `getpass` et ne l'affichera pas dans le terminal.
+#####
+print("---")
+print(
+    "Créez une clé API W&B sur : https://wandb.ai/settings#apikeys"
+)
+os.environ["WANDB_API_KEY"] = getpass("Entrez votre clé API W&B : ")
+print("---")
+print("Vous pouvez générer votre clé API OpenAI ici : https://platform.openai.com/api-keys")
+os.environ["OPENAI_API_KEY"] = getpass("Entrez votre clé API OpenAI : ")
+print("---")
+#####
+
+# 🏠 Entrez le nom de votre projet W&B
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Le nom de votre projet W&B
+```
+
+<div id="run-your-first-evaluation">
+  ## 🐝 Runnez votre première évaluation
+</div>
+
+L’exemple de code suivant montre comment évaluer un LLM à l’aide des API `Model` et `Evaluation` de Weave. Commencez par définir un modèle Weave en héritant de `weave.Model`, en précisant le nom du modèle et le format du prompt, puis en décorant une méthode `predict` avec `@weave.op`. La méthode `predict` envoie un prompt à OpenAI et convertit la réponse en sortie structurée à l’aide d’un schéma Pydantic (`FruitExtract`). Créez ensuite un petit jeu de données d’évaluation composé de phrases d’entrée et de résultats attendus. Définissez ensuite une fonction de score personnalisée (également suivie avec `@weave.op`) qui compare la sortie du modèle à l’étiquette cible. Enfin, encapsulez le tout dans une `weave.Evaluation`, en spécifiant votre jeu de données et vos évaluateurs, puis appelez `evaluate()` pour runner le pipeline d’évaluation de manière asynchrone.
+
+```python lines
+# 1. Construire un modèle Weave
+class FruitExtract(BaseModel):
+    fruit: str
+    color: str
+    flavor: str
+
+class ExtractFruitsModel(weave.Model):
+    model_name: str
+    prompt_template: str
+
+    @weave.op()
+    def predict(self, sentence: str) -> dict:
+        client = OpenAI()
+
+        response = client.beta.chat.completions.parse(
+            model=self.model_name,
+            messages=[
+                {
+                    "role": "user",
+                    "content": self.prompt_template.format(sentence=sentence),
+                }
+            ],
+            response_format=FruitExtract,
+        )
+        result = response.choices[0].message.parsed
+        return result
+
+model = ExtractFruitsModel(
+    name="gpt4o",
+    model_name="gpt-4o",
+    prompt_template='Extract fields ("fruit": <str>, "color": <str>, "flavor": <str>) as json, from the following text : {sentence}',
+)
+
+# 2. Collecter quelques exemples
+sentences = [
+    "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy.",
+    "Pounits are a bright green color and are more savory than sweet.",
+    "Finally, there are fruits called glowls, which have a very sour and bitter taste which is acidic and caustic, and a pale orange tinge to them.",
+]
+labels = [
+    {"fruit": "neoskizzles", "color": "purple", "flavor": "candy"},
+    {"fruit": "pounits", "color": "green", "flavor": "savory"},
+    {"fruit": "glowls", "color": "orange", "flavor": "sour, bitter"},
+]
+examples = [
+    {"id": "0", "sentence": sentences[0], "target": labels[0]},
+    {"id": "1", "sentence": sentences[1], "target": labels[1]},
+    {"id": "2", "sentence": sentences[2], "target": labels[2]},
+]
+
+# 3. Définir une fonction de scoring pour votre évaluation
+@weave.op()
+def fruit_name_score(target: dict, output: FruitExtract) -> dict:
+    target_flavors = [f.strip().lower() for f in target["flavor"].split(",")]
+    output_flavors = [f.strip().lower() for f in output.flavor.split(",")]
+    # Vérifier si l'un des arômes cibles est présent dans les arômes de sortie
+    matches = any(tf in of for tf in target_flavors for of in output_flavors)
+    return {"correct": matches}
+
+# 4. Runnez votre évaluation
+evaluation = weave.Evaluation(
+    name="fruit_eval",
+    dataset=examples,
+    scorers=[fruit_name_score],
+)
+await evaluation.evaluate(model)
+```
+
+<div id="looking-for-more-examples">
+  ## 🚀 Vous cherchez d’autres exemples ?
+</div>
+
+* Découvrez comment build un [pipeline d’évaluation de bout en bout](/fr/weave/tutorial-eval).
+* Découvrez comment évaluer une [application RAG en la buildant](/fr/weave/tutorial-rag).

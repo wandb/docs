@@ -1,0 +1,115 @@
+---
+title: Créer une automatisation Slack
+description: "Configurer une intégration Slack et créer une automatisation W&B qui envoie des notifications vers un canal Slack lors de certains événements."
+---
+
+import EnterpriseCloudOnly from "/snippets/fr/_includes/enterprise-cloud-only.mdx";
+
+<Info>
+  <EnterpriseCloudOnly />
+</Info>
+
+Cette page explique comment créer une [automatisation](/fr/models/automations/) Slack. Pour créer une automatisation par webhook, référez-vous plutôt à [Créer une automatisation par webhook](/fr/models/automations/create-automations/webhook/).
+
+Dans les grandes lignes, pour créer une automatisation Slack, procédez comme suit :
+
+1. [Ajouter une intégration Slack](#add-a-slack-integration), ce qui autorise W&amp;B à publier dans l’instance Slack et sur le canal.
+2. [Créer l’automatisation](#create-an-automation), qui définit l’[événement](/fr/models/automations/automation-events/) à surveiller et le canal auquel envoyer les notifications.
+
+<div id="add-a-slack-integration">
+  ## Ajouter une intégration Slack
+</div>
+
+Un administrateur d’équipe peut ajouter une intégration Slack à l’équipe.
+
+1. Connectez-vous à W&amp;B, puis accédez à **Team Settings**.
+2. Dans la section **Slack channel integrations**, cliquez sur **Connect Slack** pour ajouter une nouvelle instance Slack. Pour ajouter un canal à une instance Slack existante, cliquez sur **New integration**.
+
+   ![Capture d’écran montrant deux intégrations Slack dans une équipe](/images/automations/slack_integrations.png)
+3. Si nécessaire, connectez-vous à Slack dans votre navigateur. Lorsque vous y êtes invité, autorisez W&amp;B à publier dans le canal Slack que vous sélectionnez. Lisez la page, puis cliquez sur **Search for a channel** et commencez à saisir le nom du canal. Sélectionnez le canal dans la liste, puis cliquez sur **Allow**.
+4. Dans Slack, accédez au canal que vous avez sélectionné. Si vous voyez un message tel que `[Votre identifiant Slack] added an integration to this channel: Weights & Biases`, cela signifie que l’intégration est correctement configurée.
+
+Vous pouvez maintenant [créer une automatisation](#create-an-automation) qui envoie des notifications au canal Slack que vous avez configuré.
+
+<div id="view-and-manage-slack-integrations">
+  ## Afficher et gérer les intégrations Slack
+</div>
+
+Un administrateur d’équipe peut afficher et gérer les instances et les canaux Slack de l’équipe.
+
+1. Connectez-vous à W&amp;B et accédez à **Team Settings**.
+2. Affichez chaque destination Slack dans la section **Slack channel integrations**.
+3. Supprimez une destination en cliquant sur son icône de corbeille.
+
+<div id="create-an-automation">
+  ## Créer une automatisation
+</div>
+
+Après avoir [ajouté une intégration Slack](#add-a-slack-integreation), sélectionnez **registre** ou **projet**, puis suivez ces étapes pour créer une automatisation qui envoie une notification au canal Slack.
+
+<Tabs>
+  <Tab title="registre">
+    Un administrateur du registre peut créer des automatisations dans ce registre.
+
+    1. Connectez-vous à W&amp;B.
+    2. Cliquez sur le nom d’un registre pour en afficher les détails.
+    3. Pour créer une automatisation à l’échelle du registre, cliquez sur l’onglet **Automations**, puis sur **Create automation**. Une automatisation définie au niveau du registre s’applique automatiquement à toutes ses collections (y compris celles qui seront créées ultérieurement).
+    4. Choisissez l’[événement](/fr/models/automations/automation-events/#registry-events) à surveiller.
+
+       Renseignez les champs supplémentaires qui s’affichent en fonction de l’événement. Par exemple, si vous sélectionnez **An artifact alias is added**, vous devez indiquer **Alias regex**.
+
+       Cliquez sur **Next step**.
+    5. Sélectionnez l’équipe propriétaire de l’[intégration Slack](#add-a-slack-integration).
+    6. Définissez **Action type** sur **Slack notification**. Sélectionnez le canal Slack, puis cliquez sur **Next step**.
+    7. Donnez un nom à l’automatisation. Vous pouvez également ajouter une description.
+    8. Cliquez sur **Create automation**.
+  </Tab>
+
+  <Tab title="projet">
+    Un administrateur W&amp;B peut créer des automatisations dans un projet.
+
+    1. Connectez-vous à W&amp;B.
+    2. Accédez à la page du projet, puis cliquez sur l’onglet **Automations** et sur **Create automation**.
+
+       Vous pouvez aussi créer rapidement une [automatisation de métrique de run](/fr/models/automations/automation-events/#run-events) à partir d’un graphique en courbes dans le Workspace, pour la métrique qu’il affiche. Survolez le panneau, puis cliquez sur l’icône en forme de cloche en haut du panneau.
+
+       <Frame>
+         <img src="/images/automations/run_metric_automation_from_panel.png" alt="Emplacement de l’icône de cloche de l’automatisation" />
+       </Frame>
+    3. Choisissez l’[événement](/fr/models/automations/automation-events/#project) à surveiller.
+
+       1. Renseignez les champs supplémentaires qui s’affichent. Par exemple, si vous sélectionnez **An artifact alias is added**, vous devez indiquer **Alias regex**.
+
+          1. Pour les automatisations déclenchées par un run, vous pouvez facultativement spécifier un ou plusieurs filtres de run.
+
+             * **Filter to one user&#39;s runs** : incluez uniquement les runs créés par l’utilisateur spécifié. Cliquez sur le bouton bascule pour activer le filtre, puis indiquez un nom d’utilisateur.
+             * **Filter on run name** : incluez uniquement les runs dont le nom correspond à l’expression régulière indiquée. Cliquez sur le bouton bascule pour activer le filtre, puis indiquez une expression régulière.
+       2. Cliquez sur **Next step**.
+    4. Sélectionnez l’équipe propriétaire de l’[intégration Slack](#add-a-slack-integration).
+    5. Définissez **Action type** sur **Slack notification**. Sélectionnez le canal Slack, puis cliquez sur **Next step**.
+    6. Donnez un nom à l’automatisation. Vous pouvez également ajouter une description.
+    7. Cliquez sur **Create automation**.
+  </Tab>
+</Tabs>
+
+<div id="view-and-manage-automations">
+  ## Afficher et gérer les automatisations
+</div>
+
+<Tabs>
+  <Tab title="Registre">
+    Gérez les automatisations du registre dans l’onglet **Automations** du registre.
+
+    * Pour afficher les détails d’une automatisation, cliquez sur son nom.
+    * Pour modifier une automatisation, cliquez sur son menu d’action `...`, puis sur **Edit automation**.
+    * Pour supprimer une automatisation, cliquez sur son menu d’action `...`, puis sur **Delete automation**. Une confirmation est requise.
+  </Tab>
+
+  <Tab title="Projet">
+    Un administrateur W&amp;B peut afficher et gérer les automatisations d’un projet dans l’onglet **Automations** du projet.
+
+    * Pour afficher les détails d’une automatisation, cliquez sur son nom.
+    * Pour modifier une automatisation, cliquez sur son menu d’action `...`, puis sur **Edit automation**.
+    * Pour supprimer une automatisation, cliquez sur son menu d’action `...`, puis sur **Delete automation**. Une confirmation est requise.
+  </Tab>
+</Tabs>

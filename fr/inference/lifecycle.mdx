@@ -1,0 +1,59 @@
+---
+title: "Cycle de vie des modèles"
+linkTitle: "Cycle de vie"
+description: >
+  Découvrez le cycle de vie et le retrait des modèles W&B Inférence
+---
+
+De nouveaux modèles sont fréquemment évalués et publiés dans le catalogue W&amp;B Inférence.
+
+Les modèles plus anciens sont régulièrement réévalués et peuvent être retirés afin de privilégier les offres les plus demandées et de la plus haute qualité.
+
+<div id="model-lifecycle-stages">
+  ## Étapes du cycle de vie des modèles
+</div>
+
+Les modèles de W&amp;B Inférence utilisent la terminologie suivante pour les différentes étapes de leur cycle de vie :
+
+* **Disponibilité générale** : le modèle est entièrement pris en charge et son utilisation est recommandée.
+* **Obsolète** : le modèle doit bientôt être supprimé. Les clients doivent passer à une solution de remplacement recommandée dès que possible.
+* **Retiré** : le modèle n’est plus disponible. Toute requête envoyée à un modèle retiré échoue et renvoie un code d’état `HTTP 404`.
+
+<div id="deprecation-process">
+  ## Processus d’obsolescence
+</div>
+
+Lorsqu’un modèle devient obsolète, W&amp;B fournit sur cette page un préavis d’au moins deux semaines avant que le modèle ne soit retiré.
+
+Nous essayons également de notifier par e-mail les utilisateurs ayant récemment utilisé un modèle obsolète
+et de fournir des recommandations de modèles de remplacement.
+
+Les modèles au stade **obsolète** continuent de traiter les requêtes.
+
+<div id="deprecated-models">
+  ## Modèles obsolètes
+</div>
+
+Les modèles suivants de W&amp;B Inférence sont **obsolètes** :
+
+{/* takeru lifecycle-deprecated - Ce tableau est généré automatiquement ; ne le modifiez pas manuellement. */}
+
+*Aucun pour le moment*
+
+
+<div id="retired-models">
+  ## Modèles retirés
+</div>
+
+Les modèles de W&amp;B Inférence suivants sont **retirés** :
+
+{/* takeru lifecycle-retired - Ce tableau est généré automatiquement. Ne le modifiez pas manuellement. */}
+
+| Date de retrait | ID du modèle                       | Remplacement recommandé       |
+| --------------- | ---------------------------------- | ----------------------------- |
+| 2026-03-04      | `deepseek-ai/DeepSeek-R1-0528`     |                               |
+| 2026-03-04      | `deepseek-ai/DeepSeek-V3-0324`     |                               |
+| 2026-03-04      | `moonshotai/Kimi-K2-Instruct`      | `moonshotai/Kimi-K2.5`        |
+| 2026-03-04      | `moonshotai/Kimi-K2-Instruct-0905` | `moonshotai/Kimi-K2.5`        |
+| 2026-03-04      | `Qwen/Qwen2.5-14B-Instruct`        | `OpenPipe/Qwen3-14B-Instruct` |
+| 2026-03-04      | `zai-org/GLM-4.5`                  | `zai-org/GLM-5-FP8`           |

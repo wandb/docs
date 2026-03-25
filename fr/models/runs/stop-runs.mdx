@@ -1,0 +1,24 @@
+---
+title: Arrêter des runs
+description: Arrêtez des runs par programmation à l’aide du SDK Python de W&B ou manuellement depuis l’application W&B.
+---
+
+Arrêtez un run par programmation avec le SDK Python de W&amp;B ou de manière interactive dans l’application W&amp;B.
+
+<Tabs>
+  <Tab title="Python SDK">
+    1. Accédez au terminal ou à l’éditeur de code dans lequel vous avez initialisé le run.
+    2. Appuyez sur `Ctrl+D` pour arrêter le run.
+  </Tab>
+
+  <Tab title="W&B App">
+    1. Accédez au projet auquel votre run envoie ses données.
+    2. Sélectionnez le run que vous souhaitez arrêter dans le sélecteur de runs.
+    3. Choisissez l’onglet **Aperçu**.
+    4. Sélectionnez le bouton d’arrêt à côté du champ **State**.
+
+    À côté du champ **State**, l’état du run passe de `running` à `Killed`.
+  </Tab>
+</Tabs>
+
+Voir [les champs d’état](/fr/models/runs/run-states) pour obtenir la liste complète des états possibles d’un run.

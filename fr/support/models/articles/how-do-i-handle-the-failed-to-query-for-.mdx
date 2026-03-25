@@ -1,0 +1,33 @@
+---
+title: "Comment puis-je corriger l'erreur 'Failed to query for notebook' ?"
+keywords: ["Notebooks", "Variables d'environnement"]
+---
+
+Si vous rencontrez le message d&#39;erreur `"Failed to query for notebook name, you can set it manually with the WANDB_NOTEBOOK_NAME environment variable,"`, corrigez-le en définissant la variable d&#39;environnement. Plusieurs méthodes permettent de procéder ainsi :
+
+<Tabs>
+  <Tab title="Notebook">
+    ```python
+    %env "WANDB_NOTEBOOK_NAME" "notebook name here"
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    import os
+
+    os.environ["WANDB_NOTEBOOK_NAME"] = "notebook name here"
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Notebooks](/fr/support/models/tags/notebooks)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

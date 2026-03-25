@@ -1,0 +1,179 @@
+---
+title: Instructor
+description: "Tracez l'extraction de données structurées à partir de LLM avec l'intégration Instructor de Weave, en capturant la validation Pydantic et la logique de réessai."
+---
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_instructor.ipynb" aria-label="Ouvrir dans Google Colab">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
+</a>
+
+[Instructor](https://python.useinstructor.com/) est une bibliothèque légère qui facilite l&#39;obtention de données structurées, comme du JSON, à partir de LLM.
+
+<div id="tracing">
+  ## Tracing
+</div>
+
+Il est important de stocker les traces des applications de modèles de langage dans un emplacement central, aussi bien pendant le développement qu’en production. Ces traces peuvent être utiles pour le débogage, ainsi qu’en tant que jeu de données pour vous aider à améliorer votre application.
+
+Weave capturera automatiquement les traces pour [Instructor](https://python.useinstructor.com/). Pour commencer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
+
+```python lines
+import instructor
+import weave
+from pydantic import BaseModel
+from openai import OpenAI
+
+
+# Définir la structure de sortie souhaitée
+class UserInfo(BaseModel):
+    user_name: str
+    age: int
+
+# Initialiser Weave
+weave.init(project_name="instructor-test")
+
+# Patcher le client OpenAI
+client = instructor.from_openai(OpenAI())
+
+# Extraire des données structurées du langage naturel
+user_info = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    response_model=UserInfo,
+    messages=[{"role": "user", "content": "John Doe is 30 years old."}],
+)
+```
+
+| ![Trace Instructor LM dans Weave avec flux de travail d'extraction de sortie structurée](/weave/guides/integrations/imgs/instructor/instructor_lm_trace.gif) |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Weave suit et consigne désormais tous les appels LLM effectués avec Instructor. Vous pouvez consulter les traces dans l&#39;interface web de Weave.          |
+
+<div id="track-your-own-ops">
+  ## Suivez vos propres ops
+</div>
+
+En décorant une fonction avec `@weave.op`, vous commencez à capturer les entrées, les sorties et la logique de l’application afin de pouvoir déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer les ops en profondeur et construire un arbre des fonctions que vous souhaitez suivre. Cela active aussi automatiquement la gestion des versions du code pendant vos expérimentations, afin de capturer des détails ad hoc qui n’ont pas été commités dans Git.
+
+Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tracking/ops).
+
+Dans l’exemple ci-dessous, la fonction `extract_person` est la fonction de métrique décorée avec `@weave.op`. Cela permet de voir les étapes intermédiaires, comme l’appel de complétion de chat d’OpenAI.
+
+```python lines
+import instructor
+import weave
+from openai import OpenAI
+from pydantic import BaseModel
+
+
+# Définissez la structure de sortie souhaitée
+class Person(BaseModel):
+    person_name: str
+    age: int
+
+
+# Initialiser Weave
+weave.init(project_name="instructor-test")
+
+# Patcher le client OpenAI
+lm_client = instructor.from_openai(OpenAI())
+
+
+# Extraire des données structurées du langage naturel
+@weave.op()
+def extract_person(text: str) -> Person:
+    return lm_client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": text},
+        ],
+        response_model=Person,
+    )
+
+
+person = extract_person("My name is John and I am 20 years old")
+```
+
+| ![Trace d'op Instructor avec des objets structurés, les entrées et sorties de la fonction, et la validation du modèle Pydantic](/weave/guides/integrations/imgs/instructor/instructor_op_trace.png)                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Décorer la fonction `extract_person` avec `@weave.op` permet de tracer ses entrées, ses sorties et tous les appels LM internes effectués dans celle-ci. Weave suit également automatiquement les objets structurés générés par Instructor et en assure le versionnage. |
+
+<div id="create-a-model-for-easier-experimentation">
+  ## Créer un `Model` pour faciliter l’expérimentation
+</div>
+
+Il est difficile d’organiser l’expérimentation lorsqu’il y a de nombreux éléments en jeu. En utilisant la classe [`Model`](../core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela permet d’organiser et de comparer plus facilement les différentes itérations de votre application.
+
+En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](../core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet de trouver facilement quels paramètres fonctionnent le mieux. Vous pouvez également utiliser les modèles Weave avec `serve` (voir ci-dessous) et les [`Evaluation`](../core-types/evaluations)s.
+
+Dans l’exemple ci-dessous, vous pouvez expérimenter avec `PersonExtractor`. Chaque fois que vous modifiez l’un de ces éléments, vous obtiendrez une nouvelle *version* de `PersonExtractor`.
+
+```python lines
+import asyncio
+from typing import List, Iterable
+
+import instructor
+import weave
+from openai import AsyncOpenAI
+from pydantic import BaseModel
+
+
+# Définissez la structure de sortie souhaitée
+class Person(BaseModel):
+    person_name: str
+    age: int
+
+
+# Initialisez Weave
+weave.init(project_name="instructor-test")
+
+# Patchez le client OpenAI
+lm_client = instructor.from_openai(AsyncOpenAI())
+
+
+class PersonExtractor(weave.Model):
+    openai_model: str
+    max_retries: int
+
+    @weave.op()
+    async def predict(self, text: str) -> List[Person]:
+        model = await lm_client.chat.completions.create(
+            model=self.openai_model,
+            response_model=Iterable[Person],
+            max_retries=self.max_retries,
+            stream=True,
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a perfect entity extraction system",
+                },
+                {
+                    "role": "user",
+                    "content": f"Extract `{text}`",
+                },
+            ],
+        )
+        return [m async for m in model]
+
+
+model = PersonExtractor(openai_model="gpt-4", max_retries=2)
+asyncio.run(model.predict("John is 30 years old"))
+```
+
+| ![Interface Instructor modèle Weave de traçage et de gestion des versions, avec les versions du modèle et l’historique des traces](/weave/guides/integrations/imgs/instructor/instructor_weave_model.png) |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Traçage et gestion des versions de vos appels à l’aide d’un [`Model`](../core-types/models)                                                                                                              |
+
+<div id="serving-a-weave-model">
+  ## Servir un modèle Weave
+</div>
+
+À partir d’une référence Weave vers un objet `weave.Model`, vous pouvez lancer un serveur FastAPI et le servir avec [`serve`](https://docs.wandb.ai/weave/guides/tools/serve).
+
+| [![Interface Instructor Serve avec la configuration du serveur FastAPI et les options pour servir le modèle](/weave/guides/integrations/imgs/instructor/instructor_serve.png)](https://wandb.ai/geekyrakshit/instructor-test/weave/objects/PersonExtractor/versions/xXpMsJvaiTOjKafz1TnHC8wMgH5ZAAwYOaBMvHuLArI) |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Vous pouvez trouver la référence Weave de n’importe quel `weave.Model` en accédant au modèle et en la copiant depuis l’interface utilisateur.                                                                                                                                                                           |
+
+Vous pouvez servir votre modèle à l’aide de la commande suivante dans le terminal :
+
+```shell
+weave serve weave://your_entity/project-name/YourModel:<hash>
+```

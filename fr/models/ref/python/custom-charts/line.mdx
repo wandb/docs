@@ -1,0 +1,70 @@
+---
+title: line()
+namespace: python_sdk_custom_charts
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/line.py" />
+
+
+### <kbd>fonction</kbd> `line`
+
+```python
+line(
+    table: 'wandb.Table',
+    x: 'str',
+    y: 'str',
+    stroke: 'str | None' = None,
+    title: 'str' = '',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+Construit un graphique linéaire personnalisable.
+
+**Arguments :**
+
+* `table`:   Le tableau contenant les données du graphique.
+* `x`:  Nom de la colonne pour les valeurs de l’axe x.
+* `y`:  Nom de la colonne pour les valeurs de l’axe y.
+* `stroke`:  Nom de la colonne permettant de distinguer les lignes (par exemple, pour regrouper des lignes).
+* `title`:  Titre du graphique.
+* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+
+**Retourne :**
+
+* `CustomChart`:  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
+
+**Exemple :**
+
+```python
+import math
+import random
+import wandb
+
+# Créer plusieurs séries de données avec différents motifs
+data = []
+for i in range(100):
+     # Série 1 : motif sinusoïdal avec bruit aléatoire
+     data.append([i, math.sin(i / 10) + random.uniform(-0.1, 0.1), "series_1"])
+     # Série 2 : motif cosinusoïdal avec bruit aléatoire
+     data.append([i, math.cos(i / 10) + random.uniform(-0.1, 0.1), "series_2"])
+     # Série 3 : augmentation linéaire avec bruit aléatoire
+     data.append([i, i / 10 + random.uniform(-0.5, 0.5), "series_3"])
+
+# Définir les colonnes du tableau
+table = wandb.Table(data=data, columns=["step", "value", "series"])
+
+# Initialiser le run wandb et enregistrer le graphique linéaire
+with wandb.init(project="line_chart_example") as run:
+     line_chart = wandb.plot.line(
+         table=table,
+         x="step",
+         y="value",
+         stroke="series",  # Regrouper par la colonne "series"
+         title="Multi-Series Line Plot",
+     )
+     run.log({"line-chart": line_chart})
+```

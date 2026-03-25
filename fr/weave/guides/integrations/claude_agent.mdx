@@ -1,0 +1,160 @@
+---
+title: "Claude Agent SDK"
+description: "Utilisez W&B Weave avec le Claude Agent SDK pour tracer les requêtes de votre agent, les appels d'outils et les conversations à plusieurs échanges."
+---
+
+Le [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) est un SDK Python d&#39;Anthropic permettant de créer des applications d&#39;agents avec Claude. W&amp;B Weave trace automatiquement les appels au Claude Agent SDK lorsque vous appelez `weave.init()`, et capture les requêtes, les appels d&#39;outils et les conversations à plusieurs échanges.
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+Avant d’exécuter l’exemple de code :
+
+* Mettez à jour `your-team-name` en fonction de votre cas pour l’appel à `weave.init()` à la ligne 109 du code.
+* Définissez `WANDB_API_KEY` et `ANTHROPIC_API_KEY` dans votre environnement.
+  * Pour plus d’informations sur les clés API W&amp;B, voir [clés API](/fr/platform/app/settings-page/user-settings#api-keys).
+
+<div id="installation">
+  ## Installation
+</div>
+
+Installez les dépendances requises avec `pip` :
+
+```bash
+pip install weave claude-agent-sdk
+```
+
+<div id="get-started">
+  ## Premiers pas
+</div>
+
+Weave patche automatiquement le SDK et trace chaque requête lorsque `weave.init()` est appelé avant d&#39;utiliser le Claude Agent SDK.
+
+L&#39;exemple suivant illustre trois fonctionnalités :
+
+* **Requêtes simples en une seule passe** à l&#39;aide de la fonction `query()`, y compris les réponses du modèle et le coût.
+* **Utilisation d&#39;outils MCP** avec `ClaudeSDKClient`. Le Claude Agent SDK prend en charge les outils personnalisés via des serveurs MCP intégrés au processus.
+  * Weave trace les définitions d&#39;outils, les appels d&#39;outils et les résultats en même temps que les requêtes de l&#39;agent.
+  * La démo MCP définit deux outils MCP et exécute une requête qui les utilise.
+* **Conversations à plusieurs échanges** regroupées dans une seule trace avec `weave.thread()`, afin que vous puissiez voir le déroulement complet de la conversation dans l&#39;interface Weave.
+  * Weave capture chaque échange comme enfant du fil de discussion, afin que vous puissiez voir le déroulement complet de la conversation dans l&#39;interface Weave.
+
+```python lines
+"""Weave + Claude Agent SDK: tracing queries, tools, and conversations.
+
+Call `weave.init()` to auto-patch the SDK — every query, tool call, and
+multi-turn conversation is recorded as a trace you can inspect in the Weave UI.
+"""
+
+import anyio
+
+import weave
+from claude_agent_sdk import (
+    AssistantMessage,
+    ClaudeAgentOptions,
+    ClaudeSDKClient,
+    ResultMessage,
+    TextBlock,
+    ToolUseBlock,
+    create_sdk_mcp_server,
+    tool,
+)
+
+# --- 1. Définir les outils MCP ---
+
+@tool("add", "Add two numbers", {"a": float, "b": float})
+async def add(args: dict) -> dict:
+    return {"content": [{"type": "text", "text": str(args["a"] + args["b"])}]}
+
+
+@tool("multiply", "Multiply two numbers", {"a": float, "b": float})
+async def multiply(args: dict) -> dict:
+    return {"content": [{"type": "text", "text": str(args["a"] * args["b"])}]}
+
+
+math_server = create_sdk_mcp_server(
+    name="math", version="1.0.0", tools=[add, multiply],
+)
+
+
+# --- 2. Requête simple en une seule passe ---
+
+async def simple_query():
+    from claude_agent_sdk import query
+
+    async for msg in query(prompt="What is 2+2?"):
+        if isinstance(msg, AssistantMessage):
+            for block in msg.content:
+                if isinstance(block, TextBlock):
+                    print(block.text, end="")
+        elif isinstance(msg, ResultMessage):
+            print(f"\ncost=${msg.total_cost_usd:.4f}")
+
+
+# --- 3. Utilisation des outils MCP ---
+
+async def tool_query():
+    options = ClaudeAgentOptions(
+        mcp_servers={"math": math_server},
+        allowed_tools=["mcp__math__add", "mcp__math__multiply"],
+    )
+
+    async with ClaudeSDKClient(options=options) as client:
+        await client.query("Using the math tools, compute (3 + 7) * 2.")
+        async for msg in client.receive_response():
+            if isinstance(msg, AssistantMessage):
+                for block in msg.content:
+                    if isinstance(block, ToolUseBlock):
+                        print(f"  [tool] {block.name}({block.input})")
+                    elif isinstance(block, TextBlock):
+                        print(block.text, end="")
+            elif isinstance(msg, ResultMessage):
+                print(f"\ncost=${msg.total_cost_usd:.4f}")
+
+
+# --- 4. Conversation multi-tours avec contexte de fil de discussion ---
+
+async def threaded_conversation():
+    with weave.thread("my-conversation") as t:
+        print(f"thread_id={t.thread_id}")
+
+        async with ClaudeSDKClient() as client:
+            for prompt in [
+                "Name a famous sorting algorithm.",
+                "What is its time complexity?",
+            ]:
+                await client.query(prompt)
+                reply = ""
+                async for msg in client.receive_response():
+                    if isinstance(msg, AssistantMessage):
+                        reply += "".join(
+                            b.text for b in msg.content if isinstance(b, TextBlock)
+                        )
+                    elif isinstance(msg, ResultMessage):
+                        print(f"Q: {prompt}\nA: {reply.strip()[:120]}\n")
+
+
+# --- Exécuter tous les exemples ---
+
+async def main():
+    print("=== Simple Query ===")
+    await simple_query()
+
+    print("\n=== MCP Tool Use ===")
+    await tool_query()
+
+    print("\n=== Multi-Turn Thread ===")
+    await threaded_conversation()
+
+
+if __name__ == "__main__":
+    weave.init("your-team-name/claude-agent-sdk-demo")
+    anyio.run(main)
+```
+
+<div id="view-traces">
+  ## Voir les traces
+</div>
+
+Lorsque vous exécutez l’exemple, Weave affiche des liens vers le tableau de bord Weave. Suivez ces liens pour voir vos traces, y compris les entrées de requête, les réponses du modèle, les appels d’outils et les fils de discussion.

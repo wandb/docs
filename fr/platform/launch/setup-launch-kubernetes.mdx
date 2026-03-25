@@ -1,0 +1,203 @@
+---
+title: 'Tutoriel : Configurer W&B Launch sur Kubernetes'
+description: "Configurer W&B Launch sur un cluster Kubernetes à l’aide de charts Helm, de la création d’images avec Kaniko et de spécifications de jobs Kubernetes."
+---
+
+Vous pouvez utiliser W&amp;B Launch pour envoyer des charges de travail ML vers un cluster Kubernetes, offrant ainsi aux ingénieurs ML une interface simple directement dans W&amp;B pour utiliser les ressources que vous gérez déjà avec Kubernetes.
+
+W&amp;B met à disposition une [image officielle de l’agent Launch](https://hub.docker.com/r/wandb/launch-agent) qui peut être déployée sur votre cluster à l’aide d’un [chart Helm](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) maintenu par W&amp;B.
+
+W&amp;B s’appuie sur le générateur [Kaniko](https://github.com/GoogleContainerTools/kaniko) pour permettre à l’agent Launch de créer des images Docker dans un cluster Kubernetes. Pour en savoir plus sur la configuration de Kaniko pour l’agent Launch, ou sur la manière de désactiver le build des jobs afin d’utiliser uniquement des images Docker préconstruites, voir [Configuration avancée de l’agent](./setup-agent-advanced).
+
+<Note>
+  Pour installer Helm et appliquer ou mettre à niveau le chart Helm de l’agent Launch de W&amp;B, vous devez disposer d’un accès `kubectl` au cluster avec des autorisations suffisantes pour créer, mettre à jour et supprimer des ressources Kubernetes. En général, un utilisateur disposant du rôle cluster-admin ou d’un rôle personnalisé avec des autorisations équivalentes est requis.
+</Note>
+
+{/* À l’avenir : insérer un schéma ici */}
+
+
+<div id="configure-a-queue-for-kubernetes">
+  ## Configurer une file d&#39;attente pour Kubernetes
+</div>
+
+La configuration de la file d’attente Launch pour une ressource cible Kubernetes ressemblera soit à une [spécification de job Kubernetes](https://kubernetes.io/docs/concepts/workloads/controllers/job/), soit à une [spécification de ressource personnalisée Kubernetes](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/).
+
+Vous pouvez contrôler tous les aspects de la spécification de la ressource de charge de travail Kubernetes lorsque vous créez une file d’attente Launch.
+
+<Tabs>
+  <Tab title="Spécification de job Kubernetes">
+    ```yaml
+    spec:
+      template:
+        spec:
+          containers:
+            - env:
+                - name: MY_ENV_VAR
+                  value: some-value
+              resources:
+                requests:
+                  cpu: 1000m
+                  memory: 1Gi
+    metadata:
+      labels:
+        queue: k8s-test
+    namespace: wandb
+    ```
+  </Tab>
+
+  <Tab title="Spécification de ressource personnalisée">
+    Dans certains cas d’utilisation, vous pouvez vouloir utiliser des définitions `CustomResource`. Les définitions `CustomResource` sont utiles si, par exemple, vous souhaitez effectuer un entraînement distribué sur plusieurs nœuds. Voir le tutoriel sur l’utilisation de Launch avec des jobs multinœuds via Volcano pour un exemple d’application. Vous pouvez également vouloir utiliser W&amp;B Launch avec Kubeflow.
+
+    L’extrait YAML suivant montre un exemple de configuration de file d’attente Launch utilisant Kubeflow :
+
+    ```yaml
+    kubernetes:
+      kind: PyTorchJob
+      spec:
+        pytorchReplicaSpecs:
+          Master:
+            replicas: 1
+            template:
+              spec:
+                containers:
+                  - name: pytorch
+                    image: '${image_uri}'
+                    imagePullPolicy: Always
+            restartPolicy: Never
+          Worker:
+            replicas: 2
+            template:
+              spec:
+                containers:
+                  - name: pytorch
+                    image: '${image_uri}'
+                    imagePullPolicy: Always
+            restartPolicy: Never
+        ttlSecondsAfterFinished: 600
+      metadata:
+        name: '${run_id}-pytorch-job'
+      apiVersion: kubeflow.org/v1
+    ```
+  </Tab>
+</Tabs>
+
+Pour des raisons de sécurité, W&amp;B injecte les ressources suivantes dans votre file d’attente Launch si elles ne sont pas spécifiées :
+
+* `securityContext`
+* `backOffLimit`
+* `ttlSecondsAfterFinished`
+
+L’extrait YAML suivant montre comment ces valeurs apparaîtront dans votre file d’attente Launch :
+
+```yaml title="example-spec.yaml"
+spec:
+  template:
+    `backOffLimit`: 0
+    ttlSecondsAfterFinished: 60
+    securityContext:
+      allowPrivilegeEscalation: False,
+      capabilities:
+        drop:
+          - ALL,
+      seccompProfile:
+        type: "RuntimeDefault"
+```
+
+
+<div id="create-a-queue">
+  ## Créer une file d&#39;attente
+</div>
+
+Créez une file d&#39;attente dans l’application W&amp;B en utilisant Kubernetes comme ressource de calcul :
+
+1. Accédez à la [page Launch](https://wandb.ai/launch).
+2. Cliquez sur le bouton **Créer une file d&#39;attente**.
+3. Sélectionnez l’**entité** dans laquelle vous souhaitez créer la file d&#39;attente.
+4. Saisissez un nom pour votre file d&#39;attente dans le champ **Nom**.
+5. Sélectionnez **Kubernetes** comme **Ressource**.
+6. Dans le champ **Configuration**, indiquez la spécification de workflow d’un job Kubernetes ou la spécification d’une **Ressource personnalisée** que vous avez [configurée dans la section précédente](#configure-a-queue-for-kubernetes).
+
+<div id="configure-a-launch-agent-with-helm">
+  ## Configurer un agent Launch avec Helm
+</div>
+
+Utilisez le [chart Helm](https://github.com/wandb/helm-charts/tree/main/charts/launch-agent) fourni par W&amp;B pour déployer l’agent Launch dans votre cluster Kubernetes. Contrôlez le comportement de l’agent Launch avec le [fichier](https://github.com/wandb/helm-charts/blob/main/charts/launch-agent/values.yaml) `values.yaml`.
+
+Indiquez dans la clé `launchConfig` du fichier `values.yaml` le contenu qui serait normalement défini dans votre fichier de configuration de l’agent Launch (`~/.config/wandb/launch-config.yaml`).
+
+Par exemple, supposons que vous disposez d’une configuration d’agent Launch qui vous permet d’exécuter un agent Launch sur EKS à l’aide du générateur d’images Docker Kaniko :
+
+```yaml title="launch-config.yaml"
+queues:
+	- <queue name>
+max_jobs: <n concurrent jobs>
+environment:
+	type: aws
+	region: us-east-1
+registry:
+	type: ecr
+	uri: <my-registry-uri>
+builder:
+	type: kaniko
+	build-context-store: <s3-bucket-uri>
+```
+
+Dans votre fichier `values.yaml`, cela peut se présenter ainsi :
+
+```yaml title="values.yaml"
+agent:
+  labels: {}
+  # Clé API W&B.
+  apiKey: ''
+  # Image de conteneur à utiliser pour l'agent.
+  image: wandb/launch-agent:latest
+  # Politique de récupération d'image pour l'image de l'agent.
+  imagePullPolicy: Always
+  # Bloc de ressources pour la spécification de l'agent.
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+# Namespace dans lequel déployer l'agent Launch
+namespace: wandb
+
+# URL de l'API W&B (indiquez la vôtre ici)
+baseUrl: https://api.wandb.ai
+
+# Namespaces cibles supplémentaires dans lesquels l'agent Launch peut déployer
+additionalTargetNamespaces:
+  - default
+  - wandb
+
+# Doit contenir le contenu littéral de votre configuration d'agent Launch.
+launchConfig: |
+  queues:
+    - <queue name>
+  max_jobs: <n concurrent jobs>
+  environment:
+    type: aws
+    region: <aws-region>
+  registry:
+    type: ecr
+    uri: <my-registry-uri>
+  builder:
+    type: kaniko
+    build-context-store: <s3-bucket-uri>
+
+# Le contenu d'un fichier de credentials git. Il sera stocké dans un secret k8s
+# et monté dans le conteneur de l'agent. À définir si vous souhaitez cloner des
+# dépôts privés.
+gitCreds: |
+
+# Annotations pour le compte de service wandb. Utile lors de la configuration de l'identité de charge de travail sur GCP.
+serviceAccount:
+  annotations:
+    iam.gke.io/gcp-service-account:
+    azure.workload.identity/client-id:
+
+# À définir avec la clé d'accès au stockage Azure si vous utilisez Kaniko avec Azure.
+azureStorageAccessKey: ''
+```
+
+Pour plus d&#39;informations sur les registres, les environnements et les autorisations requises pour l&#39;agent, voir [Configuration avancée de l&#39;agent](./setup-agent-advanced).
