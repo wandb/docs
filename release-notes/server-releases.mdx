@@ -39,7 +39,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
     ![Pan and zoom controls in the full-screen image modal](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)
     </Frame>
 
-- You can now filter the run selector and Runs list by Git commit.
+- The run selector and Runs list now support filtering by Git commit.
 - Added defensive caching for project fields to reduce database load.
 
 ### Inference
@@ -49,20 +49,18 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 ### Weave
 
 - Weave now supports chat view for Claude agents.
-- The Weave UI now supports filtering by note contents.
-- The Weave UI now supports filtering traces by emoji feedback reactions.
-- The Weave UI now supports managing prompt tags and aliases.
-- Tables on the Calls and Traces pages now support drag-and-drop reordering of columns.
+- **Traces** and **Evaluations** pages now support filtering by note contents and emoji feedback reactions.
+- You can now manage prompt tags and aliases in the **Prompts** tab of the **Assets** page.
+- Tables on the **Calls** and **Traces** pages now support drag-and-drop reordering of columns.
 - Weave monitors now support scoring across all operations.
 
 ## Fixes
 
 - Fixed floating point rounding errors in backend smoothing.
-- Removed panel and hover overlay drop shadows.
-- Fixed misalignment in bounding boxes with long captions.
-- Fixed a UI bug where bounding boxes appeared with no image overlay.
 - Fixed a bug where typing in expression inputs caused the cursor to jump.
 - Fixed a bug where actual-sized images could overlap in gallery mode.
+- Fixed misalignment in bounding boxes with long captions.
+- Removed panel and hover overlay drop shadows.
 - Panel search results now include custom charts.
 
 </Update>
