@@ -5,7 +5,7 @@ title: wandb enabled
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3451" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3450" />
 
 
 
@@ -17,13 +17,12 @@ enabled [OPTIONS]
 
 ## Description
 
-Re-enable W&B after it was deactivated.
+Re-enable W&B after it was deactivated with `wandb disabled`.
 
     Set the mode to `online` to restore full W&B functionality,
     including cloud syncing and artifact storage.
 
-    Undos a previous call to `wandb disabled`. Do not
-    upload data logged while W&B was set to `disabled`, but allow
+    Does not upload data logged while W&B was set to `disabled`, but allows
     new data to be logged and synced.
 
     To switch between online and offline modes without fully deactivating W&B,
