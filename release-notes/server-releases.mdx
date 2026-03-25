@@ -39,8 +39,14 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
     ![Pan and zoom controls in the full-screen image modal](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)
     </Frame>
 
-- The run selector and Runs list now support filtering by Git commit.
+- The run selector and Runs list have been enhanced:
+    - Added support for filtering by Git commit.
+    - For runs that specify config parameters, added support for the `CONTAINS` operator.
 - Added defensive caching for project fields to reduce database load.
+
+### Registry
+- Added new rate limits for artifact creation. By default, each artifact creation request can consume 10 request-seconds per 30-second time window.
+
 
 ### Weave
 <Note>For deployments using Weave, Clickhouse v0.25.8+ is required before upgrading to v0.78+.</Note>
