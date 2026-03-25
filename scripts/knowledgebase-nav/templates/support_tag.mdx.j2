@@ -2,6 +2,7 @@
 title: {{ tag | tojson_unicode }}
 tag: {{ articles | length | string | tojson_unicode }}
 generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 {% for article in articles %}
