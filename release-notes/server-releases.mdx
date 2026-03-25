@@ -12,6 +12,61 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.79.0" description="March 24, 2026">
+
+W&B Server 0.79.0 adds zooming and panning for images, improved management of service accounts and API keys, and performance improvements. Inference adds models MiniMax M2.5 and MiniMaxAI M2.5. Weave monitors now support scoring all operations, and the Weave UI adds enhanced management of prompt tags and aliases, chat view for Claude agents, filtering by emoji feedback reactions or note contents, and more.
+
+## Support and end of life
+
+- W&B Server v0.67 has reached end of life.
+
+Refer to [Release policies and processes](/release-notes/release-policies). For assistance or questions, contact [support](mailto:support@wandb.com).
+
+## Security
+
+- When creating a service account, you are now automatically guided to create an API key for it.
+- Confirmation is now required to delete a service account or an API key from the W&B App.
+- The backend now escapes column names in filters to help prevent SQL injection.
+- Email addresses that contain [diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) are now blocked from user registration or login.
+
+## Features
+
+- **Pan and zoom on an image** to inspect fine-grained image details directly in W&B's full-screen image modal. Open any image in full-screen, then:
+    - Use UI controls or keyboard shortcuts to set your zoom level, reset to 100%, or zoom to fit.
+    - Click and drag to pan when zoomed in.
+
+    <Frame>
+    ![Pan and zoom controls in the full-screen image modal](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)
+    </Frame>
+
+- You can now filter the run selector and Runs list by Git commit.
+- Added defensive caching for project fields to reduce database load.
+
+### Inference
+
+- Inference adds support for models MiniMax M2.5 and MiniMaxAI M2.5. See [Model Catalog](/inference/models).
+
+### Weave
+
+- Weave now supports chat view for Claude agents.
+- The Weave UI now supports filtering by note contents.
+- The Weave UI now supports filtering traces by emoji feedback reactions.
+- The Weave UI now supports managing prompt tags and aliases.
+- Tables on the Calls and Traces pages now support drag-and-drop reordering of columns.
+- Weave monitors now support scoring across all operations.
+
+## Fixes
+
+- Fixed floating point rounding errors in backend smoothing.
+- Removed panel and hover overlay drop shadows.
+- Fixed misalignment in bounding boxes with long captions.
+- Fixed a UI bug where bounding boxes appeared with no image overlay.
+- Fixed a bug where typing in expression inputs caused the cursor to jump.
+- Fixed a bug where actual-sized images could overlap in gallery mode.
+- Panel search results now include custom charts.
+
+</Update>
+
 <Update label="v0.78.2" description="March 10, 2026">
 ## Fixes
 Fixes a regression of a previously-addressed critical security fix that allows unauthorized access to an artifact. This regression is present in v0.78.0 and v0.78.1. Do not install or upgrade to these versions. Instead, install v0.78.2, which includes the fix.
