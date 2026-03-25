@@ -47,6 +47,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 - Inference adds support for models MiniMax M2.5 and MiniMaxAI M2.5. See [Model Catalog](/inference/models).
 
 ### Weave
+<Note>For deployments using Weave, Clickhouse v0.25.8+ is required before upgrading to v0.78+.</Note>
 
 - Weave now supports chat view for Claude agents.
 - **Traces** and **Evaluations** pages now support filtering by note contents and emoji feedback reactions.
@@ -66,6 +67,8 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
 </Update>
 
 <Update label="v0.78.2" description="March 10, 2026">
+<Note>For deployments using Weave, Clickhouse v0.25.8+ is required before upgrading to v0.78.</Note>
+
 ## Fixes
 Fixes a regression of a previously-addressed critical security fix that allows unauthorized access to an artifact. This regression is present in v0.78.0 and v0.78.1. Do not install or upgrade to these versions. Instead, install v0.78.2, which includes the fix.
 </Update>
@@ -84,7 +87,9 @@ This release is impacted by a critical security issue that allows unauthorized a
 
 <Update label="v0.78.0" description="March 3, 2026">
 
-W&B Server 0.78.0 strengthens security and access defaults, adds tools to compare experiments and control costs more efficiently, and more. For example:
+W&B Server 0.78.0 strengthens security and access defaults, adds tools to compare experiments and control costs more efficiently, and more.
+
+<Note>For deployments using Weave, Clickhouse v0.25.8+ is required before upgrading to v0.78.</Note>
 
 - In **Models**, create multi-metric plots efficiently with regular expressions, pin important runs, compare experiments against a baseline, and streamline workspaces using enhanced workspace templates.
 - **Registry** includes enhanced search, redesigned cards, clearer and more responsive lineage graphs, and more.
