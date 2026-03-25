@@ -5,7 +5,7 @@ title: wandb restore
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3124" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L3096" />
 
 
 
@@ -25,14 +25,14 @@ Restore the code, config, or Docker environement from a previous W&B run.
     Restore up to three pieces of state, depending on what the original
     run recorded:
 
-    1. Config (always) — Write the run config to wandb/config.yaml.
-    2. Git (if available) — Check out the original commit on a new
+    1. Config (always): Write the run config to wandb/config.yaml.
+    2. Git (if available): Check out the original commit on a new
        wandb/run_id branch. Fetch and apply any saved diff patch.
        If the original commit cannot be found,
        fall back to an upstream commit if the original cannot be found.
        Run this command from the same git repository as the original run. Skip
        this step with `--no-git`.
-    3. Docker (if available) — If the run was executed inside a Docker
+    3. Docker (if available): If the run was executed inside a Docker
        container, start the same image with the original command.
 
     If the run has no git history and no Docker image,
