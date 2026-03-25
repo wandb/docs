@@ -37,7 +37,6 @@ with wandb.init(entity="entity", project="project") as run:
     run.log({"accuracy": acc, "loss": loss})
 ```
 
-
 ### <kbd>property</kbd> Run.config
 
 この run に関連付けられている config オブジェクトです。
@@ -320,7 +319,6 @@ define_metric(
 
 ***
 
-
 ### <kbd>method</kbd> `Run.display`
 
 ```python
@@ -330,7 +328,6 @@ display(height: 'int' = 420, hidden: 'bool' = False) → bool
 この run を Jupyter 上に表示します。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.finish`
 
@@ -356,7 +353,6 @@ Run States:
 * `quiet`:  非推奨。ログ出力の詳細度は `wandb.Settings(quiet=...)` を使って設定してください。
 
 ***
-
 
 ### <kbd>メソッド</kbd> `Run.finish_artifact`
 
@@ -393,7 +389,6 @@ finish_artifact(
 
 ***
 
-
 ### <kbd>メソッド</kbd> `Run.link_artifact`
 
 ```python
@@ -420,7 +415,6 @@ link_artifact(
 リンクされたアーティファクト。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.link_model`
 
@@ -463,7 +457,6 @@ link_model(
 リンクに成功した場合はリンクされたアーティファクトを、失敗した場合は `None` を返します。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.log`
 
@@ -546,7 +539,6 @@ with wandb.init() as run:
 ```
 
 **引数:**
-
 
 * `data`:  キーが `str` 型で、値がシリアライズ可能な `dict`
 * `Python objects including`:  `int`、`float` および `string`、任意の `wandb.data_types`、シリアライズ可能な Python オブジェクトからなる list、tuple、NumPy 配列、同じ構造を持つ他の `dict`
@@ -690,7 +682,6 @@ with wandb.init() as run:
 
 ***
 
-
 ### <kbd>method</kbd> `Run.log_artifact`
 
 ```python
@@ -723,7 +714,6 @@ run の出力としてアーティファクトを宣言します。
 `Artifact` オブジェクト。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.log_code`
 
@@ -778,7 +768,6 @@ with wandb.init() as run:
 
 ***
 
-
 ### <kbd>メソッド</kbd> `Run.log_model`
 
 ```python
@@ -811,7 +800,6 @@ None
 
 ***
 
-
 ### <kbd>method</kbd> `Run.mark_preempting`
 
 ```python
@@ -823,7 +811,6 @@ mark_preempting() → None
 内部プロセスに対し、これを直ちにサーバーへ報告するよう指示します。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.restore`
 
@@ -856,7 +843,6 @@ restore(
 * `ValueError`:  ファイルが見つからない場合、または run&#95;path を特定できない場合。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.save`
 
@@ -920,7 +906,6 @@ run.finish()
 
 ***
 
-
 ### <kbd>method</kbd> `Run.status`
 
 ```python
@@ -930,7 +915,6 @@ status() → RunStatus
 現在の run の同期状況について、内部のバックエンドから同期情報を取得します。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.unwatch`
 
@@ -947,7 +931,6 @@ PyTorch モデルのトポロジー、勾配、およびパラメーターフッ
 * `models`:  `watch` が呼び出されている PyTorch モデルの任意のリスト。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.upsert_artifact`
 
@@ -983,7 +966,6 @@ upsert_artifact(
 `Artifact` オブジェクトを返します。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.use_artifact`
 
@@ -1041,7 +1023,6 @@ run.finish()
 
 ***
 
-
 ### <kbd>method</kbd> `Run.use_model`
 
 ```python
@@ -1065,7 +1046,6 @@ use_model(name: 'str') → FilePathStr
 * `AssertionError`:  モデル アーティファクト &#39;name&#39; の種類に &#39;model&#39; という部分文字列が含まれていない場合に送出されます。
 
 ***
-
 
 ### <kbd>method</kbd> `Run.watch`
 
