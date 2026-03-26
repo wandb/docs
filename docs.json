@@ -1052,6 +1052,7 @@
                   "inference/response-settings/json-mode",
                   "inference/response-settings/reasoning",
                   "inference/response-settings/streaming",
+                  "inference/response-settings/prefix-caching",
                   "inference/response-settings/structured-output",
                   "inference/response-settings/tool-calling"
                 ]

@@ -1,0 +1,96 @@
+---
+title: "Prefix Caching"
+description: "Reduce latency for repeated prompts with prefix caching, and isolate cache reuse with cache_salt when needed."
+---
+
+W&B Inference uses prefix caching on supported hosted models to speed up repeated requests with identical prompt prefixes.
+
+When a request shares the same prompt prefix as an earlier request on the same backend, the model can reuse previously computed KV cache for that prefix instead of recomputing it from scratch. This can reduce latency for repeated prompts, long system prompts, and workloads with a stable shared prefix.
+
+Prefix caching is automatic on supported models. You do not need to enable it in your request.
+
+## When prefix caching helps
+
+Prefix caching is most useful when you repeatedly send requests that share a long common prefix, such as:
+
+- A large system prompt reused across many requests.
+- A long shared document followed by different user questions.
+- Repeated evaluation prompts with only small per-request changes.
+- Multi-turn workloads where much of the conversation history stays the same.
+
+## Cache Isolation
+
+By default, identical prompt prefixes may reuse cache on shared infrastructure when the backend allows it.
+
+If you want to isolate cache reuse to a specific trust boundary, set the `cache_salt` request parameter. Requests only reuse prefix cache when both the prompt prefix and the `cache_salt` match.
+
+Use `cache_salt` when you want cache reuse within a single user, tenant, session, or application boundary, but do not want reuse across other callers.
+
+### How it works
+
+- Same prompt prefix, no `cache_salt`: cache may be reused across matching requests.
+- Same prompt prefix, same `cache_salt`: cache can be reused.
+- Same prompt prefix, different `cache_salt`: cache is isolated and will not be reused across salts.
+
+<Note>
+`cache_salt` must be a non-empty string when provided.
+</Note>
+
+## Examples
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url="https://api.inference.wandb.ai/v1",
+        api_key="<your-api-key>",
+    )
+
+    response = client.chat.completions.create(
+        model="moonshotai/Kimi-K2.5",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a careful assistant that answers concisely."
+            },
+            {
+                "role": "user",
+                "content": "Summarize this document in one sentence: <long shared prefix here>"
+            },
+        ],
+        cache_salt="tenant-a-user-123-secret",
+    )
+
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "moonshotai/Kimi-K2.5",
+        "messages": [
+          { "role": "system", "content": "You are a careful assistant that answers concisely." },
+          { "role": "user", "content": "Summarize this document in one sentence: <long shared prefix here>" }
+        ],
+        "cache_salt": "tenant-a-user-123-secret"
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+## Response behavior
+
+On some models, usage details may include cached token counts in `usage.prompt_tokens_details.cached_tokens` when prefix cache is reused. Availability of that field may vary by model and backend.
+
+## Related pages
+
+- [Chat Completions](/inference/api-reference/chat-completions)
+- [Enable streaming responses](/inference/response-settings/streaming)
+- [Structured output](/inference/response-settings/structured-output)
+- [JSON mode](/inference/response-settings/json-mode)
