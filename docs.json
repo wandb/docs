@@ -101,6 +101,15 @@
                 ]
               },
               {
+                "group": "Products",
+                "pages": [
+                  "product-models",
+                  "product-weave",
+                  "product-inference",
+                  "product-training"
+                ]
+              },
+              {
                 "group": "Deployment options",
                 "pages": [
                   "platform/hosting",
@@ -4516,7 +4525,7 @@
       "destination": "/support/models/articles/do-run-finished-alerts-work-in-notebooks"
     },
     {
-      "source": "/models/support/run_marked_crashed_wb’s_training_fine_locally",
+      "source": "/models/support/run_marked_crashed_wb\u2019s_training_fine_locally",
       "destination": "/support/models/articles/why-is-a-run-marked-crashed-in-wb-when-i"
     },
     {
@@ -4544,7 +4553,7 @@
       "destination": "/support/models/articles/why-is-the-same-metric-appearing-more-th"
     },
     {
-      "source": "/models/support/save_code‌",
+      "source": "/models/support/save_code‌\u200c",
       "destination": "/support/models/articles/how-do-i-save-code"
     },
     {
