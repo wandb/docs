@@ -110,95 +110,100 @@
                 ]
               },
               {
-                "group": "Deployment options",
+                "group": "Platform Details",
                 "pages": [
-                  "platform/hosting",
-                  "platform/hosting/hosting-options/multi_tenant_cloud",
                   {
-                    "group": "Dedicated Cloud",
+                    "group": "Configure W&B",
                     "pages": [
-                      "platform/hosting/hosting-options/dedicated-cloud",
-                      "platform/hosting/hosting-options/dedicated-cloud/rate-limits",
-                      "platform/hosting/hosting-options/dedicated-cloud/regions",
-                      "platform/hosting/hosting-options/dedicated-cloud/export-data"
+                      {
+                        "group": "Settings",
+                        "pages": [
+                          "platform/app/settings-page",
+                          "platform/app/settings-page/user-settings",
+                          "platform/app/settings-page/billing-settings",
+                          "platform/app/settings-page/emails",
+                          "platform/app/settings-page/teams",
+                          "platform/secrets",
+                          "platform/app/settings-page/storage"
+                        ]
+                      },
+                      {
+                        "group": "Identity and access management (IAM)",
+                        "pages": [
+                          "platform/hosting/iam/org_team_struct",
+                          {
+                            "group": "Authentication",
+                            "pages": [
+                              "platform/hosting/iam/ldap",
+                              "platform/hosting/iam/sso",
+                              "platform/hosting/iam/identity_federation",
+                              "platform/hosting/iam/service-accounts"
+                            ]
+                          },
+                          {
+                            "group": "Access management",
+                            "pages": [
+                              "platform/hosting/iam/access-management-intro",
+                              "platform/hosting/iam/access-management/manage-organization",
+                              "platform/hosting/iam/access-management/restricted-projects"
+                            ]
+                          },
+                          "platform/hosting/iam/automate_iam",
+                          "platform/hosting/iam/scim",
+                          "platform/hosting/iam/advanced_env_vars"
+                        ]
+                      },
+                      {
+                        "group": "Data security",
+                        "pages": [
+                          "platform/hosting/data-security/secure-storage-connector",
+                          "platform/hosting/data-security/presigned-urls",
+                          "platform/hosting/data-security/ip-allowlisting",
+                          "platform/hosting/data-security/private-connectivity",
+                          "platform/hosting/data-security/data-encryption"
+                        ]
+                      },
+                      "platform/hosting/env-vars"
                     ]
                   },
                   {
-                    "group": "Self-Managed",
+                    "group": "Monitoring & Usage",
                     "pages": [
-                      "platform/hosting/hosting-options/self-managed",
-                      "platform/hosting/self-managed/ref-arch",
-                      "platform/hosting/self-managed/requirements",
-                      "platform/hosting/self-managed/rate-limits",
-                      "platform/hosting/self-managed/operator",
-                      "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
-                      "platform/hosting/server-upgrade-process",
-                      "platform/hosting/self-managed/disable-automatic-app-version-updates"
+                      "platform/hosting/monitoring-usage/audit-logging",
+                      "platform/hosting/monitoring-usage/slack-alerts",
+                      "platform/hosting/monitoring-usage/org_dashboard",
+                      "platform/hosting/monitoring-usage/mobile-app"
+                    ]
+                  },
+                  {
+                    "group": "Deployment Options",
+                    "pages": [
+                      "platform/hosting",
+                      "platform/hosting/hosting-options/multi_tenant_cloud",
+                      {
+                        "group": "Dedicated Cloud",
+                        "pages": [
+                          "platform/hosting/hosting-options/dedicated-cloud",
+                          "platform/hosting/hosting-options/dedicated-cloud/rate-limits",
+                          "platform/hosting/hosting-options/dedicated-cloud/regions",
+                          "platform/hosting/hosting-options/dedicated-cloud/export-data"
+                        ]
+                      },
+                      {
+                        "group": "Self-Managed",
+                        "pages": [
+                          "platform/hosting/hosting-options/self-managed",
+                          "platform/hosting/self-managed/ref-arch",
+                          "platform/hosting/self-managed/requirements",
+                          "platform/hosting/self-managed/rate-limits",
+                          "platform/hosting/self-managed/operator",
+                          "platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped",
+                          "platform/hosting/server-upgrade-process",
+                          "platform/hosting/self-managed/disable-automatic-app-version-updates"
+                        ]
+                      }
                     ]
                   }
-                ]
-              },
-              {
-                "group": "Configure W&B",
-                "pages": [
-                  {
-                    "group": "Settings",
-                    "pages": [
-                      "platform/app/settings-page",
-                      "platform/app/settings-page/user-settings",
-                      "platform/app/settings-page/billing-settings",
-                      "platform/app/settings-page/emails",
-                      "platform/app/settings-page/teams",
-                      "platform/secrets",
-                      "platform/app/settings-page/storage"
-                    ]
-                  },
-                  {
-                    "group": "Identity and access management (IAM)",
-                    "pages": [
-                      "platform/hosting/iam/org_team_struct",
-                      {
-                        "group": "Authentication",
-                        "pages": [
-                          "platform/hosting/iam/ldap",
-                          "platform/hosting/iam/sso",
-                          "platform/hosting/iam/identity_federation",
-                          "platform/hosting/iam/service-accounts"
-                        ]
-                      },
-                      {
-                        "group": "Access management",
-                        "pages": [
-                          "platform/hosting/iam/access-management-intro",
-                          "platform/hosting/iam/access-management/manage-organization",
-                          "platform/hosting/iam/access-management/restricted-projects"
-                        ]
-                      },
-                      "platform/hosting/iam/automate_iam",
-                      "platform/hosting/iam/scim",
-                      "platform/hosting/iam/advanced_env_vars"
-                    ]
-                  },
-                  {
-                    "group": "Data security",
-                    "pages": [
-                      "platform/hosting/data-security/secure-storage-connector",
-                      "platform/hosting/data-security/presigned-urls",
-                      "platform/hosting/data-security/ip-allowlisting",
-                      "platform/hosting/data-security/private-connectivity",
-                      "platform/hosting/data-security/data-encryption"
-                    ]
-                  },
-                  "platform/hosting/env-vars"
-                ]
-              },
-              {
-                "group": "Monitoring and usage",
-                "pages": [
-                  "platform/hosting/monitoring-usage/audit-logging",
-                  "platform/hosting/monitoring-usage/slack-alerts",
-                  "platform/hosting/monitoring-usage/org_dashboard",
-                  "platform/hosting/monitoring-usage/mobile-app"
                 ]
               },
               {
@@ -1313,105 +1318,119 @@
                 ]
               },
               {
-                "group": "Deployment options",
+                "group": "Products",
                 "pages": [
-                  "ja/platform/hosting",
-                  "ja/platform/hosting/hosting-options/multi_tenant_cloud",
+                  "product-models",
+                  "product-weave",
+                  "product-inference",
+                  "product-training"
+                ]
+              },
+              {
+                "group": "Product Details",
+                "pages": [
                   {
-                    "group": "Dedicated Cloud",
+                    "group": "Configure W&B",
                     "pages": [
-                      "ja/platform/hosting/hosting-options/dedicated_cloud",
-                      "ja/platform/hosting/hosting-options/dedicated_regions",
-                      "ja/platform/hosting/export-data-from-dedicated-cloud"
+                      {
+                        "group": "Settings",
+                        "pages": [
+                          "ja/platform/app/settings-page",
+                          "ja/platform/app/settings-page/user-settings",
+                          "ja/platform/app/settings-page/billing-settings",
+                          "ja/platform/app/settings-page/emails",
+                          "ja/platform/app/settings-page/teams",
+                          "ja/platform/secrets",
+                          "ja/platform/app/settings-page/storage"
+                        ]
+                      },
+                      {
+                        "group": "Identity and access management (IAM)",
+                        "pages": [
+                          "ja/platform/hosting/iam/org_team_struct",
+                          {
+                            "group": "Authentication",
+                            "pages": [
+                              "ja/platform/hosting/iam/ldap",
+                              "ja/platform/hosting/iam/sso",
+                              "ja/platform/hosting/iam/identity_federation",
+                              "ja/platform/hosting/iam/service-accounts"
+                            ]
+                          },
+                          {
+                            "group": "Access management",
+                            "pages": [
+                              "ja/platform/hosting/iam/access-management-intro",
+                              "ja/platform/hosting/iam/access-management/manage-organization",
+                              "ja/platform/hosting/iam/access-management/restricted-projects"
+                            ]
+                          },
+                          "ja/platform/hosting/iam/automate_iam",
+                          "ja/platform/hosting/iam/scim",
+                          "ja/platform/hosting/iam/advanced_env_vars"
+                        ]
+                      },
+                      {
+                        "group": "Data security",
+                        "pages": [
+                          "ja/platform/hosting/data-security/secure-storage-connector",
+                          "ja/platform/hosting/data-security/presigned-urls",
+                          "ja/platform/hosting/data-security/ip-allowlisting",
+                          "ja/platform/hosting/data-security/private-connectivity",
+                          "ja/platform/hosting/data-security/data-encryption"
+                        ]
+                      },
+                      "ja/platform/hosting/env-vars"
                     ]
                   },
                   {
-                    "group": "Self-Managed",
+                    "group": "Monitoring & Usage",
                     "pages": [
-                      "ja/platform/hosting/hosting-options/self-managed",
-                      "ja/platform/hosting/self-managed/ref-arch",
+                      "ja/platform/hosting/monitoring-usage/audit-logging",
+                      "ja/platform/hosting/monitoring-usage/slack-alerts",
+                      "ja/platform/hosting/monitoring-usage/org_dashboard"
+                    ]
+                  },
+                  {
+                    "group": "Deployment Options",
+                    "pages": [
+                      "ja/platform/hosting",
+                      "ja/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
-                        "group": "Run W&B Server on Kubernetes",
+                        "group": "Dedicated Cloud",
                         "pages": [
-                          "ja/platform/hosting/operator",
-                          "ja/platform/hosting/self-managed/operator-airgapped"
+                          "ja/platform/hosting/hosting-options/dedicated_cloud",
+                          "ja/platform/hosting/hosting-options/dedicated_regions",
+                          "ja/platform/hosting/export-data-from-dedicated-cloud"
                         ]
                       },
                       {
-                        "group": "Install on public cloud",
+                        "group": "Self-Managed",
                         "pages": [
-                          "ja/platform/hosting/self-managed/aws-tf",
-                          "ja/platform/hosting/self-managed/gcp-tf",
-                          "ja/platform/hosting/self-managed/azure-tf"
+                          "ja/platform/hosting/hosting-options/self-managed",
+                          "ja/platform/hosting/self-managed/ref-arch",
+                          {
+                            "group": "Run W&B Server on Kubernetes",
+                            "pages": [
+                              "ja/platform/hosting/operator",
+                              "ja/platform/hosting/self-managed/operator-airgapped"
+                            ]
+                          },
+                          {
+                            "group": "Install on public cloud",
+                            "pages": [
+                              "ja/platform/hosting/self-managed/aws-tf",
+                              "ja/platform/hosting/self-managed/gcp-tf",
+                              "ja/platform/hosting/self-managed/azure-tf"
+                            ]
+                          },
+                          "ja/platform/hosting/self-managed/bare-metal",
+                          "ja/platform/hosting/server-upgrade-process",
+                          "ja/platform/hosting/self-managed/disable-automatic-app-version-updates"
                         ]
-                      },
-                      "ja/platform/hosting/self-managed/bare-metal",
-                      "ja/platform/hosting/server-upgrade-process",
-                      "ja/platform/hosting/self-managed/disable-automatic-app-version-updates"
+                      }
                     ]
                   }
-                ]
-              },
-              {
-                "group": "Configure W&B",
-                "pages": [
-                  {
-                    "group": "Settings",
-                    "pages": [
-                      "ja/platform/app/settings-page",
-                      "ja/platform/app/settings-page/user-settings",
-                      "ja/platform/app/settings-page/billing-settings",
-                      "ja/platform/app/settings-page/emails",
-                      "ja/platform/app/settings-page/teams",
-                      "ja/platform/secrets",
-                      "ja/platform/app/settings-page/storage"
-                    ]
-                  },
-                  {
-                    "group": "Identity and access management (IAM)",
-                    "pages": [
-                      "ja/platform/hosting/iam/org_team_struct",
-                      {
-                        "group": "Authentication",
-                        "pages": [
-                          "ja/platform/hosting/iam/ldap",
-                          "ja/platform/hosting/iam/sso",
-                          "ja/platform/hosting/iam/identity_federation",
-                          "ja/platform/hosting/iam/service-accounts"
-                        ]
-                      },
-                      {
-                        "group": "Access management",
-                        "pages": [
-                          "ja/platform/hosting/iam/access-management-intro",
-                          "ja/platform/hosting/iam/access-management/manage-organization",
-                          "ja/platform/hosting/iam/access-management/restricted-projects"
-                        ]
-                      },
-                      "ja/platform/hosting/iam/automate_iam",
-                      "ja/platform/hosting/iam/scim",
-                      "ja/platform/hosting/iam/advanced_env_vars"
-                    ]
-                  },
-                  {
-                    "group": "Data security",
-                    "pages": [
-                      "ja/platform/hosting/data-security/secure-storage-connector",
-                      "ja/platform/hosting/data-security/presigned-urls",
-                      "ja/platform/hosting/data-security/ip-allowlisting",
-                      "ja/platform/hosting/data-security/private-connectivity",
-                      "ja/platform/hosting/data-security/data-encryption"
-                    ]
-                  },
-                  "ja/platform/hosting/env-vars"
-                ]
-              },
-              {
-                "group": "Monitoring and usage",
-                "pages": [
-                  "ja/platform/hosting/monitoring-usage/audit-logging",
-                  "ja/platform/hosting/monitoring-usage/slack-alerts",
-                  "ja/platform/hosting/monitoring-usage/org_dashboard"
                 ]
               },
               {
@@ -2501,105 +2520,119 @@
                 ]
               },
               {
-                "group": "Deployment options",
+                "group": "Products",
                 "pages": [
-                  "ko/platform/hosting",
-                  "ko/platform/hosting/hosting-options/multi_tenant_cloud",
+                  "product-models",
+                  "product-weave",
+                  "product-inference",
+                  "product-training"
+                ]
+              },
+              {
+                "group": "Product Details",
+                "pages": [
                   {
-                    "group": "Dedicated Cloud",
+                    "group": "Configure W&B",
                     "pages": [
-                      "ko/platform/hosting/hosting-options/dedicated_cloud",
-                      "ko/platform/hosting/hosting-options/dedicated_regions",
-                      "ko/platform/hosting/export-data-from-dedicated-cloud"
+                      {
+                        "group": "Settings",
+                        "pages": [
+                          "ko/platform/app/settings-page",
+                          "ko/platform/app/settings-page/user-settings",
+                          "ko/platform/app/settings-page/billing-settings",
+                          "ko/platform/app/settings-page/emails",
+                          "ko/platform/app/settings-page/teams",
+                          "ko/platform/secrets",
+                          "ko/platform/app/settings-page/storage"
+                        ]
+                      },
+                      {
+                        "group": "Identity and access management (IAM)",
+                        "pages": [
+                          "ko/platform/hosting/iam/org_team_struct",
+                          {
+                            "group": "Authentication",
+                            "pages": [
+                              "ko/platform/hosting/iam/ldap",
+                              "ko/platform/hosting/iam/sso",
+                              "ko/platform/hosting/iam/identity_federation",
+                              "ko/platform/hosting/iam/service-accounts"
+                            ]
+                          },
+                          {
+                            "group": "Access management",
+                            "pages": [
+                              "ko/platform/hosting/iam/access-management-intro",
+                              "ko/platform/hosting/iam/access-management/manage-organization",
+                              "ko/platform/hosting/iam/access-management/restricted-projects"
+                            ]
+                          },
+                          "ko/platform/hosting/iam/automate_iam",
+                          "ko/platform/hosting/iam/scim",
+                          "ko/platform/hosting/iam/advanced_env_vars"
+                        ]
+                      },
+                      {
+                        "group": "Data security",
+                        "pages": [
+                          "ko/platform/hosting/data-security/secure-storage-connector",
+                          "ko/platform/hosting/data-security/presigned-urls",
+                          "ko/platform/hosting/data-security/ip-allowlisting",
+                          "ko/platform/hosting/data-security/private-connectivity",
+                          "ko/platform/hosting/data-security/data-encryption"
+                        ]
+                      },
+                      "ko/platform/hosting/env-vars"
                     ]
                   },
                   {
-                    "group": "Self-Managed",
+                    "group": "Monitoring & Usage",
                     "pages": [
-                      "ko/platform/hosting/hosting-options/self-managed",
-                      "ko/platform/hosting/self-managed/ref-arch",
+                      "ko/platform/hosting/monitoring-usage/audit-logging",
+                      "ko/platform/hosting/monitoring-usage/slack-alerts",
+                      "ko/platform/hosting/monitoring-usage/org_dashboard"
+                    ]
+                  },
+                  {
+                    "group": "Deployment Options",
+                    "pages": [
+                      "ko/platform/hosting",
+                      "ko/platform/hosting/hosting-options/multi_tenant_cloud",
                       {
-                        "group": "Run W&B Server on Kubernetes",
+                        "group": "Dedicated Cloud",
                         "pages": [
-                          "ko/platform/hosting/operator",
-                          "ko/platform/hosting/self-managed/operator-airgapped"
+                          "ko/platform/hosting/hosting-options/dedicated_cloud",
+                          "ko/platform/hosting/hosting-options/dedicated_regions",
+                          "ko/platform/hosting/export-data-from-dedicated-cloud"
                         ]
                       },
                       {
-                        "group": "Install on public cloud",
+                        "group": "Self-Managed",
                         "pages": [
-                          "ko/platform/hosting/self-managed/aws-tf",
-                          "ko/platform/hosting/self-managed/gcp-tf",
-                          "ko/platform/hosting/self-managed/azure-tf"
+                          "ko/platform/hosting/hosting-options/self-managed",
+                          "ko/platform/hosting/self-managed/ref-arch",
+                          {
+                            "group": "Run W&B Server on Kubernetes",
+                            "pages": [
+                              "ko/platform/hosting/operator",
+                              "ko/platform/hosting/self-managed/operator-airgapped"
+                            ]
+                          },
+                          {
+                            "group": "Install on public cloud",
+                            "pages": [
+                              "ko/platform/hosting/self-managed/aws-tf",
+                              "ko/platform/hosting/self-managed/gcp-tf",
+                              "ko/platform/hosting/self-managed/azure-tf"
+                            ]
+                          },
+                          "ko/platform/hosting/self-managed/bare-metal",
+                          "ko/platform/hosting/server-upgrade-process",
+                          "ko/platform/hosting/self-managed/disable-automatic-app-version-updates"
                         ]
-                      },
-                      "ko/platform/hosting/self-managed/bare-metal",
-                      "ko/platform/hosting/server-upgrade-process",
-                      "ko/platform/hosting/self-managed/disable-automatic-app-version-updates"
+                      }
                     ]
                   }
-                ]
-              },
-              {
-                "group": "Configure W&B",
-                "pages": [
-                  {
-                    "group": "Settings",
-                    "pages": [
-                      "ko/platform/app/settings-page",
-                      "ko/platform/app/settings-page/user-settings",
-                      "ko/platform/app/settings-page/billing-settings",
-                      "ko/platform/app/settings-page/emails",
-                      "ko/platform/app/settings-page/teams",
-                      "ko/platform/secrets",
-                      "ko/platform/app/settings-page/storage"
-                    ]
-                  },
-                  {
-                    "group": "Identity and access management (IAM)",
-                    "pages": [
-                      "ko/platform/hosting/iam/org_team_struct",
-                      {
-                        "group": "Authentication",
-                        "pages": [
-                          "ko/platform/hosting/iam/ldap",
-                          "ko/platform/hosting/iam/sso",
-                          "ko/platform/hosting/iam/identity_federation",
-                          "ko/platform/hosting/iam/service-accounts"
-                        ]
-                      },
-                      {
-                        "group": "Access management",
-                        "pages": [
-                          "ko/platform/hosting/iam/access-management-intro",
-                          "ko/platform/hosting/iam/access-management/manage-organization",
-                          "ko/platform/hosting/iam/access-management/restricted-projects"
-                        ]
-                      },
-                      "ko/platform/hosting/iam/automate_iam",
-                      "ko/platform/hosting/iam/scim",
-                      "ko/platform/hosting/iam/advanced_env_vars"
-                    ]
-                  },
-                  {
-                    "group": "Data security",
-                    "pages": [
-                      "ko/platform/hosting/data-security/secure-storage-connector",
-                      "ko/platform/hosting/data-security/presigned-urls",
-                      "ko/platform/hosting/data-security/ip-allowlisting",
-                      "ko/platform/hosting/data-security/private-connectivity",
-                      "ko/platform/hosting/data-security/data-encryption"
-                    ]
-                  },
-                  "ko/platform/hosting/env-vars"
-                ]
-              },
-              {
-                "group": "Monitoring and usage",
-                "pages": [
-                  "ko/platform/hosting/monitoring-usage/audit-logging",
-                  "ko/platform/hosting/monitoring-usage/slack-alerts",
-                  "ko/platform/hosting/monitoring-usage/org_dashboard"
                 ]
               },
               {
