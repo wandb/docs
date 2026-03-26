@@ -1,0 +1,131 @@
+---
+title: spaCy
+description: "Intégrez W&B à spaCy v3 pour suivre les métriques d’entraînement et versionner les modèles et les jeux de données via la configuration WandbLogger."
+---
+
+import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
+
+[spaCy](https://spacy.io) est une bibliothèque de NLP populaire, &quot;de niveau industriel&quot; : des modèles rapides et précis, avec un minimum de contraintes. Depuis spaCy v3, W&amp;B peut désormais être utilisé avec [`spacy train`](https://spacy.io/api/cli#train) pour suivre les métriques d&#39;entraînement de votre modèle spaCy, ainsi que pour enregistrer et versionner vos modèles et jeux de données. Il suffit pour cela d&#39;ajouter quelques lignes à votre configuration.
+
+<div id="sign-up-and-create-an-api-key">
+  ## Inscrivez-vous et générez une clé API
+</div>
+
+Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API à partir de votre profil utilisateur.
+
+<ApiKeyCreateStreamlined />
+
+1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **Clés API**.
+
+<div id="install-the-wandb-library-and-log-in">
+  ## Installez la bibliothèque `wandb` et connectez-vous
+</div>
+
+Pour installer localement la bibliothèque `wandb` et vous connecter :
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` sur votre clé API.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. Installez la bibliothèque `wandb`, puis connectez-vous.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="Notebook Python">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="add-the-wandblogger-to-your-spacy-config-file">
+  ## Ajoutez le `WandbLogger` à votre fichier de configuration spaCy
+</div>
+
+Les fichiers de configuration spaCy servent à définir tous les aspects de l’entraînement, pas seulement la journalisation -- allocation du GPU, choix de l’optimiseur, chemins des jeux de données, etc. Au minimum, sous `[training.logger]`, vous devez renseigner la clé `@loggers` avec la valeur `"spacy.WandbLogger.v3"`, ainsi qu’un `project_name`.
+
+<Note>
+  Pour en savoir plus sur le fonctionnement des fichiers de configuration d’entraînement de spaCy et sur les autres options que vous pouvez spécifier pour personnaliser l’entraînement, consultez la [documentation de spaCy](https://spacy.io/usage/training).
+</Note>
+
+```python
+[training.logger]
+@loggers = "spacy.WandbLogger.v3"
+project_name = "my_spacy_project"
+remove_config_values = ["paths.train", "paths.dev", "corpora.train.path", "corpora.dev.path"]
+log_dataset_dir = "./corpus"
+model_log_interval = 1000
+```
+
+| Nom                    | Description                                                                                                                                                                                                                                                             |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `project_name`         | `str`. Le nom du projet W&amp;B. Le projet sera créé automatiquement s’il n’existe pas encore.                                                                                                                                                                          |
+| `remove_config_values` | `List[str]` . Une liste de valeurs à exclure de la configuration avant son téléversement vers W&amp;B. `[]` par défaut.                                                                                                                                                 |
+| `model_log_interval`   | `Optional int`. `None` par défaut. Si défini, active la [gestion des versions du modèle](/fr/models/registry/) avec [Artifacts](/fr/models/artifacts/). Indiquez le nombre d’étapes à attendre entre deux enregistrements de points de contrôle du modèle. `None` par défaut. |
+| `log_dataset_dir`      | `Optional str`. Si un chemin est fourni, le jeu de données sera téléversé en tant qu’artefact au début de l’entraînement. `None` par défaut.                                                                                                                            |
+| `entity`               | `Optional str` . Si renseigné, le run sera créé dans l’entité spécifiée                                                                                                                                                                                                 |
+| `run_name`             | `Optional str` . Si spécifié, le run sera créé avec le nom indiqué.                                                                                                                                                                                                     |
+
+<div id="start-training">
+  ## Lancer l&#39;entraînement
+</div>
+
+Une fois que vous avez ajouté `WandbLogger` à votre configuration d&#39;entraînement spaCy, vous pouvez exécuter `spacy train` comme d&#39;habitude.
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    ```python
+    python -m spacy train \
+        config.cfg \
+        --output ./output \
+        --paths.train ./train \
+        --paths.dev ./dev
+    ```
+  </Tab>
+
+  <Tab title="Python">
+    ```python
+    python -m spacy train \
+        config.cfg \
+        --output ./output \
+        --paths.train ./train \
+        --paths.dev ./dev
+    ```
+  </Tab>
+
+  <Tab title="Notebook Python">
+    ```notebook
+    !python -m spacy train \
+        config.cfg \
+        --output ./output \
+        --paths.train ./train \
+        --paths.dev ./dev
+    ```
+  </Tab>
+</Tabs>
+
+Lorsque l&#39;entraînement démarre, un lien vers la [page W&amp;B](/fr/models/runs/) de votre run d&#39;entraînement s&#39;affiche. Il vous mène au [tableau de bord](/fr/models/track/workspaces/) de suivi des expériences de ce run dans l&#39;interface Web de W&amp;B.

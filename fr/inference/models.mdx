@@ -1,0 +1,55 @@
+---
+title: "Modèles disponibles"
+description: >
+  Parcourez les modèles fondamentaux disponibles via W&B Inference
+mode: wide
+---
+
+W&amp;B Inference donne accès à plusieurs modèles fondamentaux open source. Chaque modèle présente des points forts et des cas d’utilisation différents.
+
+<div id="model-catalog">
+  ## Catalogue des modèles
+</div>
+
+{/* takeru inference-models - Ce tableau est généré automatiquement ; ne le modifiez pas manuellement. */}
+
+| Modèle                        | ID du modèle (pour l’utilisation de l’API)     | Type          | Fenêtre de contexte | Paramètres                | Description                                                                                                                                                                                                        |
+| ----------------------------- | ---------------------------------------------- | ------------- | ------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| DeepSeek V3.1                 | `deepseek-ai/DeepSeek-V3.1`                    | Texte         | 161K                | 37B-671B (Actif-Total)    | Un grand modèle hybride qui prend en charge les modes de réflexion et sans réflexion via des modèles de prompt.                                                                                                    |
+| Meta Llama 4 Scout            | `meta-llama/Llama-4-Scout-17B-16E-Instruct`    | Texte, vision | 64K                 | 17B-109B (actifs-total)   | Modèle multimodal combinant la compréhension du texte et des images, idéal pour les tâches visuelles et les analyses combinées.                                                                                    |
+| Meta Llama 3.3 70B            | `meta-llama/Llama-3.3-70B-Instruct`            | Texte         | 128K                | 70B (total)               | Modèle multilingue excellent dans les tâches conversationnelles, le suivi précis des instructions et le codage.                                                                                                    |
+| Meta Llama 3.1 70B            | `meta-llama/Llama-3.1-70B-Instruct`            | Texte         | 128K                | 70B (total)               | Modèle conversationnel efficace, optimisé pour des interactions réactives dans des chatbots multilingues.                                                                                                          |
+| Meta Llama 3.1 8B             | `meta-llama/Llama-3.1-8B-Instruct`             | Texte         | 128K                | 8B (total)                | Modèle conversationnel performant, optimisé pour des interactions réactives avec des chatbots multilingues.                                                                                                        |
+| Microsoft Phi 4 Mini 3.8B     | `microsoft/Phi-4-mini-instruct`                | Texte         | 128K                | 3,8 B (total)             | Modèle compact et efficace, idéal pour générer rapidement des réponses dans des environnements aux ressources limitées.                                                                                            |
+| MiniMax M2.5                  | `MiniMaxAI/MiniMax-M2.5`                       | Texte         | 197K                | 10B-230B (actifs-total)   | Modèle MoE à l’architecture très clairsemée, conçu pour offrir un débit élevé et une faible latence, avec de solides capacités de programmation.                                                                   |
+| Moonshot AI Kimi K2.5         | `moonshotai/Kimi-K2.5`                         | Texte, vision | 262K                | 32B-1T (actifs-total)     | Kimi K2.5 est un modèle de langage multimodal de type Mixture-of-Experts, avec 32 milliards de paramètres activés et un total de 1 billion de paramètres. Nous proposons le modèle NVIDIA optimisé pour Blackwell. |
+| NVIDIA Nemotron 3 Super 120B  | `nvidia/NVIDIA-Nemotron-3-Super-120B-A12B-FP8` | Texte         | 262K                | 12B-120B (actifs-total)   | Nemotron 3 est un modèle LatentMoE conçu pour offrir de solides capacités agentiques, de raisonnement et conversationnelles.                                                                                       |
+| OpenAI GPT OSS 120B           | `openai/gpt-oss-120b`                          | Texte         | 131K                | 5.1B-117B (actifs-total)  | Modèle Mixture-of-Experts efficace conçu pour les cas d’usage nécessitant un raisonnement avancé, des agents et des usages généraux.                                                                               |
+| OpenAI GPT OSS 20B            | `openai/gpt-oss-20b`                           | Texte         | 131K                | 3.6B-20B (actifs / total) | Modèle Mixture-of-Experts à faible latence, entraîné sur le format de réponse Harmony d’OpenAI et doté de capacités de raisonnement.                                                                               |
+| OpenPipe Qwen3 14B Instruct   | `OpenPipe/Qwen3-14B-Instruct`                  | Texte         | 32.8K               | 14,8 B (total)            | Un modèle dense multilingue efficace, affiné sur des instructions, optimisé par OpenPipe pour créer des agents grâce au fine-tuning.                                                                               |
+| Qwen3 235B A22B Thinking-2507 | `Qwen/Qwen3-235B-A22B-Thinking-2507`           | Texte         | 262K                | 22B-235B (actifs-total)   | Modèle Mixture-of-Experts hautes performances, optimisé pour le raisonnement structuré, les mathématiques et la génération de textes longs.                                                                        |
+| Qwen3 235B A22B-2507          | `Qwen/Qwen3-235B-A22B-Instruct-2507`           | Texte         | 262K                | 22B-235B (actifs-total)   | Modèle multilingue efficace de type Mixture-of-Experts, affiné sur des instructions et optimisé pour le raisonnement logique.                                                                                      |
+| Qwen3 30B A3B                 | `Qwen/Qwen3-30B-A3B-Instruct-2507`             | Texte         | 262K                | 3.3B-30.5B (actifs-total) | Qwen3-30B-A3B-Instruct-2507 est un modèle MoE de 30.5B affiné par instruction, avec des capacités renforcées en raisonnement, en programmation et en compréhension de contextes longs.                             |
+| Qwen3 Coder 480B A35B         | `Qwen/Qwen3-Coder-480B-A35B-Instruct`          | Texte         | 262K                | 35B-480B (actifs-total)   | Modèle Mixture-of-Experts optimisé pour les tâches de codage agentique telles que les appels de fonction, l’utilisation d’outils et le raisonnement en contexte long.                                              |
+| Z.AI GLM 5                    | `zai-org/GLM-5-FP8`                            | Texte         | 200K                | 40B-744B (actifs-total)   | Modèle de type mixture of experts pour les tâches agentiques à long horizon, offrant de solides performances en raisonnement et en programmation.                                                                  |
+
+<div id="using-model-ids">
+  ## Utilisation des ID de modèle
+</div>
+
+Lorsque vous utilisez l’API, spécifiez le modèle à l’aide de son `Model ID` figurant dans le tableau ci-dessus. Par exemple :
+
+```python
+response = client.chat.completions.create(
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    messages=[...]
+)
+```
+
+<div id="next-steps">
+  ## Étapes suivantes
+</div>
+
+* Consultez les [limites d’utilisation et la tarification](/fr/inference/usage-limits/) pour chaque modèle
+* Voir la [référence de l’API](/fr/inference/api-reference/) pour savoir comment utiliser ces modèles
+* Essayez les modèles dans le [W&amp;B Playground](/fr/inference/ui-guide/)

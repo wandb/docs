@@ -1,0 +1,25 @@
+---
+title: Suppression d’artefact
+---
+
+```python
+"""
+Supprime une version spécifique d'un artefact d'un run W&B. Définissez delete_aliaes sur `True` 
+si l'artefact possède un alias associé.
+"""
+import wandb
+
+# Initialiser l'API W&B
+api = wandb.Api()
+
+# Obtenir le run par son chemin. Composé de <entity>/<project>/<run_path>
+runs = api.run("<entity>/<project>/<run_path>")
+
+# wandb.Api().Run.logged_artifacts() renvoie une liste de versions d'artefacts
+# composée du nom de l'artefact et de la version <artifact_name>:v<version_number>
+for artifact_version in runs.logged_artifacts():
+    # Récupère les deux derniers caractères du nom de la version de l'artefact (str),
+    # qui correspondent au numéro de version
+    if artifact_version.name[-2:] == "v"+ "<version_number>":
+        artifact_version.delete(delete_aliases=True)
+```

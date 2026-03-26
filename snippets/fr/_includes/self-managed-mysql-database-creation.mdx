@@ -1,0 +1,11 @@
+---
+title: Création d'une base de données MySQL autogérée
+---
+
+Créez une base de données et un utilisateur à l’aide des commandes SQL suivantes. Remplacez `SOME_PASSWORD` par un mot de passe fort de votre choix :
+
+```sql
+CREATE USER 'wandb_local'@'%' IDENTIFIED BY 'SOME_PASSWORD';
+CREATE DATABASE wandb_local CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+GRANT ALL ON wandb_local.* TO 'wandb_local'@'%' WITH GRANT OPTION;
+```

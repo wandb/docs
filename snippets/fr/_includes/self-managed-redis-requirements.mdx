@@ -1,0 +1,12 @@
+---
+title: Exigences Redis pour le mode autogéré
+---
+
+W&amp;B dépend d’un déploiement Redis 7.x sur un seul nœud, utilisé par les composants de W&amp;B pour la mise en file d’attente des jobs et la mise en cache des données. Pour faciliter les tests et le développement de preuves de concept, W&amp;B Self-Managed inclut un déploiement Redis local qui ne convient pas aux déploiements de production.
+
+Pour les déploiements de production, W&amp;B peut se connecter à une instance Redis dans les environnements suivants :
+
+* [AWS Elasticache](https://aws.amazon.com/elasticache/)
+* [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
+* [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
+* Déploiement Redis hébergé dans votre cloud ou sur votre infrastructure sur site

@@ -1,0 +1,61 @@
+---
+title: "Est-il possible d’enregistrer des métriques hors ligne et de les synchroniser avec W&B plus tard ?"
+keywords: ["Experiments", "Variables d’environnement", "Métriques"]
+featured: true
+---
+
+Par défaut, `wandb.init` lance un processus qui synchronise les métriques en temps réel avec le cloud. Pour une utilisation hors ligne, définissez deux variables d’environnement afin d’activer le mode hors ligne et d’effectuer la synchronisation plus tard.
+
+Définissez les variables d’environnement suivantes :
+
+1. `WANDB_API_KEY=$KEY`, où `$KEY` est une clé API créée dans les [Paramètres utilisateur](https://wandb.ai/settings).
+2. `WANDB_MODE="offline"`.
+
+Voici un exemple d’implémentation dans un script :
+
+```python
+import wandb
+import os
+
+os.environ["WANDB_API_KEY"] = "YOUR_KEY_HERE"
+os.environ["WANDB_MODE"] = "offline"
+
+config = {
+    "dataset": "CIFAR10",
+    "machine": "offline cluster",
+    "model": "CNN",
+    "learning_rate": 0.01,
+    "batch_size": 128,
+}
+
+with wandb.init(project="offline-demo") as run:
+    for i in range(100):
+        run.log({"accuracy": i})
+```
+
+Voici un exemple de sortie du terminal :
+
+<Frame>
+  <img src="/images/experiments/sample_terminal_output.png" alt="Sortie du terminal en mode hors ligne" />
+</Frame>
+
+Une fois votre travail terminé, exécutez la commande suivante pour synchroniser les données avec le cloud :
+
+```shell
+wandb sync wandb/dryrun-folder-name
+```
+
+<Frame>
+  <img src="/images/experiments/sample_terminal_output_cloud.png" alt="Sortie du terminal de synchronisation cloud" />
+</Frame>
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  N’effectuez pas de modifications manuelles entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

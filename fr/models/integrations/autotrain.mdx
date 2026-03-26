@@ -1,0 +1,138 @@
+---
+title: Hugging Face AutoTrain
+description: "Utilisez le suivi des expériences W&B avec Hugging Face AutoTrain pour l'entraînement de modèles sans code à l'aide d'un seul paramètre CLI."
+---
+
+[Hugging Face AutoTrain](https://huggingface.co/docs/autotrain/index) est un outil sans code permettant d&#39;entraîner des modèles de pointe pour des tâches de traitement du langage naturel (NLP), de vision par ordinateur (CV), de parole et même des tâches tabulaires.
+
+[W&amp;B](https://wandb.com/) est directement intégré à Hugging Face AutoTrain et fournit le suivi des expériences ainsi que la gestion de la configuration. Il suffit d&#39;utiliser un seul paramètre dans la commande CLI pour vos expériences.
+
+<Frame>
+  <img src="/images/integrations/hf-autotrain-1.png" alt="Journalisation des métriques de l’expérience" />
+</Frame>
+
+<div id="install-prerequisites">
+  ## Installer les prérequis
+</div>
+
+Installez `autotrain-advanced` et `wandb`.
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    ```shell
+    pip install --upgrade autotrain-advanced wandb
+    ```
+  </Tab>
+
+  <Tab title="Notebook">
+    ```notebook
+    !pip install --upgrade autotrain-advanced wandb
+    ```
+  </Tab>
+</Tabs>
+
+Pour illustrer ces changements, cette page effectue le fine-tuning d&#39;un LLM sur un jeu de données de mathématiques afin d&#39;obtenir un résultat SoTA en `pass@1` sur les [benchmarks GSM8k](https://github.com/openai/grade-school-math).
+
+<div id="prepare-the-dataset">
+  ## Préparer le jeu de données
+</div>
+
+Hugging Face AutoTrain exige que votre jeu de données CSV personnalisé respecte un format spécifique pour fonctionner correctement.
+
+* Votre fichier d&#39;entraînement doit contenir une colonne `text`, utilisée pour l&#39;entraînement. Pour obtenir les meilleurs résultats, les données de la colonne `text` doivent respecter le format `### Human: Question?### Assistant: Answer.`. Consultez un excellent exemple dans [`timdettmers/openassistant-guanaco`](https://huggingface.co/datasets/timdettmers/openassistant-guanaco).
+
+  Cependant, le [jeu de données MetaMathQA](https://huggingface.co/datasets/meta-math/MetaMathQA) comprend les colonnes `query`, `response` et `type`. Commencez par prétraiter ce jeu de données. Supprimez la colonne `type`, puis combinez le contenu des colonnes `query` et `response` dans une nouvelle colonne `text` au format `### Human: Query?### Assistant: Response.`. L&#39;entraînement utilise ensuite le jeu de données obtenu, [`rishiraj/guanaco-style-metamath`](https://huggingface.co/datasets/rishiraj/guanaco-style-metamath).
+
+<div id="train-using-autotrain">
+  ## Lancez l’entraînement avec `autotrain`
+</div>
+
+Vous pouvez lancer l’entraînement avec `autotrain` Advanced depuis la ligne de commande ou dans un notebook. Utilisez l’argument `--log`, ou `--log wandb` pour journaliser vos résultats dans un [W&amp;B Run](/fr/models/runs/).
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    ```shell
+    autotrain llm \
+        --train \
+        --model HuggingFaceH4/zephyr-7b-alpha \
+        --project-name zephyr-math \
+        --log wandb \
+        --data-path data/ \
+        --text-column text \
+        --lr 2e-5 \
+        --batch-size 4 \
+        --epochs 3 \
+        --block-size 1024 \
+        --warmup-ratio 0.03 \
+        --lora-r 16 \
+        --lora-alpha 32 \
+        --lora-dropout 0.05 \
+        --weight-decay 0.0 \
+        --gradient-accumulation 4 \
+        --logging_steps 10 \
+        --fp16 \
+        --use-peft \
+        --use-int4 \
+        --merge-adapter \
+        --push-to-hub \
+        --token <huggingface-token> \
+        --repo-id <huggingface-repository-address>
+    ```
+  </Tab>
+
+  <Tab title="Notebook">
+    ```notebook
+    # Définissez les hyperparamètres
+    learning_rate = 2e-5
+    num_epochs = 3
+    batch_size = 4
+    block_size = 1024
+    trainer = "sft"
+    warmup_ratio = 0.03
+    weight_decay = 0.
+    gradient_accumulation = 4
+    lora_r = 16
+    lora_alpha = 32
+    lora_dropout = 0.05
+    logging_steps = 10
+
+    # Lancez l’entraînement
+    !autotrain llm \
+        --train \
+        --model "HuggingFaceH4/zephyr-7b-alpha" \
+        --project-name "zephyr-math" \
+        --log "wandb" \
+        --data-path data/ \
+        --text-column text \
+        --lr str(learning_rate) \
+        --batch-size str(batch_size) \
+        --epochs str(num_epochs) \
+        --block-size str(block_size) \
+        --warmup-ratio str(warmup_ratio) \
+        --lora-r str(lora_r) \
+        --lora-alpha str(lora_alpha) \
+        --lora-dropout str(lora_dropout) \
+        --weight-decay str(weight_decay) \
+        --gradient-accumulation str(gradient_accumulation) \
+        --logging-steps str(logging_steps) \
+        --fp16 \
+        --use-peft \
+        --use-int4 \
+        --merge-adapter \
+        --push-to-hub \
+        --token str(hf_token) \
+        --repo-id "rishiraj/zephyr-math"
+    ```
+  </Tab>
+</Tabs>
+
+<Frame>
+  <img src="/images/integrations/hf-autotrain-2.gif" alt="Enregistrement de la configuration de l’expérience" />
+</Frame>
+
+<div id="more-resources">
+  ## Autres ressources
+</div>
+
+* [AutoTrain Advanced prend désormais en charge le suivi des expériences](https://huggingface.co/blog/rishiraj/log-autotrain), par [Rishiraj Acharya](https://huggingface.co/rishiraj).
+* [Documentation AutoTrain de Hugging Face](https://huggingface.co/docs/autotrain/index)

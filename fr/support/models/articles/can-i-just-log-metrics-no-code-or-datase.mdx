@@ -1,0 +1,28 @@
+---
+title: "Puis-je simplement consigner des métriques, sans code ni exemples de jeu de données ?"
+keywords: ["Administrateur", "Gestion d'équipe", "Métriques"]
+---
+
+Par défaut, W&amp;B ne consigne pas d&#39;exemples de jeu de données. Par défaut, W&amp;B consigne le code et les métriques système.
+
+Il existe deux méthodes pour désactiver l&#39;enregistrement du code à l&#39;aide de variables d&#39;environnement :
+
+1. Définissez `WANDB_DISABLE_CODE` sur `true` pour désactiver tout suivi du code. Cette action empêche la récupération du SHA Git et du patch diff.
+2. Définissez `WANDB_IGNORE_GLOBS` sur `*.patch` pour arrêter la synchronisation du patch diff vers les serveurs, tout en le conservant disponible localement pour l&#39;appliquer avec `wandb restore`.
+
+En tant qu&#39;administrateur, vous pouvez également désactiver l&#39;enregistrement du code pour votre équipe dans les paramètres de l&#39;équipe :
+
+1. Accédez aux paramètres de votre équipe à l&#39;adresse `https://wandb.ai/<team>/settings`, où `<team>` est le nom de votre équipe.
+2. Faites défiler jusqu&#39;à la section Confidentialité.
+3. Désactivez **Enable code saving by default**.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le texte entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Administrateur](/fr/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion d’équipe](/fr/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}

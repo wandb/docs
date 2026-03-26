@@ -1,0 +1,279 @@
+---
+title: Évaluer des modèles avec W&B Weave et W&B Tables
+description: Découvrez comment évaluer des modèles d’apprentissage automatique à l’aide de W&B Weave et de W&B Tables.
+---
+
+<div id="evaluate-models-with-weave">
+  ## Évaluer des modèles avec Weave
+</div>
+
+[W&amp;B Weave](/fr/weave) est une boîte à outils spécialement conçue pour évaluer les LLM et les applications d’IA générative. Elle offre des fonctionnalités d’évaluation complètes, notamment des évaluateurs, des juges et un traçage détaillé pour vous aider à comprendre et à améliorer les performances du modèle. Weave s’intègre à W&amp;B Models, ce qui vous permet d’évaluer les modèles stockés dans votre registre de modèles.
+
+<Frame>
+  <img src="/images/weave/evals.png" alt="Tableau de bord d’évaluation Weave affichant les métriques de performance du modèle et les traces" />
+</Frame>
+
+<div id="key-features-for-model-evaluation">
+  ### Fonctionnalités clés pour l’évaluation des modèles
+</div>
+
+* **Évaluateurs et juges** : métriques d’évaluation prédéfinies et personnalisées pour la précision, la pertinence, la cohérence, etc.
+* **Jeux de données d’évaluation** : ensembles de test structurés avec vérité de référence pour une évaluation systématique
+* **Gestion des versions des modèles** : suivez et comparez différentes versions de vos modèles
+* **Traçage détaillé** : déboguez le comportement du modèle à l’aide de traces d’entrée/sortie complètes
+* **Suivi des coûts** : surveillez les coûts d’API et l’utilisation des tokens dans l’ensemble des évaluations
+
+<div id="getting-started-evaluate-a-model-from-wb-registry">
+  ### Premiers pas : évaluer un modèle à partir du registre W&amp;B Models
+</div>
+
+Téléchargez un modèle depuis le registre W&amp;B Models et évaluez-le avec Weave :
+
+```python
+import weave
+import wandb
+from typing import Any
+
+# Initialiser Weave
+weave.init("your-entity/your-project")
+
+# Définir un ChatModel qui se charge depuis W&B Registry
+class ChatModel(weave.Model):
+    model_name: str
+    
+    def model_post_init(self, __context):
+        # Télécharger le modèle depuis W&B Models Registry
+        with wandb.init(project="your-project", job_type="model_download") as run:
+            artifact = run.use_artifact(self.model_name)
+            self.model_path = artifact.download()
+            # Initialiser votre modèle ici
+    
+    @weave.op()
+    async def predict(self, query: str) -> str:
+        # Logique d'inférence de votre modèle
+        return self.model.generate(query)
+
+# Créer le jeu de données d'évaluation
+dataset = weave.Dataset(name="eval_dataset", rows=[
+    {"input": "What is the capital of France?", "expected": "Paris"},
+    {"input": "What is 2+2?", "expected": "4"},
+])
+
+# Définir les évaluateurs
+@weave.op()
+def exact_match_scorer(expected: str, output: str) -> dict:
+    return {"correct": expected.lower() == output.lower()}
+
+# Lancer l'évaluation
+model = ChatModel(model_name="wandb-entity/registry-name/model:version")
+evaluation = weave.Evaluation(
+    dataset=dataset,
+    scorers=[exact_match_scorer]
+)
+results = await evaluation.evaluate(model)
+```
+
+<div id="integrate-weave-evaluations-with-wb-models">
+  ### Intégrez les évaluations Weave à W&amp;B Models
+</div>
+
+La [démo d’intégration de Models et Weave](/fr/weave/cookbooks/Models_and_Weave_Integration_Demo) présente le flux de travail complet pour :
+
+1. **Charger des modèles depuis le registre** : Télécharger des modèles affinés stockés dans le registre W&amp;B Models
+2. **Créer des pipelines d’évaluation** : Créer des évaluations complètes avec des évaluateurs personnalisés
+3. **Journaliser les résultats dans W&amp;B** : Associer les métriques d’évaluation à vos runs de modèle
+4. **Versionner les modèles évalués** : Enregistrer les modèles améliorés dans le registre
+
+Journalisez les résultats d’évaluation dans Weave et W&amp;B Models :
+
+```python
+# Lancer l'évaluation avec le suivi W&B
+with weave.attributes({"wandb-run-id": wandb.run.id}):
+    summary, call = await evaluation.evaluate.call(evaluation, model)
+
+# Consigner des métriques dans W&B Models
+wandb.run.log(summary)
+wandb.run.config.update({
+    "weave_eval_url": f"https://wandb.ai/{entity}/{project}/r/call/{call.id}"
+})
+```
+
+<div id="advanced-weave-features">
+  ### Fonctionnalités avancées de Weave
+</div>
+
+<div id="custom-scorers-and-judges">
+  #### Évaluateurs et juges personnalisés
+</div>
+
+Créez des métriques d’évaluation sophistiquées conçues pour votre cas d’usage :
+
+```python
+@weave.op()
+def llm_judge_scorer(expected: str, output: str, judge_model) -> dict:
+    prompt = f"Is this answer correct? Expected: {expected}, Got: {output}"
+    judgment = await judge_model.predict(prompt)
+    return {"judge_score": judgment}
+```
+
+<div id="batch-evaluations">
+  #### Évaluations par lot
+</div>
+
+Évaluez plusieurs versions ou configurations d’un modèle :
+
+```python
+models = [
+    ChatModel(model_name="model:v1"),
+    ChatModel(model_name="model:v2"),
+]
+
+for model in models:
+    results = await evaluation.evaluate(model)
+    print(f"{model.model_name}: {results}")
+```
+
+<div id="next-steps">
+  ### Prochaines étapes
+</div>
+
+* [Tutoriel complet sur l’évaluation avec Weave](/fr/weave/tutorial-eval/)
+* [Exemple d’intégration entre Models et Weave](/fr/weave/cookbooks/Models_and_Weave_Integration_Demo)
+
+<div id="evaluate-models-with-tables">
+  ## Évaluez les modèles avec des tableaux
+</div>
+
+Utilisez W&amp;B Tables pour :
+
+* **Comparer les prédictions des modèles** : comparez côte à côte les performances de différents modèles sur le même jeu de test
+* **Suivre l’évolution des prédictions** : observez comment les prédictions évoluent au fil des époques d’entraînement ou des versions du modèle
+* **Analyser les erreurs** : filtrez et lancez des requêtes pour trouver les exemples fréquemment mal classés et les schémas d’erreur
+* **Visualiser des médias enrichis** : affichez des images, de l’audio, du texte et d’autres types de médias à côté des prédictions et des métriques
+
+<Frame>
+  ![Exemple de tableau de prédictions montrant les sorties du modèle à côté des étiquettes de référence](/images/data_vis/tables_sample_predictions.png)
+</Frame>
+
+<div id="basic-example-log-evaluation-results">
+  ### Exemple de base : journalisation des résultats d’évaluation
+</div>
+
+```python
+import wandb
+
+# Initialiser un run
+run = wandb.init(project="model-evaluation")
+
+# Créer un tableau avec les résultats d'évaluation
+columns = ["id", "input", "ground_truth", "prediction", "confidence", "correct"]
+eval_table = wandb.Table(columns=columns)
+
+# Ajouter les données d'évaluation
+for idx, (input_data, label) in enumerate(test_dataset):
+    prediction = model(input_data)
+    confidence = prediction.max()
+    predicted_class = prediction.argmax()
+    
+    eval_table.add_data(
+        idx,
+        wandb.Image(input_data),  # Enregistrer les images ou autres médias
+        label,
+        predicted_class,
+        confidence,
+        label == predicted_class
+    )
+
+# Enregistrer le tableau
+run.log({"evaluation_results": eval_table})
+```
+
+<div id="advanced-table-workflows">
+  ### Flux de travail avancés avec les tableaux
+</div>
+
+<div id="compare-multiple-models">
+  #### Comparer plusieurs modèles
+</div>
+
+Journalisez les tableaux d’évaluation de différents modèles avec la même clé pour les comparer directement :
+
+```python
+# Évaluation du modèle A
+with wandb.init(project="model-comparison", name="model_a") as run:
+    eval_table_a = create_eval_table(model_a, test_data)
+    run.log({"test_predictions": eval_table_a})
+
+# Évaluation du modèle B  
+with wandb.init(project="model-comparison", name="model_b") as run:
+    eval_table_b = create_eval_table(model_b, test_data)
+    run.log({"test_predictions": eval_table_b})
+```
+
+<Frame>
+  ![Comparaison côte à côte des prédictions du modèle à différentes époques d'entraînement](/images/data_vis/table_comparison.png)
+</Frame>
+
+<div id="track-predictions-over-time">
+  #### Suivre les prédictions au fil du temps
+</div>
+
+Journalisez des tableaux à différentes époques d’entraînement pour visualiser la progression :
+
+```python
+for epoch in range(num_epochs):
+    train_model(model, train_data)
+    
+    # Évaluer et enregistrer les prédictions pour cette époque
+    eval_table = wandb.Table(columns=["image", "truth", "prediction"])
+    for image, label in test_subset:
+        pred = model(image)
+        eval_table.add_data(wandb.Image(image), label, pred.argmax())
+    
+    wandb.log({f"predictions_epoch_{epoch}": eval_table})
+```
+
+<div id="interactive-analysis-in-the-wb-ui">
+  ### Analyse interactive dans l’interface W&amp;B
+</div>
+
+Une fois les résultats enregistrés, vous pouvez :
+
+1. **Filtrer les résultats** : cliquez sur les en-têtes de colonne pour filtrer par précision des prédictions, seuils de confiance ou classes spécifiques
+2. **Comparer des tableaux** : sélectionnez plusieurs versions d’un tableau pour voir les comparaisons côte à côte
+3. **Interroger les données** : utilisez la barre de requête pour trouver des motifs spécifiques (par exemple, `"correct" = false AND "confidence" > 0.8`)
+4. **Regrouper et agréger** : regroupez par classe prédite pour voir les métriques de précision par classe
+
+<Frame>
+  ![Filtrage interactif et requêtes sur les résultats d’évaluation dans W\&B Tables](/images/data_vis/wandb_demo_filter_on_a_table.png)
+</Frame>
+
+<div id="example-error-analysis-with-enriched-tables">
+  ### Exemple : analyse d’erreurs avec des tableaux enrichis
+</div>
+
+```python
+# Créer un tableau mutable pour ajouter des colonnes d'analyse
+eval_table = wandb.Table(
+    columns=["id", "image", "label", "prediction"],
+    log_mode="MUTABLE"  # Permet d'ajouter des colonnes ultérieurement
+)
+
+# Prédictions initiales
+for idx, (img, label) in enumerate(test_data):
+    pred = model(img)
+    eval_table.add_data(idx, wandb.Image(img), label, pred.argmax())
+
+run.log({"eval_analysis": eval_table})
+
+# Ajouter des scores de confiance pour l'analyse des erreurs
+confidences = [model(img).max() for img, _ in test_data]
+eval_table.add_column("confidence", confidences)
+
+# Ajouter les types d'erreurs
+error_types = classify_errors(eval_table.get_column("label"), 
+                            eval_table.get_column("prediction"))
+eval_table.add_column("error_type", error_types)
+
+run.log({"eval_analysis": eval_table})
+```

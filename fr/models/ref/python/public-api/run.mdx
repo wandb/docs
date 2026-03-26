@@ -1,0 +1,704 @@
+---
+title: Run
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/runs.py" />
+
+
+## <kbd>class</kbd> `Run`
+
+Un run associé à une entité et à un projet.
+
+### <kbd>méthode</kbd> `Run.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    entity: 'str',
+    project: 'str',
+    run_id: 'str',
+    attrs: 'Mapping | None' = None,
+    include_sweeps: 'bool' = True,
+    lazy: 'bool' = True,
+    service_api: 'ServiceApi | None' = None
+)
+```
+
+**Arguments :**
+
+* `client`:  Le client de l’API W&amp;B.
+* `entity`:  L’entité associée au run.
+* `project`:  Le projet associé au run.
+* `run_id`:  L’identifiant unique du run.
+* `attrs`:  Les attributs du run.
+* `include_sweeps`:  Indique s’il faut inclure les balayages dans le run.
+
+**Attributs :**
+
+* `tags` ([str]) :  une liste de tags associés au run
+* `url` (str) :  l’URL de ce run
+* `id` (str) :  identifiant unique du run (huit caractères par défaut)
+* `name` (str) :  le nom du run
+* `state` (str) :  l’une des valeurs suivantes : running, finished, crashed, killed, preempting, preempted
+* `config` (dict) :  un dict d’hyperparamètres associés au run
+* `created_at` (str) :  horodatage ISO indiquant quand le run a démarré
+* `system_metrics` (dict) :  les dernières métriques système enregistrées pour le run
+* `summary` (dict) :  une propriété mutable de type dict qui contient le résumé actuel. Un appel à update enregistre toutes les modifications.
+* `project` (str) :  le projet associé au run
+* `entity` (str) :  le nom de l’entité associée au run
+* `project_internal_id` (int) :  l’ID interne du projet
+* `user` (str) :  le nom de l’utilisateur qui a créé le run
+* `path` (str) :  identifiant unique [entity]/[project]/[run&#95;id]
+* `notes` (str) :  notes sur le run
+* `read_only` (boolean) :  indique si le run est modifiable
+* `history_keys` (str) :  clés des métriques d’historique enregistrées avec `wandb.Run.log({"key": "value"})`
+* `metadata` (str) :  métadonnées sur le run issues de wandb-metadata.json
+
+Initialise un objet Run.
+
+Run est toujours initialisé en appelant api.runs(), où api est une instance de wandb.Api.
+
+***
+
+
+### <kbd>propriété</kbd> Run.config
+
+Obtient la configuration du run. Charge automatiquement toutes les données en mode lazy.
+
+**Retourne :**
+
+* `dict[str, Any]`: La valeur de propriété configuration.
+
+***
+
+### <kbd>propriété</kbd> Run.entity
+
+L’entité associée au run.
+
+**Retourne :**
+
+* `str` : La valeur de propriété `entity`.
+
+***
+
+### <kbd>propriété</kbd> Run.id
+
+L’identifiant unique du run.
+
+**Retourne :**
+
+* `str` : La valeur de propriété `id`.
+
+***
+
+### <kbd>propriété</kbd> Run.lastHistoryStep
+
+Renvoie la dernière étape enregistrée dans l’historique du run.
+
+**Retourne :**
+
+* `int`: La valeur de propriété lastHistoryStep.
+
+***
+
+### <kbd>propriété</kbd> Run.metadata
+
+Métadonnées du run issues de wandb-metadata.json.
+
+Les métadonnées incluent la description du run, ses tags, l&#39;heure de début, l&#39;utilisation de la mémoire, etc.
+
+**Retourne :**
+
+* `dict[str, Any] | None`: La valeur de propriété metadata.
+
+***
+
+### <kbd>propriété</kbd> Run.name
+
+Le nom du run.
+
+**Retourne :**
+
+* `str | None` : La valeur de propriété `name`.
+
+***
+
+### <kbd>propriété</kbd> Run.path
+
+Le chemin du run. Il s’agit d’une liste contenant l’entité, le projet et `run_id`.
+
+**Retourne :**
+
+* `list[str]` : La valeur de propriété de chemin.
+
+***
+
+### <kbd>propriété</kbd> Run.rawconfig
+
+Obtenir la configuration brute du run, y compris les clés internes. Charge automatiquement toutes les données en mode lazy.
+
+**Retourne :**
+
+* `dict[str, Any]` : La valeur de la propriété rawconfig.
+
+***
+
+### <kbd>propriété</kbd> Run.state
+
+L’état du run. Peut être l’un des suivants : Finished, Failed, Crashed ou Running.
+
+**Retourne :**
+
+* `str` : La valeur de propriété d’état.
+
+***
+
+### <kbd>propriété</kbd> Run.storage_id
+
+L’identifiant unique de stockage du run.
+
+**Retourne :**
+
+* `str`: La valeur de propriété `storage_id`.
+
+***
+
+### <kbd>propriété</kbd> Run.summary
+
+Obtient les métriques de synthèse du run. Charge automatiquement toutes les données en mode lazy.
+
+**Retourne :**
+
+* `HTTPSummary` : La valeur de propriété summary.
+
+***
+
+### <kbd>propriété</kbd> Run.summary_metrics
+
+Obtenir les métriques récapitulatives du run. Charge automatiquement toutes les données en mode lazy.
+
+**Retourne :**
+
+* `dict[str, Any]`: La valeur de propriété `summary_metrics`.
+
+***
+
+### <kbd>propriété</kbd> Run.sweep_name
+
+Nom du balayage. Toujours disponible, car sweepName est inclus dans le fragment léger.
+
+**Retourne :**
+
+* `str | None`: La valeur de propriété sweep&#95;name.
+
+***
+
+### <kbd>propriété</kbd> Run.system_metrics
+
+Obtient les métriques système du run. Charge automatiquement toutes les données en mode lazy.
+
+**Retourne :**
+
+* `dict[str, Any]` : La valeur de propriété `system_metrics`.
+
+***
+
+### <kbd>propriété</kbd> Run.url
+
+L’URL du run.
+
+L’URL du run est générée à partir de l’entité, du projet et du `run_id`. Pour les utilisateurs SaaS, elle se présente sous la forme `https://wandb.ai/entity/project/run_id`.
+
+**Retourne :**
+
+* `str` : La valeur de propriété `url`.
+
+***
+
+### <kbd>propriété</kbd> Run.username
+
+Cette API est obsolète. Utilisez plutôt `entity`.
+
+**Retourne :**
+
+* `str` : La valeur de propriété username.
+
+***
+
+### <kbd>méthode</kbd> `Run.beta_scan_history`
+
+```python
+beta_scan_history(
+    keys: 'list[str] | None' = None,
+    page_size: 'int' = 1000,
+    min_step: 'int' = 0,
+    max_step: 'int | None' = None,
+    use_cache: 'bool' = True
+) → public.BetaHistoryScan
+```
+
+Renvoie une collection itérable de tous les enregistrements de l’historique d’un run.
+
+Cette fonction est encore en cours de développement et peut ne pas fonctionner comme prévu. Elle utilise wandb-core pour lire localement l’historique exporté au format Parquet d’un run.
+
+**Arguments :**
+
+* `keys`:  liste des métriques à lire dans l’historique du run. Si aucune clé n’est fournie, toutes les métriques sont renvoyées.
+* `page_size`:  le nombre d’enregistrements d’historique à lire à la fois.
+* `min_step`:  l’étape minimale à partir de laquelle commencer à lire l’historique (inclus).
+* `max_step`:  l’étape maximale jusqu’à laquelle lire l’historique (exclus).
+* `use_cache`:  lorsqu’il est défini sur True, vérifie dans `WANDB_CACHE_DIR` si l’historique d’un run est présent. Si l’historique du run n’est pas trouvé dans le cache, il sera téléchargé depuis le serveur. S’il est défini sur False, l’historique du run sera téléchargé à chaque fois.
+
+**Retourne :**
+Un objet BetaHistoryScan sur lequel vous pouvez itérer pour obtenir des enregistrements d’historique.
+
+***
+
+
+### <kbd>méthode de classe</kbd> `Run.create`
+
+```python
+create(
+    api: 'public.Api',
+    run_id: 'str | None' = None,
+    project: 'str | None' = None,
+    entity: 'str | None' = None,
+    state: "Literal['running', 'pending']" = 'running'
+) → Self
+```
+
+Créer un run pour le projet donné.
+
+Pour la plupart des cas d’usage, utilisez `wandb.init()`. `wandb.init()` fournit une logique plus robuste pour créer et mettre à jour des runs. `wandb.apis.public.Run.create` est destiné à des scénarios spécifiques, comme la création de runs à l’état &quot;pending&quot; pour des jobs qui risquent de ne pas pouvoir être planifiés (par exemple, dans un cluster Kubernetes avec un nombre insuffisant de GPU ou une forte contention). Ces runs en attente peuvent ensuite être repris et suivis dans W&amp;B.
+
+Les runs créés avec cette méthode offrent des fonctionnalités limitées. L’appel à `update()` sur un run créé de cette manière peut ne pas fonctionner comme prévu.
+
+**Arguments :**
+
+* `api` :  L’instance de l’API W&amp;B.
+* `run_id` :  ID de run facultatif. S’il n’est pas fourni, un ID aléatoire sera généré.
+* `project` :  Nom du projet facultatif. Utilise par défaut le projet défini dans les paramètres de l’API ou &quot;uncategorized&quot;.
+* `entity` :  Nom de l’entité facultatif (utilisateur ou équipe).
+* `state` :  État initial du run. Utilisez &quot;pending&quot; pour les runs qui seront repris plus tard, ou &quot;running&quot; pour une exécution immédiate.
+
+**Retourne :**
+Un objet Run représentant le run créé.
+
+**Exemple :**
+Création d’un run en attente pour une exécution ultérieure
+
+```python
+import wandb
+
+api = wandb.Api()
+
+run_name = "my-pending-run"
+
+run = Run.create(
+    api=api,
+    project="project",
+    entity="entity",
+    state="pending",
+    run_id=run_name,
+)
+```
+
+***
+
+
+### <kbd>méthode</kbd> `Run.delete`
+
+```python
+delete(delete_artifacts: 'bool' = False) → None
+```
+
+Supprimez le run spécifié du backend wandb.
+
+**Arguments :**
+
+* `delete_artifacts` (bool, facultatif) : indique s’il faut supprimer les artefacts associés à l’exécution.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.download_history_exports`
+
+```python
+download_history_exports(
+    download_dir: 'pathlib.Path | str',
+    require_complete_history: 'bool' = True
+) → runhistory.DownloadHistoryResult
+```
+
+Télécharge tous les fichiers parquet de l’historique du run dans le répertoire fourni.
+
+**Arguments :**
+
+* `download_dir`:  Répertoire dans lequel télécharger les fichiers d’historique.
+* `require_complete_history`:  Indique s’il faut exiger le téléchargement de l’historique complet.  Si cette valeur est `true` et que le run contient des données qui n’ont pas encore été exportées en fichiers parquet,  une exception IncompleteRunHistoryError sera levée.
+
+**Retourne :**
+Un DownloadHistoryResult.
+
+**Exceptions levées :**
+
+* `IncompleteRunHistoryError`:  Si require&#95;complete&#95;history est True  et que le run contient des données qui n’ont pas encore été exportées en fichiers parquet.
+* `WandbApiFailedError`:  Si la requête API échoue pour une raison autre qu’un historique incomplet.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.file`
+
+```python
+file(name: 'str') → public.File
+```
+
+Renvoie le chemin d’un fichier portant le nom donné dans l’artefact.
+
+**Arguments :**
+
+* `name` (str):  nom du fichier demandé.
+
+**Retourne :**
+Un `File` correspondant au nom passé en argument.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.files`
+
+```python
+files(
+    names: 'list[str] | None' = None,
+    pattern: 'str | None' = None,
+    per_page: 'int' = 50
+) → public.Files
+```
+
+Renvoie un objet `Files` pour tous les fichiers du run qui correspondent aux critères indiqués.
+
+Vous pouvez spécifier une liste de noms de fichiers exacts à rechercher, ou un motif de correspondance. Si les deux sont fournis, le motif sera ignoré.
+
+**Arguments :**
+
+* `names` (liste) :  noms des fichiers demandés ; si vide, renvoie tous les fichiers
+* `pattern` (str, facultatif) :  motif à utiliser pour renvoyer des fichiers depuis W&amp;B.  Ce motif utilise la syntaxe LIKE de MySQL ; ainsi, pour faire correspondre tous les fichiers se terminant par .json, utilisez &quot;%.json&quot;.  Si `names` et `pattern` sont tous les deux fournis, une ValueError sera levée.
+* `per_page` (int) :  nombre de résultats par page.
+
+**Retourne :**
+Un objet `Files`, qui est un itérateur sur des objets `File`.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.history`
+
+```python
+history(
+    samples: 'int' = 500,
+    keys: 'list[str] | None' = None,
+    x_axis: 'str' = '_step',
+    pandas: 'bool' = True,
+    stream: "Literal['default', 'system']" = 'default'
+) → list[dict[str, Any]] | pd.DataFrame
+```
+
+Renvoie des métriques d’historique échantillonnées pour un run.
+
+C’est plus simple et plus rapide si des enregistrements d’historique échantillonnés vous conviennent.
+
+**Arguments :**
+
+* `samples `:  (int, facultatif) Le nombre d’échantillons à renvoyer
+* `pandas `:  (bool, facultatif) Renvoie un dataframe pandas
+* `keys `:  (liste, facultatif) Renvoie uniquement les métriques pour des clés spécifiques
+* `x_axis `:  (str, facultatif) Utiliser cette métrique comme xAxis ; la valeur par défaut est &#95;step
+* `stream `:  (str, facultatif) &quot;default&quot; pour les métriques, &quot;system&quot; pour les métriques système
+
+**Retourne :**
+
+* `pandas.DataFrame`:  Si pandas=True, renvoie un `pandas.DataFrame` des métriques d’historique.
+* `liste de dicts`:  Si pandas=False, renvoie une liste de dicts de métriques d’historique.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.load`
+
+```python
+load(force: 'bool' = False) → dict[str, Any]
+```
+
+Chargez les données du run à l’aide du fragment approprié en vous basant sur le mode lazy.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.load_full_data`
+
+```python
+load_full_data(force: 'bool' = False) → dict[str, Any]
+```
+
+Chargez les données complètes du run, y compris les champs volumineux comme `config`, `systemMetrics` et `summaryMetrics`.
+
+Cette méthode est utile si vous avez initialement utilisé `lazy=True` pour lister les runs, mais que vous avez besoin d’accéder aux données complètes pour certains runs.
+
+**Arguments :**
+
+* `force` : force le rechargement même si les données sont déjà chargées
+
+**Retourne :**
+Les attributs du run chargés
+
+***
+
+
+### <kbd>méthode</kbd> `Run.log_artifact`
+
+```python
+log_artifact(
+    artifact: 'wandb.Artifact',
+    aliases: 'Collection[str] | None' = None,
+    tags: 'Collection[str] | None' = None
+) → wandb.Artifact
+```
+
+Déclare un artefact comme sortie d’un run.
+
+**Arguments :**
+
+* `artifact` (`Artifact`) :  Un artefact renvoyé par `wandb.Api().artifact(name)`.
+* `aliases` (liste, facultatif) :  Alias à appliquer à cet artefact.
+* `tags` :  (liste, facultatif) Tags à appliquer à cet artefact, s’il y en a.
+
+**Retourne :**
+Un objet `Artifact`.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.logged_artifacts`
+
+```python
+logged_artifacts(per_page: 'int' = 100) → public.RunArtifacts
+```
+
+Récupère tous les artefacts enregistrés par ce run.
+
+Récupère tous les artefacts de sortie enregistrés pendant le run. Retourne un résultat paginé sur lequel il est possible d’itérer ou à regrouper dans une seule liste.
+
+**Arguments :**
+
+* `per_page`:  Nombre d’artefacts à récupérer par requête API.
+
+**Retourne :**
+Une collection itérable de tous les objets Artifact enregistrés en sortie pendant ce run.
+
+**Exemple :**
+
+```python
+import wandb
+import tempfile
+
+with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".txt") as tmp:
+    tmp.write("This is a test artifact")
+    tmp_path = tmp.name
+run = wandb.init(project="artifact-example")
+artifact = wandb.Artifact("test_artifact", type="dataset")
+artifact.add_file(tmp_path)
+run.log_artifact(artifact)
+run.finish()
+
+api = wandb.Api()
+
+finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
+
+for logged_artifact in finished_run.logged_artifacts():
+    print(logged_artifact.name)
+```
+
+***
+
+
+### <kbd>méthode</kbd> `Run.save`
+
+```python
+save() → None
+```
+
+Enregistre les modifications apportées à l’objet run sur le backend W&amp;B.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.scan_history`
+
+```python
+scan_history(
+    keys: 'list[str] | None' = None,
+    page_size: 'int' = 1000,
+    min_step: 'int | None' = None,
+    max_step: 'int | None' = None
+) → Iterator[dict[str, Any]]
+```
+
+Renvoie une collection itérable de tous les enregistrements de l’historique d’un run.
+
+**Arguments :**
+
+* `keys` ([str], facultatif) : récupère uniquement ces clés, et uniquement les lignes pour lesquelles toutes ces clés sont définies.
+* `page_size` (int, facultatif) : taille des pages à récupérer via l’API.
+* `min_step` (int, facultatif) : nombre minimal de pages à parcourir à la fois.
+* `max_step` (int, facultatif) : nombre maximal de pages à parcourir à la fois.
+
+**Retourne :**
+Une collection itérable d’enregistrements de l’historique (dict).
+
+**Exemple :**
+Exporter toutes les valeurs de perte d’un run d’exemple
+
+```python
+run = api.run("entity/project-name/run-id")
+history = run.scan_history(keys=["Loss"])
+losses = [row["Loss"] for row in history]
+```
+
+***
+
+
+### <kbd>méthode</kbd> `Run.to_html`
+
+```python
+to_html(height: 'int' = 420, hidden: 'bool' = False) → str
+```
+
+Génère le code HTML contenant une iframe qui affiche ce run.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.update`
+
+```python
+update() → None
+```
+
+Enregistre les modifications de l’objet run sur le backend wandb.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.update_state`
+
+```python
+update_state(state: "Literal['pending']") → bool
+```
+
+Mettez à jour l’état d’un run.
+
+Permet de faire passer des runs de l’état &#39;failed&#39; ou &#39;crashed&#39; à l’état &#39;pending&#39;.
+
+**Arguments :**
+
+* `state` :  L’état cible du run. Seul `"pending"` est pris en charge.
+
+**Retourne :**
+`True` si l’état a bien été mis à jour.
+
+**Exceptions levées :**
+
+* `wandb.Error` :  Si la transition d’état demandée n’est pas autorisée, ou si le serveur ne prend pas en charge cette opération.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.upload_file`
+
+```python
+upload_file(path: 'str', root: 'str' = '.') → public.File
+```
+
+Téléverse un fichier local sur W&amp;B et l’associe à ce run.
+
+**Arguments :**
+
+* `path` (str):  Chemin du fichier à téléverser. Peut être absolu ou relatif.
+* `root` (str):  Chemin racine par rapport auquel enregistrer le fichier. Par exemple, si vous souhaitez que le fichier soit enregistré dans le run sous la forme &quot;my&#95;dir/file.txt&quot;  et que vous vous trouvez actuellement dans &quot;my&#95;dir&quot;, définissez `root` sur &quot;../&quot;.  La valeur par défaut est le répertoire courant (&quot;.&quot;).
+
+**Retourne :**
+Un objet `File` représentant le fichier téléversé.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.use_artifact`
+
+```python
+use_artifact(
+    artifact: 'wandb.Artifact',
+    use_as: 'str | None' = None
+) → wandb.Artifact
+```
+
+Déclarez un artefact comme entrée d’un run.
+
+**Arguments :**
+
+* `artifact` (`Artifact`) :  Un artefact renvoyé par `wandb.Api().artifact(name)`
+* `use_as` (string, facultatif) :  Une chaîne indiquant comment l’artefact est utilisé dans le script. Elle permet de différencier facilement les artefacts utilisés dans un run lors de l’utilisation de la fonctionnalité bêta de permutation d’artefacts de wandb Launch.
+
+**Retourne :**
+Un objet `Artifact`.
+
+***
+
+
+### <kbd>méthode</kbd> `Run.used_artifacts`
+
+```python
+used_artifacts(per_page: 'int' = 100) → public.RunArtifacts
+```
+
+Récupère les artefacts explicitement utilisés par ce run.
+
+Récupère uniquement les artefacts d&#39;entrée qui ont été explicitement déclarés comme utilisés pendant ce run, généralement via `run.use_artifact()`. Retourne un résultat paginé qui peut être parcouru ou rassemblé en une seule liste.
+
+**Arguments :**
+
+* `per_page` :  Nombre d&#39;artefacts à récupérer par requête d&#39;API.
+
+**Retourne :**
+Une collection itérable d&#39;objets Artifact explicitement utilisés comme entrées dans ce run.
+
+**Exemple :**
+
+```python
+import wandb
+
+run = wandb.init(project="artifact-example")
+run.use_artifact("test_artifact:latest")
+run.finish()
+
+api = wandb.Api()
+finished_run = api.run(f"{run.entity}/{run.project}/{run.id}")
+for used_artifact in finished_run.used_artifacts():
+    print(used_artifact.name)
+test_artifact
+```
+
+***
+
+
+### <kbd>méthode</kbd> `Run.wait_until_finished`
+
+```python
+wait_until_finished() → None
+```
+
+Vérifiez l’état du run jusqu’à ce qu’il se termine.

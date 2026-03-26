@@ -1,0 +1,32 @@
+---
+title: "Comment puis-je tracer plusieurs lignes sur un graphique avec une légende ?"
+keywords: ["Experiments"]
+---
+
+Créez un graphique personnalisé à plusieurs courbes avec `wandb.plot.line_series()`. Accédez à la [page du projet](/fr/models/track/project-page) pour afficher le graphique en courbes. Pour ajouter une légende, incluez l&#39;argument `keys` dans `wandb.plot.line_series()`. Par exemple :
+
+```python
+
+with wandb.init(project="my_project") as run:
+
+    run.log(
+        {
+            "my_plot": wandb.plot.line_series(
+                xs=x_data, ys=y_data, keys=["metric_A", "metric_B"]
+            )
+        }
+    )
+```
+
+Référez-vous à des détails supplémentaires sur les graphiques multilignes [ici](/fr/models/track/log/plots#basic-charts), dans l’onglet **Multi-line**.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas ce qui se trouve entre ces marqueurs manuellement.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

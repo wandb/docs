@@ -1,0 +1,53 @@
+---
+title: Vérifier l’installation en mode autogéré
+---
+
+Pour vérifier l’installation, W&amp;B recommande d’utiliser le [W&amp;B CLI](/fr/models/ref/cli/). La commande `verify` exécute plusieurs tests qui vérifient tous les composants et toutes les configurations.
+
+<Note>
+  Cette étape suppose que le premier compte administrateur est créé à l’aide du navigateur.
+</Note>
+
+Suivez ces étapes pour vérifier l’installation :
+
+1. Installez le W&amp;B CLI :
+
+```bash
+pip install wandb
+```
+
+2. Connectez-vous à W&amp;B :
+
+```bash
+wandb login --host=https://YOUR_DNS_DOMAIN
+```
+
+Par exemple :
+
+```bash
+wandb login --host=https://wandb.company-name.com
+```
+
+3. Vérifiez l’installation :
+
+```bash
+wandb verify
+```
+
+Une installation réussie et un déploiement W&amp;B pleinement opérationnel affichent la sortie suivante :
+
+```console
+Hôte par défaut sélectionné :  https://wandb.company-name.com
+Journaux détaillés de ce test disponibles à : /var/folders/pn/b3g3gnc11_sbsykqkm3tx5rh0000gp/T/tmpdtdjbxua/wandb
+Vérification de la connexion.............................................✅
+Vérification du téléversement via URL signée.............................✅
+Vérification de la capacité à envoyer de grandes charges utiles via le proxy.✅
+Vérification des requêtes vers l'URL de base.............................✅
+Vérification des requêtes effectuées via des URL signées.................✅
+Vérification de la configuration CORs du bucket..........................✅
+Vérification que le package wandb est à jour.............................✅
+Vérification des métriques enregistrées, enregistrement et téléchargement d'un fichier.✅
+Vérification des flux de travail d'enregistrement et de téléchargement d'artefacts.✅
+```
+
+Contactez l’assistance W&amp;B si vous rencontrez des erreurs.

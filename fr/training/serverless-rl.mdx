@@ -1,0 +1,40 @@
+---
+title: Serverless RL
+description: Découvrez comment post-entraîner plus efficacement vos modèles à l'aide de l'apprentissage par renforcement
+---
+
+Désormais en préversion publique, Serverless RL aide les développeurs à post-entraîner des LLM afin de leur apprendre de nouveaux comportements et d&#39;améliorer la fiabilité et la rapidité, tout en réduisant les coûts, lors de tâches agentiques en plusieurs tours. W&amp;B provisionne pour vous l&#39;infrastructure d&#39;entraînement ([sur CoreWeave](https://docs.coreweave.com/docs/platform)) tout en vous laissant une flexibilité totale dans la configuration de votre environnement. Serverless RL vous donne un accès instantané à un cluster d&#39;entraînement géré qui s&#39;adapte automatiquement, de façon élastique, jusqu&#39;à plusieurs dizaines de GPU. En divisant les flux de travail RL en phases d&#39;inférence et d&#39;entraînement, puis en les multiplexant sur plusieurs tâches, Serverless RL augmente l&#39;utilisation des GPU et réduit le temps d&#39;entraînement ainsi que les coûts.
+
+Serverless RL est idéal pour des tâches telles que :
+
+* Agents vocaux
+* Assistants de recherche avancée
+* Modèles sur site
+* Agents d&#39;analyse du marketing de contenu
+
+Serverless RL entraîne des adaptateurs de faible rang (LoRA) pour adapter un modèle à la tâche spécifique de votre agent. Cela étend les capacités du modèle original grâce à l&#39;expérience acquise en situation. Les LoRA que vous entraînez sont automatiquement stockés comme artefacts dans votre compte W&amp;B, et peuvent être enregistrés localement ou chez un tiers à des fins de sauvegarde. Les modèles que vous entraînez via Serverless RL sont également automatiquement hébergés sur W&amp;B Inférence.
+
+Voir le [démarrage rapide](https://art.openpipe.ai/getting-started/quick-start) d&#39;ART ou le [notebook Google Colab](https://colab.research.google.com/github/openpipe/art-notebooks/blob/main/examples/2048/2048.ipynb) pour commencer.
+
+<div id="why-serverless-rl">
+  ## Pourquoi Serverless RL ?
+</div>
+
+L’apprentissage par renforcement regroupe de puissantes techniques d&#39;entraînement que vous pouvez utiliser dans de nombreuses configurations d&#39;entraînement, y compris sur des GPU que vous possédez ou louez directement. Serverless RL peut offrir les avantages suivants pour votre post-entraînement RL :
+
+* **Coûts d&#39;entraînement réduits** : en mutualisant une infrastructure partagée entre de nombreux utilisateurs, en évitant le processus de configuration pour chaque tâche et en ramenant vos coûts GPU à 0 lorsque vous ne vous entraînez pas activement, Serverless RL réduit considérablement les coûts d&#39;entraînement.
+* **Entraînement plus rapide** : en répartissant les requêtes d&#39;inférence sur de nombreux GPU et en provisionnant immédiatement l&#39;infrastructure d&#39;entraînement lorsque vous en avez besoin, Serverless RL accélère vos tâches d&#39;entraînement et vous permet d&#39;itérer plus rapidement.
+* **Déploiement automatique** : Serverless RL déploie automatiquement chaque point de contrôle que vous entraînez, ce qui évite de devoir configurer manuellement une infrastructure d&#39;hébergement. Les modèles entraînés peuvent être utilisés et testés immédiatement dans des environnements locaux, de préproduction ou de production.
+
+<div id="how-serverless-rl-uses-wb-services">
+  ## Comment Serverless RL utilise les services W&amp;B
+</div>
+
+Serverless RL s&#39;appuie sur une combinaison des composants W&amp;B suivants :
+
+* [Inférence](/fr/inference) : Pour exécuter vos modèles
+* [Models](/fr/models) : Pour suivre les métriques de performance pendant l&#39;entraînement de l&#39;adaptateur LoRA
+* [Artifacts](/fr/models/artifacts) : Pour stocker et versionner les adaptateurs LoRA
+* [Weave (facultatif)](/fr/weave) : Pour gagner en visibilité sur la manière dont le modèle répond à chaque étape de la boucle d&#39;entraînement
+
+Serverless RL est en préversion publique. Pendant cette période, seuls l&#39;utilisation d&#39;Inférence et le stockage des artefacts vous sont facturés. W&amp;B ne facture pas l&#39;entraînement des adaptateurs pendant la période de préversion.

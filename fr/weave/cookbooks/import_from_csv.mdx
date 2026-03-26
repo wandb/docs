@@ -1,0 +1,300 @@
+---
+title: "Importer depuis un fichier CSV"
+description: "Importez des jeux de données à partir de fichiers CSV dans W&B Weave afin de les utiliser dans des évaluations, le traçage et des flux de travail de comparaison de modèles."
+---
+
+<Note>
+  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
+
+  * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
+  * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/import_from_csv.ipynb)
+</Note>
+
+<div id="import-traces-from-3rd-party-systems">
+  # Importer des traces depuis des systèmes tiers
+</div>
+
+Il n’est parfois pas possible d’instrumenter votre code Python ou JavaScript avec l’intégration simple de Weave pour obtenir des traces en temps réel de votre application GenAI. Il arrive souvent que ces traces vous soient ensuite disponibles au format `csv` ou `json`.
+
+Dans ce cookbook, nous explorons l’API Python de bas niveau de Weave pour extraire des données d’un fichier CSV et les importer dans Weave afin d’en tirer des informations utiles et de mener des évaluations rigoureuses.
+
+Le jeu de données d’exemple utilisé dans ce cookbook a la structure suivante :
+
+```
+conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
+1234,1,2024-09-04 13:05:39,This is the beginning, ['This was the beginning'], That was the beginning
+1235,1,2024-09-04 13:02:11,This is another trace,, That was another trace
+1235,2,2024-09-04 13:04:19,This is the next turn,, That was the next turn
+1236,1,2024-09-04 13:02:10,This is a 3 turn conversation,, Woah thats a lot of turns
+1236,2,2024-09-04 13:02:30,This is the second turn, ['That was definitely the second turn'], You are correct
+1236,3,2024-09-04 13:02:53,This is the end,, Well good riddance!
+
+```
+
+Pour comprendre les choix d’import dans ce cookbook, il faut savoir que les traces Weave ont des relations parent-enfant de type 1:Many et continues. Autrement dit, un même parent peut avoir plusieurs enfants, mais ce parent peut lui-même être l’enfant d’un autre parent.
+
+Nous utilisons donc `conversation_id` comme identifiant parent, et `turn_index` comme identifiant enfant, afin d’obtenir un journal complet des conversations.
+
+Veillez à modifier les variables selon vos besoins.
+
+<div id="set-up-the-environment">
+  # Configurer l’environnement
+</div>
+
+Nous installons et importons tous les packages nécessaires.
+Nous définissons `WANDB_API_KEY` dans notre environnement afin de pouvoir nous connecter facilement avec `wandb.login()` (il doit être fourni à colab sous forme de secret).
+
+Nous définissons dans `name_of_file` le nom du fichier que nous téléversons vers colab, puis dans `name_of_wandb_project` le projet W&amp;B dans lequel nous voulons journaliser ces données.
+
+***REMARQUE :*** `name_of_wandb_project` peut aussi être au format `{team_name}/{project_name}` afin de préciser l’équipe dans laquelle journaliser les traces.
+
+Nous récupérons ensuite un client Weave en appelant `weave.init()`
+
+```python lines
+%pip install wandb weave pandas datetime --quiet
+python
+import os
+
+import pandas as pd
+import wandb
+from google.colab import userdata
+
+import weave
+
+## Écrire le fichier d'exemples sur le disque
+with open("/content/import_cookbook_data.csv", "w") as f:
+    f.write(
+        "conversation_id,turn_index,start_time,user_input,ground_truth,answer_text\n"
+    )
+    f.write(
+        '1234,1,2024-09-04 13:05:39,This is the beginning, ["This was the beginning"], That was the beginning\n'
+    )
+    f.write(
+        "1235,1,2024-09-04 13:02:11,This is another trace,, That was another trace\n"
+    )
+    f.write(
+        "1235,2,2024-09-04 13:04:19,This is the next turn,, That was the next turn\n"
+    )
+    f.write(
+        "1236,1,2024-09-04 13:02:10,This is a 3 turn conversation,, Woah thats a lot of turns\n"
+    )
+    f.write(
+        '1236,2,2024-09-04 13:02:30,This is the second turn, ["That was definitely the second turn"], You are correct\n'
+    )
+    f.write("1236,3,2024-09-04 13:02:53,This is the end,, Well good riddance!\n")
+
+os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")
+name_of_file = "/content/import_cookbook_data.csv"
+name_of_wandb_project = "import-weave-traces-cookbook"
+
+wandb.login()
+python
+weave_client = weave.init(name_of_wandb_project)
+```
+
+<div id="data-loading">
+  # Chargement des données
+</div>
+
+Nous chargeons les données dans un dataframe Pandas et veillons à les trier par `conversation_id` et `turn_index` afin de garantir que les parents et les enfants sont correctement ordonnés.
+
+On obtient ainsi un dataframe Pandas à deux colonnes, avec les tours de conversation sous forme de tableau dans `conversation_data`.
+
+```python lines
+## Charger et mettre en forme les données
+df = pd.read_csv(name_of_file)
+
+sorted_df = df.sort_values(["conversation_id", "turn_index"])
+
+# Fonction pour créer un tableau de dictionnaires pour chaque conversation
+def create_conversation_dict_array(group):
+    return group.drop("conversation_id", axis=1).to_dict("records")
+
+# Regrouper le dataframe par conversation_id et appliquer l'agrégation
+result_df = (
+    sorted_df.groupby("conversation_id")
+    .apply(create_conversation_dict_array)
+    .reset_index()
+)
+result_df.columns = ["conversation_id", "conversation_data"]
+
+# Afficher le résultat de l'agrégation
+result_df.head()
+```
+
+<div id="log-the-traces-to-weave">
+  # Journaliser les traces dans Weave
+</div>
+
+Nous parcourons maintenant notre DataFrame pandas :
+
+* Nous créons un appel parent pour chaque `conversation_id`
+* Nous parcourons le tableau des tours pour créer des appels enfants triés selon leur `turn_index`
+
+Concepts importants de l&#39;API Python de bas niveau :
+
+* Un appel Weave est équivalent à une trace Weave ; cet appel peut avoir un parent ou des enfants qui lui sont associés
+* Un appel Weave peut avoir d&#39;autres éléments qui lui sont associés : feedback, métadonnées, etc. Ici, nous ne lui associons que des entrées et des sorties, mais vous pouvez vouloir ajouter ces éléments lors de votre import si les données les fournissent.
+* Un appel Weave est `created` puis `finished`, car ces appels sont conçus pour être suivis en temps réel. Comme il s&#39;agit ici d&#39;un import a posteriori, nous créons et terminons l&#39;appel une fois que nos objets sont définis et liés entre eux.
+* La valeur `op` d&#39;un appel correspond à la manière dont Weave catégorise les appels de même nature. Dans cet exemple, tous les appels parents sont de type `Conversation`, et tous les appels enfants sont de type `Turn`. Vous pouvez modifier cela comme bon vous semble.
+* Un appel peut avoir des `inputs` et un `output`. Les `inputs` sont définis lors de la création, et l&#39;`output` est défini lorsque l&#39;appel est terminé.
+
+```python lines
+<div id="log-the-traces-to-weave">
+  # Journaliser les traces dans Weave
+</div>
+
+# Itérer sur nos conversations agrégées
+for _, row in result_df.iterrows():
+    # Définir le parent de notre conversation,
+    # nous créons maintenant un "appel" avec le weave_client défini précédemment
+    parent_call = weave_client.create_call(
+        # La valeur Op enregistre ceci comme un Op Weave, ce qui nous permettra de récupérer ces éléments en groupe facilement par la suite
+        op="Conversation",
+        # Nous définissons les entrées de notre conversation de haut niveau comme l'ensemble des tours qui la composent
+        inputs={
+            "conversation_data": row["conversation_data"][:-1]
+            if len(row["conversation_data"]) > 1
+            else row["conversation_data"]
+        },
+        # Le parent Conversation n'a pas de parent supplémentaire
+        parent=None,
+        # Le nom sous lequel cette conversation apparaîtra dans l'interface
+        display_name=f"conversation-{row['conversation_id']}",
+    )
+
+    # Nous définissons la sortie du parent comme la dernière trace de la conversation
+    parent_output = row["conversation_data"][len(row["conversation_data"]) - 1]
+
+    # Nous itérons maintenant sur tous les tours de conversation du parent
+    # et les journalisons comme enfants de la conversation
+    for item in row["conversation_data"]:
+        item_id = f"{row['conversation_id']}-{item['turn_index']}"
+
+        # Nous créons ici un nouvel appel à rattacher à la conversation
+        call = weave_client.create_call(
+            # Nous qualifions une trace de conversation individuelle de "Tour"
+            op="Turn",
+            # Nous fournissons toutes les entrées du tour, y compris le 'ground_truth' RAG
+            inputs={
+                "turn_index": item["turn_index"],
+                "start_time": item["start_time"],
+                "user_input": item["user_input"],
+                "ground_truth": item["ground_truth"],
+            },
+            # Nous définissons ceci comme un enfant du parent défini précédemment
+            parent=parent_call,
+            # Nous lui attribuons un nom pour l'identifier dans Weave
+            display_name=item_id,
+        )
+
+        # Nous définissons la sortie de l'appel comme la réponse
+        output = {
+            "answer_text": item["answer_text"],
+        }
+
+        # Ces traces ayant déjà eu lieu, nous clôturons l'appel du tour
+        weave_client.finish_call(call=call, output=output)
+    # Maintenant que tous ses enfants ont été journalisés, nous clôturons également l'appel parent
+    weave_client.finish_call(call=parent_call, output=parent_output)
+```
+
+<div id="result-traces-are-logged-to-weave">
+  # Résultat : les traces sont journalisées dans Weave
+</div>
+
+Traces :
+
+<Frame>
+  ![image.png](/images/screenshots/csv-1.png)
+</Frame>
+
+Opérations :
+
+<Frame>
+  ![image.png](/images/screenshots/csv-2.png)
+</Frame>
+
+<div id="bonus-export-your-traces-to-run-rigorous-evaluations">
+  # Bonus : exportez vos traces pour effectuer des évaluations rigoureuses !
+</div>
+
+Une fois que nos traces sont dans Weave et que nous avons compris à quoi ressemblent les conversations, nous pouvons vouloir les exporter ensuite vers un autre processus pour exécuter des évaluations Weave.
+
+<Frame>
+  ![image.png](/images/screenshots/csv-3.png)
+</Frame>
+
+Pour ce faire, nous récupérons toutes les conversations depuis W&amp;B via notre API de requête simple et créons un jeu de données à partir de celles-ci.
+
+```python lines
+## Cette cellule ne s'exécute pas par défaut, commentez la ligne ci-dessous pour exécuter ce script
+%%script false --no-raise-error
+## Obtenir toutes les traces de conversation pour l'évaluation et préparer le jeu de données
+
+# Nous créons un filtre de requête qui récupère tous nos objets Conversation
+# La référence indiquée ci-dessous est propre à votre projet ; vous pouvez l'obtenir en
+# accédant aux Opérations de votre projet dans l'interface, en cliquant sur l'objet
+# "Conversations", puis sur l'onglet "Use" dans le panneau latéral.
+weave_ref_for_conversation_op = "weave://wandb-smle/import-weave-traces-cookbook/op/Conversation:tzUhDyzVm5bqQsuqh5RT4axEXSosyLIYZn9zbRyenaw"
+filter = weave.trace_server.trace_server_interface.CallsFilter(
+    op_names=[weave_ref_for_conversation_op],
+  )
+
+# Nous exécutons la requête
+conversation_traces = weave_client.get_calls(filter=filter)
+
+rows = []
+
+# Nous parcourons nos traces de conversation et construisons les lignes du jeu de données à partir de celles-ci
+for single_conv in conversation_traces:
+  # Dans cet exemple, nous ne nous intéressons qu'aux conversations ayant utilisé notre
+  # pipeline RAG ; nous filtrons donc ce type de conversations
+  is_rag = False
+  for single_trace in single_conv.inputs['conversation_data']:
+    if single_trace['ground_truth'] is not None:
+      is_rag = True
+      break
+  if single_conv.output['ground_truth'] is not None:
+      is_rag = True
+
+  # Une fois qu'une conversation est identifiée comme ayant utilisé RAG, nous l'ajoutons à notre jeu de données
+  if is_rag:
+    inputs = []
+    ground_truths = []
+    answers = []
+
+    # Nous parcourons chaque tour de la conversation
+    for turn in single_conv.inputs['conversation_data']:
+      inputs.append(turn.get('user_input', ''))
+      ground_truths.append(turn.get('ground_truth', ''))
+      answers.append(turn.get('answer_text', ''))
+    ## Gérer le cas où les conversations ne comportent qu'un seul tour
+    if len(single_conv.inputs) != 1 or single_conv.inputs['conversation_data'][0].get('turn_index') != single_conv.output.get('turn_index'):
+      inputs.append(single_conv.output.get('user_input', ''))
+      ground_truths.append(single_conv.output.get('ground_truth', ''))
+      answers.append(single_conv.output.get('answer_text', ''))
+
+    data = {
+        'question': inputs,
+        'contexts': ground_truths,
+        'answer': answers
+    }
+
+    rows.append(data)
+
+# Une fois les lignes du jeu de données créées, nous créons l'objet Dataset et
+# le publions dans Weave pour une récupération ultérieure
+dset = weave.Dataset(name = "conv_traces_for_eval", rows=rows)
+weave.publish(dset)
+```
+
+<div id="result">
+  # Résultat
+</div>
+
+<Frame>
+  ![image.png](/images/screenshots/csv-4.png)
+</Frame>
+
+Pour en savoir plus sur les évaluations, consultez notre [Démarrage rapide](/fr/weave/tutorial-rag) pour apprendre à utiliser le jeu de données que vous venez de créer afin d’évaluer votre application RAG !

@@ -1,0 +1,150 @@
+---
+title: "op"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="op">
+  # op
+</div>
+
+▸ **op**&lt;`T`&gt;(`fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom | Type                                     |
+| :-- | :--------------------------------------- |
+| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom        | Type                   |
+| :--------- | :--------------------- |
+| `fn`       | `T`                    |
+| `options?` | `OpOptions`&lt;`T`&gt; |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[op.ts:369](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L369)
+
+▸ **op**&lt;`T`&gt;(`thisArg`, `fn`, `options?`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom | Type                                     |
+| :-- | :--------------------------------------- |
+| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom        | Type                   |
+| :--------- | :--------------------- |
+| `thisArg`  | `any`                  |
+| `fn`       | `T`                    |
+| `options?` | `OpOptions`&lt;`T`&gt; |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[op.ts:374](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L374)
+
+▸ **op**(`target`, `propertyKey`, `descriptor`): `TypedPropertyDescriptor`&lt;`any`&gt;
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom           | Type                                   |
+| :------------ | :------------------------------------- |
+| `target`      | `Object`                               |
+| `propertyKey` | `string` | `symbol`                    |
+| `descriptor`  | `TypedPropertyDescriptor`&lt;`any`&gt; |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`TypedPropertyDescriptor`&lt;`any`&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[op.ts:380](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L380)
+
+▸ **op**&lt;`T`&gt;(`value`, `context`): [`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="type-parameters">
+  #### Paramètres de type
+</div>
+
+| Nom | Type                                     |
+| :-- | :--------------------------------------- |
+| `T` | extends (...`args`: `any`[]) =&gt; `any` |
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                     |
+| :-------- | :----------------------- |
+| `value`   | `T`                      |
+| `context` | `MethodDecoratorContext` |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`Op`](../type-aliases/op)&lt;`T`&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[op.ts:386](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L386)
+
+▸ **op**(`options`): `MethodDecorator`
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom       | Type                                      |
+| :-------- | :---------------------------------------- |
+| `options` | `Partial`&lt;`OpOptions`&lt;`any`&gt;&gt; |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`MethodDecorator`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[op.ts:391](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/op.ts#L391)
+
+***

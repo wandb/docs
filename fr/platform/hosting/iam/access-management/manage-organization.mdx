@@ -1,0 +1,379 @@
+---
+title: Gérer votre organisation
+description: "Gérez les utilisateurs, les équipes, les rôles, les licences et la facturation au sein d'une organisation W&B en tant qu'administrateur de l'organisation."
+---
+
+En tant qu&#39;administrateur d&#39;une organisation, vous pouvez [gérer les utilisateurs](#add-and-manage-users) au sein de votre organisation et [gérer les équipes](#add-and-manage-teams).
+
+En tant qu&#39;administrateur d&#39;équipe, vous pouvez [gérer les équipes](#add-and-manage-teams).
+
+<Note>
+  Le flux de travail suivant s&#39;applique aux utilisateurs disposant de rôles d&#39;administrateur d&#39;instance. Contactez un administrateur de votre organisation si vous pensez devoir disposer des autorisations d&#39;administrateur d&#39;instance.
+</Note>
+
+Si vous souhaitez simplifier la gestion des utilisateurs dans votre organisation, référez-vous à [Automatiser la gestion des utilisateurs et des équipes](../automate_iam).
+
+{/* W&B attribue par défaut le rôle d’administrateur aux nouveaux utilisateurs d’une organisation. */}
+
+<div id="change-the-name-of-your-organization">
+  ## Modifier le nom de votre organisation
+</div>
+
+<Note>
+  Le flux de travail suivant s’applique uniquement au Cloud mutualisé de W&amp;B.
+</Note>
+
+1. Accédez à https://wandb.ai/home.
+2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans la section **Account** de ce menu déroulant, sélectionnez **Settings**.
+3. Dans l’onglet **Settings**, sélectionnez **General**.
+4. Sélectionnez le bouton **Modifier le nom**.
+5. Dans la fenêtre modale qui s’affiche, saisissez un nouveau nom pour votre organisation, puis sélectionnez le bouton **Enregistrer le nom**.
+
+<div id="add-and-manage-users">
+  ## Ajouter et gérer les utilisateurs
+</div>
+
+En tant qu’administrateur, utilisez le tableau de bord de votre organisation pour :
+
+* Inviter ou retirer des utilisateurs.
+* Attribuer ou mettre à jour le rôle d’un utilisateur dans l’organisation, et créer des rôles personnalisés.
+* Attribuer le rôle d’administrateur de la facturation.
+
+Un administrateur d’organisation peut ajouter des utilisateurs à une organisation de plusieurs façons :
+
+1. Ajout sur invitation
+2. Provisionnement automatique avec le SSO
+3. Capture de domaine
+
+<div id="seats-and-pricing">
+  ### Licences et tarification
+</div>
+
+Le tableau suivant résume le fonctionnement des licences pour Models et Weave :
+
+| Produit | Licences             | Coût basé sur                                                                                                                                                                                                                                                                           |
+| ------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Models  | Paiement par licence | Le nombre de licences payantes Models dont vous disposez, ainsi que le volume d’utilisation cumulé, déterminent le coût total de votre abonnement. Chaque utilisateur peut se voir attribuer l’un des trois types de licences disponibles : Accès complet, viewer et Aucun accès |
+| Weave   | Gratuit              | Basé sur l’utilisation                                                                                                                                                                                                                                                                  |
+
+<div id="invite-a-user">
+  ### Inviter un utilisateur
+</div>
+
+Les administrateurs peuvent inviter des utilisateurs dans leur organisation, ainsi que dans des équipes spécifiques de l’organisation.
+
+<Tabs>
+  <Tab title="Cloud mutualisé">
+    1. Accédez à https://wandb.ai/home.
+    2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans la section **Account** de ce menu, sélectionnez **Users**.
+    3. Sélectionnez **Invite new user**.
+    4. Dans la fenêtre modale qui s’affiche, saisissez l’adresse e-mail ou le nom d’utilisateur de l’utilisateur dans le champ **Email or username**.
+    5. (Recommandé) Ajoutez l’utilisateur à une équipe à partir du menu déroulant **Choose teams**.
+    6. Dans le menu déroulant **Select role**, sélectionnez le rôle à attribuer à l’utilisateur. Vous pourrez modifier le rôle de l’utilisateur ultérieurement. Voir le tableau indiqué dans [Attribuer un rôle](#assign-or-update-a-team-members-role) pour plus d’informations sur les rôles possibles.
+    7. Cliquez sur le bouton **Send invite**.
+
+    W&amp;B envoie un lien d’invitation à l’adresse e-mail de l’utilisateur via un serveur de messagerie tiers après que vous avez sélectionné le bouton **Send invite**. L’utilisateur peut accéder à votre organisation une fois l’invitation acceptée.
+  </Tab>
+
+  <Tab title="Cloud dédié ou Autogéré">
+    1. Accédez à `https://<org-name>.io/console/settings/`. Remplacez `<org-name>` par le nom de votre organisation.
+    2. Sélectionnez le bouton **Add user**
+    3. Dans la fenêtre modale qui s’affiche, saisissez l’adresse e-mail du nouvel utilisateur dans le champ **Email**.
+    4. Sélectionnez un rôle à attribuer à l’utilisateur dans le menu déroulant **Role**. Vous pourrez modifier le rôle de l’utilisateur ultérieurement. Voir le tableau indiqué dans [Attribuer un rôle](#assign-or-update-a-team-members-role) pour plus d’informations sur les rôles possibles.
+    5. Cochez la case **Send invite email to user** si vous souhaitez que W&amp;B envoie un lien d’invitation à l’adresse e-mail de l’utilisateur via un serveur de messagerie tiers.
+    6. Sélectionnez le bouton **Add new user**.
+  </Tab>
+</Tabs>
+
+<div id="auto-provision-users">
+  ### Provisionnement automatique des utilisateurs
+</div>
+
+Un utilisateur W&amp;B dont le domaine d’adresse e-mail correspond peut se connecter à votre organisation W&amp;B avec l’authentification unique (SSO) si vous configurez le SSO et que votre fournisseur SSO l’autorise. Le SSO est disponible pour toutes les licences Enterprise.
+
+<Note>
+  **Activer le SSO pour l’authentification**
+
+  W&amp;B recommande vivement que les utilisateurs s’authentifient à l’aide de l’authentification unique (SSO). Contactez votre équipe W&amp;B pour activer le SSO pour votre organisation.
+
+  Pour en savoir plus sur la configuration du SSO avec des instances Cloud dédié ou Autogéré, se référer à [SSO with OIDC](/fr/platform/hosting/iam/sso/) ou [SSO with LDAP](/fr/platform/hosting/iam/ldap/).
+</Note>
+
+Par défaut, W&amp;B attribue le rôle « Member » aux utilisateurs provisionnés automatiquement. Vous pouvez modifier le rôle des utilisateurs provisionnés automatiquement à tout moment.
+
+Le provisionnement automatique des utilisateurs avec le SSO est activé par défaut pour les instances Cloud dédié et les déploiements autogérés. Vous pouvez désactiver le provisionnement automatique. Le désactiver vous permet d’ajouter de manière sélective des utilisateurs précis à votre organisation W&amp;B.
+
+Les onglets suivants expliquent comment désactiver le provisionnement automatique avec le SSO selon le type de déploiement :
+
+<Tabs>
+  <Tab title="Cloud mutualisé">
+    Le provisionnement automatique avec le SSO n’est pas configurable pour le Cloud mutualisé. Contactez votre équipe W&amp;B pour obtenir de l’aide.
+  </Tab>
+
+  <Tab title="Cloud dédié ou Autogéré">
+    Pour les instances Cloud dédié, contactez votre équipe W&amp;B si vous souhaitez désactiver le provisionnement automatique avec le SSO.
+
+    Pour les déploiements autogérés, utilisez la console W&amp;B pour désactiver le provisionnement automatique avec le SSO :
+
+    1. Accédez à `https://<org-name>.io/console/settings/`. Remplacez `<org-name>` par le nom de votre organisation.
+    2. Sélectionnez **Security**
+    3. Sélectionnez **Disable SSO Provisioning** pour désactiver le provisionnement automatique avec le SSO.
+
+    {/* For Self-Managed deployments, you can configure the setting `DISABLE_SSO_PROVISIONING=true` to turn off auto provisioning with SSO. */}
+  </Tab>
+</Tabs>
+
+<Note>
+  Le provisionnement automatique avec le SSO est utile pour ajouter des utilisateurs à grande échelle à une organisation, car les administrateurs de l’organisation n’ont pas besoin de générer des invitations individuelles pour chaque utilisateur.
+</Note>
+
+<div id="domain-capture">
+  ### Capture de domaine
+</div>
+
+La capture de domaine permet à vos employés de rejoindre l’organisation de votre entreprise afin de garantir que les nouveaux utilisateurs ne créent pas de ressources en dehors du périmètre de votre entreprise.
+
+<Note>
+  **Les domaines doivent être uniques**
+
+  Les domaines sont des identifiants uniques. Cela signifie que vous ne pouvez pas utiliser un domaine déjà utilisé par une autre organisation.
+</Note>
+
+<Tabs>
+  <Tab title="Cloud mutualisé">
+    La capture de domaine vous permet d’ajouter automatiquement à votre organisation W&amp;B Cloud mutualisé les personnes disposant d’une adresse e-mail d’entreprise, telle que `@example.com`. Cela aide tous vos employés à rejoindre la bonne organisation et garantit que les nouveaux utilisateurs ne créent pas de ressources en dehors du périmètre de votre entreprise.
+
+    Ce tableau résume le comportement des nouveaux utilisateurs et des utilisateurs existants avec ou sans capture de domaine activée :
+
+    |                        | Avec capture de domaine                                                                                                                                                                                                                                                                                                                                                    | Sans capture de domaine                                                                                                                                                                        |
+    | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | Nouveaux utilisateurs  | Les utilisateurs qui s’inscrivent à W&amp;B avec des domaines vérifiés sont automatiquement ajoutés comme membres à l’équipe par défaut de votre organisation. Ils peuvent choisir de rejoindre des équipes supplémentaires lors de l’inscription si vous activez l’adhésion aux équipes. Ils peuvent toujours rejoindre d’autres organisations et équipes sur invitation. | Les utilisateurs peuvent créer des comptes W&amp;B sans savoir qu’une organisation centralisée est disponible.                                                                                 |
+    | Utilisateurs invités   | Les utilisateurs invités rejoignent automatiquement votre organisation lorsqu’ils acceptent votre invitation. Les utilisateurs invités ne sont pas automatiquement ajoutés comme membres à l’équipe par défaut de votre organisation. Ils peuvent toujours rejoindre d’autres organisations et équipes sur invitation.                                                     | Les utilisateurs invités rejoignent automatiquement votre organisation lorsqu’ils acceptent votre invitation. Ils peuvent toujours rejoindre d’autres organisations et équipes sur invitation. |
+    | Utilisateurs existants | Les utilisateurs existants dont les adresses e-mail vérifiées appartiennent à vos domaines peuvent rejoindre les équipes de votre organisation dans l’application W&amp;B. Toutes les données créées par les utilisateurs existants avant qu’ils ne rejoignent votre organisation sont conservées. W&amp;B ne migre pas les données des utilisateurs existants.            | Les utilisateurs W&amp;B existants peuvent être répartis entre plusieurs organisations et équipes.                                                                                             |
+
+    Pour attribuer automatiquement les nouveaux utilisateurs non invités à une équipe par défaut lorsqu’ils rejoignent votre organisation :
+
+    1. Accédez à https://wandb.ai/home.
+    2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans le menu déroulant, choisissez **Settings**.
+    3. Dans l’onglet **Settings**, sélectionnez **General**.
+    4. Cliquez sur le bouton **Claim domain** dans **Domain capture**.
+    5. Sélectionnez l’équipe que vous souhaitez attribuer automatiquement aux nouveaux utilisateurs dans le menu déroulant **Default team**. Si aucune équipe n’est disponible, vous devrez mettre à jour les paramètres de l’équipe. Voir les instructions dans [Add and manage teams](#add-and-manage-teams).
+    6. Cliquez sur le bouton **Claim email domain**.
+
+    Vous devez activer la correspondance de domaine dans les paramètres d’une équipe avant de pouvoir attribuer automatiquement à cette équipe les nouveaux utilisateurs non invités.
+
+    1. Accédez au tableau de bord de l’équipe à l’adresse `https://wandb.ai/<team-name>`, où `<team-name>` correspond au nom de l’équipe pour laquelle vous souhaitez activer la correspondance de domaine.
+    2. Sélectionnez **Team settings** dans la navigation globale, sur le côté gauche du tableau de bord de l’équipe.
+    3. Dans la section **Privacy**, basculez l’option &quot;Recommend new users with matching email domains join this team upon signing up&quot;.
+  </Tab>
+
+  <Tab title="Cloud dédié ou Autogéré">
+    Contactez votre équipe Account W&amp;B si vous utilisez un type de déploiement Cloud dédié ou autogéré afin de configurer la capture de domaine. Une fois configurée, votre instance W&amp;B Cloud mutualisé invite automatiquement les utilisateurs qui créent un compte W&amp;B avec l’adresse e-mail de votre entreprise à contacter votre administrateur pour demander l’accès à votre instance Cloud dédié ou Autogéré.
+
+    |                        | Avec capture de domaine                                                                                                                                                                                                                                                                         | Sans capture de domaine                                                                                                                       |
+    | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+    | Nouveaux utilisateurs  | Les utilisateurs qui s’inscrivent à W&amp;B sur Cloud mutualisé avec des domaines vérifiés sont automatiquement invités à contacter un administrateur à l’adresse e-mail que vous avez personnalisée. Ils peuvent toujours créer des organisations sur Cloud mutualisé pour essayer le produit. | Les utilisateurs peuvent créer des comptes W&amp;B Cloud mutualisé sans savoir que leur entreprise dispose d’une instance dédiée centralisée. |
+    | Utilisateurs existants | Les utilisateurs W&amp;B existants peuvent être répartis entre plusieurs organisations et équipes.                                                                                                                                                                                              | Les utilisateurs W&amp;B existants peuvent être répartis entre plusieurs organisations et équipes.                                            |
+  </Tab>
+</Tabs>
+
+<div id="assign-or-update-a-users-role">
+  ### Attribuer ou mettre à jour le rôle d&#39;un utilisateur
+</div>
+
+Chaque membre d’une organisation possède un rôle au niveau de l’organisation et une licence pour W&amp;B Models et Weave. Le type de licence dont il dispose détermine à la fois son statut de facturation et les actions qu’il peut effectuer dans chaque ligne de produit.
+
+Vous attribuez initialement un rôle d’organisation à un utilisateur lorsque vous l’invitez dans votre organisation. Vous pouvez modifier le rôle de n’importe quel utilisateur par la suite.
+
+Un utilisateur au sein d’une organisation peut avoir l’un des rôles suivants :
+
+| Rôle                                                | Descriptions                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| admin                                               | Un administrateur d’instance qui peut ajouter ou supprimer d’autres utilisateurs de l’organisation, modifier les rôles des utilisateurs, gérer les rôles personnalisés, ajouter des équipes, etc. W&amp;B recommande de s’assurer qu’il y a plus d’un administrateur au cas où votre administrateur ne serait pas disponible.                                                                                                                                                                |
+| Member                                              | Un utilisateur standard de l’organisation, invité par un administrateur d’instance. Un membre de l’organisation ne peut pas inviter d’autres utilisateurs ni gérer les utilisateurs existants dans l’organisation.                                                                                                                                                                                                                                                                           |
+| Viewer (fonctionnalité Enterprise uniquement)       | Un utilisateur de votre organisation disposant d’un accès en lecture seule, invité par un administrateur d’instance. Un viewer dispose uniquement d’un accès en lecture à l’organisation et aux équipes dont il est membre.                                                                                                                                                                                                                                                                  |
+| rôle personnalisé (fonctionnalité Enterprise uniquement) | Les rôles personnalisés permettent aux administrateurs de l’organisation de créer de nouveaux rôles en héritant des rôles View-Only ou Member ci-dessus, puis en ajoutant des autorisations supplémentaires pour mettre en place un contrôle d’accès granulaire. Les administrateurs d’équipe peuvent ensuite attribuer l’un de ces rôles personnalisés aux utilisateurs dans leurs équipes respectives. Voir aussi [Ajouter et gérer des rôles personnalisés](#add-and-manage-custom-roles) |
+
+Pour modifier le rôle d&#39;un utilisateur :
+
+1. Accédez à https://wandb.ai/home.
+2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans le menu déroulant, choisissez **Users**.
+3. Saisissez le nom ou l’adresse e-mail de l’utilisateur dans la barre de recherche.
+4. Sélectionnez un rôle dans le menu déroulant **TEAM ROLE** à côté du nom de l’utilisateur.
+
+<div id="assign-or-update-a-users-access">
+  ### Attribuer ou mettre à jour l’accès d’un utilisateur
+</div>
+
+Un utilisateur au sein d’une organisation dispose de l’un des types de licence Models ou d’accès Weave suivants : complet, visualisation seule ou aucun accès.
+
+| Type de licence | Description                                                                                                                                                                                                                                                          |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Complet         | Les utilisateurs ayant ce type de rôle disposent de toutes les autorisations pour écrire, lire et exporter des données pour Models ou Weave.                                                                                                                         |
+| viewer          | Utilisateur en lecture seule de votre organisation. Un utilisateur avec un accès en visualisation seule dispose uniquement d’un accès en lecture à l’organisation et aux équipes dont il fait partie, ainsi que d’un accès en visualisation seule à Models ou Weave. |
+| Aucun accès     | Les utilisateurs ayant ce rôle n’ont aucun accès aux produits Models ou Weave.                                                                                                                                                                                       |
+
+Le type de licence Models et le type d’accès Weave sont définis au niveau de l’organisation, puis hérités par l’équipe. Si vous souhaitez modifier le type de licence d’un utilisateur, accédez aux paramètres de l’organisation et suivez les étapes ci-dessous :
+
+1. Pour les utilisateurs du Cloud mutualisé, accédez aux paramètres de votre organisation à l’adresse `https://wandb.ai/account-settings/<organization>/settings`. Veillez à remplacer les valeurs entre chevrons (`<>`) par le nom de votre organisation. Pour les déploiements Cloud dédié et Autogéré, accédez à `https://<your-instance>.wandb.io/org/dashboard`.
+2. Sélectionnez l’onglet **Users**.
+3. Dans la liste déroulante **Role**, sélectionnez le type de licence que vous souhaitez attribuer à l’utilisateur.
+
+<Note>
+  Le rôle dans l’organisation et le type d’abonnement déterminent les types de licence disponibles au sein de votre organisation.
+</Note>
+
+<div id="remove-a-user">
+  ### Supprimer un utilisateur
+</div>
+
+1. Accédez à https://wandb.ai/home.
+2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans ce menu, sélectionnez **Users**.
+3. Saisissez le nom ou l’adresse e-mail de l’utilisateur dans la barre de recherche.
+4. Sélectionnez l’icône de points de suspension ou des trois points (**...**) lorsqu’elle apparaît.
+5. Dans le menu déroulant, sélectionnez **Remove member**.
+
+<div id="assign-the-billing-admin">
+  ### Attribuer l’administrateur de la facturation
+</div>
+
+1. Accédez à https://wandb.ai/home.
+2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans le menu déroulant, choisissez **Users**.
+3. Saisissez le nom ou l’adresse e-mail de l’utilisateur dans la barre de recherche.
+4. Dans la colonne **Billing admin**, choisissez l’utilisateur à attribuer au rôle d’administrateur de la facturation.
+
+<div id="add-and-manage-teams">
+  ## Ajouter et gérer les équipes
+</div>
+
+Utilisez le tableau de bord de votre organisation pour créer et gérer des équipes au sein de votre organisation. Un administrateur de l&#39;organisation ou un administrateur d&#39;équipe peut :
+
+* Inviter des utilisateurs dans une équipe ou en supprimer.
+* Gérer les rôles des membres de l&#39;équipe.
+* Automatiser l&#39;ajout d&#39;utilisateurs à une équipe lorsqu&#39;ils rejoignent votre organisation.
+* Gérer le stockage de l&#39;équipe depuis le tableau de bord de l&#39;équipe à l&#39;adresse `https://wandb.ai/<team-name>`.
+
+<div id="create-a-team">
+  ### Créer une équipe
+</div>
+
+Utilisez le tableau de bord de votre organisation pour créer une équipe :
+
+1. Accédez à https://wandb.ai/home.
+2. Sélectionnez **Créer une équipe pour collaborer** dans le panneau de navigation de gauche, sous **Teams**.
+
+<Frame>
+  <img src="/images/hosting/create_new_team.png" alt="Créer une nouvelle équipe" />
+</Frame>
+
+3. Saisissez un nom pour votre équipe dans le champ **Nom de l’équipe** de la fenêtre modale qui s’affiche.
+4. Choisissez un type de stockage.
+5. Sélectionnez le bouton **Créer une équipe**.
+
+Après avoir sélectionné le bouton **Créer une équipe**, W&amp;B vous redirige vers la page de la nouvelle équipe à l’adresse `https://wandb.ai/<team-name>`, où `<team-name>` correspond au nom que vous fournissez lorsque vous créez une équipe.
+
+Une fois votre équipe créée, vous pouvez y ajouter des utilisateurs.
+
+<div id="invite-users-to-a-team">
+  ### Inviter des utilisateurs dans une équipe
+</div>
+
+Invitez des utilisateurs dans une équipe de votre organisation. Utilisez le tableau de bord de l&#39;équipe pour inviter des utilisateurs à l&#39;aide de leur adresse e-mail ou de leur nom d&#39;utilisateur W&amp;B s&#39;ils ont déjà un compte W&amp;B.
+
+1. Accédez à `https://wandb.ai/<team-name>`.
+2. Sélectionnez **Team settings** dans la navigation globale située sur le côté gauche du tableau de bord.
+
+<Frame>
+  <img src="/images/hosting/team_settings.png" alt="Paramètres de l'équipe" />
+</Frame>
+
+3. Sélectionnez l&#39;onglet **Users**.
+4. Cliquez sur **Invite a new user**.
+5. Dans la fenêtre modale qui s&#39;affiche, saisissez l&#39;e-mail de l&#39;utilisateur dans le champ **Email or username**, puis sélectionnez le rôle à attribuer à cet utilisateur dans le menu déroulant des rôles **Select a team**. Pour plus d&#39;informations sur les rôles qu&#39;un utilisateur peut avoir dans une équipe, voir [Team roles](#assign-or-update-a-team-members-role).
+6. Cliquez sur le bouton **Send invite**.
+
+Par défaut, seul un administrateur d&#39;équipe ou d&#39;instance peut inviter des membres dans une équipe. Pour modifier ce comportement, référez-vous à [Team settings](/fr/platform/app/settings-page/teams#privacy).
+
+En plus d&#39;inviter manuellement des utilisateurs par e-mail, vous pouvez ajouter automatiquement de nouveaux utilisateurs à une équipe si l&#39;[e-mail du nouvel utilisateur correspond au domaine de votre organisation](#domain-capture).
+
+<div id="match-members-to-a-team-organization-during-sign-up">
+  ### Associer des membres à une organisation d’équipe lors de leur inscription
+</div>
+
+Permettez aux nouveaux utilisateurs de votre organisation de découvrir les Teams de votre organisation lorsqu’ils s’inscrivent. Les nouveaux utilisateurs doivent disposer d’un domaine d’adresse e-mail vérifié correspondant au domaine d’adresse e-mail vérifié de votre organisation. Lorsqu’ils créent un compte W&amp;B, les nouveaux utilisateurs vérifiés peuvent voir une liste des équipes vérifiées appartenant à une organisation.
+
+Un administrateur de l’organisation doit activer la revendication de domaine. Pour activer la capture de domaine, voir les étapes décrites dans [Capture de domaine](#domain-capture).
+
+<div id="assign-or-update-a-team-members-role">
+  ### Attribuer ou mettre à jour le rôle d&#39;un membre de l&#39;équipe
+</div>
+
+1. Sélectionnez l&#39;icône du type de compte à côté du nom du membre de l&#39;équipe.
+2. Dans le menu déroulant, choisissez le type de compte que vous souhaitez attribuer à ce membre de l&#39;équipe.
+
+Ce tableau répertorie les rôles que vous pouvez attribuer à un membre d&#39;une équipe :
+
+| Rôle                                                       | Définition                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Admin                                                      | Un utilisateur qui peut ajouter et supprimer d&#39;autres utilisateurs de l&#39;équipe, modifier les rôles des utilisateurs et configurer les paramètres de l&#39;équipe.                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Member                                                     | Un utilisateur standard d&#39;une équipe, invité par e-mail ou via son nom d&#39;utilisateur au niveau de l&#39;organisation par l&#39;administrateur de l&#39;équipe. Un membre ne peut pas inviter d&#39;autres utilisateurs dans l&#39;équipe.                                                                                                                                                                                                                                                                                                                                                            |
+| Lecture seule (fonctionnalité réservée à Enterprise)       | Un utilisateur d&#39;une équipe disposant d&#39;un accès en lecture seule, invité par e-mail ou via son nom d&#39;utilisateur au niveau de l&#39;organisation par l&#39;administrateur de l&#39;équipe. Un utilisateur en lecture seule a uniquement un accès en lecture à l&#39;équipe et à son contenu.                                                                                                                                                                                                                                                                                                    |
+| Rôles personnalisés (fonctionnalité réservée à Enterprise) | Les rôles personnalisés permettent aux Administrateurs de l’organisation de créer de nouveaux rôles en héritant des rôles Lecture seule ou Member ci-dessus et d&#39;ajouter des autorisations supplémentaires afin d&#39;obtenir un contrôle d&#39;accès granulaire. Les Administrateurs d’équipe peuvent ensuite attribuer n&#39;importe lequel de ces rôles personnalisés aux utilisateurs de leurs équipes respectives. Se référer à [l’annonce des rôles personnalisés](https://wandb.ai/wandb_fc/announcements/reports/Introducing-Custom-Roles-for-W-B-Teams--Vmlldzo2MTMxMjQ3) pour plus de détails. |
+
+<Info>
+  Les comptes de service ne sont pas des utilisateurs, mais des identités non humaines utilisées pour l’automatisation. Les **comptes de service** fournissent des clés API pour les flux de travail automatisés et ne consomment pas de licences utilisateur. Se référer à [Utiliser des comptes de service pour automatiser les flux de travail](/fr/platform/hosting/iam/service-accounts/) pour des informations complètes sur la création et la gestion des comptes de service.
+</Info>
+
+<Note>
+  Seules les licences Enterprise sur un déploiement Cloud dédié ou autogéré permettent d’attribuer des rôles personnalisés aux membres d&#39;une équipe.
+</Note>
+
+<div id="remove-users-from-a-team">
+  ### Supprimer des utilisateurs d’une équipe
+</div>
+
+Supprimez un utilisateur d’une équipe depuis le tableau de bord de l’équipe. W&amp;B conserve les runs créés dans une équipe même si le membre qui les a créés ne fait plus partie de cette équipe.
+
+1. Accédez à `https://wandb.ai/<team-name>`.
+2. Sélectionnez **Team settings** dans la barre de navigation de gauche.
+3. Sélectionnez l’onglet **Users**.
+4. Survolez le nom de l’utilisateur que vous souhaitez supprimer. Sélectionnez l’icône de points de suspension ou des trois points (**...**) lorsqu’elle apparaît.
+5. Dans le menu déroulant, sélectionnez **Remove user**.
+
+<div id="add-and-manage-custom-roles">
+  ## Ajouter et gérer des rôles personnalisés
+</div>
+
+<Note>
+  Une licence Enterprise est requise pour créer ou attribuer des rôles personnalisés sur des déploiements Cloud dédié ou autogéré.
+</Note>
+
+Les administrateurs de l’organisation peuvent créer un nouveau rôle basé sur le rôle lecture seule ou Member et ajouter des autorisations supplémentaires afin de mettre en place un contrôle d’accès précis. Les administrateurs d’équipe peuvent attribuer un rôle personnalisé à un membre de l’équipe. Les rôles personnalisés sont créés au niveau de l’organisation, mais attribués au niveau de l’équipe.
+
+Pour créer un rôle personnalisé :
+
+<Tabs>
+  <Tab title="Cloud mutualisé">
+    1. Accédez à https://wandb.ai/home.
+    2. Dans le coin supérieur droit de la page, sélectionnez le menu déroulant **Menu utilisateur**. Dans la section **Account** du menu déroulant, sélectionnez **Settings**.
+    3. Cliquez sur **Roles**.
+    4. Dans la section **rôles personnalisés**, cliquez sur **Create a role**.
+    5. Saisissez un nom pour le rôle. Vous pouvez également ajouter une description.
+    6. Choisissez le rôle sur lequel baser le rôle personnalisé, **Viewer** ou **Member**.
+    7. Pour ajouter des autorisations, cliquez sur le champ **Search permissions**, puis sélectionnez une ou plusieurs autorisations à ajouter.
+    8. Vérifiez la section **Custom role permissions**, qui récapitule les autorisations du rôle.
+    9. Cliquez sur **Create Role**.
+  </Tab>
+
+  <Tab title="Cloud dédié ou Autogéré">
+    1. Accédez à `https://<org-name>.wandb.io/org/settings/`. Remplacez `<org-name>` par le nom de votre organisation.
+    2. Dans la section **rôles personnalisés**, cliquez sur **Create a role**.
+    3. Saisissez un nom pour le rôle. Vous pouvez également ajouter une description.
+    4. Choisissez le rôle sur lequel baser le rôle personnalisé, **Viewer** ou **Member**.
+    5. Pour ajouter des autorisations, cliquez sur le champ **Search permissions**, puis sélectionnez une ou plusieurs autorisations à ajouter.
+    6. Vérifiez la section **Custom role permissions**, qui récapitule les autorisations du rôle.
+    7. Cliquez sur **Create Role**.
+  </Tab>
+</Tabs>
+
+Un administrateur d’équipe peut désormais attribuer le rôle personnalisé aux membres d’une équipe depuis les [Team settings](#invite-users-to-a-team).

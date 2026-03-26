@@ -1,0 +1,33 @@
+---
+title: "Journaux"
+tag: "7"
+generator: knowledgebase-nav
+---
+
+<Card title="La journalisation bloque-t-elle mon entraînement ?" href="/fr/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
+  &quot;La fonction de journalisation est-elle lazy ? Je ne veux pas dépendre du réseau pour envoyer les résultats à vos serveurs pendant l&#39;exécution de loc ...
+</Card>
+
+<Card title="Comment puis-je écraser les journaux des étapes précédentes ?" href="/fr/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
+  Pour écraser les journaux des étapes précédentes, utilisez le forking et le rembobinage.
+</Card>
+
+<Card title="Comment puis-je journaliser une liste de valeurs ?" href="/fr/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
+  Ces exemples montrent différentes façons de journaliser les pertes à l&#39;aide de wandb.Run.log(). Pour en savoir plus, voir la documentation sur  ...
+</Card>
+
+<Card title="Comment puis-je journaliser les runs lancés par l'intégration continue ou des outils internes ?" href="/fr/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
+  Pour lancer des tests automatisés ou des outils internes qui journalisent dans W&amp;B, créez un compte de service dans les paramètres de l&#39;équipe. Ce co ...
+</Card>
+
+<Card title="Comment puis-je journaliser avec le bon utilisateur wandb sur une machine partagée ?" href="/fr/support/models/articles/how-do-i-log-to-the-right-wandb-user-on-" arrow="true" horizontal>
+  Lorsque vous utilisez une machine partagée, assurez-vous que les runs sont journalisés dans le bon compte wandb en définissant la variable d&#39;environnement WANDB&#95;API&#95;KEY  ...
+</Card>
+
+<Card title="Comment puis-je désactiver la journalisation ?" href="/fr/support/models/articles/how-do-i-turn-off-logging" arrow="true" horizontal>
+  La commande wandb offline définit la variable d&#39;environnement WANDB&#95;MODE=offline, ce qui empêche la synchronisation des données avec le W distant ...
+</Card>
+
+<Card title="Quels fichiers dois-je vérifier lorsque mon code plante ?" href="/fr/support/models/articles/which-files-should-i-check-when-my-code-" arrow="true" horizontal>
+  Pour le run concerné, vérifiez debug.log et debug-internal.log dans wandb/run- &#95; - /logs, dans le répertoire où se trouve votre code ...
+</Card>

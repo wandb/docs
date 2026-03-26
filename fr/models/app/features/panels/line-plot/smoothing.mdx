@@ -1,0 +1,122 @@
+---
+description: Dans les graphiques en courbes, utilisez le lissage pour faire ressortir les tendances dans des données bruitées.
+title: Lissage des graphiques en courbes
+---
+
+W&amp;B prend en charge plusieurs types de lissage :
+
+* [Lissage par moyenne mobile exponentielle pondérée dans le temps (TWEMA)](#time-weighted-exponential-moving-average-twema-smoothing-default)
+* [Lissage gaussien](#gaussian-smoothing)
+* [Lissage par moyenne glissante](#running-average-smoothing)
+* [Lissage par moyenne mobile exponentielle (EMA)](#exponential-moving-average-ema-smoothing)
+
+Découvrez-les en direct dans un [rapport W&amp;B interactif](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc).
+
+<Frame>
+  <img src="/images/app_ui/beamer_smoothing.gif" alt="Démonstration de différents algorithmes de lissage" />
+</Frame>
+
+<div id="time-weighted-exponential-moving-average-twema-smoothing-default">
+  ## Lissage par moyenne mobile exponentielle pondérée dans le temps (TWEMA) (par défaut)
+</div>
+
+L’algorithme de lissage Time Weighted Exponential Moving Average (TWEMA) est une technique de lissage des données de séries temporelles qui applique une décroissance exponentielle au poids des points précédents. Pour plus de détails sur cette technique, voir [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing). La plage de valeurs va de 0 à 1. Un terme de correction du biais est ajouté afin que les premières valeurs de la série temporelle ne soient pas biaisées vers zéro.
+
+L’algorithme TWEMA prend en compte la densité des points sur la ligne (le nombre de valeurs `y` par unité de plage sur l’axe des x). Cela permet un lissage cohérent lors de l’affichage simultané de lignes multiples aux caractéristiques différentes.
+
+Voici un exemple de code montrant comment cela fonctionne en interne :
+
+```javascript
+const smoothingWeight = Math.min(Math.sqrt(smoothingParam || 0), 0.999);
+let lastY = yValues.length > 0 ? 0 : NaN;
+let debiasWeight = 0;
+
+return yValues.map((yPoint, index) => {
+  const prevX = index > 0 ? index - 1 : 0;
+  // VIEWPORT_SCALE met le résultat à l'échelle de la plage de l'axe x du graphique
+  const changeInX =
+    ((xValues[index] - xValues[prevX]) / rangeOfX) * VIEWPORT_SCALE;
+  const smoothingWeightAdj = Math.pow(smoothingWeight, changeInX);
+
+  lastY = lastY * smoothingWeightAdj + yPoint;
+  debiasWeight = debiasWeight * smoothingWeightAdj + 1;
+  return lastY / debiasWeight;
+});
+```
+
+Voici à quoi cela ressemble [dans l’application](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc) :
+
+<Frame>
+  <img src="/images/app_ui/weighted_exponential_moving_average.png" alt="Démonstration du lissage TWEMA" />
+</Frame>
+
+
+<div id="gaussian-smoothing">
+  ## Lissage gaussien
+</div>
+
+Le lissage gaussien (ou lissage par noyau gaussien) calcule une moyenne pondérée des points, où les poids correspondent à une distribution gaussienne dont l’écart-type est défini par le paramètre de lissage. La valeur lissée est calculée pour chaque valeur x en entrée, à partir des points situés avant et après celle-ci.
+
+Voici à quoi cela ressemble [dans l’application](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing) :
+
+<Frame>
+  <img src="/images/app_ui/gaussian_smoothing.png" alt="démonstration du lissage gaussien" />
+</Frame>
+
+<div id="running-average-smoothing">
+  ## Lissage par moyenne glissante
+</div>
+
+La moyenne glissante est un algorithme de lissage qui remplace un point par la moyenne des points situés dans une fenêtre avant et après la valeur x considérée. Voir [&quot;Boxcar Filter&quot; sur Wikipedia](https://en.wikipedia.org/wiki/Moving_average). Le paramètre sélectionné pour la moyenne glissante indique à Weights and Biases le nombre de points à prendre en compte dans cette moyenne glissante.
+
+Utilisez plutôt le lissage gaussien si vos points sont espacés de façon irrégulière sur l&#39;axe des x.
+
+Voici à quoi cela ressemble [dans l&#39;application](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average):
+
+<Frame>
+  <img src="/images/app_ui/running_average.png" alt="démonstration du lissage par moyenne glissante" />
+</Frame>
+
+<div id="exponential-moving-average-ema-smoothing">
+  ## Lissage par moyenne mobile exponentielle (EMA)
+</div>
+
+L’algorithme de lissage par moyenne mobile exponentielle (EMA) est une technique empirique permettant de lisser des données de séries temporelles à l’aide d’une fonction de fenêtre exponentielle. Pour plus de détails sur cette technique, voir [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing). La plage de valeurs va de 0 à 1. Un terme de correction du biais est ajouté afin que les premières valeurs de la série temporelle ne soient pas biaisées vers zéro.
+
+Dans de nombreuses situations, le lissage EMA est appliqué sur un parcours complet de l’historique, plutôt qu’après un regroupement en buckets avant le lissage. Cela produit souvent un lissage plus précis.
+
+Dans les situations suivantes, le lissage EMA est appliqué après le regroupement en buckets à la place :
+
+* Échantillonnage
+* Regroupement
+* Expressions
+* Axes x non monotones
+* Axes x basés sur le temps
+
+Voici un exemple de code montrant comment cela fonctionne en interne :
+
+```javascript
+  data.forEach(d => {
+    const nextVal = d;
+    last = last * smoothingWeight + (1 - smoothingWeight) * nextVal;
+    numAccum++;
+    debiasWeight = 1.0 - Math.pow(smoothingWeight, numAccum);
+    smoothedData.push(last / debiasWeight);
+```
+
+Voici à quoi cela ressemble [dans l’application](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc) :
+
+<Frame>
+  <img src="/images/app_ui/exponential_moving_average.png" alt="Démonstration du lissage EMA" />
+</Frame>
+
+
+<div id="hide-original-data">
+  ## Masquer les données d&#39;origine
+</div>
+
+Par défaut, les données d&#39;origine non lissées s&#39;affichent dans le graphique sous la forme d&#39;une ligne discrète en arrière-plan. Cliquez sur **Show Original** pour les masquer.
+
+<Frame>
+  <img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif" alt="Activer ou désactiver les données d'origine" />
+</Frame>

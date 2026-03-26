@@ -1,0 +1,64 @@
+---
+title: scatter()
+namespace: python_sdk_custom_charts
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py" />
+
+
+### <kbd>fonction</kbd> `scatter`
+
+```python
+scatter(
+    table: 'wandb.Table',
+    x: 'str',
+    y: 'str',
+    title: 'str' = '',
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+Crée un graphique de dispersion à partir d’un `wandb.Table` de données.
+
+**Arguments :**
+
+* `table`:  Le tableau W&amp;B contenant les données à visualiser.
+* `x`:  Le nom de la colonne utilisée pour l’axe X.
+* `y`:  Le nom de la colonne utilisée pour l’axe Y.
+* `title`:  Le titre du graphique de dispersion.
+* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+
+**Retourne :**
+
+* `CustomChart`:  Un objet de graphique personnalisé pouvant être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
+
+**Exemple :**
+
+```python
+import math
+import random
+import wandb
+
+# Simuler les variations de température à différentes altitudes au fil du temps
+data = [
+    [i, random.uniform(-10, 20) - 0.005 * i + 5 * math.sin(i / 50)]
+    for i in range(300)
+]
+
+# Créer un tableau W&B avec les colonnes altitude (m) et température (°C)
+table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
+
+# Initialiser le run W&B et enregistrer le graphique de dispersion
+with wandb.init(project="temperature-altitude-scatter") as run:
+    # Créer et enregistrer le graphique de dispersion
+    scatter_plot = wandb.plot.scatter(
+         table=table,
+         x="altitude (m)",
+         y="temperature (°C)",
+         title="Altitude vs Temperature",
+    )
+    run.log({"altitude-temperature-scatter": scatter_plot})
+```

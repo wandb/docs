@@ -1,0 +1,69 @@
+---
+description: Créez un rapport W&B avec la W&B App ou par programmation.
+title: Créer un rapport
+---
+
+<Note>
+  L’API W&amp;B Report and Workspace est en préversion publique.
+</Note>
+
+Sélectionnez un onglet ci-dessous pour apprendre à créer un rapport dans la W&amp;B App ou par programmation avec l’API W&amp;B Report and Workspace.
+
+Voir ce [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) pour un exemple montrant comment créer un rapport par programmation.
+
+<Tabs>
+  <Tab title="W&B App">
+    1. Accédez à l’espace de travail de votre projet dans la W&amp;B App.
+
+    2. Cliquez sur **Create report** dans le coin supérieur droit de votre espace de travail.
+
+       <Frame>
+         <img src="/images/reports/create_a_report_button.png" alt="Bouton Create report" />
+       </Frame>
+
+    3. Une fenêtre modale s’affiche. Sélectionnez les graphiques avec lesquels vous souhaitez commencer. Vous pourrez ajouter ou supprimer des graphiques plus tard depuis l’interface du rapport.
+
+       <Frame>
+         <img src="/images/reports/create_a_report_modal.png" alt="Fenêtre modale Create report" />
+       </Frame>
+
+    4. Sélectionnez l’option **Filter run sets** pour empêcher l’ajout de nouveaux runs à votre rapport. Vous pouvez activer ou désactiver cette option. Une fois que vous avez cliqué sur **Create report**, un brouillon de rapport est disponible dans l’onglet du rapport pour continuer votre travail.
+  </Tab>
+
+  <Tab title="Report tab">
+    1. Accédez à l’espace de travail de votre projet dans la W&amp;B App.
+    2. Sélectionnez l’onglet **Reports** (icône de presse-papiers) dans votre projet.
+    3. Sélectionnez le bouton **Create Report** sur la page du rapport.
+
+       <Frame>
+         <img src="/images/reports/create_report_button.png" alt="Bouton Create report" />
+       </Frame>
+  </Tab>
+
+  <Tab title="Report and Workspace API">
+    Créer un rapport par programmation :
+
+    1. Installez le SDK W&amp;B (`wandb`) et l’API Report and Workspace (`wandb-workspaces`) :
+       ```bash
+       pip install wandb wandb-workspaces
+       ```
+
+    2. Importez ensuite workspaces
+       ```python
+       import wandb
+       import wandb_workspaces.reports.v2 as wr
+       ```
+
+    3. Créez un rapport avec `wandb_workspaces.reports.v2.Report`. Créez une instance de rapport avec l’API publique de la classe Report ([`wandb.apis.reports`](/fr/models/ref/python/public-api/api#reports)). Spécifiez un nom de projet.
+       ```python
+       report = wr.Report(project="report_standard")
+       ```
+
+    4. Enregistrez le rapport. Les rapports ne sont pas envoyés au serveur W&amp;B tant que vous n’appelez pas la méthode .`save()` :
+       ```python
+       report.save()
+       ```
+
+    Pour savoir comment modifier un rapport de manière interactive dans l’interface de l’application ou par programmation, voir [Modifier un rapport](/fr/models/reports/edit-a-report/).
+  </Tab>
+</Tabs>

@@ -1,0 +1,21 @@
+---
+title: "Comment puis-je journaliser des métriques supplémentaires une fois qu’un run est terminé ?"
+keywords: ["Runs", "Métriques"]
+---
+
+Il existe plusieurs façons de gérer les expériences.
+
+Pour les flux de travail complexes, utilisez plusieurs runs et définissez les paramètres de groupe dans [`wandb.init()`](/fr/models/track/create-an-experiment) sur une valeur unique pour tous les processus d’une même expérience. L’onglet [**Runs**](/fr/models/track/project-page#runs-tab) regroupera le tableau par ID de groupe, ce qui garantit le bon fonctionnement des visualisations. Cette approche permet d’exécuter des expériences et des runs d’entraînement en parallèle tout en journalisant les résultats à un emplacement unique.
+
+Pour les flux de travail plus simples, appelez `wandb.init()` avec `resume=True` et `id=UNIQUE_ID`, puis appelez à nouveau `wandb.init()` avec le même `id=UNIQUE_ID`. Journalisez normalement avec [`run.log()`](/fr/models/track/log/) ou `run.summary()`, et les valeurs du run seront mises à jour en conséquence.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges des onglets ---- */}

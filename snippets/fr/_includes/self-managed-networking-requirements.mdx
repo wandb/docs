@@ -1,0 +1,19 @@
+---
+title: Exigences réseau pour l’autogéré
+---
+
+Pour un déploiement en réseau, un accès sortant à ces points de terminaison est requis *à la fois* lors de l’installation et à l’exécution :
+
+* https://deploy.wandb.ai
+* https://charts.wandb.ai
+* https://quay.io (utilisé pour les images Prometheus)
+
+<Note>
+  Des registres de conteneurs supplémentaires peuvent être requis selon votre configuration de déploiement :
+
+  * `https://gcr.io` est nécessaire lors du déploiement de Bufstream et d’etcd pour les évaluations en ligne de Weave.
+</Note>
+
+Pour en savoir plus sur les déploiements isolés du réseau, référez-vous à [Kubernetes operator for air-gapped instances](/fr/platform/hosting/self-managed/operator-airgapped/).
+
+L’accès à W&amp;B et au stockage d’objets est requis pour l’infrastructure d’entraînement et pour chaque système qui assure le suivi des expériences.

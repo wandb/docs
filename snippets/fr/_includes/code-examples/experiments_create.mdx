@@ -1,0 +1,18 @@
+---
+title: Experiments Créer
+---
+
+```python
+"""
+Créer une expérience dans W&B. Si le projet n'existe pas, W&B le crée.
+
+Notez que ce fichier initialise uniquement l'expérience ; vous pouvez ajouter du code pour consigner des métriques,
+des artefacts, etc., dans le bloc `with`.
+"""
+import wandb
+
+# Initialiser un run W&B
+with wandb.init(project="<project>") as run:
+    # Le code de l'expérience va ici
+    pass
+```

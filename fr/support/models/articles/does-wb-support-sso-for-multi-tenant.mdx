@@ -1,0 +1,25 @@
+---
+title: "W&B prend-il en charge le SSO pour l’offre Multi-tenant ?"
+keywords: ["Sécurité"]
+---
+
+W&amp;B prend en charge l’authentification unique (SSO) pour l’offre Multi-tenant via Auth0. L’intégration SSO est compatible avec tout fournisseur d’identité conforme à OIDC, comme Okta ou Azure AD. Pour configurer un fournisseur OIDC, suivez ces étapes :
+
+* Créez une application monopage (SPA) auprès du fournisseur d’identité.
+* Définissez le `grant_type` sur le flux `implicit`.
+* Définissez l’URI de rappel sur `https://wandb.auth0.com/login/callback`.
+
+**Conditions requises pour W&amp;B**
+
+Une fois la configuration terminée, contactez votre customer success manager (CSM) avec le `Client ID` et l’`Issuer URL` de l’application. W&amp;B établira une connexion Auth0 à l’aide de ces détails et activera le SSO.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas le contenu entre ces marqueurs manuellement.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Sécurité](/fr/support/models/tags/security)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

@@ -1,0 +1,131 @@
+---
+title: MistralAI
+description: "Suivez et surveillez les appels au modèle MistralAI grâce au traçage automatique de Weave pour les complétions de chat, les appels de fonction et les interactions avec le modèle."
+---
+
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_mistral.ipynb" aria-label="Ouvrir dans Google Colab">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
+</a>
+
+Weave suit automatiquement et journalise les appels LLM effectués via la [bibliothèque Python MistralAI](https://github.com/mistralai/client-python).
+
+> Nous prenons en charge le nouveau SDK Mistral v1.0 ; consultez le guide de migration [ici](https://github.com/mistralai/client-python/blob/main/MIGRATION.md)
+
+<div id="traces">
+  ## Traces
+</div>
+
+Il est important de stocker les traces des applications LLM dans une base de données centralisée, aussi bien pendant le développement qu’en production. Vous utiliserez ces traces pour le débogage, ainsi que comme jeu de données qui vous aidera à améliorer votre application.
+
+Weave capturera automatiquement les traces de [mistralai](https://github.com/mistralai/client-python). Vous pouvez utiliser la bibliothèque comme d’habitude : commencez par appeler `weave.init()` :
+
+```python lines
+import weave
+weave.init("cheese_recommender")
+
+# utiliser ensuite la bibliothèque mistralai normalement
+import os
+from mistralai import Mistral
+
+api_key = os.environ["MISTRAL_API_KEY"]
+model = "mistral-large-latest"
+
+client = Mistral(api_key=api_key)
+
+messages = [
+    {
+        "role": "user",
+        "content": "What is the best French cheese?",
+    },
+]
+
+chat_response = client.chat.complete(
+    model=model,
+    messages=messages,
+)
+```
+
+Weave suivra désormais et journalisera tous les appels LLM effectués via la bibliothèque MistralAI. Vous pouvez voir les traces dans l’interface web de Weave.
+
+[![mistral\_trace.png](/weave/guides/integrations/imgs/mistral_trace.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
+
+<div id="wrapping-with-your-own-ops">
+  ## Encapsuler dans vos propres ops
+</div>
+
+Les ops Weave rendent les résultats *reproductibles* en assurant automatiquement la gestion des versions du code à mesure que vous expérimentez, et elles capturent leurs entrées et leurs sorties. Créez simplement une fonction décorée avec [`@weave.op()`](/fr/weave/guides/tracking/ops) qui appelle [`mistralai.client.MistralClient.chat()`](https://docs.mistral.ai/capabilities/completion), et Weave suivra pour vous les entrées et les sorties. Voyons comment faire pour notre recommandateur de fromages :
+
+```python lines {1}
+@weave.op()
+def cheese_recommender(region:str, model:str) -> str:
+    "Recommend the best cheese in a given region"
+    
+    messages = [
+        {
+            "role": "user",
+            "content": f"What is the best cheese in {region}?",
+        },
+    ]
+
+    chat_response = client.chat.complete(
+        model=model,
+        messages=messages,
+    )
+    return chat_response.choices[0].message.content
+
+cheese_recommender(region="France", model="mistral-large-latest")
+cheese_recommender(region="Spain", model="mistral-large-latest")
+cheese_recommender(region="Netherlands", model="mistral-large-latest")
+```
+
+[![mistral\_ops.png](/weave/guides/integrations/imgs/mistral_ops.png)](https://wandb.ai/capecape/mistralai_project/weave/calls)
+
+<div id="create-a-model-for-easier-experimentation">
+  ## Créer un `Model` pour expérimenter plus facilement
+</div>
+
+Il est difficile d’organiser des expérimentations lorsqu’il y a beaucoup d’éléments en jeu. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
+
+En plus de gérer les versions du code et de capturer les entrées et sorties, les [`Model`](/fr/weave/guides/core-types/models) capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser les `Model` de Weave avec `serve` et les [`Evaluation`](/fr/weave/guides/core-types/evaluations).
+
+Dans l’exemple ci-dessous, vous pouvez expérimenter avec `model` et `country`. Chaque fois que vous modifiez l’un des deux, vous obtenez une nouvelle *version* de `CheeseRecommender`.
+
+```python lines
+import weave
+from mistralai import Mistral
+
+weave.init("mistralai_project")
+
+class CheeseRecommender(weave.Model): # Remplacer par `weave.Model`
+    model: str
+    temperature: float
+
+    @weave.op()
+    def predict(self, region:str) -> str: # Remplacer par `predict`
+        "Recommander le meilleur fromage dans une région donnée"
+        
+        client = Mistral(api_key=api_key)
+
+        messages = [
+            {
+                "role": "user",
+                "content": f"Quel est le meilleur fromage de {region} ?",
+            },
+        ]
+
+        chat_response = client.chat.complete(
+            model=model,
+            messages=messages,
+            temperature=self.temperature
+        )
+        return chat_response.choices[0].message.content
+
+cheese_model = CheeseRecommender(
+    model="mistral-medium-latest",
+    temperature=0.0
+    )
+result = cheese_model.predict(region="France")
+print(result)
+```
+
+[![mistral\_model.png](/weave/guides/integrations/imgs/mistral_model.png)](https://wandb.ai/capecape/mistralai_project/weave/models)

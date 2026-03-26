@@ -1,0 +1,48 @@
+---
+title: "Afficher les informations sur le raisonnement"
+description: Comment renvoyer et afficher le raisonnement dans vos réponses W&B Inférence
+---
+
+Les modèles de raisonnement, comme [GPT OSS 20B d&#39;OpenAI](https://huggingface.co/openai/gpt-oss-20b), incluent des informations sur leurs étapes de raisonnement dans le résultat renvoyé, en plus de la réponse finale. Ce comportement est automatique et ne nécessite aucun paramètre d&#39;entrée supplémentaire.
+
+Vous pouvez déterminer si un modèle prend en charge le raisonnement en vérifiant les sections Fonctionnalités prises en charge de sa page du catalogue dans l&#39;UI.
+
+Vous trouverez les informations de raisonnement dans le champ `reasoning_content` des réponses. Ce champ n&#39;est pas présent dans les résultats des autres modèles.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="<your-api-key>",  # Créez une clé API sur https://wandb.ai/settings
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "user", "content": "3.11 and 3.8, which is greater?"}
+        ],
+    )
+
+    print(response.choices[0].message.reasoning_content)
+    print("--------------------------------")
+    print(response.choices[0].message.content)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+          { "role": "user", "content": "3.11 and 3.8, which is greater?" }
+        ],
+      }'
+    ```
+  </Tab>
+</Tabs>

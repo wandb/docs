@@ -1,0 +1,23 @@
+---
+title: Groupes de capture dans les graphiques en courbes
+---
+
+Les groupes de capture dans votre expression régulière déterminent la façon dont les panneaux multi-métriques sont créés. Ce comportement peut prêter à confusion si vous ne vous y attendez pas.
+
+* **Les groupes de capture créent plusieurs panneaux**
+  Lorsque votre expression régulière inclut des parenthèses formant un groupe de capture, l&#39;interface utilisateur crée un panneau distinct pour chaque valeur unique capturée par ce groupe.
+
+  Par exemple, l&#39;expression `(layer_0|layer_10)_loss` inclut un groupe de capture et créera deux panneaux distincts :
+
+  1. Un panneau pour les métriques correspondant à `layer_0`.
+  2. Un panneau pour les métriques correspondant à `layer_10`.
+
+* **Les groupes non capturants conservent les métriques dans le même panneau**
+  Pour faire correspondre plusieurs alternatives sans créer de panneaux distincts, utilisez un groupe non capturant avec la syntaxe `?:`. L&#39;expression `(?:layer_0|layer_10)_loss` correspond aux mêmes métriques que dans l&#39;exemple précédent, mais les affiche ensemble dans un seul panneau.
+
+Voici la différence :
+
+* `(layer_0|layer_10)_loss` - Crée deux panneaux, un pour chaque couche.
+* `(?:layer_0|layer_10)_loss` - Crée un panneau affichant les deux couches ensemble.
+
+Cela vous donne la flexibilité de choisir l&#39;approche la mieux adaptée à vos besoins d&#39;analyse. Utilisez des groupes de capture lorsque vous souhaitez séparer les métriques dans des panneaux distincts. Utilisez des groupes non capturants lorsque vous souhaitez comparer des métriques ensemble sur un seul graphique.
