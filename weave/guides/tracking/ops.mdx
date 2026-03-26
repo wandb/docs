@@ -175,7 +175,9 @@ The available `color` values are:
   <Tab title="Python">
     You can control how frequently an Op's calls are traced by setting the `tracing_sample_rate` parameter in the `@weave.op` decorator. This is useful for high-frequency Ops where you only need to trace a subset of calls.
 
-     Note that Weave applies sampling rates only to root calls. If an Op has a sample rate but another Op calls it first, that sampling rate is ignored.
+    While we recommend collecting all traces during agent development to help you better shape and understand its behavior, we recommend configuring trace sampling in production to help lower rate costs while still maintaining observability into your agent's behavior.
+
+    Weave applies sampling rates only to root calls. If an Op has a sample rate but another Op calls it first, that sampling rate is ignored.
 
     ```python lines
     @weave.op(tracing_sample_rate=0.1)  # Only trace ~10% of calls

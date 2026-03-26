@@ -7,7 +7,7 @@ description: "Automatically redact Personally Identifiable Information from trac
 This feature is only accessible via the Python SDK.
 </Warning>
 
-Some organizations process Personally Identifiable Information (PII) such as names, phone numbers, and email addresses in their Large Language Model (LLM) workflows. Storing this data in Weights & Biases (W&B) Weave poses compliance and security risks.
+Some organizations process Personally Identifiable Information (PII) such as names, phone numbers, and email addresses in their Large Language Model (LLM) workflows. Storing this data in Weights & Biases (W&B) Weave poses compliance and security risks. Stripping this data from being logged can help keep your agent compliant with policies like [GDPR](https://gdpr.eu/) and [HIPAA](https://www.hhs.gov/hipaa/index.html).
 
 The _Sensitive Data Protection_ feature allows you to automatically redact Personally Identifiable Information (PII) from a [trace](/weave/guides/tracking) before it is sent to Weave servers. This feature integrates [Microsoft Presidio](https://microsoft.github.io/presidio/) into the Weave Python SDK, which means that you can control redaction settings at the SDK level.
 
