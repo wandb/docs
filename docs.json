@@ -71,12 +71,17 @@
             "icon": "/icons/cropped-artifacts.svg",
             "pages": [
               {
-                "group": "W&B Docs",
+                "group": "Welcome to W&B",
                 "pages": [
                   "index",
-                  "get-started",
-                  "platform/mcp-server",
-                  "platform/wb-skills",
+                  {
+                    "group": "Get Started",
+                    "pages": [
+                      "get-started",
+                      "platform/mcp-server",
+                      "platform/wb-skills"
+                    ]
+                  },
                   {
                     "group": "Release Notes",
                     "expanded": false,
