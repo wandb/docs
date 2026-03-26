@@ -59,3 +59,32 @@ https://api.training.wandb.ai/v1
 - [Use your trained models](/training/serverless-rl/use-trained-models)
 - [Available models](/training/serverless-rl/available-models)
 - [Usage limits](/training/serverless-rl/usage-limits)
+
+
+## Available Endpoints
+
+
+### chat-completions
+
+- **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Create Chat Completion
+- **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Create Chat Completion
+
+### models
+
+- **[POST /v1/preview/models](https://docs.wandb.ai/training/api-reference/models/create-model)** - Create Model
+- **[DELETE /v1/preview/models/{model_id}](https://docs.wandb.ai/training/api-reference/models/delete-model)** - Delete Model
+- **[DELETE /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/delete-model-checkpoints)** - Delete Model Checkpoints
+- **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/list-model-checkpoints)** - List Model Checkpoints
+- **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log)** - Log
+
+### training-jobs
+
+- **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - Create Sft Training Job
+- **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - Create Rl Training Job
+- **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - Get Training Job
+- **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - Get Training Job Events
+
+### health
+
+- **[GET /v1/health](https://docs.wandb.ai/training/api-reference/health/health-check)** - Health Check
+- **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/health/system-check)** - System Check
