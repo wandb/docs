@@ -1,0 +1,13 @@
+# Dependencies for the Knowledgebase Nav generator script.
+#
+# pyyaml: Parses YAML front matter from MDX article files and the
+#          generator configuration file (config.yaml).
+#
+# jinja2: Renders Jinja2 templates (.j2 files) into MDX output for
+#          tag pages and product index pages.
+#
+# These are the only external dependencies. The generator script is
+# otherwise self-contained using Python standard library modules.
+
+PyYAML>=6.0
+Jinja2>=3.1

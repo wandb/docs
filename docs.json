@@ -28,10 +28,6 @@
   "background": {
     "decoration": "gradient"
   },
-  "banner": {
-    "content": "The W&B Mobile App for iOS is here. [Monitor training runs and explore your projects](/platform/hosting/monitoring-usage/mobile-app) from your iPhone or iPad.",
-    "dismissible": true
-  },
   "contextual": {
     "options": [
       {
@@ -268,7 +264,6 @@
                       "models/sweeps/useful-resources",
                       "models/sweeps/local-controller",
                       "models/sweeps/troubleshoot-sweeps",
-                      "models/sweeps/sweeps-ui",
                       "models/sweeps/existing-project"
                     ]
                   },
@@ -825,6 +820,7 @@
                     "pages": [
                       "weave/guides/integrations",
                       "weave/guides/integrations/autopatching",
+                      "weave/guides/integrations/js",
                       {
                         "group": "LLM Providers",
                         "pages": [
@@ -844,11 +840,11 @@
                           "weave/guides/integrations/together_ai"
                         ]
                       },
-                      "weave/guides/integrations/local_models",
                       {
                         "group": "Frameworks",
                         "pages": [
                           "weave/guides/integrations/openai_agents",
+                          "weave/guides/integrations/openai-realtime-audio",
                           "weave/guides/integrations/claude_agent",
                           "weave/guides/integrations/langchain",
                           "weave/guides/integrations/llamaindex",
@@ -862,8 +858,7 @@
                           "weave/guides/integrations/koog",
                           "weave/guides/integrations/autogen",
                           "weave/guides/integrations/verdict",
-                          "weave/guides/integrations/verifiers",
-                          "weave/guides/integrations/js"
+                          "weave/guides/integrations/verifiers"
                         ]
                       },
                       {
@@ -871,7 +866,8 @@
                         "pages": [
                           "weave/guides/integrations/mcp"
                         ]
-                      }
+                      },
+                      "weave/guides/integrations/local_models"
                     ]
                   },
                   {
@@ -3899,6 +3895,14 @@
     },
     {
       "source": "/models/tutorials/xgboost_sweeps",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui",
+      "destination": "/models/sweeps"
+    },
+    {
+      "source": "/models/sweeps/sweeps-ui/",
       "destination": "/models/sweeps"
     },
     {
