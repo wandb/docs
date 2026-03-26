@@ -92,7 +92,6 @@ Vous pouvez ajouter des LoRAs à votre compte W&amp;B et commencer à les utilis
 
     * Le LoRA doit avoir été entraîné à l&#39;aide de l&#39;un des modèles listés dans la [section Modèles de base pris en charge](#supported-base-models).
     * Le LoRA doit être enregistré au format PEFT comme artefact de type `lora` dans votre compte W&amp;B.
-    * Le rang maximal pris en charge est de 16.
     * Le LoRA doit être stocké dans `storage_region="coreweave-us"` pour une faible latence.
     * Lors du téléversement, incluez le nom du modèle de base sur lequel vous l&#39;avez entraîné (par exemple, `meta-llama/Llama-3.1-8B-Instruct`). Cela garantit que W&amp;B peut le charger avec le bon modèle.
   </Tab>
@@ -119,12 +118,15 @@ model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest
 
 Inférence prend actuellement en charge les LLM suivants (utilisez les chaînes exactes dans `wandb.base_model`). D’autres modèles seront bientôt disponibles :
 
-{/* takeru lora-base-models - Cette liste est générée automatiquement, ne la modifiez pas manuellement. */}
+{/* takeru lora-base-models - Ce tableau est généré automatiquement, ne le modifiez pas manuellement. */}
 
-* `meta-llama/Llama-3.1-70B-Instruct`
-* `meta-llama/Llama-3.1-8B-Instruct`
-* `OpenPipe/Qwen3-14B-Instruct`
-* `Qwen/Qwen3-30B-A3B-Instruct-2507`
+| ID du modèle (pour l’utilisation de l’API) | Rang LoRA maximal |
+| ------------------------------------------ | ----------------- |
+| `meta-llama/Llama-3.1-70B-Instruct`        | 16                |
+| `meta-llama/Llama-3.1-8B-Instruct`         | 16                |
+| `openai/gpt-oss-120b`                      | 64                |
+| `OpenPipe/Qwen3-14B-Instruct`              | 16                |
+| `Qwen/Qwen3-30B-A3B-Instruct-2507`         | 16                |
 
 <div id="pricing">
   ## Tarification

@@ -2222,7 +2222,7 @@
                       "fr/weave/reference/service-api"
                     ],
                     "openapi": {
-                      "source": "fr/weave/reference/service-api/openapi.json",
+                      "source": "weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     }
                   }
@@ -2316,7 +2316,7 @@
                 "pages": [
                   "fr/training/api-reference"
                 ],
-                "openapi": "fr/training/api-reference/openapi.json"
+                "openapi": "training/api-reference/openapi.json"
               }
             ]
           },
@@ -3437,7 +3437,7 @@
                       "ja/weave/reference/service-api"
                     ],
                     "openapi": {
-                      "source": "ja/weave/reference/service-api/openapi.json",
+                      "source": "weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     }
                   }
@@ -3531,7 +3531,7 @@
                 "pages": [
                   "ja/training/api-reference"
                 ],
-                "openapi": "ja/training/api-reference/openapi.json"
+                "openapi": "training/api-reference/openapi.json"
               }
             ]
           },
@@ -4652,7 +4652,7 @@
                       "ko/weave/reference/service-api"
                     ],
                     "openapi": {
-                      "source": "ko/weave/reference/service-api/openapi.json",
+                      "source": "weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     }
                   }
@@ -4746,7 +4746,7 @@
                 "pages": [
                   "ko/training/api-reference"
                 ],
-                "openapi": "ko/training/api-reference/openapi.json"
+                "openapi": "training/api-reference/openapi.json"
               }
             ]
           },
