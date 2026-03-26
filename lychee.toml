@@ -60,6 +60,7 @@ exclude = [
 
   # Example, fake, and test URLs
   '(http|https)://kubeflow\.mysite\.com',
+  '(http|https)://.*\.?koog\.ai',
   '(http|https)://my-fake-url\.com',
   '(http|https)://my\.domain\.net',
 
