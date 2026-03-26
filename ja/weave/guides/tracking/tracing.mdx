@@ -1,23 +1,45 @@
 ---
 title: "Ops と Calls を理解する"
-description: "Ops と Calls がどのように W&B Weave のトレーシングシステムの基盤となっているかを学びます。"
+description: "Ops と Calls が W&B Weave のトレーシング システムの基盤となる仕組みを学びます。"
 ---
 
 <div id="ops">
+  ## Ops
+</div>
+
+**Op** は、バージョン管理され、トラッキングされる関数です。関数を `@weave.op()` (Python) でデコレートするか、`weave.op()` (TypeScript) でラップすると、Weave はそのコード、入力、出力、実行メタデータを自動的に取得します。Ops は、トレーシング、評価用の Scorer、およびトラッキング対象のあらゆる計算の構成要素です。
+
+<CodeGroup>
+  ```python Python
+      @weave.op
+      async def my_function(){
+        ...  }
+  ```
+
+  ```typescript Typescript
+  function myFunction() {
+      ...
+  }
+
+  const myFunctionOp = weave.op(myFunction)
+  ```
+</CodeGroup>
+
+<div id="calls">
   ## Calls
 </div>
 
-Call は Weave における基本的な構成要素です。これらは関数の単一の実行を表し、以下を含みます。
+**Call** は、Op の実行がログされたものです。Op が実行されるたびに、Weave は次の情報を記録する Call を作成します。
 
 * 入力引数
 * 出力値
-* 実行時間とレイテンシ
+* 実行タイミングとレイテンシ
 * 親子関係 (ネストされた Call の場合)
 * 発生したエラー
 
-Call は Weave UI 上では **Traces** として表示され、デバッグ、分析、評価のためのデータを提供します。Call オブジェクトの構造とプロパティの詳細については、[Call schema reference](/ja/weave/guides/tracking/call-schema-reference) を参照してください。
+Call は Weave UI では **トレース** として表示され、デバッグ、分析、評価に必要なデータを提供します。Call オブジェクトの完全な構造とプロパティについては、[Call schema reference](/ja/weave/guides/tracking/call-schema-reference) を参照してください。
 
-Call は [OpenTelemetry](https://opentelemetry.io) データモデルにおける span に似ています。ひとつの Call は以下のことが可能です。
+Call は、[OpenTelemetry](https://opentelemetry.io) のデータモデルにおける span に似ています。Call には、次の特徴があります。
 
-* Trace (同一の実行コンテキスト内での Call の集合) に属する
-* 親および子の Call を持ち、ツリー構造を形成する
+* Trace に属する (同じ実行コンテキスト内にある Call のコレクション)
+* 親 Call と子 Call を持ち、ツリー構造を形成する
