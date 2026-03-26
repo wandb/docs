@@ -1,0 +1,42 @@
+---
+title: Object3D
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
+
+
+## <kbd>class</kbd> `Object3D`
+
+Classe W&amp;B pour les nuages de points en 3D. 
+
+### <kbd>méthode</kbd> `Object3D.__init__`
+
+```python
+__init__(
+    data_or_path: 'np.ndarray | str | pathlib.Path | TextIO | dict',
+    caption: 'str | None' = None,
+    **kwargs: 'str | FileFormat3D | None'
+) → None
+```
+
+Crée un objet W&amp;B Object3D.
+
+**Arguments :**
+
+* `data_or_path` : Object3D peut être initialisé à partir d&#39;un fichier ou d&#39;un tableau numpy.
+* `caption` : Légende associée à l&#39;objet pour l&#39;affichage.
+
+**Exemples :**
+La forme du tableau numpy doit être l&#39;une des suivantes
+
+```text
+[[x y z],       ...] nx3
+[[x y z c],     ...] nx4 where c is a category with supported range [1, 14]
+[[x y z r g b], ...] nx6 where is rgb is color
+```
+
+***

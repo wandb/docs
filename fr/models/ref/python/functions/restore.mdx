@@ -1,0 +1,40 @@
+---
+title: restore()
+namespace: python_sdk_actions
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
+
+
+### <kbd>fonction</kbd> `restore`
+
+```python
+restore(
+    name: 'str',
+    run_path: 'str | None' = None,
+    replace: 'bool' = False,
+    root: 'str | None' = None
+) → None | TextIO
+```
+
+Télécharge le fichier spécifié à partir du stockage cloud.
+
+Le fichier est placé dans le répertoire actuel ou dans le répertoire du run. Par défaut, le fichier n’est téléchargé que s’il n’existe pas déjà.
+
+**Arguments :**
+
+* `name`:  Le nom du fichier.
+* `run_path`:  Chemin facultatif vers un run à partir duquel récupérer des fichiers, c.-à-d. `username/project_name/run_id`  si wandb.init n’a pas été appelé, ce paramètre est requis.
+* `replace`:  Indique s’il faut télécharger le fichier même s’il existe déjà localement
+* `root`:  Le répertoire dans lequel télécharger le fichier.  La valeur par défaut est le répertoire actuel ou le répertoire du run si wandb.init a été appelé.
+
+**Retourne :**
+`None` s’il est impossible de trouver le fichier, sinon un objet de fichier ouvert en lecture.
+
+**Exceptions levées :**
+
+* `CommError`:  Si W&amp;B ne parvient pas à se connecter au backend W&amp;B.
+* `ValueError`:  Si le fichier est introuvable ou si `run_path` est introuvable.

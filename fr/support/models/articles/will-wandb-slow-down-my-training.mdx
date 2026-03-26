@@ -1,0 +1,17 @@
+---
+title: "wandb va-t-il ralentir mon entraînement ?"
+keywords: ["Experiments"]
+---
+
+W&amp;B a un impact minimal sur les performances de l’entraînement dans des conditions d’utilisation normales. Une utilisation normale comprend une journalisation à une fréquence inférieure à une fois par seconde et des volumes de données limités à quelques mégaoctets par étape. W&amp;B s’exécute dans un processus distinct avec des appels de fonction non bloquants, ce qui garantit que de brèves pannes réseau ou des problèmes intermittents de lecture/écriture sur le disque ne perturbent pas les performances. Une journalisation excessive de grands volumes de données peut entraîner des problèmes d’E/S sur le disque. Pour toute question supplémentaire, contactez l’assistance.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* ---- END GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

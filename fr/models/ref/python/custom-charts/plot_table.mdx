@@ -1,0 +1,66 @@
+---
+title: plot_table()
+namespace: python_sdk_custom_charts
+python_object_type: fonction
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/custom_chart.py" />
+
+
+### <kbd>fonction</kbd> `plot_table`
+
+```python
+plot_table(
+    vega_spec_name: 'str',
+    data_table: 'wandb.Table',
+    fields: 'dict[str, Any]',
+    string_fields: 'dict[str, Any] | None' = None,
+    split_table: 'bool' = False
+) → CustomChart
+```
+
+Crée des graphiques personnalisés à l’aide d’une spécification Vega-Lite et d’un `wandb.Table`.
+
+Cette fonction crée un graphique personnalisé basé sur une spécification Vega-Lite et sur un tableau de données représenté par un objet `wandb.Table`. La spécification doit être prédéfinie et stockée dans le backend de W&amp;B. La fonction renvoie un objet de graphique personnalisé qui peut être enregistré dans W&amp;B à l’aide de `wandb.Run.log()`.
+
+**Arguments :**
+
+* `vega_spec_name`:  Le nom ou l’identifiant de la spécification Vega-Lite qui définit la structure de la visualisation.
+* `data_table`:  Un objet `wandb.Table` contenant les données à visualiser.
+* `fields`:  Une correspondance entre les champs de la spécification Vega-Lite et les colonnes correspondantes du tableau de données à visualiser.
+* `string_fields`:  Un dictionnaire permettant de fournir les valeurs de toutes les constantes de chaîne requises par la visualisation personnalisée.
+* `split_table`:  Indique si le tableau doit être affiché dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+
+**Retourne :**
+
+* `CustomChart`:  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez l’objet graphique comme argument à `wandb.Run.log()`.
+
+**Exceptions levées :**
+
+* `wandb.Error`:  Si `data_table` n’est pas un objet `wandb.Table`.
+
+**Exemple :**
+
+```python
+# Créer un graphique personnalisé à partir d'une spécification Vega-Lite et du tableau de données.
+import wandb
+
+data = [[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]
+table = wandb.Table(data=data, columns=["x", "y"])
+fields = {"x": "x", "y": "y", "title": "MY TITLE"}
+
+with wandb.init() as run:
+    # Le code d'entraînement se place ici
+
+    # Créer un titre personnalisé avec `string_fields`.
+    my_custom_chart = wandb.plot_table(
+         vega_spec_name="wandb/line/v0",
+         data_table=table,
+         fields=fields,
+         string_fields={"title": "Title"},
+    )
+
+    run.log({"custom_chart": my_custom_chart})
+```

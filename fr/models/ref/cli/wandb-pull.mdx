@@ -1,0 +1,45 @@
+---
+title: "wandb pull"
+---
+
+{/*
+  Pour ajouter un contenu d’introduction à cette commande :
+  1. Créez le fichier snippet : /snippets/_includes/cli/wandb-pull.mdx
+  2. Ajoutez votre contenu d’introduction dans ce fichier
+  3. Supprimez l’intégralité de ce bloc de commentaires et ne conservez que les deux lignes ci-dessous :
+
+  import WandbPull from "/snippets/_includes/cli/wandb-pull.mdx";
+
+  <WandbPull/>
+
+  Le snippet sera détecté automatiquement lors de la prochaine régénération.
+  */}
+
+Télécharger des fichiers depuis Weights &amp; Biases
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb pull RUN [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Argument | Description                   | Requis |
+| :------- | :---------------------------- | :----- |
+| `RUN`    | Aucune description disponible | Oui    |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option            | Description                                                   |
+| :---------------- | :------------------------------------------------------------ |
+| `--project`, `-p` | Le projet à télécharger.                                      |
+| `--entity`, `-e`  | L’entité sur laquelle limiter la liste. (par défaut : models) |

@@ -1,0 +1,69 @@
+---
+description: "Intégrez W&B à Databricks pour le suivi des expériences, la journalisation des métriques et la gestion des modèles sur les clusters Spark."
+title: Databricks
+---
+
+W&amp;B s’intègre à [Databricks](https://www.databricks.com/) via une personnalisation de l’expérience notebook Jupyter de W&amp;B dans l’environnement Databricks.
+
+<div id="configure-databricks">
+  ## Configurer Databricks
+</div>
+
+1. Installez wandb sur le cluster
+
+   Accédez à la configuration de votre cluster, choisissez votre cluster, puis cliquez sur **Libraries**. Cliquez sur **Install New**, choisissez **PyPI**, puis ajoutez le package `wandb`.
+
+2. Configurez l’authentification
+
+   Pour authentifier votre compte W&amp;B, vous pouvez ajouter un secret Databricks que vos notebooks peuvent consulter.
+
+   ```bash
+   # installer Databricks CLI
+   pip install databricks-cli
+
+   # Générer un jeton depuis l’interface Databricks
+   databricks configure --token
+
+   # Créer un scope avec l’une des deux commandes (selon que les fonctionnalités de sécurité sont activées ou non sur Databricks) :
+   # avec le module complémentaire de sécurité
+   databricks secrets create-scope --scope wandb
+   # sans le module complémentaire de sécurité
+   databricks secrets create-scope --scope wandb --initial-manage-principal users
+
+   # Créer une clé API sur https://wandb.ai/settings
+   databricks secrets put --scope wandb --key api_key
+   ```
+
+<div id="examples">
+  ## Exemples
+</div>
+
+<div id="simple-example">
+  ### Exemple simple
+</div>
+
+```python
+import os
+import wandb
+
+api_key = dbutils.secrets.get("wandb", "api_key")
+wandb.login(key=api_key)
+
+with wandb.init() as run:
+    run.log({"foo": 1})
+```
+
+
+<div id="sweeps">
+  ### Sweeps
+</div>
+
+Configuration requise (temporairement) pour les notebooks qui tentent d&#39;utiliser wandb.sweep() ou wandb.agent() :
+
+```python
+import os
+
+# Ces lignes ne seront plus nécessaires à l'avenir
+os.environ["WANDB_ENTITY"] = "my-entity"
+os.environ["WANDB_PROJECT"] = "my-project-that-exists"
+```

@@ -1,0 +1,14 @@
+---
+title: Enregistrer une métrique
+---
+
+```python
+"""Initialise un run W&B et journalise une métrique."""
+import wandb
+
+with wandb.init(project="<project>") as run:
+    # Le code d'entraînement et de journalisation va ici
+
+    # Exemple de journalisation d'une métrique
+    run.log({"accuracy": 0.95})
+```

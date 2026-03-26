@@ -1,0 +1,23 @@
+---
+title: Téléchargement des Artifacts
+---
+
+```python
+"""
+Télécharge des fichiers ou des artefacts entiers depuis W&B. La même
+logique s'applique aux artefacts externes.
+"""
+
+import wandb    
+
+with wandb.init(project="<project>") as run:
+    # Indiquer l'artefact à utiliser. Le format est "nom:alias"
+    artifact = run.use_artifact("<artifact_name>:<alias>")
+
+    # Télécharge le fichier depuis l'artefact au chemin spécifié
+    # Si artifact.add_reference() a été utilisé, renvoie l'URL de référence
+    entry = artifact.get_entry("<file_name>")
+
+    # Télécharger l'artefact entier
+    datadir = artifact.download()
+```

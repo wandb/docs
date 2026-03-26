@@ -1,0 +1,33 @@
+---
+title: "Comment puis-je installer la bibliothèque Python wandb dans des environnements dépourvus de gcc ?"
+keywords: ["Python"]
+---
+
+Si une erreur se produit lors de l’installation de `wandb` et qu’elle indique :
+
+```
+unable to execute 'gcc': No such file or directory
+error: command 'gcc' failed with exit status 1
+```
+
+Installez `psutil` directement depuis une wheel précompilée. Déterminez votre version de Python et votre système d’exploitation sur [https://pywharf.github.io/pywharf-pkg-repo/psutil/](https://pywharf.github.io/pywharf-pkg-repo/psutil/).
+
+Par exemple, pour installer `psutil` avec Python 3.8 sous Linux :
+
+```bash
+WHEEL_URL=https://github.com/pywharf/pywharf-pkg-repo/releases/download/psutil-5.7.0-cp38-cp38-manylinux2010_x86_64.whl#sha256=adc36dabdff0b9a4c84821ef5ce45848f30b8a01a1d5806316e068b5fd669c6d
+pip install $WHEEL_URL
+```
+
+Après avoir installé `psutil`, exécutez `pip install wandb` pour finaliser l’installation de `wandb`.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas ce contenu manuellement entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Python](/fr/support/models/tags/python)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

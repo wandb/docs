@@ -1,0 +1,109 @@
+---
+title: Surveiller la file d'attente Launch
+description: "Surveillez les charges de travail de la file d'attente Launch à l’aide d’un tableau de bord interactif pour repérer les jobs inefficaces et analyser l’utilisation des ressources."
+---
+
+Utilisez le **tableau de bord interactif de surveillance de la file d&#39;attente** pour voir quand une file d&#39;attente Launch est fortement sollicitée ou inactive, visualiser les charges de travail en cours d’exécution et repérer les jobs inefficaces. Le tableau de bord de la file d&#39;attente Launch est particulièrement utile pour déterminer si vous utilisez efficacement votre matériel de calcul ou vos ressources cloud.
+
+Pour une analyse plus approfondie, la page propose des liens vers l’espace de travail W&amp;B de suivi des expériences ainsi que vers des fournisseurs externes de surveillance de l’infrastructure, comme Datadog, NVIDIA Base Command ou les consoles cloud.
+
+<Note>
+  Les tableaux de bord de surveillance des files d&#39;attente sont actuellement disponibles uniquement avec l’option de déploiement Cloud mutualisé de W&amp;B.
+</Note>
+
+<div id="dashboard-and-plots">
+  ## Tableau de bord et graphiques
+</div>
+
+Utilisez l’onglet **Monitor** pour consulter l’activité d’une file d&#39;attente au cours des sept derniers jours. Utilisez le panneau de gauche pour définir les plages temporelles, le regroupement et les filtres.
+
+Le tableau de bord contient un certain nombre de graphiques qui répondent à des questions courantes sur les performances et l’efficacité. Les sections suivantes décrivent les éléments de l’interface utilisateur des tableaux de bord de file d&#39;attente.
+
+<div id="job-status">
+  ### Statut du job
+</div>
+
+Le graphique **Statut du job** montre combien de jobs sont en cours d&#39;exécution, en attente, en file d&#39;attente ou terminés sur chaque intervalle de temps. Utilisez le graphique **Statut du job** pour identifier les périodes d&#39;inactivité dans la file d&#39;attente.
+
+<Frame>
+  <img src="/images/launch/launch_obs_jobstatus.png" alt="Chronologie du statut du job" />
+</Frame>
+
+Par exemple, supposons que vous disposiez d&#39;une ressource fixe (comme DGX BasePod). Si vous observez une file d&#39;attente inactive avec cette ressource fixe, cela peut indiquer une possibilité d&#39;exécuter des jobs Launch préemptibles de priorité inférieure, comme des balayages.
+
+À l&#39;inverse, supposons que vous utilisiez une ressource cloud et que vous constatiez des pics d&#39;activité périodiques. Ces pics d&#39;activité périodiques peuvent indiquer une possibilité de réduire les coûts en réservant des ressources à des moments précis.
+
+À droite du graphique se trouve une clé qui indique quelles couleurs correspondent au [statut d&#39;un job Launch](./launch-view-jobs#check-the-status-of-a-job).
+
+<Note>
+  Les éléments `Queued` peuvent indiquer qu&#39;il serait utile de déplacer des charges de travail vers d&#39;autres files d&#39;attente. Un pic d&#39;échecs peut aider à identifier les utilisateurs qui pourraient avoir besoin d&#39;aide pour la configuration de leur job Launch.
+</Note>
+
+{/* Sélectionnez une plage pour afficher plus de détails dans le graphique ci-dessous, ou utilisez Zoom pour filtrer l’ensemble de la page. */}
+
+
+<div id="queued-time">
+  ### Temps en file d&#39;attente
+</div>
+
+Le graphique **Temps en file d&#39;attente** montre le temps (en secondes) pendant lequel un job Launch est resté dans une file d&#39;attente sur une date ou une plage temporelle donnée.
+
+<Frame>
+  <img src="/images/launch/launch_obs_queuedtime.png" alt="Métriques de temps en file d'attente" />
+</Frame>
+
+L&#39;axe des x montre la période que vous spécifiez, et l&#39;axe Y indique le temps (en secondes) pendant lequel un job Launch est resté dans une file d&#39;attente Launch. Par exemple, supposons qu&#39;un jour donné, 10 jobs Launch soient mis en file d&#39;attente. Le graphique **Temps en file d&#39;attente** affiche 600 secondes si ces 10 jobs Launch attendent en moyenne 60 secondes chacun.
+
+<Note>
+  Utilisez le graphique **Temps en file d&#39;attente** pour identifier les utilisateurs affectés par des temps d&#39;attente élevés dans la file d&#39;attente.
+</Note>
+
+Personnalisez la couleur de chaque job à l&#39;aide du contrôle `Grouping` dans la barre de gauche.
+
+ce qui peut être particulièrement utile pour identifier les utilisateurs et les jobs les plus touchés par une capacité de file d&#39;attente limitée.
+
+<div id="job-runs">
+  ### Exécutions de job
+</div>
+
+<Frame>
+  <img src="/images/launch/launch_obs_jobruns2.png" alt="Chronologie des exécutions de job" />
+</Frame>
+
+Ce graphique montre le début et la fin de chaque job exécuté sur une période donnée, avec des couleurs distinctes pour chaque run. Il permet de voir d’un coup d’œil quelles charges de travail la file d&#39;attente traitait à un moment donné.
+
+Utilisez l’outil Select en bas à droite du panneau pour sélectionner des jobs et afficher leurs détails dans le tableau ci-dessous.
+
+<div id="cpu-and-gpu-usage">
+  ### Utilisation du CPU et du GPU
+</div>
+
+Utilisez les graphiques **Utilisation du GPU par job**, **Utilisation du CPU par job**, **Mémoire GPU par job** et **Mémoire système par job** pour évaluer l’efficacité de vos jobs Launch.
+
+<Frame>
+  <img src="/images/launch/launch_obs_gpu.png" alt="Métriques d’utilisation du GPU" />
+</Frame>
+
+Par exemple, vous pouvez utiliser le graphique **Mémoire GPU par job** pour vérifier si un run W&amp;B a mis longtemps à se terminer et s’il a utilisé un faible pourcentage de ses cœurs CPU.
+
+L’axe des x de chaque graphique indique la durée, en secondes, d’un run W&amp;B (créé par un job Launch). Survolez un point de données pour afficher des informations sur un run W&amp;B, comme l’ID du run, le projet auquel il appartient, le job Launch qui a créé le run W&amp;B, etc.
+
+<div id="errors">
+  ### Erreurs
+</div>
+
+Le panneau **Errors** affiche les erreurs survenues dans une file d&#39;attente Launch donnée. Plus précisément, il indique l’horodatage de l’erreur, le nom du job Launch dont elle provient, ainsi que le message d’erreur généré. Par défaut, les erreurs sont triées de la plus récente à la plus ancienne.
+
+<Frame>
+  <img src="/images/launch/launch_obs_errors.png" alt="Panneau des journaux d’erreurs" />
+</Frame>
+
+Utilisez le panneau **Errors** pour identifier et débloquer les utilisateurs. 
+
+<div id="external-links">
+  ## Liens externes
+</div>
+
+La vue du tableau de bord d&#39;observabilité des files d&#39;attente est la même pour tous les types de file d&#39;attente, mais il peut souvent être utile d&#39;accéder directement à des moniteurs spécifiques à l&#39;environnement. Pour ce faire, ajoutez un lien dans la console directement depuis le tableau de bord d&#39;observabilité des files d&#39;attente.
+
+En bas de la page, cliquez sur `Manage Links` pour ouvrir un panneau. Ajoutez l&#39;URL complète de la page souhaitée. Ajoutez ensuite un libellé. Les liens que vous ajoutez s&#39;affichent dans la section **Liens externes**.

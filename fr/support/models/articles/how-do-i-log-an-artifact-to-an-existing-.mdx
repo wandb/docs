@@ -1,0 +1,24 @@
+---
+title: "Comment puis-je journaliser un artefact dans un run existant ?"
+keywords: ["Artifacts"]
+---
+
+Il est parfois nécessaire d’indiquer qu’un artefact est la sortie d’un run précédemment enregistré. Dans ce cas, réinitialisez l’ancien run et journalisez de nouveaux artefacts comme suit :
+
+```python
+with wandb.init(id="existing_run_id", resume="allow") as run:
+    artifact = wandb.Artifact("artifact_name", "artifact_type")
+    artifact.add_file("my_data/file.txt")
+    run.log_artifact(artifact)
+```
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

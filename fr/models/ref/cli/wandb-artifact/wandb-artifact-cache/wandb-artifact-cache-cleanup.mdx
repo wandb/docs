@@ -1,0 +1,44 @@
+---
+title: "nettoyage du cache d’artefacts wandb"
+---
+
+{/*
+  Pour ajouter un contenu d’introduction à cette commande :
+  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx
+  2. Ajoutez votre contenu d’introduction dans ce fichier
+  3. Supprimez entièrement ce bloc de commentaire et ne conservez que les deux lignes ci-dessous :
+
+  import WandbArtifactCacheCleanup from "/snippets/_includes/cli/wandb-artifact-cache-cleanup.mdx";
+
+  <WandbArtifactCacheCleanup/>
+
+  Le snippet sera détecté automatiquement lors de la prochaine régénération.
+  */}
+
+Supprimez du cache des artefacts les fichiers les moins utilisés
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb artifact cache cleanup TARGET_SIZE [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Argument      | Description                   | Requis |
+| :------------ | :---------------------------- | :----- |
+| `TARGET_SIZE` | Aucune description disponible | Oui    |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option          | Description                                             |
+| :-------------- | :------------------------------------------------------ |
+| `--remove-temp` | Supprimer les fichiers temporaires (par défaut : False) |

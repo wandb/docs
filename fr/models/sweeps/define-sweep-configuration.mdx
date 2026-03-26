@@ -1,0 +1,505 @@
+---
+description: Découvrez comment créer des fichiers de configuration pour les balayages.
+title: Aperçu
+---
+
+Un W&amp;B Sweep associe une stratégie d’exploration des valeurs d’hyperparamètre au code qui les évalue. Cette stratégie peut être aussi simple que d’essayer toutes les options ou aussi complexe que l’optimisation bayésienne et Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
+
+Définissez une configuration de balayage soit dans un [dictionnaire Python](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), soit dans un fichier [YAML](https://yaml.org/). La manière de définir votre configuration de balayage dépend de la façon dont vous souhaitez gérer votre balayage.
+
+<Note>
+  Définissez votre configuration de balayage dans un fichier YAML si vous souhaitez initialiser un balayage et démarrer un agent de balayage depuis la ligne de commande. Définissez votre balayage dans un dictionnaire Python si vous initialisez et exécutez entièrement le balayage dans un script Python ou un notebook.
+</Note>
+
+Le guide suivant explique comment structurer votre configuration de balayage. Voir [les options de configuration de balayage](./sweep-config-keys) pour obtenir une liste complète des clés de configuration de balayage de premier niveau.
+
+<div id="basic-structure">
+  ## Structure de base
+</div>
+
+Les deux options de format de configuration de balayage (YAML et dictionnaire Python) utilisent des paires clé-valeur et des structures imbriquées.
+
+Utilisez les clés de premier niveau de votre configuration de balayage pour définir les caractéristiques de votre recherche par balayage, comme le nom du balayage (clé [`name`](./sweep-config-keys)), les paramètres à explorer (clé [`parameters`](./sweep-config-keys#parameters)), la méthode utilisée pour explorer l&#39;espace des paramètres (clé [`method`](./sweep-config-keys#method)), etc.
+
+Par exemple, les extraits de code suivants montrent la même configuration de balayage définie dans un fichier YAML et dans un dictionnaire Python. Dans cette configuration de balayage, cinq clés de premier niveau sont spécifiées : `program`, `name`, `method`, `metric` et `parameters`.
+
+<Tabs>
+  <Tab title="CLI">
+    Définissez une configuration de balayage dans un fichier YAML si vous souhaitez gérer les balayages de manière interactive depuis la ligne de commande (CLI)
+
+    ```yaml title="config.yaml"
+    program: train.py
+    name: sweepdemo
+    method: bayes
+    metric:
+      goal: minimize
+      name: validation_loss
+    parameters:
+      learning_rate:
+        min: 0.0001
+        max: 0.1
+      batch_size:
+        values: [16, 32, 64]
+      epochs:
+        values: [5, 10, 15]
+      optimizer:
+        values: ["adam", "sgd"]
+    ```
+  </Tab>
+
+  <Tab title="Script Python ou notebook">
+    Définissez un balayage dans une structure de données de type dictionnaire Python si votre algorithme d&#39;entraînement est défini dans un script Python ou un notebook.
+
+    L&#39;extrait de code suivant stocke une configuration de balayage dans une variable nommée `sweep_configuration` :
+
+    ```python title="train.py"
+    sweep_configuration = {
+        "name": "sweepdemo",
+        "method": "bayes",
+        "metric": {"goal": "minimize", "name": "validation_loss"},
+        "parameters": {
+            "learning_rate": {"min": 0.0001, "max": 0.1},
+            "batch_size": {"values": [16, 32, 64]},
+            "epochs": {"values": [5, 10, 15]},
+            "optimizer": {"values": ["adam", "sgd"]},
+        },
+    }
+    ```
+  </Tab>
+</Tabs>
+
+Dans la clé de premier niveau `parameters`, les clés suivantes sont imbriquées : `learning_rate`, `batch_size`, `epoch` et `optimizer`. Pour chacune des clés imbriquées que vous spécifiez, vous pouvez fournir une ou plusieurs valeurs, une distribution, une probabilité, etc. Pour plus d&#39;informations, voir la section [parameters](./sweep-config-keys#parameters) dans [Options de configuration de balayage](./sweep-config-keys). 
+
+<div id="double-nested-parameters">
+  ## Paramètres imbriqués sur deux niveaux
+</div>
+
+Les configurations de balayage prennent en charge les paramètres imbriqués. Pour définir un paramètre imbriqué, ajoutez une clé `parameters` supplémentaire sous le nom du paramètre de premier niveau.
+
+L&#39;exemple suivant montre une configuration de balayage avec trois paramètres imbriqués : `nested_category_1`, `nested_category_2` et `nested_category_3`. Chaque paramètre imbriqué comprend deux paramètres supplémentaires : `momentum` et `weight_decay`.
+
+<Note>
+  `nested_category_1`, `nested_category_2` et `nested_category_3` sont des valeurs fictives. Remplacez-les par des noms adaptés à votre cas d&#39;utilisation.
+</Note>
+
+Les extraits de code suivants montrent comment définir des paramètres imbriqués dans un fichier YAML et dans un dictionnaire Python.
+
+<Tabs>
+  <Tab title="CLI">
+    ```yaml
+    program: sweep_nest.py
+    name: nested_sweep
+    method: random
+    metric:
+      name: loss
+      goal: minimize
+    parameters:
+      optimizer:
+        values: ['adam', 'sgd']
+      fc_layer_size:
+        values: [128, 256, 512]
+      dropout:
+        values: [0.3, 0.4, 0.5]
+      epochs:
+        value: 1
+      learning_rate:
+        distribution: uniform
+        min: 0
+        max: 0.1
+      batch_size:
+        distribution: q_log_uniform_values
+        q: 8
+        min: 32
+        max: 256
+      nested_category_1:
+        parameters:
+          momentum:
+            distribution: uniform
+            min: 0.0
+            max: 0.9
+          weight_decay:
+            values: [0.0001, 0.0005, 0.001]
+      nested_category_2:
+        parameters:
+          momentum:
+            distribution: uniform
+            min: 0.0
+            max: 0.9
+          weight_decay:
+            values: [0.1, 0.2, 0.3]
+      nested_category_3:
+        parameters:
+          momentum:
+            distribution: uniform
+            min: 0.5
+            max: 0.7
+          weight_decay:
+            values: [0.2, 0.3, 0.4]
+    ```
+  </Tab>
+
+  <Tab title="Script Python ou notebook">
+    ```python
+    {
+      "program": "sweep_nest.py",
+      "name": "nested_sweep",
+      "method": "random",
+      "metric": {
+        "name": "loss",
+        "goal": "minimize"
+      },
+      "parameters": {
+        "optimizer": {
+          "values": ["adam", "sgd"]
+        },
+        "fc_layer_size": {
+          "values": [128, 256, 512]
+        },
+        "dropout": {
+          "values": [0.3, 0.4, 0.5]
+        },
+        "epochs": {
+          "value": 1
+        },
+        "learning_rate": {
+          "distribution": "uniform",
+          "min": 0,
+          "max": 0.1
+        },
+        "batch_size": {
+          "distribution": "q_log_uniform_values",
+          "q": 8,
+          "min": 32,
+          "max": 256
+        },
+        "nested_category_1": {
+          "parameters": {
+            "momentum": {
+              "distribution": "uniform",
+              "min": 0.0,
+              "max": 0.9
+            },
+            "weight_decay": {
+              "values": [0.0001, 0.0005, 0.001]
+            }
+          }
+        },
+        "nested_category_2": {
+          "parameters": {
+            "momentum": {
+              "distribution": "uniform",
+              "min": 0.0,
+              "max": 0.9
+            },
+            "weight_decay": {
+              "values": [0.1, 0.2, 0.3]
+            }
+          }
+        },
+        "nested_category_3": {
+          "parameters": {
+            "momentum": {
+              "distribution": "uniform",
+              "min": 0.5,
+              "max": 0.7
+            },
+            "weight_decay": {
+              "values": [0.2, 0.3, 0.4]
+            }
+          }
+        }
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+{/* Spécifiez une distribution de probabilité pour vos variables aléatoires si vous utilisez une recherche d'hyperparamètres bayésienne ou aléatoire. Pour chaque hyperparamètre :
+
+  1. Créez une clé `parameters` de premier niveau dans votre configuration de balayage.
+  2. Dans la clé `parameters`, imbriquez les éléments suivants :
+   1. Spécifiez le nom de l'hyperparamètre que vous souhaitez optimiser. 
+   2. Spécifiez la distribution à utiliser pour la clé `distribution`. Imbriquez la paire clé-valeur `distribution` sous le nom de l'hyperparamètre.
+   3. Spécifiez une ou plusieurs valeurs à explorer. La ou les valeurs doivent être au même niveau que la clé `distribution`.  
+      1. (Facultatif) Utilisez une clé `parameters` supplémentaire sous le nom du paramètre de premier niveau pour définir un paramètre imbriqué. */}
+
+{/* Par exemple, les extraits de code suivants montrent la configuration d’un balayage dans un fichier de configuration YAML et dans un script Python. */}
+
+<Warning>
+  Les paramètres imbriqués définis dans la configuration de balayage remplacent les clés spécifiées dans la configuration d’un run W&amp;B.
+
+  Par exemple, supposons que vous ayez un script `train.py` qui initialise un run avec une valeur par défaut imbriquée :
+
+  ```python
+  def main():
+      with  wandb.init(config={"nested_param": {"manual_key": 1}}) as run:
+          # Votre code d'entraînement ici
+  ```
+
+  Votre configuration de balayage définit des paramètres imbriqués sous une clé `"parameters"` de premier niveau :
+
+  ```python
+  sweep_configuration = {
+      "method": "grid",
+      "metric": {"name": "score", "goal": "minimize"},
+      "parameters": {
+          "top_level_param": {"value": 0},
+          "nested_param": {
+              "parameters": {
+                  "learning_rate": {"value": 0.01},
+                  "double_nested_param": {
+                      "parameters": {"x": {"value": 0.9}, "y": {"value": 0.8}}
+                  },
+              }
+          },
+      },
+  }
+
+  sweep_id = wandb.sweep(sweep=sweep_configuration, project="<project>")
+  wandb.agent(sweep_id, function=main, count=4)
+  ```
+
+  Lors d’un run de balayage, `run.config["nested_param"]` reflète le sous-arbre défini par la
+  configuration du balayage (`learning_rate`, `double_nested_param`) et n’inclut pas `manual_key`, défini
+  dans `wandb.init(config=...)`.
+</Warning>
+
+
+<div id="sweep-configuration-template">
+  ## Modèle de configuration pour un balayage
+</div>
+
+Le modèle suivant montre comment configurer des paramètres et définir des contraintes de recherche. Remplacez `hyperparameter_name` par le nom de votre hyperparamètre, ainsi que toute valeur entre `<>`.
+
+```yaml title="config.yaml"
+program: <insert>
+method: <insert>
+parameter:
+  hyperparameter_name0:
+    value: 0  
+  hyperparameter_name1: 
+    values: [0, 0, 0]
+  hyperparameter_name: 
+    distribution: <insert>
+    value: <insert>
+  hyperparameter_name2:  
+    distribution: <insert>
+    min: <insert>
+    max: <insert>
+    q: <insert>
+  hyperparameter_name3: 
+    distribution: <insert>
+    values:
+      - <list_of_values>
+      - <list_of_values>
+      - <list_of_values>
+early_terminate:
+  type: hyperband
+  s: 0
+  eta: 0
+  max_iter: 0
+command:
+- ${Command macro}
+- ${Command macro}
+- ${Command macro}
+- ${Command macro}      
+```
+
+Pour exprimer une valeur numérique en notation scientifique, ajoutez l’opérateur YAML `!!float`, qui convertit la valeur en nombre à virgule flottante. Par exemple, `min: !!float 1e-5`. Voir [Exemple de commande](#command-example).
+
+
+<div id="sweep-configuration-examples">
+  ## Exemples de configuration de balayage
+</div>
+
+<Tabs>
+  <Tab title="CLI">
+    ```yaml title="config.yaml" 
+    program: train.py
+    method: random
+    metric:
+      goal: minimize
+      name: loss
+    parameters:
+      batch_size:
+        distribution: q_log_uniform_values
+        max: 256 
+        min: 32
+        q: 8
+      dropout: 
+        values: [0.3, 0.4, 0.5]
+      epochs:
+        value: 1
+      fc_layer_size: 
+        values: [128, 256, 512]
+      learning_rate:
+        distribution: uniform
+        max: 0.1
+        min: 0
+      optimizer:
+        values: ["adam", "sgd"]
+    ```
+  </Tab>
+
+  <Tab title="Script Python ou notebook">
+    ```python title="train.py" 
+    sweep_config = {
+        "method": "random",
+        "metric": {"goal": "minimize", "name": "loss"},
+        "parameters": {
+            "batch_size": {
+                "distribution": "q_log_uniform_values",
+                "max": 256,
+                "min": 32,
+                "q": 8,
+            },
+            "dropout": {"values": [0.3, 0.4, 0.5]},
+            "epochs": {"value": 1},
+            "fc_layer_size": {"values": [128, 256, 512]},
+            "learning_rate": {"distribution": "uniform", "max": 0.1, "min": 0},
+            "optimizer": {"values": ["adam", "sgd"]},
+        },
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<div id="bayes-hyperband-example">
+  ### Exemple avec Bayes Hyperband
+</div>
+
+```yaml
+program: train.py
+method: bayes
+metric:
+  goal: minimize
+  name: val_loss
+parameters:
+  dropout:
+    values: [0.15, 0.2, 0.25, 0.3, 0.4]
+  hidden_layer_size:
+    values: [96, 128, 148]
+  layer_1_size:
+    values: [10, 12, 14, 16, 18, 20]
+  layer_2_size:
+    values: [24, 28, 32, 36, 40, 44]
+  learn_rate:
+    values: [0.001, 0.01, 0.003]
+  decay:
+    values: [1e-5, 1e-6, 1e-7]
+  momentum:
+    values: [0.8, 0.9, 0.95]
+  epochs:
+    value: 27
+early_terminate:
+  type: hyperband
+  s: 2
+  eta: 3
+  max_iter: 27
+```
+
+Les onglets suivants montrent comment spécifier un nombre minimal ou maximal d’itérations pour `early_terminate` :
+
+<Tabs>
+  <Tab title="Nombre maximal d’itérations">
+    Les paliers de cet exemple sont : `[3, 3*eta, 3*eta*eta, 3*eta*eta*eta]`, ce qui équivaut à `[3, 9, 27, 81]`.
+
+    ```yaml
+    early_terminate:
+      type: hyperband
+      min_iter: 3
+    ```
+  </Tab>
+
+  <Tab title="Nombre minimal d’itérations">
+    Les paliers de cet exemple sont `[27/eta, 27/eta/eta]`, ce qui équivaut à `[9, 3]`.
+
+    ```yaml
+    early_terminate:
+      type: hyperband
+      max_iter: 27
+      s: 2
+    ```
+  </Tab>
+</Tabs>
+
+
+<div id="macro-and-custom-command-arguments-example">
+  ### Exemple de macros et d&#39;arguments de ligne de commande personnalisés
+</div>
+
+Pour des arguments de ligne de commande plus complexes, vous pouvez utiliser des macros pour transmettre des variables d&#39;environnement, l&#39;interpréteur Python et des arguments supplémentaires. [W&amp;B prend en charge des macros prédéfinies](./sweep-config-keys#command-macros) ainsi que des arguments de ligne de commande personnalisés que vous pouvez spécifier dans votre configuration de balayage.
+
+Par exemple, la configuration de balayage suivante (`sweep.yaml`) définit une commande qui exécute un script Python (`run.py`), où les macros `${env}`, `${interpreter}` et `${program}` sont remplacées par les valeurs appropriées au moment de l&#39;exécution du balayage.
+
+Les arguments `--batch_size=${batch_size}`, `--test=True` et `--optimizer=${optimizer}` utilisent des macros personnalisées pour transmettre les valeurs des paramètres `batch_size`, `test` et `optimizer` définis dans la configuration de balayage.
+
+```yaml title="sweep.yaml"
+program: run.py
+method: random
+metric:
+  name: validation_loss
+parameters:
+  learning_rate:
+    min: 0.0001
+    max: 0.1
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - "--batch_size=${batch_size}"
+  - "--optimizer=${optimizer}"
+  - "--test=True"
+```
+
+Le script Python associé (`run.py`) peut ensuite interpréter ces arguments de ligne de commande à l’aide du module `argparse`.
+
+```python title="run.py"
+# run.py  
+import wandb
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--batch_size', type=int)
+parser.add_argument('--optimizer', type=str, choices=['adam', 'sgd'], required=True)
+parser.add_argument('--test', type=str2bool, default=False)
+args = parser.parse_args()
+
+# Initialiser un run W&B
+with wandb.init('test-project') as run:
+    run.log({'validation_loss':1})
+```
+
+Voir la section [Macros de commande](./sweep-config-keys#command-macros) de [options de configuration de balayage](./sweep-config-keys) pour voir la liste des macros prédéfinies que vous pouvez utiliser dans votre configuration de balayage.
+
+
+<div id="boolean-arguments">
+  #### Arguments booléens
+</div>
+
+Le module `argparse` ne prend pas en charge les arguments booléens par défaut. Pour définir un argument booléen, vous pouvez utiliser le paramètre [`action`](https://docs.python.org/3/library/argparse.html#action) ou une fonction personnalisée pour convertir la représentation sous forme de chaîne d’une valeur booléenne en type booléen.
+
+Par exemple, vous pouvez utiliser l’extrait de code suivant pour définir un argument booléen. Passez `store_true` ou `store_false` en argument à `ArgumentParser`.
+
+```python
+import wandb
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--test', action='store_true')
+args = parser.parse_args()
+
+args.test  # Vaut True si --test est passé, False sinon
+```
+
+Vous pouvez également définir une fonction personnalisée pour convertir la représentation sous forme de chaîne d’une valeur booléenne en booléen. Par exemple, l’extrait de code suivant définit la fonction `str2bool`, qui convertit une chaîne en valeur booléenne.
+
+```python
+def str2bool(v: str) -> bool:
+  """Convertit une chaîne en booléen. Ceci est requis car
+  argparse ne prend pas en charge les arguments booléens par défaut.
+  """
+  if isinstance(v, bool):
+      return v
+  return v.lower() in ('yes', 'true', 't', '1')
+```

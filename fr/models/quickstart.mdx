@@ -1,0 +1,157 @@
+---
+description: "Installez W&B et commencez à suivre, visualiser et gérer vos expériences de machine learning en quelques minutes."
+title: Démarrage rapide W&B
+---
+
+import ApiKeyCreate from "/snippets/fr/_includes/api-key-create.mdx";
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+Installez W&amp;B pour suivre, visualiser et gérer des expériences de machine learning, quelle que soit leur taille.
+
+<Note>
+  Vous cherchez des informations sur W&amp;B Weave ? Voir le [démarrage rapide du SDK Python Weave](/fr/weave/quickstart) ou le [démarrage rapide du SDK TypeScript Weave](/fr/weave/reference/generated_typescript_docs/intro-notebook).
+</Note>
+
+<div id="sign-up-and-create-an-api-key">
+  ## Inscrivez-vous et créez une clé API
+</div>
+
+Pour authentifier votre machine auprès de W&amp;B, vous devez disposer d’une clé API.
+
+<ApiKeyCreate />
+
+Ce démarrage rapide est également disponible sous forme de notebook Colab :
+
+<div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+  <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
+
+  <GitHubLink url="https://github.com/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
+</div>
+
+<div id="install-the-wandb-library-and-log-in">
+  ## Installez la bibliothèque `wandb` et connectez-vous
+</div>
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY`.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. Installez la bibliothèque `wandb` et connectez-vous.
+
+       ```shell
+       pip install wandb
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="notebook Python">
+    ```notebook
+    !pip install wandb
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="initialize-a-run-and-track-hyperparameters">
+  ## Initialiser un run et suivre les hyperparamètres
+</div>
+
+Dans votre script Python ou notebook, initialisez un objet run W&amp;B avec [`wandb.init()`](/fr/models/ref/python/experiments/run/). Utilisez un dictionnaire pour le paramètre `config`
+afin de spécifier le nom et la valeur des hyperparamètres. Dans l’instruction `with`, vous pouvez consigner des métriques et d’autres informations dans W&amp;B.
+
+```python
+import wandb
+
+wandb.login()
+
+# projet dans lequel le run est enregistré
+project = "my-awesome-project"
+
+# Dictionnaire des hyperparamètres
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(project=project, config=config) as run:
+    # Code d'entraînement ici
+    # Enregistrer les valeurs dans W&B avec run.log()
+    run.log({"accuracy": 0.9, "loss": 0.1})
+```
+
+Voir la section suivante pour un exemple complet qui simule un run d&#39;entraînement et enregistre les métriques de précision et de perte dans W&amp;B.
+
+<Info>
+  Un [run](/fr/models/runs/) est un élément fondamental de W&amp;B. Vous utilisez les runs pour [suivre les métriques](/fr/models/track/), [créer des journaux](/fr/models/track/log/), suivre les artefacts et bien plus encore.
+</Info>
+
+<div id="create-a-machine-learning-training-experiment">
+  ## Créer une expérience d’entraînement en machine learning
+</div>
+
+Ce script d’entraînement fictif consigne des métriques simulées de précision et de perte dans W&amp;B. Faites un copier-coller du code suivant dans un script Python ou une cellule de notebook, puis exécutez-le :
+
+```python
+import wandb
+import random
+
+wandb.login()
+
+# Projet dans lequel le run est enregistré
+project = "my-awesome-project"
+
+# dictionnaire des hyperparamètres
+config = {
+    'epochs' : 10,
+    'lr' : 0.01
+}
+
+with wandb.init(project=project, config=config) as run:
+    offset = random.random() / 5
+    print(f"lr: {config['lr']}")
+    
+    # Simuler un run d'entraînement
+    for epoch in range(2, config['epochs']):
+        acc = 1 - 2**-config['epochs'] - random.random() / config['epochs'] - offset
+        loss = 2**-config['epochs'] + random.random() / config['epochs'] + offset
+        print(f"epoch={config['epochs']}, accuracy={acc}, loss={loss}")
+        run.log({"accuracy": acc, "loss": loss})
+```
+
+Visitez [wandb.ai/home](https://wandb.ai/home) pour afficher les métriques enregistrées, comme la précision et la perte, et voir comment elles évoluent à chaque étape de l’entraînement. L’image suivante montre la perte et la précision suivies pour chaque run. Chaque objet run apparaît dans la colonne **Runs**, avec un nom généré automatiquement.
+
+<Frame>
+  <img src="/images/quickstart/quickstart_image.png" alt="Montre la perte et la précision suivies pour chaque run." />
+</Frame>
+
+<div id="next-steps">
+  ## Prochaines étapes
+</div>
+
+Découvrez d’autres fonctionnalités de l’écosystème W&amp;B :
+
+1. Lisez les [tutoriels d’intégration W&amp;B](/fr/models/integrations), qui combinent W&amp;B avec des frameworks comme PyTorch, des bibliothèques comme Hugging Face et des services comme SageMaker.
+2. Organisez les runs, automatisez les visualisations, synthétisez vos conclusions et partagez des mises à jour avec vos collaborateurs à l’aide de [W&amp;B Reports](/fr/models/reports).
+3. Créez des [W&amp;B Artifacts](/fr/models/artifacts) pour suivre les jeux de données, les modèles, les dépendances et les résultats tout au long de votre pipeline de machine learning.
+4. Automatisez la recherche d’hyperparamètres et optimisez les modèles avec [W&amp;B Sweeps](/fr/models/sweeps).
+5. Analysez les runs, visualisez les prédictions des modèles et partagez vos observations dans un [tableau de bord central](/fr/models/tables).
+6. Visitez [W&amp;B AI Academy](https://wandb.ai/site/courses/) pour découvrir les LLM, le MLOps et W&amp;B Models grâce à des cours pratiques.
+7. Visitez [weave-docs.wandb.ai](/fr/weave) pour apprendre à suivre, expérimenter, évaluer, déployer et améliorer vos applications basées sur les LLM à l’aide de Weave.

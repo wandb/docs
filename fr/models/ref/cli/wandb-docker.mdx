@@ -1,0 +1,42 @@
+---
+title: "wandb docker"
+---
+
+import WandbDocker from "/snippets/fr/_includes/cli/wandb-docker.mdx";
+
+<WandbDocker />
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Argument          | Description                   | Requis |
+| :---------------- | :---------------------------- | :----- |
+| `DOCKER_RUN_ARGS` | Aucune description disponible | Non    |
+| `DOCKER_IMAGE`    | Aucune description disponible | Non    |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option      | Description                                                                                                    |
+| :---------- | :------------------------------------------------------------------------------------------------------------- |
+| `--nvidia`  | Utiliser le runtime nvidia ; la valeur par défaut est nvidia si nvidia-docker est présent (par défaut : False) |
+| `--digest`  | Afficher le digest de l’image et quitter (par défaut : False)                                                  |
+| `--jupyter` | Exécuter jupyter lab dans le conteneur (par défaut : False)                                                    |
+| `--dir`     | Répertoire dans lequel monter le code dans le conteneur (par défaut : /app)                                    |
+| `--no-dir`  | Ne pas monter le répertoire courant (par défaut : False)                                                       |
+| `--shell`   | Shell avec lequel démarrer le conteneur (par défaut : /bin/bash)                                               |
+| `--port`    | Port hôte sur lequel lier jupyter (par défaut : 8888)                                                          |
+| `--cmd`     | La commande à exécuter dans le conteneur                                                                       |
+| `--no-tty`  | Exécuter la commande sans tty (par défaut : False)                                                             |

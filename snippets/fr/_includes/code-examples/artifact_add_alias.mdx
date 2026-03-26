@@ -1,0 +1,19 @@
+---
+title: Ajouter un alias à un artefact
+---
+
+```python
+"""
+Ajouter un ou plusieurs alias à un artefact lors de son enregistrement dans W&B.
+"""
+import wandb
+
+# Créer un artefact
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+# Ajouter des fichiers à l'artefact
+artifact.add_file("<file_path>")
+
+with wandb.init(project="<project>") as run:
+    # Enregistrer l'artefact avec des alias
+    run.log_artifact(artifact, aliases=["<alias1>", "<alias2>"])
+```

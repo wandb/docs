@@ -1,0 +1,44 @@
+---
+title: examiner les résultats d’évaluation
+---
+
+<div id="review-evaluation-results">
+  ## Examiner les résultats d&#39;évaluation
+</div>
+
+Consultez les résultats de votre job d&#39;évaluation dans W&amp;B Models, dans l&#39;espace de travail du projet de destination.
+
+1. Cliquez sur l&#39;icône de flèche circulaire en haut de la page pour ouvrir la fenêtre modale des runs récents, où les jobs d&#39;évaluation apparaissent avec les autres runs du projet. Si le job d&#39;évaluation dispose d&#39;un leaderboard, cliquez sur **Leaderboard** pour l&#39;ouvrir en plein écran, ou cliquez sur un nom de l&#39;exécution pour l&#39;ouvrir dans le projet en vue d&#39;une seule exécution.
+2. Consultez les traces du job d&#39;évaluation dans la section **Évaluations** d&#39;un espace de travail ou dans l&#39;onglet **Traces** du panneau latéral **Weave**.
+3. Cliquez sur l&#39;onglet **Aperçu** pour afficher des informations détaillées sur le job d&#39;évaluation, notamment sa configuration et ses métriques de synthèse.
+4. Cliquez sur l&#39;onglet **Logs** pour afficher, rechercher ou télécharger les journaux de débogage du job d&#39;évaluation.
+5. Cliquez sur l&#39;onglet **Files** pour parcourir, afficher ou télécharger les fichiers du job d&#39;évaluation, y compris le code, le journal, la configuration et d&#39;autres fichiers de sortie.
+
+<div id="customize-a-leaderboard">
+  ## Personnaliser un leaderboard
+</div>
+
+Le leaderboard affiche les résultats de tous les jobs d’évaluation envoyés à un projet donné, avec une ligne par benchmark et par job d’évaluation. Les colonnes affichent des détails tels que la trace, les valeurs d’entrée et les valeurs de sortie du job d’évaluation. Pour plus d’informations sur les leaderboards, voir [Leaderboards in Weave](/fr/weave/guides/core-types/leaderboards).
+
+<Tip>Pour donner un retour sur un résultat depuis le leaderboard, cliquez sur l’icône emoji ou sur l’icône de chat dans la colonne **Feedback**.</Tip>
+
+* Par défaut, tous les jobs d’évaluation sont affichés. Utilisez le filtre ou la recherche pour trouver un job d’évaluation à l’aide du sélecteur de run à gauche.
+* Par défaut, les jobs d’évaluation ne sont pas regroupés. Pour les regrouper par une ou plusieurs colonnes, cliquez sur l’icône **Group**. Vous pouvez afficher ou masquer un groupe, ou développer un groupe pour voir ses runs.
+* Par défaut, toutes les opérations sont affichées. Pour n’afficher qu’une seule opération, cliquez sur **All ops** et sélectionnez une opération.
+* Pour trier par colonne, cliquez sur l’en-tête de la colonne. Pour personnaliser l’affichage des colonnes, cliquez sur **Columns**.
+  * Par défaut, les en-têtes sont organisés sur un seul niveau. Vous pouvez augmenter la profondeur des en-têtes pour regrouper les en-têtes associés.
+  * Sélectionnez ou désélectionnez des colonnes individuelles pour les afficher ou les masquer, ou affichez ou masquez toutes les colonnes en un clic.
+  * Épinglez des colonnes pour les afficher avant les colonnes non épinglées.
+
+<div id="export-a-leaderboard">
+  ## Exporter un leaderboard
+</div>
+
+Pour exporter un leaderboard :
+
+1. Cliquez sur l’icône de téléchargement, située à côté du bouton **Columns**.
+2. Pour réduire la taille de l’export, seules les racines de trace sont exportées par défaut. Pour exporter les traces complètes, désactivez **Trace roots only**.
+3. Pour réduire la taille de l’export, les retours et les coûts ne sont pas exportés par défaut. Pour les inclure, basculez **Feedback** ou **Costs**.
+4. Par défaut, l’export se fait au format JSONL. Pour personnaliser le format, cliquez sur **Export to file**, puis sélectionnez un format.
+5. Pour exporter le leaderboard dans votre navigateur, cliquez sur **Export**.
+6. Pour exporter le leaderboard par programmation, sélectionnez **Python** ou **cURL**, puis cliquez sur **Copy** et exécutez le script ou la commande.

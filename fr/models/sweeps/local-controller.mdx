@@ -1,0 +1,109 @@
+---
+description: Exécutez localement les algorithmes de recherche et d’arrêt au lieu d’utiliser le
+  service cloud hébergé de W&B.
+title: Gérer les algorithmes localement
+---
+
+Par défaut, le contrôleur d’hyperparamètres est hébergé par W&amp;B en tant que service cloud. Les agents W&amp;B communiquent avec le contrôleur pour déterminer le prochain ensemble de paramètres à utiliser pour l’entraînement. Le contrôleur est également chargé d’exécuter les algorithmes d’arrêt anticipé afin de déterminer quels runs peuvent être arrêtés.
+
+La fonctionnalité de contrôleur local vous permet d’exécuter localement les algorithmes de recherche et d’arrêt. Le contrôleur local vous permet d’inspecter et d’instrumenter le code afin de déboguer les problèmes et de développer de nouvelles fonctionnalités pouvant être intégrées au service cloud.
+
+<Warning>
+  Cette fonctionnalité est proposée pour faciliter le développement et le débogage rapides de nouveaux algorithmes pour l’outil Sweeps. Elle n’est pas destinée à des charges de travail réelles d’optimisation d’hyperparamètres.
+</Warning>
+
+Avant de commencer, vous devez installer le SDK W&amp;B (`wandb`). Saisissez l’extrait de code suivant dans votre ligne de commande :
+
+```
+pip install wandb sweeps 
+```
+
+Les exemples suivants supposent que vous avez déjà un fichier de configuration et une boucle d’entraînement définis dans un script Python ou un notebook Jupyter. Pour plus d’informations sur la définition d’un fichier de configuration, voir [Définir une configuration de balayage](/fr/models/sweeps/define-sweep-configuration/).
+
+<div id="run-the-local-controller-from-the-command-line">
+  ### Exécutez le contrôleur local à partir de la ligne de commande
+</div>
+
+Initialisez un balayage comme vous le feriez habituellement lorsque vous utilisez des contrôleurs d&#39;hyperparamètres hébergés par W&amp;B en tant que service cloud. Spécifiez l&#39;indicateur `controller` pour indiquer que vous souhaitez utiliser le contrôleur local pour les jobs de balayage W&amp;B :
+
+```bash
+wandb sweep --controller config.yaml
+```
+
+Vous pouvez aussi dissocier l’initialisation d’un balayage de la spécification de l’utilisation d’un contrôleur local en deux étapes.
+
+Pour dissocier ces étapes, ajoutez d’abord la paire clé-valeur suivante au fichier de configuration YAML de votre balayage :
+
+```yaml
+controller:
+  type: local
+```
+
+Ensuite, initialisez le balayage :
+
+```bash
+wandb sweep config.yaml
+```
+
+`wandb sweep` génère un identifiant de balayage. Une fois le balayage initialisé, démarrez un contrôleur avec [`wandb controller`](/fr/models/ref/python/functions/controller) :
+
+```bash
+wandb controller {user}/{entity}/{sweep_id}
+```
+
+Une fois que vous avez indiqué que vous souhaitez utiliser un contrôleur local, démarrez un ou plusieurs agents de balayage pour exécuter le balayage. Démarrez un Sweep W&amp;B comme vous le feriez normalement. Voir [Démarrer les agents de balayage](/fr/models/sweeps/start-sweep-agents/) pour plus d&#39;informations.
+
+```bash
+wandb sweep sweep_ID
+```
+
+<div id="run-a-local-controller-with-wb-python-sdk">
+  ### Exécuter un contrôleur local avec le SDK Python W&amp;B
+</div>
+
+Les extraits de code suivants montrent comment spécifier et utiliser un contrôleur local avec le SDK Python W&amp;B.
+
+La manière la plus simple d’utiliser un contrôleur avec le SDK Python consiste à transmettre l’ID du balayage à la méthode [`wandb.controller`](/fr/models/ref/python/functions/controller). Ensuite, utilisez la méthode `run` de l’objet renvoyé pour démarrer le job de balayage :
+
+```python
+sweep = wandb.controller(sweep_id)
+sweep.run()
+```
+
+Si vous souhaitez mieux contrôler la boucle du contrôleur :
+
+```python
+import wandb
+
+sweep = wandb.controller(sweep_id)
+while not sweep.done():
+    sweep.print_status()
+    sweep.step()
+    time.sleep(5)
+```
+
+Ou, pour un contrôle encore plus fin des paramètres servis :
+
+```python
+import wandb
+
+sweep = wandb.controller(sweep_id)
+while not sweep.done():
+    params = sweep.search()
+    sweep.schedule(params)
+    sweep.print_status()
+```
+
+Si vous souhaitez définir entièrement votre balayage dans le code, vous pouvez procéder comme ceci :
+
+```python
+import wandb
+
+sweep = wandb.controller()
+sweep.configure_search("grid")
+sweep.configure_program("train-dummy.py")
+sweep.configure_controller(type="local")
+sweep.configure_parameter("param1", value=3)
+sweep.create()
+sweep.run()
+```

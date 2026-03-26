@@ -1,0 +1,19 @@
+---
+title: Fork d’un run
+---
+
+```python
+"""Créer un fork d'un run W&B existant à partir d'une étape spécifique."""
+
+import wandb
+
+# Initialiser un run à forker ultérieurement
+with wandb.init(project="<project>", entity="<entity>") as original_run:
+    # Le code d'entraînement et de journalisation va ici.
+    pass
+
+# Forker le run à partir d'une étape spécifique
+with wandb.init(project="<project>",entity="<entity>", fork_from=f"{original_run.id}?_step=200") as forked_run:
+    # Le code d'entraînement et de journalisation va ici.
+    pass
+```

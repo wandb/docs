@@ -1,0 +1,55 @@
+---
+title: "Code d'erreur API 403 - Pays, région ou territoire non pris en charge"
+keywords: ["Authentification et accès"]
+---
+
+Une erreur 403 accompagnée du message &quot;Pays, région ou territoire non pris en charge&quot; signifie que vous accédez à W&amp;B Inférence depuis un pays, une région ou un territoire non pris en charge.
+
+<div id="why-this-happens">
+  ## Pourquoi cela se produit
+</div>
+
+W&amp;B Inférence est soumis à des restrictions géographiques en raison d’exigences de conformité et de réglementation. Le service est accessible uniquement depuis des emplacements géographiques pris en charge.
+
+<div id="what-you-can-do">
+  ## Ce que vous pouvez faire
+</div>
+
+1. **Vérifiez les restrictions géographiques**
+   * Consultez les [restrictions géographiques](/fr/inference/usage-limits/#geographic-restrictions) pour connaître la liste actuelle des emplacements pris en charge
+
+2. **Utilisez le service depuis un emplacement pris en charge**
+   * Accédez au service depuis un pays ou une région pris en charge
+   * Envisagez d&#39;utiliser les ressources de votre organisation situées dans des emplacements pris en charge
+
+3. **Contactez votre équipe de compte**
+   * Les clients Enterprise peuvent discuter des options avec leur responsable de compte
+   * Certaines organisations peuvent bénéficier de dispositions particulières
+
+<div id="error-details">
+  ## Détails de l’erreur
+</div>
+
+Lorsque cette erreur s’affiche :
+
+```
+{
+  "error": {
+    "code": 403,
+    "message": "Country, region, or territory not supported"
+  }
+}
+```
+
+Ceci est déterminé en fonction de l’emplacement associé à votre adresse IP au moment de la requête API.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Authentification et accès](/fr/support/inference/tags/authentication-access)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}

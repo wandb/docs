@@ -1,0 +1,102 @@
+---
+title: "Qu’est-ce que l’évaluation par paires et comment puis-je la réaliser ?"
+keywords: ["Évaluation"]
+---
+
+Lorsque vous [attribuez un score](/fr/weave/guides/evaluation/scorers) à des modèles dans une [évaluation](/fr/weave/guides/core-types/evaluations) Weave, les métriques à valeur absolue (par ex. `9/10` pour Model A et `8/10` pour Model B) sont généralement plus difficiles à attribuer que les métriques relatives (par ex. Model A est plus performant que Model B). L’*évaluation par paires* vous permet de comparer les sorties de deux modèles en établissant un classement relatif entre elles. Cette approche est particulièrement utile lorsque vous voulez déterminer quel modèle est le plus performant pour des tâches subjectives comme la génération de texte, le résumé ou les questions-réponses. Avec l’évaluation par paires, vous pouvez obtenir un classement de préférence relatif qui montre quel modèle est le plus adapté à des entrées données.
+
+<Warning>
+  Cette approche est une solution provisoire et pourra évoluer dans de prochaines versions. Nous travaillons activement sur une API plus robuste pour prendre en charge les évaluations par paires. Consultez les prochaines mises à jour !
+</Warning>
+
+L’exemple de code suivant montre comment implémenter une évaluation par paires dans Weave en créant un [scorer basé sur une classe](/fr/weave/guides/evaluation/scorers#class-based-scorers) appelé `PreferenceScorer`. Le `PreferenceScorer` compare deux modèles, `ModelA` et `ModelB`, et renvoie un score relatif pour les sorties des modèles, basé sur des indications explicites dans le texte d’entrée.
+
+```python lines
+from weave import Model, Evaluation, Scorer, Dataset
+from weave.flow.model import ApplyModelError, apply_model_async
+
+class ModelA(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model A" in input_text:
+            return {"response": "This is a great answer from Model A"}
+        return {"response": "Meh, whatever"}
+
+class ModelB(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model B" in input_text:
+            return {"response": "This is a thoughtful answer from Model B"}
+        return {"response": "I don't know"}
+
+class PreferenceScorer(Scorer):
+    @weave.op
+    async def _get_other_model_output(self, example: dict) -> Any:
+        """Obtenir la sortie de l'autre modèle pour comparaison.
+        Arguments :
+            example: Les données d'exemple d'entrée à faire passer par l'autre modèle
+        Retourne :
+            La sortie de l'autre modèle
+        """
+
+        other_model_result = await apply_model_async(
+            self.other_model,
+            example,
+            None,
+        )
+
+        if isinstance(other_model_result, ApplyModelError):
+            return None
+
+        return other_model_result.model_output
+
+    @weave.op
+    async def score(self, output: dict, input_text: str) -> dict:
+        """Comparer la sortie du modèle principal avec l'autre modèle.
+        Arguments :
+            output (dict): La sortie du modèle principal.
+            input_text (str): Le texte d'entrée utilisé pour générer les sorties.
+        Retourne :
+            dict: Un dictionnaire plat contenant le résultat de la comparaison et la raison.
+        """
+        other_output = await self._get_other_model_output(
+            {"input_text": input_text}
+        )
+        if other_output is None:
+            return {"primary_is_better": False, "reason": "L'autre modèle a échoué"}
+
+        if "Prefer model A" in input_text:
+            primary_is_better = True
+            reason = "Le modèle A a fourni une excellente réponse"
+        else:
+            primary_is_better = False
+            reason = "Le modèle B est préféré pour ce type de question"
+
+        return {"primary_is_better": primary_is_better, "reason": reason}
+
+dataset = Dataset(
+    rows=[
+        {"input_text": "Prefer model A: Question 1"},  # Le modèle A gagne
+        {"input_text": "Prefer model A: Question 2"},  # Le modèle A gagne
+        {"input_text": "Prefer model B: Question 3"},  # Le modèle B gagne
+        {"input_text": "Prefer model B: Question 4"},  # Le modèle B gagne
+    ]
+)
+
+model_a = ModelA()
+model_b = ModelB()
+pref_scorer = PreferenceScorer(other_model=model_b)
+evaluation = Evaluation(dataset=dataset, scorers=[pref_scorer])
+evaluation.evaluate(model_a)
+```
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Évaluation](/fr/support/weave/tags/evaluation)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

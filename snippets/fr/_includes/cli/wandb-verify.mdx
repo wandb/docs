@@ -1,0 +1,25 @@
+---
+title: Wandb Verify
+---
+
+Vérifie l’instance locale de W&amp;B. W&amp;B effectue les vérifications suivantes :
+
+Vérifie que l’hôte n’est pas `api.wandb.ai` (vérification de l’hôte).
+
+Vérifie que l’utilisateur est correctement connecté à l’aide de la clé API fournie (vérification de la connexion).
+
+Vérifie que les requêtes sont effectuées via HTTPS (requêtes sécurisées).
+
+Valide la configuration CORS (Cross-Origin Resource Sharing) du stockage d’objets (configuration CORS).
+
+Enregistre des métriques, sauvegarde et télécharge des fichiers pour vérifier que les runs sont correctement enregistrés et accessibles (vérification des runs).
+
+Sauvegarde et télécharge des artefacts pour vérifier que le système de stockage et de récupération des artefacts fonctionne comme prévu (vérification des artefacts).
+
+Teste le point de terminaison GraphQL en téléversant un fichier pour s’assurer qu’il peut gérer les téléversements via URL signée (vérification GraphQL PUT).
+
+Vérifie la capacité à envoyer des charges utiles volumineuses via le proxy (vérification des charges utiles volumineuses).
+
+Vérifie que la version installée du package W&amp;B est à jour et compatible avec le serveur (vérification de la version de W&amp;B).
+
+Crée et exécute un balayage pour vérifier que le mécanisme de balayage fonctionne correctement (vérification des balayages).

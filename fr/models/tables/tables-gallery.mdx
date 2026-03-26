@@ -1,0 +1,126 @@
+---
+description: "Explorez des exemples de projets W&B utilisant des tableaux pour la classification d'images, l'audio, l'analyse de texte et d'autres cas d'usage."
+title: Exemples de tableaux
+---
+
+Les sections suivantes présentent différentes façons d&#39;utiliser des tableaux :
+
+<div id="view-your-data">
+  ### Visualisez vos données
+</div>
+
+Consignez des métriques et des médias enrichis pendant l’entraînement du modèle ou l’évaluation, puis visualisez les résultats dans une base de données persistante synchronisée avec le cloud ou avec votre [instance d’hébergement](/fr/platform/hosting).
+
+<Frame>
+  <img src="/images/data_vis/tables_see_data.png" alt="Tableau d’exploration des données" max-width="90%" />
+</Frame>
+
+Par exemple, voir ce tableau présentant une [répartition équilibrée d’un jeu de données de photos](https://wandb.ai/stacey/mendeleev/artifacts/balanced_data/inat_80-10-10_5K/ab79f01e007113280018/files/data_split.table.json).
+
+<div id="interactively-explore-your-data">
+  ### Explorez vos données de manière interactive
+</div>
+
+Affichez, triez, filtrez, regroupez, fusionnez et interrogez des tableaux pour comprendre vos données et la performance du modèle — sans avoir à parcourir des fichiers statiques ni à relancer des scripts d’analyse.
+
+<Frame>
+  <img src="/images/data_vis/explore_data.png" alt="Comparaison audio" max-width="90%" />
+</Frame>
+
+Par exemple, voyez ce rapport sur l’[audio avec transfert de style](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM).
+
+<div id="compare-model-versions">
+  ### Comparer des versions de modèles
+</div>
+
+Comparez rapidement les résultats entre différentes époques d&#39;entraînement, différents jeux de données, différents choix d&#39;hyperparamètres, différentes architectures de modèle, etc.
+
+<Frame>
+  <img src="/images/data_vis/compare_model_versions.png" alt="Comparaison de modèles" max-width="90%" />
+</Frame>
+
+Par exemple, voir ce tableau qui compare [deux modèles sur les mêmes images de test](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#b6dae62d4f00d31eeebf$eval_Bob).
+
+<div id="track-every-detail-and-see-the-bigger-picture">
+  ### Suivez chaque détail et gardez une vue d’ensemble
+</div>
+
+Zoomez pour visualiser une prédiction spécifique à une étape précise. Dézoomez pour voir les statistiques agrégées, identifier des schémas d’erreurs et comprendre les possibilités d’amélioration. Cet outil permet de comparer des étapes d’un même entraînement du modèle, ou des résultats entre différentes versions de modèle.
+
+<Frame>
+  <img src="/images/data_vis/track_details.png" alt="Suivi des détails d’une expérience" />
+</Frame>
+
+Voir par exemple ce tableau qui analyse les résultats [après une, puis après cinq époques sur le jeu de données MNIST](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
+
+<div id="example-projects-with-wb-tables">
+  ## Exemples de projets utilisant les tableaux W&amp;B
+</div>
+
+Voici quelques projets W&amp;B concrets qui utilisent les tableaux W&amp;B.
+
+<div id="image-classification">
+  ### Classification d’images
+</div>
+
+Lisez [Visualiser les données pour la classification d’images](https://wandb.ai/stacey/mendeleev/reports/Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA), suivez le [Colab Nature pour la visualisation des données](https://wandb.me/dsviz-nature-colab), ou explorez le [contexte des artefacts](https://wandb.ai/stacey/mendeleev/artifacts/val_epoch_preds/val_pred_gawf9z8j/2dcee8fa22863317472b/files/val_epoch_res.table.json) pour voir comment un CNN identifie dix types d’êtres vivants (plantes, oiseaux, insectes, etc.) à partir de photos issues d’[iNaturalist](https://www.inaturalist.org/pages/developers).
+
+<Frame>
+  <img src="/images/data_vis/image_classification.png" alt="Comparez la répartition des étiquettes réelles dans les prédictions de deux modèles différents." max-width="90%" />
+</Frame>
+
+<div id="audio">
+  ### Audio
+</div>
+
+Interagissez avec des tableaux audio dans [Whale2Song - W&amp;B Tables for Audio](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM), consacré au transfert de timbre. Vous pouvez comparer un chant de baleine enregistré à une version synthétisée de la même mélodie jouée sur un instrument comme le violon ou la trompette. Vous pouvez également enregistrer vos propres chansons et explorer leurs versions synthétisées dans W&amp;B avec le [Colab de transfert audio](http://wandb.me/audio-transfer).
+
+<Frame>
+  <img src="/images/data_vis/audio.png" alt="Exemple de tableau audio" max-width="90%" />
+</Frame>
+
+<div id="text">
+  ### Texte
+</div>
+
+Parcourez des échantillons de texte issus des données d&#39;entraînement ou de texte généré, regroupez-les dynamiquement selon les champs pertinents et alignez votre évaluation entre différentes variantes de modèle ou configurations d&#39;expérience. Affichez le texte en Markdown ou utilisez le mode de comparaison visuelle pour comparer les textes. Voir le [rapport de génération de texte de Shakespeare](https://wandb.ai/stacey/nlg/reports/Visualize-Text-Data-Predictions--Vmlldzo1NzcwNzY) pour un exemple de RNN basé sur les caractères.
+
+<Frame>
+  <img src="/images/data_vis/shakesamples.png" alt="Le doublement de la taille de la couche cachée produit des complétions de prompt un peu plus créatives." max-width="90%" />
+</Frame>
+
+<div id="video">
+  ### Vidéo
+</div>
+
+Parcourez et regroupez les vidéos journalisées pendant l’entraînement afin de mieux comprendre vos modèles. Voici un premier exemple utilisant le [benchmark SafeLife](https://wandb.ai/safelife/v1dot2/benchmark) pour des agents de RL visant à [minimiser les effets secondaires ](https://wandb.ai/stacey/saferlife/artifacts/video/videos_append-spawn/c1f92c6e27fa0725c154/files/video_examples.table.json)
+
+<Frame>
+  <img src="/images/data_vis/video.png" alt="Parcourez facilement les quelques agents qui ont réussi" max-width="90%" />
+</Frame>
+
+<div id="tabular-data">
+  ### Données tabulaires
+</div>
+
+Consultez un rapport expliquant comment [fractionner et prétraiter des données tabulaires](https://wandb.ai/dpaiton/splitting-tabular-data/reports/Tabular-Data-Versioning-and-Deduplication-with-Weights-Biases--VmlldzoxNDIzOTA1) à l’aide de la gestion des versions et de la déduplication.
+
+<Frame>
+  <img src="/images/data_vis/tabs.png" alt="Flux de travail de Tables et Artifacts" max-width="90%" />
+</Frame>
+
+<div id="comparing-model-variants-semantic-segmentation">
+  ### Comparer des variantes de modèles (segmentation sémantique)
+</div>
+
+Un [notebook interactif](https://wandb.me/dsviz-cars-demo) et un [exemple en direct](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json#a57f8e412329727038c2$eval_Ada) montrant comment journaliser des tableaux pour la segmentation sémantique et comparer différents modèles. Essayez vos propres requêtes [dans ce tableau](https://wandb.ai/stacey/evalserver_answers_2/artifacts/results/eval_Daenerys/c2290abd3d7274f00ad8/files/eval_results.table.json).
+
+<Frame>
+  <img src="/images/data_vis/comparing_model_variants.png" alt="Trouvez les meilleures prédictions de deux modèles sur le même jeu de test" max-width="90%" />
+</Frame>
+
+<div id="analyzing-improvement-over-training-time">
+  ### Analyse de l’amélioration au cours de l’entraînement
+</div>
+
+Un rapport détaillé expliquant comment [visualiser les prédictions au fil du temps](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk), ainsi que le [notebook interactif](https://wandb.me/dsviz-mnist-colab) qui l’accompagne.

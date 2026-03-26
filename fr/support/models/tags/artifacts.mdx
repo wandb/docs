@@ -1,0 +1,57 @@
+---
+title: "Artifacts"
+tag: "13"
+generator: knowledgebase-nav
+---
+
+<Card title="Puis-je désactiver wandb lorsque je teste mon code ?" href="/fr/support/models/articles/can-i-turn-off-wandb-when-testing-my-cod" arrow="true" horizontal>
+  Utilisez wandb.init(mode=&quot;disabled&quot;) ou définissez WANDB&#95;MODE=disabled pour configurer W&amp;B en mode no-operation (NOOP) à des fins de test ...
+</Card>
+
+<Card title="Comment puis-je récupérer ces ID de version et ETags dans W&B ?" href="/fr/support/models/articles/how-can-i-fetch-these-version-ids-and-et" arrow="true" horizontal>
+  Si une référence d’artefact est enregistrée avec W&amp;B et que la gestion des versions est activée sur les buckets, les ID de version apparaissent dans Amaz ...
+</Card>
+
+<Card title="Comment puis-je trouver les artefacts enregistrés ou consommés par un run ? Comment puis-je trouver les runs qui ont produit ou consommé un artefact ?" href="/fr/support/models/articles/how-can-i-find-the-artifacts-logged-or-c" arrow="true" horizontal>
+  W&amp;B suit les artefacts enregistrés par chaque run ainsi que ceux utilisés par chaque run pour construire un graphe d’artefacts. Ce graphe est bipar ...
+</Card>
+
+<Card title="Comment enregistrer au mieux les modèles issus de runs dans un balayage ?" href="/fr/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
+  Une approche efficace pour enregistrer des modèles dans un balayage consiste à créer un artefact de modèle pour le balayage. Chaque version repr ...
+</Card>
+
+<Card title="Comment puis-je trouver un artefact à partir du meilleur run d’un balayage ?" href="/fr/support/models/articles/how-do-i-find-an-artifact-from-the-best-" arrow="true" horizontal>
+  Pour récupérer des artefacts du run le plus performant d’un balayage, utilisez le code suivant :
+</Card>
+
+<Card title="Comment enregistrer un artefact dans un run existant ?" href="/fr/support/models/articles/how-do-i-log-an-artifact-to-an-existing-" arrow="true" horizontal>
+  Il est parfois nécessaire de marquer un artefact comme sortie d’un run précédemment enregistré. Dans ce cas, réinitialisez l ...
+</Card>
+
+<Card title="Comment enregistrer du code ?‌" href="/fr/support/models/articles/how-do-i-save-code" arrow="true" horizontal>
+  Utilisez save&#95;code=True dans wandb.init pour enregistrer le script principal ou le notebook qui lance le run. Pour enregistrer tout le code d’un run,  ...
+</Card>
+
+<Card title="Comment définir une politique de rétention ou d’expiration sur mon artefact ?" href="/fr/support/models/articles/how-do-i-set-a-retention-or-expiration-p" arrow="true" horizontal>
+  Pour gérer des artefacts contenant des données sensibles ou planifier la suppression de versions d’artefacts, définissez un TTL (time-to-liv ...
+</Card>
+
+<Card title="Combien de stockage utilise chaque version d’artefact ?" href="/fr/support/models/articles/how-much-storage-does-each-artifact-vers" arrow="true" horizontal>
+  Seuls les fichiers qui changent entre deux versions d’artefact entraînent des coûts de stockage. Prenez par exemple un artefact d’image nommé animals qui  ...
+</Card>
+
+<Card title="Est-il possible de récupérer un artefact après sa suppression avec un run ?" href="/fr/support/models/articles/is-it-possible-to-recover-an-artifact-af" arrow="true" horizontal>
+  Lors de la suppression d’un run, une invite demande s’il faut supprimer les artefacts associés. Le choix de cette option supprime définitivement  ...
+</Card>
+
+<Card title="Utiliser des artefacts avec plusieurs architectures et runs ?" href="/fr/support/models/articles/using-artifacts-with-multiple-architectu" arrow="true" horizontal>
+  Il existe différentes méthodes pour gérer les versions d’un modèle. Artifacts fournit un outil de gestion des versions des modèles adapté à des besoins spécifiques.  ...
+</Card>
+
+<Card title="Où les artefacts sont-ils téléchargés, et comment puis-je le contrôler ?" href="/fr/support/models/articles/where-are-artifacts-downloaded-and-how-c" arrow="true" horizontal>
+  Par défaut, les artefacts sont téléchargés dans le dossier artifacts/. Pour modifier l’emplacement : passez-le à wandb.Artifact().download: S ...
+</Card>
+
+<Card title="Qui a accès à mes artefacts ?" href="/fr/support/models/articles/who-has-access-to-my-artifacts" arrow="true" horizontal>
+  Les artefacts héritent des autorisations d’accès de leur projet parent : dans un projet privé, seuls les membres de l’équipe peuvent accéder aux artif ...
+</Card>

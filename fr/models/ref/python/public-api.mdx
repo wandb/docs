@@ -1,0 +1,159 @@
+---
+title: Aperçu de l’API publique
+description: Utilisez l’API publique de W&B pour accéder par programmation aux données W&B et les gérer
+module: wandb.apis.public
+no_list: true
+---
+
+import PublicApiUse from "/snippets/fr/_includes/public-api-use.mdx";
+
+L’API publique W&amp;B fournit un accès programmatique pour effectuer des requêtes, exporter et mettre à jour les données stockées dans W&amp;B. Utilisez cette API pour l’analyse a posteriori, l’export de données et la gestion programmatique des runs, des artefacts et des balayages. Alors que le SDK principal gère la journalisation en temps réel pendant l’entraînement, l’API publique vous permet de récupérer des données historiques, de mettre à jour les métadonnées, de gérer des artefacts et d’analyser des expériences terminées. La classe principale `Api` constitue le point d’entrée de la plupart des fonctionnalités.
+
+<PublicApiUse />
+
+<div id="available-components">
+  ## Composants disponibles
+</div>
+
+| Component                                             | Description                                                                                                                      |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| [`Api`](/fr/models/ref/python/public-api/api/)           | Point d’entrée principal de l’API publique. Effectuez des requêtes sur les runs, les projets et les artefacts à l’échelle de votre organisation. |
+| [`Runs`](/fr/models/ref/python/public-api/runs/)         | Accédez aux runs d’entraînement individuels et gérez-les, y compris l’historique, les journaux et les métriques.                 |
+| [`Artifacts`](/fr/models/artifacts/)                     | Effectuez des requêtes et téléchargez des artefacts de modèle, des jeux de données et d’autres fichiers versionnés.                          |
+| [`Sweeps`](/fr/models/sweeps/)                           | Accédez aux données de balayage d’hyperparamètres et analysez les résultats d’optimisation.                                      |
+| [`Projects`](/fr/models/ref/python/public-api/projects/) | Gérez les projets et accédez aux métadonnées et aux paramètres au niveau du projet.                                              |
+| [`Reports`](/fr/models/reports/create-a-report/)         | Accédez à W&amp;B Reports par programmation et gérez-les.                                                                        |
+| [`Team`](/fr/models/ref/python/public-api/team)          | Consultez les informations sur l’équipe et gérez les ressources au niveau de l’équipe.                                           |
+| [`User`](/fr/models/ref/python/public-api/user)          | Accédez aux profils des utilisateurs et aux données propres à chaque utilisateur.                                                |
+| [`Files`](/fr/models/ref/python/public-api/files/)       | Téléchargez et gérez les fichiers associés aux runs.                                                                             |
+| `History`                                             | Accédez aux métriques détaillées de séries temporelles enregistrées pendant l’entraînement (voir Run.history).                   |
+| [`Automations`](./automations/)                       | Gérez les flux de travail et les actions automatisés.                                                                            |
+| [`Integrations`](/fr/models/integrations)                | Configurez et gérez les intégrations tierces.                                                                                    |
+
+<div id="common-use-cases">
+  ## Cas d’usage courants
+</div>
+
+<div id="data-export-and-analysis">
+  ### Export et analyse des données
+</div>
+
+* Exportez l&#39;historique des runs au format DataFrames afin de les analyser dans des notebooks Jupyter
+* Téléchargez des métriques pour une visualisation personnalisée ou la génération de rapports
+* Agrégez les résultats de plusieurs expériences
+
+<div id="post-hoc-updates">
+  ### Mises à jour après coup
+</div>
+
+* Mettez à jour les métadonnées du run une fois celui-ci terminé
+* Ajoutez des tags ou des notes aux expériences terminées
+* Modifiez la configuration ou les résumés du run
+
+<div id="artifact-management">
+  ### Gestion des artefacts
+</div>
+
+* Effectuer des requêtes sur les artefacts par version ou alias
+* Télécharger des points de contrôle du modèle par programmation
+* Suivre la traçabilité et les dépendances des artefacts
+
+<div id="sweep-analysis">
+  ### Analyse des balayages
+</div>
+
+* Accédez aux résultats des balayages et aux runs les plus performants
+* Exportez les résultats de la recherche d&#39;hyperparamètres
+* Analysez l&#39;importance des paramètres
+
+<div id="authentication">
+  ## Authentification
+</div>
+
+L’API publique utilise le même mécanisme d’authentification que le SDK Python. Vous pouvez vous authentifier de plusieurs manières :
+
+Utilisez la variable d’environnement `WANDB_API_KEY` pour définir votre clé API :
+
+```bash
+export WANDB_API_KEY=your_api_key
+```
+
+Transmettez directement la clé API lors de l’initialisation de la classe `Api` :
+
+```python
+api = Api(api_key="your_api_key")
+```
+
+Ou utilisez `wandb.login()` pour vous authentifier pour la session en cours :
+
+```python
+import wandb
+
+wandb.login()
+api = Api()
+```
+
+<div id="example-usage">
+  ## Exemple d’utilisation
+</div>
+
+<div id="download-an-artifact-by-name-and-alias">
+  ### Télécharger un artefact par son nom et son alias
+</div>
+
+L&#39;exemple suivant montre comment récupérer un artefact enregistré sur W&amp;B à partir de son nom et de son alias, puis en télécharger le contenu.
+
+```python
+import wandb
+
+api = wandb.Api()
+artifact = api.artifact("entity/project/artifact:alias")
+artifact.download()
+```
+
+<div id="download-an-artifact-from-a-registry">
+  ### Télécharger un artefact depuis un registre
+</div>
+
+L’exemple suivant montre comment récupérer un artefact lié à partir d’un registre W&amp;B
+
+```python
+import wandb
+
+REGISTRY = "<registry_name>"
+COLLECTION = "<collection_name>"
+VERSION = "<version>"
+
+api = wandb.Api()
+artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
+
+# Récupérer l'artefact
+fetched_artifact = api.artifact(name = artifact_name)
+
+# Télécharger l'artefact. Renvoie le chemin vers le contenu téléchargé
+downloaded_path = fetched_artifact.download()
+```
+
+<div id="query-wb-registry">
+  ### Effectuer une requête sur le registre W&amp;B
+</div>
+
+Utilisez des filtres de type MongoDB pour effectuer des requêtes sur les registres, collections et Artifacts de W&amp;B. L&#39;exemple suivant montre comment filtrer des collections par nom à l&#39;aide d&#39;une expression régulière.
+
+```python
+import wandb
+
+# Initialiser l'API wandb
+api = wandb.Api()
+
+# Filtrer toutes les collections, quel que soit le registre, qui
+# contiennent la chaîne `yolo` dans le nom de la collection
+collection_filters = {
+    "name": {"$regex": "yolo"}
+}
+
+# Renvoie un itérable de toutes les collections correspondant aux filtres
+collections = api.registries().collections(filter=collection_filters)
+```
+
+Pour en savoir plus sur la façon d’effectuer une requête sur un registre, une collection ou un artefact, voir [Trouver des éléments du registre](/fr/models/registry/search_registry).

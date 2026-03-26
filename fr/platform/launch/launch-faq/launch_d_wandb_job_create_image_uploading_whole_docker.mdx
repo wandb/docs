@@ -1,0 +1,21 @@
+---
+title: Est-ce que `wandb launch -d` ou `wandb job create image` téléverse un artefact Docker entier
+  au lieu de le récupérer depuis un registre ?
+---
+
+Non, la commande `wandb launch -d` ne téléverse pas d’images vers un registre. Téléversez les images vers un registre séparément. Suivez ces étapes :
+
+1. Effectuez le build d’une image.
+2. Poussez l’image vers un registre.
+
+Le flux de travail est le suivant :
+
+```bash
+docker build -t <repo-url>:<tag> .
+docker push <repo-url>:<tag>
+wandb launch -d <repo-url>:<tag>
+```
+
+L’agent de lancement démarre ensuite un job pointant vers le conteneur spécifié. Voir [Configuration avancée de l’agent](/fr/platform/launch/setup-agent-advanced/#agent-configuration) pour des exemples de configuration de l’accès de l’agent afin d’extraire des images depuis un registre de conteneurs.
+
+Pour Kubernetes, assurez-vous que les pods du cluster Kubernetes ont accès au registre vers lequel l’image est envoyée.

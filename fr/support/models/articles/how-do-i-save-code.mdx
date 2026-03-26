@@ -1,0 +1,23 @@
+---
+title: "Comment puis-je enregistrer le code ?‌"
+keywords: ["Artifacts"]
+---
+
+Utilisez `save_code=True` dans `wandb.init` pour enregistrer le script principal ou le notebook qui lance le run. Pour enregistrer tout le code d’un run, gérez les versions du code avec Artifacts. L’exemple suivant montre ce processus :
+
+```python
+code_artifact = wandb.Artifact(type="code")
+code_artifact.add_file("./train.py")
+wandb.log_artifact(code_artifact)
+```
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}

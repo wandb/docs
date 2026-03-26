@@ -1,0 +1,149 @@
+---
+title: "Classe : ScoreLogger"
+description: "Référence du SDK TypeScript"
+---
+
+[weave](../) / ScoreLogger
+
+ScoreLogger gère l’attribution des scores pour une seule prédiction.
+Renvoyé par `EvaluationLogger.logPrediction()`.
+
+`Exemple`
+
+```ts
+const pred = await ev.logPrediction(example, output);
+await pred.logScore("accuracy", 0.95);
+await pred.logScore("relevance", 0.8);
+await pred.finish(); // Finalise la prédiction
+```
+
+
+<div id="table-of-contents">
+  ## Table des matières
+</div>
+
+<div id="constructors">
+  ### Constructeurs
+</div>
+
+* [constructeur](./scorelogger#constructor)
+
+<div id="accessors">
+  ### Accesseurs
+</div>
+
+* [isFinishCalled](./scorelogger#isfinishcalled)
+
+<div id="methods">
+  ### Méthodes
+</div>
+
+* [finish](./scorelogger#finish)
+* [logScore](./scorelogger#logscore)
+
+## Constructeurs
+
+<div id="constructor">
+  ### constructeur
+</div>
+
+• **new ScoreLogger**(`evalLogger`): [`ScoreLogger`](./scorelogger)
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom          | Type                                     |
+| :----------- | :--------------------------------------- |
+| `evalLogger` | [`EvaluationLogger`](./evaluationlogger) |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+[`ScoreLogger`](./scorelogger)
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[evaluationLogger.ts:319](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L319)
+
+## Accesseurs
+
+<div id="isfinishcalled">
+  ### isFinishCalled
+</div>
+
+• `get` **isFinishCalled**(): `boolean`
+
+Vérifie si finish() a été appelée.
+Utilisé par EvaluationLogger pour détecter les prédictions non terminées.
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`boolean`
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[evaluationLogger.ts:349](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L349)
+
+## Méthodes
+
+<div id="finish">
+  ### finish
+</div>
+
+▸ **finish**(): `Promise`&lt;`void`&gt;
+
+Termine le processus de calcul du score pour la prédiction.
+Finalise l’appel à predict&#95;and&#95;score avec les scores accumulés.
+Met à jour les agrégats incrémentiels et libère la mémoire.
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[evaluationLogger.ts:451](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L451)
+
+***
+
+<div id="logscore">
+  ### logScore
+</div>
+
+▸ **logScore**(`scorerName`, `score`): `Promise`&lt;`void`&gt;
+
+Journalise un score pour cette prédiction.
+Crée un appel de scorer en tant qu&#39;enfant de predict&#95;and&#95;score.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom          | Type     | Description                                                 |
+| :----------- | :------- | :---------------------------------------------------------- |
+| `scorerName` | `string` | Nom du scorer (par exemple, « accuracy », « f1&#95;score ») |
+| `score`      | `any`    | Valeur du score                                             |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[evaluationLogger.ts:360](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L360)

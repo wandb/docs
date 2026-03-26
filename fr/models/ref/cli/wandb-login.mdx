@@ -1,0 +1,36 @@
+---
+title: "wandb login"
+---
+
+import WandbLogin from "/snippets/fr/_includes/cli/wandb-login.mdx";
+
+<WandbLogin />
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb login [KEY] [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Argument | Description                         | Requis |
+| :------- | :---------------------------------- | :----- |
+| `KEY`    | Aucune description n’est disponible | Non    |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option                 | Description                                                       |
+| :--------------------- | :---------------------------------------------------------------- |
+| `--cloud`              | Se connecter au cloud plutôt qu&#39;en local (par défaut : False) |
+| `--host`, `--base-url` | Se connecter à une instance spécifique de W&amp;B                 |
+| `--relogin`            | Forcer une nouvelle connexion si vous êtes déjà connecté.         |
+| `--verify`             | Vérifier les identifiants de connexion (par défaut : False)       |

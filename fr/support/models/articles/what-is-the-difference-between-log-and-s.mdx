@@ -1,0 +1,23 @@
+---
+title: "Quelle est la différence entre `.log()` et `.summary` ?"
+keywords: ["Graphiques"]
+---
+
+Le résumé s’affiche dans le tableau, tandis que le journal enregistre toutes les valeurs pour de futurs graphiques.
+
+Par exemple, appelez `run.log()` chaque fois que la précision change. Par défaut, `run.log()` met à jour la valeur du résumé, sauf si cette métrique est définie manuellement.
+
+Le nuage de points et les graphiques de coordonnées parallèles utilisent la valeur du résumé, tandis que le graphique en courbes affiche toutes les valeurs enregistrées par `run.log()`.
+
+Certains utilisateurs préfèrent définir le résumé manuellement afin qu’il reflète la précision optimale plutôt que la dernière précision enregistrée.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas ce contenu manuellement entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Graphiques](/fr/support/models/tags/charts)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

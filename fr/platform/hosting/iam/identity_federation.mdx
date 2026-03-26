@@ -1,0 +1,76 @@
+---
+title: Utiliser des identités fédérées avec le SDK
+description: "Utilisez la fédération d’identités avec des JSON Web Tokens (JWT) pour vous authentifier auprès du SDK et de la CLI W&B sans clés API."
+---
+
+Utilisez la fédération d’identités pour vous connecter avec les identifiants de votre organisation via le SDK W&amp;B. Si l’administrateur de votre organisation W&amp;B a configuré le SSO pour votre organisation, vous utilisez déjà les identifiants de votre organisation pour vous connecter à l’interface de l’application W&amp;B. En ce sens, la fédération d’identités s’apparente au SSO pour le SDK W&amp;B, mais en utilisant directement des JSON Web Tokens (JWT). Vous pouvez utiliser la fédération d’identités comme alternative aux clés API.
+
+Le [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523) constitue le fondement de la fédération d’identités avec le SDK.
+
+<Note>
+  La fédération d’identités est disponible en `Preview` pour les plans `Enterprise` sur tous les types de plateforme : SaaS Cloud, Cloud dédié et instances autogérées. Contactez votre équipe W&amp;B pour toute question.
+</Note>
+
+<Note>
+  Dans ce document, les termes `fournisseur d’identité` et `émetteur JWT` sont utilisés de manière interchangeable. Dans le contexte de cette fonctionnalité, ils désignent une seule et même chose.
+</Note>
+
+<div id="jwt-issuer-setup">
+  ## Configuration de l’émetteur JWT
+</div>
+
+Dans un premier temps, un administrateur de l’organisation doit configurer une fédération entre votre organisation W&amp;B et un émetteur JWT accessible publiquement.
+
+* Accédez à l’onglet **Paramètres** du tableau de bord de votre organisation
+* Dans la section **Authentification**, cliquez sur **Configurer l’émetteur JWT**
+* Ajoutez l’URL de l’émetteur JWT dans la zone de texte, puis cliquez sur **Créer**
+
+W&amp;B recherchera automatiquement un document de découverte OIDC à l’emplacement `${ISSUER_URL}/.well-known/openid-configuration`, puis essaiera de trouver le JSON Web Key Set (JWKS) à une URL appropriée dans le document de découverte. Le JWKS est utilisé pour la validation en temps réel des JWT afin de garantir qu’ils ont bien été émis par le fournisseur d’identité concerné.
+
+<div id="using-the-jwt-to-access-wb">
+  ## Utiliser le JWT pour accéder à W&amp;B
+</div>
+
+Une fois qu’un émetteur JWT a été configuré pour votre organisation W&amp;B, les utilisateurs peuvent commencer à accéder aux projets W&amp;B concernés à l’aide de JWT émis par ce fournisseur d’identité. Le mécanisme d’utilisation des JWT est le suivant :
+
+* Vous devez vous connecter au fournisseur d’identité à l’aide de l’un des mécanismes disponibles dans votre organisation. Certains fournisseurs sont accessibles de manière automatisée via une API ou un SDK, tandis que d’autres ne le sont que via une interface utilisateur dédiée. Contactez l’administrateur de votre organisation W&amp;B ou le propriétaire de l’émetteur JWT pour plus de détails.
+* Une fois le JWT récupéré après votre connexion à votre fournisseur d’identité, stockez-le dans un fichier à un emplacement sécurisé et configurez le chemin absolu de ce fichier dans la variable d’environnement `WANDB_IDENTITY_TOKEN_FILE`.
+* Accédez à votre projet W&amp;B à l’aide du SDK ou de la CLI W&amp;B. Le SDK ou la CLI devrait détecter automatiquement le JWT et l’échanger contre un jeton d’accès W&amp;B une fois le JWT validé. Le jeton d’accès W&amp;B sert à accéder aux API concernées pour prendre en charge vos flux de travail d’IA, c’est-à-dire pour journaliser des runs, des métriques, des artefacts, etc. Par défaut, le jeton d’accès est stocké à l’emplacement `~/.config/wandb/credentials.json`. Vous pouvez modifier cet emplacement en spécifiant la variable d’environnement `WANDB_CREDENTIALS_FILE`.
+
+<Note>
+  Les JWT sont conçus pour être des identifiants à courte durée de vie afin de remédier aux limites des identifiants à longue durée de vie, comme les clés API, les mots de passe, etc. Selon la durée d’expiration du JWT configurée dans votre fournisseur d’identité, vous devez actualiser régulièrement le JWT et vous assurer qu’il est stocké dans le fichier référencé par la variable d’environnement `WANDB_IDENTITY_TOKEN_FILE`.
+
+  Le jeton d’accès W&amp;B a également une durée d’expiration par défaut, après laquelle le SDK ou la CLI tentent automatiquement de le renouveler à l’aide de votre JWT. Si le JWT de l’utilisateur a lui aussi expiré à ce moment-là et n’a pas été actualisé, cela peut entraîner un échec d’authentification. Si possible, le mécanisme de récupération du JWT et de renouvellement après expiration doit être implémenté dans la charge de travail d’IA qui utilise le SDK ou la CLI W&amp;B.
+</Note>
+
+<div id="jwt-validation">
+  ### Validation du JWT
+</div>
+
+Dans le cadre du flux de travail consistant à échanger le JWT contre un jeton d’accès W&amp;B, puis à accéder à un projet, le JWT fait l’objet des validations suivantes :
+
+* La signature du JWT est vérifiée à l’aide du JWKS au niveau de l’organisation W&amp;B. Il s’agit de la première ligne de défense ; si cette vérification échoue, cela signifie qu’il y a un problème avec votre JWKS ou avec la façon dont votre JWT est signé.
+* Le claim `iss` du JWT doit être égal à l’URL de l’émetteur configurée au niveau de l’organisation.
+* Le claim `sub` du JWT doit être égal à l’adresse e-mail de l’utilisateur telle qu’elle est configurée dans l’organisation W&amp;B.
+* Le claim `aud` du JWT doit être égal au nom de l’organisation W&amp;B qui héberge le projet auquel vous accédez dans le cadre de votre flux de travail d’IA. Dans le cas des instances [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed), vous pouvez configurer la variable d’environnement `SKIP_AUDIENCE_VALIDATION` au niveau de l’instance sur `true` pour ignorer la validation du claim d’audience, ou utiliser `wandb` comme audience.
+* Le claim `exp` du JWT est vérifié pour déterminer si le jeton est valide ou s’il a expiré et doit être renouvelé.
+
+<div id="external-service-accounts">
+  ## Comptes de service externes
+</div>
+
+W&amp;B prend en charge depuis longtemps des comptes de service intégrés avec des clés API de longue durée. Grâce à la fonctionnalité de fédération d’identités pour le SDK et la CLI, vous pouvez également utiliser des comptes de service externes pouvant s’authentifier à l’aide de JWT, à condition que ceux-ci soient émis par le même émetteur que celui configuré au niveau de l’organisation. Un administrateur d’équipe peut configurer des comptes de service externes dans le périmètre d’une équipe, comme les comptes de service intégrés.
+
+Pour configurer un compte de service externe :
+
+* Accédez à l’onglet **Service Accounts** de votre équipe
+* Cliquez sur **New service account**
+* Saisissez un nom pour le compte de service, sélectionnez `Federated Identity` comme `Authentication Method`, indiquez un `Subject`, puis cliquez sur **Create**
+
+La claim `sub` dans le JWT du compte de service externe doit être identique à celle que l’administrateur d’équipe configure comme sujet dans l’onglet **Service Accounts** au niveau de l’équipe. Cette claim est vérifiée dans le cadre de la [validation du JWT](#jwt-validation). L’exigence relative à la claim `aud` est similaire à celle des JWT d’utilisateurs humains.
+
+Lors de l’[utilisation du JWT d’un compte de service externe pour accéder à W&amp;B](#using-the-jwt-to-access-wb), il est généralement plus simple d’automatiser le flux de travail afin de générer le JWT initial et de le renouveler en continu. Si vous souhaitez attribuer les runs enregistrés à l’aide d’un compte de service externe à un utilisateur humain, vous pouvez configurer les variables d’environnement `WANDB_USERNAME` ou `WANDB_USER_EMAIL` pour votre flux de travail d’IA, de la même manière que pour les comptes de service intégrés.
+
+<Note>
+  W&amp;B recommande d’utiliser une combinaison de comptes de service intégrés et externes pour vos charges de travail d’IA présentant différents niveaux de sensibilité des données, afin de trouver un équilibre entre flexibilité et simplicité.
+</Note>

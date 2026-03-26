@@ -105,7 +105,8 @@
   "locales": [
     "en",
     "ko",
-    "ja"
+    "ja",
+    "fr"
   ],
   "defaultLocale": "en",
   "$schema": "https://assets.gtx.dev/config-schema.json"

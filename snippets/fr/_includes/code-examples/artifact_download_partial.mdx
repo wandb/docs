@@ -1,0 +1,18 @@
+---
+title: Téléchargement partiel d’un artefact
+---
+
+```python
+"""
+Télécharge des fichiers ou sous-dossiers spécifiques depuis des artefacts W&B. La même
+logique s'applique aux artefacts externes.
+"""
+import wandb
+
+with wandb.init(project="<project>") as run:
+    # Indiquer l'artefact à utiliser. Le format est "nom:alias"
+    artifact = run.use_artifact("<artifact_name>:<alias>")
+
+    # Télécharger un fichier ou sous-dossier spécifique
+    artifact.download(path_prefix="<file_name>") # télécharge uniquement le fichier ou dossier spécifié
+```

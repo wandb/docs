@@ -1,0 +1,74 @@
+---
+title: "wandb beta sync"
+---
+
+{/*
+  Pour ajouter un contenu d’introduction à cette commande :
+  1. Créez le fichier snippet : /snippets/_includes/cli/wandb-beta-sync.mdx
+  2. Ajoutez votre contenu d’introduction dans ce fichier
+  3. Supprimez entièrement ce bloc de commentaires et conservez uniquement les deux lignes ci-dessous :
+
+  import WandbBetaSync from "/snippets/_includes/cli/wandb-beta-sync.mdx";
+
+  <WandbBetaSync/>
+
+  Le snippet sera détecté automatiquement lors de la prochaine régénération.
+  */}
+
+Téléverser les fichiers .wandb spécifiés par PATHS.
+
+Il s&#39;agit d&#39;une réimplémentation bêta de `wandb sync`. Elle n&#39;est pas encore complète sur le plan fonctionnel, son bon fonctionnement n&#39;est pas garanti et elle peut évoluer de manière non rétrocompatible dans n&#39;importe quelle version de wandb.
+
+PATHS peut inclure des fichiers .wandb, des répertoires de run contenant des fichiers .wandb et des répertoires &quot;wandb&quot; contenant des répertoires de run.
+
+Par exemple, pour synchroniser tous les runs d&#39;un répertoire :
+
+```bash
+wandb beta sync ./wandb
+```
+
+Pour synchroniser un run précis :
+
+```bash
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude
+```
+
+Ou, de façon équivalente :
+
+```bash
+wandb beta sync ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+```
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb beta sync [PATHS] [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Argument | Description                         | Requis |
+| :------- | :---------------------------------- | :----- |
+| `PATHS`  | Aucune description n’est disponible | Non    |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option            | Description                                                                                                                                                                                                                                                                                                                                                   |
+| :---------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--live`          | Synchronisez un run pendant qu&#39;il est toujours en cours d&#39;enregistrement. Cette opération peut rester bloquée si le processus qui génère le run s&#39;arrête de manière anormale. (par défaut : False)                                                                                                                                                |
+| `-e`, `--entity`  | Entité de remplacement à utiliser pour tous les runs synchronisés. (par défaut : )                                                                                                                                                                                                                                                                            |
+| `-p`, `--project` | Projet de remplacement à utiliser pour tous les runs synchronisés. (par défaut : )                                                                                                                                                                                                                                                                            |
+| `--id`            | ID de run de remplacement à utiliser pour tous les runs synchronisés. Si vous définissez ce paramètre et synchronisez plusieurs fichiers (avec la même entité et le même projet), les fichiers seront synchronisés dans l&#39;ordre de leur heure de début. Cette option est conçue pour synchroniser plusieurs fragments repris du même run. (par défaut : ) |
+| `--job-type`      | Type de job de remplacement à utiliser pour tous les runs synchronisés. (par défaut : )                                                                                                                                                                                                                                                                       |
+| `--replace-tags`  | Renommez les tags au format &#39;old1=new1,old2=new2&#39;. (par défaut : )                                                                                                                                                                                                                                                                                    |
+| `--skip-synced`   | Ignorez les runs déjà synchronisés avec cette commande. (par défaut : True)                                                                                                                                                                                                                                                                                   |
+| `--dry-run`       | Affichez ce qui se passerait sans rien téléverser. (par défaut : False)                                                                                                                                                                                                                                                                                       |
+| `-v`, `--verbose` | Affichez plus d&#39;informations. (par défaut : False)                                                                                                                                                                                                                                                                                                        |
+| `-n`              | Nombre maximal de runs à synchroniser simultanément. Lors de la synchronisation de plusieurs fichiers appartenant au même run, les fichiers sont synchronisés séquentiellement dans l&#39;ordre de leur heure de début, quel que soit ce paramètre. Cela se produit pour les runs repris ou lors de l&#39;utilisation du paramètre --id. (par défaut : 5)     |
