@@ -1,0 +1,33 @@
+---
+title: Ajouter une annotation au registre
+---
+
+```python
+"""
+Ajouter une description à une collection dans un registre.
+"""
+import wandb
+
+# Définir les détails du registre et de la collection
+collection_type = "<collection_type>"
+registry_name = "<registry_name>"
+collection_name = "<collection_name>"
+
+# Construire le chemin complet du registre
+registry_path = f"wandb-registry-{registry_name}/{collection_name}"
+
+# Initialiser l'API W&B
+api = wandb.Api()
+
+# Récupérer la collection d'artefacts
+collection = api.artifact_collection(
+  type_name = collection_type, 
+  name = registry_path
+  )
+
+# Ajouter une annotation de description à l'objet collection
+collection.description = "<description>"
+
+# Enregistrer la collection mise à jour
+collection.save()
+```

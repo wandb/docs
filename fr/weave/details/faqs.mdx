@@ -1,0 +1,171 @@
+---
+title: "FAQ"
+description: "Trouvez des réponses aux questions fréquentes sur le traçage Weave, la gestion des données, les intégrations et le dépannage."
+---
+
+Cette page répond aux questions fréquentes sur le traçage Weave.
+
+<div id="what-information-does-weave-capture-for-a-function">
+  ## Quelles informations Weave capture-t-il pour une fonction ?
+</div>
+
+Une fonction peut être désignée comme une [Op](/fr/weave/guides/tracking/ops) Weave, soit manuellement à l’aide d’un décorateur, soit automatiquement dans le cadre d’une intégration activée. Lorsqu’une Op s’exécute, Weave capture des informations détaillées pour faciliter votre analyse. Weave vous offre un contrôle très fin sur ce qui est enregistré si vous souhaitez un comportement différent de celui par défaut ; voir ci-dessous quelques exemples de configuration.
+
+* **Capture du code** - Weave capture une représentation du code source de l’Op. Cela inclut les commentaires en ligne, ainsi que la capture récursive de la valeur des variables ou du code source des fonctions non-Op appelées. La capture du code vous permet de voir ce que faisait votre fonction, même si la modification n’a pas été enregistrée dans votre système de contrôle de version. La capture du code est utilisée dans le cadre de la gestion des versions des Op, ce qui vous permet de comprendre l’évolution de votre code au fil du temps. Si la capture du code est désactivée, une valeur de hachage sera utilisée à la place.
+
+* **Nom de la fonction, entrées et sorties** - Le nom de la fonction est capturé, mais peut être [redéfini](/fr/weave/guides/tracking/tracing/#call-display-name). Une représentation des entrées et des sorties basée sur JSON est capturée. Pour les entrées, le nom de l’argument est capturé en plus de sa valeur. Weave vous permet de [personnaliser la journalisation](/fr/weave/guides/tracking/ops#customize-logged-inputs-and-outputs) des entrées et des sorties : vous pouvez spécifier une fonction pour ajouter, supprimer ou modifier ce qui est enregistré.
+
+* **Hiérarchie des appels d’Op** - Lorsqu’une Op est appelée dans le contexte de l’exécution d’une autre Op, cette relation est capturée, même dans les cas
+  où une fonction intermédiaire non-Op est en cours d’exécution. Cette relation entre les appels d’Op est utilisée pour fournir une « arborescence de trace ».
+
+* **Statut d’exécution et exceptions** - Weave suit si une fonction est en cours d’exécution, terminée ou en erreur. Si une exception se produit pendant l’exécution, le message d’erreur et une trace de pile sont enregistrés.
+
+* **Informations système** - Weave peut capturer des informations sur le système d’exploitation sur lequel le client s’exécute, y compris des informations détaillées sur sa version.
+
+* **Informations sur le client** - Weave peut capturer des informations sur le client Weave lui-même, telles que le langage de programmation utilisé ainsi que des informations détaillées sur la version de ce langage et de la bibliothèque cliente Weave.
+
+* **Durée** - L’heure de début et de fin de l’exécution est capturée et utilisée également pour les calculs de latence.
+
+* **Utilisation des jetons** - Dans certaines [intégrations](/fr/weave/guides/integrations/), les volumes d’utilisation des jetons LLM peuvent être enregistrés automatiquement.
+
+* **Contexte utilisateur et run** - La journalisation est associée à un compte utilisateur W&amp;B. Celui-ci est capturé avec tout contexte de run wandb.
+
+* **Informations dérivées** - Weave peut calculer des informations dérivées à partir des informations brutes enregistrées ; par exemple, une estimation des coûts peut être calculée en fonction de l’utilisation des jetons et du modèle utilisé. Weave agrège également certaines informations sur l’ensemble des appels.
+
+* **Informations supplémentaires de votre choix** - Vous pouvez choisir d’enregistrer des [métadonnées personnalisées avec `weave.attributes`](/fr/weave/guides/core-types/models#track-production-calls) dans le cadre de votre appel ou d’associer un [feedback](/fr/weave/guides/tracking/feedback#add-feedback-to-a-call) à un appel.
+
+<div id="how-can-i-disable-code-capture">
+  ## Comment puis-je désactiver la capture du code ?
+</div>
+
+Vous pouvez désactiver la capture du code pendant l’initialisation du client Weave : `weave.init("entity/project", settings={"capture_code": False})`.
+Vous pouvez aussi utiliser la [variable d’environnement](/fr/weave/guides/core-types/env-vars) `WEAVE_CAPTURE_CODE=false`.
+
+<div id="how-can-i-disable-system-information-capture">
+  ## Comment puis-je désactiver la capture des informations système ?
+</div>
+
+Vous pouvez désactiver la capture des informations système pendant l’initialisation du client Weave : `weave.init("entity/project", settings={"capture_system_info": False})`.
+
+<div id="how-can-i-disable-client-information-capture">
+  ## Comment puis-je désactiver la capture des informations client ?
+</div>
+
+Vous pouvez désactiver la capture des informations client pendant l’initialisation du client Weave : `weave.init("entity/project", settings={"capture_client_info": False})`.
+
+<div id="how-do-i-render-python-datetime-values-in-the-ui">
+  ## Comment puis-je afficher des valeurs `datetime` Python dans l’interface utilisateur ?
+</div>
+
+Utilisez `datetime.datetime` de Python (avec les informations de fuseau horaire), puis publiez l’objet avec `weave.publish(...)`. Weave reconnaît ce type et en effectue le rendu sous forme d’horodatage.
+
+<div id="how-do-i-render-markdown-in-the-ui">
+  ## Comment puis-je afficher du Markdown dans l’interface utilisateur ?
+</div>
+
+Encapsulez votre chaîne avec `weave.Markdown(...)` avant de l’enregistrer, puis utilisez `weave.publish(...)` pour la stocker. Weave utilise le type de l’objet pour déterminer le rendu, et `weave.Markdown` correspond à un moteur de rendu reconnu par l’interface utilisateur. La valeur s’affichera dans l’interface utilisateur sous la forme d’un objet Markdown mis en forme. Pour un exemple de code complet, voir [Affichage des appels](/fr/weave/guides/tracking/tracing#viewing-calls).
+
+<div id="will-weave-affect-my-functions-execution-speed">
+  ## Weave affectera-t-il la vitesse d’exécution de ma fonction ?
+</div>
+
+La surcharge liée à la journalisation de Weave est généralement négligeable par rapport à un appel à un LLM.
+Pour minimiser l’impact de Weave sur la vitesse d’exécution de votre op, son activité réseau s’effectue dans un thread d’arrière-plan.
+Lorsque votre programme se termine, il peut sembler se mettre en pause pendant que les données restantes en file d’attente sont enregistrées.
+
+<div id="how-is-weave-data-ingestion-calculated">
+  ## Comment l’ingestion des données dans Weave est-elle calculée ?
+</div>
+
+Nous définissons les octets ingérés comme les octets que nous recevons, traitons et stockons pour votre compte. Cela inclut les métadonnées de trace, les entrées/sorties des LLM et toute autre information que vous consignez explicitement dans Weave, mais pas la surcharge de communication (par exemple, les en-têtes HTTP) ni toute autre donnée qui n’est pas stockée à long terme. Nous ne comptons les octets comme « ingérés » qu’une seule fois, au moment où ils sont reçus et stockés.
+
+<div id="what-is-pairwise-evaluation-and-how-do-i-do-it">
+  ## Qu’est-ce que l’évaluation par paires et comment puis-je la mettre en œuvre ?
+</div>
+
+Lorsque vous [évaluez](/fr/weave/guides/evaluation/scorers) des modèles dans une [évaluation](/fr/weave/guides/core-types/evaluations) Weave, les métriques à valeur absolue (par ex. `9/10` pour Model A et `8/10` pour Model B) sont généralement plus difficiles à attribuer que les métriques relatives (par ex. Model A est plus performant que Model B). L’*évaluation par paires* vous permet de comparer les sorties de deux modèles en les classant l’une par rapport à l’autre. Cette approche est particulièrement utile lorsque vous souhaitez déterminer quel modèle est le plus performant pour des tâches subjectives telles que la génération de texte, le résumé ou les questions-réponses. Avec l’évaluation par paires, vous pouvez obtenir un classement relatif des préférences qui indique quel modèle est le meilleur pour des entrées spécifiques.
+
+<Warning>
+  Cette approche est une solution de contournement et pourra évoluer dans de futures versions. Nous travaillons activement sur une API plus robuste pour prendre en charge les évaluations par paires. Consultez les mises à jour à venir !
+</Warning>
+
+L’exemple de code suivant montre comment implémenter une évaluation par paires dans Weave en créant un [scorer basé sur une classe](/fr/weave/guides/evaluation/scorers#class-based-scorers) appelé `PreferenceScorer`. Le `PreferenceScorer` compare deux modèles, `ModelA` et `ModelB`, et renvoie un score relatif pour les sorties des modèles, basé sur des indices explicites dans le texte d’entrée.
+
+```python lines
+from weave import Model, Evaluation, Scorer, Dataset
+from weave.flow.model import ApplyModelError, apply_model_async
+
+class ModelA(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model A" in input_text:
+            return {"response": "This is a great answer from Model A"}
+        return {"response": "Meh, whatever"}
+
+class ModelB(Model):
+    @weave.op
+    def predict(self, input_text: str):
+        if "Prefer model B" in input_text:
+            return {"response": "This is a thoughtful answer from Model B"}
+        return {"response": "I don't know"}
+
+class PreferenceScorer(Scorer):
+    @weave.op
+    async def _get_other_model_output(self, example: dict) -> Any:
+        """Obtenir la sortie de l'autre modèle pour comparaison.
+        Arguments :
+            example: Les données d'exemple d'entrée à faire passer par l'autre modèle
+        Retourne :
+            La sortie de l'autre modèle
+        """
+
+        other_model_result = await apply_model_async(
+            self.other_model,
+            example,
+            None,
+        )
+
+        if isinstance(other_model_result, ApplyModelError):
+            return None
+
+        return other_model_result.model_output
+
+    @weave.op
+    async def score(self, output: dict, input_text: str) -> dict:
+        """Comparer la sortie du modèle principal avec l'autre modèle.
+        Arguments :
+            output (dict): La sortie du modèle principal.
+            input_text (str): Le texte d'entrée utilisé pour générer les sorties.
+        Retourne :
+            dict: Un dictionnaire plat contenant le résultat de la comparaison et la raison.
+        """
+        other_output = await self._get_other_model_output(
+            {"input_text": input_text}
+        )
+        if other_output is None:
+            return {"primary_is_better": False, "reason": "L'autre modèle a échoué"}
+
+        if "Prefer model A" in input_text:
+            primary_is_better = True
+            reason = "Le modèle A a fourni une excellente réponse"
+        else:
+            primary_is_better = False
+            reason = "Le modèle B est préféré pour ce type de question"
+
+        return {"primary_is_better": primary_is_better, "reason": reason}
+
+dataset = Dataset(
+    rows=[
+        {"input_text": "Prefer model A: Question 1"},  # Le modèle A gagne
+        {"input_text": "Prefer model A: Question 2"},  # Le modèle A gagne
+        {"input_text": "Prefer model B: Question 3"},  # Le modèle B gagne
+        {"input_text": "Prefer model B: Question 4"},  # Le modèle B gagne
+    ]
+)
+
+model_a = ModelA()
+model_b = ModelB()
+pref_scorer = PreferenceScorer(other_model=model_b)
+evaluation = Evaluation(dataset=dataset, scorers=[pref_scorer])
+evaluation.evaluate(model_a)
+```

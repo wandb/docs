@@ -1,0 +1,157 @@
+---
+title: "Évaluations de jeux de données HuggingFace"
+description: "Découvrez comment utiliser les évaluations de jeux de données HuggingFace avec W&B Weave"
+---
+
+<Note>
+  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
+
+  * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/hf_dataset_evals.ipynb)
+  * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/hf_dataset_evals.ipynb)
+</Note>
+
+<div id="using-huggingface-datasets-in-evaluations-with-preprocess_model_input">
+  # Utiliser HuggingFace Datasets pour les évaluations avec `preprocess_model_input`
+</div>
+
+<div id="note-this-is-a-temporary-workaround">
+  ## Remarque : il s’agit d’une solution de contournement temporaire
+</div>
+
+> Ce guide présente une solution de contournement pour utiliser HuggingFace Datasets dans des évaluations Weave.<br /><br />
+> Nous travaillons activement sur des intégrations plus fluides qui simplifieront ce processus.
+> Bien que cette approche fonctionne, attendez-vous à des améliorations et à des mises à jour prochaines qui faciliteront l’utilisation de jeux de données externes.
+
+<div id="setup-and-imports">
+  ## Configuration et importations
+</div>
+
+Tout d&#39;abord, nous initialisons Weave et nous nous connectons à Weights &amp; Biases pour suivre les expériences.
+
+```python lines
+!pip install datasets wandb weave
+python
+# Initialiser les variables
+HUGGINGFACE_DATASET = "wandb/ragbench-test-sample"
+WANDB_KEY = ""
+WEAVE_TEAM = ""
+WEAVE_PROJECT = ""
+
+# Initialiser weave et les bibliothèques requises
+import asyncio
+
+import nest_asyncio
+import wandb
+from datasets import load_dataset
+
+import weave
+from weave import Evaluation
+
+# Se connecter à wandb et initialiser weave
+wandb.login(key=WANDB_KEY)
+client = weave.init(f"{WEAVE_TEAM}/{WEAVE_PROJECT}")
+
+# Appliquer nest_asyncio pour autoriser les boucles d'événements imbriquées (nécessaire pour certains environnements notebook)
+nest_asyncio.apply()
+```
+
+
+<div id="load-and-prepare-huggingface-dataset">
+  ## Charger et préparer le jeu de données HuggingFace
+</div>
+
+* Nous chargeons un jeu de données HuggingFace.
+* Créer un mappage d’index pour référencer les lignes du jeu de données.
+* Cette approche par index nous permet de conserver des références au jeu de données original.
+
+> **Remarque :**<br />
+> Dans l’index, nous encodons `hf_hub_name` avec `hf_id` afin de garantir que chaque ligne possède un ID unique.
+> Cette empreinte unique est utilisée pour le suivi et le référencement d’entrées spécifiques du jeu de données pendant les évaluations.
+
+```python lines
+# Charger le jeu de données HuggingFace
+ds = load_dataset(HUGGINGFACE_DATASET)
+row_count = ds["train"].num_rows
+
+# Créer un mappage d'index pour le jeu de données
+# Cela crée une liste de dictionnaires avec les indices du jeu de données HF
+# Exemple : [{"hf_id": 0}, {"hf_id": 1}, {"hf_id": 2}, ...]
+hf_index = [{"hf_id": i, "hf_hub_name": HUGGINGFACE_DATASET} for i in range(row_count)]
+```
+
+
+<div id="define-processing-and-evaluation-functions">
+  ## Définir les fonctions de traitement et d’évaluation
+</div>
+
+<div id="processing-pipeline">
+  ### Pipeline de traitement
+</div>
+
+* `preprocess_example` : Transforme la référence d’index en données effectives nécessaires à l’évaluation
+* `hf_eval` : Définit comment évaluer les sorties du modèle
+* `function_to_evaluate` : La fonction ou le modèle effectivement évalué
+
+```python lines
+@weave.op()
+def preprocess_example(example):
+    """
+    Prétraite chaque exemple avant l'évaluation.
+    Arguments :
+        example: dict contenant hf_id
+    Retourne :
+        dict contenant le prompt du jeu de données HF
+    """
+    hf_row = ds["train"][example["hf_id"]]
+    return {"prompt": hf_row["question"], "answer": hf_row["response"]}
+
+@weave.op()
+def hf_eval(hf_id: int, output: dict) -> dict:
+    """
+    Fonction de score pour évaluer les sorties du modèle.
+    Arguments :
+        hf_id: Index dans le jeu de données HF
+        output: La sortie du modèle à évaluer
+    Retourne :
+        dict contenant les scores d'évaluation
+    """
+    hf_row = ds["train"][hf_id]
+    return {"scorer_value": True}
+
+@weave.op()
+def function_to_evaluate(prompt: str):
+    """
+    La fonction qui sera évaluée (par exemple, votre modèle ou pipeline).
+    Arguments :
+        prompt: Prompt d'entrée issu du jeu de données
+    Retourne :
+        dict contenant la sortie du modèle
+    """
+    return {"generated_text": "testing "}
+```
+
+
+<div id="create-and-run-evaluation">
+  ### Créer et exécuter une évaluation
+</div>
+
+* Pour chaque index de hf&#95;index :
+  1. `preprocess_example` récupère les données correspondantes dans le jeu de données HF.
+  2. Les données prétraitées sont transmises à `function_to_evaluate`.
+  3. La sortie reçoit un score à l’aide de `hf_eval`.
+  4. Les résultats sont suivis dans Weave.
+
+```python lines
+# Créer l'objet d'évaluation
+evaluation = Evaluation(
+    dataset=hf_index,  # Utiliser notre mappage d'index
+    scorers=[hf_eval],  # Liste des fonctions de score
+    preprocess_model_input=preprocess_example,  # Fonction pour préparer les entrées
+)
+
+# Exécuter l'évaluation de manière asynchrone
+async def main():
+    await evaluation.evaluate(function_to_evaluate)
+
+asyncio.run(main())
+```

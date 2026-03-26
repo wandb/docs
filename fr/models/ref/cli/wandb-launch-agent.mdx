@@ -1,0 +1,41 @@
+---
+title: "wandb launch-agent"
+---
+
+{/*
+  Pour ajouter un contenu d’introduction à cette commande :
+  1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-launch-agent.mdx
+  2. Ajoutez votre contenu d’introduction dans ce fichier
+  3. Supprimez l’intégralité de ce bloc de commentaire et ne conservez que les deux lignes ci-dessous :
+
+  import WandbLaunchAgent from "/snippets/_includes/cli/wandb-launch-agent.mdx";
+
+  <WandbLaunchAgent/>
+
+  Le snippet sera détecté automatiquement lors de la prochaine régénération.
+  */}
+
+Exécutez un agent de lancement W&amp;B.
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb launch-agent [OPTIONS]
+```
+
+
+<div id="options">
+  ## Options
+</div>
+
+| Option             | Description                                                                                                                                                                                                                              |
+| :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--queue`, `-q`    | Nom de la file d&#39;attente que l&#39;agent doit surveiller. Plusieurs indicateurs `-q` sont pris en charge.                                                                                                                            |
+| `--entity`, `-e`   | L&#39;entité à utiliser. Par défaut, l&#39;utilisateur actuellement connecté est utilisé.                                                                                                                                                |
+| `--log-file`, `-l` | Destination des journaux internes de l&#39;agent. Utilisez `-` pour la sortie standard. Par défaut, tous les journaux des agents sont écrits dans `debug.log` de votre sous-répertoire `wandb/` ou dans `WANDB_DIR` s&#39;il est défini. |
+| `--max-jobs`, `-j` | Nombre maximal de jobs Launch que cet agent peut exécuter en parallèle. Valeur par défaut : 1. Définissez `-1` pour supprimer la limite supérieure.                                                                                      |
+| `--config`, `-c`   | Chemin vers le fichier YAML de configuration de l&#39;agent à utiliser                                                                                                                                                                   |
+| `--verbose`, `-v`  | Affiche une sortie détaillée (par défaut : 0)                                                                                                                                                                                            |

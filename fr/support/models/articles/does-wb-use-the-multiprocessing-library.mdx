@@ -1,0 +1,24 @@
+---
+title: "W&B utilise-t-il la bibliothèque `multiprocessing` ?"
+keywords: ["Experiments"]
+---
+
+Oui, W&amp;B utilise la bibliothèque `multiprocessing`. Un message d’erreur comme celui-ci indique un problème potentiel :
+
+```
+An attempt has been made to start a new process before the current process 
+has finished its bootstrapping phase.
+```
+
+Pour résoudre ce problème, ajoutez une protection du point d’entrée avec `if __name__ == "__main__":`. Cette protection est nécessaire lorsque vous lancez W&amp;B directement depuis le script.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par le script scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : onglets de badge ---- */}

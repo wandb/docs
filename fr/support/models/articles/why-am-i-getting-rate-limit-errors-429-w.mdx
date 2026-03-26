@@ -1,0 +1,58 @@
+---
+title: "Pourquoi est-ce que j’obtiens des erreurs de limite de débit (429) avec W&B Inference ?"
+keywords: ["Inférence"]
+---
+
+Les erreurs de limite de débit (429) surviennent lorsque vous dépassez les limites de concurrence.
+
+**Erreur :** &quot;Limite de concurrence atteinte pour les requêtes&quot;
+
+**Solution :**
+
+* Réduisez le nombre de requêtes parallèles
+* Ajoutez des délais entre les requêtes
+* Mettez en place un backoff exponentiel
+* Remarque : les limites de débit s’appliquent à chaque projet W&amp;B
+
+<div id="best-practices-to-avoid-rate-limits">
+  ## Bonnes pratiques pour éviter les limites de débit
+</div>
+
+1. **Mettez en place une logique de nouvelle tentative avec backoff exponentiel :**
+   ```python
+   import time
+
+   def retry_with_backoff(func, max_retries=3):
+       for i in range(max_retries):
+           try:
+               return func()
+           except Exception as e:
+               if "429" in str(e) and i < max_retries - 1:
+                   time.sleep(2 ** i)
+               else:
+                   raise
+   ```
+
+2. **Utilisez le traitement par lots plutôt que des requêtes parallèles**
+
+3. **Surveillez votre utilisation sur la page de facturation W&amp;B**
+
+<div id="default-spending-caps">
+  ## Plafonds de dépenses par défaut
+</div>
+
+* **Comptes Pro :** 6 000 $/mois
+* **Comptes Enterprise :** 700 000 $/an
+
+Contactez votre responsable de compte ou l’assistance pour ajuster les limites.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Inférence](/fr/support/models/tags/inference)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

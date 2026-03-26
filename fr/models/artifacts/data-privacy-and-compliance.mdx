@@ -1,0 +1,23 @@
+---
+description: Découvrez où les fichiers W&B sont stockés par défaut. Découvrez comment enregistrer et stocker
+  des informations sensibles.
+title: Confidentialité et conformité des données des artefacts
+---
+
+Les fichiers sont téléversés vers un bucket Google Cloud géré par W&amp;B lorsque vous enregistrez des artefacts. Le contenu du bucket est chiffré à la fois au repos et en transit. Les fichiers d&#39;artefact ne sont visibles que par les utilisateurs qui ont accès au projet correspondant.
+
+<Frame>
+  <img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="Diagramme GCS client-serveur W&B" />
+</Frame>
+
+Lorsque vous supprimez une version d&#39;un artefact, elle est marquée pour une suppression logique dans notre base de données et retirée de vos coûts de stockage. Lorsque vous supprimez un artefact entier, il est placé en file d&#39;attente pour une suppression définitive et l&#39;ensemble de son contenu est supprimé du bucket W&amp;B. Si vous avez des besoins spécifiques concernant la suppression de fichiers, contactez [l&#39;assistance client](mailto:support@wandb.com).
+
+Par défaut, les artefacts supprimés sont conservés pendant 7 jours et peuvent être restaurés durant cette période, ce délai étant configurable pour le Cloud dédié. Pour en savoir plus sur la conservation des données, voir [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) ou [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy).
+
+Pour les jeux de données sensibles qui ne peuvent pas être stockés dans un environnement mutualisé, vous pouvez utiliser [W&amp;B Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou des [artefacts de référence](/fr/models/artifacts/track-external-files). Les artefacts de référence référencent des buckets privés sans envoyer le contenu des fichiers à W&amp;B. Les artefacts de référence conservent des liens vers des fichiers dans vos buckets ou sur vos serveurs. W&amp;B ne conserve que les métadonnées associées aux fichiers, pas les fichiers eux-mêmes.
+
+<Frame>
+  <img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="Diagramme cloud client-serveur W&B" />
+</Frame>
+
+Pour plus d&#39;informations sur les options de déploiement, voir [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed). Pour discuter de vos exigences spécifiques, contactez [contact@wandb.com](mailto:contact@wandb.com).

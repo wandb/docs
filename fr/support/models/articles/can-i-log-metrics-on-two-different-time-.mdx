@@ -1,0 +1,30 @@
+---
+title: "Puis-je consigner des métriques sur deux échelles de temps différentes ?"
+keywords: ["Experiments", "Métriques"]
+---
+
+Par exemple, je veux consigner la précision d&#39;entraînement par lot et la précision de validation par époque.
+
+Oui, consignez des indices comme `batch` et `epoch` avec vos métriques. Utilisez `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` à une étape et `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` à une autre. Dans l&#39;interface utilisateur, définissez la valeur souhaitée comme axe x pour chaque graphique. Pour définir un axe x par défaut pour un indice spécifique, utilisez [Run.define&#95;metric()](/fr/models/ref/python/experiments/run#define_metric). Pour l&#39;exemple donné, utilisez le code suivant :
+
+```python
+import wandb
+
+with wandb.init() as run:
+   run.define_metric("batch")
+   run.define_metric("epoch")
+
+   run.define_metric("train_accuracy", step_metric="batch")
+   run.define_metric("val_accuracy", step_metric="epoch")
+```
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Généré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés de l’en-tête.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}

@@ -1,0 +1,64 @@
+---
+description: "Ajustez finement les modèles Cohere avec le suivi des expériences W&B pour journaliser les métriques d'entraînement et surveiller les performances du modèle."
+title: ajustement fin Cohere
+---
+
+Avec W&amp;B, vous pouvez journaliser les métriques et la configuration de Fine-tuning de votre modèle Cohere afin d’analyser et de comprendre les performances de vos modèles, puis de partager les résultats avec vos collègues.
+
+Ce [guide de Cohere](https://docs.cohere.com/page/convfinqa-finetuning-wandb) contient un exemple complet expliquant comment démarrer un Fine-tuning, et vous trouverez la [documentation de l’API Cohere ici](https://docs.cohere.com/reference/createfinetunedmodel#request.body.settings.wandb)
+
+<div id="log-your-cohere-fine-tuning-results">
+  ## Journalisez les résultats de votre Fine-tuning Cohere
+</div>
+
+Pour ajouter la journalisation de l&#39;ajustement fin Cohere à votre espace de travail W&amp;B :
+
+1. Créez un `WandbConfig` avec votre clé API W&amp;B, votre `entity` W&amp;B et le nom du `project`. Créez une clé API à l&#39;adresse https://wandb.ai/settings
+
+2. Passez cette configuration à l&#39;objet `FinetunedModel`, avec le nom de votre modèle, le jeu de données et les hyperparamètres, pour lancer votre run de Fine-tuning.
+
+   ```python
+   from cohere.finetuning import WandbConfig, FinetunedModel
+
+   # créez une configuration avec vos détails W&B
+   wandb_ft_config = WandbConfig(
+       api_key="<wandb_api_key>",
+       entity="my-entity", # doit être une entité valide associée à la clé API fournie
+       project="cohere-ft",
+   )
+
+   ...  # configurez vos jeux de données et hyperparamètres
+
+   # démarrez un run d'ajustement fin sur Cohere
+   cmd_r_finetune = co.finetuning.create_finetuned_model(
+     request=FinetunedModel(
+       name="command-r-ft",
+       settings=Settings(
+         base_model=...
+         dataset_id=...
+         hyperparameters=...
+         wandb=wandb_ft_config  # passez votre configuration W&B ici
+       ),
+     ),
+   )
+   ```
+
+3. Consultez les métriques d&#39;entraînement et de validation du Fine-tuning de votre modèle, ainsi que ses hyperparamètres, dans le projet W&amp;B que vous avez créé.
+
+   <Frame>
+     <img src="/images/integrations/cohere_ft.png" alt="tableau de bord de l'ajustement fin Cohere" />
+   </Frame>
+
+<div id="organize-runs">
+  ## Organiser les runs
+</div>
+
+Vos runs W&amp;B sont automatiquement organisés et peuvent être filtrés ou triés en fonction de n’importe quel paramètre de configuration, comme le type de job, le modèle de base, le taux d’apprentissage ou tout autre hyperparamètre.
+
+De plus, vous pouvez renommer vos runs, ajouter des notes ou créer des tags pour les regrouper.
+
+<div id="resources">
+  ## Ressources
+</div>
+
+* [Exemple de Fine-tuning Cohere](https://github.com/cohere-ai/notebooks/blob/kkt_ft_cookbooks/notebooks/finetuning/convfinqa_finetuning_wandb.ipynb)

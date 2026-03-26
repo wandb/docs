@@ -1,0 +1,136 @@
+---
+title: Hugging Face
+description: "Visualisez et suivez les performances des modèles Hugging Face avec W&B, avec journalisation des hyperparamètres, des métriques et de l’utilisation du GPU."
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/huggingface/Huggingface_wandb.ipynb" />
+
+Visualisez rapidement les performances de votre modèle [Hugging Face](https://github.com/huggingface/transformers) grâce à une intégration transparente avec [W&amp;B](https://wandb.ai/site).
+
+Comparez les hyperparamètres, les métriques de sortie et les statistiques système, comme l’utilisation du GPU, entre vos modèles.
+
+<div id="why-should-i-use-wb">
+  ## Pourquoi utiliser W&amp;B ?
+</div>
+
+<Frame>
+  <img src="/images/tutorials/huggingface-why.png" alt="Avantages de l’utilisation de W&B" />
+</Frame>
+
+* **Tableau de bord unifié** : référentiel central pour toutes les métriques et prédictions de votre modèle
+* **Léger** : aucune modification du code n’est nécessaire pour intégrer Hugging Face
+* **Accessible** : gratuit pour les particuliers et les équipes universitaires
+* **Sécurisé** : tous les projets sont privés par défaut
+* **Fiable** : utilisé par des équipes de machine learning chez OpenAI, Toyota, Lyft, entre autres
+
+Voyez W&amp;B comme le GitHub des modèles de machine learning : enregistrez vos expériences de machine learning dans votre tableau de bord privé et hébergé. Expérimentez rapidement, avec l’assurance que toutes les versions de vos modèles sont sauvegardées, quel que soit l’endroit où vous exécutez vos scripts.
+
+Les intégrations légères de W&amp;B fonctionnent avec n’importe quel script Python, et il vous suffit de vous inscrire à un compte W&amp;B gratuit pour commencer à suivre et visualiser vos modèles.
+
+Dans le dépôt Hugging Face Transformers, nous avons instrumenté le Trainer pour journaliser automatiquement les métriques d’entraînement et d’évaluation dans W&amp;B à chaque étape de journalisation.
+
+Voici une présentation détaillée du fonctionnement de l’intégration : [Rapport Hugging Face + W&amp;B](https://app.wandb.ai/jxmorris12/huggingface-demo/reports/Train-a-model-with-Hugging-Face-and-Weights-%26-Biases--VmlldzoxMDE2MTU).
+
+<div id="install-import-and-log-in">
+  ## Installer, importer et se connecter
+</div>
+
+Installez les bibliothèques Hugging Face et W&amp;B, ainsi que le jeu de données GLUE et le script d’entraînement pour ce tutoriel.
+
+* [Hugging Face Transformers](https://github.com/huggingface/transformers) : Modèles et jeux de données pour le traitement du langage naturel
+* [W&amp;B](/fr/) : Suivi des expériences et visualisation
+* [GLUE dataset](https://gluebenchmark.com/) : Un jeu de données de référence pour la compréhension du langage
+* [GLUE script](https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py) : Script d’entraînement pour la classification de séquences
+
+```notebook
+!pip install datasets wandb evaluate accelerate -qU
+!wget https://raw.githubusercontent.com/huggingface/transformers/refs/heads/main/examples/pytorch/text-classification/run_glue.py
+```
+
+```notebook
+# le script run_glue.py nécessite la version dev de transformers
+!pip install -q git+https://github.com/huggingface/transformers
+```
+
+Avant de continuer, [inscrivez-vous pour obtenir un compte gratuit](https://app.wandb.ai/login?signup=true).
+
+<div id="put-in-your-api-key">
+  ## Saisissez votre clé API
+</div>
+
+Une fois inscrit, exécutez la cellule suivante, puis cliquez sur le lien pour obtenir votre clé API et authentifier ce notebook.
+
+```python
+import wandb
+wandb.login()
+```
+
+Vous pouvez facultativement définir des variables d’environnement pour personnaliser la journalisation W&amp;B. Voir le [guide d’intégration Hugging Face](/fr/models/integrations/huggingface/).
+
+```python
+# Facultatif : journaliser les gradients et les paramètres
+%env WANDB_WATCH=all
+```
+
+<div id="train-the-model">
+  ## Entraîner le modèle
+</div>
+
+Ensuite, appelez le script d&#39;entraînement téléchargé [run&#95;glue.py](https://huggingface.co/transformers/examples.html#glue) et voyez l&#39;entraînement être automatiquement suivi dans le tableau de bord W&amp;B. Ce script affine BERT sur le Microsoft Research Paraphrase Corpus — des paires de phrases accompagnées d&#39;annotations humaines indiquant si elles sont sémantiquement équivalentes.
+
+```python
+%env WANDB_PROJECT=huggingface-demo
+%env TASK_NAME=MRPC
+
+!python run_glue.py \
+  --model_name_or_path bert-base-uncased \
+  --task_name $TASK_NAME \
+  --do_train \
+  --do_eval \
+  --max_seq_length 256 \
+  --per_device_train_batch_size 32 \
+  --learning_rate 2e-4 \
+  --num_train_epochs 3 \
+  --output_dir /tmp/$TASK_NAME/ \
+  --overwrite_output_dir \
+  --logging_steps 50
+```
+
+<div id="visualize-results-in-dashboard">
+  ## Visualiser les résultats dans le tableau de bord
+</div>
+
+Cliquez sur le lien affiché ci-dessus ou accédez à [wandb.ai](https://app.wandb.ai) pour voir vos résultats s’afficher en direct. Le lien permettant de voir votre run dans le navigateur apparaîtra une fois toutes les dépendances chargées. Recherchez la sortie suivante : &quot;**wandb**: View run at [URL de votre run unique]&quot;
+
+**Visualiser les performances du modèle**
+Il est facile de parcourir des dizaines d’expériences, de zoomer sur des résultats intéressants et de visualiser des données à haute dimension.
+
+<Frame>
+  <img src="/images/tutorials/huggingface-visualize.gif" alt="Tableau de bord des métriques du modèle" />
+</Frame>
+
+**Comparer les architectures**
+Voici un exemple comparant [BERT vs DistilBERT](https://app.wandb.ai/jack-morris/david-vs-goliath/reports/Does-model-size-matter%3F-Comparing-BERT-and-DistilBERT-using-Sweeps--VmlldzoxMDUxNzU). Il est facile de voir comment différentes architectures influencent la précision de l’évaluation tout au long de l’entraînement grâce à des visualisations automatiques sous forme de graphiques en courbes.
+
+<Frame>
+  <img src="/images/tutorials/huggingface-comparearchitectures.gif" alt="Comparaison BERT vs DistilBERT" />
+</Frame>
+
+<div id="track-key-information-effortlessly-by-default">
+  ## Suivez automatiquement les informations clés, sans effort
+</div>
+
+W&amp;B enregistre un nouveau run pour chaque expérience. Voici les informations enregistrées par défaut :
+
+* **Hyperparamètres** : les paramètres de votre modèle sont enregistrés dans Config
+* **Métriques du modèle** : les données de séries temporelles des métriques en flux sont enregistrées dans Journal
+* **Journaux du terminal** : les sorties de la ligne de commande sont enregistrées et accessibles dans un onglet
+* **Métriques système** : utilisation du GPU et du CPU, mémoire, température, etc.
+
+<div id="learn-more">
+  ## En savoir plus
+</div>
+
+* [Guides pas à pas en vidéo sur YouTube](http://wandb.me/youtube)

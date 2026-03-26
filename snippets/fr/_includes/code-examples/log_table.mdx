@@ -1,0 +1,22 @@
+---
+title: Journaliser un tableau
+---
+
+```python
+"""
+Journaliser un tableau dans W&B.
+"""
+import wandb
+
+# Créer un objet tableau avec deux colonnes et deux lignes de données
+my_table = wandb.Table(
+    columns=["a", "b"],
+    data=[["a1", "b1"], ["a2", "b2"]],
+    log_mode="<log_mode>"
+    )
+
+# Démarrer un nouveau run
+with wandb.init(project="<project>") as run:
+    # Journaliser le tableau dans W&B
+    run.log({"<table_name>": my_table})
+```

@@ -1,0 +1,69 @@
+---
+title: "Référence CLI du SDK 0.25.1"
+description: "Utilisez l’interface en ligne de commande W&B (CLI) pour vous connecter, exécuter des jobs, lancer des balayages, etc., à l’aide de commandes shell"
+---
+
+{/*
+  Pour ajouter un contenu d’introduction à cette commande :
+  1. Créez le fichier d’extrait : /snippets/_includes/cli/wandb.mdx
+  2. Ajoutez votre contenu d’introduction à ce fichier
+  3. Supprimez l’intégralité de ce bloc de commentaire et conservez uniquement les deux lignes ci-dessous :
+
+  import Wandb from "/snippets/_includes/cli/wandb.mdx";
+
+  <Wandb/>
+
+  L’extrait sera détecté automatiquement lors de la prochaine régénération.
+  */}
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb [OPTIONS] COMMAND [ARGS]...
+```
+
+<div id="options">
+  ## Options
+</div>
+
+| Option      | Description                                        |
+| :---------- | :------------------------------------------------- |
+| `--version` | Affiche la version et quitte. (par défaut : False) |
+
+<div id="commands">
+  ## Commandes
+</div>
+
+| Commande                                           | Description                                                                                                     |
+| :------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
+| [agent](/fr/models/ref/cli/wandb-agent)               | Exécuter l&#39;agent W&amp;B                                                                                    |
+| [artifact](/fr/models/ref/cli/wandb-artifact)         | Commandes pour interagir avec les artefacts                                                                     |
+| [beta](/fr/models/ref/cli/wandb-beta)                 | Versions bêta des commandes CLI wandb.                                                                          |
+| [controller](/fr/models/ref/cli/wandb-controller)     | Exécuter le contrôleur local de balayage W&amp;B                                                                |
+| [disabled](/fr/models/ref/cli/wandb-disabled)         | Désactiver W&amp;B.                                                                                             |
+| [docker](/fr/models/ref/cli/wandb-docker)             | Exécuter votre code dans un conteneur Docker.                                                                   |
+| [docker-run](/fr/models/ref/cli/wandb-docker-run)     | Encapsuler `docker run` et ajouter les variables d&#39;environnement WANDB&#95;API&#95;KEY et WANDB&#95;DOCKER. |
+| [enabled](/fr/models/ref/cli/wandb-enabled)           | Activer W&amp;B.                                                                                                |
+| [init](/fr/models/ref/cli/wandb-init)                 | Configurer un répertoire avec Weights &amp; Biases                                                              |
+| [job](/fr/models/ref/cli/wandb-job)                   | Commandes pour gérer et consulter les jobs W&amp;B                                                              |
+| [launch](/fr/models/ref/cli/wandb-launch)             | Lancer un job W&amp;B ou le mettre en file d&#39;attente.                                                       |
+| [launch-agent](/fr/models/ref/cli/wandb-launch-agent) | Exécuter un agent Launch W&amp;B.                                                                               |
+| [launch-sweep](/fr/models/ref/cli/wandb-launch-sweep) | Exécuter un balayage Launch W&amp;B (expérimental).                                                             |
+| [local](/fr/models/ref/cli/wandb-local)               | Démarrer un conteneur W&amp;B local (obsolète, voir wandb server --help)                                        |
+| [login](/fr/models/ref/cli/wandb-login)               | Vérifier et enregistrer votre clé API pour vous authentifier auprès des services W&amp;B.                       |
+| [off](/fr/models/ref/cli/wandb-off)                   | Aucune description disponible                                                                                   |
+| [offline](/fr/models/ref/cli/wandb-offline)           | Enregistrer localement les données consignées dans W&amp;B sans les téléverser vers le cloud.                   |
+| [on](/fr/models/ref/cli/wandb-on)                     | Aucune description disponible                                                                                   |
+| [online](/fr/models/ref/cli/wandb-online)             | Annuler `wandb offline`.                                                                                        |
+| [projects](/fr/models/ref/cli/wandb-projects)         | Lister les projets                                                                                              |
+| [pull](/fr/models/ref/cli/wandb-pull)                 | Récupérer des fichiers depuis Weights &amp; Biases                                                              |
+| [purge-cache](/fr/models/ref/cli/wandb-purge-cache)   | Purger les journaux en cache, l&#39;historique des runs et les artefacts du cache local W&amp;B.                |
+| [restore](/fr/models/ref/cli/wandb-restore)           | Restaurer le code, la configuration et l&#39;état Docker d&#39;un run.                                          |
+| [scheduler](/fr/models/ref/cli/wandb-scheduler)       | Exécuter un ordonnanceur de balayage Launch W&amp;B (expérimental)                                              |
+| [server](/fr/models/ref/cli/wandb-server)             | Commandes pour exploiter un serveur W&amp;B local                                                               |
+| [status](/fr/models/ref/cli/wandb-status)             | Afficher les paramètres de configuration                                                                        |
+| [sweep](/fr/models/ref/cli/wandb-sweep)               | Initialiser un balayage d&#39;hyperparamètres.                                                                  |
+| [sync](/fr/models/ref/cli/wandb-sync)                 | Synchroniser les données de run W&amp;B avec le cloud.                                                          |
+| [verify](/fr/models/ref/cli/wandb-verify)             | Vérifier l&#39;instance locale de W&amp;B.                                                                      |

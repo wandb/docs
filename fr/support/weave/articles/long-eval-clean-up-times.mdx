@@ -1,0 +1,48 @@
+---
+title: "Temps de nettoyage des évaluations longs"
+keywords: ["Performances", "Évaluation"]
+---
+
+Les deux méthodes suivantes doivent être utilisées conjointement pour améliorer les performances lors de l’exécution d’évaluations avec de grands jeux de données.
+
+<div id="flushing">
+  ### Flush
+</div>
+
+Lors de l’exécution d’évaluations avec de grands jeux de données, vous pouvez observer un long délai avant que le programme poursuive son exécution, tandis que le jeu de données est téléversé dans des threads d’arrière-plan. Cela se produit généralement lorsque l’exécution du thread principal se termine avant la fin du nettoyage en arrière-plan. L’appel à `client.flush()` force le traitement de toutes les tâches d’arrière-plan dans le thread principal, ce qui garantit un traitement parallèle pendant l’exécution du thread principal. Cela peut améliorer les performances lorsque le code utilisateur se termine avant que les données aient été téléversées vers le serveur.
+
+Exemple :
+
+```python
+client = weave.init("fast-upload")
+
+# ... configuration de l'évaluation
+result = evaluation.Evaluate(dataset_id="my_dataset_id")
+
+client.flush()
+```
+
+<div id="increasing-client-parallelism">
+  ### Augmenter le parallélisme du client
+</div>
+
+Le parallélisme du client est automatiquement déterminé en fonction de l&#39;environnement, mais vous pouvez aussi le définir manuellement à l&#39;aide de la variable d&#39;environnement suivante :
+
+* `WEAVE_CLIENT_PARALLELISM` : le nombre de threads disponibles pour le traitement parallèle. Augmenter cette valeur accroît le nombre de threads disponibles pour le traitement parallèle, ce qui peut améliorer les performances des tâches en arrière-plan, comme le téléversement de jeux de données.
+
+Vous pouvez aussi le définir par programmation à l&#39;aide de l&#39;argument `settings` de `weave.init()` :
+
+```python
+client = weave.init("fast-upload", settings={"client_parallelism": 100})
+```
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge><Badge stroke shape="pill" color="orange" size="md">[Évaluation](/fr/support/weave/tags/evaluation)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}

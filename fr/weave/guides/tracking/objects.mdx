@@ -1,0 +1,126 @@
+---
+title: "Suivre et versionner des objets"
+description: "Suivez et versionnez n’importe quel objet sérialisable au format JSON dans W&B Weave"
+---
+
+<div id="objects">
+  ## Objets
+</div>
+
+Un **objet** est une donnée sérialisable et versionnée. Weave versionne automatiquement les objets lorsqu’ils sont modifiés et crée un historique immuable. Les objets incluent :
+
+* **Datasets** : collections d’exemples pour l’évaluation
+* **Models** : configurations et paramètres de votre logique LLM
+* **Prompts** : modèles de prompt versionnés
+
+```python lines
+dataset = weave.Dataset(
+    name="test-cases",
+    rows=[
+        {"input": "What is 2+2?", "expected": "4"},
+        {"input": "What is the capital of France?", "expected": "Paris"},
+    ]
+)
+weave.publish(dataset)
+```
+
+
+<div id="publishing-an-object">
+  ## Publier un objet
+</div>
+
+La couche de sérialisation de Weave enregistre les objets et en gère les versions.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+    weave.init("your-team-name/your-project-name")
+    # Enregistrez une liste en lui donnant le nom 'cat-names'
+    weave.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    La publication en TypeScript en est encore à ses débuts, donc tous les objets ne sont pas encore entièrement pris en charge.
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    const client = await weave.init("your-team-name/your-project-name")
+
+    // Enregistrez un tableau en lui donnant le nom 'cat-names'
+    client.publish(['felix', 'jimbo', 'billie'], 'cat-names')
+    ```
+  </Tab>
+</Tabs>
+
+Lorsque vous enregistrez un objet avec un nom, Weave crée la première version de cet objet s’il n’existe pas encore.
+
+<div id="get-an-object-back">
+  ## Récupérer un objet
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    `weave.publish` renvoie une réf. d'objet. Vous pouvez appeler `.get()` sur n’importe quelle réf. d'objet pour récupérer l’objet.
+
+    Vous pouvez construire une réf. d'objet, puis récupérer l’objet associé.
+
+    ```python lines
+    weave.init("your-team-name/your-project-name")
+    cat_names = weave.ref('cat-names').get()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext lines
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="delete-an-object">
+  ## Supprimer un objet
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Pour supprimer une version d’un objet, appelez `.delete()` sur la réf. d&#39;objet.
+
+    ```python lines
+    weave.init("your-team-name/your-project-name")
+    cat_names_ref = weave.ref('cat-names:v1')
+    cat_names_ref.delete()
+    ```
+
+    Si vous accédez à un objet supprimé, une erreur est renvoyée. Si vous résolvez un objet qui contient une référence à un objet supprimé, un `DeletedRef` est renvoyé à la place de l’objet supprimé.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="constructing-object-refs">
+  ## Construction des réf. d&#39;objet
+</div>
+
+Dans Weave, l&#39;URI d&#39;une réf. d&#39;objet entièrement qualifiée se présente comme suit :
+
+```text
+weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
+```
+
+* *your-team-name*: entité W&amp;B (nom d&#39;utilisateur ou nom d&#39;équipe)
+* *your-project-name*: projet W&amp;B
+* *object&#95;name*: nom de l&#39;objet
+* *object&#95;version*: soit un hachage de version, une chaîne comme `v0` ou `v1`, soit un alias comme `:latest`. Tous les objets ont l&#39;alias `:latest`.
+
+Vous pouvez construire des réf. d&#39;objet de plusieurs manières :
+
+* `weave.ref(<name>)`: Récupère la version `:latest` d&#39;un objet. Nécessite d&#39;appeler `weave.init(...)`.
+* `weave.ref(<name>:<version>)`:  Récupère la version spécifiée d&#39;un objet. Nécessite d&#39;appeler `weave.init(...)`.
+* `weave.ref(<fully_qualified_ref_uri>)`: Récupère l&#39;objet situé à l&#39;URI complète de réf. d&#39;objet spécifiée.  Ne nécessite pas d&#39;appeler `weave.init`.

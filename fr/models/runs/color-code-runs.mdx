@@ -1,0 +1,142 @@
+---
+description: "Attribuez des couleurs aux runs W&B en fonction de métriques ou de paramètres de configuration afin de créer des légendes de graphique visuellement explicites."
+title: Légendes sémantiques des graphiques de runs
+---
+
+Créez des graphiques en courbes et des légendes de graphique visuellement explicites en attribuant des couleurs à vos runs W&amp;B selon des métriques ou des paramètres de configuration. Identifiez des tendances et des schémas entre les expériences en colorant les runs en fonction de leurs métriques de performances (valeurs les plus élevées, les plus basses ou les plus récentes). W&amp;B regroupe automatiquement vos runs dans des buckets codés par couleur en fonction des valeurs du paramètre sélectionné.
+
+Pour utiliser pour vos runs des couleurs basées sur des métriques ou sur la configuration, vous devez configurer deux paramètres :
+
+<div id="turn-on-key-based-colors">
+  ### Activer les couleurs basées sur des clés
+</div>
+
+1. Accédez à votre projet W&amp;B.
+2. Sélectionnez l’onglet **Workspace** dans la barre latérale du projet.
+3. Cliquez sur l’icône **Settings** dans le coin supérieur droit.
+4. Dans le volet latéral, sélectionnez **Runs**.
+5. Dans la section **Run colors**, sélectionnez **Key-based colors**.
+6. Configurez les options suivantes :
+   * Dans la liste déroulante **Clé**, sélectionnez la métrique à utiliser pour attribuer des couleurs aux runs.
+   * Dans la liste déroulante **valeur Y**, sélectionnez la valeur Y à utiliser pour attribuer des couleurs aux runs.
+   * Définissez le nombre de buckets sur une valeur comprise entre 2 et 8.
+
+<Note>
+  Lorsque vous utilisez des couleurs basées sur des clés, l’option permettant de [personnaliser les couleurs des runs](/fr/models/runs/run-colors) n’est pas disponible.
+</Note>
+
+Les sections suivantes décrivent comment définir la métrique et la valeur Y, ainsi que personnaliser les buckets utilisés pour attribuer des couleurs aux runs.
+
+<div id="example-key-based-coloring-with-loss-metric">
+  ### Exemple : coloration basée sur des clés avec la métrique de perte
+</div>
+
+Dans cet exemple de graphique, les runs sont colorés à l’aide d’un gradient : les couleurs les plus foncées représentent des valeurs de perte plus élevées, et les plus claires des valeurs de perte plus faibles. La valeur Y est définie sur `latest` afin d’utiliser la valeur de perte la plus récente pour chaque run.
+
+<Image src="/images/app_ui/run-colors-key-based.png" alt="Workspace W&B montrant des runs colorés en fonction de leurs valeurs de perte à l’aide d’une coloration basée sur des clés." />
+
+<div id="set-a-metric">
+  ## Définir une métrique
+</div>
+
+Les options de métrique de votre menu déroulant **Clé** sont issues des paires clé-valeur [que vous journalisez dans W&amp;B](/fr/models/runs/color-code-runs/#custom-metrics), ainsi que des [métriques par défaut](/fr/models/runs/color-code-runs/#default-metrics) définies par W&amp;B.
+
+<div id="default-metrics">
+  ### Métriques par défaut
+</div>
+
+* `Relative Time (Process)`: Le temps relatif du run, mesuré en secondes depuis le début du run.
+* `Relative Time (Wall)`: Le temps relatif du run, mesuré en secondes depuis le début du run et ajusté en fonction du temps réel.
+* `Wall Time`: Le temps réel du run, mesuré en secondes depuis l’époque.
+* `Step`: Le numéro d’étape du run, généralement utilisé pour suivre la progression de l’entraînement ou de l’évaluation.
+
+<div id="custom-metrics">
+  ### Métriques personnalisées
+</div>
+
+Attribuez une couleur aux runs et créez des légendes de graphique pertinentes à partir des métriques personnalisées enregistrées par vos scripts d&#39;entraînement ou d&#39;évaluation. Les métriques personnalisées sont enregistrées sous forme de paires clé-valeur, où la clé correspond au nom de la métrique et la valeur à sa valeur.
+
+Par exemple, l&#39;extrait de code suivant enregistre la précision (clé `"acc"`) et la perte (clé `"loss"`) pendant une boucle d&#39;entraînement :
+
+```python
+import wandb
+import random
+
+epochs = 10
+
+with wandb.init(project="basic-intro") as run:
+  # Ce bloc simule une boucle d'entraînement qui consigne des métriques
+  offset = random.random() / 5
+  for epoch in range(2, epochs):
+      acc = 1 - 2 ** -epoch - random.random() / epoch - offset
+      loss = 2 ** -epoch + random.random() / epoch + offset
+
+      # Consigner des métriques depuis votre script vers W&B
+      run.log({"acc": acc, "loss": loss})
+```
+
+Dans le menu déroulant **Clé**, `"acc"` et `"loss"` sont deux options disponibles.
+
+<div id="set-a-configuration-key">
+  ## Définir une clé de configuration
+</div>
+
+Les options de configuration du menu déroulant **Clé** proviennent des paires clé-valeur que vous transmettez au paramètre `config` lorsque vous initialisez un run W&amp;B. Les clés de configuration servent généralement à journaliser des hyperparamètres ou d&#39;autres paramètres utilisés dans vos scripts d&#39;entraînement ou d&#39;évaluation.
+
+```python
+import wandb
+
+config = {
+  "learning_rate": 0.01,
+  "batch_size": 32,
+  "optimizer": "adam"
+}
+
+with wandb.init(project="basic-intro", config=config) as run:
+  # Votre code d'entraînement ici
+  pass
+```
+
+Dans le menu déroulant **Clé**, `"learning_rate"`, `"batch_size"` et `"optimizer"` sont des options proposées.
+
+<div id="set-a-y-value">
+  ## Définir une valeur Y
+</div>
+
+Vous pouvez choisir parmi les options suivantes :
+
+* **Dernière** : Détermine la couleur en fonction de la valeur Y à la dernière étape enregistrée pour chaque ligne.
+* **Max** : Détermine la couleur en fonction de la valeur Y la plus élevée enregistrée pour la métrique.
+* **Min** : Détermine la couleur en fonction de la valeur Y la plus basse enregistrée pour la métrique.
+
+<div id="customize-buckets">
+  ## Personnaliser les buckets
+</div>
+
+Les buckets sont des plages de valeurs que W&amp;B utilise pour catégoriser les runs en fonction de la métrique ou de la clé de configuration que vous sélectionnez. Les buckets sont répartis uniformément sur la plage de valeurs de la métrique ou de la clé de configuration spécifiée, et chaque bucket se voit attribuer une couleur unique. Les runs dont les valeurs se situent dans la plage de ce bucket s’affichent dans cette couleur.
+
+Prenez l’exemple suivant :
+
+<Frame>
+  <img src="/images/track/color-coding-runs.png" alt="Runs codés par couleur" />
+</Frame>
+
+* **Clé** est définie sur `"Précision"` (abrégée en `"acc"`).
+* **Valeur Y** est définie sur `"Max"`
+
+Avec cette configuration, W&amp;B colore chaque run en fonction de ses valeurs de précision. Les couleurs vont d’un jaune clair à une teinte foncée. Les couleurs plus claires représentent des valeurs de précision plus faibles, tandis que les couleurs plus foncées représentent des valeurs de précision plus élevées.
+
+Six buckets sont définis pour la métrique, chaque bucket représentant une plage de valeurs de précision. Dans la section **Buckets**, les plages de buckets suivantes sont définies :
+
+* Bucket 1: (Min - 0.7629)
+* Bucket 2: (0.7629 - 0.7824)
+* Bucket 3: (0.7824 - 0.8019)
+* Bucket 4: (0.8019 - 0.8214)
+* Bucket 5: (0.8214 - 0.8409)
+* Bucket 6: (0.8409 - Max)
+
+Dans le graphique en courbes ci-dessous, le run avec la précision la plus élevée (0.8232) est coloré en violet foncé (Bucket 5), tandis que le run avec la précision la plus faible (0.7684) est coloré en orange clair (Bucket 2). Les autres runs sont colorés en fonction de leurs valeurs de précision, le gradient de couleurs indiquant leurs performances relatives.
+
+<Frame>
+  <img src="/images/track/color-code-runs-plot.png" alt="Graphique des runs codés par couleur" />
+</Frame>

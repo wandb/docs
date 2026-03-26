@@ -1,0 +1,51 @@
+---
+title: OnRunState
+namespace: automations_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/automations/events.py" />
+
+
+## <kbd>class</kbd> `OnRunState`
+
+L’état d’un run change.
+
+Exemples :
+Définissez un événement qui se déclenche pour tout run du projet &quot;my-project&quot; lorsque
+son état passe à &quot;finished&quot; (c.-à-d. réussi) ou &quot;failed&quot; :
+
+```python
+from wandb import Api
+from wandb.automations import OnRunState
+
+api = Api()
+project = api.project(name="my-project")
+
+event = OnRunState(
+    scope=project,
+    filter=RunEvent.state.in_(["finished", "failed"]),
+)
+```
+
+
+### <kbd>méthode</kbd> `OnRunState.__init__`
+
+```python
+__init__(
+    event_type: 'Literal[RUN_STATE]' = RUN_STATE,
+    scope: 'ProjectScope',
+    filter: 'RunStateFilter'
+) → None
+```
+
+**Arguments :**
+
+* `event_type` (Literal[RUN&#95;STATE]) :
+* `scope` (ProjectScope) : La portée de l’événement : il doit s’agir d’un projet.
+* `filter` (RunStateFilter) : Condition(s) sur l’état du run devant être remplie(s) pour que cet événement se déclenche.
+
+**Retourne :**
+Un objet `OnRunState`.

@@ -1,0 +1,188 @@
+---
+title: "Utiliser Weave avec les runs d’entraînement de W&B"
+description: "Intégrez les traces Weave aux runs d’entraînement de W&B pour afficher les détails d’exécution des fonctions à côté des métriques ML dans les tableaux de bord de l’espace de travail."
+---
+
+<div id="log-traces-during-model-training-runs">
+  # Journaliser des traces pendant les runs d&#39;entraînement du modèle
+</div>
+
+<Frame>
+  ![Trace Weave dans Workspaces](/images/weave/traces-in-workspace.png)
+</Frame>
+
+Vous pouvez désormais journaliser des traces Weave pendant les runs d&#39;entraînement du modèle et les afficher dans votre espace de travail personnel.
+
+Les espaces de travail personnels sont des tableaux de bord personnalisables de l&#39;interface utilisateur qui vous permettent d&#39;afficher des analyses détaillées et des visualisations de données de vos runs d&#39;entraînement du modèle. En ajoutant des panneaux Weave à votre espace de travail, vous pouvez afficher et consulter les données de trace journalisées pendant les runs du modèle afin de mieux comprendre les performances de vos modèles pendant l&#39;entraînement.
+
+Par exemple, si vous effectuez le Fine-tuning d&#39;un modèle LLM et que votre espace de travail W&amp;B montre que la précision baisse à l&#39;étape 500, les traces Weave intégrées peuvent révéler exactement ce qui s&#39;est passé : par exemple, votre modèle a commencé à générer des réponses trop verbeuses qui ne respectaient pas les critères d&#39;évaluation.
+
+<div id="use-weave-panels">
+  ## Utiliser les panneaux Weave
+</div>
+
+[En décorant les fonctions avec `@weave.op`](/fr/weave/quickstart) dans vos pipelines de ML, vous capturez automatiquement leurs informations d’exécution et pouvez y accéder dans un espace de travail personnel.
+
+Par exemple, le script suivant montre comment les traces Weave s’intègrent aux runs d’entraînement W&amp;B. Il simule une boucle d’entraînement de machine learning dans laquelle chaque étape d’entraînement journalise des métriques dans W&amp;B tout en créant simultanément des traces Weave détaillées. Les décorateurs `@weave.op` appliqués aux fonctions capturent automatiquement les entrées, les sorties et les détails d’exécution. Lorsque la boucle d’entraînement journalise des métriques avec `wandb.log()`, elle journalise également les informations de trace Weave dans votre projet.
+
+```python lines
+import wandb
+import weave
+import random
+
+# Initialiser W&B et Weave avec le même projet
+project = "my-workspace-project"
+weave.init(project)
+
+@weave.op
+def evaluate_model(model_state, epoch):
+    # Simuler les métriques d'évaluation
+    accuracy = 0.7 + epoch * 0.02 + random.uniform(-0.05, 0.05)
+    
+    # Suivre les comportements spécifiques du modèle
+    test_responses = {
+        "conciseness_check": "Model generated 500 words for simple question",
+        "accuracy_check": "Model answered 8/10 questions correctly",
+        "hallucination_check": "No factual errors detected"
+    }
+    
+    return {
+        "accuracy": accuracy,
+        "diagnostic_results": test_responses
+    }
+
+@weave.op
+def training_step(epoch, lr):
+    # Simuler la logique d'entraînement
+    loss = 1.0 / (epoch + 1) + random.uniform(-0.1, 0.1)
+    
+    # Évaluation avec traces
+    eval_results = evaluate_model(f"checkpoint_{epoch}", epoch)
+    
+    return {
+        "loss": loss,
+        "accuracy": eval_results["accuracy"],
+        "diagnostics": eval_results["diagnostic_results"]
+    }
+
+# Boucle d'entraînement
+with wandb.init(project=project, config={"lr": 0.01}) as run:
+    for epoch in range(5):
+        # Exécuter l'entraînement avec le traçage Weave
+        results = training_step(epoch, run.config.lr)
+        
+        # Journaliser vers W&B - crée le point d'intégration
+        run.log({
+            "epoch": epoch,
+            "loss": results["loss"],
+            "accuracy": results["accuracy"]
+        })
+```
+
+Vous pouvez exécuter ce script d’exemple pour voir comment les traces sont journalisées avec le reste des informations de votre run.
+
+Pour afficher les informations de trace dans votre espace de travail pendant ou après un run, vous pouvez soit ouvrir le lien fourni dans le terminal au démarrage d’un run (il se présente ainsi : `wandb: 🚀 View run at https://wandb.ai/wandb/my-project/runs/<run-ID>`) soit accéder à l’espace de travail dans l’interface utilisateur.
+
+Pour accéder à un espace de travail depuis l’interface utilisateur :
+
+1. Ouvrez l’interface W&amp;B et cliquez sur l’onglet **Projects**. Cela ouvre la liste de vos projets.
+2. Dans la liste des projets, cliquez sur le projet dans lequel vous avez journalisé votre run. Cela ouvre la page **Workspaces**.
+3. Si vous avez configuré votre espace de travail en mode automatique, il se remplit automatiquement avec des visualisations de données et des informations sur votre run. Les données de trace de votre run se trouvent dans la section **Weave** de l’espace de travail. Si votre espace de travail est manuel, vous pouvez ajouter des panneaux Weave en cliquant sur **Add panels** et en sélectionnant de nouveaux panneaux dans la section **Weave** du menu Add Panels.
+
+Pour plus d’informations sur les espaces de travail, voir [Afficher les résultats des expériences](https://docs.wandb.ai/models/track/workspaces).
+
+<div id="reference-wb-artifacts-in-a-weave-trace">
+  ## Référencer des artefacts W&amp;B dans une trace Weave
+</div>
+
+Vous pouvez référencer des [artefacts W&amp;B](/fr/models/artifacts) (tels que des modèles, des jeux de données et des points de contrôle) dans vos traces Weave. Cela crée un lien cliquable dans l&#39;interface Weave qui mène directement à la page de détails de l&#39;artefact, ce qui vous aide à suivre les versions d&#39;artefact utilisées lors d&#39;opérations spécifiques.
+
+Par exemple, si vous avez entraîné deux versions d&#39;un modèle (`v1` et `v2`), vous pouvez ajouter la référence à l&#39;artefact `v1` comme attribut de la trace lorsque vous effectuez une requête sur ce modèle. Cela vous aide à identifier précisément quelle version d&#39;artefact a produit une sortie donnée.
+
+Pour associer un artefact à une trace, construisez l&#39;URL de l&#39;artefact en concaténant le préfixe `wandb-artifact:///` avec le nom complet de l&#39;artefact en utilisant la syntaxe suivante : `wandb-artifact:///<full-name-of-artifact>`. Transmettez-la ensuite à Weave de l&#39;une des deux façons suivantes :
+
+* Comme attribut arbitraire
+* Comme attribut d&#39;un `Model`
+
+Vous pouvez trouver le nom complet de l&#39;artefact sur sa page de détails dans l&#39;interface W&amp;B. Il ressemble à ceci : `<entity>/<project>/<artifact_name>:<version>`. Vous pouvez copier le nom complet depuis la page de détails de l&#39;artefact dans l&#39;interface W&amp;B.
+
+<div id="add-it-as-an-attribute-of-a-trace">
+  ### Ajoutez-le comme attribut d’une trace
+</div>
+
+Pour ajouter un artefact comme attribut d’une trace, passez-le sous forme de paire clé-valeur au gestionnaire de contexte `weave.attributes()` :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines {10}
+    import weave
+
+    weave.init("your-team-name/your-project-name")
+
+    @weave.op
+    def my_function(name: str):
+        return f"Hello, {name}!"
+
+    # Ajoutez un nom de clé arbitraire et l’URL de l’artefact comme valeur
+    with weave.attributes({'artifact_id': 'wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0'}):
+        result = my_function("World")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines {12}
+    import {init, op, withAttributes} from 'weave';
+
+    async function main() {
+      await init('wandb/docs');
+
+      const myFunction = op(async function myFunction(name: string) {
+        return `Hello, ${name}!`;
+      });
+
+      // Ajoutez un nom de clé arbitraire et l'URL de l'artefact comme valeur
+      const result = await withAttributes(
+        {artifact_id: "wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"},
+        async () => myFunction('World')
+      );
+
+      console.log('Result:', result);
+    }
+
+    main().catch(console.error);
+    ```
+  </Tab>
+</Tabs>
+
+<div id="add-an-artifact-as-an-attribute-of-a-model">
+  ### Ajouter un artefact comme attribut d’un `Model`
+</div>
+
+Pour ajouter un artefact comme attribut d’un `Model`, transmettez l’URL de l’artefact lors de l’instanciation du modèle :
+
+<Note>
+  La classe `Model` n’est actuellement prise en charge que dans le SDK Python de Weave.
+</Note>
+
+```python lines {7,17}
+import weave
+
+weave.init("your-team-name/your-project-name")
+
+class MyModel(weave.Model):
+    # Stocker la référence de l'artefact en tant qu'attribut du modèle
+    artifact_id: str
+    temperature: float = 0.7
+    
+    @weave.op
+    def predict(self, query: str) -> str:
+        # Votre logique d'inférence du modèle ici
+        return f"Response to: {query}"
+
+# Passer l'URL de l'artefact en tant qu'attribut du modèle
+model = MyModel(
+    artifact_id="wandb-artifact:///team-name/project-name/run-38m4t5ja-history:v0"
+)
+
+result = model.predict("Hello, World!")
+```

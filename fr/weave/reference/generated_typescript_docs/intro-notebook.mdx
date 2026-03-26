@@ -1,0 +1,243 @@
+---
+title: Notebook d’introduction
+---
+
+<div id="weave-with-typescript-quickstart-guide">
+  # Guide de démarrage rapide de Weave avec TypeScript
+</div>
+
+Vous pouvez utiliser W&amp;B Weave avec TypeScript pour :
+
+* Consigner et déboguer les entrées, les sorties et les traces des modèles de langage
+* Créer des évaluations rigoureuses et directement comparables pour les cas d&#39;usage des modèles de langage
+* Organiser toutes les informations générées tout au long du flux de travail LLM, de l&#39;expérimentation aux évaluations, puis à la production
+
+Pour plus d&#39;informations, voir la [documentation de Weave](/fr/).
+
+<div id="function-tracking">
+  ## Suivi des fonctions
+</div>
+
+Pour utiliser Weave dans votre code TypeScript, initialisez un nouveau projet Weave et ajoutez le wrapper `weave.op` aux fonctions que vous souhaitez suivre.
+
+Après avoir ajouté `weave.op` et appelé la fonction, accédez au tableau de bord W&amp;B pour voir son suivi dans votre projet.
+
+Nous suivons automatiquement votre code - consultez l’onglet Code dans l’interface utilisateur !
+
+```typescript lines
+async function initializeWeaveProject() {
+    const PROJECT = 'weave-examples';
+    await weave.init(PROJECT);
+}
+```
+
+```typescript lines
+const stripUserInput = weave.op(function stripUserInput(userInput: string): string {
+    return userInput.trim();
+});
+```
+
+L’exemple suivant montre comment fonctionne le suivi de base des fonctions.
+
+```typescript lines
+async function demonstrateBasicTracking() {
+    const result = await stripUserInput("    hello    ");
+    console.log('Résultat du suivi de base :', result);
+}
+```
+
+<div id="openai-integration">
+  ## Intégration OpenAI
+</div>
+
+Weave assure automatiquement le suivi de tous les appels OpenAI, y compris :
+
+* Utilisation des tokens
+* Coûts de l&#39;API
+* Paires requête/réponse
+* Configurations du modèle
+
+<Note>
+  En plus d&#39;OpenAI, Weave prend en charge la journalisation automatique d&#39;autres fournisseurs de LLM, tels qu&#39;Anthropic et Mistral. Pour obtenir la liste complète, voir [Fournisseurs de LLM dans la documentation sur les intégrations](../../guides/integrations#llm-providers).
+</Note>
+
+```typescript lines
+function initializeOpenAIClient() {
+    return weave.wrapOpenAI(new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY
+    }));
+}
+```
+
+```typescript lines
+async function demonstrateOpenAITracking() {
+    const client = initializeOpenAIClient();
+    const result = await client.chat.completions.create({
+        model: "gpt-4-turbo",
+        messages: [{ role: "user", content: "Hello, how are you?" }],
+    });
+    console.log('Résultat du suivi OpenAI :', result);
+}
+```
+
+<div id="nested-function-tracking">
+  ## Suivi des fonctions imbriquées
+</div>
+
+Weave vous permet de suivre des flux de travail complexes en combinant plusieurs fonctions suivies
+et des appels LLM, tout en préservant l’intégralité de la trace d’exécution. Cela présente notamment les avantages suivants :
+
+* Une visibilité complète sur la logique de votre application
+* Un débogage simplifié des chaînes d’opérations complexes
+* Des possibilités d’optimisation des performances
+
+```typescript lines
+async function demonstrateNestedTracking() {
+    const client = initializeOpenAIClient();
+    
+    const correctGrammar = weave.op(async function correctGrammar(userInput: string): Promise<string> {
+        const stripped = await stripUserInput(userInput);
+        const response = await client.chat.completions.create({
+            model: "gpt-4-turbo",
+            messages: [
+                {
+                    role: "system",
+                    content: "Vous êtes un correcteur grammatical, corrigez l'entrée utilisateur suivante."
+                },
+                { role: "user", content: stripped }
+            ],
+            temperature: 0,
+        });
+        return response.choices[0].message.content ?? '';
+    });
+
+    const grammarResult = await correctGrammar("That was so easy, it was a piece of pie!");
+    console.log('Résultat du suivi imbriqué :', grammarResult);
+}
+```
+
+<div id="dataset-management">
+  ## Gestion des jeux de données
+</div>
+
+Vous pouvez créer et gérer des jeux de données avec Weave à l’aide de la classe [`weave.Dataset`](/fr/weave/guides/core-types/datasets). Comme [Weave `Models`](/fr/weave/guides/core-types/models), `weave.Dataset` vous permet de :
+
+* Suivre et versionner vos données
+* Organiser des cas de test
+* Partager des jeux de données entre les membres de l’équipe
+* Alimenter des évaluations systématiques
+
+```typescript lines
+interface GrammarExample {
+    userInput: string;
+    expected: string;
+}
+```
+
+```typescript lines
+function createGrammarDataset(): weave.Dataset<GrammarExample> {
+    return new weave.Dataset<GrammarExample>({
+        id: 'grammar-correction',
+        rows: [
+            {
+                userInput: "That was so easy, it was a piece of pie!",
+                expected: "That was so easy, it was a piece of cake!"
+            },
+            {
+                userInput: "I write good",
+                expected: "I write well"
+            },
+            {
+                userInput: "LLM's are best",
+                expected: "LLM's are the best"
+            }
+        ]
+    });
+}
+```
+
+<div id="evaluation-framework">
+  ## Framework d’évaluation
+</div>
+
+Weave prend en charge le développement piloté par les évaluations avec la [classe `Evaluation`](/fr/weave/guides/core-types/evaluations). Les évaluations vous aident à itérer de manière fiable sur votre application GenAI. La classe `Evaluation` permet de :
+
+* Évaluer les performances d’un `Model` sur un `Dataset`
+* Appliquer des fonctions de scoring personnalisées
+* Générer des rapports détaillés sur les performances
+* Comparer différentes versions du modèle
+
+Vous trouverez un tutoriel complet sur l’évaluation à l’adresse [http://wandb.me/weave&#95;eval&#95;tut](http://wandb.me/weave_eval_tut)
+
+```typescript lines
+class OpenAIGrammarCorrector {
+    private oaiClient: ReturnType<typeof weave.wrapOpenAI>;
+    
+    constructor() {
+        this.oaiClient = weave.wrapOpenAI(new OpenAI({
+            apiKey: process.env.OPENAI_API_KEY
+        }));
+        this.predict = weave.op(this, this.predict);
+    }
+
+    async predict(userInput: string): Promise<string> {
+        const response = await this.oaiClient.chat.completions.create({
+            model: 'gpt-4-turbo',
+            messages: [
+                { 
+                    role: "system", 
+                    content: "Vous êtes un correcteur grammatical, corrigez l’entrée utilisateur suivante." 
+                },
+                { role: "user", content: userInput }
+            ],
+            temperature: 0
+        });
+        return response.choices[0].message.content ?? '';
+    }
+}
+```
+
+```typescript lines
+async function runEvaluation() {
+    const corrector = new OpenAIGrammarCorrector();
+    const dataset = createGrammarDataset();
+    
+    const exactMatch = weave.op(
+        function exactMatch({ modelOutput, datasetRow }: { 
+            modelOutput: string; 
+            datasetRow: GrammarExample 
+        }): { match: boolean } {
+            return { match: datasetRow.expected === modelOutput };
+        },
+        { name: 'exactMatch' }
+    );
+
+    const evaluation = new weave.Evaluation({
+        dataset,
+        scorers: [exactMatch],
+    });
+
+    const summary = await evaluation.evaluate({
+        model: weave.op((args: { datasetRow: GrammarExample }) => 
+            corrector.predict(args.datasetRow.userInput)
+        )
+    });
+    console.log('Résumé de l\'évaluation :', summary);
+}
+```
+
+La fonction `main` suivante exécute toutes les démonstrations :
+
+```typescript lines
+async function main() {
+    try {
+        await initializeWeaveProject();
+        await demonstrateBasicTracking();
+        await demonstrateOpenAITracking();
+        await demonstrateNestedTracking();
+        await runEvaluation();
+    } catch (error) {
+        console.error('Erreur lors de l\'exécution des démonstrations :', error);
+    }
+}
+```

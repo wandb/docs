@@ -1,0 +1,65 @@
+---
+description: "Évaluer un modèle d’API hébergé sur une infrastructure gérée par CoreWeave"
+title: "Évaluer un modèle d’API hébergé"
+---
+
+import ReviewEvaluationResults from "/snippets/fr/_includes/llm-eval-jobs/review-evaluation-results.mdx";
+import RerunEvaluation from "/snippets/fr/_includes/llm-eval-jobs/rerun-evaluation.mdx";
+import ExportEvaluation from "/snippets/fr/_includes/llm-eval-jobs/export-evaluation.mdx";
+import PreviewLink from '/snippets/fr/_includes/llm-eval-jobs/preview.mdx';
+
+<PreviewLink />
+
+Cette page explique comment utiliser les [LLM Evaluation Jobs](/fr/models/launch) pour exécuter une série de benchmarks d’évaluation sur un modèle d’API hébergé à une URL accessible publiquement, à l’aide d’une infrastructure gérée par CoreWeave. Pour évaluer un point de contrôle du modèle enregistré comme artefact dans W&amp;B Models, voir plutôt [Évaluer un point de contrôle du modèle](/fr/models/launch/evaluate-model-checkpoint).
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+1. Consultez les [conditions requises et les limitations](/fr/models/launch#more-details) des jobs d&#39;évaluation LLM.
+2. Pour exécuter certains benchmarks, un administrateur d&#39;équipe doit ajouter les clés API requises en tant que secrets au niveau de l&#39;équipe. Tout membre de l&#39;équipe peut ensuite indiquer le secret lors de la configuration d&#39;un job d&#39;évaluation.
+   * Une **clé API OpenAPI** : utilisée par les benchmarks qui utilisent des modèles OpenAI pour le scoring. Requise si le champ **Clé API du scorer** apparaît après avoir sélectionné un benchmark. Le secret doit être nommé `OPENAI_API_KEY`.
+   * Un **jeton d&#39;accès utilisateur Hugging Face** : requis pour certains benchmarks comme `lingoly` et `lingoly2`, qui nécessitent l&#39;accès à un ou plusieurs jeux de données Hugging Face à accès restreint. Requis si le champ **Jeton Hugging Face** apparaît après avoir sélectionné un benchmark. La clé API doit donner accès au jeu de données concerné. Voir la documentation Hugging Face sur les [jetons d&#39;accès utilisateur](https://huggingface.co/docs/hub/en/security-tokens) et [l&#39;accès aux jeux de données à accès restreint](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user).
+   * Pour évaluer un modèle fourni par [W&amp;B Inference](/fr/inference), un administrateur de l&#39;organisation ou de l&#39;équipe doit créer `WANDB_API_KEY` avec n&#39;importe quelle valeur. Le secret n&#39;est en réalité pas utilisé pour l&#39;authentification.
+3. Le modèle à évaluer doit être disponible à une URL publiquement accessible. Un administrateur de l&#39;organisation ou de l&#39;équipe doit créer un secret au niveau de l&#39;équipe contenant la clé API d&#39;authentification.
+4. Créez un nouveau [projet W&amp;B](/fr/models/track/project-page) pour les résultats de l&#39;évaluation. Dans la barre latérale du projet, cliquez sur **Créer un nouveau projet**.
+5. Consultez la documentation du benchmark concerné pour comprendre son fonctionnement et connaître les exigences spécifiques. Pour plus de facilité, la référence [Benchmarks d&#39;évaluation disponibles](/fr/models/launch/evaluations) contient les liens pertinents.
+
+<div id="evaluate-your-model">
+  ## Évaluez votre modèle
+</div>
+
+Suivez ces étapes pour configurer et lancer un job d’évaluation :
+
+1. Connectez-vous à W&amp;B, puis cliquez sur **Launch** dans la barre latérale du projet. La page **LLM Evaluation Jobs** s’affiche.
+2. Cliquez sur **Évaluer un modèle d’API hébergé** pour configurer l’évaluation.
+3. Sélectionnez un projet de destination pour enregistrer les résultats de l’évaluation.
+4. Dans la section **Model**, indiquez l’URL de base et le nom du modèle à évaluer, puis sélectionnez la clé API à utiliser pour l’authentification. Indiquez le nom du modèle au format compatible OpenAI défini par l’[AI Security Institute](https://inspect.aisi.org.uk/providers.html#openai-api). Par exemple, indiquez un modèle OpenAI avec la syntaxe suivante : `openai/<model-name>`. Pour obtenir la liste complète des fournisseurs de modèles hébergés et des modèles disponibles, consultez la [référence des fournisseurs de modèles de l’AI Security Institute](https://inspect.aisi.org.uk/providers.html).
+   * Pour évaluer un modèle fourni par [W&amp;B Inference](/fr/inference), définissez l’URL de base sur `https://api.inference.wandb.ai/v1` et indiquez le nom du modèle avec la syntaxe suivante : `openai-api/wandb/<model_id>`. Consultez le [catalogue de modèles Inference](/fr/inference/models) pour plus de détails.
+   * Pour utiliser le fournisseur [OpenRouter](https://inspect.aisi.org.uk/providers.html#openrouter), faites précéder le nom du modèle de `openrouter` selon la syntaxe suivante : `openrouter/<model-name>`.
+   * Pour évaluer un modèle personnalisé conforme à OpenAPI, indiquez le nom du modèle avec la syntaxe suivante : `openai-api/wandb/<model-name>`.
+5. Cliquez sur **Select evaluations**, puis sélectionnez jusqu’à quatre benchmarks à exécuter.
+6. Si vous sélectionnez des benchmarks qui utilisent des modèles OpenAI pour le scoring, le champ **clé API du scorer** s’affiche. Cliquez dessus, puis sélectionnez le secret `OPENAI_API_KEY`. Pour plus de commodité, un administrateur d’équipe peut créer un secret depuis ce panneau en cliquant sur **Create secret**.
+7. Si vous sélectionnez des benchmarks qui nécessitent l’accès à des jeux de données à accès restreint dans Hugging Face, un champ **jeton Hugging Face** s’affiche. [Demandez l’accès au jeu de données concerné](https://huggingface.co/docs/hub/en/datasets-gated#access-gated-datasets-as-a-user), puis sélectionnez le secret qui contient le jeton d’accès utilisateur Hugging Face.
+8. Si vous le souhaitez, définissez **Sample limit** sur un entier positif pour limiter le nombre maximal d’échantillons de benchmark à évaluer. Sinon, tous les échantillons de la tâche sont inclus.
+9. Pour créer automatiquement un classement, cliquez sur **Publish results to leaderboard**. Le classement affichera toutes les évaluations dans un panneau d’espace de travail, et vous pourrez également le partager dans un rapport.
+10. Cliquez sur **Launch** pour lancer le job d’évaluation.
+11. Cliquez sur l’icône en forme de flèche circulaire en haut de la page pour ouvrir la fenêtre modale des runs récents. Les jobs d’évaluation apparaissent avec vos autres runs récents. Cliquez sur le nom d’un run terminé pour l’ouvrir dans la vue du run individuel, ou cliquez sur le lien **Leaderboard** pour ouvrir directement le classement. Pour plus de détails, voir [Afficher les résultats](#view-the-results).
+
+Cet exemple de job exécute le benchmark `simpleqa` sur le modèle OpenAI `o4-mini` :
+
+<Frame>
+  ![Exemple de job d’évaluation de modèle hébergé](/images/models/llm-evaluation-jobs/hosted-model-job-example.png)
+</Frame>
+
+Cet exemple de classement visualise les performances de plusieurs modèles OpenAI :
+
+<Frame>
+  ![Exemple de classement visualisant les performances de plusieurs modèles hébergés](/images/models/llm-evaluation-jobs/hosted-model-leaderboard-example.png)
+</Frame>
+
+<ReviewEvaluationResults />
+
+<RerunEvaluation />
+
+<ExportEvaluation />

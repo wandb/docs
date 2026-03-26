@@ -1,0 +1,106 @@
+---
+title: "Les évaluateurs comme garde-fous"
+description: "Découvrez comment utiliser des évaluateurs comme garde-fous avec W&B Weave"
+---
+
+<Note>
+  Il s’agit d’un notebook interactif. Vous pouvez l’exécuter localement ou utiliser les liens ci-dessous :
+
+  * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
+  * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/scorers_as_guardrails.ipynb)
+</Note>
+
+<div id="scorers-as-guardrails">
+  # Les évaluateurs comme garde-fous
+</div>
+
+Les évaluateurs Weave sont des classes spéciales dotées d&#39;une méthode `score` permettant d&#39;évaluer les performances d&#39;un appel. Ils peuvent aller de règles assez simples à des LLM complexes faisant office de juges.
+
+Dans ce notebook, nous allons explorer comment utiliser les évaluateurs comme garde-fous pour empêcher votre LLM de générer du contenu nuisible ou inapproprié.
+
+```python lines
+%pip install weave --quiet
+python
+"""
+Example demonstrating how to implement guardrails in Weave.
+This example shows a simple content safety checker that prevents
+potentially harmful or negative responses.
+"""
+
+import weave
+
+# Initialiser Weave avec un nom de projet descriptif
+weave.init("content-safety-guardrails")
+
+class ContentSafetyScorer(weave.Scorer):
+    """A scorer that evaluates content safety based on presence of specified phrases."""
+
+    unsafe_phrases: list[str]
+    case_sensitive: bool = False
+
+    @weave.op
+    def score(self, output: str) -> bool:
+        """
+        Evaluate output safety based on presence of unsafe phrases.
+
+        Args:
+            output: The text output to evaluate
+
+        Returns:
+            bool: True if output is safe, False if unsafe
+        """
+        normalized_output = output if self.case_sensitive else output.lower()
+
+        for phrase in self.unsafe_phrases:
+            normalized_phrase = phrase if self.case_sensitive else phrase.lower()
+            if normalized_phrase in normalized_output:
+                return False
+        return True
+
+@weave.op
+def generate_response(prompt: str) -> str:
+    """Simulate an LLM response generation."""
+    if "test" in prompt.lower():
+        return "I'm sorry, I cannot process that request."
+    elif "help" in prompt.lower():
+        return "I'd be happy to help you with that!"
+    else:
+        return "Here's what you requested: " + prompt
+
+async def process_with_guardrail(prompt: str) -> str:
+    """
+    Process user input with content safety guardrail.
+    Returns the response if safe, or a fallback message if unsafe.
+    """
+    # Initialiser le scorer de sécurité
+    safety_scorer = ContentSafetyScorer(
+        name="Content Safety Checker",
+        unsafe_phrases=["sorry", "cannot", "unable", "won't", "will not"],
+    )
+
+    # Générer la réponse et obtenir l'objet Call
+    response, call = generate_response.call(prompt)
+
+    # Appliquer le scoring de sécurité
+    evaluation = await call.apply_scorer(safety_scorer)
+
+    # Renvoyer la réponse ou le message de repli selon la vérification de sécurité
+    if evaluation.result:
+        return response
+    else:
+        return "I cannot provide that response."
+python
+"""Example usage of the guardrail system."""
+test_prompts = [
+    "Please help me with my homework",
+    "Can you run a test for me?",
+    "Tell me a joke",
+]
+
+print("Testing content safety guardrails:\n")
+
+for prompt in test_prompts:
+    print(f"Input: '{prompt}'")
+    response = await process_with_guardrail(prompt)
+    print(f"Response: {response}\n")
+```

@@ -1,0 +1,366 @@
+---
+title: "Définir et journaliser des attributs"
+description: "Utilisez des attributs pour ajouter des métadonnées à vos traces et évaluations."
+---
+
+Dans Weave, les attributs vous permettent d’associer des métadonnées personnalisées à vos traces et évaluations. Ces métadonnées peuvent inclure des informations comme des noms d’environnement, des versions de modèle, des ID d’expérience, des ID utilisateur ou d’autres informations contextuelles pour vous aider à organiser, filtrer et analyser vos données Weave.
+
+Weave propose deux façons d’ajouter des attributs :
+
+* **Attributs par appel** : utilisez `weave.attributes()` pour ajouter des métadonnées à des opérations ou à des blocs de code spécifiques
+* **Attributs globaux** : utilisez le champ `global_attributes` pour définir, à l’initialisation, des attributs qui s’appliquent à toutes les traces et évaluations de votre projet
+
+Vous pouvez afficher dans l’interface utilisateur tous les attributs journalisés pendant les traces et les évaluations. Vous pouvez ensuite les utiliser pour filtrer et regrouper les données.
+
+<Tip>
+  `call.attributes` ne peut pas être modifié une fois l’appel commencé. Utilisez ce
+  gestionnaire de contexte pour définir les métadonnées avant d’invoquer l’op.
+</Tip>
+
+<div id="per-call-attributes">
+  ## Attributs par appel
+</div>
+
+Le gestionnaire de contexte `weave.attributes()` vous permet d’ajouter des métadonnées à des opérations tracées spécifiques. Vous pouvez ainsi associer des informations contextuelles à certains appels de fonction ou à certaines runs d’évaluation.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("attribute-check")
+
+    @weave.op
+    def my_function(name: str):
+        return f"Hello, {name}!"
+
+    # Ajouter des attributs à un appel spécifique
+    with weave.attributes({'env': 'production', 'user_id': '12345'}):
+        result = my_function("World")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import {init, op, withAttributes} from 'weave';
+
+    async function main() {
+      await init('your-team/attribute-example');
+
+      const myFunction = op(async function myFunction(name: string) {
+        return `Hello, ${name}!`;
+      });
+
+      // Ajouter des attributs à un appel spécifique
+      const result = await withAttributes(
+        {env: 'production', user_id: '12345'},
+        async () => myFunction('World')
+      );
+
+      console.log('Result:', result);
+    }
+
+    main().catch(console.error);
+    ```
+  </Tab>
+</Tabs>
+
+La fonction associe les attributs à toutes les opérations tracées dans le bloc du gestionnaire de contexte (Python) ou dans la fonction de rappel (TypeScript).
+
+Vous pouvez également imbriquer des contextes `weave.attributes()`. Les contextes internes remplacent les contextes externes pour les mêmes clés :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    @weave.op
+    def process_data(data: str):
+        return data.upper()
+
+    # Contexte externe
+    with weave.attributes({
+        "env": "production",
+        "version": "1.0.0",
+        "region": "us-west-2"
+    }):
+        process_data("hello")  # Contient les trois attributs
+        
+        # Le contexte interne remplace 'version'
+        with weave.attributes({
+            "version": "1.1.0",
+            "experiment": "exp-456"
+        }):
+            process_data("world")  # Contient env='production', version='1.1.0', region='us-west-2', experiment='exp-456'
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import {init, op, withAttributes} from 'weave';
+
+    async function main() {
+      await init('your-team/attribute-example');
+
+      const processData = op(async function processData(data: string) {
+        return data.toUpperCase();
+      });
+      
+      // Contexte externe
+      await withAttributes(
+        {
+          env: 'production',
+          version: '1.0.0',
+          region: 'us-west-2'
+        },
+        async () => {
+          await processData('hello');  // Contient les trois attributs
+          
+          // Le contexte interne remplace 'version'
+          await withAttributes(
+            {
+              version: '1.1.0',
+              experiment: 'exp-456'
+            },
+            async () => {
+              await processData('world');  // Contient env='production', version='1.1.0', region='us-west-2', experiment='exp-456'
+            }
+          );
+        }
+      );
+    }
+
+    main().catch(console.error);
+    ```
+  </Tab>
+</Tabs>
+
+<div id="global-attributes">
+  ## Attributs globaux
+</div>
+
+Lorsque vous définissez des attributs globaux lors de l’initialisation de Weave, ils s’appliquent automatiquement à **toutes** les traces et évaluations de votre projet. C’est utile pour transmettre des métadonnées à l’échelle du projet, comme l’environnement, la version du déploiement ou des informations sur l’équipe.
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init(
+        "my-project",
+        global_attributes={
+            "env": "production",
+            "app_version": "2.1.0",
+            "region": "us-west-2",
+            "team": "ml-platform"
+        }
+    )
+
+    # Le dictionnaire global_attributes applique désormais ces attributs à toutes les opérations suivantes
+    @weave.op
+    def my_function():
+        return "Hello"
+
+    my_function()  # Reçoit automatiquement tous les attributs globaux
+
+    # Les évaluations reçoivent également les attributs globaux
+    evaluation = weave.Evaluation(dataset=examples, scorers=[scorer])
+    asyncio.run(evaluation.evaluate(model))  # Reçoit tous les attributs globaux
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import {init, op, withAttributes} from 'weave';
+
+    async function main() {
+        await init('your-team/attribute-example', {
+            globalAttributes: {
+                env: 'production',
+                app_version: '2.1.0',
+                region: 'us-west-2',
+                team: 'ml-platform'
+            }
+        });
+        
+        // L’objet globalAttributes applique désormais ces attributs à toutes les opérations suivantes
+        const myFunction = op(async function myFunction() {
+            return 'Hello';
+        });
+        
+        const result = await myFunction();  // Reçoit automatiquement tous les attributs globaux
+        console.log('Result:', result);
+    }
+    main().catch(console.error);
+    ```
+  </Tab>
+</Tabs>
+
+<div id="combine-global-and-per-call-attributes">
+  ### Combiner les attributs globaux et les attributs par appel
+</div>
+
+Vous pouvez utiliser simultanément des attributs globaux et des attributs par appel. Si des attributs par appel utilisent la même clé, ils remplacent les attributs globaux :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    # Définir les attributs globaux
+    weave.init(
+        "my-project",
+        global_attributes={
+            "env": "production",
+            "app_version": "2.1.0"
+        }
+    )
+
+    @weave.op
+    def process(data: str):
+        return data
+
+    # Cet appel contient : env='production', app_version='2.1.0'
+    process("test1")
+
+    # Cet appel contient : env='staging', app_version='2.1.0', experiment='A'
+    with weave.attributes({'env': 'staging', 'experiment': 'A'}):
+        process("test2")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```typescript lines
+    import {init, op, withAttributes} from 'weave';
+
+    async function main() {
+        // Définir les attributs globaux
+        await init('your-team/attribute-example', {
+        globalAttributes: {
+            env: 'production',
+            app_version: '2.1.0'
+        }
+        });
+
+        const process = op(async function process(data: string) {
+        return data;
+        });
+
+        // Cet appel contient : env='production', app_version='2.1.0'
+        await process('test1');
+
+        // Cet appel contient : env='staging', app_version='2.1.0', experiment='A'
+        await withAttributes(
+        {env: 'staging', experiment: 'A'},
+        async () => process('test2')
+        );
+    }
+    main().catch(console.error);
+    ```
+  </Tab>
+</Tabs>
+
+<div id="get-attributes-during-execution">
+  ## Obtenir des attributs lors de l&#39;exécution
+</div>
+
+Renvoie l&#39;ensemble des attributs actuellement journalisés pour votre appel. Cela peut vous aider à déboguer vos appels ou à exploiter le contexte pour une logique conditionnelle.
+
+<Tabs>
+  <Tab title="Python">
+    L&#39;exemple suivant applique le décorateur Weave à la fonction `process_data` pour la journaliser, définit les attributs à journaliser, puis les renvoie à l&#39;exécution.
+
+    ```python lines 
+    import weave
+
+    weave.init("your-team/your-project")
+
+    @weave.op
+    def process_data(data: str):
+        # Obtenir l'appel en cours à l'intérieur de l'op
+        call = weave.get_current_call()
+        if call:
+            print(f"Attributes: {call.attributes}")
+        return data.upper()
+
+    # Définir les attributs et exécuter la fonction
+    with weave.attributes({
+        "env": "production",
+        "version": "1.0.0",
+        "region": "us-west-2"
+    }):
+        process_data("hello")
+        
+        with weave.attributes({
+            "version": "1.1.0",
+            "experiment": "exp-456"
+        }):
+            process_data("world")
+    ```
+
+    Cela produit :
+
+    ```shell
+    Attributes: {'env': 'production', 'version': '1.0.0', 'region': 'us-west-2'}
+    Attributes: {'env': 'production', 'version': '1.1.0', 'region': 'us-west-2', 'experiment': 'exp-456'}
+    ```
+
+    <Note>
+      `weave.get_current_call()` fonctionne uniquement **à l&#39;intérieur** d&#39;une fonction décorée avec `@weave.op`. En dehors d&#39;un op, il renvoie `None`.
+    </Note>
+  </Tab>
+
+  <Tab title="TypeScript">
+    Avec le SDK TypeScript de Weave, vous pouvez obtenir les attributs actuels à l&#39;aide de `client.getCurrentAttributes()`. Contrairement au SDK Python de Weave, vous pouvez accéder aux attributs en TypeScript dans le contexte `withAttributes()`, et pas seulement à l&#39;intérieur d&#39;un op.
+
+    ```typescript lines
+    import * as weave from 'weave';
+    import { withAttributes } from 'weave';
+
+    async function main() {
+      const client = await weave.init('your-team/your-project');
+
+      const processData = weave.op(async function processData(data: string) {
+        // Vous pouvez également accéder aux attributs à l'intérieur d'un op
+        const attrs = client.getCurrentAttributes();
+        console.log('Attributes inside op:', attrs);
+        return data.toUpperCase();
+      });
+
+      // Définir les attributs et exécuter la fonction
+      await withAttributes(
+        {
+          env: 'production',
+          version: '1.0.0',
+          region: 'us-west-2'
+        },
+        async () => {
+          // Obtenir les attributs n'importe où dans le contexte
+          console.log('Current attributes:', client.getCurrentAttributes());
+          await processData('hello');
+
+          await withAttributes(
+            {
+              version: '1.1.0',
+              experiment: 'exp-456'
+            },
+            async () => {
+              console.log('Nested attributes:', client.getCurrentAttributes());
+              await processData('world');
+            }
+          );
+        }
+      );
+    }
+
+    main().catch(console.error);
+    ```
+
+    Cela produit :
+
+    ```shell
+    Current attributes: { env: 'production', version: '1.0.0', region: 'us-west-2' }
+    Attributes inside op: { env: 'production', version: '1.0.0', region: 'us-west-2' }
+    Nested attributes: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
+    Attributes inside op: { env: 'production', version: '1.1.0', region: 'us-west-2', experiment: 'exp-456' }
+    ```
+  </Tab>
+</Tabs>

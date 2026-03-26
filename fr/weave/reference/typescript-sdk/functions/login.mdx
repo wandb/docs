@@ -1,0 +1,41 @@
+---
+title: "login"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="login">
+  # login
+</div>
+
+▸ **login**(`apiKey`, `host?`): `Promise`&lt;`void`&gt;
+
+Connectez-vous à Weights &amp; Biases (W&amp;B) à l’aide de la clé API fournie.
+Cette fonction tente d’enregistrer les identifiants dans votre fichier netrc pour une utilisation ultérieure,
+mais elle continue même si elle ne parvient pas à écrire sur le système de fichiers.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom      | Type     | Description                                                                                                   |
+| :------- | :------- | :------------------------------------------------------------------------------------------------------------ |
+| `apiKey` | `string` | Votre clé API W&amp;B.                                                                                        |
+| `host?`  | `string` | (Facultatif) Le nom d’hôte (généralement requis uniquement si vous utilisez un serveur W&amp;B personnalisé). |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;`void`&gt;
+
+`Lève une exception`
+
+Si la clé API n’est pas spécifiée ou si la connexion au serveur de trace Weave ne peut pas être vérifiée.
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[clientApi.ts:23](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L23)
+
+***

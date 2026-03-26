@@ -1,0 +1,36 @@
+---
+title: Artifacts
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
+
+
+## <kbd>class</kbd> `Artifacts`
+
+Une collection itérable de versions d’artefacts associées à un projet.
+
+Vous pouvez facultativement passer des filtres pour affiner les résultats selon des critères spécifiques.
+
+**Arguments :**
+
+* `client`:  L’instance client à utiliser pour interroger W&amp;B.
+* `entity`:  L’entité (utilisateur ou équipe) propriétaire du projet.
+* `project`:  Le nom du projet à interroger pour les artefacts.
+* `collection_name`:  Le nom de la collection d’artefacts à interroger.
+* `type`:  Le type des artefacts à interroger. Les exemples courants incluent &quot;dataset&quot; ou &quot;model&quot;.
+* `filters`:  Mapping facultatif de filtres à appliquer à la requête.
+* `order`:  Chaîne facultative permettant de spécifier l’ordre des résultats.
+* `per_page`:  Le nombre de versions d’artefacts à récupérer par page. La valeur par défaut est 50.
+* `tags`:  Chaîne facultative ou liste de chaînes permettant de filtrer les artefacts par balises. 
+
+### <kbd>propriété</kbd> Artifacts.cursor
+
+***
+
+### <kbd>propriété</kbd> Artifacts.more
+
+***

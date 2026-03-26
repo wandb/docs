@@ -1,0 +1,21 @@
+---
+title: "Comment puis-je définir l’emplacement local des fichiers `wandb` ?"
+keywords: ["Variables d’environnement", "Experiments"]
+---
+
+* `WANDB_DIR=<path>` ou `wandb.init(dir=<path>)` : Contrôle l’emplacement du dossier `wandb` créé pour votre script d’entraînement. La valeur par défaut est `./wandb`. Ce dossier stocke les données et les journaux du run
+* `WANDB_ARTIFACT_DIR=<path>` ou `wandb.Artifact().download(root="<path>")` : Contrôle l’emplacement où les artefacts sont téléchargés. La valeur par défaut est `./artifacts`
+* `WANDB_CACHE_DIR=<path>` : Il s’agit de l’emplacement où les artefacts sont créés et stockés lors de l’appel à `wandb.Artifact`. La valeur par défaut est `~/.cache/wandb`
+* `WANDB_CONFIG_DIR=<path>` : Emplacement où les fichiers de configuration sont stockés. La valeur par défaut est `~/.config/wandb`
+* `WANDB_DATA_DIR=<PATH>` : Contrôle l’emplacement utilisé pour la mise en attente des artefacts pendant le téléversement. La valeur par défaut est `~/.cache/wandb-data/`.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

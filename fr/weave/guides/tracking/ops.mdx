@@ -1,0 +1,243 @@
+---
+title: "Personnaliser les Ops"
+description: "Découvrez comment ajouter de la couleur à vos Ops pour une meilleure visibilité, comment modifier ce qui est enregistré et comment contrôler le taux d'échantillonnage"
+---
+
+Une Op Weave est une fonction versionnée qui enregistre automatiquement tous les appels.
+
+<Tabs>
+  <Tab title="Python">
+    Pour créer une Op, décorez une fonction Python avec `weave.op()`
+
+    ```python lines
+    import weave
+
+    @weave.op()
+    def track_me(v):
+        return v + 5
+
+    weave.init('intro-example')
+    track_me(15)
+    ```
+
+    L&#39;appel d&#39;une Op crée une nouvelle version de l&#39;Op si le code a changé depuis le dernier appel, et enregistre les entrées et les sorties de la fonction.
+
+    Les fonctions que vous décorez avec `@weave.op()` se comportent normalement (sans gestion des versions du code ni suivi) si vous n&#39;appelez pas `weave.init('your-project-name')` avant de les appeler.
+
+    Les Ops peuvent être [exposées](/fr/weave/guides/tools/serve) ou [déployées](/fr/weave/guides/tools/deploy) à l&#39;aide de la boîte à outils Weave.
+  </Tab>
+
+  <Tab title="TypeScript">
+    Pour créer une Op, encapsulez une fonction TypeScript avec `weave.op`
+
+    ```typescript lines
+    import * as weave from 'weave'
+
+    function trackMe(v: number) {
+        return v + 5
+    }
+
+    const trackMeOp = weave.op(trackMe)
+    trackMeOp(15)
+
+    // Vous pouvez aussi le faire en ligne, ce qui peut être plus pratique
+    const trackMeInline = weave.op((v: number) => v + 5)
+    trackMeInline(15)
+    ```
+  </Tab>
+</Tabs>
+
+<div id="customize-display-names">
+  ## Personnaliser les noms d’affichage
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Vous pouvez personnaliser le nom d’affichage de l’op en définissant le paramètre `name` dans le décorateur `@weave.op` :
+
+    ```python lines
+    @weave.op(name="custom_name")
+    def func():
+        ...
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="apply-kinds-and-colors">
+  ## Appliquer des types et des couleurs
+</div>
+
+Pour mieux organiser vos Ops dans l’interface Weave, vous pouvez leur appliquer des types et des couleurs personnalisés en ajoutant les arguments `kind` et `color` aux décorateurs `@weave.op` dans votre code. Par exemple, le code suivant attribue la valeur `LLM` à `kind` et la valeur `blue` à `color` pour la fonction parente, ainsi que la valeur `tool` à `kind` et la valeur `red` à `color` pour une fonction imbriquée :
+
+<Tabs>
+  <Tab title="Python">
+    ```python lines
+    import weave
+
+    weave.init("<your-team-name>/<your-project-name>")
+
+    @weave.op(kind="LLM", color="blue")
+    def llm_func():
+        @weave.op(kind="tool", color="red")
+        def tool_func():
+            return "tool result"
+
+        tool_result = tool_func()
+        
+        return f"llm result with {tool_result}"
+
+    llm_func()
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+Cela applique ces couleurs et ces types à vos Ops dans l’interface Weave, comme ceci :
+
+<Frame>
+  ![L’interface Weave, montrant un appel parent avec le type LLM et la couleur blue, ainsi qu’un appel imbriqué avec le type tool et la couleur red.](/images/weave/weave_colors_kinds.png)
+</Frame>
+
+Les valeurs `kind` disponibles sont :
+
+* `agent`
+* `llm`
+* `tool`
+* `search`
+
+Les valeurs `color` disponibles sont :
+
+* `red`
+* `orange`
+* `yellow`
+* `green`
+* `blue`
+* `purple`
+
+<div id="customize-logged-inputs-and-outputs">
+  ## Personnaliser les entrées et sorties enregistrées
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Si vous souhaitez modifier les données que Weave enregistre sans modifier la fonction originale (par exemple, pour masquer des données sensibles), vous pouvez passer `postprocess_inputs` et `postprocess_output` au décorateur op.
+
+    `postprocess_inputs` reçoit un dict dans lequel les clés sont les noms des arguments et les valeurs, les valeurs des arguments, puis renvoie un dict contenant les entrées transformées.
+
+    `postprocess_output` reçoit n’importe quelle valeur normalement renvoyée par la fonction et renvoie la sortie transformée.
+
+    ```python lines
+    from dataclasses import dataclass
+    from typing import Any
+    import weave
+
+    @dataclass
+    class CustomObject:
+        x: int
+        secret_password: str
+
+    def postprocess_inputs(inputs: dict[str, Any]) -> dict[str, Any]:
+        return {k:v for k,v in inputs.items() if k != "hide_me"}
+
+    def postprocess_output(output: CustomObject) -> CustomObject:
+        return CustomObject(x=output.x, secret_password="REDACTED")
+
+    @weave.op(
+        postprocess_inputs=postprocess_inputs,
+        postprocess_output=postprocess_output,
+    )
+    def func(a: int, hide_me: str) -> CustomObject:
+        return CustomObject(x=a, secret_password=hide_me)
+
+    weave.init('hide-data-example') # 🐝
+    func(a=1, hide_me="password123")
+    ```
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="control-sampling-rate">
+  ## Contrôler le taux d’échantillonnage
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Vous pouvez contrôler la fréquence à laquelle les appels d’un Op sont tracés en définissant le paramètre `tracing_sample_rate` dans le décorateur `@weave.op`. C’est utile pour les Ops à haute fréquence lorsque vous n’avez besoin de tracer qu’un sous-ensemble des appels.
+
+    Notez que Weave applique les taux d’échantillonnage uniquement aux appels racine. Si un Op a un taux d’échantillonnage, mais qu’il est d’abord appelé par un autre Op, ce taux d’échantillonnage est ignoré.
+
+    ```python lines
+    @weave.op(tracing_sample_rate=0.1)  # Tracer seulement ~10 % des appels
+    def high_frequency_op(x: int) -> int:
+        return x + 1
+
+    @weave.op(tracing_sample_rate=1.0)  # Toujours tracer (par défaut)
+    def always_traced_op(x: int) -> int:
+        return x + 1
+    ```
+
+    Lorsqu’un appel d’un Op n’est pas échantillonné :
+
+    * La fonction s’exécute normalement
+    * Aucune donnée de trace n’est envoyée à Weave
+    * Les Ops enfants ne sont pas non plus tracés pour cet appel
+
+    Le taux d’échantillonnage doit être compris entre 0.0 et 1.0, bornes incluses.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>
+
+<div id="control-call-link-output">
+  ## Contrôler la sortie des liens d’appel
+</div>
+
+Si vous souhaitez empêcher l’affichage des liens d’appel lors de la journalisation, vous pouvez définir la variable d’environnement `WEAVE_PRINT_CALL_LINK` sur `false`. Cela peut être utile si vous souhaitez réduire la verbosité de la sortie et alléger vos journaux.
+
+```bash lines
+export WEAVE_PRINT_CALL_LINK=false
+```
+
+<div id="deleting-an-op">
+  ## Suppression d’un Op
+</div>
+
+<Tabs>
+  <Tab title="Python">
+    Pour supprimer une version d’un Op, appelez `.delete()` sur la référence de l’Op.
+
+    ```python lines
+    weave.init('intro-example')
+    my_op_ref = weave.ref('track_me:v1')
+    my_op_ref.delete()
+    ```
+
+    L’accès à un Op supprimé renvoie une erreur.
+  </Tab>
+
+  <Tab title="TypeScript">
+    ```plaintext
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    ```
+  </Tab>
+</Tabs>

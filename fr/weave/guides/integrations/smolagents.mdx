@@ -1,0 +1,123 @@
+---
+title: Smolagents
+description: "Suivez les applications Smolagents avec le traçage automatique de Weave, en capturant les appels aux outils, les inférences du modèle et les flux de travail d'agent en plusieurs étapes."
+---
+
+<Warning>
+  Tous les exemples de code présentés sur cette page sont en Python.
+</Warning>
+
+Cette page explique comment intégrer [Smolagents](https://huggingface.co/docs/smolagents/en/index) à W&amp;B Weave pour suivre et analyser vos applications d&#39;agents. Vous apprendrez à journaliser les inférences du modèle, à surveiller les appels de fonction et à organiser les expériences à l&#39;aide des fonctionnalités de traçage et de gestion des versions de Weave. En suivant les exemples fournis, vous pourrez capturer des informations précieuses, déboguer efficacement vos applications et comparer différentes configurations de modèle, le tout depuis l&#39;interface web de Weave.
+
+<div id="overview">
+  ## Aperçu
+</div>
+
+Smolagents est un framework simple qui propose des abstractions minimales pour créer de puissantes applications agentiques. Il prend en charge plusieurs fournisseurs de LLM, notamment OpenAI, Hugging Face Transformers et Anthropic.
+
+Weave capture automatiquement les traces pour [Smolagents](https://huggingface.co/docs/smolagents/en/index). Pour commencer le suivi, appelez `weave.init()` et utilisez la bibliothèque comme d’habitude.
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+1. Avant de pouvoir utiliser Smolagents avec Weave, installez les bibliothèques requises ou mettez-les à jour vers leurs dernières versions. La commande suivante installe ou met à jour `smolagents`, `openai` et `weave`, tout en supprimant la sortie :
+
+   ```python lines
+   pip install -U smolagents openai weave -qqq
+   ```
+
+2. Smolagents prend en charge plusieurs fournisseurs de LLM, notamment OpenAI, Hugging Face Transformers et Anthropic. Définissez la clé API du fournisseur de votre choix en définissant la variable d&#39;environnement correspondante :
+
+   ```python lines
+   import os
+   import getpass
+
+   os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API key: ")
+   ```
+
+<div id="basic-tracing">
+  ## Traçage de base
+</div>
+
+Stocker les traces des applications de modèles de langage dans un emplacement central est essentiel, aussi bien en phase de développement qu’en production. Ces traces facilitent le débogage et constituent de précieux jeux de données pour améliorer votre application.
+
+Weave capture automatiquement les traces pour [Smolagents](https://huggingface.co/docs/smolagents/en/index). Pour commencer le suivi, initialisez Weave en appelant `weave.init()`, puis utilisez la bibliothèque comme d’habitude.
+
+L’exemple suivant montre comment journaliser les appels d’inférence vers un agent LLM utilisant des outils avec Weave. Dans ce scénario :
+
+* Vous définissez un modèle de langage (le `gpt-4o` d’OpenAI) à l’aide de `OpenAIServerModel` de Smolagents.
+* Vous configurez un outil de recherche (`DuckDuckGoSearchTool`) que l’agent peut invoquer si nécessaire.
+* Vous créez un `ToolCallingAgent` en lui transmettant l’outil et le modèle.
+* Vous exécutez une requête via l’agent, ce qui déclenche l’outil de recherche.
+* Weave enregistre chaque invocation de fonction et de modèle, et les rend disponibles pour inspection via son interface web.
+
+```python lines
+import weave
+from smolagents import DuckDuckGoSearchTool, OpenAIServerModel, ToolCallingAgent
+
+# Initialiser Weave
+weave.init(project_name="smolagents")
+
+# Définir votre fournisseur LLM pris en charge par Smolagents
+model = OpenAIServerModel(model_id="gpt-4o")
+
+# Définir un outil de recherche web DuckDuckGo basé sur votre requête
+search_tool = DuckDuckGoSearchTool()
+
+# Définir un agent d'appel d'outils
+agent = ToolCallingAgent(tools=[search_tool], model=model)
+answer = agent.run(
+    "Get me just the title of the page at url 'https://wandb.ai/geekyrakshit/story-illustration/reports/Building-a-GenAI-assisted-automatic-story-illustrator--Vmlldzo5MTYxNTkw'?"
+)
+```
+
+Après avoir exécuté l’exemple de code, accédez au tableau de bord de votre projet Weave pour consulter les traces.
+
+<Frame>
+  ![Weave journalise chaque appel d’inférence et fournit des détails sur les entrées, les sorties et les métadonnées.](/weave/guides/integrations/imgs/smolagents-trace.png)
+</Frame>
+
+<div id="tracing-custom-tools">
+  ## Traçage des outils personnalisés
+</div>
+
+Vous pouvez déclarer des outils personnalisés pour vos flux de travail agentiques en décorant une fonction avec `@tool` de `smolagents` ou en héritant de la classe `smolagents.Tool`.
+
+Weave assure automatiquement le suivi des appels aux outils personnalisés dans vos flux de travail Smolagents. L&#39;exemple suivant montre comment journaliser un appel à un outil Smolagents personnalisé avec Weave :
+
+* Une fonction `get_weather` personnalisée est définie et décorée avec `@tool` de Smolagents, ce qui permet à l&#39;agent de l&#39;invoquer dans le cadre de son processus de raisonnement.
+* La fonction accepte un emplacement et un indicateur facultatif pour une sortie en Celsius.
+* Un modèle de langage est instancié à l&#39;aide de `OpenAIServerModel`.
+* Un `ToolCallingAgent` est créé avec l&#39;outil personnalisé et le modèle.
+* Lorsque l&#39;agent exécute la requête, il sélectionne et invoque l&#39;outil `get_weather`.
+* Weave journalise à la fois l&#39;inférence du modèle et l&#39;invocation de l&#39;outil personnalisé, y compris les arguments et les valeurs de retour.
+
+```python lines
+from typing import Optional
+
+import weave
+from smolagents import OpenAIServerModel, ToolCallingAgent, tool
+
+weave.init(project_name="smolagents")
+
+@tool
+def get_weather(location: str, celsius: Optional[bool] = False) -> str:
+    """
+    Obtenir la météo des prochains jours pour un emplacement donné.
+    Arguments:
+        location: L'emplacement.
+        celsius: Indique si la température doit être en Celsius.
+    """
+    return f"The weather in {location} is sunny with temperatures around 7°C."
+
+model = OpenAIServerModel(model_id="gpt-4o")
+agent = ToolCallingAgent(tools=[get_weather], model=model)
+answer = agent.run("Quel temps fait-il à Tokyo ?")
+```
+
+Après avoir exécuté l’exemple de code, accédez au tableau de bord de votre projet Weave pour consulter les traces.
+
+<Frame>
+  ![Weave journalise chaque appel à un outil personnalisé.](/weave/guides/integrations/imgs/smolagents-custom-tool.png)
+</Frame>

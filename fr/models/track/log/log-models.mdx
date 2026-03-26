@@ -1,0 +1,159 @@
+---
+title: Enregistrer les modèles
+description: "Enregistrez des artefacts de modèle dans un run W&B, puis récupérez-les plus tard à l’aide des méthodes SDK log_model et use_model."
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/ken-add-new-model-reg-api/colabs/wandb-model-registry/New_Model_Logging_in_W&B.ipynb" />
+
+<div id="log-models">
+  # Enregistrer les modèles
+</div>
+
+Le guide suivant explique comment enregistrer des modèles dans un run W&amp;B et interagir avec eux.
+
+<Note>
+  Les API suivantes sont utiles pour suivre les modèles dans le cadre de votre flux de travail de suivi des expériences. Utilisez les API répertoriées sur cette page pour enregistrer des modèles dans un run et accéder aux métriques, tableaux, médias et autres objets.
+
+  W&amp;B vous recommande d&#39;utiliser [W&amp;B Artifacts](/fr/models/artifacts/) si vous souhaitez :
+
+  * Créer et suivre différentes versions de données sérialisées autres que les modèles, comme des jeux de données, des prompts, etc.
+  * Explorer les [graphes de lignage](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/) d&#39;un modèle ou de tout autre objet suivi dans W&amp;B.
+  * Interagir avec les artefacts de modèle créés avec ces méthodes, par exemple en [mettant à jour leurs propriétés](/fr/models/artifacts/update-an-artifact/) (métadonnées, alias et descriptions)
+
+  Pour plus d&#39;informations sur W&amp;B Artifacts et les cas d&#39;usage avancés de gestion des versions, voir la documentation [Artifacts](/fr/models/artifacts/).
+</Note>
+
+<div id="log-a-model-to-a-run">
+  ## Enregistrer un modèle dans un run
+</div>
+
+Utilisez [`log_model`](/fr/models/ref/python/experiments/run#log_model) pour enregistrer un artefact de modèle contenant le contenu du répertoire que vous spécifiez. La méthode [`log_model`](/fr/models/ref/python/experiments/run#log_model) marque également l’artefact de modèle obtenu comme sortie du run W&amp;B.
+
+Vous pouvez suivre les dépendances d’un modèle et ses associations si vous le marquez comme entrée ou sortie d’un run W&amp;B. Consultez la traçabilité du modèle dans l’interface de l’application W&amp;B. Voir la page [Explore and traverse artifact graphs](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/) du chapitre [Artifacts](/fr/models/artifacts/) pour plus d’informations.
+
+Indiquez dans le paramètre `path` le chemin où vos fichiers de modèle sont enregistrés. Le chemin peut être un fichier local, un répertoire ou un [URI de référence](/fr/models/artifacts/track-external-files/#amazon-s3--gcs--azure-blob-storage-references) vers un bucket externe, par exemple `s3://bucket/path`.
+
+Veillez à remplacer les valeurs entre `<>` par les vôtres.
+
+```python
+import wandb
+
+# Initialiser un run W&B
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
+
+    # Enregistrer le modèle
+    run.log_model(path="<path-to-model>", name="<name>")
+```
+
+Vous pouvez facultativement fournir un nom pour l’artefact de modèle via le paramètre `name`. Si `name` n’est pas spécifié, W&amp;B utilisera comme nom le nom de base du chemin d’entrée, précédé de l’ID du run.
+
+<Note>
+  Notez le `name` que vous ou W&amp;B attribuez au modèle. Vous aurez besoin du nom du modèle pour récupérer son chemin avec la méthode [`wandb.Run.use_model()`](/fr/models/ref/python/experiments/run#use_model).
+</Note>
+
+Voir [`log_model`](/fr/models/ref/python/experiments/run#log_model) dans la Référence de l’API pour connaître les paramètres.
+
+<details>
+  <summary>Exemple : enregistrer un modèle dans un run</summary>
+
+  ```python
+  import os
+  import wandb
+  from tensorflow import keras
+  from tensorflow.keras import layers
+
+  config = {"optimizer": "adam", "loss": "categorical_crossentropy"}
+
+  # Initialiser un run W&B
+  with wandb.init(entity="charlie", project="mnist-experiments", config=config) as run:
+
+      # Hyperparamètres
+      loss = run.config["loss"]
+      optimizer = run.config["optimizer"]
+      metrics = ["accuracy"]
+      num_classes = 10
+      input_shape = (28, 28, 1)
+
+      # Algorithme d'entraînement
+      model = keras.Sequential(
+          [
+              layers.Input(shape=input_shape),
+              layers.Conv2D(32, kernel_size=(3, 3), activation="relu"),
+              layers.MaxPooling2D(pool_size=(2, 2)),
+              layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+              layers.MaxPooling2D(pool_size=(2, 2)),
+              layers.Flatten(),
+              layers.Dropout(0.5),
+              layers.Dense(num_classes, activation="softmax"),
+          ]
+      )
+
+      # Configurer le modèle pour l'entraînement
+      model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+
+      # Enregistrer le modèle
+      model_filename = "model.h5"
+      local_filepath = "./"
+      full_path = os.path.join(local_filepath, model_filename)
+      model.save(filepath=full_path)
+
+      # Enregistrer le modèle dans le run W&B
+      run.log_model(path=full_path, name="MNIST")
+  ```
+
+  Lorsque vous appelez `log_model`, un artefact de modèle nommé `MNIST` est créé et le fichier `model.h5` y est ajouté. Votre terminal ou notebook affichera où trouver les informations sur le run dans lequel le modèle a été enregistré.
+
+  ```python
+  View run different-surf-5 at: https://wandb.ai/charlie/mnist-experiments/runs/wlby6fuw
+  Synced 5 W&B file(s), 0 media file(s), 1 artifact file(s) and 0 other file(s)
+  Find logs at: ./wandb/run-20231206_103511-wlby6fuw/logs
+  ```
+</details>
+
+<div id="download-and-use-a-logged-model">
+  ## Télécharger et utiliser un modèle enregistré
+</div>
+
+Utilisez la fonction [`use_model`](/fr/models/ref/python/experiments/run#use_model) pour accéder aux fichiers du modèle et les télécharger s&#39;ils ont été précédemment enregistrés dans un run W&amp;B.
+
+Indiquez le nom de l&#39;artefact de modèle dans lequel sont stockés les fichiers du modèle que vous souhaitez récupérer. Le nom fourni doit correspondre à celui d&#39;un artefact de modèle enregistré existant.
+
+Si vous n&#39;avez pas défini `name` lorsque vous avez initialement enregistré les fichiers avec `log_model`, le nom attribué par défaut est le nom de base du chemin d&#39;entrée, précédé de l&#39;ID du run.
+
+Veillez à remplacer les valeurs comprises entre `<>` par les vôtres :
+
+```python
+import wandb
+
+# Initialiser un run
+with wandb.init(project="<your-project>", entity="<your-entity>") as run:
+
+    # Accéder au modèle et le télécharger. Renvoie le chemin vers l'artefact téléchargé
+    downloaded_model_path = run.use_model(name="<your-model-name>")
+```
+
+La fonction [use&#95;model](/fr/models/ref/python/experiments/run#use_model) renvoie le chemin d’accès aux fichiers du modèle téléchargé. Conservez ce chemin si vous souhaitez lier ce modèle plus tard. Dans l&#39;extrait de code précédent, le chemin renvoyé est stocké dans une variable appelée `downloaded_model_path`.
+
+<details>
+  <summary>Exemple : Télécharger et utiliser un modèle enregistré</summary>
+
+  Par exemple, dans l&#39;extrait de code suivant, un utilisateur a appelé l&#39;API `use_model`. Il a indiqué le nom de l&#39;artefact de modèle qu&#39;il souhaite récupérer et a également fourni une version ou un alias. Il a ensuite stocké le chemin renvoyé par l&#39;API dans la variable `downloaded_model_path`.
+
+  ```python
+  import wandb
+
+  entity = "luka"
+  project = "NLP_Experiments"
+  alias = "latest"  # surnom sémantique ou identifiant pour la version du modèle
+  model_artifact_name = "fine-tuned-model"
+
+  # Initialiser un run
+  with wandb.init(project=project, entity=entity) as run:
+      # Accéder au modèle et le télécharger. Renvoie le chemin vers l'artefact téléchargé
+      downloaded_model_path = run.use_model(name = f"{model_artifact_name}:{alias}") 
+  ```
+</details>
+
+Voir [`use_model`](/fr/models/ref/python/experiments/run#use_model) dans la Référence de l&#39;API pour les paramètres et le type de retour.

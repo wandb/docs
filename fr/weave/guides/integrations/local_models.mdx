@@ -1,0 +1,44 @@
+---
+title: Modèles locaux
+description: "Exécutez des modèles open source en local avec Ollama, LMStudio ou GPT4All, et tracez-les avec Weave grâce à la compatibilité du SDK OpenAI."
+---
+
+<div id="local-models">
+  # Modèles locaux
+</div>
+
+De nombreux développeurs téléchargent et exécutent en local des modèles open source comme LLama-3, Mixtral, Gemma, Phi, entre autres. Il existe plusieurs façons d’exécuter ces modèles en local, et Weave en prend nativement quelques-unes en charge, à condition qu’elles prennent en charge la compatibilité du SDK OpenAI.
+
+<div id="wrap-local-model-functions-with-weaveop">
+  ## Enveloppez les fonctions de modèle local avec `@weave.op()`
+</div>
+
+Vous pouvez facilement intégrer Weave à n’importe quel LLM en initialisant simplement Weave avec `weave.init('<your-project-name>')`, puis en enveloppant les appels à vos LLM avec `weave.op()`. Voir notre guide sur le [traçage](/fr/weave/guides/tracking/tracing) pour plus de détails.
+
+<div id="updating-your-openai-sdk-code-to-use-local-models">
+  ## Mettre à jour votre code du SDK OpenAI pour utiliser des modèles locaux
+</div>
+
+Tous les frameworks ou services qui prennent en charge la compatibilité du SDK OpenAI nécessitent quelques ajustements mineurs.
+
+Le premier, et le plus important, est la modification de `base_url` lors de l&#39;initialisation de `openai.OpenAI()`.
+
+```python lines
+client = openai.OpenAI(
+    base_url="http://localhost:1234",
+)
+```
+
+Dans le cas des modèles locaux, `api_key` peut être n’importe quelle chaîne, mais vous devez la remplacer ; sinon, OpenAI essaiera de la récupérer depuis les variables d’environnement et affichera une erreur.
+
+<div id="openai-sdk-supported-local-model-runners">
+  ## Exécutants de modèles locaux pris en charge par le SDK OpenAI
+</div>
+
+Voici une liste d&#39;applications qui vous permettent de télécharger et d&#39;exécuter des modèles depuis Hugging Face sur votre ordinateur, et qui prennent en charge la compatibilité du SDK OpenAI.
+
+1. Nomic [GPT4All](https://www.nomic.ai/gpt4all) - pris en charge via Local Server dans les paramètres ([FAQ](https://docs.gpt4all.io/gpt4all_help/faq.html))
+2. [LMStudio](https://lmstudio.ai/) - prise en charge de Local Server pour le SDK OpenAI [documentation](https://lmstudio.ai/docs/developer/core/server)
+3. [Ollama](https://ollama.com/) - [compatibilité OpenAI](https://ollama.readthedocs.io/en/openai/) pour le SDK OpenAI
+4. llama.cpp via le package Python [llama-cpp-python](https://llama-cpp-python.readthedocs.io/en/latest/server/)
+5. [llamafile](https://github.com/Mozilla-Ocho/llamafile#other-example-llamafiles) - `http://localhost:8080/v1` prend automatiquement en charge le SDK OpenAI lors de l&#39;exécution de Llamafile

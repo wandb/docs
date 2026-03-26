@@ -1,0 +1,124 @@
+---
+title: Vue des runs dans un projet
+description: Détails sur la personnalisation de l’affichage des runs dans le tableau des runs de votre projet
+---
+
+{/* <Note>
+  Un espace de travail ne peut afficher que 1000 runs maximum, quelle que soit sa configuration.
+  </Note> */}
+
+Consultez tous les runs enregistrés dans votre projet W&amp;B depuis l’onglet **Runs** de la barre latérale du projet. L’onglet Runs contient le *tableau Runs*. Le tableau Runs affiche les détails de tous les runs d’un projet. Utilisez le tableau Runs pour comparer les runs, les trier selon des colonnes spécifiques et les organiser en groupes.
+
+L’image suivante montre le tableau Runs d’un projet nommé `deep-drive` :
+
+<Frame>
+  <img src="/images/runs/run_table_all.png" alt="Tableau Runs" />
+</Frame>
+
+
+<div id="manage-columns">
+  ## Gérer les colonnes
+</div>
+
+Les sections suivantes expliquent comment personnaliser le tableau Runs.
+
+<div id="add-columns">
+  ### Ajouter des colonnes
+</div>
+
+Ajoutez des colonnes au tableau Runs pour personnaliser les propriétés associées à votre projet qui s’affichent.
+
+Pour ajouter des colonnes au tableau Runs :
+
+1. Dans la barre latérale du projet, sélectionnez l’onglet **Runs**.
+2. Au-dessus de la liste des runs, cliquez sur le bouton **Columns** (six tirets horizontaux).
+3. Sélectionnez le nom d’une propriété dans la section **Masquées** de la fenêtre modale.
+4. Faites glisser les colonnes pour en modifier l’ordre.
+5. Cliquez sur **Fermer**.
+
+<div id="remove-columns">
+  ### Supprimer des colonnes
+</div>
+
+Supprimez des colonnes du tableau Runs pour personnaliser les propriétés associées à votre projet qui sont visibles.
+
+Pour supprimer des colonnes du tableau Runs :
+
+1. Dans la barre latérale du projet, sélectionnez l’onglet **Runs**.
+2. Au-dessus de la liste des runs, cliquez sur le bouton **Columns** (six tirets horizontaux).
+3. Sélectionnez le nom d’une propriété dans la section **Visible &amp; Pinned** de la fenêtre modale.
+4. Cliquez sur **Fermer**.
+
+<div id="move-columns">
+  ### Déplacer les colonnes
+</div>
+
+Pour déplacer des colonnes dans le tableau Runs :
+
+1. Dans la barre latérale du projet, sélectionnez l’onglet **Runs**.
+2. Faites glisser une colonne vers la gauche ou la droite.
+
+<div id="pin-columns">
+  ### Épingler des colonnes
+</div>
+
+Les colonnes épinglées s’affichent sur le côté gauche. Les colonnes non épinglées s’affichent sur le côté droit de l’onglet Runs. Si vous épinglez une colonne dans l’onglet **Runs**, elle est également épinglée dans l’onglet **Workspace**. De même, si vous épinglez une colonne dans l’onglet **Workspace**, elle est également épinglée dans l’onglet **Runs**.
+
+Pour épingler une colonne :
+
+1. Dans la barre latérale du projet, accédez à l’onglet **Runs**.
+2. Cliquez sur le bouton **Columns** (six tirets horizontaux).
+3. Dans la section **Visible &amp; Pinned** de la fenêtre modale, cliquez sur l’icône en forme d’épingle à côté du nom de la colonne que vous souhaitez épingler.
+
+Pour désépingler une colonne :
+
+1. Dans la barre latérale du projet, accédez à l’onglet **Runs**.
+2. Soit survolez le nom de la colonne, puis cliquez sur son menu d’actions `...`, soit cliquez sur le bouton **Columns** (six tirets horizontaux), puis sur l’icône en forme d’épingle à côté du nom de la colonne que vous souhaitez désépingler.
+3. Cliquez sur **Unpin column**.
+
+<Note>
+  W&amp;B enregistre les colonnes que vous épinglez ou désépinglez dans le tableau Runs dans le sélecteur Runs de l’onglet Workspace.
+</Note>
+
+<div id="hide-columns">
+  ### Masquer des colonnes
+</div>
+
+Pour masquer des colonnes dans le tableau Runs :
+
+1. Dans la barre latérale du projet, sélectionnez l’onglet **Runs**.
+2. Survolez le nom de la colonne, puis cliquez sur le menu d’actions `...` qui s’affiche.
+3. Cliquez sur **Masquer la colonne**.
+
+Pour afficher toutes les colonnes actuellement masquées, cliquez sur **Columns**.
+
+<div id="sort-runs-by-column">
+  ## Trier les runs par colonne
+</div>
+
+Triez les runs selon n’importe quelle colonne visible du tableau Runs. C’est particulièrement utile pour afficher la meilleure (ou la pire) valeur enregistrée.
+
+Pour trier la liste des runs selon n’importe quelle colonne visible :
+
+1. Survolez le nom de la colonne, puis cliquez sur son menu d’action `...`.
+2. Si vous le souhaitez, survolez **Show latest**. Dans le menu déroulant, sélectionnez **latest**, **min** ou **max**.
+3. Cliquez sur **Sort ascending** ou **Sort descending**.
+
+L’animation suivante montre comment trier les runs par la valeur maximale d’une métrique enregistrée :
+
+<Frame>
+  <img src="/images/app_ui/runs_min_max.gif" alt="Trier par valeurs min/max" />
+</Frame>
+
+<Note>
+  W&amp;B enregistre l’ordre de tri que vous sélectionnez dans le tableau Runs dans le sélecteur Runs de l’onglet Workspace.
+</Note>
+
+<div id="export-runs-table-to-csv">
+  ## Exporter le tableau des runs au format CSV
+</div>
+
+Exportez au format CSV le tableau de tous vos runs, hyperparamètres et métriques de synthèse à l’aide du bouton de téléchargement.
+
+1. Dans la barre latérale du projet, sélectionnez l’onglet **Runs**.
+2. Au-dessus de la liste des runs, cliquez sur le bouton **Download** (flèche vers le bas).

@@ -1,0 +1,51 @@
+---
+title: "wandb sync"
+---
+
+import WandbSync from "/snippets/fr/_includes/cli/wandb-sync.mdx";
+
+<WandbSync />
+
+
+<div id="usage">
+  ## Utilisation
+</div>
+
+```bash
+wandb sync [PATH] [OPTIONS]
+```
+
+
+<div id="arguments">
+  ## Arguments
+</div>
+
+| Argument | Description                   | Requis |
+| :------- | :---------------------------- | :----- |
+| `PATH`   | Aucune description disponible | Non    |
+
+<div id="options">
+  ## Options
+</div>
+
+| Option               | Description                                                                                                               |
+| :------------------- | :------------------------------------------------------------------------------------------------------------------------ |
+| `--id`               | Le run de destination du téléversement.                                                                                   |
+| `--project`, `-p`    | Le projet de destination du téléversement.                                                                                |
+| `--entity`, `-e`     | L&#39;entité à utiliser comme portée.                                                                                     |
+| `--job_type`         | Spécifie le type de run afin de regrouper les runs associés.                                                              |
+| `--sync-tensorboard` | Diffuse les fichiers tfevent vers wandb.                                                                                  |
+| `--include-globs`    | Liste de globs à inclure, séparés par des virgules.                                                                       |
+| `--exclude-globs`    | Liste de globs à exclure, séparés par des virgules.                                                                       |
+| `--include-online`   | Inclure les runs en ligne                                                                                                 |
+| `--include-offline`  | Inclure les runs hors ligne                                                                                               |
+| `--include-synced`   | Inclure les runs synchronisés                                                                                             |
+| `--mark-synced`      | Marquer les runs comme synchronisés (par défaut : True)                                                                   |
+| `--sync-all`         | Synchroniser tous les runs (par défaut : False)                                                                           |
+| `--clean`            | Supprimer les runs synchronisés (par défaut : False)                                                                      |
+| `--clean-old-hours`  | Supprimer les runs créés depuis plus de ce nombre d&#39;heures. À utiliser avec l&#39;option `--clean`. (par défaut : 24) |
+| `--clean-force`      | Nettoyer sans demander de confirmation. (par défaut : False)                                                              |
+| `--show`             | Nombre de runs à afficher (par défaut : 5)                                                                                |
+| `--append`           | Ajouter le run (par défaut : False)                                                                                       |
+| `--skip-console`     | Ignorer les journaux de la console (par défaut : False)                                                                   |
+| `--replace-tags`     | Remplacer les tags au format &#39;old&#95;tag1=new&#95;tag1,old&#95;tag2=new&#95;tag2&#39;                                |

@@ -1,0 +1,57 @@
+---
+title: Histogram
+namespace: python_sdk_data_type
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py" />
+
+
+## <kbd>classe</kbd> `Histogram`
+
+Classe W&amp;B pour les histogrammes.
+
+Cet objet fonctionne exactement comme la fonction d&#39;histogramme de numpy https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
+
+**Attributs :**
+
+* `bins` ([float]):  Bornes des intervalles
+* `histogram` ([int]):  Nombre d&#39;éléments dans chaque intervalle. 
+
+### <kbd>méthode</kbd> `Histogram.__init__`
+
+```python
+__init__(
+    sequence: 'Sequence | None' = None,
+    np_histogram: 'NumpyHistogram | None' = None,
+    num_bins: 'int' = 64
+) → None
+```
+
+Initialiser un objet Histogram.
+
+**Arguments :**
+sequence: Données d&#39;entrée de l&#39;histogramme. np&#95;histogram: Entrée alternative correspondant à un histogramme précalculé. num&#95;bins: Nombre d&#39;intervalles de l&#39;histogramme. Le nombre d&#39;intervalles par défaut est de 64. Le nombre maximal d&#39;intervalles est de 512.
+
+**Exemples :**
+Générez un histogramme à partir d&#39;une séquence.
+
+```python
+import wandb
+
+wandb.Histogram([1, 2, 3])
+```
+
+Initialiser efficacement à partir de `np.histogram`.
+
+```python
+import numpy as np
+import wandb
+
+hist = np.histogram(data)
+wandb.Histogram(np_histogram=hist)
+```
+
+***
