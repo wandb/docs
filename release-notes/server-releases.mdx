@@ -38,14 +38,17 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
     <Frame>
     ![Pan and zoom controls in the full-screen image modal](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)
     </Frame>
-
+- For pinned and baseline runs, [summary metric deltas](/models/runs/compare-runs#summary-metric-deltas) show how each run compares to the baseline. To turn on semantic coloring for quick visual reference, you can set the Metric directionality for a column. This feature is now generally available.
+    <Frame>
+    ![Summary metric deltas in runs table comparing to baseline](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
+    </Frame>
 - The run selector and Runs list have been enhanced:
     - Added support for filtering by Git commit.
     - For runs that specify config parameters, added support for the `CONTAINS` operator.
 - Added defensive caching for project fields to reduce database load.
 
 ### Registry
-- Added new rate limits for artifact creation. By default, each artifact creation request can consume 10 request-seconds per 30-second time window.
+- Added new rate limits for artifact creation to reduce the risk of overloading the system.
 
 
 ### Weave
@@ -121,7 +124,7 @@ Refer to [Release policies and processes](/release-notes/release-policies). For 
     - Pin up to 6 runs to keep them visible in the workspace and at the top of the runs list. If you have a baseline run, you can pin up to 5 runs because the baseline is implicitly pinned.
     - Specify a baseline run as your reference point for comparisons. The baseline run is always visible in the workspace and at the top of the runs list.
 
-    In the runs table, summary metric deltas show how each run compares to the baseline.
+    In the runs table, summary metric deltas (preview) show how each run compares to the baseline. This is available by invitation only. Contact [mailto:support@wandb.com] for details.
 
     <Frame>
     ![Summary metric deltas in runs table comparing to baseline](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
