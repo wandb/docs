@@ -1,0 +1,15 @@
+---
+title: Ajouter un alias à un artefact existant
+---
+
+```python
+"""
+Ajoute un alias à un artefact W&B existant.
+"""
+import wandb
+
+# Récupérer un artefact existant et lui ajouter un alias
+artifact = wandb.Api().artifact("entity/project/artifact:version")
+artifact.aliases = ["<new-alias>"]
+artifact.save()
+```

@@ -1,0 +1,92 @@
+---
+title: File
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+
+
+## <kbd>class</kbd> `File`
+
+Fichier enregistré dans W&amp;B.
+
+Représente un fichier stocké dans W&amp;B. Inclut l’accès aux métadonnées du fichier. Les fichiers sont associés à un run spécifique et peuvent inclure des fichiers texte, des poids de modèle, des jeux de données, des visualisations et d’autres artefacts. Vous pouvez télécharger le fichier, le supprimer et accéder à ses propriétés.
+
+Spécifiez un ou plusieurs attributs dans un dictionnaire pour identifier un fichier précis enregistré dans un run donné. Vous pouvez effectuer une recherche à l’aide des clés suivantes :
+
+* id (str) : ID du run qui contient le fichier
+* name (str) : nom du fichier
+* url (str) : chemin vers le fichier
+* direct&#95;url (str) : chemin vers le fichier dans le bucket
+* sizeBytes (int) : taille du fichier en octets
+* md5 (str) : md5 du fichier
+* mimetype (str) : type MIME du fichier
+* updated&#95;at (str) : horodatage de la dernière mise à jour
+* path&#95;uri (str) : chemin vers le fichier dans le bucket, actuellement disponible uniquement pour les objets S3 et les fichiers de référence
+
+**Arguments :**
+
+* `client`:  L’objet run qui contient le fichier
+* `attrs` (dict):  Un dictionnaire d’attributs qui définissent le fichier
+* `run`:  L’objet run qui contient le fichier 
+
+### <kbd>propriété</kbd> File.path_uri
+
+Renvoie le chemin URI vers le fichier dans le bucket de stockage.
+
+**Retourne :**
+
+* `str` :  L’URI S3 (par exemple, &#39;s3://bucket/path/to/file&#39;) si le fichier est stocké dans S3, l’URL directe s’il s’agit d’un fichier de référence, ou une chaîne vide s’il n’est pas disponible.
+
+**Retourne :**
+
+* `str` : La valeur de propriété `path_uri`.
+
+***
+
+### <kbd>propriété</kbd> File.size
+
+Renvoie la taille du fichier en octets.
+
+**Retourne :**
+
+* `int` : La valeur de la valeur de propriété size.
+
+***
+
+### <kbd>méthode</kbd> `File.delete`
+
+```python
+delete() → None
+```
+
+Supprimez le fichier du serveur W&amp;B.
+
+***
+
+
+### <kbd>méthode</kbd> `File.download`
+
+```python
+download(
+    root: 'str' = '.',
+    replace: 'bool' = False,
+    exist_ok: 'bool' = False,
+    api: 'Api | None' = None
+) → io.TextIOWrapper
+```
+
+Télécharge un fichier précédemment enregistré par un run depuis le serveur wandb.
+
+**Arguments :**
+
+* `root` :  Répertoire local où enregistrer le fichier. Valeur par défaut : le répertoire de travail courant (&quot;.&quot;).
+* `replace` :  Si `True`, le téléchargement écrase un fichier local existant. Valeur par défaut : `False`.
+* `exist_ok` :  Si `True`, ne lève pas de `ValueError` si le fichier existe déjà et ne le télécharge pas à nouveau, sauf si `replace=True`. Valeur par défaut : `False`.
+* `api` :  Si spécifié, l&#39;instance `Api` utilisée pour télécharger le fichier.
+
+**Exceptions levées :**
+`ValueError` si le fichier existe déjà, `replace=False` et `exist_ok=False`.

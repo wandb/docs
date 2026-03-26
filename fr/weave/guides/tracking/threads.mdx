@@ -1,0 +1,679 @@
+---
+title: "Threads de trace"
+description: "Tracez et analysez les conversations à plusieurs tours dans vos applications LLM à l’aide des threads."
+---
+
+Avec les *Threads* de W&amp;B Weave, vous pouvez suivre et analyser les conversations à plusieurs tours dans vos applications LLM. Les threads regroupent les appels liés sous un `thread_id` commun, afin que vous puissiez visualiser des sessions complètes et suivre des métriques au niveau de la conversation d’un tour à l’autre. Vous pouvez créer des threads par code et les visualiser dans l’interface Weave.
+
+Pour bien démarrer avec les Threads, procédez comme suit :
+
+1. Familiarisez-vous avec les notions de base des Threads.
+   * [Cas d&#39;utilisation](#use-cases)
+   * [Définitions](#definitions)
+   * [Aperçu de l’interface](#ui-overview)
+   * [Spécification de l’API](#api-specification)
+2. Essayez les exemples de code, qui montrent des schémas d’utilisation courants et des cas d’utilisation concrets.
+   * [Exemples d&#39;utilisation de base](#basic-thread-creation)
+
+* [Exemples d&#39;utilisation avancée](#manual-agent-loop-implementation)
+
+<div id="use-cases">
+  ## Cas d&#39;utilisation
+</div>
+
+Les threads sont utiles lorsque vous souhaitez organiser et analyser :
+
+* Des conversations à plusieurs tours
+* Des flux de travail basés sur des sessions
+* Toute séquence d&#39;opérations liées.
+
+Les threads vous permettent de regrouper les appels par contexte, ce qui facilite la compréhension de la façon dont votre système répond au fil de plusieurs étapes. Par exemple, vous pouvez suivre la session d&#39;un utilisateur, la chaîne de décisions d&#39;un agent ou une requête complexe couvrant les couches d&#39;infrastructure et de logique métier.
+
+En structurant votre application avec des threads et des tours, vous obtenez des métriques plus claires et une meilleure visibilité dans l&#39;interface Weave. Au lieu de voir chaque Op de bas niveau, vous pouvez vous concentrer sur les étapes de haut niveau qui comptent.
+
+<div id="definitions">
+  ## Définitions
+</div>
+
+<div id="thread">
+  ### Thread
+</div>
+
+Un *Thread* est un regroupement logique d’Appels liés qui partagent un même contexte conversationnel. Un *Thread* :
+
+* Possède un `thread_id` unique
+* Contient un ou plusieurs *tours*
+* Conserve le contexte entre les Appels
+* Représente des sessions utilisateur complètes ou des flux d’interaction
+
+<div id="turn">
+  ### Tour
+</div>
+
+Un *Tour* est une opération de haut niveau au sein d’un Thread, affichée dans l’interface utilisateur sous la forme de lignes distinctes dans une vue de thread. Chaque tour :
+
+* Représente une étape logique dans une conversation ou un flux de travail
+* Les tours sont les enfants directs d’un contexte de thread et peuvent inclure des appels imbriqués de niveau inférieur (non affichés dans les statistiques au niveau du thread).
+
+<div id="call">
+  ### Appel
+</div>
+
+Un *Appel* correspond à toute exécution d’une fonction décorée avec `@weave.op` dans votre application.
+
+* Les *Appels de tour* sont des opérations de premier niveau qui démarrent de nouveaux tours
+* Les *Appels imbriqués* sont des opérations de niveau inférieur au sein d’un tour
+
+<div id="trace">
+  ### Trace
+</div>
+
+Une *Trace* capture la pile complète des appels pour une seule opération. Les threads regroupent les traces qui appartiennent à la même conversation ou session logique. Autrement dit, un thread se compose de plusieurs tours, chacun correspondant à un échange de la conversation. Pour plus d’informations sur les traces, voir l’[Aperçu du Tracing](/fr/weave/guides/tracking/tracing).
+
+<div id="ui-overview">
+  ## Aperçu de l’interface utilisateur
+</div>
+
+Dans la barre latérale de Weave, sélectionnez **Threads** pour accéder à la [vue en liste des threads](#threads-list-view).
+
+<Frame>
+  ![L’icône Threads dans la barre latérale de Weave](/weave/guides/tracking/imgs/threads-sidebar.png)
+</Frame>
+
+<div id="threads-list-view">
+  ### vue en liste des Threads
+</div>
+
+* Affiche les Thread récents de votre projet
+* Les colonnes incluent le nombre de tours, l&#39;heure de début et la date de dernière mise à jour
+* Cliquez sur une ligne pour ouvrir son [volet latéral de détail](#threads-detail-drawer)
+
+<Frame>
+  ![Vue liste des threads](/weave/guides/tracking/imgs/threads-list.png)
+</Frame>
+
+<div id="threads-detail-drawer">
+  ### Volet latéral de détail des threads
+</div>
+
+* Cliquez sur n&#39;importe quelle ligne pour ouvrir le volet latéral de détail correspondant.
+* Affiche tous les tours d&#39;un thread.
+* Les tours sont listés dans l&#39;ordre de début (selon leur heure de début, et non leur durée ou leur heure de fin).
+* Inclut des métadonnées au niveau de l&#39;appel (latence, entrées, sorties).
+* Affiche facultativement le contenu des messages ou des données structurées si elles ont été enregistrées.
+* Pour voir l&#39;exécution complète d&#39;un tour, vous pouvez l&#39;ouvrir depuis le volet latéral de détail du thread. Vous pourrez ainsi explorer toutes les opérations imbriquées qui se sont produites pendant ce tour.
+* Si un tour inclut des messages extraits d&#39;appels LLM, ils s&#39;affichent dans le panneau de chat de droite. Ces messages proviennent généralement d&#39;appels effectués par des intégrations prises en charge (par exemple, `openai.ChatCompletion.create`) et doivent répondre à des critères précis pour être affichés. Pour plus d&#39;informations, voir [Comportement de la vue Chat](#chat-view-behavior).
+
+<div id="chat-view-behavior">
+  ### Comportement de la vue de chat
+</div>
+
+Le panneau de chat affiche les données de message structurées extraites des appels LLM effectués à chaque tour. Cette vue vous propose un rendu de l’interaction sous forme de conversation.
+
+<Frame>
+  ![Vue de chat](/weave/guides/tracking/imgs/threads-chat-view.png)
+</Frame>
+
+<div id="what-qualifies-as-a-message">
+  #### Qu’est-ce qui est considéré comme un message ?
+</div>
+
+Weave extrait les messages des Appels d’un tour qui correspondent à des interactions directes avec des fournisseurs de LLM (par exemple, l’envoi d’un prompt et la réception d’une réponse). Seuls les Appels qui ne sont pas eux-mêmes imbriqués dans d’autres Appels apparaissent comme des messages. Cela évite de dupliquer des étapes intermédiaires ou une logique interne agrégée.
+
+En général, les SDK tiers patchés automatiquement émettent des messages, par exemple :
+
+* `openai.ChatCompletion.create`
+* `anthropic.Anthropic.completion`
+
+<div id="what-happens-if-no-messages-are-present">
+  #### Que se passe-t-il si aucun message n’est présent ?
+</div>
+
+Si un tour n’émet aucun message, le panneau de chat affiche une section de messages vide pour ce tour. Le panneau de chat peut tout de même inclure des messages d’autres tours dans le même Thread.
+
+<div id="turn-and-chat-interactions">
+  #### Interactions entre les tours et le chat
+</div>
+
+* Un clic sur un tour fait défiler le panneau de chat jusqu&#39;à l&#39;emplacement du message correspondant (comportement d&#39;ancrage).
+* Le défilement du panneau de chat met en surbrillance le tour correspondant dans la liste de gauche.
+
+<div id="navigate-to-and-from-the-trace-view">
+  #### Accédez à la vue de trace et revenez-en
+</div>
+
+Vous pouvez ouvrir la trace complète d’un tour de conversation en cliquant dessus.
+
+Un bouton Retour apparaît en haut à gauche pour revenir à la vue détaillée du Thread. Weave ne conserve pas l’état de l’interface utilisateur (comme la position de défilement) lors de la transition.
+
+<Frame>
+  ![Vue du volet latéral de détail](/weave/guides/tracking/imgs/threads-drawer.png)
+</Frame>
+
+<div id="sdk-usage">
+  ## Utilisation du SDK
+</div>
+
+Chaque exemple de cette section illustre une stratégie différente pour organiser les tours et les threads dans votre application. Dans la plupart des exemples, vous devez fournir votre propre appel à un LLM ou votre propre comportement système dans les fonctions factices.
+
+* Pour suivre une session ou une conversation, utilisez le gestionnaire de contexte `weave.thread()`.
+* Décorez les opérations logiques avec `@weave.op` pour les suivre comme des tours ou des `Appels` imbriqués.
+* Si vous transmettez un `thread_id`, Weave l&#39;utilise pour regrouper toutes les opérations de ce bloc dans le même thread. Si vous omettez le `thread_id`, Weave en génère automatiquement un unique pour vous.
+
+La valeur de retour de `weave.thread()` est un objet `ThreadContext` avec une propriété `thread_id`, que vous pouvez consigner dans le journal, réutiliser ou transmettre à d&#39;autres systèmes.
+
+Les contextes `weave.thread()` imbriqués démarrent toujours un nouveau thread, sauf si vous réutilisez le même `thread_id`. La fin d&#39;un contexte enfant n&#39;interrompt ni ne remplace le contexte parent. Cela permet de créer des structures de threads ramifiées ou une orchestration des threads en couches, selon la logique de votre application.
+
+<div id="basic-thread-creation">
+  ### Création de thread de base
+</div>
+
+L’exemple de code suivant montre comment utiliser `weave.thread()` pour regrouper une ou plusieurs opérations sous un `thread_id` commun. Il s’agit du moyen le plus simple de commencer à utiliser Threads dans votre application.
+
+```python lines
+import weave
+
+@weave.op
+def say_hello(name: str) -> str:
+    return f"Hello, {name}!"
+
+# Démarrer un nouveau contexte de thread
+with weave.thread() as thread_ctx:
+    print(f"Thread ID: {thread_ctx.thread_id}")
+    say_hello("Bill Nye the Science Guy")
+```
+
+<div id="manual-agent-loop-implementation">
+  ### Implémentation manuelle d’une boucle d’agent
+</div>
+
+Cet exemple montre comment définir manuellement un agent conversationnel à l’aide des décorateurs `@weave.op` et de la gestion de contexte `weave.thread()`. Chaque appel à `process_user_message` crée un nouveau tour de conversation dans le thread. Vous pouvez utiliser ce modèle lorsque vous créez votre propre boucle d’agent et souhaitez garder un contrôle complet sur la manière dont le contexte et l’imbrication sont gérés.
+
+Utilisez l’ID de thread généré automatiquement pour les interactions de courte durée, ou fournissez un ID de session personnalisé (comme `user_session_123`) afin de conserver le contexte du thread d’une session à l’autre.
+
+```python lines
+import weave
+
+class ConversationAgent:
+    @weave.op
+    def process_user_message(self, message: str) -> str:
+        """
+        OPÉRATION AU NIVEAU DU TOUR : Ceci représente un tour de conversation.
+        Seule cette fonction sera comptabilisée dans les statistiques du thread.
+        """
+        # Stocker le message de l'utilisateur
+        # Générer une réponse IA via des appels imbriqués
+        response = self._generate_response(message)
+        # Stocker la réponse de l'assistant
+        return response
+
+    @weave.op
+    def _generate_response(self, message: str) -> str:
+        """APPEL IMBRIQUÉ : Détails d'implémentation, non comptabilisés dans les statistiques du thread."""
+        context = self._retrieve_context(message)     # Un autre appel imbriqué
+        intent = self._classify_intent(message)       # Un autre appel imbriqué
+        response = self._call_llm(message, context)   # Appel LLM (imbriqué)
+        return self._format_response(response)        # Dernier appel imbriqué
+
+    @weave.op
+    def _retrieve_context(self, message: str) -> str:
+        # Recherche dans la base vectorielle, requête dans la base de connaissances, etc.
+        return "retrieved_context"
+
+    @weave.op
+    def _classify_intent(self, message: str) -> str:
+        # Logique de classification des intentions
+        return "general_inquiry"
+
+    @weave.op
+    def _call_llm(self, message: str, context: str) -> str:
+        # Appel API OpenAI/Anthropic/etc
+        return "llm_response"
+
+    @weave.op
+    def _format_response(self, response: str) -> str:
+        # Logique de mise en forme de la réponse
+        return f"Formatted: {response}"
+
+# Utilisation : contexte du thread établi automatiquement
+agent = ConversationAgent()
+
+# Établir le contexte du thread - chaque appel à process_user_message devient un tour
+with weave.thread() as thread_ctx:  # Génère automatiquement un thread_id
+    print(f"Thread ID: {thread_ctx.thread_id}")
+
+    # Chaque appel à process_user_message crée 1 tour + plusieurs appels imbriqués
+    agent.process_user_message("Hello, help with setup")           # Tour 1
+    agent.process_user_message("What languages do you recommend?") # Tour 2
+    agent.process_user_message("Explain Python vs JavaScript")     # Tour 3
+
+# Résultat : thread avec 3 tours, ~15-20 appels au total (imbriqués inclus)
+
+# Alternative : utiliser un thread_id explicite pour le suivi de session
+session_id = "user_session_123"
+with weave.thread(session_id) as thread_ctx:
+    print(f"Session Thread ID: {thread_ctx.thread_id}")  # "user_session_123"
+
+    agent.process_user_message("Continue our previous conversation")  # Tour 1 dans cette session
+    agent.process_user_message("Can you summarize what we discussed?") # Tour 2 dans cette session
+```
+
+<div id="manual-agent-with-unbalanced-call-depth">
+  ### Agent manuel avec profondeur d&#39;appels déséquilibrée
+</div>
+
+Cet exemple montre que les tours peuvent être définis à différentes profondeurs dans la pile d&#39;appels, selon la manière dont le contexte du thread est appliqué. L&#39;exemple utilise deux fournisseurs (OpenAI et Anthropic), chacun avec une profondeur d&#39;appel différente avant d&#39;atteindre le point de délimitation du tour.
+
+Tous les tours partagent le même `thread_id`, mais le point de délimitation du tour apparaît à différents niveaux de la pile selon la logique du fournisseur. Cela est utile lorsque les appels doivent être tracés différemment selon les backends, tout en étant regroupés dans le même thread.
+
+```python lines 
+import weave
+import random
+import asyncio
+
+class OpenAIProvider:
+    """Branche OpenAI : chaîne d'appels à 2 niveaux de profondeur jusqu'à la limite de tour"""
+
+    @weave.op
+    def route_to_openai(self, user_input: str, thread_id: str) -> str:
+        """Niveau 1 : Routage et préparation de la requête OpenAI"""
+        # Validation des entrées, logique de routage, prétraitement de base
+        print(f"  L1: Routing to OpenAI for: {user_input}")
+
+        # Ceci est la limite de tour - encapsuler avec le contexte de thread
+        with weave.thread(thread_id):
+            # Appel direct au niveau 2 - crée la profondeur de la chaîne d'appels
+            return self.execute_openai_call(user_input)
+
+    @weave.op
+    def execute_openai_call(self, user_input: str) -> str:
+        """Niveau 2 : LIMITE DE TOUR - Exécuter l'appel API OpenAI"""
+        print(f"    L2: Executing OpenAI API call")
+        response = f"OpenAI GPT-4 response: {user_input}"
+        return response
+
+
+class AnthropicProvider:
+    """Branche Anthropic : chaîne d'appels à 3 niveaux de profondeur jusqu'à la limite de tour"""
+
+    @weave.op
+    def route_to_anthropic(self, user_input: str, thread_id: str) -> str:
+        """Niveau 1 : Routage et préparation de la requête Anthropic"""
+        # Validation des entrées, logique de routage, sélection du fournisseur
+        print(f"  L1: Routing to Anthropic for: {user_input}")
+
+        # Appel au niveau 2 - crée la profondeur de la chaîne d'appels
+        return self.authenticate_anthropic(user_input, thread_id)
+
+    @weave.op
+    def authenticate_anthropic(self, user_input: str, thread_id: str) -> str:
+        """Niveau 2 : Gestion de l'authentification et de la configuration Anthropic"""
+        print(f"    L2: Authenticating with Anthropic")
+
+        # Authentification, limite de débit, gestion de session
+        auth_token = "anthropic_key_xyz_authenticated"
+
+         # Ceci est la limite de tour - encapsuler avec le contexte de thread au niveau 3
+        with weave.thread(thread_id):
+            # Appel au niveau 3 - imbrique davantage la chaîne d'appels
+            return self.execute_anthropic_call(user_input, auth_token)
+
+    @weave.op
+    def execute_anthropic_call(self, user_input: str, auth_token: str) -> str:
+        """Niveau 3 : LIMITE DE TOUR - Exécuter l'appel API Anthropic"""
+        print(f"      L3: Executing Anthropic API call with auth")
+        response = f"Anthropic Claude response (auth: {auth_token[:15]}...): {user_input}"
+        return response
+
+
+class MultiProviderAgent:
+    """Agent principal qui route entre les fournisseurs avec différentes profondeurs de chaîne d'appels"""
+
+    def __init__(self):
+        self.openai_provider = OpenAIProvider()
+        self.anthropic_provider = AnthropicProvider()
+
+    def handle_conversation_turn(self, user_input: str, thread_id: str) -> str:
+        """
+        Route vers différents fournisseurs avec des profondeurs de chaîne d'appels déséquilibrées.
+        Le contexte de thread est appliqué à différents niveaux d'imbrication dans chaque chaîne.
+        """
+        # Sélection aléatoire du fournisseur à des fins de démonstration
+        use_openai = random.choice([True, False])
+
+        if use_openai:
+            print(f"Choosing OpenAI (2-level call chain)")
+            # OpenAI : Niveau 1 → Niveau 2 (limite de tour)
+            response = self.openai_provider.route_to_openai(user_input, thread_id)
+            return f"[OpenAI Branch] {response}"
+        else:
+            print(f"Choosing Anthropic (3-level call chain)")
+            # Anthropic : Niveau 1 → Niveau 2 → Niveau 3 (limite de tour)
+            response = self.anthropic_provider.route_to_anthropic(user_input, thread_id)
+            return f"[Anthropic Branch] {response}"
+
+
+async def main():
+    agent = MultiProviderAgent()
+    conversation_id = "nested_depth_conversation_999"
+
+    # Conversation multi-tours avec différentes profondeurs de chaîne d'appels
+    conversation_turns = [
+        "What's deep learning?",
+        "Explain neural network backpropagation",
+        "How do attention mechanisms work?",
+        "What's the transformer architecture?",
+        "Compare CNNs vs RNNs"
+    ]
+
+    print(f"Starting conversation: {conversation_id}")
+
+    for i, user_input in enumerate(conversation_turns, 1):
+        print(f"\\n--- Turn {i} ---")
+        print(f"User: {user_input}")
+
+        # Même thread_id utilisé pour toutes les profondeurs de chaîne d'appels
+        response = agent.handle_conversation_turn(user_input, conversation_id)
+        print(f"Agent: {response}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
+# Résultat attendu : thread unique avec 5 tours
+# - Tours OpenAI : contexte de thread au niveau 2 dans la chaîne d'appels
+#   Pile d'appels : route_to_openai() → execute_openai_call() ← contexte de thread ici
+# - Tours Anthropic : contexte de thread au niveau 3 dans la chaîne d'appels
+#   Pile d'appels : route_to_anthropic() → authenticate_anthropic() → execute_anthropic_call() ← contexte de thread ici
+# - Tous les tours partagent le thread_id : "nested_depth_conversation_999"
+# - Limites de tour marquées à différentes profondeurs de pile d'appels
+# - Les opérations auxiliaires dans la chaîne d'appels sont suivies comme des appels imbriqués, et non comme des tours
+```
+
+<div id="resume-a-previous-session">
+  ### Reprendre une session précédente
+</div>
+
+Il est parfois nécessaire de reprendre une session déjà démarrée et de continuer à ajouter des Appels au même thread. Dans d’autres cas, il peut être impossible de reprendre une session existante, et vous devez alors démarrer un nouveau thread à la place.
+
+Lors de l’implémentation de la reprise facultative d’un thread, ne laissez **jamais** le paramètre `thread_id` à `None`, car cela désactiverait entièrement le regroupement des threads. Fournissez toujours un ID de thread valide. Si vous devez créer un nouveau thread, générez un identifiant unique à l’aide d’une fonction comme `generate_id()`.
+
+Lorsqu’aucun `thread_id` n’est spécifié, l’implémentation interne de Weave génère automatiquement un UUID v7 aléatoire. Vous pouvez reproduire ce comportement dans votre propre fonction `generate_id()` ou utiliser n’importe quelle chaîne unique de votre choix.
+
+```python lines
+import weave
+import uuidv7
+import argparse
+
+def generate_id():
+    """Génère un identifiant de thread unique en utilisant UUID v7."""
+    return str(uuidv7.uuidv7())
+
+@weave.op
+def load_history(session_id):
+    """Charge l'historique de conversation pour la session donnée."""
+    # Votre implémentation ici
+    return []
+
+# Analyser les arguments de ligne de commande pour la reprise de session
+parser = argparse.ArgumentParser()
+parser.add_argument("--session-id", help="Identifiant de session existant à reprendre")
+args = parser.parse_args()
+
+# Déterminer l'identifiant de thread : reprendre une session existante ou en créer une nouvelle
+if args.session_id:
+    thread_id = args.session_id
+    print(f"Reprise de la session : {thread_id}")
+else:
+    thread_id = generate_id()
+    print(f"Démarrage d'une nouvelle session : {thread_id}")
+
+# Établir le contexte de thread pour le suivi des appels
+with weave.thread(thread_id) as thread_ctx:
+    # Charger ou initialiser l'historique de conversation
+    history = load_history(thread_id)
+    print(f"Identifiant de thread actif : {thread_ctx.thread_id}")
+    
+    # Votre logique applicative ici...
+```
+
+<div id="nested-threads">
+  ### Threads imbriqués
+</div>
+
+Cet exemple illustre comment structurer des applications complexes à l’aide de multiples threads coordonnés.
+
+Chaque couche s’exécute dans son propre contexte de thread, ce qui permet de bien séparer les responsabilités. Le thread parent de l’application coordonne ces couches en définissant des identifiants de thread à l’aide d’un `ThreadContext` partagé. Utilisez ce modèle lorsque vous souhaitez analyser ou surveiller différentes parties du système indépendamment, tout en les rattachant à une session partagée.
+
+```python lines
+import weave
+from contextlib import contextmanager
+from typing import Dict
+
+# Contexte de thread global pour la coordination des threads imbriqués
+class ThreadContext:
+    def __init__(self):
+        self.app_thread_id = None
+        self.infra_thread_id = None
+        self.logic_thread_id = None
+
+    def setup_for_request(self, request_id: str):
+        self.app_thread_id = f"app_{request_id}"
+        self.infra_thread_id = f"{self.app_thread_id}_infra"
+        self.logic_thread_id = f"{self.app_thread_id}_logic"
+
+# Global instance
+thread_ctx = ThreadContext()
+
+class InfrastructureLayer:
+    """Gère toutes les opérations d'infrastructure dans un thread dédié"""
+
+    @weave.op
+    def authenticate_user(self, user_id: str) -> Dict:
+        # Logique d'authentification...
+        return {"user_id": user_id, "authenticated": True}
+
+    @weave.op
+    def call_payment_gateway(self, amount: float) -> Dict:
+        # Traitement du paiement...
+        return {"status": "approved", "amount": amount}
+
+    @weave.op
+    def update_inventory(self, product_id: str, quantity: int) -> Dict:
+        # Gestion des stocks...
+        return {"product_id": product_id, "updated": True}
+
+    def execute_operations(self, user_id: str, order_data: Dict) -> Dict:
+        """Exécute toutes les opérations d'infrastructure dans le contexte de thread dédié"""
+        with weave.thread(thread_ctx.infra_thread_id):
+            auth_result = self.authenticate_user(user_id)
+            payment_result = self.call_payment_gateway(order_data["amount"])
+            inventory_result = self.update_inventory(order_data["product_id"], order_data["quantity"])
+
+            return {
+                "auth": auth_result,
+                "payment": payment_result,
+                "inventory": inventory_result
+            }
+
+
+class BusinessLogicLayer:
+    """Gère la logique métier dans un thread dédié"""
+
+    @weave.op
+    def validate_order(self, order_data: Dict) -> Dict:
+        # Logique de validation...
+        return {"valid": True}
+
+    @weave.op
+    def calculate_pricing(self, order_data: Dict) -> Dict:
+        # Calculs de tarification...
+        return {"total": order_data["amount"], "tax": order_data["amount"] * 0.08}
+
+    @weave.op
+    def apply_business_rules(self, order_data: Dict) -> Dict:
+        # Règles métier...
+        return {"rules_applied": ["standard_processing"], "priority": "normal"}
+
+    def execute_logic(self, order_data: Dict) -> Dict:
+        """Exécute toute la logique métier dans le contexte de thread dédié"""
+        with weave.thread(thread_ctx.logic_thread_id):
+            validation = self.validate_order(order_data)
+            pricing = self.calculate_pricing(order_data)
+            rules = self.apply_business_rules(order_data)
+
+            return {"validation": validation, "pricing": pricing, "rules": rules}
+
+
+class OrderProcessingApp:
+    """Orchestrateur principal de l'application"""
+
+    def __init__(self):
+        self.infra = InfrastructureLayer()
+        self.business = BusinessLogicLayer()
+
+    @weave.op
+    def process_order(self, user_id: str, order_data: Dict) -> Dict:
+        """Traitement principal des commandes — devient un tour dans le thread de l'application"""
+
+        # Exécute les opérations imbriquées dans leurs threads dédiés
+        infra_results = self.infra.execute_operations(user_id, order_data)
+        logic_results = self.business.execute_logic(order_data)
+
+        # Orchestration finale
+        return {
+            "order_id": f"order_12345",
+            "status": "completed",
+            "infra_results": infra_results,
+            "logic_results": logic_results
+        }
+
+
+# Utilisation avec coordination du contexte de thread global
+def handle_order_request(request_id: str, user_id: str, order_data: Dict):
+    # Configuration du contexte de thread pour cette requête
+    thread_ctx.setup_for_request(request_id)
+
+    # Exécution dans le contexte de thread de l'application
+    with weave.thread(thread_ctx.app_thread_id):
+        app = OrderProcessingApp()
+        result = app.process_order(user_id, order_data)
+        return result
+
+# Exemple d'utilisation
+order_result = handle_order_request(
+    request_id="req_789",
+    user_id="user_001",
+    order_data={"product_id": "laptop", "quantity": 1, "amount": 1299.99}
+)
+
+# Structure de threads attendue :
+#
+# Thread applicatif : app_req_789
+# └── Tour : process_order() ← Orchestration principale
+#
+# Thread d'infrastructure : app_req_789_infra
+# ├── Tour : authenticate_user() ← Opération d'infrastructure 1
+# ├── Tour : call_payment_gateway() ← Opération d'infrastructure 2
+# └── Tour : update_inventory() ← Opération d'infrastructure 3
+#
+# Thread de logique : app_req_789_logic
+# ├── Tour : validate_order() ← Opération de logique métier 1
+# ├── Tour : calculate_pricing() ← Opération de logique métier 2
+# └── Tour : apply_business_rules() ← Opération de logique métier 3
+#
+# Avantages :
+# - Séparation claire des responsabilités entre les threads
+# - Pas de passage des identifiants de thread par paramètre
+# - Surveillance indépendante des couches application/infrastructure/logique
+# - Coordination globale via le contexte de thread
+```
+
+<div id="api-specification">
+  ## Spécification de l’API
+</div>
+
+<div id="endpoint">
+  ## Point de terminaison
+</div>
+
+Point de terminaison : `POST /threads/query`
+
+<div id="request-schema">
+  ### Schéma de requête
+</div>
+
+```python lines
+class ThreadsQueryReq:
+    project_id: str
+    limit: Optional[int] = None
+    offset: Optional[int] = None
+    sort_by: Optional[list[SortBy]] = None  # Champs pris en charge : thread_id, turn_count, start_time, last_updated
+    sortable_datetime_after: Optional[datetime] = None   # Filtrer les threads par optimisation de granularité
+    sortable_datetime_before: Optional[datetime] = None  # Filtrer les threads par optimisation de granularité
+```
+
+<div id="response-schema">
+  ### Schéma de réponse
+</div>
+
+```python lines
+class ThreadSchema:
+    thread_id: str           # Identifiant unique du thread
+    turn_count: int          # Nombre d'appels de tour dans ce thread
+    start_time: datetime     # Heure de début la plus ancienne des appels de tour dans ce thread
+    last_updated: datetime   # Heure de fin la plus récente des appels de tour dans ce thread
+
+class ThreadsQueryRes:
+    threads: List[ThreadSchema]
+```
+
+<div id="query-recent-active-threads">
+  ### Interroger les Thread récemment actifs
+</div>
+
+Cet exemple récupère les 50 Thread mis à jour le plus récemment. Remplacez `my-project` par l’ID réel de votre projet.
+
+```python lines
+# Obtenir les fils de discussion les plus récemment actifs
+response = client.threads_query(ThreadsQueryReq(
+    project_id="my-project",
+    sort_by=[SortBy(field="last_updated", direction="desc")],
+    limit=50
+))
+
+for thread in response.threads:
+    print(f"Thread {thread.thread_id}: {thread.turn_count} turns, last active {thread.last_updated}")
+```
+
+<div id="query-threads-by-activity-level">
+  ### Interroger les Thread selon leur niveau d’activité
+</div>
+
+Cet exemple récupère les 20 Thread les plus actifs, classés par nombre de tour.
+
+```python lines
+# Obtenir les threads avec le plus d'activité (le plus de tours)
+response = client.threads_query(ThreadsQueryReq(
+    project_id="my-project",
+    sort_by=[SortBy(field="turn_count", direction="desc")],
+    limit=20
+))
+```
+
+<div id="query-recent-threads-only">
+  ### Interroger uniquement les threads récents
+</div>
+
+Cet exemple renvoie les threads lancés au cours des 24 dernières heures. Vous pouvez modifier cette plage temporelle en ajustant la valeur de `days` dans `timedelta`.
+
+```python lines
+from datetime import datetime, timedelta
+
+# Obtenir les threads démarrés au cours des dernières 24 heures
+yesterday = datetime.now() - timedelta(days=1)
+response = client.threads_query(ThreadsQueryReq(
+    project_id="my-project",
+    sortable_datetime_after=yesterday,
+    sort_by=[SortBy(field="start_time", direction="desc")]
+))
+```

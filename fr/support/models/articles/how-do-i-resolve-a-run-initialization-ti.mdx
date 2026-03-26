@@ -1,0 +1,29 @@
+---
+title: "Comment puis-je résoudre une erreur de délai d’expiration lors de l’initialisation d’un run dans wandb ?"
+keywords: ["Connectivité", "Plantages de run"]
+---
+
+Pour résoudre une erreur de délai d’expiration lors de l’initialisation d’un run, suivez ces étapes :
+
+* **Réessayer l’initialisation** : Essayez de redémarrer le run.
+* **Vérifier la connexion réseau** : Assurez-vous que la connexion Internet est stable.
+* **Mettre à jour la version de wandb** : Installez la dernière version de wandb.
+* **Augmenter le délai d’expiration** : Modifiez la variable d’environnement `WANDB_INIT_TIMEOUT` :
+  ```python
+  import os
+  os.environ['WANDB_INIT_TIMEOUT'] = '600'
+  ```
+* **Activer le débogage** : Définissez `WANDB_DEBUG=true` et `WANDB_CORE_DEBUG=true` pour obtenir des journaux détaillés.
+* **Vérifier la configuration** : Vérifiez que la clé API et les paramètres du projet sont corrects.
+* **Consulter les journaux** : Inspectez `debug.log`, `debug-internal.log`, `debug-core.log` et `output.log` pour repérer les erreurs.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas le contenu entre ces marqueurs manuellement.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Connectivité](/fr/support/models/tags/connectivity)</Badge><Badge stroke shape="pill" color="orange" size="md">[Plantages de runs](/fr/support/models/tags/run-crashes)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

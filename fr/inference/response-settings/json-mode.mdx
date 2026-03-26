@@ -1,0 +1,51 @@
+---
+title: "Activer le mode JSON"
+description: "Configurer le mode JSON dans W&B Inférence pour obtenir une sortie JSON structurée à partir des réponses du modèle, afin de faciliter l'analyse."
+---
+
+Activer le mode JSON demande au modèle de renvoyer une réponse dans un format JSON valide. Toutefois, le schéma de la réponse n&#39;est pas toujours cohérent et peut ne pas respecter une structure particulière. Pour obtenir des réponses JSON structurées cohérentes, nous vous recommandons d&#39;utiliser la [sortie structurée](/fr/inference/response-settings/structured-output) lorsque cela est possible.
+
+Pour activer le mode JSON, spécifiez-le comme &quot;response&#95;format&quot; dans la requête :
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    import json
+    import openai
+
+    client = openai.OpenAI(
+        base_url='https://api.inference.wandb.ai/v1',
+        api_key="<your-api-key>",  # Créez une clé API sur https://wandb.ai/settings
+    )
+
+    response = client.chat.completions.create(
+        model="openai/gpt-oss-20b",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": "Give me a list of three fruits with their colors."},
+        ],
+        response_format={"type": "json_object"}  # Cela active le mode JSON
+    )
+
+    content = response.choices[0].message.content
+    parsed = json.loads(content)
+    print(parsed)
+    ```
+  </Tab>
+
+  <Tab title="Bash">
+    ```bash
+    curl https://api.inference.wandb.ai/v1/chat/completions \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer <your-api-key>" \
+      -d '{
+        "model": "openai/gpt-oss-20b",
+        "messages": [
+            {"role": "system", "content": "You are a helpful assistant that outputs JSON."},
+            {"role": "user", "content": "Give me a list of three fruits with their colors."},
+        ],
+        "response_format": {"type": "json_object"}
+      }'
+    ```
+  </Tab>
+</Tabs>

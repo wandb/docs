@@ -1,0 +1,60 @@
+---
+title: "W&B Inference"
+description: Accédez à des modèles de fondation open source via W&B Weave et une API compatible avec OpenAI
+mode: wide
+---
+
+W&amp;B Inference vous donne accès à des modèles de fondation open source de premier plan via W&amp;B Weave et une API compatible avec OpenAI. Vous pouvez :
+
+* Créer des applications et des agents d&#39;IA sans vous inscrire chez un fournisseur d&#39;hébergement ni héberger vous-même un modèle
+* Essayer les [modèles pris en charge](/fr/inference/models) dans le [W&amp;B Weave Playground](/fr/weave/guides/tools/playground)
+
+Avec Weave, vous pouvez tracer, évaluer, surveiller et améliorer vos applications basées sur W&amp;B Inference.
+
+<div id="quickstart">
+  ## Démarrage rapide
+</div>
+
+Voici un exemple simple en Python :
+
+```python
+import openai
+
+client = openai.OpenAI(
+    # L'URL de base personnalisée pointe vers W&B Inference
+    base_url='https://api.inference.wandb.ai/v1',
+
+    # Créez une clé API sur https://wandb.ai/settings
+    api_key="<your-api-key>",
+
+    # Facultatif : équipe et projet pour le suivi de l'utilisation
+    project="<your-team>/<your-project>",
+)
+
+response = client.chat.completions.create(
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "Tell me a joke."}
+    ],
+)
+
+print(response.choices[0].message.content)
+```
+
+<div id="next-steps">
+  ## Étapes suivantes
+</div>
+
+1. Consultez les [modèles disponibles](/fr/inference/models) ainsi que les [informations d&#39;utilisation et les limites](/fr/inference/usage-limits/)
+2. Configurez votre compte à l&#39;aide des [prérequis](/fr/inference/prerequisites/)
+3. Utilisez le service via l&#39;[API](/fr/inference/api-reference/) ou l&#39;[interface utilisateur](/fr/inference/ui-guide/)
+4. Essayez les [exemples d&#39;utilisation](/fr/inference/examples/)
+
+<div id="usage-details">
+  ## Détails d’utilisation
+</div>
+
+<Info>
+  Pour en savoir plus sur la tarification, les limites d’utilisation et les crédits, voir [Informations sur l’utilisation et les limites](/fr/inference/usage-limits/).
+</Info>

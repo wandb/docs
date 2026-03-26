@@ -1,0 +1,294 @@
+---
+description: Un playground pour explorer les données de run avec des visualisations interactives
+title: Voir les résultats des expériences
+---
+
+L’espace de travail W&amp;B est votre bac à sable personnel pour personnaliser les graphiques et explorer les résultats des modèles. Un espace de travail W&amp;B se compose de *Tableaux* et de *Sections de panneaux* :
+
+* **Tableaux** : Tous les runs enregistrés dans votre projet sont listés dans le tableau du projet. Activez ou désactivez les runs, modifiez les couleurs et déployez le tableau pour voir les notes, la configuration et les métriques récapitulatives de chaque run.
+* **Sections de panneaux** : Une section qui contient un ou plusieurs [panneaux](/fr/models/app/features/panels/). Créez de nouveaux panneaux, organisez-les et exportez-les vers des rapports pour enregistrer des instantanés de votre espace de travail.
+
+<Frame>
+  <img src="/images/app_ui/workspace_table_and_panels.png" alt="Tableau et panneaux de l’espace de travail" />
+</Frame>
+
+<div id="workspace-types">
+  ## Types d’espace de travail
+</div>
+
+Il existe deux grandes catégories d’espaces de travail : **Espaces de travail personnels** et **Vues enregistrées**.
+
+* **Espaces de travail personnels :**  Un espace de travail personnalisable pour analyser en profondeur les modèles et les visualisations de données. Seul le propriétaire de l’espace de travail peut le modifier et enregistrer les changements. Les membres de l’équipe peuvent consulter un espace de travail personnel, mais ils ne peuvent pas modifier l’espace de travail personnel de quelqu’un d’autre.
+* **Vues enregistrées :** Les vues enregistrées sont des instantanés collaboratifs d’un espace de travail. Toute personne de votre équipe peut consulter, modifier et enregistrer les changements dans les vues enregistrées d’un espace de travail. Utilisez les vues enregistrées d’un espace de travail pour examiner et discuter des expériences, des runs, etc.
+
+L’image suivante montre plusieurs espaces de travail personnels créés par les coéquipiers de Cécile-parker. Dans ce projet, il n’y a aucune vue enregistrée :
+
+<Frame>
+  <img src="/images/app_ui/Menu_No_views.jpg" alt="Aucune vue enregistrée" />
+</Frame>
+
+<div id="saved-workspace-views">
+  ## Vues enregistrées de l’espace de travail
+</div>
+
+Améliorez la collaboration au sein de l’équipe grâce à des vues d’espace de travail personnalisées. Créez des vues enregistrées pour organiser vos graphiques et vos données selon la configuration de votre choix.
+
+<div id="create-a-new-saved-workspace-view">
+  ### Créer une nouvelle vue enregistrée de l’espace de travail
+</div>
+
+1. Accédez à un espace de travail personnel ou à une vue enregistrée.
+2. Modifiez l’espace de travail.
+3. Cliquez sur le menu à trois points horizontaux dans le coin supérieur droit de votre espace de travail. Cliquez sur **Enregistrer en tant que nouvelle vue**.
+
+Les nouvelles vues enregistrées s’affichent dans le menu de navigation de l’espace de travail.
+
+<Frame>
+  <img src="/images/app_ui/Menu_Views.jpg" alt="Menu des vues enregistrées" />
+</Frame>
+
+<div id="update-a-saved-workspace-view">
+  ### Mettre à jour une vue enregistrée de l’espace de travail
+</div>
+
+Les modifications enregistrées écrasent l’état précédent de la vue enregistrée. Les modifications non enregistrées ne sont pas conservées. Pour mettre à jour une vue enregistrée de l’espace de travail dans W&amp;B :
+
+1. Accédez à une vue enregistrée.
+2. Apportez les modifications souhaitées à vos graphiques et à vos données dans l’espace de travail.
+3. Cliquez sur le bouton **Enregistrer** pour confirmer vos modifications.
+
+<Note>
+  Une boîte de dialogue de confirmation s’affiche lorsque vous enregistrez les modifications apportées à une vue de l’espace de travail. Si vous préférez ne plus voir cette invite à l’avenir, sélectionnez l’option **Do not show this modal next time** avant de confirmer l’enregistrement.
+</Note>
+
+<div id="delete-a-saved-workspace-view">
+  ### Supprimer une vue enregistrée de l’espace de travail
+</div>
+
+Supprimez les vues enregistrées dont vous n’avez plus besoin.
+
+1. Accédez à la vue enregistrée que vous souhaitez supprimer.
+2. Sélectionnez les trois points horizontaux (**...**) en haut à droite de la vue.
+3. Choisissez **Supprimer la vue**.
+4. Confirmez la suppression pour supprimer la vue du menu de votre espace de travail.
+
+<div id="share-a-workspace-view">
+  ### Partager une vue d’espace de travail
+</div>
+
+Partagez votre espace de travail personnalisé avec votre équipe en partageant directement l’URL de l’espace de travail. Tous les utilisateurs ayant accès au projet associé à cet espace de travail peuvent voir ses vues enregistrées.
+
+<div id="workspace-templates">
+  ## Modèles d’espace de travail
+</div>
+
+<Note>
+  Cette fonctionnalité nécessite une licence [Enterprise](https://wandb.ai/site/pricing/).
+</Note>
+
+Utilisez les *modèles d’espace de travail* pour créer des espaces de travail avec les mêmes paramètres qu’un espace de travail existant, au lieu d’utiliser les [paramètres par défaut des nouveaux espaces de travail](#default-workspace-settings).
+
+<div id="default-workspace-settings">
+  ### Paramètres par défaut de l&#39;espace de travail
+</div>
+
+W&amp;B utilise les paramètres par défaut suivants pour les espaces de travail :
+
+<div id="hide-empty-sections-during-search">
+  #### Masquer les sections vides lors d’une recherche
+</div>
+
+Par défaut, W&amp;B n’affiche pas les sections vides dans l’espace de travail. Vous pouvez modifier ce paramètre pour afficher les sections vides dans l’espace de travail.
+
+<div id="sort-panels-alphabetically">
+  #### Trier les panneaux par ordre alphabétique
+</div>
+
+Par défaut, W&amp;B ne trie pas les panneaux par ordre alphabétique en fonction du titre du graphique. Vous pouvez modifier ce paramètre pour trier les panneaux par ordre alphabétique en fonction du titre de leur graphique.
+
+<div id="section-organization">
+  #### Organisation des sections
+</div>
+
+Par défaut, W&amp;B organise les panneaux en sections en se basant sur le premier préfixe du nom de la métrique. Par exemple, si votre espace de travail contient les métriques `a/b/c/d` et `a/e/f`, W&amp;B les organise dans une section appelée `a`. Si votre espace de travail contient les métriques `a/b/c/d` et `e/f/g`, W&amp;B les organise dans des sections appelées `a` et `e`.
+
+Vous pouvez modifier l’organisation par défaut des sections pour regrouper les éléments selon le dernier préfixe. Par exemple, si votre espace de travail contient les métriques `a/b/c/d` et `a/e/f`, W&amp;B les organise dans des sections appelées `d` et `f`. Si votre espace de travail contient les métriques `a/b/c/d` et `e/f/g`, W&amp;B les organise dans des sections appelées `d` et `g`.
+
+<div id="line-plot-settings">
+  #### Paramètres du graphique en courbes
+</div>
+
+Par défaut, les nouveaux espaces de travail utilisent ces paramètres par défaut pour les graphiques en courbes :
+
+| Axe X                 | Par défaut |
+| --------------------- | ---------- |
+| Valeur                | Étape      |
+| Échelle logarithmique | false      |
+
+| Axe Y                 | Par défaut |
+| --------------------- | ---------- |
+| Échelle logarithmique | false      |
+
+| Lissage                                  | Par défaut                 |
+| ---------------------------------------- | -------------------------- |
+| Type                                     | EMA pondérée dans le temps |
+| Poids                                    | 0                          |
+| Afficher l&#39;original après le lissage | Désactivé                  |
+
+| Nombre maximal de runs | Par défaut |
+| ---------------------- | ---------- |
+| Nombre max. de runs    | 10         |
+
+| Données               | Par défaut      |
+| --------------------- | --------------- |
+| Agrégation des points | Fidélité totale |
+
+| Regroupement                                 | Par défaut |
+| -------------------------------------------- | ---------- |
+| Utiliser le regroupement dans les graphiques | Activé     |
+| Agrégation des groupes                       | Moyenne    |
+
+| Préférences d&#39;affichage                | Par défaut |
+| ------------------------------------------ | ---------- |
+| Colorer les noms des runs                  | Activé     |
+| Afficher le nom complet du run             | Désactivé  |
+| Afficher la plage X dans l&#39;infobulle   | Désactivé  |
+| Runs dans l&#39;infobulle                  | Par défaut |
+| Synchroniser le zoom entre les graphiques  | Désactivé  |
+| Afficher uniquement le run mis en évidence | Désactivé  |
+
+<div id="configure-your-workspace-template">
+  ### Configurer votre modèle d’espace de travail
+</div>
+
+1. Ouvrez un espace de travail existant ou créez-en un nouveau.
+2. Cliquez sur le bouton **Settings** dans le coin supérieur droit de l’espace de travail.
+3. Sélectionnez **Mise en page de l’espace de travail** dans le panneau.
+4. Configurez les paramètres de l’espace de travail selon vos préférences.
+
+<div id="save-your-workspace-template">
+  ### Enregistrez votre modèle d’espace de travail
+</div>
+
+1. En haut de l’espace de travail, cliquez sur le menu d’actions `...` à côté des icônes en forme de flèche **Annuler** et **Rétablir**.
+2. Cliquez sur **Enregistrer le modèle d’espace de travail personnel**.
+3. Vérifiez les paramètres du modèle, puis cliquez sur **Enregistrer**.
+
+Les nouveaux espaces de travail utiliseront ces paramètres au lieu des valeurs par défaut.
+
+<div id="view-your-workspace-template">
+  ### Afficher votre modèle d’espace de travail
+</div>
+
+Pour afficher la configuration actuelle de votre modèle d’espace de travail :
+
+1. Depuis n’importe quelle page, sélectionnez votre icône utilisateur dans le coin supérieur droit. Dans le menu déroulant, choisissez **Paramètres utilisateur**.
+2. Accédez à la section **Modèle d’espace de travail personnel**. Si vous utilisez un modèle d’espace de travail, sa configuration s’affiche. Sinon, la section ne contient aucun détail.
+
+<div id="update-your-workspace-template">
+  ### Mettre à jour votre modèle d’espace de travail
+</div>
+
+Pour mettre à jour votre modèle d’espace de travail :
+
+1. Ouvrez n’importe quel espace de travail.
+2. Modifiez les paramètres de l’espace de travail. Par exemple, définissez le nombre de runs à inclure à `11`.
+3. Pour enregistrer les modifications dans le modèle, cliquez sur le menu d’actions `...` situé près des icônes de flèche **Annuler** et **Rétablir**, puis cliquez sur **Mettre à jour le modèle d’espace de travail personnel**.
+4. Vérifiez les paramètres, puis cliquez sur **Mettre à jour**. Le modèle est mis à jour et réappliqué à tous les espaces de travail qui l’utilisent.
+
+<div id="delete-your-workspace-template">
+  ### Supprimez votre modèle d’espace de travail
+</div>
+
+Pour supprimer votre modèle d’espace de travail et revenir aux paramètres par défaut :
+
+1. Sur n’importe quelle page, sélectionnez votre icône utilisateur dans le coin supérieur droit. Dans le menu déroulant, choisissez **Paramètres utilisateur**.
+2. Accédez à la section **Modèle d’espace de travail personnel**. La configuration de votre modèle d’espace de travail s’affiche.
+3. Cliquez sur l’icône de corbeille à côté de **Settings**.
+
+<Note>
+  Pour Cloud dédié et Autogéré, la suppression de votre modèle d’espace de travail est prise en charge à partir de la version v0.70. Sur les versions antérieures de Server, mettez à jour votre modèle d’espace de travail pour utiliser les [paramètres par défaut](#default-workspace-settings) à la place.
+</Note>
+
+<div id="programmatically-create-workspaces">
+  ## Créer des espaces de travail par programmation
+</div>
+
+<Tip>
+  Pour un exemple complet, consultez le notebook [Programmatic Workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb).
+</Tip>
+
+[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) est une bibliothèque Python qui permet de manipuler par programmation les espaces de travail et les rapports [W&amp;B](https://wandb.ai/).
+
+Définissez un espace de travail par programmation avec [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main). [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main) est une bibliothèque Python qui permet de manipuler par programmation les espaces de travail et les rapports [W&amp;B](https://wandb.ai/).
+
+Vous pouvez définir les propriétés de l&#39;espace de travail, notamment :
+
+* Définir la mise en page des panneaux, les couleurs et l&#39;ordre des sections.
+* Configurer les paramètres de l&#39;espace de travail, comme l&#39;axe des x par défaut, l&#39;ordre des sections et les états de réduction.
+* Ajouter et personnaliser des panneaux dans les sections pour organiser les vues de l&#39;espace de travail.
+* Charger et modifier des espaces de travail existants à partir d&#39;une URL.
+* Enregistrer les modifications apportées aux espaces de travail existants ou les enregistrer comme nouvelles vues.
+* Filtrer, regrouper et trier les runs par programmation à l&#39;aide d&#39;expressions simples.
+* Personnaliser l&#39;apparence des runs avec des paramètres comme les couleurs et la visibilité.
+* Copier des vues d&#39;un espace de travail à un autre afin de les intégrer et de les réutiliser.
+
+{/* - **Création programmatique d'espaces de travail :**
+  - Définir et créer des espaces de travail avec une configuration spécifique.
+  - Définir la mise en page des panneaux, les couleurs et l'ordre des sections.
+  - **Personnalisation de l'espace de travail :**
+  - Configurer les paramètres de l'espace de travail, comme l'axe x par défaut, l'ordre des sections et les états de réduction.
+  - Ajouter et personnaliser des panneaux dans les sections pour organiser les vues de l'espace de travail.
+  - **Modification des `vues enregistrées` d'un espace de travail existant :**
+  - Charger et modifier des espaces de travail existants à l'aide d'une URL.
+  - Enregistrer les modifications apportées aux espaces de travail existants ou les enregistrer comme de nouvelles vues.
+  - **Filtrage et regroupement des runs :**
+  - Filtrer, regrouper et trier les runs par programmation à l'aide d'expressions simples.
+  - Personnaliser l'apparence des runs avec des paramètres tels que les couleurs et la visibilité.
+  - **Intégration entre espaces de travail :**
+  - Copier des vues d'un espace de travail à un autre pour faciliter l'intégration et la réutilisation. */}
+
+<div id="install-workspace-api">
+  ### Installer l’API d’espace de travail
+</div>
+
+En plus de `wandb`, veillez à installer `wandb-workspaces` :
+
+```bash
+pip install wandb wandb-workspaces
+```
+
+<div id="define-and-save-a-workspace-view-programmatically">
+  ### Définir et enregistrer une vue de l’espace de travail par programmation
+</div>
+
+```python
+import wandb_workspaces.reports.v2 as ws
+
+workspace = ws.Workspace(entity="your-entity", project="your-project", views=[...])
+workspace.save()
+```
+
+<div id="edit-an-existing-view">
+  ### Modifier une vue existante
+</div>
+
+```python
+existing_workspace = ws.Workspace.from_url("workspace-url")
+existing_workspace.views[0] = ws.View(name="my-new-view", sections=[...])
+existing_workspace.save()
+```
+
+<div id="copy-a-workspace-saved-view-to-another-workspace">
+  ### Copier une `vue enregistrée` d’un espace de travail dans un autre espace de travail
+</div>
+
+```python
+old_workspace = ws.Workspace.from_url("old-workspace-url")
+old_workspace_view = old_workspace.views[0]
+new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[old_workspace_view])
+
+new_workspace.save()
+```
+
+Voir [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces) pour des exemples complets de l’API des espaces de travail.

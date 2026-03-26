@@ -1,0 +1,37 @@
+---
+title: "Comment puis-je empêcher wandb d’écrire dans mon terminal ou dans la sortie de mon notebook Jupyter ?"
+keywords: ["Variables d’environnement"]
+---
+
+Définissez la variable d’environnement [`WANDB_SILENT`](/fr/models/track/environment-variables) à `true`.
+
+<Tabs>
+  <Tab title="Python">
+    ```python
+    os.environ["WANDB_SILENT"] = "true"
+    ```
+  </Tab>
+
+  <Tab title="Notebook">
+    ```python
+    %env WANDB_SILENT=true
+    ```
+  </Tab>
+
+  <Tab title="Ligne de commande">
+    ```shell
+    WANDB_SILENT=true
+    ```
+  </Tab>
+</Tabs>
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

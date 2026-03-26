@@ -1,0 +1,95 @@
+---
+title: Team
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
+
+
+## <kbd>classe</kbd> `Team`
+
+Une classe qui représente une équipe W&amp;B.
+
+Cette classe fournit des méthodes pour gérer les équipes W&amp;B, notamment pour créer des équipes, inviter des membres et gérer des comptes de service. Elle hérite d&#39;Attrs pour gérer les attributs de l&#39;équipe.
+
+### <kbd>méthode</kbd> `Team.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    name: 'str',
+    attrs: 'Mapping[str, Any] | None' = None
+)
+```
+
+**Arguments :**
+
+* `client` (`wandb.apis.public.Api`) :  L’instance d’API à utiliser
+* `name` (str) :  Le nom de l’équipe
+* `attrs` (dict) :  Dictionnaire facultatif des attributs de l’équipe
+
+**Remarque :**
+
+> La gestion des équipes nécessite les autorisations appropriées.
+
+***
+
+
+### <kbd>méthode de classe</kbd> `Team.create`
+
+```python
+create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
+```
+
+Créer une nouvelle équipe.
+
+**Arguments :**
+
+* `api`:  (`Api`) L’instance d’API à utiliser
+* `team`:  (str) Le nom de l’équipe
+* `admin_username`:  (str) nom d’utilisateur facultatif de l’administrateur de l’équipe ; par défaut, l’utilisateur actuel.
+
+**Retourne :**
+Un objet `Team`
+
+***
+
+
+### <kbd>méthode</kbd> `Team.create_service_account`
+
+```python
+create_service_account(description: 'str') → Member | None
+```
+
+Créer un compte de service pour l’équipe.
+
+**Arguments :**
+
+* `description`:  (str) Description de ce compte de service
+
+**Retourne :**
+L’objet `Member` du compte de service, ou `None` en cas d’échec
+
+***
+
+
+### <kbd>méthode</kbd> `Team.invite`
+
+```python
+invite(username_or_email: 'str', admin: 'bool' = False) → bool
+```
+
+Inviter un utilisateur dans une équipe.
+
+**Arguments :**
+
+* `username_or_email`:  (str) Le nom d&#39;utilisateur ou l&#39;adresse e-mail de l&#39;utilisateur que vous souhaitez inviter.
+* `admin`:  (bool) Indique si cet utilisateur doit être administrateur de l&#39;équipe.  Valeur par défaut : `False`.
+
+**Retourne :**
+`True` en cas de réussite, `False` si l&#39;utilisateur a déjà été invité ou n&#39;existe pas.
+
+***

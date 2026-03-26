@@ -1,0 +1,282 @@
+---
+title: "op"
+description: "Référence du SDK Python pour weave.trace.op"
+---
+
+import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
+
+
+<div id="api-overview">
+  # Aperçu de l’API
+</div>
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L80" />
+
+## <kbd>classe</kbd> `DisplayNameFuncError`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L83" />
+
+## <kbd>classe</kbd> `OpCallError`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L188" />
+
+## <kbd>classe</kbd> `OpKwargs`
+
+TypedDict pour les arguments nommés de op().
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L93" />
+
+## <kbd>classe</kbd> `Sentinel`
+
+Sentinel(package: &#39;str&#39;, path: &#39;str&#39;, name: &#39;str&#39;)
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/../../../../weave/trace/op/__init__" />
+
+### <kbd>méthode</kbd> `__init__`
+
+```python
+__init__(package: 'str', path: 'str', name: 'str') → None
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L182" />
+
+
+## <kbd>classe</kbd> `WeaveKwargs`
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1388" />
+
+### <kbd>fonction</kbd> `as_op`
+
+```python
+as_op(fn: 'Callable[P, R]') → Op[P, R]
+```
+
+Étant donné une fonction décorée avec @weave.op, renvoie son Op.
+
+Les fonctions décorées avec @weave.op sont déjà des instances de Op ; cette fonction ne devrait donc avoir aucun effet à l’exécution. Vous pouvez toutefois l’utiliser pour satisfaire les vérificateurs de type si vous devez accéder aux attributs d’OpDef de manière sûre du point de vue du typage.
+
+**Arguments :**
+
+* <b>`fn`</b>: Une fonction décorée avec @weave.op.
+  **Retourne :**
+  L’Op de la fonction.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1132" />
+
+
+### <kbd>fonction</kbd> `call`
+
+```python
+call(
+    op: 'Op',
+    *args: 'Any',
+    __weave: 'WeaveKwargs | None' = None,
+    __should_raise: 'bool' = False,
+    __require_explicit_finish: 'bool' = False,
+    **kwargs: 'Any'
+) → tuple[Any, Call] | Coroutine[Any, Any, tuple[Any, Call]]
+```
+
+Exécute l’op et renvoie à la fois le résultat et un Appel représentant l’exécution.
+
+Cette fonction ne lèvera jamais d’exception. Toute erreur est capturée dans l’objet Appel.
+
+Cette méthode est automatiquement associée à toute fonction décorée avec `@weave.op`, ce qui permet une utilisation comme suit :
+
+```python
+@weave.op
+def add(a: int, b: int) -> int:
+     return a + b
+
+result, call = add.call(1, 2)
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1178" />
+
+
+### <kbd>fonction</kbd> `calls`
+
+```python
+calls(op: 'Op') → CallsIter
+```
+
+Obtenir un itérateur sur tous les appels de cette op.
+
+Cette méthode est automatiquement associée à toute fonction décorée avec `@weave.op`, ce qui permet une utilisation comme suit :
+
+```python
+@weave.op
+def add(a: int, b: int) -> int:
+     return a + b
+
+calls = add.calls()
+for call in calls:
+     print(call)
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1334" />
+
+
+### <kbd>fonction</kbd> `get_captured_code`
+
+```python
+get_captured_code(op: 'Op') → str
+```
+
+Obtenir le code capturé de l’op.
+
+Cela fonctionne uniquement lorsque vous récupérez un op à partir d’une ref. Le schéma est le suivant :
+
+ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured&#95;code()
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1380" />
+
+
+### <kbd>fonction</kbd> `is_op`
+
+```python
+is_op(obj: 'Any') → TypeIs[Op]
+```
+
+Vérifiez si un objet est un op.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L406" />
+
+
+### <kbd>fonction</kbd> `is_placeholder_call`
+
+```python
+is_placeholder_call(call: 'Call') → TypeIs[NoOpCall]
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L374" />
+
+
+### <kbd>fonction</kbd> `is_tracing_setting_disabled`
+
+```python
+is_tracing_setting_disabled() → bool
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1351" />
+
+
+### <kbd>fonction</kbd> `maybe_bind_method`
+
+```python
+maybe_bind_method(func: 'Callable', self: 'Any' = None) → Callable | MethodType
+```
+
+Associe une fonction à n’importe quel objet (même s’il ne s’agit pas d’une classe).
+
+Si self vaut None, renvoyez la fonction telle quelle.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1363" />
+
+
+### <kbd>fonction</kbd> `maybe_unbind_method`
+
+```python
+maybe_unbind_method(oplike: 'Op | MethodType | partial') → Op
+```
+
+Dissocier une méthode ou un partiel de type Op pour en faire une simple fonction Op.
+
+Pour :
+
+* les méthodes, supprimer le paramètre `self` déjà défini
+* les partiels, supprimer tous les paramètres prédéfinis
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1202" />
+
+
+### <kbd>fonction</kbd> `op`
+
+```python
+op(
+    func: 'Callable[P, R] | None' = None,
+    name: 'str | None' = None,
+    call_display_name: 'str | CallDisplayNameFunc | None' = None,
+    postprocess_inputs: 'PostprocessInputsFunc | None' = None,
+    postprocess_output: 'PostprocessOutputFunc | None' = None,
+    tracing_sample_rate: 'float' = 1.0,
+    enable_code_capture: 'bool' = True,
+    accumulator: 'Callable[[Any | None, Any], Any] | None' = None,
+    kind: 'OpKind | None' = None,
+    color: 'OpColor | None' = None
+) → Callable[[Callable[P, R]], Op[P, R]] | Op[P, R]
+```
+
+Un décorateur qui convertit une fonction ou une méthode en op Weave. Fonctionne aussi bien en synchrone qu’en asynchrone. Détecte automatiquement les fonctions qui renvoient un itérateur et applique le comportement approprié.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L399" />
+
+
+### <kbd>fonction</kbd> `placeholder_call`
+
+```python
+placeholder_call() → Call
+```
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L202" />
+
+
+### <kbd>fonction</kbd> `setup_dunder_weave_dict`
+
+```python
+setup_dunder_weave_dict(op: 'Op', d: 'WeaveKwargs | None' = None) → WeaveKwargs
+```
+
+Configure un dict &#95;&#95;weave utilisé pour transmettre des WeaveKwargs aux ops.
+
+**Arguments :**
+
+* <b>`d`</b> : dict WeaveKwargs existant facultatif à mettre à jour.
+* <b>`op`</b> : op à partir duquel extraire kind et color.
+  **Retourne :**
+  dict WeaveKwargs avec attributes, display&#95;name et, facultativement, kind/color renseignés.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L385" />
+
+
+### <kbd>fonction</kbd> `should_skip_tracing_for_op`
+
+```python
+should_skip_tracing_for_op(op: 'Op') → bool
+```

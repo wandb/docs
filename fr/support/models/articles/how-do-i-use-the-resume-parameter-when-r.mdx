@@ -1,0 +1,21 @@
+---
+title: "Comment puis-je utiliser le paramètre `resume` lors de la reprise d’un run dans W&B ?"
+keywords: ["Reprise"]
+---
+
+Pour utiliser le paramètre `resume` dans W&amp;B, définissez l’argument `resume` dans `wandb.init()` en spécifiant `entity`, `project` et `id`. L’argument `resume` accepte les valeurs `"must"` ou `"allow"`.
+
+```python
+  run = wandb.init(entity="your-entity", project="your-project", id="your-run-id", resume="must")
+```
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Reprise](/fr/support/models/tags/resuming)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

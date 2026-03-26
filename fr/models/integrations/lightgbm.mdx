@@ -1,0 +1,39 @@
+---
+description: "Intégrez W&B à LightGBM pour journaliser automatiquement les métriques de gradient boosting, l’importance des variables et la performance du modèle."
+title: LightGBM
+---
+
+import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" />
+
+La bibliothèque `wandb` inclut un callback spécifique pour [LightGBM](https://lightgbm.readthedocs.io/en/latest/). Il est également facile d’utiliser les fonctionnalités de journal génériques de W&amp;B pour suivre des expériences de grande ampleur, comme les balayages d’hyperparamètres.
+
+```python
+from wandb.integration.lightgbm import wandb_callback, log_summary
+import lightgbm as lgb
+
+# Journaliser des métriques dans W&B
+gbm = lgb.train(..., callbacks=[wandb_callback()])
+
+# Journaliser le graphique d'importance des variables et téléverser le point de contrôle du modèle dans W&B
+log_summary(gbm, save_model_checkpoint=True)
+```
+
+<Note>
+  Vous cherchez des exemples de code prêts à l’emploi ? Consultez [notre dépôt d’exemples sur GitHub](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms).
+</Note>
+
+<div id="tuning-your-hyperparameters-with-sweeps">
+  ## Réglez vos hyperparamètres avec Sweeps
+</div>
+
+Pour obtenir les meilleures performances de vos modèles, vous devez régler des hyperparamètres tels que la profondeur des arbres et le taux d’apprentissage. W&amp;B [Sweeps](/fr/models/sweeps/) est une boîte à outils puissante pour configurer, orchestrer et analyser des expériences de test d’hyperparamètres à grande échelle.
+
+Pour en savoir plus sur ces outils et voir un exemple d’utilisation de Sweeps avec XGBoost, consultez ce notebook Colab interactif.
+
+<ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
+
+<Frame>
+  <img src="/images/integrations/lightgbm_sweeps.png" alt="Comparaison des performances de LightGBM" />
+</Frame>

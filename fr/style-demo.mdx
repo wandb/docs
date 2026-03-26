@@ -1,0 +1,158 @@
+---
+title: "Démo du guide de style"
+description: "Aperçu des styles de marque personnalisés de W&B, dont la typographie, les couleurs, les bannières et des exemples de rendu des composants d'interface utilisateur."
+---
+
+<div id="style-guide-demo">
+  # Démo du guide de style
+</div>
+
+Cette page présente les styles de marque personnalisés utilisés dans la documentation W&amp;B.
+
+<div id="1-typography">
+  ## 1. Typographie
+</div>
+
+<div id="headings-with-source-serif-4">
+  ### Titres avec Source Serif 4
+</div>
+
+<div id="h1-heading-source-serif-4">
+  # Titre H1 - Source Serif 4
+</div>
+
+<div id="h2-heading-source-serif-4">
+  ## Titre H2 - Source Serif 4
+</div>
+
+<div id="h3-heading-source-serif-4">
+  ### Titre H3 - Source Serif 4
+</div>
+
+<div id="h4-heading-source-serif-4">
+  #### Titre H4 - Source Serif 4
+</div>
+
+Le corps du texte utilise la pile de polices système pour garantir une lisibilité optimale sur toutes les plateformes.
+
+<div id="2-brand-colors">
+  ## 2. Couleurs de la marque
+</div>
+
+<div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginBottom: '2rem'}}>
+  <div style={{padding: '1rem', background: 'var(--wandb-gold)', color: 'var(--moon-900)', borderRadius: '8px'}}>
+    W&amp;B Gold
+    #ffcc33
+  </div>
+
+  <div style={{padding: '1rem', background: 'var(--wandb-teal-500)', color: 'white', borderRadius: '8px'}}>
+    W&amp;B Teal
+    #13a9ba
+  </div>
+
+  <div style={{padding: '1rem', background: 'var(--moon-100)', color: 'var(--moon-800)', borderRadius: '8px'}}>
+    Moon 100
+    #f5f6f7
+  </div>
+</div>
+
+Les liens utilisent des <a href="#">couleurs sarcelle</a> pour garantir la cohérence.
+
+<div id="3-banner-components">
+  ## 3. Composants de bannière
+</div>
+
+<div className="help-banner custom-banner">
+  <h2>Bannière d’aide et d’assistance</h2>
+  <p>Cette bannière utilise l’image d’arrière-plan d’assistance avec des ombres portées sur le texte.</p>
+</div>
+
+<div className="card-banner custom-banner">
+  <h3>Bannière de type carte</h3>
+  <p>Une bannière à fond gris subtil pour du contenu informatif.</p>
+</div>
+
+<div className="gradient-banner custom-banner">
+  <h3>Bannière en gradient</h3>
+  <p>Utilise le gradient coucher de soleil pour des annonces percutantes.</p>
+</div>
+
+<div className="wandb-banner custom-banner">
+  <h3>Bannière de marque W&amp;B</h3>
+  <p>Utilise le gradient doré officiel de W&amp;B.</p>
+</div>
+
+<div id="4-button-styles">
+  ## 4. Styles de boutons
+</div>
+
+<div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem'}}>
+  <button className="cta-button">Bouton CTA</button>
+  <button className="primary-button">Bouton principal</button>
+  <button className="brand-button">Bouton de marque</button>
+  <a href="#" className="contact-button">Bouton de contact</a>
+</div>
+
+<div id="5-gradient-backgrounds">
+  ## 5. Arrière-plans avec gradient
+</div>
+
+<div className="hero-gradient">
+  <h2>Section Hero avec gradient</h2>
+  <p>Utilise le gradient coucher de soleil pour les sections Hero et les annonces importantes.</p>
+</div>
+
+<div className="card-gradient">
+  <h3>Carte avec gradient subtil</h3>
+  <p>Une superposition de gradient subtile pour les composants de carte, qui ajoute de l’intérêt visuel sans être trop prononcée.</p>
+</div>
+
+<div style={{fontSize: '2rem', fontWeight: 'bold', marginTop: '2rem'}}>
+  <span className="text-gradient-wandb">Effet de texte avec gradient W&amp;B</span>
+</div>
+
+<div id="usage-examples">
+  ## Exemples d&#39;utilisation
+</div>
+
+<div id="banner-in-mdx">
+  ### Bannière dans MDX
+</div>
+
+```mdx
+<div className="help-banner custom-banner">
+  <h2>Your Title</h2>
+  <p>Your content here</p>
+</div>
+```
+
+
+<div id="button-in-mdx">
+  ### Bouton dans MDX
+</div>
+
+```mdx
+<button className="primary-button">Click Me</button>
+```
+
+
+<div id="gradient-section">
+  ### Section Gradient
+</div>
+
+```mdx
+<div className="hero-gradient">
+  <h1>Welcome to W&B</h1>
+  <p>Build better models faster</p>
+</div>
+```
+
+
+<div id="notes">
+  ## Notes
+</div>
+
+* Tous les styles s’adaptent automatiquement au mode sombre
+* Les couleurs sont définies sous forme de variables CSS pour faciliter la maintenance
+* Les gradients utilisent systématiquement les couleurs de la marque
+* Les effets de survol fournissent un retour visuel interactif

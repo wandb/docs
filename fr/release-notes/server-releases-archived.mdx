@@ -1,0 +1,712 @@
+---
+title: "Versions archivées de W&B Server"
+description: "Consultez les notes de version archivées des anciennes versions de W&B Server qui ne sont plus prises en charge."
+sidebarTitle: "Versions archivées"
+rss: true
+---
+
+import EolReminder from '/snippets/fr/_includes/release-notes-support-eol-reminder.mdx';
+
+Cette page présente les notes de version des versions de W&amp;B Server arrivées en fin de vie et qui ne sont plus prises en charge.
+
+* Pour les versions de Server prises en charge, voir les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
+* Pour plus d’informations sur le calendrier des versions de W&amp;B Server et l’assistance, voir les [politiques de version de W&amp;B Server](/fr/release-notes/release-policies).
+
+<EolReminder />
+
+{/* Pour archiver une version, déplacez ses entrées <Update> (y compris les correctifs)
+    de server-releases.mdx vers juste en dessous */}
+
+<Update label="v0.66.0" description="06 mars 2025">
+  ## Fonctionnalités
+
+  * Dans les tableaux et les panneaux de requête, les colonnes dérivées d’autres colonnes persistent désormais, ce qui vous permet de les utiliser pour le filtrage ou dans les graphiques des panneaux de requête.
+
+  ## Sécurité
+
+  * Limitation de la profondeur maximale d’un document GraphQL à 20.
+  * Mise à niveau de pyarrow vers la version v17.0.0.
+</Update>
+
+<Update label="v0.65.0" description="30 janvier 2025">
+  ## Fonctionnalités
+
+  * Depuis les **Settings** d’un registre, vous pouvez désormais changer le propriétaire pour un autre utilisateur disposant du rôle Admin. Sélectionnez **Owner** dans le menu **Role** de l’utilisateur.
+  * Vous pouvez désormais déplacer un run vers un autre groupe dans le même projet. Survolez un run dans la liste des runs, cliquez sur le menu à trois points verticaux, puis choisissez **Move to another group**.
+  * Vous pouvez désormais configurer si le **paramètre Log Scale** des graphiques linéaires est activé par défaut au niveau de l’espace de travail ou de la section.
+    * Pour configurer le comportement d’un espace de travail, cliquez sur le menu d’action `...` de l’espace de travail, cliquez sur **Graphiques linéaires**, puis basculez **Log scale** pour l’axe X ou Y.
+    * Pour configurer le comportement d’une section, cliquez sur l’icône d’engrenage de la section, puis basculez **Log scale** pour l’axe X ou Y.
+</Update>
+
+<Update label="v0.63.0" description="10 décembre 2024">
+  ## Fonctionnalités
+
+  **[W&amp;B Weave](https://wandb.ai/site/weave/) est désormais disponible en disponibilité générale (GA) dans Cloud dédié sur AWS. Contactez votre équipe W&amp;B si vos équipes cherchent à créer des applications d’IA générative en toute confiance et à les mettre en production.**
+
+  <Frame>
+    ![Interface Weave](https://github.com/user-attachments/assets/22786cbc-7d69-4505-b329-78cb87734d19)
+  </Frame>
+
+  La version inclut également les mises à jour suivantes :
+
+  * W&amp;B Models s’intègre désormais nativement à ***Azure public cloud***. Vous pouvez maintenant créer une instance Cloud dédié dans une région Azure directement depuis votre abonnement Azure et la gérer comme une ressource Azure ISV. [Cette intégration est en préversion privée](https://wandb.ai/site/partners/azure).
+  * Possibilité d’attribuer x&#95;label, par exemple node-0, dans l’objet de paramètres du run pour distinguer les journaux et les métriques par libellé, par exemple node, dans les runs distribués. Cela permet de regrouper les métriques système et les journaux de console par libellé pour les visualiser dans l’espace de travail.
+  * ***Bientôt disponible*** dans une version corrective cette semaine, vous pourrez utiliser des comptes de service au niveau de l’organisation pour automatiser vos charges de travail W&amp;B dans toutes les équipes de votre instance. Vous pourrez toujours utiliser les comptes de service existants au niveau de l’équipe si vous souhaitez un contrôle plus précis sur le périmètre d’accès d’un compte de service.
+    * Autorisation des comptes de service au niveau de l’organisation à interagir avec le registre. Ces comptes de service peuvent être invités dans un registre à l’aide de la fenêtre modale d’invitation et sont affichés dans le tableau des membres avec leurs rôles d’organisation respectifs.
+
+  ## Correctifs
+
+  * Correction d’un problème où les utilisateurs créant des rôles personnalisés incluant l’autorisation `Create Artifact` ne pouvaient pas journaliser des artefacts dans un projet.
+  * Correction d’un problème de journalisation des métadonnées pour les fichiers dans les instances où la prise en charge des sous-chemins est configurée pour BYOB.
+  * Blocage de la suppression d’un webhook s’il est utilisé par des automatisations du registre d’organisation.
+</Update>
+
+<Update label="v0.61.0" description="17 octobre 2024">
+  ## Fonctionnalités
+
+  **Il s’agit d’une version mineure avec quelques fonctionnalités et correctifs, publiée selon un calendrier différent de celui des versions majeures mensuelles du serveur W&amp;B**
+
+  * Les Administrateurs de l’organisation peuvent désormais configurer de manière fluide les licences Models et le contrôle d’accès pour Models et [W&amp;B Weave](/fr/weave/) depuis le tableau de bord de leur organisation. Ce changement permet une gestion plus efficace des utilisateurs lorsque [Weave](/fr/weave/) est activé sur une instance Cloud dédié ou autogérée.
+    * La tarification de [Weave](/fr/weave/) est basée sur la consommation, et non sur le nombre de licences utilisées. La gestion des licences s’applique uniquement au produit Models.
+  * Vous pouvez désormais configurer des [rôles d’accès au niveau du projet pour les projets d’équipe et les projets à périmètre restreint](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/). Cela permet d’attribuer à un utilisateur des rôles d’accès différents selon les projets au sein d’une même équipe, et ajoute ainsi un contrôle supplémentaire important pour répondre aux exigences de gouvernance d’entreprise.
+
+  ## Correctifs
+
+  * Correction d’un problème où les modifications du schéma de la base de données sous-jacente lors des mises à niveau de version pouvaient expirer au démarrage de la plateforme.
+  * Ajout de nouvelles améliorations des performances au service de stockage Parquet sous-jacent afin d’améliorer encore les temps de chargement des graphiques pour les utilisateurs. Le service de stockage Parquet est disponible uniquement sur Cloud dédié et sur les instances autogérées basées sur l’[opérateur Kubernetes W&amp;B](https://docs.wandb.ai/platform/hosting/operator).
+  * Résolution du problème d’utilisation élevée du CPU pour le service de stockage Parquet sous-jacent, afin de rendre plus fiable le chargement rapide des graphiques pour les utilisateurs. Le service de stockage Parquet est disponible uniquement sur Cloud dédié et sur les instances autogérées basées sur l’[opérateur Kubernetes W&amp;B](https://docs.wandb.ai/platform/hosting/operator).
+</Update>
+
+<Update label="v0.60.0" description="26 septembre 2024">
+  <Note>
+    En raison d’un problème de gestion des versions, 0.60.0 est la première version majeure après 0.58.0. La 0.59.0 était l’une des versions correctives de la 0.58.0.
+  </Note>
+
+  ## Fonctionnalités
+
+  * Dernières mises à jour pour la conformité 1.1.1 de niveau AA 2.2 aux normes Web Content Accessibility Guidelines (WCAG).
+  * W&amp;B peut désormais désactiver la mise à niveau automatique des versions pour les instances autogérées utilisant l’opérateur Kubernetes W&amp;B. Vous pouvez en faire la demande à votre équipe W&amp;B.
+    W&amp;B exige que toutes les instances soient mises à niveau périodiquement afin de respecter la période de fin de vie de 6 mois de chaque version. W&amp;B ne prend pas en charge les versions datant de plus de 6 mois.
+
+  ## Correctifs
+
+  * Correction d’un bug permettant aux administrateurs d’instance sur Cloud dédié et sur les instances autogérées d’accéder aux espaces de travail dans les entités personnelles.
+  * Les endpoints GET SCIM Groups et Users excluent désormais les comptes de service des réponses. Seuls les utilisateurs qui ne sont pas des comptes de service sont désormais renvoyés par ces endpoints.
+  * Correction d’un bug de gestion des utilisateurs en supprimant la possibilité pour les administrateurs d’équipe de supprimer simultanément un utilisateur de l’instance dans son ensemble tout en le supprimant d’une équipe. Les administrateurs d’instance ou d’organisation sont chargés de supprimer un utilisateur de l’instance / organisation dans son ensemble.
+
+  ## Améliorations des performances
+
+  * Réduction de la latence lors de l’ajout d’un panneau jusqu’à 90 % dans les espaces de travail comportant de nombreuses métriques.
+  * Amélioration de la fiabilité et des performances des exports parquet vers le stockage blob lorsque les runs sont souvent repris.
+    L’export des Runs vers le stockage blob au format parquet est disponible sur Cloud dédié et sur les instances autogérées activées à l’aide de l’opérateur Kubernetes W&amp;B.
+</Update>
+
+<Update label="v0.58.1" description="4 septembre 2024">
+  ## Fonctionnalités
+
+  * W&amp;B prend désormais en charge les sous-chemins pour la fonctionnalité **Secure storage connector i.e. Bring your own bucket**. Vous pouvez maintenant fournir un sous-chemin lors de la configuration d’un bucket au niveau de l’instance ou de l’équipe. Cette option est disponible uniquement pour les nouvelles configurations de bucket, et non pour les buckets déjà configurés.
+  * Le stockage géré par W&amp;B sur les nouvelles instances Cloud dédié dans Google Cloud et Azure sera, par défaut, chiffré avec des **clés cloud natives gérées par W&amp;B**. Cette fonctionnalité est déjà disponible sur les instances AWS. Le stockage de chaque instance est chiffré avec une clé propre à l’instance. Jusqu’à présent, toutes les instances sur Google Cloud et Azure s’appuyaient sur les clés de chiffrement par défaut gérées par le fournisseur de cloud.
+  * Les champs de configuration et de résumé du run sont désormais copiables en un clic.
+  * Si vous utilisez l’opérateur Kubernetes W&amp;B pour une instance autogérée, vous pouvez désormais utiliser facultativement une autorité de certification personnalisée pour le controller manager.
+  * Nous avons modifié l’opérateur Kubernetes W&amp;B pour qu’il s’exécute par défaut dans un contexte non root, en conformité avec les Security Context Constraints (SCC) d’OpenShift. Ce changement garantit un déploiement plus fluide des instances autogérées sur OpenShift en respectant ses politiques de sécurité.
+
+  ## Correctifs
+
+  * Correction d’un problème où l’exportation de panneaux depuis un espace de travail vers un rapport respecte désormais correctement l’expression régulière de recherche du panneau.
+  * Correction d’un problème où définir `GORILLA_DISABLE_PERSONAL_ENTITY` sur `true` ne désactivait pas la possibilité pour les utilisateurs de créer des projets et d’écrire dans des projets existants dans leurs entités personnelles.
+
+  ## Améliorations des performances
+
+  * Nous avons considérablement amélioré les performances et la stabilité pour les expériences avec plus de 100k points enregistrés. Sur une instance autogérée, cette amélioration est disponible si le déploiement est géré à l’aide de l’opérateur Kubernetes W&amp;B.
+  * Correction d’un problème où l’enregistrement des modifications dans de grands espaces de travail était très lent ou échouait.
+  * Amélioration de la latence à l’ouverture des sections d’espace de travail dans les grands espaces de travail.
+</Update>
+
+<Update label="v0.57.2" description="24 juillet 2024">
+  ## Fonctionnalités
+
+  **Vous pouvez désormais utiliser des JWT (JSON Web Tokens) pour accéder à votre instance W&amp;B depuis le SDK ou la CLI wandb, à l’aide de la fonctionnalité de fédération d’identités. Cette fonctionnalité est en préversion.** Référez-vous à [Identity federation](https://docs.wandb.ai/platform/hosting/iam/identity_federation) et contactez votre équipe W&amp;B pour toute question.
+
+  * Nouvelles améliorations du tiroir `Add to reports` pour exporter des panneaux Workspace vers Reports.
+  * Filtrage des métadonnées Artifacts dans le navigateur de projets d’artefacts.
+  * Transmettez les métadonnées d’artefact dans la charge utile du webhook via `${artifact_metadata.KEY}`.
+  * Ajout de panneaux d’utilisation de la mémoire GPU au composant RunSystemMetrics, améliorant la visualisation des métriques GPU pour les runs dans l’interface de l’application.
+  * Les utilisateurs mobiles bénéficient désormais d’une expérience Workspace beaucoup plus fluide et intuitive.
+  * Si vous utilisez W&amp;B Cloud dédié sur Google Cloud ou Azure, vous pouvez désormais activer une connectivité privée pour votre instance, garantissant ainsi que tout le trafic provenant de vos charges de travail d’IA et, facultativement, des clients navigateur transite uniquement par le réseau privé du fournisseur de cloud. Référez-vous à [Private connectivity](https://docs.wandb.ai/platform/hosting/data-security/private-connectivity) et contactez votre équipe W&amp;B pour toute question.
+  * Les comptes de service au niveau de l’équipe sont désormais affichés séparément dans un nouvel onglet de la vue des paramètres de l’équipe. Les comptes de service ne sont plus listés dans l’onglet Members. En outre, la clé API est désormais masquée et ne peut être copiée que par les administrateurs d’équipe.
+  * Cloud dédié est désormais disponible dans la région de Séoul de Google Cloud.
+
+  ## Correctifs
+
+  * Le lissage gaussien était excessivement agressif sur de nombreux graphiques.
+  * Correction d’un problème où le bouton `Ignore Outliers in Chart Scaling` n’avait actuellement aucun effet dans le Workspace de l’interface utilisateur.
+  * Impossible désormais d’inviter des utilisateurs désactivés dans une organisation.
+  * Correction d’un problème où les utilisateurs ajoutés à une instance via l’API SCIM ne pouvaient pas terminer leur intégration avec succès.
+
+  ## Améliorations des performances
+
+  * Amélioration significative des performances lors de la modification des paramètres d’un panneau et de l’application des changements.
+  * Amélioration de la réactivité du basculement de visibilité des runs dans les grands espaces de travail.
+  * Amélioration des performances de survol et de sélection sur les graphiques dans les grands espaces de travail.
+  * Réduction de l’utilisation de la mémoire de l’espace de travail et des temps de chargement dans les espaces de travail comportant de nombreuses clés.
+</Update>
+
+<Update label="v0.56.0" description="29 juin 2024">
+  <Note>
+    En raison d’un problème de gestion des versions, 0.56.0 est la version majeure qui suit 0.54.0. La 0.55.0 était une version corrective de 0.54.0.
+  </Note>
+
+  ## Fonctionnalités
+
+  * Le nouveau graphique linéaire Full Fidelity dans W&amp;B Experiments améliore la visibilité des métriques d’entraînement en agrégeant toutes les données le long de l’axe des x, en affichant les valeurs minimale, maximale et finale dans chaque bucket (la valeur finale trace la ligne principale), ce qui permet aux utilisateurs de repérer facilement les valeurs aberrantes et de zoomer sur des détails à fidélité totale sans perte due au sous-échantillonnage.  [En savoir plus dans notre documentation](https://docs.wandb.ai/models/app/features/panels/line-plot/sampling).
+  * Vous pouvez désormais utiliser des [buckets de stockage inter-cloud pour le BYOB au niveau de l’équipe (connecteur de stockage sécurisé)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) dans les instances Cloud dédié et Autogéré. Par exemple, dans une instance W&amp;B sur AWS, vous pouvez désormais configurer Azure Blob Storage ou Google Cloud Storage pour le BYOB au niveau de l’équipe, et ainsi de suite pour chaque combinaison inter-cloud.
+  * Dans le même ordre d’idée, vous pouvez désormais utiliser des [buckets de stockage compatibles S3 comme MinIO pour le BYOB au niveau de l’équipe (connecteur de stockage sécurisé)](https://docs.wandb.ai/platform/hosting/data-security/secure-storage-connector#cross-cloud-or-s3-compatible-storage-for-team-level-byob) dans les instances Cloud dédié et Autogéré. Par exemple, dans une instance W&amp;B sur Google Cloud, vous pouvez configurer un bucket MinIO hébergé dans le cloud ou on-prem pour le BYOB au niveau de l’équipe.
+  * Les administrateurs peuvent désormais automatiser la suppression complète d’utilisateurs dans leurs instances Cloud dédié ou Autogéré à l’aide du [point de terminaison DELETE User de l’API SCIM](https://docs.wandb.ai/platform/hosting/iam/scim#delete-user). L’opération de désactivation d’utilisateur a été réimplémentée à l’aide du [point de terminaison PATCH User](https://docs.wandb.ai/platform/hosting/iam/scim#deactivate-user), avec l’ajout de l’[opération de réactivation d’utilisateur](https://docs.wandb.ai/platform/hosting/iam/scim#reactivate-user).
+  * Si vous utilisez l’API SCIM, vous constaterez également quelques améliorations mineures :
+    L’API fournit désormais un message d’erreur plus précis en cas d’échec d’authentification.
+    Les points de terminaison concernés renvoient désormais le nom complet d’un utilisateur dans l’objet SCIM User lorsqu’il est disponible.
+
+  ## Correctifs
+
+  * Ce correctif résout un problème où la suppression d’un terme de recherche d’un runset dans un rapport pouvait supprimer le panneau ou faire planter le rapport, en garantissant une gestion correcte du texte sélectionné pendant les opérations de copier-coller.
+  * Ce correctif corrige un problème d’indentation des éléments à puces dans les rapports, causé par une mise à niveau de slate et par une vérification supplémentaire dans le processus de normalisation des éléments.
+  * Ce correctif résout un problème où il était impossible de sélectionner du texte dans un panneau lorsque le rapport était en mode édition.
+  * Ce correctif résout un problème où le copier-coller d’une grille de panneaux entière dans un Report avec command-c ne fonctionnait pas.
+  * Ce correctif résout un problème où le partage de rapport avec un magic link ne fonctionnait pas lorsqu’une équipe avait activé le paramètre `Hide this team from all non-members`.
+  * Ce correctif introduit une gestion appropriée des projets restreints en autorisant uniquement les utilisateurs explicitement invités à y accéder, et en appliquant des autorisations basées sur les membres du projet et les rôles d’équipe.
+  * Ce correctif permet aux administrateurs d’instance d’écrire dans leurs propres espaces de travail nommés, de lire d’autres espaces de travail personnels et partagés, et d’écrire dans des vues partagées dans les projets privés et publics.
+  * Ce correctif résout un problème où le rapport plantait lors de la modification des filtres en raison d’un index de filtre hors limites, causé par l’omission des filtres non individuels tout en conservant un comptage d’index incrémentiel.
+  * Ce correctif résout un problème où la désélection d’un runset provoquait le plantage des panneaux multimédias dans un rapport, en garantissant que seuls les runs des runsets activés soient renvoyés.
+  * Ce correctif résout un problème où le panneau d’importance des paramètres plantait lors du chargement initial en raison d’une erreur de violation des hooks causée par un changement dans leur ordre.
+  * Ce correctif empêche le rechargement des données du graphique lors d’un défilement vers le bas puis de retour vers le haut dans les petits espaces de travail, ce qui améliore les performances et élimine l’impression de lenteur.
+</Update>
+
+<Update label="v0.54.0" description="24 mai 2024">
+  ## Fonctionnalités
+
+  * Vous pouvez désormais configurer le connecteur de stockage sécurisé (BYOB) au niveau de l’équipe dans les instances Cloud dédié ou Autogéré sur Microsoft Azure.
+    Reportez-vous à [ce module Terraform](https://github.com/wandb/terraform-azurerm-wandb/tree/main/modules/secure_storage_connector) et contactez votre équipe W&amp;B pour toute question.
+  * Les Administrateurs de l’organisation peuvent désormais appliquer les paramètres de confidentialité à toutes les équipes W&amp;B en les définissant au niveau de l’organisation, depuis l’onglet `Settings` du tableau de bord de l’organisation.
+    W&amp;B recommande de notifier les administrateurs d’équipe et les autres utilisateurs avant d’appliquer de tels changements.
+  * Activer l’option de traçabilité directe pour le DAG de traçabilité des artefacts
+  * Il est désormais possible d’empêcher les administrateurs de l’organisation ou de l’instance de rejoindre eux-mêmes une équipe W&amp;B ou de s’y ajouter, garantissant ainsi que seuls les profils Data &amp; AI ont accès aux projets au sein des équipes.
+    W&amp;B conseille de faire preuve de prudence et de bien comprendre toutes les implications avant d’activer ce paramètre. Contactez votre équipe W&amp;B pour toute question.
+  * Le Cloud dédié sur AWS est désormais également disponible dans la région de Séoul (Corée du Sud).
+
+  ## Correctifs
+
+  * Correction d’un problème empêchant le chargement des Reports sur mobile.
+  * Correction du lien vers le fichier git diff dans l’aperçu du run.
+  * Correction d’un problème intermittent lié au chargement du tableau de bord de l’organisation pour certains utilisateurs.
+</Update>
+
+<Update label="v0.52.2" description="25 avril 2024">
+  ## Fonctionnalités
+
+  * Vous pouvez désormais appliquer le nom d’utilisateur et le nom complet des utilisateurs de votre organisation à l’aide des revendications OIDC de votre fournisseur SSO. Contactez votre équipe W&amp;B ou l’assistance si cela vous intéresse.
+  * Vous pouvez désormais désactiver l’utilisation des projets personnels dans votre organisation afin de garantir que tous les projets sont créés au sein des équipes W&amp;B et régis par des règles appliquées par les administrateurs. Contactez votre équipe W&amp;B ou l’assistance si cela vous intéresse.
+  * Option permettant de déplier toutes les versions dans un cluster de runs ou d’artefacts dans la vue DAG de traçabilité d’Artifacts.
+  * Améliorations de l’interface utilisateur du DAG de traçabilité d’Artifacts : le type est désormais visible pour chaque entrée d’un cluster.
+
+  ## Correctifs
+
+  * Ajout de la pagination aux panneaux d’images dans les banques de médias, avec affichage jusqu’à 32 images par page, une grille plus soignée et de meilleurs contrôles de pagination, ainsi qu’une solution de contournement pour d’éventuelles incohérences de décalage.
+  * Résolution d’un problème empêchant l’affichage des infobulles sur les graphiques système en appliquant le paramètre `isHovered`, essentiel à la visibilité du réticule dans l’interface.
+  * Suppression de la propriété max-width pour les images dans les panneaux de médias, afin de corriger des contraintes de style involontaires précédemment appliquées à toutes les images.
+  * Correction des surcharges de configuration défectueuses dans le tiroir de Launch.
+  * Correction du comportement du tiroir de Launch lors du clonage à partir d’un run.
+</Update>
+
+<Update label="v0.51.0" description="20 mars 2024">
+  ## Fonctionnalités
+
+  * Vous pouvez désormais enregistrer plusieurs vues de n’importe quel espace de travail en cliquant sur &quot;Save as a new view&quot; dans le menu d’options de la barre de l’espace de travail.
+    Voir [Vues d’espace de travail enregistrées](https://docs.wandb.ai/models/app/pages/workspaces#create-saved-workspace-views) pour en savoir plus.
+
+    <Frame>
+      ![Image montrant des vues enregistrées](https://github.com/wandb/server/assets/7208315/862a36ac-8ce4-49e7-8677-d87d54ab1e54)
+    </Frame>
+  * Vous pouvez désormais [définir la portée de visibilité d’un projet sur Restricted](https://docs.wandb.ai/platform/hosting/iam/access-management/restricted-projects/) si vous souhaitez collaborer sur des flux de travail d’IA liés à des données sensibles ou confidentielles.
+    Lorsque vous créez un **projet restreint** au sein d’une équipe, vous pouvez ajouter des membres spécifiques de l’équipe. Contrairement aux autres portées de visibilité des projets, tous les membres d’une équipe n’obtiennent pas automatiquement l’accès à un projet restreint.
+  * **Performances améliorées de la page Aperçu du run** : le chargement est désormais 91 % plus rapide, et la fonctionnalité de recherche a été améliorée de 99,9 %. Profitez également de la recherche RegEx pour les données Config et Summary.
+  * **La nouvelle UX du DAG de traçabilité des Artifacts** introduit le regroupement pour 5 nœuds ou plus au même niveau, une fenêtre d’aperçu pour examiner les détails d’un nœud, ainsi qu’une nette réduction du temps de chargement du graphique.
+  * Les valeurs des variables de template utilisées pour un run exécuté par Launch, par exemple le type et la quantité de GPU, sont désormais affichées dans la liste des runs de la file d’attente. Cela permet de voir plus facilement quels runs demandent quelles ressources.
+  * Le clonage d’un run avec Launch présélectionne désormais les overrides, la file d’attente et les valeurs des variables de template utilisées par le run cloné.
+  * Les administrateurs de l’instance verront désormais un onglet `Teams` dans le tableau de bord de l’organisation. Il permet de rejoindre une équipe spécifique si nécessaire, que ce soit pour surveiller l’activité de l’équipe conformément aux directives de l’organisation ou pour aider l’équipe lorsque les administrateurs d’équipe ne sont pas disponibles.
+  * L’API utilisateur SCIM renvoie désormais l’attribut `groups` dans le point de terminaison GET, qui inclut l’identifiant des groupes/équipes auxquels un utilisateur appartient.
+  * Toutes les instances Cloud dédié sur Google Cloud sont désormais gérées à l’aide du nouvel [opérateur Kubernetes W&amp;B](https://docs.wandb.ai/platform/hosting/operator/). Le nouveau service Parquet Store est désormais également disponible.
+    Parquet Store permet de stocker efficacement et à moindre coût les données d’historique des runs au format parquet dans le stockage blob. Les instances Cloud dédié sur AWS et Azure sont déjà gérées à l’aide de l’opérateur et incluent le stockage parquet.
+  * Les instances Cloud dédié sur AWS ont été mises à jour pour utiliser la dernière version du stockage de données relationnelles, et l’infrastructure de calcul a été mise à niveau vers une génération plus récente offrant de meilleures performances.
+
+  > **Avis préalable** : nous invitons vivement tous les clients qui utilisent des Webhooks avec Automations à ajouter un enregistrement A valide pour leurs points de terminaison, car nous allons interdire l’utilisation d’URL de webhook basées sur des adresses IP à partir de la prochaine version. Cette mesure vise à se protéger contre la vulnérabilité SSRF et d’autres vecteurs de menace associés.
+
+  ## Correctifs
+
+  * Correction d’un problème empêchant l’affichage de l’onglet des expressions pour les graphiques linéaires.
+  * Utilisation du nom d’affichage pour les balayages lorsqu’ils sont groupés par balayages dans les graphiques et le tableau des runs.
+  * Navigation automatique vers la page des runs lors de la sélection d’une version de job.
+</Update>
+
+<Update label="v0.50.2" description="26 février 2024">
+  ## Fonctionnalité
+
+  * Ajouter un paramètre dans la banque de panneaux pour développer automatiquement les résultats de recherche
+  * Améliorer la visibilité des problèmes liés aux éléments de la file d’attente de run
+  * Les clients Cloud dédié sur AWS peuvent désormais utiliser Privatelink pour se connecter en toute sécurité à leurs déploiements.
+    La fonctionnalité est actuellement en aperçu privé et fera partie d’un niveau de tarification avancé lors de sa disponibilité générale. Contactez votre équipe W&amp;B si cela vous intéresse.
+  * Vous pouvez désormais automatiser l’attribution des rôles utilisateur au niveau de l’organisation ou de l’équipe à l’aide de l’[API d’attribution des rôles SCIM](https://docs.wandb.ai/platform/hosting/iam/scim/#assign-organization-level-role-to-user).
+  * Toutes les instances Cloud dédié sur AWS et Azure sont désormais gérées à l’aide du nouvel opérateur Kubernetes W&amp;B. Le nouveau service Parquet Store est également désormais disponible. Ce service permet de stocker de manière performante et économique les données d’historique de run au format parquet dans le stockage blob. Cela permet ensuite de charger plus rapidement les données d’historique pertinentes dans les graphiques et graphiques utilisés pour évaluer les runs.
+  * L’opérateur Kubernetes W&amp;B, ainsi que le service Parquet Store, sont désormais disponibles sur les instances Autogéré. Nous encourageons les clients qui utilisent déjà Kubernetes pour héberger W&amp;B à contacter leur équipe W&amp;B pour savoir comment utiliser l’opérateur. Nous recommandons également vivement aux autres de migrer vers Kubernetes afin de bénéficier à l’avenir des dernières améliorations des performances et de nouveaux services via l’opérateur. Nous serons ravis de vous accompagner dans la planification d’une telle migration.
+
+  ## Correctifs
+
+  * Transmettre correctement les variables de modèle via le planificateur de balayage
+  * Le planificateur perturbe le générateur YAML de balayage
+  * Afficher correctement les rôles utilisateur sur la page des membres de l’équipe lorsqu’une recherche ou un tri est appliqué
+  * Les administrateurs d’organisation peuvent de nouveau supprimer des projets personnels dans leur instance serveur Cloud dédié ou Autogéré
+  * Ajouter une validation pour l’API SCIM GET groups concernant les utilisateurs en attente
+</Update>
+
+<Update label="v0.49.0" description="18 janvier 2024">
+  ## Fonctionnalités
+
+  * Définir une politique TTL (durée de vie ou suppression planifiée) par défaut pour une équipe sur la page des paramètres de l’équipe.
+    Limiter la définition ou la modification d’une politique TTL soit aux seuls administrateurs, soit aux administrateurs et aux membres.
+  * Tester et déboguer un webhook pendant sa création, ou après, dans l’interface des paramètres de l’équipe.
+    W&amp;B enverra une charge utile factice et affichera la réponse du serveur destinataire.
+  * Afficher les propriétés de l’automatisation dans le panneau coulissant Détails.
+    Cela inclut un résumé de l’événement déclencheur et de l’action, les configurations de l’action, la date de création et une commande curl copiable pour tester les automatisations par webhook.
+  * Remplacer le heartbeat de l’agent par l’heure du dernier run réussi dans l’aperçu de Launch.
+  * Les comptes de service peuvent désormais utiliser l’API Report pour créer des rapports.
+  * Utiliser la nouvelle API de gestion des rôles pour automatiser la gestion des rôles personnalisés.
+  * Activer l’opérateur Kubernetes pour les déploiements Cloud dédié sur AWS.
+  * Configurer une plage d’adresses IP non conflictuelle pour le cache géré utilisé dans les déploiements Cloud dédié sur Google Cloud.
+
+  ## Correctifs
+
+  * Mettre à jour la zone cliquable du bouton d’ajout de runset dans les rapports
+  * Afficher le bon message pour le regroupement par troncature
+  * Empêcher le clignotement du bouton de publication dans les rapports
+  * La règle horizontale se replie dans la section du rapport
+  * Le bouton d’ajout de section est masqué dans certaines vues
+  * Autoriser des éléments comme la gestion des versions sémantique dans le graphique sous forme de chaîne
+  * Supprimer l’obligation d’utiliser des guillemets lors de l’utilisation de variables de modèle dans les définitions de configuration de file d’attente
+  * Améliorer l’ordre de tri de la file d’attente Launch
+  * Ne pas ouvrir automatiquement les sections de panneau lors d’une recherche dans de grands espaces de travail
+  * Modifier le texte de l’étiquette pour les runs groupés
+  * Ouvrir/fermer toutes les sections pendant la recherche
+</Update>
+
+<Update label="v0.48.0" description="20 décembre 2023">
+  ## Fonctionnalités
+
+  * Toutes les modifications frontend requises pour la priorisation de Launch
+    Consultez [ce blog](https://wandb.ai/wandb_fc/launch-releases/reports/Introducing-Priority-Based-Job-Management-with-W-B-Launch--Vmlldzo2MzE2NjI2) pour découvrir comment exécuter avec Launch des jobs plus prioritaires que d&#39;autres.
+  * Consultez les modifications ci-dessous concernant le contrôle d&#39;accès et le comportement d&#39;attribution de l&#39;utilisateur pour les comptes de service d&#39;équipe :
+    * Lorsqu&#39;une équipe est configurée dans l&#39;environnement d&#39;entraînement, un compte de service de cette équipe peut être utilisé pour enregistrer des runs dans des projets privés ou publics de cette équipe, et attribuer ces runs à un utilisateur uniquement si la variable `WANDB_USERNAME` ou `WANDB_USER_EMAIL` est configurée dans l&#39;environnement et que l&#39;utilisateur fait partie de cette équipe.
+    * Lorsqu&#39;aucune équipe n&#39;est configurée dans l&#39;environnement d&#39;entraînement et qu&#39;un compte de service est utilisé, les runs sont enregistrés dans le projet nommé au sein de l&#39;équipe du compte de service, et ils ne sont attribués à un utilisateur que si la variable `WANDB_USERNAME` ou `WANDB_USER_EMAIL` est configurée dans l&#39;environnement et que l&#39;utilisateur fait partie de cette équipe.
+    * Un compte de service d&#39;équipe **ne peut pas** enregistrer de runs dans un projet privé d&#39;une autre équipe, mais il peut enregistrer des runs dans des projets publics d&#39;autres équipes.
+
+  ## Correctifs
+
+  * Réduction de la largeur des colonnes pour les sélecteurs de runs surdimensionnés
+  * Correction de quelques bugs liés à la fonctionnalité en préversion des rôles personnalisés
+</Update>
+
+<Update label="v0.47.2" description="1 décembre 2023">
+  ## Fonctionnalités
+
+  * Utiliser des rôles personnalisés avec des autorisations spécifiques pour personnaliser le contrôle d&#39;accès au sein d&#39;une équipe**
+    Disponible en préversion pour les clients Enterprise. Pour toute question, contactez votre équipe de compte W&amp;B ou l&#39;assistance.
+  * Améliorations mineures de la recherche de runs
+  * Redimensionnement automatique de la recherche de runs pour les textes longs
+  * Afficher les détails du webhook, notamment l&#39;URL, les secrets et la date de création, directement depuis le tableau des automatisations pour les automatisations par webhook
+
+  ## Correctifs
+
+  * Regroupement des runs lorsque la valeur du groupe est une chaîne ressemblant à un nombre
+  * Comportement saccadé lors du glisser-déposer des panneaux de rapport
+  * Mise à jour de la spécification du graphique à barres pour qu&#39;elle corresponde à celle du cloud public
+  * Nettoyage des espacements internes des panneaux et des marges des graphiques
+  * Restauration des paramètres bêta de l&#39;espace de travail
+</Update>
+
+<Update label="v0.46.0" description="15 novembre 2023">
+  ## Fonctionnalités
+
+  * Les déploiements sur AWS peuvent désormais utiliser les secrets W&amp;B avec les webhooks et les automatisations
+    Les secrets sont stockés de manière sécurisée dans AWS Secret Manager. Utilisez le module terraform-aws-wandb pour en provisionner un et
+  * Mise à jour du tableau des webhooks pour afficher davantage d&#39;informations
+  * Meilleure troncature des longues chaînes pour améliorer leur lisibilité dans l&#39;interface utilisateur
+  * Réduction du délai de défilement jusqu&#39;à la section du rapport
+  * Ajout d&#39;un arrière-plan blanc aux panneaux weave1
+  * Autorisation des liens profonds pour les panneaux weave1 dans les rapports
+  * Autorisation du redimensionnement des panneaux weave1 dans les rapports
+  * La bannière de la page d&#39;accueil affichera désormais les instructions de connexion CLI
+  * Les invitations d&#39;utilisateurs aboutiront désormais même si l&#39;e-mail d&#39;invitation ne peut pas être envoyé pour une raison quelconque
+  * Ajout de la liste des files d&#39;attente associées à la page d&#39;aperçu de l&#39;agent
+
+  ## Correctifs
+
+  * La fonction de copie dans la superposition du panneau supprimait des valeurs
+  * Nettoyage CSS de la fenêtre modale d&#39;importation lors de la création d&#39;un rapport
+  * Correction d&#39;une régression pour masquer la légende lorsqu&#39;elle est désactivée
+  * Mise en surbrillance des commentaires de rapport
+  * Suppression de toute mise en cache pour le LoadMetadataList() de la vue
+  * Permettre à la recherche de runs de s&#39;étendre
+  * Association des agents Launch à l&#39;ID utilisateur à partir de l&#39;en-tête `X-WANDB-USERNAME`
+</Update>
+
+<Update label="v0.45.0" description="25 octobre 2023">
+  ## Fonctionnalités
+
+  * Activer le nettoyage des artefacts à l&#39;aide de la variable d&#39;environnement `GORILLA_ARTIFACT_GC_ENABLED=true` et de la gestion des versions des objets cloud ou de la suppression réversible.
+  * Le module Terraform terrraform-azurerm-wandb prend désormais en charge Azure Key Vault comme magasin de secrets.
+    Les déploiements sur Azure peuvent désormais utiliser les secrets W&amp;B avec les webhooks et les automatisations. Les secrets sont stockés de manière sécurisée dans Azure Key Vault.
+
+  ## Correctifs
+
+  * Suppression d&#39;une sortie anticipée invalide qui empêchait la suppression de l&#39;historique
+  * Lors du déplacement/de la copie de runs, ne pas supprimer les informations de key-set
+  * Mise à jour des mutations pour ne plus utiliser le plan de stockage obsolète ni le plan de facturation des artefacts
+  * Respect de l&#39;indicateur skip dans useRemoteServer
+</Update>
+
+<Update label="v0.44.1" description="12 octobre 2023">
+  ## Fonctionnalités
+
+  **Ajout de l’interface du proxy OpenAI à SaaS et Server**
+
+  <Frame>
+    ![Image montrant la nouvelle interface du proxy OpenAI](https://github.com/wandb/server/assets/7208315/8bc78df9-e0e7-455e-8c74-975caa96eccf)
+  </Frame>
+
+  **Également :**
+
+  * La nouvelle version v1.19.0 de notre module AWS Terraform `terraform-google-wandb` est disponible
+  * Prise en charge d’AWS Secret Manager pour Customer Secret Store, activable une fois le module Terraform `terrraform-aws-wandb` mis à jour et publié
+  * Prise en charge d’Azure Key Vault pour Customer Secret Store, activable une fois le module Terraform `terrraform-azurerm-wandb` mis à jour et publié
+
+  ## Correctifs
+
+  * Améliorations de confort d’utilisation dans l’interface du registre de modèles
+  * Les valeurs `int` ne sont plus ignorées pour déterminer si un run a atteint l’objectif d’optimisation d’un sweep
+  * Mise en cache des données des runs pour améliorer les performances de chargement de l’espace de travail
+  * Amélioration du rendu du TTL dans le tableau de collection
+  * Les comptes de service peuvent désormais être administrateurs de flux de travail (registre)
+  * Ajout d’une infobulle pour les tags de run tronqués dans les espaces de travail
+  * Correction du défilement de la page de rapport
+  * Copie des valeurs de données `y` pour l’infobulle du graphique
+  * Interrogation des secrets pour les webhooks en local
+  * Correction du zoom de domaine défaillant dans la configuration du panneau
+  * Masquage de l’interface Customer Secret Store si la variable d’environnement `GORILLA_CUSTOMER_SECRET_STORE_SOURCE` n’est pas définie
+  * Mise à jour de langchain vers la dernière version
+  * Ajout de W&amp;B Prompts au démarrage rapide
+  * Mise à jour des MI AWS pour utiliser terraform-kubernetes-wandb v1.12.0
+  * Affichage des heures suivies correctes du plan Teams sur la page des paramètres d’équipe et masquage sur la page d’utilisation
+</Update>
+
+<Update label="v0.43.0" description="2 octobre 2023">
+  Server 0.43.0 inclut un certain nombre de correctifs mineurs et d’améliorations des performances, notamment la correction du bas des tableaux Runs lorsqu’une barre de défilement est présente. Consultez les autres correctifs ci-dessous :
+
+  <Frame>
+    ![Démo du tableau Runs corrigé](https://github.com/wandb/server/assets/117778861/e4fe9656-b382-4328-80e4-edc4fcae1c88)
+  </Frame>
+
+  ## Correctifs
+
+  * Amélioration significative des performances de chargement de l’espace de travail
+  * Correction du lien vers la documentation cassé dans le menu désactivé d’ajout de panneau
+  * Rendu de childPanel sans éditeur dans le rapport
+  * Copie de texte depuis une grille de panneaux lors de l’édition
+  * Plantage de l’aperçu du run avec la clé &#39;length&#39;
+  * Ajout d’un espacement au bas du tableau Runs lorsqu’une barre de défilement est présente
+  * Suppression de la lecture inutile du cache des clés d’historique
+  * Gestion des erreurs pour la fenêtre modale Teams Checkout
+  * Fuite de mémoire, envoi excessif de flux de fichiers et processus orphelins dans l’autotraceur Python de Weave
+</Update>
+
+<Update label="v0.42.0" description="14 septembre 2023">
+  ## Fonctionnalités
+
+  * W&amp;B Artefacts prend désormais en charge les politiques de durée de vie (TTL).
+
+    <Frame>
+      ![Image illustrant les politiques TTL pour les artefacts](https://github.com/wandb/server/assets/117778861/fcfe9484-5adb-4ace-8e88-9c9a344d94ef)
+    </Frame>
+
+    Les utilisateurs peuvent désormais mieux contrôler la suppression et la conservation des artefacts enregistrés avec W&amp;B, grâce à la possibilité de définir des politiques de conservation et de durée de vie (TTL) ! Déterminez à quel moment vous souhaitez supprimer des artefacts spécifiques, mettez à jour les politiques des artefacts existants et définissez des politiques TTL sur des artefacts en amont ou en aval.
+  * Utilisation du tiroir Launch lors de la création de Sweeps
+  * Suppression des éléments de la file d’attente de runs
+  * Menu déroulant imbriqué pour les agrégations min/max
+  * Les utilisateurs peuvent désormais connecter plusieurs buckets compatibles S3
+  * Ajout des métriques système d’E/S disque
+  * Utilisation de l’ancienne méthode pour définir les autorisations
+  * Activation de CustomerSecretStore
+  * Ajout de Kubernetes comme backend pour CustomerSecretStore
+
+  ## Correctifs
+
+  * Désactivation du stockage et des factures d’artefacts pendant la refactorisation en cours des calculs de stockage
+  * Correction d’un bug de suppression de panneau
+  * Suppression du type d’événement link-version du curseur d’automatisation du projet
+  * Suppression du style en majuscules pour les noms de type d’artefact
+  * Les tags non colorés ne changent plus de couleur au rendu
+  * Valeurs par défaut obsolètes bloquées dans le tiroir Launch à la réouverture
+  * Déclenchement des automatisations d’alias lors de la création d’un artefact
+  * Correction d’un échec dans un cas limite des filtres de tags à chargement infini
+</Update>
+
+<Update label="v0.41.0" description="28 août 2023">
+  ## Fonctionnalités
+
+  * Nouvelle page d’accueil de Launch
+
+    <Frame>
+      ![Image montrant la nouvelle page d’accueil de Launch](https://github.com/wandb/server/assets/97066933/3bd0ecfe-1fcb-412f-92d3-6d3ce8f849d6)
+    </Frame>
+
+    Nous avons mis à jour la page d’accueil de Launch afin que les utilisateurs qui souhaitent se lancer avec Launch puissent le configurer beaucoup plus facilement et rapidement. Accédez facilement à une documentation détaillée, ou suivez simplement les trois étapes du Démarrage rapide pour créer une file d’attente Launch, un agent, et commencer immédiatement à lancer des jobs.
+  * Ajout d’un nouveau proxy inverse pour suivre les requêtes et réponses OpenAI
+  * Affichage de la version de l’agent sur la page d’aperçu de l’agent
+  * Le nouveau flux de travail du registre de modèles n’est plus derrière un feature flag pour tous les utilisateurs
+
+  ## Correctifs
+
+  * Les projets vides provoquaient un chargement infini dans l’explorateur de stockage
+  * Les Runs étaient marqués comme ayant échoué lorsque des éléments de la file d’attente de runs échouaient
+  * Utilisation du bon bucket pour stocker les artefacts du proxy OpenAI
+  * Les balises SEO n’étaient pas correctement rendues par l’hôte
+  * Déclenchement de l’exportation en arrière-plan, y compris à l’expiration du délai du contexte
+  * Passage des runs de l’état pending à running lorsqu’un run est initialisé
+  * Mise à jour de la requête afin que les files d’attente Launch affichent les jobs terminés et échoués les plus récents
+</Update>
+
+<Update label="v0.40.0" description="18 août 2023">
+  ## Fonctionnalités
+
+  * Les webhooks permettent un flux de travail CI/CD de modèle fluide grâce aux automatisations de webhook, qui déclenchent des actions spécifiques dans le pipeline CI/CD lorsque certains événements se produisent. Utilisez les webhooks pour faciliter un relais clair entre l’ingénierie ML et le DevOps. Pour voir cela en pratique pour [l’évaluation de modèle](https://www.youtube.com/watch?v=7j-Mtbo-E74) et [le déploiement de modèle](https://www.youtube.com/watch?v=g5UiAFjM2nA), consultez les vidéos de démonstration associées. Pour en savoir plus, consultez [notre documentation](/fr/models/automations/create-automations/webhook/).
+    <Frame>
+      ![Image montrant la configuration du webhook](https://github.com/wandb/server/assets/97066933/88ebcb78-a2e6-42ed-8a37-1be0b7556a3a)
+    </Frame>
+  * Nouveau tableau de bord d’activité des utilisateurs pour tous les clients.
+
+  ## Correctifs
+
+  * Suppression de la limite sur le nombre de modèles enregistrés qu’une organisation pouvait avoir.
+  * Ajout de l’historique de recherche aux espaces de travail pour faciliter la recherche des graphiques couramment utilisés.
+  * L’icône « j’aime » des rapports est passée de cœurs à étoiles.
+  * Les utilisateurs peuvent désormais modifier le run sélectionné dans une vue d’espace de travail comportant un groupe de runs.
+  * Correction d’un problème provoquant des grilles de panneaux en double.
+  * Les utilisateurs peuvent désormais transmettre des remplacements de configuration des ressources pour chaque job pour Sweeps sur Launch
+  * Ajout d’une redirection de */admin/users* vers le nouveau tableau de bord de l’organisation.
+  * Correction de problèmes de connexions interrompues avec LDAP.
+  * Améliorations de la suppression définitive des runs.
+</Update>
+
+<Update label="v0.39.0" description="27 juillet 2023">
+  ## Fonctionnalités
+
+  **Refonte du tableau de bord de l’organisation**
+
+  <Frame>
+    ![Tableau de bord de l’organisation remanié montrant l’activité des utilisateurs, les statistiques de création de runs et les fonctionnalités de gestion des membres](https://github.com/wandb/server/assets/47005026/ecfda350-2fc2-4023-a98c-d8eb67498957)
+  </Frame>
+
+  Nous avons facilité l’identification des personnes qui tirent le meilleur parti de W&amp;B grâce à notre tableau de bord de l’organisation remanié, accessible aux administrateurs W&amp;B. Vous pouvez désormais voir en détail qui a créé des runs et des rapports, qui utilise activement W&amp;B, quelles invitations sont en attente, et exporter toutes ces données au format CSV pour les partager au sein de votre organisation. Pour en savoir plus, consultez [la gestion des accès](https://docs.wandb.ai/platform/hosting/iam/access-management-intro/).
+
+  Pour les clients Cloud dédié, cette fonctionnalité a été activée. Pour les clients W&amp;B Autogéré, contactez l’assistance W&amp;B et nous serons ravis de vous aider à l’activer.
+
+  ## Correctifs
+
+  * Restriction des clés API de service aux Administrateurs d’équipe
+  * La configuration de l’agent Launch est désormais affichée sur la page Agents
+  * Ajout d’un panneau de navigation lors de l’affichage d’un seul job Launch.
+  * Les automatisations peuvent désormais afficher les paramètres de configuration du job associé.
+  * Correction d’un problème empêchant la mise à jour en direct des runs groupés
+  * Suppression du `/` supplémentaire dans l’URL des liens magic et normaux
+  * Vérification de la base pour les artefacts incrémentiels
+  * Inviter un utilisateur dans plusieurs équipes n’occupera plus trop de licences dans l’organisation
+</Update>
+
+<Update label="v0.38.0" description="13 juillet 2023">
+  ## Fonctionnalités
+
+  * Améliorations de la visualisation des métriques
+
+    <Frame>
+      ![Interface de visualisation des métriques améliorée prenant en charge jusqu'à 100 métriques avec des moyennes mobiles exponentielles pondérées dans le temps](https://github.com/wandb/server/assets/47005026/1bb0b16c-eaae-4348-be0d-cc788b67853e)
+    </Frame>
+
+    Nous continuons d&#39;améliorer notre expérience principale de visualisation des métriques.   Vous pouvez désormais définir quelles métriques correspondant à des expressions régulières afficher dans vos graphiques, jusqu&#39;à 100 métriques à la fois.   Et pour représenter plus fidèlement les données à grande échelle, nous avons ajouté un nouvel algorithme de lissage par moyenne mobile exponentielle pondérée dans le temps pour les graphiques ([consultez tous nos algorithmes pris en charge](https://docs.wandb.ai/models/app/features/panels/line-plot/smoothing#docusaurus_skipToContent_fallback)).
+
+  ## Correctifs
+
+  * Amélioration majeure de la vitesse de téléchargement des artefacts : plus de 6 fois plus rapide sur notre benchmark d&#39;artefacts d&#39;un million de fichiers.  Veuillez passer à la version 0.15.5+ du SDK.
+  * (Launch) Optuna est désormais disponible comme [planificateur de balayage avec Sweeps sur Launch](https://docs.wandb.ai/guides/launch/sweeps-on-launch#create-a-custom-sweep-scheduler), ce qui permet une exploration plus efficace des hyperparamètres.
+  * La suppression définitive des données de run est désormais disponible (désactivée par défaut).  Elle peut être activée avec la variable d&#39;environnement GORILLA&#95;DATA&#95;RETENTION&#95;PERIOD, exprimée en heures.  Soyez prudent avant de mettre à jour cette variable et/ou contactez l&#39;assistance W&amp;B, car la suppression est irréversible.  Les artefacts ne seront pas supprimés par ce paramètre.
+  * Mise à jour des e-mails de partage de rapport pour inclure un aperçu.
+  * Assouplissement des règles de nettoyage HTML pour les rapports dans les projets ; cela provoquait de rares problèmes de rendu.
+  * Augmentation du nombre maximal de métriques pouvant correspondre à une regex dans la configuration des graphiques ; auparavant, ce maximum était toujours de 10, il est désormais de 100.
+  * Correction d&#39;un problème où le curseur d&#39;étape du panneau multimédia se désynchronisait du média affiché.
+  * Ajout de la moyenne mobile exponentielle pondérée dans le temps comme option de lissage dans les graphiques.
+  * Le champ de texte &quot;Search panels&quot; dans les espaces de travail conserve désormais la dernière recherche de l&#39;utilisateur.
+  * L&#39;application d&#39;un filtre par nom d&#39;utilisateur lorsque les runs sont regroupés ne provoquera plus d&#39;erreur.
+  * (Launch) Le chargement de l&#39;onglet Launch devrait maintenant être beaucoup plus rapide, généralement en moins de deux secondes.
+  * (Launch) Il est désormais possible de modifier les configurations de file d&#39;attente en YAML plutôt qu&#39;en JSON.  La façon de modifier les configurations de file d&#39;attente est également plus claire.
+  * (Launch) Les Runs afficheront désormais des messages d&#39;erreur dans l&#39;interface lorsqu&#39;ils plantent ou échouent.
+  * (Launch) Si vous ne spécifiez pas de projet lors de la création d&#39;un job, nous utiliserons désormais la valeur de WANDB&#95;PROJECT depuis votre wandb.init.
+  * (Launch) Mise à jour de la prise en charge des images d&#39;accélérateur personnalisées — elles s&#39;exécuteront désormais en mode non interactif lors du build, ce qui bloquait certaines images.
+  * (Launch) Correction d&#39;un problème où l&#39;auteur du run pour les balayages était le compte de service de l&#39;agent, plutôt que le véritable auteur
+  * (Launch) Cliquer en dehors du tiroir Launch ne le fermera plus automatiquement.
+  * (Launch) Correction d&#39;un problème où les tâches d&#39;entraînement mises en file d&#39;attente par un balayage, mais pas encore exécutées, n&#39;étaient pas correctement retirées de la file d&#39;attente si vous arrêtiez ensuite le balayage.
+  * (Launch) Le lien de navigation Launch est désormais masqué pour les utilisateurs qui ne font pas partie de l&#39;équipe.
+  * (Launch) Correction de problèmes de formatage et d&#39;affichage dans les journaux de l&#39;agent.
+  * Correction de problèmes de défilement, de redimensionnement et de clonage dans le panneau Automations.
+  * Correction de la pagination dans l&#39;historique des actions des artefacts.
+  * Ajout de la prise en charge des URL pré-signées utilisant une URL de point de terminaison VPC si la variable d&#39;environnement AWS&#95;S3&#95;ENDPOINT&#95;URL est définie et transmise depuis le SDK.
+  * Correction du lien du tableau de bord d&#39;entreprise lorsque le nom de l&#39;organisation contient &quot;&amp;&quot;
+  * Mise à jour des couleurs des tags pour plus de cohérence
+</Update>
+
+<Update label="v0.36.0" description="14 juin 2023">
+  ## Fonctionnalités
+
+  * Cloner des Runs avec Launch
+
+    <Frame>
+      ![Interface de clonage de run dans W\&B Launch permettant d’ajuster les hyperparamètres et de sélectionner l’infrastructure](https://github.com/wandb/server/assets/47005026/4aebe22a-70c9-4186-be74-feaf73c1b2d2)
+    </Frame>
+
+    Si vous souhaitez répéter un run tout en modifiant quelques hyperparamètres — par exemple augmenter la taille de lot pour tirer parti d’une machine plus puissante — il est désormais facile de cloner un run avec W&amp;B Launch. Accédez à l’aperçu du run, cliquez sur Clone, puis sélectionnez une nouvelle infrastructure sur laquelle exécuter le job, ainsi que de nouveaux hyperparamètres. Pour en savoir plus, consultez la [documentation Launch](https://docs.wandb.ai/guides/launch).
+
+  ## Correctifs
+
+  * Ajout des actions de création et de mise à jour de rapport aux journaux d’audit.
+  * Les artefacts lus via le SDK seront désormais consignés dans les [journaux d’audit](https://docs.wandb.ai/platform/hosting/audit-logging/).
+  * Lors de la création d’un rapport, ajout d’un bouton permettant de sélectionner tous les graphiques à ajouter au nouveau rapport
+  * Les nouveaux utilisateurs en lecture seule qui s’inscrivent via un lien de rapport sont désormais redirigés directement vers le rapport, au lieu de passer par le processus d’inscription habituel.
+  * Les administrateurs d’équipe peuvent désormais ajouter des alias protégés.
+  * Amélioration de la gestion des étapes intermédiaires dans le panneau des médias.
+  * Suppression du bouton inactif « New Model » de la page d’accueil du Model Registry pour les utilisateurs anonymes
+  * La possibilité de copier des données depuis les légendes de graphiques a été déployée pour tous les utilisateurs.
+  * Correction de l’indicateur de progression incorrect dans la checklist d’intégration du Model Registry.
+  * Correction d’un problème où la page Automations pouvait planter lorsque le nom du job contenait des barres obliques.
+  * Correction d’un problème où un utilisateur pouvait mettre à jour par erreur le profil d’un autre utilisateur.
+  * Ajout d’une option permettant de supprimer définitivement les runs et les métriques associées après un délai spécifié dans une variable d’environnement.
+</Update>
+
+<Update label="v0.35.0" description="7 juin 2023">
+  ## Sécurité
+
+  Correction d’un problème où des clés API étaient consignées pour des utilisateurs récemment connectés. Recherchez `FetchAuthUserByAPIKey` dans les journaux, disponibles dans `gorilla.log` d’un bundle de débogage, puis remplacez toutes les clés trouvées.
+
+  ## Fonctionnalités
+
+  * Les journaux de l’agent Launch sont désormais disponibles dans l’application W&amp;B.
+
+    <Frame>
+      ![Image montrant les journaux de l’agent Launch dans l’interface utilisateur](https://github.com/wandb/server/assets/97066933/9d68dc0d-54c9-4024-a108-ffb5a1500fa8)
+    </Frame>
+
+    [W&amp;B Launch](https://docs.wandb.ai/guides/launch) vous permet d’envoyer des jobs de machine learning vers un large éventail d’environnements de calcul spécialisés. Avec cette mise à jour, vous pouvez désormais utiliser W&amp;B pour surveiller et déboguer les jobs exécutés dans ces environnements distants, sans avoir à vous connecter à votre console AWS ou Google Cloud.
+
+  ## Correctifs
+
+  * L’onglet Logs n’est plus tronqué à 1000 lignes.
+  * Correction d’un cas où la pagination des fichiers d’artefact pouvait entrer dans une boucle infinie
+  * Correction d’un bug où les messages toast de succès n’apparaissaient pas
+  * Le tableau Runs affiche désormais correctement la valeur du commit Git
+</Update>
+
+<Update label="v0.34.0" description="31 mai 2023">
+  ## Fonctionnalités
+
+  * Nouvelle interface du registre de modèles
+
+    <Frame>
+      ![Nouvelle interface du registre de modèles avec vue en liste, filtrage des modèles, gestion des versions et contrôles d'automatisation](https://github.com/wandb/server/assets/97066933/3fedbdb8-aa79-4fb6-aab8-bddd8899e8dc)
+    </Frame>
+
+    Nous facilitons la gestion de longues listes de modèles et la navigation fluide entre les entités dans le registre de modèles. Avec cette nouvelle interface, les utilisateurs peuvent :
+  * Voir tous leurs modèles enregistrés
+  * Filtrer les modèles enregistrés d&#39;une équipe spécifique
+  * Avec la nouvelle vue en liste, développer chaque panneau pour afficher les différentes versions qu&#39;il contient, y compris les alias de chaque version ainsi que les métadonnées ou les métriques de run. En cliquant sur une version depuis cet aperçu rapide, vous pouvez accéder à sa vue de version
+  * Consulter un aperçu directement en cliquant sur « Voir les détails »
+  * Voir en aperçu le nombre de versions, de consommateurs et d&#39;automatisations pour chaque modèle enregistré
+  * Créer des automatisations directement
+  * Prévisualiser certaines colonnes de métadonnées et certains détails
+  * Modifier les contrôles d&#39;accès aux modèles
+
+  ## Correctifs
+
+  * Amélioration de la fonctionnalité de recherche pour de meilleurs résultats de classement dans la recherche universelle.
+  * Ajout de la possibilité d&#39;ajouter ou de supprimer plusieurs tags à la fois dans le registre de modèles
+  * Amélioration de la fonctionnalité FileMarkdown pour faire défiler correctement les contenus longs.
+  * La liste déroulante de sélection de l&#39;équipe par défaut peut désormais défiler.
+  * Suppression de la restriction d&#39;accès à l&#39;interface utilisateur pour les plans Tier 1/2/3 en fonction du nombre d&#39;heures suivies.
+  * Ajout d&#39;infobulles pour les spans du visualiseur de traces LLM
+  * La chronologie et les détails des traces LLM sont désormais séparés horizontalement en mode plein écran
+  * Ajout de badges d&#39;entité / d&#39;équipe aux entrées du registre de modèles.
+  * Amélioration de l&#39;expérience de la barre de navigation pour les utilisateurs déconnectés
+  * Désactivation des bannières de stockage/artefact afin d&#39;éviter le problème où l&#39;interface se bloque pour les organisations ayant un trop grand nombre d&#39;artefacts.
+  * Correction de problèmes empêchant l&#39;affichage correct des avatars utilisateur.
+  * Correction d&#39;un problème lors de l&#39;utilisation de Launch avec des URL Git Azure
+  * Les encadrés de configuration de Launch fonctionnent désormais dans les environnements isolés
+  * Lors de la création d&#39;une file d&#39;attente Launch, les équipes sont désormais affichées comme désactivées (au lieu d&#39;être masquées) pour les non-administrateurs.
+  * Correction d&#39;un problème avec le rendu du projecteur d&#39;intégration
+  * Correction d&#39;un problème qui empêchait, dans certains cas impliquant des noms d&#39;utilisateur avec des majuscules et minuscules mélangées, les utilisateurs de réinitialiser leur mot de passe.
+  * Les fichiers contenant des caractères spéciaux apparaissent désormais dans le panneau multimédia dans Azure
+  * Ajout de la possibilité de remplacer le format d&#39;affichage en ligne des horodatages.
+  * Les Reports avec des graphiques personnalisés se chargent désormais même sans connexion.
+  * Les GIF larges ne débordent plus de la vue en plein écran
+  * Augmentation de la limite par défaut des automatisations de 20 à 200.
+  * Correction d&#39;un bug donnant l&#39;impression qu&#39;il était possible de supprimer l&#39;alias de version d&#39;un modèle enregistré (en réalité, il ne pouvait pas être supprimé côté backend).
+</Update>
+
+<Update label="v0.33.0" description="10 mai 2023">
+  ## Fonctionnalités
+
+  * Prompts : zoom et panoramique
+    <Frame>
+      ![Démo du zoom et du panoramique](https://github.com/wandb/server/assets/97066933/c6580dff-f003-4767-86f2-ad26d40108fb)
+    </Frame>
+    Explorez plus facilement des chaînes complexes de prompts LLM grâce aux nouveaux contrôles de zoom et de panoramique dans notre traceur de prompts.
+  * Rôle d’administrateur du registre de modèles
+    <Frame>
+      ![Image montrant le rôle d’administrateur du registre de modèles](https://github.com/wandb/server/assets/97066933/b0fc6389-b8a6-437a-91a3-a991e69bca0d)
+    </Frame>
+    Contrôlez votre processus de promotion des modèles grâce à un nouveau rôle d’administrateur du registre de modèles. Ces utilisateurs peuvent gérer la liste des alias protégés (par exemple, « challenger » ou « prod ») et appliquer ou supprimer des alias protégés pour les versions de modèles.
+  * Rôle Viewer
+    Vous pouvez désormais partager vos résultats W&amp;B avec un public plus large grâce à l’introduction d’un rôle Viewer dans W&amp;B Server. Les utilisateurs ayant ce rôle peuvent voir tout ce que leurs équipes créent, mais ne peuvent rien créer, modifier ni supprimer. Ces licences sont comptabilisées séparément des licences W&amp;B Server traditionnelles ; contactez donc votre équipe de compte W&amp;B pour demander une licence mise à jour.
+  * Partage amélioré : lien magique facultatif et inscription simplifiée pour les viewers
+    Les administrateurs d’équipe peuvent désormais désactiver le partage par lien magique pour une équipe et ses membres. Désactiver le partage public dans les paramètres de l’équipe vous permet de renforcer les contrôles de confidentialité de l’équipe. Par ailleurs, il est désormais plus facile pour les utilisateurs qui reçoivent un lien vers un rapport d’y accéder dans W&amp;B après leur inscription.
+  * Composition de rapports améliorée
+    <Frame>
+      ![Interface de composition de rapports améliorée avec publication de brouillons, modification et fonctionnalités de collaboration améliorées](https://github.com/wandb/server/assets/97066933/c2858fd5-d2f6-47e3-9e93-f8d048df4f59)
+    </Frame>
+    Les Reports permettent de diffuser plus largement vos résultats W&amp;B au sein d’une organisation, y compris auprès de personnes en dehors de l’équipe ML. Nous avons apporté plusieurs améliorations pour rendre leur création et leur partage aussi simples et fluides que possible, notamment avec une expérience de rédaction améliorée et une meilleure UX pour la publication des brouillons, la modification, la gestion et le partage, afin de faciliter la collaboration des équipes avec Reports.
+  * Navigation mise à jour
+    À mesure que W&amp;B a étendu les différentes étapes du flux de travail ML que nous couvrons, vous nous avez indiqué qu’il pouvait être difficile de se repérer dans l’application. Nous avons donc mis à jour la barre latérale de navigation avec des libellés plus clairs pour les différentes zones du produit et ajouté des liens de retour sur certains écrans de détail. Nous avons également renommé « Triggers » en « Automations » afin de mieux refléter la puissance de cette fonctionnalité.
+
+  ## Correctifs
+
+  * Lorsque vous survolez un graphique dans des espaces de travail ou un rapport, vous pouvez désormais utiliser Cmd+C ou Ctrl+C pour copier les noms de run et les valeurs affichées dans l’infobulle.
+  * Les modifications apportées aux espaces de travail par défaut ne sont désormais plus enregistrées automatiquement.
+  * Les métriques de la section Aperçu → Résumé sont désormais formatées avec des virgules.
+  * Ajout d’une option au niveau de l’installation pour permettre aux utilisateurs non administrateurs de créer des équipes (désactivée par défaut ; contactez l’assistance W&amp;B pour l’activer).
+  * Les graphiques Weave prennent désormais en charge les échelles logarithmiques.
+  * Le panneau Launch peut désormais être agrandi horizontalement pour offrir plus d’espace pour afficher les paramètres.
+  * Le panneau Launch indique désormais si une file d’attente est active.
+  * Le panneau Launch vous permet désormais de choisir un projet dans lequel le run sera enregistré.
+  * Les files d’attente Launch ne peuvent désormais être créées que par les administrateurs d’équipe.
+  * Prise en charge de Markdown améliorée dans le panneau Launch.
+  * Message d’erreur amélioré pour les configurations de file d’attente Launch vides.
+  * Les filtres du graphique en coordonnées parallèles de Sweeps s’appliquent désormais à tous les ensembles de runs sélectionnés.
+  * Sweeps ne nécessite désormais plus de métrique.
+  * Ajout de la prise en charge du suivi des fichiers d’artefacts de référence enregistrés en dehors de W&amp;B dans Azure Blob Storage.
+  * Correction d’un bug dans la modification Markdown dans Reports.
+  * Les panneaux Weave en plein écran peuvent désormais partager les modifications de configuration avec le panneau d’origine.
+  * Affichage amélioré des tableaux vides.
+  * Correction d’un bug où les premiers caractères des journaux étaient tronqués.
+</Update>

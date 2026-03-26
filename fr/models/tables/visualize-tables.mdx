@@ -1,0 +1,228 @@
+---
+description: "Comparez, filtrez, regroupez, triez et visualisez les données de W&B Tables dans des vues fusionnées ou côte à côte à des fins d'analyse."
+title: Visualiser et analyser les tableaux
+---
+
+Personnalisez vos W&amp;B Tables pour répondre à des questions sur les performances de votre modèle de machine learning, analyser vos données, et plus encore.
+
+Explorez vos données de manière interactive pour :
+
+* [Comparer deux W&amp;B Tables](#table-comparison-options) journalisées en tant que versions d&#39;artefact afin d&#39;analyser les changements dans vos données ou dans les performances du modèle.
+* Comprendre des tendances générales dans vos données
+* [Voir comment les valeurs que vous journalisez dans un tableau évoluent au fil de vos runs](#visualize-how-values-change-throughout-your-runs).
+
+<Note>
+  Les W&amp;B Tables présentent les comportements suivants :
+
+  1. **Sans état dans un contexte d&#39;artefact** : tout tableau journalisé avec une version d&#39;artefact revient à son état par défaut après la fermeture de la fenêtre du navigateur
+  2. **Avec état dans un contexte d&#39;espace de travail ou de rapport** : toutes les modifications que vous apportez à un tableau dans l&#39;espace de travail d&#39;un run unique, l&#39;espace de travail du projet pour plusieurs runs ou un rapport sont conservées.
+
+  Pour savoir comment enregistrer votre vue actuelle d&#39;une W&amp;B Table, voir [Enregistrer votre vue](#save-your-view).
+</Note>
+
+<div id="table-comparison-options">
+  ## Options de comparaison de tableaux
+</div>
+
+Comparez deux tableaux dans une [vue fusionnée](#merged-view) ou une [vue côte à côte](#side-by-side-view). Par exemple, l&#39;image ci-dessous montre une comparaison de tableaux de données MNIST.
+
+<Frame>
+  <img src="/images/data_vis/table_comparison.png" alt="Comparaison des époques d'entraînement" max-width="90%" />
+</Frame>
+
+Suivez ces étapes pour comparer deux tableaux :
+
+1. Accédez à votre projet dans l&#39;application W&amp;B.
+2. Sélectionnez l&#39;icône Artifacts dans la barre latérale du projet.
+3. Sélectionnez une version d&#39;artefact.
+
+Dans l&#39;image suivante, nous montrons les prédictions d&#39;un modèle sur des données de validation MNIST après chacune de cinq époques ([voir un exemple interactif ici](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)).
+
+<Frame>
+  <img src="/images/data_vis/preds_mnist.png" alt="Cliquez sur 'predictions' pour afficher le tableau" max-width="90%" />
+</Frame>
+
+3. Survolez dans la barre latérale la deuxième version d&#39;artefact que vous souhaitez comparer, puis cliquez sur **Compare** quand l&#39;option apparaît. Par exemple, dans l&#39;image ci-dessous, nous sélectionnons une version libellée &quot;v4&quot; pour la comparer aux prédictions MNIST générées par le même modèle après 5 époques d&#39;entraînement.
+
+<Frame>
+  <img src="/images/data_vis/preds_2.png" alt="Comparaison des prédictions du modèle" max-width="90%" />
+</Frame>
+
+<div id="merged-view">
+  ### Vue fusionnée
+</div>
+
+{/* À faire : ajouter les étapes */}
+
+Initialement, vous voyez les deux tableaux fusionnés. Le premier tableau sélectionné a l’index 0 et est surligné en bleu, tandis que le second a l’index 1 et est surligné en jaune. [Voir ici un exemple interactif de tableaux fusionnés](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec).
+
+<Frame>
+  <img src="/images/data_vis/merged_view.png" alt="Vue fusionnée" max-width="90%" />
+</Frame>
+
+Depuis la vue fusionnée, vous pouvez
+
+* **choisir la clé de jointure** : utilisez le menu déroulant en haut à gauche pour définir la colonne à utiliser comme clé de jointure pour les deux tableaux. Il s’agit généralement de l’identifiant unique de chaque ligne, par exemple le nom de fichier d’un exemple précis dans votre jeu de données ou un index incrémental pour vos échantillons générés. Notez qu’il est actuellement possible de sélectionner *n’importe quelle* colonne, ce qui peut produire des tableaux illisibles et ralentir les requêtes.
+* **concaténer au lieu de joindre** : sélectionnez &quot;concaténer tous les tableaux&quot; dans ce menu déroulant pour *regrouper toutes les lignes* des deux tableaux dans un seul tableau plus grand, au lieu de faire une jointure sur leurs colonnes
+* **référencer explicitement chaque tableau** : utilisez 0, 1 et * dans l’expression de filtre pour désigner explicitement une colonne dans l’une ou les deux instances du tableau
+* **visualiser les différences numériques détaillées sous forme d’histogrammes** : comparez les valeurs de n’importe quelle cellule en un coup d’œil
+
+
+<div id="side-by-side-view">
+  ### Vue côte à côte
+</div>
+
+{/* À faire */}
+
+Pour afficher les deux tableaux côte à côte, remplacez la première liste déroulante de &quot;Fusionner les tableaux : Tableau&quot; par &quot;Liste de : Tableau&quot;, puis ajustez la &quot;Taille de page&quot; en conséquence. Ici, le premier tableau sélectionné apparaît à gauche et le second à droite. Vous pouvez également comparer ces tableaux verticalement en cliquant sur la case à cocher &quot;Vertical&quot;.
+
+<Frame>
+  <img src="/images/data_vis/side_by_side.png" alt="Vue de tableaux côte à côte" max-width="90%" />
+</Frame>
+
+* **comparer les tableaux en un coup d’œil** : appliquez les opérations de votre choix (tri, filtre, regroupement) aux deux tableaux en parallèle et repérez rapidement les changements ou les différences. Par exemple, affichez les prédictions incorrectes regroupées par prédiction, les négatifs les plus difficiles, la distribution des scores de confiance par étiquette réelle, etc.
+* **explorer deux tableaux indépendamment** : faites défiler et concentrez-vous sur la partie ou les lignes qui vous intéressent
+
+
+<div id="compare-artifacts">
+  ## Comparer des artefacts
+</div>
+
+Comparez deux W&amp;B Tables enregistrées en tant que versions d&#39;artefact afin d&#39;analyser l&#39;évolution de vos données ou de la performance du modèle. Utilisez la vue fusionnée ou la vue côte à côte pour comparer les tableaux.
+
+<div id="compare-tables-across-time">
+  ### Comparer des tableaux au fil du temps
+</div>
+
+Journalisez un tableau dans un artefact à chaque étape significative de l’entraînement afin d’analyser les performances du modèle au cours de l’entraînement. Par exemple, vous pouvez journaliser un tableau à la fin de chaque étape de validation, toutes les 50 époques d’entraînement, ou à toute fréquence adaptée à votre pipeline. Utilisez la vue côte à côte pour visualiser l’évolution des prédictions du modèle.
+
+<Frame>
+  <img src="/images/data_vis/compare_across_time.png" alt="Comparaison de la progression de l’entraînement" max-width="90%" />
+</Frame>
+
+Pour un guide pas à pas plus détaillé sur la visualisation des prédictions au cours de l’entraînement, voir le [rapport sur les prédictions au fil du temps](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) et cet [exemple de notebook interactif](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..).
+
+<div id="compare-tables-across-model-variants">
+  ### Comparer des tableaux entre variantes de modèle
+</div>
+
+Comparez deux versions d&#39;artefact enregistrées à la même étape pour deux modèles différents afin d&#39;analyser les performances des modèles selon différentes configurations (hyperparamètres, architectures de base, etc.).
+
+Par exemple, comparez les prédictions entre une version `baseline` et une nouvelle variante de modèle, `2x_layers_2x_lr`, dans laquelle la première couche convolutionnelle passe de 32 à 64, la seconde de 128 à 256, et le taux d&#39;apprentissage de 0,001 à 0,002. À partir de [cet exemple interactif](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr), utilisez la vue côte à côte et filtrez pour n&#39;afficher que les prédictions incorrectes après 1 époque d&#39;entraînement (onglet de gauche) contre 5 époques d&#39;entraînement (onglet de droite).
+
+<Tabs>
+  <Tab title="1 époque d'entraînement">
+    <Frame>
+      <img src="/images/data_vis/compare_across_variants.png" alt="Comparaison des performances" />
+    </Frame>
+  </Tab>
+
+  <Tab title="5 époques d'entraînement">
+    <Frame>
+      <img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="Comparaison des performances des variantes" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+<div id="visualize-how-values-change-throughout-your-runs">
+  ## Visualisez comment les valeurs évoluent au fil de vos runs
+</div>
+
+Visualisez comment les valeurs que vous journalisez dans un tableau évoluent au fil de vos runs à l’aide d’un curseur d’étape. Faites glisser le curseur d’étape pour afficher les valeurs journalisées à différentes étapes. Par exemple, vous pouvez voir comment la perte, la précision ou d’autres métriques évoluent après chaque run.
+
+Le curseur utilise une clé pour déterminer la valeur d’étape. La clé par défaut du curseur est `_step`, une clé spéciale que W&amp;B journalise automatiquement pour vous. La clé `_step` est un entier qui s’incrémente de 1 chaque fois que vous appelez `wandb.Run.log()` dans votre code.
+
+Pour ajouter un curseur d’étape à un tableau W&amp;B :
+
+1. Accédez à l’espace de travail de votre projet.
+2. Cliquez sur **Add panel** dans le coin supérieur droit de l’espace de travail.
+3. Sélectionnez **Query panel**.
+4. Dans l’éditeur d’expression de requête, sélectionnez `runs` et appuyez sur **Entrée** sur votre clavier.
+5. Cliquez sur l’icône d’engrenage pour afficher les paramètres du panneau.
+6. Réglez le sélecteur **Render As** sur **Stepper**.
+7. Réglez **Stepper Key** sur `_step` ou sur la [clé à utiliser comme unité](#custom-step-keys) pour le curseur d’étape.
+
+L’image suivante montre un panneau de requête avec trois runs W&amp;B et les valeurs qu’ils ont journalisées à l’étape 295.
+
+<Frame>
+  <img src="/images/data_vis/stepper_key.png" alt="Fonctionnalité de curseur d’étape" />
+</Frame>
+
+Dans l’interface de l’application W&amp;B, vous pouvez remarquer des valeurs en double à plusieurs étapes. Cela peut se produire si plusieurs runs journalisent la même valeur à des étapes différentes, ou si un run ne journalise pas de valeurs à chaque étape. Si une valeur est manquante pour une étape donnée, W&amp;B utilise comme clé du curseur la dernière valeur journalisée.
+
+<div id="custom-step-key">
+  ### Clé d’étape personnalisée
+</div>
+
+La clé d’étape peut être n’importe quelle métrique numérique que vous journalisez dans vos runs en tant que clé d’étape, comme `epoch` ou `global_step`. Lorsque vous utilisez une clé d’étape personnalisée, W&amp;B associe chaque valeur de cette clé à une étape (`_step`) dans le run.
+
+Ce tableau montre comment une clé d’étape personnalisée, `epoch`, est associée aux valeurs `_step` pour trois runs différents : `serene-sponge`, `lively-frog` et `vague-cloud`. Chaque ligne représente un appel à `wandb.Run.log()` à un `_step` donné dans un run. Les colonnes indiquent les valeurs d’`epoch` correspondantes, le cas échéant, qui ont été journalisées à ces étapes. Certaines valeurs de `_step` sont omises pour gagner de la place.
+
+La première fois que `wandb.Run.log()` a été appelé, aucun des runs n’a journalisé de valeur `epoch` ; le tableau affiche donc des cellules vides pour `epoch`.
+
+| `_step` | vague-cloud (`epoch`) | lively-frog(`epoch`) | serene-sponge (`epoch`) |
+| ------- | --------------------- | -------------------- | ----------------------- |
+| 1       |                       |                      |                         |
+| 2       |                       |                      | 1                       |
+| 4       |                       | 1                    | 2                       |
+| 5       | 1                     |                      |                         |
+| 6       |                       |                      | 3                       |
+| 8       |                       | 2                    | 4                       |
+| 10      |                       |                      | 5                       |
+| 12      |                       | 3                    | 6                       |
+| 14      |                       |                      | 7                       |
+| 15      | 2                     |                      |                         |
+| 16      |                       | 4                    | 8                       |
+| 18      |                       |                      | 9                       |
+| 20      | 3                     | 5                    | 10                      |
+
+Maintenant, si le curseur est réglé sur `epoch = 1`, voici ce qui se passe :
+
+* `vague-cloud` trouve `epoch = 1` et renvoie la valeur journalisée à `_step = 5`
+* `lively-frog` trouve `epoch = 1` et renvoie la valeur journalisée à `_step = 4`
+* `serene-sponge` trouve `epoch = 1` et renvoie la valeur journalisée à `_step = 2`
+
+Si le curseur est réglé sur `epoch = 9` :
+
+* `vague-cloud` ne journalise pas non plus `epoch = 9`, donc W&amp;B utilise la dernière valeur antérieure, `epoch = 3`, et renvoie la valeur journalisée à `_step = 20`
+* `lively-frog` ne journalise pas `epoch = 9`, mais la dernière valeur antérieure est `epoch = 5` ; il renvoie donc la valeur journalisée à `_step = 20`
+* `serene-sponge` trouve `epoch = 9` et renvoie la valeur journalisée à `_step = 18`
+
+{/* | | |
+  | ---- | ---- |
+  | Curseur des tableaux de l’historique des runs | |
+  | Curseur des graphiques de l’historique des runs | |
+  | Curseur | | */}
+
+
+<div id="save-your-view">
+  ## Enregistrer votre vue
+</div>
+
+Les tableaux avec lesquels vous interagissez dans l’espace de travail du run, l’espace de travail du projet ou un rapport enregistrent automatiquement l’état de leur vue. Si vous appliquez des opérations à un tableau, puis fermez votre navigateur, le tableau conserve la dernière configuration consultée lorsque vous y revenez.
+
+<Note>
+  Les tableaux avec lesquels vous interagissez dans le contexte d’un artefact restent sans état.
+</Note>
+
+Pour enregistrer un tableau d’un espace de travail dans un état donné, exportez-le vers un rapport W&amp;B. Pour exporter un tableau vers un rapport :
+
+1. Sélectionnez l’icône kebab (trois points verticaux) dans le coin supérieur droit du panneau de visualisation de votre espace de travail.
+2. Sélectionnez **Partager le panneau** ou **Ajouter au rapport**.
+
+<Frame>
+  <img src="/images/data_vis/share_your_view.png" alt="Options de partage du rapport" max-width="90%" />
+</Frame>
+
+<div id="examples">
+  ## Exemples
+</div>
+
+Ces rapports mettent en avant différents cas d’usage des tableaux W&amp;B :
+
+* [Visualiser les prédictions au fil du temps](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
+* [Comment comparer des tableaux dans Workspaces](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)
+* [Modèles d’image et de classification](https://wandb.ai/stacey/mendeleev/reports/Tables-Tutorial-Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)
+* [Modèles de texte et de langage génératif](https://wandb.ai/stacey/nlg/reports/Tables-Tutorial-Visualize-Text-Data-Predictions---Vmlldzo1NzcwNzY)
+* [Reconnaissance d’entités nommées](https://wandb.ai/stacey/ner_spacy/reports/Named-Entity-Recognition--Vmlldzo3MDE3NzQ)
+* [Protéines AlphaFold](https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc)

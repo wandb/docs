@@ -1,0 +1,290 @@
+---
+title: "Optimisation des prompts avec DSPy"
+description: "Découvrez comment utiliser l’optimisation des prompts DSPy avec W&B Weave"
+---
+
+<Note>
+  Il s’agit d’un notebook interactif. Vous pouvez l’exécuter en local ou utiliser les liens ci-dessous :
+
+  * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/dspy_prompt_optimization.ipynb)
+  * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/dspy_prompt_optimization.ipynb)
+</Note>
+
+<div id="optimizing-llm-workflows-using-dspy-and-weave">
+  # Optimiser les flux de travail LLM avec DSPy et Weave
+</div>
+
+Le [BIG-bench (Beyond the Imitation Game Benchmark)](https://github.com/google/BIG-bench) est un benchmark collaboratif conçu pour mettre à l’épreuve les grands modèles de langage et extrapoler leurs capacités futures, avec plus de 200 tâches. Le [BIG-Bench Hard (BBH)](https://github.com/suzgunmirac/BIG-Bench-Hard) est un ensemble de 23 des tâches BIG-Bench les plus difficiles, particulièrement ardues à résoudre avec la génération actuelle de modèles de langage.
+
+Ce tutoriel montre comment améliorer les performances de notre flux de travail LLM implémenté pour la **tâche de jugement causal** du benchmark BIG-Bench Hard, et évaluer nos stratégies de prompting. Nous utiliserons [DSPy](https://dspy.ai) pour implémenter notre flux de travail LLM et optimiser notre stratégie de prompting. Nous utiliserons également [Weave](/fr/weave) pour suivre notre flux de travail LLM et évaluer nos stratégies de prompting.
+
+<div id="installing-the-dependencies">
+  ## Installation des dépendances
+</div>
+
+Nous avons besoin des bibliothèques suivantes pour ce tutoriel :
+
+* [DSPy](https://dspy.ai) pour build le flux de travail LLM et l’optimiser.
+* [Weave](/fr/weave) pour suivre notre flux de travail LLM et évaluer nos stratégies de prompting.
+* [datasets](https://huggingface.co/docs/datasets/index) pour accéder au jeu de données Big-Bench Hard depuis le Hub Hugging Face.
+
+```python lines
+!pip install -qU dspy-ai weave datasets
+```
+
+Puisque nous utiliserons l’[API OpenAI](https://openai.com/index/openai-api/) comme fournisseur de LLM, vous aurez également besoin d’une clé API OpenAI. Vous pouvez vous [inscrire](https://platform.openai.com/signup) sur la plateforme OpenAI pour obtenir votre propre clé API.
+
+```python lines
+import os
+from getpass import getpass
+
+api_key = getpass("Enter you OpenAI API key: ")
+os.environ["OPENAI_API_KEY"] = api_key
+```
+
+<div id="enable-tracking-using-weave">
+  ## Activer le suivi avec Weave
+</div>
+
+Weave est actuellement intégré à DSPy, et l’ajout de [`weave.init`](/fr/weave/reference/python-sdk/trace/weave_client#method-init) au début du code permet de tracer automatiquement les fonctions DSPy, que vous pouvez ensuite explorer dans l’interface Weave. Consultez la [documentation d’intégration de Weave pour DSPy](/fr/weave/guides/integrations/dspy) pour en savoir plus.
+
+```python lines
+import weave
+
+weave.init(project_name="dspy-bigbench-hard")
+```
+
+Dans ce tutoriel, nous utilisons une classe de métadonnées qui hérite de [`weave.Object`](/fr/weave/reference/python-sdk#class-object) pour gérer nos métadonnées.
+
+```python lines
+class Metadata(weave.Object):
+    dataset_address: str = "maveriq/bigbenchhard"
+    big_bench_hard_task: str = "causal_judgement"
+    num_train_examples: int = 50
+    openai_model: str = "gpt-3.5-turbo"
+    openai_max_tokens: int = 2048
+    max_bootstrapped_demos: int = 8
+    max_labeled_demos: int = 8
+
+metadata = Metadata()
+```
+
+<Tip>
+  **Gestion des versions des objets** : les objets `Metadata` sont automatiquement versionnés et tracés lorsque les fonctions qui les utilisent sont tracées
+</Tip>
+
+<div id="load-the-big-bench-hard-dataset">
+  ## Charger le jeu de données BIG-Bench Hard
+</div>
+
+Nous allons charger ce jeu de données depuis le Hub Hugging Face, le diviser en ensembles d’entraînement et de validation, puis les [publier](/fr/weave/guides/core-types/datasets) sur Weave. Cela nous permettra de versionner les jeux de données, ainsi que d’utiliser [`weave.Evaluation`](/fr/weave/guides/core-types/evaluations) pour évaluer notre stratégie de prompting.
+
+```python lines
+import dspy
+from datasets import load_dataset
+
+@weave.op()
+def get_dataset(metadata: Metadata):
+    # charger le jeu de données BIG-Bench Hard correspondant à la tâche depuis Huggingface Hug
+    dataset = load_dataset(metadata.dataset_address, metadata.big_bench_hard_task)[
+        "train"
+    ]
+
+    # créer les jeux de données d'entraînement et de validation
+    rows = [{"question": data["input"], "answer": data["target"]} for data in dataset]
+    train_rows = rows[0 : metadata.num_train_examples]
+    val_rows = rows[metadata.num_train_examples :]
+
+    # créer les exemples d'entraînement et de validation composés d'objets `dspy.Example`
+    dspy_train_examples = [
+        dspy.Example(row).with_inputs("question") for row in train_rows
+    ]
+    dspy_val_examples = [dspy.Example(row).with_inputs("question") for row in val_rows]
+
+    # publier les jeux de données sur Weave, ce qui permet de versionner les données et de les utiliser pour l'évaluation
+    weave.publish(
+        weave.Dataset(
+            name=f"bigbenchhard_{metadata.big_bench_hard_task}_train", rows=train_rows
+        )
+    )
+    weave.publish(
+        weave.Dataset(
+            name=f"bigbenchhard_{metadata.big_bench_hard_task}_val", rows=val_rows
+        )
+    )
+
+    return dspy_train_examples, dspy_val_examples
+
+dspy_train_examples, dspy_val_examples = get_dataset(metadata)
+```
+
+<Frame>
+  ![Interface de chargement du jeu de données DSPy avec les étapes de préparation du jeu de données et la structure des données](/media/dspy_optimization/1.png)
+</Frame>
+
+<div id="the-dspy-program">
+  ## Le programme DSPy
+</div>
+
+[DSPy](https://dspy.ai) est un framework qui fait évoluer la création de nouveaux pipelines LM, en l’éloignant de la manipulation de chaînes de texte non structurées pour la rapprocher de la programmation (composition d’opérateurs modulaires pour build des graphes de transformation de texte), où un compilateur génère automatiquement, à partir d’un programme, des stratégies d’invocation de LM et des prompts optimisés.
+
+Nous utiliserons l’abstraction [`dspy.OpenAI`](https://dspy.ai/learn/programming/language_models/#__tabbed_1_1) pour effectuer des appels LLM à [GPT3.5 Turbo](https://platform.openai.com/docs/models/gpt-3.5-turbo).
+
+```python lines
+system_prompt = """
+You are an expert in the field of causal reasoning. You are to analyze the a given question carefully and answer in `Yes` or `No`.
+You should also provide a detailed explanation justifying your answer.
+"""
+
+llm = dspy.OpenAI(model="gpt-3.5-turbo", system_prompt=system_prompt)
+dspy.settings.configure(lm=llm)
+```
+
+<div id="writing-the-causal-reasoning-signature">
+  ### Rédiger la signature de raisonnement causal
+</div>
+
+Une [signature](https://dspy.ai/learn/programming/signatures) est une spécification déclarative du comportement d’entrée/sortie d’un [module DSPy](https://dspy.ai/learn/programming/modules). Les modules DSPy sont des composants adaptatifs à la tâche — comparables à des couches de réseau neuronal — qui abstraient toute transformation textuelle particulière.
+
+```python lines
+from pydantic import BaseModel, Field
+
+class Input(BaseModel):
+    query: str = Field(description="The question to be answered")
+
+class Output(BaseModel):
+    answer: str = Field(description="The answer for the question")
+    confidence: float = Field(
+        ge=0, le=1, description="The confidence score for the answer"
+    )
+    explanation: str = Field(description="The explanation for the answer")
+
+class QuestionAnswerSignature(dspy.Signature):
+    input: Input = dspy.InputField()
+    output: Output = dspy.OutputField()
+
+class CausalReasoningModule(dspy.Module):
+    def __init__(self):
+        self.prog = dspy.TypedPredictor(QuestionAnswerSignature)
+
+    @weave.op()
+    def forward(self, question) -> dict:
+        return self.prog(input=Input(query=question)).output.dict()
+```
+
+Testons notre flux de travail LLM, c’est-à-dire le `CausalReasoningModule`, sur un exemple issu du sous-ensemble de raisonnement causal de Big-Bench Hard.
+
+```python lines
+import rich
+
+baseline_module = CausalReasoningModule()
+
+prediction = baseline_module(dspy_train_examples[0]["question"])
+rich.print(prediction)
+```
+
+<Frame>
+  ![Résultats de l’évaluation du programme DSPy de référence avec des métriques de performances et des exemples de sortie](/media/dspy_optimization/2.png)
+
+  ## Évaluation de notre programme DSPy
+</Frame>
+
+Maintenant que nous disposons d’une stratégie de prompting de référence, évaluons-la sur notre jeu de validation à l’aide de [`weave.Evaluation`](/fr/weave/guides/core-types/evaluations), avec une métrique simple qui compare la réponse prédite à la vérité terrain. Weave prend chaque exemple, le fait passer par votre application et attribue un score à la sortie à l’aide de plusieurs fonctions de score personnalisées. Vous obtenez ainsi une vue d’ensemble des performances de votre application, ainsi qu’une interface riche pour examiner en détail les sorties et les scores individuels.
+
+Nous devons d’abord créer une fonction simple de score pour l’évaluation Weave, qui indique si la réponse issue de la sortie du module de référence correspond ou non à la réponse de vérité terrain. Les fonctions de score doivent avoir un argument nommé `model_output`, mais les autres arguments sont définis par l’utilisateur et proviennent des exemples du jeu de données. Seules les clés nécessaires sont utilisées, à partir d’une clé de dictionnaire basée sur le nom de l’argument.
+
+```python lines
+@weave.op()
+def weave_evaluation_scorer(answer: str, output: Output) -> dict:
+    return {"match": int(answer.lower() == output["answer"].lower())}
+```
+
+Ensuite, il suffit de définir l’évaluation et de l’exécuter.
+
+```python lines
+validation_dataset = weave.ref(
+    f"bigbenchhard_{metadata.big_bench_hard_task}_val:v0"
+).get()
+
+evaluation = weave.Evaluation(
+    name="baseline_causal_reasoning_module",
+    dataset=validation_dataset,
+    scorers=[weave_evaluation_scorer],
+)
+
+await evaluation.evaluate(baseline_module.forward)
+```
+
+<Frame>
+  ![Tableau de bord d’évaluation Weave avec les métriques de performances du programme DSPy, les traces et les résultats de comparaison](/media/dspy_optimization/3.png)
+</Frame>
+
+<Note>
+  Si vous exécutez ce code depuis un script Python, vous pouvez utiliser le code suivant pour lancer l’évaluation :
+
+  ```python lines
+  import asyncio
+  asyncio.run(evaluation.evaluate(baseline_module.forward))
+  ```
+</Note>
+
+<Warning>
+  L’exécution de l’évaluation sur le jeu de données de raisonnement causal coûtera environ 0,24 $ de crédits OpenAI.
+</Warning>
+
+<div id="optimizing-our-dspy-program">
+  ## Optimisation de notre programme DSPy
+</div>
+
+Maintenant que nous disposons d’un programme DSPy de référence, essayons d’en améliorer les performances en raisonnement causal à l’aide du téléprompteur [BootstrapFewShot](https://dspy.ai/api/optimizers/BootstrapFewShot/), qui peut ajuster les paramètres d’un programme DSPy afin de maximiser les métriques spécifiées.
+
+```python lines
+from dspy.teleprompt import BootstrapFewShot
+
+@weave.op()
+def get_optimized_program(model: dspy.Module, metadata: Metadata) -> dspy.Module:
+    @weave.op()
+    def dspy_evaluation_metric(true, prediction, trace=None):
+        return prediction["answer"].lower() == true.answer.lower()
+
+    teleprompter = BootstrapFewShot(
+        metric=dspy_evaluation_metric,
+        max_bootstrapped_demos=metadata.max_bootstrapped_demos,
+        max_labeled_demos=metadata.max_labeled_demos,
+    )
+    return teleprompter.compile(model, trainset=dspy_train_examples)
+
+optimized_module = get_optimized_program(de référence_module, metadata)
+```
+
+<Frame>
+  ![Interface du processus d’optimisation du programme DSPy avec la configuration du téléprompteur et l’avancement de l’optimisation](/media/dspy_optimization/4.png)
+</Frame>
+
+<Warning>
+  L’exécution du jeu de données d’évaluation du raisonnement causal coûtera environ 0,04 $ en crédits OpenAI.
+</Warning>
+
+Maintenant que nous disposons de notre programme optimisé (c’est-à-dire de la stratégie de prompting optimisée), évaluons-le de nouveau sur notre jeu de validation et comparons-le à notre programme DSPy de référence.
+
+```python lines
+evaluation = weave.Evaluation(
+    name="optimized_causal_reasoning_module",
+    dataset=validation_dataset,
+    scorers=[weave_evaluation_scorer],
+)
+
+await evaluation.evaluate(optimized_module.forward)
+```
+
+<Frame>
+  ![Résultats de l’évaluation du programme DSPy optimisé, avec de meilleures métriques de performances et une meilleure qualité de sortie](/media/dspy_optimization/5.png)
+</Frame>
+
+La comparaison entre l’évaluation du programme de référence et celle du programme optimisé montre que ce dernier répond aux questions de raisonnement causal avec une précision nettement supérieure.
+
+<div id="conclusion">
+  ## Conclusion
+</div>
+
+Dans ce tutoriel, nous avons appris comment utiliser DSPy pour optimiser les prompts, ainsi que Weave pour le suivi et l’évaluation, afin de comparer les programmes original et optimisé.

@@ -1,0 +1,23 @@
+---
+title: "Puis-je exécuter wandb en mode hors ligne ?"
+keywords: ["Experiments", "Variables d'environnement"]
+---
+
+Si l&#39;entraînement a lieu sur une machine hors ligne, suivez les étapes ci-dessous pour téléverser les résultats vers les serveurs :
+
+1. Définissez la variable d&#39;environnement `WANDB_MODE=offline` pour enregistrer les métriques localement sans connexion Internet.
+2. Lorsque vous êtes prêt à téléverser les résultats, exécutez `wandb init` dans votre répertoire pour définir le nom du projet.
+3. Utilisez `wandb sync YOUR_RUN_DIRECTORY` pour transférer les métriques vers le service cloud et accéder aux résultats dans l&#39;application web hébergée.
+
+Pour vérifier que le run est bien hors ligne, consultez `run.settings._offline` ou `run.settings.mode` après avoir exécuté `wandb.init()`.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés des métadonnées d’en-tête.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

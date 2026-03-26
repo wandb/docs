@@ -1,0 +1,145 @@
+---
+title: Gérer les paramètres de l'espace de travail, des sections et des panneaux
+description: "Gérez les paramètres de l'espace de travail, des sections et des panneaux dans l'application W&B, y compris les options de mise en page et de configuration des graphiques linéaires."
+---
+
+Une page d&#39;espace de travail comporte trois niveaux de paramètres : l&#39;espace de travail, les sections et les panneaux. Les [Paramètres de l&#39;espace de travail](#workspace-settings) s&#39;appliquent à l&#39;ensemble de l&#39;espace de travail. Les [Paramètres de la section](#section-settings) s&#39;appliquent à tous les panneaux d&#39;une section. Les [Paramètres du panneau](#panel-settings) s&#39;appliquent à chaque panneau individuellement.
+
+<div id="workspace-settings">
+  ## Paramètres de l&#39;espace de travail
+</div>
+
+Les paramètres de l&#39;espace de travail s&#39;appliquent à toutes les sections et à tous les panneaux qu&#39;elles contiennent. Vous pouvez modifier deux types de paramètres de l&#39;espace de travail : la [mise en page de l&#39;espace de travail](#workspace-layout-options) et les [graphiques linéaires](#line-plots-options). Les **mises en page de l&#39;espace de travail** déterminent la structure de l&#39;espace de travail, tandis que les paramètres des **graphiques linéaires** contrôlent les paramètres par défaut des graphiques linéaires dans l&#39;espace de travail.
+
+Pour modifier les paramètres qui s&#39;appliquent à la structure globale de cet espace de travail :
+
+1. Accédez à l&#39;espace de travail de votre projet.
+2. Cliquez sur l’icône d’engrenage à côté du bouton **Nouveau rapport** pour afficher les paramètres de l&#39;espace de travail.
+3. Choisissez **Mise en page de l&#39;espace de travail** pour modifier la mise en page de l&#39;espace de travail, ou **Graphiques linéaires** pour configurer les paramètres par défaut des graphiques linéaires dans l&#39;espace de travail.
+
+<Frame>
+  <img src="/images/app_ui/workspace_settings.png" alt="Icône d’engrenage des paramètres de l'espace de travail" />
+</Frame>
+
+<Note>
+  Après avoir personnalisé votre espace de travail, vous pouvez utiliser des *modèles d&#39;espace de travail* pour créer rapidement de nouveaux espaces de travail avec les mêmes paramètres. Référez-vous à [Modèles d&#39;espace de travail](/fr/models/track/workspaces/#workspace-templates).
+</Note>
+
+<div id="workspace-layout-options">
+  ### Options de mise en page de l&#39;espace de travail
+</div>
+
+Configurez la mise en page d&#39;un espace de travail afin de définir sa structure globale. Cela inclut la logique de sectionnement et l&#39;organisation des panneaux.
+
+<Frame>
+  <img src="/images/app_ui/workspace_layout_settings.png" alt="Options de mise en page de l'espace de travail" />
+</Frame>
+
+La page des options de mise en page de l&#39;espace de travail indique si l&#39;espace de travail génère les panneaux automatiquement ou manuellement. Pour ajuster le mode de génération des panneaux d&#39;un espace de travail, référez-vous à [Panels](/fr/models/app/features/panels/).
+
+Ce tableau décrit chaque option de mise en page de l&#39;espace de travail.
+
+| Paramètre de l&#39;espace de travail          | Description                                                                                                                                                                                             |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Masquer les sections vides pendant la recherche** | Masque les sections qui ne contiennent aucun panneau lors de la recherche d&#39;un panneau.                                                                                                             |
+| **Trier les panneaux par ordre alphabétique**       | Trie les panneaux de vos espaces de travail par ordre alphabétique.                                                                                                                                     |
+| **Organisation des sections**                       | Supprime toutes les sections et tous les panneaux existants, puis les recrée avec de nouveaux noms de section. Regroupe les sections recréées soit par le premier préfixe, soit par le dernier préfixe. |
+
+<Note>
+  W&amp;B recommande d&#39;organiser les sections en regroupant selon le premier préfixe plutôt que selon le dernier. Le regroupement par le premier préfixe peut réduire le nombre de sections et améliorer les performances.
+</Note>
+
+<div id="line-plots-options">
+  ### Options des graphiques linéaires
+</div>
+
+Définissez des valeurs par défaut globales et des règles personnalisées pour les graphiques linéaires dans un espace de travail en modifiant les paramètres **Line plots** de l&#39;espace de travail.
+
+<Frame>
+  <img src="/images/app_ui/workspace_settings_line_plots.png" alt="Paramètres des graphiques linéaires" />
+</Frame>
+
+Vous pouvez modifier deux ensembles de paramètres principaux dans les paramètres **Line plots** : **Data** et **Display preferences**. L&#39;onglet **Data** contient les paramètres suivants :
+
+| Paramètre du graphique linéaire        | Description                                                                                                                                                                           |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Axe X**                                | Échelle de l&#39;axe des x dans les graphiques linéaires. Par défaut, l&#39;axe des x est défini sur **Step**. Voir le tableau suivant pour la liste des options de l&#39;axe des x. |
+| **Plage**                                | Valeurs minimale et maximale à afficher pour l&#39;axe des x.                                                                                                                         |
+| **Lissage**                              | Modifiez le lissage du graphique linéaire. Pour plus d&#39;informations sur le lissage, voir [Smooth line plots](/fr/models/app/features/panels/line-plot/smoothing/).                 |
+| **Valeurs aberrantes**                   | Ajuste l&#39;échelle pour exclure les valeurs aberrantes des bornes minimale et maximale par défaut du graphique.                                                                     |
+| **Méthode d&#39;agrégation des points**  | Améliore la précision et les performances de la visualisation des données. Voir [Point aggregation](/fr/models/app/features/panels/line-plot/sampling/) pour plus d&#39;informations.    |
+| **Nombre maximal de runs ou de groupes** | Limite le nombre de runs ou de groupes affichés sur le graphique linéaire.                                                                                                          |
+
+En plus de **Step**, d&#39;autres options sont disponibles pour l&#39;axe des x :
+
+| Option d&#39;axe des x      | Description                                                                                                                                                                                                                                            |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Relative Time (Wall)**    | Horodatage relatif depuis le démarrage du processus. Par exemple, supposons que vous démarriez un run, puis que vous le repreniez le lendemain. Si vous journalisez ensuite quelque chose, le point enregistré sera à 24 heures.                       |
+| **Relative Time (Process)** | Horodatage relatif au sein du processus en cours d&#39;exécution. Par exemple, supposons que vous démarriez un run et le laissiez s&#39;exécuter pendant 10 secondes. Le lendemain, vous reprenez ce run. Le point est alors enregistré à 10 secondes. |
+| **Wall Time**               | Nombre de minutes écoulées depuis le début du premier run sur le graphique.                                                                                                                                                                            |
+| **Step**                    | S&#39;incrémente à chaque appel à `wandb.Run.log()`.                                                                                                                                                                                                   |
+
+<Note>
+  Pour savoir comment modifier un graphique linéaire individuel, voir [Edit line panel settings](/fr/models/app/features/panels/line-plot/#edit-line-panel-settings) dans Line plots.
+</Note>
+
+Dans l&#39;onglet **Display preferences**, vous pouvez activer ou désactiver les paramètres suivants :
+
+| Préférence d&#39;affichage                                                               | Description                                                                         |
+| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| **Supprimer les légendes de tous les panneaux**                                          | Supprime la légende du panneau                                                      |
+| **Afficher les noms de run en couleur dans les infobulles**                              | Affiche les runs sous forme de texte coloré dans l&#39;infobulle                    |
+| **Afficher uniquement le run mis en évidence dans l&#39;infobulle du graphique associé** | Affiche uniquement le run mis en évidence dans l&#39;infobulle du graphique associé |
+| **Nombre de runs affichés dans les infobulles**                                          | Affiche le nombre de runs dans l&#39;infobulle                                      |
+| **Afficher les noms complets des runs dans l&#39;infobulle du graphique principal**      | Affiche le nom complet du run dans l&#39;infobulle du graphique                     |
+
+<div id="section-settings">
+  ## Paramètres de la section
+</div>
+
+Les paramètres de la section s’appliquent à tous les panneaux qu’elle contient. Dans une section d’espace de travail, vous pouvez trier les panneaux, les réorganiser et renommer la section.
+
+Pour modifier les paramètres de la section, sélectionnez les trois points horizontaux (**...**) dans le coin supérieur droit d’une section.
+
+<Frame>
+  <img src="/images/app_ui/section_settings.png" alt="Menu des paramètres de la section" />
+</Frame>
+
+Dans le menu déroulant, vous pouvez modifier les paramètres suivants, qui s’appliquent à l’ensemble de la section :
+
+| Paramètre de la section         | Description                                                                                                  |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Renommer une section**        | Renommer la section                                                                                          |
+| **Trier les panneaux de A à Z** | Trier alphabétiquement les panneaux d’une section                                                            |
+| **Réorganiser les panneaux**    | Sélectionnez un panneau dans une section et faites-le glisser pour définir manuellement l’ordre des panneaux |
+
+L’animation suivante montre comment réorganiser les panneaux dans une section :
+
+<Frame>
+  <img src="/images/app_ui/rearrange_panels.gif" alt="Réorganisation des panneaux" />
+</Frame>
+
+<Note>
+  En plus des paramètres décrits dans le tableau précédent, vous pouvez aussi modifier l’affichage des sections dans vos espaces de travail, par exemple **Ajouter une section en dessous**, **Ajouter une section au-dessus**, **Supprimer la section** et **Ajouter une section au rapport**.
+</Note>
+
+<div id="panel-settings">
+  ## Paramètres du panneau
+</div>
+
+Personnalisez les paramètres d’un panneau pour comparer plusieurs lignes sur le même graphique, calculer des axes personnalisés, renommer des libellés, etc. Pour modifier les paramètres d’un panneau :
+
+1. Survolez le panneau que vous souhaitez modifier.
+2. Sélectionnez l’icône en forme de crayon qui apparaît.
+
+<Frame>
+  <img src="/images/app_ui/panel_settings.png" alt="Icône de modification du panneau" />
+</Frame>
+
+3. Dans la fenêtre modale qui s’affiche, vous pouvez modifier les paramètres liés aux données du panneau, aux préférences d’affichage, etc.
+
+<Frame>
+  <img src="/images/app_ui/panel_settings_modal.png" alt="Fenêtre modale des paramètres du panneau" />
+</Frame>
+
+Pour obtenir la liste complète des paramètres que vous pouvez appliquer à un panneau, voir [Modifier les paramètres du panneau de lignes](/fr/models/app/features/panels/line-plot/#edit-line-panel-settings).

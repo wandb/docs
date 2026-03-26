@@ -1,0 +1,21 @@
+---
+title: "Quelle est la différence entre les modes de wandb.init ?"
+keywords: ["Experiments"]
+---
+
+Ces modes sont disponibles :
+
+* `online` (par défaut) : Le client envoie les données au serveur wandb.
+* `offline` : Le client stocke les données localement sur la machine au lieu de les envoyer au serveur wandb. Utilisez la commande [`wandb sync`](/fr/models/ref/cli/wandb-sync) pour synchroniser les données ultérieurement.
+* `disabled` : Le client simule le fonctionnement en renvoyant des objets factices et empêche toute communication réseau. Toute journalisation est désactivée, mais toutes les méthodes d’API factices restent appelables. Ce mode est généralement utilisé pour les tests.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas le contenu entre ces marqueurs manuellement.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}

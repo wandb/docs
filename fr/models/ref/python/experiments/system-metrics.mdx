@@ -1,0 +1,540 @@
+---
+description: Métriques automatiquement enregistrées par W&B.
+title: "Référence des métriques système"
+aliases:
+- /platform/app/settings-page/system-metrics/
+- /guides/ref/system-metrics
+---
+
+Cette page fournit des informations détaillées sur les métriques système suivies par le SDK W&amp;B.
+
+<Note>
+  `wandb` enregistre automatiquement les métriques système toutes les 15 secondes.
+</Note>
+
+<div id="view-system-metrics">
+  ## Voir les métriques système
+</div>
+
+Vous pouvez consulter et surveiller les métriques système dans l’application W&amp;B ou via l’interface de terminal `wandb beta leet`.
+
+<Tabs>
+  <Tab title="App">
+    Pour voir les métriques système dans l’application W&amp;B :
+
+    1. Accédez à votre projet dans l’application W&amp;B.
+    2. Sélectionnez un run dans le tableau **Runs**.
+    3. Dans l’espace de travail, repérez la section **System**, qui affiche des graphiques pour :
+       * l’utilisation du GPU et la mémoire
+       * l’utilisation du CPU
+       * l’utilisation de la mémoire
+       * les E/S disque
+       * le trafic réseau
+
+    Vous pouvez personnaliser les métriques système affichées en ajoutant des panneaux à votre espace de travail. Voir [Panels](/fr/models/app/features/panels/) pour plus d’informations sur la création et la personnalisation des visualisations.
+  </Tab>
+
+  <Tab title="LEET">
+    Pour voir les métriques système d’un run dans votre terminal à l’aide de l’interface de terminal `wandb beta leet` :
+
+    1. Si vous avez démarré le run localement depuis un script, accédez au répertoire dans lequel vous avez exécuté votre code. Il contient un répertoire `wandb/` avec un sous-répertoire par run et un lien symbolique `latest-run/`. Chaque répertoire de run contient un journal de transactions nommé au format `run-<run-ID>.wandb`.
+
+       Si vous n’avez pas démarré le run localement et avez téléchargé à la place un fichier journal de transactions `.wandb`, notez son emplacement.
+    2. Démarrez `wandb beta leet` avec l’une des commandes suivantes :
+
+       ```bash
+       # Voir le run le plus récent, stocké dans ./wandb/latest-run/
+       wandb beta leet
+
+       # Spécifier un répertoire de run
+       wandb beta leet ./wandb/run-20250813_124246-n67z9ude
+
+       # Spécifier un fichier .wandb
+       wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
+       ```
+
+    ![Capture d’écran montrant l’affichage d’un run dans l’interface de terminal LEET](/images/leet/leet-tui.png)
+
+    LEET affiche les métriques système dans la **barre latérale droite**, notamment :
+
+    * l’utilisation du GPU (%) et l’utilisation de la mémoire (Go)
+    * l’utilisation du CPU
+    * l’utilisation de la RAM (Go)
+    * les E/S disque
+    * l’activité réseau
+
+    Commencez avec ces raccourcis clavier :
+
+    * `h` ou `?` - Voir tous les raccourcis clavier
+    * `/` - Filtrer les métriques par motif
+    * `[` / `]` - Basculer les barres latérales gauche/droite
+    * `n` / `N` - Naviguer entre les pages de métriques
+    * `q` / `CMD+C` - Quitter
+
+    Voir [`wandb beta leet`](/fr/models/ref/cli/wandb-beta/wandb-beta-leet) pour plus de détails.
+  </Tab>
+</Tabs>
+
+<div id="cpu">
+  ## CPU
+</div>
+
+<div id="process-cpu-percent-cpu">
+  ### Pourcentage d’utilisation du CPU par le processus (CPU)
+</div>
+
+Pourcentage d’utilisation du CPU par le processus, normalisé en fonction du nombre de CPU disponibles.
+
+W&amp;B attribue une balise `cpu` à cette métrique.
+
+<div id="process-cpu-threads">
+  ### Threads du processeur du processus
+</div>
+
+Nombre de threads utilisés par le processus.
+
+W&amp;B attribue la balise `proc.cpu.threads` à cette métrique.
+
+{/* Nouvelle section */}
+
+<div id="disk">
+  ## Disque
+</div>
+
+Par défaut, les métriques d’utilisation sont collectées pour le chemin `/`. Pour configurer les chemins à surveiller, utilisez le paramètre suivant :
+
+```python
+run = wandb.init(
+    settings=wandb.Settings(
+        x_stats_disk_paths=("/System/Volumes/Data", "/home", "/mnt/data"),
+    ),
+)
+```
+
+<div id="disk-usage-percent">
+  ### Pourcentage d’utilisation du disque
+</div>
+
+Représente le pourcentage total d’utilisation du disque système pour les chemins spécifiés.
+
+W&amp;B attribue la balise `disk.{path}.usagePercent` à cette métrique.
+
+<div id="disk-usage">
+  ### Utilisation du disque
+</div>
+
+Représente l’utilisation totale du disque système en gigaoctets (Go) pour les chemins d’accès spécifiés.
+Les chemins d’accès accessibles sont échantillonnés, et l’utilisation du disque (en Go) pour chaque chemin d’accès est ajoutée aux échantillons.
+
+W&amp;B attribue la balise `disk.{path}.usageGB` à cette métrique.
+
+<div id="disk-in">
+  ### Disque en lecture
+</div>
+
+Indique le volume total de données lues sur le disque système en mégaoctets (Mo).
+Les octets lus initialement sur le disque sont enregistrés lors du premier échantillonnage. Les échantillons suivants calculent la différence entre le nombre actuel d’octets lus et la valeur initiale.
+
+W&amp;B attribue la balise `disk.in` à cette métrique.
+
+<div id="disk-out">
+  ### Écriture disque
+</div>
+
+Représente le volume total des écritures système sur le disque en mégaoctets (Mo).
+Comme pour [Disque en lecture](), les octets écrits initiaux sur le disque sont enregistrés lors du premier échantillonnage. Les échantillons suivants calculent la différence entre le nombre actuel d&#39;octets écrits et la valeur initiale.
+
+W&amp;B attribue la balise `disk.out` à cette métrique.
+
+{/* Nouvelle section */}
+
+<div id="memory">
+  ## Mémoire
+</div>
+
+<div id="process-memory-rss">
+  ### Mémoire RSS du processus
+</div>
+
+Représente la taille de l’ensemble résident (RSS) du processus, en mégaoctets (Mo). Le RSS correspond à la partie de la mémoire occupée par un processus qui est conservée en mémoire principale (RAM).
+
+W&amp;B attribue la balise `proc.memory.rssMB` à cette métrique.
+
+<div id="process-memory-percent">
+  ### Pourcentage de mémoire du processus
+</div>
+
+Indique l’utilisation de la mémoire du processus en pourcentage de la mémoire totale disponible.
+
+W&amp;B attribue la balise `proc.memory.percent` à cette métrique.
+
+<div id="memory-percent">
+  ### Pourcentage de la mémoire
+</div>
+
+Représente l’utilisation de la mémoire système totale en pourcentage de la mémoire totale disponible.
+
+W&amp;B attribue la balise `memory_percent` à cette métrique.
+
+<div id="memory-available">
+  ### Mémoire disponible
+</div>
+
+Indique la quantité totale de mémoire système disponible en mégaoctets (Mo).
+
+W&amp;B attribue la balise `proc.memory.availableMB` à cette métrique.
+
+{/* Nouvelle section */}
+
+<div id="network">
+  ## Réseau
+</div>
+
+<div id="network-sent">
+  ### Réseau envoyé
+</div>
+
+Représente le nombre total d’octets envoyés sur le réseau.
+Le nombre initial d’octets envoyés est enregistré lors de la première initialisation de la métrique. Les échantillons suivants calculent la différence entre le nombre actuel d’octets envoyés et cette valeur initiale.
+
+W&amp;B attribue la balise `network.sent` à cette métrique.
+
+<div id="network-received">
+  ### Réseau reçu
+</div>
+
+Indique le nombre total d’octets reçus sur le réseau.
+Comme pour [Réseau envoyé](), le nombre initial d’octets reçus est enregistré lors de la première initialisation de la métrique. Les échantillons suivants calculent la différence entre le nombre actuel d’octets reçus et la valeur initiale.
+
+W&amp;B attribue la balise `network.recv` à cette métrique.
+
+{/* Nouvelle section */}
+
+<div id="nvidia-gpu">
+  ## NVIDIA GPU
+</div>
+
+En plus des métriques décrites ci-dessous, si le processus et/ou ses descendants utilisent un GPU donné, W&amp;B capture les métriques correspondantes au format `gpu.process.{gpu_index}.{metric_name}`
+
+<div id="gpu-memory-utilization">
+  ### Utilisation de la mémoire du GPU
+</div>
+
+Indique le pourcentage d’utilisation de la mémoire pour chaque GPU.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.memory` à cette métrique.
+
+<div id="gpu-memory-allocated">
+  ### Mémoire GPU allouée
+</div>
+
+Indique la mémoire GPU allouée, exprimée en pourcentage de la mémoire totale disponible pour chaque GPU.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.memoryAllocated` à cette métrique.
+
+<div id="gpu-memory-allocated-bytes">
+  ### Octets de mémoire GPU allouée
+</div>
+
+Indique la quantité de mémoire GPU allouée en octets pour chaque GPU.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.memoryAllocatedBytes` à cette métrique.
+
+<div id="gpu-utilization">
+  ### Utilisation du GPU
+</div>
+
+Indique le pourcentage d’utilisation du GPU pour chaque GPU.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.gpu` à cette métrique.
+
+<div id="gpu-temperature">
+  ### Température du GPU
+</div>
+
+Température en degrés Celsius de chaque GPU.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.temp` à cette métrique.
+
+<div id="gpu-power-usage-watts">
+  ### Consommation électrique du GPU en watts
+</div>
+
+Indique la consommation électrique du GPU en watts pour chaque GPU.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.powerWatts` à cette métrique.
+
+<div id="gpu-power-usage-percent">
+  ### Pourcentage de consommation électrique du GPU
+</div>
+
+Indique la puissance utilisée par le GPU, exprimée en pourcentage de sa capacité électrique, pour chaque GPU.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.powerPercent` à cette métrique.
+
+<div id="gpu-sm-clock-speed">
+  ### Fréquence d’horloge du SM du GPU
+</div>
+
+Représente la fréquence d’horloge du Streaming Multiprocessor (SM) du GPU, en MHz. Cette métrique reflète la vitesse de traitement au sein des cœurs du GPU chargés des opérations de calcul.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.smClock` à cette métrique.
+
+<div id="gpu-memory-clock-speed">
+  ### Vitesse d’horloge de la mémoire du GPU
+</div>
+
+Indique la fréquence d’horloge de la mémoire du GPU en MHz, ce qui influe sur le débit de transfert des données entre la mémoire du GPU et les cœurs de traitement.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.memoryClock` à cette métrique.
+
+<div id="gpu-graphics-clock-speed">
+  ### Fréquence d’horloge graphique du GPU
+</div>
+
+Représente la fréquence d’horloge de base des opérations de rendu graphique sur le GPU, exprimée en MHz. Cette métrique reflète souvent les performances lors des tâches de visualisation ou de rendu.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.graphicsClock` à cette métrique.
+
+<div id="gpu-corrected-memory-errors">
+  ### Erreurs mémoire GPU corrigées
+</div>
+
+Suit le nombre d’erreurs mémoire sur le GPU que W&amp;B corrige automatiquement grâce à des protocoles de vérification d’erreurs, ce qui indique des problèmes matériels récupérables.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.correctedMemoryErrors` à cette métrique.
+
+<div id="gpu-uncorrected-memory-errors">
+  ### Erreurs mémoire GPU non corrigées
+</div>
+
+Suit le nombre d’erreurs mémoire sur le GPU que W&amp;B n’a pas corrigées, ce qui indique des erreurs irrécupérables susceptibles d’affecter la fiabilité du traitement.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.unCorrectedMemoryErrors` à cette métrique.
+
+<div id="gpu-encoder-utilization">
+  ### Utilisation de l’encodeur GPU
+</div>
+
+Représente le pourcentage d’utilisation de l’encodeur vidéo du GPU, ce qui indique sa charge lorsque des tâches d’encodage (par exemple, le rendu de vidéos) sont en cours.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.encoderUtilization` à cette métrique.
+
+{/* Nouvelle section */}
+
+<div id="amd-gpu">
+  ## AMD GPU
+</div>
+
+W&amp;B extrait les métriques de la sortie de l’outil `rocm-smi` fourni par AMD (`rocm-smi -a --json`).
+
+Les formats ROCm [6.x (latest)](https://rocm.docs.amd.com/en/latest/) et [5.x](https://rocm.docs.amd.com/en/docs-5.6.0/) sont pris en charge. Pour en savoir plus sur les formats ROCm, consultez la [documentation ROCm d’AMD](https://rocm.docs.amd.com/en/latest/compatibility/compatibility-matrix.html). Le format le plus récent inclut davantage de détails.
+
+<div id="amd-gpu-utilization">
+  ### Utilisation des GPU AMD
+</div>
+
+Représente le taux d’utilisation du GPU, en pourcentage, pour chaque périphérique GPU AMD.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.gpu` à cette métrique.
+
+<div id="amd-gpu-memory-allocated">
+  ### Mémoire allouée du GPU AMD
+</div>
+
+Indique la mémoire GPU allouée en pourcentage de la mémoire totale disponible pour chaque GPU AMD.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.memoryAllocated` à cette métrique.
+
+<div id="amd-gpu-temperature">
+  ### Température du GPU AMD
+</div>
+
+La température du GPU, en degrés Celsius, pour chaque périphérique GPU AMD.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.temp` à cette métrique.
+
+<div id="amd-gpu-power-usage-watts">
+  ### Consommation électrique du GPU AMD en watts
+</div>
+
+La consommation électrique du GPU, en watts, pour chaque périphérique GPU AMD.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.powerWatts` à cette métrique.
+
+<div id="amd-gpu-power-usage-percent">
+  ### Pourcentage de consommation électrique du GPU AMD
+</div>
+
+Indique la consommation électrique du GPU, exprimée en pourcentage de sa capacité maximale, pour chaque périphérique GPU AMD.
+
+W&amp;B attribue la balise `gpu.{gpu_index}.powerPercent` à cette métrique.
+
+{/* Nouvelle section */}
+
+<div id="apple-arm-mac-gpu">
+  ## GPU sur les Mac Apple ARM
+</div>
+
+<div id="apple-gpu-utilization">
+  ### Utilisation du GPU Apple
+</div>
+
+Indique l’utilisation du GPU en pourcentage sur les appareils équipés d’un GPU Apple, en particulier les Mac ARM.
+
+W&amp;B attribue la balise `gpu.0.gpu` à cette métrique.
+
+<div id="apple-gpu-memory-allocated">
+  ### Mémoire GPU allouée sur Apple
+</div>
+
+Mémoire GPU allouée, exprimée en pourcentage de la mémoire totale disponible pour les GPU Apple sur les Mac ARM.
+
+W&amp;B attribue la balise `gpu.0.memoryAllocated` à cette métrique.
+
+<div id="apple-gpu-temperature">
+  ### Température du GPU Apple
+</div>
+
+La température du GPU, en degrés Celsius, pour les GPU Apple sur les Mac ARM.
+
+W&amp;B attribue la balise `gpu.0.temp` à cette métrique.
+
+<div id="apple-gpu-power-usage-watts">
+  ### Consommation électrique du GPU Apple en watts
+</div>
+
+La consommation électrique du GPU, en watts, pour les GPU Apple sur les Mac ARM.
+
+W&amp;B attribue la balise `gpu.0.powerWatts` à cette métrique.
+
+<div id="apple-gpu-power-usage-percent">
+  ### Pourcentage de consommation électrique du GPU Apple
+</div>
+
+La consommation d’énergie du GPU, exprimée en pourcentage de sa capacité d’alimentation, pour les GPU Apple sur les Mac ARM.
+
+W&amp;B attribue la balise `gpu.0.powerPercent` à cette métrique.
+
+{/* Nouvelle section */}
+
+<div id="graphcore-ipu">
+  ## Graphcore IPU
+</div>
+
+Les IPU (Intelligence Processing Units) de Graphcore sont des accélérateurs matériels spécialisés, conçus spécifiquement pour les tâches d’intelligence artificielle.
+
+<div id="ipu-device-metrics">
+  ### Métriques du périphérique IPU
+</div>
+
+Ces métriques représentent différentes statistiques pour un périphérique IPU donné. Chaque métrique possède un ID de périphérique (`device_id`) et une clé de métrique (`metric_key`) permettant de l’identifier. W&amp;B attribue la balise `ipu.{device_id}.{metric_key}` à cette métrique.
+
+Les métriques sont extraites à l’aide de la bibliothèque propriétaire `gcipuinfo`, qui interagit avec le binaire `gcipuinfo` de Graphcore. La méthode `sample` récupère ces métriques pour chaque périphérique IPU associé à l’identifiant du processus (`pid`). Seules les métriques qui évoluent au fil du temps, ou celles récupérées lors de la première collecte des métriques d’un périphérique, sont enregistrées afin d’éviter les données redondantes.
+
+Pour chaque métrique, la méthode `parse_metric` est utilisée pour extraire la valeur de la métrique à partir de sa représentation brute sous forme de chaîne. Les métriques sont ensuite agrégées sur plusieurs échantillons à l’aide de la méthode `aggregate`.
+
+La liste suivante présente les métriques disponibles et leurs unités :
+
+* **Température moyenne de la carte** (`average board temp (C)`): Température de la carte IPU en degrés Celsius.
+* **Température moyenne de la puce** (`average die temp (C)`): Température de la puce IPU en degrés Celsius.
+* **Fréquence d’horloge** (`clock (MHz)`): Fréquence d’horloge de l’IPU en MHz.
+* **Puissance de l’IPU** (`ipu power (W)`): Consommation électrique de l’IPU en watts.
+* **Utilisation de l’IPU** (`ipu utilisation (%)`): Pourcentage d’utilisation de l’IPU.
+* **Utilisation de session de l’IPU** (`ipu utilisation (session) (%)`): Pourcentage d’utilisation de l’IPU propre à la session en cours.
+* **Vitesse de la liaison de données** (`speed (GT/s)`): Vitesse de transmission des données en gigatransferts par seconde.
+
+{/* Nouvelle section */}
+
+<div id="google-cloud-tpu">
+  ## Google Cloud TPU
+</div>
+
+Les Tensor Processing Units (TPU) sont des ASIC (circuits intégrés spécifiques à une application) développés sur mesure par Google pour accélérer les charges de travail de machine learning.
+
+<div id="tpu-memory-usage">
+  ### Utilisation de la mémoire TPU
+</div>
+
+Utilisation actuelle de la mémoire à haute bande passante, en octets, par cœur TPU.
+
+W&amp;B attribue la balise `tpu.{tpu_index}.memoryUsageBytes` à cette métrique.
+
+<div id="tpu-memory-usage-percentage">
+  ### Pourcentage d’utilisation de la mémoire des TPU
+</div>
+
+L’utilisation actuelle de la mémoire à haute bande passante, en pourcentage, pour chaque cœur TPU.
+
+W&amp;B attribue la balise `tpu.{tpu_index}.memoryUsageBytes` à cette métrique.
+
+<div id="tpu-duty-cycle">
+  ### Cycle d’activité du TPU
+</div>
+
+Pourcentage du cycle d’activité de TensorCore par périphérique TPU. Indique le pourcentage de temps, sur la période d’échantillonnage, pendant lequel l’accélérateur TensorCore était en cours de traitement. Une valeur plus élevée indique une meilleure utilisation de TensorCore.
+
+W&amp;B attribue la balise `tpu.{tpu_index}.dutyCycle` à cette métrique.
+
+{/* Nouvelle section */}
+
+<div id="aws-trainium">
+  ## AWS Trainium
+</div>
+
+[AWS Trainium](https://aws.amazon.com/machine-learning/trainium/) est une plateforme matérielle spécialisée proposée par AWS, conçue pour accélérer les charges de travail de machine learning. L’outil `neuron-monitor` d’AWS sert à capturer les métriques d’AWS Trainium.
+
+<div id="trainium-neuron-core-utilization">
+  ### Utilisation des NeuronCore de Trainium
+</div>
+
+Le pourcentage d’utilisation de chaque NeuronCore, indiqué cœur par cœur.
+
+W&amp;B attribue la balise `trn.{core_index}.neuroncore_utilization` à cette métrique.
+
+<div id="trainium-host-memory-usage-total">
+  ### Utilisation totale de la mémoire de l’hôte Trainium
+</div>
+
+Consommation totale de la mémoire de l’hôte, en octets.
+
+W&amp;B attribue la balise `trn.host_total_memory_usage` à cette métrique.
+
+<div id="trainium-neuron-device-total-memory-usage">
+  ### Utilisation totale de la mémoire du périphérique Neuron Trainium
+</div>
+
+Utilisation totale de la mémoire du périphérique Neuron, en octets.
+
+W&amp;B attribue la balise `trn.neuron_device_total_memory_usage)` à cette métrique.
+
+<div id="trainium-host-memory-usage-breakdown">
+  ### Répartition de l’utilisation de la mémoire de l’hôte Trainium :
+</div>
+
+Voici le détail de l’utilisation de la mémoire sur l’hôte :
+
+* **Mémoire de l’application** (`trn.host_total_memory_usage.application_memory`) : Mémoire utilisée par l’application.
+* **Constantes** (`trn.host_total_memory_usage.constants`) : Mémoire utilisée pour les constantes.
+* **Tampons DMA** (`trn.host_total_memory_usage.dma_buffers`) : Mémoire utilisée pour les tampons d’accès direct à la mémoire.
+* **Tenseurs** (`trn.host_total_memory_usage.tensors`) : Mémoire utilisée pour les tenseurs.
+
+<div id="trainium-neuron-core-memory-usage-breakdown">
+  ### Répartition de l’utilisation de la mémoire des NeuronCores Trainium
+</div>
+
+Informations détaillées sur l’utilisation de la mémoire pour chaque NeuronCore :
+
+* **Constantes** (`trn.{core_index}.neuroncore_memory_usage.constants`)
+* **Code du modèle** (`trn.{core_index}.neuroncore_memory_usage.model_code`)
+* **Scratchpad partagé du modèle** (`trn.{core_index}.neuroncore_memory_usage.model_shared_scratchpad`)
+* **Mémoire d’exécution** (`trn.{core_index}.neuroncore_memory_usage.runtime_memory`)
+* **Tenseurs** (`trn.{core_index}.neuroncore_memory_usage.tensors`)
+
+<div id="openmetrics">
+  ## OpenMetrics
+</div>
+
+Capturez et consignez des métriques à partir de points de terminaison externes qui exposent des données compatibles avec OpenMetrics / Prometheus, avec prise en charge de filtres de métriques personnalisés basés sur des expressions régulières, appliqués aux points de terminaison interrogés.
+
+Se référer à [Monitoring GPU cluster performance in W&amp;B](https://wandb.ai/dimaduev/dcgm/reports/Monitoring-GPU-cluster-performance-with-NVIDIA-DCGM-Exporter-and-Weights-Biases--Vmlldzo0MDYxMTA1) pour un exemple détaillé de l&#39;utilisation de cette fonctionnalité dans le cas particulier de la surveillance des performances d&#39;un cluster GPU avec [NVIDIA DCGM-Exporter](https://docs.nvidia.com/datacenter/cloud-native/gpu-telemetry/latest/dcgm-exporter.html).

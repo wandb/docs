@@ -1,0 +1,18 @@
+---
+title: "Que fait wandb.init() dans mon processus d'entraînement ?"
+keywords: ["Variables d'environnement", "Experiments"]
+featured: true
+---
+
+Lorsque `wandb.init()` s&#39;exécute dans un script d&#39;entraînement, un appel d&#39;API crée un objet run sur les serveurs. Un nouveau processus démarre pour transmettre et collecter les métriques, ce qui permet au processus principal de continuer à fonctionner normalement. Le script écrit dans des fichiers locaux tandis que le processus distinct transmet les données aux serveurs, y compris les métriques système. Pour désactiver cette transmission, exécutez `wandb off` depuis le répertoire d&#39;entraînement ou définissez la variable d&#39;environnement `WANDB_MODE` sur `offline`.
+
+***
+
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
+  ---- */}
+
+<Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
+
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

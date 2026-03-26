@@ -1,0 +1,74 @@
+---
+description: Tutoriel expliquant comment créer des jobs de balayage à partir d’un projet W&B existant.
+title: 'Tutoriel : Créer un job de balayage à partir d’un projet'
+---
+
+Ce tutoriel explique comment créer des jobs de balayage à partir d’un projet W&amp;B existant. Nous utiliserons le [jeu de données Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist) pour entraîner un réseau de neurones convolutif PyTorch à classer des images. Le code et le jeu de données requis se trouvent dans le [dépôt d’exemples W&amp;B (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
+
+Explorez les résultats dans ce [tableau de bord W&amp;B](https://app.wandb.ai/carey/pytorch-cnn-fashion).
+
+<div id="1-create-a-project">
+  ## 1. Créer un projet
+</div>
+
+Commencez par établir une base de référence. Téléchargez le modèle d&#39;exemple MNIST pour PyTorch depuis le dépôt GitHub d&#39;exemples de W&amp;B. Ensuite, entraînez le modèle. Le script d&#39;entraînement se trouve dans le répertoire `examples/pytorch/pytorch-cnn-fashion`.
+
+1. Clonez ce dépôt `git clone https://github.com/wandb/examples.git`
+2. Accédez à cet exemple `cd examples/pytorch/pytorch-cnn-fashion`
+3. Lancez un run manuellement `python train.py`
+
+Vous pouvez aussi explorer cet exemple dans le tableau de bord de l&#39;application W&amp;B.
+
+[Voir un exemple de page de projet →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+
+<div id="2-create-a-sweep">
+  ## 2. Créer un balayage
+</div>
+
+Depuis la page de votre projet, ouvrez l&#39;[onglet Balayage](./visualize-sweep-results) dans la barre latérale du projet, puis sélectionnez **Créer un balayage**.
+
+<Frame>
+  <img src="/images/sweeps/sweep1.png" alt="Aperçu du balayage" />
+</Frame>
+
+La configuration générée automatiquement propose des valeurs à balayer en fonction des runs que vous avez terminés. Modifiez la configuration pour préciser les plages d&#39;hyperparamètres que vous souhaitez essayer. Lorsque vous lancez le balayage, un nouveau processus démarre sur le serveur de balayage W&amp;B hébergé. Ce service centralisé coordonne les agents — les machines qui exécutent les tâches d&#39;entraînement.
+
+<Frame>
+  <img src="/images/sweeps/sweep2.png" alt="Configuration du balayage" />
+</Frame>
+
+<div id="3-launch-agents">
+  ## 3. Lancer des agents
+</div>
+
+Ensuite, lancez un agent localement. Vous pouvez lancer jusqu’à 20 agents en parallèle sur différentes machines si vous souhaitez répartir le travail et terminer le job de balayage plus rapidement. L’agent affichera ensuite l’ensemble des paramètres qu’il va essayer.
+
+<Frame>
+  <img src="/images/sweeps/sweep3.png" alt="Lancement des agents" />
+</Frame>
+
+Vous exécutez maintenant un balayage. L’image suivante montre l’aspect du tableau de bord pendant l’exécution du job de balayage de cet exemple. [Voir un exemple de page de projet →](https://app.wandb.ai/carey/pytorch-cnn-fashion)
+
+<Frame>
+  <img src="/images/sweeps/sweep4.png" alt="Tableau de bord du balayage" />
+</Frame>
+
+<div id="seed-a-new-sweep-with-existing-runs">
+  ## Initialiser un nouveau balayage avec des runs existants
+</div>
+
+Lancez un nouveau balayage à l’aide de runs existants que vous avez précédemment enregistrés.
+
+1. Ouvrez le tableau de votre projet.
+2. Sélectionnez les runs que vous souhaitez utiliser à l’aide des cases à cocher à gauche du tableau.
+3. Cliquez sur le menu déroulant pour créer un nouveau balayage.
+
+Votre balayage est maintenant configuré sur notre serveur. Il ne vous reste plus qu’à lancer un ou plusieurs agents pour démarrer l’exécution des runs.
+
+<Frame>
+  <img src="/images/sweeps/tutorial_sweep_runs.png" alt="Initialiser un balayage à partir de runs" />
+</Frame>
+
+<Note>
+  Si vous lancez le nouveau balayage en tant que balayage bayésien, les runs sélectionnés initialiseront également le processus gaussien.
+</Note>

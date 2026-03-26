@@ -1,0 +1,71 @@
+---
+description: "Effectuez le Fine-tuning des modèles Azure OpenAI avec le suivi des expériences W&B afin d’assurer la journalisation des métriques, des hyperparamètres et la progression de l'entraînement."
+title: Fine-tuning Azure OpenAI
+---
+
+<div id="introduction">
+  ## Introduction
+</div>
+
+Le fine-tuning des modèles GPT-3.5 ou GPT-4 sur Microsoft Azure avec W&amp;B permet de suivre, d’analyser et d’améliorer les performances du modèle en capturant automatiquement les métriques et en facilitant une évaluation systématique grâce aux outils de suivi des expériences et d’évaluation de W&amp;B.
+
+<Frame>
+  <img src="/images/integrations/aoai_ft_plot.png" alt="Métriques de fine-tuning d’Azure OpenAI" />
+</Frame>
+
+<div id="prerequisites">
+  ## Prérequis
+</div>
+
+* Configurez le service Azure OpenAI conformément à la [documentation officielle d’Azure](https://wandb.me/aoai-wb-int).
+* Configurez un compte W&amp;B avec une clé API.
+
+<div id="workflow-overview">
+  ## Aperçu du flux de travail
+</div>
+
+<div id="1-fine-tuning-setup">
+  ### 1. Configuration du fine-tuning
+</div>
+
+* Préparez les données d&#39;entraînement conformément aux exigences d&#39;Azure OpenAI.
+* Configurez le job de fine-tuning dans Azure OpenAI.
+* W&amp;B suit automatiquement le processus de fine-tuning et effectue la journalisation des métriques et des hyperparamètres.
+
+<div id="2-experiment-tracking">
+  ### 2. Suivi des expériences
+</div>
+
+Pendant le fine-tuning, W&amp;B capture :
+
+* Métriques d&#39;entraînement et de validation
+* Hyperparamètres du modèle
+* Utilisation des ressources
+* Artefacts d&#39;entraînement
+
+<div id="3-model-evaluation">
+  ### 3. Évaluation du modèle
+</div>
+
+Après le fine-tuning, utilisez [W&amp;B Weave](https://weave-docs.wandb.ai) pour :
+
+* Évaluer les sorties du modèle à l’aide de jeux de données de référence
+* Comparer les performances de différents runs de fine-tuning
+* Analyser le comportement du modèle sur des cas de test spécifiques
+* Prendre des décisions fondées sur les données pour sélectionner le modèle
+
+<div id="real-world-example">
+  ## Exemple concret
+</div>
+
+* Explorez la [démo de génération de notes médicales](https://wandb.me/aoai-ft-colab) pour voir comment cette intégration permet :
+  * Le suivi systématique des expériences de fine-tuning
+  * L&#39;évaluation du modèle à l&#39;aide de métriques spécifiques au domaine
+* Parcourez une [démo interactive de fine-tuning dans un notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/azure/azure_gpt_medical_notes.ipynb)
+
+<div id="additional-resources">
+  ## Ressources supplémentaires
+</div>
+
+* [Guide d’intégration W&amp;B à Azure OpenAI](https://wandb.me/aoai-wb-int)
+* [Documentation Azure OpenAI sur le Fine-tuning](https://learn.microsoft.com/azure/ai-services/openai/how-to/fine-tuning?tabs=turbo%2Cpython\&pivots=programming-language-python)

@@ -1,0 +1,119 @@
+---
+description: "Intégrez W&B à PaddleOCR pour suivre l'entraînement du modèle OCR, journaliser les métriques de reconnaissance et visualiser les prédictions."
+title: PaddleOCR
+---
+
+import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
+
+[PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) vise à créer des outils d’OCR multilingues, performants, de pointe et pratiques, qui aident les utilisateurs à entraîner de meilleurs modèles et à les mettre en œuvre avec PaddlePaddle. PaddleOCR prend en charge un large éventail d’algorithmes de pointe liés à l’OCR et a développé des solutions industrielles. PaddleOCR propose désormais une intégration W&amp;B pour journaliser les métriques d’entraînement et d’évaluation, ainsi que les points de contrôle du modèle avec les métadonnées correspondantes.
+
+<div id="example-blog-colab">
+  ## Exemple de billet de blog et de Colab
+</div>
+
+[Lire ici](https://wandb.ai/manan-goel/text_detection/reports/Train-and-Debug-Your-OCR-Models-with-PaddleOCR-and-W-B--VmlldzoyMDUwMDIw) pour voir comment entraîner un modèle avec PaddleOCR sur le jeu de données ICDAR2015. Ce contenu s’accompagne également d’un [Google Colab](https://colab.research.google.com/drive/1id2VTIQ5-M1TElAkzjzobUCdGeJeW-nV?usp=sharing), et le tableau de bord W&amp;B correspondant est disponible [ici](https://wandb.ai/manan-goel/text_detection). Il existe également une version chinoise de ce blog ici : [W&amp;B对您的OCR模型进行训练和调试](https://wandb.ai/wandb_fc/chinese/reports/W-B-OCR---VmlldzoyMDk1NzE4)
+
+<div id="sign-up-and-create-an-api-key">
+  ## Inscrivez-vous et générez une clé API
+</div>
+
+Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil utilisateur.
+
+<ApiKeyCreateStreamlined />
+
+1. Cliquez sur l’icône de votre profil dans le coin supérieur droit.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **Clés API**.
+
+<div id="install-the-wandb-library-and-log-in">
+  ## Installez la bibliothèque `wandb` et connectez-vous
+</div>
+
+Pour installer la bibliothèque `wandb` en local et vous connecter :
+
+<Tabs>
+  <Tab title="Ligne de commande">
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+
+       ```bash
+       export WANDB_API_KEY=<your_api_key>
+       ```
+
+    2. Installez la bibliothèque `wandb` et connectez-vous.
+
+       ```shell
+       pip install wandb
+
+       wandb login
+       ```
+  </Tab>
+
+  <Tab title="Python">
+    ```bash
+    pip install wandb
+    ```
+
+    ```python
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+
+  <Tab title="notebook Python">
+    ```notebook
+    !pip install wandb
+
+    import wandb
+    wandb.login()
+    ```
+  </Tab>
+</Tabs>
+
+<div id="add-wandb-to-your-configyml-file">
+  ## Ajoutez wandb à votre fichier `config.yml`
+</div>
+
+PaddleOCR exige que les variables de configuration soient fournies dans un fichier yaml. L’ajout de l’extrait suivant à la fin du fichier de configuration yaml journalisera automatiquement toutes les métriques d’entraînement et de validation dans un tableau de bord W&amp;B, ainsi que les points de contrôle du modèle :
+
+```python
+Global:
+    use_wandb: True
+```
+
+Vous pouvez également ajouter sous l’en-tête `wandb` du fichier yaml tous les arguments supplémentaires facultatifs que vous souhaitez passer à [`wandb.init()`](/fr/models/ref/python/functions/init) :
+
+```
+wandb:  
+    project: CoolOCR  # (facultatif) il s'agit du nom du projet wandb 
+    entity: my_team   # (facultatif) si vous utilisez une équipe wandb, vous pouvez indiquer le nom de l'équipe ici
+    name: MyOCRModel  # (facultatif) il s'agit du nom du run wandb
+```
+
+<div id="pass-the-configyml-file-to-trainpy">
+  ## Passez le fichier `config.yml` à `train.py`
+</div>
+
+Le fichier YAML est ensuite passé en argument au [script d&#39;entraînement](https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.5/tools/train.py) disponible dans le dépôt PaddleOCR.
+
+```bash
+python tools/train.py -c config.yml
+```
+
+Une fois que vous avez exécuté votre fichier `train.py` avec W&amp;B activé, un lien est généré pour vous rediriger vers votre tableau de bord W&amp;B :
+
+<Frame>
+  <img src="/images/integrations/paddleocr_wb_dashboard1.png" alt="Tableau de bord d'entraînement PaddleOCR" />
+</Frame>
+
+<Frame>
+  <img src="/images/integrations/paddleocr_wb_dashboard2.png" alt="Tableau de bord de validation PaddleOCR" />
+</Frame>
+
+<Frame>
+  <img src="/images/integrations/paddleocr_wb_dashboard3.png" alt="Tableau de bord du modèle de détection de texte" />
+</Frame>
+
+<div id="feedback-or-issues">
+  ## Retours ou problèmes
+</div>
+
+Si vous avez des retours ou rencontrez des problèmes avec l’intégration W&amp;B, ouvrez une issue sur le [GitHub de PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR) ou envoyez un e-mail à <a href="mailto:support@wandb.com">support@wandb.com</a>.

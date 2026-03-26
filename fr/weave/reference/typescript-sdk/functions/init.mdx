@@ -1,0 +1,41 @@
+---
+title: "init"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="init">
+  # init
+</div>
+
+▸ **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
+
+Initialise le client Weave, ce qui est requis pour que le traçage Weave fonctionne.
+
+<div id="parameters">
+  #### Paramètres
+</div>
+
+| Nom         | Type           | Description                                                                                                                                                                                                                                                                                                                                                               |
+| :---------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `project`   | `string`       | Le nom du projet W&amp;B (peut être `project` ou `entity/project`). Si vous ne spécifiez pas d&#39;équipe W&amp;B (par exemple, `team/project`), votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous à Paramètres utilisateur sur https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team |
+| `settings?` | `SettingsInit` | (Facultatif) Paramètres de traçage Weave                                                                                                                                                                                                                                                                                                                                  |
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
+
+Une promesse qui se résout en un client Weave initialisé.
+
+`Throws`
+
+Si l&#39;initialisation échoue
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[clientApi.ts:83](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L83)
+
+***

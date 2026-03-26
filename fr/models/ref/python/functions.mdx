@@ -1,0 +1,53 @@
+---
+title: Aperçu des fonctions globales
+description: Fonctions globales du SDK Python W&B
+module: 
+no_list: true
+---
+
+Les fonctions globales de W&amp;B sont des fonctions de premier niveau que vous appelez directement, comme `wandb.init()` ou `wandb.login()`. Contrairement aux méthodes qui appartiennent à des classes spécifiques, ces fonctions donnent un accès direct aux fonctionnalités de base de W&amp;B, sans qu’il soit nécessaire d’instancier d’abord des objets.
+
+<div id="available-functions">
+  ## Fonctions disponibles
+</div>
+
+| Fonction                                                  | Description                                                                                                                                                                                  |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`init()`](/fr/models/ref/python/functions/init)             | Démarrez un nouveau run pour suivre et consigner des données dans W&amp;B. Il s&#39;agit généralement de la première fonction que vous appellerez dans votre pipeline d&#39;entraînement ML. |
+| [`login()`](/fr/models/ref/python/functions/login)           | Configurez les identifiants de connexion W&amp;B pour authentifier votre machine auprès de la plateforme.                                                                                    |
+| [`setup()`](/fr/models/ref/python/functions/setup)           | Préparez W&amp;B pour une utilisation dans le processus actuel et ses processus enfants. Utile pour les applications multi-processus.                                                        |
+| [`teardown()`](/fr/models/ref/python/functions/teardown)     | Nettoyez les ressources W&amp;B et arrêtez le processus backend.                                                                                                                             |
+| [`sweep()`](/fr/models/ref/python/functions/sweep)           | Initialisez un balayage d&#39;hyperparamètres pour rechercher les configurations de modèle optimales.                                                                                        |
+| [`agent()`](/fr/models/ref/python/functions/agent)           | Créez un agent de balayage pour exécuter des expériences d&#39;optimisation d&#39;hyperparamètres.                                                                                           |
+| [`controller()`](/fr/models/ref/python/functions/controller) | Gérez et contrôlez les agents de balayage et leur exécution.                                                                                                                                 |
+| [`restore()`](/fr/models/ref/python/functions/restore)       | Restaurez un run précédent ou l&#39;état d&#39;une expérience afin de reprendre votre travail.                                                                                               |
+| [`finish()`](/fr/models/ref/python/functions/finish)         | Terminez un run et nettoyez les ressources.                                                                                                                                                  |
+
+<div id="example">
+  ## Exemple
+</div>
+
+Le flux de travail le plus courant commence par l’authentification à W&amp;B, l’initialisation d’un run et le fait de journaliser des valeurs (telles que la précision et la perte) dans votre boucle d’entraînement. Les premières étapes consistent à importer `wandb` et à utiliser les fonctions globales `login()` et `init()` :
+
+```python
+import wandb
+
+# S'authentifier avec W&B
+wandb.login()
+
+# Hyperparamètres et métadonnées
+config = {
+   "learning_rate": 0.01,
+   "epochs": 10,
+}
+
+# Projet dans lequel le run est enregistré
+project = "my-awesome-project"
+
+# Initialiser un nouveau run
+with wandb.init(project=project, config=config) as run:
+   # Votre code d'entraînement ici...
+   
+   # Journaliser les valeurs dans W&B
+   run.log({"accuracy": 0.9, "loss": 0.1})
+```

@@ -1,0 +1,23 @@
+---
+title: TTL d’un artefact existant
+---
+
+```python
+"""
+Mettre à jour la politique TTL d'un artefact existant dans W&B.
+"""
+import wandb
+from datetime import timedelta
+
+# Initialiser l'API W&B
+api = wandb.Api()
+
+# Récupérer l'artefact existant
+artifact = api.artifact("<entity/project/artifact:alias>")
+
+# Ajouter ou mettre à jour la politique TTL. Indiquer la durée souhaitée.
+artifact.ttl = timedelta(days=365)  # Suppression dans un an
+
+# Enregistrer l'artefact mis à jour
+artifact.save()
+```

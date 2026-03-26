@@ -1,0 +1,48 @@
+---
+title: Gestion des accès
+description: "Gérez les utilisateurs, les équipes, les rôles et la visibilité des projets en tant qu’administrateur d’une organisation ou d’une équipe dans W&B."
+---
+
+<div id="manage-users-and-teams-within-an-organization">
+  ## Gérer les utilisateurs et les équipes au sein d&#39;une organisation
+</div>
+
+Le premier utilisateur qui s&#39;inscrit à W&amp;B avec un domaine d&#39;organisation unique se voit attribuer le *rôle d&#39;administrateur d&#39;instance* de cette organisation. L&#39;administrateur de l&#39;organisation attribue à certains utilisateurs des rôles d&#39;administrateur d&#39;équipe.
+
+<Note>
+  W&amp;B recommande d&#39;avoir plusieurs administrateurs d&#39;instance dans une organisation. Il s&#39;agit d&#39;une bonne pratique pour garantir la continuité des opérations administratives lorsque l&#39;administrateur principal n&#39;est pas disponible.
+</Note>
+
+Un *administrateur d&#39;équipe* est un utilisateur d&#39;une organisation qui dispose d&#39;autorisations administratives au sein d&#39;une équipe.
+
+Les administrateurs d&#39;organisation peuvent accéder aux paramètres du compte de l&#39;organisation et les utiliser à l&#39;adresse `https://wandb.ai/account-settings/` pour inviter des utilisateurs, attribuer ou mettre à jour le rôle d&#39;un utilisateur, créer des équipes, retirer des utilisateurs de votre organisation, attribuer le rôle d&#39;administrateur de la facturation, et plus encore. Voir [Ajouter et gérer des utilisateurs](/fr/platform/hosting/iam/access-management/manage-organization/#add-and-manage-users) pour plus d&#39;informations.
+
+Une fois qu&#39;un administrateur d&#39;organisation a créé une équipe, l&#39;administrateur d&#39;instance ou un administrateur d&#39;équipe peut :
+
+* Par défaut, seul un administrateur peut inviter des utilisateurs dans cette équipe ou en retirer. Pour modifier ce comportement, se référer à [Paramètres d&#39;équipe](/fr/platform/app/settings-page/teams/#privacy).
+* Attribuer ou mettre à jour le rôle d&#39;un membre de l&#39;équipe.
+* Ajouter automatiquement de nouveaux utilisateurs à une équipe lorsqu&#39;ils rejoignent votre organisation.
+
+L&#39;administrateur d&#39;organisation et l&#39;administrateur d&#39;équipe utilisent tous deux les tableaux de bord d&#39;équipe à l&#39;adresse `https://wandb.ai/<your-team-name>` pour gérer les équipes. Pour plus d&#39;informations, et pour configurer les paramètres de confidentialité par défaut d&#39;une équipe, voir [Ajouter et gérer des équipes](/fr/platform/hosting/iam/access-management/manage-organization/#add-and-manage-teams).
+
+<div id="maintain-admin-access">
+  ## Maintenir l&#39;accès administrateur
+</div>
+
+Vous devez veiller à ce qu&#39;au moins un utilisateur administrateur soit toujours présent dans votre instance ou votre organisation. Sinon, aucun utilisateur ne pourra configurer ou gérer le compte W&amp;B de votre organisation.
+
+Si les utilisateurs sont gérés de manière interactive, l&#39;accès administrateur est requis pour supprimer un utilisateur, y compris un autre administrateur. Cela contribue à réduire le risque de suppression du seul administrateur.
+
+Cependant, si une organisation utilise des processus automatisés pour retirer des utilisateurs de W&amp;B, une opération de déprovisionnement pourrait supprimer par inadvertance le dernier administrateur encore présent dans l&#39;instance ou l&#39;organisation.
+
+Pour obtenir de l&#39;assistance sur l&#39;élaboration de procédures opérationnelles, ou pour restaurer l&#39;accès administrateur, contactez [assistance](mailto:support@wandb.com).
+
+<div id="limit-visibility-to-specific-projects">
+  ## Limiter la visibilité à des projets spécifiques
+</div>
+
+Définissez le périmètre d&#39;un projet W&amp;B afin de limiter qui peut le consulter, le modifier et y soumettre des runs W&amp;B. Restreindre l&#39;accès à un projet est particulièrement utile si une équipe travaille avec des données sensibles ou confidentielles.
+
+Un administrateur de l&#39;organisation, un administrateur d&#39;équipe ou le propriétaire d&#39;un projet peut définir et modifier la visibilité d&#39;un projet.
+
+Pour plus d&#39;informations, voir [Visibilité du projet](/fr/platform/hosting/iam/access-management/restricted-projects/).

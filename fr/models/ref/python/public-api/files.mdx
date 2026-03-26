@@ -1,0 +1,72 @@
+---
+title: Fichiers
+namespace: public_apis_namespace
+python_object_type: class
+---
+
+import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
+
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
+
+
+## <kbd>class</kbd> `Files`
+
+Un itérateur lazy sur une collection d’objets `File`.
+
+Permet d’accéder aux fichiers téléversés sur W&amp;B pendant un run et de les gérer. Gère automatiquement la pagination lors de l’itération sur de grandes collections de fichiers.
+
+**Exemple :**
+
+```python
+from wandb.apis.public.files import Files
+from wandb.apis.public.api import Api
+
+# Exemple d'objet run
+run = Api().run("entity/project/run-id")
+
+# Créer un objet Files pour itérer sur les fichiers du run
+files = Files(api.client, run)
+
+# Itérer sur les fichiers
+for file in files:
+     print(file.name)
+     print(file.url)
+     print(file.size)
+
+     # Télécharger le fichier
+     file.download(root="download_directory", replace=True)
+```
+
+
+### <kbd>méthode</kbd> `Files.__init__`
+
+```python
+__init__(
+    client: 'RetryingClient',
+    run: 'Run',
+    names: 'list[str] | None' = None,
+    per_page: 'int' = 50,
+    upload: 'bool' = False,
+    pattern: 'str | None' = None
+)
+```
+
+Initialise un itérateur lazy sur une collection d’objets `File`.
+
+Les fichiers sont récupérés page par page depuis le serveur W&amp;B, selon les besoins.
+
+**Arguments :**
+
+* `client` :  L’objet run qui contient les fichiers
+* `run` :  L’objet run qui contient les fichiers
+* `names` (liste, facultatif) :  Une liste de noms de fichiers permettant de filtrer les fichiers
+* `per_page` (int, facultatif) :  Le nombre de fichiers à récupérer par page
+* `upload` (bool, facultatif) :  Si `True`, récupère l’URL de téléversement pour chaque fichier
+* `pattern` (str, facultatif) :  Motif à utiliser pour renvoyer les fichiers depuis W&amp;B  Ce motif utilise la syntaxe LIKE de MySQL. Ainsi, pour faire correspondre tous les fichiers se terminant par .json, utilisez &quot;%.json&quot;.  Si `names` et `pattern` sont tous deux fournis, une ValueError est levée.
+
+***
+
+
+### <kbd>propriété</kbd> Files.length
+
+***

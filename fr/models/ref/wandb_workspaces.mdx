@@ -1,0 +1,96 @@
+---
+title: Aperçu de l’API Reports and Workspaces
+description: Utilisez l’API W&B Reports and Workspaces pour créer et gérer des rapports et des espaces de travail par programmation
+---
+
+L’API W&amp;B Reports and Workspaces, accessible via `wandb_workspaces`, vous permet de créer des [rapports](/fr/models/reports/), qui peuvent être publiés sur le web pour partager vos résultats, ainsi que de personnaliser un [Workspace](/fr/models/app/features/cascade-settings/) dans lequel ont été menés les travaux d’entraînement et de fine-tuning.
+
+<Card title="Voir le code source" href="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/" icon="github" />
+
+<Note>
+  L’API W&amp;B Report and Workspace est disponible en préversion publique.
+</Note>
+
+<div id="installation-and-setup">
+  ## Installation et configuration
+</div>
+
+<div id="sign-up-and-create-an-api-key">
+  ### Inscrivez-vous et créez une clé API
+</div>
+
+Pour authentifier votre machine auprès de W&amp;B, vous devez d’abord générer une clé API dans les [Paramètres utilisateur](https://wandb.ai/settings).
+
+<div id="install-and-import-packages">
+  ### Installer et importer des packages
+</div>
+
+Installez la bibliothèque W&amp;B Report and Workspaces.
+
+```python
+pip install wandb-workspaces
+```
+
+<div id="create-a-report">
+  ### Créer un rapport
+</div>
+
+Pour créer un rapport, indiquez l’entité de votre équipe et donnez un nom à votre rapport. Remplacez le texte entre chevrons par vos valeurs :
+
+```python
+import wandb_workspaces.reports.v2 as wr 
+# Créer
+report = wr.Report(
+    entity="<team_entity>",
+    project="<project_name>",
+    title='Quickstart Report',
+    description="That was easy!"
+)
+
+# Enregistrer le rapport
+report.save()
+```
+
+Ensuite, ajoutez des blocs et des panneaux à votre rapport. Par exemple, le code suivant crée un rapport avec une table des matières, un en-tête et un paragraphe :
+
+```python
+report.blocks = [
+    wr.TableOfContents(),
+    wr.H1("Text and images example"),
+    wr.P("Lorem ipsum dolor sit amet."),
+]
+report.save()
+```
+
+Voir le Google Colab [Démarrage rapide de l&#39;API Reports](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) pour un exemple complet de bout en bout.
+
+<div id="create-a-workspace">
+  ### Créer un espace de travail
+</div>
+
+Le code suivant montre comment créer un espace de travail avec une section contenant trois panneaux : un graphique en courbes, un graphique à barres et un graphique de scalaires. Remplacez le texte entre chevrons par vos valeurs :
+
+```python
+# Comment importer
+import wandb_workspaces.workspaces as ws
+
+# Créer un espace de travail
+ws.Workspace(
+     entity="<team_entity>", # entité propriétaire de l'espace de travail
+     project="<project_name>", # projet associé à l'espace de travail
+     sections=[
+         ws.Section(
+             name="<Validation Metrics>",
+             panels=[
+                 wr.LinePlot(x="Step", y=["<val_loss>"]),
+                 wr.BarPlot(metrics=["<val_accuracy>"]),
+                 wr.ScalarChart(metric="<f1_score>", groupby_aggfunc="<mean>"),
+             ],
+             is_open=True,
+         ),
+     ],
+)
+workspace.save()
+```
+
+Voir le Google Colab [Démarrage rapide de l&#39;API Workspace](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb#scrollTo=MmxL0wjvrNtQ) pour un exemple complet de bout en bout.

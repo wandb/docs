@@ -1,0 +1,36 @@
+---
+title: Mettre à jour un artefact existant
+---
+
+```python
+"""
+À partir d'un artefact existant, mettre à jour sa description, ses métadonnées et ses alias
+sans créer un nouveau run.
+"""
+import wandb
+
+api = wandb.Api()
+
+artifact = api.artifact(name="<entity/project/artifact:alias>")
+
+# Mettre à jour la description
+artifact.description = "My new description"
+
+# Mettre à jour certaines clés de métadonnées
+artifact.metadata["oldKey"] = "new value"
+
+# Remplacer entièrement les métadonnées
+artifact.metadata = {"newKey": "new value"}
+
+# Ajouter un alias
+artifact.aliases.append("best")
+
+# Supprimer un alias
+artifact.aliases.remove("latest")
+
+# Remplacer tous les alias
+artifact.aliases = ["replaced"]
+
+# Enregistrer toutes les modifications de l'artefact
+artifact.save()
+```

@@ -1,0 +1,61 @@
+---
+description: Parallélisez les agents W&B Sweep sur une machine multicœur ou multi-GPU.
+title: Paralléliser les agents
+---
+
+Parallélisez vos agents W&amp;B Sweep sur une machine multicœur ou multi-GPU. Avant de commencer, assurez-vous d’avoir initialisé votre W&amp;B Sweep. Pour en savoir plus sur l’initialisation d’un W&amp;B Sweep, voir [Initialiser les sweeps](./initialize-sweeps).
+
+<div id="parallelize-on-a-multi-cpu-machine">
+  ### Paralléliser sur une machine à plusieurs CPU
+</div>
+
+Selon votre cas d’usage, consultez les onglets suivants pour découvrir comment paralléliser les agents W&amp;B Sweep à l’aide de la CLI ou dans un notebook Jupyter.
+
+<Tabs>
+  <Tab title="CLI">
+    Utilisez la commande [`wandb agent`](/fr/models/ref/cli/wandb-agent) pour paralléliser votre agent de sweep sur plusieurs CPU depuis le terminal. Indiquez l’ID du sweep renvoyé lorsque vous avez [initialisé le sweep](./initialize-sweeps).
+
+    1. Ouvrez plusieurs fenêtres de terminal sur votre machine locale.
+    2. Copiez-collez l’extrait de code ci-dessous et remplacez `sweep_id` par votre ID du sweep :
+
+    ```bash
+    wandb agent sweep_id
+    ```
+  </Tab>
+
+  <Tab title="Jupyter Notebook">
+    Utilisez la bibliothèque SDK Python de W&amp;B pour paralléliser votre agent W&amp;B Sweep sur plusieurs CPU dans plusieurs notebooks Jupyter. Assurez-vous de disposer de l’ID du sweep renvoyé lorsque vous avez [initialisé le sweep](./initialize-sweeps). En outre, indiquez le nom de la fonction que le sweep exécutera pour le paramètre `function` :
+
+    1. Ouvrez plusieurs notebooks Jupyter.
+    2. Copiez-collez l’ID du sweep W&amp;B dans plusieurs notebooks Jupyter pour paralléliser un sweep W&amp;B. Par exemple, vous pouvez coller l’extrait de code suivant dans plusieurs notebooks Jupyter pour paralléliser votre sweep si l’ID du sweep est stocké dans une variable appelée `sweep_id` et que le nom de la fonction est `function_name` :
+
+    ```python
+    wandb.agent(sweep_id=sweep_id, function=function_name)
+    ```
+  </Tab>
+</Tabs>
+
+<div id="parallelize-on-a-multi-gpu-machine">
+  ### Paralléliser sur une machine multi-GPU
+</div>
+
+Suivez la procédure ci-dessous pour paralléliser votre agent W&amp;B Sweep sur plusieurs GPU à l’aide de terminaux et de CUDA Toolkit :
+
+1. Ouvrez plusieurs fenêtres de terminal sur votre machine locale.
+2. Spécifiez le GPU à utiliser avec `CUDA_VISIBLE_DEVICES` lorsque vous démarrez un job W&amp;B Sweep ([`wandb agent`](/fr/models/ref/cli/wandb-agent)). Attribuez à `CUDA_VISIBLE_DEVICES` une valeur entière correspondant au GPU à utiliser.
+
+Par exemple, supposons que vous disposiez de deux GPU NVIDIA sur votre machine locale. Ouvrez une fenêtre de terminal et définissez `CUDA_VISIBLE_DEVICES` sur `0` (`CUDA_VISIBLE_DEVICES=0`). Remplacez `sweep_ID` dans l’exemple ci-dessous par l’ID du sweep W&amp;B renvoyé lorsque vous avez initialisé un sweep W&amp;B :
+
+Terminal 1
+
+```bash
+CUDA_VISIBLE_DEVICES=0 wandb agent sweep_ID
+```
+
+Ouvrez une deuxième fenêtre de terminal. Définissez `CUDA_VISIBLE_DEVICES` sur `1` (`CUDA_VISIBLE_DEVICES=1`). Collez le même ID de sweep W&amp;B dans le `sweep_ID` mentionné dans l’extrait de code suivant :
+
+Terminal 2
+
+```bash
+CUDA_VISIBLE_DEVICES=1 wandb agent sweep_ID
+```
