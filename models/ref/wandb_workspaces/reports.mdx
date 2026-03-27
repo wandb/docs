@@ -36,8 +36,6 @@ report.save()
 
 
 
-
-
 ## <kbd>class</kbd> `BarPlot`
 A panel object that shows a 2D bar plot.
 
@@ -909,6 +907,46 @@ This will also delete any draft views that reference this report.
 
 
 
+### <kbd>method</kbd> `disable_share_link`
+
+```python
+disable_share_link() → bool
+```
+
+Disable the "anyone with link can view" share link for this report.
+
+Revokes all active public access tokens for the report.
+
+
+
+**Returns:**
+
+ - `bool`:  True if link(s) were revoked, False if no active link existed.
+
+---
+
+
+
+### <kbd>method</kbd> `enable_share_link`
+
+```python
+enable_share_link() → str
+```
+
+Enable "anyone with link can view" sharing for this report.
+
+Creates a public access token for the report. If a share link already exists, returns the existing link.
+
+
+
+**Returns:**
+
+ - `str`:  The magic link URL that can be shared.
+
+---
+
+
+
 ### <kbd>classmethod</kbd> `from_url`
 
 ```python
@@ -923,6 +961,20 @@ Load in the report into current environment. Pass in the URL where the report is
 
  - `url` (str):  The URL where the report is hosted.
  - `as_model` (bool):  If True, return the model object instead of the Report object.  By default, set to `False`.
+
+---
+
+
+
+### <kbd>method</kbd> `get_share_url`
+
+```python
+get_share_url() → Optional[str]
+```
+
+Fetch the magic link URL for this report, or None if sharing is not enabled.
+
+Makes a network call to check for active access tokens. Returns the report URL with an access token appended, allowing anyone with the link to view the report even if the project is private.
 
 ---
 
@@ -1013,7 +1065,7 @@ A set of runs to display in a panel grid.
  - `query` (str):  A query string to filter runs.
  - `filters` (Union[str, LList[expr.FilterExpr]]):  Filters to apply to runs. Can be:
         - A string expression: e.g., "Config('lr') = 0.001 and State = 'finished'"
- - `Supports operators`:  ``=`` , ``==`` , ``!=`` , ``<`` , ``>`` , ``<=`` , ``>=`` , ``in`` , ``not in``
+ - `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
         - A list of FilterExpr objects: e.g., [expr.Config('lr') == 0.001]
  - `groupby` (LList[str]):  A list of metric names to group by. Supported formats are:
         - "group" or "run.group" to group by a run attribute
