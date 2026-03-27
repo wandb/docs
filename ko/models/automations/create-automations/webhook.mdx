@@ -311,8 +311,7 @@ PAYLOAD='{"key1": "value1", "key2": "value2"}'
 # 보안을 위해, Wandb는 페이로드와 webhook에 연결된 
 # 공유 비밀 키로부터 HMAC SHA-256 알고리즘을 사용하여 
 # 계산된 X-Wandb-Signature를 헤더에 포함합니다.
-SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst \
--sha256 -hmac "$SECRET" -binary | base64)
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')
 
 # cURL 요청 실행
 curl -X POST \
