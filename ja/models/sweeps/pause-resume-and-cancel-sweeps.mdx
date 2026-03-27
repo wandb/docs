@@ -50,7 +50,7 @@ wandb sweep --stop entity/project/sweep_ID
   ### sweep をキャンセルする
 </div>
 
-sweep をキャンセルすると、実行中のすべての run が即座に強制終了され、新しい run の作成も停止します。これは既存の run を強制終了する唯一の sweep コマンドです。sweep をキャンセルするには [`wandb sweep --cancel`](/ja/models/ref/cli/wandb-sweep) コマンドを使用します。キャンセルしたい sweep の ID を指定してください。
+sweep をキャンセルすると、実行中のすべての run が即座に強制終了され、新しい run の作成も停止します。これは既存の run を強制終了する唯一の sweep コマンドです。Runs は突然終了されるため、実行中のプロセスはユーザー定義のシグナル ハンドラーを実行する機会がありません。sweep をキャンセルするには [`wandb sweep --cancel`](/ja/models/ref/cli/wandb-sweep) コマンドを使用します。キャンセルしたい sweep の ID を指定してください。シグナルと sweep run の詳細については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
 
 ```bash
 wandb sweep --cancel entity/project/sweep_ID

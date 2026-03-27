@@ -108,22 +108,24 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 </Note>
 
 <div id="resume-preemptible-sweeps-runs">
-  ## プリエンプト可能な Sweeps の実行を再開する
+  ## プリエンプト可能な Sweeps の run を再開する
 </div>
 
-中断された [sweep](/ja/models/sweeps/) の実行を自動的にキューに入れ直します。これは、プリエンプト可能なキュー内の SLURM ジョブ、EC2 スポットインスタンス、Google Cloud の プリエンプト可能 VM など、プリエンプションの対象となるコンピュート環境で sweep エージェントを実行する場合に特に便利です。
+プリエンプションを正しく処理すると、中断された [sweep](/ja/models/sweeps/) の run は自動的にキューに入れ直され、別のエージェントが取得できるようになります。この方法は、sweep エージェントがプリエンプト可能な環境 (たとえば、プリエンプト可能なキュー内の SLURM ジョブ、EC2 Spot インスタンス、Google Cloud のプリエンプト可能 VM) で実行されている場合に特に有効です。
 
-[`mark_preempting`](/ja/models/ref/python/experiments/run#mark_preempting) 関数を使用すると、中断された sweep の実行を自動的にキューに入れ直すことができます。例えば、次のようにします。
+以下の動作は、[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使って sweep エージェントを実行する場合に適用されます。この場合、トレーニングプログラムは **サブプロセス** として起動されます。一方、Python API の [`wandb.agent()`](/ja/models/ref/python/functions/agent) のみを使用する場合には、完全には当てはまりません。この経路では、トレーニング `function` は別プロセスではなくスレッド内で実行されるため、OS シグナルの配信と転送の動作が CLI エージェントのモデルとは一致しないためです。
 
-```python
-with wandb.init() as run:
-    run.mark_preempting()
-```
+**推奨パターン:** スケジューラーまたはプラットフォームが使用するプリエンプションシグナル (たとえば `SIGUSR1` や `SIGTERM`) に対するシグナルハンドラーを登録してください。ハンドラー内では、run がアクティブな場合に [`mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出し、必要なクリーンアップ (チェックポイントの保存など) を行ったうえで、非ゼロのコードで終了します (シグナルによる終了では、`128 + signum` を使うのが一般的な慣例です) 。`wandb.init()` の直後に、無条件で `mark_preempting()` をすぐ呼び出さないでください。そうすると、コードの bug を含むあらゆる失敗がプリエンプションとしてマークされ、run が繰り返しキューに入れ直される可能性があります。
 
-次の表は、sweep の実行の終了ステータスに基づいて W&amp;B が実行をどのように処理するかを示しています。
+実行可能な例、CLI エージェントでの `--forward-signals`、および `mark_preempting()` のさまざまな使用方法をまとめた完全な Reference 表については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
 
-|Status| Behavior |
-|------| ---------|
-|Status code 0| 実行は正常に終了したと見なされ、キューに入れ直されません。 |
-|Nonzero status| W&amp;B は自動的に、その実行を sweep に関連付けられた実行キューに追加します。|
-|No status| 実行は sweep の実行キューに追加されます。Sweep エージェントは、キューが空になるまで実行キューから実行を取り出します。キューが空になると、sweep キューは sweep の検索アルゴリズムに基づいて新しい実行の生成を再開します。|
+このパターンに従うと、W&amp;B は run の状態をおおむね次のように記録します。
+
+| シナリオ                                                                                                       | Run の状態                                        |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| run が終了コード 0 で正常に完了する                                                                                      | FINISHED                                       |
+| run が非ゼロの終了コードで失敗する                                                                                        | FAILED                                         |
+| run が未処理のシグナル (たとえば `SIGKILL`) を受信する                                                                       | 約 5 分後に CRASHED                                |
+| run が処理されたプリエンプションシグナル (たとえば `SIGTERM` または `SIGUSR1`) を受信し、ハンドラーが `mark_preempting()` を呼び出して、プロセスが非ゼロで終了する | PREEMPTED。run は次のエージェント request に備えてキューに入れられます |
+
+Sweep エージェントは、sweep が検索アルゴリズムに基づいて新しいハイパーパラメーターの組み合わせを生成する前に、run キューを先に処理します。キューが空になると、sweep は通常のスケジューリングを再開します。

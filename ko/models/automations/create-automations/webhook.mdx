@@ -297,37 +297,37 @@ import EnterpriseCloudOnly from "/snippets/ko/_includes/enterprise-cloud-only.md
 </Tabs>
 
 <div id="troubleshoot-your-webhook">
-  ## 웹후크 문제 해결하기
+  ## 웹훅 문제 해결하기
 </div>
 
-W&amp;B App UI를 사용해 대화형으로, 또는 Bash 스크립트를 사용해 프로그래밍 방식으로 웹후크를 문제 해결할 수 있습니다. 새 웹후크를 생성할 때나 기존 웹후크를 수정할 때 웹후크를 점검할 수 있습니다.
+W&amp;B App UI를 사용해 대화형으로, 또는 Bash 스크립트를 사용해 프로그래밍 방식으로 웹훅를 문제 해결할 수 있습니다. 새 웹훅를 생성할 때나 기존 웹훅를 수정할 때 웹훅를 점검할 수 있습니다.
 
 W&amp;B에서 `POST` 요청에 사용하는 포맷에 대한 자세한 내용은 **Bash script** 탭을 참조하세요.
 
 <Tabs>
   <Tab title="W&B App UI">
-    팀 관리자는 W&amp;B App UI를 사용해 웹후크를 대화형으로 테스트할 수 있습니다.
+    팀 관리자는 W&amp;B App UI를 사용해 웹훅를 대화형으로 테스트할 수 있습니다.
 
     1. W&amp;B Team Settings 페이지로 이동합니다.
     2. **Webhooks** 섹션으로 스크롤합니다.
-    3. 웹후크 이름 옆의 가로 점 세 개(미트볼 아이콘)를 클릭합니다.
+    3. 웹훅 이름 옆의 가로 점 세 개(미트볼 아이콘)를 클릭합니다.
     4. **Test**를 선택합니다.
     5. 나타나는 UI 패널에서 표시된 필드에 `POST` 요청을 붙여넣습니다.
        <Frame>
-         <img src="/images/models/webhook_ui.png" alt="웹후크 페이로드를 테스트하는 데모" />
+         <img src="/images/models/webhook_ui.png" alt="웹훅 페이로드를 테스트하는 데모" />
        </Frame>
     6. **Test webhook**을 클릭합니다. 그러면 W&amp;B App UI 내에서 엔드포인트로부터의 응답을 W&amp;B가 표시합니다.
        <Frame>
-         <img src="/images/models/webhook_ui_testing.gif" alt="웹후크를 테스트하는 데모" />
+         <img src="/images/models/webhook_ui_testing.gif" alt="웹훅를 테스트하는 데모" />
        </Frame>
 
     데모를 보려면 [Testing Webhooks in W&amp;B](https://www.youtube.com/watch?v=bl44fDpMGJw\&ab_channel=Weights%26Biases) 영상을 참고하세요.
   </Tab>
 
   <Tab title="Bash script">
-    이 셸 스크립트는 웹후크가 트리거될 때 W&amp;B가 웹후크 자동화로 보내는 요청과 유사한 `POST` 요청을 생성하는 한 가지 방법을 보여줍니다.
+    이 셸 스크립트는 웹훅가 트리거될 때 W&amp;B가 웹훅 자동화로 보내는 요청과 유사한 `POST` 요청을 생성하는 한 가지 방법을 보여줍니다.
 
-    아래 코드를 셸 스크립트에 복사해 붙여넣어 웹후크를 문제 해결하세요. 다음 값은 직접 지정해야 합니다:
+    아래 코드를 셸 스크립트에 복사해 붙여넣어 웹훅를 문제 해결하세요. 다음 값은 직접 지정해야 합니다:
 
     * `ACCESS_TOKEN`
     * `SECRET`

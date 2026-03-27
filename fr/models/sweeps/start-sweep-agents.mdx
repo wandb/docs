@@ -35,6 +35,8 @@ Où :
     ```bash
     wandb agent sweep_id
     ```
+
+    Pour un arrêt propre lorsque vous interrompez l’agent (par exemple avec Ctrl+C), utilisez `wandb agent --forward-signals sweep_id` afin que le run en cours reçoive le signal et puisse s’arrêter proprement. Voir [Gestion des signaux et runs de balayage](/fr/models/sweeps/signal-handling-sweep-runs) pour plus de détails.
   </Tab>
 
   <Tab title="Script Python ou notebook">
@@ -45,6 +47,8 @@ Où :
     ```python
     wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
     ```
+
+    Le transfert des signaux de l’agent vers le run d’entraînement n’est pris en charge que lorsque vous utilisez la CLI (`wandb agent --forward-signals`). Il n’est pas pris en charge pour `wandb.agent()` en Python, car la fonction d’entraînement s’exécute dans un thread, et non comme un processus enfant. Voir [Gestion des signaux et runs de balayage](/fr/models/sweeps/signal-handling-sweep-runs) pour plus de détails.
 
     Voir [l’onglet Script Python ou notebook](/fr/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) dans Add W&amp;B to your code pour un exemple de configuration de votre script d’entraînement si vous utilisez cette méthode.
 

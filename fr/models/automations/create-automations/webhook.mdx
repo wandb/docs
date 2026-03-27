@@ -325,7 +325,7 @@ Pour plus de détails sur le format utilisé par W&amp;B pour la requête `POST`
   </Tab>
 
   <Tab title="Script Bash">
-    Ce script shell montre une méthode permettant de générer une requête `POST` similaire à celle que W&amp;B envoie à l’automatisation de votre webhook lorsqu’elle est déclenchée.
+    Ce script shell montre une méthode permettant de générer une requête `POST` similaire à celle que W&amp;B envoie à l’automatisation webhook lorsqu’elle est déclenchée.
 
     Copiez-collez le code ci-dessous dans un script shell pour dépanner votre webhook. Indiquez vos propres valeurs pour :
 
@@ -341,25 +341,23 @@ Pour plus de détails sur le format utilisé par W&amp;B pour la requête `POST`
     ACCESS_TOKEN="your_api_key"
     SECRET="your_api_secret"
 
-    # Les données que vous souhaitez envoyer (par exemple, au format JSON 
-    format)
+    # URL du point de terminaison de votre webhook
+    API_ENDPOINT="https://your.webhook.endpoint/path"
+
+    # Les données que vous souhaitez envoyer (par exemple, au format JSON)
     PAYLOAD='{"key1": "value1", "key2": "value2"}'
 
-    # Générer la signature HMAC
-    # Pour des raisons de sécurité, W&B inclut la 
-    X-Wandb-Signature dans l’en-tête, calculée
-    # à partir de la charge utile et de la clé secrète partagée 
-    associée au webhook
-    # à l’aide de l’algorithme HMAC avec SHA-256.
-    SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst 
-    -sha256 -hmac "$SECRET" -binary | base64)
+    # Générer la signature HMAC. Pour des raisons de sécurité, W&B inclut le
+    # header X-Wandb-Signature calculé à partir de la charge utile et du secret partagé
+    # associé au webhook à l’aide de HMAC avec SHA-256.
+    SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')
 
     # Effectuer la requête cURL
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer $ACCESS_TOKEN" \
       -H "X-Wandb-Signature: $SIGNATURE" \
-      -d "$PAYLOAD" API_ENDPOINT
+      -d "$PAYLOAD" "$API_ENDPOINT"
     ```
   </Tab>
 </Tabs>
