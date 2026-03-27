@@ -304,6 +304,9 @@ webhook 문제를 해결하려면 아래 코드를 쉘 스크립트에 복사하
 ACCESS_TOKEN="your_api_key"
 SECRET="your_api_secret"
 
+# webhook 엔드포인트 URL
+API_ENDPOINT="https://your.webhook.endpoint/path"
+
 # 전송하려는 데이터 (예: JSON 형식)
 PAYLOAD='{"key1": "value1", "key2": "value2"}'
 
@@ -311,15 +314,14 @@ PAYLOAD='{"key1": "value1", "key2": "value2"}'
 # 보안을 위해, Wandb는 페이로드와 webhook에 연결된 
 # 공유 비밀 키로부터 HMAC SHA-256 알고리즘을 사용하여 
 # 계산된 X-Wandb-Signature를 헤더에 포함합니다.
-SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst \
--sha256 -hmac "$SECRET" -binary | base64)
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')
 
 # cURL 요청 실행
 curl -X POST \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "X-Wandb-Signature: $SIGNATURE" \
-  -d "$PAYLOAD" API_ENDPOINT
+  -d "$PAYLOAD" "$API_ENDPOINT"
 ```
 </Tab>
 </Tabs>
