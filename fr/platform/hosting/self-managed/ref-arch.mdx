@@ -53,12 +53,12 @@ La couche de stockage se compose d’une base de données MySQL et d’un stocka
 
 ### Kubernetes
 
-L’application W&amp;B Server est déployée sous la forme d’un [opérateur Kubernetes](/fr/platform/hosting/operator/) qui déploie plusieurs pods. C’est pourquoi W&amp;B nécessite un cluster Kubernetes avec :
+L’application W&amp;B Server est déployée sous la forme d’un [opérateur Kubernetes](/fr/platform/hosting/self-managed/operator/) qui déploie plusieurs pods. C’est pourquoi W&amp;B nécessite un cluster Kubernetes avec :
 
 * Un contrôleur d’ingress entièrement configuré et opérationnel.
 * La capacité à provisionner des volumes persistants.
 
-W&amp;B prend en charge le déploiement sur des [clusters Kubernetes OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) dans des environnements cloud, sur site et isolés du réseau. Pour obtenir des instructions de configuration spécifiques, voir la [section OpenShift](/fr/platform/hosting/operator/#openshift-kubernetes-clusters) du guide de l’opérateur.
+W&amp;B prend en charge le déploiement sur des [clusters Kubernetes OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) dans des environnements cloud, sur site et isolés du réseau. Pour obtenir des instructions de configuration spécifiques, voir la [section OpenShift](/fr/platform/hosting/self-managed/operator/#openshift-kubernetes-clusters) du guide de l’opérateur.
 
 ### MySQL
 
@@ -77,7 +77,7 @@ Si vous choisissez de déployer une base de données MySQL autogérée, tenez co
   #### Création de la base de données MySQL
 </div>
 
-Pour savoir comment créer manuellement la base de données MySQL et l’utilisateur, voir la [section MySQL du guide bare metal](/fr/platform/hosting/self-managed/bare-metal/#mysql-database).
+Pour savoir comment créer manuellement la base de données MySQL et l’utilisateur, voir la [section MySQL du guide bare metal](/fr/platform/hosting/self-managed/operator/#mysql-database).
 
 <div id="mysql-configuration-parameters">
   #### Paramètres de configuration de MySQL
@@ -265,9 +265,9 @@ La méthode d’installation recommandée pour W&amp;B Autogéré consiste à ut
 
 Pour obtenir des instructions d’installation détaillées, voir :
 
-* [Exécuter le serveur W&amp;B sur Kubernetes (Operator)](/fr/platform/hosting/operator/) - Guide d’installation principal
-* [Déployer la plateforme W&amp;B sur site](/fr/platform/hosting/self-managed/bare-metal/) - Pour les considérations spécifiques aux centres de données/bare metal
-* [Opérateur Kubernetes pour les instances isolées du réseau](/fr/platform/hosting/self-managed/operator-airgapped/) - Pour les environnements déconnectés
+* [Exécuter le serveur W&amp;B sur Kubernetes (Operator)](/fr/platform/hosting/self-managed/operator/) - Guide d’installation principal
+* [Déployer la plateforme W&amp;B sur site](/fr/platform/hosting/self-managed/operator/) - Pour les considérations spécifiques aux centres de données/bare metal
+* [Opérateur Kubernetes pour les instances isolées du réseau](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/) - Pour les environnements déconnectés
 
 <div id="infrastructure-provisioning">
   ### Provisionnement de l’infrastructure

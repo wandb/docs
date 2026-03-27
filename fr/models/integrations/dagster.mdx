@@ -34,7 +34,7 @@ Pour trouver votre entité W&amp;B, consultez la page de profil de cet utilisate
 </div>
 
 1. [Connectez-vous à W&amp;B](https://wandb.ai/login). Remarque : si vous utilisez W&amp;B Server, demandez à votre administrateur le nom d’hôte de l’instance.
-2. Créez une clé API dans [Paramètres utilisateur](https://wandb.ai/settings). Pour un environnement de production, nous vous recommandons d’utiliser un [compte de service](/fr/models/support/service_account_useful) comme propriétaire de cette clé.
+2. Créez une clé API dans [Paramètres utilisateur](https://wandb.ai/settings). Pour un environnement de production, nous vous recommandons d’utiliser un [compte de service](/fr/support/models/articles/what-is-a-service-account-and-why-is-it-) comme propriétaire de cette clé.
 3. Définissez une variable d’environnement pour cette clé API : `export WANDB_API_KEY=YOUR_KEY`.
 
 Les exemples suivants montrent où indiquer votre clé API dans votre code Dagster. Assurez-vous de spécifier votre entité et le nom de votre projet dans le dictionnaire imbriqué `wandb_config`. Vous pouvez transmettre des valeurs `wandb_config` différentes à différents ops/ressources si vous souhaitez utiliser un autre projet W&amp;B. Pour plus d’informations sur les clés que vous pouvez transmettre, voir la section Configuration ci-dessous.
