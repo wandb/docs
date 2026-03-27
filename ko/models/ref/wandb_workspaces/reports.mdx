@@ -537,6 +537,40 @@ W&amp;B에서 이 리포트를 삭제합니다.
 ***
 
 
+### <kbd>방법</kbd> `disable_share_link`
+
+```python
+disable_share_link() → bool
+```
+
+이 리포트의 &quot;링크가 있는 누구나 볼 수 있음&quot; 공유 링크를 비활성화합니다.
+
+리포트에 대해 현재 활성화된 모든 공개 액세스 토큰을 폐기합니다.
+
+**戻り値**
+
+* `bool`:  링크가 폐기된 경우 True, 활성 링크가 없으면 False입니다.
+
+***
+
+
+### <kbd>방법</kbd> `enable_share_link`
+
+```python
+enable_share_link() → str
+```
+
+이 리포트에 대해 &quot;링크가 있는 모든 사용자가 볼 수 있음&quot; 공유를 활성화합니다.
+
+리포트의 공개 액세스 토큰을 생성합니다. 공유 링크가 이미 있으면 기존 링크를 반환합니다.
+
+**戻り値:**
+
+* `str`: 공유할 수 있는 매직 링크 URL입니다.
+
+***
+
+
 ### <kbd>classmethod</kbd> `from_url`
 
 ```python
@@ -549,6 +583,19 @@ from_url(url: str, as_model: bool = False)
 
 * `url` (str):  리포트가 호스팅되어 있는 URL입니다.
 * `as_model` (bool):  `True`인 경우 Report 객체 대신 모델 객체를 반환합니다. 기본값은 `False`입니다.
+
+***
+
+
+### <kbd>방법</kbd> `get_share_url`
+
+```python
+get_share_url() → Optional[str]
+```
+
+이 리포트의 매직 링크 URL을 가져옵니다. 공유가 활성화되어 있지 않으면 `None`을 반환합니다.
+
+활성 상태의 액세스 토큰을 확인하기 위해 네트워크 요청을 보냅니다. 액세스 토큰이 추가된 리포트 URL을 반환하므로, 프로젝트가 비공개여도 링크를 가진 사람은 누구나 리포트를 볼 수 있습니다.
 
 ***
 
@@ -615,7 +662,7 @@ to_html(height: int = 1024, hidden: bool = False) → str
 * `query` (str):  run을 필터링하기 위한 쿼리 문자열입니다.
 * `filters` (Union[str, LList[expr.FilterExpr]]):  run에 적용할 필터입니다. 다음 중 하나가 될 수 있습니다.
   * 문자열 표현식: 예: &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`:  `=` , `==` , `!=` , `<` , `>` , `<=` , `>=` , `in` , `not in`
+* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
   * FilterExpr 객체 리스트: 예: [expr.Config(&#39;lr&#39;) == 0.001]
 * `groupby` (LList[str]):  그룹화할 메트릭 이름들의 리스트입니다. 지원되는 형식은 다음과 같습니다.
   * &quot;group&quot; 또는 &quot;run.group&quot;: run 속성으로 그룹화
