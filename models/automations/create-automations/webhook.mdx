@@ -315,8 +315,7 @@ X-Wandb-Signature in the header computed
 # from the payload and the shared secret key 
 associated with the webhook
 # using the HMAC with SHA-256 algorithm.
-SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst 
--sha256 -hmac "$SECRET" -binary | base64)
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')
 
 # Make the cURL request
 curl -X POST \

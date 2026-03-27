@@ -311,8 +311,7 @@ PAYLOAD='{"key1": "value1", "key2": "value2"}'
 # セキュリティのため、Wandbはペイロードとwebhookに関連付けられた
 # 共有シークレットキーから、HMAC SHA-256アルゴリズムを使用して計算された
 # X-Wandb-Signatureをヘッダーに含めます。
-SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst \
--sha256 -hmac "$SECRET" -binary | base64)
+SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')
 
 # cURLリクエストを実行
 curl -X POST \
