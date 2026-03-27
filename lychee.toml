@@ -57,6 +57,7 @@ exclude = [
   # Match full URLs to image directories on any domain (including preview sites)
   '(http|https)://[^/]+/images/',
   '(http|https)://kubeflow\.mysite\.com',
+  '(http|https)://.*\.?koog\.ai',
   '(http|https)://my-fake-url\.com',
   '(http|https)://my\.domain\.net',
   'https://wiki.python.org/moin/UsingPickle',
