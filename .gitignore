@@ -47,3 +47,8 @@ lychee/
 # Python
 __pycache__/
 *.pyc
+.env
+
+# Python virtual environments
+.venv/
+venv/
