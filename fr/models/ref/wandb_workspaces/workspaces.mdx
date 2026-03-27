@@ -15,6 +15,7 @@ Bibliothèque Python permettant d’utiliser l’API Workspace de W&amp;B par pr
 ```python
 # Comment importer
 import wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr
 
 # Exemple de création d'un espace de travail
 ws.Workspace(
@@ -59,7 +60,7 @@ Paramètres du runset (la barre latérale gauche contenant les runs) dans un esp
 * `filters` (Union[str, LList[expr.FilterExpr]]):  Une liste de filtres à appliquer au runset, ou une expression sous forme de chaîne.
   * Sous forme de liste : les filtres sont combinés avec AND. Voir FilterExpr pour plus d&#39;informations sur la création de filtres.
   * Sous forme de chaîne : utilisez des expressions de type Python, par ex., &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Prend en charge les opérateurs`:  `=` , `==` , `!=` , `<` , `>` , `<=` , `>=` , `in` , `not in`
+* `Prend en charge les opérateurs`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
 * `groupby` (LList[expr.MetricType]):  Une liste de métriques selon lesquelles regrouper les éléments du runset. Définissez-la sur `Metric`, `Summary`, `Config`, `Tags` ou `KeysInfo`.
 * `order` (LList[expr.Ordering]):  Une liste de métriques et l&#39;ordre de tri à appliquer au runset.
 * `run_settings` (Dict[str, RunSettings]):  Un dictionnaire de paramètres de run, où la clé est l&#39;ID du run et la valeur un objet RunSettings.

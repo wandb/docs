@@ -15,12 +15,13 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 ```python
 # 가져오기 방법
 import wandb_workspaces.workspaces as ws
+import wandb_workspaces.reports.v2 as wr
 
-# 워크스페이스 생성 예시
+# Workspace 생성 예시
 ws.Workspace(
      name="Example W&B Workspace",
-     entity="entity", # 워크스페이스를 소유하는 entity
-     project="project", # 워크스페이스와 연결된 프로젝트
+     entity="entity", # Workspace를 소유하는 entity
+     project="project", # Workspace와 연결된 프로젝트
      sections=[
          ws.Section(
              name="Validation Metrics",
@@ -52,7 +53,7 @@ runset 내 run에 대한 설정(왼쪽 사이드바).
 
 워크스페이스에서 runset(runs가 포함된 왼쪽 막대)에 대한 설정입니다.
 
-**Attributes:**
+**속성:**
 
 * `query` (str):  runset을 필터링하기 위한 쿼리(정규식 표현식일 수 있으며, 다음 매개변수를 참고).
 * `regex_query` (bool):  위의 query가 정규식 표현식인지 여부를 제어합니다. 기본값은 `False`입니다.
