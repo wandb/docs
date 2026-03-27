@@ -50,7 +50,7 @@ wandb sweep --stop entity/project/sweep_ID
   ### 스윕 취소하기
 </div>
 
-스윕을 취소하면 실행 중인 모든 run을 즉시 종료하고 새로운 run 생성을 중단합니다. 이 명령은 기존 run을 강제로 종료할 수 있는 유일한 스윕 명령입니다. 스윕을 취소하려면 [`wandb sweep --cancel`](/ko/models/ref/cli/wandb-sweep) 명령을 사용하세요. 취소하려는 스윕 ID를 지정하세요.
+스윕을 취소하면 실행 중인 모든 run을 즉시 종료하고 새로운 run 생성을 중단합니다. 이 명령은 기존 run을 강제로 종료할 수 있는 유일한 스윕 명령입니다. Runs는 갑작스럽게 종료되므로, 실행 중인 프로세스는 사용자 정의 시그널 핸들러를 실행할 기회가 없습니다. 스윕을 취소하려면 [`wandb sweep --cancel`](/ko/models/ref/cli/wandb-sweep) 명령을 사용하세요. 취소하려는 스윕 ID를 지정하세요. 시그널과 스윕 run에 대한 자세한 내용은 [Signal handling and sweep runs](/ko/models/sweeps/signal-handling-sweep-runs)을 참조하세요.
 
 ```bash
 wandb sweep --cancel entity/project/sweep_ID

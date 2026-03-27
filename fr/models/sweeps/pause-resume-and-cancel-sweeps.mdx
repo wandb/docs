@@ -50,7 +50,7 @@ wandb sweep --stop entity/project/sweep_ID
   ### Annuler un balayage
 </div>
 
-Annulez un balayage pour interrompre immédiatement tous les runs en cours et cesser de créer de nouveaux runs. Il s’agit de la seule commande de balayage qui met fin de force aux runs existants. Utilisez la commande [`wandb sweep --cancel`](/fr/models/ref/cli/wandb-sweep) pour annuler un balayage. Indiquez l’ID du balayage que vous souhaitez annuler.
+Annulez un balayage pour interrompre immédiatement tous les runs en cours et cesser de créer de nouveaux runs. Il s’agit de la seule commande de balayage qui met fin de force aux runs existants. Les runs sont interrompus brutalement ; les processus en cours n’ont pas la possibilité d’exécuter des gestionnaires de signal définis par l’utilisateur. Utilisez la commande [`wandb sweep --cancel`](/fr/models/ref/cli/wandb-sweep) pour annuler un balayage. Indiquez l’ID du balayage que vous souhaitez annuler. Pour en savoir plus sur les signaux et les runs de balayage, voir [Gestion des signaux et runs de balayage](/fr/models/sweeps/signal-handling-sweep-runs).
 
 ```bash
 wandb sweep --cancel entity/project/sweep_ID

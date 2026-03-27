@@ -108,22 +108,24 @@ Par exemple, supposons que vous exécutiez un script Python appelé `train.py` d
 </Note>
 
 <div id="resume-preemptible-sweeps-runs">
-  ## Reprendre les runs préemptibles de Sweeps
+  ## Reprendre des runs Sweeps préemptibles
 </div>
 
-Remettez automatiquement en file d’attente les runs [balayage](/fr/models/sweeps/) interrompus. Cela est particulièrement utile si vous exécutez un agent de balayage dans un environnement de calcul sujet à la préemption, comme un job SLURM dans une file d’attente préemptible, une instance Spot EC2 ou une VM préemptible Google Cloud.
+Lorsque vous gérez correctement la préemption, les runs de [sweep](/fr/models/sweeps/) interrompus peuvent être automatiquement remis en file d’attente afin qu’un autre agent puisse les récupérer. Cette approche est particulièrement utile lorsque l’agent de sweep s’exécute dans un environnement préemptible, comme un job SLURM dans une file d’attente préemptible, une instance EC2 Spot ou une VM préemptible Google Cloud.
 
-Utilisez la fonction [`mark_preempting`](/fr/models/ref/python/experiments/run#mark_preempting) pour remettre automatiquement en file d’attente les runs de balayage interrompus. Par exemple :
+Le comportement ci-dessous s’applique lorsque vous exécutez des agents de sweep avec la CLI [`wandb agent`](/fr/models/ref/cli/wandb-agent), qui démarre votre programme d’entraînement comme un **sous-processus**. Il ne s’applique pas entièrement lorsque vous utilisez uniquement l’API Python [`wandb.agent()`](/fr/models/ref/python/functions/agent), car dans ce cas, votre fonction d’entraînement s’exécute dans un thread plutôt que dans un processus distinct ; la réception et la propagation des signaux du système d’exploitation ne correspondent donc pas au modèle de l’agent CLI.
 
-```python
-with wandb.init() as run:
-    run.mark_preempting()
-```
+**Approche recommandée :** enregistrez un gestionnaire de signal pour le signal de préemption utilisé par votre ordonnanceur ou votre plateforme (par exemple `SIGUSR1` ou `SIGTERM`). Dans le gestionnaire, appelez [`mark_preempting()`](/fr/models/ref/python/experiments/run#mark_preempting) lorsqu’un run est actif, effectuez tout nettoyage nécessaire (par exemple, enregistrer un point de contrôle), puis quittez avec un code non nul (une convention courante est `128 + signum` pour une terminaison par signal). N’appelez **pas** `mark_preempting()` de manière inconditionnelle immédiatement après `wandb.init()`. Cela peut marquer chaque échec, y compris les bugs dans le code, comme une préemption et remettre le run en file d’attente à répétition.
 
-Le tableau suivant indique comment W&amp;B gère les runs en fonction du statut de sortie d’un run de balayage.
+Pour obtenir des exemples exécutables, des informations sur `--forward-signals` pour l’agent CLI et un tableau de référence complet sur les différents usages de `mark_preempting()`, voir [Gestion des signaux et runs de sweep](/fr/models/sweeps/signal-handling-sweep-runs).
 
-| Statut           | Comportement                                                                                                                                                                                                                                                           |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Code de statut 0 | Le run est considéré comme terminé avec succès et n’est pas remis en file d’attente.                                                                                                                                                                                   |
-| Statut non nul   | W&amp;B ajoute automatiquement le run à une file d’attente de runs associée au balayage.                                                                                                                                                                               |
-| Aucun statut     | Le run est ajouté à la file d’attente de runs du balayage. Les agents de balayage consomment les runs de la file d’attente jusqu’à ce qu’elle soit vide. Une fois vide, le balayage recommence à générer de nouveaux runs selon l’algorithme de recherche du balayage. |
+Lorsque vous suivez cette approche, W&amp;B enregistre l’état du run approximativement comme suit :
+
+| Scénario                                                                                                                                                                      | État du run                                                                           |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Le run se termine normalement avec le code de sortie 0                                                                                                                        | FINISHED                                                                              |
+| Le run échoue avec un code de sortie non nul                                                                                                                                  | FAILED                                                                                |
+| Le run reçoit un signal non géré (par exemple `SIGKILL`)                                                                                                                      | CRASHED après environ cinq minutes                                                    |
+| Le run reçoit un signal de préemption géré (par exemple `SIGTERM` ou `SIGUSR1`), le gestionnaire appelle `mark_preempting()`, et le processus se termine avec un code non nul | PREEMPTED ; le run est placé dans la file d’attente pour la prochaine requête d’agent |
+
+Les agents de sweep vident la file d’attente des runs avant que le sweep ne génère de nouvelles combinaisons d’hyperparamètres à partir de l’algorithme de recherche. Une fois la file d’attente vide, le sweep reprend son ordonnancement normal.

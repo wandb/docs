@@ -35,9 +35,11 @@ entity/project/sweep_ID
     ```bash
     wandb agent sweep_id
     ```
+
+    エージェントを中断したとき (たとえば Ctrl+C) に正常にシャットダウンするには、`wandb agent --forward-signals sweep_id` を使用して、現在の run がシグナルを受け取り正常にシャットダウンできるようにします。詳細は [Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
   </Tab>
 
-  <Tab title="Python スクリプトまたはノートブック">
+  <Tab title="Python script or notebook">
     [`wandb.agent()`](/ja/models/ref/python/functions/agent) を使って sweep を開始します。sweep を初期化したときに W&amp;B が返した sweep ID と、トレーニングスクリプトへのエントリーポイントとなる関数名を指定します。
 
     以下のコードスニペットをコピー＆ペーストし、`<sweep_id>` を自分の sweep ID に、`<function_name>` を自分のトレーニング関数名に置き換えてください:
@@ -45,6 +47,8 @@ entity/project/sweep_ID
     ```python
     wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
     ```
+
+    エージェントからトレーニング run へのシグナル転送は、CLI (`wandb agent --forward-signals`) を使用する場合にのみサポートされます。Python の `wandb.agent()` では、トレーニング関数が子プロセスではなくスレッドで実行されるため、サポートされていません。詳細は [Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
 
     この方法を使う場合のトレーニングスクリプトのセットアップ例については、「Add W&amp;B to your code」の [Python script or notebook タブ](/ja/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) を参照してください。
 

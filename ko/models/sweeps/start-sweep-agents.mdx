@@ -35,9 +35,11 @@ entity/project/sweep_ID
     ```bash
     wandb agent sweep_id
     ```
+
+    에이전트를 중단할 때(예: Ctrl+C) 정상적으로 종료하려면 `wandb agent --forward-signals sweep_id`를 사용하여 현재 run이 신호를 받아 깔끔하게 종료되도록 하십시오. 자세한 내용은 [Signal handling and sweep runs](/ko/models/sweeps/signal-handling-sweep-runs)를 참고하십시오.
   </Tab>
 
-  <Tab title="Python script or notebook">
+  <Tab title="Python 스크립트 또는 노트북">
     [`wandb.agent()`](/ko/models/ref/python/functions/agent)을 사용해 스윕을 시작합니다. 스윕을 초기화할 때 W&amp;B가 반환한 스윕 ID와, 트레이닝 스크립트의 엔트리포인트가 되는 함수 이름을 함께 지정하십시오.
 
     아래 코드 스니펫을 복사해 붙여넣고 `<sweep_id>`를 스윕 ID로, `<function_name>`을 트레이닝 함수 이름으로 바꾸십시오:
@@ -46,7 +48,9 @@ entity/project/sweep_ID
     wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
     ```
 
-    이 방법을 사용하는 경우, 트레이닝 스크립트를 어떻게 설정하는지에 대한 예시는 코드에 W&amp;B를 추가하기 문서의 [Python script or notebook 탭](/ko/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook)을 참고하십시오.
+    에이전트에서 트레이닝 run으로 신호를 전달하는 기능은 CLI(`wandb agent --forward-signals`)를 사용할 때만 지원됩니다. Python의 `wandb.agent()`에서는 트레이닝 함수가 하위 프로세스가 아니라 스레드에서 실행되므로 지원되지 않습니다. 자세한 내용은 [Signal handling and sweep runs](/ko/models/sweeps/signal-handling-sweep-runs)를 참고하십시오.
+
+    이 방법을 사용하는 경우, 트레이닝 스크립트를 어떻게 설정하는지에 대한 예시는 코드에 W&amp;B를 추가하기 문서의 [Python 스크립트 또는 노트북 탭](/ko/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook)을 참고하십시오.
 
     <Warning>
       **Multiprocessing**
