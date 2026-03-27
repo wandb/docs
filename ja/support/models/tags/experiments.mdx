@@ -1,7 +1,8 @@
 ---
 title: "Experiments"
 tag: "36"
-generator: knowledgebase-nav
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="run 名を run ID に設定するだけでよいですか？" href="/ja/support/models/articles/can-i-just-set-the-run-name-to-the-run-i" arrow="true" horizontal>
@@ -20,15 +21,15 @@ generator: knowledgebase-nav
   はい。W&amp;B は multiprocessing ライブラリを使用します。次のようなエラーメッセージは、問題の可能性があることを示しています: これを解決するには ...
 </Card>
 
-<Card title="ログはトレーニングをブロックしますか？" href="/ja/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
-  「logging function は lazy ですか？ローカルでコードを実行している間、結果をサーバーに送信するためにネットワークに依存したくありません ...
+<Card title="ログすることはトレーニングをブロックしますか？" href="/ja/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
+  「ログする function は lazy ですか？ローカルでコードを実行している間、結果をサーバーに送信するためにネットワークに依存したくありません ...
 </Card>
 
 <Card title="このツールはトレーニングデータをトラッキングまたは保存しますか？" href="/ja/support/models/articles/does-your-tool-track-or-store-training-d" arrow="true" horizontal>
   データセットをトレーニング run に関連付けるには、SHA または一意の識別子を wandb.Run.config.update(...) に渡します。W&amp;B は ... を保存しません
 </Card>
 
-<Card title="Runs にログされたデータに直接プログラムからアクセスするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-access-the-data-logged-to-my-r" arrow="true" horizontal>
+<Card title="run にログされたデータに直接プログラムからアクセスするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-access-the-data-logged-to-my-r" arrow="true" horizontal>
   history object は、wandb.log でログされたメトリクスをトラッキングします。API を使用して history object にアクセスします:
 </Card>
 

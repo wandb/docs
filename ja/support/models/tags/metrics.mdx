@@ -1,7 +1,8 @@
 ---
 title: "メトリクス"
 tag: "16"
-generator: knowledgebase-nav
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="メトリクスだけをログして、コードやデータセットの例はログしないようにできますか？" href="/ja/support/models/articles/can-i-just-log-metrics-no-code-or-datase" arrow="true" horizontal>
@@ -61,7 +62,7 @@ generator: knowledgebase-nav
 </Card>
 
 <Card title="グラフに何も表示されないのはなぜですか？" href="/ja/support/models/articles/why-is-nothing-showing-up-in-my-graphs" arrow="true" horizontal>
-  「No visualization data logged yet」というメッセージが表示される場合、script が最初の wandb.log Call を実行していません。これは ...
+  「No visualization data logged yet」というメッセージが表示される場合、スクリプトで最初の wandb.log の Call がまだ実行されていません。これは ...
 </Card>
 
 <Card title="同じメトリクスが複数回表示されるのはなぜですか？" href="/ja/support/models/articles/why-is-the-same-metric-appearing-more-th" arrow="true" horizontal>
