@@ -108,22 +108,24 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 </Note>
 
 <div id="resume-preemptible-sweeps-runs">
-  ## 선점형 Sweeps run 재개
+  ## 선점형 Sweeps Runs 재개하기
 </div>
 
-중단된 [sweep](/ko/models/sweeps/) run을 자동으로 다시 큐에 넣습니다. 이는 선점이 발생할 수 있는 컴퓨팅 환경(예: 선점형 큐의 SLURM 작업, EC2 스팟 인스턴스, Google Cloud 선점형 VM)에서 sweep 에이전트를 실행하는 경우에 특히 유용합니다.
+선점을 올바르게 처리하면 중단된 [스윕](/ko/models/sweeps/) Runs를 자동으로 다시 큐에 넣어 다른 에이전트가 이어서 처리하도록 할 수 있습니다. 이 패턴은 스윕 에이전트가 선점형 환경(예: 선점형 큐의 SLURM 작업, EC2 Spot 인스턴스 또는 Google Cloud 선점형 VM)에서 실행될 때 특히 유용합니다.
 
-중단된 sweep run을 자동으로 다시 큐에 넣으려면 [`mark_preempting`](/ko/models/ref/python/experiments/run#mark_preempting) 함수를 사용하세요. 예를 들면 다음과 같습니다.
+아래 동작은 [`wandb agent`](/ko/models/ref/cli/wandb-agent) CLI로 sweep 에이전트를 실행할 때 적용됩니다. 이 방식은 트레이닝 프로그램을 **subprocess**로 시작합니다. 반면 Python API [`wandb.agent()`](/ko/models/ref/python/functions/agent)만 사용하는 경우에는 완전히 적용되지 않습니다. 이 경로에서는 트레이닝 함수가 별도 프로세스가 아니라 스레드에서 실행되므로, OS 신호 전달 및 포워딩 방식이 CLI 에이전트 모델과 일치하지 않기 때문입니다.
 
-```python
-with wandb.init() as run:
-    run.mark_preempting()
-```
+**권장 패턴:** 스케줄러나 플랫폼에서 사용하는 선점 신호(예: `SIGUSR1` 또는 `SIGTERM`)에 대한 signal handler를 등록하세요. 핸들러에서 Run이 활성 상태일 때 [`mark_preempting()`](/ko/models/ref/python/experiments/run#mark_preempting)을 호출하고, 필요한 cleanup(예: 체크포인트 저장)을 수행한 뒤 0이 아닌 종료 코드로 프로세스를 종료하세요(일반적으로 신호로 종료될 때는 `128 + signum` 규칙을 사용합니다). `wandb.init()` 직후에 조건 없이 `mark_preempting()`을 호출하지 **마세요**. 그렇게 하면 코드 bug를 포함한 모든 실패가 선점으로 표시되어 Run이 반복해서 다시 큐에 들어갈 수 있습니다.
 
-다음 표는 sweep run의 종료 상태에 따라 W&amp;B가 run을 어떻게 처리하는지 설명합니다.
+실행 가능한 예제, CLI 에이전트의 `--forward-signals`, 그리고 `mark_preempting()`의 다양한 사용 방식에 대한 전체 레퍼런스 표는 [Signal handling and sweep runs](/ko/models/sweeps/signal-handling-sweep-runs)을 참조하세요.
 
-|Status| Behavior |
-|------| ---------|
-|Status code 0| run이 성공적으로 종료된 것으로 간주되며 다시 큐에 들어가지 않습니다.|
-|Nonzero status| W&amp;B는 해당 run을 sweep에 연결된 run 큐에 자동으로 추가합니다.|
-|No status| run이 sweep run 큐에 추가됩니다. Sweep 에이전트는 큐가 빌 때까지 run 큐에서 run을 가져옵니다. 큐가 비면, sweep 큐는 sweep 검색 알고리즘을 기반으로 새 run 생성을 재개합니다.|
+이 패턴을 따르면 W&amp;B는 대략 다음과 같이 Run 상태를 기록합니다.
+
+| Scenario                                                                                           | Run state                                  |
+| -------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Run이 종료 코드 0으로 정상 완료됨                                                                              | FINISHED                                   |
+| Run이 0이 아닌 종료 코드로 실패함                                                                              | FAILED                                     |
+| Run이 처리되지 않은 신호(예: `SIGKILL`)를 받음                                                                  | 약 5분 후 CRASHED                             |
+| Run이 처리된 선점 신호(예: `SIGTERM` 또는 `SIGUSR1`)를 받고, 핸들러가 `mark_preempting()`을 호출한 뒤 프로세스가 0이 아닌 코드로 종료됨 | PREEMPTED; Run이 다음 에이전트 Request를 위해 큐에 들어감 |
+
+Sweep 에이전트는 스윕이 검색 알고리즘에서 새 하이퍼파라미터 조합을 생성하기 전에 먼저 Run 큐를 비웁니다. 큐가 비면 스윕은 정상 스케줄링을 재개합니다.
