@@ -1,7 +1,7 @@
 ---
 title: "サポート対象の W&B Server リリース"
-description: "新機能、改善点、バグ修正、アップグレード手順を含む W&B Server のリリースノートを参照します。"
-sidebarTitle: "サポート対象のリリース"
+description: "新機能、改善、バグ修正、アップグレード手順を含む W&B Server のリリースノートを確認できます。"
+sidebarTitle: "サポート対象リリース"
 rss: true
 ---
 
@@ -9,15 +9,76 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
 このページには、サポート対象の W&amp;B Server リリースのリリースノートが含まれています。
 
-* すでにサポート対象外となったリリースについては、[Archived Server releases](/ja/release-notes/server-releases-archived) を参照してください。
+* サポートが終了したリリースについては、[Archived Server releases](/ja/release-notes/server-releases-archived) を参照してください。
 * W&amp;B Server のリリーススケジュールとサポートの詳細については、[W&amp;B Server release policies](/ja/release-notes/release-policies) を参照してください。
 
 <EolReminder />
 
-<Update label="v0.78.2" description="2026年3月10日">
+<Update label="v0.79.0" description="2026年3月24日">
+  W&amp;B Server 0.79.0 では、画像のズームとパン、サービスアカウントと APIキー の管理機能の改善、ならびにパフォーマンス向上が追加されました。Inference では MiniMax M2.5 と MiniMaxAI M2.5 モデルが追加されています。Weave monitors はすべての operation に対するスコアリングをサポートするようになり、Weave UI には prompt tags と aliases の管理強化、Claude エージェント向けの chat view、絵文字フィードバックリアクションやメモ内容によるフィルタリングなどが追加されました。
+
+  ## サポートとサポート終了
+
+  * W&amp;B Server v0.67 はサポート終了となりました。
+
+  [Release policies and processes](/ja/release-notes/release-policies) を参照してください。サポートが必要な場合や質問がある場合は、[support](mailto:support@wandb.com) にお問い合わせください。
+
+  ## セキュリティ
+
+  * サービスアカウントの作成時に、そのアカウント用の APIキー を作成する手順が自動的に案内されるようになりました。
+  * W&amp;B App からサービスアカウントまたは APIキー を削除する際に、確認が必須になりました。
+  * SQL インジェクションの防止に役立てるため、バックエンドでフィルター内の列名をエスケープするようになりました。
+  * [diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) を含むメールアドレスは、ユーザー登録またはログイン時にブロックされるようになりました。
+
+  ## 機能
+
+  * **画像をパンおよびズーム**して、W&amp;B の全画面画像モーダル内で細かな画像の詳細を直接確認できます。任意の画像を全画面で開いたら、次の操作を行います。
+
+    * UI コントロールまたはキーボードショートカットを使用して、ズームレベルの設定、100% へのリセット、または画面に収まるようズームできます。
+    * ズームイン時は、クリックしてドラッグするとパンできます。
+
+    <Frame>
+      ![全画面画像モーダルのパンとズームのコントロール](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)
+    </Frame>
+  * ピン留めされた runs と baseline runs では、[summary metric deltas](/ja/models/runs/compare-runs#summary-metric-deltas) によって、各 run が baseline と比べてどう違うかが表示されます。すばやく視覚的に把握できるよう semantic coloring を有効にするには、列の Metric directionality を設定します。この機能は一般提供になりました。
+    <Frame>
+      ![baseline と比較した runs table の summary metric deltas](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
+    </Frame>
+  * run selector と Runs list が強化されました。
+    * Git commit によるフィルタリングがサポートされました。
+    * 設定パラメーターを指定する runs で、`CONTAINS` operator がサポートされました。
+  * データベース負荷を軽減するため、プロジェクト fields に防御的 caching を追加しました。
+
+  ### Registry
+
+  * システム過負荷のリスクを軽減するため、アーティファクト作成に新しい rate limits を追加しました。
+
+  ### Weave
+
+  <Note>Weave を使用するデプロイでは、v0.78+ へのアップグレード前に Clickhouse v0.25.8+ が必要です。</Note>
+
+  * Weave で Claude エージェント向けの chat view がサポートされるようになりました。
+  * **Traces** ページと **Evaluations** ページで、メモ内容および絵文字フィードバックリアクションによるフィルタリングがサポートされるようになりました。
+  * **Assets** ページの **Prompts** タブで、prompt tags と aliases を管理できるようになりました。
+  * **Calls** ページと **Traces** ページの表で、列のドラッグ＆ドロップによる並べ替えがサポートされるようになりました。
+  * Weave monitors は、すべての operations にわたるスコアリングをサポートするようになりました。
+
   ## 修正
 
-  以前修正された重大なセキュリティ問題に関する修正のリグレッションを修正しました。この問題により、アーティファクトへの不正アクセスが可能になっていました。このリグレッションは v0.78.0 および v0.78.1 に存在します。これらのバージョンはインストールまたはアップグレードしないでください。代わりに、修正を含む v0.78.2 をインストールしてください。
+  * バックエンドのスムージングにおける浮動小数点の丸め誤差を修正しました。
+  * expression inputs への入力時にカーソルが飛んでしまうバグを修正しました。
+  * gallery mode で実サイズの画像が重なってしまうバグを修正しました。
+  * 長いキャプションがあるバウンディングボックスの位置ずれを修正しました。
+  * panel と hover overlay のドロップシャドウを削除しました。
+  * panel search の結果に custom charts が含まれるようになりました。
+</Update>
+
+<Update label="v0.78.2" description="2026年3月10日">
+  <Note>Weave を使用するデプロイでは、v0.78 へのアップグレード前に Clickhouse v0.25.8+ が必要です。</Note>
+
+  ## 修正
+
+  以前対処された重大なセキュリティ修正にリグレッションがあり、アーティファクトへの未承認アクセスが可能になる問題を修正しました。このリグレッションは v0.78.0 と v0.78.1 に存在します。これらのバージョンはインストールまたはアップグレードしないでください。代わりに、修正を含む v0.78.2 をインストールしてください。
 </Update>
 
 <Update label="v0.78.1" description="2026年3月5日">
@@ -33,12 +94,16 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.78.0" description="2026年3月3日">
-  W&amp;B Server 0.78.0 では、セキュリティとアクセスのデフォルト設定が強化され、Experiments を比較してコストをより効率的に管理するためのツールが追加されるなど、さまざまな改善が行われました。以下に例を示します：
+  W&amp;B Server 0.78.0 では、セキュリティとアクセスのデフォルト設定が強化され、Experiments を比較してコストをより効率的に管理するためのツールが追加されるなど、さまざまな改善が行われました。
+
+  <Note>
+    Weave を使用しているデプロイの場合、v0.78 にアップグレードする前に Clickhouse v0.25.8 以降が必要です。
+  </Note>
 
   * **Models** では、正規表現を使用して複数のメトリクスのプロットを効率的に作成し、重要な run をピン留めし、Experiments をベースラインと比較し、強化された Workspace テンプレートを使用して Workspace を効率化できます。
   * **Registry** には、強化された検索機能、再設計されたカード、よりわかりやすくレスポンシブなリネージグラフなどが備わっています。
   * **Weave** では、Project Overview ページの **Trace Analytics** ダッシュボードを使って、ボトルネックやコスト要因を特定できます。保存済みビューでは、カスタマイズした Traces、Evaluations、Leaderboards を利用できるようになりました。Weave Playground には、LoRA (Low-Rank Adaptation) と新しい モデル のサポートが追加されました。
-  * **推論** には新しいモデルが含まれています。
+  * **Inference** には新しいモデルが含まれています。
 
   <Warning>
     このリリースには、認可されていないユーザーがアーティファクトにアクセスできてしまう重大なセキュリティ上の問題があります。このバージョンはインストールまたはアップグレードしないでください。代わりに、修正を含む [v0.78.2](#v0-78-2) をインストールしてください。
@@ -54,7 +119,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   * W&amp;B 組織またはデプロイメントでは、Personal API Keys、ユーザーごとの組織レベルの APIキー、および Service Account ごとの APIキー が、それぞれ最大 100 個まで利用できるようになりました。
   * Enterprise プランでは、組織に [メンバーを招待](/ja/platform/hosting/iam/access-management/manage-organization#invite-a-user)すると、そのユーザーにはデフォルトで **Member** ロールが割り当てられます。その他のプランでは、デフォルトのロールは **Admin** です。
-  * 組織のメンバーではない新しいユーザーをチームに招待すると、その初期ロールは **メンバー** になります。
+  * 組織のメンバーではない新しいユーザーをチームに招待すると、その初期ロールは **Member** になります。
   * 組織またはチームに[招待](/ja/platform/hosting/iam/access-management/manage-organization#invite-a-user)されたユーザーについて、その初期ロールが招待テーブルに表示されるようになりました。
 
   ## 機能
@@ -64,7 +129,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     * 最大 6 個の run をピン留めして、Workspace 内と runs リストの先頭に表示されるようにします。ベースライン run がある場合は、そのベースラインが暗黙的にピン留めされているため、ピン留めできる run は最大 5 個です。
     * 比較の基準となる参照ポイントとして、ベースライン run を指定します。ベースライン run は常に Workspace 内と runs リストの先頭に表示されます。
 
-    Runs テーブルでは、サマリー メトリクスの差分が、各 run がベースラインとどう異なるかを示します。
+    Runs テーブルでは、サマリー メトリクスの差分 (プレビュー) が、各 run がベースラインとどう異なるかを示します。これは招待制でのみ利用できます。詳細については [mailto:support@wandb.com] までお問い合わせください。
 
     <Frame>
       ![ベースラインとの比較における Runs テーブル内のサマリーメトリクスの差分](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
@@ -76,7 +141,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
       ![折れ線グラフでスタイルを区別したベースライン run](/images/release-notes/v0-78-0/baseline-line-plot-styling.png)
     </Frame>
 
-  * 大量のメトリクスにまたがるパターンを素早く把握し、ワークスペース を効率的に整理するために、[複数メトリクスのパネルを一括で作成](/ja/models/app/features/panels/line-plot#multi-metric-line-plot) します。たとえば、勾配メトリクスをモデルの各レイヤー上に重ねて表示したり、特定のレイヤーを横に並べて配置したりできます。[デモ動画を見る](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166)。
+  * [複数メトリクスのパネルを一括で作成](/ja/models/app/features/panels/line-plot#multi-metric-line-plot) して、ワークスペース を素早く整理し、大量のメトリクス全体にまたがるパターンを見つけます。たとえば、勾配メトリクスをモデルの各レイヤー上に重ねて表示したり、特定のレイヤーを横に並べて配置したりできます。[デモ動画を見る](https://www.loom.com/embed/ebbb1ab3f858473cb24420bf3abf7166)。
 
   * [Workspace テンプレート](/ja/models/app/features/cascade-settings#workspace-layout-options) に新しい設定が追加されました。これにより、空のセクションを非表示にしたり、セクション内のパネルをアルファベット順に並べ替えたり、セクション内でのパネルの自動並べ替えの動作を調整したりできるようになりました。詳しくは、[Workspace レイアウトオプション](/ja/models/app/features/cascade-settings#workspace-layout-options) を参照してください。
 
@@ -99,7 +164,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
     * コレクション名をクリックして、そのアーティファクトのバージョンをすばやく表示できるようになりました。
     * 利便性向上のため、**Settings** ページから Registry にスターを付けられるようになりました。
 
-  ### 推論
+  ### Inference
 
   * モデル `Moonshot AI Kimi K2.5` が利用可能になりました。[Model Catalog](/ja/inference/models) を参照してください。
 
@@ -846,57 +911,4 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
   * 画像を Table にログしたときにキャプションが表示されないことがある不具合を修正しました。
   * スパースなメトリクスがパネルに表示されないことがある不具合を修正しました。
   * **Run Overview** ページでは、**Description** フィールドの名前が **Notes** になりました。
-</Update>
-
-<Update label="v0.67.0" description="2025年3月28日">
-  ## 機能
-
-  * Reports では、各パネル グリッドごとに run にカスタム表示名を設定できるようになりました。これにより、run の (しばしば長くて分かりにくい) トレーニング時の名前を、閲覧者にとってより意味のある名前に置き換えることができます。レポートはすべてのパネル グリッドでその名前を更新し、あなたが苦労して得た実験からの貴重な知見を、同僚に対して簡潔で読みやすい形で説明するのに役立ちます。元の run 名はプロジェクト内でそのまま保持されるため、この操作によって共同作業者への影響が生じることはありません。
-  * ワークスペースでパネルを展開すると、より広い表示領域を使うフルスクリーンモードで開くようになりました。このビューでは、折れ線グラフが最大 10,000 個のビンを使用して、より細かい粒度でレンダリングされます。run セレクターはパネルの横に表示され、そのパネルのコンテキスト内で run を簡単に切り替え、グループ化、フィルタリングできます。
-  * 任意のパネルから、そのパネルの全画面ビューに直接リンクする一意の URL をコピーできるようになりました。これにより、プロット内の興味深いパターンや異常なパターンを詳しく掘り下げるためのリンクを、これまでよりも簡単に共有できます。
-  * Run Comparer は、重要な run の設定や主要なメトリクスを、それぞれの損失曲線と並べて比較できる強力なツールです。Run Comparer は次のように更新されました。
-    * **Add Panels** の拡張オプションとして、よりすばやく Run Comparer パネルを追加できるようになりました。
-    * デフォルトで Run Comparer パネルはより大きく表示されるため、その場ですぐに値を確認できます。
-    * Run Comparer パネルの可読性と判読性が向上しました。新しいコントロールを使って行と列のサイズをすばやく変更できるので、長い値やネストした値も読みやすくなります。
-    * パネル内の任意の値をワンクリックでクリップボードにコピーできます。
-    * 正規表現を使ってキーを検索し、比較したいメトリクスの部分集合をすばやく正確に見つけられます。検索履歴が保存されるため、ビューを切り替えながら効率的に試行錯誤できます。
-  * セグメンテーションマスク用のコントロールが更新されました。
-    * 各マスクタイプを一括でオン／オフ切り替えできるようになり、すべてのマスクやすべての画像もまとめてオン／オフにできるようになりました。
-    * 各クラスに割り当てられた色を変更できるようになり、複数のクラスが同じ色を使用している場合の混同を防ぎやすくなりました。
-  * メディアパネルをフルスクリーンモードで開いたとき、ステップスライダーを先にクリックしなくても、キーボードの左右の矢印キーで画像を前後に切り替えられるようになりました。
-  * メディアパネルで run 名が色分け表示され、run セレクターと対応するようになりました。これにより、run のメディア値を関連するメトリクスやプロットと対応付けやすくなります。
-  * run セレクターで、run に特定のメディアキーがあるかどうかでフィルタリングできるようになりました。
-  * W&amp;B App の UI で run をグループ間で移動できるようになり、run のログ記録後でも新しいグループを作成できるようになりました。
-  * UI 上で Automations を編集できるようになりました
-  * 自動化で、 Artifacts のイベントを Slack チャンネルに通知できるようになりました。自動化を作成する際は、Action type で「Slack notification」を選択してください。
-  * Registry はデフォルトでグローバル検索に対応し、Registry 名、コレクション名、エイリアス、タグで、すべての Registry を対象に検索できるようになりました。
-  * `runs` expression を使用する Tables や Query パネルでは、新しい Runs History step slider とドロップダウンコントロールを使用して、run の各ステップにおけるメトリクスのテーブルを表示できます。
-  * W&amp;B Weave の Playground は、新たに OpenAI の `gpt-4.5-preview` と Deepseek の `deepseek-chat` および `deepseek-reasoner` をサポートしました。
-  * Weave の tracing に、CrewAI と OpenAI の Agent SDK という 2 つの新しいエージェント フレームワーク インテグレーションが追加されました。
-  * Weave UI 上で traces から Datasets を作成できるようになりました。[詳しくはこちら](/ja/weave/guides/core-types/datasets#create-edit-and-delete-a-dataset-in-the-ui)
-  * Weave Python SDK は、機密データがネットワークの境界外へ出てしまわないように、Weave データの入力および出力をフィルタリングする手段を提供します。機密データをマスク (redact) するように設定できます。詳細はこちら: /weave/guides/tracking/redact-pii/
-  * 作業をより効率化するため、今後のリリースで、個々の run の Workspace ビューにある System タブは削除されます。Workspace の System セクションで、システム メトリクスに関するすべての情報を確認できます。ご不明な点がある場合は、[support@wandb.com](mailto:support@wandb.com) までお問い合わせください。
-
-  ## セキュリティ
-
-  * `golang crypto` が v0.36.0 に更新されました。
-  * `golang oauth2` が v0.28.0 にアップグレードされました。
-  * Weave では、`pyarrow` は現在 v17.0.0 に固定されています。
-
-  ## パフォーマンス
-
-  * フロントエンドの更新により、重要なデータをページ訪問間でブラウザ キャッシュに保存することで、ワークスペースの再読み込みにかかる時間が大幅に短縮されます。この更新では、保存されたビュー、メトリクス名、run セレクター、run 数、W&amp;B の設定情報、およびワークスペース ビューの再計算処理の読み込みが最適化されています。
-  * Registry の概要ページの読み込み速度が大幅に向上しました。
-  * 数千の run または数百のメトリクスを含む Workspace において、散布図の X、Y、Z 値に使用するメトリクス選択のパフォーマンスを改善しました。
-  * Weave 評価ロギングのパフォーマンスを改善しました。
-
-  ## バグ修正
-
-  * Reports で、レポート内のセクションへのリンクをたどっても、そのセクションが開かれない不具合を修正しました。
-  * Gaussian smoothing におけるインデックス反射の扱いを改善し、SciPy のデフォルトの「reflect」モードと一致するようにしました。
-  * メールで送信された Report のコメントリンクをクリックすると、該当のコメントが直接開くようになりました。
-  * sweep の compute 秒数を表す変数型を `int32` ではなく `int64` に変更し、sweep に 20 億 compute 秒を超えてかかると Workspace がクラッシュし得たバグを修正しました。
-  * レポートに複数の run セットが含まれている場合に発生する可能性があった表示バグを修正しました。
-  * アルファベット順にソートされたセクションに Quick Add で追加されたパネルが正しくソートされない不具合を修正しました。
-  * 不正な形式のユーザー招待リンクが生成されるバグを修正しました。
 </Update>

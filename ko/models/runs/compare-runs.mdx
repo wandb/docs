@@ -1,5 +1,5 @@
 ---
-description: 중요한 run을 추적하고 모델 실험을 효율적으로 평가할 수 있도록 고정된 run과 베이스라인 run을 사용하는 방법을 알아보세요.
+description: 중요한 run을 추적하고 모델 실험을 효율적으로 평가할 수 있도록 고정된 run과 기준 run을 사용하는 방법을 알아보세요.
 title: run 고정 및 비교
 ---
 
@@ -7,11 +7,10 @@ import PinRunsCondensed from '/snippets/ko/_includes/pinned-and-baseline-runs/pi
 
 run이 많은 워크스페이스에서는 최고 성능 모델, 프로덕션 모델, 실패한 실험, 또는 중요한 기준점을 파악하고 추적하기가 어려울 수 있습니다. W&amp;B App은 run을 정리하고 비교하는 데 도움이 되는 기능을 제공합니다.
 
-* **고정된 run**: 워크스페이스와 run 목록 상단에 계속 표시되도록 최대 6개의 run을 고정할 수 있습니다. baseline run이 있는 경우 baseline은 암묵적으로 고정되므로 최대 5개의 run만 고정할 수 있습니다.
-* **Baseline run**: 비교를 위한 기준점으로 baseline run을 지정할 수 있습니다. baseline run은 워크스페이스와 run 목록 상단에 항상 표시됩니다. runs 테이블에서는 요약 메트릭 델타를 통해 각 run이 baseline과 비교해 어떤 차이가 있는지 보여줍니다. 선형 플롯에서는 baseline이 비교하기 쉽도록 시각적으로 구분되는 스타일로 표시됩니다.
+* **고정된 run**: 워크스페이스와 run 목록 상단에 계속 표시되도록 최대 6개의 run을 고정할 수 있습니다. 기준 run이 있는 경우 baseline은 암묵적으로 고정되므로 최대 5개의 run만 고정할 수 있습니다.
+* **Baseline run**: 비교를 위한 기준점으로 기준 run을 지정할 수 있습니다. 기준 run은 워크스페이스와 run 목록 상단에 항상 표시됩니다. runs 테이블에서는 요약 메트릭 델타를 통해 각 run이 baseline과 비교해 어떤 차이가 있는지 보여줍니다. 선형 플롯에서는 baseline이 비교하기 쉽도록 시각적으로 구분되는 스타일로 표시됩니다.
 
-![baseline run과 고정된 run이 있는 선형 플롯](/images/m
-odels/pinned-and-baseline-runs/baseline-run-visual-distinction.png)
+![기준 run과 고정된 run이 있는 선형 플롯](/images/models/pinned-and-baseline-runs/baseline-run-visual-distinction.png)
 
 이 기능은 특히 다음과 같은 경우에 유용합니다.
 

@@ -528,6 +528,40 @@ W&amp;B からこの Report を削除します。
 
 ***
 
+### <kbd>method</kbd> `disable_share_link`
+
+```python
+disable_share_link() → bool
+```
+
+このレポートの&quot;リンクを知っている全員が閲覧できる&quot;共有リンクを無効にします。
+
+このレポートの有効な公開アクセストークンをすべて失効させます。
+
+**戻り値:**
+
+* `bool`: リンクが失効した場合は True、アクティブなリンクが存在しなかった場合は False。
+
+***
+
+
+### <kbd>method</kbd> `enable_share_link`
+
+```python
+enable_share_link() → str
+```
+
+このレポートで「リンクを知っている人は誰でも閲覧可能」の共有設定を有効にします。
+
+レポートの公開アクセストークンを作成します。共有リンクがすでに存在する場合は、既存のリンクを返します。
+
+**戻り値:**
+
+* `str`:  共有可能なマジックリンクの URL。
+
+***
+
+
 ### <kbd>classmethod</kbd> `from_url`
 
 ```python
@@ -540,6 +574,19 @@ from_url(url: str, as_model: bool = False)
 
 * `url` (str):  レポートがホストされている URL。
 * `as_model` (bool):  True の場合、Report オブジェクトではなくモデル オブジェクトを返します。デフォルトは `False` です。
+
+***
+
+
+### <kbd>method</kbd> `get_share_url`
+
+```python
+get_share_url() → Optional[str]
+```
+
+このレポートのマジックリンク URL を取得します。共有が有効でない場合は None を返します。
+
+有効なアクセストークンがあるか確認するために、ネットワーク通信を行います。アクセストークンが付加されたレポート URL を返すため、リンクを知っている人は誰でも、プロジェクトが非公開でもレポートを閲覧できます。
 
 ***
 

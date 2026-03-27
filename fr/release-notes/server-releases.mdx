@@ -1,23 +1,84 @@
 ---
-title: "Versions de W&B Server prises en charge"
-description: "Consultez les notes de version de W&B Server, y compris les nouvelles fonctionnalités, les améliorations, les correctifs de bugs et les instructions de mise à niveau."
+title: "Versions du serveur W&B prises en charge"
+description: "Consultez les notes de version du serveur W&B, y compris les nouvelles fonctionnalités, les améliorations, les corrections de bugs et les instructions de mise à niveau."
 sidebarTitle: "Versions prises en charge"
 rss: true
 ---
 
 import EolReminder from '/snippets/fr/_includes/release-notes-support-eol-reminder.mdx';
 
-Cette page inclut les notes de version des versions prises en charge de W&amp;B Server.
+Cette page présente les notes de version des versions prises en charge du serveur W&amp;B.
 
 * Pour les versions qui ne sont plus prises en charge, voir [Versions archivées de Server](/fr/release-notes/server-releases-archived).
-* Pour plus d’informations sur le calendrier des versions et l’assistance pour W&amp;B Server, voir [Politiques de version de W&amp;B Server](/fr/release-notes/release-policies).
+* Pour plus d’informations sur le calendrier des versions et l’assistance du serveur W&amp;B, voir [Politiques de version du serveur W&amp;B](/fr/release-notes/release-policies).
 
 <EolReminder />
 
-<Update label="v0.78.2" description="10 mars 2026">
+<Update label="v0.79.0" description="24 mars 2026">
+  serveur W&amp;B 0.79.0 ajoute le zoom et le déplacement sur les images, une gestion améliorée des comptes de service et des clés API, ainsi que des améliorations des performances. Inference ajoute les modèles MiniMax M2.5 et MiniMaxAI M2.5. Les moniteurs Weave prennent désormais en charge le scoring de toutes les opérations, et l’interface Weave ajoute une gestion améliorée des tags et des alias de prompts, une vue de chat pour les agents Claude, le filtrage par réactions emoji ou par contenu des notes, et plus encore.
+
+  ## Assistance et fin de vie
+
+  * serveur W&amp;B v0.67 a atteint sa fin de vie.
+
+  Se référer à [Politiques et processus de version](/fr/release-notes/release-policies). Pour toute assistance ou question, contactez le [support](mailto:support@wandb.com).
+
+  ## Sécurité
+
+  * Lors de la création d’un compte de service, vous êtes désormais automatiquement guidé pour créer une clé API.
+  * Une confirmation est désormais requise pour supprimer un compte de service ou une clé API depuis l’application W&amp;B.
+  * Le backend échappe désormais les noms de colonnes dans les filtres afin d’aider à prévenir les injections SQL.
+  * Les adresses e-mail contenant des [marques diacritiques](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) sont désormais bloquées lors de l’inscription ou de la connexion des utilisateurs.
+
+  ## Fonctionnalités
+
+  * **Zoomez et déplacez-vous dans une image** pour inspecter les détails fins directement dans la fenêtre modale d’image en plein écran de W&amp;B. Ouvrez n’importe quelle image en plein écran, puis :
+
+    * Utilisez les contrôles de l’interface utilisateur ou les raccourcis clavier pour définir votre niveau de zoom, réinitialiser à 100 % ou adapter l’image à l’écran.
+    * Cliquez et faites glisser pour déplacer l’image lorsque vous êtes zoomé.
+
+    <Frame>
+      ![Contrôles de déplacement et de zoom dans la fenêtre modale d’image en plein écran](/images/release-notes/v0-79-0/image-zoom-pan-fullscreen-modal.png)
+    </Frame>
+  * Pour les runs épinglés et les runs de référence, les [écarts de métriques de synthèse](/fr/models/runs/compare-runs#summary-metric-deltas) montrent comment chaque run se compare à la référence. Pour activer la coloration sémantique comme repère visuel rapide, vous pouvez définir la direction de la métrique pour une colonne. Cette fonctionnalité est désormais disponible pour tous.
+    <Frame>
+      ![Écarts de métriques de synthèse dans le tableau des runs comparés à la référence](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
+    </Frame>
+  * Le sélecteur de runs et la liste des Runs ont été améliorés :
+    * Prise en charge du filtrage par commit Git.
+    * Pour les runs qui spécifient des paramètres de configuration, prise en charge de l’opérateur `CONTAINS`.
+  * Ajout d’une mise en cache défensive pour les champs de projet afin de réduire la charge sur la base de données.
+
+  ### registre
+
+  * Ajout de nouvelles limites de débit pour la création d’artefacts afin de réduire le risque de surcharge du système.
+
+  ### Weave
+
+  <Note>Pour les déploiements utilisant Weave, Clickhouse v0.25.8+ est requis avant la mise à niveau vers v0.78+.</Note>
+
+  * Weave prend désormais en charge la vue de chat pour les agents Claude.
+  * Les pages **Traces** et **Evaluations** prennent désormais en charge le filtrage par contenu des notes et par réactions emoji.
+  * Vous pouvez désormais gérer les tags et alias des prompts dans l’onglet **Prompts** de la page **Assets**.
+  * Les tableaux des pages **Calls** et **Traces** prennent désormais en charge la réorganisation des colonnes par glisser-déposer.
+  * Les moniteurs Weave prennent désormais en charge le scoring sur l’ensemble des opérations.
+
   ## Correctifs
 
-  Corrige une régression d’un correctif de sécurité critique précédemment apporté, qui permet un accès non autorisé à un artefact. Cette régression est présente dans les versions v0.78.0 et v0.78.1. N’installez pas ces versions et n’effectuez pas de mise à niveau vers celles-ci. Installez plutôt la version v0.78.2, qui inclut le correctif.
+  * Correction des erreurs d’arrondi en virgule flottante dans le lissage du backend.
+  * Correction d’un bug où la saisie dans les champs d’expression faisait sauter le curseur.
+  * Correction d’un bug où des images à taille réelle pouvaient se chevaucher en mode galerie.
+  * Correction d’un problème d’alignement des boîtes englobantes avec des légendes longues.
+  * Suppression des ombres portées des panneaux et des superpositions au survol.
+  * Les résultats de recherche des panneaux incluent désormais les graphiques personnalisés.
+</Update>
+
+<Update label="v0.78.2" description="10 mars 2026">
+  <Note>Pour les déploiements utilisant Weave, Clickhouse v0.25.8+ est requis avant la mise à niveau vers v0.78.</Note>
+
+  ## Correctifs
+
+  Corrige une régression d’un correctif critique de sécurité précédemment appliqué, qui permettait un accès non autorisé à un artefact. Cette régression est présente dans les versions v0.78.0 et v0.78.1. N’installez pas et ne mettez pas à niveau vers ces versions. Installez plutôt la version v0.78.2, qui inclut le correctif.
 </Update>
 
 <Update label="v0.78.1" description="5 mars 2026">
@@ -33,7 +94,12 @@ Cette page inclut les notes de version des versions prises en charge de W&amp;B 
 </Update>
 
 <Update label="v0.78.0" description="3 mars 2026">
-  W&amp;B Server 0.78.0 renforce les valeurs par défaut en matière de sécurité et d&#39;accès, ajoute des outils pour comparer les expériences et maîtriser les coûts plus efficacement, et bien plus encore. Par exemple :
+  W&amp;B Server 0.78.0 renforce les valeurs par défaut en matière de sécurité et d&#39;accès, ajoute des outils pour comparer les expériences et maîtriser les coûts plus efficacement, et bien plus encore.
+
+  <Note>
+    Pour les déploiements utilisant Weave, Clickhouse v0.25.8+ est requis avant toute mise à niveau
+    vers v0.78.
+  </Note>
 
   * Dans **Models**, créez efficacement des graphiques multi-métriques avec des expressions régulières, épinglez les runs importants, comparez les expériences à une référence et optimisez les espaces de travail à l’aide de modèles améliorés.
   * **Registre** inclut une recherche améliorée, des cartes repensées, des graphes de lignage plus clairs et plus réactifs, et bien plus encore.
@@ -64,7 +130,7 @@ Cette page inclut les notes de version des versions prises en charge de W&amp;B 
     * Épinglez jusqu’à 6 runs pour les garder visibles dans l’espace de travail et en haut de la liste des runs. Si vous avez un run de référence, vous pouvez épingler jusqu’à 5 runs, car le run de référence est épinglé implicitement.
     * Spécifiez un run de référence comme référence pour les comparaisons. Le run de référence est toujours visible dans l’espace de travail et en haut de la liste des runs.
 
-    Dans le tableau des runs, les écarts des métriques de synthèse indiquent comment chaque run se compare à la référence.
+    Dans le tableau des runs, les écarts des métriques de synthèse (aperçu) indiquent comment chaque run se compare à la référence. Cette fonctionnalité est disponible sur invitation uniquement. Contactez [mailto:support@wandb.com] pour en savoir plus.
 
     <Frame>
       ![Écarts des métriques récapitulatives dans le tableau Runs par rapport à la référence](/images/release-notes/v0-78-0/baseline-deltas-runs-table.png)
@@ -80,7 +146,7 @@ Cette page inclut les notes de version des versions prises en charge de W&amp;B 
 
   * Les [modèles de Workspace](/fr/models/app/features/cascade-settings#workspace-layout-options) ont de nouveaux paramètres. Vous pouvez désormais configurer votre modèle de Workspace pour masquer les sections vides, trier les panneaux d’une section par ordre alphabétique ou modifier le comportement du tri automatique des panneaux dans une section. Voir [les options de mise en page du Workspace](/fr/models/app/features/cascade-settings#workspace-layout-options).
 
-  * Le tableau **Sweeps** comprend désormais une colonne affichant l’**ID du balayage**.
+  * Le tableau **Sweeps** comprend désormais une colonne affichant l’**ID du sweep**.
 
   * Les administrateurs peuvent désormais personnaliser les alertes d’utilisation et de dépenses de votre organisation. Consultez l’utilisation et les dépenses, et configurez des notifications par e-mail pour le stockage, les heures comptabilisées, Weave, l’Inférence et l’Entraînement dans les paramètres de votre organisation, sous le nouvel onglet **Utilisation &amp; alertes**. Voir [Utilisation du plan](/fr/platform/app/settings-page/billing-settings#plan-usage).
 
@@ -846,57 +912,4 @@ Cette page inclut les notes de version des versions prises en charge de W&amp;B 
   * Correction d’un bug pouvant empêcher l’affichage des légendes d’image lorsqu’elles sont enregistrées dans un tableau.
   * Correction d’un bug qui pouvait empêcher l’affichage des métriques éparses dans les panneaux.
   * Sur les pages **Aperçu du run**, le champ **Description** s&#39;appelle désormais **Notes**.
-</Update>
-
-<Update label="v0.67.0" description="28 mars 2025">
-  ## Fonctionnalités
-
-  * Dans Reports, vous pouvez désormais attribuer à un run un nom d’affichage personnalisé dans chaque grille de panneaux. Cela vous permet de remplacer le nom du run attribué au moment de l’entraînement, souvent long et peu explicite, par un nom plus parlant pour votre public. Le rapport met à jour ce nom dans toutes les grilles de panneaux, ce qui vous aide à présenter à vos collègues les enseignements tirés de vos expériences de façon concise et lisible. Le nom original du run reste intact dans le projet, donc cela ne perturbera pas vos collaborateurs.
-  * Lorsque vous agrandissez un panneau dans l’espace de travail, il s’ouvre désormais en mode plein écran avec davantage d’espace. Dans cette vue, les graphiques en courbes affichent désormais un niveau de détail plus fin, avec jusqu’à 10 000 intervalles. Le sélecteur de run apparaît à côté du panneau, ce qui vous permet de basculer, regrouper ou filtrer facilement les runs dans ce contexte.
-  * Depuis n’importe quel panneau, vous pouvez désormais copier une URL unique qui renvoie directement à la vue en plein écran de ce panneau. Il est ainsi encore plus facile de partager un lien pour examiner en détail des tendances intéressantes ou des comportements aberrants dans vos graphiques.
-  * Run Comparer est un outil puissant qui vous permet de comparer les configurations et les métriques clés de runs importants, ainsi que leurs courbes de perte. Run Comparer a été mis à jour :
-    * Plus rapide d’ajouter un panneau Run Comparer en tant qu’option développée dans **Add Panels**.
-    * Par défaut, un panneau Run Comparer occupe plus d’espace afin que vous puissiez voir les valeurs immédiatement.
-    * Lisibilité améliorée du panneau Run Comparer. Vous pouvez utiliser de nouveaux contrôles pour modifier rapidement la taille des lignes et des colonnes afin de lire des valeurs longues ou imbriquées.
-    * Vous pouvez copier n’importe quelle valeur du panneau dans votre presse-papiers en un seul clic.
-    * Vous pouvez rechercher des clés avec des expressions régulières pour trouver rapidement exactement le sous-ensemble de métriques que vous souhaitez comparer. Votre historique de recherche est enregistré pour vous aider à itérer efficacement d’une vue à l’autre.
-  * Les commandes du masque de segmentation ont été mises à jour :
-    * Vous pouvez désormais activer ou désactiver en bloc chaque type de masque, ou activer/désactiver tous les masques ou toutes les images.
-    * Vous pouvez désormais modifier la couleur attribuée à chaque classe, ce qui permet d’éviter toute confusion si plusieurs classes utilisent la même couleur.
-  * Lorsque vous ouvrez un panneau multimédia en mode plein écran, vous pouvez désormais utiliser les flèches gauche et droite de votre clavier pour faire défiler les images, *sans* avoir à cliquer d’abord sur le curseur d’étape.
-  * Les panneaux multimédias affichent désormais les noms des runs en couleur, comme dans le sélecteur de run. Il est ainsi plus facile d&#39;associer les valeurs multimédias d&#39;un run aux métriques et graphiques correspondants.
-  * Dans le sélecteur de run, vous pouvez désormais filtrer selon qu’un run possède ou non une clé multimédia donnée.
-  * Vous pouvez désormais déplacer des runs d’un groupe à l’autre dans l’interface de l’application W&amp;B, et créer de nouveaux groupes une fois le run enregistré.
-  * Les automatisations peuvent désormais être modifiées dans l’interface
-  * Une automatisation peut désormais notifier un canal Slack des événements d’artefact. Lors de la création d’une automatisation, sélectionnez « notification Slack » comme type d’action.
-  * Le registre prend désormais en charge, par défaut, la recherche globale, ce qui vous permet d’effectuer des recherches dans l’ensemble des registres par nom de registre, nom de collection, alias ou tag.
-  * Dans les panneaux Tables et Query qui utilisent l’expression `runs`, vous pouvez utiliser le nouveau curseur d’étape de l’historique des Runs et les menus déroulants pour afficher un tableau de métriques à chaque étape d’un run.
-  * Le playground de W&amp;B Weave prend en charge de nouveaux modèles : `gpt-4.5-preview` d’OpenAI, ainsi que `deepseek-chat` et `deepseek-reasoner` de Deepseek.
-  * Le traçage de Weave propose deux nouvelles intégrations avec des frameworks d’agents : CrewAI et l’Agent SDK d’OpenAI.
-  * Dans l’interface Weave, vous pouvez désormais build des Datasets à partir de traces. [En savoir plus](/fr/weave/guides/core-types/datasets#create-edit-and-delete-a-dataset-in-the-ui)
-  * Le SDK Python Weave offre désormais un moyen de filtrer les entrées et les sorties de vos données Weave afin de garantir que les données sensibles ne quittent pas le périmètre de votre réseau. Vous pouvez le configurer pour masquer les données sensibles. En savoir plus : /weave/guides/tracking/redact-pii/
-  * Pour simplifier l’utilisation, l’onglet System dans la vue de l’espace de travail d’un run individuel sera supprimé dans une prochaine version. Consultez les informations complètes sur les métriques système dans la section System de l’espace de travail. Pour toute question, contactez [support@wandb.com](mailto:support@wandb.com).
-
-  ## Sécurité
-
-  * `golang crypto` a été mis à jour vers la version v0.36.0.
-  * `golang oauth2` a été mis à jour vers la version v0.28.0.
-  * Dans Weave, `pyarrow` est désormais figé à la version v17.0.0.
-
-  ## Performances
-
-  * Les mises à jour du frontend réduisent considérablement les temps de rechargement de l’espace de travail en conservant les données essentielles dans le cache du navigateur entre les visites. Cette mise à jour optimise le chargement des vues enregistrées, des noms de métriques, du sélecteur de runs, du nombre de runs, des détails de la configuration de W&amp;B et le recalcul des vues de l’espace de travail.
-  * Les pages d’aperçu du registre se chargent désormais nettement plus vite.
-  * Amélioration des performances lors de la sélection des métriques pour les valeurs X, Y ou Z dans un graphique de dispersion, dans un espace de travail comptant des milliers de runs ou des centaines de métriques.
-  * Améliorations des performances de la journalisation des évaluations dans Weave.
-
-  ## Correctifs
-
-  * Correction d’un bug dans Reports : lorsqu’on suivait un lien vers une section du rapport, celle-ci ne s’ouvrait pas.
-  * Amélioration du comportement du lissage gaussien pour la réflexion des indices, afin de l’aligner sur le mode &quot;reflect&quot; par défaut de SciPy.
-  * Un lien vers un commentaire de rapport envoyé par e-mail ouvre désormais directement ce commentaire.
-  * Correction d’un bug pouvant provoquer le plantage d’un espace de travail si un balayage dépasse 2 milliards de secondes de calcul, en remplaçant le type de variable des secondes de calcul du balayage par `int64` au lieu de `int32`.
-  * Correction de bugs d’affichage pouvant survenir lorsqu’un rapport incluait de multiples ensembles de runs.
-  * Correction d’un bug où les panneaux ajoutés via Quick Add à une section triée par ordre alphabétique étaient triés incorrectement.
-  * Correction d’un bug qui générait des liens d’invitation pour les utilisateurs mal formés.
 </Update>

@@ -1,21 +1,74 @@
 ---
-title: "Versions archivées de W&B Server"
-description: "Consultez les notes de version archivées des anciennes versions de W&B Server qui ne sont plus prises en charge."
+title: "Versions archivées du serveur W&B"
+description: "Consultez les notes de version archivées des anciennes versions du serveur W&B qui ne sont plus prises en charge."
 sidebarTitle: "Versions archivées"
 rss: true
 ---
 
 import EolReminder from '/snippets/fr/_includes/release-notes-support-eol-reminder.mdx';
 
-Cette page présente les notes de version des versions de W&amp;B Server arrivées en fin de vie et qui ne sont plus prises en charge.
+Cette page présente les notes de version des versions du serveur W&amp;B arrivées en fin de vie et qui ne sont plus prises en charge.
 
-* Pour les versions de Server prises en charge, voir les [notes de version de W&amp;B Server](/fr/release-notes/server-releases).
-* Pour plus d’informations sur le calendrier des versions de W&amp;B Server et l’assistance, voir les [politiques de version de W&amp;B Server](/fr/release-notes/release-policies).
+* Pour les versions de Server prises en charge, voir les [notes de version du serveur W&amp;B](/fr/release-notes/server-releases).
+* Pour plus d’informations sur le calendrier des versions du serveur W&amp;B et l’assistance, voir les [politiques de version du serveur W&amp;B](/fr/release-notes/release-policies).
 
 <EolReminder />
 
 {/* Pour archiver une version, déplacez ses entrées <Update> (y compris les correctifs)
-    de server-releases.mdx vers juste en dessous */}
+    de server-releases.mdx juste ci-dessous */}
+
+<Update label="v0.67.0" description="28 mars 2025">
+  ## Fonctionnalités
+
+  * Dans Reports, vous pouvez désormais attribuer à un run un Display name personnalisé pour chaque grille de panneaux. Cela vous permet de remplacer le nom du run attribué au moment de l’entraînement, souvent long et peu parlant, par un nom plus pertinent pour votre audience. Le rapport met à jour ce nom dans toutes les grilles de panneaux, ce qui vous aide à partager avec vos collègues les enseignements de vos expériences de façon concise et lisible. Le nom original du run reste inchangé dans le projet ; cette modification ne perturbera donc pas vos collaborateurs.
+  * Lorsque vous agrandissez un panneau dans le Workspace, il s&#39;ouvre désormais en mode plein écran avec plus d&#39;espace. Dans cette vue, les graphiques en courbes s&#39;affichent désormais avec un niveau de détail plus fin, avec jusqu&#39;à 10 000 intervalles. Le sélecteur de runs apparaît à côté du panneau, ce qui vous permet de basculer, regrouper ou filtrer facilement les runs dans ce contexte.
+  * Depuis n’importe quel panneau, vous pouvez désormais copier une URL unique pointant directement vers la vue en plein écran de ce panneau. Il est ainsi encore plus facile de partager un lien pour examiner de plus près des motifs intéressants ou des comportements pathologiques dans vos graphiques.
+  * Run Comparer est un outil puissant qui vous permet de comparer les configurations et les métriques clés des runs importants, ainsi que leurs courbes de perte. Run Comparer a été mis à jour :
+    * Ajout plus rapide d’un panneau Run Comparer, grâce à une option développée dans **Ajouter des panneaux**.
+    * Par défaut, un panneau Run Comparer occupe plus d’espace, pour que vous puissiez voir immédiatement les valeurs.
+    * Lisibilité améliorée d’un panneau Run Comparer. Vous pouvez utiliser de nouveaux contrôles pour modifier rapidement la taille des lignes et des colonnes afin de lire plus facilement les valeurs longues ou imbriquées.
+    * Vous pouvez copier n’importe quelle valeur du panneau dans votre presse-papiers en un seul clic.
+    * Vous pouvez rechercher des clés avec des expressions régulières pour trouver rapidement exactement le sous-ensemble de métriques que vous souhaitez comparer. Votre historique de recherche est enregistré pour vous aider à passer efficacement d’une vue à l’autre.
+  * Les commandes du masque de segmentation ont été mises à jour :
+    * Vous pouvez désormais activer ou désactiver en bloc chaque type de masque, ou activer/désactiver tous les masques ou toutes les images.
+    * Vous pouvez désormais modifier la couleur attribuée à chaque classe, ce qui permet d’éviter toute confusion si plusieurs classes utilisent la même couleur.
+  * Lorsque vous ouvrez un panneau multimédia en plein écran, vous pouvez désormais utiliser les touches fléchées gauche et droite de votre clavier pour parcourir les images, *sans* devoir cliquer d’abord sur le curseur d’étape.
+  * Les panneaux multimédias affichent désormais les noms des runs en couleur, comme dans le sélecteur de runs. Cela facilite l’association des valeurs multimédias d’un run aux métriques et graphiques correspondants.
+  * Dans le sélecteur de runs, vous pouvez désormais filtrer selon qu’un run contient ou non une certaine clé multimédia.
+  * Vous pouvez désormais déplacer des runs entre des groupes dans l’interface utilisateur de l’application W&amp;B, et créer de nouveaux groupes une fois le run enregistré.
+  * Les Automations peuvent désormais être modifiées dans l’interface utilisateur
+  * Une automatisation peut désormais notifier un canal Slack lors d’événements liés aux artefacts. Lors de la création d’une automatisation, sélectionnez « Notification Slack » comme type d’action.
+  * Le registre prend désormais en charge, par défaut, la recherche globale, ce qui vous permet d’effectuer une recherche dans tous les registres par nom de registre, nom de collection, alias ou tag.
+  * Dans les tableaux et les panneaux de requête qui utilisent l’expression `runs`, vous pouvez utiliser le nouveau curseur d’étape de l’historique des Runs et les menus déroulants pour afficher un tableau des métriques à chaque étape d’un run.
+  * Le playground de W&amp;B Weave prend en charge de nouveaux modèles : `gpt-4.5-preview` d’OpenAI, ainsi que `deepseek-chat` et `deepseek-reasoner` de Deepseek.
+  * Weave Tracing propose deux nouvelles intégrations de frameworks d’agents : CrewAI et l’Agent SDK d’OpenAI.
+  * Dans l’interface Weave, vous pouvez désormais build des Datasets à partir de traces. [En savoir plus](/fr/weave/guides/core-types/datasets#create-edit-and-delete-a-dataset-in-the-ui)
+  * Le SDK Python Weave permet désormais de filtrer les entrées et les sorties de vos données Weave afin de garantir que les données sensibles ne quittent pas le périmètre de votre réseau. Vous pouvez le configurer pour masquer les données sensibles. Pour en savoir plus : /weave/guides/tracking/redact-pii/
+  * Pour fluidifier votre expérience, l’onglet System de la vue Workspace d’un run individuel sera supprimé dans une prochaine version. Consultez les informations complètes sur les métriques système dans la section System du Workspace. Pour toute question, contactez [support@wandb.com](mailto:support@wandb.com).
+
+  ## Sécurité
+
+  * `golang crypto` a été mis à jour vers la version v0.36.0.
+  * `golang oauth2` a été mis à niveau vers la version 0.28.0.
+  * Dans Weave, `pyarrow` est désormais fixé à la version v17.0.0.
+
+  ## Performances
+
+  * Les mises à jour du frontend réduisent considérablement les temps de rechargement du Workspace en stockant les données essentielles dans le cache du navigateur d’une visite à l’autre. Cette mise à jour optimise le chargement des vues enregistrées, des noms de métriques, du sélecteur de runs, du nombre de runs, des détails de la configuration de W&amp;B, ainsi que le recalcul des vues du Workspace.
+  * Les pages d’aperçu du registre se chargent maintenant nettement plus vite.
+  * Amélioration des performances lors de la sélection des métriques pour les valeurs X, Y ou Z dans un graphique de dispersion d&#39;un Workspace contenant des milliers de runs ou des centaines de métriques.
+  * Améliorations des performances de la journalisation des évaluations dans Weave.
+
+  ## Correctifs
+
+  * Correction d’un bug dans Reports : lorsqu’on suivait un lien vers une section du rapport, celle-ci ne s’ouvrait pas.
+  * Amélioration de la manière dont le lissage gaussien gère la réflexion des indices, afin de correspondre au mode &quot;reflect&quot; par défaut de SciPy.
+  * Un lien vers un commentaire dans un rapport envoyé par e-mail mène désormais directement au commentaire.
+  * Correction d’un bug pouvant provoquer le plantage d’un Workspace si un balayage dépasse 2 milliards de secondes de calcul, en faisant passer le type de variable des secondes de calcul du balayage de `int32` à `int64`.
+  * Correction des bugs d’affichage pouvant survenir lorsqu’un rapport comprenait plusieurs ensembles de runs.
+  * Correctif d’un bug où les panneaux ajoutés via ajout rapide à une section triée par ordre alphabétique étaient mal triés.
+  * Correctif d’un bug qui générait des liens d’invitation utilisateur mal formés.
+</Update>
 
 <Update label="v0.66.0" description="06 mars 2025">
   ## Fonctionnalités
