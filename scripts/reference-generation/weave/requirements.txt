@@ -2,7 +2,7 @@
 # These are only used for generating docs, not in production
 
 # HTTP library for downloading files
-requests==2.32.5
+requests==2.33.0
 
 # Documentation generator for Python
 # Note: This is a minimal tool with few dependencies
