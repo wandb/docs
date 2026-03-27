@@ -341,22 +341,23 @@ W&amp;B에서 `POST` 요청에 사용하는 포맷에 대한 자세한 내용은
     ACCESS_TOKEN="your_api_key"
     SECRET="your_api_secret"
 
+    # webhook 엔드포인트 URL
+    API_ENDPOINT="https://your.webhook.endpoint/path"
+
     # 전송하려는 데이터(예: JSON 형식)
     PAYLOAD='{"key1": "value1", "key2": "value2"}'
 
     # HMAC 서명 생성
-    # 보안을 위해 wandb는 헤더에 X-Wandb-Signature를 포함하며,
-    # 이는 페이로드와 웹후크와 연결된 공유 시크릿 키로부터
-    # HMAC-SHA-256 알고리즘을 사용해 계산됩니다.
-    SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst 
-    -sha256 -hmac "$SECRET" -binary | base64)
+    # 보안을 위해 W&B는 페이로드와 webhook에 연결된 공유 시크릿으로
+    # HMAC SHA-256을 계산한 X-Wandb-Signature를 헤더에 포함합니다.
+    SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')
 
-    # cURL 요청 보내기
+    # cURL 요청 실행
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer $ACCESS_TOKEN" \
       -H "X-Wandb-Signature: $SIGNATURE" \
-      -d "$PAYLOAD" API_ENDPOINT
+      -d "$PAYLOAD" "$API_ENDPOINT"
     ```
   </Tab>
 </Tabs>
