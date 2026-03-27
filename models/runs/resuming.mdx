@@ -22,7 +22,8 @@ W&B recommends that you use `resume="allow"` and specify the specific run ID you
 The `resume="auto"` option does not require you to specify a run ID but it can lead to unexpected behavior if you have multiple runs that fail in the same directory or if the file directory structure changes. You must also ensure that you restart the run from the same directory as the failed process when you use `resume="auto"`. 
 </Note>
 
-For all the examples below, replace values enclosed within `<>` with your own.
+For all the examples below, replace values enclosed within `<>` with your own. 
+<Tip>[View a live demo of a resumed run](https://wandb.ai/wandb/resume-run/workspace?nw=nwuserjuliarose).</Tip>
 
 ## Resume a run that must use the same run ID
 If a run is stopped, crashes, or fails, you can resume it using the same run ID. To do so, initialize a run and specify the following:
