@@ -1,0 +1,9 @@
+/* Hide arrow icons in nav links until swapped to chevron. Prevents FOUC. */
+a.group.flex svg[viewBox="0 0 384 512"] {
+    opacity: 0;
+  }
+  
+/* Reveal arrow on external links after processing. */
+a.group.flex[data-nav-processed] svg[viewBox="0 0 384 512"] {
+opacity: 1;
+}
