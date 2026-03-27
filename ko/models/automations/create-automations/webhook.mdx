@@ -304,6 +304,9 @@ webhook 문제를 해결하려면 아래 코드를 쉘 스크립트에 복사하
 ACCESS_TOKEN="your_api_key"
 SECRET="your_api_secret"
 
+# webhook 엔드포인트 URL
+API_ENDPOINT="https://your.webhook.endpoint/path"
+
 # 전송하려는 데이터 (예: JSON 형식)
 PAYLOAD='{"key1": "value1", "key2": "value2"}'
 
@@ -318,7 +321,7 @@ curl -X POST \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "X-Wandb-Signature: $SIGNATURE" \
-  -d "$PAYLOAD" API_ENDPOINT
+  -d "$PAYLOAD" "$API_ENDPOINT"
 ```
 </Tab>
 </Tabs>

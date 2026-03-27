@@ -287,16 +287,15 @@ W&B App UI를 사용하여 대화식으로 또는 Bash 스크립트를 사용하
 ACCESS_TOKEN="your_api_key"
 SECRET="your_api_secret"
 
-# The data you want to send (for example, in JSON 
-format)
+# URL of your webhook endpoint
+API_ENDPOINT="https://your.webhook.endpoint/path"
+
+# The data you want to send (for example, in JSON format)
 PAYLOAD='{"key1": "value1", "key2": "value2"}'
 
-# Generate the HMAC signature
-# For security, Wandb includes the 
-X-Wandb-Signature in the header computed
-# from the payload and the shared secret key 
-associated with the webhook
-# using the HMAC with SHA-256 algorithm.
+# Generate the HMAC signature. For security, W&B includes the
+# X-Wandb-Signature header computed from the payload and the shared secret
+# associated with the webhook using HMAC with SHA-256.
 SIGNATURE=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')
 
 # Make the cURL request
@@ -304,7 +303,7 @@ curl -X POST \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "X-Wandb-Signature: $SIGNATURE" \
-  -d "$PAYLOAD" API_ENDPOINT
+  -d "$PAYLOAD" "$API_ENDPOINT"
 ```
 </Tab>
 </Tabs>
