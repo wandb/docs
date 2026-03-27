@@ -1,7 +1,8 @@
 ---
-title: "Sweeps"
+title: "스윕"
 tag: "16"
-generator: knowledgebase-nav
+generator: "knowledgebase-nav"
+template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="하이퍼파라미터 검색을 구성하는 모범 사례" href="/ko/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
@@ -20,11 +21,11 @@ generator: knowledgebase-nav
   하이퍼파라미터를 불리언 플래그로 전달하려면 설정의 command 섹션에서 매크로를 사용하세요. 이 매크로는 자동으로 ...
 </Card>
 
-<Card title="AWS Batch, ECS 등 클라우드 인프라에서 W&B Sweeps를 사용할 수 있나요?" href="/ko/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast" arrow="true" horizontal>
-  모든 W&amp;B Sweep agent가 sweep&#95;id에 액세스할 수 있도록 게시하려면, 이러한 에이전트가 이를 조회하고 실행할 수 있는 방법을 구현하 ...
+<Card title="AWS Batch, ECS 등 클라우드 인프라에서 W&B 스윕를 사용할 수 있나요?" href="/ko/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast" arrow="true" horizontal>
+  모든 W&amp;B 스윕 에이전트가 sweep&#95;id에 액세스할 수 있도록 게시하려면, 이러한 에이전트가 이를 조회하고 실행할 수 있는 방법을 구현하 ...
 </Card>
 
-<Card title="W&B Sweep의 일부로 모든 하이퍼파라미터 값들을 제공해야 하나요? 기본값을 설정할 수 있나요?" href="/ko/support/models/articles/do-i-need-to-provide-values-for-all-hype" arrow="true" horizontal>
+<Card title="W&B 스윕의 일부로 모든 하이퍼파라미터 값들을 제공해야 하나요? 기본값을 설정할 수 있나요?" href="/ko/support/models/articles/do-i-need-to-provide-values-for-all-hype" arrow="true" horizontal>
   사전처럼 동작하는 (run.config())를 사용해 스윕 설정에서 하이퍼파라미터 이름과 값에 액세스하세요.  ...
 </Card>
 
@@ -40,12 +41,12 @@ generator: knowledgebase-nav
   스윕에서 모델을 로깅하는 효과적인 방법 중 하나는 스윕용 모델 아티팩트를 생성하는 것입니다. 각 버전은 ...
 </Card>
 
-<Card title="Sweeps에서 코드 로깅을 활성화하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
+<Card title="스윕에서 코드 로깅을 활성화하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
   스윕에서 코드 로깅을 활성화하려면 W&amp;B Run을 초기화한 후 wandb.log&#95;code()를 추가하세요. 이 작업은 ...
 </Card>
 
 <Card title="스윕에서 맞춤형 CLI 명령을 사용하려면 어떻게 해야 하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  트레이닝 설정이 명령줄 인자를 전달한다면 맞춤형 CLI 명령과 함께 W&amp;B Sweeps를 사용할 수 있습니다. 예제에서는 ...
+  트레이닝 설정이 명령줄 인자를 전달한다면 맞춤형 CLI 명령과 함께 W&amp;B 스윕를 사용할 수 있습니다. 예제에서는 ...
 </Card>
 
 <Card title="SLURM에서 스윕을 어떻게 실행해야 하나요?" href="/ko/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
@@ -53,7 +54,7 @@ generator: knowledgebase-nav
 </Card>
 
 <Card title="스윕에 값을 더 추가할 수 있나요, 아니면 새로 시작해야 하나요?" href="/ko/support/models/articles/is-there-a-way-to-add-extra-values-to-a-" arrow="true" horizontal>
-  W&amp;B Sweep가 시작되면 Sweep 설정을 변경할 수 없습니다. 하지만 아무 table 뷰로 이동해 선택한 다음 ...
+  W&amp;B 스윕가 시작되면 스윕 설정을 변경할 수 없습니다. 하지만 아무 table 뷰로 이동해 선택한 다음 ...
 </Card>
 
 <Card title="여러 메트릭 최적화" href="/ko/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
