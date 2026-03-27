@@ -543,6 +543,40 @@ Cela supprimera également toutes les vues de brouillon faisant référence à c
 ***
 
 
+### <kbd>méthode</kbd> `disable_share_link`
+
+```python
+disable_share_link() → bool
+```
+
+Désactivez le lien de partage « toute personne disposant du lien peut consulter » pour ce rapport.
+
+Révoque tous les jetons d’accès public actifs de ce rapport.
+
+**Retourne :**
+
+* `bool`:  True si le ou les liens ont été révoqués, False si aucun lien actif n’existait.
+
+***
+
+
+### <kbd>méthode</kbd> `enable_share_link`
+
+```python
+enable_share_link() → str
+```
+
+Active le partage « toute personne disposant du lien peut consulter » pour ce rapport.
+
+Crée un jeton d’accès public pour le rapport. Si un lien de partage existe déjà, renvoie le lien existant.
+
+**Retourne :**
+
+* `str` : l’URL du lien magique qui peut être partagée.
+
+***
+
+
 ### <kbd>méthode de classe</kbd> `from_url`
 
 ```python
@@ -555,6 +589,19 @@ Chargez le rapport dans l’environnement actuel. Indiquez l’URL où le rappor
 
 * `url` (str):  L’URL où le rapport est hébergé.
 * `as_model` (bool):  Si True, renvoie l’objet modèle au lieu de l’objet Report.  Par défaut, cette valeur est `False`.
+
+***
+
+
+### <kbd>méthode</kbd> `get_share_url`
+
+```python
+get_share_url() → Optional[str]
+```
+
+Récupère l’URL du lien magique pour ce rapport, ou None si le partage n’est pas activé.
+
+Effectue un appel réseau pour vérifier la présence de jetons d’accès actifs. Renvoie l’URL du rapport avec un jeton d’accès ajouté, ce qui permet à toute personne disposant du lien de consulter le rapport, même si le projet est privé.
 
 ***
 
@@ -621,12 +668,12 @@ Un ensemble de runs à afficher dans une grille de panneaux.
 * `query` (str):  Une chaîne de requête pour filtrer les runs.
 * `filters` (Union[str, LList[expr.FilterExpr]]):  Les filtres à appliquer aux runs. Peut être :
   * Une expression sous forme de chaîne : par exemple, &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`:  `=` , `==` , `!=` , `<` , `>` , `<=` , `>=` , `in` , `not in`
+* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
   * Une liste d’objets FilterExpr : par exemple, [expr.Config(&#39;lr&#39;) == 0.001]
 * `groupby` (LList[str]):  Une liste de noms de métriques à utiliser pour le regroupement. Les formats pris en charge sont :
   * &quot;group&quot; ou &quot;run.group&quot; pour regrouper par attribut de run
   * &quot;config.param&quot; pour regrouper par paramètre de configuration
-  * &quot;summary.metric&quot; pour regrouper par métrique de résumé
+  * &quot;summary.metric&quot; pour regrouper par métrique de synthèse
 * `order` (LList[OrderBy]):  Une liste d’objets `OrderBy` à utiliser pour le tri.
 * `custom_run_colors` (dict):  Un dictionnaire qui associe les ID de run (ou les clés `RunsetGroup` pour les runs groupés) à des couleurs. Pour définir simplement une couleur par run, préférez `run_settings`.
 * `run_settings` (Dict[str, RunSettings]):  Paramètres d’affichage par run, indexés par ID de run.  Utilisez-les pour définir des couleurs et/ou masquer des runs individuels. Voir `RunSettings`.
