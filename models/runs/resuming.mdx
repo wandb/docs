@@ -105,7 +105,8 @@ If you can not share a filesystem, specify the `WANDB_RUN_ID` environment variab
 
 
 ## Resume preemptible Sweeps runs
-Automatically requeue interrupted [sweep](/models/sweeps/) runs. This is particularly useful if you run a sweep agent in a compute environment that is subject to preemption such as a SLURM job in a preemptible queue, an EC2 spot instance, or a Google Cloud preemptible VM.
+
+When you handle preemption correctly, interrupted [sweep](/models/sweeps/) runs can be requeued automatically so another agent can pick them up. That pattern is especially helpful when the sweep agent runs in a preemptible environment, such as a SLURM job in a preemptible queue, an EC2 Spot instance, or a Google Cloud preemptible VM.
 
 The behavior below applies when you run sweep agents with the [`wandb agent`](/models/ref/cli/wandb-agent) CLI, which starts your training program as a **subprocess**. It does not fully apply when you use only the Python API [`wandb.agent()`](/models/ref/python/functions/agent), because that path runs your training function in a thread rather than a separate process, so OS signal delivery and forwarding do not match the CLI agent model.
 

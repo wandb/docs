@@ -18,6 +18,10 @@ This applies whether the process exits from a signal handler, from an exception,
 
 When the process exits due to a [**catchable** signal](#catchable-signals-and-preemption), your handler can run, call [`wandb.run.mark_preempting()`](/models/ref/python/experiments/run#mark_preempting) if you want the run requeued, perform cleanup (for example, save a checkpoint), then exit with a non-zero code. A common convention is `sys.exit(128 + signum)` for termination by signal. W&B records that exit code and the same [requeue rules](/models/runs/resuming#resume-preemptible-sweeps-runs) apply. When the process is killed by the operating system kernel with [**`SIGKILL`**](#sigkill-uncatchable), the process cannot run exit hooks, so no final summary is written and the run may appear as crashed or killed; the agent still starts the next run.
 
+## Stale runs and server-side timeouts
+
+If a run neither finishes nor posts new metrics for a long time (on the order of about five minutes), the W&B server marks the run as **crashed**. That often happens when the training process hangs, stops logging, or is terminated without a clean exit (for example after `SIGKILL`). Logging metrics on a steady cadence or exiting with a defined code helps keep run state aligned with what actually happened.
+
 ## Catchable signals and preemption
 
 You can register custom signal handlers in your training script. When a catchable signal is delivered, your handler runs; metrics already sent to W&B are preserved, and the agent detects the process exit and starts the next run.
@@ -25,7 +29,7 @@ You can register custom signal handlers in your training script. When a catchabl
 **Best practices:**
 
 - Register handlers early (for example, before entering the main training loop).
-- In the handler, call [`wandb.run.mark_preempting()`](/models/ref/python/experiments/run#mark_preempting) when you intend the run to be requeued after preemption, perform cleanup (for example, save a checkpoint), then exit with a non-zero code. Avoid logging ad hoc metrics for the signal alone; a signal can be transient, and a dedicated metric can be misleading next to normal training metrics.
+- In the handler, call [`wandb.run.mark_preempting()`](/models/ref/python/experiments/run#mark_preempting) when you intend the run to be requeued after preemption, perform cleanup (for example, save a checkpoint), then exit with a non-zero code.
 
 The following example registers handlers for `SIGUSR1` (a typical cluster preemption signal) and `SIGTERM`. It leaves `SIGINT` free for interactive use (for example, manual cancellation from the terminal). The handler calls `wandb.run.mark_preempting()` and exits using `128 + signum`:
 
