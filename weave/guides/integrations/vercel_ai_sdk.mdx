@@ -1,0 +1,262 @@
+---
+title: "Vercel AI SDK"
+description: "Trace Vercel AI SDK calls in Weave using OpenTelemetry"
+---
+
+You can trace [Vercel AI SDK](https://sdk.vercel.ai/) calls in Weave using [OpenTelemetry (OTEL)](https://opentelemetry.io/). The Vercel AI SDK is a TypeScript toolkit for building AI-powered applications with React, Next.js, Vue, Svelte, Node.js, and more. It provides a unified API for calling LLM providers and includes built-in OpenTelemetry support for tracing.
+
+<Tip>
+For more information on OTEL tracing in Weave, see [Send OTEL Traces to Weave](../tracking/otel).
+</Tip>
+
+This guide shows you how to trace Vercel AI SDK calls using OTEL and visualize those traces in Weave. You'll learn how to configure an OTEL exporter to send data to Weave in both Next.js and standalone Node.js applications.
+
+## Prerequisites
+
+You need:
+
+- A [W&B account](https://wandb.ai/site/) with an API key. Create an API key at [wandb.ai/authorize](https://wandb.ai/authorize).
+- A W&B team and project. Find your team name in the **Teams** section of the [W&B dashboard](https://wandb.ai/home).
+- An LLM provider API key (for example, an [OpenAI API key](https://platform.openai.com/api-keys)).
+
+### Required configuration
+
+- **Endpoint:** `https://trace.wandb.ai/otel/v1/traces`
+- **Headers:**
+  - `Authorization`: Basic auth using your W&B API key.
+  - `project_id`: Your W&B entity and project name (for example, `myteam/myproject`).
+
+## Set up with Next.js
+
+Next.js provides built-in support for OpenTelemetry through an [instrumentation file](https://nextjs.org/docs/app/building-your-application/optimizing/open-telemetry). Use this approach when your Vercel AI SDK application runs in a Next.js project.
+
+### Install dependencies
+
+```bash
+npm install ai @ai-sdk/openai @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/exporter-trace-otlp-proto @opentelemetry/resources
+```
+
+### Configure environment variables
+
+Add your W&B and LLM provider credentials to your `.env.local` file:
+
+```bash
+WANDB_API_KEY=your_wandb_api_key
+WANDB_PROJECT_ID=your-team/your-project
+OPENAI_API_KEY=your_openai_api_key
+```
+
+### Create the instrumentation file
+
+Create an `instrumentation.ts` file in your project root (or `src/` directory if you use the `src` layout). This file configures OpenTelemetry to export traces to Weave when the Next.js server starts.
+
+```typescript lines
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { Resource } from "@opentelemetry/resources";
+
+export function register() {
+  const apiKey = process.env.WANDB_API_KEY;
+  const projectId = process.env.WANDB_PROJECT_ID;
+
+  if (!apiKey || !projectId) {
+    console.warn(
+      "Missing WANDB_API_KEY or WANDB_PROJECT_ID. Skipping Weave tracing setup."
+    );
+    return;
+  }
+
+  const auth = Buffer.from(`api:${apiKey}`).toString("base64");
+
+  const exporter = new OTLPTraceExporter({
+    url: "https://trace.wandb.ai/otel/v1/traces",
+    headers: {
+      Authorization: `Basic ${auth}`,
+      project_id: projectId,
+    },
+  });
+
+  const provider = new NodeTracerProvider({
+    resource: new Resource({
+      "service.name": "my-nextjs-app",
+    }),
+    spanProcessors: [new BatchSpanProcessor(exporter)],
+  });
+
+  provider.register();
+}
+```
+
+### Enable telemetry in AI SDK calls
+
+The Vercel AI SDK does not emit telemetry by default. Pass `experimental_telemetry: { isEnabled: true }` to each AI SDK function call that you want to trace:
+
+```typescript lines
+import { generateText } from "ai";
+import { openai } from "@ai-sdk/openai";
+
+export async function POST(req: Request) {
+  const { prompt } = await req.json();
+
+  const result = await generateText({
+    model: openai("gpt-4o-mini"),
+    prompt,
+    experimental_telemetry: { isEnabled: true },
+  });
+
+  return Response.json({ text: result.text });
+}
+```
+
+This works with `generateText`, `streamText`, `embed`, and `embedMany`.
+
+After starting your Next.js app and making an AI SDK call, traces appear in the Weave UI under your specified project.
+
+## Set up with standalone Node.js
+
+For non-Next.js applications, create a `TracerProvider` programmatically and pass a custom tracer to the AI SDK through the `experimental_telemetry` option.
+
+### Install dependencies
+
+```bash
+npm install ai @ai-sdk/openai @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/exporter-trace-otlp-proto @opentelemetry/resources
+```
+
+### Configure the tracer and run a call
+
+The following example creates a `TracerProvider` that exports to Weave, then passes the tracer to the AI SDK:
+
+```typescript lines
+import { generateText } from "ai";
+import { openai } from "@ai-sdk/openai";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-proto";
+import { Resource } from "@opentelemetry/resources";
+
+const WANDB_API_KEY = process.env.WANDB_API_KEY!;
+const WANDB_PROJECT_ID = process.env.WANDB_PROJECT_ID!;
+
+const auth = Buffer.from(`api:${WANDB_API_KEY}`).toString("base64");
+
+const exporter = new OTLPTraceExporter({
+  url: "https://trace.wandb.ai/otel/v1/traces",
+  headers: {
+    Authorization: `Basic ${auth}`,
+    project_id: WANDB_PROJECT_ID,
+  },
+});
+
+const provider = new NodeTracerProvider({
+  resource: new Resource({
+    "service.name": "my-ai-app",
+  }),
+  spanProcessors: [new BatchSpanProcessor(exporter)],
+});
+
+provider.register();
+
+async function main() {
+  const result = await generateText({
+    model: openai("gpt-4o-mini"),
+    prompt: "Explain what OpenTelemetry is in one sentence.",
+    experimental_telemetry: {
+      isEnabled: true,
+      tracer: provider.getTracer("ai"),
+    },
+  });
+
+  console.log(result.text);
+
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  await provider.shutdown();
+}
+
+main();
+```
+
+Run the script:
+
+```bash
+npx tsx main.ts
+```
+
+## Trace streaming responses
+
+You can trace streaming calls the same way. Pass `experimental_telemetry` to `streamText`:
+
+```typescript lines
+import { streamText } from "ai";
+import { openai } from "@ai-sdk/openai";
+
+const result = streamText({
+  model: openai("gpt-4o-mini"),
+  prompt: "Write a short poem about observability.",
+  experimental_telemetry: { isEnabled: true },
+});
+
+for await (const chunk of result.textStream) {
+  process.stdout.write(chunk);
+}
+```
+
+Weave captures the full streaming span, including time-to-first-chunk, token usage, and the complete response.
+
+## Add telemetry metadata
+
+Attach custom metadata to traces for filtering and analysis in Weave. Pass a `functionId` and `metadata` through the `experimental_telemetry` option:
+
+```typescript lines
+const result = await generateText({
+  model: openai("gpt-4o-mini"),
+  prompt: "Summarize this document.",
+  experimental_telemetry: {
+    isEnabled: true,
+    functionId: "document-summarizer",
+    metadata: {
+      userId: "user-123",
+      documentType: "report",
+    },
+  },
+});
+```
+
+The `functionId` and metadata appear as span attributes in Weave, which makes it easier to search and filter traces.
+
+## Troubleshooting
+
+### Traces do not appear in Weave
+
+If traces are not appearing (silent failure), check the following:
+
+1. **Telemetry must be explicitly enabled.** The Vercel AI SDK does not emit traces by default. Verify that `experimental_telemetry: { isEnabled: true }` is set on every AI SDK call you want to trace.
+
+2. **Next.js instrumentation must be configured.** For Next.js apps, make sure your `instrumentation.ts` file exists in the project root (or `src/` directory) and exports a `register()` function. Next.js calls this function during server startup to initialize OpenTelemetry.
+
+3. **Verify your credentials.** Confirm that `WANDB_API_KEY` and `WANDB_PROJECT_ID` are set correctly. The project ID must follow the format `team-name/project-name`.
+
+4. **Use the protobuf exporter.** The Weave OTEL endpoint accepts `application/x-protobuf` format. Use `@opentelemetry/exporter-trace-otlp-proto`, not `@opentelemetry/exporter-trace-otlp-http` or `@opentelemetry/exporter-trace-otlp-grpc`.
+
+5. **Flush spans before exit.** In standalone Node.js scripts, call `provider.shutdown()` and wait for pending spans to flush before the process exits. `BatchSpanProcessor` exports spans asynchronously, so exiting immediately after a call can silently drop traces.
+
+6. **Check the exporter endpoint URL.** If you configure the OTLP exporter through environment variables instead of in code, be aware that `OTEL_EXPORTER_OTLP_ENDPOINT` expects a base URL (the SDK appends `/v1/traces` automatically). Use `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT` when you provide the full path:
+
+    ```bash
+    # Correct: base URL (SDK appends /v1/traces)
+    OTEL_EXPORTER_OTLP_ENDPOINT="https://trace.wandb.ai/otel"
+
+    # Correct: full URL for traces
+    OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="https://trace.wandb.ai/otel/v1/traces"
+
+    # Wrong: full URL in base endpoint variable (results in /otel/v1/traces/v1/traces)
+    OTEL_EXPORTER_OTLP_ENDPOINT="https://trace.wandb.ai/otel/v1/traces"
+    ```
+
+## Learn more
+
+- [Weave documentation: Send OTEL traces to Weave](../tracking/otel)
+- [Vercel AI SDK telemetry documentation](https://sdk.vercel.ai/docs/ai-sdk-core/telemetry)
+- [Vercel AI SDK Weave observability integration](https://sdk.vercel.ai/providers/observability/weave)
+- [Next.js OpenTelemetry guide](https://nextjs.org/docs/app/building-your-application/optimizing/open-telemetry)
+- [Official OTEL documentation](https://opentelemetry.io/)
