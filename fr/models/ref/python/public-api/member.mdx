@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Member`
 
-Membre d’une équipe.
+Un membre d’une équipe.
 
 ### <kbd>méthode</kbd> `Member.__init__`
 
@@ -21,9 +21,9 @@ __init__(client: 'RetryingClient', team: 'str', attrs: 'Mapping[str, Any]')
 
 **Arguments :**
 
-* `client` (`wandb.apis.internal.Api`) :  Instance cliente à utiliser
-* `team` (str) :  Nom de l&#39;équipe à laquelle ce membre appartient
-* `attrs` (dict) :  Attributs du membre
+* `client` (`wandb.apis.internal.Api`) :  l’instance cliente à utiliser
+* `team` (str) :  le nom de l’équipe à laquelle appartient ce membre
+* `attrs` (dict) :  les attributs du membre
 
 ***
 
@@ -36,5 +36,5 @@ delete()
 
 Supprime un membre d’une équipe.
 
-**Retourne :**
+**Retourne :**
 Booléen indiquant si l’opération a réussi

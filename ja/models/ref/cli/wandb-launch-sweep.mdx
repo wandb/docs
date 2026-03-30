@@ -3,23 +3,23 @@ title: "wandb launch-sweep"
 ---
 
 {/*
-  このコマンドの導入用コンテンツを追加するには:
+  このコマンドの導入コンテンツを追加するには:
   1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-launch-sweep.mdx
-  2. そのファイルに導入用コンテンツを追加します
-  3. 次の 2 行だけを残し、このコメントブロック全体を削除します:
+  2. そのファイルに導入コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行のみを残します:
 
   import WandbLaunchSweep from "/snippets/_includes/cli/wandb-launch-sweep.mdx";
 
   <WandbLaunchSweep/>
 
-  スニペットは次回の再生成時に自動検出されます。
+  このスニペットは、次回の再生成時に自動検出されます。
   */}
 
-W&amp;B Launch の sweep を実行します（実験的機能）。
+W&amp;B の Launch sweep を実行する (実験的) 。
 
 
 <div id="usage">
-  ## 使用方法
+  ## 使い方
 </div>
 
 ```bash
@@ -31,18 +31,18 @@ wandb launch-sweep [CONFIG] [OPTIONS]
   ## 引数
 </div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `CONFIG` | 説明はありません | いいえ |
+| 引数       | 説明   | 必須  |
+| :------- | :--- | :-- |
+| `CONFIG` | 説明なし | いいえ |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--queue`, `-q` | sweep をプッシュするキューの名前 |
-| `--project`, `-p` | エージェントが監視するプロジェクト名。指定された場合、設定ファイルで指定されたプロジェクト値より優先されます |
-| `--entity`, `-e` | 使用するエンティティ。デフォルトは現在ログイン中のユーザーです |
-| `--resume_id`, `-r` | 8 文字の sweep ID を指定して Launch sweep を再開します。キューが必須です |
-| `--prior_run`, `-R` | この sweep に追加する既存の run の ID |
+| Option              | 説明                                                    |
+| :------------------ | :---------------------------------------------------- |
+| `--queue`, `-q`     | sweep の送信先キューの名                                       |
+| `--project`, `-p`   | agent が監視するプロジェクトの名。指定した場合、設定ファイルで渡されたプロジェクトの値を上書きします |
+| `--entity`, `-e`    | 使用する entity。デフォルトは現在ログイン中のユーザーです                      |
+| `--resume_id`, `-r` | 8 文字の sweep id を指定して Launch sweep を再開します。キューは必須です     |
+| `--prior_run`, `-R` | この sweep に追加する既存の run の ID                            |

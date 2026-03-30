@@ -8,11 +8,11 @@ title: Notebook d’introduction
 
 Vous pouvez utiliser W&amp;B Weave avec TypeScript pour :
 
-* Consigner et déboguer les entrées, les sorties et les traces des modèles de langage
-* Créer des évaluations rigoureuses et directement comparables pour les cas d&#39;usage des modèles de langage
-* Organiser toutes les informations générées tout au long du flux de travail LLM, de l&#39;expérimentation aux évaluations, puis à la production
+* Journaliser et déboguer les entrées, les sorties et les traces des modèles de langage
+* Créer des évaluations rigoureuses et directement comparables pour les cas d&#39;utilisation des modèles de langage
+* Organiser toutes les informations générées tout au long du flux de travail LLM, de l&#39;expérimentation aux évaluations puis à la production
 
-Pour plus d&#39;informations, voir la [documentation de Weave](/fr/).
+Pour plus d&#39;informations, voir la [documentation Weave](/fr/).
 
 <div id="function-tracking">
   ## Suivi des fonctions
@@ -20,9 +20,9 @@ Pour plus d&#39;informations, voir la [documentation de Weave](/fr/).
 
 Pour utiliser Weave dans votre code TypeScript, initialisez un nouveau projet Weave et ajoutez le wrapper `weave.op` aux fonctions que vous souhaitez suivre.
 
-Après avoir ajouté `weave.op` et appelé la fonction, accédez au tableau de bord W&amp;B pour voir son suivi dans votre projet.
+Après avoir ajouté `weave.op` et appelé la fonction, consultez le tableau de bord W&amp;B pour la voir apparaître dans votre projet.
 
-Nous suivons automatiquement votre code - consultez l’onglet Code dans l’interface utilisateur !
+Votre code est suivi automatiquement - consultez l’onglet Code dans l’UI !
 
 ```typescript lines
 async function initializeWeaveProject() {
@@ -42,23 +42,23 @@ L’exemple suivant montre comment fonctionne le suivi de base des fonctions.
 ```typescript lines
 async function demonstrateBasicTracking() {
     const result = await stripUserInput("    hello    ");
-    console.log('Résultat du suivi de base :', result);
+    console.log('Basic tracking result:', result);
 }
 ```
 
 <div id="openai-integration">
-  ## Intégration OpenAI
+  ## Intégration à OpenAI
 </div>
 
-Weave assure automatiquement le suivi de tous les appels OpenAI, y compris :
+Weave suit automatiquement tous les appels à OpenAI, notamment :
 
 * Utilisation des tokens
-* Coûts de l&#39;API
-* Paires requête/réponse
-* Configurations du modèle
+* Coûts de l’API
+* Paires requête-réponse
+* Configurations des modèles
 
 <Note>
-  En plus d&#39;OpenAI, Weave prend en charge la journalisation automatique d&#39;autres fournisseurs de LLM, tels qu&#39;Anthropic et Mistral. Pour obtenir la liste complète, voir [Fournisseurs de LLM dans la documentation sur les intégrations](../../guides/integrations#llm-providers).
+  En plus d’OpenAI, Weave prend en charge l’enregistrement automatique d’autres fournisseurs de LLM, comme Anthropic et Mistral. Pour la liste complète, voir [les fournisseurs de LLM dans la documentation sur les intégrations](../../guides/integrations#llm-providers).
 </Note>
 
 ```typescript lines
@@ -76,20 +76,20 @@ async function demonstrateOpenAITracking() {
         model: "gpt-4-turbo",
         messages: [{ role: "user", content: "Hello, how are you?" }],
     });
-    console.log('Résultat du suivi OpenAI :', result);
+    console.log('OpenAI tracking result:', result);
 }
 ```
 
 <div id="nested-function-tracking">
-  ## Suivi des fonctions imbriquées
+  ## Suivi imbriqué des fonctions
 </div>
 
 Weave vous permet de suivre des flux de travail complexes en combinant plusieurs fonctions suivies
-et des appels LLM, tout en préservant l’intégralité de la trace d’exécution. Cela présente notamment les avantages suivants :
+et des appels LLM, tout en préservant l’intégralité de la trace d’exécution. Cela offre notamment les avantages suivants :
 
-* Une visibilité complète sur la logique de votre application
-* Un débogage simplifié des chaînes d’opérations complexes
-* Des possibilités d’optimisation des performances
+* Visibilité complète sur le flux logique de votre application
+* Débogage simplifié des chaînes d’opérations complexes
+* Possibilités d’optimisation des performances
 
 ```typescript lines
 async function demonstrateNestedTracking() {
@@ -102,7 +102,7 @@ async function demonstrateNestedTracking() {
             messages: [
                 {
                     role: "system",
-                    content: "Vous êtes un correcteur grammatical, corrigez l'entrée utilisateur suivante."
+                    content: "You are a grammar checker, correct the following user input."
                 },
                 { role: "user", content: stripped }
             ],
@@ -112,7 +112,7 @@ async function demonstrateNestedTracking() {
     });
 
     const grammarResult = await correctGrammar("That was so easy, it was a piece of pie!");
-    console.log('Résultat du suivi imbriqué :', grammarResult);
+    console.log('Nested tracking result:', grammarResult);
 }
 ```
 
@@ -120,12 +120,12 @@ async function demonstrateNestedTracking() {
   ## Gestion des jeux de données
 </div>
 
-Vous pouvez créer et gérer des jeux de données avec Weave à l’aide de la classe [`weave.Dataset`](/fr/weave/guides/core-types/datasets). Comme [Weave `Models`](/fr/weave/guides/core-types/models), `weave.Dataset` vous permet de :
+Vous pouvez créer et gérer des jeux de données avec Weave à l’aide de la classe [`weave.Dataset`](/fr/weave/guides/core-types/datasets). À l’instar des [Weave `Models`](/fr/weave/guides/core-types/models), `weave.Dataset` permet de :
 
 * Suivre et versionner vos données
-* Organiser des cas de test
+* Organiser les cas de test
 * Partager des jeux de données entre les membres de l’équipe
-* Alimenter des évaluations systématiques
+* Prendre en charge des évaluations systématiques
 
 ```typescript lines
 interface GrammarExample {
@@ -160,12 +160,12 @@ function createGrammarDataset(): weave.Dataset<GrammarExample> {
   ## Framework d’évaluation
 </div>
 
-Weave prend en charge le développement piloté par les évaluations avec la [classe `Evaluation`](/fr/weave/guides/core-types/evaluations). Les évaluations vous aident à itérer de manière fiable sur votre application GenAI. La classe `Evaluation` permet de :
+Weave prend en charge le développement piloté par l’évaluation avec la [classe `Evaluation`](/fr/weave/guides/core-types/evaluations). Les évaluations vous aident à itérer de manière fiable sur votre application de GenAI. La classe `Evaluation` permet de :
 
-* Évaluer les performances d’un `Model` sur un `Dataset`
+* Évaluer les performances du `Model` sur un `Dataset`
 * Appliquer des fonctions de scoring personnalisées
 * Générer des rapports détaillés sur les performances
-* Comparer différentes versions du modèle
+* Comparer les versions de modèles
 
 Vous trouverez un tutoriel complet sur l’évaluation à l’adresse [http://wandb.me/weave&#95;eval&#95;tut](http://wandb.me/weave_eval_tut)
 
@@ -186,7 +186,7 @@ class OpenAIGrammarCorrector {
             messages: [
                 { 
                     role: "system", 
-                    content: "Vous êtes un correcteur grammatical, corrigez l’entrée utilisateur suivante." 
+                    content: "You are a grammar checker, correct the following user input." 
                 },
                 { role: "user", content: userInput }
             ],

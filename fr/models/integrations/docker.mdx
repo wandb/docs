@@ -7,28 +7,28 @@ title: Docker
   ## Intégration Docker
 </div>
 
-W&amp;B peut stocker une référence à l’image Docker dans laquelle votre code a été exécuté, ce qui vous permet de restaurer une expérience précédente dans l’environnement exact où elle a été exécutée. La bibliothèque wandb recherche la variable d’environnement **WANDB&#95;DOCKER** afin de conserver cet état. Nous fournissons quelques utilitaires qui le définissent automatiquement.
+W&amp;B peut stocker une référence vers l’image Docker dans laquelle votre code a été exécuté, ce qui vous permet de restaurer une expérience précédente dans l’environnement exact où elle s’est exécutée. La bibliothèque wandb recherche la variable d’environnement **WANDB&#95;DOCKER** pour enregistrer cet état. Nous fournissons quelques utilitaires qui définissent automatiquement cet état.
 
 <div id="local-development">
   ### Développement local
 </div>
 
-`wandb docker` est une commande qui démarre un conteneur Docker, transmet les variables d’environnement wandb, monte votre code et s’assure que wandb est installé. Par défaut, la commande utilise une image Docker avec TensorFlow, PyTorch, Keras et Jupyter déjà installés. Vous pouvez utiliser la même commande pour démarrer votre propre image Docker : `wandb docker my/image:latest`. La commande monte le répertoire courant dans le répertoire &quot;/app&quot; du conteneur ; vous pouvez modifier cela avec l’indicateur &quot;--dir&quot;.
+`wandb docker` est une commande qui lance un conteneur Docker, transmet les variables d&#39;environnement wandb, monte votre code et s&#39;assure que wandb est installé. Par défaut, la commande utilise une image Docker avec TensorFlow, PyTorch, Keras et Jupyter installés. Vous pouvez utiliser la même commande pour lancer votre propre image Docker : `wandb docker my/image:latest`. La commande monte le répertoire courant dans le répertoire &quot;/app&quot; du conteneur. Vous pouvez modifier ce comportement avec l&#39;option &quot;--dir&quot;.
 
 <div id="production">
   ### Production
 </div>
 
-La commande `wandb docker-run` est fournie pour les charges de travail de production. Elle est conçue pour remplacer directement `nvidia-docker`. Il s&#39;agit d&#39;un simple wrapper autour de la commande `docker run` qui ajoute vos identifiants et la variable d&#39;environnement **WANDB&#95;DOCKER** à l&#39;appel. Si vous ne spécifiez pas l&#39;indicateur &quot;--runtime&quot; et que `nvidia-docker` est disponible sur la machine, cela garantit également que le runtime est défini sur nvidia.
+La commande `wandb docker-run` est destinée aux charges de travail de production. Elle est conçue pour remplacer directement `nvidia-docker`. Il s&#39;agit d&#39;un simple wrapper autour de la commande `docker run` qui ajoute vos identifiants et la variable d&#39;environnement **WANDB&#95;DOCKER** à l&#39;appel. Si vous ne transmettez pas l&#39;option `--runtime` et que `nvidia-docker` est disponible sur la machine, cela garantit également que le runtime est défini sur `nvidia`.
 
 <div id="kubernetes">
   ### Kubernetes
 </div>
 
-Si vous exécutez vos charges de travail d’entraînement dans Kubernetes et que l’API k8s est exposée à votre pod (ce qui est le cas par défaut), wandb effectuera une requête auprès de l’API pour récupérer le digest de l’image Docker et définira automatiquement la variable d’environnement **WANDB&#95;DOCKER**.
+Si vous exécutez vos charges de travail d&#39;entraînement dans Kubernetes et que l&#39;API k8s est exposée à votre pod (ce qui est le cas par défaut), wandb interroge l&#39;API pour récupérer le digest de l&#39;image Docker et définit automatiquement la variable d&#39;environnement **WANDB&#95;DOCKER**.
 
 <div id="restoring">
   ## Restauration
 </div>
 
-Si un run a été instrumenté avec la variable d&#39;environnement **WANDB&#95;DOCKER**, l&#39;appel à `wandb restore username/project:run_id` créera une nouvelle branche pour restaurer votre code, puis lancera l&#39;image Docker exacte utilisée pour l&#39;entraînement, préremplie avec la commande d&#39;origine.
+Si un run a été instrumenté avec la variable d’environnement **WANDB&#95;DOCKER**, l’exécution de `wandb restore username/project:run_id` créera une nouvelle branche pour restaurer votre code, puis lancera l’image Docker exacte utilisée pour l’entraînement, préremplie avec la commande originale.

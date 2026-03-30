@@ -1,9 +1,9 @@
 ---
-description: "Intégrez W&B à Databricks pour le suivi des expériences, la journalisation des métriques et la gestion des modèles sur les clusters Spark."
+description: "Intégrez W&B à Databricks pour le suivi des expériences, la journalisation des métriques et la gestion des modèles sur des clusters Spark."
 title: Databricks
 ---
 
-W&amp;B s’intègre à [Databricks](https://www.databricks.com/) via une personnalisation de l’expérience notebook Jupyter de W&amp;B dans l’environnement Databricks.
+W&amp;B s’intègre à [Databricks](https://www.databricks.com/) en adaptant l’expérience des notebooks Jupyter de W&amp;B à l’environnement Databricks.
 
 <div id="configure-databricks">
   ## Configurer Databricks
@@ -11,26 +11,26 @@ W&amp;B s’intègre à [Databricks](https://www.databricks.com/) via une person
 
 1. Installez wandb sur le cluster
 
-   Accédez à la configuration de votre cluster, choisissez votre cluster, puis cliquez sur **Libraries**. Cliquez sur **Install New**, choisissez **PyPI**, puis ajoutez le package `wandb`.
+   Accédez à la configuration de votre cluster, sélectionnez votre cluster, puis cliquez sur **Libraries**. Cliquez sur **Install New**, choisissez **PyPI**, puis ajoutez le package `wandb`.
 
-2. Configurez l’authentification
+2. Configurez l&#39;authentification
 
-   Pour authentifier votre compte W&amp;B, vous pouvez ajouter un secret Databricks que vos notebooks peuvent consulter.
+   Pour authentifier votre compte W&amp;B, vous pouvez ajouter un secret Databricks que vos notebooks pourront consulter.
 
    ```bash
-   # installer Databricks CLI
+   # installer la CLI Databricks
    pip install databricks-cli
 
-   # Générer un jeton depuis l’interface Databricks
+   # Générer un token depuis l'UI Databricks
    databricks configure --token
 
-   # Créer un scope avec l’une des deux commandes (selon que les fonctionnalités de sécurité sont activées ou non sur Databricks) :
-   # avec le module complémentaire de sécurité
+   # Créer un scope avec l'une des deux commandes (selon que les fonctionnalités de sécurité sont activées ou non sur Databricks) :
+   # avec l'extension de sécurité
    databricks secrets create-scope --scope wandb
-   # sans le module complémentaire de sécurité
+   # sans l'extension de sécurité
    databricks secrets create-scope --scope wandb --initial-manage-principal users
 
-   # Créer une clé API sur https://wandb.ai/settings
+   # Créer une clé API à l'adresse https://wandb.ai/settings
    databricks secrets put --scope wandb --key api_key
    ```
 
@@ -58,7 +58,7 @@ with wandb.init() as run:
   ### Sweeps
 </div>
 
-Configuration requise (temporairement) pour les notebooks qui tentent d&#39;utiliser wandb.sweep() ou wandb.agent() :
+Configuration requise (temporairement) pour les notebooks qui essaient d’utiliser wandb.sweep() ou wandb.agent() :
 
 ```python
 import os

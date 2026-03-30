@@ -1,19 +1,19 @@
 ---
-description: "Python SDK API를 사용하여 W&B Dedicated Cloud 인스턴스에서 run, 메트릭, 아티팩트 및 리포트를 내보냅니다."
+description: "Python SDK API를 사용하여 W&B Dedicated Cloud 인스턴스에서 run, 메트릭, artifact 및 Reports를 내보냅니다."
 title: Dedicated Cloud에서 데이터 내보내기
 ---
 
-Dedicated Cloud 인스턴스에서 관리되는 모든 데이터를 내보내려면 W&amp;B SDK API의 [가져오기 및 내보내기 API](/ko/models/ref/python/public-api/)를 사용해 run, 메트릭, 아티팩트 등을 추출할 수 있습니다. 다음 표에는 주요 내보내기 사용 사례가 정리되어 있습니다.
+Dedicated Cloud 인스턴스에서 관리되는 모든 데이터를 내보내려면 [Import and Export API](/ko/models/ref/python/public-api/)를 통해 W&amp;B SDK API를 사용하여 run, 메트릭, artifact 등을 추출할 수 있습니다. 다음 표에는 주요 데이터 내보내기 사용 사례가 정리되어 있습니다.
 
-| 목적              | 문서                                                                                                                                                                                      |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 프로젝트 메타데이터 내보내기 | [Projects API](/ko/models/ref/python/public-api/projects)                                                                                                                                  |
-| 프로젝트의 Runs 내보내기 | [Runs API](/ko/models/ref/python/public-api/runs)                                                                                                                                          |
-| 리포트 내보내기        | [리포트 및 Workspace API](/ko/models/reports/clone-and-export-reports/)                                                                                                                        |
-| 아티팩트 내보내기       | [아티팩트 그래프 살펴보기](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/), [아티팩트 다운로드 및 사용](/ko/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
+| Purpose         | Documentation                                                                                                                                                                                 |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 프로젝트 메타데이터 내보내기 | [Projects API](/ko/models/ref/python/public-api/projects)                                                                                                                                        |
+| 프로젝트의 run 내보내기  | [Runs API](/ko/models/ref/python/public-api/runs)                                                                                                                                                |
+| Reports 내보내기    | [Report and Workspace API](/ko/models/reports/clone-and-export-reports/)                                                                                                                         |
+| artifact 내보내기   | [artifact 그래프 탐색](/ko/models/artifacts/explore-and-traverse-an-artifact-graph/), [artifact 다운로드 및 사용](/ko/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
-[Secure Storage Connector](/ko/platform/app/settings-page/teams/#secure-storage-connector)를 사용해 Dedicated Cloud에 저장된 아티팩트를 관리하는 경우에는 W&amp;B SDK API로 아티팩트를 내보낼 필요가 없을 수 있습니다.
+[Secure Storage Connector](/ko/platform/app/settings-page/teams/#secure-storage-connector)를 사용해 Dedicated Cloud에 저장된 artifact를 관리하는 경우에는 W&amp;B SDK API로 artifact를 내보낼 필요가 없을 수 있습니다.
 
 <Note>
-  run, 아티팩트 등이 매우 많은 경우 W&amp;B SDK API를 사용해 모든 데이터를 내보내는 데 시간이 오래 걸릴 수 있습니다. W&amp;B는 Dedicated Cloud 인스턴스에 과부하가 걸리지 않도록 적절한 크기의 배치로 내보내기 프로세스를 실행할 것을 권장합니다.
+  W&amp;B SDK API를 사용해 모든 데이터를 내보내면 run, artifact 등이 매우 많은 경우 시간이 오래 걸릴 수 있습니다. Dedicated Cloud 인스턴스에 과부하가 걸리지 않도록, W&amp;B는 내보내기 프로세스를 적절한 크기의 배치로 실행할 것을 권장합니다.
 </Note>

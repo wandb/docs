@@ -1,11 +1,11 @@
 ---
-title: "Dois-je fournir des valeurs pour tous les hyperparamètres dans un W&B Sweep ? Puis-je définir des valeurs par défaut ?"
+title: "Dois-je fournir des valeurs pour tous les hyperparamètres dans le cadre d’un balayage W&B ? Puis-je définir des valeurs par défaut ?"
 keywords: ["Sweeps"]
 ---
 
-Accédez aux noms et aux valeurs des hyperparamètres depuis la configuration du Sweep à l’aide de `(run.config())`, qui se comporte comme un dictionnaire.
+Accédez aux noms et aux valeurs des hyperparamètres à partir de la configuration du balayage avec `(run.config())`, qui se comporte comme un dictionnaire.
 
-Pour les runs en dehors d’un Sweep, définissez les valeurs de `wandb.Run.config()` en passant un dictionnaire à l’argument `config` dans `wandb.init()`. Dans un Sweep, toute configuration fournie à `wandb.init()` sert de valeur par défaut, que le Sweep peut remplacer.
+Pour les runs en dehors d’un balayage, définissez les valeurs de `wandb.Run.config()` en transmettant un dictionnaire à l’argument `config` dans `wandb.init()`. Dans un balayage, toute configuration fournie à `wandb.init()` sert de valeur par défaut, que le balayage peut remplacer.
 
 Utilisez `rwandb.Run.config.setdefaults()` pour définir explicitement ce comportement. Les extraits de code suivants illustrent les deux méthodes :
 
@@ -16,9 +16,9 @@ Utilisez `rwandb.Run.config.setdefaults()` pour définir explicitement ce compor
     config_defaults = {"lr": 0.1, "batch_size": 256}
 
     # Démarrer un run et fournir des valeurs par défaut
-    # qu’un Sweep peut remplacer
+    # qu’un balayage peut remplacer
     with wandb.init(config=config_defaults) as run:
-        # Ajoutez ici le code d’entraînement
+        # Ajouter le code d’entraînement ici
         ...
     ```
   </Tab>
@@ -30,21 +30,21 @@ Utilisez `rwandb.Run.config.setdefaults()` pour définir explicitement ce compor
 
     # Démarrer un run
     with wandb.init() as run:
-        # Mettre à jour les valeurs non définies par le Sweep
+        # Mettre à jour toutes les valeurs non définies par le balayage
         run.config.setdefaults(config_defaults)
 
-        # Ajoutez ici le code d’entraînement
+        # Ajouter le code d’entraînement ici
     ```
   </Tab>
 </Tabs>
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
-  Géré par le script scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : tab badges ----
+  Généré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}

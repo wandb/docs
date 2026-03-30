@@ -1,28 +1,28 @@
 ---
-title: "Masquer les données personnelles identifiables dans les traces"
-description: "Masquer automatiquement les données personnelles identifiables dans les traces"
+title: "Masquer les PII dans les traces"
+description: "Masquer automatiquement les informations personnelles identifiables dans les traces"
 ---
 
 <Warning>
   Cette fonctionnalité est accessible uniquement via le SDK Python.
 </Warning>
 
-Certaines organisations traitent des données personnelles identifiables (PII), telles que des noms, des numéros de téléphone et des adresses e-mail, dans leurs flux de travail de grands modèles de langage (LLM). Le stockage de ces données dans Weights &amp; Biases (W&amp;B) Weave présente des risques en matière de conformité et de sécurité.
+Certaines organisations traitent des informations personnelles identifiables (PII), telles que des noms, des numéros de téléphone et des adresses e-mail, dans leurs flux de travail de grands modèles de langage (LLM). Stocker ces données dans Weights &amp; Biases (W&amp;B) Weave présente des risques en matière de conformité et de sécurité.
 
-La fonctionnalité *de protection des données sensibles* vous permet de masquer automatiquement les données personnelles identifiables (PII) d&#39;une [trace](/fr/weave/guides/tracking) avant son envoi aux serveurs Weave. Cette fonctionnalité intègre [Microsoft Presidio](https://microsoft.github.io/presidio/) au SDK Python Weave, ce qui vous permet de contrôler les paramètres de masquage au niveau du SDK.
+La fonctionnalité *Sensitive Data Protection* vous permet de masquer automatiquement les informations personnelles identifiables (PII) d&#39;une [trace](/fr/weave/guides/tracking) avant son envoi aux serveurs Weave. Cette fonctionnalité intègre [Microsoft Presidio](https://microsoft.github.io/presidio/) au SDK Python de Weave, ce qui signifie que vous pouvez contrôler les paramètres de masquage au niveau du SDK.
 
-La fonctionnalité de protection des données sensibles ajoute les fonctionnalités suivantes au SDK Python :
+La fonctionnalité Sensitive Data Protection introduit les fonctionnalités suivantes dans le SDK Python :
 
-* Un paramètre `redact_pii`, qui peut être activé ou désactivé dans l&#39;appel `weave.init` pour activer le masquage des PII.
-* Le masquage automatique des [entités courantes](#entities-redacted-by-default) lorsque `redact_pii = True`.
+* Un paramètre `redact_pii`, que vous pouvez activer ou désactiver dans l&#39;appel `weave.init` pour activer le masquage des PII.
+* Le masquage automatique des [Entities courantes](#entities-redacted-by-default) lorsque `redact_pii = True`.
 * Des champs de masquage personnalisables à l&#39;aide du paramètre configurable `redact_pii_fields`.
-* L&#39;exclusion d&#39;entités spécifiques du masquage à l&#39;aide du paramètre `redact_pii_exclude_fields`.
+* L&#39;exclusion d&#39;Entities spécifiques du masquage à l&#39;aide du paramètre `redact_pii_exclude_fields`.
 
 <div id="enable-pii-redaction">
   ## Activer le masquage des PII
 </div>
 
-Pour commencer à utiliser la fonctionnalité de protection des données sensibles dans Weave, suivez les étapes ci-dessous :
+Pour commencer à utiliser la fonctionnalité Sensitive Data Protection de Weave, suivez les étapes ci-dessous :
 
 1. Installez les dépendances requises :
 
@@ -30,7 +30,7 @@ Pour commencer à utiliser la fonctionnalité de protection des données sensibl
    pip install presidio-analyzer presidio-anonymizer
    ```
 
-2. Modifiez votre appel `weave.init` pour activer le masquage. Lorsque `redact_pii=True`, [les entités courantes sont masquées par défaut](#entities-redacted-by-default) :
+2. Modifiez votre appel `weave.init` pour activer le masquage. Lorsque `redact_pii=True`, les [Entities courantes sont masquées par défaut](#entities-redacted-by-default) :
 
    ```python lines
    import weave
@@ -38,25 +38,25 @@ Pour commencer à utiliser la fonctionnalité de protection des données sensibl
    weave.init("my-project", settings={"redact_pii": True})
    ```
 
-3. (Facultatif) Personnalisez les champs à masquer à l&#39;aide du paramètre `redact_pii_fields` :
+3. (Facultatif) Personnalisez les champs à masquer à l’aide du paramètre `redact_pii_fields` :
 
    ```python lines
    weave.init("my-project", settings={"redact_pii": True, "redact_pii_fields":["CREDIT_CARD", "US_SSN"]})
    ```
 
-   Pour obtenir la liste complète des entités pouvant être détectées et masquées, voir [les entités PII prises en charge par Presidio](https://microsoft.github.io/presidio/supported_entities/).
+   Pour obtenir la liste complète des Entities pouvant être détectées et masquées, voir [les Entities PII prises en charge par Presidio](https://microsoft.github.io/presidio/supported_entities/).
 
-4. (Facultatif) Excluez des entités spécifiques du masquage à l&#39;aide du paramètre `redact_pii_exclude_fields`. Cela est utile si vous souhaitez conserver le masquage par défaut tout en préservant certains types d&#39;entités. L&#39;exemple suivant montre comment masquer toutes les [entités par défaut](#entities-redacted-by-default), à l&#39;exception de `EMAIL_ADDRESS` et `PERSON` :
+4. (Facultatif) Excluez certaines Entities du masquage à l’aide du paramètre `redact_pii_exclude_fields`. Cela est utile si vous souhaitez conserver le masquage par défaut tout en préservant certains types d’Entities. L’exemple suivant montre comment masquer toutes les [Entities par défaut](#entities-redacted-by-default), sauf `EMAIL_ADDRESS` et `PERSON` :
 
    ```python lines
    weave.init("my-project", settings={"redact_pii": True, "redact_pii_exclude_fields":["EMAIL_ADDRESS", "PERSON"]})
    ```
 
 <div id="entities-redacted-by-default">
-  ## Entités masquées par défaut
+  ## Entities masquées par défaut
 </div>
 
-Les entités suivantes sont automatiquement masquées lorsque le masquage des PII est activé :
+Les Entities suivantes sont automatiquement masquées lorsque le masquage des PII est activé :
 
 * `CREDIT_CARD`
 * `CRYPTO`
@@ -81,19 +81,19 @@ Les entités suivantes sont automatiquement masquées lorsque le masquage des PI
   ## Masquage des clés sensibles avec `REDACT_KEYS`
 </div>
 
-En plus du masquage des PII, le SDK Weave prend également en charge le masquage de clés personnalisées à l’aide de `REDACT_KEYS`. C’est utile lorsque vous souhaitez protéger d’autres données sensibles qui ne relèvent pas forcément de la catégorie des PII, mais qui doivent rester privées. Voici quelques exemples :
+En plus du masquage des PII, le SDK Weave prend également en charge le masquage de clés personnalisées avec `REDACT_KEYS`. Cette fonctionnalité est utile si vous souhaitez protéger d’autres données sensibles qui ne relèvent pas forcément des PII, mais qui doivent rester privées. Exemples :
 
 * clés API
 * en-têtes d’authentification
 * jetons
-* identifiants internes
+* ID internes
 * valeurs de configuration
 
 <div id="pre-defined-redact_keys">
   ### `REDACT_KEYS` prédéfinies
 </div>
 
-Par défaut, Weave masque automatiquement les clés sensibles suivantes :
+Weave masque automatiquement les clés sensibles suivantes par défaut :
 
 ```json
 [
@@ -104,10 +104,10 @@ Par défaut, Weave masque automatiquement les clés sensibles suivantes :
 ```
 
 <div id="adding-your-own-keys">
-  ### Ajouter vos propres clés
+  ### Ajoutez vos propres clés
 </div>
 
-Vous pouvez compléter cette liste avec vos propres clés personnalisées que vous souhaitez masquer dans les traces :
+Vous pouvez compléter cette liste avec vos propres clés personnalisées à masquer dans les traces :
 
 ```python lines
 import weave
@@ -129,7 +129,7 @@ def test(client_id, token):
 test(client_id, token)
 ```
 
-Lorsqu’elles sont affichées dans l’interface Weave, les valeurs de `client_id` et de `token` s’affichent sous la forme `"REDACTED"` :
+Dans la Weave UI, les valeurs de `client_id` et `token` apparaissent sous la forme `"REDACTED"` :
 
 ```python lines
 client_id = "REDACTED"

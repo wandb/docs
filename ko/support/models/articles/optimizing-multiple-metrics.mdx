@@ -1,9 +1,9 @@
 ---
-title: "여러 메트릭 최적화"
+title: "여러 메트릭 최적화하기"
 keywords: ["Sweeps", "메트릭"]
 ---
 
-단일 run에서 여러 메트릭을 최적화하려면 각 메트릭의 가중합을 사용하세요.
+하나의 run에서 여러 메트릭을 최적화하려면 각 메트릭의 가중합을 사용하세요.
 
 ```python
 with wandb.init() as run:
@@ -13,14 +13,14 @@ with wandb.init() as run:
   # ... 필요에 따라 다른 메트릭 로깅
   metric_n = run.summary.get("metric_n", 0.9)
 
-  # 가중치로 메트릭 결합
-  # 최적화 목표에 따라 가중치 조정
-  # 예를 들어, metric_a와 metric_n에 더 높은 중요도를 부여하려면:  
+  # 가중치를 사용하여 메트릭 결합
+  # 최적화 목표에 맞게 가중치 조정
+  # 예를 들어, metric_a와 metric_n을 더 중요하게 반영하려면:  
   metric_combined = 0.3 * metric_a + 0.2 * metric_b + ... + 1.5 * metric_n
   run.log({"metric_combined": metric_combined})
 ```
 
-새로 결합한 메트릭을 로그하고 이를 최적화 목표로 설정합니다:
+새로 결합한 메트릭을 기록하고 이를 최적화 목표로 설정합니다:
 
 ```yaml
 metric:
@@ -31,10 +31,10 @@ metric:
 ***
 
 {/* ---- AUTO-GENERATED: 탭 배지 ----
-  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 자동 관리됩니다.
-  이 표시 사이의 내용은 직접 편집하지 마세요.
+  프런트매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 마커 사이의 내용은 직접 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

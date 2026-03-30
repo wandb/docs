@@ -3,47 +3,49 @@ title: "wandb artifact put"
 ---
 
 {/*
-  このコマンドの導入用コンテンツを追加するには:
+  このコマンドの導入内容を追加するには:
   1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-artifact-put.mdx
-  2. そのファイルに導入コンテンツを追加します
-  3. 次の 2 行だけを残し、このコメントブロック全体を削除します:
+  2. そのファイルに導入内容を追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
   import WandbArtifactPut from "/snippets/_includes/cli/wandb-artifact-put.mdx";
 
   <WandbArtifactPut/>
 
-  スニペットは次回の再生成時に自動検出されます。
+  次回の再生成時に、このスニペットは自動的に検出されます。
   */}
 
-wandb に Artifacts をアップロードする
+artifact を wandb にアップロードする
+
 
 <div id="usage">
-  ## 使用方法
+  ## 使い方
 </div>
 
 ```bash
 wandb artifact put PATH [OPTIONS]
 ```
 
+
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `PATH` | 説明はありません | はい |
+| 引数     | 説明   | 必須 |
+| :----- | :--- | :- |
+| `PATH` | 説明なし | はい |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--name`, `-n` | プッシュする Artifacts の名前: project/artifact_name |
-| `--description`, `-d` | この Artifacts の説明 |
-| `--type`, `-t` | Artifacts の種類 (デフォルト: データセット) |
-| `--alias`, `-a` | この Artifacts に適用するエイリアス (デフォルト: ['latest']) |
-| `--id` | アップロード先の run |
-| `--resume` | 現在のディレクトリで最後の run を再開します |
-| `--skip_cache` | Artifacts ファイルをアップロードする際にキャッシュをスキップします (デフォルト: False) |
-| `--policy` | Artifacts ファイルをアップロードする際のストレージポリシーを設定します (デフォルト: mutable) |
+| オプション                 | 説明                                                      |
+| :-------------------- | :------------------------------------------------------ |
+| `--name`, `-n`        | プッシュするartifactの名: `project/artifact_name`               |
+| `--description`, `-d` | このartifactの説明                                           |
+| `--type`, `-t`        | artifactのタイプ (デフォルト: データセット)                            |
+| `--alias`, `-a`       | このartifactに適用するエイリアス (デフォルト: [&#39;latest&#39;])        |
+| `--id`                | アップロード先のrun。                                            |
+| `--resume`            | 現在のディレクトリから直前のrunを再開します。                                |
+| `--skip_cache`        | artifactファイルのアップロード中はキャッシュを使用しません。 (デフォルト: False)       |
+| `--policy`            | artifactファイルのアップロード時のストレージポリシーを設定します。 (デフォルト: mutable)  |

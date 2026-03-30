@@ -1,19 +1,19 @@
 ---
-title: "W&B에 수백만 개의 step을 log하면 어떻게 되나요? 브라우저에서는 어떻게 렌더링되나요?"
+title: "W&B에 수백만 개의 step을 기록하면 어떻게 되나요? 브라우저에서는 어떻게 렌더링되나요?"
 keywords: ["Experiments", "메트릭"]
 ---
 
-전송되는 포인트 수는 UI에서 그래프가 로드되는 시간에 영향을 줍니다. 선 하나에 1,000개가 넘는 포인트가 있으면, 백엔드는 브라우저로 전송하기 전에 데이터를 1,000개 포인트로 다운샘플링합니다. 이 샘플링은 비결정적이므로 페이지를 새로고침할 때마다 샘플링되는 포인트가 달라집니다.
+전송되는 포인트 수는 UI에서 그래프 로딩 시간에 영향을 줍니다. 선 하나에 1,000개가 넘는 포인트가 있으면, 백엔드는 브라우저로 보내기 전에 데이터를 1,000개 포인트로 샘플링합니다. 이 샘플링은 비결정적이므로 페이지를 새로고침할 때마다 샘플링된 포인트가 달라집니다.
 
-메트릭당 10,000개 미만의 포인트만 로깅하세요. 선 하나에 100만 개가 넘는 포인트를 로깅하면 페이지 로드 시간이 크게 늘어납니다. 정확도를 유지하면서도 로깅량을 최소화하는 전략은 이 [Colab](https://wandb.me/log-hf-colab)에서 확인하세요. 설정과 요약 메트릭 열이 500개를 초과하면 테이블에는 500개만 표시됩니다.
+메트릭당 포인트를 10,000개 미만으로 기록하세요. 한 선에 100만 개가 넘는 포인트를 logging하면 페이지 로드 시간이 크게 늘어납니다. 정확도를 희생하지 않으면서 logging 양을 최소화하는 전략은 이 [Colab](https://wandb.me/log-hf-colab)에서 확인하세요. 설정 및 summary 메트릭의 column이 500개를 넘으면 table에는 500개만 표시됩니다.
 
 ***
 
 {/* ---- AUTO-GENERATED: tab badges ----
-  front matter의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 직접 수정하지 마세요.
+  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 표시 사이의 내용은 수동으로 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: 탭 배지 ---- */}

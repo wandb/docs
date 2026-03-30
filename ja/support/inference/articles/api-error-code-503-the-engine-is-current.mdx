@@ -1,35 +1,35 @@
 ---
-title: "API error code 503 - 推論エンジンは現在過負荷状態です"
+title: "API エラーコード 503 - 現在、推論エンジンに過負荷がかかっています"
 keywords: ["サーバー エラー"]
 ---
 
-&quot;The engine is currently overloaded, please try again later&quot; というメッセージを伴う 503 エラーは、W&amp;B Inference サーバーでトラフィックが集中しており、現在リクエストを処理できないことを意味します。
+「The engine is currently overloaded, please try again later」というメッセージを伴う 503 エラーは、W&amp;B Inference サーバーへのトラフィックが集中しており、現在はリクエストを処理できないことを意味します。
 
 <div id="why-this-happens">
-  ## この現象が発生する理由
+  ## この事象が発生する理由
 </div>
 
-需要が高い時間帯には、推論エンジンが一時的に過負荷状態になることがあります。これは一過性の状態であり、通常はトラフィックが落ち着くと自然に解消されます。
+需要が高い時間帯には、推論エンジンが一時的に過負荷になることがあります。これは一時的な状態であり、通常はトラフィックが落ち着くと自然に解消します。
 
 <div id="what-you-can-do">
   ## 対処方法
 </div>
 
 1. **少し時間を置いてから再試行する**
-   * リクエストを再試行する前に、数秒待ちます
-   * 混雑を悪化させないよう、指数バックオフを使用します
+   * リクエストを再試行する前に、数秒待ってください
+   * 混雑を悪化させないよう、指数バックオフを使用してください
 
-2. **リクエストの間隔を空ける**
-   * 多数のリクエストを送信している場合は、時間を空けて送信することを検討します
-   * リクエストのキューイングを実装して、トラフィックの急増を平準化します
+2. **リクエストを分散させる**
+   * 多数のリクエストを送信している場合は、時間を空けて送ることを検討してください
+   * リクエストのキューイングを実装して、トラフィックの急増を緩和してください
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマター内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[サーバー エラー](/ja/support/inference/tags/server-errors)</Badge>
 
-{/* ---- 自動生成ここまで: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

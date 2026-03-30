@@ -1,74 +1,74 @@
 ---
-title: Vue de l’historique d’une automatisation
-description: "Vue de l’historique d’exécution de vos automatisations W&B pour vérifier le statut, les événements déclencheurs et les résultats des actions."
+title: Voir l'historique d'une automatisation
+description: "Consultez l'historique d'exécution de vos W&B Automations pour vérifier le statut, les événements déclencheurs et les résultats des actions."
 ---
 
 <Note>
   Cette fonctionnalité nécessite une licence Enterprise. Elle est disponible uniquement pour :
 
-  * W&amp;B Cloud mutualisé
-  * W&amp;B Cloud dédié
-  * W&amp;B Autogéré v0.75.0+
+  * W&amp;B Multi-tenant Cloud
+  * W&amp;B Dedicated Cloud
+  * W&amp;B Self-Managed v0.75.0+
 </Note>
 
-Cette page explique comment consulter et interpréter l’historique d’exécution de vos [automatisations](/fr/models/automations) W&amp;B, notamment ce qui a déclenché une automatisation, quelles actions ont été exécutées et si elles ont réussi ou échoué.
+Cette page explique comment consulter et interpréter l&#39;historique d&#39;exécution de vos [automatisations](/fr/models/automations) W&amp;B, notamment ce qui a déclenché une automatisation, quelles actions ont été effectuées et si elles ont réussi ou échoué.
 
 Chaque automatisation exécutée génère un enregistrement qui comprend :
 
-* **Horodatage d’exécution** : moment où l’automatisation a été déclenchée.
-* **Événement déclencheur** : événement précis qui a déclenché l’automatisation.
-* **Statut** : statut de l’exécution. Voir [Statut d’exécution](#execution-status).
-* **Détails de l’action** : informations sur l’action exécutée, par exemple l’envoi d’une notification à un canal Slack ou l’exécution d’un webhook.
-* **Détails du résultat** : informations supplémentaires, le cas échéant, sur le résultat final de l’exécution de l’automatisation, y compris l’erreur en cas d’échec.
+* **Horodatage d&#39;exécution** : moment où l&#39;automatisation a été déclenchée.
+* **Événement déclencheur** : événement précis qui a déclenché l&#39;automatisation.
+* **Statut** : statut de l&#39;exécution. Voir [Statut d&#39;exécution](#execution-status).
+* **Détails de l&#39;action** : informations sur l&#39;action effectuée, par exemple l&#39;envoi d&#39;une notification à un canal Slack ou l&#39;exécution d&#39;un webhook.
+* **Détails du résultat** : informations supplémentaires, le cas échéant, sur le résultat final de l&#39;exécution de l&#39;automatisation, y compris l&#39;erreur en cas d&#39;échec.
 
-Selon votre cas d’utilisation, sélectionnez l’onglet **Registry** ou **Project** pour obtenir des instructions détaillées sur la consultation de l’historique des automatisations.
+Selon votre cas d’utilisation, sélectionnez l&#39;onglet **registre** ou **Projet** pour obtenir des instructions détaillées sur la consultation de l&#39;historique des automatisations.
 
 <Tabs>
-  <Tab title="Registry">
-    1. Accédez à votre registre en cliquant sur **Registry** dans la barre latérale du projet.
+  <Tab title="registre">
+    1. Accédez à votre registre en cliquant sur **registre** dans la barre latérale du projet.
     2. Sélectionnez votre registre dans la liste.
-    3. Vue des automatisations du registre dans l’onglet **Automations**. Cliquez sur l’horodatage **Last execution** pour afficher les détails de l’historique d’exécution. Vous pouvez utiliser la barre de recherche pour filtrer par nom d’automatisation, et trier par date du dernier déclenchement pour trouver les automatisations exécutées récemment.
-    4. Vue des exécutions des automatisations du registre dans l’ordre chronologique inverse dans l’onglet **Automations history**, y compris l’événement, l’action et le statut. Cliquez sur l’horodatage d’une exécution pour afficher les détails d’une exécution particulière.
+    3. Consultez les automatisations du registre dans l&#39;onglet **Automations**. Cliquez sur l&#39;horodatage **Last execution** pour afficher les détails de l&#39;historique d&#39;exécution. Vous pouvez utiliser la barre de recherche pour filtrer par nom d&#39;automatisation, et trier par date de dernier déclenchement afin de trouver les automatisations exécutées récemment.
+    4. Consultez les exécutions des automatisations du registre dans l&#39;ordre chronologique inverse dans l&#39;onglet **Automations history**, y compris l&#39;événement, l&#39;action et le statut. Cliquez sur un horodatage d&#39;exécution pour afficher les détails d&#39;une exécution donnée.
 
-    <Tip>Si une collection comporte des exécutions d’automatisation associées, l’icône ![Symbole d’exécution d’automatisation de collection, un cercle avec une flèche pointant vers la droite](/images/automations/collection-automation-execution-icon.png) s’affiche, ainsi que le nombre d’exécutions associées.</Tip>
+    <Tip>Si une collection comporte des exécutions d&#39;automatisation associées, l&#39;icône ![Symbole d'exécution d'automatisation d'une collection, un cercle avec une flèche pointant vers la droite](/images/automations/collection-automation-execution-icon.png) s&#39;affiche, ainsi que le nombre d&#39;exécutions associées.</Tip>
   </Tab>
 
-  <Tab title="Project">
-    1. Cliquez sur l’onglet **Automations** dans la barre latérale du projet. Les automatisations du projet s’affichent. Cliquez sur l’horodatage **Last execution** pour afficher les détails de l’historique d’exécution. Vous pouvez utiliser la barre de recherche pour filtrer par nom d’automatisation, et trier par date du dernier déclenchement pour trouver les automatisations exécutées récemment.
-    2. Dans l’onglet **History**, vue de toutes les exécutions des automatisations du projet dans l’ordre chronologique inverse, en commençant par la plus récente. Les métadonnées de chaque exécution s’affichent, y compris l’événement, l’action et le statut. Cliquez sur l’horodatage d’une exécution pour afficher les détails d’une exécution particulière.
+  <Tab title="Projet">
+    1. Cliquez sur l&#39;onglet **Automations** dans la barre latérale du projet. Les automatisations du projet s&#39;affichent. Cliquez sur l&#39;horodatage **Last execution** pour afficher les détails de l&#39;historique d&#39;exécution. Vous pouvez utiliser la barre de recherche pour filtrer par nom d&#39;automatisation, et trier par date de dernier déclenchement afin de trouver les automatisations exécutées récemment.
+    2. Dans l&#39;onglet **History**, consultez toutes les exécutions des automatisations du projet dans l&#39;ordre chronologique inverse, en commençant par la plus récente. Les métadonnées de chaque exécution s&#39;affichent, notamment l&#39;événement, l&#39;action et le statut. Cliquez sur un horodatage d&#39;exécution pour afficher les détails d&#39;une exécution donnée.
   </Tab>
 </Tabs>
 
 <div id="understanding-execution-details">
-  ## Comprendre les détails d’exécution
+  ## Comprendre les détails d&#39;exécution
 </div>
 
-Chaque exécution d’automatisation peut avoir l’un des statuts suivants :
+Chaque exécution d&#39;automatisation a l&#39;un des statuts suivants :
 
-* **Terminée** : l’automatisation a exécuté toutes les actions avec succès.
-* **Échouée** : l’automatisation a rencontré une erreur et s’est terminée sans succès.
-* **En attente** : l’automatisation est en file d’attente pour être exécutée.
+* **Terminée** : l&#39;automatisation a exécuté toutes les actions avec succès.
+* **Échouée** : l&#39;automatisation a rencontré une erreur et s&#39;est arrêtée sans aboutir.
+* **En attente** : l&#39;automatisation est en file d&#39;attente pour être exécutée.
 
-Cliquez sur n’importe quelle exécution dans l’historique pour afficher les détails :
+Cliquez sur n&#39;importe quelle exécution dans l&#39;historique pour en afficher les détails :
 
-* **Détails de l’événement** : l’événement précis qui a déclenché l’automatisation, notamment :
-  * Type d’événement (par exemple, &quot;Nouvelle version d’artefact&quot;, &quot;Run terminé&quot;)
-  * Informations sur l’entité (ID du run, nom de l’artefact, etc.)
-  * Utilisateur ayant déclenché l’événement (le cas échéant)
+* **Détails de l&#39;événement** : l&#39;événement précis qui a déclenché l&#39;automatisation, notamment :
+  * Type d&#39;événement (par ex., &quot;Nouvelle version d&#39;artifact&quot;, &quot;Run terminé&quot;)
+  * Informations sur l&#39;entité (ID du run, nom de l&#39;artifact, etc.)
+  * Utilisateur ayant déclenché l&#39;événement (le cas échéant)
 
-* **Détails de l’action** : informations sur ce que l’automatisation a tenté de faire :
-  * Type d’action (notification Slack ou webhook)
+* **Détails de l&#39;action** : informations sur ce que l&#39;automatisation a tenté de faire :
+  * Type d&#39;action (notification Slack ou webhook)
   * Cible (canal Slack ou URL du webhook)
-  * Payload envoyé (pour les webhooks)
+  * Charge utile envoyée (pour les webhooks)
 
 * **Informations sur le résultat** :
   * Statut de la réponse (pour les webhooks)
-  * Tous les messages d’erreur ou stack traces (pour les exécutions ayant échoué)
+  * Tous les messages d&#39;erreur ou stack traces (pour les exécutions en échec)
 
 <div id="next-steps">
-  ## Étapes suivantes
+  ## Prochaines étapes
 </div>
 
 * [Créer une automatisation](/fr/models/automations/create-automations)
-* En savoir plus sur les [événements et les périmètres de l’automatisation](/fr/models/automations/automation-events)
+* En savoir plus sur les [événements et périmètres d’automatisation](/fr/models/automations/automation-events)
 * [Créer un secret](/fr/platform/secrets)

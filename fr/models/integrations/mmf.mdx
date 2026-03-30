@@ -3,25 +3,25 @@ description: "Intégrez W&B au framework MMF de Meta AI pour suivre les expérie
 title: MMF
 ---
 
-La classe `WandbLogger` de la bibliothèque [MMF de Meta AI](https://github.com/facebookresearch/mmf) permettra à W&amp;B de consigner les métriques d&#39;entraînement et de validation, les métriques système (GPU et CPU), les points de contrôle du modèle et les paramètres de configuration.
+La classe `WandbLogger` de la bibliothèque [MMF de Meta AI](https://github.com/facebookresearch/mmf) permet à W&amp;B de consigner les métriques d&#39;entraînement et de validation, les métriques système (GPU et CPU), les points de contrôle du modèle et les paramètres de configuration.
 
 <div id="current-features">
   ## Fonctionnalités actuelles
 </div>
 
-Les fonctionnalités suivantes sont actuellement prises en charge par `WandbLogger` dans MMF :
+Les fonctionnalités suivantes sont prises en charge par le `WandbLogger` dans MMF :
 
 * Métriques d&#39;entraînement et de validation
-* Taux d&#39;apprentissage au fil du temps
-* Enregistrement des points de contrôle du modèle dans les Artifacts W&amp;B
-* Métriques système du GPU et du CPU
+* Évolution du taux d&#39;apprentissage
+* Enregistrement des points de contrôle du modèle dans W&amp;B Artifacts
+* Métriques système GPU et CPU
 * Paramètres de configuration de l&#39;entraînement
 
 <div id="config-parameters">
   ## Paramètres de configuration
 </div>
 
-Les options suivantes sont disponibles dans la configuration MMF pour activer et personnaliser la journalisation avec wandb :
+Les options suivantes sont disponibles dans la configuration MMF pour activer et personnaliser la journalisation de wandb :
 
 ```
 training:
@@ -40,7 +40,7 @@ training:
         # est : ${training.experiment_name}
         name: ${training.experiment_name}
         
-        # Activer la sauvegarde des points de contrôle du modèle dans W&B Artifacts
+        # Activer le point de contrôle du modèle, en sauvegardant les points de contrôle du modèle dans W&B Artifacts
         log_model_checkpoint: true
         
         # Valeurs d'arguments supplémentaires à transmettre à wandb.init(), par exemple :

@@ -1,13 +1,13 @@
 ---
 title: "SDK TypeScript : guide d’intégration de bibliothèques tierces"
-description: "Intégrer des bibliothèques tierces avec le SDK TypeScript Weave"
+description: "Intégrez des bibliothèques tierces au SDK TypeScript de Weave"
 ---
 
-Ce guide explique comment intégrer des bibliothèques tierces (par ex. OpenAI) au SDK TypeScript Weave. Weave prend en charge l’instrumentation automatique, ce qui simplifie la configuration et limite le recours à une configuration manuelle.
+Ce guide explique comment intégrer des bibliothèques tierces (par exemple OpenAI) au SDK TypeScript de Weave. Weave prend en charge l’instrumentation automatique, ce qui simplifie la configuration et réduit le besoin de configuration manuelle.
 
 <Warning>
   **Qu’est-ce qui a changé ?**
-  Depuis la [PR #4554](https://github.com/wandb/weave/pull/4554), les bibliothèques prises en charge, comme OpenAI, sont automatiquement patchées lorsque Weave est chargé. Vous n’avez plus besoin de les encapsuler manuellement, comme c’était le cas auparavant :
+  Depuis la [PR #4554](https://github.com/wandb/weave/pull/4554), les bibliothèques prises en charge, comme OpenAI, sont automatiquement patchées au chargement de Weave. Vous n’avez donc plus besoin de les encapsuler manuellement, comme c’était le cas auparavant :
 
   ```ts lines
   weave.wrapOpenAI(new OpenAI());
@@ -17,13 +17,13 @@ Ce guide explique comment intégrer des bibliothèques tierces (par ex. OpenAI) 
 </Warning>
 
 <div id="use-weave-integrations-with-your-typescript-project">
-  ## Utilisez les intégrations Weave avec votre projet TypeScript
+  ## Utiliser les intégrations Weave avec votre projet TypeScript
 </div>
 
 Les projets TypeScript peuvent utiliser le système de modules CommonJS ou ESM.
 
 <div id="if-youre-unsure-which-type-of-project-you-have">
-  ### Si vous ne savez pas quel type de projet vous utilisez
+  ### Si vous ne savez pas quel type de projet vous avez
 </div>
 
 Si vous exécutez directement un fichier TypeScript avec un outil tel que :
@@ -32,7 +32,7 @@ Si vous exécutez directement un fichier TypeScript avec un outil tel que :
 npx tsx test.ts
 ```
 
-le système de modules peut être déduit implicitement de votre environnement. Pour garantir un comportement cohérent, nous vous recommandons de définir explicitement les fichiers `package.json` et `tsconfig.json`.
+le système de modules peut être déterminé implicitement par votre environnement. Pour garantir un comportement cohérent, nous vous recommandons de définir explicitement les fichiers `package.json` et `tsconfig.json`.
 
 Pour déterminer si un projet utilise CommonJS ou ESM, vérifiez le champ `type` dans `package.json` :
 
@@ -81,10 +81,10 @@ Pour configurer votre projet en CommonJS :
    * **`target: "es2022"`** *(Recommandé)* — Génère du JavaScript moderne compatible avec les versions récentes de Node.js.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
 
-   * **`rootDir: "."`** — Considère le répertoire qui contient `tsconfig.json` comme la racine de vos fichiers d’entrée. TypeScript l’utilise avec `outDir` pour reproduire l’arborescence de votre dossier source dans la sortie.
+   * **`rootDir: "."`** — Considère le répertoire contenant `tsconfig.json` comme la racine de vos fichiers d’entrée. TypeScript l’utilise avec `outDir` pour reproduire la structure de votre dossier source dans le résultat généré.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Root Dir](https://www.typescriptlang.org/tsconfig/#rootDir).
 
-   * **`outDir: "dist"`** — Écrit le JavaScript généré (ainsi que les autres sorties du compilateur) dans le dossier `dist`.
+   * **`outDir: "dist"`** — Écrit le JavaScript généré (et les autres sorties du compilateur) dans le dossier `dist`.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Out Dir](https://www.typescriptlang.org/tsconfig/#outDir).
 
 3. Installez Weave et toutes les autres bibliothèques requises :
@@ -115,9 +115,9 @@ Comme CommonJS utilise le chargeur de modules `require` de Node.js, Weave peut i
   ### Configurer un projet ESM
 </div>
 
-Pour utiliser Weave avec un projet TypeScript ESM, configurez votre projet pour qu’il utilise l’ESM de Node.js, compilez votre code, puis démarrez Node.js avec l’option `--import` afin que Weave puisse enregistrer son instrumentation avant le chargement des autres modules.
+Pour utiliser Weave avec un projet TypeScript ESM, configurez votre projet pour le mode ESM de Node.js, compilez votre code, puis démarrez Node.js avec l’option `--import` afin que Weave puisse enregistrer son instrumentation avant le chargement des autres modules.
 
-Pour configurer votre projet pour l’ESM :
+Pour configurer votre projet pour ESM :
 
 1. Créez ou mettez à jour votre `package.json` :
 
@@ -149,16 +149,16 @@ Pour configurer votre projet pour l’ESM :
    * **`moduleResolution: "nodenext"`** — Garantit que la résolution des modules suit les règles ESM de Node.js.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Module Resolution](https://www.typescriptlang.org/tsconfig/#moduleResolution).
 
-   * **`target: "es2022"`** *(Recommandé)* — Génère du JavaScript moderne compatible avec les versions récentes de Node.js.
+   * **`target: "es2022"`** *(Recommandé)* — Génère un code JavaScript moderne compatible avec les versions récentes de Node.js.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
 
-   * **`rootDir: "."`** — Considère le répertoire qui contient `tsconfig.json` comme la racine de vos fichiers d’entrée. TypeScript l’utilise avec `outDir` pour reproduire l’arborescence de votre dossier source dans la sortie.
+   * **`rootDir: "."`** — Traite le répertoire qui contient `tsconfig.json` comme la racine de vos fichiers d’entrée. TypeScript l’utilise avec `outDir` pour reproduire la structure de votre dossier source dans le dossier de sortie.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Root Dir](https://www.typescriptlang.org/tsconfig/#rootDir).
 
-   * **`outDir: "dist"`** — Écrit le JavaScript généré (ainsi que les autres sorties du compilateur) dans le dossier `dist`.
+   * **`outDir: "dist"`** — Écrit le code JavaScript généré (et les autres sorties du compilateur) dans le dossier `dist`.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Out Dir](https://www.typescriptlang.org/tsconfig/#outDir).
 
-3. Installez Weave et toutes les autres bibliothèques requises :
+3. Installez Weave et toute autre bibliothèque requise :
 
    ```bash
    npm install weave
@@ -172,15 +172,15 @@ Pour configurer votre projet pour l’ESM :
    npx tsc
    ```
 
-   Cela compile le fichier en `dist/test.js`.
+   Cette commande compile le fichier en `dist/test.js`.
 
-5. Exécutez le fichier compilé avec Node.js et préchargez l’instrumentation de Weave :
+5. Exécutez le fichier compilé avec Node.js et préchargez l’instrumentation Weave :
 
    ```bash
    node --import=weave/instrument dist/test.js
    ```
 
-L’option `--import` garantit que le module `weave/instrument` est chargé avant les autres modules, afin que Weave puisse instrumenter automatiquement les bibliothèques et intégrations prises en charge.
+L’option `--import` garantit que le module `weave/instrument` est chargé avant les autres modules afin que Weave puisse automatiquement instrumenter les bibliothèques et intégrations prises en charge.
 
 Weave doit être installé localement dans le projet que vous exécutez.
 
@@ -188,17 +188,17 @@ Weave doit être installé localement dans le projet que vous exécutez.
   ## Utilisation avancée et dépannage
 </div>
 
-Cette section présente les cas limites et les solutions de contournement lorsque le patching automatique du SDK TypeScript ne fonctionne pas comme prévu. Par exemple, les environnements exclusivement ESM, les configurations avec des bundlers comme Next.js ou les environnements d’exécution contraints peuvent entraîner des problèmes inattendus. Si vous constatez l’absence de traces ou des problèmes d’intégration, commencez ici.
+Cette section couvre les cas limites et les solutions de contournement lorsque le patching automatique du SDK TypeScript ne fonctionne pas comme prévu. Par exemple, des environnements ESM uniquement, des configurations de bundler comme Next.js ou des environnements d’exécution contraints peuvent entraîner des problèmes inattendus. Si vous constatez des traces manquantes ou des problèmes d’intégration, commencez ici.
 
 <div id="use-node_options-only-for-esm">
   ### Utiliser `NODE_OPTIONS` (uniquement pour ESM)
 </div>
 
 <Warning>
-  Utilisez `NODE_OPTIONS` avec prudence, car cela affecte tous les processus Node.js de l’environnement et peut entraîner des effets de bord.
+  Utilisez `NODE_OPTIONS` avec prudence, car cela s’applique à tous les processus Node.js de l’environnement et peut entraîner des effets de bord.
 </Warning>
 
-Si vous utilisez un projet ESM et que vous ne pouvez pas transmettre d’options de ligne de commande (par exemple, en raison de contraintes liées à certains outils CLI ou frameworks), définissez la variable d’environnement `NODE_OPTIONS` :
+Si vous utilisez un projet ESM et que vous ne pouvez pas passer d’options CLI (par exemple, en raison de contraintes liées aux outils CLI ou aux frameworks), définissez la variable d’environnement `NODE_OPTIONS` :
 
 ```bash
 export NODE_OPTIONS="--import=weave/instrument"
@@ -206,16 +206,16 @@ export NODE_OPTIONS="--import=weave/instrument"
 
 
 <div id="bundler-compatibility">
-  ### Compatibilité avec les bundlers
+  ### Compatibilité des bundlers
 </div>
 
-Certains frameworks et bundlers, comme Next.js, peuvent empaqueter des bibliothèques tierces d&#39;une manière qui empêche Node.js de les patcher au moment de l&#39;exécution.
+Certains frameworks et bundlers, comme Next.js, peuvent intégrer des bibliothèques tierces au bundle d’une manière qui empêche Node.js de les patcher à l’exécution.
 
 Si cela correspond à votre configuration, essayez les étapes suivantes :
 
-1. Marquez les bibliothèques LLM comme externes dans la configuration de votre bundler. Cela évite qu&#39;elles soient empaquetées, afin que Weave puisse les patcher correctement à l&#39;exécution.
+1. Marquez les bibliothèques LLM comme externes dans la configuration de votre bundler. Cela évite qu’elles soient intégrées au bundle, afin que Weave puisse les patcher correctement à l’exécution.
 
-   L&#39;exemple suivant montre comment marquer le package `openai` comme externe dans une configuration `next.config.js`, ce qui évite qu&#39;il soit empaqueté. Le module est chargé à l&#39;exécution, ce qui permet à Weave de le patcher et de le suivre automatiquement. Utilisez cette configuration lorsque vous travaillez avec des frameworks comme Next.js pour activer l&#39;instrumentation automatique.
+   L’exemple suivant montre comment marquer le package `openai` comme externe dans une configuration `next.config.js`, ce qui l’empêche d’être intégré au bundle. Le module est chargé à l’exécution, ce qui permet à Weave de le patcher automatiquement et de le suivre. Utilisez cette configuration lorsque vous travaillez avec des frameworks comme Next.js pour activer l’instrumentation automatique.
 
    ```js
    externals: {
@@ -223,14 +223,14 @@ Si cela correspond à votre configuration, essayez les étapes suivantes :
    }
    ```
 
-2. Si le patching échoue toujours, utilisez l&#39;[instrumentation manuelle](#manual-patching-fallback-option).
+2. Si le patching échoue toujours, utilisez l’[instrumentation manuelle](#manual-patching-fallback-option).
 
 <div id="manual-patching-fallback-option">
-  ### Patch manuel (option de secours)
+  ### Patch manuel (option de repli)
 </div>
 
 <Warning>
-  Le patch manuel est la méthode historique. Utilisez-le uniquement si l’auto-patching ne fonctionne pas.
+  Le patch manuel est l’approche historique. Utilisez-le uniquement lorsque le patching automatique ne fonctionne pas.
 </Warning>
 
 Dans certains cas, vous devrez peut-être encore utiliser l’instrumentation manuelle :

@@ -4,7 +4,7 @@ description: "Découvrez comment utiliser cette introduction aux évaluations av
 ---
 
 <Note>
-  Il s’agit d’un notebook interactif. Vous pouvez le run localement ou utiliser les liens ci-dessous :
+  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter en local ou utiliser les liens ci-dessous :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Eval.ipynb)
@@ -14,10 +14,10 @@ description: "Découvrez comment utiliser cette introduction aux évaluations av
   ## 🔑 Prérequis
 </div>
 
-Avant de pouvoir run une évaluation Weave, assurez-vous d’avoir rempli les prérequis suivants.
+Avant de pouvoir exécuter une évaluation Weave, assurez-vous d’avoir effectué les prérequis suivants.
 
 1. Installez le SDK W&amp;B Weave et connectez-vous avec votre [clé API](https://wandb.ai/settings#apikeys).
-2. Installez le SDK OpenAI et connectez-vous avec votre [clé API](https://platform.openai.com/api-keys).
+2. Installez l’OpenAI SDK et connectez-vous avec votre [clé API](https://platform.openai.com/api-keys).
 3. Initialisez votre projet W&amp;B.
 
 ```python lines
@@ -33,16 +33,16 @@ from pydantic import BaseModel
 import weave
 
 # 🔑 Configurer vos clés API
-# Runner cette cellule vous demandera votre clé API via `getpass` et ne l'affichera pas dans le terminal.
+# L'exécution de cette cellule vous demandera votre clé API via `getpass` et ne l'affichera pas dans le terminal.
 #####
 print("---")
 print(
-    "Créez une clé API W&B sur : https://wandb.ai/settings#apikeys"
+    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
 )
-os.environ["WANDB_API_KEY"] = getpass("Entrez votre clé API W&B : ")
+os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
 print("---")
-print("Vous pouvez générer votre clé API OpenAI ici : https://platform.openai.com/api-keys")
-os.environ["OPENAI_API_KEY"] = getpass("Entrez votre clé API OpenAI : ")
+print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
+os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
 print("---")
 #####
 
@@ -51,10 +51,10 @@ weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Le nom de votre projet W&B
 ```
 
 <div id="run-your-first-evaluation">
-  ## 🐝 Runnez votre première évaluation
+  ## 🐝 Lancez votre première évaluation
 </div>
 
-L’exemple de code suivant montre comment évaluer un LLM à l’aide des API `Model` et `Evaluation` de Weave. Commencez par définir un modèle Weave en héritant de `weave.Model`, en précisant le nom du modèle et le format du prompt, puis en décorant une méthode `predict` avec `@weave.op`. La méthode `predict` envoie un prompt à OpenAI et convertit la réponse en sortie structurée à l’aide d’un schéma Pydantic (`FruitExtract`). Créez ensuite un petit jeu de données d’évaluation composé de phrases d’entrée et de résultats attendus. Définissez ensuite une fonction de score personnalisée (également suivie avec `@weave.op`) qui compare la sortie du modèle à l’étiquette cible. Enfin, encapsulez le tout dans une `weave.Evaluation`, en spécifiant votre jeu de données et vos évaluateurs, puis appelez `evaluate()` pour runner le pipeline d’évaluation de manière asynchrone.
+L’exemple de code suivant montre comment évaluer un LLM à l’aide des API `Model` et `Evaluation` de Weave. Commencez par définir un modèle Weave en héritant de `weave.Model`, en indiquant le nom du modèle et le format du prompt, puis en assurant le suivi d’une méthode `predict` avec `@weave.op`. La méthode `predict` envoie un prompt à OpenAI et convertit la réponse en une sortie structurée à l’aide d’un schéma Pydantic (`FruitExtract`). Créez ensuite un petit jeu de données d’évaluation composé de phrases en entrée et de cibles attendues. Définissez ensuite une fonction de score personnalisée (également suivie avec `@weave.op`) qui compare la sortie du modèle au libellé cible. Enfin, encapsulez le tout dans un `weave.Evaluation`, en spécifiant votre jeu de données et vos évaluateurs, puis appelez `evaluate()` pour exécuter le pipeline d’évaluation de manière asynchrone.
 
 ```python lines
 # 1. Construire un modèle Weave
@@ -116,7 +116,7 @@ def fruit_name_score(target: dict, output: FruitExtract) -> dict:
     matches = any(tf in of for tf in target_flavors for of in output_flavors)
     return {"correct": matches}
 
-# 4. Runnez votre évaluation
+# 4. Lancer votre évaluation
 evaluation = weave.Evaluation(
     name="fruit_eval",
     dataset=examples,
@@ -129,5 +129,5 @@ await evaluation.evaluate(model)
   ## 🚀 Vous cherchez d’autres exemples ?
 </div>
 
-* Découvrez comment build un [pipeline d’évaluation de bout en bout](/fr/weave/tutorial-eval).
-* Découvrez comment évaluer une [application RAG en la buildant](/fr/weave/tutorial-rag).
+* Découvrez comment créer un [pipeline d’évaluation de bout en bout](/fr/weave/tutorial-eval).
+* Découvrez comment évaluer une [application RAG en la développant](/fr/weave/tutorial-rag).

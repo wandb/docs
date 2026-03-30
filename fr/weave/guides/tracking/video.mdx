@@ -1,12 +1,12 @@
 ---
-title: "Journal des vidéos"
-description: "Journalisez et suivez automatiquement les données vidéo dans les traces Weave à l’aide de `moviepy` pour la lecture et l’analyse dans l’interface utilisateur."
+title: "Journaliser des vidéos"
+description: "Journalisez et suivez automatiquement les données vidéo dans les traces Weave à l’aide de moviepy pour leur lecture et leur analyse dans l’UI."
 ---
 
-Weave journalise automatiquement les vidéos à l’aide de [`moviepy`](https://zulko.github.io/moviepy/). Cela vous permet de transmettre des entrées et des sorties vidéo à des fonctions tracées, et Weave gère automatiquement le téléversement et le stockage des données vidéo.
+Weave journalise automatiquement les vidéos à l’aide de [`moviepy`](https://zulko.github.io/moviepy/). Cela vous permet d’utiliser des vidéos en entrée et en sortie de fonctions tracées, et Weave se charge automatiquement du téléversement et du stockage des données vidéo.
 
 <Note>
-  L’assistance pour les vidéos est actuellement disponible uniquement en Python.
+  La prise en charge des vidéos n’est actuellement disponible qu’en Python.
 </Note>
 
 <div id="usage-prerequisites">
@@ -20,13 +20,13 @@ Weave journalise automatiquement les vidéos à l’aide de [`moviepy`](https://
   ## Types de vidéos pris en charge
 </div>
 
-Weave reconnaît les objets de clip vidéo `moviepy`, tels que :
+Weave reconnaît les objets de clip vidéo `moviepy`, par exemple :
 
-* Un `VideoFileClip` chargé depuis un fichier vidéo
+* Un `VideoFileClip` chargé à partir d’un fichier vidéo
 * Des clips en mémoire comme `ImageClip`, `ColorClip` et `TextClip`
 
 <div id="direct-upload-of-file-based-clips">
-  ### Téléversement direct de clips à partir de fichiers
+  ### Téléversement direct de clips sous forme de fichiers
 </div>
 
 Si votre clip est un `VideoFileClip` et possède un nom de fichier valide avec une extension prise en charge, Weave téléversera directement le fichier.
@@ -41,7 +41,7 @@ Si votre clip est un `VideoFileClip` et possède un nom de fichier valide avec u
   ### Prise en charge des clips en mémoire
 </div>
 
-Si l’objet vidéo est en mémoire (aucun fichier sur le disque), Weave l’encodera au format `.mp4` et se chargera automatiquement de téléverser. Cela s’applique aux clips du type suivant :
+Si l&#39;objet vidéo est en mémoire (aucun fichier sur disque), Weave l&#39;encodera au format `.mp4` et gérera automatiquement le téléversement. Cela s&#39;applique aux clips du type suivant :
 
 * `ImageClip`
 * `ColorClip`
@@ -51,18 +51,18 @@ Si l’objet vidéo est en mémoire (aucun fichier sur le disque), Weave l’enc
   ## Exemple : tracer une fonction de traitement vidéo
 </div>
 
-L&#39;exemple de code suivant montre comment tracer une fonction de traitement vidéo dans Weave. Cet exemple de code :
+L’exemple de code suivant montre comment tracer une fonction de traitement vidéo dans Weave. Cet exemple de code :
 
 1. Initialise un projet Weave `video-test`.
-2. Définit une fonction `get_video`, suivie comme `weave.op`, qui extrait un sous-clip d&#39;une seconde du `VideoFileClip` chargé sous forme de `VideoClip`.
-3. Téléverse le clip dans Weave et en assure le suivi.
-4. Génère automatiquement une vidéo MP4 factice si aucune n&#39;est trouvée.
+2. Définit une fonction `get_video`, suivie en tant que `weave.op`, qui extrait un sous-clip d’une seconde du `VideoFileClip` chargé sous forme de `VideoClip`.
+3. Téléverse et suit le clip dans Weave.
+4. Génère automatiquement une vidéo MP4 factice si aucune n’est trouvée.
 
 <Warning>
-  Pour éviter les problèmes de sûreté des threads, passez toujours le chemin d&#39;accès aux objets `VideoFileClip` au lieu de les créer en dehors de l&#39;`op` Weave.
+  Pour éviter les problèmes de thread-safety, passez toujours le chemin vers les objets `VideoFileClip` au lieu de les créer en dehors de l’`op` Weave.
 </Warning>
 
-Avant d&#39;utiliser l&#39;extrait de code suivant, terminez les [prérequis d&#39;utilisation](#usage-prerequisites).
+Avant d’utiliser l’extrait de code suivant, terminez les [prérequis d’utilisation](#usage-prerequisites).
 
 ```python lines
 import os
@@ -99,12 +99,12 @@ if __name__ == "__main__":
     get_video(clip) 
 ```
 
-Lorsque l’exemple de code s’exécute correctement, vous pouvez voir votre vidéo en cliquant sur le lien dans le tableau **Traces** de votre projet.
+Lorsque l’exemple de code s’exécute correctement, vous pouvez consulter votre vidéo en cliquant sur le lien dans le tableau **Traces** de votre projet.
 
 <Frame>
   ![Trace d’une fonction de traitement vidéo dans le tableau Traces.](/weave/guides/tracking/imgs/video-trace.png)
 </Frame>
 
 <Frame>
-  ![Vidéo MP4 téléversée vers Weave, affichée dans la fenêtre contextuelle Traces.](/weave/guides/tracking/imgs/video-trace-popout.png)
+  ![Vidéo MP4 importée dans Weave, affichée dans le volet contextuel Traces.](/weave/guides/tracking/imgs/video-trace-popout.png)
 </Frame>

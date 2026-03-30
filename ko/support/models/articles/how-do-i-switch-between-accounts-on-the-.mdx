@@ -1,9 +1,9 @@
 ---
-title: "동일한 머신에서 계정을 전환하려면 어떻게 하나요?"
+title: "같은 머신에서 계정을 전환하려면 어떻게 해야 하나요?"
 keywords: ["환경 변수"]
 ---
 
-같은 머신에서 두 개의 W&amp;B 계정을 관리하려면 두 API 키를 파일에 저장하세요. 비밀 키가 소스 제어에 커밋되지 않도록 하면서 키를 안전하게 전환하려면 리포지토리에서 다음 코드를 사용하세요.
+같은 머신에서 두 개의 W&amp;B 계정을 관리하려면 API 키 두 개를 모두 파일에 저장하세요. 저장소에서는 다음 코드를 사용해 키를 안전하게 전환하고, 비밀 키가 버전 관리에 커밋되지 않도록 하세요.
 
 ```python
 if os.path.exists("~/keys.json"):
@@ -12,11 +12,11 @@ if os.path.exists("~/keys.json"):
 
 ***
 
-{/* ---- 자동 생성: 탭 배지 ----
-  프런트 매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 마커 사이의 내용은 수동으로 편집하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 마커 사이의 내용은 수동으로 수정하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- AUTO-GENERATED 종료: 탭 배지 ---- */}

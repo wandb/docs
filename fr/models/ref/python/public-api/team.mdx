@@ -9,11 +9,11 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/teams.py" />
 
 
-## <kbd>classe</kbd> `Team`
+## <kbd>class</kbd> `Team`
 
-Une classe qui représente une équipe W&amp;B.
+Classe représentant une équipe W&amp;B.
 
-Cette classe fournit des méthodes pour gérer les équipes W&amp;B, notamment pour créer des équipes, inviter des membres et gérer des comptes de service. Elle hérite d&#39;Attrs pour gérer les attributs de l&#39;équipe.
+Cette classe fournit des méthodes pour gérer les équipes W&amp;B, notamment pour créer des équipes, inviter des membres et gérer des comptes de service. Elle hérite de Attrs pour gérer les attributs de l’équipe.
 
 ### <kbd>méthode</kbd> `Team.__init__`
 
@@ -28,12 +28,12 @@ __init__(
 **Arguments :**
 
 * `client` (`wandb.apis.public.Api`) :  L’instance d’API à utiliser
-* `name` (str) :  Le nom de l’équipe
-* `attrs` (dict) :  Dictionnaire facultatif des attributs de l’équipe
+* `name` (str) :  Le nom de la équipe
+* `attrs` (dict) :  Dictionnaire facultatif des attributs de la équipe
 
 **Remarque :**
 
-> La gestion des équipes nécessite les autorisations appropriées.
+> La gestion des équipes requiert les autorisations appropriées.
 
 ***
 
@@ -48,11 +48,11 @@ Créer une nouvelle équipe.
 
 **Arguments :**
 
-* `api`:  (`Api`) L’instance d’API à utiliser
-* `team`:  (str) Le nom de l’équipe
-* `admin_username`:  (str) nom d’utilisateur facultatif de l’administrateur de l’équipe ; par défaut, l’utilisateur actuel.
+* `api`:  (`Api`) L&#39;instance d&#39;API à utiliser
+* `team`:  (str) Le nom de la équipe
+* `admin_username`:  (str) nom d&#39;utilisateur facultatif de l&#39;administrateur de la équipe ; par défaut, l&#39;utilisateur actuel.
 
-**Retourne :**
+**Retourne :**
 Un objet `Team`
 
 ***
@@ -64,14 +64,14 @@ Un objet `Team`
 create_service_account(description: 'str') → Member | None
 ```
 
-Créer un compte de service pour l’équipe.
+Créez un compte de service pour la équipe.
 
 **Arguments :**
 
-* `description`:  (str) Description de ce compte de service
+* `description`:  (str) Une description de ce compte de service
 
 **Retourne :**
-L’objet `Member` du compte de service, ou `None` en cas d’échec
+L’objet `Member` du compte de service, ou None en cas d’échec
 
 ***
 
@@ -82,14 +82,14 @@ L’objet `Member` du compte de service, ou `None` en cas d’échec
 invite(username_or_email: 'str', admin: 'bool' = False) → bool
 ```
 
-Inviter un utilisateur dans une équipe.
+Invitez un utilisateur dans une équipe.
 
 **Arguments :**
 
-* `username_or_email`:  (str) Le nom d&#39;utilisateur ou l&#39;adresse e-mail de l&#39;utilisateur que vous souhaitez inviter.
-* `admin`:  (bool) Indique si cet utilisateur doit être administrateur de l&#39;équipe.  Valeur par défaut : `False`.
+* `username_or_email`:  (str) Le nom d’utilisateur ou l’adresse e-mail de l’utilisateur que vous souhaitez inviter.
+* `admin`:  (bool) Indique si cet utilisateur doit devenir administrateur de la équipe.  La valeur par défaut est `False`.
 
 **Retourne :**
-`True` en cas de réussite, `False` si l&#39;utilisateur a déjà été invité ou n&#39;existe pas.
+`True` en cas de succès, `False` si l’utilisateur avait déjà été invité ou n’existait pas.
 
 ***

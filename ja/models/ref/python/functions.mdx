@@ -1,33 +1,33 @@
 ---
-title: Global Functions 概要
-description: W&B Python SDK における Global Functions
+title: Global Functions の概要
+description: W&B Python SDK の Global Functions
 module: 
 no_list: true
 ---
 
-W&amp;B の Global Functions は、`wandb.init()` や `wandb.login()` のように直接呼び出すトップレベル関数です。特定のクラスに属するメソッドとは異なり、これらの関数を使うと、オブジェクトをあらかじめインスタンス化しなくても W&amp;B のコア機能に直接アクセスできます。
+W&amp;B の Global Functions は、`wandb.init()` や `wandb.login()` のように直接呼び出せるトップレベル関数です。特定のクラスに属する method とは異なり、これらの関数を使えば、オブジェクトを事前にインスタンス化しなくても W&amp;B の中核機能に直接アクセスできます。
 
 <div id="available-functions">
   ## 利用可能な関数
 </div>
 
-| Function                                                  | 説明                                                                  |
-| --------------------------------------------------------- | ------------------------------------------------------------------- |
-| [`init()`](/ja/models/ref/python/functions/init)             | 新しい run を開始し、W&amp;B に追跡情報とログを保存します。通常、ML トレーニングパイプラインで最初に呼び出す関数です。 |
-| [`login()`](/ja/models/ref/python/functions/login)           | マシンをプラットフォームで認証するために、W&amp;B のログイン認証情報を設定します。                       |
-| [`setup()`](/ja/models/ref/python/functions/setup)           | 現在のプロセスとその子プロセスで W&amp;B を利用できるように準備します。マルチプロセス アプリケーションで役立ちます。     |
-| [`teardown()`](/ja/models/ref/python/functions/teardown)     | W&amp;B のリソースをクリーンアップし、バックエンドプロセスをシャットダウンします。                       |
-| [`sweep()`](/ja/models/ref/python/functions/sweep)           | 最適な モデル の設定を探索するためのハイパーパラメーター sweep を初期化します。                        |
-| [`agent()`](/ja/models/ref/python/functions/agent)           | ハイパーパラメーター最適化の実験を実行する sweep エージェントを作成します。                           |
-| [`controller()`](/ja/models/ref/python/functions/controller) | sweep エージェントとその実行を管理および制御します。                                       |
-| [`restore()`](/ja/models/ref/python/functions/restore)       | 作業を再開できるように、以前の run または実験の状態を復元します。                                 |
-| [`finish()`](/ja/models/ref/python/functions/finish)         | run を終了し、リソースをクリーンアップします。                                           |
+| Function                                                  | Description                                                              |
+| --------------------------------------------------------- | ------------------------------------------------------------------------ |
+| [`init()`](/ja/models/ref/python/functions/init)             | W&amp;B にトラッキングとログするための新しい run を開始します。通常、ML トレーニングパイプラインで最初に呼び出す関数です。 |
+| [`login()`](/ja/models/ref/python/functions/login)           | マシンをプラットフォームに認証するための W&amp;B ログイン認証情報を設定します。                             |
+| [`setup()`](/ja/models/ref/python/functions/setup)           | 現在のプロセスとその子プロセスで使用できるように W&amp;B を準備します。マルチプロセス アプリケーションで役立ちます。          |
+| [`teardown()`](/ja/models/ref/python/functions/teardown)     | W&amp;B のリソースをクリーンアップし、バックエンドプロセスをシャットダウンします。                            |
+| [`sweep()`](/ja/models/ref/python/functions/sweep)           | 最適なモデル設定を探索するためのハイパーパラメーター sweep を初期化します。                                |
+| [`agent()`](/ja/models/ref/python/functions/agent)           | ハイパーパラメーター最適化の実験を実行するための sweep agent を作成します。                             |
+| [`controller()`](/ja/models/ref/python/functions/controller) | sweep agent とその実行を管理・制御します。                                              |
+| [`restore()`](/ja/models/ref/python/functions/restore)       | 以前の run または実験の状態を復元して、作業を再開します。                                          |
+| [`finish()`](/ja/models/ref/python/functions/finish)         | run を終了し、リソースをクリーンアップします。                                                |
 
 <div id="example">
   ## 例
 </div>
 
-最も一般的なワークフローは、W&amp;B にログインし、run を初期化し、トレーニングループから精度や損失といった値をログすることから始まります。最初のステップは `wandb` をインポートし、グローバル関数 `login()` と `init()` を使うことです。
+最も一般的なワークフローは、W&amp;B で認証し、run を初期化して、トレーニングループから値 (accuracy や損失など) をログすることから始まります。最初のステップは、`wandb` をインポートし、Global Functions の `login()` と `init()` を使用することです。
 
 ```python
 import wandb
@@ -41,7 +41,7 @@ config = {
    "epochs": 10,
 }
 
-# run を記録するプロジェクト
+# run の記録先プロジェクト
 project = "my-awesome-project"
 
 # 新しい run を初期化する

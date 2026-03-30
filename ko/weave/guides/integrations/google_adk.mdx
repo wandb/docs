@@ -1,21 +1,21 @@
 ---
 title: "Google Agent Development Kit (ADK)"
-description: "OpenTelemetry를 사용해 Weave에서 Google Agent Development Kit (ADK) 에이전트 및 도구 호출을 추적하기"
+description: "OpenTelemetry를 사용해 Weave에서 Google Agent Development Kit (ADK) 에이전트 및 도구 call을 트레이스합니다"
 ---
 
-[Google Agent Development Kit (ADK)](https://google.github.io/adk-docs/) 에이전트와 도구 호출을 [OpenTelemetry (OTEL)](https://opentelemetry.io/)을 사용해 Weave에서 추적할 수 있습니다. ADK는 AI 에이전트를 개발하고 배포하기 위한 유연하고 모듈식 프레임워크입니다. Gemini 및 Google 생태계에 최적화되어 있지만, ADK는 모델과 배포 방식에 구애받지 않습니다. 단순한 작업부터 복잡한 워크플로에 이르기까지 에이전트 기반 아키텍처를 생성, 배포, 오케스트레이션하기 위한 도구를 제공합니다.
+[OpenTelemetry (OTEL)](https://opentelemetry.io/)를 사용하면 Weave에서 [Google Agent Development Kit (ADK)](https://google.github.io/adk-docs/) 에이전트 및 도구 call을 트레이스할 수 있습니다. ADK는 AI 에이전트를 개발하고 배포하기 위한 유연한 모듈형 프레임워크입니다. Gemini와 Google 생태계에 최적화되어 있지만, ADK는 특정 모델이나 배포 환경에 구애받지 않습니다. 단순한 작업부터 복잡한 워크플로에 이르기까지, 다양한 에이전트 아키텍처를 생성, 배포, 오케스트레이션할 수 있는 도구를 제공합니다.
 
-이 가이드는 OTEL을 사용해 ADK 에이전트와 도구 호출을 추적하고, 해당 트레이스를 Weave에서 시각화하는 방법을 설명합니다. 필수 종속성을 설치하고, OTEL 트레이서를 구성하여 데이터를 Weave로 전송하는 방법, 그리고 ADK 에이전트와 도구에 계측을 추가하는 방법을 알아봅니다.
+이 가이드에서는 OTEL을 사용해 ADK 에이전트 및 도구 call을 트레이스하고, 해당 트레이스를 Weave에서 시각화하는 방법을 설명합니다. 필요한 의존성을 설치하고, 데이터를 Weave로 전송하도록 OTEL tracer를 설정하고, ADK 에이전트와 도구를 계측하는 방법을 알아봅니다.
 
 <Tip>
-  Weave에서 OTEL 트레이싱에 대한 자세한 내용은 [OTEL 트레이스를 Weave로 전송하기](../tracking/otel)를 참조하세요.
+  Weave에서의 OTEL tracing에 대한 자세한 내용은 [Send OTEL Traces to Weave](../tracking/otel)를 참조하세요.
 </Tip>
 
 <div id="prerequisites">
-  ## 사전 준비 사항
+  ## 사전 요구 사항
 </div>
 
-1. 필요한 종속성을 설치합니다:
+1. 필요한 의존성을 설치합니다:
 
    ```bash
    pip install google-adk opentelemetry-sdk opentelemetry-exporter-otlp-proto-http
@@ -27,35 +27,35 @@ description: "OpenTelemetry를 사용해 Weave에서 Google Agent Development Ki
    export GOOGLE_API_KEY=your_api_key_here
    ```
 
-3. [Weave에서 OTEL 트레이싱을 구성](#configure-otel-tracing-in-weave)합니다.
+3. [Weave에서 OTEL 트레이싱을 구성하세요](#configure-otel-tracing-in-weave).
 
 <div id="configure-otel-tracing-in-weave">
   ### Weave에서 OTEL 트레이싱 설정
 </div>
 
-ADK에서 Weave로 트레이스를 전송하려면 `TracerProvider`와 `OTLPSpanExporter`를 사용해 OTEL을 설정해야 합니다. Exporter를 [인증 및 프로젝트 식별을 위한 올바른 엔드포인트와 HTTP 헤더](#required-configuration)에 맞게 구성하세요.
+ADK에서 Weave로 트레이스를 보내려면 `TracerProvider`와 `OTLPSpanExporter`로 OTEL을 설정하세요. 익스포터가 [인증 및 프로젝트 식별에 필요한 올바른 엔드포인트와 HTTP 헤더](#required-configuration)를 사용하도록 설정하세요.
 
 <Warning>
-  API 키와 프로젝트 정보와 같은 민감한 환경 변수는 `.env`와 같은 환경 파일에 저장해 두고, `os.environ`을 사용해 로드하는 것을 권장합니다. 이렇게 하면 자격 증명을 더 안전하게 보호하고 코드베이스에 노출되지 않도록 할 수 있습니다.
+  API 키와 프로젝트 정보 같은 민감한 환경 변수는 환경 파일(예: `.env`)에 저장하고 `os.environ`으로 불러오는 것을 권장합니다. 이렇게 하면 자격 증명을 안전하게 유지하고 코드베이스에 직접 포함하지 않을 수 있습니다.
 </Warning>
 
 <div id="required-configuration">
-  ### 필요한 설정
+  ### 필수 설정
 </div>
 
 * **Endpoint:** `https://trace.wandb.ai/otel/v1/traces`. 전용 Weave 인스턴스를 사용하는 경우 URL은 다음 패턴을 따릅니다: `{YOUR_WEAVE_HOST}/traces/otel/v1/traces`
-* **Headers:**
+* **헤더:**
   * `Authorization`: W&amp;B API 키를 사용하는 Basic 인증
-  * `project_id`: W&amp;B entity/project 이름(예: `myteam/myproject`)
+  * `project_id`: W&amp;B entity/프로젝트 이름(예: `myteam/myproject`)
 
 <div id="send-otel-traces-from-adk-to-weave">
-  ## ADK에서 Weave로 OTEL 트레이스를 전송하기
+  ## ADK에서 Weave로 OTEL 트레이스 보내기
 </div>
 
-다음 코드 스니펫은 OTLP span exporter 및 tracer provider를 구성하여 ADK 애플리케이션에서 Weave로 OTEL 트레이스를 전송하는 방법을 보여줍니다.
+다음 코드 스니펫은 ADK 애플리케이션에서 Weave로 OTEL 트레이스를 보내도록 OTLP span exporter와 tracer provider를 설정하는 방법을 보여줍니다.
 
 <Warning>
-  Weave가 ADK를 올바르게 추적할 수 있도록, 코드에서 ADK 컴포넌트를 사용하기 *전에* 전역 tracer provider를 설정해야 합니다.
+  Weave가 ADK를 올바르게 트레이스할 수 있도록, 코드에서 ADK 컴포넌트를 사용하기 *전에* 전역 tracer provider를 설정하세요.
 </Warning>
 
 ```python lines
@@ -68,7 +68,7 @@ from opentelemetry import trace
 
 # 환경 변수에서 민감한 값 로드
 WANDB_BASE_URL = "https://trace.wandb.ai"
-# W&B entity/프로젝트 이름 예: "myteam/myproject"
+# W&B entity/프로젝트 이름 (예: "myteam/myproject")
 PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  
 # https://wandb.ai/settings 에서 W&B API 키 생성
 WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  
@@ -91,15 +91,15 @@ exporter = OTLPSpanExporter(
 tracer_provider = trace_sdk.TracerProvider()
 tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
 
-# ADK를 임포트/사용하기 전에 전역 트레이서 프로바이더 설정
+# ADK 임포트/사용 전에 전역 트레이서 프로바이더 설정
 trace.set_tracer_provider(tracer_provider)
 ```
 
 <div id="trace-adk-agents-with-otel">
-  ## OTEL로 ADK 에이전트 트레이싱하기
+  ## OTEL로 ADK 에이전트 트레이스하기
 </div>
 
-tracer provider를 설정한 후에는 자동 트레이싱이 적용된 ADK 에이전트를 생성하고 실행할 수 있습니다. 다음 예시는 툴을 사용하는 간단한 LLM 에이전트를 생성하고, 인메모리 runner로 실행하는 방법을 보여줍니다:
+트레이서 프로바이더를 설정한 후에는 자동 트레이싱이 적용된 ADK 에이전트를 생성하고 실행할 수 있습니다. 다음 예제에서는 도구가 포함된 단순한 LLM 에이전트를 생성하고, 메모리 내 러너로 실행하는 방법을 보여줍니다.
 
 ```python lines
 from google.adk.agents import LlmAgent
@@ -163,17 +163,17 @@ async def run_agent():
 asyncio.run(run_agent())
 ```
 
-모든 에이전트의 작업은 자동으로 트레이싱되어 Weave로 전송되며, 이를 통해 실행 흐름을 시각화할 수 있습니다. 모델 호출, 추론 단계, 도구 호출을 확인할 수 있습니다.
+모든 에이전트 오퍼레이션은 자동으로 트레이스되어 Weave로 전송되므로 실행 흐름을 시각화할 수 있습니다. 모델 call, 추론 step, 도구 호출을 확인할 수 있습니다.
 
 <Frame>
   ![ADK 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_agent_trace.png)
 </Frame>
 
 <div id="trace-adk-tools-with-otel">
-  ## OTEL로 ADK 도구 트레이싱하기
+  ## OTEL로 ADK 도구 트레이스하기
 </div>
 
-ADK로 도구를 정의하고 사용할 때, 이러한 도구 호출도 트레이스에 함께 캡처됩니다. OTEL 인테그레이션은 에이전트의 추론 과정과 개별 도구 실행을 모두 자동으로 계측하여, 에이전트 동작을 포괄적으로 파악할 수 있도록 해줍니다.
+ADK에서 도구를 정의하고 사용하면 해당 call도 트레이스에 함께 기록됩니다. OTEL 인테그레이션은 에이전트의 추론 과정과 개별 도구 실행을 모두 자동으로 계측하므로, 에이전트의 동작을 종합적으로 파악할 수 있습니다.
 
 다음은 여러 도구를 사용하는 예시입니다:
 
@@ -219,14 +219,14 @@ async def run_agent():
         name="MathAgent",
         model="gemini-2.0-flash",
         instruction=(
-            "You are a helpful assistant that can do math operations. "
-            "When asked to add numbers, use the add tool. "
-            "When asked to multiply numbers, use the multiply tool."
+            "당신은 수학 연산을 수행할 수 있는 유용한 어시스턴트입니다. "
+            "숫자를 더하라는 요청을 받으면 add 도구를 사용하세요. "
+            "숫자를 곱하라는 요청을 받으면 multiply 도구를 사용하세요."
         ),
         tools=[add_tool, multiply_tool],
     )
 
-    # 러너 설정
+    # runner 설정
     runner = InMemoryRunner(agent=agent, app_name="math_assistant")
     session_service = runner.session_service
 
@@ -244,25 +244,25 @@ async def run_agent():
         user_id=user_id,
         session_id=session_id,
         new_message=types.Content(
-            role="user", parts=[types.Part(text="First add 5 and 7, then multiply the result by 2.")]
+            role="user", parts=[types.Part(text="먼저 5와 7을 더한 다음, 그 결과에 2를 곱하세요.")]
         ),
     ):
         if event.is_final_response() and event.content:
-            print(f"Final response: {event.content.parts[0].text.strip()}")
+            print(f"최종 응답: {event.content.parts[0].text.strip()}")
 
 # 비동기 함수 실행
 asyncio.run(run_agent())
 ```
 
 <Frame>
-  ![ADK 도구 호출 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_tool_calls.png)
+  ![ADK 도구 call에 대한 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_tool_calls.png)
 </Frame>
 
 <div id="work-with-workflow-agents">
-  ## Workflow Agent 사용하기
+  ## 워크플로 에이전트 사용하기
 </div>
 
-ADK는 더 복잡한 시나리오를 위한 다양한 [*workflow agents*](https://google.github.io/adk-docs/agents/workflow-agents/)를 제공합니다. 일반 LLM agent와 마찬가지로 workflow agent도 추적할 수 있습니다. 다음은 [`SequentialAgent`](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/)를 사용하는 예제입니다:
+ADK는 더 복잡한 시나리오에서 사용할 수 있는 다양한 [*워크플로 에이전트*](https://google.github.io/adk-docs/agents/workflow-agents/)를 제공합니다. 일반 LLM 에이전트와 마찬가지로 워크플로 에이전트도 트레이스할 수 있습니다. 다음은 [`SequentialAgent`](https://google.github.io/adk-docs/agents/workflow-agents/sequential-agents/)를 사용하는 예시입니다:
 
 ```python lines
 from google.adk.agents import LlmAgent, SequentialAgent
@@ -288,7 +288,7 @@ async def run_workflow():
         output_key="sentiment"  # state['sentiment']에 출력 저장
     )
     
-    # 순차 워크플로우 생성
+    # 순차 워크플로 생성
     workflow = SequentialAgent(
         name="TextProcessor",
         sub_agents=[summarizer, analyzer],
@@ -308,7 +308,7 @@ async def run_workflow():
         session_id=session_id,
     )
     
-    # 워크플로우 실행
+    # 워크플로 실행
     async for event in runner.run_async(
         user_id=user_id,
         session_id=session_id,
@@ -324,17 +324,17 @@ async def run_workflow():
 asyncio.run(run_workflow())
 ```
 
-이 워크플로 에이전트 트레이스는 Weave에서 두 에이전트의 순차 실행 과정을 보여 주며, 멀티 에이전트 시스템 내에서 데이터 흐름을 파악할 수 있는 가시성을 제공합니다.
+이 워크플로 에이전트 트레이스는 Weave에서 두 에이전트가 순차적으로 실행되는 모습을 보여 주며, 데이터가 멀티 에이전트 시스템을 통해 어떻게 흐르는지 파악할 수 있게 해줍니다.
 
 <Frame>
-  ![순차 워크플로 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png)
+  ![순차적 워크플로 에이전트의 트레이스 시각화](/weave/guides/integrations/imgs/google_adk/adk_workflow_trace.png)
 </Frame>
 
 <div id="learn-more">
   ## 자세히 알아보기
 </div>
 
-* [Weave 문서: OTEL 트레이스를 Weave로 보내기](../tracking/otel)
+* [Weave 문서: OTEL 트레이스를 Weave로 전송](../tracking/otel)
 * [공식 ADK 문서](https://google.github.io/adk-docs/)
 * [공식 OTEL 문서](https://opentelemetry.io/)
-* [ADK GitHub 리포지터리](https://github.com/google/adk-python)
+* [ADK GitHub 저장소](https://github.com/google/adk-python)

@@ -1,14 +1,14 @@
 ---
-title: "Comment exécuter des sweeps sur SLURM ?"
+title: "Comment exécuter des Sweeps sur SLURM ?"
 keywords: ["Sweeps"]
 ---
 
-Lorsque vous utilisez des sweeps avec le [système d&#39;ordonnancement SLURM](https://slurm.schedmd.com/documentation.html), exécutez `wandb agent --count 1 SWEEP_ID` dans chaque job planifié. Cette commande exécute une seule tâche d&#39;entraînement, puis se termine, ce qui facilite l&#39;estimation du temps d&#39;exécution pour les demandes de ressources tout en tirant parti du parallélisme des recherches d&#39;hyperparamètres.
+Lorsque vous utilisez des Sweeps avec le [système d&#39;ordonnancement SLURM](https://slurm.schedmd.com/documentation.html), exécutez `wandb agent --count 1 SWEEP_ID` dans chaque job planifié. Cette commande exécute une seule tâche d&#39;entraînement, puis se termine, ce qui permet de mieux estimer les besoins en ressources à partir de la durée d&#39;exécution, tout en tirant parti du parallélisme des recherches d&#39;hyperparamètres.
 
 ***
 
 {/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
-  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Généré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 

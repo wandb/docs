@@ -1,9 +1,9 @@
 ---
 title: États des runs
-description: Découvrez les différents états que peut prendre un run W&B.
+description: Découvrez les différents états possibles d’un run W&B.
 ---
 
-L’[état du run](/fr/models/runs/run-states#run-states) indique le statut actuel d’un run W&amp;B. Vous pouvez [consulter l’état](/fr/models/runs/run-states#view-the-state-of-a-run) d’un run dans l’application W&amp;B ou par programmation à l’aide du SDK Python de W&amp;B.
+L’[état du run](/fr/models/runs/run-states#run-states) indique le statut actuel d’un run W&amp;B. Vous pouvez [consulter l’état](/fr/models/runs/run-states#view-the-state-of-a-run) d’un run dans la W&amp;B App ou de façon programmatique à l’aide du W&amp;B Python SDK.
 
 <div id="run-states">
   ## États des runs
@@ -11,39 +11,39 @@ L’[état du run](/fr/models/runs/run-states#run-states) indique le statut actu
 
 Le tableau suivant décrit les états possibles d’un run :
 
-| État       | Description                                                                                                           |
-| ---------- | --------------------------------------------------------------------------------------------------------------------- |
-| `Crashed`  | Le run a cessé d’envoyer des signaux de pulsation au processus interne, ce qui peut se produire si la machine plante. |
-| `Failed`   | Le run s’est terminé avec un statut de sortie non nul.                                                                |
-| `Finished` | Le run s’est terminé et a entièrement synchronisé les données, ou a appelé `wandb.Run.finish()`.                      |
-| `Killed`   | Le run a été arrêté de force avant d’avoir pu se terminer.                                                            |
-| `Running`  | Le run est toujours en cours d’exécution et a récemment envoyé un signal de pulsation.                                |
-| `Pending`  | Le run est planifié, mais n’a pas encore démarré (fréquent dans les balayages et les jobs Launch).                    |
+| État       | Description                                                                                                            |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `Crashed`  | Le run a cessé d’envoyer des signaux de vie depuis le processus interne, ce qui peut se produire si la machine plante. |
+| `Failed`   | Le run s’est terminé avec un code de sortie non nul.                                                                   |
+| `Finished` | Le run s’est terminé et a entièrement synchronisé les données, ou a appelé `wandb.Run.finish()`.                       |
+| `Killed`   | Le run a été arrêté de force avant d’avoir pu se terminer.                                                             |
+| `Running`  | Le run est toujours en cours d’exécution et a récemment envoyé un signal de vie.                                       |
+| `Pending`  | Le run est planifié, mais n’a pas encore démarré (fréquent dans Sweeps et les jobs Launch).                            |
 
 <div id="run-states-in-sweeps">
-  ### États des runs dans les balayages
+  ### États des runs dans les Sweeps
 </div>
 
-Lorsque des runs font partie d’un [balayage](/fr/models/sweeps/), leurs états évoluent indépendamment du statut du balayage :
+Lorsque des runs font partie d’un [Sweeps](/fr/models/sweeps/), leurs états évoluent indépendamment du statut du Sweeps :
 
-* Les **états individuels des runs** reflètent le statut d’exécution de chaque run (Running, Finished, Failed, etc.)
-* Le **statut du balayage** détermine si de nouveaux runs sont créés, et non la façon dont les runs existants s’exécutent
-* Mettre en pause ou arrêter un balayage n’affecte pas les runs déjà en cours d’exécution
-* Seule l’annulation d’un balayage tue de force les runs en cours d’exécution (leur état passe à `Killed`)
+* **Les états de run individuels** reflètent le statut d’exécution de chaque run (Running, Finished, Failed, etc.)
+* **Le statut du Sweeps** détermine si de nouveaux runs sont créés, et non la façon dont les runs existants s’exécutent
+* Mettre en pause ou arrêter un Sweeps n’affecte pas les runs déjà en cours d’exécution
+* Seule l’annulation d’un Sweeps met fin de force aux runs en cours d’exécution (en faisant passer leur état à `Killed`)
 
-Pour une explication détaillée de l’interaction entre les statuts des balayages et des runs, voir [Comprendre les statuts des balayages et des runs](/fr/models/sweeps/pause-resume-and-cancel-sweeps#understanding-sweep-and-run-statuses).
+Pour une explication détaillée de l’interaction entre les statuts du Sweeps et du run, voir [Comprendre les statuts de Sweeps et de run](/fr/models/sweeps/pause-resume-and-cancel-sweeps#understanding-sweep-and-run-statuses).
 
 <div id="view-the-state-of-a-run">
-  ## Consulter l’état d’un run
+  ## Voir l&#39;état d&#39;un run
 </div>
 
-Consultez par code ou de manière interactive l’état d’un run avec le SDK Python ou l’application W&amp;B.
+Affichez l&#39;état d&#39;un run, par code ou de manière interactive, avec le SDK Python ou W&amp;B App.
 
 <Tabs>
   <Tab title="SDK Python">
-    Utilisez la propriété `state` de l’objet [`wandb.Api.Run`](/fr/models/ref/python/public-api/runs) pour accéder à l’état actuel d’un run.
+    Utilisez la propriété `state` de l&#39;objet [`wandb.Api.Run`](/fr/models/ref/python/public-api/runs) pour accéder à l&#39;état actuel d&#39;un run.
 
-    L’extrait de code suivant récupère et affiche l’état de tous les runs d’un projet donné. Copiez-collez l’extrait de code suivant dans votre environnement Python. Remplacez les valeurs entre chevrons (`< >`) par vos propres valeurs :
+    L&#39;extrait de code suivant récupère et affiche l&#39;état de tous les runs d&#39;un projet donné. Copiez et collez l&#39;extrait de code suivant dans votre environnement Python. Remplacez les valeurs entre chevrons (`< >`) par vos propres valeurs :
 
     ```python
     import wandb
@@ -59,18 +59,18 @@ Consultez par code ou de manière interactive l’état d’un run avec le SDK P
         print()
     ```
 
-    Vous pouvez appliquer différents filtres pour récupérer des runs dans vos projets selon différents critères. Voir [Filter runs](/fr/models/runs/filter-runs) pour en savoir plus sur le filtrage des runs par code.
+    Vous pouvez appliquer différents filtres pour récupérer des runs de vos projets selon divers critères. Voir [Filtrer les runs](/fr/models/runs/filter-runs) pour en savoir plus sur le filtrage des runs par code.
   </Tab>
 
   <Tab title="W&B App">
-    Consultez l’état d’un run dans l’application W&amp;B :
+    Affichez l&#39;état d&#39;un run dans W&amp;B App :
 
     1. Accédez à votre projet W&amp;B.
-    2. Sélectionnez l’onglet **Workspace** ou **Runs** dans la barre latérale du projet.
-    3. Recherchez le run que vous voulez consulter, ou faites défiler la page jusqu’à celui-ci.
-    4. Sélectionnez le run pour ouvrir sa page d’aperçu.
-    5. Choisissez l’onglet **Aperçu**.
+    2. Sélectionnez l&#39;onglet **Workspace** ou **Runs** dans la barre latérale du projet.
+    3. Recherchez le run que vous souhaitez afficher ou faites défiler la page jusqu&#39;à celui-ci.
+    4. Sélectionnez le run pour ouvrir sa page d&#39;aperçu.
+    5. Choisissez l&#39;onglet **Aperçu**.
 
-    À côté du champ **State**, consultez l’état actuel du run.
+    À côté du champ **State**, consultez l&#39;état actuel du run.
   </Tab>
 </Tabs>

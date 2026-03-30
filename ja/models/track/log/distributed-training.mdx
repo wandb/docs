@@ -1,46 +1,46 @@
 ---
-description: 複数の GPU を用いた分散トレーニング実験を W&B でログに記録します。
-title: 分散トレーニング実験をログに記録する
+description: 複数のGPUを使用した分散トレーニング実験をW&Bでログします。
+title: 分散トレーニング実験をログする
 ---
 
-分散トレーニング実験では、複数のマシンやクライアントを並列に使用してモデルをトレーニングします。W&amp;B は、分散トレーニング実験の追跡に役立ちます。ユースケースに応じて、次のいずれかのアプローチで分散トレーニング実験を追跡してください。
+分散トレーニング実験では、複数のマシンまたはクライアントを並列に使用してモデルをトレーニングします。W&amp;Bは、分散トレーニング実験のトラッキングに役立ちます。ユースケースに応じて、次のいずれかの方法で分散トレーニング実験をトラッキングします。
 
-* **単一プロセスを追跡する**: W&amp;B で rank 0 プロセス（「leader」または「coordinator」とも呼ばれます）を追跡します。これは、[PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) クラスを用いた分散トレーニング実験をログに記録する際の一般的な方法です。
-* **複数プロセスを追跡する**: 複数のプロセスがある場合、次のいずれかを実行できます:
-  * プロセスごとに 1 つの run を使用して、それぞれのプロセスを個別に追跡します。必要に応じて、W&amp;B App UI でそれらをグループ化できます。
-  * すべてのプロセスを 1 つの run に追跡します。
+* **単一のプロセスをトラッキングする**: rank 0 のプロセス (&quot;leader&quot; または &quot;coordinator&quot; とも呼ばれます) をW&amp;Bでトラッキングします。これは、[PyTorch Distributed Data Parallel](https://pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel) (DDP) Class を使用した分散トレーニング実験のログで一般的な方法です。
+* **複数のプロセスをトラッキングする**: 複数のプロセスをトラッキングする場合は、次のいずれかの方法を使用できます。
+  * 各プロセスを、プロセスごとに1つの run を使って個別にトラッキングします。必要に応じて、W&amp;B App UI でまとめてグループ化することもできます。
+  * すべてのプロセスを単一の run にトラッキングします。
 
 <Tip>
   **同時接続**
 
-  各同時接続は、コンピュート、メモリ、およびネットワークリソースを消費します。メトリクスを定期的にログに記録しない空のクライアント接続であっても、システムメトリクスの更新をプッシュするため、チャート読み込み時のパフォーマンスが低下する可能性があります。
+  同時接続ごとに、コンピュート、メモリ、ネットワークのリソースが必要になります。メトリクスを定期的にログしない空のクライアント接続でもシステムメトリクスの更新は送信されるため、チャートの読み込み時のパフォーマンス低下につながります。
 
-  W&amp;B では、ワークロードに応じて同時クライアント接続数に適切な上限を設け、時間の経過に伴うリソース使用状況を監視することを推奨します。W&amp;B は、**Dedicated Cloud** 環境で同時クライアント接続数 300 のハードリミットでテストを行っています。
+  W&amp;Bでは、ワークロードに応じて同時クライアント接続の最大数を適切に制限し、時間の経過に伴うリソース使用量を監視することを推奨しています。W&amp;Bは、**専用クラウド** で同時クライアント接続数 300 のハード制限までテストしています。
 
-  **Multi-tenant Cloud** 組織では、分散トレーニング用のクライアント接続も、通常のトレーニング run と同じ [レート制限](/ja/models/track/limits#rate-limits) が適用されます。[Teams および Enterprise プラン](https://wandb.ai/site/pricing) のユーザーは、Free プランのユーザーよりも高いレート制限値が適用されます。
+  **Multi-tenant Cloud** の組織では、分散トレーニング用のクライアント接続には、通常のトレーニング run と同じ [rate limits](/ja/models/track/limits#rate-limits) が適用されます。[Teams and Enterprise plans](https://wandb.ai/site/pricing) のUsersは、Free プランのUsersよりも高い rate limits を利用できます。
 </Tip>
 
-{/* 以降の例では、単一のマシン上で 2 つの GPU を使い、PyTorch DDP を使用して W&B でメトリクスを追跡する方法を示します。 [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)（`torch.nn` の `DistributedDataParallel`）は、分散トレーニングのための一般的なライブラリです。基本的な原則はどのような分散トレーニングのセットアップにも当てはまりますが、実装の詳細は異なる場合があります。
+{/* 以下の例では、単一マシン上の 2 基の GPU で PyTorch DDP を使用し、W&B でメトリクスをトラッキングする方法を示します。[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)（`torch.nn` の `DistributedDataParallel`）は、分散トレーニングで広く使われているライブラリです。基本的な考え方は、どの分散トレーニング環境にも当てはまりますが、実装の詳細は異なる場合があります。
 
   <Note>
-  これらの例で使用しているコードは、W&B GitHub examples リポジトリの [こちら](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp) で確認できます。特に、1 プロセス方式と多プロセス方式をどのように実装しているかについては、[`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) Python スクリプトを参照してください。
+  これらの例で使用しているコードは、W&B の GitHub examples リポジトリの[こちら](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-ddp)で確認できます。特に、1 プロセス方式およびマルチプロセス方式の実装方法については、[`log-dpp.py`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) Python スクリプトを参照してください。
   </Note> */}
 
 <div id="track-a-single-process">
   ## 単一プロセスをトラッキングする
 </div>
 
-このセクションでは、rank 0 プロセスで利用可能な値とメトリクスのトラッキング方法を説明します。この方法では、単一プロセスから取得できるメトリクスのみをトラッキングします。典型的なメトリクスには、GPU/CPU 使用率、共有検証セット上での挙動、勾配とパラメーター、代表的なデータサンプルに対する損失値などが含まれます。
+このセクションでは、rank 0 プロセスで利用可能な値やメトリクスをトラッキングする方法について説明します。このアプローチは、単一のプロセスからしか取得できないメトリクスをトラッキングする場合に使用します。代表的なメトリクスには、GPU/CPU 使用率、共有の検証セットでの挙動、勾配やパラメーター、代表的なデータサンプルに対する損失値などがあります。
 
-rank 0 プロセス内で、[`wandb.init()`](/ja/models/ref/python/functions/init) を使って W&amp;B run を初期化し、その run に対して [`wandb.log`](/ja/models/ref/python/experiments/run/#method-runlog) で実験結果をログに記録します。
+rank 0 プロセス内で、[`wandb.init()`](/ja/models/ref/python/functions/init) を使用して W&amp;B run を初期化し、その run に実験データをログします ([`wandb.log`](/ja/models/ref/python/experiments/run/#method-runlog)) 。
 
-次の [サンプル Python スクリプト (`log-ddp.py`)](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) は、PyTorch DDP を使用して単一マシン上の 2 つの GPU のメトリクスをトラッキングする一例を示します。[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)（`torch.nn` の `DistributedDataParallel`）は、分散トレーニング向けの一般的なライブラリです。基本的な考え方はあらゆる分散トレーニング環境に適用できますが、実装は異なる場合があります。
+次の [Python サンプルスクリプト (`log-ddp.py`) ](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py) は、PyTorch DDP を使用して 1 台のマシン上の 2 つの GPU でメトリクスをトラッキングする方法の一例を示しています。[PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html) (`torch.nn` の `DistributedDataParallel`) は、分散トレーニングで広く使われているライブラリです。基本的な考え方はどの分散トレーニング構成にも当てはまりますが、実装は異なる場合があります。
 
-この Python スクリプトは次のことを行います：
+この Python スクリプトでは、次のことを行います。
 
-1. `torch.distributed.launch` で複数のプロセスを起動します。
+1. `torch.distributed.launch` を使用して複数のプロセスを起動します。
 2. `--local_rank` コマンドライン引数で rank を確認します。
-3. rank が 0 に設定されている場合のみ、[`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24) 関数内で `wandb` によるロギングを有効にします。
+3. rank が 0 に設定されている場合、[`train()`](https://github.com/wandb/examples/blob/master/examples/pytorch/pytorch-ddp/log-ddp.py#L24) 関数内で条件付きで `wandb` の logging を設定します。
 
 ```python
 if __name__ == "__main__":
@@ -48,160 +48,161 @@ if __name__ == "__main__":
     args = parse_args()
 
     if args.local_rank == 0:  # メインプロセスのみ
-        # wandb の run を初期化
+        # wandb runを初期化
         run = wandb.init(
             entity=args.entity,
             project=args.project,
         )
-        # DDP でモデルを学習
+        # DDPでモデルをトレーニングする
         train(args, run)
     else:
         train(args)
 ```
 
-単一プロセスから記録されたメトリクスを表示する [ダッシュボードの例](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system)を確認してください。
+単一プロセスでトラッキングされたメトリクスを示す[ダッシュボードの例](https://wandb.ai/ayush-thakur/DDP/runs/1s56u3hc/system)を確認してください。
 
-このダッシュボードでは、温度や使用率など、両方の GPU に関するシステムメトリクスが表示されています。
+このダッシュボードには、温度や利用率など、2基のGPUそれぞれのシステムメトリクスが表示されます。
 
 <Frame>
-  <img src="/images/track/distributed_training_method1.png" alt="GPU メトリクス ダッシュボード" />
+  <img src="/images/track/distributed_training_method1.png" alt="GPUメトリクスのダッシュボード" />
 </Frame>
 
-しかし、エポックやバッチサイズの関数としての loss の値は、単一の GPU からしか記録されていません。
+ただし、エポックとバッチサイズに対する損失値は、1基のGPUからのみログされていました。
 
 <Frame>
   <img src="/images/experiments/loss_function_single_gpu.png" alt="損失関数のプロット" />
 </Frame>
 
 <div id="track-multiple-processes">
-  ## 複数プロセスの追跡
+  ## 複数のプロセスをトラッキングする
 </div>
 
-次のいずれかの方法で W&amp;B を使って複数プロセスを追跡します：
+W&amp;B で複数のプロセスをトラッキングするには、次のいずれかの方法を使用します。
 
-* 各プロセスごとに run を作成し、[各プロセスを個別に追跡する](/ja/models/track/log/distributed-training/#track-each-process-separately)。
-* [すべてのプロセスを 1 つの run に集約して追跡する](/ja/models/track/log/distributed-training/#track-all-processes-to-a-single-run)。
+* 各プロセスごとに run を作成して、[各プロセスを個別にトラッキングする](/ja/models/track/log/distributed-training/#track-each-process-separately)。
+* [すべてのプロセスを 1 つの run にトラッキングする](/ja/models/track/log/distributed-training/#track-all-processes-to-a-single-run)。
 
 <div id="track-each-process-separately">
   ### 各プロセスを個別にトラッキングする
 </div>
 
-このセクションでは、各プロセスごとに run を作成して個別にトラッキングする方法について説明します。各 run の中で、その run に対応するメトリクスや Artifacts などをログします。トレーニングの最後に `wandb.Run.finish()` を呼び出して run の完了をマークし、すべてのプロセスが正しく終了するようにします。
+このセクションでは、各プロセスごとに run を作成して、各プロセスを個別にトラッキングする方法を説明します。各 run では、それぞれの run にメトリクスや Artifacts などをログします。すべてのプロセスが正常に終了するよう、トレーニングの最後に `wandb.Run.finish()` を呼び出して、run が完了したことを示します。
 
-複数の Experiments にまたがる run を管理することが難しく感じられるかもしれません。その場合は、W&amp;B を初期化するときに `group` パラメーターに値を指定します（`wandb.init(group='group-name')`）。これにより、どの run がどの Experiment に属しているかを追跡できます。Experiments 内でトレーニングおよび評価用の W&amp;B Runs をどのように管理するかの詳細は、[Group Runs](/ja/models/runs/grouping/) を参照してください。
+複数の実験にまたがる run の管理は難しいことがあります。これを軽減するには、W&amp;B の初期化時に `group` パラメーターに値を指定し (`wandb.init(group='group-name')`) 、どの run がどの実験に属するかを追跡できるようにします。実験内でトレーニングおよび評価の W&amp;B Runs を追跡する方法の詳細については、[Group Runs](/ja/models/runs/grouping/)を参照してください。
 
 <Note>
-  **個々のプロセスからのメトリクスをトラッキングしたい場合は、この方法を使用してください。** 典型的な例としては、各ノード上のデータおよび予測（データ分散のデバッグ用途）や、メインノード以外での個々のバッチに対するメトリクスなどがあります。この方法を使わなくても、すべてのノードからシステムメトリクスを取得したり、メインノードで利用可能な要約統計量を取得したりすることは可能です。
+  **個々のプロセスからのメトリクスをトラッキングしたい場合は、この方法を使用してください**。代表的な例としては、各ノード上のデータと予測 (データ分散のデバッグ用) や、メインノード以外での個々のバッチのメトリクスがあります。なお、この方法は、すべてのノードからシステムメトリクスを取得したり、メインノードで利用可能な要約統計を取得したりするためには必要ありません。
 </Note>
 
-次の Python コードスニペットは、W&amp;B を初期化するときに group パラメーターを設定する方法を示しています。
+次の Python コードスニペット は、W&amp;B の初期化時に `group` パラメーターを設定する方法を示しています。
 
 ```python
 if __name__ == "__main__":
     # 引数を取得
     args = parse_args()
-    # run を初期化
+    # runを初期化
     run = wandb.init(
         entity=args.entity,
         project=args.project,
-        group="DDP",  # 実験のすべての run を1つのグループにまとめる
+        group="DDP",  # 実験のすべてのrunを1つのグループにまとめる
     )
-    # DDP でモデルをトレーニング
+    # DDPでモデルをトレーニング
     train(args, run)
 
-    run.finish()  # run を完了としてマーク
+    run.finish()  # runを完了としてマーク
 ```
 
-複数プロセスから追跡されたメトリクスの [ダッシュボード例](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna)を表示するには、W&amp;B App UI を開いて確認します。左サイドバーで、2 つの W&amp;B Runs がグループ化されていることに注意してください。グループをクリックすると、その実験専用のグループページを表示できます。専用のグループページでは、各プロセスごとのメトリクスが個別に表示されます。
+W&amp;B App UI で、複数のプロセスからトラッキングされたメトリクスの[ダッシュボード例](https://wandb.ai/ayush-thakur/DDP?workspace=user-noahluna)を確認してください。左サイドバーでは、2 つの W&amp;B Runs が 1 つのグループにまとめられていることに注目してください。グループをクリックすると、その実験専用のグループページを表示できます。専用のグループページでは、各プロセスのメトリクスが個別に表示されます。
 
 <Frame>
-  <img src="/images/experiments/dashboard_grouped_runs.png" alt="分散 run のグループ化" />
+  <img src="/images/experiments/dashboard_grouped_runs.png" alt="グループ化された分散 runs" />
 </Frame>
 
-前の画像は W&amp;B App UI のダッシュボードを示しています。サイドバーには 2 つの実験が表示されています。1 つは「null」とラベル付けされ、もう 1 つは（黄色の枠で囲まれた）「DPP」という名前です。グループを展開（Group ドロップダウンを選択）すると、その実験に関連付けられた W&amp;B Runs が表示されます。
+上の画像は、W&amp;B App UI のダッシュボードを示しています。サイドバーには 2 つの実験が表示されています。1 つは &#39;null&#39; というラベルで、もう 1 つは &#39;DPP&#39; です (黄色の枠で囲まれています) 。グループを展開すると (Group ドロップダウンを選択) 、その実験に関連付けられた W&amp;B Runs を確認できます。
 
 <div id="organize-distributed-runs">
   ### 分散 run を整理する
 </div>
 
-ノードの役割ごとに分類できるように、W&amp;B を初期化するときに `job_type` パラメーター（`wandb.init(job_type='type-name')`）を設定します。たとえば、メインの調整用ノードが 1 つと、レポートを行う複数の worker ノードがある構成を考えます。この場合、メインの調整用ノードには `job_type` として `main` を、レポート用の worker ノードには `worker` を設定できます。
+W&amp;B の初期化時に `job_type` パラメーター (`wandb.init(job_type='type-name')`) を設定すると、各ノードをその役割に応じて分類できます。たとえば、全体を制御するメインノードと、結果を報告する複数のワーカーノードで構成される場合があります。メインノードでは `job_type` を `main` に、結果を報告するワーカーノードでは `worker` に設定できます。
 
 ```python
    # メインの調整ノード
    with wandb.init(project="<project>", job_type="main", group="experiment_1") as run:
         # トレーニングコード
 
-   # レポーティングワーカーノード
+   # レポートするワーカーノード
    with wandb.init(project="<project>", job_type="worker", group="experiment_1") as run:
         # トレーニングコード
 ```
 
-ノードに `job_type` を設定したら、ワークスペース内で [saved views](/ja/models/track/workspaces/#create-a-new-saved-workspace-view) を作成し、run を整理できます。画面右上の **...** アクションメニューをクリックし、**Save as new view** を選択します。
+ノードに `job_type` を設定したら、Workspace で [保存済みビュー](/ja/models/track/workspaces/#create-a-new-saved-workspace-view) を作成して runs を整理できます。右上の **...** アクションメニューをクリックし、**Save as new view** をクリックします。
 
-たとえば、次のような saved view を作成できます。
+たとえば、次のような保存済みビューを作成できます。
 
 * **Default view**: worker ノードを除外してノイズを減らす
-  * **Filter** をクリックし、**Job Type** を `worker` に設定します。
-  * レポート用のノードのみが表示されます
+  * **フィルター** をクリックし、**Job Type** を `worker` に設定します。
 
-* **Debug view**: トラブルシューティングのために worker ノードに絞り込む
-  * **Filter** をクリックし、**Job Type** を `==` `worker` に設定し、**State** を `IN` `crashed` に設定します。
-  * クラッシュした、またはエラー状態にある worker ノードのみが表示されます
+  * レポート用ノードのみが表示されます
 
-* **All nodes view**: すべてをまとめて確認する
-  * フィルターなし
-  * 包括的なモニタリングに便利です
+  * **Debug view**: トラブルシューティングのために worker ノードに絞り込む
+    * **フィルター** をクリックし、**Job Type** を `==` `worker` に設定し、**State** を `IN` `crashed` に設定します。
+    * クラッシュした worker ノード、またはエラー状態の worker ノードのみが表示されます
 
-saved view を開くには、プロジェクトのサイドバーで **Workspaces** をクリックし、そのメニューを開きます。Workspaces はリストの上部に表示され、saved views は下部に表示されます。
+  * **All nodes view**: すべてをまとめて表示する
+    * フィルターなし
+    * 全体を監視する際に便利です
+
+保存済みビューを開くには、プロジェクトのサイドバーで **Workspaces** をクリックし、次にメニューをクリックします。Workspaces はリストの上部に、保存済みビューは下部に表示されます。
 
 <div id="track-all-processes-to-a-single-run">
-  ### すべてのプロセスを 1 つの run に記録する
+  ### すべてのプロセスを単一の run にトラッキングする
 </div>
 
 <Warning>
-  `x_label` などの `x_` で始まるパラメーターはパブリックプレビュー中です。フィードバックがある場合は、[W&amp;B リポジトリの GitHub issue](https://github.com/wandb/wandb) を作成してください。
+  `x_` 接頭辞が付いたパラメーター (`x_label` など) はパブリックプレビューです。フィードバックを提供するには、[W&amp;B リポジトリの GitHub issue](https://github.com/wandb/wandb) を作成してください。
 </Warning>
 
 <Note>
   **要件**
 
-  複数のプロセスを 1 つの run に記録するには、次の要件を満たす必要があります:
+  複数のプロセスを単一の run にトラッキングするには、以下が必要です。
 
   * W&amp;B Python SDK バージョン `v0.19.9` 以降
 
-  * W&amp;B Server バージョン `v0.68` 以降
+  * W&amp;B Server v0.68 以降
 </Note>
 
-この方法では、プライマリノードと 1 つ以上のワーカーノードを使用します。プライマリノード内で W&amp;B run を初期化します。各ワーカーノードでは、プライマリノードで使用した run ID を使用して run を初期化します。トレーニング中、各ワーカーノードはプライマリノードと同じ run ID にログを記録します。W&amp;B はすべてのノードからのメトリクスを集約し、W&amp;B App UI に表示します。
+この方法では、プライマリノードと 1 つ以上のワーカーノードを使用します。プライマリノード内で W&amp;B run を初期化します。各ワーカーノードでは、プライマリノードで使用している run ID を使って run を初期化します。トレーニング中、各ワーカーノードはプライマリノードと同じ run ID にログします。W&amp;B はすべてのノードのメトリクスを集約し、W&amp;B App UI に表示します。
 
-プライマリノード内で、[`wandb.init()`](/ja/models/ref/python/functions/init) を使用して W&amp;B run を初期化します。`settings` パラメーター (`wandb.init(settings=wandb.Settings()`) に `wandb.Settings` オブジェクトを渡し、次を指定します:
+プライマリノードでは、[`wandb.init()`](/ja/models/ref/python/functions/init) を使って W&amp;B run を初期化します。`settings` パラメーターに `wandb.Settings` オブジェクト (`wandb.init(settings=wandb.Settings()`) を渡し、以下を設定します。
 
-1. 共有モードを有効にするために、`mode` パラメーターを `"shared"` に設定します。
-2. [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638) に一意のラベルを指定します。`x_label` に指定した値は、W&amp;B App UI のログおよびシステムメトリクスで、どのノードからデータが来ているかを識別するために使用されます。指定しない場合、W&amp;B はホスト名とランダムなハッシュを使用して自動的にラベルを作成します。
-3. このノードがプライマリノードであることを示すために、[`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) パラメーターを `True` に設定します。
-4. 任意で、`x_stats_gpu_device_ids` に GPU インデックスのリスト ([0,1,2]) を指定して、W&amp;B がどの GPU のメトリクスを追跡するかを指定します。リストを指定しない場合、W&amp;B はマシン上のすべての GPU のメトリクスを追跡します。
+1. 共有モードを有効にするため、`mode` パラメーターを `"shared"` に設定します。
+2. [`x_label`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L638) に一意のラベルを設定します。`x_label` に指定した値は、ログおよび W&amp;B App UI のシステムメトリクスで、データがどのノードから送られてきたかを識別するために使用されます。指定しない場合、W&amp;B はホスト名とランダムなハッシュを使ってラベルを作成します。
+3. これがプライマリノードであることを示すため、[`x_primary`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L660) パラメーターを `True` に設定します。
+4. 必要に応じて、W&amp;B がどの GPU のメトリクスをトラッキングするかを指定するため、GPU インデックスのリスト ([0,1,2]) を `x_stats_gpu_device_ids` に指定します。リストを指定しない場合、W&amp;B はそのマシン上のすべての GPU のメトリクスをトラッキングします。
 
-プライマリノードの run ID をメモしておいてください。各ワーカーノードにはプライマリノードの run ID が必要です。
+プライマリノードの run ID を控えておいてください。各ワーカーノードで、プライマリノードの run ID が必要になります。
 
 <Note>
-  `x_primary=True` によってプライマリノードとワーカーノードが区別されます。プライマリノードだけが、設定ファイルやテレメトリーなど、ノード間で共有されるファイルをアップロードします。ワーカーノードはこれらのファイルをアップロードしません。
+  `x_primary=True` は、プライマリノードとワーカーノードを区別するための設定です。設定ファイルやテレメトリーなど、ノード間で共有されるファイルを upload できるのはプライマリノードだけです。ワーカーノードはこれらのファイルを upload しません。
 </Note>
 
-各ワーカーノードでは、[`wandb.init()`](/ja/models/ref/python/functions/init) を使用して W&amp;B run を初期化し、次を指定します:
+各ワーカーノードでは、[`wandb.init()`](/ja/models/ref/python/functions/init) で W&amp;B run を初期化し、以下を指定します。
 
-1. `settings` パラメーター (`wandb.init(settings=wandb.Settings()`) に渡す `wandb.Settings` オブジェクトに、次を設定します:
-   * 共有モードを有効にするために、`mode` パラメーターを `"shared"` に設定します。
-   * `x_label` に一意のラベルを指定します。`x_label` に指定した値は、W&amp;B App UI のログおよびシステムメトリクスで、どのノードからデータが来ているかを識別するために使用されます。指定しない場合、W&amp;B はホスト名とランダムなハッシュを使用して自動的にラベルを作成します。
-   * このノードがワーカーノードであることを示すために、`x_primary` パラメーターを `False` に設定します。
-2. プライマリノードで使用した run ID を `id` パラメーターに渡します。
-3. 任意で、[`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) を `False` に設定します。これにより、プライマリではないノードが [run の状態](/ja/models/runs/run-states#run-states) を早期に `finished` に更新することを防ぎ、run の状態が一貫してプライマリノードによって管理されるようにします。
+1. `settings` パラメーターに `wandb.Settings` オブジェクト (`wandb.init(settings=wandb.Settings()`) を渡し、次を設定します。
+   * 共有モードを有効にするため、`mode` パラメーターを `"shared"` に設定します。
+   * `x_label` に一意のラベルを設定します。`x_label` に指定した値は、ログおよび W&amp;B App UI のシステムメトリクスで、データがどのノードから送られてきたかを識別するために使用されます。指定しない場合、W&amp;B はホスト名とランダムなハッシュを使ってラベルを作成します。
+   * これがワーカーノードであることを示すため、`x_primary` パラメーターを `False` に設定します。
+2. プライマリノードで使用している run ID を `id` パラメーターに渡します。
+3. 必要に応じて、[`x_update_finish_state`](https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_settings.py#L772) を `False` に設定します。これにより、非プライマリノードが [run の状態](/ja/models/runs/run-states#run-states) を早い段階で `finished` に更新してしまうのを防ぎ、run の状態を一貫してプライマリノードで管理できます。
 
 <Note>
-  * すべてのノードで同じ entity と project を使用してください。これにより、正しい run ID が見つかりやすくなります。
-  * 各ワーカーノードで環境変数を定義して、プライマリノードの run ID を設定することを検討してください。
+  * すべてのノードで同じ entity とプロジェクトを使用してください。これにより、正しい run ID を確実に見つけやすくなります。
+  * プライマリノードの run ID を設定するために、各ワーカーノードで環境変数を定義することを検討してください。
 </Note>
 
-次のサンプルコードは、複数のプロセスを 1 つの run に記録するための高レベルな要件を示しています。
+以下のサンプルコードは、複数のプロセスを単一の run にトラッキングするための大まかな要件を示しています。
 
 ```python
 import wandb
@@ -209,7 +210,7 @@ import wandb
 entity = "<team_entity>"
 project = "<project_name>"
 
-# プライマリノードで run を初期化する
+# プライマリノードでrunを初期化する
 run = wandb.init(
     entity=entity,
     project=project,
@@ -217,71 +218,71 @@ run = wandb.init(
         x_label="rank_0", 
         mode="shared", 
         x_primary=True,
-        x_stats_gpu_device_ids=[0, 1],  # (オプション) GPU 0 と 1 のメトリクスのみを追跡する
+        x_stats_gpu_device_ids=[0, 1],  # (オプション) GPU 0と1のメトリクスのみトラッキングする
         )
 )
 
-# プライマリノードの run ID をメモしておく。
-# 各ワーカーノードにはこの run ID が必要。
+# プライマリノードのrun IDを控えておく。
+# 各ワーカーノードにこのrun IDが必要。
 run_id = run.id
 
-# プライマリノードの run ID を使用してワーカーノードで run を初期化する
+# プライマリノードのrun IDを使用してワーカーノードでrunを初期化する
 run = wandb.init(
-    entity=entity, # プライマリノードと同じ entity を使用する
+    entity=entity, # プライマリノードと同じentityを使用する
     project=project, # プライマリノードと同じプロジェクトを使用する
 	settings=wandb.Settings(x_label="rank_1", mode="shared", x_primary=False),
 	id=run_id,
 )
 
-# プライマリノードの run ID を使用してワーカーノードで run を初期化する
+# プライマリノードのrun IDを使用してワーカーノードでrunを初期化する
 run = wandb.init(
-    entity=entity, # プライマリノードと同じ entity を使用する
+    entity=entity, # プライマリノードと同じentityを使用する
     project=project, # プライマリノードと同じプロジェクトを使用する
 	settings=wandb.Settings(x_label="rank_2", mode="shared", x_primary=False),
 	id=run_id,
 )
 ```
 
-実際のケースでは、各ワーカーノードが別々のマシン上で動作している場合があります。
+実際の環境では、各ワーカーノードがそれぞれ別のマシン上で動作する場合があります。
 
 <Note>
-  [Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA) レポートでは、GKE 上のマルチノードかつマルチ GPU の Kubernetes クラスターで モデル をエンドツーエンドでトレーニングする方法の例を確認できます。
+  GKE 上のマルチノード・マルチ GPU の Kubernetes クラスターでモデルをトレーニングするエンドツーエンドの例については、[Distributed Training with Shared Mode](https://wandb.ai/dimaduev/simple-cnn-ddp/reports/Distributed-Training-with-Shared-Mode--VmlldzoxMTI0NTE1NA) レポートを参照してください。
 </Note>
 
-run がログを書き込んでいる プロジェクト で、マルチノード プロセスからのコンソール ログを表示します。
+run がログを送信しているプロジェクトで、マルチノードプロセスのコンソールログを表示するには、次の手順に従います。
 
-1. run を含む プロジェクト に移動します。
-2. プロジェクト のサイドバーで **Runs** タブをクリックします。
+1. run を含むプロジェクトにアクセスします。
+2. プロジェクトのサイドバーで **Runs** タブをクリックします。
 3. 表示したい run をクリックします。
-4. プロジェクト のサイドバーで **Logs** タブをクリックします。
+4. プロジェクトのサイドバーで **Logs** タブをクリックします。
 
-コンソール ログ ページ上部にある UI の検索バーで、`x_label` に指定したラベルに基づいてコンソール ログをフィルタできます。たとえば、次の画像は、`x_label` に `rank0`、`rank1`、`rank2`、`rank3`、`rank4`、`rank5`、`rank6` の値を指定した場合に、どのオプションでコンソール ログをフィルタリングできるかを示しています。
+コンソールログページ上部にある UI の検索バーでは、`x_label` に指定したラベルに基づいてコンソールログをフィルターできます。たとえば、次の画像は、`rank0`、`rank1`、`rank2`、`rank3`、`rank4`、`rank5`、`rank6` の各値を `x_label` に指定した場合に、コンソールログのフィルターに使用できるオプションを示しています。`
 
 <Frame>
   <img src="/images/track/multi_node_console_logs.png" alt="マルチノードのコンソールログ" />
 </Frame>
 
-詳細については、[Console logs](/ja/models/app/console-logs/) を参照してください。
+詳細は [Console logs](/ja/models/app/console-logs/) を参照してください。
 
-W&amp;B はすべてのノードからシステム メトリクス を集約し、W&amp;B App UI に表示します。たとえば、次の画像は、複数ノードのシステム メトリクス が含まれているサンプル ダッシュボード を示しています。各ノードには、`x_label` パラメーターで指定する固有のラベル（`rank_0`、`rank_1`、`rank_2`）があります。
+W&amp;B はすべてのノードのシステムメトリクスを集約し、W&amp;B App UI に表示します。たとえば、次の画像は、複数ノードのシステムメトリクスを含むサンプルダッシュボードを示しています。各ノードには、`x_label` パラメーターで指定する一意のラベル (`rank_0`、`rank_1`、`rank_2`) があります。
 
 <Frame>
-  <img src="/images/track/multi_node_system_metrics.png" alt="マルチノードのシステム メトリクス" />
+  <img src="/images/track/multi_node_system_metrics.png" alt="マルチノードのシステムメトリクス" />
 </Frame>
 
-折れ線グラフ パネルのカスタマイズ方法については、[Line plots](/ja/models/app/features/panels/line-plot/) を参照してください。
+ラインプロットパネルをカスタマイズする方法については、[Line plots](/ja/models/app/features/panels/line-plot/) を参照してください。
 
 <div id="example-use-cases">
   ## 使用例
 </div>
 
-次のコードスニペットでは、高度な分散利用における一般的なユースケースを示します。
+以下のコードスニペットは、高度な分散処理の利用でよくあるシナリオを示しています。
 
 <div id="spawn-process">
-  ### プロセス生成
+  ### プロセスの生成
 </div>
 
-生成されたプロセス内で run を開始する場合は、メイン関数内で `wandb.setup()` メソッドを使用してください。
+spawn されたプロセスで run を開始する場合は、メイン関数内で `wandb.setup()` method を使用します。
 
 ```python
 import multiprocessing as mp
@@ -316,42 +317,42 @@ def main():
     p = mp.Process(target=do_work, kwargs=dict(run=run))
     p.start()
     p.join()
-    run.finish()  # run を完了としてマークする
+    run.finish()  # runを完了としてマークする
 
 
 if __name__ == "__main__":
     main()
 ```
 
-W&amp;B はログ記録の順序を保証しません。必要な同期処理はスクリプトの作成者が行ってください。
+W&amp;B ではログの順序は保証されません。同期はスクリプトの作成者側で行ってください。
 
 <div id="troubleshooting">
   ## トラブルシューティング
 </div>
 
-W&amp;B と分散トレーニングを使用する際によく発生する問題が 2 つあります。
+W&amp;B と分散トレーニングを使用する際に発生しやすい一般的な問題は、主に 2 つあります。
 
-1. **トレーニング開始時にハングする** - `wandb` のマルチプロセッシングが分散トレーニング側のマルチプロセッシングと干渉すると、`wandb` プロセスがハングすることがあります。
-2. **トレーニング終了時にハングする** - `wandb` プロセスがいつ終了すべきか把握できない場合、トレーニングジョブがハングすることがあります。Python スクリプトの末尾で `wandb.Run.finish()` API を呼び出して、run が完了したことを W&amp;B に知らせてください。`wandb.Run.finish()` API はデータのアップロードを完了し、W&amp;B を終了させます。
-   W&amp;B は、分散ジョブの信頼性を高めるために `wandb service` コマンドの使用を推奨しています。上記 2 つのトレーニングに関する問題は、`wandb service` が利用できないバージョンの W&amp;B SDK でよく発生します。
+1. **トレーニング開始時にハングする** - 分散トレーニングのマルチプロセッシングと `wandb` のマルチプロセッシングが干渉すると、`wandb` プロセスがハングすることがあります。
+2. **トレーニング終了時にハングする** - `wandb` プロセスがいつ終了すべきかを認識できない場合、トレーニング ジョブがハングすることがあります。Python スクリプトの最後で `wandb.Run.finish()` API を呼び出して、run が終了したことを W&amp;B に通知してください。`wandb.Run.finish()` API はデータのアップロードを完了し、W&amp;B を終了させます。
+   W&amp;B では、分散ジョブの信頼性を向上させるために `wandb service` コマンドを使用することを推奨しています。前述の 2 つのトレーニングの問題は、wandb service を利用できないバージョンの W&amp;B SDK でよく見られます。
 
 <div id="enable-wb-service">
-  ### W&amp;B Service を有効化する
+  ### W&amp;B Service を有効にする
 </div>
 
-使用している W&amp;B SDK のバージョンによっては、W&amp;B Service がデフォルトで既に有効になっている場合があります。
+使用している W&amp;B SDK のバージョンによっては、W&amp;B Service はデフォルトで既に有効になっている場合があります。
 
 <div id="wb-sdk-0130-and-above">
-  #### W&amp;B SDK 0.13.0 以上
+  #### W&amp;B SDK 0.13.0 以降
 </div>
 
-W&amp;B SDK のバージョン `0.13.0` 以上では、W&amp;B Service はデフォルトで有効化されています。
+W&amp;B SDK `0.13.0` 以降では、W&amp;B Service はデフォルトで有効です。
 
 <div id="wb-sdk-0125-and-above">
-  #### W&amp;B SDK 0.12.5 以上
+  #### W&amp;B SDK 0.12.5 以降
 </div>
 
-W&amp;B SDK バージョン 0.12.5 以上で W&amp;B Service を有効にするには、Python スクリプトを変更します。メイン関数内で `wandb.require` メソッドを使用し、文字列 `"service"` を渡します。
+W&amp;B SDK バージョン 0.12.5 以降で W&amp;B Service を有効にするには、Python スクリプトを修正します。メイン関数内で `wandb.require` method を使用し、文字列 `"service"` を渡してください。
 
 ```python
 if __name__ == "__main__":
@@ -363,8 +364,8 @@ def main():
     # 残りのスクリプトをここに記述
 ```
 
-最適な利用体験のために、最新版へのアップグレードをおすすめします。
+快適に利用するため、最新バージョンへのアップグレードをお勧めします。
 
 **W&amp;B SDK 0.12.4 以下**
 
-W&amp;B SDK バージョン 0.12.4 以下を使用している場合は、マルチスレッドを使用するために `WANDB_START_METHOD` 環境変数を `"thread"` に設定してください。
+W&amp;B SDK バージョン 0.12.4 以下を使用している場合は、代わりにマルチスレッドを使用できるよう、`WANDB_START_METHOD` 環境変数を `"thread"` に設定します。

@@ -1,21 +1,21 @@
 ---
-title: "`wandb` 파일의 로컬 위치를 어떻게 지정하나요?"
+title: "`wandb` 파일의 로컬 위치는 어떻게 지정하나요?"
 keywords: ["환경 변수", "Experiments"]
 ---
 
 * `WANDB_DIR=<path>` 또는 `wandb.init(dir=<path>)`: 트레이닝 스크립트용으로 생성되는 `wandb` 폴더의 위치를 제어합니다. 기본값은 `./wandb`입니다. 이 폴더에는 run 데이터와 로그가 저장됩니다.
-* `WANDB_ARTIFACT_DIR=<path>` 또는 `wandb.Artifact().download(root="<path>")`: 아티팩트가 다운로드되는 위치를 제어합니다. 기본값은 `./artifacts`입니다.
-* `WANDB_CACHE_DIR=<path>`: `wandb.Artifact`를 호출할 때 아티팩트가 생성되고 저장되는 위치입니다. 기본값은 `~/.cache/wandb`입니다.
-* `WANDB_CONFIG_DIR=<path>`: 구성 파일이 저장되는 위치입니다. 기본값은 `~/.config/wandb`입니다.
-* `WANDB_DATA_DIR=<PATH>`: 업로드 중 아티팩트를 스테이징하는 데 사용되는 위치를 제어합니다. 기본값은 `~/.cache/wandb-data/`입니다.
+* `WANDB_ARTIFACT_DIR=<path>` 또는 `wandb.Artifact().download(root="<path>")`: Artifacts가 다운로드되는 위치를 제어합니다. 기본값은 `./artifacts`입니다.
+* `WANDB_CACHE_DIR=<path>`: `wandb.Artifact`를 call할 때 Artifacts가 생성되고 저장되는 위치입니다. 기본값은 `~/.cache/wandb`입니다.
+* `WANDB_CONFIG_DIR=<path>`: 설정 파일이 저장되는 위치입니다. 기본값은 `~/.config/wandb`입니다.
+* `WANDB_DATA_DIR=<PATH>`: 업로드 중 Artifacts를 스테이징하는 데 사용되는 위치를 제어합니다. 기본값은 `~/.cache/wandb-data/`입니다.
 
 ***
 
-{/* ---- AUTO-GENERATED: 탭 배지 ----
-  프론트매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표식 사이의 내용은 직접 편집하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 마커 사이의 내용은 직접 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 
-{/* ---- END AUTO-GENERATED: 탭 배지 ---- */}
+{/* ---- 끝 AUTO-GENERATED: 탭 배지 ---- */}

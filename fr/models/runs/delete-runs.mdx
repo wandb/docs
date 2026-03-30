@@ -1,52 +1,52 @@
 ---
 title: Supprimer des runs
-description: Découvrez comment supprimer des runs d’un projet W&B avec l’application W&B.
+description: Découvrez comment supprimer des runs d’un projet W&B à l’aide de la W&B App.
 ---
 
-Supprimez un ou plusieurs runs d’un projet avec l’application W&amp;B.
+Supprimez un ou plusieurs runs d’un projet à l’aide de la W&amp;B App.
 
 1. Accédez au projet qui contient les runs que vous souhaitez supprimer.
 2. Sélectionnez l’onglet **Runs**.
 3. Cochez la case à côté des runs que vous souhaitez supprimer.
-4. Cliquez sur le bouton **Delete** (icône de corbeille) au-dessus du tableau.
-5. Dans le panneau qui s’affiche, cliquez sur **Delete**.
+4. Cliquez sur le bouton **Supprimer** (icône de corbeille) au-dessus du tableau.
+5. Dans le panneau qui s’affiche, cliquez sur **Supprimer**.
 
 <Note>
-  Un ID de run ne peut pas être réutilisé, même après la suppression du run. Si vous essayez de le réutiliser, le run échouera avec une erreur.
+  Un ID de run ne peut pas être réutilisé, même après la suppression du run. Toute tentative de réutilisation échouera avec une erreur.
 </Note>
 
 <Note>
-  Pour les projets contenant un grand nombre de runs, vous pouvez utiliser soit la barre de recherche pour filtrer les runs à supprimer à l’aide d’expressions régulières, soit le bouton de filtre pour filtrer les runs en fonction de leur statut, de leurs tags ou d’autres propriétés.
+  Pour les projets qui contiennent un grand nombre de runs, vous pouvez utiliser soit la barre de recherche pour filtrer les runs que vous souhaitez supprimer à l’aide de Regex, soit le bouton **Filtre** pour filtrer les runs en fonction de leur statut, de leurs tags ou d’autres propriétés.
 </Note>
 
 <div id="run-deletion-flowchart">
   ### Organigramme de suppression des runs
 </div>
 
-Le schéma suivant illustre le processus complet de suppression des runs, y compris la gestion des artefacts associés et des liens vers le registre :
+Le diagramme suivant illustre l’ensemble du processus de suppression d’un run, y compris la gestion des artifacts associés et des liens du registre :
 
 ```mermaid
 graph TB
-    Start([L'utilisateur initie<br/>la suppression du run]) --> RunSelect[Sélectionner les runs<br/>à supprimer]
+    Start([L'utilisateur initie<br/>la suppression du run]) --> RunSelect[Sélectionner les Runs<br/>à supprimer]
     
-    RunSelect --> DeletePrompt{Supprimer les artefacts<br/>associés ?}
+    RunSelect --> DeletePrompt{Supprimer les Artifacts<br/>associés ?}
     
-    DeletePrompt -->|Non| DeleteRunOnly[Supprimer le run uniquement<br/><br/>- Métadonnées du run supprimées<br/>- Artefacts toujours disponibles<br/>- Accès aux artefacts conservé]
+    DeletePrompt -->|Non| DeleteRunOnly[Supprimer le run uniquement<br/><br/>- Métadonnées du run supprimées<br/>- Artifacts toujours disponibles<br/>- Accès aux artifacts conservé]
     
-    DeletePrompt -->|Oui| CheckArtifacts[Rechercher les<br/>artefacts associés]
+    DeletePrompt -->|Oui| CheckArtifacts[Vérifier les<br/>Artifacts associés]
     
-    CheckArtifacts --> HasRegistry{Artefacts liés au<br/>registre de modèles ?}
+    CheckArtifacts --> HasRegistry{Artifacts liés au<br/>registre de modèles ?}
     
-    HasRegistry -->|Oui| RegistryWarning[⚠️ Avertissement<br/><br/>Les modèles du registre seront supprimés<br/>Les alias de Production seront affectés]
+    HasRegistry -->|Oui| RegistryWarning[⚠️ Avertissement<br/><br/>Les modèles du registre seront supprimés<br/>Les alias Production seront affectés]
     HasRegistry -->|Non| DirectDelete
     
-    RegistryWarning --> ConfirmRegistry{Confirmer la suppression<br/>des modèles du registre ?}
+    RegistryWarning --> ConfirmRegistry{Confirmer la suppression<br/>du modèle du registre ?}
     
     ConfirmRegistry -->|Non| DeleteRunOnly
-    ConfirmRegistry -->|Oui| DirectDelete[Supprimer le run + les artefacts<br/><br/>- Métadonnées du run supprimées<br/>- Artefacts définitivement supprimés<br/>- Liens du registre supprimés<br/>- Irrécupérable]
+    ConfirmRegistry -->|Oui| DirectDelete[Supprimer le run + Artifacts<br/><br/>- Métadonnées du run supprimées<br/>- Artifacts supprimés définitivement<br/>- Liens du registre supprimés<br/>- Impossible à récupérer]
     
-    DeleteRunOnly --> PartialEnd([Run supprimé<br/>Artefacts conservés])
-    DirectDelete --> FullEnd([Run + artefacts<br/>définitivement supprimés])
+    DeleteRunOnly --> PartialEnd([Run supprimé<br/>Artifacts conservés])
+    DirectDelete --> FullEnd([Run + Artifacts<br/>supprimés définitivement])
     
     style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
     style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
@@ -58,5 +58,5 @@ graph TB
 ```
 
 <Warning>
-  Lorsque vous supprimez un run et choisissez de supprimer les artefacts associés, ceux-ci sont définitivement supprimés et ne peuvent pas être récupérés, même si le run est restauré ultérieurement. Cela inclut les artefacts liés au registre.
+  Lorsque vous supprimez un run et choisissez de supprimer les artifacts associés, ceux-ci sont définitivement supprimés et ne peuvent plus être récupérés, même si le run est restauré ultérieurement. Cela inclut les artifacts liés au registre.
 </Warning>

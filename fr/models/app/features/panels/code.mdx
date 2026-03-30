@@ -3,18 +3,18 @@ title: Enregistrer et comparer le code
 description: "Activez l’enregistrement du code, comparez le code entre les runs W&B avec le comparateur de code et capturez l’historique de session Jupyter."
 ---
 
-Par défaut, W&amp;B n’enregistre que le hachage du dernier commit Git. Vous pouvez activer d’autres fonctionnalités liées au code pour comparer dynamiquement le code entre vos expériences dans l’interface utilisateur.
+Par défaut, W&amp;B n’enregistre que le hachage du dernier commit Git. Vous pouvez activer d’autres fonctionnalités liées au code pour comparer dynamiquement le code entre vos expériences dans l’UI.
 
-À partir de la version 0.8.28 de `wandb`, W&amp;B peut enregistrer le code de votre fichier principal d’entraînement, dans lequel vous appelez `wandb.init()`.
+À partir de la version 0.8.28 de `wandb`, W&amp;B peut enregistrer le code de votre fichier d’entraînement principal dans lequel vous appelez `wandb.init()`.
 
 <div id="save-library-code">
-  ## Enregistrer du code de bibliothèque
+  ## Enregistrer le code de la bibliothèque
 </div>
 
-Lorsque vous activez l’enregistrement du code, W&amp;B enregistre le code du fichier qui a appelé `wandb.init()`. Pour enregistrer du code de bibliothèque supplémentaire, trois options s’offrent à vous :
+Lorsque vous activez l’enregistrement du code, W&amp;B enregistre le code du fichier à l’origine de l’appel à `wandb.init()`. Pour enregistrer du code de bibliothèque supplémentaire, vous avez trois options :
 
 <div id="call-wandbrunlog_code-after-calling-wandbinit">
-  ### Appelez `wandb.Run.log_code(".")` après l’appel à `wandb.init()`
+  ### Appelez `wandb.Run.log_code(".")` après avoir appelé `wandb.init()`
 </div>
 
 ```python
@@ -25,7 +25,7 @@ with wandb.init() as run:
 ```
 
 <div id="pass-a-settings-object-to-wandbinit-with-code_dir-set">
-  ### Passez un objet de configuration à `wandb.init()` en définissant `code_dir`
+  ### Transmettez un objet de configuration à `wandb.init()` avec `code_dir` défini
 </div>
 
 ```python
@@ -34,31 +34,31 @@ import wandb
 wandb.init(settings=wandb.Settings(code_dir="."))
 ```
 
-Cette opération capture tous les fichiers de code source Python du répertoire actuel et de tous ses sous-répertoires sous forme d’[artefact](/fr/models/ref/python/experiments/artifact). Pour mieux contrôler les types de fichiers de code source enregistrés et leur emplacement, voir la [documentation de référence](/fr/models/ref/python/experiments/run#log_code).
+Cela inclut tous les fichiers source Python du répertoire actuel et de tous ses sous-répertoires dans un [artifact](/fr/models/ref/python/experiments/artifact). Pour mieux contrôler les types et emplacements des fichiers source enregistrés, voir la [documentation de référence](/fr/models/ref/python/experiments/run#log_code).
 
 <div id="set-code-saving-in-the-ui">
-  ### Configurer l’enregistrement du code dans l’interface utilisateur
+  ### Configurer l’enregistrement du code dans l’UI
 </div>
 
-En plus de configurer l’enregistrement du code par programmation, vous pouvez aussi activer ou désactiver cette fonctionnalité dans les **Settings** de votre compte W&amp;B. Notez que cela activera l’enregistrement du code pour toutes les équipes associées à votre compte.
+En plus de configurer l’enregistrement du code par programmation, vous pouvez aussi activer ou désactiver cette fonctionnalité dans les **Settings** de votre compte W&amp;B. Notez que cela activera l’enregistrement du code pour toutes les Teams associées à votre compte.
 
-> Par défaut, W&amp;B désactive l’enregistrement du code pour toutes les équipes.
+> Par défaut, W&amp;B désactive l’enregistrement du code pour toutes les Teams.
 
 1. Connectez-vous à votre compte W&amp;B.
 2. Accédez à **Settings** &gt; **Privacy**.
 3. Sous **Project and content security**, activez **Disable default code saving**.
 
 <div id="code-comparer">
-  ## Comparateur de code
+  ## comparateur de code
 </div>
 
 Comparez le code utilisé dans différents runs W&amp;B :
 
 1. Cliquez sur le bouton **Add panels** dans le coin supérieur droit de la page.
-2. Ouvrez le menu déroulant **TEXT AND CODE**, puis sélectionnez **Code**.
+2. Ouvrez le menu déroulant **TEXT AND CODE** et sélectionnez **Code**.
 
 <Frame>
-  <img src="/images/app_ui/code_comparer.png" alt="Panneau du comparateur de code" />
+  <img src="/images/app_ui/code_comparer.png" alt="Panneau comparateur de code" />
 </Frame>
 
 <div id="jupyter-session-history">
@@ -67,16 +67,16 @@ Comparez le code utilisé dans différents runs W&amp;B :
 
 W&amp;B enregistre l’historique du code exécuté dans votre session de notebook Jupyter. Lorsque vous appelez **wandb.init()** dans Jupyter, W&amp;B ajoute un hook pour enregistrer automatiquement un notebook Jupyter contenant l’historique du code exécuté dans votre session en cours.
 
-1. Accédez aux espaces de travail de votre projet contenant votre code.
+1. Accédez à l’espace de travail du projet qui contient votre code.
 2. Sélectionnez l’onglet **Artifacts** dans la barre latérale du projet.
-3. Développez l’artefact **code**.
+3. Développez l’artifact **code**.
 4. Sélectionnez l’onglet **Files**.
 
 <Frame>
   <img src="/images/app_ui/jupyter_session_history.gif" alt="Historique de session Jupyter" />
 </Frame>
 
-Cela affiche les cellules exécutées pendant votre session, ainsi que toutes les sorties créées via la méthode display d’iPython. Vous pouvez ainsi voir exactement quel code a été exécuté dans Jupyter pour un run donné. Lorsque c’est possible, W&amp;B enregistre également la version la plus récente du notebook, que vous trouverez aussi dans le répertoire code.
+Cela affiche les cellules exécutées pendant votre session, ainsi que toutes les sorties générées par des appels à la méthode d’affichage d’iPython. Vous pouvez ainsi voir exactement quel code a été exécuté dans Jupyter pour une run donnée. Lorsque c’est possible, W&amp;B enregistre également la version la plus récente du notebook, que vous trouverez aussi dans le répertoire `code`.
 
 <Frame>
   <img src="/images/app_ui/jupyter_session_history_display.png" alt="Sortie de session Jupyter" />

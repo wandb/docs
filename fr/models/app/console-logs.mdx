@@ -1,40 +1,40 @@
 ---
 title: Journaux de console
-description: "Consultez et déboguez les messages des journaux de console, notamment les informations, avertissements et erreurs de vos runs d’expérience W&B."
+description: "Consultez et déboguez les messages de console, y compris les informations, les avertissements et les erreurs, de vos runs d’expérience W&B."
 ---
 
-Lorsque vous exécutez une expérience, vous pouvez voir divers messages s’afficher dans votre console. W&amp;B capture les journaux de console et les affiche dans l’application W&amp;B. Utilisez ces messages pour déboguer et surveiller le comportement de votre expérience.
+Lorsque vous lancez une expérience, vous pouvez voir différents messages s’afficher dans votre console. W&amp;B capture les journaux de console et les affiche dans la W&amp;B App. Utilisez ces messages pour déboguer et surveiller le comportement de votre expérience.
 
 <div id="view-console-logs">
   ## Afficher les journaux de console
 </div>
 
-Accédez aux journaux de console d’un run dans l’application W&amp;B :
+Accédez aux journaux de console d&#39;un run dans l&#39;application W&amp;B :
 
-1. Accédez à votre projet dans l’application W&amp;B.
+1. Accédez à votre projet dans l&#39;application W&amp;B.
 2. Sélectionnez un run dans le tableau **Runs**.
-3. Cliquez sur l’onglet **Logs** dans la barre latérale du projet.
+3. Cliquez sur l&#39;onglet **Logs** dans la barre latérale du projet.
 
 <Note>
-  W&amp;B conserve au maximum 100 000 lignes de journaux pour un run. Dans l’application W&amp;B, un maximum de 10 000 lignes de journaux s’affiche à la fois. Faites défiler les journaux pour afficher les lignes plus anciennes et consulter toutes les lignes de journaux stockées.
+  W&amp;B stocke au maximum 100 000 lignes de journaux pour un run. Dans l&#39;application W&amp;B, 10 000 lignes de journaux au maximum s&#39;affichent à la fois. Faites défiler les journaux pour afficher les lignes plus anciennes et voir toutes les lignes de journaux stockées.
 </Note>
 
-{/* ## Champs des journaux de console
+{/* ## Champs des journaux de la console
 
-  Dans l’application W&B, vous pouvez modifier les champs affichés dans le tableau des journaux de console. */}
+  Dans W&B App, vous pouvez modifier les champs affichés dans le tableau des journaux de la console. */}
 
 
 <div id="types-of-console-logs">
   ## Types de journaux de console
 </div>
 
-W&amp;B capture plusieurs types de journaux de console : des messages d’information, des avertissements et des erreurs, chacun avec un préfixe indiquant son niveau de gravité.
+W&amp;B capture plusieurs types de journaux de console : des messages d&#39;information, des avertissements et des erreurs, avec un préfixe indiquant leur niveau de gravité.
 
 <div id="informational-messages">
   ### Messages d’information
 </div>
 
-Les messages d’information fournissent des informations sur la progression et le statut du run. Ils sont généralement préfixés par `wandb:`.
+Les messages d’information donnent des indications sur la progression et le statut du run. Ils sont généralement précédés de `wandb:`.
 
 ```text
 wandb: Starting Run: abc123
@@ -46,7 +46,7 @@ wandb: Run data is saved locally in ./wandb/run-20240125_120000-abc123
   ### Messages d’avertissement
 </div>
 
-Les avertissements concernant des problèmes potentiels qui n&#39;interrompent pas l&#39;exécution sont précédés de `WARNING:`
+Les avertissements relatifs à des problèmes potentiels qui n’interrompent pas l’exécution sont précédés de `WARNING:`
 
 ```text
 WARNING Found .wandb file, not streaming tensorboard metrics.
@@ -58,7 +58,7 @@ WARNING These runs were logged with a previous version of wandb.
   ### Messages d’erreur
 </div>
 
-Les messages d’erreur signalant des problèmes graves sont précédés de `ERROR:`. Ils indiquent des problèmes qui peuvent empêcher le run de se terminer correctement.
+Les messages d’erreur correspondant à des problèmes graves sont précédés de `ERROR:`. Ils signalent des problèmes susceptibles d’empêcher le run de se terminer correctement.
 
 ```text
 ERROR Unable to save notebook session history.
@@ -70,12 +70,12 @@ ERROR Failed to save notebook.
   ## Paramètres des journaux de console
 </div>
 
-Dans votre code, transmettez l’objet `wandb.Settings` à `wandb.init()` pour configurer la manière dont W&amp;B gère les journaux de console. Dans `wandb.Settings`, vous pouvez définir les paramètres suivants pour contrôler le comportement des journaux de console :
+Dans votre code, passez l’objet `wandb.Settings` à `wandb.init()` pour configurer la façon dont W&amp;B gère les journaux de console. Dans `wandb.Settings`, vous pouvez définir les paramètres suivants pour contrôler le comportement des journaux de console :
 
-* `show_errors` : si ce paramètre est défini sur `True`, les messages d’erreur s’affichent dans l’application W&amp;B. S’il est défini sur `False`, les messages d’erreur ne sont pas affichés.
-* `silent` : si ce paramètre est défini sur `True`, toute la sortie console de W&amp;B est supprimée. Cela est utile dans les environnements de production où vous souhaitez réduire au minimum le bruit dans la console.
-* `show_warnings` : si ce paramètre est défini sur `True`, les messages d’avertissement s’affichent dans l’application W&amp;B. S’il est défini sur `False`, les messages d’avertissement ne sont pas affichés.
-* `show_info` : si ce paramètre est défini sur `True`, les messages d’information s’affichent dans l’application W&amp;B. S’il est défini sur `False`, les messages d’information ne sont pas affichés.
+* `show_errors` : si ce paramètre est défini sur `True`, les messages d’erreur s’affichent dans l’application W&amp;B. S’il est défini sur `False`, les messages d’erreur ne s’affichent pas.
+* `silent` : si ce paramètre est défini sur `True`, toute la sortie de la console de W&amp;B est supprimée. Cela est utile dans les environnements de production où vous souhaitez réduire au minimum le bruit dans la console.
+* `show_warnings` : si ce paramètre est défini sur `True`, les messages d’avertissement s’affichent dans l’application W&amp;B. S’il est défini sur `False`, les messages d’avertissement ne s’affichent pas.
+* `show_info` : si ce paramètre est défini sur `True`, les messages d’information s’affichent dans l’application W&amp;B. S’il est défini sur `False`, les messages d’information ne s’affichent pas.
 
 L’exemple suivant montre comment configurer ces paramètres :
 
@@ -83,9 +83,9 @@ L’exemple suivant montre comment configurer ces paramètres :
 import wandb
 
 settings = wandb.Settings(
-    show_errors=True,  # Afficher les messages d'erreur dans l'application W&B
+    show_errors=True,  # Afficher les messages d'erreur dans la W&B App
     silent=False,      # Désactiver toutes les sorties console W&B
-    show_warnings=True # Afficher les messages d'avertissement dans l'application W&B
+    show_warnings=True # Afficher les messages d'avertissement dans la W&B App
 )
 
 with wandb.init(settings=settings) as run:
@@ -98,7 +98,7 @@ with wandb.init(settings=settings) as run:
   ## Journalisation personnalisée
 </div>
 
-W&amp;B capture les journaux de console de votre application, mais n’interfère pas avec votre propre configuration de journalisation. Vous pouvez utiliser la fonction `print()` intégrée à Python ou le module `logging` pour consigner des messages.
+W&amp;B capture les journaux de console de votre application, mais n’interfère pas avec votre propre configuration de journalisation. Vous pouvez utiliser la fonction `print()` intégrée à Python ou le module `logging` pour enregistrer des messages.
 
 ```python
 import wandb
@@ -128,25 +128,25 @@ Les journaux de console se présenteront comme suit :
   ## Horodatages
 </div>
 
-Des horodatages sont automatiquement ajoutés à chaque entrée du journal de console. Cela vous permet de suivre à quel moment chaque message du journal a été généré.
+Des horodatages sont automatiquement ajoutés à chaque entrée du journal de la console. Cela vous permet de savoir à quel moment chaque message du journal a été généré.
 
-Vous pouvez basculer l’affichage des horodatages dans le journal de console. Sur la page de la console, sélectionnez la liste déroulante **Timestamp visible** dans le coin supérieur gauche. Vous pouvez choisir d’afficher ou de masquer les horodatages.
+Vous pouvez afficher ou masquer les horodatages dans les journaux de console. Sur la page de la console, sélectionnez le menu déroulant **Horodatage visible** dans le coin supérieur gauche. Vous pouvez choisir d’afficher ou de masquer les horodatages.
 
 <div id="search-console-logs">
-  ## Rechercher dans les journaux de console
+  ## Rechercher dans les journaux de la console
 </div>
 
-Utilisez la barre de recherche en haut de la page des journaux de console pour filtrer les journaux à l’aide de mots-clés. Vous pouvez rechercher des termes, des libellés ou des messages d’erreur spécifiques.
+Utilisez la barre de recherche en haut de la page des journaux de la console pour filtrer les journaux à l’aide de mots-clés. Vous pouvez rechercher des termes, des libellés ou des messages d’erreur spécifiques.
 
 <div id="filter-with-custom-labels">
   ## Filtrer avec des libellés personnalisés
 </div>
 
 <Warning>
-  Les paramètres préfixés par `x_` (comme `x_label`) sont en préversion publique. Créez une [issue GitHub dans le dépôt W&amp;B](https://github.com/wandb/wandb) pour nous faire part de vos commentaires.
+  Les paramètres préfixés par `x_` (comme `x_label`) sont en aperçu public. Créez une [issue GitHub dans le dépôt W&amp;B](https://github.com/wandb/wandb) pour nous faire part de vos commentaires.
 </Warning>
 
-Vous pouvez filtrer les journaux de console selon les libellés que vous passez à l&#39;argument `x_label` dans `wandb.Settings`, à l&#39;aide de la barre de recherche de l&#39;interface utilisateur située en haut de la page des journaux de console.
+Vous pouvez filtrer les journaux de console à partir des libellés que vous passez comme arguments à `x_label` dans `wandb.Settings`, via la barre de recherche de l’interface utilisateur située en haut de la page des journaux de console.
 
 ```python
 import wandb
@@ -167,9 +167,9 @@ with wandb.init(
   ## Télécharger les journaux de console
 </div>
 
-Téléchargez les journaux de console d’un run dans l’application W&amp;B :
+Téléchargez les journaux de console d’un run dans la W&amp;B App :
 
-1. Accédez à votre projet dans l’application W&amp;B.
+1. Accédez à votre projet dans la W&amp;B App.
 2. Sélectionnez un run dans le tableau **Runs**.
 3. Cliquez sur l’onglet **Logs** dans la barre latérale du projet.
 4. Cliquez sur le bouton de téléchargement dans le coin supérieur droit de la page des journaux de console.
@@ -178,9 +178,9 @@ Téléchargez les journaux de console d’un run dans l’application W&amp;B :
   ## Copier les journaux de console
 </div>
 
-Copiez les journaux de console d’un run dans l’application W&amp;B :
+Copiez les journaux de console d’un run dans la W&amp;B App :
 
-1. Accédez à votre projet dans l’application W&amp;B.
+1. Accédez à votre projet dans la W&amp;B App.
 2. Sélectionnez un run dans le tableau **Runs**.
 3. Cliquez sur l’onglet **Logs** dans la barre latérale du projet.
 4. Cliquez sur le bouton de copie dans le coin supérieur droit de la page des journaux de console.

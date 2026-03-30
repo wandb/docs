@@ -1,9 +1,9 @@
 ---
-title: "sweep 内の run からモデルをログする最適な方法は何ですか？"
+title: "sweep 内の run からモデルを最適にログするには、どうすればよいですか?"
 keywords: ["Artifacts", "Sweeps"]
 ---
 
-[sweep](/ja/models/sweeps/) でモデルをログする効果的な方法の 1 つは、その sweep 用のモデル アーティファクトを作成することです。各バージョンは、sweep 内の異なる run を表します。次のように実装します。
+[sweep](/ja/models/sweeps/) でモデルをログする効果的な方法の 1 つは、その sweep 用のモデル artifact を作成することです。各バージョンは、sweep 内の異なる run を表します。実装方法は次のとおりです。
 
 ```python
 wandb.Artifact(name="sweep_name", type="model")
@@ -11,11 +11,11 @@ wandb.Artifact(name="sweep_name", type="model")
 
 ***
 
-{/* ---- 自動生成: タブ バッジ ----
-  front matter 内のキーワードを基に、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  このマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py で管理されています。
+  これらのマーカーの間は手作業で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
 
-{/* ---- 自動生成終了: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -1,56 +1,56 @@
 ---
-title: "Call のクエリとエクスポート"
-description: "Python SDK、REST API、または Weave UI を使用して、Weave Call データをフィルタリング、並べ替え、カスタム分析用にエクスポートします。"
+title: "Calls をクエリしてエクスポートする"
+description: "Python SDK、REST API、または Weave UI を使用して Weave の call データをフィルター、並べ替え、エクスポートし、カスタム分析を行います。"
 ---
 
-Weave UI では、データをさまざまな形式でエクスポートできます。行をプログラムからエクスポートするために使用できる Python と cURL のコードも表示されます。
-Call をエクスポートするには、次の手順に従います。
+Weave UI では、データを複数の形式でエクスポートできます。また、行をプログラムでエクスポートするために使用できる Python と cURL のコードも表示されます。
+Calls をエクスポートするには、次の手順に従います。
 
 1. [wandb.ai](https://wandb.ai/) にアクセスし、プロジェクトを選択します。
-2. Weave プロジェクトのサイドバーで **Traces** をクリックします。
-3. エクスポートしたい複数の Call を、行にチェックを入れて選択します。
-4. **Traces** テーブルのツールバーで、エクスポート／ダウンロード ボタンをクリックします。
-5. **Export** モーダルで **Selected rows** または **All rows** を選択し、**Export** をクリックします。
+2. Weave プロジェクトのサイドバーで、**Traces** をクリックします。
+3. エクスポートしたい複数の Calls の行にチェックを入れて選択します。
+4. **Traces** 表のツールバーで、エクスポート / ダウンロードボタンをクリックします。
+5. **Export** モーダルで、**Selected rows** または **All rows** を選択し、Export をクリックします。
 
 <Frame>
-  ![Export モーダルでエクスポート対象として選択された Calls を表示している Traces ページ。](/weave/guides/tracking/imgs/trace_export_modal.png)
+  ![エクスポートするために Calls を選択した状態の Traces ページ（Export モーダル）。](/weave/guides/tracking/imgs/trace_export_modal.png)
 </Frame>
 
 <div id="fetch-calls-programmatically">
-  ## コールをプログラムから取得する
+  ## プログラムから calls を取得する
 </div>
 
 <Tabs>
   <Tab title="Python">
-    Python API を使用してコールを取得するには、[`client.get_calls`](/ja/weave/reference/python-sdk/trace/weave_client#method-get_calls) メソッドを使用します。
+    Python API を使用して calls を取得するには、[`client.get_calls`](/ja/weave/reference/python-sdk/trace/weave_client#method-get_calls) メソッドを使用します。
 
     ```python lines
     import weave
 
-    # クライアントを初期化
+    # クライアントを初期化する
     client = weave.init("your-project-name")
 
-    # コールを取得
+    # calls を取得する
     calls = client.get_calls(filter=...)
     ```
   </Tab>
 
   <Tab title="TypeScript">
-    TypeScript API を使用してコールを取得するには、[`client.getCalls`](/ja/weave/reference/typescript-sdk/classes/weaveclient#getcalls) メソッドを使用します。
+    TypeScript API を使用して calls を取得するには、[`client.getCalls`](/ja/weave/reference/typescript-sdk/classes/weaveclient#getcalls) メソッドを使用します。
 
     ```typescript lines
     import * as weave from 'weave'
 
-    // クライアントを初期化
+    // クライアントを初期化する
     const client = await weave.init('intro-example')
 
-    // コールを取得
+    // calls を取得する
     const calls = await client.getCalls(filter=...)
     ```
   </Tab>
 
   <Tab title="HTTP API">
-    最も強力なクエリ レイヤーは Service API です。Service API を使用してコールを取得するには、[`/calls/stream_query`](https://docs.wandb.ai/ja/weave/reference/service-api/calls/calls-query-stream) エンドポイントにリクエストを送信します。
+    最も強力なクエリレイヤーは Service API にあります。Service API を使用して calls を取得するには、[`/calls/stream_query`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream) エンドポイントにリクエストを送信します。
 
     ```bash
     curl -L 'https://trace.wandb.ai/calls/stream_query' \
@@ -109,28 +109,28 @@ Call をエクスポートするには、次の手順に従います。
   </Tab>
 </Tabs>
 
-コールのプロパティおよびフィールドの詳細については、[Call スキーマ リファレンス](/ja/weave/guides/tracking/call-schema-reference) を参照してください。
+call のプロパティとフィールドの詳細については、[Call スキーマリファレンス](/ja/weave/guides/tracking/call-schema-reference)を参照してください。
 
 <div id="export-call-metrics">
-  ## Call メトリクスをエクスポート
+  ## callメトリクスをエクスポート
 </div>
 
-Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.wandb.ai/ja/weave/reference/service-api/calls/call-stats) を使用すると、Call データ自体を取得せずに、Calls に関するメトリクスを取得することもできます。これにより、レイテンシやコストなど、Calls に関する情報をすばやく効率的に取得し、合計、平均、最小、最大、件数で集計できます。たとえば、次の情報を取得できます。
+Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats) を使用すると、Call データ自体を取得せずに、Calls に関するメトリクスを取得できます。これにより、レイテンシやコストなど、Calls に関する情報をすばやく効率的に取得し、合計、平均、最小、最大、件数で集計できます。たとえば、次のようなメトリクスを取得できます。
 
-* 総トークン使用量
+* トークン使用量の合計
 * 平均レイテンシ
-* 最大トークン使用数
+* 使用トークン数の最大値
 * 総コスト
-* 最小入力トークン数
+* 入力トークン数の最小値
 
-このエンドポイントには複数のフィルタリングオプションがあり、指定した期間内に実行された Calls や、次のような他のプロパティに基づいて対象を絞り込めます。
+この エンドポイント には複数のフィルターオプションがあり、指定した期間内に実行された Calls や、次のようなその他のプロパティで対象を絞り込めます。
 
 * Op 名
 * Trace ID
 * Thread ID
 * User ID
 
-次の例は、`web_app` という名前の Op から生成された Calls を、2 日間にわたって取得する方法を示しています。
+次の例は、`web_app` という名前の Op から生成された Calls を 2 日間にわたって取得する方法を示しています。
 
 <CodeGroup>
   ```python Python lines {10-11,16-24}
@@ -208,14 +208,14 @@ Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.w
   ```
 </CodeGroup>
 
-このリクエストでは、メトリクスをどのように集計するかも指定します。メトリクスは `sum`、`count`、`avg`、`min`、`max` で集計できます。
+このリクエストでは、メトリクスをどのように集計するかも指定します。メトリクスは `sum`、`count`、`avg`、`min`、`max`、`count` で集計できます。
 
-このエンドポイントは JSON オブジェクトを返します。次のレスポンス例は、2 日分のメトリクスを示しています。各日 (バケット) は、`usage_buckets` 配列と `call_buckets` 配列の中でそれぞれ個別のオブジェクトに分けられます。各配列では、メトリクスの内訳が異なります。
+この エンドポイント は JSON オブジェクトを返します。次のレスポンス例は 2 日分のメトリクスを示しています。各日 (bucket) は、`usage_buckets` 配列と `call_buckets` 配列内でそれぞれ独立したオブジェクトに分かれています。各配列では、異なる方法でメトリクスがグループ化されます。
 
-* `usage_buckets`: 各日の Call メトリクスを、使用されたモデルごとにグループ化します。
-* `call_buckets`: 各日の Call メトリクスを、使用されたモデルに関係なくグループ化します。
+* `usage_buckets`: 使用されたモデルごとに、その日の Call メトリクスをグループ化します。
+* `call_buckets`: 使用されたモデルに関係なく、その日の Call メトリクスをグループ化します。
 
-リクエストの `granularity` フィールド (秒単位) を設定すると、バケットサイズを変更できます。
+bucket サイズを変更するには、リクエスト内の granularity フィールド (秒単位) を設定します。
 
 ```json lines
 {
@@ -290,4 +290,4 @@ Weave Service API の [POST `/calls/stats` エンドポイント](https://docs.w
 }
 ```
 
-メトリクスは最大 31 日間の期間でクエリできます。詳細および利用可能なオプションについては、[Service API リファレンス](https://docs.wandb.ai/ja/weave/reference/service-api/calls/call-stats) を参照してください。
+メトリクスをクエリできる期間は最大31日間です。詳細と利用可能なオプションについては、[Service APIリファレンス](https://docs.wandb.ai/weave/reference/service-api/calls/call-stats)を参照してください。

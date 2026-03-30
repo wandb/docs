@@ -1,15 +1,15 @@
 ---
-title: Créer et suivre un artefact externe
+title: Créer et suivre un artifact externe
 ---
 
 ```python
 """
-Suit un artefact externe en ajoutant une référence à un chemin de bucket de stockage cloud.
+Suit un artifact externe en ajoutant une référence à un chemin de bucket de stockage cloud.
 """
 
 import wandb
 
-# Créer un objet artefact
+# Créer un objet artifact
 artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
 
 # Ajouter une référence au chemin du bucket
@@ -18,6 +18,6 @@ artifact.add_reference(uri = "uri/to/your/bucket/path")
 # Initialiser un run W&B
 with wandb.init(project="<project>") as run:
 
-  # Journaliser les métadonnées de l'artefact
+  # Journaliser les métadonnées de l'artifact
   run.log_artifact(artifact)
 ```

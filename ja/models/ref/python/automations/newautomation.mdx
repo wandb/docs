@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `NewAutomation`
 
-新しく作成する automation を表します。
+新たに作成するオートメーション。
 
 ### <kbd>method</kbd> `NewAutomation.__init__`
 
@@ -28,8 +28,8 @@ __init__(
 **引数:**
 
 * `name` (Optional[str]): このオートメーションの名前。
-* `description` (Optional[str]): このオートメーションの説明（省略可）。
-* `enabled` (Optional[bool]): このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
+* `description` (Optional[str]): このオートメーションの説明 (省略可能) 。
+* `enabled` (Optional[bool]): このオートメーションを有効にするかどうか。有効なオートメーションのみがトリガーされます。
 * `event` (Optional[Annotated]): このオートメーションをトリガーするイベント。
 * `action` (Optional[Annotated]): このオートメーションがトリガーされたときに実行されるアクション。
 
@@ -37,10 +37,10 @@ __init__(
 `NewAutomation` オブジェクト。
 
 
-### <kbd>property</kbd> `NewAutomation.scope`
+### <kbd>プロパティ</kbd> `NewAutomation.scope`
 
-トリガーイベントが発生するスコープ。
+トリガーとなるイベントが発生する必要があるスコープ。
 
 **戻り値:**
 
-- `Optional[AutomationScope]`: scope プロパティの値。
+* `Optional[AutomationScope]`: scope プロパティの値。

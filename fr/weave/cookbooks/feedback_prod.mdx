@@ -1,10 +1,10 @@
 ---
-title: "Retours en production"
-description: "Collectez et analysez les retours utilisateur sur les sorties de LLM en production à l’aide des fonctionnalités de suivi des retours de W&B Weave."
+title: "Feedback en production"
+description: "Collectez et analysez les retours utilisateur sur les résultats des LLM en production grâce aux fonctionnalités de suivi des retours de W&B Weave."
 ---
 
 <Note>
-  Il s’agit d’un notebook interactif. Vous pouvez l’exécuter localement ou utiliser les liens ci-dessous :
+  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/feedback_prod.ipynb)
@@ -12,10 +12,10 @@ description: "Collectez et analysez les retours utilisateur sur les sorties de L
 
 ##
 
-Il est souvent difficile d’évaluer automatiquement une réponse générée par un LLM. Selon votre tolérance au risque, vous pouvez donc recueillir directement les retours utilisateur afin de trouver des pistes d’amélioration.
+Il est souvent difficile d’évaluer automatiquement une réponse générée par un LLM. Selon votre tolérance au risque, vous pouvez donc recueillir directement les retours des utilisateurs afin de repérer les points à améliorer.
 
-Dans ce tutoriel, nous utiliserons un chatbot personnalisé comme application exemple pour collecter les retours utilisateur.
-Nous utiliserons Streamlit pour build l’interface et nous capturerons les interactions avec le LLM ainsi que les retours dans Weave.
+Dans ce tutoriel, nous utiliserons comme exemple une application de chatbot personnalisée pour collecter les retours des utilisateurs.
+Nous utiliserons Streamlit pour créer l’interface et capturerons dans Weave les interactions avec le LLM ainsi que les retours.
 
 <div id="setup">
   ## Configuration
@@ -32,7 +32,7 @@ _ = set_env("OPENAI_API_KEY")
 _ = set_env("WANDB_API_KEY")
 ```
 
-Ensuite, créez un fichier nommé `chatbot.py` avec le contenu suivant :
+Ensuite, créez un fichier nommé `chatbot.py` contenant ce qui suit :
 
 
 ```python lines {13,15,27}
@@ -54,7 +54,7 @@ weave_client = weave.init("feedback-example")
 oai_client = openai.OpenAI()
 
 def init_states():
-    """Configure les clés de session_state si elles n'existent pas encore."""
+    """Configure les clés session_state si elles n'existent pas encore."""
     if "messages" not in st.session_state:
         st.session_state["messages"] = []
     if "calls" not in st.session_state:
@@ -75,22 +75,22 @@ def chat_response(full_history):
     return {"response": response_text}
 
 def render_feedback_buttons(call_idx):
-    """Affiche les boutons pouce levé/baissé et le retour textuel pour l'appel."""
+    """Affiche les boutons pouce haut/bas et le feedback textuel pour l'appel."""
     col1, col2, col3 = st.columns([1, 1, 4])
 
-    # Bouton pouce levé
+    # Bouton pouce haut
     with col1:
         if st.button("👍", key=f"thumbs_up_{call_idx}"):
             st.session_state.calls[call_idx].feedback.add_reaction("👍")
-            st.success("Thanks for the feedback!")
+            st.success("Merci pour votre feedback !")
 
-    # Bouton pouce baissé
+    # Bouton pouce bas
     with col2:
         if st.button("👎", key=f"thumbs_down_{call_idx}"):
             st.session_state.calls[call_idx].feedback.add_reaction("👎")
-            st.success("Thanks for the feedback!")
+            st.success("Merci pour votre feedback !")
 
-    # Retour textuel
+    # Feedback textuel
     with col3:
         feedback_text = st.text_input("Feedback", key=f"feedback_input_{call_idx}")
         if (
@@ -98,15 +98,15 @@ def render_feedback_buttons(call_idx):
             and feedback_text
         ):
             st.session_state.calls[call_idx].feedback.add_note(feedback_text)
-            st.success("Feedback submitted!")
+            st.success("Feedback envoyé !")
 
 def display_old_messages():
-    """Affiche la conversation stockée dans st.session_state.messages avec les boutons de retour"""
+    """Affiche la conversation stockée dans st.session_state.messages avec les boutons de feedback"""
     for idx, message in enumerate(st.session_state.messages):
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-            # S'il s'agit d'un message de l'assistant, afficher le formulaire de retour
+            # S'il s'agit d'un message de l'assistant, afficher le formulaire de feedback
             if message["role"] == "assistant":
                 # Déterminer l'index de ce message de l'assistant dans st.session_state.calls
                 assistant_idx = (
@@ -119,7 +119,7 @@ def display_old_messages():
                     )
                     - 1
                 )
-                # Afficher les boutons pouce levé/baissé et le retour textuel
+                # Afficher les boutons pouce haut/bas et le feedback textuel
                 if assistant_idx < len(st.session_state.calls):
                     render_feedback_buttons(assistant_idx)
 
@@ -144,7 +144,7 @@ def display_chat_prompt():
             with weave.attributes(
                 {"session": st.session_state["session_id"], "env": "prod"}
             ):
-                # Appeler l'API OpenAI (flux)
+                # Appeler l'API OpenAI (stream)
                 result, call = chat_response.call(full_history)
 
                 # Stocker le message de l'assistant
@@ -152,10 +152,10 @@ def display_chat_prompt():
                     {"role": "assistant", "content": result["response"]}
                 )
 
-                # Stocker l'objet appel Weave pour associer le retour à la réponse concernée
+                # Stocker l'objet d'appel Weave pour associer le feedback à la réponse spécifique
                 st.session_state.calls.append(call)
 
-                # Afficher les boutons de retour pour le nouveau message
+                # Afficher les boutons de feedback pour le nouveau message
                 new_assistant_idx = (
                     len(
                         [
@@ -167,7 +167,7 @@ def display_chat_prompt():
                     - 1
                 )
 
-                # Afficher les boutons de retour
+                # Afficher les boutons de feedback
                 if new_assistant_idx < len(st.session_state.calls):
                     render_feedback_buttons(new_assistant_idx)
 
@@ -184,13 +184,13 @@ if __name__ == "__main__":
 Vous pouvez lancer ceci avec `streamlit run chatbot.py`.
 
 Vous pouvez maintenant interagir avec cette application et cliquer sur les boutons de retour après chaque réponse.
-Accédez à l’interface Weave pour voir le retour associé.
+Rendez-vous dans la Weave UI pour voir les retours associés.
 
 <div id="explanation">
   ## Explication
 </div>
 
-Si l’on considère notre fonction de prédiction décorée comme suit :
+Si nous considérons notre fonction de prédiction décorée comme :
 
 ```python lines {5}
 import weave
@@ -210,7 +210,7 @@ Nous pouvons l’utiliser comme d’habitude pour fournir à l’utilisateur une
 with weave.attributes(
     {"session": "123abc", "env": "prod"}
 ):  # attacher des attributs arbitraires à l'appel avec les entrées et sorties
-    result = predict(input_data="your data here")  # question de l'utilisateur via l'interface de l'application
+    result = predict(input_data="your data here")  # question de l'utilisateur via l'UI de l'application
 ```
 
 Pour associer un retour, vous avez besoin de l’objet `call`, que vous obtenez en utilisant la méthode `.call()` *au lieu d’appeler la fonction normalement* :
@@ -220,15 +220,14 @@ result, call = predict.call(input_data="your data here")
 ```
 
 Cet objet d’appel est nécessaire pour associer des retours à la réponse concernée.
-Après avoir effectué l’appel, le résultat de l’opération est disponible via `result` ci-dessus.
+Après avoir effectué l’appel, le résultat de l’opération est accessible via `result` ci-dessus.
 
 ```python lines
 call.feedback.add_reaction("👍")  # réaction de l'utilisateur via l'interface de l'application
 ```
 
-
 <div id="conclusion">
   ## Conclusion
 </div>
 
-Dans ce tutoriel, nous avons créé une interface de chat avec Streamlit, avec les entrées et les sorties capturées dans Weave, ainsi que des boutons 👍👎 pour recueillir les retours utilisateur.
+Dans ce tutoriel, nous avons créé une UI de chat avec Streamlit, dont les entrées et les sorties étaient enregistrées dans Weave, avec des boutons 👍👎 pour recueillir les retours des utilisateurs.

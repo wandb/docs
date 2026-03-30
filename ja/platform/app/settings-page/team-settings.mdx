@@ -1,27 +1,27 @@
 ---
-description: Team Settings ページでチームのメンバー、アバター、アラート、プライバシー設定を管理します。
-title: チーム設定の管理
+description: Team Settings ページで、チームのメンバー、アバター、アラート、プライバシー設定を管理します。
+title: Team Settings を管理する
 ---
 
 import EnterpriseOnly from "/snippets/ja/_includes/enterprise-only.mdx";
 
 <div id="team-settings">
-  # チーム設定
+  # Team settings
 </div>
 
-メンバー、アバター、アラート、プライバシー、利用状況など、チームの設定を変更できます。Organization 管理者およびチーム管理者は、チーム設定を表示および編集できます。
+メンバー、アバター、アラート、プライバシー、使用状況など、チームの設定を変更できます。組織管理者とチーム管理者は、チームの設定を表示および編集できます。
 
 <Note>
-  Administration アカウント タイプのみが、チーム設定を変更したり、チームからメンバーを削除したりできます。
+  チームの設定を変更したり、チームからメンバーを削除したりできるのは、Administration アカウントタイプのみです。
 </Note>
 
 <div id="members">
   ## メンバー
 </div>
 
-Members セクションには、保留中の招待と、チームへの招待を承諾したメンバーの一覧が表示されます。各メンバーには、メンバー名、ユーザー名、メールアドレス、チームロール、および Organization から継承される Models と W&amp;B Weave へのアクセス権限が表示されます。標準のチームロールである **Admin**、**Member**、**View-only** から選択できます。組織で [カスタムロール](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles) を作成している場合は、代わりにカスタムロールを割り当てることもできます。
+Members セクションには、保留中の招待の一覧と、チームへの招待を承諾したメンバーが表示されます。一覧の各メンバーには、名前、ユーザー名、メールアドレス、チームロールに加え、組織から継承される Models と W&amp;B Weave へのアクセス権限が表示されます。標準のチームロール **Admin**、**Member**、**View-only** から選択できます。組織で [custom roles](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles) を作成している場合は、代わりにカスタムロールを割り当てることもできます。
 
-チームの作成方法、チームの管理、チームメンバーシップとロールの管理については、[Add and Manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) を参照してください。新しいメンバーを誰が招待できるかなど、チームのプライバシー設定を構成するには、[Privacy](#privacy) を参照してください。
+チームの作成方法、Teams の管理方法、チームメンバーシップとロールの管理方法については、[Add and Manage teams](/ja/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) を参照してください。新しいメンバーを招待できるユーザーの設定や、チームのその他のプライバシー設定を行うには、[プライバシー](#privacy) を参照してください。
 
 <div id="avatar">
   ## アバター
@@ -29,37 +29,37 @@ Members セクションには、保留中の招待と、チームへの招待を
 
 **Avatar** セクションに移動し、画像をアップロードしてアバターを設定します。
 
-1. **Update Avatar** を選択して、ファイルダイアログを表示させます。
-2. ファイルダイアログで、使用したい画像を選択します。
+1. **Update Avatar** を選択すると、ファイルダイアログが表示されます。
+2. ファイルダイアログから、使用する画像を選択します。
 
 <div id="alerts">
   ## アラート
 </div>
 
-run がクラッシュしたとき、完了したとき、またはカスタムアラートの条件を満たしたときにチームへ通知します。チームはメールまたは Slack でアラートを受信できます。
+run がクラッシュしたときや完了したとき、またはカスタムアラートを設定して、チームに通知できます。チームは、メールまたは Slack のいずれかでアラートを受信できます。
 
-アラートを受け取りたいイベントタイプの横にあるスイッチを切り替えます。Weights &amp; Biases では、デフォルトで次のイベントタイプのオプションを提供しています。
+アラートを受信したいイベントタイプの横にあるスイッチを切り替えます。Weights and Biases には、デフォルトで次のイベントタイプのオプションがあります。
 
-* **Runs finished**: Weights &amp; Biases の run が正常に完了したかどうか。
-* **Run crashed**: run が完了せずに失敗したかどうか。
+* **Runs finished**: Weights and Biases の run が正常に完了したとき。
+* **Run crashed**: run が正常に完了せず失敗したとき。
 
-アラートの設定および管理方法についての詳細は、[Send alerts with `wandb.Run.alert()`](/ja/models/runs/alert) を参照してください。
+アラートの設定と管理の方法について詳しくは、[`wandb.Run.alert()` を使用したアラートの送信](/ja/models/runs/alert)を参照してください。
 
 <div id="slack-notifications">
   ## Slack 通知
 </div>
 
-Registry や プロジェクト でイベントが発生したときに、たとえば新しい Artifact が作成された場合や run のメトリクスが定義済みのしきい値に達した場合に、チームの [automations](/ja/models/automations/) から通知を送信する Slack 通知の送信先を設定します。[Create a Slack automation](/ja/models/automations/create-automations/slack/) を参照してください。
+新しい artifact が作成されたときや、run のメトリクスが定義したしきい値に達したときなど、Registry またはプロジェクトでイベントが発生した際に、チームの [automations](/ja/models/automations/) が通知を送信する Slack の通知先を設定します。詳細は、[Slack automation を作成する](/ja/models/automations/create-automations/slack/)を参照してください。
 
 <Info>
   <EnterpriseOnly />
 </Info>
 
 <div id="webhooks">
-  ## Webhooks
+  ## ウェブフック
 </div>
 
-チームの [automations](/ja/models/automations/) が Registry やプロジェクトでイベント発生時に実行されるように webhooks を設定します。たとえば、新しい Artifact が作成されたときや、run のメトリクスが定めたしきい値に達したときなどです。詳しくは、[Create a webhook automation](/ja/models/automations/create-automations/slack/) を参照してください。
+Registry またはプロジェクトでイベントが発生した際に、チームの[automations](/ja/models/automations/)から実行されるウェブフックを設定します。たとえば、新しい artifact が作成されたときや、run のメトリクスが設定したしきい値に達したときです。詳しくは、[webhook automation を作成する](/ja/models/automations/create-automations/slack/)を参照してください。
 
 <Info>
   <EnterpriseOnly />
@@ -69,20 +69,20 @@ Registry や プロジェクト でイベントが発生したときに、たと
   ## プライバシー
 </div>
 
-プライバシー設定を変更するには、**Privacy** セクションに移動します。プライバシー設定を変更できるのは組織管理者のみです。
+プライバシー設定を変更するには、**プライバシー** セクションにアクセスします。プライバシー設定を変更できるのは組織管理者のみです。
 
-* 将来のプロジェクトを公開したり、Reports を公開で共有したりする機能を無効にできます。
-* チーム管理者だけでなく、任意のチームメンバーが他のメンバーを招待できるようにできます。
-* コード保存機能を既定で有効にするかどうかを管理できます。
+* 今後作成するプロジェクトを公開にしたり、Reports を公開で共有したりする機能を無効にします。
+* チーム管理者だけでなく、任意のチームメンバーが他のメンバーを招待できるようにします。
+* code saving をデフォルトで有効にするかどうかを管理します。
 
 <div id="usage">
   ## 使用状況
 </div>
 
-**Usage** セクションには、Weights &amp; Biases サーバー上でチームが利用した合計メモリ使用量が表示されます。既定のストレージプランは 100GB です。ストレージおよび料金の詳細については、[Pricing](https://wandb.ai/site/pricing) ページを参照してください。
+**Usage** セクションには、チームが Weights and Biases のサーバー上で使用した合計メモリ使用量が表示されます。デフォルトのストレージプランは 100GB です。ストレージと Pricing の詳細については、[Pricing](https://wandb.ai/site/pricing) ページを参照してください。
 
 <div id="storage">
-  ## Storage
+  ## ストレージ
 </div>
 
-**Storage** セクションでは、チームのデータに使用されているクラウドストレージバケットの設定について説明します。詳細については [Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) を参照するか、セルフホストでご利用の場合は [W&amp;B Server](/ja/platform/hosting/data-security/secure-storage-connector) のドキュメントを確認してください。
+**Storage** セクションでは、チームのデータに使用されているクラウドストレージバケットの設定について説明します。詳細は、[Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector)を参照してください。セルフホスティングしている場合は、[W&amp;B Server](/ja/platform/hosting/data-security/secure-storage-connector)のドキュメントも参照してください。

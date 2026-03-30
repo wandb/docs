@@ -1,25 +1,25 @@
 ---
-title: "特定の文字を含むメトリクスを並べ替えたりフィルターしたりできないのはなぜですか？"
+title: "特定の文字を含むメトリクスを並べ替えたりフィルタリングしたりできないのはなぜですか？"
 keywords: ["Experiments", "メトリクス"]
 ---
 
-W&amp;B のメトリクス名は、UI で適切に並べ替えやフィルターができるよう、GraphQL の命名規則に従う必要があります。
+W&amp;B のメトリクス名は、UI で正しく並べ替えやフィルタリングを行えるよう、GraphQL の命名規則に従う必要があります。
 
 <div id="valid-metric-names">
   ## 有効なメトリクス名
 </div>
 
-* **使用できる文字**: 英字 (A-Z, a-z)、数字 (0-9)、およびアンダースコア (&#95;)
+* **使用可能な文字**: 英字 (A-Z, a-z)、数字 (0-9)、アンダースコア (&#95;)
 * **先頭文字**: 名前は英字またはアンダースコアで始まる必要があります
 * **パターン**: メトリクス名は `/^[_a-zA-Z][_a-zA-Z0-9]*$/` に一致する必要があります
 
-これらのルールに従わないメトリクスは、W&amp;B UI で並べ替えやフィルターができない場合があります。
+これらのルールに従わないメトリクスは、W&amp;B UI で並べ替えやフィルターを適用できない場合があります。
 
 <div id="examples">
   ## 例
 </div>
 
-**有効なメトリクス名:**
+**使用できるメトリクス名:**
 
 ```python
 with wandb.init() as run:
@@ -27,7 +27,7 @@ with wandb.init() as run:
   run.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
 ```
 
-**無効なメトリクス名 (避けてください) ：**
+**無効なメトリクス名 (使用を避けてください) :**
 
 ```python
 with wandb.init() as run:
@@ -38,24 +38,24 @@ with wandb.init() as run:
 ```
 
 <div id="recommended-solution">
-  ## 推奨される解決方法
+  ## 推奨される解決策
 </div>
 
 無効な文字は、アンダースコアなどの有効な文字に置き換えてください。
 
-* `"test acc"` ではなく `"test_acc"` を使用します
-* `"loss-train"` ではなく `"loss_train"` を使用します
-* `"acc,val"` ではなく `"acc_val"` を使用します
+* `"test acc"` の代わりに `"test_acc"` を使用してください
+* `"loss-train"` の代わりに `"loss_train"` を使用してください
+* `"acc,val"` の代わりに `"acc_val"` を使用してください
 
-詳細は [メトリクス名の制約](/ja/models/track/log/#metric-naming-constraints) を参照してください。
+詳細は[メトリクスの命名制約](/ja/models/track/log/#metric-naming-constraints)を参照してください。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  このマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードから、scripts/knowledgebase-nav/generate_tags.py によって生成・管理されています。
+  これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

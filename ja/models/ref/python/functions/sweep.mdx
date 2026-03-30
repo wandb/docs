@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_sweep.py" />
 
 
-### <kbd>function</kbd> `sweep`
+### <kbd>関数</kbd> `sweep`
 
 ```python
 sweep(
@@ -20,21 +20,21 @@ sweep(
 ) → str
 ```
 
-ハイパーパラメーター sweep を初期化します。
+ハイパーパラメーター探索の sweep を初期化します。
 
-さまざまな組み合わせを試すことで、機械学習 モデル のコスト関数を最適化するハイパーパラメーターを探索します。
+さまざまな組み合わせを試して、機械学習モデルのコスト関数を最適化するハイパーパラメーターを探索します。
 
-返される一意の識別子 `sweep_id` をメモしておいてください。後の手順で、この `sweep_id` を sweep エージェントに渡します。
+返される一意の ID `sweep_id` を控えておいてください。後の step で `sweep_id` を sweep agent に指定します。
 
-sweep の定義方法については、[Sweep configuration structure](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) を参照してください。
+sweep の定義方法については、[Sweep 設定の構造](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration)を参照してください。
 
 **引数:**
 
-* `sweep`:  ハイパーパラメーター探索の設定 (または設定ジェネレーター) 。呼び出し可能オブジェクトを渡す場合は、その呼び出し可能オブジェクトが引数を取らず、W&amp;B の sweep config 仕様に準拠した辞書を返すことを確認してください。
-* `entity`:  sweep によって作成された W&amp;B runs を送信する先のユーザー名またはチーム名。指定した entity がすでに存在していることを確認してください。entity を指定しない場合、run は通常はあなたのユーザー名であるデフォルトの entity に送信されます。
-* `project`:  sweep によって作成された W&amp;B runs が送信される プロジェクト 名。project が指定されていない場合、run は「Uncategorized」というラベルの付いた プロジェクト に送信されます。
-* `prior_runs`:  この sweep に追加する既存 run の run ID。
+* `sweep`:  ハイパーパラメーター探索の設定です (または設定ジェネレーター) 。callable を指定する場合は、その callable が引数を取らず、W&amp;B sweep config spec に準拠した辞書を返すことを確認してください。
+* `entity`:  sweep によって作成された W&amp;B run の送信先となるユーザー名またはチーム名です。指定する entity がすでに存在していることを確認してください。entity を指定しない場合、run はデフォルトの entity (通常はユーザー名) に送信されます。
+* `project`:  sweep から作成された W&amp;B run の送信先となるプロジェクトの名です。project を指定しない場合、run は &#39;Uncategorized&#39; というラベルの付いたプロジェクトに送信されます。
+* `prior_runs`:  この sweep に追加する既存の run ID です。
 
 **戻り値:**
 
-* `str`:  sweep の一意の識別子。
+* `str`:  sweep の一意の ID です。

@@ -6,14 +6,14 @@ description: "TypeScript SDK 레퍼런스"
 [weave](../) / WeaveObject
 
 <div id="hierarchy">
-  ## 계층 구조
+  ## 계층
 </div>
 
-- `WeaveObject`
+* `WeaveObject`
 
-  ↳ [`Dataset`](./dataset)
+  ↳ [`데이터셋`](./dataset)
 
-  ↳ [`Evaluation`](./evaluation)
+  ↳ [`평가`](./evaluation)
 
 <div id="table-of-contents">
   ## 목차
@@ -23,26 +23,26 @@ description: "TypeScript SDK 레퍼런스"
   ### 생성자
 </div>
 
-- [constructor](./weaveobject#constructor)
+* [constructor](./weaveobject#constructor)
 
 <div id="properties">
   ### 속성
 </div>
 
-- [\_\_savedRef](./weaveobject#__savedref)
+* [&#95;&#95;savedRef](./weaveobject#__savedref)
 
 <div id="accessors">
   ### 접근자
 </div>
 
-- [description](./weaveobject#description)
-- [name](./weaveobject#name)
+* [설명](./weaveobject#description)
+* [이름](./weaveobject#name)
 
 <div id="methods">
-  ### 메서드
+  ### 방법
 </div>
 
-- [saveAttrs](./weaveobject#saveattrs)
+* [saveAttrs](./weaveobject#saveattrs)
 
 ## 생성자
 
@@ -56,8 +56,8 @@ description: "TypeScript SDK 레퍼런스"
   #### 매개변수
 </div>
 
-| 이름 | 타입 |
-| :------ | :------ |
+| 이름                | 유형                      |
+| :---------------- | :---------------------- |
 | `_baseParameters` | `WeaveObjectParameters` |
 
 <div id="returns">
@@ -66,18 +66,22 @@ description: "TypeScript SDK 레퍼런스"
 
 [`WeaveObject`](./weaveobject)
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의 위치
+</div>
 
 [weaveObject.ts:75](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L75)
 
 ## 속성
 
-### \_\_savedRef
+<div id="__savedref">
+  ### __savedRef
+</div>
 
-• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+• `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
 <div id="defined-in">
-  #### 정의된 위치
+  #### 정의 위치
 </div>
 
 [weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
@@ -88,48 +92,56 @@ description: "TypeScript SDK 레퍼런스"
   ### 설명
 </div>
 
-• `get` **description**(): `undefined` \| `string`
+• `get` **description**(): `undefined` | `string`
 
 <div id="returns">
   #### 반환값
 </div>
 
-`undefined` \| `string`
+`undefined` | `string`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의 위치
+</div>
 
 [weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
 
-___
+***
 
 <div id="name">
-  ### name
+  ### 이름
 </div>
 
-• `get` **name**(): `string`
+• `get` **이름**(): `string`
 
-#### 반환
+<div id="returns">
+  #### 반환값
+</div>
 
 `string`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의 위치
+</div>
 
 [weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
 
-## 메서드
+## 방법
 
 <div id="saveattrs">
   ### saveAttrs
 </div>
 
-▸ **saveAttrs**(): `Object`
+▸ **saveAttrs**(): `객체`
 
 <div id="returns">
   #### 반환값
 </div>
 
-`Object`
+`객체`
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의 위치
+</div>
 
 [weaveObject.ts:77](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L77)

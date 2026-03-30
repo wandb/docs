@@ -1,19 +1,19 @@
 ---
-title: "Que se passe-t-il si la connexion Internet est perdue pendant l'entraînement d'un modèle ?"
-keywords: ["Variables d'environnement", "Panne"]
+title: "Que se passe-t-il si la connexion Internet est interrompue pendant l’entraînement d’un modèle ?"
+keywords: ["Variables d’environnement", "Panne"]
 ---
 
-Si la bibliothèque ne peut pas se connecter à Internet, elle entre dans une boucle de nouvelles tentatives et continue d&#39;essayer de transmettre les métriques jusqu&#39;à ce que le réseau soit rétabli. Le programme continue de s&#39;exécuter pendant ce temps.
+Si la bibliothèque ne peut pas se connecter à Internet, elle réessaie en boucle et continue de tenter de transmettre les métriques jusqu’à ce que le réseau soit rétabli. Le programme continue à s’exécuter pendant ce temps.
 
-Pour exécuter sur une machine sans accès à Internet, définissez `WANDB_MODE=offline`. Cette configuration stocke les métriques localement sur le disque dur. Ensuite, exécutez `wandb sync DIRECTORY` pour transmettre les données au serveur.
+Pour exécuter le programme sur une machine sans connexion Internet, définissez `WANDB_MODE=offline`. Cette configuration enregistre les métriques localement sur le disque dur. Ensuite, exécutez `wandb sync DIRECTORY` pour transmettre les données au serveur.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement le contenu situé entre ces marqueurs.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Panne](/fr/support/models/tags/outage)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Incident](/fr/support/models/tags/outage)</Badge>
 
 {/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

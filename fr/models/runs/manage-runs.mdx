@@ -1,41 +1,41 @@
 ---
-title: Déplacer un run vers un autre projet ou une autre équipe
-description: Déplacez des runs d’un projet ou d’une équipe à l’autre à l’aide de l’application W&B.
+title: Déplacer un run vers un autre projet ou une autre team
+description: Déplacez des runs entre des projets ou des teams à l’aide de W&B App.
 ---
 
 <Note>
-  Avant de commencer, assurez-vous de disposer des autorisations nécessaires pour déplacer des runs entre des projets ou des équipes. Vous devez avoir accès au run à son emplacement actuel ainsi qu’à son nouvel emplacement.
+  Avant de commencer, assurez-vous de disposer des autorisations nécessaires pour déplacer des runs entre des projets ou des teams. Vous devez avoir accès au run à son emplacement actuel ainsi qu’à son nouvel emplacement.
 </Note>
 
-Pour déplacer des runs d&#39;un projet à un autre ou d&#39;une équipe à une autre :
+Pour déplacer des runs d’un projet à un autre ou entre des teams :
 
 1. Accédez au projet qui contient les runs que vous souhaitez déplacer.
-2. Sélectionnez l&#39;onglet **Runs** dans la barre latérale du projet.
-3. Cochez la case en regard des runs que vous souhaitez déplacer.
+2. Sélectionnez l’onglet **Runs** dans la barre latérale du projet.
+3. Cochez la case à côté des runs que vous souhaitez déplacer.
 4. Cliquez sur le bouton **Move to project** au-dessus du tableau.
-5. Sélectionnez l&#39;équipe et le projet de destination dans la liste déroulante.
+5. Sélectionnez la team et le projet de destination dans la liste déroulante.
 
 <Note>
-  Lorsque vous déplacez un run, les artefacts historiques qui lui sont associés ne sont pas déplacés. Pour déplacer un artefact manuellement, vous pouvez utiliser la commande SDK [`wandb artifact get`](/fr/models/ref/cli/wandb-artifact/wandb-artifact-get/) ou l&#39;[API `Api.artifact`](/fr/models/ref/python/public-api/api/#artifact) pour télécharger l&#39;artefact, puis utiliser [`wandb artifact put`](/fr/models/ref/cli/wandb-artifact/wandb-artifact-put/) ou l&#39;API `Api.artifact` pour le téléverser vers le nouvel emplacement du run.
+  Lorsque vous déplacez un run, les artifacts historiques qui lui sont associés ne sont pas déplacés. Pour déplacer manuellement un artifact, vous pouvez utiliser la commande SDK [`wandb artifact get`](/fr/models/ref/cli/wandb-artifact/wandb-artifact-get/) ou l’API [`Api.artifact`](/fr/models/ref/python/public-api/api/#artifact) pour télécharger l’artifact, puis utiliser [`wandb artifact put`](/fr/models/ref/cli/wandb-artifact/wandb-artifact-put/) ou l’API `Api.artifact` pour le téléverser vers le nouvel emplacement du run.
 </Note>
 
-{/* ## Déplacer des runs dans un groupe
+{/* ## Déplacer des runs vers un groupe
 
   Vous pouvez regrouper des runs en les déplaçant dans un groupe existant ou en créant un nouveau groupe.
 
-  1. Accédez au projet qui contient les runs que vous voulez déplacer.
+  1. Accédez au projet qui contient les runs que vous souhaitez déplacer.
   2. Sélectionnez l’onglet **Runs** dans la barre latérale du projet.
-  3. Cochez la case à côté des runs que vous voulez déplacer.
-  4. Cliquez sur le bouton **Move to group** au-dessus du tableau.
-  5. Dans la fenêtre modale, sélectionnez le groupe de destination ou créez-en un nouveau.
-  6. Cliquez sur **Move**. */}
+  3. Cochez la case à côté des runs que vous souhaitez déplacer.
+  4. Cliquez sur le bouton **Déplacer vers un groupe** au-dessus du tableau.
+  5. Dans la boîte de dialogue, sélectionnez le groupe cible ou créez un nouveau groupe.
+  6. Cliquez sur **Déplacer**. */}
 
-{/* #### Gérer les runs en masse
+{/* #### Gérer plusieurs runs en masse
   Cette section explique comment gérer plusieurs runs à la fois, dans un ou plusieurs groupes de runs.
 
-  1. Si nécessaire, [basculez le regroupement par colonnes](#toggle-grouping-by-column-in-the-ui) en regroupant selon la colonne **Group**.
-  1. Développez un groupe pour afficher ses runs. En une seule opération en masse, vous pouvez déplacer des runs de différents groupes vers un même groupe cible. Développez tous les groupes concernés.
-  1. Pour sélectionner tous les runs d’un groupe, cliquez sur la case à cocher située à côté du nom du groupe.
-  1. Pour sélectionner des runs individuellement, cliquez sur leurs cases à cocher.
-  1. Pour sélectionner tous les runs de tous les groupes, cliquez sur la case à cocher située à côté de l’en-tête de la colonne **Name**.
-  1. Au-dessus du tableau, choisissez une opération en masse : **Tag**, **Move to group**, **Move to project** ou **New sweep**. */}
+  1. Si nécessaire, [basculez le regroupement par colonnes](#toggle-grouping-by-column-in-the-ui), en regroupant selon la colonne **Groupe**.
+  1. Développez un groupe pour afficher ses runs. En une seule opération en masse, vous pouvez déplacer des runs de groupes différents vers le même groupe cible. Développez tous les groupes concernés.
+  1. Pour sélectionner tous les runs d'un groupe, cliquez sur la case à cocher à côté du nom du groupe.
+  1. Pour sélectionner des runs individuels, cliquez sur leurs cases à cocher.
+  1. Pour sélectionner tous les runs de tous les groupes, cliquez sur la case à cocher à côté de l'en-tête de la colonne **Nom**.
+  1. Au-dessus du tableau, choisissez une opération en masse : **Tag**, **Déplacer vers le groupe**, **Déplacer vers le projet** ou **Nouveau balayage**. */}

@@ -1,24 +1,24 @@
 ---
-title: "W&B では `multiprocessing` ライブラリを使用していますか？"
+title: "W&B は `multiprocessing` ライブラリを使用しますか？"
 keywords: ["Experiments"]
 ---
 
-はい、W&amp;B は `multiprocessing` ライブラリを使用しています。次のようなエラーメッセージは、問題が発生している可能性を示しています。
+はい、W&amp;B は `multiprocessing` ライブラリを使用します。次のようなエラーメッセージが表示される場合は、問題が発生している可能性があります。
 
 ```
 An attempt has been made to start a new process before the current process 
 has finished its bootstrapping phase.
 ```
 
-これを解決するには、`if __name__ == "__main__":` を追加してエントリーポイントを保護します。この保護は、スクリプトから W&amp;B を直接実行する場合に必要です。
+これを解決するには、`if __name__ == "__main__":` を追加してエントリポイントを保護します。これは、スクリプトから直接 W&amp;B を実行する場合に必要です。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  フロントマター内のキーワードをもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  これらのマーカーの間は手作業で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter の keywords に基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
+  これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

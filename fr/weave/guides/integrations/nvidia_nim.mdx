@@ -3,23 +3,23 @@ title: "NVIDIA NIM"
 description: "Utilisez Weave pour tracer et journaliser les appels LLM effectués via la bibliothèque ChatNVIDIA"
 ---
 
-Weave assure automatiquement le suivi et la journalisation des appels LLM effectués via la bibliothèque [ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/), une fois `weave.init()` appelé.
+Weave suit et journalise automatiquement les appels LLM effectués via la bibliothèque [ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/), une fois `weave.init()` appelé.
 
 <Tip>
-  Pour les tutoriels les plus récents, consultez [Weights &amp; Biases sur NVIDIA](https://wandb.ai/site/partners/nvidia).
+  Pour consulter les derniers tutoriels, rendez-vous sur [Weights &amp; Biases on NVIDIA](https://wandb.ai/site/partners/nvidia).
 </Tip>
 
 <div id="tracing">
   ## Tracing
 </div>
 
-Il est important de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu’en production. Vous utiliserez ces traces pour le débogage et pour constituer un jeu de données d’exemples complexes sur lequel évaluer votre application à mesure que vous l’améliorez.
+Il est important de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu’en production. Vous utiliserez ces traces pour le débogage et pour constituer un jeu de données d’exemples difficiles à évaluer au fur et à mesure que vous améliorez votre application.
 
 <Tabs>
   <Tab title="Python">
     Weave peut automatiquement capturer les traces de la [bibliothèque Python ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/).
 
-    Commencez à capturer les traces en appelant `weave.init(<project-name>)` avec le nom du projet de votre choix.
+    Commencez à capturer les traces en appelant `weave.init(<project-name>)` avec le nom de projet de votre choix.
 
     ```python lines {4}
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
@@ -54,11 +54,11 @@ Il est important de stocker les traces des applications LLM dans une base de don
 
 <Tabs>
   <Tab title="Python">
-    Le fait d&#39;encapsuler une fonction avec `@weave.op` commence à capturer les entrées, les sorties et la logique de l&#39;application afin que vous puissiez déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et créer un arbre de fonctions que vous souhaitez suivre. Cela lance également automatiquement la gestion des versions du code pendant vos expérimentations afin de capturer des détails ad hoc qui n&#39;ont pas encore été commités dans Git.
+    Décorer une fonction avec `@weave.op` commence à capturer les entrées, les sorties et la logique de l’application afin que vous puissiez déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et construire un arbre de fonctions que vous souhaitez suivre. Cela lance aussi automatiquement la gestion des versions du code pendant vos expérimentations afin de capturer des détails ad hoc qui n’ont pas été commités dans git.
 
-    Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tracking/ops) qui fait appel à la [bibliothèque Python ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/).
+    Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tracking/ops) qui appelle la [bibliothèque Python ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/).
 
-    Dans l&#39;exemple ci-dessous, nous avons 2 fonctions décorées avec `@weave.op`. Cela nous aide à voir comment les étapes intermédiaires, comme l&#39;étape de récupération dans une application RAG, influencent le comportement de notre application.
+    Dans l’exemple ci-dessous, 2 fonctions sont encapsulées dans un op. Cela nous aide à voir comment des étapes intermédiaires, comme l’étape de récupération dans une application RAG, influencent le comportement de notre application.
 
     ```python lines {1,9,11,29,31,33}
     import weave
@@ -91,7 +91,7 @@ Il est important de stocker les traces des applications LLM dans une base de don
 
     @weave.op
     def pokedex(name: str, prompt: str) -> str:
-        # Il s'agit de votre op racine, qui fait appel à d'autres ops
+        # Il s'agit de votre op racine qui appelle d'autres ops
         data = get_pokemon_data(name)
         if not data: return "Error: Unable to fetch data"
 
@@ -104,16 +104,16 @@ Il est important de stocker les traces des applications LLM dans une base de don
         return response.content
 
     weave.init('pokedex-nvidia')
-    # Obtenir les données d'un Pokémon spécifique
+    # Obtenir des données pour un Pokémon spécifique
     pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
     ```
 
-    Accédez à Weave, puis cliquez sur `get_pokemon_data` dans l&#39;interface pour voir les entrées et les sorties de cette étape.
+    Accédez à Weave, puis cliquez sur `get_pokemon_data` dans l’interface pour voir les entrées et les sorties de cette étape.
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n'est pas encore disponible en TypeScript, car cette bibliothèque existe uniquement en Python.
+    Cette fonctionnalité n'est pas encore disponible en TypeScript, car cette bibliothèque n'existe qu'en Python.
     ```
   </Tab>
 </Tabs>
@@ -123,16 +123,16 @@ Il est important de stocker les traces des applications LLM dans une base de don
 </Frame>
 
 <div id="create-a-model-for-easier-experimentation">
-  ## Créer un `Model` pour expérimenter plus facilement
+  ## Créez un `Model` pour expérimenter plus facilement
 </div>
 
 <Tabs>
   <Tab title="Python">
-    Organiser l’expérimentation devient difficile lorsqu’il y a de nombreux éléments à prendre en compte. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et structurer les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
+    Il est difficile d’organiser une expérimentation lorsque de nombreux éléments entrent en jeu. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
 
-    En plus de gérer les versions du code et de capturer les entrées/sorties, les [`Model`](/fr/weave/guides/core-types/models) capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser les Models Weave avec `serve` et les [`Evaluation`](/fr/weave/guides/core-types/evaluations).
+    En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](/fr/weave/guides/core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres qui donnent les meilleurs résultats. Vous pouvez également utiliser les Weave Models avec `serve` et les [`Evaluation`](/fr/weave/guides/core-types/evaluations)s.
 
-    Dans l’exemple ci-dessous, vous pouvez expérimenter avec `model` et `system_message`. Chaque fois que vous en modifiez un, vous obtenez une nouvelle *version* de `GrammarCorrectorModel`.
+    Dans l’exemple ci-dessous, vous pouvez tester `model` et `system_message`. Chaque fois que vous modifiez l’un de ces deux éléments, vous obtenez une nouvelle *version* de `GrammarCorrectorModel`.
 
     ```python lines
     import weave
@@ -170,7 +170,7 @@ Il est important de stocker les traces des applications LLM dans une base de don
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript, car cette bibliothèque existe uniquement en Python.
+    Cette fonctionnalité n’est pas encore disponible en TypeScript, car cette bibliothèque n’existe qu’en Python.
     ```
   </Tab>
 </Tabs>
@@ -180,8 +180,8 @@ Il est important de stocker les traces des applications LLM dans une base de don
 </Frame>
 
 <div id="usage-info">
-  ## Informations sur l’utilisation
+  ## Informations d’utilisation
 </div>
 
-L’intégration ChatNVIDIA prend en charge `invoke`, `stream` et leurs variantes asynchrones. Elle prend également en charge l’utilisation d’outils.
-Comme ChatNVIDIA est conçu pour être utilisé avec de nombreux types de modèles, il ne prend pas en charge les appels de fonctions.
+L’intégration ChatNVIDIA prend en charge `invoke`, `stream` ainsi que leurs variantes asynchrones. Elle prend également en charge l’utilisation d’outils.
+Comme ChatNVIDIA est conçu pour être utilisé avec de nombreux types de modèles, il ne prend pas en charge les appels de fonction.

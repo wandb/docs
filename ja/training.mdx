@@ -1,18 +1,18 @@
 ---
 title: W&B Training
-description: 強化学習と教師ありファインチューニングを使ってモデルをポストトレーニングする
+description: 強化学習と教師ありファインチューニングでモデルをポストトレーニング
 mode: wide
 ---
 
-現在パブリックプレビュー中の W&amp;B Training は、大規模言語モデル (LLM) 向けに、強化学習 (RL) と教師ありファインチューニング (SFT) の両方を含むサーバーレスなポストトレーニングを提供します。
+現在パブリックプレビュー中の W&amp;B Training では、強化学習 (RL) と教師ありファインチューニング (SFT) の両方に対応した、大規模言語モデル (LLM) 向けのサーバーレスなポストトレーニングを利用できます。
 
-* **[Serverless RL](/ja/training/serverless-rl)**: マルチターンのエージェントタスクにおける信頼性を高めつつ、高速化とコスト削減を実現します。RL は、モデルが出力に対するフィードバックを通じて振る舞いを改善することを学習するトレーニング手法です。
-* **[Serverless SFT](/ja/training/sft-training)**: 蒸留のためのキュレーションされたデータセットを使ったり、出力のスタイルやフォーマットを教えたり、RL の前段としてウォームアップしたりするために、モデルをファインチューニングします。
+* **[Serverless RL](/ja/training/serverless-rl)**: 速度を高めてコストを削減しながら、複数ターンのエージェントタスクを実行する際のモデルの信頼性を向上させます。RL は、モデルが出力に対するフィードバックを通じて振る舞いを改善していくトレーニング手法です。
+* **[Serverless SFT](/ja/training/sft-training)**: 蒸留、出力のスタイルや形式の学習、または RL 前のウォームアップのために、厳選されたデータセットを使ってモデルをファインチューニングします。
 
-W&amp;B Training には次のインテグレーションが含まれます:
+W&amp;B Training は、次のものとインテグレーションされています。
 
-* 柔軟なファインチューニング フレームワークである [ART](https://art.openpipe.ai/getting-started/about)。
-* 汎用検証ツールである [RULER](https://openpipe.ai/blog/ruler)。
-* [CoreWeave Cloud](https://docs.coreweave.com/docs/platform) 上のフルマネージドなバックエンド。
+* [ART](https://art.openpipe.ai/getting-started/about): 柔軟なファインチューニングフレームワーク。
+* [RULER](https://openpipe.ai/blog/ruler): 汎用ベリファイア。
+* [CoreWeave Cloud](https://docs.coreweave.com/docs/platform) 上のフルマネージドバックエンド。
 
-利用を開始するには、まずサービス利用の [前提条件](/ja/training/prerequisites) を満たし、その後 [Serverless RL クイックスタート](https://art.openpipe.ai/getting-started/quick-start) または [Serverless SFT ドキュメント](https://art.openpipe.ai/fundamentals/sft-training) を参照して、モデルをポストトレーニングする方法を学んでください。
+開始するには、まずサービス利用のための[前提条件](/ja/training/prerequisites)を満たし、そのうえで [Serverless RL クイックスタート](https://art.openpipe.ai/getting-started/quick-start) または [Serverless SFT ドキュメント](https://art.openpipe.ai/fundamentals/sft-training) を参照して、モデルをポストトレーニングする方法を確認してください。

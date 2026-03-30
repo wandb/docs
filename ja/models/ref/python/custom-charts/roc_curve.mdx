@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/roc_curve.py" />
 
 
-### <kbd>function</kbd> `roc_curve`
+### <kbd>関数</kbd> `roc_curve`
 
 ```python
 roc_curve(
@@ -22,26 +22,26 @@ roc_curve(
 ) → CustomChart
 ```
 
-受信者動作特性 (ROC) 曲線チャートを作成します。
+Receiver Operating Characteristic (ROC) 曲線チャートを作成します。
 
-**Args:**
+**引数:**
 
-* `y_true`:  目的変数に対する真のクラスラベル (ground truth)。形状は (num&#95;samples,) である必要があります。
-* `y_probas`:  各クラスに対する予測確率または判定スコア。形状は (num&#95;samples, num&#95;classes) である必要があります。
-* `labels`:  `y_true` 内のクラスインデックスに対応する、人間が読みやすいラベル。例えば `labels=['dog', 'cat']` の場合、プロットではクラス 0 が &#39;dog&#39;、クラス 1 が &#39;cat&#39; として表示されます。None の場合、`y_true` の生のクラスインデックスが使用されます。デフォルトは None です。
-* `classes_to_plot`:  ROC 曲線に含める一意なクラスラベルのサブセット。None の場合、`y_true` に含まれるすべてのクラスがプロットされます。デフォルトは None です。
-* `title`:  ROC 曲線プロットのタイトル。デフォルトは &quot;ROC Curve&quot; です。
-* `split_table`:  テーブルを W&amp;B UI 内で別のセクションに分割するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+* `y_true`:  対象変数の正解クラスラベルです。形状は (num&#95;samples,) である必要があります。
+* `y_probas`:  各クラスの予測確率、または判定スコアです。形状は (num&#95;samples, num&#95;classes) である必要があります。
+* `labels`:  `y_true` のクラスインデックスに対応する、人間が読めるラベルです。たとえば、`labels=['dog', 'cat']` の場合、プロットではクラス 0 は &#39;dog&#39;、クラス 1 は &#39;cat&#39; と表示されます。None の場合は、`y_true` の生のクラスインデックスが使用されます。デフォルトは None です。
+* `classes_to_plot`:  ROC 曲線に含める一意なクラスラベルのサブセットです。None の場合は、`y_true` 内のすべてのクラスがプロットされます。デフォルトは None です。
+* `title`:  ROC 曲線プロットのタイトルです。デフォルトは &quot;ROC Curve&quot; です。
+* `split_table`:  表を W&amp;B UI の別セクションに分けるかどうかを指定します。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
 
-**Returns:**
+**戻り値:**
 
-* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
+* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクトです。チャートをログするには、これを `wandb.log()` に渡します。
 
-**Raises:**
+**例外:**
 
 * `wandb.Error`:  numpy、pandas、または scikit-learn が見つからない場合。
 
-**Example:**
+**例:**
 
 ```python
 import numpy as np
@@ -51,18 +51,18 @@ import wandb
 n_samples = 200
 n_classes = 3
 
-# 真のラベル: 各サンプルに "Diabetes"、"Hypertension"、"Heart Disease" を割り当てる
+# 正解ラベル: 各サンプルに「Diabetes」「Hypertension」「Heart Disease」のいずれかを割り当てる
 disease_labels = ["Diabetes", "Hypertension", "Heart Disease"]
 # 0: Diabetes、1: Hypertension、2: Heart Disease
 y_true = np.random.choice([0, 1, 2], size=n_samples)
 
-# 予測確率: 各サンプルの合計が 1 になるよう予測をシミュレートする
+# 予測確率: 各サンプルの合計が1になるよう予測をシミュレートする
 y_probas = np.random.dirichlet(np.ones(n_classes), size=n_samples)
 
 # プロットするクラスを指定する（3つの疾患すべてをプロット）
 classes_to_plot = [0, 1, 2]
 
-# W&B の run を初期化し、疾患分類の ROC 曲線プロットをログに記録する
+# W&B の run を初期化し、疾患分類の ROC 曲線プロットをログする
 with wandb.init(project="medical_diagnosis") as run:
     roc_plot = wandb.plot.roc_curve(
          y_true=y_true,

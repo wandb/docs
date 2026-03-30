@@ -1,27 +1,27 @@
 ---
 title: Aperçu des graphiques personnalisés
-description: Utilisez des graphiques personnalisés dans le SDK Python W&B pour créer des visualisations interactives dans les tableaux de bord de projet
+description: Utilisez des graphiques personnalisés dans le W&B Python SDK pour créer des visualisations interactives dans les tableaux de bord des projets
 module: wandb.plot
 no_list: true
 ---
 
-Les graphiques personnalisés dans W&amp;B peuvent être programmés à l’aide d’un ensemble de fonctions de l’espace de noms `wandb.plot`. Ces fonctions créent des visualisations interactives dans les tableaux de bord des projets W&amp;B et prennent en charge des visualisations ML courantes, comme les matrices de confusion, les courbes ROC et les graphiques de distribution.
+Les graphiques personnalisés de W&amp;B se programment à l’aide d’un ensemble de fonctions de l’espace de noms `wandb.plot`. Ces fonctions créent des visualisations interactives dans les tableaux de bord des projets W&amp;B et prennent en charge des visualisations ML courantes, comme les matrices de confusion, les courbes ROC et les graphiques de distribution.
 
 <div id="available-chart-functions">
-  ## Fonctions de graphiques disponibles
+  ## Fonctions de graphique disponibles
 </div>
 
-| Fonction                                                                   | Description                                                                                                |
-| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [`confusion_matrix()`](/fr/models/ref/python/custom-charts/confusion_matrix/) | Génère des matrices de confusion pour visualiser les performances de classification.                       |
+| Fonction                                                                   | Description                                                                                             |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| [`confusion_matrix()`](/fr/models/ref/python/custom-charts/confusion_matrix/) | Génère des matrices de confusion pour visualiser les performances de classification.                    |
 | [`roc_curve()`](/fr/models/ref/python/custom-charts/roc_curve/)               | Crée des courbes ROC (Receiver Operating Characteristic) pour les classificateurs binaires et multiclasse. |
-| [`pr_curve()`](/fr/models/ref/python/custom-charts/pr_curve/)                 | Crée des courbes précision-rappel pour l’évaluation des classificateurs.                                   |
-| [`line()`](/fr/models/ref/python/custom-charts/line/)                         | Crée des graphiques linéaires à partir de données tabulaires.                                              |
-| [`scatter()`](/fr/models/ref/python/custom-charts/scatter/)                   | Crée des nuages de points pour représenter les relations entre variables.                                  |
-| [`bar()`](/fr/models/ref/python/custom-charts/bar/)                           | Génère des graphiques à barres pour les données catégorielles.                                             |
-| [`histogram()`](/fr/models/ref/python/custom-charts/histogram/)               | Crée des histogrammes pour analyser la distribution des données.                                           |
-| [`line_series()`](/fr/models/ref/python/custom-charts/line_series/)           | Trace plusieurs séries linéaires sur un même graphique.                                                    |
-| [`plot_table()`](/fr/models/ref/python/custom-charts/plot_table/)             | Crée des graphiques personnalisés à l’aide de spécifications Vega-Lite.                                    |
+| [`pr_curve()`](/fr/models/ref/python/custom-charts/pr_curve/)                 | Construit des courbes précision-rappel pour évaluer les classificateurs.                                   |
+| [`line()`](/fr/models/ref/python/custom-charts/line/)                         | Construit des graphiques en courbes à partir de données tabulaires.                                     |
+| [`scatter()`](/fr/models/ref/python/custom-charts/scatter/)                   | Crée des nuages de points pour représenter les relations entre variables.                               |
+| [`bar()`](/fr/models/ref/python/custom-charts/bar/)                           | Génère des graphiques en barres pour les données catégorielles.                                         |
+| [`histogram()`](/fr/models/ref/python/custom-charts/histogram/)               | Construit des histogrammes pour analyser la distribution des données.                                   |
+| [`line_series()`](/fr/models/ref/python/custom-charts/line_series/)           | Trace plusieurs séries sur un même graphique.                                                           |
+| [`plot_table()`](/fr/models/ref/python/custom-charts/plot_table/)             | Crée des graphiques personnalisés à l&#39;aide de spécifications Vega-Lite.                             |
 
 <div id="common-use-cases">
   ## Cas d’usage courants
@@ -31,26 +31,26 @@ Les graphiques personnalisés dans W&amp;B peuvent être programmés à l’aide
   ### Évaluation du modèle
 </div>
 
-* **Classification** : `confusion_matrix()`, `roc_curve()` et `pr_curve()` pour évaluer les classificateurs
-* **Régression** : `scatter()` pour les graphiques comparant les prédictions aux valeurs réelles et `histogram()` pour l’analyse des résidus
-* **Graphiques Vega-Lite** : `plot_table()` pour des visualisations propres à un domaine
+* **Classification** : `confusion_matrix()`, `roc_curve()` et `pr_curve()` pour évaluer les classificateurs
+* **Régression** : `scatter()` pour les graphiques comparant les prédictions aux valeurs réelles, et `histogram()` pour l’analyse des résidus
+* **Graphiques Vega-Lite** : `plot_table()` pour des visualisations spécifiques au domaine
 
 <div id="training-monitoring">
-  ### Surveillance de l’entraînement
+  ### Suivi de l’entraînement
 </div>
 
-* **Courbes d’apprentissage** : `line()` ou `line_series()` pour suivre les métriques au fil des époques
-* **Comparaison des hyperparamètres** : graphiques `bar()` pour comparer les configurations
+* **Courbes d’apprentissage**: `line()` ou `line_series()` pour suivre les métriques au fil des époques
+* **Comparaison des hyperparamètres**: graphiques `bar()` pour comparer les configurations
 
 <div id="data-analysis">
   ### Analyse des données
 </div>
 
-* **Analyse de la distribution**: `histogram()` pour la distribution des caractéristiques
-* **Analyse de corrélation**: nuages de points `scatter()` pour les relations entre les variables
+* **Analyse de la distribution** : `histogram()` pour visualiser la distribution des variables
+* **Analyse de corrélation** : graphiques `scatter()` pour visualiser les relations entre variables
 
 <div id="getting-started">
-  ## Prise en main
+  ## Premiers pas
 </div>
 
 <div id="log-a-confusion-matrix">
@@ -76,7 +76,7 @@ with wandb.init(project="custom-charts-demo") as run:
 ```
 
 <div id="build-a-scatter-plot-for-feature-analysis">
-  ### Créez un nuage de points pour l’analyse des caractéristiques
+  ### Créer un nuage de points pour l’analyse des variables
 </div>
 
 ```python

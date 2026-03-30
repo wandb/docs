@@ -1,74 +1,74 @@
 ---
-title: オートメーションの履歴を表示する
-description: "W&B Automations の実行履歴を表示して、ステータス、トリガーイベント、アクションの結果を確認します。"
+title: オートメーション の履歴を表示する
+description: "ステータス、トリガーイベント、アクション結果を確認するために、W&B Automations の実行履歴を表示します。"
 ---
 
 <Note>
-  この機能を使用するには Enterprise ライセンスが必要です。次の環境でのみ利用できます:
+  この機能を利用するには Enterprise license が必要です。利用できるのは次の場合のみです。
 
   * W&amp;B Multi-tenant Cloud
   * W&amp;B Dedicated Cloud
   * W&amp;B Self-Managed v0.75.0+
 </Note>
 
-このページでは、W&amp;B [automations](/ja/models/automations) の実行履歴を表示し、その内容を理解する方法を説明します。具体的には、オートメーションが何によってトリガーされたか、どのようなアクションが実行されたか、その成否などを確認できます。
+このページでは、W&amp;B の [automations](/ja/models/automations) の実行履歴を表示して確認する方法について説明します。どのイベントが オートメーション をトリガーしたか、どのようなアクションが実行されたか、またその結果が成功したか失敗したかを確認できます。
 
-実行されるオートメーションごとに、次の内容を含むレコードが生成されます。
+実行された オートメーション ごとに、次の情報を含むレコードが生成されます。
 
-* **Execution timestamp**: オートメーションがトリガーされた時刻。
-* **Triggering event**: オートメーションをトリガーした特定のイベント。
-* **Status**: 実行のステータス。[Execution status](#execution-status) を参照してください。
-* **Action details**: Slack チャンネルへの通知や webhook の実行など、どのようなアクションが実行されたかに関する情報。
-* **Result details**: 失敗した実行に対するエラーを含め、オートメーション実行の最終的な結果に関する追加情報 (存在する場合)。
+* **実行 Timestamp**: オートメーション がトリガーされた日時。
+* **トリガーイベント**: オートメーション をトリガーした特定のイベント。
+* **ステータス**: 実行のステータス。[実行ステータス](#execution-status)を参照してください。
+* **アクションの詳細**: Slack チャンネルへの通知や webhook の実行など、実行されたアクションに関する情報。
+* **結果の詳細**: オートメーション の実行結果に関する追加情報 (ある場合) 。失敗した実行のエラー情報も含まれます。
 
-ユースケースに応じて、オートメーション履歴の表示方法に関する詳細な手順を見るために、**Registry** タブまたは **Project** タブを選択してください。
+ユースケースに応じて、オートメーション の履歴を表示する詳細な手順について **Registry** または **Project** タブを選択してください。
 
 <Tabs>
   <Tab title="Registry">
-    1. プロジェクト サイドバーで **Registry** をクリックして、自分の registry に移動します。
-    2. 一覧から対象の registry を選択します。
-    3. **Automations** タブで、その registry のオートメーションを表示します。**Last execution** タイムスタンプをクリックして、実行履歴の詳細を表示します。検索バーを使用してオートメーション名でフィルタリングでき、最後にトリガーされた日付で並べ替えることで、最近実行されたオートメーションを見つけることができます。
-    4. **Automations history** タブで、その registry のオートメーション実行を、新しいものから順に時系列の逆順で表示します。イベント、アクション、ステータスが含まれます。特定の実行の詳細を表示するには、その実行のタイムスタンプをクリックします。
+    1. プロジェクトのサイドバーで **Registry** をクリックし、レジストリにアクセスします。
+    2. リストからレジストリを選択します。
+    3. **Automations** タブでレジストリの automations を表示します。**Last execution** の Timestamp をクリックすると、実行履歴の詳細を表示できます。検索バーを使用して オートメーション 名でフィルターしたり、最後にトリガーされた日付で並べ替えて最近実行された automations を見つけたりできます。
+    4. **Automations history** タブでは、イベント、アクション、ステータスを含むレジストリの オートメーション 実行履歴を新しい順に表示できます。実行 Timestamp をクリックすると、特定の実行の詳細を表示できます。
 
-    <Tip>コレクションに関連付けられたオートメーション実行がある場合、関連付けられた実行数とともに、アイコン ![コレクションのオートメーション実行を表す記号 (右向き矢印が描かれた円)](/images/automations/collection-automation-execution-icon.png) が表示されます。</Tip>
+    <Tip>collection に関連付けられた オートメーション 実行がある場合は、アイコン ![Collection automation execution symbol, a circle with a right-pointing arrow](/images/automations/collection-automation-execution-icon.png) と関連する実行数が表示されます。</Tip>
   </Tab>
 
   <Tab title="Project">
-    1. プロジェクト サイドバーで **Automations** タブをクリックします。プロジェクトのオートメーションが表示されます。**Last execution** タイムスタンプをクリックして、実行履歴の詳細を表示します。検索バーを使用してオートメーション名でフィルタリングでき、最後にトリガーされた日付で並べ替えることで、最近実行されたオートメーションを見つけることができます。
-    2. **History** タブで、そのプロジェクトのすべてのオートメーション実行を、新しいものから順に時系列の逆順で表示します。各実行のメタデータとして、イベント、アクション、ステータスが表示されます。特定の実行の詳細を表示するには、その実行のタイムスタンプをクリックします。
+    1. プロジェクトのサイドバーで **Automations** タブをクリックします。プロジェクトの automations が表示されます。**Last execution** の Timestamp をクリックすると、実行履歴の詳細を表示できます。検索バーを使用して オートメーション 名でフィルターしたり、最後にトリガーされた日付で並べ替えて最近実行された automations を見つけたりできます。
+    2. **History** タブでは、プロジェクトの automations のすべての実行を、最新の実行から順に新しい順で表示できます。各実行のメタデータ (イベント、アクション、ステータスを含む) が表示されます。実行 Timestamp をクリックすると、特定の実行の詳細を表示できます。
   </Tab>
 </Tabs>
 
 <div id="understanding-execution-details">
-  ## 実行詳細について
+  ## 実行の詳細を確認する
 </div>
 
-各オートメーションの実行には、次のいずれかのステータスがあります。
+各 オートメーション の実行は、次のいずれかのステータスになります。
 
-* **Finished**: オートメーションがすべてのアクションを正常に完了しました。
-* **Failed**: オートメーションでエラーが発生し、正常に完了しませんでした。
-* **Pending**: オートメーションが実行待ち状態です。
+* **Finished**: オートメーション はすべての action を正常に完了しました。
+* **Failed**: オートメーション の実行中にエラーが発生し、正常に完了しませんでした。
+* **Pending**: オートメーション は実行待ちとしてキューに入っています。
 
-履歴内の任意の実行をクリックすると、詳細を表示できます。
+履歴内の任意の実行をクリックすると、詳細を確認できます。
 
-* **Event details**: オートメーションをトリガーした特定のイベントに関する情報 (以下を含む) 。
-  * イベントタイプ (例: &quot;New artifact version&quot;、&quot;Run completed&quot;) 
-  * Entity 情報 (run ID、artifact 名など) 
-  * イベントをトリガーしたユーザー (該当する場合) 
+* **イベントの詳細**: オートメーション をトリガーした具体的なイベント。内容は次のとおりです。
+  * イベントタイプ (例: &quot;新しい artifact バージョン&quot;、&quot;run の完了&quot;)
+  * entity 情報 (run ID、artifact 名など)
+  * イベントをトリガーしたユーザー (該当する場合)
 
-* **Action details**: オートメーションが実行しようとした処理に関する情報。
-  * アクションタイプ (Slack 通知または webhook) 
-  * 対象 (Slack チャンネルまたは webhook URL) 
-  * 送信されたペイロード (webhook の場合) 
+* **アクション の詳細**: オートメーション が実行しようとした内容に関する情報。
+  * アクション タイプ (Slack 通知または webhook)
+  * ターゲット (Slack チャンネルまたは webhook URL)
+  * 送信されたペイロード (webhook の場合)
 
-* **Result information**:
-  * レスポンスステータス (webhook の場合) 
-  * エラーメッセージやスタックトレース (失敗した実行の場合) 
+* **結果情報**:
+  * Response ステータス (webhook の場合)
+  * エラーメッセージまたはスタックトレース (失敗した実行の場合)
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-* [オートメーションを作成](/ja/models/automations/create-automations)
-* [Automation イベントとスコープについて学ぶ](/ja/models/automations/automation-events)
-* [シークレットを作成](/ja/platform/secrets)
+* [オートメーションを作成する](/ja/models/automations/create-automations)
+* [Automation events and scopes](/ja/models/automations/automation-events) について確認する
+* [シークレットを作成する](/ja/platform/secrets)

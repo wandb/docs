@@ -1,26 +1,26 @@
 ---
-title: "예를 들어 분산 트레이닝과 같은 멀티프로세싱 환경에서 wandb를 어떻게 사용할 수 있나요?"
+title: "multiprocessing(예: 분산 트레이닝)에서 wandb를 사용하려면 어떻게 해야 하나요?"
 keywords: ["Experiments"]
 ---
 
-트레이닝 프로그램이 여러 프로세스를 사용하는 경우, `wandb.init()`를 호출하지 않은 프로세스에서는 wandb 메서드를 호출하지 않도록 프로그램을 구성하세요.
+트레이닝 프로그램이 여러 프로세스를 사용하는 경우, `wandb.init()`를 호출하지 않은 프로세스에서 wandb 메서드를 호출하지 않도록 프로그램을 구성하세요.
 
-다중 프로세스 트레이닝은 다음 방법으로 관리하세요:
+다음과 같은 방식으로 멀티프로세스 트레이닝을 관리할 수 있습니다:
 
-1. 모든 프로세스에서 `wandb.init`를 호출하고 [group](/ko/models/runs/grouping) 키워드 인수를 사용해 공유 그룹을 생성합니다. 각 프로세스에는 자체 wandb run이 생성되며, UI에서 해당 트레이닝 프로세스들이 함께 그룹화되어 표시됩니다.
-2. 하나의 프로세스에서만 `wandb.init`를 호출하고, 로그할 데이터를 [multiprocessing 큐](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes)를 통해 전달합니다.
+1. 모든 프로세스에서 `wandb.init`를 호출하고 [group](/ko/models/runs/grouping) 키워드 인수를 사용해 공유 그룹을 만듭니다. 각 프로세스는 자체 wandb run을 가지며, UI에서 이 트레이닝 프로세스들이 함께 그룹화됩니다.
+2. 하나의 프로세스에서만 `wandb.init`를 호출하고, 로그할 데이터는 [multiprocessing queues](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes)를 통해 전달합니다.
 
 <Note>
-  이러한 방법에 대한 자세한 설명과 Torch DDP를 사용한 코드 예제는 [분산 트레이닝 가이드](/ko/models/track/log/distributed-training)를 참고하세요.
+  Torch DDP 코드 예제를 포함한 이러한 방식의 자세한 설명은 [Distributed Training Guide](/ko/models/track/log/distributed-training)를 참고하세요.
 </Note>
 
 ***
 
 {/* ---- AUTO-GENERATED: 탭 배지 ----
-  front matter의 키워드를 기준으로 scripts/knowledgebase-nav/generate_tags.py에서 생성됩니다.
+  프런트 매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
   이 표시 사이의 내용은 직접 수정하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

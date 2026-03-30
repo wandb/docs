@@ -1,10 +1,10 @@
 ---
 title: "Introduction aux traces"
-description: "Découvrez comment utiliser les traces avec W&B Weave"
+description: "Découvrez comment utiliser cette introduction aux traces avec W&B Weave"
 ---
 
 <Note>
-  Il s’agit d’un notebook interactif. Vous pouvez l’exécuter localement ou utiliser les liens ci-dessous :
+  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.ipynb)
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.ipynb)
@@ -14,14 +14,14 @@ description: "Découvrez comment utiliser les traces avec W&B Weave"
   ## 🔑 Prérequis
 </div>
 
-Avant de commencer le traçage dans Weave, assurez-vous de remplir les prérequis suivants.
+Avant de commencer à utiliser Tracing dans Weave, assurez-vous de remplir les prérequis suivants.
 
-1. Installez le SDK W&amp;B Weave et connectez-vous avec votre [clé API](https://wandb.ai/settings#apikeys).
+1. Installez le SDK Weave de W&amp;B et connectez-vous avec votre [clé API](https://wandb.ai/settings#apikeys).
 2. Installez le SDK OpenAI et connectez-vous avec votre [clé API](https://platform.openai.com/api-keys).
 3. Initialisez votre projet W&amp;B.
 
 ```python lines
-# Installer les dépendances et importer les modules
+# Installer les dépendances et les imports
 !pip install wandb weave openai -q
 
 import json
@@ -37,24 +37,24 @@ import weave
 #####
 print("---")
 print(
-    "Créez une clé API W&B sur : https://wandb.ai/settings#apikeys"
+    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
 )
-os.environ["WANDB_API_KEY"] = getpass("Entrez votre clé API W&B : ")
+os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
 print("---")
-print("Vous pouvez générer votre clé API OpenAI ici : https://platform.openai.com/api-keys")
-os.environ["OPENAI_API_KEY"] = getpass("Entrez votre clé API OpenAI : ")
+print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
+os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
 print("---")
 #####
 
-# 🏠 Entrez le nom de votre projet W&B
-weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Le nom de votre projet W&B
+# 🏠 Entrez votre nom de projet W&B
+weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Votre nom de projet W&B
 ```
 
 <div id="run-your-first-trace">
-  ## 🐝 Exécutez votre première trace
+  ## 🐝 Créez votre première trace
 </div>
 
-L’exemple de code suivant montre comment capturer et visualiser une trace dans Weave à l’aide du décorateur `@weave.op`. Il définit une fonction appelée `extract_fruit` qui envoie une requête à GPT-4o d’OpenAI pour extraire des données structurées (fruit, couleur et saveur) d’une phrase. En décorant la fonction avec `@weave.op`, Weave suit automatiquement l’exécution de la fonction, y compris les entrées, les sorties et les étapes intermédiaires. Lorsque la fonction est appelée avec une phrase d’exemple, la trace complète est enregistrée et consultable dans l’interface utilisateur de Weave.
+L’exemple de code suivant montre comment capturer et visualiser une trace dans Weave à l’aide du décorateur `@weave.op`. Il définit une fonction appelée `extract_fruit` qui envoie un prompt à GPT-4o d’OpenAI pour extraire des données structurées (fruit, couleur et saveur) à partir d’une phrase. En décorant la fonction avec `@weave.op`, Weave suit automatiquement son exécution, y compris les entrées, les sorties et les étapes intermédiaires. Lorsque la fonction est appelée avec une phrase d’exemple, la trace complète est enregistrée et peut être consultée dans la Weave UI.
 
 ```python lines
 @weave.op()  # 🐝 Décorateur pour suivre les requêtes
@@ -80,9 +80,9 @@ extract_fruit(sentence)
 ```
 
 <div id="looking-for-more-examples">
-  ## 🚀 Vous cherchez d’autres exemples ?
+  ## 🚀 Besoin d&#39;autres exemples ?
 </div>
 
-* Consultez le guide de [Démarrage rapide](/fr/weave/quickstart).
-* Découvrez-en plus sur les [rubriques avancées du traçage](/fr/weave/tutorial-tracing_2).
-* Découvrez-en plus sur le [traçage dans Weave](/fr/weave/guides/tracking/tracing)
+* Consultez le guide de [démarrage rapide](/fr/weave/quickstart).
+* Découvrez aussi les [sujets avancés du Tracing](/fr/weave/tutorial-tracing_2).
+* Découvrez-en plus sur le [Tracing dans Weave](/fr/weave/guides/tracking/tracing)

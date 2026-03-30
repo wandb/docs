@@ -2,16 +2,16 @@ Les limites par défaut suivantes contribuent à maintenir la stabilité de la p
 
 | Limite                                  | Par défaut | Portée |
 | --------------------------------------- | ---------- | ------ |
-| Requêtes Filestream par seconde         | 500        | Projet |
-| Ingestion Filestream par seconde        | 120 MB     | Projet |
+| Requêtes Filestream par seconde         | 500        | projet |
+| Ingestion Filestream par seconde        | 120 MB     | projet |
 | Requêtes Filestream par seconde         | 2          | Run    |
-| Requêtes de création de run par seconde | 80         | Projet |
+| Requêtes de création de Run par seconde | 80         | projet |
 
 Lorsqu&#39;une limite est dépassée, le SDK W&amp;B renvoie la réponse HTTP `429`, et le message `HTTP 429: rate limited exceeded` apparaît dans les journaux du SDK.
 
-* Les limites de débit du système de fichiers ne provoquent jamais de plantage ni d&#39;échec de la journalisation. Lorsque le SDK reçoit une réponse `429` à une requête Filestream, il temporise puis réessaie telle quelle la requête soumise à une limite de débit, tandis que les mises à jour suivantes s&#39;accumulent.
+* Les limites de débit de Filestream ne provoquent jamais de plantage ni d&#39;échec de la journalisation. Lorsque le SDK reçoit une réponse `429` à une requête Filestream, il ralentit puis réessaie la requête limitée telle quelle, tandis que les mises à jour suivantes s&#39;accumulent.
 
-* Les limites de débit de création de run bloquent la poursuite de l&#39;entraînement.
+* Les limites de débit de création de Run bloquent la poursuite de l&#39;entraînement.
 
 ```
 HTTP 429: rate limit exceeded

@@ -1,55 +1,55 @@
 ---
 title: "デプロイオプションとセキュリティ機能"
-description: "Weave のデプロイオプション、IAM 管理、およびデータセキュリティ機能について説明します。"
+description: "Weave のデプロイオプション、IAM 管理、データセキュリティ機能について説明します。"
 ---
 
-Weave は、以下のデプロイオプションで利用できます。
+Weave は、次のデプロイオプションで利用できます。
 
-* **[W&amp;B Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud):** 北米リージョンにある W&amp;B の Google Cloud Platform (Google Cloud) アカウントにデプロイされた、マルチテナント型の完全マネージドプラットフォームです。
-* **[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud):** AWS、Google Cloud、Azure で一般提供されている専用クラウドです。
-* **[Self-Managed instances](/ja/weave/guides/platform/weave-self-managed):** Weave を独自にホストしたいチーム向けに、デプロイオプションを評価するためのガイダンスを W&amp;B チームが提供しています。
+* **[W&amp;B Multi-tenant Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/multi_tenant_cloud):** 北米リージョンにある W&amp;B の Google Cloud Platform (Google Cloud) アカウント上にデプロイされた、マルチテナント型のフルマネージドプラットフォームです。
+* **[W&amp;B 専用クラウド](https://docs.wandb.ai/platform/hosting/hosting-options/dedicated-cloud):** AWS、Google Cloud、Azure で一般提供されています。
+* **[セルフマネージドインスタンス](/ja/weave/guides/platform/weave-self-managed):** Weave を独自にホストしたい Teams 向けに、デプロイオプションの評価に関するガイダンスを担当の W&amp;B チームから受けられます。
 
 <div id="identity-and-access-management">
   ## アイデンティティとアクセス管理
 </div>
 
-[W&amp;B Organization](/ja/platform/hosting/iam/org_team_struct#organization) のアイデンティティおよびアクセス管理機能を使用して、安全な認証と効果的な認可を実現します。以下の機能は、デプロイオプションおよび [料金プラン](https://wandb.ai/site/pricing/) に応じて Weave ユーザーが利用できます。
+[W&amp;B 組織](/ja/platform/hosting/iam/org_team_struct#organization)で安全な認証と適切な認可を実現するには、アイデンティティおよびアクセス管理機能を使用します。Weave ユーザーは、デプロイオプションと[料金プラン](https://wandb.ai/site/pricing/)に応じて、以下の機能を利用できます。
 
-* **シングルサインオン (SSO) を使用した認証:** Google や Github などのパブリックなアイデンティティプロバイダーに加え、Okta、Azure Active Directory などのエンタープライズプロバイダーにも対応しており、[OIDC を利用して設定](/ja/platform/hosting/iam/sso) できます。
-* **[チームベースの論理的分離](/ja/platform/app/settings-page/teams):** 各チームは、組織内の事業部門、部署、またはプロジェクトチームに対応させることができます。
-* **W&amp;B Projects を使用してイニシアチブを整理:** チーム内のイニシアチブを整理し、機密性の高いコラボレーション向けの `restricted` scope を含め、必要な [公開範囲](/ja/platform/hosting/iam/access-management/restricted-projects) を設定します。
-* **ロールベースのアクセス制御:** [チーム](/ja/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user) または [プロジェクト](/ja/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user) 単位でアクセス権を設定し、ユーザーが必要なデータのみにアクセスできるようにします。
-* **スコープ付きサービスアカウント:** 組織またはチームをスコープとするサービスアカウントを使用して、生成 AI ワークフローを自動化します。
-* **[SCIM API と Python SDK](/ja/platform/hosting/iam/automate_iam):** SCIM API と Python SDK を使用して、ユーザーおよびチームを効率的に管理します。
+* **シングルサインオン (SSO) による認証:** Google や GitHub などの公開 identity provider に加え、Okta、Azure Active Directory などのエンタープライズ向けプロバイダにも対応しており、[OIDC を使用して](/ja/platform/hosting/iam/sso)認証できます。
+* **[チームベースの論理的な分離](/ja/platform/app/settings-page/teams):** 各チームは、組織内の事業部門、部署、またはプロジェクトチームに対応できます。
+* **W&amp;B プロジェクトを使用して取り組みを整理:** Teams 内で取り組みを整理し、機密性の高いコラボレーション向けの `restricted` スコープを含む、必要な[公開範囲](/ja/platform/hosting/iam/access-management/restricted-projects)を設定します。
+* **ロールベースのアクセス制御:** [チーム](/ja/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user)または[プロジェクト](/ja/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user)レベルでアクセスを設定し、ユーザーが知る必要のあるデータにのみアクセスできるようにします。
+* **スコープ付きサービスアカウント:** 組織またはチームにスコープされたサービスアカウントを使用して、Gen AI ワークフローを自動化します。
+* **[SCIM API と Python SDK](/ja/platform/hosting/iam/automate_iam):** SCIM API と Python SDK を使用して、Users と Teams を効率的に管理します。
 
 <div id="data-security">
   ## データセキュリティ
 </div>
 
-* **SaaS Cloud:** すべての Weave ユーザーのデータは、クラウドネイティブな暗号化を用いて暗号化された共有の Clickhouse Cloud クラスターに保存されます。共有のコンピュートサービスがデータを処理し、W&amp;B の organization、team、project から成るセキュリティコンテキストにより分離を確保します。
+* **SaaS Cloud:** すべての Weave Users のデータは、クラウドネイティブの暗号化により保護された共有 Clickhouse Cloud クラスターに保存されます。共有コンピュートサービスがデータを処理し、お客様の W&amp;B 組織、チーム、プロジェクトで構成されるセキュリティコンテキストによって分離を確保します。
 
-* **専用クラウド:** データは、任意に選択したクラウドとリージョン内の専用の Clickhouse Cloud クラスターに保存されます。専用のコンピュート環境がデータを処理し、さらに次のような追加の保護が適用されます。
-  * **[IP allowlisting](/ja/platform/hosting/data-security/ip-allowlisting):** 特定の IP アドレスからのみインスタンスへのアクセスを許可します。これはオプション機能です。
-  * **[Private connectivity](/ja/platform/hosting/data-security/private-connectivity):** クラウドプロバイダーのプライベートネットワークを経由してデータを安全にルーティングします。これはオプション機能です。
-  * **[Data encryption](/ja/platform/hosting/data-security/data-encryption):** W&amp;B は、W&amp;B が管理する専用の暗号鍵を使用して保存データを暗号化します。
-  * **Clickhouse クラスターのセキュリティ:** W&amp;B は、クラウドプロバイダーのプライベートネットワーク経由で、Dedicated Cloud インスタンス専用の Clickhouse Cloud クラスターに接続します。さらに、Clickhouse のファイルレベル暗号化を活用しつつ、W&amp;B が管理する専用の暗号鍵を用いてクラスター自体も暗号化します。
+* **専用クラウド:** データは、選択したクラウドおよびリージョン内の専用の Clickhouse Cloud クラスターに保存されます。専用のコンピュート環境がデータを処理し、さらに次の保護が適用されます。
+  * **[IP allowlisting](/ja/platform/hosting/data-security/ip-allowlisting):** 特定の IP アドレスからのインスタンスへのアクセスを許可します。これはオプション機能です。
+  * **[Private connectivity](/ja/platform/hosting/data-security/private-connectivity):** クラウドプロバイダのプライベートネットワークを通じて、データを安全にルーティングします。これはオプション機能です。
+  * **[Data encryption](/ja/platform/hosting/data-security/data-encryption):** W&amp;B は、W&amp;B が管理する専用の暗号鍵を使用して、保存データを暗号化します。
+  * **Clickhouse cluster security:** W&amp;B は、クラウドプロバイダのプライベートネットワーク経由で、お客様の専用クラウドインスタンス向けの専用 Clickhouse Cloud クラスターに接続します。また、Clickhouse のファイルレベル暗号化を活用しつつ、W&amp;B が管理する専用の暗号鍵でクラスターも暗号化します。
 
 <Warning>
   [The W&amp;B Platform secure storage connector or BYOB](/ja/platform/hosting/data-security/secure-storage-connector) は Weave では利用できません。
 </Warning>
 
 <div id="maintenance">
-  ## メンテナンス
+  ## 保守
 </div>
 
-SaaS Cloud または Dedicated Cloud で Weave を利用している場合は、W&amp;B プラットフォームが完全マネージドで提供されるため、プロビジョニング、運用、および保守に伴うオーバーヘッドやコストを抑えられます。
+SaaS Cloud または専用クラウドで Weave を使用している場合、W&amp;B プラットフォームはお客様向けに完全マネージドで提供されるため、プロビジョニング、運用、保守にかかるオーバーヘッドやコストを抑えられます。
 
 <div id="compliance">
   ## コンプライアンス
 </div>
 
 <Tip>
-  SOC 2 レポートやその他のセキュリティ／コンプライアンス関連文書を請求するには、[W&amp;B Security Portal](https://security.wandb.ai/) を参照するか、詳細について W&amp;B チームにお問い合わせください。
+  SOC 2 レポートやその他のセキュリティ／コンプライアンス関連文書の請求については、[W&amp;B Security Portal](https://security.wandb.ai/)を参照するか、担当の W&amp;B チームにお問い合わせください。
 </Tip>
 
-SaaS Cloud と専用クラウドの両方のセキュリティ管理策は、社内外で定期的に監査を受けています。両プラットフォームは SOC 2 Type II に準拠しています。さらに、専用クラウドは、生成 AI アプリの構築時に PHI データを扱う組織向けに HIPAA に準拠しています。
+SaaS Cloud と専用クラウドの両方のセキュリティ管理は、定期的に社内外の監査を受けています。両プラットフォームはいずれも SOC 2 Type II に準拠しています。さらに、専用クラウドは、生成 AI アプリの構築時に PHI データを扱う組織向けに、HIPAA に準拠しています。

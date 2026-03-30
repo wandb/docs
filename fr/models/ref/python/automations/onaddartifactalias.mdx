@@ -11,11 +11,11 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnAddArtifactAlias`
 
-Un nouvel alias est attribué à un artefact.
+Un nouvel alias est attribué à un artifact.
 
 Exemples :
 Définissez un événement qui se déclenche chaque fois que l&#39;alias &quot;prod&quot; est attribué à
-un artefact quelconque de la collection &quot;my-collection&quot; :
+un artifact quelconque de la collection &quot;my-collection&quot; :
 
 ```python
 from wandb import Api
@@ -43,9 +43,9 @@ __init__(
 
 **Arguments :**
 
-* `event_type` (Literal[ADD&#95;ARTIFACT&#95;ALIAS]) :
-* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]) : La portée de l’événement.
-* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]) : Conditions supplémentaires, le cas échéant, qui doivent être remplies pour que cet événement se déclenche.
+* `event_type` (Literal[ADD&#95;ARTIFACT&#95;ALIAS]):
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]) : Portée de l’événement.
+* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]) : Condition(s) supplémentaire(s), le cas échéant, requise(s) pour que cet événement se déclenche.
 
 **Retourne :**
 Un objet `OnAddArtifactAlias`.

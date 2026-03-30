@@ -1,47 +1,47 @@
 ---
-title: Référence du graphique linéaire
+title: Référence du graphique en courbes
 description: "Référence des paramètres du panneau de graphique linéaire, notamment l’axe X, l’axe Y, le lissage, l’agrégation et les options de regroupement."
 ---
 
 import LinePlotCaptureGroups from "/snippets/fr/_includes/line-plot-capture-groups.mdx";
 
-Cette page fournit des informations détaillées sur les paramètres des graphiques linéaires. Pour plus de détails sur l’utilisation des graphiques linéaires, voir l’[Aperçu des graphiques linéaires](/fr/models/app/features/panels/line-plot).
+Cette page présente des informations détaillées sur les paramètres du graphique en courbes. Pour en savoir plus sur l’utilisation des graphiques en courbes, voir l’[Aperçu des graphiques en courbes](/fr/models/app/features/panels/line-plot).
 
 <div id="data-settings">
   ## Paramètres des données
 </div>
 
 <div id="x-axis">
-  ### Axe X
+  ### Axe X
 </div>
 
 <Frame>
-  <img src="/images/app_ui/reference_x_axis.png" alt="Sélection de l’axe X" />
+  <img src="/images/app_ui/reference_x_axis.png" alt="Sélection de l’axe X" />
 </Frame>
 
-Définissez la plage de l’axe x sur n’importe quelle valeur entière ou à virgule flottante que vous avez enregistrée avec `wandb.Run.log()`.
+Définissez la plage de l’axe X sur n’importe quelle valeur entière ou à virgule flottante que vous avez enregistrée avec `wandb.Run.log()`.
 
-Options d’axe x basées sur le temps disponibles :
+Options d’axe X basées sur le temps disponibles :
 
-* **Étape** : S’incrémente à chaque appel de `wandb.Run.log()`. Reflète le nombre d’étapes d’entraînement enregistrées pour votre modèle. (Par défaut)
-* **Temps relatif (horloge)** : Temps écoulé sur l’horloge depuis le démarrage du processus. Si vous démarrez un run, le mettez en pause pendant une journée, puis le reprenez et enregistrez, ce point apparaît à 24 heures.
-* **Temps relatif (processus)** : Temps écoulé au sein du processus en cours d’exécution. Si vous démarrez un run, l’exécutez pendant 10 secondes, le mettez en pause pendant une journée, puis le reprenez, ce point apparaît à 10 secondes.
-* **Temps horloge** : Minutes écoulées depuis le début du premier run sur le graphique.
-* **Plage X** : Par défaut, elle s’étend de la plus petite à la plus grande valeur de votre axe x. Vous pouvez personnaliser les valeurs minimale et maximale.
+* **Étape**: S’incrémente à chaque appel de `wandb.Run.log()`. Reflète le nombre d’étapes d’entraînement enregistrées par votre modèle. (Par défaut)
+* **Temps relatif (horloge)**: Temps écoulé depuis le démarrage du processus. Si vous démarrez un run, le mettez en pause pendant une journée, puis le reprenez et enregistrez, ce point apparaît à 24 heures.
+* **Temps relatif (processus)**: Temps écoulé dans le processus en cours d’exécution. Si vous démarrez un run, l’exécutez pendant 10 secondes, le mettez en pause pendant une journée, puis le reprenez, ce point apparaît à 10 secondes.
+* **Temps réel**: Minutes écoulées depuis le début du premier run sur le graphique.
+* **Plage X**: Va par défaut de la plus petite à la plus grande valeur de votre axe X. Vous pouvez personnaliser les valeurs minimale et maximale.
 
 <div id="y-axis">
-  ### Axe Y
+  ### Axe Y
 </div>
 
-Définissez les variables de l’axe Y à partir de n’importe quelle valeur entière ou à virgule flottante que vous avez enregistrée avec `wandb.Run.log()`. Spécifiez une valeur unique, un tableau de valeurs ou un histogramme de valeurs. Si vous avez enregistré plus de 1 500 points pour une variable, W&amp;B réduit l’échantillonnage à 1 500 points.
+Définissez les variables de l’axe y sur n’importe quelle valeur entière ou à virgule flottante que vous avez enregistrée avec`wandb.Run.log()`. Indiquez une valeur unique, un tableau de valeurs ou un histogramme de valeurs. Si vous avez enregistré plus de 1500 points pour une variable, W&amp;B en échantillonne 1500.
 
 <Note>
-  Personnalisez la couleur des lignes de l’axe Y en modifiant la couleur du run dans le tableau Runs.
+  Personnalisez la couleur des lignes de l’axe y en modifiant la couleur du run dans la Runs table.
 </Note>
 
-Options disponibles pour l’axe Y :
+Options disponibles pour l’axe y :
 
-* **Plage Y** : par défaut, elle s’étend de la plus petite valeur positive de vos métriques (0 inclus) à la plus grande valeur de vos métriques. Vous pouvez personnaliser les valeurs minimale et maximale.
+* **Plage Y** : Par défaut, elle s’étend de la plus petite valeur positive de vos métriques (0 inclus) à la plus grande. Vous pouvez personnaliser les valeurs minimale et maximale.
 
 <div id="point-aggregation-method">
   ### Méthode d’agrégation des points
@@ -56,45 +56,45 @@ Choisissez le mode d’échantillonnage pour afficher les points de données :
   ### Lissage
 </div>
 
-Définissez le [coefficient de lissage](/fr/support/models/articles/what-formula-do-you-use-for-your-smoothi) entre 0 et 1, où 0 signifie aucun lissage et 1 un lissage maximal.
+Définissez le [coefficient de lissage](/fr/models/support/formula_smoothing_algorithm/) entre 0 et 1, où 0 signifie aucun lissage et 1 un lissage maximal.
 
 Méthodes de lissage disponibles :
 
-* **EMA pondérée dans le temps** (par défaut) : technique de lissage des données de séries temporelles qui applique une décroissance exponentielle au poids des points précédents.
-* **Moyenne glissante** : remplace un point par la moyenne des points situés dans une fenêtre avant et après la valeur x donnée.
-* **Gaussien** : calcule une moyenne pondérée des points, où les poids correspondent à une distribution gaussienne dont l’écart type est défini comme paramètre de lissage.
+* **EMA pondérée dans le temps** (par défaut) : technique de lissage des données de séries temporelles qui réduit de façon exponentielle le poids des points précédents.
+* **Moyenne mobile** : remplace un point par la moyenne des points d’une fenêtre située avant et après la valeur x donnée.
+* **Gaussienne** : calcule une moyenne pondérée des points, où les poids correspondent à une distribution gaussienne dont l’écart type est défini comme paramètre de lissage.
 * **Aucun lissage**
 
-Pour plus de détails, voir [Lissage des graphiques linéaires](/fr/models/app/features/panels/line-plot/smoothing).
+Pour plus de détails, voir [Lissage des graphiques en courbes](/fr/models/app/features/panels/line-plot/smoothing).
 
 <div id="ignore-outliers">
   ### Ignorer les valeurs aberrantes
 </div>
 
-Ajustez l’échelle du graphique pour exclure les valeurs aberrantes des bornes minimale et maximale par défaut. L’effet de ce paramètre dépend du mode d’échantillonnage du graphique :
+Redimensionnez le graphique pour exclure les valeurs aberrantes de l&#39;échelle min./max. par défaut. L&#39;impact de ce paramètre dépend du mode d&#39;échantillonnage du graphique :
 
-* **Mode d’échantillonnage aléatoire** : l’option Ignorer les valeurs aberrantes exclut du graphique les points inférieurs à 5 % et supérieurs à 95 %.
-* **Mode de fidélité totale** : l’option Ignorer les valeurs aberrantes affiche tous les points, ramenés à la dernière valeur de chaque bucket, et ombre les zones inférieures à 5 % et supérieures à 95 %.
+* **Mode d&#39;échantillonnage aléatoire** : ignorer les valeurs aberrantes omet du graphique les points en dessous de 5 % et au-dessus de 95 %.
+* **Mode de fidélité totale** : ignorer les valeurs aberrantes affiche tous les points, ramenés à la dernière valeur de chaque bucket, et grise la zone en dessous de 5 % et au-dessus de 95 %.
 
 <div id="max-runs-or-groups">
   ### Nombre maximal de runs ou de groupes
 </div>
 
-Par défaut, les graphiques incluent uniquement les 10 premiers runs ou groupes de runs de la liste ou de l’ensemble de runs. Modifiez l’ordre de tri pour choisir quels runs ou groupes afficher.
+Par défaut, les graphiques incluent seulement les 10 premiers runs ou groupes de runs de la liste ou de l’ensemble de runs. Modifiez l’ordre de tri pour choisir quels runs ou groupes afficher.
 
 <Note>
-  Un espace de travail ne peut pas afficher plus de 1000 runs, quelle que soit sa configuration.
+  Un Workspace ne peut afficher que 1000 runs maximum, quelle que soit sa configuration.
 </Note>
 
 <div id="chart-type">
   ### Type de graphique
 </div>
 
-Choisissez le style de graphique :
+Choisissez le style du graphique :
 
-* **Graphique linéaire**
+* **Graphique en courbes**
   <Frame>
-    <img src="/images/app_ui/plot_style_line_plot.png" alt="Style de graphique linéaire" />
+    <img src="/images/app_ui/plot_style_line_plot.png" alt="Style de graphique en courbes" />
   </Frame>
 * **Graphique en aires**
   <Frame>
@@ -102,53 +102,53 @@ Choisissez le style de graphique :
   </Frame>
 * **Graphique en aires en pourcentage :**
   <Frame>
-    <img src="/images/app_ui/plot_style_percentage_plot.png" alt="Style de graphique en pourcentage" />
+    <img src="/images/app_ui/plot_style_percentage_plot.png" alt="Style de graphique en aires en pourcentage" />
   </Frame>
 
-Configurez le type de graphique dans l’onglet **Data**. Reportez-vous à [](/fr/models/app/features/panels/line-plot#individual-line-plot).
+Configurez le type de graphique dans l&#39;onglet **Data**. Reportez-vous à [](/fr/models/app/features/panels/line-plot#individual-line-plot).
 
 <div id="grouping-settings">
   ## Paramètres de regroupement
 </div>
 
-Regroupez tous les runs en activant le regroupement, ou regroupez-les selon une variable donnée. Lorsque vous activez le regroupement dans le tableau Runs, les groupes apparaissent automatiquement dans le graphique.
+Regroupez tous les runs en activant le regroupement, ou regroupez-les selon une variable donnée. Lorsque vous activez le regroupement dans le tableau des runs, les groupes s’affichent automatiquement dans le graphique.
 
-* **Regrouper les runs** : Activez le regroupement des runs dans le graphique. Requis pour configurer la zone ombrée du graphique ci-dessous.
-* **Regrouper par** : Sélectionnez facultativement une colonne. Tous les runs ayant la même valeur dans cette colonne sont regroupés.
-* **Agrégation** : Définit la valeur de la courbe sur le graphique. Les options sont la moyenne, la médiane, le minimum et le maximum du groupe.
-* **Plage** : Configurez la zone ombrée d&#39;un graphique linéaire de fidélité totale. Les options sont Min/Max, écart-type, erreur standard ou aucune.
+* **Regrouper les runs** : Active le regroupement des runs dans le graphique. Requis pour configurer la zone ombrée du graphique ci-dessous.
+* **Regrouper par** : Sélectionnez éventuellement une colonne. Tous les runs ayant la même valeur dans cette colonne sont regroupés ensemble.
+* **Agrégation** : La valeur de la courbe sur le graphique. Les options sont la moyenne, la médiane, le minimum et le maximum du groupe.
+* **Plage** : Configurez la zone ombrée d’un graphique en courbes complet. Les options sont Min/Max, écart-type, erreur standard ou aucune.
 
 <div id="chart-settings">
   ## Paramètres du graphique
 </div>
 
-Configurer les titres et la visibilité de la légende :
+Configurez les titres et l’affichage de la légende :
 
-* **Titre du panneau** : titre affiché en haut du panneau.
-* **Titre de l’axe X** : libellé de l’axe X.
-* **Titre de l’axe Y** : libellé de l’axe Y.
-* **Légende** : affichez ou masquez la légende, et configurez sa position.
+* **Titre du panneau** : Titre affiché en haut du panneau.
+* **Titre de l’axe x** : Libellé de l’axe x.
+* **Titre de l’axe y** : Libellé de l’axe y.
+* **Légende** : Affichez ou masquez la légende et configurez sa position.
 
 <div id="legend-settings">
   ## Paramètres de la légende
 </div>
 
-Personnalisez la légende pour afficher toute valeur de configuration enregistrée ainsi que les métadonnées des runs, comme la date de création ou l’utilisateur à l’origine du run.
+Personnalisez la légende pour afficher n’importe quelle valeur de configuration enregistrée ainsi que les métadonnées des runs, comme la date de création ou l’utilisateur ayant créé le run.
 
 <div id="legend-template">
   ### Modèle de légende
 </div>
 
-Définissez un modèle pour le nom de la légende.
+Définissez un modèle pour le nom affiché dans la légende.
 
 1. Cliquez sur l’icône d’engrenage pour ouvrir les paramètres du graphique.
 2. Accédez à l’onglet **Préférences d’affichage**.
-3. Développez **Légende avancée**, puis définissez le modèle de légende.
+3. Développez **Légende avancée**, puis indiquez le modèle de légende.
 4. Cliquez sur **Appliquer**.
 
 Exemple :
 
-`${run:displayName} - ${config:dropout}` produit un nom de légende tel que `royal-sweep - 0.5`, où `royal-sweep` est le nom de l&#39;exécution et `0.5` est le paramètre de configuration nommé `dropout`.
+`${run:displayName} - ${config:dropout}` produit un nom de légende comme `royal-sweep - 0.5`, où `royal-sweep` est le nom de l&#39;exécution et `0.5` est le paramètre de configuration appelé `dropout`.
 
 <div id="point-specific-values">
   ### Valeurs spécifiques à un point
@@ -158,18 +158,18 @@ Définissez des valeurs entre `[[ ]]` pour afficher des valeurs spécifiques à 
 
 1. Cliquez sur l’icône d’engrenage pour ouvrir les paramètres du graphique.
 2. Accédez à l’onglet **Préférences d’affichage**.
-3. En bas de l’onglet, configurez des valeurs spécifiques à un point pour une ou plusieurs des métriques du graphique.
+3. En bas de l’onglet, configurez des valeurs spécifiques à un point pour une ou plusieurs métriques du graphique.
 4. Cliquez sur **Appliquer**.
 
-Exemple : `[[ $x: $y ($original) ]]` affiche quelque chose comme « 2 : 3 (2.9) »
+Exemple : `[[ $x: $y ($original) ]]` affiche quelque chose comme &quot;2: 3 (2.9)&quot;
 
 Valeurs prises en charge entre `[[ ]]` :
 
 | Valeur        | Signification                                                |
 | ------------- | ------------------------------------------------------------ |
 | `${x}`        | Valeur X                                                     |
-| `${y}`        | Valeur Y (avec ajustement du lissage)                        |
-| `${original}` | Valeur Y sans ajustement du lissage                          |
+| `${y}`        | Valeur Y (y compris l’ajustement du lissage)                 |
+| `${original}` | Valeur Y sans l’ajustement du lissage                        |
 | `${mean}`     | Moyenne des runs groupés                                     |
 | `${stddev}`   | Écart type des runs groupés                                  |
 | `${min}`      | Minimum des runs groupés                                     |
@@ -180,42 +180,42 @@ Valeurs prises en charge entre `[[ ]]` :
   ## Expressions
 </div>
 
-Ajoutez des expressions calculées personnalisées pour créer des métriques dérivées.
+Ajoutez des expressions calculées personnalisées afin de créer des métriques dérivées.
 
 <div id="y-axis-expressions">
   ### Expressions de l’axe Y
 </div>
 
-Tracez des valeurs dérivées de métriques. Par exemple, calculez `1-accuracy` ou d’autres expressions arithmétiques. Pour l’instant, cela fonctionne uniquement lorsque vous tracez une seule métrique.
+Tracez des valeurs calculées à partir de métriques. Par exemple, calculez `1-accuracy` ou d’autres expressions arithmétiques. Pour le moment, cela fonctionne uniquement lorsque vous tracez une seule métrique.
 
-Opérateurs pris en charge : `+`, `-`, `*`, `/`, `%` et `**` (pour les exposants).
+Opérateurs pris en charge : `+`, `-`, `*`, `/`, `%` et `**` (pour les puissances).
 
-Vous pouvez calculer des courbes personnalisées à partir des métriques enregistrées et de valeurs de configuration telles que les hyperparamètres.
+Vous pouvez calculer des lignes personnalisées à partir à la fois de métriques enregistrées et de valeurs de configuration telles que des hyperparamètres.
 
 <div id="x-axis-expressions">
-  ### Expressions de l’axe x
+  ### Expressions de l’axe X
 </div>
 
-Mettez à l’échelle l’axe x à l’aide de valeurs calculées avec des expressions personnalisées.
+Ajustez l’échelle de l’axe X à l’aide de valeurs calculées avec des expressions personnalisées.
 
 Variables utiles :
 
-* `_step` : La valeur par défaut de l’axe x.
-* `${summary:value}` : Valeurs récapitulatives de référence.
+* `_step` : La valeur par défaut de l’axe X.
+* `${summary:value}` : Valeurs de référence du résumé.
 
 <div id="multi-metric-panel-expressions">
-  ### Expressions de panneau multi-métriques
+  ### Expressions de panneau à plusieurs métriques
 </div>
 
-Utilisez une expression régulière pour créer un unique graphique linéaire affichant plusieurs métriques ensemble (y compris les métriques correspondantes enregistrées ultérieurement). Pour des instructions détaillées, voir [Ajouter un graphique linéaire](/fr/models/app/features/panels/line-plot#multi-metric-line-plot).
+Utilisez une expression régulière pour créer un seul graphique en courbes affichant plusieurs métriques ensemble (y compris les métriques correspondantes qui seront enregistrées ultérieurement). Pour des instructions détaillées, voir [Ajouter un graphique en courbes](/fr/models/app/features/panels/line-plot#multi-metric-line-plot).
 
 Par exemple :
 
-* Au lieu de créer des panneaux distincts pour les métriques de chaque couche, vous pouvez les afficher ensemble dans un seul panneau. Par exemple, si vous consignez des métriques avec un schéma de nommage cohérent, comme `layer_0_loss`, `layer_1_loss` et `layer_2_loss`, vous pouvez utiliser une regex comme `layer_\d+_loss` pour afficher toutes les pertes des couches sur un seul graphique.
+* Au lieu de créer des panneaux distincts pour les métriques de chaque couche, vous pouvez les afficher ensemble dans un seul panneau. Par exemple, si vous consignez des métriques avec un schéma de nommage cohérent, comme `layer_0_loss`, `layer_1_loss` et `layer_2_loss`, vous pouvez utiliser une expression régulière comme `layer_\d+_loss` pour afficher toutes les pertes des couches sur un même graphique.
 * Faites correspondre toutes les métriques qui partagent un schéma de nommage commun. Par exemple :
-  * `train_.*` correspond à toutes les métriques d&#39;entraînement comme `train_loss`, `train_accuracy`, `train_f1_score`
-  * `.*_accuracy` correspond aux métriques de précision de différents jeux de données comme `train_accuracy`, `val_accuracy`, `test_accuracy`
-* Utilisez l&#39;alternance pour ne faire correspondre que les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes de la première et de la dixième couche, en excluant les couches intermédiaires.
+  * `train_.*` correspond à toutes les métriques d’entraînement comme `train_loss`, `train_accuracy`, `train_f1_score`
+  * `.*_accuracy` correspond aux métriques d’accuracy sur différents jeux de données comme `train_accuracy`, `val_accuracy`, `test_accuracy`
+* Utilisez l’alternance pour faire correspondre uniquement les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes de la première et de la dixième couche, en excluant les couches intermédiaires.
 
 <div id="capture-groups">
   #### Groupes de capture

@@ -1,25 +1,25 @@
 ---
-title: "W&B は Multi-tenant で SSO をサポートしていますか?"
-keywords: ["セキュリティ"]
+title: "W&B は Multi-tenant で SSO をサポートしていますか？"
+keywords: ["Security"]
 ---
 
-W&amp;B は、Auth0 を介してマルチテナント環境向けのシングルサインオン (SSO) をサポートしています。SSO インテグレーションは、Okta や Azure AD など、OIDC 準拠の任意のアイデンティティプロバイダーと互換性があります。OIDC プロバイダーを設定するには、次の手順に従ってください。
+W&amp;B は、Auth0 を通じて Multi-tenant 環境での Single Sign-On (SSO) をサポートしています。SSO インテグレーションは、Okta や Azure AD などの OIDC 準拠の identity provider と互換性があります。OIDC provider を設定するには、次の step に従ってください。
 
-* アイデンティティプロバイダーで Single Page Application (SPA) を作成します。
-* `grant_type` を `implicit` フローに設定します。
-* コールバック URI を `https://wandb.auth0.com/login/callback` に設定します。
+* identity provider で Single Page Application (SPA) を作成します。
+* `grant_type` を `implicit` flow に設定します。
+* callback URI を `https://wandb.auth0.com/login/callback` に設定します。
 
 **W&amp;B の要件**
 
-設定が完了したら、アプリケーションの `Client ID` と `Issuer URL` を添えて、カスタマーサクセスマネージャー (CSM) に連絡してください。W&amp;B は、これらの情報を使用して Auth0 接続を確立し、SSO を有効化します。
+setup の完了後、application の `Client ID` と `Issuer URL` をカスタマーサクセスマネージャー (CSM) に共有してください。W&amp;B はこれらの情報を使用して Auth0 connection を確立し、SSO を有効にします。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマター内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって生成・管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[セキュリティ](/ja/support/models/tags/security)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

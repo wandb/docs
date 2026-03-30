@@ -1,5 +1,5 @@
 ---
-title: Balayage
+title: Sweep
 namespace: public_apis_namespace
 python_object_type: class
 ---
@@ -11,16 +11,16 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Sweep`
 
-Ensemble des runs associés au balayage.
+L’ensemble des runs associés au balayage.
 
 **Attributs :**
 
-* `runs` (Runs):  Liste des runs
-* `id` (str):  ID du balayage
-* `project` (str):  Nom du projet auquel appartient le balayage
-* `config` (dict):  Dictionnaire contenant la configuration du balayage
-* `state` (str):  État du balayage. Peut être « Finished », « Failed »,  « Crashed » ou « Running ».
-* `expected_run_count` (int):  Nombre de runs attendus pour le balayage 
+* `runs` (Runs) :  Liste des runs
+* `id` (str) :  ID du balayage
+* `project` (str) :  Nom du projet auquel le balayage appartient
+* `config` (dict) :  Dictionnaire contenant la configuration du balayage
+* `state` (str) :  État du balayage. Peut être &quot;Finished&quot;, &quot;Failed&quot;,  &quot;Crashed&quot; ou &quot;Running&quot;.
+* `expected_run_count` (int) :  Nombre de runs attendus pour le balayage 
 
 ### <kbd>méthode</kbd> `Sweep.__init__`
 
@@ -39,7 +39,7 @@ __init__(
 
 ### <kbd>propriété</kbd> Sweep.config
 
-La configuration utilisée pour ce balayage.
+Configuration du balayage utilisée pour ce balayage.
 
 ***
 
@@ -49,17 +49,17 @@ L’entité associée au balayage.
 
 **Retourne :**
 
-* `str` : La valeur de propriété d’entité.
+* `str` : La valeur de la propriété entité.
 
 ***
 
 ### <kbd>propriété</kbd> Sweep.expected_run_count
 
-Renvoie le nombre de runs attendus pour le balayage, ou `None` si le nombre de runs est infini.
+Retourne le nombre de runs attendus dans le balayage, ou None si le nombre de runs est infini.
 
 **Retourne :**
 
-* `int | None` : La valeur de propriété `expected_run_count`.
+* `int | None`: La valeur de propriété expected&#95;run&#95;count.
 
 ***
 
@@ -69,7 +69,7 @@ Le nom du balayage.
 
 Renvoie le premier nom disponible selon l’ordre de priorité suivant :
 
-1. Nom d’affichage modifié par l’utilisateur 2. Nom configuré au moment de la création 3. ID du balayage
+1. Nom d’affichage modifié par l’utilisateur 2. Nom défini lors de la création 3. ID du balayage
 
 ***
 
@@ -83,25 +83,25 @@ Renvoie la clé d’ordre du balayage.
 
 Renvoie le chemin du projet.
 
-Ce chemin est une liste contenant l’entité, le nom du projet et l’ID du balayage.
+Le chemin est une liste qui contient l’entité, le nom du projet et l’ID du balayage.
 
 ***
 
 ### <kbd>propriété</kbd> Sweep.url
 
-L&#39;URL du balayage.
+L’URL du balayage.
 
-L&#39;URL du balayage est générée à partir de l&#39;entité, du projet, du terme « sweeps » et de l&#39;ID du balayage (`run_id`). Pour les utilisateurs SaaS, elle se présente sous la forme `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
+L’URL du balayage est générée à partir de l’entité, du projet, du terme « sweeps » et de `ID du balayage.run_id`. Pour les utilisateurs SaaS, elle se présente sous la forme `https://wandb.ai/entity/project/sweeps/sweeps_ID`.
 
 ***
 
 ### <kbd>propriété</kbd> Sweep.username
 
-Obsolète. Utilisez plutôt `Sweep.entity`.
+Obsolète. Utilisez `Sweep.entity` à la place.
 
 **Retourne :**
 
-* `str` : La valeur de propriété `username`.
+* `str` : La valeur de la propriété du nom d’utilisateur.
 
 ***
 
@@ -111,7 +111,7 @@ Obsolète. Utilisez plutôt `Sweep.entity`.
 best_run(order=None)
 ```
 
-Renvoie le meilleur run, trié selon la métrique définie dans la configuration ou selon l’ordre fourni.
+Retourne le meilleur run, trié selon la métrique définie dans la configuration ou l’ordre fourni.
 
 ***
 
@@ -139,7 +139,7 @@ Exécute une requête sur le backend cloud.
 * `project`:  Le nom du projet depuis lequel récupérer le balayage.
 * `sid`:  L’ID du balayage à interroger.
 * `order`:  L’ordre dans lequel les runs du balayage sont renvoyés.
-* `query`:  La requête à utiliser.
+* `query`:  La requête à utiliser pour exécuter la requête.
 * `**kwargs`:  Arguments nommés supplémentaires à transmettre à la requête.
 
 ***
@@ -151,4 +151,4 @@ Exécute une requête sur le backend cloud.
 to_html(height: 'int' = 420, hidden: 'bool' = False) → str
 ```
 
-Générez du HTML contenant une iframe qui affiche ce balayage.
+Génère du HTML contenant une iframe qui affiche ce balayage.
