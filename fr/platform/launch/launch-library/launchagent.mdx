@@ -4,7 +4,7 @@ title: LaunchAgent
 
 <Card title="Voir le code source" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L164-L924" icon="github" />
 
-Classe de l’agent Launch qui interroge les files d’attente de runs spécifiées et lance des runs pour wandb launch.
+Classe de l&#39;agent Launch qui interroge les files d&#39;attente de run spécifiées et lance des Runs pour wandb Launch.
 
 ```python
 LaunchAgent(
@@ -13,16 +13,16 @@ LaunchAgent(
 )
 ```
 
-| Arguments | Description                                                       |
-| :-------- | :---------------------------------------------------------------- |
-| `api`     | Objet API à utiliser pour effectuer des requêtes vers le backend. |
-| `config`  | Dictionnaire de configuration de l’agent.                         |
+| Arguments | Description                                                 |
+| :-------- | :---------------------------------------------------------- |
+| `api`     | Objet API à utiliser pour adresser des requêtes au backend. |
+| `config`  | Dictionnaire de configuration de l’agent.                   |
 
-| Attributs                | Description                                                                                            |
-| :----------------------- | :----------------------------------------------------------------------------------------------------- |
-| `num_running_jobs`       | Renvoie le nombre de jobs, sans compter les ordonnanceurs.                                             |
-| `num_running_schedulers` | Renvoie uniquement le nombre d’ordonnanceurs.                                                          |
-| `thread_ids`             | Renvoie une liste des clés correspondant aux identifiants des threads en cours d’exécution de l’agent. |
+| Attributes               | Description                                                                                    |
+| :----------------------- | :--------------------------------------------------------------------------------------------- |
+| `num_running_jobs`       | Renvoie le nombre de jobs, sans inclure les planificateurs.                                    |
+| `num_running_schedulers` | Renvoie uniquement le nombre de planificateurs.                                                |
+| `thread_ids`             | Renvoie une liste des clés correspondant aux ID des threads en cours d’exécution pour l’agent. |
 
 
 <div id="methods">
@@ -33,7 +33,7 @@ LaunchAgent(
   ### `check_sweep_state`
 </div>
 
-[voir la source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L786-L803)
+[Voir la source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L786-L803)
 
 ```python
 check_sweep_state(
@@ -41,14 +41,14 @@ check_sweep_state(
 )
 ```
 
-Vérifiez l’état d’un balayage avant de lancer un run associé à ce balayage.
+Vérifiez l’état d’un balayage avant de lancer un run lié à ce balayage.
 
 
 <div id="fail_run_queue_item">
   ### `fail_run_queue_item`
 </div>
 
-[voir la source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L295-L304)
+[Voir la source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L295-L304)
 
 ```python
 fail_run_queue_item(
@@ -69,7 +69,7 @@ finish_thread_id(
 )
 ```
 
-Retire le job de notre liste pour le moment.
+Retire le job de notre liste pour l’instant.
 
 
 <div id="get_job_and_queue">
@@ -107,11 +107,11 @@ Indique si l’agent est initialisé.
 loop()
 ```
 
-Boucle indéfiniment pour interroger les jobs et les exécuter.
+Effectue une boucle infinie pour interroger les jobs et les exécuter.
 
-| Exceptions levées   | Description                            |
-| :------------------ | :------------------------------------- |
-| `KeyboardInterrupt` | si l’agent reçoit une demande d’arrêt. |
+| Exceptions levées   | Description                                    |
+| :------------------ | :--------------------------------------------- |
+| `KeyboardInterrupt` | si l&#39;agent reçoit une demande d&#39;arrêt. |
 
 
 <div id="name">
@@ -140,19 +140,19 @@ pop_from_queue(
 )
 ```
 
-Retire un élément de la runqueue pour l&#39;exécuter en tant que job.
+Extrait un élément de la runqueue pour l&#39;exécuter comme job.
 
-| Arguments | Description                             |
-| :-------- | :-------------------------------------- |
-| `queue`   | File d&#39;attente d&#39;où le retirer. |
+| Arguments | Description                                                |
+| :-------- | :--------------------------------------------------------- |
+| `queue`   | File d&#39;attente depuis laquelle extraire l&#39;élément. |
 
-| Renvoie                                  | Description |
-| :--------------------------------------- | :---------- |
-| Élément retiré de la file d&#39;attente. |             |
+| Renvoie                                   | Description |
+| :---------------------------------------- | :---------- |
+| Élément extrait de la file d&#39;attente. |             |
 
-| Exceptions levées | Description                                                   |
-| :---------------- | :------------------------------------------------------------ |
-| `Exception`       | en cas d&#39;erreur lors du retrait de la file d&#39;attente. |
+| Exceptions levées | Description                                                                |
+| :---------------- | :------------------------------------------------------------------------- |
+| `Exception`       | en cas d&#39;erreur lors de l&#39;extraction depuis la file d&#39;attente. |
 
 
 <div id="print_status">
@@ -172,7 +172,7 @@ Affiche le statut actuel de l’agent.
   ### `run_job`
 </div>
 
-[voir la source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L511-L541)
+[Voir la source](https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/agent/agent.py#L511-L541)
 
 ```python
 run_job(
@@ -180,7 +180,7 @@ run_job(
 )
 ```
 
-Configurer le projet et exécuter le job.
+Configurez le projet et exécutez le job.
 
 | Arguments | Description     |
 | :-------- | :-------------- |
@@ -212,7 +212,7 @@ update_status(
 )
 ```
 
-Mettre à jour le statut de l’agent.
+Mettez à jour le statut de l’agent.
 
 | Arguments | Description                   |
 | :-------- | :---------------------------- |

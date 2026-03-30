@@ -2,9 +2,9 @@
 title: Exigences SSL/TLS pour l’auto-hébergement
 ---
 
-W&amp;B exige un certificat SSL/TLS valide et signé pour assurer une communication sécurisée entre les clients et le serveur. La terminaison SSL/TLS doit s’effectuer au niveau de l’ingress/de l’équilibreur de charge. L’application W&amp;B Server n’assure pas la terminaison des connexions SSL ou TLS.
+W&amp;B exige un certificat SSL/TLS valide, signé par une autorité reconnue, pour sécuriser les communications entre les clients et le serveur. La terminaison SSL/TLS doit se faire au niveau de l’ingress/de l’équilibreur de charge. L’application W&amp;B Server ne termine pas les connexions SSL ou TLS.
 
-**Important** : W&amp;B ne prend pas en charge les certificats autosignés ni les autorités de certification personnalisées. L’utilisation de certificats autosignés entraînera des difficultés pour les utilisateurs et n’est pas prise en charge.
+**Important** : W&amp;B ne prend pas en charge les certificats auto-signés ni les autorités de certification personnalisées. L’utilisation de certificats auto-signés entraînera des problèmes pour les utilisateurs et n’est pas prise en charge.
 
 Si possible, utiliser un service comme [Let&#39;s Encrypt](https://letsencrypt.org) est un excellent moyen de fournir des certificats approuvés à votre équilibreur de charge. Des services comme Caddy et Cloudflare gèrent le SSL pour vous.
 

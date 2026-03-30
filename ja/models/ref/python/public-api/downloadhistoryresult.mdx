@@ -11,15 +11,15 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `DownloadHistoryResult`
 
-run の履歴エクスポートをダウンロードした結果。
+run の history エクスポートをダウンロードした結果。
 
 **属性:**
 
-* `paths`:  ダウンロードされた履歴ファイルへのパス。
-* `errors`:  ダウンロードに失敗したファイルについて、ファイルパスからエラーメッセージへのマッピングを保持する辞書。すべてのダウンロードが成功した場合は None。
-* `contains_live_data`:  run が、まだ parquet ファイルにエクスポートされていないライブデータを含んでいるかどうか。 
+* `paths`: ダウンロードされた history ファイルのパス。
+* `errors`: ダウンロードに失敗したファイルについて、ファイルパスをエラーメッセージに対応付けた辞書。すべてのダウンロードが成功した場合は None。
+* `contains_live_data`: run に、まだ parquet ファイルにエクスポートされていないライブデータが含まれているかどうか。 
 
-### <kbd>メソッド</kbd> `DownloadHistoryResult.__init__`
+### <kbd>method</kbd> `DownloadHistoryResult.__init__`
 
 ```python
 __init__(

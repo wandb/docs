@@ -1,13 +1,13 @@
 ---
-title: "データセット内のカラムを対応付ける"
-description: "データセット内のカラム名を別の名前に対応付けます。これにより、スコアラーが想定するカラム名とデータセット内のカラム名を一致させることができます。"
+title: "データセットの列を別名にマッピングする"
+description: "データセットの列を別の名前にマッピングします。これにより、データセット内の列名を scorer が想定する列名に合わせられます。"
 ---
 
 <Tabs>
   <Tab title="Python">
-    Weave Python SDK では、スコアラーの `column_map` 属性を使って、スコアラーが想定するパラメーター名をデータセットのカラム名に対応付けます。マッピング形式は `{scorer_parameter: dataset_column}` です。
+    Weave Python SDK では、scorer の `column_map` 属性を使用して、scorer が想定するパラメーター名をデータセットの列名にマッピングします。マッピング形式は `{scorer_parameter: dataset_column}` です。
 
-    次の例では、`output` と `target` パラメーターを、データセットの `model_output` と `answer` カラムに対応付けています:
+    次の例では、`output` パラメーターと `target` パラメーターを、データセットの `model_output` 列と `answer` 列にマッピングしています。
 
     ```python
     from weave.scorers import EmbeddingSimilarityScorer
@@ -16,16 +16,17 @@ description: "データセット内のカラム名を別の名前に対応付け
 
     similarity_scorer.column_map = {
         "output": "model_output",  # モデルが生成したテキスト
-        "target": "answer"         # 期待される、または参照用の応答
+        "target": "answer"         # 期待される応答、または参照用の応答
     }
     ```
 
-    スコアラーのカラムマッピングの詳細については、[Mapping Column Names with `column_map`](../evaluation/scorers#mapping-column-names-with-column_map) を参照してください。
+    scorer の列マッピングの詳細については、[`column_map` を使った列名のマッピング](../evaluation/scorers#mapping-column-names-with-column_map)を参照してください。
   </Tab>
-  <Tab title="TypeScript">
-    Weave TypeScript SDK では、カラムマッピングは個々のスコアラーではなく、`Evaluation` オブジェクトの `columnMapping` オプションとして設定します。マッピング形式は `{scorer_key: dataset_column}` です。
 
-    次の例では、スコアラーで使用される `expectedOutputTimesTwo` を、データセット内の `expected` カラムに対応付けています:
+  <Tab title="TypeScript">
+    Weave TypeScript SDK では、列マッピングは個々の scorer ではなく、`Evaluation` オブジェクトの `columnMapping` オプションで設定します。マッピング形式は `{scorer_key: dataset_column}` です。
+
+    次の例では、scorer で使用する `expectedOutputTimesTwo` を、データセット内の `expected` 列にマッピングしています。
 
     ```typescript
     import * as weave from 'weave';
@@ -45,6 +46,6 @@ description: "データセット内のカラム名を別の名前に対応付け
     });
     ```
 
-    TypeScript の scorer のキーワード引数の詳細は、[Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments) を参照してください。
+    TypeScript の scorer 引数の詳細については、[Scorer のキーワード引数](../evaluation/scorers#scorer-keyword-arguments)を参照してください。
   </Tab>
 </Tabs>

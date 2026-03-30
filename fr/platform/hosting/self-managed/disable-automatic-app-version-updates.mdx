@@ -3,10 +3,10 @@ title: Désactiver les mises à jour automatiques pour W&B Server
 description: Découvrez comment désactiver les mises à jour automatiques pour W&B Server.
 ---
 
-Cette page explique comment désactiver les mises à jour automatiques de version pour W&amp;B Server et verrouiller sa version. Ces instructions s&#39;appliquent uniquement aux déploiements gérés par l&#39;[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator/).
+Cette page explique comment désactiver les mises à niveau automatiques de W&amp;B Server et fixer sa version. Ces instructions s&#39;appliquent uniquement aux déploiements gérés par l&#39;[opérateur Kubernetes W&amp;B](/fr/platform/hosting/operator).
 
 <Note>
-  W&amp;B prend en charge une version majeure de W&amp;B Server pendant 12 mois à compter de sa date de sortie initiale. Les clients disposant d&#39;instances **Autogérées** sont responsables d&#39;effectuer la mise à niveau à temps afin de maintenir l&#39;assistance. Évitez de rester sur une version non prise en charge. W&amp;B recommande fortement aux clients disposant d&#39;instances **Autogérées** de mettre à jour leurs déploiements vers la dernière version au moins une fois par trimestre afin de maintenir l&#39;assistance et de bénéficier des dernières fonctionnalités, améliorations des performances et correctifs.
+  W&amp;B prend en charge une version majeure de W&amp;B Server pendant 12 mois à compter de sa date de sortie initiale. Les clients disposant d&#39;instances **Autogérées** sont responsables d&#39;effectuer la mise à niveau à temps pour continuer à bénéficier de l&#39;assistance. Évitez de rester sur une version non prise en charge. W&amp;B recommande vivement aux clients disposant d&#39;instances **Autogérées** de mettre à jour leurs déploiements vers la dernière version au moins une fois par trimestre afin de continuer à bénéficier de l&#39;assistance et de recevoir les dernières fonctionnalités, améliorations des performances et correctifs.
 </Note>
 
 <div id="requirements">
@@ -16,13 +16,13 @@ Cette page explique comment désactiver les mises à jour automatiques de versio
 * opérateur Kubernetes W&amp;B `v1.13.0` ou version ultérieure
 * System Console `v2.12.2` ou version ultérieure
 
-Pour vérifier que vous respectez ces prérequis, référez-vous à la Ressource personnalisée W&amp;B ou au chart Helm de votre instance. Vérifiez les valeurs `version` des composants `operator-wandb` et `system-console`.
+Pour vérifier que vous respectez ces prérequis, référez-vous à la ressource personnalisée W&amp;B ou au chart Helm de votre instance. Vérifiez les valeurs `version` des composants `operator-wandb` et `system-console`.
 
 <div id="disable-automatic-updates">
   ## Désactiver les mises à jour automatiques
 </div>
 
-1. Connectez-vous à l’application W&amp;B avec un utilisateur disposant du rôle `admin`.
+1. Connectez-vous à la W&amp;B App avec un utilisateur disposant du rôle `admin`.
 2. Cliquez sur l’icône utilisateur en haut, puis sur **System Console**.
 3. Accédez à **Settings** &gt; **Advanced**, puis sélectionnez l’onglet **Other**.
 4. Dans la section **Disable Auto Upgrades**, activez **Pin specific version**.
@@ -30,11 +30,11 @@ Pour vérifier que vous respectez ces prérequis, référez-vous à la Ressource
 6. Cliquez sur **Save**.
 
    <Frame>
-     <img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="Mises à jour automatiques désactivées enregistrées" />
+     <img src="/images/hosting/disable_automatic_updates_saved_and_enabled.png" alt="Désactivation des mises à jour automatiques enregistrée" />
    </Frame>
 
-   Les mises à jour automatiques sont désactivées et W&amp;B Server est verrouillé sur la version que vous avez sélectionnée.
-7. Vérifiez que les mises à jour automatiques sont désactivées. Accédez à l’onglet **Operator** et recherchez dans les journaux de réconciliation la chaîne `Version pinning is enabled`.
+   Les mises à jour automatiques sont désactivées et W&amp;B Server est épinglé sur la version que vous avez sélectionnée.
+7. Vérifiez que les mises à jour automatiques sont bien désactivées. Accédez à l’onglet **Operator** et recherchez dans les journaux de réconciliation la chaîne `Version pinning is enabled`.
 
 ```
 │info 2025-04-17T17:24:16Z wandb default No changes found

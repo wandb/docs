@@ -1,19 +1,19 @@
 ---
-title: "Comment wandb transmet-il les journaux et écrit-il sur le disque ?"
-keywords: ["Variables d'environnement"]
+title: "Comment wandb transmet-il les journaux et écrit-il sur disque ?"
+keywords: ["Variables d’environnement"]
 ---
 
-W&amp;B met les événements en file d&#39;attente en mémoire et les écrit sur le disque de manière asynchrone afin de gérer les pannes et de prendre en charge la configuration `WANDB_MODE=offline`, ce qui permet une synchronisation après la journalisation.
+W&amp;B met les événements en file d’attente en mémoire et les écrit sur disque de façon asynchrone afin de gérer les pannes et de prendre en charge la configuration `WANDB_MODE=offline`, ce qui permet de les synchroniser ensuite.
 
-Dans le terminal, observez le chemin vers le répertoire local du run. Ce répertoire inclut un fichier `.wandb`, qui fait office de magasin de données. Pour la journalisation des images, W&amp;B stocke les images dans le sous-répertoire `media/images` avant de les téléverser vers le stockage dans le cloud.
+Dans le terminal, observez le chemin vers le répertoire local du run. Ce répertoire contient un fichier `.wandb`, qui fait office de magasin de données. Pour la journalisation des images, W&amp;B stocke les images dans le sous-répertoire `media/images` avant de les envoyer vers le stockage cloud.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas à la main le contenu entre ces marqueurs.
+  Ne modifiez pas ce contenu manuellement entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
 
-{/* ---- FIN : badges d’onglet GÉNÉRÉS AUTOMATIQUEMENT ---- */}
+{/* ---- END GÉNÉRÉ AUTOMATIQUEMENT: tab badges ---- */}

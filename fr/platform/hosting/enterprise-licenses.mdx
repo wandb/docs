@@ -1,53 +1,53 @@
 ---
-title: Licences d’entreprise
-description: Découvrez les licences d’entreprise de W&B, les fonctionnalités qu’elles incluent et comment les obtenir et les configurer.
+title: Licences Enterprise
+description: Découvrez les licences Enterprise de W&B, les fonctionnalités qu’elles incluent, ainsi que la manière de les obtenir et de les configurer.
 ---
 
-Une licence d’entreprise débloque des fonctionnalités W&amp;B conçues pour les organisations qui ont besoin de capacités avancées en matière de sécurité, de conformité ou d’administration. Voir la liste des [fonctionnalités Enterprise](#enterprise-features).
+Une licence Enterprise débloque des fonctionnalités W&amp;B conçues pour les organisations qui ont besoin de capacités avancées en matière de sécurité, de conformité ou d’administration. Voir la liste des [fonctionnalités Enterprise](#enterprise-features).
 
 * **Sécurité** : authentification renforcée, chiffrement et contrôles d’accès.
-* **Conformité** : options de journalisation d’audit, options de conformité HIPAA et contrôles de gouvernance des données.
+* **Conformité** : journalisation d’audit, options de conformité HIPAA et contrôles de gouvernance des données.
 * **Administration** : fonctionnalités de gestion des utilisateurs, comme le provisionnement SCIM, les rôles personnalisés et les capacités d’automatisation.
 
-Cette page fournit un aperçu complet des licences d’entreprise, y compris les fonctionnalités qu’elles permettent d’utiliser, comment les obtenir et comment les configurer pour votre déploiement.
+Cette page propose un aperçu complet des licences Enterprise, notamment des fonctionnalités qu’elles activent, ainsi que de la manière de les obtenir et de les configurer pour votre déploiement.
 
 <div id="deployment-options">
   ## Options de déploiement
 </div>
 
-Les licences d’entreprise sont disponibles pour les déploiements Cloud dédié de W&amp;B et W&amp;B Autogéré.
+Des licences Enterprise sont disponibles pour les déploiements W&amp;B Cloud dédié et Autogéré.
 
-* [Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud) fournit une infrastructure mono-locataire gérée par W&amp;B, déployée sur Google Cloud. Les déploiements Cloud dédié incluent automatiquement une licence d’entreprise. Aucune configuration supplémentaire n’est requise, et toutes les fonctionnalités Enterprise sont disponibles dès le provisionnement.
-* [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed) est déployé sur votre propre infrastructure, ce qui vous donne un contrôle complet sur votre déploiement et vos données. Les déploiements isolés du réseau sont pris en charge. Sans licence d’entreprise, les [fonctionnalités Enterprise](#enterprise-features) ne sont pas disponibles.
+* [W&amp;B Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) propose une infrastructure à locataire unique gérée par W&amp;B, déployée sur Google Cloud. Les déploiements Cloud dédié incluent automatiquement une licence Enterprise. Aucune configuration supplémentaire n’est requise, et toutes les fonctionnalités Enterprise sont disponibles immédiatement après la mise à disposition.
+* [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed) est déployé sur votre propre infrastructure, ce qui vous donne un contrôle complet sur votre déploiement et vos données. Les déploiements air-gapped sont pris en charge. Sans licence Enterprise, les [fonctionnalités Enterprise](#enterprise-features) ne sont pas disponibles.
 
 <div id="obtain-an-enterprise-license">
-  ## Obtenir une licence d’entreprise
+  ## Obtenir une licence Enterprise
 </div>
 
-Cette section explique comment obtenir une licence d’entreprise. Selon votre cas d’utilisation, sélectionnez un onglet pour continuer.
+Cette section explique comment obtenir une licence Enterprise. Selon votre cas d’usage, sélectionnez un onglet pour continuer.
 
 <Tabs>
   <Tab title="Cloud dédié">
-    Le Cloud dédié de W&amp;B inclut une licence d’entreprise et aucune action n’est requise. [Démarrez un essai Enterprise](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/) ou contactez [Sales](https://wandb.ai/site/contact-sales) pour discuter de vos besoins.
+    W&amp;B Dedicated Cloud inclut une licence Enterprise et aucune action n’est requise. [Démarrer un essai Enterprise](https://wandb.ai/site/for-enterprise/dedicated-saas-trial/) ou contactez [Sales](https://wandb.ai/site/contact-sales) pour discuter de vos besoins.
   </Tab>
 
   <Tab title="Autogéré">
-    Demandez une licence d’entreprise :
+    Demandez une licence Enterprise :
 
-    * **Évaluation** : Soumettez une [demande de licence d’essai](https://wandb.ai/site/for-enterprise/self-hosted-trial) ou contactez [Sales](mailto:sales@wandb.ai) pour discuter de vos besoins.
-    * **Production** : Contactez [Sales](https://wandb.ai/site/contact-sales) pour discuter de vos exigences de déploiement et de dimensionnement, et recevoir les détails de votre licence.
+    * **Évaluation** : Soumettez la [demande de licence d’essai](https://wandb.ai/site/for-enterprise/self-hosted-trial) ou contactez [Sales](mailto:sales@wandb.ai) pour discuter de vos besoins.
+    * **Production** : Contactez [Sales](https://wandb.ai/site/contact-sales) pour discuter de vos besoins en matière de déploiement et de dimensionnement, et recevoir les détails de votre licence.
 
-    <Warning>Stockez les clés de licence en lieu sûr et traitez-les comme des identifiants sensibles.</Warning>
+    <Warning>Stockez vos clés de licence de manière sécurisée et traitez-les comme des identifiants sensibles.</Warning>
   </Tab>
 </Tabs>
 
 <div id="configure-an-enterprise-license">
-  ## Configurer une licence d’entreprise
+  ## Configurer une licence Enterprise
 </div>
 
 <Info>Cette section s’applique uniquement à W&amp;B Autogéré.</Info>
 
-Après avoir [obtenu une licence d’entreprise](#obtain-an-enterprise-license), vous pouvez la configurer par programmation, ou dans la W&amp;B App après le déploiement. Sélectionnez un onglet pour afficher les instructions.
+Après avoir [obtenu une licence Enterprise](#obtain-an-enterprise-license), vous pouvez la configurer de manière programmatique ou dans la W&amp;B App après le déploiement. Sélectionnez un onglet pour afficher les instructions.
 
 <Tabs>
   <Tab title="Opérateur Kubernetes">
@@ -83,14 +83,14 @@ Après avoir [obtenu une licence d’entreprise](#obtain-an-enterprise-license),
     Pour les déploiements existants sans configuration par variable d’environnement :
 
     1. Connectez-vous en tant qu’administrateur
-    2. Accédez à **Paramètres système**
+    2. Accédez à **System Settings**
     3. Repérez la section **License**
     4. Saisissez votre nouvelle clé de licence
     5. Enregistrez les modifications
   </Tab>
 
   <Tab title="Docker">
-    <Warning>Le déploiement de W&amp;B sur Docker est obsolète. W&amp;B encourage vivement la migration vers un déploiement avec l’[opérateur Kubernetes]() géré par Helm ou Terraform. Référez-vous à l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch.mdx) ou contactez l’[assistance](mailto:support@wandb.ai) pour obtenir des conseils.</Warning>
+    <Warning>Le déploiement de W&amp;B avec Docker est obsolète. W&amp;B recommande vivement de migrer vers un déploiement [opérateur Kubernetes]() géré par Helm ou Terraform. Consultez l’[architecture de référence](/fr/platform/hosting/self-managed/ref-arch.mdx) ou contactez l’[assistance](mailto:support@wandb.ai) pour obtenir de l’aide.</Warning>
     Définissez la clé de licence comme variable d’environnement :
 
     ```bash
@@ -102,33 +102,33 @@ Après avoir [obtenu une licence d’entreprise](#obtain-an-enterprise-license),
   </Tab>
 </Tabs>
 
-Ensuite, [vérifiez votre licence d’entreprise](#verify-or-update-an-enterprise-license).
+Ensuite, [vérifiez votre licence Enterprise](#verify-or-update-an-enterprise-license).
 
 <div id="verify-and-manage-an-enterprise-license">
-  ## Vérifier et gérer une licence d’entreprise
+  ## Vérifier et gérer une licence Enterprise
 </div>
 
-En tant qu’administrateur d’instance ou d’organisation, suivez ces étapes pour vérifier et gérer votre licence d’entreprise :
+En tant qu’administrateur d’instance ou d’organisation, suivez ces étapes pour vérifier et gérer votre licence Enterprise :
 
-1. Dans la W&amp;B App, cliquez sur l’icône de votre profil en haut à droite, puis sur **System Console**.
-2. Accédez à l’onglet **License**. Un tableau de bord récapitule les droits associés à la licence, son expiration et son utilisation dans le temps. Si une erreur s’affiche, voir [Problèmes courants](#common-issues).
+1. Dans W&amp;B App, cliquez sur l’icône de votre profil utilisateur en haut à droite, puis sur **System Console**.
+2. Accédez à l’onglet **License**. Un tableau de bord récapitule les droits associés à la licence, sa date d’expiration et son utilisation au fil du temps. Si une erreur s’affiche, voir [Problèmes courants](#common-issues).
 3. Pour obtenir des informations détaillées sur la licence et les droits associés, cliquez sur **View license online**.
 
-   Depuis cette page, vous pouvez également demander une nouvelle licence d’essai ou de production. En haut de la page, cliquez sur **New license order** et soumettez le formulaire.
+   Depuis cette page, vous pouvez également commander une nouvelle licence d’essai ou de production. En haut de la page, cliquez sur **New license order** et soumettez le formulaire.
 4. Pour renouveler une licence expirée ou mettre à jour la clé de licence, cliquez sur **Update License**.
 
    <Tip>
-     Pour garantir la continuité du service, W&amp;B vous contacte :
+     Pour garantir un service ininterrompu, W&amp;B vous contacte :
 
-     * 30 jours avant l’expiration de la licence
+     * 30 jours avant l’expiration de la licence
      * Lorsque la licence a expiré
    </Tip>
 
 <div id="enterprise-features">
-  ## Fonctionnalités Enterprise
+  ## fonctionnalités Enterprise
 </div>
 
-Pour voir la liste complète et classée par catégorie des fonctionnalités Enterprise disponibles, consultez la page [Tarification](https://wandb.ai/site/pricing/), puis cliquez sur **Cloud-hosted** ou **Privately-hosted**.
+Pour consulter la liste complète des fonctionnalités Enterprise disponibles, classées par catégorie, voir la page [Tarification](https://wandb.ai/site/pricing/), puis cliquez sur **Cloud-hosted** ou **Privately-hosted**.
 
 <div id="common-issues">
   ## Problèmes courants
@@ -138,31 +138,31 @@ Pour voir la liste complète et classée par catégorie des fonctionnalités Ent
   ### Licence non reconnue
 </div>
 
-* Vérifier que la clé de licence est correctement formatée (sans espaces superflus)
-* S&#39;assurer que la licence n&#39;a pas expiré
-* Vérifier que la licence est définie au bon emplacement de la configuration
+* Vérifiez que la clé de licence est correctement formatée (sans espaces supplémentaires)
+* Assurez-vous que la licence n’a pas expiré
+* Vérifiez que la licence est définie au bon emplacement dans la configuration
 
 <div id="features-not-available-after-setting-license">
-  ### Fonctionnalités non disponibles après la définition de la licence
+  ### Fonctionnalités non disponibles après la configuration de la licence
 </div>
 
-* Redémarrez vos services W&amp;B après avoir défini la licence
-* Vérifiez que la licence inclut les fonctionnalités spécifiques auxquelles vous essayez d&#39;accéder
+* Redémarrez vos services W&amp;B après avoir configuré la licence
+* Vérifiez que la licence inclut les fonctionnalités spécifiques auxquelles vous essayez d’accéder
 * Consultez les journaux système pour détecter toute erreur de validation de la licence
 
 <div id="license-expiration-warnings">
-  ### Avertissements avant expiration de la licence
+  ### Alertes d’expiration de licence
 </div>
 
-* Surveillez les notifications d’expiration sur la page Paramètres système
+* Surveillez la page System Settings pour les notifications d’expiration
 * Configurez des alertes d’expiration de licence dans votre système de surveillance
-* Gardez à jour les coordonnées de votre équipe de compte
+* Tenez à jour les coordonnées de votre contact au sein de l’équipe de compte
 
 <div id="get-support">
-  ### Assistance
+  ### Obtenir de l’assistance
 </div>
 
-Pour toute assistance concernant les licences d’entreprise, contactez votre équipe de compte, [Sales](mailto:sales@wandb.ai) ou [Assistance](mailto:support@wandb.ai).
+Pour toute assistance concernant les licences Enterprise, contactez votre équipe de compte, [Sales](mailto:sales@wandb.ai) ou l’[assistance](mailto:support@wandb.ai).
 
 <div id="additional-resources">
   ## Ressources supplémentaires
@@ -170,5 +170,5 @@ Pour toute assistance concernant les licences d’entreprise, contactez votre é
 
 * [Tarification de W&amp;B](/fr/pricing)
 * [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed)
-* [Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud)
+* [W&amp;B Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud)
 * [Sécurité et conformité](/fr/security)

@@ -1,17 +1,17 @@
 ---
-title: "アーティファクトはどこにダウンロードされますか？また、その保存先を制御するにはどうすればよいですか？"
+title: "Artifacts はどこにダウンロードされ、保存先はどう指定できますか？"
 keywords: ["Artifacts", "環境変数"]
 ---
 
-デフォルトでは、アーティファクトは `artifacts/` フォルダにダウンロードされます。保存先を変更するには:
+デフォルトでは、Artifacts は `artifacts/` フォルダーにダウンロードされます。保存先を変更するには、次のいずれかの方法を使用します。
 
-* [`wandb.Artifact().download`](/ja/models/ref/python/public-api/api) に `root` を指定します:
+* [`wandb.Artifact().download`](/ja/models/ref/python/public-api/api) に指定します。
 
   ```python
   wandb.Artifact().download(root="<path_to_download>")
   ```
 
-* `WANDB_ARTIFACT_DIR` の [環境変数](/ja/models/track/environment-variables) を設定します:
+* `WANDB_ARTIFACT_DIR` の[環境変数](/ja/models/track/environment-variables)を設定します。
 
   ```python
   import os
@@ -20,11 +20,11 @@ keywords: ["Artifacts", "環境変数"]
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマター内のキーワードをもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  このマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>
 
-{/* ---- 自動生成: タブバッジ 終了 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

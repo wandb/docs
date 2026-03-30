@@ -11,10 +11,10 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnRunMetric`
 
-Une métrique de run répond à une condition définie par l’utilisateur.
+Une métrique de run répond à une condition définie par l&#39;utilisateur.
 
 Exemples :
-Définissez un événement qui se déclenche pour n’importe quel run du projet &quot;my-project&quot; lorsque
+Définissez un événement qui se déclenche pour n&#39;importe quel run du projet &quot;my-project&quot; lorsque
 la moyenne des 5 dernières valeurs de la métrique &quot;my-metric&quot; dépasse 123.45 :
 
 ```python
@@ -44,8 +44,8 @@ __init__(
 **Arguments :**
 
 * `event_type` (Literal[RUN&#95;METRIC&#95;THRESHOLD, RUN&#95;METRIC&#95;CHANGE, RUN&#95;METRIC&#95;ZSCORE]):
-* `scope` (ProjectScope) : Portée de l’événement : il doit s’agir d’un projet.
-* `filter` (RunMetricFilter) : Condition(s) sur le run et/ou la métrique à remplir pour que cet événement se déclenche.
+* `scope` (ProjectScope): Le périmètre de l’événement : il doit s’agir d’un projet.
+* `filter` (RunMetricFilter): Condition(s) sur le run et/ou la métrique à remplir pour que cet événement se déclenche.
 
 **Retourne :**
 Un objet `OnRunMetric`.

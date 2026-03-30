@@ -1,5 +1,5 @@
 ---
-title: tableau
+title: Table
 namespace: python_sdk_data_type
 python_object_type: class
 ---
@@ -11,11 +11,11 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Table`
 
-La classe tableau permet d’afficher et d’analyser des données tabulaires.
+La classe Table permet d’afficher et d’analyser des données tabulaires.
 
-Contrairement aux feuilles de calcul traditionnelles, les tableaux prennent en charge de nombreux types de données : des valeurs scalaires, des chaînes de caractères, des tableaux NumPy et la plupart des sous-classes de `wandb.data_types.Media`. Vous pouvez ainsi intégrer directement dans les tableaux des `Images`, des `Video`, des `Audio` et d’autres types de médias enrichis et annotés, aux côtés de valeurs scalaires plus classiques.
+Contrairement aux feuilles de calcul traditionnelles, les Tables prennent en charge de nombreux types de données : des valeurs scalaires, des chaînes de caractères, des tableaux NumPy et la plupart des sous-classes de `wandb.data_types.Media`. Cela signifie que vous pouvez intégrer `Images`, `Video`, `Audio` et d’autres types de médias enrichis et annotés directement dans les Tables, aux côtés d’autres valeurs scalaires plus classiques.
 
-Cette classe est la principale utilisée pour générer des tableaux W&amp;B https://docs.wandb.ai/guides/models/tables/. 
+Cette classe est la classe principale utilisée pour générer des W&amp;B Tables https://docs.wandb.ai/guides/models/tables/. 
 
 ### <kbd>méthode</kbd> `Table.__init__`
 
@@ -32,24 +32,24 @@ __init__(
 )
 ```
 
-Initialise un objet tableau.
+Initialise un objet Table.
 
-`rows` est disponible pour des raisons de compatibilité ascendante et ne doit pas être utilisé. La classe tableau utilise `data` pour imiter l’API Pandas.
+Le paramètre `rows` est disponible pour des raisons de compatibilité et ne doit pas être utilisé. La classe Table utilise `data` pour reproduire l&#39;API Pandas.
 
 **Arguments :**
 
-* `columns`:  (List[str]) Noms des colonnes du tableau.  Les valeurs par défaut sont [&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;].
-* `data`:  (List[List[any]]) Tableau 2D de valeurs orienté lignes.
-* `dataframe`:  (pandas.DataFrame) Objet DataFrame utilisé pour créer le tableau.  Lorsqu’il est défini, les arguments `data` et `columns` sont ignorés.
-* `rows`:  (List[List[any]]) Tableau 2D de valeurs orienté lignes.
-* `optional`:  (Union[bool,List[bool]]) Détermine si les valeurs `None` sont autorisées. La valeur par défaut est True
-  * S’il s’agit d’une valeur booléenne unique, le caractère facultatif est appliqué à toutes les colonnes spécifiées lors de la construction
-  * S’il s’agit d’une liste de valeurs booléennes, le caractère facultatif est appliqué à chaque colonne - la liste doit avoir la même longueur que `columns`. Une liste de valeurs booléennes s’applique à chaque colonne correspondante.
-* `allow_mixed_types`:  (bool) Détermine si les colonnes peuvent contenir des types mixtes  (désactive la validation de type). La valeur par défaut est False
-* `log_mode`:  Optional[str] Contrôle la façon dont le tableau est enregistré lors des mutations.  Options :
-  * &quot;IMMUTABLE&quot; (par défaut) : le tableau ne peut être enregistré qu’une seule fois ; les tentatives d’enregistrement suivantes après mutation du tableau n’auront aucun effet.
-  * &quot;MUTABLE&quot; : le tableau peut être enregistré à nouveau après des mutations, ce qui crée une nouvelle version d’artefact à chaque enregistrement.
-  * &quot;INCREMENTAL&quot; : les données du tableau sont enregistrées de manière incrémentielle, chaque enregistrement créant une nouvelle entrée d’artefact contenant les nouvelles données depuis le dernier enregistrement.
+* `columns`:  (List[str]) Noms des colonnes du tableau.  Valeurs par défaut : [&quot;Input&quot;, &quot;Output&quot;, &quot;Expected&quot;].
+* `data`:  (List[List[any]]) Tableau 2D de valeurs orienté par lignes.
+* `dataframe`:  (pandas.DataFrame) Objet DataFrame utilisé pour créer le tableau.  Lorsqu&#39;il est défini, les arguments `data` et `columns` sont ignorés.
+* `rows`:  (List[List[any]]) Tableau 2D de valeurs orienté par lignes.
+* `optional`:  (Union[bool,List[bool]]) Détermine si les valeurs `None` sont autorisées. Valeur par défaut : True
+  * S&#39;il s&#39;agit d&#39;une valeur booléenne unique, le caractère facultatif est appliqué à toutes les colonnes spécifiées lors de la création
+  * S&#39;il s&#39;agit d&#39;une liste de valeurs booléennes, le caractère facultatif est appliqué à chaque colonne ; la liste doit avoir la même longueur que `columns`
+* `allow_mixed_types`:  (bool) Détermine si les colonnes peuvent contenir des types mixtes  (désactive la validation de type). Valeur par défaut : False
+* `log_mode`:  Optional[str] Contrôle la façon dont la Table est enregistrée lorsque des modifications surviennent.  Options :
+  * &quot;IMMUTABLE&quot; (par défaut) : la Table ne peut être enregistrée qu&#39;une seule fois ; les tentatives d&#39;enregistrement suivantes après modification du tableau seront sans effet.
+  * &quot;MUTABLE&quot; : la Table peut être enregistrée à nouveau après des modifications, créant une nouvelle version d&#39;artifact à chaque enregistrement.
+  * &quot;INCREMENTAL&quot; : les données de la Table sont enregistrées de façon incrémentielle, chaque enregistrement créant une nouvelle entrée d&#39;artifact contenant les nouvelles données depuis le dernier enregistrement.
 
 ***
 
@@ -66,7 +66,7 @@ Ajoute une colonne de données au tableau.
 
 * `name`:  (str) - le nom unique de la colonne
 * `data`:  (list | np.array) - une colonne de données homogènes
-* `optional`:  (bool) - si les valeurs nulles ou assimilées sont autorisées
+* `optional`:  (bool) - si les valeurs nulles sont autorisées
 
 ***
 
@@ -77,12 +77,12 @@ Ajoute une colonne de données au tableau.
 add_computed_columns(fn)
 ```
 
-Ajoute une ou plusieurs colonnes calculées basées sur des données existantes.
+Ajoute une ou plusieurs colonnes calculées à partir des données existantes.
 
 **Arguments :**
 
-* `fn` :  Une fonction qui accepte un ou deux paramètres, ndx (int) et row (`dict`), et qui renvoie un `dict` représentant les nouvelles colonnes de cette ligne, avec comme clés les noms des nouvelles colonnes.
-  * `ndx` est un entier représentant l’indice de la ligne. Il est inclus uniquement si `include_ndx` est défini sur `True`.
+* `fn` : fonction qui accepte un ou deux paramètres, `ndx` (int) et `row` (dict), et qui doit renvoyer un `dict` représentant les nouvelles colonnes de cette ligne, avec pour clés les noms des nouvelles colonnes.
+  * `ndx` est un entier représentant l’index de la ligne. Il est inclus uniquement si `include_ndx` est défini sur `True`.
   * `row` est un dictionnaire dont les clés correspondent aux colonnes existantes
 
 ***
@@ -98,7 +98,7 @@ Ajoute une nouvelle ligne de données au tableau.
 
 Le nombre maximal de lignes d’un tableau est déterminé par `wandb.Table.MAX_ARTIFACT_ROWS`.
 
-La longueur des données doit correspondre à celle de la colonne du tableau.
+Le nombre d’éléments des données doit correspondre au nombre de colonnes du tableau.
 
 ***
 
@@ -122,13 +122,13 @@ cast(col_name, dtype, optional=False)
 
 Convertit une colonne vers un type de données spécifique.
 
-Il peut s&#39;agir d&#39;une classe Python standard, d&#39;un type interne à W&amp;B ou d&#39;un objet d&#39;exemple, comme une instance de wandb.Image ou wandb.Classes.
+Il peut s&#39;agir d&#39;une classe Python standard, d&#39;un type interne de W&amp;B ou d&#39;un objet d&#39;exemple, comme une instance de wandb.Image ou de wandb.Classes.
 
 **Arguments :**
 
 * `col_name` (str):  Le nom de la colonne à convertir.
-* `dtype` (class, wandb.wandb&#95;sdk.interface.&#95;dtypes.Type, any):  Le type de données cible.
-* `optional` (bool):  Indique si la colonne peut accepter des valeurs `None`.
+* `dtype` (class, wandb.wandb&#95;sdk.interface.&#95;dtypes.Type, any):  Le type cible.
+* `optional` (bool):  Indique si la colonne doit accepter des valeurs None.
 
 ***
 
@@ -139,13 +139,13 @@ Il peut s&#39;agir d&#39;une classe Python standard, d&#39;un type interne à W&
 get_column(name, convert_to=None)
 ```
 
-Récupère une colonne du tableau et, facultativement, la convertit en objet NumPy.
+Récupère une colonne du tableau et, éventuellement, la convertit en objet NumPy.
 
 **Arguments :**
 
-* `name` :  (str) - le nom de la colonne
-* `convert_to` :  (str, facultatif)
-  * &quot;numpy&quot; : convertit les données sous-jacentes en objet NumPy
+* `name`:  (str) - le nom de la colonne
+* `convert_to`:  (str, facultatif)
+  * &quot;numpy&quot;: convertit les données sous-jacentes en objet NumPy
 
 ***
 
@@ -167,6 +167,6 @@ Renvoie un `pandas.DataFrame` contenant le tableau.
 get_index()
 ```
 
-Renvoie un tableau d’indices de ligne à utiliser dans d’autres tableaux pour créer des liens.
+Renvoie un tableau d’indices de lignes à utiliser dans d’autres tableaux afin de créer des liens.
 
 ***

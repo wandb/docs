@@ -1,6 +1,6 @@
 ---
 title: "Les évaluateurs comme garde-fous"
-description: "Découvrez comment utiliser des évaluateurs comme garde-fous avec W&B Weave"
+description: "Découvrez comment utiliser les évaluateurs comme garde-fous avec W&B Weave"
 ---
 
 <Note>
@@ -14,7 +14,7 @@ description: "Découvrez comment utiliser des évaluateurs comme garde-fous avec
   # Les évaluateurs comme garde-fous
 </div>
 
-Les évaluateurs Weave sont des classes spéciales dotées d&#39;une méthode `score` permettant d&#39;évaluer les performances d&#39;un appel. Ils peuvent aller de règles assez simples à des LLM complexes faisant office de juges.
+Les évaluateurs Weave sont des classes spéciales dotées d’une méthode `score` qui permet d’évaluer les performances d’un appel. Ils peuvent aller de règles très simples à des LLM complexes servant de juges.
 
 Dans ce notebook, nous allons explorer comment utiliser les évaluateurs comme garde-fous pour empêcher votre LLM de générer du contenu nuisible ou inapproprié.
 
@@ -22,9 +22,9 @@ Dans ce notebook, nous allons explorer comment utiliser les évaluateurs comme g
 %pip install weave --quiet
 python
 """
-Example demonstrating how to implement guardrails in Weave.
-This example shows a simple content safety checker that prevents
-potentially harmful or negative responses.
+Exemple illustrant comment implémenter des guardrails dans Weave.
+Cet exemple montre un vérificateur de sécurité du contenu simple qui empêche
+les réponses potentiellement nuisibles ou négatives.
 """
 
 import weave
@@ -33,7 +33,7 @@ import weave
 weave.init("content-safety-guardrails")
 
 class ContentSafetyScorer(weave.Scorer):
-    """A scorer that evaluates content safety based on presence of specified phrases."""
+    """Un scorer qui évalue la sécurité du contenu en fonction de la présence de phrases spécifiées."""
 
     unsafe_phrases: list[str]
     case_sensitive: bool = False
@@ -41,13 +41,13 @@ class ContentSafetyScorer(weave.Scorer):
     @weave.op
     def score(self, output: str) -> bool:
         """
-        Evaluate output safety based on presence of unsafe phrases.
+        Évalue la sécurité de la sortie en fonction de la présence de phrases non sécurisées.
 
         Args:
-            output: The text output to evaluate
+            output: La sortie textuelle à évaluer
 
         Returns:
-            bool: True if output is safe, False if unsafe
+            bool: True si la sortie est sûre, False si elle est non sécurisée
         """
         normalized_output = output if self.case_sensitive else output.lower()
 
@@ -59,7 +59,7 @@ class ContentSafetyScorer(weave.Scorer):
 
 @weave.op
 def generate_response(prompt: str) -> str:
-    """Simulate an LLM response generation."""
+    """Simule la génération d'une réponse par un LLM."""
     if "test" in prompt.lower():
         return "I'm sorry, I cannot process that request."
     elif "help" in prompt.lower():
@@ -69,8 +69,8 @@ def generate_response(prompt: str) -> str:
 
 async def process_with_guardrail(prompt: str) -> str:
     """
-    Process user input with content safety guardrail.
-    Returns the response if safe, or a fallback message if unsafe.
+    Traite l'entrée utilisateur avec un guardrail de sécurité du contenu.
+    Renvoie la réponse si elle est sûre, ou un message de repli si elle est non sécurisée.
     """
     # Initialiser le scorer de sécurité
     safety_scorer = ContentSafetyScorer(
@@ -84,13 +84,13 @@ async def process_with_guardrail(prompt: str) -> str:
     # Appliquer le scoring de sécurité
     evaluation = await call.apply_scorer(safety_scorer)
 
-    # Renvoyer la réponse ou le message de repli selon la vérification de sécurité
+    # Retourner la réponse ou le message de repli selon la vérification de sécurité
     if evaluation.result:
         return response
     else:
         return "I cannot provide that response."
 python
-"""Example usage of the guardrail system."""
+"""Exemple d'utilisation du système de guardrails."""
 test_prompts = [
     "Please help me with my homework",
     "Can you run a test for me?",

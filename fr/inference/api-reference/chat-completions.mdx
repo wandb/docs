@@ -1,20 +1,20 @@
 ---
-title: "Complétions de chat"
-description: "Créer des complétions de chat à l’aide du point de terminaison compatible avec OpenAI"
+title: "Chat Completions"
+description: "Créez des Chat Completions avec l’endpoint compatible avec OpenAI"
 ---
 
-Créez une complétion de chat à l’aide du point de terminaison `/chat/completions`. Ce point de terminaison utilise le format OpenAI pour l’envoi de messages et la réception de réponses.
+Créez un Chat Completion à l’aide de l’endpoint `/chat/completions`. Cet endpoint suit le format OpenAI pour l’envoi de messages et la réception de réponses.
 
 <div id="requirements">
-  ## Exigences
+  ## Prérequis
 </div>
 
-Pour créer une complétion de chat, fournissez :
+Pour créer un Chat Completion, fournissez :
 
-* L’URL de base du service Inférence : `https://api.inference.wandb.ai/v1`
-* Votre clé API W&amp;B : `<your-api-key>`
+* l’URL de base du service Inférence : `https://api.inference.wandb.ai/v1`
+* votre clé API W&amp;B : `<your-api-key>`
 * Facultatif : votre équipe W&amp;B et votre projet : `<your-team>/<your-project>`
-* Un identifiant de modèle parmi les [modèles disponibles](/fr/inference/models)
+* l’ID d’un modèle parmi les [modèles disponibles](/fr/inference/models)
 
 <div id="request-examples">
   ## Exemples de requêtes
@@ -26,11 +26,11 @@ Pour créer une complétion de chat, fournissez :
     import openai
 
     client = openai.OpenAI(
-        # L'URL de base personnalisée pointe vers W&B Inférence
+        # L'URL de base personnalisée pointe vers W&B Inference
         base_url='https://api.inference.wandb.ai/v1',
 
         # Créez une clé API sur https://wandb.ai/settings
-        # Pour plus de sécurité, vous pouvez plutôt la définir dans l'environnement sous OPENAI_API_KEY
+        # Pour plus de sécurité, il est préférable de la définir dans l'environnement sous OPENAI_API_KEY
         api_key="<your-api-key>",
 
         # Facultatif : équipe et projet pour le suivi de l'utilisation

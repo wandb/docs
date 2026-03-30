@@ -16,7 +16,7 @@ registry_name = "<registry_name>"
 # Construire le chemin complet du registre
 registry_path = f"wandb-registry-{registry_name}/{collection_name}"
 
-# Récupérer la collection d'artefacts
+# Récupérer la collection d'artifacts
 collection = wandb.Api().artifact_collection(
   type_name = collection_type, 
   name = registry_path

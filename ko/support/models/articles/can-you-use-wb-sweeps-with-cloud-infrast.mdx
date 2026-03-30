@@ -1,19 +1,19 @@
 ---
-title: "AWS Batch, ECS 등의 클라우드 인프라에서 W&B Sweeps를 사용할 수 있나요?"
+title: "AWS Batch, ECS 등과 같은 클라우드 인프라에서 W&B Sweeps를 사용할 수 있나요?"
 keywords: ["Sweeps", "AWS"]
 ---
 
-모든 W&amp;B Sweep 에이전트가 `sweep_id`에 액세스할 수 있도록 하려면, 해당 에이전트가 `sweep_id`를 읽어 실행할 수 있는 방법을 구현하세요.
+어떤 W&amp;B Sweep agent라도 `sweep_id`에 접근할 수 있도록 하려면, 이러한 agent가 `sweep_id`를 조회하고 실행할 수 있는 방법을 구현하세요.
 
-예를 들어, Amazon EC2 인스턴스를 시작한 다음 해당 인스턴스에서 `wandb agent`를 실행하세요. SQS 큐를 사용해 `sweep_id`를 여러 EC2 인스턴스에 전달할 수 있습니다. 그러면 각 인스턴스가 큐에서 `sweep_id`를 가져와 프로세스를 시작할 수 있습니다.
+예를 들어 Amazon EC2 인스턴스를 시작한 다음, 그 인스턴스에서 `wandb agent`를 실행합니다. SQS 큐를 사용해 `sweep_id`를 여러 EC2 인스턴스에 브로드캐스트하세요. 그러면 각 인스턴스가 큐에서 `sweep_id`를 조회해 프로세스를 시작할 수 있습니다.
 
 ***
 
 {/* ---- AUTO-GENERATED: 탭 배지 ----
-  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 직접 수정하지 마세요.
+  front matter의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py 스크립트가 관리합니다.
+  이 마커 사이의 내용은 수동으로 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[AWS](/ko/support/models/tags/aws)</Badge>
 
-{/* ---- END AUTO-GENERATED: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

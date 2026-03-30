@@ -1,34 +1,34 @@
 ---
-title: "Coût personnalisé des modèles"
-description: "Définissez et suivez les coûts personnalisés des modèles dans W&B Weave afin de surveiller les dépenses entre différents fournisseurs et modèles de LLM."
+title: "Coût d’un modèle personnalisé"
+description: "Définissez et suivez les coûts de modèles personnalisés dans W&B Weave afin de surveiller les dépenses selon les différents fournisseurs et modèles de LLM."
 ---
 
 <Note>
   Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/custom_model_cost.ipynb)
-  * [Voir le fichier source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/custom_model_cost.ipynb)
+  * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/custom_model_cost.ipynb)
 </Note>
 
 <div id="setting-up-a-custom-cost-model">
   # Configurer un modèle de coût personnalisé
 </div>
 
-Weave calcule les coûts en fonction du nombre de jetons utilisés et du modèle utilisé.
+Weave calcule les coûts en fonction du nombre de tokens consommés et du modèle utilisé.
 Weave récupère cette utilisation et ce modèle dans la sortie, puis les associe à l&#39;appel.
 
-Configurons un modèle personnalisé simple qui calcule lui-même son utilisation de jetons et l&#39;enregistre dans Weave.
+Configurons un modèle personnalisé simple qui calcule lui-même son utilisation des tokens et l&#39;enregistre dans Weave.
 
 <div id="set-up-the-environment">
-  ## Configurer l’environnement
+  ## Configurer l&#39;environnement
 </div>
 
 Nous installons et importons tous les packages nécessaires.
-Nous définissons `WANDB_API_KEY` dans notre environnement afin de pouvoir nous connecter facilement avec `wandb.login()` (il doit être fourni à Colab comme secret).
+Nous définissons `WANDB_API_KEY` dans notre environnement afin de pouvoir nous connecter facilement avec `wandb.login()` (cette clé doit être fournie à Colab en tant que secret).
 
-Nous définissons dans `name_of_wandb_project` le projet W&amp;B dans lequel nous voulons journaliser ceci.
+Nous définissons dans `name_of_wandb_project` le projet W&amp;B dans lequel nous voulons journaliser ces données.
 
-***REMARQUE :*** `name_of_wandb_project` peut également être au format `{team_name}/{project_name}` pour spécifier une équipe dans laquelle journaliser les traces.
+***REMARQUE :*** `name_of_wandb_project` peut également être au format `{team_name}/{project_name}` pour indiquer l&#39;équipe dans laquelle journaliser les traces.
 
 Nous récupérons ensuite un client Weave en appelant `weave.init()`
 
@@ -66,20 +66,20 @@ class YourModel(Model):
         return len(text) // 3
 
     # Ceci est un op personnalisé que nous définissons
-    # Il prend une chaîne en entrée et renvoie un dict avec les compteurs d'utilisation, le nom du modèle et la sortie
+    # Il prend une chaîne de caractères en entrée et retourne un dict avec les comptages d'utilisation, le nom du modèle et la sortie
     @weave.op()
     def custom_model_generate(self, input_data: str) -> dict:
         # La logique du modèle se trouve ici
         # C'est ici que vous placeriez une fonction de génération personnalisée
         prediction = self.attribute1 + " " + input_data
 
-        # Compteurs d'utilisation
+        # Comptages d'utilisation
         prompt_tokens = self.simple_token_count(input_data)
         completion_tokens = self.simple_token_count(prediction)
 
-        # Nous renvoyons un dictionnaire avec les compteurs d'utilisation, le nom du modèle et la sortie
+        # Nous retournons un dictionnaire avec les comptages d'utilisation, le nom du modèle et la sortie
         # Weave associera automatiquement ceci à la trace
-        # Cet objet {usage, model, output} correspond à la sortie d'un appel OpenAI
+        # Cet objet {usage, model, output} correspond à la sortie d'un Appel OpenAI
         return {
             "usage": {
                 "input_tokens": prompt_tokens,
@@ -90,7 +90,7 @@ class YourModel(Model):
             "output": prediction,
         }
 
-    # Dans notre fonction predict, nous appelons notre fonction de génération personnalisée et renvoyons la sortie.
+    # Dans notre fonction predict, nous appelons notre fonction de génération personnalisée et retournons la sortie.
     @weave.op()
     def predict(self, input_data: str) -> dict:
         # C'est ici que vous effectueriez tout post-traitement des données
@@ -103,7 +103,7 @@ class YourModel(Model):
   ## Ajouter un coût personnalisé
 </div>
 
-Ici, nous ajoutons un coût personnalisé. Maintenant que nous en avons un et que nos appels ont une utilisation, nous pouvons récupérer les appels avec `include_cost`, et leurs coûts apparaîtront sous `summary.weave.costs`.
+Ici, nous ajoutons un coût personnalisé. Maintenant que nous avons un coût personnalisé et que nos appels ont une utilisation, nous pouvons récupérer les appels avec `include_cost`, et ces appels auront des coûts dans `summary.weave.costs`.
 
 ```python lines
 model = YourModel(attribute1="Hello", attribute2=1)

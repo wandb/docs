@@ -3,19 +3,19 @@ title: "wandb agent"
 ---
 
 {/*
-  Pour ajouter un contenu d’introduction pour cette commande :
+  Pour ajouter un contenu d’introduction à cette commande :
   1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-agent.mdx
-  2. Ajoutez-y votre contenu d’introduction
+  2. Ajoutez votre contenu d’introduction dans ce fichier
   3. Supprimez entièrement ce bloc de commentaire et ne conservez que les deux lignes ci-dessous :
 
   import WandbAgent from "/snippets/_includes/cli/wandb-agent.mdx";
 
   <WandbAgent/>
 
-  Le snippet sera détecté automatiquement lors de la prochaine régénération.
+  Le snippet sera détecté automatiquement lors de la prochaine génération.
   */}
 
-Exécutez l’agent W&amp;B
+Lancez l’agent W&amp;B
 
 
 <div id="usage">
@@ -39,9 +39,9 @@ wandb agent SWEEP_ID [OPTIONS]
   ## Options
 </div>
 
-| Option                    | Description                                                                                                                                                                                                                                                                                                           |
-| :------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--project`, `-p`         | Le nom du projet auquel sont envoyés les runs W&amp;B créés à partir du balayage. Si le projet n&#39;est pas spécifié, le run est envoyé vers un projet nommé &#39;Uncategorized&#39;.                                                                                                                                |
-| `--entity`, `-e`          | Le nom d’utilisateur ou de l’équipe vers lesquels vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l’entité que vous spécifiez existe déjà. Si vous ne spécifiez pas d’entité, le run sera envoyé vers votre entité par défaut, qui correspond généralement à votre nom d’utilisateur. |
-| `--count`                 | Le nombre maximal de runs pour cet agent.                                                                                                                                                                                                                                                                             |
-| `--forward-signals`, `-f` | Transmet aux runs enfants les signaux reçus par l’agent (par ex. SIGINT/SIGTERM) afin qu’ils puissent s’arrêter proprement. (par défaut : False)                                                                                                                                                                      |
+| Option                    | Description                                                                                                                                                                                                                                                                                                             |
+| :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--project`, `-p`         | Nom du projet auquel sont envoyés les runs W&amp;B créés à partir du balayage. Si aucun projet n&#39;est spécifié, le run est envoyé à un projet intitulé &#39;Uncategorized&#39;.                                                                                                                                      |
+| `--entity`, `-e`          | Nom d&#39;utilisateur ou nom de l&#39;équipe auquel vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l&#39;entité spécifiée existe déjà. Si vous ne spécifiez pas d&#39;entité, le run sera envoyé à votre entité par défaut, qui correspond généralement à votre nom d&#39;utilisateur. |
+| `--count`                 | Nombre maximal de runs pour cet agent.                                                                                                                                                                                                                                                                                  |
+| `--forward-signals`, `-f` | Transmet les signaux envoyés à l&#39;agent (par ex. SIGINT/SIGTERM) à ses runs enfants afin qu&#39;ils puissent s&#39;arrêter proprement. (par défaut : False)                                                                                                                                                          |

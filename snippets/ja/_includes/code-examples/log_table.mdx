@@ -1,22 +1,22 @@
 ---
-title: テーブルをログに記録する
+title: 表をログする
 ---
 
 ```python
 """
-W&B にテーブルをログします。
+W&Bに表をログする。
 """
 import wandb
 
-# 2列2行のデータを持つテーブルオブジェクトを作成する
+# 2列2行のデータを持つ表オブジェクトを作成する
 my_table = wandb.Table(
     columns=["a", "b"],
     data=[["a1", "b1"], ["a2", "b2"]],
     log_mode="<log_mode>"
     )
 
-# 新しい run を開始する
+# 新しいrunを開始する
 with wandb.init(project="<project>") as run:
-    # テーブルを W&B にログする
+    # W&Bに表をログする
     run.log({"<table_name>": my_table})
 ```

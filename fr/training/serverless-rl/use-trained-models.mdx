@@ -1,6 +1,6 @@
 ---
-title: Utiliser vos modèles entraînés
-description: Envoyez des requêtes d’inférence aux modèles que vous avez entraînés
+title: Utilisez vos modèles entraînés
+description: Effectuez des requêtes d’inférence sur les modèles que vous avez entraînés
 ---
 
 Après avoir entraîné un modèle avec Serverless RL, il est automatiquement disponible pour l’inférence.
@@ -8,29 +8,29 @@ Après avoir entraîné un modèle avec Serverless RL, il est automatiquement di
 Pour envoyer des requêtes à votre modèle entraîné, vous avez besoin de :
 
 * Votre [clé API W&amp;B](https://wandb.ai/settings)
-* L’URL de base de l’[API d’entraînement](/fr/training/api-reference), `https://api.training.wandb.ai/v1/`
-* Le point de terminaison de votre modèle
+* L’URL de base de la [Training API](/fr/training/api-reference), `https://api.training.wandb.ai/v1/`
+* L’endpoint de votre modèle
 
-Le point de terminaison du modèle suit le schéma suivant :
+L’endpoint du modèle suit le schéma suivant :
 
 ```
 wandb-artifact:///<entity>/<project>/<model-name>:<step>
 ```
 
-Le schéma se compose de :
+Le schéma se compose des éléments suivants :
 
-* Le nom de votre entité W&amp;B (équipe)
+* Le nom de votre entité W&amp;B (team)
 * Le nom du projet associé à votre modèle
 * Le nom du modèle entraîné
-* L’étape d’entraînement du modèle que vous souhaitez déployer (il s’agit généralement de l’étape où le modèle a donné les meilleurs résultats dans vos évaluations)
+* L’étape d’entraînement du modèle que vous souhaitez déployer (il s’agit généralement de l’étape où le modèle a obtenu les meilleurs résultats lors de vos évaluations)
 
-Par exemple, si votre équipe W&amp;B s’appelle `email-specialists`, que votre projet s’appelle `mail-search`, que votre modèle entraîné s’appelle `agent-001` et que vous souhaitez le déployer à l’étape 25, le point de terminaison se présente ainsi :
+Par exemple, si votre team W&amp;B s’appelle `email-specialists`, que votre projet s’appelle `mail-search`, que votre modèle entraîné s’appelle `agent-001` et que vous souhaitez le déployer à l’étape 25, l’endpoint se présente ainsi :
 
 ```
 wandb-artifact:///email-specialists/mail-search/agent-001:step25
 ```
 
-Une fois que vous avez votre point de terminaison, vous pouvez l’intégrer à vos flux de travail d’inférence habituels. Les exemples suivants montrent comment effectuer des requêtes d’inférence sur votre modèle entraîné à l’aide d’une requête cURL ou du [Python SDK d’OpenAI](https://github.com/openai/openai-python).
+Une fois que vous avez votre endpoint, vous pouvez l’intégrer à vos flux de travail d’inférence habituels. Les exemples suivants montrent comment envoyer des requêtes d’inférence à votre modèle entraîné à l’aide d’une requête cURL ou du [Python OpenAI SDK](https://github.com/openai/openai-python).
 
 <div id="curl">
   ### cURL
@@ -52,7 +52,7 @@ curl https://api.training.wandb.ai/v1/chat/completions \
 ```
 
 <div id="openai-sdk">
-  ### SDK d’OpenAI
+  ### OpenAI SDK
 </div>
 
 ```python

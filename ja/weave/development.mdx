@@ -1,51 +1,50 @@
 ---
 title: '開発'
-description: "W&B Weave ドキュメントサイトに更新を公開する前に、ローカルでドキュメントの変更をプレビューしてテストします。"
+description: "更新を W&B Weave ドキュメントサイトに公開する前に、ドキュメントの変更をローカルでプレビューしてテストします。"
 ---
 
 <Info>
-  **前提条件**: 続行する前に Node.js (バージョン 19 以上) をインストールしてください。 <br />
-  続行する前に ```docs.json``` にアップグレードし、従来の ```mint.json``` ファイルを削除してください。
+  **前提条件**: 続行する前に、Node.js (バージョン 19 以上) をインストールしてください。 <br />
+  続行する前に `docs.json` に移行し、従来の `mint.json` ファイルを削除してください。
 </Info>
 
-お使いのオペレーティングシステムで Mintlify をインストールして実行するには、次の手順に従ってください。
+お使いのオペレーティングシステムに Mintlify をインストールして実行するには、次の step に従います:
 
 **Step 1**: Mintlify をインストールします:
 
 <CodeGroup>
-
   ```bash npm
   npm i -g mintlify
   ```
 
-```bash yarn
-yarn global add mintlify
-```
-
+  ```bash yarn
+  yarn global add mintlify
+  ```
 </CodeGroup>
 
-**Step 2**: docs ディレクトリ（`docs.json` ファイルがある場所）に移動し、次のコマンドを実行します:
+**Step 2**: docs ディレクトリ (`docs.json` ファイルがある場所) にアクセスし、次のコマンドを実行します:
 
 ```bash
 mintlify dev
 ```
 
-ドキュメントのローカルプレビューは `http://localhost:3000` で利用できます。
+ドキュメントのローカルプレビューは `http://localhost:3000` で確認できます。
+
 
 <div id="custom-ports">
   ### カスタムポート
 </div>
 
-デフォルトでは、Mintlify はポート 3000 を使用します。`--port` フラグを使用すると、Mintlify が使用するポート番号を変更できます。たとえば Mintlify をポート 3333 で実行するには、次のコマンドを使用します。
+デフォルトでは、Mintlify はポート 3000 を使用します。`--port` フラグを使うと、Mintlify が使用するポートを変更できます。たとえば、Mintlify をポート 3333 で実行するには、次のコマンドを使用します。
 
 ```bash
 mintlify dev --port 3333
 ```
 
-すでに使用中のポートで Mintlify を起動しようとすると、自動的に次に利用可能なポートが使用されます。
+すでに使用中のポートでMintlifyを実行しようとすると、次に空いているポートが使用されます:
 
 ```md
-ポート 3000 はすでに使用中です。代わりに 3001 を試します。
+Port 3000 is already in use. Trying 3001 instead.
 ```
 
 
@@ -53,25 +52,23 @@ mintlify dev --port 3333
   ## Mintlify のバージョン
 </div>
 
-各 CLI リリースは特定の Mintlify バージョンに紐づいていることに注意してください。ローカルのウェブサイトが本番環境で使用しているバージョンと一致していない場合は、次のコマンドで CLI を更新してください。
+各 CLI version は、Mintlify の特定のバージョンに対応しています。ローカルの Web サイトが本番バージョンと一致しない場合は、CLI を更新してください。
 
 <CodeGroup>
+  ```bash npm
+  npm i -g mintlify@latest
+  ```
 
-```bash npm
-npm i -g mintlify@latest
-```
-
-```bash yarn
-yarn global upgrade mintlify
-```
-
+  ```bash yarn
+  yarn global upgrade mintlify
+  ```
 </CodeGroup>
 
 <div id="validating-links">
   ## リンクの検証
 </div>
 
-CLI を使うと、ドキュメント内で作成した参照リンクを検証できます。リンク切れを特定するには、次のコマンドを実行します。
+CLI を使用すると、ドキュメント内の参照リンクを検証できます。リンク切れを特定するには、次のコマンドを使用します。
 
 ```bash
 mintlify broken-links
@@ -83,34 +80,34 @@ mintlify broken-links
 </div>
 
 <Tip>
-  [Pro Plan](https://mintlify.com/pricing) 以上のプランでは、エディターを無制限に利用できます。
+  [Pro
+  Plan](https://mintlify.com/pricing) 以上では、エディターを無制限に利用できます。
 </Tip>
 
-デプロイが成功すると、すべてのチェックに合格したことを示す確認メッセージが表示されます。
+デプロイに成功すると、すべてのチェックにパスしたことを示す確認メッセージが表示されます。
 
 <div id="code-formatting">
   ## コードのフォーマット
 </div>
 
-MDX を認識してフォーマットできるように、IDE に拡張機能を導入することをおすすめします。VS Code のユーザーであれば、シンタックスハイライト用に [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)、コードフォーマット用に [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) の利用を検討してください。
+IDE で MDX を認識して整形できるよう、拡張機能を使用することをお勧めします。VSCode をお使いの場合は、シンタックスハイライトには [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)、コードのフォーマットには [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) の利用を検討してください。
 
 <div id="troubleshooting">
   ## トラブルシューティング
 </div>
 
 <AccordionGroup>
-  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
+  <Accordion title="エラー: darwin-arm64 ランタイムで &#x22;sharp&#x22; モジュールを読み込めませんでした">
+    node のバージョンが古いことが原因の可能性があります。次をお試しください。
 
-    これは古いバージョンの Node.js が原因の可能性があります。次の手順を試してください：
-    1. 現在インストールされている mintlify を削除します：`npm remove -g mintlify`
-    2. Node v19 以上にアップグレードします。
-    3. mintlify を再インストールします：`npm install -g mintlify`
+    1. 現在インストールされている mintlify を削除します: `npm remove -g mintlify`
+    2. Node v19 以降にアップグレードします。
+    3. mintlify を再インストールします: `npm install -g mintlify`
   </Accordion>
 
-  <Accordion title="Issue: Encountering an unknown error">
-  
-    解決策：デバイスのルートディレクトリに移動し、\~/.mintlify フォルダを削除します。その後、再度 `mintlify dev` を実行します。
+  <Accordion title="問題: 不明なエラーが発生する">
+    対処法: `~/.mintlify` フォルダを削除してから、`mintlify dev` をもう一度実行してください。
   </Accordion>
 </AccordionGroup>
 
-CLI バージョンで何が変更されたか知りたい場合は、[CLI changelog を確認してください。](https://www.npmjs.com/package/mintlify?activeTab=versions)
+CLI バージョンで何が変更されたか気になりますか？ [CLI の変更履歴をご覧ください。](https://www.npmjs.com/package/mintlify?activeTab=versions)

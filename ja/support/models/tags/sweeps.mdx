@@ -6,65 +6,65 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="ハイパーパラメーター探索を整理するためのベストプラクティス" href="/ja/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
-  wandb.init(tags=&#39;your&#95;tag&#39;) で一意のタグを設定します。これにより、適切な ...
+  wandb.init(tags=&#39;your&#95;tag&#39;) を使って一意のタグを設定します。これにより、該当するタグを選択して、プロジェクトの Runs を効率的にフィルタリングできるようになります ...
 </Card>
 
-<Card title="グリッドサーチを再実行できますか？" href="/ja/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
-  グリッドサーチが完了していても、クラッシュにより一部の W&amp;B Runs を再実行する必要がある場合は、該当する W&amp;B Runs を削除して再実行します。T ...
+<Card title="グリッドサーチを再実行できますか?" href="/ja/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
+  グリッドサーチが完了しても、クラッシュにより一部の W&amp;B Runs を再実行する必要がある場合は、該当する W&amp;B Runs を削除して再実行できます。T ...
 </Card>
 
-<Card title="Sweeps と SageMaker は併用できますか？" href="/ja/support/models/articles/can-i-use-sweeps-and-sagemaker" arrow="true" horizontal>
-  W&amp;B を認証するには、次の手順を実行します。Amazon SageMaker の組み込み e ...
+<Card title="Sweeps と SageMaker を併用できますか?" href="/ja/support/models/articles/can-i-use-sweeps-and-sagemaker" arrow="true" horizontal>
+  W&amp;B を認証するには、次の手順を実行します。Amazon SageMaker の組み込み環境を使用している場合は requirements.txt ファイルを作成し、e ...
 </Card>
 
-<Card title="boolean 変数をハイパーパラメーターとして指定できますか？" href="/ja/support/models/articles/can-we-flag-boolean-variables-as-hyperpa" arrow="true" horizontal>
-  設定のコマンド セクションでマクロを使用すると、ハイパーパラメーターを boolean フラグとして渡せます。このマクロは自動的に ...
+<Card title="ブール変数をハイパーパラメーターとして指定できますか?" href="/ja/support/models/articles/can-we-flag-boolean-variables-as-hyperpa" arrow="true" horizontal>
+  ハイパーパラメーターをブールフラグとして渡すには、設定の command セクションでマクロを使用します。このマクロにより自動的に ...
 </Card>
 
-<Card title="AWS Batch、ECS などのクラウドインフラストラクチャで W&B Sweeps を使用できますか？" href="/ja/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast" arrow="true" horizontal>
-  任意の W&amp;B Sweep agent がアクセスできるように sweep&#95;id を公開するには、それらの agent が読み取って実行できる method を実装します ...
+<Card title="W&B Sweeps を AWS Batch や ECS などのクラウドインフラストラクチャーで使用できますか?" href="/ja/support/models/articles/can-you-use-wb-sweeps-with-cloud-infrast" arrow="true" horizontal>
+  任意の W&amp;B Sweep agent がアクセスできるように sweep&#95;id を公開するには、これらの agent が読み取って実行できる method を実装し ...
 </Card>
 
-<Card title="W&B Sweep の一部として、すべてのハイパーパラメーターに値を指定する必要がありますか？ デフォルトを設定できますか？" href="/ja/support/models/articles/do-i-need-to-provide-values-for-all-hype" arrow="true" horizontal>
-  sweep 設定からハイパーパラメーターの名前と値に (run.config()) を使ってアクセスできます。これは辞書のように動作します。 ...
+<Card title="W&B Sweep では、すべてのハイパーパラメーターに値を指定する必要がありますか。デフォルトを設定できますか?" href="/ja/support/models/articles/do-i-need-to-provide-values-for-all-hype" arrow="true" horizontal>
+  sweep の設定からハイパーパラメーターの名と値にアクセスするには、(run.config()) を使用します。これは辞書のように動作します。 ...
 </Card>
 
-<Card title="sweep がローカルにログするディレクトリを変更するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
+<Card title="sweep がローカルにログを保存するディレクトリを変更するにはどうすればよいですか?" href="/ja/support/models/articles/how-can-i-change-the-directory-my-sweep-" arrow="true" horizontal>
   環境変数 WANDB&#95;DIR を設定して、W&amp;B run データのログ保存先ディレクトリを指定します。例:
 </Card>
 
-<Card title="Python コードを使って sweep を再開するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-resume-a-sweep-using-python-co" arrow="true" horizontal>
-  sweep を再開するには、sweep&#95;id を wandb.agent() function に渡します。
+<Card title="Python コードを使って sweep を再開するにはどうすればよいですか?" href="/ja/support/models/articles/how-can-i-resume-a-sweep-using-python-co" arrow="true" horizontal>
+  sweep を再開するには、wandb.agent() function に sweep&#95;id を渡します。
 </Card>
 
-<Card title="sweep 内の run からモデルをログする最適な方法は何ですか？" href="/ja/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
+<Card title="sweep 内の runs からモデルをログする最適な方法は何ですか?" href="/ja/support/models/articles/how-do-i-best-log-models-from-runs-in-a-" arrow="true" horizontal>
   sweep でモデルをログする効果的な方法の 1 つは、sweep 用のモデル artifact を作成することです。各バージョンは ...
 </Card>
 
-<Card title="Sweeps でコードログを有効にするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
-  sweeps のコードログを有効にするには、W&amp;B Run の初期化後に wandb.log&#95;code() を追加します。この操作は、たとえ ...
+<Card title="Sweeps でコード logging を有効にするにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-enable-code-logging-with-sweeps" arrow="true" horizontal>
+  sweeps でコード logging を有効にするには、W&amp;B Run を初期化した後に wandb.log&#95;code() を追加します。これは、たとえ ...
 </Card>
 
-<Card title="sweeps で custom CLI コマンドを使うにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  トレーニング設定で command-line arguments を渡す場合は、custom CLI コマンドで W&amp;B Sweeps を使用できます。例では ...
+<Card title="sweeps でカスタム CLI command を使用するにはどうすればよいですか?" href="/ja/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  トレーニング設定で command-line argument を渡せる場合は、W&amp;B Sweeps でカスタム CLI command を使用できます。例では ...
 </Card>
 
-<Card title="SLURM で sweeps をどのように実行すべきですか？" href="/ja/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
-  SLURM スケジューリングシステムで sweeps を使用する場合は、スケジュールされた各ジョブで wandb agent --count 1 SWEEP&#95;ID を実行します。このコマン ...
+<Card title="SLURM で sweeps を実行するにはどうすればよいですか?" href="/ja/support/models/articles/how-should-i-run-sweeps-on-slurm" arrow="true" horizontal>
+  SLURM スケジューリングシステムで sweeps を使用する場合は、スケジュールされた各ジョブで wandb agent --count 1 SWEEP&#95;ID を実行します。このコマ ...
 </Card>
 
-<Card title="sweep に追加の値を加える方法はありますか？ それとも新しく開始する必要がありますか？" href="/ja/support/models/articles/is-there-a-way-to-add-extra-values-to-a-" arrow="true" horizontal>
-  W&amp;B Sweep が開始されると、Sweep 設定は変更できません。ただし、任意の表 view にアクセスして選択し ...
+<Card title="sweep に追加の値を加える方法はありますか? それとも新しく開始する必要がありますか?" href="/ja/support/models/articles/is-there-a-way-to-add-extra-values-to-a-" arrow="true" horizontal>
+  W&amp;B Sweep は一度開始すると、Sweep 設定を変更できません。ただし、任意の表 view にアクセスし、select することで ...
 </Card>
 
 <Card title="複数のメトリクスの最適化" href="/ja/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
-  1 つの run で複数のメトリクスを最適化するには、個々のメトリクスの加重和を使用します。新しい結合メトリクスをログし ...
+  1 回の run で複数のメトリクスを最適化するには、各メトリクスの加重和を使用します。新しい結合メトリクスをログし ...
 </Card>
 
-<Card title="sweep の実行中に Python ファイルを編集するとどうなりますか?" href="/ja/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
-  sweep の実行中: sweep が使用する train.py スクリプトが変更されても、sweep は元の t ...
+<Card title="sweep の実行中に Python ファイルを編集するとどうなりますか？" href="/ja/support/models/articles/what-happens-if-i-edit-my-python-files-w" arrow="true" horizontal>
+  sweep の実行中: sweep で使用している train.py スクリプトが変更されても、sweep は引き続き元の t ...
 </Card>
 
-<Card title="`Est. Runs` 列とは何ですか?" href="/ja/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
-  W&amp;B は、離散的な検索空間を持つ W&amp;B Sweep の作成時に生成される Runs の推定数を提供します。この合計 re ...
+<Card title="`Est. Runs` 列とは何ですか？" href="/ja/support/models/articles/what-is-the-est-runs-column" arrow="true" horizontal>
+  W&amp;B では、離散的な検索空間で W&amp;B Sweep を作成する際に、生成される Runs の推定数が表示されます。この合計は ...
 </Card>

@@ -1,55 +1,55 @@
 ---
-description: Gérer l'accès aux projets à l'aide des portées de visibilité et des rôles au niveau du projet
-title: Gérer le contrôle d'accès des projets
+description: Gérez l’accès aux projets à l’aide des portées de visibilité et des rôles au niveau du projet
+title: Gérer le contrôle d’accès des projets
 ---
 
-Définissez la portée d&#39;un projet W&amp;B afin de limiter les personnes autorisées à le consulter, le modifier et à y soumettre des runs W&amp;B.
+Définissez la portée d’un projet W&amp;B afin de limiter qui peut le consulter, le modifier et y soumettre des runs W&amp;B.
 
-Vous pouvez combiner plusieurs contrôles pour configurer le niveau d&#39;accès de n&#39;importe quel projet au sein d&#39;une équipe W&amp;B. La **portée de visibilité** est le mécanisme de plus haut niveau. Utilisez-la pour déterminer quels groupes d&#39;utilisateurs peuvent consulter un projet ou y soumettre des runs. Pour un projet avec une portée de visibilité *équipe* ou *Restricted*, vous pouvez ensuite utiliser les **rôles au niveau du projet** pour définir le niveau d&#39;accès de chaque utilisateur au sein du projet.
+Vous pouvez combiner plusieurs paramètres pour configurer le niveau d’accès de n’importe quel projet au sein d’une Team W&amp;B. La **portée de visibilité** est le mécanisme de plus haut niveau. Utilisez-la pour contrôler quels groupes d’utilisateurs peuvent consulter ou soumettre des runs dans un projet. Pour un projet dont la portée de visibilité est *Team* ou *Restricted*, vous pouvez ensuite utiliser les **rôles au niveau du projet** pour contrôler le niveau d’accès de chaque utilisateur au sein du projet.
 
 <Note>
-  Le propriétaire d&#39;un projet, un administrateur d&#39;équipe ou un administrateur d&#39;organisation peut définir ou modifier la visibilité d&#39;un projet.
+  Le propriétaire d’un projet, un administrateur d’équipe ou un administrateur d’organisation peut définir ou modifier la visibilité d’un projet.
 </Note>
 
 <div id="visibility-scopes">
   ## Portées de visibilité
 </div>
 
-Vous pouvez choisir entre quatre portées de visibilité pour un projet. De la plus publique à la plus privée, elles sont les suivantes :
+Vous avez le choix entre quatre portées de visibilité pour un projet. De la plus publique à la plus privée, il s’agit de :
 
-| Portée     | Description                                                                                                                                                                |
-| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Open       | Toute personne connaissant le projet peut le voir et soumettre des runs ou des rapports.                                                                                   |
-| Public     | Toute personne connaissant le projet peut le voir. Seule votre équipe peut soumettre des runs ou des rapports.                                                             |
-| équipe       | Seuls les membres de l’équipe parente peuvent voir le projet et soumettre des runs ou des rapports. Les personnes extérieures à l’équipe ne peuvent pas accéder au projet. |
-| Restricted | Seuls les membres invités de l’équipe parente peuvent voir le projet et soumettre des runs ou des rapports.                                                                |
+| Portée     | Description                                                                                                                                                                 |
+| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Open       | Toute personne qui connaît le projet peut le consulter et soumettre des runs ou des Reports.                                                                                |
+| Public     | Toute personne qui connaît le projet peut le consulter. Seule votre équipe peut soumettre des runs ou des Reports.                                                          |
+| Team       | Seuls les membres de l’équipe parente peuvent consulter le projet et soumettre des runs ou des Reports. Toute personne extérieure à l’équipe ne peut pas accéder au projet. |
+| Restricted | Seuls les membres invités de l’équipe parente peuvent consulter le projet et soumettre des runs ou des Reports.                                                             |
 
 <Note>
-  Définissez la portée de visibilité d’un projet sur **Restricted** si vous souhaitez collaborer sur des flux de travail liés à des données sensibles ou confidentielles. Lorsque vous créez un projet restreint au sein d’une équipe, vous pouvez inviter ou ajouter des membres spécifiques de l’équipe afin de collaborer sur les expériences, les artefacts, les rapports, etc.
+  Définissez la portée d’un projet sur **Restricted** si vous souhaitez collaborer sur des flux de travail liés à des données sensibles ou confidentielles. Lorsque vous créez un projet restreint au sein d’une équipe, vous pouvez inviter ou ajouter des membres précis de l’équipe afin de collaborer sur des Experiments, des Artifacts, des Reports, etc.
 
-  Contrairement aux autres portées de projet, tous les membres d’une équipe n’ont pas automatiquement accès à un projet restreint. Par ailleurs, les Administrateurs d’équipe peuvent rejoindre des projets restreints si nécessaire.
+  Contrairement aux autres portées de projet, tous les membres d’une équipe n’ont pas implicitement accès à un projet restreint. Par ailleurs, les administrateurs d’équipe peuvent rejoindre des projets restreints si nécessaire.
 </Note>
 
 <div id="set-visibility-scope-on-a-new-or-existing-project">
   ### Définir la portée de visibilité d’un projet nouveau ou existant
 </div>
 
-Définissez la portée de visibilité d’un projet lorsque vous le créez ou le modifiez ultérieurement.
+Définissez la portée de visibilité d’un projet lorsque vous le créez ou en le modifiant ultérieurement.
 
 <Note>
   * Seul le propriétaire du projet ou un administrateur d’équipe peut définir ou modifier sa portée de visibilité.
-  * Lorsqu’un administrateur d’équipe active l’option **Rendre privés tous les futurs projets d’équipe (partage public non autorisé)** dans les paramètres de confidentialité de l’équipe, les portées de visibilité de projet **Open** et **Public** sont désactivées pour cette équipe. Dans ce cas, votre équipe peut uniquement utiliser les portées **équipe** et **Restricted**.
+  * Lorsqu’un administrateur d’équipe active **Make all future team projects private (public sharing not allowed)** dans les paramètres de confidentialité de l’équipe, cela désactive les portées de visibilité **Open** et **Public** du projet pour cette équipe. Dans ce cas, votre équipe peut uniquement utiliser les portées **Team** et **Restricted**.
 </Note>
 
 <div id="set-visibility-scope-when-you-create-a-new-project">
-  #### Définissez la portée de visibilité lorsque vous créez un nouveau projet
+  #### Définir la portée de visibilité lorsque vous créez un nouveau projet
 </div>
 
-1. Accédez à votre organisation W&amp;B sur votre instance SaaS Cloud, Cloud dédié ou Autogéré.
+1. Accédez à votre organisation W&amp;B sur une instance SaaS Cloud, Cloud dédié ou Autogéré.
 
-2. Cliquez sur le bouton **Créer un nouveau projet** dans la section **Mes projets** de la barre latérale gauche. Vous pouvez aussi accéder à l’onglet **Projects** de votre équipe et cliquer sur le bouton **Créer un nouveau projet** dans l’angle supérieur droit.
+2. Cliquez sur le bouton **Créer un nouveau projet** dans la section **My projects** de la barre latérale gauche. Vous pouvez également accéder à l’onglet **Projects** de votre équipe, puis cliquer sur le bouton **Créer un nouveau projet** dans l’angle supérieur droit.
 
-3. Après avoir sélectionné l’équipe parente et saisi le nom du projet, sélectionnez la portée souhaitée dans le menu déroulant **Visibilité du projet**.
+3. Après avoir sélectionné l’équipe parente et saisi le nom du projet, sélectionnez la portée souhaitée dans le menu déroulant **Project Visibility**.
 
    <Frame>
      <img src="/images/hosting/restricted_project_add_new.gif" alt="Création d’un projet restreint" />
@@ -57,14 +57,14 @@ Définissez la portée de visibilité d’un projet lorsque vous le créez ou le
 
    Effectuez l’étape suivante si vous sélectionnez la visibilité **Restricted**.
 
-4. Saisissez le nom d’un ou de plusieurs membres de l’équipe W&amp;B dans le champ **Inviter des membres de l’équipe**. Ajoutez uniquement les membres indispensables à la collaboration sur le projet.
+4. Saisissez le nom d’un ou plusieurs membres de l’équipe W&amp;B dans le champ **Inviter des membres de l’équipe**. Ajoutez uniquement les membres indispensables à la collaboration sur le projet.
 
    <Frame>
      <img src="/images/hosting/restricted_project_2.png" alt="Configuration d’un projet restreint" />
    </Frame>
 
    <Note>
-     Vous pourrez ajouter ou supprimer des membres d’un projet restreint plus tard, depuis son onglet **Users**.
+     Vous pourrez ajouter ou supprimer des membres ultérieurement dans un projet restreint, depuis son onglet **Users**.
    </Note>
 
 <div id="edit-visibility-scope-of-an-existing-project">
@@ -75,38 +75,38 @@ Définissez la portée de visibilité d’un projet lorsque vous le créez ou le
 
 2. Sélectionnez l’onglet **Aperçu** dans la colonne de gauche.
 
-3. Cliquez sur le bouton **Modifier les détails du projet** dans le coin supérieur droit.
+3. Cliquez sur le bouton **Edit Project Details** dans le coin supérieur droit.
 
-4. Dans la liste déroulante **Visibilité du projet**, sélectionnez la portée souhaitée.
+4. Dans le menu déroulant **Project Visibility**, sélectionnez la portée souhaitée.
 
    <Frame>
-     <img src="/images/hosting/restricted_project_edit.gif" alt="Modification des paramètres du projet restreint" />
+     <img src="/images/hosting/restricted_project_edit.gif" alt="Modification des paramètres d’un projet Restricted" />
    </Frame>
 
    Effectuez l’étape suivante si vous sélectionnez la visibilité **Restricted**.
 
-5. Accédez à l’onglet **Users** du projet, puis cliquez sur le bouton **Ajouter un utilisateur** pour inviter des utilisateurs spécifiques au projet restreint.
+5. Accédez à l’onglet **Users** du projet, puis cliquez sur le bouton **Add user** pour inviter des utilisateurs précis au projet Restricted.
 
 <Warning>
-  * Tous les membres d’une équipe perdent l’accès à un projet si vous modifiez sa portée de visibilité de **équipe** à **Restricted**, sauf si vous invitez au projet les membres de l’équipe nécessaires.
-  * Tous les membres d’une équipe ont accès à un projet si vous modifiez sa portée de visibilité de **Restricted** à **équipe**.
-  * Si vous supprimez un membre de l’équipe de la liste des utilisateurs d’un projet restreint, il perd l’accès à ce projet.
+  * Tous les membres d’une équipe perdent l’accès à un projet si vous modifiez sa portée de visibilité de **Team** à **Restricted**, sauf si vous invitez au projet les membres de l’équipe requis.
+  * Tous les membres d’une équipe obtiennent l’accès à un projet si vous modifiez sa portée de visibilité de **Restricted** à **Team**.
+  * Si vous retirez un membre de l’équipe de la liste des utilisateurs d’un projet Restricted, il perd l’accès à ce projet.
 </Warning>
 
 <div id="other-key-things-to-note-for-restricted-scope">
-  ### Autres points importants à noter concernant la portée restreinte
+  ### Autres points clés à noter concernant la portée restreinte
 </div>
 
-* Si vous souhaitez utiliser un compte de service d’équipe dans un projet restreint, vous devez l’inviter ou l’ajouter spécifiquement à ce projet. Sinon, par défaut, un compte de service d’équipe ne peut pas accéder à un projet restreint.
+* Si vous souhaitez utiliser un compte de service d’équipe dans un projet restreint, vous devez l’inviter ou l’ajouter explicitement au projet. Sinon, un compte de service d’équipe ne peut pas accéder à un projet restreint par défaut.
 * Vous ne pouvez pas déplacer de runs depuis un projet restreint, mais vous pouvez déplacer des runs d’un projet non restreint vers un projet restreint.
-* Vous pouvez définir la visibilité d’un projet restreint sur la portée **équipe** uniquement, quel que soit le paramètre de confidentialité de l’équipe **Make all future team projects private (public sharing not allowed)**.
-* Si le propriétaire d’un projet restreint ne fait plus partie de l’équipe parente, l’administrateur de l’équipe doit en changer le propriétaire afin d’assurer le bon déroulement des opérations dans le projet.
+* Vous pouvez définir la visibilité d’un projet restreint sur la portée **Team** uniquement, quel que soit le paramètre de confidentialité de l’équipe **Make all future team projects private (public sharing not allowed)**.
+* Si le propriétaire d’un projet restreint ne fait plus partie de l’équipe parente, l’administrateur de l’équipe doit changer le propriétaire afin d’assurer le bon fonctionnement du projet.
 
 <div id="project-level-roles">
   ## Rôles au niveau du projet
 </div>
 
-Pour les projets à portée *équipe* ou *Restricted* de votre équipe, vous pouvez attribuer à un utilisateur un rôle spécifique, différent de son rôle au niveau de l’équipe. Par exemple, si un utilisateur a le rôle *Member* au niveau de l’équipe, vous pouvez lui attribuer le rôle *View-Only*, *Admin* ou tout autre rôle personnalisé disponible dans un projet à portée *équipe* ou *Restricted* de cette équipe.
+Pour les projets de votre équipe dont la portée est *Team* ou *Restricted*, vous pouvez attribuer à un utilisateur un rôle spécifique, différent de son rôle au niveau de l’équipe. Par exemple, si un utilisateur a le rôle *Member* au niveau de l’équipe, vous pouvez lui attribuer le rôle *View-Only*, *Admin* ou tout rôle personnalisé disponible dans un projet de cette équipe dont la portée est *Team* ou *Restricted*.
 
 <Note>
   Les rôles au niveau du projet sont disponibles en préversion sur les instances SaaS Cloud, Cloud dédié et Autogéré.
@@ -119,19 +119,19 @@ Pour les projets à portée *équipe* ou *Restricted* de votre équipe, vous pou
 1. Accédez à votre projet W&amp;B.
 2. Sélectionnez l’onglet **Aperçu** dans la colonne de gauche.
 3. Accédez à l’onglet **Users** du projet.
-4. Cliquez sur le rôle actuellement attribué à l’utilisateur concerné dans le champ **Project Role**. Une liste déroulante affichant les autres rôles disponibles devrait s’ouvrir.
+4. Cliquez sur le rôle actuellement attribué à l’utilisateur concerné dans le champ **Project Role** pour ouvrir une liste déroulante affichant les autres rôles disponibles.
 5. Sélectionnez un autre rôle dans la liste déroulante. La modification est enregistrée instantanément.
 
 <Note>
-  Lorsque vous modifiez le rôle d’un utilisateur au niveau du projet pour qu’il soit différent de son rôle au niveau de l’équipe, un ***** apparaît à côté du rôle au niveau du projet pour indiquer cette différence.
+  Lorsque vous modifiez le rôle d’un utilisateur au niveau du projet afin qu’il soit différent de son rôle au niveau de l’équipe, le rôle au niveau du projet inclut un ***** pour indiquer cette différence.
 </Note>
 
 <div id="other-key-things-to-note-for-project-level-roles">
-  ### Autres points clés à noter sur les rôles au niveau du projet
+  ### Autres points clés à noter concernant les rôles au niveau du projet
 </div>
 
-* Par défaut, les rôles au niveau du projet de tous les utilisateurs d’une *équipe* ou d’un projet de portée *Restricted* **héritent** de leurs rôles respectifs au niveau de l’équipe.
-* Vous **ne pouvez pas** modifier le rôle au niveau du projet d’un utilisateur qui a le rôle *View-Only* au niveau de l’équipe.
-* Si le rôle au niveau du projet d’un utilisateur dans un projet donné **est le même que** son rôle au niveau de l’équipe, puis qu’un administrateur d’équipe modifie ce rôle au niveau de l’équipe, le rôle de projet correspondant est automatiquement mis à jour pour suivre le rôle au niveau de l’équipe.
-* Si vous modifiez le rôle au niveau du projet d’un utilisateur dans un projet donné de sorte qu’**il soit différent de** son rôle au niveau de l’équipe, puis qu’un administrateur d’équipe modifie ce rôle au niveau de l’équipe, le rôle correspondant au niveau du projet reste inchangé.
-* Si vous supprimez un utilisateur d’un projet *Restricted* alors que son rôle au niveau du projet était différent de son rôle au niveau de l’équipe, puis que vous l’ajoutez de nouveau au projet quelque temps plus tard, il héritera du rôle au niveau de l’équipe en raison du comportement par défaut. Si nécessaire, vous devrez de nouveau modifier le rôle au niveau du projet pour qu’il soit différent du rôle au niveau de l’équipe.
+* Par défaut, les rôles au niveau du projet pour tous les utilisateurs d’un projet de portée *team* ou *restricted* **héritent** de leurs rôles respectifs au niveau de l’équipe.
+* Vous **ne pouvez pas** modifier le rôle au niveau du projet d’un utilisateur qui a le rôle *View-only* au niveau de l’équipe.
+* Si le rôle au niveau du projet d’un utilisateur dans un projet donné **est le même que** son rôle au niveau de l’équipe, puis qu’à un moment donné un administrateur d’équipe modifie le rôle au niveau de l’équipe, le rôle de projet correspondant est automatiquement mis à jour pour suivre le rôle au niveau de l’équipe.
+* Si vous modifiez le rôle au niveau du projet d’un utilisateur dans un projet donné de sorte qu’**il soit différent de** son rôle au niveau de l’équipe, puis qu’à un moment donné un administrateur d’équipe modifie le rôle au niveau de l’équipe, le rôle correspondant au niveau du projet reste inchangé.
+* Si vous retirez un utilisateur d’un projet *restricted* alors que son rôle au niveau du projet était différent de son rôle au niveau de l’équipe, puis que vous l’ajoutez de nouveau au projet quelque temps plus tard, il héritera du rôle au niveau de l’équipe en raison du comportement par défaut. Si nécessaire, vous devrez de nouveau modifier le rôle au niveau du projet pour qu’il soit différent du rôle au niveau de l’équipe.

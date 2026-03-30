@@ -1,73 +1,71 @@
 ---
-title: "ローカル scorers を使った評価"
-description: "ローカルで動作する小型言語モデルによる AI システムの安全性と品質評価"
+title: "ローカルScorerを使用して評価する"
+description: "ローカルで実行される小規模言語モデルを使用して、AI システムの安全性と品質を評価します"
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/scorers_local_weave_scorers.ipynb" aria-label="Open in Google Colab">
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/scorers_local_weave_scorers.ipynb" aria-label="Google Colab で開く">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
 </a>
 
-Weave の local scorers は、レイテンシを最小限に抑えつつローカルマシン上で動作する小型言語モデル群です。これらのモデルは、AI システムの入力、コンテキスト、および出力の安全性と品質を評価します。
+Weave のローカルScorerは、最小限のレイテンシでローカルマシン上で動作する小規模言語モデル群です。これらのモデルは、AI システムの入力、コンテキスト、出力の安全性と品質を評価します。
 
-これらのモデルの一部は Weights &amp; Biases によってファインチューニングされており、その他はコミュニティによってトレーニングされた最先端のオープンソースモデルです。学習と評価には Weights &amp; Biases (W&amp;B) Reports が使用されました。詳細は、この [W&amp;B Reports の一覧](https://wandb.ai/c-metrics/weave-scorers/reports/Weave-Scorers-v1--VmlldzoxMDQ0MDE1OA) を参照してください。
+これらのモデルの一部は Weights &amp; Biases によってファインチューニングされており、その他はコミュニティによってトレーニングされた最先端のオープンソースモデルです。トレーニングと評価には Weights &amp; Biases (W&amp;B) Reports が使用されました。詳細は、この [W&amp;B Reports の一覧](https://wandb.ai/c-metrics/weave-scorers/reports/Weave-Scorers-v1--VmlldzoxMDQ0MDE1OA)で確認できます。
 
-モデルの重みは W&amp;B Artifacts として公開されており、scorer クラスをインスタンス化すると自動的にダウンロードされます。自分でダウンロードしたい場合は、 Artifacts のパスをここで確認できます：`weave.scorers.default_models`
+モデルの重みは W&amp;B Artifacts で公開されており、Scorerクラスをインスタンス化すると自動的にダウンロードされます。自分でダウンロードしたい場合は、artifact のパスをこちらで確認できます: `weave.scorers.default_models`
 
-これらの scorers が返すオブジェクトには、入力テキストが安全かつ高品質かどうかを示す `passed` ブール値の属性と、モデルからの生のスコアなど、より詳細な情報を含む `metadata` 属性が含まれます。
+これらのScorerが返すオブジェクトには、入力テキストが安全または高品質かどうかを示す `passed` という真偽値属性と、モデルの生のスコアなど、より詳細な情報を含む `metadata` 属性が含まれます。
 
-local scorers は CPU 上でも実行できますが、最良のパフォーマンスを得るには GPU の使用を推奨します。
+ローカルScorerは CPU でも実行できますが、最高のパフォーマンスを得るには GPU の使用を推奨します。
 
 <Note>
-  Local scorers は Weave Python SDK でのみ利用可能です。現時点では Weave TypeScript SDK では利用できません。
+  ローカルScorerは Weave Python SDK でのみ利用できます。Weave TypeScript SDK ではまだ利用できません。
 
-  TypeScript で Weave scorers を使用する場合は、[function-based scorers](/ja/weave/guides/evaluation/scorers#function-based-scorers) を参照してください。
+  TypeScript で Weave Scorerを使用するには、[関数ベースのScorer](/ja/weave/guides/evaluation/scorers#function-based-scorers)を参照してください。
 </Note>
 
 <div id="prerequisites">
   ## 前提条件
 </div>
 
-Weave のローカル scorer を使用するには、事前に追加の依存関係をインストールしてください。
+Weave のローカル scorer を使用する前に、追加の依存関係をインストールしてください。
 
 ```bash
     pip install weave[scorers]
 ```
 
 <div id="select-a-scorer">
-  ## スコアラーを選択する
+  ## Scorerを選択
 </div>
 
-利用可能なローカルスコアラーは次のとおりです。ユースケースに応じてスコアラーを選択してください。
+以下のローカルScorerが利用可能です。ユースケースに応じてScorerを選択してください。
 
-| Scorer                           | Scenario                                                                                                                                                                      |
-|----------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [WeaveToxicityScorerV1](#weavetoxicityscorerv1)                  | ヘイトスピーチや脅迫を含む、有害または攻撃的なコンテンツを AI システムの入力および出力から特定します。                                                       |
-| [WeaveBiasScorerV1](#weavebiasscorerv1)                          | AI システムの入力および出力に含まれるバイアスやステレオタイプ的なコンテンツを検出します。生成テキストに含まれる有害なバイアスを低減するのに最適です。                               |
-| [WeaveHallucinationScorerV1](#weavehallucinationscorerv1)       | 提供された入力とコンテキストに基づいて、RAG システムが出力内でハルシネーションを生成しているかどうかを特定します。                                                  |
-| [WeaveContextRelevanceScorerV1](#weavecontextrelevancescorerv1) | AI システムの出力が、与えられた入力およびコンテキストに対してどの程度関連しているかを測定します。                                                                             |
-| [WeaveCoherenceScorerV1](#weavecoherencescorerv1)                | AI システムの出力の一貫性と論理構造を評価します。                                                                                           |
-| [WeaveFluencyScorerV1](#weavefluencyscorerv1)                    | AI システムの出力がどの程度流暢であるかを測定します。                                                                                                                  |
-| [WeaveTrustScorerV1](#weavetrustscorerv1)                        | toxicity、hallucination、context relevance、fluency、coherence の各スコアラーを組み合わせて活用する集約スコアラーです。                                                |
-| [PresidioScorer](#presidioscorer)                                | Microsoft の Presidio ライブラリを使用して、AI システムの入力および出力に含まれる個人を特定できる情報 (PII) を検出します。                                |
+| Scorer                                                          | Scenario                                                                  |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| [WeaveToxicityScorerV1](#weavetoxicityscorerv1)                 | ヘイトスピーチや脅迫などを含む、AI システムの入力および出力内の有害なコンテンツを特定します。                          |
+| [WeaveBiasScorerV1](#weavebiasscorerv1)                         | AI システムの入力および出力内の偏見やステレオタイプを含むコンテンツを検出します。生成テキストに含まれる有害なバイアスを減らすのに適しています。 |
+| [WeaveHallucinationScorerV1](#weavehallucinationscorerv1)       | 入力と提供されたコンテキストに基づき、RAG システムの出力にハルシネーションが含まれるかどうかを特定します。                   |
+| [WeaveContextRelevanceScorerV1](#weavecontextrelevancescorerv1) | AI システムの出力が、入力および提供されたコンテキストに関連しているかどうかを測定します。                            |
+| [WeaveCoherenceScorerV1](#weavecoherencescorerv1)               | AI システムの出力の一貫性と論理構造を評価します。                                                |
+| [WeaveFluencyScorerV1](#weavefluencyscorerv1)                   | AI システムの出力が流暢かどうかを測定します。                                                  |
+| [WeaveTrustScorerV1](#weavetrustscorerv1)                       | 毒性、ハルシネーション、コンテキスト関連性、流暢さ、一貫性の各Scorerを組み合わせた集約Scorerです。                     |
+| [PresidioScorer](#presidioscorer)                               | Microsoft の Presidio ライブラリを使用して、AI システムの入力および出力内の個人を特定できる情報 (PII) を検出します。 |
 
 <div id="weavebiasscorerv1">
   ## `WeaveBiasScorerV1`
 </div>
 
-この scorer は、ジェンダーと人種／出自に関するバイアスを次の 2 つの観点から評価します。
+このScorerは、性別および人種／出身に関するバイアスを、次の 2 つの観点から評価します。
 
-* Race and Origin: 特定の人種、出身国や地域、移民ステータス、民族性などに対する人種差別やバイアス
-  * Gender and Sexuality: 性差別、女性蔑視、同性愛嫌悪（ホモフォビア）、トランスフォビア、性的嫌がらせなど
+* 人種と出身: 人種差別、および出身国や地域、移民ステータス、民族性などに対するバイアス。
+  * ジェンダーとセクシュアリティ: 性差別、女性差別、同性愛嫌悪、トランスジェンダー嫌悪、セクシュアルハラスメントなど。
 
-`WeaveBiasScorerV1` は、ファインチューニングされた [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) モデル を使用します。モデル、データセット、およびキャリブレーション プロセスの詳細については、[WeaveBiasScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/bias-benchmark/reports/Bias-Scorer--VmlldzoxMDM2MTgzNw) を参照してください。
+`WeaveBiasScorerV1` は、ファインチューニング済みの [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) モデルを使用します。モデル、データセット、およびキャリブレーションプロセスの詳細については、[WeaveBiasScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/bias-benchmark/reports/Bias-Scorer--VmlldzoxMDM2MTgzNw) を参照してください。
 
-<div id="usage-notes">
-  ### 使用上の注意
-</div>
+### 使用上の注意
 
-* `score` メソッドは、`output` パラメーターに文字列が渡されることを前提としています。
-  * スコアが高いほど、そのテキストにバイアスが含まれていると予測される度合いが強いことを意味します。
-  * `threshold` パラメーターにはあらかじめ値が設定されていますが、初期化時に上書きすることもできます。
+* `score` method では、`output` パラメーターに文字列を渡す必要があります。
+  * score が高いほど、そのテキストにバイアスが含まれているという予測が強いことを意味します。
+  * `threshold` パラメーターは設定済みですが、初期化時に上書きすることもできます。
 
 <div id="usage-example">
   ### 使用例
@@ -90,25 +88,23 @@ Weave のローカル scorer を使用するには、事前に追加の依存関
   ## `WeaveToxicityScorerV1`
 </div>
 
-このスコアラーは、入力テキストの有害性を次の 5 つの側面から評価します。
+このScorerは、入力テキストの有害性を次の 5 つの観点で評価します。
 
-* Race and Origin: 人種差別や、出身国・地域、移民ステータス、民族性などに対するバイアス。
-  * Gender and Sexuality: セクシズムや女性蔑視、ホモフォビア、トランスフォビア、性的嫌がらせなど。
-  * Religious: 特定の宗教に対するバイアスやステレオタイプ。
-  * Ability: 身体的・精神的・知的な能力または障害に関連するバイアス。
-  * Violence and Abuse: 過度に生々しい暴力の描写、暴力の脅迫、暴力の扇動。
+* 人種と出身: 人種差別や、出身国・地域、移民ステータス、民族性などに対する偏見。
+  * ジェンダーとセクシュアリティ: 性差別、女性蔑視、同性愛嫌悪、トランスジェンダー嫌悪、セクシュアルハラスメントなど。
+  * 宗教: 個人の宗教に対する偏見や固定観念。
+  * 能力: 身体的、精神的、または知的な能力や障害に関する偏見。
+  * 暴力と虐待: 過度に生々しい暴力描写、暴力の脅迫、または暴力の扇動。
 
-`WeaveToxicityScorerV1` は PleIAs のオープンソース [Celadon](https://huggingface.co/PleIAs/celadon) モデルを使用します。詳細については、[WeaveToxicityScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/toxicity-benchmark/reports/Toxicity-Scorer--VmlldzoxMDMyNjc0NQ) を参照してください。
+`WeaveToxicityScorerV1` は、PleIAs のオープンソースの [Celadon](https://huggingface.co/PleIAs/celadon) モデルを使用します。詳細は、[WeaveToxicityScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/toxicity-benchmark/reports/Toxicity-Scorer--VmlldzoxMDMyNjc0NQ)を参照してください。
 
-<div id="usage-notes">
-  ### 使用上の注意
-</div>
+### 使用上のメモ
 
-* `score` メソッドは、`output` パラメーターに文字列が渡されることを前提としています。
-  * モデルは 5 つの異なるカテゴリについて `0` から `3` のスコアを返します：
-    * これらのスコアの合計が `total_threshold`（デフォルト値 `5`）を超えると、その入力は toxic と判定されます。
-    * いずれか 1 つのカテゴリのスコアが `category_threshold`（デフォルト `2`）より高い場合、その入力は toxic と判定されます。
-  * より厳しくフィルタリングしたい場合は、初期化時に `category_threshold` または `total_threshold` を上書きしてください。
+* `score` method では、`output` パラメーターに文字列を渡す必要があります。
+  * モデルは、5 つの異なるカテゴリに対して `0` から `3` のスコアを返します。
+    * これらのスコアの合計が `total_threshold` (デフォルト値は `5`) を超える場合、入力は有害であると判定されます。
+    * いずれか 1 つのカテゴリのスコアが `category_threshold` (デフォルトは `2`) を超える場合、入力は有害であると判定されます。
+  * フィルタリングをより厳しくするには、初期化時に `category_threshold` または `total_threshold` を上書きします。
 
 <div id="usage-example">
   ### 使用例
@@ -131,17 +127,15 @@ Weave のローカル scorer を使用するには、事前に追加の依存関
   ## `WeaveHallucinationScorerV1`
 </div>
 
-この scorer は、入力データに基づいて AI システムの出力にハルシネーションが含まれているかどうかを確認します。
+このScorerは、入力データに基づいて AI システムの出力にハルシネーションが含まれているかどうかを確認します。
 
-`WeaveHallucinationScorerV1` は、Vectara によるオープンソースの [HHEM 2.1 モデル](https://huggingface.co/vectara/hallucination_evaluation_model) を使用します。詳細については、[WeaveHallucinationScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/hallucination/reports/Hallucination-Scorer--VmlldzoxMDM3NDA3MA) を参照してください。
+`WeaveHallucinationScorerV1` は、Vectara のオープンソースの [HHEM 2.1 モデル](https://huggingface.co/vectara/hallucination_evaluation_model) を使用します。詳細は、[WeaveHallucinationScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/hallucination/reports/Hallucination-Scorer--VmlldzoxMDM3NDA3MA)をご覧ください。
 
-<div id="usage-notes">
-  ### 使用上の注意
-</div>
+### 使用時のメモ
 
-* `score` メソッドは、`query` と `output` パラメーターに値が渡されることを想定しています。
-  * コンテキストは `output` パラメーターに（文字列または文字列のリストとして）渡してください。
-  * 出力スコアが高いほど、その出力がハルシネーションであると判断される可能性が高いことを示します。
+* `score` method では、`query` パラメーターと `output` パラメーターに値を渡す必要があります。
+  * コンテキストは `output` パラメーターに渡します (文字列または文字列のリストとして) 。
+  * output のスコアが高いほど、その出力にハルシネーションが含まれている可能性が高いことを示します。
   * `threshold` パラメーターにはデフォルト値が設定されていますが、初期化時に上書きできます。
 
 <div id="usage-example">
@@ -170,18 +164,18 @@ Weave のローカル scorer を使用するには、事前に追加の依存関
   ## `WeaveContextRelevanceScorerV1`
 </div>
 
-このスコアラーは、RAG システムを評価する際に使用するよう設計されています。クエリに対するコンテキストの関連性を評価します。
+このScorerは、RAG システムの評価時に使用することを想定して設計されています。コンテキストがクエリにどの程度関連しているかを評価します。
 
-`WeaveContextRelevanceScorerV1` は、tasksource のファインチューニング済み [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) モデルを使用します。詳細については、[WeaveContextRelevanceScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/context-relevance-scorer/reports/Context-Relevance-Scorer--VmlldzoxMDYxNjEyNA) を参照してください。
+`WeaveContextRelevanceScorerV1` は、tasksource のファインチューニング済み [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) モデルを使用します。詳細は、[WeaveContextRelevanceScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/context-relevance-scorer/reports/Context-Relevance-Scorer--VmlldzoxMDYxNjEyNA) を参照してください。
 
 <div id="usage-notes">
-  ### 使用上の注意
+  ### 使用に関するメモ
 </div>
 
-* `score` メソッドは `query` と `output` の値を受け取ります。
-  * コンテキストは `output` パラメーターに渡します（文字列または文字列のリスト）。
-  * スコアが高いほど、そのコンテキストがクエリに関連しているという予測が強くなります。
-  * `score` メソッドに `verbose=True` を渡すと、チャンクごとのスコアを取得できます。
+* `score` method では、`query` と `output` の値を指定する必要があります。
+  * コンテキストは `output` パラメーターに渡します (文字列または文字列のリスト) 。
+  * スコアが高いほど、そのコンテキストがクエリに関連しているという予測がより強いことを意味します。
+  * `score` method に `verbose=True` を渡すと、チャンクごとのスコアを取得できます。
 
 <div id="usage-example">
   ### 使用例
@@ -195,10 +189,10 @@ Weave のローカル scorer を使用するには、事前に追加の依存関
 
     result = context_relevance_scorer.score(
         query="What is the capital of Antarctica?",
-        output="The Antarctic has the happiest penguins."  # context は output パラメーターに渡されます
+        output="The Antarctic has the happiest penguins."  # コンテキストはoutputパラメーターに渡されます
     )
 
-    print(f"Output is relevant: {result.passed}")
+    print(f"出力は関連しています: {result.passed}")
     print(result)
 ```
 
@@ -206,16 +200,14 @@ Weave のローカル scorer を使用するには、事前に追加の依存関
   ## `WeaveCoherenceScorerV1`
 </div>
 
-この scorer は、入力テキストが首尾一貫しているかどうかをチェックします。
+このScorerは、入力テキストに一貫性があるかどうかを確認します。
 
-`WeaveCoherenceScorerV1` は、tasksource のファインチューニング済み [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) モデルを使用します。詳細については、[WeaveCoherenceScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/coherence_scorer/reports/Coherence-Scorer--VmlldzoxMDI5MjA1MA) を参照してください。
+`WeaveCoherenceScorerV1` は、tasksource のファインチューニング済み [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) モデルを使用します。詳細は、[WeaveCoherenceScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/coherence_scorer/reports/Coherence-Scorer--VmlldzoxMDI5MjA1MA)を参照してください。
 
-<div id="usage-notes">
-  ### 使用上の注意
-</div>
+### 使用上のメモ
 
-* `score` メソッドは、`query` および `output` パラメーターにテキストが渡されることを前提としています。
-  * 出力スコアが高いほど、一貫していると予測される度合いが強くなります。
+* `score` method は、`query` パラメーターと `output` パラメーターにテキストが渡されることを想定しています。
+  * 出力スコアが高いほど、一貫性が高いという予測がより強いことを示します。
 
 <div id="usage-example">
   ### 使用例
@@ -242,16 +234,14 @@ Weave のローカル scorer を使用するには、事前に追加の依存関
   ## `WeaveFluencyScorerV1`
 </div>
 
-このスコアラーは、入力テキストが流暢かどうか、つまり自然な人間の言葉に近く、読みやすく理解しやすいかどうかをチェックします。文法、構文、全体的な可読性を評価します。
+このScorerは、入力テキストが流暢、つまり自然な人間の言語のように読みやすく理解しやすいかどうかを判定します。文法、構文、全体的な読みやすさを評価します。
 
-`WeaveFluencyScorerV1` は、 AnswerDotAI によってファインチューニングされた [ModernBERT-base](https://huggingface.co/answerdotai/ModernBERT-base) モデルを使用します。詳細については、[WeaveFluencyScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/fluency-eval/reports/Fluency-Scorer--VmlldzoxMTA3NzE2Ng) を参照してください。
+`WeaveFluencyScorerV1` は、AnswerDotAI のファインチューニング済み [ModernBERT-base](https://huggingface.co/answerdotai/ModernBERT-base) モデルを使用します。詳細は、[WeaveFluencyScorerV1 W&amp;B Report](https://wandb.ai/c-metrics/fluency-eval/reports/Fluency-Scorer--VmlldzoxMTA3NzE2Ng)を参照してください。
 
-<div id="usage-notes">
-  ### 使用上の注意
-</div>
+### 使用時のメモ
 
-* `score` メソッドでは、テキストを `output` パラメーターに渡す必要があります。
-  * `output` のスコアが高いほど、そのテキストの流暢さが高いことを意味します。
+* `score` method には、`output` パラメーターにテキストを渡します。
+  * 出力スコアが高いほど、流暢であることを示します。
 
 <div id="usage-example">
   ### 使用例
@@ -277,13 +267,13 @@ Weave のローカル scorer を使用するには、事前に追加の依存関
   ## `WeaveTrustScorerV1`
 </div>
 
-`WeaveTrustScorerV1` は RAG システム向けの複合スコアラーで、他のスコアラーを Critical（重大）と Advisory（助言）の 2 つのカテゴリにグループ化し、モデル出力の信頼性を評価します。複合スコアに基づいて、次の信頼レベルを返します:
+`WeaveTrustScorerV1` は、RAG システム向けの複合Scorerで、他のScorerを Critical と Advisory の 2 つのカテゴリに分類することで、モデル出力の信頼性を評価します。複合スコアに基づいて、次の信頼レベルを返します。
 
 * `high`: 問題は検出されない
-  * `medium`: Advisory カテゴリの問題のみ検出された
-  * `low`: Critical カテゴリの問題が検出された、または入力が空である
+  * `medium`: Advisory の問題のみが検出される
+  * `low`: Critical の問題が検出される、または入力が空である
 
-Any input that fails a Critical scorer results in a `low` trust level. Failing an Advisory scorer results in `medium`.
+いずれかの Critical Scorerで失敗した入力は、`low` の信頼レベルになります。Advisory Scorerで失敗した場合は、`medium` になります。
 
 * **Critical:**
   * `WeaveToxicityScorerV1`
@@ -296,12 +286,10 @@ Any input that fails a Critical scorer results in a `low` trust level. Failing a
     * `WeaveFluencyScorerV1`
     * `WeaveCoherenceScorerV1`
 
-<div id="usage-notes">
-  ### 使用上の注意
-</div>
+### 使用上の注意
 
-* この scorer は RAG パイプラインを評価するために設計されています。
-  * 正しく評価を行うには、`query`、`context`、`output` の各キーが必要です。
+* この scorer は、RAG パイプラインの評価向けに設計されています。
+  * 正しくスコアリングを行うには、`query`、`context`、`output` のキーが必要です。
 
 <div id="usage-example">
   ### 使用例
@@ -346,16 +334,14 @@ Any input that fails a Critical scorer results in a `low` trust level. Failing a
   ## `PresidioScorer`
 </div>
 
-この scorer は [Presidio ライブラリ](https://github.com/microsoft/presidio) を使用して、AI システムの入出力に含まれる Personally Identifiable Information (PII、個人を特定できる情報) を検出します。
+このScorerは、[Presidioライブラリ](https://github.com/microsoft/presidio) を使用して、AI システムの入力と出力に含まれる Personally Identifiable Information (PII) を検出します。
 
-<div id="usage-notes">
-  ### 使用上の注意
-</div>
+### 使用上のメモ
 
-* メールアドレスや電話番号など、特定のエンティティタイプのみを対象にしたい場合は、Presidio のエンティティを `selected_entities` パラメーターにリストとして渡してください。指定しない場合、Presidio はデフォルトのエンティティリストに含まれるすべてのエンティティタイプを検出します。
-  * メールアドレスや電話番号など、特定のエンティティタイプだけを検出したい場合は、`selected_entities` パラメーターにリストを渡してください。
-  * カスタム認識器を利用する場合は、`custom_recognizers` パラメーターに `presidio.EntityRecognizer` インスタンスのリストを渡してください。
-  * 英語以外の入力を扱う場合は、`language` パラメーターで対象の言語を指定してください。
+* メールアドレスや電話番号などの特定のエンティティタイプを指定するには、Presidio エンティティのリストを `selected_entities` パラメーターに渡します。指定しない場合、Presidio はデフォルトのエンティティリストに含まれるすべてのエンティティタイプを検出します。
+  * メールアドレスや電話番号などの特定のエンティティタイプを検出するには、リストを `selected_entities` パラメーターに渡します。
+  * `custom_recognizers` パラメーターには、`presidio.EntityRecognizer` インスタンスのリストとしてカスタム認識器を渡せます。
+  * 英語以外の入力を処理するには、`language` パラメーターを使用して言語を指定します。
 
 <div id="usage-example">
   ### 使用例

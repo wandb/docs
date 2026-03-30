@@ -1,60 +1,60 @@
 ---
-title: カスタム チャート概要
-description: W&B Python SDK のカスタム チャートを使用して、プロジェクト ダッシュボードでインタラクティブな可視化を行う
+title: カスタムチャートの概要
+description: W&B Python SDK でカスタムチャートを使用し、プロジェクトのダッシュボードでインタラクティブな可視化を行います
 module: wandb.plot
 no_list: true
 ---
 
-W&amp;B のカスタム チャートは、`wandb.plot` 名前空間内の一連の関数を通じてプログラムから利用できます。これらの関数は W&amp;B プロジェクト ダッシュボードにインタラクティブな可視化を作成し、混同行列、ROC 曲線、分布プロットなどの一般的な ML の可視化をサポートします。
+W&amp;B のカスタムチャートは、`wandb.plot` 名前空間の関数群を使って作成できます。これらの関数を使うと、W&amp;B のプロジェクトダッシュボードでインタラクティブな可視化を作成でき、混同行列、ROC 曲線、分布プロットなど、一般的な ML 可視化に対応しています。
 
 <div id="available-chart-functions">
   ## 利用可能なチャート関数
 </div>
 
-| Function                                                                   | Description                                                           |
-| -------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| [`confusion_matrix()`](/ja/models/ref/python/custom-charts/confusion_matrix/) | 分類性能を可視化するための混同行列を生成します。                                              |
-| [`roc_curve()`](/ja/models/ref/python/custom-charts/roc_curve/)               | 二値および多クラス分類器向けに ROC 曲線 (Receiver Operating Characteristic 曲線) を作成します。 |
-| [`pr_curve()`](/ja/models/ref/python/custom-charts/pr_curve/)                 | 分類器の評価のために適合率-再現率曲線 (Precision-Recall 曲線) を作成します。                     |
-| [`line()`](/ja/models/ref/python/custom-charts/line/)                         | 表形式データから折れ線グラフを構築します。                                                 |
-| [`scatter()`](/ja/models/ref/python/custom-charts/scatter/)                   | 変数間の関係を可視化する散布図を作成します。                                                |
-| [`bar()`](/ja/models/ref/python/custom-charts/bar/)                           | カテゴリカルデータ向けの棒グラフを生成します。                                               |
-| [`histogram()`](/ja/models/ref/python/custom-charts/histogram/)               | データ分布を分析するためのヒストグラムを作成します。                                            |
-| [`line_series()`](/ja/models/ref/python/custom-charts/line_series/)           | 1 つのチャート上に複数の折れ線シリーズをプロットします。                                         |
-| [`plot_table()`](/ja/models/ref/python/custom-charts/plot_table/)             | Vega-Lite 仕様を使用してカスタムチャートを作成します。                                      |
+| 関数                                                                         | 説明                               |
+| -------------------------------------------------------------------------- | -------------------------------- |
+| [`confusion_matrix()`](/ja/models/ref/python/custom-charts/confusion_matrix/) | 分類のパフォーマンスを可視化する混同行列を生成します。      |
+| [`roc_curve()`](/ja/models/ref/python/custom-charts/roc_curve/)               | 二値分類器および多クラス分類器向けの ROC 曲線を作成します。 |
+| [`pr_curve()`](/ja/models/ref/python/custom-charts/pr_curve/)                 | 分類器の評価用に適合率-再現率曲線を作成します。         |
+| [`line()`](/ja/models/ref/python/custom-charts/line/)                         | 表形式データから折れ線チャートを作成します。           |
+| [`scatter()`](/ja/models/ref/python/custom-charts/scatter/)                   | 変数間の関係を示す散布図を作成します。              |
+| [`bar()`](/ja/models/ref/python/custom-charts/bar/)                           | カテゴリデータ用の棒グラフを生成します。             |
+| [`histogram()`](/ja/models/ref/python/custom-charts/histogram/)               | データ分布を分析するヒストグラムを作成します。          |
+| [`line_series()`](/ja/models/ref/python/custom-charts/line_series/)           | 1 つのチャートに複数の折れ線系列をプロットします。       |
+| [`plot_table()`](/ja/models/ref/python/custom-charts/plot_table/)             | Vega-Lite 仕様を使用してカスタムチャートを作成します。 |
 
 <div id="common-use-cases">
-  ## 代表的なユースケース
+  ## 一般的なユースケース
 </div>
 
 <div id="model-evaluation">
-  ### モデル評価
+  ### モデルの評価
 </div>
 
 * **分類**: 分類器の評価には `confusion_matrix()`、`roc_curve()`、`pr_curve()` を使用
 * **回帰**: 予測値と実測値のプロットには `scatter()`、残差分析には `histogram()` を使用
-* **Vega-Lite チャート**: ドメイン固有の可視化には `plot_table()` を使用
+* **Vega-Lite Charts**: ドメイン固有の可視化には `plot_table()` を使用
 
 <div id="training-monitoring">
   ### トレーニングのモニタリング
 </div>
 
-* **学習曲線**: エポックごとのメトリクスを可視化する `line()` や `line_series()`
-* **ハイパーパラメーターの比較**: 各設定を比較するための `bar()` チャート
+* **学習曲線**: エポックごとのメトリクスをトラッキングするには、`line()` または `line_series()`
+* **ハイパーパラメーターの比較**: 設定を比較するには、`bar()` チャート
 
 <div id="data-analysis">
   ### データ分析
 </div>
 
-* **分布分析**: 特徴量の分布の可視化には `histogram()` を使用します
-* **相関分析**: 変数間の関係の可視化には `scatter()` プロットを使用します
+* **分布分析**: 特徴量の分布には `histogram()` を使用します
+* **相関分析**: 変数間の関係には `scatter()` プロットを使用します
 
 <div id="getting-started">
   ## はじめに
 </div>
 
 <div id="log-a-confusion-matrix">
-  ### 混同行列を記録する
+  ### 混同行列をログする
 </div>
 
 ```python
@@ -64,7 +64,7 @@ y_true = [0, 1, 2, 0, 1, 2]
 y_pred = [0, 2, 2, 0, 1, 1]
 class_names = ["class_0", "class_1", "class_2"]
 
-# run を初期化する
+# runを初期化する
 with wandb.init(project="custom-charts-demo") as run:
     run.log({
         "conf_mat": wandb.plot.confusion_matrix(
@@ -76,7 +76,7 @@ with wandb.init(project="custom-charts-demo") as run:
 ```
 
 <div id="build-a-scatter-plot-for-feature-analysis">
-  ### 特徴量分析のための散布図を作成する
+  ### 特徴分析のための散布プロットを作成する
 </div>
 
 ```python

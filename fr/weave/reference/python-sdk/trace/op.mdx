@@ -28,7 +28,7 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 ## <kbd>classe</kbd> `OpKwargs`
 
-TypedDict pour les arguments nommés de op().
+TypedDict des arguments nommés de op().
 
 ***
 
@@ -65,7 +65,7 @@ as_op(fn: 'Callable[P, R]') → Op[P, R]
 
 Étant donné une fonction décorée avec @weave.op, renvoie son Op.
 
-Les fonctions décorées avec @weave.op sont déjà des instances de Op ; cette fonction ne devrait donc avoir aucun effet à l’exécution. Vous pouvez toutefois l’utiliser pour satisfaire les vérificateurs de type si vous devez accéder aux attributs d’OpDef de manière sûre du point de vue du typage.
+Les fonctions décorées avec @weave.op sont déjà des instances d’Op ; cette fonction ne devrait donc être sans effet à l’exécution. Vous pouvez toutefois l’utiliser pour satisfaire les vérificateurs de types si vous devez accéder aux attributs d’OpDef de manière sûre du point de vue du typage.
 
 **Arguments :**
 
@@ -91,9 +91,9 @@ call(
 ) → tuple[Any, Call] | Coroutine[Any, Any, tuple[Any, Call]]
 ```
 
-Exécute l’op et renvoie à la fois le résultat et un Appel représentant l’exécution.
+Exécute l&#39;op et renvoie à la fois le résultat et un Appel représentant l&#39;exécution.
 
-Cette fonction ne lèvera jamais d’exception. Toute erreur est capturée dans l’objet Appel.
+Cette fonction ne lèvera jamais d&#39;exception. Toute erreur est capturée dans l&#39;objet Appel.
 
 Cette méthode est automatiquement associée à toute fonction décorée avec `@weave.op`, ce qui permet une utilisation comme suit :
 
@@ -116,9 +116,9 @@ result, call = add.call(1, 2)
 calls(op: 'Op') → CallsIter
 ```
 
-Obtenir un itérateur sur tous les appels de cette op.
+Obtenez un itérateur de tous les appels à cet op.
 
-Cette méthode est automatiquement associée à toute fonction décorée avec `@weave.op`, ce qui permet une utilisation comme suit :
+Cette méthode est automatiquement associée à toute fonction décorée par `@weave.op`, ce qui permet une utilisation comme :
 
 ```python
 @weave.op
@@ -143,7 +143,7 @@ get_captured_code(op: 'Op') → str
 
 Obtenir le code capturé de l’op.
 
-Cela fonctionne uniquement lorsque vous récupérez un op à partir d’une ref. Le schéma est le suivant :
+Cela fonctionne uniquement lorsque vous obtenez un op depuis une ref. Le schéma est le suivant :
 
 ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured&#95;code()
 
@@ -158,7 +158,7 @@ ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured
 is_op(obj: 'Any') → TypeIs[Op]
 ```
 
-Vérifiez si un objet est un op.
+Vérifie si un objet est une op.
 
 ***
 
@@ -193,9 +193,9 @@ is_tracing_setting_disabled() → bool
 maybe_bind_method(func: 'Callable', self: 'Any' = None) → Callable | MethodType
 ```
 
-Associe une fonction à n’importe quel objet (même s’il ne s’agit pas d’une classe).
+Associez une fonction à n’importe quel objet (même s’il ne s’agit pas d’une classe).
 
-Si self vaut None, renvoyez la fonction telle quelle.
+Si self est None, renvoyez la fonction telle quelle.
 
 ***
 
@@ -208,12 +208,12 @@ Si self vaut None, renvoyez la fonction telle quelle.
 maybe_unbind_method(oplike: 'Op | MethodType | partial') → Op
 ```
 
-Dissocier une méthode ou un partiel de type Op pour en faire une simple fonction Op.
+Délie une méthode de type op ou une fonction partielle pour obtenir une fonction op simple.
 
 Pour :
 
-* les méthodes, supprimer le paramètre `self` déjà défini
-* les partiels, supprimer tous les paramètres prédéfinis
+* les méthodes, supprime le paramètre `self` prédéfini
+* les fonctions partielles, supprime tous les paramètres prédéfinis
 
 ***
 
@@ -237,7 +237,7 @@ op(
 ) → Callable[[Callable[P, R]], Op[P, R]] | Op[P, R]
 ```
 
-Un décorateur qui convertit une fonction ou une méthode en op Weave. Fonctionne aussi bien en synchrone qu’en asynchrone. Détecte automatiquement les fonctions qui renvoient un itérateur et applique le comportement approprié.
+Un décorateur pour convertir une fonction ou une méthode en op Weave. Fonctionne aussi bien en synchrone qu&#39;en asynchrone. Détecte automatiquement les fonctions itératrices et applique le comportement approprié.
 
 ***
 
@@ -268,7 +268,7 @@ Configure un dict &#95;&#95;weave utilisé pour transmettre des WeaveKwargs aux 
 * <b>`d`</b> : dict WeaveKwargs existant facultatif à mettre à jour.
 * <b>`op`</b> : op à partir duquel extraire kind et color.
   **Retourne :**
-  dict WeaveKwargs avec attributes, display&#95;name et, facultativement, kind/color renseignés.
+  dict WeaveKwargs avec attributes, display&#95;name et, éventuellement, kind/color définis.
 
 ***
 

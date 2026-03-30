@@ -26,20 +26,20 @@ __init__(
 Crée un objet HTML W&amp;B.
 
 **Arguments :**
-data:  Chaîne correspondant soit au chemin d’un fichier avec l’extension &quot;.html&quot;, soit à une chaîne ou un objet IO contenant du HTML littéral.
+data:  Une chaîne représentant le chemin d’un fichier avec l’extension &quot;.html&quot;, ou une chaîne ou un objet IO contenant du HTML littéral.
 
-* `inject`:  Ajoute une feuille de style à l’objet HTML. Si ce paramètre est défini sur False, le HTML est transmis tel quel.
-* `data_is_not_path`:  Si ce paramètre est défini sur False, les données sont traitées comme le chemin d’un fichier.
+* `inject`:  Ajoute une feuille de style à l’objet HTML. Si cette option est définie sur False, le HTML est transmis tel quel.
+* `data_is_not_path`:  Si cette option est définie sur False, les données sont traitées comme le chemin d’un fichier.
 
 **Exemples :**
-Vous pouvez l’initialiser en fournissant le chemin d’un fichier :
+Il peut être initialisé en fournissant le chemin d’un fichier :
 
 ```python
 with wandb.init() as run:
     run.log({"html": wandb.Html("./index.html")})
 ```
 
-Vous pouvez aussi l’initialiser en fournissant du HTML littéral, sous forme de chaîne ou d’objet IO :
+On peut aussi l&#39;initialiser en fournissant du HTML littéral, sous forme de chaîne ou d&#39;objet IO :
 
 ```python
 with wandb.init() as run:

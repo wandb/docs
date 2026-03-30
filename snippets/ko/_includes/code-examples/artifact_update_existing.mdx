@@ -1,10 +1,10 @@
 ---
-title: 기존 Artifact 업데이트
+title: 기존 Artifact 업데이트하기
 ---
 
 ```python
 """
-기존 아티팩트의 설명, 메타데이터, 별칭을 새 run을 생성하지 않고 업데이트합니다.
+기존 artifact의 설명, 메타데이터, alias를 새로운 run을 생성하지 않고 업데이트합니다.
 """
 import wandb
 
@@ -21,15 +21,15 @@ artifact.metadata["oldKey"] = "new value"
 # 메타데이터 전체 교체
 artifact.metadata = {"newKey": "new value"}
 
-# 별칭 추가
+# alias 추가
 artifact.aliases.append("best")
 
-# 별칭 제거
+# alias 제거
 artifact.aliases.remove("latest")
 
-# 별칭 전체 교체
+# alias 전체 교체
 artifact.aliases = ["replaced"]
 
-# 모든 아티팩트 변경사항 저장
+# 모든 artifact 변경 사항 저장
 artifact.save()
 ```

@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Reports`
 
-Reports est un itérateur `lazy` d’objets `BetaReport`.
+Reports est un itérateur différé d’objets `BetaReport`.
 
 ### <kbd>méthode</kbd> `Reports.__init__`
 
@@ -27,11 +27,11 @@ __init__(
 
 **Arguments :**
 
-* `client` (`wandb.apis.internal.Api`) :  L&#39;instance du client API à utiliser.
-* `project` (`wandb.sdk.internal.Project`) :  Le projet dont il faut récupérer les rapports.
-* `name` (str, optional) :  Le nom du rapport à utiliser pour le filtrage. Si `None`, récupère tous les rapports.
-* `entity` (str, optional) :  Le nom de l&#39;entité du projet. Par défaut, utilise l&#39;entité du projet.
-* `per_page` (int) :  Nombre de rapports à récupérer par page (la valeur par défaut est 50).
+* `client` (`wandb.apis.internal.Api`) :  Instance du client API à utiliser.
+* `project` (`wandb.sdk.internal.Project`) :  Le projet depuis lequel récupérer les Reports.
+* `name` (str, facultatif) :  Le nom du rapport à utiliser pour le filtrage. Si `None`, récupère tous les Reports.
+* `entity` (str, facultatif) :  Le nom de l’entité du projet. Par défaut, utilise l’entité du projet.
+* `per_page` (int) :  Nombre de Reports à récupérer par page (50 par défaut).
 
 ***
 
@@ -46,7 +46,7 @@ __init__(
 convert_objects() → list[BetaReport]
 ```
 
-Convertit les arêtes GraphQL en objets de type File.
+Convertit les edges GraphQL en objets File.
 
 ***
 
@@ -57,4 +57,4 @@ Convertit les arêtes GraphQL en objets de type File.
 update_variables() → None
 ```
 
-Met à jour les variables de requête GraphQL pour la pagination.
+Met à jour les variables de la requête GraphQL pour la pagination.

@@ -1,32 +1,32 @@
 ---
-description: W&B Sweeps の結果を W&B App の UI で可視化します。
-title: Sweep の結果を可視化する
+description: W&B Sweeps の結果を W&B App UI で可視化します。
+title: sweep の結果を可視化する
 ---
 
-W&amp;B Sweeps の結果を W&amp;B App で可視化します。[W&amp;B App](https://wandb.ai/home) に移動します。Sweep を初期化したときに指定したプロジェクトを選択します。プロジェクトの [Workspace](/ja/models/track/workspaces/) にリダイレクトされます。プロジェクト サイドバーで **Sweep アイコン** (ほうきのアイコン) を選択します。Sweep UI から、リストの中から目的の Sweep 名を選択します。
+W&amp;B App で W&amp;B Sweeps の結果を可視化できます。[W&amp;B App](https://wandb.ai/home) にアクセスします。sweep を初期化したときに指定したプロジェクトを選択します。すると、プロジェクトの [Workspace](/ja/models/track/workspaces/) に移動します。プロジェクトのサイドバーで **Sweep icon** (ほうきのアイコン) を選択します。Sweep UI で、一覧から Sweep の名を選択します。
 
-sweep リストには、各 sweep の状態 (**State**) 、作成時刻 (**Created**) 、開始したユーザー (**Creator**) 、完了した run 数 (**Run count**) 、および合計の **Compute time** が表示されます。離散的な探索空間に対するグリッドサーチでは、W&amp;B は **Est. Runs** (予想される run 数) も表示します。リストから sweep を開くと、アプリから一時停止、再開、停止、または強制終了できます。CLI で同じ操作を行うには、[Manage sweeps](/ja/models/sweeps/pause-resume-and-cancel-sweeps/) を参照してください。
+sweep の一覧には、各 sweep の状態 (**State**) 、作成時刻 (**Created**) 、開始したユーザー (**Creator**) 、完了した run 数 (**Run count**) 、合計 **Compute time** が表示されます。離散的な探索空間に対するグリッドサーチでは、W&amp;B は **Est. Runs** (予想される run 数) も表示します。一覧から sweep を開くと、アプリ上で一時停止、再開、停止、または強制終了できます。CLI で同じ操作を行う場合は、[Manage sweeps](/ja/models/sweeps/pause-resume-and-cancel-sweeps/) を参照してください。
 
-デフォルトで、W&amp;B は W&amp;B Sweep ジョブを開始すると、並列座標プロット、パラメーター重要度プロット、および散布図を自動的に作成します。
+デフォルトでは、W&amp;B Sweep ジョブを開始すると、W&amp;B によって並列座標プロット、パラメーター重要度プロット、散布図が自動的に作成されます。
 
 <Frame>
-  <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="プロジェクト サイドバーの Sweep UI" />
+  <img src="/images/sweeps/navigation_sweeps_ui.gif" alt="プロジェクトのサイドバー内の Sweep UI" />
 </Frame>
 
-並列座標プロットは、多数のハイパーパラメーターと モデル メトリクス の関係を一目で把握できるように要約します。並列座標プロットの詳細については、[Parallel coordinates](/ja/models/app/features/panels/parallel-coordinates/) を参照してください。
+並列座標チャートは、多数のハイパーパラメーターとモデルのメトリクスの関係をひと目で把握できるように要約して表示します。並列座標プロットの詳細は、[Parallel coordinates](/ja/models/app/features/panels/parallel-coordinates/) を参照してください。
 
 <Frame>
   <img src="/images/sweeps/example_parallel_coordiantes_plot.png" alt="並列座標プロットの例。" />
 </Frame>
 
-散布図 (左) は、Sweep 中に生成された W&amp;B Runs を比較します。散布図の詳細については、[Scatter Plots](/ja/models/app/features/panels/scatter-plot/) を参照してください。
+散布図 (左) は、Sweep 中に生成された W&amp;B Runs を比較します。散布図の詳細は、[Scatter Plots](/ja/models/app/features/panels/scatter-plot/) を参照してください。
 
-パラメーター重要度プロット (右) は、メトリクスの望ましい値を最もよく予測し、高い相関を持つハイパーパラメーターを一覧表示します。パラメーター重要度プロットの詳細については、[Parameter Importance](/ja/models/app/features/panels/parameter-importance/) を参照してください。
+パラメーター重要度プロット (右) には、メトリクスの望ましい値を最もよく予測し、それらと高い相関を持つハイパーパラメーターが表示されます。パラメーター重要度プロットの詳細は、[Parameter Importance](/ja/models/app/features/panels/parameter-importance/) を参照してください。
 
 <Frame>
   <img src="/images/sweeps/scatter_and_parameter_importance.png" alt="散布図とパラメーター重要度" />
 </Frame>
 
-自動的に設定される従属変数と独立変数 (x 軸と y 軸) を変更できます。各パネル内には **Edit panel** という名前の鉛筆アイコンがあります。**Edit panel** を選択します。モーダルが表示されます。このモーダル内で、グラフの挙動を変更できます。
+自動的に使用される従属変数と独立変数 (x 軸と y 軸) は変更できます。各パネルには、**Edit panel** という鉛筆アイコンがあります。**Edit panel** を選択します。モーダルが表示されます。モーダル内で、グラフの動作を変更できます。
 
-デフォルトの W&amp;B 可視化オプションの詳細については、[Panels](/ja/models/app/features/panels/) を参照してください。W&amp;B Sweep に含まれていない W&amp;B Runs からプロットを作成する方法については、[Data Visualization docs](/ja/models/tables/) を参照してください。
+W&amp;B のデフォルトの可視化オプション全体の詳細は、[Panels](/ja/models/app/features/panels/) を参照してください。W&amp;B Sweep の一部ではない W&amp;B Runs からプロットを作成する方法については、[Data Visualization docs](/ja/models/tables/) を参照してください。

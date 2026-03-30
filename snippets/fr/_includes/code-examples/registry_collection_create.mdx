@@ -1,14 +1,14 @@
 ---
-title: Créer une collection de registre
+title: Créer une collection dans le registre
 ---
 
 ```python
 """
-Crée une collection de registre W&B et y lie un artefact.
+Crée une collection de registre W&B et lie un artifact à celle-ci.
 """
 import wandb
 
-# Créer un objet artefact
+# Créer un objet artifact
 artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
 
 registry_name = "<registry_name>"
@@ -18,6 +18,6 @@ registry_path = f"wandb-registry-{registry_name}/{collection_name}"
 # Initialiser un run
 with wandb.init(entity = "<entity>", project = "<project>") as run:
 
-  # Lier l'artefact à une collection. Si la collection n'existe pas, W&B la crée.
+  # Lier l'artifact à une collection. Si la collection n'existe pas, W&B la crée.
   run.link_artifact(artifact = artifact, target_path = registry_path)
 ```

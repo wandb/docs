@@ -1,19 +1,19 @@
 ---
-description: "Exportez les runs, les métriques, les artefacts et les rapports depuis une instance W&B Cloud dédié à l'aide de l'API du SDK W&B."
+description: "Exportez les runs, métriques, Artifacts et Reports depuis une instance W&B Cloud dédié à l’aide de l’API du SDK W&B."
 title: Exporter des données depuis Cloud dédié
 ---
 
-Si vous souhaitez exporter toutes les données gérées dans votre instance Cloud dédié, vous pouvez utiliser l&#39;API du SDK W&amp;B pour extraire les runs, les métriques, les artefacts, entre autres, avec l&#39;[API d&#39;importation et d&#39;exportation](/fr/models/ref/python/public-api/). Le tableau suivant présente quelques-uns des principaux cas d&#39;utilisation de l&#39;exportation.
+Si vous souhaitez exporter toutes les données gérées dans votre instance Cloud dédié, vous pouvez utiliser l’API du SDK W&amp;B pour extraire les runs, métriques, Artifacts, etc. avec l’[API d’importation et d’exportation](/fr/models/ref/python/public-api/). Le tableau suivant présente certains des principaux cas d’usage de l’exportation.
 
-| Objectif                           | Documentation                                                                                                                                                                                                                         |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Exporter les métadonnées du projet | [API Projects](/fr/models/ref/python/public-api/projects)                                                                                                                                                                                |
-| Exporter les runs d&#39;un projet  | [API Runs](/fr/models/ref/python/public-api/runs)                                                                                                                                                                                        |
-| Exporter les rapports              | [API Report and Workspace](/fr/models/reports/clone-and-export-reports/)                                                                                                                                                                 |
-| Exporter les artefacts             | [Explorer les graphes d&#39;artefacts](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/), [Télécharger et utiliser des artefacts](/fr/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
+| Objectif                             | Documentation                                                                                                                                                                                                                     |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Exporter les métadonnées d’un projet | [Projects API](/fr/models/ref/python/public-api/projects)                                                                                                                                                                            |
+| Exporter les runs d’un projet        | [Runs API](/fr/models/ref/python/public-api/runs)                                                                                                                                                                                    |
+| Exporter des Reports                 | [Report and Workspace API](/fr/models/reports/clone-and-export-reports/)                                                                                                                                                             |
+| Exporter des Artifacts               | [Explorer les graphes d’Artifacts](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/), [Télécharger et utiliser des Artifacts](/fr/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
-Si vous gérez des artefacts stockés dans le Cloud dédié avec [Secure Storage Connector](/fr/platform/app/settings-page/teams/#secure-storage-connector), il se peut que vous n&#39;ayez pas besoin d&#39;exporter les artefacts à l&#39;aide de l&#39;API du SDK W&amp;B.
+Si vous gérez des Artifacts stockés dans le Cloud dédié avec [Secure Storage Connector](/fr/platform/app/settings-page/teams/#secure-storage-connector), il se peut que vous n’ayez pas besoin d’exporter les Artifacts à l’aide de l’API du SDK W&amp;B.
 
 <Note>
-  L&#39;utilisation de l&#39;API du SDK W&amp;B pour exporter toutes vos données peut être lente si vous avez un grand nombre de runs, d&#39;artefacts, etc. W&amp;B recommande d&#39;exécuter le processus d&#39;exportation par lots de taille adaptée afin de ne pas surcharger votre instance Cloud dédié.
+  L’utilisation de l’API du SDK W&amp;B pour exporter toutes vos données peut être lente si vous avez un grand nombre de runs, d’Artifacts, etc. W&amp;B recommande d’exécuter le processus d’exportation par lots de taille appropriée afin de ne pas surcharger votre instance Cloud dédié.
 </Note>

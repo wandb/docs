@@ -9,15 +9,15 @@ description: "TypeScript SDK リファレンス"
 
 ▸ **weaveAudio**(`options`): [`WeaveAudio`](../interfaces/weaveaudio)
 
-新しい WeaveAudio オブジェクトを作成します
+WeaveAudio オブジェクトを新規作成します
 
 <div id="parameters">
   #### パラメーター
 </div>
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `options` | `WeaveAudioInput` | このメディア タイプのオプション - data: Buffer としての生の音声データ - audioType: （オプション）音声ファイルの種類。現在は 'wav' のみがサポートされています |
+| 名         | タイプ               | 説明                                                                                                              |
+| :-------- | :---------------- | :-------------------------------------------------------------------------------------------------------------- |
+| `options` | `WeaveAudioInput` | このメディアタイプのオプションです - data: Buffer 形式の生のオーディオデータ - audioType:  (任意) オーディオファイルの種類。現在サポートされているのは &#39;wav&#39; のみです |
 
 <div id="returns">
   #### 戻り値
@@ -39,4 +39,4 @@ const weaveAudio = weaveAudio({ data: audioBuffer });
 
 [media.ts:62](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/media.ts#L62)
 
-___
+***

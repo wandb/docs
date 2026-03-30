@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `MetricZScoreFilter`
 
-Filtre qui compare le score z d’une métrique à un seuil défini par l’utilisateur.
+Filtre qui compare le z-score d’une métrique à un seuil défini par l’utilisateur.
 
 ### <kbd>méthode</kbd> `MetricZScoreFilter.__init__`
 
@@ -29,7 +29,7 @@ __init__(
 * `name` (str): Nom de la métrique observée.
 * `window` (int): Taille de la fenêtre sur laquelle calculer la moyenne et l’écart-type de la métrique.
 * `threshold` (Union[Annotated, Annotated]): Seuil du z-score.
-* `change_dir` (ChangeDir): Sens de variation du z-score à surveiller.
+* `change_dir` (ChangeDir): Direction de variation du z-score à surveiller.
 
 **Retourne :**
 Un objet `MetricZScoreFilter`.

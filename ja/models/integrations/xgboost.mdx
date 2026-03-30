@@ -1,5 +1,5 @@
 ---
-description: "W&B を XGBoost と統合して、勾配ブースティングのメトリクス、特徴量重要度、モデル性能を自動的にログする。"
+description: "W&B を XGBoost と統合すると、勾配ブースティングのメトリクス、特徴量重要度、モデル性能を自動的にログできます。"
 title: XGBoost
 ---
 
@@ -7,17 +7,17 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" />
 
-`wandb` ライブラリには、XGBoost でのトレーニングからメトリクス、設定、および保存された booster をログするための `WandbCallback` コールバックがあります。ここでは、XGBoost の `WandbCallback` からの出力を含む [ライブ W&amp;B ダッシュボード](https://wandb.ai/morg/credit_scorecard) を確認できます。
+`wandb` ライブラリには、XGBoost でのトレーニング中にメトリクス、設定、保存済みの booster をログするための `WandbCallback` コールバックがあります。ここでは、XGBoost の `WandbCallback` による出力を確認できる [ライブの W&amp;B ダッシュボード](https://wandb.ai/morg/credit_scorecard) を参照できます。
 
 <Frame>
-  <img src="/images/integrations/xgb_dashboard.png" alt="W&B Dashboard using XGBoost" />
+  <img src="/images/integrations/xgb_dashboard.png" alt="XGBoost を使用した W&B ダッシュボード" />
 </Frame>
 
 <div id="get-started">
   ## はじめに
 </div>
 
-XGBoost のメトリクス、設定、booster モデルを W&amp;B にログするには、`WandbCallback` を XGBoost に渡すだけで済みます。
+W&amp;B に XGBoost のメトリクス、設定、booster モデルをログするには、`WandbCallback` を XGBoost に渡すだけです：
 
 ```python
 from wandb.integration.xgboost import WandbCallback
@@ -31,52 +31,52 @@ with wandb.init() as run:
   bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
 ```
 
-XGBoost と W&amp;B によるログの記録方法を包括的に確認するには、[このノートブック](https://wandb.me/xgboost) を開いてください。
+XGBoost と W&amp;B でログする内容を包括的に確認するには、[このノートブック](https://wandb.me/xgboost)を開いてください
 
 <div id="wandbcallback-reference">
   ## `WandbCallback` リファレンス
 </div>
 
 <div id="functionality">
-  ### Functionality
+  ### 機能
 </div>
 
-`WandbCallback` を XGBoost モデルに渡すと、次のことが実行されます:
+`WandbCallback` を XGBoost モデルに渡すと、次の処理が行われます。
 
 * booster モデルの設定を W&amp;B にログします
-* XGBoost が収集する rmse、accuracy などの評価メトリクスを W&amp;B にログします
-* XGBoost が収集するトレーニングメトリクスをログします (`eval_set` にデータを指定した場合) 
-* 最良スコアと最良イテレーションをログします
-* 学習済みモデルを保存し、 W&amp;B Artifacts にアップロードします (`log_model = True` の場合) 
-* `log_feature_importance=True` (デフォルト) のときに、特徴量重要度のプロットをログします
-* `define_metric=True` (デフォルト) のときに、`wandb.Run.summary` に最良の評価メトリクスを記録します
+* rmse や accuracy など、XGBoost が収集した評価メトリクスを W&amp;B にログします
+* XGBoost が収集したトレーニングメトリクスをログします (`eval_set` にデータを指定した場合)
+* 最良のスコアと最良のイテレーションをログします
+* トレーニング済みのモデルを W&amp;B Artifacts に保存してアップロードします (`log_model = True` の場合)
+* `log_feature_importance=True` の場合、特徴量重要度プロットをログします (デフォルト) 。
+* `define_metric=True` の場合、最良の評価メトリクスを `wandb.Run.summary` に記録します (デフォルト) 。
 
 <div id="arguments">
-  ### Arguments
+  ### 引数
 </div>
 
 * `log_model`: (boolean) True の場合、モデルを保存して W&amp;B Artifacts にアップロードします
 
-* `log_feature_importance`: (boolean) True の場合、特徴量重要度の棒グラフをログします
+* `log_feature_importance`: (boolean) True の場合、特徴量重要度の棒プロットをログします
 
-* `importance_type`: (str) 木ベースのモデルの場合は `{weight, gain, cover, total_gain, total_cover}` のいずれかを指定します。線形モデルでは weight を指定します。
+* `importance_type`: (str) ツリーモデルでは `{weight, gain, cover, total_gain, total_cover}` のいずれかを指定します。線形モデルでは `weight` を指定します。
 
-* `define_metric`: (boolean) True (デフォルト) の場合、`run.summary` にはトレーニングの最後のステップではなく、最も性能が良いステップでのモデル性能を記録します。
+* `define_metric`: (boolean) True の場合 (デフォルト) 、`run.summary` にはトレーニングの最後の step ではなく、最良の step におけるモデル性能を記録します。
 
-[WandbCallback のソースコード](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)を参照できます。
+[WandbCallback のソースコード](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)を確認できます。
 
-追加の例については、[GitHub 上のサンプルリポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)を確認してください。
+追加の例については、[GitHub 上のサンプルリポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)を参照してください。
 
 <div id="tune-your-hyperparameters-with-sweeps">
-  ## Sweeps でハイパーパラメーターをチューニングする
+  ## Sweeps でハイパーパラメーターを調整する
 </div>
 
-モデルの性能を最大限に引き出すには、木の深さや学習率のようなハイパーパラメーターをチューニングする必要があります。W&amp;B [Sweeps](/ja/models/sweeps/) は、大規模なハイパーパラメーター探索実験を設定・オーケストレーション・解析するための強力なツールキットです。
+モデルから最大限のパフォーマンスを引き出すには、決定木の深さや学習率などのハイパーパラメーターを調整する必要があります。W&amp;B [Sweeps](/ja/models/sweeps/) は、大規模なハイパーパラメーター探索の experiment を設定、実行、分析するための強力なツールキットです。
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
 
-こちらの [XGBoost &amp; Sweeps の Python スクリプト](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)も試してみてください。
+この [XGBoost と Sweeps の Python スクリプト](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py) を試すこともできます。
 
 <Frame>
-  <img src="/images/integrations/xgboost_sweeps_example.png" alt="XGBoost の性能比較" />
+  <img src="/images/integrations/xgboost_sweeps_example.png" alt="XGBoost のパフォーマンス比較" />
 </Frame>

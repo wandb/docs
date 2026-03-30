@@ -1,19 +1,19 @@
 ---
 title: Hugging Face Diffusers
-description: "Utilisez l’autolog de W&B avec Hugging Face Diffusers pour suivre les prompts, les médias générés, les configurations et l’architecture du pipeline."
+description: "Utilisez l’autologging de W&B avec Hugging Face Diffusers pour suivre les prompts, les médias générés, les configurations et l’architecture du pipeline."
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/diffusers/lcm-diffusers.ipynb" />
 
-[Hugging Face Diffusers](https://huggingface.co/docs/diffusers/index) est la bibliothèque de référence pour les modèles de diffusion préentraînés les plus avancés, permettant de générer des images, de l’audio et même des structures moléculaires 3D. L’intégration W&amp;B ajoute aux tableaux de bord centralisés interactifs un suivi des expériences riche et flexible, la visualisation des médias, l’architecture du pipeline et la gestion de la configuration, sans rien sacrifier à cette simplicité d’utilisation.
+[Hugging Face Diffusers](https://huggingface.co/docs/diffusers/index) est la bibliothèque de référence pour les modèles de diffusion préentraînés les plus avancés, permettant de générer des images, de l’Audio et même des structures moléculaires 3D. L’intégration W&amp;B apporte un suivi des expériences riche et flexible, la visualisation des contenus multimédias, l’architecture des pipelines et la gestion de la configuration dans des tableaux de bord centralisés interactifs, sans rien sacrifier à cette simplicité d’utilisation.
 
 <div id="next-level-logging-in-just-two-lines">
-  ## Journalisation avancée en seulement deux lignes
+  ## Une journalisation avancée en seulement deux lignes
 </div>
 
-Consignez dans le journal tous les prompts, les prompts négatifs, les médias générés et les configurations associées à votre expérience en ajoutant simplement 2 lignes de code. Voici les 2 lignes de code pour commencer la journalisation :
+Consignez tous les prompts, les prompts négatifs, les médias générés et les configurations liés à votre expérience en ajoutant simplement 2 lignes de code. Voici les 2 lignes de code pour commencer la journalisation :
 
 ```python
 # importer la fonction autolog
@@ -23,12 +23,12 @@ from wandb.integration.diffusers import autolog
 autolog(init=dict(project="diffusers_logging"))
 ```
 
-<Frame caption="Un exemple montrant comment les résultats de votre expérience sont enregistrés.">
-  <img src="/images/integrations/diffusers-autolog-4.gif" alt="journalisation des résultats de l'expérience" />
+<Frame caption="Exemple montrant comment les résultats de votre expérience sont enregistrés.">
+  <img src="/images/integrations/diffusers-autolog-4.gif" alt="Enregistrement des résultats de l’expérience" />
 </Frame>
 
 <div id="get-started">
-  ## Prise en main
+  ## Pour commencer
 </div>
 
 1. Installez `diffusers`, `transformers`, `accelerate` et `wandb`.
@@ -49,15 +49,15 @@ autolog(init=dict(project="diffusers_logging"))
 
    Vous pouvez appeler la fonction `autolog()` avec le paramètre `init`, qui accepte un dictionnaire de paramètres requis par [`wandb.init()`](/fr/models/ref/python/functions/init).
 
-   Lorsque vous appelez `autolog()`, cela initialise un run W&amp;B et suit automatiquement les entrées et les sorties de [tous les appels de pipeline pris en charge](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
+   Lorsque vous appelez `autolog()`, un run W&amp;B est initialisé et les entrées ainsi que les sorties de [tous les appels de pipeline pris en charge](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72) sont automatiquement suivies.
 
-   * Chaque appel de pipeline est suivi dans son propre [tableau](/fr/models/tables/) dans l&#39;espace de travail, et les configurations associées à cet appel sont ajoutées à la liste des flux de travail dans les configurations de ce run.
+   * Chaque appel de pipeline est suivi dans son propre [tableau](/fr/models/tables/) dans le Workspace, et les configurations associées à cet appel sont ajoutées à la liste des flux de travail dans la configuration de ce run.
    * Les prompts, les prompts négatifs et les médias générés sont enregistrés dans un [`wandb.Table`](/fr/models/tables/).
-   * Toutes les autres configurations associées à l&#39;expérience, y compris la graine et l&#39;architecture du pipeline, sont stockées dans la section de configuration du run.
+   * Toutes les autres configurations associées à l’expérience, y compris la seed et l’architecture du pipeline, sont stockées dans la section de configuration du run.
    * Les médias générés pour chaque appel de pipeline sont également enregistrés dans les [panneaux multimédias](/fr/models/track/log/media/) du run.
 
    <Note>
-     Vous trouverez une [liste des appels de pipeline pris en charge](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). Si vous souhaitez demander une nouvelle fonctionnalité pour cette intégration ou signaler un bug associé, ouvrez une issue sur la [page des issues GitHub de W&amp;B](https://github.com/wandb/wandb/issues).
+     Vous trouverez une [liste des appels de pipeline pris en charge](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72). Si vous souhaitez demander une nouvelle fonctionnalité pour cette intégration ou signaler un bug associé, ouvrez une issue sur la [page GitHub issues de W&amp;B](https://github.com/wandb/wandb/issues).
    </Note>
 
 <div id="examples">
@@ -65,10 +65,10 @@ autolog(init=dict(project="diffusers_logging"))
 </div>
 
 <div id="autologging">
-  ### Journalisation automatique
+  ### Autologging
 </div>
 
-Voici un bref exemple de journalisation automatique de bout en bout :
+Voici un bref exemple de bout en bout illustrant autolog en action :
 
 <Tabs>
   <Tab title="Script">
@@ -87,7 +87,7 @@ Voici un bref exemple de journalisation automatique de bout en bout :
         "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
     ).to("cuda")
 
-    # Définir les prompts, les prompts négatifs et la graine.
+    # Définir les prompts, les prompts négatifs et la graine
     prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
     negative_prompt = ["ugly, deformed", "ugly, deformed"]
     generator = torch.Generator(device="cpu").manual_seed(10)
@@ -122,7 +122,7 @@ Voici un bref exemple de journalisation automatique de bout en bout :
         "stabilityai/stable-diffusion-2-1", torch_dtype=torch.float16
     ).to("cuda")
 
-    # Définir les prompts, les prompts négatifs et la graine.
+    # Définir les prompts, les prompts négatifs et la graine
     prompt = ["a photograph of an astronaut riding a horse", "a photograph of a dragon"]
     negative_prompt = ["ugly, deformed", "ugly, deformed"]
     generator = torch.Generator(device="cpu").manual_seed(10)
@@ -141,33 +141,33 @@ Voici un bref exemple de journalisation automatique de bout en bout :
   </Tab>
 </Tabs>
 
-* Les résultats d&#39;une seule expérience :
+* Les résultats d’une seule expérience :
 
   <Frame>
-    <img src="/images/integrations/diffusers-autolog-2.gif" alt="Journalisation des résultats de l'expérience" />
+    <img src="/images/integrations/diffusers-autolog-2.gif" alt="Journalisation des résultats de l’expérience" />
   </Frame>
 
 * Les résultats de plusieurs expériences :
 
   <Frame>
-    <img src="/images/integrations/diffusers-autolog-1.gif" alt="Journalisation des résultats de l'expérience" />
+    <img src="/images/integrations/diffusers-autolog-1.gif" alt="Journalisation des résultats de l’expérience" />
   </Frame>
 
-* La configuration d&#39;une expérience :
+* La configuration d’une expérience :
 
   <Frame>
-    <img src="/images/integrations/diffusers-autolog-3.gif" alt="Journalisation de la configuration de l'expérience" />
+    <img src="/images/integrations/diffusers-autolog-3.gif" alt="Journalisation de la configuration de l’expérience" />
   </Frame>
 
 <Note>
-  Vous devez appeler explicitement [`wandb.Run.finish()`](/fr/models/ref/python/functions/finish) lorsque vous exécutez le code dans un notebook IPython après avoir appelé le pipeline. Cela n&#39;est pas nécessaire lors de l&#39;exécution de scripts Python.
+  Vous devez appeler explicitement [`wandb.Run.finish()`](/fr/models/ref/python/functions/finish) lorsque vous exécutez le code dans un environnement de notebook IPython après avoir appelé le pipeline. Cela n’est pas nécessaire lors de l’exécution de scripts Python.
 </Note>
 
 <div id="tracking-multi-pipeline-workflows">
   ### Suivi des flux de travail à plusieurs pipelines
 </div>
 
-Cette section illustre l’autolog dans un flux de travail typique [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model), où les latents générés par [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) sont affinés par le refiner correspondant.
+Cette section illustre l’autolog dans un flux de travail type [Stable Diffusion XL + Refiner](https://huggingface.co/docs/diffusers/using-diffusers/sdxl#base-to-refiner-model), où les variables latentes générées par [`StableDiffusionXLPipeline`](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/stable_diffusion_xl) sont affinées par le refiner correspondant.
 
 <Tabs>
   <Tab title="Script en Python">
@@ -296,14 +296,14 @@ Cette section illustre l’autolog dans un flux de travail typique [Stable Diffu
   </Tab>
 </Tabs>
 
-* Exemple d’expérience Stable Diffusion XL + Refiner :
+* Exemple d&#39;expérience Stable Diffusion XL + Refiner :
   <Frame>
     <img src="/images/integrations/diffusers-autolog-6.gif" alt="suivi des expériences Stable Diffusion XL" />
   </Frame>
 
 <div id="more-resources">
-  ## Ressources supplémentaires
+  ## Autres ressources
 </div>
 
-* [Guide d’ingénierie des prompts pour Stable Diffusion](https://wandb.ai/geekyrakshit/diffusers-prompt-engineering/reports/A-Guide-to-Prompt-Engineering-for-Stable-Diffusion--Vmlldzo1NzY4NzQ3)
+* [Guide de l’ingénierie des prompts pour Stable Diffusion](https://wandb.ai/geekyrakshit/diffusers-prompt-engineering/reports/A-Guide-to-Prompt-Engineering-for-Stable-Diffusion--Vmlldzo1NzY4NzQ3)
 * [PIXART-α : un modèle Transformer de diffusion pour la génération d’images à partir de texte](https://wandb.ai/geekyrakshit/pixart-alpha/reports/PIXART-A-Diffusion-Transformer-Model-for-Text-to-Image-Generation--Vmlldzo2MTE1NzM3)

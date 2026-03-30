@@ -1,7 +1,7 @@
 ---
 title: pr_curve()
 namespace: python_sdk_custom_charts
-python_object_type: function
+python_object_type: 関数
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/pr_curve.py" />
 
 
-### <kbd>function</kbd> `pr_curve`
+### <kbd>関数</kbd> `pr_curve`
 
 ```python
 pr_curve(
@@ -23,29 +23,29 @@ pr_curve(
 ) → CustomChart
 ```
 
-Precision-Recall (PR) カーブを作成します。
+Precision-Recall (PR) 曲線を作成します。
 
-Precision-Recall カーブは、不均衡なデータセット上で分類器を評価する際に特に有用です。PR カーブの下の面積が大きいことは、高い適合率（低い偽陽性率）と高い再現率（低い偽陰性率）の両方を意味します。このカーブは、さまざまなしきい値レベルにおける偽陽性と偽陰性のバランスについての示唆を与え、モデルの性能評価に役立ちます。
+Precision-Recall 曲線は、特に不均衡なデータセットで分類器を評価する際に有用です。PR 曲線下面積が大きいほど、適合率が高く (偽陽性率が低い) 、再現率も高い (偽陰性率が低い) ことを示します。この曲線により、さまざまなしきい値における偽陽性と偽陰性のバランスを把握でき、モデルのパフォーマンス評価に役立ちます。
 
-**Args:**
+**引数:**
 
-* `y_true`:  真の二値ラベル。形状は (`num_samples`,) である必要があります。
-* `y_probas`:  各クラスに対する予測スコアまたは確率。確率推定値、信頼度スコア、またはしきい値を適用していない決定関数値を指定できます。形状は (`num_samples`, `num_classes`) である必要があります。
-* `labels`:  プロットを解釈しやすくするために、`y_true` 内の数値を置き換えるクラス名のオプションのリスト。たとえば、`labels = ['dog', 'cat', 'owl']` とすると、プロット内で 0 が &#39;dog&#39;、1 が &#39;cat&#39;、2 が &#39;owl&#39; に置き換えられます。指定しない場合は、`y_true` の数値がそのまま使用されます。
-* `classes_to_plot`:  プロットに含める `y_true` からの一意のクラス値のオプションのリスト。指定しない場合、`y_true` に含まれるすべての一意のクラスがプロットされます。
-* `interp_size`:  再現率の値を補間するポイント数。再現率の値は、[0, 1] の範囲で一様に分布した `interp_size` 個のポイントに固定され、それに応じて適合率が補間されます。
+* `y_true`:  真の二値ラベル。shape は (`num_samples`,) である必要があります。
+* `y_probas`:  各クラスの予測スコアまたは確率。確率推定値、信頼度スコア、またはしきい値を適用していない決定値を指定できます。shape は (`num_samples`, `num_classes`) である必要があります。
+* `labels`:  プロットを解釈しやすくするために、`y_true` 内の数値を置き換える任意のクラス名のリスト。たとえば、`labels = ['dog', 'cat', 'owl']` とすると、プロット内で 0 は &#39;dog&#39;、1 は &#39;cat&#39;、2 は &#39;owl&#39; に置き換えられます。指定しない場合は、`y_true` の数値が使用されます。
+* `classes_to_plot`:  プロットに含める `y_true` の一意なクラス値の任意のリスト。指定しない場合は、`y_true` 内のすべての一意なクラスがプロットされます。
+* `interp_size`:  再現率の値を補間する点の数。再現率の値は、[0, 1] の範囲に一様に分布する `interp_size` 個の点に固定され、それに応じて適合率が補間されます。
 * `title`:  プロットのタイトル。デフォルトは &quot;Precision-Recall Curve&quot; です。
-* `split_table`:  テーブルを W&amp;B UI の別セクションに分割するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+* `split_table`:  表を W&amp;B UI の別セクションに分けるかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
 
-**Returns:**
+**戻り値:**
 
-* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
+* `CustomChart`:  W&amp;B にログできるカスタムチャート object。チャートをログするには、`wandb.log()` に渡します。
 
-**Raises:**
+**例外:**
 
 * `wandb.Error`:  NumPy、pandas、または scikit-learn がインストールされていない場合。
 
-**Example:**
+**例:**
 
 ```python
 import wandb
@@ -54,13 +54,13 @@ import wandb
 y_true = [0, 1, 1, 0, 1]  # 0 = スパムでない, 1 = スパム
 y_probas = [
     [0.9, 0.1],  # 最初のサンプルの予測確率（スパムでない）
-    [0.2, 0.8],  # 2 番目のサンプル（スパム）、以下同様
+    [0.2, 0.8],  # 2番目のサンプル（スパム）、以下同様
     [0.1, 0.9],
     [0.8, 0.2],
     [0.3, 0.7],
 ]
 
-labels = ["not spam", "spam"]  # 可読性向上のためのオプションのクラス名
+labels = ["not spam", "spam"]  # 読みやすさのためのオプションのクラス名
 
 with wandb.init(project="spam-detection") as run:
     pr_curve = wandb.plot.pr_curve(

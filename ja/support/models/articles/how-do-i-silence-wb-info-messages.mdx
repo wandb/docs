@@ -1,5 +1,5 @@
 ---
-title: "W&B の情報メッセージを抑制するにはどうすればよいですか？"
+title: "W&B の情報メッセージを非表示にするにはどうすればよいですか？"
 keywords: ["ノートブック", "環境変数"]
 ---
 
@@ -9,7 +9,7 @@ keywords: ["ノートブック", "環境変数"]
 INFO SenderThread:11484 [sender.py:finish():979]
 ```
 
-ログレベルを `logging.ERROR` に設定すると、エラーのみが表示され、info レベルのログ出力は抑制されます。
+ログレベルを `logging.ERROR` に設定すると、エラーのみを表示し、INFO レベルのログ出力を抑制できます。
 
 ```python
 import logging
@@ -18,7 +18,7 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-ログ出力を大幅に減らすには、`WANDB_QUIET` 環境変数を `True` に設定してください。ログ出力を完全に無効にするには、`WANDB_SILENT` 環境変数を `True` に設定してください。ノートブックでは、`wandb.login` を実行する前に `WANDB_QUIET` または `WANDB_SILENT` を設定してください。
+ログ出力を大幅に減らすには、`WANDB_QUIET` 環境変数を `True` に設定します。ログ出力を完全に停止するには、`WANDB_SILENT` 環境変数を `True` に設定します。ノートブックでは、`wandb.login` を実行する前に `WANDB_QUIET` または `WANDB_SILENT` を設定します。
 
 <Tabs>
   <Tab title="ノートブック">
@@ -38,11 +38,11 @@ logger.setLevel(logging.ERROR)
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードをもとに scripts/knowledgebase-nav/generate_tags.py で管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって自動生成されます。
+  このマーカー間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[ノートブック](/ja/support/models/tags/notebooks)</Badge><Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

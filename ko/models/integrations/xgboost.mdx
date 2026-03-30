@@ -1,5 +1,5 @@
 ---
-description: "W&B를 XGBoost와 통합해 그래디언트 부스팅 메트릭, feature importance, 모델 성능을 자동으로 로깅하세요."
+description: "W&B를 XGBoost와 통합해 그래디언트 부스팅 메트릭, 특성 중요도, 모델 성능을 자동으로 로깅합니다."
 title: XGBoost
 ---
 
@@ -7,17 +7,17 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" />
 
-`wandb` 라이브러리는 XGBoost로 학습하는 동안 메트릭, 설정 및 저장된 부스터를 로깅하기 위한 `WandbCallback` 콜백을 제공합니다. 여기에서 XGBoost `WandbCallback`의 출력 결과를 보여주는 [실시간 W&amp;B Dashboard](https://wandb.ai/morg/credit_scorecard)를 확인할 수 있습니다.
+`wandb` 라이브러리에는 XGBoost로 트레이닝할 때 메트릭, 설정, 저장된 부스터를 로깅하는 `WandbCallback` 콜백이 있습니다. 여기에서 XGBoost `WandbCallback`의 출력이 표시된 [실시간 W&amp;B 대시보드](https://wandb.ai/morg/credit_scorecard)를 확인할 수 있습니다.
 
 <Frame>
-  <img src="/images/integrations/xgb_dashboard.png" alt="XGBoost를 사용하는 W&B Dashboard" />
+  <img src="/images/integrations/xgb_dashboard.png" alt="XGBoost를 사용한 W&B 대시보드" />
 </Frame>
 
 <div id="get-started">
   ## 시작하기
 </div>
 
-XGBoost 메트릭, 설정(config), 부스터 모델을 W&amp;B에 로깅하는 작업은 `WandbCallback`만 XGBoost에 넘겨주면 될 정도로 간단합니다.
+XGBoost 메트릭, 설정, 부스터 모델은 `WandbCallback`을 XGBoost에 전달하기만 하면 W&amp;B에 손쉽게 로깅할 수 있습니다:
 
 ```python
 from wandb.integration.xgboost import WandbCallback
@@ -31,51 +31,51 @@ with wandb.init() as run:
   bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
 ```
 
-XGBoost와 W&amp;B로 로깅하는 방법을 자세히 알아보려면 [이 노트북](https://wandb.me/xgboost)을 열어 보세요
+XGBoost와 W&amp;B에서의 로깅을 자세히 살펴보려면 [이 노트북](https://wandb.me/xgboost)을 열어보세요.
 
 <div id="wandbcallback-reference">
-  ## `WandbCallback` 참조
+  ## `WandbCallback` 레퍼런스
 </div>
 
 <div id="functionality">
   ### 기능
 </div>
 
-`WandbCallback`을 XGBoost 모델에 전달하면 다음 작업을 수행합니다:
+`WandbCallback`을 XGBoost 모델에 전달하면 다음 작업이 수행됩니다.
 
-* booster 모델 설정을 W&amp;B에 기록합니다
-* XGBoost가 수집한 rmse, accuracy 등의 평가 메트릭을 W&amp;B에 기록합니다
-* XGBoost가 수집한 트레이닝 메트릭을 기록합니다 (eval&#95;set에 데이터를 제공한 경우)
-* 최상의 점수와 베스트 이터레이션을 기록합니다
-* 학습된 모델을 저장하고 W&amp;B Artifacts에 업로드합니다 (`log_model = True`인 경우)
-* `log_feature_importance=True`(기본값)일 때 feature importance 플롯을 기록합니다.
-* `define_metric=True`(기본값)일 때 최상의 평가 메트릭을 `wandb.Run.summary`에 저장합니다.
+* 부스터 모델 설정을 W&amp;B에 로깅합니다
+* rmse, accuracy 등 XGBoost가 수집한 평가 메트릭을 W&amp;B에 로깅합니다
+* XGBoost가 수집한 트레이닝 메트릭을 로깅합니다 (`eval_set`에 데이터를 제공한 경우)
+* 최고 score와 최적 iteration을 로깅합니다
+* 트레이닝된 모델을 W&amp;B Artifacts에 저장하고 업로드합니다 (`log_model = True`인 경우)
+* `log_feature_importance=True`일 때 특성 중요도 플롯을 로깅합니다(기본값).
+* `define_metric=True`일 때 최상의 eval metric을 `wandb.Run.summary`에 저장합니다(기본값).
 
 <div id="arguments">
-  ### Arguments
+  ### 인수
 </div>
 
-* `log_model`: (boolean) True이면 모델을 저장하고 W&amp;B Artifacts에 업로드합니다
+* `log_model`: (boolean) True이면 모델을 W&amp;B Artifacts에 저장하고 업로드합니다.
 
-* `log_feature_importance`: (boolean) True이면 feature importance 막대 그래프를 로깅합니다
+* `log_feature_importance`: (boolean) True이면 특성 중요도 막대 그래프를 기록합니다.
 
-* `importance_type`: (str) 트리 모델의 경우 `{weight, gain, cover, total_gain, total_cover}` 중 하나입니다. 선형 모델의 경우 weight입니다.
+* `importance_type`: (str) 트리 모델의 경우 `{weight, gain, cover, total_gain, total_cover}` 중 하나입니다. 선형 모델의 경우 `weight`입니다.
 
-* `define_metric`: (boolean) True(기본값)이면 트레이닝의 마지막 스텝이 아니라 최적 스텝에서의 모델 성능을 `run.summary`에 기록합니다.
+* `define_metric`: (boolean) True이면(기본값) 트레이닝의 마지막 step이 아니라 최적 step에서의 모델 performance를 `run.summary`에 기록합니다.
 
-[WandbCallback의 소스 코드](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)를 확인할 수 있습니다.
+[WandbCallback의 소스 코드](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)를 검토할 수 있습니다.
 
-추가 예시는 [GitHub 예제 리포지토리](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)를 참고하세요.
+추가 예시는 [GitHub의 예제 저장소](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)에서 확인하세요.
 
 <div id="tune-your-hyperparameters-with-sweeps">
-  ## Sweeps로 하이퍼파라미터 튜닝하기
+  ## Sweeps로 하이퍼파라미터 조정하기
 </div>
 
-모델에서 최대 성능을 끌어내기 위해서는 트리 깊이(tree depth)와 학습률(learning rate) 같은 하이퍼파라미터를 튜닝해야 합니다. W&amp;B [Sweeps](/ko/models/sweeps/)는 대규모 하이퍼파라미터 실험을 구성하고 오케스트레이션하며 분석할 수 있는 강력한 툴킷입니다.
+모델의 성능을 최대한 끌어올리려면 트리 깊이와 학습률 같은 하이퍼파라미터를 조정해야 합니다. W&amp;B [Sweeps](/ko/models/sweeps/)는 대규모 하이퍼파라미터 테스트 실험을 설정하고, 조율하고, 분석할 수 있는 강력한 도구입니다.
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
 
-이 [XGBoost &amp; Sweeps Python 스크립트](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)도 사용해 볼 수 있습니다.
+이 [XGBoost &amp; Sweeps Python 스크립트](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)도 사용해 보세요.
 
 <Frame>
   <img src="/images/integrations/xgboost_sweeps_example.png" alt="XGBoost 성능 비교" />

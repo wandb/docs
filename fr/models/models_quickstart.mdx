@@ -1,15 +1,15 @@
 ---
 title: Premiers pas avec W&B Models
-description: "Prenez en main W&B Models en suivant les expériences, en consignant des métriques et en visualisant les résultats en quelques lignes de code."
+description: "Prenez en main W&B Models en suivant les expériences, en enregistrant les métriques et en visualisant les résultats en quelques lignes de code."
 ---
 
-Découvrez quand et comment utiliser W&amp;B pour suivre, partager et gérer les artefacts de modèle dans vos flux de travail de machine learning. Cette page explique comment enregistrer des expériences, générer des rapports et accéder aux données enregistrées à l’aide de l’API W&amp;B appropriée pour chaque tâche.
+Découvrez quand et comment utiliser W&amp;B pour suivre, partager et gérer les artifacts de modèle dans vos flux de travail de machine learning. Cette page explique comment enregistrer des expériences, générer des rapports et accéder aux données enregistrées à l’aide de l’API W&amp;B appropriée pour chaque tâche.
 
-Ce tutoriel s’appuie sur les éléments suivants :
+Ce tutoriel utilise les éléments suivants :
 
 * [W&amp;B Python SDK](/fr/models/ref/python) (`wandb.sdk`) : pour enregistrer et surveiller les expériences pendant l’entraînement.
-* [W&amp;B Public API](/fr/models/ref/python/public-api) (`wandb.apis.public`) : pour interroger et analyser les données d’expérience enregistrées.
-* [W&amp;B Reports and Workspaces API](/fr/models/ref/wandb_workspaces) (`wandb.wandb-workspaces`) : pour créer un rapport résumant les résultats.
+* [API publique W&amp;B](/fr/models/ref/python/public-api) (`wandb.apis.public`) : pour interroger et analyser les données d’expérience enregistrées.
+* [API W&amp;B Reports and Workspaces](/fr/models/ref/wandb_workspaces) (`wandb.wandb-workspaces`) : pour créer un rapport afin de résumer les résultats.
 
 <div id="sign-up-and-create-an-api-key">
   ## Inscrivez-vous et créez une clé API
@@ -18,10 +18,10 @@ Ce tutoriel s’appuie sur les éléments suivants :
 Pour authentifier votre machine auprès de W&amp;B, vous devez d’abord générer une clé API sur [wandb.ai/settings](https://wandb.ai/settings). Copiez la clé API et conservez-la en lieu sûr.
 
 <div id="install-and-import-packages">
-  ## Installer et importer des paquets
+  ## Installer et importer des packages
 </div>
 
-Installez la bibliothèque W&amp;B ainsi que quelques autres paquets dont vous aurez besoin pour ce guide pas à pas.
+Installez la bibliothèque W&amp;B ainsi que quelques autres packages dont vous aurez besoin pour ce guide pas à pas.
 
 ```python
 pip install wandb
@@ -33,7 +33,7 @@ Importez le SDK Python de W&amp;B :
 import wandb
 ```
 
-Indiquez l’entité de votre équipe dans le bloc de code suivant :
+Indiquez l&#39;entité de votre équipe dans le bloc de code suivant :
 
 ```python
 TEAM_ENTITY = "<Team_Entity>" # Remplacez par votre entité d'équipe
@@ -44,9 +44,9 @@ PROJECT = "my-awesome-project"
   ## Entraîner un modèle
 </div>
 
-Le code suivant simule un flux de travail de base de machine learning : entraînement d’un modèle, consignation des métriques et enregistrement du modèle en tant qu’artefact.
+Le code suivant simule un flux de travail de machine learning de base : entraîner un modèle, consigner des métriques et enregistrer le modèle en tant qu&#39;artifact.
 
-Utilisez le SDK Python de W&amp;B (`wandb.sdk`) pour interagir avec W&amp;B pendant l’entraînement. Journalisez la perte à l’aide de [`wandb.Run.log()`](/fr/models/ref/python/experiments/run/#method-runlog), puis enregistrez le modèle entraîné en tant qu’artefact avec [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact), avant d’ajouter enfin le fichier du modèle avec [`Artifact.add_file`](/fr/models/ref/python/experiments/artifact#add_file).
+Utilisez le SDK Python de W&amp;B (`wandb.sdk`) pour interagir avec W&amp;B pendant l&#39;entraînement. Consignez la perte à l&#39;aide de [`wandb.Run.log()`](/fr/models/ref/python/experiments/run/#method-runlog), puis enregistrez le modèle entraîné en tant qu&#39;artifact avec [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact), avant d&#39;ajouter le fichier du modèle avec [`Artifact.add_file`](/fr/models/ref/python/experiments/artifact#add_file).
 
 ```python
 import random # Pour simuler des données
@@ -73,7 +73,7 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
         yb = weights + noise * 2  # Sortie cible simulée (double du bruit en entrée)
         
         y_pred = model(xb)  # Prédiction du modèle
-        loss = (yb - y_pred) ** 2  # Perte d'erreur quadratique moyenne
+        loss = (yb - y_pred) ** 2  # Perte erreur quadratique moyenne
 
         print(f"epoch={epoch}, loss={loss}")
         # Enregistrer l'époque et la perte dans W&B
@@ -82,7 +82,7 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
             "loss": loss,
         })
 
-    # Nom unique pour l'artefact du modèle,
+    # Nom unique pour l'artifact du modèle,
     model_artifact_name = f"model-demo"  
 
     # Chemin local pour enregistrer le fichier de modèle simulé
@@ -92,52 +92,52 @@ with wandb.init(project=PROJECT, entity=TEAM_ENTITY, config=config) as run:
     with open(PATH, "w") as f:
         f.write(str(weights)) # Enregistrement des poids du modèle dans un fichier
 
-    # Créer un objet artefact
-    # Ajouter le modèle enregistré localement à l'objet artefact
+    # Créer un objet artifact
+    # Ajouter le modèle enregistré localement à l'objet artifact
     artifact = wandb.Artifact(name=model_artifact_name, type="model", description="My trained model")
     artifact.add_file(local_path=PATH)
     artifact.save()
 ```
 
-Les principaux points à retenir du bloc de code précédent sont :
+Les points clés à retenir du bloc de code précédent sont :
 
 * Utilisez `wandb.Run.log()` pour consigner des métriques pendant l&#39;entraînement.
-* Utilisez `wandb.Artifact` pour enregistrer des modèles (jeux de données, etc.) en tant qu&#39;artefact dans votre projet W&amp;B.
+* Utilisez `wandb.Artifact` pour enregistrer des modèles (jeux de données, etc.) en tant qu&#39;artifact dans votre projet W&amp;B.
 
-Maintenant que vous avez entraîné un modèle et l&#39;avez enregistré en tant qu&#39;artefact, vous pouvez le publier dans un registre W&amp;B. Utilisez [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run/#method-runuse_artifact) pour récupérer l&#39;artefact depuis votre projet et le préparer en vue de sa publication dans le registre de modèles. `wandb.Run.use_artifact()` remplit deux fonctions principales :
+Maintenant que vous avez entraîné un modèle et l&#39;avez enregistré en tant qu&#39;artifact, vous pouvez le publier dans un registre de W&amp;B. Utilisez [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run/#method-runuse_artifact) pour récupérer l&#39;artifact de votre projet et le préparer à être publié dans le registre de modèles. `wandb.Run.use_artifact()` remplit deux fonctions clés :
 
-* Récupère l&#39;objet artefact depuis votre projet.
-* Marque l&#39;artefact comme entrée du run, ce qui garantit la reproductibilité et la traçabilité. Voir [Créer et consulter la carte de traçabilité](/fr/models/registry/lineage) pour plus de détails.
+* Récupérer l&#39;objet artifact depuis votre projet.
+* Marquer l&#39;artifact comme entrée du run, ce qui garantit la reproductibilité et la traçabilité. Voir [Créer et afficher la carte de traçabilité](/fr/models/registry/lineage) pour plus de détails.
 
 <div id="view-the-training-data-in-the-dashboard">
-  ## Consultez les données d&#39;entraînement dans le tableau de bord
+  ## Voir les données d&#39;entraînement dans le tableau de bord
 </div>
 
-Connectez-vous à votre compte sur https://wandb.ai/login
+Connectez-vous à votre compte à l&#39;adresse https://wandb.ai/login
 
-Sous **Projects**, vous devriez voir `my-awesome-project` (ou le nom de projet que vous avez utilisé ci-dessus). Cliquez dessus pour accéder à l&#39;espace de travail de votre projet.
+Sous **Projects**, vous devriez voir `my-awesome-project` (ou le nom de projet que vous avez utilisé plus haut). Cliquez dessus pour accéder au Workspace de votre projet.
 
-Vous pouvez alors voir les détails de chaque run que vous avez effectué. Dans cette capture d&#39;écran, le code a été relancé plusieurs fois, générant plusieurs runs, chacun recevant un nom généré aléatoirement.
+Vous pouvez ensuite voir les détails de chaque run que vous avez effectué. Dans cette capture d&#39;écran, le code a été relancé plusieurs fois, ce qui a généré plusieurs runs, chacun portant un nom généré aléatoirement.
 
 <Frame>
-  <img src="/images/quickstart/quickstart_image.png" alt="Page de projet W&B avec plusieurs runs dans une vue de tableau, y compris les noms des runs, les métriques et les informations de statut" />
+  <img src="/images/quickstart/quickstart_image.png" alt="Page de projet W&B avec plusieurs runs dans une vue tableau, y compris les noms des runs, les métriques et les informations de statut" />
 </Frame>
 
 <div id="publish-the-model-to-the-wb-registry">
   ## Publier le modèle dans le registre W&amp;B
 </div>
 
-Pour partager le modèle avec d’autres membres de votre organisation, publiez-le dans une [collection](/fr/models/registry/create_collection) à l’aide de `wandb.Run.link_artifact()`. Le code suivant lie l’artefact à un [registre](/fr/models/registry), ce qui le rend accessible à votre équipe.
+Pour partager le modèle avec d&#39;autres personnes de votre organisation, publiez-le dans une [collection](/fr/models/registry/create_collection) à l&#39;aide de `wandb.Run.link_artifact()`. Le code suivant associe l&#39;artifact à un [registre](/fr/models/registry), ce qui le rend accessible à votre équipe.
 
 ```python
-# Le nom de l'artefact spécifie la version spécifique de l'artefact dans le projet de notre équipe
+# Le nom de l'artifact spécifie la version exacte de l'artifact dans le projet de notre équipe
 artifact_name = f'{TEAM_ENTITY}/{PROJECT}/{model_artifact_name}:v0'
 print("Artifact name: ", artifact_name)
 
 REGISTRY_NAME = "Model" # Nom du registre dans W&B
 COLLECTION_NAME = "DemoModels"  # Nom de la collection dans le registre
 
-# Créer un chemin cible pour notre artefact dans le registre
+# Créer un chemin cible pour notre artifact dans le registre
 target_path = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 print("Target path: ", target_path)
 
@@ -146,52 +146,52 @@ with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
     run.link_artifact(artifact=model_artifact, target_path=target_path)
 ```
 
-Après avoir exécuté `wandb.Run.link_artifact()`, l’artefact de modèle se trouvera dans la collection `DemoModels` de votre registre. Vous pourrez ensuite consulter des détails tels que l’historique des versions, la [carte de traçabilité](/fr/models/registry/lineage) et d’autres [métadonnées](/fr/models/registry/registry_cards).
+Après avoir exécuté `wandb.Run.link_artifact()`, l&#39;artifact de modèle se trouvera dans la collection `DemoModels` de votre registre. Vous pouvez ensuite consulter des informations telles que l&#39;historique des versions, la [carte de traçabilité](/fr/models/registry/lineage) et d&#39;autres [métadonnées](/fr/models/registry/registry_cards).
 
-Pour plus d’informations sur la façon de lier des artefacts à un registre, voir [Lier des artefacts à un registre](/fr/models/registry/link_version).
+Pour en savoir plus sur la façon de lier des artifacts à un registre, consultez [Lier des artifacts à un registre](/fr/models/registry/link_version).
 
 <div id="retrieve-model-artifact-from-registry-for-inference">
-  ## Récupérer un artefact de modèle depuis le registre pour l’inférence
+  ## Récupérer un artifact de modèle du registre pour l’inférence
 </div>
 
-Pour utiliser un modèle pour l’inférence, utilisez `wandb.Run.use_artifact()` afin de récupérer l’artefact publié à partir du registre. Cette méthode renvoie un objet artefact, que vous pouvez ensuite télécharger dans un fichier local à l’aide de [`wandb.Artifact.download()`](/fr/models/ref/python/experiments/artifact/#method-artifactdownload).
+Pour utiliser un modèle pour l’inférence, utilisez `wandb.Run.use_artifact()` afin de récupérer l’artifact publié dans le registre. Cette méthode renvoie un objet artifact, que vous pouvez ensuite télécharger dans un fichier local à l’aide de [`wandb.Artifact.download()`](/fr/models/ref/python/experiments/artifact/#method-artifactdownload).
 
 ```python
 REGISTRY_NAME = "Model"  # Nom du registre dans W&B
 COLLECTION_NAME = "DemoModels"  # Nom de la collection dans le registre
-VERSION = 0 # Version de l'artefact à récupérer
+VERSION = 0 # Version de l'artifact à récupérer
 
 model_artifact_name = f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}:v{VERSION}"
-print(f"Nom de l'artefact modèle : {model_artifact_name}")
+print(f"Nom de l'artifact modèle : {model_artifact_name}")
 
 with wandb.init(entity=TEAM_ENTITY, project=PROJECT) as run:
     registry_model = run.use_artifact(artifact_or_name=model_artifact_name)
     local_model_path = registry_model.download()
 ```
 
-Pour plus d’informations sur la façon de récupérer des artefacts à partir d’un registre, voir [Télécharger un artefact à partir d’un registre](/fr/models/registry/download_use_artifact).
+Pour en savoir plus sur la façon de récupérer des artifacts depuis un registre, voir [Télécharger un artifact depuis un registre](/fr/models/registry/download_use_artifact).
 
-Selon votre framework de machine learning, vous devrez peut-être recréer l’architecture du modèle avant de charger les poids. Nous laissons cela en exercice au lecteur, car cela dépend du framework et du modèle que vous utilisez.
+Selon votre framework de machine learning, vous devrez peut-être recréer l’architecture du modèle avant de charger les poids. Nous vous laissons cet exercice, car cela dépend du framework et du modèle que vous utilisez.
 
 <div id="share-your-finds-with-a-report">
-  ## Partagez vos découvertes avec un rapport
+  ## Partagez vos résultats avec un rapport
 </div>
 
 <Note>
-  L&#39;API W&amp;B Report and Workspace est en préversion publique.
+  L’API W&amp;B Report and Workspace est en préversion publique.
 </Note>
 
-Créez et partagez un [rapport](/fr/models/reports) pour résumer votre travail. Pour créer un rapport par code, utilisez l&#39;[API W&amp;B Report and Workspace](/fr/models/ref/wandb_workspaces/reports).
+Créez et partagez un [rapport](/fr/models/reports) pour résumer votre travail. Pour créer un rapport de manière programmatique, utilisez l’[API W&amp;B Report and Workspace](/fr/models/ref/wandb_workspaces/reports).
 
-Commencez par installer l&#39;API W&amp;B Reports :
+Installez d’abord l’API W&amp;B Reports :
 
 ```python
 pip install wandb wandb-workspaces -qqq
 ```
 
-Le bloc de code suivant crée un rapport avec plusieurs blocs, notamment du markdown, des grilles de panneaux, entre autres. Vous pouvez personnaliser le rapport en ajoutant d’autres blocs ou en modifiant le contenu des blocs existants.
+Le bloc de code suivant crée un rapport avec plusieurs blocs, notamment du markdown, des grilles de panneaux, etc. Vous pouvez personnaliser le rapport en ajoutant d&#39;autres blocs ou en modifiant le contenu des blocs existants.
 
-L’exécution du bloc de code affiche un lien vers l’URL du rapport créé. Vous pouvez ouvrir ce lien dans votre navigateur pour afficher le rapport.
+L&#39;exécution du bloc de code affiche un lien vers l&#39;URL du rapport créé. Vous pouvez ouvrir ce lien dans votre navigateur pour consulter le rapport.
 
 ```python
 import wandb_workspaces.reports.v2 as wr
@@ -222,19 +222,19 @@ report = wr.Report(
 
 )
 
-# Enregistrer le rapport dans W&B
+# Sauvegarder le rapport dans W&B
 report.save()
 ```
 
-Pour plus d’informations sur la création d’un rapport par programmation ou de manière interactive avec l’application W&amp;B, voir [Créer un rapport](/fr/models/reports/create-a-report) dans le guide développeur de la documentation W&amp;B.
+Pour plus d’informations sur la création d’un rapport par programmation ou de manière interactive dans l’application W&amp;B, voir [Créer un rapport](/fr/models/reports/create-a-report) dans le guide du développeur de W&amp;B Docs.
 
 <div id="query-the-registry">
   ## Interroger le registre
 </div>
 
-Utilisez les [API publiques de W&amp;B](/fr/models/ref/python/public-api) pour interroger, analyser et gérer les données historiques de W&amp;B. Cela peut être utile pour suivre la traçabilité des artefacts, comparer différentes versions et analyser les performances des modèles au fil du temps.
+Utilisez les [API publiques de W&amp;B](/fr/models/ref/python/public-api) pour interroger, analyser et gérer les données historiques de W&amp;B. Cela peut être utile pour suivre la traçabilité des artifacts, comparer différentes versions et analyser les performances des modèles au fil du temps.
 
-Le bloc de code suivant montre comment interroger le registre de modèles pour récupérer tous les artefacts d&#39;une collection donnée. Il récupère la collection et parcourt ses versions en affichant le nom et la version de chaque artefact.
+Le bloc de code suivant montre comment interroger le registre Models pour tous les artifacts d&#39;une collection donnée. Il récupère la collection et parcourt ses versions pour afficher le nom et la version de chaque artifact.
 
 ```python
 import wandb
@@ -242,13 +242,13 @@ import wandb
 # Initialiser l'API wandb
 api = wandb.Api()
 
-# Trouver toutes les versions d'artefact contenant la chaîne `model` et 
+# Trouver toutes les versions d'artifact contenant la chaîne `model` et 
 # ayant soit le tag `text-classification`, soit un alias `latest`
 registry_filters = {
     "name": {"$regex": "model"}
 }
 
-# Utiliser l'opérateur logique $or pour filtrer les versions d'artefact
+# Utiliser l'opérateur logique $or pour filtrer les versions d'artifact
 version_filters = {
     "$or": [
         {"tag": "text-classification"},
@@ -256,16 +256,16 @@ version_filters = {
     ]
 }
 
-# Renvoie un itérable de toutes les versions d'artefact correspondant aux filtres
+# Renvoie un itérable de toutes les versions d'artifact correspondant aux filtres
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 
-# Afficher le nom, la collection, les alias, les tags et la date created_at de chaque artefact trouvé
+# Afficher le nom, la collection, les alias, les tags et la date created_at de chaque artifact trouvé
 for art in artifacts:
-    print(f"artifact name: {art.name}")
-    print(f"collection artifact belongs to: { art.collection.name}")
-    print(f"artifact aliases: {art.aliases}")
-    print(f"tags attached to artifact: {art.tags}")
-    print(f"artifact created at: {art.created_at}\n")
+    print(f"nom de l'artifact : {art.name}")
+    print(f"collection à laquelle appartient l'artifact : { art.collection.name}")
+    print(f"alias de l'artifact : {art.aliases}")
+    print(f"tags associés à l'artifact : {art.tags}")
+    print(f"artifact créé le : {art.created_at}\n")
 ```
 
-Pour plus d’informations sur l’interrogation du registre, voir [Interroger les éléments du registre](/fr/models/registry/search_registry/#query-registry-items-with-mongodb-style-queries).
+Pour en savoir plus sur l’interrogation du registre, voir [Interroger les éléments du registre](/fr/models/registry/search_registry/#query-registry-items-with-mongodb-style-queries).
