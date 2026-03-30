@@ -1,17 +1,17 @@
 ---
-title: "Pourquoi la même métrique apparaît-elle plus d’une fois ?"
-keywords: ["Experiments", "Métriques"]
+title: "Pourquoi la même métrique apparaît-elle plus d'une fois ?"
+keywords: ["Experiments", "métriques"]
 ---
 
-Lorsque vous journalisez différents types de données sous la même clé, ils sont dissociés dans la base de données. Cela se traduit par plusieurs entrées portant le même nom de métrique dans le menu déroulant de l’interface. Les types de données regroupés sont `number`, `string`, `bool`, `other` (principalement des tableaux), ainsi que tout type de données `wandb`, comme `Histogram` ou `Image`. N’envoyez qu’un seul type par clé pour éviter ce problème.
+Lorsque vous enregistrez différents types de données sous la même clé, ils sont séparés dans la base de données. Cela entraîne plusieurs entrées portant le même nom de métrique dans la liste déroulante de l&#39;UI. Les types de données séparés sont `number`, `string`, `bool`, `other` (principalement des tableaux), ainsi que tout type de données `wandb` comme `Histogram` ou `Image`. Pour éviter ce problème, n&#39;envoyez qu&#39;un seul type par clé.
 
-Les noms de métriques ne tiennent pas compte de la casse. Évitez d’utiliser des noms qui ne diffèrent que par la casse, comme `"My-Metric"` et `"my-metric"`.
+Les noms de métriques ne distinguent pas les majuscules des minuscules. Évitez d&#39;utiliser des noms qui ne diffèrent que par la casse, comme `"My-Metric"` et `"my-metric"`.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas à la main le contenu entre ces marqueurs.
+  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>

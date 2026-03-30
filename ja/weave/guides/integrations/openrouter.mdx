@@ -1,13 +1,13 @@
 ---
 title: "OpenRouter"
-description: "OpenRouter の統合インターフェースを使って、多数の LLM を自動 Weave インテグレーション付きで利用する"
+description: "自動的な Weave インテグレーションにより、多数の LLM 向けの OpenRouter の統一インターフェースを使用する"
 ---
 
-Openrouter.ai は多くの LLM に対する統合インターフェースであり、OpenAI GPT-4、Anthropic Claude、Google Gemini のような基盤モデルだけでなく、LLama-3、Mixtral などのオープンソースモデルや、[その他多数のモデル](https://openrouter.ai/models) をサポートしています。一部のモデルは無料でも提供されています。
+Openrouter.ai は、多数の LLM 向けの統一インターフェースです。OpenAI GPT-4、Anthropic Claude、Google Gemini などの基盤モデルに加え、Llama-3、Mixtral、さらに[そのほか多数](https://openrouter.ai/models)のオープンソースモデルもサポートしています。一部のモデルは無料で提供されています。
 
-OpenRouter は REST API と OpenAI SDK 互換のインターフェース ([ドキュメント](https://docs.together.ai/docs/openai-api-compatibility)) を提供しており、Weave が自動的に検出してインテグレーションします (詳細は OpenRouter の [クイックスタート](https://openrouter.ai/docs/quick-start) を参照してください) 。
+OpenRouter は REST API と OpenAI SDK との互換性 ([ドキュメント](https://docs.together.ai/docs/openai-api-compatibility)) を提供しており、Weave はこれを自動的に検出して統合します (詳細は OpenRouter の[クイックスタート](https://openrouter.ai/docs/quick-start)を参照してください) 。
 
-OpenAI SDK コードを OpenRouter に切り替えるには、API キーを自分の [OpenRouter API](https://openrouter.ai/docs/api-keys) キーに変更し、`base_url` を `https://openrouter.ai/api/v1` に、`model` を多数ある [chat models](https://openrouter.ai/docs/models) のいずれかに設定します。`weave.init()` を呼び出す際、トレース用の プロジェクト名を指定してください。指定しない場合は、デフォルトの entity が使用されます。デフォルトの entity を確認または更新するには、W&amp;B Models ドキュメントの [User Settings](/ja/platform/app/settings-page/user-settings/#default-team) を参照してください。
+OpenAI SDK のコードを OpenRouter に切り替えるには、APIキーを自分の [OpenRouter API](https://openrouter.ai/docs/api-keys) キーに、`base_url` を `https://openrouter.ai/api/v1` に、モデルを多数ある[チャットモデル](https://openrouter.ai/docs/models)のいずれかに変更してください。`weave.init()` を呼び出すときは、トレース用のプロジェクト名を指定してください。指定しない場合は、デフォルトの entity が使用されます。デフォルトの entity を検索または更新するには、W&amp;B Models ドキュメントの [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) を参照してください。
 
 ```python lines {5,10-12}
 import os
@@ -40,4 +40,4 @@ response = chat_completion.choices[0].message.content
 print("モデルの応答:\n", response)
 ```
 
-これは入門用の簡単な例ですが、より複雑なユースケース向けに Weave を独自の関数とインテグレーションする方法の詳細については、[OpenAI](/ja/weave/guides/integrations/openai#track-your-own-ops) ガイドを参照してください。
+これは使い始めるための簡単な例ですが、より複雑なユースケースで独自の関数を Weave と統合する方法の詳細については、[OpenAI](/ja/weave/guides/integrations/openai#track-your-own-ops) ガイドを参照してください。

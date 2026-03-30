@@ -126,7 +126,7 @@ description: "Référence du SDK TypeScript"
 
 ▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`&lt;`string`&gt;
 
-Ajoute un résultat de scorer (par exemple, la sortie du scorer) à un appel.
+Ajoute un résultat de scorer (par ex. la sortie du scorer) à un appel.
 Utilisé dans l’évaluation impérative pour associer les résultats du scorer aux appels de prédiction.
 
 <div id="parameters">
@@ -135,10 +135,10 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
 
 | Nom              | Type     | Description                                           |
 | :--------------- | :------- | :---------------------------------------------------- |
-| `predictCallId`  | `string` | ID de l&#39;appel predict auquel associer le feedback |
-| `scorerCallId`   | `string` | ID de l&#39;appel scorer qui a généré le feedback     |
-| `runnableRefUri` | `string` | URI du scorer (Op ou réf. d&#39;objet)                |
-| `scorerOutput`   | `any`    | Sortie du scorer                                      |
+| `predictCallId`  | `string` | ID de l&#39;appel `predict` auquel associer le retour |
+| `scorerCallId`   | `string` | ID de l&#39;appel du scorer ayant généré le retour    |
+| `runnableRefUri` | `string` | URI du scorer (op ou réf. d&#39;objet)                |
+| `scorerOutput`   | `any`    | Résultat du scorer                                    |
 
 <div id="returns">
   #### Renvoie
@@ -290,7 +290,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   ### getCall
 </div>
 
-▸ **getCall**(`callId`, `includeCosts?`): `Promise`&lt;`Call`&gt;
+▸ **getCall**(`callId`, `includeCosts?`): `Promise`&lt;`Appel`&gt;
 
 <div id="parameters">
   #### Paramètres
@@ -305,7 +305,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Renvoie
 </div>
 
-`Promise`&lt;`Call`&gt;
+`Promise`&lt;`Appel`&gt;
 
 <div id="defined-in">
   #### Défini dans
@@ -339,7 +339,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   ### getCalls
 </div>
 
-▸ **getCalls**(`filter?`, `includeCosts?`, `limit?`): `Promise`&lt;`Call`[]&gt;
+▸ **getCalls**(`filter?`, `includeCosts?`, `limit?`): `Promise`&lt;`Appel`[]&gt;
 
 <div id="parameters">
   #### Paramètres
@@ -355,7 +355,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Renvoie
 </div>
 
-`Promise`&lt;`Call`[]&gt;
+`Promise`&lt;`Appel`[]&gt;
 
 <div id="defined-in">
   #### Défini dans
@@ -448,13 +448,13 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   ### pushNewCall
 </div>
 
-▸ **pushNewCall**(): `Object`
+▸ **pushNewCall**(): `objet`
 
 <div id="returns">
   #### Renvoie
 </div>
 
-`Objet`
+`objet`
 
 | Nom           | Type             |
 | :------------ | :--------------- |

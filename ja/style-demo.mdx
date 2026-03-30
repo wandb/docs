@@ -1,20 +1,20 @@
 ---
-title: "スタイルガイドのデモ"
-description: "タイポグラフィ、カラー、バナー、UI コンポーネントのレンダリング例を含むカスタム W&B ブランド スタイルのプレビュー"
+title: "スタイルガイドデモ"
+description: "タイポグラフィ、色、バナー、UI コンポーネントの表示例を含む、カスタムの W&B ブランドスタイルをプレビューします。"
 ---
 
 <div id="style-guide-demo">
-  # スタイルガイドのデモ
+  # スタイルガイドデモ
 </div>
 
-このページでは、W&B ドキュメント向けに実装されたカスタム ブランド スタイルをデモします。
+このページでは、W&amp;Bドキュメントに実装されている独自のブランドスタイルを紹介します。
 
 <div id="1-typography">
   ## 1. タイポグラフィ
 </div>
 
 <div id="headings-with-source-serif-4">
-  ### Source Serif 4 の見出し
+  ### Source Serif 4の見出し
 </div>
 
 <div id="h1-heading-source-serif-4">
@@ -30,10 +30,10 @@ description: "タイポグラフィ、カラー、バナー、UI コンポーネ
 </div>
 
 <div id="h4-heading-source-serif-4">
-  #### H4 見出し - Source Serif 4
+  #### H4見出し - Source Serif 4
 </div>
 
-本文テキストは、プラットフォームを問わず最適な可読性を実現するためにシステムフォントスタックを使用しています。
+本文には、プラットフォームを問わず最適な可読性を実現するため、システムフォントスタックを使用します。
 
 <div id="2-brand-colors">
   ## 2. ブランドカラー
@@ -41,43 +41,45 @@ description: "タイポグラフィ、カラー、バナー、UI コンポーネ
 
 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginBottom: '2rem'}}>
   <div style={{padding: '1rem', background: 'var(--wandb-gold)', color: 'var(--moon-900)', borderRadius: '8px'}}>
-    W&B Gold
+    W&amp;B Gold
     #ffcc33
   </div>
+
   <div style={{padding: '1rem', background: 'var(--wandb-teal-500)', color: 'white', borderRadius: '8px'}}>
-    W&B Teal
+    W&amp;B Teal
     #13a9ba
   </div>
+
   <div style={{padding: '1rem', background: 'var(--moon-100)', color: 'var(--moon-800)', borderRadius: '8px'}}>
     Moon 100
     #f5f6f7
   </div>
 </div>
 
-一貫性を保つため、リンクには <a href="#">ティール系のカラー</a> を使用します。
+リンクには、一貫性を保つため <a href="#">ティール系の色</a> を使用します。
 
 <div id="3-banner-components">
   ## 3. バナーコンポーネント
 </div>
 
 <div className="help-banner custom-banner">
-  <h2>ヘルプ & サポート バナー</h2>
-  <p>このバナーは、テキストシャドウ付きのサポート用背景画像を使用しています。</p>
+  <h2>ヘルプ＆サポートバナー</h2>
+  <p>このバナーでは、サポート用の背景画像とテキストシャドウを使用しています。</p>
 </div>
 
 <div className="card-banner custom-banner">
   <h3>カードバナー</h3>
-  <p>情報コンテンツ向けの、控えめなグレー背景のバナーです。</p>
+  <p>情報コンテンツ向けの、落ち着いたグレー背景のバナーです。</p>
 </div>
 
 <div className="gradient-banner custom-banner">
   <h3>グラデーションバナー</h3>
-  <p>目を引く告知用に sunset グラデーションを使用しています。</p>
+  <p>人目を引くお知らせ向けに、サンセットグラデーションを使用しています。</p>
 </div>
 
 <div className="wandb-banner custom-banner">
-  <h3>W&B ブランド バナー</h3>
-  <p>公式の W&B ゴールドグラデーションを使用しています。</p>
+  <h3>W&amp;B ブランドバナー</h3>
+  <p>W&amp;B公式のゴールドグラデーションを使用しています。</p>
 </div>
 
 <div id="4-button-styles">
@@ -86,8 +88,8 @@ description: "タイポグラフィ、カラー、バナー、UI コンポーネ
 
 <div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem'}}>
   <button className="cta-button">CTA ボタン</button>
-  <button className="primary-button">プライマリーボタン</button>
-  <button className="brand-button">ブランドボタン</button>
+  <button className="primary-button">プライマリ ボタン</button>
+  <button className="brand-button">ブランド ボタン</button>
   <a href="#" className="contact-button">お問い合わせボタン</a>
 </div>
 
@@ -97,16 +99,16 @@ description: "タイポグラフィ、カラー、バナー、UI コンポーネ
 
 <div className="hero-gradient">
   <h2>グラデーション付きヒーローセクション</h2>
-  <p>ヒーローセクションや重要なお知らせに、サンセットグラデーションを使用します。</p>
+  <p>ヒーローセクションや重要なお知らせには、サンセットグラデーションを使用します。</p>
 </div>
 
 <div className="card-gradient">
   <h3>控えめなグラデーション付きカード</h3>
-  <p>カードコンポーネントに控えめなグラデーションのオーバーレイを適用し、過度になりすぎない範囲で視覚的な魅力を高めます。</p>
+  <p>カードコンポーネント向けの控えめなグラデーションオーバーレイで、主張しすぎることなく視覚的なアクセントを加えます。</p>
 </div>
 
 <div style={{fontSize: '2rem', fontWeight: 'bold', marginTop: '2rem'}}>
-  <span className="text-gradient-wandb">W&B グラデーションテキスト効果</span>
+  <span className="text-gradient-wandb">W&amp;B グラデーションテキストエフェクト</span>
 </div>
 
 <div id="usage-examples">
@@ -114,7 +116,7 @@ description: "タイポグラフィ、カラー、バナー、UI コンポーネ
 </div>
 
 <div id="banner-in-mdx">
-  ### MDX のバナー
+  ### MDXでのバナー
 </div>
 
 ```mdx
@@ -126,7 +128,7 @@ description: "タイポグラフィ、カラー、バナー、UI コンポーネ
 
 
 <div id="button-in-mdx">
-  ### MDX におけるボタン
+  ### MDXでのボタン
 </div>
 
 ```mdx
@@ -140,17 +142,17 @@ description: "タイポグラフィ、カラー、バナー、UI コンポーネ
 
 ```mdx
 <div className="hero-gradient">
-  <h1>W&B へようこそ</h1>
+  <h1>W&Bへようこそ</h1>
   <p>より優れたモデルをより速く構築</p>
 </div>
 ```
 
 
 <div id="notes">
-  ## 注意事項
+  ## メモ
 </div>
 
-- すべてのスタイルは自動的にダークモードに対応します
-- 色は保守しやすいよう CSS 変数として定義しています
-- グラデーションにはブランドカラーを一貫して使用しています
-- ホバー効果によりインタラクティブなフィードバックが得られます
+* すべてのスタイルは自動的にダークモードに対応します
+* 色は保守しやすいようにCSS変数として定義されています
+* グラデーションではブランドカラーを一貫して使用しています
+* ホバー効果により、視覚的にわかりやすい反応が得られます

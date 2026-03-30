@@ -1,11 +1,11 @@
 ---
-title: "異なる 2 つの時間スケールでメトリクスをログできますか？"
+title: "2つの異なる時間スケールでメトリクスをログできますか？"
 keywords: ["Experiments", "メトリクス"]
 ---
 
-たとえば、トレーニング accuracy をバッチごとに、検証 accuracy をエポックごとにログしたい場合です。
+たとえば、バッチごとにトレーニング精度を、エポックごとに検証精度をログしたいとします。
 
-はい。`batch` や `epoch` のようなインデックスを、メトリクスとあわせてログしてください。ある step では `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` を使い、別の step では `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` を使います。UI では、各チャートで目的の値を x 軸に設定してください。特定のインデックスのデフォルト x 軸を設定するには、[Run.define&#95;metric()](/ja/models/ref/python/experiments/run#define_metric) を使用します。この例では、次のコードを使用します。
+はい。メトリクスとあわせて、`batch` や `epoch` のようなインデックスもログしてください。1つの step では `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` を使用し、別の step では `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` を使用します。UI で、各チャートの x-axis に使用したい値を設定します。特定のインデックスのデフォルトの x-axis を設定するには、[Run.define&#95;metric()](/ja/models/ref/python/experiments/run#define_metric) を使用します。この例では、次のコードを使用します。
 
 ```python
 import wandb
@@ -20,11 +20,11 @@ with wandb.init() as run:
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  フロントマター内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって生成されます。
+  これらのマーカー間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
 
-{/* ---- 自動生成: タブバッジ終了 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

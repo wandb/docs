@@ -1,5 +1,5 @@
 ---
-title: Team クラス
+title: Team
 namespace: public_apis_namespace
 python_object_type: class
 ---
@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Team`
 
-W&B のチームを表すクラス。
+W&amp;B のチームを表すクラス。
 
-このクラスは、チームの作成、メンバーの招待、サービスアカウントの管理など、W&B のチームを管理するためのメソッドを提供します。チーム属性を扱うために Attrs を継承しています。
+このクラスは、チームの作成、メンバーの招待、サービスアカウントの管理など、W&amp;B のチームを管理するための method を提供します。チーム の属性を扱うために Attrs を継承します。
 
 ### <kbd>method</kbd> `Team.__init__`
 
@@ -28,17 +28,17 @@ __init__(
 **引数:**
 
 * `client` (`wandb.apis.public.Api`):  使用する API インスタンス
-* `name` (str):  チーム名
-* `attrs` (dict):  チーム属性を表す省略可能な辞書
+* `name` (str):  チーム の名
+* `attrs` (dict):  チーム の属性を格納したオプションの辞書
 
-**注:**
+**注記:**
 
-> チームの管理には、適切な権限が必要です。
+> チーム の管理には、適切な権限が必要です。
 
 ***
 
 
-### <kbd>classmethod</kbd> `Team.create`
+### <kbd>クラスメソッド</kbd> `Team.create`
 
 ```python
 create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
@@ -48,9 +48,9 @@ create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
 
 **引数:**
 
-* `api`:  (`Api`) 使用する API インスタンス
-* `team`:  (str) チーム名
-* `admin_username`:  (str) チーム管理者ユーザーのユーザー名（任意）。指定しない場合は現在のユーザーが使用されます。
+* `api`:  (`Api`) 使用するapiインスタンス
+* `team`:  (str) チームの名前
+* `admin_username`:  (str) チームの管理者ユーザーのユーザー名 (省略可能) 。デフォルトは現在のユーザーです。
 
 **戻り値:**
 `Team` オブジェクト
@@ -58,20 +58,20 @@ create(api: 'Api', team: 'str', admin_username: 'str | None' = None) → Self
 ***
 
 
-### <kbd>メソッド</kbd> `Team.create_service_account`
+### <kbd>method</kbd> `Team.create_service_account`
 
 ```python
 create_service_account(description: 'str') → Member | None
 ```
 
-チーム用のサービスアカウントを作成します。
+チーム のサービスアカウントを作成します。
 
 **引数:**
 
 * `description`:  (str) このサービスアカウントの説明
 
 **戻り値:**
-サービスアカウントの `Member` オブジェクト、または失敗時は `None`
+サービスアカウントの `Member` オブジェクト。失敗した場合は None
 
 ***
 
@@ -82,14 +82,14 @@ create_service_account(description: 'str') → Member | None
 invite(username_or_email: 'str', admin: 'bool' = False) → bool
 ```
 
-チームにユーザーを招待します。
+ユーザーをチームに招待します。
 
 **引数:**
 
 * `username_or_email`:  (str) 招待するユーザーのユーザー名またはメールアドレス。
-* `admin`:  (bool) このユーザーをチーム管理者にするかどうか。既定値は `False`。
+* `admin`:  (bool) このユーザーをチームの管理者にするかどうか。デフォルトは `False` です。
 
 **戻り値:**
-成功時は `True`。ユーザーがすでに招待されているか、存在しなかった場合は `False`。
+成功した場合は `True`、ユーザーがすでに招待されているか存在しない場合は `False`。
 
 ***

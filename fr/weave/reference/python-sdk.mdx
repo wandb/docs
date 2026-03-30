@@ -1,6 +1,6 @@
 ---
 title: "weave"
-description: "Parcourez la documentation de référence complète du SDK Python de W&B Weave, y compris tous les modules et toutes les classes."
+description: "Consultez la documentation de référence complète du SDK Python de W&B Weave, avec tous les modules et toutes les classes."
 ---
 
 import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
@@ -119,23 +119,23 @@ Valide un payload par rapport au schéma de cette spécification d’annotation.
 
 Une classe qui représente des données audio dans un format pris en charge (wav ou mp3).
 
-Cette classe gère le stockage des données audio et fournit des méthodes pour les charger à partir de diverses sources et les exporter vers des fichiers.
+Cette classe gère le stockage des données audio et fournit des méthodes pour les charger depuis différentes sources et les exporter vers des fichiers.
 
-**Attributs :**
+**Attributs :**
 
 * <b>`format`</b>:  Le format audio (prend actuellement en charge &#39;wav&#39; ou &#39;mp3&#39;)
-* <b>`data`</b>:  Les données audio brutes sous forme d&#39;octets
+* <b>`data`</b>:  Les données audio brutes sous forme d’octets
 
-**Arguments :**
+**Arguments :**
 
 * <b>`data`</b>: Les données audio (octets ou chaîne encodée en base64)
 
 * <b>`format`</b>: Le format audio (&#39;wav&#39; ou &#39;mp3&#39;)
 
-* <b>`validate_base64`</b>: Indique s&#39;il faut tenter de décoder les données d&#39;entrée en base64
-  **Exceptions levées :**
+* <b>`validate_base64`</b>: Indique s’il faut tenter de décoder les données d’entrée en base64
+  **Exceptions levées :**
 
-* <b>`ValueError`</b>:  Si les données audio sont vides ou si le format n&#39;est pas pris en charge
+* <b>`ValueError`</b>:  Si les données audio sont vides ou si le format n’est pas pris en charge
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/Audio/audio.py#L106" />
 
@@ -160,7 +160,7 @@ __init__(
 export(path: 'str | bytes | Path | PathLike') → None
 ```
 
-Exporte les données Audio dans un fichier.
+Exporte les données audio vers un fichier.
 
 **Arguments :**
 
@@ -175,14 +175,14 @@ Exporte les données Audio dans un fichier.
 from_data(data: 'str | bytes', format: 'str') → Self
 ```
 
-Créer un objet Audio à partir de données brutes et du format spécifié.
+Crée un objet Audio à partir de données brutes et du format spécifié.
 
-* <b>`path`</b>: Chemin où le fichier audio doit être enregistré
+* <b>`path`</b>: Chemin où écrire le fichier audio
   **Arguments :**
 
 * <b>`data`</b>: Données audio sous forme d’octets ou de chaîne encodée en base64
 
-* <b>`format`</b>: Format audio (`'wav'` ou `'mp3'`)
+* <b>`format`</b>: Format audio (&#39;wav&#39; ou &#39;mp3&#39;)
   **Retourne :**
 
 * <b>`Audio`</b>:  Une nouvelle instance de Audio
@@ -202,14 +202,14 @@ Créer un objet Audio à partir de données brutes et du format spécifié.
 from_path(path: 'str | bytes | Path | PathLike') → Self
 ```
 
-Créer un objet Audio à partir d’un chemin d’accès à un fichier.
+Crée un objet Audio à partir du chemin d’un fichier.
 
 **Arguments :**
 
-* <b>`path`</b>: Chemin d’accès à un fichier audio (doit avoir l’extension .wav ou .mp3)
+* <b>`path`</b>: Chemin vers un fichier audio (doit avoir l’extension .wav ou .mp3)
   **Retourne :**
 
-* <b>`Audio`</b>:  Une nouvelle instance d’Audio chargée à partir du fichier
+* <b>`Audio`</b>:  Une nouvelle instance Audio chargée à partir du fichier
 
 **Exceptions levées :**
 
@@ -220,9 +220,9 @@ Créer un objet Audio à partir d’un chemin d’accès à un fichier.
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L42" />
 
 
-## <kbd>class</kbd> `Content`
+## <kbd>classe</kbd> `Content`
 
-Une classe permettant de représenter du contenu provenant de diverses sources et de le convertir en une représentation unifiée sous forme d’octets, avec les métadonnées associées.
+Une classe qui représente du contenu provenant de différentes sources, en le convertissant en une représentation unifiée sous forme d’octets, avec les métadonnées associées.
 
 Cette classe doit être instanciée à l’aide de l’une de ses méthodes de classe :
 
@@ -241,7 +241,7 @@ Cette classe doit être instanciée à l’aide de l’une de ses méthodes de c
 __init__(*args: 'Any', **kwargs: 'Any') → None
 ```
 
-L’initialisation directe est désactivée. Utilisez une méthode de classe comme `Content.from_path()` pour créer une instance.
+L’initialisation directe est désactivée. Veuillez utiliser une méthode de classe telle que `Content.from_path()` pour créer une instance.
 
 **Champs Pydantic :**
 
@@ -273,9 +273,9 @@ L’initialisation directe est désactivée. Utilisez une méthode de classe com
 as_string() → str
 ```
 
-Affiche les données sous forme de chaîne de caractères. Les octets sont décodés à l’aide de l’attribut `encoding`. Si le format est base64, les données sont réencodées en octets base64, puis décodées en chaîne ASCII.
+Affiche les données sous forme de chaîne de caractères. Les octets sont décodés à l’aide de l’attribut `encoding`. Si la valeur est en base64, les données sont réencodées en octets base64, puis décodées en chaîne ASCII.
 
-**Retourne :**
+**Retourne :**
 str.
 
 ***
@@ -294,7 +294,7 @@ from_base64(
 ) → Self
 ```
 
-Initialise `Content` à partir d’une chaîne encodée en base64 ou d’octets.
+Initialise Content à partir d’une chaîne ou d’octets encodés en base64.
 
 ***
 
@@ -313,7 +313,7 @@ from_bytes(
 ) → Self
 ```
 
-Initialise Content à partir d’octets bruts.
+Initialise un objet Content à partir d’octets bruts.
 
 ***
 
@@ -326,7 +326,7 @@ Initialise Content à partir d’octets bruts.
 from_data_url(url: 'str', metadata: 'dict[str, Any] | None' = None) → Self
 ```
 
-Initialise `Content` à partir d’une URL de données.
+Initialise Content à partir d’une URL de données.
 
 ***
 
@@ -363,7 +363,7 @@ from_text(
 ) → Self
 ```
 
-Initialise Content à partir d’une chaîne de texte.
+Initialise un objet Content à partir d’une chaîne de texte.
 
 ***
 
@@ -381,9 +381,9 @@ from_url(
 ) → Self
 ```
 
-Initialise Content en récupérant des octets à partir d’une URL HTTP(S).
+Initialise l’objet Content à partir des octets récupérés depuis une URL HTTP(S).
 
-Télécharge le contenu, déduit le type MIME et l’extension à partir des en-têtes, du chemin de l’URL et des données, puis construit un objet Content à partir des octets obtenus.
+Télécharge le contenu, détermine le type MIME et l’extension à partir des en-têtes, du chemin de l’URL et des données, puis construit un objet Content à partir des octets obtenus.
 
 ***
 
@@ -401,7 +401,7 @@ model_validate(
 ) → Self
 ```
 
-Redéfinissez model&#95;validate pour gérer la reconstruction de Content à partir d’un dict.
+Redéfinissez model&#95;validate pour prendre en charge la reconstruction de Content à partir d’un dict.
 
 ***
 
@@ -418,7 +418,7 @@ model_validate_json(
 ) → Self
 ```
 
-Redéfinit model&#95;validate&#95;json pour prendre en charge la reconstruction de Content à partir de JSON.
+Redéfinissez model&#95;validate&#95;json pour gérer la reconstruction de Content à partir de JSON.
 
 ***
 
@@ -433,11 +433,11 @@ open() → bool
 
 Ouvrez le fichier à l’aide de l’application par défaut du système d’exploitation.
 
-Cette méthode utilise le mécanisme propre à la plateforme pour ouvrir le fichier avec l’application par défaut associée au type de fichier.
+Cette méthode utilise le mécanisme propre à la plateforme pour ouvrir le fichier avec l’application par défaut associée à son type.
 
-**Retourne :**
+**Retourne :**
 
-* <b>`bool`</b>:  Vrai si le fichier a été ouvert avec succès, Faux sinon.
+* <b>`bool`</b>:  True si le fichier a été ouvert avec succès, False sinon.
 
 ***
 
@@ -465,7 +465,7 @@ Copiez le fichier dans le chemin de destination spécifié. Met à jour le nom d
 serialize_data(data: 'bytes') → str
 ```
 
-Lors de la sérialisation d’un modèle en mode JSON
+Lors de la sérialisation du modèle en mode JSON
 
 ***
 
@@ -480,12 +480,12 @@ to_data_url(use_base64: 'bool' = True) → str
 
 Construit une URL de données à partir du contenu.
 
-* <b>`dest`</b> : Chemin de destination vers lequel le fichier sera copié (string ou pathlib.Path)  Le chemin de destination peut être un fichier ou un répertoire.  Si dest n’a pas d’extension de fichier (par ex. .txt), la destination sera considérée comme un répertoire.
+* <b>`dest`</b>: Chemin de destination vers lequel le fichier sera copié (chaîne de caractères ou pathlib.Path)  Le chemin de destination peut être un fichier ou un répertoire.  Si dest n&#39;a pas d&#39;extension de fichier (par ex. .txt), la destination sera considérée comme un répertoire.
   **Arguments :**
 
-* <b>`use_base64`</b> : Si True, les données seront encodées en base64.  Sinon, elles seront encodées par pourcentage. Valeur par défaut : True.
-  **Retourne :**
-  Une chaîne représentant une URL de données.
+* <b>`use_base64`</b>: Si True, les données seront encodées en base64.  Sinon, elles seront encodées par pourcentage. La valeur par défaut est True.
+  **Retourne :**
+  Une chaîne contenant une URL de données.
 
 ***
 
@@ -494,7 +494,7 @@ Construit une URL de données à partir du contenu.
 
 ## <kbd>classe</kbd> `Dataset`
 
-Objet de type jeu de données, avec enregistrement simplifié et gestion automatique des versions.
+Objet Dataset facile à enregistrer, avec gestion automatique des versions.
 
 **Exemples :**
 
@@ -532,9 +532,9 @@ example_label = dataset_ref.rows[2]['sentence']
 add_rows(rows: Iterable[dict]) → Dataset
 ```
 
-Créer une nouvelle version du jeu de données en ajoutant des lignes au jeu de données existant.
+Crée une nouvelle version du jeu de données en ajoutant des lignes au jeu de données existant.
 
-Ceci est utile pour ajouter des exemples à de grands jeux de données sans devoir charger l’intégralité du jeu de données en mémoire.
+C’est utile pour ajouter des exemples à de grands jeux de données sans avoir à charger l’intégralité du jeu de données en mémoire.
 
 **Arguments :**
 
@@ -614,7 +614,7 @@ Sélectionnez des lignes du jeu de données à partir des indices fournis.
 
 **Arguments :**
 
-* <b>`indices`</b> : Un itérable d’indices entiers spécifiant les lignes à sélectionner.
+* <b>`indices`</b> : Un itérable d’indices entiers indiquant quelles lignes sélectionner.
   **Retourne :**
   Un nouvel objet Dataset contenant uniquement les lignes sélectionnées.
 
@@ -645,7 +645,7 @@ to_pandas() → DataFrame
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L192" />
 
 
-## <kbd>class</kbd> `EasyPrompt`
+## <kbd>classe</kbd> `EasyPrompt`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L200" />
 
@@ -665,16 +665,16 @@ __init__(
 * `name`: `str | None`
 * `description`: `str | None`
 * `ref`: `trace.refs.ObjectRef | None`
-* `data`: `<classe 'list'>`
-* `config`: `<classe 'dict'>`
-* `requirements`: `<classe 'dict'>`
+* `data`: `<class 'list'>`
+* `config`: `<class 'dict'>`
+* `requirements`: `<class 'dict'>`
 
 ***
 
 
 #### <kbd>propriété</kbd> as_str
 
-Regrouper tous les messages dans une seule chaîne.
+Regroupe tous les messages en une seule chaîne.
 
 ***
 
@@ -684,19 +684,19 @@ Regrouper tous les messages dans une seule chaîne.
 
 #### <kbd>propriété</kbd> messages
 
-#### espaces réservés <kbd>propriété</kbd>
+#### espaces réservés de <kbd>propriété</kbd>
 
 ***
 
 #### <kbd>propriété</kbd> system_message
 
-Regrouper tous les messages dans un prompt système.
+Regroupe tous les messages en un message de prompt système.
 
 ***
 
 #### <kbd>propriété</kbd> system_prompt
 
-Regrouper tous les messages dans un objet prompt système.
+Regroupe tous les messages en un objet de prompt système.
 
 ***
 
@@ -816,7 +816,7 @@ format(**kwargs: Any) → Any
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L491" />
 
 
-### <kbd>méthode de classe</kbd> `from_obj`
+### <kbd>classmethod</kbd> `from_obj`
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -827,7 +827,7 @@ from_obj(obj: WeaveObject) → Self
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L506" />
 
 
-### <kbd>méthode de classe</kbd> `load`
+### <kbd>classmethod</kbd> `load`
 
 ```python
 load(fp: <class 'IO'>) → Self
@@ -838,7 +838,7 @@ load(fp: <class 'IO'>) → Self
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L516" />
 
 
-### <kbd>méthode de classe</kbd> `load_file`
+### <kbd>classmethod</kbd> `load_file`
 
 ```python
 load_file(filepath: str | Path) → Self
@@ -937,15 +937,15 @@ values_table(title: str | None = None) → Table
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval.py#L61" />
 
 
-## <kbd>classe</kbd> `Evaluation`
+## <kbd>class</kbd> `Evaluation`
 
 Configure une évaluation comprenant un ensemble d’évaluateurs et un jeu de données.
 
-L’appel à `evaluation.evaluate(model)` transmet les lignes d’un jeu de données à un modèle en faisant correspondre les noms des colonnes du jeu de données aux noms des arguments de `model.predict`.
+L’appel à evaluation.evaluate(model) transmet les lignes d’un jeu de données à un modèle en faisant correspondre les noms des colonnes du jeu de données aux noms des arguments de model.predict.
 
-Il appelle ensuite tous les évaluateurs et enregistre les résultats dans Weave.
+Ensuite, tous les évaluateurs sont appelés et les résultats sont enregistrés dans Weave.
 
-Si vous souhaitez prétraiter les lignes du jeu de données, vous pouvez transmettre une fonction à `preprocess&#95;model&#95;input`.
+Si vous souhaitez prétraiter les lignes du jeu de données, vous pouvez passer une fonction à preprocess&#95;model&#95;input.
 
 **Exemples :**
 
@@ -1005,7 +1005,7 @@ evaluate(model: Op | Model) → dict
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval.py#L119" />
 
 
-### <kbd>méthode de classe</kbd> `from_obj`
+### <kbd>classmethod</kbd> `from_obj`
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -1033,13 +1033,13 @@ get_eval_results(model: Op | Model) → EvaluationResults
 get_evaluate_calls() → PaginatedIterator[CallSchema, WeaveObject]
 ```
 
-Récupère tous les appels d’évaluation qui ont utilisé cet objet Evaluation.
+Récupère tous les appels d’évaluation ayant utilisé cet objet Évaluation.
 
-Notez que cette méthode renvoie un `CallsIter` plutôt qu’un appel unique, car il peut y avoir plusieurs appels d’évaluation pour une même évaluation (par ex., si vous exécutez la même évaluation plusieurs fois).
+Notez que cette méthode renvoie un `CallsIter` plutôt qu’un appel unique, car il peut y avoir plusieurs appels d’évaluation pour une seule évaluation (par exemple, si vous exécutez plusieurs fois la même évaluation).
 
 **Retourne :**
 
-* <b>`CallsIter`</b>:  Un itérateur sur des objets `Call` représentant des runs d’évaluation.
+* <b>`CallsIter`</b>:  Un itérateur sur des objets Appel représentant des exécutions d’évaluation.
 
 **Exceptions levées :**
 
@@ -1049,7 +1049,7 @@ Notez que cette méthode renvoie un `CallsIter` plutôt qu’un appel unique, ca
 
 ```python
 evaluation = Evaluation(dataset=examples, scorers=[scorer])
-await evaluation.evaluate(model)  # Lancer l'évaluation d'abord
+await evaluation.evaluate(model)  # Exécuter l'évaluation en premier
 calls = evaluation.get_evaluate_calls()
 for call in calls:
      print(f"Evaluation run: {call.id} at {call.started_at}")
@@ -1066,13 +1066,13 @@ for call in calls:
 get_score_calls() → dict[str, list[Call]]
 ```
 
-Récupère les appels de scorer pour chaque run d’évaluation, regroupés par ID de trace.
+Récupère les appels du scorer pour chaque run d&#39;Évaluation, regroupés par ID de trace.
 
-**Retourne :**
+**Retourne :**
 
-* <b>`dict[str, list[Call]]`</b>:  Un dictionnaire qui associe les ID de trace à des listes d’objets Appel de scorer. Chaque ID de trace représente un run d’évaluation, et la liste contient tous les appels de scorer exécutés pendant ce run.
+* <b>`dict[str, list[Call]]`</b> :  Un dictionnaire qui associe les ID de trace à des listes d&#39;objets Appel du scorer. Chaque ID de trace représente un run d&#39;Évaluation, et la liste contient tous les appels du scorer exécutés pendant ce run.
 
-**Exemples :**
+**Exemples :**
 
 ```python
 evaluation = Evaluation(dataset=examples, scorers=[accuracy_scorer, f1_scorer])
@@ -1096,16 +1096,16 @@ for trace_id, calls in score_calls.items():
 get_scores() → dict[str, dict[str, list[Any]]]
 ```
 
-Extrait et organise les résultats des évaluateurs à partir des runs d&#39;évaluation.
+Extrait et organise les résultats des scorers à partir des runs d’évaluation.
 
-**Retourne :**
+**Retourne :**
 
-* <b>`dict[str, dict[str, list[Any]]]`</b>:  Une structure de dictionnaire imbriquée dans laquelle :
-  * Les clés du premier niveau sont les identifiants de trace (runs d&#39;évaluation)
-  * Les clés du deuxième niveau sont les noms des évaluateurs
+* <b>`dict[str, dict[str, list[Any]]]`</b>:  Une structure de dictionnaire imbriquée où :
+  * Les clés du premier niveau sont les ID de trace (runs d’évaluation)
+  * Les clés du deuxième niveau sont les noms des scorers
   * Les valeurs sont des listes de résultats de scorer pour ce run et ce scorer
 
-**Exemples :**
+**Exemples :**
 
 ```python
 evaluation = Evaluation(dataset=examples, scorers=[accuracy_scorer, f1_scorer])
@@ -1169,18 +1169,18 @@ summarize(eval_table: EvaluationResults) → dict
 
 ## <kbd>class</kbd> `EvaluationLogger`
 
-Cette classe fournit une interface impérative pour journaliser des évaluations.
+Cette classe fournit une interface impérative pour enregistrer des évaluations.
 
-Une évaluation démarre automatiquement lorsque la première prédiction est journalisée à l&#39;aide de la méthode `log_prediction`, et se termine lorsque la méthode `log_summary` est appelée.
+Une évaluation démarre automatiquement lorsque la première prédiction est enregistrée via la méthode `log_prediction`, et se termine lorsque la méthode `log_summary` est appelée.
 
-Chaque fois que vous journalisez une prédiction, vous obtenez un objet `ScoreLogger`. Vous pouvez utiliser cet objet pour journaliser les scores et les métadonnées associés à cette prédiction. Pour plus d&#39;informations, voir la class `ScoreLogger`.
+Chaque fois que vous enregistrez une prédiction, vous obtenez un objet `ScoreLogger`. Vous pouvez utiliser cet objet pour enregistrer les scores et les métadonnées de cette prédiction. Pour plus d&#39;informations, voir la classe `ScoreLogger`.
 
-Utilisation de base - journalisez directement les prédictions avec les entrées et les sorties :
+Utilisation de base - enregistrez directement les prédictions avec les entrées et les sorties :
 
 ```python
 ev = EvaluationLogger()
 
-# Journaliser les prédictions avec les entrées/sorties connues
+# Enregistrer les prédictions avec les entrées/sorties connues
 pred = ev.log_prediction(inputs={'q': 'Hello'}, outputs={'a': 'Hi there!'})
 pred.log_score("correctness", 0.9)
 
@@ -1188,14 +1188,14 @@ pred.log_score("correctness", 0.9)
 ev.log_summary({"avg_score": 0.9})
 ```
 
-Utilisation avancée - utilisez le gestionnaire de contexte pour les sorties dynamiques et les opérations imbriquées :
+Utilisation avancée - utiliser un gestionnaire de contexte pour des sorties dynamiques et des opérations imbriquées :
 
 ```python
 ev = EvaluationLogger()
 
 # Utilisez le gestionnaire de contexte pour capturer des opérations imbriquées
 with ev.log_prediction(inputs={'q': 'Hello'}) as pred:
-     # Toutes les opérations ici (comme les appels LLM) deviennent automatiquement
+     # Toutes les opérations ici (comme les LLM calls) deviennent automatiquement
      # des enfants de l'appel predict
      response = your_llm_call(...)
      pred.output = response.content
@@ -1223,7 +1223,7 @@ __init__(
 ***
 
 
-#### attributs de <kbd>propriété</kbd>
+#### attributs de la <kbd>propriété</kbd>
 
 ***
 
@@ -1239,7 +1239,7 @@ __init__(
 fail(exception: 'BaseException') → None
 ```
 
-Méthode utilitaire pour faire échouer l’évaluation en levant une exception.
+Méthode utilitaire qui fait échouer l’Évaluation en levant une exception.
 
 ***
 
@@ -1252,9 +1252,9 @@ Méthode utilitaire pour faire échouer l’évaluation en levant une exception.
 finish(exception: 'BaseException | None' = None) → None
 ```
 
-Nettoyez explicitement les ressources d’évaluation sans journaliser de résumé.
+Libère explicitement les ressources d’évaluation sans enregistrer de summary.
 
-Garantit que tous les appels de prédiction ainsi que l’appel principal d’évaluation sont finalisés. Cette méthode est appelée automatiquement si le logger est utilisé comme gestionnaire de contexte.
+Garantit que tous les appels de prédiction ainsi que l’appel d’évaluation principal sont finalisés. Cette méthode est appelée automatiquement si le logger est utilisé comme gestionnaire de contexte.
 
 ***
 
@@ -1271,15 +1271,15 @@ log_example(
 ) → None
 ```
 
-Journalise un exemple complet avec les entrées, la sortie et les scores.
+Journalisez un exemple complet avec les entrées, la sortie et les scores.
 
-Il s’agit d’une méthode utilitaire qui combine log&#95;prediction et log&#95;score lorsque vous disposez de toutes les données dès le départ.
+Il s&#39;agit d&#39;une méthode utilitaire qui combine log&#95;prediction et log&#95;score lorsque vous disposez de toutes les données dès le départ.
 
 **Arguments :**
 
-* <b>`inputs`</b>: Les données d’entrée de la prédiction
+* <b>`inputs`</b>: Les données d&#39;entrée de la prédiction
 * <b>`output`</b>: La valeur de sortie
-* <b>`scores`</b>: Dictionnaire associant les noms des évaluateurs aux valeurs de score
+* <b>`scores`</b>: Dictionnaire associant les noms des scorers à leurs scores
   **Exemple :**
 
 ```python
@@ -1302,16 +1302,16 @@ ev.log_example(
 log_prediction(inputs: 'dict[str, Any]', output: 'Any' = None) → ScoreLogger
 ```
 
-Journalise une prédiction dans l’Évaluation.
+Enregistre une prédiction dans l’Évaluation.
 
-Renvoie un ScoreLogger qui peut être utilisé tel quel ou comme gestionnaire de contexte.
+Retourne un ScoreLogger qui peut être utilisé directement ou comme gestionnaire de contexte.
 
 **Arguments :**
 
 * <b>`inputs`</b>: Les données d’entrée de la prédiction
-* <b>`output`</b>: La valeur de sortie. None par défaut. Peut être définie plus tard avec pred.output.
+* <b>`output`</b>: La valeur de sortie. La valeur par défaut est None. Peut être définie plus tard avec pred.output.
   **Retourne :**
-  Un ScoreLogger permettant de journaliser des scores et, facultativement, de terminer la prédiction.
+  ScoreLogger pour journaliser les scores et, éventuellement, finaliser la prédiction.
 
 Exemple (direct) :
 
@@ -1332,9 +1332,9 @@ Exemple (gestionnaire de contexte) :
 log_summary(summary: 'dict | None' = None, auto_summarize: 'bool' = True) → None
 ```
 
-Journalisez un dict récapitulatif dans l’Évaluation.
+Enregistre un dict de summary dans l’Évaluation.
 
-Cette opération calcule le résumé, appelle l’op `summarize`, puis finalise l’évaluation, ce qui signifie qu’il n’est plus possible de journaliser de prédictions ni de scores.
+Cela calcule le summary, appelle l’op summarize, puis clôt l’évaluation, ce qui signifie qu’il n’est plus possible d’enregistrer de prédictions ni de scores.
 
 ***
 
@@ -1354,18 +1354,18 @@ set_view(
 ) → None
 ```
 
-Attache une vue au résumé principal de l’appel d’évaluation sous `weave.views`.
+Associe une vue au résumé de l’appel principal de l’évaluation sous `weave.views`.
 
-Enregistre le contenu fourni comme objet dans le projet et écrit son URI de référence sous `summary.weave.views.<name>` pour l’appel `evaluate` de l’évaluation. Les entrées de type chaîne sont encapsulées en contenu texte à l’aide de `Content.from_text`, avec l’extension ou le type MIME fourni.
+Enregistre le contenu fourni comme objet dans le projet et inscrit son URI de référence sous `summary.weave.views.<name>` pour l’appel `evaluate` de l’évaluation. Les entrées de type chaîne sont encapsulées en contenu texte à l’aide de `Content.from_text` avec l’extension ou le type MIME fourni.
 
 **Arguments :**
 
-* <b>`name`</b>: Le nom de la vue à afficher, utilisé comme clé sous `summary.weave.views`.
-* <b>`content`</b>: Une instance de `weave.Content` ou une chaîne à sérialiser.
-* <b>`extension`</b>: Extension de fichier facultative pour les entrées de contenu de type chaîne.
-* <b>`mimetype`</b>: Type MIME facultatif pour les entrées de contenu de type chaîne.
-* <b>`metadata`</b>: Métadonnées facultatives associées au `Content` nouvellement créé.
-* <b>`encoding`</b>: Encodage du texte pour les entrées de contenu de type chaîne.
+* <b>`name`</b> : Le nom de la vue à afficher, utilisé comme clé sous `summary.weave.views`.
+* <b>`content`</b> : Une instance de `weave.Content` ou une chaîne à sérialiser.
+* <b>`extension`</b> : Extension de fichier facultative pour les entrées de contenu de type chaîne.
+* <b>`mimetype`</b> : Type MIME facultatif pour les entrées de contenu de type chaîne.
+* <b>`metadata`</b> : Métadonnées facultatives associées au `Content` nouvellement créé.
+* <b>`encoding`</b> : Encodage du texte pour les entrées de contenu de type chaîne.
   **Retourne :**
   None
 
@@ -1382,7 +1382,7 @@ Enregistre le contenu fourni comme objet dans le projet et écrit son URI de ré
 
 ## <kbd>class</kbd> `File`
 
-Classe représentant un fichier avec des informations sur le chemin, le type MIME et la taille.
+Classe représentant un fichier avec son chemin, son type MIME et sa taille.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/File/file.py#L34" />
 
@@ -1392,7 +1392,7 @@ Classe représentant un fichier avec des informations sur le chemin, le type MIM
 __init__(path: 'str | Path', mimetype: 'str | None' = None)
 ```
 
-Initialise un objet `File`.
+Initialise un objet File.
 
 **Arguments :**
 
@@ -1401,11 +1401,11 @@ Initialise un objet `File`.
 
 #### <kbd>propriété</kbd> filename
 
-Obtenir le nom du fichier.
+Obtient le nom du fichier.
 
-* <b>`path`</b>: Chemin du fichier (string ou pathlib.Path)
+* <b>`path`</b>: Chemin vers le fichier (string ou pathlib.Path)
 
-* <b>`mimetype`</b>: Type MIME facultatif du fichier - sera déduit de l’extension s’il n’est pas fourni
+* <b>`mimetype`</b>: Type MIME facultatif du fichier ; sera déduit de l&#39;extension s&#39;il n&#39;est pas fourni
   **Retourne :**
 
 * <b>`str`</b>: Le nom du fichier sans le chemin du répertoire.
@@ -1420,13 +1420,13 @@ Obtenir le nom du fichier.
 open() → bool
 ```
 
-Ouvrez le fichier à l’aide de l’application par défaut du système d’exploitation.
+Ouvrez le fichier avec l’application par défaut du système d’exploitation.
 
-Cette méthode utilise le mécanisme spécifique à la plateforme pour ouvrir le fichier avec l’application par défaut associée au type de fichier.
+Cette méthode utilise le mécanisme propre à la plateforme pour ouvrir le fichier avec l’application par défaut associée au type de fichier.
 
 **Retourne :**
 
-* <b>`bool`</b> :  Vrai si le fichier a été ouvert avec succès, Faux sinon.
+* <b>`bool`</b>:  True si le fichier a bien été ouvert, False sinon.
 
 ***
 
@@ -1448,22 +1448,22 @@ Copiez le fichier dans le chemin de destination spécifié.
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/rich/markdown.py#L512" />
 
 
-## <kbd>classe</kbd> `Markdown`
+## <kbd>class</kbd> `Markdown`
 
-Un objet Markdown pouvant être rendu.
+Un objet Markdown affichable.
 
-* <b>`dest`</b> : Chemin de destination vers lequel le fichier sera copié (string ou pathlib.Path). Le chemin de destination peut être un fichier ou un répertoire.
+* <b>`dest`</b>: Chemin de destination vers lequel le fichier sera copié (string or pathlib.Path)  Le chemin de destination peut être un fichier ou un répertoire.
   **Arguments :**
 
-* <b>`markup`</b> (str) :  Une chaîne contenant du markdown.
+* <b>`markup`</b> (str):  Une chaîne contenant du Markdown.
 
-* <b>`code_theme`</b> (str, facultatif) :  Thème Pygments pour les blocs de code. La valeur par défaut est &quot;monokai&quot;. Voir https://pygments.org/styles/ pour les thèmes de code.
+* <b>`code_theme`</b> (str, facultatif):  Thème Pygments pour les blocs de code. La valeur par défaut est &quot;monokai&quot;. Voir https://pygments.org/styles/ pour les thèmes de code.
 
-* <b>`justify`</b> (JustifyMethod, facultatif) :  Valeur de justification pour les paragraphes. La valeur par défaut est None.
+* <b>`justify`</b> (JustifyMethod, facultatif):  Valeur de justification des paragraphes. La valeur par défaut est None.
 
-* <b>`style`</b> (Union[str, Style], facultatif) :  Style facultatif à appliquer au markdown.
+* <b>`style`</b> (Union[str, Style], facultatif):  Style facultatif à appliquer au Markdown.
 
-* <b>`hyperlinks`</b> (bool, facultatif) :  Active les hyperliens. La valeur par défaut est `True`.
+* <b>`hyperlinks`</b> (bool, facultatif):  Active les liens hypertexte. La valeur par défaut est `True`.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/rich/markdown.py#L548" />
 
@@ -1496,10 +1496,10 @@ __init__(
 __init__(messages: list[dict])
 ```
 
-* <b>`inline_code_lexer`</b> : (str, facultatif) : lexer à utiliser si la coloration syntaxique du code en ligne est activée. Valeur par défaut : None.
+* <b>`inline_code_lexer`</b>: (str, facultatif) : lexer à utiliser si la coloration syntaxique du code en ligne est activée. Valeur par défaut : None.
 
-* <b>`inline_code_theme`</b> : (Optional[str], facultatif) : thème Pygments pour la coloration syntaxique du code en ligne, ou None pour désactiver la coloration syntaxique. Valeur par défaut : None.
-  **champs Pydantic :**
+* <b>`inline_code_theme`</b>: (Optional[str], facultatif) : thème Pygments pour la coloration syntaxique du code en ligne, ou None pour ne pas appliquer de coloration. Valeur par défaut : None.
+  **Champs Pydantic :**
 
 * `name`: `str | None`
 
@@ -1529,16 +1529,16 @@ format(**kwargs: Any) → list
 format_message(message: dict, **kwargs: Any) → dict
 ```
 
-Mettez en forme un message unique en remplaçant les variables du gabarit.
+Met en forme un seul message en remplaçant les variables du modèle.
 
-Cette méthode délègue à la fonction autonome format&#95;message&#95;with&#95;template&#95;vars la logique de mise en forme proprement dite.
+Cette méthode délègue la logique de mise en forme proprement dite à la fonction autonome format&#95;message&#95;with&#95;template&#95;vars.
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L183" />
 
 
-### <kbd>méthode de classe</kbd> `from_obj`
+### <kbd>classmethod</kbd> `from_obj`
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -1549,11 +1549,11 @@ from_obj(obj: WeaveObject) → Self
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/model.py#L25" />
 
 
-## <kbd>classe</kbd> `Model`
+## <kbd>class</kbd> `Model`
 
-Conçu pour capturer une combinaison de code et de données qui opère sur une entrée. Par exemple, il peut effectuer un appel à un LLM avec un prompt afin de faire une prédiction ou de générer du texte.
+Conçue pour représenter une combinaison de code et de données qui opère sur une entrée. Par exemple, elle peut appeler un LLM avec un prompt pour faire une prédiction ou générer du texte.
 
-Lorsque vous modifiez les attributs ou le code qui définissent votre modèle, ces changements sont enregistrés et la version est mise à jour. Cela vous permet de comparer les prédictions entre différentes versions de votre modèle. Utilisez ceci pour itérer sur les prompts ou essayer le dernier LLM, puis comparer les prédictions selon différents paramètres.
+Lorsque vous modifiez les attributs ou le code qui définissent votre modèle, ces changements seront enregistrés et la version sera mise à jour. Cela vous permet de comparer les prédictions entre différentes versions de votre modèle. Utilisez cette classe pour itérer sur les prompts ou essayer le dernier LLM, puis comparer les prédictions dans différentes configurations.
 
 **Exemples :**
 
@@ -1571,9 +1571,9 @@ class YourModel(Model):
 
 **Champs Pydantic :**
 
-* `name` : `str | None`
-* `description` : `str | None`
-* `ref` : `trace.refs.ObjectRef | None`
+* `name`: `str | None`
+* `description`: `str | None`
+* `ref`: `trace.refs.ObjectRef | None`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/model.py#L51" />
 
@@ -1589,9 +1589,9 @@ get_infer_method() → Callable
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/monitor.py#L12" />
 
 
-## <kbd>classe</kbd> `Monitor`
+## <kbd>class</kbd> `Monitor`
 
-Permet de configurer un moniteur pour attribuer automatiquement un score aux appels entrants.
+Configure un moniteur pour attribuer automatiquement un score aux appels entrants.
 
 **Exemples :**
 
@@ -1631,12 +1631,13 @@ my_monitor.activate()
 * `description`: `str | None`
 * `ref`: `trace.refs.ObjectRef | None`
 * `sampling_rate`: `<class 'float'>`
-* `évaluateurs`: `list[flow.scorer.Scorer]`
+* `scorers`: `list[flow.scorer.Scorer]`
 * `op_names`: `list[str]`
 * `query`: `trace_server.interface.query.Query | None`
 * `active`: `<class 'bool'>`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/monitor.py#L54" />
+
 
 ### <kbd>méthode</kbd> `activate`
 
@@ -1646,8 +1647,8 @@ activate() → ObjectRef
 
 Active le moniteur.
 
-**Retourne :**
-La référence du moniteur.
+**Retourne :**
+Une référence au moniteur.
 
 ***
 
@@ -1663,7 +1664,7 @@ deactivate() → ObjectRef
 Désactive le moniteur.
 
 **Retourne :**
-la référence du moniteur
+Une référence au moniteur.
 
 ***
 
@@ -1683,15 +1684,15 @@ from_obj(obj: WeaveObject) → Self
 
 ## <kbd>class</kbd> `Object`
 
-Classe de base pour les objets Weave pouvant être suivis et versionnés.
+Classe de base pour les objets de Weave qui peuvent être suivis et versionnés.
 
-Cette classe étend le BaseModel de Pydantic afin de fournir des fonctionnalités propres à Weave pour le suivi, le référencement et la sérialisation des objets. Les objets peuvent avoir des noms, des descriptions et des références, ce qui permet de les stocker dans le système Weave et de les en récupérer.
+Cette classe étend le `BaseModel` de Pydantic afin de fournir des fonctionnalités propres à Weave pour le suivi des objets, leur référencement et leur sérialisation. Les objets peuvent avoir des noms, des descriptions et des références, ce qui permet de les stocker dans le système Weave et de les en récupérer.
 
 **Attributs :**
 
-* <b>`name`</b> (Optional[str]):  Un nom intelligible pour l’objet.
-* <b>`description`</b> (Optional[str]):  Une description de ce que représente l’objet.
-* <b>`ref`</b> (Optional[ObjectRef]):  Une référence à l’objet dans le système Weave.
+* <b>`name`</b> (Optional[str]):  Nom lisible par l’humain de l’objet.
+* <b>`description`</b> (Optional[str]):  Description de ce que représente l’objet.
+* <b>`ref`</b> (Optional[ObjectRef]):  Référence à l’objet dans le système Weave.
 
 **Exemples :**
 
@@ -1712,26 +1713,26 @@ obj = Object.from_uri("weave:///entity/project/object:digest")
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/object/obj.py#L114" />
 
 
-### <kbd>méthode de class</kbd> `from_uri`
+### <kbd>méthode de classe</kbd> `from_uri`
 
 ```python
 from_uri(uri: str, objectify: bool = True) → Self
 ```
 
-Créer une instance d’objet à partir d’un URI Weave.
+Crée une instance d’objet à partir d’un URI Weave.
 
 **Arguments :**
 
-* <b>`uri`</b> (str):  L’URI Weave pointant vers l’objet.
-* <b>`objectify`</b> (bool):  Indique s’il faut transformer le résultat en objet. La valeur par défaut est `True`.
+* <b>`uri`</b> (str):  L’URI Weave qui pointe vers l’objet.
+* <b>`objectify`</b> (bool):  Indique si le résultat doit être converti en objet. Par défaut, `True`.
 
 **Retourne :**
 
-* <b>`Self`</b>:  Une instance de la class créée à partir de l’URI.
+* <b>`Self`</b>:  Une instance de la classe créée à partir de l’URI.
 
 **Exceptions levées :**
 
-* <b>`NotImplementedError`</b>:  Si la class n’implémente pas les méthodes requises pour la désérialisation.
+* <b>`NotImplementedError`</b>:  Si la classe n’implémente pas les méthodes requises pour la désérialisation.
 
 **Exemples :**
 
@@ -1754,22 +1755,22 @@ handle_relocatable_object(
 ) → Any
 ```
 
-Gère la validation des objets pouvant être déplacés, y compris ObjectRef et WeaveObject.
+Gère la validation des objets déplaçables, notamment ObjectRef et WeaveObject.
 
-Ce validateur gère les cas particuliers où l&#39;entrée est un ObjectRef ou un WeaveObject devant être correctement converti en instance d&#39;objet standard. Il garantit que les références sont préservées et que les types ignorés sont correctement pris en charge pendant le processus de validation.
+Ce validateur traite les cas particuliers où la valeur d’entrée est un ObjectRef ou un WeaveObject qui doit être correctement converti en instance d’objet standard. Il garantit que les références sont préservées et que les types ignorés sont correctement pris en charge pendant le processus de validation.
 
 **Arguments :**
 
 * <b>`v`</b> (Any):  La valeur à valider.
-* <b>`handler`</b> (ValidatorFunctionWrapHandler):  Le gestionnaire de validation Pydantic standard.
+* <b>`handler`</b> (ValidatorFunctionWrapHandler):  Le gestionnaire de validation pydantic standard.
 * <b>`info`</b> (ValidationInfo):  Les informations de contexte de validation.
 
 **Retourne :**
 
-* <b>`Any`</b>:  L&#39;instance d&#39;objet validée.
+* <b>`Any`</b>:  L’instance d’objet validée.
 
 **Exemples :**
-Cette méthode est appelée automatiquement lors de la création et de la validation d&#39;objets. Elle gère notamment les cas suivants : ```python
+Cette méthode est appelée automatiquement lors de la création et de la validation d’un objet. Elle gère des cas tels que : ```python
 
 
 <div id="when-an-objectref-is-passed">
@@ -1790,7 +1791,7 @@ obj = MyObject(some&#95;weave&#95;object)
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L159" />
 
-## <kbd>classe</kbd> `ObjectRef`
+## <kbd>class</kbd> `ObjectRef`
 ObjectRef(entity: 'str', project: 'str', name: 'str', _digest: 'str | Future[str]', _extra: 'tuple[str | Future[str], ...]' = ()) 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/../../../../weave/trace/refs/__init__" />
@@ -1975,7 +1976,7 @@ format(**kwargs: Any) → Any
 
 ## <kbd>class</kbd> `SavedView`
 
-Une classe de style fluent permettant de manipuler des objets SavedView.
+Une classe à l’API fluide permettant de manipuler des objets SavedView.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L499" />
 
@@ -2023,7 +2024,7 @@ add_column(path: 'str | ObjectPath', label: 'str | None' = None) → SavedView
 add_columns(*columns: 'str') → SavedView
 ```
 
-Méthode pratique pour ajouter de multiples colonnes à la grille.
+Méthode utilitaire pour ajouter plusieurs colonnes à la grille.
 
 ***
 
@@ -2090,7 +2091,7 @@ get_calls(
 ) → CallsIter
 ```
 
-Obtenir les appels correspondant aux filtres et aux paramètres de cette vue enregistrée.
+Obtenir les appels qui correspondent aux filtres et aux paramètres de cette vue enregistrée.
 
 ***
 
@@ -2103,7 +2104,7 @@ Obtenir les appels correspondant aux filtres et aux paramètres de cette vue enr
 get_known_columns(num_calls_to_query: 'int | None' = None) → list[str]
 ```
 
-Obtenir l’ensemble des colonnes connues comme existantes.
+Obtenir l’ensemble des colonnes connues.
 
 ***
 
@@ -2208,7 +2209,7 @@ remove_column(path: 'int | str | ObjectPath') → SavedView
 remove_columns(*columns: 'str') → SavedView
 ```
 
-Supprimez des colonnes de la vue enregistrée.
+Supprime des colonnes de la vue enregistrée.
 
 ***
 
@@ -2232,7 +2233,7 @@ remove_filter(index_or_field: 'int | str') → SavedView
 remove_filters() → SavedView
 ```
 
-Supprimez tous les filtres de la vue enregistrée.
+Supprime tous les filtres de la vue enregistrée.
 
 ***
 
@@ -2267,7 +2268,7 @@ rename_column(path: 'int | str | ObjectPath', label: 'str') → SavedView
 save() → SavedView
 ```
 
-Publiez la vue enregistrée sur le serveur.
+Publier la vue enregistrée sur le serveur.
 
 ***
 
@@ -2337,9 +2338,9 @@ to_rich_table_str() → str
 ui_url() → str | None
 ```
 
-URL permettant d’afficher cette vue enregistrée dans l’interface utilisateur.
+URL pour afficher cette vue enregistrée dans l’UI.
 
-Notez qu’il s’agit de la page « result » avec les traces, etc., et non de l’URL de l’objet vue.
+Notez qu’il s’agit de la page de « résultat » avec les traces, etc., et non de l’URL de l’objet de vue.
 
 ***
 
@@ -2359,7 +2360,7 @@ unpin_column(col_name: 'str') → SavedView
 
 ## <kbd>classe</kbd> `Scorer`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `name`: `str | None`
 * `description`: `str | None`
@@ -2412,7 +2413,7 @@ summarize(score_rows: list) → dict | None
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L88" />
 
 
-## <kbd>class</kbd> `StringPrompt`
+## <kbd>classe</kbd> `StringPrompt`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L92" />
 
@@ -2424,10 +2425,10 @@ __init__(content: str)
 
 **Champs Pydantic :**
 
-* `name` : `str | None`
-* `description` : `str | None`
-* `ref` : `trace.refs.ObjectRef | None`
-* `content` : `<classe 'str'>`
+* `name`: `str | None`
+* `description`: `str | None`
+* `ref`: `trace.refs.ObjectRef | None`
+* `content`: `<class 'str'>`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L96" />
 
@@ -2454,7 +2455,7 @@ from_obj(obj: WeaveObject) → Self
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/table.py#L9" />
 
 
-## <kbd>class</kbd> `Table`
+## <kbd>classe</kbd> `Table`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/table.py#L12" />
 
@@ -2467,7 +2468,7 @@ __init__(rows: 'list[dict]') → None
 ***
 
 
-#### lignes de <kbd>propriété</kbd>
+#### <kbd>propriété</kbd> rows
 
 ***
 
@@ -2479,7 +2480,7 @@ __init__(rows: 'list[dict]') → None
 append(row: 'dict') → None
 ```
 
-Ajouter une ligne au tableau.
+Ajoutez une ligne au tableau.
 
 ***
 
@@ -2492,7 +2493,7 @@ Ajouter une ligne au tableau.
 pop(index: 'int') → None
 ```
 
-Supprimez du tableau la ligne à l’index indiqué.
+Supprimez du tableau la ligne située à l’index donné.
 
 ***
 
@@ -2501,11 +2502,11 @@ Supprimez du tableau la ligne à l’index indiqué.
 
 ## <kbd>classe</kbd> `ContextAwareThread`
 
-Thread qui exécute des fonctions avec le contexte de l&#39;appelant.
+Un thread qui exécute des fonctions avec le contexte de l&#39;appelant.
 
-Il s&#39;agit d&#39;un remplacement direct de `threading.Thread` qui garantit que les appels se comportent comme prévu à l&#39;intérieur du thread.  Weave exige que certaines `contextvars` soient définies (voir call&#95;context.py), mais les nouveaux threads ne recopient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d&#39;appel -- ce qui n&#39;est pas idéal !  Cette classe automatise la copie des `contextvars`, de sorte que l&#39;utilisation de ce thread « fonctionne tout simplement », comme l&#39;utilisateur s&#39;y attend probablement.
+Il s&#39;agit d&#39;un remplacement direct de `threading.Thread` qui garantit que les appels se comportent comme prévu à l&#39;intérieur du thread.  Weave exige que certaines `contextvars` soient définies (voir call&#95;context.py), mais les nouveaux threads ne copient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d&#39;appel -- ce qui n&#39;est pas idéal.  Cette classe automatise la copie des `contextvars`, de sorte que l&#39;utilisation de ce thread &quot;fonctionne tout simplement&quot;, comme l&#39;utilisateur s&#39;y attend probablement.
 
-Vous pouvez obtenir le même effet sans cette classe en écrivant plutôt :
+Vous pouvez obtenir le même effet sans cette classe en écrivant plutôt :
 
 ```python
 def run_with_context(func, *args, **kwargs):
@@ -2532,19 +2533,19 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 #### <kbd>propriété</kbd> daemon
 
-Une valeur booléenne indiquant si ce thread est un thread daemon.
+Valeur booléenne indiquant si ce thread est un thread démon.
 
-Cette propriété doit être définie avant l’appel à `start()`, sinon une `RuntimeError` est levée. Sa valeur initiale est héritée du thread qui l’a créé ; le thread principal n’est pas un thread daemon et, par conséquent, tous les threads créés dans le thread principal ont par défaut `daemon = False`.
+Cette valeur doit être définie avant l’appel à start(), sinon une RuntimeError est levée. Sa valeur initiale est héritée du thread qui l’a créé ; le thread principal n’est pas un thread démon et, par conséquent, tous les threads créés dans le thread principal ont par défaut la valeur daemon = False.
 
-L’ensemble du programme Python s’arrête lorsqu’il ne reste plus que des threads daemon.
+L’ensemble du programme Python se termine lorsqu’il ne reste plus que des threads démons.
 
 ***
 
 #### <kbd>propriété</kbd> ident
 
-Identifiant de ce thread, ou None s’il n’a pas été démarré.
+Identifiant de ce thread, ou None s’il n’a pas encore été démarré.
 
-Il s’agit d’un entier non nul. Voir la fonction get&#95;ident(). Les identifiants de thread peuvent être réutilisés lorsqu’un thread se termine et qu’un autre est créé. L’identifiant reste disponible même après la fin du thread.
+Il s’agit d’un entier non nul. Voir la fonction get&#95;ident(). Les identifiants de thread peuvent être réutilisés lorsqu’un thread se termine et qu’un autre thread est créé. L’identifiant reste disponible même après la fin du thread.
 
 ***
 
@@ -2552,15 +2553,15 @@ Il s’agit d’un entier non nul. Voir la fonction get&#95;ident(). Les identif
 
 Une chaîne utilisée uniquement à des fins d’identification.
 
-Elle n’a pas de signification particulière. Plusieurs threads peuvent porter le même nom. Le nom initial est défini par le constructeur.
+Ce nom n’a pas de signification particulière. Plusieurs threads peuvent recevoir le même nom. Le nom initial est défini par le constructeur.
 
 ***
 
 #### <kbd>propriété</kbd> native_id
 
-ID de thread natif entier de ce thread, ou None s’il n’a pas été démarré.
+Identifiant natif entier de ce thread, ou None s&#39;il n&#39;a pas été démarré.
 
-Il s’agit d’un entier non négatif. Voir la fonction get&#95;native&#95;id(). Cela correspond à l’ID de thread tel que renvoyé par le noyau.
+Il s&#39;agit d&#39;un entier non négatif. Voir la fonction get&#95;native&#95;id(). Il correspond à l&#39;ID du thread tel que rapporté par le noyau.
 
 ***
 
@@ -2579,7 +2580,7 @@ run() → None
 
 ## <kbd>classe</kbd> `ThreadContext`
 
-Objet de contexte donnant accès au thread actuel et aux informations sur le tour en cours.
+Objet de contexte donnant accès aux informations sur le thread et le tour en cours.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L312" />
 
@@ -2589,7 +2590,7 @@ Objet de contexte donnant accès au thread actuel et aux informations sur le tou
 __init__(thread_id: 'str | None')
 ```
 
-Initialisez ThreadContext avec le `thread_id` spécifié.
+Initialisez ThreadContext à l’aide du thread&#95;id spécifié.
 
 **Arguments :**
 
@@ -2598,9 +2599,9 @@ Initialisez ThreadContext avec le `thread_id` spécifié.
 
 #### <kbd>propriété</kbd> thread_id
 
-Renvoie le thread&#95;id de ce contexte.
+Renvoie le `thread_id` de ce contexte.
 
-* <b>`thread_id`</b> : L’identifiant du thread pour ce contexte, ou None s’il est désactivé.
+* <b>`thread_id`</b> : l’identifiant du thread pour ce contexte, ou None s’il est désactivé.
   **Retourne :**
   L’identifiant du thread, ou None si le suivi du thread est désactivé.
 
@@ -2608,10 +2609,10 @@ Renvoie le thread&#95;id de ce contexte.
 
 #### <kbd>propriété</kbd> turn_id
 
-Obtenir le `turn_id` actuel depuis le contexte actif.
+Obtient le turn&#95;id actuel du contexte actif.
 
 **Retourne :**
-Le `turn_id` actuel s’il est défini, sinon None.
+Le turn&#95;id actuel s’il est défini, sinon None.
 
 ***
 
@@ -2619,9 +2620,9 @@ Le `turn_id` actuel s’il est défini, sinon None.
 
 ## <kbd>classe</kbd> `ContextAwareThreadPoolExecutor`
 
-Un ThreadPoolExecutor qui exécute des fonctions avec le contexte de l&#39;appelant.
+Un ThreadPoolExecutor qui exécute des fonctions avec le contexte de l’appelant.
 
-Il s&#39;agit d&#39;un remplacement direct de concurrent.futures.ThreadPoolExecutor qui garantit que les appels Weave se comportent comme prévu dans l&#39;exécuteur.  Weave exige que certaines contextvars soient définies (voir call&#95;context.py), mais les nouveaux threads ne copient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d&#39;appel -- ce n&#39;est pas idéal !  Cette classe automatise la copie des contextvars afin que l&#39;utilisation de cet exécuteur &quot;fonctionne tout simplement&quot;, comme l&#39;utilisateur s&#39;y attend probablement.
+Il s’agit d’un remplacement direct de concurrent.futures.ThreadPoolExecutor qui garantit que les appels Weave se comportent comme prévu au sein de l’exécuteur.  Weave exige que certaines contextvars soient définies (voir call&#95;context.py), mais les nouveaux threads ne copient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d’appel -- ce n’est pas souhaitable !  Cette classe automatise la copie des contextvars, de sorte que l’utilisation de cet exécuteur « fonctionne tout simplement », comme l’utilisateur s’y attend probablement.
 
 Vous pouvez obtenir le même effet sans cette classe en écrivant plutôt :
 
@@ -2682,9 +2683,9 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 as_op(fn: 'Callable[P, R]') → Op[P, R]
 ```
 
-Étant donné une fonction décorée avec @weave.op, renvoie son Op.
+Étant donnée une fonction décorée avec @weave.op, renvoie son Op.
 
-Les fonctions décorées avec @weave.op sont déjà des instances d’Op. Cette fonction ne devrait donc n’avoir aucun effet à l’exécution. Vous pouvez toutefois l’utiliser pour satisfaire les vérificateurs de types si vous devez accéder aux attributs d’OpDef de manière sûre du point de vue du typage.
+Les fonctions décorées avec @weave.op sont déjà des instances d’Op. Cette fonction ne devrait donc avoir aucun effet à l’exécution. Vous pouvez toutefois l’utiliser pour satisfaire les vérificateurs de type si vous devez accéder aux attributs d’OpDef de manière sûre au niveau des types.
 
 **Arguments :**
 
@@ -2703,7 +2704,7 @@ Les fonctions décorées avec @weave.op sont déjà des instances d’Op. Cette 
 attributes(attributes: 'dict[str, Any]') → Iterator
 ```
 
-Gestionnaire de contexte pour définir des attributs sur un appel.
+Gestionnaire de contexte permettant de définir des attributs pour un appel.
 
 **Exemple :**
 
@@ -2723,9 +2724,9 @@ with weave.attributes({'env': 'production'}):
 finish() → None
 ```
 
-Arrête la journalisation dans weave.
+Arrête la journalisation dans Weave.
 
-Après l’appel à finish, les appels des fonctions décorées avec weave.op ne seront plus enregistrés. Vous devrez exécuter weave.init() de nouveau pour reprendre la journalisation.
+Après l’appel à finish, les appels des fonctions décorées avec `weave.op` ne seront plus enregistrés. Vous devrez exécuter `weave.init()` de nouveau pour reprendre la journalisation.
 
 ***
 
@@ -2738,13 +2739,13 @@ Après l’appel à finish, les appels des fonctions décorées avec weave.op ne
 get(uri: 'str | ObjectRef') → Any
 ```
 
-Une fonction utilitaire pour récupérer un objet à partir d’un URI.
+Une fonction utilitaire pour obtenir un objet à partir d’un URI.
 
-De nombreux objets enregistrés par Weave sont automatiquement enregistrés sur le serveur Weave. Cette fonction vous permet de récupérer ces objets à partir de leur URI.
+De nombreux objets enregistrés par Weave sont automatiquement inscrits sur le serveur Weave. Cette fonction vous permet de récupérer ces objets à partir de leur URI.
 
 **Arguments :**
 
-* <b>`uri`</b>: Un URI de référence Weave entièrement qualifié.
+* <b>`uri`</b>: Un URI de référence Weave complet.
   **Retourne :**
   L’objet.
 
@@ -2780,14 +2781,14 @@ get_client() → WeaveClient | None
 get_current_call() → Call | None
 ```
 
-Obtenir l’objet Appel de l’Op en cours d’exécution, depuis cet Op.
+Obtenir l’objet Appel de l’Op en cours d’exécution, au sein de cet Op.
 
 **Retourne :**
-L’objet Appel de l’Op en cours d’exécution, ou `None` si le suivi n’a pas été initialisé ou si cette méthode est appelée en dehors d’un Op.
+L’objet Appel de l’Op en cours d’exécution, ou None si le tracking n’a pas été initialisé ou si cette méthode est appelée en dehors d’un Op.
 
 **Remarque :**
 
-> Le dictionnaire `attributes` de l’Appel renvoyé devient immuable une fois l’appel démarré. Utilisez :func:`weave.attributes` pour définir les métadonnées de l’appel avant d’invoquer un Op. Le champ `summary` peut être mis à jour pendant l’exécution de l’Op et sera fusionné avec les informations de résumé calculées à la fin de l’appel.
+> Le dictionnaire `attributes` de l’Appel renvoyé devient immuable une fois l’appel lancé. Utilisez :func:`weave.attributes` pour définir les métadonnées de l’appel avant d’invoquer un Op. Le champ `summary` peut être mis à jour pendant l’exécution de l’Op et sera fusionné avec les informations de résumé calculées à la fin de l’appel.
 
 ***
 
@@ -2807,21 +2808,21 @@ init(
 ) → WeaveClient
 ```
 
-Initialise le suivi Weave en journalisant dans un projet wandb.
+Initialisez le suivi Weave avec journalisation dans un projet wandb.
 
 La journalisation est initialisée globalement, vous n’avez donc pas besoin de conserver une référence à la valeur de retour de init.
 
-Après l’appel à init, les appels aux fonctions décorées avec weave.op seront enregistrés dans le projet spécifié.
+Après init, les appels aux fonctions décorées avec weave.op seront enregistrés dans le projet spécifié.
 
 **Arguments :**
 
-REMARQUE : Les paramètres globaux de post-traitement sont appliqués à toutes les op après le post-traitement propre à chaque op. L’ordre est toujours le suivant : 1. Post-traitement spécifique à l’op 2. Post-traitement global
+REMARQUE : Les paramètres de post-traitement globaux sont appliqués à toutes les ops après le post-traitement propre à chaque op. L’ordre est toujours le suivant : 1. Post-traitement spécifique à l’op 2. Post-traitement global
 
-* <b>`project_name`</b>: Le nom de l’équipe et du projet Weights &amp; Biases dans lesquels journaliser. Si vous ne spécifiez pas d’équipe, votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous à [Paramètres utilisateur](https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team) dans la documentation Models de W&amp;B.
+* <b>`project_name`</b>: Le nom de l’équipe Weights &amp; Biases et du projet dans lequel effectuer la journalisation. Si vous ne spécifiez pas d’équipe, votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous à [Paramètres utilisateur](https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team) dans la documentation W&amp;B Models.
 * <b>`settings`</b>: Configuration générale du client Weave.
-* <b>`autopatch_settings`</b>: (obsolète) Configuration des intégrations autopatch. Utilisez plutôt un patching explicite.
-* <b>`global_postprocess_inputs`</b>: Une fonction qui sera appliquée à toutes les entrées de toutes les op.
-* <b>`global_postprocess_output`</b>: Une fonction qui sera appliquée à toutes les sorties de toutes les op.
+* <b>`autopatch_settings`</b>: (Obsolète) Configuration des intégrations d’autopatch. Utilisez plutôt un patch explicite.
+* <b>`global_postprocess_inputs`</b>: Une fonction qui sera appliquée à toutes les entrées de toutes les ops.
+* <b>`global_postprocess_output`</b>: Une fonction qui sera appliquée à toutes les sorties de toutes les ops.
 * <b>`global_attributes`</b>: Un dictionnaire d’attributs qui sera appliqué à toutes les traces.
   **Retourne :**
   Un client Weave.
@@ -2846,24 +2847,24 @@ log_call(
 ) → Call
 ```
 
-Enregistrer un appel directement dans Weave sans utiliser le pattern de décorateur.
+Journalisez un appel directement dans Weave sans utiliser le modèle de décorateur.
 
-Cette fonction fournit une API impérative pour enregistrer des opérations dans Weave, ce qui est utile lorsque vous souhaitez journaliser des appels après leur exécution ou lorsque le pattern de décorateur n’est pas adapté à votre cas d’utilisation.
+Cette fonction fournit une API impérative pour journaliser des opérations dans Weave. Elle est utile lorsque vous souhaitez journaliser des appels après leur exécution, ou lorsque le modèle de décorateur ne convient pas à votre cas d’usage.
 
 **Arguments :**
 
-* <b>`op`</b> (str):  Le nom de l’opération à enregistrer. Il sera utilisé comme `op_name` pour l’appel. Les opérations anonymes (chaînes ne faisant pas référence à des `op` publiées) sont prises en charge.
+* <b>`op`</b> (str):  Le nom de l’opération à journaliser. Il sera utilisé comme `op_name` pour l’appel. Les opérations anonymes (chaînes ne faisant pas référence à des ops publiées) sont prises en charge.
 * <b>`inputs`</b> (dict[str, Any]):  Un dictionnaire des paramètres d’entrée de l’opération.
 * <b>`output`</b> (Any):  La sortie ou le résultat de l’opération.
-* <b>`parent`</b> (Appel | None):  Appel parent facultatif sous lequel imbriquer cet appel.  S’il n’est pas fourni, l’appel sera un appel racine (ou sera imbriqué dans le contexte d’appel actuel s’il en existe un). La valeur par défaut est None.
-* <b>`attributes`</b> (dict[str, Any] | None):  Métadonnées facultatives à associer à l’appel.  Elles sont figées une fois l’appel créé. La valeur par défaut est None.
-* <b>`display_name`</b> (str | Callable[[Appel], str] | None):  Nom d’affichage facultatif  pour l’appel dans l’interface utilisateur. Il peut s’agir d’une chaîne ou d’un callable qui prend l’appel en entrée et renvoie une chaîne. La valeur par défaut est None.
-* <b>`use_stack`</b> (bool):  Indique s’il faut empiler l’appel dans la pile d’exécution. Lorsque la valeur est True,  l’appel sera disponible dans le contexte d’appel et accessible via  weave.require&#95;current&#95;call(). Lorsque la valeur est False, l’appel est enregistré mais n’est pas  ajouté à la pile d’appels. La valeur par défaut est True.
-* <b>`exception`</b> (BaseException | None):  Exception facultative à enregistrer si l’opération  a échoué. La valeur par défaut est None.
+* <b>`parent`</b> (Appel | None):  Appel parent facultatif sous lequel imbriquer cet appel.  S’il n’est pas fourni, l’appel sera un appel de niveau racine (ou imbriqué dans le contexte d’appel actuel, s’il en existe un). La valeur par défaut est None.
+* <b>`attributes`</b> (dict[str, Any] | None):  Métadonnées facultatives à attacher à l’appel.  Elles sont figées une fois l’appel créé. La valeur par défaut est None.
+* <b>`display_name`</b> (str | Callable[[Appel], str] | None):  Nom d’affichage facultatif pour l’appel dans l’UI. Peut être une chaîne ou un callable qui prend l’appel en argument et renvoie une chaîne. La valeur par défaut est None.
+* <b>`use_stack`</b> (bool):  Indique s’il faut placer l’appel sur la pile d’exécution. Lorsque la valeur est True,  l’appel sera disponible dans le contexte d’appel et accessible via  weave.require&#95;current&#95;call(). Lorsque la valeur est False, l’appel est enregistré mais n’est pas ajouté à la pile d’appels. La valeur par défaut est True.
+* <b>`exception`</b> (BaseException | None):  Exception facultative à journaliser si l’opération a échoué. La valeur par défaut est None.
 
 **Retourne :**
 
-* <b>`Call`</b>:  L’objet Appel créé et terminé, avec toutes les informations de trace.
+* <b>`Call`</b>:  L’objet Appel créé et terminé, avec les informations de trace complètes.
 
 **Exemples :**
 Utilisation de base :
@@ -2878,7 +2879,7 @@ import weave
     ...     output=15
     ... )
 
-    Logging with attributes and display name:
+    Journalisation avec attributs et nom d'affichage :
     >>> call = weave.log_call(
     ...     op="process_data",
     ...     inputs={"data": [1, 2, 3]},
@@ -2887,7 +2888,7 @@ import weave
     ...     display_name="Data Processing"
     ... )
 
-    Logging a failed operation:
+    Journalisation d'une opération échouée :
     >>> try:
     ...     result = risky_operation()
     ... except Exception as e:
@@ -2898,7 +2899,7 @@ import weave
     ...         exception=e
     ...     )
 
-    Nesting calls:
+    Imbrication d'appels :
     >>> parent_call = weave.log_call("parent", {"input": 1}, 2)
     >>> child_call = weave.log_call(
     ...     "child",
@@ -2907,19 +2908,19 @@ import weave
     ...     parent=parent_call
     ... )
 
-    Logging without adding to call stack:
+    Journalisation sans ajout à la pile d'appels :
     >>> call = weave.log_call(
     ...     op="background_task",
     ...     inputs={"task_id": 123},
     ...     output="completed",
-    ...     use_stack=False  # Ne pas pousser dans la pile d'appels
+    ...     use_stack=False  # Ne pas ajouter à la pile d'appels
     ... )
 
 ---
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1202" />
 
-### <kbd>function</kbd> `op`
+### <kbd>fonction</kbd> `op`
 
 ```python
 op(
@@ -2936,7 +2937,7 @@ op(
 ) → Callable[[Callable[P, R]], Op[P, R]] | Op[P, R]
 ````
 
-Un décorateur qui convertit une fonction ou une méthode en op Weave. Fonctionne aussi bien en synchrone qu&#39;en asynchrone. Détecte automatiquement les fonctions itératrices et applique le comportement approprié.
+Un décorateur pour transformer une fonction ou une méthode en op Weave. Compatible avec le synchrone comme avec l’asynchrone. Détecte automatiquement les fonctions itératrices et applique le comportement approprié.
 
 ***
 
@@ -2949,9 +2950,9 @@ Un décorateur qui convertit une fonction ou une méthode en op Weave. Fonctionn
 publish(obj: 'Any', name: 'str | None' = None) → ObjectRef
 ```
 
-Enregistrer et attribuer une version à un objet Python.
+Enregistrez et créez une version d’un objet Python.
 
-Weave crée une nouvelle version de l’objet si son nom existe déjà et que son hachage de contenu ne correspond pas à celui de la version la plus récente de cet objet.
+Weave crée une nouvelle version de l’objet si un objet portant ce nom existe déjà et que son empreinte de contenu ne correspond pas à celle de sa dernière version.
 
 **Arguments :**
 
@@ -2971,13 +2972,13 @@ Weave crée une nouvelle version de l’objet si son nom existe déjà et que so
 ref(location: 'str') → ObjectRef
 ```
 
-Crée une Ref vers un objet Weave existant. Cela ne récupère pas directement l’objet, mais vous permet de le passer à d’autres fonctions de l’API Weave.
+Crée une Ref vers un objet Weave existant. Cela ne récupère pas directement l’objet, mais vous permet de la transmettre à d’autres fonctions de l’API Weave.
 
 **Arguments :**
 
-* <b>`location`</b>: Un URI de Ref Weave ou, si `weave.init()` a été appelé, `name:version` ou `name`. Si aucune version n’est fournie, `latest` est utilisé.
+* <b>`emplacement`</b> : un URI de Ref Weave ou, si `weave.init()` a été appelé, `name:version` ou `name`. Si aucune version n’est fournie, `latest` est utilisé.
   **Retourne :**
-  Une Ref Weave vers l’objet.
+  une Ref Weave vers l’objet.
 
 ***
 
@@ -2990,9 +2991,9 @@ Crée une Ref vers un objet Weave existant. Cela ne récupère pas directement l
 require_current_call() → Call
 ```
 
-Obtenir l’objet Appel pour l’Op en cours d’exécution, depuis cet Op.
+Obtenez l’objet Appel de l’Op en cours d’exécution, au sein de cette Op.
 
-Cela vous permet d’accéder aux attributs de l’Appel, comme son ID ou son feedback, pendant son exécution.
+Cela vous permet d’accéder aux attributs de l’Appel, comme son ID ou le feedback, pendant son exécution.
 
 ```python
 @weave.op
@@ -3004,14 +3005,14 @@ def hello(name: str) -> None:
 
 Il est également possible d’accéder à un Appel une fois que l’op a renvoyé son résultat.
 
-Si vous avez l’identifiant de l’Appel, par exemple depuis l’interface utilisateur, vous pouvez utiliser la méthode `get_call` du `WeaveClient` renvoyé par `weave.init` pour récupérer l’objet Appel.
+Si vous avez l’ID de l’Appel, par exemple via l’UI, vous pouvez utiliser la méthode `get_call` sur le `WeaveClient` renvoyé par `weave.init` pour récupérer l’objet Appel correspondant.
 
 ```python
 client = weave.init("<project>")
 mycall = client.get_call("<call_id>")
 ```
 
-Vous pouvez aussi utiliser la méthode `call` de votre Op après l’avoir défini. Par exemple :
+Sinon, après avoir défini votre Op, vous pouvez utiliser sa méthode `call`. Par exemple :
 
 ```python
 @weave.op
@@ -3027,7 +3028,7 @@ L’objet Appel de l’Op en cours d’exécution
 
 **Exceptions levées :**
 
-* <b>`NoCurrentCallError`</b> : Si le suivi n’a pas été initialisé ou si cette méthode est appelée en dehors d’un Op.
+* <b>`NoCurrentCallError`</b>:  Si tracking n’a pas été initialisé ou si cette méthode est appelée en dehors d’un Op.
 
 ***
 
@@ -3047,7 +3048,7 @@ set_view(
 ) → None
 ```
 
-Attachez une vue personnalisée au résumé de l’appel en cours dans `_weave.views.<name>`.
+Associez une vue personnalisée au résumé de l’appel en cours dans `_weave.views.<name>`.
 
 **Arguments :**
 
@@ -3056,7 +3057,7 @@ Attachez une vue personnalisée au résumé de l’appel en cours dans `_weave.v
 * <b>`extension`</b>: Extension de fichier facultative à utiliser lorsque `content` est une chaîne.
 * <b>`mimetype`</b>: Type MIME facultatif à utiliser lorsque `content` est une chaîne.
 * <b>`metadata`</b>: Métadonnées facultatives à joindre lors de la création de `Content` à partir de texte.
-* <b>`encoding`</b>: Encodage du texte à appliquer lors de la création de `Content` à partir de texte.
+* <b>`encoding`</b>: Encodage de texte à appliquer lors de la création de `Content` à partir de texte.
   **Retourne :**
   None
 
@@ -3105,10 +3106,10 @@ with weave.thread(None) as t:
 
 **Arguments :**
 
-* <b>`thread_id`</b>: L’identifiant du thread à associer aux appels dans ce contexte. S’il n’est pas fourni, un UUID v7 sera généré automatiquement. S’il vaut `None`, le suivi des threads sera désactivé.
-  **Retourne :**
+* <b>`thread_id`</b> : l’identifiant du thread à associer aux appels dans ce contexte. S’il n’est pas fourni, un UUID v7 sera généré automatiquement. Si la valeur est `None`, le suivi du thread sera désactivé.
+  **Renvoie :**
 
-* <b>`ThreadContext`</b>: Un objet donnant accès à `thread&#95;id` et à l’identifiant `turn&#95;id` actuel.
+* <b>`ThreadContext`</b> : un objet donnant accès à `thread&#95;id` et à l’`turn&#95;id` actuel.
 
 ***
 

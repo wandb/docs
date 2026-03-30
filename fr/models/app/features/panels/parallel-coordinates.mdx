@@ -1,35 +1,35 @@
 ---
-description: Comparez les résultats de plusieurs expériences de machine learning
+description: Comparer les résultats de plusieurs expériences de machine learning
 title: Coordonnées parallèles
 ---
 
-Les graphiques en coordonnées parallèles résument d’un coup d’œil la relation entre un grand nombre d’hyperparamètres et les métriques du modèle.
+Les graphiques en coordonnées parallèles résument en un coup d’œil la relation entre un grand nombre d’hyperparamètres et de métriques du modèle.
 
 <Frame>
   <img src="/images/app_ui/parallel_coordinates.gif" alt="Graphique en coordonnées parallèles" />
 </Frame>
 
-* **Axes** : différents hyperparamètres issus de [`wandb.Run.config`](/fr/models/tables/evaluate-models) et métriques issues de [`wandb.Run.log()`](/fr/models/tables/evaluate-models).
-* **Lignes** : chaque ligne représente un run. Survolez une ligne pour afficher une infobulle contenant des détails sur le run. Toutes les lignes correspondant aux filtres actuels sont affichées, mais si vous désactivez l’œil, elles apparaissent grisées.
+* **Axes** : Différents hyperparamètres de [`wandb.Run.config`](/fr/models/tables/evaluate-models) et métriques de [`wandb.Run.log()`](/fr/models/tables/evaluate-models).
+* **Lignes** : Chaque ligne représente un run. Survolez une ligne pour afficher une info-bulle avec des détails sur le run. Toutes les lignes correspondant aux filtres actuels s’affichent, mais si vous désactivez l’icône en forme d’œil, elles apparaissent grisées.
 
 <div id="create-a-parallel-coordinates-panel">
   ## Créer un panneau de coordonnées parallèles
 </div>
 
-1. Accédez à la page d’accueil de votre espace de travail
+1. Accédez à la page d’accueil de votre Workspace
 2. Cliquez sur **Add Panels**
-3. Sélectionnez **coordonnées parallèles**
+3. Sélectionnez **Coordonnées parallèles**
 
 <div id="panel-settings">
   ## Paramètres du panneau
 </div>
 
-Pour configurer le panneau, cliquez sur le bouton de modification dans le coin supérieur droit du panneau.
+Pour configurer le panneau, cliquez sur le bouton de modification situé dans son coin supérieur droit.
 
-* **Info-bulle** : Au survol, une légende s’affiche avec des informations sur chaque run
-* **Titres** : Modifiez les titres des axes pour les rendre plus lisibles
-* **Gradient** : Personnalisez le gradient avec la plage de couleurs de votre choix
-* **Échelle logarithmique** : Chaque axe peut être configuré indépendamment pour s’afficher sur une échelle logarithmique
-* **Inverser l’axe** : Inversez le sens de l’axe — utile lorsque vous avez à la fois la précision et la perte comme colonnes
+* **Infobulle** : au survol, une légende s’affiche avec des informations sur chaque run
+* **Titres** : modifiez les titres des axes pour les rendre plus lisibles
+* **Gradient** : personnalisez le gradient avec la plage de couleurs de votre choix
+* **Échelle logarithmique** : chaque axe peut être affiché indépendamment sur une échelle logarithmique
+* **Inverser l’axe** : inversez le sens de l’axe — c’est utile lorsque vous avez à la fois des colonnes accuracy et loss
 
 [Interagissez avec un panneau de coordonnées parallèles en direct](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)

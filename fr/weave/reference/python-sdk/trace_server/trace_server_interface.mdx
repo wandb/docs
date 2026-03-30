@@ -14,30 +14,30 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1076" />
 
-## <kbd>classe</kbd> `ActionsExecuteBatchReq`
+## <kbd>class</kbd> `ActionsExecuteBatchReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `action_ref`: `<classe 'str'>`
-* `call_ids`: `liste[str]`
+* `project_id`: `<class 'str'>`
+* `action_ref`: `<class 'str'>`
+* `call_ids`: `list[str]`
 * `wb_user_id`: `str | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1083" />
 
-## <kbd>classe</kbd> `ActionsExecuteBatchRes`
+## <kbd>class</kbd> `ActionsExecuteBatchRes`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1207" />
 
-## <kbd>classe</kbd> `AnnotationQueueAddCallsReq`
+## <kbd>class</kbd> `AnnotationQueueAddCallsReq`
 
-Requête permettant d’ajouter des appels à une file d’annotation en lot.
+Requête permettant d’ajouter des appels à une file d’attente d’annotation par lot.
 
-Étend AnnotationQueueAddCallsBody en ajoutant `queue_id` pour une utilisation interne de l’API.
+Étend AnnotationQueueAddCallsBody en ajoutant `queue_id` pour un usage interne de l’API.
 
 **Champs Pydantic :**
 
@@ -51,9 +51,9 @@ Requête permettant d’ajouter des appels à une file d’annotation en lot.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1217" />
 
-## <kbd>classe</kbd> `AnnotationQueueAddCallsRes`
+## <kbd>class</kbd> `AnnotationQueueAddCallsRes`
 
-Réponse à l’ajout d’appels à une file d’attente.
+Réponse renvoyée lors de l’ajout d’appels à une file d’attente.
 
 **Champs Pydantic :**
 
@@ -64,55 +64,55 @@ Réponse à l’ajout d’appels à une file d’attente.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1122" />
 
-## <kbd>classe</kbd> `AnnotationQueueCreateReq`
+## <kbd>class</kbd> `AnnotationQueueCreateReq`
 
-Requête permettant de créer une nouvelle file d’annotation.
+Requête visant à créer une nouvelle file d&#39;attente d’annotation.
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `name`: `<classe 'str'>`
-* `description`: `<classe 'str'>`
-* `scorer_refs`: `liste[str]`
+* `project_id`: `<class 'str'>`
+* `name`: `<class 'str'>`
+* `description`: `<class 'str'>`
+* `scorer_refs`: `list[str]`
 * `wb_user_id`: `str | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1139" />
 
-## <kbd>classe</kbd> `AnnotationQueueCreateRes`
+## <kbd>class</kbd> `AnnotationQueueCreateRes`
 
-Réponse à la création d’une file d’annotation.
+Réponse renvoyée lors de la création d&#39;une file d&#39;attente d&#39;annotation.
 
 **Champs Pydantic :**
 
-* `id`: `<classe 'str'>`
+* `id`: `<class 'str'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1181" />
 
-## <kbd>classe</kbd> `AnnotationQueueItemSchema`
+## <kbd>class</kbd> `AnnotationQueueItemSchema`
 
-Schéma des réponses des éléments de la file d’annotation.
+Schéma des réponses des éléments de la file d&#39;attente d&#39;annotation.
 
 **Champs Pydantic :**
 
-* `id`: `<classe 'str'>`
-* `project_id`: `<classe 'str'>`
-* `queue_id`: `<classe 'str'>`
-* `call_id`: `<classe 'str'>`
-* `call_started_at`: `<classe 'datetime.datetime'>`
+* `id`: `<class 'str'>`
+* `project_id`: `<class 'str'>`
+* `queue_id`: `<class 'str'>`
+* `call_id`: `<class 'str'>`
+* `call_started_at`: `<class 'datetime.datetime'>`
 * `call_ended_at`: `datetime.datetime | None`
-* `call_op_name`: `<classe 'str'>`
-* `call_trace_id`: `<classe 'str'>`
-* `display_fields`: `liste[str]`
+* `call_op_name`: `<class 'str'>`
+* `call_trace_id`: `<class 'str'>`
+* `display_fields`: `list[str]`
 * `added_by`: `str | None`
 * `annotation_state`: `typing.Literal['unstarted', 'in_progress', 'completed', 'skipped']`
 * `annotator_user_id`: `str | None`
-* `created_at`: `<classe 'datetime.datetime'>`
-* `created_by`: `<classe 'str'>`
-* `updated_at`: `<classe 'datetime.datetime'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `created_by`: `<class 'str'>`
+* `updated_at`: `<class 'datetime.datetime'>`
 * `deleted_at`: `datetime.datetime | None`
 * `position_in_queue`: `int | None`
 
@@ -120,31 +120,31 @@ Schéma des réponses des éléments de la file d’annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1224" />
 
-## <kbd>classe</kbd> `AnnotationQueueItemsQueryReq`
+## <kbd>class</kbd> `AnnotationQueueItemsQueryReq`
 
-Requête permettant d’interroger les éléments d’une file d’annotation.
+Requête permettant d&#39;interroger les éléments d&#39;une file d&#39;attente d&#39;annotation.
 
-Étend AnnotationQueueItemsQueryBody en ajoutant `queue_id` pour une utilisation interne de l’API.
+Étend AnnotationQueueItemsQueryBody en ajoutant `queue_id` pour un usage interne de l&#39;API.
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `filter`: `weave.trace_server.common_interface.AnnotationQueueItemsFilter | None`
-* `sort_by`: `liste[weave.trace_server.common_interface.SortBy] | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
 * `limit`: `int | None`
 * `offset`: `int | None`
-* `include_position`: `<classe 'bool'>`
-* `queue_id`: `<classe 'str'>`
+* `include_position`: `<class 'bool'>`
+* `queue_id`: `<class 'str'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1233" />
 
-## <kbd>classe</kbd> `AnnotationQueueItemsQueryRes`
+## <kbd>class</kbd> `AnnotationQueueItemsQueryRes`
 
-Réponse à une requête sur les éléments de la file d’annotation.
+Réponse à une requête portant sur les éléments de la file d&#39;attente d&#39;annotation.
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `items`: `list[AnnotationQueueItemSchema]`
 
@@ -152,9 +152,9 @@ Réponse à une requête sur les éléments de la file d’annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1168" />
 
-## <kbd>classe</kbd> `AnnotationQueueReadReq`
+## <kbd>class</kbd> `AnnotationQueueReadReq`
 
-Requête permettant de lire une file d’annotation spécifique.
+Requête pour lire une file d’attente d’annotation spécifique.
 
 **Champs Pydantic :**
 
@@ -165,9 +165,9 @@ Requête permettant de lire une file d’annotation spécifique.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1175" />
 
-## <kbd>classe</kbd> `AnnotationQueueReadRes`
+## <kbd>class</kbd> `AnnotationQueueReadRes`
 
-Réponse à la lecture d’une file d’annotation.
+Réponse obtenue lors de la lecture d’une file d’attente d’annotation.
 
 **Champs Pydantic :**
 
@@ -177,49 +177,49 @@ Réponse à la lecture d’une file d’annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1108" />
 
-## <kbd>classe</kbd> `AnnotationQueueSchema`
+## <kbd>class</kbd> `AnnotationQueueSchema`
 
-Schéma des réponses de la file d’annotation.
+Schéma des réponses de file d&#39;attente d&#39;annotation.
 
 **Champs Pydantic :**
 
-* `id`: `<classe 'str'>`
-* `project_id`: `<classe 'str'>`
-* `name`: `<classe 'str'>`
-* `description`: `<classe 'str'>`
-* `scorer_refs`: `liste[str]`
-* `created_at`: `<classe 'datetime.datetime'>`
-* `created_by`: `<classe 'str'>`
-* `updated_at`: `<classe 'datetime.datetime'>`
+* `id`: `<class 'str'>`
+* `project_id`: `<class 'str'>`
+* `name`: `<class 'str'>`
+* `description`: `<class 'str'>`
+* `scorer_refs`: `list[str]`
+* `created_at`: `<class 'datetime.datetime'>`
+* `created_by`: `<class 'str'>`
+* `updated_at`: `<class 'datetime.datetime'>`
 * `deleted_at`: `datetime.datetime | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1239" />
 
-## <kbd>classe</kbd> `AnnotationQueueStatsSchema`
+## <kbd>class</kbd> `AnnotationQueueStatsSchema`
 
-Statistiques d’une file d’annotation unique.
+Statistiques d’une file d’attente d’annotation.
 
 **Champs Pydantic :**
 
-* `queue_id`: `<classe 'str'>`
-* `total_items`: `<classe 'int'>`
-* `completed_items`: `<classe 'int'>`
+* `queue_id`: `<class 'str'>`
+* `total_items`: `<class 'int'>`
+* `completed_items`: `<class 'int'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1145" />
 
-## <kbd>classe</kbd> `AnnotationQueuesQueryReq`
+## <kbd>class</kbd> `AnnotationQueuesQueryReq`
 
-Requête permettant d’interroger les files d’annotation d’un projet.
+Requête permettant d&#39;interroger les files d&#39;attente d&#39;annotation d&#39;un projet.
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `name`: `str | None`
-* `sort_by`: `liste[weave.trace_server.common_interface.SortBy] | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
 * `limit`: `int | None`
 * `offset`: `int | None`
 
@@ -227,9 +227,9 @@ Requête permettant d’interroger les files d’annotation d’un projet.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1162" />
 
-## <kbd>classe</kbd> `AnnotationQueuesQueryRes`
+## <kbd>class</kbd> `AnnotationQueuesQueryRes`
 
-Réponse à une requête sur les files d’annotation.
+Réponse à une requête sur les files d&#39;attente d’annotation.
 
 **Champs Pydantic :**
 
@@ -239,22 +239,22 @@ Réponse à une requête sur les files d’annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1254" />
 
-## <kbd>classe</kbd> `AnnotationQueuesStatsReq`
+## <kbd>class</kbd> `AnnotationQueuesStatsReq`
 
-Requête permettant d’obtenir des statistiques pour plusieurs files d’annotation.
+Requête visant à obtenir des statistiques sur plusieurs files d’attente d’annotation.
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `queue_ids`: `liste[str]`
+* `project_id`: `<class 'str'>`
+* `queue_ids`: `list[str]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1269" />
 
-## <kbd>classe</kbd> `AnnotationQueuesStatsRes`
+## <kbd>class</kbd> `AnnotationQueuesStatsRes`
 
-Réponse contenant des statistiques sur plusieurs files d’annotation.
+Réponse contenant des statistiques sur plusieurs files d&#39;attente d&#39;annotation.
 
 **Champs Pydantic :**
 
@@ -264,52 +264,52 @@ Réponse contenant des statistiques sur plusieurs files d’annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1275" />
 
-## <kbd>classe</kbd> `AnnotatorQueueItemsProgressUpdateReq`
+## <kbd>class</kbd> `AnnotatorQueueItemsProgressUpdateReq`
 
-Requête permettant de mettre à jour l&#39;état d&#39;annotation d&#39;un élément de file d&#39;attente pour l&#39;annotateur actuel.
+Requête visant à mettre à jour l&#39;état d&#39;annotation d&#39;un élément de la file d&#39;attente pour l&#39;annotateur actuel.
 
 Transitions d&#39;état valides :
 
 * (absence) -&gt; &#39;in&#95;progress&#39; : Marquer l&#39;élément comme étant en cours (uniquement lorsqu&#39;aucun enregistrement n&#39;existe)
 * (absence) -&gt; &#39;completed&#39; ou &#39;skipped&#39; : Terminer ou ignorer directement l&#39;élément
-* &#39;in&#95;progress&#39; ou &#39;unstarted&#39; -&gt; &#39;completed&#39; ou &#39;skipped&#39; : Terminer ou ignorer un élément démarré
+* &#39;in&#95;progress&#39; ou &#39;unstarted&#39; -&gt; &#39;completed&#39; ou &#39;skipped&#39; : Terminer ou ignorer un élément déjà démarré
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `queue_id`: `<classe 'str'>`
-* `item_id`: `<classe 'str'>`
-* `annotation_state`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
+* `queue_id`: `<class 'str'>`
+* `item_id`: `<class 'str'>`
+* `annotation_state`: `<class 'str'>`
 * `wb_user_id`: `str | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1294" />
 
-## <kbd>classe</kbd> `AnnotatorQueueItemsProgressUpdateRes`
+## <kbd>class</kbd> `AnnotatorQueueItemsProgressUpdateRes`
 
-Réponse à la mise à jour de l&#39;état de l&#39;annotation.
+Réponse à la mise à jour de l’état de l’annotation.
 
 **Champs Pydantic :**
 
-* `item`: `<classe 'AnnotationQueueItemSchema'>`
+* `item`: `<class 'AnnotationQueueItemSchema'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L290" />
 
-## <kbd>classe</kbd> `CallBatchEndMode`
+## <kbd>class</kbd> `CallBatchEndMode`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `mode`: `<classe 'str'>`
-* `req`: `<classe 'CallEndReq'>`
+* `mode`: `<class 'str'>`
+* `req`: `<class 'CallEndReq'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L285" />
 
-## <kbd>classe</kbd> `CallBatchStartMode`
+## <kbd>class</kbd> `CallBatchStartMode`
 
 **champs Pydantic :**
 
@@ -320,19 +320,19 @@ Réponse à la mise à jour de l&#39;état de l&#39;annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L295" />
 
-## <kbd>classe</kbd> `CallCreateBatchReq`
+## <kbd>class</kbd> `CallCreateBatchReq`
 
 **Champs Pydantic :**
 
-* `batch`: `list[CallBatchStartMode | CallBatchEndMode]`
+* `batch` : `list[CallBatchStartMode | CallBatchEndMode]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L299" />
 
-## <kbd>classe</kbd> `CallCreateBatchRes`
+## <kbd>class</kbd> `CallCreateBatchRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `res`: `list[CallStartRes | CallEndRes]`
 
@@ -340,9 +340,9 @@ Réponse à la mise à jour de l&#39;état de l&#39;annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L277" />
 
-## <kbd>classe</kbd> `CallEndReq`
+## <kbd>class</kbd> `CallEndReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `end`: `<class 'EndedCallSchemaForInsert'>`
 
@@ -356,7 +356,7 @@ Réponse à la mise à jour de l&#39;état de l&#39;annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L303" />
 
-## <kbd>classe</kbd> `CallReadReq`
+## <kbd>class</kbd> `CallReadReq`
 
 **Champs Pydantic :**
 
@@ -370,17 +370,17 @@ Réponse à la mise à jour de l&#39;état de l&#39;annotation.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L311" />
 
-## <kbd>classe</kbd> `CallReadRes`
+## <kbd>class</kbd> `CallReadRes`
 
 **Champs Pydantic :**
 
-* `call`: `CallSchema | None`
+* `call` : `CallSchema | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L86" />
 
-## <kbd>classe</kbd> `CallSchema`
+## <kbd>class</kbd> `CallSchema`
 
 **Champs Pydantic :**
 
@@ -420,7 +420,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L268" />
 
 
-## <kbd>classe</kbd> `CallStartReq`
+## <kbd>class</kbd> `CallStartReq`
 
 **Champs Pydantic :**
 
@@ -432,7 +432,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>class</kbd> `CallStartRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `id`: `<class 'str'>`
 * `trace_id`: `<class 'str'>`
@@ -441,7 +441,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L505" />
 
-## <kbd>classe</kbd> `CallUpdateReq`
+## <kbd>class</kbd> `CallUpdateReq`
 
 **Champs Pydantic :**
 
@@ -465,7 +465,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 **Champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
-* `call_ids`: `liste[str]`
+* `call_ids`: `list[str]`
 * `wb_user_id`: `str | None`
 
 ***
@@ -474,7 +474,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>class</kbd> `CallsDeleteRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `num_deleted`: `<class 'int'>`
 
@@ -486,23 +486,23 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 **Champs Pydantic :**
 
-* `op_names`: `liste[str] | None`
-* `input_refs`: `liste[str] | None`
-* `output_refs`: `liste[str] | None`
-* `parent_ids`: `liste[str] | None`
-* `trace_ids`: `liste[str] | None`
-* `call_ids`: `liste[str] | None`
-* `thread_ids`: `liste[str] | None`
-* `turn_ids`: `liste[str] | None`
+* `op_names`: `list[str] | None`
+* `input_refs`: `list[str] | None`
+* `output_refs`: `list[str] | None`
+* `parent_ids`: `list[str] | None`
+* `trace_ids`: `list[str] | None`
+* `call_ids`: `list[str] | None`
+* `thread_ids`: `list[str] | None`
+* `turn_ids`: `list[str] | None`
 * `trace_roots_only`: `bool | None`
-* `wb_user_ids`: `liste[str] | None`
-* `wb_run_ids`: `liste[str] | None`
+* `wb_user_ids`: `list[str] | None`
+* `wb_run_ids`: `list[str] | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L420" />
 
-## <kbd>classe</kbd> `CallsQueryReq`
+## <kbd>class</kbd> `CallsQueryReq`
 
 **Champs Pydantic :**
 
@@ -524,37 +524,37 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L480" />
 
-## <kbd>classe</kbd> `CallsQueryRes`
+## <kbd>class</kbd> `CallsQueryRes`
 
 **Champs Pydantic :**
 
-* `calls`: `list[CallSchema]`
+* `calls` : `list[CallSchema]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L484" />
 
-## <kbd>classe</kbd> `CallsQueryStatsReq`
+## <kbd>class</kbd> `CallsQueryStatsReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `filter`: `CallsFilter | None`
 * `query`: `weave.trace_server.interface.query.Query | None`
 * `limit`: `int | None`
 * `include_total_storage_size`: `bool | None`
-* `expand_columns`: `liste[str] | None`
+* `expand_columns`: `list[str] | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L500" />
 
-## <kbd>classe</kbd> `CallsQueryStatsRes`
+## <kbd>class</kbd> `CallsQueryStatsRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `count` : `<classe 'int'>`
-* `total_storage_size_bytes` : `int | None`
+* `count`: `<class 'int'>`
+* `total_storage_size_bytes`: `int | None`
 
 ***
 
@@ -573,12 +573,12 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L327" />
 
-## <kbd>classe</kbd> `CompletionsCreateRequestInputs`
+## <kbd>class</kbd> `CompletionsCreateRequestInputs`
 
 **Champs Pydantic :**
 
-* `model`: `<classe 'str'>`
-* `messages`: `<classe 'list'>`
+* `model`: `<class 'str'>`
+* `messages`: `<class 'list'>`
 * `timeout`: `float | str | None`
 * `temperature`: `float | None`
 * `top_p`: `float | None`
@@ -614,19 +614,19 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 **Champs Pydantic :**
 
-* `response` : `dict[str, typing.Any]`
-* `weave_call_id` : `str | None`
+* `response`: `dict[str, typing.Any]`
+* `weave_call_id`: `str | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L994" />
 
-## <kbd>classe</kbd> `CostCreateInput`
+## <kbd>class</kbd> `CostCreateInput`
 
 **Champs Pydantic :**
 
-* `prompt_token_cost`: `<classe 'float'>`
-* `completion_token_cost`: `<classe 'float'>`
+* `prompt_token_cost`: `<class 'float'>`
+* `completion_token_cost`: `<class 'float'>`
 * `prompt_token_cost_unit`: `str | None`
 * `completion_token_cost_unit`: `str | None`
 * `effective_date`: `datetime.datetime | None`
@@ -636,11 +636,11 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1013" />
 
-## <kbd>classe</kbd> `CostCreateReq`
+## <kbd>class</kbd> `CostCreateReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `costs`: `dict[str, CostCreateInput]`
 * `wb_user_id`: `str | None`
 
@@ -648,7 +648,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1020" />
 
-## <kbd>classe</kbd> `CostCreateRes`
+## <kbd>class</kbd> `CostCreateRes`
 
 **Champs Pydantic :**
 
@@ -662,8 +662,8 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 **Champs Pydantic :**
 
-* `project_id` : `<classe 'str'>`
-* `query` : `<classe 'weave.trace_server.interface.query.Query'>`
+* `project_id`: `<class 'str'>`
+* `query`: `<class 'weave.trace_server.interface.query.Query'>`
 
 ***
 
@@ -757,7 +757,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>classe</kbd> `DatasetDeleteReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
 * `object_id`: `<class 'str'>`
@@ -822,14 +822,14 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>classe</kbd> `EndedCallSchemaForInsert`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `id`: `<classe 'str'>`
-* `ended_at`: `<classe 'datetime.datetime'>`
+* `project_id`: `<class 'str'>`
+* `id`: `<class 'str'>`
+* `ended_at`: `<class 'datetime.datetime'>`
 * `exception`: `str | None`
 * `output`: `typing.Any | None`
-* `summary`: `<classe 'SummaryInsertMap'>`
+* `summary`: `<class 'SummaryInsertMap'>`
 * `wb_run_step_end`: `int | None`
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L200" />
@@ -847,9 +847,9 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>classe</kbd> `EnsureProjectExistsRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `project_name`: `<classe 'str'>`
+* `project_name`: `<class 'str'>`
 
 ***
 
@@ -859,9 +859,9 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `evaluation_ref`: `<classe 'str'>`
-* `model_ref`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
+* `evaluation_ref`: `<class 'str'>`
+* `model_ref`: `<class 'str'>`
 * `wb_user_id`: `str | None`
 
 ***
@@ -872,7 +872,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 **Champs Pydantic :**
 
-* `call_id`: `<classe 'str'>`
+* `call_id`: `<class 'str'>`
 
 ***
 
@@ -882,11 +882,11 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 **Champs Pydantic :**
 
-* `name`: `<classe 'str'>`
+* `name`: `<class 'str'>`
 * `description`: `str | None`
-* `dataset`: `<classe 'str'>`
-* `scorers`: `liste[str] | None`
-* `trials`: `<classe 'int'>`
+* `dataset`: `<class 'str'>`
+* `scorers`: `list[str] | None`
+* `trials`: `<class 'int'>`
 * `evaluation_name`: `str | None`
 * `eval_attributes`: `dict[str, typing.Any] | None`
 
@@ -896,16 +896,16 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>classe</kbd> `EvaluationCreateReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `name`: `<classe 'str'>`
+* `name`: `<class 'str'>`
 * `description`: `str | None`
-* `dataset`: `<classe 'str'>`
-* `scorers`: `liste[str] | None`
-* `trials`: `<classe 'int'>`
+* `dataset`: `<class 'str'>`
+* `scorers`: `list[str] | None`
+* `trials`: `<class 'int'>`
 * `evaluation_name`: `str | None`
 * `eval_attributes`: `dict[str, typing.Any] | None`
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `wb_user_id`: `str | None`
 
 ***
@@ -916,10 +916,10 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 **Champs Pydantic :**
 
-* `digest`: `<classe 'str'>`
-* `object_id`: `<classe 'str'>`
-* `version_index`: `<classe 'int'>`
-* `evaluation_ref`: `<classe 'str'>`
+* `digest`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `evaluation_ref`: `<class 'str'>`
 
 ***
 
@@ -927,12 +927,12 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>classe</kbd> `EvaluationDeleteReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `object_id`: `<classe 'str'>`
-* `digests`: `liste[str] | None`
-* `wb_user_id`: `str | None`
+* `project_id` : `<class 'str'>`
+* `object_id` : `<class 'str'>`
+* `digests` : `list[str] | None`
+* `wb_user_id` : `str | None`
 
 ***
 
@@ -942,7 +942,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 **Champs Pydantic :**
 
-* `num_deleted`: `<classe 'int'>`
+* `num_deleted`: `<class 'int'>`
 
 ***
 
@@ -952,7 +952,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `limit`: `int | None`
 * `offset`: `int | None`
 * `wb_user_id`: `str | None`
@@ -998,7 +998,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>classe</kbd> `EvaluationRunCreateBody`
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `evaluation`: `<class 'str'>`
 * `model`: `<class 'str'>`
@@ -1022,7 +1022,7 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>classe</kbd> `EvaluationRunCreateRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `evaluation_run_id`: `<class 'str'>`
 
@@ -1052,13 +1052,13 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1910" />
 
-## <kbd>class</kbd> `EvaluationRunFilter`
+## <kbd>classe</kbd> `EvaluationRunFilter`
 
 **Champs Pydantic :**
 
-* `evaluations`: `liste[str] | None`
-* `models`: `liste[str] | None`
-* `evaluation_run_ids`: `liste[str] | None`
+* `evaluations`: `list[str] | None`
+* `models`: `list[str] | None`
+* `evaluation_run_ids`: `list[str] | None`
 
 ***
 
@@ -1066,9 +1066,9 @@ serialize_typed_dicts(v: dict[str, Any]) → dict[str, Any]
 
 ## <kbd>classe</kbd> `EvaluationRunFinishBody`
 
-Corps de la requête pour finaliser un run d&#39;évaluation via l&#39;API REST.
+Corps de requête pour terminer un run d’évaluation via l’API REST.
 
-Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par le chemin de l&#39;URL dans les endpoints REST.
+Ce modèle exclut `project_id` et `evaluation_run_id`, car ils proviennent du chemin de l’URL dans les points de terminaison REST.
 
 **Champs Pydantic :**
 
@@ -1080,7 +1080,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 ## <kbd>classe</kbd> `EvaluationRunFinishReq`
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `summary`: `dict[str, typing.Any] | None`
 * `project_id`: `<class 'str'>`
@@ -1093,9 +1093,9 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 ## <kbd>classe</kbd> `EvaluationRunFinishRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `success`: `<class 'bool'>`
+* `success` : `<class 'bool'>`
 
 ***
 
@@ -1116,7 +1116,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 ## <kbd>classe</kbd> `EvaluationRunReadReq`
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
 * `evaluation_run_id`: `<class 'str'>`
@@ -1143,7 +1143,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 ## <kbd>classe</kbd> `EvaluationStatusComplete`
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `code`: `typing.Literal['complete']`
 * `output`: `dict[str, typing.Any]`
@@ -1154,7 +1154,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 ## <kbd>classe</kbd> `EvaluationStatusFailed`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `code`: `typing.Literal['failed']`
 * `error`: `str | None`
@@ -1165,7 +1165,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 ## <kbd>classe</kbd> `EvaluationStatusNotFound`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `code`: `typing.Literal['not_found']`
 
@@ -1188,7 +1188,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 **Champs Pydantic :**
 
-* `status`: `EvaluationStatusNotFound | EvaluationStatusRunning | EvaluationStatusFailed | EvaluationStatusComplete`
+* `status` : `EvaluationStatusNotFound | EvaluationStatusRunning | EvaluationStatusFailed | EvaluationStatusComplete`
 
 ***
 
@@ -1196,7 +1196,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 ## <kbd>classe</kbd> `EvaluationStatusRunning`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `code`: `typing.Literal['running']`
 * `completed_rows`: `<class 'int'>`
@@ -1244,19 +1244,19 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L955" />
 
-## <kbd>classe</kbd> `FeedbackCreateBatchReq`
+## <kbd>class</kbd> `FeedbackCreateBatchReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `batch` : `list[FeedbackCreateReq]`
+* `batch`: `list[FeedbackCreateReq]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L959" />
 
-## <kbd>classe</kbd> `FeedbackCreateBatchRes`
+## <kbd>class</kbd> `FeedbackCreateBatchRes`
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `res`: `list[FeedbackCreateRes]`
 
@@ -1264,7 +1264,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L869" />
 
-## <kbd>classe</kbd> `FeedbackCreateReq`
+## <kbd>class</kbd> `FeedbackCreateReq`
 
 **Champs Pydantic :**
 
@@ -1284,7 +1284,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L907" />
 
-## <kbd>classe</kbd> `FeedbackCreateRes`
+## <kbd>class</kbd> `FeedbackCreateRes`
 
 **Champs Pydantic :**
 
@@ -1297,30 +1297,30 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L51" />
 
-## <kbd>classe</kbd> `FeedbackDict`
+## <kbd>class</kbd> `FeedbackDict`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L938" />
 
-## <kbd>classe</kbd> `FeedbackPurgeReq`
+## <kbd>class</kbd> `FeedbackPurgeReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `project_id` : `<class 'str'>`
-* `query` : `<class 'weave.trace_server.interface.query.Query'>`
+* `project_id`: `<class 'str'>`
+* `query`: `<class 'weave.trace_server.interface.query.Query'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L943" />
 
-## <kbd>classe</kbd> `FeedbackPurgeRes`
+## <kbd>class</kbd> `FeedbackPurgeRes`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L920" />
 
-## <kbd>classe</kbd> `FeedbackQueryReq`
+## <kbd>class</kbd> `FeedbackQueryReq`
 
 **Champs Pydantic :**
 
@@ -1335,7 +1335,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L933" />
 
-## <kbd>classe</kbd> `FeedbackQueryRes`
+## <kbd>class</kbd> `FeedbackQueryRes`
 
 **Champs Pydantic :**
 
@@ -1345,7 +1345,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L947" />
 
-## <kbd>classe</kbd> `FeedbackReplaceReq`
+## <kbd>class</kbd> `FeedbackReplaceReq`
 
 **Champs Pydantic :**
 
@@ -1379,7 +1379,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L973" />
 
-## <kbd>classe</kbd> `FileContentReadReq`
+## <kbd>class</kbd> `FileContentReadReq`
 
 **Champs Pydantic :**
 
@@ -1390,9 +1390,9 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L982" />
 
-## <kbd>classe</kbd> `FileContentReadRes`
+## <kbd>class</kbd> `FileContentReadRes`
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `content`: `<class 'bytes'>`
 
@@ -1400,9 +1400,9 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L963" />
 
-## <kbd>classe</kbd> `FileCreateReq`
+## <kbd>class</kbd> `FileCreateReq`
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
 * `name`: `<class 'str'>`
@@ -1412,7 +1412,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L969" />
 
-## <kbd>classe</kbd> `FileCreateRes`
+## <kbd>class</kbd> `FileCreateRes`
 
 **Champs Pydantic :**
 
@@ -1422,7 +1422,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L978" />
 
-## <kbd>classe</kbd> `FilesStatsReq`
+## <kbd>class</kbd> `FilesStatsReq`
 
 **Champs Pydantic :**
 
@@ -1432,7 +1432,7 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L986" />
 
-## <kbd>classe</kbd> `FilesStatsRes`
+## <kbd>class</kbd> `FilesStatsRes`
 
 **Champs Pydantic :**
 
@@ -1442,11 +1442,11 @@ Ce modèle exclut `project_id` et `evaluation_run_id`, car ils sont fournis par 
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2344" />
 
-## <kbd>classe</kbd> `FullTraceServerInterface`
+## <kbd>class</kbd> `FullTraceServerInterface`
 
 Interface complète du serveur de traces prenant en charge les API V1 et Object.
 
-Ce protocole représente une implémentation de serveur de traces qui prend en charge l’ensemble des API, à savoir les points de terminaison V1 hérités et les points de terminaison Object modernes. Utilisez ce type pour les implémentations devant prendre en charge les deux versions de l’API.
+Ce protocole représente une implémentation de serveur de traces qui prend en charge l’ensemble des API, à savoir les endpoints V1 hérités et les endpoints Object modernes. Utilisez ce type pour les implémentations qui doivent prendre en charge les deux versions de l’API.
 
 ***
 
@@ -2134,6 +2134,7 @@ prediction_create(req: PredictionCreateReq) → PredictionCreateRes
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2334" />
 
+
 ### <kbd>méthode</kbd> `prediction_delete`
 
 ```python
@@ -2143,6 +2144,7 @@ prediction_delete(req: PredictionDeleteReq) → PredictionDeleteRes
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2335" />
+
 
 ### <kbd>méthode</kbd> `prediction_finish`
 
@@ -2154,6 +2156,7 @@ prediction_finish(req: PredictionFinishReq) → PredictionFinishRes
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2331" />
 
+
 ### <kbd>méthode</kbd> `prediction_list`
 
 ```python
@@ -2164,6 +2167,7 @@ prediction_list(req: PredictionListReq) → Iterator[PredictionReadRes]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2330" />
 
+
 ### <kbd>méthode</kbd> `prediction_read`
 
 ```python
@@ -2173,6 +2177,7 @@ prediction_read(req: PredictionReadReq) → PredictionReadRes
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2232" />
+
 
 ### <kbd>méthode</kbd> `project_stats`
 
@@ -2387,7 +2392,7 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L401" />
 
-## <kbd>class</kbd> `ImageGenerationCreateRes`
+## <kbd>classe</kbd> `ImageGenerationCreateRes`
 
 **Champs Pydantic :**
 
@@ -2410,7 +2415,7 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L36" />
 
-## <kbd>class</kbd> `LLMCostSchema`
+## <kbd>classe</kbd> `LLMCostSchema`
 
 ***
 
@@ -2465,7 +2470,7 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 ## <kbd>classe</kbd> `ModelDeleteReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
 * `object_id`: `<class 'str'>`
@@ -2500,7 +2505,7 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 ## <kbd>classe</kbd> `ModelReadReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
 * `object_id`: `<class 'str'>`
@@ -2539,7 +2544,7 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 ## <kbd>classe</kbd> `ObjCreateRes`
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `digest`: `<class 'str'>`
 * `object_id`: `str | None`
@@ -2564,7 +2569,7 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 **Champs Pydantic :**
 
-* `num_deleted`: `<classe 'int'>`
+* `num_deleted`: `<class 'int'>`
 
 ***
 
@@ -2574,11 +2579,11 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `filter`: `ObjectVersionFilter | None`
 * `limit`: `int | None`
 * `offset`: `int | None`
-* `sort_by`: `liste[weave.trace_server.common_interface.SortBy] | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
 * `metadata_only`: `bool | None`
 * `include_storage_size`: `bool | None`
 
@@ -2588,7 +2593,7 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 ## <kbd>classe</kbd> `ObjQueryRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `objs`: `list[ObjSchema]`
 
@@ -2613,7 +2618,7 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 **Champs Pydantic :**
 
-* `obj`: `<classe 'ObjSchema'>`
+* `obj`: `<class 'ObjSchema'>`
 
 ***
 
@@ -2621,16 +2626,16 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 ## <kbd>classe</kbd> `ObjSchema`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `object_id`: `<classe 'str'>`
-* `created_at`: `<classe 'datetime.datetime'>`
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `created_at`: `<class 'datetime.datetime'>`
 * `deleted_at`: `datetime.datetime | None`
-* `digest`: `<classe 'str'>`
-* `version_index`: `<classe 'int'>`
-* `is_latest`: `<classe 'int'>`
-* `kind`: `<classe 'str'>`
+* `digest`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `is_latest`: `<class 'int'>`
+* `kind`: `<class 'str'>`
 * `base_object_class`: `str | None`
 * `leaf_object_class`: `str | None`
 * `val`: `typing.Any`
@@ -2643,10 +2648,10 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 
 ## <kbd>classe</kbd> `ObjSchemaForInsert`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `object_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
 * `val`: `typing.Any`
 * `builtin_object_class`: `str | None`
 * `set_base_object_class`: `str | None`
@@ -2667,9 +2672,9 @@ model_post_init(_ObjSchemaForInsert__context: Any) → None
 
 ## <kbd>classe</kbd> `ObjectInterface`
 
-Points de terminaison de l’API des objets pour le Trace Server.
+Points de terminaison de l’API des objets pour Trace Server.
 
-Ce protocole inclut des API de gestion d’objets qui offrent des interfaces plus claires et plus conformes aux principes REST. Les implémentations doivent prendre en charge à la fois ce protocole et TraceServerInterface afin de préserver la rétrocompatibilité.
+Ce protocole contient des API de gestion d’objets qui fournissent des interfaces plus claires et plus conformes aux principes REST. Les implémentations doivent prendre en charge à la fois ce protocole et TraceServerInterface afin de maintenir la rétrocompatibilité.
 
 ***
 
@@ -2916,6 +2921,7 @@ prediction_create(req: PredictionCreateReq) → PredictionCreateRes
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2334" />
 
+
 ### <kbd>méthode</kbd> `prediction_delete`
 
 ```python
@@ -2925,6 +2931,7 @@ prediction_delete(req: PredictionDeleteReq) → PredictionDeleteRes
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2335" />
+
 
 ### <kbd>méthode</kbd> `prediction_finish`
 
@@ -2936,6 +2943,7 @@ prediction_finish(req: PredictionFinishReq) → PredictionFinishRes
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2331" />
 
+
 ### <kbd>méthode</kbd> `prediction_list`
 
 ```python
@@ -2946,6 +2954,7 @@ prediction_list(req: PredictionListReq) → Iterator[PredictionReadRes]
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2330" />
 
+
 ### <kbd>méthode</kbd> `prediction_read`
 
 ```python
@@ -2955,6 +2964,7 @@ prediction_read(req: PredictionReadReq) → PredictionReadRes
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2338" />
+
 
 ### <kbd>méthode</kbd> `score_create`
 
@@ -3048,10 +3058,10 @@ scorer_read(req: ScorerReadReq) → ScorerReadRes
 
 **Champs Pydantic :**
 
-* `base_object_classes`: `liste[str] | None`
-* `exclude_base_object_classes`: `liste[str] | None`
-* `leaf_object_classes`: `liste[str] | None`
-* `object_ids`: `liste[str] | None`
+* `base_object_classes`: `list[str] | None`
+* `exclude_base_object_classes`: `list[str] | None`
+* `leaf_object_classes`: `list[str] | None`
+* `object_ids`: `list[str] | None`
 * `is_op`: `bool | None`
 * `latest_only`: `bool | None`
 
@@ -3061,11 +3071,11 @@ scorer_read(req: ScorerReadReq) → ScorerReadRes
 
 ## <kbd>classe</kbd> `OpCreateBody`
 
-Corps de la requête pour créer un objet Op via l’API REST.
+Corps de requête pour créer un objet Op via l’API REST.
 
-Ce modèle exclut `project_id`, car il est fourni par le chemin d’URL des points de terminaison REST.
+Ce modèle exclut `project_id`, car il est fourni par le chemin de l’URL dans les endpoints REST.
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `name`: `str | None`
 * `source_code`: `str | None`
@@ -3084,7 +3094,7 @@ Modèle de requête pour créer un objet Op.
 
 * `name`: `str | None`
 * `source_code`: `str | None`
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `wb_user_id`: `str | None`
 
 ***
@@ -3093,7 +3103,7 @@ Modèle de requête pour créer un objet Op.
 
 ## <kbd>classe</kbd> `OpCreateRes`
 
-Modèle de réponse pour la création d’un objet Op.
+Modèle de réponse pour créer un objet Op.
 
 **Champs Pydantic :**
 
@@ -3111,7 +3121,7 @@ Modèle de réponse pour la création d’un objet Op.
 
 * `project_id`: `<class 'str'>`
 * `object_id`: `<class 'str'>`
-* `digests`: `liste[str] | None`
+* `digests`: `list[str] | None`
 * `wb_user_id`: `str | None`
 
 ***
@@ -3120,7 +3130,7 @@ Modèle de réponse pour la création d’un objet Op.
 
 ## <kbd>classe</kbd> `OpDeleteRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `num_deleted`: `<class 'int'>`
 
@@ -3197,11 +3207,11 @@ Le champ `code` contient le code source réel de l’op.
 
 ## <kbd>classe</kbd> `PredictionCreateBody`
 
-Corps de la requête pour créer une prédiction via l’API REST.
+Corps de requête pour créer une prédiction via l’API REST.
 
-Ce modèle exclut `project_id`, car il est fourni par le chemin d’URL des points de terminaison REST.
+Ce modèle exclut `project_id`, car il est récupéré à partir du chemin d’URL des endpoints REST.
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `model`: `<class 'str'>`
 * `inputs`: `dict[str, typing.Any]`
@@ -3216,7 +3226,7 @@ Ce modèle exclut `project_id`, car il est fourni par le chemin d’URL des poin
 
 Modèle de requête pour créer une prédiction.
 
-Étend PredictionCreateBody en y ajoutant `project_id` pour un usage interne de l’API.
+Étend PredictionCreateBody en ajoutant project&#95;id pour une utilisation interne de l’API.
 
 **Champs Pydantic :**
 
@@ -3255,7 +3265,7 @@ Modèle de requête pour créer une prédiction.
 
 ## <kbd>classe</kbd> `PredictionDeleteRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `num_deleted`: `<class 'int'>`
 
@@ -3265,7 +3275,7 @@ Modèle de requête pour créer une prédiction.
 
 ## <kbd>classe</kbd> `PredictionFinishReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
 * `prediction_id`: `<class 'str'>`
@@ -3279,7 +3289,7 @@ Modèle de requête pour créer une prédiction.
 
 **Champs Pydantic :**
 
-* `success` : `<class 'bool'>`
+* `success`: `<class 'bool'>`
 
 ***
 
@@ -3352,7 +3362,7 @@ Modèle de requête pour créer une prédiction.
 
 ## <kbd>classe</kbd> `ProjectStatsRes`
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `trace_storage_size_bytes`: `<class 'int'>`
 * `objects_storage_size_bytes`: `<class 'int'>`
@@ -3367,7 +3377,7 @@ Modèle de requête pour créer une prédiction.
 
 **Champs Pydantic :**
 
-* `refs`: `liste[str]`
+* `refs` : `list[str]`
 
 ***
 
@@ -3377,7 +3387,7 @@ Modèle de requête pour créer une prédiction.
 
 **Champs Pydantic :**
 
-* `vals` : `list[typing.Any]`
+* `vals`: `list[typing.Any]`
 
 ***
 
@@ -3385,15 +3395,15 @@ Modèle de requête pour créer une prédiction.
 
 ## <kbd>classe</kbd> `ScoreCreateBody`
 
-Corps de la requête pour créer un Score via l’API REST.
+Corps de la requête pour créer un score via l’API REST.
 
-Ce modèle exclut `project_id`, car il est fourni par le chemin d’URL des points de terminaison REST.
+Ce modèle exclut `project_id`, car il provient du chemin de l’URL dans les endpoints REST.
 
 **Champs Pydantic :**
 
-* `prediction_id`: `<classe 'str'>`
-* `scorer`: `<classe 'str'>`
-* `value`: `<classe 'float'>`
+* `prediction_id`: `<class 'str'>`
+* `scorer`: `<class 'str'>`
+* `value`: `<class 'float'>`
 * `evaluation_run_id`: `str | None`
 
 ***
@@ -3402,24 +3412,24 @@ Ce modèle exclut `project_id`, car il est fourni par le chemin d’URL des poin
 
 ## <kbd>classe</kbd> `ScoreCreateReq`
 
-Modèle de requête pour créer un Score.
+Modèle de requête pour créer un score.
 
-Étend ScoreCreateBody en y ajoutant `project_id` pour un usage interne de l’API.
+Étend ScoreCreateBody en y ajoutant `project_id` pour l’usage interne de l’API.
 
 **Champs Pydantic :**
 
-* `prediction_id`: `<classe 'str'>`
-* `scorer`: `<classe 'str'>`
-* `value`: `<classe 'float'>`
+* `prediction_id`: `<class 'str'>`
+* `scorer`: `<class 'str'>`
+* `value`: `<class 'float'>`
 * `evaluation_run_id`: `str | None`
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `wb_user_id`: `str | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2098" />
 
-## <kbd>classe</kbd> `ScoreCreateRes`
+## <kbd>class</kbd> `ScoreCreateRes`
 
 **Champs Pydantic :**
 
@@ -3429,33 +3439,33 @@ Modèle de requête pour créer un Score.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2135" />
 
-## <kbd>classe</kbd> `ScoreDeleteReq`
+## <kbd>class</kbd> `ScoreDeleteReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `score_ids`: `liste[str]`
+* `project_id`: `<class 'str'>`
+* `score_ids`: `list[str]`
 * `wb_user_id`: `str | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2143" />
 
-## <kbd>classe</kbd> `ScoreDeleteRes`
+## <kbd>class</kbd> `ScoreDeleteRes`
 
 **Champs Pydantic :**
 
-* `num_deleted` : `<classe 'int'>`
+* `num_deleted`: `<class 'int'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2120" />
 
-## <kbd>classe</kbd> `ScoreListReq`
+## <kbd>class</kbd> `ScoreListReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `evaluation_run_id`: `str | None`
 * `limit`: `int | None`
 * `offset`: `int | None`
@@ -3467,7 +3477,7 @@ Modèle de requête pour créer un Score.
 
 ## <kbd>class</kbd> `ScoreReadReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
 * `score_id`: `<class 'str'>`
@@ -3477,13 +3487,13 @@ Modèle de requête pour créer un Score.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L2110" />
 
-## <kbd>classe</kbd> `ScoreReadRes`
+## <kbd>class</kbd> `ScoreReadRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `score_id`: `<classe 'str'>`
-* `scorer`: `<classe 'str'>`
-* `value`: `<classe 'float'>`
+* `score_id`: `<class 'str'>`
+* `scorer`: `<class 'str'>`
+* `value`: `<class 'float'>`
 * `evaluation_run_id`: `str | None`
 * `wb_user_id`: `str | None`
 
@@ -3491,73 +3501,73 @@ Modèle de requête pour créer un Score.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1582" />
 
-## <kbd>classe</kbd> `ScorerCreateBody`
+## <kbd>class</kbd> `ScorerCreateBody`
 
 **Champs Pydantic :**
 
-* `name` : `<classe 'str'>`
-* `description` : `str | None`
-* `op_source_code` : `<classe 'str'>`
+* `name`: `<class 'str'>`
+* `description`: `str | None`
+* `op_source_code`: `<class 'str'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1597" />
 
-## <kbd>classe</kbd> `ScorerCreateReq`
+## <kbd>class</kbd> `ScorerCreateReq`
 
 **Champs Pydantic :**
 
-* `name`: `<classe 'str'>`
+* `name`: `<class 'str'>`
 * `description`: `str | None`
-* `op_source_code`: `<classe 'str'>`
-* `project_id`: `<classe 'str'>`
+* `op_source_code`: `<class 'str'>`
+* `project_id`: `<class 'str'>`
 * `wb_user_id`: `str | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1604" />
 
-## <kbd>classe</kbd> `ScorerCreateRes`
+## <kbd>class</kbd> `ScorerCreateRes`
 
 **Champs Pydantic :**
 
-* `digest`: `<classe 'str'>`
-* `object_id`: `<classe 'str'>`
-* `version_index`: `<classe 'int'>`
-* `scorer`: `<classe 'str'>`
+* `digest`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `scorer`: `<class 'str'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1651" />
 
-## <kbd>classe</kbd> `ScorerDeleteReq`
+## <kbd>class</kbd> `ScorerDeleteReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `object_id`: `<classe 'str'>`
-* `digests`: `liste[str] | None`
+* `project_id`: `<class 'str'>`
+* `object_id`: `<class 'str'>`
+* `digests`: `list[str] | None`
 * `wb_user_id`: `str | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1663" />
 
-## <kbd>classe</kbd> `ScorerDeleteRes`
+## <kbd>class</kbd> `ScorerDeleteRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `num_deleted` : `<classe 'int'>`
+* `num_deleted`: `<class 'int'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1640" />
 
-## <kbd>classe</kbd> `ScorerListReq`
+## <kbd>class</kbd> `ScorerListReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `limit`: `int | None`
 * `offset`: `int | None`
 * `wb_user_id`: `str | None`
@@ -3579,35 +3589,35 @@ Modèle de requête pour créer un Score.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1625" />
 
-## <kbd>classe</kbd> `ScorerReadRes`
+## <kbd>class</kbd> `ScorerReadRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `object_id`: `<classe 'str'>`
-* `digest`: `<classe 'str'>`
-* `version_index`: `<classe 'int'>`
-* `created_at`: `<classe 'datetime.datetime'>`
-* `name`: `<classe 'str'>`
+* `object_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `version_index`: `<class 'int'>`
+* `created_at`: `<class 'datetime.datetime'>`
+* `name`: `<class 'str'>`
 * `description`: `str | None`
-* `score_op`: `<classe 'str'>`
+* `score_op`: `<class 'str'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L146" />
 
-## <kbd>classe</kbd> `StartedCallSchemaForInsert`
+## <kbd>class</kbd> `StartedCallSchemaForInsert`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
 * `id`: `str | None`
-* `op_name`: `<classe 'str'>`
+* `op_name`: `<class 'str'>`
 * `display_name`: `str | None`
 * `trace_id`: `str | None`
 * `parent_id`: `str | None`
 * `thread_id`: `str | None`
 * `turn_id`: `str | None`
-* `started_at`: `<classe 'datetime.datetime'>`
+* `started_at`: `<class 'datetime.datetime'>`
 * `attributes`: `dict[str, typing.Any]`
 * `inputs`: `dict[str, typing.Any]`
 * `otel_dump`: `dict[str, typing.Any] | None`
@@ -3625,196 +3635,196 @@ Modèle de requête pour créer un Score.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L82" />
 
-## <kbd>classe</kbd> `SummaryMap`
+## <kbd>class</kbd> `SummaryMap`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L699" />
 
-## <kbd>classe</kbd> `TableAppendSpec`
+## <kbd>class</kbd> `TableAppendSpec`
 
 **Champs Pydantic :**
 
-* `append`: `<classe 'TableAppendSpecPayload'>`
+* `append`: `<class 'TableAppendSpecPayload'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L695" />
 
-## <kbd>classe</kbd> `TableAppendSpecPayload`
+## <kbd>class</kbd> `TableAppendSpecPayload`
 
 **Champs Pydantic :**
 
-* `row`: `dict[str, typing.Any]`
+* `row` : `dict[str, typing.Any]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L635" />
 
-## <kbd>classe</kbd> `TableCreateFromDigestsReq`
+## <kbd>class</kbd> `TableCreateFromDigestsReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `row_digests`: `liste[str]`
+* `project_id`: `<class 'str'>`
+* `row_digests`: `list[str]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L640" />
 
-## <kbd>classe</kbd> `TableCreateFromDigestsRes`
+## <kbd>class</kbd> `TableCreateFromDigestsRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `digest`: `<classe 'str'>`
+* `digest` : `<class 'str'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L631" />
 
-## <kbd>classe</kbd> `TableCreateReq`
+## <kbd>class</kbd> `TableCreateReq`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `table`: `<classe 'TableSchemaForInsert'>`
+* `table`: `<class 'TableSchemaForInsert'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L751" />
 
-## <kbd>classe</kbd> `TableCreateRes`
+## <kbd>class</kbd> `TableCreateRes`
 
 **Champs Pydantic :**
 
-* `digest`: `<classe 'str'>`
-* `row_digests`: `liste[str]`
+* `digest`: `<class 'str'>`
+* `row_digests`: `list[str]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L716" />
 
-## <kbd>classe</kbd> `TableInsertSpec`
+## <kbd>class</kbd> `TableInsertSpec`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `insert`: `<classe 'TableInsertSpecPayload'>`
+* `insert`: `<class 'TableInsertSpecPayload'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L711" />
 
-## <kbd>classe</kbd> `TableInsertSpecPayload`
+## <kbd>class</kbd> `TableInsertSpecPayload`
 
 **champs Pydantic :**
 
-* `index`: `<classe 'int'>`
+* `index`: `<class 'int'>`
 * `row`: `dict[str, typing.Any]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L707" />
 
-## <kbd>classe</kbd> `TablePopSpec`
+## <kbd>class</kbd> `TablePopSpec`
 
 **Champs Pydantic :**
 
-* `pop`: `<classe 'TablePopSpecPayload'>`
+* `pop`: `<class 'TablePopSpecPayload'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L703" />
 
-## <kbd>classe</kbd> `TablePopSpecPayload`
+## <kbd>class</kbd> `TablePopSpecPayload`
 
 **Champs Pydantic :**
 
-* `index` : `<classe 'int'>`
+* `index`: `<class 'int'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L780" />
 
-## <kbd>classe</kbd> `TableQueryReq`
+## <kbd>class</kbd> `TableQueryReq`
 
 **Champs Pydantic :**
 
-* `project_id` : `<classe 'str'>`
-* `digest` : `<classe 'str'>`
-* `filter` : `TableRowFilter | None`
-* `limit` : `int | None`
-* `offset` : `int | None`
-* `sort_by` : `liste[weave.trace_server.common_interface.SortBy] | None`
+* `project_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
+* `filter`: `TableRowFilter | None`
+* `limit`: `int | None`
+* `offset`: `int | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L815" />
 
-## <kbd>classe</kbd> `TableQueryRes`
+## <kbd>class</kbd> `TableQueryRes`
 
 **Champs Pydantic :**
 
-* `rows`: `liste[TableRowSchema]`
+* `rows`: `list[TableRowSchema]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L828" />
 
-## <kbd>classe</kbd> `TableQueryStatsBatchReq`
+## <kbd>class</kbd> `TableQueryStatsBatchReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `digests`: `liste[str] | None`
+* `project_id`: `<class 'str'>`
+* `digests`: `list[str] | None`
 * `include_storage_size`: `bool | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L857" />
 
-## <kbd>classe</kbd> `TableQueryStatsBatchRes`
+## <kbd>class</kbd> `TableQueryStatsBatchRes`
 
 **Champs Pydantic :**
 
-* `tables`: `liste[TableStatsRow]`
+* `tables`: `list[TableStatsRow]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L819" />
 
-## <kbd>classe</kbd> `TableQueryStatsReq`
+## <kbd>class</kbd> `TableQueryStatsReq`
 
 **Champs Pydantic :**
 
-* `project_id`: `<classe 'str'>`
-* `digest`: `<classe 'str'>`
+* `project_id`: `<class 'str'>`
+* `digest`: `<class 'str'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L847" />
 
-## <kbd>classe</kbd> `TableQueryStatsRes`
+## <kbd>class</kbd> `TableQueryStatsRes`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
-* `count`: `<classe 'int'>`
+* `count`: `<class 'int'>`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L767" />
 
-## <kbd>classe</kbd> `TableRowFilter`
+## <kbd>class</kbd> `TableRowFilter`
 
 **Champs Pydantic :**
 
-* `row_digests`: `liste[str] | None`
+* `row_digests`: `list[str] | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L745" />
 
-## <kbd>classe</kbd> `TableRowSchema`
+## <kbd>class</kbd> `TableRowSchema`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `digest`: `<class 'str'>`
 * `val`: `typing.Any`
@@ -3824,18 +3834,18 @@ Modèle de requête pour créer un Score.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L240" />
 
-## <kbd>classe</kbd> `TableSchemaForInsert`
+## <kbd>class</kbd> `TableSchemaForInsert`
 
-**Champs Pydantic :**
+**champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
-* `rows`: `liste[dict[str, typing.Any]]`
+* `rows`: `list[dict[str, typing.Any]]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L851" />
 
-## <kbd>classe</kbd> `TableStatsRow`
+## <kbd>class</kbd> `TableStatsRow`
 
 **Champs Pydantic :**
 
@@ -3847,30 +3857,30 @@ Modèle de requête pour créer un Score.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L723" />
 
-## <kbd>classe</kbd> `TableUpdateReq`
+## <kbd>class</kbd> `TableUpdateReq`
 
 **Champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
 * `base_digest`: `<class 'str'>`
-* `updates`: `liste[TableAppendSpec | TablePopSpec | TableInsertSpec]`
+* `updates`: `list[TableAppendSpec | TablePopSpec | TableInsertSpec]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L729" />
 
-## <kbd>classe</kbd> `TableUpdateRes`
+## <kbd>class</kbd> `TableUpdateRes`
 
 **Champs Pydantic :**
 
 * `digest`: `<class 'str'>`
-* `updated_row_digests`: `liste[str]`
+* `updated_row_digests`: `list[str]`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1303" />
 
-## <kbd>classe</kbd> `ThreadSchema`
+## <kbd>class</kbd> `ThreadSchema`
 
 **Champs Pydantic :**
 
@@ -3887,31 +3897,31 @@ Modèle de requête pour créer un Score.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1326" />
 
-## <kbd>classe</kbd> `ThreadsQueryFilter`
+## <kbd>class</kbd> `ThreadsQueryFilter`
 
 **Champs Pydantic :**
 
 * `after_datetime`: `datetime.datetime | None`
 * `before_datetime`: `datetime.datetime | None`
-* `thread_ids`: `liste[str] | None`
+* `thread_ids`: `list[str] | None`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L1344" />
 
-## <kbd>classe</kbd> `ThreadsQueryReq`
+## <kbd>class</kbd> `ThreadsQueryReq`
 
-Interrogez les threads avec des statistiques agrégées basées uniquement sur les appels de tour.
+Interroge les threads avec des statistiques agrégées calculées uniquement à partir des appels de tour.
 
-Les appels de tour sont les enfants immédiats des contextes de thread (où call.id == turn&#95;id). Cela fournit des statistiques pertinentes au niveau de la conversation, plutôt que d’inclure tous les détails d’implémentation imbriqués.
+Les appels de tour sont les enfants directs des contextes de thread (où call.id == turn&#95;id). Cela fournit des statistiques pertinentes à l’échelle de la conversation, plutôt que d’inclure tous les détails d’implémentation imbriqués.
 
-**champs Pydantic :**
+**Champs Pydantic :**
 
 * `project_id`: `<class 'str'>`
 * `filter`: `ThreadsQueryFilter | None`
 * `limit`: `int | None`
 * `offset`: `int | None`
-* `sort_by`: `liste[weave.trace_server.common_interface.SortBy] | None`
+* `sort_by`: `list[weave.trace_server.common_interface.SortBy] | None`
 
 ***
 
@@ -4476,10 +4486,10 @@ threads_query_stream(req: ThreadsQueryReq) → Iterator[ThreadSchema]
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L61" />
 
 
-## <kbd>classe</kbd> `TraceStatus`
+## <kbd>class</kbd> `TraceStatus`
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/trace_server_interface.py#L68" />
 
-## <kbd>classe</kbd> `WeaveSummarySchema`
+## <kbd>class</kbd> `WeaveSummarySchema`

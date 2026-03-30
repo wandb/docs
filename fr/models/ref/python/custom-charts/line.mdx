@@ -22,16 +22,16 @@ line(
 ) → CustomChart
 ```
 
-Construit un graphique linéaire personnalisable.
+Crée un graphique linéaire personnalisable.
 
 **Arguments :**
 
 * `table`:   Le tableau contenant les données du graphique.
-* `x`:  Nom de la colonne pour les valeurs de l’axe x.
-* `y`:  Nom de la colonne pour les valeurs de l’axe y.
-* `stroke`:  Nom de la colonne permettant de distinguer les lignes (par exemple, pour regrouper des lignes).
+* `x`:  Nom de la colonne contenant les valeurs de l’axe des x.
+* `y`:  Nom de la colonne contenant les valeurs de l’axe des y.
+* `stroke`:  Nom de la colonne utilisée pour différencier le tracé des lignes (par ex., pour regrouper les lignes).
 * `title`:  Titre du graphique.
-* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée  &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 
 **Retourne :**
 
@@ -57,7 +57,7 @@ for i in range(100):
 # Définir les colonnes du tableau
 table = wandb.Table(data=data, columns=["step", "value", "series"])
 
-# Initialiser le run wandb et enregistrer le graphique linéaire
+# Initialiser le run wandb et enregistrer le graphique en courbes
 with wandb.init(project="line_chart_example") as run:
      line_chart = wandb.plot.line(
          table=table,

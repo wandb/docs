@@ -3,19 +3,19 @@ title: "コードのテスト時に wandb を無効にできますか？"
 keywords: ["Artifacts"]
 ---
 
-テスト用に W&amp;B を no-operation (NOOP) として設定するには、`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定します。
+テスト時に W&amp;B を何も実行しない (NOOP) ように設定するには、`wandb.init(mode="disabled")` を使用するか、`WANDB_MODE=disabled` を設定します。
 
 <Note>
-  `wandb.init(mode="disabled")` を使用しても、W&amp;B が `WANDB_CACHE_DIR` にアーティファクトを保存することは防げません。
+  `wandb.init(mode="disabled")` を使用しても、W&amp;B が `WANDB_CACHE_DIR` に Artifacts を保存することは防げません。
 </Note>
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  このマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマター内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって生成されています。
+  これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
 
-{/* ---- 自動生成: タブバッジここまで ---- */}
+{/* ---- END AUTO-GENERATED: タブバッジ ---- */}

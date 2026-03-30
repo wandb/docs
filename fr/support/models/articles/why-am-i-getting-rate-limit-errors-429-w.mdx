@@ -1,18 +1,18 @@
 ---
-title: "Pourquoi est-ce que j’obtiens des erreurs de limite de débit (429) avec W&B Inference ?"
+title: "Pourquoi est-ce que je reçois des erreurs de limite de débit (429) avec W&B Inference ?"
 keywords: ["Inférence"]
 ---
 
-Les erreurs de limite de débit (429) surviennent lorsque vous dépassez les limites de concurrence.
+Les erreurs de limite de débit (429) se produisent lorsque vous dépassez les limites de concurrence.
 
 **Erreur :** &quot;Limite de concurrence atteinte pour les requêtes&quot;
 
 **Solution :**
 
 * Réduisez le nombre de requêtes parallèles
-* Ajoutez des délais entre les requêtes
+* Ajoutez un délai entre les requêtes
 * Mettez en place un backoff exponentiel
-* Remarque : les limites de débit s’appliquent à chaque projet W&amp;B
+* Remarque : les limites de débit s&#39;appliquent par projet W&amp;B
 
 <div id="best-practices-to-avoid-rate-limits">
   ## Bonnes pratiques pour éviter les limites de débit
@@ -35,22 +35,22 @@ Les erreurs de limite de débit (429) surviennent lorsque vous dépassez les lim
 
 2. **Utilisez le traitement par lots plutôt que des requêtes parallèles**
 
-3. **Surveillez votre utilisation sur la page de facturation W&amp;B**
+3. **Surveillez votre utilisation sur la page Billing de W&amp;B**
 
 <div id="default-spending-caps">
   ## Plafonds de dépenses par défaut
 </div>
 
-* **Comptes Pro :** 6 000 $/mois
-* **Comptes Enterprise :** 700 000 $/an
+* **Comptes Pro :** $6,000/mois
+* **Comptes Enterprise :** $700,000/an
 
-Contactez votre responsable de compte ou l’assistance pour ajuster les limites.
+Contactez votre responsable de compte ou l’assistance pour modifier les limites.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  Ne modifiez pas ce contenu manuellement entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Inférence](/fr/support/models/tags/inference)</Badge>

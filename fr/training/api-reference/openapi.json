@@ -10,8 +10,8 @@
         "tags": [
           "chat-completions"
         ],
-        "summary": "Créer une complétion de chat",
-        "description": "Créer une nouvelle complétion de chat.",
+        "summary": "Créer une Chat Completion",
+        "description": "Créer une nouvelle Chat Completion.",
         "operationId": "create_chat_completion_v1_chat_completions__post",
         "requestBody": {
           "content": {
@@ -57,8 +57,8 @@
         "tags": [
           "chat-completions"
         ],
-        "summary": "Créer une complétion de chat",
-        "description": "Créer une nouvelle complétion de chat.",
+        "summary": "Créer une Chat Completion",
+        "description": "Créer une nouvelle Chat Completion.",
         "operationId": "create_chat_completion_v1_chat_completions_post",
         "requestBody": {
           "content": {
@@ -187,11 +187,11 @@
               "type": "integer",
               "maximum": 100,
               "minimum": 1,
-              "description": "Nombre d'éléments à renvoyer",
+              "description": "Nombre d'éléments à retourner",
               "default": 20,
               "title": "Limit"
             },
-            "description": "Nombre d'éléments à renvoyer"
+            "description": "Nombre d'éléments à retourner"
           },
           {
             "name": "order",
@@ -296,7 +296,7 @@
           "models"
         ],
         "summary": "Supprimer le modèle",
-        "description": "Supprimer un modèle, tous ses points de contrôle, artefacts et le run W&B associé.",
+        "description": "Supprimez un modèle, tous ses points de contrôle, ses Artifacts et le run W&B associé.",
         "operationId": "delete_model_v1_preview_models__model_id__delete",
         "security": [
           {
@@ -343,8 +343,8 @@
         "tags": [
           "models"
         ],
-        "summary": "Journal",
-        "description": "Journalisation des trajectoires et calcul des métriques.",
+        "summary": "Log",
+        "description": "Enregistrez les trajectoires et calculez les métriques.",
         "operationId": "log_v1_preview_models__model_id__log_post",
         "security": [
           {
@@ -400,7 +400,7 @@
           "training-jobs"
         ],
         "summary": "Créer une tâche d'entraînement RL",
-        "description": "Créer une nouvelle tâche d'entraînement RL (Reinforcement Learning).",
+        "description": "Créez une nouvelle tâche d'entraînement RL (apprentissage par renforcement).",
         "operationId": "Create_RL_Training_Job_v1_preview_training_jobs_post",
         "requestBody": {
           "content": {
@@ -447,7 +447,7 @@
           "training-jobs"
         ],
         "summary": "Créer une tâche d'entraînement SFT",
-        "description": "Créer une nouvelle tâche d'entraînement SFT (Supervised Fine-Tuning).",
+        "description": "Créez une nouvelle tâche d'entraînement SFT (Fine-Tuning supervisé).",
         "operationId": "Create_SFT_Training_Job_v1_preview_sft_training_jobs_post",
         "requestBody": {
           "content": {
@@ -494,7 +494,7 @@
           "training-jobs"
         ],
         "summary": "Obtenir la tâche d'entraînement",
-        "description": "Obtenir une tâche d'entraînement à partir de son ID.",
+        "description": "Obtenir une tâche d'entraînement par ID.",
         "operationId": "get_training_job_v1_preview_training_jobs__training_job_id__get",
         "security": [
           {
@@ -634,7 +634,7 @@
           "health"
         ],
         "summary": "Vérification du système",
-        "description": "Vérifier l'état de santé de tous les composants du système.\n\nRetourne :\n    JSON contenant le statut de :\n    - api : toujours true (si le point de terminaison est accessible)\n    - database : si la connexion à la base de données fonctionne\n    - cpu_queue : succès, durée et éventuelles erreurs\n    - gpu_queue : succès, durée et éventuelles erreurs\n\nRetourne HTTP 503 si une vérification échoue.",
+        "description": "Vérifie l'état de santé de tous les composants du système.\n\nRetourne :\n    Un JSON avec le statut de :\n    - api : Toujours true (si l'endpoint est accessible)\n    - database : Si la connexion à la base de données fonctionne\n    - cpu_queue : Succès, durée et éventuelles erreurs\n    - gpu_queue : Succès, durée et éventuelles erreurs\n\nRenvoie HTTP 503 si l'une des vérifications échoue.",
         "operationId": "system_check_v1_system_check_get",
         "responses": {
           "200": {
@@ -669,7 +669,7 @@
           "url_citation"
         ],
         "title": "Annotation",
-        "description": "Une URL citée lors de l'utilisation de la recherche web."
+        "description": "Une citation d'URL lors de l'utilisation de la recherche web."
       },
       "AnnotationURLCitation": {
         "properties": {
@@ -699,7 +699,7 @@
           "url"
         ],
         "title": "AnnotationURLCitation",
-        "description": "Une URL citée lors de l'utilisation de la recherche web."
+        "description": "Une citation d'URL lors de l'utilisation de la recherche web."
       },
       "Audio": {
         "properties": {
@@ -714,7 +714,7 @@
           "id"
         ],
         "title": "Audio",
-        "description": "Données sur une réponse audio précédente du modèle.\n[En savoir plus](https://platform.openai.com/docs/guides/audio)."
+        "description": "Données concernant une réponse audio précédente du modèle.\n[En savoir plus](https://platform.openai.com/docs/guides/audio)."
       },
       "AudioURL": {
         "properties": {
@@ -995,7 +995,7 @@
           "type"
         ],
         "title": "ChatCompletionContentPartImageParam",
-        "description": "En savoir plus sur les [images en entrée](https://platform.openai.com/docs/guides/vision)."
+        "description": "En savoir plus sur les [entrées d'image](https://platform.openai.com/docs/guides/vision)."
       },
       "ChatCompletionContentPartInputAudioParam": {
         "properties": {
@@ -1015,7 +1015,7 @@
           "type"
         ],
         "title": "ChatCompletionContentPartInputAudioParam",
-        "description": "En savoir plus sur les [entrées audio](https://platform.openai.com/docs/guides/audio)."
+        "description": "En savoir plus sur les [entrées Audio](https://platform.openai.com/docs/guides/audio)."
       },
       "ChatCompletionContentPartRefusalParam": {
         "properties": {
@@ -1110,7 +1110,7 @@
           "role"
         ],
         "title": "ChatCompletionDeveloperMessageParam",
-        "description": "Instructions fournies par le développeur que le modèle doit suivre, quels que soient les\nmessages envoyés par l'utilisateur. Avec les modèles o1 et les versions plus récentes, les messages `developer`\nremplacent les anciens messages `system`."
+        "description": "Instructions fournies par le développeur que le modèle doit suivre, quels que soient les messages envoyés par l’utilisateur. Avec les modèles o1 et versions ultérieures, les messages `developer` remplacent les anciens messages `system`."
       },
       "ChatCompletionFunctionMessageParam": {
         "properties": {
@@ -1349,7 +1349,7 @@
           "role"
         ],
         "title": "ChatCompletionMessage",
-        "description": "Un message de complétion de chat généré par le modèle."
+        "description": "Un message de Chat Completion généré par le modèle."
       },
       "ChatCompletionMessageCustomToolCall": {
         "properties": {
@@ -1931,25 +1931,25 @@
           "echo": {
             "type": "boolean",
             "title": "Echo",
-            "description": "Si cette valeur est `true`, le dernier message sera ajouté au début du nouveau message s'ils appartiennent au même rôle.",
+            "description": "Si la valeur est true, le nouveau message sera ajouté au début avec le dernier message s’ils ont le même rôle.",
             "default": false
           },
           "add_generation_prompt": {
             "type": "boolean",
             "title": "Add Generation Prompt",
-            "description": "Si cette valeur est `true`, l'invite de génération sera ajoutée au template de chat. Il s'agit d'un paramètre utilisé par le template de chat dans la configuration du tokenizer du modèle.",
+            "description": "Si la valeur est true, l’invite de génération sera ajoutée au modèle de chat. Il s’agit d’un paramètre utilisé par le modèle de chat dans la configuration du tokenizer du modèle.",
             "default": true
           },
           "continue_final_message": {
             "type": "boolean",
             "title": "Continue Final Message",
-            "description": "Si cette option est définie, le chat sera formaté de sorte que le dernier message reste ouvert, sans aucun jeton EOS. Le modèle poursuivra ce message au lieu d'en commencer un nouveau. Cela vous permet de « préremplir » une partie de la réponse du modèle. Ne peut pas être utilisé en même temps que `add_generation_prompt`.",
+            "description": "Si cette valeur est définie, le chat sera formaté de sorte que le dernier message dans le chat reste ouvert, sans aucun token EOS. Le modèle poursuivra ce message au lieu d’en commencer un nouveau. Cela vous permet de « préremplir » une partie de la réponse du modèle. Ne peut pas être utilisé en même temps que `add_generation_prompt`.",
             "default": false
           },
           "add_special_tokens": {
             "type": "boolean",
             "title": "Add Special Tokens",
-            "description": "Si cette valeur est `true`, des jetons spéciaux (par ex. BOS) seront ajoutés à l'invite en plus de ceux ajoutés par le template de chat. Pour la plupart des modèles, le template de chat se charge d'ajouter les jetons spéciaux ; cette option doit donc être définie sur `false` (valeur par défaut).",
+            "description": "Si la valeur est true, des token spéciaux (par ex. BOS) seront ajoutés à l’invite en plus de ceux ajoutés par le modèle de chat. Pour la plupart des modèles, le modèle de chat se charge d’ajouter les token spéciaux ; cette valeur doit donc être définie sur false (valeur par défaut).",
             "default": false
           },
           "documents": {
@@ -1968,7 +1968,7 @@
               }
             ],
             "title": "Documents",
-            "description": "Une liste de dicts représentant des documents auxquels le modèle aura accès s'il effectue de la RAG (génération augmentée par récupération). Si le template ne prend pas en charge la RAG, cet argument n'aura aucun effet. Nous recommandons que chaque document soit un dict contenant les clés \"title\" et \"text\"."
+            "description": "Une liste de dicts représentant des documents auxquels le modèle aura accès s’il effectue du RAG (génération augmentée par récupération). Si le modèle ne prend pas en charge le RAG, cet argument n’aura aucun effet. Nous recommandons que chaque document soit un dict contenant les clés \"title\" et \"text\"."
           },
           "chat_template": {
             "anyOf": [
@@ -1980,7 +1980,7 @@
               }
             ],
             "title": "Chat Template",
-            "description": "Un template Jinja à utiliser pour cette conversion. À partir de transformers v4.44, le template de chat par défaut n'est plus autorisé ; vous devez donc fournir un template de chat si le tokenizer n'en définit pas."
+            "description": "Un modèle Jinja à utiliser pour cette conversion. À partir de transformers v4.44, le modèle de chat par défaut n’est plus autorisé ; vous devez donc fournir un modèle de chat si le tokenizer n’en définit pas."
           },
           "chat_template_kwargs": {
             "anyOf": [
@@ -1993,7 +1993,7 @@
               }
             ],
             "title": "Chat Template Kwargs",
-            "description": "Arguments nommés supplémentaires à transmettre au moteur de rendu du template. Ils seront accessibles depuis le template de chat."
+            "description": "Arguments nommés supplémentaires à transmettre au moteur de rendu du modèle. Ils seront accessibles depuis le modèle de chat."
           },
           "mm_processor_kwargs": {
             "anyOf": [
@@ -2022,13 +2022,13 @@
           "priority": {
             "type": "integer",
             "title": "Priority",
-            "description": "La priorité de la requête (une valeur plus faible signifie un traitement plus précoce ; valeur par défaut : 0). Toute priorité autre que 0 générera une erreur si le modèle n'utilise pas la planification par priorité.",
+            "description": "La priorité de la requête (une valeur plus faible signifie un traitement plus tôt ; valeur par défaut : 0). Toute priorité autre que 0 entraînera une erreur si le modèle servi n’utilise pas d’ordonnancement par priorité.",
             "default": 0
           },
           "request_id": {
             "type": "string",
             "title": "Request Id",
-            "description": "Le request_id associé à cette requête. Si l'appelant ne le définit pas, un random_uuid sera généré. Cet identifiant est utilisé tout au long du processus d'inférence et renvoyé dans la réponse."
+            "description": "Le request_id associé à cette requête. Si l’appelant ne le définit pas, un random_uuid est généré. Cet ID est utilisé tout au long du processus d’inférence et renvoyé dans la réponse."
           },
           "logits_processors": {
             "anyOf": [
@@ -2050,7 +2050,7 @@
               }
             ],
             "title": "Logits Processors",
-            "description": "Une liste contenant soit les noms qualifiés des processeurs de logits, soit des objets constructeur, à appliquer lors de l'échantillonnage. Un constructeur est un objet JSON avec un champ obligatoire « qualname » qui spécifie le nom qualifié de la classe/fabrique du processeur, ainsi que des champs facultatifs « args » et « kwargs » contenant des arguments positionnels et nommés. Par exemple : {'qualname': 'my_module.MyLogitsProcessor', 'args': [1, 2], 'kwargs': {'param': 'value'}}."
+            "description": "Une liste contenant soit des noms qualifiés de processeurs de logits, soit des objets constructeur, à appliquer lors de l’échantillonnage. Un constructeur est un objet JSON avec un champ obligatoire 'qualname' qui spécifie le nom qualifié de la classe/factory du processeur, ainsi que des champs facultatifs 'args' et 'kwargs' contenant respectivement les arguments positionnels et nommés. Par exemple : {'qualname': 'my_module.MyLogitsProcessor', 'args': [1, 2], 'kwargs': {'param': 'value'}}."
           },
           "return_tokens_as_token_ids": {
             "anyOf": [
@@ -2062,7 +2062,7 @@
               }
             ],
             "title": "Return Tokens As Token Ids",
-            "description": "Si spécifié avec « logprobs », les tokens sont représentés sous forme de chaînes au format « token_id:{token_id} » afin d'identifier les tokens qui ne peuvent pas être encodés en JSON."
+            "description": "Si spécifié avec 'logprobs', les tokens sont représentés sous forme de chaînes au format 'token_id:{token_id}', afin de pouvoir identifier les tokens qui ne peuvent pas être encodés en JSON."
           },
           "return_token_ids": {
             "anyOf": [
@@ -2074,7 +2074,7 @@
               }
             ],
             "title": "Return Token Ids",
-            "description": "Si spécifié, le résultat inclura les ID de tokens en plus du texte généré. En mode streaming, prompt_token_ids est inclus uniquement dans le premier fragment, et token_ids contient les tokens delta pour chaque fragment. Cela est utile pour le débogage ou lorsque vous devez faire correspondre le texte généré aux tokens d'entrée."
+            "description": "Si spécifié, le résultat inclut les ID de token en plus du texte généré. En mode streaming, prompt_token_ids n’est inclus que dans le premier bloc, et token_ids contient les tokens delta de chaque bloc. Cela est utile pour le débogage ou lorsque vous devez faire correspondre le texte généré aux tokens d’entrée."
           },
           "cache_salt": {
             "anyOf": [
@@ -2086,7 +2086,7 @@
               }
             ],
             "title": "Cache Salt",
-            "description": "Si spécifié, le cache de préfixes sera salé avec la chaîne fournie afin d'empêcher un attaquant de deviner les prompts dans des environnements multi-utilisateurs. Le sel doit être aléatoire, protégé contre l'accès par des tiers et suffisamment long pour être imprévisible (par ex. 43 caractères encodés en base64, correspondant à 256 bits)."
+            "description": "Si spécifié, le cache de préfixes sera salé avec la chaîne fournie afin d’empêcher un attaquant de deviner les prompts dans des environnements multi-utilisateurs. Le sel doit être aléatoire, protégé contre tout accès de tiers et suffisamment long pour être imprévisible (par exemple, 43 caractères encodés en base64, correspondant à 256 bits)."
           },
           "kv_transfer_params": {
             "anyOf": [
@@ -2099,7 +2099,7 @@
               }
             ],
             "title": "Kv Transfer Params",
-            "description": "Paramètres KVTransfer utilisés pour le service désagrégé."
+            "description": "Paramètres KVTransfer utilisés pour le serving désagrégé."
           },
           "vllm_xargs": {
             "anyOf": [
@@ -2140,7 +2140,7 @@
               }
             ],
             "title": "Vllm Xargs",
-            "description": "Paramètres de requête supplémentaires contenant une ou plusieurs valeurs de type chaîne ou numérique, utilisés par des extensions personnalisées."
+            "description": "Paramètres de requête supplémentaires avec des valeurs de type chaîne ou numérique, ou des listes de telles valeurs, utilisés par des extensions personnalisées."
           }
         },
         "additionalProperties": true,
@@ -2371,7 +2371,7 @@
           "role"
         ],
         "title": "ChatCompletionSystemMessageParam",
-        "description": "Instructions fournies par le développeur que le modèle doit suivre, quels que soient les messages envoyés par l'utilisateur. Avec les modèles o1 et plus récents, utilisez plutôt des messages `developer` à cette fin."
+        "description": "Instructions fournies par le développeur que le modèle doit suivre, quels que soient les messages envoyés par l’utilisateur. Avec les modèles o1 et plus récents, utilisez plutôt des messages `developer` à cette fin."
       },
       "ChatCompletionTokenLogprob": {
         "properties": {
@@ -2637,7 +2637,7 @@
           "metrics"
         ],
         "title": "CheckpointResponse",
-        "description": "Schéma de la réponse de point de contrôle."
+        "description": "Schéma de réponse pour un point de contrôle."
       },
       "Choice": {
         "properties": {
@@ -2713,7 +2713,7 @@
         "additionalProperties": true,
         "type": "object",
         "title": "ChoiceLogprobs",
-        "description": "Informations de probabilité logarithmique pour le choix."
+        "description": "Informations de probabilité logarithmique pour ce choix."
       },
       "Content": {
         "properties": {},
@@ -2730,7 +2730,7 @@
           "training_data_url": {
             "type": "string",
             "title": "Training Data Url",
-            "description": "Chemin de l'artefact W&B pour les données d'entraînement (par ex. 'wandb-artifact:///entity/project/artifact-name:version')"
+            "description": "Chemin d’artifact W&B pour les données d’entraînement (par exemple, 'wandb-artifact:///entity/project/artifact-name:version')"
           },
           "config": {
             "anyOf": [
@@ -2761,7 +2761,7 @@
           "training_data_url"
         ],
         "title": "CreateSFTTrainingJob",
-        "description": "Schéma pour créer un nouveau TrainingJob de SFT (Supervised Fine-Tuning).\n\nLe client doit téléverser les données d'entraînement (trajectories.jsonl et metadata.json) vers W&B Artifacts et fournir l'URL de l'artefact."
+        "description": "Schéma pour créer un nouveau TrainingJob SFT (Supervised Fine-Tuning).\n\nLe client doit téléverser les données d’entraînement (trajectories.jsonl et metadata.json) vers W&B Artifacts et fournir l’URL de l’artifact."
       },
       "CreateTrainingJob": {
         "properties": {
@@ -2814,7 +2814,7 @@
           "name"
         ],
         "title": "Custom",
-        "description": "L'outil personnalisé appelé par le modèle."
+        "description": "L’outil personnalisé appelé par le modèle."
       },
       "CustomChatCompletionContentSimpleAudioParam": {
         "properties": {
@@ -2833,7 +2833,7 @@
         "additionalProperties": true,
         "type": "object",
         "title": "CustomChatCompletionContentSimpleAudioParam",
-        "description": "Une version plus simple du paramètre qui accepte uniquement un audio_url brut.\n\nExemple :\n{\n    \"audio_url\": \"https://example.com/audio.mp3\"\n}"
+        "description": "Une version simplifiée du paramètre qui accepte uniquement un simple audio_url.\n\nExemple :\n{\n    \"audio_url\": \"https://example.com/audio.mp3\"\n}"
       },
       "CustomChatCompletionContentSimpleImageParam": {
         "properties": {
@@ -2863,7 +2863,7 @@
         "additionalProperties": true,
         "type": "object",
         "title": "CustomChatCompletionContentSimpleImageParam",
-        "description": "Une version plus simple du paramètre qui accepte uniquement un `image_url` simple.\nCette option est prise en charge par l’API OpenAI, bien qu’elle ne soit pas documentée.\n\nExemple :\n{\n    \"image_url\": \"https://example.com/image.jpg\"\n}"
+        "description": "Une version simplifiée du paramètre qui accepte uniquement un `image_url` simple.\nCette option est prise en charge par l’API OpenAI, bien qu’elle ne soit pas documentée.\n\nExemple :\n{\n    \"image_url\": \"https://example.com/image.jpg\"\n}"
       },
       "CustomChatCompletionContentSimpleVideoParam": {
         "properties": {
@@ -2893,7 +2893,7 @@
         "additionalProperties": true,
         "type": "object",
         "title": "CustomChatCompletionContentSimpleVideoParam",
-        "description": "Une version plus simple du paramètre qui accepte uniquement un `audio_url` simple.\n\nExemple :\n{\n    \"video_url\": \"https://example.com/video.mp4\"\n}"
+        "description": "Une version simplifiée du paramètre qui accepte uniquement un `audio_url` simple.\n\nExemple :\n{\n    \"video_url\": \"https://example.com/video.mp4\"\n}"
       },
       "CustomChatCompletionMessageParam": {
         "properties": {
@@ -3019,7 +3019,7 @@
           "role"
         ],
         "title": "CustomChatCompletionMessageParam",
-        "description": "Active les rôles personnalisés dans l’API de complétion de chat."
+        "description": "Active les rôles personnalisés dans l’API Chat Completion."
       },
       "CustomThinkCompletionContentParam": {
         "properties": {
@@ -3044,7 +3044,7 @@
           "type"
         ],
         "title": "CustomThinkCompletionContentParam",
-        "description": "Paramètre de contenu Think Completion qui accepte du texte brut et une valeur booléenne.\n\nExemple :\n{\n    \"thinking\": \"I am thinking about the answer\",\n    \"closed\": True,\n    \"type\": \"thinking\"\n}"
+        "description": "Paramètre de contenu Think Completion qui accepte du texte brut et un booléen.\n\nExemple :\n{\n    \"thinking\": \"I am thinking about the answer\",\n    \"closed\": True,\n    \"type\": \"thinking\"\n}"
       },
       "DeleteCheckpointsRequest": {
         "properties": {
@@ -3061,7 +3061,7 @@
           "steps"
         ],
         "title": "DeleteCheckpointsRequest",
-        "description": "Schéma pour la suppression de points de contrôle."
+        "description": "Schéma pour la suppression des points de contrôle."
       },
       "DeleteCheckpointsResponse": {
         "properties": {
@@ -3083,7 +3083,7 @@
           "not_found_steps"
         ],
         "title": "DeleteCheckpointsResponse",
-        "description": "Schéma de la réponse de suppression de points de contrôle."
+        "description": "Schéma de la réponse de suppression des points de contrôle."
       },
       "DeleteModelResponse": {
         "properties": {
@@ -3321,7 +3321,7 @@
           "name"
         ],
         "title": "FunctionCall",
-        "description": "Obsolète et remplacé par `tool_calls`.\n\nLe nom et les arguments d’une fonction à appeler, tels que générés par le modèle."
+        "description": "Obsolète et remplacé par `tool_calls`.\n\nNom et arguments d’une fonction à appeler, tels que générés par le modèle."
       },
       "FunctionCall-Output": {
         "properties": {
@@ -3722,7 +3722,7 @@
               }
             ],
             "title": "Entity",
-            "description": "Équipe ou nom d’utilisateur du développeur dont la clé API W&B est utilisée",
+            "description": "Teams ou nom d’utilisateur du développeur dont la clé API W&B est utilisée",
             "examples": [
               "my-team"
             ]
@@ -3754,7 +3754,7 @@
           "return_existing": {
             "type": "boolean",
             "title": "Return Existing",
-            "description": "Si la valeur est true, renvoie le modèle existant si un modèle portant le même nom existe déjà au lieu d’en créer un nouveau",
+            "description": "Si la valeur est true, renvoie le modèle existant si un modèle portant le même nom existe déjà, au lieu d’en créer un nouveau",
             "default": false
           }
         },
@@ -3765,7 +3765,7 @@
           "base_model"
         ],
         "title": "ModelCreate",
-        "description": "Schéma pour créer un nouveau modèle."
+        "description": "Schéma pour la création d’un nouveau modèle."
       },
       "ModelResponse": {
         "properties": {
@@ -3952,7 +3952,7 @@
           "tool"
         ],
         "title": "Role",
-        "description": "Le rôle de l’auteur d’un message (reflète ``chat::Role``)."
+        "description": "Rôle de l’auteur d’un message (reflète ``chat::Role``)."
       },
       "SFTTrainingConfig": {
         "properties": {
@@ -4254,7 +4254,7 @@
           "training_failed"
         ],
         "title": "TrainingJobEventType",
-        "description": "Énumération des types d'événements de tâche d'entraînement."
+        "description": "Énumération du type d’événement de la tâche d’entraînement."
       },
       "TrainingJobResponse": {
         "properties": {
@@ -4269,7 +4269,7 @@
           "id"
         ],
         "title": "TrainingJobResponse",
-        "description": "Schéma de la réponse TrainingJob."
+        "description": "Schéma de la réponse de TrainingJob."
       },
       "Trajectory": {
         "properties": {

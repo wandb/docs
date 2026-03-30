@@ -15,18 +15,18 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
 ```
 
-Terminer un run et téléverser toutes les données restantes.
+Terminez un run et envoyez toutes les données restantes.
 
 Marque la fin d’un run W&amp;B et garantit que toutes les données sont synchronisées avec le serveur. L’état final du run est déterminé par ses conditions de sortie et son statut de synchronisation.
 
 États du run :
 
-* En cours : run actif qui consigne des données et/ou envoie des heartbeats.
-* Interrompu : run qui a cessé d’envoyer des heartbeats de manière inattendue.
-* Terminé : run terminé avec succès (`exit_code=0`) et dont toutes les données sont synchronisées.
-* Échoué : run terminé avec des erreurs (`exit_code!=0`).
+* Running : Run actif qui enregistre des données et/ou envoie des signaux de pulsation.
+* Crashed : Run qui a cessé d’envoyer des signaux de pulsation de manière inattendue.
+* Finished : Run terminé avec succès (`exit_code=0`) avec toutes les données synchronisées.
+* Failed : Run terminé avec des erreurs (`exit_code!=0`).
 
 **Arguments :**
 
-* `exit_code` :  Entier indiquant le statut de sortie du run. Utilisez 0 en cas de réussite ; toute autre valeur marque le run comme échoué.
-* `quiet` :  Obsolète. Configurez le niveau de verbosité du journal avec `wandb.Settings(quiet=...)`.
+* `exit_code`:  Entier indiquant le statut de sortie du run. Utilisez 0 pour indiquer une réussite ; toute autre valeur marque le run comme ayant échoué.
+* `quiet`:  Obsolète. Configurez la verbosité de la journalisation à l’aide de `wandb.Settings(quiet=...)`.

@@ -11,11 +11,11 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `MetricThresholdFilter`
 
-**絶対値** のメトリクスをユーザー 定義のしきい値と比較するフィルター。
+**絶対的な**メトリクス値をユーザー定義のしきい値と比較するフィルター。
 
-値は単一の値の場合もあれば、複数の値に対してウィンドウ内で集約した結果である場合もあります。
+この値は単一の値の場合もあれば、複数の値に対するウィンドウ内の集計結果の場合もあります。
 
-### <kbd>メソッド</kbd> `MetricThresholdFilter.__init__`
+### <kbd>method</kbd> `MetricThresholdFilter.__init__`
 
 ```python
 __init__(
@@ -32,7 +32,7 @@ __init__(
 * `name` (str):
 * `agg` (Optional[Agg]):
 * `window` (int):
-* `cmp` (Literal[&#39;$gte&#39;, &#39;$gt&#39;, &#39;$lt&#39;, &#39;$lte&#39;]): メトリクス値（左側）としきい値（右側）を比較するための比較演算子。
+* `cmp` (Literal[&#39;$gte&#39;, &#39;$gt&#39;, &#39;$lt&#39;, &#39;$lte&#39;]): メトリクス値 (左) としきい値 (右) の間で使用する比較演算子。
 * `threshold` (Union[Annotated, Annotated]):
 
 **戻り値:**

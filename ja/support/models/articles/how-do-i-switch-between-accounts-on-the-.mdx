@@ -3,7 +3,7 @@ title: "同じマシンでアカウントを切り替えるにはどうすれば
 keywords: ["環境変数"]
 ---
 
-同じマシンで 2 つの W&amp;B アカウントを管理するには、両方の APIキー をファイルに保存します。リポジトリでは、次のコードを使用してキーを安全に切り替え、シークレットキーがソース管理にチェックインされないようにします。
+同じマシンで 2 つの W&amp;B アカウントを管理するには、両方の APIキーをファイルに保存します。各リポジトリで以下のコードを使用すると、キーを安全に切り替えられ、シークレットキーがソース管理にチェックインされるのを防げます。
 
 ```python
 if os.path.exists("~/keys.json"):
@@ -12,11 +12,11 @@ if os.path.exists("~/keys.json"):
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  フロントマター内のキーワードをもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>
 
-{/* ---- 自動生成: タブバッジの終了 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -22,22 +22,22 @@ box3d(
 ) → Box3D
 ```
 
-Une boîte englobante en 3D. La boîte est définie par son centre, sa taille et son orientation.
+Une boîte englobante 3D. La boîte est définie par son centre, sa taille et son orientation.
 
 **Arguments :**
 
-* `center`:  Le centre de la boîte, sous la forme d&#39;un ndarray de longueur 3.
-* `size`:  Les dimensions X, Y et Z de la boîte, sous la forme d&#39;un ndarray de longueur 3.
-* `orientation`:  La rotation qui transforme les coordonnées XYZ globales en coordonnées XYZ locales de la boîte, donnée sous la forme d&#39;un ndarray de longueur 4 `[r, x, y, z]` correspondant au quaternion non nul r + xi + yj + zk.
-* `color`:  La couleur de la boîte, sous la forme d&#39;un tuple `(r, g, b)` avec `0 <= r,g,b <= 1`.
+* `center`:  Le point central de la boîte, sous la forme d’un ndarray de longueur 3.
+* `size`:  Les dimensions X, Y et Z de la boîte, sous la forme d’un ndarray de longueur 3.
+* `orientation`:  La rotation qui transforme les coordonnées XYZ globales en coordonnées XYZ locales de la boîte, donnée sous la forme d’un ndarray de longueur 4 [r, x, y, z] correspondant au quaternion non nul r + xi + yj + zk.
+* `color`:  La couleur de la boîte, sous la forme d’un tuple (r, g, b) avec `0 <= r,g,b <= 1`.
 * `label`:  Une étiquette facultative pour la boîte.
-* `score`:  Un score facultatif pour la boîte. Il est généralement utilisé pour indiquer le niveau de confiance d&#39;une détection.
+* `score`:  Un score facultatif pour la boîte. Généralement utilisé pour indiquer le degré de confiance d’une détection.
 
 **Retourne :**
 Un objet Box3D.
 
 **Exemple :**
-L&#39;exemple suivant crée un nuage de points avec 60 boîtes en rotation autour des axes X, Y et Z.
+L’exemple suivant crée un nuage de points avec 60 boîtes en rotation autour des axes X, Y et Z.
 
 ```python
 import wandb

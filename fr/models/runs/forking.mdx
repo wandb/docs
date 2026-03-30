@@ -1,34 +1,34 @@
 ---
-description: Explorez différents paramètres ou modèles à partir d’un point précis d’une expérience sans affecter le run d’origine.
+description: Explorez différents paramètres ou modèles à partir d’un point précis d’une expérience, sans affecter le run original.
 title: Forker un run
 ---
 
 <Warning>
-  La possibilité de forker un run est en cours de développement actif et disponible en préversion privée. Contactez l’assistance W&amp;B à support@wandb.com pour demander l’accès à cette fonctionnalité.
+  La possibilité de forker un run est en cours de développement actif et en aperçu privé. Contactez l’assistance W&amp;B à support@wandb.com pour demander l’accès à cette fonctionnalité.
 </Warning>
 
-Vous pouvez explorer différents hyperparamètres ou modèles à partir d’un point précis d’une expérience sans affecter le run d’origine. Pour ce faire, forkez un run W&amp;B existant.
+Vous pouvez explorer différents hyperparamètres ou modèles à partir d’un point précis d’une expérience sans affecter le run original. Pour cela, forkez à partir d’un run W&amp;B existant.
 
-Lorsque vous forkez un run, W&amp;B crée un nouveau run à l’aide de l’[ID unique](/fr/models/runs/run-identifiers#unique-run-identifiers) du run source et d’une étape spécifiée. Les métriques de résumé du run source sont copiées dans le run forké. Le run forké partage tout l’historique et tous les fichiers du run source jusqu’à l’étape spécifiée.
+Lorsque vous forkez un run, W&amp;B crée un nouveau run en utilisant l’[ID unique](/fr/models/runs/run-identifiers#unique-run-identifiers) du run source et une étape spécifiée. Les métriques récapitulatives du run source sont copiées dans le run forké. Le run forké partage l’ensemble de l’historique et des fichiers du run source jusqu’à l’étape spécifiée.
 
-Après l’étape de fork, vous pouvez journaliser de nouvelles données dans le run forké indépendamment du run d’origine.
+Après l’étape de fork, vous pouvez journaliser de nouvelles données dans le run forké indépendamment du run original.
 
 Consultez une [démo en direct](https://wandb.ai/wandb/test-fork-run/workspace?nw=nwuserjuliarose) d’un run forké généré par le code ci-dessous.
 
 <Note>
-  * Forker un run nécessite la version &gt;= 0.16.5 du SDK [`wandb`](https://pypi.org/project/wandb/)
-  * Forker un run nécessite des étapes monotones croissantes. Vous ne pouvez pas forker un run qui utilise des étapes non monotones définies avec [`define_metric()`](/fr/models/ref/python/experiments/run#define_metric). Les étapes non monotones rompent l’ordre chronologique de l’historique du run et des métriques système.
+  * Forker un run nécessite la version du SDK [`wandb`](https://pypi.org/project/wandb/) &gt;= 0.16.5
+  * Forker un run nécessite des étapes monotones croissantes. Vous ne pouvez pas forker à partir d’un run qui utilise des étapes non monotones définies avec [`define_metric()`](/fr/models/ref/python/experiments/run#define_metric). Les étapes non monotones rompent l’ordre chronologique de l’historique du run et des métriques système.
 </Note>
 
-Indiquez l’ID unique du run source et l’`étape` à partir de laquelle vous souhaitez démarrer le run forké comme arguments de `fork_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init).
+Indiquez l’ID unique du run source ainsi que la `step` à partir de laquelle vous souhaitez démarrer le run forké comme arguments de `fork_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init).
 
 <div id="fork-from-a-previously-logged-run">
-  ## Forker à partir d’un run précédemment enregistré
+  ## Fork à partir d’un run précédemment enregistré
 </div>
 
-L’extrait de code suivant montre comment forker à partir d’un run précédemment enregistré dans W&amp;B.
+L’extrait de code suivant montre comment créer un fork à partir d’un run précédemment enregistré dans W&amp;B.
 
-Commencez par obtenir l’ID du run à partir duquel vous souhaitez forker à partir de. Ensuite, indiquez l’ID du run et l’étape à partir de laquelle vous souhaitez forker à partir de comme arguments de `fork_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init).
+Commencez par obtenir l’ID du run du run à partir duquel vous souhaitez créer le fork. Indiquez ensuite l’ID du run et l’étape à partir de laquelle vous souhaitez fork en arguments de `fork_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init).
 
 Copiez-collez le code suivant dans un script Python ou une cellule de notebook. Remplacez `<source-run-id>`, `<project>` et `<entity>` par vos propres valeurs :
 
@@ -51,12 +51,12 @@ with wandb.init(
 ```
 
 <div id="fork-from-a-run-in-the-same-script">
-  ## Forker à partir d’un run dans le même script
+  ## Créer un fork à partir d’un run dans le même script
 </div>
 
-L’extrait de code suivant montre comment créer un run et forker à partir de ce run dans le même script. Cela peut être utile si vous souhaitez forker à partir d’un run que vous venez de créer sans avoir à rechercher son ID dans l’application W&amp;B.
+L’extrait de code suivant montre comment créer un run et créer un fork à partir de celui-ci dans le même script. Cela peut être utile si vous voulez créer un fork à partir d’un run que vous venez de créer, sans avoir à rechercher l’ID du run dans l’application W&amp;B.
 
-Commencez par initialiser un run et à enregistrer des données. Ensuite, utilisez la propriété `id` de l’objet run original pour obtenir l’ID du run de ce run. Enfin, initialisez un nouveau run et passez l’ID du run original ainsi que l’étape à partir de laquelle vous souhaitez forker comme arguments à `fork_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init).
+Commencez par initialiser un run et journaliser quelques données. Ensuite, utilisez la propriété `id` de l’objet run original pour obtenir l’ID du run correspondant. Enfin, initialisez un nouveau run et transmettez l’ID du run original ainsi que l’étape à partir de laquelle vous voulez créer le fork comme arguments à `fork_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init).
 
 ```python
 import wandb
@@ -69,10 +69,10 @@ with wandb.init(
     # ...la logique d'entraînement se place ici ...
     pass
 
-# Spécifier l'étape à partir de laquelle bifurquer
+# Spécifier l'étape à partir de laquelle effectuer le fork
 fork_step = int("<num>")
 
-# Utiliser l'ID du run original et spécifier l'étape à partir de laquelle bifurquer
+# Utiliser l'ID du run original et spécifier l'étape à partir de laquelle effectuer le fork
 with wandb.init(
     project="<project>",
     entity="<entity>",
@@ -90,7 +90,7 @@ with wandb.init(
   ### Exemple de script
 </div>
 
-Par exemple, le code ci-dessous montre comment forker d’abord un run, puis consigner des métriques dans ce run forké à partir de l’étape d’entraînement 200.
+Par exemple, le code ci-dessous montre comment d’abord forker un run, puis journaliser des métriques dans le run forké à partir de l’étape d’entraînement 200.
 
 Copiez-collez le code suivant dans un script Python ou une cellule de notebook. Remplacez `<project>` et `<entity>` par vos propres valeurs.
 
@@ -124,7 +124,7 @@ with wandb.init(
             # Introduire le comportement en pics à partir de l'étape 250
             metric_value = i + (2 * math.sin(i / 3.0))  # Appliquer un motif en pics subtil
 
-        # Enregistrer les deux métriques en un appel unique pour s'assurer qu'elles sont
+        # Enregistrer les deux métriques en un seul appel pour s'assurer qu'elles sont
         # enregistrées à la même étape
         run2.log({
             "metric": metric_value,
@@ -133,11 +133,11 @@ with wandb.init(
 ```
 
 <Note>
-  **Compatibilité entre rembobinage et forking**
+  **Compatibilité entre rembobinage et fork**
 
-  Le forking complète un [`rewind`](/fr/models/runs/rewind/) en offrant plus de flexibilité pour gérer vos runs et expérimenter.
+  Le fork complète un [`rewind`](/fr/models/runs/rewind/) en offrant plus de flexibilité pour gérer vos Runs et expérimenter avec eux.
 
-  Lorsque vous forkez à partir d’un run, W&amp;B crée une nouvelle branche à partir de ce run à un point précis pour essayer différents paramètres ou modèles.
+  Lorsque vous créez un fork à partir d&#39;un run, W&amp;B crée une nouvelle branche depuis ce run à un point précis afin d&#39;essayer différents paramètres ou modèles.
 
-  Lorsque vous rembobinez un run, W&amp;B vous permet de corriger ou de modifier l’historique du run lui-même.
+  Lorsque vous rembobinez un run, W&amp;B vous permet de corriger ou de modifier l&#39;historique du run lui-même.
 </Note>

@@ -1,40 +1,40 @@
 ---
-title: "Weave は関数についてどのような情報を記録しますか？"
-keywords: ["データ取得", "コード取得", "クライアント情報", "システム情報"]
+title: "Weave は関数についてどのような情報をキャプチャしますか？"
+keywords: ["データ キャプチャ", "コード キャプチャ", "クライアント情報", "システム情報"]
 ---
 
-関数は、デコレーターを使って手動で、または有効化されたインテグレーションの一部として自動的に、Weave [Op](/ja/weave/guides/tracking/ops) として指定できます。Op が実行されると、Weave は分析に役立つ詳細な情報を取得します。Weave では、デフォルトとは異なる内容をログしたい場合に、何をログするかを細かく制御できます。設定例については以下を参照してください。
+関数は、デコレータを使って手動で、または有効化されたインテグレーションの一部として自動的に、Weave の [Op](/ja/weave/guides/tracking/ops) として指定できます。Op が実行されると、Weave は分析をサポートするために詳細な情報をキャプチャします。デフォルトとは異なる内容を記録したい場合に備えて、Weave では何をログするかを細かく制御できます。設定例については以下を参照してください。
 
-* **コード取得** - Weave は Op のソース コードの表現を取得します。これにはインライン コメントに加え、変数の値や、呼び出された非 Op 関数のソースを再帰的に取得することも含まれます。コード取得により、変更がソース管理システムに保存されていなくても、関数が何をしていたかを確認できます。コード取得は Op のバージョニングの一部として使用され、時間の経過に伴うコードの評価を把握できます。コード取得が無効になっている場合は、代わりにハッシュ値が使用されます。
+* **コード キャプチャ** - Weave は Op のソースコード表現をキャプチャします。これにはインライン コメントに加えて、呼び出された変数の値や非 Op 関数のソースを再帰的にキャプチャすることも含まれます。コード キャプチャにより、変更がソース管理システムに保存されていなくても、関数が何をしていたかを確認できます。コード キャプチャは Op のバージョン管理の一部として使用され、時間の経過に伴うコードの評価を把握するのに役立ちます。コード キャプチャが無効な場合は、代わりにハッシュ値が使用されます。
 
-* **関数名、入力、出力** - 関数名は取得されますが、[上書き](/ja/weave/guides/tracking/tracing/#call-display-name) できます。入力と出力の JSON ベースの表現が取得されます。入力については、値に加えて引数名も取得されます。Weave では、入力と出力の[ログ内容をカスタマイズ](/ja/weave/guides/tracking/ops#customize-logged-inputs-and-outputs)できます。何をログするかについて、追加、削除、変更を行う関数を指定できます。
+* **関数名、入力、出力** - 関数名はキャプチャされますが、[上書き](/ja/weave/guides/tracking/tracing/#call-display-name)できます。入力と出力の JSON ベースの表現がキャプチャされます。入力については、値に加えて引数名もキャプチャされます。Weave では、入力と出力の[ログ記録をカスタマイズ](/ja/weave/guides/tracking/ops#customize-logged-inputs-and-outputs)できます。ログされる内容を追加、削除、変更する関数を指定できます。
 
-* **Op 呼び出し階層** - ある Op の実行中のコンテキスト内で別の Op が呼び出されると、その間に非 Op 関数の実行が挟まる場合でも、
-  この関係が取得されます。Op 呼び出し間のこの関係は、「トレース ツリー」を提供するために使用されます。
+* **Op call 階層** - ある Op の実行コンテキスト内で別の Op が呼び出されると、途中で非 Op 関数が実行される場合でも、この関係がキャプチャされます。
+  この Op call 間の関係は、「トレース ツリー」を提供するために使用されます。
 
-* **実行ステータスと例外** - Weave は、関数が実行中、完了、またはエラーのいずれの状態にあるかを追跡します。実行中に例外が発生した場合は、エラー メッセージとスタック トレースが記録されます。
+* **実行ステータスと例外** - Weave は、関数が実行中か、完了したか、エラーになったかをトラッキングします。実行中に例外が発生した場合は、エラー メッセージとスタック トレースが記録されます。
 
-* **システム情報** - Weave は、クライアントが実行されているオペレーティング システムに関する情報 (詳細なバージョン情報を含む) を取得する場合があります。
+* **システム情報** - Weave は、クライアントが実行されているオペレーティング システムに関する情報を、詳細なバージョン情報を含めてキャプチャする場合があります。
 
-* **クライアント情報** - Weave は、使用中のプログラミング言語や、その言語および Weave クライアント ライブラリの詳細なバージョン情報など、Weave クライアント自体に関する情報を取得する場合があります。
+* **クライアント情報** - Weave は、使用中のプログラミング言語や、その言語および Weave クライアント ライブラリの詳細なバージョン情報など、Weave クライアント自体に関する情報をキャプチャする場合があります。
 
-* **タイミング** - 実行の開始時刻と終了時刻が取得され、レイテンシーの計算にも使用されます。
+* **タイミング** - 実行の開始時刻と終了時刻がキャプチャされ、レイテンシの計算にも使用されます。
 
-* **トークン使用量** - 一部の [インテグレーション](/ja/weave/guides/integrations/) では、LLM のトークン使用量が自動的にログされる場合があります。
+* **トークン使用量** - 一部の[インテグレーション](/ja/weave/guides/integrations/)では、LLM のトークン使用数が自動的にログされる場合があります。
 
-* **ユーザーと run コンテキスト** - ログは W&amp;B ユーザー アカウントに関連付けられます。これに加えて、wandb Run コンテキストも取得されます。
+* **ユーザーと run コンテキスト** - ログ記録は W&amp;B ユーザー アカウントに関連付けられます。それに加えて、wandb Run コンテキストもキャプチャされます。
 
-* **派生情報** - Weave は、ログされた生データから派生情報を計算する場合があります。たとえば、トークン使用量や使用されたモデルの情報に基づいて、コスト見積もりが計算されることがあります。Weave は、呼び出し全体にわたって一部の情報を集約することもあります。
+* **派生情報** - Weave は、ログされた生の情報から派生情報を計算する場合があります。たとえば、トークン使用量と使用されたモデルの情報に基づいて、コスト見積もりが計算されることがあります。Weave は call 全体で一部の情報を集計することもあります。
 
-* **選択した追加情報** - 呼び出しの一部として [`weave.attributes` を使用したカスタム メタデータ](/ja/weave/guides/core-types/models#track-production-calls) をログしたり、呼び出しに [フィードバック](/ja/weave/guides/tracking/feedback#add-feedback-to-a-call) を追加したりできます。
+* **選択した追加情報** - call の一部として [`weave.attributes` を使ったカスタム メタデータ](/ja/weave/guides/core-types/models#track-production-calls)をログしたり、call に[フィードバック](/ja/weave/guides/tracking/feedback#add-feedback-to-a-call)を追加したりできます。
 
 ***
 
-{/* ---- 自動生成: タブ バッジ ----
-  フロント マターのキーワードから scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  これらのマーカー間を手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されています。
+  これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[データ取得](/ja/support/weave/tags/data-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[コード取得](/ja/support/weave/tags/code-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[クライアント情報](/ja/support/weave/tags/client-info)</Badge><Badge stroke shape="pill" color="orange" size="md">[システム情報](/ja/support/weave/tags/system-info)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[データキャプチャ](/ja/support/weave/tags/data-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[コードキャプチャ](/ja/support/weave/tags/code-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[クライアント情報](/ja/support/weave/tags/client-info)</Badge><Badge stroke shape="pill" color="orange" size="md">[システム情報](/ja/support/weave/tags/system-info)</Badge>
 
-{/* ---- 自動生成終了: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

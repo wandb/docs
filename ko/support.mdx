@@ -8,13 +8,13 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 
 <Banner title="어떤 도움이 필요하신가요?" background="/images/support/support_banner.png">
   지원팀 문서, 제품 문서,<br />
-  및 W&amp;B 커뮤니티에서 도움말을 검색하세요.
+  그리고 W&amp;B 커뮤니티에서 도움말을 검색해 보세요.
 </Banner>
 
 <HelpQuestionForm />
 
 <div id="browse-support-articles-by-product">
-  ## 제품별 지원팀 문서 둘러보기
+  ## 제품별 지원팀 문서 찾아보기
 </div>
 
 <CardGroup cols={3}>
@@ -45,9 +45,9 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
 
 {/* ---- AUTO-GENERATED: 추천 문서 ----
   이 섹션은 scripts/knowledgebase-nav/generate_tags.py 스크립트로 관리됩니다.
-  문서를 추천 문서로 표시하려면 프런트매터에 "featured: true"를 추가하세요.
+  문서를 추천 문서로 표시하려면 front matter에 "featured: true"를 추가하세요.
   제거하려면 "featured: false"로 설정하거나 해당 필드를 삭제하세요.
-  이 표시자 사이의 내용은 직접 수정하지 마세요.
+  이 마커 사이의 내용은 직접 편집하지 마세요.
   ---- */}
 
 <div id="featured-articles">
@@ -58,26 +58,26 @@ import {HelpQuestionForm} from "/snippets/HelpQuestionForm.jsx";
   ### W&amp;B Models
 </div>
 
-<Card title="트레이닝 코드에서 run 이름은 어떻게 설정하나요?" href="/ko/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-  트레이닝 스크립트 시작 부분에서 실험 이름과 함께 wandb.init를 호출하세요. 예를 들어: wandb.init(name=&quot;my&#95;aweso ...
+<Card title="트레이닝 코드에서 run 이름을 어떻게 설정하나요?" href="/ko/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+  트레이닝 스크립트 시작 부분에서 실험 이름을 지정해 wandb.init를 호출하세요. 예: wandb.init(name=&quot;my&#95;aweso ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 </Card>
 
-<Card title="Sweeps에서 맞춤형 CLI 명령은 어떻게 사용하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  트레이닝 설정이 명령줄 인자를 전달하면 맞춤형 CLI 명령과 함께 W&amp;B Sweeps를 사용할 수 있습니다. 예제에서는  ...
+<Card title="Sweeps에서 맞춤형 CLI command를 어떻게 사용하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  트레이닝 설정이 command-line argument를 전달하는 경우, 맞춤형 CLI command와 함께 W&amp;B Sweeps를 사용할 수 있습니다. 예시에서는  ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
 </Card>
 
-<Card title="메트릭을 오프라인에 저장한 뒤 나중에 W&B와 동기화할 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  기본적으로 wandb.init는 메트릭을 실시간으로 클라우드에 동기화하는 프로세스를 시작합니다. 오프라인으로 사용하려면 두 가지 환경 변수를 설정하세 ...
+<Card title="메트릭을 오프라인으로 저장하고 나중에 W&B와 sync할 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  기본적으로 wandb.init는 메트릭을 클라우드에 실시간으로 sync하는 프로세스를 시작합니다. 오프라인으로 사용하려면 두 개의 environme ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 </Card>
 
-<Card title="wandb.init는 내 트레이닝 프로세스에서 어떤 역할을 하나요?" href="/ko/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  wandb.init()가 트레이닝 스크립트에서 실행되면 API 호출이 서버에 run 객체를 생성합니다. 새 프로세스가 시작되어  ...
+<Card title="wandb.init는 트레이닝 프로세스에서 무엇을 하나요?" href="/ko/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  트레이닝 스크립트에서 wandb.init()가 실행되면 API call이 서버에 run 객체를 생성합니다. 새 프로세스가 시작되어 st ...
 
   <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 </Card>

@@ -9,31 +9,31 @@ template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
 </div>
 
 <Card title="트레이닝 코드에서 run 이름을 어떻게 설정하나요?" href="/ko/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
-  트레이닝 스크립트 시작 부분에서 실험 이름과 함께 wandb.init를 호출하고... 예: wandb.init(name=&quot;my&#95;aweso ...
+  트레이닝 스크립트 시작 부분에서 wandb.init에 실험 이름을 지정해 call하세요. 예: wandb.init(name=&quot;my&#95;aweso ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 </Card>
 
-<Card title="Sweeps에서 맞춤형 CLI 명령을 어떻게 사용하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
-  트레이닝 설정이 명령줄 인자를 전달하는 경우 W&amp;B Sweeps를 맞춤형 CLI 명령과 함께 사용할 수 있습니... 예제에서  ...
+<Card title="sweeps에서 맞춤형 CLI 명령을 어떻게 사용하나요?" href="/ko/support/models/articles/how-do-i-use-custom-cli-commands-with-sw" arrow="true" horizontal>
+  트레이닝 설정이 command-line argument를 전달하는 경우 맞춤형 CLI 명령과 함께 W&amp;B Sweeps를 사용할 수 있습니다. 예시에서는  ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
 </Card>
 
-<Card title="메트릭을 오프라인으로 저장한 뒤 나중에 W&B에 동기화할 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  기본적으로 wandb.init는 메트릭을 클라우드에 실시간으로 동기화하는 프로세스를 시작합니... 오프라인으로 사용하려면 두 개의 환경 변수를 설정하세 ...
+<Card title="메트릭을 오프라인으로 저장한 뒤 나중에 W&B와 sync할 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+  기본적으로 wandb.init는 메트릭을 클라우드에 실시간으로 sync하는 프로세스를 시작합니다. 오프라인으로 사용하려면 환경 변수 두 개를 설정하세 ...
 
   <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge> <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 </Card>
 
-<Card title="wandb.init는 내 트레이닝 프로세스에서 어떤 작업을 하나요?" href="/ko/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
-  wandb.init가 트레이닝 스크립트에서 실행되면 API 호출이 서버에 run 객체를 생성합니... 새 프로세스가 시작되어 st ...
+<Card title="wandb.init는 내 트레이닝 프로세스에서 어떤 역할을 하나요?" href="/ko/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+  트레이닝 스크립트에서 wandb.init()가 실행되면 API call이 서버에 run 객체를 생성합니다. 새 프로세스가 시작되어 st ...
 
   <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge> <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 </Card>
 
 <div id="browse-by-category">
-  ## 카테고리별로 찾아보기
+  ## 카테고리별 찾아보기
 </div>
 
 <Card title="AWS" href="/ko/support/models/tags/aws" arrow="true">
@@ -100,7 +100,7 @@ template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
   문서 3개
 </Card>
 
-<Card title="장애" href="/ko/support/models/tags/outage" arrow="true">
+<Card title="서비스 중단" href="/ko/support/models/tags/outage" arrow="true">
   문서 3개
 </Card>
 
@@ -124,7 +124,7 @@ template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
   문서 2개
 </Card>
 
-<Card title="run 비정상 종료" href="/ko/support/models/tags/run-crashes" arrow="true">
+<Card title="run 충돌" href="/ko/support/models/tags/run-crashes" arrow="true">
   문서 7개
 </Card>
 
@@ -144,7 +144,7 @@ template: "scripts/knowledgebase-nav/templates/support_product_index.mdx.j2"
   문서 16개
 </Card>
 
-<Card title="테이블" href="/ko/support/models/tags/tables" arrow="true">
+<Card title="Tables" href="/ko/support/models/tags/tables" arrow="true">
   문서 2개
 </Card>
 

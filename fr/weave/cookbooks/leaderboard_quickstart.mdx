@@ -1,31 +1,31 @@
 ---
-title: "Démarrage rapide du Leaderboard"
-description: "Découvrez comment utiliser le démarrage rapide du Leaderboard avec W&B Weave"
+title: "Leaderboard Quickstart"
+description: "Découvrez comment utiliser Leaderboard Quickstart avec W&B Weave"
 ---
 
 <Note>
-  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
+  Il s’agit d’un notebook interactif. Vous pouvez l’exécuter en local ou utiliser les liens ci-dessous :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/leaderboard_quickstart.ipynb)
 </Note>
 
 <div id="leaderboard-quickstart">
-  # Démarrage rapide du Leaderboard
+  # Leaderboard Quickstart
 </div>
 
-Dans ce notebook, vous allez apprendre à utiliser le Leaderboard de Weave pour comparer les performances des modèles sur différents jeux de données et avec différentes fonctions de score. Plus précisément, vous allez :
+Dans ce notebook, nous allons apprendre à utiliser le Leaderboard de Weave pour comparer les performances des modèles sur différents jeux de données et fonctions de scoring. Plus précisément, nous allons :
 
-1. Générer un jeu de données factice de codes postaux
-2. Créer quelques fonctions de score et évaluer un modèle de référence.
-3. Utiliser ces techniques pour évaluer une matrice modèles × évaluations.
-4. Consulter le leaderboard dans l’interface utilisateur de Weave.
+1. Générer un jeu de données de faux codes postaux
+2. Rédiger quelques fonctions de scoring et évaluer un modèle de référence.
+3. Utiliser ces techniques pour évaluer une matrice modèles/évaluations.
+4. Examiner le leaderboard dans Weave UI.
 
 <div id="step-1-generate-a-dataset-of-fake-zip-code-data">
-  ## Étape 1 : Générer un jeu de données factices de codes postaux
+  ## Étape 1 : Générer un jeu de données fictif de codes postaux
 </div>
 
-Nous allons d’abord créer une fonction `generate_dataset_rows` qui génère une liste de données factices de codes postaux.
+Nous allons d’abord créer une fonction `generate_dataset_rows` qui génère une liste de données fictives de codes postaux.
 
 ```python lines
 import json
@@ -77,14 +77,14 @@ weave.init("leaderboard-demo")
 
 
 <div id="step-2-author-scoring-functions">
-  ## Étape 2 : Rédiger des fonctions de score
+  ## Étape 2 : Créez des fonctions de scoring
 </div>
 
-Nous allons ensuite rédiger 3 fonctions de score :
+Nous allons ensuite créer 3 fonctions de scoring :
 
-1. `check_concrete_fields` : Vérifie si la sortie du modèle correspond à la ville et à l’État attendus.
-2. `check_value_fields` : Vérifie si la sortie du modèle se situe à moins de 10 % de la population et du revenu médian attendus.
-3. `check_subjective_fields` : Utilise un LLM pour vérifier si la sortie du modèle correspond au champ &quot;known for&quot; attendu.
+1. `check_concrete_fields` : vérifie si la sortie du modèle correspond à la ville et à l’État attendus.
+2. `check_value_fields` : vérifie si la sortie du modèle se situe dans une marge de 10 % par rapport à la population et au revenu médian attendus.
+3. `check_subjective_fields` : utilise un LLM pour vérifier si la sortie du modèle correspond au champ &quot;known for&quot; attendu.
 
 ```python lines
 @weave.op
@@ -135,10 +135,10 @@ def check_subjective_fields(zip_code: str, known_for: str, output: dict):
 
 
 <div id="step-3-create-a-simple-evaluation">
-  ## Étape 3 : Créer une évaluation simple
+  ## Étape 3 : Créer une Évaluation simple
 </div>
 
-Nous définissons ensuite une évaluation simple à l’aide de nos données factices et de fonctions de score.
+Nous définissons ensuite une Évaluation simple à l’aide de nos données factices et des scoring functions.
 
 ```python lines
 rows = generate_dataset_rows()
@@ -155,10 +155,10 @@ evaluation = weave.Evaluation(
 
 
 <div id="step-4-evaluate-a-baseline-model">
-  ## Étape 4 : Évaluer un modèle de référence
+  ## Étape 4 : Évaluer un modèle de base
 </div>
 
-Nous allons maintenant évaluer un modèle de référence qui renvoie une réponse fixe.
+Nous allons maintenant évaluer un modèle de base qui renvoie une réponse statique.
 
 ```python lines
 @weave.op
@@ -177,7 +177,7 @@ await evaluation.evaluate(baseline_model)
 
 
 <div id="step-5-create-more-models">
-  ## Étape 5 : Créer plus de modèles
+  ## Étape 5 : Créer d’autres Models
 </div>
 
 Nous allons maintenant créer 2 modèles supplémentaires pour les comparer à la référence.
@@ -238,10 +238,10 @@ await evaluation.evaluate(gpt_4o_mini_with_context)
 
 
 <div id="step-6-create-more-evaluations">
-  ## Étape 6 : Créer plus d’évaluations
+  ## Étape 6 : Créez davantage d’évaluations
 </div>
 
-Nous allons maintenant évaluer une matrice croisant modèles et évaluations.
+Nous allons maintenant évaluer une matrice croisant des modèles et des évaluations.
 
 ```python lines
 scorers = [
@@ -292,7 +292,7 @@ for evaluation in evaluations:
   ## Étape 7 : Consulter le leaderboard
 </div>
 
-Vous pouvez créer un nouveau leaderboard en accédant à l’onglet leaderboard de l’interface utilisateur, puis en cliquant sur &quot;Create Leaderboard&quot;.
+Vous pouvez créer un nouveau leaderboard en accédant à l’onglet du leaderboard dans l’UI et en cliquant sur &quot;Create Leaderboard&quot;.
 
 Vous pouvez également générer un leaderboard directement depuis Python :
 

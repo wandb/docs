@@ -1,32 +1,32 @@
 ---
-description: "Suivez et optimisez les programmes DSPy avec W&B pour journaliser les prompts, les évaluations et les performances des modules compilés."
+description: "Suivez et optimisez les programmes DSPy avec W&B pour consigner les prompts, les évaluations et les performances des modules compilés."
 title: DSPy
 ---
 
-Utilisez W&amp;B avec DSPy pour suivre et optimiser vos programmes de modèle de langage. W&amp;B complète l’[intégration DSPy de Weave](/fr/weave/guides/integrations/dspy) en fournissant :
+Utilisez W&amp;B avec DSPy pour suivre et optimiser vos programmes pour modèles de langage. W&amp;B complète l’[intégration DSPy de Weave](/fr/weave/guides/integrations/dspy) en fournissant :
 
-* le suivi des métriques d’évaluation au fil du temps
-* les tableaux W&amp;B pour l’évolution de la signature du programme
-* l’intégration avec les optimiseurs DSPy comme MIPROv2
+* Le suivi des métriques d’évaluation dans le temps
+* W&amp;B Tables pour suivre l’évolution des signatures de programme
+* L’intégration avec des optimiseurs DSPy comme MIPROv2
 
-Pour une observabilité complète lors de l’optimisation des modules DSPy, activez l’intégration à la fois dans W&amp;B et dans Weave.
+Pour une observabilité complète lors de l’optimisation des modules DSPy, activez l’intégration dans W&amp;B et dans Weave.
 
 <Info>
   **Remarque**
 
-  À partir de `wandb==0.21.2` et `weave==0.52.5`, Weave s’initialise automatiquement lorsqu’il est utilisé avec W&amp;B :
+  Depuis `wandb==0.21.2` et `weave==0.52.5`, Weave s’initialise automatiquement lorsqu’il est utilisé avec W&amp;B :
 
-  * Si `weave` est importé puis que `wandb.init()` est appelé (cas d’un script)
-  * Si `wandb.init()` a été appelé puis que `weave` est importé plus tard (cas d’un notebook/Jupyter)
+  * Si `weave` est importé, puis `wandb.init()` est appelé (cas d’un script)
+  * Si `wandb.init()` a été appelé, puis `weave` est importé plus tard (cas d’un notebook/Jupyter)
 
-  Aucun appel explicite à `weave.init(...)` n’est requis.
+  Aucun appel explicite à `weave.init(...)` n’est nécessaire.
 </Info>
 
 <div id="install-and-authenticate">
   ## Installer et s’authentifier
 </div>
 
-Installez les bibliothèques requises et connectez-vous à W&amp;B :
+Installez les bibliothèques requises et authentifiez-vous avec W&amp;B :
 
 <Tabs>
   <Tab title="Ligne de commande">
@@ -36,7 +36,7 @@ Installez les bibliothèques requises et connectez-vous à W&amp;B :
        pip install wandb weave dspy
        ```
 
-    2. Définissez la [variable d’environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY`, puis connectez-vous :
+    2. Définissez la variable d’[environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY`, puis connectez-vous :
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -73,10 +73,10 @@ Installez les bibliothèques requises et connectez-vous à W&amp;B :
 Vous découvrez W&amp;B ? Voir notre [guide de démarrage rapide](/fr/models/quickstart/).
 
 <div id="track-program-optimization-experimental">
-  ## Suivre l’optimisation du programme (expérimental)
+  ## Suivez l’optimisation du programme (expérimental)
 </div>
 
-Pour les optimiseurs DSPy qui utilisent `dspy.Evaluate` (comme MIPROv2), utilisez `WandbDSPyCallback` pour journaliser au fil du temps les métriques d’évaluation et suivre l’évolution de la signature du programme dans les tableaux W&amp;B.
+Pour les optimiseurs DSPy qui utilisent `dspy.Evaluate` (comme MIPROv2), utilisez `WandbDSPyCallback` pour journaliser les métriques d’évaluation au fil du temps et suivre l’évolution de la signature du programme dans les W&amp;B Tables.
 
 ```python
 import dspy
@@ -86,7 +86,7 @@ import weave
 import wandb
 from wandb.integration.dspy import WandbDSPyCallback
 
-# Initialiser W&B (importer weave suffit ; pas besoin d'appeler weave.init explicitement)
+# Initialiser W&B (importer weave est suffisant ; pas besoin d'appeler weave.init explicitement)
 project_name = "dspy-optimization"
 with wandb.init(project=project_name) as run:
     # Ajouter le callback W&B à DSPy
@@ -103,7 +103,7 @@ with wandb.init(project=project_name) as run:
     dataset = MATH(subset='algebra')
     program = dspy.ChainOfThought("question -> answer")
 
-    # Configurer et lancer l'optimiseur
+    # Configurer et exécuter l'optimiseur
     optimizer = dspy.MIPROv2(
         metric=dataset.metric,
         auto="light",
@@ -120,21 +120,21 @@ with wandb.init(project=project_name) as run:
     )
 ```
 
-Après avoir exécuté ce code, vous obtenez à la fois une URL de run W&amp;B et une URL Weave. W&amp;B affiche les métriques d’évaluation au fil du temps, ainsi que des tableaux montrant l’évolution des signatures du programme. L’onglet **Aperçu** du run inclut des liens vers les traces Weave pour une inspection détaillée.
+Après avoir exécuté ce code, vous obtenez à la fois une URL de run W&amp;B et une URL Weave. W&amp;B affiche les métriques d&#39;évaluation au fil du temps, ainsi que des Tables montrant l&#39;évolution des signatures du programme. L&#39;onglet **Aperçu** du run inclut des liens vers les traces Weave pour une inspection détaillée.
 
-Si aucun objet `run` n’est transmis à `WandbDSPyCallback`, l’objet `run` global est utilisé.
+Si aucun objet `run` n&#39;est passé à `WandbDSPyCallback`, l&#39;objet global `run` est utilisé.
 
 <Frame>
-  <img src="/images/integrations/dspy_run_page.png" alt="Run d’optimisation DSPy dans W&B" />
+  <img src="/images/integrations/dspy_run_page.png" alt="run d’optimisation DSPy dans W&B" />
 </Frame>
 
-Pour en savoir plus sur le traçage Weave, l’évaluation et l’optimisation avec DSPy, voir le [guide d’intégration DSPy de Weave](/fr/weave/guides/integrations/dspy).
+Pour des informations complètes sur le tracing dans Weave, l&#39;évaluation et l&#39;optimisation avec DSPy, voir le [guide d&#39;intégration Weave DSPy](/fr/weave/guides/integrations/dspy).
 
 <div id="log-predictions-to-wb-tables">
-  ## Journaliser les prédictions dans les tableaux W&amp;B
+  ## Enregistrez les prédictions dans W&amp;B Tables
 </div>
 
-Activez la journalisation détaillée des prédictions pour examiner des exemples individuels pendant l’optimisation. Le callback crée un tableau W&amp;B à chaque étape d’évaluation, ce qui peut vous aider à analyser certains succès et échecs.
+Activez un logging détaillé des prédictions pour inspecter des exemples individuels pendant l’optimisation. Le callback crée une W&amp;B Tables pour chaque étape d’évaluation, ce qui peut vous aider à analyser des réussites et des échecs précis.
 
 ```python
 from wandb.integration.dspy import WandbDSPyCallback
@@ -154,26 +154,26 @@ optimized_program = optimizer.compile(program, trainset=train_data)
   ### Accéder aux données de prédiction
 </div>
 
-Après l&#39;optimisation, trouvez vos données de prédiction dans W&amp;B :
+Après l&#39;optimisation, retrouvez vos données de prédiction dans W&amp;B :
 
 1. Accédez à la page **Aperçu** de votre run.
-2. Recherchez les panneaux de tableau portant des noms du type `predictions_0`, `predictions_1`, etc.
+2. Recherchez les panneaux de tableau nommés selon un format comme `predictions_0`, `predictions_1`, etc.
 3. Filtrez sur `is_correct` pour analyser les échecs.
-4. Comparez les tableaux entre les runs dans l&#39;espace de travail du projet.
+4. Comparez les tableaux entre les runs dans l’espace de travail du projet.
 
-Chaque tableau inclut les colonnes suivantes :
+Chaque tableau inclut des colonnes pour :
 
-* `example` : Données d&#39;entrée
-* `prediction` : Sortie du modèle
-* `is_correct` : Résultat de l&#39;évaluation
+* `example` : données d&#39;entrée
+* `prediction` : sortie du modèle
+* `is_correct` : résultat de l&#39;évaluation
 
-Pour en savoir plus, consultez le [guide des tableaux W&amp;B](/fr/models/tables/visualize-tables/).
+Pour en savoir plus, consultez le [guide W&amp;B Tables](/fr/models/tables/visualize-tables/).
 
 <div id="save-and-version-dspy-programs">
   ## Enregistrer et versionner des programmes DSPy
 </div>
 
-Pour reproduire et versionner vos meilleurs programmes DSPy, enregistrez-les sous forme d’Artifacts W&amp;B. Choisissez entre enregistrer le programme complet ou uniquement son état.
+Pour reproduire et versionner vos meilleurs programmes DSpy, enregistrez-les sous forme de W&amp;B Artifacts. Choisissez entre enregistrer l’intégralité du programme ou seulement son état.
 
 ```python
 from wandb.integration.dspy import WandbDSPyCallback

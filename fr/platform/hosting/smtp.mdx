@@ -1,14 +1,14 @@
 ---
 title: Configurer SMTP
-description: "Configurer un serveur SMTP interne pour envoyer des invitations par e-mail depuis une instance autogérée de W&B Server."
+description: "Configurez un serveur SMTP interne pour envoyer des invitations par e-mail depuis une instance W&B Server autogérée."
 ---
 
-Sur le serveur W&amp;B, l&#39;ajout d&#39;utilisateurs à l&#39;instance ou à l&#39;équipe déclenche l&#39;envoi d&#39;une invitation par e-mail. Pour envoyer ces invitations, W&amp;B utilise un serveur de messagerie tiers. Dans certains cas, les organisations appliquent des politiques strictes concernant le trafic sortant du réseau d&#39;entreprise, ce qui peut empêcher l&#39;envoi de ces invitations à l&#39;utilisateur final. Le serveur W&amp;B permet de configurer l&#39;envoi de ces e-mails d&#39;invitation via un serveur SMTP interne.
+Dans W&amp;B Server, l’ajout d’utilisateurs à l’instance ou à l’équipe déclenche une invitation par e-mail. Pour envoyer ces invitations, W&amp;B utilise un serveur de messagerie tiers. Dans certains cas, les organisations peuvent appliquer des politiques strictes concernant le trafic sortant du réseau d’entreprise, ce qui peut empêcher l’envoi de ces invitations par e-mail à l’utilisateur final. W&amp;B Server permet de configurer l’envoi de ces e-mails d’invitation via un serveur SMTP interne.
 
 Pour configurer SMTP, suivez les étapes ci-dessous :
 
-* Définissez la variable d&#39;environnement `GORILLA_EMAIL_SINK` dans le conteneur Docker ou le déploiement Kubernetes sur `smtp://<user:password>@smtp.host.com:<port>`
+* Définissez la variable d’environnement `GORILLA_EMAIL_SINK` dans le conteneur Docker ou le déploiement Kubernetes sur `smtp://<user:password>@smtp.host.com:<port>`
 * `username` et `password` sont facultatifs
-* Si vous utilisez un serveur SMTP sans authentification, définissez simplement la variable d&#39;environnement comme suit : `GORILLA_EMAIL_SINK=smtp://smtp.host.com:<port>`
+* Si vous utilisez un serveur SMTP conçu pour fonctionner sans authentification, définissez simplement la variable d’environnement sur `GORILLA_EMAIL_SINK=smtp://smtp.host.com:<port>`
 * Les ports SMTP couramment utilisés sont 587, 465 et 25. Notez que cela peut varier selon le type de serveur de messagerie utilisé.
-* Pour configurer l&#39;adresse e-mail d&#39;expéditeur par défaut pour SMTP, initialement définie sur `noreply@wandb.com`, remplacez-la par l&#39;adresse e-mail de votre choix. Pour cela, définissez la variable d&#39;environnement `GORILLA_EMAIL_FROM_ADDRESS` sur le serveur avec l&#39;adresse e-mail d&#39;expéditeur souhaitée.
+* Pour configurer l’adresse e-mail d’expéditeur par défaut pour SMTP, initialement définie sur `noreply@wandb.com`, vous pouvez la remplacer par l’adresse de votre choix. Pour cela, définissez sur le serveur la variable d’environnement `GORILLA_EMAIL_FROM_ADDRESS` avec l’adresse e-mail d’expéditeur souhaitée.

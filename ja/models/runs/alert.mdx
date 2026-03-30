@@ -1,5 +1,5 @@
 ---
-description: Python コードからトリガーされるアラートを Slack やメールに送信する
+description: Python コードでトリガーしたアラートを、Slack またはメールに送信します
 title: アラートを送信する
 ---
 
@@ -7,56 +7,56 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://wandb.me/alerts-colab" />
 
-run がクラッシュしたときやカスタムトリガーに基づいて、Slack またはメールでアラートを作成できます。たとえば、トレーニング ループの勾配が暴走し始めたとき（NaN を出力したとき）や、ML パイプライン内のあるステップが完了したときにアラートを作成できます。アラートは、run を初期化するすべてのプロジェクト（個人プロジェクトとチーム プロジェクトの両方）に適用されます。
+run がクラッシュしたときや、カスタムトリガーに応じて、Slack またはメールでアラートを作成できます。たとえば、トレーニングループの gradient が発散し始めたとき (NaN を返したとき) や、ML パイプラインの step が完了したときにアラートを作成できます。アラートは、個人のプロジェクトとチームのプロジェクトを含め、run を初期化したすべてのプロジェクトに適用されます。
 
-その後、Slack（またはメール）で W&amp;B Alerts のメッセージを確認できます。
+設定すると、Slack (またはメール) で W&amp;B Alerts のメッセージを確認できます。
 
 <Frame>
-  <img src="/images/track/send_alerts_slack.png" alt="Slack アラートのセットアップ" />
+  <img src="/images/track/send_alerts_slack.png" alt="Slack アラートの設定" />
 </Frame>
 
 <Note>
-  W&amp;B Alerts を使用するには、コードに `run.alert()` を追加する必要があります。コードを変更せずに、[Automations](/ja/models/automations/) を使って、W&amp;B 内のイベントに基づいて Slack に通知する別の方法も利用できます。たとえば、[artifact](/ja/models/artifacts/) のバージョンが作成されたときや、[run metric](/ja/models/runs/) がしきい値に達したり、しきい値を超えて変化したときなどです。
+  W&amp;B Alerts を使用するには、コードに `run.alert()` を追加する必要があります。コードを変更しなくても、[Automations](/ja/models/automations/) を使えば、[artifact](/ja/models/artifacts/) のバージョンが作成されたときや、[run metric](/ja/models/runs/) がしきい値に達したとき、またはしきい値を超えて変化したときなど、W&amp;B 内のイベントに基づいて Slack に通知する別の方法を利用できます。
 
-  たとえば、オートメーションを使って、新しいバージョンが作成されたときに Slack チャンネルへ通知したり、`production` エイリアスが Artifacts に追加されたときに自動テスト用の webhook を実行したり、run の `loss` が許容範囲内にある場合にのみ検証ジョブを開始したりできます。
+  たとえば、automation を使うと、新しいバージョンが作成されたときに Slack チャンネルに通知したり、artifact に `production` エイリアスが追加されたときに自動テスト用 webhook を実行したり、run の `loss` が許容範囲内にある場合にのみ検証ジョブを開始したりできます。
 
-  [Automations の概要](/ja/models/automations/)を読むか、[オートメーションを作成](/ja/models/automations/create-automations/)してください。
+  [Automations の概要](/ja/models/automations/)を読むか、[automation を作成](/ja/models/automations/create-automations/)してください。
 </Note>
 
 <Note>
-  次のガイドは、Multi-tenant Cloud のアラートにのみ適用されます。
+  以下のガイドは、Multi-tenant Cloud のアラートにのみ適用されます。
 
-  Private Cloud または W&amp;B Dedicated Cloud 上で [W&amp;B Server](/ja/platform/hosting/) を使用している場合は、Slack アラートを設定するために、[Configure Slack alerts in W&amp;B Server](/ja/platform/hosting/monitoring-usage/slack-alerts) を参照してください。
+  Private Cloud 上の [W&amp;B Server](/ja/platform/hosting/) または W&amp;B 専用クラウドを使用している場合は、[W&amp;B Server で Slack アラートを設定する](/ja/platform/hosting/monitoring-usage/slack-alerts) を参照して Slack アラートを設定してください。
 </Note>
 
-アラートをセットアップするには、次の手順を実行します。詳細は後述のセクションで説明します。
+アラートを設定するには、以下のセクションで詳しく説明する次の step を実行します。
 
-1. W&amp;B の [User Settings](https://wandb.ai/settings) で Alerts を有効にする。
-2. コードに `run.alert()` を追加する。
-3. 設定をテストする。
+1. W&amp;B の [User Settings](https://wandb.ai/settings) で Alerts を有効にします。
+2. コードに `run.alert()` を追加します。
+3. 設定をテストします。
 
 <div id="1-turn-on-alerts-in-your-wb-user-settings">
-  ### 1. W&amp;B User Settings でアラートを有効にする
+  ### 1. W&amp;B User Settingsでアラートを有効にする
 </div>
 
-[User Settings](https://wandb.ai/settings) で次を行います:
+[User Settings](https://wandb.ai/settings)で、以下を行います。
 
 * **Alerts** セクションまでスクロールします
-* `run.alert()` からのアラートを受け取るには **Scriptable run alerts** をオンにします
-* **Connect Slack** を使って、アラートを投稿する Slack チャンネルを選びます。アラートを非公開に保てるため、**Slackbot** チャンネルをおすすめします。
-* **Email** は、W&amp;B にサインアップしたときに使用したメールアドレス宛に送信されます。これらのアラート専用のフォルダーに振り分けて受信トレイがいっぱいにならないよう、メールにフィルターを設定することをおすすめします。
+* `run.alert()` からのアラートを受け取るには、**Scriptable run alerts** を有効にします
+* アラートの送信先となる Slack チャンネルを選ぶには、**Connect Slack** を使用します。アラートを非公開に保てるため、**Slackbot** チャンネルを推奨します。
+* **Email** は、W&amp;B の登録時に使用したメールアドレスに送信されます。これらのアラートで受信トレイがいっぱいにならないよう、メール側でフィルターを設定してフォルダーに振り分けることをおすすめします。
 
-これは W&amp;B Alerts を最初にセットアップするとき、またはアラートの受け取り方を変更したいときに一度だけ行えば十分です。
+この設定が必要なのは、初めて W&amp;B Alerts を設定するとき、またはアラートの受信方法を変更したいときだけです。
 
 <Frame>
-  <img src="/images/track/demo_connect_slack.png" alt="W&B User Settings における Alerts 設定" />
+  <img src="/images/track/demo_connect_slack.png" alt="W&B User SettingsのAlerts設定" />
 </Frame>
 
 <div id="2-add-runalert-to-your-code">
   ### 2. コードに `run.alert()` を追加する
 </div>
 
-Notebook または Python スクリプト内の、トリガーさせたい任意の場所に `run.alert()` を追加します
+`run.alert()` をトリガーしたい箇所に、コード (Notebook または Python スクリプト) へ追加します
 
 ```python
 import wandb
@@ -69,13 +69,13 @@ with wandb.init() as run:
   ### 3. 設定をテストする
 </div>
 
-Slack またはメールでアラートメッセージが届いているか確認してください。受信していない場合は、[User Settings](https://wandb.ai/settings) で **Scriptable Alerts** 向けのメールまたは Slack が有効になっていることを確認してください。
+Slack またはメールでアラートメッセージを確認してください。どちらにも届いていない場合は、[User Settings](https://wandb.ai/settings) で **Scriptable Alerts** のメールまたは Slack が有効になっていることを確認してください。
 
 <div id="example">
   ## 例
 </div>
 
-このシンプルなアラートは、accuracy がしきい値を下回ったときに警告を送信します。この例では、アラートは少なくとも 5 分以上の間隔をあけてのみ送信されます。
+このシンプルなアラートは、accuracy がしきい値を下回ると警告を送信します。この例では、アラートは少なくとも 5 分以上の間隔を空けて送信されます。
 
 ```python
 import wandb
@@ -96,7 +96,7 @@ with wandb.init() as run:
   ## ユーザーをタグ付けまたはメンションする
 </div>
 
-アットマーク `@` の後に Slack ユーザー ID を付けて、アラートのタイトルまたは本文で自分や同僚をタグ付け／メンションします。Slack ユーザー ID は、そのユーザーの Slack プロフィール ページから確認できます。
+アラートのタイトルまたは本文で自分や同僚をタグ付けするには、SlackユーザーIDの前にアットマーク `@` を付けます。SlackユーザーIDは、Slackのプロフィールページで確認できます。
 
 ```python
 run.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
@@ -106,12 +106,12 @@ run.alert(title="Loss is NaN", text=f"Hey <@U1234ABCD> loss has gone to NaN")
   ## チームアラートを設定する
 </div>
 
-Team の管理者は、チーム設定ページ `wandb.ai/teams/your-team` でチーム向けのアラートを設定できます。
+チーム管理者は、チーム設定ページ `wandb.ai/teams/your-team` でチーム向けのアラートを設定できます。
 
-チームアラートは、チーム内の全員に適用されます。W&amp;B では、アラートを非公開に保てるため、**Slackbot** チャンネルの利用を推奨します。
+チームアラートはチームの全員に適用されます。アラートを非公開に保てるため、W&amp;B では **Slackbot** チャンネルの使用を推奨しています。
 
 <div id="change-slack-channel-to-send-alerts-to">
-  ## アラートの送信先 Slack チャンネルを変更する
+  ## アラートの送信先の Slack チャンネルを変更する
 </div>
 
-アラートの送信先の Slack チャンネルを変更するには、**Disconnect Slack** をクリックして一度接続を解除し、再度接続し直してください。再接続後に、別の Slack チャンネルを選択します。
+アラートの送信先チャンネルを変更するには、**Slack の接続を解除** をクリックしてから、もう一度接続してください。再接続後に、別の Slack チャンネルを選択します。

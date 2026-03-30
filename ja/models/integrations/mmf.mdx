@@ -1,46 +1,46 @@
 ---
-description: "W&B を Meta AI の MMF フレームワークと統合して、マルチモーダル モデルのトレーニング実験を追跡し、メトリクスをログします。"
+description: "Meta AI の MMF フレームワークと W&B を統合し、マルチモーダル モデルのトレーニング実験をトラッキングして、メトリクスをログします。"
 title: MMF
 ---
 
-[Meta AI の MMF](https://github.com/facebookresearch/mmf) ライブラリの `WandbLogger` クラスにより、W&B でトレーニング/検証メトリクス、システム (GPU と CPU) メトリクス、モデル チェックポイント、設定パラメーターをログできるようになります。
+[Meta AI&#39;s MMF](https://github.com/facebookresearch/mmf) ライブラリの `WandbLogger` クラスを使用すると、W&amp;B でトレーニング/検証メトリクス、システム (GPU および CPU) メトリクス、モデル チェックポイント、設定パラメーターをログできます。
 
 <div id="current-features">
   ## 現在の機能
 </div>
 
-`WandbLogger` は MMF で現在、以下の機能をサポートしています:
+MMF の `WandbLogger` では、現在次の機能がサポートされています。
 
 * トレーニングおよび検証のメトリクス
 * 学習率の推移
-* モデル チェックポイントの W&B Artifacts への保存
-* GPU および CPU のシステム メトリクス
+* モデル チェックポイントの W&amp;B Artifacts への保存
+* GPU および CPU のシステムメトリクス
 * トレーニング設定パラメーター
 
 <div id="config-parameters">
-  ## Config パラメーター
+  ## 設定パラメーター
 </div>
 
-MMF の config では、wandb ロギングを有効化およびカスタマイズするために、次のオプションが利用できます。
+wandb logging を有効にしてカスタマイズするには、MMF の設定で以下のオプションを使用できます:
 
 ```
 training:
     wandb:
         enabled: true
         
-        # entity はユーザー名またはチーム名で、runs の送信先を指定します。
-        # デフォルトでは、run はユーザーアカウントに記録されます。
+        # entity とは、runs の送信先となるユーザー名またはチーム名です。
+        # デフォルトでは、ユーザーアカウントに run がログされます。
         entity: null
         
-        # wandb で実験を記録する際に使用するプロジェクト名
+        # wandb で実験をログする際に使用するプロジェクト名
         project: mmf
         
-        # wandb でプロジェクト配下に実験を記録する際に使用する
+        # wandb でプロジェクト配下の実験をログする際に使用する
         # 実験名 / run 名。デフォルトの実験名:
-        # ${training.experiment_name}
+        # is: ${training.experiment_name}
         name: ${training.experiment_name}
         
-        # モデルのチェックポイント保存を有効にし、チェックポイントを W&B Artifacts に保存する
+        # モデル チェックポイントを有効にし、チェックポイントを W&B Artifacts に保存する
         log_model_checkpoint: true
         
         # wandb.init() に渡す追加の引数値（例）:
@@ -48,7 +48,7 @@ training:
         # tags: ['tag1', 'tag2']
         
 env:
-    # wandb メタデータを保存するディレクトリのパスを変更する場合
+    # wandb メタデータの保存先ディレクトリのパスを変更する場合
     # （デフォルト: env.log_dir）:
     wandb_logdir: ${env:MMF_WANDB_LOGDIR,}
 ```

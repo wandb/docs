@@ -1,17 +1,16 @@
 ---
 title: "コードをトレースする"
-description: "実行中のコードにインストルメンテーションを施し、その実行が W&B Weave に詳細なトレースとして表示されるようにします。"
+description: "実行中のコードを計測し、その実行内容を W&B Weave に詳細なトレースとして表示します。"
 ---
 
-実行中のコードを Weave で詳細なトレースとして可視化するには、Calls を作成します。これを行う方法は大きく 3 つあります。
+実行中のコードを Weave で詳細なトレースとして確認するには、calls を作成します。これには主に 3 つの方法があります。
 
 <div id="1-automatic-tracking-of-llm-library-calls">
-  ## 1. LLM ライブラリ呼び出しの自動トラッキング
+  ## 1. LLMライブラリcallの自動トラッキング
 </div>
 
-Weave は、`openai`、`anthropic`、`cohere`、`mistral`、`LangChain` などの一般的なインテグレーションやフレームワークと自動的に連携します。
-LLM またはフレームワークのライブラリをインポートして Weave プロジェクトを初期化すると、追加のコード変更なしで、LLM やプラットフォームへのすべての呼び出しが自動的にプロジェクトへトレースされます。
-サポートされているライブラリインテグレーションの一覧については、[Integrations overview](/ja/weave/guides/integrations/) を参照してください。
+Weave は、`openai`、`anthropic`、`cohere`、`mistral`、`LangChain` など、多くの一般的なインテグレーションやフレームワークと自動的に連携します。
+LLM またはフレームワークのライブラリを import して Weave のプロジェクトを初期化すると、コードを追加・変更しなくても、LLM またはプラットフォームに対するすべてのcallが Weave によって自動的にプロジェクトへトレースされます。サポートされているライブラリインテグレーションの完全な一覧については、[インテグレーション概要](/ja/weave/guides/integrations/) を参照してください。
 
 <Tabs>
   <Tab title="Python">
@@ -21,7 +20,7 @@ LLM またはフレームワークのライブラリをインポートして Wea
     from openai import OpenAI
     client = OpenAI()
 
-    # Weave トレーシングを初期化
+    # Weave トレース を初期化
     weave.init('intro-example')
 
     response = client.chat.completions.create(
@@ -46,7 +45,7 @@ LLM またはフレームワークのライブラリをインポートして Wea
 
     const client = new OpenAI()
 
-    // Weave トレーシングを初期化
+    // Weave トレース を初期化
     await weave.init('intro-example')
 
     const response = await client.chat.completions.create({
@@ -63,42 +62,42 @@ LLM またはフレームワークのライブラリをインポートして Wea
     });
     ```
 
-    JS / TS プロジェクト向けのセットアップ手順の詳細については、[TypeScript SDK: Third-Party Integration Guide](/ja/weave/guides/integrations/js) を参照してください。
+    JS / TS プロジェクト向けの完全なセットアップガイドについては、[TypeScript SDK: サードパーティインテグレーションガイド](/ja/weave/guides/integrations/js) を参照してください。
   </Tab>
 </Tabs>
 
-自動動作をさらに細かく制御したい場合は、[自動 LLM 呼び出しトラッキングの設定](/ja/weave/guides/integrations/autopatching) を参照してください。
+自動的な挙動をより細かく制御したい場合は、[LLM call の自動トラッキングを設定する](/ja/weave/guides/integrations/autopatching) を参照してください。
 
 <div id="2-tracking-of-custom-functions">
   ## 2. カスタム関数のトラッキング
 </div>
 
-多くの場合、LLM アプリケーションには、トラッキングしたい追加のロジック (前処理・後処理、プロンプトなど) が含まれます。
+LLM アプリケーションには、トラッキングしたい追加のロジック (前処理や後処理、プロンプトなど) が含まれていることがよくあります。
 
 <Tabs>
   <Tab title="Python">
-    Weave では、[`@weave.op`](/ja/weave/reference/python-sdk/#function-op) デコレーターを使って、これらの呼び出しを手動でトラッキングできます。例えば:
+    Weave では、[`@weave.op`](/ja/weave/reference/python-sdk/#function-op) デコレータを使って、これらの calls を手動でトラッキングできます。例:
 
     ```python lines
     import weave
 
-    # Weave Tracing を初期化
+    # Weave トレース を初期化する
     weave.init('intro-example')
 
-    # 関数をデコレート
+    # 関数をデコレートする
     @weave.op
     def my_function(name: str):
         return f"Hello, {name}!"
 
-    # 関数を呼び出す -- Weave が自動的に入力と出力をトラッキング
+    # 関数を呼び出す -- Weave が入力と出力を自動的にトラッキングします
     print(my_function("World"))
     ```
 
-    [クラスのメソッド](#track-class-and-object-methods) をトラッキングすることもできます。
+    [クラスの method](#track-class-and-object-methods) もトラッキングできます。
   </Tab>
 
   <Tab title="TypeScript">
-    Weave では、関数を [`weave.op`](/ja/weave/reference/typescript-sdk/functions/op) でラップすることで、これらの呼び出しを手動でトラッキングできます。例えば:
+    Weave では、関数を [`weave.op`](/ja/weave/reference/typescript-sdk/functions/op) でラップすることで、これらの calls を手動でトラッキングできます。例:
 
     ```typescript lines
     import * as weave from 'weave'
@@ -112,13 +111,13 @@ LLM またはフレームワークのライブラリをインポートして Wea
     const myFunctionOp = weave.op(myFunction)
     ```
 
-    また、ラップをインラインで定義することもできます:
+    ラップをインラインで定義することもできます:
 
     ```typescript lines
-    const myFunctionOp = weave.op((name: string) => `Hello, {name}!`)
+    const myFunctionOp = weave.op((name: string) => `Hello, ${name}!`)
     ```
 
-    これは、関数だけでなくクラスのメソッドにも利用できます:
+    これは関数だけでなく、クラスの method にも対応しています:
 
     ```typescript lines
     class MyClass {
@@ -135,43 +134,43 @@ LLM またはフレームワークのライブラリをインポートして Wea
 </Tabs>
 
 <div id="track-class-and-object-methods">
-  ### クラスおよびオブジェクト メソッドのトラッキング
+  ### クラスとオブジェクトの method をトラッキングする
 </div>
 
-クラスおよびオブジェクト メソッドもトラッキングできます。クラス内の任意のメソッドを `weave.op` でデコレートすることで、そのメソッドをトラッキングできます。
+クラスやオブジェクトの method もトラッキングできます。`weave.op` で method をデコレートすると、クラス内の任意の method をトラッキングできます。
 
 <Tabs>
   <Tab title="Python">
     ```python lines
     import weave
 
-    # Weave Tracing を初期化
+    # Weave トレースを初期化する
     weave.init("intro-example")
 
     class MyClass:
-        # メソッドをデコレート
+        # method をデコレートする
         @weave.op
         def my_method(self, name: str):
             return f"Hello, {name}!"
 
     instance = MyClass()
 
-    # メソッドを呼び出すと、Weave が自動的に入力と出力をトラッキングする
+    # method を呼び出す -- Weave が inputs と outputs を自動的にトラッキングします
     print(instance.my_method("World"))
     ```
   </Tab>
 
   <Tab title="TypeScript">
     <Important>
-      **TypeScript でのデコレーターの使用**
+      **TypeScript でデコレータを使用する**
 
-      TypeScript のコードで `@weave.op` デコレーターを使用するには、環境が正しく設定されていることを確認してください。
+      TypeScript コードで `@weave.op` デコレータ を使用するには、環境が適切に設定されていることを確認してください。
 
-      * **TypeScript v5.0 以降**: デコレーターは標準でサポートされており、追加の設定は不要です。
-      * **TypeScript v5.0 より前のバージョン**: デコレーターの実験的サポートを有効にします。詳細については、[decorator に関する TypeScript 公式ドキュメント](https://www.typescriptlang.org/docs/handbook/decorators.html)を参照してください。
+      * **TypeScript v5.0 以降**: デコレータは標準でサポートされており、追加の設定は不要です。
+      * **TypeScript v5.0 より前**: デコレータの実験的サポートを有効にしてください。詳細は、[デコレータに関する TypeScript 公式ドキュメント](https://www.typescriptlang.org/docs/handbook/decorators.html)を参照してください。
     </Important>
 
-    インスタンス メソッドに `@weave.op` を適用してトレースできます。
+    トレースするには、インスタンスmethod に `@weave.op` を適用できます。
 
     ```typescript lines
     class Foo {
@@ -182,7 +181,7 @@ LLM またはフレームワークのライブラリをインポートして Wea
     }
     ```
 
-    クラス内のユーティリティ関数をトレースするために、`@weave.op` を static メソッドに適用することもできます。
+    クラス内のユーティリティ関数を監視するために、static method にも `@weave.op` を適用できます。
 
     ```typescript lines
     class MathOps {
@@ -196,16 +195,16 @@ LLM またはフレームワークのライブラリをインポートして Wea
 </Tabs>
 
 <div id="trace-parallel-multi-threaded-function-calls">
-  ### 並列 (マルチスレッド) 関数呼び出しのトレース
+  ### 並列 (マルチスレッド) の関数callをトレースする
 </div>
 
-デフォルトでは、並列な Call はすべて Weave 上では個別の root Call として表示されます。同じ親 Op の下に正しくネストさせるには、`ThreadPoolExecutor` を使用します。
+デフォルトでは、並列に実行された calls はすべて、Weave で個別のルート call として表示されます。同じ親 Op の下に正しくネストするには、`ThreadPoolExecutor` を使用します。
 
 <Tabs>
   <Tab title="Python">
-    次のコードサンプルは、[`ThreadPoolExecutor`](/ja/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor) の使用例を示しています。
-    最初の関数 `func` は、`x` を受け取って `x+1` を返すシンプルな Op です。2 つ目の関数 `outer` は、入力リストを受け取る別の Op です。
-    `outer` の中で `ThreadPoolExecutor` と `exc.map(func, inputs)` を使用することで、各 `func` 呼び出しは同じ親の trace コンテキストを保持したまま実行されます。
+    次のコード例は、[`ThreadPoolExecutor`](/ja/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor) の使用方法を示しています。
+    1 つ目の関数 `func` は、`x` を受け取って `x+1` を返すシンプルな Op です。2 つ目の関数 `outer` は、入力のリストを受け取る別の Op です。
+    `outer` の内部で `ThreadPoolExecutor` と `exc.map(func, inputs)` を使用すると、`func` の各 call に同じ親トレースコンテキストが引き継がれます。
 
     ```python lines
     import weave
@@ -219,7 +218,7 @@ LLM またはフレームワークのライブラリをインポートして Wea
         with weave.ThreadPoolExecutor() as exc:
             exc.map(func, inputs)
 
-    # Weave プロジェクト名を更新する
+    # Weave プロジェクト名を更新します
     client = weave.init('my-weave-project')
     outer([1,2,3,4,5])
     ```
@@ -232,47 +231,47 @@ LLM またはフレームワークのライブラリをインポートして Wea
   </Tab>
 </Tabs>
 
-Weave UI では、これにより 1 つの親 Call の下に 5 つの子 Call がネストされた形で表示されるため、インクリメントが並列で実行されていても、完全に階層的な trace を得ることができます。
+Weave UI では、これにより 1 つの親 call の下に 5 つの子 calls がネストされた形で表示されるため、インクリメント処理が並列に実行されていても、完全な階層型トレースを取得できます。
 
-![Trace UI。outer の単一の親 Call の下に 5 つの子 Call がネストされている様子。](/weave/guides/tracking/imgs/threadpoolexecutor.png)
+![outer の 1 つの親 call の下に、5 つの子 calls がネストされている Trace UI。](/weave/guides/tracking/imgs/threadpoolexecutor.png)
 
 <div id="3-manual-call-tracking">
-  ## 3. Manual Call tracking
+  ## 3. call の手動トラッキング
 </div>
 
-API を直接使用して Call を手動で作成することもできます。
+API を直接使用して、手動で call を作成することもできます。
 
 <Tabs>
   <Tab title="Python">
     ```python lines
     import weave
 
-    # Initialize Weave Tracing
+    # Weave トレースを初期化
     client = weave.init('intro-example')
 
     def my_function(name: str):
-        # Start a Call
+        # call を開始
         call = client.create_call(op="my_function", inputs={"name": name})
 
-        # ... your function code ...
+        # ... 関数のコード ...
 
-        # End a Call
+        # call を終了
         client.finish_call(call, output="Hello, World!")
 
-        # Call your function
+        # 関数を呼び出す
         print(my_function("World"))
     ```
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext
-    この機能は TypeScript SDK ではまだ利用できません。
+    この機能は、TypeScript SDK ではまだ利用できません。
     ```
   </Tab>
 
   <Tab title="HTTP API">
-    * Call を開始: [POST `/call/start`](https://docs.wandb.ai/ja/weave/reference/service-api/calls/call-start)。
-    * Call を終了: [POST `/call/end`](https://docs.wandb.ai/ja/weave/reference/service-api/calls/call-end)。
+    * call を開始: [POST `/call/start`](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)。
+    * call を終了: [POST `/call/end`](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)。
 
     ```bash lines
     curl -L 'https://trace.wandb.ai/call/start' \

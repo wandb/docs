@@ -24,13 +24,13 @@ agent(
 
 Démarrez un ou plusieurs agents de balayage.
 
-L&#39;agent de balayage utilise le `sweep_id` pour savoir de quel balayage il fait partie, quelle fonction exécuter et, facultativement, combien d&#39;agents lancer.
+L’agent de balayage utilise le `sweep_id` pour savoir de quel balayage il fait partie, quelle fonction exécuter et, le cas échéant, combien d’agents lancer.
 
 **Arguments :**
 
-* `sweep_id`:  L&#39;identifiant unique d&#39;un balayage. Un ID de balayage est généré par l&#39;interface de ligne de commande W&amp;B ou le SDK Python.
-* `function`:  Une fonction à appeler à la place du « programme » spécifié dans la configuration du balayage.
-* `entity`:  Le nom d&#39;utilisateur ou le nom de l&#39;équipe vers lequel vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l&#39;entité que vous spécifiez existe déjà. Si vous ne spécifiez pas d&#39;entité, le run sera envoyé à votre entité par défaut, généralement votre nom d&#39;utilisateur.
-* `project`:  Le nom du projet auquel sont envoyés les runs W&amp;B créés à partir du balayage. Si le projet n&#39;est pas spécifié, le run est envoyé à un projet intitulé « Uncategorized ».
-* `count`:  Le nombre d&#39;essais de la configuration de balayage à exécuter.
-* `forward_signals`:  Indique s&#39;il faut transmettre aux processus enfants les signaux reçus par l&#39;agent. Pris en charge uniquement par l&#39;agent CLI.
+* `sweep_id` :  L’identifiant unique d’un balayage. Un ID de balayage est généré par le CLI W&amp;B ou le SDK Python.
+* `function` :  Une fonction à appeler à la place du &quot;programme&quot; spécifié dans la configuration du balayage.
+* `entity` :  Le nom d’utilisateur ou le nom de l’équipe vers lesquels vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l’entité indiquée existe déjà. Si vous ne spécifiez pas d’entité, le run sera envoyé à votre entité par défaut, qui correspond généralement à votre nom d’utilisateur.
+* `project` :  Le nom du projet auquel sont envoyés les runs W&amp;B créés par le balayage. Si le projet n’est pas spécifié, le run est envoyé à un projet intitulé &quot;Uncategorized&quot;.
+* `count` :  Le nombre d’essais de la configuration de balayage à exécuter.
+* `forward_signals` :  Indique s’il faut transmettre aux processus enfants les signaux reçus par l’agent. Pris en charge uniquement par l’agent CLI.

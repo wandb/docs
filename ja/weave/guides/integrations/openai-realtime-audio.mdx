@@ -1,15 +1,15 @@
 ---
 title: OpenAI Realtime API
-description: Weave を使用して、OpenAI Realtime API への Call を自動的にトレースします。
+description: Weave を使用して、OpenAI Realtime API への呼び出しを自動的にトレースします。
 ---
 
-Weave の [OpenAI Realtime API](https://developers.openai.com/api/docs/guides/realtime/) インテグレーションを使用すると、アプリケーションで発生する音声対音声のやり取りを自動的にトレースできます。これにより、エージェントとユーザーの会話を取得して確認し、エージェントのパフォーマンスを評価できます。
+Weave の [OpenAI Realtime API](https://developers.openai.com/api/docs/guides/realtime/) とのインテグレーションにより、アプリケーションで発生する音声対音声のやり取りをリアルタイムで自動的にトレースできます。これを使用すると、エージェントとユーザーの会話をキャプチャして、エージェントのパフォーマンスを確認・評価できます。
 
 <div id="integrate-realtime-traces">
-  ## リアルタイム トレースを統合する
+  ## リアルタイムトレースを統合する
 </div>
 
-Weave は OpenAI Realtime API に自動的にパッチを適用します。アプリケーションのオーディオ インタラクションの取得を開始するには、数行のコードを追加するだけです。次のコードは Weave と Realtime API インテグレーションをインポートします。
+Weave は OpenAI Realtime API に自動的にパッチを適用するため、アプリケーションでのオーディオインタラクションのキャプチャを開始するには、数行のコードを追加するだけです。以下のコードでは、Weave と Realtime API のインテグレーションをインポートします。
 
 ```python lines {2,5}
 import weave
@@ -21,18 +21,18 @@ patch_openai_realtime()
 # アプリケーションのロジック
 ```
 
-コードに import して実行すると、Weave はユーザーと OpenAI Realtime API 間のやり取りを自動的にトレースします。
+コードにimportして実行すると、Weave はユーザーと OpenAI Realtime API 間のやり取りを自動的にトレースします。
 
 
 <div id="run-a-realtime-voice-assistant-with-the-openai-agents-sdk">
   ### OpenAI Agents SDK を使用してリアルタイム音声アシスタントを実行する
 </div>
 
-この例では、マイクのオーディオを OpenAI の Realtime API にストリーミングし、AI の音声による応答をローカルマシンのスピーカーで再生するリアルタイム音声アシスタントを実行します。このアプリケーションは、`RealtimeAgent` と `RealtimeRunner` を備えた OpenAI Agents SDK を使用し、`patch_openai_realtime()` を適用して Weave トレーシングを有効にします。
+この例では、マイクのオーディオを OpenAI の Realtime API にストリーミングし、AI の音声による応答をローカルマシンのスピーカーで再生するリアルタイム音声アシスタントを実行します。このアプリケーションは、`RealtimeAgent` と `RealtimeRunner` を使用する OpenAI Agents SDK を利用し、`patch_openai_realtime()` を適用して Weave トレースを有効にします。
 
 例を実行するには:
 
-1. Python 環境を起動し、次のライブラリをインストールします：
+1. Python環境を起動し、以下のライブラリをインストールします：
 
    <Tabs>
      <Tab title="uv">
@@ -48,9 +48,9 @@ patch_openai_realtime()
      </Tab>
    </Tabs>
 
-2. `weave_voice_assistant.py` という名前のファイルを作成し、次のコードを追加します。
+2. `weave_voice_assistant.py` という名前のファイルを作成し、以下のコードを追加します。
 
-   ハイライトされた行は、アプリケーションに Weave がインテグレーションされている箇所を示しています。残りのコードは、基本的な音声アシスタント アプリケーションを作成するものです。
+   ハイライトされた行は、アプリケーション内でのWeaveのインテグレーションを示しています。残りのコードは、基本的な音声アシスタントアプリを作成するものです。
 
    <Accordion title="weave_voice_assistant.py">
      ```python lines {8,11,14,51-55}
@@ -70,7 +70,7 @@ patch_openai_realtime()
      DEFAULT_WEAVE_PROJECT = "<your-team-name/your-project-name>"
 
      FORMAT = pyaudio.paInt16
-     RATE = 24000  # Required by the OpenAI Realtime API.
+     RATE = 24000  # OpenAI Realtime API で必須。
      CHUNK = 1024
      MAX_INPUT_CHANNELS = 1
      MAX_OUTPUT_CHANNELS = 1
@@ -78,42 +78,42 @@ patch_openai_realtime()
      INP_DEV_IDX = None
      OUT_DEV_IDX = None
 
-     # Parse CLI args for Weave project name and audio device selection.
+     # Weave プロジェクト名とオーディオデバイス選択のための CLI 引数を解析する。
      def parse_args():
-         parser = argparse.ArgumentParser(description="Realtime agent with Weave logging")
+         parser = argparse.ArgumentParser(description="Weave ロギングを使用したリアルタイムエージェント")
          parser.add_argument(
              "--weave-project",
              default=DEFAULT_WEAVE_PROJECT,
-             help=f"Weave project name (default: {DEFAULT_WEAVE_PROJECT})",
+             help=f"Weave プロジェクト名 (デフォルト: {DEFAULT_WEAVE_PROJECT})",
              dest="weave_project"
          )
          parser.add_argument(
              "--input-device",
              type=int,
              default=None,
-             help="PyAudio input (mic) device index. Defaults to system default. Run mic_detect.py to list devices.",
+             help="PyAudio 入力（マイク）デバイスのインデックス。デフォルトはシステムのデフォルト。デバイス一覧を確認するには mic_detect.py を実行してください。",
              dest="input_device"
          )
          parser.add_argument(
              "--output-device",
              type=int,
              default=None,
-             help="PyAudio output (speaker) device index. Defaults to system default. Run mic_detect.py to list devices.",
+             help="PyAudio 出力（スピーカー）デバイスのインデックス。デフォルトはシステムのデフォルト。デバイス一覧を確認するには mic_detect.py を実行してください。",
              dest="output_device"
          )
          return parser.parse_args()
 
 
-     # Initialize Weave and patch the OpenAI Realtime API for tracing.
+     # Weave を初期化し、トレース用に OpenAI Realtime API にパッチを適用する。
      def init_weave(project_name: str | None = None) -> None:
          name = project_name or DEFAULT_WEAVE_PROJECT
          weave.init(name)
-         patch_openai_realtime()  # Enables automatic tracing of Realtime API sessions.
+         patch_openai_realtime()  # Realtime API セッションの自動トレースを有効化する。
 
 
      mic_enabled = True
 
-     # Listen for 't' key to toggle mic on/off. Runs in a daemon thread.
+     # 't' キーを監視してマイクのオン/オフを切り替える。デーモンスレッドで動作する。
      def start_keylistener():
          global mic_enabled
          fd = sys.stdin.fileno()
@@ -132,7 +132,7 @@ patch_openai_realtime()
              termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
-     # Drain the audio queue and write to the speaker in a background thread.
+     # バックグラウンドスレッドでオーディオキューを消費し、スピーカーに書き込む。
      def play_audio(output_stream: pyaudio.Stream, audio_output_queue: queue.Queue):
          while True:
              data = audio_output_queue.get()
@@ -141,7 +141,7 @@ patch_openai_realtime()
              output_stream.write(data)
 
 
-     # Open audio streams, start a Realtime session, and run the send/receive loop.
+     # オーディオストリームを開き、Realtime セッションを開始して送受信ループを実行する。
      async def main(*, input_device_index: int | None = None, output_device_index: int | None = None):
          p = pyaudio.PyAudio()
 
@@ -150,7 +150,7 @@ patch_openai_realtime()
          if output_device_index is None:
              output_device_index = int(p.get_default_output_device_info()['index'])
 
-         # Clamp channel count to device capabilities to avoid pyaudio errors.
+         # pyaudio エラーを防ぐため、チャンネル数をデバイスの上限に制限する。
          input_info = p.get_device_info_by_index(input_device_index)
          output_info = p.get_device_info_by_index(output_device_index)
 
@@ -180,7 +180,7 @@ patch_openai_realtime()
          mic.start_stream()
          speaker.start_stream()
 
-         # Buffer audio through a queue so in-flight playback can be flushed on interrupt.
+         # 割り込み時に再生中のオーディオをフラッシュできるよう、キュー経由でバッファリングする。
          audio_output_queue = queue.Queue()
          threading.Thread(
              target=play_audio, args=(speaker, audio_output_queue), daemon=True
@@ -188,7 +188,7 @@ patch_openai_realtime()
 
          s_agent = RealtimeAgent(
              name="Speech Assistant",
-             instructions="You are a tool using AI. Use tools to accomplish a task whenever possible"
+             instructions="あなたはツールを使用する AI です。可能な限りツールを使ってタスクを達成してください"
          )
 
          s_runner = RealtimeRunner(s_agent, config={
@@ -208,15 +208,15 @@ patch_openai_realtime()
                  },
              }
          })
-         print("--- Session Active (Speak into mic) ---")
-         print("🎙  Mic ON (press t to toggle)")
+         print("--- セッション開始（マイクに向かって話してください）---")
+         print("🎙  マイク ON (t キーで切り替え)")
 
          threading.Thread(target=start_keylistener, daemon=True).start()
 
          async with await s_runner.run() as session:
-             # Stream mic input to the Realtime API, sending silence when muted.
+             # マイク入力を Realtime API にストリーミングし、ミュート中は無音を送信する。
              async def send_mic_audio():
-                 silence = b'\x00' * CHUNK * 2  # 2 bytes per sample (16-bit PCM).
+                 silence = b'\x00' * CHUNK * 2  # サンプルあたり 2 バイト（16 ビット PCM）。
                  try:
                      while True:
                          raw_data = mic.read(CHUNK, exception_on_overflow=False)
@@ -225,23 +225,23 @@ patch_openai_realtime()
                              audio_data = np.frombuffer(raw_data, dtype=np.int16).astype(np.float64)
                              rms = np.sqrt(np.mean(audio_data**2))
                              meter = int(min(rms / 50, 50))
-                             print(f"Mic Level: {'█' * meter}{' ' * (50-meter)} | 🎙 ON ", end="\r")
+                             print(f"マイクレベル: {'█' * meter}{' ' * (50-meter)} | 🎙 ON ", end="\r")
                              await session.send_audio(raw_data)
                          else:
-                             print(f"Mic Level: {' ' * 50} | 🎙 OFF", end="\r")
+                             print(f"マイクレベル: {' ' * 50} | 🎙 OFF", end="\r")
                              await session.send_audio(silence)
 
-                         await asyncio.sleep(0)  # Yield to the event loop between reads.
+                         await asyncio.sleep(0)  # 読み取りの合間にイベントループへ制御を返す。
                  except Exception:
                      pass
 
-             # Receive events from the session and route audio to the speaker.
+             # セッションからイベントを受信し、オーディオをスピーカーへ転送する。
              async def handle_events():
                  async for event in session:
                      if event.type == "audio":
                          audio_output_queue.put(event.audio.data)
                      elif event.type == "audio_interrupted":
-                         # Flush queued AI audio so it doesn't talk over the user.
+                         # キューに溜まった AI のオーディオをフラッシュして、ユーザーの発話に被らないようにする。
                          while not audio_output_queue.empty():
                              try:
                                  audio_output_queue.get_nowait()
@@ -254,8 +254,8 @@ patch_openai_realtime()
              finally:
                  mic_task.cancel()
 
-         # Cleanup
-         audio_output_queue.put(None)  # Signal playback thread to exit.
+         # クリーンアップ
+         audio_output_queue.put(None)  # 再生スレッドに終了を通知する。
          mic.close()
          speaker.close()
          p.terminate()
@@ -272,28 +272,28 @@ patch_openai_realtime()
      ```
    </Accordion>
 
-3. `DEFAULT_WEAVE_PROJECT` の値を、自分のチーム名とプロジェクト名に更新します。
+3. `DEFAULT_WEAVE_PROJECT` の値を、ご自身のチーム名とプロジェクト名に置き換えます。
 
 4. `OPENAI_API_KEY` 環境変数を設定してください。
 
-5. 以下のコードを実行します:
+5. コードを実行します。
    ```
    python weave_voice_assistant.py
    ```
 
-起動したら、キーボードの **T** キーを押してマイクをミュートまたはミュート解除します。アシスタントはサーバー側の音声アクティビティ検出を使用して、発話の切り替えや割り込みを処理します。
+起動したら、キーボードの **T** を押してマイクのミュートを切り替えます。アシスタントは、発話のターン管理や割り込みに対応するために、サーバー側の音声アクティビティ検出を使用します。
 
-アシスタントに話しかけると、Weave はセッションのオーディオを含むトレースを取得し、それらを Weave UI で確認できます。
+アシスタントに話しかけると、Weave はセッションのオーディオを含むトレースをキャプチャし、その内容を Weave UI で確認できます。
 
 <div id="run-a-realtime-voice-assistant-using-websockets">
   ### WebSockets を使用してリアルタイム音声アシスタントを実行する
 </div>
 
-次の例では、WebSockets 経由で OpenAI Realtime API に直接接続します。マイクの音声を API にストリーミングし、音声応答を再生し、ツール呼び出し（天気の検索、数式の評価、コードの実行、ファイルの書き込み）をサポートします。Weave は `weave.init()` と `patch_openai_realtime()` を使用してセッションをトレースします。
+次の例では、WebSockets 経由で OpenAI Realtime API に直接接続します。マイクのオーディオを API にストリーミングし、音声応答を再生し、ツール呼び出し (天気の検索、数式の評価、コードの実行、ファイルの書き込み) をサポートします。Weave は `weave.init()` と `patch_openai_realtime()` を使用してセッションをトレースします。
 
 例を実行するには:
 
-1. Python 環境を起動し、以下のライブラリをインストールします。
+1. Python 環境を起動し、次のライブラリをインストールしてください。
 
    <Tabs>
      <Tab title="uv">
@@ -309,7 +309,7 @@ patch_openai_realtime()
      </Tab>
    </Tabs>
 
-2. `tool_definitions.py` という名前のファイルを作成し、次のツール定義を追加してください。メイン アプリケーションはこのモジュールを import します。
+2. `tool_definitions.py` という名前のファイルを作成し、次のツール定義を追加します。メインのアプリケーションはこのモジュールをインポートします。
 
    <Accordion title="tool_definitions.py">
      ```python lines
@@ -323,9 +323,9 @@ patch_openai_realtime()
      # @function_tool
      @weave.op
      def get_weather(city: str) -> str:
-         """指定した都市の現在の天気を取得します。
+         """都市の現在の天気を取得します。
 
-         Args:
+         引数:
              city: 天気を取得する都市名。
          """
          return json.dumps({"city": city, "temperature": "72°F", "condition": "sunny"})
@@ -333,9 +333,9 @@ patch_openai_realtime()
 
      @weave.op
      def calculate(expression: str) -> str:
-         """数式を評価し、結果を返します。
+         """数式を評価して、その結果を返します。
 
-         Args:
+         引数:
              expression: 評価する数式。例: '2 + 2'。
          """
          try:
@@ -347,9 +347,9 @@ patch_openai_realtime()
 
      @weave.op
      def run_python_code(code: str) -> str:
-         """Python スクリプトを書き込んで実行し、その stdout/stderr を返します。
+         """Python スクリプトを書き出して実行し、その stdout/stderr を返します。
 
-         Args:
+         引数:
              code: 実行する Python のソースコード。
          """
          with tempfile.NamedTemporaryFile(
@@ -381,7 +381,7 @@ patch_openai_realtime()
      async def write_file(file_path: str, content: str) -> str:
          """ディスク上のファイルに内容を書き込みます。
 
-         Args:
+         引数:
              file_path: ファイルの書き込み先パス。
              content: ファイルに書き込む内容。
          """
@@ -395,7 +395,7 @@ patch_openai_realtime()
      ```
    </Accordion>
 
-3. 同じディレクトリに `weave_ws_voice_assistant.py` という名前のファイルを作成し、次のコードを追加します。
+3. 同じディレクトリに `weave_ws_voice_assistant.py` というファイルを作成し、次のコードを追加します。
 
    <Accordion title="weave_ws_voice_assistant.py">
      ```python
@@ -423,7 +423,7 @@ patch_openai_realtime()
          write_file,
      )
 
-     # オーディオ形式（Realtime API では PCM16 である必要があります）。
+     # オーディオフォーマット（Realtime API では PCM16 を使用する必要があります）。
      FORMAT = pyaudio.paInt16
      RATE = 24000
      CHUNK = 1024
@@ -435,7 +435,7 @@ patch_openai_realtime()
 
      DEBUG_WRITE_LOG = False
 
-     # ツール名 -> 関数 Call ディスパッチ用の callable のマッピング。
+     # ツール名 -> 関数呼び出しディスパッチ用の callable のマッピング。
      TOOL_REGISTRY: dict[str, Callable[..., Any]] = {
          "get_weather": get_weather,
          "calculate": calculate,
@@ -448,7 +448,7 @@ patch_openai_realtime()
          {
              "type": "function",
              "name": "get_weather",
-             "description": "都市の現在の天気を取得します。",
+             "description": "指定した都市の現在の天気を取得します。",
              "parameters": {
                  "type": "object",
                  "properties": {
@@ -469,7 +469,7 @@ patch_openai_realtime()
                  "properties": {
                      "expression": {
                          "type": "string",
-                         "description": "評価する数式（例：'2 + 2'）。",
+                         "description": "評価する数式（例: '2 + 2'）。",
                      }
                  },
                  "required": ["expression"],
@@ -555,7 +555,7 @@ patch_openai_realtime()
          if not name:
              raise Exception("関数名が取得できませんでした")
 
-         print(f"\n[Function Call] {name}({arguments})")
+         print(f"\n[関数呼び出し] {name}({arguments})")
          tool_fn = TOOL_REGISTRY.get(name)
          if tool_fn is None:
              result = json.dumps({"error": f"不明な関数: {name}"})
@@ -568,9 +568,9 @@ patch_openai_realtime()
              except Exception as e:
                  result = json.dumps({"error": str(e)})
 
-         print(f"[Function Result] {result}")
+         print(f"[関数の結果] {result}")
 
-         # 関数 Call の出力をモデルに送り返します。
+         # 関数呼び出しの出力をモデルに送り返す。
          await send_event(ws, {
              "type": "conversation.item.create",
              "item": {
@@ -580,14 +580,14 @@ patch_openai_realtime()
              },
          })
 
-         # モデルが関数の結果を取り込めるよう、新しい応答をトリガーします。
+         # モデルが関数の結果を反映できるよう、新しいレスポンスをトリガーする。
          await send_event(ws, {"type": "response.create"})
 
 
      def play_audio(output_stream: pyaudio.Stream, audio_output_queue: queue.Queue):
          """pyaudio の write() はサウンドカードがサンプルを消費するまでブロックするため、
          別スレッドで実行します。再生を非同期イベントループから切り離すことで、
-         進行中の書き込みの完了を待たずに割り込み時にキューをフラッシュできます。"""
+         処理中の書き込みの完了を待たずに割り込み時にキューをフラッシュできます。"""
          while True:
              data = audio_output_queue.get()
              if data is None:
@@ -606,7 +606,7 @@ patch_openai_realtime()
                  meter = int(min(rms / 50, 50))
                  print(f"マイクレベル: {'█' * meter}{' ' * (50 - meter)} |", end="\r")
 
-                 # Base64 エンコードしてオーディオチャンクを送信します。
+                 # Base64 エンコードしてオーディオチャンクを送信する。
                  b64_audio = base64.b64encode(raw_data).decode("utf-8")
                  await send_event(ws, {
                      "type": "input_audio_buffer.append",
@@ -619,7 +619,7 @@ patch_openai_realtime()
 
 
      async def receive_events(ws, audio_output_queue: queue.Queue) -> None:
-         # デルタイベント全体で関数 Call の引数を蓄積します。
+         # デルタイベントをまたいで関数呼び出しの引数を蓄積する。
          pending_calls: dict[str, dict] = {}
          async for raw_message in ws:
              if DEBUG_WRITE_LOG:
@@ -639,7 +639,7 @@ patch_openai_realtime()
                  print(f"\n[エラー] {event}")
 
              elif event_type == "input_audio_buffer.speech_started":
-                 # キューに入った AI オーディオをフラッシュして、ユーザーの発話に被らないようにします。
+                 # キューに溜まった AI オーディオをフラッシュして、ユーザーの発話に被らないようにする。
                  while not audio_output_queue.empty():
                      try:
                          audio_output_queue.get_nowait()
@@ -661,7 +661,7 @@ patch_openai_realtime()
              elif event_type == "response.output_text.done":
                  pass
 
-             # オーディオ出力デルタ - 再生用にキューに追加します。
+             # オーディオ出力デルタ - 再生用にキューに追加する。
              elif event_type == "response.output_audio.delta":
                  audio_bytes = base64.b64decode(event.get("delta", ""))
                  audio_output_queue.put(audio_bytes)
@@ -672,7 +672,7 @@ patch_openai_realtime()
              elif event_type == "response.output_audio_transcript.done":
                  pass
 
-             # Function Call が開始されました - 保留中の Call を初期化します。
+             # 関数呼び出し開始 - 保留中の呼び出しを初期化する。
              elif event_type == "response.output_item.added":
                  item = event.get("item", {})
                  if item.get("type") == "function_call" and item.get("status") == "in_progress":
@@ -682,9 +682,9 @@ patch_openai_realtime()
                          "name": item.get("name", ""),
                          "arguments": "",
                      }
-                     print(f"\n[Function Call 開始] {item.get('name', '')}")
+                     print(f"\n[関数呼び出し開始] {item.get('name', '')}")
 
-             # Function Call の引数デルタ - 蓄積します。
+             # 関数呼び出しの引数デルタ - 蓄積する。
              elif event_type == "response.function_call_arguments.delta":
                  item_id = event.get("item_id", "")
                  if item_id in pending_calls:
@@ -694,7 +694,7 @@ patch_openai_realtime()
                  item_id = event.get("item_id", "")
                  call_info = pending_calls.pop(item_id, None)
                  if call_info is None:
-                     # フォールバック: done イベントから直接データを使用する。
+                     # Fallback: use data directly from the done event.
                      call_info = {
                          "call_id": event.get("call_id"),
                          "name": event.get("name"),
@@ -708,7 +708,7 @@ patch_openai_realtime()
                          call_info["arguments"],
                      )
                  except Exception as e:
-                     print(f"メッセージ {call_info} の関数呼び出しに失敗しました: エラー - {e}")
+                     print(f"Failed to call function for message {call_info}: error - {e}")
 
              elif event_type == "response.done":
                  pass
@@ -722,7 +722,7 @@ patch_openai_realtime()
 
      async def main():
          if not OPENAI_API_KEY:
-             print("エラー: 環境変数 OPENAI_API_KEY が設定されていません")
+             print("Error: OPENAI_API_KEY environment variable not set")
              return
 
          p = pyaudio.PyAudio()
@@ -730,7 +730,7 @@ patch_openai_realtime()
          input_device_index = int(p.get_default_input_device_info()['index'])
          output_device_index = int(p.get_default_output_device_info()['index'])
 
-         # チャンネル数はデバイスの仕様と一致している必要があります。一致しない場合、open 時に pyaudio がエラーになります。
+         # Channel count must match the device's capabilities or pyaudio errors upon open.
          input_info = p.get_device_info_by_index(input_device_index)
          output_info = p.get_device_info_by_index(output_device_index)
          input_channels = min(int(input_info['maxInputChannels']), 1)
@@ -759,7 +759,7 @@ patch_openai_realtime()
          mic.start_stream()
          speaker.start_stream()
 
-         # ユーザーが割り込んだときにフラッシュできるよう、オーディオはキューを経由します。
+         # オーディオをキュー経由にすることで、ユーザーが割り込んだときにフラッシュできます。
          # スピーカーに直接書き込むと、再生中のオーディオをキャンセルできなくなります。
          audio_output_queue = queue.Queue()
          threading.Thread(
@@ -770,16 +770,16 @@ patch_openai_realtime()
              "Authorization": f"Bearer {OPENAI_API_KEY}",
          }
 
-         print("OpenAI Realtime API に接続中...")
+         print("Connecting to OpenAI Realtime API...")
 
          async with websockets.connect(
              REALTIME_URL,
              additional_headers=headers,
          ) as ws:
-             print("接続しました！セッションを設定中...")
+             print("Connected! Configuring session...")
              await configure_session(ws)
 
-             print("--- セッション開始 (マイクに向かって話してください) ---")
+             print("--- Session Active (Speak into mic) ---")
 
              mic_task = asyncio.create_task(send_mic_audio(ws, mic))
              try:
@@ -791,12 +791,12 @@ patch_openai_realtime()
                  except asyncio.CancelledError:
                      pass
 
-         # クリーンアップ
-         audio_output_queue.put(None)  # 再生スレッドに終了を通知する。
+         # Cleanup
+         audio_output_queue.put(None)  # Signal playback thread to exit.
          mic.close()
          speaker.close()
          p.terminate()
-         print("\nセッションが終了しました。")
+         print("\nSession ended.")
 
 
      if __name__ == "__main__":
@@ -804,16 +804,16 @@ patch_openai_realtime()
      ```
    </Accordion>
 
-4. あなたのチーム名とプロジェクト名を使って `weave.init()` Call を更新します。
+4. `weave.init()` の呼び出しを、チーム名とプロジェクト名に合わせて更新します。
 
 5. `OPENAI_API_KEY` 環境変数を設定してください。
 
-6. 以下のコードを実行します:
+6. 次のコードを実行します:
 
    ```bash
    python weave_ws_voice_assistant.py
    ```
 
-起動したら、キーボードの **T** キーを押してマイクをミュートまたはミュート解除します。アシスタントはサーバー側の音声アクティビティ検出を使用して、発話の切り替えや割り込みを処理します。
+起動したら、キーボードの **T** キーを押してマイクのミュートを切り替えます。アシスタントは、発話のターン管理と割り込みの処理に、サーバー側の音声アクティビティ検出を使用します。
 
-アシスタントに話しかけると、Weave はセッションの音声を含むトレースを取得し、それらを Weave UI で確認できます。
+アシスタントに話しかけると、Weave がセッションのオーディオを含むトレースを記録し、それを Weave UI で確認できます。

@@ -4,7 +4,7 @@ description: "Découvrez comment utiliser Weave avec W&B Models"
 ---
 
 <Note>
-  Il s’agit d’un notebook interactif. Vous pouvez l’exécuter en local ou utiliser les liens ci-dessous :
+  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter en local ou utiliser les liens ci-dessous :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Models_and_Weave_Integration_Demo.ipynb)
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Models_and_Weave_Integration_Demo.ipynb)
@@ -14,9 +14,9 @@ description: "Découvrez comment utiliser Weave avec W&B Models"
   ## Prérequis
 </div>
 
-Commencez par installer les bibliothèques nécessaires, configurer les clés API, vous connecter à W&amp;B et créer un nouveau projet W&amp;B.
+Commencez par installer les bibliothèques nécessaires, configurer vos clés API, vous connecter à W&amp;B et créer un projet W&amp;B.
 
-1. Installez `weave`, `pandas`, `unsloth`, `wandb`, `litellm`, `pydantic`, `torch` et `faiss-gpu` avec `pip`.
+1. Installez `weave`, `pandas`, `unsloth`, `wandb`, `litellm`, `pydantic`, `torch` et `faiss-gpu` à l’aide de `pip`.
 
 ```python lines
 %%capture
@@ -28,14 +28,14 @@ python
 !pip uninstall unsloth -y && pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
-2. Ajoutez les clés API nécessaires de votre environnement.
+2. Ajoutez les clés API nécessaires à partir de votre environnement.
 
 ```python lines
 import os
 
 from google.colab import userdata
 
-os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")  # W&B Models et Weave
+os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")  # W&B Models and Weave
 os.environ["OPENAI_API_KEY"] = userdata.get(
     "OPENAI_API_KEY"
 )  # OpenAI - pour les embeddings de récupération
@@ -62,18 +62,18 @@ weave.init(ENTITY + "/" + PROJECT)
 
 
 <div id="download-chatmodel-from-models-registry-and-implement-unslothlorachatmodel">
-  ## Télécharger `ChatModel` depuis le registre Models et implémenter `UnslothLoRAChatModel`
+  ## Télécharger `ChatModel` depuis Models registre et implémenter `UnslothLoRAChatModel`
 </div>
 
-Dans notre scénario, le modèle Llama-3.2 a déjà été affiné par l’équipe Models à l’aide de la bibliothèque `unsloth` afin d’optimiser les performances, et il est [disponible dans le registre Models de W&amp;B](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26). Dans cette étape, nous allons récupérer le [`ChatModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) affiné depuis le registre et le convertir en `weave.Model` pour le rendre compatible avec le [`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26).
+Dans notre scénario, le modèle Llama-3.2 a déjà été affiné par la Model Team à l’aide de la bibliothèque `unsloth` pour optimiser les performances, et est [disponible dans le W&amp;B Models registre](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26). Dans cette étape, nous allons récupérer le [`ChatModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) affiné depuis le registre et le convertir en `weave.Model` pour le rendre compatible avec le [`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26).
 
 <Note>
-  Le `RagModel` mentionné ci-dessous est un `weave.Model` de premier niveau qui peut être considéré comme une application RAG complète. Il contient un `ChatModel`, une base de données vectorielle et un prompt. Le `ChatModel` est également un `weave.Model` qui contient le code nécessaire pour télécharger un artefact depuis le W&amp;B Registry. `ChatModel` peut être remplacé de façon modulaire pour prendre en charge tout autre type de modèle de chat LLM au sein du `RagModel`. Pour plus d’informations, [consultez le modèle dans Weave](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26).
+  Le `RagModel` mentionné ci-dessous est un `weave.Model` de premier niveau qui peut être considéré comme une application RAG complète. Il contient un `ChatModel`, une base de données vectorielle et un prompt. Le `ChatModel` est lui aussi un `weave.Model`, qui contient le code nécessaire pour télécharger un artifact depuis le W&amp;B registre. `ChatModel` peut être remplacé de manière modulaire pour prendre en charge n’importe quel autre type de modèle de chat LLM au sein du `RagModel`. Pour plus d’informations, [voir le modèle dans Weave](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26).
 </Note>
 
-Pour charger le `ChatModel`, utilisez `unsloth.FastLanguageModel` ou `peft.AutoPeftModelForCausalLM` avec des adaptateurs, ce qui permet une intégration efficace dans l’application. Après avoir téléchargé le modèle depuis le registre, vous pouvez configurer la logique d’initialisation et de prédiction à l’aide de la méthode `model_post_init`. Le code requis pour cette étape est disponible dans l’onglet **utiliser** du registre et peut être copié directement dans votre implémentation.
+Pour charger le `ChatModel`, `unsloth.FastLanguageModel` ou `peft.AutoPeftModelForCausalLM` avec adaptateurs sont utilisés, ce qui permet une intégration efficace dans l’application. Après avoir téléchargé le modèle depuis le registre, vous pouvez configurer la logique d’initialisation et de prédiction à l’aide de la méthode `model_post_init`. Le code requis pour cette étape est disponible dans l’onglet **Use** du registre et peut être copié directement dans votre implémentation
 
-Le code ci-dessous définit la classe `UnslothLoRAChatModel` pour gérer, initialiser et utiliser le modèle Llama-3.2 affiné récupéré depuis le registre Models de W&amp;B. `UnslothLoRAChatModel` utilise `unsloth.FastLanguageModel` pour une inférence optimisée. La méthode `model_post_init` gère le téléchargement et la configuration du modèle, tandis que la méthode `predict` traite les requêtes de l’utilisateur et génère des réponses. Pour adapter le code à votre cas d’usage, mettez à jour `MODEL_REG_URL` avec le bon chemin de registre pour votre modèle affiné et ajustez les paramètres comme `max_seq_length` ou `dtype` en fonction de votre matériel ou de vos besoins.
+Le code ci-dessous définit la classe `UnslothLoRAChatModel` pour gérer, initialiser et utiliser le modèle Llama-3.2 affiné récupéré depuis le W&amp;B Models registre. `UnslothLoRAChatModel` utilise `unsloth.FastLanguageModel` pour une inférence optimisée. La méthode `model_post_init` gère le téléchargement et la configuration du modèle, tandis que la méthode `predict` traite les requêtes des utilisateurs et génère des réponses. Pour adapter le code à votre cas d’usage, mettez à jour `MODEL_REG_URL` avec le bon chemin du registre pour votre modèle affiné et ajustez des paramètres comme `max_seq_length` ou `dtype` en fonction de votre matériel ou de vos requirements.
 
 ```python lines
 from typing import Any
@@ -85,8 +85,8 @@ import weave
 
 class UnslothLoRAChatModel(weave.Model):
     """
-    Nous définissons une classe ChatModel supplémentaire pour stocker et versionner davantage de paramètres que le simple nom du modèle.
-    Particulièrement utile si l'on envisage un Fine-tuning (en local ou en tant que service) en raison de paramètres spécifiques.
+    Nous définissons une classe ChatModel supplémentaire pour pouvoir stocker et versionner davantage de paramètres que le simple nom du modèle.
+    Particulièrement pertinent si l'on envisage le fine-tuning (en local ou en aaS) en raison de paramètres spécifiques.
     """
 
     chat_model: str
@@ -100,7 +100,7 @@ class UnslothLoRAChatModel(weave.Model):
     _tokenizer: Any = PrivateAttr()
 
     def model_post_init(self, __context):
-        # nous pouvons simplement copier ceci depuis l'onglet « Utiliser » du registre
+        # nous pouvons simplement coller ceci depuis l'onglet "Use" du registre
         run = wandb.init(project=PROJECT, job_type="model_download")
         artifact = run.use_artifact(f"{self.chat_model}")
         model_path = artifact.download()
@@ -167,9 +167,9 @@ await new_chat_model.predict(
   ## Intégrer la nouvelle version de `ChatModel` dans `RagModel`
 </div>
 
-Construire une application RAG à partir d’un modèle de chat affiné améliore l’IA conversationnelle en s’appuyant sur des composants adaptés, sans avoir à reconstruire l’ensemble du pipeline. Dans cette étape, nous récupérons le `RagModel` existant depuis notre projet Weave et mettons à jour son `ChatModel` pour qu’il utilise le nouveau modèle affiné. Ce remplacement transparent signifie que les autres composants, comme la base de données vectorielle (VDB) et les prompts, restent inchangés, ce qui préserve la structure globale de l’application tout en améliorant les performances.
+Construire une application RAG à partir d’un modèle de chat affiné améliore l’IA conversationnelle en s’appuyant sur des composants adaptés, sans avoir à reconstruire l’ensemble du pipeline. Dans cette étape, nous récupérons le `RagModel` existant dans notre projet Weave et mettons à jour son `ChatModel` pour utiliser le modèle nouvellement affiné. Ce remplacement transparent signifie que les autres composants, comme la base de données vectorielle (VDB) et les prompts, restent inchangés, ce qui préserve la structure globale de l’application tout en améliorant les performances.
 
-Le code ci-dessous récupère l’objet `RagModel` à l’aide d’une référence du projet Weave. L’attribut `chat_model` de `RagModel` est ensuite mis à jour pour utiliser la nouvelle instance `UnslothLoRAChatModel` créée à l’étape précédente. Le `RagModel` mis à jour est ensuite publié afin de créer une nouvelle version. Enfin, le `RagModel` mis à jour sert à exécuter un exemple de requête de prédiction, afin de vérifier que le nouveau modèle de chat est bien utilisé.
+Le code ci-dessous récupère l’objet `RagModel` à l’aide d’une référence du projet Weave. L’attribut `chat_model` du `RagModel` est ensuite mis à jour pour utiliser la nouvelle instance `UnslothLoRAChatModel` créée à l’étape précédente. Ensuite, le `RagModel` mis à jour est publié afin de créer une nouvelle version. Enfin, le `RagModel` mis à jour sert à exécuter un exemple de requête de prédiction, afin de vérifier que le nouveau modèle de chat est bien utilisé.
 
 ```python lines
 RagModel = weave.ref(
@@ -185,7 +185,7 @@ RagModel.chat_model = new_chat_model
 python
 RagModel.chat_model.chat_model
 python
-# publier d'abord la nouvelle version pour référencer la nouvelle version lors de la prédiction
+# publier d'abord la nouvelle version pour référencer la nouvelle version dans la prédiction
 PUB_REFERENCE = weave.publish(RagModel, "RagModel")
 python
 await RagModel.predict("When was the first conference on climate change?")
@@ -196,19 +196,19 @@ await RagModel.predict("When was the first conference on climate change?")
   ## Exécuter une `weave.Evaluation`
 </div>
 
-À l’étape suivante, nous évaluons les performances de notre `RagModel` mis à jour à l’aide d’une `weave.Evaluation` existante. Ce processus garantit que le nouveau modèle de chat affiné fonctionne comme prévu dans l’application RAG. Pour rationaliser l’intégration et favoriser la collaboration entre les équipes Models et Apps, nous journalisons les résultats de l’évaluation à la fois dans le run W&amp;B du modèle et dans l’espace de travail Weave.
+À l’étape suivante, nous évaluons les performances de notre `RagModel` mis à jour à l’aide d’une `weave.Evaluation` existante. Ce processus garantit que le nouveau modèle de chat affiné se comporte comme prévu dans l’application RAG. Pour simplifier l’intégration et permettre la collaboration entre les équipes Models et Apps, nous consignons les résultats de l’évaluation à la fois dans le run W&amp;B du modèle et dans le workspace Weave.
 
 Dans Models :
 
-* Le résumé de l’évaluation est journalisé dans le run W&amp;B utilisé pour télécharger le modèle de chat affiné. Cela inclut des métriques de synthèse et des graphiques affichés dans une [vue de l’espace de travail](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9) pour analyse.
-* L’ID de trace de l’évaluation est ajouté à la configuration du run, avec un lien direct vers la page Weave afin de faciliter la traçabilité pour l’équipe Models.
+* Le résumé de l’évaluation est consigné dans le run W&amp;B utilisé pour télécharger le modèle de chat affiné. Cela inclut des métriques de synthèse et des graphiques affichés dans une [vue Workspace](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9) pour l’analyse.
+* L’ID de trace de l’évaluation est ajouté à la configuration du run, avec un lien direct vers la page Weave afin de faciliter la traçabilité pour la Model Team.
 
 Dans Weave :
 
-* Le lien vers l’artefact ou le registre du `ChatModel` est stocké en entrée du `RagModel`.
-* L’ID du run W&amp;B est enregistré dans une colonne supplémentaire des traces d’évaluation pour fournir davantage de contexte.
+* Le lien vers l’artifact ou le registre du `ChatModel` est stocké comme entrée du `RagModel`.
+* L’ID du run W&amp;B est enregistré comme colonne supplémentaire dans les traces d’évaluation pour fournir davantage de contexte.
 
-Le code ci-dessous montre comment récupérer un objet d’évaluation, exécuter l’évaluation à l’aide du `RagModel` mis à jour et journaliser les résultats à la fois dans W&amp;B et Weave. Assurez-vous que la référence de l’évaluation (`WEAVE_EVAL`) correspond à la configuration de votre projet.
+Le code ci-dessous montre comment récupérer un objet d’évaluation, exécuter l’évaluation avec le `RagModel` mis à jour, puis consigner les résultats à la fois dans W&amp;B et dans Weave. Assurez-vous que la référence de l’évaluation (`WEAVE_EVAL`) correspond à la configuration de votre projet.
 
 ```python lines
 # MAGIC : nous pouvons simplement obtenir une évaluation avec un jeu de données et des évaluateurs et les utiliser
@@ -219,7 +219,7 @@ with weave.attributes({"wandb-run-id": wandb.run.id}):
     # utiliser l'attribut .call pour récupérer à la fois le résultat et l'appel afin d'enregistrer la trace d'évaluation dans Models
     summary, call = await climate_rag_eval.evaluate.call(climate_rag_eval, RagModel)
 python
-# journaliser dans models
+# enregistrer dans models
 wandb.run.log(pd.json_normalize(summary, sep="/").to_dict(orient="records")[0])
 wandb.run.config.update(
     {"weave_url": f"https://wandb.ai/wandb-smle/weave-cookboook-demo/r/call/{call.id}"}
@@ -232,9 +232,9 @@ wandb.run.finish()
   ## Enregistrer le nouveau modèle RAG dans le registre
 </div>
 
-Pour rendre le `RagModel` mis à jour disponible pour une utilisation ultérieure par les équipes Models et Apps, nous l&#39;ajoutons au registre Models de W&amp;B en tant qu&#39;artefact de référence.
+Pour rendre le `RagModel` mis à jour disponible pour une utilisation ultérieure par les équipes Models et Apps, nous le publions dans le registre Models de W&amp;B en tant qu&#39;artifact de référence.
 
-Le code ci-dessous récupère la version et le nom de l&#39;objet `weave` pour le `RagModel` mis à jour, puis les utilise pour créer des liens de référence. Un nouvel artefact est ensuite créé dans W&amp;B, avec des métadonnées contenant l&#39;URL Weave du modèle. Cet artefact est enregistré dans le registre W&amp;B et lié à un chemin de registre spécifié.
+Le code ci-dessous récupère la version et le nom de l&#39;objet `weave` du `RagModel` mis à jour, puis les utilise pour créer des liens de référence. Un nouvel artifact est ensuite créé dans W&amp;B avec des métadonnées contenant l&#39;URL Weave du modèle. Cet artifact est enregistré dans le registre W&amp;B et lié à un chemin de registre spécifié.
 
 Avant d&#39;exécuter le code, assurez-vous que les variables `ENTITY` et `PROJECT` correspondent à votre configuration W&amp;B et que le chemin de registre cible est correctement spécifié. Ce processus finalise le flux de travail en publiant le nouveau `RagModel` dans l&#39;écosystème W&amp;B afin de faciliter la collaboration et la réutilisation.
 
@@ -248,7 +248,7 @@ models_link = (
 )
 
 with wandb.init(project=PROJECT, entity=ENTITY) as run:
-    # créer un nouvel artefact
+    # créer un nouvel artifact
     artifact_model = wandb.Artifact(
         name="RagModel",
         type="model",
@@ -257,7 +257,7 @@ with wandb.init(project=PROJECT, entity=ENTITY) as run:
     )
     artifact_model.add_reference(models_link, name="model", checksum=False)
 
-    # journaliser le nouvel artefact
+    # journaliser le nouvel artifact
     run.log_artifact(artifact_model, aliases=[MODELS_OBJECT_VERSION])
 
     # lier au registre

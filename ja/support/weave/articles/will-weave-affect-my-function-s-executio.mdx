@@ -1,19 +1,19 @@
 ---
-title: "Weave は function の実行速度に影響しますか？"
+title: "Weave は関数の実行速度に影響しますか？"
 keywords: ["パフォーマンス"]
 ---
 
-Weave のログのオーバーヘッドは、通常、LLM の呼び出しに比べるとごくわずかです。
-Op の実行速度に対する Weave の影響を最小限に抑えるため、ネットワーク処理はバックグラウンド スレッドで行われます。
-プログラムの終了時には、キューに残っているデータがログされる間、停止しているように見えることがあります。
+Weave のログ記録によるオーバーヘッドは、通常、LLM を呼び出す場合に比べて無視できる程度です。
+Op の実行速度に対する Weave の影響を最小限に抑えるため、ネットワークアクティビティはバックグラウンドスレッドで処理されます。
+プログラムの終了時には、キューに残っているデータがログされる間、一時的に停止したように見えることがあります。
 
 ***
 
-{/* ---- AUTO-GENERATED: タブ バッジ ----
+{/* ---- AUTO-GENERATED: tab badges ----
   front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[パフォーマンス](/ja/support/weave/tags/performance)</Badge>
 
-{/* ---- END AUTO-GENERATED: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

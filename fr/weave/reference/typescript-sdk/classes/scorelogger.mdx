@@ -5,8 +5,8 @@ description: "Référence du SDK TypeScript"
 
 [weave](../) / ScoreLogger
 
-ScoreLogger gère l’attribution des scores pour une seule prédiction.
-Renvoyé par `EvaluationLogger.logPrediction()`.
+ScoreLogger gère l’attribution d’un score à une seule prédiction.
+Renvoyé par EvaluationLogger.logPrediction().
 
 `Exemple`
 
@@ -77,8 +77,8 @@ await pred.finish(); // Finalise la prédiction
 
 • `get` **isFinishCalled**(): `boolean`
 
-Vérifie si finish() a été appelée.
-Utilisé par EvaluationLogger pour détecter les prédictions non terminées.
+Indique si `finish()` a été appelé.
+Utilisé par EvaluationLogger pour détecter les prédictions inachevées.
 
 <div id="returns">
   #### Renvoie
@@ -100,8 +100,8 @@ Utilisé par EvaluationLogger pour détecter les prédictions non terminées.
 
 ▸ **finish**(): `Promise`&lt;`void`&gt;
 
-Termine le processus de calcul du score pour la prédiction.
-Finalise l’appel à predict&#95;and&#95;score avec les scores accumulés.
+Termine le processus d’attribution d’un score de la prédiction.
+Finalise l’appel `predict_and_score` avec les scores accumulés.
 Met à jour les agrégats incrémentiels et libère la mémoire.
 
 <div id="returns">
@@ -124,17 +124,17 @@ Met à jour les agrégats incrémentiels et libère la mémoire.
 
 ▸ **logScore**(`scorerName`, `score`): `Promise`&lt;`void`&gt;
 
-Journalise un score pour cette prédiction.
-Crée un appel de scorer en tant qu&#39;enfant de predict&#95;and&#95;score.
+Enregistre un score pour cette prédiction.
+Crée un appel scorer enfant de predict&#95;and&#95;score.
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom          | Type     | Description                                                 |
-| :----------- | :------- | :---------------------------------------------------------- |
-| `scorerName` | `string` | Nom du scorer (par exemple, « accuracy », « f1&#95;score ») |
-| `score`      | `any`    | Valeur du score                                             |
+| Nom          | Type     | Description                                                                  |
+| :----------- | :------- | :--------------------------------------------------------------------------- |
+| `scorerName` | `string` | Nom du scorer (par exemple : &quot;accuracy&quot;, &quot;f1&#95;score&quot;) |
+| `score`      | `any`    | Valeur du score                                                              |
 
 <div id="returns">
   #### Renvoie

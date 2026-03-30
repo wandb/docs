@@ -1,55 +1,55 @@
 ---
 title: "Options de déploiement et fonctionnalités de sécurité"
-description: "Découvrez les options de déploiement de Weave, la gestion des identités et des accès (IAM) et les fonctionnalités de sécurité des données."
+description: "Découvrez les options de déploiement de Weave, la gestion des identités et des accès (IAM), ainsi que les fonctionnalités de sécurité des données."
 ---
 
 Weave est disponible avec les options de déploiement suivantes :
 
-* **[W&amp;B Cloud mutualisé](https://docs.wandb.ai/platform/hosting/hosting-options/multi_tenant_cloud):** Une plateforme mutualisée entièrement gérée, déployée dans le compte Google Cloud Platform (Google Cloud) de W&amp;B, dans une région d’Amérique du Nord.
-* **[W&amp;B Cloud dédié](https://docs.wandb.ai/platform/hosting/hosting-options/dedicated-cloud):** Généralement disponible sur AWS, Google Cloud et Azure.
-* **[Instances autogérées](/fr/weave/guides/platform/weave-self-managed):** Pour les équipes qui préfèrent héberger Weave elles-mêmes, des conseils sont disponibles auprès de votre équipe W&amp;B pour évaluer les options de déploiement.
+* **[W&amp;B Multi-tenant Cloud](https://docs.wandb.ai/platform/hosting/hosting-options/multi_tenant_cloud) :** Une plateforme mutualisée entièrement gérée, déployée dans le compte Google Cloud Platform (Google Cloud) de W&amp;B, dans une région d’Amérique du Nord.
+* **[W&amp;B Cloud dédié](https://docs.wandb.ai/platform/hosting/hosting-options/dedicated-cloud) :** Généralement disponible sur AWS, Google Cloud et Azure.
+* **[Instances autogérées](/fr/weave/guides/platform/weave-self-managed) :** Pour les équipes qui préfèrent héberger Weave de manière autonome, votre équipe W&amp;B peut vous accompagner dans l’évaluation des options de déploiement.
 
 <div id="identity-and-access-management">
   ## Gestion des identités et des accès
 </div>
 
-Utilisez les fonctionnalités de gestion des identités et des accès pour une authentification sécurisée et une autorisation efficace dans votre [organisation W&amp;B](/fr/platform/hosting/iam/org_team_struct#organization). Les fonctionnalités suivantes sont disponibles pour les utilisateurs Weave selon votre option de déploiement et votre [plan de tarification](https://wandb.ai/site/pricing/) :
+Utilisez les fonctionnalités de gestion des identités et des accès pour mettre en place une authentification sécurisée et une autorisation efficace dans votre [organisation W&amp;B](/fr/platform/hosting/iam/org_team_struct#organization). Les fonctionnalités suivantes sont disponibles pour les utilisateurs de Weave en fonction de votre option de déploiement et de votre [plan tarifaire](https://wandb.ai/site/pricing/) :
 
-* **S’authentifier avec l’authentification unique (SSO) :** Les options incluent des fournisseurs d’identité publics comme Google et GitHub, ainsi que des fournisseurs d’entreprise tels qu’Okta, Azure Active Directory et d’autres, [via OIDC](/fr/platform/hosting/iam/sso).
-* **[Séparation logique par équipe](/fr/platform/app/settings-page/teams) :** Chaque équipe peut correspondre à une unité opérationnelle, un département ou une équipe projet au sein de votre organisation.
+* **Authentification via l’authentification unique (SSO) :** Les options incluent des fournisseurs d’identité grand public comme Google et GitHub, ainsi que des fournisseurs d’entreprise tels qu’Okta, Azure Active Directory et d’autres, [via OIDC](/fr/platform/hosting/iam/sso).
+* **[Séparation logique par équipe](/fr/platform/app/settings-page/teams) :** Chaque équipe peut correspondre à une unité métier, un service ou une équipe projet au sein de votre organisation.
 * **Utiliser les projets W&amp;B pour organiser les initiatives :** Organisez les initiatives au sein des équipes et configurez la [portée de visibilité](/fr/platform/hosting/iam/access-management/restricted-projects) requise, y compris la portée `restricted` pour les collaborations sensibles.
-* **Contrôle d’accès basé sur les rôles :** Configurez l’accès au niveau de l’[équipe](/fr/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user) ou du [projet](/fr/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user) afin de garantir que les utilisateurs n’accèdent aux données que selon le principe du besoin d’en connaître.
-* **Comptes de service à portée limitée :** Automatisez les flux de travail de Gen AI à l’aide de comptes de service limités à votre organisation ou à votre équipe.
+* **Contrôle d’accès basé sur les rôles :** Configurez l’accès au niveau de l’[équipe](/fr/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user) ou du [projet](/fr/platform/hosting/iam/access-management/restricted-projects#assign-project-level-role-to-a-user) afin de garantir que les utilisateurs n’accèdent aux données qu’en fonction du besoin d’en connaître.
+* **Comptes de service à portée restreinte :** Automatisez les flux de travail d’IA générative à l’aide de comptes de service limités à votre organisation ou à votre équipe.
 * **[API SCIM et SDK Python](/fr/platform/hosting/iam/automate_iam) :** Gérez efficacement les utilisateurs et les équipes avec l’API SCIM et le SDK Python.
 
 <div id="data-security">
   ## Sécurité des données
 </div>
 
-* **SaaS Cloud :** Les données de tous les utilisateurs de Weave sont stockées dans un cluster Clickhouse Cloud partagé et chiffrées à l’aide des mécanismes de chiffrement natifs du cloud. Des services de calcul partagés traitent ces données en garantissant leur isolation grâce à un contexte de sécurité comprenant votre organisation, votre équipe et votre projet W&amp;B.
+* **SaaS Cloud :** Les données de tous les utilisateurs de Weave sont stockées dans un cluster Clickhouse Cloud partagé et chiffrées à l’aide du chiffrement natif du cloud. Des services de calcul partagés traitent ces données, en garantissant leur isolation grâce à un contexte de sécurité comprenant votre organisation, votre équipe et votre projet W&amp;B.
 
 * **Cloud dédié :** Les données sont stockées dans un cluster Clickhouse Cloud dédié, dans le cloud et la région de votre choix. Un environnement de calcul dédié traite les données, avec les protections supplémentaires suivantes :
-  * **[Liste d’autorisation IP](/fr/platform/hosting/data-security/ip-allowlisting) :** Autorisez l’accès à votre instance depuis des adresses IP spécifiques. Il s’agit d’une fonctionnalité facultative.
-  * **[Connectivité privée](/fr/platform/hosting/data-security/private-connectivity) :** Acheminez les données de manière sécurisée via le réseau privé du fournisseur de cloud. Il s’agit d’une fonctionnalité facultative.
+  * **[Liste d’autorisation d’IP](/fr/platform/hosting/data-security/ip-allowlisting) :** Autorisez l’accès à votre instance à partir d’adresses IP spécifiques. Cette fonctionnalité est facultative.
+  * **[Connectivité privée](/fr/platform/hosting/data-security/private-connectivity) :** Acheminez les données de manière sécurisée via le réseau privé du fournisseur de cloud. Cette fonctionnalité est facultative.
   * **[Chiffrement des données](/fr/platform/hosting/data-security/data-encryption) :** W&amp;B chiffre les données au repos à l’aide d’une clé de chiffrement unique gérée par W&amp;B.
-  * **Sécurité du cluster Clickhouse :** W&amp;B se connecte au cluster Clickhouse Cloud dédié de votre instance Cloud dédié via le réseau privé du fournisseur de cloud. W&amp;B chiffre également le cluster à l’aide d’une clé de chiffrement unique gérée par W&amp;B, tout en tirant parti du chiffrement au niveau des fichiers de Clickhouse.
+  * **Sécurité du cluster Clickhouse :** W&amp;B se connecte au cluster Clickhouse Cloud dédié à votre instance de Cloud dédié via le réseau privé du fournisseur de cloud. W&amp;B chiffre également le cluster à l’aide d’une clé de chiffrement unique gérée par W&amp;B, tout en s’appuyant sur le chiffrement au niveau des fichiers de Clickhouse.
 
 <Warning>
-  [Le connecteur de stockage sécurisé de la plateforme W&amp;B ou BYOB](/fr/platform/hosting/data-security/secure-storage-connector) n’est pas disponible pour Weave.
+  [Le connecteur de stockage sécurisé de la plateforme W&amp;B, ou BYOB](/fr/platform/hosting/data-security/secure-storage-connector) n’est pas disponible pour Weave.
 </Warning>
 
 <div id="maintenance">
   ## Maintenance
 </div>
 
-Si vous utilisez Weave sur SaaS Cloud ou un Cloud dédié, vous évitez la charge de travail et les coûts liés au provisionnement, à l’exploitation et à la maintenance de la plateforme W&amp;B, puisqu’elle est entièrement gérée pour vous.
+Si vous utilisez Weave sur SaaS Cloud ou Cloud dédié, vous évitez la charge et les coûts liés au provisionnement, à l’exploitation et à la maintenance de la plateforme W&amp;B, car elle est entièrement gérée à votre place.
 
 <div id="compliance">
   ## Conformité
 </div>
 
 <Tip>
-  Pour demander des rapports SOC 2 et d’autres documents relatifs à la sécurité et à la conformité, référez-vous au [W&amp;B Security Portal](https://security.wandb.ai/) ou contactez votre équipe W&amp;B pour plus d’informations.
+  Pour demander des rapports SOC 2 et d’autres documents relatifs à la sécurité et à la conformité, consultez le [W&amp;B Security Portal](https://security.wandb.ai/) ou contactez votre équipe W&amp;B pour plus d’informations.
 </Tip>
 
-Les contrôles de sécurité du SaaS Cloud et du Cloud dédié font l’objet d’audits réguliers, en interne comme en externe. Les deux plateformes sont conformes à la norme SOC 2 Type II. De plus, le Cloud dédié est conforme à l’HIPAA pour les organisations qui gèrent des données de santé protégées (PHI) tout en créant des applications d’IA générative.
+Les contrôles de sécurité du SaaS Cloud et du Cloud dédié font l’objet d’audits réguliers, en interne comme en externe. Les deux plateformes sont conformes à la norme SOC 2 Type II. De plus, le Cloud dédié est conforme à l’HIPAA pour les organisations qui gèrent des données de santé protégées (PHI) lors de la création d’applications d’IA générative.

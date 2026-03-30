@@ -1,13 +1,13 @@
 ---
-description: "best や production のような意味のある名前で特定の W&B アーティファクト バージョンを参照するためのカスタムエイリアスを作成・管理します。"
-title: Artifacts のエイリアスを作成する
+description: "best や production のような意味のある名前で、特定の W&B artifact バージョンを参照するためのカスタムエイリアスを作成して管理します。"
+title: artifact エイリアスを作成する
 ---
 
-エイリアスは特定のバージョンを指すポインターとして使用します。デフォルトでは、`wandb.Run.log_artifact()` は記録されたバージョンに `latest` エイリアスを追加します。
+エイリアスは、特定のバージョンを指すポインタとして使用します。デフォルトでは、`wandb.Run.log_artifact()` はログしたバージョンに `latest` エイリアスを追加します。
 
-W&amp;B は、 Artifacts を最初にログするときに Artifacts バージョン `v0` を作成し、その Artifacts に紐づけます。W&amp;B は同じ Artifacts に対して再度ログするときに、その内容のチェックサムを計算します。 Artifacts が変更されていれば、W&amp;B は新しいバージョン `v1` を保存します。
+W&amp;B は、artifact を初めてログしたときに artifact バージョン `v0` を作成し、その artifact に関連付けます。同じ artifact に再度ログすると、W&amp;B は内容のチェックサムを確認します。artifact に変更があれば、W&amp;B は新しいバージョン `v1` を保存します。
 
-たとえば、トレーニングスクリプトで最新バージョンのデータセットを取得したい場合は、その Artifacts を使用するときに `latest` を指定します。次のコード例は、`latest` というエイリアスを持つ `bike-dataset` という名前の最新のデータセット Artifacts をダウンロードする方法を示しています。
+たとえば、トレーニングスクリプトでデータセットの最新バージョンを取得したい場合は、その artifact を使用するときに `latest` を指定します。次のコード例は、`latest` エイリアスが付いた `bike-dataset` という名前の最新のデータセット artifact をダウンロードする方法を示しています。
 
 ```python
 import wandb
@@ -17,7 +17,7 @@ with wandb.init(project="<project>") as run:
     artifact.download()
 ```
 
-Artifacts バージョンにカスタム エイリアスを適用することもできます。たとえば、あるモデルのチェックポイントがメトリクス AP-50 で最高であることを示したい場合、モデル Artifacts をログするときに、エイリアスとして文字列 `'best-ap50'` を追加できます。
+artifact バージョンにカスタム エイリアスを付けることもできます。たとえば、そのモデル チェックポイントがメトリクス AP-50 で最良であることを示したい場合は、モデル artifact をログするときに、文字列 `'best-ap50'` をエイリアスとして追加できます。
 
 ```python
 with wandb.init(project="<project>") as run:

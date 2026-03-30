@@ -5,16 +5,16 @@ title: Artifacts のダウンロード
 ```python
 """
 W&B からファイルまたは Artifacts 全体をダウンロードします。同じ
-ロジックが外部 Artifacts にも適用されます。
+ロジックは外部 Artifacts にも適用されます。
 """
 
 import wandb    
 
 with wandb.init(project="<project>") as run:
-    # 使用する Artifacts を指定します。形式は "name:alias" です
+    # 使用する artifact を指定します。形式は "name:alias"
     artifact = run.use_artifact("<artifact_name>:<alias>")
 
-    # パス名で Artifacts からファイルをダウンロードします
+    # パス名で指定した artifact からファイルをダウンロードします
     # artifact.add_reference() が使用された場合、参照 URL を返します
     entry = artifact.get_entry("<file_name>")
 

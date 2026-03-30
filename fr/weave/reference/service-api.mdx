@@ -1,6 +1,6 @@
 ---
-title: "Aperçu de l'API de service"
-description: "Utilisez l'API de service Weave, qui fournit des points de terminaison REST pour accéder par programmation aux fonctionnalités de Weave."
+title: "Aperçu de l’API de service"
+description: "Utilisez l’API de service Weave, qui expose des endpoints REST pour un accès programmatique aux fonctionnalités de Weave."
 ---
 
 <div id="base-url">
@@ -13,7 +13,7 @@ Pour [W&amp;B Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenan
 https://trace.wandb.ai
 ```
 
-Pour les [instances autogérées de W&amp;B](/fr/weave/guides/platform/weave-self-managed), utilisez :
+Pour les [instances W&amp;B autogérées](/fr/weave/guides/platform/weave-self-managed), utilisez :
 
 ```
 https://<your-subdomain>.wandb.io/traces
@@ -30,21 +30,21 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
 ```
 
 <div id="available-endpoints">
-  ## Points de terminaison disponibles
+  ## Endpoints disponibles
 </div>
 
 <div id="calls">
   ### Appels
 </div>
 
-* **[POST /call/end](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - Terminer l&#39;appel
-* **[POST /call/read](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - Lire l&#39;appel
-* **[POST /call/start](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - Démarrer l&#39;appel
-* **[POST /call/update](https://docs.wandb.ai/weave/reference/service-api/calls/call-update)** - Mettre à jour l&#39;appel
-* **[POST /call/upsert&#95;batch](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch)** - Démarrer un lot d&#39;appels
-* **[POST /calls/delete](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete)** - Supprimer des appels
-* **[POST /calls/query&#95;stats](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stats)** - Statistiques de requête des appels
-* **[POST /calls/stream&#95;query](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream)** - Flux de requête des appels
+* **[POST /call/end](https://docs.wandb.ai/weave/reference/service-api/calls/call-end)** - Fin d’appel
+* **[POST /call/read](https://docs.wandb.ai/weave/reference/service-api/calls/call-read)** - Lecture d’appel
+* **[POST /call/start](https://docs.wandb.ai/weave/reference/service-api/calls/call-start)** - Démarrage d’appel
+* **[POST /call/update](https://docs.wandb.ai/weave/reference/service-api/calls/call-update)** - Mise à jour d’appel
+* **[POST /call/upsert&#95;batch](https://docs.wandb.ai/weave/reference/service-api/calls/call-start-batch)** - Démarrage d’un lot d’appels
+* **[POST /calls/delete](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete)** - Suppression d’appels
+* **[POST /calls/query&#95;stats](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stats)** - Statistiques de requête d’appels
+* **[POST /calls/stream&#95;query](https://docs.wandb.ai/weave/reference/service-api/calls/calls-query-stream)** - Flux de requête d’appels
 
 <div id="costs">
   ### Coûts
@@ -52,16 +52,16 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
 
 * **[POST /cost/create](https://docs.wandb.ai/weave/reference/service-api/costs/cost-create)** - Créer un coût
 * **[POST /cost/purge](https://docs.wandb.ai/weave/reference/service-api/costs/cost-purge)** - Purger un coût
-* **[POST /cost/query](https://docs.wandb.ai/weave/reference/service-api/costs/cost-query)** - Requête de coût
+* **[POST /cost/query](https://docs.wandb.ai/weave/reference/service-api/costs/cost-query)** - Interroger les coûts
 
 <div id="feedback">
   ### Retours
 </div>
 
-* **[POST /feedback/create](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create)** - Créer un retour
-* **[POST /feedback/purge](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-purge)** - Purger les retours
-* **[POST /feedback/query](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-query)** - Requête sur les retours
-* **[POST /feedback/replace](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-replace)** - Remplacer un retour
+* **[POST /feedback/create](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-create)** - Création de retours
+* **[POST /feedback/purge](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-purge)** - Purge des retours
+* **[POST /feedback/query](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-query)** - Requête de retours
+* **[POST /feedback/replace](https://docs.wandb.ai/weave/reference/service-api/feedback/feedback-replace)** - Remplacement de retours
 
 <div id="files">
   ### Fichiers
@@ -74,8 +74,8 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
   ### Objets
 </div>
 
-* **[POST /obj/create](https://docs.wandb.ai/weave/reference/service-api/objects/obj-create)** - Créer un objet
-* **[POST /obj/delete](https://docs.wandb.ai/weave/reference/service-api/objects/obj-delete)** - Supprimer un objet
+* **[POST /obj/create](https://docs.wandb.ai/weave/reference/service-api/objects/obj-create)** - Création d’objet
+* **[POST /obj/delete](https://docs.wandb.ai/weave/reference/service-api/objects/obj-delete)** - Suppression d’objet
 * **[POST /obj/read](https://docs.wandb.ai/weave/reference/service-api/objects/obj-read)** - Lire un objet
 * **[POST /objs/query](https://docs.wandb.ai/weave/reference/service-api/objects/objs-query)** - Requête sur les objets
 
@@ -83,40 +83,40 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
   ### OpenTelemetry
 </div>
 
-* **[POST /otel/v1/trace](https://docs.wandb.ai/weave/reference/service-api/opentelemetry/export-trace)** - Export de trace
+* **[POST /otel/v1/trace](https://docs.wandb.ai/weave/reference/service-api/opentelemetry/export-trace)** - Exporter une trace
 
 <div id="refs">
   ### Refs
 </div>
 
-* **[POST /refs/read&#95;batch](https://docs.wandb.ai/weave/reference/service-api/refs/refs-read-batch)** - Lire des références par lot
+* **[POST /refs/read&#95;batch](https://docs.wandb.ai/weave/reference/service-api/refs/refs-read-batch)** - Lecture d’un lot de refs
 
 <div id="service">
   ### Service
 </div>
 
-* **[GET /health](https://docs.wandb.ai/weave/reference/service-api/service/read-root)** - Lire la racine
+* **[GET /health](https://docs.wandb.ai/weave/reference/service-api/service/read-root)** - Lecture de la racine
 * **[GET /server&#95;info](https://docs.wandb.ai/weave/reference/service-api/service/server-info)** - Informations sur le serveur
 
 <div id="tables">
-  ### Tableaux
+  ### Tables
 </div>
 
-* **[POST /table/create](https://docs.wandb.ai/weave/reference/service-api/tables/table-create)** - Créer un tableau
-* **[POST /table/query](https://docs.wandb.ai/weave/reference/service-api/tables/table-query)** - Requête de tableau
-* **[POST /table/query&#95;stats](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats)** - Statistiques de requête de tableau
-* **[POST /table/update](https://docs.wandb.ai/weave/reference/service-api/tables/table-update)** - Mise à jour de tableau
-* **[POST /table/query&#95;stream](https://docs.wandb.ai/weave/reference/service-api/table-query-stream)** - Flux de requête de tableau
+* **[POST /table/create](https://docs.wandb.ai/weave/reference/service-api/tables/table-create)** - Création d’un tableau
+* **[POST /table/query](https://docs.wandb.ai/weave/reference/service-api/tables/table-query)** - Requête sur un tableau
+* **[POST /table/query&#95;stats](https://docs.wandb.ai/weave/reference/service-api/tables/table-query-stats)** - Statistiques de requête sur un tableau
+* **[POST /table/update](https://docs.wandb.ai/weave/reference/service-api/tables/table-update)** - Mise à jour d’un tableau
+* **[POST /table/query&#95;stream](https://docs.wandb.ai/weave/reference/service-api/table-query-stream)** - Flux de requête sur un tableau
 
 <div id="threads">
   ### Threads
 </div>
 
-* **[POST /threads/stream&#95;query](https://docs.wandb.ai/weave/reference/service-api/threads/threads-query-stream)** - Flux de requêtes des threads
+* **[POST /threads/stream&#95;query](https://docs.wandb.ai/weave/reference/service-api/threads/threads-query-stream)** - Flux de requête des threads
 
 <div id="completions">
-  ### Complétions
+  ### Completions
 </div>
 
-* **[POST /completions/create](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create)** - Créer des complétions
-* **[POST /completions/create&#95;stream](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create-stream)** - Créer un flux de complétions
+* **[POST /completions/create](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create)** - Création de Completions
+* **[POST /completions/create&#95;stream](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create-stream)** - Création d’un flux de Completions

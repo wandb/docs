@@ -1,24 +1,24 @@
 ---
-description: "참조 아티팩트, 외부 버킷, TTL 삭제 정책을 사용하여 W&B 데이터 저장소 사용량을 관리합니다."
+description: "참조 아티팩트, 외부 버킷, TTL 삭제 정책을 사용해 W&B 데이터 저장소 사용량을 관리합니다."
 title: 저장소 관리
 ---
 
-저장소 한도에 가까워지거나 이를 초과하는 경우, 데이터를 관리할 수 있는 여러 가지 방법이 있습니다. 어떤 방법이 가장 적합한지는 계정 유형과 현재 프로젝트 구성에 따라 달라집니다.
+저장소 한도에 근접했거나 이미 초과했다면, 데이터를 관리할 수 있는 여러 방법이 있습니다. 가장 적합한 방법은 계정 유형과 현재 프로젝트 설정에 따라 달라집니다.
 
 <div id="manage-storage-consumption">
-  ## 스토리지 사용량 관리
+  ## 저장소 사용량 관리
 </div>
 
-W&amp;B는 스토리지 사용량을 최적화할 수 있는 여러 가지 방법을 제공합니다:
+W&amp;B는 저장소 사용량을 최적화하는 여러 방법을 제공합니다:
 
-* 파일을 W&amp;B 스토리지에 업로드하는 대신, W&amp;B 시스템 외부에 저장된 파일을 추적하기 위해 [reference artifacts](/ko/models/artifacts/track-external-files/)를 사용합니다.
-* 스토리지 용도로 [외부 클라우드 스토리지 버킷](/ko/platform/app/settings-page/teams/)을 사용합니다. *(Enterprise 전용)*
+* W&amp;B 저장소에 업로드하는 대신, W&amp;B 시스템 외부에 저장된 파일은 [참조 아티팩트](/ko/models/artifacts/track-external-files/)로 추적하세요.
+* 저장소로는 [외부 클라우드 저장소 버킷](/ko/platform/app/settings-page/teams/)을 사용하세요. *(Enterprise 전용)*
 
 <div id="delete-data">
   ## 데이터 삭제
 </div>
 
-스토리지 한도 내에서 사용량을 관리하려면 데이터를 삭제할 수도 있습니다. 다음과 같은 방법이 있습니다:
+저장소 한도 내로 유지하려면 데이터를 삭제할 수도 있습니다. 방법은 여러 가지가 있습니다.
 
-* 앱 UI에서 직접 데이터를 삭제합니다.
-* Artifacts에 [TTL 정책을 설정](/ko/models/artifacts/ttl/)하여 자동으로 삭제되도록 합니다.
+* 앱 UI에서 대화형으로 데이터를 삭제합니다.
+* Artifacts에 [TTL policy](/ko/models/artifacts/ttl/)를 설정해 자동으로 삭제되도록 합니다.

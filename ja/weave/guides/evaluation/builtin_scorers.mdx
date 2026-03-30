@@ -1,35 +1,36 @@
 ---
-title: "組み込みスコアラーを使う"
-description: "Weave の事前定義スコアラーを使って AI アプリケーションを評価する"
+title: "組み込みスコアラーを使用する"
+description: "AI アプリケーションの評価に Weave の事前定義済みスコアラーを使用する"
 ---
 
-Weave には、[Hallucination detection](#hallucinationfreescorer) や [Summarization quality](#summarizationscorer) など、AI アプリケーションを評価するための事前定義スコアラーがいくつか用意されています。これらを使うことで、評価をすばやく設定し、アプリケーションの出力をスコアリングできます。
+Weave には、AI アプリケーションを評価するための事前定義済みスコアラーがいくつか用意されており、たとえば [ハルシネーション検出](#hallucinationfreescorer) や [要約品質](#summarizationscorer) があります。これらを使うと、評価をすばやく定義し、アプリケーションの出力をスコアリングできます。
 
 <Note>
-  ローカルスコアラーは Weave Python SDK でのみ利用可能です。Weave TypeScript SDK ではまだ利用できません。
+  ローカルスコアラーを利用できるのは、Weave Python SDK のみです。Weave TypeScript SDK では、まだ利用できません。
 
-  TypeScript で Weave のスコアラーを使うには、[function-based scorers](/ja/weave/guides/evaluation/scorers#function-based-scorers) を参照してください。
+  TypeScript で Weave スコアラーを使用する場合は、[関数ベースのスコアラー](/ja/weave/guides/evaluation/scorers#function-based-scorers) を参照してください。
 </Note>
 
 <div id="installation">
   ## インストール
 </div>
 
-Weave の事前定義済みスコアラーを使用するには、追加の依存関係をいくつかインストールする必要があります。
+Weave のあらかじめ用意されている scorer を使用するには、追加の依存関係をいくつかインストールする必要があります。
 
 ```bash
 pip install weave[scorers]
 ```
 
-**LLM-evaluators (LLM 評価器)&#x20;**&#xA;2025 年 2 月更新: LLM を活用する事前定義済みの scorer は、現在自動的に litellm と統合されます。
-LLM クライアントを渡す必要はなくなり、`model_id` を設定するだけで済みます。
-サポートされているモデルは [こちら](https://docs.litellm.ai/docs/providers) を参照してください。
+**LLM-evaluators**
+2025年2月更新: LLMを活用する事前定義済みの scorer は、litellm と自動的に統合されるようになりました。
+LLMクライアントを渡す必要はなく、`model_id`を設定するだけで済みます。
+サポートされるモデルは[こちら](https://docs.litellm.ai/docs/providers)を参照してください。
 
 <div id="hallucinationfreescorer">
   ## `HallucinationFreeScorer`
 </div>
 
-この scorer は、入力データに基づいて AI システムの出力にハルシネーションが含まれているかどうかを判定します。
+このスコアラーは、入力データに基づいて、AI システムの出力にハルシネーションが含まれていないかを確認します。
 
 ```python lines
 from weave.scorers import HallucinationFreeScorer
@@ -39,22 +40,22 @@ scorer = HallucinationFreeScorer()
 
 **カスタマイズ:**
 
-* 「hallucination」が何を意味するかを定義するために、scorer の `system_prompt` フィールドと `user_prompt` フィールドをカスタマイズします。
+* scorer の `system_prompt` フィールドと `user_prompt` フィールドをカスタマイズして、自分にとって &quot;hallucination&quot; とは何かを定義します。
 
-**注意事項:**
+**メモ:**
 
-* `score` メソッドは、`context` という名前の入力カラムを想定しています。データセットで別の名前を使っている場合は、[`column_map` 属性を使用](#use-column-mapping)して、`context` をデータセットのカラムにマッピングしてください。
+* `score` method は、`context` という名前の入力列を想定しています。データセットで別の名前を使用している場合は、[`column_map` 属性を使用する](#use-column-mapping) ことで、`context` をデータセット内の列にマッピングできます。
 
-以下は評価の文脈での例です。
+以下は、評価のコンテキストでの例です。
 
 ```python lines
 import asyncio
 import weave
 from weave.scorers import HallucinationFreeScorer
 
-# 必要に応じて列マッピングを使用してスコアラーを初期化します。
+# 必要に応じて列マッピングを使用してscorerを初期化する。
 hallucination_scorer = HallucinationFreeScorer(
-    model_id="openai/gpt-4o", # litellm がサポートする他のモデルも使用可能
+    model_id="openai/gpt-4o", # litellmでサポートされている他のモデルも使用可能
     column_map={"context": "input", "output": "other_col"}
 )
 
@@ -85,33 +86,33 @@ print(result)
   ## `SummarizationScorer`
 </div>
 
-LLM を使用して元のテキストと要約を比較し、その要約の品質を評価します。
+LLM を使用して、要約を元の文章と比較し、その品質を評価します。
 
 ```python lines
 from weave.scorers import SummarizationScorer
 
 scorer = SummarizationScorer(
-    model_id="openai/gpt-4o"  # または litellm がサポートする他のモデル
+    model_id="openai/gpt-4o"  # または litellm でサポートされている他のモデル
 )
 ```
 
-**動作概要:**
+**仕組み:**
 
-この scorer は要約を次の 2 つの観点から評価します:
+この scorer は、summary を次の 2 つの方法で評価します。
 
-1. **Entity Density:** 要約内で言及されている固有の entity (名前、場所、物など) の数と、要約全体の単語数の比率を算出し、要約の「information density」 (情報密度) を推定します。entity の抽出には LLM を使用します。[Chain of Density 論文](https://arxiv.org/abs/2309.04269) における entity density の扱いに類似しています。
-2. **Quality Grading:** LLM evaluator が要約を `poor`、`ok`、`excellent` のいずれかで採点します。これらの評価はそれぞれスコアにマッピングされ (poor は 0.0、ok は 0.5、excellent は 1.0) 、全体的な性能評価に用いられます。
+1. **エンティティ密度:** summary 内で言及されている一意のエンティティ (名前、場所、物など) の数を、summary の総語数に対する比率で確認し、summary の「情報密度」を推定します。エンティティの抽出には LLM を使用します。これは、[Chain of Density paper](https://arxiv.org/abs/2309.04269) における entity density の考え方に類似しています。
+2. **品質評価:** LLM evaluator が summary を `poor`、`ok`、`excellent` のいずれかに判定します。これらの判定は、その後、集計的なパフォーマンス評価のためのスコア (poor は 0.0、ok は 0.5、excellent は 1.0) に対応付けられます。
 
 **カスタマイズ:**
 
-* 評価プロセスを調整するには、`summarization_evaluation_system_prompt` と `summarization_evaluation_prompt` を変更します。
+* `summarization_evaluation_system_prompt` と `summarization_evaluation_prompt` を調整して、評価プロセスをカスタマイズします。
 
-**補足事項:**
+**メモ:**
 
 * この scorer は内部で litellm を使用します。
-* `score` メソッドは、要約対象となる元テキストが `input` カラムに格納されていることを前提とします。データセットで別の名前を使っている場合は、[`column_map` を使用](#use-column-mapping)してください。
+* `score` method は、元のテキスト (要約対象のテキスト) が `input` column に含まれていることを前提としています。データセットで別の名を使用している場合は、[`column_map`](#use-column-mapping) を使用してください。
 
-以下は、評価の文脈での使用例です:
+以下は、評価の文脈での使用例です。
 
 ```python lines
 import asyncio
@@ -123,9 +124,9 @@ class SummarizationModel(weave.Model):
     async def predict(self, input: str) -> str:
         return "This is a summary of the input text."
 
-# スコアラーを初期化する
+# scorerを初期化する
 summarization_scorer = SummarizationScorer(
-    model_id="openai/gpt-4o"  # または litellm がサポートする他のモデル
+    model_id="openai/gpt-4o"  # またはlitellmでサポートされている他のモデル
 )
 # データセットを作成する
 dataset = [
@@ -146,7 +147,7 @@ print(results)
   ## `OpenAIModerationScorer`
 </div>
 
-`OpenAIModerationScorer` は OpenAI の Moderation API を使用して、AI システムの出力にヘイトスピーチや露骨な内容などの禁止コンテンツが含まれているかどうかをチェックします。
+`OpenAIModerationScorer` は OpenAI の Moderation API を使用して、AI システムの出力にヘイトスピーチや露骨な表現などの許可されていないコンテンツが含まれているかどうかを確認します。
 
 ```python lines
 from weave.scorers import OpenAIModerationScorer
@@ -154,12 +155,12 @@ from weave.scorers import OpenAIModerationScorer
 scorer = OpenAIModerationScorer()
 ```
 
-**動作の仕組み:**
+**仕組み:**
 
-* AI の出力を OpenAI Moderation エンドポイントに送信し、そのコンテンツがフラグ付けされるかどうかを示す構造化されたレスポンスを返します。
+* AI の出力を OpenAI Moderation エンドポイントに送信し、コンテンツがフラグ対象かどうかを示す構造化されたレスポンスを返します。
 
-**補足:**
-以下は評価のコンテキストでの例です。
+**メモ:**
+以下は、評価での使用例です。
 
 ```python lines
 import asyncio
@@ -194,36 +195,36 @@ print(results)
   ## `EmbeddingSimilarityScorer`
 </div>
 
-`EmbeddingSimilarityScorer` は、AI システムの出力と データセット 内のターゲットテキストの埋め込みベクトル同士のコサイン類似度を計算します。これは、AI の出力が参照テキストとどの程度類似しているかを測定するのに役立ちます。
+`EmbeddingSimilarityScorer` は、AI システムの出力埋め込みと、データセット内の対象テキストの埋め込みとのコサイン類似度を計算します。AI の出力が参照テキストにどの程度近いかを測る際に役立ちます。
 
 ```python lines
 from weave.scorers import EmbeddingSimilarityScorer
 
 similarity_scorer = EmbeddingSimilarityScorer(
-    model_id="openai/text-embedding-3-small",  # litellm がサポートする他のモデルも使用可能
+    model_id="openai/text-embedding-3-small",  # litellmでサポートされる他のモデルも使用可能
     threshold=0.4  # コサイン類似度のしきい値
 )
 ```
 
 **パラメーター:**
 
-* `threshold` (float): 2 つのテキストが類似しているとみなすために必要なコサイン類似度スコア (-1 から 1 の範囲) の最小値 (デフォルトは `0.5`) 。
+* `threshold` (float): 2 つのテキストが類似していると見なすために必要な、最小のコサイン類似度スコア (-1 から 1 の範囲。デフォルトは `0.5`) 。
 
 **使用例:**
 
-次の例では、評価において `EmbeddingSimilarityScorer` を使用します。
+次の例では、評価のコンテキストで `EmbeddingSimilarityScorer` を使用します。
 
 ```python lines
 import asyncio
 import weave
 from weave.scorers import EmbeddingSimilarityScorer
 
-# スコアラーを初期化
+# スコアラーを初期化する
 similarity_scorer = EmbeddingSimilarityScorer(
-    model_id="openai/text-embedding-3-small",  # または litellm がサポートする他のモデル
+    model_id="openai/text-embedding-3-small",  # litellmでサポートされている他のモデルも使用可能
     threshold=0.7
 )
-# データセットを作成
+# データセットを作成する
 dataset = [
     {
         "input": "He's name is John",
@@ -234,12 +235,12 @@ dataset = [
         "target": "Pepe likes various types of cheese.",
     },
 ]
-# モデルを定義
+# モデルを定義する
 @weave.op
 def model(input: str) -> str:
     return "John likes various types of cheese."
 
-# 評価を実行
+# 評価を実行する
 evaluation = weave.Evaluation(
     dataset=dataset,
     scorers=[similarity_scorer],
@@ -256,7 +257,7 @@ print(result)
   ## `ValidJSONScorer`
 </div>
 
-`ValidJSONScorer` は AI システムの出力が有効な JSON かどうかをチェックします。出力が JSON 形式であることが期待され、その妥当性を検証したい場合に有用な scorer です。
+`ValidJSONScorer` は、AI システムの出力が有効な JSON かどうかを確認します。出力が JSON 形式であることを想定しており、その妥当性を検証する必要がある場合に便利なスコアラーです。
 
 ```python lines
 from weave.scorers import ValidJSONScorer
@@ -264,7 +265,7 @@ from weave.scorers import ValidJSONScorer
 json_scorer = ValidJSONScorer()
 ```
 
-評価の文脈での例を以下に示します。
+以下は、評価における例です。
 
 ```python lines
 import asyncio
@@ -275,7 +276,7 @@ class JSONModel(weave.Model):
     @weave.op()
     async def predict(self, input: str) -> str:
         # これはプレースホルダーです。
-        # 実際のシナリオでは、JSON を生成します。
+        # 実際のシナリオでは、JSONを生成します。
         return '{"key": "value"}'
 
 model = JSONModel()
@@ -299,7 +300,7 @@ print(results)
   ## `ValidXMLScorer`
 </div>
 
-`ValidXMLScorer` は、AI システムの出力が妥当な XML かどうかをチェックします。XML 形式の出力が必要な場合に便利です。
+`ValidXMLScorer` は、AI システムの出力が有効な XML かどうかをチェックします。XML 形式の出力を想定している場合に役立ちます。
 
 ```python lines
 from weave.scorers import ValidXMLScorer
@@ -307,7 +308,7 @@ from weave.scorers import ValidXMLScorer
 xml_scorer = ValidXMLScorer()
 ```
 
-評価の文脈での例を以下に示します。
+以下は、評価における例です:
 
 ```python lines
 import asyncio
@@ -317,7 +318,7 @@ from weave.scorers import ValidXMLScorer
 class XMLModel(weave.Model):
     @weave.op()
     async def predict(self, input: str) -> str:
-        # これはプレースホルダーです。実際のシナリオでは、XML を生成します。
+        # これはプレースホルダーです。実際のシナリオでは、XMLを生成します。
         return '<root><element>value</element></root>'
 
 model = XMLModel()
@@ -341,7 +342,7 @@ print(results)
   ## `PydanticScorer`
 </div>
 
-`PydanticScorer` は、AI システムの出力を Pydantic のモデルに照らして検証し、指定されたスキーマやデータ構造に準拠していることを確認します。
+`PydanticScorer` は、AI システムの出力を Pydantic モデルに照らして検証し、指定されたスキーマまたはデータ構造に準拠していることを確認します。
 
 ```python lines
 from weave.scorers import PydanticScorer
@@ -360,7 +361,7 @@ pydantic_scorer = PydanticScorer(model=FinancialReport)
   ## RAGAS - `ContextEntityRecallScorer`
 </div>
 
-`ContextEntityRecallScorer` は、AI システムの出力と与えられたコンテキストの両方からエンティティを抽出し、それらに基づいて再現率スコアを計算することでコンテキスト再現率を推定します。これは [RAGAS](https://github.com/explodinggradients/ragas) 評価ライブラリに基づいています。
+`ContextEntityRecallScorer` は、AI システムの出力と与えられたコンテキストの両方からエンティティを抽出し、リコールスコアを計算することで、コンテキスト再現率を推定します。[RAGAS](https://github.com/explodinggradients/ragas) 評価ライブラリに基づいています。
 
 ```python lines
 from weave.scorers import ContextEntityRecallScorer
@@ -370,15 +371,15 @@ entity_recall_scorer = ContextEntityRecallScorer(
 )
 ```
 
-**動作概要:**
+**仕組み:**
 
-* LLM を使って出力とコンテキストからユニークなエンティティを抽出し、再現率を計算します。
-* **Recall (再現率)&#x20;**&#x20;は、コンテキスト内の重要なエンティティのうち出力で捉えられている割合を示します。
-* 再現率スコアを格納した辞書を返します。
+* LLM を使用して、出力とコンテキストから一意のエンティティを抽出し、再現率を計算します。
+* **再現率** は、コンテキスト内の重要なエンティティのうち、出力で捉えられている割合を示します。
+* 再現率スコアを含む辞書を返します。
 
-**補足:**
+**メモ:**
 
-* データセットに `context` カラムがあることを想定しています。カラム名が異なる場合は、[`column_map` 属性を使用](#use-column-mapping)してください。
+* データセットに `context` 列があることを前提としています。列名が異なる場合は、[`column_map` 属性を使用します](#use-column-mapping)。
 
 ***
 
@@ -386,13 +387,13 @@ entity_recall_scorer = ContextEntityRecallScorer(
   ## RAGAS - `ContextRelevancyScorer`
 </div>
 
-`ContextRelevancyScorer` は、提供されたコンテキストが AI システムの出力とどれだけ関連しているかを評価します。このスコアラーは [RAGAS](https://github.com/explodinggradients/ragas) 評価ライブラリに基づいています。
+`ContextRelevancyScorer` は、与えられたコンテキストが AI システムの出力にどの程度関連しているかを評価します。[RAGAS](https://github.com/explodinggradients/ragas) 評価ライブラリに基づいています。
 
 ```python lines
 from weave.scorers import ContextRelevancyScorer
 
 relevancy_scorer = ContextRelevancyScorer(
-    model_id="openai/gpt-4o",  # litellm でサポートされている他のモデルも使用可能
+    model_id="openai/gpt-4o",  # またはlitellmでサポートされている他のモデル
     relevancy_prompt="""
 Given the following question and context, rate the relevancy of the context to the question on a scale from 0 to 1.
 
@@ -403,17 +404,17 @@ Relevancy Score (0-1):
 )
 ```
 
-**動作概要:**
+**仕組み:**
 
-* LLM を使用して、コンテキストが出力に対してどれだけ関連しているかを 0 から 1 の範囲で評価します。
+* LLM を使用して、出力に対するコンテキストの関連性を 0〜1 の尺度で評価します。
 * `relevancy_score` を含む辞書を返します。
 
-**注意:**
+**メモ:**
 
-* データセットに `context` カラムがあることを前提とします。カラム名が異なる場合は、[ `column_map` 属性を使用](#use-column-mapping)してください。
-* `relevancy_prompt` をカスタマイズして、関連性をどのように評価するかを定義できます。
+* データセットに `context` 列があることを想定しています。列名が異なる場合は、[`column_map` 属性を使用してください](#use-column-mapping)。
+* 関連性をどのように評価するかは、`relevancy_prompt` をカスタマイズして定義します。
 
-以下は評価における使用例です。
+以下は、評価における使用例です:
 
 ```python lines
 import asyncio
@@ -424,29 +425,29 @@ from weave.scorers import ContextEntityRecallScorer, ContextRelevancyScorer
 class RAGModel(weave.Model):
     @weave.op()
     async def predict(self, question: str) -> str:
-        "Retrieve relevant context"
+        "関連するコンテキストを取得する"
         return "Paris is the capital of France."
 
 # プロンプトを定義する
 relevancy_prompt: str = dedent("""
-    Given the following question and context, rate the relevancy of the context to the question on a scale from 0 to 1.
+    以下の質問とコンテキストを踏まえ、質問に対するコンテキストの関連性を0から1のスケールで評価してください。
 
-    Question: {question}
-    Context: {context}
-    Relevancy Score (0-1):
+    質問: {question}
+    コンテキスト: {context}
+    関連性スコア (0-1):
     """)
-# スコアラーを初期化する
+# scorerを初期化する
 entity_recall_scorer = ContextEntityRecallScorer()
 relevancy_scorer = ContextRelevancyScorer(relevancy_prompt=relevancy_prompt)
 # データセットを作成する
 dataset = [
     {
-        "question": "What is the capital of France?",
-        "context": "Paris is the capital city of France."
+        "question": "フランスの首都はどこですか？",
+        "context": "パリはフランスの首都です。"
     },
     {
-        "question": "Who wrote Romeo and Juliet?",
-        "context": "William Shakespeare wrote many famous plays."
+        "question": "ロミオとジュリエットを書いたのは誰ですか？",
+        "context": "William Shakespeareは多くの有名な戯曲を書きました。"
     }
 ]
 # 評価を実行する
@@ -462,12 +463,12 @@ print(results)
 # 'model_latency': {'mean': ...}}
 ```
 
-**注意:** 組み込みのスコアラーは `openai/gpt-4o` や `openai/text-embedding-3-small` などの OpenAI モデル でキャリブレーションされています。ほかのプロバイダーで試したい場合は、`model_id` フィールドを更新して別のモデルを使用できます。たとえば、Anthropic のモデルを使用する場合は次のようにします：
+**注:** 組み込みのscorersは、`openai/gpt-4o` や `openai/text-embedding-3-small` などのOpenAIモデルを用いて調整されています。別のプロバイダを試したい場合は、`model_id` フィールドを更新して、別のモデルを使用できます。たとえば、Anthropicのモデルを使用するには:
 
 ```python lines
 from weave.scorers import SummarizationScorer
 
-# Anthropic の Claude モデルに切り替える
+# AnthropicのClaudeモデルに切り替える
 summarization_scorer = SummarizationScorer(
     model_id="anthropic/claude-3-5-sonnet-20240620"
 )

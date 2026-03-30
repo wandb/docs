@@ -1,9 +1,9 @@
 ---
-title: "Comment puis-je résoudre les erreurs 401 d’authentification invalide avec W&B Inférence ?"
+title: "Comment puis-je résoudre les erreurs « Invalid Authentication » (401) avec W&B Inférence ?"
 keywords: ["Inférence"]
 ---
 
-Une erreur 401 d’authentification invalide indique que votre clé API est invalide ou que l’entité ou le nom de votre projet W&amp;B est incorrect.
+Une erreur 401 « Invalid Authentication » signifie que votre clé API n’est pas valide ou que l’entité ou le nom de votre projet W&amp;B est incorrect.
 
 <div id="verify-your-api-key">
   ## Vérifiez votre clé API
@@ -16,7 +16,7 @@ Une erreur 401 d’authentification invalide indique que votre clé API est inva
   ## Vérifiez la configuration de votre projet
 </div>
 
-Assurez-vous que votre projet est bien au format `<your-team>/<your-project>` :
+Assurez-vous que votre projet est au bon format : `<your-team>/<your-project>`
 
 **Exemple Python :**
 
@@ -40,9 +40,9 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
   ## Erreurs courantes
 </div>
 
-* Utiliser une entité personnelle au lieu du nom de l&#39;équipe
-* Se tromper dans le nom de l&#39;équipe ou du projet
-* Oublier la barre oblique entre l&#39;équipe et le projet
+* Utiliser une entité personnelle au lieu du nom de l’équipe
+* Faire une faute dans le nom de l’équipe ou du projet
+* Oublier la barre oblique entre l’équipe et le projet
 * Utiliser une clé API expirée ou supprimée
 
 <div id="still-having-issues">
@@ -50,14 +50,14 @@ curl https://api.inference.wandb.ai/v1/chat/completions \
 </div>
 
 * Vérifiez que l’équipe et le projet existent dans votre compte W&amp;B
-* Assurez-vous d’avoir accès à l’équipe indiquée
-* Essayez de créer une nouvelle clé API si la clé actuelle ne fonctionne pas
+* Assurez-vous d&#39;avoir accès à l’équipe indiquée
+* Essayez de créer une nouvelle clé API si l&#39;actuelle ne fonctionne pas
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
+  Ne modifiez pas ce qui se trouve entre ces marqueurs manuellement.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Inférence](/fr/support/models/tags/inference)</Badge>

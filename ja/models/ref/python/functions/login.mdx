@@ -8,7 +8,8 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_login.py" />
 
-### <kbd>function</kbd> `login`
+
+### <kbd>関数</kbd> `login`
 
 ```python
 login(
@@ -25,36 +26,36 @@ login(
 
 W&amp;B にログインします。
 
-認証が必要なほとんどの W&amp;B メソッドは暗黙的にログインできるため、通常これを明示的に使う必要はありません。これは `wandb login` CLI のプログラム上の対応物です。
+通常はこれを使用する必要はありません。認証が必要なほとんどの W&amp;B の method は、暗黙的にログインできるためです。これは `wandb login` CLI に対応するプログラム向けの機能です。
 
-この関数は、セッションのグローバルな認証情報を更新します (この呼び出し以降の、現在の Python プロセス内のすべての wandb 利用に影響します) 。また、.netrc ファイルを更新する場合もあります。
+これにより、このセッションのグローバル認証情報が更新されます (この call 以降、現在の Python プロセス内でのすべての wandb の使用に影響します) 。また、.netrc ファイルが更新される場合もあります。
 
-WANDB&#95;IDENTITY&#95;TOKEN&#95;FILE 環境変数などで identity&#95;token&#95;file 設定が指定されている場合、この関数は何も行いません。
+identity&#95;token&#95;file 設定が、WANDB&#95;IDENTITY&#95;TOKEN&#95;FILE 環境変数などを通じて設定されている場合、これは no-op です。
 
-それ以外の場合で、明示的な API キー が指定されていれば、それを使用し、システムの .netrc ファイルに書き込みます。key が指定されておらず、すでにセッションが認証済みの場合は、セッションキーを検証に使用します (verify が True の場合) 。この場合、.netrc ファイルは更新されません。
+それ以外の場合、明示的に APIキー が指定されていれば、それが使用され、システムの .netrc ファイルに書き込まれます。キーが指定されていない場合でも、セッションがすでに認証済みであれば、セッションキーが検証に使用され (verify が True の場合) 、.netrc ファイルは更新されません。
 
-上記のいずれにも当てはまらない場合、次のいずれかから最初に見つかった API キーを取得します:
+上記のいずれにも該当しない場合、この関数は次のうち最初に見つかったものから APIキー を取得します。
 
 * WANDB&#95;API&#95;KEY 環境変数
-* システムまたはワークスペース設定ファイル内の api&#95;key 設定
-* .netrc ファイル (~~/.netrc、~~/&#95;netrc、または NETRC 環境変数で指定されたパスのいずれか)
-* 対話的プロンプト (利用可能な場合)
+* システムまたは Workspace settings ファイル内の api&#95;key 設定
+* .netrc ファイル (~~/.netrc、~~/&#95;netrc、または NETRC 環境変数で指定されたパス) 
+* 対話型プロンプト (利用可能な場合) 
 
 **引数:**
 
-* `key`:  使用する API キー。
-* `relogin`:  True の場合、.netrc や環境変数などを読み飛ばし、対話的プロンプトから API キーを取得します。
+* `key`:  使用する APIキー。
+* `relogin`:  true の場合、.netrc や環境変数などの読み取りをスキップし、対話型プロンプトから APIキー を取得します。
 * `host`:  接続先の W&amp;B サーバー URL。
-* `force`:  True の場合、対話的プロンプトでオフラインモードを選択できないようにします。
-* `timeout`:  対話的プロンプトでユーザー入力を待機する秒数。対話的でない環境で誤って対話的プロンプトが表示された場合のフェイルセーフとして使用できます。
-* `verify`:  W&amp;B サーバーに対して認証情報を検証し、失敗した場合は AuthenticationError を送出します。
-* `referrer`:  分析目的で、URL ログインリクエストで使用する referrer。
+* `force`:  true の場合、対話型プロンプトでオフラインモードを選択できないようにします。
+* `timeout`:  対話型プロンプトでユーザー入力を待機する秒数。これは、非対話型環境で誤って対話型プロンプトが表示された場合のフェイルセーフとして使用できます。
+* `verify`:  W&amp;B サーバーに対して認証情報を検証し、失敗した場合は AuthenticationError を発生させます。
+* `referrer`:  分析用の URL ログインリクエストで使用するリファラー。
 
 **戻り値:**
 
-* `bool`:  `key` が設定されたかどうか。
+* `bool`:  `key` が設定されている場合。
 
-**例外:**
+**Raises:**
 
-* `AuthenticationError`:  `api_key` の検証がサーバーで失敗した場合。
-* `UsageError`:  `api_key` を設定できず、TTY も利用できない場合。
+* `AuthenticationError`:  `api_key` のサーバー検証に失敗した場合。
+* `UsageError`:  `api_key` を設定できず、tty もない場合。

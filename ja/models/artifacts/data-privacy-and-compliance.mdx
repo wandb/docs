@@ -1,22 +1,22 @@
 ---
-description: 既定で W&B のファイルがどこに保存されるか、機密情報を保存・管理する方法について説明します。
-title: Artifacts のデータプライバシーとコンプライアンス
+description: デフォルトでW&Bファイルがどこに保存されるかを説明します。機密情報の保存方法と保管場所も確認できます。
+title: artifactデータのプライバシーとコンプライアンス
 ---
 
-ファイルは、 Artifacts をログするときに W&amp;B が管理する Google Cloud バケットにアップロードされます。バケットの内容は、保存時および転送中の両方で暗号化されます。 Artifacts ファイルは、対応するプロジェクトにアクセス権を持つユーザーにのみ表示されます。
+artifactをログすると、ファイルはW&amp;Bが管理するGoogle Cloudバケットにアップロードされます。バケット内の内容は、保存時と転送時の両方で暗号化されます。artifactファイルを閲覧できるのは、対応するプロジェクトへのアクセス権を持つユーザーのみです。
 
 <Frame>
-  <img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B クライアントサーバー図" />
+  <img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&Bクライアントサーバー図" />
 </Frame>
 
-Artifacts のバージョンを削除すると、それは W&amp;B のデータベースでソフト削除としてマークされ、ストレージコストからは除外されます。 Artifacts 全体を削除すると、完全削除の対象としてキューに登録され、その内容はすべて W&amp;B バケットから削除されます。ファイル削除に関して特別な要件がある場合は、[Customer Support](mailto:support@wandb.com) までお問い合わせください。
+artifactのバージョンを削除すると、そのバージョンはデータベース内で論理削除対象としてマークされ、ストレージコストの対象外になります。artifact全体を削除すると、完全削除のキューに追加され、その内容はすべてW&amp;Bのバケットから削除されます。ファイル削除に関して個別の要件がある場合は、[Customer Support](mailto:support@wandb.com)までお問い合わせください。
 
-既定では、削除された Artifacts は 7 日間保持され、この期間中であれば復元できます。この保持期間は Dedicated Cloud では設定可能です。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy) のデータ保持について詳しくはそれぞれのページを参照してください。
+デフォルトでは、削除されたArtifactsは7日間保持され、この期間中は復元できます。この保持期間は専用クラウドでは設定可能です。データ保持の詳細については、[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy)または[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy)を参照してください。
 
-マルチテナント環境に配置できない機密性の高いデータセットについては、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) または [reference artifacts](/ja/models/artifacts/track-external-files) を使用できます。reference artifacts は、ファイルの内容を W&amp;B に送信することなく、プライベートバケットへの参照を追跡します。reference artifacts は、お使いのバケットまたはサーバー上のファイルへのリンクを保持します。W&amp;B はファイルそのものではなく、ファイルに関連付けられたメタデータのみを追跡します。
+マルチテナント環境に保存できない機密性の高いデータセットについては、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud)または[reference artifacts](/ja/models/artifacts/track-external-files)を使用できます。reference artifactsは、ファイルの内容をW&amp;Bに送信せずに、プライベートバケットへの参照をトラッキングします。reference artifactsは、バケットやサーバー上のファイルへのリンクを保持します。W&amp;Bが保持するのは、ファイルそのものではなく、ファイルに関連付けられたメタデータのみです。
 
 <Frame>
-  <img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B クライアントサーバークラウド図" />
+  <img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&Bクライアントサーバークラウド図" />
 </Frame>
 
-デプロイオプションの詳細については、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) または [Self-Managed](/ja/platform/hosting/hosting-options/self-managed) を参照してください。お客様固有の要件についてご相談の際は、[contact@wandb.com](mailto:contact@wandb.com) までご連絡ください。
+デプロイオプションの詳細については、[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud)または[セルフマネージド](/ja/platform/hosting/hosting-options/self-managed)を参照してください。具体的な要件について相談する場合は、[contact@wandb.com](mailto:contact@wandb.com)までご連絡ください。

@@ -4,17 +4,17 @@ title: OpenAI Gym
 ---
 
 <Note>
-  &quot;L&#39;équipe qui assure la maintenance de Gym depuis 2021 a transféré tout le développement futur vers [Gymnasium](https://github.com/Farama-Foundation/Gymnasium), un remplaçant direct de Gym (import gymnasium as gym), et Gym ne recevra plus aucune mise à jour.&quot; ([Source](https://github.com/openai/gym#the-team-that-has-been-maintaining-gym-since-2021-has-moved-all-future-development-to-gymnasium-a-drop-in-replacement-for-gym-import-gymnasium-as-gym-and-gym-will-not-be-receiving-any-future-updates-please-switch-over-to-gymnasium-as-soon-as-youre-able-to-do-so-if-youd-like-to-read-more-about-the-story-behind-this-switch-please-check-out-this-blog-post))
+  &quot;L&#39;équipe qui maintient Gym depuis 2021 a transféré tout le développement futur vers [Gymnasium](https://github.com/Farama-Foundation/Gymnasium), un remplaçant direct de Gym (import gymnasium as gym), et Gym ne recevra plus aucune mise à jour.&quot; ([Source](https://github.com/openai/gym#the-team-that-has-been-maintaining-gym-since-2021-has-moved-all-future-development-to-gymnasium-a-drop-in-replacement-for-gym-import-gymnasium-as-gym-and-gym-will-not-be-receiving-any-future-updates-please-switch-over-to-gymnasium-as-soon-as-youre-able-to-do-so-if-youd-like-to-read-more-about-the-story-behind-this-switch-please-check-out-this-blog-post))
 
-  Comme Gym n&#39;est plus un projet maintenu activement, essayez notre intégration avec Gymnasium.
+  Comme Gym n&#39;est plus activement maintenu, essayez notre intégration avec Gymnasium.
 </Note>
 
-Si vous utilisez [OpenAI Gym](https://github.com/openai/gym), W&amp;B enregistre automatiquement les vidéos de votre environnement générées par `gym.wrappers.Monitor`. Il vous suffit de définir l&#39;argument nommé `monitor_gym` de [`wandb.init`](/fr/models/ref/python/functions/init) sur `True` ou d&#39;appeler `wandb.gym.monitor()`.
+Si vous utilisez [OpenAI Gym](https://github.com/openai/gym), W&amp;B enregistre automatiquement les vidéos de votre environnement générées par `gym.wrappers.Monitor`. Définissez simplement l&#39;argument mot-clé `monitor_gym` de [`wandb.init`](/fr/models/ref/python/functions/init) sur `True` ou appelez `wandb.gym.monitor()`.
 
-Notre intégration avec gym est très légère. Nous [regardons simplement le nom du fichier vidéo](https://github.com/wandb/wandb/blob/master/wandb/integration/gym/__init__.py#L15) enregistré depuis `gym` et l&#39;utilisons comme nom ; si aucune correspondance n&#39;est trouvée, nous utilisons `"videos"` par défaut. Si vous voulez plus de contrôle, vous pouvez toujours [enregistrer manuellement une vidéo](/fr/models/track/log/media/).
+Notre intégration Gym est très légère. Nous [regardons simplement le nom du fichier vidéo](https://github.com/wandb/wandb/blob/master/wandb/integration/gym/__init__.py#L15) enregistré depuis `gym` et lui donnons ce nom, ou utilisons `"videos"` par défaut si nous ne trouvons pas de correspondance. Si vous voulez plus de contrôle, vous pouvez toujours [enregistrer une vidéo](/fr/models/track/log/media/) manuellement.
 
 Le [OpenRL Benchmark](https://wandb.me/openrl-benchmark-report) de [CleanRL](https://github.com/vwxyzjn/cleanrl) utilise cette intégration pour ses exemples OpenAI Gym. Vous pouvez trouver le code source (y compris [le code spécifique utilisé pour certains runs](https://wandb.ai/cleanrl/cleanrl.benchmark/runs/2jrqfugg/code?workspace=user-costa-huang)) qui montre comment utiliser gym avec
 
 <Frame>
-  <img src="/images/integrations/open_ai_report_example.png" alt="tableau de bord OpenAI Gym" />
+  <img src="/images/integrations/open_ai_report_example.png" alt="Tableau de bord OpenAI Gym" />
 </Frame>

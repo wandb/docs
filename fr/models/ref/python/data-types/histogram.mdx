@@ -8,17 +8,16 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/histogram.py" />
 
-
-## <kbd>classe</kbd> `Histogram`
+## <kbd>class</kbd> `Histogram`
 
 Classe W&amp;B pour les histogrammes.
 
-Cet objet fonctionne exactement comme la fonction d&#39;histogramme de numpy https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
+Cet objet fonctionne exactement comme la fonction `histogram` de NumPy https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
 
 **Attributs :**
 
-* `bins` ([float]):  Bornes des intervalles
-* `histogram` ([int]):  Nombre d&#39;éléments dans chaque intervalle. 
+* `bins` ([float]) :  Limites des bins
+* `histogram` ([int]) :  Nombre d&#39;éléments dans chaque bin. 
 
 ### <kbd>méthode</kbd> `Histogram.__init__`
 
@@ -33,10 +32,10 @@ __init__(
 Initialiser un objet Histogram.
 
 **Arguments :**
-sequence: Données d&#39;entrée de l&#39;histogramme. np&#95;histogram: Entrée alternative correspondant à un histogramme précalculé. num&#95;bins: Nombre d&#39;intervalles de l&#39;histogramme. Le nombre d&#39;intervalles par défaut est de 64. Le nombre maximal d&#39;intervalles est de 512.
+sequence: Données d’entrée de l’histogramme. np&#95;histogram: Entrée alternative correspondant à un histogramme précalculé. num&#95;bins: Nombre de classes de l’histogramme. Le nombre de classes par défaut est de 64. Le nombre maximal de classes est de 512.
 
 **Exemples :**
-Générez un histogramme à partir d&#39;une séquence.
+Générer un histogramme à partir d’une séquence.
 
 ```python
 import wandb
@@ -44,7 +43,7 @@ import wandb
 wandb.Histogram([1, 2, 3])
 ```
 
-Initialiser efficacement à partir de `np.histogram`.
+Initialisez efficacement à partir de `np.histogram`.
 
 ```python
 import numpy as np

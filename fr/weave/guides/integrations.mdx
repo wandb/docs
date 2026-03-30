@@ -1,19 +1,19 @@
 ---
 title: Aperçu des intégrations
-description: "Tracez et surveillez les appels LLM sur plus de 30 fournisseurs et frameworks grâce au patching automatique de Weave pour OpenAI, Anthropic, et bien d'autres."
+description: "Tracez et surveillez les appels LLM sur plus de 30 fournisseurs et frameworks grâce au patching automatique de Weave pour OpenAI, Anthropic, etc."
 ---
 
-W&amp;B Weave fournit des intégrations de journalisation pour les fournisseurs de LLM et les frameworks d&#39;orchestration les plus répandus. Ces intégrations vous permettent de tracer en toute transparence les appels effectués via différentes bibliothèques, afin de mieux surveiller et analyser vos applications d&#39;IA.
+W&amp;B Weave propose des intégrations de logging pour les fournisseurs de LLM et les frameworks d’orchestration les plus courants. Ces intégrations vous permettent de tracer facilement les appels effectués via différentes bibliothèques, ce qui améliore votre capacité à surveiller et analyser vos applications d’IA.
 
-Si vous utilisez dans votre application des bibliothèques de fournisseurs de LLM (comme OpenAI, Anthropic, Cohere ou Mistral), vous souhaitez que ces appels d&#39;API apparaissent dans W&amp;B Weave sous forme d&#39;Appels tracés : entrées, sorties, latence, utilisation des tokens et coût. Sans cela, vous devriez encapsuler chaque `client.chat.completions.create()` (ou équivalent) dans `@weave.op` ou recourir à une instrumentation manuelle, ce qui est fastidieux et rend les oublis faciles.
+Si vous utilisez dans votre application des bibliothèques de fournisseurs de LLM (comme OpenAI, Anthropic, Cohere ou Mistral), vous voulez que ces appels d’API apparaissent dans W&amp;B Weave comme des appels tracés : entrées, sorties, latence, utilisation des tokens et coût. Sans cela, vous devriez encapsuler chaque `client.chat.completions.create()` (ou équivalent) dans `@weave.op` ou recourir à une instrumentation manuelle, ce qui est fastidieux et il est facile d’oublier quelque chose.
 
-Weave intercepte automatiquement (applique un patch à) les bibliothèques clientes LLM prises en charge. Le code de votre application reste inchangé : vous utilisez le SDK du fournisseur comme d&#39;habitude, et chaque requête est enregistrée comme un Appel Weave. Vous bénéficiez d&#39;un traçage complet avec une configuration minimale.
+Weave intercepte automatiquement (patche) les bibliothèques clientes LLM prises en charge. Le code de votre application reste inchangé : vous utilisez le SDK du fournisseur comme d’habitude, et chaque requête est enregistrée comme un appel Weave. Vous bénéficiez d’un tracing complet avec une configuration minimale.
 
 <div id="llm-providers">
   ## Fournisseurs de LLM
 </div>
 
-Les fournisseurs de LLM sont les fournisseurs qui donnent accès à des grands modèles de langage pour générer des prédictions. Weave s&#39;intègre à ces fournisseurs pour la journalisation et le traçage des interactions avec leurs API :
+Les fournisseurs de LLM sont les prestataires qui donnent accès à de grands modèles de langage pour générer des prédictions. Weave s’intègre à ces fournisseurs pour journaliser et tracer les interactions avec leurs API :
 
 * **[W&amp;B Inference Service](https://docs.wandb.ai/inference/)**
 * **[Amazon Bedrock](/fr/weave/guides/integrations/bedrock)**
@@ -31,7 +31,7 @@ Les fournisseurs de LLM sont les fournisseurs qui donnent accès à des grands m
 * **[OpenRouter](/fr/weave/guides/integrations/openrouter)**
 * **[Together AI](/fr/weave/guides/integrations/together_ai)**
 
-**[Modèles locaux](/fr/weave/guides/integrations/local_models)** : Pour exécuter des modèles sur votre propre infrastructure.
+**[Modèles locaux](/fr/weave/guides/integrations/local_models)** : pour les cas où vous exécutez des modèles sur votre propre infrastructure.
 
 <div id="frameworks">
   ## Frameworks
@@ -58,14 +58,14 @@ Les frameworks aident à orchestrer les pipelines d’exécution des application
   ## Frameworks de RL
 </div>
 
-* **[Vérificateurs](/fr/weave/guides/integrations/verifiers)**
+* **[Verifiers](/fr/weave/guides/integrations/verifiers)**
 
 <div id="protocols">
   ## Protocoles
 </div>
 
-Weave s’intègre à des protocoles standardisés qui permettent la communication entre les applications d’IA et les services qui les sous-tendent :
+Weave s’intègre à des protocoles standardisés qui permettent la communication entre les applications d’IA et les services qui les prennent en charge :
 
 * **[Model Context Protocol (MCP)](/fr/weave/guides/integrations/mcp)**
 
-Choisissez une intégration dans les listes ci-dessus pour en savoir plus sur la façon d’utiliser Weave avec votre fournisseur de LLM, votre framework ou votre protocole préféré. Que vous accédiez directement aux API de LLM, créiez des pipelines complexes ou utilisiez des protocoles standardisés, Weave fournit les outils nécessaires pour tracer et analyser efficacement vos applications d’IA.
+Choisissez une intégration dans les listes ci-dessus pour en savoir plus sur la manière d’utiliser Weave avec votre fournisseur de LLM, framework ou protocole préféré. Que vous accédiez directement aux API de LLM, construisiez des pipelines complexes ou utilisiez des protocoles standardisés, Weave fournit les outils nécessaires pour tracer et analyser efficacement vos applications d’IA.

@@ -1,9 +1,9 @@
 ---
-title: "エラー `resume='must' but run (<run_id>) doesn't exist` を修正するにはどうすればよいですか?"
+title: "エラー `resume='must' but run (<run_id>) doesn't exist` を解消するにはどうすればよいですか？"
 keywords: ["再開", "Runs"]
 ---
 
-`resume='must' but run (<run_id>) doesn't exist` というエラーが表示された場合、再開しようとしている run がプロジェクトまたは entity 内に存在しません。正しいインスタンスにログインしており、プロジェクトと entity が設定されていることを確認してください。
+`resume='must' but run (<run_id>) doesn't exist` というエラーが表示された場合、再開しようとしている run はそのプロジェクトまたは entity 内に存在しません。正しいインスタンスにログインしていて、プロジェクトと entity が設定されていることを確認してください。
 
 ```python
 wandb.init(entity=<entity>, project=<project>, id=<run-id>, resume='must')
@@ -13,11 +13,11 @@ wandb.init(entity=<entity>, project=<project>, id=<run-id>, resume='must')
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されています。
+{/* ---- AUTO-GENERATED: タブバッジ ----
+  フロントマターのキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[再開](/ja/support/models/tags/resuming)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -1,6 +1,6 @@
 ---
-description: Itérez sur les jeux de données et comprenez les prédictions du modèle
-title: Aperçu des tableaux
+description: Affinez vos jeux de données et comprenez les prédictions du modèle
+title: Aperçu de Tables
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -12,24 +12,24 @@ import { TryProductLink } from '/snippets/fr/_includes/try-product-link.mdx';
   <TryProductLink url="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" />
 </CardGroup>
 
-Utilisez les tableaux W&amp;B pour visualiser et effectuer des requêtes sur des données tabulaires. Par exemple :
+Utilisez W&amp;B Tables pour visualiser et interroger des données tabulaires. Par exemple :
 
 * Comparez les performances de différents modèles sur le même jeu de test
 * Identifiez des tendances dans vos données
-* Visualisez des exemples de prédictions de modèle
-* Exécutez une requête pour trouver les exemples souvent mal classés
+* Examinez visuellement des exemples de prédictions du modèle
+* Effectuez des requêtes pour trouver des exemples souvent mal classés
 
 <Frame>
-  <img src="/images/data_vis/tables_sample_predictions.png" alt="Tableau des prédictions de segmentation sémantique" />
+  <img src="/images/data_vis/tables_sample_predictions.png" alt="Tableau de prédictions de segmentation sémantique" />
 </Frame>
 
-L’image ci-dessus présente un tableau contenant des résultats de segmentation sémantique et des métriques personnalisées. Consultez ce tableau dans cet [exemple de projet du W&amp;B ML Course](https://wandb.ai/av-team/mlops-course-001).
+L&#39;image ci-dessus montre un tableau avec de la segmentation sémantique et des métriques personnalisées. Consultez ce tableau ici, dans cet [exemple de projet du cours de ML de W&amp;B](https://wandb.ai/av-team/mlops-course-001).
 
 <div id="how-it-works">
   ## Fonctionnement
 </div>
 
-Un tableau est une grille de données à deux dimensions, dans laquelle chaque colonne contient un seul type de données. Les tableaux prennent en charge les types primitifs et numériques, ainsi que les listes imbriquées, les dictionnaires et les types de médias enrichis.
+Un tableau est une grille de données en deux dimensions, où chaque colonne ne contient qu’un seul type de données. Les Tables prennent en charge les types primitifs et numériques, ainsi que les listes imbriquées, les dictionnaires et les médias enrichis.
 
 <div id="log-a-table">
   ## Journaliser un tableau
@@ -38,10 +38,10 @@ Un tableau est une grille de données à deux dimensions, dans laquelle chaque c
 Journalisez un tableau avec quelques lignes de code :
 
 * [`wandb.init()`](/fr/models/ref/python/functions/init) : Créez un [run](/fr/models/runs/) pour suivre les résultats.
-* [`wandb.Table()`](/fr/models/ref/python/data-types/table) : Créez un nouvel objet tableau.
+* [`wandb.Table()`](/fr/models/ref/python/data-types/table) : Créez un objet tableau.
   * `columns` : Définissez les noms des colonnes.
   * `data` : Définissez le contenu du tableau.
-* [`run.log()`](/fr/models/ref/python/experiments/run.md/#method-runlog) : Journalisez le tableau pour l’enregistrer dans W&amp;B.
+* [`run.log()`](/fr/models/ref/python/experiments/run.md/#method-runlog) : Journalisez le tableau afin de l’enregistrer dans W&amp;B.
 
 ```python
 import wandb
@@ -52,8 +52,8 @@ with wandb.init(project="table-test") as run:
 ```
 
 <div id="how-to-get-started">
-  ## Pour commencer
+  ## Bien démarrer
 </div>
 
-* [Démarrage rapide](/fr/models/tables/tables-walkthrough/) : Apprenez à journaliser des tableaux de données, à visualiser les données et à effectuer des requêtes sur les données.
-* [Galerie de tableaux](/fr/models/tables/tables-gallery/) : Voir des exemples de cas d&#39;utilisation de tableau.
+* [Démarrage rapide](/fr/models/tables/tables-walkthrough/) : découvrez comment journaliser des tableaux de données, visualiser les données et les interroger.
+* [Galerie Tables](/fr/models/tables/tables-gallery/) : voir des exemples de cas d’usage pour Tables.

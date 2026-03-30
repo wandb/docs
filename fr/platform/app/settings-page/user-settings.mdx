@@ -1,29 +1,28 @@
 ---
-description: Gérez les informations de votre profil, les valeurs par défaut du compte,
-  les alertes, la participation aux produits en version bêta, l’intégration GitHub,
-  l’utilisation du stockage, l’activation du compte et créez des équipes dans vos
-  paramètres utilisateur.
+description: Gérez les informations de votre profil, les paramètres par défaut du compte, les alertes, la participation
+  aux produits en version bêta, l'intégration GitHub, l'usage du stockage, l'activation du compte et créez
+  des Teams dans vos paramètres utilisateur.
 title: Gérer les paramètres utilisateur
 ---
 
 import ApiKeyCreate from "/snippets/fr/_includes/api-key-create.mdx";
 import ApiKeySecurity from "/snippets/fr/_includes/api-key-security.mdx";
 
-Accédez à votre page de profil utilisateur et sélectionnez votre icône utilisateur dans le coin supérieur droit. Dans le menu déroulant, choisissez **Paramètres**.
+Accédez à la page de votre profil et sélectionnez votre icône utilisateur dans le coin supérieur droit. Dans le menu déroulant, choisissez **Settings**.
 
 <div id="profile">
   ## Profil
 </div>
 
-Dans la section **Profil**, vous pouvez gérer et modifier le nom de votre compte ainsi que votre établissement. Vous pouvez aussi ajouter, facultativement, une biographie, un emplacement, un lien vers votre site web personnel ou celui de votre établissement, et importer une image de profil.
+Dans la section **Profil**, vous pouvez gérer et modifier le nom de votre compte ainsi que votre établissement. Vous pouvez également ajouter, si vous le souhaitez, une biographie, un emplacement, un lien vers votre site web personnel ou celui de votre établissement, et téléverser une image de profil.
 
 <div id="edit-your-intro">
-  ## Modifiez votre présentation
+  ## Modifiez votre introduction
 </div>
 
-Pour modifier votre présentation, cliquez sur **Edit** en haut de votre profil. L’éditeur WYSIWYG qui s’ouvre prend en charge le Markdown.
+Pour modifier votre introduction, cliquez sur **Edit** en haut de votre profil. L’éditeur WYSIWYG qui s’ouvre prend en charge Markdown.
 
-1. Pour modifier une ligne, cliquez dessus. Pour gagner du temps, vous pouvez taper `/`, puis choisir Markdown dans la liste.
+1. Pour modifier une ligne, cliquez dessus. Pour gagner du temps, vous pouvez taper `/` et choisir Markdown dans la liste.
 2. Utilisez les poignées de déplacement d’un élément pour le déplacer.
 3. Pour supprimer un bloc, cliquez sur la poignée de déplacement, puis sur **Delete**.
 4. Pour enregistrer vos modifications, cliquez sur **Save**.
@@ -32,74 +31,74 @@ Pour modifier votre présentation, cliquez sur **Edit** en haut de votre profil.
   ### Ajouter des badges de réseaux sociaux
 </div>
 
-Pour ajouter un badge d’abonnement au compte `@weights_biases` sur X, vous pouvez insérer un lien au format Markdown avec une balise HTML `<img>` pointant vers l’image du badge :
+Pour ajouter un badge de suivi pour le compte `@weights_biases` sur X, vous pouvez ajouter un lien au format Markdown avec une balise HTML `<img>` pointant vers l’image du badge :
 
 ```markdown
 [![X: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://x.com/intent/follow?screen_name=weights_biases)
 ```
 
-Dans une balise `<img>`, vous pouvez spécifier `width`, `height` ou les deux. Si vous n’en spécifiez qu’un seul, les proportions de l’image sont préservées.
+Dans une balise `<img>`, vous pouvez spécifier `width`, `height`, ou les deux. Si vous n’en spécifiez qu’un seul, les proportions de l’image sont conservées.
 
 <div id="default-team">
   ## Équipe par défaut
 </div>
 
-Si vous êtes membre de plusieurs équipes, la section **Équipe par défaut** vous permet de configurer l’équipe par défaut à utiliser lorsqu’un run ou une trace Weave ne précise pas d’équipe. Si vous n’êtes membre que d’une seule équipe, cette équipe est celle utilisée par défaut et cette section n’apparaît pas.
+Si vous êtes membre de plusieurs équipes, la section **Équipe par défaut** vous permet de définir l’équipe par défaut à utiliser lorsqu’un run ou une trace Weave ne spécifie pas d’équipe. Si vous n’êtes membre que d’une seule équipe, cette équipe est utilisée par défaut et cette section n’apparaît pas.
 
 Sélectionnez un onglet pour continuer.
 
 <Tabs>
   <Tab title="Cloud mutualisé">
-    À côté de **Emplacement par défaut pour créer de nouveaux projets**, cliquez sur le menu déroulant, puis sélectionnez votre équipe par défaut.
+    À côté de **Emplacement par défaut pour créer de nouveaux projets**, cliquez sur la liste déroulante, puis sélectionnez votre équipe par défaut.
   </Tab>
 
   <Tab title="Cloud dédié / Autogéré">
-    1. À côté de **Emplacement par défaut pour créer de nouveaux projets**, cliquez sur le menu déroulant, puis sélectionnez votre équipe par défaut ou votre entité personnelle.
+    1. À côté de **Emplacement par défaut pour créer de nouveaux projets**, cliquez sur la liste déroulante, puis sélectionnez votre équipe par défaut ou votre entité personnelle.
     2. (**Facultatif**) Si un administrateur a activé les projets publics dans **Compte** &gt; **Paramètres** &gt; **Confidentialité**, configurez la visibilité par défaut de vos nouveaux projets. Cliquez sur le bouton à côté de **Confidentialité par défaut des projets dans votre compte personnel**, puis sélectionnez **Privé** (par défaut) ou **Public**.
-    3. (**Facultatif**) Si un administrateur a activé l’[enregistrement et la comparaison du code par défaut](/fr/models/app/features/panels/code/) dans **Compte** &gt; **Paramètres** &gt; **Confidentialité**, cliquez sur **Activer l’enregistrement du code dans votre compte personnel** pour l’activer pour vos runs.
+    3. (**Facultatif**) Si un administrateur a activé [l’enregistrement et la comparaison du code par défaut](/fr/models/app/features/panels/code/) dans **Compte** &gt; **Paramètres** &gt; **Confidentialité**, pour l’activer pour vos runs, cliquez sur **Activer l’enregistrement du code dans votre compte personnel**.
   </Tab>
 </Tabs>
 
 <Note>
-  Pour spécifier l’équipe par défaut lorsque vous exécutez un script dans un environnement automatisé, vous pouvez définir l’emplacement par défaut à l’aide de la [variable d’environnement](https://docs.wandb.ai/models/track/environment-variables) `WANDB_ENTITY`.
+  Pour spécifier l’équipe par défaut lorsque vous exécutez un script dans un environnement automatisé, vous pouvez définir l’emplacement par défaut à l’aide de la variable d’environnement [`WANDB_ENTITY`](https://docs.wandb.ai/models/track/environment-variables).
 </Note>
 
 <div id="teams">
   ## Teams
 </div>
 
-La section **Teams** répertorie toutes vos équipes.
+La section **Teams** répertorie toutes vos Teams.
 
-1. Cliquez sur le nom d’une équipe pour accéder à sa page.
-2. Si vous êtes autorisé à rejoindre d’autres équipes, cliquez sur **Voir les équipes** à côté de **Nous avons trouvé des équipes que vous pouvez rejoindre**.
-3. Facultativement, activez **Masquer les équipes dans le profil public**.
+1. Cliquez sur le nom d’une Team pour accéder à sa page.
+2. Si vous êtes autorisé à rejoindre d’autres Teams, cliquez sur **Voir les Teams** à côté de **Nous avons trouvé des Teams que vous pouvez rejoindre**.
+3. Si vous le souhaitez, activez **Masquer les Teams dans le profil public**.
 
 <Note>
-  Pour créer ou gérer une équipe, consultez [Gérer les équipes](/fr/platform/app/settings-page/teams/).
+  Pour créer ou gérer une Team, voir [Gérer les Teams](/fr/platform/app/settings-page/teams/).
 </Note>
 
 <div id="api-keys">
   ## Clés API
 </div>
 
-La section **Clés API** vous permet de gérer vos clés API personnelles afin de vous authentifier auprès des services W&amp;B.
+La section **Clés API** vous permet de gérer vos clés API personnelles pour vous authentifier auprès des services W&amp;B.
 
 <div id="view-your-api-keys">
-  ### Affichez vos clés API
+  ### Consultez vos clés API
 </div>
 
 Le tableau des clés API affiche :
 
-* **ID de la clé** : la première partie de chaque clé API, utilisée à des fins d’identification
-* **Nom** : le nom descriptif que vous avez fourni lors de la création de la clé
-* **Créée le** : la date de création de la clé
-* **Dernière utilisation** : l’horodatage de l’utilisation la plus récente
+* **ID de la clé** : La première partie de chaque clé API, utilisée pour l’identifier
+* **Nom** : Un nom descriptif que vous avez donné lors de la création de la clé
+* **Créée le** : La date de création de la clé
+* **Dernière utilisation** : La date et l’heure de la dernière utilisation
 
 <Note>
   Pour des raisons de sécurité, le tableau n’affiche que l’ID de la clé (la première partie de la clé). La clé API secrète complète n’est affichée qu’une seule fois, au moment de sa création.
 </Note>
 
-Saisissez une partie du nom ou de l’ID de la clé pour rechercher et filtrer la liste des clés API.
+Saisissez une partie du nom de la clé ou de son ID pour filtrer la liste des clés API.
 
 <div id="create-a-new-api-key">
   ### Créer une nouvelle clé API
@@ -113,12 +112,12 @@ Saisissez une partie du nom ou de l’ID de la clé pour rechercher et filtrer l
 
 Pour révoquer l’accès en supprimant une clé API :
 
-1. Trouvez la clé à supprimer dans le tableau des clés API.
-2. Cliquez sur le bouton Supprimer à côté de la clé.
+1. Repérez la clé que vous voulez supprimer dans le tableau des clés API.
+2. Cliquez sur le bouton Delete à côté de la clé.
 3. Confirmez la suppression.
 
 <Warning>
-  La suppression d’une clé API révoque immédiatement l’accès de tous les scripts ou services qui utilisent cette clé. Assurez-vous d’avoir mis à jour tous les systèmes afin qu’ils utilisent une nouvelle clé avant de supprimer l’ancienne.
+  La suppression d’une clé API révoque immédiatement l’accès de tous les scripts ou services qui utilisent cette clé. Assurez-vous d’avoir mis à jour tous les systèmes pour utiliser une nouvelle clé avant de supprimer l’ancienne.
 </Warning>
 
 <ApiKeySecurity />
@@ -127,16 +126,16 @@ Pour révoquer l’accès en supprimant une clé API :
   ## Fonctionnalités bêta
 </div>
 
-Dans la section **Fonctionnalités bêta**, vous pouvez, facultativement, activer des options ludiques et découvrir en avant-première de nouveaux produits en cours de développement. Sélectionnez le bouton bascule à côté de la fonctionnalité bêta que vous souhaitez activer.
+Dans la section **Fonctionnalités bêta**, vous pouvez, si vous le souhaitez, activer des modules complémentaires et découvrir en avant-première de nouveaux produits en cours de développement. Sélectionnez le bouton de bascule à côté de la fonctionnalité bêta que vous souhaitez activer.
 
 <div id="alerts">
   ## Alertes
 </div>
 
-Recevez des notifications lorsque vos runs plantent ou se terminent, ou configurez des alertes personnalisées avec [wandb.Run.alert()](/fr/models/runs/alert/). Recevez des notifications par e-mail ou via Slack. Basculez le commutateur à côté du type d’événement dont vous souhaitez recevoir les alertes.
+Recevez des notifications lorsque vos runs échouent, se terminent, ou configurez des alertes personnalisées avec [wandb.Run.alert()](/fr/models/runs/alert/). Recevez des notifications par e-mail ou via Slack. Basculez l’interrupteur à côté du type d’événement pour lequel vous souhaitez recevoir des alertes.
 
-* **Runs terminés** : indique si un run Weights &amp; Biases s’est terminé avec succès.
-* **Run planté** : notification lorsqu’un run ne parvient pas à se terminer.
+* **Runs terminés** : indique si un run Weights and Biases s’est terminé avec succès.
+* **Run en échec** : notification si un run ne s’est pas terminé correctement.
 
 Pour plus d’informations sur la configuration et la gestion des alertes, voir [Envoyer des alertes avec wandb.Run.alert()](/fr/models/runs/alert/).
 
@@ -146,22 +145,22 @@ Pour plus d’informations sur la configuration et la gestion des alertes, voir 
 
 Connectez un compte GitHub personnel. Pour connecter un compte GitHub :
 
-1. Sélectionnez le bouton **Connect Github**. Vous serez redirigé vers une page d’autorisation (OAuth).
+1. Cliquez sur le bouton **Connect Github**. Vous serez redirigé vers une page d’autorisation OAuth.
 2. Sélectionnez l’organisation à laquelle accorder l’accès dans la section **Organization access**.
 3. Sélectionnez **Authorize** **wandb**.
 
 <div id="delete-your-account">
-  ## Supprimez votre compte
+  ## Supprimer votre compte
 </div>
 
-Sélectionnez le bouton **Delete Account** pour supprimer votre compte.
+Cliquez sur le bouton **Supprimer le compte** pour supprimer votre compte.
 
 <Warning>
-  La suppression de votre compte est irréversible.
+  La suppression du compte est irréversible.
 </Warning>
 
 <div id="storage">
   ## Stockage
 </div>
 
-La section **Stockage** décrit l’utilisation totale de l’espace de stockage consommé par votre compte sur les serveurs de Weights &amp; Biases. Le plan de stockage par défaut est de 100 Go. Pour plus d’informations sur le stockage et la tarification, voir la page [Pricing](https://wandb.ai/site/pricing).
+La section **Stockage** indique l’espace de stockage total utilisé par votre compte sur les serveurs de Weights and Biases. Le plan de stockage par défaut est de 100 Go. Pour plus d’informations sur le stockage et la tarification, voir la page [Tarification](https://wandb.ai/site/pricing).

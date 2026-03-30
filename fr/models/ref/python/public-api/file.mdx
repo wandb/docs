@@ -13,9 +13,9 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 Fichier enregistré dans W&amp;B.
 
-Représente un fichier stocké dans W&amp;B. Inclut l’accès aux métadonnées du fichier. Les fichiers sont associés à un run spécifique et peuvent inclure des fichiers texte, des poids de modèle, des jeux de données, des visualisations et d’autres artefacts. Vous pouvez télécharger le fichier, le supprimer et accéder à ses propriétés.
+Représente un fichier unique stocké dans W&amp;B. Donne accès aux métadonnées du fichier. Les fichiers sont associés à un run spécifique et peuvent inclure des fichiers texte, des poids de modèle, des jeux de données, des visualisations et d’autres Artifacts. Vous pouvez télécharger le fichier, le supprimer et accéder à ses propriétés.
 
-Spécifiez un ou plusieurs attributs dans un dictionnaire pour identifier un fichier précis enregistré dans un run donné. Vous pouvez effectuer une recherche à l’aide des clés suivantes :
+Spécifiez un ou plusieurs attributs dans un dictionnaire pour identifier un fichier spécifique enregistré dans un run spécifique. Vous pouvez effectuer une recherche à l’aide des clés suivantes :
 
 * id (str) : ID du run qui contient le fichier
 * name (str) : nom du fichier
@@ -35,11 +35,11 @@ Spécifiez un ou plusieurs attributs dans un dictionnaire pour identifier un fic
 
 ### <kbd>propriété</kbd> File.path_uri
 
-Renvoie le chemin URI vers le fichier dans le bucket de stockage.
+Renvoie le chemin URI du fichier dans le bucket de stockage.
 
 **Retourne :**
 
-* `str` :  L’URI S3 (par exemple, &#39;s3://bucket/path/to/file&#39;) si le fichier est stocké dans S3, l’URL directe s’il s’agit d’un fichier de référence, ou une chaîne vide s’il n’est pas disponible.
+* `str` : L&#39;URI S3 (par ex., &#39;s3://bucket/path/to/file&#39;) si le fichier est stocké dans S3, l&#39;URL directe s&#39;il s&#39;agit d&#39;un fichier de référence, ou une chaîne vide s&#39;il est indisponible.
 
 **Retourne :**
 
@@ -51,9 +51,9 @@ Renvoie le chemin URI vers le fichier dans le bucket de stockage.
 
 Renvoie la taille du fichier en octets.
 
-**Retourne :**
+**Retourne :**
 
-* `int` : La valeur de la valeur de propriété size.
+* `int`: La valeur de la propriété size.
 
 ***
 
@@ -83,9 +83,9 @@ Télécharge un fichier précédemment enregistré par un run depuis le serveur 
 
 **Arguments :**
 
-* `root` :  Répertoire local où enregistrer le fichier. Valeur par défaut : le répertoire de travail courant (&quot;.&quot;).
-* `replace` :  Si `True`, le téléchargement écrase un fichier local existant. Valeur par défaut : `False`.
-* `exist_ok` :  Si `True`, ne lève pas de `ValueError` si le fichier existe déjà et ne le télécharge pas à nouveau, sauf si `replace=True`. Valeur par défaut : `False`.
+* `root` :  Répertoire local où enregistrer le fichier. La valeur par défaut est le répertoire de travail actuel (&quot;.&quot;).
+* `replace` :  Si `True`, le téléchargement écrase un fichier local s&#39;il existe. La valeur par défaut est `False`.
+* `exist_ok` :  Si `True`, ne déclenche pas de `ValueError` si le fichier existe déjà et ne le retélécharge pas, sauf si `replace=True`. La valeur par défaut est `False`.
 * `api` :  Si spécifié, l&#39;instance `Api` utilisée pour télécharger le fichier.
 
 **Exceptions levées :**

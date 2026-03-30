@@ -1,39 +1,39 @@
 ---
-description: "AWS インフラストラクチャ上で実験追跡、メトリクスのログ記録、モデル管理を行うために、W&B を Amazon SageMaker と連携します。"
+description: "AWSインフラストラクチャー上で実験管理、メトリクスのログ記録、モデル管理を行うために、W&B を Amazon SageMaker と統合します。"
 title: SageMaker
 ---
 
-W&B は [Amazon SageMaker](https://aws.amazon.com/sagemaker/) と連携し、ハイパーパラメーターを自動的に読み取り、分散 run をグループ化し、チェックポイントから run を再開します。
+W&amp;B は [Amazon SageMaker](https://aws.amazon.com/sagemaker/) と統合されており、ハイパーパラメーターを自動的に読み取り、分散 run をグループ化し、チェックポイントから run を再開します。
 
 <div id="authentication">
   ## 認証
 </div>
 
-W&B はトレーニング スクリプトからの相対パス上にある `secrets.env` という名前のファイルを探し、`wandb.init()` が呼び出されたときにその内容を環境変数に読み込みます。Experiments を起動するために使用するスクリプト内で `wandb.sagemaker_auth(path="source_dir")` を呼び出すことで、`secrets.env` ファイルを生成できます。このファイルを必ず `.gitignore` に追加してください！
+W&amp;B は、トレーニングスクリプトを基準とした相対パスにある `secrets.env` という名前のファイルを探し、`wandb.init()` が呼び出されるとその内容を環境変数として読み込みます。Experiments の起動に使用するスクリプトで `wandb.sagemaker_auth(path="source_dir")` を呼び出すと、`secrets.env` ファイルを生成できます。必ずこのファイルを `.gitignore` に追加してください！
 
 <div id="existing-estimators">
-  ## 既存の estimator
+  ## 既存の Estimator
 </div>
 
-SageMaker のあらかじめ設定済みの estimator のいずれかを使用している場合は、ソースディレクトリに `requirements.txt` を追加し、その中に wandb を含めてください。
+SageMaker の事前設定済みの Estimator のいずれかを使用している場合は、wandb を含む `requirements.txt` をソースディレクトリに追加する必要があります
 
 ```text
 wandb
 ```
 
-Python 2 で動作する estimator を使用している場合は、wandb をインストールする前に、この [wheel](https://pythonwheels.com) から直接 `psutil` をインストールする必要があります。
+Python 2 で実行されている estimator を使用している場合は、wandb をインストールする前に、この [wheel](https://pythonwheels.com) から `psutil` を直接インストールする必要があります。
 
 ```text
 https://wheels.galaxyproject.org/packages/psutil-5.4.8-cp27-cp27mu-manylinux1_x86_64.whl
 wandb
 ```
 
-完全なサンプルは [GitHub](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker) を参照し、詳細は弊社の [ブログ](https://wandb.ai/site/articles/running-sweeps-with-sagemaker) をご覧ください。
+GitHub の[完全な例](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cifar10-sagemaker)を確認し、詳細は[ブログ](https://wandb.ai/site/articles/running-sweeps-with-sagemaker)をご覧ください。
 
-また、SageMaker と W&amp;B を使ってセンチメント分析器をデプロイする方法については、チュートリアル「[Deploy Sentiment Analyzer Using SageMaker and W&amp;B](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE)」も参照できます。
+また、SageMaker と W&amp;B を使って感情分析器をデプロイする方法については、[Deploy Sentiment Analyzer Using SageMaker and W&amp;B チュートリアル](https://wandb.ai/authors/sagemaker/reports/Deploy-Sentiment-Analyzer-Using-SageMaker-and-W-B--VmlldzoxODA1ODE)も参照できます。
 
 <Warning>
-  W&amp;B sweep エージェントが SageMaker ジョブ内で期待どおりに動作するのは、SageMaker インテグレーションがオフになっている場合に限られます。`wandb.init` の呼び出しを次のように変更して SageMaker インテグレーションをオフにしてください:
+  W&amp;B の sweep agent が SageMaker ジョブ内で想定どおりに動作するのは、SageMaker インテグレーションがオフになっている場合に限られます。`wandb.init` の呼び出しを次のように変更して、SageMaker インテグレーションをオフにしてください。
 
   ```python
   wandb.init(..., settings=wandb.Settings(sagemaker_disable=True))

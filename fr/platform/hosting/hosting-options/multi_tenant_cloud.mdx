@@ -1,33 +1,33 @@
 ---
 title: Cloud mutualisé
-description: "Découvrez le Cloud mutualisé de W&B, un déploiement entièrement géré sur Google Cloud avec conformité intégrée et sécurité des données."
+description: "Découvrez W&B Multi-tenant Cloud, un déploiement entièrement géré sur Google Cloud avec des fonctions intégrées de conformité et de sécurité des données."
 ---
 
-Le Cloud mutualisé de W&amp;B est une plateforme entièrement gérée, déployée dans le compte Google Cloud de W&amp;B, dans les [régions nord-américaines de Google Cloud](https://cloud.google.com/compute/docs/regions-zones). Le Cloud mutualisé de W&amp;B s&#39;appuie sur la mise à l&#39;échelle automatique de Google Cloud afin que la plateforme s&#39;ajuste correctement aux hausses comme aux baisses du trafic.
+W&amp;B Multi-tenant Cloud est une plateforme entièrement gérée, déployée dans le compte Google Cloud de W&amp;B, dans les [régions nord-américaines de Google Cloud](https://cloud.google.com/compute/docs/regions-zones). W&amp;B Multi-tenant Cloud utilise la mise à l&#39;échelle automatique de Google Cloud pour garantir que la plateforme s&#39;adapte correctement aux hausses comme aux baisses de trafic.
 
 <Frame>
-  <img src="/images/hosting/multi_tenant_cloud_arch.png" alt="Schéma d'architecture du Cloud mutualisé" />
+  <img src="/images/hosting/multi_tenant_cloud_arch.png" alt="Schéma d’architecture du Cloud mutualisé" />
 </Frame>
 
-Le Cloud mutualisé de W&amp;B s&#39;adapte aux besoins de votre organisation et prend en charge l&#39;enregistrement de jusqu&#39;à 250 000 métriques par projet, avec jusqu&#39;à 1 million de points de données par métrique. Pour des déploiements plus importants, contactez l&#39;[assistance](mailto:support@wandb.com).
+W&amp;B Multi-tenant Cloud s&#39;adapte aux besoins de votre organisation et prend en charge la journalisation de jusqu&#39;à 250 000 métriques par projet, avec jusqu&#39;à 1 million de points de données par métrique. Pour des déploiements plus importants, contactez l&#39;[assistance](mailto:support@wandb.com).
 
 <div id="compliance">
   ## Conformité
 </div>
 
-La plateforme d’hébergement du Cloud mutualisé de W&amp;B répond aux exigences du [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), publié par l’[Auditing Standards Board of the American Institute of Certified Public Accountants (AICPA)](https://www.aicpa-cima.com/home). Un rapport SOC 2 évalue les contrôles d’une organisation de services en matière de sécurité, de disponibilité, d’intégrité du traitement, de confidentialité et de protection de la vie privée. Le Cloud mutualisé de W&amp;B fait l’objet d’audits internes et externes périodiques afin de vérifier le maintien de sa conformité. Référez-vous au [portail de sécurité de W&amp;B](https://security.wandb.ai/) pour demander le rapport SOC 2 et d’autres documents relatifs à la sécurité et à la conformité.
+La plateforme d’hébergement de W&amp;B Cloud mutualisé est conforme aux exigences du [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), publiées par le [Auditing Standards Board of the American Institute of Certified Public Accountants (AICPA)](https://www.aicpa-cima.com/home). Un rapport SOC 2 évalue les contrôles d’une organisation de services en matière de sécurité, de disponibilité, d’intégrité des traitements, de confidentialité et de protection de la vie privée. W&amp;B Cloud mutualisé fait l’objet d’audits internes et externes périodiques afin de vérifier le maintien de sa conformité. Consultez le [Portail de sécurité W&amp;B](https://security.wandb.ai/) pour demander le rapport SOC 2 et d’autres documents liés à la sécurité et à la conformité.
 
-<Tip>Le Cloud mutualisé de W&amp;B ne répond pas aux exigences de la [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). Si votre organisation est soumise à la HIPAA, envisagez plutôt le [Cloud dédié W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud).</Tip>
+<Tip>W&amp;B Cloud mutualisé ne satisfait pas aux exigences de la [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). Si votre organisation est soumise à la réglementation HIPAA, envisagez plutôt [W&amp;B Dedicated Cloud](/fr/platform/hosting/hosting-options/dedicated-cloud).</Tip>
 
 <div id="data-security">
   ## Sécurité des données
 </div>
 
-Pour les utilisateurs disposant d’un plan Free ou Pro, toutes les données sont stockées uniquement dans le stockage cloud partagé et traitées par des services de calcul cloud partagés. Selon votre plan tarifaire, vous pouvez être soumis à des limites de stockage.
+Pour les utilisateurs des plans Free ou Pro, toutes les données sont stockées uniquement dans le stockage cloud partagé et traitées par des services de calcul cloud partagés. Selon votre plan de tarification, vous pouvez être soumis à des limites de stockage.
 
-Les utilisateurs disposant d’un plan Enterprise peuvent [utiliser leur propre bucket (BYOB) via le secure storage connector](/fr/platform/hosting/data-security/secure-storage-connector) au [niveau de l’équipe](/fr/platform/hosting/data-security/secure-storage-connector#configuration-options) pour stocker leurs fichiers, tels que des modèles, des jeux de données, etc. Vous pouvez configurer un seul bucket pour plusieurs équipes, ou utiliser des buckets distincts pour différents Teams W&amp;B. Si vous ne configurez pas BYOB pour une équipe, les données de l’équipe sont stockées dans le stockage cloud partagé.
+Les utilisateurs disposant d’un plan Enterprise peuvent [utiliser leur propre bucket (BYOB) via le connecteur de stockage sécurisé](/fr/platform/hosting/data-security/secure-storage-connector) au [niveau de l’équipe](/fr/platform/hosting/data-security/secure-storage-connector#configuration-options) pour stocker leurs fichiers, tels que des modèles, des jeux de données, etc. Vous pouvez configurer un seul bucket pour plusieurs équipes, ou utiliser des buckets distincts pour différentes Teams W&amp;B. Si vous ne configurez pas BYOB pour une équipe, les données de l’équipe sont stockées dans le stockage cloud partagé.
 
-Il vous incombe de vous assurer que votre déploiement respecte les politiques de votre organisation ainsi que les [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), le cas échéant.
+Il vous incombe de vous assurer que votre déploiement est conforme aux politiques de votre organisation et aux [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), le cas échéant.
 
 <div id="data-retention-policy">
   ## Politique de conservation des données
@@ -35,36 +35,36 @@ Il vous incombe de vous assurer que votre déploiement respecte les politiques d
 
 Le Cloud mutualisé conserve les éléments suivants pendant 7 jours après leur suppression :
 
-* Les Runs et leur historique
-* Les fichiers de run hors artefacts, tels que les médias, les fichiers de configuration et les fichiers journaux
-* Les Artifacts et les références d’artefact
+* Runs et historique
+* Fichiers de run autres que les Artifacts, tels que les fichiers média, les fichiers de configuration et les fichiers journaux
+* Artifacts et références d&#39;Artifacts
 
-Tant que cette période n’est pas écoulée, ces éléments peuvent être restaurés. Contactez l’[assistance](mailto:support@wandb.ai) ou votre AISE.
+Jusqu&#39;à l&#39;expiration de cette période, ces éléments peuvent être restaurés. Contactez l&#39;[assistance](mailto:support@wandb.ai) ou votre AISE pour toute assistance.
 
 <div id="identity-and-access-management-iam">
   ## Gestion des identités et des accès (IAM)
 </div>
 
-Si vous utilisez un plan Enterprise, des fonctionnalités avancées de gestion des identités et des accès permettent une authentification sécurisée et une autorisation efficace pour votre déploiement W&amp;B :
+Si vous utilisez un plan Enterprise, les fonctionnalités avancées de gestion des identités et des accès permettent une authentification sécurisée et une gestion efficace des autorisations pour votre déploiement W&amp;B :
 
 * Authentification SSO avec OIDC ou SAML. Contactez votre équipe W&amp;B ou l’assistance si vous souhaitez configurer le SSO pour votre organisation.
-* [Configurez les rôles utilisateur appropriés](/fr/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role) au niveau de l’organisation et au sein d’une équipe.
-* Définissez le périmètre d’un projet W&amp;B afin de limiter les personnes autorisées à le consulter, le modifier et à y soumettre des runs W&amp;B grâce aux [projets restreints](/fr/platform/hosting/iam/access-management/restricted-projects).
+* [Configurez les rôles utilisateur appropriés](/fr/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role) à l’échelle de l’organisation et au sein d’une équipe.
+* Définissez la portée d’un projet W&amp;B pour limiter les personnes autorisées à le consulter, le modifier et à y soumettre des runs W&amp;B à l’aide des [projets restreints](/fr/platform/hosting/iam/access-management/restricted-projects).
 
 <div id="monitor">
-  ## Surveillance
+  ## Suivi
 </div>
 
-Les administrateurs de l’organisation peuvent gérer l’utilisation et la facturation de leur compte depuis l’onglet `Billing` dans la vue de leur compte. Si vous utilisez le stockage cloud partagé sur Cloud mutualisé, un administrateur peut optimiser l’utilisation du stockage entre les différentes équipes de son organisation.
+Les Administrateurs de l’organisation peuvent gérer l’utilisation et la facturation de leur compte depuis l’onglet `Billing` de la vue de leur compte. Si leur organisation utilise le stockage cloud partagé sur Cloud mutualisé, un administrateur peut optimiser l’utilisation du stockage entre les différentes Teams de l’organisation.
 
 <div id="maintenance">
   ## Maintenance
 </div>
 
-Cloud mutualisé de W&amp;B est une plateforme mutualisée, entièrement gérée. Comme Cloud mutualisé de W&amp;B est géré par W&amp;B, vous n’avez pas à assumer la charge ni les coûts liés au provisionnement et à la maintenance de la plateforme W&amp;B.
+W&amp;B Cloud mutualisé est une plateforme mutualisée entièrement gérée. Comme W&amp;B Cloud mutualisé est géré par W&amp;B, vous n’avez pas à assumer la charge opérationnelle ni les coûts liés au provisionnement et à la maintenance de la plateforme W&amp;B.
 
 <div id="next-steps">
-  ## Prochaines étapes
+  ## Étapes suivantes
 </div>
 
-Accédez directement au [Cloud mutualisé](https://wandb.ai) pour commencer à utiliser gratuitement la plupart des fonctionnalités. Pour essayer les fonctionnalités avancées de sécurité des données et d’IAM, [demandez un essai Enterprise](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial).
+Accédez directement au [Cloud mutualisé](https://wandb.ai) pour utiliser gratuitement la plupart des fonctionnalités. Pour essayer les fonctionnalités avancées de sécurité des données et d’IAM, [demandez un essai Enterprise](https://wandb.ai/site/for-enterprise/multi-tenant-saas-trial).

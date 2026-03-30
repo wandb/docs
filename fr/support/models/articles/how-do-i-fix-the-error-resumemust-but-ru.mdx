@@ -1,9 +1,9 @@
 ---
-title: "Comment puis-je corriger l'erreur `resume='must' but run (<run_id>) doesn't exist` ?"
+title: "Comment puis-je résoudre l'erreur `resume='must' but run (<run_id>) doesn't exist` ?"
 keywords: ["Reprise", "Runs"]
 ---
 
-Si vous rencontrez l&#39;erreur `resume='must' but run (<run_id>) doesn't exist`, le run que vous essayez de reprendre n&#39;existe pas dans le projet ou l&#39;entité. Assurez-vous d&#39;être connecté à la bonne instance et que le projet et l&#39;entité sont correctement définis :
+Si vous rencontrez l&#39;erreur `resume='must' but run (<run_id>) doesn't exist`, cela signifie que le run que vous essayez de reprendre n&#39;existe pas dans le projet ou l&#39;entité. Assurez-vous d&#39;être connecté à la bonne instance et que le projet ainsi que l&#39;entité sont correctement définis :
 
 ```python
 wandb.init(entity=<entity>, project=<project>, id=<run-id>, resume='must')
@@ -14,10 +14,10 @@ Exécutez [`wandb login --relogin`](/fr/models/ref/cli/wandb-login) pour vérifi
 ***
 
 {/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
-  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas ce qui se trouve entre ces marqueurs manuellement.
+  Géré par le script scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Reprise](/fr/support/models/tags/resuming)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

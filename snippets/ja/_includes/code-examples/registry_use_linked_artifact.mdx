@@ -1,25 +1,25 @@
 ---
-title: "Registry のリンク済み Artifacts を使用する"
+title: Registry にリンクされた Artifact を使用する
 ---
 
 ```python
 """
-レジストリコレクションから Artifacts の特定バージョンを取得する。
+レジストリコレクションからアーティファクトの特定バージョンを取得する。
 """
 
 import wandb
 
-# レジストリ、コレクション、 Artifacts のバージョン詳細を定義する
+# レジストリ、コレクション、アーティファクトのバージョン詳細を定義する
 registry = "<registry_name>"
 collection = "<collection_name>"
 version = "<version>"
 
-# バージョンを含む完全な Artifacts 名を構築する
+# バージョンを含む完全なアーティファクト名を構築する
 artifact_name = f"wandb-registry-{registry}/{collection}:{version}"
 
-# W&B API を初期化する
+# W&B APIを初期化する
 api = wandb.Api()
 
-# 指定したレジストリコレクションとバージョンから Artifacts を取得する
+# 指定したレジストリコレクションとバージョンからアーティファクトを取得する
 artifact = api.artifact(name = artifact_name)
 ```

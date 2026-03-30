@@ -1,52 +1,52 @@
 ---
 title: Configurer l’agent Launch
-description: "Configurer les options avancées de l’agent W&B Launch, notamment les builders Docker et Kaniko ainsi que les paramètres du registre de conteneurs."
+description: "Configurez les options avancées de l’agent pour W&B Launch, notamment les builders Docker et Kaniko ainsi que les paramètres du registre de conteneurs."
 ---
 
 <div id="advanced-agent-setup">
   # Configuration avancée de l’agent
 </div>
 
-Ce guide explique comment configurer l’agent Launch de W&amp;B pour build des images de conteneur dans différents environnements.
+Ce guide explique comment configurer l’agent Launch de W&amp;B pour générer des images de conteneur dans différents environnements.
 
 <Note>
-  Le build n’est requis que pour les jobs Git et les jobs d’artefact de code. Les jobs d’image ne nécessitent pas de build.
+  Le build n’est requis que pour les jobs git et les jobs d’artifact de code. Les jobs d’image ne nécessitent pas de build.
 
-  Voir [Créer un job Launch](/fr/platform/launch/create-launch-job/) pour plus d’informations sur les types de jobs.
+  Voir [Créer un launch job](/fr/platform/launch/create-launch-job/) pour en savoir plus sur les types de job.
 </Note>
 
 <div id="builders">
   ## Builders
 </div>
 
-L&#39;agent Launch peut build des images à l&#39;aide de [Docker](https://docs.docker.com/) ou de [Kaniko](https://github.com/GoogleContainerTools/kaniko).
+L’agent Launch peut créer des images à l’aide de [Docker](https://docs.docker.com/) ou de [Kaniko](https://github.com/GoogleContainerTools/kaniko).
 
-* Kaniko : build une image de conteneur dans Kubernetes sans exécuter le build dans un conteneur privilégié.
-* Docker : build une image de conteneur en exécutant localement une commande `docker build`.
+* Kaniko : crée une image de conteneur dans Kubernetes sans exécuter le build dans un conteneur privilégié.
+* Docker : crée une image de conteneur en exécutant localement une commande `docker build`.
 
-Le type de builder est défini par la clé `builder.type` dans la configuration de l&#39;agent Launch, avec les valeurs `docker`, `kaniko` ou `noop` pour désactiver le build. Par défaut, le chart Helm de l&#39;agent définit `builder.type` sur `noop`. Les clés supplémentaires de la section `builder` servent à configurer le processus de build.
+Le type de builder se contrôle avec la clé `builder.type` dans la configuration de l’agent Launch, en utilisant les valeurs `docker`, `kaniko` ou `noop` pour désactiver le build. Par défaut, le chart Helm de l’agent définit `builder.type` sur `noop`. Les clés supplémentaires de la section `builder` sont utilisées pour configurer le processus de build.
 
-Si aucun builder n&#39;est spécifié dans la configuration de l&#39;agent et qu&#39;une CLI `docker` fonctionnelle est détectée, l&#39;agent utilisera Docker par défaut. Si Docker n&#39;est pas disponible, l&#39;agent utilisera `noop` par défaut.
+Si aucun builder n’est spécifié dans la configuration de l’agent et qu’une CLI `docker` fonctionnelle est détectée, l’agent utilisera Docker par défaut. Si Docker n’est pas disponible, l’agent utilisera `noop` par défaut.
 
 <Note>
-  Utilisez Kaniko pour build des images dans un cluster Kubernetes. Utilisez Docker dans tous les autres cas.
+  Utilisez Kaniko pour créer des images dans un cluster Kubernetes. Utilisez Docker dans tous les autres cas.
 </Note>
 
 <div id="pushing-to-a-container-registry">
-  ## Téléversement vers un registre de conteneurs
+  ## Publication dans un registre de conteneurs
 </div>
 
-L’agent Launch attribue à toutes les images qu’il build un hachage source unique. Il téléverse l’image vers le registre spécifié dans la clé `builder.destination`.
+L’agent Launch attribue à toutes les images qu’il construit un tag basé sur un hachage source unique. Il envoie l’image vers le registre spécifié dans la clé `builder.destination`.
 
-Par exemple, si la clé `builder.destination` est définie sur `my-registry.example.com/my-repository`, l’agent attribuera un tag à l’image et la téléversera vers `my-registry.example.com/my-repository:<source-hash>`. Si l’image existe dans le registre, le build est ignoré.
+Par exemple, si la clé `builder.destination` est définie sur `my-registry.example.com/my-repository`, l’agent tague l’image et l’envoie vers `my-registry.example.com/my-repository:<source-hash>`. Si l’image existe déjà dans le registre, le build est ignoré.
 
 <div id="agent-configuration">
   ### Configuration de l’agent
 </div>
 
-Si vous déployez l’agent via notre chart Helm, vous devez fournir sa configuration dans la clé `agentConfig` du fichier `values.yaml`.
+Si vous déployez l’agent via notre chart Helm, la configuration de l’agent doit être renseignée dans la clé `agentConfig` du fichier `values.yaml`.
 
-Si vous lancez vous-même l’agent avec `wandb launch-agent`, vous pouvez fournir la configuration de l’agent en indiquant le chemin vers un fichier YAML à l’aide de l’option `--config`. Par défaut, la configuration est chargée depuis `~/.config/wandb/launch-config.yaml`.
+Si vous lancez vous-même l’agent avec `wandb launch-agent`, vous pouvez fournir sa configuration en indiquant le chemin vers un fichier YAML avec l’option `--config`. Par défaut, la configuration est chargée depuis `~/.config/wandb/launch-config.yaml`.
 
 Dans la configuration de votre agent Launch (`launch-config.yaml`), indiquez respectivement le nom de l’environnement de la ressource cible et le registre de conteneurs dans les clés `environment` et `registry`.
 
@@ -54,7 +54,7 @@ Les onglets suivants montrent comment configurer l’agent Launch en fonction de
 
 <Tabs>
   <Tab title="AWS">
-    La configuration de l’environnement AWS nécessite la clé `region`. Cette région doit correspondre à celle dans laquelle l’agent s’exécute.
+    La configuration de l’environnement AWS nécessite la clé `region`. Celle-ci doit correspondre à la région AWS dans laquelle l’agent s’exécute.
 
     ```yaml title="launch-config.yaml"
     environment:
@@ -66,12 +66,12 @@ Les onglets suivants montrent comment configurer l’agent Launch en fonction de
       # Assurez-vous que la région correspond à celle configurée dans votre
       # environnement.
       destination: <account-id>.ecr.<aws-region>.amazonaws.com/<repository-name>
-      # Si vous utilisez Kaniko, indiquez le bucket S3 où l’agent stockera le
+      # Si vous utilisez Kaniko, spécifiez le bucket S3 où l’agent stockera le
       # contexte de build.
       build-context-store: s3://<bucket-name>/<path>
     ```
 
-    L’agent utilise `boto3` pour charger les identifiants AWS par défaut. Voir la [documentation boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) pour plus d’informations sur la configuration des identifiants AWS par défaut.
+    L’agent utilise boto3 pour charger les identifiants AWS par défaut. Voir la [documentation boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) pour plus d’informations sur la configuration des identifiants AWS par défaut.
   </Tab>
 
   <Tab title="Google Cloud">
@@ -88,7 +88,7 @@ Les onglets suivants montrent comment configurer l’agent Launch en fonction de
       # stockera les images. Assurez-vous que la région et le projet correspondent à ceux
       # configurés dans votre environnement.
       uri: <region>-docker.pkg.dev/<project-id>/<repository-name>/<image-name>
-      # Si vous utilisez Kaniko, indiquez le bucket GCS où l’agent stockera le
+      # Si vous utilisez Kaniko, spécifiez le bucket GCS où l’agent stockera le
       # contexte de build.
       build-context-store: gs://<bucket-name>/<path>
     ```
@@ -97,7 +97,7 @@ Les onglets suivants montrent comment configurer l’agent Launch en fonction de
   </Tab>
 
   <Tab title="Azure">
-    L’environnement Azure ne nécessite aucune clé supplémentaire. Au démarrage, l’agent utilise `azure.identity.DefaultAzureCredential()` pour charger les identifiants Azure par défaut.
+    L’environnement Azure ne nécessite aucune clé supplémentaire. Au démarrage, l’agent utilise `azure.identity.DefaultAzureCredential()` pour charger les identifiants Azure par défaut.
 
     ```yaml title="launch-config.yaml"
     environment:
@@ -106,12 +106,12 @@ Les onglets suivants montrent comment configurer l’agent Launch en fonction de
       type: <kaniko|docker>
       # URI du dépôt Azure Container Registry où l’agent stockera les images.
       destination: https://<registry-name>.azurecr.io/<repository-name>
-      # Si vous utilisez Kaniko, indiquez le conteneur Azure Blob Storage où l’agent
+      # Si vous utilisez Kaniko, spécifiez le conteneur Azure Blob Storage où l’agent
       # stockera le contexte de build.
       build-context-store: https://<storage-account-name>.blob.core.windows.net/<container-name>
     ```
 
-    Voir la [documentation `azure-identity`](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) pour plus d’informations sur la configuration des identifiants Azure par défaut.
+    Voir la [documentation `azure-identity`](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) pour plus d’informations sur la configuration des identifiants Azure par défaut.
   </Tab>
 </Tabs>
 
@@ -119,13 +119,13 @@ Les onglets suivants montrent comment configurer l’agent Launch en fonction de
   ## Autorisations de l’agent
 </div>
 
-Les autorisations requises pour l’agent varient selon le cas d’usage.
+Les autorisations requises pour l’agent varient selon le cas d’utilisation.
 
 <div id="cloud-registry-permissions">
   ### Autorisations des registres cloud
 </div>
 
-Vous trouverez ci-dessous les autorisations généralement requises pour que les agents Launch puissent interagir avec les registres cloud.
+Voici les autorisations généralement requises pour que les agents Launch puissent interagir avec des registres cloud.
 
 <Tabs>
   <Tab title="AWS">
@@ -170,19 +170,19 @@ Vous trouverez ci-dessous les autorisations généralement requises pour que les
   </Tab>
 
   <Tab title="Azure">
-    Ajoutez le rôle [`AcrPush`](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/containers#acrpush) si vous utilisez le build Kaniko.
+    Ajoutez le [rôle `AcrPush`](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/containers#acrpush) si vous utilisez le builder Kaniko.
   </Tab>
 </Tabs>
 
 <div id="storage-permissions-for-kaniko">
-  ### Autorisations de stockage pour Kaniko
+  ### Autorisations d&#39;accès au stockage pour Kaniko
 </div>
 
-L’agent Launch doit disposer des autorisations nécessaires pour téléverser dans le stockage cloud s’il utilise le builder Kaniko. Kaniko utilise un stockage de contexte en dehors du pod qui exécute le job de build.
+L&#39;agent Launch doit disposer de l&#39;autorisation d&#39;écrire dans le stockage cloud s&#39;il utilise le builder Kaniko. Kaniko utilise un stockage de contexte en dehors du pod qui exécute le job de build.
 
 <Tabs>
   <Tab title="AWS">
-    Le stockage de contexte recommandé pour le builder Kaniko sur AWS est Amazon S3. La stratégie suivante peut être utilisée pour donner à l’agent l’accès à un bucket S3 :
+    Le stockage de contexte recommandé pour le builder Kaniko sur AWS est Amazon S3. La politique suivante peut être utilisée pour donner à l&#39;agent l&#39;accès à un bucket S3 :
 
     ```json
     {
@@ -206,7 +206,7 @@ L’agent Launch doit disposer des autorisations nécessaires pour téléverser 
   </Tab>
 
   <Tab title="Google Cloud">
-    Sur Google Cloud, les autorisations IAM suivantes sont requises pour que l’agent puisse téléverser les contextes de build vers GCS :
+    Sur Google Cloud, les autorisations IAM suivantes sont requises pour que l&#39;agent puisse téléverser les contextes de build vers GCS :
 
     ```js
     storage.buckets.get;
@@ -217,7 +217,7 @@ L’agent Launch doit disposer des autorisations nécessaires pour téléverser 
   </Tab>
 
   <Tab title="Azure">
-    Le rôle [Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) est requis pour que l’agent puisse téléverser les contextes de build vers Azure Blob Storage.
+    Le rôle [Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) est requis pour que l&#39;agent puisse téléverser les contextes de build vers Azure Blob Storage.
   </Tab>
 </Tabs>
 
@@ -225,7 +225,7 @@ L’agent Launch doit disposer des autorisations nécessaires pour téléverser 
   ## Personnaliser le build Kaniko
 </div>
 
-Spécifiez, dans la clé `builder.kaniko-config` de la configuration de l&#39;agent, la spécification du job Kubernetes utilisé par Kaniko. Par exemple :
+Indiquez la spécification du Job Kubernetes utilisée par le job Kaniko dans la clé `builder.kaniko-config` de la configuration de l’agent. Par exemple :
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -249,10 +249,10 @@ builder:
   ## Déployer l’agent Launch sur CoreWeave
 </div>
 
-Facultativement, déployez l’agent Launch de W&amp;B sur l’infrastructure cloud de CoreWeave. CoreWeave est une infrastructure cloud spécialement conçue pour les charges de travail accélérées par GPU.
+Vous pouvez également déployer l’agent Launch de W&amp;B sur l’infrastructure cloud de CoreWeave. CoreWeave est une infrastructure cloud spécialement conçue pour les charges de travail accélérées par GPU.
 
-Pour savoir comment déployer l’agent Launch sur CoreWeave, voir la [documentation CoreWeave](https://docs.coreweave.com/partners/weights-and-biases#integration).
+Pour savoir comment déployer l’agent Launch sur CoreWeave, voir la [documentation de CoreWeave](https://docs.coreweave.com/partners/weights-and-biases#integration).
 
 <Note>
-  Vous devrez créer un [compte CoreWeave](https://cloud.coreweave.com/login) pour déployer l’agent Launch sur l’infrastructure CoreWeave.
+  Vous devrez créer un [compte CoreWeave](https://cloud.coreweave.com/login) afin de déployer l’agent Launch sur une infrastructure CoreWeave.
 </Note>
