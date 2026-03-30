@@ -1,5 +1,5 @@
 ---
-title: 自動化
+title: オートメーション
 namespace: automations_namespace
 python_object_type: class
 ---
@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Automation`
 
-編集可能な、保存済み W&B automation のローカルインスタンスです。
+編集をサポートする、保存済み W&amp;B オートメーションのローカルインスタンスです。
 
 ### <kbd>method</kbd> `Automation.__init__`
 
@@ -34,14 +34,14 @@ __init__(
 
 * `typename__` (Literal[&#39;Trigger&#39;]):
 * `id` (str):
-* `created_at` (datetime): この Automation が作成された日時。
-* `updated_at` (Optional[datetime]): この Automation が最後に更新された日時（該当する場合）。
-* `name` (str): この Automation の名前。
-* `description` (Optional[str]): この Automation の説明（省略可）。
-* `enabled` (bool): この Automation が有効かどうか。有効な Automation だけがトリガーされる。
-* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): トリガーとなるイベントが発生する必要があるスコープ。
-* `event` (SavedEvent): この Automation をトリガーするイベント。
-* `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): この Automation がトリガーされたときに実行されるアクション。
+* `created_at` (datetime): このオートメーションが作成された日時。
+* `updated_at` (Optional[datetime]): このオートメーションが最後に更新された日時 (該当する場合) 。
+* `name` (str): このオートメーションの名前。
+* `description` (Optional[str]): このオートメーションの説明 (省略可) 。
+* `enabled` (bool): このオートメーションが有効かどうか。有効なオートメーションのみがトリガーされます。
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): トリガーとなるイベントが発生するスコープ。
+* `event` (SavedEvent): このオートメーションをトリガーするイベント。
+* `action` (Union[SavedLaunchJobAction, SavedNotificationAction, SavedWebhookAction, SavedNoOpAction]): このオートメーションがトリガーされたときに実行されるアクション。
 
 **戻り値:**
-`Automation` オブジェクトを返す。
+`Automation` オブジェクト。

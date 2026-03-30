@@ -20,16 +20,16 @@ histogram(
 ) → CustomChart
 ```
 
-W&amp;B Table からヒストグラム チャートを生成します。
+W&amp;B Table からヒストグラム チャートを作成します。
 
-**Args:**
+**引数:**
 
 * `table`:  ヒストグラム用のデータを含む W&amp;B Table。
-* `value`:  ビン軸（x 軸）のラベル。
+* `value`:  ビン軸 (x 軸) のラベル。
 * `title`:  ヒストグラム プロットのタイトル。
-* `split_table`:  W&amp;B UI 内でテーブルを別セクションに分割するかどうか。`True` の場合、テーブルは「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False`。
+* `split_table`:  W&amp;B UI 内で表を別のセクションに分割するかどうか。`True` の場合、表は「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False` です。
 
-**Returns:**
+**戻り値:**
 
 * `CustomChart`:  W&amp;B にログできるカスタム チャート オブジェクト。チャートをログするには、`wandb.log()` に渡します。
 

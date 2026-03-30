@@ -3,15 +3,15 @@ title: "Comparer et classer les modèles"
 description: "Comparer et classer différentes versions de modèles en fonction des métriques d'évaluation"
 ---
 
-Utilisez les *Leaderboards* de Weave pour évaluer et comparer plusieurs modèles selon plusieurs métriques, et mesurer la précision, la qualité de génération, la latence ou une logique d&#39;évaluation personnalisée. Un leaderboard vous aide à visualiser la performance du modèle dans un emplacement central, à suivre son évolution au fil du temps et à vous aligner sur des références communes à l&#39;échelle de l&#39;équipe.
+Utilisez les *Leaderboards* de Weave pour évaluer et comparer plusieurs modèles selon plusieurs métriques, et mesurer la précision, la qualité de génération, la latence ou une logique d&#39;évaluation personnalisée. Un leaderboard vous aide à visualiser les performances du modèle dans un emplacement central, à suivre leur évolution au fil du temps et à vous aligner sur des références communes à l&#39;échelle de l&#39;équipe.
 
-Les leaderboards sont idéaux pour :
+Les leaderboards sont idéaux pour :
 
 * Suivre les régressions de performance du modèle
 * Coordonner des flux de travail d&#39;évaluation partagés
 
 <Note>
-  La création de leaderboards est disponible uniquement dans l&#39;interface Weave et le SDK Python de Weave. Les utilisateurs de TypeScript peuvent créer et gérer des leaderboards à l&#39;aide de la [Weave UI](#using-the-ui).
+  La création de leaderboards est disponible uniquement dans l&#39;interface Weave et le SDK Python de Weave. Les utilisateurs de TypeScript peuvent créer et gérer des leaderboards à l&#39;aide de la [interface Weave](#using-the-ui).
 </Note>
 
 <div id="create-a-leaderboard">
@@ -40,7 +40,7 @@ Pour créer et personnaliser des leaderboards directement dans l’interface Wea
 Chaque colonne d’un leaderboard représente une métrique issue d’une évaluation donnée. Pour configurer une colonne, vous devez indiquer :
 
 * **Évaluation** : Sélectionnez un run d’évaluation dans le menu déroulant (il doit avoir été créé au préalable).
-* **Scorer** : Choisissez une fonction de score (par exemple, `jaccard_similarity`, `simple_accuracy`) utilisée dans cette évaluation.
+* **Scorer** : Choisissez une fonction de calcul du score (par exemple, `jaccard_similarity`, `simple_accuracy`) utilisée dans cette évaluation.
 * **Métrique** : Choisissez une métrique de synthèse à afficher (par exemple, `mean`, `true_fraction`, etc.).
 
 Pour ajouter d’autres colonnes, cliquez sur **Ajouter une colonne**.
@@ -57,12 +57,12 @@ Pour modifier une colonne, cliquez sur son menu à trois points (`⋯`) à droit
 </div>
 
 <Tip>
-  Vous cherchez un exemple de code complet, exécutable tel quel ? Consultez l’[exemple Python de bout en bout](#end-to-end-python-example).
+  Vous cherchez un exemple de code complet, exécutable tel quel ? Consultez l&#39;[exemple Python de bout en bout](#end-to-end-python-example).
 </Tip>
 
-Pour créer et publier un leaderboard :
+Pour créer et publier un leaderboard :
 
-1. Définissez un jeu de données de test. Vous pouvez utiliser le [`Dataset`](./datasets) intégré, ou définir manuellement une liste d’entrées et de sorties attendues :
+1. Définissez un jeu de données de test. Vous pouvez utiliser le [`Dataset`](./datasets) intégré, ou définir manuellement une liste d&#39;entrées et de sorties attendues :
 
    ```python lines
    dataset = [
@@ -71,7 +71,7 @@ Pour créer et publier un leaderboard :
    ]
    ```
 
-2. Définissez un ou plusieurs [évaluateurs](../evaluation/scorers) :
+2. Définissez un ou plusieurs [évaluateurs](../evaluation/scorers) :
 
    ```python lines
    @weave.op
@@ -79,7 +79,7 @@ Pour créer et publier un leaderboard :
        ...
    ```
 
-3. Créez une [`Evaluation`](../core-types/evaluations) :
+3. Créez une [`Evaluation`](../core-types/evaluations) :
 
    ```python lines
    evaluation = weave.Evaluation(
@@ -89,7 +89,7 @@ Pour créer et publier un leaderboard :
    )
    ```
 
-4. Définissez les modèles à évaluer :
+4. Définissez les modèles à évaluer :
 
    ```python lines
    @weave.op
@@ -97,7 +97,7 @@ Pour créer et publier un leaderboard :
        ...
    ```
 
-5. Exécutez l’évaluation :
+5. Exécutez l&#39;évaluation :
 
    ```python lines
     async def run_all():
@@ -108,7 +108,7 @@ Pour créer et publier un leaderboard :
    asyncio.run(run_all())
    ```
 
-6. Créez le leaderboard :
+6. Créez le leaderboard :
 
    ```python lines
    spec = leaderboard.Leaderboard(
@@ -130,7 +130,7 @@ Pour créer et publier un leaderboard :
    weave.publish(spec)
    ```
 
-8. Récupérez les résultats :
+8. Récupérez les résultats :
 
    ```python lines
    results = leaderboard.get_leaderboard_results(spec, client)
@@ -141,7 +141,7 @@ Pour créer et publier un leaderboard :
   ## Exemple Python de bout en bout
 </div>
 
-L’exemple suivant utilise les évaluations Weave et crée un leaderboard pour comparer trois modèles de synthèse sur un jeu de données partagé à l’aide d’une métrique personnalisée. Il crée un petit benchmark, évalue chaque modèle, calcule le score de chaque modèle à l’aide de la [similarité de Jaccard](https://www.learndatasci.com/glossary/jaccard-similarity/) et publie les résultats dans un leaderboard Weave.
+L&#39;exemple suivant utilise les évaluations Weave et crée un leaderboard pour comparer trois modèles de synthèse sur un jeu de données partagé à l&#39;aide d&#39;une métrique personnalisée. Il crée un petit benchmark, évalue chaque modèle, calcule le score de chaque modèle à l&#39;aide de la [similarité de Jaccard](https://www.learndatasci.com/glossary/jaccard-similarity/) et publie les résultats dans un leaderboard Weave.
 
 ```python lines
 import weave
@@ -227,19 +227,19 @@ print(results)
   ### Afficher et interpréter le leaderboard
 </div>
 
-Une fois l’exécution du script terminée, affichez le leaderboard :
+Une fois l&#39;exécution du script terminée, affichez le leaderboard :
 
-1. Dans la **interface Weave**, accédez à l’onglet **Leaders**. S’il n’est pas visible, cliquez sur **More**, puis sélectionnez **Leaders**.
+1. Dans l&#39;**interface Weave**, accédez à l&#39;onglet **Leaders**. S&#39;il n&#39;est pas visible, cliquez sur **More**, puis sélectionnez **Leaders**.
 2. Cliquez sur le nom de votre leaderboard, par ex. `Summarization Model Comparison`.
 
 Dans le tableau du leaderboard, chaque ligne représente un modèle donné (`model_humanlike`, `model_vanilla`, `model_messy`). La colonne `mean` affiche la similarité de Jaccard moyenne entre la sortie du modèle et les résumés de référence.
 
 <Frame>
-  ![Un leaderboard dans la interface Weave](/weave/guides/core-types/imgs/leaderboard-example.png)
+  ![Un leaderboard dans l'interface Weave](/weave/guides/core-types/imgs/leaderboard-example.png)
 </Frame>
 
-Pour cet exemple :
+Pour cet exemple :
 
-* `model_humanlike` obtient les meilleurs résultats, avec un recouvrement de ~46 %.
-* `model_vanilla` (une troncature naïve) obtient ~21 %.
-* `model_messy`, un modèle intentionnellement médiocre, obtient un score de ~2 %.
+* `model_humanlike` obtient les meilleurs résultats, avec un recouvrement de ~46 %.
+* `model_vanilla` (une troncature naïve) obtient ~21 %.
+* `model_messy`, un modèle intentionnellement médiocre, obtient un score de ~2 %.

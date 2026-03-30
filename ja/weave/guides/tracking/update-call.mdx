@@ -3,25 +3,25 @@ title: "Call の更新と削除"
 description: "表示名の変更、フィードバックの追加、Call の削除を W&B Weave で行う"
 ---
 
-ほとんどの Call のプロパティは、作成後は変更できません。サポートされている変更は次のとおりです。
+ほとんどの Call のプロパティは、作成後は不変です。サポートされる変更は次のとおりです。
 
 * [表示名を設定する](#set-display-name)
 * [フィードバックを追加する](#add-feedback)
 * [Call を削除する](#delete-a-call)
 
-これらの変更はすべて、UI から Call の詳細ページに移動して実行できます。
+これらの変更はすべて、UI から Call の詳細ページにアクセスして実行できます。
 Web アプリで Call を更新するには、次の手順に従います。
 
-1. [wandb.ai](https://wandb.ai/) に移動し、プロジェクトを選択します。
-2. Weave プロジェクトのサイドバーで **Traces** をクリックします。
-3. テーブル内で表示したい Call を探します。
+1. [wandb.ai](https://wandb.ai/) にアクセスし、プロジェクトを選択します。
+2. Weave のプロジェクトのサイドバーで **Traces** をクリックします。
+3. 表内で表示したい Call を検索します。
 4. Call をクリックして詳細ページを開きます。
 5. Call 詳細のタブバーで `Feedback` タブをクリックします。
 
 ここで Call の表示名を編集したり、フィードバックを追加したり、Call を削除したりできます。
 
 <Frame>
-  ![選択した Call の詳細パネルが表示された Weave Traces ページの抜粋。Call の名前変更や削除の方法を示しています](/images/call_edit_screenshot.png)
+  ![選択した Call details パネルが表示された Weave Traces ページの抜粋。Call の名前変更や削除の方法を示しています](/images/call_edit_screenshot.png)
 </Frame>
 
 <div id="set-display-name">
@@ -35,13 +35,13 @@ Web アプリで Call を更新するには、次の手順に従います。
     ```python lines
     import weave
 
-    # Initialize the client
+    # クライアントを初期化する
     client = weave.init("your-project-name")
 
-    # Get a specific Call by its ID
+    # ID で特定の Call を取得する
     call = client.get_call("call-uuid-here")
 
-    # Set the display name of the Call
+    # Call の表示名を設定する
     call.set_display_name("My Custom Display Name")
     ```
   </Tab>
@@ -52,16 +52,16 @@ Web アプリで Call を更新するには、次の手順に従います。
     ```typescript lines
     import * as weave from 'weave'
 
-    // Initialize the client
+    // クライアントを初期化する
     const client = await weave.init('your-project-name')
 
-    // Update the display name of a Call by its ID
+    // ID で Call の表示名を更新する
     await client.updateCall('call-uuid-here', 'My Custom Display Name')
     ```
   </Tab>
 
   <Tab title="HTTP API">
-    Service API を使って Call の表示名を設定するには、[`/call/update`](https://docs.wandb.ai/ja/weave/reference/service-api/calls/call-update) エンドポイントにリクエストを送信します。
+    Service API を使って Call の表示名を設定するには、[`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update) エンドポイントにリクエストを送信します。
 
     ```bash lines
     curl -L 'https://trace.wandb.ai/call/update' \
@@ -76,7 +76,7 @@ Web アプリで Call を更新するには、次の手順に従います。
   </Tab>
 </Tabs>
 
-[Call の実行時に表示名を設定する](/ja/weave/guides/tracking/get-call-object) こともできます。
+[Call の実行時に表示名を設定する](/ja/weave/guides/tracking/get-call-object)こともできます。
 
 <div id="add-feedback">
   ### フィードバックを追加
@@ -108,12 +108,12 @@ Web アプリで Call を更新するには、次の手順に従います。
 
   <Tab title="TypeScript">
     ```plaintext lines
-    この機能は TypeScript SDK では、まだ利用できません。
+    この機能は TypeScript SDK ではまだ利用できません。
     ```
   </Tab>
 
   <Tab title="HTTP API">
-    Service API を使用して Call を削除するには、[`/calls/delete`](https://docs.wandb.ai/ja/weave/reference/service-api/calls/calls-delete) エンドポイントにリクエストを送信します。
+    Service API を使用して Call を削除するには、[`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete) エンドポイントにリクエストを送信します。
 
     ```bash lines
     curl -L 'https://trace.wandb.ai/calls/delete' \
@@ -139,7 +139,7 @@ Web アプリで Call を更新するには、次の手順に従います。
 
     <Important>
       * 一度に削除できる Call の最大数は `1000` です。
-      * Call を削除すると、その子の Call もすべて削除されます。
+      * Call を削除すると、その子 Call もすべて削除されます。
     </Important>
 
     ```python lines

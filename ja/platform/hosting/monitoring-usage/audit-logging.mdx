@@ -3,19 +3,19 @@ title: 監査ログでユーザーアクティビティを追跡する
 description: "ログスキーマと追跡対象のアクションを含め、さまざまなデプロイ種別にわたって W&B 監査ログにアクセスし、取得して、分析します。"
 ---
 
-W&amp;B の監査ログを使用して、組織内でのユーザーアクティビティを追跡し、エンタープライズガバナンス要件への準拠に役立てます。監査ログは JSON 形式で提供されます。詳しくは [Audit log schema](#audit-log-schema) を参照してください。
+W&amp;B の監査ログを使用して、組織内でのユーザーアクティビティを追跡し、エンタープライズガバナンス要件への準拠に役立てます。監査ログは JSON 形式で提供されます。詳しくは [監査ログスキーマ](#audit-log-schema) を参照してください。
 
 監査ログへのアクセス方法は、W&amp;B プラットフォームのデプロイ種別によって異なります。
 
-| W&amp;B Platform Deployment type                                              | Audit logs access mechanism                                                                                                                                                                                                                                                      |
-| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| W&amp;B Platform Deployment type                                           | Audit logs access mechanism                                                                                                                                                                                                                                                   |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud)       | <ul><li>[Instance-level BYOB](/ja/platform/hosting/data-security/secure-storage-connector): インスタンスレベルのバケット (BYOB) に 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。</li><li>デフォルトのインスタンスレベルストレージ: [API](#fetch-audit-logs-using-api) を使用してのみ取得できます。</li></ul> |
-| [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise プランでのみ利用可能です。[API](#fetch-audit-logs-using-api) を使用してのみ取得できます。                                                                                                                                                                                                        |
-| [Self-Managed](/ja/platform/hosting/hosting-options/self-managed)             | インスタンスレベルのバケットに 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。                                                                                                                                                                                               |
+| [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) | Enterprise プランでのみ利用可能です。[API](#fetch-audit-logs-using-api) を使用してのみ取得できます。                                                                                                                                                                                                     |
+| [Self-Managed](/ja/platform/hosting/hosting-options/self-managed)             | インスタンスレベルのバケットに 10 分ごとに同期されます。[API](#fetch-audit-logs-using-api) を使用して取得することもできます。                                                                                                                                                                                            |
 
 監査ログを取得した後は、[Pandas](https://pandas.pydata.org/docs/index.html)、[Amazon Redshift](https://aws.amazon.com/redshift/)、[Google BigQuery](https://cloud.google.com/bigquery)、[Microsoft Fabric](https://www.microsoft.com/microsoft-fabric) などのツールを使用して分析できます。一部の監査ログ分析ツールは JSON をサポートしていない場合があります。分析に先立って JSON 形式の監査ログを変換するためのガイドラインや要件については、使用する分析ツールのドキュメントを参照してください。
 
-ログ形式の詳細については、[Audit log schema](#audit-log-schema) および [Actions](#actions) を参照してください。
+ログ形式の詳細については、[監査ログスキーマ](#audit-log-schema) および [액션](#actions) を参照してください。
 
 <div id="audit-log-retention">
   ## 監査ログの保持
@@ -28,29 +28,29 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
   ## 監査ログスキーマ
 </div>
 
-この表は、監査ログエントリに含まれうるすべてのキーをアルファベット順に示しています。アクションや状況によって、特定のログエントリには取りうるフィールドの一部のみが含まれる場合があります。
+この表は、監査ログエントリに含まれる可能性があるすべてのキーを、アルファベット順に示しています。액션や状況によっては、特定のログエントリに含まれるのは、使用可能なフィールドの一部のみとなる場合があります。
 
-| Key | 定義 |
-|---------| -------|
-|`action`                  | イベントの [action](#actions)。
-|`actor_email`             |  (該当する場合) アクションを開始したユーザーのメールアドレス。
-|`actor_ip`                | アクションを開始したユーザーの IP アドレス。
-|`actor_user_id`           |  (該当する場合) アクションを実行したログイン中のユーザーの ID。
-|`artifact_asset`          |  (該当する場合) アクションに関連付けられている Artifacts ID。
-|`artifact_digest`         |  (該当する場合) アクションに関連付けられている Artifacts のダイジェスト。
-|`artifact_qualified_name` |  (該当する場合) アクションに関連付けられている Artifacts の完全な名前。
-|`artifact_sequence_asset` |  (該当する場合) アクションに関連付けられている Artifacts シーケンス ID。
-|`cli_version`             |  (該当する場合) アクションを開始した Python SDK のバージョン。
-|`entity_asset`            |  (該当する場合) アクションに関連付けられている Entity または Team の ID。
-|`entity_name`             |  (該当する場合) アクションに関連付けられている Entity または Team の名前。
-|`project_asset`           |  (該当する場合) アクションに関連付けられているプロジェクト。
-|`project_name`            |  (該当する場合) アクションに関連付けられているプロジェクト名。
-|`report_asset`            |  (該当する場合) アクションに関連付けられているレポート ID。
-|`report_name`             |  (該当する場合) アクションに関連付けられているレポート名。
-|`response_code`           |  (該当する場合) アクションの HTTP レスポンスコード。
-|`timestamp`               | イベントの発生時刻を [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339) で表したもの。たとえば `2023-01-23T12:34:56Z` は、協定世界時 (UTC) で 2023 年 1 月 23 日 12:34:56 を表します。
-|`user_asset`              |  (該当する場合) アクションを実行したユーザーではなく、アクションの影響を受けるユーザーアセット。
-|`user_email`              |  (該当する場合) アクションを実行したユーザーのメールアドレスではなく、アクションの影響を受けるユーザーのメールアドレス。
+| Key                       | 定義                                                                                                                                       |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `action`                  | イベントの [액션](#actions)。                                                                                                                |
+| `actor_email`             |  (該当する場合) 액션を開始したユーザーのメールアドレス。                                                                                                        |
+| `actor_ip`                | 액션を開始したユーザーの IP アドレス。                                                                                                                 |
+| `actor_user_id`           |  (該当する場合) 액션を実行した、ログイン中のユーザーの ID。                                                                                                     |
+| `artifact_asset`          |  (該当する場合) 액션に関連付けられたアーティファクト ID。                                                                                                      |
+| `artifact_digest`         |  (該当する場合) 액션に関連付けられたアーティファクトのダイジェスト。                                                                                                  |
+| `artifact_qualified_name` |  (該当する場合) 액션に関連付けられたアーティファクトの完全修飾名。                                                                                                   |
+| `artifact_sequence_asset` |  (該当する場合) 액션に関連付けられたアーティファクトシーケンス ID。                                                                                                 |
+| `cli_version`             |  (該当する場合) 액션を開始した Python SDK のバージョン。                                                                                                  |
+| `entity_asset`            |  (該当する場合) 액션に関連付けられた entity またはチームの ID。                                                                                               |
+| `entity_name`             |  (該当する場合) 액션に関連付けられた entity またはチーム名。                                                                                                  |
+| `project_asset`           |  (該当する場合) 액션に関連付けられたプロジェクト。                                                                                                           |
+| `project_name`            |  (該当する場合) 액션に関連付けられたプロジェクト名。                                                                                                          |
+| `report_asset`            |  (該当する場合) 액션に関連付けられたレポート ID。                                                                                                          |
+| `report_name`             |  (該当する場合) 액션に関連付けられたレポート名。                                                                                                            |
+| `response_code`           |  (該当する場合) 액션に対する HTTP レスポンスコード。                                                                                                       |
+| `timestamp`               | [RFC3339 format](https://www.rfc-editor.org/rfc/rfc3339) 形式のイベント発生時刻。たとえば `2023-01-23T12:34:56Z` は、UTC の 2023 年 1 月 23 日 12:34:56 を表します。 |
+| `user_asset`              |  (該当する場合) 액션を実行したユーザーではなく、액션の影響を受けるユーザーの asset。                                                                                    |
+| `user_email`              |  (該当する場合) 액션を実行したユーザーのメールアドレスではなく、액션の影響を受けるユーザーのメールアドレス。                                                                           |
 
 <div id="personally-identifiable-information-pii">
   ### 個人を特定できる情報 (PII)
@@ -60,18 +60,25 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
 
 * [Self-Managed](/ja/platform/hosting/hosting-options/self-managed) および
   [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) の場合、組織管理者は監査ログを取得する際に [PII を除外](#exclude-pii)できます。
-* [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) の場合、API エンドポイントは PII を含む監査ログ関連のフィールドを常に返します。これは設定で変更できない。
+* [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) の場合、API エンドポイントは PII を含む監査ログ関連のフィールドを常に返します。これは設定で変更できません。
 
 <div id="before-you-begin">
   ## 開始する前に
 </div>
 
 1. Organization レベルの管理者は監査ログを取得できます。`403` エラーが表示された場合は、あなた自身またはサービスアカウントに十分な権限があることを確認してください。
-2. **Multi-tenant Cloud**: 複数の Multi-tenant Cloud 組織のメンバーである場合は、監査ログ API 呼び出しがどこにルーティングされるかを決定する **Default API organization** を必ず設定する必要があります。設定しない場合、次のエラーが表示されます:
+2. **Multi-tenant Cloud**: 複数の Multi-tenant Cloud 組織のメンバーである場合は、監査ログ API Call のルーティング先を決定する **Default API organization** を必ず設定してください。設定しない場合、次のエラーが表示されます:
 
    ```text
    user is associated with multiple organizations but no valid org ID found in user info
    ```
+
+   デフォルトの API 組織を指定するには:
+
+   1. プロフィール画像をクリックし、**User Settings** をクリックします。
+   2. **Default API organization** で、組織を選択します。
+
+   これはサービスアカウントには適用されません。サービスアカウントは 1 つの Multi-tenant Cloud 組織にのみ所属できます。
 
 <div id="fetch-audit-logs">
   ## 監査ログを取得する
@@ -79,80 +86,80 @@ W&amp;B の監査ログを使用して、組織内でのユーザーアクティ
 
 監査ログを取得するには:
 
-1. インスタンスに対して正しい API エンドポイントを特定します:
+1. インスタンス用の正しい API エンドポイントを決定します:
 
    * [Self-Managed](/ja/platform/hosting/hosting-options/self-managed): `<wandb-platform-url>/admin/audit_logs`
    * [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud): `<instance-name>.wandb.io/admin/audit_logs`
    * [Multi-tenant Cloud (Enterprise required)](/ja/platform/hosting/hosting-options/multi_tenant_cloud): `https://api.wandb.ai/audit_logs`
 
    以降の手順では、`<API-endpoint>` を自分の API エンドポイントに置き換えます。
-2. (任意) エンドポイントに付加するクエリパラメーターを作成します。以降の手順では、`<parameters>` を生成した文字列に置き換えます。
-   * `anonymize`: URL にパラメーター `anonymize=true` が含まれている場合、PII を削除します。それ以外の場合は PII が含まれます。[監査ログを取得するときに PII を除外する](#exclude-pii-when-fetching-audit-logs) を参照してください。Multi-tenant Cloud ではサポートされておらず、PII を含むすべてのフィールドが常に返されます。
+2. (任意) エンドポイントに付加するクエリ パラメーターを構築します。以降の手順では、`<parameters>` を生成した文字列に置き換えます。
+   * `anonymize`: URL にパラメーター `anonymize=true` が含まれている場合、PII を除去します。それ以外の場合は PII が含まれます。[監査ログを取得するときに PII を除外する](#exclude-pii-when-fetching-audit-logs) を参照してください。Multi-tenant Cloud ではサポートされておらず、PII を含むすべてのフィールドが常に返されます。
    * 取得するログの日付範囲は、`numdays` と `startDate` の組み合わせで設定します。各パラメーターは任意であり、相互に作用します。
      * どちらのパラメーターも含まれない場合、本日のログのみが取得されます。
      * `numDays`: `startDate` から遡って何日分のログを取得するかを示す整数です。省略または `0` に設定した場合、`startDate` 当日のログのみが取得されます。**Multi-tenant Cloud** では、`numDays` をより大きな値に設定しても、取得できる監査ログは最大 7 日分です。
-     * `startDate`: **Multi-tenant Cloud** でのみサポートされます。取得する最新のログを制御するパラメーターで、形式は `startDate=YYYY-MM-DD` です。省略した場合、または本日の日付を明示的に指定した場合、本日から `numDays` までのログが取得されます。
-3. `<API-endpoint>?<parameters>` の形式で完全修飾されたエンドポイント URL を構成します。
-4. Web ブラウザー、または [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールを使って、完全修飾された API エンドポイントに対して HTTP `GET` リクエストを実行します。
+     * `startDate`: **Multi-tenant Cloud** でのみサポートされます。取得する最新のログを制御するパラメーターで、形式は `startDate=YYYY-MM-DD` です。省略した場合、または本日の日付を明示的に指定した場合、本日を起点として `numDays` 日分のログが取得されます。
+3. `<API-endpoint>?<parameters>` の形式で完全なエンドポイント URL を構築します。
+4. Web ブラウザ、または [Postman](https://www.postman.com/downloads/)、[HTTPie](https://httpie.io/)、cURL などのツールを使用して、完全な API エンドポイントに対して HTTP `GET` リクエストを実行します。
 
-API レスポンスには、改行区切りの JSON オブジェクトが含まれます。オブジェクトには、監査ログがインスタンスレベルのバケットに同期される場合と同様に、[schema](#audit-log-schema) で説明されているフィールドが含まれます。そのような場合、監査ログはバケット内の `/wandb-audit-logs` ディレクトリに配置されます。
+API レスポンスには、改行で区切られた JSON オブジェクトが含まれます。オブジェクトには、[スキーマ](#audit-log-schema) に記載されたフィールドが含まれます。これは、監査ログがインスタンスレベルのバケットに同期される場合と同様です。その場合、監査ログは自分のバケット内の `/wandb-audit-logs` ディレクトリに格納されます。
 
 <div id="use-basic-authentication">
-  ### ベーシック認証を使用する
+  ### 기본認証を使用する
 </div>
 
-API キーを使ってベーシック認証で audit logs API にアクセスするには、HTTP リクエストの `Authorization` ヘッダーを、文字列 `Basic` の後に半角スペース、その後に `username:API-KEY` という形式の文字列を Base64 エンコードしたものに設定します。つまり、ユーザー名と API キーの間に `:` 文字を挟んだ文字列を作成し、その文字列を Base64 エンコードします。例えば、`demo:p@55w0rd` として認証する場合は、ヘッダーは `Authorization: Basic ZGVtbzpwQDU1dzByZA==` となります。
+APIキーを使ってベーシック認証で監査ログ API に 액세スするには、HTTP リクエストの `Authorization` ヘッダーを、文字列 `Basic` の後に半角スペース、その後に `username:API-KEY` という形式の文字列を Base64 エンコードしたものに設定します。つまり、ユーザー名と APIキーの間に `:` 文字を挟んだ文字列を作成し、その文字列を Base64 エンコードします。例えば、`demo:p@55w0rd` として認証する場合は、ヘッダーは `Authorization: Basic ZGVtbzpwQDU1dzByZA==` となります。
 
 ### 監査ログを取得する際に PII を除外する <a id="exclude-pii" />
 
-[Self-Managed](/ja/platform/hosting/hosting-options/self-managed) および [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) では、W&amp;B 組織またはインスタンスの管理者が、監査ログを取得する際に PII を除外できます。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、API エンドポイントは常に PII を含む監査ログ関連のフィールドを返します。これは設定で変更できません。
+[Self-Managed](/ja/platform/hosting/hosting-options/self-managed) および [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) では、W&amp;B 組織またはインスタンスの管理者は、監査ログの取得時に PII を除外できます。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、API エンドポイントは常に PII を含む監査ログ関連のフィールドを返します。これは設定できません。
 
-PII を除外するには、`anonymize=true` URL パラメーターを指定します。たとえば、W&amp;B インスタンスの URL が `https://mycompany.wandb.io` で、過去 1 週間のユーザーアクティビティの監査ログを取得し、PII を除外したい場合は、次のような API エンドポイントを使用します。
+PII を除外するには、`anonymize=true` URL パラメーターを指定します。たとえば、W&amp;B インスタンスの URL が `https://mycompany.wandb.io` で、過去 1 週間のユーザーアクティビティに関する監査ログを取得し、PII を除外したい場合は、次のような API エンドポイントを使用します。
 
 ```text
 https://mycompany.wandb.io/admin/audit_logs?anonymize=true&<additional-parameters>.
 ```
 
 <div id="actions">
-  ## アクション
+  ## 액션
 </div>
 
-この表は、W&amp;B によって記録される可能性のあるアクションをアルファベット順に示したものです。
+この表は、W&amp;B によって記録される可能性のある 액션をアルファベット順に示したものです。
 
-| Action                        | 定義                                                            |
-| ----------------------------- | ------------------------------------------------------------- |
-| `artifact:create`             | アーティファクトが作成される。                                               |
-| `artifact:delete   `          | アーティファクトが削除される。                                               |
-| `artifact:read`               | アーティファクトが読み出される。                                              |
-| `project:delete`              | プロジェクトが削除される。                                                 |
-| `project:read`                | プロジェクトが読み出される。                                                |
-| `report:read`                 | レポートが閲覧される。 <sup><a href="#1">1</a></sup>                     |
-| `run:delete_many`             | run のバッチが削除される。                                               |
-| `run:delete`                  | run が削除される。                                                   |
-| `run:stop`                    | run が停止される。                                                   |
-| `run:undelete_many`           | run のバッチがゴミ箱から復元される。                                          |
-| `run:update_many`             | run のバッチが更新される。                                               |
-| `run:update`                  | run が更新される。                                                   |
-| `sweep:create_agent`          | sweep エージェントが作成される。                                           |
-| `team:create_service_account` | チーム用のサービスアカウントが作成される。                                         |
-| `team:create`                 | チームが作成される。                                                    |
-| `team:delete`                 | チームが削除される。                                                    |
-| `team:invite_user`            | ユーザーがチームに招待される。                                               |
-| `team:uninvite`               | ユーザーまたはサービスアカウントの招待がチームから取り消される。                              |
-| `user:create_api_key`         | ユーザーまたはサービスアカウントの API キーが作成される。 <sup><a href="#1">1</a></sup> |
-| `user:create`                 | ユーザーが作成される。 <sup><a href="#1">1</a></sup>                     |
-| `user:deactivate`             | ユーザーが無効化される。 <sup><a href="#1">1</a></sup>                    |
-| `user:delete_api_key`         | ユーザーまたはサービスアカウントの API キーが削除される。 <sup><a href="#1">1</a></sup> |
-| `user:initiate_login`         | ユーザーがログインを開始する。 <sup><a href="#1">1</a></sup>                 |
-| `user:login`                  | ユーザーがログインする。 <sup><a href="#1">1</a></sup>                    |
-| `user:logout`                 | ユーザーがログアウトする。 <sup><a href="#1">1</a></sup>                   |
-| `user:permanently_delete`     | ユーザーが完全に削除される。 <sup><a href="#1">1</a></sup>                  |
-| `user:reactivate`             | ユーザーが再有効化される。 <sup><a href="#1">1</a></sup>                   |
-| `user:read`                   | ユーザープロファイルが閲覧される。 <sup><a href="#1">1</a></sup>               |
-| `user:update`                 | ユーザーが更新される。 <sup><a href="#1">1</a></sup>                     |
+| 액션                            | 定義                                                           |
+| ----------------------------- | ------------------------------------------------------------ |
+| `artifact:create`             | アーティファクトが作成される。                                              |
+| `artifact:delete   `          | アーティファクトが削除される。                                              |
+| `artifact:read`               | アーティファクトが読み出される。                                             |
+| `project:delete`              | プロジェクトが削除される。                                                |
+| `project:read`                | プロジェクトが読み出される。                                               |
+| `report:read`                 | レポートが閲覧される。 <sup><a href="#1">1</a></sup>                    |
+| `run:delete_many`             | run のバッチが削除される。                                              |
+| `run:delete`                  | run が削除される。                                                  |
+| `run:stop`                    | run が停止される。                                                  |
+| `run:undelete_many`           | run のバッチがゴミ箱から復元される。                                         |
+| `run:update_many`             | run のバッチが更新される。                                              |
+| `run:update`                  | run が更新される。                                                  |
+| `sweep:create_agent`          | sweep エージェントが作成される。                                          |
+| `team:create_service_account` | チーム用のサービスアカウントが作成される。                                        |
+| `team:create`                 | チームが作成される。                                                   |
+| `team:delete`                 | チームが削除される。                                                   |
+| `team:invite_user`            | ユーザーがチームに招待される。                                              |
+| `team:uninvite`               | ユーザーまたはサービスアカウントの招待がチームから取り消される。                             |
+| `user:create_api_key`         | ユーザーまたはサービスアカウントの APIキーが作成される。 <sup><a href="#1">1</a></sup> |
+| `user:create`                 | ユーザーが作成される。 <sup><a href="#1">1</a></sup>                    |
+| `user:deactivate`             | ユーザーが無効化される。 <sup><a href="#1">1</a></sup>                   |
+| `user:delete_api_key`         | ユーザーまたはサービスアカウントの APIキーが削除される。 <sup><a href="#1">1</a></sup> |
+| `user:initiate_login`         | ユーザーがログインを開始する。 <sup><a href="#1">1</a></sup>                |
+| `user:login`                  | ユーザーがログインする。 <sup><a href="#1">1</a></sup>                   |
+| `user:logout`                 | ユーザーがログアウトする。 <sup><a href="#1">1</a></sup>                  |
+| `user:permanently_delete`     | ユーザーが完全に削除される。 <sup><a href="#1">1</a></sup>                 |
+| `user:reactivate`             | ユーザーが再有効化される。 <sup><a href="#1">1</a></sup>                  |
+| `user:read`                   | ユーザープロファイルが閲覧される。 <sup><a href="#1">1</a></sup>              |
+| `user:update`                 | ユーザーが更新される。 <sup><a href="#1">1</a></sup>                    |
 
-<a id="1">1</a>: [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、次のアクションについては監査ログが収集されません。
+<a id="1">1</a>: [Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud) では、次の 액션については監査ログが収集されません。
 
-* オープンまたはパブリックなプロジェクト。
-* `report:read` アクション。
-* 特定の組織に紐付かない `User` アクション。
+* Open またはパブリックなプロジェクト。
+* `report:read` 액션。
+* 特定の組織に紐付かない `User` 액ション。

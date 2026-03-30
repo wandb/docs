@@ -42,11 +42,11 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 </div>
 
 必要なパッケージをすべてインストールして import します。
-`WANDB_API_KEY` を環境変数に設定しておき、`wandb.login()` で簡単にログインできるようにします (これは Colab にシークレットとして渡しておきます) 。
+`WANDB_API_KEY` を環境変数に設定しておき、`wandb.login()` で簡単にログインできるようにします (これは Colab に secret として渡しておきます) 。
 
 Colab にアップロードするファイル名を `name_of_file` に設定し、W&amp;B 上でこのログを記録したいプロジェクトを `name_of_wandb_project` に設定します。
 
-***NOTE:*** `name_of_wandb_project` は、トレースを記録する対象の Team を指定するために `{team_name}/{project_name}` という形式にすることもできます。
+***NOTE:*** `name_of_wandb_project` は、トレースを記録する対象のチームを指定するために `{team_name}/{project_name}` という形式にすることもできます。
 
 その後、`weave.init()` を呼び出して Weave クライアントを取得します。
 
@@ -96,9 +96,9 @@ weave_client = weave.init(name_of_wandb_project)
   # データの読み込み
 </div>
 
-データを Pandas の DataFrame に読み込み、`conversation_id` と `turn_index` でソートして、親と子が正しい順序になるようにします。
+データを Pandas の dataframe に読み込み、`conversation_id` と `turn_index` でソートして、親と子が正しい順序になるようにします。
 
-これにより、`conversation_data` 列に会話ターンが配列として格納された 2 列の Pandas の DataFrame が得られます。
+これにより、`conversation_data` 列に会話ターンが配列として格納された 2 列の Pandas の dataframe が得られます。
 
 ```python lines
 ## データを読み込んで整形する
@@ -110,7 +110,7 @@ sorted_df = df.sort_values(["conversation_id", "turn_index"])
 def create_conversation_dict_array(group):
     return group.drop("conversation_id", axis=1).to_dict("records")
 
-# conversation_id でデータフレームをグループ化して集計を適用する
+# conversation_id でデータフレームをグループ化して集約を適用する
 result_df = (
     sorted_df.groupby("conversation_id")
     .apply(create_conversation_dict_array)
@@ -118,7 +118,7 @@ result_df = (
 )
 result_df.columns = ["conversation_id", "conversation_data"]
 
-# 集計結果を確認する
+# 集約結果を確認する
 result_df.head()
 ```
 
@@ -128,16 +128,16 @@ result_df.head()
 
 ここでは pandas のデータフレームを順に処理します:
 
-* 各 `conversation_id` ごとに親 call を作成します
-* `turn_index` でソートされた turn 配列をループして、子 call を作成します
+* 各 `conversation_id` ごとに親 Call を作成します
+* `turn_index` でソートされた turn 配列をループして、子 Call を作成します
 
 低レベルな Python API における重要な概念:
 
-* Weave call は Weave trace と同等で、この call には親や子が関連付けられている場合があります
-* Weave call には、Feedback や Metadata などの情報も関連付けることができます。この例では入力と出力だけを関連付けていますが、データに含まれていればインポート時にこれらも追加できます。
-* Weave call はリアルタイムに追跡されることを想定しているため、`created` および `finished` という状態を持ちます。今回は事後インポートであるため、オブジェクトを定義して互いに紐づけた後に、一度だけ create と finish を行います。
-* call の `op` 値は、Weave が同じ構成の call を分類するために使う値です。この例では、すべての親 call は `Conversation` 型で、すべての子 call は `Turn` 型です。必要に応じてこの値は変更できます。
-* call には `inputs` と `output` を持たせることができます。`inputs` は作成時に定義し、`output` は call が終了したときに定義します。
+* Weave Call は Weave トレースと同等で、この Call には親や子が関連付けられている場合があります
+* Weave Call には、Feedback や Metadata などの情報も関連付けることができます。この例では inputs と output だけを関連付けていますが、データに含まれていればインポート時にこれらも追加できます。
+* Weave Call はリアルタイムに追跡されることを想定しているため、`created` および `finished` という状態を持ちます。今回は事後インポートであるため、オブジェクトを定義して互いに紐づけた後に、一度だけ create と finish を行います。
+* Call の `op` 値は、Weave が同じ構成の Call を分類するために使用する値です。この例では、すべての親 Call は `Conversation` タイプで、すべての子 Call は `Turn` タイプです。必要に応じてこの値は変更できます。
+* Call には `inputs` と `output` を持たせることができます。`inputs` は作成時に定義し、`output` は Call が終了したときに定義します。
 
 ```python lines
 <div id="log-the-traces-to-weave">
@@ -219,7 +219,7 @@ for _, row in result_df.iterrows():
   # ボーナス: トレースをエクスポートして厳密な評価を実行しよう！
 </div>
 
-トレースが Weave に保存され、会話の内容がどのようになっているか把握できたら、後でそれらを別のプロセスにエクスポートして Weave Evaluations を実行したくなるかもしれません。
+トレースが Weave に保存され、会話の内容がどのようになっているか把握できたら、後でそれらを別のプロセスにエクスポートして Weave 評価を実行したくなるかもしれません。
 
 <Frame>
   ![image.png](/images/screenshots/csv-3.png)
@@ -233,7 +233,7 @@ for _, row in result_df.iterrows():
 ## 評価用のすべての会話トレースを取得し、評価用データセットを準備する
 
 # すべての Conversation オブジェクトを取得するクエリフィルターを作成します
-# 以下の ref はプロジェクト固有のものです。UI でプロジェクトの Operations に移動し、
+# 以下の ref はプロジェクト固有のものです。UI でプロジェクトの オペレーション に移動し、
 # "Conversations" オブジェクトをクリックし、サイドパネルの "Use" タブから取得できます。
 weave_ref_for_conversation_op = "weave://wandb-smle/import-weave-traces-cookbook/op/Conversation:tzUhDyzVm5bqQsuqh5RT4axEXSosyLIYZn9zbRyenaw"
 filter = weave.trace_server.trace_server_interface.CallsFilter(

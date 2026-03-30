@@ -16,30 +16,30 @@ Cette page fournit des informations détaillées sur les métriques système sui
   ## Voir les métriques système
 </div>
 
-Vous pouvez consulter et surveiller les métriques système dans l’application W&amp;B ou via l’interface de terminal `wandb beta leet`.
+Vous pouvez afficher et surveiller les métriques système dans W&amp;B App ou via l’interface de terminal `wandb beta leet`.
 
 <Tabs>
   <Tab title="App">
-    Pour voir les métriques système dans l’application W&amp;B :
+    Pour voir les métriques système dans W&amp;B App :
 
-    1. Accédez à votre projet dans l’application W&amp;B.
+    1. Accédez à votre projet dans W&amp;B App.
     2. Sélectionnez un run dans le tableau **Runs**.
-    3. Dans l’espace de travail, repérez la section **System**, qui affiche des graphiques pour :
-       * l’utilisation du GPU et la mémoire
+    3. Dans le Workspace, repérez la section **System**, qui affiche des graphiques pour :
+       * l’utilisation du GPU et de la mémoire
        * l’utilisation du CPU
        * l’utilisation de la mémoire
        * les E/S disque
        * le trafic réseau
 
-    Vous pouvez personnaliser les métriques système affichées en ajoutant des panneaux à votre espace de travail. Voir [Panels](/fr/models/app/features/panels/) pour plus d’informations sur la création et la personnalisation des visualisations.
+    Vous pouvez personnaliser les métriques système affichées en ajoutant des panneaux à votre Workspace. Voir [Panels](/fr/models/app/features/panels/) pour plus d’informations sur la création et la personnalisation des visualisations.
   </Tab>
 
   <Tab title="LEET">
     Pour voir les métriques système d’un run dans votre terminal à l’aide de l’interface de terminal `wandb beta leet` :
 
-    1. Si vous avez démarré le run localement depuis un script, accédez au répertoire dans lequel vous avez exécuté votre code. Il contient un répertoire `wandb/` avec un sous-répertoire par run et un lien symbolique `latest-run/`. Chaque répertoire de run contient un journal de transactions nommé au format `run-<run-ID>.wandb`.
+    1. Si vous avez démarré le run localement à partir d’un script, accédez au répertoire dans lequel vous avez exécuté votre code. Il contient un répertoire `wandb/` avec un sous-répertoire par run et un lien symbolique `latest-run/`. Chaque répertoire de run contient un journal de transactions nommé au format `run-<run-ID>.wandb`.
 
-       Si vous n’avez pas démarré le run localement et avez téléchargé à la place un fichier journal de transactions `.wandb`, notez son emplacement.
+       Si vous n’avez pas démarré le run localement, mais avez téléchargé à la place un fichier journal de transactions `.wandb`, notez son emplacement.
     2. Démarrez `wandb beta leet` avec l’une des commandes suivantes :
 
        ```bash
@@ -88,7 +88,7 @@ Pourcentage d’utilisation du CPU par le processus, normalisé en fonction du n
 W&amp;B attribue une balise `cpu` à cette métrique.
 
 <div id="process-cpu-threads">
-  ### Threads du processeur du processus
+  ### Threads CPU du processus
 </div>
 
 Nombre de threads utilisés par le processus.
@@ -146,7 +146,7 @@ Comme pour [Disque en lecture](), les octets écrits initiaux sur le disque sont
 
 W&amp;B attribue la balise `disk.out` à cette métrique.
 
-{/* Nouvelle section */}
+{{/* Nouvelle section */}}
 
 <div id="memory">
   ## Mémoire
@@ -191,11 +191,11 @@ W&amp;B attribue la balise `proc.memory.availableMB` à cette métrique.
 </div>
 
 <div id="network-sent">
-  ### Réseau envoyé
+  ### Octets envoyés sur le réseau
 </div>
 
 Représente le nombre total d’octets envoyés sur le réseau.
-Le nombre initial d’octets envoyés est enregistré lors de la première initialisation de la métrique. Les échantillons suivants calculent la différence entre le nombre actuel d’octets envoyés et cette valeur initiale.
+Le nombre initial d’octets envoyés est enregistré lors de l’initialisation de la métrique. Les échantillons suivants calculent la différence entre le nombre actuel d’octets envoyés et cette valeur initiale.
 
 W&amp;B attribue la balise `network.sent` à cette métrique.
 
@@ -281,7 +281,7 @@ Représente la fréquence d’horloge du Streaming Multiprocessor (SM) du GPU, e
 W&amp;B attribue la balise `gpu.{gpu_index}.smClock` à cette métrique.
 
 <div id="gpu-memory-clock-speed">
-  ### Vitesse d’horloge de la mémoire du GPU
+  ### Fréquence d’horloge de la mémoire du GPU
 </div>
 
 Indique la fréquence d’horloge de la mémoire du GPU en MHz, ce qui influe sur le débit de transfert des données entre la mémoire du GPU et les cœurs de traitement.
@@ -350,7 +350,7 @@ W&amp;B attribue la balise `gpu.{gpu_index}.memoryAllocated` à cette métrique.
   ### Température du GPU AMD
 </div>
 
-La température du GPU, en degrés Celsius, pour chaque périphérique GPU AMD.
+La température, en degrés Celsius, de chaque GPU AMD.
 
 W&amp;B attribue la balise `gpu.{gpu_index}.temp` à cette métrique.
 
@@ -370,7 +370,7 @@ Indique la consommation électrique du GPU, exprimée en pourcentage de sa capac
 
 W&amp;B attribue la balise `gpu.{gpu_index}.powerPercent` à cette métrique.
 
-{/* Nouvelle section */}
+{{/* Nouvelle section */}}
 
 <div id="apple-arm-mac-gpu">
   ## GPU sur les Mac Apple ARM
@@ -412,7 +412,7 @@ W&amp;B attribue la balise `gpu.0.powerWatts` à cette métrique.
   ### Pourcentage de consommation électrique du GPU Apple
 </div>
 
-La consommation d’énergie du GPU, exprimée en pourcentage de sa capacité d’alimentation, pour les GPU Apple sur les Mac ARM.
+La consommation électrique du GPU, exprimée en pourcentage de sa capacité d’alimentation, pour les GPU Apple sur les Mac ARM.
 
 W&amp;B attribue la balise `gpu.0.powerPercent` à cette métrique.
 
@@ -450,7 +450,7 @@ La liste suivante présente les métriques disponibles et leurs unités :
   ## Google Cloud TPU
 </div>
 
-Les Tensor Processing Units (TPU) sont des ASIC (circuits intégrés spécifiques à une application) développés sur mesure par Google pour accélérer les charges de travail de machine learning.
+Les Tensor Processing Units (TPU) sont des ASIC (circuits intégrés spécifiques à une application) développés de manière personnalisée par Google pour accélérer les charges de travail de machine learning.
 
 <div id="tpu-memory-usage">
   ### Utilisation de la mémoire TPU

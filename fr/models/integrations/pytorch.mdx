@@ -17,7 +17,7 @@ Utilisez [W&amp;B](https://wandb.ai) pour le suivi des expériences en machine l
   ## Ce que présente ce notebook
 </div>
 
-Nous vous montrons comment intégrer W&amp;B à votre code PyTorch afin d’ajouter le suivi des expériences à votre pipeline.
+Nous vous montrons comment intégrer W&amp;B à votre code PyTorch pour ajouter le suivi des expériences à votre pipeline.
 
 <Frame>
   <img src="/images/tutorials/pytorch.png" alt="Schéma d’intégration entre PyTorch et W&B" />
@@ -27,7 +27,7 @@ Nous vous montrons comment intégrer W&amp;B à votre code PyTorch afin d’ajou
 # importer la bibliothèque
 import wandb
 
-# capturer un dictionnaire d'hyperparamètres avec config
+# capturer un dictionnaire d'hyperparamètres avec la configuration
 config = {
     "learning_rate": 0.001,
     "epochs": 100,
@@ -40,22 +40,22 @@ with wandb.init(project="new-sota-model", config=config) as run:
     # configurer le modèle et les données
     model, dataloader = get_model(), get_data()
 
-    # optionnel : suivre les gradients
+    # facultatif : suivre les gradients
     run.watch(model)
 
     for batch in dataloader:
     metrics = model.training_step()
-    # journaliser des métriques dans votre boucle d'entraînement pour visualiser les performances du modèle
+    # consigner des métriques dans votre boucle d'entraînement pour visualiser les performances du modèle
     run.log(metrics)
 
-    # optionnel : enregistrer le modèle à la fin
+    # facultatif : enregistrer le modèle à la fin
     model.to_onnx()
     run.save("model.onnx")
 ```
 
-Suivez ce [tutoriel vidéo](https://wandb.me/pytorch-video).
+Suivez le [tutoriel vidéo](https://wandb.me/pytorch-video).
 
-**Remarque** : les sections commençant par *Étape* suffisent pour intégrer W&amp;B à un pipeline existant. Le reste se contente de charger des données et de définir un modèle.
+**Remarque** : les sections qui commencent par *Étape* suffisent pour intégrer W&amp;B à un pipeline existant. Le reste se contente de charger des données et de définir un modèle.
 
 <div id="install-import-and-log-in">
   ## Installer, importer et se connecter
@@ -106,7 +106,7 @@ Pour journaliser des données sur notre service web,
 vous devrez vous connecter.
 
 Si c&#39;est la première fois que vous utilisez W&amp;B,
-vous devrez créer un compte gratuit via le lien qui s&#39;affiche.
+vous devrez vous inscrire gratuitement via le lien qui s&#39;affiche.
 
 ```
 import wandb
@@ -122,7 +122,7 @@ wandb.login()
   ### Suivre les métadonnées et les hyperparamètres avec `wandb.init`
 </div>
 
-Dans le code, la première chose à faire consiste à définir notre expérience :
+Dans le code, la première chose que nous faisons est de définir notre expérience :
 quels sont les hyperparamètres ? Quelles métadonnées sont associées à ce run ?
 
 Il est très courant de stocker ces informations dans un dictionnaire `config`
@@ -130,8 +130,8 @@ Il est très courant de stocker ces informations dans un dictionnaire `config`
 puis d&#39;y accéder selon les besoins.
 
 Dans cet exemple, nous ne faisons varier que quelques hyperparamètres
-et codons le reste à la main.
-Mais n&#39;importe quelle partie de votre modèle peut figurer dans la `config`.
+et codons le reste en dur.
+Mais n&#39;importe quelle partie de votre modèle peut faire partie de `config`.
 
 Nous incluons également quelques métadonnées : nous utilisons le jeu de données MNIST et une architecture
 convolutionnelle. Si, plus tard, nous travaillons par exemple
@@ -152,9 +152,9 @@ config = dict(
 Maintenant, définissons le pipeline global,
 qui est assez typique pour l’entraînement d’un modèle :
 
-1. nous commençons par `make` un modèle, ainsi que les données et l’optimiseur associés, puis
-2. nous `train` le modèle en conséquence et enfin
-3. nous le `test` pour voir comment l’entraînement s’est déroulé.
+1. nous commençons par appeler `make` pour créer un modèle, ainsi que les données et l’optimiseur associés, puis
+2. nous appelons `train` pour entraîner le modèle, et enfin
+3. nous utilisons `test` pour voir comment l’entraînement s’est déroulé.
 
 Nous implémenterons ces fonctions ci-dessous.
 
@@ -181,16 +181,16 @@ def model_pipeline(hyperparameters):
 
 La seule différence ici par rapport à un pipeline standard
 est que tout se passe dans le contexte de `wandb.init`.
-L&#39;appel de cette fonction établit une ligne de communication
+L’appel de cette fonction établit une ligne de communication
 entre votre code et nos serveurs.
 
-Transmettre le dictionnaire `config` à `wandb.init`
-journalise immédiatement toutes ces informations,
-de sorte que vous saurez toujours quelles valeurs d&#39;hyperparamètre
+Le passage du dictionnaire `config` à `wandb.init`
+enregistre immédiatement toutes ces informations,
+de sorte que vous saurez toujours quelles valeurs d’hyperparamètre
 vous avez définies pour votre expérience.
 
-Pour vous assurer que les valeurs que vous avez choisies et journalisées sont bien celles utilisées
-dans votre modèle, nous vous recommandons d&#39;utiliser la copie `run.config` de votre objet.
+Pour vous assurer que les valeurs que vous avez choisies et enregistrées sont bien celles utilisées
+dans votre modèle, nous vous recommandons d’utiliser la copie `run.config` de votre objet.
 Consultez la définition de `make` ci-dessous pour voir quelques exemples.
 
 > *Remarque* : nous veillons à exécuter notre code dans des processus séparés,
@@ -198,7 +198,7 @@ Consultez la définition de `make` ci-dessous pour voir quelques exemples.
 > (par exemple, si un gigantesque monstre marin attaque nos centres de données)
 > ne fasse pas planter votre code.
 > Une fois le problème résolu, par exemple lorsque le Kraken retourne dans les profondeurs,
-> vous pouvez journaliser les données avec `wandb sync`.
+> vous pouvez enregistrer les données avec `wandb sync`.
 
 ```python
 def make(config):
@@ -225,8 +225,8 @@ def make(config):
 Nous devons maintenant préciser comment les données sont chargées et à quoi ressemble le modèle.
 
 Cette partie est très importante, mais elle n&#39;est
-pas différente de ce qu&#39;elle serait sans `wandb` ;
-nous ne nous y attarderons donc pas.
+pas différente de ce qu&#39;elle serait sans `wandb`,
+donc nous ne nous y attarderons pas.
 
 ```python
 def get_data(slice=5, train=True):
@@ -252,9 +252,9 @@ def make_loader(dataset, batch_size):
 Définir le modèle est généralement la partie la plus amusante.
 
 Mais rien ne change avec `wandb`,
-donc on va s’en tenir à une architecture ConvNet standard.
+donc nous allons nous en tenir à une architecture ConvNet standard.
 
-N’hésitez pas à expérimenter et à essayer quelques expériences --
+N’hésitez pas à modifier cela et à essayer quelques expériences --
 tous vos résultats seront enregistrés sur [wandb.ai](https://wandb.ai).
 
 ```python
@@ -295,13 +295,13 @@ Deux fonctions `wandb` entrent en jeu ici : `watch` et `log`.
 </div>
 
 `run.watch` journalisera les gradients et les paramètres de votre modèle,
-toutes les `log_freq` étapes d’entraînement.
+toutes les `log_freq` étapes de l’entraînement.
 
 Il vous suffit de l’appeler avant de démarrer l’entraînement.
 
 Le reste du code d’entraînement reste inchangé :
 nous itérons sur les époques et les lots,
-en exécutant les passes avant et arrière
+en exécutant des passes avant et arrière
 et en appliquant notre `optimizer`.
 
 ```python
@@ -344,22 +344,22 @@ def train_batch(images, labels, model, optimizer, criterion):
 ```
 
 La seule différence se situe dans le code de journalisation :
-alors qu’auparavant vous pouviez signaler des métriques en les affichant dans le terminal,
+alors qu’auparavant vous pouviez rapporter des métriques en les affichant dans le terminal,
 vous transmettez maintenant les mêmes informations à `run.log()`.
 
 `run.log()` attend un dictionnaire dont les clés sont des chaînes de caractères.
 Ces chaînes identifient les objets journalisés, qui constituent les valeurs.
-Vous pouvez aussi indiquer facultativement à quelle `step` d’entraînement vous en êtes.
+Vous pouvez aussi indiquer, de façon facultative, à quelle `step` d’entraînement vous en êtes.
 
 > *Remarque* : j’aime utiliser le nombre d’exemples que le modèle a vus,
-> car cela facilite les comparaisons entre différentes tailles de lot,
-> mais vous pouvez aussi utiliser les étapes brutes ou le nombre de lots. Pour les runs d’entraînement plus longs, il peut également être pertinent de journaliser par `epoch`.
+> car cela facilite la comparaison entre différentes tailles de lot,
+> mais vous pouvez aussi utiliser le nombre brut d’étapes ou de lots. Pour les runs d’entraînement plus longs, il peut également être pertinent de journaliser par `epoch`.
 
 ```python
 def train_log(loss, example_ct, epoch):
     with wandb.init(project="pytorch-demo") as run:
-        # Journaliser la perte et le numéro d'époque
-        # C'est ici que nous journalisons les métriques dans W&B
+        # Enregistrer la perte et le numéro d'époque
+        # C'est ici que nous enregistrons les métriques dans W&B
         run.log({"epoch": epoch, "loss": loss}, step=example_ct)
         print(f"Loss after {str(example_ct).zfill(5)} examples: {loss:.3f}")
 ```
@@ -377,13 +377,13 @@ ou l’appliquer à des exemples sélectionnés à la main.
 </div>
 
 C&#39;est aussi le moment idéal pour enregistrer l&#39;architecture du modèle
-et les paramètres finaux sur disque.
-Pour une compatibilité maximale, nous allons `export` notre modèle au
+et ses paramètres finaux sur disque.
+Pour une compatibilité maximale, nous allons `exporter` notre modèle au
 [format Open Neural Network eXchange (ONNX)](https://onnx.ai/).
 
 En passant ce nom de fichier à `run.save()`, vous vous assurez que les paramètres du modèle
-sont enregistrés sur les serveurs de W&amp;B : plus besoin de chercher quel `.h5` ou `.pb`
-correspond à quels runs d&#39;entraînement.
+sont enregistrés sur les serveurs de W&amp;B : plus besoin de perdre le fil entre les fichiers `.h5` ou `.pb`
+et les runs d&#39;entraînement auxquels ils correspondent.
 
 Pour des fonctionnalités `wandb` plus avancées de stockage, de
 gestion des versions et de distribution de
@@ -429,7 +429,7 @@ la page du run, où les résultats de ce run seront stockés.
 
 Accédez à la page du run et consultez ces onglets :
 
-1. **Charts**, où les gradients du modèle, les valeurs des paramètres et la perte sont journalisés tout au long de l’entraînement
+1. **Charts**, où les gradients du modèle, les valeurs des paramètres et la perte sont enregistrés tout au long de l’entraînement
 2. **System**, qui contient diverses métriques système, notamment l’utilisation des E/S du disque, les métriques CPU et GPU (regardez cette température grimper), et bien plus encore
 3. **Logs**, qui contient une copie de tout ce qui a été envoyé vers la sortie standard pendant l’entraînement
 4. **Files**, où, une fois l’entraînement terminé, vous pouvez cliquer sur `model.onnx` pour visualiser notre réseau avec le [visualiseur de modèles Netron](https://github.com/lutzroeder/netron).
@@ -480,7 +480,7 @@ Explorez des exemples de projets suivis et visualisés avec W&amp;B dans notre [
   ## Configuration avancée
 </div>
 
-1. [Variables d&#39;environnement](/fr/platform/hosting/env-vars/): Définissez des clés API dans des variables d&#39;environnement afin de pouvoir exécuter l&#39;entraînement sur un cluster géré.
-2. [Mode hors ligne](/fr/support/models/articles/can-i-run-wandb-offline): Utilisez le mode `dryrun` pour effectuer l&#39;entraînement hors ligne et synchroniser les résultats plus tard.
-3. [Sur site](/fr/platform/hosting/hosting-options/self-managed): Installez W&amp;B dans un cloud privé ou sur des serveurs isolés du réseau au sein de votre propre infrastructure. Nous proposons des installations locales pour tous les profils, du monde universitaire aux équipes d&#39;entreprise.
-4. [Sweeps](/fr/models/sweeps/): Configurez rapidement une recherche d&#39;hyperparamètres avec notre outil léger de réglage.
+1. [Variables d&#39;environnement](/fr/platform/hosting/env-vars/) : Définissez des clés API dans des variables d&#39;environnement afin de pouvoir exécuter l&#39;entraînement sur un cluster géré.
+2. [Mode hors ligne](/fr/models/support/run_wandb_offline/) : Utilisez le mode `dryrun` pour entraîner hors ligne et synchroniser les résultats plus tard.
+3. [Sur site](/fr/platform/hosting/hosting-options/self-managed) : Installez W&amp;B dans un cloud privé ou sur des serveurs isolés du réseau au sein de votre propre infrastructure. Nous proposons des installations locales pour tous les profils, du milieu académique aux équipes d&#39;entreprise.
+4. [Sweeps](/fr/models/sweeps/) : Configurez rapidement une recherche d&#39;hyperparamètres avec notre outil léger d&#39;ajustement.

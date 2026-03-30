@@ -20,21 +20,21 @@ restore(
 ) → None | TextIO
 ```
 
-Télécharge le fichier spécifié à partir du stockage cloud.
+Téléchargez le fichier spécifié depuis le stockage cloud.
 
-Le fichier est placé dans le répertoire actuel ou dans le répertoire du run. Par défaut, le fichier n’est téléchargé que s’il n’existe pas déjà.
+Le fichier est placé dans le répertoire courant ou dans le répertoire du run. Par défaut, le fichier n’est téléchargé que s’il n’existe pas déjà.
 
 **Arguments :**
 
-* `name`:  Le nom du fichier.
-* `run_path`:  Chemin facultatif vers un run à partir duquel récupérer des fichiers, c.-à-d. `username/project_name/run_id`  si wandb.init n’a pas été appelé, ce paramètre est requis.
-* `replace`:  Indique s’il faut télécharger le fichier même s’il existe déjà localement
-* `root`:  Le répertoire dans lequel télécharger le fichier.  La valeur par défaut est le répertoire actuel ou le répertoire du run si wandb.init a été appelé.
+* `name` :  Le nom du fichier.
+* `run_path` :  Chemin facultatif vers un run à partir duquel récupérer des fichiers, c.-à-d. `username/project_name/run_id`  si wandb.init n’a pas été appelé, ce paramètre est requis.
+* `replace` :  Indique si le fichier doit être téléchargé même s’il existe déjà localement
+* `root` :  Le répertoire dans lequel télécharger le fichier.  La valeur par défaut est le répertoire courant ou le répertoire du run si wandb.init a été appelé.
 
 **Retourne :**
-`None` s’il est impossible de trouver le fichier, sinon un objet de fichier ouvert en lecture.
+`None` si le fichier n’est pas trouvé, sinon un objet fichier ouvert pour la lecture.
 
 **Exceptions levées :**
 
-* `CommError`:  Si W&amp;B ne parvient pas à se connecter au backend W&amp;B.
-* `ValueError`:  Si le fichier est introuvable ou si `run_path` est introuvable.
+* `CommError` :  Si W&amp;B ne parvient pas à se connecter au backend W&amp;B.
+* `ValueError` :  Si le fichier n’est pas trouvé ou si run&#95;path n’est pas trouvé.

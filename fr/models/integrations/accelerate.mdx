@@ -8,10 +8,10 @@ Hugging Face Accelerate est une bibliothèque qui permet d&#39;exécuter le mêm
 Accelerate inclut un suivi W&amp;B, dont nous expliquons l&#39;utilisation ci-dessous. Vous pouvez également en savoir plus sur les [suivis d&#39;Accelerate dans Hugging Face](https://huggingface.co/docs/accelerate/main/en/usage_guides/tracking).
 
 <div id="start-logging-with-accelerate">
-  ## Commencez à journaliser avec Accelerate
+  ## Commencez la journalisation avec Accelerate
 </div>
 
-Pour bien démarrer avec Accelerate et W&amp;B, vous pouvez suivre le pseudo-code ci-dessous :
+Pour commencer avec Accelerate et W&amp;B, vous pouvez suivre le pseudo-code ci-dessous :
 
 ```python
 from accelerate import Accelerator
@@ -52,14 +52,14 @@ Plus précisément, vous devez :
   ## Accéder au suivi W&amp;B
 </div>
 
-Pour accéder au suivi W&amp;B, utilisez la méthode `Accelerator.get_tracker()`. Passez la chaîne correspondant à l’attribut `.name` du suivi ; la méthode renvoie alors le suivi sur le processus `main`.
+Pour accéder au suivi W&amp;B, utilisez la méthode `Accelerator.get_tracker()`. Passez la chaîne correspondant à l’attribut `.name` d’un suivi ; la méthode renvoie alors le suivi dans le processus `main`.
 
 ```python
 wandb_tracker = accelerator.get_tracker("wandb")
 
 ```
 
-À partir de là, vous pouvez interagir avec l’objet run de wandb normalement :
+À partir de là, vous pouvez interagir normalement avec l’objet run de wandb :
 
 ```python
 wandb_tracker.log_artifact(some_artifact_to_log)
@@ -68,7 +68,7 @@ wandb_tracker.log_artifact(some_artifact_to_log)
 <Warning>
   Les suivis intégrés à Accelerate s’exécutent automatiquement sur le bon processus. Ainsi, si un suivi ne doit s’exécuter que sur le processus principal, cela se fera automatiquement.
 
-  Si vous souhaitez vraiment supprimer complètement l’encapsulation d’Accelerate, vous pouvez obtenir le même résultat avec :
+  Si vous souhaitez vraiment supprimer entièrement l’encapsulation d’Accelerate, vous pouvez obtenir le même résultat avec :
 
   ```python
   wandb_tracker = accelerator.get_tracker("wandb", unwrap=True)

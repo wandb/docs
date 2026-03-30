@@ -1,11 +1,11 @@
 ---
-description: "wandb.init() の resume パラメーターオプションを使用して、一時停止、停止、またはクラッシュした W&B runs を再開します。"
+description: "wandb.init() の resume パラメーターオプションを使用して、一時停止、停止、またはクラッシュした W&B Runs を再開します。"
 title: run を再開する
 ---
 
 `wandb.init()` の `resume` パラメーターを設定して、run が停止またはクラッシュした場合に W&amp;B がどのように動作するかを指定します。run を初期化すると、W&amp;B はその run ID がすでに存在するかどうかを確認し、`resume` の値で定義された動作を適用します。
 
-次の表は、`resume` パラメーターに渡す引数と、run ID が存在するかどうかに応じた W&amp;B の動作を示しています。
+次の表は、`resume` パラメーターに渡す인수と、run ID が存在するかどうかに応じた W&amp;B の動作を示しています。
 
 | Argument  | Description                                                                        | Run ID exists                                    | Run ID does not exist                  | Use case                       |
 | --------- | ---------------------------------------------------------------------------------- | ------------------------------------------------ | -------------------------------------- | ------------------------------ |
@@ -29,22 +29,22 @@ title: run を再開する
   ## 同じ run ID を使用する必要がある run を再開する
 </div>
 
-run が停止、クラッシュ、または失敗した場合は、同じ run ID を使って再開できます。これを行うには、run を初期化し、次の内容を指定します。
+run が停止した場合、クラッシュした場合、または失敗した場合は、同じ run ID を使用して再開できます。これを行うには、run を初期化し、以下を指定します。
 
-* `resume` パラメーターを `"must"` (`resume="must"`) に設定する
+* `resume` パラメーターを `"must"` に設定する (`resume="must"`)
 * 停止またはクラッシュした run の run ID を指定する
 
-次のコードスニペットは、W&amp;B Python SDK でこれを実現する方法を示しています。
+次の코드 스니펫は、W&amp;B Python SDK でこれを実現する方法を示しています。
 
 ```python
 with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
-        # Your training code here
+        # トレーニングコードをここに記述
 ```
 
 <Warning>
-  同じ `id` を複数のプロセスが同時に使用すると、想定外の結果が発生します。
+  複数のプロセスが同じ`id`を同時に使用すると、予期しない結果が発生します。
 
-  複数のプロセスを管理する方法の詳細については、[分散トレーニング実験のログ記録](/ja/models/track/log/distributed-training/) を参照してください。
+  複数のプロセスの管理方法の詳細については、[分散トレーニングのExperimentsをログする](/ja/models/track/log/distributed-training/)を参照してください。
 </Warning>
 
 <div id="resume-a-run-without-overriding-the-existing-run">
@@ -53,26 +53,26 @@ with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
 
 停止またはクラッシュした run を、既存の run を上書きせずに再開します。これは、プロセスが正常終了しない場合に特に便利です。次回 W&amp;B を開始したとき、W&amp;B は最後のステップからロギングを再開します。
 
-W&amp;B で run を初期化する際に、`resume` パラメーターを `"allow"` (`resume="allow"`) に設定します。停止またはクラッシュした run の run ID を指定してください。次のコードスニペットは、W&amp;B Python SDK を使ってこれを実現する方法を示しています。
+W&amp;B で run を初期化する際に、`resume` パラメーターを `"allow"` (`resume="allow"`) に設定します。停止またはクラッシュした run の run ID を指定してください。次の코드 스니펫は、W&amp;B Python SDK を使ってこれを実現する方法を示しています。
 
 ```python
 import wandb
 
 with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="allow") as run:
-        # トレーニングコードをここに記述
+        # ここにトレーニングコードを記述します
 ```
 
 <div id="enable-runs-to-automatically-resume">
   ## run を自動再開できるようにする
 </div>
 
-次のコードスニペットは、Python SDK または環境変数を使って run を自動的に再開できるようにする方法を示しています。
+次の코드 스니펫は、Python SDK または環境変数を使って run を自動的に再開できるようにする方法を示しています。
 
 <Tabs>
   <Tab title="W&B Python SDK">
-    run を初期化するときに、`resume` パラメーターの引数として `auto` を渡します。失敗したプロセスと同じディレクトリから run を再起動するようにしてください。
+    run を初期化するときに、`resume` パラメーターの인수として `auto` を渡します。失敗したプロセスと同じディレクトリから run を再起動するようにしてください。
 
-    次のコードスニペットをコピーして貼り付けます。`<>` で囲まれた値は、ご自身の値に置き換えてください:
+    次の코드 스니펫をコピーして貼り付けます。`<>` で囲まれた値は、ご自身の値に置き換えてください:
 
     ```python
     with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="auto") as run:
@@ -89,7 +89,7 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
     WANDB_RESUME=auto WANDB_RUN_ID="$RUN_ID" python eval.py
     ```
 
-    ターミナルで、このシェルスクリプトを W&amp;B run ID とともに実行できます。次のコードスニペットは run ID `akj172` を渡しています:
+    ターミナルで、このシェルスクリプトを W&amp;B run ID とともに実行できます。次の코드 스니펫は run ID `akj172` を渡しています:
 
     ```bash
     sh run_experiment.sh akj172 
@@ -113,19 +113,19 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 
 プリエンプションを正しく処理すると、中断された [sweep](/ja/models/sweeps/) の run は自動的にキューに入れ直され、別のエージェントが取得できるようになります。この方法は、sweep エージェントがプリエンプト可能な環境 (たとえば、プリエンプト可能なキュー内の SLURM ジョブ、EC2 Spot インスタンス、Google Cloud のプリエンプト可能 VM) で実行されている場合に特に有効です。
 
-以下の動作は、[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使って sweep エージェントを実行する場合に適用されます。この場合、トレーニングプログラムは **サブプロセス** として起動されます。一方、Python API の [`wandb.agent()`](/ja/models/ref/python/functions/agent) のみを使用する場合には、完全には当てはまりません。この経路では、トレーニング `function` は別プロセスではなくスレッド内で実行されるため、OS シグナルの配信と転送の動作が CLI エージェントのモデルとは一致しないためです。
+以下の動作は、[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使って sweep エージェントを実行する場合に適用されます。この場合、トレーニングプログラムは **サブプロセス** として起動されます。一方、Python API の [`wandb.agent()`](/ja/models/ref/python/functions/agent) のみを使用する場合には、完全には当てはまりません。この経路では、トレーニング関数は別プロセスではなくスレッド内で実行されるため、OS シグナルの配信と転送の動作が CLI エージェントのモデルとは一致しないためです。
 
-**推奨パターン:** スケジューラーまたはプラットフォームが使用するプリエンプションシグナル (たとえば `SIGUSR1` や `SIGTERM`) に対するシグナルハンドラーを登録してください。ハンドラー内では、run がアクティブな場合に [`mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出し、必要なクリーンアップ (チェックポイントの保存など) を行ったうえで、非ゼロのコードで終了します (シグナルによる終了では、`128 + signum` を使うのが一般的な慣例です) 。`wandb.init()` の直後に、無条件で `mark_preempting()` をすぐ呼び出さないでください。そうすると、コードの bug を含むあらゆる失敗がプリエンプションとしてマークされ、run が繰り返しキューに入れ直される可能性があります。
+**推奨パターン:** スケジューラーまたはプラットフォームが使用するプリエンプションシグナル (たとえば `SIGUSR1` や `SIGTERM`) に対するシグナルハンドラーを登録してください。ハンドラー内では、run がアクティブな場合に [`mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出し、必要なクリーンアップ (チェックポイントの保存など) を行ったうえで、非ゼロのコードで終了します (シグナルによる終了では、`128 + signum` を使うのが一般的な慣例です)。`wandb.init()` の直後に、無条件で `mark_preempting()` をすぐ呼び出さないでください。そうすると、コードのバグを含むあらゆる失敗がプリエンプションとしてマークされ、run が繰り返しキューに入れ直される可能性があります。
 
-実行可能な例、CLI エージェントでの `--forward-signals`、および `mark_preempting()` のさまざまな使用方法をまとめた完全な Reference 表については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
+実行可能な例、CLI エージェントでの `--forward-signals`、および `mark_preempting()` のさまざまな使用方法をまとめた完全なリファレンス表については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
 
 このパターンに従うと、W&amp;B は run の状態をおおむね次のように記録します。
 
-| シナリオ                                                                                                       | Run の状態                                        |
-| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| run が終了コード 0 で正常に完了する                                                                                      | FINISHED                                       |
-| run が非ゼロの終了コードで失敗する                                                                                        | FAILED                                         |
-| run が未処理のシグナル (たとえば `SIGKILL`) を受信する                                                                       | 約 5 分後に CRASHED                                |
-| run が処理されたプリエンプションシグナル (たとえば `SIGTERM` または `SIGUSR1`) を受信し、ハンドラーが `mark_preempting()` を呼び出して、プロセスが非ゼロで終了する | PREEMPTED。run は次のエージェント request に備えてキューに入れられます |
+| シナリオ                                                                                                       | Run の状態                                    |
+| ---------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| run が終了コード 0 で正常に完了する                                                                                      | FINISHED                                   |
+| run が非ゼロの終了コードで失敗する                                                                                        | FAILED                                     |
+| run が未処理のシグナル (たとえば `SIGKILL`) を受信する                                                                       | 約 5 分後に CRASHED                            |
+| run が処理されたプリエンプションシグナル (たとえば `SIGTERM` または `SIGUSR1`) を受信し、ハンドラーが `mark_preempting()` を呼び出して、プロセスが非ゼロで終了する | PREEMPTED。run は次のエージェントリクエストに備えてキューに入れられます |
 
 Sweep エージェントは、sweep が検索アルゴリズムに基づいて新しいハイパーパラメーターの組み合わせを生成する前に、run キューを先に処理します。キューが空になると、sweep は通常のスケジューリングを再開します。

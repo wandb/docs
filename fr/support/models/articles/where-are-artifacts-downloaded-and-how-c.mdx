@@ -1,11 +1,11 @@
 ---
-title: "Où les artefacts sont-ils téléchargés, et comment puis-je définir cet emplacement ?"
+title: "Où les artefacts sont-ils téléchargés et comment puis-je définir cet emplacement ?"
 keywords: ["Artifacts", "Variables d’environnement"]
 ---
 
 Par défaut, les artefacts sont téléchargés dans le dossier `artifacts/`. Pour modifier l’emplacement :
 
-* Passez-le à [`wandb.Artifact().download`](/fr/models/ref/python/public-api/api) :
+* Spécifiez-le dans [`wandb.Artifact().download`](/fr/models/ref/python/public-api/api) :
 
   ```python
   wandb.Artifact().download(root="<path_to_download>")
@@ -27,4 +27,4 @@ Par défaut, les artefacts sont téléchargés dans le dossier `artifacts/`. Pou
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

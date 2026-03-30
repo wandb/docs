@@ -1,9 +1,9 @@
 ---
-title: "Code d’erreur de l’API 503 - Le moteur est actuellement surchargé"
+title: "Code d'erreur de l'API 503 - Le moteur est actuellement surchargé"
 keywords: ["Erreurs du serveur"]
 ---
 
-Une erreur 503 accompagnée du message &quot;Le moteur est actuellement surchargé, veuillez réessayer plus tard&quot; signifie que le serveur W&amp;B Inférence fait face à un trafic élevé et ne peut pas traiter votre requête pour le moment.
+Une erreur 503 accompagnée du message « Le moteur est actuellement surchargé, veuillez réessayer plus tard » signifie que le serveur W&amp;B Inference fait face à un trafic élevé et ne peut pas traiter votre requête pour le moment.
 
 <div id="why-this-happens">
   ## Pourquoi cela se produit
@@ -16,11 +16,11 @@ Pendant les périodes de forte demande, le moteur d’inférence peut être temp
 </div>
 
 1. **Réessayez après un court délai**
-   * Attendez quelques secondes avant de renvoyer votre requête
-   * Utilisez un backoff exponentiel pour éviter d’accentuer la congestion
+   * Attendez quelques secondes avant de réessayer votre requête
+   * Utilisez un backoff exponentiel pour éviter d’aggraver la congestion
 
 2. **Espacez les requêtes**
-   * Si vous envoyez un grand nombre de requêtes, envisagez de les répartir dans le temps
+   * Si vous envoyez un grand nombre de requêtes, envisagez de les étaler dans le temps
    * Mettez en place une file d’attente des requêtes pour lisser les pics de trafic
 
 ***

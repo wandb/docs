@@ -1,6 +1,6 @@
 ---
 title: Slack オートメーションを作成する
-description: "Slack インテグレーションを設定し、特定のイベントで Slack チャンネルに通知を送信する W&B オートメーションを作成します。"
+description: "Slack インテグレーションを設定し、特定のイベント時に Slack チャンネルへ通知を送信する W&B オートメーションを作成します。"
 ---
 
 import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.mdx";
@@ -11,7 +11,7 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
 
 このページでは、Slack [オートメーション](/ja/models/automations/)を作成する方法を説明します。Webhook オートメーションを作成するには、代わりに [Webhook オートメーションの作成](/ja/models/automations/create-automations/webhook/)を参照してください。
 
-大まかに言うと、Slack オートメーションを作成するには、次の手順を行います。
+大まかに言うと、Slack オートメーションを作成するには、次のstepを行います。
 
 1. [Slack インテグレーションを追加](#add-a-slack-integration)して、Slack インスタンスとチャンネルへの投稿を W&amp;B に許可します。
 2. [オートメーションを作成](#create-an-automation)して、監視する[イベント](/ja/models/automations/automation-events/)と通知するチャンネルを定義します。
@@ -20,22 +20,22 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
   ## Slack インテグレーションを追加する
 </div>
 
-チーム管理者は、Slack インテグレーションをチームに追加できます。
+チーム管理者は、チームに Slack インテグレーションを追加できます。
 
 1. W&amp;B にログインし、**Team Settings** に移動します。
-2. **Slack channel integrations** セクションで **Connect Slack** をクリックして、新しい Slack インスタンスを追加します。既存の Slack インスタンスにチャンネルを追加するには、**New integration** をクリックします。
+2. **Slack channel integrations** セクションで、**Connect Slack** をクリックして新しい Slack インスタンスを追加します。既存の Slack インスタンスにチャンネルを追加するには、**New integration** をクリックします。
 
-   ![Screenshot showing two Slack integrations in a Team](/images/automations/slack_integrations.png)
-3. 必要に応じて、ブラウザで Slack にサインインします。プロンプトが表示されたら、選択した Slack チャンネルへの投稿を W&amp;B が行えるように許可します。ページの内容を確認し、**Search for a channel** をクリックしてチャンネル名の入力を開始します。リストからチャンネルを選択し、**Allow** をクリックします。
-4. Slack で、選択したチャンネルを開きます。`[Your Slack handle] added an integration to this channel: Weights & Biases` のような投稿が表示されていれば、インテグレーションは正しく設定されています。
+   ![チーム内の 2 つの Slack インテグレーションを示すスクリーンショット](/images/automations/slack_integrations.png)
+3. 必要に応じて、ブラウザで Slack にサインインします。求められたら、選択した Slack チャンネルに投稿する権限を W&amp;B に付与します。ページを確認し、**Search for a channel** をクリックしてチャンネル名の入力を開始します。一覧からチャンネルを選択し、**Allow** をクリックします。
+4. Slack で、選択したチャンネルに移動します。`[Your Slack handle] added an integration to this channel: Weights & Biases` のような投稿が表示されれば、インテグレーションは正しく設定されています。
 
-これで、設定した Slack チャンネルに通知する [オートメーションを作成](#create-an-automation) できます。
+これで、設定した Slack チャンネルに通知する[オートメーションを作成](#create-an-automation)できます。
 
 <div id="view-and-manage-slack-integrations">
   ## Slack インテグレーションの表示と管理
 </div>
 
-チーム管理者は、チームの Slack インスタンスとチャンネルを表示および管理できます。
+チーム管理者は、チームの Slack インスタンスとチャンネルを表示と管理できます。
 
 1. W&amp;B にログインし、**Team Settings** に移動します。
 2. **Slack channel integrations** セクションで各 Slack の送信先を確認します。
@@ -49,18 +49,18 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
 
 <Tabs>
   <Tab title="Registry">
-    Registry 管理者は、その registry でオートメーションを作成できます。
+    Registry 管理者は、その Registry でオートメーションを作成できます。
 
     1. W&amp;B にログインします。
-    2. 詳細を表示する registry 名をクリックします。
-    3. registry をスコープとするオートメーションを作成するには、**Automations** タブをクリックし、**Create automation** をクリックします。registry をスコープとするオートメーションは、その registry 内のすべての collection (将来作成されるものも含む) に自動的に適用されます。
-    4. 監視する [event](/ja/models/automations/automation-events/#registry-events) を選択します。
+    2. 詳細を表示する Registry の名前をクリックします。
+    3. Registry スコープのオートメーションを作成するには、**Automations** タブをクリックしてから、**Create automation** をクリックします。Registry スコープのオートメーションは、その Registry 内のすべてのコレクション (今後作成されるものも含む) に自動的に適用されます。
+    4. 監視する [イベント](/ja/models/automations/automation-events/#registry-events) を選択します。
 
-       event に応じて表示される追加フィールドを入力します。たとえば **An artifact alias is added** を選択した場合、**Alias regex** を指定する必要があります。
+       イベントに応じて表示される追加フィールドを入力します。たとえば **An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
 
        **Next step** をクリックします。
-    5. [Slack インテグレーション](#add-a-slack-integreation) を所有するチームを選択します。
-    6. **Action type** を **Slack notification** に設定します。Slack チャンネルを選択し、**Next step** をクリックします。
+    5. [Slack インテグレーション](#add-a-slack-integration) を所有するチームを選択します。
+    6. **Action type** を **Slack notification** に設定します。Slack チャンネルを選択して、**Next step** をクリックします。
     7. オートメーションの名前を入力します。必要に応じて説明を追加します。
     8. **Create automation** をクリックします。
   </Tab>
@@ -71,45 +71,45 @@ import EnterpriseCloudOnly from "/snippets/ja/_includes/enterprise-cloud-only.md
     1. W&amp;B にログインします。
     2. プロジェクトページに移動し、**Automations** タブをクリックしてから **Create automation** をクリックします。
 
-       または、ワークスペース内の折れ線グラフから、そのグラフに表示されているメトリクス向けの [run metric automation](/ja/models/automations/automation-events/#run-events) をすばやく作成できます。パネルにカーソルを合わせ、パネル上部のベルアイコンをクリックします。
+       または、Workspace 内の折れ線グラフから、そのグラフに表示されているメトリクスに対する [run metric automation](/ja/models/automations/automation-events/#run-events) をすばやく作成できます。パネルにカーソルを合わせて、パネル上部のベルアイコンをクリックします。
 
        <Frame>
          <img src="/images/automations/run_metric_automation_from_panel.png" alt="オートメーションのベルアイコンの位置" />
        </Frame>
-    3. 監視する [event](/ja/models/automations/automation-events/#project) を選択します。
+    3. 監視する [イベント](/ja/models/automations/automation-events/#project) を選択します。
 
-       1. 表示される追加フィールドを入力します。たとえば **An artifact alias is added** を選択した場合、**Alias regex** を指定する必要があります。
+       1. 表示される追加フィールドを入力します。たとえば **An artifact alias is added** を選択した場合は、**Alias regex** を指定する必要があります。
 
-          1. run によってトリガーされるオートメーションについては、オプションで 1 つ以上の run フィルターを指定できます。
+          1. run によってトリガーされるオートメーションでは、オプションで 1 つ以上の run フィルターを指定できます。
 
-             * **Filter to one user&#39;s runs**: 指定したユーザーが作成した runs のみを含めます。トグルをクリックしてフィルターを有効にし、ユーザー名を指定します。
-             * **Filter on run name**: 名前が指定した正規表現に一致する runs のみを含めます。トグルをクリックしてフィルターを有効にし、正規表現を指定します。
+             * **Filter to one user&#39;s runs**: 指定したユーザーが作成した run のみを対象にします。トグルをクリックしてフィルターを有効にし、ユーザー名を指定します。
+             * **Filter on run name**: 名前が指定した正規表現に一致する run のみを対象にします。トグルをクリックしてフィルターを有効にし、正規表現を指定します。
        2. **Next step** をクリックします。
     4. [Slack インテグレーション](#add-a-slack-integration) を所有するチームを選択します。
-    5. **Action type** を **Slack notification** に設定します。Slack チャンネルを選択し、**Next step** をクリックします。
+    5. **Action type** を **Slack notification** に設定します。Slack チャンネルを選択して、**Next step** をクリックします。
     6. オートメーションの名前を入力します。必要に応じて説明を追加します。
     7. **Create automation** をクリックします。
   </Tab>
 </Tabs>
 
 <div id="view-and-manage-automations">
-  ## 自動化の表示と管理
+  ## オートメーションの表示と管理
 </div>
 
 <Tabs>
   <Tab title="Registry">
-    レジストリの **Automations** タブから、そのレジストリに対する自動化を管理できます。
+    Registry の **Automations** タブで、そのRegistry のオートメーションを管理できます。
 
-    * 自動化の詳細を表示するには、名前をクリックします。
-    * 自動化を編集するには、アクション `...` メニューをクリックし、**Edit automation** をクリックします。
-    * 自動化を削除するには、アクション `...` メニューをクリックし、**Delete automation** をクリックします。削除の確認が求められます。
+    * オートメーションの詳細を表示するには、その名をクリックします。
+    * オートメーションを編集するには、アクション `...` メニューをクリックし、**Edit automation** をクリックします。
+    * オートメーションを削除するには、アクション `...` メニューをクリックし、**Delete automation** をクリックします。確認が必要です。
   </Tab>
 
   <Tab title="Project">
-    W&amp;B 管理者は、プロジェクトの **Automations** タブから、そのプロジェクトの自動化を表示および管理できます。
+    W&amp;B 管理者は、プロジェクトの **Automations** タブで、そのプロジェクトのオートメーションを表示と管理できます。
 
-    * 自動化の詳細を表示するには、名前をクリックします。
-    * 自動化を編集するには、アクション `...` メニューをクリックし、**Edit automation** をクリックします。
-    * 自動化を削除するには、アクション `...` メニューをクリックし、**Delete automation** をクリックします。削除の確認が求められます。
+    * オートメーションの詳細を表示するには、その名をクリックします。
+    * オートメーションを編集するには、アクション `...` メニューをクリックし、**Edit automation** をクリックします。
+    * オートメーションを削除するには、アクション `...` メニューをクリックし、**Delete automation** をクリックします。確認が必要です。
   </Tab>
 </Tabs>

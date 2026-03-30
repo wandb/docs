@@ -14,7 +14,7 @@ Pour créer une complétion de chat, fournissez :
 * L’URL de base du service Inférence : `https://api.inference.wandb.ai/v1`
 * Votre clé API W&amp;B : `<your-api-key>`
 * Facultatif : votre équipe W&amp;B et votre projet : `<your-team>/<your-project>`
-* Un identifiant de modèle parmi les [modèles disponibles](/fr/inference/models)
+* Un ID de modèle parmi les [modèles disponibles](/fr/inference/models)
 
 <div id="request-examples">
   ## Exemples de requêtes
@@ -26,7 +26,7 @@ Pour créer une complétion de chat, fournissez :
     import openai
 
     client = openai.OpenAI(
-        # L'URL de base personnalisée pointe vers W&B Inférence
+        # L'URL de base personnalisée pointe vers W&B Inference
         base_url='https://api.inference.wandb.ai/v1',
 
         # Créez une clé API sur https://wandb.ai/settings

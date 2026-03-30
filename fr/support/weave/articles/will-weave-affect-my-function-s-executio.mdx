@@ -1,11 +1,11 @@
 ---
-title: "Weave affectera-t-il la vitesse d’exécution de ma fonction ?"
+title: "Weave aura-t-il un impact sur la vitesse d’exécution de ma fonction ?"
 keywords: ["Performances"]
 ---
 
-La surcharge liée à la journalisation de Weave est généralement négligeable par rapport à un appel à un LLM.
-Pour minimiser l’impact de Weave sur la vitesse d’exécution de votre op, son activité réseau s’effectue dans un thread d’arrière-plan.
-Lorsque votre programme se termine, il peut sembler se mettre en pause pendant que les données restantes en file d’attente sont enregistrées.
+La surcharge liée à la journalisation de Weave est généralement négligeable par rapport à celle d’un appel à un LLM.
+Pour minimiser l’impact de Weave sur la vitesse d’exécution de votre op, son activité réseau s’effectue sur un thread d’arrière-plan.
+Lorsque votre programme se ferme, il peut sembler marquer une pause pendant que les données restantes dans la file d’attente sont enregistrées.
 
 ***
 
@@ -16,4 +16,4 @@ Lorsque votre programme se termine, il peut sembler se mettre en pause pendant q
 
 <Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

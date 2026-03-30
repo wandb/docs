@@ -1,41 +1,41 @@
 ---
-description: 元のデータを失うことなく run を巻き戻し、その履歴を修正または変更します。
+description: 元のデータを失うことなく run を巻き戻して、履歴を修正または変更します。
 title: run を巻き戻す
 ---
 
-run を巻き戻して、その run の履歴を変更できます。run を巻き戻すと、W&amp;B は同じ run ID を維持したまま、指定したステップまで run の状態をリセットします。
+run を巻き戻すと、その run の履歴を変更できます。run を巻き戻すと、W&amp;B は同じ run ID を維持したまま、指定した step まで run の状態をリセットします。
 
 <Warning>
-  run を巻き戻すオプションは現在プライベート プレビュー段階であり、活発に開発中です。Rewind には既知のパフォーマンス上の制限があるため、W&amp;B は通常、代替手段として [Forking](./forking) を推奨しています。
+  run を巻き戻すオプションは現在プライベートプレビュー段階で、活発に開発が進められています。Rewind には既知のパフォーマンス上の制限があるため、W&amp;B は通常、代替手段として [Forking](./forking) を推奨しています。
 
-  W&amp;B は現在、次の機能をサポートしていません:
+  W&amp;B は現在、次の機能をサポートしていません。
 
-  * **ログの巻き戻し**: ログは新しい run セグメント内でリセットされます。
+  * **ログの巻き戻し**: ログは新しい run セグメントでリセットされます。
   * **システム メトリクスの巻き戻し**: W&amp;B は巻き戻しポイント以降の新しいシステム メトリクスのみをログします。
-  * **Artifacts の関連付け**: W&amp;B は Artifacts を、それを生成した元の run に関連付けます。
+  * **Artifacts の関連付け**: W&amp;B は Artifacts を、それを生成したソース run に関連付けます。
 
-  この機能へのアクセスを希望する場合は、W&amp;B Support (support@wandb.com) までお問い合わせください。
+  この機能へのアクセスを希望する場合は、support@wandb.com の W&amp;B Support までお問い合わせください。
 </Warning>
 
-W&amp;B は、新しくログされた履歴に基づいて、巻き戻した run のサマリー メトリクスを再計算します。具体的には次のように動作します。
+W&amp;B は、新たにログされた履歴に基づいて、巻き戻した run のサマリー メトリクスを再計算します。これは次のことを意味します。
 
-* **履歴の切り詰め**: W&amp;B は履歴を巻き戻しポイントまで切り詰め、新しいデータのログを可能にします。
-* **サマリー メトリクス**: 新しくログされた履歴に基づいて再計算されます。
-* **設定の保持**: W&amp;B は元の設定を保持したまま、新しい設定をマージできます。
+* **履歴の切り詰め**: W&amp;B は履歴を巻き戻しポイントまで切り詰め、新しいデータをログできるようにします。
+* **サマリー メトリクス**: 新たにログされた履歴に基づいて再計算されます。
+* **設定の保持**: W&amp;B は元の設定を保持し、新しい設定をマージできます。
 
-{/* run を rewind すると、W&B は指定したステップまで run の状態をリセットし、元のデータを保持しつつ、一貫した run ID を維持します。これは次のことを意味します。
+{/* run を巻き戻すと、W&B は run の状態を指定した step にリセットし、元のデータを保持したまま、一貫した run ID を維持します。これは次のことを意味します。
 
-  - **run のアーカイブ**: W&B は元の Runs をアーカイブします。Runs には [Run Overview](./#overview-tab) タブからアクセスできます。
-  - **Artifacts の関連付け**: Artifacts を、それらを生成した run に関連付けます。 */}
+  - **run のアーカイブ**: W&B は元の Runs をアーカイブします。Runs は [Run Overview](./#overview-tab) タブから確認できます。
+  - **アーティファクトの関連付け**: アーティファクトは、それを生成した run に関連付けられます。 */}
 
 <Note>
   **Rewind と forking の互換性**
 
-  forking は rewind を補完します。
+  forking は Rewind を補完する機能です。
 
-  run から fork すると、W&amp;B は特定の時点にある run から新しいブランチを作成し、異なるパラメーターやモデルを試せるようにします。
+  run からフォークすると、W&amp;B はその run の特定の時点から新しいブランチを作成し、異なるパラメーターやモデルを試せるようにします。
 
-  run を rewind すると、W&amp;B で run の履歴自体を修正または変更できます。
+  run を巻き戻すと、W&amp;B では run の履歴自体を修正または変更できます。
 </Note>
 
 <div id="prerequisites">
@@ -45,15 +45,15 @@ W&amp;B は、新しくログされた履歴に基づいて、巻き戻した ru
 run を巻き戻す前に、次の前提条件を満たしていることを確認してください。
 
 * run を巻き戻すには、[W&amp;B Python SDK](https://pypi.org/project/wandb/) のバージョンが `0.17.1` 以上である必要があります。
-* 単調に増加する step を使用する必要があります。これは、run の履歴とシステム メトリクスの必要な時系列の順序を乱してしまうため、[`define_metric()`](/ja/models/ref/python/experiments/run#define_metric) で定義された非単調な step では機能しません。
+* 単調増加する step を使用する必要があります。これは、run の履歴とシステム メトリクスに必要な時系列順を乱してしまうため、[`define_metric()`](/ja/models/ref/python/experiments/run#define_metric) で定義された非単調な step では機能しません。
 
 <div id="rewind-a-run">
   ## run を巻き戻す
 </div>
 
-特定のステップから run を巻き戻し、その時点以降の新しいデータをログします。[`wandb.init()`](/ja/models/ref/python/functions/init) の `resume_from` パラメーターに、引数として run ID と巻き戻しを開始するステップの両方を渡します。`resume_from` パラメーターは `<run ID>?_step=<step>` 形式の文字列を受け取ります。ここで、`<run ID>` は巻き戻したい run の run ID、`<step>` は巻き戻しを開始するステップです。
+特定の step から run を巻き戻し、その時点以降の新しいデータをログします。[`wandb.init()`](/ja/models/ref/python/functions/init) の `resume_from` パラメーターに、引数として run ID と巻き戻しを開始する step の両方を渡します。`resume_from` パラメーターは `<run ID>?_step=<step>` 形式の文字列を受け取ります。ここで、`<run ID>` は巻き戻したい run の run ID、`<step>` は巻き戻しを開始する step です。
 
-300 ステップにわたって直線をログするとします。
+300 step にわたって直線をログするとします。
 
 ```python
 import wandb
@@ -65,37 +65,37 @@ with wandb.init(project="<project>", entity="wandb") as run:
         run.log({"metric": i, "step": i})
 ```
 
-プロジェクトのワークスペース内には、ステップ 0 からステップ 300 までの折れ線グラフが表示されます。
+プロジェクトの Workspace 内には、step 0 から step 300 までの折れ線グラフが表示されます。
 
 <img src="/images/runs/rewind_run_original.png" alt="元の run の折れ線グラフ" />
 
-その後、ステップ 200 から run を巻き戻し、`additional_metric` という新しいメトリクスにステップ 200 からステップ 300 まで `i*1.1` を記録したいとします。さらに、ステップ 250 からは直線の代わりに、より緩やかな波形パターン (`i**2 + 2*sin(i/3)`) を新たに記録したいとします。
+その後、step 200 から run を巻き戻し、`additional_metric` という新しいメトリクスを step 200 から step 300 まで `i*1.1` でログしたいとします。さらに、step 250 からは、直線の代わりに、わずかな波状パターン (`i**2 + 2*sin(i/3)`) を新たにログしたいとします。
 
 ```python
 import math
 
 run_ID = "<run_ID>" # リワインドしたい run の run ID に置き換えてください
 
-# 最初の run の特定のステップからリワインドし、ステップ 200 からメトリクスを記録する
+# 最初の run の特定の step からリワインドし、step 200 からメトリクスをログする
 with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_step=200") as run:
 
-    # 最初の数ステップは run からそのままメトリクスを記録する
-    # ステップ 250 以降は波形パターンの記録を開始する
+    # 最初の数stepは run からそのままメトリクスをログする
+    # step 250 以降は波形パターンのログを開始する
     for i in range(200, 300):
         if i < 250:
-            run.log({"metric": i, "step": i})  # 波形なしで run からの記録を継続する
+            run.log({"metric": i, "step": i})  # 波形なしで run からのログを継続する
         else:
-            # ステップ 250 から波形の動作を導入する
+            # step 250 から波形の動作を導入する
             subtle_wave = i + (2 * math.sin(i / 3.0))  # 微妙な波形パターンを適用する
             run.log({"metric": subtle_wave, "step": i})
-        # すべてのステップで新しいメトリクスも記録する
+        # すべてのstepで新しいメトリクスもログする
         run.log({"additional_metric": i * 1.1, "step": i})
 ```
 
-次の画像は、更新されたプロジェクトのワークスペースを示しています。巻き戻し後、プロットに次のような変化があることに注目してください。
+次の画像は、更新されたプロジェクトのWorkspaceを示しています。巻き戻し後、プロットに次のような変化があることに注目してください。
 
-* 折れ線グラフには、ステップ 0 からステップ 200 までの元の直線が表示されており、新しいわずかな波状パターンはステップ 250 から始まっています (左の画像) 。
-* W&amp;B は、ステップ 200 から始まる `additional_metric` というラベルの新しいプロット (右のプロット) を作成しました。
+* 折れ線グラフには、step 0 から step 200 までの元の直線が表示されており、新しいわずかな波状パターンは step 250 から始まっています (左の画像) 。
+* W&amp;B は、step 200 から始まる `additional_metric` というラベルの新しいプロット (右のプロット) を作成しました。
 
 <img src="/images/runs/rewind_run_step200_wmetric.png" alt="左から右: 元の直線と additional_metric" />
 
@@ -103,18 +103,18 @@ with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_ste
   ## アーカイブされた run を表示する
 </div>
 
-run を rewind したあと、W&amp;B App で元のアーカイブされた run を確認できます。アーカイブされた run を表示するには、次の手順に従ってください。
+run を巻き戻したあと、W&amp;B App で元のアーカイブされた run を確認できます。アーカイブされた run を表示するには、次の step に従ってください。
 
-1. **Overview タブにアクセスする:** run のページで [**Overview** タブ](./#overview-tab) に移動します。このタブでは、その run の詳細と履歴をまとめて確認できます。
-2. **Forked From フィールドを探す:** **Overview** タブ内で、`Forked From` フィールドを見つけます。このフィールドには再開の履歴が記録されています。**Forked From** フィールドには元の run へのリンクが含まれており、そこからオリジナルの run にさかのぼって rewind の全履歴を把握できます。
+1. **Overview タブにアクセスする:** run のページで [**Overview** タブ](./#overview-tab) にアクセスします。このタブでは、その run の詳細と履歴をまとめて確認できます。
+2. **Forked From フィールドを探す:** **Overview** タブ内で、`Forked From` フィールドを検索します。このフィールドには再開の履歴が記録されています。**Forked From** フィールドには元の run へのリンクが含まれており、そこから元の run にさかのぼって 巻き戻す の全履歴を把握できます。
 
-`Forked From` フィールドを使うことで、アーカイブされた再開 run のツリーを簡単にたどり、それぞれの rewind の順序と起点を把握できます。
+`Forked From` フィールドを使うことで、アーカイブされた再開 run のツリーを簡単にたどり、それぞれの 巻き戻す の順序と起点を把握できます。
 
 <div id="fork-from-a-run-that-you-rewind">
   ## 巻き戻した run からフォークする
 </div>
 
-巻き戻した run からフォークするには、`wandb.init()` の [`fork_from`](/ja/models/runs/forking/) 引数を使用し、フォーク元の run の ID と、その run からフォークする step を指定します。
+巻き戻した run からフォークするには、`wandb.init()` の [`fork_from`](/ja/models/runs/forking/) 引数を使用し、フォーク元の run ID と、フォーク元の run のどの step からフォークするかを指定します。
 
 ```python
 import wandb

@@ -1,20 +1,20 @@
 ---
-description: Guide pour mettre à jour la version et la licence de W&B selon différentes méthodes d'installation.
-title: Mettre à jour la licence et la version de W&B
+description: Guide pour mettre à jour la version et la licence W&B selon différentes méthodes d'installation.
+title: Mettre à jour la licence et la version W&B
 ---
 
-Mettez à jour la version et la licence de votre serveur W&amp;B en utilisant la même méthode que celle employée pour installer le serveur W&amp;B. Le tableau suivant répertorie les procédures de mise à jour de votre licence et de votre version selon les différentes méthodes de déploiement :
+Mettez à jour la version et la licence de votre serveur W&amp;B en utilisant la même méthode que celle employée lors de l&#39;installation du serveur W&amp;B. Le tableau suivant répertorie les procédures de mise à jour de votre licence et de votre version selon les différentes méthodes de déploiement :
 
-| Type de version                     | Description                                                                                                                                                                                                                                                                                                                    |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Terraform](#update-with-terraform) | W&amp;B prend en charge trois modules Terraform publics pour le déploiement dans le cloud : [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest) et [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
-| [Helm](#update-with-helm)           | Vous pouvez utiliser le [chart Helm](https://github.com/wandb/helm-charts) pour installer W&amp;B dans un cluster Kubernetes existant.                                                                                                                                                                                         |
+| Type de version                     | Description                                                                                                                                                                                                                                                                                                            |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Terraform](#update-with-terraform) | W&amp;B prend en charge trois modules Terraform publics pour le déploiement cloud : [AWS](https://registry.terraform.io/modules/wandb/wandb/aws/latest), [Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest) et [Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest). |
+| [Helm](#update-with-helm)           | Vous pouvez utiliser le [chart Helm](https://github.com/wandb/helm-charts) pour installer W&amp;B dans un cluster Kubernetes existant.                                                                                                                                                                                 |
 
 <div id="update-with-terraform">
   ## Mettre à jour avec Terraform
 </div>
 
-Mettez à jour votre licence et votre version avec Terraform. Le tableau suivant répertorie les modules Terraform gérés par W&amp;B selon la plateforme cloud.
+Mettez à jour votre licence et votre version avec Terraform. Le tableau suivant répertorie les modules Terraform gérés par W&amp;B basés sur la plateforme cloud.
 
 | Fournisseur de cloud | Module Terraform                                                                                 |
 | -------------------- | ------------------------------------------------------------------------------------------------ |
@@ -22,9 +22,9 @@ Mettez à jour votre licence et votre version avec Terraform. Le tableau suivant
 | Google Cloud         | [Module Terraform Google Cloud](https://registry.terraform.io/modules/wandb/wandb/google/latest) |
 | Azure                | [Module Terraform Azure](https://registry.terraform.io/modules/wandb/wandb/azurerm/latest)       |
 
-1. Commencez par accéder au module Terraform maintenu par W&amp;B pour votre fournisseur de cloud. Voir le tableau ci-dessus pour trouver le module Terraform adapté à votre fournisseur de cloud.
+1. Accédez d&#39;abord au module Terraform maintenu par W&amp;B correspondant à votre fournisseur de cloud. Voir le tableau précédent pour trouver le module Terraform approprié basé sur votre fournisseur de cloud.
 
-2. Dans votre configuration Terraform, mettez à jour `wandb_version` et `license` dans la configuration de votre module Terraform `wandb_app` :
+2. Dans votre configuration Terraform, mettez à jour `wandb_version` et `license` dans la configuration de votre module Terraform `wandb_app` :
 
    ```hcl
    module "wandb_app" {
@@ -44,13 +44,13 @@ Mettez à jour votre licence et votre version avec Terraform. Le tableau suivant
 
 4. (Facultatif) Si vous utilisez un fichier `terraform.tfvars` ou un autre fichier `.tfvars`.
 
-   Mettez à jour ou créez un fichier `terraform.tfvars` avec la nouvelle version de W&amp;B et la nouvelle clé de licence.
+   Mettez à jour ou créez un fichier `terraform.tfvars` avec la nouvelle version W&amp;B et la clé de licence.
 
    ```bash
    terraform plan -var-file="terraform.tfvars"
    ```
 
-   Appliquez la configuration. Dans le répertoire de votre espace de travail Terraform, exécutez :
+   Appliquez la configuration. Dans le répertoire de votre workspace Terraform, exécutez :
 
    ```bash
    terraform apply -var-file="terraform.tfvars"
@@ -61,14 +61,14 @@ Mettez à jour votre licence et votre version avec Terraform. Le tableau suivant
 </div>
 
 <Warning>
-  Le chart Helm `wandb` est obsolète et n’est plus pris en charge. Il déployait un seul pod et a été remplacé par l’[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator). Si vous utilisez encore ce chart, suivez le [guide de migration](/fr/platform/hosting/self-managed/operator#migrate-self-managed-instances-to-wb-operator) pour migrer vers l’opérateur.
+  Le chart Helm `wandb` est obsolète et n&#39;est plus pris en charge. Il déployait un seul pod et a été remplacé par l&#39;[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator). Si vous utilisez encore ce chart, suivez le [guide de migration](/fr/platform/hosting/self-managed/operator#migrate-self-managed-instances-to-wb-operator) pour passer à l&#39;opérateur.
 </Warning>
 
 <div id="update-wb-with-spec">
-  ### Mettre à jour W&amp;B avec la spécification
+  ### Mettre à jour W&amp;B avec une spécification
 </div>
 
-1. Indiquez une nouvelle version en modifiant les valeurs `image.tag` et/ou `license` dans le fichier de configuration `*.yaml` de votre chart Helm :
+1. Spécifiez une nouvelle version en modifiant les valeurs `image.tag` et/ou `license` dans le fichier de configuration `*.yaml` de votre chart Helm :
 
    ```yaml
    license: 'new_license'
@@ -77,7 +77,7 @@ Mettez à jour votre licence et votre version avec Terraform. Le tableau suivant
      tag: 'new_version'
    ```
 
-2. Exécutez la mise à niveau de Helm avec la commande suivante :
+2. Exécutez la mise à niveau Helm avec la commande suivante :
 
    ```bash
    helm repo update
@@ -87,17 +87,17 @@ Mettez à jour votre licence et votre version avec Terraform. Le tableau suivant
    ```
 
 <div id="update-license-and-version-directly">
-  ### Mettre à jour directement la licence et la version
+  ### Mettre à jour la licence et la version directement
 </div>
 
-1. Définissez la nouvelle clé de licence et le nouveau tag d’image comme variables d’environnement :
+1. Définissez la nouvelle clé de licence et le tag d&#39;image en tant que variables d&#39;environnement :
 
    ```bash
    export LICENSE='new_license'
    export TAG='new_version'
    ```
 
-2. Mettez à niveau votre version Helm avec la commande ci-dessous, en fusionnant les nouvelles valeurs avec la configuration existante :
+2. Mettez à niveau votre version Helm avec la commande ci-dessous, en fusionnant les nouvelles valeurs avec la configuration existante :
 
    ```bash
    helm repo update
@@ -109,12 +109,12 @@ Mettez à jour votre licence et votre version avec Terraform. Le tableau suivant
 Pour plus de détails, voir le [guide de mise à niveau](https://github.com/wandb/helm-charts/blob/main/upgrade) dans le dépôt public.
 
 <div id="update-with-admin-ui">
-  ## Mettre à jour avec l’interface d’administration
+  ## Mettre à jour avec l&#39;interface utilisateur d&#39;administration
 </div>
 
-Cette méthode fonctionne uniquement pour mettre à jour les licences qui ne sont pas définies à l’aide d’une variable d’environnement dans le conteneur du serveur W&amp;B, généralement dans les installations Docker autogérées.
+Cette méthode fonctionne uniquement pour mettre à jour les licences qui ne sont pas définies via une variable d&#39;environnement dans le conteneur du serveur W&amp;B, généralement dans les installations Docker autogérées.
 
-1. Obtenez une nouvelle licence sur la [page de déploiement W&amp;B](https://deploy.wandb.ai/), en veillant à ce qu’elle corresponde à la bonne organisation et au bon ID de déploiement pour le déploiement que vous souhaitez mettre à niveau.
-2. Accédez à la page **License** dans l’application W&amp;B. Cliquez sur **Settings** &gt; **License** ou accédez à `<host-url>/console/settings/license`.
-3. Accédez à la section de gestion des licences.
+1. Obtenez une nouvelle licence depuis la [page de déploiement W&amp;B](https://deploy.wandb.ai/), en vous assurant qu&#39;elle correspond à la bonne organisation et à l&#39;ID de déploiement pour le déploiement que vous souhaitez mettre à niveau.
+2. Accédez à la page **License** dans la W&amp;B App. Cliquez sur **Settings** &gt; **License** ou accédez à `<host-url>/console/settings/license`.
+3. Naviguez jusqu&#39;à la section de gestion des licences.
 4. Saisissez la nouvelle clé de licence et enregistrez vos modifications.

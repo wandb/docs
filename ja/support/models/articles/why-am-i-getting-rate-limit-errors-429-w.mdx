@@ -1,24 +1,24 @@
 ---
-title: "W&B Inference でレート制限エラー（429）が発生するのはなぜですか？"
+title: "W&B Inference で rate limit エラー（429）が発生するのはなぜですか？"
 keywords: ["Inference"]
 ---
 
-同時実行の制限を超えると、レート制限エラー (429) が発生します。
+同時実行制限を超えると、rate limit エラー (429) が発生します。
 
-**エラー:** &quot;リクエストの同時実行の制限に達しました&quot;
+**エラー:** &quot;リクエストの同時実行制限に達しました&quot;
 
 **解決策:**
 
-* 並列リクエストの数を減らす
-* リクエストの間に待機時間を入れる
-* 指数バックオフを実装する
-* 注: レート制限は W&amp;B プロジェクトごとに適用されます
+* 並列リクエスト数を減らします
+* リクエスト間に遅延を追加します
+* 指数バックオフを実装します
+* 注: レート制限 は W&amp;B プロジェクトごとに適用されます
 
 <div id="best-practices-to-avoid-rate-limits">
   ## レート制限を回避するためのベストプラクティス
 </div>
 
-1. **指数バックオフを使用したリトライ ロジックを実装する:**
+1. **指数バックオフを使用した再試行ロジックを実装する:**
    ```python
    import time
 
@@ -33,26 +33,26 @@ keywords: ["Inference"]
                    raise
    ```
 
-2. **並列リクエストではなくバッチ処理を使用する**
+2. **並列リクエストの代わりにバッチ処理を使用する**
 
 3. **W&amp;B Billing ページで使用状況を監視する**
 
 <div id="default-spending-caps">
-  ## デフォルトの利用上限額
+  ## デフォルトの支出上限
 </div>
 
-* **Pro アカウント:** $6,000/月
-* **Enterprise アカウント:** $700,000/年
+* **Proアカウント:** $6,000/月
+* **Enterpriseアカウント:** $700,000/年
 
-制限を調整するには、担当営業またはサポートにお問い合わせください。
+制限を調整するには、アカウントエグゼクティブまたはサポートにお問い合わせください。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードから、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Inference](/ja/support/models/tags/inference)</Badge>
 
-{/* ---- 自動生成終了: タブ バッジ ---- */}
+{/* ---- 終了 AUTO-GENERATED: tab badges ---- */}

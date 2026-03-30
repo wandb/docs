@@ -3,349 +3,7 @@ title: chaîne de caractères
 ---
 
 <div id="chainable-ops">
-  ## Ops pouvant être chaînées
-</div>
-
-### <a id="string-notEqual" />`string-notEqual`
-
-Détermine si deux valeurs sont différentes.
-
-| Argument | Description                    |
-| :------- | :----------------------------- |
-| `lhs`    | La première valeur à comparer. |
-| `rhs`    | La deuxième valeur à comparer. |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Indique si les deux valeurs sont différentes.
-
-### <a id="string-add" />`string-add`
-
-Concatène deux [chaînes de caractères](/fr/models/ref/query-panel/string/)
-
-| Argument | Description                                          |
-| :------- | :--------------------------------------------------- |
-| `lhs`    | La première [chaîne de caractères](/fr/models/ref/query-panel/string) |
-| `rhs`    | La seconde [chaîne de caractères](/fr/models/ref/query-panel/string)  |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La [chaîne de caractères](/fr/models/ref/query-panel/string) concaténée
-
-### <a id="string-equal" />`string-equal`
-
-Détermine si deux valeurs sont égales.
-
-| Argument | Description                    |
-| :------- | :----------------------------- |
-| `lhs`    | La première valeur à comparer. |
-| `rhs`    | La deuxième valeur à comparer. |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Indique si les deux valeurs sont égales.
-
-### <a id="string-append" />`string-append`
-
-Ajoute un suffixe à une [chaîne de caractères](/fr/models/ref/query-panel/string)
-
-| Argument | Description                                                               |
-| :------- | :------------------------------------------------------------------------ |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à laquelle ajouter le suffixe |
-| `suffix` | Le suffixe à ajouter                                                      |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La [chaîne de caractères](/fr/models/ref/query-panel/string) à laquelle le suffixe a été ajouté
-
-### <a id="string-contains" />`string-contains`
-
-Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) contient une sous-chaîne
-
-| Argument | Description                                                          |
-| :------- | :------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
-| `sub`    | La sous-chaîne à rechercher                                          |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) contient la sous-chaîne
-
-### <a id="string-endsWith" />`string-endsWith`
-
-Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) se termine par un suffixe
-
-| Argument | Description                                            |
-| :------- | :----------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
-| `suffix` | Le suffixe recherché                                   |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) se termine par ce suffixe
-
-### <a id="string-findAll" />`string-findAll`
-
-Trouve toutes les occurrences d’une sous-chaîne dans une [chaîne de caractères](/fr/models/ref/query-panel/string)
-
-| Argument | Description                                                                                                          |
-| :------- | :------------------------------------------------------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dans laquelle rechercher les occurrences de la sous-chaîne |
-| `sub`    | La sous-chaîne à trouver                                                                                             |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La *liste* des indices de la sous-chaîne dans la [chaîne de caractères](/fr/models/ref/query-panel/string)
-
-### <a id="string-isAlnum" />`string-isAlnum`
-
-Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) est alphanumérique
-
-| Argument | Description                                                          |
-| :------- | :------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) est composée de caractères alphanumériques
-
-### <a id="string-isAlpha" />`string-isAlpha`
-
-Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) contient uniquement des lettres
-
-| Argument | Description                                            |
-| :------- | :----------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) contient uniquement des caractères alphabétiques
-
-### <a id="string-isNumeric" />`string-isNumeric`
-
-Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) contient une valeur numérique
-
-| Argument | Description                                            |
-| :------- | :----------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) est numérique
-
-### <a id="string-lStrip" />`string-lStrip`
-
-Supprime les espaces en début de chaîne
-
-| Argument | Description                                                                                           |
-| :------- | :---------------------------------------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dont il faut supprimer les espaces en début. |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La [chaîne de caractères](/fr/models/ref/query-panel/string) après suppression des espaces superflus.
-
-### <a id="string-len" />`string-len`
-
-Renvoie la longueur d’une [chaîne de caractères](/fr/models/ref/query-panel/string)
-
-| Argument | Description                                                                                     |
-| :------- | :---------------------------------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dont vous voulez connaître la longueur |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Longueur de la [chaîne de caractères](/fr/models/ref/query-panel/string)
-
-### <a id="string-lower" />`string-lower`
-
-Convertit une [chaîne de caractères](/fr/models/ref/query-panel/string) en minuscules
-
-| Argument | Description                                                                         |
-| :------- | :---------------------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à convertir en minuscules |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La [chaîne de caractères](/fr/models/ref/query-panel/string) en minuscules.
-
-### <a id="string-partition" />`string-partition`
-
-Partitionne une [chaîne de caractères](/fr/models/ref/query-panel/string) en une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
-
-| Argument | Description                                           |
-| :------- | :---------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à diviser |
-| `sep`    | Le séparateur à utiliser pour la division             |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/) : la [chaîne de caractères](/fr/models/ref/query-panel/string) située avant le séparateur, le séparateur et la [chaîne de caractères](/fr/models/ref/query-panel/string) située après le séparateur
-
-### <a id="string-prepend" />`string-prepend`
-
-Ajoute un préfixe à une [chaîne de caractères](/fr/models/ref/query-panel/string)
-
-| Argument | Description                                                                  |
-| :------- | :--------------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à laquelle préfixer |
-| `prefix` | Le préfixe à ajouter                                                         |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La [chaîne de caractères](/fr/models/ref/query-panel/string) avec le préfixe ajouté
-
-### <a id="string-rStrip" />`string-rStrip`
-
-Supprime les espaces en fin de chaîne
-
-| Argument | Description                                                                                         |
-| :------- | :-------------------------------------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dont il faut supprimer les espaces de fin. |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La [chaîne de caractères](/fr/models/ref/query-panel/string) après suppression des espaces superflus.
-
-### <a id="string-replace" />`string-replace`
-
-Remplace toutes les occurrences d&#39;une sous-chaîne au sein d&#39;une [chaîne de caractères](/fr/models/ref/query-panel/string)
-
-| Argument | Description                                                                    |
-| :------- | :----------------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dont le contenu doit être remplacé |
-| `sub`    | La sous-chaîne à remplacer                                                     |
-| `newSub` | La sous-chaîne qui remplace l&#39;ancienne sous-chaîne                         |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La [chaîne de caractères](/fr/models/ref/query-panel/string) contenant les remplacements
-
-### <a id="string-slice" />`string-slice`
-
-Extrait une [chaîne de caractères](/fr/models/ref/query-panel/string) en sous-chaîne à partir des indices de début et de fin
-
-| Argument | Description                                                         |
-| :------- | :------------------------------------------------------------------ |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à extraire |
-| `begin`  | L’indice de début de la sous-chaîne                                 |
-| `end`    | L’indice de fin de la sous-chaîne                                   |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La sous-chaîne
-
-### <a id="string-split" />`string-split`
-
-Divise une [chaîne de caractères](/fr/models/ref/query-panel/string) en une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
-
-| Argument | Description                                           |
-| :------- | :---------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à diviser |
-| `sep`    | Le séparateur à utiliser pour le découpage            |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
-
-### <a id="string-startsWith" />`string-startsWith`
-
-Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) commence par un préfixe
-
-| Argument | Description                                            |
-| :------- | :----------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
-| `prefix` | Le préfixe à rechercher                                |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Indique si la [chaîne](/fr/models/ref/query-panel/string) commence par le préfixe
-
-### <a id="string-strip" />`string-strip`
-
-Supprime les espaces au début et à la fin d’une [chaîne de caractères](/fr/models/ref/query-panel/string).
-
-| Argument | Description                                             |
-| :------- | :------------------------------------------------------ |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à nettoyer. |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La [chaîne de caractères](/fr/models/ref/query-panel/string) après suppression des espaces superflus.
-
-### <a id="string-upper" />`string-upper`
-
-Convertit une [chaîne de caractères](/fr/models/ref/query-panel/string) en lettres majuscules
-
-| Argument | Description                                                                   |
-| :------- | :---------------------------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à convertir en lettres majuscules |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La [chaîne de caractères](/fr/models/ref/query-panel/string) en majuscules
-
-### <a id="string-levenshtein" />`string-levenshtein`
-
-Calcule la distance de Levenshtein entre deux [chaînes de caractères](/fr/models/ref/query-panel/string/).
-
-| Argument | Description                                                         |
-| :------- | :------------------------------------------------------------------ |
-| `str1`   | La première [chaîne de caractères](/fr/models/ref/query-panel/string). |
-| `str2`   | La deuxième [chaîne de caractères](/fr/models/ref/query-panel/string). |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La distance de Levenshtein entre les deux [chaînes de caractères](/fr/models/ref/query-panel/string/).
-
-<div id="list-ops">
-  ## Ops sur les listes
+  ## Opérations pouvant être chaînées
 </div>
 
 ### <a id="string-notEqual" />`string-notEqual`
@@ -397,16 +55,16 @@ Indique si les deux valeurs sont égales.
 
 Ajoute un suffixe à une [chaîne de caractères](/fr/models/ref/query-panel/string)
 
-| Argument | Description                                                               |
-| :------- | :------------------------------------------------------------------------ |
+| Argument | Description                                                                             |
+| :------- | :-------------------------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à laquelle ajouter le suffixe |
-| `suffix` | Le suffixe à ajouter                                                      |
+| `suffix` | Le suffixe à ajouter                                                                    |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-La [chaîne de caractères](/fr/models/ref/query-panel/string) avec le suffixe ajouté à la fin
+La [chaîne de caractères](/fr/models/ref/query-panel/string) à laquelle le suffixe est ajouté
 
 ### <a id="string-contains" />`string-contains`
 
@@ -427,10 +85,10 @@ Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) contie
 
 Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) se termine par un suffixe
 
-| Argument | Description                                            |
-| :------- | :----------------------------------------------------- |
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
-| `suffix` | Le suffixe à vérifier                                  |
+| `suffix` | Le suffixe à rechercher                                              |
 
 <div id="return-value">
   #### Valeur de retour
@@ -457,8 +115,8 @@ La *liste* des indices de la sous-chaîne dans la [chaîne de caractères](/fr/m
 
 Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) est alphanumérique
 
-| Argument | Description                                            |
-| :------- | :----------------------------------------------------- |
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
 
 <div id="return-value">
@@ -469,7 +127,7 @@ Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) est al
 
 ### <a id="string-isAlpha" />`string-isAlpha`
 
-Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) ne contient que des lettres
+Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) est alphabétique
 
 | Argument | Description                                                          |
 | :------- | :------------------------------------------------------------------- |
@@ -483,25 +141,25 @@ Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) contie
 
 ### <a id="string-isNumeric" />`string-isNumeric`
 
-Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) contient une valeur numérique
+Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) est numérique
 
-| Argument | Description                                            |
-| :------- | :----------------------------------------------------- |
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) est de type numérique
+Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) est numérique
 
 ### <a id="string-lStrip" />`string-lStrip`
 
 Supprime les espaces en début de chaîne
 
-| Argument | Description                                             |
-| :------- | :------------------------------------------------------ |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à tronquer. |
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à traiter. |
 
 <div id="return-value">
   #### Valeur de retour
@@ -513,8 +171,8 @@ La [chaîne de caractères](/fr/models/ref/query-panel/string) après suppressio
 
 Renvoie la longueur d’une [chaîne de caractères](/fr/models/ref/query-panel/string)
 
-| Argument | Description                                           |
-| :------- | :---------------------------------------------------- |
+| Argument | Description                                                         |
+| :------- | :------------------------------------------------------------------ |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à mesurer |
 
 <div id="return-value">
@@ -541,25 +199,25 @@ La [chaîne de caractères](/fr/models/ref/query-panel/string) en minuscules
 
 Partitionne une [chaîne de caractères](/fr/models/ref/query-panel/string) en une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
 
-| Argument | Description                                               |
-| :------- | :-------------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à fractionner |
-| `sep`    | Le séparateur utilisé pour le fractionnement              |
+| Argument | Description                                                             |
+| :------- | :---------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à séparer |
+| `sep`    | Le séparateur utilisé pour séparer                            |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/): la [chaîne de caractères](/fr/models/ref/query-panel/string/) située avant le séparateur, le séparateur, et la [chaîne de caractères](/fr/models/ref/query-panel/string/) située après le séparateur
+Une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/) : la [chaîne de caractères](/fr/models/ref/query-panel/string) située avant le séparateur, le séparateur, et la [chaîne de caractères](/fr/models/ref/query-panel/string) située après le séparateur
 
 ### <a id="string-prepend" />`string-prepend`
 
 Ajoute un préfixe à une [chaîne de caractères](/fr/models/ref/query-panel/string)
 
-| Argument | Description                                                               |
-| :------- | :------------------------------------------------------------------------ |
+| Argument | Description                                                                             |
+| :------- | :-------------------------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à laquelle ajouter le préfixe |
-| `prefix` | Le préfixe à ajouter                                                      |
+| `prefix` | Le préfixe à ajouter                                                                    |
 
 <div id="return-value">
   #### Valeur de retour
@@ -569,10 +227,10 @@ La [chaîne de caractères](/fr/models/ref/query-panel/string) précédée du pr
 
 ### <a id="string-rStrip" />`string-rStrip`
 
-Supprime les espaces en fin de chaîne
+Supprime les espaces de fin de chaîne
 
-| Argument | Description                                                                            |
-| :------- | :------------------------------------------------------------------------------------- |
+| Argument | Description                                                                                          |
+| :------- | :--------------------------------------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dont il faut supprimer les espaces de fin. |
 
 <div id="return-value">
@@ -585,11 +243,11 @@ La [chaîne de caractères](/fr/models/ref/query-panel/string) après suppressio
 
 Remplace toutes les occurrences d’une sous-chaîne dans une [chaîne de caractères](/fr/models/ref/query-panel/string)
 
-| Argument | Description                                                                         |
-| :------- | :---------------------------------------------------------------------------------- |
+| Argument | Description                                                                                       |
+| :------- | :------------------------------------------------------------------------------------------------ |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dans laquelle effectuer le remplacement |
-| `sub`    | La sous-chaîne à remplacer                                                          |
-| `newSub` | La sous-chaîne de remplacement                                                      |
+| `sub`    | La sous-chaîne à remplacer                                                                        |
+| `newSub` | La sous-chaîne de remplacement                                                                    |
 
 <div id="return-value">
   #### Valeur de retour
@@ -601,11 +259,11 @@ La [chaîne de caractères](/fr/models/ref/query-panel/string) après remplaceme
 
 Découpe une [chaîne de caractères](/fr/models/ref/query-panel/string) pour en extraire une sous-chaîne à partir des indices de début et de fin
 
-| Argument | Description                                            |
-| :------- | :----------------------------------------------------- |
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à découper |
-| `begin`  | L’indice de début de la sous-chaîne                    |
-| `end`    | L’indice de fin de la sous-chaîne                      |
+| `begin`  | L&#39;indice de début de la sous-chaîne                              |
+| `end`    | L&#39;indice de fin de la sous-chaîne                                |
 
 <div id="return-value">
   #### Valeur de retour
@@ -615,12 +273,12 @@ La sous-chaîne
 
 ### <a id="string-split" />`string-split`
 
-Divise une [chaîne de caractères](/fr/models/ref/query-panel/string) en une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
+Sépare une [chaîne de caractères](/fr/models/ref/query-panel/string) en une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
 
-| Argument | Description                                           |
-| :------- | :---------------------------------------------------- |
-| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à diviser |
-| `sep`    | Le séparateur à utiliser pour la division             |
+| Argument | Description                                                         |
+| :------- | :------------------------------------------------------------------ |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à séparer |
+| `sep`    | Le séparateur à utiliser                                            |
 
 <div id="return-value">
   #### Valeur de retour
@@ -632,23 +290,23 @@ La *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
 
 Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) commence par un préfixe
 
-| Argument | Description                                            |
-| :------- | :----------------------------------------------------- |
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
-| `prefix` | Le préfixe à rechercher                                |
+| `prefix` | Le préfixe à rechercher                                              |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) commence par le préfixe.
+Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) commence par le préfixe
 
 ### <a id="string-strip" />`string-strip`
 
 Supprime les espaces en début et en fin d’une [chaîne de caractères](/fr/models/ref/query-panel/string).
 
-| Argument | Description                                                                     |
-| :------- | :------------------------------------------------------------------------------ |
+| Argument | Description                                                                                   |
+| :------- | :-------------------------------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dont il faut supprimer les espaces. |
 
 <div id="return-value">
@@ -661,8 +319,350 @@ La [chaîne de caractères](/fr/models/ref/query-panel/string) après suppressio
 
 Convertit une [chaîne de caractères](/fr/models/ref/query-panel/string) en majuscules
 
-| Argument | Description                                                           |
-| :------- | :-------------------------------------------------------------------- |
+| Argument | Description                                                                         |
+| :------- | :---------------------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à convertir en majuscules |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La [chaîne de caractères](/fr/models/ref/query-panel/string) convertie en majuscules
+
+### <a id="string-levenshtein" />`string-levenshtein`
+
+Calcule la distance de Levenshtein entre deux [chaînes de caractères](/fr/models/ref/query-panel/string/).
+
+| Argument | Description                                                         |
+| :------- | :------------------------------------------------------------------ |
+| `str1`   | La première [chaîne de caractères](/fr/models/ref/query-panel/string). |
+| `str2`   | La seconde [chaîne de caractères](/fr/models/ref/query-panel/string).  |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La distance de Levenshtein entre les deux [chaînes de caractères](/fr/models/ref/query-panel/string/).
+
+<div id="list-ops">
+  ## opérations sur les listes
+</div>
+
+### <a id="string-notEqual" />`string-notEqual`
+
+Détermine si deux valeurs sont différentes.
+
+| Argument | Description                    |
+| :------- | :----------------------------- |
+| `lhs`    | La première valeur à comparer. |
+| `rhs`    | La deuxième valeur à comparer. |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Indique si les deux valeurs sont différentes.
+
+### <a id="string-add" />`string-add`
+
+Concatène deux [chaînes de caractères](/fr/models/ref/query-panel/string/)
+
+| Argument | Description                                                        |
+| :------- | :----------------------------------------------------------------- |
+| `lhs`    | La première [chaîne de caractères](/fr/models/ref/query-panel/string) |
+| `rhs`    | La seconde [chaîne de caractères](/fr/models/ref/query-panel/string)  |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La [chaîne de caractères](/fr/models/ref/query-panel/string) obtenue par concaténation
+
+### <a id="string-equal" />`string-equal`
+
+Détermine si deux valeurs sont égales.
+
+| Argument | Description                    |
+| :------- | :----------------------------- |
+| `lhs`    | La première valeur à comparer. |
+| `rhs`    | La deuxième valeur à comparer. |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Indique si les deux valeurs sont égales.
+
+### <a id="string-append" />`string-append`
+
+Ajoute un suffixe à une [chaîne de caractères](/fr/models/ref/query-panel/string)
+
+| Argument | Description                                                                             |
+| :------- | :-------------------------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à laquelle ajouter le suffixe |
+| `suffix` | Le suffixe à ajouter                                                                    |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La [chaîne de caractères](/fr/models/ref/query-panel/string) à laquelle le suffixe est ajouté
+
+### <a id="string-contains" />`string-contains`
+
+Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) contient une sous-chaîne
+
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
+| `sub`    | La sous-chaîne à rechercher                                          |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) contient une sous-chaîne
+
+### <a id="string-endsWith" />`string-endsWith`
+
+Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) se termine par un suffixe
+
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
+| `suffix` | Le suffixe à rechercher                                              |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) se termine par ce suffixe
+
+### <a id="string-findAll" />`string-findAll`
+
+Trouve toutes les occurrences d’une sous-chaîne dans une [chaîne de caractères](/fr/models/ref/query-panel/string)
+
+| Argument | Description                                                                                                       |
+| :------- | :---------------------------------------------------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dans laquelle trouver les occurrences de la sous-chaîne |
+| `sub`    | La sous-chaîne à trouver                                                                                          |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La *liste* des indices de la sous-chaîne dans la [chaîne de caractères](/fr/models/ref/query-panel/string)
+
+### <a id="string-isAlnum" />`string-isAlnum`
+
+Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) est alphanumérique
+
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) est alphanumérique
+
+### <a id="string-isAlpha" />`string-isAlpha`
+
+Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) est alphabétique
+
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) contient uniquement des lettres
+
+### <a id="string-isNumeric" />`string-isNumeric`
+
+Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) est numérique
+
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) est numérique
+
+### <a id="string-lStrip" />`string-lStrip`
+
+Supprime les espaces en début de chaîne
+
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à traiter. |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La [chaîne de caractères](/fr/models/ref/query-panel/string) après suppression des espaces superflus.
+
+### <a id="string-len" />`string-len`
+
+Renvoie la longueur d’une [chaîne de caractères](/fr/models/ref/query-panel/string)
+
+| Argument | Description                                                         |
+| :------- | :------------------------------------------------------------------ |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à mesurer |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Longueur de la [chaîne de caractères](/fr/models/ref/query-panel/string)
+
+### <a id="string-lower" />`string-lower`
+
+Convertit une [chaîne de caractères](/fr/models/ref/query-panel/string) en minuscules
+
+| Argument | Description                                                                         |
+| :------- | :---------------------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à convertir en minuscules |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La [chaîne de caractères](/fr/models/ref/query-panel/string) en minuscules
+
+### <a id="string-partition" />`string-partition`
+
+Partitionne une [chaîne de caractères](/fr/models/ref/query-panel/string) en une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
+
+| Argument | Description                                                         |
+| :------- | :------------------------------------------------------------------ |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à séparer |
+| `sep`    | Le séparateur utilisé pour la séparation                              |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/) : la [chaîne de caractères](/fr/models/ref/query-panel/string) située avant le séparateur, le séparateur, et la [chaîne de caractères](/fr/models/ref/query-panel/string) située après le séparateur
+
+### <a id="string-prepend" />`string-prepend`
+
+Ajoute un préfixe à une [chaîne de caractères](/fr/models/ref/query-panel/string)
+
+| Argument | Description                                                                             |
+| :------- | :-------------------------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à laquelle ajouter le préfixe |
+| `prefix` | Le préfixe à ajouter                                                                    |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La [chaîne de caractères](/fr/models/ref/query-panel/string) précédée du préfixe
+
+### <a id="string-rStrip" />`string-rStrip`
+
+Supprime les espaces en fin de chaîne
+
+| Argument | Description                                                                                          |
+| :------- | :--------------------------------------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dont il faut supprimer les espaces de fin. |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La [chaîne de caractères](/fr/models/ref/query-panel/string) après suppression des espaces superflus.
+
+### <a id="string-replace" />`string-replace`
+
+Remplace toutes les occurrences d’une sous-chaîne dans une [chaîne de caractères](/fr/models/ref/query-panel/string)
+
+| Argument | Description                                                                                       |
+| :------- | :------------------------------------------------------------------------------------------------ |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dans laquelle effectuer le remplacement |
+| `sub`    | La sous-chaîne à remplacer                                                                        |
+| `newSub` | La sous-chaîne de remplacement                                                                    |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La [chaîne de caractères](/fr/models/ref/query-panel/string) après remplacement
+
+### <a id="string-slice" />`string-slice`
+
+Découpe une [chaîne de caractères](/fr/models/ref/query-panel/string) pour en extraire une sous-chaîne à partir des indices de début et de fin
+
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à découper |
+| `begin`  | L&#39;indice de début de la sous-chaîne                              |
+| `end`    | L&#39;indice de fin de la sous-chaîne                                |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La sous-chaîne
+
+### <a id="string-split" />`string-split`
+
+Sépare une [chaîne de caractères](/fr/models/ref/query-panel/string) en une *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
+
+| Argument | Description                                                             |
+| :------- | :---------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à séparer |
+| `sep`    | Le séparateur sur lequel séparer                                    |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La *liste* de [chaînes de caractères](/fr/models/ref/query-panel/string/)
+
+### <a id="string-startsWith" />`string-startsWith`
+
+Vérifie si une [chaîne de caractères](/fr/models/ref/query-panel/string) commence par un préfixe
+
+| Argument | Description                                                          |
+| :------- | :------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à vérifier |
+| `prefix` | Le préfixe à rechercher                                              |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Indique si la [chaîne de caractères](/fr/models/ref/query-panel/string) commence par le préfixe
+
+### <a id="string-strip" />`string-strip`
+
+Supprime les espaces en début et en fin d&#39;une [chaîne de caractères](/fr/models/ref/query-panel/string).
+
+| Argument | Description                                                                                   |
+| :------- | :-------------------------------------------------------------------------------------------- |
+| `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) dont il faut supprimer les espaces. |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La [chaîne de caractères](/fr/models/ref/query-panel/string) après suppression des espaces superflus.
+
+### <a id="string-upper" />`string-upper`
+
+Convertit une [chaîne de caractères](/fr/models/ref/query-panel/string) en majuscules
+
+| Argument | Description                                                                         |
+| :------- | :---------------------------------------------------------------------------------- |
 | `str`    | La [chaîne de caractères](/fr/models/ref/query-panel/string) à convertir en majuscules |
 
 <div id="return-value">

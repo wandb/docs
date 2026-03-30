@@ -1,11 +1,11 @@
 ---
-description: W&B 内で モデルのチェックポイントまたはホストされた API モデルを評価し、自動生成されるリーダーボードで結果を分析します。
+description: W&B 内で モデル チェックポイントまたはホストされた API モデルを評価し、自動生成されるリーダーボードで結果を分析します。
 title: LLM 評価ジョブ
 ---
 
 import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 
-[LLM Evaluation Jobs](/ja/models/launch) は、CoreWeave によって管理されるインフラストラクチャを利用して LLM の性能を評価するためのベンチマーク フレームワークです。最新の業界標準に準拠した包括的な [モデル評価ベンチマーク](/ja/models/launch/evaluations) から選択し、W&amp;B Models の自動リーダーボードとチャートを使って結果を閲覧・分析・共有できます。LLM Evaluation Jobs を使うことで、自分で GPU インフラストラクチャをデプロイおよび保守する際の煩雑さを取り除けます。
+[LLM Evaluation Jobs](/ja/models/launch) は、CoreWeave によって管理されるインフラストラクチャーを利用して LLM モデルのパフォーマンスを評価するためのベンチマーク フレームワークです。最新の業界標準に準拠した包括的な [モデル評価ベンチマーク](/ja/models/launch/evaluations) から選択し、W&amp;B Models の自動リーダーボードとチャートを使って結果を閲覧・分析・共有できます。LLM Evaluation Jobs を使うことで、自分で GPU インフラストラクチャーをデプロイおよび保守する際の煩雑さを取り除けます。
 
 <PreviewLink />
 
@@ -15,7 +15,7 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
 
 モデル チェックポイントまたは公開アクセス可能な OpenAI 互換のホスト型モデルを、いくつかの手順で評価できます。
 
-1. W&amp;B Models で評価ジョブを作成します。リーダーボードを生成するかどうかなど、そのベンチマークと設定を定義します。
+1. W&amp;B Models で評価ジョブを設定します。リーダーボードを生成するかどうかなど、そのベンチマークと設定を定義します。
 2. 評価ジョブを実行します。
 3. 結果とリーダーボードを表示して分析します。
 
@@ -29,9 +29,9 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
   ## 次のステップ
 </div>
 
-* [Evaluation benchmark カタログ](/ja/models/launch/evaluations) を参照する
+* [評価ベンチマーク カタログ](/ja/models/launch/evaluations)
 * [モデル チェックポイントを評価する](/ja/models/launch/evaluate-model-checkpoint)
-* [API でホストされているモデルを評価する](/ja/models/launch/evaluate-hosted-model)
+* [API でホストされたモデルを評価する](/ja/models/launch/evaluate-hosted-model)
 
 <div id="more-details">
   ## 詳細
@@ -41,7 +41,7 @@ import PreviewLink from '/snippets/ja/_includes/llm-eval-jobs/preview.mdx';
   ### 料金
 </div>
 
-LLM Evaluation Jobs は、インフラ管理不要の完全マネージドな CoreWeave コンピュート上で、一般的なベンチマークに対して モデル チェックポイントまたはホスト API を評価します。アイドル時間ではなく、消費したリソースに対してのみ課金されます。料金はコンピュートとストレージの 2 つの要素で構成されます。パブリック プレビュー期間中はコンピュートは無料で、一般提供時に料金を発表します。保存される結果には、Models の runs に保存される メトリクス とサンプルごとのトレースが含まれます。ストレージはデータ量に基づき、月単位で課金されます。プレビュー期間中、LLM Evaluation Jobs は Multi-tenant Cloud でのみ利用可能です。詳細は [Pricing](https://wandb.ai/pricing) ページを参照してください。
+LLM Evaluation Jobs は、インフラの管理が不要な完全マネージドの CoreWeave コンピュート上で、人気のベンチマークに対してモデルチェックポイントまたはホストされた API を評価します。使用したリソースに対してのみ課金され、アイドル時間は課金されません。料金はコンピュートとストレージの 2 つの要素で構成されます。パブリック プレビュー期間中はコンピュートが無料で、一般提供時に料金を発表します。保存された結果には、Models の runs に保存されるメトリクスと例ごとのトレースが含まれます。ストレージはデータ量に基づいて月額で課金されます。プレビュー期間中、LLM Evaluation Jobs は Multi-tenant Cloud のみで利用可能です。詳細は [Pricing](https://wandb.ai/pricing) ページを参照してください。
 
 <div id="job-limits">
   ### ジョブの制限
@@ -56,12 +56,12 @@ LLM Evaluation Jobs は、インフラ管理不要の完全マネージドな Co
   ### 要件
 </div>
 
-* モデル チェックポイントを評価するには、モデルの重みを VLLM 互換の Artifacts としてパッケージ化しておく必要があります。詳細およびコード例は、[Example: Prepare a model](/ja/models/launch/evaluate-model-checkpoint#example-prepare-a-model) を参照してください。
-* OpenAI 互換のモデルを評価するには、そのモデルがパブリック URL からアクセス可能であり、組織またはチーム管理者が認証用の API キーを含む team secret を設定しておく必要があります。
-* 一部のベンチマークは、スコアリングに OpenAI モデルを使用します。これらのベンチマークを実行するには、組織またはチーム管理者が必要な API キーを含む team secret を設定しておく必要があります。あるベンチマークにこの要件があるかどうかを確認するには、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
-* 一部のベンチマークでは、Hugging Face 上の gated データセットへのアクセスが必要です。これらのベンチマークのいずれかを実行するには、組織またはチーム管理者が Hugging Face 上の gated データセットへのアクセスを申請し、Hugging Face ユーザー アクセス トークンを生成し、それを team secret として設定する必要があります。あるベンチマークにこの要件があるかどうかを確認するには、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
+* モデル チェックポイントを評価するには、モデルの重みを vLLM 互換のアーティファクトとしてパッケージ化しておく必要があります。詳細とコード例については、[Example: Prepare a model](/ja/models/launch/evaluate-model-checkpoint#example-prepare-a-model) を参照してください。
+* OpenAI 互換モデルを評価するには、そのモデルにパブリック URL でアクセスできる必要があります。また、組織またはチーム管理者が、認証用の APIキー を含む team secret を設定しておく必要があります。
+* 一部のベンチマークでは、スコアリングに OpenAI モデルを使用します。これらのベンチマークを実行するには、組織またはチーム管理者が、必要な APIキー を含む team secret を設定しておく必要があります。ベンチマークにこの要件があるかどうかは、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
+* 一部のベンチマークでは、Hugging Face 上の gated データセットへのアクセスが必要です。これらのベンチマークのいずれかを実行するには、組織またはチーム管理者が Hugging Face 上の gated データセットへのアクセスを申請し、Hugging Face ユーザー アクセス トークンを生成して、それを team secret として設定する必要があります。ベンチマークにこの要件があるかどうかは、[Evaluation benchmark catalog](/ja/models/launch/evaluations) を参照してください。
 
-これらの要件を満たすための詳細および手順については、次のドキュメントを参照してください。
+これらの要件を満たすための詳細と手順については、次を参照してください。
 
 * [Evaluate a model checkpoint](/ja/models/launch/evaluate-model-checkpoint)
 * [Evaluate a hosted API model](/ja/models/launch/evaluate-hosted-model)

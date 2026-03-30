@@ -20,7 +20,7 @@ from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
-# sweep を反復処理して詳細を表示する
+# Sweeps を反復処理し、詳細を表示する
 for sweep in sweeps:
      print(f"Sweep name: {sweep.name}")
      print(f"Sweep ID: {sweep.id}")
@@ -44,14 +44,14 @@ __init__(
 
 **引数:**
 
-* `client`:  W&amp;B にクエリを送信するために使用する API クライアント。
-* `entity`:  sweep を所有している entity。
-* `project`:  sweep を含むプロジェクト。
-* `per_page`:  API への 1 回のリクエストごとに取得する sweep の数。
+* `client`:  W&amp;B にクエリするために使用する API クライアント。
+* `entity`:  Sweeps を所有している entity。
+* `project`:  Sweeps を含むプロジェクト。
+* `per_page`:  API への 1 回のリクエストごとに取得する Sweeps の数。
 
 ***
 
 
-### <kbd>property</kbd> Sweeps.length
+### <kbd>プロパティ</kbd> Sweeps.length
 
----
+***

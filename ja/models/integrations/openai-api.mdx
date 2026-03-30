@@ -1,5 +1,5 @@
 ---
-description: "W&B を OpenAI API と使用して、チャット補完、ファインチューニングジョブ、トークン使用量メトリクスをログに記録し、監視します。"
+description: "W&B を OpenAI API と組み合わせて使用し、チャット補完、ファインチューニング ジョブ、トークン使用量のメトリクスをログして監視します。"
 title: OpenAI API
 ---
 
@@ -39,7 +39,7 @@ pip install openai==0.28.1
   ### 1. autolog をインポートして初期化する
 </div>
 
-まず、`wandb.integration.openai` から `autolog` をインポートし、`autolog` を初期化します。
+まず、`wandb.integration.openai` から `autolog` をインポートして、初期化します。
 
 ```python
 import os
@@ -55,7 +55,7 @@ autolog({"project": "gpt5"})
   ### 2. OpenAI API を呼び出す
 </div>
 
-OpenAI API への各呼び出しは自動的に W&amp;B にログとして記録されます。
+OpenAI API への各 Call は自動的に W&amp;B にログとして記録されます。
 
 ```python
 os.environ["OPENAI_API_KEY"] = "XXX"
@@ -76,12 +76,12 @@ response = openai.ChatCompletion.create(**chat_request_kwargs)
   ### 3. OpenAI API の入力とレスポンスを確認する
 </div>
 
-**ステップ 1** で `autolog` によって生成された W&amp;B の [run](/ja/models/runs/) リンクをクリックします。W&amp;B App 内の プロジェクト ワークスペースに遷移します。
+**step 1** で `autolog` によって生成された W&amp;B の [run](/ja/models/runs/) リンクをクリックします。W&amp;B App 内のワークスペースに遷移します。
 
-作成した run を選択すると、使用している OpenAI LLM の trace テーブル、trace タイムライン、およびモデル アーキテクチャを表示できます。
+作成した run を選択すると、使用している OpenAI LLM の trace 表、trace タイムライン、およびモデル アーキテクチャを表示できます。
 
 <div id="turn-off-autolog">
-  ## autolog を無効化する
+  ## autolog を無効にする
 </div>
 
 OpenAI API の使用を終えたら、すべての W&amp;B プロセスを終了するために `disable()` を呼び出すことを W&amp;B では推奨しています。
@@ -90,4 +90,4 @@ OpenAI API の使用を終えたら、すべての W&amp;B プロセスを終了
 autolog.disable()
 ```
 
-これで、入力内容と completion の結果が W&amp;B に記録され、分析したり同僚と共有したりできるようになります。
+これで、入力内容と completion の結果が W&amp;B にログされ、分析したり同僚と共有したりできるようになります。

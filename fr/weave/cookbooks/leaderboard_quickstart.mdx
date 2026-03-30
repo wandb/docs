@@ -19,13 +19,13 @@ Dans ce notebook, vous allez apprendre à utiliser le Leaderboard de Weave pour 
 1. Générer un jeu de données factice de codes postaux
 2. Créer quelques fonctions de score et évaluer un modèle de référence.
 3. Utiliser ces techniques pour évaluer une matrice modèles × évaluations.
-4. Consulter le leaderboard dans l’interface utilisateur de Weave.
+4. Consulter le leaderboard dans l’interface Weave.
 
 <div id="step-1-generate-a-dataset-of-fake-zip-code-data">
-  ## Étape 1 : Générer un jeu de données factices de codes postaux
+  ## Étape 1 : Générer un jeu de données factices sur des codes postaux
 </div>
 
-Nous allons d’abord créer une fonction `generate_dataset_rows` qui génère une liste de données factices de codes postaux.
+Nous allons d’abord créer une fonction `generate_dataset_rows` qui génère une liste de données factices sur des codes postaux.
 
 ```python lines
 import json
@@ -83,7 +83,7 @@ weave.init("leaderboard-demo")
 Nous allons ensuite rédiger 3 fonctions de score :
 
 1. `check_concrete_fields` : Vérifie si la sortie du modèle correspond à la ville et à l’État attendus.
-2. `check_value_fields` : Vérifie si la sortie du modèle se situe à moins de 10 % de la population et du revenu médian attendus.
+2. `check_value_fields` : Vérifie si la sortie du modèle se situe dans une marge de 10 % par rapport à la population et au revenu médian attendus.
 3. `check_subjective_fields` : Utilise un LLM pour vérifier si la sortie du modèle correspond au champ &quot;known for&quot; attendu.
 
 ```python lines
@@ -177,10 +177,10 @@ await evaluation.evaluate(baseline_model)
 
 
 <div id="step-5-create-more-models">
-  ## Étape 5 : Créer plus de modèles
+  ## Étape 5 : Créer davantage de modèles
 </div>
 
-Nous allons maintenant créer 2 modèles supplémentaires pour les comparer à la référence.
+Nous allons maintenant créer 2 modèles supplémentaires pour les comparer au modèle de référence.
 
 ```python lines
 @weave.op
@@ -292,7 +292,7 @@ for evaluation in evaluations:
   ## Étape 7 : Consulter le leaderboard
 </div>
 
-Vous pouvez créer un nouveau leaderboard en accédant à l’onglet leaderboard de l’interface utilisateur, puis en cliquant sur &quot;Create Leaderboard&quot;.
+Vous pouvez créer un nouveau leaderboard en accédant à l’onglet du leaderboard dans l’interface utilisateur, puis en cliquant sur &quot;Create Leaderboard&quot;.
 
 Vous pouvez également générer un leaderboard directement depuis Python :
 

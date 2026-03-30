@@ -2,7 +2,7 @@
 title: Comment puis-je faire fonctionner W&B Launch avec TensorFlow sur GPU ?
 ---
 
-Pour les jobs TensorFlow qui utilisent des GPU, spécifiez une image de base personnalisée pour le build du conteneur. Cela garantit une utilisation correcte des GPU pendant les runs. Ajoutez un tag d’image sous la clé `builder.accelerator.base_image` dans la configuration des ressources. Par exemple :
+Pour les jobs TensorFlow utilisant des GPU, spécifiez une image de base personnalisée pour le build du conteneur. Cela garantit une utilisation correcte des GPU pendant les runs. Ajoutez un tag d’image sous la clé `builder.accelerator.base_image` dans la configuration des ressources. Par exemple :
 
 ```json
 {

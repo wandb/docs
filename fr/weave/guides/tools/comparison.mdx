@@ -14,7 +14,7 @@ Ce guide présente les étapes pour lancer une comparaison et les actions dispon
 1. Dans la barre latérale, sélectionnez le type d’objet à comparer (par exemple, **Traces** ou **Models**).
 2. Sélectionnez les objets que vous voulez comparer. La méthode de sélection varie selon le type d’objet comparé :
    * Pour **Traces**, sélectionnez les traces à comparer en cochant les cases des lignes appropriées dans la colonne Trace.
-   * Pour des objets tels que **Models**, accédez à la page Versions du modèle et cochez les cases à côté des versions que vous voulez comparer.
+   * Pour des objets tels que **Models**, accédez à la page des versions du modèle et cochez les cases à côté des versions que vous voulez comparer.
 3. Sélectionnez **Compare** pour ouvrir la vue de comparaison. En haut de la page, la barre de comparaison contient des jetons interactifs d’ID d’appel (par exemple, `f02b`, `4a98`) que vous pouvez faire glisser, réorganiser ou supprimer pour modifier la comparaison.
 4. Vous pouvez affiner votre vue à l’aide des [actions disponibles](#available-actions).
 
@@ -24,7 +24,7 @@ Ce guide présente les étapes pour lancer une comparaison et les actions dispon
 
 Dans la vue de comparaison, vous pouvez ajuster la façon dont les objets sont affichés et comparés :
 
-* [Afficher le résumé](#display-summary)
+* [Afficher la synthèse](#display-summary)
 * [Afficher la vue Appels](#display-a-calls-view)
 * [Modifier l’affichage des différences](#change-the-diff-display)
 * [Afficher côte à côte](#display-side-by-side)
@@ -38,16 +38,16 @@ Dans la vue de comparaison, vous pouvez ajuster la façon dont les objets sont a
 * [Supprimer un objet de la comparaison](#remove-an-object-from-comparison)
 
 <div id="display-summary">
-  ### Afficher le résumé
+  ### Afficher la synthèse
 </div>
 
-La vue par défaut d’une comparaison d’objet sélectionné est un résumé. Ce résumé inclut un aperçu de l’entrée et de la sortie du LLM, ainsi que des tokens, du coût et de la latence.
+La vue par défaut d’une comparaison d’objet sélectionné est une synthèse. Cette synthèse inclut un aperçu de l’entrée et de la sortie du LLM, ainsi que des jetons, du coût et de la latence.
 
 <Frame>
   ![Vue récapitulative de la comparaison de deux objets](/weave/guides/tools/imgs/comparison-2objs-summary.png)
 </Frame>
 
-Pour les traces, la barre colorée affichée en haut du tableau de comparaison reflète les types et couleurs personnalisés que vous avez appliqués à vos Ops. Pour en savoir plus sur cette visibilité améliorée, voir [Appliquer des types et des couleurs](/fr/weave/guides/tracking/ops#apply-kinds-and-colors).
+Pour les traces, la barre colorée affichée en haut du tableau de comparaison reflète les types et couleurs personnalisés que vous avez appliqués à vos opérations. Pour plus d’informations sur cette visibilité améliorée, voir [Appliquer des types et des couleurs](/fr/weave/guides/tracking/ops#apply-kinds-and-colors).
 
 <div id="display-a-calls-view">
   ### Afficher la vue Appels
@@ -57,7 +57,7 @@ Pour comparer les appels de chaque objet, sélectionnez **Appels**. Cette vue :
 
 * Affiche l’arborescence de trace complète pour l’appel.
 * Offre une recherche textuelle de base en mémoire.
-* Vous permet de basculer l’affichage de la latence, du coût, des tokens, des types d’op et du feedback pour chaque appel.
+* Vous permet de basculer l’affichage de la latence, du coût, des jetons, des types d’op et du feedback pour chaque appel.
 
 <Frame>
   ![Vue de comparaison des appels de deux objets](/weave/guides/tools/imgs/comparison-2obs-calls.png)
@@ -72,7 +72,7 @@ Par défaut, **Diff only** est désactivé. Pour filtrer les lignes du tableau e
 **Diff only** s’applique aux vues côte à côte et unifiée, et est désactivé dans les autres vues.
 
 <div id="display-side-by-side">
-  ### afficher côte à côte
+  ### Afficher côte à côte
 </div>
 
 Pour comparer les objets côte à côte dans des colonnes distinctes, sélectionnez **Côte à côte**.
@@ -102,7 +102,7 @@ Pour définir un objet comme référence :
 1. Dans la barre de comparaison, survolez l’objet que vous souhaitez définir comme référence.
 2. Cliquez sur les points de suspension (<Icon icon="ellipsis-vertical" iconType="solid" />) à droite de l’ID.
    ![Vue de comparaison montrant l’option Make baseline pour l’objet sélectionné dans la barre de comparaison.](/weave/guides/tools/imgs/comparison-2objs-baseline.png)
-3. Dans la liste, sélectionnez **Make baseline**. L’interface se met à jour en plaçant l’objet de référence tout à gauche dans la barre de comparaison, avec `Baseline` à côté de l’ID.
+3. Dans la liste, sélectionnez **Make baseline**. L’interface utilisateur se met à jour en plaçant l’objet de référence tout à gauche dans la barre de comparaison, avec `Baseline` à côté de l’ID.
    ![Vue de comparaison montrant l’objet de référence sélectionné tout à gauche dans la barre de comparaison.](/weave/guides/tools/imgs/comparison-2objs-baseline-set.png)
 
 <div id="remove-a-baseline">
@@ -113,7 +113,7 @@ Pour supprimer un objet comme référence :
 
 1. Dans la barre de comparaison, survolez l’objet de référence avec le pointeur.
 2. Cliquez sur les points de suspension (<Icon icon="ellipsis-vertical" iconType="solid" />) à droite de l’ID.
-3. Dans la liste, sélectionnez **Supprimer la référence**. `Baseline` ne s’affiche alors plus à côté de l’ID de l’appel.
+3. Dans la liste, sélectionnez **Supprimer une référence**. `Baseline` ne s’affiche alors plus à côté de l’ID de l’appel.
 
 <div id="change-the-comparison-order">
   ### Modifier l’ordre de comparaison
@@ -131,13 +131,13 @@ Pour modifier l’ordre de comparaison :
   ### Modifier le format d’affichage des différences numériques
 </div>
 
-Pour les valeurs numériques telles que `completion_tokens` et `total_tokens`, vous pouvez afficher la différence soit sous forme d’entier, soit en pourcentage. En outre, les valeurs numériques positives peuvent aussi être affichées sous forme de multiplicateur.
+Pour les valeurs numériques telles que `completion_tokens` et `total_tokens`, vous pouvez afficher la différence soit sous forme d’entier, soit en pourcentage. De plus, les valeurs numériques positives peuvent également être affichées sous forme de multiplicateur.
 
 Pour modifier le format d’affichage d’une différence numérique :
 
-1. Dans le tableau de comparaison, trouvez la valeur numérique pour laquelle vous souhaitez modifier le format d’affichage de la différence.
+1. Dans le tableau de comparaison, trouver la valeur numérique dont vous souhaitez modifier le format d’affichage de la différence.
    ![Une valeur numérique affichée sous forme d’entier.](/weave/guides/tools/imgs/comparison-2objs-numericdiffformat.png)
-2. Cliquez sur la valeur de la différence. Le format est automatiquement remplacé par un entier ou un pourcentage.
+2. Cliquez sur la valeur de la différence. Le format est automatiquement mis à jour pour afficher soit un entier, soit un pourcentage.
    ![Une valeur numérique affichée en pourcentage.](/weave/guides/tools/imgs/comparison-2objs-numericdiffformat-updated.png)
 
 <div id="compare-with-baseline-or-previous">
@@ -148,7 +148,7 @@ Cette option est uniquement disponible lorsque vous comparez 3 objets ou plus. V
 
 Pour effectuer une comparaison avec référence avec 3 objets ou plus :
 
-1. Dans l’angle droit de la vue de comparaison côte à côte ou unifiée, cliquez sur la liste. Selon la configuration actuelle de votre vue, la liste s’intitule soit **Comparer avec l’élément précédent**, soit **Comparer avec la référence**.
+1. Dans l’angle droit de la vue de comparaison côte à côte ou Unified, cliquez sur la liste. Selon la configuration actuelle de votre vue, la liste s’intitule soit **Comparer avec l’élément précédent**, soit **Comparer avec la référence**.
 2. Selon la configuration actuelle de votre vue, sélectionnez soit **Comparer avec l’élément précédent**, soit **Comparer avec la référence**.
    * **Comparer avec la référence** : définit l’objet le plus à gauche comme référence. Le tableau se met à jour pour que la colonne la plus à gauche corresponde à la référence.
    * **Comparer avec l’élément précédent** : aucun objet n’est défini comme référence.
@@ -164,7 +164,7 @@ Lorsque vous comparez 3 objets ou plus, vous pouvez comparer un objet unique à 
 Pour comparer une paire d&#39;objets dans une comparaison multi-objets :
 
 1. Dans la barre de comparaison, sélectionnez l&#39;ID que vous voulez comparer. Si vous avez défini une référence, la vue compare l&#39;objet sélectionné à cette référence. Sinon, elle compare l&#39;objet à l&#39;ID situé immédiatement à sa gauche dans la barre de comparaison.
-2. Pour sélectionner l&#39;élément, cliquez sur l&#39;ID. L&#39;interface se met à jour et affiche un tableau de comparaison à deux objets.
+2. Pour sélectionner l&#39;élément, cliquez sur l&#39;ID. L&#39;interface utilisateur se met à jour et affiche un tableau de comparaison à deux objets.
    ![Comparaison d'une paire dans une comparaison multi-objets.](/weave/guides/tools/imgs/comparison-7objs-diffonly-subset.png)
 
 Pour réinitialiser la vue afin d&#39;afficher dans le tableau les 6 premiers objets sélectionnés pour la comparaison, cliquez de nouveau sur l&#39;ID.
@@ -173,13 +173,13 @@ Pour réinitialiser la vue afin d&#39;afficher dans le tableau les 6 premiers ob
   ### Supprimer un objet de la comparaison
 </div>
 
-cette option est uniquement disponible lorsque vous comparez 3 objets ou plus
+Cette option est uniquement disponible lorsque vous comparez 3 objets ou plus.
 
 Pour supprimer un objet de la comparaison :
 
 1. Dans la barre de comparaison, trouvez l’objet que vous souhaitez retirer de la comparaison.
 2. Cliquez sur les points de suspension (<Icon icon="ellipsis-vertical" iconType="solid" />) à droite de l’ID.
-3. Dans la liste, sélectionnez **Supprimer l’objet de la comparaison**. L’interface se met à jour avec un tableau actualisé qui n’inclut plus l’objet supprimé.
+3. Dans la liste, sélectionnez **Supprimer l’objet de la comparaison**. L’interface utilisateur se met à jour avec un tableau actualisé qui n’inclut plus l’objet supprimé.
 
 <div id="usage-notes">
   ## Notes d’utilisation

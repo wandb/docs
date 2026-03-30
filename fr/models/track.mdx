@@ -1,6 +1,6 @@
 ---
-description: "Suivez les expériences de machine learning avec W&B afin de consigner des métriques, des hyperparamètres, des métriques système et des artefacts de modèle."
-title: Aperçu d’Experiments
+description: "Suivez les expériences d’apprentissage automatique avec W&B pour consigner des métriques, des hyperparamètres, des métriques système et des artefacts de modèle."
+title: Aperçu des Experiments
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -12,33 +12,33 @@ import { TryProductLink } from '/snippets/fr/_includes/try-product-link.mdx';
   <TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
 </CardGroup>
 
-Suivez les expériences de machine learning avec quelques lignes de code. Vous pouvez ensuite consulter les résultats dans un [tableau de bord interactif](/fr/models/track/workspaces/) ou exporter vos données dans Python pour y accéder de manière programmatique à l’aide de notre [API publique](/fr/models/ref/python/public-api/).
+Suivez les expériences d’apprentissage automatique avec quelques lignes de code. Vous pouvez ensuite consulter les résultats dans un [tableau de bord interactif](/fr/models/track/workspaces/) ou exporter vos données vers Python pour un accès programmatique à l’aide de notre [API publique](/fr/models/ref/python/public-api/).
 
-Utilisez les intégrations W&amp;B si vous travaillez avec des frameworks populaires tels que [Keras](/fr/models/integrations/keras). Voir [W&amp;B Integrations](/fr/models/integrations) pour la liste complète des intégrations et des informations sur la façon d’ajouter W&amp;B à votre code.
+Utilisez les intégrations W&amp;B si vous utilisez des frameworks populaires tels que [Keras](/fr/models/integrations/keras). Voir [W&amp;B Integrations](/fr/models/integrations) pour une liste complète des intégrations et des informations sur la manière d’ajouter W&amp;B à votre code.
 
 <Frame>
-  <img src="/images/experiments/experiments_landing_page.png" alt="tableau de bord Experiments" />
+  <img src="/images/experiments/experiments_landing_page.png" alt="Tableau de bord Experiments" />
 </Frame>
 
-L’image ci-dessus montre un exemple de tableau de bord dans lequel vous pouvez voir et comparer les métriques de plusieurs [runs](/fr/models/runs/).
+L’image ci-dessus montre un exemple de tableau de bord dans lequel vous pouvez visualiser et comparer des métriques sur plusieurs [runs](/fr/models/runs/).
 
 <div id="how-it-works">
   ## Comment ça marche
 </div>
 
-Suivez une expérience de machine learning avec quelques lignes de code :
+Suivez une expérience d’apprentissage automatique avec quelques lignes de code :
 
 1. Créez un [W&amp;B Run](/fr/models/runs/).
 2. Stockez un dictionnaire d’hyperparamètres, comme le taux d’apprentissage ou le type de modèle, dans votre configuration ([`wandb.Run.config`](/fr/models/track/config/)).
 3. Consignez des métriques ([`wandb.Run.log()`](/fr/models/track/log/)) au fil du temps dans une boucle d’entraînement, comme la précision et la perte.
 4. Enregistrez les sorties d’un run, comme les poids du modèle ou un tableau de prédictions.
 
-Le code suivant montre un flux de travail courant de suivi des expériences avec W&amp;B :
+Le code suivant illustre un flux de travail courant de suivi des expériences avec W&amp;B :
 
 ```python
 # Démarrer un run.
 #
-# Lorsque ce bloc se termine, il attend que les données enregistrées finissent de se téléverser.
+# À la sortie de ce bloc, il attend que les données enregistrées aient fini de se téléverser.
 # Si une exception est levée, le run est marqué comme échoué.
 with wandb.init(entity="", project="my-project-name") as run:
   # Enregistrer les entrées du modèle et les hyperparamètres.
@@ -73,4 +73,4 @@ Selon votre cas d’utilisation, consultez les ressources suivantes pour démarr
   ## Bonnes pratiques et conseils
 </div>
 
-Pour connaître les bonnes pratiques et conseils sur les expériences et la journalisation, voir [Bonnes pratiques : expériences et journalisation](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w\&b-experiments-and-logging).
+Pour connaître les bonnes pratiques et conseils sur les expériences et la journalisation, voir [Bonnes pratiques : expériences et journalisation](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w\&b-experiments-and-logging).

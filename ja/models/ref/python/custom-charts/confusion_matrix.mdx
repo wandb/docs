@@ -22,28 +22,28 @@ confusion_matrix(
 ) → CustomChart
 ```
 
-確率または予測値のシーケンスから混同行列を構築します。
+確率または予測のシーケンスから混同行列を構築します。
 
 **引数:**
 
-* `probs`: 各クラスに対する予測確率のシーケンス。シーケンスの形状は (N, K) で、N はサンプル数、K はクラス数です。指定した場合は、`preds` は指定しないでください。
-* `y_true`: 正解ラベルのシーケンス。
-* `preds`: 予測クラスラベルのシーケンス。指定した場合は、`probs` は指定しないでください。
-* `class_names`: クラス名のシーケンス。指定しない場合、クラス名は &quot;Class&#95;1&quot;、&quot;Class&#95;2&quot; などのように定義されます。
-* `title`: 混同行列チャートのタイトル。
-* `split_table`: テーブルを W&amp;B UI 内の別セクションとして分割するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
+* `probs`:  各クラスに対する予測確率のシーケンス。シーケンスの形状は (N, K) で、N はサンプル数、K はクラス数です。指定した場合は、`preds` は指定しないでください。
+* `y_true`:  正解ラベルのシーケンス。
+* `preds`:  予測クラスラベルのシーケンス。指定した場合は、`probs` は指定しないでください。
+* `class_names`:  クラス名のシーケンス。指定しない場合、クラス名は &quot;Class&#95;1&quot;、&quot;Class&#95;2&quot; などのように定義されます。
+* `title`:  混同行列チャートのタイトル。
+* `split_table`:  テーブルを W&amp;B UI 内の別セクションとして分割するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
 
 **戻り値:**
 
-* `CustomChart`: W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
+* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
 
 **例外:**
 
-* `ValueError`: `probs` と `preds` の両方が指定された場合、または予測と正解ラベルの数が一致しない場合。さらに、一意な予測クラス数がクラス名の数を超える場合、または一意な正解ラベル数がクラス名の数を超える場合。
-* `wandb.Error`: numpy がインストールされていない場合。
+* `ValueError`:  `probs` と `preds` の両方が指定された場合、または予測の数と正解ラベルの数が一致しない場合。また、一意な予測クラス数がクラス名の数を超える場合、または一意な正解ラベル数がクラス名の数を超える場合。
+* `wandb.Error`:  numpy がインストールされていない場合。
 
 **使用例:**
-野生動物分類に対してランダムな確率を用いて混同行列をログする例:
+ランダムな確率を用いた野生動物分類の混同行列をログする例:
 
 ```python
 import numpy as np
@@ -76,7 +76,7 @@ with wandb.init(project="wildlife_classification") as run:
 
 この例では、ランダムな確率を用いて混同行列を生成します。
 
-シミュレートした モデル の予測と正解率 85% に基づく混同行列をログに記録します：
+シミュレートしたモデルの予測と正解率 85% に基づく混同行列をログします：
 
 ```python
 import numpy as np
@@ -100,7 +100,7 @@ wildlife_preds = [
     for y_t in wildlife_y_true
 ]
 
-# W&B の run を初期化して混同行列をログに記録する
+# W&B の run を初期化して混同行列をログする
 with wandb.init(project="wildlife_classification") as run:
     confusion_matrix = wandb.plot.confusion_matrix(
          preds=wildlife_preds,

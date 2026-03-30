@@ -1,11 +1,11 @@
 ---
 title: "異なる 2 つの時間スケールでメトリクスをログできますか？"
-keywords: ["Experiments", "メトリクス"]
+keywords: ["Experiments", "Metrics"]
 ---
 
 たとえば、トレーニング accuracy をバッチごとに、検証 accuracy をエポックごとにログしたい場合です。
 
-はい。`batch` や `epoch` のようなインデックスを、メトリクスとあわせてログしてください。ある step では `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` を使い、別の step では `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` を使います。UI では、各チャートで目的の値を x 軸に設定してください。特定のインデックスのデフォルト x 軸を設定するには、[Run.define&#95;metric()](/ja/models/ref/python/experiments/run#define_metric) を使用します。この例では、次のコードを使用します。
+はい。`batch` や `epoch` のようなインデックスを、メトリクスとあわせてログしてください。ある step では `wandb.Run.log()({'train_accuracy': 0.9, 'batch': 200})` を使用し、別の step では `wandb.Run.log()({'val_accuracy': 0.8, 'epoch': 4})` を使用します。UI では、各チャートで目的の値を x 軸に設定してください。特定のインデックスのデフォルト x 軸を設定するには、[Run.define&#95;metric()](/ja/models/ref/python/experiments/run#define_metric) を使用します。この例では、次のコードを使用します。
 
 ```python
 import wandb
@@ -27,4 +27,4 @@ with wandb.init() as run:
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
 
-{/* ---- 自動生成: タブバッジ終了 ---- */}
+{{/* ---- 自動生成終了: タブバッジ ---- */}}

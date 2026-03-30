@@ -3,7 +3,7 @@ title: "Peut-on définir des variables booléennes comme hyperparamètres ?"
 keywords: ["Sweeps"]
 ---
 
-Utilisez la macro `${args_no_boolean_flags}` dans la section `command` de la configuration pour transmettre les hyperparamètres sous forme d&#39;options booléennes. Cette macro inclut automatiquement les paramètres booléens sous forme d&#39;options. Si `param` vaut `True`, la commande reçoit `--param`. Si `param` vaut `False`, l&#39;option est omise.
+Utilisez la macro `${args_no_boolean_flags}` dans la section `command` de la configuration pour transmettre les hyperparamètres sous forme de flags booléens. Cette macro ajoute automatiquement les paramètres booléens comme flags. Si `param` vaut `True`, la commande reçoit `--param`. Si `param` vaut `False`, le flag est omis.
 
 ***
 
@@ -14,4 +14,4 @@ Utilisez la macro `${args_no_boolean_flags}` dans la section `command` de la con
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

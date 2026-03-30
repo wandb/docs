@@ -1,6 +1,6 @@
 ---
 title: "Coût personnalisé des modèles"
-description: "Définissez et suivez les coûts personnalisés des modèles dans W&B Weave afin de surveiller les dépenses entre différents fournisseurs et modèles de LLM."
+description: "Définissez et suivez les coûts personnalisés des modèles dans W&B Weave pour surveiller les dépenses sur différents fournisseurs et modèles de LLM."
 ---
 
 <Note>
@@ -24,11 +24,11 @@ Configurons un modèle personnalisé simple qui calcule lui-même son utilisatio
 </div>
 
 Nous installons et importons tous les packages nécessaires.
-Nous définissons `WANDB_API_KEY` dans notre environnement afin de pouvoir nous connecter facilement avec `wandb.login()` (il doit être fourni à Colab comme secret).
+Nous définissons `WANDB_API_KEY` dans notre environnement afin de pouvoir nous connecter facilement avec `wandb.login()` (cette valeur doit être fournie à Colab comme secret).
 
-Nous définissons dans `name_of_wandb_project` le projet W&amp;B dans lequel nous voulons journaliser ceci.
+Nous définissons dans `name_of_wandb_project` le projet W&amp;B dans lequel nous voulons journaliser cela.
 
-***REMARQUE :*** `name_of_wandb_project` peut également être au format `{team_name}/{project_name}` pour spécifier une équipe dans laquelle journaliser les traces.
+***REMARQUE :*** `name_of_wandb_project` peut également être au format `{team_name}/{project_name}` pour spécifier l’équipe dans laquelle journaliser les traces.
 
 Nous récupérons ensuite un client Weave en appelant `weave.init()`
 
@@ -103,7 +103,7 @@ class YourModel(Model):
   ## Ajouter un coût personnalisé
 </div>
 
-Ici, nous ajoutons un coût personnalisé. Maintenant que nous en avons un et que nos appels ont une utilisation, nous pouvons récupérer les appels avec `include_cost`, et leurs coûts apparaîtront sous `summary.weave.costs`.
+Nous ajoutons ici un coût personnalisé. Maintenant que ce coût personnalisé est défini et que nos appels incluent des données d’utilisation, nous pouvons récupérer les appels avec `include_cost`, et les coûts seront disponibles sous `summary.weave.costs`.
 
 ```python lines
 model = YourModel(attribute1="Hello", attribute2=1)

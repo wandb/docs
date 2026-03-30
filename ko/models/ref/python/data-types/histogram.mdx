@@ -1,5 +1,5 @@
 ---
-title: 히스토그램
+title: Histogram
 namespace: python_sdk_data_type
 python_object_type: class
 ---
@@ -11,16 +11,16 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Histogram`
 
-히스토그램을 위한 W&amp;B 클래스입니다.
+히스토그램을 위한 W&amp;B class입니다.
 
-이 객체는 NumPy의 `histogram` 함수와 동일한 방식으로 동작합니다: https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html
+이 객체는 numpy의 histogram 함수와 https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html 과 동일하게 작동합니다.
 
 **속성:**
 
-* `bins` ([float]):  구간의 경계값
-* `histogram` ([int]):  각 구간에 속하는 원소의 개수 
+* `bins` ([float]):  bins의 경계
+* `histogram` ([int]):  각 bin에 속하는 요소 수 
 
-### <kbd>method</kbd> `Histogram.__init__`
+### <kbd>방법</kbd> `Histogram.__init__`
 
 ```python
 __init__(
@@ -32,10 +32,10 @@ __init__(
 
 Histogram 객체를 초기화합니다.
 
-**Args:**
-sequence: 히스토그램에 사용할 입력 데이터입니다. np&#95;histogram: 미리 계산된 히스토그램을 대체 입력으로 사용합니다. num&#95;bins: 히스토그램의 빈 개수입니다. 기본 빈 개수는 64이며, 최대 빈 개수는 512입니다.
+**매개변수:**
+sequence: 히스토그램의 입력 데이터입니다. np&#95;histogram: 미리 계산된 히스토그램을 대체 입력으로 사용합니다. num&#95;bins: 히스토그램의 bin 수입니다. 기본 bin 수는 64입니다. 최대 bin 수는 512입니다.
 
-**Examples:**
+**예시:**
 시퀀스로부터 히스토그램을 생성합니다.
 
 ```python
@@ -44,7 +44,7 @@ import wandb
 wandb.Histogram([1, 2, 3])
 ```
 
-np.histogram으로 생성한 결과로부터 효율적으로 초기화합니다.
+np.histogram 결과로부터 효율적으로 초기화합니다.
 
 ```python
 import numpy as np

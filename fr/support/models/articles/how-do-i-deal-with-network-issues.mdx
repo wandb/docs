@@ -1,25 +1,25 @@
 ---
-title: "Comment puis-je résoudre les problèmes de réseau ?"
+title: "Comment puis-je gérer les problèmes de réseau ?"
 keywords: ["Connectivité"]
 ---
 
 Si vous rencontrez des erreurs SSL ou réseau, telles que `wandb: Network error (ConnectionError), entering retry loop`, utilisez les solutions suivantes :
 
-1. Mettez à jour le certificat SSL. Sur un serveur Ubuntu, exécutez `update-ca-certificates`. Un certificat SSL valide est essentiel pour synchroniser les journaux d’entraînement et limiter les risques de sécurité.
-2. Si la connexion réseau est instable, utilisez le mode hors ligne en définissant la [variable d’environnement facultative](/fr/models/track/environment-variables#optional-environment-variables) `WANDB_MODE` sur `offline`, puis synchronisez les fichiers plus tard depuis un appareil disposant d’un accès à Internet.
-3. Envisagez d’utiliser [W&amp;B Private Hosting](/fr/platform/hosting/), qui fonctionne en local et évite la synchronisation avec des serveurs cloud.
+1. Mettez à niveau le certificat SSL. Sur un serveur Ubuntu, exécutez `update-ca-certificates`. Un certificat SSL valide est essentiel pour synchroniser les journaux d&#39;entraînement afin d&#39;atténuer les risques de sécurité.
+2. Si la connexion réseau est instable, utilisez le mode hors ligne en définissant la [variable d&#39;environnement facultative](/fr/models/track/environment-variables#optional-environment-variables) `WANDB_MODE` sur `offline`, puis synchronisez les fichiers plus tard depuis un appareil ayant accès à Internet.
+3. Envisagez d&#39;utiliser [W&amp;B Private Hosting](/fr/platform/hosting/), qui s&#39;exécute localement et évite la synchronisation avec des serveurs cloud.
 
-Pour l’erreur `SSL CERTIFICATE_VERIFY_FAILED`, le problème peut être dû à un pare-feu d’entreprise. Configurez les autorités de certification locales et exécutez :
+Pour l&#39;erreur `SSL CERTIFICATE_VERIFY_FAILED`, ce problème peut provenir d&#39;un pare-feu d&#39;entreprise. Configurez les autorités de certification locales et exécutez :
 
 `export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt`
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ----
-  Généré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badge d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés dans le front matter.
+  Ne modifiez pas à la main entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Connectivité](/fr/support/models/tags/connectivity)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}

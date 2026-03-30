@@ -35,7 +35,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Weave는 이제 Cerebras SDK를 통해 이루어지는 모든 LLM 호출을 추적하고 기록합니다. Weave 웹 인터페이스에서 토큰 사용량, 응답 시간 등의 세부 정보를 포함한 트레이스를 확인할 수 있습니다.
+Weave는 이제 Cerebras SDK를 통해 이루어지는 모든 LLM 호출을 추적하고 로깅합니다. Weave 웹 인터페이스에서 토큰 사용량, 응답 시간 등의 세부 정보를 포함한 트레이스를 확인할 수 있습니다.
 
 [![cerebras\_calls.png](/weave/guides/integrations/imgs/cerebras_calls.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
 
@@ -72,17 +72,17 @@ animal_speedster("human", "llama3.1-8b")
 ```
 
 <div id="create-a-model-for-easier-experimentation">
-  ## 더 쉽게 실험하기 위한 `Model` 생성
+  ## 더 쉬운 실험을 위한 `Model` 생성
 </div>
 
-Weave의 [Model](/ko/weave/guides/core-types/models) 클래스는 앱의 다양한 버전을 체계적으로 관리하고 서로 비교하는 데 도움이 됩니다. 이는 특히 Cerebras 모델을 실험할 때 유용합니다. 예시는 다음과 같습니다:
+Weave의 [Model](/ko/weave/guides/core-types/models) 클래스는 앱의 다양한 버전을 체계적으로 정리하고 비교하는 데 도움이 됩니다. 이는 특히 Cerebras 모델을 실험할 때 유용합니다. 다음은 예시입니다:
 
 ```python lines
 import os
 import weave
 from cerebras.cloud.sdk import Cerebras
 
-# weave 프로젝트 초기화
+# Weave 프로젝트 초기화
 weave.init("cerebras_speedster")
 
 client = Cerebras(api_key=os.environ["CEREBRAS_API_KEY"])
@@ -93,7 +93,7 @@ class AnimalSpeedModel(weave.Model):
 
     @weave.op
     def predict(self, animal: str) -> str:
-        "동물의 최고 속도를 예측합니다"        
+        "Predict the top speed of an animal"        
 
         response = client.chat.completions.create(
             model=self.model,
@@ -110,6 +110,6 @@ result = speed_model.predict(animal="cheetah")
 print(result)
 ```
 
-이 구성을 통해 다양한 모델과 파라미터를 손쉽게 실험하면서, Cerebras로 구동되는 추론도 모두 추적할 수 있습니다!
+이 설정을 통해 다양한 모델과 파라미터를 손쉽게 실험하면서, Cerebras로 구동되는 추론도 모두 추적할 수 있습니다!
 
 [![cerebras\_model.png](/weave/guides/integrations/imgs/cerebras_model.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)

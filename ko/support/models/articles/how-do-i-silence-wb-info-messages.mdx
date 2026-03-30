@@ -3,13 +3,13 @@ title: "W&B 정보 메시지를 끄려면 어떻게 하나요?"
 keywords: ["노트북", "환경 변수"]
 ---
 
-노트북에서 다음과 같은 로그 메시지를 숨기려면:
+노트북에서 다음과 같은 로그 메시지가 표시되지 않도록 하려면:
 
 ```
 INFO SenderThread:11484 [sender.py:finish():979]
 ```
 
-오류만 표시하고 info 수준 로그 출력을 숨기려면 로그 수준을 `logging.ERROR`로 설정합니다.
+오류만 표시하고 info 수준 로그 출력은 숨기려면 로그 수준을 `logging.ERROR`로 설정하세요.
 
 ```python
 import logging
@@ -18,7 +18,7 @@ logger = logging.getLogger("wandb")
 logger.setLevel(logging.ERROR)
 ```
 
-로그 출력을 크게 줄이려면 `WANDB_QUIET` 환경 변수를 `True`로 설정하세요. 로그 출력을 완전히 비활성화하려면 `WANDB_SILENT` 환경 변수를 `True`로 설정하세요. 노트북에서는 `wandb.login`을 실행하기 전에 `WANDB_QUIET` 또는 `WANDB_SILENT`를 설정하세요:
+로그 출력을 크게 줄이려면 `WANDB_QUIET` 환경 변수를 `True`로 설정하세요. 로그 출력을 완전히 끄려면 `WANDB_SILENT` 환경 변수를 `True`로 설정하세요. 노트북에서는 `wandb.login`을 실행하기 전에 `WANDB_QUIET` 또는 `WANDB_SILENT`를 설정하세요:
 
 <Tabs>
   <Tab title="노트북">
@@ -38,11 +38,11 @@ logger.setLevel(logging.ERROR)
 
 ***
 
-{/* ---- 자동 생성: 탭 배지 ----
-  프런트 매터의 키워드를 기준으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 직접 수정하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  프런트 매터의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py 스크립트에서 관리됩니다.
+  이 마커 사이의 내용은 직접 수정하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[노트북](/ko/support/models/tags/notebooks)</Badge><Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge>
 
-{/* ---- 자동 생성 끝: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

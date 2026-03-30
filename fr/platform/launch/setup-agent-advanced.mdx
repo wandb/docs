@@ -1,6 +1,6 @@
 ---
 title: Configurer l’agent Launch
-description: "Configurer les options avancées de l’agent W&B Launch, notamment les builders Docker et Kaniko ainsi que les paramètres du registre de conteneurs."
+description: "Configurer les options avancées de l’agent W&B Launch, notamment les générateurs Docker et Kaniko ainsi que les paramètres du registre de conteneurs."
 ---
 
 <div id="advanced-agent-setup">
@@ -16,20 +16,20 @@ Ce guide explique comment configurer l’agent Launch de W&amp;B pour build des 
 </Note>
 
 <div id="builders">
-  ## Builders
+  ## Générateurs
 </div>
 
-L&#39;agent Launch peut build des images à l&#39;aide de [Docker](https://docs.docker.com/) ou de [Kaniko](https://github.com/GoogleContainerTools/kaniko).
+L’agent Launch peut build des images à l’aide de [Docker](https://docs.docker.com/) ou de [Kaniko](https://github.com/GoogleContainerTools/kaniko).
 
 * Kaniko : build une image de conteneur dans Kubernetes sans exécuter le build dans un conteneur privilégié.
 * Docker : build une image de conteneur en exécutant localement une commande `docker build`.
 
-Le type de builder est défini par la clé `builder.type` dans la configuration de l&#39;agent Launch, avec les valeurs `docker`, `kaniko` ou `noop` pour désactiver le build. Par défaut, le chart Helm de l&#39;agent définit `builder.type` sur `noop`. Les clés supplémentaires de la section `builder` servent à configurer le processus de build.
+Le type de générateur peut être contrôlé par la clé `builder.type` dans la configuration de l’agent Launch, avec les valeurs `docker`, `kaniko` ou `noop` pour désactiver le build. Par défaut, le chart Helm de l’agent définit `builder.type` sur `noop`. Les clés supplémentaires de la section `builder` sont utilisées pour configurer le processus de build.
 
-Si aucun builder n&#39;est spécifié dans la configuration de l&#39;agent et qu&#39;une CLI `docker` fonctionnelle est détectée, l&#39;agent utilisera Docker par défaut. Si Docker n&#39;est pas disponible, l&#39;agent utilisera `noop` par défaut.
+Si aucun générateur n’est spécifié dans la configuration de l’agent et qu’une CLI `docker` fonctionnelle est détectée, l’agent utilisera Docker par défaut. Si Docker n’est pas disponible, l’agent utilisera `noop` par défaut.
 
 <Note>
-  Utilisez Kaniko pour build des images dans un cluster Kubernetes. Utilisez Docker dans tous les autres cas.
+  Utilisez Kaniko pour le build d’images dans un cluster Kubernetes. Utilisez Docker dans tous les autres cas.
 </Note>
 
 <div id="pushing-to-a-container-registry">
@@ -170,7 +170,7 @@ Vous trouverez ci-dessous les autorisations généralement requises pour que les
   </Tab>
 
   <Tab title="Azure">
-    Ajoutez le rôle [`AcrPush`](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/containers#acrpush) si vous utilisez le build Kaniko.
+    Ajoutez le rôle [`AcrPush`](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/containers#acrpush) si vous utilisez le générateur Kaniko.
   </Tab>
 </Tabs>
 
@@ -178,11 +178,11 @@ Vous trouverez ci-dessous les autorisations généralement requises pour que les
   ### Autorisations de stockage pour Kaniko
 </div>
 
-L’agent Launch doit disposer des autorisations nécessaires pour téléverser dans le stockage cloud s’il utilise le builder Kaniko. Kaniko utilise un stockage de contexte en dehors du pod qui exécute le job de build.
+L&#39;agent Launch doit disposer des autorisations nécessaires pour téléverser dans le stockage cloud s&#39;il utilise le générateur Kaniko. Kaniko utilise un stockage de contexte en dehors du pod qui exécute le job de build.
 
 <Tabs>
   <Tab title="AWS">
-    Le stockage de contexte recommandé pour le builder Kaniko sur AWS est Amazon S3. La stratégie suivante peut être utilisée pour donner à l’agent l’accès à un bucket S3 :
+    Le stockage de contexte recommandé pour le générateur Kaniko sur AWS est Amazon S3. La stratégie suivante peut être utilisée pour donner à l&#39;agent l&#39;accès à un bucket S3 :
 
     ```json
     {
@@ -206,7 +206,7 @@ L’agent Launch doit disposer des autorisations nécessaires pour téléverser 
   </Tab>
 
   <Tab title="Google Cloud">
-    Sur Google Cloud, les autorisations IAM suivantes sont requises pour que l’agent puisse téléverser les contextes de build vers GCS :
+    Sur Google Cloud, les autorisations IAM suivantes sont requises pour que l&#39;agent puisse téléverser les contextes de build vers GCS :
 
     ```js
     storage.buckets.get;
@@ -217,7 +217,7 @@ L’agent Launch doit disposer des autorisations nécessaires pour téléverser 
   </Tab>
 
   <Tab title="Azure">
-    Le rôle [Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) est requis pour que l’agent puisse téléverser les contextes de build vers Azure Blob Storage.
+    Le rôle [Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) est requis pour que l&#39;agent puisse téléverser les contextes de build vers Azure Blob Storage.
   </Tab>
 </Tabs>
 
@@ -225,7 +225,7 @@ L’agent Launch doit disposer des autorisations nécessaires pour téléverser 
   ## Personnaliser le build Kaniko
 </div>
 
-Spécifiez, dans la clé `builder.kaniko-config` de la configuration de l&#39;agent, la spécification du job Kubernetes utilisé par Kaniko. Par exemple :
+Spécifiez la spécification du Job Kubernetes utilisée par le job Kaniko dans la clé `builder.kaniko-config` de la configuration de l&#39;agent. Par exemple :
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -246,13 +246,13 @@ builder:
 ```
 
 <div id="deploy-launch-agent-into-coreweave">
-  ## Déployer l’agent Launch sur CoreWeave
+  ## Déployer l&#39;agent Launch sur CoreWeave
 </div>
 
-Facultativement, déployez l’agent Launch de W&amp;B sur l’infrastructure cloud de CoreWeave. CoreWeave est une infrastructure cloud spécialement conçue pour les charges de travail accélérées par GPU.
+Vous pouvez également déployer l&#39;agent Launch de W&amp;B sur l&#39;infrastructure cloud de CoreWeave. CoreWeave est une infrastructure cloud spécialement conçue pour les charges de travail accélérées par GPU.
 
-Pour savoir comment déployer l’agent Launch sur CoreWeave, voir la [documentation CoreWeave](https://docs.coreweave.com/partners/weights-and-biases#integration).
+Pour savoir comment déployer l&#39;agent Launch sur CoreWeave, voir la [documentation CoreWeave](https://docs.coreweave.com/partners/weights-and-biases#integration).
 
 <Note>
-  Vous devrez créer un [compte CoreWeave](https://cloud.coreweave.com/login) pour déployer l’agent Launch sur l’infrastructure CoreWeave.
+  Vous devrez créer un [compte CoreWeave](https://cloud.coreweave.com/login) pour déployer l&#39;agent Launch sur l&#39;infrastructure CoreWeave.
 </Note>

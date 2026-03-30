@@ -7,7 +7,7 @@ description: Comprenez la tarification, les limites d’utilisation et les restr
   ## Tarification
 </div>
 
-La tarification comprend trois composants : l’inférence, l’entraînement et le stockage. Pour connaître les tarifs de facturation applicables, consultez notre [page de tarification](https://site.wandb.ai/pricing/training).
+La tarification comprend trois composants : l’inférence, l’entraînement et le stockage. Pour connaître les tarifs de facturation applicables, visitez notre [page de tarification](https://site.wandb.ai/pricing/training).
 
 <div id="inference">
   ### Inférence
@@ -27,12 +27,12 @@ L&#39;entraînement est gratuit pendant la période de préversion publique.
   ### Stockage des modèles
 </div>
 
-Serverless RL stocke les points de contrôle de vos LoRA entraînés afin que vous puissiez les évaluer, les déployer ou poursuivre leur entraînement à tout moment. Le stockage est facturé mensuellement en fonction de la taille totale des points de contrôle et de votre [plan tarifaire](https://wandb.ai/site/pricing). Chaque plan inclut au moins 5 Go de stockage gratuit, ce qui suffit pour environ 30 LoRA. Nous vous recommandons de supprimer les LoRA les moins performants pour économiser de l’espace. Voir l’[ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) pour obtenir des instructions.
+Serverless RL stocke les points de contrôle de vos LoRA entraînés afin que vous puissiez les évaluer, les déployer ou poursuivre leur entraînement à tout moment. Le stockage est facturé mensuellement en fonction de la taille totale des points de contrôle et de votre [plan de tarification](https://wandb.ai/site/pricing). Chaque plan inclut au moins 5 Go de stockage gratuit, ce qui suffit pour environ 30 LoRA. Nous vous recommandons de supprimer les LoRA les moins performants pour économiser de l’espace. Voir l’[ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) pour obtenir des instructions.
 
 <div id="limits">
   ## Limites
 </div>
 
-* **Limites de simultanéité de l’Inférence** : Par défaut, Serverless RL prend actuellement en charge jusqu’à 2 000 requêtes simultanées par utilisateur et 6 000 par projet. Si vous dépassez votre limite de débit, l’API d’inférence renvoie une réponse `429 Concurrency limit reached for requests`. Pour éviter cette erreur, réduisez le nombre de requêtes simultanées envoyées par votre tâche d’entraînement ou votre charge de travail de production. Si vous avez besoin d’une limite de débit plus élevée, vous pouvez en demander une à support@wandb.com.
+* **Limites de concurrence de l’Inférence** : Par défaut, Serverless RL prend actuellement en charge jusqu’à 2 000 requêtes simultanées par utilisateur et 6 000 par projet. Si vous dépassez votre limite de débit, l’API d’inférence renvoie une réponse `429 Concurrency limit reached for requests`. Pour éviter cette erreur, réduisez le nombre de requêtes simultanées envoyées par votre tâche d’entraînement ou votre charge de travail de Production. Si vous avez besoin d’une limite de débit plus élevée, vous pouvez en demander une à support@wandb.com.
 
 * **Restrictions géographiques** : Serverless RL est disponible uniquement dans les zones géographiques prises en charge. Pour plus d&#39;informations, voir les [Conditions d&#39;utilisation](https://site.wandb.ai/terms/).

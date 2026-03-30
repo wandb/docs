@@ -1,21 +1,21 @@
 ---
-title: "`wandb` ファイルのローカルの保存場所を指定するにはどうすればよいですか？"
+title: "`wandb` ファイルのローカルの場所をどのように定義できますか？"
 keywords: ["環境変数", "Experiments"]
 ---
 
-* `WANDB_DIR=<path>` or `wandb.init(dir=<path>)`: トレーニングスクリプト用に作成される `wandb` フォルダーの場所を制御します。デフォルトは `./wandb` です。このフォルダーには run のデータとログが保存されます
-* `WANDB_ARTIFACT_DIR=<path>` or `wandb.Artifact().download(root="<path>")`: アーティファクトのダウンロード先の場所を制御します。デフォルトは `./artifacts` です
-* `WANDB_CACHE_DIR=<path>`: `wandb.Artifact` を呼び出したときに、アーティファクトが作成および保存される場所です。デフォルトは `~/.cache/wandb` です
-* `WANDB_CONFIG_DIR=<path>`: 設定ファイルが保存される場所です。デフォルトは `~/.config/wandb` です
-* `WANDB_DATA_DIR=<PATH>`: アーティファクトのアップロード時にステージングに使用される場所を制御します。デフォルトは `~/.cache/wandb-data/` です。
+* `WANDB_DIR=<path>` または `wandb.init(dir=<path>)`: トレーニング スクリプト用に作成される `wandb` フォルダーの場所を制御します。デフォルトは `./wandb` です。このフォルダーには run のデータとログが保存されます
+* `WANDB_ARTIFACT_DIR=<path>` または `wandb.Artifact().download(root="<path>")`: アーティファクトがダウンロードされる場所を制御します。デフォルトは `./artifacts` です
+* `WANDB_CACHE_DIR=<path>`: `wandb.Artifact` を呼び出したときにアーティファクトが作成され保存される場所です。デフォルトは `~/.cache/wandb` です
+* `WANDB_CONFIG_DIR=<path>`: 설정 파일 が保存される場所です。デフォルトは `~/.config/wandb` です
+* `WANDB_DATA_DIR=<PATH>`: upload 中にアーティファクトのステージングに使用される場所を制御します。デフォルトは `~/.cache/wandb-data/` です。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter 内のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードから scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/confusion_matrix.py" />
 
 
-### <kbd>function</kbd> `confusion_matrix`
+### <kbd>함수</kbd> `confusion_matrix`
 
 ```python
 confusion_matrix(
@@ -22,28 +22,28 @@ confusion_matrix(
 ) → CustomChart
 ```
 
-확률 또는 예측값 시퀀스로부터 혼동 행렬(confusion matrix)을 생성합니다.
+확률 또는 예측의 시퀀스로부터 혼동 행렬을 구성합니다.
 
-**Args:**
+**매개변수:**
 
-* `probs`:  각 클래스에 대한 예측 확률 시퀀스입니다. 시퀀스 형태는 (N, K)여야 하며, 여기서 N은 샘플 수, K는 클래스 수입니다. 이 인자를 사용하면 `preds`는 제공하면 안 됩니다.
-* `y_true`:  실제 레이블 시퀀스입니다.
-* `preds`:  예측된 클래스 레이블 시퀀스입니다. 이 인자를 사용하면 `probs`는 제공하면 안 됩니다.
-* `class_names`:  클래스 이름 시퀀스입니다. 제공되지 않으면 클래스 이름은 &quot;Class&#95;1&quot;, &quot;Class&#95;2&quot; 등으로 정의됩니다.
+* `probs`:  각 클래스에 대한 예측 확률의 시퀀스입니다. 시퀀스의 형태는 (N, K)여야 하며, N은 샘플 수, K는 클래스 수입니다. 이 값을 제공하는 경우 `preds`는 제공하지 않아야 합니다.
+* `y_true`:  실제 레이블의 시퀀스입니다.
+* `preds`:  예측된 클래스 레이블의 시퀀스입니다. 이 값을 제공하는 경우 `probs`는 제공하지 않아야 합니다.
+* `class_names`:  클래스 이름의 시퀀스입니다. 제공하지 않으면 클래스 이름은 &quot;Class&#95;1&quot;, &quot;Class&#95;2&quot; 등으로 정의됩니다.
 * `title`:  혼동 행렬 차트의 제목입니다.
-* `split_table`:  테이블을 W&amp;B UI에서 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블은 &quot;Custom Chart Tables&quot;라는 섹션에 표시됩니다. 기본값은 `False`입니다.
+* `split_table`:  테이블을 W&amp;B UI의 별도 섹션으로 분리할지 여부입니다. `True`로 설정하면 테이블이 &quot;Custom Chart Tables&quot;라는 섹션에 표시됩니다. 기본값은 `False`입니다.
 
-**Returns:**
+**반환값:**
 
-* `CustomChart`:  W&amp;B에 로그할 수 있는 커스텀 차트 객체입니다. 차트를 로그하려면 `wandb.log()`에 전달합니다.
+* `CustomChart`:  W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하십시오.
 
-**Raises:**
+**예외:**
 
-* `ValueError`:  `probs`와 `preds`가 둘 다 제공되었거나 예측값과 실제 레이블 수가 서로 다른 경우, 또는 고유한 예측 클래스 수가 클래스 이름 수를 초과하거나 고유한 실제 레이블 수가 클래스 이름 수를 초과하는 경우에 발생합니다.
-* `wandb.Error`:  numpy가 설치되어 있지 않은 경우 발생합니다.
+* `ValueError`:  `probs`와 `preds`가 모두 제공된 경우, 또는 예측 수와 실제 레이블 수가 같지 않은 경우. 고유한 예측 클래스 수가 클래스 이름 수를 초과하거나 고유한 실제 레이블 수가 클래스 이름 수를 초과하는 경우.
+* `wandb.Error`:  numpy가 설치되지 않은 경우.
 
-**Examples:**
-야생동물 분류를 위해 무작위 확률값으로 혼동 행렬을 로깅하는 예:
+**예시:**
+야생동물 분류를 위한 무작위 확률로 혼동 행렬 로깅하기:
 
 ```python
 import numpy as np
@@ -74,9 +74,9 @@ with wandb.init(project="wildlife_classification") as run:
     run.log({"wildlife_confusion_matrix": confusion_matrix})
 ```
 
-이 예제에서는 랜덤 확률을 사용해 혼동 행렬을 생성합니다.
+이 예제에서는 무작위 확률을 사용하여 혼동 행렬을 생성합니다.
 
-다음은 시뮬레이션된 모델 예측과 85% 정확도로 혼동 행렬을 로깅하는 예시입니다:
+시뮬레이션된 모델 예측과 85% 정확도로 혼동 행렬 로깅:
 
 ```python
 import numpy as np
@@ -100,7 +100,7 @@ wildlife_preds = [
     for y_t in wildlife_y_true
 ]
 
-# W&B run 초기화 및 혼동 행렬 로깅
+# W&B run 초기화 및 혼동 행렬 로그
 with wandb.init(project="wildlife_classification") as run:
     confusion_matrix = wandb.plot.confusion_matrix(
          preds=wildlife_preds,
@@ -111,4 +111,4 @@ with wandb.init(project="wildlife_classification") as run:
     run.log({"wildlife_confusion_matrix": confusion_matrix})
 ```
 
-이 예제에서는 정확도가 85%인 예측을 시뮬레이션하여 혼동 행렬을 생성합니다.
+이 예제에서는 혼동 행렬을 생성하기 위해 85% 정확도로 예측을 시뮬레이션합니다.

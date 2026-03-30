@@ -564,7 +564,7 @@ files_stats(req: FilesStatsReq) → FilesStatsRes
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L88" />
 
 
-### <kbd>méthode de classe</kbd> `from_env`
+### <kbd>classmethod</kbd> `from_env`
 
 ```python
 from_env(should_batch: bool = False) → Self
@@ -605,11 +605,12 @@ Méthode personnalisée non définie dans l’interface formelle TraceServerInte
 get_feedback_processor() → AsyncBatchProcessor | None
 ```
 
-Méthode personnalisée non définie dans l’interface formelle TraceServerInterface pour exposer le processeur de feedback sous-jacent. Elle doit être formalisée dans une interface côté client.
+Méthode personnalisée non définie dans l&#39;interface formelle TraceServerInterface pour exposer le processeur de retour sous-jacent. Elle doit être formalisée dans une interface côté client.
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server_bindings/remote_http_trace_server.py#L678" />
+
 
 ### <kbd>méthode</kbd> `image_create`
 
@@ -982,7 +983,7 @@ table_create_from_digests(
 ) → TableCreateFromDigestsRes
 ```
 
-Créez un tableau en spécifiant les empreintes des lignes plutôt que les lignes elles-mêmes.
+Créez un tableau en spécifiant des empreintes de lignes au lieu des lignes elles-mêmes.
 
 ***
 
@@ -1039,7 +1040,7 @@ table_query_stream(req: TableQueryReq) → Iterator[TableRowSchema]
 table_update(req: TableUpdateReq) → TableUpdateRes
 ```
 
-Comme pour `calls/batch_upsert`, nous pouvons ajuster dynamiquement la taille de la charge utile, puisque les mises à jour de tableau peuvent être décomposées en une série de mises à jour.
+Semblable à `calls/batch_upsert`, nous pouvons ajuster dynamiquement la taille de la charge utile en raison de la propriété selon laquelle les mises à jour de tableau peuvent être décomposées en une série de mises à jour.
 
 ***
 

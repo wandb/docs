@@ -5,8 +5,8 @@ generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
-<Card title="Puis-je simplement définir le nom de l'exécution sur l’ID du run ?" href="/fr/support/models/articles/can-i-just-set-the-run-name-to-the-run-i" arrow="true" horizontal>
-  Oui. Pour remplacer le nom de l&#39;exécution par l’ID du run, utilisez l’extrait de code suivant :
+<Card title="Puis-je simplement définir le nom du run sur l’ID du run ?" href="/fr/support/models/articles/can-i-just-set-the-run-name-to-the-run-i" arrow="true" horizontal>
+  Oui. Pour remplacer le nom du run par l’ID du run, utilisez l’extrait de code suivant :
 </Card>
 
 <Card title="Puis-je journaliser des métriques sur deux échelles de temps différentes ?" href="/fr/support/models/articles/can-i-log-metrics-on-two-different-time-" arrow="true" horizontal>
@@ -22,31 +22,31 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="La journalisation bloque-t-elle mon entraînement ?" href="/fr/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
-  &quot;La fonction de journalisation est-elle lazy ? Je ne veux pas dépendre du réseau pour envoyer les résultats à vos serveurs pendant l’exécution loc ...
+  « La fonction de journalisation est-elle lazy ? Je ne veux pas dépendre du réseau pour envoyer les résultats à vos serveurs pendant l’exécution loc ...
 </Card>
 
 <Card title="Votre outil suit-il ou stocke-t-il les données d’entraînement ?" href="/fr/support/models/articles/does-your-tool-track-or-store-training-d" arrow="true" horizontal>
   Passez un SHA ou un ID unique à wandb.Run.config.update(...) pour associer un jeu de données à un run d’entraînement. W&amp;B stocke n ...
 </Card>
 
-<Card title="Comment puis-je accéder directement et par programmation aux données journalisées dans mes runs ?" href="/fr/support/models/articles/how-can-i-access-the-data-logged-to-my-r" arrow="true" horizontal>
-  L’objet historique suit les métriques journalisées avec wandb.log. Accédez à l’objet historique via l’API :
+<Card title="Comment puis-je accéder directement et par programmation aux données enregistrées dans mes runs ?" href="/fr/support/models/articles/how-can-i-access-the-data-logged-to-my-r" arrow="true" horizontal>
+  L’objet historique suit les métriques enregistrées avec wandb.log. Accédez à l’objet historique à l’aide de l’API :
 </Card>
 
 <Card title="Comment puis-je comparer des images ou des médias entre différentes époques ou étapes ?" href="/fr/support/models/articles/how-can-i-compare-images-or-media-across" arrow="true" horizontal>
-  Développez le panneau d’images et utilisez le curseur d’étape pour parcourir les images de différentes étapes. Ce processus facilite ...
+  Développez le panneau d’images et utilisez le curseur d’étape pour parcourir les images de différentes étapes. Cela facilite ...
 </Card>
 
-<Card title="Comment puis-je configurer le nom de l'exécution dans mon code d’entraînement ?" href="/fr/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
+<Card title="Comment puis-je configurer le nom du run dans mon code d’entraînement ?" href="/fr/support/models/articles/how-can-i-configure-the-name-of-the-run-" arrow="true" horizontal>
   Au début du script d’entraînement, appelez wandb.init avec un nom d’expérience. Par exemple : wandb.init(name=&quot;my&#95;aweso ...
 </Card>
 
 <Card title="Comment puis-je définir l’emplacement local des fichiers `wandb` ?" href="/fr/support/models/articles/how-can-i-define-the-local-location-for-" arrow="true" horizontal>
-  WANDB&#95;DIR= ou wandb.init(dir= ) : contrôle l’emplacement du dossier wandb créé pour votre script d’entraînement. Par défaut, il se trouve ...
+  WANDB&#95;DIR= ou wandb.init(dir= ) : contrôle l’emplacement du dossier wandb créé pour votre script d’entraînement. Par défaut ...
 </Card>
 
-<Card title="Comment puis-je organiser mes graphiques et médias journalisés dans l’interface W&B ?" href="/fr/support/models/articles/how-can-i-organize-my-logged-charts-and-" arrow="true" horizontal>
-  Le caractère / sépare les panneaux journalisés dans l’interface W&amp;B. Par défaut, la partie du nom de l’élément journalisé avant le / dé ...
+<Card title="Comment puis-je organiser mes graphiques et médias enregistrés dans l’interface utilisateur W&B ?" href="/fr/support/models/articles/how-can-i-organize-my-logged-charts-and-" arrow="true" horizontal>
+  Le caractère / sépare les panneaux enregistrés dans l’interface utilisateur W&amp;B. Par défaut, la partie du nom de l’élément enregistré avant le / dé ...
 </Card>
 
 <Card title="Comment puis-je enregistrer le commit git associé à mon run ?" href="/fr/support/models/articles/how-can-i-save-the-git-commit-associated" arrow="true" horizontal>
@@ -65,7 +65,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   L’intégration directe de figures Plotly ou Bokeh dans des tableaux n’est pas prise en charge. À la place, exportez les figures au format HTML et incl ...
 </Card>
 
-<Card title="Comment puis-je obtenir le nom aléatoire de l'exécution dans mon script ?" href="/fr/support/models/articles/how-do-i-get-the-random-run-name-in-my-s" arrow="true" horizontal>
+<Card title="Comment puis-je obtenir le nom aléatoire du run dans mon script ?" href="/fr/support/models/articles/how-do-i-get-the-random-run-name-in-my-s" arrow="true" horizontal>
   Appelez la méthode .save() d&#39;un objet run pour enregistrer le run en cours. Récupérez ensuite le nom via l&#39;attribut name de l&#39;objet run.
 </Card>
 
@@ -81,11 +81,11 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Créez un graphique personnalisé à plusieurs lignes avec wandb.plot.line&#95;series(). Accédez à la page du projet pour afficher le graphique linéaire. Pour  ...
 </Card>
 
-<Card title="Comment puis-je accéder par programmation à un nom de l'exécution lisible par un humain ?" href="/fr/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
+<Card title="Comment puis-je accéder par programmation au nom du run lisible par un humain ?" href="/fr/support/models/articles/how-do-i-programmatically-access-the-hum" arrow="true" horizontal>
   L&#39;attribut .name d&#39;un wandb.Run est accessible comme suit :
 </Card>
 
-<Card title="Je n'ai pas nommé mon run. D'où vient le nom de l'exécution ?" href="/fr/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
+<Card title="Je n'ai pas nommé mon run. D'où vient le nom du run ?" href="/fr/support/models/articles/i-didnt-name-my-run-where-is-the-run-nam" arrow="true" horizontal>
   Si un run n&#39;est pas explicitement nommé, W&amp;B lui attribue un nom aléatoire pour l&#39;identifier dans votre projet. Voici quelques exemples de noms aléatoires ...
 </Card>
 
@@ -97,7 +97,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
   Par défaut, wandb.init démarre un processus qui synchronise les métriques en temps réel avec le cloud. Pour une utilisation hors ligne, définissez deux variables d&#39;environne ...
 </Card>
 
-<Card title="L'état de mon run est `crashed` dans l'interface, mais il s'exécute toujours sur ma machine. Que dois-je faire pour récupérer mes données ?" href="/fr/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
+<Card title="L'état de mon run est `planté` dans l'interface utilisateur, mais il s'exécute toujours sur ma machine. Que dois-je faire pour récupérer mes données ?" href="/fr/support/models/articles/my-runs-state-is-crashed-on-the-ui-but-i" arrow="true" horizontal>
   Vous avez probablement perdu la connexion à votre machine pendant l&#39;entraînement. Récupérez les données en exécutant wandb sync PATH&#95;TO&#95;RUN (/models/ref/ ...
 </Card>
 
@@ -118,15 +118,15 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Et si je veux journaliser certaines métriques sur les lots et d'autres uniquement sur les époques ?" href="/fr/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  Pour journaliser des métriques spécifiques à chaque lot et standardiser les graphiques, journalisez les valeurs d&#39;axe x souhaitées en même temps que les métriques. Dans le ...
+  Pour journaliser des métriques spécifiques à chaque lot et standardiser les graphiques, journalisez les valeurs souhaitées de l&#39;axe des x en même temps que les métriques. Dans le ...
 </Card>
 
 <Card title="Quelle est la différence entre les modes de wandb.init ?" href="/fr/support/models/articles/what-is-the-difference-between-wandbinit" arrow="true" horizontal>
   Ces modes sont disponibles : online (par défaut) : le client envoie les données au serveur wandb. offline : le client stocke les données  ...
 </Card>
 
-<Card title="Pourquoi est-ce que je vois moins de points de données que je n’en ai journalisés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
-  Lorsque vous visualisez des métriques par rapport à un axe X autre que Étape, attendez-vous à voir moins de points de données. Les métriques doivent être journalisées au mê ...
+<Card title="Pourquoi est-ce que je vois moins de points de données que je n’en ai enregistrés ?" href="/fr/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>
+  Lorsque vous visualisez des métriques par rapport à un axe des x autre que Étape, attendez-vous à voir moins de points de données. Les métriques doivent être journalisées au mê ...
 </Card>
 
 <Card title="Pourquoi des étapes sont-elles absentes d’une exportation CSV de métrique ?" href="/fr/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>

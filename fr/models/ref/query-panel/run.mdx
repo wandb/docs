@@ -3,7 +3,7 @@ title: run
 ---
 
 <div id="chainable-ops">
-  ## Ops pouvant être chaînées
+  ## Opérations pouvant être chaînées
 </div>
 
 ### <a id="run-config" />`run-config`
@@ -18,11 +18,11 @@ Renvoie le *typedDict* de configuration du [run](/fr/models/ref/query-panel/run)
   #### Valeur de retour
 </div>
 
-La typedDict de configuration du [run](/fr/models/ref/query-panel/run)
+Le *typedDict* de configuration du [run](/fr/models/ref/query-panel/run)
 
 ### <a id="run-createdAt" />`run-createdAt`
 
-Renvoie la date et l’heure de création du [run](/fr/models/ref/query-panel/run)
+Renvoie la date et heure de création du [run](/fr/models/ref/query-panel/run)
 
 | Argument | Description                           |
 | :------- | :------------------------------------ |
@@ -32,11 +32,11 @@ Renvoie la date et l’heure de création du [run](/fr/models/ref/query-panel/ru
   #### Valeur de retour
 </div>
 
-Date et heure de création du [run](/fr/models/ref/query-panel/run)
+La date et l&#39;heure de création du [run](/fr/models/ref/query-panel/run)
 
 ### <a id="run-heartbeatAt" />`run-heartbeatAt`
 
-Renvoie la date et heure du dernier heartbeat du [run](/fr/models/ref/query-panel/run)
+Renvoie la date et l&#39;heure du dernier heartbeat du [run](/fr/models/ref/query-panel/run)
 
 | Argument | Description                           |
 | :------- | :------------------------------------ |
@@ -46,11 +46,11 @@ Renvoie la date et heure du dernier heartbeat du [run](/fr/models/ref/query-pane
   #### Valeur de retour
 </div>
 
-La date et l’heure du dernier heartbeat du [run](/fr/models/ref/query-panel/run)
+La date et l&#39;heure du dernier heartbeat du [run](/fr/models/ref/query-panel/run)
 
 ### <a id="run-history" />`run-history`
 
-Renvoie l&#39;historique des journaux du [run](/fr/models/ref/query-panel/run)
+Renvoie l’historique des journaux du [run](/fr/models/ref/query-panel/run)
 
 | Argument | Description                           |
 | :------- | :------------------------------------ |
@@ -60,7 +60,7 @@ Renvoie l&#39;historique des journaux du [run](/fr/models/ref/query-panel/run)
   #### Valeur de retour
 </div>
 
-L’historique des journaux du [run](/fr/models/ref/query-panel/run)
+L&#39;historique des journaux du [run](/fr/models/ref/query-panel/run)
 
 ### <a id="run-jobType" />`run-jobType`
 
@@ -74,16 +74,16 @@ Renvoie le type de job du [run](/fr/models/ref/query-panel/run)
   #### Valeur de retour
 </div>
 
-Le type de job du [run](/fr/models/ref/query-panel/run)
+Le type de job associé au [run](/fr/models/ref/query-panel/run)
 
 ### <a id="run-loggedArtifactVersion" />`run-loggedArtifactVersion`
 
-Renvoie l’[artifactVersion](/fr/models/ref/query-panel/artifact-version/) enregistrée par le [run](/fr/models/ref/query-panel/run) pour un nom et un alias donnés
+Renvoie la [artifactVersion](/fr/models/ref/query-panel/artifact-version/) enregistrée par le [run](/fr/models/ref/query-panel/run) pour un nom et un alias donnés
 
-| Argument              | Description                                                                    |
-| :-------------------- | :----------------------------------------------------------------------------- |
-| `run`                 | Un [run](/fr/models/ref/query-panel/run)                                          |
-| `artifactVersionName` | Le nom:alias de l’[artifactVersion](/fr/models/ref/query-panel/artifact-version/) |
+| Argument              | Description                                                                     |
+| :-------------------- | :------------------------------------------------------------------------------ |
+| `run`                 | Un [run](/fr/models/ref/query-panel/run)                                           |
+| `artifactVersionName` | Le nom:alias de la [artifactVersion](/fr/models/ref/query-panel/artifact-version/) |
 
 <div id="return-value">
   #### Valeur de retour
@@ -113,178 +113,9 @@ Renvoie le nom du [run](/fr/models/ref/query-panel/run)
 | :------- | :------------------------------------ |
 | `run`    | Un [run](/fr/models/ref/query-panel/run) |
 
-#### valeur de retour
-
-Le nom du [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-runtime" />`run-runtime`
-
-Renvoie le temps d’exécution, en secondes, du [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
 <div id="return-value">
   #### Valeur de retour
 </div>
-
-Le temps d’exécution en secondes du [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-summary" />`run-summary`
-
-Renvoie le *typedDict* récapitulatif du [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Le *typedDict* récapitulatif du [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-usedArtifactVersions" />`run-usedArtifactVersions`
-
-Renvoie toutes les [artifactVersions](/fr/models/ref/query-panel/artifact-version/) utilisées par le [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Les [artifactVersions](/fr/models/ref/query-panel/artifact-version/) utilisées par le [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-user" />`run-user`
-
-Renvoie l’[utilisateur](/fr/models/ref/query-panel/user/) du [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-L’[utilisateur](/fr/models/ref/query-panel/user/) du [run](/fr/models/ref/query-panel/run)
-
-<div id="list-ops">
-  ## Lister les ops
-</div>
-
-### <a id="run-config" />`run-config`
-
-Renvoie le *typedDict* de configuration du [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La *typedDict* de configuration du [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-createdAt" />`run-createdAt`
-
-Renvoie la date et heure de création du [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La date et l’heure de création du [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-heartbeatAt" />`run-heartbeatAt`
-
-Renvoie la date et l’heure du dernier heartbeat du [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-La date et l’heure du dernier heartbeat du [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-history" />`run-history`
-
-Renvoie l&#39;historique des journaux du [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-L’historique des journaux du [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-jobType" />`run-jobType`
-
-Renvoie le type de job du [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Le type de job associé au [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-loggedArtifactVersion" />`run-loggedArtifactVersion`
-
-Renvoie la [artifactVersion](/fr/models/ref/query-panel/artifact-version/) enregistrée par le [run](/fr/models/ref/query-panel/run) pour un nom et un alias donné
-
-| Argument              | Description                                                                     |
-| :-------------------- | :------------------------------------------------------------------------------ |
-| `run`                 | Un [run](/fr/models/ref/query-panel/run)                                           |
-| `artifactVersionName` | Le nom:alias de la [artifactVersion](/fr/models/ref/query-panel/artifact-version/) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-L’[artifactVersion](/fr/models/ref/query-panel/artifact-version/) enregistré par le [run](/fr/models/ref/query-panel/run) pour un nom et un alias donnés
-
-### <a id="run-loggedArtifactVersions" />`run-loggedArtifactVersions`
-
-Renvoie toutes les [artifactVersions](/fr/models/ref/query-panel/artifact-version/) enregistrées par le [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-<div id="return-value">
-  #### Valeur de retour
-</div>
-
-Les [artifactVersions](/fr/models/ref/query-panel/artifact-version/) qu’a enregistré par le run [run](/fr/models/ref/query-panel/run)
-
-### <a id="run-name" />`run-name`
-
-Renvoie le nom du [run](/fr/models/ref/query-panel/run)
-
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `run`    | Un [run](/fr/models/ref/query-panel/run) |
-
-#### valeur de retour
 
 Le nom du [run](/fr/models/ref/query-panel/run)
 
@@ -319,6 +150,179 @@ Le typedDict récapitulatif du [run](/fr/models/ref/query-panel/run)
 ### <a id="run-usedArtifactVersions" />`run-usedArtifactVersions`
 
 Renvoie toutes les [artifactVersions](/fr/models/ref/query-panel/artifact-version/) utilisées par le [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Les [artifactVersions](/fr/models/ref/query-panel/artifact-version/) utilisées par le [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-user" />`run-user`
+
+Renvoie l’[utilisateur](/fr/models/ref/query-panel/user/) du [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+L&#39;[utilisateur](/fr/models/ref/query-panel/user/) du [run](/fr/models/ref/query-panel/run)
+
+<div id="list-ops">
+  ## Liste des opérations
+</div>
+
+### <a id="run-config" />`run-config`
+
+Renvoie le *typedDict* de configuration du [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La *typedDict* de configuration du [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-createdAt" />`run-createdAt`
+
+Renvoie la date et heure de création du [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La date et l&#39;heure de création du [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-heartbeatAt" />`run-heartbeatAt`
+
+Renvoie la date et l&#39;heure du dernier heartbeat du [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+La date et l&#39;heure du dernier heartbeat du [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-history" />`run-history`
+
+Renvoie l&#39;historique des journaux du [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+L&#39;historique des journaux du [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-jobType" />`run-jobType`
+
+Renvoie le type de job du [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Le type de job associé au [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-loggedArtifactVersion" />`run-loggedArtifactVersion`
+
+Renvoie la [artifactVersion](/fr/models/ref/query-panel/artifact-version/) enregistrée par le [run](/fr/models/ref/query-panel/run) pour un nom et un alias donnés
+
+| Argument              | Description                                                                     |
+| :-------------------- | :------------------------------------------------------------------------------ |
+| `run`                 | Un [run](/fr/models/ref/query-panel/run)                                           |
+| `artifactVersionName` | Le nom:alias de la [artifactVersion](/fr/models/ref/query-panel/artifact-version/) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+L’[artifactVersion](/fr/models/ref/query-panel/artifact-version/) enregistré par le [run](/fr/models/ref/query-panel/run) pour un nom et un alias donnés
+
+### <a id="run-loggedArtifactVersions" />`run-loggedArtifactVersions`
+
+Renvoie toutes les [artifactVersions](/fr/models/ref/query-panel/artifact-version/) enregistrées par le [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Les [artifactVersions](/fr/models/ref/query-panel/artifact-version/) enregistrées par le [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-name" />`run-name`
+
+Renvoie le nom du [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Le nom du [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-runtime" />`run-runtime`
+
+Renvoie le temps d’exécution, en secondes, du [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Le temps d’exécution, en secondes, du [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-summary" />`run-summary`
+
+Renvoie le typedDict récapitulatif du [run](/fr/models/ref/query-panel/run)
+
+| Argument | Description                           |
+| :------- | :------------------------------------ |
+| `run`    | Un [run](/fr/models/ref/query-panel/run) |
+
+<div id="return-value">
+  #### Valeur de retour
+</div>
+
+Le typedDict récapitulatif du [run](/fr/models/ref/query-panel/run)
+
+### <a id="run-usedArtifactVersions" />`run-usedArtifactVersions`
+
+Renvoie toutes les [artifactVersions](/fr/models/ref/query-panel/artifact-version/) qu’utilise le [run](/fr/models/ref/query-panel/run)
 
 | Argument | Description                           |
 | :------- | :------------------------------------ |

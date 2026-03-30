@@ -1,11 +1,11 @@
 ---
-title: "`wandb launch -d` や `wandb job create image` はレジストリから pull せずに docker Artifacts 全体をアップロードしていますか？"
+title: "`wandb launch -d` や `wandb job create image` では、Docker アーティファクト全体をアップロードし、Registry から pull していないのですか？"
 ---
 
-いいえ、`wandb launch -d` コマンドはイメージをレジストリにアップロードしません。イメージは別途レジストリにアップロードしてください。次の手順に従ってください。
+いいえ、`wandb launch -d` コマンドはイメージを Registry にアップロードしません。イメージは別途 Registry にアップロードしてください。次の手順に従ってください。
 
 1. イメージをビルドする。
-2. イメージをレジストリに push する。
+2. イメージを Registry に push する。
 
 ワークフローは次のとおりです。
 
@@ -15,6 +15,6 @@ docker push <repo-url>:<tag>
 wandb launch -d <repo-url>:<tag>
 ```
 
-Launch エージェントは、その後、指定されたコンテナイメージを使用するジョブを起動します。コンテナレジストリからイメージをプルするためにエージェントからのアクセスを設定する例については、[Advanced agent setup](/ja/platform/launch/setup-agent-advanced/#agent-configuration) を参照してください。
+Launch エージェントは、その後、指定されたコンテナーを参照するジョブを起動します。コンテナーレジストリからイメージをプルするためのエージェントのアクセス設定例については、[Advanced agent setup](/ja/platform/launch/setup-agent-advanced/#agent-configuration) を参照してください。
 
 Kubernetes の場合、Kubernetes クラスター内の Pod が、イメージがプッシュされているレジストリにアクセスできることを確認してください。

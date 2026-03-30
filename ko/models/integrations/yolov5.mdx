@@ -7,9 +7,9 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/yolo/Train_and_Debug_YOLOv5_Models_with_Weights_%26_Biases_.ipynb" />
 
-[Ultralytics&#39; YOLOv5](https://www.ultralytics.com/yolo) (&quot;You Only Look Once&quot;) 모델 계열은 번거로운 복잡한 설정 없이 합성곱 신경망을 사용해 실시간 객체 감지를 수행할 수 있게 해줍니다.
+[Ultralytics&#39; YOLOv5](https://www.ultralytics.com/yolo) (&quot;You Only Look Once&quot;) 모델 계열은 복잡한 설정 부담 없이 합성곱 신경망을 사용해 실시간 객체 감지를 수행할 수 있게 해줍니다.
 
-[W&amp;B](https://wandb.com)는 YOLOv5에 직접 통합되어 있어, 실험 메트릭 추적, 모델 및 데이터셋 버전 관리, 풍부한 모델 예측 시각화 등을 제공합니다. **YOLO 실험을 실행하기 전에 `pip install` 명령어 한 번만 실행하면 될 정도로 간단합니다.**
+[W&amp;B](https://wandb.com)는 YOLOv5에 직접 통합되어 있어, 실험 메트릭 추적, 모델 및 데이터셋 버전 관리, 다양한 모델 예측 시각화 등을 제공합니다. **YOLO 실험을 실행하기 전에 `pip install` 명령어 한 번만 실행하면 될 정도로 간단합니다.**
 
 <Note>
   모든 W&amp;B 로깅 기능은 [PyTorch DDP](https://pytorch.org/tutorials/intermediate/ddp_tutorial.html)와 같은 데이터 병렬 멀티-GPU 트레이닝과 호환됩니다.
@@ -19,28 +19,28 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
   ## 핵심 실험 추적
 </div>
 
-`wandb`를 설치하기만 하면 기본 제공되는 W&amp;B [로깅 기능](/ko/models/track/log/)이 자동으로 활성화됩니다. 이 기능은 시스템 메트릭, 모델 메트릭, 그리고 대화형 [대시보드](/ko/models/track/workspaces/)에 로깅되는 미디어를 기록합니다.
+`wandb`를 설치하기만 하면 기본 제공되는 W&amp;B [로깅 기능](/ko/models/track/log/)이 활성화됩니다. 즉, 시스템 메트릭, 모델 메트릭, 그리고 대화형 [대시보드](/ko/models/track/workspaces/)에 로깅되는 미디어가 자동으로 수집됩니다.
 
 ```python
 pip install wandb
 git clone https://github.com/ultralytics/yolov5.git
-python yolov5/train.py  # 소규모 데이터셋에서 소규모 네트워크 학습
+python yolov5/train.py  # 소규모 데이터셋에서 소규모 네트워크 트레이닝
 ```
 
-wandb가 표준 출력에 찍어 주는 링크들만 따라가면 됩니다.
+wandb가 표준 출력에 표시하는 링크를 따라가기만 하면 됩니다.
 
 <Frame>
-  <img src="/images/integrations/yolov5_experiment_tracking.png" alt="이 모든 차트와 더 많은 정보." />
+  <img src="/images/integrations/yolov5_experiment_tracking.png" alt="이 모든 차트와 그 외 더 많은 내용." />
 </Frame>
 
 <div id="customize-the-integration">
-  ## 인테그레이션 커스터마이즈하기
+  ## 인테그레이션 사용자 지정하기
 </div>
 
-YOLO에 몇 가지 간단한 명령줄 인자를 전달하면, 더 많은 W&amp;B 기능을 활용할 수 있습니다.
+YOLO에 몇 가지 단순한 명령줄 인수를 전달하면 더 많은 W&amp;B 기능을 활용할 수 있습니다.
 
-* `--save_period`에 숫자를 전달하면, W&amp;B는 매 `save_period` 에포크가 끝날 때마다 [모델 버전](/ko/models/registry/)을 저장합니다. 이 모델 버전에는 모델 가중치가 포함되며, 검증 세트에서 가장 성능이 좋은 모델을 태그로 표시합니다.
-* `--upload_dataset` 플래그를 켜면, 데이터 버전 관리를 위해 데이터셋도 함께 업로드합니다.
+* `--save_period`에 숫자를 전달하면 W&amp;B는 매 `save_period` 에포크가 끝날 때마다 [모델 버전](/ko/models/registry/)을 저장합니다. 이 모델 버전에는 모델 가중치가 포함되며, 검증 세트에서 최고 성능의 모델을 태그합니다.
+* `--upload_dataset` 플래그를 켜면 데이터 버전 관리를 위해 데이터셋도 업로드됩니다.
 * `--bbox_interval`에 숫자를 전달하면 [Data Visualization](../) 기능이 활성화됩니다. 매 `bbox_interval` 에포크가 끝날 때마다 검증 세트에서의 모델 출력이 W&amp;B에 업로드됩니다.
 
 <Tabs>
@@ -59,19 +59,19 @@ YOLO에 몇 가지 간단한 명령줄 인자를 전달하면, 더 많은 W&amp;
 </Tabs>
 
 <Note>
-  모든 W&amp;B 계정에는 데이터셋과 모델을 위한 100 GB의 무료 스토리지가 제공됩니다.
+  모든 W&amp;B 계정에는 데이터셋과 모델을 위한 100 GB의 무료 저장소가 제공됩니다.
 </Note>
 
-결과 화면은 다음과 같습니다.
+그 모습은 다음과 같습니다.
 
 <Frame>
-  <img src="/images/integrations/yolov5_model_versioning.png" alt="Model versioning" />
+  <img src="/images/integrations/yolov5_model_versioning.png" alt="모델 버전 관리" />
 </Frame>
 
 <Frame>
-  <img src="/images/integrations/yolov5_data_visualization.png" alt="Data visualization" />
+  <img src="/images/integrations/yolov5_data_visualization.png" alt="데이터 시각화" />
 </Frame>
 
 <Note>
-  데이터와 모델 버전 관리 기능을 사용하면, 추가 설정 없이도 어떤 기기에서든 일시 중지되었거나 중단된 실험을 다시 시작할 수 있습니다. 자세한 내용은 [Colab](https://wandb.me/yolo-colab)을 확인하세요.
+  데이터와 모델 버전 관리 기능을 사용하면 추가 설정 없이 어떤 기기에서든 일시 중지되거나 충돌한 실험을 재개할 수 있습니다. 자세한 내용은 [Colab](https://wandb.me/yolo-colab)을 확인하세요.
 </Note>

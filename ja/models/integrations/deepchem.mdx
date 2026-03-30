@@ -1,14 +1,14 @@
 ---
-description: "実験管理と分子 ML モデルの可視化のために、W&B と DeepChem ライブラリを統合します。"
+description: "実験管理や分子 ML モデルの可視化のために、W&B を DeepChem ライブラリと統合します。"
 title: DeepChem
 ---
 
 import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
 
-[DeepChem library](https://github.com/deepchem/deepchem) は、創薬、材料科学、化学、生物学におけるディープラーニングの活用を誰もが行えるようにするオープンソースツールを提供します。この W&amp;B インテグレーションにより、DeepChem を用いてモデルをトレーニングする際に、シンプルで使いやすい実験管理機能とモデルのチェックポイント機能を追加できます。
+[DeepChem library](https://github.com/deepchem/deepchem) は、創薬、材料科学、化学、生物学におけるディープラーニングの活用を誰もが行えるようにするオープンソースツールを提供します。この W&amp;B インテグレーションにより、DeepChem を用いてモデルをトレーニングする際に、シンプルで使いやすい実験管理機能とモデル チェックポイント機能を追加できます。
 
 <div id="deepchem-logging-in-3-lines-of-code">
-  ## 3 行のコードで DeepChem をロギング
+  ## 3 行のコードで DeepChem をログする
 </div>
 
 ```python
@@ -30,21 +30,21 @@ W&amp;B DeepChem インテグレーションで生成されたチャートの例
 実行可能なコードからすぐに試してみたい場合は、この [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb) を確認してください。
 
 <div id="track-experiments">
-  ## 実験をトラッキングする
+  ## 実験を管理する
 </div>
 
-[KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) または [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models) 型の DeepChem モデル向けに W&amp;B を設定します。
+[KerasModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#keras-models) または [TorchModel](https://deepchem.readthedocs.io/en/latest/api_reference/models.html#pytorch-models) タイプの DeepChem モデル向けに W&amp;B を設定します。
 
 <div id="sign-up-and-create-an-api-key">
-  ### サインアップして API キーを作成する
+  ### サインアップして APIキーを発行する
 </div>
 
-API キーはあなたのマシンを W&amp;B に認証します。API キーはユーザー プロファイルから生成できます。
+APIキーは、お使いのマシンをW&amp;Bに認証するために使用します。ユーザープロフィールからAPIキーを発行できます。
 
 <ApiKeyCreateStreamlined />
 
-1. 右上隅のユーザー プロファイルアイコンをクリックします。
-2. **User Settings (ユーザー設定)&#x20;**&#x20;を選択し、**API Keys (API キー)&#x20;**&#x20;セクションまでスクロールします。
+1. 右上のユーザープロフィールアイコンをクリックします。
+2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
 
 <div id="install-the-wandb-library-and-log-in">
   ### `wandb` ライブラリをインストールしてログインする
@@ -54,7 +54,7 @@ API キーはあなたのマシンを W&amp;B に認証します。API キーは
 
 <Tabs>
   <Tab title="Command Line">
-    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) をご利用の API キーに設定します。
+    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) をご利用の APIキーに設定します。
 
        ```bash
        export WANDB_API_KEY=<your_api_key>

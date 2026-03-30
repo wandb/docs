@@ -1,16 +1,16 @@
 ---
 title: Journaliser des tableaux
-description: "Créez et journalisez des W&B Tables avec différents modes de journalisation, notamment immuable, mutable et incrémentiel, à l'aide du SDK Python."
+description: "Créez et journalisez des tableaux W&B avec différents modes de journalisation, notamment immuable, mutable et incrémentiel, à l'aide du SDK Python W&B."
 ---
 
-Visualisez et journalisez des données tabulaires avec W&amp;B Tables. Une W&amp;B Table est une grille de données bidimensionnelle dans laquelle chaque colonne ne contient qu&#39;un seul type de données. Chaque ligne représente un ou plusieurs points de données journalisés dans un [run](/fr/models/runs/). W&amp;B Tables prennent en charge les types primitifs et numériques, ainsi que les listes imbriquées, les dictionnaires et les types de médias enrichis.
+Visualisez et journalisez des données tabulaires avec les tableaux W&amp;B. Un tableau W&amp;B est une grille bidimensionnelle de données où chaque colonne ne contient qu&#39;un seul type de données. Chaque ligne représente un ou plusieurs points de données enregistrés dans un [run](/fr/models/runs/) W&amp;B. Les tableaux W&amp;B prennent en charge les types primitifs et numériques, ainsi que les listes imbriquées, les dictionnaires et les types de médias enrichis.
 
-Une W&amp;B Table est un [type de données](/fr/models/ref/python/data-types/) spécialisé de W&amp;B, journalisé comme un objet [artefact](/fr/models/artifacts/).
+Un tableau W&amp;B est un [type de données](/fr/models/ref/python/data-types/) spécialisé dans W&amp;B, enregistré comme un objet [artefact](/fr/models/artifacts/).
 
-Vous [créez et journalisez des objets tableau](#create-and-log-a-new-table) à l&#39;aide du SDK Python de W&amp;B. Lorsque vous créez un objet tableau, vous spécifiez les colonnes et les données du tableau, ainsi qu&#39;un [mode](#table-logging-modes). Le mode détermine comment le tableau est journalisé et mis à jour pendant vos expériences de ML.
+Vous [créez et journalisez des objets de tableau](#create-and-log-a-new-table) à l&#39;aide du SDK Python W&amp;B. Lorsque vous créez un objet de tableau, vous spécifiez les colonnes et les données du tableau, ainsi qu&#39;un [mode](#table-logging-modes). Le mode détermine comment le tableau est enregistré et mis à jour pendant vos expériences de ML.
 
 <Note>
-  Le mode `INCREMENTAL` est pris en charge sur W&amp;B Server v0.70.0 et versions ultérieures.
+  Le mode `INCREMENTAL` est pris en charge sur le serveur W&amp;B v0.70.0 et versions ultérieures.
 </Note>
 
 <div id="create-and-log-a-table">
@@ -18,10 +18,10 @@ Vous [créez et journalisez des objets tableau](#create-and-log-a-new-table) à 
 </div>
 
 1. Initialisez un nouveau run avec `wandb.init()`.
-2. Créez un objet `Table` avec la classe [`wandb.Table`](/fr/models/ref/python/data-types/table). Spécifiez les colonnes et les données du tableau à l’aide des paramètres `columns` et `data`, respectivement. Il est recommandé de définir le paramètre facultatif `log_mode` sur l’un des trois modes suivants : `IMMUTABLE` (par défaut), `MUTABLE` ou `INCREMENTAL`. Voir [Modes de journalisation des tableaux](#logging-modes) dans la section suivante pour plus d’informations.
+2. Créez un objet `Table` avec la classe [`wandb.Table`](/fr/models/ref/python/data-types/table). Spécifiez les colonnes et les données du tableau à l&#39;aide des paramètres `columns` et `data`, respectivement. Il est recommandé de définir le paramètre facultatif `log_mode` sur l&#39;un des trois modes suivants : `IMMUTABLE` (par défaut), `MUTABLE` ou `INCREMENTAL`. Voir [Modes de journalisation des tableaux](#logging-modes) dans la section suivante pour plus d&#39;informations.
 3. Journalisez le tableau dans W&amp;B avec `run.log()`.
 
-L’exemple suivant montre comment créer et journaliser un tableau avec deux colonnes, `a` et `b`, et deux lignes de données, `["a1", "b1"]` et `["a2", "b2"]` :
+L&#39;exemple suivant montre comment créer et journaliser un tableau avec deux colonnes, `a` et `b`, et deux lignes de données, `["a1", "b1"]` et `["a2", "b2"]` :
 
 ```python
 import wandb
@@ -36,7 +36,7 @@ with wandb.init(project="table-demo") as run:
         log_mode="IMMUTABLE"
         )
 
-    # Enregistrer le tableau dans W&B
+    # Journaliser le tableau dans W&B
     run.log({"Table Name": my_table})
 ```
 
@@ -44,15 +44,15 @@ with wandb.init(project="table-demo") as run:
   ## Modes de journalisation
 </div>
 
-Le paramètre `log_mode` de [`wandb.Table`](/fr/models/ref/python/data-types/table) détermine comment un tableau est journalisé et mis à jour pendant vos expériences de ML. Le paramètre `log_mode` accepte l&#39;un des trois arguments suivants : `IMMUTABLE`, `MUTABLE` et `INCREMENTAL`. Chaque mode a des implications différentes sur la manière dont un tableau est journalisé, sur les modifications qui peuvent lui être apportées et sur son rendu dans l&#39;application W&amp;B.
+Le paramètre `log_mode` de [`wandb.Table`](/fr/models/ref/python/data-types/table) détermine comment un tableau est enregistré et mis à jour pendant vos expériences de ML. Le paramètre `log_mode` accepte l&#39;un des trois arguments suivants : `IMMUTABLE`, `MUTABLE` et `INCREMENTAL`. Chaque mode a des implications différentes sur la manière dont un tableau est enregistré, sur les modifications qui peuvent lui être apportées et sur son rendu dans W&amp;B App.
 
 Ce qui suit décrit les trois modes de journalisation, leurs principales différences et les cas d&#39;utilisation courants pour chacun :
 
-| Mode          | Définition                                                                                              | Cas d&#39;utilisation                                                                                                                                                                     | Avantages                                                                                                                                      |
-| ------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `IMMUTABLE`   | Une fois qu&#39;un tableau est journalisé dans W&amp;B, vous ne pouvez plus le modifier.                  | - Stockage de données tabulaires générées à la fin d&#39;un run pour une analyse ultérieure                                                                                               | - Surcharge minimale lorsqu&#39;il est journalisé à la fin d&#39;un run<br />- Toutes les lignes sont affichées dans l&#39;interface utilisateur |
-| `MUTABLE`     | Après avoir journalisé un tableau dans W&amp;B, vous pouvez remplacer le tableau existant par un nouveau. | - Ajout de colonnes ou de lignes à des tableaux existants<br />- Enrichissement des résultats avec de nouvelles informations                                                              | - Capture des modifications du tableau<br />- Toutes les lignes sont affichées dans l&#39;interface utilisateur                                |
-| `INCREMENTAL` | Ajoutez des lots de nouvelles lignes à un tableau tout au long de l&#39;expérience de machine learning. | - Ajout de lignes aux tableaux par lots<br /> - Tâches d&#39;entraînement de longue durée<br />- Traitement de grands jeux de données par lots<br />- Surveillance des résultats en cours | - Affichage des mises à jour dans l&#39;interface utilisateur pendant l&#39;entraînement<br />- Possibilité de parcourir les incréments        |
+| Mode          | Définition                                                                                              | Cas d&#39;utilisation                                                                                                                                                                     | Avantages                                                                                                                                        |
+| ------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `IMMUTABLE`   | Une fois qu&#39;un tableau est enregistré dans W&amp;B, vous ne pouvez plus le modifier.                  | - Stockage de données tabulaires générées à la fin d&#39;un run pour une analyse ultérieure                                                                                               | - Surcharge minimale lorsqu&#39;il est enregistré à la fin d&#39;un run<br />- Toutes les lignes sont affichées dans l&#39;interface utilisateur |
+| `MUTABLE`     | Après avoir enregistré un tableau dans W&amp;B, vous pouvez remplacer le tableau existant par un nouveau. | - Ajout de colonnes ou de lignes à des tableaux existants<br />- Enrichissement des résultats avec de nouvelles informations                                                              | - Capture des modifications du tableau<br />- Toutes les lignes sont affichées dans l&#39;interface utilisateur                                  |
+| `INCREMENTAL` | Ajoutez des lots de nouvelles lignes à un tableau tout au long de l&#39;expérience de machine learning. | - Ajout de lignes aux tableaux par lots<br /> - Tâches d&#39;entraînement de longue durée<br />- Traitement de grands jeux de données par lots<br />- Surveillance des résultats en cours | - Affichage des mises à jour dans l&#39;interface utilisateur pendant l&#39;entraînement<br />- Possibilité de parcourir les incréments          |
 
 Les sections suivantes présentent des exemples d&#39;extraits de code pour chaque mode, ainsi que les considérations à prendre en compte pour déterminer quand utiliser chaque mode.
 
@@ -60,16 +60,16 @@ Les sections suivantes présentent des exemples d&#39;extraits de code pour chaq
   ### Mode `MUTABLE`
 </div>
 
-Le mode `MUTABLE` met à jour un tableau existant en le remplaçant par un nouveau. Le mode `MUTABLE` est utile lorsque vous souhaitez ajouter de nouvelles colonnes et lignes à un tableau existant dans le cadre d&#39;un processus non itératif. Dans l&#39;interface utilisateur, le tableau est affiché avec toutes les lignes et colonnes, y compris celles ajoutées après la journalisation initiale.
+Le mode `MUTABLE` met à jour un tableau existant en le remplaçant par un nouveau. Le mode `MUTABLE` est utile lorsque vous souhaitez ajouter de nouvelles colonnes et lignes à un tableau existant dans le cadre d’un processus non itératif. Dans l’interface utilisateur, le tableau est affiché avec toutes les lignes et colonnes, y compris celles ajoutées après la journalisation initiale.
 
 <Note>
-  En mode `MUTABLE`, l&#39;objet tableau est remplacé chaque fois que vous journalisez le tableau. Remplacer un tableau par un nouveau est coûteux en calcul et peut être lent pour les grands tableaux.
+  En mode `MUTABLE`, l’objet tableau est remplacé chaque fois que vous journalisez le tableau. Remplacer un tableau par un nouveau est coûteux en calcul et peut être lent pour les grands tableaux.
 </Note>
 
-L&#39;exemple suivant montre comment créer un tableau en mode `MUTABLE`, le journaliser, puis y ajouter de nouvelles colonnes. L&#39;objet tableau est journalisé trois fois : une fois avec les données initiales, une fois avec les scores de confiance, et une fois avec les prédictions finales.
+L’exemple suivant montre comment créer un tableau en mode `MUTABLE`, le journaliser, puis y ajouter de nouvelles colonnes. L’objet tableau est journalisé trois fois : une fois avec les données initiales, une fois avec les scores de confiance, et une fois avec les prédictions finales.
 
 <Note>
-  L&#39;exemple suivant utilise une fonction fictive `load_eval_data()` pour charger les données et une fonction fictive `model.predict()` pour effectuer les prédictions. Vous devrez les remplacer par vos propres fonctions de chargement des données et de prédiction.
+  L’exemple suivant utilise une fonction fictive `load_eval_data()` pour charger les données et une fonction fictive `model.predict()` pour effectuer les prédictions. Vous devrez les remplacer par vos propres fonctions de chargement des données et de prédiction.
 </Note>
 
 ```python
@@ -104,22 +104,22 @@ with wandb.init(project="mutable-table-demo") as run:
     run.log({"eval_table": table})  # Mise à jour finale avec une colonne supplémentaire
 ```
 
-Si vous souhaitez uniquement ajouter de nouveaux lots de lignes (sans colonnes) de façon incrémentielle, comme dans une boucle d’entraînement, envisagez plutôt d’utiliser le [mode `INCREMENTAL`](#INCREMENTAL-mode).
+Si vous souhaitez uniquement ajouter de nouveaux lots de lignes (sans colonnes) de manière incrémentielle, comme dans une boucle d’entraînement, utilisez plutôt le [mode `INCREMENTAL`](#INCREMENTAL-mode).
 
 <div id="incremental-mode">
   ### mode `INCREMENTAL`
 </div>
 
-En mode incrémentiel, vous journalisez des lots de lignes dans un tableau pendant l&#39;expérience de machine learning. Ce mode est idéal pour la surveillance des jobs de longue durée ou lorsque vous travaillez avec de grands tableaux dont la journalisation à chaque mise à jour pendant le run serait inefficace. Dans l&#39;interface utilisateur, le tableau est mis à jour avec les nouvelles lignes à mesure qu&#39;elles sont journalisées, ce qui vous permet de consulter les données les plus récentes sans avoir à attendre la fin complète du run. Vous pouvez également parcourir les incréments pour afficher le tableau à différents moments.
+En mode incrémentiel, vous enregistrez des lots de lignes dans un tableau au cours de l’expérience d’apprentissage automatique. Ce mode est idéal pour surveiller des jobs de longue durée ou pour travailler avec de grands tableaux dont il serait inefficace d’enregistrer les mises à jour pendant le run. Dans l’interface utilisateur, le tableau est mis à jour avec les nouvelles lignes au fur et à mesure qu’elles sont enregistrées, vous permettant de consulter les données les plus récentes sans attendre la fin du run. Vous pouvez également parcourir les incréments pour afficher le tableau à différents moments.
 
 <Note>
-  Les espaces de travail de run dans l&#39;application W&amp;B sont limités à 100 incréments. Si vous journalisez plus de 100 incréments, seuls les 100 plus récents s&#39;affichent dans l&#39;espace de travail du run.
+  Les workspaces de run dans l’application W&amp;B sont limités à 100 incréments. Si vous enregistrez plus de 100 incréments, seuls les 100 plus récents s’affichent dans le workspace du run.
 </Note>
 
-L&#39;exemple suivant crée un tableau en mode `INCREMENTAL`, le journalise, puis y ajoute de nouvelles lignes. Notez que le tableau est journalisé une fois par étape d&#39;entraînement (`step`).
+L’exemple suivant crée un tableau en mode `INCREMENTAL`, l’enregistre, puis y ajoute de nouvelles lignes. Notez que le tableau est enregistré une fois par étape d’entraînement (`step`).
 
 <Note>
-  L&#39;exemple suivant utilise une fonction fictive `get_training_batch()` pour charger les données, une fonction fictive `train_model_on_batch()` pour entraîner le modèle et une fonction fictive `predict_on_batch()` pour générer des prédictions. Vous devrez les remplacer par vos propres fonctions de chargement des données, d&#39;entraînement et de prédiction.
+  L’exemple suivant utilise une fonction de substitution `get_training_batch()` pour charger les données, une fonction de substitution `train_model_on_batch()` pour entraîner le modèle et une fonction de substitution `predict_on_batch()` pour effectuer des prédictions. Vous devrez les remplacer par vos propres fonctions de chargement de données, d’entraînement et de prédiction.
 </Note>
 
 ```python
@@ -148,7 +148,7 @@ with wandb.init(project="incremental-table-demo") as run:
         run.log({"training_table": table}, step=step)
 ```
 
-La journalisation incrémentielle est généralement plus efficace d’un point de vue computationnel que la journalisation d’un nouveau tableau à chaque fois (`log_mode=MUTABLE`). Cependant, l’application W&amp;B peut ne pas afficher toutes les lignes du tableau si vous journalisez un grand nombre d’incréments. Si votre objectif est de mettre à jour et de consulter les données de votre tableau pendant que votre run est en cours, tout en conservant toutes les données disponibles pour l’analyse, envisagez d’utiliser deux tableaux : l’un avec le mode de journalisation `INCREMENTAL` et l’autre avec le mode de journalisation `IMMUTABLE`.
+La journalisation incrémentielle est généralement plus efficace sur le plan du calcul que la journalisation d’un nouveau tableau à chaque fois (`log_mode=MUTABLE`). Cependant, l’application W&amp;B peut ne pas afficher toutes les lignes du tableau si vous journalisez un grand nombre d’incréments. Si votre objectif est de mettre à jour et de consulter les données de votre tableau pendant que votre run est en cours, tout en conservant toutes les données disponibles pour l’analyse, envisagez d’utiliser deux tableaux. L’un avec le mode de journalisation `INCREMENTAL` et l’autre avec le mode de journalisation `IMMUTABLE`.
 
 L’exemple suivant montre comment combiner les modes de journalisation `INCREMENTAL` et `IMMUTABLE` pour y parvenir.
 
@@ -171,7 +171,7 @@ with wandb.init(project="combined-logging-example") as run:
         for inp, pred, label in zip(inputs, predictions, labels):
             incr_table.add_data(step, inp, pred, label)
 
-        # Enregistrer la mise à jour incrémentielle (suffixe -incr pour distinguer du tableau final)
+        # Journaliser la mise à jour incrémentielle (suffixe -incr pour distinguer du tableau final)
         run.log({"table-incr": incr_table}, step=step)
 
     # À la fin de l'entraînement, créer un tableau immuable complet avec toutes les données
@@ -232,7 +232,7 @@ resumed_run = wandb.init(project="resume-incremental", id="your-run-id", resume=
 # Les incréments continueront d'être ajoutés à l'artefact Table.
 table = wandb.Table(columns=["step", "metric"], log_mode="INCREMENTAL")
 
-# Continuer l'enregistrement
+# Continuer la journalisation
 for step in range(resume_step, final_step):
     metric = compute_metric(step)
     table.add_data(step, metric)
@@ -242,11 +242,11 @@ resumed_run.finish()
 ```
 
 <Note>
-  Les incréments sont journalisés dans un nouveau tableau si vous désactivez les résumés pour une clé utilisée par le tableau incrémentiel à l’aide de `wandb.Run.define_metric("<table_key>", summary="none")` ou de `wandb.Run.define_metric("*", summary="none")`.
+  Les incréments sont enregistrés dans un nouveau tableau si vous désactivez les synthèses pour une clé utilisée par le tableau incrémentiel à l&#39;aide de `wandb.Run.define_metric("<table_key>", summary="none")` ou de `wandb.Run.define_metric("*", summary="none")`.
 </Note>
 
 <div id="training-with-incremental-batch-training">
-  ### Entraînement avec un entraînement incrémentiel par lots
+  ### Entraînement avec entraînement incrémentiel par lots
 </div>
 
 ```python
@@ -271,6 +271,6 @@ with wandb.init(project="batch-training-incremental") as run:
         for input_item, label, prediction in zip(inputs, labels, predictions):
             table.add_data(step, input_item, label, prediction)
 
-        # Journaliser l'état actuel du tableau de façon incrémentielle
+        # Enregistrer l'état actuel du tableau de manière incrémentielle
         run.log({"training_table": table}, step=step)
 ```

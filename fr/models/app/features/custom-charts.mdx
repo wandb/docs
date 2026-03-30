@@ -3,11 +3,11 @@ title: Aperçu des graphiques personnalisés
 description: Créez des graphiques personnalisés dans les projets W&B avec des visualisations Vega
 ---
 
-Créez des graphiiques personnalisés dans votre projet W&amp;B. Journalisez des tableaux de données arbitraires et visualisez-les exactement comme vous le souhaitez. Réglez les détails des polices, des couleurs et des info-bulles grâce à la puissance de [Vega](https://vega.github.io/vega/).
+Créez des graphiques personnalisés dans votre projet W&amp;B. Journalisez des tableaux de données arbitraires et visualisez-les exactement comme vous le souhaitez. Réglez les détails des polices, des couleurs et des info-bulles grâce à la puissance de [Vega](https://vega.github.io/vega/).
 
 * Code : Essayez un [notebook Colab d&#39;exemple](https://tiny.cc/custom-charts).
 * Vidéo : Regardez une [vidéo de guide pas à pas](https://www.youtube.com/watch?v=3-N9OV6bkSM).
-* Exemple : [notebook de démonstration rapide pour Keras et Sklearn](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
+* Exemple : [notebook de démonstration rapide avec Keras et Sklearn](https://colab.research.google.com/drive/1g-gNGokPWM2Qbc8p1Gofud0_5AoZdoSD?usp=sharing)
 
 <Frame>
   <img src="/images/app_ui/supported_charts.png" alt="Graphiques pris en charge issus de vega.github.io/vega" max-width="90%" />
@@ -17,7 +17,7 @@ Créez des graphiiques personnalisés dans votre projet W&amp;B. Journalisez des
   ### Fonctionnement
 </div>
 
-1. **Journaliser les données** : Depuis votre script, journalisez les données de [configuration](/fr/models/track/config/) et de résumé.
+1. **Journaliser les données** : Depuis votre script, journalisez les données de [configuration](/fr/models/track/config/) et de synthèse.
 2. **Personnaliser le graphique** : Récupérez les données journalisées avec une requête [GraphQL](https://graphql.org). Visualisez les résultats de votre requête avec [Vega](https://vega.github.io/vega/), une grammaire de visualisation puissante.
 3. **Journaliser le graphique** : Appelez votre préréglage personnalisé depuis votre script avec `wandb.plot_table()`.
 
@@ -41,7 +41,7 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
   <Tab title="Graphique en courbes">
     `wandb.plot.line()`
 
-    Ajoutez au journal un graphique en courbes personnalisé — une liste ordonnée de points connectés (x,y) sur des axes x et y arbitraires.
+    Journalisez un graphique en courbes personnalisé — une liste ordonnée de points reliés (x,y) sur des axes x et y arbitraires.
 
     ```python
     with wandb.init() as run:
@@ -56,19 +56,19 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
       )
     ```
 
-    Un graphique en courbes permet de journaliser des courbes sur deux dimensions quelconques. Si vous tracez deux listes de valeurs l’une par rapport à l’autre, le nombre de valeurs dans les listes doit correspondre exactement (par exemple, chaque point doit avoir un x et un y).
+    Un graphique en courbes permet d’enregistrer des courbes selon deux dimensions quelconques. Si vous tracez deux listes de valeurs l’une par rapport à l’autre, le nombre de valeurs dans les listes doit correspondre exactement (par exemple, chaque point doit avoir un x et un y).
 
     <Frame>
       <img src="/images/app_ui/line_plot.png" alt="Graphique en courbes personnalisé" />
     </Frame>
 
-    [Voir un exemple de rapport](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA) ou [essayer un notebook Google Colab d’exemple](https://tiny.cc/custom-charts).
+    [Voir un exemple de rapport](https://wandb.ai/wandb/plots/reports/Custom-Line-Plots--VmlldzoyNjk5NTA) ou [essayer un exemple de notebook Google Colab](https://tiny.cc/custom-charts).
   </Tab>
 
   <Tab title="Nuage de points">
     `wandb.plot.scatter()`
 
-    Journalisez un graphique de dispersion personnalisé — une liste de points (x, y) sur une paire arbitraire d’axes x et y.
+    Ajoutez au journal un nuage de points personnalisé — une liste de points (x, y) sur deux axes x et y arbitraires.
 
     ```python
     with wandb.init() as run:
@@ -77,19 +77,19 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
       run.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
     ```
 
-    Vous pouvez utiliser ceci pour consigner des points sur n’importe quelles deux dimensions. Notez que si vous tracez deux listes de valeurs l’une par rapport à l’autre, le nombre de valeurs dans les listes doit correspondre exactement (par exemple, chaque point doit avoir un x et un y).
+    Vous pouvez utiliser ceci pour journaliser des points sur deux dimensions quelconques. Notez que si vous tracez deux listes de valeurs l’une par rapport à l’autre, le nombre de valeurs dans les listes doit correspondre exactement (par exemple, chaque point doit avoir un x et un y).
 
     <Frame>
       <img src="/images/app_ui/demo_scatter_plot.png" alt="Nuage de points" />
     </Frame>
 
-    [Voir un exemple de rapport](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ) ou [essayer un exemple de notebook Google Colab](https://tiny.cc/custom-charts).
+    [Voir un exemple de rapport](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ) ou [essayer un notebook Google Colab d’exemple](https://tiny.cc/custom-charts).
   </Tab>
 
   <Tab title="Graphique en barres">
     `wandb.plot.bar()`
 
-    Enregistrez un graphique à barres personnalisé — une liste de valeurs libellées représentées sous forme de barres — nativement en quelques lignes :
+    Enregistrez nativement un graphique à barres personnalisé — une liste de valeurs associées à des libellés, représentées sous forme de barres — en quelques lignes :
 
     ```python
     with wandb.init() as run:
@@ -104,19 +104,19 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
       )
     ```
 
-    Vous pouvez utiliser ceci pour journaliser des graphiques à barres arbitraires. Notez que le nombre de libellés et de valeurs dans les listes doit correspondre exactement (par exemple, chaque point de données doit comporter les deux).
+    Vous pouvez utiliser ceci pour consigner des graphiques à barres de tout type. Notez que le nombre de libellés et de valeurs dans les listes doit correspondre exactement (par exemple, chaque point de données doit avoir une étiquette et une valeur).
 
     <Frame>
       <img src="/images/app_ui/demo_bar_plot.png" alt="Exemple de graphique à barres" />
     </Frame>
 
-    [Voir un exemple de rapport](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk) ou [essayer un notebook Google Colab d’exemple](https://tiny.cc/custom-charts).
+    [Voir un exemple de rapport](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk) ou [essayer un exemple de notebook Google Colab](https://tiny.cc/custom-charts).
   </Tab>
 
   <Tab title="Histogramme">
     `wandb.plot.histogram()`
 
-    Enregistrez un histogramme personnalisé — en répartissant une liste de valeurs en classes selon leur nombre/leur fréquence d’occurrence — de manière native en quelques lignes. Supposons que j’aie une liste de scores de confiance de prédiction (`scores`) et que je veuille visualiser leur distribution :
+    Enregistrez un histogramme personnalisé — en répartissant une liste de valeurs en intervalles selon leur nombre ou leur fréquence d’occurrence — nativement en quelques lignes. Supposons que j’aie une liste de scores de confiance de prédiction (`scores`) et que je veuille en visualiser la distribution :
 
     ```python
     with wandb.init() as run:
@@ -125,19 +125,19 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
       run.log({"my_histogram": wandb.plot.histogram(table, "scores", title=None)})
     ```
 
-    Vous pouvez utiliser ceci pour journaliser des histogrammes arbitraires. Notez que `data` est une liste de listes, afin de prendre en charge un tableau 2D organisé en lignes et en colonnes.
+    Vous pouvez utiliser ceci pour journaliser des histogrammes arbitraires. Notez que `data` est une liste de listes, pour prendre en charge un tableau 2D en lignes et en colonnes.
 
     <Frame>
       <img src="/images/app_ui/demo_custom_chart_histogram.png" alt="Histogramme personnalisé" />
     </Frame>
 
-    [Voir un exemple de rapport](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM) ou [essayer un notebook Google Colab d’exemple](https://tiny.cc/custom-charts).
+    [Voir un exemple de rapport](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM) ou [essayer un exemple de notebook Google Colab](https://tiny.cc/custom-charts).
   </Tab>
 
-  <Tab title="Courbe précision-rappel">
+  <Tab title="Courbe de précision-rappel">
     `wandb.plot.pr_curve()`
 
-    Créez une [courbe de précision-rappel](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) en une ligne :
+    Créez une [courbe de précision-rappel](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) en une seule ligne :
 
     ```python
     with wandb.init() as run:
@@ -148,10 +148,10 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
 
     Vous pouvez journaliser ces données chaque fois que votre code a accès à :
 
-    * les scores prédits d’un modèle (`predictions`) sur un ensemble d’exemples
-    * les libellés de vérité terrain correspondants (`ground_truth`) pour ces exemples
-    * (facultatif) une liste des libellés/noms de classes (`labels=["cat", "dog", "bird"...]` si l’indice de libellé 0 signifie chat, 1 = chien, 2 = oiseau, etc.)
-    * (facultatif) un sous-ensemble des libellés à visualiser dans le graphique (toujours au format liste)
+    * aux scores prédits d’un modèle (`predictions`) sur un ensemble d’exemples
+    * aux libellés de vérité terrain correspondants (`ground_truth`) pour ces exemples
+    * (facultatif) à une liste des libellés/noms de classes (`labels=["cat", "dog", "bird"...]` si l’indice de libellé 0 signifie chat, 1 = chien, 2 = oiseau, etc.)
+    * (facultatif) à un sous-ensemble des libellés à visualiser dans le graphique (toujours au format liste)
 
     <Frame>
       <img src="/images/app_ui/demo_average_precision_lines.png" alt="Courbes précision-rappel" />
@@ -163,11 +163,11 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
   <Tab title="Courbe ROC">
     `wandb.plot.roc_curve()`
 
-    Créez une [courbe ROC](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) en une seule ligne :
+    Créez une [courbe ROC](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) en une ligne :
 
     ```python
     with wandb.init() as run:
-      # ground_truth est une liste de vraies étiquettes, predictions est une liste de scores prédits
+      # ground_truth est une liste d'étiquettes réelles, predictions est une liste de scores prédits
       ground_truth = [0, 1, 0, 1, 0, 1]
       predictions = [0.1, 0.4, 0.35, 0.8, 0.7, 0.9]
 
@@ -180,12 +180,12 @@ W&amp;B propose plusieurs préréglages de graphiques intégrés que vous pouvez
       run.log({"roc": plot})
     ```
 
-    Vous pouvez journaliser ceci chaque fois que votre code a accès à :
+    Vous pouvez journaliser ces données chaque fois que votre code a accès à :
 
-    * des scores prédits par un modèle (`predictions`) sur un ensemble d’exemples
-    * les étiquettes de référence correspondantes (`ground_truth`) pour ces exemples
-    * (facultatif) une liste des étiquettes/noms de classes (`labels=["cat", "dog", "bird"...]` si l’index d’étiquette 0 signifie cat, 1 = dog, 2 = bird, etc.)
-    * (facultatif) un sous-ensemble (toujours au format liste) de ces étiquettes à afficher sur le graphique
+    * aux scores prédits d’un modèle (`predictions`) sur un ensemble d’exemples
+    * aux libellés de vérité terrain correspondants (`ground_truth`) pour ces exemples
+    * (facultatif) à une liste des libellés/noms de classes (`labels=["cat", "dog", "bird"...]` si l’indice de libellé 0 signifie chat, 1 = chien, 2 = oiseau, etc.)
+    * (facultatif) à un sous-ensemble de ces libellés à visualiser sur le graphique (toujours au format liste)
 
     <Frame>
       <img src="/images/app_ui/demo_custom_chart_roc_curve.png" alt="Courbe ROC" />
@@ -228,7 +228,7 @@ my_custom_chart = wandb.plot_table(
 Vous pouvez journaliser les types de données suivants depuis votre script et les utiliser dans un graphique personnalisé :
 
 * **Configuration** : paramètres initiaux de votre expérience (vos variables indépendantes). Cela inclut tous les champs nommés que vous avez journalisés comme clés dans `wandb.Run.config` au début de votre entraînement. Par exemple : `wandb.Run.config.learning_rate = 0.0001`
-* **Résumé** : valeurs uniques journalisées pendant l&#39;entraînement (vos résultats ou variables dépendantes). Par exemple, `wandb.Run.log({"val_acc" : 0.8})`. Si vous écrivez dans cette clé plusieurs fois pendant l&#39;entraînement via `wandb.Run.log()`, le résumé prend la valeur finale de cette clé.
+* **Synthèse** : valeurs uniques journalisées pendant l&#39;entraînement (vos résultats ou variables dépendantes). Par exemple, `wandb.Run.log({"val_acc" : 0.8})`. Si vous écrivez dans cette clé plusieurs fois pendant l&#39;entraînement via `wandb.Run.log()`, la synthèse prend la valeur finale de cette clé.
 * **Historique** : la série temporelle complète du scalaire journalisé est disponible dans la requête via le champ `history`
 * **summaryTable** : si vous devez journaliser une liste de plusieurs valeurs, utilisez `wandb.Table()` pour journaliser ces données, puis interrogez-les dans votre panneau personnalisé.
 * **historyTable** : si vous devez consulter les données d&#39;historique, interrogez `historyTable` dans votre panneau de graphique personnalisé. Chaque fois que vous appelez `wandb.Table()` ou journalisez un graphique personnalisé, vous créez un nouveau tableau dans l&#39;historique pour cette étape.
@@ -237,11 +237,11 @@ Vous pouvez journaliser les types de données suivants depuis votre script et le
   ### Comment journaliser un tableau personnalisé
 </div>
 
-Utilisez `wandb.Table()` pour journaliser vos données sous forme de tableau 2D. En général, chaque ligne de ce tableau représente un point de données, et chaque colonne correspond aux champs/dimensions pertinents de chaque point de données que vous souhaitez représenter dans un graphique. Lorsque vous configurez un panneau personnalisé, l’ensemble du tableau est accessible via la clé spécifiée transmise à `wandb.Run.log()` (`custom_data_table` ci-dessous), et les champs individuels sont accessibles via les noms des colonnes (`x`, `y` et `z`). Vous pouvez journaliser des tableaux à plusieurs étapes au cours de votre expérience. La taille maximale de chaque tableau est de 10 000 lignes. [Essayez un exemple dans Google Colab](https://tiny.cc/custom-charts).
+Utilisez `wandb.Table()` pour journaliser vos données sous forme de tableau 2D. En général, chaque ligne de ce tableau représente un point de données, et chaque colonne correspond aux champs/dimensions pertinents de chaque point de données que vous souhaitez représenter dans un graphique. Lorsque vous configurez un panneau personnalisé, l’ensemble du tableau est accessible via la clé nommée passée à `wandb.Run.log()` (`custom_data_table` ci-dessous), et les champs individuels sont accessibles via les noms des colonnes (`x`, `y` et `z`). Vous pouvez journaliser des tableaux à plusieurs étapes au cours de votre expérience. La taille maximale de chaque tableau est de 10 000 lignes. [Essayez un exemple dans Google Colab](https://tiny.cc/custom-charts).
 
 ```python
 with wandb.init() as run:
-  # Journalisation d'un tableau personnalisé de données
+  # Journaliser un tableau de données personnalisé
   my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
   run.log(
       {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
@@ -252,7 +252,7 @@ with wandb.init() as run:
   ## Personnaliser le graphique
 </div>
 
-Ajoutez un nouveau graphique personnalisé pour commencer, puis modifiez la requête pour sélectionner les données de vos runs visibles. La requête utilise [GraphQL](https://graphql.org) pour récupérer des données depuis les champs configuration, résumé et historique de vos runs.
+Ajoutez un nouveau graphique personnalisé pour commencer, puis modifiez la requête pour sélectionner les données de vos runs visibles. La requête utilise [GraphQL](https://graphql.org) pour récupérer des données depuis les champs configuration, synthèse et historique de vos runs.
 
 <Frame>
   <img src="/images/app_ui/customize_chart.gif" alt="Création d’un graphique personnalisé" max-width="90%" />
@@ -301,8 +301,8 @@ Appliquez les modifications à un panneau de visualisation spécifique à l’ai
   ## Cas d&#39;utilisation courants
 </div>
 
-* Personnaliser des diagrammes en barres avec des barres d&#39;erreur
+* Personnaliser des graphiques en barres avec des barres d&#39;erreur
 * Afficher des métriques de validation du modèle qui nécessitent des coordonnées x-y personnalisées (comme les courbes précision-rappel)
 * Superposer sous forme d&#39;histogrammes les distributions de données de deux modèles/expériences différents
-* Afficher les variations d&#39;une métrique au moyen d&#39;instantanés pris à plusieurs étapes de l&#39;entraînement
+* Afficher les variations d&#39;une métrique au moyen d&#39;instantanés pris à des étapes multiples de l&#39;entraînement
 * Créer une visualisation unique qui n&#39;est pas encore disponible dans W&amp;B (et, espérons-le, la partager avec le monde entier)

@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Image`
 
-W&B に画像を記録するためのクラスです。 
+W&amp;B に画像を記録するためのクラスです。 
 
 ### <kbd>method</kbd> `Image.__init__`
 
@@ -35,12 +35,12 @@ __init__(
 
 * 範囲 [0, 1] のデータは 255 を掛けて uint8 に変換されます
 * 範囲 [-1, 1] のデータは [-1, 1] から [0, 255] に再スケーリングされ、-1 を 0 に、1 を 255 に写像してから uint8 に変換されます
-* [-1, 1] の外だが [0, 255] でもないデータは [0, 255] にクリップされてから uint8 に変換されます ([0, 255] の外に値がある場合は警告が出ます) 
+* [-1, 1] の外だが [0, 255] でもないデータは [0, 255] にクリップされてから uint8 に変換されます ([0, 255] の外に値がある場合は警告が出ます)
 * すでに [0, 255] にあるデータは、そのまま変更せずに uint8 に変換されます
 
-**Args:**
+**引数:**
 
-* `data_or_path`:  画像データの NumPy 配列 / PyTorch テンソル、PIL 画像オブジェクト、または画像ファイルへのパスを受け取ります。NumPy 配列または PyTorch テンソルが渡された場合、画像データは指定されたファイル形式で保存されます。値が [0, 255] の範囲になかったり、すべての値が [0, 1] の範囲にある場合、`normalize` が `False` に設定されていない限り、画素値は [0, 255] の範囲に正規化されます。
+* `data_or_path`:  画像データの NumPy 配列 / PyTorch テンソル、PIL 画像オブジェクト、または画像ファイルへのパスを受け入れます。NumPy 配列または PyTorch テンソルが渡された場合、画像データは指定されたファイル形式で保存されます。値が [0, 255] の範囲になかったり、すべての値が [0, 1] の範囲にある場合、`normalize` が `False` に設定されていない限り、画素値は [0, 255] の範囲に正規化されます。
   * PyTorch テンソルは (channel, height, width) の形式である必要があります
   * NumPy 配列は (height, width, channel) の形式である必要があります
 * `mode`:  画像に対する PIL のモード。最も一般的なものは &quot;L&quot;、&quot;RGB&quot;、&quot;RGBA&quot; です。
@@ -90,7 +90,7 @@ with wandb.init() as run:
     run.log({"examples": examples})
 ```
 
-デフォルトの .png ではなく .jpg 形式でログする
+デフォルトの .png ではなく .jpg としてログする
 
 
 ```python
@@ -111,6 +111,6 @@ with wandb.init() as run:
 ***
 
 
-### <kbd>property</kbd> Image.image
+### <kbd>プロパティ</kbd> Image.image
 
----
+***

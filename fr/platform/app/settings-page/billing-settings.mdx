@@ -1,21 +1,21 @@
 ---
-description: "Consultez les Détails du plan, surveillez l’utilisation et configurez des alertes d’utilisation et de dépenses pour la facturation de votre organisation W&B."
+description: "Consultez les Détails du forfait, surveillez l’utilisation et configurez des alertes d’utilisation et de dépenses pour la facturation de votre organisation W&B."
 title: Gérer les paramètres de facturation
 ---
 
 Accédez à votre page de profil et cliquez sur votre icône utilisateur dans le coin supérieur droit. Dans le menu déroulant, choisissez **Facturation** ou **Paramètres**, puis sélectionnez l’onglet **Facturation**.
 
 <div id="plan-details">
-  ## Détails du plan
+  ## Détails du forfait
 </div>
 
-La section **Détails du plan** récapitule le plan actuel de votre organisation, les frais, les limites et l’utilisation.
+La section **Détails du forfait** récapitule le plan actuel de votre organisation, les frais, les limites et l’utilisation.
 
 * Pour plus de détails et obtenir la liste des utilisateurs, cliquez sur **Manage users**.
 * Pour plus de détails sur l’utilisation, cliquez sur **Voir l’utilisation**.
 * Volume de stockage utilisé par votre organisation, gratuit et payant. Sur cette page, vous pouvez acheter du stockage supplémentaire et gérer le stockage actuellement utilisé. Pour en savoir plus, consultez les [paramètres de stockage](/fr/platform/app/settings-page/storage/).
 
-Sur cette page, vous pouvez comparer les plans ou contacter l’équipe commerciale.
+Sur cette page, vous pouvez comparer les plans ou contacter Sales.
 
 <div id="plan-usage">
   ## Utilisation du plan
@@ -31,13 +31,13 @@ Pour toute question sur l’utilisation ou la facturation, contactez votre AISE 
 
 Les alertes d’utilisation notifient par e-mail les administrateurs de l’organisation et de la facturation lorsque votre organisation atteint 85 % puis 100 % de sa limite d’utilisation pour la période de facturation en cours dans une catégorie donnée :
 
-| Catégorie             | Description                                                                                                                                                                                                                        |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stockage              | Volume total cumulé des artefacts stockés et des données de run de votre organisation, mesuré en Go.                                                                                                                               |
+| Catégorie      | Description                                                                                                                                                                                                                        |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Stockage       | Volume total cumulé des artefacts stockés et des données de run de votre organisation, mesuré en Go.                                                                                                                               |
 | Heures suivies | Temps d’entraînement réel pendant la période de facturation, mesuré en heures.                                                                                                                                                     |
-| Weave                 | Volume total des données ingérées pendant la période de facturation, mesuré en Mo. Affiché uniquement si Weave est actif dans le déploiement.                                                                                      |
-| Inférence             | Nombre total de jetons d’entrée et de sortie utilisés par Inference. Voir [Tarification d’Inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inference est actif dans le déploiement.                     |
-| Entraînement          | Inférence et calcul basés sur les jetons, mesurés en GPU/heure. Voir [Tarification de Serverless RL](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si W&amp;B Training est actif dans le déploiement. |
+| Weave          | Volume total des données ingérées pendant la période de facturation, mesuré en Mo. Affiché uniquement si Weave est actif dans le déploiement.                                                                                      |
+| Inférence      | Nombre total de jetons d’entrée et de sortie utilisés par Inference. Voir [Tarification d’Inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inference est actif dans le déploiement.                     |
+| Entraînement   | Inférence et calcul basés sur les jetons, mesurés en GPU/heure. Voir [Tarification de Serverless RL](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si W&amp;B Training est actif dans le déploiement. |
 
 Pour les organisations disposant du plan **Enterprise**, tous les **administrateurs de l’organisation** et les **administrateurs de la facturation** reçoivent des alertes d’utilisation. Avec le [plan Pro](https://wandb.ai/site/pricing/), seul l’**administrateur de la facturation** reçoit des alertes d’utilisation.
 
@@ -46,7 +46,7 @@ Les messages sont envoyés depuis `support@wandb.com`. Les seuils ne sont pas co
 Un **administrateur de l’organisation** ou un **administrateur de la facturation** peut configurer les alertes d’utilisation pour votre organisation :
 
 1. Cliquez sur l’icône de profil utilisateur dans le coin supérieur droit.
-2. Dans la section **Compte**, cliquez sur **Utilisation &amp; alertes**. Vous pouvez aussi cliquer sur **Paramètres**, puis sur l’onglet **Utilisation &amp; alertes**.
+2. Dans la section **Account**, cliquez sur **Utilisation &amp; alertes**. Vous pouvez aussi cliquer sur **Paramètres**, puis sur l’onglet **Utilisation &amp; alertes**.
 3. Dans la barre latérale, sélectionnez une catégorie.
 4. Cliquez sur l’onglet **Utilisation** pour voir l’utilisation de votre organisation et les paramètres d’alerte pour cette catégorie.
 5. Si vous le souhaitez, activez ou désactivez l’**alerte d’utilisation à 85 %** ou l’**alerte d’utilisation à 100 %** pour cette catégorie. <Warning>Si vous désactivez les deux alertes d’utilisation, aucune alerte ne sera envoyée pour cette catégorie d’utilisation.</Warning>
@@ -55,15 +55,15 @@ Un **administrateur de l’organisation** ou un **administrateur de la facturati
   ### Alertes de dépenses
 </div>
 
-Au cours d’une période de facturation donnée, les alertes de dépenses notifient par e-mail les administrateurs de l’organisation et de la facturation lorsque votre organisation atteint un ou plusieurs seuils de dépenses personnalisables exprimés en USD. Vous pouvez configurer jusqu’à 5 alertes de dépenses distinctes par catégorie :
+Au cours d’une période de facturation donnée, les alertes de dépenses notifient par e-mail les administrateurs de l’organisation et de la facturation lorsque votre organisation atteint un ou plusieurs seuils de dépenses personnalisables, exprimés en USD. Vous pouvez configurer jusqu’à 5 alertes de dépenses distinctes par catégorie :
 
 | Catégorie      | Description                                                                                                                                                                                                                                                                               |
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Stockage       | Frais liés à l’[utilisation](#usage-alerts) du stockage de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                                     |
-| Heures suivies | Frais liés à l’[utilisation](#usage-alerts) de l’entraînement de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                               |
-| Weave          | Frais liés à l’[utilisation](#usage-alerts) de Weave par votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/). Affiché uniquement si Weave est actif dans le déploiement.                                                            |
-| Inference      | Frais liés à l’[utilisation](#usage-alerts) d’Inference par votre organisation pendant la période de facturation. Voir [Tarification d’Inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inference est actif dans le déploiement.                               |
-| Training       | Frais liés à l’[utilisation](#usage-alerts) de Serverless RL par votre organisation pendant la période de facturation. Voir [Tarification de Serverless RL](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si W&amp;B Training est actif dans le déploiement. |
+| Stockage       | Coûts liés à l’[utilisation](#usage-alerts) du stockage de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                                     |
+| Heures suivies | Coûts liés à l’[utilisation](#usage-alerts) de l’entraînement de votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/).                                                                                                               |
+| Weave          | Coûts liés à l’[utilisation](#usage-alerts) de Weave par votre organisation pendant la période de facturation. Voir [Tarification](https://wandb.ai/site/pricing/). Affiché uniquement si Weave est actif dans le déploiement.                                                            |
+| Inférence      | Coûts liés à l’[utilisation](#usage-alerts) d’Inférence par votre organisation pendant la période de facturation. Voir [Tarification d’Inférence](https://wandb.ai/site/pricing/inference/). Affiché uniquement si Inférence est active dans le déploiement.                              |
+| Entraînement   | Coûts liés à l’[utilisation](#usage-alerts) de Serverless RL par votre organisation pendant la période de facturation. Voir [Tarification de Serverless RL](https://wandb.ai/site/pricing/reinforcement-learning/). Affiché uniquement si W&amp;B Training est actif dans le déploiement. |
 
 Les messages sont envoyés depuis `support@wandb.com`.
 
@@ -84,7 +84,7 @@ Avec le [plan Pro](https://wandb.ai/site/pricing/) :
 Pour afficher les alertes de dépenses de votre organisation :
 
 1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
-2. Dans la section **Compte**, cliquez sur **Utilisation &amp; alertes**. Vous pouvez également cliquer sur **Paramètres**, puis sur l’onglet **Utilisation &amp; alertes**.
+2. Dans la section **Account**, cliquez sur **Utilisation &amp; alertes**. Vous pouvez également cliquer sur **Paramètres**, puis sur l’onglet **Utilisation &amp; alertes**.
 3. Dans la barre latérale, sélectionnez une catégorie.
 4. Par défaut, l’onglet **Utilisation** s’affiche. Pour afficher les alertes de dépenses, cliquez sur **Alertes de dépenses**. Toutes les alertes de dépenses configurées pour la catégorie s’affichent.
 
@@ -95,7 +95,7 @@ Pour afficher les alertes de dépenses de votre organisation :
 Pour gérer les alertes de dépenses :
 
 1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
-2. Dans la section **Compte**, cliquez sur **Utilisation &amp; alertes**. Vous pouvez également cliquer sur **Paramètres**, puis sur l’onglet **Utilisation &amp; alertes**.
+2. Dans la section **Account**, cliquez sur **Utilisation &amp; alertes**. Vous pouvez également cliquer sur **Paramètres**, puis sur l’onglet **Utilisation &amp; alertes**.
 3. Dans la barre latérale, sélectionnez une catégorie, par exemple **Stockage**.
 4. Pour ajouter une alerte, cliquez sur **Ajouter une alerte**.
    1. Saisissez un seuil en USD.
@@ -115,7 +115,7 @@ Cette section affiche les modes de paiement enregistrés pour votre organisation
 Cette section indique l’administrateur de la facturation actuel. L’administrateur de la facturation est un administrateur de l’organisation, reçoit tous les e-mails liés à la facturation et peut afficher et gérer les modes de paiement.
 
 <Note>
-  Dans W&amp;B Cloud dédié, plusieurs utilisateurs peuvent être administrateurs de la facturation. Dans W&amp;B Cloud mutualisé, un seul utilisateur à la fois peut être administrateur de la facturation.
+  Dans Cloud dédié de W&amp;B, plusieurs utilisateurs peuvent être administrateurs de la facturation. Dans Cloud mutualisé de W&amp;B, un seul utilisateur à la fois peut être administrateur de la facturation.
 </Note>
 
 Pour modifier l’administrateur de la facturation ou attribuer ce rôle à des utilisateurs supplémentaires :
@@ -123,7 +123,7 @@ Pour modifier l’administrateur de la facturation ou attribuer ce rôle à des 
 1. Cliquez sur **Manage roles**.
 2. Recherchez un utilisateur.
 3. Cliquez sur le champ **Administrateur de la facturation** dans la ligne de cet utilisateur.
-4. Lisez le résumé, puis cliquez sur **Change billing user**.
+4. Lisez la synthèse, puis cliquez sur **Change billing user**.
 
 <div id="invoices">
   ## Factures

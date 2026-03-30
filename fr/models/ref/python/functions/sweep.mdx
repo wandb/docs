@@ -22,19 +22,19 @@ sweep(
 
 Initialiser un balayage d&#39;hyperparamètres.
 
-Recherchez les hyperparamètres qui optimisent la fonction de coût d&#39;un modèle de machine learning en testant différentes combinaisons.
+Recherchez les hyperparamètres qui optimisent une fonction de coût d&#39;un modèle de machine learning en testant différentes combinaisons.
 
-Notez l&#39;identifiant unique, `sweep_id`, qui est renvoyé. Lors d&#39;une étape ultérieure, fournissez le `sweep_id` à un agent de balayage.
+Notez l&#39;identifiant unique, `sweep_id`, qui est renvoyé. À une étape ultérieure, fournissez le `sweep_id` à un agent de balayage.
 
 Voir [la structure de configuration d&#39;un balayage](https://docs.wandb.ai/guides/sweeps/define-sweep-configuration) pour savoir comment définir votre balayage.
 
 **Arguments :**
 
-* `sweep`:  La configuration d&#39;une recherche d&#39;hyperparamètres.  (ou un générateur de configuration).  Si vous fournissez un callable, assurez-vous qu&#39;il ne prend pas d&#39;arguments et qu&#39;il renvoie un dictionnaire conforme à la spécification de configuration de balayage W&amp;B.
+* `sweep`:  La configuration d&#39;une recherche d&#39;hyperparamètres (ou un générateur de configuration). Si vous fournissez un callable, assurez-vous qu&#39;il ne prend pas d&#39;arguments et qu&#39;il renvoie un dictionnaire conforme à la spécification de configuration de balayage de W&amp;B.
 * `entity`:  Le nom d&#39;utilisateur ou le nom de l&#39;équipe vers lequel vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l&#39;entité que vous spécifiez existe déjà. Si vous ne spécifiez pas d&#39;entité, le run sera envoyé à votre entité par défaut, qui correspond généralement à votre nom d&#39;utilisateur.
 * `project`:  Le nom du projet vers lequel les runs W&amp;B créés à partir du balayage sont envoyés. Si le projet n&#39;est pas spécifié, le run est envoyé vers un projet intitulé &#39;Uncategorized&#39;.
-* `prior_runs`:  Les ID de run des runs existants à ajouter à ce balayage.
+* `prior_runs`:  Les ID des runs existants à ajouter à ce balayage.
 
-**Retourne :**
+**Renvoie :**
 
 * `str`:  Un identifiant unique pour le balayage.

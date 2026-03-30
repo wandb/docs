@@ -6,23 +6,23 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="코드나 데이터셋 예제 없이 메트릭만 로깅할 수 있나요?" href="/ko/support/models/articles/can-i-just-log-metrics-no-code-or-datase" arrow="true" horizontal>
-  기본적으로 W&amp;B는 데이터셋 예제를 로깅하지 않습니다. 또한 기본적으로 W&amp;B는 코드와 시스템 메트릭을 로깅합니다. 이를 끄는 두 가지 방법이 있 ...
+  기본적으로 W&amp;B는 데이터셋 예제를 로깅하지 않습니다. 기본적으로 W&amp;B는 코드와 시스템 메트릭을 로깅합니다. 이를 비활성화하는 두 가지 방법이 있 ...
 </Card>
 
 <Card title="서로 다른 두 시간 스케일에서 메트릭을 로깅할 수 있나요?" href="/ko/support/models/articles/can-i-log-metrics-on-two-different-time-" arrow="true" horizontal>
-  예를 들어, batch마다 트레이닝 정확도를 로깅하고 에포크마다 검증 정확도를 로깅하고 싶습니다. 가능합니다. batch 같은 인덱스와 an ...
+  예를 들어, 배치마다 트레이닝 정확도를 로깅하고 에포크마다 검증 정확도를 로깅하고 싶습니다. 네, 배치나 에포크 같은 인덱스를 메트릭과 함께 로깅하세요 ...
 </Card>
 
 <Card title="시스템 메트릭을 얼마나 자주 로깅할지 어떻게 변경하나요?" href="/ko/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
-  시스템 메트릭 로깅 주기를 설정하려면 &#95;stats&#95;sampling&#95;interval을 초 단위 숫자(부동소수점)로 설정하 ...
+  시스템 메트릭 로깅 주기를 설정하려면 &#95;stats&#95;sampling&#95;interval을 초 단위 숫자(부동 소수점)로 설정하 ...
 </Card>
 
 <Card title="W&B에 시스템 메트릭 로깅을 비활성화하려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-disable-logging-of-system-metr" arrow="true" horizontal>
   시스템 메트릭 로깅을 비활성화하려면 &#95;disable&#95;stats를 True로 설정하세요:
 </Card>
 
-<Card title="run이 완료된 후 추가 메트릭을 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
-  실험을 관리하는 방법은 여러 가지가 있습니다. 복잡한 워크플로의 경우 여러 run을 사용하고 w에서 group 파라미터를 설정하 ...
+<Card title="런이 완료된 후 추가 메트릭을 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
+  실험을 관리하는 방법은 여러 가지가 있습니다. 복잡한 워크플로의 경우 여러 런을 사용하고 wandb에서 group 파라미터를 설정하 ...
 </Card>
 
 <Card title="이전 step의 로그를 덮어쓰려면 어떻게 하나요?" href="/ko/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
@@ -34,23 +34,23 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="메트릭을 step별로 그리는 대신 최댓값을 그릴 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-plot-the-max-of-a-metr" arrow="true" horizontal>
-  해당 메트릭의 산점도를 생성하세요. Edit 메뉴를 열고 Annotations를 선택하세요. 거기서 running maximum을 그리 ...
+  해당 메트릭의 산점도를 생성하세요. Edit 메뉴를 열고 Annotations를 선택하세요. 거기서 running maximum을 플롯하 ...
 </Card>
 
 <Card title="메트릭을 오프라인으로 저장했다가 나중에 W&B와 동기화할 수 있나요?" href="/ko/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
-  기본적으로 wandb.init는 메트릭을 실시간으로 클라우드에 동기화하는 프로세스를 시작합니다. 오프라인으로 사용하려면 두 개의 환경 변수 ...
+  기본적으로 wandb.init는 메트릭을 실시간으로 클라우드에 동기화하는 프로세스를 시작합니다. 오프라인으로 사용하려면 두 개의 환경 변수를 설정하 ...
 </Card>
 
 <Card title="여러 메트릭 최적화" href="/ko/support/models/articles/optimizing-multiple-metrics" arrow="true" horizontal>
-  단일 run에서 여러 메트릭을 최적화하려면 개별 메트릭의 가중합을 사용하세요. 새로 결합한 메트릭을 로깅하 ...
+  단일 런에서 여러 메트릭을 최적화하려면 개별 메트릭의 가중합을 사용하세요. 새로 결합한 메트릭을 로깅하 ...
 </Card>
 
 <Card title="W&B에 수백만 개의 step을 로깅하면 어떻게 되나요? 브라우저에서는 어떻게 렌더링되나요?" href="/ko/support/models/articles/what-happens-when-i-log-millions-of-step" arrow="true" horizontal>
   전송되는 포인트 수는 UI에서 그래프 로딩 시간에 영향을 줍니다. 1,000개 포인트를 초과하는 선의 경우 백엔드가 사 ...
 </Card>
 
-<Card title="일부 메트릭은 batch 기준으로, 일부 메트릭은 에포크 기준으로만 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
-  각 batch에서 특정 메트릭을 로깅하고 플롯을 표준화하려면 원하는 x축 값을 메트릭과 함께 로깅하세요. 이 ...
+<Card title="일부 메트릭은 배치 기준으로, 일부 메트릭은 에포크 기준으로만 로깅하려면 어떻게 하나요?" href="/ko/support/models/articles/what-if-i-want-to-log-some-metrics-on-ba" arrow="true" horizontal>
+  각 배치에서 특정 메트릭을 로깅하고 플롯을 표준화하려면 원하는 x축 값을 메트릭과 함께 로깅하세요. 이 ...
 </Card>
 
 <Card title="로깅한 것보다 데이터 포인트가 더 적게 보이는 이유는 무엇인가요?" href="/ko/support/models/articles/why-am-i-seeing-fewer-data-points-than-i" arrow="true" horizontal>

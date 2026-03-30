@@ -3,10 +3,10 @@ title: Désactiver les mises à jour automatiques pour W&B Server
 description: Découvrez comment désactiver les mises à jour automatiques pour W&B Server.
 ---
 
-Cette page explique comment désactiver les mises à jour automatiques de version pour W&amp;B Server et verrouiller sa version. Ces instructions s&#39;appliquent uniquement aux déploiements gérés par l&#39;[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator/).
+Cette page explique comment désactiver les mises à niveau automatiques de W&amp;B Server et épingler sa version. Ces instructions s’appliquent uniquement aux déploiements gérés par l’[opérateur Kubernetes W&amp;B](/fr/platform/hosting/operator/).
 
 <Note>
-  W&amp;B prend en charge une version majeure de W&amp;B Server pendant 12 mois à compter de sa date de sortie initiale. Les clients disposant d&#39;instances **Autogérées** sont responsables d&#39;effectuer la mise à niveau à temps afin de maintenir l&#39;assistance. Évitez de rester sur une version non prise en charge. W&amp;B recommande fortement aux clients disposant d&#39;instances **Autogérées** de mettre à jour leurs déploiements vers la dernière version au moins une fois par trimestre afin de maintenir l&#39;assistance et de bénéficier des dernières fonctionnalités, améliorations des performances et correctifs.
+  W&amp;B prend en charge une version majeure de W&amp;B Server pendant 12 mois à compter de sa date de sortie initiale. Les clients disposant d’instances **Autogérées** sont responsables d’effectuer la mise à niveau à temps afin de continuer à bénéficier de l’assistance. Évitez de rester sur une version non prise en charge. W&amp;B recommande fortement aux clients disposant d’instances **Autogérées** de mettre à jour leurs déploiements vers la dernière version au moins une fois par trimestre afin de maintenir l’assistance et de bénéficier des dernières fonctionnalités, améliorations des performances et correctifs.
 </Note>
 
 <div id="requirements">
@@ -16,7 +16,7 @@ Cette page explique comment désactiver les mises à jour automatiques de versio
 * opérateur Kubernetes W&amp;B `v1.13.0` ou version ultérieure
 * System Console `v2.12.2` ou version ultérieure
 
-Pour vérifier que vous respectez ces prérequis, référez-vous à la Ressource personnalisée W&amp;B ou au chart Helm de votre instance. Vérifiez les valeurs `version` des composants `operator-wandb` et `system-console`.
+Pour vérifier que vous remplissez ces prérequis, référez-vous à la Ressource personnalisée W&amp;B ou au chart Helm de votre instance. Vérifiez les valeurs `version` des composants `operator-wandb` et `system-console`.
 
 <div id="disable-automatic-updates">
   ## Désactiver les mises à jour automatiques

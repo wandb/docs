@@ -1,11 +1,11 @@
 ---
-title: "트레이스 데이터가 잘려서 표시됩니다"
-keywords: ["트레이스 데이터"]
+title: "트레이스 데이터가 잘립니다"
+keywords: ["Trace Data"]
 ---
 
-때때로 큰 트레이스 데이터가 Weave UI에서 일부만 잘립니다. 이 문제는 기본 트레이스 출력이 Weave가 직렬화하는 방법을 모르는 가공되지 않은 맞춤형 Python 객체이기 때문에 발생합니다.
+때때로 큰 트레이스 데이터가 Weave UI에서 일부만 표시됩니다. 이 문제는 기본 트레이스 출력이 Weave가 직렬화하는 방법을 모르는 원시 맞춤형 Python 객체이기 때문에 발생합니다.
 
-큰 트레이스 데이터가 잘리지 않도록 하려면, 모든 트레이스 데이터를 반환하도록 문자열로 이루어진 사전을 정의하세요.
+큰 트레이스 데이터가 잘리지 않게 하려면 모든 트레이스 데이터를 반환하는 문자열로 이루어진 딕셔너리를 정의하세요.
 
 ```python
 import weave
@@ -28,11 +28,11 @@ def make_my_obj():
 
 ***
 
-{/* ---- AUTO-GENERATED: 탭 배지 ----
-  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 직접 편집하지 마세요.
+{/* ---- AUTO-GENERATED: tab Badge ----
+  프런트 매터의 키워드에서 scripts/knowledgebase-nav/generate_tags.py에 의해 관리됩니다.
+  이 표식 사이를 수동으로 편집하지 마십시오.
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[트레이스 데이터](/ko/support/weave/tags/trace-data)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Trace Data](/ko/support/weave/tags/trace-data)</Badge>
 
-{/* ---- 끝 AUTO-GENERATED: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

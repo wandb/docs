@@ -2,28 +2,28 @@
 title: "サーバーレス LoRA 推論を使う"
 linkTitle: "サーバーレス LoRA 推論を使う"
 description: >
-  W&B Inference 上でファインチューニング済みモデルをサービングするために、独自のカスタム LoRA を利用できます。
+  W&B Inference 上でファインチューニングしたモデルをサービングするために、独自のカスタム LoRA を利用できます。
 ---
 
 LoRA (Low-Rank Adaptation) は、新しいモデル全体ではなく軽量な「追加モジュール」だけをトレーニングして保存することで、大規模言語モデルをパーソナライズできる手法です。これにより、カスタマイズをより高速かつ低コストに行え、デプロイも容易になります。
 
-ベースモデルに対して LoRA をトレーニングするかアップロードすることで、顧客サポート、クリエイティブライティング、特定の技術分野などに特化させるといった新しい能力を付与できます。これにより、モデル全体を再トレーニングしたり再デプロイしたりすることなく、モデルの挙動を調整できます。
+기본 모델に対して LoRA をトレーニングするかアップロードすることで、顧客サポート、クリエイティブライティング、特定の技術分野などに特化させるといった新しい能力を付与できます。これにより、モデル全体を再トレーニングしたり再デプロイしたりすることなく、モデルの動作を調整できます。
 
 <div id="why-use-wb-inference-for-loras">
-  ## なぜ LoRA で W&amp;B Inference を使うのか？
+  ## なぜ LoRA で W&amp;B Inference を使用するのか？
 </div>
 
 * 一度アップロードすれば即座にデプロイ可能で、サーバーを管理する必要はありません。
-* Artifacts のバージョニングにより、どのバージョンが稼働中かを正確に追跡できます。
-* フルのモデルの重みではなく小さな LoRA ファイルを差し替えるだけで、数秒でモデルを更新できます。
+* アーティファクトのバージョン管理により、どのバージョンが稼働中かを正確にトラッキングできます。
+* モデルの全重みではなく小さな LoRA ファイルを差し替えるだけで、数秒でモデルを更新できます。
 
 <div id="workflow">
   ## ワークフロー
 </div>
 
-1. LoRA の重みを W&amp;B Artifact としてアップロードする
-2. API で Artifact URI をモデル名として参照する
-3. W&amp;B が推論時に動的に重みを読み込む
+1. LoRA の重みを W&amp;B アーティファクトとしてアップロードします
+2. API でアーティファクト URI をモデル名として指定します
+3. W&amp;B が推論用に重みを動的に読み込みます
 
 以下は、W&amp;B Inference を使ってカスタム LoRA モデルを呼び出す例です。
 
@@ -45,17 +45,17 @@ resp = client.chat.completions.create(
 print(resp.choices[0].message.content)
 ```
 
-LoRA を作成し、それを Artifact として W&amp;B にアップロードする方法を対話的にデモする [getting started notebook](https://wandb.me/lora_nb) をご覧ください。
+[Getting Started notebook](https://wandb.me/lora_nb) では、LoRA を作成して W&amp;B にアーティファクトとしてアップロードする方法を対話形式で紹介しています。
 
 <div id="prerequisites">
   ## 前提条件
 </div>
 
-次のものを用意してください：
+以下が必要です：
 
-* [W&amp;B API キー](/ja/models/integrations/add-wandb-to-any-library#create-an-api-key)
-* [W&amp;B プロジェクト](/ja/models/track/project-page)
-* `openai` と `wandb` パッケージがインストールされた **Python 3.8+**：
+* [W&amp;B APIキー](/ja/models/integrations/add-wandb-to-any-library#create-an-api-key)
+* [W&amp;Bプロジェクト](/ja/models/track/project-page)
+* `openai` および `wandb` パッケージがインストールされた **Python 3.8+**:
   `pip install wandb openai`
 
 <div id="how-to-add-loras-and-use-them">
@@ -66,9 +66,9 @@ W&amp;B アカウントに LoRA を追加して使い始めるには、次の 2 
 
 <Tabs>
   <Tab title="他の環境でトレーニングした LoRA をアップロードする">
-    既存のカスタム LoRA ディレクトリを W&amp;B アーティファクトとしてアップロードします。これは、ローカル環境、クラウドプロバイダー、パートナーサービスなど、他の場所で LoRA をトレーニングした場合に最適です。
+    独自のカスタム LoRA ディレクトリを W&amp;B アーティファクトとしてアップロードします。これは、ローカル環境、クラウドプロバイダー、パートナーサービスなど、別の場所で LoRA をトレーニングした場合に最適です。
 
-    この Python コードは、ローカルに保存された LoRA の重みをバージョン管理されたアーティファクトとして W&amp;B にアップロードします。必要なメタデータ (ベースモデルとストレージリージョン) を持つ `lora` タイプのアーティファクトを作成し、ローカルディレクトリから LoRA ファイルを追加して、推論で使用できるように W&amp;B プロジェクトにログします。
+    この Python コードは、ローカルに保存された LoRA の重みを、バージョン管理されたアーティファクトとして W&amp;B にアップロードします。必要なメタデータ (기본 モデルとストレージリージョン) を含む `lora` タイプのアーティファクトを作成し、ローカルディレクトリから LoRA ファイルを追加して、推論で使用できるよう W&amp;B プロジェクトにログします。
 
     ```python
     import wandb
@@ -90,14 +90,14 @@ W&amp;B アカウントに LoRA を追加して使い始めるには、次の 2 
 
     独自の LoRA を Inference で使用するには:
 
-    * LoRA は、[サポートされているベースモデル セクション](#supported-base-models) に記載されているいずれかのモデルを用いてトレーニングされている必要があります。
-    * LoRA は、W&amp;B アカウント内で PEFT 形式で保存され、`lora` タイプのアーティファクトとして保存されている必要があります。
-    * レイテンシを抑えるため、LoRA は `storage_region="coreweave-us"` に保存されている必要があります。
-    * アップロード時には、トレーニングに使用したベースモデル名 (例: `meta-llama/Llama-3.1-8B-Instruct`) を含めてください。これにより、W&amp;B が正しいモデルでロードできるようになります。
+    * LoRA は、[サポートされる기본 モデルのセクション](#supported-base-models) に記載されているいずれかのモデルを使用してトレーニングされている必要があります。
+    * LoRA は、W&amp;B アカウント内で PEFT 形式の `lora` タイプのアーティファクトとして保存されている必要があります。
+    * 低レイテンシにするため、LoRA は `storage_region="coreweave-us"` に保存されている必要があります。
+    * アップロード時には、トレーニングに使用した기본 モデル名 (例: `meta-llama/Llama-3.1-8B-Instruct`) を含めてください。これにより、W&amp;B は正しいモデルで LoRA を読み込めます。
   </Tab>
 
   <Tab title="W&B で新しい LoRA をトレーニングする">
-    [W&amp;B Training (serverless RL)](/ja/training) を使用して新しい LoRA をトレーニングします。トレーニングした LoRA は自動的に W&amp;B アーティファクト になり、そのまま利用できます。
+    [W&amp;B Training (serverless RL)](/ja/training) を使用して新しい LoRA をトレーニングします。トレーニングした LoRA は自動的に W&amp;B アーティファクトになり、そのまま直接使用できます。
 
     独自の LoRA のトレーニング方法について詳しくは、[OpenPipe&#39;s ART クイックスタート](https://art.openpipe.ai/getting-started/quick-start) を参照してください。
 
@@ -105,22 +105,22 @@ W&amp;B アカウントに LoRA を追加して使い始めるには、次の 2 
   </Tab>
 </Tabs>
 
-LoRA がアーティファクトとしてプロジェクトに追加されたら、次のように推論呼び出しでそのアーティファクト の URI を使用します。
+LoRA がアーティファクトとしてプロジェクトに追加されたら、次のようにそのアーティファクトの URI を推論呼び出しで使用します:
 
 ```python
-# トレーニング完了後、Artifact を直接使用する
+# トレーニング完了後、アーティファクトを直接使用する
 model_name = f"wandb-artifact:///{WB_TEAM}/{WB_PROJECT}/your_trained_lora:latest"
 ```
 
 <div id="supported-base-models">
-  ## サポートされているベースモデル
+  ## サポートされる 기본 모델
 </div>
 
-Inference は現在、以下の LLM をサポートしています (`wandb.base_model` ではこれらの文字列をそのまま使用してください)。今後さらに多くのモデルが追加される予定です。
+Inference は現在、次の LLM をサポートしています (`wandb.base_model` では正確な文字列を使用してください) 。今後さらに多くのモデルが追加される予定です。
 
 {/* takeru lora-base-models - この表は自動生成されるため、手動で編集しないでください。 */}
 
-| モデル ID (API 使用時)                    | 最大 LoRA ランク |
+| モデル ID (API での使用向け)                 | 最大 LoRA ランク |
 | ----------------------------------- | ----------- |
 | `meta-llama/Llama-3.1-70B-Instruct` | 16          |
 | `meta-llama/Llama-3.1-8B-Instruct`  | 16          |
@@ -132,7 +132,7 @@ Inference は現在、以下の LLM をサポートしています (`wandb.base_
   ## 料金
 </div>
 
-Serverless LoRA Inference の料金体系はシンプルで、コスト効率にも優れています。常時起動のサーバーや専用 GPU インスタンスに対してではなく、ストレージと実際に実行した推論分に対してのみ料金が発生します。
+サーバーレス LoRA 推論 の料金体系はシンプルで、コスト効率にも優れています。常時起動のサーバーや専用 GPU インスタンスに対してではなく、ストレージと実際に実行した推論分に対してのみ料金が発生します。
 
-* [**Storage**](https://wandb.ai/site/pricing/) - LoRA の重みの保存コストは安価であり、自前で GPU インフラストラクチャを維持する場合と比べて特に低く抑えられます。
-* **推論の利用料** - LoRA アーティファクトを使用する呼び出しは、[標準的なモデル推論](/ja/inference/usage-limits#account-tiers-and-default-usage-caps) と同じレートで課金されます。カスタム LoRA を配信するための追加料金は発生しません。
+* [**Storage**](https://wandb.ai/site/pricing/) - LoRA の重みの保存コストは安価であり、自前で GPU インフラストラクチャーを維持する場合と比べて特に低く抑えられます。
+* **推論の利用料** - LoRA アーティファクトを使用する Call は、[標準的なモデル推論](/ja/inference/usage-limits#account-tiers-and-default-usage-caps) と同じレートで課金されます。カスタム LoRA を配信するための追加料金は発生しません。

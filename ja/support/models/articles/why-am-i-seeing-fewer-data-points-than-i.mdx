@@ -1,6 +1,6 @@
 ---
 title: "ログしたデータポイントより少なく表示されるのはなぜですか？"
-keywords: ["Experiments", "メトリクス"]
+keywords: ["Experiments", "Metrics"]
 ---
 
 `Step` 以外を X 軸にしてメトリクスを可視化すると、表示されるデータ ポイントは少なくなります。同期を維持するには、メトリクスを同じ `Step` でログする必要があります。サンプル間を補間する際にサンプリングされるのは、同じ `Step` でログされたメトリクスだけです。
@@ -17,7 +17,7 @@ with wandb.init() as run:
     run.log({"Recall": recall})
 ```
 
-使用する:
+使用します:
 
 ```python
 import wandb
@@ -29,12 +29,12 @@ step パラメーターを手動で制御するには、コード内で次のよ
 
 ```python
 with wandb.init() as run:
-    step = 100  # step の値の例
+    step = 100  # 例の step 値
     # 同じ step で Precision と Recall をログする
     run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
-メトリクスが同じ `step` にログされ、まとめてサンプリングされるように、両方の `log()` 呼び出しで `step` の値を同じにしてください。`step` の値は呼び出しごとに単調増加している必要があります。そうでない場合、`step` の値は無視されます。
+メトリクスが同じ `step` にログされ、まとめてサンプリングされるように、両方の `log()` Call で `step` の値を同じにしてください。`step` の値は各 Call で単調増加している必要があります。そうでない場合、`step` の値は無視されます。
 
 ***
 
@@ -45,4 +45,4 @@ with wandb.init() as run:
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

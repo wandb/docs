@@ -3,18 +3,18 @@ title: 制限事項と想定される動作
 description: Weave の制限事項、既知の問題、および想定される動作の一覧
 ---
 
-* 再試行可能なリクエストについては、Weave は最初のエラーを受信してから 1 秒後に再試行を開始し、その後は試行間隔を最大 5 分まで倍々に増加させます。リクエストは 36 時間後にタイムアウトします。
+* 再試行可能なリクエストについては、Weave は最初のエラーを受信してから 1 秒後に再試行を開始し、その後は試行間隔を最大 5 分まで倍々に増やします。リクエストは 36 時間後にタイムアウトします。
 
-* 例外を送出する代わりに、[`.call()`](/ja/weave/guides/tracking/tracing#creating-calls) は例外を捕捉して `call.exception` に保存します。実行中に例外を送出する必要がある場合は、次のように [`__should_raise` パラメーター](/ja/weave/reference/python-sdk/trace/op#function-call) を設定します。
+* 例外を送出する代わりに、[`.call()`](/ja/weave/guides/tracking/tracing#creating-calls) は例外を取得して `call.exception` に保存します。実行中に例外を送出する必要がある場合は、次のように [`__should_raise` パラメーター](/ja/weave/reference/python-sdk/trace/op#function-call) を設定します。
 
   ```python showLineNumbers
   # これは例外を送出します
   result, call = foo.call(__should_raise=True)
   ```
 
-* 専用の Weave インスタンスは、異なる OpenTelemetry ingress URL を使用します。正式なエンドポイント情報については、[Send OpenTelemetry Traces](/ja/weave/guides/tracking/otel) を参照してください。
+* 専用の Weave インスタンスでは、異なる OpenTelemetry ingress URL を使用します。正式な Endpoint 情報については、[Send OpenTelemetry Traces](/ja/weave/guides/tracking/otel) を参照してください。
 
-* Weave は大きな trace データオブジェクトを途中で切り捨てることがあります。これは、デフォルトの trace 出力が、Weave がどのようにシリアライズすればよいか認識していない生のカスタム Python オブジェクトであるために発生します。すべての trace データを返すには、次のように文字列の 辞書 を定義します。
+* Weave は大きな Trace Data オブジェクトを切り捨てることがあります。これは、デフォルトのトレース出力が、Weave がシリアライズ方法を認識できない生のカスタム Python オブジェクトであるために発生します。トレースデータをすべて返すには、次のように文字列の dict を定義します。
 
   ```python
   import weave

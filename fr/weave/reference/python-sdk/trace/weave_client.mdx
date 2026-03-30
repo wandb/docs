@@ -108,9 +108,9 @@ client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=500, compl
 clear_wandb_run_context() → None
 ```
 
-Efface la redéfinition du contexte du run wandb.
+Effacer la redéfinition du contexte du run wandb.
 
-Après cet appel, les appels utiliseront de nouveau le `wandb.run` global (s’il est disponible) pour les informations de run&#95;id et d’étape.
+Après cet appel, les Appels utiliseront de nouveau le `wandb.run` global (s’il est disponible) pour les informations de run&#95;id et d’étape.
 
 **Exemples :**
 
@@ -141,16 +141,16 @@ create_call(
 ) → Call
 ```
 
-Créer, journaliser et empiler un appel sur la pile d’exécution.
+Créer, journaliser et empiler un Appel sur la pile d’exécution.
 
 **Arguments :**
 
-* <b>`op`</b>: L’opération qui produit l’appel, ou le nom d’une opération anonyme.
+* <b>`op`</b>: L’opération qui produit l’Appel, ou le nom d’une opération anonyme.
 * <b>`inputs`</b>: Les entrées de l’opération.
-* <b>`parent`</b>: L’appel parent. Si `parent` n’est pas fourni, le run actuel est utilisé comme parent.
-* <b>`display_name`</b>: Le nom d’affichage de l’appel. La valeur par défaut est None.
-* <b>`attributes`</b>: Les attributs de l’appel. La valeur par défaut est None.
-* <b>`use_stack`</b>: Indique si l’appel doit être empilé sur la pile d’exécution. La valeur par défaut est True.
+* <b>`parent`</b>: L’Appel parent. Si `parent` n’est pas fourni, le run actuel est utilisé comme parent.
+* <b>`display_name`</b>: Le nom d’affichage de l’Appel. La valeur par défaut est None.
+* <b>`attributes`</b>: Les attributs de l’Appel. La valeur par défaut est None.
+* <b>`use_stack`</b>: Indique si l’Appel doit être empilé sur la pile d’exécution. La valeur par défaut est True.
   **Retourne :**
   L’objet Call créé.
 
@@ -214,9 +214,9 @@ delete_call(call: 'Call') → None
 delete_calls(call_ids: 'list[str]') → None
 ```
 
-Supprimez les appels à l’aide de leur ID.
+Supprimez les Appels à l’aide de leur ID.
 
-La suppression d’un appel supprimera également tous ses appels enfants.
+La suppression d’un Appel supprime également tous ses Appels enfants.
 
 **Arguments :**
 
@@ -244,7 +244,7 @@ delete_object_versions(object_name: 'str', digests: 'list[str]') → int
 
 Supprime des versions spécifiques d’un objet.
 
-* <b>`call_ids`</b> : Une liste d’identifiants d’appel à supprimer. Ex. : [&quot;2F0193e107-8fcf-7630-b576-977cc3062e2e&quot;]
+* <b>`call_ids`</b> : Une liste d’ID d’Appel à supprimer. Ex. : [&quot;2F0193e107-8fcf-7630-b576-977cc3062e2e&quot;]
   **Arguments :**
 
 * <b>`object_name`</b> : Le nom de l’objet dont les versions doivent être supprimées.
@@ -275,7 +275,7 @@ delete_op_version(op: 'OpRef') → None
 fail_call(call: 'Call', exception: 'BaseException') → None
 ```
 
-Fait échouer un appel en générant une exception. Il s&#39;agit d&#39;une méthode pratique pour finish&#95;call.
+Fait échouer un Appel en générant une exception. Il s&#39;agit d&#39;une méthode pratique pour finish&#95;call.
 
 ***
 
@@ -313,9 +313,9 @@ finish_call(
 ) → None
 ```
 
-Finalisez un appel et conservez ses résultats.
+Finalisez un Appel et conservez ses résultats.
 
-Toutes les valeurs présentes dans `call.summary` sont fusionnées de manière récursive avec les statistiques récapitulatives calculées (par ex. les nombres d’utilisations et de statuts) avant d’être écrites dans la base de données.
+Toutes les valeurs présentes dans `call.summary` sont fusionnées de manière récursive avec les statistiques de synthèse calculées (par ex. les nombres d’utilisations et de statuts) avant d’être écrites dans la base de données.
 
 ***
 
@@ -357,14 +357,14 @@ get_call(
 ) → WeaveObject
 ```
 
-Obtenir un appel unique à partir de son ID.
+Obtenir un Appel unique à partir de son ID.
 
 * <b>`use_progress_bar`</b> : Indique s’il faut afficher une barre de progression lors du vidage. Définissez cette valeur sur False dans les environnements où une barre de progression s’afficherait mal (par exemple, les environnements CI).
 
-* <b>`callback`</b> : Fonction de rappel facultative qui reçoit des mises à jour de statut. Remplace use&#95;progress&#95;bar.
+* <b>`callback`</b> : Fonction de rappel facultative qui reçoit des mises à jour de statut. Redéfinit use&#95;progress&#95;bar.
   **Arguments :**
 
-* <b>`call_id`</b> : ID de l’appel à récupérer.
+* <b>`call_id`</b> : ID de l’Appel à obtenir.
 
 * <b>`include_costs`</b> : Si true, les informations de coût sont incluses dans summary.weave
 
@@ -372,7 +372,7 @@ Obtenir un appel unique à partir de son ID.
 
 * <b>`columns`</b> : Liste des colonnes à inclure dans la réponse. Si None, toutes les colonnes sont incluses. Indiquer moins de colonnes peut améliorer les performances. Certaines colonnes sont toujours incluses : id, project&#95;id, trace&#95;id, op&#95;name, started&#95;at
   **Retourne :**
-  Un Call.
+  Un objet d’Appel.
 
 ***
 
@@ -400,30 +400,30 @@ get_calls(
 ) → CallsIter
 ```
 
-Récupère une liste des appels tracés (opérations) pour ce projet.
+Récupère une liste d’Appels tracés (opérations) pour ce projet.
 
-Cette méthode fournit une interface puissante et flexible pour interroger les données de trace. Elle prend en charge la pagination, le filtrage, le tri, la projection de champs et les métadonnées de score, et peut servir à alimenter des interfaces utilisateur de trace personnalisées ou des outils d’analyse.
+Cette méthode offre une interface puissante et flexible pour interroger les données de trace. Elle prend en charge la pagination, le filtrage, le tri, la projection de champs et les métadonnées de score, et peut être utilisée pour créer des interfaces utilisateur de trace personnalisées ou des outils d’analyse.
 
 Astuce de performance : spécifiez `columns` et utilisez `filter` ou `query` pour réduire la taille des résultats.
 
 **Arguments :**
 
-* <b>`filter`</b>:  Filtre de haut niveau pour restreindre les résultats en fonction de champs tels que `op_name`, `parent_ids`, etc.
-* <b>`limit`</b>:  Nombre maximal d’appels à renvoyer.
-* <b>`offset`</b>:  Nombre d’appels à ignorer avant de renvoyer les résultats (utilisé pour la pagination).
+* <b>`filter`</b>:  Filtre de haut niveau pour restreindre les résultats selon des champs tels que `op_name`, `parent_ids`, etc.
+* <b>`limit`</b>:  Nombre maximal d’Appels à renvoyer.
+* <b>`offset`</b>:  Nombre d’Appels à ignorer avant de renvoyer les résultats (utilisé pour la pagination).
 * <b>`sort_by`</b>:  Liste des champs selon lesquels trier les résultats (par exemple, `started_at desc`).
 * <b>`query`</b>:  Une expression de type Mongo pour un filtrage avancé. Tous les opérateurs Mongo ne sont pas pris en charge.
 * <b>`include_costs`</b>:  Si True, inclut les informations sur les jetons et les coûts dans `summary.weave`.
-* <b>`include_feedback`</b>:  Si True, inclut le feedback dans `summary.weave.feedback`.
-* <b>`include_storage_size`</b>:  Si True, inclut la taille de stockage d’un appel.
+* <b>`include_feedback`</b>:  Si True, inclut les retours dans `summary.weave.feedback`.
+* <b>`include_storage_size`</b>:  Si True, inclut la taille de stockage d’un Appel.
 * <b>`include_total_storage_size`</b>:  Si True, inclut la taille totale de stockage d’une trace.
-* <b>`columns`</b>:  Liste des champs à renvoyer par appel. Réduire cette liste peut améliorer considérablement les performances.  (Certains champs, comme `id`, `trace_id`, `op_name` et `started_at`, sont toujours inclus.)
+* <b>`columns`</b>:  Liste des champs à renvoyer par Appel. Réduire cette liste peut considérablement améliorer les performances.  (Certains champs, comme `id`, `trace_id`, `op_name` et `started_at`, sont toujours inclus.)
 * <b>`scored_by`</b>:  Filtre par un ou plusieurs évaluateurs (nom ou URI de référence). Plusieurs évaluateurs sont combinés avec un ET.
-* <b>`page_size`</b>:  Nombre d’appels récupérés par page. Ajustez ce paramètre pour optimiser les performances sur les requêtes volumineuses.
+* <b>`page_size`</b>:  Nombre d’Appels récupérés par page. Ajustez ce paramètre pour optimiser les performances des requêtes volumineuses.
 
 **Retourne :**
 
-* <b>`CallsIter`</b>:  Un itérateur sur des objets `Call`. Prend en charge le découpage, l’itération et `.to_pandas()`.
+* <b>`CallsIter`</b>:  Un itérateur sur des objets `Call`. Prend en charge le slicing, l’itération et `.to_pandas()`.
 
 **Exemple :**
 
@@ -595,9 +595,9 @@ query_costs(
 ) → list[CostQueryOutput]
 ```
 
-Interroger le projet pour récupérer les coûts.
+Interroger le projet pour obtenir les coûts.
 
-* <b>`ids`</b> : Les ID de coût à purger. Peut correspondre à un seul ID ou à une liste d’ID.
+* <b>`ids`</b> : Les ID de coût à purger. Il peut s’agir d’un seul ID ou d’une liste d’ID.
   **Exemples :**
 
 ```python
@@ -651,14 +651,14 @@ N’appelez pas cette méthode directement ; utilisez plutôt weave.publish().
 set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
 ```
 
-Remplacez `run_id` et `step` du run wandb pour les appels créés par ce client.
+Redéfinissez `run_id` et `step` du run wandb pour les Appels créés par ce client.
 
-Cela vous permet d’associer les appels Weave à un run WandB spécifique qui n’est pas rattaché au symbole global `wandb.run`.
+Cela vous permet d’associer les Appels Weave à un run W&amp;B spécifique qui n’est pas lié au symbole global `wandb.run`.
 
 **Arguments :**
 
 * <b>`run_id`</b>: ID du run (sans le préfixe entité/projet). Le client ajoutera automatiquement le préfixe entité/projet.
-* <b>`step`</b>: Le numéro d’étape à utiliser pour les appels. Si la valeur est `None`, l’étape ne sera pas définie.
+* <b>`step`</b>: Le numéro d’étape à utiliser pour les Appels. Si la valeur est `None`, l’étape ne sera pas définie.
   **Exemples :**
 
 ```python

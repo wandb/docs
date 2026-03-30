@@ -5,50 +5,50 @@ generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
-<Card title="Puis-je exécuter wandb hors ligne ?" href="/fr/support/models/articles/can-i-run-wandb-offline" arrow="true" horizontal>
-  Si l&#39;entraînement a lieu sur une machine hors ligne, suivez les étapes ci-dessous pour téléverser les résultats vers les serveurs : 1. Définissez la variable d&#39;environne ...
+<Card title="Puis-je exécuter wandb hors ligne ?" href="/fr/support/models/articles/can-i-run-wandb-offline" arrow="true" horizontal>
+  Si l&#39;entraînement a lieu sur une machine hors ligne, suivez les étapes ci-dessous pour téléverser les résultats vers les serveurs : 1. Définissez la variable d&#39;environne ...
 </Card>
 
-<Card title="Les variables d'environnement écrasent-elles les paramètres passés à wandb.init() ?" href="/fr/support/models/articles/do-environment-variables-overwrite-the-p" arrow="true" horizontal>
+<Card title="Les variables d'environnement écrasent-elles les paramètres passés à wandb.init() ?" href="/fr/support/models/articles/do-environment-variables-overwrite-the-p" arrow="true" horizontal>
   Les arguments passés à wandb.init remplacent les variables d&#39;environnement. Pour définir un répertoire par défaut autre que celui du système ...
 </Card>
 
-<Card title="Comment puis-je définir l'emplacement local des fichiers `wandb` ?" href="/fr/support/models/articles/how-can-i-define-the-local-location-for-" arrow="true" horizontal>
-  WANDB&#95;DIR= ou wandb.init(dir= ) : contrôle l&#39;emplacement du dossier wandb créé pour votre script d&#39;entraînement. La valeur par défaut est ...
+<Card title="Comment puis-je définir l'emplacement local des fichiers `wandb` ?" href="/fr/support/models/articles/how-can-i-define-the-local-location-for-" arrow="true" horizontal>
+  WANDB&#95;DIR= ou wandb.init(dir= ) : contrôle l&#39;emplacement du dossier wandb créé pour votre script d&#39;entraînement. La valeur par défaut est ...
 </Card>
 
-<Card title="Comment puis-je gérer l'erreur 'Failed to query for notebook' ?" href="/fr/support/models/articles/how-do-i-handle-the-failed-to-query-for-" arrow="true" horizontal>
+<Card title="Comment puis-je gérer l'erreur 'Failed to query for notebook' ?" href="/fr/support/models/articles/how-do-i-handle-the-failed-to-query-for-" arrow="true" horizontal>
   Si vous rencontrez le message d&#39;erreur &quot;Failed to query for notebook name, you can set it manually with the WANDB&#95;NOTEBOOK&#95;N ...
 </Card>
 
-<Card title="Comment puis-je désactiver les messages d'information de W&B ?" href="/fr/support/models/articles/how-do-i-silence-wb-info-messages" arrow="true" horizontal>
-  Pour supprimer les messages du journal dans votre notebook, comme celui-ci : définissez le niveau du journal sur logging.ERROR pour n&#39;afficher que les erreurs, supprim ...
+<Card title="Comment puis-je désactiver les messages d'information de W&B ?" href="/fr/support/models/articles/how-do-i-silence-wb-info-messages" arrow="true" horizontal>
+  Pour supprimer les messages du journal dans votre notebook, comme celui-ci : définissez le niveau du journal sur logging.ERROR pour n&#39;afficher que les erreurs, supprim ...
 </Card>
 
-<Card title="Comment puis-je empêcher wandb d'écrire dans mon terminal ou dans la sortie de mon notebook Jupyter ?" href="/fr/support/models/articles/how-do-i-stop-wandb-from-writing-to-my-t" arrow="true" horizontal>
+<Card title="Comment puis-je empêcher wandb d'écrire dans mon terminal ou dans la sortie de mon notebook Jupyter ?" href="/fr/support/models/articles/how-do-i-stop-wandb-from-writing-to-my-t" arrow="true" horizontal>
   Définissez la variable d&#39;environnement WANDB&#95;SILENT sur true.
 </Card>
 
-<Card title="Comment puis-je passer d'un compte à l'autre sur la même machine ?" href="/fr/support/models/articles/how-do-i-switch-between-accounts-on-the-" arrow="true" horizontal>
+<Card title="Comment puis-je passer d'un compte à l'autre sur la même machine ?" href="/fr/support/models/articles/how-do-i-switch-between-accounts-on-the-" arrow="true" horizontal>
   Pour gérer deux comptes W&amp;B sur la même machine, stockez les deux clés API dans un fichier. Utilisez le code suivant dans votre dépôt ...
 </Card>
 
-<Card title="Comment wandb diffuse-t-il les journaux et écrit-il sur le disque ?" href="/fr/support/models/articles/how-does-wandb-stream-logs-and-writes-to" arrow="true" horizontal>
+<Card title="Comment wandb diffuse-t-il les journaux et écrit-il sur le disque ?" href="/fr/support/models/articles/how-does-wandb-stream-logs-and-writes-to" arrow="true" horizontal>
   W&amp;B met les événements en file d&#39;attente en mémoire et les écrit sur le disque de manière asynchrone afin de gérer les défaillances et de prendre en charge WANDB&#95;MODE=offline ...
 </Card>
 
-<Card title="Est-il possible d'enregistrer des métriques hors ligne et de les synchroniser avec W&B plus tard ?" href="/fr/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
+<Card title="Est-il possible d'enregistrer des métriques hors ligne et de les synchroniser avec W&B plus tard ?" href="/fr/support/models/articles/is-it-possible-to-save-metrics-offline-a" arrow="true" horizontal>
   Par défaut, wandb.init démarre un processus qui synchronise les métriques en temps réel avec le cloud. Pour une utilisation hors ligne, définissez deux variables d&#39;environne ...
 </Card>
 
-<Card title="Que fait wandb.init dans mon processus d'entraînement ?" href="/fr/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
+<Card title="Que fait wandb.init dans mon processus d'entraînement ?" href="/fr/support/models/articles/what-does-wandbinit-do-to-my-training-pr" arrow="true" horizontal>
   Lorsque wandb.init() s&#39;exécute dans un script d&#39;entraînement, un appel d&#39;API crée un objet run sur les serveurs. Un nouveau processus démarre pour st ...
 </Card>
 
-<Card title="Que se passe-t-il si la connexion Internet est perdue pendant l'entraînement d'un modèle ?" href="/fr/support/models/articles/what-happens-if-internet-connection-is-l" arrow="true" horizontal>
+<Card title="Que se passe-t-il si la connexion Internet est perdue pendant l'entraînement d'un modèle ?" href="/fr/support/models/articles/what-happens-if-internet-connection-is-l" arrow="true" horizontal>
   Si la bibliothèque ne peut pas se connecter à Internet, elle entre dans une boucle de nouvelles tentatives et continue d&#39;essayer de diffuser les métriques jusqu&#39;à ce que t ...
 </Card>
 
-<Card title="Où les artefacts sont-ils téléchargés, et comment puis-je contrôler cela ?" href="/fr/support/models/articles/where-are-artifacts-downloaded-and-how-c" arrow="true" horizontal>
-  Par défaut, les artefacts sont téléchargés dans le dossier artifacts/. Pour modifier l&#39;emplacement : passez-le à wandb.Artifact().download : S ...
+<Card title="Où les artefacts sont-ils téléchargés, et comment puis-je contrôler cela ?" href="/fr/support/models/articles/where-are-artifacts-downloaded-and-how-c" arrow="true" horizontal>
+  Par défaut, les artefacts sont téléchargés dans le dossier artifacts/. Pour modifier l&#39;emplacement : passez-le à wandb.Artifact().download : S ...
 </Card>

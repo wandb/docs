@@ -1,6 +1,6 @@
 ---
 title: "Déployer sur Google Cloud"
-description: "Déployez des modèles et des ops Weave sur des plateformes cloud sous forme d'endpoints d'API prêts pour la production, pour l'inférence et le serving."
+description: "Déployez des modèles et des opérations Weave sur des plateformes cloud sous forme de points de terminaison API prêts pour la production, pour l'inférence et le serving."
 ---
 
 <div id="deploy-to-google-cloud">
@@ -8,7 +8,7 @@ description: "Déployez des modèles et des ops Weave sur des plateformes cloud 
 </div>
 
 <Note>
-  `weave deploy` nécessite que `gcloud` soit installé et configuré sur votre machine. `weave deploy gcp` utilisera la configuration existante si elle n’est pas spécifiée directement via des arguments de ligne de commande.
+  `weave deploy` nécessite que `gcloud` soit installé et configuré sur votre machine. `weave deploy gcp` utilisera la configuration préconfigurée si elle n’est pas spécifiée directement via des arguments de ligne de commande.
 </Note>
 
 Pour déployer un modèle Weave sur Google Cloud, exécutez :
@@ -17,7 +17,7 @@ Pour déployer un modèle Weave sur Google Cloud, exécutez :
 weave deploy gcp <ref>
 ```
 
-Une fois le déploiement effectué, le terminal renvoie une URL selon le schéma suivant :
+Une fois le déploiement terminé, le terminal renvoie une URL au format suivant :
 
 ```
 Service URL: <PATH_TO_MODEL>`. Visit `<PATH_TO_MODEL>/docs` to interact with your model!

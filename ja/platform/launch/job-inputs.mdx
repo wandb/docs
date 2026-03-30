@@ -1,23 +1,23 @@
 ---
 title: ジョブ入力を管理する
-description: "W&B Launch ジョブのハイパーパラメーターやファイルベースの設定などのジョブ入力を、プログラムで管理および設定します。"
+description: "W&B Launch ジョブのハイパーパラメーターやファイルベースの設定などの入力を、プログラムで管理および設定します。"
 ---
 
-Launch の中核となる体験は、ハイパーパラメーターやデータセットといったさまざまなジョブ入力を簡単に試し、そのジョブを適切なハードウェアにルーティングできる点にあります。ジョブが作成されると、元の作成者以外のユーザーも、W&amp;B GUI または CLI を介してこれらの入力を調整できます。CLI または UI からジョブを起動する際にジョブ入力をどのように設定できるかについては、[Enqueue jobs](./add-job-to-queue) ガイドを参照してください。
+Launch の主な機能は、ハイパーパラメーターやデータセットなどのさまざまなジョブ入力を簡単に試行し、それらのジョブを適切なハードウェアにルーティングできる点にあります。ジョブが作成されると、元の作成者以外のユーザーも、W&amp;B の GUI または CLI を使用してこれらの入力を調整できます。CLI または UI からジョブを起動する際にジョブ入力をどのように設定できるかについては、[Enqueue jobs](./add-job-to-queue) ガイドを参照してください。
 
 このセクションでは、ジョブに対して調整可能な入力をプログラムから制御する方法について説明します。
 
-デフォルトでは、W&amp;B ジョブは `Run.config` 全体をジョブの入力としてキャプチャしますが、Launch SDK は run config 内の特定のキーを制御したり、JSON や YAML ファイルを入力として指定したりするための関数を提供します。
+デフォルトでは、W&amp;B ジョブは `Run.config` 全体をジョブの入力として取得しますが、Launch SDK は run 設定 内の特定のキーを制御したり、JSON や YAML ファイルを入力として指定したりするための関数を提供します。
 
 <Note>
-  Launch SDK の関数には `wandb-core` が必要です。詳しくは、[`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README) を参照してください。
+  Launch SDK の関数には `wandb-core` が必要です。詳細は、[`wandb-core` README](https://github.com/wandb/wandb/blob/main/core/README) を参照してください。
 </Note>
 
 <div id="reconfigure-the-run-object">
   ## `Run` オブジェクトを再設定する
 </div>
 
-ジョブ内で `wandb.init` によって返される `Run` オブジェクトは、デフォルトで再設定できます。Launch SDK は、ジョブを起動する際に `Run.config` オブジェクトのどの部分を再設定可能にするかをカスタマイズできるようにします。
+ジョブ内で `wandb.init` によって返される `Run` オブジェクトは、デフォルトで再設定できます。Launch SDK を使用すると、ジョブを起動する際に `Run.config` オブジェクトのどの部分を再設定可能にするかをカスタマイズできます。
 
 ```python
 import wandb
@@ -48,9 +48,9 @@ with wandb.init(config=config):
     # 以下省略。
 ```
 
-The function `launch.manage_wandb_config` は、ジョブを `Run.config` オブジェクトに対する入力値を受け付けるように設定します。オプションの `include` および `exclude` には、入れ子になった config オブジェクト内でのパスのプレフィックスを指定します。たとえば、ジョブがエンドユーザーに公開したくないオプションを持つライブラリを使用している場合などに便利です。
+関数 `launch.manage_wandb_config` は、ジョブが `Run.config` オブジェクトの入力値を受け付けるように設定します。オプションの `include` と `exclude` には、入れ子になった設定オブジェクト内のパスプレフィックスを指定します。たとえば、ジョブがエンドユーザーに公開したくないオプションを持つライブラリを使用している場合などに便利です。
 
-`include` プレフィックスが指定されている場合、config 内のパスのうち、`include` プレフィックスに一致するものだけが入力値を受け付けます。`exclude` プレフィックスが指定されている場合、`exclude` リストに一致するパスはすべて、入力値から除外されます。あるパスが `include` と `exclude` の両方のプレフィックスに一致する場合は、`exclude` プレフィックスが優先されます。
+`include` プレフィックスが指定されている場合、設定内のパスのうち、`include` プレフィックスに一致するものだけが入力値を受け付けます。`exclude` プレフィックスが指定されている場合、`exclude` リストに一致するパスはすべて、入力値から除外されます。あるパスが `include` と `exclude` の両方のプレフィックスに一致する場合は、`exclude` プレフィックスが優先されます。
 
 前述の例では、パス `["trainer.private"]` は `trainer` オブジェクトから `private` キーを除外し、パス `["trainer"]` は `trainer` オブジェクト配下にないすべてのキーを除外します。
 
@@ -75,13 +75,13 @@ The function `launch.manage_wandb_config` は、ジョブを `Run.config` オブ
 }
 ```
 
-W&amp;B CLI または UI からジョブを起動する際には、ユーザーは 4 つの `trainer` パラメーターだけを上書きできます。
+W&amp;B CLI または UI からジョブを起動する際、ユーザーがオーバーライドできるのは 4 つの `trainer` パラメーターのみです。
 
 <div id="access-run-config-inputs">
-  ### run config 入力へのアクセス
+  ### run 設定 入力へのアクセス
 </div>
 
-run config 入力付きで起動された Job は、`Run.config` を通じて入力値にアクセスできます。ジョブのコード内で `wandb.init` によって返される `Run` には、入力値が自動的に設定されています。次のように使用します
+run 設定 入力付きで起動された Job は、`Run.config` を通じて入力値にアクセスできます。ジョブのコード内で `wandb.init` によって返される `Run` には、入力値が自動的に設定されています。次のように使用します
 
 ```python
 from wandb.sdk import launch
@@ -89,21 +89,21 @@ from wandb.sdk import launch
 run_config_overrides = launch.load_wandb_config()
 ```
 
-ジョブ コード内のどこからでも run の config 入力値を読み込めるようにします。
+ジョブ コード内のどこからでも run の 設定 入力値を読み込めるようにします.
 
 <div id="reconfigure-a-file">
   ## ファイルを再設定する
 </div>
 
-Launch SDK では、ジョブコード内の config ファイルに保存された入力値を管理する方法も提供しています。これは多くのディープラーニングや大規模言語モデルのユースケースでよく見られるパターンであり、この [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例やこの [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml) にも見られます。
+Launch SDK では、ジョブコード内の 설정 파일に保存された入力値を管理する方法も提供しています。これは多くのディープラーニングや大規模言語モデルのユースケースでよく見られるパターンであり、この [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例やこの [Axolotl 設定](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml) にも見られます。
 
 <Note>
-  [Sweeps on Launch](/ja/platform/launch/sweeps-on-launch/) では、config ファイルの入力を sweep パラメーターとして使用することはサポートされていません。sweep パラメーターは `Run.config` オブジェクトを通じて制御する必要があります。
+  [Sweeps on Launch](/ja/platform/launch/sweeps-on-launch/) では、설정 파일の入力を sweep パラメーターとして使用することはサポートされていません。sweep パラメーターは `Run.config` オブジェクトを通じて制御する必要があります。
 </Note>
 
-`launch.manage_config_file` 関数を使用すると、config ファイルを Launch ジョブへの入力として追加でき、ジョブを起動する際にその config ファイル内の値を編集できるようになります。
+`launch.manage_config_file` 関数を使用すると、설정 파일を Launch ジョブへの入力として追加でき、ジョブを起動する際にその 설정 파일内の値を編集できるようになります。
 
-デフォルトでは、`launch.manage_config_file` が使用されている場合、run の config 入力は一切取得されません。`launch.manage_wandb_config` を呼び出すと、この挙動が上書きされます。
+デフォルトでは、`launch.manage_config_file` が使用されている場合、run の 設定 入力は一切取得されません。`launch.manage_wandb_config` を呼び出すと、この動作が上書きされます。
 
 次の例を見てみましょう。
 
@@ -125,7 +125,7 @@ with wandb.init(config=config):
     pass
 ```
 
-コードが、隣にある `config.yaml` ファイルと一緒に実行されると想定します。
+コードが、同じディレクトリにある `config.yaml` ファイルとともに実行されるとします。
 
 ```yaml
 learning_rate: 0.01
@@ -136,23 +136,23 @@ dataset: cifar10
 
 `launch.manage_config_file` の呼び出しにより、`config.yaml` ファイルがジョブの入力として追加され、W&amp;B CLI または UI から起動する際に再設定可能になります。
 
-`include` および `exclude` キーワード引数を使用すると、`launch.manage_wandb_config` と同様に、設定ファイルで許可する入力キーをフィルタリングできます。
+`include` および `exclude` キーワード引数を使用すると、`launch.manage_wandb_config` と同様に、설정 파일で許可する入力キーをフィルタリングできます.
 
 <div id="access-config-file-inputs">
-  ### 設定ファイルの入力値にアクセスする
+  ### 설정 파일の入力値に액세스する
 </div>
 
-Launch によって作成された run 内で `launch.manage_config_file` が呼び出されると、`launch` は設定ファイルの内容を入力値で上書きします。上書きされた設定ファイルはジョブの実行環境内で利用できます。
+Launch によって作成された run 内で `launch.manage_config_file` が呼び出されると、`launch` は설정 파일の内容を入力値で上書きします。上書きされた설정 파일はジョブの実行環境内で使用可能です。
 
 <Warning>
-  入力値が使用されるようにするには、ジョブ コード内で設定ファイルを読み込む前に `launch.manage_config_file` を呼び出してください。
+  入力値が使用されるようにするには、ジョブ コード内で설정 파일を読み込む前に `launch.manage_config_file` を呼び出してください。
 </Warning>
 
 <div id="customize-a-jobs-launch-drawer-ui">
   ### ジョブの Launch ドロワー UI をカスタマイズする
 </div>
 
-ジョブの入力用スキーマを定義すると、そのジョブを起動するためのカスタム UI を作成できます。ジョブのスキーマを定義するには、`launch.manage_wandb_config` または `launch.manage_config_file` の呼び出しに含めます。スキーマは [JSON Schema](https://json-schema.org/understanding-json-schema/reference) 形式の Python の辞書、もしくは Pydantic の モデル クラスのいずれかです。
+ジョブの入力用スキーマを定義すると、そのジョブを起動するためのカスタム UI を作成できます。ジョブのスキーマを定義するには、`launch.manage_wandb_config` または `launch.manage_config_file` の呼び出しに含めます。スキーマは [JSON Schema](https://json-schema.org/understanding-json-schema/reference) 形式の Python の dict、もしくは Pydantic の モデル クラスのいずれかです。
 
 <Warning>
   ジョブ入力スキーマは入力値のバリデーションには使用されません。Launch ドロワー内の UI を定義するためだけに使用されます。
@@ -207,17 +207,17 @@ Launch によって作成された run 内で `launch.manage_config_file` が呼
 
     一般的に、次の JSON Schema 属性がサポートされています:
 
-    | Attribute | Required |  Notes |
-    | --- | --- | --- |
-    | `type` | Yes | `number`、`integer`、`string`、`object` のいずれかである必要があります |
-    | `title` | No | プロパティの表示名を上書きします |
-    | `description` | No | プロパティの補助テキストを指定します |
-    | `enum` | No | 自由入力テキストではなくドロップダウン選択を生成します |
-    | `minimum` | No | `type` が `number` または `integer` の場合のみ使用できます |
-    | `maximum` | No | `type` が `number` または `integer` の場合のみ使用できます |
-    | `exclusiveMinimum` | No | `type` が `number` または `integer` の場合のみ使用できます |
-    | `exclusiveMaximum` | No | `type` が `number` または `integer` の場合のみ使用できます |
-    | `properties` | No | `type` が `object` の場合、ネストされた設定を定義するために使用されます |
+    | Attribute          | Required | Notes                                                |
+    | ------------------ | -------- | ---------------------------------------------------- |
+    | `type`             | Yes      | `number`、`integer`、`string`、`object` のいずれかである必要があります |
+    | `title`            | No       | プロパティの表示名を上書きします                                     |
+    | `description`      | No       | プロパティの補助テキストを指定します                                   |
+    | `enum`             | No       | 自由入力テキストではなくドロップダウン選択を生成します                          |
+    | `minimum`          | No       | `type` が `number` または `integer` の場合のみ使用できます          |
+    | `maximum`          | No       | `type` が `number` または `integer` の場合のみ使用できます          |
+    | `exclusiveMinimum` | No       | `type` が `number` または `integer` の場合のみ使用できます          |
+    | `exclusiveMaximum` | No       | `type` が `number` または `integer` の場合のみ使用できます          |
+    | `properties`       | No       | `type` が `object` の場合、ネストされた設定を定義するために使用されます         |
   </Tab>
 
   <Tab title="Pydantic モデル">

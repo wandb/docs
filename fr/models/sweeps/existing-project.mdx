@@ -3,7 +3,7 @@ description: Tutoriel expliquant comment créer des jobs de balayage à partir d
 title: 'Tutoriel : Créer un job de balayage à partir d’un projet'
 ---
 
-Ce tutoriel explique comment créer des jobs de balayage à partir d’un projet W&amp;B existant. Nous utiliserons le [jeu de données Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist) pour entraîner un réseau de neurones convolutif PyTorch à classer des images. Le code et le jeu de données requis se trouvent dans le [dépôt d’exemples W&amp;B (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
+Ce tutoriel explique comment créer des jobs de balayage à partir d’un projet W&amp;B existant. Nous utiliserons le [jeu de données Fashion MNIST](https://github.com/zalandoresearch/fashion-mnist) pour entraîner un réseau de neurones convolutif en PyTorch à classer des images. Le code requis et le jeu de données se trouvent dans le [dépôt d’exemples W&amp;B (PyTorch CNN Fashion)](https://github.com/wandb/examples/tree/master/examples/pytorch/pytorch-cnn-fashion)
 
 Explorez les résultats dans ce [tableau de bord W&amp;B](https://app.wandb.ai/carey/pytorch-cnn-fashion).
 
@@ -31,7 +31,7 @@ Depuis la page de votre projet, ouvrez l&#39;[onglet Balayage](./visualize-sweep
   <img src="/images/sweeps/sweep1.png" alt="Aperçu du balayage" />
 </Frame>
 
-La configuration générée automatiquement propose des valeurs à balayer en fonction des runs que vous avez terminés. Modifiez la configuration pour préciser les plages d&#39;hyperparamètres que vous souhaitez essayer. Lorsque vous lancez le balayage, un nouveau processus démarre sur le serveur de balayage W&amp;B hébergé. Ce service centralisé coordonne les agents — les machines qui exécutent les tâches d&#39;entraînement.
+La configuration générée automatiquement propose des valeurs à balayer en fonction des Runs que vous avez terminés. Modifiez la configuration pour préciser les plages d&#39;hyperparamètres que vous souhaitez essayer. Lorsque vous lancez le balayage, un nouveau processus démarre sur le serveur de balayage W&amp;B hébergé. Ce service centralisé coordonne les agents — les machines qui exécutent les tâches d&#39;entraînement.
 
 <Frame>
   <img src="/images/sweeps/sweep2.png" alt="Configuration du balayage" />
@@ -57,13 +57,13 @@ Vous exécutez maintenant un balayage. L’image suivante montre l’aspect du t
   ## Initialiser un nouveau balayage avec des runs existants
 </div>
 
-Lancez un nouveau balayage à l’aide de runs existants que vous avez précédemment enregistrés.
+Lancez un nouveau balayage à l&#39;aide de runs existants que vous avez précédemment enregistrés.
 
 1. Ouvrez le tableau de votre projet.
-2. Sélectionnez les runs que vous souhaitez utiliser à l’aide des cases à cocher à gauche du tableau.
+2. Sélectionnez les runs que vous souhaitez utiliser à l&#39;aide des cases à cocher à gauche du tableau.
 3. Cliquez sur le menu déroulant pour créer un nouveau balayage.
 
-Votre balayage est maintenant configuré sur notre serveur. Il ne vous reste plus qu’à lancer un ou plusieurs agents pour démarrer l’exécution des runs.
+Votre balayage est maintenant configuré sur notre serveur. Il ne vous reste plus qu&#39;à lancer un ou plusieurs agents pour démarrer l&#39;exécution des runs.
 
 <Frame>
   <img src="/images/sweeps/tutorial_sweep_runs.png" alt="Initialiser un balayage à partir de runs" />

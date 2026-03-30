@@ -76,7 +76,7 @@ Vous découvrez W&amp;B ? Voir notre [guide de démarrage rapide](/fr/models/qu
   ## Suivre l’optimisation du programme (expérimental)
 </div>
 
-Pour les optimiseurs DSPy qui utilisent `dspy.Evaluate` (comme MIPROv2), utilisez `WandbDSPyCallback` pour journaliser au fil du temps les métriques d’évaluation et suivre l’évolution de la signature du programme dans les tableaux W&amp;B.
+Pour les optimiseurs DSPy qui utilisent `dspy.Evaluate` (comme MIPROv2), utilisez `WandbDSPyCallback` pour journaliser les métriques d’évaluation au fil du temps et suivre l’évolution de la signature du programme dans les tableaux W&amp;B.
 
 ```python
 import dspy
@@ -120,15 +120,15 @@ with wandb.init(project=project_name) as run:
     )
 ```
 
-Après avoir exécuté ce code, vous obtenez à la fois une URL de run W&amp;B et une URL Weave. W&amp;B affiche les métriques d’évaluation au fil du temps, ainsi que des tableaux montrant l’évolution des signatures du programme. L’onglet **Aperçu** du run inclut des liens vers les traces Weave pour une inspection détaillée.
+Après avoir exécuté ce code, vous obtenez à la fois une URL de run W&amp;B et une URL Weave. W&amp;B affiche les métriques d&#39;évaluation au fil du temps, ainsi que des tableaux montrant l&#39;évolution des signatures du programme. L&#39;onglet **Aperçu** du run inclut des liens vers les traces Weave pour une inspection détaillée.
 
-Si aucun objet `run` n’est transmis à `WandbDSPyCallback`, l’objet `run` global est utilisé.
+Si aucun objet `run` n&#39;est transmis à `WandbDSPyCallback`, l&#39;objet `run` global est utilisé.
 
 <Frame>
-  <img src="/images/integrations/dspy_run_page.png" alt="Run d’optimisation DSPy dans W&B" />
+  <img src="/images/integrations/dspy_run_page.png" alt="Run d'optimisation DSPy dans W&B" />
 </Frame>
 
-Pour en savoir plus sur le traçage Weave, l’évaluation et l’optimisation avec DSPy, voir le [guide d’intégration DSPy de Weave](/fr/weave/guides/integrations/dspy).
+Pour en savoir plus sur le Tracing Weave, l&#39;évaluation et l&#39;optimisation avec DSPy, voir le [guide d&#39;intégration DSPy de Weave](/fr/weave/guides/integrations/dspy).
 
 <div id="log-predictions-to-wb-tables">
   ## Journaliser les prédictions dans les tableaux W&amp;B

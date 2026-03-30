@@ -1,6 +1,6 @@
 ---
 title: Utiliser vos modèles entraînés
-description: Envoyez des requêtes d’inférence aux modèles que vous avez entraînés
+description: Effectuez des requêtes d’inférence sur les modèles que vous avez entraînés
 ---
 
 Après avoir entraîné un modèle avec Serverless RL, il est automatiquement disponible pour l’inférence.
@@ -22,15 +22,15 @@ Le schéma se compose de :
 * Le nom de votre entité W&amp;B (équipe)
 * Le nom du projet associé à votre modèle
 * Le nom du modèle entraîné
-* L’étape d’entraînement du modèle que vous souhaitez déployer (il s’agit généralement de l’étape où le modèle a donné les meilleurs résultats dans vos évaluations)
+* L’étape d’entraînement du modèle que vous souhaitez déployer (il s’agit généralement de l’étape où le modèle a obtenu les meilleurs résultats dans vos évaluations)
 
-Par exemple, si votre équipe W&amp;B s’appelle `email-specialists`, que votre projet s’appelle `mail-search`, que votre modèle entraîné s’appelle `agent-001` et que vous souhaitez le déployer à l’étape 25, le point de terminaison se présente ainsi :
+Par exemple, si votre équipe W&amp;B s’appelle `email-specialists`, que votre projet s’appelle `mail-search`, que votre modèle entraîné s’appelle `agent-001` et que vous souhaitez le déployer à l’étape 25, le point de terminaison se présente comme suit :
 
 ```
 wandb-artifact:///email-specialists/mail-search/agent-001:step25
 ```
 
-Une fois que vous avez votre point de terminaison, vous pouvez l’intégrer à vos flux de travail d’inférence habituels. Les exemples suivants montrent comment effectuer des requêtes d’inférence sur votre modèle entraîné à l’aide d’une requête cURL ou du [Python SDK d’OpenAI](https://github.com/openai/openai-python).
+Une fois que vous avez votre point de terminaison, vous pouvez l’intégrer à vos flux de travail d’inférence habituels. Les exemples suivants montrent comment effectuer des requêtes d’inférence sur votre modèle entraîné à l’aide d’une requête cURL ou du [SDK Python d’OpenAI](https://github.com/openai/openai-python).
 
 <div id="curl">
   ### cURL

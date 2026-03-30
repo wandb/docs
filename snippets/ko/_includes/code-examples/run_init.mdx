@@ -1,14 +1,14 @@
 ---
-title: run 초기화
+title: Run 초기화
 ---
 
 ```python
 """
-W&B run을 초기화합니다.
+Initializes a W&B run.
 
-W&B는 프로젝트가 존재하지 않으면 자동으로 생성합니다. 이 파일은
-실험만 초기화하며, `with` 블록 내에 메트릭, 아티팩트 등을 로깅하는
-코드를 추가할 수 있습니다.
+W&B automatically creates the project if it does not exist. Note that this
+file only initializes the experiment; you can add code to log metrics,
+artifacts, etc., within the `with` block.
 """
 import wandb
 

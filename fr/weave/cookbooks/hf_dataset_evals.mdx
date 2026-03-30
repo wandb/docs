@@ -4,7 +4,7 @@ description: "Découvrez comment utiliser les évaluations de jeux de données H
 ---
 
 <Note>
-  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
+  Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/hf_dataset_evals.ipynb)
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/hf_dataset_evals.ipynb)
@@ -18,7 +18,7 @@ description: "Découvrez comment utiliser les évaluations de jeux de données H
   ## Remarque : il s’agit d’une solution de contournement temporaire
 </div>
 
-> Ce guide présente une solution de contournement pour utiliser HuggingFace Datasets dans des évaluations Weave.<br /><br />
+> Ce guide présente une solution de contournement pour utiliser HuggingFace Datasets avec des évaluations Weave.<br /><br />
 > Nous travaillons activement sur des intégrations plus fluides qui simplifieront ce processus.
 > Bien que cette approche fonctionne, attendez-vous à des améliorations et à des mises à jour prochaines qui faciliteront l’utilisation de jeux de données externes.
 
@@ -61,7 +61,7 @@ nest_asyncio.apply()
 </div>
 
 * Nous chargeons un jeu de données HuggingFace.
-* Créer un mappage d’index pour référencer les lignes du jeu de données.
+* Créer un mappage d’index pour référencer les lignes du jeu de dataset.
 * Cette approche par index nous permet de conserver des références au jeu de données original.
 
 > **Remarque :**<br />
@@ -88,9 +88,9 @@ hf_index = [{"hf_id": i, "hf_hub_name": HUGGINGFACE_DATASET} for i in range(row_
   ### Pipeline de traitement
 </div>
 
-* `preprocess_example` : Transforme la référence d’index en données effectives nécessaires à l’évaluation
-* `hf_eval` : Définit comment évaluer les sorties du modèle
-* `function_to_evaluate` : La fonction ou le modèle effectivement évalué
+* `preprocess_example` : Transforme la référence d’index en données réelles nécessaires à l’évaluation
+* `hf_eval` : Définit comment attribuer un score aux sorties du modèle
+* `function_to_evaluate` : La fonction ou le modèle réellement évalué
 
 ```python lines
 @weave.op()
@@ -108,7 +108,7 @@ def preprocess_example(example):
 @weave.op()
 def hf_eval(hf_id: int, output: dict) -> dict:
     """
-    Fonction de score pour évaluer les sorties du modèle.
+    Fonction de calcul du score pour évaluer les sorties du modèle.
     Arguments :
         hf_id: Index dans le jeu de données HF
         output: La sortie du modèle à évaluer
@@ -136,9 +136,9 @@ def function_to_evaluate(prompt: str):
 </div>
 
 * Pour chaque index de hf&#95;index :
-  1. `preprocess_example` récupère les données correspondantes dans le jeu de données HF.
+  1. `preprocess_example` récupère les données correspondantes du jeu de données HF.
   2. Les données prétraitées sont transmises à `function_to_evaluate`.
-  3. La sortie reçoit un score à l’aide de `hf_eval`.
+  3. La sortie est notée à l’aide de `hf_eval`.
   4. Les résultats sont suivis dans Weave.
 
 ```python lines

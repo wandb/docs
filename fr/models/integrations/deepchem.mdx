@@ -5,7 +5,7 @@ title: DeepChem
 
 import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
 
-La [bibliothèque DeepChem](https://github.com/deepchem/deepchem) fournit des outils open source qui démocratisent l’utilisation de l’apprentissage profond dans la découverte de médicaments, la science des matériaux, la chimie et la biologie. Cette intégration W&amp;B ajoute un suivi des expériences simple à utiliser ainsi que des points de contrôle du modèle pendant l’entraînement avec DeepChem.
+La [bibliothèque DeepChem](https://github.com/deepchem/deepchem) fournit des outils open source qui démocratisent l’utilisation du deep learning dans la découverte de médicaments, la science des matériaux, la chimie et la biologie. Cette intégration W&amp;B ajoute un suivi des expériences simple et facile à utiliser, ainsi que des points de contrôle du modèle lors de l’entraînement de modèles avec DeepChem.
 
 <div id="deepchem-logging-in-3-lines-of-code">
   ## Journalisation avec DeepChem en 3 lignes de code
@@ -25,7 +25,7 @@ model.fit(…)
   ## Rapport et Google Colab
 </div>
 
-Explorez l’article [Using W&amp;B with DeepChem: Molecular Graph Convolutional Networks](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=) pour découvrir des exemples de graphiques générés à l’aide de l’intégration W&amp;B à DeepChem.
+Explorez l’article [Using W&amp;B with DeepChem: Molecular Graph Convolutional Networks](https://wandb.ai/kshen/deepchem_graphconv/reports/Using-W-B-with-DeepChem-Molecular-Graph-Convolutional-Networks--Vmlldzo4MzU5MDc?galleryTag=) pour voir des exemples de graphiques générés à l’aide de l’intégration W&amp;B avec DeepChem.
 
 Pour accéder directement à du code prêt à l’emploi, consultez ce [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/deepchem/W%26B_x_DeepChem.ipynb).
 
@@ -39,11 +39,11 @@ Configurez W&amp;B pour les modèles DeepChem de type [KerasModel](https://deepc
   ### Inscrivez-vous et créez une clé API
 </div>
 
-Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil utilisateur.
+Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil.
 
 <ApiKeyCreateStreamlined />
 
-1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
+1. Cliquez sur l’icône de votre profil dans le coin supérieur droit.
 2. Sélectionnez **Paramètres utilisateur**, puis faites défiler la page jusqu’à la section **Clés API**.
 
 <div id="install-the-wandb-library-and-log-in">
@@ -80,7 +80,7 @@ Pour installer localement la bibliothèque `wandb` et vous connecter :
     ```
   </Tab>
 
-  <Tab title="Notebook Python">
+  <Tab title="notebook Python">
     ```notebook
     !pip install wandb
 

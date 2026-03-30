@@ -1,31 +1,31 @@
 ---
-title: "Définir le nom d'affichage d'un Appel"
-description: "Définir ou remplacer le nom d'affichage d'un Appel dans le traçage W&B Weave"
+title: "Définir le Display name d'un Appel"
+description: "Définir ou remplacer le Display name d'un Appel dans le Tracing W&B Weave"
 ---
 
-Les Op produisent des Appels. Un Op est une fonction ou une méthode décorée avec `@weave.op`. Par défaut, le nom de l&#39;Op correspond au nom de la fonction, et les Appels associés ont le même nom d&#39;affichage.
+Les Ops produisent des Appels. Un Op est une fonction ou une méthode que vous décorez avec `@weave.op`. Par défaut, le nom de l&#39;Op est le nom de la fonction, et les Appels associés ont le même Display name.
 
-Vous pouvez remplacer le nom d&#39;affichage de tous les Appels d&#39;un Op donné de plusieurs façons.
+Vous pouvez remplacer le Display name de tous les Appels d&#39;un Op donné de plusieurs façons.
 
 <Tabs>
   <Tab title="Python">
-    1. Modifiez le nom d&#39;affichage au moment de l&#39;appel de l&#39;Op.
-       L&#39;exemple suivant utilise le dictionnaire `__weave` pour définir le nom d&#39;affichage de l&#39;Appel, qui sera prioritaire sur celui de l&#39;Op :
+    1. Modifiez le Display name au moment de l&#39;appel de l&#39;Op.
+       L&#39;exemple suivant utilise le dictionnaire `__weave` pour définir le Display name de l&#39;Appel, qui sera prioritaire sur le Display name de l&#39;Op :
 
     ```python lines
     result = my_function("World", __weave={"display_name": "My Custom Display Name"})
     ```
 
-    2. Modifiez le nom d&#39;affichage Appel par Appel.
-       L&#39;exemple suivant utilise la méthode [`Op.call`](/fr/weave/reference/python-sdk/trace/op#function-call) pour renvoyer un objet `call`, que vous pouvez ensuite utiliser pour définir le nom d&#39;affichage avec [`call.set_display_name`](/fr/weave/reference/python-sdk/trace/weave_client#method-set_display_name) :
+    2. Modifiez le Display name Appel par Appel.
+       L&#39;exemple suivant utilise la méthode [`Op.call`](/fr/weave/reference/python-sdk/trace/op#function-call) pour renvoyer un objet `call`, que vous pouvez ensuite utiliser pour définir le Display name avec [`call.set_display_name`](/fr/weave/reference/python-sdk/trace/weave_client#method-set_display_name) :
 
     ```python lines
     result, call = my_function.call("World")
     call.set_display_name("My Custom Display Name")
     ```
 
-    3. Modifiez le nom d&#39;affichage pour tous les Appels d&#39;un Op donné.
-       L&#39;exemple suivant définit le nouveau nom d&#39;affichage directement dans le décorateur de fonction `@weave.op` afin qu&#39;il s&#39;applique à tous les Appels de l&#39;Op :
+    3. Modifiez le Display name pour tous les Appels d&#39;un Op donné.
+       L&#39;exemple suivant définit le nouveau Display name directement dans le décorateur de fonction `@weave.op` afin qu&#39;il s&#39;applique à tous les Appels de l&#39;Op :
 
     ```python lines
     @weave.op(call_display_name="My Custom Display Name")
@@ -33,9 +33,9 @@ Vous pouvez remplacer le nom d&#39;affichage de tous les Appels d&#39;un Op donn
         return f"Hello, {name}!"
     ```
 
-    `call_display_name` peut aussi être une fonction qui prend un objet `call` et renvoie une chaîne. Weave transmet automatiquement l&#39;objet `call` lors de l&#39;exécution de la fonction ; vous pouvez donc l&#39;utiliser pour générer dynamiquement des noms à partir du nom de la fonction, des entrées de l&#39;Appel, des champs, etc.
+    `call_display_name` peut aussi être une fonction qui prend un objet `call` et renvoie une chaîne. Weave transmet automatiquement l&#39;objet `call` lors de l&#39;exécution de la fonction, vous pouvez donc l&#39;utiliser pour générer dynamiquement des noms à partir du nom de la fonction, des entrées de l&#39;Appel, des champs, etc.
 
-    Un cas d&#39;usage courant consiste à ajouter un horodatage au nom de la fonction.
+    Un cas d&#39;usage courant consiste à ajouter un Horodatage au nom de la fonction.
 
     ```python lines
     from datetime import datetime
@@ -66,7 +66,7 @@ Vous pouvez remplacer le nom d&#39;affichage de tous les Appels d&#39;un Op donn
             "date": "2024-08-01",
         }
     ):
-        func()  # le nom d'affichage sera "finetuned-llama-3.1-8b__v0.1.2__2024-08-01"
+        func()  # le Display name sera "finetuned-llama-3.1-8b__v0.1.2__2024-08-01"
 
         with weave.attributes(
             {
@@ -75,11 +75,11 @@ Vous pouvez remplacer le nom d&#39;affichage de tous les Appels d&#39;un Op donn
                 "date": "2024-08-02",
             }
         ):
-            func()  # le nom d'affichage sera "finetuned-gpt-4o__v0.1.3__2024-08-02"
+            func()  # le Display name sera "finetuned-gpt-4o__v0.1.3__2024-08-02"
     ```
 
-    4. Modifiez le nom d&#39;affichage de l&#39;Op lui-même.
-       Les Appels associés à un Op ont le même nom d&#39;affichage. Si vous remplacez le nom de l&#39;Op lui-même, le nom d&#39;affichage de l&#39;Appel change aussi. Vous pouvez le faire de deux façons :
+    4. Modifiez le Display name de l&#39;Op lui-même.
+       Les Appels associés à un Op ont le même Display name. Si vous remplacez le nom de l&#39;Op lui-même, le Display name de l&#39;Appel change également. Vous pouvez le faire de deux façons :
 
     * Définissez la propriété `name` de l&#39;Op avant que des Appels ne soient enregistrés :
 
@@ -105,4 +105,4 @@ Vous pouvez remplacer le nom d&#39;affichage de tous les Appels d&#39;un Op donn
   </Tab>
 </Tabs>
 
-Vous pouvez aussi [mettre à jour le nom d&#39;affichage d&#39;un appel](/fr/weave/guides/tracking/update-call) après l&#39;exécution.
+Vous pouvez aussi [mettre à jour le Display name d&#39;un appel](/fr/weave/guides/tracking/update-call) après l&#39;exécution.

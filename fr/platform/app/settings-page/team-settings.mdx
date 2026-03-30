@@ -1,34 +1,34 @@
 ---
 description: Gérez les membres d’une équipe, son avatar, ses alertes et ses paramètres de confidentialité via la
-  page Paramètres de l’équipe.
-title: Gérer les paramètres de l’équipe
+  page Team settings.
+title: Gérer Team settings
 ---
 
 import EnterpriseOnly from "/snippets/fr/_includes/enterprise-only.mdx";
 
 <div id="team-settings">
-  # Paramètres de l’équipe
+  # Team settings
 </div>
 
-Modifiez les paramètres de votre équipe, notamment les membres, l’avatar, les alertes, la confidentialité et l’utilisation. Les Administrateurs de l’organisation et les Administrateurs d’équipe peuvent consulter et modifier les paramètres d’une équipe.
+Modifiez les paramètres de votre équipe, notamment les membres, l&#39;avatar, les alertes, la confidentialité et l&#39;utilisation. Les Administrateurs de l&#39;organisation et les Administrateurs d&#39;équipe peuvent consulter et modifier les paramètres d&#39;une équipe.
 
 <Note>
-  Seuls les comptes de type Administration peuvent modifier les paramètres de l’équipe ou supprimer un membre de l’équipe.
+  Seuls les comptes de type Administration peuvent modifier les paramètres de l&#39;équipe ou supprimer un membre de l&#39;équipe.
 </Note>
 
 <div id="members">
   ## Membres
 </div>
 
-La section Membres affiche une liste de toutes les invitations en attente, ainsi que des membres ayant accepté l’invitation à rejoindre l’équipe. Pour chaque membre répertorié, vous voyez son nom, son nom d’utilisateur, son e-mail, son rôle dans l’équipe, ainsi que ses privilèges d’accès à Models et à W&amp;B Weave, hérités de l’organisation. Vous pouvez choisir parmi les rôles d’équipe standard **Admin**, **Membre** et **Lecture seule**. Si votre organisation a créé des [rôles personnalisés](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles), vous pouvez attribuer un rôle personnalisé à la place.
+La section Membres affiche une liste de toutes les invitations en attente, ainsi que des membres ayant accepté l&#39;invitation à rejoindre l&#39;équipe. Pour chaque membre répertorié, vous voyez son nom, son nom d&#39;utilisateur, son e-mail, son rôle dans l&#39;équipe, ainsi que ses privilèges d&#39;accès à Models et à W&amp;B Weave, hérités de l&#39;organisation. Vous pouvez choisir parmi les rôles d&#39;équipe standard **Admin**, **Membre** et **Lecture seule**. Si votre organisation a créé des [rôles personnalisés](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-custom-roles), vous pouvez attribuer un rôle personnalisé à la place.
 
-Voir [Ajouter et gérer les équipes](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) pour savoir comment créer une équipe, gérer les équipes, ainsi que gérer les appartenances et les rôles des équipes. Pour configurer qui peut inviter de nouveaux membres et définir les autres paramètres de confidentialité de l’équipe, voir [Confidentialité](#privacy).
+Voir [Ajouter et gérer les équipes](/fr/platform/hosting/iam/access-management/manage-organization#add-and-manage-teams) pour savoir comment créer une équipe, gérer les équipes, ainsi que gérer les appartenances et les rôles des équipes. Pour configurer qui peut inviter de nouveaux membres et définir les autres paramètres de confidentialité de l&#39;équipe, voir [Confidentialité](#privacy).
 
 <div id="avatar">
   ## Avatar
 </div>
 
-Définissez votre avatar en accédant à la section **Avatar** et en important une image.
+Définissez votre avatar en accédant à la section **Avatar** et en téléversant une image.
 
 1. Sélectionnez **Update Avatar** pour ouvrir une boîte de dialogue de sélection de fichier.
 2. Dans la boîte de dialogue, choisissez l’image que vous souhaitez utiliser.
@@ -37,14 +37,14 @@ Définissez votre avatar en accédant à la section **Avatar** et en important u
   ## Alertes
 </div>
 
-Informez votre équipe lorsqu’un run plante ou se termine, ou configurez des alertes personnalisées. Votre équipe peut recevoir ces alertes par e-mail ou via Slack.
+Notifiez votre équipe lorsque des runs plantent ou se terminent, ou configurez des alertes personnalisées. Votre équipe peut recevoir des alertes par e-mail ou via Slack.
 
-Basculez le commutateur à côté du type d’événement pour lequel vous souhaitez recevoir des alertes. Weights and Biases fournit par défaut les types d’événement suivants :
+Basculez le commutateur à côté du type d&#39;événement pour lequel vous souhaitez recevoir des alertes. Weights &amp; Biases fournit par défaut les types d&#39;événement suivants :
 
-* **Runs terminés** : un run Weights and Biases s’est terminé avec succès.
-* **Run planté** : un run n’a pas pu se terminer.
+* **Runs terminés** : lorsqu&#39;un run Weights &amp; Biases s&#39;est terminé avec succès.
+* **Run planté** : si un run a échoué à se terminer.
 
-Pour plus d’informations sur la configuration et la gestion des alertes, voir [Envoyer des alertes avec `wandb.Run.alert()`](/fr/models/runs/alert).
+Pour plus d&#39;informations sur la configuration et la gestion des alertes, voir [Envoyer des alertes avec `wandb.Run.alert()`](/fr/models/runs/alert).
 
 <div id="slack-notifications">
   ## Notifications Slack
@@ -60,7 +60,7 @@ Configurer les destinations Slack où les [automatisations](/fr/models/automatio
   ## Webhooks
 </div>
 
-Configurez les webhooks que les [automatisations](/fr/models/automations/) de votre équipe peuvent déclencher lorsqu’un événement se produit dans un registre ou un projet, par exemple lorsqu’un nouvel artefact est créé ou lorsqu’une métrique de run atteint un seuil défini. Référez-vous à [Créer une automatisation de webhook](/fr/models/automations/create-automations/slack/).
+Configurez les webhooks que les [automatisations](/fr/models/automations/) de votre équipe peuvent déclencher lorsqu&#39;un événement se produit dans un registre ou un projet, par exemple lorsqu&#39;un nouvel artefact est créé ou lorsqu&#39;une métrique de run atteint un seuil défini. Consultez [Créer une automatisation webhook](/fr/models/automations/create-automations/slack/).
 
 <Info>
   <EnterpriseOnly />
@@ -80,7 +80,7 @@ Accédez à la section **Confidentialité** pour modifier les paramètres de con
   ## Utilisation
 </div>
 
-La section **Utilisation** décrit la quantité totale de mémoire utilisée par l’équipe sur les serveurs de Weights and Biases. Le plan de stockage par défaut est de 100GB. Pour plus d’informations sur le stockage et la tarification, voir la page [Tarification](https://wandb.ai/site/pricing).
+La section **Utilisation** décrit la quantité totale de mémoire utilisée par l’équipe sur les serveurs de Weights &amp; Biases. Le plan de stockage par défaut est de 100GB. Pour plus d’informations sur le stockage et la tarification, voir la page [Tarification](https://wandb.ai/site/pricing).
 
 <div id="storage">
   ## Stockage

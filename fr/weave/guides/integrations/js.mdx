@@ -1,19 +1,19 @@
 ---
-title: "SDK TypeScript : guide d’intégration de bibliothèques tierces"
+title: "SDK TypeScript : guide d'intégration de bibliothèques tierces"
 description: "Intégrer des bibliothèques tierces avec le SDK TypeScript Weave"
 ---
 
-Ce guide explique comment intégrer des bibliothèques tierces (par ex. OpenAI) au SDK TypeScript Weave. Weave prend en charge l’instrumentation automatique, ce qui simplifie la configuration et limite le recours à une configuration manuelle.
+Ce guide explique comment intégrer des bibliothèques tierces (par ex. OpenAI) au SDK TypeScript Weave. Weave prend en charge l&#39;instrumentation automatique, ce qui simplifie la configuration et limite le recours à une configuration manuelle.
 
 <Warning>
-  **Qu’est-ce qui a changé ?**
-  Depuis la [PR #4554](https://github.com/wandb/weave/pull/4554), les bibliothèques prises en charge, comme OpenAI, sont automatiquement patchées lorsque Weave est chargé. Vous n’avez plus besoin de les encapsuler manuellement, comme c’était le cas auparavant :
+  **Qu&#39;est-ce qui a changé ?**
+  Depuis la [PR #4554](https://github.com/wandb/weave/pull/4554), les bibliothèques prises en charge, comme OpenAI, sont automatiquement patchées lorsque Weave est chargé. Vous n&#39;avez plus besoin de les encapsuler manuellement, comme c&#39;était le cas auparavant :
 
   ```ts lines
   weave.wrapOpenAI(new OpenAI());
   ```
 
-  Weave s’en charge généralement automatiquement. Cependant, il peut y avoir des [cas limites](#advanced-usage).
+  Weave s&#39;en charge généralement automatiquement. Cependant, il peut y avoir des [cas limites](#advanced-usage).
 </Warning>
 
 <div id="use-weave-integrations-with-your-typescript-project">
@@ -23,7 +23,7 @@ Ce guide explique comment intégrer des bibliothèques tierces (par ex. OpenAI) 
 Les projets TypeScript peuvent utiliser le système de modules CommonJS ou ESM.
 
 <div id="if-youre-unsure-which-type-of-project-you-have">
-  ### Si vous ne savez pas quel type de projet vous utilisez
+  ### Si vous ne savez pas quel type de projet vous avez
 </div>
 
 Si vous exécutez directement un fichier TypeScript avec un outil tel que :
@@ -32,7 +32,7 @@ Si vous exécutez directement un fichier TypeScript avec un outil tel que :
 npx tsx test.ts
 ```
 
-le système de modules peut être déduit implicitement de votre environnement. Pour garantir un comportement cohérent, nous vous recommandons de définir explicitement les fichiers `package.json` et `tsconfig.json`.
+le système de modules peut être déterminé implicitement par votre environnement. Pour garantir un comportement cohérent, nous vous recommandons de définir explicitement les fichiers `package.json` et `tsconfig.json`.
 
 Pour déterminer si un projet utilise CommonJS ou ESM, vérifiez le champ `type` dans `package.json` :
 
@@ -50,7 +50,7 @@ Pour déterminer si un projet utilise CommonJS ou ESM, vérifiez le champ `type`
 
 Pour les projets CommonJS, l’instrumentation automatique fonctionne sans configuration supplémentaire.
 
-Pour configurer votre projet en CommonJS :
+Pour configurer votre projet pour CommonJS :
 
 1. Créez ou mettez à jour votre `package.json` :
 
@@ -73,21 +73,21 @@ Pour configurer votre projet en CommonJS :
    }
    ```
 
-   Ces paramètres configurent TypeScript pour compiler en CommonJS :
+   Ces paramètres configurent TypeScript pour une compilation en CommonJS :
 
    * **`module: "CommonJS"`** — Compile les modules au format CommonJS (`require`/`module.exports`).
-     Pour plus de détails sur cette option du compilateur, voir [TypeScript - Module](https://www.typescriptlang.org/tsconfig/#module).
+     Pour en savoir plus sur cette option du compilateur, voir [TypeScript - Module](https://www.typescriptlang.org/tsconfig/#module).
 
    * **`target: "es2022"`** *(Recommandé)* — Génère du JavaScript moderne compatible avec les versions récentes de Node.js.
-     Pour plus de détails sur cette option du compilateur, voir [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
+     Pour en savoir plus sur cette option du compilateur, voir [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
 
    * **`rootDir: "."`** — Considère le répertoire qui contient `tsconfig.json` comme la racine de vos fichiers d’entrée. TypeScript l’utilise avec `outDir` pour reproduire l’arborescence de votre dossier source dans la sortie.
-     Pour plus de détails sur cette option du compilateur, voir [TypeScript - Root Dir](https://www.typescriptlang.org/tsconfig/#rootDir).
+     Pour en savoir plus sur cette option du compilateur, voir [TypeScript - Root Dir](https://www.typescriptlang.org/tsconfig/#rootDir).
 
-   * **`outDir: "dist"`** — Écrit le JavaScript généré (ainsi que les autres sorties du compilateur) dans le dossier `dist`.
-     Pour plus de détails sur cette option du compilateur, voir [TypeScript - Out Dir](https://www.typescriptlang.org/tsconfig/#outDir).
+   * **`outDir: "dist"`** — Écrit le JavaScript généré (et les autres sorties du compilateur) dans le dossier `dist`.
+     Pour en savoir plus sur cette option du compilateur, voir [TypeScript - Out Dir](https://www.typescriptlang.org/tsconfig/#outDir).
 
-3. Installez Weave et toutes les autres bibliothèques requises :
+3. Installez Weave et toute autre bibliothèque requise :
 
    ```bash
    npm install weave
@@ -101,7 +101,7 @@ Pour configurer votre projet en CommonJS :
    npx tsc
    ```
 
-   Cela compile le fichier en `dist/test.js`.
+   Cette commande compile le fichier en `dist/test.js`.
 
 5. Exécutez le fichier compilé avec Node.js :
 
@@ -115,9 +115,9 @@ Comme CommonJS utilise le chargeur de modules `require` de Node.js, Weave peut i
   ### Configurer un projet ESM
 </div>
 
-Pour utiliser Weave avec un projet TypeScript ESM, configurez votre projet pour qu’il utilise l’ESM de Node.js, compilez votre code, puis démarrez Node.js avec l’option `--import` afin que Weave puisse enregistrer son instrumentation avant le chargement des autres modules.
+Pour utiliser Weave avec un projet TypeScript ESM, configurez votre projet pour qu&#39;il utilise l&#39;ESM de Node.js, compilez votre code, puis démarrez Node.js avec l&#39;option `--import` afin que Weave puisse enregistrer son instrumentation avant le chargement des autres modules.
 
-Pour configurer votre projet pour l’ESM :
+Pour configurer votre projet pour l&#39;ESM :
 
 1. Créez ou mettez à jour votre `package.json` :
 
@@ -152,7 +152,7 @@ Pour configurer votre projet pour l’ESM :
    * **`target: "es2022"`** *(Recommandé)* — Génère du JavaScript moderne compatible avec les versions récentes de Node.js.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Target](https://www.typescriptlang.org/tsconfig/#target).
 
-   * **`rootDir: "."`** — Considère le répertoire qui contient `tsconfig.json` comme la racine de vos fichiers d’entrée. TypeScript l’utilise avec `outDir` pour reproduire l’arborescence de votre dossier source dans la sortie.
+   * **`rootDir: "."`** — Considère le répertoire contenant `tsconfig.json` comme la racine de vos fichiers d&#39;entrée. TypeScript l&#39;utilise conjointement avec `outDir` pour reproduire l&#39;arborescence de votre dossier source dans la sortie.
      Pour plus de détails sur cette option du compilateur, voir [TypeScript - Root Dir](https://www.typescriptlang.org/tsconfig/#rootDir).
 
    * **`outDir: "dist"`** — Écrit le JavaScript généré (ainsi que les autres sorties du compilateur) dans le dossier `dist`.
@@ -166,21 +166,21 @@ Pour configurer votre projet pour l’ESM :
 
 4. Compilez votre fichier TypeScript.
 
-   Pour un fichier d’exemple `test.ts` :
+   Pour un fichier d&#39;exemple `test.ts` :
 
    ```bash
    npx tsc
    ```
 
-   Cela compile le fichier en `dist/test.js`.
+   Le fichier est compilé vers `dist/test.js`.
 
-5. Exécutez le fichier compilé avec Node.js et préchargez l’instrumentation de Weave :
+5. Exécutez le fichier compilé avec Node.js et préchargez l&#39;instrumentation de Weave :
 
    ```bash
    node --import=weave/instrument dist/test.js
    ```
 
-L’option `--import` garantit que le module `weave/instrument` est chargé avant les autres modules, afin que Weave puisse instrumenter automatiquement les bibliothèques et intégrations prises en charge.
+L&#39;option `--import` garantit que le module `weave/instrument` est chargé avant les autres modules, afin que Weave puisse instrumenter automatiquement les bibliothèques et intégrations prises en charge.
 
 Weave doit être installé localement dans le projet que vous exécutez.
 

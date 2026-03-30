@@ -11,21 +11,21 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `BetaReport`
 
-BetaReport は、W&B で作成されたレポートに関連付けられたクラスです。 
+BetaReport は、W&amp;B で作成されたレポートに 연결된 クラスです。
 
-レポートの属性（name、description、user、spec、timestamps）へのアクセスや、関連する run やセクションの取得、レポートを HTML としてレンダリングするためのメソッドを提供します。 
+レポートの属性 (名、description、user、spec、timestamps) への 액세스や、関連する run やセクションの取得、レポートを HTML として表示するための method を提供します。
 
 **Attributes:**
 
-- `id` (string):  レポートの一意の識別子。 
- - `display_name` (string):  レポートの人間が読める表示名。 
- - `name` (string):  レポートの名前。よりユーザーフレンドリーな名前には `display_name` を使用します。 
- - `description` (string):  レポートの説明。 
- - `user` (User):  レポートを作成したユーザー情報（username、email）を含む辞書。 
- - `spec` (dict):  レポートの spec。 
- - `url` (string):  レポートの URL。 
- - `updated_at` (string):  最終更新時刻のタイムスタンプ。 
- - `created_at` (string):  レポートの作成時刻のタイムスタンプ。 
+* `id` (string):  レポートの一意の ID。
+* `display_name` (string):  レポートの人間が読める表示名。
+* `name` (string):  レポートの名。よりユーザーフレンドリーな名前には `display_name` を使用します。
+* `description` (string):  レポートの説明。
+* `user` (User):  レポートを作成したユーザー情報 (username、email) を含む dict。
+* `spec` (dict):  レポートの spec。
+* `url` (string):  レポートの URL。
+* `updated_at` (string):  最終更新時刻のタイムスタンプ。
+* `created_at` (string):  レポートの作成時刻のタイムスタンプ。 
 
 ### <kbd>method</kbd> `BetaReport.__init__`
 
@@ -41,47 +41,47 @@ __init__(
 ***
 
 
-### <kbd>property</kbd> BetaReport.created_at
+### <kbd>プロパティ</kbd> BetaReport.created_at
 
----
+***
 
-### <kbd>property</kbd> BetaReport.description
+### <kbd>プロパティ</kbd> BetaReport.description
 
----
+***
 
-### <kbd>property</kbd> BetaReport.display_name
+### <kbd>プロパティ</kbd> BetaReport.display_name
 
----
+***
 
-### <kbd>property</kbd> BetaReport.id
+### <kbd>プロパティ</kbd> BetaReport.id
 
----
+***
 
-### <kbd>property</kbd> BetaReport.name
+### <kbd>プロパティ</kbd> BetaReport.名
 
----
+***
 
 ### <kbd>property</kbd> BetaReport.sections
 
-レポートのパネルセクション（グループ）を取得します。 
+レポートのパネルセクション (グループ) を取得します。
 
----
+***
 
-### <kbd>property</kbd> BetaReport.spec
+### <kbd>プロパティ</kbd> BetaReport.spec
 
----
+***
 
 ### <kbd>プロパティ</kbd> BetaReport.updated_at
 
----
+***
 
-### <kbd>property</kbd> BetaReport.url
+### <kbd>プロパティ</kbd> BetaReport.url
 
----
+***
 
-### <kbd>property</kbd> BetaReport.user
+### <kbd>プロパティ</kbd> BetaReport.user
 
----
+***
 
 ### <kbd>method</kbd> `BetaReport.runs`
 

@@ -7,16 +7,16 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" />
 
-La bibliothèque `wandb` inclut un callback spécifique pour [LightGBM](https://lightgbm.readthedocs.io/en/latest/). Il est également facile d’utiliser les fonctionnalités de journal génériques de W&amp;B pour suivre des expériences de grande ampleur, comme les balayages d’hyperparamètres.
+La bibliothèque `wandb` inclut un callback spécifique pour [LightGBM](https://lightgbm.readthedocs.io/en/latest/). Il est également facile d’utiliser les fonctionnalités de journalisation génériques de W&amp;B pour suivre des expériences de grande ampleur, comme les balayages d’hyperparamètres.
 
 ```python
 from wandb.integration.lightgbm import wandb_callback, log_summary
 import lightgbm as lgb
 
-# Journaliser des métriques dans W&B
+# Consigner des métriques dans W&B
 gbm = lgb.train(..., callbacks=[wandb_callback()])
 
-# Journaliser le graphique d'importance des variables et téléverser le point de contrôle du modèle dans W&B
+# Consigner le graphique d'importance des variables et téléverser le point de contrôle du modèle dans W&B
 log_summary(gbm, save_model_checkpoint=True)
 ```
 

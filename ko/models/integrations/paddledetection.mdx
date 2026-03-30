@@ -1,5 +1,5 @@
 ---
-description: "객체 탐지 모델 트레이닝을 추적하고, 메트릭을 로깅하며, 결과를 시각화할 수 있도록 W&B를 PaddleDetection과 통합합니다."
+description: "객체 탐지 모델 트레이닝을 추적하고, 메트릭을 기록하며, 결과를 시각화할 수 있도록 W&B를 PaddleDetection과 통합합니다."
 title: PaddleDetection
 ---
 
@@ -8,13 +8,13 @@ import ApiKeyCreateStreamlined from "/snippets/ko/_includes/api-key-create-strea
 
 <ColabLink url="https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing" />
 
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)은 [PaddlePaddle](https://github.com/PaddlePaddle/Paddle)을 기반으로 한 엔드투엔드 객체 탐지 개발 키트입니다. 네트워크 컴포넌트, 데이터 증강, 로스와 같은 구성 가능한 모듈을 사용해 다양한 주요 객체를 탐지하고, 인스턴스 세그멘테이션을 수행하며, 키포인트를 추적 및 감지할 수 있습니다.
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection)은 [PaddlePaddle](https://github.com/PaddlePaddle/Paddle)을 기준으로 한 엔드투엔드 객체 탐지 개발 키트입니다. 네트워크 컴포넌트, 데이터 증강, 로스와 같은 구성 가능한 모듈을 사용해 다양한 주요 객체를 탐지하고, 인스턴스 세그멘테이션을 수행하며, 키포인트를 추적 및 감지할 수 있습니다.
 
 PaddleDetection에는 이제 기본 제공 W&amp;B 인테그레이션이 포함되어, 모든 트레이닝 및 검증 메트릭과 더불어 모델 체크포인트와 해당 메타데이터를 로깅합니다.
 
 PaddleDetection의 `WandbLogger`는 트레이닝 및 평가 메트릭을 W&amp;B에 로깅하고, 트레이닝 중 모델 체크포인트도 함께 기록합니다.
 
-`COCO2017` 데이터셋의 일부 서브셋에서 YOLOX 모델을 PaddleDetection과 인테그레이션하는 방법을 보여주는 [W&amp;B 블로그 포스트를 읽어보세요](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0).
+`COCO2017` 데이터셋의 일부 서브셋에서 YOLOX 모델을 PaddleDetection과 인테그레이션하는 방법을 보여주는 [W&amp;B 블로그 포스트를 조회하세요](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0).
 
 <div id="sign-up-and-create-an-api-key">
   ## 회원 가입 및 API 키 생성
@@ -34,7 +34,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증합니다. API 키는 사용
 로컬에서 `wandb` 라이브러리를 설치하고 로그인하려면:
 
 <Tabs>
-  <Tab title="Command Line">
+  <Tab title="명령줄">
     1. `WANDB_API_KEY` [환경 변수](/ko/models/track/environment-variables/)를 자신의 API 키로 설정합니다.
 
        ```bash
@@ -76,12 +76,12 @@ API 키는 사용 중인 머신을 W&amp;B에 인증합니다. API 키는 사용
 </div>
 
 <Tabs>
-  <Tab title="Command Line">
-    [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/)에서 `train.py`에 커맨드라인 인자를 통해 wandb를 사용하려면:
+  <Tab title="명령줄">
+    [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/)에서 `train.py`에 커맨드라인 인수를 통해 wandb를 사용하려면:
 
     * `--use_wandb` 플래그를 추가합니다.
-    * 첫 번째 wandb 인자 앞에는 `-o`를 붙여야 합니다(한 번만 지정하면 됩니다).
-    * 각 인자에는 `"wandb-"` 프리픽스를 포함해야 합니다. 예를 들어 [`wandb.init()`](/ko/models/ref/python/functions/init)에 전달할 어떤 인자든 `wandb-` 프리픽스를 붙이면 됩니다.
+    * 첫 번째 wandb 인수 앞에는 `-o`를 붙여야 합니다(한 번만 지정하면 됩니다).
+    * 각 인수에는 `"wandb-"` 프리픽스를 포함해야 합니다. 예를 들어 [`wandb.init()`](/ko/models/ref/python/functions/init)에 전달할 어떤 인수든 `wandb-` 프리픽스를 붙이면 됩니다.
 
     ```shell
     python tools/train.py 
@@ -95,7 +95,7 @@ API 키는 사용 중인 머신을 W&amp;B에 인증합니다. API 키는 사용
   </Tab>
 
   <Tab title="`config.yml`">
-    `wandb` 키 아래에 wandb 인자를 `config.yml` 파일에 추가합니다:
+    `wandb` 키 아래에 wandb 인수를 `config.yml` 파일에 추가합니다:
 
     ```
     wandb:

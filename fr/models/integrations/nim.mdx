@@ -19,7 +19,7 @@ W&amp;B Launch accepte actuellement les types de modèles compatibles suivants 
   ## Démarrage rapide
 </div>
 
-1. [Créez une file d&#39;attente Launch](/fr/platform/launch/add-job-to-queue/) si vous n&#39;en avez pas déjà une. Voir ci-dessous un exemple de configuration de file d&#39;attente.
+1. [Créez une file d’attente Launch](/fr/platform/launch/add-job-to-queue/) si vous n’en avez pas déjà une. Voir un exemple de configuration de file d’attente ci-dessous.
 
    ```yaml
    net: host
@@ -33,7 +33,7 @@ W&amp;B Launch accepte actuellement les types de modèles compatibles suivants 
      <img src="/images/integrations/nim1.png" alt="image" />
    </Frame>
 
-2. Créez ce job dans votre projet :
+2. Créez ce job dans votre projet :
 
    ```bash
    wandb job create -n "deploy-to-nvidia-nemo-inference-microservice" \
@@ -44,13 +44,13 @@ W&amp;B Launch accepte actuellement les types de modèles compatibles suivants 
       git https://github.com/wandb/launch-jobs
    ```
 
-3. Lancez un agent sur votre machine GPU :
+3. Lancez un agent sur votre machine GPU :
    ```bash
    wandb launch-agent -e $ENTITY -p $PROJECT -q $QUEUE
    ```
 
-4. Soumettez le job de déploiement Launch avec les configurations souhaitées depuis l&#39;[interface Launch](https://wandb.ai/launch)
-   1. Vous pouvez également le soumettre via la CLI :
+4. Soumettez le job Launch de déploiement avec vos configurations souhaitées depuis l’[interface Launch](https://wandb.ai/launch)
+   1. Vous pouvez également le soumettre via la CLI :
       ```bash
       wandb launch -d gcr.io/playground-111/deploy-to-nemo:latest \
         -e $ENTITY \
@@ -62,12 +62,12 @@ W&amp;B Launch accepte actuellement les types de modèles compatibles suivants 
         <img src="/images/integrations/nim2.png" alt="image" />
       </Frame>
 
-5. Vous pouvez suivre le processus de déploiement dans l&#39;interface Launch.
+5. Vous pouvez suivre le processus de déploiement dans l’interface Launch.
    <Frame>
      <img src="/images/integrations/nim3.png" alt="image" />
    </Frame>
 
-6. Une fois l&#39;opération terminée, vous pouvez immédiatement envoyer une requête curl au point de terminaison pour tester le modèle. Le nom du modèle est toujours `ensemble`.
+6. Une fois terminé, vous pouvez immédiatement envoyer une requête curl au point de terminaison pour tester le modèle. Le nom du modèle est toujours `ensemble`.
    ```bash
     #!/bin/bash
     curl -X POST "http://0.0.0.0:9999/v1/completions" \

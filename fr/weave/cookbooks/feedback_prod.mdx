@@ -1,6 +1,6 @@
 ---
 title: "Retours en production"
-description: "Collectez et analysez les retours utilisateur sur les sorties de LLM en production à l’aide des fonctionnalités de suivi des retours de W&B Weave."
+description: "Collectez et analysez les retours des utilisateurs sur les sorties de LLM en production à l'aide des fonctionnalités de suivi des retours de W&B Weave."
 ---
 
 <Note>
@@ -181,6 +181,7 @@ if __name__ == "__main__":
     main()
 ```
 
+
 Vous pouvez lancer ceci avec `streamlit run chatbot.py`.
 
 Vous pouvez maintenant interagir avec cette application et cliquer sur les boutons de retour après chaque réponse.
@@ -204,7 +205,7 @@ def predict(input_data):
     return some_result
 ```
 
-Nous pouvons l’utiliser comme d’habitude pour fournir à l’utilisateur une réponse du modèle :
+Nous pouvons l’utiliser comme d’habitude pour fournir à l’utilisateur une réponse générée par le modèle :
 
 ```python lines
 with weave.attributes(
@@ -213,17 +214,17 @@ with weave.attributes(
     result = predict(input_data="your data here")  # question de l'utilisateur via l'interface de l'application
 ```
 
-Pour associer un retour, vous avez besoin de l’objet `call`, que vous obtenez en utilisant la méthode `.call()` *au lieu d’appeler la fonction normalement* :
+Pour associer un retour, vous devez disposer de l’objet `call`, obtenu à l’aide de la méthode `.call()` *au lieu d’appeler la fonction normalement* :
 
 ```python lines
 result, call = predict.call(input_data="your data here")
 ```
 
-Cet objet d’appel est nécessaire pour associer des retours à la réponse concernée.
-Après avoir effectué l’appel, le résultat de l’opération est disponible via `result` ci-dessus.
+Cet objet d’appel est nécessaire pour associer des retours à cette réponse précise.
+Après avoir effectué l’appel, le résultat de l’opération est disponible dans `result` ci-dessus.
 
 ```python lines
-call.feedback.add_reaction("👍")  # réaction de l'utilisateur via l'interface de l'application
+call.feedback.add_reaction("👍")  # réaction de l'utilisateur via l'interface utilisateur de l'application
 ```
 
 

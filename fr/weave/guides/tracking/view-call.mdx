@@ -1,6 +1,6 @@
 ---
-title: "Afficher et personnaliser l’Affichage des traces"
-description: "Afficher les appels dans l’interface utilisateur et personnaliser l’Affichage des données de trace"
+title: "Afficher et personnaliser l’affichage des traces"
+description: "Afficher les appels dans l’interface utilisateur et personnaliser l’affichage des données de trace"
 ---
 
 Après avoir créé des appels dans W&amp;B Weave, vous souhaitez souvent ouvrir un appel unique pour inspecter ses entrées, ses sorties et ses métadonnées. Cette page explique comment afficher un appel dans l’interface utilisateur ou dans le SDK, et comment personnaliser le rendu des données de trace dans l’interface utilisateur à l’aide de `weave.Markdown`.
@@ -14,7 +14,7 @@ Après avoir créé des appels dans W&amp;B Weave, vous souhaitez souvent ouvrir
     3. Trouvez l’appel que vous souhaitez afficher dans le tableau.
     4. Cliquez sur l’appel pour ouvrir sa page de détails.
 
-    Pour en savoir plus sur la Vue de trace, voir [Naviguer dans la Vue de trace Weave](/fr/weave/guides/tracking/trace-tree).
+    Pour en savoir plus sur la vue de trace, voir [Naviguer dans la vue de trace Weave](/fr/weave/guides/tracking/trace-tree).
   </Tab>
 
   <Tab title="Python">
@@ -66,11 +66,11 @@ Après avoir créé des appels dans W&amp;B Weave, vous souhaitez souvent ouvrir
   ## Personnalisez le rendu des traces avec `weave.Markdown`
 </div>
 
-Utilisez `weave.Markdown` pour personnaliser l’Affichage des informations de trace sans perdre les données d’origine. Cela vous permet d’afficher vos entrées et sorties sous forme de blocs de contenu mis en forme et plus lisibles, tout en préservant la structure de données sous-jacente.
+Utilisez `weave.Markdown` pour personnaliser l&#39;affichage des informations de trace sans perdre les données d&#39;origine. Cela vous permet d&#39;afficher vos entrées et sorties sous forme de blocs de contenu mis en forme et plus lisibles, tout en préservant la structure de données sous-jacente.
 
 <Tabs>
   <Tab title="Python">
-    Utilisez les fonctions `postprocess_inputs` et `postprocess_output` dans votre décorateur `@weave.op` pour mettre en forme vos données de trace. L’exemple de code suivant utilise des postprocesseurs pour afficher un appel dans Weave avec des émojis et une mise en forme plus lisible :
+    Utilisez les fonctions `postprocess_inputs` et `postprocess_output` dans votre décorateur `@weave.op` pour mettre en forme vos données de trace. L&#39;exemple de code suivant utilise des postprocesseurs pour afficher un appel dans Weave avec des émojis et une mise en forme plus lisible :
 
     ```python lines
     import weave
@@ -136,6 +136,6 @@ Utilisez `weave.Markdown` pour personnaliser l’Affichage des informations de t
   </Tab>
 </Tabs>
 
-Dans la capture d’écran suivante, vous voyez les sorties non mises en forme et mises en forme côte à côte.
+Dans la capture d&#39;écran suivante, vous voyez les sorties non mises en forme et mises en forme côte à côte.
 
-![Un appel affiché dans l’interface Weave à l’aide de l’exemple de code.](/weave/guides/tracking/imgs/md-call-render.png)
+![Un appel affiché dans l'interface Weave à l'aide de l'exemple de code.](/weave/guides/tracking/imgs/md-call-render.png)

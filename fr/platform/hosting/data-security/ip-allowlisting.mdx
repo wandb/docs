@@ -1,14 +1,14 @@
 ---
-title: Configurer l’autorisation d’adresses IP pour le Cloud dédié
-description: "Restreignez l’accès à une instance W&B Cloud dédié aux adresses IP autorisées à l’aide d’une liste d’autorisation."
+title: Configurer l'autorisation d'adresses IP pour le Cloud dédié
+description: "Restreignez l'accès à une instance W&B Cloud dédié aux adresses IP autorisées à l'aide d'une liste d'autorisation."
 ---
 
-Vous pouvez restreindre l’accès à votre instance [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) à une liste d’adresses IP autorisées uniquement. Cela s’applique aussi bien à l’accès depuis vos charges de travail d’IA aux API W&amp;B qu’à l’accès depuis les navigateurs de vos utilisateurs à l’interface de l’application W&amp;B. Une fois la liste d’autorisation d’adresses IP configurée pour votre instance Cloud dédié, W&amp;B refuse toute requête provenant d’autres emplacements non autorisés. Contactez votre équipe W&amp;B pour configurer l’autorisation d’adresses IP pour votre instance Cloud dédié.
+Vous pouvez restreindre l&#39;accès à votre instance [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) à une liste d&#39;adresses IP autorisées uniquement. Cela s&#39;applique aussi bien à l&#39;accès depuis vos charges de travail d&#39;IA aux API W&amp;B qu&#39;à l&#39;accès depuis les navigateurs de vos utilisateurs à l&#39;interface de l&#39;application W&amp;B. Une fois la liste d&#39;autorisation d&#39;adresses IP configurée pour votre instance Cloud dédié, W&amp;B refuse toute requête provenant d&#39;autres emplacements non autorisés. Contactez votre équipe W&amp;B pour configurer l&#39;autorisation d&#39;adresses IP pour votre instance Cloud dédié.
 
-L’autorisation d’adresses IP est disponible pour les instances Cloud dédié sur AWS, Google Cloud et Azure.
+L&#39;autorisation d&#39;adresses IP est disponible pour les instances Cloud dédié sur AWS, Google Cloud et Azure.
 
-Vous pouvez utiliser l’autorisation d’adresses IP avec la [connectivité privée sécurisée](./private-connectivity). Si vous utilisez l’autorisation d’adresses IP avec la connectivité privée sécurisée, W&amp;B recommande d’utiliser la connectivité privée sécurisée pour tout le trafic provenant de vos charges de travail d’IA et, si possible, pour la majeure partie du trafic provenant des navigateurs de vos utilisateurs, tout en utilisant l’autorisation d’adresses IP pour l’administration de l’instance depuis des emplacements privilégiés.
+Vous pouvez utiliser l&#39;autorisation d&#39;adresses IP avec la [connectivité privée sécurisée](./private-connectivity). Si vous utilisez l&#39;autorisation d&#39;adresses IP avec la connectivité privée sécurisée, W&amp;B recommande d&#39;utiliser la connectivité privée sécurisée pour tout le trafic provenant de vos charges de travail d&#39;IA et, si possible, pour la majeure partie du trafic provenant des navigateurs de vos utilisateurs, tout en utilisant l&#39;autorisation d&#39;adresses IP pour l&#39;administration de l&#39;instance depuis des emplacements privilégiés.
 
 <Warning>
-  W&amp;B recommande fortement d’utiliser des [blocs CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) attribués à vos passerelles de sortie d’entreprise plutôt que des adresses IP `/32` individuelles. L’utilisation d’adresses IP individuelles n’est pas évolutive et est soumise à des limites strictes selon le cloud.
+  W&amp;B recommande fortement d&#39;utiliser des [blocs CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) attribués à vos passerelles de sortie d&#39;entreprise plutôt que des adresses IP `/32` individuelles. L&#39;utilisation d&#39;adresses IP individuelles n&#39;est pas évolutive et est soumise à des limites strictes selon le cloud.
 </Warning>

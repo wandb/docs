@@ -1,5 +1,5 @@
 ---
-description: Algorithmes de pointe pour l’entraînement de vos réseaux neuronaux
+description: Algorithmes de pointe pour entraîner vos réseaux neuronaux
 title: MosaicML Composer
 ---
 
@@ -12,7 +12,7 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 W&amp;B fournit un wrapper léger pour la journalisation de vos expériences de ML. Mais vous n’avez pas besoin d’intégrer les deux vous-même : W&amp;B est directement intégré à la bibliothèque Composer via [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts).
 
 <div id="start-logging-to-wb">
-  ## Commencez la journalisation dans W&amp;B
+  ## Commencez la journalisation avec W&amp;B
 </div>
 
 ```python
@@ -30,7 +30,7 @@ trainer = Trainer(..., logger=WandBLogger())
   ## Utilisez `WandBLogger` de Composer
 </div>
 
-La bibliothèque Composer utilise la classe [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) dans le `Trainer` pour la journalisation des métriques dans W&amp;B. Il suffit d&#39;instancier le logger et de le passer au `Trainer`.
+La bibliothèque Composer utilise la classe [WandBLogger](https://docs.mosaicml.com/projects/composer/en/stable/trainer/file_uploading.html#weights-biases-artifacts) dans le `Trainer` pour consigner des métriques dans W&amp;B. Il suffit d&#39;instancier le logger et de le passer au `Trainer`.
 
 ```python
 wandb_logger = WandBLogger(project="gpt-5", log_artifacts=True)
@@ -38,21 +38,21 @@ trainer = Trainer(logger=wandb_logger)
 ```
 
 <div id="logger-arguments">
-  ## Arguments du logger
+  ## Arguments du journaliseur
 </div>
 
-Pour les paramètres de `WandbLogger` ci-dessous, voir la [documentation Composer](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html) pour une liste complète et leur description.
+Pour les paramètres de `WandbLogger` ci-dessous, consultez la [documentation Composer](https://docs.mosaicml.com/projects/composer/en/stable/api_reference/generated/composer.loggers.WandBLogger.html) pour obtenir la liste complète et leur description.
 
-| Paramètre        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `project`        | Nom du projet W&amp;B (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `group`          | Nom du groupe W&amp;B (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `name`           | Nom du run W&amp;B. S&#39;il n&#39;est pas spécifié, `State.run_name` est utilisé (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                      |
-| `entity`         | Nom de l&#39;entité W&amp;B, par exemple votre nom d&#39;utilisateur ou le nom de votre équipe W&amp;B (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                 |
-| `tags`           | Tags W&amp;B (List[str], facultatif)                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `log_artifacts`  | Indique s&#39;il faut effectuer la journalisation des points de contrôle dans wandb, valeur par défaut : `false` (bool, facultatif)                                                                                                                                                                                                                                                                                                                                                       |
-| `rank_zero_only` | Indique s&#39;il faut effectuer la journalisation uniquement sur le processus de rang zéro. Lors de la journalisation des artefacts, il est vivement recommandé d&#39;effectuer la journalisation sur tous les rangs. Les artefacts des rangs ≥1 ne sont pas stockés, ce qui peut entraîner la perte d&#39;informations importantes. Par exemple, avec Deepspeed ZeRO, il serait impossible de restaurer à partir de points de contrôle sans les artefacts de tous les rangs, valeur par défaut : `True` (bool, facultatif) |
-| `init_kwargs`    | Paramètres à transmettre à `wandb.init()`, comme votre `config` wandb, etc. Voir les [paramètres de `wandb.init()`](/fr/models/ref/python/functions/init) pour les paramètres acceptés par `wandb.init()`.                                                                                                                                                                                                                                                                                  |
+| Paramètre        | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `project`        | nom du projet W&amp;B (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `group`          | nom du groupe W&amp;B (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `name`           | nom de l&#39;exécution W&amp;B. S&#39;il n&#39;est pas spécifié, `State.run&#95;name` est utilisé (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `entity`         | nom de l&#39;entité W&amp;B, comme votre nom d&#39;utilisateur ou le nom de votre équipe W&amp;B (str, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `tags`           | tag W&amp;B (List[str], facultatif)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `log_artifacts`  | Indique s&#39;il faut journaliser les points de contrôle dans wandb, valeur par défaut : `false` (bool, facultatif)                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `rank_zero_only` | Indique s&#39;il faut journaliser uniquement sur le processus de rang zéro. Lors de la journalisation d&#39;Artifacts, il est fortement recommandé de journaliser sur tous les rangs. Les Artifacts des rangs ≥1 ne sont pas stockés, ce qui peut entraîner la perte d&#39;informations pertinentes. Par exemple, lors de l&#39;utilisation de Deepspeed ZeRO, il serait impossible de restaurer à partir de points de contrôle sans les Artifacts de tous les rangs, valeur par défaut : `True` (bool, facultatif) |
+| `init_kwargs`    | Paramètres à transmettre à `wandb.init()`, comme votre `config` wandb, etc. Voir les [paramètres de `wandb.init()`](/fr/models/ref/python/functions/init) pour les paramètres que `wandb.init()` accepte.                                                                                                                                                                                                                                                                                                              |
 
 Une utilisation typique serait :
 
@@ -70,7 +70,7 @@ wandb_logger = WandBLogger(log_artifacts=True, init_kwargs=init_kwargs)
   ## Journalisation d’échantillons de prédictions
 </div>
 
-Vous pouvez utiliser le système de [Callbacks de Composer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) pour contrôler à quel moment vous effectuez la journalisation dans W&amp;B via `WandBLogger` ; dans cet exemple, un échantillon d’images de validation et de prédictions fait l’objet d’une journalisation :
+Vous pouvez utiliser le système de [callbacks de Composer](https://docs.mosaicml.com/projects/composer/en/stable/trainer/callbacks.html) pour contrôler à quel moment vous journalisez dans W&amp;B via le `WandBLogger` ; dans cet exemple, un échantillon d’images de validation et de prédictions est journalisé :
 
 ```python
 import wandb

@@ -13,9 +13,9 @@ Weave suit et consigne automatiquement les appels LLM effectués via la [bibliot
   ## Traces
 </div>
 
-Il est important de stocker les traces des applications LLM dans une base de données centralisée, aussi bien pendant le développement qu&#39;en production. Vous utiliserez ces traces pour le débogage, ainsi que comme jeu de données pour vous aider à améliorer votre application.
+Il est important de stocker les traces des applications LLM dans une base de données centralisée, aussi bien pendant le développement qu’en production. Vous utiliserez ces traces à des fins de débogage, ainsi que comme jeu de données pour améliorer votre application.
 
-Weave capturera automatiquement les traces de [cohere-python](https://github.com/cohere-ai/cohere-python). Vous pouvez utiliser la bibliothèque comme d&#39;habitude ; commencez par appeler `weave.init()` :
+Weave capturera automatiquement les traces de [cohere-python](https://github.com/cohere-ai/cohere-python). Vous pouvez utiliser la bibliothèque comme d’habitude ; commencez par appeler `weave.init()` :
 
 ```python lines {8}
 import cohere
@@ -35,21 +35,21 @@ response = co.chat(
 print(response.text)
 ```
 
-Si vous ne spécifiez pas d&#39;équipe W&amp;B lorsque vous appelez `weave.init()`, votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous aux [Paramètres utilisateur](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) dans la documentation de W&amp;B Models.
+Si vous ne spécifiez pas d&#39;équipe W&amp;B lorsque vous appelez `weave.init()`, votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, consultez les [Paramètres utilisateur](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) dans la documentation W&amp;B Models.
 
-Une fonctionnalité puissante des modèles Cohere est l&#39;utilisation de [connecteurs](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations), qui vous permettent d&#39;effectuer des requêtes vers d&#39;autres API du côté du point de terminaison. La réponse contient alors le texte généré avec des éléments de citation qui renvoient vers les documents retournés par le connecteur.
+L&#39;une des fonctionnalités puissantes des modèles Cohere est l&#39;utilisation de [connecteurs](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations), qui vous permettent d&#39;effectuer des requêtes vers d&#39;autres API côté point de terminaison. La réponse contient alors le texte généré, avec des éléments de citation renvoyant vers les documents retournés par le connecteur.
 
 [![cohere\_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 <Note>
-  Nous patchons pour vous les méthodes Cohere `Client.chat`, `AsyncClient.chat`, `Client.chat_stream` et `AsyncClient.chat_stream` afin que vous puissiez suivre vos appels LLM.
+  Nous appliquons automatiquement un patch aux méthodes Cohere `Client.chat`, `AsyncClient.chat`, `Client.chat_stream` et `AsyncClient.chat_stream` afin de vous permettre de suivre vos appels LLM.
 </Note>
 
 <div id="wrapping-with-your-own-ops">
-  ## Utiliser vos propres ops
+  ## Encapsuler avec vos propres ops
 </div>
 
-Les ops Weave rendent les résultats *reproductibles* en assurant automatiquement la gestion des versions du code pendant vos expérimentations, et elles capturent leurs entrées et leurs sorties. Créez simplement une fonction décorée avec [`@weave.op()`](/fr/weave/guides/tracking/ops) qui appelle les méthodes de chat de Cohere, et Weave suivra les entrées et les sorties pour vous. Voici un exemple :
+Les ops Weave rendent les résultats *reproductibles* grâce à la gestion automatique des versions du code au fil de vos expérimentations, et capturent leurs entrées et leurs sorties. Créez simplement une fonction décorée avec [`@weave.op()`](/fr/weave/guides/tracking/ops) qui appelle les méthodes de chat de Cohere, et Weave suivra les entrées et les sorties pour vous. Voici un exemple :
 
 ```python lines {9}
 import cohere
@@ -81,7 +81,7 @@ print(weather("Boston", "command"))
 
 Il est difficile d’organiser l’expérimentation lorsqu’il y a de nombreux éléments à prendre en compte. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
 
-En plus de la gestion des versions du code et de la capture des entrées et sorties, les [`Model`](/fr/weave/guides/core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet de trouver facilement les paramètres les plus efficaces. Vous pouvez également utiliser les Models Weave avec `serve` et les [`Evaluation`](/fr/weave/guides/core-types/evaluations)s.
+En plus de la gestion des versions du code et de la capture des entrées et sorties, les [`Model`](/fr/weave/guides/core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet de trouver facilement les paramètres les plus efficaces. Vous pouvez également utiliser les modèles Weave avec `serve` et les [`Évaluation`](/fr/weave/guides/core-types/evaluations)s.
 
 Dans l’exemple ci-dessous, vous pouvez expérimenter avec `model` et `temperature`. Chaque fois que vous en modifiez un, vous obtenez une nouvelle *version* de `WeatherModel`.
 

@@ -1,6 +1,6 @@
 ---
 description: Certaines fonctionnalités de cette page sont en version bêta et masquées derrière un feature flag.
-  Ajoutez `weave-plot` à votre bio sur votre page de profil pour déverrouiller toutes les fonctionnalités associées.
+  Ajoutez `weave-plot` à votre bio sur votre page de profil pour activer toutes les fonctionnalités associées.
 title: Aperçu des panneaux de requête
 ---
 
@@ -11,11 +11,11 @@ title: Aperçu des panneaux de requête
 Utilisez les panneaux de requête pour interroger et visualiser vos données de manière interactive.
 
 <Frame>
-  <img src="/images/weave/pretty_panel.png" alt="Panneau de requête" />
+  <img src="/images/weave/pretty_panel.png" alt="panneau de requête" />
 </Frame>
 
 {/* <Note>
-  Voir le [rapport de benchmark Keras XLA](http://wandb.me/keras-xla-benchmark) pour découvrir comment cette équipe a utilisé des panneaux de requêtes pour visualiser ses résultats.
+  Voir le [rapport de benchmark Keras XLA](http://wandb.me/keras-xla-benchmark) pour découvrir comment cette équipe a utilisé des panneaux de requête pour visualiser ses résultats.
   </Note> */}
 
 <div id="create-a-query-panel">
@@ -54,13 +54,13 @@ Ajoutez une requête à votre espace de travail ou à un rapport.
   ### Expressions
 </div>
 
-Utilisez des expressions de requête pour interroger les données stockées dans W&amp;B, comme les runs, les artefacts, les modèles, les tableaux, etc.
+Utilisez des expressions de requête pour interroger les données stockées dans W&amp;B, telles que les runs, les artefacts, les modèles, les tableaux, etc.
 
 <div id="example-query-a-table">
   #### Exemple : interroger un tableau
 </div>
 
-Supposons que vous souhaitiez effectuer une requête sur un tableau W&amp;B. Dans votre code d’entraînement, vous journalisez un tableau nommé `"cifar10_sample_table"` :
+Supposons que vous souhaitiez effectuer une requête sur un tableau W&amp;B. Dans votre code d’entraînement, vous ajoutez au journal un tableau nommé `"cifar10_sample_table"` :
 
 ```python
 import wandb
@@ -68,7 +68,7 @@ with wandb.init() as run:
   run.log({"cifar10_sample_table":<MY_TABLE>})
 ```
 
-Dans le panneau de requête, vous pouvez interroger votre tableau à l’aide de :
+Dans le panneau de requête, vous pouvez effectuer une requête sur votre tableau avec :
 
 ```python
 runs.summary["cifar10_sample_table"]
@@ -78,10 +78,10 @@ runs.summary["cifar10_sample_table"]
   <img src="/images/weave/basic_weave_expression.png" alt="Expression de requête de tableau" />
 </Frame>
 
-Décomposons cela :
+Décomposons cela :
 
-* `runs` est une variable automatiquement injectée dans les expressions du panneau de requête lorsque celui-ci se trouve dans un Workspace. Sa « valeur » est la liste des runs visibles dans ce Workspace précis. [Pour en savoir plus sur les différents attributs disponibles dans un run, voir ici](/fr/models/track/public-api-guide/#understanding-the-different-attributes).
-* `summary` est un op qui renvoie l’objet Summary d’un Run. Les ops sont *mappées*, ce qui signifie que cet op est appliqué à chaque Run de la liste et produit ainsi une liste d’objets Summary.
+* `runs` est une variable automatiquement injectée dans les expressions du panneau de requête lorsque celui-ci se trouve dans un Workspace. Sa « valeur » est la liste des runs visibles dans ce Workspace précis. [Pour en savoir plus sur les différents attributs disponibles dans un run, voir ici](/fr/models/track/public-api-guide/#understanding-the-different-attributes).
+* `summary` est un op qui renvoie l&#39;objet Summary d&#39;un Run. Les ops sont *mappées*, ce qui signifie que cet op est appliqué à chaque Run de la liste et produit ainsi une liste d&#39;objets Summary.
 * `["cifar10_sample_table"]` est un op Pick (indiqué par des crochets), avec `predictions` comme paramètre. Comme les objets Summary se comportent comme des dictionnaires ou des maps, cette opération sélectionne le champ `predictions` dans chaque objet Summary.
 
 Pour apprendre à écrire vos propres requêtes de manière interactive, consultez la [démo du panneau de requête](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr).
@@ -130,14 +130,14 @@ Triez à partir des options de colonne :
   ### Filtre
 </div>
 
-Vous pouvez soit filtrer directement dans la requête, soit utiliser le bouton de filtre situé dans l&#39;angle supérieur gauche (deuxième image)
+Vous pouvez soit filtrer directement dans la requête, soit utiliser le bouton Filtre situé dans l&#39;angle supérieur gauche (deuxième image)
 
 <Frame>
   <img src="/images/weave/weave_filter_1.png" alt="Syntaxe de filtrage de la requête" />
 </Frame>
 
 <Frame>
-  <img src="/images/weave/weave_filter_2.png" alt="Bouton de filtre" />
+  <img src="/images/weave/weave_filter_2.png" alt="Bouton Filtre" />
 </Frame>
 
 <div id="map">
@@ -178,7 +178,7 @@ L’opération concat permet de concaténer 2 tableaux et d’effectuer une conc
   ### Jointure
 </div>
 
-Il est également possible de joindre des tableaux directement dans la requête. Prenez l’expression de requête suivante :
+Il est également possible d’effectuer une jointure entre des tableaux directement dans la requête. Considérez l’expression de requête suivante :
 
 ```python
 project("luis_team_test", "weave_example_queries").runs.summary["short_table_0"].table.rows.concat.join(\
@@ -207,29 +207,29 @@ runs.summary["short_table_1"].table.rows.concat
 
 Où :
 
-* `(row) => row["Label"]` sont les sélecteurs de chaque tableau, qui déterminent sur quelle colonne effectuer la jointure
-* `"Table1"` et `"Table2"` sont les noms de chaque tableau lors de la jointure
-* `true` et `false` correspondent aux paramètres de jointure interne/externe à gauche et à droite
+* `(row) => row["Label"]` sont les sélecteurs de chaque tableau et déterminent la colonne sur laquelle effectuer la jointure
+* `"Table1"` et `"Table2"` sont les noms de chaque tableau une fois la jointure effectuée
+* `true` et `false` correspondent aux paramètres de jointure interne/externe gauche et droite
 
 <div id="runs-object">
   ## Objet Runs
 </div>
 
-Utilisez les panneaux de requête pour accéder à l’objet `runs`. Les objets run stockent les enregistrements de vos expériences. Vous trouverez plus de détails dans [Accéder à l’objet runs](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object), mais voici un aperçu rapide de ce que contient l’objet `runs` :
+Utilisez les panneaux de requête pour accéder à l&#39;objet `runs`. Les objets run stockent les enregistrements de vos expériences. Vous trouverez plus de détails dans [Accéder à l&#39;objet runs](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#3.-accessing-runs-object), mais voici un aperçu rapide de ce que contient l&#39;objet `runs` :
 
-* `summary` : Un dictionnaire d’informations qui résume les résultats du run. Il peut s’agir de scalaires comme la précision et la perte, ou de fichiers volumineux. Par défaut, `wandb.Run.log()` définit `summary` sur la valeur finale d’une série temporelle enregistrée. Vous pouvez également définir directement le contenu de `summary`. Considérez `summary` comme les sorties du run.
-* `history` : Une liste de dictionnaires destinée à stocker les valeurs qui changent pendant l’entraînement du modèle, comme la perte. La commande `wandb.Run.log()` ajoute des éléments à cet objet.
-* `config` : Un dictionnaire contenant les informations de configuration du run, comme les hyperparamètres d’un run d’entraînement ou les méthodes de prétraitement d’un run qui crée un artefact de jeu de données. Considérez cela comme les « entrées » du run
+* `summary` : Un dictionnaire d&#39;informations qui résume les résultats du run. Il peut s&#39;agir de scalaires comme la précision et la perte, ou de fichiers volumineux. Par défaut, `wandb.Run.log()` définit `summary` sur la valeur finale d&#39;une série temporelle enregistrée. Vous pouvez également définir directement le contenu de `summary`. Considérez `summary` comme les sorties du run.
+* `history` : Une liste de dictionnaires destinée à stocker les valeurs qui changent pendant l&#39;entraînement du modèle, comme la perte. La commande `wandb.Run.log()` ajoute des éléments à cet objet.
+* `config` : Un dictionnaire contenant les informations de configuration du run, comme les hyperparamètres d&#39;un run d&#39;entraînement ou les méthodes de prétraitement d&#39;un run qui crée un artefact de jeu de données. Considérez cela comme les « entrées » du run
 
 <Frame>
-  <img src="/images/weave/weave_runs_object.png" alt="Structure de l’objet runs" />
+  <img src="/images/weave/weave_runs_object.png" alt="Structure de l'objet runs" />
 </Frame>
 
 <div id="access-artifacts">
   ## Accéder aux Artifacts
 </div>
 
-Artifacts est un concept fondamental de W&amp;B. Il s&#39;agit d&#39;une collection versionnée et nommée de fichiers et de répertoires. Utilisez Artifacts pour suivre les poids de modèles, les jeux de données et tout autre fichier ou répertoire. Artifacts est stocké dans W&amp;B et peut être téléchargé ou utilisé dans d&#39;autres runs. Vous trouverez plus de détails et des exemples dans [Accéder aux artefacts](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts). On accède généralement à Artifacts à partir de l&#39;objet `project` :
+Les Artifacts sont un concept fondamental de W&amp;B. Il s&#39;agit d&#39;une collection versionnée et nommée de fichiers et de répertoires. Utilisez les Artifacts pour suivre les poids de modèles, les jeux de données et tout autre fichier ou répertoire. Les Artifacts sont stockés dans W&amp;B et peuvent être téléchargés ou utilisés dans d&#39;autres runs. Vous trouverez plus de détails et des exemples dans [Accéder aux artefacts](https://wandb.ai/luis_team_test/weave_example_queries/reports/Weave-queries---Vmlldzo1NzIxOTY2?accessToken=bvzq5hwooare9zy790yfl3oitutbvno2i6c2s81gk91750m53m2hdclj0jvryhcr#4.-accessing-artifacts). Les Artifacts sont généralement accessibles à partir de l&#39;objet `project` :
 
 * `project.artifactVersion()` : renvoie la version spécifique de l&#39;artefact pour un nom et une version donnés dans un projet
 * `project.artifact("")` : renvoie l&#39;artefact correspondant à un nom donné dans un projet. Vous pouvez ensuite utiliser `.versions` pour obtenir la liste de toutes les versions de cet artefact

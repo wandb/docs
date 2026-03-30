@@ -1,7 +1,7 @@
 ---
-title: Lorsque plusieurs jobs dans une file d’attente Docker téléchargent le même artefact, y a-t-il une mise en cache, ou est-il retéléchargé à chaque run ?
+title: Lorsque plusieurs jobs dans une file d’attente Docker téléchargent le même artefact, y a-t-il une mise en cache ou est-il retéléchargé à chaque run ?
 ---
 
-Il n’existe aucun mécanisme de mise en cache. Chaque job Launch s’exécute indépendamment. Configurez la file d’attente ou l’agent pour monter un cache partagé à l’aide d’arguments Docker dans la configuration de la file d’attente.
+Il n’existe aucun mécanisme de mise en cache. Chaque job Launch fonctionne indépendamment. Configurez la file d’attente ou l’agent afin de monter un cache partagé à l’aide d’arguments Docker dans la configuration de la file d’attente.
 
-De plus, montez le cache des artefacts W&amp;B comme volume persistant pour des cas d’utilisation spécifiques.
+De plus, montez le cache des W&amp;B Artifacts comme volume persistant pour des cas d’utilisation spécifiques.

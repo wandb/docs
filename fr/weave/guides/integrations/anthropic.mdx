@@ -3,8 +3,8 @@ title: "Anthropic"
 description: "Utilisez Weave pour suivre et consigner automatiquement les appels LLM effectués via le SDK Anthropic"
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_anthropic.ipynb" aria-label="Ouvrir dans Google Colab">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_anthropic.ipynb" aria-label="Open dans Google Colab">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open dans Colab" />
 </a>
 
 Lorsque vous intégrez Weave à votre code, il suit et consigne automatiquement les appels LLM effectués avec le SDK Anthropic en [Python](https://github.com/anthropics/anthropic-sdk-python) et en [TypeScript](https://github.com/anthropics/anthropic-sdk-typescript). Weave le fait en appelant automatiquement la méthode `Messages.create` d&#39;Anthropic.
@@ -13,7 +13,7 @@ Lorsque vous intégrez Weave à votre code, il suit et consigne automatiquement 
   ## Traces
 </div>
 
-Weave capture automatiquement les traces du SDK Anthropic lorsque vous ajoutez `weave.init("your-team-name/your-project-name")` à votre code. Si vous ne spécifiez pas de nom d’équipe comme argument dans `weave.init()`, Weave consigne la sortie dans votre [entité W&amp;B par défaut](/fr/platform/app/settings-page/user-settings/#default-team). Si vous ne spécifiez pas de nom de projet, Weave ne parvient pas à s’initialiser.
+Weave capture automatiquement les traces du SDK Anthropic lorsque vous ajoutez `weave.init("your-team-name/your-project-name")` à votre code. Si vous ne spécifiez pas de nom d’équipe comme argument dans `weave.init()`, Weave journalise la sortie dans votre [entité W&amp;B par défaut](/fr/platform/app/settings-page/user-settings/#default-team). Si vous ne spécifiez pas de nom de projet, Weave ne parvient pas à s’initialiser.
 
 Les exemples suivants montrent comment intégrer Weave dans un appel de base à Anthropic :
 
@@ -72,15 +72,15 @@ Les exemples suivants montrent comment intégrer Weave dans un appel de base à 
   </Tab>
 </Tabs>
 
-En incluant `weave.init()` dans le code, Weave capture automatiquement les informations de traçage et génère des liens. Vous pouvez voir les traces dans l’interface Weave en cliquant sur les liens.
+En incluant `weave.init()` dans le code, Weave capture automatiquement les informations de traçage et génère des liens. Vous pouvez consulter les traces dans l’interface Weave en cliquant sur les liens.
 
 [![anthropic\_trace.png](/weave/guides/integrations/imgs/anthropic_trace.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
 <div id="wrapping-with-your-own-ops">
-  ## Encapsuler avec vos propres ops
+  ## Encapsuler avec vos propres opérations
 </div>
 
-Les ops Weave versionnent automatiquement votre code au fil de vos expérimentations et en capturent les entrées et les sorties. Si vous décorez une fonction avec [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) (Python) ou l’encapsulez avec [`weave.op()`](/fr/weave/reference/typescript-sdk/functions/op) (TypeScript), et que cette fonction appelle [`Anthropic.messages.create`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages), Weave suit automatiquement les entrées et les sorties.
+Les opérations Weave versionnent automatiquement votre code au fil de vos expérimentations et en capturent les entrées et les sorties. Si vous décorez une fonction avec [`@weave.op()`](https://docs.wandb.ai/weave/guides/tracking/ops) (Python) ou l’encapsulez avec [`weave.op()`](/fr/weave/reference/typescript-sdk/functions/op) (TypeScript), et que cette fonction appelle [`Anthropic.messages.create`](https://platform.claude.com/docs/en/build-with-claude/working-with-messages), Weave suit automatiquement les entrées et les sorties.
 
 Les exemples suivants montrent comment suivre une fonction :
 
@@ -158,7 +158,7 @@ Les exemples suivants montrent comment suivre une fonction :
   </Tab>
 </Tabs>
 
-En décorant ou en encapsulant la fonction avec `weave.op()`, Weave capture le code de la fonction, ses entrées et sa sortie. Vous pouvez utiliser des ops pour suivre n’importe quelle fonction, y compris des fonctions imbriquées.
+En décorant ou en encapsulant la fonction avec `weave.op()`, Weave capture le code de la fonction, ses entrées et sa sortie. Vous pouvez utiliser des opérations pour suivre n’importe quelle fonction, y compris des fonctions imbriquées.
 
 [![anthropic\_ops.png](/weave/guides/integrations/imgs/anthropic_ops.png)](https://docs.wandb.ai/weave/guides/tracking/ops)
 
@@ -167,12 +167,12 @@ En décorant ou en encapsulant la fonction avec `weave.op()`, Weave capture le c
 </div>
 
 <Note>
-  La classe `weave.Model` est uniquement disponible dans le SDK Python de Weave. Pour TypeScript, utilisez le wrapper `weave.op()` pour suivre des fonctions avec des paramètres structurés.
+  La classe `weave.Model` est disponible uniquement dans le SDK Python de Weave. Pour TypeScript, utilisez le wrapper `weave.op()` pour suivre des fonctions avec des paramètres structurés.
 </Note>
 
-Il est difficile d’organiser l’expérimentation lorsqu’il y a beaucoup d’éléments en jeu. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser les détails de vos expériences dans votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
+Il est difficile d’organiser une expérimentation lorsqu’il y a de nombreux éléments en jeu. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
 
-En plus de versionner le code et de capturer les entrées/sorties, les [`Model`](/fr/weave/guides/core-types/models) capturent des paramètres structurés qui contrôlent le comportement de votre application. Cela peut vous aider à trouver les paramètres les plus efficaces. Vous pouvez également utiliser les Models de Weave avec `serve` et les [`Évaluations`](/fr/weave/guides/core-types/evaluations).
+En plus de gérer les versions du code et de capturer les entrées/sorties, les [`Model`](/fr/weave/guides/core-types/models) capturent des paramètres structurés qui contrôlent le comportement de votre application. Cela peut vous aider à trouver quels paramètres fonctionnent le mieux. Vous pouvez également utiliser les Models Weave avec `serve` et les [`Évaluations`](/fr/weave/guides/core-types/evaluations).
 
 Dans l’exemple suivant, vous pouvez expérimenter avec `model` et `temperature` :
 
@@ -211,7 +211,7 @@ result = joker.predict("Chickens and Robots")
 print(result)
 ```
 
-Chaque fois que vous modifiez l’une de ces valeurs, Weave crée et suit une nouvelle version de `JokerModel`. Cela vous permet d’associer des données de trace à vos modifications de code et peut vous aider à déterminer quelles configurations sont les mieux adaptées à votre cas d’utilisation.
+Chaque fois que vous modifiez l’une de ces valeurs, Weave crée et suit une nouvelle version de `JokerModel`. Cela vous permet d’associer des données de trace à vos modifications de code et peut vous aider à déterminer les configurations les mieux adaptées à votre cas d’usage.
 
 [![anthropic\_model.png](/weave/guides/integrations/imgs/anthropic_model.png)](https://wandb.ai/capecape/anthropic_project/weave/calls)
 
@@ -219,7 +219,7 @@ Chaque fois que vous modifiez l’une de ces valeurs, Weave crée et suit une no
   ## Outils (appel de fonctions)
 </div>
 
-Anthropic fournit une interface [tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) qui permet à Claude de solliciter des appels de fonction. Weave capture automatiquement les définitions d’outils, les requêtes d’utilisation d’outils et les résultats des outils tout au long de la conversation.
+Anthropic fournit une interface [tools](https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview) qui permet à Claude de demander des appels de fonctions. Weave capture automatiquement les définitions d’outils, les requêtes d’utilisation d’outils et les résultats des outils tout au long de la conversation.
 
 Les exemples tronqués suivants montrent une configuration d’outil Anthropic :
 

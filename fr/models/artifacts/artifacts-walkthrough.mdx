@@ -10,7 +10,7 @@ Ce guide pas à pas explique comment créer, suivre et utiliser un artefact de j
   ## 1. Connectez-vous à W&amp;B
 </div>
 
-Importez la bibliothèque W&amp;B et connectez-vous à W&amp;B. Vous devrez créer un compte W&amp;B gratuit si ce n’est pas déjà fait.
+Importez la bibliothèque W&amp;B et connectez-vous à W&amp;B. Vous devrez vous inscrire pour obtenir un compte W&amp;B gratuit si ce n’est pas déjà fait.
 
 ```python
 import wandb
@@ -35,7 +35,7 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
   ## 3. Créer un objet artefact
 </div>
 
-Créez un objet artefact avec [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact). Indiquez un nom pour l’artefact et une description du type de fichier dans les paramètres `name` et `type`, respectivement.
+Créez un objet artefact avec [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact). Fournissez un nom pour l’artefact et une description du type de fichier dans les paramètres `name` et `type`, respectivement.
 
 Par exemple, l’extrait de code suivant montre comment créer un artefact appelé `‘bicycle-dataset’` avec le libellé `‘dataset’` :
 
@@ -70,9 +70,9 @@ Utilisez la méthode `wandb.Run.log_artifact()` des objets run de W&amp;B pour e
 run.log_artifact(artifact)
 ```
 
-Un [alias](/fr/models/artifacts/create-a-custom-alias) `'latest'` est créé par défaut lorsque vous journalisez un artefact. Pour en savoir plus sur les alias et les versions d’artefact, voir respectivement [Créer un alias personnalisé](./create-a-custom-alias) et [Créer de nouvelles versions d’artefact](./create-a-new-artifact-version).
+Un [alias](/fr/models/artifacts/create-a-custom-alias) `'latest'` est créé par défaut lorsque vous journalisez un artefact. Pour en savoir plus sur les alias et les versions d&#39;artefact, voir respectivement [Créer un alias personnalisé](./create-a-custom-alias) et [Créer de nouvelles versions d&#39;artefact](./create-a-new-artifact-version).
 
-En rassemblant tout cela, votre script devrait maintenant ressembler à ceci :
+En rassemblant tout cela, votre script devrait maintenant ressembler à ceci :
 
 ```python
 import wandb
@@ -89,7 +89,7 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
   ## 6. Télécharger et utiliser l&#39;artefact
 </div>
 
-L&#39;exemple de code suivant illustre les étapes à suivre pour utiliser un artefact que vous avez journalisé et enregistré sur les serveurs de W&amp;B.
+L&#39;exemple de code suivant montre les étapes à suivre pour utiliser un artefact que vous avez journalisé et enregistré sur les serveurs de W&amp;B.
 
 1. Commencez par initialiser un nouvel objet run avec **`wandb.init()`.**
 2. Ensuite, utilisez la méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact) de l&#39;objet run pour indiquer à W&amp;B quel artefact utiliser. Cette méthode renvoie un objet artefact.

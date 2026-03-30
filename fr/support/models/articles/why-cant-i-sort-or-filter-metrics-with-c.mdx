@@ -9,11 +9,11 @@ Les noms de métriques dans W&amp;B doivent respecter les conventions de nommage
   ## Noms de métriques valides
 </div>
 
-* **Caractères autorisés** : lettres (A-Z, a-z), chiffres (0-9) et underscores (&#95;)
-* **Caractère initial** : les noms doivent commencer par une lettre ou un underscore
+* **Caractères autorisés** : lettres (A-Z, a-z), chiffres (0-9) et traits de soulignement (&#95;)
+* **Caractère initial** : les noms doivent commencer par une lettre ou un trait de soulignement
 * **Motif** : les noms de métriques doivent correspondre à `/^[_a-zA-Z][_a-zA-Z0-9]*$/`
 
-Les métriques qui ne respectent pas ces règles risquent de ne pas pouvoir être triées ou filtrées dans l’interface de W&amp;B.
+Les métriques qui ne respectent pas ces règles risquent de ne pas pouvoir être triées ou filtrées dans l’interface utilisateur de W&amp;B.
 
 <div id="examples">
   ## Exemples
@@ -41,7 +41,7 @@ with wandb.init() as run:
   ## Solution recommandée
 </div>
 
-Remplacez les caractères non valides par des caractères valides, comme des underscore :
+Remplacez les caractères non valides par des caractères valides, comme des traits de soulignement :
 
 * Au lieu de `"test acc"`, utilisez `"test_acc"`
 * Au lieu de `"loss-train"`, utilisez `"loss_train"`
@@ -51,7 +51,7 @@ Pour plus d&#39;informations, voir [Contraintes de nommage des métriques](/fr/m
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badge d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}

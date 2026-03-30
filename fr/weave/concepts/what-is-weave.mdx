@@ -31,9 +31,9 @@ Suivez de bout en bout la manière dont les données circulent dans votre applic
 * Voir le coût, le nombre de tokens et la latence des appels LLM.
 * Explorez en détail des prompts spécifiques et la manière dont les réponses sont produites.
 * Collectez les retours des utilisateurs sur les réponses.
-* Dans votre code, vous pouvez utiliser les [ops et appels](/fr/weave/guides/tracking/tracing) de Weave pour suivre ce que font vos fonctions.
+* Dans votre code, vous pouvez utiliser les [opérations et appels](/fr/weave/guides/tracking/tracing) de Weave pour suivre ce que font vos fonctions.
 
-[Premiers pas avec le traçage](/fr/weave/quickstart)
+[Premiers pas avec Tracing](/fr/weave/quickstart)
 
 <div id="evaluations">
   ### Évaluations
@@ -42,7 +42,7 @@ Suivez de bout en bout la manière dont les données circulent dans votre applic
 Évaluez systématiquement les performances de votre application LLM pour déployer en production en toute confiance.
 
 * Suivez facilement quelles versions de modèle/prompt ont donné quelles performances.
-* Définissez des métriques pour évaluer les réponses à l’aide d’une ou plusieurs fonctions de scoring.
+* Définissez des métriques pour évaluer les réponses à l’aide d’une ou plusieurs fonctions de score.
 * Comparez deux évaluations ou plus sur de multiples métriques. Examinez les écarts de performances sur des échantillons spécifiques.
 
 [Build un pipeline d’évaluation](/fr/weave/tutorial-eval)
@@ -51,7 +51,7 @@ Suivez de bout en bout la manière dont les données circulent dans votre applic
   ### Versionnez tout
 </div>
 
-Weave suit les versions de vos prompts, jeux de données et configurations de modèle. En cas de problème, vous pouvez voir exactement ce qui a changé. Quand quelque chose fonctionne, vous pouvez le reproduire.
+Weave assure le suivi des versions de vos prompts, jeux de données et configurations de modèle. En cas de problème, vous pouvez voir exactement ce qui a changé. Quand quelque chose fonctionne, vous pouvez le reproduire.
 
 [En savoir plus sur la gestion des versions](/fr/weave/guides/tracking/objects)
 
@@ -83,7 +83,7 @@ Recueillez les retours humains, les annotations et les corrections issues de l�
   ## Premiers pas avec Weave
 </div>
 
-Weave fournit des SDK pour Python et TypeScript. Les deux SDK prennent en charge le traçage, l’évaluation, les jeux de données et les principales fonctionnalités de Weave. Certaines fonctionnalités avancées, comme les classes Models et Scorers, ne sont actuellement pas disponibles dans le SDK TypeScript de Weave.
+Weave fournit des SDK pour Python et TypeScript. Les deux SDK prennent en charge le Tracing, l’évaluation, les jeux de données et les principales fonctionnalités de Weave. Certaines fonctionnalités avancées, comme les classes Models et Scorers, ne sont actuellement pas disponibles dans le SDK TypeScript de Weave.
 
 Pour commencer à utiliser Weave :
 
@@ -137,4 +137,4 @@ Lorsque vous décorez une fonction avec `@weave.op()` (en Python) ou l’envelop
   ```
 </CodeGroup>
 
-Pour l’essayer dans un tutoriel guidé, voir [Premiers pas avec le traçage](/fr/weave/quickstart).
+Pour l’essayer dans un tutoriel guidé, voir [Premiers pas avec Tracing](/fr/weave/quickstart).

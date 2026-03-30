@@ -1,11 +1,11 @@
 ---
 title: Aperçu des types de données
-description: Types de données dans le SDK Python de W&B pour journaliser des médias et des données structurées
+description: Types de données dans le SDK Python W&B pour journaliser des médias et des données structurées
 module: wandb.sdk.data_types
 no_list: true
 ---
 
-Dans W&amp;B, les types de données sont des classes qui encapsulent des médias et des données structurées afin de les journaliser dans des runs. Ils comprennent des composants de visualisation dans l’interface de W&amp;B et gèrent la sérialisation, le stockage et la récupération des données.
+Dans W&amp;B, les types de données sont des classes qui encapsulent des médias et des données structurées afin de les journaliser dans des runs. Ils comprennent des composants de visualisation dans l’interface utilisateur de W&amp;B et gèrent la sérialisation, le stockage et la récupération des données.
 
 <div id="available-data-types">
   ## Types de données disponibles
@@ -43,7 +43,7 @@ with wandb.init(project="awesome-project") as run:
     run.log({"img": [wandb.Image(im, caption="Cafe")]})
 ```
 
-Cet exemple utilise un `Table` pour journaliser un tableau contenant à la fois du texte et des étiquettes :
+Cet exemple utilise une `Table` pour journaliser un tableau contenant à la fois du texte et des étiquettes :
 
 ```python
 import wandb

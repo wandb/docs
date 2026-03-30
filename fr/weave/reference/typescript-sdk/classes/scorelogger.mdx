@@ -5,8 +5,8 @@ description: "Référence du SDK TypeScript"
 
 [weave](../) / ScoreLogger
 
-ScoreLogger gère l’attribution des scores pour une seule prédiction.
-Renvoyé par `EvaluationLogger.logPrediction()`.
+ScoreLogger gère le calcul du score pour une seule prédiction.
+Renvoyé par EvaluationLogger.logPrediction().
 
 `Exemple`
 
@@ -17,9 +17,8 @@ await pred.logScore("relevance", 0.8);
 await pred.finish(); // Finalise la prédiction
 ```
 
-
 <div id="table-of-contents">
-  ## Table des matières
+  ## Tableau des matières
 </div>
 
 <div id="constructors">
@@ -125,7 +124,7 @@ Met à jour les agrégats incrémentiels et libère la mémoire.
 ▸ **logScore**(`scorerName`, `score`): `Promise`&lt;`void`&gt;
 
 Journalise un score pour cette prédiction.
-Crée un appel de scorer en tant qu&#39;enfant de predict&#95;and&#95;score.
+Crée un appel de scorer comme enfant de predict&#95;and&#95;score.
 
 <div id="parameters">
   #### Paramètres

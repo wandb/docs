@@ -9,10 +9,10 @@ Dans W&amp;B Models, les méthodes de `wandb.plot` vous permettent de suivre des
   ### Graphiques de base
 </div>
 
-Pour créer un graphique W&amp;B :
+Pour créer un graphique W&amp;B :
 
 1. Créez un objet `wandb.Table` et ajoutez les données que vous souhaitez visualiser.
-2. Générez un graphique à l’aide de l’une des [fonctions utilitaires](/fr/models/ref/python/custom-charts) intégrées de W&amp;B
+2. Générez un graphique à l&#39;aide de l&#39;une des [fonctions utilitaires](/fr/models/ref/python/custom-charts) intégrées de W&amp;B
 3. Journalisez le graphique avec `wandb.Run.log()`.
 
 Les graphiques de base suivants permettent de créer des visualisations simples de métriques et de résultats.
@@ -30,7 +30,7 @@ Les graphiques de base suivants permettent de créer des visualisations simples 
         run.log(
             {
                 "my_custom_plot_id": wandb.plot.line(
-                    table, "x", "y", title="Graphique en courbes Y en fonction de X personnalisé"
+                    table, "x", "y", title="Custom Y versus X line plot"
                 )
             }
         )
@@ -48,7 +48,7 @@ Les graphiques de base suivants permettent de créer des visualisations simples 
   </Tab>
 
   <Tab title="Nuage de points">
-    Journalisez un graphique de dispersion personnalisé, une liste de points (x, y) sur une paire d’axes x et y arbitraires.
+    Journalisez un nuage de points personnalisé, c’est-à-dire une liste de points (x, y) sur une paire arbitraire d’axes x et y.
 
     ```python
     import wandb
@@ -59,19 +59,19 @@ Les graphiques de base suivants permettent de créer des visualisations simples 
         run.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
     ```
 
-    Vous pouvez utiliser ceci pour journaliser des points de dispersion sur deux dimensions quelconques. Si vous tracez deux listes de valeurs l&#39;une par rapport à l&#39;autre, le nombre de valeurs dans les listes doit correspondre exactement. Par exemple, chaque point doit avoir une valeur x et une valeur y.
+    Vous pouvez l’utiliser pour journaliser des points dans deux dimensions quelconques. Si vous tracez deux listes de valeurs l&#39;une par rapport à l&#39;autre, les deux listes doivent contenir exactement le même nombre de valeurs. Par exemple, chaque point doit avoir un x et un y.
 
     <Frame>
       <img src="/images/track/demo_scatter_plot.png" alt="Graphique de dispersion personnalisé" />
     </Frame>
 
-    Pour plus d&#39;informations, voir le rapport [Creating Custom Scatter Plots With W&amp;B](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ).
+    Pour plus d&#39;informations, voir le [rapport Creating Custom Scatter Plots With W&amp;B](https://wandb.ai/wandb/plots/reports/Custom-Scatter-Plots--VmlldzoyNjk5NDQ).
 
-    [Exécutez le code](https://tiny.cc/custom-charts)
+    [Exécuter le code](https://tiny.cc/custom-charts)
   </Tab>
 
   <Tab title="Barres">
-    Journalisez nativement un graphique à barres personnalisé (une liste de valeurs étiquetées sous forme de barres) en quelques lignes :
+    Journalisez directement un graphique à barres personnalisé (une liste de valeurs étiquetées représentées sous forme de barres) en quelques lignes :
 
     ```python
     import wandb
@@ -82,13 +82,13 @@ Les graphiques de base suivants permettent de créer des visualisations simples 
         run.log(
             {
                 "my_bar_chart_id": wandb.plot.bar(
-                    table, "label", "value", title="Graphique à barres personnalisé"
+                    table, "label", "value", title="Custom bar chart"
                 )
             }
         )
     ```
 
-    Vous pouvez utiliser ceci pour journaliser n&#39;importe quels graphiques à barres. Le nombre d&#39;étiquettes et de valeurs dans les listes doit correspondre exactement. Chaque point de données doit comporter les deux.
+    Vous pouvez utiliser ceci pour journaliser des graphiques à barres arbitraires. Le nombre d’étiquettes et de valeurs dans les listes doit correspondre exactement. Chaque point de données doit inclure les deux.
 
     <Frame>
       <img src="/images/track/basic_charts_bar.png" alt="Graphique à barres personnalisé" />
@@ -100,7 +100,7 @@ Les graphiques de base suivants permettent de créer des visualisations simples 
   </Tab>
 
   <Tab title="Histogramme">
-    Ajoutez nativement au journal un histogramme personnalisé (répartissez une liste de valeurs dans des classes selon leur nombre ou leur fréquence d&#39;occurrence) en quelques lignes. Si vous avez une liste de scores de confiance de prédiction (`scores`), vous pouvez visualiser la distribution comme ceci :
+    Journalisez nativement un histogramme personnalisé (regroupez une liste de valeurs en classes selon leur nombre ou leur fréquence d’occurrence) en quelques lignes. Si vous avez une liste de scores de confiance des prédictions (`scores`), vous pouvez visualiser la distribution comme ceci :
 
     ```python
     import wandb
@@ -111,19 +111,19 @@ Les graphiques de base suivants permettent de créer des visualisations simples 
         run.log({"my_histogram": wandb.plot.histogram(table, "scores", title="Histogram")})
     ```
 
-    Vous pouvez l&#39;utiliser pour journaliser des histogrammes arbitraires. Notez que `data` est une liste de listes, afin de représenter un tableau 2D de lignes et de colonnes.
+    Vous pouvez l’utiliser pour journaliser n’importe quels histogrammes. Notez que `data` est une liste de listes, conçue pour prendre en charge un tableau 2D de lignes et de colonnes.
 
     <Frame>
       <img src="/images/track/demo_custom_chart_histogram.png" alt="Histogramme personnalisé" />
     </Frame>
 
-    Pour plus d&#39;informations, voir le [rapport Creating Custom Histograms With W&amp;B](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM).
+    Pour plus d&#39;informations, voir le rapport [Creating Custom Histograms With W&amp;B](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM).
 
     [Exécutez le code](https://tiny.cc/custom-charts)
   </Tab>
 
-  <Tab title="Multiligne">
-    Tracez plusieurs lignes, ou plusieurs listes différentes de paires de coordonnées x-y, sur les mêmes axes x-y :
+  <Tab title="Lignes multiples">
+    Tracez de multiples lignes, ou de multiples listes différentes de paires de coordonnées x-y, sur le même jeu d’axes x-y :
 
     ```python
     import wandb
@@ -142,7 +142,7 @@ Les graphiques de base suivants permettent de créer des visualisations simples 
         )
     ```
 
-    Notez que le nombre de points x et y doit correspondre exactement. Vous pouvez fournir une seule liste de valeurs x pour plusieurs listes de valeurs y, ou une liste distincte de valeurs x pour chaque liste de valeurs y.
+    Notez que le nombre de points x et y doit correspondre exactement. Vous pouvez fournir une seule liste de valeurs x pour plusieurs listes de valeurs y, ou une liste séparée de valeurs x pour chaque liste de valeurs y.
 
     <Frame>
       <img src="/images/track/basic_charts_histogram.png" alt="Graphique à lignes multiples" />
@@ -160,24 +160,24 @@ Ces graphiques prédéfinis disposent de méthodes `wandb.plot()` intégrées qu
 
 <Tabs>
   <Tab title="Courbes de précision-rappel">
-    Créez une [courbe précision-rappel](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) en une seule ligne :
+    Créez une [courbe de précision-rappel](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve) en une seule ligne :
 
     ```python
     import wandb
     with wandb.init() as run:
-        # ground_truth est une liste de vraies étiquettes, predictions est une liste de scores prédits.
+        # ground_truth est une liste d'étiquettes réelles, predictions est une liste de scores prédits.
         # Par exemple ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
         ground_truth = [0, 1, 1, 0]
         predictions = [0.1, 0.4, 0.35, 0.8]
         run.log({"pr": wandb.plot.pr_curve(ground_truth, predictions)})
     ```
 
-    Vous pouvez journaliser ces données chaque fois que votre code a accès à :
+    Vous pouvez journaliser ces données chaque fois que votre code a accès aux éléments suivants :
 
-    * Aux scores prédits d&#39;un modèle (`predictions`) sur un ensemble d&#39;exemples.
-    * Aux étiquettes de vérité de terrain correspondantes (`ground_truth`) pour ces exemples.
-    * (Facultatif) À une liste des étiquettes ou des noms de classe. Par exemple, `labels=["cat", "dog", "bird"]`, si l&#39;étiquette d&#39;indice 0 correspond à chat, 1 à chien et 2 à oiseau.
-    * (Facultatif) À un sous-ensemble (toujours au format liste) des étiquettes à visualiser dans le graphique.
+    * Les scores prédits d&#39;un modèle (`predictions`) sur un ensemble d&#39;exemples.
+    * Les étiquettes de référence correspondantes (`ground_truth`) pour ces exemples.
+    * (Facultatif) Une liste des étiquettes ou des noms de classes. Par exemple, `labels=["cat", "dog", "bird"]`, si l&#39;indice d&#39;étiquette 0 correspond à chat, 1 à chien et 2 à oiseau.
+    * (Facultatif) Un sous-ensemble (toujours au format liste) des étiquettes à visualiser dans le graphique.
 
     <Frame>
       <img src="/images/track/model_eval_charts_precision_recall.png" alt="Courbe précision-rappel" />
@@ -189,13 +189,13 @@ Ces graphiques prédéfinis disposent de méthodes `wandb.plot()` intégrées qu
   </Tab>
 
   <Tab title="Courbes ROC">
-    Créez une [courbe ROC](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) en une ligne :
+    Créez une [courbe ROC](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve) en une seule ligne :
 
     ```python
     import wandb
 
     with wandb.init() as run:
-        # ground_truth est une liste de vraies étiquettes, predictions est une liste de scores prédits.
+        # ground_truth est une liste d'étiquettes réelles, predictions est une liste de scores prédits.
         # Par exemple ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
         ground_truth = [0, 1, 1, 0]
         predictions = [0.1, 0.4, 0.35, 0.8]
@@ -206,8 +206,8 @@ Ces graphiques prédéfinis disposent de méthodes `wandb.plot()` intégrées qu
 
     * Aux scores prédits d&#39;un modèle (`predictions`) sur un ensemble d&#39;exemples.
     * Aux étiquettes de référence correspondantes (`ground_truth`) pour ces exemples.
-    * (Facultatif) Une liste d&#39;étiquettes ou de noms de classes. Par exemple, `labels=["cat", "dog", "bird"]`, si l&#39;indice d&#39;étiquette 0 correspond à cat, 1 à dog et 2 à bird.
-    * (Facultatif) Un sous-ensemble (toujours au format liste) de ces étiquettes à visualiser sur le graphique.
+    * (Facultatif) À une liste des étiquettes ou des noms de classes. Par exemple, `labels=["cat", "dog", "bird"]`, si l&#39;étiquette d&#39;indice 0 correspond à chat, 1 à chien et 2 à oiseau.
+    * (Facultatif) À un sous-ensemble (toujours au format liste) de ces étiquettes à visualiser dans le graphique.
 
     <Frame>
       <img src="/images/track/demo_custom_chart_roc_curve.png" alt="Courbe ROC" />
@@ -215,7 +215,7 @@ Ces graphiques prédéfinis disposent de méthodes `wandb.plot()` intégrées qu
 
     Pour plus d&#39;informations, voir le [rapport Plot ROC Curves With W&amp;B](https://wandb.ai/wandb/plots/reports/Plot-ROC-Curves--VmlldzoyNjk3MDE).
 
-    [Exécuter le code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot_ROC_Curves_with_W%26B.ipynb)
+    [Exécutez le code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Plot_ROC_Curves_with_W%26B.ipynb)
   </Tab>
 
   <Tab title="Matrice de confusion">
@@ -232,17 +232,17 @@ Ces graphiques prédéfinis disposent de méthodes `wandb.plot()` intégrées qu
         run.log({"conf_mat": cm})
     ```
 
-    Vous pouvez journaliser ceci partout où votre code a accès aux éléments suivants :
+    Vous pouvez journaliser ces données partout où votre code a accès aux éléments suivants :
 
     * Les étiquettes prédites par un modèle sur un ensemble d&#39;exemples (`preds`) ou les scores de probabilité normalisés (`probs`). Les probabilités doivent avoir la forme (nombre d&#39;exemples, nombre de classes). Vous pouvez fournir soit les probabilités, soit les prédictions, mais pas les deux.
     * Les étiquettes de référence correspondantes pour ces exemples (`y_true`).
-    * Une liste complète des étiquettes ou des noms de classes sous forme de chaînes dans `class_names`. Par exemple, `class_names=["cat", "dog", "bird"]`, si l&#39;indice 0 correspond à `cat`, 1 à `dog`, 2 à `bird`.
+    * Une liste complète des étiquettes ou des noms de classes sous forme de chaînes de caractères dans `class_names`. Par exemple, `class_names=["cat", "dog", "bird"]`, si l&#39;indice 0 correspond à `cat`, 1 à `dog`, 2 à `bird`.
 
     <Frame>
       <img src="/images/experiments/confusion_matrix.png" alt="Matrice de confusion" />
     </Frame>
 
-    Pour plus d&#39;informations, voir le [rapport Matrice de confusion : Utilisation et Exemples](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM).
+    Pour plus d&#39;informations, voir le [rapport Matrice de confusion : utilisation et exemples](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM).
 
     [Exécuter le code](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_a_Confusion_Matrix_with_W%26B.ipynb)
   </Tab>
@@ -252,7 +252,7 @@ Ces graphiques prédéfinis disposent de méthodes `wandb.plot()` intégrées qu
   ### Graphiques personnalisés interactifs
 </div>
 
-Pour une personnalisation complète, modifiez un [préréglage intégré de graphique personnalisé](/fr/models/app/features/custom-charts/walkthrough/) ou créez-en un nouveau, puis enregistrez le graphique. Utilisez l’ID du graphique pour journaliser des données avec ce préréglage personnalisé directement depuis votre script.
+Pour une personnalisation complète, modifiez un [préréglage intégré de graphique personnalisé](/fr/models/app/features/custom-charts/walkthrough/) ou créez-en un nouveau, puis enregistrez le graphique. Utilisez l&#39;ID du graphique pour journaliser des données dans ce préréglage personnalisé directement depuis votre script.
 
 ```python
 import wandb
@@ -306,16 +306,16 @@ Passez simplement un graphique `matplotlib` ou un objet figure à `wandb.Run.log
 </Note>
 
 <div id="log-custom-html-to-wb-tables">
-  ### Journaliser du HTML personnalisé dans les Tables W&amp;B
+  ### Journaliser du HTML personnalisé dans les tableaux W&amp;B
 </div>
 
-W&amp;B prend en charge la journalisation de graphiques interactifs Plotly et Bokeh au format HTML, ainsi que leur ajout aux Tables.
+W&amp;B prend en charge la journalisation de graphiques interactifs Plotly et Bokeh au format HTML, ainsi que leur ajout aux tableaux.
 
 <div id="log-plotly-figures-to-tables-as-html">
-  #### Journaliser des figures Plotly dans Tables au format HTML
+  #### Journaliser des figures Plotly dans des tableaux W&amp;B au format HTML
 </div>
 
-Vous pouvez journaliser des graphiques Plotly interactifs dans W&amp;B Tables en les convertissant au format HTML.
+Vous pouvez journaliser des graphiques Plotly interactifs dans des tableaux W&amp;B en les convertissant au format HTML.
 
 ```python
 import wandb
@@ -346,10 +346,10 @@ with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 ```
 
 <div id="log-bokeh-figures-to-tables-as-html">
-  #### Journaliser des figures Bokeh dans W&amp;B Tables au format HTML
+  #### Journaliser des figures Bokeh dans un tableau W&amp;B au format HTML
 </div>
 
-Vous pouvez journaliser des graphiques Bokeh interactifs dans W&amp;B Tables en les convertissant au format HTML.
+Vous pouvez journaliser des graphiques Bokeh interactifs dans un tableau W&amp;B en les convertissant au format HTML.
 
 ```python
 from scipy.signal import spectrogram

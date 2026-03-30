@@ -7,7 +7,7 @@ Les groupes de capture dans votre expression régulière déterminent la façon 
 * **Les groupes de capture créent plusieurs panneaux**
   Lorsque votre expression régulière inclut des parenthèses formant un groupe de capture, l&#39;interface utilisateur crée un panneau distinct pour chaque valeur unique capturée par ce groupe.
 
-  Par exemple, l&#39;expression `(layer_0|layer_10)_loss` inclut un groupe de capture et créera deux panneaux distincts :
+  Par exemple, l&#39;expression `(layer_0|layer_10)_loss` inclut un groupe de capture et créera deux panneaux distincts :
 
   1. Un panneau pour les métriques correspondant à `layer_0`.
   2. Un panneau pour les métriques correspondant à `layer_10`.
@@ -15,7 +15,7 @@ Les groupes de capture dans votre expression régulière déterminent la façon 
 * **Les groupes non capturants conservent les métriques dans le même panneau**
   Pour faire correspondre plusieurs alternatives sans créer de panneaux distincts, utilisez un groupe non capturant avec la syntaxe `?:`. L&#39;expression `(?:layer_0|layer_10)_loss` correspond aux mêmes métriques que dans l&#39;exemple précédent, mais les affiche ensemble dans un seul panneau.
 
-Voici la différence :
+Voici la différence :
 
 * `(layer_0|layer_10)_loss` - Crée deux panneaux, un pour chaque couche.
 * `(?:layer_0|layer_10)_loss` - Crée un panneau affichant les deux couches ensemble.

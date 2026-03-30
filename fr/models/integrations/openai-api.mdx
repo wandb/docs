@@ -1,5 +1,5 @@
 ---
-description: "Utilisez W&B avec l’API OpenAI pour journaliser et surveiller les complétions de chat, les jobs de fine-tuning et les métriques d’utilisation des tokens."
+description: "Utilisez W&B avec l’API OpenAI pour journaliser et surveiller les complétions de chat, les jobs de fine-tuning et les métriques d’utilisation des jetons."
 title: API OpenAI
 ---
 
@@ -7,13 +7,13 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/openai/OpenAI_API_Autologger_Quickstart.ipynb" />
 
-Utilisez l’intégration de l’API OpenAI de W&amp;B pour journaliser les requêtes, les réponses, le nombre de tokens et les métadonnées des modèles pour tous les modèles OpenAI, y compris les modèles affinés.
+Utilisez l’intégration de l’API OpenAI de W&amp;B pour journaliser les requêtes, les réponses, le nombre de jetons et les métadonnées des modèles pour tous les modèles OpenAI, y compris les modèles affinés.
 
 <Note>
-  Voir l’[intégration OpenAI de fine-tuning](./openai-fine-tuning) pour savoir comment utiliser W&amp;B afin de suivre vos expériences de fine-tuning, vos modèles et vos jeux de données, et de partager vos résultats avec vos collègues.
+  Voir l’[intégration OpenAI de fine-tuning](./openai-fine-tuning) pour découvrir comment utiliser W&amp;B afin de suivre vos expériences de fine-tuning, vos modèles et vos jeux de données, et de partager vos résultats avec vos collègues.
 </Note>
 
-Journalisez les entrées et les sorties de votre API afin d’évaluer rapidement les performances de différents prompts, de comparer différents paramètres de modèle (tels que la température) et de suivre d’autres métriques d’utilisation, comme l’utilisation des tokens.
+Journalisez les entrées et les sorties de votre API pour pouvoir évaluer rapidement les performances de différents prompts, comparer différents paramètres du modèle (comme la température) et suivre d’autres métriques d’utilisation, comme l’usage des jetons.
 
 <Frame>
   <img src="/images/integrations/open_ai_autolog.png" alt="Journalisation automatique de l’API OpenAI" />
@@ -39,7 +39,7 @@ pip install openai==0.28.1
   ### 1. Importez autolog et initialisez-le
 </div>
 
-Commencez par importer `autolog` depuis `wandb.integration.openai`, puis initialisez-le.
+Commencez par importer `autolog` de `wandb.integration.openai`, puis initialisez-le.
 
 ```python
 import os
@@ -49,13 +49,13 @@ from wandb.integration.openai import autolog
 autolog({"project": "gpt5"})
 ```
 
-Vous pouvez également passer à `autolog` un dictionnaire contenant les arguments qu’accepte `wandb.init()`. Cela inclut le nom du projet, le nom de l’équipe, l’entité, etc. Pour en savoir plus sur [`wandb.init()`](/fr/models/ref/python/functions/init), voir le guide de référence de l’API.
+Vous pouvez également passer à `autolog` un dictionnaire contenant les arguments qu’accepte `wandb.init()`. Cela inclut le nom du projet, le nom de l’équipe, l’entité, etc. Pour en savoir plus sur [`wandb.init()`](/fr/models/ref/python/functions/init), voir le Guide de référence de l’API.
 
 <div id="2-call-the-openai-api">
   ### 2. Appelez l&#39;API OpenAI
 </div>
 
-Chaque appel que vous effectuez à l&#39;API OpenAI est désormais automatiquement journalisé dans W&amp;B.
+Chaque appel que vous effectuez à l&#39;API OpenAI est désormais automatiquement consigné dans W&amp;B.
 
 ```python
 os.environ["OPENAI_API_KEY"] = "XXX"
@@ -76,7 +76,7 @@ response = openai.ChatCompletion.create(**chat_request_kwargs)
   ### 3. Consultez vos entrées et réponses de l’API OpenAI
 </div>
 
-Cliquez sur le lien W&amp;B [run](/fr/models/runs/) généré par `autolog` à l’**étape 1**. Vous êtes alors redirigé vers l’espace de travail du projet dans l’application W&amp;B.
+Cliquez sur le lien W&amp;B [run](/fr/models/runs/) généré par `autolog` à l’**étape 1**. Vous êtes alors redirigé vers l’espace de travail du projet dans W&amp;B App.
 
 Sélectionnez un run que vous avez créé pour afficher le tableau des traces, la chronologie des traces et l’architecture du modèle du LLM OpenAI utilisé.
 
@@ -90,4 +90,4 @@ W&amp;B recommande d’appeler `disable()` pour arrêter tous les processus W&am
 autolog.disable()
 ```
 
-Vos entrées et les complétions générées seront désormais journalisées dans W&amp;B, prêtes à être analysées ou partagées avec vos collègues.
+Vos entrées et les complétions générées seront désormais consignées dans W&amp;B, prêtes à être analysées ou partagées avec vos collègues.

@@ -1,15 +1,15 @@
 ---
-title: "Servir"
-description: "Exposez vos ops et modèles Weave sous forme de points de terminaison d’API pour le service de prédictions et exécuter l’inférence en production."
+title: "Serve"
+description: "Exposez vos opérations et modèles Weave sous forme de points de terminaison API pour servir des prédictions et exécuter l’inférence en Production."
 ---
 
-À partir d’une référence Weave vers n’importe quel modèle Weave, vous pouvez run :
+À partir d’une référence Weave vers n’importe quel modèle Weave, vous pouvez exécuter :
 
 ```
 weave serve <ref>
 ```
 
-pour run un serveur FastAPI pour ce modèle. Accédez à [http://0.0.0.0:9996/docs](http://0.0.0.0:9996/docs) pour interroger le modèle de manière interactive.
+pour exécuter un serveur FastAPI pour ce modèle. Accédez à [http://0.0.0.0:9996/docs](http://0.0.0.0:9996/docs) pour interroger le modèle de manière interactive.
 
 
 <div id="install-fastapi">
@@ -22,7 +22,7 @@ pip install fastapi uvicorn
 
 
 <div id="serve-model">
-  ## Servir le modèle
+  ## Serve modèle
 </div>
 
 Dans un terminal, exécutez :
@@ -31,7 +31,7 @@ Dans un terminal, exécutez :
 weave serve <your model ref>
 ```
 
-Obtenez la référence de votre modèle en accédant au modèle et en la copiant dans l’interface utilisateur. Elle doit ressembler à ceci :
+Obtenez la référence de votre modèle en accédant au modèle et en la copiant depuis l&#39;interface utilisateur. Elle doit ressembler à ceci :
 `weave://your_entity/project-name/YourModel:<hash>`
 
-Pour l’utiliser, accédez au lien vers l’interface Swagger UI, cliquez sur le point de terminaison `predict`, puis sur &quot;Try it out!&quot;.
+Pour l&#39;utiliser, accédez au lien vers l&#39;interface Swagger UI, cliquez sur le point de terminaison `predict`, puis sur &quot;Try it out!&quot;.

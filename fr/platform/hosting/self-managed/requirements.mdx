@@ -1,6 +1,6 @@
 ---
-title: Exigences d’infrastructure pour le mode autogéré
-description: Exigences en matière d’infrastructure et de logiciels pour les déploiements W&B autogérés
+title: Exigences d’infrastructure pour le mode Autogéré
+description: Exigences en matière d’infrastructure et de logiciels pour les déploiements de W&B Autogéré
 ---
 
 import SelfManagedVersionRequirements from "/snippets/fr/_includes/self-managed-version-requirements.mdx";
@@ -14,7 +14,7 @@ import SelfManagedNetworkingRequirements from "/snippets/fr/_includes/self-manag
 import SelfManagedSslTlsRequirements from "/snippets/fr/_includes/self-managed-ssl-tls-requirements.mdx";
 import SelfManagedObtainLicense from "/snippets/fr/_includes/self-managed-obtain-license.mdx";
 
-Cette page fournit un aperçu complet des exigences en matière d’infrastructure et de logiciel pour le déploiement de W&amp;B autogéré. Examinez ces exigences avant de commencer votre déploiement.
+Cette page fournit un aperçu complet des exigences en matière d’infrastructure et de logiciel pour le déploiement de W&amp;B Autogéré. Examinez ces exigences avant de commencer votre déploiement.
 
 <Note>
   W&amp;B recommande des options de déploiement entièrement gérées, telles que [W&amp;B Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) ou [W&amp;B Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud). Les services W&amp;B entièrement gérés sont simples et sécurisés à utiliser, et nécessitent peu, voire aucune, configuration.
@@ -40,7 +40,7 @@ Pour des recommandations de dimensionnement détaillées en fonction de votre ca
   ## Kubernetes
 </div>
 
-W&amp;B Server est déployé sous la forme d’un [opérateur Kubernetes](/fr/platform/hosting/self-managed/operator/) qui gère plusieurs pods. Votre cluster Kubernetes doit respecter ces exigences :
+Le serveur W&amp;B est déployé sous la forme d’un [opérateur Kubernetes](/fr/platform/hosting/self-managed/operator/) qui gère plusieurs pods. Votre cluster Kubernetes doit respecter ces exigences :
 
 * **Version** : Voir [Exigences relatives aux versions logicielles](#software-version-requirements) ci-dessus
 * **Contrôleur d’ingress** : Un contrôleur d’ingress entièrement configuré et fonctionnel (Nginx, Istio, Traefik ou ingress d’un fournisseur de cloud)
@@ -81,11 +81,11 @@ Ces paramètres ont été validés par W&amp;B pour garantir des performances et
   ### Création de la base de données
 </div>
 
-Pour obtenir des instructions sur la création manuelle de la base de données MySQL et de l’utilisateur :
+Pour savoir comment créer manuellement la base de données MySQL et l’utilisateur :
 
 <SelfManagedMysqlDatabaseCreation />
 
-Pour plus de considérations, notamment en matière de sauvegardes, de performances, de surveillance et de disponibilité, voir la [section MySQL de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#mysql).
+Pour des considérations supplémentaires, notamment concernant les sauvegardes, les performances, la surveillance et la disponibilité, voir la [section MySQL de l’architecture de référence](/fr/platform/hosting/self-managed/ref-arch/#mysql).
 
 <div id="redis">
   ## Redis
@@ -96,7 +96,7 @@ Pour plus de considérations, notamment en matière de sauvegardes, de performan
 W&amp;B peut se connecter à une instance Redis dans les environnements suivants :
 
 * [AWS Elasticache](https://aws.amazon.com/pm/elasticache/)
-* [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
+* [Google Cloud Mémoire Store](https://cloud.google.com/memorystore?hl=en)
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
 * Déploiement Redis hébergé dans votre cloud ou dans votre infrastructure sur site
 
@@ -141,10 +141,10 @@ Pour plus de détails sur les options d’équilibreur de charge, les exigences 
 <SelfManagedSslTlsRequirements />
 
 <div id="license">
-  ## Licence
+  ## License
 </div>
 
-Une licence W&amp;B Server valide est requise pour tous les déploiements autogérés.
+Une licence serveur W&amp;B valide est requise pour tous les déploiements autogérés.
 
 <SelfManagedObtainLicense />
 

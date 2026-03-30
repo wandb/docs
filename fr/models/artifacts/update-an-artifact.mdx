@@ -3,24 +3,24 @@ description: Mettre à jour un artefact existant dans un run W&B ou en dehors.
 title: Mettre à jour un artefact
 ---
 
-Renseignez les valeurs souhaitées pour mettre à jour la `description`, les `metadata` et l’`alias` d’un artefact. Appelez la méthode `save()` pour mettre à jour l’artefact sur les serveurs W&amp;B. Vous pouvez mettre à jour un artefact pendant un run W&amp;B ou en dehors d’un run.
+Renseignez les valeurs souhaitées pour mettre à jour la `description`, les `metadata` et l&#39;`alias` d&#39;un artefact. Appelez la méthode `save()` pour mettre à jour l&#39;artefact sur les serveurs W&amp;B. Vous pouvez mettre à jour un artefact pendant un run W&amp;B ou en dehors d&#39;un run.
 
 <Note>
   **Quand utiliser Artifact.save() ou wandb.Run.log&#95;artifact()**
 
   * Utilisez `Artifact.save()` pour mettre à jour un artefact existant sans créer de nouveau run.
-  * Utilisez `wandb.Run.log_artifact()` pour créer un nouvel artefact et l’associer à un run spécifique.
+  * Utilisez `wandb.Run.log_artifact()` pour créer un nouvel artefact et l&#39;associer à un run spécifique.
 </Note>
 
-Utilisez l’API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-api/api)) pour mettre à jour un artefact en dehors d’un run. Utilisez l’API Artifact ([`wandb.Artifact`](/fr/models/ref/python/experiments/artifact)) pour mettre à jour un artefact pendant un run.
+Utilisez l&#39;API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-api/api)) pour mettre à jour un artefact en dehors d&#39;un run. Utilisez l&#39;API Artifact ([`wandb.Artifact`](/fr/models/ref/python/experiments/artifact)) pour mettre à jour un artefact pendant un run.
 
 <Warning>
-  Vous ne pouvez pas mettre à jour l’alias d’un artefact lié à un modèle dans le Model Registry.
+  Vous ne pouvez pas mettre à jour l&#39;alias d&#39;un artefact lié à un modèle dans le Model Registry.
 </Warning>
 
 <Tabs>
   <Tab title="Pendant un run">
-    L’exemple de code suivant montre comment mettre à jour la description d’un artefact à l’aide de l’API [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact) :
+    L&#39;exemple de code suivant montre comment mettre à jour la description d&#39;un artefact à l&#39;aide de l&#39;API [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact) :
 
     ```python
     import wandb
@@ -32,8 +32,8 @@ Utilisez l’API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-ap
     ```
   </Tab>
 
-  <Tab title="En dehors d’un run">
-    L’exemple de code suivant montre comment mettre à jour la description d’un artefact à l’aide de l’API `wandb.Api` :
+  <Tab title="En dehors d'un run">
+    L&#39;exemple de code suivant montre comment mettre à jour la description d&#39;un artefact à l&#39;aide de l&#39;API `wandb.Api` :
 
     ```python
     import wandb
@@ -60,15 +60,15 @@ Utilisez l’API publique W&amp;B ([`wandb.Api`](/fr/models/ref/python/public-ap
     # Remplacer complètement les alias
     artifact.aliases = ["replaced"]
 
-    # Enregistrer toutes les modifications de l’artefact
+    # Enregistrer toutes les modifications de l'artefact
     artifact.save()
     ```
 
-    Pour plus d&#39;informations, voir l’[API Artifact](/fr/models/ref/python/experiments/artifact) de W&amp;B.
+    Pour plus d&#39;informations, voir l&#39;[API Artifact](/fr/models/ref/python/experiments/artifact) de W&amp;B.
   </Tab>
 
   <Tab title="Avec des collections">
-    Vous pouvez également mettre à jour une collection d’artefacts de la même manière qu’un artefact individuel :
+    Vous pouvez également mettre à jour une collection d&#39;artefacts de la même manière qu&#39;un artefact individuel :
 
     ```python
     import wandb

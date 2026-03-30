@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Sweeps`
 
-`Sweep` 객체 컬렉션을 순회하는 지연(lazy) 이터레이터입니다.
+`Sweep` 객체 컬렉션에 대한 지연 이터레이터입니다.
 
 **예시:**
 
@@ -20,11 +20,11 @@ from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
-# 스윕을 반복하며 세부 정보 출력
+# 스윕을 반복하고 세부 정보를 출력합니다
 for sweep in sweeps:
-     print(f"Sweep name: {sweep.name}")
-     print(f"Sweep ID: {sweep.id}")
-     print(f"Sweep URL: {sweep.url}")
+     print(f"스윕 이름: {sweep.name}")
+     print(f"스윕 ID: {sweep.id}")
+     print(f"스윕 URL: {sweep.url}")
      print("----------")
 ```
 
@@ -42,10 +42,10 @@ __init__(
 
 `Sweep` 객체의 이터러블 컬렉션입니다.
 
-**Args:**
+**매개변수:**
 
-* `client`:  W&amp;B를 쿼리하는 데 사용되는 API 클라이언트입니다.
-* `entity`:  스윕을 보유한 엔티티입니다.
+* `client`:  W&amp;B를 쿼리하는 데 사용되는 API client입니다.
+* `entity`:  스윕을 보유한 entity입니다.
 * `project`:  스윕을 포함하는 프로젝트입니다.
 * `per_page`:  API에 대한 각 요청당 가져올 스윕의 개수입니다.
 
@@ -54,4 +54,4 @@ __init__(
 
 ### <kbd>속성</kbd> Sweeps.length
 
----
+***

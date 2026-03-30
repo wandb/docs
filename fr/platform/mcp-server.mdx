@@ -1,11 +1,11 @@
 ---
 title: Utiliser le serveur MCP de W&B
-description: "Connectez votre IDE ou un agent IA au serveur Model Context Protocol (MCP) de W&B pour accéder aux données et à la documentation de votre espace de travail."
+description: "Connectez votre IDE ou votre agent d’IA au serveur Model Context Protocol (MCP) de W&B pour accéder aux données et à la documentation de votre espace de travail."
 ---
 
 import McpConfig from '/snippets/en/_includes/mcp-config.mdx';
 
-Model Context Protocol (MCP) permet à un agent LLM d’interroger et d’analyser efficacement des données afin de minimiser le coût en tokens. Cette page explique comment utiliser le serveur MCP de W&amp;B pour interroger et analyser vos données W&amp;B depuis votre IDE ou votre client MCP, et offrir à votre client un accès programmatique à la documentation de W&amp;B afin qu’il puisse générer des réponses plus précises aux requêtes liées à W&amp;B.
+Model Context Protocol (MCP) permet à un agent LLM d’interroger et d’analyser efficacement des données afin de réduire le coût en tokens. Cette page explique comment utiliser le serveur MCP de W&amp;B pour interroger et analyser vos données W&amp;B depuis votre IDE ou votre client MCP, et pour donner à votre client un accès programmatique à la documentation de W&amp;B afin qu’il puisse générer des réponses plus précises aux requêtes liées à W&amp;B.
 
 Il s’intègre nativement à la plupart des IDE, clients de code et agents de chat, notamment :
 
@@ -17,13 +17,13 @@ Il s’intègre nativement à la plupart des IDE, clients de code et agents de c
 * Mistral LeChat
 * Claude Desktop
 
-Le serveur MCP de W&amp;B prend en charge des variantes [hébergée](#use-w\&b’s-remote-mcp-server) et [locale](#set-up-a-local-version-of-the-w\&b-mcp-server). La version hébergée ne prend en charge que les [déploiements W&amp;B en Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud). La version locale prend en charge à la fois le Cloud dédié et les [déploiements autogérés](/fr/platform/hosting/hosting-options/self-managed).
+Le serveur MCP de W&amp;B prend en charge des versions [hébergée](#use-w\&b’s-remote-mcp-server) et [locale](#set-up-a-local-version-of-the-w\&b-mcp-server). La version hébergée ne prend en charge que les [déploiements sur Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud). La version locale prend en charge à la fois le Cloud dédié et les [déploiements autogérés](/fr/platform/hosting/hosting-options/self-managed).
 
 <div id="wb-mcp-server-capabilities">
   ## Capacités du serveur MCP de W&amp;B
 </div>
 
-Vous pouvez utiliser le serveur MCP pour analyser des expériences, déboguer des traces, créer des rapports et obtenir de l’aide pour intégrer vos applications aux fonctionnalités de W&amp;B.
+Vous pouvez utiliser le serveur MCP pour analyser des Experiments, déboguer des traces, créer des rapports et obtenir de l’aide pour intégrer vos applications aux fonctionnalités de W&amp;B.
 
 Les exemples de prompts suivants montrent certains types de tâches que votre agent peut effectuer lorsqu’il est connecté au serveur MCP :
 
@@ -40,7 +40,7 @@ Le serveur MCP de W&amp;B permet à vos agents d&#39;accéder aux outils suivant
 
 | Outil                                       | Description                                                   | Exemple de requête                                        |
 | ------------------------------------------- | ------------------------------------------------------------- | --------------------------------------------------------- |
-| **query&#95;wandb&#95;tool**                | Interroger les runs, les métriques et les expériences W&amp;B | *&quot;Montre-moi les runs avec une perte &lt; 0.1&quot;* |
+| **query&#95;wandb&#95;tool**                | Interroger les runs, les métriques et les Experiments W&amp;B | *&quot;Montre-moi les runs avec une perte &lt; 0.1&quot;* |
 | **query&#95;weave&#95;traces&#95;tool**     | Analyser les traces et les évaluations de LLM                 | *&quot;Quelle est la latence moyenne ?&quot;*             |
 | **count&#95;weave&#95;traces&#95;tool**     | Compter les traces et obtenir des métriques de stockage       | *&quot;Combien de traces ont échoué ?&quot;*              |
 | **create&#95;wandb&#95;report&#95;tool**    | Créer des rapports W&amp;B par programmation                  | *&quot;Créer un rapport de performances&quot;*            |
@@ -57,7 +57,7 @@ W&amp;B met à disposition un serveur MCP hébergé à l’adresse `https://mcp.
   ### Prérequis
 </div>
 
-* Un déploiement W&amp;B en Cloud dédié.
+* Un déploiement dans le Cloud dédié de W&amp;B.
 * Une clé API W&amp;B. Vous pouvez en créer une nouvelle sur [wandb.ai/authorize](https://wandb.ai/authorize).
 * Définissez votre clé comme variable d’environnement nommée `WANDB_API_KEY`.
 
@@ -69,7 +69,7 @@ Sélectionnez l’onglet correspondant aux instructions de votre client MCP :
 
 <Tabs>
   <Tab title="Cursor">
-    Vous pouvez installer automatiquement le serveur W&amp;B dans Cursor à l’aide d’un [lien d’installation en un clic](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb\&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) (vous devez ajouter `Bearer <your-wandb-api-key>` dans le champ `Authorization`), ou l’installer manuellement en suivant les instructions ci-dessous :
+    Vous pouvez installer automatiquement le serveur W&amp;B sur Cursor à l’aide d’un [lien d’installation en un clic](cursor://anysphere.cursor-deeplink/mcp/install?name=wandb\&config=eyJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9tY3Aud2l0aHdhbmRiLmNvbS9tY3AiLCJoZWFkZXJzIjp7IkF1dGhvcml6YXRpb24iOiJCZWFyZXIgWU9VUl9XQU5EQl9BUElfS0VZIiwiQWNjZXB0IjoiYXBwbGljYXRpb24vanNvbiwgdGV4dC9ldmVudC1zdHJlYW0ifX0=) (vous devez ajouter `Bearer <your-wandb-api-key>` dans le champ `Authorization`), ou l’installer manuellement en suivant les instructions ci-dessous :
 
     1. Sous macOS, ouvrez le menu **Cursor**, sélectionnez **Settings**, puis **Cursor Settings**. Sous Windows ou Linux, ouvrez le menu **Preferences**, sélectionnez **Settings**, puis **Cursor Settings**.
     2. Dans le menu **Cursor Settings**, sélectionnez **Tools and MCP**. Le menu **Tools** s’ouvre.
@@ -98,20 +98,20 @@ Sélectionnez l’onglet correspondant aux instructions de votre client MCP :
   </Tab>
 
   <Tab title="Claude Code">
-    Pour ajouter le serveur MCP de W&amp;B à Claude Code, mettez à jour l’en-tête `Authorization` de la commande suivante avec votre clé API W&amp;B, puis exécutez-la dans votre terminal :
+    Pour ajouter le serveur MCP de W&amp;B à Claude Code, remplacez la valeur de l’en-tête `Authorization` dans la commande suivante par votre clé API W&amp;B, puis exécutez-la dans votre terminal :
 
     ```bash
     claude mcp add --transport http wandb https://mcp.withwandb.com/mcp \
       --header "Authorization: Bearer <your-wandb-api-key>"
     ```
 
-    Ajoutez `--scope user` pour une configuration globale, ou omettez-le pour configurer uniquement le projet en cours.
+    Ajoutez `--scope user` pour une configuration globale, ou omettez-le afin de configurer uniquement le projet en cours.
 
-    Pour des informations plus détaillées, voir [la documentation de Claude Code](https://docs.anthropic.com/en/docs/claude-code/mcp).
+    Pour plus d’informations, voir [la documentation de Claude Code](https://docs.anthropic.com/en/docs/claude-code/mcp).
   </Tab>
 
   <Tab title="Codex">
-    Pour ajouter le serveur MCP W&amp;B à Codex, remplacez la valeur de l’argument `--bearer-token-env-var` dans la commande suivante par la variable d’environnement qui contient votre clé API W&amp;B, puis exécutez-la dans votre terminal :
+    Pour ajouter le serveur MCP W&amp;B à Codex, remplacez la valeur de l’argument `--bearer-token-env-var` dans la commande suivante par le nom de la variable d’environnement qui contient votre clé API W&amp;B, puis exécutez-la dans votre terminal :
 
     ```bash
     export WANDB_API_KEY=<your-wandb-api-key>
@@ -120,7 +120,7 @@ Sélectionnez l’onglet correspondant aux instructions de votre client MCP :
   </Tab>
 
   <Tab title="OpenAI">
-    Pour ajouter le serveur MCP de W&amp;B à vos appels OpenAI, ajoutez les informations du serveur dans le champ `tools` de la configuration de réponse OpenAI :
+    Pour ajouter le serveur MCP de W&amp;B à vos appels OpenAI, ajoutez les informations du serveur dans le champ `tools` de la configuration des réponses OpenAI :
 
     ```python
     from openai import OpenAI
@@ -148,14 +148,14 @@ Sélectionnez l’onglet correspondant aux instructions de votre client MCP :
   <Tab title="Gemini CLI">
     Pour ajouter le serveur MCP de W&amp;B à Gemini CLI :
 
-    1. Installez l’extension MCP de W&amp;B avec une seule commande :
+    1. Installez l’extension MCP de W&amp;B à l’aide d’une seule commande :
 
        ```bash
        # Installer l’extension
        gemini extensions install https://github.com/wandb/wandb-mcp-server
        ```
     2. Une fois l’extension installée, redémarrez Gemini CLI.
-    3. Vérifiez que l’agent de chat a accès au serveur MCP de W&amp;B en saisissant l’invite &quot;Liste les projets de mon compte W&amp;B.&quot;
+    3. Vérifiez que l’agent de chat a accès au serveur MCP de W&amp;B en saisissant la requête &quot;Liste les projets de mon compte W&amp;B.&quot;
 
     Pour plus d’informations, voir [la documentation de Gemini](https://geminicli.com/docs/tools/mcp-server/).
   </Tab>
@@ -163,22 +163,22 @@ Sélectionnez l’onglet correspondant aux instructions de votre client MCP :
   <Tab title="Mistral LeChat">
     Pour ajouter le serveur MCP de W&amp;B à Mistral LeChat :
 
-    1. Dans le menu **Intelligence**, sélectionnez **Add Connector** pour ouvrir la fenêtre du connecteur.
+    1. Dans le menu **Intelligence**, sélectionnez **Add Connector** pour ouvrir la fenêtre Connector.
 
     2. Sélectionnez l’onglet **Custom MCP Connector**.
 
     3. Configurez les champs avec les valeurs suivantes :
 
        * **Connector Server** : `https://mcp.withwandb.com/mcp`
-       * **Description** : (Facultatif) Une courte description libre de la connexion.
-       * **Authentication Method** : Sélectionnez **API Token Authentication**. Des champs supplémentaires s’affichent alors.
+       * **Description** : (Facultatif) Brève description libre de la connexion.
+       * **Authentication Method** : Sélectionnez **API Token Authentication**. Cela affiche des champs supplémentaires.
        * **Header name** : Conservez la valeur par défaut, **Authorization**.
        * **Header type** : Sélectionnez **Bearer**.
        * **Header value** : Saisissez votre jeton d’API W&amp;B.
 
-    4. Une fois tous les champs configurés, sélectionnez **Créer**. LeChat ajoute le serveur MCP à votre configuration.
+    4. Une fois tous les champs configurés, sélectionnez **Create**. LeChat ajoute le serveur MCP à votre configuration.
 
-    5. Vérifiez que l’agent de chat a accès au serveur MCP de W&amp;B en saisissant l’invite &quot;Liste les projets de mon compte W&amp;B.&quot;
+    5. Vérifier que l’agent de chat a accès au serveur MCP de W&amp;B en saisissant l’invite &quot;Liste les projets de mon compte W&amp;B.&quot;
 
     Pour plus d’informations, voir la [documentation de LeChat](https://mistral.ai/news/le-chat-mcp-connectors-memories).
   </Tab>
@@ -188,7 +188,7 @@ Sélectionnez l’onglet correspondant aux instructions de votre client MCP :
   ## Configurer une version locale du serveur MCP de W&amp;B
 </div>
 
-Si vous devez exécuter le serveur MCP localement pour des déploiements autogérés, pour le développement, les tests ou dans des environnements isolés du réseau, vous pouvez l’installer et l’exécuter sur votre machine.
+Si vous devez exécuter le serveur MCP localement dans le cadre de déploiements W&amp;B Autogéré, pour le développement, les tests ou dans des environnements isolés du réseau, vous pouvez l’installer et l’exécuter sur votre machine.
 
 <div id="prerequisites">
   ### Prérequis
@@ -196,7 +196,7 @@ Si vous devez exécuter le serveur MCP localement pour des déploiements autogé
 
 * Une clé API W&amp;B. Vous pouvez en créer une nouvelle sur [wandb.ai/authorize](https://wandb.ai/authorize).
 * Définissez votre clé comme variable d’environnement nommée `WANDB_API_KEY`.
-* Définissez la variable d’environnement `WANDB_BASE_URL` si vous utilisez [W&amp;B autogéré](/fr/platform/hosting/hosting-options/self-managed).
+* Définissez la variable d’environnement `WANDB_BASE_URL` si vous utilisez [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed).
 * Python 3.10 ou version ultérieure
 * [uv](https://docs.astral.sh/uv/) (recommandé) ou pip
 
@@ -338,7 +338,7 @@ Pour les clients web ou pour les tests, exécutez le serveur avec le transport H
 uvx wandb_mcp_server --transport http --host 0.0.0.0 --port 8080
 ```
 
-Pour exposer le serveur local à des clients externes tels qu’OpenAI, utilisez ngrok :
+Pour exposer le serveur local à des clients externes comme OpenAI, utilisez ngrok :
 
 ```bash
 uvx wandb_mcp_server --transport http --port 8080
@@ -347,7 +347,7 @@ uvx wandb_mcp_server --transport http --port 8080
 ngrok http 8080
 ```
 
-Si vous exposez le serveur avec `ngrok`, mettez à jour la configuration de votre client MCP pour utiliser l’URL `ngrok`.
+Si vous exposez le serveur via `ngrok`, mettez à jour la configuration de votre client MCP pour utiliser l’URL `ngrok`.
 
 <div id="usage-tips">
   ## Conseils d’utilisation

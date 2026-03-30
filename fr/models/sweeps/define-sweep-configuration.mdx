@@ -1,31 +1,31 @@
 ---
-description: Découvrez comment créer des fichiers de configuration pour les balayages.
+description: Découvrez comment créer des fichiers de configuration pour les Sweeps.
 title: Aperçu
 ---
 
-Un W&amp;B Sweep associe une stratégie d’exploration des valeurs d’hyperparamètre au code qui les évalue. Cette stratégie peut être aussi simple que d’essayer toutes les options ou aussi complexe que l’optimisation bayésienne et Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
+Un W&amp;B Sweep combine une stratégie d’exploration des valeurs d’hyperparamètre avec le code qui les évalue. Cette stratégie peut être aussi simple que d’essayer toutes les options ou aussi complexe que l’optimisation bayésienne et Hyperband ([BOHB](https://arxiv.org/abs/1807.01774)).
 
-Définissez une configuration de balayage soit dans un [dictionnaire Python](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), soit dans un fichier [YAML](https://yaml.org/). La manière de définir votre configuration de balayage dépend de la façon dont vous souhaitez gérer votre balayage.
+Définissez une configuration de balayage soit dans un [dictionnaire Python](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), soit dans un fichier [YAML](https://yaml.org/). La façon dont vous définissez votre configuration de balayage dépend de la manière dont vous souhaitez gérer votre balayage.
 
 <Note>
   Définissez votre configuration de balayage dans un fichier YAML si vous souhaitez initialiser un balayage et démarrer un agent de balayage depuis la ligne de commande. Définissez votre balayage dans un dictionnaire Python si vous initialisez et exécutez entièrement le balayage dans un script Python ou un notebook.
 </Note>
 
-Le guide suivant explique comment structurer votre configuration de balayage. Voir [les options de configuration de balayage](./sweep-config-keys) pour obtenir une liste complète des clés de configuration de balayage de premier niveau.
+Le guide suivant explique comment mettre en forme votre configuration de balayage. Voir [options de configuration de balayage](./sweep-config-keys) pour obtenir une liste complète des clés de configuration de balayage de premier niveau.
 
 <div id="basic-structure">
   ## Structure de base
 </div>
 
-Les deux options de format de configuration de balayage (YAML et dictionnaire Python) utilisent des paires clé-valeur et des structures imbriquées.
+Les deux formats de configuration de balayage (YAML et dictionnaire Python) utilisent des paires clé-valeur et des structures imbriquées.
 
-Utilisez les clés de premier niveau de votre configuration de balayage pour définir les caractéristiques de votre recherche par balayage, comme le nom du balayage (clé [`name`](./sweep-config-keys)), les paramètres à explorer (clé [`parameters`](./sweep-config-keys#parameters)), la méthode utilisée pour explorer l&#39;espace des paramètres (clé [`method`](./sweep-config-keys#method)), etc.
+Utilisez les clés de premier niveau de votre configuration de balayage pour définir les caractéristiques de votre recherche par balayage, comme le nom du balayage (clé [`name`](./sweep-config-keys)), les paramètres à explorer (clé [`parameters`](./sweep-config-keys#parameters)), la méthode utilisée pour parcourir l&#39;espace des paramètres (clé [`method`](./sweep-config-keys#method)), etc.
 
 Par exemple, les extraits de code suivants montrent la même configuration de balayage définie dans un fichier YAML et dans un dictionnaire Python. Dans cette configuration de balayage, cinq clés de premier niveau sont spécifiées : `program`, `name`, `method`, `metric` et `parameters`.
 
 <Tabs>
   <Tab title="CLI">
-    Définissez une configuration de balayage dans un fichier YAML si vous souhaitez gérer les balayages de manière interactive depuis la ligne de commande (CLI)
+    Définissez une configuration de balayage dans un fichier YAML si vous souhaitez gérer les Sweeps de manière interactive depuis la ligne de commande (CLI)
 
     ```yaml title="config.yaml"
     program: train.py
@@ -68,7 +68,7 @@ Par exemple, les extraits de code suivants montrent la même configuration de ba
   </Tab>
 </Tabs>
 
-Dans la clé de premier niveau `parameters`, les clés suivantes sont imbriquées : `learning_rate`, `batch_size`, `epoch` et `optimizer`. Pour chacune des clés imbriquées que vous spécifiez, vous pouvez fournir une ou plusieurs valeurs, une distribution, une probabilité, etc. Pour plus d&#39;informations, voir la section [parameters](./sweep-config-keys#parameters) dans [Options de configuration de balayage](./sweep-config-keys). 
+Dans la clé `parameters` de premier niveau, les clés suivantes sont imbriquées : `learning_rate`, `batch_size`, `epoch` et `optimizer`. Pour chacune des clés imbriquées que vous spécifiez, vous pouvez fournir une ou plusieurs valeurs, une distribution, une probabilité, etc. Pour plus d&#39;informations, voir la section [parameters](./sweep-config-keys#parameters) dans les [options de configuration de balayage](./sweep-config-keys). 
 
 <div id="double-nested-parameters">
   ## Paramètres imbriqués sur deux niveaux
@@ -220,13 +220,13 @@ Les extraits de code suivants montrent comment définir des paramètres imbriqu�
   2. Dans la clé `parameters`, imbriquez les éléments suivants :
    1. Spécifiez le nom de l'hyperparamètre que vous souhaitez optimiser. 
    2. Spécifiez la distribution à utiliser pour la clé `distribution`. Imbriquez la paire clé-valeur `distribution` sous le nom de l'hyperparamètre.
-   3. Spécifiez une ou plusieurs valeurs à explorer. La ou les valeurs doivent être au même niveau que la clé `distribution`.  
-      1. (Facultatif) Utilisez une clé `parameters` supplémentaire sous le nom du paramètre de premier niveau pour définir un paramètre imbriqué. */}
+   3. Spécifiez une ou plusieurs valeurs à explorer. La ou les valeurs doivent figurer sur la même ligne que la clé `distribution`.  
+      1. (Facultatif) Utilisez une clé `parameters` supplémentaire sous le nom du paramètre de premier niveau pour délimiter un paramètre imbriqué. */}
 
-{/* Par exemple, les extraits de code suivants montrent la configuration d’un balayage dans un fichier de configuration YAML et dans un script Python. */}
+{/* Par exemple, les extraits de code suivants présentent une configuration de balayage dans un fichier de configuration YAML comme dans un script Python. */}
 
 <Warning>
-  Les paramètres imbriqués définis dans la configuration de balayage remplacent les clés spécifiées dans la configuration d’un run W&amp;B.
+  Les paramètres imbriqués définis dans la configuration de balayage écrasent les clés spécifiées dans une configuration du run W&amp;B.
 
   Par exemple, supposons que vous ayez un script `train.py` qui initialise un run avec une valeur par défaut imbriquée :
 
@@ -259,17 +259,17 @@ Les extraits de code suivants montrent comment définir des paramètres imbriqu�
   wandb.agent(sweep_id, function=main, count=4)
   ```
 
-  Lors d’un run de balayage, `run.config["nested_param"]` reflète le sous-arbre défini par la
-  configuration du balayage (`learning_rate`, `double_nested_param`) et n’inclut pas `manual_key`, défini
+  Pendant un run de balayage, `run.config["nested_param"]` reflète le sous-arbre défini par la
+  configuration du balayage (`learning_rate`, `double_nested_param`) et n&#39;inclut pas `manual_key` défini
   dans `wandb.init(config=...)`.
 </Warning>
 
 
 <div id="sweep-configuration-template">
-  ## Modèle de configuration pour un balayage
+  ## Modèle de configuration de balayage
 </div>
 
-Le modèle suivant montre comment configurer des paramètres et définir des contraintes de recherche. Remplacez `hyperparameter_name` par le nom de votre hyperparamètre, ainsi que toute valeur entre `<>`.
+Le modèle suivant indique comment configurer des paramètres et définir des contraintes de recherche. Remplacez `hyperparameter_name` par le nom de votre hyperparamètre et toute valeur entre `<>`.
 
 ```yaml title="config.yaml"
 program: <insert>
@@ -365,7 +365,7 @@ Pour exprimer une valeur numérique en notation scientifique, ajoutez l’opéra
 </Tabs>
 
 <div id="bayes-hyperband-example">
-  ### Exemple avec Bayes Hyperband
+  ### Exemple de Bayes Hyperband
 </div>
 
 ```yaml
@@ -428,9 +428,9 @@ Les onglets suivants montrent comment spécifier un nombre minimal ou maximal d�
   ### Exemple de macros et d&#39;arguments de ligne de commande personnalisés
 </div>
 
-Pour des arguments de ligne de commande plus complexes, vous pouvez utiliser des macros pour transmettre des variables d&#39;environnement, l&#39;interpréteur Python et des arguments supplémentaires. [W&amp;B prend en charge des macros prédéfinies](./sweep-config-keys#command-macros) ainsi que des arguments de ligne de commande personnalisés que vous pouvez spécifier dans votre configuration de balayage.
+Pour les arguments de ligne de commande plus complexes, vous pouvez utiliser des macros pour transmettre des variables d&#39;environnement, l&#39;interpréteur Python et des arguments supplémentaires. [W&amp;B prend en charge des macros prédéfinies](./sweep-config-keys#command-macros), ainsi que des arguments de ligne de commande personnalisés que vous pouvez spécifier dans votre configuration de balayage.
 
-Par exemple, la configuration de balayage suivante (`sweep.yaml`) définit une commande qui exécute un script Python (`run.py`), où les macros `${env}`, `${interpreter}` et `${program}` sont remplacées par les valeurs appropriées au moment de l&#39;exécution du balayage.
+Par exemple, la configuration de balayage suivante (`sweep.yaml`) définit une commande qui exécute un script Python (`run.py`), avec les macros `${env}`, `${interpreter}` et `${program}` remplacées par les valeurs appropriées lorsque le balayage est exécuté.
 
 Les arguments `--batch_size=${batch_size}`, `--test=True` et `--optimizer=${optimizer}` utilisent des macros personnalisées pour transmettre les valeurs des paramètres `batch_size`, `test` et `optimizer` définis dans la configuration de balayage.
 
@@ -452,7 +452,7 @@ command:
   - "--test=True"
 ```
 
-Le script Python associé (`run.py`) peut ensuite interpréter ces arguments de ligne de commande à l’aide du module `argparse`.
+Le script Python associé (`run.py`) peut ensuite analyser ces arguments de ligne de commande à l’aide du module `argparse`.
 
 ```python title="run.py"
 # run.py  
@@ -470,16 +470,16 @@ with wandb.init('test-project') as run:
     run.log({'validation_loss':1})
 ```
 
-Voir la section [Macros de commande](./sweep-config-keys#command-macros) de [options de configuration de balayage](./sweep-config-keys) pour voir la liste des macros prédéfinies que vous pouvez utiliser dans votre configuration de balayage.
+Voir la section [Macros de commande](./sweep-config-keys#command-macros) dans [Options de configuration de balayage](./sweep-config-keys) pour consulter la liste des macros prédéfinies que vous pouvez utiliser dans votre configuration de balayage.
 
 
 <div id="boolean-arguments">
   #### Arguments booléens
 </div>
 
-Le module `argparse` ne prend pas en charge les arguments booléens par défaut. Pour définir un argument booléen, vous pouvez utiliser le paramètre [`action`](https://docs.python.org/3/library/argparse.html#action) ou une fonction personnalisée pour convertir la représentation sous forme de chaîne d’une valeur booléenne en type booléen.
+Le module `argparse` ne prend pas en charge les arguments booléens par défaut. Pour définir un argument booléen, vous pouvez utiliser le paramètre [`action`](https://docs.python.org/3/library/argparse.html#action) ou une fonction personnalisée pour convertir la représentation textuelle d’une valeur booléenne en type booléen.
 
-Par exemple, vous pouvez utiliser l’extrait de code suivant pour définir un argument booléen. Passez `store_true` ou `store_false` en argument à `ArgumentParser`.
+Par exemple, vous pouvez utiliser l’extrait de code suivant pour définir un argument booléen. Passez `store_true` ou `store_false` comme argument à `ArgumentParser`.
 
 ```python
 import wandb
@@ -492,7 +492,7 @@ args = parser.parse_args()
 args.test  # Vaut True si --test est passé, False sinon
 ```
 
-Vous pouvez également définir une fonction personnalisée pour convertir la représentation sous forme de chaîne d’une valeur booléenne en booléen. Par exemple, l’extrait de code suivant définit la fonction `str2bool`, qui convertit une chaîne en valeur booléenne.
+Vous pouvez également définir une fonction personnalisée pour convertir la représentation textuelle d’une valeur booléenne en booléen. Par exemple, l’extrait de code suivant définit la fonction `str2bool`, qui convertit une chaîne en valeur booléenne.
 
 ```python
 def str2bool(v: str) -> bool:

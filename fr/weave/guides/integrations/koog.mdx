@@ -15,11 +15,11 @@ Avec l’exportateur Weave activé, Koog transmet les spans OpenTelemetry à vot
   ## Prérequis
 </div>
 
-Définissez les variables d&#39;environnement suivantes avant d&#39;exécuter votre agent :
+Définissez les variables d’environnement suivantes avant d’exécuter votre agent :
 
 ```bash
 export WEAVE_API_KEY="<your-api-key>"
-export WEAVE_ENTITY="<your-entity>"           # votre équipe/entité W&B
+export WEAVE_ENTITY="<your-entity>"           # votre équipe W&amp;B/entité
 export WEAVE_PROJECT_NAME="koog-tracing"      # n'importe quel nom de projet ; créé à la première utilisation
 ```
 
@@ -43,7 +43,7 @@ Voir la documentation de Koog pour [plus d&#39;informations sur l&#39;installati
   ## Activer l’export Weave (OpenTelemetry)
 </div>
 
-Installez la fonctionnalité OpenTelemetry de Koog et ajoutez l’exportateur Weave. Cela mappe les spans de Koog vers des traces Weave à l’aide du point de terminaison OpenTelemetry de Weave.
+Installez la fonctionnalité OpenTelemetry de Koog et ajoutez l’exportateur Weave. Cette opération associe les spans de Koog à des traces Weave via le point de terminaison OpenTelemetry de Weave.
 
 L’exemple suivant montre comment utiliser `addWeaveExporter` :
 
@@ -75,7 +75,7 @@ fun main() = runBlocking {
 }
 ```
 
-La fonction lit automatiquement vos variables d’environnement Weave, mais vous pouvez aussi configurer [des paramètres spécifiques](https://api.koog.ai/agents/agents-features/agents-features-opentelemetry/ai.koog.agents.features.opentelemetry.integration.weave/add-weave-exporter.html?query=fun%20OpenTelemetryConfig.addWeaveExporter\(weaveOtelBaseUrl:%20String?%20=%20null,%20weaveEntity:%20String?%20=%20null,%20weaveProjectName:%20String?%20=%20null,%20weaveApiKey:%20String?%20=%20null,%20timeout:%20Duration%20=%2010.seconds\)) pour cet exportateur, comme ceci :
+La fonction lit automatiquement vos variables d’environnement Weave, mais vous pouvez aussi configurer [des paramètres spécifiques](https://api.koog.ai/agents/agents-features/agents-features-opentelemetry/ai.koog.agents.features.opentelemetry.integration.weave/add-weave-exporter.html?query=fun%20OpenTelemetryConfig.addWeaveExporter\(weaveOtelBaseUrl:%20String?%20=%20null,%20weaveEntity:%20String?%20=%20null,%20weaveProjectName:%20String?%20=%20null,%20weaveApiKey:%20String?%20=%20null,%20timeout:%20Duration%20=%2010.seconds\)) pour l’exportateur, comme ceci :
 
 ```kotlin
 install(OpenTelemetry) {
@@ -91,7 +91,7 @@ install(OpenTelemetry) {
 
 L’exemple ci-dessus :
 
-* Utilise `weaveEntity` et `weaveProjectName` pour envoyer les traces vers une équipe et un projet spécifiques.
+* Utilise `weaveEntity` et `weaveProjectName` pour acheminer les traces vers une équipe et un projet spécifiques.
 * Attribue à `weaveOtelBaseUrl` la valeur de votre point de terminaison de trace (par exemple, `https://<your-subdomain>.wandb.io/<path>`). Utilisez ce paramètre pour les instances Weave dédiées.
 
 Si vous utilisez Koog avec Weave pour la première fois, nous vous recommandons de consulter la documentation suivante :
@@ -105,14 +105,14 @@ Si vous utilisez Koog avec Weave pour la première fois, nous vous recommandons 
   ## Ce qui est tracé
 </div>
 
-Lorsqu&#39;il est activé, l&#39;exportateur Weave de Koog capture les mêmes spans que l&#39;intégration OTEL générale de Koog, notamment :
+Lorsqu&#39;il est activé, l&#39;exportateur Weave de Koog capture les mêmes spans que l&#39;intégration OTEL générale de Koog, y compris :
 
 * Événements du cycle de vie de l&#39;agent (démarrage, arrêt, erreurs)
 * Interactions avec le LLM (prompts, complétions, utilisation des jetons, latence)
 * Appels d&#39;outils et d&#39;API (appels de fonction et requêtes externes)
 * Contexte système (nom du modèle, version de Koog, métadonnées de l&#39;environnement)
 
-Vous pouvez visualiser ces traces dans l&#39;interface utilisateur de Weave pour mieux comprendre les performances et la qualité. Voir [l&#39;aperçu du traçage de Weave](../tracking/tracing) pour une introduction à la capture de traces avec Weave.
+Vous pouvez visualiser ces traces dans l&#39;interface Weave pour mieux comprendre les performances et la qualité. Voir [l&#39;aperçu du traçage de Weave](../tracking/tracing) pour une introduction à la capture de traces avec Weave.
 
 <div id="example-notebook">
   ## Notebook d’exemple

@@ -1,5 +1,5 @@
 ---
-title: File クラス
+title: File
 namespace: public_apis_namespace
 python_object_type: class
 ---
@@ -8,53 +8,54 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
 
+
 ## <kbd>class</kbd> `File`
 
-W&B に保存されたファイル。
+W&amp;B に保存されたファイルです。
 
-W&B に保存されている 1 つのファイルを表します。ファイルのメタデータへのアクセスが含まれます。ファイルは特定の run に関連付けられ、テキストファイル、モデルの重み、データセット、可視化結果、およびその他の Artifacts を含むことができます。ファイルのダウンロード、削除、ファイルプロパティへのアクセスが可能です。
+W&amp;B に保存された単一ファイルを表します。ファイルのメタデータへのアクセスを含みます。ファイルは特定の run に関連付けられており、テキストファイル、モデルの重み、データセット、可視化、その他のアーティファクトを含めることができます。ファイルのダウンロード、削除、およびファイルプロパティへのアクセスが可能です。
 
-特定の run にログされた特定のファイルを絞り込むには、辞書で 1 つ以上の属性を指定します。次のキーを使って検索できます。
+特定の run にログされた特定のファイルを検索するには、辞書内に1つ以上の属性を指定します。以下のキーを使用して検索できます。
 
-- id (str): ファイルを含む run の ID
-- name (str): ファイル名
-- url (str): ファイルへのパス
-- direct_url (str): バケット内のファイルへのパス
-- sizeBytes (int): ファイルサイズ（バイト単位）
-- md5 (str): ファイルの md5 ハッシュ値
-- mimetype (str): ファイルの mimetype
-- updated_at (str): 最終更新のタイムスタンプ
-- path_uri (str): バケット内のファイルへのパス。現在は S3 オブジェクトと参照ファイルでのみ利用可能
+* id (str): ファイルを含む run の ID
+* name (str): ファイルの名前
+* url (str): ファイルへのパス
+* direct&#95;url (str): バケット内のファイルへのパス
+* sizeBytes (int): ファイルのサイズ (バイト単位) 
+* md5 (str): ファイルの md5
+* mimetype (str): ファイルの mimetype
+* updated&#95;at (str): 最終更新のタイムスタンプ
+* path&#95;uri (str): バケット内のファイルへのパス。現在は S3 オブジェクトおよび参照ファイルのみで利用可能です
 
-**Args:**
+**引数:**
 
-- `client`:  ファイルを含む run オブジェクト
- - `attrs` (dict):  ファイルを定義する属性の辞書
- - `run`:  ファイルを含む run オブジェクト 
+* `client`:  ファイルを含む run オブジェクト
+* `attrs` (dict):  ファイルを定義する属性の辞書
+* `run`:  ファイルを含む run オブジェクト 
 
-### <kbd>property</kbd> File.path_uri
+### <kbd>プロパティ</kbd> File.path_uri
 
-ストレージバケット内のファイルへの URI パスを返します。 
+ストレージバケット内のファイルへの URI パスを返します。
 
-**Returns:**
+**戻り値**
 
-- `str`:  ファイルが S3 に保存されている場合は S3 URI（例: 's3://bucket/path/to/file'）、参照ファイルの場合は直接アクセス可能な URL、取得できない場合は空文字列を返します。 
+* `str`:  ファイルが S3 に保存されている場合は S3 URI (例: &#39;s3://bucket/path/to/file&#39;) 、参照ファイルの場合は直接アクセス可能な URL、取得できない場合は空文字列を返します。
 
-**Returns:**
+**戻り値**
 
-- `str`: `path_uri` プロパティの値。
-  
----
+* `str`: `path_uri` プロパティの値。
 
-### <kbd>property</kbd> File.size
+***
 
-ファイルのサイズをバイト単位で返します。 
+### <kbd>プロパティ</kbd> File.size
+
+ファイルのサイズをバイト単位で返します。
 
 **戻り値:**
 
-- `int`: size プロパティの値。
+* `int`: size プロパティの値。
 
----
+***
 
 ### <kbd>method</kbd> `File.delete`
 
@@ -66,7 +67,8 @@ W&amp;B サーバー上からファイルを削除します。
 
 ***
 
-### <kbd>メソッド</kbd> `File.download`
+
+### <kbd>method</kbd> `File.download`
 
 ```python
 download(
@@ -77,14 +79,14 @@ download(
 ) → io.TextIOWrapper
 ```
 
-wandb サーバーから、run によって以前に保存されたファイルをダウンロードします。
+wandb serverから、以前runによって保存されたファイルをダウンロードします。
 
 **引数:**
 
-* `root`:  ファイルを保存するローカルディレクトリ。デフォルトは現在の作業ディレクトリ（&quot;.&quot;）。
-* `replace`:  `True` の場合、同名のローカルファイルが存在するときにそのファイルを上書きしてダウンロードします。デフォルトは `False`。
-* `exist_ok`:  `True` の場合、ファイルがすでに存在していても ValueError を発生させず、replace=True の場合を除き再ダウンロードしません。デフォルトは `False`。
-* `api`:  指定された場合、その `Api` インスタンスを使ってファイルをダウンロードします。
+* `root`:  ファイルを保存するローカルディレクトリです。デフォルトは現在の作業ディレクトリ (`"."`) です。
+* `replace`:  `True` の場合、ローカルファイルが存在するとダウンロードで上書きされます。デフォルトは `False` です。
+* `exist_ok`:  `True` の場合、ファイルがすでに存在していても ValueError を送出せず、`replace=True` でない限り再ダウンロードもしません。デフォルトは `False` です。
+* `api`:  指定した場合、ファイルのダウンロードに使用する `Api` インスタンスです。
 
 **例外:**
-ファイルがすでに存在し、`replace=False` かつ `exist_ok=False` の場合に `ValueError` を送出します。
+ファイルがすでに存在し、`replace=False` かつ `exist_ok=False` の場合は `ValueError`。

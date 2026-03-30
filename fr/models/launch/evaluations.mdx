@@ -1,7 +1,7 @@
 ---
 title: "Catalogue des benchmarks d’évaluation"
 description: >
-  Consultez les benchmarks d’évaluation disponibles dans les jobs d’évaluation LLM
+  Consultez les benchmarks d’évaluation disponibles dans LLM Evaluation Jobs
 ---
 
 import PreviewLink from '/snippets/fr/_includes/llm-eval-jobs/preview.mdx';
@@ -12,12 +12,12 @@ Cette page répertorie les benchmarks d’évaluation que [LLM Evaluation Jobs](
 
 Pour exécuter certains benchmarks, un administrateur d’équipe doit ajouter les clés API requises en tant que [secrets d’équipe](/fr/platform/secrets#add-a-secret). Tout membre de l’équipe peut ensuite indiquer le secret lors de la configuration d’un job d’évaluation.
 
-* Si un benchmark affiche `true` dans la colonne **OpenAI Model Scorer**, il utilise des modèles OpenAI pour le scoring. Un administrateur d’organisation ou d’équipe doit ajouter une clé API OpenAI comme secret d’équipe. Lorsque vous configurez un job d’évaluation avec un benchmark qui impose cette condition, définissez le champ **Scorer API key** sur ce secret.
-  * Si un benchmark comporte un lien dans la colonne **jeu de données Hugging Face à accès restreint**, il nécessite l’accès à un jeu de données Hugging Face restreint. Un administrateur d’organisation ou d’équipe doit demander l’accès au jeu de données sur Hugging Face, créer un jeton d’accès utilisateur Hugging Face et configurer un secret d’équipe avec la clé d’accès. Lorsque vous configurez un benchmark soumis à cette condition, définissez le champ **Hugging Face Token** sur ce secret.
+* Si un benchmark affiche `true` dans la colonne **OpenAI Model Scorer**, il utilise des modèles OpenAI pour le calcul du score. Un administrateur d’organisation ou d’équipe doit ajouter une clé API OpenAI comme secret d’équipe. Lorsque vous configurez un job d’évaluation avec un benchmark qui impose cette condition, définissez le champ **clé API du scorer** sur ce secret.
+  * Si un benchmark comporte un lien dans la colonne **jeu de données Hugging Face à accès restreint**, il nécessite l’accès à un jeu de données Hugging Face restreint. Un administrateur d’organisation ou d’équipe doit demander l’accès au jeu de données sur Hugging Face, créer un jeton d’accès utilisateur Hugging Face et configurer un secret d’équipe avec la clé d’accès. Lorsque vous configurez un benchmark soumis à cette condition, définissez le champ **jeton Hugging Face** sur ce secret.
 
 {/*
     Liste de benchmarks : https://github.com/wandb/launch-jobs/blob/main/jobs/inspect_ai_evals/api_model/sample-schema.json 
-    Exigences pour OpenAI et Hugging Face : https://github.com/wandb/core/blob/master/frontends/app/src/components/Launch/publicQueue/utils.ts
+    Exigences OpenAI et Hugging Face : https://github.com/wandb/core/blob/master/frontends/app/src/components/Launch/publicQueue/utils.ts
   */}
 
 <div id="knowledge">
@@ -61,7 +61,7 @@ Pour exécuter certains benchmarks, un administrateur d’équipe doit ajouter l
 | [AGIE LSAT Logical Reasoning](https://www.lsac.org/)                | `agie_lsat_lr`   |               |                                     | Questions de raisonnement logique du LSAT                                                |
 | [ARC Challenge](https://huggingface.co/datasets/allenai/ai2_arc)    | `arc_challenge`  |               |                                     | Questions scientifiques difficiles nécessitant du raisonnement (AI2 Reasoning Challenge) |
 | [ARC Easy](https://huggingface.co/datasets/allenai/ai2_arc)         | `arc_easy`       |               |                                     | Version plus simple des questions scientifiques du jeu de données ARC                    |
-| [BBH](https://github.com/suzgunmirac/BIG-Bench-Hard)                | `bbh`            |               |                                     | BIG-Bench Hard : tâches difficiles issues de BIG-Bench                                   |
+| [BBH](https://github.com/suzgunmirac/BIG-Bench-Hard)                | `bbh`            |               |                                     | BIG-Bench Hard : tâches difficiles issues de BIG-Bench                                   |
 | [CoCoNot](https://arxiv.org/abs/2310.03697)                         | `coconot`        |               |                                     | Benchmark de raisonnement contrefactuel fondé sur le bon sens                            |
 | [CommonsenseQA](https://huggingface.co/datasets/tau/commonsense_qa) | `commonsense_qa` |               |                                     | Questions de raisonnement fondé sur le bon sens                                          |
 | [HellaSwag](https://arxiv.org/abs/1905.07830)                       | `hellaswag`      |               |                                     | Inférence en langage naturel fondée sur le bon sens                                      |
@@ -112,7 +112,7 @@ Pour exécuter certains benchmarks, un administrateur d’équipe doit ajouter l
 | [AGIE SAT English (No Passage)](https://satsuite.collegeboard.org/sat)                                      | `agie_sat_en_without_passage` |               |                                     | Questions d&#39;anglais du SAT sans texte associé                                                  |
 | [DROP](https://github.com/allenai/allennlp-reading-comprehension/blob/master/allennlp_rc/eval/drop_eval.py) | `drop`                        |               |                                     | Discrete Reasoning Over Paragraphs : compréhension écrite nécessitant un raisonnement numérique    |
 | [RACE-H](https://www.cs.cmu.edu/~glai1/data/race/)                                                          | `race_h`                      |               |                                     | Compréhension écrite à partir d&#39;examens d&#39;anglais (niveau de difficulté élevé)             |
-| [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/)                                                        | `squad`                       |               |                                     | Stanford Question Answering Dataset : questions-réponses extractives sur des articles de Wikipédia |
+| [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/)                                                        | `squad`                       |               |                                     | Stanford Questions-réponses Dataset : questions-réponses extractives sur des articles de Wikipédia |
 
 <div id="long-context">
   ## Contexte étendu
@@ -127,7 +127,7 @@ Pour exécuter certains benchmarks, un administrateur d’équipe doit ajouter l
 | [InfiniteBench LongDialogue QA (English)](https://arxiv.org/abs/2402.13718) | `infinite_bench_longdialogue_qa_eng` |               |                                     | Questions-réponses sur de longs dialogues                         |
 | [InfiniteBench Number String](https://arxiv.org/abs/2402.13718)             | `infinite_bench_number_string`       |               |                                     | Reconnaissance de motifs numériques dans de longues séquences     |
 | [InfiniteBench Passkey](https://arxiv.org/abs/2402.13718)                   | `infinite_bench_passkey`             |               |                                     | Récupération d&#39;informations dans un contexte long             |
-| [NIAH](https://arxiv.org/abs/2406.07230)                                    | `niah`                               |               |                                     | Needle in a Haystack : test de récupération dans un contexte long |
+| [NIAH](https://arxiv.org/abs/2406.07230)                                    | `niah`                               |               |                                     | Needle in a Haystack : test de récupération dans un contexte long |
 
 <div id="safety">
   ## Sécurité
@@ -137,8 +137,8 @@ Pour exécuter certains benchmarks, un administrateur d’équipe doit ajouter l
 
 | Évaluation                                                                                                   | ID de tâche                     | OpenAI Scorer | Jeu de données HF à accès restreint | Description                                                                                          |
 | ------------------------------------------------------------------------------------------------------------ | ------------------------------- | ------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| [AgentHarm](https://arxiv.org/abs/2410.09024)                                                                | `agentharm`                     | Oui           |                                     | Teste la résistance du modèle aux comportements nuisibles des agents et aux scénarios d’usage abusif |
-| [AgentHarm Benign](https://arxiv.org/abs/2410.09024)                                                         | `agentharm_benign`              | Oui           |                                     | Référence bénigne pour AgentHarm permettant de mesurer les taux de faux positifs                     |
+| [AgentHarm](https://arxiv.org/abs/2410.09024)                                                                | `agentharm`                     | oui           |                                     | Teste la résistance du modèle aux comportements nuisibles des agents et aux scénarios d’usage abusif |
+| [AgentHarm Benign](https://arxiv.org/abs/2410.09024)                                                         | `agentharm_benign`              | oui           |                                     | Référence bénigne pour AgentHarm permettant de mesurer les taux de faux positifs                     |
 | [Agentic Misalignment](https://arxiv.org/abs/2510.05179)                                                     | `agentic_misalignment`          |               |                                     | Évalue un possible défaut d’alignement dans le comportement agentique                                |
 | [AHB](https://arxiv.org/abs/2503.04804)                                                                      | `ahb`                           |               |                                     | Agent Harmful Behavior : teste la résistance aux actions agentiques nuisibles                        |
 | [AIRBench](https://arxiv.org/abs/2410.02407)                                                                 | `air_bench`                     |               |                                     | Teste la résistance aux instructions adversariales                                                   |
@@ -148,10 +148,10 @@ Pour exécuter certains benchmarks, un administrateur d’équipe doit ajouter l
 | [BOLD](https://arxiv.org/abs/2101.11718)                                                                     | `bold`                          |               |                                     | Jeu de données sur les biais dans la génération ouverte de langage                                   |
 | [CYSE3 Visual Prompt Injection](https://arxiv.org/abs/2408.01605)                                            | `cyse3_visual_prompt_injection` |               |                                     | Teste la résistance aux attaques d’injection visuelle de prompt                                      |
 | [Make Me Pay](https://arxiv.org/abs/2410.08691)                                                              | `make_me_pay`                   |               |                                     | Teste la résistance aux scénarios d’escroquerie et de fraude financière                              |
-| [MASK](https://arxiv.org/abs/2503.03750)                                                                     | `mask`                          | Oui           | Oui                                 | Teste la gestion des informations sensibles par le modèle                                            |
+| [MASK](https://arxiv.org/abs/2503.03750)                                                                     | `mask`                          | oui           | oui                                 | Teste la gestion des informations sensibles par le modèle                                            |
 | [Personality BFI](https://github.com/UKGovernmentBEIS/inspect_evals/tree/main/src/inspect_evals/personality) | `personality_BFI`               |               |                                     | Évaluation des traits de personnalité selon le modèle des Big Five                                   |
-| [Personality TRAIT](https://arxiv.org/abs/2406.14703)                                                        | `personality_TRAIT`             |               | Oui                                 | Évaluation complète des traits de personnalité                                                       |
-| SOSBench                                                                                                     | `sosbench`                      | Oui           |                                     | Test de résistance en matière de sécurité et de supervision                                          |
+| [Personality TRAIT](https://arxiv.org/abs/2406.14703)                                                        | `personality_TRAIT`             |               | oui                                 | Évaluation complète des traits de personnalité                                                       |
+| SOSBench                                                                                                     | `sosbench`                      | oui           |                                     | Test de résistance en matière de sécurité et de supervision                                          |
 | [StereoSet](https://github.com/moinnadeem/StereoSet)                                                         | `stereoset`                     |               |                                     | Mesure les biais stéréotypés dans les modèles de langage                                             |
 | [StrongREJECT](https://arxiv.org/abs/2402.10260)                                                             | `strong_reject`                 |               |                                     | Teste la capacité du modèle à rejeter les requêtes nuisibles                                         |
 | [Sycophancy](https://arxiv.org/abs/2310.13548)                                                               | `sycophancy`                    |               |                                     | Évalue la tendance à adopter un comportement complaisant                                             |
@@ -160,7 +160,7 @@ Pour exécuter certains benchmarks, un administrateur d’équipe doit ajouter l
 | [WMDP Bio](https://www.wmdp.ai/)                                                                             | `wmdp_bio`                      |               |                                     | Teste les connaissances dangereuses en biologie                                                      |
 | [WMDP Chem](https://www.wmdp.ai/)                                                                            | `wmdp_chem`                     |               |                                     | Teste les connaissances dangereuses en chimie                                                        |
 | [WMDP Cyber](https://www.wmdp.ai/)                                                                           | `wmdp_cyber`                    |               |                                     | Teste les connaissances dangereuses en cybersécurité                                                 |
-| [XSTest](https://arxiv.org/abs/2308.01263)                                                                   | `xstest`                        | Oui           |                                     | Test de sécurité extrême pour détecter les refus excessifs                                           |
+| [XSTest](https://arxiv.org/abs/2308.01263)                                                                   | `xstest`                        | oui           |                                     | Test de sécurité extrême pour détecter les refus excessifs                                           |
 
 <div id="domain-specific">
   ## Domaines spécialisés
@@ -228,6 +228,6 @@ Validation de base du système et vérifications préalables.
   ## Prochaines étapes
 </div>
 
-* [Évaluer un point de contrôle du modèle](/fr/models/launch/evaluate-model-checkpoint)
-* [Évaluer un modèle d&#39;API hébergé](/fr/models/launch/evaluate-hosted-model)
+* [Évaluez un point de contrôle du modèle](/fr/models/launch/evaluate-model-checkpoint)
+* [Évaluez un modèle d’API hébergé](/fr/models/launch/evaluate-hosted-model)
 * Consultez les détails de benchmarks spécifiques sur [AISI Inspect Evals](https://inspect.aisi.org.uk/evals/)

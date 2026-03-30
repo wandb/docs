@@ -1,11 +1,11 @@
 ---
 title: Personnaliser les axes des métriques consignées
-description: "Utilisez define_metric() pour définir un axe x personnalisé pour les métriques consignées, au lieu du compteur d’étapes W&B utilisé par défaut."
+description: "Utilisez define_metric() pour définir un axe des x personnalisé pour les métriques consignées, au lieu du compteur d'étapes W&B par défaut."
 ---
 
-Définissez un axe x personnalisé lorsque vous consignez des métriques dans W&amp;B. Par défaut, W&amp;B consigne les métriques sous forme d’*étapes*. Chaque étape correspond à un appel d’API `wandb.Run.log()`.
+Définissez un axe des x personnalisé lorsque vous consignez des métriques dans W&amp;B. Par défaut, W&amp;B consigne les métriques en *étapes*. Chaque étape correspond à un appel d&#39;API `wandb.Run.log()`.
 
-Par exemple, le script suivant contient une boucle `for` qui s’exécute 10 fois. À chaque itération, le script consigne une métrique appelée `validation_loss` et incrémente le numéro d’étape de 1.
+Par exemple, le script suivant contient une boucle `for` qui s&#39;exécute 10 fois. À chaque itération, le script consigne une métrique appelée `validation_loss` et incrémente le numéro d&#39;étape de 1.
 
 ```python
 import wandb
@@ -19,37 +19,37 @@ with wandb.init() as run:
     run.log(log_dict)
 ```
 
-Dans l’espace de travail du projet, la métrique `validation_loss` est tracée en fonction de l’axe X `step`, qui s’incrémente de 1 à chaque appel de `wandb.Run.log()`. D’après le code précédent, l’axe X affiche les numéros d’étape 0, 1, 2, ..., 9.
+Dans le Workspace du projet, la métrique `validation_loss` est tracée en fonction de l&#39;axe des x `step`, qui s&#39;incrémente de 1 à chaque appel de `wandb.Run.log()`. D&#39;après le code précédent, l&#39;axe des x affiche les numéros d&#39;étape 0, 1, 2, ..., 9.
 
 <Frame>
-  <img src="/images/experiments/standard_axes.png" alt="Panneau de graphique linéaire utilisant `step` comme axe X." />
+  <img src="/images/experiments/standard_axes.png" alt="Panneau de graphique linéaire utilisant `step` comme axe des x." />
 </Frame>
 
-Dans certaines situations, il est plus pertinent de consigner des métriques par rapport à un autre axe X, par exemple un axe X logarithmique. Utilisez la méthode [`define_metric()`](/fr/models/ref/python/experiments/run/#define_metric) pour utiliser n’importe quelle métrique consignée comme axe X personnalisé.
+Dans certaines situations, il est plus pertinent de consigner des métriques par rapport à un autre axe des x, par exemple un axe des x logarithmique. Utilisez la méthode [`define_metric()`](/fr/models/ref/python/experiments/run/#define_metric) pour utiliser n&#39;importe quelle métrique consignée comme axe des x personnalisé.
 
-Spécifiez la métrique que vous souhaitez afficher sur l’axe Y avec le paramètre `name`. Le paramètre `step_metric` indique la métrique à utiliser comme axe X. Lorsque vous consignez une métrique personnalisée, indiquez une valeur pour l’axe X et pour l’axe Y sous forme de paires clé-valeur dans un dictionnaire.
+Spécifiez la métrique que vous souhaitez afficher sur l&#39;axe Y avec le paramètre `name`. Le paramètre `step_metric` indique la métrique à utiliser comme axe des x. Lorsque vous consignez une métrique personnalisée, indiquez une valeur pour l&#39;axe des x et pour l&#39;axe Y sous forme de paires clé-valeur dans un dictionnaire.
 
-Copiez-collez l’extrait de code suivant pour définir une métrique d’axe X personnalisée. Remplacez les valeurs entre `<>` par vos propres valeurs :
+Copiez-collez l&#39;extrait de code suivant pour définir une métrique d&#39;axe des x personnalisée. Remplacez les valeurs entre `<>` par vos propres valeurs :
 
 ```python
 import wandb
 
-custom_step = "<custom_step>"  # Nom de l'axe x personnalisé
+custom_step = "<custom_step>"  # Nom de l'axe des x personnalisé
 metric_name = "<metric>"  # Nom de la métrique de l'axe Y
 
 with wandb.init() as run:
-    # Spécifier la métrique d'étape (axe x) et la métrique à consigner en regard (axe Y)
+    # Spécifier la métrique d'étape (axe des x) et la métrique à consigner en regard (axe Y)
     run.define_metric(step_metric = custom_step, name = metric_name)
 
     for i in range(10):
         log_dict = {
-            custom_step : int,  # Valeur de l'axe x
+            custom_step : int,  # Valeur de l'axe des x
             metric_name : int,  # Valeur de l'axe Y
         }
         run.log(log_dict)
 ```
 
-Par exemple, l’extrait de code suivant crée un axe X personnalisé appelé `x_axis_squared`. La valeur de cet axe X personnalisé est le carré de l’indice `i` de la boucle `for` (`i**2`). L’axe Y se compose de valeurs factices pour la perte de validation (`"validation_loss"`), à l’aide du module intégré `random` de Python :
+Par exemple, l&#39;extrait de code suivant crée un axe des x personnalisé appelé `x_axis_squared`. La valeur de cet axe des x personnalisé est le carré de l&#39;indice `i` de la boucle `for` (`i**2`). L&#39;axe Y se compose de valeurs factices pour la perte de validation (`"validation_loss"`), à l&#39;aide du module intégré `random` de Python :
 
 ```python
 import wandb
@@ -66,13 +66,13 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-L’image suivante montre le graphique obtenu dans l’interface de l’application W&amp;B. La métrique `validation_loss` est représentée en fonction de l’axe x personnalisé `x_axis_squared`, qui correspond au carré de l’indice `i` de la boucle `for`. Notez que les valeurs de l’axe x sont `0, 1, 4, 9, 16, 25, 36, 49, 64, 81`, ce qui correspond respectivement aux carrés de `0, 1, 2, ..., 9`.
+L&#39;image suivante montre le graphique obtenu dans l&#39;interface de W&amp;B App. La métrique `validation_loss` est tracée par rapport à l&#39;axe des x personnalisé `x_axis_squared`, qui correspond au carré de l&#39;indice `i` de la boucle `for`. Notez que les valeurs de l&#39;axe des x sont `0, 1, 4, 9, 16, 25, 36, 49, 64, 81`, ce qui correspond respectivement aux carrés de `0, 1, 2, ..., 9`.
 
 <Frame>
-  <img src="/images/experiments/custom_x_axes.png" alt="Panneau de graphique linéaire utilisant un axe x personnalisé. Les valeurs sont consignées dans W&B comme le carré du numéro de boucle." />
+  <img src="/images/experiments/custom_x_axes.png" alt="Panneau de graphique linéaire utilisant un axe des x personnalisé. Les valeurs sont consignées dans W&B comme le carré du numéro d'itération." />
 </Frame>
 
-Vous pouvez définir un axe x personnalisé pour plusieurs métriques à l’aide de `globs` avec des préfixes de chaîne de caractères. Par exemple, l’extrait de code suivant représente les métriques consignées avec le préfixe `train/*` sur l’axe x `train/step` :
+Vous pouvez définir un axe des x personnalisé pour plusieurs métriques à l&#39;aide de `globs` avec des préfixes de chaîne. Par exemple, l&#39;extrait de code suivant trace les métriques consignées avec le préfixe `train/*` sur l&#39;axe des x `train/step` :
 
 ```python
 import wandb
@@ -85,9 +85,9 @@ with wandb.init() as run:
     for i in range(10):
         log_dict = {
             "train/step": 2**i,  # croissance exponentielle avec l'étape W&B interne
-            "train/loss": 1 / (i + 1),  # l'axe X est train/step
-            "train/accuracy": 1 - (1 / (1 + i)),  # l'axe X est train/step
-            "val/loss": 1 / (1 + i),  # l'axe X est l'étape wandb interne
+            "train/loss": 1 / (i + 1),  # l'axe des x est train/step
+            "train/accuracy": 1 - (1 / (1 + i)),  # l'axe des x est train/step
+            "val/loss": 1 / (1 + i),  # l'axe des x est l'étape wandb interne
         }
         run.log(log_dict)
 ```

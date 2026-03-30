@@ -29,14 +29,14 @@ wandb docker [DOCKER_RUN_ARGS] [DOCKER_IMAGE] [OPTIONS]
   ## Options
 </div>
 
-| Option      | Description                                                                                                    |
-| :---------- | :------------------------------------------------------------------------------------------------------------- |
-| `--nvidia`  | Utiliser le runtime nvidia ; la valeur par défaut est nvidia si nvidia-docker est présent (par défaut : False) |
-| `--digest`  | Afficher le digest de l’image et quitter (par défaut : False)                                                  |
-| `--jupyter` | Exécuter jupyter lab dans le conteneur (par défaut : False)                                                    |
-| `--dir`     | Répertoire dans lequel monter le code dans le conteneur (par défaut : /app)                                    |
-| `--no-dir`  | Ne pas monter le répertoire courant (par défaut : False)                                                       |
-| `--shell`   | Shell avec lequel démarrer le conteneur (par défaut : /bin/bash)                                               |
-| `--port`    | Port hôte sur lequel lier jupyter (par défaut : 8888)                                                          |
-| `--cmd`     | La commande à exécuter dans le conteneur                                                                       |
-| `--no-tty`  | Exécuter la commande sans tty (par défaut : False)                                                             |
+| Option      | Description                                                                                                            |
+| :---------- | :--------------------------------------------------------------------------------------------------------------------- |
+| `--nvidia`  | Utiliser le runtime nvidia ; la valeur par défaut est nvidia si nvidia-docker est présent (valeurs par défaut : False) |
+| `--digest`  | Afficher le digest de l’image et quitter (valeurs par défaut : False)                                                  |
+| `--jupyter` | Exécuter jupyter lab dans le conteneur (valeurs par défaut : False)                                                    |
+| `--dir`     | Répertoire dans lequel monter le code dans le conteneur (valeurs par défaut : /app)                                    |
+| `--no-dir`  | Ne pas monter le répertoire courant (valeurs par défaut : False)                                                       |
+| `--shell`   | Shell avec lequel démarrer le conteneur (valeurs par défaut : /bin/bash)                                               |
+| `--port`    | Port hôte sur lequel lier jupyter (valeurs par défaut : 8888)                                                          |
+| `--cmd`     | La commande à exécuter dans le conteneur                                                                               |
+| `--no-tty`  | Exécuter la commande sans tty (valeurs par défaut : False)                                                             |

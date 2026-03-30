@@ -1,10 +1,10 @@
 ---
-title: "Weave を W&B Models で利用する"
-description: "Weave と W&B Models の使い方を学びます"
+title: "W&B Models で Weave を使用する"
+description: "Weave を W&B Models とともに使用する方法を学びます"
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクからアクセスしてください：
+  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクを使用してください：
 
   * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Models_and_Weave_Integration_Demo.ipynb)
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Models_and_Weave_Integration_Demo.ipynb)
@@ -14,7 +14,7 @@ description: "Weave と W&B Models の使い方を学びます"
   ## 前提条件
 </div>
 
-まず、必要なライブラリをインストールし、API キーを設定して W&amp;B にログインし、新しい W&amp;B プロジェクトを作成します。
+まず、必要なライブラリをインストールし、APIキーを設定して W&amp;B にログインし、新しい W&amp;B プロジェクトを作成します。
 
 1. `pip` を使用して `weave`、`pandas`、`unsloth`、`wandb`、`litellm`、`pydantic`、`torch`、`faiss-gpu` をインストールします。
 
@@ -28,23 +28,23 @@ python
 !pip uninstall unsloth -y && pip install --upgrade --no-cache-dir "unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git"
 ```
 
-2. 環境にある必要な API キーを追加します。
+2. 環境から必要なAPIキーを追加します。
 
 ```python lines
 import os
 
 from google.colab import userdata
 
-os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")  # W&B Models と Weave
+os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")  # W&B Models および Weave
 os.environ["OPENAI_API_KEY"] = userdata.get(
     "OPENAI_API_KEY"
-)  # OpenAI - 検索埋め込み用
+)  # OpenAI - 検索用埋め込み
 os.environ["GEMINI_API_KEY"] = userdata.get(
     "GEMINI_API_KEY"
-)  # Gemini - ベースチャットモデル用
+)  # Gemini - ベースのチャットモデル用
 ```
 
-3. W&amp;B にログインし、新しいプロジェクトを作成します。
+3. W&amp;B にログインし、新しい W&amp;B プロジェクトを作成します。
 
 ```python lines
 import pandas as pd
@@ -60,19 +60,20 @@ ENTITY = "wandb-smle"
 weave.init(ENTITY + "/" + PROJECT)
 ```
 
+
 <div id="download-chatmodel-from-models-registry-and-implement-unslothlorachatmodel">
   ## Models Registry から `ChatModel` をダウンロードし、`UnslothLoRAChatModel` を実装する
 </div>
 
-このシナリオでは、Llama-3.2 モデルはパフォーマンス最適化のためにすでに Model Team が `unsloth` ライブラリを使ってファインチューニングしており、[W&amp;B Models Registry で利用できます](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26)。この step では、Registry からファインチューニング済みの [`ChatModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) を取得し、[`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) と互換性を持たせるために `weave.Model` に変換します。
+このシナリオでは、Llama-3.2 モデルはパフォーマンス最適化のために、Model Team が `unsloth` ライブラリを使用してすでにファインチューニングしており、[W&amp;B Models Registry で利用できます](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26)。この step では、Registry からファインチューニングした [`ChatModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-rag-experiments%2Fobjects%2FChatModelRag%2Fversions%2F2mhdPb667uoFlXStXtZ0MuYoxPaiAXj3KyLS1kYRi84%3F%26) を取得し、[`RagModel`](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/object-versions?filter=%7B%22objectName%22%3A%22RagModel%22%7D\&peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2FcqRaGKcxutBWXyM0fCGTR1Yk2mISLsNari4wlGTwERo%3F%26) と互換性を持たせるために `weave.Model` に変換します。
 
 <Note>
-  以下で参照する `RagModel` は、完全な RAG アプリケーションと見なせるトップレベルの `weave.Model` です。これには `ChatModel`、ベクトルデータベース、プロンプトが含まれます。`ChatModel` も `weave.Model` であり、W&amp;B Registry からアーティファクトをダウンロードするコードを含んでいます。`ChatModel` は、`RagModel` の一部として、ほかの種類の LLM チャットモデルにも対応できるようモジュール単位で差し替えられます。詳細については、[Weave でモデルを確認してください](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26)。
+  以下で参照する `RagModel` は、完全な RAG アプリケーションと見なせるトップレベルの `weave.Model` です。これには `ChatModel`、ベクトルデータベース、プロンプトが含まれます。`ChatModel` も `weave.Model` であり、W&amp;B Registry からアーティファクトをダウンロードするコードを含んでいます。`ChatModel` は、`RagModel` の一部として、ほかの種類の LLM チャットモデルにも対応できるようモジュール単位で差し替えできます。詳細については、[Weave でモデルを確認してください](https://wandb.ai/wandb-smle/weave-cookboook-demo/weave/evaluations?peekPath=%2Fwandb-smle%2Fweave-cookboook-demo%2Fobjects%2FRagModel%2Fversions%2Fx7MzcgHDrGXYHHDQ9BA8N89qDwcGkdSdpxH30ubm8ZM%3F%26)。
 </Note>
 
-`ChatModel` をロードするには、アダプター付きの `unsloth.FastLanguageModel` または `peft.AutoPeftModelForCausalLM` を使用し、アプリに効率的に組み込めます。Registry からモデルをダウンロードした後、`model_post_init` method を使って初期化と予測のロジックを設定できます。この step に必要なコードは Registry の **Use** タブで利用でき、そのまま実装にコピーできます
+`ChatModel` をロードするには、アダプター付きの `unsloth.FastLanguageModel` または `peft.AutoPeftModelForCausalLM` を使用し、アプリケーションに効率的に組み込めます。Registry からモデルをダウンロードした後、`model_post_init` method を使用して初期化と予測のロジックを設定できます。この step に必要なコードは Registry の **Use** タブで利用でき、そのまま実装にコピーできます。
 
-以下のコードは、W&amp;B Models Registry から取得したファインチューニング済みの Llama-3.2 モデルを管理、初期化、使用するための `UnslothLoRAChatModel` クラスを定義しています。`UnslothLoRAChatModel` は、推論を最適化するために `unsloth.FastLanguageModel` を使用します。`model_post_init` method はモデルのダウンロードとセットアップを処理し、`predict` method はユーザーのクエリを処理して応答を生成します。コードをユースケースに合わせて調整するには、`MODEL_REG_URL` をファインチューニング済みモデルの正しい Registry パスに更新し、ハードウェアや要件に応じて `max_seq_length` や `dtype` などのパラメーターを調整してください。
+以下のコードは、W&amp;B Models Registry から取得したファインチューニングした Llama-3.2 モデルを管理、初期化、使用するための `UnslothLoRAChatModel` クラスを定義しています。`UnslothLoRAChatModel` は、推論を最適化するために `unsloth.FastLanguageModel` を使用します。`model_post_init` method はモデルのダウンロードとセットアップを処理し、`predict` method はユーザーのクエリを処理して応答を生成します。コードをユースケースに合わせて調整するには、`MODEL_REG_URL` をファインチューニングしたモデルの正しい Registry パスに更新し、ハードウェアや要件に応じて `max_seq_length` や `dtype` などのパラメーターを調整してください。
 
 ```python lines
 from typing import Any
@@ -161,13 +162,14 @@ await new_chat_model.predict(
 )
 ```
 
+
 <div id="integrate-the-new-chatmodel-version-into-ragmodel">
   ## 新しい `ChatModel` バージョンを `RagModel` に統合する
 </div>
 
-ファインチューニングしたチャットモデルから RAG アプリケーションを構築すると、パイプライン全体を作り直すことなく、用途に合わせて調整したコンポーネントを使って対話型 AI を改善できます。この step では、Weave プロジェクトから既存の `RagModel` を取得し、その `ChatModel` を更新して、新たにファインチューニングしたモデルを使うようにします。このシームレスな差し替えにより、ベクトル データベース (VDB) やプロンプトなどの他のコンポーネントは変更せずに済むため、アプリケーション全体の構造を保ちながらパフォーマンスを向上できます。
+ファインチューニングしたチャットモデルから RAG アプリケーションを構築すると、パイプライン全体を再構築しなくても、調整済みの コンポーネント を使用して会話型 AI を改善できます。この step では、Weave プロジェクトから既存の `RagModel` を取得し、その `ChatModel` を更新して新しくファインチューニングしたモデルを使用します。このシームレスな入れ替えにより、ベクトルデータベース (VDB) やプロンプトなどの他の コンポーネント はそのまま維持され、アプリケーション全体の構造を保ちながらパフォーマンスを向上できます。
 
-以下のコードでは、Weave プロジェクト内の参照を使って `RagModel` オブジェクトを取得します。次に、`RagModel` の `chat_model` 属性を更新し、前の step で作成した新しい `UnslothLoRAChatModel` インスタンスを使うようにします。その後、更新した `RagModel` を公開して新しいバージョンを作成します。最後に、更新した `RagModel` を使ってサンプルの予測クエリを実行し、新しいチャットモデルが使われていることを確認します。
+以下のコードは、Weave プロジェクトの参照を使用して `RagModel` オブジェクトを取得します。続いて、`RagModel` の `chat_model` 属性を更新し、前の step で作成した新しい `UnslothLoRAChatModel` インスタンスを使用するようにします。その後、更新した `RagModel` を公開して新しいバージョンを作成します。最後に、更新した `RagModel` を使用してサンプルの予測クエリを実行し、新しいチャットモデルが使用されていることを検証します。
 
 ```python lines
 RagModel = weave.ref(
@@ -178,12 +180,12 @@ RagModel.chat_model.chat_model
 python
 await RagModel.predict("When was the first conference on climate change?")
 python
-# MAGIC: chat_model を交換して新しいバージョンを公開する（他の RAG コンポーネントは変更不要）
+# マジック: chat_modelを交換して新しいバージョンを公開する（他のRAGコンポーネントは変更不要）
 RagModel.chat_model = new_chat_model
 python
 RagModel.chat_model.chat_model
 python
-# まず新しいバージョンを公開して、予測時に新しいバージョンを参照できるようにする
+# まず新しいバージョンを公開して、予測で新しいバージョンを参照できるようにする
 PUB_REFERENCE = weave.publish(RagModel, "RagModel")
 python
 await RagModel.predict("When was the first conference on climate change?")
@@ -194,22 +196,22 @@ await RagModel.predict("When was the first conference on climate change?")
   ## `weave.Evaluation` を実行する
 </div>
 
-次の step では、既存の `weave.Evaluation` を使用して、更新した `RagModel` のパフォーマンスを評価します。このプロセスにより、新しくファインチューニングしたチャットモデルが RAG アプリケーション内で期待どおりに動作していることを確認できます。インテグレーションを効率化し、Models チームと Apps チームの連携を可能にするため、モデルの W&amp;B run と Weave ワークスペースの両方に評価結果をログします。
+次のstepでは、既存の `weave.Evaluation` を使用して、更新した `RagModel` のパフォーマンスを評価します。このプロセスにより、新しくファインチューニングしたチャットモデルが RAG アプリケーション内で期待どおりに動作していることを確認できます。インテグレーションを効率化し、Models チームと Apps チームの連携を可能にするため、モデルの W&amp;B run と Weave Workspace の両方に評価結果をログします。
 
 Models では:
 
-* 評価サマリーは、ファインチューニングしたチャットモデルのダウンロードに使用した W&amp;B run にログされます。これには、分析用の [workspace view](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9) に表示されるサマリー メトリクスとグラフが含まれます。
-* 評価トレース ID は run の設定に追加され、Model Team が追跡しやすいよう Weave ページへの直接リンクとして関連付けられます。
+* 評価サマリーは、ファインチューニングしたチャットモデルのダウンロードに使用した W&amp;B run にログされます。これには、分析用の [workspace view](https://wandb.ai/wandb-smle/weave-cookboook-demo/workspace?nw=eglm8z7o9) に表示されるサマリーメトリクスとグラフが含まれます。
+* 評価トレース ID は run の設定に追加され、Model Team が追跡しやすいように Weave ページへの直接リンクとして関連付けられます。
 
 Weave では:
 
-* `ChatModel` のアーティファクトまたはレジストリ リンクが、`RagModel` への入力として保存されます。
+* `ChatModel` のアーティファクトまたは Registry へのリンクが、`RagModel` への入力として保存されます。
 * W&amp;B run ID は、コンテキストを補うために評価トレース内の追加列として保存されます。
 
 以下のコードは、評価オブジェクトを取得し、更新した `RagModel` を使用して評価を実行し、その結果を W&amp;B と Weave の両方にログする方法を示しています。評価参照 (`WEAVE_EVAL`) がご利用のプロジェクト設定と一致していることを確認してください。
 
 ```python lines
-# MAGIC: 評価データセットとスコアラーを使って評価を取得できます
+# マジック: 評価データセットとスコアラーを使って評価を取得できます
 WEAVE_EVAL = "weave://wandb-smle/weave-cookboook-demo/object/climate_rag_eval:ntRX6qn3Tx6w3UEVZXdhIh1BWGh7uXcQpOQnIuvnSgo"
 climate_rag_eval = weave.ref(WEAVE_EVAL).get()
 python
@@ -225,16 +227,15 @@ wandb.run.config.update(
 wandb.run.finish()
 ```
 
-
 <div id="save-the-new-rag-model-to-the-registry">
-  ## 新しい RAG モデルを Registry に保存する
+  ## 新しい RAG モデル を Registry に保存する
 </div>
 
-更新された `RagModel` を今後 Models チームと Apps チームの両方で利用できるようにするため、これを参照アーティファクトとして W&amp;B Models Registry にプッシュします。
+更新した `RagModel` を Models チームと Apps チームの両方で今後使用できるようにするため、参照アーティファクトとして W&amp;B Models Registry にプッシュします。
 
-以下のコードでは、更新された `RagModel` の `weave` オブジェクトのバージョンと名前を取得し、それらを使って参照リンクを作成します。次に、モデルの Weave URL を含むメタデータを持つ新しいアーティファクトを W&amp;B に作成します。このアーティファクトは W&amp;B Registry にログされ、指定されたレジストリパスにリンクされます。
+以下のコードは、更新した `RagModel` の `weave` オブジェクトのバージョンと名を取得し、それらを使用して参照リンクを作成します。次に、モデルの Weave URL を含むメタデータを持つ新しいアーティファクトを W&amp;B で作成します。このアーティファクトは W&amp;B Registry にログされ、指定した Registry パスにリンクされます。
 
-コードを実行する前に、`ENTITY` と `PROJECT` の変数が W&amp;B の設定と一致していること、および対象のレジストリパスが正しく指定されていることを確認してください。このプロセスによりワークフローが完了し、新しい `RagModel` が W&amp;B エコシステムに公開され、共同作業や再利用を容易に行えるようになります。
+コードを実行する前に、`ENTITY` 変数と `PROJECT` 変数が W&amp;B の設定と一致していること、および対象の Registry パスが正しく指定されていることを確認してください。このプロセスにより、新しい `RagModel` が W&amp;B エコシステムに公開され、簡単に共同作業や再利用ができるようになって、workflow が完了します。
 
 ```python lines
 MODELS_OBJECT_VERSION = PUB_REFERENCE.digest  # weave オブジェクトバージョン
@@ -255,10 +256,10 @@ with wandb.init(project=PROJECT, entity=ENTITY) as run:
     )
     artifact_model.add_reference(models_link, name="model", checksum=False)
 
-    # 新しいアーティファクトをログする
+    # 新しい artifact をログする
     run.log_artifact(artifact_model, aliases=[MODELS_OBJECT_VERSION])
 
-    # レジストリにリンクする
+    # registry にリンクする
     run.link_artifact(
         artifact_model, target_path="wandb32/wandb-registry-RAG Models/RAG Model"
     )

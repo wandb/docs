@@ -37,7 +37,7 @@ rss: true
   ## 追加
 
   * `wandb beta leet` TUI が複数 run のワークスペースをサポートするようになりました。
-  * `wandb beta leet config` コマンドを使って、`wandb beta leet` の永続化された設定を対話的に設定できるようになりました。
+  * `wandb beta leet config` コマンドを使って、`wandb beta leet` の永続化された設定をインタラクティブに設定できるようになりました。
   * `wandb.apis.public.Project` の `owner` プロパティで、プロジェクト所有者のユーザー情報にアクセスできるようになりました。
 
   ## 修正
@@ -54,7 +54,7 @@ rss: true
 
   ## 修正
 
-  * Artifacts ファイルのダウンロード中に有効期限が切れた場合、署名付きダウンロード URL を再取得するようになりました。
+  * アーティファクト ファイルのダウンロード中に有効期限が切れた場合、署名付きダウンロード URL を再取得するようになりました。
 </Update>
 
 <Update label="0.24.1" description="January 29, 2026">
@@ -192,7 +192,7 @@ rss: true
 
   * チェックサムキャッシュを用いた再検証処理により、artifacts ダウンロードを最適化しました。
   * run の一覧取得時のパフォーマンス向上のために、`Api().runs()` で遅延ロードをサポートしました。新しい `lazy=True` パラメーター (デフォルト) により、最初は必要最小限のメタデータのみを読み込み、config や summary のような重いフィールドはアクセス時に自動的にオンデマンドで読み込まれます。
-  * artifacts を作成する際に `storage_region` オプションを追加しました。ユーザーは wandb.ai を使用する際に、`wandb.Artifact(storage_region="coreweave-us")` を指定することで、CoreWeave のインフラストラクチャ上で artifacts のアップロード／ダウンロードをより高速に行うために、[CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage) を利用できます。
+  * artifacts を作成する際に `storage_region` オプションを追加しました。ユーザーは wandb.ai を使用する際に、`wandb.Artifact(storage_region="coreweave-us")` を指定することで、CoreWeave のインフラストラクチャー上で artifacts のアップロード／ダウンロードをより高速に行うために、[CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage) を利用できます。
 
   ## 修正
 
@@ -222,7 +222,7 @@ rss: true
 <Update label="v0.21.4" description="2025年9月11日">
   ## 追加
 
-  * DSPy インテグレーションを追加しました。評価メトリクスを経時的に追跡し、予測結果とプログラムシグネチャの変遷を W&amp;B Tables にログし、DSPy プログラムを W&amp;B Artifacts (完全なプログラム、または状態を JSON/PKL 形式で) として保存できます。
+  * DSPy インテグレーションを追加しました。評価メトリクスを経時的にトラッキングし、予測結果とプログラムシグネチャの変遷を W&amp;B Tables にログし、DSPy プログラムを W&amp;B Artifacts (完全なプログラム、または状態を JSON/PKL 形式で) として保存できます。
 
   GitHub 上の [v0.21.4 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.21.4)を参照してください。
 </Update>
@@ -242,7 +242,7 @@ rss: true
 <Update label="v0.21.2" description="2025年8月28日">
   ## 主な変更点
 
-  このバージョンでは、これまで `Artifact.link()` または `Run.link_artifact()` の呼び出し中に抑制されていたエラーが送出されるようになりました。これにより、これらのメソッドにおける見落とされた失敗は防止されますが、非互換な変更でもあります。
+  このバージョンでは、これまで `Artifact.link()` または `Run.link_artifact()` の呼び出し中に抑制されていたエラーが送出されるようになりました。これにより、これらのメソッドにおける見落とされた失敗は防止されますが、破壊的変更でもあります。
 
   ## 追加
 
@@ -251,12 +251,12 @@ rss: true
 
   ## 変更
 
-  * Artifacts のリンク中に発生したエラーは、もはや抑制／無視されず、`Artifact.link()` および `Run.link_artifact()` は `None` を返さなくなりました。
+  * アーティファクトのリンク中に発生したエラーは抑制／無視されなくなり、`Artifact.link()` および `Run.link_artifact()` は `None` を返さなくなりました。
   * run の終了時に出力される &quot;Run history&quot; と &quot;Run summary&quot; は、それぞれメトリクス 10 個までに制限されるようになりました。
 
   ## 修正
 
-  * run の `config` 内のデータクラスが、実際のクラスをフィールドとして含む場合でも、`Object of type ... is not JSON serializable` を発生させなくなりました。
+  * run の `config` 内のデータクラスが、実際のクラスをフィールドとして含む場合でも、`Object of type ... is not JSON serializable` エラーが発生しなくなりました。
   * サーバーバージョン 0.74.0 以降では、`Artifact.link()` および `Run.link_artifact()` が、不要なブロッキング GraphQL リクエストを 4〜5 回削減することで、より高速に動作するようになりました。
 
   GitHub 上の [v0.21.2 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.21.2)を参照してください。
@@ -276,25 +276,25 @@ rss: true
 
   ## 変更
 
-  * `Sweep.name` プロパティは、利用可能な場合はユーザーが編集した表示名を返すようになりました（これがない場合は従来どおり sweep config の元の名前、さらにそれもない場合は sweep ID にフォールバックします）。
+  * `Sweep.name` プロパティは、利用可能な場合はユーザーが編集した表示名を返すようになりました (これがない場合は従来どおり sweep config の元の名前、さらにそれもない場合は sweep ID にフォールバックします) 。
   * `Api().runs(...)` と `Api().sweeps(...)` は、run の `created_at` 時刻に従った昇順で run を返すようになりました。
-  * 大きなファイル（&gt;2GB）を含む Artifacts のアップロードは、コア数の多いシステムで並列ハッシュを使用することで高速化されました。
+  * 大きなファイル (&gt;2GB) を含む Artifacts のアップロードは、コア数の多いシステムで並列ハッシュを使用することで高速化されました。
   * Python の遅延イテレーターに合わせるため、レジストリイテレーターに対する `__bool__` の実装を削除しました。
 
   ## 非推奨
 
-  * `wandb.beta.workflows` モジュールとその内容（`log_model()`, `use_model()`, `link_model()` を含む）は非推奨となり、今後のリリースで削除される予定です。
+  * `wandb.beta.workflows` モジュールとその内容 (`log_model()`, `use_model()`, `link_model()` を含む) は非推奨となり、今後のリリースで削除される予定です。
 
   ## 修正
 
-  * organization registry の Artifacts に対して、 Artifacts タイプに依存しない Artifact の URL になるよう修正しました。
+  * organization registry のアーティファクトに対して、アーティファクトタイプに依存しないアーティファクトの URL になるよう修正しました。
   * サニタイズされた `InternalArtifact` 名のサフィックスを、英数字 6 文字に短縮しました。
   * `WANDB_SILENT` / `WANDB_QUIET` 環境変数が設定されている場合、`wandb.Video` は動画エンコード中にプログレススピナーを表示しなくなりました。
   * `api.registries()` を使用して取得した registry に、name および full&#95;name フィールドに余分な `wandb-registry-` 接頭辞が付く問題を修正しました。
   * `sync_tensorboard` 使用時に発生する可能性があったクラッシュを修正しました。
   * `Api().run(...).upload_file` は、指定されたルートディレクトリからの相対パスが異なる場所にあるファイルをアップロードしてもエラーを投げなくなりました。
-  * public API の run オブジェクトに対して `load()` 関数を呼び出しても、もはや `TypeError` は発生しません。
-  * `wandb.agent()` API によって呼び出された Sweeps の run 関数が例外をスローした場合、その例外は run のログページに表示されるようになりました（以前は `wandb agent` CLI コマンドによって呼び出された run のみが対象でした）。
+  * Public API の run オブジェクトに対して `load()` 関数を呼び出しても、`TypeError` は発生しなくなりました。
+  * `wandb.agent()` API によって呼び出された Sweeps の run 関数が例外をスローした場合、その例外は run のログページに表示されるようになりました (以前は `wandb agent` CLI コマンドによって呼び出された run のみが対象でした) 。
 
   GitHub 上の [v0.21.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.21.1) を参照してください。
 </Update>
@@ -302,7 +302,7 @@ rss: true
 <Update label="v0.21.0" description="2025年7月1日">
   ## Notable Changes
 
-  このバージョンでは、`service` プロセスのレガシー実装を削除しました。これは互換性を破る変更（ブレイキングチェンジ）です。
+  このバージョンでは、`service` プロセスのレガシー実装を削除しました。これは互換性を破る変更 (ブレイキングチェンジ) です。
 
   ## Added
 
@@ -313,7 +313,7 @@ rss: true
   ## Changed
 
   * `Artifact.link()` の呼び出し時に、一時的なプレースホルダー run を生成しないようになりました。
-  * `wandb` は、localhost で待ち受ける代わりに IPC 用に Unix ソケットの利用を試みるようになり、（Databricks などの）より制限の厳しい権限環境でも動作するようになりました。
+  * `wandb` は、localhost で待ち受ける代わりに IPC 用に Unix ソケットの利用を試みるようになり、 (Databricks などの) より制限の厳しい権限環境でも動作するようになりました。
   * `Api.artifact()` は、移行済みの model registry コレクションから Artifacts を取得する際に警告を表示するようになりました。
   * `wandb.Api` からクエリされたオブジェクトの `.length` は非推奨となりました。代わりに `len(...)` を使用してください。
 
@@ -340,9 +340,9 @@ rss: true
 
   * `wandb.Image()` が、値の範囲が [0, 1] の NumPy 配列を与えられた場合に 0.20.0 で動作しなくなっていた問題を修正しました。
 
-  * wandb.Table: 新しいコンストラクター引数 `log_mode` を追加し、`"IMMUTABLE"` と `"MUTABLE"` を指定できるようにしました。`IMMUTABLE` ログモード（デフォルト）は、テーブルを 1 度だけログできるという既存の動作です。`MUTABLE` ログモードでは、テーブルが変更されていれば再度ログできるようになります。（https://github.com/wandb/wandb/pull/9758 の @domphan-wandb）
+  * wandb.Table: 新しいコンストラクター引数 `log_mode` を追加し、`"IMMUTABLE"` と `"MUTABLE"` を指定できるようにしました。`IMMUTABLE` ログモード (デフォルト) は、テーブルを 1 度だけログできるという既存の動作です。`MUTABLE` ログモードでは、テーブルが変更されていれば再度ログできるようになります。 (https://github.com/wandb/wandb/pull/9758 の @domphan-wandb)
 
-  * wandb.Table: 新しい `log_mode` `"INCREMENTAL"` を追加し、新たに追加されたテーブルデータをインクリメンタルにログできるようにしました。（https://github.com/wandb/wandb/pull/9810 の @domphan-wandb）
+  * wandb.Table: 新しい `log_mode` `"INCREMENTAL"` を追加し、新たに追加されたテーブルデータをインクリメンタルにログできるようにしました。 (https://github.com/wandb/wandb/pull/9810 の @domphan-wandb)
 
   GitHub 上の [v0.20.1 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.20.1) を参照してください。
 </Update>
@@ -409,17 +409,17 @@ rss: true
   * `wandb.public.Project` 上でプロジェクト ID を取得するための `Project.id` プロパティを追加しました。
   * W&amp;B Automations 用の新しいパブリック API を追加しました。
     * W&amp;B Automations をプログラムから管理できるようにするため、`wandb.automations.*` に新しいサブモジュールとクラスを追加しました。
-    * チームに既存の Slack または webhook インテグレーションを取得するための `Api.integrations()`, `Api.slack_integrations()`, `Api.webhook_integrations()` を追加しました。
+    * チームの既存の Slack または webhook インテグレーションを取得するための `Api.integrations()`, `Api.slack_integrations()`, `Api.webhook_integrations()` を追加しました。
     * Automation の作成・取得・編集・削除のための `Api.create_automation()`, `Api.automation()` / `Api.automations()`, `Api.update_automation()`, `Api.delete_automation()` を追加しました。
-  * run のメトリクス値（絶対値または相対差分）の変更時、つまり `RUN_METRIC_CHANGE` イベントでトリガーされる Automation の作成と編集をサポートしました。
+  * run のメトリクス値 (絶対値または相対差分) の変更時、つまり `RUN_METRIC_CHANGE` イベントでトリガーされる Automation の作成と編集をサポートしました。
   * DCGM を用いて Nvidia GPU のプロファイリングメトリクスを収集する機能を追加しました。有効化するには、環境変数 `WANDB_ENABLE_DCGM_PROFILING` を `true` に設定してください。マシン上で `nvidia-dcgm` サービスが動作している必要があります。この機能を有効にすると、リソース使用量が増加する可能性があります。
 
   ## 修正
 
-  * `run.log_code` が run 設定の `code_path` 値を正しく設定するようになりました。
+  * `run.log_code` が run の設定の `code_path` 値を正しく設定するようになりました。
   * システム設定ファイルのパスを決定する際に `WANDB_CONFIG_DIR` が正しく使用されるようになりました。
   * ログ不可能になる無効な `Artifact` および `ArtifactCollection` 名を防止し、無効な名前を割り当てようとした場合には明示的に `ValueError` を送出するようにしました。
-  * ForwardRef フィールドを持つ生成型で `.model_rebuild() /.update_forward_refs()` を呼び出さないことに起因して、Pydantic v1 環境で発生していた pydantic の `ConfigError` を防止しました。
+  * ForwardRef フィールドを持つ生成型で `.model_rebuild()/.update_forward_refs()` を呼び出さないことに起因して、Pydantic v1 環境で発生していた pydantic の `ConfigError` を防止しました。
   * wandb ディレクトリが書き込み不可または読み取り不可の場合でも、`wandb.init()` が `Permission denied` エラーをスローしないようになりました。
   * `api.Runs(...)` でクエリされたファイルに対して `file.delete()` を呼び出しても、`CommError` が発生しなくなりました。
     * このバグは 0.19.1 で導入されました
@@ -430,7 +430,7 @@ rss: true
 <Update label="v0.19.10" description="2025年4月22日">
   ## 追加
 
-  * 新しい `reinit="create_new"` 設定により、他の run がアクティブでもそれらの run を終了せずに `wandb.init()` が新しい run を作成するようになりました（`reinit="finish_previous"` とは対照的です）。これは最終的にデフォルトになります。
+  * 新しい `reinit="create_new"` 設定により、他の run がアクティブでもそれらの run を終了せずに `wandb.init()` が新しい run を作成するようになりました (`reinit="finish_previous"` とは対照的です) 。これは最終的にデフォルトになります。
   * Artifacts のソース run で履歴メトリクスがログされた最も近い run ステップを返すために、`Artifact.history_step` を追加しました。
   * ファイルを指す文字列で `wandb.Html` を初期化する際に、ファイルチェックをスキップするための `data_is_not_path` フラグを追加しました。
 
@@ -444,7 +444,7 @@ rss: true
 
   ## 非推奨
 
-  * 次の `wandb.Run` メソッドはプロパティに置き換えられ、将来のリリースで削除されます（https://github.com/wandb/wandb/pull/8925 の @kptkin によって追加）:
+  * 次の `wandb.Run` メソッドはプロパティに置き換えられ、将来のリリースで削除されます (https://github.com/wandb/wandb/pull/8925 の @kptkin によって追加) :
     * `run.project_name()` は `run.project` の使用を推奨します
     * `run.get_url()` メソッドは `run.url` の使用を推奨します
     * `run.get_project_url()` メソッドは `run.project_url` の使用を推奨します
@@ -463,7 +463,7 @@ rss: true
   ## 追加
 
   * `reinit` 設定を `"default"` に設定できるようになりました。
-  * 新しい URL スキームを使って、 Artifacts コレクションのメンバーシップ コンテキストを含む Artifacts ファイルのダウンロード URL を構築できるようになりました。
+  * 新しい URL スキームを使って、アーティファクト コレクションのメンバーシップ コンテキストを含む Artifacts ファイルのダウンロード URL を構築できるようになりました。
 
   ## 変更
 
@@ -473,8 +473,8 @@ rss: true
   * `pydantic` のバージョン要件を緩和し、v1 と v2 の両方をサポートするようにしました。
   * 既存の `pydantic` 型を、Pydantic v1 と互換性があるように調整しました。
   * `wandb.init(dir=...)` は、書き込み可能な親ディレクトリが存在する場合は、`dir` 配下に存在しないディレクトリを作成するようになりました。
-  * サーバーは、追加のコレクション情報を指定して Artifacts ファイルを取得できるようになりました。これに伴い、 Artifacts API は代わりに新しいエンドポイントを使用するよう更新されました。
-  * `per_page` 引数を受け取るページネーション付きメソッド（およびそれに対応する paginator）は、`int` 値のみを受け付けるようになりました。デフォルトの `per_page` 値はメソッド シグネチャ内で直接設定され、明示的に `None` を渡すことはサポートされなくなりました。
+  * サーバーは、追加のコレクション情報を指定して Artifacts ファイルを取得できるようになりました。これに伴い、Artifacts API は代わりに新しいエンドポイントを使用するよう更新されました。
+  * `per_page` 引数を受け取るページネーション付きメソッド (およびそれに対応する paginator) は、`int` 値のみを受け付けるようになりました。デフォルトの `per_page` 値はメソッド シグネチャ内で直接設定され、明示的に `None` を渡すことはサポートされなくなりました。
 
   ## 修正
 
@@ -492,7 +492,7 @@ rss: true
 <Update label="v0.19.8" description="2025年3月04日">
   ## 修正
 
-  * 特殊文字 (?, *, ], [ または \) を含むメディア ファイル パスが、`wandb-core` におけるファイル アップロード失敗の原因にならないようにしました。
+  * 特殊文字 (?, *, ], [ または ) を含むメディア ファイル パスが、`wandb-core` におけるファイル アップロード失敗の原因にならないようにしました。
 
   ## 変更
 
@@ -538,7 +538,7 @@ rss: true
   * `wandb.Artifact` のインスタンス化が遅くなることで、さまざまな API メソッドでの Artifacts の取得が遅くなっていたパフォーマンス問題を修正しました。
   * `wandb.Api` からの一部のエラーについて、より分かりやすい文字列表現を提供するようにしました。
   * ディレクトリに対するファイル URI と `name` パラメーターを指定して Artifact.add&#95;reference を使用した場合に、ファイル参照のパスに `name` の値が誤って追加されていた問題を修正しました。
-  * `checksum=False` を指定した `Artifact.add_reference()` が、参照先 URI に変更がないにもかかわらずローカル参照 Artifacts の新しいバージョンをログしてしまうバグを修正しました。
+  * `checksum=False` を指定した `Artifact.add_reference()` が、参照先 URI に変更がないにもかかわらずローカル reference artifacts の新しいバージョンをログしてしまうバグを修正しました。
 
   GitHub で [v0.19.6 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.19.6) を参照してください。
 </Update>
@@ -555,7 +555,7 @@ rss: true
   ## 修正
 
   * `offline` モードでメディア Artifacts をログ記録する際にネットワーク要求が発生してしまうバグを修正しました。offline Artifacts アップロードをサポートしない古いバージョンの W&amp;B Server を使用している場合は、`allow_offline_artifacts=False` 設定を使用して、従来の互換動作に戻してください。
-  * ログ記録されるテーブル Artifacts 名のサニタイズ規則を拡張し、ハイフンとドットを許可しました。この更新により、 Artifacts 名に関する現在の規則（文字、数字、アンダースコア、ハイフン、ドットを許可）と整合します。
+  * ログ記録されるテーブル Artifacts 名のサニタイズ規則を拡張し、ハイフンとドットを許可しました。この更新により、 Artifacts 名に関する現在の規則 (文字、数字、アンダースコア、ハイフン、ドットを許可) と整合します。
   * run の巻き戻し設定 `fork_from` と `resume_from` を正しく処理するようにしました。
 
   [v0.19.5 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.19.5) を GitHub で参照してください。
@@ -621,7 +621,7 @@ rss: true
 
   * `run.finish()` が、ターミナルおよび Jupyter Notebook により詳細な情報を表示するようになりました。
   * `tensorboard.patch()` の呼び出しに失敗した場合に、先に `tensorboard.unpatch()` を呼び出すオプションを示すようエラーメッセージを改善しました。
-  * サーバーが対応している場合、deleteFiles ミューテーションに projectId を追加しました。
+  * サーバーがサポートしている場合、deleteFiles ミューテーションに projectId を追加しました。
 
   ## セキュリティ
 
@@ -693,7 +693,7 @@ rss: true
 
   ## 変更
 
-  * Artifacts を取得する内部メソッド `api._artifact()` を追加し、外部 ユーザーによって呼び出されていない場合は usage イベントが作成されないようにしました。
+  * Artifacts を取得する内部メソッド `api._artifact()` を追加し、外部ユーザーによって呼び出されていない場合は usage イベントが作成されないようにしました。
   * 既存のデフォルト動作を正確に反映するため、`Artifact.new_file()` のデフォルト `mode` を `'w'` から `'x'` に変更しました。
 
   GitHub 上の [v0.18.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.18.6) を参照してください。
@@ -791,7 +791,7 @@ rss: true
 
   ## 追加
 
-  * `Artifact.tags` および `Run.log_artifact()` を通じて、artifact タグをサポートしました。
+  * `Artifact.tags` および `Run.log_artifact()` を通じて、アーティファクト タグをサポートしました。
 
   ## 修正
 
@@ -819,8 +819,8 @@ rss: true
 <Update label="v0.17.8" description="2024 年 8 月 28 日">
   ## 追加
 
-  * core 使用時に、Nvidia GPU デバイスについて SM (Streaming Multiprocessor)、メモリおよびグラフィックスのクロック周波数 (MHz)、訂正済み / 未訂正エラー数、ファン回転数 (%)、エンコーダー使用率を取得するようにしました。
-  * `wandb.Config` を 辞書 のように反復処理できるようにしました。
+  * core 使用時に、Nvidia GPU デバイスについて SM (Streaming Multiprocessor)、メモリおよびグラフィックスのクロック周波数 (MHz)、訂正済み / 未訂正エラー数、ファン回転数 (%)、およびエンコーダー使用率を取得するようにしました。
+  * `wandb.Config` を辞書のように反復処理できるようにしました。
   * core を有効にした TensorBoard 利用時に、PR カーブ、画像、およびヒストグラムをサポートしました。
   * `wandb.require("core")` のオプトアウト用アナログとして `wandb.require("legacy-service")` を追加しました。
 
@@ -828,7 +828,7 @@ rss: true
 
   * ユーザーが Ctrl+C を 2 回押した場合に wandb-core プロセスが残存しないようにしました。
   * NumPy &gt;= 2.1 における非推奨警告に対応するため、`numpy.reshape` から `newshape` 引数を削除しました。
-  * フォルダに対応する GCS 参照 artifact マニフェストエントリのアップロード / ダウンロードをスキップするようにしました。
+  * フォルダに対応する GCS 参照アーティファクト マニフェストエントリのアップロード / ダウンロードをスキップするようにしました。
 
   ## 非推奨
 
@@ -842,7 +842,7 @@ rss: true
 
   * core 使用時に `libnvidia-ml.so` が利用できない場合でも Nvidia GPU メトリクスが取得されるようにしました。
   * core 使用時に `define_metric("x", step_metric="x")` を許可しました。
-  * core 使用時に空ファイルを正しくアップロードするようにしました。
+  * core を使用して空ファイルを正しくアップロードするようにしました。
   * core を使用して run を終了する際に、まれに発生していた &quot;send on closed channel&quot; パニックを修正しました。
 
   GitHub 上の [v0.17.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.7) を参照してください。
@@ -863,7 +863,7 @@ rss: true
 
   ## 修正
 
-  * Hierarchical Namespace が有効な Azure Storage アカウントで外部 artifact をログする際に、ディレクトリスタブを正しく処理するようにしました。
+  * Hierarchical Namespace が有効な Azure Storage アカウントで外部アーティファクトをログする際に、ディレクトリスタブを正しく処理するようにしました。
   * デフォルトのソート順に関する `api.runs()` のドキュストリングを、https://github.com/wandb/wandb/pull/7675 に基づいて修正しました。
 
   GitHub 上の [v0.17.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.17.6) を参照してください。
@@ -877,7 +877,7 @@ rss: true
   ## 変更
 
   * `run.finish()` は、以前は `os._exit()` していたケースで例外をスローする場合があります。
-  * `run.link_artifact()` でサーバーエラーを表面化できるようになりました。
+  * `run.link_artifact()` でサーバー エラーを表面化できるようになりました。
 
   ## 修正
 
@@ -922,7 +922,7 @@ rss: true
   * `numpy>=2` サポートに関する問題を修正しました。
   * Windows 上で HTML ファイルを開く際に、UTF-8 エンコーディングを指定することで発生していた &quot;UnicodeDecodeError: &#39;charmap&#39;&quot; を修正しました。
   * リンクされた Artifacts に対する `Artifact.delete()` が、元の Artifacts ではなくリンクだけを削除するようにしました。
-  * sweep run が実際には再開されていないのに再開されたように見えていた問題を修正しました（by @TimH98 https://github.com/wandb/wandb/pull/7684）。
+  * sweep run が実際には再開されていないのに再開されたように見えていた問題を修正しました (by @TimH98 https://github.com/wandb/wandb/pull/7684) 。
 
   ## 変更
 
@@ -947,7 +947,7 @@ rss: true
 
   ## 修正
 
-  * `shared` モードで複数のメトリクスを扱う際の `define_metric` の挙動を修正。
+  * `shared` モードで複数のメトリクスを扱う際の `define_metric` の動作を修正。
   * run から run.use&#95;artifact() を呼び出す際に、内部 API へプロジェクト名を正しく渡すよう修正。
   * `console_multipart` 設定を有効にした状態で再開した run について、コンソール出力ログファイルを正しくアップロードするよう修正 (@kptkin https://github.com/wandb/wandb/pull/7694 と @dmitryduev https://github.com/wandb/wandb/pull/7697 による)。
   * sweep 設定で、先頭にゼロを含む非 8 進数文字列を整数ではなく文字列として解釈するよう修正 (@KyleGoyette https://github.com/wandb/wandb/pull/7649)。
@@ -982,8 +982,8 @@ rss: true
   * `wandb` パッケージに `wandb-core` バイナリが含まれるようになりました。
     * `wandb-core` は W&amp;B SDK のための新しく改良されたバックエンドであり、パフォーマンス、多用途性、堅牢性に重点を置いています。
     * 現時点ではオプトイン方式です。新しいバックエンドを使い始めるには、`wandb` をインポートした後に `wandb.require("core")` をスクリプトに追加してください。
-  * `wandb-core` が Artifact ファイルのキャッシュをサポートするようになりました（@moredatarequired による https://github.com/wandb/wandb/pull/7364 および https://github.com/wandb/wandb/pull/7366）。
-  * Api に artifact&#95;exists() と artifact&#95;collection&#95;exists() メソッドを追加し、 Artifacts またはコレクションが存在するかどうかを確認できるようにしました。
+  * `wandb-core` が Artifacts ファイルのキャッシュをサポートするようになりました (@moredatarequired による https://github.com/wandb/wandb/pull/7364 および https://github.com/wandb/wandb/pull/7366) 。
+  * Api に artifact&#95;exists() と artifact&#95;collection&#95;exists() メソッドを追加し、Artifacts またはコレクションが存在するかどうかを確認できるようにしました。
   * `wandb launch -u <git-uri | local-path> ` で、指定したソースコードからジョブを作成して起動できるようになりました。
 
   ## 修正
@@ -997,8 +997,8 @@ rss: true
 
   ## 変更
 
-  * `wandb-core` を使用する場合、必要なフラグ（`wandb.require("core")`）を指定して有効化する必要があります。以前は自動的に検出されていました。
-  * GCS 参照 Artifacts に対して、MD5 ハッシュの代わりに ETag を使用するようにしました。
+  * `wandb-core` を使用する場合、必要なフラグ (`wandb.require("core")`) を指定して有効化する必要があります。以前は自動的に検出されていました。
+  * GCS reference artifacts に対して、MD5 ハッシュの代わりに ETag を使用するようにしました。
 
   ## 削除
 
@@ -1015,21 +1015,21 @@ rss: true
   * エージェント設定で kaniko ビルダー設定を上書きできるようにしました。
   * フッターに、その run のプロジェクト ワークスペースへのリンクを追加しました。
   * エージェント設定で、停止した run のグレース期間を上書きできるようにしました。
-  * init 中のバージョンチェックを無効化するための設定（`_disable_update_check`）を追加しました。
+  * init 中のバージョンチェックを無効化するための設定 (`_disable_update_check`) を追加しました。
   * OpenAI ファインチューニング インテグレーションにおいて、`WandbLogger.sync` に新しい `log_datasets` ブール引数を追加し、Datasets へのデータセットの自動ログを無効化できるようにしました。
   * Launch エージェントのデフォルトのステータス出力頻度を減らしました。ステータス出力頻度を増やしたり、stdout へデバッグ情報を出力したりできる冗長度制御用の設定を追加しました。
 
   ## 変更
 
-  * artifact CLI の put() における limit policy オプションを [&quot;mutable&quot;, &quot;immutable&quot;] の選択肢に制限しました。
-  * gorilla サーバーの変更に基づき、ArtifactSequence/ArtifactCollection 型の Project フィールドが null 許容である場合を処理できるように、artifact 公開 API メソッドを更新しました。
+  * アーティファクト CLI の put() における limit policy オプションを [&quot;mutable&quot;, &quot;immutable&quot;] の選択肢に制限しました。
+  * gorilla サーバーの変更に基づき、ArtifactSequence/ArtifactCollection 型の Project フィールドが null 許容である場合を処理できるように、アーティファクト 公開 API メソッドを更新しました。
 
   ## 修正
 
   * 前のリリースで発生した、`run.dir` 内のファイルに対して `run.save()` が動作しない問題を修正しました。
   * 大きな Artifacts のアップロード中にまれに発生していたパニックを修正しました。
   * wandb.login により run が Launch キューに関連付けられなくなる問題を修正しました。
-  * W&amp;B Launch 使用時に、ジョブ Artifacts のダウンロードがサイレントに失敗し、run がクラッシュする問題を修正しました（@KyleGoyette による https://github.com/wandb/wandb/pull/7285）。
+  * W&amp;B Launch 使用時に、ジョブ Artifacts のダウンロードがサイレントに失敗し、run がクラッシュする問題を修正しました (@KyleGoyette による https://github.com/wandb/wandb/pull/7285) 。
   * OpenAI ファインチューニング インテグレーションにおいて、トレーニングファイルを Artifacts に保存する処理を修正しました。
 
   GitHub 上の [v0.16.6 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.16.6) を参照してください。
@@ -1050,11 +1050,11 @@ rss: true
 
   ## 修正
 
-  * wandb API キー の Kubernetes シークレット作成時に一時的なサーバーの問題が発生した場合、最大 5 回までリトライします。
+  * wandb APIキー の Kubernetes secret 作成時に一時的なサーバーの問題が発生した場合、最大 5 回までリトライします。
 
   ## 削除
 
-  * ターミナルで run の情報を出力する際に、jobs へのリンクを削除しました。
+  * ターミナルで run の情報を出力する際に、ジョブへのリンクを削除しました。
 
   GitHub 上の [v0.16.5 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.5) を参照してください。
 </Update>
@@ -1062,7 +1062,7 @@ rss: true
 <Update label="v0.16.4" description="2024年3月5日">
   ## 追加
 
-  * Artifacts コレクションタイプを変更できる機能を追加。
+  * アーティファクト コレクションタイプを変更できる機能を追加。
   * pyproject.toml から依存関係をインストールするサポートを追加。
   * ユーザー提供の PVC と Docker 設定を用いた kaniko ビルドをサポート。
   * W&amp;B インスタンス間で run をインポートできる機能を追加。
@@ -1075,7 +1075,7 @@ rss: true
   ## 修正
 
   * sweeps-on-launch スケジューラーにおけるテンプレート変数の受け渡しを修正。
-  * 入力として指定できるように、job Artifacts を run にリンク。
+  * 入力として指定できるように、ジョブ アーティファクトを run にリンク。
   * 指定された entrypoint を使うように SageMaker の entrypoint を修正。
   * アップロードヘッダーを正しくパース。
   * サーバーエラーが正しく伝播されるように修正。
@@ -1089,11 +1089,11 @@ rss: true
   * 標準ライブラリの json の使用を `segmentio` のものに置き換え。
   * ログの出力先として stderr を使用しないように修正。
   * 初期化時に負のステップが使われないように無効化。
-  * pydantic26 での report ローディングを修正。
+  * pydantic26 での レポート ローディングを修正。
   * 「make upload request async to support progress reporting (#6497)」をリバート。
   * Dockerfile.wandb 使用時の entrypoint 指定を修正。
   * ストリームがプローブハンドルを早期に解放してしまう問題を修正。
-  * ローカルコンテナ用に常に最新イメージの取得を試みるように修正。
+  * ローカルコンテナー用に常に最新イメージの取得を試みるように修正。
 
   GitHub 上の [v0.16.4 changelog](https://github.com/wandb/wandb/releases/tag/v0.16.4) を参照してください。
 </Update>
@@ -1114,16 +1114,16 @@ rss: true
 
   ## 修正
 
-  * agent 設定から project および runner フィールドを削除。
+  * エージェント設定から project および runner フィールドを削除。
   * 削除された k8s ジョブを失敗として認識。
   * エラーにする代わりに environment ブロック内の余分なフィールドについて警告を出すよう変更。
   * ENVVAR が kwargs より優先される Entity override のバグを修正。
-  * ローカルコンテナ runner が override 引数を無視しないよう修正。
+  * ローカルコンテナー runner が override 引数を無視しないよう修正。
   * 設定を sweep/launch 設定とマージ更新。
   * wandb-core と system&#95;tests の conftest におけるリトライロジックを修正。
   * system monitor のアセット管理で RW ロックを使用。
   * Dockerfile.wandb が含まれている場合はビルドコンテキストを entrypoint ディレクトリに設定。
-  * セキュリティ (launch): k8s secret から launch ジョブ Pod に wandb API キーをマウント。
+  * セキュリティ (launch): k8s secret から launch ジョブ Pod に wandb APIキーをマウント。
   * Dockerfile.wandb が entrypoint の隣にある場合、wandb job create が requirements.txt を探さないようにする。
   * wandb.Api().run() に id のみが渡された場合の &#95;parse&#95;path を修正。
   * video.py を更新: fps のバグを修正。
@@ -1288,30 +1288,30 @@ rss: true
 </Update>
 
 <Update label="v0.15.11" description="2023年9月21日">
-  ## Enhancements
+  ## 機能強化
 
-  * script モードでのコード保存をサポートしました。
+  * scriptモードでのコードの保存をサポートしました。
   * `wandb.save` で `policy=end` をサポートしました。
   * メタデータにシステム情報を追加しました。
   * メタデータに NVIDIA GPU のシステム情報を追加しました。
   * public API で run キューを削除できるようにしました。
-  * wandb の HTTP(S) トラフィック向けにカスタムプロキシをサポートしました。
+  * wandb の HTTP(S) トラフィック向けにカスタム プロキシ サポートを導入しました。
 
-  ## Fixes
+  ## 修正
 
-  * filestream の例外をログ出力する際の logger の不具合を修正しました。
+  * ファイルストリームの例外をログ出力する際のロガーの問題を修正しました。
   * watch API を使用して起動した CRD を監視するようにしました。
-  * ターゲット プロジェクトがない docker イメージのキュー投入を禁止しました。
-  * API ユーザー向けに不足していた Twitter インポートを追加しました。
+  * ターゲット プロジェクトがない Docker イメージのキュー投入を禁止しました。
+  * API ユーザー向けに不足していた Twitter の import を追加しました。
   * ディレクトリ参照から S3 の versionID を取得するようにしました。
-  * 接続リセットが発生した際に watch ストリームが復旧するようにしました。
+  * 接続リセットから watch ストリームを回復させるようにしました。
   * `api.Run.load` で無効な UTF-8 および制御文字を無視するために `json.loads(..., strict=False)` を使用するようにしました。
-  * 設定で Colab を Jupyter 類似の環境として正しく認識するようにしました。
+  * 設定で Colab を Jupyter 類似の環境として正しく識別するようにしました。
   * summary の更新時のメモリ管理を改善しました。
-  * ダウンロード URL のバッチサイズを設定する環境変数を追加しました。
+  * ダウンロード URL のバッチサイズを設定するための環境変数を追加しました。
   * run が作成されなかった場合に rqis を失敗させるようにしました。
 
-  ## Cleanup
+  ## クリーンアップ
 
   * README.md を更新しました。
 
@@ -1324,9 +1324,9 @@ rss: true
   * `Autologger` API に非同期処理のサポートを追加し、OpenAI で有効化しました。
   * Python 3.11 を公式にサポートし、Python 3.6 のサポートを終了しました。
   * デバッグ用にネットワークロギングとファイルプッシャーのタイムアウトを実装しました。
-  * Artifacts バージョンに TTL（time to live）を設定しました。
+  * Artifacts バージョンに TTL (time to live) を設定しました。
   * メトリクスを定義する機能をサポートしました。
-  * Launch エージェントの作成時に agent バージョンを含めるようにしました。
+  * Launch エージェントの作成時にエージェントバージョンを含めるようにしました。
   * Runless Git ジョブが親ディレクトリの requirements.txt を利用できるようにしました。
   * Artifact から親コレクションを取得できるようにしました。
   * ファイルアップロードを改善しました。
@@ -1345,7 +1345,7 @@ rss: true
   * monitor metrics にディスク I/O カウンターを追加しました。
   * ディスク使用量モニタリング用のパスを設定可能にしました。
   * 既存の sweep に run を含めるために `WANDB_SWEEP_ID` を使用するようにしました。
-  * Nexus Core に対して行われた LinkArtifact 呼び出しを処理するようにしました。
+  * Nexus Core に対して行われた LinkArtifact の Call を処理するようにしました。
   * HTTP クライアントのリトライロジックを修正し、ユーザーによるカスタマイズを許可しました。
   * gql クライアントトランスポートでユーザー定義ヘッダーをサポートしました。
   * wandb.Config で set 型をサポートしました。
@@ -1356,7 +1356,7 @@ rss: true
 
   ## Fixes
 
-  * agent ループ内の try ブロックの範囲を拡張し、すべてのジョブ処理をカバーするようにしました。
+  * エージェントループ内の try ブロックの範囲を拡張し、すべてのジョブ処理をカバーするようにしました。
   * 未定義の filestream タイムアウトに対する保護を追加しました。
   * ジョブの基盤となる code artifact が削除されている場合はエラーを出すようにしました。
   * `verify` によって作成される Artifacts に一意の名前を使用するようにしました。
@@ -1367,7 +1367,7 @@ rss: true
   * scheduler ジョブなしで Launch 上で Sweeps を使用する際の entrypoint の override を修正しました。
   * nil の場合の resume 参照を修正しました。
   * import 時間をさらに短縮しました。
-  * sample Kubernetes agent manifest の secret マウントを修正しました。
+  * sample Kubernetes エージェントマニフェストの secret マウントを修正しました。
   * 未使用の import を削除しました。
   * Kubernetes run ステータスの取得に watch を使用するようにしました。
   * ベース Artifacts とは異なるプロジェクトへの Artifacts 保存を禁止しました。
@@ -1399,15 +1399,15 @@ rss: true
 <Update label="v0.15.9" description="2023年8月28日">
   ## Enhancements
 
-  * UI から team キューに対して Launch sweep scheduler を起動できるようにしました。
+  * UI から チームキューに対して Launch sweep scheduler を起動できるようにしました。
   * Vertex launcher をよりカスタマイズしやすくしました。
   * Docker がインストールされていない場合は、デフォルトで noop builder を使用するようにしました。
 
   ## Fixes
 
   * SageMaker 用に、組み込みの entrypoint および args コマンドを使用するようにしました。
-  * 親ソース プロジェクト情報を新規ドラフト Artifacts にコピーするようにしました。
-  * 大きな整数値（bigint）を使用した run の終了時のエラーを回避しました。
+  * 親ソースプロジェクト情報を新規ドラフト Artifacts にコピーするようにしました。
+  * 大きな整数値 (bigint) を使用した run の終了時のエラーを回避しました。
   * 手動で作成された image ジョブが正しく再実行できるようになりました。
 
   GitHub 上の [v0.15.9 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.15.9)を参照してください。
@@ -1420,7 +1420,7 @@ rss: true
   * public API に create&#95;run&#95;queue を追加。
   * json の代わりに orjson を使用するための hidden オプションを追加。
   * noop builder でビルドする際のエラーメッセージを改善。
-  * Launch agent 作成時、存在する場合は agent config を含めるように変更。
+  * Launch エージェント作成時、存在する場合はエージェント設定を含めるように変更。
   * ジョブを作成する前に job ingredients が存在するか確認。
   * Kubernetes 404 エラーを適切に処理。
 
@@ -1433,11 +1433,11 @@ rss: true
   * file&#95;stream に timeout を実装し、デバッグログを追加。
   * エイリアス取得時のコレクションフィルタリングを修正。
   * `dir_watcher` 設定を SettingsStatic に置き換え。
-  * インクリメンタル Artifacts 用の正しい base を設定。
+  * 段階的 Artifacts 用の正しい base を設定。
   * ${image_uri} マクロとの互換性を確保するため、Azure registries から https を削除。
   * description が None の場合を正しく処理。
   * 既に存在する場合は k8s secret を作成しない。
-  * S3 バケットのバージョニングチェックを削除。
+  * S3 バケットのバージョン管理チェックを削除。
   * インポート時間を短縮し、`pkg_resources` DeprecationWarning を修正。
 
   GitHub 上の [v0.15.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.8) を参照してください。
@@ -1446,7 +1446,7 @@ rss: true
 <Update label="v0.15.7" description="2023年7月25日">
   ## 修正
 
-  * run の終了まで画像が同期されない問題（#5777 をリバート）。
+  * run の終了まで画像が同期されない問題 (#5777 をリバート) 。
 
   GitHub 上の [v0.15.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.15.7) を参照してください。
 </Update>
@@ -1454,10 +1454,10 @@ rss: true
 <Update label="v0.15.6" description="2023年7月24日">
   ## 機能強化
 
-  * wandb フッターに job へのリンクを追加。
-  * job の再キューイングを再実装し、キャンセル動作を修正。
-  * CLI から手動で job を作成可能に。
-  * ユーザーが `job_name` 設定で job 名を指定できるように。
+  * wandb フッターにジョブへのリンクを追加。
+  * ジョブの再キューイングを再実装し、キャンセル動作を修正。
+  * CLI から手動でジョブを作成可能に。
+  * ユーザーが `job_name` 設定でジョブ名を指定できるように。
   * プロンプトトレースをログするための簡易 trace API を追加。
   * `WandbModelCheckpoint` で `.keras` モデル形式をサポートし、TF 2.13.0 と互換性を持たせました。
   * インスタンス間で W&amp;B runs と Reports を移行するための初期サポート。
@@ -1473,16 +1473,16 @@ rss: true
 <Update label="v0.15.5" description="2023年7月5日">
   ## 機能強化
 
-  * Docker イメージの job 名とタグの扱いを改善。
+  * Docker イメージのジョブ名とタグの処理を改善。
   * AKS 上での kaniko ビルドをサポート。
   * 他の namespace でも kaniko ビルドを実行可能に。
-  * Azure 参照用の access key をサポート。
+  * Azure 参照用のアクセスキーをサポート。
   * 失敗した run queue item に情報を追加し、run queue item への警告をサポート。
   * すべてのレジストリに対して registry URI を直接設定可能に。
   * バッチおよびリトライロジックにより download URL 取得プロセスを強化。
   * `Artifact.download` で不足している S3 参照をスキップするフラグを追加。
-  * pod が切断されたときに job を再キューイングするよう実装。
-  * setproctitle を無効化するための設定を追加。
+  * pod が切断されたときにジョブを再キューイングするよう実装。
+  * setproctitle を無効にするための設定を追加。
 
   ## 修正
 
@@ -1494,7 +1494,7 @@ rss: true
   * SageMaker 設定の日時パースを修正。
   * リージョンに関する質問を防ぐため、docker build を非対話型に変更。
   * &quot;cuda&quot; ベースイメージパスを &quot;accelerator&quot; ベースイメージパスに更新。
-  * 検証をスキップするため、 Artifacts 名をプレースホルダーに置き換え。
+  * 検証をスキップするため、Artifacts 名をプレースホルダーに置き換え。
   * 大きな出力を持つジョブが local-container 上でハングしないように防止。
   * resume が機密情報をプッシュしないように保証。
   * ダウンロード時の参照処理を修正。
@@ -1520,25 +1520,25 @@ rss: true
   * Launch 上の sweep 用に Optuna スケジューラを追加。
   * Notebook ジョブの作成をサポート。
   * すべての runner で Launch マクロを有効化。
-  * 対応する huggingface pipelines の autologging を追加。
-  * OpenAI autologger に使用状況メトリクスとテーブル ロギングを追加。
+  * サポートされる huggingface pipelines の autologging を追加。
+  * OpenAI autologger に使用状況メトリクスと表ロギングを追加。
   * AMD GPU のシステムメトリクス監視をサポート。
-  * GPU メモリ割り当ての絶対量を取得。
+  * GPU メモリ割り当ての絶対量を取得する。
 
   ## 修正
 
   * AWS Lambda で wandb が使用できるようにする。
   * `LogicalPath` が末尾のスラッシュを削除できるように対応。
   * ~/.config/wandb/settings ファイルを作成する際の安全性を向上。
-  * カスタム チャートのクエリ処理を更新し、テーブルベース チャート用の代替コンストラクタを追加。
+  * カスタム チャートのクエリ処理を更新し、表ベース チャート用の代替コンストラクタを追加。
   * Artifacts ファイル向けに S3 マルチパート アップロードを追加。
   * 互換性のない Artifacts 名文字列を処理。
   * Docker runner がイメージをソースとするジョブに対して常に pull を実行。
-  * パッケージ インストール時のエラーハンドリングを改善。
+  * パッケージ インストール時のエラー処理を改善。
   * カスタム k8s オブジェクトが command/args の上書きを尊重するように修正。
-  * 有効なプロパティから entity, project を削除し、name の処理を調整。
-  * Launch agent の base url に環境変数を使用。
-  * キャッシュへの書き込みを防御的に実行（OSError を捕捉）。
+  * 有効なプロパティから entity、project を削除し、名の処理を調整。
+  * Launch エージェントの base url に環境変数を使用する。
+  * キャッシュへの書き込みを防御的に実行 (OSError を捕捉) 。
   * finish&#95;thread&#95;id での例外を処理し、run のキュー項目を失敗として扱うように修正。
   * registry が指定されている場合、事前作成済みイメージ用の pull secrets を追加。
   * 環境変数から kaniko Pod の SA 名を読み取り。
@@ -1559,7 +1559,7 @@ rss: true
   * SA トークンが読み込めない場合でも SDK が動作するように対応。
   * util.py::image&#95;id&#95;from&#95;k8s 内の k8s トークン検出ロジックをクリーンアップ。
   * `WandbTracer` を新しい langchain バージョンで動作するように更新。
-  * サマリーは変更されたキーのみ更新。
+  * 変更されたキーのみサマリーを更新。
 
   GitHub 上の [v0.15.3 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.15.3)を参照。
 </Update>
@@ -1574,34 +1574,34 @@ rss: true
 </Update>
 
 <Update label="v0.15.1" description="May 02, 2023">
-  ## Enhancements
+  ## 機能強化
 
   * 新しい Kubernetes runner 用設定スキーマを実装。
   * docker builder 用のプラットフォームの上書き指定を許可。
-  * Artifacts の取得を容易にするため、artifact の完全な名前を取得。
+  * アーティファクトの取得を容易にするため、artifact の完全な名前を取得。
   * artifact ダウンロード用のデフォルト root を設定可能に。
   * SDK に Azure ストレージハンドラーを追加。
-  * `wandb.Table` を `pandas.DataFrame` に変換するメソッドを追加。
+  * `wandb.Table` を `pandas.DataFrame` に変換する method を追加。
   * Launch コマンドの引数を Sweeps に params として渡すように変更。
 
-  ## Fixes
+  ## 修正
 
-  * args と config のキーが同じものを指すと仮定しないように修正。
+  * args と設定のキーが同じものを指すと仮定しないように修正。
   * ElasticContainerRegistry 環境で &quot;ImageNotFoundException&quot; を適切に扱うように修正。
   * kaniko builder のリトライを無効化。
   * 認証エラー時のエラーメッセージを改善。
   * Kubernetes runner が override args を尊重しない問題を修正。
-  * sweeps の config として attr-dicts を許可。
+  * sweeps の設定として attr-dicts を許可。
   * 元ファイルではなく読み取り専用のステージングコピーに対してチェックサムを計算。
   * run が正常終了した場合、または別の entity の run の場合は run 情報の取得をスキップ。
-  * artifact 取得時に、プロジェクト &quot;None&quot; ではなく &quot;uncategorized&quot; をデフォルトに使用。
+  * アーティファクト取得時に、プロジェクト &quot;None&quot; ではなく &quot;uncategorized&quot; をデフォルトに使用。
   * gym VideoRecorder に enabled チェックを追加。
-  * デフォルトの project および entity の扱いを修正。
+  * デフォルトのプロジェクトおよび entity の処理を修正。
   * wrapt リポジトリでの最新の変更を取り込むように import&#95;hook.py を更新。
-  * k8s launch agent におけるローカル URL のサポートを修正。
+  * k8s Launch エージェントにおけるローカル URL のサポートを修正。
   * notebook 環境の検出とテストを改善。
   * Settings オブジェクト向けに再帰的な isinstance チェックユーティリティを実装。
-  * System Monitor における OpenMetrics フィルタ定義のエッジケースを正しくパース。
+  * System Monitor における OpenMetrics フィルター定義のエッジケースを正しくパース。
   * デバッグログに SDK のバージョンを含めるように更新。
   * torchrun 実行時に AWS Trainium メトリクスを local rank でフィルタリング。
   * LangChain &gt; 0.0.153 との WandbTracer の非互換性についてユーザーに通知。
@@ -1610,21 +1610,21 @@ rss: true
 </Update>
 
 <Update label="v0.15.0" description="April 19, 2023">
-  ## Enhancements
+  ## 機能強化
 
   * LangChain メディアタイプへの対応を追加。
-  * OpenAI の Python ライブラリ向け autolog を追加（作成者: @dmitryduev @parambharat @kptkin @raubitsj、https://github.com/wandb/wandb/pull/5362）。
+  * OpenAI の Python ライブラリ向け autolog を追加 (作成者: @dmitryduev @parambharat @kptkin @raubitsj、https://github.com/wandb/wandb/pull/5362) 。
 
-  ## Fixes
+  ## 修正
 
   * patch 済み openai メソッドに関数シグネチャラッパーを追加。
-  * OpenAI autolog のパブリック API を調整し、ユーザー エクスペリエンスを改善（作成者: @dmitryduev @kptkin @raubitsj、https://github.com/wandb/wandb/pull/5381）。
+  * OpenAI autolog のパブリック API を調整し、ユーザーエクスペリエンスを改善 (作成者: @dmitryduev @kptkin @raubitsj、https://github.com/wandb/wandb/pull/5381) 。
 
   GitHub で [v0.15.0 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.15.0)を参照してください。
 </Update>
 
 <Update label="v0.14.2" description="April 07, 2023">
-  ## Fixes
+  ## 修正
 
   * `wandb sync` のリグレッションを修正。
 
@@ -1632,7 +1632,7 @@ rss: true
 </Update>
 
 <Update label="v0.14.1" description="April 05, 2023">
-  ## Enhancements
+  ## 機能強化
 
   * デフォルトタイプとパス参照を用いて `run.log_artifact()` を改善。
   * async artifact アップロードのオプトインサポートを追加。
@@ -1641,20 +1641,20 @@ rss: true
   * gql クライアント向けに追加ヘッダーを設定可能に。
   * OpenMetrics エンドポイントに基づくメトリクスのフィルタリングを許可。
 
-  ## Fixes
+  ## 修正
 
-  * ステージング artifact ディレクトリの作成に失敗した際に、より情報量の多いメッセージを表示。
+  * ステージングアーティファクトディレクトリの作成に失敗した際に、より情報量の多いメッセージを表示。
   * Kubernetes の backoffLimit のデフォルト値を 0 に設定。
-  * config を yaml ファイルにダンプする際のデフォルトソートを削除。
+  * 設定を yaml ファイルにダンプする際のデフォルトソートを削除。
   * Windows における html タイプのエンコーディングを修正。
   * 新しい run を初期化する際に自動再開状態をクリーンアップ。
   * バックエンドエラーに対する `wandb.init()` のエラー処理を強化。
   * system monitor のシャットダウンロジックを修正。
-  * requirements.txt で固定バージョンを指定できるように許可。
+  * ユーザーが requirements.txt で固定バージョンを指定できるように許可。
   * `wandb.log()` が空文字列の値を正しく扱うように修正。
   * 終了した run のメソッドおよび属性へアクセスした場合に例外を送出。
 
-  ## Cleanup
+  ## クリーンアップ
 
   * 独自のランダムトークンジェネレーターではなく &#39;secrets&#39; モジュールを使用。
   * &#95;manifest&#95;json&#95;from&#95;proto を sender.py に移動。
@@ -1672,16 +1672,16 @@ rss: true
 
   ## 修正
 
-  * 一時的にローカル API キーの検証を削除。
-  * Launch agent が例外発生時にスレッドをクリーンに終了させるように変更。
+  * 一時的にローカル APIキーの検証を削除。
+  * Launch エージェントが例外発生時にスレッドをクリーンに終了させるように変更。
   * Docker デーモンに接続できない場合にわかりやすいエラーメッセージを表示。
   * EKS インスタンスロールでの Launch をサポート。
   * Launch で Docker エラーに遭遇した際のエラーメッセージをよりわかりやすくし、安全にフェイルするように変更。
   * ジョブのバージョンと Dockerfile の内容に基づいて Docker イメージをハッシュ化。
-  * セキュリティ (launch): agent が team キューでポーリングを開始した場合に警告。
+  * セキュリティ (launch): エージェントが チーム キューでポーリングを開始した場合に警告。
   * tfevents ファイルの同期時にテレメトリを追加。
   * run の停止が機能しなくなっていたリグレッションを修正。
-  * kubernetes runner または kaniko builder を使用する際に、欠落している kubernetes import の扱い方をユーザーに案内。
+  * kubernetes runner または kaniko builder を使用する際に、欠落している kubernetes import の処理方法をユーザーに案内。
   * サポートされていない Launch CLI オプションを非表示。
   * Launch イメージビルダーが、異なるハードウェア上で依存関係付きで PyTorch を正しくインストールするように変更。
 
@@ -1691,17 +1691,17 @@ rss: true
 <Update label="v0.13.11" description="2023年3月7日">
   ## 機能強化
 
-  * Launch agent のログ出力を改善。
+  * Launch エージェントのログ出力を改善。
   * launch sweeps において sweep run&#95;cap が動作するように修正。
   * image&#95;uri から Launch sweep ジョブを起動。
   * `launch_config` の scheduler セクションに `num_workers` パラメーターを追加。
   * ValueError の代わりに ArtifactNotLoggedError を送出。
-  * Launch agent がジョブの実行にスレッドプールを使用するように変更。
+  * Launch エージェントがジョブの実行にスレッドプールを使用するように変更。
   * runner と builder が Environment と Registry クラスを使用するように変更。
   * system メトリクス向けに OpenMetrics をサポート。
   * OpenMetrics エンドポイントから取得する system メトリクスをフィルタリングできる機能を追加。
   * gym に加えて、gymnasium 環境のモニタリングもサポート。
-  * Launch agent 設定に `max_scheduler` キーを追加。
+  * Launch エージェント設定に `max_scheduler` キーを追加。
   * YOLOv8 用に `ultralytics` ライブラリとのインテグレーションを追加。
 
   ## 修正
@@ -1711,7 +1711,7 @@ rss: true
   * Api を使用するためにグローバル設定ディレクトリを書き込み可能にする必要があった問題を修正。
   * run 初期化時のエラーメッセージをより実用的にし、捕捉されていなかった例外を修正。
   * Run クラスに deepcopy dunder メソッドを追加。
-  * sweep で常に project をデフォルトにする挙動を削除。
+  * sweep で常に プロジェクト をデフォルトにする挙動を削除。
   * ジョブが指定されていない状態で Launch sweep を作成しようとした場合にエラーにするよう変更。
   * `mkdir_exists_ok` が (再び) 存在チェック時にパーミッションを確認するように修正。
   * ジョブを元に Launch する場合のみ、受信したジョブをログに記録。
@@ -1724,13 +1724,13 @@ rss: true
   * sweeps scheduler を開始する前にジョブの存在を検証。
   * 追加のセットアップおよびクリーンアップ手順を必要とする system メトリクスを処理。
   * `CONTRIBUTING.md` 内のタイプミスを修正。
-  * Colab でノートブック名を正しく検出し、コード保存を修正。
+  * Colab でノートブック名を正しく検出し、コードの保存を修正。
   * max&#95;artifacts まで許可するように変更 (オフバイワンエラーを修正)。
   * アセット監視スレッドを開始する際に、より慎重に動作。
   * boto3 依存関係が import 時にクラッシュするバグを修正。
   * `num_workers` CLI 引数を検証し、無効な場合はデフォルトで 8 に設定。
   * 検証用 Artifacts に追加されるファイル参照を修正。
-  * agent 内の sweeps scheduler を特別扱い。
+  * エージェント内の sweeps scheduler を特別扱い。
   * 変更がある場合のみファイルを再ダウンロードまたは上書き。
   * オフラインモードではイントロスペクションを回避。
   * `wandb.Settings` をトポロジカル順序で並び替え。
@@ -1745,7 +1745,7 @@ rss: true
   * ruff linter のサポートを追加。
   * 可読性向上のための見た目の変更。
   * Environment と Registry 抽象クラスを導入。
-  * Launch agent の未使用 union 型を修正。
+  * Launch エージェントの未使用 union 型を修正。
   * マニフェストから Artifacts を削除。
   * interface.artifacts で型チェックを有効にし、型ヒント／キャストを追加。
   * `wandb_setup.py` に型注釈を追加。
@@ -1759,22 +1759,22 @@ rss: true
   ## Enhancements
 
   * ファイルアップロードリクエストでセッションを再利用。
-  * Artifacts コレクション向けに aliases リストのエンドポイントを公開。
+  * アーティファクト コレクション向けにエイリアス一覧エンドポイントを公開。
   * 環境変数に run の作成者のユーザー名を含めるように変更。
   * local-container リソース引数をサポート。
   * `wandb sync --append` で既存の run に追記できるように追加。
-  * 自動的な job 作成を無効化するためのエスケープハッチ (`disable_job_creation`) を追加。
+  * 自動的なジョブ作成を無効化するためのエスケープハッチ (`disable_job_creation`) を追加。
 
   ## Fixes
 
-  * kubernetes runner で生成される job 名からアンダースコアを削除。
+  * kubernetes runner で生成されるジョブ名からアンダースコアを削除。
   * sweep コマンドの引数で再び int 型を使用可能に修正。
-  * 準備済みの Artifacts が `latest` エイリアスを持つように修正。
+  * 準備済みのアーティファクトが `latest` エイリアスを持つように修正。
   * cache.cleanup() の実行中に発生する FileNotFoundError および PermissionError を捕捉。
-  * Python 実行ファイルを解決する順序を修正。
-  * fork 時および stdout==stderr 設定時のコンソールハンドリングを修正。
-  * job Artifacts が latest エイリアスなしでログされていた問題を修正。
-  * Artifacts に対して許容される最大長を超えないように job 名を制限。
+  * Python 実行ファイルの解決順序を修正。
+  * fork 時および stdout==stderr 設定時のコンソール処理を修正。
+  * ジョブのアーティファクトが latest エイリアスなしでログされていた問題を修正。
+  * アーティファクトに対して許容される最大長を超えないようにジョブ名を制限。
 
   ## Dev
 
@@ -1786,12 +1786,12 @@ rss: true
   * nightly テストで要求する gcloud sdk のバージョンを修正。
   * `StorageHandler.load_{path,file,reference}` の未使用パラメーターを削除。
   * ユニットテストをシステムテストと適切なユニットテストに分割。
-  * local-testcontainer でのフィクスチャサーバーのポートを 9010 から 9015 に移行。
-  * ac クエリレスポンスに aliases を追加。
+  * local-testcontainer でのフィクスチャサーバーのポートを 9010 から 9015 への変更に対応。
+  * ac クエリレスポンスにエイリアスを追加。
   * 回帰テストスイートを nightly で実行。
   * 失敗していた Lightning テストを修正。
   * wandb&#95;init.py に対する型チェックを有効化。
-  * launch-agent コマンドでデフォルト queue にフォールバックする挙動を非推奨化。
+  * launch-agent コマンドでデフォルトキューにフォールバックする挙動を非推奨化。
   * アノテーション付き kubernetes runner のユニットテストを追加。
   * train&#95;gpu&#95;ddp テストを修正。
   * Docker testimage が amd64 バージョンを pull するように修正。
@@ -1804,14 +1804,14 @@ rss: true
   * filesync.Stats のユニットテストを追加。
   * 非同期のリトライロジックを追加。
   * ArtifactSaver と StepUpload のテストを強化。
-  * 例外捕捉時に Agent が完全なスタックトレースをログ出力するように変更。
+  * 例外捕捉時にエージェントが完全なスタックトレースをログ出力するように変更。
   * neuron-ls が出力する警告を抑制。
   * 開発環境での pip と tox を固定。
 
   ## Cleanup
 
   * StepUpload テストを強化し、upload/commit の例外処理をより厳密に。
-  * Artifact クエリをリファクタリングし、entity と project を取得。
+  * アーティファクトクエリをリファクタリングし、エンティティとプロジェクトを取得。
   * 残っていた communicate 呼び出しを deliver に置き換え。
   * commit の成否の通知に threading.Event ではなく、内部的に Future を使用。
   * StepUpload で自前の管理ではなく、標準ライブラリの ThreadPoolExecutor を使用。
@@ -1832,116 +1832,116 @@ rss: true
 <Update label="v0.13.8" description="2023年1月10日">
   ## Enhancements
 
-  * コミットされていないアップロードを、別のステージング領域に保持するようにしました。
-  * ファイル ディスクリプターの管理を改善しました。
-  * agent と launch&#95;add に対して、model-registry プロジェクトをデフォルトで使用するようにしました。
+  * コミットされていないアップロードを別々のステージング領域に保持するようにしました。
+  * ファイルディスクリプターの管理を改善しました。
+  * agent および launch&#95;add に対して、model-registry プロジェクトをデフォルトで使用するようにしました。
   * `file.download()` に `exist_ok=False` を追加しました。
-  * 必要な構成要素を持つ run からジョブ Artifacts を自動作成するようにしました。
-  * テスト向けに、汎用的なレスポンス インジェクション パターンを追加しました。
+  * 必要な要素を含む run からジョブ Artifacts を自動作成するようにしました。
+  * テスト向けに汎用的なレスポンスインジェクションパターンを追加しました。
   * multiprocessing.Queue を queue.Queue に置き換えました。
-  * トランザクション ログを使用してメモリ使用量を制限するようにしました。
-  * AWS Trainium のシステム メトリクスをサポートしました。
+  * トランザクションログを使用してメモリ使用量を制限するようにしました。
+  * AWS Trainium のシステムメトリクスをサポートしました。
 
   ## Fixes
 
   * wandb.run の型ヒントを修正しました。
-  * オブジェクトの再起動時にシステム メトリクスの収集を再開するようにしました。
-  * env ハンドリングと node&#95;selector ハンドリングを修正しました。
-  * launch&#95;add を呼び出す際に、Job.call() が誤ったキーワード (queue と queue&#95;name) を使用していた問題を修正しました。
-  * Sweeps スケジューラーが複数単語のパラメーターを扱えるようにしました。
-  * requirements ファイルでのスペースを許可し、重複していた wandb bootstrap ファイルを削除しました。
-  * URL エンコードされたローカル ファイル参照を正しく処理するようにしました。
-  * マニフェストのマニフェストからではなく、直接 digest を取得するようにしました。
-  * Artifact.version が、関連付けられたコレクションのバージョン インデックスになるようにしました。
-  * 重複していた generate&#95;id 関数を削除し、shortuuid を secrets に置き換えました。
+  * オブジェクトの再起動時にシステムメトリクスの収集を再開するようにしました。
+  * env の処理と node&#95;selector の処理を修正しました。
+  * launch&#95;add を呼び出す際に Job.call() が誤ったキーワード (queue と queue&#95;name のうち一方) を使用していた問題を修正しました。
+  * Sweeps スケジューラーが複数語のパラメーターを扱えるようにしました。
+  * requirements ファイル内のスペースを許可し、重複した wandb ブートストラップファイルを削除しました。
+  * URL エンコードされたローカルファイル参照を正しく処理するようにしました。
+  * マニフェストのマニフェストからではなく、直接ダイジェストを取得するようにしました。
+  * Artifact.version を関連付けられたコレクションのバージョンインデックスに設定するようにしました。
+  * 重複した generate&#95;id 関数を削除し、shortuuid を secrets に置き換えました。
   * jax==0.4.1 で導入された jax.Array の型チェックを修正しました。
-  * 失敗した wandb.init の後にハングする問題を修正しました (cancel を追加)。
-  * カスタム実行ファイルへのパスをユーザーが指定できるようにしました。
+  * 失敗した wandb.init の後にハングする問題を修正しました (cancel を追加) 。
+  * ユーザーがカスタム実行可能ファイルのパスを指定できるようにしました。
   * Paginator オブジェクトをスライスしようとした際の TypeError を修正しました。
-  * keras モデルを保存する際に処理する例外リストに `AttributeError` を追加しました。
-  * jobs から args を削除しました。
+  * keras モデルを保存する際の処理対象例外リストに `AttributeError` を追加しました。
+  * ジョブから args を削除しました。
 
   ## Dev
 
-  * t2&#95;fix&#95;error&#95;cond&#95;feature&#95;importances を更新し、scikit-learn をインストールするようにしました。
-  * ナイトリー テスト用のベース Docker イメージを更新しました。
+  * t2&#95;fix&#95;error&#95;cond&#95;feature&#95;importances を更新して scikit-learn をインストールするようにしました。
+  * ナイトリーテスト用のベース Docker イメージを更新しました。
   * functional sacred テストで sklearn を scikit-learn に変更しました。
-  * resource=local-process のときに `--build` 用のエラーチェックを追加しました。
-  * DRC のオーバーライドを許可するため、scheduler と agent のリソース ハンドリングを更新しました。
+  * resource=local-process の場合に `--build` 用のエラーチェックを追加しました。
+  * DRC のオーバーライドを許可するよう、スケジューラーとエージェントのリソース処理を更新しました。
   * 高レベルの… を追加または削除する際に sdk-team のレビューを必須にしました。
-  * ターゲット プロジェクトをキューに一致させる必要を削除しました。
-  * ナイトリーのクラウド テスト プロセスを強化しました。
-  * pull request テンプレートを更新しました。
+  * ターゲットプロジェクトをキューに一致させる要件を削除しました。
+  * ナイトリーのクラウドテストプロセスを強化しました。
+  * プルリクエストテンプレートを更新しました。
   * pushToRunQueue クエリ後に更新された runSpec を返すようにしました。
-  * SDK における run spec の処理に関する修正を行いました。
+  * SDK での run spec 処理を修正しました。
   * 古い fastparquet パッケージへのテスト依存を削除しました。
   * 存在しない dtype np.float を修正し、Python の float に設定しました。
   * .pylintrc 内の &#39;exclude&#39; を &#39;ignore-paths&#39; に修正しました。
-  * 失敗時に検査できるよう、pytest の tmp&#95;path を使用するようにしました。
-  * ビルド後に build コマンドをリセットするようにしました。
-  * CI で flake を起こすテストを pytest-rerunfailures を用いて再実行するようにしました。
-  * filesync ロジックから不要なコードを削除しました。
+  * 失敗を検査できるように、pytest の tmp&#95;path を使用するようにしました。
+  * ビルド後にビルドコマンドをリセットするようにしました。
+  * CI で不安定になるテストを pytest-rerunfailures を使用して再実行するようにしました。
+  * filesync ロジックからデッドコードを削除しました。
   * filesync メッセージから未使用フィールドを削除しました。
-  * リトライ ロジックを、依存性インジェクションではなくグローバルを使うようにリファクタリングしました。
-  * filesync.StepUpload 用のユニット テストを追加しました。
+  * リトライロジックを依存性インジェクションではなくグローバルを使用するようにリファクタリングしました。
+  * filesync.StepUpload のユニットテストを追加しました。
   * Api.upload&#95;file&#95;retry のテストを追加しました。
-  * キューに対してリソースが指定されていない場合のフォールバック リソースを削除しました。
-  * ストレージ ハンドラーのテスト カバレッジを改善しました。
+  * キューにリソースが指定されていない場合のフォールバックリソースを削除しました。
+  * ストレージハンドラーのテストカバレッジを改善しました。
   * import テストを修正しました。
-  * MetricsMonitor がエラー時に冗長になりすぎないようにしました。
-  * local-testcontainer におけるフィクスチャ サーバーのポート 9003 から 9010 への移動に対応しました。
-  * six への依存関係を明確に削除するため、promise==2.3.0 を同梱しました。
-  * wandb.init(...) で Artifacts キャッシュ ディレクトリを設定できるようにしました。
-  * テスト用に一時的にネットワーク バッファを下げました。
+  * MetricsMonitor のエラー時のログを簡潔にしました。
+  * local-testcontainer でフィクスチャサーバーのポートを 9003 から 9010 に移行対応しました。
+  * six 依存を確実に削除するため、promise==2.3.0 をベンダリングしました。
+  * wandb.init(...) でアーティファクトキャッシュディレクトリを設定できるようにしました。
+  * テスト用に一時的にネットワークバッファを低減しました。
   * ユーザーが pex 環境で実行している場合のテレメトリを追加しました。
-  * さらなるフロー コントロール テレメトリを追加しました。
-  * サービス起動問題 (wait&#95;for&#95;ports) のための設定とデバッグ オプションを追加しました。
+  * フローコントロールのテレメトリを追加しました。
+  * サービス起動問題 (wait&#95;for&#95;ports) 向けの設定とデバッグを追加しました。
   * AWS Trainium テストを修正しました。
-  * ユーザー プロセスが finish() なしで終了した場合のステータス チェッカー スレッドの問題を修正しました。
-  * サービスが無効化された状態での使用に関するテレメトリを追加しました。
+  * ユーザープロセスが finish() なしで終了した場合のステータスチェッカースレッドの問題を修正しました。
+  * サービス無効時使用のテレメトリを追加しました。
 
   ## Cleanup
 
-  * 例外をスローする際に、常に同じ構文を使用するようにしました。
+  * 例外を発生させる際に常に同じ構文を使用するようにしました。
   * &#95;safe&#95;mkdirs を mkdir&#95;exist&#95;ok と統合しました。
-  * Artifacts キャッシュ用に pytest フィクスチャを使用するようにしました。
-  * サブクラス化する代わりに、直接 ArtifactEntry を使用するようにしました。
-  * ハッシュ ユーティリティを lib.hashutil に統合しました。
-  * 公開ファイルを適切なフォーマットで整形しました。
-  * dev 環境セットアップ ツールで、適切な env に tox をインストールするようにしました。
-  * init と run のロジックをクリーンアップしました。
+  * アーティファクトキャッシュ用に pytest フィクスチャを使用するようにしました。
+  * ArtifactEntry をサブクラス化せずに直接使用するようにしました。
+  * ハッシュユーティリティを lib.hashutil に集約しました。
+  * 公開ファイルを適切な書式で整形しました。
+  * dev 環境セットアップツールで適切な env に tox をインストールするようにしました。
+  * init および run のロジックを整理しました。
 
-  GitHub で [v0.13.8 の changelog](https://github.com/wandb/wandb/releases/tag/v0.13.8) を参照してください。
+  GitHub の [v0.13.8 変更ログ](https://github.com/wandb/wandb/releases/tag/v0.13.8) を参照してください。
 </Update>
 
 <Update label="v0.13.7" description="2022年12月14日">
   ## Fixes
 
-  * `Object of type Tensor is not JSON serializable` を解決するために、`Circular reference detected` の変更をリバートしました。
+  * `Object of type Tensor is not JSON serializable` を解決するため、`Circular reference detected` の変更を元に戻しました。
 
-  GitHub で [v0.13.7 の changelog](https://github.com/wandb/wandb/releases/tag/v0.13.7) を参照してください。
+  GitHub の [v0.13.7 変更ログ](https://github.com/wandb/wandb/releases/tag/v0.13.7) を参照してください。
 </Update>
 
-<Update label="v0.13.6" description="2022年12月06日">
+<Update label="v0.13.6" description="2022年12月6日">
   ## 機能強化
 
   * 公開 API に `Sweep.expected_run_count` を追加。
-  * Kubernetes runner で volume mount と security context をサポート。
+  * Kubernetes runner でボリューム マウントとセキュリティコンテキストをサポート。
   * イメージをビルドしてからキューにプッシュするための新しい `--build` フラグを追加。
-  * WandbMetricsLogger を使用して学習率をログできるように追加。
-  * GA に向けて Report API を改善。
+  * WandbMetricsLogger を使用して学習率をログする機能を追加。
+  * GA に向けてレポート API を改善。
 
   ## 修正
 
-  * コミット済みの Artifacts のみを取得するように `artifact_version` のフィルターを追加。
-  * `wandb verify` の不安定なテストを修正。
-  * Job から LaunchProject に渡される override 引数の型を修正。
+  * コミット済みのアーティファクトのみを取得するように `artifact_version` のフィルターを追加。
+  * `wandb verify` の不安定性を解消。
+  * ジョブから LaunchProject に渡されるオーバーライド引数の型を修正。
   * ログのプレフィックスから余分なコロンを削除。
-  * pex ベースの環境で動作するサービスのサポートを追加。
+  * pex ベースの環境でサービスを実行するためのサポートを追加。
   * 静的 IPU 情報のプロービングを修正。
   * 公開 GQL リクエストで `artifactSequence` を `artifactCollection` に変更。
   * `WandbModelCheckpoint` における TF 互換性の問題を修正。
-  * Keras WandbCallback を TF バージョン &gt;= 2.11.0 と互換に。
+  * Keras WandbCallback を TF バージョン &gt;= 2.11.0 と互換性を持たせる。
   * gym インテグレーションを最新バージョンに合わせて更新。
   * SystemMetrics の内部スレッド管理を強化。
 
@@ -1949,25 +1949,25 @@ rss: true
 
   * `refspec` と `depth=1` を指定して git fetch 時間を短縮。
   * grpc 生成ファイルを無視するように linguist ルールを修正。
-  * Launch テスト用の新しい shard を追加。
+  * Launch テスト用の新しいシャードを追加。
   * Node 12 ベースの GitHub Actions をアップグレード。
   * 不安定な `artifact_metadata_save` テストをスキップ。
   * ファイルの書き込み待ちで sleep の代わりに flush を使用。
   * テスト中にローカルファイルを書き込む代わりに `tmp_path` フィクスチャを使用。
-  * 壊れていた queue テストを修正。
+  * 壊れていたキュー テストを修正。
   * テスト `test_artifact_metadata_save` を `xfail` ではなく `skip` に変更。
   * InternalApi.upload&#95;file に多数のテストを追加。
-  * 古いサーバー向けに artifact Sequence のフォールバックを追加。
+  * 古いサーバー向けにアーティファクト シーケンスのフォールバックを追加。
   * protobuf のバージョン要件をより細かく指定。
 
   ## クリーンアップ
 
-  * Artifacts をコミットする際、409 Conflict エラーは再試行しないように変更。
-  * SDK から Artifacts へのエイリアスの追加/削除をプログラム的に行う機能を追加。
+  * アーティファクトをコミットする際、409 Conflict エラーは再試行しないように変更。
+  * SDK からアーティファクトへのエイリアスのプログラムによる追加/削除機能を追加。
   * 不要なロジックを含む `wandb.sklearn.plot_decision_boundaries` を削除。
   * テスト用 dev-container イメージの最新バージョンを強制的に pull するオプションを追加。
   * No-op builder。
-  * 未使用属性を削除。
+  * 未使用の属性を削除。
   * `mypy` を 0.991 に更新。
   * より堅牢な URI パース処理を追加。
   * internal&#95;api.py のリンティングを有効化。
@@ -1976,292 +1976,292 @@ rss: true
   GitHub で [v0.13.6 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.13.6) を表示。
 </Update>
 
-<Update label="v0.13.5" description="2022年11月03日">
+<Update label="v0.13.5" description="2022年11月3日">
   ## 機能強化
 
-  * 画像参照をアップロードするオプションを追加。
+  * イメージ参照をアップロードするオプションを追加。
 
   ## 修正
 
-  * より読みやすい画像名を生成。
-  * Artifacts キャッシュのキーとして、`etag` のみではなく hash(`etag`+`url`) を使用。
-  * `wandb artifact put` 使用時、ユーザーに準備完了を通知する前に Artifacts のコミット完了を待機。
-  * vendor の watchdog ライブラリにプレフィックスを付与。
+  * より読みやすいイメージ名を生成。
+  * アーティファクト キャッシュのキーとして、`etag` のみではなく hash(`etag`+`url`) を使用。
+  * `wandb artifact put` を使用する際、ユーザーに準備完了を通知する前にアーティファクトのコミット完了を待機。
+  * ベンダーの watchdog ライブラリにプレフィックスを付与。
   * numpy 配列が 32 要素を超えるメタデータ更新時の `Circular reference detected` エラーを修正。
   * SageMaker 上で DDP モードを壊さないように、run&#95;id にランダム文字列を追加。
 
   ## 開発関連
 
-  * 結果を取得する前にテストクラスターをシャットダウンしないように保証。
-  * nightly CPU スイートにスタンドアロンの Artifacts テストを追加。
-  * デフォルトブランチ名を `main` に変更。
-  * protobuf 型チェック用 mypy 拡張を更新。
+  * 結果を取得する前にテスト クラスターをシャットダウンしないように保証。
+  * ナイトリ CPU スイートにスタンドアロンのアーティファクト テストを追加。
+  * デフォルト ブランチ名を `main` に変更。
+  * protobuf 型チェック用の mypy 拡張を更新。
   * codeql-analysis.yml のブランチ名を更新。
-  * 機能インポートテストを nightly に移動し、Python バージョンのカバレッジを拡大。
-  * nightly インポートテスト失敗時の Slack 通知を追加。
-  * 存在しない Artifacts をアップロードしようとする壊れた CLI テストを修正。
+  * 機能インポート テストをナイトリに移動し、Python バージョンのカバレッジを拡大。
+  * ナイトリ インポート テストの失敗時に Slack 通知を追加。
+  * 存在しないアーティファクトをアップロードしようとする壊れた CLI テストを修正。
 
   ## クリーンアップ
 
-  * log&#95;artifact ではなく use&#95;artifact を通じた Job 作成。
-  * リリースプロセスの一部を自動化する GH action を追加。
-  * 3D Point Cloud があらゆる状況で UI 上で表示可能に。
+  * log&#95;artifact ではなく use&#95;artifact を通じたジョブ作成。
+  * リリース プロセスの一部を自動化する GH アクションを追加。
+  * 3D ポイントクラウドがあらゆる状況で UI で表示可能に。
   * fsmonitor が有効な場合に Git URL が失敗していた問題を修正。
-  * 新しい proto 生成ファイルディレクトリを無視。
-  * SDK で Run Queue 削除を妨げていたバグを修正。
+  * 新しい proto 生成ファイル ディレクトリを無視。
+  * SDK でラン キューの削除を妨げていたバグを修正。
   * `pushToRunQueueByName` ミューテーションのサポートを追加。
-  * システムメトリクスのモニタリングとプロービングをリファクタリング。
+  * システム メトリクスのモニタリングとプロービングをリファクタリング。
   * protobuf 生成ファイル用の gitattribute を修正。
 
   GitHub で [v0.13.5 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.13.5) を表示。
 </Update>
 
 <Update label="v0.13.4" description="2022年10月5日">
-  ## Enhancements
+  ## 機能強化
 
-  * k8s ジョブ名に entity と project を表示。
-  * 環境変数用 sweep コマンドマクロを追加。
-  * `Object3D` データ型に `from_*` コンストラクターおよびシーンカメラとバウンディングボックスの信頼度スコアを追加。
-  * Artifacts のダウンロード用のシンプルな進行状況インジケーターを追加。
-  * `WandbMetricsLogger` コールバックを追加 - `Keras` 用の専用メトリクスロガー コールバック。
-  * `WandbModelCheckpoint` コールバックを追加 - `Keras` 用のモデル チェックポイント コールバック。
-  * `WandbEvalCallback` コールバックを追加 - モデル予測を W&amp;B テーブルとしてログするための `Keras` コールバック。
+  * k8s ジョブ名に entity とプロジェクトを表示。
+  * 環境変数用の sweep コマンド マクロを追加。
+  * `Object3D` データ型に `from_*` コンストラクターとシーンカメラおよびバウンディングボックスの信頼度スコアを追加。
+  * アーティファクトのダウンロード用のシンプルな進行状況インジケーターを追加。
+  * `WandbMetricsLogger` コールバックを追加 - Keras 専用のメトリクス ロガー コールバック。
+  * `WandbModelCheckpoint` コールバックを追加 - Keras 用のモデル チェックポイント コールバック。
+  * `WandbEvalCallback` コールバックを追加 - モデル予測を W&amp;B テーブルとしてログする Keras コールバック。
 
-  ## Fixes
+  ## 修正
 
   * エージェントの config の max&#95;jobs 属性を整数にキャスト。
-  * `debug-cli.log`（デバッグログ）への表示パスを修正。
-  * AWS へ Artifacts をアップロードする際に、再試行可能なリクエストタイムアウトを検知して処理。
-  * 長時間実行される呼び出し（summary、finish）に対するユーザー向けフィードバックを改善。
-  * `keras.WandbCallback` を `tf.MirroredStrategy` と併用した際の RuntimeError を修正。
+  * `debug-cli.log` (デバッグ ログ) の表示パスを修正。
+  * AWS へのアーティファクト アップロード時に、再試行可能なリクエスト タイムアウトを捕捉。
+  * 長時間実行される呼び出し (summary、finish) に対するユーザー フィードバックを改善。
+  * `keras.WandbCallback` を `tf.MirroredStrategy` と併用した場合の RuntimeError を修正。
 
   ## Dev
 
-  * `codeql` を用いたコード解析／スキャンを追加。
-  * Conventional Commits ガイドラインへの準拠を保証するために PR タイトルを検証。
-  * `kaniko` と `launch-agent-dev` のビルドバージョンを固定して Launch を強化。
-  * `mmengine` パッケージ向けのテレメトリーを追加。
+  * `codeql` を使用したコード解析/スキャンを追加。
+  * Conventional Commits ガイドラインへの準拠を確保するための PR タイトルの検証を追加。
+  * `kaniko` と `launch-agent-dev` のビルド バージョンを固定して Launch を強化。
+  * `mmengine` パッケージ向けのテレメトリを追加。
   * Conventional Commits 設定に `build` タイプを追加。
-  * `imports12` シャードに `tensorflow_datasets` 要件を追加。
-  * 上流の要件を固定して sb3 テストを修正。
-  * SDK を protobuf v4 と互換性を持つように変更。
-  * flake8 の出力のカラーリングを修正。
-  * Artifacts 参照テストのアセットディレクトリを修正。
+  * `imports12` シャードに `tensorflow_datasets` の要件を追加。
+  * 上流要件を固定して sb3 テストを修正。
+  * SDK を protobuf v4 に対応。
+  * flake8 出力の色付けを修正。
+  * アーティファクト参照テストのアセット ディレクトリを修正。
 
   ## Cleanup
 
   * `public_api.runs` の `filters` 引数の型ヒントを修正。
-  * Artifacts ファイル作成周りの型アノテーションを改善。
+  * アーティファクト ファイル作成周囲の型アノテーションを改善。
   * Public API 用の型アノテーションと VSCode 設定を改善。
-  * VSCode で型アノテーションをより辿りやすく。
-  * 文字列の NewType を導入し、各種 Artifact フィールドで使用。
-  * boto3 利用時により良い IDE ヒントが得られるよう、型アノテーションを追加。
+  * VSCode で型アノテーションをより簡単にナビゲートできるようにする。
+  * str NewType を導入し、さまざまなアーティファクト フィールドで使用。
+  * boto3 の使用時に IDE ヒントを改善するための型アノテーションを追加。
 
   GitHub 上の [v0.13.4 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.13.4) を参照してください。
 </Update>
 
-<Update label="v0.13.3" description="2022 年 9 月 8 日">
+<Update label="v0.13.3" description="2022年9月8日">
   ## 機能強化
 
   * `raytune` のサンプルとテストを追加。
   * 実際の `wandb server` に対して実行するように `pytest` ユニットテストをリファクタリング。
-  * Launch `kubernetes` の taints と tolerations のサポートを追加。
+  * Launch の Kubernetes における taints と tolerations のサポートを追加。
   * Kubernetes 上の Launch で Sweeps を追加。
   * 機能テストに並列実行を追加。
   * `mypy` をバージョン `0.971` にアップグレード。
   * Mailbox を用いた非同期内部プロセス間通信を追加。
-  * sweep 設定内で Launch ジョブを検索できるように実装。
+  * sweep 設定内で Launch ジョブの検索を実装。
   * 大きなメッセージ送信時のパフォーマンスを改善。
   * 最新の `nvidia-ml-py-11.515.48` を同梱。
   * サービスソケットの recv サイズを増やしてパフォーマンスを改善。
   * black プロファイルを用いた isort サポートを追加。
   * Nightly テストのテスト結果を CircleCI にプッシュする仕組みを実装。
   * `pytest` ユニットテスト用のデバッグモードを追加。
-  * Launch Jobs で引数のサポートを追加。
+  * Launch ジョブにおける引数のサポートを追加。
   * FetchRunQueueItemById クエリを追加。
   * keras-cv のテレメトリを追加。
   * Sentry セッション追跡を追加。
-  * Registered Models にリンクしながら Artifacts をログできる機能を追加。
+  * 登録済みモデルにリンクしながらアーティファクトをログする機能を追加。
 
   ### クリーンアップ
 
-  * 勾配フックとパラメーターフックを分離。
-  * uri/docker-image の二重指定に対する明示的なエラーメッセージを追加。
+  * gradient および parameters フックを分離。
+  * URI/Docker イメージの二重指定に対する明示的なエラーメッセージを追加。
   * wandb&#95;init フィクスチャの引数が wandb.init() と同期していることをテスト。
   * Nightly テストに使用する GKE クラスターを `n1-standard-8` にアップグレード。
   * サービスのクリーンアップ処理をテストの最後に移動。
   * `pytest` ジョブの並列度を 10 から 6 に削減。
-  * サービス ユーザー向けドキュメントを削除。
+  * サービスユーザー向けドキュメントを削除。
   * `_timestamp` ロジックを内部プロセスに移動。
   * Launch `gitversion` のエラーメッセージを追加。
   * CircleCI の KFP マシン VM イメージを更新。
   * sweeps を最新バージョンにアップグレード。
-  * Sweep スケジューラーのクリーンアップと、より良いテストを実装。
-  * API 変更には sdk チームの承認が必要であるという要件を追加。
-  * Artifacts のコミットに追加の時間を付与。
+  * Sweep スケジューラーのクリーンアップとより良いテストを実装。
+  * API 変更に対する sdk-team の承認要件を追加。
+  * アーティファクトのコミットに追加時間を確保。
   * 動的解決を用いた tox 設定を実装。
   * Nightly ビルドでの `buildx` バージョン固定を削除。
   * Launch run 設定をエントリーポイントから params に移動。
   * CircleCI の Win ジョブから Slack orb の使用を削除。
-  * 旧エージェントを使用する Launch run 引数に対して heartbeat のパースを追加。
-  * サービスのクリーンアップ時のエラー処理を改善。
+  * 旧エージェントを使用する Launch run 引数に対する heartbeat の解析を追加。
+  * サービスクリーンアップ時のエラー処理を改善。
   * Launch ジョブ作成パイプラインをクリーンアップ。
-  * 型の誤った Artifacts をアップロードしたときのエラーメッセージに詳細を追加。
+  * 誤ったタイプのアーティファクトをアップロードした際のエラーメッセージに詳細を追加。
   * artifacts wait() にオプションのタイムアウトパラメーターを追加。
   * キー内の numpy ジェネリックをサニタイズ。
-  * 公開 API で run 関数の再代入を削除。
-  * 公開 API を用いて runs をクエリする際に、sweeps の取得をオプションに変更。
-  * 特殊文字に関するより多くの情報を提供するために `wandb.init` のリファレンスドキュメントを更新。
+  * 公開 API での run 関数の再代入を削除。
+  * 公開 API を使用して runs をクエリする際の sweeps 取得をオプション化。
+  * 特殊文字に関する詳細情報を追加して `wandb.init` のリファレンスドキュメントを更新。
 
   ## バグ修正
 
-  * Launch Jobs における Sweeps の要件を修正。
-  * より多くの型を受け入れられるように Artifact メタデータの JSON エンコードを修正。
+  * Launch ジョブにおける Sweeps の要件を修正。
+  * Artifact メタデータの JSON エンコードをより多くの型に対応するよう修正。
   * `root_dir` 設定の処理ロジックを調整。
-  * run.log() が渡された引数を変更しないように防止。
+  * run.log() が渡された引数を変更しないよう防止。
   * `05-batch5.py` テストを修正。
-  * ユーザーが Launch spec を通じて `run_id` を制御できるように変更。
-  * `config.yml` の誤った上書きを修正。
-  * 公開 API を初期化する際に、上書きされた `base_url` が伝播されるように修正。
+  * ユーザーが Launch spec を通じて `run_id` を制御できるように修正。
+  * `config.yml` の偶発的な上書きを修正。
+  * 公開 API の初期化時に上書きされた `base_url` の伝播を確保。
   * Launch CLI の launch 設定および relpath における Sweeps の問題を修正。
-  * 不正だった Launch apikey のエラーメッセージを修正。
+  * Launch API キーのエラーメッセージを修正。
   * 不安定な sweeps テストを xfail としてマーク。
   * Launch `gitversion` のエラーメッセージを修正。
-  * `yea-wandb` の dev リリース -&gt; リリースの問題を修正。
-  * client-&gt;wandb へのリネーム後に残っていた問題をクリーンアップ。
+  * `yea-wandb` の dev リリースからリリースへの処理を修正。
+  * client -&gt; wandb リネーム後に残る問題をクリーンアップ。
   * テストの precision/recall を修正。
   * sklearn の機能テストを修正。
-  * Windows 上でのキーボード割り込みにより発生していたハングを修正。
+  * Windows 上のキーボード割り込みによるハングを修正。
   * デフォルトのテストコンテナタグを修正。
-  * conftest.py でのサマリー処理を修正。
-  * CLI 出力内のいくつかの小さなタイプミスを修正。
+  * conftest.py での summary 処理を修正。
+  * CLI 出力の小さなタイプミスを修正。
   * デフォルトファイルを使用し例外を捕捉することで、colab のアップデートにより発生した問題を修正。
   * Mailbox のロック問題を修正。
-  * ログ文字列への変数の含め方を修正。
+  * ログ文字列への変数包含を修正。
   * `wandb.Artifacts.artifact.version` 属性を修正。
-  * Launch Agent による docker 引数のパイプ処理を修正。
-  * メールアドレスが取得されていない公開 API User オブジェクトを出力した際の RecursionError を修正。
-  * 数値のカラム名のデシリアライズを修正。
+  * Launch エージェントによる docker 引数のパイプ処理を修正。
+  * メールアドレスが取得されていない公開 API のユーザーオブジェクトを出力時の RecursionError を修正。
+  * 数値の列名のデシリアライズを修正。
 
-  GitHub 上の [v0.13.3 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.13.3) を参照してください。
+  GitHub 上の [v0.13.3 の変更ログ](https://github.com/wandb/wandb/releases/tag/v0.13.3) を参照してください。
 </Update>
 
-<Update label="v0.13.2" description="2022 年 8 月 22 日">
+<Update label="v0.13.2" description="2022年8月22日">
   ## バグ修正
 
   * デフォルトファイルを使用し例外を捕捉することで、colab のアップデートにより発生した問題を修正。
 
-  GitHub 上の [v0.13.2 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.13.2) を参照してください。
+  GitHub 上の [v0.13.2 の変更ログ](https://github.com/wandb/wandb/releases/tag/v0.13.2) を参照してください。
 </Update>
 
 <Update label="v0.13.1" description="2022年8月5日">
   ## バグ修正
 
-  * 渡された引数を変更しないように `run.log()` の動作を修正。
+  * `run.log()` が渡された引数を変更しないように修正。
 
-  GitHub で [v0.13.1 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.13.1) を参照してください。
+  GitHub で [v0.13.1 の変更ログ](https://github.com/wandb/wandb/releases/tag/v0.13.1) をご覧ください。
 </Update>
 
 <Update label="v0.13.0" description="2022年8月4日">
   ## 機能強化
 
-  * service をデフォルトで有効化。
-  * サーバーから送信されるメッセージを処理するためのサポートロジックを追加。
-  * run 完了時に job を生成できるように変更。
-  * Launch に Job、QueuedRun、および job 処理を追加。
+  * service をデフォルトで有効にします。
+  * サーバーから提供されるメッセージの処理のためのサポートロジックを追加。
+  * run 完了時にジョブを生成できるようにします。
+  * Launch に Job、QueuedRun、およびジョブ処理を追加。
   * Launch エージェントで EC2 と EKS のインスタンスロールをサポート。
-  * Keras Callback のデフォルト動作として、モデルのチェックポイントを常に Artifacts として保存するように追加。
-  * モデル Artifacts を保存するために、KerasCallback 内で Artifacts 名をサニタイズ。
+  * Keras Callback のデフォルト動作として、モデル チェックポイントを常に Artifacts として保存するようにします。
+  * モデル Artifacts の保存のために KerasCallback 内の Artifacts 名をサニタイズ。
   * エミュレーターを service プロセスに移動することでコンソールログを改善。
-  * 大容量データをログ記録する際のデータ破損の問題を修正。
-  * Public API の Sweep の repr に state を追加。
-  * 設定または環境変数を使って、git の別のルートディレクトリを指定できるオプションを追加。
-  * `remote url` と `commit hash` を設定の引数または環境変数として渡せるオプションを追加。
-  * 追跡されるメトリクスとシステムメトリクスの時間解像度を改善。
-  * `wandb.sweep()` 呼び出しで `project` が指定されていない場合、sweep 設定の project 名をデフォルトとして使用。
-  * Launch エージェントが設定した namespace を使用するためのサポートを追加。
-  * run が上書きされる可能性がある場合に追跡するテレメトリーを追加。
+  * 大量のデータをログ記録する際のデータ破損の問題を修正。
+  * Public API の Sweep repr に状態を追加。
+  * 設定または環境変数を使用して git の異なるルートディレクトリを指定するオプションを追加。
+  * `remote url` と `commit hash` を設定の引数または環境変数として渡すオプションを追加。
+  * トラッキングされるメトリクスとシステムメトリクスの時間解像度を改善。
+  * `wandb.sweep()` 呼び出しでプロジェクトが指定されていない場合、sweep 設定からのプロジェクト名をデフォルトとして使用。
+  * Launch エージェントが設定したネームスペースを使用するためのサポートを追加。
+  * run が上書きされる可能性がある場合をトラッキングするためのテレメトリを追加。
   * `wandb` の履歴を `sqlite` にエクスポートするツールを追加。
   * 一部の `Mapping[str, ...]` 型を `NamedTuples` に置き換え。
-  * run テレメトリー用のインポートフックを追加。
+  * run テレメトリ用のインポートフックを追加。
   * IPU のプロファイリングサポートを実装。
 
   ## バグ修正
 
-  * service を使用する sweep エージェントを修正。
-  * 空の型が不正な型と見なされてしまう問題と、 Artifacts の辞書の処理方法を修正。
-  * 属性取得時にデフォルト値をサポートするよう `wandb.Config` オブジェクトを修正。
-  * job からデフォルト config を削除。
+  * service を使用した sweep エージェントを修正。
+  * 空の型が無効な型と等しいとする問題、および Artifacts 辞書の処理方法を修正。
+  * 属性取得時にデフォルト値をサポートするように `wandb.Config` オブジェクトを修正。
+  * ジョブからデフォルト設定を削除。
   * patch が `None` の場合の問題を修正。
-  * nightly SDK インストールチェックにおける requirements.txt のパースを修正。
-  * GraphQL リクエストがタイムアウトしたときの 409 Conflict の処理を修正。
-  * ユーザープロセスが終了している場合の service の終了処理を修正。
+  * nightly SDK インストールチェックでの requirements.txt の解析を修正。
+  * GraphQL リクエストのタイムアウト時の 409 Conflict 処理を修正。
+  * ユーザープロセスが終了した場合の service 終了処理を修正。
   * `storage_path` を追加し、`artifact.files` を修正。
-  * 大量のメディアファイルを含む run を同期する際のパフォーマンス問題を修正。
+  * 多数のメディアファイルを含む run の同期時のパフォーマンス問題を修正。
 
   ### クリーンアップ
 
-  * service を無効化するためのエスケープハッチ用ロジックを追加。
-  * `wandb/docker` に注釈を追加し、docker フィクスチャでの変更を元に戻した。
-  * Keras の `WandbCallback` において GFLOPS を GFLOPs に修正。
-  * `file_stream.py` に型注釈を追加。
+  * service を無効にするエスケープハッチロジックを追加。
+  * `wandb/docker` にアノテーションを追加し、docker フィクスチャの変更を元に戻す。
+  * Keras の `WandbCallback` で GFLOPS を GFLOPs に修正。
+  * `file_stream.py` に型アノテーションを追加。
   * リポジトリ名を `client` から `wandb` に変更。
-  * HuggingFace Trainer 用に `--report_to wandb` を追加してドキュメントを更新。
-  * link&#95;artifact でエイリアス指定を任意とした。
-  * `wandb local` の名称を `wandb server` に変更。
-  * README バッジを更新。
+  * HuggingFace Trainer 向けに `--report_to wandb` を追加してドキュメントを更新。
+  * link&#95;artifact でエイリアスをオプションに。
+  * `wandb local` を `wandb server` に名称変更。
+  * README のバッジを更新。
 
-  GitHub で [v0.13.0 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.13.0) を参照してください。
+  GitHub で [v0.13.0 の変更ログ](https://github.com/wandb/wandb/releases/tag/v0.13.0) をご覧ください。
 </Update>
 
 <Update label="v0.12.21" description="2022年7月5日">
-  ## 機能改善
+  ## 機能強化
 
-  * run が終了するまで config が表示されなかった問題を修正。
-  * ジョブおよび run config 内の artifact オブジェクトを扱うために、新しい型を TypeRegistry に追加。
-  * run の状態を取得するための新しいクエリを内部 API に追加。
+  * run が終了するまで設定が表示されない問題を修正。
+  * ジョブおよび run 設定内のアーティファクト オブジェクトを処理するために、TypeRegistry に新しい型を追加。
+  * run の状態を取得する新しいクエリを内部 API に追加。
   * 安全でない yaml ローダーを yaml.safe&#95;load に置き換え。
-  * 手動テストでシャードを指定できるようにし、テスト用ツールを改善。
-  * サンプリングを層化することで、sklearn インテグレーションにおける ROC および PR 曲線を修正。
-  * ノートブックで入力ボックスがセル領域をはみ出してしまう問題を修正。
-  * link&#95;model にエイリアスとして文字列を渡せるように変更。
-  * `keras` の `WandbCallback` で FLOPS 計算をサポート。
+  * 手動テストでシャードを指定できるようにして、テストツールを改善。
+  * サンプリングを層化することで、sklearn インテグレーションの ROC および PR 曲線を修正。
+  * ノートブック内の入力ボックスがセル領域をはみ出す問題を修正。
+  * link&#95;model に文字列をエイリアスとして渡せるように変更。
+  * `keras` の `WandbCallback` で FLOPS 計算のサポートを追加。
   * Python レポートの編集機能を拡張。
 
   ## バグ修正
 
-  * stats ロガーが子プロセス内のすべての正しい GPU を検出できるように修正。
+  * stats ロガーが子プロセス内の正しいすべての GPU を検出できるように修正。
   * フォルダーに対する s3 リファレンスアップロードのリグレッションを修正。
-  * バックエンドでの衝突を処理できるように artifact の commit ロジックを修正。
-  * リトライ ロジックで `None` レスポンスをチェックする安全確認を追加。
-  * Launch 上に Sweeps を追加 (現在 MVP) 。
-  * 機能テストのディレクトリおよびファイル名を変更。
+  * バックエンドでの衝突を処理できるように、アーティファクトのコミットロジックを修正。
+  * リトライロジックで `None` レスポンスをチェックする安全策を追加。
+  * Launch に Sweeps を追加 (現在 MVP) 。
+  * 機能テストのディレクトリとファイル名を変更。
 
   ### クリーンアップ
 
-  * `_to_dict` ヘルパーの条件の順序を修正。
-  * PR 3709 への changelog の壊れたリンクを修正。
+  * `_to_dict` ヘルパーの条件順序を修正。
+  * changelog の PR 3709 への壊れたリンクを修正。
   * 公開 API クエリ (QueuedJob API) を修正。
   * local runners を local-container および local-process にリネーム。
   * wandb/filesync ディレクトリ内のファイルに型アノテーションを追加。
-  * すべてのテストディレクトリを再構成し、共通のルートディレクトリを持たせるように変更。
-  * テスト設定を修正し、`CircleCi` 上でより大きなマシンを追加。
+  * すべてのテストディレクトリを共通のルートディレクトリの下に再編成。
+  * テスト設定を修正し、CircleCI でより大きなマシンを追加。
   * `wandb-service-user` の README ファイルの誤字を修正。
-  * 回帰テスト用の artifact が壊れていた問題を修正。
+  * リグレッションに関するアーティファクトテストが壊れていた問題を修正。
   * 未使用ファイル (`py27` 関連) および空の `submodules` 宣言を削除。
-  * cloudpickle に対する model reg 用依存関係の extra を追加。
+  * モデルレジストリの cloudpickle 依存関係のための extra を追加。
   * 非推奨のスレッディングエイリアスを置き換え。
   * `sdk` の README を、リネームされた (local -&gt; server) コマンドに合わせて更新。
 
-  GitHub 上の [v0.12.21 の changelog](https://github.com/wandb/wandb/releases/tag/v0.12.21) を参照してください。
+  GitHub 上の [v0.12.21 の変更ログ](https://github.com/wandb/wandb/releases/tag/v0.12.21) を参照してください。
 </Update>
 
 <Update label="v0.12.20" description="2022年6月29日">
   ## バグ修正
 
-  * 競合エラー発生時に `commit_artifact` をリトライするように変更。
+  * 競合エラーが発生した場合に `commit_artifact` を再試行するように変更。
 
-  GitHub 上の [v0.12.20 の changelog](https://github.com/wandb/wandb/releases/tag/v0.12.20) を参照してください。
+  GitHub 上の [v0.12.20 の変更ログ](https://github.com/wandb/wandb/releases/tag/v0.12.20) を参照してください。
 </Update>
 
 <Update label="v0.12.19" description="2022年6月22日">
@@ -2269,56 +2269,56 @@ rss: true
 
   * フォルダーに対する s3 リファレンスアップロードのリグレッションを修正。
 
-  GitHub 上の [v0.12.19 の changelog](https://github.com/wandb/wandb/releases/tag/v0.12.19) を参照してください。
+  GitHub 上の [v0.12.19 の変更ログ](https://github.com/wandb/wandb/releases/tag/v0.12.19) を参照してください。
 </Update>
 
 <Update label="v0.12.18" description="June 09, 2022">
   ## 機能強化
 
-  * Launch: LocalRunner に基づく BareRunner を追加。
-  * Public API に API キーを指定できるようにした。
-  * Windows 上で Unicode を含むファイルに対する Artifacts のサポートを追加。
+  * Launch: LocalRunner を基にした BareRunner を追加。
+  * パブリック API で API キーを指定できる機能を追加。
+  * Windows での Unicode ファイルに対する Artifacts のサポートを追加。
   * 新しいパッケージ向けのテレメトリを追加。
   * API キー管理を改善。
   * ログイン時に `wandb server` に関する情報を追加。
 
   ## バグ修正
 
-  * Python Table 型でタイムスタンプをネイティブにサポート。
-  * service で magic をサポート。
-  * DirWatcher およびサポートクラスの単体テストを追加。
-  * `DirWatcher.update_policy` を、（アップロードされたファイル数に依存しない）O(1) に改善。
-  * SB3 コールバックでログに記録する内容を制御する引数を追加。
-  * sb3 インテグレーションにおけるパラメーター名を改善。
-  * M1 Mac 上での開発環境セットアップ要件を調整。
+  * Python の Table 型でタイムスタンプをネイティブにサポート。
+  * wandb-service での magic をサポート。
+  * DirWatcher および関連クラスの単体テストを追加。
+  * `DirWatcher.update_policy` をアップロードファイル数に依存しない O(1) に改善。
+  * SB3 コールバックでログ出力内容を制御する引数を追加。
+  * sb3 インテグレーションのパラメーター名を改善。
+  * M1 Mac での開発環境セットアップ要件を調整。
   * Launch: NVIDIA ベースイメージの Linux キーを修正。
-  * 設定ファイルからの Launch run キュー処理を修正。
+  * 設定ファイルからの Launch run キューの処理を修正。
   * tfevents が常に消費されない問題を修正。
-  * [Snyk] による 8 件の脆弱性修正を適用。
-  * キー名の衝突時にフォルダーをアップロードできるよう s3 ストレージハンドラーを修正。
-  * Artifacts のテーブルからタイムスタンプを正しくロード。
-  * `protobuf<44` を必須に変更。
-  * Launch 経由で作成されたコンテナを、コンテナジョブとして再実行可能に。
-  * finish() でステップをスキップしてしまう tensorboard インテグレーションを修正。
-  * `wandb local` を `wandb server` にリネーム。
-  * 壊れていた docker inspect コマンドを修正。
-  * 専用の Sentry 用 wandb を追加。
-  * Image 型が古い型パラメーターを適切に処理できるように改善。
+  * [Snyk] 8 件の脆弱性を修正。
+  * キー名が衝突する場合にフォルダーのアップロードを可能にするよう、s3 ストレージ ハンドラーを修正。
+  * Artifacts のテーブルからタイムスタンプを正しく読み込み。
+  * `protobuf&lt;44` を要求。
+  * Launch 経由で作成したコンテナーをコンテナージョブとして再実行可能に。
+  * finish() 時にステップをスキップする tensorboard インテグレーションを修正。
+  * `wandb local` を `wandb server` に名称変更。
+  * 破損していた docker inspect コマンドを修正。
+  * 専用 Sentry wandb を追加。
+  * Image 型で古い型パラメーターを適切に処理するように改善。
 
   ### クリーンアップ
 
-  * FileEventHandler.synced を、それが使用されている唯一のメソッド内にインライン化。
-  * 渡された size 引数を使用して `PolicyLive.min_wait_for_size` をクラスメソッドに変更。
-  * FileEventHandler を ABC にし、1 回しか使われていなかった「デフォルト」メソッド実装を削除。
+  * FileEventHandler.synced を使用されている唯一のメソッド内にインライン化。
+  * 渡された size 引数を使用して `PolicyLive.min_wait_for_size` をクラスメソッド化。
+  * FileEventHandler を ABC にし、1 回しか使用されていなかった「デフォルト」メソッドの実装を削除。
   * DirWatcher から未使用フィールドを削除。
-  * sweeps をベンダリングする代わりに extra として扱うよう変更。
-  * nightly CI テストを追加。
+  * sweeps をベンダリングする代わりに extra として扱うように変更。
+  * ナイトリー CI テストを追加。
   * keras とデータ型のリファレンスドキュメントを改善。
-  * 開発環境における `pytorch` のバージョン要件を更新。
+  * 開発環境での `pytorch` バージョン要件を更新。
   * CircleCI の設定をクリーンアップ。
   * CI に `py310` テストを追加。
   * 要件から `dateutil` を削除。
-  * `Table.add_row` に非推奨であることを示す文字列を追加。
+  * `Table.add_row` に非推奨を示す文字列を追加。
 
   GitHub で [v0.12.18 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.12.18) を参照してください。
 </Update>
@@ -2326,7 +2326,7 @@ rss: true
 <Update label="v0.12.17" description="May 26, 2022">
   ## バグ修正
 
-  * `protobuf >= 4` との非互換性を解消するために要件を更新。
+  * `protobuf >= 4` との非互換性を解消するため要件を更新。
 
   GitHub で [v0.12.17 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.12.17) を参照してください。
 </Update>
@@ -2334,37 +2334,37 @@ rss: true
 <Update label="v0.12.16" description="May 03, 2022">
   ## 機能強化
 
-  * notebook 環境で summary/history を揃えることで W&amp;B フッターを改善。
-  * Artifacts での実験的な history ステップのログ記録を有効化。
+  * ノートブック環境で summary/history を揃えることで W&amp;B フッターを改善。
+  * Artifacts での実験的な history ステップログ記録を有効化。
   * sweep 設定に `args_no_boolean_flags` マクロを追加。
   * `jax.bfloat.bfloat16` のログ記録サポートを追加。
-  * Table のサイズが制限を超えた場合に例外を送出するよう変更。
+  * Table のサイズが制限を超過した場合に例外を発生させるように変更。
   * wandb launch 向けに kaniko k8s ビルダーを追加。
   * wandb.init() のタイムアウト設定を追加。
-  * wandb launch で、指定された entrypoint が実行可能ファイルであると仮定しないよう変更。
-  * Jupyter 環境ではコマンド引数を収集しないよう変更。
+  * wandb launch で指定されたエントリーポイントを実行可能ファイルと仮定しないように変更。
+  * Jupyter 環境でコマンド引数を収集しないように変更。
   * TensorFlow/Keras の SavedModel 形式をサポート。
 
   ## バグ修正
 
   * Artifacts 参照でバージョン ID をサポートし、Windows での s3/gcs 参照を修正。
-  * wandb-service を使用した単一 run に対する複数回の finish のサポートを修正。
-  * wandb-service 使用時の重複したバックトレースを修正。
-  * ログインメッセージで表示される entity が誤っていた問題を修正。
-  * wandb-service 使用時に、`wandb.init` がセットアップ途中で中断された場合にハングする問題を修正。
-  * wandb-service 有効時にハングを避けるため、キーボード割り込みの処理を修正。
-  * wandb-service 使用時に非常に長い print 出力のコンソールログを修正。
-  * Launch の init config で壊れていた artifact 文字列を修正。
+  * wandb-service を使用した単一 run での複数 finish のサポートを修正。
+  * wandb-service 使用時のバックトレースの重複を修正。
+  * ログインメッセージに表示される誤った entity を修正。
+  * wandb-service 使用時に `wandb.init` のセットアップ途中で中断された場合のハングを修正。
+  * wandb-service 有効時にキーボード割り込み処理を修正し、ハングを回避。
+  * wandb-service 使用時の長い print 出力によるコンソールログの問題を修正。
+  * Launch の init config での破損した artifact 文字列を修正。
 
   ### クリーンアップ
 
   * wandb.log() の docstring のタイポを修正。
   * カスタムチャートコードをクリーンアップし、プロット関数に型アノテーションを追加。
-  * `wandb.init(settings=)` が `dict` パラメーターと同様に `Settings` オブジェクトを扱えるように改善。
-  * api.user() および api.users() における api.viewer へのドキュメント注記を追加。
-  * setup.py で、Python 3 以上のみをサポートしていることを明示。
+  * `wandb.init(settings=)` で `Settings` オブジェクトを `dict` パラメーターと同様に扱えるように改善。
+  * api.user() および api.users() での api.viewer に関するドキュメント注記を追加。
+  * setup.py で Python 3 以上のみ対応であることを明示。
   * DirWatcher に型アノテーションを追加。
-  * 正しい引数名を使用するように wandb.log() の docstring を改善。
+  * wandb.log() の docstring で正しい引数名を使用するように改善。
 
   GitHub で [v0.12.16 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.12.16) を参照してください。
 </Update>
@@ -2380,7 +2380,7 @@ rss: true
 <Update label="v0.12.14" description="2022年4月8日">
   ## バグ修正
 
-  * Artifacts で履歴の step を保存しないようにする回帰バグを修正。
+  * Artifacts での履歴 step の保存を無効にする回帰バグを修正。
 
   GitHub 上で [v0.12.14 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.12.14) を参照してください。
 </Update>
@@ -2396,11 +2396,11 @@ rss: true
 <Update label="v0.12.12" description="2022年4月5日">
   ## 機能強化
 
-  * `wandb-service` 使用時に run オブジェクトを他のプロセスに渡せるようにする。
+  * `wandb-service` を使用する際に run オブジェクトを他のプロセスに渡せるようにする。
   * Public API に `create user` を追加。
   * `wandb-service` による複数プロセスからのロギングをサポート。
   * CUDA 対応のローカル Launch runner 用に `gpus` フラグを追加。
-  * Launch のデプロイ用エージェントを改善。
+  * Launch のデプロイエージェントを改善。
   * Launch の Kubernetes インテグレーションを追加。
   * KFP: wandb visualization helper を追加。
   * KFP: Kubeflow UI へのリンクを追加。
@@ -2409,22 +2409,22 @@ rss: true
   ## バグ修正
 
   * host / `WANDB_BASE_URL` の検証を改善。
-  * 安全でない `tempfile` を修正。
-  * 指定された `WANDB_DIR` / `root_dir` に書き込みできない場合の過剰な warning span を修正。
+  * 不適切な `tempfile` を修正。
+  * 指定された `WANDB_DIR` / `root_dir` に書き込みできない場合の過剰な警告表示を修正。
   * 文字列の配列をプロットできるように `line_series` を修正。
-  * service 利用時のコマンドライン引数の処理を適切に行うよう修正。
+  * service を使用する際のコマンドライン引数の処理を適切に行うよう修正。
   * `api_key` の検証を改善。
-  * `defaultdict` を使用していなかったことに起因する複数のパフォーマンス問題を修正。
-  * Launch agent で無制限 (`inf`) の最大ジョブ数を有効化。
-  * Launch で動作するように Colab コマンドを修正。
+  * `defaultdict` を使用していなかったことによる複数のパフォーマンス問題を修正。
+  * Launch エージェントで無制限 (`inf`) の最大ジョブ数を有効化。
+  * Launch に対応するよう Colab コマンドを修正。
   * Config の docstring のタイポを修正。
-  * コード保存をポリシー化せず、従来のカスタムロジックを維持。
-  * service 使用時のシーケンス画像のロギングを修正。
-  * 複数 ユーザーの競合を防ぐために debug-cli ログファイルへ username を追加。
-  * wandb service / pytorch-lightning ユーザー向けの Python sweep エージェントを修正。
+  * コードの保存をポリシー化せず、従来のカスタムロジックを維持。
+  * service を使用する際のシーケンス画像のロギングを修正。
+  * 複数のユーザーの競合を防ぐため、debug-cli ログファイルにユーザー名を追加。
+  * wandb service / pytorch-lightning のユーザー向け Python sweep エージェントを修正。
   * 不要な Launch の要件チェックを削除。
-  * MoviePy の「Unclosed Writer」への回避策を追加。
-  * service が有効でない場合の run オブジェクトの扱いを改善。
+  * MoviePy の「Unclosed Writer」に対する回避策を追加。
+  * service が有効でない場合の run オブジェクトの処理を改善。
 
   GitHub 上で [v0.12.12 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.12.12) を参照してください。
 </Update>
@@ -2438,25 +2438,25 @@ rss: true
   * Launch: repo2docker を削除し、GPU サポートを追加。
   * Weave 向けに Python からの Timestamp 推論を追加。
   * Launch: GCP Vertex インテグレーション。
-  * run config に含めた場合に Artifacts を使用。run config 内で Artifacts を表す文字列を受け付けるようにする。
+  * run config に Artifacts を含める場合に使用。run config 内でアーティファクトを表す文字列を受け付けるようにする。
   * xgboost の `wandb_callback` を改善 (#2929)。
-  * 初期的な Kubeflow Pipeline サポートを追加。
+  * 初期の Kubeflow Pipeline サポートを追加。
 
   ## バグ修正
 
-  * key に特殊文字が含まれる画像のロギングを修正。
+  * key に特殊文字を含む画像のロギングを修正。
   * Azure Blob アップロードのリトライロジックを修正。
   * Python モジュールとして実行されたスクリプトの `program` フィールドを修正。
-  * `sync_tensorboard` が大きなヒストグラムで異常終了する可能性を修正。
+  * `sync_tensorboard` が大きなヒストグラムで異常終了する問題を修正。
   * run 終了時の wandb service のパフォーマンス問題を修正。
   * `gql` と `graphql` のベンダリングを修正。
-  * service 使用時に `finish` せずにログデータをフラッシュ。
-  * service がクラッシュした際に wandb service がハングする問題を修正。
-  * Windows 上で `"/"` を含む画像をロギングする際の問題を修正。
-  * 画像/分割メディアに画像ファイル名を追加。
+  * service を使用する際に `finish` なしでログデータをフラッシュするように修正。
+  * service がクラッシュした場合に wandb service がハングする問題を修正。
+  * Windows で `"/"` を含む画像のロギングに関する問題を修正。
+  * 画像/分離メディアに画像ファイル名を追加。
   * `requirements.txt` に `setproctitle` を追加。
-  * SageMaker run ID が run キューを壊す問題を修正。
-  * `%%capture` マジック使用時のエンコード例外を修正。
+  * sagemaker run ID が run キューを破損する問題を修正。
+  * `%%capture` マジックを使用した際のエンコード例外を修正。
 
   GitHub 上で [v0.12.11 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.12.11) を参照してください。
 </Update>
@@ -2464,17 +2464,17 @@ rss: true
 <Update label="v0.12.10" description="2022年2月1日">
   ## 機能強化
 
-  * DataFrame から無効なカラムを含む Tables を作成する際の検証を改善。
-  * `use_artifact()` 呼び出しで digest の重複排除を有効化。
-  * Azure Blob ストレージへのアップロードサポートの初期プロトタイプを追加。
+  * DataFrame から無効な列を含む Tables を作成する際の検証を改善。
+  * `use_artifact()` の呼び出しでダイジェストの重複排除を有効化。
+  * Azure Blob アップロードのサポートの初期プロトタイプを追加。
 
   ## バグ修正
 
   * Python の開発版を使用した wandb launch の問題を修正。
-  * 型が混在したテーブルの読み込みを修正。
+  * 混在型のテーブルを保存した場合の読み込みを修正。
   * wandb.log を呼び出した際の ResourceWarning を修正。
   * ProjectArtifactCollections でカーソルが欠落する問題を修正。
-  * Windows におけるテーブルロギングクラスの問題を修正。
+  * Windows でのテーブルログクラスの問題を修正。
   * wandb.sklearn.plot.classifier.calibration&#95;curve で文字列ラベルを適切に処理。
   * wandb.sweep() を呼び出した際にログイン警告を表示しないように変更。
 
@@ -2497,25 +2497,25 @@ rss: true
 <Update label="v0.12.8" description="2021年12月16日">
   ## 機能強化
 
-  * contributing ガイドと開発環境セットアップツールを更新。
+  * 貢献ガイドと開発環境セットアップツールを更新。
   * LightGBM 向けの `wandb_callback` を改善 (#2945)。
 
   ## バグ修正
 
   * モデルの重みのヒストグラム生成時の GPU メモリ使用量を削減。
-  * バウンディングボックスおよび画像マスクのアノテーションレイヤーで、クラスが混在するケースをサポート。
-  * max-jobs と launch async 引数を追加。
+  * バウンディングボックスおよび画像マスクのアノテーションレイヤーで混在クラスをサポート。
+  * max-jobs と launch async の引数を追加。
   * 文字列としてエンコードされた Summary オブジェクトのリストを wandb.tensorboard.log でサポート。
-  * 次元数 0 の np 配列の処理を修正。
+  * 0 次元 np 配列の処理を修正。
   * 空のデフォルト設定ファイルの処理を修正。
-  * ソケットを使用したサービスバックエンドを追加 (fork をサポート)。
-  * git リポジトリ送信時に、URL とともに git ポートを送信。
-  * Launch 向けに生の IP アドレスのサポートを追加。
-  * Tables が 1 次元 NDArray をシリアライズして隠さないように修正。
-  * S3 ストアへの Artifacts ファイルアップロードを修正。
-  * ファイルストリームのハートビート時にアップロード済みファイルのリストを送信。
-  * Keras の experimental layers のサポートを追加。
-  * `from wandb import magic` が TensorFlow を必須としないように修正。
+  * ソケットを使用したサービスバックエンドを追加 (fork 対応)。
+  * git リポジトリ送信時に URL とともに git ポートを送信。
+  * Launch で生の IP アドレスをサポート。
+  * Tables が 1 次元 NDArray をシリアライズして非表示にしないよう修正。
+  * S3 ストアへの Artifacts ファイルのアップロードを修正。
+  * ファイルストリームのハートビート時にアップロード済みファイルリストを送信。
+  * Keras の experimental layers をサポート。
+  * `from wandb import magic` が TensorFlow を必須としないよう修正。
   * Launch の権限エラーを修正。
 
   GitHub 上の [v0.12.8 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.12.8) を参照してください。
@@ -2524,30 +2524,30 @@ rss: true
 <Update label="v0.12.7" description="2021年11月18日">
   ## バグ修正
 
-  * コンソールログストリーミングが過剰なネットワークトラフィックを引き起こしていた問題を修正。
-  * Metaflow: オプション依存関係を実際にオプション扱いに変更。
-  * wandb.watch および ValidationDataLogger のドキュストリングを修正。
-  * Launch agent が run を別の project や entity に送信しないように修正。
-  * tensorboard 経由での pr&#95;curves ログ出力を修正。
-  * 利用できない場合に、TPU 監視が無効なメトリクスを報告しないように修正。
+  * コンソールログストリーミングによる過剰なネットワークトラフィックの問題を修正。
+  * Metaflow: オプション依存関係を実際にオプションに。
+  * wandb.watch および ValidationDataLogger のドキュメント文字列を修正。
+  * Launch エージェントが run を別のプロジェクトやエンティティに送信しないよう修正。
+  * TensorBoard 経由での PR カーブのログ出力を修正。
+  * 利用できない場合に TPU 監視が無効なメトリクスを報告しないよう修正。
   * WandbCallback の import 順序依存関係をより堅牢に。
-  * 形状の異なる行列を扱えるように、特徴量重要度プロットのバグを修正。
-  * 末尾に / を許可するよう base URL の処理を修正。
-  * wandb.agent() がレート制限に影響するほど多くのハートビートを送信しないように修正。
+  * 特徴量重要度プロットのバグを修正し、形状の異なる行列を扱えるように。
+  * base URL の処理を修正し、末尾の / を許可。
+  * wandb.agent() がレート制限に影響するほど多くのハートビートを送信しないよう修正。
   * デバッグログから機密情報をマスク。
 
   ## 機能強化
 
-  * rdkit がサポートするフォーマット向けに wandb.Molecule のサポートを追加。
-  * リファレンスドキュメントモジュール向けにモジュールレベルのドキュストリングを追加。
+  * rdkit 対応フォーマット向けに wandb.Molecule のサポートを追加。
+  * リファレンスドキュメントモジュールにモジュールレベルのドキュメント文字列を追加。
   * Launch メタデータをファイルに保存。
-  * プロジェクト内のすべての sweeps を表示するための公開 API 呼び出し Project.sweeps() を追加。
-  * ユーザーが何も入力しなかった場合でも、API キー プロンプトがフォアグラウンドのままになるように変更。
+  * プロジェクト内のすべての Sweeps を表示する公開 API 呼び出し Project.sweeps() を追加。
+  * ユーザーが何も入力しなかった場合でも API キー プロンプトを維持。
   * wandb.sklearn をサブモジュールにリファクタリング。
   * wandb launch でコード Artifacts をサポート。
-  * Launch agent を改善 (非同期、停止、ハートビートの更新)。
-  * 匿名モードの使用方法およびエラーメッセージを改善。
-  * 正規表現にマッチする wandb.Api().runs(...) による runs の検索方法の例を追加。
+  * Launch エージェントを改善 (非同期、停止、ハートビート更新)。
+  * 匿名モードの使用方法とエラーメッセージを改善。
+  * wandb.Api().runs(...) で正規表現に一致する Runs を検索する例を追加。
 
   GitHub 上の [v0.12.7 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.12.7) を参照してください。
 </Update>
@@ -2555,13 +2555,13 @@ rss: true
 <Update label="v0.12.6" description="2021年10月27日">
   ## バグ修正
 
-  * 提供されたモデルを壊していた sklearn の `plot_calibration_curve()` の問題を修正。
-  * stderr をリダイレクトすることで CondaEnvExportError を修正。
-  * 別のプロジェクトからの Artifacts を指定した場合の `use_artifact()` を修正。
+  * sklearn の `plot_calibration_curve()` が提供モデルを破損させる問題を修正。
+  * stderr をリダイレクトして CondaEnvExportError を修正。
+  * 別のプロジェクトの Artifacts を指定した場合の `use_artifact()` を修正。
 
   ## 機能強化
 
-  * TensorBoard の pr curve チャートにメトリクス名を追加。
+  * TensorBoard の PR カーブチャートにメトリクス名を追加。
 
   GitHub 上の [v0.12.6 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.12.6) を参照してください。
 </Update>
@@ -2569,91 +2569,91 @@ rss: true
 <Update label="v0.12.5" description="2021年10月19日">
   ## バグ修正
 
-  * Windows でログに記録されたメディアキーに無効な文字が含まれている場合にエラーを報告するようにしました。
-  * サポートされていない環境で TPU を検出しようとしたときのエラーを処理するようにしました。
-  * `%%wandb` の後に wandb.init() を実行したときに run のリンクが表示されないバグを修正しました。
-  * 現在の entity/project のすべての run を正しく返すように `api.runs()` を修正しました。
+  * Windows上でログされたメディアキー内の無効な文字に対してエラーを報告するようにしました。
+  * サポートされていない環境でのTPU検出時のエラーを処理するようにしました。
+  * `%%wandb` の後に wandb.init() を実行した場合にrunリンクが表示されないバグを修正しました。
+  * 現在のentity/projectのすべてのrunを正しく返すようにapi.runs()を修正しました。
 
   ## 機能強化
 
-  * マルチプロセッシングのサポートを改善するために `wandb.require(experiment="service")` を追加しました。
-  * Launch コンテキストでスワップ可能な Artifacts をサポートしました。
-  * Jupyter 環境向けに `wandb.login(timeout=)` のサポートを追加しました。
-  * `WANDB_DISABLE_GIT` によって Git の ref 保存を無効化できるようにしました。
-  * pytest-mock および PyYAML の新しいバージョンをサポートしました。
-  * エイリアス付きの Artifacts を削除できるようにしました: `artifact.delete(delete_aliases=True)`。
-  * Run オブジェクトに `unwatch()` メソッドを追加しました。
+  * マルチプロセッシングのサポートを強化するため、`wandb.require(experiment="service")`を追加しました。
+  * Launchコンテキストでの交換可能Artifactsのサポートを追加しました。
+  * Jupyter環境向けに`wandb.login(timeout=)`のサポートを追加しました。
+  * `WANDB_DISABLE_GIT`を使用してGit refの保存を無効にできるようにしました。
+  * pytest-mockおよびPyYAMLの新しいバージョンをサポートしました。
+  * エイリアス付きArtifactsの削除機能: `artifact.delete(delete_aliases=True)`を追加しました。
+  * Runオブジェクトに`unwatch()`メソッドを追加しました。
 
-  GitHub で [v0.12.5 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.5) を参照してください。
+  GitHubで[v0.12.5のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.5)を参照してください。
 </Update>
 
 <Update label="v0.12.4" description="2021年10月5日">
   ## バグ修正
 
-  * `WANDB_MODE=offline` 設定時にネットワークアクセスが発生する、0.12.2 で導入されたリグレッションを修正しました。
+  * `WANDB_MODE=offline`時にネットワークアクセスが発生する0.12.2で導入されたリグレッションを修正しました。
 
-  GitHub で [v0.12.4 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.4) を参照してください。
+  GitHubで[v0.12.4のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.4)を参照してください。
 </Update>
 
 <Update label="v0.12.3" description="2021年9月30日">
   ## バグ修正
 
-  * ローカルコントローラにおけるグリッドサーチの停止条件を修正しました。
+  * ローカルコントローラーでのグリッドサーチの停止条件を修正しました。
 
   ## 機能強化
 
-  * run、sweep、プロジェクトを表示するための新しい Jupyter マジック `%wandb path/to/run -h 1024` を追加しました。
-  * Jupyter ではデフォルトで run の iframe を表示しないようにし、セルに `%%wandb` を追加した場合に run を表示するようにしました。
-  * 不正な入力があった場合、API キーの入力プロンプトが無制限にリトライするようにしました。
-  * API 経由で Teams にユーザーを招待できるようにしました: `api.team("team_name").invite("username_or_email")`。
-  * API 経由でチームからユーザーを削除できるようにしました: `api.team("team_name").members[0].delete()`。
-  * API 経由でサービスアカウントを作成できるようにしました: `api.team("team_name").create_service_account("Description")`。
-  * API 経由で API キーを管理できるようにしました: `api.user("username_or_email").generate_api_key()`。
-  * `wandb.profiler.torch_trace_handler()` による PyTorch プロファイリングトレースのサポートを追加しました。
+  * run、スイープ、プロジェクトを表示する新しいJupyterマジック`%wandb path/to/run -h 1024`を追加しました。
+  * Jupyterではデフォルトでrunのiframeを表示せず、セルに`%%wandb`を追加することでrunを表示するようにしました。
+  * 入力が不正な場合にAPIキーのプロンプトを無制限に再試行するようにしました。
+  * API経由でTeamsにユーザーを招待可能: `api.team("team_name").invite("username_or_email")`。
+  * API経由でチームからユーザーを削除可能: `api.team("team_name").members[0].delete()`。
+  * API経由でサービスアカウントを作成可能: `api.team("team_name").create_service_account("Description")`。
+  * API経由でAPIキーを管理可能: `api.user("username_or_email").generate_api_key()`。
+  * `wandb.profiler.torch_trace_handler()`によるPyTorchプロファイリングトレースのサポートを追加しました。
 
-  GitHub で [v0.12.3 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.3) を参照してください。
+  GitHubで[v0.12.3のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.3)を参照してください。
 </Update>
 
 <Update label="v0.12.2" description="2021年9月15日">
   ## バグ修正
 
-  * 一時的な SageMaker の tfevents ファイルを扱えるように tensorboard&#95;sync を修正しました。
-  * パブリック API からの Reports のクエリ（ページネーションとレポートパスの不具合）を修正しました。
-  * 再ログインが指定された場合に `wandb.login()` が正しく動作するように修正しました（ログインを 1 回だけ強制するようにしました）。
+  * 一時的なSageMakerのtfeventsファイルを扱えるようtensorboard&#95;syncを修正しました。
+  * パブリックAPIからのReportsクエリ (ページネーションとレポートパスの問題) を修正しました。
+  * 再ログイン指定時の`wandb.login()`を修正 (ログインを1回だけ強制) 。
 
   ## 機能強化
 
-  * summary と history メトリクスのフッター出力を整理しました。
-  * `wandb sweep --update` のエラーメッセージを整理しました。
-  * `wandb local` ユーザーに対して Docker を更新するよう警告を追加しました。
-  * `wandb.sklearn.plot_classifier()` にオプション引数 log&#95;learning&#95;curve を追加しました。
-  * `wandb launch` 使用時に固定された pip パッケージバージョンを復元するようにしました。
-  * Launch で Jupyter Notebook をサポートしました。
-  * `wandb.login()` に timeout オプションを追加しました。
+  * summaryおよびhistoryメトリクスのフッター出力を整理しました。
+  * `wandb sweep --update`のエラーメッセージを整理しました。
+  * `wandb local`ユーザー向けにDocker更新の警告を追加しました。
+  * `wandb.sklearn.plot_classifier()`にlog&#95;learning&#95;curveのオプション引数を追加しました。
+  * `wandb launch`使用時に固定pipパッケージバージョンを復元するようにしました。
+  * LaunchでのJupyter Notebookサポートを追加しました。
+  * `wandb.login()`にtimeoutオプションを追加しました。
 
-  GitHub で [v0.12.2 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.2) を参照してください。
+  GitHubで[v0.12.2のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.2)を参照してください。
 </Update>
 
 <Update label="v0.12.1" description="2021年8月26日">
   ## バグ修正
 
-  * TensorFlow/Keras 2.6 が検証用サンプルをログに記録しない問題を修正しました。
-  * TensorBoard 経由でログされたメトリクスが x 軸に時間をサポートしない問題を修正しました。
-  * `WANDB_IGNORE_GLOBS` 環境変数の扱いを修正しました。
-  * sys.stdout がカスタムロガーに設定されている場合の処理を修正しました。
-  * sklearn の特徴量重要度プロットが特徴量名と正しく対応しない問題を修正しました。
-  * Colab の URL が取得されていなかった問題を修正しました。
-  * run の実行可能ファイルがカレントディレクトリ外にある場合でも、プログラムのコマンドラインを保存するようにしました。
+  * TensorFlow/Keras 2.6での検証サンプルのログ記録問題を修正しました。
+  * TensorBoard経由のログメトリクスでx軸の時間サポート問題を修正しました。
+  * `WANDB_IGNORE_GLOBS`環境変数の処理を修正しました。
+  * sys.stdoutがカスタムロガーに設定されている場合の処理を修正しました。
+  * sklearnの特徴量重要度プロットでの特徴量名対応問題を修正しました。
+  * Colab URLの取得問題を修正しました。
+  * run実行ファイルがカレントディレクトリ外の場合でもプログラムコマンドラインを保存するようにしました。
 
   ## 機能強化
 
-  * Prodigy インテグレーションを追加し、アノテーション済みデータセットを W&amp;B Tables にアップロードできるようにしました。
-  * 初期的な Metaflow サポートを追加しました。
-  * 実験的な wandb launch のサポートを追加しました。
-  * パブリック API リクエストがタイムアウトしていることを警告し、上書きできるようにしました。
-  * ローカルコントローラの sweeps エンジンのエラーハンドリングを改善しました。
+  * Prodigyインテグレーションを追加し、アノテーション済みデータセットをW&amp;B Tablesにアップロード可能にしました。
+  * 初期Metaflowサポートを追加しました。
+  * 実験的なwandb launchサポートを追加しました。
+  * パブリックAPIリクエストのタイムアウト警告を追加し、上書き可能にしました。
+  * ローカルコントローラーのsweepsエンジンのエラーハンドリングを改善しました。
 
-  GitHub で [v0.12.1 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.1) を参照してください。
+  GitHubで[v0.12.1のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.12.1)を参照してください。
 </Update>
 
 <Update label="v0.12.0" description="2021年8月10日">
@@ -2663,8 +2663,8 @@ rss: true
 
   ## バグ修正
 
-  * Artifacts ファイルが変更されている場合に Artifacts のアップロードが失敗する可能性がある問題を修正。
-  * `wandb.restore()` が sweep からの run で動作しなかった問題を修正。
+  * アーティファクトのファイルが変更されている場合にアーティファクトのアップロードが失敗する可能性があった問題を修正。
+  * sweep 由来の run で `wandb.restore()` が動作しなかった問題を修正。
 
   ## 機能強化
 
@@ -2676,7 +2676,7 @@ rss: true
 <Update label="v0.11.2" description="2021年8月2日">
   ## バグ修正
 
-  * ネットワークのリグレッションが発生したため、vendored graphql-core ライブラリを復元。
+  * ネットワークの回帰問題のため、ベンダリングされた graphql-core ライブラリを復元。
 
   GitHub で [v0.11.2 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.11.2) を参照してください。
 </Update>
@@ -2688,7 +2688,7 @@ rss: true
 
   ## バグ修正
 
-  * Tables 内の画像のメモリ使用量を削減。
+  * テーブル内の画像のメモリ使用量を削減。
   * graphql-core&gt;=2.3.0 への依存関係を追加。
   * 競合を避けるため urllib3 のピン留めを削除。urllib3 関連のエラーが表示される場合は `pip install --upgrade urllib3` を実行してください。
   * Public API の HTTP エラーメッセージを改善。
@@ -2696,10 +2696,10 @@ rss: true
 
   ## 機能強化
 
-  * ネイティブな JAX 配列のロギング サポートを追加。
-  * Tables で Molecule データ型をサポート。
-  * Stable-Baselines3 API を改善し、モデル名を自動でログし、トレーニング終了時に常にモデルをアップロード。
-  * wandb/sweeps を使用して sweep ローカル コントローラーを実装。
+  * ネイティブ JAX 配列のログ機能を追加。
+  * テーブルで Molecule データ型をサポート。
+  * Stable-Baselines3 API を改善し、モデル名を自動でログし、トレーニング終了時にモデルをアップロードするように。
+  * wandb/sweeps を使用した sweep のローカルコントローラーを実装。
 
   GitHub で [v0.11.1 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.11.1) を参照してください。
 </Update>
@@ -2711,17 +2711,17 @@ rss: true
 
   ## バグ修正
 
-  * `wandb.watch()` が PyTorch でのモデル保存を壊していた問題を修正。
-  * 一様 sweep パラメーターが int&#95;uniform としてパースされていた問題を修正。
-  * file&#95;stream スレッドが 4xx エラーで kill されていた問題を修正。
+  * `wandb.watch()` が PyTorch でのモデル保存を妨げていた問題を修正。
+  * 一様分布の sweep パラメーターが int&#95;uniform として解析されていた問題を修正。
+  * file&#95;stream スレッドが 4xx エラーで終了させられていた問題を修正。
 
   ## 機能強化
 
-  * Artifacts のロギングをノンブロッキングにすることでパフォーマンスを改善。
-  * Stable-Baselines3 用の wandb インテグレーションを追加。
-  * Keras コールバックの検証ロギング推論ロジックを改善。
+  * アーティファクトのロギングを非ブロッキング化することでパフォーマンスを改善。
+  * Stable-Baselines3 向けの wandb インテグレーションを追加。
+  * Keras コールバックの検証ログの推論ロジックを改善。
   * Public API 経由で sweep の状態を公開。
-  * API 経由での sweep run 取得のパフォーマンスを改善。
+  * API 経由の sweep run 取得のパフォーマンスを改善。
 
   GitHub で [v0.11.0 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.11.0) を参照してください。
 </Update>
@@ -2729,18 +2729,18 @@ rss: true
 <Update label="v0.10.33" description="2021年6月28日">
   ## バグ修正
 
-  * run に diff.patch ファイルがない場合に wandb restore が 404 を返していた問題を修正。
-  * pandas データフレームをログしようとした後に wandb.log が Exception を送出していた問題を修正。
-  * ファイルのアップロード完了前に run が完了済みとしてマークされる可能性があった問題を修正。
+  * run に diff.patch ファイルがない場合に `wandb restore` が 404 エラーを返していた問題を修正。
+  * pandas データフレームをログしようとした後に `wandb.log` が例外を発生させていた問題を修正。
+  * ファイルのアップロードが完了する前に run が完了としてマークされる可能性があった問題を修正。
 
   ## 機能強化
 
-  * 再開した run で、コマンドなどの run メタデータの再読み込みを無効化。
-  * pandas データフレームを自動的に W&amp;B Tables に変換してログできるように。
-  * `.wandb` ディレクトリを扱えるように `log_code()` の exclude 関数を修正。
-  * PyTorch モデルのトポロジーの扱いを改善。
-  * W&amp;B バックエンドへの負荷を減らすために config のデバウンス間隔を 30 秒に増加。
-  * 名前、プログラム、設定を持つ sweep を生成する際の CLI の信頼性を改善。
+  * 再開 run でのコマンドなどのメタデータの再読み込みを無効に。
+  * pandas データフレームを自動的に W&amp;B テーブルに変換してログ可能に。
+  * `log_code()` の exclude 関数を修正し、.wandb ディレクトリを扱えるように。
+  * PyTorch モデルのトポロジー処理を改善。
+  * W&amp;B バックエンドの負荷を軽減するため、設定のデバウンス間隔を 30 秒に延長。
+  * 名前、プログラム、設定を含む sweep 生成時の CLI の信頼性を改善。
 
   GitHub で [v0.10.33 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.33) を参照してください。
 </Update>
@@ -2748,20 +2748,20 @@ rss: true
 <Update label="v0.10.32" description="2021年6月10日">
   ## バグ修正
 
-  * `log_artifact()` をネットワーク エラーに対してより堅牢に。
-  * 重複した Artifacts 依存関係を削除。
-  * Windows 上の urlib3 の問題に対するワークアラウンドを追加。
-  * ipython がハングしていたリグレッションを修正。
-  * numpy の高精度浮動小数点値のロギングを許可。
-  * ファイル バックエンドのメディアまたは Artifacts オブジェクトの衝突の可能性を低減。
-  * PyTorch のグラフをロギングする際の `wandb.watch()` のリグレッションを修正。
+  * ネットワークエラーに対して `log_artifact()` をより堅牢に。
+  * 重複したアーティファクト依存関係を削除。
+  * Windows 上の urllib3 問題に対する回避策を追加。
+  * IPython がハングするリグレッションを修正。
+  * NumPy の高精度浮動小数点値のロギングを許可。
+  * ファイルベースのメディアまたはアーティファクトオブジェクトの衝突可能性を低減。
+  * PyTorch グラフのロギング時の `wandb.watch()` のリグレッションを修正。
 
   ## 機能強化
 
-  * 結合および分割されたテーブルのロギングをサポート。
-  * sweep config に対するスキーマ検証の警告を処理。
-  * エラー処理を改善するために wandb sync を改善。
-  * wandb を使用するスクリプトおよびリポジトリにラベル付けできる機能を追加。
+  * 結合および分割テーブルのロギングをサポート。
+  * sweep 設定に対するスキーマ検証警告の処理を改善。
+  * wandb sync のエラー処理を改善。
+  * wandb を使用するスクリプトおよびリポジトリへのラベル付け機能を追加。
 
   GitHub で [v0.10.32 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.32) を参照してください。
 </Update>
@@ -2771,17 +2771,17 @@ rss: true
 
   * `Wandb.login()` が host パラメーターを正しく永続化していませんでした。
   * tensorboard ディレクトリを同期する際に、step 情報が正しく同期されない問題を修正しました。
-  * Python 2.7 におけるいくつかの unicode の問題を修正しました。
+  * Python 2.7 におけるいくつかの Unicode の問題を修正しました。
   * ComplementNB 向けの `plot_calibration_curve` のバグを修正しました。
   * 一部の Linux システムで SendFile を使用しないフォールバック処理を追加しました。
   * コンソールで行が途中で切り捨てられてしまう問題を修正しました。
-  * コンソールロギングがブロックされてしまう可能性があるコンソール関連の問題を修正しました。
+  * コンソールロギングがブロックされる可能性のあるコンソール関連の問題を修正しました。
 
-  ## 機能改善
+  ## 機能強化
 
-  * preemptible sweep をサポートしました。
+  * プリエンプト可能な sweeps をサポートしました。
   * sweep を制御するためのコマンドラインを追加しました。
-  * Artifacts コレクションのプロパティを読み込む機能を追加しました。
+  * アーティファクト コレクションのプロパティを読み込む機能を追加しました。
 
   GitHub 上の [v0.10.31 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.31) を参照してください。
 </Update>
@@ -2791,16 +2791,16 @@ rss: true
 
   * 障害発生時に runs がクラッシュ扱いにされてしまう原因となっていた残りの問題を特定して修正しました。
   * `define_metric`、pytorch-lightning、および頻繁な config 保存を行うユーザー向けにパフォーマンスを改善しました。
-  * cuda テンソルを config や summary にログしようとした際の問題を修正しました。
+  * config や summary に cuda テンソルをログしようとした際の問題を修正しました。
   * グラフを計算する際に torch の `backward_hooks` への依存を削除しました。
   * sagemaker 上で runs を再開できない問題を修正しました。
   * pdb が wandb と併用した際に安定して動作しない問題を修正しました。
-  * ベンダーライブラリ内の非推奨警告を修正しました（ユーザーからの投稿）。
+  * ベンダーライブラリ内の非推奨警告を修正しました (ユーザーからの投稿) 。
   * ライブラリが誤ってログをコンソールに出力していたロギング動作を修正しました。
   * disabled モードで wandb ディレクトリとログファイルを作成しないように修正しました。
   * Tables のリリース準備のために型名を変更しました。
 
-  ## 機能改善
+  ## 機能強化
 
   * public API でグループ名を変更できるようにしました。
 
@@ -2810,7 +2810,7 @@ rss: true
 <Update label="v0.10.29" description="2021年5月3日">
   ## バグ修正
 
-  * ネットワーク処理のさらなる問題を修正し、runs がクラッシュ扱いにされてしまう事象を解消しました（`wandb sync` で復旧可能）。
+  * ネットワーク処理のさらなる問題を修正し、runs がクラッシュ扱いにされてしまう事象を解消しました (`wandb sync` で復旧可能) 。
   * クラッシュしたプロセスのレポートとログを改善するために、ロギングと例外処理を改善しました。
 
   GitHub 上の [v0.10.29 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.29) を参照してください。
@@ -2819,15 +2819,15 @@ rss: true
 <Update label="v0.10.28" description="2021年4月28日">
   ## バグ修正
 
-  * ネットワーク処理の問題を修正し、runs がクラッシュ扱いにされてしまう事象を解消しました（`wandb sync` で復旧可能）。
+  * ネットワーク処理の問題を修正し、runs がクラッシュ扱いにされてしまう事象を解消しました (`wandb sync` で復旧可能) 。
   * Dict 出力を持つモデルをサポートするために `register_full_backward_hook` を使用するようにしました。
-  * テーブルのカラム名にピリオドを使用できるようにしました。
-  * fork されたプロセス使用時に発生する Artifacts キャッシュの衝突を修正しました。
+  * テーブルの列名にピリオドを使用できるようにしました。
+  * fork されたプロセス使用時に発生するアーティファクト キャッシュの衝突を修正しました。
   * pytorch-lightning 使用時にカスタムチャートが正しく表示されない問題を修正しました。
 
-  ## 機能改善
+  ## 機能強化
 
-  * 実験的なインクリメンタル Artifacts サポートを追加しました。
+  * 実験的な段階的アーティファクト サポートを追加しました。
   * ログがレート制限されている場合の警告メッセージを改善しました。
 
   GitHub 上の [v0.10.28 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.28) を参照してください。
@@ -2836,14 +2836,14 @@ rss: true
 <Update label="v0.10.27" description="2021年4月19日">
   ## バグ修正
 
-  * 短い run の終了時に metrics がドロップされてしまう `tensorboard_sync` の条件を修正しました。
+  * 短い run の終了時にメトリクスがドロップされてしまう `tensorboard_sync` の条件を修正しました。
   * tensorboard ファイルが検出された際の `wandb sync` の動作を修正しました。
-  * Databricks ノートブックにおける API キー プロンプトを修正しました。
+  * Databricks ノートブックにおける APIキー プロンプトを修正しました。
 
-  ## 機能改善
+  ## 機能強化
 
   * DSViz を Keras WandbCallback に統合しました。
-  * conda 依存関係のサポートを追加しました（ユーザーからの投稿）。
+  * conda 依存関係のサポートを追加しました (ユーザーからの投稿) 。
 
   GitHub 上の [v0.10.27 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.27) を参照してください。
 </Update>
@@ -2851,12 +2851,12 @@ rss: true
 <Update label="v0.10.26" description="2021年4月13日">
   ## バグ修正
 
-  * ネットワーク処理の問題により同期が停止してしまう事象を修正しました（復旧には `wandb sync` を使用してください）。
+  * ネットワーク処理の問題により同期が停止してしまう事象を修正しました (復旧には `wandb sync` を使用してください) 。
   * sagemaker と hugginface のインテグレーションを同時に使用した際の認証問題を修正しました。
   * float 以外を含むテーブルにおける NaN 値の扱いを修正しました。
   * モジュール読み込み時の不要なファイルアクセスを防ぐために、API オブジェクトの読み込みを遅延させました。
 
-  ## 機能改善
+  ## 機能強化
 
   * public API の history アクセサーを使用した際のエラーメッセージを改善しました。
 
@@ -2866,12 +2866,12 @@ rss: true
 <Update label="v0.10.25" description="2021年4月5日">
   ## バグ修正
 
-  * 並列 Artifacts 読み取りを使用している場合に発生する可能性があった Artifacts キャッシュの競合を修正。
-  * `checksum=False` のときの Artifacts 参照を修正。
+  * 並列 Artifacts 読み取り時に発生する可能性のあった Artifacts キャッシュの競合状態を修正。
+  * `checksum=False` の場合の Artifacts 参照を修正。
 
   ## 機能強化
 
-  * カスタム x 軸などを簡素化するために `run.define_metric()` をリリース。
+  * カスタム x 軸の定義などを簡素化する `run.define_metric()` を追加。
   * `wandb.Table()` に列オペレーター `add_column`、`get_column`、`get_index` を追加。
 
   [v0.10.25 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.25) を GitHub でご覧ください。
@@ -2880,13 +2880,13 @@ rss: true
 <Update label="v0.10.24" description="2021年3月30日">
   ## バグ修正
 
-  * stdout/stderr コンソールロギングに対する大幅な修正。
-  * policy=`live` でファイルを保存する際に、過剰なネットワーク通信が発生しないように防止。
-  * 大きな更新を送信しようとしたときのエラーを修正（主に `wandb sync` 使用時に発生）。
+  * stdout/stderr コンソールロギングに関する重大な修正を実施。
+  * policy=`live` でファイルを保存する際の過剰なネットワーク通信を防止。
+  * 大きな更新を送信しようとした際のエラーを修正 (主に `wandb sync` で発生) 。
 
   ## 機能強化
 
-  * ログされたテーブルに対して、自動的に `run_table` Artifacts を生成。
+  * ログされたテーブルに対して `run_table` Artifacts を自動生成。
   * Artifacts にブラケット記法を追加。
   * `wandb login` でサーバー URL を指定する際の URL 検証を改善。
 
@@ -2896,18 +2896,18 @@ rss: true
 <Update label="v0.10.23" description="2021年3月22日">
   ## バグ修正
 
-  * ログされた Artifacts が wait() 後にもアクセス可能になるように修正。
+  * wait() 後にログされた Artifacts がアクセス可能になるよう修正。
   * spell.run インテグレーションを修正。
-  * キャリッジリターンを含むコンソールログ同期のパフォーマンスを修正。
+  * キャリッジリターン付きコンソールログの同期に関するパフォーマンスを改善。
   * クラス名およびラベルなしデータを含む混同行列を修正。
 
   ## 機能強化
 
-  * run を作成せずに Artifacts を保存できる機能を追加。
+  * run を作成せずに Artifacts を保存する機能を追加。
   * wandb.Table に Foreign Table References を追加。
-  * 同じランタイムオブジェクトを複数の Artifacts にログできるように対応。
+  * 同じランタイムオブジェクトを複数の Artifacts にログ可能に。
   * 実験的な `run._define_metric()` サポートを追加。
-  * サポートされていないマルチプロセスの `wandb.log()` 呼び出しについて、警告して無視するように変更。
+  * サポート外のマルチプロセス `wandb.log()` 呼び出しを警告して無視。
 
   [v0.10.23 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.23) を GitHub でご覧ください。
 </Update>
@@ -2915,15 +2915,15 @@ rss: true
 <Update label="v0.10.22" description="2021年3月9日">
   ## バグ修正
 
-  * 0.10.x におけるシステムメトリクスのロギングレートを修正。
+  * 0.10.x でのシステムメトリクスのロギングレートを修正。
   * Audio の外部参照に関する問題を修正。
-  * `tensorboard_sync` での短い run を修正。
+  * tensorboard&#95;sync を使用した短い run を修正。
   * sweep 実行時に `wandb.init(id=)` を無視。
   * 必要に応じて Artifacts メタデータをサニタイズ。
 
   ## 機能強化
 
-  * `wandb sync --sync-tensorboard` を使用した tfevents の同期を許可。
+  * `wandb sync --sync-tensorboard` を使用した tfevents の同期を可能に。
 
   [v0.10.22 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.22) を GitHub でご覧ください。
 </Update>
@@ -2931,16 +2931,16 @@ rss: true
 <Update label="v0.10.21" description="2021年3月2日">
   ## バグ修正
 
-  * 0.10.18 以降の `artifact.get()` のリグレッションを修正。
+  * 0.10.18 以降の `artifact.get()` リグレッションを修正。
   * 0 バイトの Artifacts を許可。
-  * コード保存およびプログラム名のレポートを修正。
+  * コード保存およびプログラム名レポートを修正。
 
   ## 機能強化
 
   * `wandb.Object3D()` に glb ファイルのサポートを追加。
   * `wandb.Audio()` に外部参照のサポートを追加。
-  * カスタムチャートで tensorboard の `pr_curves` プラグインをサポート。
-  * コードディレクトリ全体を 1 つの Artifacts として保存できるようサポート。
+  * カスタムチャートで TensorBoard の `pr_curves` プラグインをサポート。
+  * Artifacts にコードディレクトリ全体を保存する機能を追加。
 
   [v0.10.21 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.21) を GitHub でご覧ください。
 </Update>
@@ -2949,13 +2949,13 @@ rss: true
   ## バグ修正
 
   * `wandb.login()` が無効モードを尊重するように修正。
-  * Colab で TPU をログしようとしたときの例外を処理。
+  * Colab で TPU をログしようとした際の例外を処理。
 
   ## 機能強化
 
-  * 非マルチプロセス環境をサポートするために `WANDB_START_METHOD=thread` を追加。
+  * 非マルチプロセスのサポートとして `WANDB_START_METHOD=thread` を追加。
   * エクスポート API の Run オブジェクトに `group` と `job_type` を追加。
-  * Artifacts の docstring を改善。
+  * Artifacts のドキュメント文字列を改善。
 
   [v0.10.20 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.20) を GitHub でご覧ください。
 </Update>
@@ -2963,7 +2963,7 @@ rss: true
 <Update label="v0.10.19" description="2021年2月14日">
   ## バグ修正
 
-  * patch サフィックス付きで誤った名前が付けられていた Artifacts マニフェスト ファイルを修正。
+  * patch サフィックスで誤って名前が付けられていた Artifacts マニフェストファイルを修正。
 
   [v0.10.19 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.19) を GitHub でご覧ください。
 </Update>
@@ -3024,7 +3024,7 @@ rss: true
   ## バグ修正
 
   * s3 への書き込みで発生する tensorboard&#95;sync の問題を修正。
-  * Git シークレットが保存されないように防止。
+  * Git secret が保存されないように防止。
   * moviepy 使用時の冗長なコンソールメッセージを無効化。
   * ファイルを上書きする際、チェックポイントを含む Artifacts がより堅牢になるように修正。
   * Artifacts の再利用された ID に関する問題を修正。
@@ -3066,106 +3066,106 @@ rss: true
   GitHub 上の [v0.10.13 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.10.13) を参照してください。
 </Update>
 
-<Update label="v0.10.12" description="December 03, 2020">
+<Update label="v0.10.12" description="2020年12月03日">
   ## 機能強化
 
   * Artifact.used&#95;by と Artifact.logged&#95;by を追加。
-  * Artifacts のログ記録時に型の一貫性を検証。
-  * ダウンロード済みアセットを必須としないように JoinedTable を拡張。
-  * 依存する Artifacts を再帰的にダウンロードできる機能を追加。
+  * Artifacts のログ時に型の整合性を検証。
+  * ダウンロード済みアセットがなくても JoinedTable を使用できるように改善。
+  * 依存するアーティファクトを再帰的にダウンロードできる機能を追加。
   * keras と tf2+ での勾配ログ記録を有効化。
   * PyTorch モデルが wandb.watch() に渡されていることを検証。
-  * 公開メソッド / オブジェクトの docstring を改善。
-  * 異なるサイズの画像シーケンスがログ記録された際に警告を表示。
+  * 公開 method / object の docstring を改善。
+  * サイズの異なる画像シーケンスがログ記録された場合に警告を表示。
 
   ## バグ修正
 
   * summary で誤って生成されるファイル名を修正。
-  * 匿名モードで URL に API キーが含まれるように修正。
+  * 匿名モードで URL に APIキーが含まれるように修正。
   * disabled モードでの pickle の問題を修正。
   * artifact の from&#95;id クエリを修正。
-  * 画像パスが異なる Tables の扱いを修正。
+  * 画像パスが異なる Tables の処理を修正。
 
   GitHub 上の [v0.10.12 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.12) を参照してください。
 </Update>
 
-<Update label="v0.10.11" description="November 18, 2020">
+<Update label="v0.10.11" description="2020年11月18日">
   ## 機能強化
 
-  * `wandb disabled` または `wandb.init(mode="disabled")` で wandb ログ記録を無効化。
-  * wandb.Image() をログ記録する際に Artifacts のクローンをサポート。
+  * `wandb disabled` または `wandb.init(mode="disabled")` で wandb のログ記録を無効化。
+  * wandb.Image() のログ時にアーティファクトのクローンをサポート。
 
   ## バグ修正
 
-  * 複数のメディア Artifacts の改善と内部リファクタリング。
-  * Artifacts エラーの処理を改善。
+  * 複数のメディア artifact に関する改善と内部リファクタリング。
+  * artifact エラーの処理を改善。
   * ノートブック名が無視される問題を修正。
   * Jupyter ログ記録のサイレントモードを拡張。
   * ベンダー提供ライブラリが Python パスに干渉する問題を修正。
-  * さまざまな例外（ゼロ除算、int 変換、TypeError）を修正。
+  * さまざまな例外 (ゼロ除算、int 変換、TypeError) を修正。
 
   GitHub 上の [v0.10.11 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.11) を参照してください。
 </Update>
 
-<Update label="v0.10.10" description="November 09, 2020">
+<Update label="v0.10.10" description="2020年11月09日">
   ## 機能強化
 
   * 混同行列プロットを追加。
-  * wandb.init()/reinit/finish でより良い Jupyter メッセージを表示。
+  * wandb.init()/reinit/finish で Jupyter メッセージを改善。
 
   ## バグ修正
 
-  * fastai 2.1.5 向けの修正（log&#95;args を削除）。
+  * fastai 2.1.5 向けの修正 (log&#95;args を削除) 。
   * ディレクトリ変更時のメディア ログ記録を修正。
 
   GitHub 上の [v0.10.10 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.10) を参照してください。
 </Update>
 
-<Update label="v0.10.9" description="November 04, 2020">
+<Update label="v0.10.9" description="2020年11月04日">
   ## 機能強化
 
-  * Artifacts メディアのログ記録（アルファ版）を追加。
-  * スクリプトから操作可能なアラートを追加。
-  * sweep 公開 API に url 属性を追加。
+  * アーティファクト メディアのログ記録 (アルファ版) を追加。
+  * スクリプト可能なアラートを追加。
+  * sweep Public API に url 属性を追加。
   * wandb SDK 関数の docstring を更新。
 
   ## バグ修正
 
-  * オフラインモードがネットワーク接続を行ってしまうケースを修正。
+  * オフラインモードでネットワーク接続が行われてしまうケースを修正。
   * Python sweeps と run の停止に関する問題を修正。
-  * API キーを誤って表示してしまう可能性があったログ記録の問題を修正。
+  * APIキーを誤って表示してしまう可能性があったログ記録の問題を修正。
   * 不正なホスト指定時の wandb login の問題を修正。
   * wandb.init() なしで wandb.restore() を呼び出せるように修正。
-  * 空の summary での再開（run&#95;id の再利用）の問題を修正。
-  * Artifacts ダウンロードの問題を修正。
+  * 空の summary での再開 (run&#95;id の再利用) の問題を修正。
+  * アーティファクトのダウンロードに関する問題を修正。
   * 不足していた wandb.unwatch() 関数を追加。
   * 不要な wandb ディレクトリが作成されないように修正。
-  * 古いバージョンの six 使用時の collections import 問題を修正。
+  * 古いバージョンの six 使用時の collections import の問題を修正。
 
   GitHub 上の [v0.10.9 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.9) を参照してください。
 </Update>
 
-<Update label="v0.10.8" description="October 22, 2020">
+<Update label="v0.10.8" description="2020年10月22日">
   ## 機能強化
 
   * callable オブジェクトをシリアライズ可能に。
 
   ## バグ修正
 
-  * Python 3.9 との互換性問題を修正。
-  * 0.10.6 で発生した `wandb sync` の失敗を修正。
-  * 失敗した runs の Python エージェントでの処理を改善。
-  * run 再開が機能しないまれな条件を修正。
+  * Python 3.9 との互換性の問題を修正。
+  * 0.10.6 で導入された `wandb sync` の失敗を修正。
+  * 失敗した Runs の Python エージェントでの処理を改善。
+  * run の再開が機能しないまれな条件を修正。
   * スレッドコンテキストで呼び出された際のシンボリックリンク処理を改善。
   * wandb.init() を呼び出す前にディレクトリを変更した場合の問題を修正。
 
   GitHub 上の [v0.10.8 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.8) を参照してください。
 </Update>
 
-<Update label="v0.10.7" description="October 15, 2020">
+<Update label="v0.10.7" description="2020年10月15日">
   ## バグ修正
 
-  * PyPI 上の更新リリースを確認する際の問題を修正。
+  * PyPI 上の更新リリースの確認時に発生する問題を修正。
 
   GitHub 上の [v0.10.7 changelog](https://github.com/wandb/wandb/releases/tag/v0.10.7) を参照してください。
 </Update>
@@ -3173,13 +3173,13 @@ rss: true
 <Update label="v0.10.6" description="2020年10月15日">
   ## バグ修正
 
-  * ログイン後に Jupyter 環境でコード保存が有効になっていることを確認。
-  * 大きな sweep 設定に対して Sweep エージェントのタイムアウトを延長。
+  * ログイン後、Jupyter 環境でコードの保存が有効になるように修正。
+  * 大規模な sweep 設定に対応できるよう、Sweep エージェントのタイムアウトを延長。
   * `WANDB_SILENT` 環境変数をサポート。
-  * 画像をログするときに不足している Python パッケージについて警告。
+  * 画像のログ時に必要な Python パッケージが不足している場合に警告を表示。
   * `wandb.restore()` が差分パッチを適用するように修正。
-  * Artifacts のエラーメッセージを改善。
-  * `config-defaults.yaml` と指定された YAML 設定ファイル一覧の読み込みを修正。
+  * アーティファクトのエラーメッセージを改善。
+  * `config-defaults.yaml` および指定した YAML 設定ファイル一覧の読み込みを修正。
 
   GitHub で [v0.10.6 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.10.6) を参照してください。
 </Update>
@@ -3192,10 +3192,10 @@ rss: true
 
   ## バグ修正
 
-  * コンソールログの修正（Windows 上の tqdm、クローズ時の例外の修正）。
-  * Run オブジェクトにより多くの属性（group、job&#95;type、urls）を追加。
-  * SageMaker のログイン問題を修正。
-  * プロットが run の終了までアップロードされなかった問題を修正。
+  * コンソールログに関する修正 (Windows 上の tqdm、クローズ時の例外) 。
+  * Run オブジェクトに属性 (group、job&#95;type、urls) を追加。
+  * SageMaker のログインに関する問題を修正。
+  * プロットが run の終了時までアップロードされなかった問題を修正。
 
   GitHub で [v0.10.5 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.10.5) を参照してください。
 </Update>
@@ -3211,18 +3211,18 @@ rss: true
 <Update label="v0.10.3" description="2020年9月29日">
   ## 機能強化
 
-  * 0.10.0 以前の run ディレクトリを同期しようとしたときに警告を追加。
-  * wandb run の同期情報に対する Jupyter サポートを改善。
+  * 0.10.0 より前の run ディレクトリを同期しようとした際に警告を追加。
+  * wandb run の同期情報に関する Jupyter サポートを改善。
 
   ## バグ修正
 
-  * Artifacts のダウンロード問題を修正。
+  * アーティファクトのダウンロードに関する問題を修正。
   * `tensorboard_sync` に関する複数の問題を修正。
-  * Jupyter / Python の sweep に関する複数の問題を修正。
+  * Jupyter / Python の sweeps に関する複数の問題を修正。
   * ログインがタイムアウトしていた問題を修正。
-  * run を再開したときに config が上書きされていた問題を修正。
+  * runs の再開時に設定が上書きされていた問題を修正。
   * sacred observer を 0.10.x リリースに移植。
-  * 予測されたバウンディングボックスが正解ボックスにより上書きされていた問題を修正。
+  * 予測されたバウンディングボックスが正解ボックスで上書きされていた問題を修正。
   * `wandb.init()` に不足していた `save_code` パラメーターを追加。
 
   GitHub で [v0.10.3 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.10.3) を参照してください。
@@ -3232,16 +3232,16 @@ rss: true
   ## 機能強化
 
   * API に `upload_file` を追加。
-  * 対応する `wandb.init()` なしで `wandb.finish()` を呼び出せるように。
+  * 対応する `wandb.init()` がなくても `wandb.finish()` を呼び出せるように。
 
   ## バグ修正
 
-  * ファイルが誤った並列 runs にログされていた問題を修正。
-  * 不足していたプロパティ / メソッド（`as_dict()`、`sweep_id`）を修正。
+  * ファイルが誤った並列 Runs にログされていた問題を修正。
+  * 不足していたプロパティ / method (`as_dict()`、`sweep_id`) を修正。
   * `wandb.summary.update()` がすべてのキーを更新していなかった問題を修正。
-  * コード保存が UI 設定に基づいて正しく有効化されていなかった問題を修正。
-  * TensorBoard がプログラム終了前に画像をログするように変更。
-  * config とサマリーメトリクスに関する再開時の問題を修正。
+  * コードの保存が UI 設定に基づいて正しく有効化されていなかった問題を修正。
+  * TensorBoard がプログラム終了前に画像をログするように修正。
+  * 設定と summary メトリクスに関する Resume 時の問題を修正。
 
   GitHub で [v0.10.2 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.10.2) を参照してください。
 </Update>
@@ -3249,16 +3249,16 @@ rss: true
 <Update label="v0.10.1" description="2020年9月16日">
   ## 機能強化
 
-  * `sync_tensorboard` 機能に S3 と GCS ファイルの処理を追加。
+  * `sync_tensorboard` で S3 と GCS のファイルを処理できるように。
   * ログイン時にホストを指定できるように。
-  * Artifacts API を改善し、属性を変更できるように。
+  * アーティファクト API を改善し、属性を変更できるように。
 
   ## バグ修正
 
-  * コード保存がサーバー設定を尊重するように修正。
+  * コードの保存がサーバー設定を反映するように修正。
   * 制限されたネットワークで `wandb.init()` を実行する際の問題を修正。
-  * 設定変更を無視していた問題を修正。
-  * Artifacts のダウンロード問題を修正。
+  * 設定の変更が無視されていた問題を修正。
+  * アーティファクトのダウンロードに関する問題を修正。
 
   GitHub で [v0.10.1 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.10.1) を参照してください。
 </Update>
@@ -3266,40 +3266,40 @@ rss: true
 <Update label="v0.10.0" description="2020年9月11日">
   ## 機能強化
 
-  * run の終了時に履歴スパークラインを追加。
-  * Artifacts の改善とリンク用 API を追加。
+  * run の終了時に history のスパークラインを追加。
+  * アーティファクトの改善と、リンク用 API を追加。
   * オフラインサポートと同期を改善。
-  * テストを簡素化するための基本的な noop モードサポート。
-  * Windows / PyCharm サポートを改善。
-  * Run オブジェクトに、より多くの変更可能なプロパティを追加。
-  * Public API が 過去の runs に Artifacts を添付することをサポート。
+  * テストを簡素化するための基本的な noop モードをサポート。
+  * Windows / PyCharm のサポートを改善。
+  * Run オブジェクトで変更可能なプロパティを追加。
+  * Public API で過去の Runs にアーティファクトを添付できるように。
 
   ## バグ修正
 
-  * ロジック単純化により多くのバグを修正。
+  * ロジックの単純化に伴い、多くのバグを修正。
 
   GitHub で [v0.10.0 のチェンジログ](https://github.com/wandb/wandb/releases/tag/v0.10.0) を参照してください。
 </Update>
 
 <Update label="v0.9.7" description="2020年9月8日">
-  ## 機能改善
+  ## 機能強化
 
   * wandb.sacred.WandbObserver で新しい sacred observer を利用できるようになりました。
-  * HTTP URL に対する Artifacts 参照の追跡を改善しました。
+  * HTTP URL に対するアーティファクト参照のトラッキングを改善しました。
 
   ## バグ修正
 
-  * runs を `summary_metrics` ではなく `summary` でクエリした場合に、意味のあるエラーメッセージを表示するようにしました。
+  * runs を `summary_metrics` ではなく `summary` でクエリした場合に、わかりやすいエラーメッセージを表示するようにしました。
 
   GitHub 上の [v0.9.7 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.9.7)を参照してください。
 </Update>
 
 <Update label="v0.9.6" description="2020年8月28日">
-  ## 機能改善
+  ## 機能強化
 
-  * Artifacts のサブパスで、download() にオプションのルートディレクトリ引数を指定できるようになりました。
-  * Artifact.new&#95;file がオプションの mode 引数を受け付けるようになりました。
-  * 旧バージョンの fastai ドキュメントを削除しました。fastai v2 と一緒にパッケージされるようになったためです。
+  * アーティファクトのサブパスで、download() にオプションのルートディレクトリ引数を指定できるようになりました。
+  * Artifact.new&#95;file がオプションの mode 引数を受け取れるようになりました。
+  * 旧バージョンの fastai ドキュメントを削除しました。現在は fastai v2 とともにパッケージされているためです。
 
   ## バグ修正
 
@@ -3310,26 +3310,26 @@ rss: true
 </Update>
 
 <Update label="v0.9.5" description="2020年8月17日">
-  ## 機能改善
+  ## 機能強化
 
   * sklearn のプロットから未使用の y&#95;probas を削除しました (@dreamflasher に感謝します) 。
-  * Artifacts 用の新しい削除 API を追加しました。
+  * アーティファクト用の新しい削除 API を追加しました。
 
   ## バグ修正
 
   * ログインしていない場合の `wandb restore` を修正しました。
-  * Windows における Artifacts のダウンロードパスを修正しました。
+  * Windows におけるアーティファクトのダウンロードパスを修正しました。
   * アップロード時に 408 エラーが発生した場合にリトライするようにしました。
   * マスクの数値型を修正しました (@numpee に感謝します) 。
-  * Artifacts 参照の名前の取り違えを修正しました。
+  * アーティファクト参照の命名の混同を修正しました。
 
   GitHub 上の [v0.9.5 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.9.5)を参照してください。
 </Update>
 
 <Update label="v0.9.4" description="2020年7月24日">
-  ## 機能改善
+  ## 機能強化
 
-  * デフォルトの PyTorch ヒストグラムのロギング頻度を 100 ステップから 1000 ステップへ変更しました。
+  * デフォルトの PyTorch ヒストグラムのロギング頻度を 100 ステップから 1000 ステップに変更しました。
 
   ## バグ修正
 
@@ -3337,16 +3337,16 @@ rss: true
   * &quot;no method rename&#95;file&quot; エラーを修正しました。
   * PyTorch におけるエッジケースのヒストグラム計算を修正しました。
   * Jupyter でセッション履歴を保存する際のエラーを修正しました。
-  * Public API で Artifacts のメタデータを正しく返すようにしました。
+  * Public API でアーティファクトのメタデータを正しく返すようにしました。
   * matplotlib / plotly のレンダリングエラーを修正しました。
 
   GitHub 上の [v0.9.4 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.9.4)を参照してください。
 </Update>
 
 <Update label="v0.9.3" description="2020年7月10日">
-  ## 機能改善
+  ## 機能強化
 
-  * 新しい artifact CLI コマンドを追加しました。
+  * 新しいアーティファクト CLI コマンドを追加しました。
 
   ```shell
   wandb artifact put path_file_or_ref
@@ -3354,7 +3354,7 @@ rss: true
   wandb artifact ls project_name
   ```
 
-  * 新しい artifact API コマンドを追加しました。
+  * 新しいアーティファクト API コマンドを追加しました。
 
   ```python
   wandb.log_artifact()
@@ -3366,7 +3366,7 @@ rss: true
   ```
 
   * wandb sync 用の大きな wandb-history.jsonl ファイルの同期を改善しました。
-  * ローカル Artifacts の整合性を検証するための新しい Artifact.verify メソッドを追加しました。
+  * ローカルアーティファクトの整合性を検証するための新しい Artifact.verify メソッドを追加しました。
   * API コマンド用のテストハーネスを改善しました。
   * run ディレクトリ名に含まれる時刻を UTC ではなくローカル時刻で保存するようにしました (@aiyolo に感謝します) 。
   * 全体的に docstring を改善しました。
@@ -3375,7 +3375,7 @@ rss: true
   ## バグ修正
 
   * Artifacts が Python 2 で動作するようになりました。
-  * Artifacts のデフォルトダウンロード先が Windows でも動作するようになりました。
+  * Artifacts のデフォルトのダウンロード先が Windows でも動作するようになりました。
   * GCS 参照が正しくキャッシュおよびダウンロードされるようにしました (@yoks に感謝します) 。
   * NumPy 配列を JSON にエンコードする処理を修正しました。
   * 文字列比較のエラーメッセージを修正しました。
@@ -3384,20 +3384,20 @@ rss: true
 </Update>
 
 <Update label="v0.9.2" description="2020年6月29日">
-  ## 機能改善
+  ## 機能強化
 
-  * Artifacts キャッシュを大幅に刷新しました。
-  * Artifacts 用のキャッシュディレクトリを設定可能にしました。
-  * Artifacts のダウンロードディレクトリを設定可能にしました。
-  * ローカル Artifacts の整合性を検証するための新しい Artifact.verify メソッドを追加しました。
-  * use&#95;artifact で `type` を指定する必要がなくなりました。
+  * アーティファクトのキャッシュを大幅に刷新しました。
+  * アーティファクト用のキャッシュディレクトリを設定可能にしました。
+  * アーティファクトのダウンロードディレクトリを設定可能にしました。
+  * ローカルアーティファクトの整合性を検証するための新しい Artifact.verify メソッドを追加しました。
+  * use&#95;artifact で `type` の指定が不要になりました。
   * 削除された Artifacts を再コミットできるようになりました。
   * Lidar シーンがベクトルをサポートするようになりました。
 
   ## バグ修正
 
-  * Artifacts のダウンロードでエラーが返される問題を修正しました。
-  * セグメンテーションマスクが非 uint8 データを扱えるようにしました。
+  * アーティファクトのダウンロードでエラーが返される問題を修正しました。
+  * セグメンテーションマスクが非 uint8 データを扱えるようになりました。
   * `api.runs()` におけるパスのパースロジックを修正しました。
 
   GitHub 上の [v0.9.2 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.9.2)を参照してください。
@@ -3407,7 +3407,7 @@ rss: true
   ## バグ修正
 
   * ファイルが常にプロジェクト内の最新の run にログされてしまう問題を修正しました。
-  * 最初の wandb.init 呼び出し時に URL が正しく表示されない問題を修正しました。
+  * 最初の wandb.init 呼び出し時に URL が表示されない問題を修正しました。
 
   GitHub 上の [v0.9.1 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.9.1) を参照してください。
 </Update>
@@ -3416,13 +3416,13 @@ rss: true
   ## バグ修正
 
   * Jupyter で複数回の init を処理できるようにしました。
-  * シグナルの取得時に発生する ValueError を処理するようにしました（@jsbroks に感謝）。
+  * シグナルのキャプチャ時に発生する ValueError を処理するようにしました (@jsbroks に感謝) 。
   * wandb agent がレート制限を正しく処理するようになりました。
 
-  ## 機能改善
+  ## 機能強化
 
-  * wandb.Artifact が一般提供 (GA) になりました。
-  * Feature&#95;importances が CatBoost をサポートするようになりました（@neomatrix369 に感謝）。
+  * Wandb.Artifact が一般提供 (GA) になりました。
+  * Feature&#95;importances が CatBoost をサポートするようになりました (@neomatrix369 に感謝) 。
 
   GitHub 上の [v0.9.0 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.9.0) を参照してください。
 </Update>
@@ -3430,15 +3430,15 @@ rss: true
 <Update label="v0.8.36" description="2020年5月11日">
   ## バグ修正
 
-  * Jupyter セッションの保存時にすべての例外を捕捉するようにしました。
+  * Jupyter セッションの保存時にすべての例外をキャッチするようにしました。
   * TF &gt;= 2.2 で validation&#95;data が自動的に設定されるようになりました。
-  * TF &gt;= 2.2 の keras コールバックで *implements** フックが実装されました。
+  * TF &gt;= 2.2 の keras コールバックで *implements** フックが実装されるようになりました。
 
-  ## 機能改善
+  ## 機能強化
 
-  * 元のソースコードの保存はデフォルトで無効になりました。
-  * サーバー側でコード保存を有効にするためのグローバル設定を起動時にサポートしました。
-  * コード保存を手動で有効にするための新しい `code_save=True` 引数を wandb.init に追加しました。
+  * 生のソースコードの保存はデフォルトで無効になりました。
+  * サーバー側でコードの保存を有効にするためのグローバル設定を起動時にサポートするようになりました。
+  * コードの保存を手動で有効にするための新しい `code_save=True` 인수 を wandb.init に追加しました。
 
   GitHub 上の [v0.8.36 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.36) を参照してください。
 </Update>
@@ -3454,30 +3454,30 @@ rss: true
 </Update>
 
 <Update label="v0.8.34" description="2020年4月28日">
-  ## 機能改善
+  ## 機能強化
 
   * Jupyter ノートブックでセッション履歴を保存するようにしました。
-  * Kaggle のインターネット有効化に関する通知を追加しました。
-  * wandb.plots.feature&#95;importances を拡張して、より多くの モデル タイプで動作するようにしました（@neomatrix369 に感謝）。
+  * Kaggle のインターネット有効化通知を追加しました。
+  * wandb.plots.feature&#95;importances を拡張し、より多くのモデルタイプで動作するようにしました (@neomatrix369 に感謝) 。
 
   ## バグ修正
 
-  * Jupyter ノートブックのコード保存機能を復元しました。
+  * Jupyter ノートブックのコードの保存機能を復元しました。
   * Jupyter のスレッドエラーを修正しました。
-  * Jupyter で最後の履歴行がドロップされないようにしました。
+  * Jupyter で最後の履歴行が削除されないようにしました。
 
   GitHub 上の [v0.8.34 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.34) を参照してください。
 </Update>
 
 <Update label="v0.8.33" description="2020年4月24日">
-  ## 機能改善
+  ## 機能強化
 
   * セマンティックセグメンテーション用のデフォルトのクラスラベルを追加しました。
-  * バウンディングボックス API を、セマンティックセグメンテーション API に近い形になるよう拡張しました。
+  * バウンディングボックス API を、セマンティックセグメンテーション API に近い形になるよう強化しました。
 
   ## バグ修正
 
-  * ROC/PR カーブのロギングを改善するために、メディアテーブルの行数を増やしました。
+  * ROC/PR カーブのロギングを改善するため、メディア表の行数を増やしました。
   * 事前にビン分割されたヒストグラムが正しく処理されない問題を修正しました。
   * PyTorch のヒストグラムで NaN 値を処理するようにしました。
   * バイナリ画像マスクの処理を修正しました。
@@ -3486,7 +3486,7 @@ rss: true
 </Update>
 
 <Update label="v0.8.32" description="2020年4月14日">
-  ## 機能改善
+  ## 機能強化
 
   * セマンティックセグメンテーションの画像マスクのロギングを改善しました。
 
@@ -3494,34 +3494,34 @@ rss: true
 </Update>
 
 <Update label="v0.8.31" description="2020年3月19日">
-  ## 機能改善
+  ## 機能強化
 
-  * すべての開いているファイルをクローズして ResourceWarnings を回避するようにしました（@CrafterKolyan に感謝）。
+  * 開いているすべてのファイルをクローズして ResourceWarnings を回避するようにしました (@CrafterKolyan に感謝) 。
 
   ## バグ修正
 
-  * &quot;tensor&quot; プロトバフをパースし、2.1 での TensorBoard 同期に関する問題を修正しました。
+  * &quot;tensor&quot; protobuf をパースし、2.1 での TensorBoard 同期に関する問題を修正しました。
 
   GitHub 上の [v0.8.31 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.31) を参照してください。
 </Update>
 
 <Update label="v0.8.30" description="2020年3月19日">
-  ## 機能改善
+  ## 機能強化
 
   * ROC、precision&#95;recall、HeatMap、explainText、POS、および NER を wandb.plots に追加。
   * wandb.Molecule() のロギングを追加。
-  * Kaggle run をメトリクスとして取得。
+  * Kaggle run のメトリクスを取得。
   * run オブジェクトから watch できる機能を追加。
 
   ## バグ修正
 
-  * グローバルなデバッグログを誤って拾ってしまうことを回避。
+  * グローバルなデバッグログを誤って取得してしまうことを回避。
 
   GitHub 上の [v0.8.30 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.30) を参照してください。
 </Update>
 
-<Update label="v0.8.29" description="2020年3月5日">
-  ## 機能改善
+<Update label="v0.8.29" description="2020年3月05日">
+  ## 機能強化
 
   * バウンディングボックスのアノテーションを改善。
   * アクティブな GPU のシステムメトリクスをログに記録。
@@ -3538,14 +3538,14 @@ rss: true
 </Update>
 
 <Update label="v0.8.28" description="2020年2月21日">
-  ## 機能改善
+  ## 機能強化
 
-  * メインの Python モジュールのコード保存機能を追加。
+  * メインの Python モジュールのコードの保存を追加。
   * バウンディングボックスおよびセグメンテーションマスクに対してメタデータを指定できる機能を追加。
 
   ## バグ修正
 
-  * wandb.log() からの未コミットデータが永続化されない状況を修正。
+  * wandb.log() からの未コミットデータが永続化されない問題を修正。
 
   GitHub 上の [v0.8.28 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.28) を参照してください。
 </Update>
@@ -3553,36 +3553,36 @@ rss: true
 <Update label="v0.8.27" description="2020年2月11日">
   ## バグ修正
 
-  * six パッケージの新バージョンとの依存関係の競合を修正。
+  * six パッケージの新しいバージョンとの依存関係の競合を修正。
 
   GitHub 上の [v0.8.27 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.27) を参照してください。
 </Update>
 
 <Update label="v0.8.26" description="2020年2月10日">
-  ## 機能改善
+  ## 機能強化
 
-  * Keras コールバックで run サマリーに最良メトリクスとエポックを追加。
-  * pickle 化された config を必要とする環境向けに wandb.run.config&#95;static を追加。
+  * Keras コールバックで run summary に最良のメトリクスとエポックを追加。
+  * pickle 化された設定が必要な環境向けに wandb.run.config&#95;static を追加。
 
   ## バグ修正
 
   * wandb.watch() と DataParallel で失敗を引き起こしていたリグレッションを修正。
-  * Python 3.8 との互換性を向上。
-  * Windows 環境でのモデルのロギングを修正。
+  * Python 3.8 との互換性を改善。
+  * Windows でのモデルのロギングを修正。
 
   GitHub 上の [v0.8.26 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.26) を参照してください。
 </Update>
 
-<Update label="v0.8.25" description="2020年2月4日">
+<Update label="v0.8.25" description="2020年2月04日">
   ## バグ修正
 
   * ノートブックで wandb.watch() を使用した際の例外を修正。
-  * GPU 上でのスパーステンソル勾配ロギングのサポートを改善。
+  * GPU 上でのスパーステンソルの勾配ロギングのサポートを改善。
 
   GitHub 上の [v0.8.25 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.25) を参照してください。
 </Update>
 
-<Update label="v0.8.24" description="2020年2月3日">
+<Update label="v0.8.24" description="2020年2月03日">
   ## バグ修正
 
   * 古い環境を使用しているユーザー向けに PyYAML のバージョン依存関係を緩和。
@@ -3590,32 +3590,32 @@ rss: true
   GitHub 上の [v0.8.24 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.24) を参照してください。
 </Update>
 
-<Update label="v0.8.23" description="2020年2月3日">
-  ## 機能改善
+<Update label="v0.8.23" description="2020年2月03日">
+  ## 機能強化
 
   * scikit-learn のサポートを追加。
-  * wandb.config を構築する際に、特定のキーを指定／除外できる機能を追加。
+  * wandb.config を構築する際に、特定のキーを指定または除外できる機能を追加。
 
   ## バグ修正
 
   * スパーステンソルでの wandb.watch() を修正。
   * ray 0.8.1 との非互換性を修正。
-  * pyyaml の必須要件が欠けていた問題を修正。
-  * &quot;W&amp;B process failed to launch&quot; の問題を修正。
-  * 大規模なモデルグラフやプロットをログに記録する機能を改善。
+  * pyyaml の必須要件が不足していた問題を修正。
+  * 「W&amp;B process failed to launch」の問題を修正。
+  * 大規模なモデルグラフやプロットのロギング機能を改善。
 
   GitHub 上の [v0.8.23 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.23) を参照してください。
 </Update>
 
 <Update label="v0.8.22" description="2020年1月24日">
-  ## 機能改善
+  ## 機能強化
 
   * sweep config からエージェントのコマンドラインを設定できる機能を追加。
 
   ## バグ修正
 
   * fast.ai の予測ロギングを修正。
-  * eager な TensorFlow テンソルのロギングを修正。
+  * eager TensorFlow テンソルのロギングを修正。
   * ノートブック名のロギングおよび wandb.watch() に関する Jupyter の問題を修正。
 
   GitHub 上の [v0.8.22 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.22) を参照してください。
@@ -3624,7 +3624,7 @@ rss: true
 <Update label="v0.8.21" description="2020年1月15日">
   ## 機能強化
 
-  * sweep を実行する際に、wandb.init() で指定された project および entity を無視するようにしました。
+  * sweep の実行時に、wandb.init() で指定した project および entity を無視するようにしました。
 
   ## バグ修正
 
@@ -3638,9 +3638,9 @@ rss: true
   ## 機能強化
 
   * LightGBM のサポートを追加しました。
-  * ローカルボードのサポートを追加しました（実験的機能）。
+  * ローカルボードのサポートを追加しました (実験的機能) 。
   * sweep 設定を変更できるようにしました。
-  * システム メトリクスへの GPU 消費電力のログ記録を追加しました。
+  * システム メトリクスに GPU 消費電力のログ記録を追加しました。
 
   ## バグ修正
 
@@ -3658,7 +3658,7 @@ rss: true
 
   ## バグ修正
 
-  * 繰り返し `wandb.Api().Run(id).scan_history()` を呼び出した際に最新のデータが取得されるように修正しました。
+  * wandb.Api().Run(id).scan&#95;history() を繰り返し呼び出した際に、最新のデータが取得されるように修正しました。
   * notebook/python 環境での early&#95;terminate/hyperband を修正しました。
 
   GitHub 上の [v0.8.19 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.19)を参照してください。
@@ -3667,12 +3667,12 @@ rss: true
 <Update label="v0.8.18" description="2019年12月4日">
   ## 機能強化
 
-  * メトリクスの一部セクションを取得するために、`run.scan_history` に `min_step` と `max_step` を追加しました。
-  * `wandb.init(reinit=True)` は、1 プロセスあたり複数の run をより良くサポートするために、自動的に `wandb.join()` を呼び出すようになりました。
+  * メトリクスの一部セクションを取得するために、run.scan&#95;history に min&#95;step と max&#95;step を追加しました。
+  * wandb.init(reinit=True) は、1 プロセスあたり複数の run をより適切にサポートするため、自動的に wandb.join() を呼び出すようになりました。
 
   ## バグ修正
 
-  * `wandb.init(sync_tensorboard=True)` が TensorFlow 2.0 で再び動作するようにしました。
+  * wandb.init(sync&#95;tensorboard=True) が TensorFlow 2.0 で再び動作するようになりました。
 
   GitHub 上の [v0.8.18 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.18)を参照してください。
 </Update>
@@ -3684,9 +3684,9 @@ rss: true
 
   ## バグ修正
 
-  * インストールエラーを修正するために graphql-core を 3.0.0 未満に固定しました。
+  * インストールエラーを修正するために graphql-core &lt; 3.0.0 に固定しました。
   * TQDM プログレスバーがログを正しく更新するようにしました。
-  * サイズ超過の summary または history ログを破棄することで、再試行がハングしてしまう問題を防止しました。
+  * サイズ超過の summary または history ログを破棄することで、再試行時のハングを防止しました。
 
   GitHub 上の [v0.8.17 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.17)を参照してください。
 </Update>
@@ -3703,14 +3703,14 @@ rss: true
 <Update label="v0.8.15" description="2019年11月5日">
   ## バグ修正
 
-  * Jupyter で `sync_tensorboard` を指定して `wandb.init` を複数回呼び出した際の問題を修正しました。
-  * スレッド使用時に `wandb.log` を呼び出したときに発生する RuntimeError のレースコンディションを修正しました。
+  * Jupyter で sync&#95;tensorboard を指定して wandb.init を複数回呼び出した際の問題を修正しました。
+  * スレッド使用時に wandb.log を呼び出したときに発生する RuntimeError のレースコンディションを修正しました。
   * エラー報告が無効な場合に Sentry を初期化しないようにしました。
 
   ## 機能強化
 
-  * `wandb.sweep()` の public API オブジェクトに `best_run()` を追加しました。
-  * public API で `wandb.config` オブジェクトから内部トラッキングキーを削除しました。
+  * wandb.sweep() の public API オブジェクトに best&#95;run() を追加しました。
+  * public API の wandb.config オブジェクトから内部トラッキングキーを削除しました。
 
   GitHub 上の [v0.8.15 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.15)を参照してください。
 </Update>
@@ -3802,30 +3802,30 @@ rss: true
 <Update label="v0.8.10" description="2019年9月13日">
   ## バグ修正
 
-  * Wandb magic が tf.keras と keras の両方が読み込まれている場合を処理します。
-  * 複数のロガーで異なる global&#95;steps を使用している場合でも、TensorBoard ログで step が失われなくなりました。
-  * 最新の tf.keras で Keras の勾配ログが動作します。
-  * TensorFlow 2 で Keras の validation&#95;data が正しく設定されます。
-  * wandb pull コマンドは、ディレクトリが存在しない場合に作成するようになりました（@chmod644 に感謝）。
-  * ファイルアップロードのバッチ処理で最小サイズをチェックするようになりました。
-  * Sweeps が再び Python 2 で動作します。
-  * scan&#95;history がポイントの全セットを反復するようになりました。
-  * 資格情報を取得できない場合、Jupyter はローカルモードで実行されます。
+  * Wandb magic が、tf.keras と keras の両方が読み込まれているケースを処理するようになりました。
+  * 複数のロガーで異なる global&#95;steps を使用している場合でも、TensorBoard logging で step が失われなくなりました。
+  * 最新の tf.keras で Keras の gradient logging が動作するようになりました。
+  * TensorFlow 2 で Keras の validation&#95;data が正しく設定されるようになりました。
+  * wandb pull コマンドで、存在しないディレクトリを作成するようになりました。@chmod644 に感謝します。
+  * ファイル upload のバッチ処理で最小サイズをチェックするようになりました。
+  * Sweeps が再び Python 2 で動作するようになりました。
+  * Scan&#95;history がすべてのポイントを反復処理するようになりました。
+  * 認証情報を取得できない場合、Jupyter はローカルモードで実行されるようになりました。
 
   ## 機能強化
 
-  * Sweeps を Jupyter 内 / 直接 Python から実行できるようになりました。https://docs.wandb.com/sweeps/python
-  * 新しい OpenAI Gym インテグレーションにより、`monitor_gym` キーワード引数を wandb.init に指定すると、自動的に動画をログします。
-  * wandb.ray.WandbLogger に Ray Tune のログ用コールバックを追加しました。
-  * グローバル設定用の新しい設定ファイル ~/.config/wandb を追加しました。
-  * fastai 向けのテストを追加しました（@borisdayma に感謝）。
-  * Public API のパフォーマンスを改善しました。
-  * 一貫性のため、Public API で username を非推奨とし、代わりに entity を使用するようにしました。
-  * 匿名ログインのサポートをデフォルトで有効化しました。
-  * Jupyter で匿名ログインを有効にするための新しい wandb.login メソッドを追加しました。
-  * データフレーム用依存関係に関するエラーメッセージを改善しました。
-  * spell.run との初期インテグレーションを追加しました。
-  * すべての画像を JPEG Artifacts を避けるために PNG としてレンダリングするようにしました。
+  * Sweeps を Jupyter 内または Python から直接実行できるようになりました。https://docs.wandb.com/sweeps/python
+  * 新しい OpenAI Gym インテグレーションでは、wandb.init に monitor&#95;gym キーワード引数を指定すると、video を自動的にログします。
+  * wandb.ray.WandbLogger に Ray Tune logging callback を追加しました。
+  * グローバル設定用の新しい config file ~/.config/wandb を追加しました。
+  * fastai 向けの tests を追加しました。@borisdayma に感謝します。
+  * Public API の performance を改善しました。
+  * 一貫性のため、Public API では username を deprecated とし、代わりに entity を使用するようにしました。
+  * 匿名ログインのサポートをデフォルトで有効にしました。
+  * Jupyter で匿名ログインを有効にするための新しい wandb.login method を追加しました。
+  * データフレーム関連の依存関係エラーメッセージを改善しました。
+  * spell.run との初期 integration を追加しました。
+  * JPEG artifact を避けるため、すべての画像を PNG として表示するようになりました。
   * Public API に projects フィールドを追加しました。
 
   GitHub で [v0.8.10 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.10) を参照してください。
@@ -3838,12 +3838,12 @@ rss: true
   * numpy のインストールを必須にしないようにしました。
   * summary でネストされたキーの設定が機能するようになりました。
   * ネストされたディレクトリ内のノートブックが正しく保存されるようになりました。
-  * 404 の再試行を行わず、サーバーからのエラーメッセージを改善しました。
-  * Public API でパスを読み込む際に、先頭のスラッシュを削除するようにしました。
+  * 404 に対して再試行せず、サーバーからのエラーメッセージも改善しました。
+  * Public API でパスを読み込む際、先頭のスラッシュを削除するようになりました。
 
   ## 機能強化
 
-  * 小さなファイルは gzip 圧縮された tarball としてバッチアップロードされます。
+  * 小さなファイルは gzip 圧縮された tarball として batch upload されるようになりました。
   * TensorBoardX の GIF を wandb にログするようになりました。
 
   GitHub で [v0.8.9 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.9) を参照してください。
@@ -3853,21 +3853,21 @@ rss: true
   ## バグ修正
 
   * wandb.init が起動時のネットワーク障害を適切に処理するようになりました。
-  * Keras コールバックは、data&#95;type または input&#95;type が設定されている場合にのみサンプルをログします。
-  * 特殊ケースの PyTorch モデルログに関するバグを修正しました。
-  * Jupyter で TensorBoard を複数回パッチするケースを処理しました。
+  * Keras callback は、data&#95;type または input&#95;type が設定されている場合にのみサンプルをログします。
+  * PyTorch モデル logging のエッジケースの bug を修正しました。
+  * Jupyter で TensorBoard を複数回パッチするケースに対応しました。
   * sweep が run ディレクトリから config.yaml を取得するようになりました。
-  * データフレームで整数ラベルを扱えるようになりました。
-  * Jupyter サーバーのクエリ時に無効な JSON を処理するようになりました。
+  * dataframe で整数ラベルを扱えるようになりました。
+  * Jupyter サーバーに query する際、無効な JSON を処理するようになりました。
 
   ## 機能強化
 
-  * fastai はサンプルログに固定のシードを使用するようになりました。
-  * fastai コールバックでの画像の最大数を増やしました。
-  * 動画ログ用の新しい wandb.Video タグを追加しました。
-  * wandb.log の引数 Sync=False によって、ログ処理をスレッドに移動します。
-  * カスタム探索ロジック用の新しいローカル sweep コントローラーを追加しました。
-  * より簡単にオンボーディングできるよう、匿名ログインサポートを追加しました。
+  * fastai で、サンプル logging に固定シードを使用するようになりました。
+  * fastai callback で扱える画像の最大数を増やしました。
+  * video をログするための新しい wandb.Video タグを追加しました。
+  * wandb.log の Sync=False argument により、logging を別スレッドで実行するようになりました。
+  * custom search ロジック向けの新しいローカル sweep コントローラーを追加しました。
+  * より簡単にオンボーディングできるよう、匿名ログインをサポートしました。
   * Jupyter で wandb.init を複数回呼び出してもエラーにならなくなりました。
 
   GitHub で [v0.8.8 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.8) を参照してください。
@@ -3876,14 +3876,14 @@ rss: true
 <Update label="v0.8.7" description="2019年8月7日">
   ## バグ修正
 
-  * Keras コールバックが 2D データの input&#95;type を推測しないようになりました。
+  * Keras callback が 2D データの input&#95;type を推測しないようになりました。
   * Wandb.Image が高さ 1px の画像を処理できるようになりました。
 
   ## 機能強化
 
-  * Wandb Public API に、すべての履歴行を返す `run.scan_history` が追加されました。
-  * Wandb.config は、init を呼び出す前に使用された場合に有用なエラーを表示します。
-  * Wandb.summary は、init を呼び出す前に使用された場合に有用なエラーを表示します。
+  * Wandb Public API に、すべての history 行を返す `run.scan_history` が追加されました。
+  * Wandb.config は、init を呼び出す前に使用すると、わかりやすいエラーを表示するようになりました。
+  * Wandb.summary は、init を呼び出す前に使用すると、わかりやすいエラーを表示するようになりました。
   * Filestream API がバックエンド上の新しい URL を指すようになりました。
 
   GitHub で [v0.8.7 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.8.7) を参照してください。
@@ -3896,20 +3896,20 @@ rss: true
   * Notebook introspection 機能がエラーケースを処理し、失敗時にスタックトレースを出力しないようにしました。
   * name を設定する際に description の警告を出力しないようにしました。
   * Keras コールバックでの dataframe ログエラーを修正しました。
-  * runs を再開する際のログ内の行オフセットを修正しました。
+  * Runs を再開する際のログ内の行オフセットを修正しました。
   * `wandb.config` が YAML に書き込む前に非組み込み型をキャストするようにしました。
   * インストール時の不足パッケージに対処するため、`backports.tempfile` を vendoring しました。
 
   ## 機能強化
 
-  * sweeps をクエリするための Python export API に `api.sweep` を追加しました。
+  * Sweeps をクエリするための Python export API に `api.sweep` を追加しました。
   * Notebook 名を推論できない場合に指定するための `WANDB_NOTEBOOK_NAME` を追加しました。
   * ホスト名を上書きするための `WANDB_HOST` を追加しました。
   * run が Jupyter 内で実行されたかどうかを保存するようにしました。
-  * Wandb は Web UI から runs を停止できるようになりました。
+  * Wandb は Web UI から Runs を停止できるようになりました。
   * `wandb.log` に渡された step が float の場合を処理するようにしました。
   * `wandb.config` が完全な Unicode をサポートしました。
-  * コード保存が有効で、そのファイルが Git によって追跡されていない場合に、メインファイルを wandb に同期するようにしました。
+  * コードの保存が有効で、そのファイルが Git によって追跡されていない場合に、メインファイルを wandb に同期するようにしました。
   * XGBoost コールバック: `wandb.xgboost.wandb_callback()`。
 
   [v0.8.6 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.6) を GitHub で参照してください。
@@ -3918,7 +3918,7 @@ rss: true
 <Update label="v0.8.5" description="2019年7月12日">
   ## バグ修正
 
-  * 大きな numpy 配列を含む plotly チャートがレンダリングされない問題を修正しました。
+  * 大きな numpy 配列を含む plotly チャートが表示されない問題を修正しました。
   * `wandb docker` が NVIDIA 環境でも動作するようになりました。
   * 文字列以外のキーが log に送信された場合のエラーメッセージを改善しました。
   * AMI へのインストールを修正するために pyyaml の依存関係を緩和しました。
@@ -3957,13 +3957,13 @@ rss: true
 
   * Windows での画像ログが動作するようになりました。
   * `wandb sync` がタイムステップを 1 つだけ含む tfevents を処理できるようになりました。
-  * 実行中の runs に対する概要ページの誤ったコマンドを修正しました。
+  * 実行中の Runs に対する概要ページの誤ったコマンドを修正しました。
   * TensorBoard をストリーミングする際に、512 ビンを超えるヒストグラムを処理できるようになりました。
   * ディレクトリではなくファイルに対して `wandb sync` を呼び出した場合のエラーメッセージを改善しました。
 
   ## 機能強化
 
-  * sweeps におけるハイパーパラメーターを扱うための新しいヘルパー関数 `wandb.config.user_items()` を追加しました。
+  * Sweeps におけるハイパーパラメーターを扱うための新しいヘルパー関数 `wandb.config.user_items()` を追加しました。
   * テスト性向上のためのモックを改善しました。
 
   [v0.8.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.3) を GitHub で参照してください。
@@ -3972,32 +3972,32 @@ rss: true
 <Update label="v0.8.2" description="June 20, 2019">
   ## バグ修正
 
-  * サーバーからクエリされた際、Entity が wandb.run に永続化されるようになりました。
-  * 一時ファイルが常に一時ディレクトリを使用することで、同期を回避します。
-  * アップロード中にファイルが小さくなった場合はエラーを送出します。
+  * サーバーから問い合わせた際、Entity が wandb.run に永続化されるようになりました。
+  * 同期を回避するため、一時ファイルは常に一時ディレクトリを使用するようになりました。
+  * アップロード中にファイルサイズが小さくなった場合はエラーを発生させます。
   * Windows で画像が正しくログされるようになりました。
-  * CVE に対応するため pyyaml の要件をアップグレードしました。
-  * メモリリークを防ぐために、行の履歴を保存しないようにしました。
+  * CVE に対応するため、pyyaml の要件を更新しました。
+  * メモリリークを防ぐため、行の履歴を保存しないようにしました。
 
-  ## 機能改善
+  ## 機能強化
 
-  * Summary で新しい dataframe フォーマットがサポートされました。
-  * WANDB&#95;SILENT 環境変数が設定されている場合、すべての wandb メッセージを debug.log に書き込みます。
-  * Windows と TensorBoard ロギングのエラーメッセージを改善しました。
+  * Summary で新しい dataframe 形式をサポートしました。
+  * WANDB&#95;SILENT 環境変数により、すべての wandb メッセージが debug.log に書き込まれるようになりました。
+  * Windows および TensorBoard ロギングのエラーメッセージを改善しました。
   * 各 run の終了時に Output.log がアップロードされます。
-  * run の開始時に、metadata、requirements、patches がアップロードされます。
-  * Git リポジトリ外で実行している場合、メインの Python ファイルを保存します。
-  * 差分取得とコード保存を行わないようにする WANDB&#95;DISABLE&#95;CODE を追加しました。
-  * Jupyter で実行している場合、notebook 名を保存します。
+  * run の開始時に metadata、requirements、patches がアップロードされます。
+  * Git リポジトリ外で実行している場合は、メインの Python ファイルを保存します。
+  * diff とコードの保存を無効にする WANDB&#95;DISABLE&#95;CODE を追加しました。
+  * Jupyter で実行している場合、notebook の名前を保存します。
   * Colab の自動ログインをサポートしました。
   * Colab notebook への URL を保存します。
-  * このライブラリのバージョンを config に保存します。
+  * このライブラリのバージョンを設定に保存します。
   * sys.executable を metadata に保存します。
   * fastai callback で path が不要になりました。
-  * wandb.init は notes 引数を受け取るようになりました。
-  * CLI では message 引数を廃止し、notes と name に置き換えました。
+  * wandb.init が notes 引数を受け付けるようになりました。
+  * CLI では message 引数を notes と name に置き換えました。
 
-  GitHub 上の [v0.8.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.2) を参照してください。
+  View the [v0.8.2 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.2) on GitHub.
 </Update>
 
 <Update label="v0.8.1" description="May 23, 2019">
@@ -4006,48 +4006,48 @@ rss: true
   * wandb sync が TensorBoard の embeddings を処理するようになりました。
   * wandb sync が TensorBoard 内の画像を正しく処理するようになりました。
   * tf.keras が単一入力の functional モデルを正しく処理するようになりました。
-  * wandb.Api().runs が再利用可能なイテレータを返すようになりました。
+  * wandb.Api().runs が再利用可能なイテレーターを返すようになりました。
   * 非表示ディレクトリ内の WANDB&#95;DIR が同期を妨げないようになりました。
-  * Run.files() がすべてのファイルを反復処理します。
-  * PyTorch の「recursion too deep」エラーを修正しました。
+  * Run.files() がすべてのファイルを反復処理するようになりました。
+  * PyTorch の recursion too deep エラーを修正しました。
 
-  ## 機能改善
+  ## 機能強化
 
-  * wandb sync は、ファイルをスキップするための glob を指定できる --ignore 引数を受け付けるようになりました。
-  * Run.summary に、すべてのキーを反復処理するための items() メソッドを追加しました。
+  * wandb sync が、ファイルをスキップする glob を指定する --ignore 引数を受け付けるようになりました。
+  * Run.summary に、すべてのキーを反復処理するための items() method が追加されました。
 
-  GitHub 上の [v0.8.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.1) を参照してください。
+  View the [v0.8.1 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.1) on GitHub.
 </Update>
 
 <Update label="v0.8.0" description="May 17, 2019">
   ## バグ修正
 
   * アクセス拒否時のエラーメッセージを改善しました。
-  * オプションのパッケージがインストールされていない場合のエラーメッセージを改善しました。
+  * optional パッケージがインストールされていない場合のエラーメッセージを改善しました。
   * ターミナルに出力される URL を URL エスケープするようにしました。
-  * namespaced TensorBoard events が histogram と共に動作するようになりました。
-  * Public API が失敗時にリトライし、コネクションプールを再利用するようになりました。
-  * remote が origin に push されていない場合の git エラーを補足します。
-  * 未構築のモデルに対応するため、Keras graph の収集を on&#95;train&#95;begin に移動しました。
-  * 重みを保存できないケースをさらに多く処理するようにしました。
-  * 再開後に summary を更新した内容が永続化されるようになりました。
+  * namespaced TensorBoard events が histogram で動作するようになりました。
+  * Public API が失敗時に再試行し、コネクションプールを再利用するようになりました。
+  * remote が origin に push されていない場合の git エラーを補足するようにしました。
+  * 未構築のモデルに対応するため、Keras graph の collection を on&#95;train&#95;begin に移動しました。
+  * 重みを保存できないケースにさらに対応しました。
+  * 再開後の summary の更新が永続化されるようになりました。
   * PyTorch の histc ロギングを 0.4.1 で修正しました。
   * `wandb sync` の TensorBoard import を修正しました。
 
-  ## 機能改善
+  ## 機能強化
 
   * wandb.init(tensorboard=True) が TensorFlow 2 および Eager Execution で動作するようになりました。
   * wandb.init(tensorboard=True) が tb-nightly および PyTorch でも動作するようになりました。
   * 不足している validation&#95;data を追加することで、tf.keras でサンプルを自動的にログするようになりました。
-  * セキュリティ向上のため、ソケットは localhost のみにバインドされ、OSX でのファイアウォール警告を防ぎます。
-  * 元のユーザーを取得するための user オブジェクトを Public API に追加しました。
+  * セキュリティ向上のため、ソケットは localhost にのみバインドされ、OSX でのファイアウォール警告を防ぎます。
+  * ソースユーザーを取得するための user object を Public API に追加しました。
   * Public API に run.display&#95;name を追加しました。
-  * コンソール出力に display name を表示するようにしました。
+  * コンソール出力に Display name を表示するようにしました。
   * `wandb run` に --tags、--job&#95;group、--job&#95;type を追加しました。
-  * クラッシュと見なすまでに必要な最小実行時間を指定する環境変数を追加しました。
-  * CI に flake8 テストを追加しました（@cclauss に感謝します）。
+  * crashed と見なすまでの最小実行時間を指定する環境変数を追加しました。
+  * CI に flake8 tests を追加しました。@cclauss に感謝します。
 
-  GitHub 上の [v0.8.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.0) を参照してください。
+  View the [v0.8.0 changelog](https://github.com/wandb/wandb/releases/tag/v0.8.0) on GitHub.
 </Update>
 
 <Update label="v0.7.3" description="April 15, 2019">
@@ -4055,26 +4055,26 @@ rss: true
 
   * wandb-docker-run が image digest を受け付けるようになりました。
   * Keras callback が tensorflow2-alpha0 で動作するようになりました。
-  * Keras model graph で入力レイヤーを最初に配置するようになりました。
+  * Keras model graph で入力レイヤーが最初に配置されるようになりました。
 
-  ## 機能改善
+  ## 機能強化
 
-  * PyTorch の勾配と重みについて、ログ頻度を指定できるようになりました。
+  * PyTorch で gradient と weights のログ頻度を追加しました。
   * PyTorch ロギングのパフォーマンスを改善しました。
   * wandb.init が run に名前を付けるための name パラメーターを受け付けるようになりました。
-  * wandb.run.name がカスタム display name を反映するようになりました。
-  * ネストした summary 値を改善しました。
-  * wandb.Table.add&#95;row を非推奨とし、代わりに wandb.Table.add&#95;data を推奨します。
-  * fast.ai callback の初期サポートを追加しました（@borisdayma に感謝します）。
+  * wandb.run.name がカスタムの Display name を反映するようになりました。
+  * ネストされた summary 値を改善しました。
+  * wandb.Table.add&#95;row は非推奨となり、代わりに wandb.Table.add&#95;data を使用するようになりました。
+  * fast.ai callback の初期サポートを追加しました。@borisdayma に感謝します。
 
-  GitHub 上の [v0.7.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.3) を参照してください。
+  View the [v0.7.3 changelog](https://github.com/wandb/wandb/releases/tag/v0.7.3) on GitHub.
 </Update>
 
 <Update label="v0.7.2" description="March 19, 2019">
   ## バグ修正
 
-  * Run.get&#95;url で entity が指定されていない場合に、デフォルトの entity が解決されるようになりました。
-  * wandb restore でスラッシュのみから成る run パスを受け付けられるようになりました。
+  * Run.get&#95;url で entity が指定されていない場合に、デフォルトの entity を解決するようにしました。
+  * wandb restore でスラッシュのみから成る run パスを受け付けられるようにしました。
   * PyYaml の非推奨警告を修正しました。
   * manifest に entrypoint シェルスクリプトを追加しました。
   * CUDA バージョンから改行を削除しました。
@@ -4097,17 +4097,17 @@ rss: true
 
   * DNS ルックアップの失敗が起動を妨げないようにしました。
   * デバッグログの出力を一元化しました。
-  * wandb agent が SIGINT を送信した後、SIGKILL を送るまで長く待機するようになりました。
+  * wandb agent が SIGINT を送信した後、SIGKILL を送るまで長く待機するようにしました。
 
   ## 機能強化
 
   * WANDB&#95;DOCKER 環境変数による Docker イメージのロギングをサポートしました。
-  * Kubernetes 上で実行される場合に WANDB&#95;DOCKER が自動的に設定されるようになりました。
+  * Kubernetes 上で実行される場合に WANDB&#95;DOCKER が自動的に設定されるようにしました。
   * 環境変数の設定とコードのマウントを自動的に行う新しい wandb-docker-run コマンドを追加しました。
   * Wandb.restore が、Docker で実行された run を Docker で起動することをサポートしました。
-  * Python パッケージが requirements.txt ファイルに記録・保存されるようになりました。
-  * Cpu&#95;count、gpu&#95;count、gpu、os、および Python バージョンが wandb-metadata.json に保存されるようになりました。
-  * export API が Docker 風のパス（例: username/project:run&#95;id）をサポートするようになりました。
+  * Python パッケージが requirements.txt ファイルに記録・保存されるようにしました。
+  * Cpu&#95;count、gpu&#95;count、gpu、os、および Python バージョンが wandb-metadata.json に保存されるようにしました。
+  * export API が Docker 風のパス (例: username/project:run&#95;id) をサポートするようにしました。
   * 初回ユーザー向けのメッセージとログイン情報を改善しました。
 
   GitHub で [v0.7.0 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.7.0) を参照してください。
@@ -4164,56 +4164,56 @@ rss: true
 <Update label="v0.6.34" description="January 23, 2019">
   ## バグ修正
 
-  * Jupyter ログ記録を修正し、ロガーのレベルを変更しないようにしました。
-  * Jupyter での再開処理を修正しました。
+  * Jupyter のロギングを修正し、ロガーレベルを変更しないようにしました。
+  * Jupyter での再開を修正しました。
 
   ## 機能強化
 
-  * ユーザーが wandb にログインしていない場合でも、wandb.init がエラーにせず適切にフォールバックするようになりました。
-  * マシンでログインしていることを必須にする **force** フラグを wandb.init に追加しました。
-  * Tensorboard および TensorboardX のログ記録は、有効化されている場合に自動的にインストルメントされるようになりました。
-  * ログ記録用に tensorboard をパッチする **tensorboard** オプションを wandb.init に追加しました。
-  * Wandb.save で、サブディレクトリ内のファイルに対するベースパスを指定できるようになりました。
-  * Wandb.tensorflow および wandb.tensorboard に、直接 import しなくてもアクセスできるようになりました。
-  * `wandb sync` は wandb run ディレクトリを走査し、すべての run を同期するようになりました。
-
-  GitHub で [v0.6.34 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.34) を参照してください。
-</Update>
-
-<Update label="v0.6.34" description="January 23, 2019">
-  ## バグ修正
-
-  * Jupyter ログ記録を修正し、ロガーのレベルを変更しないようにしました。
-  * Jupyter での再開処理を修正しました。
-
-  ## 機能強化
-
-  * ユーザーが wandb にログインしていない場合でも、wandb.init がエラーにせず適切にフォールバックするようになりました。
-  * マシンでログインしていることを必須にする **force** フラグを wandb.init に追加しました。
-  * Tensorboard および TensorboardX のログ記録は、有効化されている場合に自動的にインストルメントされるようになりました。
-  * ログ記録用に tensorboard をパッチする **tensorboard** オプションを wandb.init に追加しました。
-  * Wandb.save で、サブディレクトリ内のファイルに対するベースパスを指定できるようになりました。
-  * Wandb.tensorflow および wandb.tensorboard に、直接 import しなくてもアクセスできるようになりました。
-  * `wandb sync` は wandb run ディレクトリを走査し、すべての run を同期するようになりました。
-
-  GitHub で [v0.6.34 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.34) を参照してください。
-</Update>
-
-<Update label="v0.6.34" description="January 23, 2019">
-  ## バグ修正
-
-  * Jupyter ログ記録を修正し、ロガーのレベルを変更しないようにしました。
-  * Jupyter での再開処理を修正しました。
-
-  ## 機能強化
-
-  * ユーザーが wandb にログインしていない場合でも、wandb.init がエラーにせず適切にフォールバックするようになりました。
-  * マシンでログインしていることを必須にする **force** フラグを wandb.init に追加しました。
-  * Tensorboard および TensorboardX のログ記録は、有効化されている場合に自動的にインストルメントされるようになりました。
-  * ログ記録用に tensorboard をパッチする **tensorboard** オプションを wandb.init に追加しました。
-  * Wandb.save で、サブディレクトリ内のファイルに対するベースパスを指定できるようになりました。
+  * ユーザーが wandb にログインしていない場合でも、Wandb.init が適切にフォールバックするようになりました。
+  * マシンがログイン済みであることを必須にする **force** フラグを Wandb.init に追加しました。
+  * Tensorboard および TensorboardX のロギングは、有効な場合に自動的にインストルメントされるようになりました。
+  * ロギングのために tensorboard にパッチを適用する **tensorboard** オプションを Wandb.init に追加しました。
+  * Wandb.save で、サブディレクトリ内のファイルのベースパスを指定できるようになりました。
   * Wandb.tensorflow および Wandb.tensorboard に、直接 import しなくてもアクセスできるようになりました。
-  * `wandb sync` は wandb run ディレクトリを走査し、すべての run を同期するようになりました。
+  * `wandb sync` は wandb run ディレクトリを走査し、すべての Runs を同期するようになりました。
+
+  GitHub で [v0.6.34 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.34) を参照してください。
+</Update>
+
+<Update label="v0.6.34" description="January 23, 2019">
+  ## バグ修正
+
+  * Jupyter のロギングを修正し、ロガーレベルを変更しないようにしました。
+  * Jupyter での再開を修正しました。
+
+  ## 機能強化
+
+  * ユーザーが wandb にログインしていない場合でも、Wandb.init が適切にフォールバックするようになりました。
+  * マシンがログイン済みであることを必須にする **force** フラグを Wandb.init に追加しました。
+  * Tensorboard および TensorboardX のロギングは、有効な場合に自動的にインストルメントされるようになりました。
+  * ロギングのために tensorboard にパッチを適用する **tensorboard** オプションを Wandb.init に追加しました。
+  * Wandb.save で、サブディレクトリ内のファイルのベースパスを指定できるようになりました。
+  * Wandb.tensorflow および Wandb.tensorboard に、直接 import しなくてもアクセスできるようになりました。
+  * `wandb sync` は wandb run ディレクトリを走査し、すべての Runs を同期するようになりました。
+
+  GitHub で [v0.6.34 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.34) を参照してください。
+</Update>
+
+<Update label="v0.6.34" description="January 23, 2019">
+  ## バグ修正
+
+  * Jupyter のロギングを修正し、ロガーレベルを変更しないようにしました。
+  * Jupyter での再開を修正しました。
+
+  ## 機能強化
+
+  * ユーザーが wandb にログインしていない場合でも、Wandb.init が適切にフォールバックするようになりました。
+  * マシンがログイン済みであることを必須にする **force** フラグを Wandb.init に追加しました。
+  * Tensorboard および TensorboardX のロギングは、有効な場合に自動的にインストルメントされるようになりました。
+  * ロギングのために tensorboard にパッチを適用する **tensorboard** オプションを Wandb.init に追加しました。
+  * Wandb.save で、サブディレクトリ内のファイルのベースパスを指定できるようになりました。
+  * Wandb.tensorflow および Wandb.tensorboard に、直接 import しなくてもアクセスできるようになりました。
+  * `wandb sync` は wandb run ディレクトリを走査し、すべての Runs を同期するようになりました。
 
   GitHub で [v0.6.34 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.34) を参照してください。
 </Update>
@@ -4221,18 +4221,18 @@ rss: true
 <Update label="v0.6.34" description="January 23, 2019">
   ### バグ修正
 
-  * Jupyter ログ記録を修正し、ロガーのレベルを変更しないようにしました。
-  * Jupyter での再開処理を修正しました。
+  * Jupyter のロギングを修正し、ロガーレベルを変更しないようにしました。
+  * Jupyter での再開を修正しました。
 
   ### 機能強化
 
-  * ユーザーが wandb にログインしていない場合でも、wandb.init がエラーにせず適切にフォールバックするようになりました。
-  * マシンでログインしていることを必須にする **force** フラグを wandb.init に追加しました。
-  * Tensorboard および TensorboardX のログ記録は、有効化されている場合に自動的にインストルメントされるようになりました。
-  * ログ記録用に tensorboard をパッチする **tensorboard** オプションを wandb.init に追加しました。
-  * wandb.save で、サブディレクトリ内のファイルに対するベースパスを指定できるようになりました。
+  * ユーザーが wandb にログインしていない場合でも、wandb.init が適切にフォールバックするようになりました。
+  * マシンがログイン済みであることを必須にする **force** フラグを wandb.init に追加しました。
+  * Tensorboard および TensorboardX のロギングは、有効な場合に自動的にインストルメントされるようになりました。
+  * ロギングのために tensorboard にパッチを適用する **tensorboard** オプションを wandb.init に追加しました。
+  * wandb.save で、サブディレクトリ内のファイルのベースパスを指定できるようになりました。
   * wandb.tensorflow および wandb.tensorboard に、直接 import しなくてもアクセスできるようになりました。
-  * `wandb sync` は wandb run ディレクトリを走査し、すべての run を同期するようになりました。
+  * `wandb sync` は wandb run ディレクトリを走査し、すべての Runs を同期するようになりました。
 
   GitHub で [v0.6.34 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.34) を参照してください。
 </Update>
@@ -4240,18 +4240,18 @@ rss: true
 <Update label="v0.6.34" description="2019年1月23日">
   ## バグ修正
 
-  * Jupyter ロギングを修正し、ロガーレベルを変更しないようにしました。
-  * Jupyter での再開処理を修正しました。
+  * Jupyter の logging を修正し、logger レベルを変更しないようにしました。
+  * Jupyter での再開を修正しました。
 
-  ## 機能改善
+  ## 機能強化
 
-  * ユーザーが wandb にログインしていない場合でも、wandb.init がエラーにならず適切に動作するようになりました。
-  * 実行マシンでのログインを必須にする **force** フラグを wandb.init に追加しました。
-  * 有効化されている場合、TensorBoard および TensorBoardX のロギングが自動的にフックされるようになりました。
-  * ロギング用に TensorBoard をパッチする **tensorboard** 引数を wandb.init に追加しました。
-  * wandb.save が、サブディレクトリ内のファイルに対してベースパスを受け付けるようになりました。
-  * wandb.tensorflow と wandb.tensorboard を、直接インポートしなくても利用できるようになりました。
-  * `wandb sync` が wandb run ディレクトリ以下を走査し、すべての run を同期するようになりました。
+  * ユーザーが wandb にログインしていない場合でも、wandb.init が適切にフォールバックして動作するようになりました。
+  * マシンでのログインを必須にする **force** フラグを wandb.init に追加しました。
+  * 有効にすると、TensorBoard および TensorBoardX の logging が自動的に計測されるようになりました。
+  * logging のために TensorBoard にパッチを適用する **tensorboard** 引数を wandb.init に追加しました。
+  * wandb.save が、サブディレクトリ内のファイルに対するベースパスも受け付けるようになりました。
+  * wandb.tensorflow と wandb.tensorboard を、直接 import しなくても利用できるようになりました。
+  * `wandb sync` が wandb run ディレクトリを走査し、すべての Runs を同期するようになりました。
 
   GitHub で [v0.6.34 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.34)を参照してください。
 </Update>
@@ -4259,18 +4259,18 @@ rss: true
 <Update label="v0.6.34" description="2019年1月23日">
   ## バグ修正
 
-  * Jupyter ロギングを修正し、ロガーレベルを変更しないようにしました。
-  * Jupyter での再開処理を修正しました。
+  * Jupyter の logging を修正し、logger レベルを変更しないようにしました。
+  * Jupyter での再開を修正しました。
 
-  ## 機能改善
+  ## 機能強化
 
-  * ユーザーが wandb にログインしていない場合でも、wandb.init がエラーにならず適切に動作するようになりました。
-  * 実行マシンでのログインを必須にする **force** フラグを wandb.init に追加しました。
-  * 有効化されている場合、TensorBoard および TensorBoardX のロギングが自動的にフックされるようになりました。
-  * ロギング用に TensorBoard をパッチする **tensorboard** 引数を wandb.init に追加しました。
-  * wandb.save が、サブディレクトリ内のファイルに対してベースパスを受け付けるようになりました。
-  * wandb.tensorflow と wandb.tensorboard を、直接インポートしなくても利用できるようになりました。
-  * `wandb sync` が wandb run ディレクトリ以下を走査し、すべての run を同期するようになりました。
+  * ユーザーが wandb にログインしていない場合でも、wandb.init が適切にフォールバックして動作するようになりました。
+  * マシンでのログインを必須にする **force** フラグを wandb.init に追加しました。
+  * 有効にすると、TensorBoard および TensorBoardX の logging が自動的に計測されるようになりました。
+  * logging のために TensorBoard にパッチを適用する **tensorboard** 引数を wandb.init に追加しました。
+  * wandb.save が、サブディレクトリ内のファイルに対するベースパスも受け付けるようになりました。
+  * wandb.tensorflow と wandb.tensorboard を、直接 import しなくても利用できるようになりました。
+  * `wandb sync` が wandb run ディレクトリを走査し、すべての Runs を同期するようになりました。
 
   GitHub で [v0.6.34 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.34)を参照してください。
 </Update>
@@ -4326,15 +4326,15 @@ rss: true
 <Update label="v0.6.32" description="2018年12月22日">
   ## バグ修正
 
-  * Jupyter でカーネルを再起動した際の再開処理を修正。
-  * wandb.save が、サイズの増加に関わらずファイルをプッシュするよう保証。
+  * Jupyter でカーネルを再起動した際の再開を修正。
+  * Wandb.save で、ファイルサイズの増加に関係なくファイルがプッシュされるように修正。
 
-  ## 機能改善
+  ## 機能強化
 
-  * 自動再開用に init に replace=True キーワードを追加。
-  * 再開中かどうかを検出するために使用できる新しい run.resumed プロパティを追加。
-  * 再開時に初期エポックを設定するために使用できる新しい run.step プロパティを追加。
-  * 改善されるたびに最良のモデルを保存するよう Keras callback を変更。
+  * 自動再開のため、init に replace=True キーワードを追加。
+  * 再開中かどうかの検出に使用できる新しい run.resumed プロパティを追加。
+  * 再開時に初期エポックを設定するための新しい run.step プロパティを追加。
+  * 改善に応じて最良のモデルを保存するよう Keras callback を変更。
 
   GitHub で [v0.6.32 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.32)を参照してください。
 </Update>
@@ -4342,18 +4342,18 @@ rss: true
 <Update label="v0.6.31" description="2018年12月20日">
   ## バグ修正
 
-  * 本当に numpy を必須としないように修正。
-  * wandb.init が呼び出される前に wandb.log が呼び出された場合のエラーメッセージを改善。
-  * wandb.watch を複数回呼び出せないように防止。
-  * ログ / plotly での datetime 属性を処理。
+  * numpy を必須にしないように修正。
+  * wandb.init の前に wandb.log が呼び出された場合のエラーメッセージを改善。
+  * wandb.watch が複数回呼び出されないように修正。
+  * ログ / plotly 内の datetime 属性を処理。
 
-  ## 機能改善
+  ## 機能強化
 
-  * sweeps に environment を追加。
+  * Sweeps に環境を追加。
   * Public API と wandb.init でタグ付けを有効化。
   * 任意の HTML をログするための新しいメディアタイプ wandb.Html を追加。
-  * カスタム インテグレーション用の Public API の api.create&#95;run メソッドを追加。
-  * wandb.save に glob サポートを追加し、ファイルが書き込まれたタイミングで保存されるように変更。
+  * カスタム インテグレーション向けに Public API の api.create&#95;run method を追加。
+  * wandb.save に glob サポートを追加し、ファイルが書き込まれると同時に保存されるように変更。
   * 再開時にファイルを取得するための wandb.restore を追加。
 
   GitHub で [v0.6.31 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.31)を参照してください。
@@ -4362,17 +4362,17 @@ rss: true
 <Update label="v0.6.30" description="2018年12月06日">
   ## バグ修正
 
-  * 大きなリポジトリで diff を生成する際のタイムアウトを追加。
-  * ファイル同期がハングする可能性があるエッジケースを修正。
-  * 終了前にすべてのファイル変更が反映されるように保証。
+  * 大規模なリポジトリで diff を生成する際のタイムアウトを追加。
+  * ファイル同期がハングするエッジケースを修正。
+  * 終了前にすべてのファイル変更が取得されるように修正。
   * コードが渡されない sys.exit のケースを処理。
   * numpy を必須にしないように変更。
 
-  ## 機能改善
+  ## 機能強化
 
   * ローカルディレクトリをクラウドにプッシュする新しい `wandb sync` コマンドを追加。
   * トレーニング中の tfevents ファイルの同期をサポート。
-  * TFJob として実行されている場合を検出し、自動でグループ化。
+  * TFJob として実行されている場合を検出し、自動的にグループ化。
   * パイプライン向けの初期ヘルパーを含む新しい Kubeflow モジュールを追加。
 
   GitHub で [v0.6.30 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.30)を参照してください。
@@ -4387,41 +4387,41 @@ rss: true
 </Update>
 
 <Update label="v0.6.28" description="2018年11月24日">
-  ## 機能改善
+  ## 機能強化
 
   * AWS SageMaker の初期サポートを追加。
-  * `hook_torch` を非推奨とし、警告付きで `watch` に名称変更。
-  * 存在しない場合は Projects が自動的に作成されるように変更。
+  * `hook_torch` を `watch` に改名し、非推奨の警告を表示。
+  * Projects が存在しない場合は自動的に作成されるように変更。
   * 追加の GPU メトリクス memory&#95;allocated を追加。
   * Keras Graph がエッジを保存するように変更。
 
   ## バグ修正
 
-  * PyTorch グラフのパースをより堅牢に改善。
-  * PyTorch 0.3 サポートを修正。
+  * PyTorch グラフの解析をより堅牢に改善。
+  * PyTorch 0.3 のサポートを修正。
   * ファイルダウンロード API が WANDB&#95;API&#95;KEY 認証をサポート。
 
   GitHub で [v0.6.28 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.28)を参照してください。
 </Update>
 
 <Update label="v0.6.27" description="2018年11月13日">
-  ## 機能改善
+  ## 機能強化
 
-  * Sweeps が新しいバックエンドで動作（早期リリース）。
+  * Sweeps が新しいバックエンドで動作 (早期リリース) 。
   * summary は、summary に直接書き込んで上書きされない限り、すべての history メトリクスを追跡。
   * data API でファイルをサポート。
 
   ## バグ修正
 
-  * 最終アップロード進行状況に、進行中のメディアファイルのアップロードを表示。
+  * 最終アップロードの進行状況に、進行中のメディアファイルのアップロードを表示。
 
   GitHub で [v0.6.27 の変更履歴](https://github.com/wandb/wandb/releases/tag/v0.6.27)を参照してください。
 </Update>
 
 <Update label="v0.6.26" description="2018年11月09日">
-  ## 機能改善
+  ## 機能強化
 
-  * wandb.Audio が duration をサポート。
+  * Wandb.Audio が duration をサポート。
 
   ## バグ修正
 
@@ -4437,7 +4437,7 @@ rss: true
   * メトリクスをログする際の新しい step キーワード引数。
   * wandb.init() 呼び出し時、または環境変数経由で run group と job type を指定する機能。
     これにより、UI 内で分散トレーニング run を自動的にグルーピングできるようになります。
-  * サービスアカウント API キーを使用する場合に username を上書きできる機能。
+  * サービスアカウント APIキーを使用する場合に username を上書きできる機能。
 
   ## バグ修正
 

@@ -5,22 +5,22 @@ title: Filtrer les runs
 
 Filtrez les runs en fonction de leur nom, de leur état, de leurs [tags](#filter-runs-with-tags) ou d’autres propriétés à l’aide de l’éditeur d’expressions du tableau des runs.
 
-Lorsque vous ajoutez un filtre, vous choisissez d’abord un champ (par exemple, tags, timestamp ou entité). Chaque champ a un type sous-jacent, par exemple texte, date/heure ou ID.
+Lorsque vous ajoutez un filtre, vous choisissez d’abord un champ (par exemple, tags, horodatage ou entité). Chaque champ a un type sous-jacent, par exemple texte, date/heure ou ID.
 
-La liste des opérateurs proposés (par exemple, is, in, ≥, within last) dépend de ce type. Une fois le champ choisi, l’interface n’affiche que les opérateurs valides pour le type de ce champ.
+La liste des opérateurs proposés (par exemple, is, in, ≥, within last) dépend de ce type. Une fois le champ choisi, l’interface utilisateur n’affiche que les opérateurs valides pour le type de ce champ.
 
 <div id="common-operators-by-type">
   ## Opérateurs courants par type
 </div>
 
-| Type de filtre       | Exemples de champs  | Opérateurs courants    | Exemple d’utilisation              |
-| -------------------- | ------------------- | ---------------------- | ---------------------------------- |
-| Tags                 | `tags`              | is, is not, in, not in | `tags is "baseline"`               |
-| Heure                | `created timestamp` | ≤, ≥, within last      | `created timestamp` ≥ `01/16/2026` |
-| Chaîne de caractères | `state`             | =, ≠, IN, NOT IN       | `state = "finished"`               |
+| Type de Filtre       | Champs d&#39;exemple | Opérateurs courants                | Exemple d&#39;utilisation          |
+| -------------------- | -------------------- | ---------------------------------- | ---------------------------------- |
+| Tags                 | `tags`               | est, n&#39;est pas, dans, pas dans | `tags is "baseline"`               |
+| Temps                | `created timestamp`  | ≤, ≥, au cours des derniers        | `created timestamp` ≥ `01/16/2026` |
+| Chaîne de caractères | `state`              | =, ≠, IN, NOT IN                   | `state = "finished"`               |
 
 <Note>
-  Le tableau ci-dessus présente uniquement un sous-ensemble des champs et opérateurs disponibles. L’éditeur d’expressions affiche tous les champs et opérateurs disponibles.
+  Le tableau ci-dessus ne montre qu&#39;un sous-ensemble des champs et opérateurs disponibles. L&#39;éditeur d’expressions affiche tous les champs et opérateurs disponibles.
 </Note>
 
 <div id="create-a-filter-expression">
@@ -38,7 +38,7 @@ L’image suivante filtre les runs en fonction de valeurs de perte inférieures 
   <img src="/images/data_vis/filter.png" alt="Filtre des prédictions incorrectes" />
 </Frame>
 
-Les sections suivantes présentent quelques exemples de filtrage des runs dans le tableau Runs.
+Les sections suivantes présentent quelques exemples de filtrage des runs dans le tableau des runs.
 
 <div id="example-filter-runs-with-tags">
   ### Exemple : filtrer les runs avec des tags
@@ -50,22 +50,22 @@ Filtrez les runs selon leurs tags :
 2. Sélectionnez le bouton **Filtre**, en forme d’entonnoir, au-dessus du tableau des runs.
 3. De gauche à droite, sélectionnez `"Tags"` dans le premier menu déroulant, puis un opérateur logique.
 4. Sélectionnez is, is not, in ou not in dans le deuxième menu déroulant.
-5. Saisissez le nom du tag sur lequel filtrer dans le troisième menu déroulant.
+5. Saisissez le nom du tag à utiliser pour le filtrage dans le troisième menu déroulant.
 
 <Frame>
-  <img src="/images/app_ui/filter_runs.gif" alt="Filtrer les runs à l’aide de tags" />
+  <img src="/images/app_ui/filter_runs.gif" alt="Filtrer les runs par tags" />
 </Frame>
 
 <div id="default-filters">
   ## Filtres par défaut
 </div>
 
-Par défaut, W&amp;B propose les filtres suivants :
+Par défaut, W&amp;B fournit les filtres suivants :
 
-* **Afficher uniquement mes runs** : affiche uniquement les runs créés par l’utilisateur actuel.
-* **Masquer les runs en échec** : masque les runs dont l’état est `crashed`.
+* **Afficher uniquement mes runs** : affiche uniquement les runs créés par l&#39;utilisateur actuel.
+* **Masquer les runs plantés** : masque les runs dont l&#39;état est `crashed`.
 
-Les filtres par défaut apparaissent sous forme de boutons bascule sous le bouton **Nouveau filtre** dans l’éditeur d’expressions de filtre.
+Les filtres par défaut apparaissent sous forme de boutons de bascule sous le bouton **Nouveau filtre** dans l&#39;éditeur d&#39;expressions de filtre.
 
 <div id="remove-a-filter">
   ## Supprimer un filtre
@@ -73,23 +73,23 @@ Les filtres par défaut apparaissent sous forme de boutons bascule sous le bouto
 
 Pour supprimer un filtre du tableau des runs :
 
-1. Cliquez sur le bouton **Filtre**, en forme d’entonnoir, au-dessus du tableau des runs.
-2. Sélectionnez l’icône `x` à côté du filtre que vous souhaitez supprimer.
+1. Cliquez sur le bouton **Filtre**, qui ressemble à un entonnoir, au-dessus du tableau des runs.
+2. Sélectionnez l’icône `x` à côté du filtre que vous voulez supprimer.
 
 {/*
-  ## Modifier la couleur des runs
+  ## Modifier les couleurs des runs
 
-  Lorsqu'un nouveau run est créé, une couleur par défaut lui est attribuée. Vous pouvez modifier la couleur d'un run en cliquant sur la pastille de couleur.
+  Lorsqu’un nouveau run est créé, une couleur par défaut lui est attribuée. Vous pouvez modifier la couleur d’un run donné en cliquant sur l’aperçu de la couleur.
   */}
 
 {/*
-  Repérez le point vert à côté du nom des runs : cela indique qu’ils sont actifs dans le tableau et dans les légendes du graphique.
+  Recherchez un point vert à côté du nom des runs — cela indique qu'ils sont actifs dans le tableau et dans les légendes du graphique.
   */}
 
 {/*
   ## Sélectionner plusieurs runs
 
-  Supprimez plusieurs runs à la fois ou ajoutez une étiquette à un groupe de runs — la sélection multiple facilite l'organisation du tableau des runs.
+  Supprimez plusieurs runs à la fois, ou ajoutez un tag à un groupe de runs — la sélection multiple permet de mieux organiser le tableau des runs.
 
   <Frame>
     <img src="/images/app_ui/howto_bulk_select.gif"  />
@@ -97,9 +97,9 @@ Pour supprimer un filtre du tableau des runs :
   */}
 
 {/*
-  ## Sélectionner tous les runs du tableau
+  ## Sélectionner tous les Runs du tableau
 
-  Cliquez sur la case à cocher dans l’angle supérieur gauche du tableau, puis sur "Sélectionner tous les runs" pour sélectionner tous les runs correspondant au jeu de filtres actuel.
+  Cliquez sur la case à cocher dans l’angle supérieur gauche du tableau, puis sur "Sélectionner tous les Runs" pour sélectionner tous les runs correspondant aux filtres actuellement appliqués.
 
   <Frame>
     <img src="/images/app_ui/all_runs_select.gif"  />
@@ -109,7 +109,7 @@ Pour supprimer un filtre du tableau des runs :
 {/*
   ## Rechercher des colonnes dans le tableau
 
-  Recherchez des colonnes dans l’interface du tableau à l’aide du bouton **Columns**.
+  Recherchez des colonnes dans l’interface utilisateur du tableau à l’aide du bouton **Columns**.
 
   <Frame>
     <img src="/images/app_ui/search_columns.gif"  />

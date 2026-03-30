@@ -41,7 +41,7 @@ Cette approche est particulièrement utile pour résumer des articles scientifiq
 Dans ce tutoriel, nous allons utiliser Weave pour implémenter et évaluer un pipeline de synthèse Chain of Density pour des articles arXiv. Vous apprendrez à :
 
 1. **Suivre votre pipeline LLM** : utilisez Weave pour journaliser automatiquement les entrées, les sorties et les étapes intermédiaires de votre processus de synthèse.
-2. **Évaluer les sorties LLM** : créez des évaluations rigoureuses et réellement comparables de vos résumés à l&#39;aide des outils intégrés de Weave.
+2. **Évaluez les sorties LLM** : créez des évaluations rigoureuses et réellement comparables de vos résumés à l&#39;aide des outils intégrés de Weave.
 3. **Build des opérations composables** : combinez et réutilisez des opérations Weave dans différentes parties de votre pipeline de synthèse.
 4. **Intégrer facilement** : ajoutez Weave à votre code Python existant avec un minimum de surcharge.
 
@@ -91,7 +91,7 @@ Nous utilisons Weave pour suivre notre expérience et le modèle Claude d’Anth
   ## Définir le modèle ArxivPaper
 </div>
 
-Nous allons créer une simple classe `ArxivPaper` pour représenter nos données :
+Nous allons créer une classe `ArxivPaper` simple pour représenter nos données :
 
 ```python lines
 # Définir le modèle ArxivPaper
@@ -116,14 +116,14 @@ arxiv_paper = ArxivPaper(
 )
 ```
 
-Cette classe encapsule les métadonnées et le contenu d’un article ArXiv, qui serviront d’entrée à notre pipeline de synthèse.
+Cette classe regroupe les métadonnées et le contenu d’un article ArXiv, qui serviront d’entrée à notre pipeline de synthèse.
 
 
 <div id="load-pdf-content">
   ## Charger le contenu d’un PDF
 </div>
 
-Pour travailler avec le contenu complet de l’article, nous allons ajouter une fonction permettant de charger et d’extraire le texte des PDF :
+Pour travailler avec le contenu complet de l’article, nous allons ajouter une fonction pour charger et extraire le texte de fichiers PDF :
 
 ```python lines
 @weave.op()
@@ -148,14 +148,14 @@ def load_pdf(pdf_url: str) -> str:
   ## Implémenter la synthèse Chain of Density
 </div>
 
-Passons maintenant à l&#39;implémentation de la logique principale de synthèse CoD à l&#39;aide des opérations Weave :
+Passons maintenant à l’implémentation de la logique principale de synthèse CoD à l’aide des opérations Weave :
 
 <Frame>
   ![Visualisation d'une trace Weave montrant l'exécution du pipeline de synthèse Chain of Density](/media/summarization/summarization_trace.png)
 </Frame>
 
 ```python lines
-# Résumé par chaîne de densité
+# Synthèse Chain of Density
 @weave.op()
 def summarize_current_summary(
     document: str,
@@ -229,13 +229,13 @@ def chain_of_density_summarization(
     }
 ```
 
-Voici le rôle de chaque fonction :
+Voici ce que fait chaque fonction :
 
-* `summarize_current_summary` : génère une itération unique du résumé à partir de l’état actuel.
+* `summarize_current_summary` : génère une seule itération de synthèse à partir de l’état actuel.
 * `iterative_density_summarization` : applique la technique CoD en appelant `summarize_current_summary` plusieurs fois.
 * `chain_of_density_summarization` : orchestre l’ensemble du processus de synthèse et renvoie les résultats.
 
-En utilisant les décorateurs `@weave.op()`, nous nous assurons que Weave suit les entrées, les sorties et l’exécution de ces fonctions.
+En utilisant les décorateurs `@weave.op()`, nous garantissons que Weave assure le suivi des entrées, des sorties et de l’exécution de ces fonctions.
 
 
 <div id="create-a-weave-model">
@@ -245,7 +245,7 @@ En utilisant les décorateurs `@weave.op()`, nous nous assurons que Weave suit l
 Maintenant, encapsulons notre pipeline de synthèse dans un modèle Weave :
 
 <Frame>
-  ![Interface de configuration du modèle Weave pour la synthèse Chain of Density, avec les réglages et paramètres du modèle](/media/summarization/model.png)
+  ![Interface de configuration du modèle Weave pour la synthèse Chain of Density, avec les paramètres et réglages du modèle](/media/summarization/model.png)
 </Frame>
 
 ```python lines
@@ -279,7 +279,7 @@ Cette classe `ArxivChainOfDensityPipeline` encapsule notre logique de synthèse 
   ## Implémenter des métriques d’évaluation
 </div>
 
-Pour évaluer la qualité de nos résumés, nous allons implémenter de simples métriques d’évaluation :
+Pour évaluer la qualité de nos résumés, nous allons mettre en place de simples métriques d’évaluation :
 
 ```python lines
 import json
@@ -335,10 +335,10 @@ Ces fonctions d’évaluation utilisent le modèle Claude pour évaluer la quali
 
 
 <div id="create-a-weave-dataset-and-run-evaluation">
-  ## Créer un jeu de données Weave et exécuter une évaluation
+  ## Créer un jeu de données Weave et lancer une évaluation
 </div>
 
-Pour évaluer notre pipeline, nous allons créer un jeu de données Weave et exécuter une évaluation :
+Pour évaluer notre pipeline, nous allons créer un jeu de données Weave et lancer une évaluation :
 
 <Frame>
   ![Interface de configuration d’un jeu de données Weave pour l’évaluation, avec sélection du jeu de données et options de configuration](/media/summarization/dataset.png)
@@ -359,7 +359,7 @@ dataset = weave.Dataset(
 weave.publish(dataset)
 ```
 
-Pour notre évaluation, nous utiliserons une approche de type LLM comme juge. Cette technique consiste à utiliser un modèle de langage pour évaluer la qualité des résultats générés par un autre modèle ou système. Elle s’appuie sur les capacités de compréhension et de raisonnement du LLM pour fournir des évaluations nuancées, en particulier pour les tâches où les métriques traditionnelles peuvent montrer leurs limites.
+Pour notre évaluation, nous utiliserons une approche où un LLM fait office de juge. Cette technique consiste à utiliser un modèle de langage pour évaluer la qualité des résultats générés par un autre modèle ou système. Elle s’appuie sur les capacités de compréhension et de raisonnement du LLM pour fournir des évaluations nuancées, en particulier pour les tâches où les métriques traditionnelles peuvent montrer leurs limites.
 
 [![arXiv](https://img.shields.io/badge/arXiv-2306.05685-b31b1b.svg)](https://arxiv.org/abs/2306.05685)
 
@@ -387,15 +387,15 @@ Ce code crée un jeu de données à partir de notre exemple d’article ArXiv, d
   ## Conclusion
 </div>
 
-Dans cet exemple, nous avons montré comment mettre en place un pipeline de synthèse Chain of Density pour des articles ArXiv avec Weave. Nous avons vu comment :
+Dans cet exemple, nous avons montré comment mettre en place un pipeline de synthèse Chain of Density pour des articles ArXiv avec Weave. Nous avons vu comment :
 
 1. Créer des opérations Weave pour chaque étape du processus de synthèse
-2. Encapsuler le pipeline dans un modèle Weave afin de faciliter le suivi et l’évaluation
-3. Implémenter des métriques d’évaluation personnalisées à l’aide d’opérations Weave
+2. Encapsuler le pipeline dans un modèle Weave afin de faciliter le suivi et l&#39;évaluation
+3. Implémenter des métriques d&#39;évaluation personnalisées à l&#39;aide d&#39;opérations Weave
 4. Créer un jeu de données et exécuter une évaluation du pipeline
 
-L’intégration transparente de Weave nous permet de suivre les entrées, les sorties et les étapes intermédiaires tout au long du processus de synthèse, ce qui facilite le débogage, l’optimisation et l’évaluation de notre application LLM.
-Vous pouvez adapter cet exemple pour traiter des jeux de données plus volumineux, implémenter des métriques d’évaluation plus sophistiquées ou l’intégrer à d’autres flux de travail LLM.
+L&#39;intégration transparente de Weave nous permet de suivre les entrées, les sorties et les étapes intermédiaires tout au long du processus de synthèse, ce qui facilite le débogage, l&#39;optimisation et l&#39;évaluation de notre application LLM.
+Vous pouvez adapter cet exemple pour traiter des jeux de données plus volumineux, implémenter des métriques d&#39;évaluation plus sophistiquées ou l&#39;intégrer à d&#39;autres flux de travail LLM.
 
 <a href="https://wandb.ai/wandb_fc/arxiv-reader/reports/Building-a-bot-to-summarize-arXiv-papers-as-PDFs-using-Anthrophic-and-W-B-Weave--Vmlldzo4Nzg0ODI4" target="_blank" rel="noopener noreferrer" className="button button--primary button--lg">
   Voir le rapport complet sur W&amp;B

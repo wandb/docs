@@ -1,5 +1,5 @@
 ---
-description: Importez des données depuis MLflow, ou exportez et mettez à jour les données que vous avez enregistrées dans
+description: Importez des données depuis MLFlow, ou exportez et mettez à jour les données que vous avez enregistrées sur
   W&B
 title: Importer et exporter des données
 ---
@@ -32,7 +32,7 @@ Connectez-vous à W&amp;B. Suivez les instructions si vous ne vous êtes pas enc
 wandb login
 ```
 
-Importez tous les runs à partir d’un serveur MLFlow existant :
+Importez tous les runs depuis un serveur MLFlow existant :
 
 ```py
 from wandb.apis.importers.mlflow import MlflowImporter
@@ -43,7 +43,7 @@ runs = importer.collect_runs()
 importer.import_runs(runs)
 ```
 
-Par défaut, `importer.collect_runs()` collecte tous les runs du serveur MLFlow. Si vous préférez téléverser un sous-ensemble spécifique, vous pouvez créer votre propre itérable de runs et le transmettre à l’importateur.
+Par défaut, `importer.collect_runs()` collecte tous les runs du serveur MLFlow. Si vous préférez téléverser un sous-ensemble particulier, vous pouvez créer votre propre itérable de runs et le passer à l’importateur.
 
 ```py
 import mlflow
@@ -64,7 +64,7 @@ importer.import_runs(runs)
   Définissez `mlflow-tracking-uri="databricks"` à l’étape précédente.
 </Note>
 
-Pour ne pas importer les artefacts, vous pouvez passer `artifacts=False` :
+Pour ignorer l’importation des artefacts, vous pouvez passer `artifacts=False` :
 
 ```py
 importer.import_runs(runs, artifacts=False)
@@ -112,7 +112,7 @@ importer.import_runs(runs, namespace=Namespace(entity, project))
     dst_api_key="target-environment-api-key-here",
   )
 
-  # Importe tous les runs, artefacts et rapports
+  # Importe tous les runs, artefacts et Reports
   # de "entity/project" dans src vers "entity/project" dans dst
   importer.import_all(namespaces=[
     Namespace(entity, project),
@@ -147,19 +147,19 @@ importer.import_runs(runs, namespace=Namespace(entity, project))
   - Aucune donnée n’est jamais supprimée du système source.
 
   1. Lors d’importations en masse (en particulier d’artefacts volumineux), il peut arriver que vous atteigniez les limites de débit de S3. Si vous voyez `botocore.exceptions.ClientError: An error occurred (SlowDown) when calling the PutObject operation`, essayez d’espacer les importations en ne déplaçant que quelques espaces de noms à la fois.
-  2. Les tableaux de run importés semblent vides dans l’espace de travail, mais si vous accédez à l’onglet Artifacts et cliquez sur l’artefact de tableau de run correspondant, le tableau devrait s’afficher correctement.
+  2. Les tableaux de run importés semblent vides dans le Workspace, mais si vous accédez à l’onglet Artifacts et cliquez sur l’artefact de tableau de run correspondant, le tableau devrait s’afficher correctement.
   3. Les métriques système et les graphiques personnalisés (non explicitement enregistrés avec `run.log`) ne sont pas importés */}
 
 <div id="export-data">
   ## Exporter des données
 </div>
 
-Utilisez l’API publique pour exporter ou mettre à jour les données que vous avez enregistrées dans W&amp;B. Avant d’utiliser cette API, mettez des données au journal depuis votre script. Consultez le [Démarrage rapide](/fr/models/quickstart/) pour plus de détails.
+Utilisez l’API publique pour exporter ou mettre à jour les données que vous avez journalisées dans W&amp;B. Avant d’utiliser cette API, journalisez des données depuis votre script. Consultez le [Démarrage rapide](/fr/models/quickstart/) pour plus de détails.
 
 **Cas d’utilisation de l’API publique**
 
-* **Exporter des données** : récupérez un dataframe pour une analyse personnalisée dans un notebook Jupyter. Une fois les données explorées, vous pouvez synchroniser vos conclusions en créant un nouveau run d’analyse et en mettant les résultats au journal, par exemple : `wandb.init(job_type="analysis")`
-* **Mettre à jour des Runs existants** : vous pouvez mettre à jour les données mises au journal pour un run W&amp;B. Par exemple, vous pouvez vouloir mettre à jour la configuration d’un ensemble de runs afin d’inclure des informations supplémentaires, comme l’architecture ou un hyperparamètre qui n’avait pas été mis au journal à l’origine.
+* **Exporter des données** : récupérez un dataframe pour une analyse personnalisée dans un notebook Jupyter. Une fois les données explorées, vous pouvez synchroniser vos conclusions en créant un nouveau run d’analyse et en journalisant les résultats, par exemple : `wandb.init(job_type="analysis")`
+* **Mettre à jour des Runs existants** : vous pouvez mettre à jour les données journalisées pour un run W&amp;B. Par exemple, vous pouvez vouloir mettre à jour la configuration d’un ensemble de runs afin d’inclure des informations supplémentaires, comme l’architecture ou un hyperparamètre qui n’avait pas été journalisé à l’origine.
 
 Voir la [documentation de référence générée](/fr/models/ref/python/public-api/) pour plus de détails sur les fonctions disponibles.
 
@@ -180,10 +180,10 @@ Une clé API permet d’authentifier votre machine auprès de W&amp;B.
 Pour utiliser l’API publique, vous aurez souvent besoin du chemin du run, au format `<entity>/<project>/<run_id>`. Dans l’interface de l’application, ouvrez la page d’un run et cliquez sur l’[onglet Vue d’ensemble ](/fr/models/track/public-api-guide/#overview-tab)pour obtenir le chemin du run.
 
 <div id="export-run-data">
-  ### Exporter les données du run
+  ### Exporter les données d’un run
 </div>
 
-Téléchargez les données d&#39;un run terminé ou en cours. Les utilisations courantes incluent le téléchargement d&#39;un dataframe pour une analyse personnalisée dans un notebook Jupyter, ou le recours à une logique personnalisée dans un environnement automatisé.
+Téléchargez les données d’un run terminé ou en cours. Les cas d’utilisation courants incluent le téléchargement d’un dataframe pour une analyse personnalisée dans un notebook Jupyter, ou l’utilisation d’une logique personnalisée dans un environnement automatisé.
 
 ```python
 import wandb
@@ -194,11 +194,11 @@ run = api.run("<entity>/<project>/<run_id>")
 
 Les attributs d’un objet run les plus couramment utilisés sont :
 
-| Attribut        | Signification                                                                                                                                                                                                                                                                                                                                                   |
-| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `run.config`    | Un dictionnaire contenant les informations de configuration du run, comme les hyperparamètres d’un run d’entraînement ou les méthodes de prétraitement d’un run qui crée un artefact de jeu de données. Considérez-les comme les entrées du run.                                                                                                                |
-| `run.history()` | Une liste de dictionnaires destinée à stocker les valeurs qui changent pendant l’entraînement du modèle, comme la perte. La commande `run.log()` ajoute des éléments à cet objet.                                                                                                                                                                               |
-| `run.summary`   | Un dictionnaire d’informations qui résume les résultats du run. Il peut s’agir de scalaires comme la précision et la perte, ou de fichiers volumineux. Par défaut, `run.log()` définit le résumé à la valeur finale d’une série temporelle mise au journal. Le contenu du résumé peut aussi être défini directement. Considérez le résumé comme les sorties du run. |
+| Attribut        | Signification                                                                                                                                                                                                                                                                                                                                                              |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `run.config`    | Un dictionnaire contenant les informations de configuration du run, comme les hyperparamètres d’un run d’entraînement ou les méthodes de prétraitement d’un run qui crée un artefact de jeu de données. Considérez-les comme les entrées du run.                                                                                                                           |
+| `run.history()` | Une liste de dictionnaires destinée à stocker les valeurs qui évoluent pendant l’entraînement du modèle, comme la perte. La commande `run.log()` ajoute des éléments à cet objet.                                                                                                                                                                                          |
+| `run.summary`   | Un dictionnaire d’informations qui résume les résultats du run. Il peut s’agir de scalaires comme la précision et la perte, ou de fichiers volumineux. Par défaut, `run.log()` définit la synthèse sur la valeur finale d’une série temporelle enregistrée. Le contenu de la synthèse peut aussi être défini directement. Considérez la synthèse comme les sorties du run. |
 
 Vous pouvez aussi modifier ou mettre à jour les données de runs antérieurs. Par défaut, une seule instance d’un objet API met en cache toutes les requêtes réseau. Si votre cas d’utilisation nécessite des informations en temps réel dans un script en cours d’exécution, appelez `api.flush()` pour obtenir des valeurs à jour.
 
@@ -206,7 +206,7 @@ Vous pouvez aussi modifier ou mettre à jour les données de runs antérieurs. P
   ### Comprendre les différents attributs de run
 </div>
 
-L&#39;extrait de code suivant montre comment créer un run, consigner certaines données au journal, puis accéder aux attributs du run :
+L&#39;extrait de code suivant montre comment créer un run, journaliser certaines données, puis accéder aux attributs du run :
 
 ```python
 import wandb
@@ -258,7 +258,7 @@ Par défaut, la méthode `history` échantillonne les métriques jusqu’à un n
 
 <Tabs>
   <Tab title="DataFrame et CSV">
-    Ce script d&#39;exemple trouve un projet et génère un CSV de runs avec leur nom, leurs configurations et leurs statistiques de résumé. Remplacez `<entity>` et `<project>` par votre entité W&amp;B et le nom de votre projet, respectivement.
+    Ce script d&#39;exemple trouve un projet et génère un CSV de runs avec leur nom, leurs configurations et leurs statistiques de synthèse. Remplacez `<entity>` et `<project>` par votre entité W&amp;B et le nom de votre projet, respectivement.
 
     ```python
     import pandas as pd
@@ -307,13 +307,13 @@ Par défaut, la méthode `history` échantillonne les métriques jusqu’à un n
 
 L&#39;appel à `api.runs` renvoie un objet `Runs` itérable qui se comporte comme une liste. Par défaut, l&#39;objet charge 50 runs à la fois, de manière séquentielle et selon les besoins, mais vous pouvez modifier le nombre chargé par page avec l&#39;argument nommé `per_page`.
 
-`api.runs` accepte également un argument nommé `order`. L&#39;ordre par défaut est `-created_at`. Pour trier les résultats par ordre croissant, spécifiez `+created_at`. Vous pouvez aussi trier par valeurs de configuration ou de résumé. Par exemple, `summary.val_acc` ou `config.experiment_name`.
+`api.runs` accepte également un argument nommé `order`. L&#39;ordre par défaut est `-created_at`. Pour trier les résultats par ordre croissant, spécifiez `+created_at`. Vous pouvez aussi trier par valeurs de configuration ou de synthèse. Par exemple, `summary.val_acc` ou `config.experiment_name`.
 
 <div id="error-handling">
   ### Gestion des erreurs
 </div>
 
-Si des erreurs se produisent lors de la communication avec les serveurs W&amp;B, une `wandb.CommError` est levée. Vous pouvez inspecter l&#39;exception original via l&#39;attribut `exc`.
+Si des erreurs se produisent lors de la communication avec les serveurs W&amp;B, une `wandb.CommError` est levée. Vous pouvez inspecter l&#39;exception originale via l&#39;attribut `exc`.
 
 <div id="get-the-latest-git-commit-through-the-api">
   ### Obtenir le dernier commit Git via l’API
@@ -322,20 +322,20 @@ Si des erreurs se produisent lors de la communication avec les serveurs W&amp;B,
 Dans l’interface utilisateur, cliquez sur un run, puis sur l’onglet Vue d’ensemble de la page du run pour voir le dernier commit Git. Il figure également dans le fichier `wandb-metadata.json`. Avec l’API publique, vous pouvez obtenir le hash Git avec `run.commit`.
 
 <div id="get-a-runs-name-and-id-during-a-run">
-  ### Obtenir le nom et l’ID d’un run au cours d’un run
+  ### Obtenir le nom et l’ID d’un run pendant son exécution
 </div>
 
-Après avoir appelé `wandb.init()`, vous pouvez accéder depuis votre script à l’ID aléatoire du run ou à son nom lisible, comme suit :
+Après avoir appelé `wandb.init()`, vous pouvez accéder depuis votre script à l’ID aléatoire du run ou à son nom lisible par un humain, comme suit :
 
 * ID unique du run (hachage de 8 caractères) : `run.id`
-* Nom aléatoire du run (lisible) : `run.name`
+* Nom aléatoire du run (lisible par un humain) : `run.name`
 
-Si vous cherchez à définir des identifiants utiles pour vos runs, voici ce que nous vous recommandons :
+Si vous réfléchissez à la meilleure façon de définir des identifiants utiles pour vos runs, voici ce que nous vous recommandons :
 
 * **ID du run** : laissez le hachage généré tel quel. Il doit être unique parmi les runs de votre projet.
-* **Nom du run** : il doit être court, lisible et, de préférence, unique, afin de pouvoir distinguer les différentes lignes de vos graphiques.
+* **Nom du run** : il doit être court, lisible et, de préférence, unique, afin que vous puissiez distinguer les différentes lignes dans vos graphiques.
 * **Notes du run** : c’est l’endroit idéal pour ajouter une brève description de ce que vous faites dans votre run. Vous pouvez les définir avec `wandb.init(notes="your notes here")`
-* **Tags du run** : utilisez-les pour suivre dynamiquement certains éléments, puis servez-vous des filtres dans l’interface pour n’afficher dans votre tableau que les runs qui vous intéressent. Vous pouvez définir des tags depuis votre script, puis les modifier dans l’interface, à la fois dans le tableau des Runs et dans l’onglet Vue d’ensemble de la page du run. Voir les instructions détaillées [ici](/fr/models/runs/tags/).
+* **Tags du run** : utilisez-les pour suivre dynamiquement certains éléments, puis servez-vous des filtres dans l’interface utilisateur pour n’afficher dans votre tableau que les runs qui vous intéressent. Vous pouvez définir des tags depuis votre script, puis les modifier dans l’interface utilisateur, à la fois dans le tableau des runs et dans l’onglet Vue d’ensemble de la page du run. Voir les instructions détaillées [ici](/fr/models/runs/tags/).
 
 <div id="public-api-examples">
   ## Exemples d’API publique
@@ -345,7 +345,7 @@ Si vous cherchez à définir des identifiants utiles pour vos runs, voici ce que
   ### Exporter des données pour les visualiser dans matplotlib ou seaborn
 </div>
 
-Consultez nos [exemples d’API](/fr/models/ref/python/public-api/) pour découvrir quelques méthodes courantes d’exportation. Vous pouvez également cliquer sur le bouton de téléchargement d’un graphique personnalisé ou du tableau Runs agrandi pour télécharger un fichier CSV depuis votre navigateur.
+Consultez nos [exemples d’API](/fr/models/ref/python/public-api/) pour découvrir quelques méthodes courantes d’exportation. Vous pouvez également cliquer sur le bouton de téléchargement d’un graphique personnalisé ou du tableau des runs agrandi pour télécharger un fichier CSV depuis votre navigateur.
 
 <div id="read-metrics-from-a-run">
   ### Lire les métriques d’un run
@@ -365,7 +365,7 @@ if run.state == "finished":
 ```
 
 <div id="filter-runs">
-  ### Filtrer les runs
+  ### Filtre des runs
 </div>
 
 Vous pouvez filtrer en utilisant le langage de requête MongoDB.
@@ -385,7 +385,7 @@ runs = api.runs(
   ### Lire des métriques spécifiques d’un run
 </div>
 
-Pour récupérer des métriques spécifiques d’un run, utilisez l’argument `keys`. Le nombre d’échantillons par défaut avec `run.history()` est de 500. Les étapes mises au journal qui ne contiennent pas une métrique spécifique apparaîtront dans le dataframe de sortie sous la forme de `NaN`. L’argument `keys` amène l’API à échantillonner plus fréquemment les étapes qui incluent les clés de métriques indiquées.
+Pour récupérer des métriques spécifiques d’un run, utilisez l’argument `keys`. Le nombre d’échantillons par défaut avec `run.history()` est de 500. Les étapes enregistrées qui ne contiennent pas de métrique spécifique apparaîtront dans le dataframe de sortie sous la forme de `NaN`. L’argument `keys` indique à l’API d’échantillonner plus fréquemment les étapes qui incluent les clés de métriques indiquées.
 
 ```python
 import wandb
@@ -451,7 +451,7 @@ run.summary.update()
   ### Renommer une métrique dans un run terminé
 </div>
 
-Cet exemple renomme une colonne de résumé dans vos tableaux.
+Cet exemple renomme une colonne de synthèse dans vos tableaux.
 
 ```python
 import wandb
@@ -485,10 +485,10 @@ run.update()
 ```
 
 <div id="export-system-resource-consumptions-to-a-csv-file">
-  ### Exporter la consommation des ressources système dans un fichier CSV
+  ### Exporter les données de consommation des ressources système dans un fichier CSV
 </div>
 
-L’extrait ci-dessous permet de trouver la consommation des ressources système, puis de l’enregistrer dans un fichier CSV.
+L’extrait ci-dessous permet de trouver les données de consommation des ressources système, puis de les enregistrer dans un fichier CSV.
 
 ```python
 import wandb
@@ -503,7 +503,7 @@ with wandb.Api().run("<entity>/<project>/<run_id>") as run:
   ### Obtenir des données de métriques non échantillonnées
 </div>
 
-Lorsque vous récupérez des données depuis l’historique, elles sont, par défaut, échantillonnées à 500 points. Obtenez tous les points de données mis au journal avec `run.scan_history()`. Voici un exemple qui télécharge tous les points de données `loss` mis au journal dans l’historique.
+Lorsque vous récupérez des données depuis l’historique, elles sont, par défaut, échantillonnées à 500 points. Obtenez tous les points de données enregistrés avec `run.scan_history()`. Voici un exemple qui télécharge tous les points de données `loss` enregistrés dans l’historique.
 
 ```python
 import wandb
@@ -534,7 +534,7 @@ run.scan_history(keys=sorted(cols), page_size=100)
   ### Exporter les métriques de tous les runs d’un projet dans un fichier CSV
 </div>
 
-Ce script récupère les runs d’un projet et génère un dataframe ainsi qu’un fichier CSV des runs, avec leur nom, leurs configurations et leurs statistiques de résumé. Remplacez `<entity>` et `<project>` par votre entité W&amp;B et le nom de votre projet, respectivement.
+Ce script récupère les runs d’un projet et génère un dataframe ainsi qu’un fichier CSV des runs, avec leur nom, leurs configurations et leurs statistiques de synthèse. Remplacez `<entity>` et `<project>` par votre entité W&amp;B et le nom de votre projet, respectivement.
 
 ```python
 import pandas as pd
@@ -662,7 +662,7 @@ Le `best_run` est le run qui présente la meilleure métrique, telle que défini
   ### Télécharger le fichier du meilleur modèle depuis un balayage
 </div>
 
-Cet extrait télécharge le fichier de modèle présentant la meilleure précision de validation à partir d’un balayage dont les runs ont enregistré leur fichier de modèle sous `model.h5`.
+Cet extrait télécharge, à partir d’un balayage, le fichier du modèle ayant la meilleure précision de validation parmi les runs ayant enregistré un fichier de modèle sous `model.h5`.
 
 ```python
 import wandb
@@ -715,10 +715,10 @@ system_metrics.to_csv("sys_metrics.csv")
 ```
 
 <div id="update-summary-metrics">
-  ### Mettre à jour les métriques du résumé
+  ### Mettre à jour les métriques de synthèse
 </div>
 
-Vous pouvez passer un dictionnaire pour mettre à jour les métriques du résumé.
+Vous pouvez passer un dictionnaire pour mettre à jour les métriques de synthèse.
 
 ```python
 summary.update({"key": val})
@@ -728,7 +728,7 @@ summary.update({"key": val})
   ### Obtenir la commande utilisée pour lancer le run
 </div>
 
-Chaque run enregistre la commande qui l’a lancé sur la page d’aperçu du run. Pour récupérer cette commande depuis l’API, vous pouvez exécuter :
+Chaque run capture la commande qui l’a lancé sur la page Aperçu du run. Pour récupérer cette commande depuis l’API, vous pouvez exécuter :
 
 ```python
 import wandb

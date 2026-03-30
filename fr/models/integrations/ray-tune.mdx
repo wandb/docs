@@ -1,12 +1,12 @@
 ---
-description: "Intégrez W&B à Ray Tune pour suivre les essais d’ajustement des hyperparamètres, consigner des métriques et comparer les résultats des expériences."
+description: "Intégrez W&B à Ray Tune pour suivre les essais d'ajustement des hyperparamètres, consigner des métriques et comparer les résultats des expériences."
 title: Ray Tune
 ---
 
-W&amp;B s’intègre à [Ray](https://github.com/ray-project/ray) en proposant deux intégrations légères.
+W&amp;B s&#39;intègre à [Ray](https://github.com/ray-project/ray) en proposant deux intégrations légères.
 
-* La fonction `WandbLoggerCallback` consigne automatiquement dans l’API wandb les métriques transmises à Tune.
-* La fonction `setup_wandb()`, qui peut être utilisée avec l’API de fonction, initialise automatiquement l’API wandb avec les informations d’entraînement de Tune. Vous pouvez ensuite utiliser l’API wandb comme d’habitude, par exemple avec `run.log()` pour consigner votre entraînement.
+* La fonction `WandbLoggerCallback` consigne automatiquement dans l&#39;API wandb les métriques transmises à Tune.
+* La fonction `setup_wandb()`, qui peut être utilisée avec l&#39;API de fonction, initialise automatiquement l&#39;API wandb avec les informations d&#39;entraînement de Tune. Vous pouvez ensuite utiliser l&#39;API wandb comme d&#39;habitude, par exemple avec `run.log()` pour consigner votre entraînement.
 
 <div id="configure-the-integration">
   ## Configurer l’intégration
@@ -16,7 +16,7 @@ W&amp;B s’intègre à [Ray](https://github.com/ray-project/ray) en proposant d
 from ray.air.integrations.wandb import WandbLoggerCallback
 ```
 
-La configuration de wandb se fait en passant une clé wandb au paramètre config de `tune.run()` (voir l’exemple ci-dessous).
+La configuration de wandb se fait en passant une clé wandb au paramètre configuration de `tune.run()` (voir l’exemple ci-dessous).
 
 Le contenu de l’entrée de configuration wandb est transmis à `wandb.init()` sous forme d’arguments nommés. Les exceptions sont les paramètres suivants, utilisés pour configurer `WandbLoggerCallback` lui-même :
 
@@ -33,7 +33,7 @@ Le contenu de l’entrée de configuration wandb est transmis à `wandb.init()` 
 
 `excludes (list)`: Liste des métriques à exclure du journal.
 
-`log_config (bool)`: Indique s&#39;il faut journaliser le paramètre de configuration du dictionnaire de résultats. Valeur par défaut : False.
+`log_config (bool)`: Indique s&#39;il faut journaliser le paramètre de configuration du dict de résultats. Valeur par défaut : False.
 
 `upload_checkpoints (bool)`:  Si True, les points de contrôle du modèle sont téléversés en tant qu&#39;artefacts. Valeur par défaut : False.
 
@@ -78,7 +78,7 @@ results = tuner.fit()
 from ray.air.integrations.wandb import setup_wandb
 ```
 
-Cette fonction utilitaire permet d’initialiser Wandb pour l’utiliser avec Ray Tune. Pour une utilisation de base, appelez `setup_wandb()` dans votre fonction d’entraînement :
+Cette fonction utilitaire permet d’initialiser Wandb afin de l’utiliser avec Ray Tune. Pour une utilisation de base, appelez `setup_wandb()` dans votre fonction d’entraînement :
 
 ```python
 from ray.air.integrations.wandb import setup_wandb
@@ -117,7 +117,7 @@ results = tuner.fit()
   ## Exemples de code
 </div>
 
-Nous avons créé quelques exemples pour vous montrer comment l’intégration fonctionne :
+Nous avons créé quelques exemples pour vous montrer comment l&#39;intégration fonctionne :
 
-* [Colab](https://wandb.me/raytune-colab) : une démo simple pour essayer l’intégration.
-* [Tableau de bord](https://wandb.ai/anmolmann/ray_tune) : consultez le tableau de bord généré à partir de l’exemple.
+* [Colab](https://wandb.me/raytune-colab) : une démo simple pour essayer l&#39;intégration.
+* [Tableau de bord](https://wandb.ai/anmolmann/ray_tune) : consultez le tableau de bord généré à partir de l&#39;exemple.

@@ -1,16 +1,16 @@
 ---
-title: "wandb.init はトレーニング プロセスにどのような影響を与えますか？"
+title: "wandb.init はトレーニングプロセスに何をするのですか？"
 keywords: ["環境変数", "Experiments"]
 featured: true
 ---
 
-トレーニングスクリプトで `wandb.init()` が実行されると、API 呼び出しによってサーバー上に run オブジェクトが作成されます。新しいプロセスが開始され、メトリクスのストリーミングと収集を行うことで、メインプロセスは通常どおり動作できます。スクリプトはローカルファイルに書き込みを行い、別プロセスはシステムメトリクスを含むデータをサーバーにストリーミングします。ストリーミングを無効にするには、トレーニングディレクトリで `wandb off` を実行するか、`WANDB_MODE` 環境変数を `offline` に設定します。
+トレーニングスクリプト内で `wandb.init()` が実行されると、API 呼び出しによりサーバー上で run オブジェクトが作成されます。新しいプロセスが開始され、メトリクスをストリーミングおよび収集することで、メイン プロセスは通常通り動作を続けられます。スクリプトはローカル ファイルへの書き込みを続けますが、別プロセスがシステム メトリクスを含むデータをサーバーへストリーミングします。ストリーミングをオフにするには、トレーニング ディレクトリから `wandb off` を実行するか、`WANDB_MODE` 環境変数を `offline` に設定してください。
 
 ***
 
 {/* ---- 自動生成: タブ バッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+    front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+    これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>

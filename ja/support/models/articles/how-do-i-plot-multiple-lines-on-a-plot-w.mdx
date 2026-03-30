@@ -1,9 +1,9 @@
 ---
-title: "凡例付きのプロットで複数の線を描画するにはどうすればよいですか？"
+title: "凡例付きのプロットに複数の線をプロットするにはどうすればよいですか？"
 keywords: ["Experiments"]
 ---
 
-`wandb.plot.line_series()` を使用して、複数の線を持つカスタム チャートを作成します。折れ線チャートを表示するには、[プロジェクト ページ](/ja/models/track/project-page) に移動します。凡例を追加するには、`wandb.plot.line_series()` で `keys` 引数を指定します。例:
+`wandb.plot.line_series()` を使用して、複数の線を持つカスタムチャートを作成します。[プロジェクトページ](/ja/models/track/project-page)にアクセスして折れ線グラフを確認してください。凡例を追加するには、`wandb.plot.line_series()` に `keys` 引数を含めます。例：
 
 ```python
 
@@ -18,15 +18,15 @@ with wandb.init(project="my_project") as run:
     )
 ```
 
-複数線プロットの詳細については、**Multi-line** タブの[こちら](/ja/models/track/log/plots#basic-charts)を参照してください。
+複数の折れ線グラフの詳細については、**Multi-line** タブの[こちら](/ja/models/track/log/plots#basic-charts)を参照してください。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 
-{/* ---- 自動生成終了: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

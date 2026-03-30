@@ -5,6 +5,6 @@ title: Quelles sont les exigences de l’image de base de l’accélérateur ?
 Pour les jobs qui utilisent un accélérateur, fournissez une image de base contenant les composants nécessaires à l’accélérateur. Assurez-vous que l’image de l’accélérateur respecte les exigences suivantes :
 
 * Compatibilité avec Debian (le Dockerfile de Launch utilise `apt-get` pour installer Python)
-* Prise en charge du jeu d’instructions matériel du CPU et du GPU (vérifiez la compatibilité de la version de CUDA avec le GPU cible)
+* Jeu d’instructions matériel du CPU et du GPU pris en charge (vérifiez la compatibilité de la version de CUDA avec le GPU cible)
 * Compatibilité entre la version de l’accélérateur fournie et les packages de l’algorithme de machine learning
 * Installation des packages qui nécessitent des étapes supplémentaires pour assurer la compatibilité matérielle

@@ -3,13 +3,13 @@ title: "Collecter et suivre des jeux de données"
 description: "Organiser, collecter, suivre et versionner des exemples pour l’évaluation d’applications LLM"
 ---
 
-Les jeux de données Weave vous aident à organiser, collecter, suivre et versionner des exemples pour l’évaluation d’applications LLM, afin de faciliter les comparaisons. Vous pouvez créer des `Dataset` et interagir avec eux de manière programmatique ou via l’interface utilisateur.
+Les jeux de données Weave vous aident à organiser, collecter, suivre et versionner des exemples pour l’évaluation d’applications LLM, afin de faciliter les comparaisons. Vous pouvez créer des `Dataset`s et interagir avec eux de manière programmatique et via l’interface utilisateur.
 
-Cette page décrit :
+Cette page décrit :
 
 * Les opérations de base sur les `Dataset` en Python et TypeScript, ainsi que la prise en main
 * Comment créer un `Dataset` en Python et TypeScript à partir d’objets tels que des [appels](../tracking/tracing) Weave
-* Les opérations disponibles sur un `Dataset` via l’interface utilisateur
+* Les opérations disponibles sur un `Dataset` dans l’interface utilisateur
 
 <div id="dataset-quickstart">
   ## Démarrage rapide de `Dataset`
@@ -22,7 +22,7 @@ Les exemples de code suivants montrent comment effectuer les opérations de base
 * Récupérer le `Dataset`
 * Accéder à un exemple spécifique dans le `Dataset`
 
-Choisissez un onglet pour afficher le code spécifique à Python ou à TypeScript.
+Sélectionnez un onglet pour afficher le code spécifique à Python ou à TypeScript.
 
 <Tabs>
   <Tab title="Python">
@@ -179,10 +179,10 @@ Choisissez un onglet pour afficher le code spécifique à Python ou à TypeScrip
 </Tabs>
 
 <div id="create-edit-and-delete-a-dataset-in-the-ui">
-  ## Créer, modifier et supprimer un `Dataset` dans l’interface utilisateur
+  ## Créer, modifier et supprimer un `jeu de données` dans l’interface utilisateur
 </div>
 
-Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utilisateur.
+Vous pouvez créer, modifier et supprimer des `jeux de données` dans l’interface utilisateur.
 
 <div id="create-a-new-dataset">
   ### Créer un nouveau `Dataset`
@@ -273,7 +273,7 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
    ![Fenêtre modale de confirmation de suppression dans l’interface du Dataset.](/weave/guides/core-types/imgs/datasetui-delete-modal.png)
 
-5. Dans la fenêtre modale, cliquez sur le bouton rouge **Delete** pour supprimer le `Dataset`. Vous pouvez également cliquer sur **Cancel** si vous ne souhaitez pas supprimer le `Dataset`.
+5. Dans la fenêtre modale, cliquez sur le bouton rouge **Supprimer** pour supprimer le `Dataset`. Vous pouvez également cliquer sur **Cancel** si vous ne souhaitez pas supprimer le `Dataset`.
 
    Le `Dataset` est maintenant supprimé et n’est plus visible dans l’onglet **Datasets** de votre tableau de bord Weave.
 
@@ -285,9 +285,9 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
 2. Dans la barre latérale, sélectionnez **Traces**.
 
-3. Sélectionnez un ou plusieurs appels avec `Datasets` pour lesquels vous souhaitez créer de nouveaux exemples.
+3. Sélectionnez un ou plusieurs appels associés à `Datasets` pour lesquels vous souhaitez créer de nouveaux exemples.
 
-4. Dans le menu en haut à droite, cliquez sur l’icône **Add selected rows to a dataset** (située à côté de l’icône de corbeille). Si vous le souhaitez, désactivez **Show latest versions** pour afficher toutes les versions de tous les jeux de données disponibles.
+4. Dans le menu situé en haut à droite, cliquez sur l’icône **Add selected rows to a dataset** (à côté de l’icône de corbeille). Si vous le souhaitez, désactivez **Show latest versions** pour afficher toutes les versions de tous les jeux de données disponibles.
 
 5. Dans la liste déroulante **Choose a dataset**, sélectionnez le `Dataset` auquel vous souhaitez ajouter des exemples. Les options de **Configure field mapping** s’affichent.
 
@@ -295,7 +295,7 @@ Vous pouvez créer, modifier et supprimer des `Dataset` dans l’interface utili
 
 7. Une fois le mappage des champs configuré, cliquez sur **Next**. Un aperçu de votre nouveau `Dataset` s’affiche.
 
-8. Dans la ligne vide (en vert), ajoutez la ou les nouvelles valeurs d’exemple. Notez que le champ **id** n’est pas modifiable et qu’il est créé automatiquement par Weave.
+8. Dans la ligne vide (en vert), ajoutez votre ou vos nouvelles valeurs d’exemple. Notez que le champ **id** n’est pas modifiable et qu’il est créé automatiquement par Weave.
 
 9. Cliquez sur **Add to dataset**. Pour revenir à l’écran **Configure field mapping**, cliquez sur **Back**.
 

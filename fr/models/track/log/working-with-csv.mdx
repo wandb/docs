@@ -1,9 +1,9 @@
 ---
-description: "Importez des fichiers CSV dans W&B en tant que tableaux et Artifacts pour les visualiser, les comparer et les analyser dans des tableaux de bord."
+description: "Importez des fichiers CSV dans W&B en tant que Tables et Artifacts afin de les visualiser, les comparer et les analyser dans des tableaux de bord."
 title: Suivre des fichiers CSV avec des expériences
 ---
 
-Utilisez la bibliothèque Python de W&amp;B pour journaliser un fichier CSV et le visualiser dans un [tableau de bord W&amp;B](/fr/models/track/workspaces/). Les tableaux de bord W&amp;B constituent l’emplacement central pour organiser et visualiser les résultats de vos modèles de machine learning. Cela est particulièrement utile si vous avez un [fichier CSV contenant des informations sur des expériences de machine learning antérieures](#import-and-log-your-csv-of-experiments) qui ne sont pas journalisées dans W&amp;B, ou un [fichier CSV contenant un jeu de données](#import-and-log-your-dataset-csv-file).
+Utilisez la bibliothèque Python de W&amp;B pour journaliser un fichier CSV et le visualiser dans un [tableau de bord W&amp;B](/fr/models/track/workspaces/). Les tableaux de bord W&amp;B sont l’espace central pour organiser et visualiser les résultats de vos modèles de machine learning. Cela est particulièrement utile si vous disposez d’un [fichier CSV contenant des informations sur des expériences de machine learning précédentes](#import-and-log-your-csv-of-experiments) qui ne sont pas journalisées dans W&amp;B, ou d’un [fichier CSV contenant un jeu de données](#import-and-log-your-dataset-csv-file).
 
 <div id="import-and-log-your-dataset-csv-file">
   ## Importez et journalisez le fichier CSV de votre jeu de données
@@ -13,7 +13,7 @@ Utilisez la bibliothèque Python de W&amp;B pour journaliser un fichier CSV et l
 
 Nous vous recommandons d’utiliser W&amp;B Artifacts pour réutiliser plus facilement le contenu du fichier CSV.
 
-1. Pour commencer, importez votre fichier CSV. Dans l’extrait de code suivant, remplacez le nom de fichier `iris.csv` par celui de votre fichier CSV :
+1. Pour commencer, importez votre fichier CSV. Dans l’extrait de code suivant, remplacez le nom de fichier `iris.csv` par le nom de votre fichier CSV :
 
 ```python
 import wandb
@@ -23,7 +23,7 @@ import pandas as pd
 new_iris_dataframe = pd.read_csv("iris.csv")
 ```
 
-2. Convertissez le fichier CSV en tableau W&amp;B afin d&#39;utiliser les [tableaux de bord W&amp;B](/fr/models/track/workspaces/).
+2. Convertissez le fichier CSV en tableau W&amp;B pour utiliser les [tableaux de bord W&amp;B](/fr/models/track/workspaces/).
 
 ```python
 # Convertir le dataframe en tableau W&B
@@ -57,7 +57,7 @@ with wandb.init(project="tables-walkthrough") as run:
     run.log_artifact(iris_table_artifact)
 ```
 
-L’API `wandb.init()` lance un nouveau processus en arrière-plan pour journaliser des données dans un run et les synchronise avec wandb.ai (par défaut). Consultez des visualisations en direct dans le tableau de bord de votre Workspace W&amp;B. L’image suivante illustre le résultat produit par l’extrait de code.
+L’API `wandb.init()` lance un nouveau processus en arrière-plan pour journaliser des données dans un run et les synchronise avec wandb.ai (par défaut). Consultez des visualisations en direct sur le tableau de bord de votre Workspace W&amp;B. L’image suivante illustre le résultat de l’extrait de code.
 
 <Frame>
   <img src="/images/track/import_csv_tutorial.png" alt="Fichier CSV importé dans le tableau de bord W&B" />
@@ -72,7 +72,7 @@ import pandas as pd
 # Lire notre CSV dans un nouveau DataFrame
 new_iris_dataframe = pd.read_csv("iris.csv")
 
-# Convertir le DataFrame en tableau W&B
+# Convertir le dataframe en tableau W&B
 iris_table = wandb.Table(dataframe=new_iris_dataframe)
 
 # Ajouter le tableau à un artefact pour augmenter la limite
@@ -80,25 +80,25 @@ iris_table = wandb.Table(dataframe=new_iris_dataframe)
 iris_table_artifact = wandb.Artifact("iris_artifact", type="dataset")
 iris_table_artifact.add(iris_table, "iris_table")
 
-# Enregistrer le fichier CSV brut dans un artefact pour conserver nos données
+# Journaliser le fichier CSV brut dans un artefact pour conserver nos données
 iris_table_artifact.add_file("iris.csv")
 
-# Démarrer un run W&B pour enregistrer les données
+# Démarrer un run W&B pour journaliser les données
 with wandb.init(project="tables-walkthrough") as run:
 
-    # Enregistrer le tableau pour le visualiser avec un run...
+    # Journaliser le tableau pour le visualiser avec un run...
     run.log({"iris": iris_table})
 
-    # et l'enregistrer en tant qu'artefact pour augmenter la limite de lignes disponible !
+    # et le journaliser en tant qu'artefact pour augmenter la limite de lignes disponible !
     run.log_artifact(iris_table_artifact)
 ```
 
 <div id="import-and-log-your-csv-of-experiments">
-  ## Importez et journalisez votre fichier CSV d’Experiments
+  ## Importez votre fichier CSV d’Experiments et journalisez-le
 </div>
 
 {/* {% embed url="https://drive.google.com/file/d/1PL4RSdopHEptDR5Gi0DEzECXuoW_5B0f/view?usp=sharing" %}
-  Après conversion, le tableau ci-dessous devient ce tableau de bord W&B
+  Une fois converti, le tableau ci-dessous devient ce tableau de bord W&B
   {% endembed %} */}
 
 Dans certains cas, les détails de votre expérience peuvent se trouver dans un fichier CSV. Voici les informations qu’on retrouve couramment dans ce type de fichier :
@@ -116,7 +116,7 @@ Dans certains cas, les détails de votre expérience peuvent se trouver dans un 
 | ...          | ...              | ...                                                              | ...          | ...        | ...                      | ...                    |                                      |
 | Expérience N | mnist-X-layers   | NOTES                                                            | ...          | ...        | ...                      | ...                    | [..., ...]                           |
 
-W&amp;B peut prendre des fichiers CSV d’expériences et les convertir en run d’expérience W&amp;B. Les extraits de code et le script suivants montrent comment importer et journaliser votre fichier CSV d’expériences :
+W&amp;B peut prendre des fichiers CSV d’expériences et les convertir en un run d’expérience W&amp;B. Les extraits de code et le script suivants montrent comment importer et journaliser votre fichier CSV d’expériences :
 
 1. Pour commencer, lisez votre fichier CSV et convertissez-le en dataframe Pandas. Remplacez `"experiments.csv"` par le nom de votre fichier CSV :
 
@@ -169,7 +169,7 @@ Au cours d&#39;une expérience, vous pouvez vouloir journaliser chaque valeur de
 run.log({key: val})
 ```
 
-Vous pouvez facultativement journaliser une métrique de synthèse finale pour définir le résultat du run à l’aide de l’API [`define_metric`](/fr/models/ref/python/experiments/run#define_metric). Cet exemple ajoute les métriques de synthèse à notre run avec `run.summary.update()`:
+Vous pouvez, si vous le souhaitez, journaliser une métrique finale de synthèse pour définir le résultat du run à l’aide de l’API [`define_metric`](/fr/models/ref/python/experiments/run#define_metric). Cet exemple ajoute les métriques de synthèse au run avec `run.summary.update()`:
 
 ```python
 run.summary.update(summaries)
@@ -177,7 +177,7 @@ run.summary.update(summaries)
 
 Pour plus d’informations sur les métriques de synthèse, voir [Journaliser les métriques de synthèse](./log-summary).
 
-Voici le script d’exemple complet qui convertit le tableau d’exemple ci-dessus en [tableau de bord W&amp;B](/fr/models/track/workspaces/) :
+Voici le script d’exemple complet qui transforme le tableau d’exemple ci-dessus en [tableau de bord W&amp;B](/fr/models/track/workspaces/) :
 
 ```python
 FILENAME = "experiments.csv"

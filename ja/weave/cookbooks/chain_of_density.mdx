@@ -1,68 +1,68 @@
 ---
 title: "Chain Of Density"
-description: "W&B Weave で、反復的なテキスト圧縮と評価のための Chain of Density 要約手法を実装します。"
+description: "反復的なテキスト圧縮と評価のために、W&B Weave で Chain of Density の要約手法を実装します。"
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから利用してください:
+  これはインタラクティブなノートブックです。ローカルで実行することも、以下のリンクを使用することもできます。
 
   * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/chain_of_density.ipynb)
-  * [GitHub 上のソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/chain_of_density.ipynb)
+  * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/chain_of_density.ipynb)
 </Note>
 
 <div id="summarization-using-chain-of-density">
   # Chain of Density を用いた要約
 </div>
 
-重要な詳細を保ちつつ複雑な技術文書を要約することは、難しいタスクです。Chain of Density (CoD) 要約手法は、要約を反復的に改善して、より簡潔で情報密度の高いものにすることで、この課題に対する一つの解決策となります。このガイドでは、アプリケーションのトラッキングと評価のために Weave を用いて CoD を実装する方法を示します。 
+重要な詳細を保持しながら複雑な技術文書を要約することは、難しい作業です。Chain of Density (CoD) 要約手法は、要約を反復的に洗練し、より簡潔で情報密度の高いものにすることで、この課題に対応します。このガイドでは、アプリケーションのトラッキングと評価のために Weave を使用して CoD を実装する方法を示します。
 
 <Frame>
-![Chain of Density 要約の結果、メトリクス、およびパフォーマンス比較を表示する Weave 評価ダッシュボード](/media/summarization/eval_dash.png)
+  ![Chain of Density の要約結果、メトリクス、パフォーマンス比較を表示した Weave 評価ダッシュボード](/media/summarization/eval_dash.png)
 </Frame>
 
 <div id="what-is-chain-of-density-summarization">
-  ## Chain of Density 要約とは?
+  ## Chain of Density による要約とは？
 </div>
 
 [![arXiv](https://img.shields.io/badge/arXiv-2309.04269-b31b1b.svg)](https://arxiv.org/abs/2309.04269)
 
-Chain of Density (CoD) は、要約を反復的に生成し、徐々により簡潔で情報密度の高い要約へと洗練していく手法です。次のように動作します。
+Chain of Density (CoD) は、反復的に要約を改善しながら、より簡潔で情報密度の高い要約を生成する手法です。具体的には、次のように動作します。
 
-1. 最初の要約を作成する
-2. 要約を反復的に洗練し、重要な情報を保ったままより簡潔にする
-3. 各反復で、エンティティや技術的な詳細の密度を高める
+1. 初期の要約から開始する
+2. 重要な情報を保持したまま、要約を反復的に改善してより簡潔にする
+3. 反復のたびに、Entities と技術的な詳細の密度を高める
 
-このアプローチは、詳細な情報の保持が重要となる科学論文や技術文書の要約に特に有用です。
+このアプローチは、詳細な情報を保持することが重要な科学論文や技術文書の要約に特に有用です。
 
 <div id="why-use-weave">
-  ## なぜ Weave を使うのか？
+  ## なぜ Weave を使用するのか？
 </div>
 
-このチュートリアルでは、Weave を使って ArXiv 論文向けの Chain of Density（CoD）要約パイプラインを実装し、評価します。ここでは次のことを学びます。
+このチュートリアルでは、Weave を使って ArXiv 論文向けの Chain of Density (CoD) 要約パイプラインを実装し、評価します。ここでは次のことを学びます。
 
-1. **LLM パイプラインをトラッキングする**: Weave を使って、要約処理の入力・出力・中間ステップを自動的にログに記録します。
+1. **LLM パイプラインをトラッキングする**: Weave を使用して、要約処理の入力・出力・中間stepを自動的にログします。
 2. **LLM 出力を評価する**: Weave の組み込みツールを用いて、要約結果を厳密かつ条件を揃えて比較評価します。
-3. **コンポーザブルなオペレーションを構築する**: 要約パイプラインのさまざまな部分で、Weave のオペレーションを組み合わせて再利用します。
+3. **コンポーザブルなオペレーションを 구축하다**: 要約パイプラインのさまざまな部分で、Weave のオペレーションを組み合わせて再利用します。
 4. **シームレスに統合する**: 既存の Python コードに、最小限のオーバーヘッドで Weave を追加します。
 
 このチュートリアルを終える頃には、Weave の機能を活用してモデル提供、評価、結果トラッキングを行う CoD 要約パイプラインを構築できているはずです。
 
 <div id="set-up-the-environment">
-  ## 環境を準備する
+  ## 環境を設定する
 </div>
 
-まずは環境を準備し、必要なライブラリをインポートします。
+まず、環境を設定し、必要なライブラリをインポートしましょう：
 
 ```python lines
 !pip install -qU anthropic weave pydantic requests PyPDF2 set-env-colab-kaggle-dotenv
 ```
 
-> Anthropic API キーを取得するには:
+> Anthropic APIキーを取得するには:
 >
-> 1. https://www.anthropic.com でアカウントにサインアップします
-> 2. アカウント設定の API セクションに移動します
-> 3. 新しい API キーを生成します
-> 4. .env ファイルに API キーを安全に保存します
+> 1. https://www.anthropic.com でアカウント登録します
+> 2. アカウント設定のAPIセクションにアクセスします
+> 3. 新しいAPIキーを生成します
+> 4. APIキーを `.env` ファイルに安全に保存します
 
 ```python lines
 import io
@@ -84,14 +84,14 @@ weave.init("summarization-chain-of-density-cookbook")
 anthropic_client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 ```
 
-実験をトラッキングするために Weave を使用し、テキスト生成には Anthropic の Claude モデルを使用します。`weave.init(<project name>)` の呼び出しによって、この要約タスク用の新しい Weave プロジェクトがセットアップされます。
+Weave を使って実験をトラッキングし、テキスト生成には Anthropic の Claude モデルを使用しています。`weave.init(<project name>)` Call では、要約タスク用の新しい Weave プロジェクトをセットアップします。
 
 
 <div id="define-the-arxivpaper-model">
-  ## ArxivPaper モデルを定義する
+  ## ArxivPaper モデルを定義します
 </div>
 
-データを表すために、シンプルな `ArxivPaper` クラスを作成します。
+データを表すシンプルな `ArxivPaper` クラスを作成します。
 
 ```python lines
 # ArxivPaper モデルを定義する
@@ -116,23 +116,23 @@ arxiv_paper = ArxivPaper(
 )
 ```
 
-このクラスは ArXiv 論文のメタデータと本文を保持し、要約パイプラインへの入力となります。
+このクラスは、要約パイプラインへの入力となる ArXiv 論文のメタデータと内容をカプセル化します。
 
 
 <div id="load-pdf-content">
-  ## PDF コンテンツを読み込む
+  ## PDF の内容を読み込む
 </div>
 
-論文の本文全体を扱えるようにするために、PDF からテキストを読み込んで抽出する関数を追加します。
+論文全体の内容を扱うため、PDF からテキストを読み込んで抽出する関数を追加します:
 
 ```python lines
 @weave.op()
 def load_pdf(pdf_url: str) -> str:
-    # PDF をダウンロードする
+    # PDFをダウンロードする
     response = requests.get(pdf_url)
     pdf_file = io.BytesIO(response.content)
 
-    # PDF を読み込む
+    # PDFを読み込む
     pdf_reader = PdfReader(pdf_file)
 
     # 全ページからテキストを抽出する
@@ -145,17 +145,17 @@ def load_pdf(pdf_url: str) -> str:
 
 
 <div id="implement-chain-of-density-summarization">
-  ## Chain of Density 要約を実装する
+  ## Chain of Density 要約 を実装する
 </div>
 
-ここでは、Weave のオペレーションを使って CoD 要約ロジックのコア部分を実装します：
+それでは、Weave オペレーションを使用して、CoD summarization のコアロジックを実装します：
 
 <Frame>
-  ![Chain of Density 要約パイプラインの実行を示す Weave トレースの可視化](/media/summarization/summarization_trace.png)
+  ![Chain of Density 要約 パイプライン実行時の Weave トレース可視化](/media/summarization/summarization_trace.png)
 </Frame>
 
 ```python lines
-# Chain of Density（密度連鎖）要約
+# Chain of Density 要約
 @weave.op()
 def summarize_current_summary(
     document: str,
@@ -229,23 +229,22 @@ def chain_of_density_summarization(
     }
 ```
 
-それぞれの関数の役割は次のとおりです。
+各関数の役割は次のとおりです。
 
-* `summarize_current_summary`: 現在の状態に基づいて 1 回分の要約処理（要約イテレーション）を生成します。
-* `iterative_density_summarization`: `summarize_current_summary` を複数回呼び出して CoD 手法を適用します。
-* `chain_of_density_summarization`: 全体の要約処理をオーケストレーションし、その結果を返します。
+* `summarize_current_summary`: 現在の状態に基づいて、1 回分の要約を生成します。
+* `iterative_density_summarization`: `summarize_current_summary` を複数回呼び出して、CoD 手法を適用します。
+* `chain_of_density_summarization`: 要約プロセス全体を統括し、その結果を返します。
 
-`@weave.op()` デコレーターを使用することで、Weave がこれらの関数の入力・出力・実行を追跡できるようにします。
-
+`@weave.op()` デコレータを使用することで、Weave はこれらの関数の入力、出力、実行をトラッキングします。
 
 <div id="create-a-weave-model">
-  ## Weave モデルを作成する
+  ## Weave Model を作成する
 </div>
 
-では、要約パイプラインを Weave モデルとして定義しましょう。
+それでは、要約パイプラインを Weave Model でラップしてみましょう。
 
 <Frame>
-  ![Chain of Density 要約用の Weave モデル設定インターフェース。モデル設定とパラメーターが表示されている](/media/summarization/model.png)
+  ![モデル設定とパラメーターを備えた、Chain of Density の要約用 Weave Model 設定インターフェース](/media/summarization/model.png)
 </Frame>
 
 ```python lines
@@ -266,20 +265,20 @@ class ArxivChainOfDensityPipeline(weave.Model):
         return result
 ```
 
-この `ArxivChainOfDensityPipeline` クラスは、要約ロジックを Weave Model としてカプセル化しており、次のような重要な利点を提供します。
+この `ArxivChainOfDensityPipeline` クラスは、要約ロジックを Weave Model としてカプセル化しており、いくつかの重要な利点があります。
 
-1. 自動実験管理: Weave は、モデルの各 run に対する入力・出力・パラメーターを自動的に記録します。
-2. バージョン管理: モデルの属性やコードの変更は自動的にバージョン管理され、要約パイプラインが時間とともにどのように進化してきたかを示す明確な履歴が作成されます。
-3. 再現性: バージョン管理とトラッキングにより、要約パイプラインの過去のあらゆる結果や設定を簡単に再現できます。
-4. ハイパーパラメーター管理: `model` や `density_iterations` のようなモデル属性が明確に定義・トラッキングされ、異なる run 間での実験を容易にします。
-5. Weave エコシステムとのインテグレーション: `weave.Model` を使用することで、評価やサービング機能など、他の Weave ツールとのシームレスな連携が可能になります。
+1. 自動的な実験管理: Weave は、モデルの各 run に対して入力、出力、パラメーターを取得します。
+2. バージョン管理: モデルの属性やコードへの変更は自動的にバージョン管理され、要約パイプラインが時間の経過とともにどのように進化したかを示す明確な履歴が作成されます。
+3. 再現性: バージョン管理とトラッキングにより、要約パイプラインの過去の結果や設定を簡単に再現できます。
+4. ハイパーパラメーター管理: モデルの属性 (`model` や `density_iterations` など) は明確に定義され、異なる run 間でトラッキングされるため、実験を進めやすくなります。
+5. Weave エコシステムとのインテグレーション: `weave.Model` を使用すると、評価やサービング機能など、他の Weave ツールとシームレスにインテグレーションできます。
 
 
 <div id="implement-evaluation-metrics">
-  ## 評価メトリクスを実装する
+  ## 評価メトリクスを実装します
 </div>
 
-要約の品質を評価するために、いくつかの簡単な評価メトリクスを実装します。
+要約の品質を評価するために、シンプルな評価メトリクスを実装します。
 
 ```python lines
 import json
@@ -331,21 +330,21 @@ def evaluate_summary(
     }
 ```
 
-これらの評価関数は Claude モデルを用いて、生成された要約の関連性、簡潔さ、および技術的な正確性に基づいてその品質を評価します。
+これらの評価関数は、Claude モデルを使用して、関連性、簡潔さ、技術的正確性を 기준으로、生成された要約の品質を評価します。
 
 
 <div id="create-a-weave-dataset-and-run-evaluation">
-  ## Weave Dataset を作成して評価を実行する
+  ## Weave データセットを作成して評価を実行する
 </div>
 
-パイプラインを評価するために、Weave Dataset を作成し、評価を実行します。
+パイプラインを評価するために、Weave データセットを作成して評価を実行します。
 
 <Frame>
-  ![データセットの選択と設定オプションを含む評価用 Weave Dataset 設定インターフェース](/media/summarization/dataset.png)
+  ![データセットの選択と設定オプションを備えた、評価用の Weave データセット設定インターフェース](/media/summarization/dataset.png)
 </Frame>
 
 ```python lines
-# Weave Dataset を作成する
+# Weave Datasetを作成する
 dataset = weave.Dataset(
     name="arxiv_papers",
     rows=[
@@ -359,28 +358,28 @@ dataset = weave.Dataset(
 weave.publish(dataset)
 ```
 
-評価には、LLM をジャッジとして用いるアプローチを採用します。この手法では、あるモデルやシステムが生成した出力の品質を評価するために、別の言語モデルを利用します。LLM の理解力と推論能力を活用することで、とくに従来のメトリクスでは十分に評価しきれないタスクに対して、よりきめ細かな評価を行うことができます。
+今回の評価では、LLM-as-a-judge アプローチを使用します。この手法では、ある言語モデルを用いて、別のモデルやシステムが生成した出力の品質を評価します。LLM の理解力と推論能力を活用することで、特に従来のメトリクスでは十分に評価しきれないタスクにおいて、よりきめ細かな評価が可能になります。
 
 [![arXiv](https://img.shields.io/badge/arXiv-2306.05685-b31b1b.svg)](https://arxiv.org/abs/2306.05685)
 
 <Frame>
-  ![Chain of Density 要約結果、メトリクス、およびパフォーマンス比較を表示している Weave 評価 ダッシュボード](/media/summarization/eval_dash.png)
+  ![Chain of Density の要約結果、メトリクス、パフォーマンス比較を表示する Weave 評価ダッシュボード](/media/summarization/eval_dash.png)
 </Frame>
 
 ```python lines
-# スコアラー関数を定義する
+# Define the scorer function
 @weave.op()
 def quality_scorer(instruction: str, output: dict) -> dict:
     result = evaluate_summary(output["final_summary"], instruction)
     return result
 python
-# 評価を実行する
+# Run evaluation
 evaluation = weave.Evaluation(dataset=dataset, scorers=[quality_scorer])
 arxiv_chain_of_density_pipeline = ArxivChainOfDensityPipeline()
 results = await evaluation.evaluate(arxiv_chain_of_density_pipeline)
 ```
 
-このコードでは、サンプルの ArXiv 論文からデータセットを作成し、品質スコアラーを定義して、要約パイプラインの評価を実行します。
+このコードは、サンプルの ArXiv 論文を含むデータセットを作成し、品質を評価する Scorer を定義して、要約パイプラインの評価を実行します。
 
 
 <div id="conclusion">
@@ -389,19 +388,14 @@ results = await evaluation.evaluate(arxiv_chain_of_density_pipeline)
 
 この例では、Weave を使って arXiv 論文を対象とした Chain of Density 要約パイプラインを実装する方法を示しました。具体的には、次のことを行いました。
 
-1. 要約プロセスの各ステップに対する Weave operation を定義する
+1. 要約プロセスの各 step に対する Weave オペレーションを定義する
 2. パイプラインを Weave Model でラップし、トラッキングと評価を容易にする
-3. Weave operation を使ってカスタム評価メトリクスを実装する
+3. Weave オペレーションを使ってカスタム評価メトリクスを実装する
 4. データセットを作成し、パイプラインの評価を実行する
 
-Weave のシームレスなインテグレーションにより、要約プロセス全体を通して入力・出力・中間ステップをトラッキングできるため、LLM アプリケーションのデバッグ、最適化、評価が容易になります。
-この例を拡張して、より大きなデータセットを扱ったり、より高度な評価メトリクスを実装したり、他の LLM ワークフローとインテグレーションしたりすることもできます。
+Weave のシームレスなインテグレーションにより、要約プロセス全体を通して入力・出力・中間 step をトラッキングできるため、LLM アプリケーションのデバッグ、最適化、評価が容易になります。
+この例を拡張して、より大きなデータセットを扱ったり、より高度な評価メトリクスを実装したり、他の LLM ワークフローと統合したりすることもできます。
 
-<a 
-  href="https://wandb.ai/wandb_fc/arxiv-reader/reports/Building-a-bot-to-summarize-arXiv-papers-as-PDFs-using-Anthrophic-and-W-B-Weave--Vmlldzo4Nzg0ODI4"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="button button--primary button--lg"
->
-  W&B 上でレポート全体を表示
+<a href="https://wandb.ai/wandb_fc/arxiv-reader/reports/Building-a-bot-to-summarize-arXiv-papers-as-PDFs-using-Anthrophic-and-W-B-Weave--Vmlldzo4Nzg0ODI4" target="_blank" rel="noopener noreferrer" className="button button--primary button--lg">
+  W&amp;B 上でレポート全体を表示
 </a>

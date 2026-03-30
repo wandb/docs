@@ -1,5 +1,5 @@
 ---
-description: "Définissez des politiques de durée de vie (TTL) sur les artefacts W&B afin de planifier leur suppression automatique et de gérer la consommation de stockage."
+description: "Définissez des politiques de durée de vie (TTL) sur les artefacts de W&B pour planifier leur suppression automatique et gérer la consommation de stockage."
 title: Gérer la conservation des données des artefacts
 ---
 
@@ -7,21 +7,21 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" />
 
-Planifiez la suppression des artefacts dans W&amp;B à l’aide d’une politique de durée de vie (TTL) des artefacts W&amp;B. Lorsque vous supprimez un artefact, W&amp;B marque cet artefact comme étant en *suppression logicielle*. En d’autres termes, l’artefact est marqué pour suppression, mais les fichiers ne sont pas immédiatement supprimés du stockage. Pour en savoir plus sur la façon dont W&amp;B supprime les artefacts, voir la page [Supprimer des artefacts](./delete-artifacts).
+Planifiez la suppression des artefacts dans W&amp;B à l’aide d’une politique de durée de vie (TTL) des artefacts W&amp;B. Lorsque vous supprimez un artefact, W&amp;B marque cet artefact comme faisant l’objet d’une *suppression logicielle*. En d’autres termes, l’artefact est marqué pour suppression, mais les fichiers ne sont pas immédiatement supprimés du stockage. Pour plus d’informations sur la façon dont W&amp;B supprime les artefacts, voir la page [Supprimer des artefacts](./delete-artifacts).
 
-Regardez le tutoriel vidéo [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) pour découvrir comment gérer la conservation des données avec Artifacts TTL dans l’application W&amp;B.
+Regardez le tutoriel vidéo [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) pour découvrir comment gérer la conservation des données avec Artifacts TTL dans W&amp;B App.
 
 <Note>
-  W&amp;B désactive l’option permettant de définir une politique TTL pour les artefacts liés au registre. Cela permet d’éviter que des artefacts liés n’expirent accidentellement s’ils sont utilisés dans des flux de travail de production.
+  W&amp;B désactive l’option permettant de définir une politique TTL pour les artefacts liés au Registry. Cela permet d’éviter que des artefacts liés n’expirent accidentellement s’ils sont utilisés dans des flux de travail de production.
 </Note>
 
 <Note>
   * Seuls les administrateurs d’équipe peuvent consulter les [paramètres d’une équipe](/fr/platform/app/settings-page/teams) et accéder aux paramètres TTL au niveau de l’équipe, notamment pour (1) déterminer qui peut définir ou modifier une politique TTL ou (2) définir une valeur TTL par défaut pour l’équipe.
-  * Si vous ne voyez pas l’option permettant de définir ou de modifier une politique TTL dans les détails d’un artefact dans l’interface de l’application W&amp;B, ou si la définition d’une TTL par programmation ne modifie pas correctement la propriété TTL d’un artefact, votre administrateur d’équipe ne vous a pas accordé les autorisations nécessaires.
+  * Si vous ne voyez pas l’option permettant de définir ou de modifier une politique TTL dans les détails d’un artefact dans l’interface de l’application W&amp;B, ou si la définition d’une politique TTL par programmation ne modifie pas correctement la propriété TTL d’un artefact, votre administrateur d’équipe ne vous a pas accordé les autorisations nécessaires.
 </Note>
 
 <div id="auto-generated-artifacts">
-  ## Artefacts générés automatiquement
+  ## Artifacts générés automatiquement
 </div>
 
 Seuls les artefacts générés par les utilisateurs peuvent avoir des politiques TTL. Les artefacts générés automatiquement par W&amp;B ne peuvent pas avoir de politique TTL.
@@ -49,14 +49,14 @@ Remplacez les valeurs entre `<>` par les vôtres.
   ## Définir qui peut modifier et définir des politiques TTL
 </div>
 
-Définissez qui peut définir et modifier des politiques TTL au sein d’une équipe. Vous pouvez accorder les autorisations TTL uniquement aux administrateurs d’équipe, ou les accorder à la fois aux administrateurs d’équipe et aux membres de l’équipe.
+Définissez qui peut définir et modifier des politiques TTL au sein d&#39;une équipe. Vous pouvez accorder les autorisations TTL uniquement aux administrateurs d&#39;équipe, ou les accorder à la fois aux administrateurs d&#39;équipe et aux membres de l&#39;équipe.
 
 <Note>
-  Seuls les administrateurs d’équipe peuvent définir qui peut définir ou modifier une politique TTL.
+  Seuls les administrateurs d&#39;équipe peuvent définir qui peut définir ou modifier une politique TTL.
 </Note>
 
 1. Accédez à la page de profil de votre équipe.
-2. Sélectionnez l’onglet **Paramètres**.
+2. Sélectionnez l&#39;onglet **Paramètres**.
 3. Accédez à la **section Durée de vie (TTL) des Artifacts**.
 4. Dans le **menu déroulant des autorisations TTL**, sélectionnez qui peut définir et modifier des politiques TTL.
 5. Cliquez sur **Vérifier et enregistrer les paramètres**.
@@ -75,23 +75,23 @@ Définissez une politique TTL pour un artefact soit lors de sa création, soit r
 Dans tous les extraits de code ci-dessous, remplacez le contenu entre `<>` par vos propres informations avant d’utiliser l’extrait de code.
 
 <div id="set-a-ttl-policy-when-you-create-an-artifact">
-  ### Définissez une politique TTL lorsque vous créez un artefact
+  ### Définissez une politique TTL lors de la création d’un artefact
 </div>
 
-Utilisez le SDK Python de W&amp;B pour définir une politique TTL lorsque vous créez un artefact. Les politiques TTL sont généralement définies en jours.
+Utilisez le SDK Python W&amp;B pour définir une politique TTL lors de la création d’un artefact. Les politiques TTL sont généralement définies en jours.
 
 <Note>
-  Définir une politique TTL lorsque vous créez un artefact est similaire à la procédure habituelle pour [créer un artefact](/fr/models/artifacts/construct-an-artifact/). La seule différence est que vous transmettez un delta de temps à l&#39;attribut `ttl` de l&#39;artefact.
+  Définir une politique TTL lors de la création d’un artefact est similaire à la procédure habituelle pour [créer un artefact](/fr/models/artifacts/construct-an-artifact/). La seule différence est que vous transmettez une durée à l’attribut `ttl` de l’artefact.
 </Note>
 
 Les étapes sont les suivantes :
 
 1. [Créez un artefact](/fr/models/artifacts/construct-an-artifact/).
-2. [Ajoutez du contenu à l&#39;artefact](/fr/models/artifacts/construct-an-artifact/#add-files-to-an-artifact), comme des fichiers, un répertoire ou une référence.
-3. Définissez une durée TTL à l&#39;aide du type de données [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html), qui fait partie de la bibliothèque standard de Python.
-4. [Enregistrez l&#39;artefact](/fr/models/artifacts/construct-an-artifact/#3-save-your-artifact-to-the-wb-server).
+2. [Ajoutez du contenu à l’artefact](/fr/models/artifacts/construct-an-artifact/#add-files-to-an-artifact), comme des fichiers, un répertoire ou une référence.
+3. Définissez une durée TTL à l’aide du type de données [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html), qui fait partie de la bibliothèque standard de Python.
+4. [Enregistrez l’artefact](/fr/models/artifacts/construct-an-artifact/#3-save-your-artifact-to-the-wb-server).
 
-L&#39;extrait de code suivant montre comment créer un artefact et définir une politique TTL.
+L’extrait de code suivant montre comment créer un artefact et définir une politique TTL.
 
 ```python
 import wandb
@@ -105,13 +105,13 @@ with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
     run.log_artifact(artifact)
 ```
 
-L’extrait de code précédent définit la politique TTL de l’artefact à 30 jours. En d’autres termes, W&amp;B supprime l’artefact au bout de 30 jours.
+L’extrait de code précédent définit la politique TTL de l’artefact sur 30 jours. En d’autres termes, W&amp;B supprime l’artefact au bout de 30 jours.
 
 <div id="set-or-edit-a-ttl-policy-after-you-create-an-artifact">
   ### Définir ou modifier une politique TTL après la création d’un artefact
 </div>
 
-Utilisez l’interface de l’application W&amp;B ou le SDK Python de W&amp;B pour définir une politique TTL pour un artefact existant.
+Utilisez l’interface de l’application W&amp;B ou le SDK Python W&amp;B pour définir une politique TTL pour un artefact existant.
 
 <Note>
   Lorsque vous modifiez le TTL d’un artefact, le délai avant expiration est toujours calculé à partir de l’horodatage `createdAt` de l’artefact.
@@ -137,7 +137,7 @@ Utilisez l’interface de l’application W&amp;B ou le SDK Python de W&amp;B po
     L’exemple de code précédent définit la politique TTL sur deux ans.
   </Tab>
 
-  <Tab title="Application W&B">
+  <Tab title="W&B App">
     1. Accédez à votre projet W&amp;B dans l’interface de l’application W&amp;B.
     2. Sélectionnez l’icône d’artefact dans la barre latérale du projet.
     3. Dans la liste des artefacts, développez le type d’artefact que vous
@@ -162,15 +162,15 @@ Utilisez l’interface de l’application W&amp;B ou le SDK Python de W&amp;B po
   Seuls les administrateurs d’équipe peuvent définir une politique TTL par défaut pour une équipe.
 </Note>
 
-Définissez une politique TTL par défaut pour votre équipe. Les politiques TTL par défaut s’appliquent à tous les artefacts existants et futurs, en fonction de leurs dates de création respectives. Les artefacts qui ont déjà une politique TTL définie au niveau de la version ne sont pas affectés par la politique TTL par défaut de l’équipe.
+Définissez une politique TTL par défaut pour votre équipe. Les politiques TTL par défaut s’appliquent à tous les artefacts existants et futurs, en fonction de leurs dates de création respectives. Les artefacts qui disposent déjà d’une politique TTL définie au niveau de la version ne sont pas affectés par la politique TTL par défaut de l’équipe.
 
 1. Accédez à la page de profil de votre équipe.
-2. Sélectionnez l’onglet **paramètre**.
+2. Sélectionnez l’onglet **Paramètre**.
 3. Accédez à la **section Durée de vie (TTL) des Artifacts**.
 4. Cliquez sur **Set team&#39;s default TTL policy**.
 5. Dans le champ **Duration**, définissez la politique TTL en nombre de jours.
 6. Cliquez sur **vérifier et enregistrer les paramètres**.
-   7/ Confirmez les modifications, puis sélectionnez **enregistrer les paramètres**.
+7. Confirmez les modifications, puis sélectionnez **enregistrer les paramètres**.
 
 <Frame>
   <img src="/images/artifacts/set_default_ttl.gif" alt="Définition de la politique TTL par défaut" />
@@ -189,7 +189,7 @@ api = wandb.Api()
 
 artifact = api.artifact("entity/project/artifact:alias")
 
-artifact.ttl = timedelta(days=365)  # Supprimer dans un an
+artifact.ttl = timedelta(days=365)  # Suppression dans un an
 
 artifact.save()
 ```
@@ -198,10 +198,10 @@ artifact.save()
   ## Désactiver une politique TTL
 </div>
 
-Utilisez le SDK Python de W&amp;B ou l’interface de l’application W&amp;B pour désactiver une politique TTL pour une version spécifique d’artefact.
+Utilisez le SDK Python W&amp;B ou l’interface de l’application W&amp;B pour désactiver une politique TTL pour une version spécifique d’un artefact.
 
 {/* <Note>
-  Les artefacts pour lesquels la TTL est désactivée n’hériteront pas de la TTL de leur collection d’artifacts. Référez-vous à (## Hériter de la politique TTL) pour savoir comment supprimer la TTL d’un artefact et hériter de la TTL définie au niveau de la collection.
+  Les artefacts dont la TTL est désactivée n’hériteront pas de la TTL de leur collection d’artifacts. Reportez-vous à (## Hériter de la politique TTL) pour savoir comment supprimer la TTL d’un artefact et hériter de la TTL définie au niveau de la collection.
   </Note> */}
 
 <Tabs>
@@ -210,7 +210,7 @@ Utilisez le SDK Python de W&amp;B ou l’interface de l’application W&amp;B po
     2. Définissez l&#39;attribut `ttl` de l&#39;artefact sur `None`.
     3. Mettez à jour l&#39;artefact avec la méthode [`save`](/fr/models/ref/python/experiments/run#save).
 
-    L&#39;extrait de code suivant montre comment désactiver une politique TTL pour un artefact :
+    L&#39;extrait de code suivant montre comment désactiver une politique TTL pour un artefact :
 
     ```python
     artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
@@ -240,7 +240,7 @@ Utilisez le SDK Python de W&amp;B ou l’interface de l’application W&amp;B po
   ## Afficher les politiques TTL
 </div>
 
-Affichez les politiques TTL des artefacts avec le SDK Python ou l’interface de l’application W&amp;B.
+Affichez les politiques TTL des artefacts avec le SDK Python ou avec l’interface de l’application W&amp;B.
 
 <Tabs>
   <Tab title="Python SDK">
@@ -253,14 +253,14 @@ Affichez les politiques TTL des artefacts avec le SDK Python ou l’interface de
   </Tab>
 
   <Tab title="W&B App">
-    Affichez la politique TTL d’un artefact dans l’interface de l’application W&amp;B.
+    Affichez la politique TTL d’un artefact avec l’interface de l’application W&amp;B.
 
     1. Accédez à la [W&amp;B App](https://wandb.ai).
     2. Accédez à votre projet W&amp;B.
     3. Dans votre projet, sélectionnez l’onglet Artifacts dans la barre latérale du projet.
     4. Cliquez sur une collection.
 
-    Dans la vue de la collection, vous pouvez voir tous les artefacts de la collection sélectionnée. Dans la colonne `Time to Live`, vous verrez la politique TTL attribuée à l’artefact.
+    Dans la vue de la collection, vous pouvez voir tous les artefacts de la collection sélectionnée. Dans la colonne `Time to Live`, vous verrez la politique TTL attribuée à cet artefact.
 
     <Frame>
       <img src="/images/artifacts/ttl_collection_panel_ui.png" alt="Vue de la collection TTL" />

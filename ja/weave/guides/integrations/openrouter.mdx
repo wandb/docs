@@ -1,13 +1,13 @@
 ---
 title: "OpenRouter"
-description: "OpenRouter の統合インターフェースを使って、多数の LLM を自動 Weave インテグレーション付きで利用する"
+description: "OpenRouter の統合インターフェースを使用して、多数の LLM を Weave と自動統合して利用する"
 ---
 
-Openrouter.ai は多くの LLM に対する統合インターフェースであり、OpenAI GPT-4、Anthropic Claude、Google Gemini のような基盤モデルだけでなく、LLama-3、Mixtral などのオープンソースモデルや、[その他多数のモデル](https://openrouter.ai/models) をサポートしています。一部のモデルは無料でも提供されています。
+Openrouter.ai は、多数の LLM 向けの統合インターフェースです。OpenAI GPT-4、Anthropic Claude、Google Gemini などの基盤モデルに加え、Llama-3、Mixtral などのオープンソースモデルや、[そのほか多数のモデル](https://openrouter.ai/models) をサポートしています。一部のモデルは無料で提供されています。
 
-OpenRouter は REST API と OpenAI SDK 互換のインターフェース ([ドキュメント](https://docs.together.ai/docs/openai-api-compatibility)) を提供しており、Weave が自動的に検出してインテグレーションします (詳細は OpenRouter の [クイックスタート](https://openrouter.ai/docs/quick-start) を参照してください) 。
+OpenRouter は REST API と OpenAI SDK との互換性を提供しており、Weave はこれを自動的に検出して統合します (詳細については、OpenRouter の [docs](https://docs.together.ai/docs/openai-api-compatibility) および [quick start](https://openrouter.ai/docs/quick-start) を参照してください) 。
 
-OpenAI SDK コードを OpenRouter に切り替えるには、API キーを自分の [OpenRouter API](https://openrouter.ai/docs/api-keys) キーに変更し、`base_url` を `https://openrouter.ai/api/v1` に、`model` を多数ある [chat models](https://openrouter.ai/docs/models) のいずれかに設定します。`weave.init()` を呼び出す際、トレース用の プロジェクト名を指定してください。指定しない場合は、デフォルトの entity が使用されます。デフォルトの entity を確認または更新するには、W&amp;B Models ドキュメントの [User Settings](/ja/platform/app/settings-page/user-settings/#default-team) を参照してください。
+OpenAI SDK のコードを OpenRouter に切り替えるには、APIキーを [OpenRouter API](https://openrouter.ai/docs/api-keys) キーに変更し、`base_url` を `https://openrouter.ai/api/v1` に設定し、`model` には [chat models](https://openrouter.ai/docs/models) のいずれかを指定します。`weave.init()` を呼び出すときは、トレース用のプロジェクト名を指定してください。指定しない場合は、デフォルトの entity が使用されます。デフォルトの entity を確認または更新するには、W&amp;B Models のドキュメントにある [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) を参照してください。
 
 ```python lines {5,10-12}
 import os
@@ -25,7 +25,7 @@ client = openai.OpenAI(
 )
 chat_completion = client.chat.completions.create(
     extra_headers={
-    "HTTP-Referer": $YOUR_SITE_URL, # 省略可能。openrouter.ai のランキングにアプリを掲載する場合に使用します。
+    "HTTP-Referer": $YOUR_SITE_URL, # 省略可能。アプリを openrouter.ai のランキングに掲載するために使用します。
     "X-Title": $YOUR_APP_NAME, # 省略可能。openrouter.ai のランキングに表示されます。
     },
     model="meta-llama/llama-3.1-8b-instruct:free",
@@ -37,7 +37,7 @@ chat_completion = client.chat.completions.create(
     max_tokens=1024,
 )
 response = chat_completion.choices[0].message.content
-print("モデルの応答:\n", response)
+print("Model response:\n", response)
 ```
 
 これは入門用の簡単な例ですが、より複雑なユースケース向けに Weave を独自の関数とインテグレーションする方法の詳細については、[OpenAI](/ja/weave/guides/integrations/openai#track-your-own-ops) ガイドを参照してください。

@@ -1,16 +1,16 @@
 ---
-title: "AWS Batch、ECS などのクラウドインフラストラクチャーで W&B Sweeps を使用できますか？"
+title: "AWS Batch、ECS などのクラウド インフラストラクチャーで W&B Sweeps を使用できますか？"
 keywords: ["Sweeps", "AWS"]
 ---
 
-任意の W&amp;B Sweep agent が `sweep_id` にアクセスできるように公開するには、それらの agent が `sweep_id` を読み取って実行できる method を実装します。
+任意の W&amp;B Sweep エージェントが `sweep_id` にアクセスできるように `sweep_id` を公開するには、これらのエージェントが `sweep_id` を読み取って実行できる method を実装します。
 
-たとえば、Amazon EC2 インスタンスを起動し、その上で `wandb agent` を実行します。SQS queue を使用して、複数の EC2 インスタンスに `sweep_id` を配信します。各インスタンスはその queue から `sweep_id` を取得し、プロセスを開始できます。
+たとえば、Amazon EC2 インスタンスを起動し、その上で `wandb agent` を実行します。SQS キューを使用して `sweep_id` を複数の EC2 インスタンスにブロードキャストします。その後、各インスタンスはキューから `sweep_id` を取得して、プロセスを開始できます。
 
 ***
 
-{/* ---- AUTO-GENERATED: タブバッジ ----
-  front matter の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py で管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 

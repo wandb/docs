@@ -14,7 +14,7 @@ import WeaveQuickstartPrereqs from "/snippets/fr/_includes/weave-quickstart-prer
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/traces-quickstart.ipynb" />
 </div>
 
-Apprenez à suivre les appels de LLM avec Weave en ajoutant le traçage à votre code. Ce démarrage rapide vous montre comment tracer une requête vers OpenAI et afficher les résultats dans l’interface Weave.
+Découvrez comment suivre les appels LLM avec Weave en ajoutant le traçage à votre code. Ce démarrage rapide vous guide pour tracer une requête vers OpenAI et consulter les résultats dans l’interface Weave.
 
 <div id="what-youll-learn">
   ## Ce que vous allez apprendre :
@@ -36,9 +36,9 @@ Pour commencer à suivre votre code et à journaliser des traces dans Weave :
 
 1. Importez la bibliothèque `weave` dans votre code.
 2. Appelez `weave.init('your_wb_team/project_name')` dans votre code pour envoyer les informations de suivi à votre [équipe](/fr/platform/app/settings-page/teams) et à votre [projet](/fr/platform/hosting/iam/org_team_struct#project) W&amp;B. Si vous ne définissez pas d’équipe, les traces sont envoyées à votre [équipe par défaut](/fr/platform/app/settings-page/user-settings/#default-team). Si le projet indiqué n’existe pas dans votre équipe, Weave le crée.
-3. Ajoutez le [`décorateur @weave.op()`](/fr/weave/guides/tracking/ops) aux fonctions précises que vous souhaitez suivre. Bien que Weave suive automatiquement les appels aux LLM pris en charge, l’ajout du décorateur Weave vous permet de suivre les entrées, les sorties et le code de fonctions spécifiques. En TypeScript, le décorateur utilise la syntaxe suivante : `weave.op(your_function)`
+3. Ajoutez le [`décorateur @weave.op()`](/fr/weave/guides/tracking/ops) aux fonctions précises que vous souhaitez suivre. Bien que Weave suive automatiquement les appels aux LLM pris en charge, l’ajout du décorateur Weave vous permet de suivre les entrée, les sorties et le code de fonctions spécifiques. En TypeScript, le décorateur utilise la syntaxe suivante : `weave.op(your_function)`
 
-L’exemple de code suivant envoie une requête à OpenAI (nécessite une [clé API OpenAI](https://platform.openai.com/docs/quickstart)) et Weave enregistre les informations de traçage associées. La requête demande au modèle OpenAI d’extraire les noms de dinosaures à partir de l’entrée et d’identifier le régime alimentaire de chacun (herbivore ou carnivore).
+L’exemple de code suivant envoie une Requête à OpenAI (nécessite une [clé API OpenAI](https://platform.openai.com/docs/quickstart)) et Weave enregistre les informations de Traçage associées. La Requête demande au modèle OpenAI d’extraire les noms de dinosaures à partir de l’entrée et d’identifier le régime alimentaire de chacun (herbivore ou carnivore).
 
 Exécutez l’exemple de code suivant pour suivre votre premier projet avec Weave :
 
@@ -51,7 +51,7 @@ Exécutez l’exemple de code suivant pour suivre votre premier projet avec Weav
 
     client = OpenAI()
 
-    # Weave suit automatiquement les entrées, les sorties et le code de cette fonction
+    # Weave suit automatiquement les entrée, les sorties et le code de cette fonction
     @weave.op()
     def extract_dinos(sentence: str) -> dict:
         response = client.chat.completions.create(
@@ -91,7 +91,7 @@ Exécutez l’exemple de code suivant pour suivre votre premier projet avec Weav
 
     const openai = new OpenAI();
 
-    // Weave suit automatiquement les entrées, les sorties et le code de cette fonction  
+    // Weave suit automatiquement les entrée, les sorties et le code de cette fonction  
     async function extractDinos(input: string) {
       const response = await openai.chat.completions.create({
         model: 'gpt-4o',
@@ -171,4 +171,4 @@ Cliquez sur le lien affiché dans votre terminal, ou collez-le dans votre naviga
   ## Étapes suivantes
 </div>
 
-[Commencez par évaluer votre application](/fr/weave/tutorial-eval), puis voyez comment [évaluer une application RAG](/fr/weave/tutorial-rag).
+[Commencez par évaluer votre application](/fr/weave/tutorial-eval), puis voir comment [évaluer une application RAG](/fr/weave/tutorial-rag).

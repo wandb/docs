@@ -1,5 +1,5 @@
 ---
-title: Est-ce que `wandb launch -d` ou `wandb job create image` téléverse un artefact Docker entier
+title: Est-ce que `wandb launch -d` ou `wandb job create image` téléverse un artefact Docker complet
   au lieu de le récupérer depuis un registre ?
 ---
 
@@ -16,6 +16,6 @@ docker push <repo-url>:<tag>
 wandb launch -d <repo-url>:<tag>
 ```
 
-L’agent de lancement démarre ensuite un job pointant vers le conteneur spécifié. Voir [Configuration avancée de l’agent](/fr/platform/launch/setup-agent-advanced/#agent-configuration) pour des exemples de configuration de l’accès de l’agent afin d’extraire des images depuis un registre de conteneurs.
+L’agent Launch démarre ensuite un job pointant vers le conteneur spécifié. Voir [Configuration avancée de l’agent](/fr/platform/launch/setup-agent-advanced/#agent-configuration) pour des exemples de configuration de l’accès de l’agent afin d’extraire des images depuis un registre de conteneurs.
 
 Pour Kubernetes, assurez-vous que les pods du cluster Kubernetes ont accès au registre vers lequel l’image est envoyée.

@@ -1,14 +1,14 @@
 ---
 title: "Tutoriel : gestion des versions de l’application"
-description: "Découvrez comment utiliser Weave Model pour suivre votre application et ses paramètres, et en gérer les versions"
+description: "Découvrez comment utiliser le modèle Weave pour suivre votre application et ses paramètres, et en gérer les versions"
 ---
 
 Suivre les [entrées, sorties et métadonnées](/fr/weave/quickstart), ainsi que [les données circulant dans votre application](/fr/weave/tutorial-tracing_2), est essentiel pour comprendre les performances de votre système. Cependant, **gérer les versions de votre application au fil du temps** est tout aussi essentiel pour comprendre comment les modifications apportées à votre code ou aux paramètres de l’application influent sur vos sorties. La classe `Model` de Weave permet de suivre ces changements dans Weave.
 
 Dans ce tutoriel, vous apprendrez :
 
-* Comment utiliser Weave `Model` pour suivre votre application et ses paramètres, et en gérer les versions.
-* Comment exporter, modifier et réutiliser un Weave `Model` déjà enregistré.
+* Comment utiliser modèle Weave pour suivre votre application et ses paramètres, et en gérer les versions.
+* Comment exporter, modifier et réutiliser un modèle Weave déjà enregistré.
 
 <div id="using-weavemodel">
   ## Utiliser `weave.Model`
@@ -18,12 +18,12 @@ Dans ce tutoriel, vous apprendrez :
   La classe `weave.Model` n’est actuellement prise en charge qu’en Python.
 </Warning>
 
-Utiliser des `Model` dans Weave signifie que les paramètres tels que les identifiants du fournisseur de modèle, les prompts, la température, etc. sont stockés et versionnés lorsqu’ils changent.
+Utiliser des `Model` dans Weave signifie que les paramètres tels que les ID du fournisseur de modèle, les prompts, la température, etc. sont stockés et versionnés lorsqu’ils changent.
 
 Pour créer un `Model` dans Weave, vous avez besoin des éléments suivants :
 
 * une classe qui hérite de `weave.Model`
-* des définitions de type sur tous les champs de la classe
+* des définitions de type pour tous les champs de la classe
 * une fonction `invoke` typée avec le décorateur `@weave.op()`
 
 Lorsque vous modifiez les champs de la classe ou le code qui définit votre modèle, **ces changements sont enregistrés et la version est mise à jour**. Cela vous permet de comparer les générations entre différentes versions de votre application.
@@ -74,7 +74,7 @@ Dans l’exemple ci-dessous, le **nom du modèle, la température et le prompt s
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
     ```
   </Tab>
 </Tabs>
@@ -108,7 +108,7 @@ Vous pouvez maintenant instancier le modèle et l’appeler avec `invoke` :
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
+    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
     ```
   </Tab>
 </Tabs>
@@ -119,7 +119,7 @@ Après avoir appelé `.invoke`, vous verrez que la trace dans Weave **suit déso
 
 **Remarque sur l’utilisation de `weave.Model` :**
 
-* Vous pouvez utiliser `predict` au lieu de `invoke` comme nom de fonction dans votre `Model` Weave, si vous préférez.
+* Vous pouvez utiliser `predict` au lieu de `invoke` comme nom de fonction dans votre modèle Weave, si vous préférez.
 * Si vous voulez que d’autres méthodes de classe soient suivies par Weave, elles doivent être encapsulées dans `weave.op()`.
 * Les paramètres commençant par un trait de soulignement sont ignorés par Weave et ne seront pas enregistrés.
 

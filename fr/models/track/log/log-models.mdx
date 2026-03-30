@@ -1,6 +1,6 @@
 ---
 title: Enregistrer les modèles
-description: "Enregistrez des artefacts de modèle dans un run W&B, puis récupérez-les plus tard à l’aide des méthodes SDK log_model et use_model."
+description: "Enregistrez des artefacts de modèle dans un run W&B, puis récupérez-les ultérieurement à l’aide des méthodes du SDK log_model et use_model."
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -22,14 +22,14 @@ Le guide suivant explique comment enregistrer des modèles dans un run W&amp;B e
   * Explorer les [graphes de lignage](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/) d&#39;un modèle ou de tout autre objet suivi dans W&amp;B.
   * Interagir avec les artefacts de modèle créés avec ces méthodes, par exemple en [mettant à jour leurs propriétés](/fr/models/artifacts/update-an-artifact/) (métadonnées, alias et descriptions)
 
-  Pour plus d&#39;informations sur W&amp;B Artifacts et les cas d&#39;usage avancés de gestion des versions, voir la documentation [Artifacts](/fr/models/artifacts/).
+  Pour plus d’informations sur W&amp;B Artifacts et les cas d&#39;usage avancés de gestion des versions, voir la documentation [Artifacts](/fr/models/artifacts/).
 </Note>
 
 <div id="log-a-model-to-a-run">
   ## Enregistrer un modèle dans un run
 </div>
 
-Utilisez [`log_model`](/fr/models/ref/python/experiments/run#log_model) pour enregistrer un artefact de modèle contenant le contenu du répertoire que vous spécifiez. La méthode [`log_model`](/fr/models/ref/python/experiments/run#log_model) marque également l’artefact de modèle obtenu comme sortie du run W&amp;B.
+Utilisez [`log_model`](/fr/models/ref/python/experiments/run#log_model) pour enregistrer un artefact de modèle contenant le contenu du répertoire que vous spécifiez. La méthode [`log_model`](/fr/models/ref/python/experiments/run#log_model) marque également l’artefact de modèle résultant comme sortie du run W&amp;B.
 
 Vous pouvez suivre les dépendances d’un modèle et ses associations si vous le marquez comme entrée ou sortie d’un run W&amp;B. Consultez la traçabilité du modèle dans l’interface de l’application W&amp;B. Voir la page [Explore and traverse artifact graphs](/fr/models/artifacts/explore-and-traverse-an-artifact-graph/) du chapitre [Artifacts](/fr/models/artifacts/) pour plus d’informations.
 
@@ -116,11 +116,11 @@ Voir [`log_model`](/fr/models/ref/python/experiments/run#log_model) dans la Réf
   ## Télécharger et utiliser un modèle enregistré
 </div>
 
-Utilisez la fonction [`use_model`](/fr/models/ref/python/experiments/run#use_model) pour accéder aux fichiers du modèle et les télécharger s&#39;ils ont été précédemment enregistrés dans un run W&amp;B.
+Utilisez la fonction [`use_model`](/fr/models/ref/python/experiments/run#use_model) pour accéder aux fichiers d&#39;un modèle précédemment enregistré dans un run W&amp;B et les télécharger.
 
-Indiquez le nom de l&#39;artefact de modèle dans lequel sont stockés les fichiers du modèle que vous souhaitez récupérer. Le nom fourni doit correspondre à celui d&#39;un artefact de modèle enregistré existant.
+Indiquez le nom de l&#39;artefact de modèle dans lequel sont stockés les fichiers du modèle que vous souhaitez récupérer. Le nom que vous fournissez doit correspondre à celui d&#39;un artefact de modèle enregistré existant.
 
-Si vous n&#39;avez pas défini `name` lorsque vous avez initialement enregistré les fichiers avec `log_model`, le nom attribué par défaut est le nom de base du chemin d&#39;entrée, précédé de l&#39;ID du run.
+Si vous n&#39;avez pas défini `name` lorsque vous avez initialement enregistré les fichiers avec `log_model`, le nom attribué par défaut est le nom de base du chemin d&#39;entrée, préfixé par l&#39;ID du run.
 
 Veillez à remplacer les valeurs comprises entre `<>` par les vôtres :
 
@@ -134,12 +134,12 @@ with wandb.init(project="<your-project>", entity="<your-entity>") as run:
     downloaded_model_path = run.use_model(name="<your-model-name>")
 ```
 
-La fonction [use&#95;model](/fr/models/ref/python/experiments/run#use_model) renvoie le chemin d’accès aux fichiers du modèle téléchargé. Conservez ce chemin si vous souhaitez lier ce modèle plus tard. Dans l&#39;extrait de code précédent, le chemin renvoyé est stocké dans une variable appelée `downloaded_model_path`.
+La fonction [use&#95;model](/fr/models/ref/python/experiments/run#use_model) renvoie le chemin des fichiers du modèle téléchargé. Conservez ce chemin si vous souhaitez lier ce modèle ultérieurement. Dans l&#39;extrait de code précédent, le chemin renvoyé est stocké dans une variable nommée `downloaded_model_path`.
 
 <details>
   <summary>Exemple : Télécharger et utiliser un modèle enregistré</summary>
 
-  Par exemple, dans l&#39;extrait de code suivant, un utilisateur a appelé l&#39;API `use_model`. Il a indiqué le nom de l&#39;artefact de modèle qu&#39;il souhaite récupérer et a également fourni une version ou un alias. Il a ensuite stocké le chemin renvoyé par l&#39;API dans la variable `downloaded_model_path`.
+  Par exemple, dans l&#39;extrait de code suivant, un utilisateur appelle l&#39;API `use_model`. Il indique le nom de l&#39;artefact de modèle qu&#39;il souhaite récupérer et fournit également une version ou un alias. Il stocke ensuite le chemin renvoyé par l&#39;API dans la variable `downloaded_model_path`.
 
   ```python
   import wandb

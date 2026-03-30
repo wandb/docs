@@ -6,7 +6,7 @@ title: PyTorch Ignite
 * Voir les visualisations obtenues dans cet [exemple de rapport W&amp;B →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg)
 * Essayez d&#39;exécuter vous-même le code dans cet [exemple de notebook hébergé →](https://colab.research.google.com/drive/15e-yGOvboTzXU4pe91Jg-Yr7sae3zBOJ#scrollTo=ztVifsYAmnRr)
 
-Ignite prend en charge un gestionnaire W&amp;B permettant de journaliser les métriques, les paramètres du modèle et de l&#39;optimiseur, ainsi que les gradients pendant l&#39;entraînement et la validation. Il peut également être utilisé pour journaliser des points de contrôle du modèle dans le cloud W&amp;B. Cette classe sert aussi de wrapper pour le module wandb. Cela signifie que vous pouvez appeler n&#39;importe quelle fonction de wandb à l&#39;aide de ce wrapper. Voir les exemples expliquant comment enregistrer les paramètres et les gradients du modèle.
+Ignite prend en charge un gestionnaire W&amp;B permettant de journaliser les métriques, les paramètres du modèle et de l&#39;optimiseur, ainsi que les gradients pendant l&#39;entraînement et la validation. Il peut également être utilisé pour journaliser des points de contrôle du modèle dans le cloud W&amp;B. Cette classe sert aussi de wrapper pour le module wandb. Cela signifie que vous pouvez appeler n&#39;importe quelle fonction de wandb à l&#39;aide de ce wrapper. Voir des exemples montrant comment enregistrer les paramètres et les gradients du modèle.
 
 <div id="basic-setup">
   ## Configuration de base
@@ -59,10 +59,10 @@ def get_data_loaders(train_batch_size, val_batch_size):
     return train_loader, val_loader
 ```
 
-L’utilisation de `WandBLogger` avec ignite se fait de manière modulaire. Commencez par créer un objet `WandBLogger`. Attachez-le ensuite à un trainer ou à un evaluator pour journaliser automatiquement les métriques. Cet exemple montre :
+L’utilisation de `WandBLogger` avec ignite suit une approche modulaire. Commencez par créer un objet `WandBLogger`. Attachez-le ensuite à un moteur d’entraînement ou d’évaluation pour journaliser automatiquement les métriques. Cet exemple montre :
 
-* La journalisation de la perte d’entraînement, attachée à l’objet trainer.
-* La journalisation de la perte de validation, attachée à l’evaluator.
+* La perte d’entraînement, journalisée via le trainer.
+* La perte de validation, journalisée via l’evaluator.
 * La journalisation de paramètres facultatifs, comme le taux d’apprentissage.
 * La surveillance du modèle.
 
@@ -121,7 +121,7 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
     wandb_logger.watch(model)
 ```
 
-Vous pouvez utiliser, à titre facultatif, les `EVENTS` d’ignite pour journaliser directement les métriques dans le terminal
+Vous pouvez également utiliser les `EVENTS` d&#39;ignite pour journaliser les métriques directement dans le terminal
 
 
 ```python
@@ -180,19 +180,19 @@ if __name__ == "__main__":
 Ce code génère les visualisations suivantes ::
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-1.png" alt="Tableau de bord d'entraînement PyTorch Ignite" />
+  <img src="/images/integrations/pytorch-ignite-1.png" alt="tableau de bord d'entraînement PyTorch Ignite" />
 </Frame>
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-2.png" alt="Performances de PyTorch Ignite" />
+  <img src="/images/integrations/pytorch-ignite-2.png" alt="performances de PyTorch Ignite" />
 </Frame>
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-3.png" alt="Résultats du réglage des hyperparamètres de PyTorch Ignite" />
+  <img src="/images/integrations/pytorch-ignite-3.png" alt="résultats du réglage des hyperparamètres de PyTorch Ignite" />
 </Frame>
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-4.png" alt="Tableau de bord de comparaison de modèles PyTorch Ignite" />
+  <img src="/images/integrations/pytorch-ignite-4.png" alt="tableau de bord de comparaison de modèles PyTorch Ignite" />
 </Frame>
 
 Consultez la [documentation Ignite](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger) pour plus de détails.
