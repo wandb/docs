@@ -1,62 +1,62 @@
 ---
-title: Référencer une version d’artefact avec des alias
-description: "Utilisez des alias par défaut, personnalisés et protégés pour référencer des versions d’artefact spécifiques dans W&B Registry."
+title: Référencer une version d’artifact avec des alias
+description: "Utilisez des alias par défaut, personnalisés et protégés pour référencer des versions d’artifact spécifiques dans W&B Registry."
 ---
 
-Référencez une [version d’artefact](/fr/models/artifacts/create-a-new-artifact-version/) spécifique avec un ou plusieurs alias. [W&amp;B attribue automatiquement des alias](/fr/models/registry/aliases/#default-aliases) à chaque artefact que vous liez sous le même nom. Vous pouvez également [créer un ou plusieurs alias personnalisés](/fr/models/registry/aliases/#custom-aliases) pour référencer une version d’artefact spécifique.
+Référencez une [version d’artifact](/fr/models/artifacts/create-a-new-artifact-version/) spécifique avec un ou plusieurs alias. [W&amp;B attribue automatiquement des alias](/fr/models/registry/aliases/#default-aliases) à chaque artifact que vous liez sous le même nom. Vous pouvez également [créer un ou plusieurs alias personnalisés](/fr/models/registry/aliases/#custom-aliases) pour référencer une version d’artifact spécifique.
 
-Les alias s’affichent sous forme de rectangles contenant le nom de l’alias dans l’interface du registre. Si un [alias est protégé](/fr/models/registry/aliases/#protected-aliases), il apparaît sous la forme d’un rectangle gris avec une icône de cadenas. Sinon, l’alias apparaît sous la forme d’un rectangle orange. Les alias ne sont pas partagés entre les registres.
+Les alias apparaissent sous forme de rectangles portant leur nom dans l’interface du registre. Si un [alias est protégé](/fr/models/registry/aliases/#protected-aliases), il apparaît sous la forme d’un rectangle gris avec une icône de cadenas. Sinon, l’alias apparaît sous la forme d’un rectangle orange. Les alias ne sont pas partagés entre les registres.
 
 <Note>
   **Quand utiliser un alias plutôt qu’un tag**
 
-  Utilisez un alias pour référencer une version d’artefact spécifique. Chaque alias au sein d’une collection est unique. Une seule version d’artefact peut avoir un alias donné à la fois.
+  Utilisez un alias pour référencer une version d’artifact spécifique. Chaque alias au sein d’une collection est unique. Une seule version d’artifact peut avoir un alias donné à la fois.
 
-  Utilisez des tags pour organiser et regrouper des versions d’artefact ou des collections autour d’un thème commun. Plusieurs versions d’artefact et collections peuvent partager le même tag.
+  Utilisez des tags pour organiser et regrouper des versions d’artifact ou des collections autour d’un thème commun. Plusieurs versions d’artifact et collections peuvent partager le même tag.
 </Note>
 
-Lorsque vous ajoutez un alias à une version d’artefact, vous pouvez, si vous le souhaitez, démarrer une [automatisation du registre](/fr/models/automations/automation-events/#registry) pour notifier un canal Slack ou déclencher un webhook.
+Lorsque vous ajoutez un alias à une version d’artifact, vous pouvez, si vous le souhaitez, démarrer une [automation du registre](/fr/models/automations/automation-events/#registry) pour notifier un canal Slack ou déclencher un webhook.
 
 <div id="default-aliases">
   ## Alias par défaut
 </div>
 
-W&amp;B attribue automatiquement les alias suivants à chaque version d&#39;artefact que vous liez sous le même nom :
+W&amp;B attribue automatiquement les alias suivants à chaque version d&#39;artifact que vous liez sous le même nom :
 
-* L&#39;alias `latest` à la version d&#39;artefact la plus récente que vous liez à une collection.
-* Un numéro de version unique. W&amp;B compte chaque version d&#39;artefact (à partir de l&#39;index zéro) que vous liez. W&amp;B utilise ce nombre pour attribuer un numéro de version unique à cet artefact.
+* L&#39;alias `latest` à la version d&#39;artifact la plus récente que vous liez à une collection.
+* Un numéro de version unique. W&amp;B compte chaque version d&#39;artifact que vous liez (à partir de l&#39;index zéro). W&amp;B utilise ce nombre pour attribuer un numéro de version unique à cet artifact.
 
-Par exemple, si vous liez trois fois un artefact nommé `zoo_model`, W&amp;B crée respectivement les alias `v0`, `v1` et `v2`. `v2` possède également l&#39;alias `latest`.
+Par exemple, si vous liez trois fois un artifact nommé `zoo_model`, W&amp;B crée respectivement trois alias : `v0`, `v1` et `v2`. `v2` a également l&#39;alias `latest`.
 
 <div id="custom-aliases">
   ## Alias personnalisés
 </div>
 
-Créez un ou plusieurs alias personnalisés pour des versions spécifiques d’artefact, selon votre cas d’usage. Par exemple :
+Créez un ou plusieurs alias personnalisés pour des versions spécifiques d&#39;artifact, selon votre cas d&#39;utilisation. Par exemple :
 
-* Vous pouvez utiliser des alias tels que `dataset_version_v0`, `dataset_version_v1` et `dataset_version_v2` pour identifier le jeu de données sur lequel un modèle a été entraîné.
-* Vous pouvez utiliser l’alias `best_model` pour suivre la version d’artefact de modèle la plus performante.
+* Vous pouvez utiliser des alias comme `dataset_version_v0`, `dataset_version_v1` et `dataset_version_v2` pour identifier le jeu de données sur lequel un modèle a été entraîné.
+* Vous pouvez utiliser l&#39;alias `best_model` pour suivre la version de modèle artifact la plus performante.
 
-Tout utilisateur disposant d’un rôle de registre [**Member** ou **Admin**](/fr/models/registry/configure_registry/#registry-roles) sur un registre peut ajouter ou supprimer un alias personnalisé d’un artefact lié dans ce registre. Les utilisateurs disposant des rôles [**Restricted Viewer** ou **Viewer**](/fr/models/registry/configure_registry/#registry-roles) ne peuvent pas ajouter ni supprimer d’alias.
+Tout utilisateur ayant le rôle de registre [**Member** ou **Admin**](/fr/models/registry/configure_registry/#registry-roles) sur un registre peut ajouter ou supprimer un alias personnalisé d&#39;un artifact lié dans ce registre. Les Users ayant les rôles [**Restricted Viewer** ou **Viewer**](/fr/models/registry/configure_registry/#registry-roles) ne peuvent pas ajouter ni supprimer d&#39;alias.
 
 <Note>
-  Les [alias protégés](/fr/models/registry/aliases/#protected-aliases) permettent d’étiqueter et d’identifier les versions d’artefact à protéger contre toute modification ou suppression.
+  Les [alias protégés](/fr/models/registry/aliases/#protected-aliases) permettent d&#39;étiqueter et d&#39;identifier les versions d&#39;artifact à protéger contre toute modification ou suppression.
 </Note>
 
-Vous pouvez créer un alias personnalisé dans W&amp;B Registry ou avec le SDK Python. Selon votre cas d’usage, cliquez sur l’onglet ci-dessous qui correspond le mieux à vos besoins.
+Vous pouvez créer un alias personnalisé dans le W&amp;B Registry ou avec le SDK Python. Selon votre cas d&#39;utilisation, cliquez sur l&#39;onglet ci-dessous qui correspond le mieux à vos besoins.
 
 <Tabs>
   <Tab title="W&B Registry">
-    1. Accédez à W&amp;B Registry.
-    2. Cliquez sur le bouton **Voir les détails** dans une collection.
-    3. Dans la section **Versions**, cliquez sur le bouton **Voir** pour une version d’artefact spécifique.
+    1. Accédez au W&amp;B Registry.
+    2. Cliquez sur le bouton **View details** dans une collection.
+    3. Dans la section **Versions**, cliquez sur le bouton **View** pour une version d&#39;artifact spécifique.
     4. Cliquez sur le bouton **+** pour ajouter un ou plusieurs alias à côté du champ **Aliases**.
   </Tab>
 
-  <Tab title="SDK Python">
-    Lorsque vous liez une version d’artefact à une collection avec le SDK Python, vous pouvez facultativement fournir une liste d’un ou plusieurs alias comme argument du paramètre `alias` dans [`link_artifact()`](/fr/models/ref/python/experiments/run.md/#link_artifact). W&amp;B crée un alias ([alias non protégé](#custom-aliases)) pour vous si l’alias que vous fournissez n’existe pas déjà.
+  <Tab title="Python SDK">
+    Lorsque vous liez une version d&#39;artifact à une collection avec le SDK Python, vous pouvez facultativement fournir une liste d&#39;un ou plusieurs alias comme argument du paramètre `alias` dans [`link_artifact()`](/fr/models/ref/python/experiments/run.md/#link_artifact). W&amp;B crée un alias ([alias non protégé](#custom-aliases)) pour vous si l&#39;alias que vous fournissez n&#39;existe pas déjà.
 
-    L’extrait de code suivant montre comment lier une version d’artefact à une collection et ajouter des alias à cette version d’artefact avec le SDK Python. Remplacez les valeurs entre `<>` par les vôtres :
+    L&#39;extrait de code suivant montre comment lier une version d&#39;artifact à une collection et ajouter des alias à cette version d&#39;artifact avec le SDK Python. Remplacez les valeurs entre `<>` par les vôtres :
 
     ```python
     import wandb
@@ -64,22 +64,22 @@ Vous pouvez créer un alias personnalisé dans W&amp;B Registry ou avec le SDK P
     # Initialiser un run
     with wandb.init(entity = "<team_entity>", project = "<project_name>") as run:
 
-        # Créer un objet artefact
-        # Le paramètre type spécifie à la fois le type de l'
-        # objet artefact et le type de collection
+        # Créer un objet artifact
+        # Le paramètre type spécifie à la fois le type de l'objet
+        # artifact et le type de collection
         artifact = wandb.Artifact(name = "<name>", type = "<type>")
 
-        # Ajouter le fichier à l'objet artefact. 
-        # Spécifiez le chemin vers le fichier sur votre machine locale.
+        # Ajouter le fichier à l'objet artifact. 
+        # Spécifiez le chemin du fichier sur votre machine locale.
         artifact.add_file(local_path = "<local_path_to_artifact>")
 
-        # Spécifier la collection et le registre auxquels lier l'artefact
+        # Spécifier la collection et le registre auxquels lier l'artifact
         REGISTRY_NAME = "<registry_name>"
         COLLECTION_NAME = "<collection_name>"
         target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
-        # Lier la version d'artefact à la collection
-        # Ajouter un ou plusieurs alias à cette version d'artefact
+        # Lier la version d'artifact à la collection
+        # Ajouter un ou plusieurs alias à cette version d'artifact
         run.link_artifact(
             artifact = artifact, 
             target_path = target_path, 
@@ -93,61 +93,61 @@ Vous pouvez créer un alias personnalisé dans W&amp;B Registry ou avec le SDK P
   ### Alias protégés
 </div>
 
-Utilisez un [alias protégé](/fr/models/registry/aliases/#protected-aliases) pour étiqueter et identifier les versions d’artefact qui ne doivent être ni modifiées ni supprimées. Par exemple, vous pouvez utiliser l’alias protégé `production` pour étiqueter et identifier les versions d’artefact utilisées dans le pipeline de production de machine learning de votre organisation.
+Utilisez un [alias protégé](/fr/models/registry/aliases/#protected-aliases) pour étiqueter et identifier des versions d&#39;artifact qui ne doivent pas être modifiées ou supprimées. Par exemple, vous pouvez utiliser un alias protégé `production` pour étiqueter et identifier des versions d&#39;artifact utilisées dans le pipeline de production de machine learning de votre organisation.
 
-Les [administrateurs du registre](/fr/models/registry/configure_registry/#registry-roles) et les [comptes de service](/fr/support/models/articles/what-is-a-service-account-and-why-is-it-) disposant du rôle **Admin** peuvent créer des alias protégés et ajouter ou supprimer des alias protégés d’une version d’artefact. Les utilisateurs et les comptes de service disposant des rôles **Member**, **Viewer** et **Restricted Viewer** ne peuvent pas supprimer le lien vers une version protégée ni supprimer une collection contenant un alias protégé. Voir [Configurer l’accès au registre](/fr/models/registry/configure_registry/) pour plus de détails.
+Les [administrateurs du registre](/fr/models/registry/configure_registry/#registry-roles) et les [comptes de service](/fr/models/support/service_account_useful/) disposant du rôle **Admin** peuvent créer des alias protégés et ajouter ou supprimer des alias protégés sur une version d&#39;artifact. Les Users et les comptes de service disposant des rôles **Member**, **Viewer** et **Restricted Viewer** ne peuvent pas dissocier une version protégée ni supprimer une collection contenant un alias protégé. Voir [Configurer l’accès au registre](/fr/models/registry/configure_registry/) pour plus de détails.
 
 Les alias protégés courants incluent :
 
-* **Production** : la version d’artefact est prête à être utilisée en production.
-* **Staging** : la version d’artefact est prête pour les tests.
+* **Production** : La version d&#39;artifact est prête à être utilisée en production.
+* **Staging** : La version d&#39;artifact est prête pour les tests.
 
 <div id="create-a-protected-alias">
   #### Créer un alias protégé
 </div>
 
-Les étapes suivantes expliquent comment créer un alias protégé dans l’interface de W&amp;B Registry :
+Les étapes suivantes expliquent comment créer un alias protégé dans l’UI de W&amp;B Registry :
 
 1. Accédez à W&amp;B Registry.
 2. Sélectionnez un registre.
 3. Cliquez sur le bouton en forme d’engrenage en haut à droite de la page pour afficher les paramètres du registre.
-4. Dans la section **Alias protégés**, cliquez sur le bouton **+** pour ajouter un ou plusieurs alias protégés.
+4. Dans la section **Protected Aliases**, cliquez sur le bouton **+** pour ajouter un ou plusieurs alias protégés.
 
-Après sa création, chaque alias protégé apparaît sous la forme d’un rectangle gris avec une icône de cadenas dans la section **Alias protégés**.
+Après sa création, chaque alias protégé apparaît sous la forme d’un rectangle gris avec une icône de cadenas dans la section **Protected Aliases**.
 
 <Note>
-  Contrairement aux alias personnalisés non protégés, la création d’alias protégés est disponible exclusivement dans l’interface de W&amp;B Registry, et non par programmation avec le SDK Python. Pour ajouter un alias protégé à une version d’artefact, vous pouvez utiliser l’interface de W&amp;B Registry ou le SDK Python.
+  Contrairement aux alias personnalisés non protégés, la création d’alias protégés est disponible exclusivement dans l’UI de W&amp;B Registry, et non par programmation avec le SDK Python. Pour ajouter un alias protégé à une version d’artifact, vous pouvez utiliser l’UI de W&amp;B Registry ou le SDK Python.
 </Note>
 
-Les étapes suivantes expliquent comment ajouter un alias protégé à une version d’artefact depuis l’interface de W&amp;B Registry :
+Les étapes suivantes expliquent comment ajouter un alias protégé à une version d’artifact dans l’UI de W&amp;B Registry :
 
 1. Accédez à W&amp;B Registry.
-2. Cliquez sur le bouton **Voir les détails** dans une collection.
-3. Dans la section **Versions**, sélectionnez le bouton **Voir** pour une version d’artefact spécifique.
+2. Cliquez sur le bouton **View details** dans une collection.
+3. Dans la section **Versions**, sélectionnez le bouton **View** pour une version d’artifact spécifique.
 4. Cliquez sur le bouton **+** pour ajouter un ou plusieurs alias protégés à côté du champ **Aliases**.
 
-Une fois un alias protégé créé, un administrateur peut l’ajouter par programmation à une version d’artefact avec le SDK Python. Voir les onglets W&amp;B Registry et SDK Python dans la section [Créer un alias personnalisé](#custom-aliases) ci-dessus pour obtenir un exemple montrant comment ajouter un alias protégé à une version d’artefact.
+Une fois un alias protégé créé, un administrateur peut l’ajouter par programmation à une version d’artifact avec le SDK Python. Voir les onglets W&amp;B Registry et SDK Python dans la section [Create a custom alias](#custom-aliases) ci-dessus pour un exemple montrant comment ajouter un alias protégé à une version d’artifact.
 
 <div id="find-existing-aliases">
   ## Trouver des alias existants
 </div>
 
-Vous pouvez trouver des alias existants à l’aide de la [barre de recherche globale de W&amp;B Registry](/fr/models/registry/search_registry/#search-for-registry-items). Pour trouver un alias protégé :
+Vous pouvez trouver des alias existants à l’aide de la [barre de recherche globale du W&amp;B Registry](/fr/models/registry/search_registry/#search-for-registry-items). Pour trouver un alias protégé :
 
-1. Accédez à W&amp;B Registry.
-2. Saisissez le terme recherché dans la barre de recherche en haut de la page, puis appuyez sur Entrée pour lancer la recherche.
+1. Accédez au W&amp;B Registry.
+2. Saisissez le terme recherché dans la barre de recherche en haut de la page. Appuyez sur Entrée pour lancer la recherche.
 
-Les résultats de recherche s’affichent sous la barre de recherche si le terme saisi correspond à un registre existant, à un nom de collection, à un tag de version d’artefact, à un tag de collection ou à un alias.
+Les résultats de recherche s’affichent sous la barre de recherche si le terme saisi correspond à un registre existant, à un nom de collection, à un tag de version d’artifact, à un tag de collection ou à un alias.
 
 <div id="example">
   ## Exemple
 </div>
 
 <Note>
-  L&#39;exemple de code suivant fait suite à ce [notebook de tutoriel du registre W&amp;B](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb). Pour utiliser le code suivant, vous devez d&#39;abord [récupérer et traiter le jeu de données Zoo comme indiqué dans le notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb#scrollTo=87fecd29-8146-41e2-86fb-0bb4e3e3350a). Une fois le jeu de données Zoo prêt, vous pouvez créer une version d&#39;artefact et y ajouter des alias personnalisés.
+  L&#39;exemple de code suivant s&#39;inscrit dans la continuité de ce notebook du [tutoriel sur le registre W&amp;B](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb). Pour utiliser le code ci-dessous, vous devez d&#39;abord [récupérer et traiter le jeu de données Zoo comme indiqué dans le notebook](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb_registry/zoo_wandb.ipynb#scrollTo=87fecd29-8146-41e2-86fb-0bb4e3e3350a). Une fois le jeu de données Zoo en votre possession, vous pouvez créer une version d&#39;un artifact et y ajouter des alias personnalisés.
 </Note>
 
-L&#39;extrait de code suivant montre comment créer une version d&#39;artefact et y ajouter des alias personnalisés. L&#39;exemple utilise le jeu de données Zoo de l&#39;[UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/111/zoo) et la collection `Model` du registre `Zoo_Classifier_Models`.
+L&#39;extrait de code suivant montre comment créer une version d&#39;un artifact et y ajouter des alias personnalisés. L&#39;exemple utilise le jeu de données Zoo du [UCI Machine Learning Repository](https://archive.ics.uci.edu/dataset/111/zoo) et la collection `Model` dans le registre `Zoo_Classifier_Models`.
 
 ```python
 import wandb
@@ -155,23 +155,23 @@ import wandb
 # Initialiser un run
 with wandb.init(entity = "smle-reg-team-2", project = "zoo_experiment") as run:
 
-    # Créer un objet artefact
+    # Créer un objet artifact
     # Le paramètre type spécifie à la fois le type de l'
-    # objet artefact et le type de la collection
+    # objet artifact et le type de la collection
     artifact = wandb.Artifact(name = "zoo_dataset", type = "dataset")
 
-    # Ajouter le fichier à l'objet artefact. 
+    # Ajouter le fichier à l'objet artifact. 
     # Indiquer le chemin vers le fichier sur votre machine locale.
     artifact.add_file(local_path="zoo_dataset.pt", name="zoo_dataset")
     artifact.add_file(local_path="zoo_labels.pt", name="zoo_labels")
 
-    # Spécifier la collection et le registre auxquels lier l’artefact
+    # Indiquer la collection et le registre auxquels lier l'artifact
     REGISTRY_NAME = "Model"
     COLLECTION_NAME = "Zoo_Classifier_Models"
     target_path=f"wandb-registry-{REGISTRY_NAME}/{COLLECTION_NAME}"
 
-    # Lier la version d’artefact à la collection
-    # Ajouter un ou plusieurs alias à cette version d’artefact
+    # Lier la version de l'artifact à la collection
+    # Ajouter un ou plusieurs alias à cette version de l'artifact
     run.link_artifact(
         artifact = artifact,
         target_path = target_path,
@@ -179,6 +179,6 @@ with wandb.init(entity = "smle-reg-team-2", project = "zoo_experiment") as run:
         )
 ```
 
-1. Tout d’abord, vous créez un objet artefact (`wandb.Artifact()`).
-2. Ensuite, vous ajoutez à l’objet artefact deux tenseurs PyTorch issus d’un jeu de données avec `wandb.Artifact.add_file()`.
-3. Enfin, vous liez la version d’artefact à la collection `Model` dans le registre `Zoo_Classifier_Models` avec `link_artifact()`. Vous ajoutez également deux alias personnalisés à la version d’artefact en passant `production-us` et `production-eu` comme arguments du paramètre `aliases`.
+1. D’abord, vous créez un objet artifact (`wandb.Artifact()`).
+2. Ensuite, vous ajoutez à l’objet artifact deux tenseurs PyTorch d’un jeu de données avec `wandb.Artifact.add_file()`.
+3. Enfin, vous liez la version de l’artifact à la collection `Model` dans le registre `Zoo_Classifier_Models` avec `link_artifact()`. Vous ajoutez également deux alias personnalisés à la version de l’artifact en passant `production-us` et `production-eu` comme arguments du paramètre `aliases`.

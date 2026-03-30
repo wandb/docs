@@ -1,11 +1,11 @@
 ---
-title: Appel d’outils
-description: "Utilisez les appels de fonction et d’outil avec W&B Inférence pour permettre aux modèles d’invoquer des outils externes et des API pendant la génération."
+title: Appels d’outils
+description: "Utilisez les appels de fonctions et d’outils avec W&B Inference pour permettre aux modèles d’invoquer des outils externes et des API pendant la génération."
 ---
 
-L’appel d’outils vous permet d’étendre les capacités d’un modèle afin qu’il puisse invoquer des outils dans le cadre de sa réponse. W&amp;B Inférence ne prend actuellement en charge que les appels de fonction.
+Les appels d’outils vous permettent d’étendre les capacités d’un modèle afin qu’il puisse invoquer des outils dans sa réponse. W&amp;B Inference ne prend actuellement en charge que les appels de fonctions.
 
-Pour appeler des fonctions, spécifiez-les ainsi que leurs arguments dans votre requête au modèle. Le modèle détermine s’il doit exécuter la fonction pour répondre à une requête, puis précise les valeurs des arguments de la fonction si nécessaire.
+Pour appeler des fonctions, spécifiez-les ainsi que leurs arguments dans votre requête au modèle. Le modèle détermine s’il doit exécuter la fonction pour répondre à la requête, puis précise les valeurs des arguments de la fonction si nécessaire.
 
 <Tabs>
   <Tab title="Python">
@@ -14,7 +14,7 @@ Pour appeler des fonctions, spécifiez-les ainsi que leurs arguments dans votre 
 
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
-        api_key="<your-api-key>",  # Créez une clé API sur https://wandb.ai/settings
+        api_key="<your-api-key>",  # Créez une clé API dans Settings : https://wandb.ai/settings
     )
 
     response = client.chat.completions.create(

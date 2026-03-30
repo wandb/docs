@@ -1,11 +1,11 @@
 ---
-title: "InitStartError: wandb プロセスとの通信中にエラーが発生しました"
-keywords: ["Experiments", "Run Crashes"]
+title: "InitStartError: wandb プロセスとの通信エラー"
+keywords: ["Experiments", "Run のクラッシュ"]
 ---
 
-このエラーは、ライブラリがサーバーにデータを同期するプロセスの起動時に問題が発生したことを示しています。
+このエラーは、ライブラリがサーバーにデータを同期するプロセスの起動時に問題を検出したことを示します。
 
-以下の回避策で、特定の環境におけるこの問題を解決できます：
+以下の回避策で、特定の環境ではこの問題を解決できます。
 
 <Tabs>
   <Tab title="Linux と OS X">
@@ -15,7 +15,7 @@ keywords: ["Experiments", "Run Crashes"]
   </Tab>
 
   <Tab title="Google Colab">
-    バージョン `0.13.0` より前では、次を使用してください。
+    `0.13.0` より前のバージョンでは、次を使用してください。
 
     ```python
     wandb.init(settings=wandb.Settings(start_method="thread"))
@@ -26,10 +26,10 @@ keywords: ["Experiments", "Run Crashes"]
 ***
 
 {/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードをもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  front matter のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Run Crashes](/ja/support/models/tags/run-crashes)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[runのクラッシュ](/ja/support/models/tags/run-crashes)</Badge>
 
-{/* ---- 自動生成ここまで: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

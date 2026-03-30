@@ -1,6 +1,6 @@
 ---
 title: Découvrez Weave avec W&B Inference
-description: "Découvrez les bases de Weave à l’aide de W&B Inference pour suivre les appels de modèle, comparer les résultats et effectuer des évaluations."
+description: "Découvrez les bases de Weave à l’aide de W&B Inference pour tracer les appels au modèle, comparer les sorties et effectuer des évaluations."
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -13,19 +13,19 @@ import WeaveQuickstartPrereqs from "/snippets/fr/_includes/weave-quickstart-prer
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/learn-weave-with-inference.ipynb" />
 </div>
 
-Ce guide vous montre comment utiliser W&amp;B Weave avec [W&amp;B Inference](https://docs.wandb.ai/inference/). Utilisez W&amp;B Inference pour créer et tracer des applications LLM à l’aide de modèles open source accessibles en direct, sans configurer votre propre infrastructure ni gérer des clés API de plusieurs fournisseurs. Avec votre clé API W&amp;B, vous pouvez interagir avec [tous les modèles hébergés par W&amp;B Inference](https://docs.wandb.ai/inference/models/).
+Ce guide vous montre comment utiliser W&amp;B Weave avec [W&amp;B Inference](https://docs.wandb.ai/inference/). Utilisez W&amp;B Inference pour créer et tracer des applications LLM à l’aide de modèles open source accessibles en direct, sans avoir à mettre en place votre propre infrastructure ni à gérer des clés API provenant de plusieurs fournisseurs. Avec votre clé API W&amp;B, vous pouvez interagir avec [tous les modèles hébergés par W&amp;B Inference](https://docs.wandb.ai/inference/models/).
 
 <div id="what-youll-learn">
-  ## Ce que vous apprendrez
+  ## Ce que vous allez apprendre
 </div>
 
 Ce guide vous montre comment :
 
 * Configurer Weave et W&amp;B Inference
-* Créer une application LLM de base avec traçage automatique
-* comparer plusieurs modèles
-* Évaluer la performance du modèle sur un jeu de données
-* Consulter vos résultats dans l&#39;interface Weave
+* Créer une application LLM simple avec un tracing automatique
+* Comparer plusieurs modèles
+* Évaluer les performances du modèle sur un jeu de données
+* Consulter vos résultats dans la Weave UI
 
 <WeaveQuickstartPrereqs />
 
@@ -33,13 +33,13 @@ Ce guide vous montre comment :
   ## Tracez votre premier appel à un LLM
 </div>
 
-Pour commencer, copiez-collez l&#39;exemple de code suivant. Cet exemple utilise Llama 3.1-8B de W&amp;B Inférence.
+Pour commencer, faites un copier-coller de l’exemple de code suivant. Cet exemple utilise Llama 3.1-8B avec W&amp;B Inference.
 
 Lorsque vous exécutez ce code, Weave :
 
 * Trace automatiquement votre appel à un LLM
-* Journalise les entrées, les sorties, la latence et l&#39;utilisation des jetons
-* Fournit un lien pour voir votre trace dans l&#39;interface Weave
+* Enregistre les entrées, les sorties, la latence et l’utilisation des tokens
+* Fournit un lien pour consulter votre trace dans Weave UI
 
 <Tabs>
   <Tab title="Python">
@@ -47,7 +47,7 @@ Lorsque vous exécutez ce code, Weave :
     import weave
     import openai
 
-    # Initialisez Weave - remplacez par votre-équipe/votre-projet
+    # Initialisez Weave - remplacez par your-team/your-project
     weave.init("<team-name>/inference-quickstart")
 
     # Créez un client compatible OpenAI pointant vers W&B Inference
@@ -57,7 +57,7 @@ Lorsque vous exécutez ce code, Weave :
         project="<team-name>/my-first-weave-project",  # Requis pour le suivi de l'utilisation
     )
 
-    # Décorez votre fonction pour activer le traçage ; utilisez le client OpenAI standard
+    # Décorez votre fonction pour activer le tracing ; utilisez le client OpenAI standard
     @weave.op()
     def ask_llama(question: str) -> str:
         response = client.chat.completions.create(
@@ -85,11 +85,11 @@ Lorsque vous exécutez ce code, Weave :
 
     // Créez un client compatible OpenAI pointant vers W&B Inference
     const client = new OpenAI({
-        baseURL: 'https://api.inference.wandb.ai/v1',  // Point de terminaison W&B Inference
+        baseURL: 'https://api.inference.wandb.ai/v1',  // Endpoint W&B Inference
         apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY', // Remplacez par votre clé API ou définissez la variable d'environnement WANDB_API_KEY
     });
 
-    // Encapsulez votre fonction avec weave.op pour activer le traçage
+    // Encapsulez votre fonction avec weave.op pour activer le tracing
     const askLlama = weave.op(async function askLlama(question: string): Promise<string> {
     const response = await client.chat.completions.create({
         model: 'meta-llama/Llama-3.1-70B-Instruct',
@@ -112,7 +112,7 @@ Lorsque vous exécutez ce code, Weave :
   ## Créer une application de résumé de texte
 </div>
 
-Ensuite, essayez d’exécuter ce code : il s’agit d’une application de résumé de texte de base qui montre comment Weave génère des traces pour des opérations imbriquées :
+Ensuite, essayez d’exécuter ce code, une application simple de résumé qui montre comment Weave effectue la trace des opérations imbriquées :
 
 <Tabs>
   <Tab title="Python">
@@ -126,7 +126,7 @@ Ensuite, essayez d’exécuter ce code : il s’agit d’une application de ré
     client = openai.OpenAI(
         base_url='https://api.inference.wandb.ai/v1',
         api_key="YOUR_WANDB_API_KEY",  # Remplacez par votre clé API réelle
-        project="<team-name>/my-first-weave-project",  # Requis pour le suivi de l'utilisation
+        project="<team-name>/my-first-weave-project",  # Requis pour le suivi d'utilisation
     )
 
     @weave.op()
@@ -144,12 +144,12 @@ Ensuite, essayez d’exécuter ce code : il s’agit d’une application de ré
 
     @weave.op()
     def create_summary(key_points: list[str]) -> str:
-        """Créer un résumé concis basé sur les points clés."""
+        """Créer un résumé concis à partir des points clés."""
         points_text = "\n".join(f"- {point}" for point in key_points)
         response = client.chat.completions.create(
             model="meta-llama/Llama-3.1-8B-Instruct",
             messages=[
-                {"role": "system", "content": "Créez un résumé en une phrase basé sur ces points clés."},
+                {"role": "system", "content": "Créez un résumé en une phrase à partir de ces points clés."},
                 {"role": "user", "content": f"Points clés :\n{points_text}"}
             ],
         )
@@ -167,11 +167,11 @@ Ensuite, essayez d’exécuter ce code : il s’agit d’une application de ré
 
     # Essayez avec un exemple de texte
     sample_text = """
-    La mission Apollo 11 fut un vol spatial historique qui posa les premiers humains sur la Lune
-    le 20 juillet 1969. Le commandant Neil Armstrong et le pilote du module lunaire Buzz Aldrin descendirent
-    sur la surface lunaire tandis que Michael Collins restait en orbite. Armstrong devint la première
-    personne à poser le pied sur la Lune, suivi d'Aldrin 19 minutes plus tard. Ils passèrent environ
-    deux heures et quart ensemble à l'extérieur du vaisseau spatial, collectant des échantillons et prenant des photographies.
+    The Apollo 11 mission was a historic spaceflight that landed the first humans on the Moon 
+    on July 20, 1969. Commander Neil Armstrong and lunar module pilot Buzz Aldrin descended 
+    to the lunar surface while Michael Collins remained in orbit. Armstrong became the first 
+    person to step onto the Moon, followed by Aldrin 19 minutes later. They spent about 
+    two and a quarter hours together outside the spacecraft, collecting samples and taking photographs.
     """
 
     result = summarize_text(sample_text)
@@ -255,7 +255,7 @@ W&amp;B Inference permet d’accéder à plusieurs modèles. Utilisez le code su
     import weave
     import openai
 
-    # Initialiser Weave - remplacez par your-team/your-project
+    # Initialisez Weave - remplacez par your-team/your-project
     weave.init("<team-name>/inference-quickstart")
 
     client = openai.OpenAI(
@@ -264,7 +264,7 @@ W&amp;B Inference permet d’accéder à plusieurs modèles. Utilisez le code su
         project="<team-name>/my-first-weave-project",  # Requis pour le suivi de l’utilisation
     )
 
-    # Définir une classe de modèle pour comparer différents LLM
+    # Définissez une classe de modèle pour comparer différents LLM
     class InferenceModel(weave.Model):
         model_name: str
         
@@ -278,17 +278,17 @@ W&amp;B Inference permet d’accéder à plusieurs modèles. Utilisez le code su
             )
             return response.choices[0].message.content
 
-    # Créer des instances pour différents modèles
+    # Créez des instances pour différents modèles
     llama_model = InferenceModel(model_name="meta-llama/Llama-3.1-8B-Instruct")
     deepseek_model = InferenceModel(model_name="deepseek-ai/DeepSeek-V3-0324")
 
-    # Comparer leurs réponses
-    test_question = "Explain quantum computing in one paragraph for a high school student."
+    # Comparez leurs réponses
+    test_question = "Explique l’informatique quantique en un paragraphe pour un lycéen."
 
-    print("Llama 3.1 8B response:")
+    print("Réponse de Llama 3.1 8B :")
     print(llama_model.predict(test_question))
     print("\n" + "="*50 + "\n")
-    print("DeepSeek V3 response:")
+    print("Réponse de DeepSeek V3 :")
     print(deepseek_model.predict(test_question))
     ```
   </Tab>
@@ -298,15 +298,15 @@ W&amp;B Inference permet d’accéder à plusieurs modèles. Utilisez le code su
     import * as weave from 'weave';
     import OpenAI from 'openai';
 
-    // Initialiser Weave - remplacez par your-team/your-project
+    // Initialisez Weave - remplacez par your-team/your-project
     await weave.init("<team-name>/inference-quickstart")
 
     const client = new OpenAI({
       baseURL: 'https://api.inference.wandb.ai/v1',
-      apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY', // Remplacez par votre clé API ou définissez la variable d’environnement WANDB_API_KEY
+      apiKey: process.env.WANDB_API_KEY || 'YOUR_WANDB_API_KEY', // Remplacez par votre clé API ou définissez la variable d'environnement WANDB_API_KEY
     });
 
-    // Créer des fonctions de modèle avec weave.op (weave.Model n’est pas pris en charge en TypeScript)
+    // Créez des fonctions de modèle à l'aide de weave.op (weave.Model n'est pas pris en charge en TypeScript)
     function createModel(modelName: string) {
       return weave.op(async function predict(question: string): Promise<string> {
         const response = await client.chat.completions.create({
@@ -319,27 +319,27 @@ W&amp;B Inference permet d’accéder à plusieurs modèles. Utilisez le code su
       });
     }
 
-    // Créer des instances pour différents modèles
+    // Créez des instances pour différents modèles
     const llamaModel = createModel('meta-llama/Llama-3.1-8B-Instruct');
     const deepseekModel = createModel('deepseek-ai/DeepSeek-V3-0324');
 
-    // Comparer leurs réponses
-    const testQuestion = 'Explain quantum computing in one paragraph for a high school student.';
+    // Comparez leurs réponses
+    const testQuestion = 'Explique l’informatique quantique en un paragraphe pour un lycéen.';
 
-    console.log('Llama 3.1 8B response:');
+    console.log('Réponse de Llama 3.1 8B :');
     console.log(await llamaModel(testQuestion));
     console.log('\n' + '='.repeat(50) + '\n');
-    console.log('DeepSeek V3 response:');
+    console.log('Réponse de DeepSeek V3 :');
     console.log(await deepseekModel(testQuestion));
     ```
   </Tab>
 </Tabs>
 
 <div id="evaluate-model-performance">
-  ## Évaluer les performances du modèle
+  ## Évaluer la performance du modèle
 </div>
 
-Évaluez les performances d’un modèle sur une tâche de questions-réponses à l’aide de `EvaluationLogger` intégré de Weave. Cela permet un suivi structuré de l’évaluation avec agrégation automatique, capture de l’utilisation des jetons et fonctionnalités de comparaison avancées dans l’interface Weave.
+Évaluez la performance d&#39;un modèle sur une tâche de questions-réponses à l&#39;aide de l&#39;`EvaluationLogger` intégré de Weave. Cela permet un suivi structuré des évaluations, avec agrégation automatique, suivi de l&#39;utilisation des tokens et fonctionnalités de comparaison avancées dans l&#39;interface utilisateur.
 
 Ajoutez le code suivant au script que vous avez utilisé dans la section précédente :
 
@@ -373,7 +373,7 @@ Ajoutez le code suivant au script que vous avez utilisé dans la section précé
     def evaluate_model(model: InferenceModel, dataset: list[dict]):
         """Exécute une évaluation sur un jeu de données à l'aide du framework d'évaluation intégré de Weave."""
         # Initialiser EvaluationLogger AVANT d'appeler le modèle pour capturer l'utilisation des tokens
-        # Particulièrement important pour W&B Inference afin de suivre les coûts
+        # Ceci est particulièrement important pour W&B Inference afin de suivre les coûts
         # Convertir le nom du modèle en un format valide (remplacer les caractères non alphanumériques par des underscores)
         safe_model_name = model.model_name.replace("/", "_").replace("-", "_").replace(".", "_")
         eval_logger = EvaluationLogger(
@@ -411,7 +411,7 @@ Ajoutez le code suivant au script que vous avez utilisé dans la section précé
         eval_logger.log_summary()
         print(f"Évaluation terminée pour {model.model_name} (enregistré sous : {safe_model_name}). Consultez les résultats dans l'interface Weave.")
 
-    # Comparer plusieurs modèles - fonctionnalité clé du framework d'évaluation de Weave
+    # Comparer plusieurs modèles - une fonctionnalité clé du framework d'évaluation de Weave
     models_to_compare = [
         llama_model,
         deepseek_model,
@@ -468,7 +468,7 @@ Ajoutez le code suivant au script que vous avez utilisé dans la section précé
       dataset: DatasetExample[]
     ): Promise<void> {
       // Initialiser EvaluationLogger AVANT d'appeler le modèle pour capturer l'utilisation des tokens
-      // Particulièrement important pour W&B Inference afin de suivre les coûts
+      // Ceci est particulièrement important pour W&B Inference afin de suivre les coûts
       // Convertir le nom du modèle en un format valide (remplacer les caractères non alphanumériques par des underscores)
       const safeModelName = modelName.replace(/\//g, '_').replace(/-/g, '_').replace(/\./g, '_');
       const evalLogger = new EvaluationLogger({
@@ -503,10 +503,10 @@ Ajoutez le code suivant au script que vous avez utilisé dans la section précé
       
       // Enregistrer le résumé - Weave agrège automatiquement les scores de précision
       await evalLogger.logSummary();
-      console.log(`Évaluation terminée pour ${modelName} (enregistré sous : ${safeModelName}). Consultez les résultats dans l'interface Weave.`);
+      console.log(`Evaluation complete for ${modelName} (logged as: ${safeModelName}). View results in the Weave UI.`);
     }
 
-    // Comparer plusieurs modèles - fonctionnalité clé du framework d'évaluation de Weave
+    // Comparer plusieurs modèles - une fonctionnalité clé du framework d'évaluation de Weave
     const modelsToCompare = [
       { model: llamaModel, name: 'meta-llama/Llama-3.1-8B-Instruct' },
       { model: deepseekModel, name: 'deepseek-ai/DeepSeek-V3-0324' },
@@ -521,15 +521,15 @@ Ajoutez le code suivant au script que vous avez utilisé dans la section précé
   </Tab>
 </Tabs>
 
-L’exécution de ces exemples renvoie des liens vers les traces dans le terminal. Cliquez sur n’importe quel lien pour afficher les traces dans l’interface Weave.
+L’exécution de ces exemples renvoie des liens vers les traces dans le terminal. Cliquez sur n’importe lequel pour afficher les traces dans le Weave UI.
 
-Dans l’interface Weave, vous pouvez :
+Dans le Weave UI, vous pouvez :
 
 * Consulter la chronologie de tous vos appels LLM
 * Inspecter les entrées et les sorties de chaque opération
-* Voir l’utilisation des jetons et les coûts estimés (capturés automatiquement par EvaluationLogger)
-* Analyser les métriques de latence et de performances
-* Accéder à l’onglet **Evals** pour voir les résultats agrégés des évaluations
+* Voir l’utilisation des tokens et les coûts estimés (capturés automatiquement par EvaluationLogger)
+* Analyser la latence et les métriques de performance
+* Accéder à l’onglet **Evals** pour voir les résultats d’évaluation agrégés
 * Utiliser la fonctionnalité **Compare** pour analyser les performances de différents modèles
 * Parcourir des exemples spécifiques pour voir comment différents modèles se sont comportés avec les mêmes entrées
 
@@ -537,27 +537,27 @@ Dans l’interface Weave, vous pouvez :
   ## Modèles disponibles
 </div>
 
-Pour consulter la liste complète des modèles disponibles, voir la [section Modèles disponibles](https://docs.wandb.ai/inference/models/) dans la documentation d’Inférence de W&amp;B.
+Pour une liste complète des modèles disponibles, voir la [section Modèles disponibles](https://docs.wandb.ai/inference/models/) dans la documentation W&amp;B Inference.
 
 <div id="next-steps">
-  ## Prochaines étapes
+  ## Étapes suivantes
 </div>
 
-* **Utiliser le Playground** : [Essayer des modèles de manière interactive](/fr/weave/guides/tools/playground#access-the-playground) dans le Playground Weave
-* **Créer des évaluations** : découvrez l’[évaluation systématique](/fr/weave/guides/core-types/evaluations) de vos applications LLM
-* **Essayer d’autres intégrations** : Weave fonctionne avec [OpenAI, Anthropic et bien d’autres](/fr/weave/guides/integrations)
+* **Utilisez le Playground** : [Essayez des modèles de manière interactive](/fr/weave/guides/tools/playground#access-the-playground) dans le Playground de Weave
+* **Créez des évaluations** : découvrez [comment évaluer systématiquement vos applications LLM](/fr/weave/guides/core-types/evaluations)
+* **Essayez d’autres intégrations** : Weave fonctionne avec [OpenAI, Anthropic et bien d’autres](/fr/weave/guides/integrations)
 
 <div id="troubleshooting">
   ## Dépannage
 </div>
 
 <details>
-  <summary>Erreurs d’authentification</summary>
+  <summary>Erreurs d&#39;authentification</summary>
 
-  Si vous rencontrez des erreurs d’authentification :
+  Si vous obtenez des erreurs d&#39;authentification :
 
-  1. Vérifiez que vous disposez d’un compte W&amp;B valide
-  2. Vérifiez que vous utilisez la bonne clé API depuis [wandb.ai/settings](https://wandb.ai/settings)
+  1. Vérifiez que vous disposez d&#39;un compte W&amp;B valide
+  2. Vérifiez que vous utilisez la bonne clé API sur [wandb.ai/settings](https://wandb.ai/settings)
   3. Assurez-vous que le nom de votre projet respecte le format `team-name/project-name`
 </details>
 
@@ -574,7 +574,7 @@ Pour consulter la liste complète des modèles disponibles, voir la [section Mod
 </details>
 
 <details>
-  <summary>Épuisement des crédits</summary>
+  <summary>Crédits bientôt épuisés</summary>
 
-  L’offre gratuite inclut un nombre limité de crédits. Voir la [documentation sur l’utilisation et les limites](https://docs.wandb.ai/inference/usage-limits/) pour plus de détails.
+  L&#39;offre gratuite inclut un nombre limité de crédits. Voir la [documentation sur l&#39;utilisation et les limites](https://docs.wandb.ai/inference/usage-limits/) pour plus de détails.
 </details>

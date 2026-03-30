@@ -1,31 +1,31 @@
 ---
 title: Ajouter W&B à une bibliothèque Python
-description: Bonnes pratiques pour intégrer Weights & Biases dans votre bibliothèque Python afin d'assurer le suivi des expériences, la surveillance du système et la gestion des modèles.
+description: Bonnes pratiques pour intégrer Weights & Biases dans votre bibliothèque Python afin d’assurer le suivi des expériences, la surveillance du système et la gestion des modèles.
 ---
 
 import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-streamlined.mdx";
 
-Ce guide explique comment intégrer Weights &amp; Biases (W&amp;B) dans une bibliothèque Python.
+Ce guide explique comment intégrer Weights &amp; Biases (W&amp;B) à une bibliothèque Python.
 
-Suivez ces recommandations si vous intégrez W&amp;B dans une base de code complexe, comme un framework d’entraînement, un SDK ou une bibliothèque réutilisable.
+Suivez ces recommandations si vous intégrez W&amp;B à une base de code complexe, comme un framework d&#39;entraînement, un SDK ou une bibliothèque réutilisable.
 
 <Tip>
   Si vous débutez avec W&amp;B, consultez les guides essentiels (par exemple, [Suivi des expériences](/fr/models/track/)) avant de continuer.
 </Tip>
 
-Nous présentons ci-dessous les principaux conseils et bonnes pratiques à suivre lorsque la base de code sur laquelle vous travaillez est plus complexe qu’un simple script d’entraînement Python ou un notebook Jupyter.
+Vous trouverez ci-dessous des conseils et bonnes pratiques pour les cas où la base de code sur laquelle vous travaillez est plus complexe qu&#39;un simple script d&#39;entraînement Python ou qu&#39;un notebook Jupyter.
 
 <div id="decide-how-users-install-wb">
-  ## Choisissez comment les utilisateurs installent W&amp;B
+  ## Déterminez comment les utilisateurs installent W&amp;B
 </div>
 
-Avant de commencer, déterminez si W&amp;B doit être une dépendance requise ou une fonctionnalité facultative de votre bibliothèque.
+Avant de commencer, déterminez si W&amp;B doit être une dépendance obligatoire ou une fonctionnalité facultative de votre bibliothèque.
 
 <div id="require-wb-as-a-dependency">
-  ### Ajouter W&amp;B comme dépendance requise
+  ### Exiger W&amp;B comme dépendance
 </div>
 
-Si W&amp;B joue un rôle central dans le fonctionnement de votre bibliothèque, ajoutez le SDK Python W&amp;B (`wandb`) à vos dépendances :
+Si W&amp;B est au cœur des fonctionnalités de votre bibliothèque, ajoutez le SDK Python de W&amp;B (`wandb`) à vos dépendances :
 
 ```txt
 torch==1.8.0 
@@ -34,16 +34,16 @@ wandb==0.13.*
 ```
 
 <div id="make-wb-optional-on-installation">
-  ### Rendre W&amp;B facultatif lors de l’installation
+  ### Rendre W&amp;B facultatif à l’installation
 </div>
 
-Si W&amp;B est une fonctionnalité facultative, permettez à votre bibliothèque de fonctionner sans qu’il soit installé.
+Si W&amp;B est une fonctionnalité facultative, permettez à votre bibliothèque de fonctionner sans que W&amp;B soit installé.
 
 Vous pouvez soit importer `wandb` conditionnellement en Python, soit le déclarer comme dépendance facultative dans `pyproject.toml`.
 
 <Tabs>
   <Tab title="Python">
-    Détectez si `wandb` est disponible et levez une erreur explicite si un utilisateur active les fonctionnalités W&amp;B sans l’avoir installé :
+    Détectez si `wandb` est disponible et renvoyez une erreur claire si un utilisateur active des fonctionnalités W&amp;B sans l’avoir installé :
 
     ```python
     try:
@@ -75,7 +75,7 @@ Vous pouvez soit importer `wandb` conditionnellement en Python, soit le déclare
 </Tabs>
 
 <div id="authenticate-users">
-  ## Authentifier les utilisateurs
+  ## Authentifiez les utilisateurs
 </div>
 
 W&amp;B utilise des clés API pour authentifier les utilisateurs et les machines.
@@ -89,10 +89,10 @@ Une clé API permet d’authentifier un client ou une machine auprès de W&amp;B
 <ApiKeyCreateStreamlined />
 
 1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
-2. Sélectionnez **Paramètres utilisateur**, puis faites défiler la page jusqu’à la section **Clés API**.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler la page jusqu’à la section **API Keys**.
 
 <div id="install-and-log-in-to-wb">
-  ### Installer et vous connecter à W&amp;B
+  ### Installez W&amp;B et connectez-vous
 </div>
 
 Pour installer la bibliothèque `wandb` localement et vous connecter :
@@ -105,7 +105,7 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
        export WANDB_API_KEY=<your_api_key>
        ```
 
-    2. Installez la bibliothèque `wandb` et connectez-vous :
+    2. Installez la bibliothèque `wandb`, puis connectez-vous :
 
        ```bash
        pip install wandb
@@ -120,7 +120,7 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
        pip install wandb
        ```
 
-    2. Connectez-vous à W&amp;B depuis votre script Python ou votre notebook. Vous serez invité à saisir
+    2. Connectez-vous à W&amp;B depuis votre script ou notebook Python. Vous serez invité à saisir
        votre clé API.
        ```python
        import wandb
@@ -128,7 +128,7 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
        ```
   </Tab>
 
-  <Tab title="Notebook Python">
+  <Tab title="Python notebook">
     Copiez-collez l&#39;extrait de code suivant dans une cellule de votre notebook Jupyter, puis exécutez-le. Vous serez invité à saisir votre clé API.
 
     ```notebook
@@ -141,35 +141,35 @@ Pour installer la bibliothèque `wandb` localement et vous connecter :
 </Tabs>
 
 <div id="start-a-run">
-  ## Démarrer un run
+  ## Lancer un run
 </div>
 
-Un *run* représente une unité de calcul, comme une expérience d&#39;entraînement. La plupart des bibliothèques créent un run par tâche d&#39;entraînement. Pour en savoir plus sur les Runs, voir [W&amp;B Runs](/fr/models/runs/).
+Un *run* représente une seule unité de calcul, comme une expérience d’entraînement. La plupart des bibliothèques créent un run par tâche d&#39;entraînement. Pour en savoir plus sur les runs, voir [W&amp;B Runs](/fr/models/runs/).
 
-Initialisez un run avec [`wandb.init()`](/fr/models/ref/python/functions/init) et spécifiez le nom de votre projet ainsi que votre entité d’équipe (nom de l’équipe). Si vous ne spécifiez pas de projet, W&amp;B stocke votre run dans un projet par défaut appelé &quot;uncategorized&quot;.:
+Initialisez un run avec [`wandb.init()`](/fr/models/ref/python/functions/init) et indiquez le nom de votre projet et de votre entité d’équipe (nom de l’équipe). Si vous ne spécifiez pas de projet, W&amp;B stocke votre run dans un projet par défaut appelé &quot;uncategorized&quot;.:
 
 ```python
 with wandb.init(project="<project_name>", entity="<entity>") as run:
     ...
 ```
 
-W&amp;B recommande d&#39;utiliser un gestionnaire de contexte pour garantir que votre run est correctement fermé, même en cas d&#39;erreur. Si vous n&#39;utilisez pas de gestionnaire de contexte, vous devez appeler `run.finish()` pour fermer le run et journaliser toutes les données dans W&amp;B.
+W&amp;B recommande d’utiliser un gestionnaire de contexte pour s’assurer que votre run est correctement fermé, même en cas d’erreur. Si vous n’utilisez pas de gestionnaire de contexte, vous devez appeler `run.finish()` pour fermer le run et enregistrer toutes les données dans W&amp;B.
 
 <Tip>
   **Quand appeler `wandb.init`**
 
-  Appelez `wandb.init()` le plus tôt possible. W&amp;B capture stdout, stderr et les messages d&#39;erreur, ce qui facilite le débogage.
+  Appelez `wandb.init()` le plus tôt possible. W&amp;B capture stdout, stderr et les messages d’erreur, ce qui facilite le débogage.
 
-  Enveloppez l&#39;intégralité de votre boucle d&#39;entraînement dans un gestionnaire de contexte `wandb.init` afin de garantir que toutes les informations pertinentes sont capturées dans le run. Cela inclut les messages d&#39;erreur, qui peuvent être essentiels pour le débogage.
+  Placez l’ensemble de votre boucle d’entraînement dans un gestionnaire de contexte `wandb.init` afin de vous assurer que toutes les informations pertinentes sont bien capturées dans le run. Cela inclut les messages d’erreur, qui peuvent être essentiels pour le débogage.
 </Tip>
 
 <div id="set-wandb-as-an-optional-dependency">
   ### Définir `wandb` comme dépendance facultative
 </div>
 
-Si vous souhaitez rendre `wandb` facultatif pour les utilisateurs de votre bibliothèque, vous avez deux possibilités :
+Si vous souhaitez rendre `wandb` facultatif pour les utilisateurs de votre bibliothèque, vous pouvez soit :
 
-* Définir un indicateur `wandb`, par exemple :
+* Définir une option `wandb`, par exemple :
 
 <Tabs>
   <Tab title="Python">
@@ -207,10 +207,10 @@ Si vous souhaitez rendre `wandb` facultatif pour les utilisateurs de votre bibli
   </Tab>
 </Tabs>
 
-* Ou définir `wandb` en mode hors ligne ; notez que cela exécutera toujours `wandb`, mais qu’il n’essaiera simplement pas de communiquer avec W&amp;B via Internet :
+* Ou définir `wandb` en mode hors ligne — notez que `wandb` s&#39;exécutera quand même, mais n&#39;essaiera simplement pas de communiquer avec W&amp;B via Internet :
 
 <Tabs>
-  <Tab title="Environment Variable">
+  <Tab title="Variable d'environnement">
     ```bash
     export WANDB_MODE=offline
     ```
@@ -230,10 +230,10 @@ Si vous souhaitez rendre `wandb` facultatif pour les utilisateurs de votre bibli
 </Tabs>
 
 <div id="define-a-run-config">
-  ## Définir la configuration d’un run
+  ## Définir une configuration de run
 </div>
 
-Fournissez un dictionnaire de configuration lorsque vous initialisez votre run afin de journaliser les hyperparamètres et d’autres métadonnées dans W&amp;B.
+Fournissez un dictionnaire de configuration lorsque vous initialisez votre run afin d’enregistrer les hyperparamètres et d’autres métadonnées dans W&amp;B.
 
 Utilisez l’application W&amp;B pour comparer les runs en fonction de leurs paramètres de configuration et les filtrer dans le tableau Runs. Vous pouvez également utiliser ces paramètres pour regrouper des runs dans l’application W&amp;B.
 
@@ -245,11 +245,11 @@ Par exemple, dans l’image suivante, la taille de lot (bathch&#95;size) a été
 
 Les valeurs typiques des paramètres de configuration incluent :
 
-* Nom du modèle, version, paramètres d’architecture et hyperparamètres.
-* Nom du jeu de données, version, nombre d’exemples d’entraînement ou de validation.
-* Paramètres d’entraînement tels que le taux d’apprentissage, la taille de lot et l’optimiseur.
+* Le nom du modèle, sa version, les paramètres d’architecture et les hyperparamètres.
+* Le nom du jeu de données, sa version, le nombre d’exemples d’entraînement ou de validation.
+* Les paramètres d’entraînement tels que le taux d’apprentissage, la taille de lot et l’optimiseur.
 
-L’extrait de code suivant montre comment journaliser une configuration :
+L’extrait de code suivant montre comment enregistrer une configuration :
 
 ```python
 config = {"batch_size": 32, ...}
@@ -258,10 +258,10 @@ with wandb.init(..., config=config) as run:
 ```
 
 <div id="update-the-run-config">
-  ### Mettre à jour la configuration du run
+  ### Mettre à jour la configuration de run
 </div>
 
-Si certaines valeurs ne sont pas disponibles au moment de l’initialisation, mettez à jour la configuration ultérieurement avec `wandb.Run.config.update`. Par exemple, vous pouvez ajouter les paramètres d’un modèle après l’instanciation de celui-ci :
+Si certaines valeurs ne sont pas disponibles au moment de l’initialisation, mettez à jour la configuration plus tard avec `wandb.Run.config.update`. Par exemple, il se peut que vous souhaitiez ajouter les paramètres d’un modèle après son instanciation :
 
 ```python
 with wandb.init(...) as run:
@@ -269,7 +269,7 @@ with wandb.init(...) as run:
     run.config.update({"model_parameters": 3500})
 ```
 
-Pour plus de détails, voir [Configurer les expériences](/fr/models/track/config/).
+Pour plus de détails, voir [Configurer Experiments](/fr/models/track/config/).
 
 <div id="log-metrics-and-data">
   ## Journaliser les métriques et les données
@@ -279,7 +279,7 @@ Pour plus de détails, voir [Configurer les expériences](/fr/models/track/confi
   ### Journaliser des métriques
 </div>
 
-Créez un dictionnaire dans lequel chaque clé correspond au nom de la métrique. Passez cet objet dictionnaire à [`wandb.Run.log()`](/fr/models/ref/python/experiments/run#method-run-log) pour journaliser ces métriques dans W&amp;B :
+Créez un dictionnaire dans lequel la clé correspond au nom de la métrique. Passez ce dictionnaire à [`wandb.Run.log()`](/fr/models/ref/python/experiments/run#method-run-log) pour le journaliser dans W&amp;B :
 
 ```python
 NUM_EPOCHS = 10
@@ -292,9 +292,9 @@ for epoch in range(NUM_EPOCHS):
         run.log(metrics)
 ```
 
-Utilisez des préfixes de noms de métriques pour regrouper les métriques associées dans l’application W&amp;B. Les préfixes courants incluent `train/` et `val/` pour les métriques d&#39;entraînement et de validation, respectivement, mais vous pouvez utiliser n&#39;importe quel préfixe adapté à votre cas d&#39;utilisation.
+Utilisez des préfixes de noms de métriques pour regrouper les métriques associées dans l’application W&amp;B. Les préfixes courants incluent `train/` et `val/` pour les métriques d&#39;entraînement et de validation, respectivement, mais vous pouvez utiliser n&#39;importe quel préfixe adapté à votre cas d&#39;usage.
 
-Cela créera des sections distinctes dans l&#39;espace de travail de votre projet pour les métriques d&#39;entraînement et de validation, ou pour d&#39;autres types de métriques que vous souhaitez séparer :
+Cela créera des sections distinctes dans l’espace de travail de votre projet pour vos métriques d&#39;entraînement et de validation, ou pour d&#39;autres types de métriques que vous souhaitez séparer :
 
 ```python
 with wandb.init(...) as run:
@@ -314,25 +314,25 @@ with wandb.init(...) as run:
 Voir [`wandb.Run.log()`](/fr/models/ref/python/experiments/run#method-run-log) pour en savoir plus.
 
 <div id="control-the-x-axis">
-  ### Contrôler l’axe X
+  ### Contrôler l’axe x
 </div>
 
-Si vous effectuez des appels multiples à `wandb.Run.log()` pour la même étape d’entraînement, le SDK wandb incrémente un compteur interne d’étapes à chaque appel à `wandb.Run.log()`. Ce compteur peut ne pas correspondre à l’étape d’entraînement de votre boucle d’entraînement.
+Si vous effectuez plusieurs appels à `wandb.Run.log()` pour la même étape d’entraînement, le SDK wandb incrémente un compteur interne à chaque appel à `wandb.Run.log()`. Ce compteur peut ne pas correspondre à l’étape d’entraînement de votre boucle d’entraînement.
 
-Pour éviter cette situation, définissez explicitement l’étape de l’axe X avec `run.define_metric`, une seule fois, immédiatement après avoir appelé `wandb.init` :
+Pour éviter cette situation, définissez explicitement l’étape de l’axe x avec `run.define_metric`, une seule fois, immédiatement après avoir appelé `wandb.init` :
 
 ```python
 with wandb.init(...) as run:
     run.define_metric("*", step_metric="global_step")
 ```
 
-Le motif glob, `*`, signifie que chaque métrique utilisera `global_step` comme axe des x dans vos graphiques. Si vous souhaitez que seules certaines métriques soient journalisées en fonction de `global_step`, vous pouvez les spécifier à la place :
+Le motif glob `*` signifie que chaque métrique utilisera `global_step` sur l’axe des x de vos graphiques. Si vous souhaitez que seules certaines métriques soient enregistrées en fonction de `global_step`, vous pouvez les spécifier à la place :
 
 ```python
 run.define_metric("train/loss", step_metric="global_step")
 ```
 
-Maintenant, journalisez vos métriques, votre métrique `step` et votre `global_step` chaque fois que vous appelez `wandb.Run.log()` :
+À présent, journalisez vos métriques, votre métrique `step` et votre `global_step` chaque fois que vous appelez `wandb.Run.log()` :
 
 ```python
 for step, (input, ground_truth) in enumerate(data):
@@ -341,20 +341,20 @@ for step, (input, ground_truth) in enumerate(data):
     run.log({"global_step": step, "eval/loss": 0.2})
 ```
 
-Si vous n’avez pas accès à la variable d’étape indépendante, par exemple si &quot;global&#95;step&quot; n’est pas disponible dans votre boucle de validation, wandb utilise automatiquement la valeur précédemment journalisée pour &quot;global&#95;step&quot;. Dans ce cas, assurez-vous de journaliser une valeur initiale pour la métrique afin qu’elle soit déjà définie au moment où elle est nécessaire.
+Si vous n’avez pas accès à la variable d’étape indépendante, par exemple si &quot;global&#95;step&quot; n’est pas disponible pendant votre boucle de validation, la valeur précédemment enregistrée pour &quot;global&#95;step&quot; est automatiquement utilisée par wandb. Dans ce cas, assurez-vous d’enregistrer une valeur initiale pour la métrique afin qu’elle soit définie au moment voulu.
 
 <div id="log-media-and-structured-data">
-  ### Journaliser les médias et les données structurées
+  ### Journaliser des médias et des données structurées
 </div>
 
-En plus des scalaires, vous pouvez journaliser des images, des tableaux, du texte, de l’audio, de la vidéo, et bien plus encore.
+Outre les scalaires, vous pouvez consigner des images, des tableaux, du texte, de l’audio, de la vidéo, etc.
 
-Voici quelques considérations à garder à l’esprit lorsque vous journalisez des données :
+Voici quelques points à prendre en compte lorsque vous enregistrez des données :
 
 * À quelle fréquence la métrique doit-elle être enregistrée ? Doit-elle être facultative ?
 * Quel type de données peut être utile pour la visualisation ?
-  * Pour les images, vous pouvez journaliser des exemples de prédictions, des masques de segmentation, etc., afin de voir l’évolution au fil du temps.
-  * Pour le texte, vous pouvez journaliser des tableaux d’exemples de prédictions pour une exploration ultérieure.
+  * Pour les images, vous pouvez enregistrer des exemples de prédictions, des masques de segmentation, etc., afin d’observer leur évolution au fil du temps.
+  * Pour le texte, vous pouvez enregistrer des tableaux d’exemples de prédictions pour les explorer plus tard.
 
 Voir [Journaliser des objets et des médias](/fr/models/track/log) pour des exemples.
 
@@ -362,34 +362,34 @@ Voir [Journaliser des objets et des médias](/fr/models/track/log) pour des exem
   ## Prise en charge de l’entraînement distribué
 </div>
 
-Pour les frameworks qui prennent en charge les environnements distribués, vous pouvez adapter l’un des flux de travail suivants :
+Pour les frameworks compatibles avec les environnements distribués, vous pouvez adapter l’un des flux de travail suivants :
 
-* Journalisez uniquement à partir du processus principal (recommandé).
-* Journalisez à partir de chaque processus et regroupez les runs à l’aide d’un nom `group` commun.
+* Journalisez uniquement depuis le processus principal (recommandé).
+* Journalisez depuis chaque processus et regroupez les runs à l’aide d’un nom `group` partagé.
 
-Voir [Journaliser les expériences d’entraînement distribué](/fr/models/track/log/distributed-training/) pour plus de détails.
+Voir [Journaliser des Experiments d’entraînement distribué](/fr/models/track/log/distributed-training/) pour plus de détails.
 
 <div id="track-models-and-datasets-with-artifacts">
-  ## Suivre les modèles et les jeux de données avec des artefacts
+  ## Suivre les modèles et les Datasets avec Artifacts
 </div>
 
-Utilisez [W&amp;B Artifacts](/fr/models/artifacts/) pour suivre et gérer les versions des modèles et des jeux de données. Les artefacts assurent le stockage et la gestion des versions des ressources de machine learning, et suivent automatiquement leur traçabilité afin de montrer comment les données et les modèles sont liés.
+Utilisez [W&amp;B Artifacts](/fr/models/artifacts/) pour suivre les modèles et les Datasets et en assurer la gestion des versions. Artifacts fournissent le stockage et la gestion des versions des ressources de machine learning, et assurent automatiquement la traçabilité afin de montrer comment les données et les modèles sont liés.
 
 <Frame>
-  <img src="/images/integrations/integrations_add_any_lib_dag.png" alt="Jeux de données stockés et points de contrôle du modèle dans W&B" />
+  <img src="/images/integrations/integrations_add_any_lib_dag.png" alt="Datasets stockés et points de contrôle du modèle dans W&B" />
 </Frame>
 
-Tenez compte des éléments suivants lorsque vous intégrez des artefacts à votre bibliothèque :
+Tenez compte des points suivants lorsque vous intégrez Artifacts à votre bibliothèque :
 
-* S&#39;il faut journaliser des points de contrôle du modèle ou des jeux de données en tant qu&#39;artefacts (si vous souhaitez rendre cela facultatif).
-* Références d&#39;entrée d&#39;artefact (par exemple, `entity/project/artifact`).
-* Fréquence de journalisation des points de contrôle du modèle ou des jeux de données. Par exemple, à chaque époque, toutes les 500 étapes, etc.
+* Déterminez s&#39;il faut journaliser les points de contrôle du modèle ou les Datasets en tant qu&#39;Artifacts (si vous souhaitez rendre cela facultatif).
+* Références d&#39;entrée d&#39;Artifacts (par exemple, `entity/project/artifact`).
+* Fréquence de journalisation des points de contrôle du modèle ou des Datasets. Par exemple, à chaque époque, toutes les 500 étapes, etc.
 
 <div id="log-model-checkpoints">
   ### Journaliser les points de contrôle du modèle
 </div>
 
-Journalisez les points de contrôle du modèle dans W&amp;B. Une approche courante consiste à journaliser les points de contrôle en tant qu&#39;artefacts, en utilisant l&#39;ID unique du run généré par W&amp;B dans le nom de l&#39;artefact.
+Journalisez les points de contrôle du modèle dans W&amp;B. Une approche courante consiste à journaliser les points de contrôle comme des artifacts, en utilisant le run ID unique généré par W&amp;B dans le nom de l&#39;artifact.
 
 ```python
 metadata = {"eval/accuracy": 0.8, "train/steps": 800} 
@@ -405,13 +405,13 @@ aliases = ["best", "epoch_10"]
 run.log_artifact(artifact, aliases=aliases)
 ```
 
-L’extrait de code précédent montre comment journaliser un point de contrôle du modèle comme artefact et y ajouter des métadonnées, telles que la précision lors de l’évaluation et les étapes d’entraînement. L’artefact reçoit un nom qui inclut l’identifiant unique du run, et il est associé à des [alias personnalisés](/fr/models/artifacts/create-a-custom-alias/) pour le retrouver facilement.
+L’extrait de code précédent montre comment enregistrer un point de contrôle du modèle en tant qu’artifact et ajouter des métadonnées telles que la précision de l’évaluation et les étapes d’entraînement. L’artifact se voit attribuer un nom qui inclut le run ID unique, et il est étiqueté avec des [alias personnalisés](/fr/models/artifacts/create-a-custom-alias/) pour s’y référer facilement.
 
 <div id="log-input-artifacts">
-  ### Journaliser les artefacts en entrée
+  ### Journaliser les artifacts en entrée
 </div>
 
-Journalisez les jeux de données ou les modèles préentraînés utilisés en entrée :
+Journalisez les Datasets ou les modèles préentraînés utilisés en entrée :
 
 ```python
 dataset = wandb.Artifact(name="flowers", type="dataset")
@@ -419,15 +419,15 @@ dataset.add_file("flowers.npy")
 run.use_artifact(dataset)
 ```
 
-L’extrait de code précédent crée un artefact pour un jeu de données nommé &quot;flowers&quot; et y ajoute un fichier. L’artefact est ensuite associé au run en cours à l’aide de `run.use_artifact()`, ce qui permet à W&amp;B de suivre la traçabilité du jeu de données utilisé dans ce run.
+L’extrait de code précédent crée un artifact pour un jeu de données nommé &quot;flowers&quot; et y ajoute un fichier. L’artifact est ensuite associé au run en cours à l’aide de `run.use_artifact()`, ce qui permet à W&amp;B de suivre la traçabilité du jeu de données utilisé dans le run.
 
 <div id="download-artifacts">
-  ### Télécharger des artefacts
+  ### Télécharger des Artifacts
 </div>
 
-Téléchargez des artefacts précédemment journalisés depuis W&amp;B afin de les utiliser dans votre code d’entraînement ou d’inférence.
+Téléchargez des Artifacts déjà enregistrés dans W&amp;B afin de les utiliser dans votre code d’entraînement ou d’inférence.
 
-Si vous disposez d’un contexte de run, utilisez [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run) pour faire référence à un artefact dans W&amp;B, puis appelez [`wandb.Artifact.download()`](/fr/models/ref/python/experiments/artifact) pour le télécharger dans un répertoire local.
+Si vous disposez d’un contexte de run, utilisez [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run) pour faire référence à un artifact dans W&amp;B, puis appelez [`wandb.Artifact.download()`](/fr/models/ref/python/experiments/artifact) pour le télécharger dans un répertoire local.
 
 ```python
 with wandb.init(...) as run:
@@ -435,7 +435,7 @@ with wandb.init(...) as run:
     local_path = artifact.download()
 ```
 
-Utilisez l&#39;[API publique W&amp;B](/fr/models/ref/python/public-api/) pour faire référence à un artefact et le télécharger sans initialiser de run. Cela est utile dans des scénarios tels que les environnements distribués ou lors d&#39;opérations d&#39;Inférence, où vous ne souhaitez pas forcément créer un nouveau run.
+Utilisez l’[API publique W&amp;B](/fr/models/ref/python/public-api/) pour référencer et télécharger un artifact sans initialiser un run. C’est utile dans des scénarios tels que les environnements distribués ou les workflows d’inférence, lorsque vous ne souhaitez pas créer de nouveau run.
 
 ```python
 import wandb
@@ -443,10 +443,10 @@ artifact = wandb.Api().artifact("user/project/artifact:latest")
 local_path = artifact.download()
 ```
 
-Voir [Télécharger et utiliser des artefacts](/fr/models/artifacts/download-and-use-an-artifact/) pour en savoir plus.
+Voir [Télécharger et utiliser des Artifacts](/fr/models/artifacts/download-and-use-an-artifact/) pour en savoir plus.
 
 <div id="tune-hyper-parameters">
-  ## Ajustez les hyperparamètres
+  ## Ajuster les hyperparamètres
 </div>
 
-Si votre bibliothèque prend en charge l’optimisation des hyperparamètres, vous pouvez intégrer [W&amp;B Sweeps](/fr/models/sweeps/) pour gérer et visualiser les expériences.
+Si votre bibliothèque prend en charge l’ajustement des hyperparamètres, vous pouvez intégrer [W&amp;B Sweeps](/fr/models/sweeps/) pour gérer et visualiser les expériences.

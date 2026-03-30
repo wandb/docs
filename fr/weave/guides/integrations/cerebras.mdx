@@ -1,17 +1,17 @@
 ---
 title: "Cerebras"
-description: "Utilisez Weave pour tracer et journaliser les appels LLM effectués via le SDK Cerebras Cloud"
+description: "Utilisez Weave pour tracer et créer un journal des appels LLM effectués via le SDK Cerebras Cloud"
 ---
 
-Weave suit et consigne automatiquement les appels LLM effectués via le [Cerebras Cloud SDK](https://inference-docs.cerebras.ai/introduction).
+Weave assure automatiquement le suivi et la tenue d’un journal des appels LLM effectués via le [SDK Cerebras Cloud](https://inference-docs.cerebras.ai/introduction).
 
 <div id="traces">
   ## Traces
 </div>
 
-Le suivi des appels LLM est crucial pour le débogage et la surveillance des performances. Weave vous aide à le faire en capturant automatiquement les traces du SDK Cerebras Cloud.
+Le suivi des appels LLM est crucial pour le débogage et la surveillance des performances. Weave vous aide à le faire en capturant automatiquement des traces pour le SDK Cerebras Cloud.
 
-Voici un exemple de comment utiliser Weave avec Cerebras :
+Voici un exemple montrant comment utiliser Weave avec Cerebras :
 
 ```python lines
 import os
@@ -35,15 +35,15 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Weave va désormais suivre et consigner tous les appels LLM effectués via le SDK Cerebras. Vous pouvez consulter les traces dans l’interface web de Weave, y compris des détails comme l’utilisation des tokens et le temps de réponse.
+Weave va désormais suivre et tenir un journal de tous les appels LLM effectués via le SDK Cerebras. Vous pouvez consulter les traces dans l’interface web de Weave, avec des détails tels que l’utilisation des tokens et le temps de réponse.
 
 [![cerebras\_calls.png](/weave/guides/integrations/imgs/cerebras_calls.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)
 
 <div id="wrapping-with-your-own-ops">
-  ## Utiliser vos propres ops
+  ## Encapsuler dans vos propres ops
 </div>
 
-Les ops Weave constituent un moyen puissant d’améliorer la reproductibilité et la traçabilité de vos expériences en assurant automatiquement la gestion des versions de votre code et en capturant les entrées et les sorties. Voici un exemple de la façon dont vous pouvez exploiter les ops Weave avec le SDK Cerebras :
+Les ops Weave constituent un moyen efficace d’améliorer la reproductibilité et la traçabilité de vos expériences. En versionnant automatiquement votre code et en capturant les entrées et les sorties. Voici un exemple de la manière dont vous pouvez tirer parti des ops Weave avec le SDK Cerebras :
 
 ```python lines
 import os
@@ -55,7 +55,7 @@ weave.init("cerebras_speedster")
 
 client = Cerebras(api_key=os.environ["CEREBRAS_API_KEY"])
 
-# Weave suivra les entrées, les sorties et le code de cette fonction
+# Weave suivra les entrées, sorties et le code de cette fonction
 @weave.op
 def animal_speedster(animal: str, model: str) -> str:
     "Découvrir à quelle vitesse un animal peut courir"
@@ -72,10 +72,10 @@ animal_speedster("human", "llama3.1-8b")
 ```
 
 <div id="create-a-model-for-easier-experimentation">
-  ## Créer un `Model` pour faciliter l’expérimentation
+  ## Créer un `Model` pour expérimenter plus facilement
 </div>
 
-La classe [Model](/fr/weave/guides/core-types/models) de Weave vous aide à organiser et comparer les différentes itérations de votre application. Cela est particulièrement utile lorsque vous testez des modèles Cerebras. Voici un exemple :
+La classe [Model](/fr/weave/guides/core-types/models) de Weave vous aide à organiser et à comparer différentes itérations de votre application. C’est particulièrement utile lorsque vous testez des modèles Cerebras. Voici un exemple :
 
 ```python lines
 import os
@@ -110,6 +110,6 @@ result = speed_model.predict(animal="cheetah")
 print(result)
 ```
 
-Avec cette configuration, vous pouvez facilement tester différents modèles et paramètres, tout en suivant vos inférences propulsées par Cerebras !
+Avec cette configuration, vous pouvez facilement tester différents modèles et paramètres, tout en gardant une trace de vos inférences avec Cerebras !
 
 [![cerebras\_model.png](/weave/guides/integrations/imgs/cerebras_model.png)](https://wandb.ai/capecape/cerebras_speedster/weave/traces)

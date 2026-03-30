@@ -15,8 +15,8 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 teardown(exit_code: 'int | None' = None) → None
 ```
 
-Attend que W&amp;B termine et libère les ressources.
+Attend la fin de W&amp;B et libère les ressources.
 
-Termine tous les runs qui n&#39;ont pas été explicitement terminés avec `run.finish()` et attend que toutes les données soient téléversées.
+Termine tous les runs qui n&#39;ont pas été explicitement clôturés avec `run.finish()` et attend que toutes les données soient envoyées.
 
-Il est recommandé d&#39;appeler cette fonction à la fin d&#39;une session ayant utilisé `wandb.setup()`. Elle est invoquée automatiquement via un hook `atexit`, mais ce mécanisme n&#39;est pas fiable dans certaines configurations, par exemple lors de l&#39;utilisation du module `multiprocessing` de Python.
+Il est recommandé d&#39;appeler cette fonction à la fin d&#39;une session ayant utilisé `wandb.setup()`. Elle est appelée automatiquement via un hook `atexit`, mais cela n&#39;est pas fiable dans certaines configurations, par exemple lors de l&#39;utilisation du module `multiprocessing` de Python.

@@ -3,11 +3,11 @@ title: "클래스: Dataset<R>"
 description: "TypeScript SDK 레퍼런스"
 ---
 
-[Weave](../) / Dataset
+[weave](../) / Dataset
 
-손쉬운 저장과 자동 버전 관리를 지원하는 Dataset 객체
+손쉽게 저장할 수 있고 자동으로 버전 관리되는 Dataset 객체
 
-`예제`
+`예시`
 
 ```ts
 // 데이터셋 생성
@@ -20,7 +20,7 @@ const dataset = new Dataset({
   ]
 })
 
-// 특정 예시에 접근
+// 특정 예시 접근
 const exampleLabel = dataset.getRow(2).sentence;
 
 // 데이터셋 저장
@@ -30,15 +30,15 @@ const ref = await dataset.save()
 
 ## 타입 매개변수
 
-| 이름 | 타입 |
-| :------ | :------ |
+| 이름  | 유형                   |
+| :-- | :------------------- |
 | `R` | extends `DatasetRow` |
 
 <div id="hierarchy">
   ## 계층 구조
 </div>
 
-- [`WeaveObject`](./weaveobject)
+* [`WeaveObject`](./weaveobject)
 
   ↳ `Dataset`
 
@@ -50,31 +50,31 @@ const ref = await dataset.save()
   ### 생성자
 </div>
 
-- [생성자](./dataset#constructor)
+* [생성자](./dataset#constructor)
 
 <div id="properties">
   ### 속성
 </div>
 
-- [\_\_savedRef](./dataset#__savedref)
-- [rows](./dataset#rows)
+* [&#95;&#95;savedRef](./dataset#__savedref)
+* [rows](./dataset#rows)
 
 <div id="accessors">
   ### 접근자
 </div>
 
-- [description](./dataset#description)
-- [length](./dataset#length)
-- [name](./dataset#name)
+* [설명](./dataset#description)
+* [길이](./dataset#length)
+* [이름](./dataset#name)
 
 <div id="methods">
-  ### 메서드
+  ### 방법
 </div>
 
-- [[asyncIterator]](./dataset#[asynciterator])
-- [getRow](./dataset#getrow)
-- [save](./dataset#save)
-- [saveAttrs](./dataset#saveattrs)
+* [[asyncIterator]](./dataset#\[asynciterator])
+* [getRow](./dataset#getrow)
+* [save](./dataset#save)
+* [saveAttrs](./dataset#saveattrs)
 
 ## 생성자
 
@@ -82,30 +82,32 @@ const ref = await dataset.save()
   ### 생성자
 </div>
 
-• **new Dataset**\<`R`\>(`parameters`): [`Dataset`](./dataset)\<`R`\>
+• **new Dataset**&lt;`R`&gt;(`parameters`): [`Dataset`](./dataset)&lt;`R`&gt;
 
 <div id="type-parameters">
   #### 타입 매개변수
 </div>
 
-| 이름 | 타입 |
-| :------ | :------ |
+| 이름  | 유형                   |
+| :-- | :------------------- |
 | `R` | extends `DatasetRow` |
 
 <div id="parameters">
   #### 매개변수
 </div>
 
-| 이름 | 타입 |
-| :------ | :------ |
-| `parameters` | `DatasetParameters`\<`R`\> |
+| 이름           | 유형                             |
+| :----------- | :----------------------------- |
+| `parameters` | `DatasetParameters`&lt;`R`&gt; |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-[`Dataset`](./dataset)\<`R`\>
+[`Dataset`](./dataset)&lt;`R`&gt;
 
 <div id="overrides">
-  #### 재정의
+  #### 오버라이드
 </div>
 
 [WeaveObject](./weaveobject).[constructor](./weaveobject#constructor)
@@ -118,25 +120,29 @@ const ref = await dataset.save()
 
 ## 속성
 
-### \_\_savedRef
+<div id="__savedref">
+  ### __savedRef
+</div>
 
-• `Optional` **\_\_savedRef**: [`ObjectRef`](./objectref) \| `Promise`\<[`ObjectRef`](./objectref)\>
+• `선택` **&#95;&#95;savedRef**: [`ObjectRef`](./objectref) | `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-#### 상속
+#### 상속됨
 
-[WeaveObject](./weaveobject).[__savedRef](./weaveobject#__savedref)
+[WeaveObject](./weaveobject).[&#95;&#95;savedRef](./weaveobject#__savedref)
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [weaveObject.ts:73](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L73)
 
-___
+***
 
 <div id="rows">
   ### rows
 </div>
 
-• **rows**: `Table`\<`R`\>
+• **rows**: `Table`&lt;`R`&gt;
 
 <div id="defined-in">
   #### 정의된 위치
@@ -150,17 +156,15 @@ ___
   ### 설명
 </div>
 
-• `get` **description**(): `undefined` \| `string`
+• `get` **description**(): `undefined` | `string`
 
 <div id="returns">
-  #### 반환 값
+  #### 반환값
 </div>
 
-`undefined` \| `string`
+`undefined` | `string`
 
-<div id="inherited-from">
-  #### 다음으로부터 상속됨
-</div>
+#### 상속됨
 
 WeaveObject.description
 
@@ -170,7 +174,7 @@ WeaveObject.description
 
 [weaveObject.ts:100](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L100)
 
-___
+***
 
 <div id="length">
   ### length
@@ -178,7 +182,9 @@ ___
 
 • `get` **length**(): `number`
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
 `number`
 
@@ -188,7 +194,7 @@ ___
 
 [dataset.ts:64](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L64)
 
-___
+***
 
 <div id="name">
   ### name
@@ -196,11 +202,15 @@ ___
 
 • `get` **name**(): `string`
 
-#### 반환
+<div id="returns">
+  #### 반환값
+</div>
 
 `string`
 
-#### 상속
+<div id="inherited-from">
+  #### 상속 출처
+</div>
 
 WeaveObject.name
 
@@ -210,17 +220,19 @@ WeaveObject.name
 
 [weaveObject.ts:96](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/weaveObject.ts#L96)
 
-## 메서드
+## 방법
 
 <div id="asynciterator">
   ### [asyncIterator]
 </div>
 
-▸ **[asyncIterator]**(): `AsyncIterator`\<`any`, `any`, `undefined`\>
+▸ **[asyncIterator]**(): `AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
 
-#### 반환
+<div id="returns">
+  #### 반환값
+</div>
 
-`AsyncIterator`\<`any`, `any`, `undefined`\>
+`AsyncIterator`&lt;`any`, `any`, `undefined`&gt;
 
 <div id="defined-in">
   #### 정의된 위치
@@ -228,7 +240,7 @@ WeaveObject.name
 
 [dataset.ts:68](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L68)
 
-___
+***
 
 <div id="getrow">
   ### getRow
@@ -240,11 +252,13 @@ ___
   #### 매개변수
 </div>
 
-| 이름 | 타입 |
-| :------ | :------ |
+| 이름      | 유형       |
+| :------ | :------- |
 | `index` | `number` |
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
 `R`
 
@@ -254,33 +268,39 @@ ___
 
 [dataset.ts:74](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L74)
 
-___
+***
 
 <div id="save">
   ### save
 </div>
 
-▸ **save**(): `Promise`\<[`ObjectRef`](./objectref)\>
+▸ **save**(): `Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-#### 반환
+<div id="returns">
+  #### 반환값
+</div>
 
-`Promise`\<[`ObjectRef`](./objectref)\>
+`Promise`&lt;[`ObjectRef`](./objectref)&gt;
 
-#### 정의 위치
+<div id="defined-in">
+  #### 정의된 위치
+</div>
 
 [dataset.ts:60](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/dataset.ts#L60)
 
-___
+***
 
 <div id="saveattrs">
   ### saveAttrs
 </div>
 
-▸ **saveAttrs**(): `Object`
+▸ **saveAttrs**(): `객체`
 
-#### 반환값
+<div id="returns">
+  #### 반환값
+</div>
 
-`Object`
+`객체`
 
 #### 상속됨
 

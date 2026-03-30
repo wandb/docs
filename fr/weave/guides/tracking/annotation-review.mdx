@@ -1,47 +1,47 @@
 ---
-title: "Examiner les éléments d’une file d’annotation"
-description: "Évaluez les éléments de trace et soumettez des commentaires structurés à l’aide d’une interface de révision simplifiée."
+title: "Examiner des éléments dans une file d'attente d'annotation"
+description: "Évaluer des éléments de trace et soumettre des retours structurés à l'aide d'une interface de révision simplifiée."
 ---
 
-Les files d’annotation offrent une interface d’examen ciblée pour les experts métier. Vous examinez un élément à la fois, consultez le contexte fourni et soumettez des commentaires structurés à l’aide de champs prédéfinis.
+Les files d&#39;attente d&#39;annotation offrent une interface de révision ciblée aux experts métier. Vous examinez un élément à la fois, consultez le contexte fourni et soumettez des retours structurés à l&#39;aide de champs prédéfinis.
 
-Vous n’avez pas besoin de comprendre le modèle sous-jacent ni le système de traçage pour effectuer ces examens. Cela permet à des experts externes d’examiner uniquement les données, sans avoir besoin d’une connaissance plus large du projet.
+Vous n&#39;avez pas besoin de comprendre le modèle sous-jacent ni le système de Tracing pour effectuer ces révisions. Cela permet à des experts externes d&#39;examiner uniquement les données, sans avoir besoin d&#39;une vue d&#39;ensemble plus large du projet.
 
 <div id="annotation-workflow">
-  ## Flux de travail d’annotation
+  ## Flux de travail d&#39;annotation
 </div>
 
-En tant qu’annotateur, votre tâche consiste à examiner la précision des réponses du LLM. Vos commentaires sont enregistrés sous forme d’annotations dans les données.
+En tant qu&#39;annotateur, votre tâche consiste à évaluer l&#39;exactitude des réponses du LLM. Vos retours sont enregistrés sous forme d&#39;annotations dans les données.
 
-Pour examiner une file d’annotation :
+Pour examiner une file d&#39;attente d&#39;annotation :
 
-1. Ouvrez la file d’annotation partagée à l’aide d’un lien vers la file d’annotation fourni par votre équipe.
-2. Examinez chaque élément. Vous pouvez avancer ou revenir en arrière dans la file d’annotation à tout moment.
-3. Soumettez une annotation à l’aide des champs d’annotation fournis.
+1. Ouvrez la file d&#39;attente d&#39;annotation partagée à l&#39;aide d&#39;un lien de file d&#39;attente fourni par votre équipe.
+2. Examinez chaque élément. Vous pouvez avancer ou revenir en arrière dans la file d&#39;attente à tout moment.
+3. Soumettez une annotation à l&#39;aide des champs d&#39;annotation fournis.
 
-Weave enregistre automatiquement votre progression après l’envoi d’un élément. Si vous devez faire une pause et reprendre votre travail plus tard, l’examen reprend automatiquement au premier élément incomplet. Une fois tous les éléments examinés, le tableau de la file d’annotation indique que le travail est terminé.
+Weave enregistre automatiquement votre progression après l&#39;envoi d&#39;un élément. Si vous devez faire une pause et reprendre votre travail plus tard, l&#39;examen reprend automatiquement au premier élément incomplet. Une fois que tous les éléments ont été examinés, le tableau de la file d&#39;attente d&#39;annotation indique que le travail est terminé.
 
 <div id="review-a-queue-item">
-  ### Examiner un élément de la file d’annotation
+  ### Examiner un élément de la file d&#39;attente
 </div>
 
-Pour chaque élément, l’interface de révision affiche deux volets :
+Pour chaque élément, l&#39;interface de révision affiche deux volets :
 
-* Un volet de trace affichant le contexte d’entrée sélectionné (par exemple des prompts, des documents ou des images), ainsi que la réponse ou la décision correspondante du modèle.
-* Un volet d’élément contenant un formulaire d’annotation avec des champs d’annotation.
+* Un volet de trace affichant le contexte d&#39;entrée sélectionné (comme des prompts, des documents ou des images), ainsi que la réponse ou la décision correspondante du modèle.
+* Un volet d&#39;élément contenant un formulaire de saisie d&#39;annotation avec des champs d&#39;annotation.
 
-Remplissez chaque champ d’annotation conformément aux instructions fournies pour la file d’annotation, puis cliquez sur **Soumettre et passer au suivant** pour enregistrer cet élément et continuer avec le suivant.
+Remplissez chaque champ d&#39;annotation conformément aux instructions fournies pour la file d&#39;attente, puis cliquez sur **Soumettre et suivant** pour enregistrer cet élément et passer au suivant.
 
 <Frame>
-  ![Interface de révision de la file d’annotation pour un seul élément de trace, montrant un volet d’informations de trace à côté d’un volet de formulaire d’annotation où les réviseurs soumettent des commentaires structurés et avancent dans la file d’annotation.](/weave/guides/tracking/imgs/AnnotationSubmitItem.png)
+  ![Interface de révision de la file d'attente d'annotation pour un seul élément de trace, montrant un volet d'informations de trace à côté d'un volet de formulaire d'annotation où les réviseurs soumettent des retours structurés et avancent dans la file d'attente.](/weave/guides/tracking/imgs/AnnotationSubmitItem.png)
 </Frame>
 
 <Tip>
-  Dans l’en-tête du volet de trace, vous pouvez cliquer sur le suffixe de l’ID de trace (par exemple, &quot;b3ea&quot;) pour ouvrir un panneau affichant les détails complets de la trace pour l’appel, où vous pouvez inspecter la trace et afficher ou comparer l’annotation fournie.
+  Dans l&#39;en-tête du volet de trace, vous pouvez cliquer sur le suffixe de l&#39;ID de trace (par exemple, &quot;b3ea&quot;) pour ouvrir un panneau affichant les détails complets de la trace pour l&#39;appel, où vous pouvez inspecter la trace et afficher ou comparer l&#39;annotation fournie.
 </Tip>
 
-Si un annotateur a déjà examiné un élément de la file d’annotation, les en-têtes des deux volets de l’interface de révision affichent les indicateurs **Has annotation** et **Response submitted**.
+Si un annotateur a déjà examiné un élément de la file d&#39;attente, les en-têtes des deux volets de l&#39;interface de révision affichent les indicateurs **Annotation présente** et **Réponse soumise**.
 
-Vous pouvez toujours fournir une annotation pour un élément déjà examiné par quelqu’un d’autre. Dans ce cas, le bouton de soumission de l’annotation affiche toujours **Edit annotation**, mais l’envoi crée une nouvelle entrée d’annotation avec vos réponses.
+Vous pouvez toujours fournir une annotation pour un élément déjà examiné par quelqu&#39;un d&#39;autre. Dans ce cas, le bouton d&#39;envoi de l&#39;annotation affiche toujours **Modifier l&#39;annotation**, mais l&#39;envoi crée une nouvelle entrée d&#39;annotation avec vos réponses.
 
-<Note> Si vous soumettez un retour pour un élément déjà examiné par quelqu’un d’autre, votre retour est enregistré **en plus de** celui de l’annotateur d’origine. </Note>
+<Note> Si vous soumettez des retours pour un élément déjà examiné par quelqu&#39;un d&#39;autre, vos retours sont stockés **en plus** de ceux de l&#39;annotateur d&#39;origine. </Note>

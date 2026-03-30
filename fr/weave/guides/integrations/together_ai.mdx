@@ -1,17 +1,17 @@
 ---
 title: "Together AI"
-description: "Suivez les LLM open source de Together AI avec Weave grâce à la compatibilité du SDK OpenAI pour un traçage et une évaluation fluides des appels au modèle."
+description: "Suivez les LLM open source de Together AI avec Weave grâce à la compatibilité du SDK OpenAI pour un Tracing et une évaluation fluides des appels de modèle."
 ---
 
-Together AI est une plateforme de création et d’affinage de modèles d’IA générative, centrée sur les LLM open source, qui permet aux clients d’affiner et d’héberger leurs propres modèles.
+Together AI est une plateforme de création et de finetuning de modèles d’IA générative, axée sur les LLM open source, qui permet aux clients d’affiner et d’héberger leurs propres modèles.
 
 <Info>
-  La prise en charge complète du package Python `together` par Weave est actuellement en cours de développement.
+  La prise en charge complète du package Python `together` par Weave est actuellement en cours de développement
 </Info>
 
 Bien que la prise en charge complète du package Python `together` par Weave soit actuellement en cours de développement, Together prend en charge la compatibilité du SDK OpenAI ([documentation](https://docs.together.ai/docs/openai-api-compatibility)), que Weave détecte et intègre automatiquement.
 
-Pour utiliser l’API Together, remplacez simplement la clé API par votre clé [Together API](https://docs.together.ai/docs/quickstart), définissez `base_url` sur `https://api.together.xyz/v1`, puis choisissez comme modèle l’un de leurs [modèles de chat](https://docs.together.ai/docs/inference-models#chat-models).
+Pour utiliser l’API Together, remplacez simplement la clé API par votre clé [API Together](https://docs.together.ai/docs/quickstart), `base_url` par `https://api.together.xyz/v1` et le modèle par l’un de leurs [modèles de chat](https://docs.together.ai/docs/inference-models#chat-models).
 
 ```python lines {5, 10-13}
 import os
@@ -40,4 +40,4 @@ response = chat_completion.choices[0].message.content
 print("Together response:\n", response)
 ```
 
-Bien qu’il s’agisse d’un exemple simple pour démarrer, consultez notre guide [OpenAI](/fr/weave/guides/integrations/openai#track-your-own-ops) pour plus de détails sur la manière d’intégrer Weave à vos propres fonctions dans des cas d’usage plus complexes.
+Bien qu’il s’agisse d’un exemple simple pour commencer, consultez notre guide [OpenAI](/fr/weave/guides/integrations/openai#track-your-own-ops) pour plus de détails sur la façon d’intégrer Weave à vos propres fonctions pour des cas d’usage plus complexes.

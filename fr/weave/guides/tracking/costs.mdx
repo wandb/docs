@@ -3,20 +3,20 @@ title: "Suivre les coûts personnalisés"
 description: "Suivre et gérer les coûts des opérations LLM dans Weave"
 ---
 
-W&amp;B Weave calcule automatiquement le coût de chaque appel LLM en suivant l’utilisation des tokens et en appliquant la tarification du modèle utilisé, ce qui vous permet de surveiller et d’analyser les dépenses de votre application directement dans vos traces et évaluations.
+W&amp;B Weave calcule automatiquement le coût de chaque appel LLM en suivant l&#39;utilisation des tokens et en appliquant la tarification du modèle utilisé, ce qui vous permet de suivre et d&#39;analyser directement les dépenses de l&#39;application dans vos traces et évaluations.
 
-Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin d’une tarification différente, de modèles de coûts internes ou de coûts pour des opérations dont Weave ne calcule pas automatiquement le coût.
+Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin d&#39;une tarification différente, de modèles de coûts internes ou de coûts pour des opérations dont Weave ne calcule pas automatiquement le coût.
 
 <div id="adding-a-custom-cost">
-  ## Ajouter un coût personnalisé
+  ## Ajout d’un coût personnalisé
 </div>
 
 <Tabs>
   <Tab title="Python">
     Vous pouvez ajouter un coût personnalisé à l’aide de la méthode [`add_cost`](/fr/weave/reference/python-sdk/trace/weave_client#method-add-cost).
     Les trois champs requis sont `llm_id`, `prompt_token_cost` et `completion_token_cost`.
-    `llm_id` est le nom du LLM (par ex. `gpt-4o`). `prompt_token_cost` et `completion_token_cost` correspondent au coût par jeton du LLM (si les tarifs du LLM sont indiqués par million de jetons, veillez à convertir la valeur).
-    Vous pouvez également définir `effective_date` avec une valeur de type datetime pour que le coût prenne effet à une date précise ; par défaut, la date actuelle est utilisée.
+    `llm_id` est le nom du LLM (par ex. `gpt-4o`). `prompt_token_cost` et `completion_token_cost` correspondent au coût par token du LLM (si le prix du LLM est indiqué par million de tokens, veillez à convertir la valeur).
+    Vous pouvez également définir `effective_date` sur une valeur datetime afin que le coût prenne effet à une date précise ; par défaut, la date du jour est utilisée.
 
     ```python lines
     import weave
@@ -34,7 +34,7 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
         llm_id="your_model_name",
         prompt_token_cost=10,
         completion_token_cost=20,
-        # Si, par exemple, je souhaite augmenter le prix du modèle après une certaine date
+        # Par exemple, si je veux augmenter le prix du modèle après une certaine date
         effective_date=datetime(2025, 4, 22),
     )
     ```
@@ -54,7 +54,7 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
 <Tabs>
   <Tab title="Python">
     Vous pouvez interroger les coûts à l’aide de la méthode [`query_costs`](/fr/weave/reference/python-sdk/trace/weave_client#method-query-costs).
-    Il existe plusieurs façons d’interroger les coûts : vous pouvez fournir un identifiant de coût unique ou une liste de noms de modèles LLM.
+    Il existe plusieurs façons d’interroger les coûts : vous pouvez fournir un ID de coût unique ou une liste de noms de modèles LLM.
 
     ```python lines
     import weave
@@ -69,7 +69,7 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
+    Cette fonctionnalité n’est pas encore disponible en TypeScript. Restez à l’écoute !
     ```
   </Tab>
 </Tabs>
@@ -80,7 +80,7 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
 
 <Tabs>
   <Tab title="Python">
-    Vous pouvez purger un coût personnalisé à l’aide de la méthode [`purge_costs`](/fr/weave/reference/python-sdk/trace/weave_client#method-purge-costs). Passez une liste d’identifiants de coût ; les coûts correspondants sont alors purgés.
+    Vous pouvez purger un coût personnalisé à l’aide de la méthode [`purge_costs`](/fr/weave/reference/python-sdk/trace/weave_client#method-purge-costs). Transmettez une liste d’ID de coût, puis les coûts correspondant à ces ID seront purgés.
 
     ```python lines
     import weave
@@ -94,7 +94,7 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
+    Cette fonctionnalité n’est pas encore disponible en TypeScript. Restez à l’écoute !
     ```
   </Tab>
 </Tabs>
@@ -105,7 +105,7 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
 
 <Tabs>
   <Tab title="Python">
-    Vous pouvez calculer les coûts d’un projet à l’aide de notre `calls_query` en ajoutant `include_costs=True`, avec un peu de configuration.
+    Vous pouvez calculer les coûts d’un projet à l’aide de notre `calls_query` et en ajoutant `include_costs=True`, avec un peu de configuration.
 
     ```python lines
     import weave
@@ -123,14 +123,14 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
         )
 
         for call in calls:
-            # Si l’appel comporte des coûts, les ajouter au coût total
+            # Si l'appel a des coûts, les ajouter au coût total
             if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
                 for k, cost in call.summary["weave"]["costs"].items():
                     requests += cost["requests"]
                     total_cost += cost["prompt_tokens_total_cost"]
                     total_cost += cost["completion_tokens_total_cost"]
 
-        # Renvoyer le coût total, les requêtes et les appels
+        # Renvoyer le coût total, le nombre de requêtes et le nombre d'appels
         return {
             "total_cost": total_cost,
             "requests": requests,
@@ -138,14 +138,14 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
         }
 
     # Comme nous avons décoré notre fonction avec @weave.op(),
-    # nos totaux sont stockés dans Weave pour les calculs historiques du coût total
+    # nos totaux sont stockés dans weave pour les calculs historiques du coût total
     get_costs_for_project("my_custom_cost_model")
     ```
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
+    Cette fonctionnalité n’est pas encore disponible en TypeScript. Restez à l’écoute !
     ```
   </Tab>
 </Tabs>
@@ -154,6 +154,6 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
   ## Configurer un modèle personnalisé avec des coûts personnalisés
 </div>
 
-Essayez notre cookbook pour [configurer les coûts avec un modèle personnalisé](/fr/weave/cookbooks/custom_model_cost).
+Consultez notre cookbook sur la [configuration des coûts d’un modèle personnalisé](/fr/weave/cookbooks/custom_model_cost).
 
-<Card title="Essayer dans Colab" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python" />
+<Card title="Essayer sur Colab" href="https://colab.research.google.com/github/wandb/weave/blob/master/docs/./notebooks/custom_model_cost.ipynb" icon="python" />

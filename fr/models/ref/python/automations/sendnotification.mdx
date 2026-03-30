@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `SendNotification`
 
-Définit une action d’automatisation qui envoie une notification (sur Slack).
+Définit une action d’automatisation qui envoie une notification (Slack).
 
 ### <kbd>méthode</kbd> `SendNotification.__init__`
 
@@ -27,13 +27,13 @@ __init__(
 
 **Arguments :**
 
-* `integration_id` (str) : ID de l’intégration Slack utilisée pour envoyer la notification.
-* `message` (str) : Le corps du message de la notification envoyée.
-* `severity` (AlertSeverity) : Le niveau de gravité (`INFO`, `WARN`, `ERROR`) de la notification envoyée.
-* `title` (str) : Le titre de la notification envoyée.
-* `action_type` (Literal[NOTIFICATION]) :
+* `integration_id` (str): L’ID de l’intégration Slack utilisée pour envoyer la notification.
+* `message` (str): Le contenu du message de la notification envoyée.
+* `severity` (AlertSeverity): Le niveau de gravité (`INFO`, `WARN`, `ERROR`) de la notification envoyée.
+* `title` (str): Le titre de la notification envoyée.
+* `action_type` (Literal[NOTIFICATION]):
 
-**Retourne :**
+**Retourne :**
 Un objet `SendNotification`.
 
 
@@ -48,4 +48,4 @@ from_integration(
 ) → Self
 ```
 
-Définissez une action de notification qui envoie des notifications à l’intégration (Slack) donnée.
+Définit une action de notification envoyée à l’intégration (Slack) donnée.

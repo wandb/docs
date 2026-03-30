@@ -1,6 +1,6 @@
 ---
-description: Aperçu de W&B Artifacts, de son fonctionnement et de la prise en main.
-title: Aperçu d’Artifacts
+description: Aperçu de W&B Artifacts, de leur fonctionnement et des premiers pas pour les utiliser.
+title: Aperçu des Artifacts
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -12,23 +12,23 @@ import { TryProductLink } from '/snippets/fr/_includes/try-product-link.mdx';
   <TryProductLink url="https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage" />
 </CardGroup>
 
-Utilisez W&amp;B Artifacts pour suivre et versionner les données en tant qu’entrées et sorties de vos [W&amp;B Runs](/fr/models/runs). Par exemple, un run d’entraînement du modèle peut prendre un jeu de données en entrée et produire un modèle entraîné en sortie. Vous pouvez journaliser des hyperparamètres, des métadonnées et des métriques dans un run, et utiliser un artefact pour journaliser, suivre et versionner le jeu de données utilisé pour entraîner le modèle en entrée, ainsi qu’un autre artefact pour les points de contrôle du modèle produits en sortie.
+Utilisez W&amp;B Artifacts pour suivre les données et en gérer les versions comme entrées et sorties de vos [W&amp;B Runs](/fr/models/runs). Par exemple, un run d’entraînement de modèle peut prendre un jeu de données en entrée et produire un modèle entraîné en sortie. Vous pouvez journaliser des hyperparamètres, des métadonnées et des métriques dans un run, et utiliser un artifact pour journaliser, suivre et gérer les versions du jeu de données utilisé pour entraîner le modèle en entrée, ainsi qu’un autre artifact pour les points de contrôle du modèle produits en sortie.
 
 <div id="use-cases">
   ## Cas d’usage
 </div>
 
-Vous pouvez utiliser des artefacts tout au long de votre flux de travail ML comme entrées et sorties de [runs](/fr/models/runs). Vous pouvez utiliser des jeux de données, des modèles ou même d’autres artefacts comme entrées pour le traitement.
+Vous pouvez utiliser les artifacts tout au long de votre flux de travail ML comme entrées et sorties de [runs](/fr/models/runs). Vous pouvez utiliser des jeux de données, des modèles ou même d’autres artifacts comme entrées pour le traitement.
 
 <Frame>
-  <img src="/images/artifacts/artifacts_landing_page2.png" alt="Schéma du flux de travail Artifacts avec des entrées et des sorties pour l’entraînement du modèle, le traitement des données et l’évaluation du modèle" />
+  <img src="/images/artifacts/artifacts_landing_page2.png" alt="Schéma du flux de travail des Artifacts avec des entrées et des sorties pour l’entraînement du modèle, le traitement des données et l’évaluation du modèle" />
 </Frame>
 
-| Cas d’usage                     | Entrée                                                   | Sortie                               |
+| Cas d’utilisation               | Entrée                                                   | Sortie                               |
 | ------------------------------- | -------------------------------------------------------- | ------------------------------------ |
 | Entraînement du modèle          | Jeu de données (données d’entraînement et de validation) | Modèle entraîné                      |
 | Prétraitement du jeu de données | Jeu de données (données brutes)                          | Jeu de données (données prétraitées) |
-| Évaluation du modèle            | Modèle + jeu de données (données de test)                | [Table W&amp;B](/fr/models/tables)      |
+| Évaluation du modèle            | Modèle + Jeu de données (données de test)                | [tableau W&amp;B](/fr/models/tables)    |
 | Optimisation du modèle          | Modèle                                                   | Modèle optimisé                      |
 
 <Note>
@@ -36,17 +36,17 @@ Vous pouvez utiliser des artefacts tout au long de votre flux de travail ML comm
 </Note>
 
 <div id="create-an-artifact">
-  ## Créer un artefact
+  ## Créer un artifact
 </div>
 
-Créez un artefact en quatre lignes de code :
+Créez un artifact en quatre lignes de code :
 
 1. Créez un [run W&amp;B](/fr/models/runs).
-2. Créez un objet d’artefact avec [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact).
-3. Ajoutez un ou plusieurs fichiers, tels qu’un fichier de modèle ou un jeu de données, à l’objet artefact avec `wandb.Artifact.add_file()`.
-4. Journalisez votre artefact dans W&amp;B avec `wandb.Run.log_artifact()`.
+2. Créez un objet artifact avec [`wandb.Artifact`](/fr/models/ref/python/experiments/artifact).
+3. Ajoutez un ou plusieurs fichiers, par exemple un fichier de modèle ou un jeu de données, à l&#39;objet artifact avec `wandb.Artifact.add_file()`.
+4. Enregistrez votre artifact dans W&amp;B avec `wandb.Run.log_artifact()`.
 
-Par exemple, l’extrait de code suivant montre comment journaliser un fichier appelé `dataset.h5` dans un artefact appelé `example_artifact` :
+Par exemple, l&#39;extrait de code suivant montre comment enregistrer un fichier nommé `dataset.h5` dans un artifact nommé `example_artifact` :
 
 ```python
 import wandb
@@ -57,43 +57,43 @@ with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
     run.log_artifact(artifact)
 ```
 
-* Le `type` de l’artefact influe sur la façon dont il apparaît dans la plateforme W&amp;B. Si vous ne spécifiez pas de `type`, il prend par défaut la valeur `unspecified`.
-* Chaque libellé de la liste déroulante correspond à une valeur différente du paramètre `type`. Dans l’extrait de code ci-dessus, le `type` de l’artefact est `dataset`.
+* Le `type` de l&#39;artifact détermine la façon dont il apparaît dans la plateforme W&amp;B. Si vous ne spécifiez pas de `type`, il prend la valeur `unspecified` par défaut.
+* Chaque libellé de la liste déroulante correspond à une valeur différente du paramètre `type`. Dans l&#39;extrait de code ci-dessus, le `type` de l&#39;artifact est `dataset`.
 
 <Note>
-  Voir la page [suivre des fichiers externes](/fr/models/artifacts/track-external-files) pour savoir comment ajouter des références à des fichiers ou à des répertoires stockés dans un stockage d’objets externe, comme un bucket Amazon S3.
+  Voir la page [suivi des fichiers externes](/fr/models/artifacts/track-external-files) pour savoir comment ajouter des références à des fichiers ou répertoires stockés dans un stockage d’objets externe, comme un bucket Amazon S3.
 </Note>
 
 <div id="download-an-artifact">
-  ## Télécharger un artefact
+  ## Télécharger un artifact
 </div>
 
-Indiquez l’artefact que vous souhaitez marquer comme entrée de votre run à l’aide de la méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact).
+Spécifiez l’artifact que vous souhaitez marquer comme entrée pour votre run à l’aide de la méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact).
 
-En reprenant l’extrait de code précédent, l’exemple de code suivant montre comment utiliser l’artefact nommé `example_artifact`, créé précédemment :
+À partir de l’extrait de code précédent, l’exemple de code suivant montre comment utiliser l’artifact nommé `example_artifact`, créé précédemment :
 
 ```python
 with wandb.init(project="artifacts-example", job_type="add-dataset") as run:
-    artifact = run.use_artifact("training_dataset:latest")  # renvoie un objet run utilisant l'artefact "my_data"
+    artifact = run.use_artifact("training_dataset:latest")  # renvoie un objet run utilisant l'artifact "my_data"
 ```
 
-Cela renvoie un objet d’artefact.
+Ceci renvoie un objet artifact.
 
-Ensuite, utilisez l’objet renvoyé pour télécharger l’intégralité du contenu de l’artefact :
+Ensuite, utilisez l’objet renvoyé pour télécharger l’intégralité du contenu de l’artifact :
 
 ```python
-datadir = artifact.download()  # télécharge l'artefact complet `my_data` dans le répertoire par défaut.
+datadir = artifact.download()  # télécharge l'artifact complet `my_data` dans le répertoire par défaut.
 ```
 
 <Note>
-  Vous pouvez spécifier un chemin personnalisé dans le [paramètre](/fr/models/ref/python/experiments/artifact) `root` pour télécharger un artefact dans un répertoire précis. Pour découvrir d&#39;autres façons de télécharger des artefacts et voir des paramètres supplémentaires, Voir le guide sur le [téléchargement et l&#39;utilisation des artefacts](/fr/models/artifacts/download-and-use-an-artifact).
+  Vous pouvez indiquer un chemin personnalisé dans le [paramètre](/fr/models/ref/python/experiments/artifact) `root` pour télécharger un artifact dans un répertoire précis. Pour découvrir d’autres façons de télécharger des artifacts et consulter des paramètres supplémentaires, voir le guide sur le [téléchargement et l’utilisation des artifacts](/fr/models/artifacts/download-and-use-an-artifact).
 </Note>
 
 <div id="next-steps">
   ## Étapes suivantes
 </div>
 
-* Découvrez comment [versionner](/fr/models/artifacts/create-a-new-artifact-version) et [mettre à jour](/fr/models/artifacts/update-an-artifact) des artefacts.
-* Découvrez comment déclencher des flux de travail en aval ou notifier un canal Slack en réponse aux changements apportés à vos artefacts à l’aide des [automatisations](/fr/models/automations).
+* Découvrez comment [créer une version](/fr/models/artifacts/create-a-new-artifact-version) et [mettre à jour](/fr/models/artifacts/update-an-artifact) des artifacts.
+* Découvrez comment déclencher des flux de travail en aval ou notifier un canal Slack en réponse aux modifications de vos artifacts avec [automations](/fr/models/automations).
 * Découvrez le [registre](/fr/models/registry), un espace qui héberge des modèles entraînés.
 * Explorez les guides de référence du [SDK Python](/fr/models/ref/python/experiments/artifact) et de la [CLI](/fr/models/ref/cli/wandb-artifact).

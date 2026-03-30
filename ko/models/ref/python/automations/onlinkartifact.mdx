@@ -11,10 +11,11 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnLinkArtifact`
 
-새 아티팩트가 컬렉션에 연결될 때 발생하는 이벤트입니다.
+새 artifact가 collection에 연결됩니다.
 
 예시:
-별칭 &quot;prod&quot;로 컬렉션 &quot;my-collection&quot;에 아티팩트가 연결될 때 트리거되는 이벤트를 정의합니다:
+alias &quot;prod&quot;와 함께
+artifact가 collection &quot;my-collection&quot;에 연결될 때 트리거되는 이벤트를 정의합니다:
 
 ```python
 from wandb import Api
@@ -40,11 +41,11 @@ __init__(
 ) → None
 ```
 
-**인자:**
+**매개변수:**
 
 * `event_type` (Literal[LINK&#95;ARTIFACT]):
 * `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): 이벤트의 범위입니다.
-* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): 이 이벤트가 트리거되기 위해 추가로 필요한 조건이 있다면 지정합니다.
+* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): 이 이벤트를 트리거하기 위해 필요한 추가 조건(있는 경우)입니다.
 
 **반환값:**
-`OnLinkArtifact` 객체를 반환합니다.
+`OnLinkArtifact` 객체입니다.

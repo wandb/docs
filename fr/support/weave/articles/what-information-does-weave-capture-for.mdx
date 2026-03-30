@@ -1,40 +1,40 @@
 ---
 title: "Quelles informations Weave capture-t-il pour une fonction ?"
-keywords: ["Capture de données", "Capture du code", "Informations client", "Informations système"]
+keywords: ["Capture de données", "Capture de code", "Infos client", "Infos système"]
 ---
 
-Une fonction peut être définie comme une [Op](/fr/weave/guides/tracking/ops) Weave, soit manuellement à l&#39;aide d&#39;un décorateur, soit automatiquement dans le cadre d&#39;une intégration activée. Lorsqu&#39;une Op s&#39;exécute, Weave capture des informations détaillées pour faciliter votre analyse. Weave vous offre un contrôle précis sur ce qui est enregistré si vous souhaitez un comportement différent de celui par défaut ; voir ci-dessous pour des exemples de configuration.
+Une fonction peut être définie comme une [Op](/fr/weave/guides/tracking/ops) Weave, soit manuellement à l’aide d’un décorateur, soit automatiquement dans le cadre d’une intégration activée. Lorsqu’une Op s’exécute, Weave capture des informations détaillées pour appuyer votre analyse. Weave vous offre un contrôle précis sur ce qui est enregistré si vous souhaitez un comportement différent de celui par défaut ; voir ci-dessous des exemples de configuration.
 
-* **Capture du code** - Weave capture une représentation du code source de l&#39;Op. Cela inclut les commentaires en ligne, ainsi que la capture récursive de la valeur des variables ou du code source des fonctions non-Op appelées. La capture du code vous permet de voir ce que faisait votre fonction, même si la modification n&#39;a pas été enregistrée dans votre système de contrôle de version. La capture du code est utilisée dans le cadre de la gestion des versions des Op, ce qui vous permet de comprendre comment votre code a été évalué au fil du temps. Si la capture du code est désactivée, une valeur de hachage sera utilisée à la place.
+* **Capture de code** - Weave capture une représentation du code source de l’Op. Cela inclut les commentaires en ligne, ainsi que la capture récursive de la valeur des variables ou du code source des fonctions non-Op appelées. La capture de code vous permet de voir ce que faisait votre fonction, même si la modification n’a pas été enregistrée dans votre système de gestion de versions. La capture de code est utilisée dans le cadre de la gestion des versions des Op, ce qui vous permet de comprendre l’évolution de l’évaluation de votre code au fil du temps. Si la capture de code est désactivée, une valeur de hachage sera utilisée à la place.
 
-* **Nom de la fonction, entrées et sorties** - Le nom de la fonction sera capturé, mais peut être [redéfini](/fr/weave/guides/tracking/tracing/#call-display-name). Une représentation des entrées et des sorties basée sur JSON sera capturée. Pour les entrées, le nom de l&#39;argument sera capturé en plus de sa valeur. Weave vous permet de [personnaliser la journalisation](/fr/weave/guides/tracking/ops#customize-logged-inputs-and-outputs) des entrées et des sorties : vous pouvez spécifier une fonction pour ajouter, supprimer ou modifier ce qui est enregistré.
+* **Nom de la fonction, entrées et sorties** - Le nom de la fonction est capturé, mais peut être [redéfini](/fr/weave/guides/tracking/tracing/#call-display-name). Une représentation au format JSON des entrées et des sorties est capturée. Pour les entrées, le nom de l’argument est capturé en plus de sa valeur. Weave vous permet de [personnaliser l’enregistrement](/fr/weave/guides/tracking/ops#customize-logged-inputs-and-outputs) des entrées et des sorties - vous pouvez spécifier une fonction pour ajouter, supprimer ou modifier ce qui est enregistré.
 
-* **Hiérarchie des appels d&#39;Op** - Lorsqu&#39;une Op est appelée dans le contexte de l&#39;exécution d&#39;une autre Op, cette relation est capturée, même dans les cas
-  où une fonction intermédiaire non-Op s&#39;exécute. Cette relation entre les appels d&#39;Op est utilisée pour fournir une &quot;arborescence de trace&quot;.
+* **Hiérarchie des appels d’Op** - Lorsqu’une Op est appelée dans le contexte d’exécution d’une autre Op, cette relation est capturée, même dans les cas
+  où une fonction intermédiaire non-Op est en cours d’exécution. Cette relation entre les appels d’Op est utilisée pour fournir une &quot;arborescence de trace&quot;.
 
-* **Statut d&#39;exécution et exceptions** - Weave suit si une fonction est en cours d&#39;exécution, terminée ou en erreur. Si une exception survient pendant l&#39;exécution, le message d&#39;erreur et une trace de pile sont enregistrés.
+* **Statut d’exécution et exceptions** - Weave suit si une fonction est en cours d’exécution, terminée ou en erreur. Si une exception se produit pendant l’exécution, le message d’erreur et une trace de pile sont enregistrés.
 
-* **Informations système** - Weave peut capturer des informations sur le système d&#39;exploitation sur lequel le client s&#39;exécute, y compris des informations détaillées sur la version.
+* **Informations système** - Weave peut capturer des informations sur le système d’exploitation sur lequel le client s’exécute, y compris des informations détaillées sur sa version.
 
-* **Informations client** - Weave peut capturer des informations sur le client Weave lui-même, telles que le langage de programmation utilisé et des informations détaillées sur la version de ce langage et de la bibliothèque cliente Weave.
+* **Informations client** - Weave peut capturer des informations sur le client Weave lui-même, comme le langage de programmation utilisé et des informations détaillées sur la version de ce langage et de la bibliothèque cliente Weave.
 
-* **Temps d&#39;exécution** - L&#39;heure de début et de fin d&#39;exécution est capturée et également utilisée pour les calculs de latence.
+* **Horodatage** - Les heures de début et de fin d’exécution sont capturées et également utilisées pour les calculs de latence.
 
-* **Utilisation des tokens** - Dans certaines [intégrations](/fr/weave/guides/integrations/), le nombre de tokens LLM utilisés peut être enregistré automatiquement.
+* **Utilisation des tokens** - Dans certaines [intégrations](/fr/weave/guides/integrations/), les décomptes d’utilisation des tokens LLM peuvent être enregistrés automatiquement.
 
-* **Contexte utilisateur et run** - La journalisation est associée à un compte utilisateur W&amp;B. Celui-ci sera capturé avec tout contexte de run wandb.
+* **Contexte utilisateur et run** - Le logging est associé à un compte utilisateur W&amp;B. Cette information est capturée avec tout contexte de run wandb.
 
-* **Informations dérivées** - Weave peut calculer des informations dérivées à partir des informations brutes enregistrées ; par exemple, une estimation du coût peut être calculée en fonction de l&#39;utilisation des tokens et du modèle utilisé. Weave agrège également certaines informations sur l&#39;ensemble des appels.
+* **Informations dérivées** - Weave peut calculer des informations dérivées à partir des informations brutes enregistrées ; par exemple, une estimation du coût peut être calculée en fonction de l’utilisation des tokens et du modèle utilisé. Weave agrège également certaines informations sur plusieurs appels.
 
-* **Informations supplémentaires que vous choisissez** - Vous pouvez choisir d&#39;enregistrer des [métadonnées personnalisées avec `weave.attributes`](/fr/weave/guides/core-types/models#track-production-calls) dans le cadre de votre appel ou d&#39;associer un [feedback](/fr/weave/guides/tracking/feedback#add-feedback-to-a-call) à un appel.
+* **Informations supplémentaires de votre choix** - Vous pouvez choisir d’enregistrer des [métadonnées personnalisées avec `weave.attributes`](/fr/weave/guides/core-types/models#track-production-calls) dans le cadre de votre appel ou d’associer un [feedback](/fr/weave/guides/tracking/feedback#add-feedback-to-a-call) à un appel.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
-  Géré par le script scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Collecte de données](/fr/support/weave/tags/data-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[Capture du code](/fr/support/weave/tags/code-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[Infos client](/fr/support/weave/tags/client-info)</Badge><Badge stroke shape="pill" color="orange" size="md">[Infos système](/fr/support/weave/tags/system-info)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Collecte de données](/fr/support/weave/tags/data-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[Capture du code](/fr/support/weave/tags/code-capture)</Badge><Badge stroke shape="pill" color="orange" size="md">[Informations client](/fr/support/weave/tags/client-info)</Badge><Badge stroke shape="pill" color="orange" size="md">[Informations système](/fr/support/weave/tags/system-info)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

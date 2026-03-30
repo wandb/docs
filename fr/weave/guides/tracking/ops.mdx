@@ -1,13 +1,13 @@
 ---
 title: "Personnaliser les Ops"
-description: "Découvrez comment ajouter de la couleur à vos Ops pour une meilleure visibilité, comment modifier ce qui est enregistré et comment contrôler le taux d'échantillonnage"
+description: "Découvrez comment colorer vos Ops pour une meilleure visibilité, modifier ce qui est enregistré et contrôler le taux d'échantillonnage"
 ---
 
-Une Op Weave est une fonction versionnée qui enregistre automatiquement tous les appels.
+Un Op Weave est une fonction versionnée qui enregistre automatiquement tous les Appels.
 
 <Tabs>
   <Tab title="Python">
-    Pour créer une Op, décorez une fonction Python avec `weave.op()`
+    Pour créer un Op, décorez une fonction Python avec `weave.op()`
 
     ```python lines
     import weave
@@ -20,15 +20,15 @@ Une Op Weave est une fonction versionnée qui enregistre automatiquement tous le
     track_me(15)
     ```
 
-    L&#39;appel d&#39;une Op crée une nouvelle version de l&#39;Op si le code a changé depuis le dernier appel, et enregistre les entrées et les sorties de la fonction.
+    L&#39;appel d&#39;un Op crée une nouvelle version de l&#39;Op si le code a changé depuis le dernier appel, et enregistre les entrées et les sorties de la fonction.
 
     Les fonctions que vous décorez avec `@weave.op()` se comportent normalement (sans gestion des versions du code ni suivi) si vous n&#39;appelez pas `weave.init('your-project-name')` avant de les appeler.
 
-    Les Ops peuvent être [exposées](/fr/weave/guides/tools/serve) ou [déployées](/fr/weave/guides/tools/deploy) à l&#39;aide de la boîte à outils Weave.
+    Les Ops peuvent être [servis](/fr/weave/guides/tools/serve) ou [déployés](/fr/weave/guides/tools/deploy) à l&#39;aide de la boîte à outils Weave.
   </Tab>
 
   <Tab title="TypeScript">
-    Pour créer une Op, encapsulez une fonction TypeScript avec `weave.op`
+    Pour créer un Op, encapsulez une fonction TypeScript avec `weave.op`
 
     ```typescript lines
     import * as weave from 'weave'
@@ -73,7 +73,7 @@ Une Op Weave est une fonction versionnée qui enregistre automatiquement tous le
   ## Appliquer des types et des couleurs
 </div>
 
-Pour mieux organiser vos Ops dans l’interface Weave, vous pouvez leur appliquer des types et des couleurs personnalisés en ajoutant les arguments `kind` et `color` aux décorateurs `@weave.op` dans votre code. Par exemple, le code suivant attribue la valeur `LLM` à `kind` et la valeur `blue` à `color` pour la fonction parente, ainsi que la valeur `tool` à `kind` et la valeur `red` à `color` pour une fonction imbriquée :
+Pour mieux organiser vos Ops dans la Weave UI, vous pouvez leur attribuer des types et des couleurs personnalisés en ajoutant les arguments `kind` et `color` aux décorateurs `@weave.op` dans votre code. Par exemple, le code suivant attribue le type `LLM` et la couleur `blue` à la fonction parente, ainsi que le type `tool` et la couleur `red` à une fonction imbriquée :
 
 <Tabs>
   <Tab title="Python">
@@ -103,10 +103,10 @@ Pour mieux organiser vos Ops dans l’interface Weave, vous pouvez leur applique
   </Tab>
 </Tabs>
 
-Cela applique ces couleurs et ces types à vos Ops dans l’interface Weave, comme ceci :
+Cela applique ces couleurs et ces types à vos Ops dans la Weave UI, comme ceci :
 
 <Frame>
-  ![L’interface Weave, montrant un appel parent avec le type LLM et la couleur blue, ainsi qu’un appel imbriqué avec le type tool et la couleur red.](/images/weave/weave_colors_kinds.png)
+  ![La Weave UI, montrant un appel parent avec le type LLM et la couleur blue, ainsi qu’un appel imbriqué avec le type tool et la couleur red.](/images/weave/weave_colors_kinds.png)
 </Frame>
 
 Les valeurs `kind` disponibles sont :
@@ -131,11 +131,11 @@ Les valeurs `color` disponibles sont :
 
 <Tabs>
   <Tab title="Python">
-    Si vous souhaitez modifier les données que Weave enregistre sans modifier la fonction originale (par exemple, pour masquer des données sensibles), vous pouvez passer `postprocess_inputs` et `postprocess_output` au décorateur op.
+    Si vous souhaitez modifier les données que Weave enregistre sans modifier la fonction d’origine (par exemple, pour masquer des données sensibles), vous pouvez passer `postprocess_inputs` et `postprocess_output` au décorateur `op`.
 
-    `postprocess_inputs` reçoit un dict dans lequel les clés sont les noms des arguments et les valeurs, les valeurs des arguments, puis renvoie un dict contenant les entrées transformées.
+    `postprocess_inputs` prend en entrée un `dict` où les clés sont les noms des arguments et les valeurs, les valeurs des arguments, puis renvoie un `dict` contenant les entrées transformées.
 
-    `postprocess_output` reçoit n’importe quelle valeur normalement renvoyée par la fonction et renvoie la sortie transformée.
+    `postprocess_output` prend en entrée n’importe quelle valeur normalement renvoyée par la fonction et renvoie la sortie transformée.
 
     ```python lines
     from dataclasses import dataclass
@@ -178,12 +178,14 @@ Les valeurs `color` disponibles sont :
 
 <Tabs>
   <Tab title="Python">
-    Vous pouvez contrôler la fréquence à laquelle les appels d’un Op sont tracés en définissant le paramètre `tracing_sample_rate` dans le décorateur `@weave.op`. C’est utile pour les Ops à haute fréquence lorsque vous n’avez besoin de tracer qu’un sous-ensemble des appels.
+    Vous pouvez contrôler la fréquence à laquelle les appels d’un Op sont tracés en définissant le paramètre `tracing_sample_rate` dans le décorateur `@weave.op`. C’est utile pour les Ops à fréquence élevée lorsque vous n’avez besoin de tracer qu’un sous-ensemble des appels.
 
-    Notez que Weave applique les taux d’échantillonnage uniquement aux appels racine. Si un Op a un taux d’échantillonnage, mais qu’il est d’abord appelé par un autre Op, ce taux d’échantillonnage est ignoré.
+    Bien que nous recommandions de collecter toutes les traces pendant le développement d’agents afin de vous aider à mieux définir et comprendre leur comportement, nous recommandons de configurer l’échantillonnage des traces en Production pour réduire les coûts liés au volume tout en conservant une visibilité sur le comportement de votre agent.
+
+    Weave applique les taux d’échantillonnage uniquement aux Ops les plus externes. Si un Op imbriqué a un taux d’échantillonnage, mais qu’un Op parent l’appelle en premier, le taux d’échantillonnage de l’Op imbriqué est ignoré.
 
     ```python lines
-    @weave.op(tracing_sample_rate=0.1)  # Tracer seulement ~10 % des appels
+    @weave.op(tracing_sample_rate=0.1)  # Ne tracer qu’environ 10 % des appels
     def high_frequency_op(x: int) -> int:
         return x + 1
 
@@ -192,7 +194,7 @@ Les valeurs `color` disponibles sont :
         return x + 1
     ```
 
-    Lorsqu’un appel d’un Op n’est pas échantillonné :
+    Lorsqu’un appel d’un Op n’est pas échantillonné :
 
     * La fonction s’exécute normalement
     * Aucune donnée de trace n’est envoyée à Weave
@@ -209,22 +211,22 @@ Les valeurs `color` disponibles sont :
 </Tabs>
 
 <div id="control-call-link-output">
-  ## Contrôler la sortie des liens d’appel
+  ## Contrôler l’affichage des liens d’appel
 </div>
 
-Si vous souhaitez empêcher l’affichage des liens d’appel lors de la journalisation, vous pouvez définir la variable d’environnement `WEAVE_PRINT_CALL_LINK` sur `false`. Cela peut être utile si vous souhaitez réduire la verbosité de la sortie et alléger vos journaux.
+Si vous souhaitez empêcher l’affichage des liens d’appel pendant le logging, vous pouvez définir la variable d’environnement `WEAVE_PRINT_CALL_LINK` sur `false`. Cela peut être utile si vous voulez réduire la verbosité de la sortie et alléger vos journaux.
 
 ```bash lines
 export WEAVE_PRINT_CALL_LINK=false
 ```
 
 <div id="deleting-an-op">
-  ## Suppression d’un Op
+  ## Suppression d&#39;un Op
 </div>
 
 <Tabs>
   <Tab title="Python">
-    Pour supprimer une version d’un Op, appelez `.delete()` sur la référence de l’Op.
+    Pour supprimer une version d&#39;un Op, appelez `.delete()` sur la référence de l&#39;Op.
 
     ```python lines
     weave.init('intro-example')
@@ -232,12 +234,12 @@ export WEAVE_PRINT_CALL_LINK=false
     my_op_ref.delete()
     ```
 
-    L’accès à un Op supprimé renvoie une erreur.
+    Tenter d&#39;accéder à un Op supprimé renvoie une erreur.
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    Cette fonctionnalité n'est pas encore disponible dans TypeScript.
     ```
   </Tab>
 </Tabs>

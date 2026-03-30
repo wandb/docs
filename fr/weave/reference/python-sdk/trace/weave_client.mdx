@@ -50,9 +50,9 @@ __init__(
 
 #### <kbd>propriété</kbd> num_outstanding_jobs
 
-Renvoie le nombre total de jobs en attente sur l’ensemble des exécuteurs et sur le serveur.
+Renvoie le nombre total de jobs en attente sur l’ensemble des exécuteurs et le serveur.
 
-Cette propriété permet de vérifier l’avancement des tâches en arrière-plan sans bloquer le thread principal.
+Cette propriété permet de suivre l’avancement des tâches en arrière-plan sans bloquer le thread principal.
 
 **Retourne :**
 
@@ -76,7 +76,7 @@ add_cost(
 ) → CostCreateRes
 ```
 
-Ajoutez un coût au projet actuel.
+Ajoutez un coût au projet en cours.
 
 **Exemples :**
 
@@ -87,15 +87,15 @@ client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=500, compl
 
 **Arguments :**
 
-* <b>`llm_id`</b> : l’ID du LLM. Par ex. &quot;gpt-4o-mini-2024-07-18&quot;
-* <b>`prompt_token_cost`</b> : le coût par jeton de prompt. Par ex. .0005
-* <b>`completion_token_cost`</b> : le coût par jeton de complétion. Par ex. .0015
-* <b>`effective_date`</b> : par défaut, la date actuelle. Objet `datetime.datetime`.
-* <b>`provider_id`</b> : le fournisseur du LLM. La valeur par défaut est &quot;default&quot;. Par ex. &quot;openai&quot;
-* <b>`prompt_token_cost_unit`</b> : l’unité du coût des jetons de prompt. La valeur par défaut est &quot;USD&quot;. (Actuellement inutilisée ; sera utilisée à l’avenir pour spécifier le type d’unité de coût, par ex. &quot;tokens&quot; ou &quot;time&quot;)
-* <b>`completion_token_cost_unit`</b> : l’unité du coût des jetons de complétion. La valeur par défaut est &quot;USD&quot;. (Actuellement inutilisée ; sera utilisée à l’avenir pour spécifier le type d’unité de coût, par ex. &quot;tokens&quot; ou &quot;time&quot;)
+* <b>`llm_id`</b> : L’ID du LLM. p. ex. &quot;gpt-4o-mini-2024-07-18&quot;
+* <b>`prompt_token_cost`</b> : Le coût par token du prompt. p. ex. .0005
+* <b>`completion_token_cost`</b> : Le coût par token de complétion. p. ex. .0015
+* <b>`effective_date`</b> : Valeur par défaut : la date du jour. Objet `datetime.datetime`.
+* <b>`provider_id`</b> : Le fournisseur du LLM. Valeur par défaut : &quot;default&quot;. p. ex. &quot;openai&quot;
+* <b>`prompt_token_cost_unit`</b> : L’unité du coût des tokens du prompt. Valeur par défaut : &quot;USD&quot;. (Actuellement inutilisé, sera utilisé à l’avenir pour spécifier le type d’unité du coût, p. ex. &quot;tokens&quot; ou &quot;time&quot;)
+* <b>`completion_token_cost_unit`</b> : L’unité du coût des tokens de complétion. Valeur par défaut : &quot;USD&quot;. (Actuellement inutilisé, sera utilisé à l’avenir pour spécifier le type d’unité du coût, p. ex. &quot;tokens&quot; ou &quot;time&quot;)
   **Retourne :**
-  Un objet CostCreateRes. Il contient un champ `ids`, qui est une liste de tuples. Chaque tuple contient le llm&#95;id et l’ID de l’objet de coût créé.
+  Un objet CostCreateRes. Il comporte un champ nommé ids, qui est une liste de tuples. Chaque tuple contient le llm&#95;id et l’ID de l’objet de coût créé.
 
 ***
 
@@ -108,9 +108,9 @@ client.add_cost(llm_id="my_expensive_custom_model", prompt_token_cost=500, compl
 clear_wandb_run_context() → None
 ```
 
-Efface la redéfinition du contexte du run wandb.
+Efface la surcharge du contexte de run de wandb.
 
-Après cet appel, les appels utiliseront de nouveau le `wandb.run` global (s’il est disponible) pour les informations de run&#95;id et d’étape.
+Après cet appel, les appels reviendront à utiliser le wandb.run global (s&#39;il est disponible) pour les informations de run&#95;id et d&#39;étape.
 
 **Exemples :**
 
@@ -145,14 +145,14 @@ Créer, journaliser et empiler un appel sur la pile d’exécution.
 
 **Arguments :**
 
-* <b>`op`</b>: L’opération qui produit l’appel, ou le nom d’une opération anonyme.
-* <b>`inputs`</b>: Les entrées de l’opération.
-* <b>`parent`</b>: L’appel parent. Si `parent` n’est pas fourni, le run actuel est utilisé comme parent.
-* <b>`display_name`</b>: Le nom d’affichage de l’appel. La valeur par défaut est None.
-* <b>`attributes`</b>: Les attributs de l’appel. La valeur par défaut est None.
-* <b>`use_stack`</b>: Indique si l’appel doit être empilé sur la pile d’exécution. La valeur par défaut est True.
+* <b>`op`</b> : L’opération qui produit l’appel, ou le nom d’une opération anonyme.
+* <b>`inputs`</b> : Les entrées de l’opération.
+* <b>`parent`</b> : L’appel parent. Si `parent` n’est pas fourni, le run actuel est utilisé comme parent.
+* <b>`display_name`</b> : Le nom d’affichage de l’appel. La valeur par défaut est `None`.
+* <b>`attributes`</b> : Les attributs de l’appel. La valeur par défaut est `None`.
+* <b>`use_stack`</b> : Indique s’il faut empiler l’appel sur la pile d’exécution. La valeur par défaut est `True`.
   **Retourne :**
-  L’objet Call créé.
+  L’objet Appel créé.
 
 ***
 
@@ -169,7 +169,7 @@ Supprime toutes les versions d’un objet.
 
 **Arguments :**
 
-* <b>`object_name`</b>: Nom de l’objet dont les versions doivent être supprimées.
+* <b>`object_name`</b> : Le nom de l’objet dont toutes les versions doivent être supprimées.
   **Retourne :**
   Le nombre de versions supprimées.
 
@@ -184,11 +184,11 @@ Supprime toutes les versions d’un objet.
 delete_all_op_versions(op_name: 'str') → int
 ```
 
-Supprime toutes les versions de l’op.
+Supprime toutes les versions d’une op.
 
 **Arguments :**
 
-* <b>`op_name`</b>: Le nom de l’op dont les versions doivent être supprimées.
+* <b>`op_name`</b> : Le nom de l’op dont les versions doivent être supprimées.
   **Retourne :**
   Le nombre de versions supprimées.
 
@@ -214,9 +214,9 @@ delete_call(call: 'Call') → None
 delete_calls(call_ids: 'list[str]') → None
 ```
 
-Supprimez les appels à l’aide de leur ID.
+Supprimez les appels à l’aide de leurs IDs.
 
-La suppression d’un appel supprimera également tous ses appels enfants.
+La suppression d’un appel supprime également tous ses appels enfants.
 
 **Arguments :**
 
@@ -244,7 +244,7 @@ delete_object_versions(object_name: 'str', digests: 'list[str]') → int
 
 Supprime des versions spécifiques d’un objet.
 
-* <b>`call_ids`</b> : Une liste d’identifiants d’appel à supprimer. Ex. : [&quot;2F0193e107-8fcf-7630-b576-977cc3062e2e&quot;]
+* <b>`call_ids`</b> : Une liste d’ID d’appel à supprimer. Ex. : [&quot;2F0193e107-8fcf-7630-b576-977cc3062e2e&quot;]
   **Arguments :**
 
 * <b>`object_name`</b> : Le nom de l’objet dont les versions doivent être supprimées.
@@ -275,7 +275,7 @@ delete_op_version(op: 'OpRef') → None
 fail_call(call: 'Call', exception: 'BaseException') → None
 ```
 
-Fait échouer un appel en générant une exception. Il s&#39;agit d&#39;une méthode pratique pour finish&#95;call.
+Signale l&#39;échec d&#39;un appel avec une exception. Il s&#39;agit d&#39;une méthode utilitaire pour finish&#95;call.
 
 ***
 
@@ -291,9 +291,9 @@ finish(
 ) → None
 ```
 
-Vide toutes les tâches en arrière-plan pour garantir leur traitement.
+Vide toutes les tâches en arrière-plan afin de s&#39;assurer qu&#39;elles sont traitées.
 
-Cette méthode bloque jusqu’à ce que tous les jobs actuellement placés dans la file d’attente soient traités, en affichant une barre de progression pour indiquer le statut des tâches en attente. Elle permet au traitement parallèle de se poursuivre pendant l’exécution du thread principal et peut améliorer les performances lorsque le code utilisateur se termine avant que les données n’aient été téléversées vers le serveur.
+Cette méthode bloque jusqu&#39;à ce que tous les jobs actuellement en file d&#39;attente soient traités, en affichant une barre de progression pour indiquer le statut des tâches en attente. Elle permet le traitement en parallèle pendant l&#39;exécution du thread principal et peut améliorer les performances lorsque le code utilisateur se termine avant que les données n&#39;aient été envoyées au serveur.
 
 **Arguments :**
 
@@ -313,7 +313,7 @@ finish_call(
 ) → None
 ```
 
-Finalisez un appel et conservez ses résultats.
+Finaliser un appel et enregistrer ses résultats.
 
 Toutes les valeurs présentes dans `call.summary` sont fusionnées de manière récursive avec les statistiques récapitulatives calculées (par ex. les nombres d’utilisations et de statuts) avant d’être écrites dans la base de données.
 
@@ -328,7 +328,7 @@ Toutes les valeurs présentes dans `call.summary` sont fusionnées de manière r
 flush() → None
 ```
 
-Vide la file des tâches asynchrones en arrière-plan ; peut être appelé plusieurs fois sans risque.
+Vide les tâches asynchrones en arrière-plan ; peut être appelée sans risque plusieurs fois.
 
 ***
 
@@ -357,22 +357,22 @@ get_call(
 ) → WeaveObject
 ```
 
-Obtenir un appel unique à partir de son ID.
+Obtenir un appel unique par son ID.
 
-* <b>`use_progress_bar`</b> : Indique s’il faut afficher une barre de progression lors du vidage. Définissez cette valeur sur False dans les environnements où une barre de progression s’afficherait mal (par exemple, les environnements CI).
+* <b>`use_progress_bar`</b> : Indique s’il faut afficher une barre de progression pendant le vidage. Définissez-la sur False dans les environnements où une barre de progression ne s’afficherait pas correctement (par ex., les environnements CI).
 
 * <b>`callback`</b> : Fonction de rappel facultative qui reçoit des mises à jour de statut. Remplace use&#95;progress&#95;bar.
   **Arguments :**
 
-* <b>`call_id`</b> : ID de l’appel à récupérer.
+* <b>`call_id`</b> : L’ID de l’appel à récupérer.
 
 * <b>`include_costs`</b> : Si true, les informations de coût sont incluses dans summary.weave
 
 * <b>`include_feedback`</b> : Si true, les informations de feedback sont incluses dans summary.weave.feedback
 
-* <b>`columns`</b> : Liste des colonnes à inclure dans la réponse. Si None, toutes les colonnes sont incluses. Indiquer moins de colonnes peut améliorer les performances. Certaines colonnes sont toujours incluses : id, project&#95;id, trace&#95;id, op&#95;name, started&#95;at
+* <b>`columns`</b> : Liste des colonnes à inclure dans la réponse. Si None, toutes les colonnes sont incluses. Spécifier moins de colonnes peut améliorer les performances. Certaines colonnes sont toujours incluses  id, project&#95;id, trace&#95;id, op&#95;name, started&#95;at
   **Retourne :**
-  Un Call.
+  Un objet appel.
 
 ***
 
@@ -400,26 +400,26 @@ get_calls(
 ) → CallsIter
 ```
 
-Récupère une liste des appels tracés (opérations) pour ce projet.
+Récupère une liste d’appels tracés (opérations) pour ce projet.
 
-Cette méthode fournit une interface puissante et flexible pour interroger les données de trace. Elle prend en charge la pagination, le filtrage, le tri, la projection de champs et les métadonnées de score, et peut servir à alimenter des interfaces utilisateur de trace personnalisées ou des outils d’analyse.
+Cette méthode fournit une interface puissante et flexible pour interroger les données de trace. Elle prend en charge la pagination, le filtrage, le tri, la projection de champs et les métadonnées de scoring, et peut servir à créer des interfaces utilisateur de trace personnalisées ou des outils d’analyse.
 
-Astuce de performance : spécifiez `columns` et utilisez `filter` ou `query` pour réduire la taille des résultats.
+Conseil de performance : spécifiez `columns` et utilisez `filter` ou `query` pour réduire la taille des résultats.
 
 **Arguments :**
 
-* <b>`filter`</b>:  Filtre de haut niveau pour restreindre les résultats en fonction de champs tels que `op_name`, `parent_ids`, etc.
+* <b>`filter`</b>:  Filtre de haut niveau permettant d’affiner les résultats à partir de champs comme `op_name`, `parent_ids`, etc.
 * <b>`limit`</b>:  Nombre maximal d’appels à renvoyer.
 * <b>`offset`</b>:  Nombre d’appels à ignorer avant de renvoyer les résultats (utilisé pour la pagination).
 * <b>`sort_by`</b>:  Liste des champs selon lesquels trier les résultats (par exemple, `started_at desc`).
-* <b>`query`</b>:  Une expression de type Mongo pour un filtrage avancé. Tous les opérateurs Mongo ne sont pas pris en charge.
-* <b>`include_costs`</b>:  Si True, inclut les informations sur les jetons et les coûts dans `summary.weave`.
-* <b>`include_feedback`</b>:  Si True, inclut le feedback dans `summary.weave.feedback`.
+* <b>`query`</b>:  Expression de type Mongo pour un filtrage avancé. Tous les opérateurs Mongo ne sont pas pris en charge.
+* <b>`include_costs`</b>:  Si True, inclut les informations de token/coût dans `summary.weave`.
+* <b>`include_feedback`</b>:  Si True, inclut les retours dans `summary.weave.feedback`.
 * <b>`include_storage_size`</b>:  Si True, inclut la taille de stockage d’un appel.
-* <b>`include_total_storage_size`</b>:  Si True, inclut la taille totale de stockage d’une trace.
-* <b>`columns`</b>:  Liste des champs à renvoyer par appel. Réduire cette liste peut améliorer considérablement les performances.  (Certains champs, comme `id`, `trace_id`, `op_name` et `started_at`, sont toujours inclus.)
-* <b>`scored_by`</b>:  Filtre par un ou plusieurs évaluateurs (nom ou URI de référence). Plusieurs évaluateurs sont combinés avec un ET.
-* <b>`page_size`</b>:  Nombre d’appels récupérés par page. Ajustez ce paramètre pour optimiser les performances sur les requêtes volumineuses.
+* <b>`include_total_storage_size`</b>:  Si True, inclut la taille de stockage totale d’une trace.
+* <b>`columns`</b>:  Liste des champs à renvoyer pour chaque appel. Réduire cette liste peut considérablement améliorer les performances.  (Certains champs comme `id`, `trace_id`, `op_name` et `started_at` sont toujours inclus.)
+* <b>`scored_by`</b>:  Filtre sur un ou plusieurs évaluateurs (nom ou URI de référence). Plusieurs évaluateurs sont combinés avec un ET.
+* <b>`page_size`</b>:  Nombre d’appels récupérés par page. Ajustez cette valeur pour optimiser les performances dans les requêtes volumineuses.
 
 **Retourne :**
 
@@ -448,24 +448,24 @@ for call in calls:
 get_evaluation(uri: 'str') → Evaluation
 ```
 
-Récupérer un objet Évaluation spécifique à partir de son URI.
+Récupérer un objet `Evaluation` spécifique à partir de son URI.
 
-Les URI d’évaluation suivent généralement le format : `weave:///entity/project/object/Evaluation:version`
+Les URI d&#39;évaluation suivent généralement le format : `weave:///entity/project/object/Evaluation:version`
 
-Vous pouvez également obtenir l’évaluation à partir de son nom « convivial » : get&#95;evaluation(&quot;Evaluation:v1&quot;)
+Vous pouvez également obtenir l&#39;évaluation par son nom « convivial » : get&#95;evaluation(&quot;Evaluation:v1&quot;)
 
 **Arguments :**
 
-* <b>`uri`</b> (str):  L’identifiant de ressource unique de l’évaluation à récupérer.
+* <b>`uri`</b> (str) :  L&#39;identifiant de ressource unique de l&#39;évaluation à récupérer.
 
 **Retourne :**
 
-* <b>`Evaluation`</b>:  L’objet Évaluation correspondant à l’URI fournie.
+* <b>`Evaluation`</b> :  L&#39;objet `Evaluation` correspondant à l&#39;URI fourni.
 
 **Exceptions levées :**
 
-* <b>`TypeError`</b>:  Si l’objet à l’URI n’est pas une instance d’Évaluation.
-* <b>`ValueError`</b>:  Si l’URI n’est pas valide ou si l’objet est introuvable.
+* <b>`TypeError`</b> :  Si l&#39;objet situé à l&#39;URI n&#39;est pas une instance de `Evaluation`.
+* <b>`ValueError`</b> :  Si l&#39;URI n&#39;est pas valide ou si l&#39;objet est introuvable.
 
 **Exemples :**
 
@@ -490,7 +490,7 @@ Récupère tous les objets Évaluation du projet actuel.
 
 **Retourne :**
 
-* <b>`list[Evaluation]`</b> :  Une liste de tous les objets Évaluation du projet actuel.  Une liste vide si aucune évaluation n’est trouvée ou si toutes les conversions échouent.
+* <b>`list[Evaluation]`</b>:  Une liste de tous les objets Évaluation du projet actuel.  Une liste vide si aucune évaluation n’est trouvée ou si toutes les conversions échouent.
 
 **Exemples :**
 
@@ -550,10 +550,10 @@ client.get_feedback(query=query)
 
 **Arguments :**
 
-* <b>`query`</b>: Une expression de requête de type Mongo. Pour plus de commodité, accepte également une chaîne UUID de feedback.
-* <b>`reaction`</b>: Pour plus de commodité, filtre sur un emoji de réaction donné.
+* <b>`query`</b>: Une expression de requête au format Mongo. Pour plus de simplicité, accepte également une chaîne UUID de feedback.
+* <b>`reaction`</b>: Pour plus de simplicité, permet de filtrer par un emoji de réaction spécifique.
 * <b>`offset`</b>: Le décalage à partir duquel commencer à récupérer les objets de feedback.
-* <b>`limit`</b>: Le nombre maximal d&#39;objets de feedback à récupérer.
+* <b>`limit`</b>: Le nombre maximal d’objets de feedback à récupérer.
   **Retourne :**
   Un objet FeedbackQuery.
 
@@ -568,7 +568,7 @@ client.get_feedback(query=query)
 purge_costs(ids: 'list[str] | str') → None
 ```
 
-Purger les coûts du projet actuel.
+Supprime les coûts du projet actuel.
 
 **Exemples :**
 
@@ -595,9 +595,9 @@ query_costs(
 ) → list[CostQueryOutput]
 ```
 
-Interroger le projet pour récupérer les coûts.
+Interroge le projet pour récupérer les coûts.
 
-* <b>`ids`</b> : Les ID de coût à purger. Peut correspondre à un seul ID ou à une liste d’ID.
+* <b>`ids`</b> : les ID de coûts à purger. Peut s’agir d’un seul ID ou d’une liste d’ID.
   **Exemples :**
 
 ```python
@@ -606,16 +606,16 @@ Interroger le projet pour récupérer les coûts.
 # contenir zéro ou un élément.
 client.query_costs("1B4082A3-4EDA-4BEB-BFEB-2D16ED59AA07")
 
-# Trouver tous les objets de coût avec une réaction spécifique.
+# Trouve tous les objets de coût avec une réaction spécifique.
 client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 ```
 
 **Arguments :**
 
-* <b>`query`</b>: Une expression de requête de type Mongo. Par commodité, accepte aussi un UUID de coût sous forme de chaîne.
-* <b>`llm_ids`</b>: Par commodité, permet de filtrer sur un ensemble de llm&#95;ids.
-* <b>`offset`</b>: Le décalage à partir duquel commencer à récupérer les objets de coût.
-* <b>`limit`</b>: Le nombre maximal d’objets de coût à récupérer.
+* <b>`query`</b> : Une expression de requête de type Mongo. Pour plus de commodité, accepte également un UUID de coût sous forme de chaîne.
+* <b>`llm_ids`</b> : Pour plus de commodité, permet de filtrer sur un ensemble de llm&#95;ids.
+* <b>`offset`</b> : Le décalage à partir duquel commencer à récupérer les objets de coût.
+* <b>`limit`</b> : Le nombre maximal d’objets de coût à récupérer.
   **Retourne :**
   Un objet CostQuery.
 
@@ -630,7 +630,7 @@ client.query_costs(llm_ids=["gpt-4o-mini-2024-07-18"], limit=10)
 save(val: 'Any', name: 'str', branch: 'str' = 'latest') → Any
 ```
 
-N’appelez pas cette méthode directement ; utilisez plutôt weave.publish().
+N’appelez pas directement cette méthode ; utilisez plutôt weave.publish().
 
 **Arguments :**
 
@@ -651,14 +651,14 @@ N’appelez pas cette méthode directement ; utilisez plutôt weave.publish().
 set_wandb_run_context(run_id: 'str', step: 'int | None' = None) → None
 ```
 
-Remplacez `run_id` et `step` du run wandb pour les appels créés par ce client.
+Surcharge le run&#95;id wandb et l’étape pour les appels créés par ce client.
 
-Cela vous permet d’associer les appels Weave à un run WandB spécifique qui n’est pas rattaché au symbole global `wandb.run`.
+Cela vous permet d’associer des appels Weave à un run wandb spécifique qui n’est pas rattaché au symbole global wandb.run.
 
 **Arguments :**
 
-* <b>`run_id`</b>: ID du run (sans le préfixe entité/projet). Le client ajoutera automatiquement le préfixe entité/projet.
-* <b>`step`</b>: Le numéro d’étape à utiliser pour les appels. Si la valeur est `None`, l’étape ne sera pas définie.
+* <b>`run_id`</b>: L’ID du run (sans le préfixe entité/projet). Le client ajoutera automatiquement le préfixe entité/projet.
+* <b>`step`</b>: Le numéro d’étape à utiliser pour les appels. Si `None`, l’étape ne sera pas définie.
   **Exemples :**
 
 ```python

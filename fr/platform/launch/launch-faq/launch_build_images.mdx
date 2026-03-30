@@ -1,8 +1,8 @@
 ---
-title: Comment W&B Launch build-il les images ?
+title: Comment W&B Launch construit-il des images ?
 ---
 
-Les étapes de build d&#39;une image dépendent de la source du job et de l&#39;image de base de l&#39;accélérateur spécifiée dans la configuration des ressources.
+Les étapes de construction d&#39;une image dépendent de la source du job et de l&#39;image de base de l&#39;accélérateur spécifiée dans la configuration des ressources.
 
 <Note>
   Lorsque vous configurez une file d&#39;attente ou soumettez un job, incluez une image de base d&#39;accélérateur dans la configuration des ressources de la file d&#39;attente ou du job :
@@ -18,6 +18,6 @@ Les étapes de build d&#39;une image dépendent de la source du job et de l&#39;
   ```
 </Note>
 
-Le processus de build comprend les actions suivantes selon le type de job et l&#39;image de base de l&#39;accélérateur fournie :
+Le processus de construction comprend les actions suivantes selon le type de job et l&#39;image de base de l&#39;accélérateur spécifiée :
 
 | | Installer Python avec apt | Installer des paquets Python | Créer un utilisateur et un répertoire de travail | Copier le code dans l&#39;image | Définir le point d&#39;entrée | |

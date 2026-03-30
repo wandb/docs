@@ -8,12 +8,12 @@ Initialise un run W&B.
 
 W&B crée automatiquement le projet s'il n'existe pas. Notez que ce
 fichier initialise uniquement l'expérience ; vous pouvez ajouter du code pour consigner des métriques,
-des artefacts, etc., dans le bloc `with`.
+des Artifacts, etc., dans le bloc `with`.
 """
 import wandb
 
-# Notez l'utilisation de l'instruction `with` pour assurer une gestion correcte des ressources.
+# Notez l'utilisation de l'instruction `with` pour garantir une bonne gestion des ressources.
 with wandb.init(project="<project>") as run:
-    # Le code d'entraînement et de journalisation va ici
+    # Le code d'entraînement et de logging va ici
     pass
 ```

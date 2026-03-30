@@ -26,24 +26,24 @@ Construit une matrice de confusion à partir d&#39;une séquence de probabilité
 
 **Arguments :**
 
-* `probs`:  Une séquence de probabilités prédites pour chaque classe. La forme de la séquence doit être (N, K), où N est le nombre d&#39;échantillons et K le nombre de classes. Si `probs` est fourni, `preds` ne doit pas l&#39;être.
-* `y_true`:  Une séquence d&#39;étiquettes réelles.
-* `preds`:  Une séquence d&#39;étiquettes de classes prédites. Si `preds` est fourni, `probs` ne doit pas l&#39;être.
-* `class_names`:  Séquence de noms de classes. Si elle n&#39;est pas fournie, les noms de classes seront définis comme &quot;Class&#95;1&quot;, &quot;Class&#95;2&quot;, etc.
-* `title`:  Titre du graphique de matrice de confusion.
-* `split_table`:  Indique si le tableau doit être séparé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+* `probs` :  Une séquence de probabilités prédites pour chaque  classe. La forme de la séquence doit être (N, K), où N est le nombre d&#39;échantillons  et K le nombre de classes. Si `probs` est fourni, `preds` ne doit pas être fourni.
+* `y_true` :  Une séquence d&#39;étiquettes réelles.
+* `preds` :  Une séquence d&#39;étiquettes de classes prédites. Si `preds` est fourni,  `probs` ne doit pas être fourni.
+* `class_names` :  Séquence de noms de classes. Si elle n&#39;est pas  fournie, les noms de classes seront définis comme &quot;Class&#95;1&quot;, &quot;Class&#95;2&quot;, etc.
+* `title` :  Titre du graphique de matrice de confusion.
+* `split_table` :  Indique si le tableau doit être placé dans une section distincte  de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée  &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 
 **Retourne :**
 
-* `CustomChart`:  Un objet de graphique personnalisé qui peut être journalisé dans W&amp;B. Pour journaliser le graphique, passez-le à `wandb.log()`.
+* `CustomChart` :  Un objet de graphique personnalisé pouvant être enregistré dans W&amp;B. Pour enregistrer le  graphique, passez-le à `wandb.log()`.
 
 **Exceptions levées :**
 
-* `ValueError`:  Si `probs` et `preds` sont tous deux fournis, ou si le nombre de prédictions et d&#39;étiquettes réelles n&#39;est pas identique. Également si le nombre de classes prédites uniques dépasse le nombre de noms de classes, ou si le nombre d&#39;étiquettes réelles uniques dépasse le nombre de noms de classes.
-* `wandb.Error`:  Si numpy n&#39;est pas installé.
+* `ValueError` :  Si `probs` et `preds` sont tous deux fournis, ou si le nombre de  prédictions et d&#39;étiquettes réelles n&#39;est pas identique. Si le nombre de classes  prédites uniques dépasse le nombre de noms de classes, ou si le nombre  d&#39;étiquettes réelles uniques dépasse le nombre de noms de classes.
+* `wandb.Error` :  Si numpy n&#39;est pas installé.
 
 **Exemples :**
-Journalisation d&#39;une matrice de confusion avec des probabilités aléatoires pour une classification d&#39;animaux sauvages :
+Enregistrer une matrice de confusion avec des probabilités aléatoires pour une classification de la faune :
 
 ```python
 import numpy as np
@@ -76,7 +76,7 @@ with wandb.init(project="wildlife_classification") as run:
 
 Dans cet exemple, des probabilités aléatoires sont utilisées pour générer une matrice de confusion.
 
-Journalisation d’une matrice de confusion avec des prédictions de modèle simulées et une précision de 85 % :
+Enregistrement d&#39;une matrice de confusion avec des prédictions simulées d&#39;un modèle et une exactitude de 85 % :
 
 ```python
 import numpy as np
@@ -85,7 +85,7 @@ import wandb
 # Définir les noms de classes pour la faune sauvage
 wildlife_class_names = ["Lion", "Tiger", "Elephant", "Zebra"]
 
-# Simuler les étiquettes réelles pour 200 images d'animaux (distribution déséquilibrée)
+# Simuler les vraies étiquettes pour 200 images d'animaux (distribution déséquilibrée)
 wildlife_y_true = np.random.choice(
     [0, 1, 2, 3],
     size=200,
@@ -111,4 +111,4 @@ with wandb.init(project="wildlife_classification") as run:
     run.log({"wildlife_confusion_matrix": confusion_matrix})
 ```
 
-Dans cet exemple, les prédictions sont simulées avec une précision de 85 % pour générer une matrice de confusion.
+Dans cet exemple, des prédictions sont simulées avec une précision de 85 % afin de générer une matrice de confusion.

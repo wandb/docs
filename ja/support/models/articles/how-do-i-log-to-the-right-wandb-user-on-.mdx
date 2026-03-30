@@ -1,19 +1,19 @@
 ---
-title: "共有マシンで正しい wandb ユーザーとしてログインするにはどうすればよいですか？"
+title: "共有マシンで、正しい wandb ユーザーにログするにはどうすればよいですか？"
 keywords: ["ログ"]
 ---
 
-共有マシンを使用する場合は、認証用に `WANDB_API_KEY` 環境変数を設定し、run が正しい W&amp;B アカウントにログするようにしてください。この変数が環境で読み込まれている場合、ログイン時に正しい認証情報が提供されます。あるいは、スクリプト内で環境変数を直接設定することもできます。
+共有マシンを使用する場合は、認証用に `WANDB_API_KEY` 環境変数を設定して、runs が正しい WandB アカウントにログされるようにしてください。この変数を環境変数として読み込んでおけば、ログイン時に正しい認証情報が使用されます。あるいは、スクリプト内でこの環境変数を直接設定することもできます。
 
-`export WANDB_API_KEY=X` コマンドを実行し、X をご自身の APIキー に置き換えてください。APIキー は [wandb.ai/settings](https://wandb.ai/settings) で作成してください。
+`export WANDB_API_KEY=X` コマンドを実行し、X をご自身の APIキー に置き換えてください。APIキー は [wandb.ai/settings](https://wandb.ai/settings) で作成できます。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  フロントマター内の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py で管理されています。
-  このマーカー間の内容は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[ログ](/ja/support/models/tags/logs)</Badge>
 
-{/* ---- 自動生成: タブバッジここまで ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -1,15 +1,15 @@
 ---
-title: "各アーティファクト バージョンが使用するストレージ容量はどのくらいですか？"
+title: "各artifactバージョンはどのくらいのストレージを使用しますか?"
 keywords: ["Artifacts", "ストレージ"]
 ---
 
-2 つのアーティファクト バージョンの間で変更されたファイルにのみ、ストレージ コストが発生します。
+2つのartifactバージョンの間で変更されたファイルにのみ、ストレージコストが発生します。
 
 <Frame>
-  <img src="/images/artifacts/artifacts-dedupe.PNG" alt="アーティファクトの重複排除" />
+  <img src="/images/artifacts/artifacts-dedupe.PNG" alt="artifactの重複排除" />
 </Frame>
 
-`animals` という名前の画像アーティファクトに、`cat.png` と `dog.png` という 2 つの画像ファイルが含まれているとします。
+`animals` という名前の画像artifactに、`cat.png` と `dog.png` の2つの画像ファイルが含まれているとします。
 
 ```
 images
@@ -17,9 +17,9 @@ images
 |-- dog.png (1MB) # `v0` で追加
 ```
 
-このアーティファクトにはバージョン `v0` が割り当てられます。
+このartifactにはバージョン`v0`が付与されます。
 
-新しい画像 `rat.png` を追加すると、次の内容を含む新しいアーティファクトのバージョン `v1` が作成されます:
+新しい画像`rat.png`を追加すると、次の内容を含む新しいartifactバージョン`v1`が作成されます。
 
 ```
 images
@@ -28,15 +28,15 @@ images
 |-- rat.png (3MB) # `v1` で追加
 ```
 
-バージョン `v1` が追跡する合計サイズは 6MB ですが、残りの 3MB を `v0` と共有しているため、実際に占有する容量は 3MB のみです。`v1` を削除すると、`rat.png` に関連付けられた 3MB のストレージが解放されます。`v0` を削除すると、`cat.png` と `dog.png` のストレージコストが `v1` に引き継がれ、そのストレージサイズは 6MB に増加します。
+バージョン `v1` は合計 6MB をトラッキングしていますが、`v0` と残りの 3MB を共有しているため、実際に使用する容量は 3MB のみです。`v1` を削除すると、`rat.png` に対応する 3MB のストレージが解放されます。`v0` を削除すると、`cat.png` と `dog.png` のストレージコストが `v1` に移り、そのストレージサイズは 6MB に増加します。
 
 ***
 
-{/* ---- 自動生成: タブ バッジ ----
-  front matter のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py で管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されています。
+  このマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[ストレージ](/ja/support/models/tags/storage)</Badge>
 
-{/* ---- 自動生成: タブ バッジ終了 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

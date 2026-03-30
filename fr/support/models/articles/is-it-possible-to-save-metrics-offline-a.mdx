@@ -1,17 +1,17 @@
 ---
-title: "Est-il possible d’enregistrer des métriques hors ligne et de les synchroniser avec W&B plus tard ?"
-keywords: ["Experiments", "Variables d’environnement", "Métriques"]
+title: "Est-il possible d’enregistrer des métriques hors ligne et de les synchroniser avec W&B ultérieurement ?"
+keywords: ["Experiments", "Variables d'environnement", "Métriques"]
 featured: true
 ---
 
-Par défaut, `wandb.init` lance un processus qui synchronise les métriques en temps réel avec le cloud. Pour une utilisation hors ligne, définissez deux variables d’environnement afin d’activer le mode hors ligne et d’effectuer la synchronisation plus tard.
+Par défaut, `wandb.init` lance un processus qui synchronise les métriques en temps réel avec le cloud. Pour une utilisation hors ligne, définissez deux variables d’environnement pour activer le mode hors ligne et effectuer la synchronisation plus tard.
 
-Définissez les variables d’environnement suivantes :
+Définissez les variables d’environnement suivantes :
 
-1. `WANDB_API_KEY=$KEY`, où `$KEY` est une clé API créée dans les [Paramètres utilisateur](https://wandb.ai/settings).
+1. `WANDB_API_KEY=$KEY`, où `$KEY` est une clé API créée dans [Paramètres utilisateur](https://wandb.ai/settings).
 2. `WANDB_MODE="offline"`.
 
-Voici un exemple d’implémentation dans un script :
+Voici un exemple d’implémentation dans un script :
 
 ```python
 import wandb
@@ -46,16 +46,16 @@ wandb sync wandb/dryrun-folder-name
 ```
 
 <Frame>
-  <img src="/images/experiments/sample_terminal_output_cloud.png" alt="Sortie du terminal de synchronisation cloud" />
+  <img src="/images/experiments/sample_terminal_output_cloud.png" alt="Sortie du terminal pour la synchronisation cloud" />
 </Frame>
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  N’effectuez pas de modifications manuelles entre ces marqueurs.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}

@@ -3,11 +3,11 @@ title: "ログしたデータポイントより少なく表示されるのはな
 keywords: ["Experiments", "メトリクス"]
 ---
 
-`Step` 以外を X 軸にしてメトリクスを可視化すると、表示されるデータ ポイントは少なくなります。同期を維持するには、メトリクスを同じ `Step` でログする必要があります。サンプル間を補間する際にサンプリングされるのは、同じ `Step` でログされたメトリクスだけです。
+`Step` 以外の X-axis でメトリクスを可視化すると、表示されるデータポイントは少なくなります。同期を保つには、メトリクスを同じ `Step` でログする必要があります。サンプル間を補間する際にサンプリングされるのは、同じ `Step` でログされたメトリクスだけです。
 
 **ガイドライン**
 
-メトリクスは 1 回の `log()` 呼び出しにまとめてください。例えば、次のようにする代わりに:
+メトリクスは 1 回の `log()` call にまとめてください。たとえば、次のようにする代わりに:
 
 ```python
 import wandb
@@ -17,7 +17,7 @@ with wandb.init() as run:
     run.log({"Recall": recall})
 ```
 
-使用する:
+用途:
 
 ```python
 import wandb
@@ -25,24 +25,24 @@ with wandb.init() as run:
     run.log({"Precision": precision, "Recall": recall})
 ```
 
-step パラメーターを手動で制御するには、コード内で次のようにメトリクスを同期してください:
+step パラメーターを手動で制御するには、以下のようにコード内でメトリクスを同期してください。
 
 ```python
 with wandb.init() as run:
-    step = 100  # step の値の例
-    # 同じ step で Precision と Recall をログする
+    step = 100  # stepの値の例
+    # 同じstepでPrecisionとRecallをログする
     run.log({"Precision": precision, "Recall": recall}, step=step)
 ```
 
-メトリクスが同じ `step` にログされ、まとめてサンプリングされるように、両方の `log()` 呼び出しで `step` の値を同じにしてください。`step` の値は呼び出しごとに単調増加している必要があります。そうでない場合、`step` の値は無視されます。
+メトリクスが同じ step に記録され、一緒にサンプリングされるようにするには、両方の `log()` 呼び出しで `step` の値を同じにしてください。`step` の値は、呼び出しのたびに単調増加している必要があります。そうでない場合、`step` の値は無視されます。
 
 ***
 
-{/* ---- 自動生成: タブ バッジ ----
-  front matter のキーワードをもとに、scripts/knowledgebase-nav/generate_tags.py で管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

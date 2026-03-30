@@ -1,12 +1,12 @@
 ---
-title: "Comment puis-je utiliser des commandes CLI personnalisées avec Sweeps ?"
+title: "Comment puis-je utiliser des commandes CLI personnalisées avec les Sweeps ?"
 keywords: ["Sweeps"]
 featured: true
 ---
 
-Vous pouvez utiliser W&amp;B Sweeps avec des commandes CLI personnalisées si la configuration d’entraînement transmet des arguments de ligne de commande.
+Vous pouvez utiliser les Sweeps de W&amp;B avec des commandes CLI personnalisées si la configuration d&#39;entraînement transmet des arguments en ligne de commande.
 
-Dans l’exemple ci-dessous, l’extrait de code montre un terminal bash dans lequel un utilisateur exécute un script Python nommé `train.py`, en lui fournissant des valeurs que le script analyse :
+Dans l&#39;exemple ci-dessous, l&#39;extrait de code montre un terminal bash dans lequel un utilisateur lance l&#39;entraînement d&#39;un script Python nommé `train.py` en fournissant des valeurs que le script interprète :
 
 ```bash
 /usr/bin/env python train.py -b \
@@ -15,7 +15,7 @@ Dans l’exemple ci-dessous, l’extrait de code montre un terminal bash dans le
     --lr 0.00001
 ```
 
-Pour mettre en place des commandes personnalisées, modifiez la clé `command` dans le fichier YAML. D’après l’exemple précédent, la configuration se présente comme suit :
+Pour implémenter des commandes personnalisées, modifiez la clé `command` dans le fichier YAML. D’après l’exemple précédent, la configuration se présente comme suit :
 
 ```yaml
 program:
@@ -35,7 +35,7 @@ command:
   - ${args}
 ```
 
-La clé `${args}` se développe pour inclure tous les paramètres de la configuration de balayage, au format `argparse`, sous la forme `--param1 value1 --param2 value2`.
+La clé `${args}` est remplacée par tous les paramètres de la configuration de balayage, mis en forme pour `argparse` sous la forme `--param1 value1 --param2 value2`.
 
 Pour ajouter des arguments supplémentaires en dehors de `argparse`, implémentez ce qui suit :
 
@@ -45,7 +45,7 @@ args, unknown = parser.parse_known_args()
 ```
 
 <Note>
-  Selon l’environnement, `python` peut faire référence à Python 2. Pour vous assurer d’utiliser Python 3, utilisez `python3` dans la configuration de la commande :
+  Selon l’environnement, `python` peut désigner Python 2. Pour garantir l’utilisation de Python 3, utilisez `python3` dans la configuration de la commande :
 
   ```yaml
   program:
@@ -60,11 +60,11 @@ args, unknown = parser.parse_known_args()
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas à la main le contenu entre ces marqueurs.
+  Ne modifiez pas ce contenu à la main entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: tab badges ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

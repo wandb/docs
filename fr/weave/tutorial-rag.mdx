@@ -1,6 +1,6 @@
 ---
 title: "Évaluer des applications RAG"
-description: "build et évaluez des applications RAG avec Weave à l’aide de juges LLM"
+description: "Créez et évaluez des applications RAG à l’aide de Weave et de juges LLM"
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -13,18 +13,18 @@ import WeaveQuickstartPrereqs from "/snippets/fr/_includes/weave-quickstart-prer
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/evaluate_rag_applications.ipynb" />
 </div>
 
-La génération augmentée par récupération (RAG) est une approche courante pour créer des applications d’IA générative ayant accès à des bases de connaissances personnalisées.
+La génération augmentée par récupération (RAG) est une méthode courante pour créer des applications d’IA générative ayant accès à des bases de connaissances personnalisées.
 
-![Evals hero](/images/evals-hero.png)
+![Illustration Evals](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## Ce que vous allez apprendre :
+  ## Ce que vous apprendrez :
 </div>
 
 Ce guide vous montre comment :
 
 * Créer une base de connaissances
-* Créer une application RAG avec une étape de récupération qui trouve des documents pertinents
+* Créer une application RAG avec une étape de récupération qui identifie les documents pertinents
 * Suivre les étapes de récupération avec Weave
 * Évaluer des applications RAG à l’aide d’un juge LLM pour mesurer la précision du contexte
 * Définir des fonctions de score personnalisées
@@ -32,10 +32,10 @@ Ce guide vous montre comment :
 <WeaveQuickstartPrereqs />
 
 <div id="build-a-knowledge-base">
-  ## build une base de connaissances
+  ## Créer une base de connaissances
 </div>
 
-Commencez par calculer les embeddings des articles. En général, vous ne le feriez qu’une seule fois pour vos articles, puis vous stockeriez les embeddings et les métadonnées dans une base de données, mais ici, pour plus de simplicité, cela est fait à chaque exécution du script.
+Commencez par calculer les embeddings des articles. En général, vous ne le faites qu&#39;une seule fois pour vos articles, puis vous stockez les embeddings et les métadonnées dans une base de données. Mais ici, par souci de simplicité, cette opération est effectuée à chaque exécution du script.
 
 <Tabs>
   <Tab title="Python">
@@ -69,7 +69,7 @@ Commencez par calculer les embeddings des articles. En général, vous ne le fer
             document_embeddings.append(response)
         return document_embeddings
 
-    article_embeddings = docs_to_embeddings(articles) # Remarque : cette opération ne doit généralement être effectuée qu'une seule fois avec vos articles, puis les embeddings et métadonnées sont stockés dans une base de données
+    article_embeddings = docs_to_embeddings(articles) # Remarque : cette opération ne serait généralement effectuée qu'une seule fois avec vos articles, les embeddings et métadonnées étant ensuite stockés dans une base de données
     ```
   </Tab>
 
@@ -125,7 +125,7 @@ Commencez par calculer les embeddings des articles. En général, vous ne le fer
   ## Créer une application RAG
 </div>
 
-Ensuite, appliquez le décorateur `weave.op()` à la fonction de récupération `get_most_relevant_document` et créez une classe `Model`. Appelez `weave.init('<team-name>/rag-quickstart')` pour commencer à suivre toutes les entrées et sorties de vos fonctions afin de pouvoir les inspecter plus tard. Si vous ne spécifiez pas de nom d&#39;équipe, les données de sortie sont enregistrées dans votre [équipe ou entité W&amp;B par défaut](/fr/platform/app/settings-page/user-settings#default-team).
+Ensuite, encapsulez la fonction de récupération `get_most_relevant_document` avec le décorateur `weave.op()`, puis créez une classe `Model`. Appelez `weave.init('<team-name>/rag-quickstart')` pour commencer à suivre toutes les entrées et sorties de vos fonctions afin de pouvoir les inspecter plus tard. Si vous ne spécifiez pas de nom de Team, la sortie est enregistrée dans votre [Team ou entité W&amp;B par défaut](/fr/platform/app/settings-page/user-settings#default-team).
 
 <Tabs>
   <Tab title="Python">
@@ -158,7 +158,7 @@ Ensuite, appliquez le décorateur `weave.op()` à la fonction de récupération 
         model_name: str = "gpt-3.5-turbo-1106"
 
         @weave.op()
-        def predict(self, question: str) -> dict: # remarque : `question` sera utilisé plus tard pour sélectionner des données à partir de nos lignes d'évaluation
+        def predict(self, question: str) -> dict: # remarque : `question` sera utilisé plus tard pour sélectionner des données dans nos lignes d'évaluation
             from openai import OpenAI
             context = get_most_relevant_document(question)
             client = OpenAI()
@@ -180,7 +180,7 @@ Ensuite, appliquez le décorateur `weave.op()` à la fonction de récupération 
             answer = response.choices[0].message.content
             return {'answer': answer, 'context': context}
 
-    # Définissez les noms de votre équipe et de votre projet
+    # Définissez vos noms de Team et de projet
     weave.init('<team-name>/rag-quickstart')
     model = RAGModel(
         system_message="You are an expert in finance and answer questions related to finance, financial services, and financial markets. When responding based on provided information, be sure to cite the source."
@@ -243,13 +243,13 @@ Ensuite, appliquez le décorateur `weave.op()` à la fonction de récupération 
   ## Évaluer avec un juge LLM
 </div>
 
-Lorsqu&#39;il n&#39;existe pas de manière simple d&#39;évaluer votre application, vous pouvez utiliser un LLM pour en évaluer certains aspects. Voici un exemple d&#39;utilisation d&#39;un juge LLM pour essayer de mesurer la précision du contexte, en lui demandant de vérifier si le contexte a été utile pour parvenir à la réponse donnée. Ce prompt a été adapté à partir du populaire [framework RAGAS](https://docs.ragas.io/en/stable/).
+Lorsqu’il n’existe pas de moyen simple d’évaluer votre application, une approche consiste à utiliser un LLM pour en évaluer certains aspects. Voici un exemple d’utilisation d’un juge LLM pour essayer de mesurer la précision du contexte, en lui demandant de vérifier si le contexte a été utile pour parvenir à la réponse fournie. Ce prompt a été adapté à partir du framework [RAGAS](https://docs.ragas.io/en/stable/).
 
 <div id="defining-a-scoring-function">
   ### Définir une fonction de score
 </div>
 
-Comme dans le [tutoriel Build an Evaluation pipeline](/fr/weave/tutorial-eval), définissez un ensemble de lignes d’exemple pour tester votre application, ainsi qu’une fonction de score. La fonction de score prend une ligne et l’évalue. Les arguments d’entrée doivent correspondre aux clés associées dans votre ligne ; ici, `question` est donc extrait du dictionnaire de la ligne. `output` correspond à la sortie du modèle. L’entrée du modèle est elle aussi extraite de l’exemple selon son argument d’entrée ; ici, il s’agit donc également de `question`. Cet exemple utilise des fonctions `async` pour s’exécuter rapidement en parallèle. Si vous avez besoin d’une brève introduction à l’asynchrone, vous en trouverez une [ici](https://docs.python.org/3/library/asyncio.html).
+Comme dans le tutoriel [Créer un pipeline d’Évaluation](/fr/weave/tutorial-eval), définissez un ensemble de lignes d’exemple pour tester votre application, ainsi qu’une fonction de score. La fonction de score prend une ligne et l’évalue. Les arguments d’entrée doivent correspondre aux clés de votre ligne ; ici, `question` provient donc du dictionnaire de la ligne. `output` est la sortie du modèle. L’entrée du modèle est récupérée depuis l’exemple en fonction de son argument d’entrée ; ici aussi, il s’agit de `question`. Cet exemple utilise des fonctions `async` pour s’exécuter rapidement en parallèle. Si vous avez besoin d’une brève introduction à l’async, vous pouvez en trouver une [ici](https://docs.python.org/3/library/asyncio.html).
 
 <Tabs>
   <Tab title="Python">
@@ -296,7 +296,7 @@ Comme dans le [tutoriel Build an Evaluation pipeline](/fr/weave/tutorial-eval), 
         {"question": "What issue did Intuitive Machines' lunar lander encounter upon landing on the moon?"}
     ]
     evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
-    asyncio.run(evaluation.evaluate(model)) # note: vous devrez définir un modèle à évaluer
+    asyncio.run(evaluation.evaluate(model)) # remarque : vous devrez définir un modèle à évaluer
     ```
   </Tab>
 
@@ -340,14 +340,14 @@ Comme dans le [tutoriel Build an Evaluation pipeline](/fr/weave/tutorial-eval), 
   ### Facultatif : définir une classe `Scorer`
 </div>
 
-Dans certaines applications, vous pouvez vouloir créer des classes d’évaluation personnalisées. Par exemple, une classe `LLMJudge` standardisée peut être créée avec des paramètres spécifiques (p. ex. modèle de chat, prompt), une logique de score spécifique pour chaque ligne et un calcul spécifique du score agrégé. Weave définit une liste de classes `Scorer` prêtes à l’emploi et facilite également la création d’un `Scorer` personnalisé. L’exemple suivant montre comment créer une `class CorrectnessLLMJudge(Scorer)` personnalisée.
+Dans certaines applications, vous pouvez vouloir créer des classes d’évaluation personnalisées — par exemple lorsqu’il faut créer une classe `LLMJudge` standardisée avec des paramètres spécifiques (p. ex. modèle de chat, prompt), une logique de score propre à chaque ligne et un calcul spécifique du score agrégé. Weave propose une liste de classes `Scorer` prêtes à l’emploi et permet aussi de créer facilement un `Scorer` personnalisé. L’exemple suivant montre comment créer une `class CorrectnessLLMJudge(Scorer)` personnalisée.
 
 Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont assez simples :
 
 1. Définissez une classe personnalisée qui hérite de `weave.flow.scorer.Scorer`
 2. Redéfinissez la fonction `score` et ajoutez `@weave.op()` si vous voulez suivre chaque appel de la fonction
-   * cette fonction doit définir un argument `output`, dans lequel la prédiction du modèle sera transmise. Définissez-le avec le type `Optional[dict]` au cas où le modèle pourrait renvoyer `None`.
-   * les autres arguments peuvent être de type général `Any` ou `dict`, ou correspondre à des colonnes spécifiques du jeu de données utilisé pour évaluer le modèle avec la classe `weave.Evaluate` — ils doivent avoir exactement les mêmes noms que les noms de colonnes ou les clés d’une ligne après passage à `preprocess_model_input`, si cette fonction est utilisée.
+   * cette fonction doit définir un argument `output` dans lequel la prédiction du modèle sera transmise. Définissez-le avec le type `Optional[dict]` au cas où le modèle renverrait `"None"`.
+   * les autres arguments peuvent être de type `Any` ou `dict`, ou correspondre à des colonnes spécifiques du jeu de données utilisé pour évaluer le modèle avec la classe `weave.Evaluate` — ils doivent avoir exactement les mêmes noms que les noms de colonnes ou les clés d’une ligne après son passage à `preprocess_model_input`, si celle-ci est utilisée.
 3. *Facultatif :* Redéfinissez la fonction `summarize` pour personnaliser le calcul du score agrégé. Par défaut, Weave utilise la fonction `weave.flow.scorer.auto_summarize` si vous ne définissez pas de fonction personnalisée.
    * cette fonction doit avoir un décorateur `@weave.op()`.
 
@@ -363,15 +363,15 @@ Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont 
 
         @weave.op()
         async def score(self, output: Optional[dict], query: str, answer: str) -> Any:
-            """Évalue la correction des prédictions en comparant pred, query et target.
-            Arguments:
+            """Évalue l’exactitude des prédictions en comparant pred, query et target.
+            Args:
                 - output: le dict fourni par le modèle évalué
                 - query: la question posée, telle que définie dans le jeu de données
                 - answer: la réponse cible, telle que définie dans le jeu de données
-            Retourne :
-                - un dict simple {nom de métrique: valeur d’évaluation unique}"""
+            Returns:
+                - dict unique {nom de métrique: valeur d’évaluation unique}"""
 
-            # get_model est défini comme un récupérateur de modèle générique basé sur les paramètres fournis (OpenAI,HF...)
+            # get_model est défini comme un récupérateur de modèle générique selon les paramètres fournis (OpenAI,HF...)
             eval_model = get_model(
                 model_name = self.model_name,
                 prompt = self.prompt
@@ -385,7 +385,7 @@ Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont 
                     "result": output.get("result"),
                 }
             )
-            # analyse de la sortie - cela pourrait être fait de façon plus robuste avec pydantic
+            # analyse de la sortie - cela pourrait être fait de manière plus robuste avec pydantic
             evaluation = "incorrect" not in grade["text"].strip().lower()
 
             # le nom de colonne affiché dans Weave
@@ -394,10 +394,10 @@ Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont 
         @weave.op()
         def summarize(self, score_rows: list) -> Optional[dict]:
             """Agrège tous les scores calculés pour chaque ligne par la fonction de score.
-            Arguments:
-                - score_rows: une liste de dict. Chaque dict contient des métriques et des scores
-            Retourne :
-                - un dict imbriqué avec la même structure que l’entrée"""
+            Args:
+                - score_rows: une liste de dicts. Chaque dict contient des métriques et des scores
+            Returns:
+                - dict imbriqué avec la même structure que l’entrée"""
 
             # si rien n’est fourni, la fonction weave.flow.scorer.auto_summarize est utilisée
             # return auto_summarize(score_rows)
@@ -410,7 +410,7 @@ Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont 
             sample_variance = np.var(int_data) if int_data else 0
             sample_error = np.sqrt(sample_variance / len(int_data)) if int_data else 0
 
-            # la couche supplémentaire "correct" n’est pas nécessaire, mais ajoute de la structure dans l’interface utilisateur
+            # la couche supplémentaire "correct" n’est pas nécessaire, mais ajoute de la structure dans l’UI
             return {
                 "correct": {
                     "true_count": count_true,
@@ -428,7 +428,7 @@ Dans les grandes lignes, les étapes pour créer un `Scorer` personnalisé sont 
   </Tab>
 </Tabs>
 
-Pour l’utiliser comme scorer, initialisez-le et transmettez-le à l’argument `scorers` de votre `Evaluation`, comme ceci :
+Pour l’utiliser comme scorer, vous devez l’initialiser et le passer à l’argument `scorers` dans votre `Evaluation comme ceci :
 
 <Tabs>
   <Tab title="Python">
@@ -439,24 +439,24 @@ Pour l’utiliser comme scorer, initialisez-le et transmettez-le à l’argument
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    Cette fonctionnalité n'est pas encore disponible en TypeScript.
     ```
   </Tab>
 </Tabs>
 
 <div id="pulling-it-all-together">
-  ## Pour tout réunir
+  ## Récapitulons
 </div>
 
 Pour obtenir le même résultat avec vos applications RAG :
 
-* Encapsulez les appels au LLM et les fonctions de l&#39;étape de récupération avec `weave.op()`
-* (facultatif) Créez une sous-classe `Model` avec une fonction `predict` et les détails de l&#39;application
-* Collectez des exemples pour l&#39;évaluation
-* Créez des fonctions de score qui attribuent un score à un exemple
+* Encapsulez les appels LLM et les fonctions d’étape de récupération avec `weave.op()`
+* (facultatif) Créez une sous-classe `Model` avec une fonction `predict` et les détails de votre application
+* Rassemblez des exemples pour l’évaluation
+* Créez des fonctions de score qui évaluent un exemple
 * Utilisez la classe `Evaluation` pour exécuter des évaluations sur vos exemples
 
-**REMARQUE :** Il arrive que l&#39;exécution asynchrone des évaluations déclenche une limite de débit sur les modèles d&#39;OpenAI, Anthropic, etc. Pour éviter cela, vous pouvez définir une variable d&#39;environnement afin de limiter le nombre de workers parallèles, par exemple `WEAVE_PARALLELISM=3`.
+**REMARQUE :** Il arrive que l’exécution asynchrone des évaluations atteigne la limite de débit des modèles d’OpenAI, Anthropic, etc. Pour l’éviter, vous pouvez définir une variable d’environnement afin de limiter le nombre de workers parallèles, par exemple `WEAVE_PARALLELISM=3`.
 
 Voici le code dans son intégralité.
 
@@ -513,7 +513,7 @@ Voici le code dans son intégralité.
         most_relevant_doc_index = np.argmax(similarities)
         return articles[most_relevant_doc_index]
 
-    # Créer une sous-classe de Model avec les détails de l'application, ainsi qu'une fonction predict qui produit une réponse
+    # Créer une sous-classe Model avec les détails de l'application, ainsi qu'une fonction predict qui produit une réponse
     class RAGModel(Model):
         system_message: str
         model_name: str = "gpt-3.5-turbo-1106"
@@ -544,18 +544,18 @@ Voici le code dans son intégralité.
     # Définir les noms de votre équipe et de votre projet
     weave.init('<team-name>/rag-quickstart')
     model = RAGModel(
-        system_message="Vous êtes un expert en finance et répondez aux questions relatives à la finance, aux services financiers et aux marchés financiers. Lorsque vous répondez en vous appuyant sur des informations fournies, veillez à citer la source."
+        system_message="Vous êtes un expert en finance et répondez aux questions relatives à la finance, aux services financiers et aux marchés financiers. Lorsque vous répondez en vous basant sur des informations fournies, veillez à citer la source."
     )
 
     # Voici notre fonction de scoring qui utilise notre question et la sortie pour produire un score
     @weave.op()
     async def context_precision_score(question, output):
-        context_precision_prompt = """Étant donné la question, la réponse et le contexte, vérifiez si le contexte a été utile pour aboutir à la réponse donnée. Donnez un verdict « 1 » si utile et « 0 » sinon, avec une sortie JSON.
+        context_precision_prompt = """Étant donné la question, la réponse et le contexte, vérifiez si le contexte a été utile pour parvenir à la réponse donnée. Donnez un verdict « 1 » si utile et « 0 » sinon, avec une sortie JSON.
         Sortie en format JSON valide uniquement.
 
         question: {question}
-        contexte: {context}
-        réponse: {answer}
+        context: {context}
+        answer: {answer}
         verdict: """
         client = OpenAI()
 
@@ -583,10 +583,10 @@ Voici le code dans son intégralité.
         {"question": "Quelles étaient les prévisions de production de véhicules de Rivian et Lucid pour 2024 ?"},
         {"question": "Pourquoi le navire de croisière Norwegian Dawn s'est-il vu refuser l'accès à l'île Maurice ?"},
         {"question": "Quelle entreprise a réalisé le premier alunissage américain depuis 1972 ?"},
-        {"question": "Quel problème l'alunisseur d'Intuitive Machines a-t-il rencontré lors de son atterrissage sur la lune ?"}
+        {"question": "Quel problème le module lunaire d'Intuitive Machines a-t-il rencontré lors de son atterrissage sur la lune ?"}
     ]
 
-    # Définir un objet Evaluation et lui transmettre des exemples de questions ainsi que des fonctions de scoring
+    # Définir un objet Evaluation et lui passer des exemples de questions ainsi que des fonctions de scoring
     evaluation = weave.Evaluation(dataset=questions, scorers=[context_precision_score])
     asyncio.run(evaluation.evaluate(model))
     ```
@@ -608,7 +608,7 @@ Voici le code dans son intégralité.
             text: `Novo Nordisk and Eli Lilly rival soars 32 percent after promising weight loss drug results Shares of Denmarks Zealand Pharma shot 32 percent higher in morning trade, after results showed success in its liver disease treatment survodutide, which is also on trial as a drug to treat obesity. The trial tells us that the 6mg dose is safe, which is the top dose used in the ongoing [Phase 3] obesity trial too, one analyst said in a note. The results come amid feverish investor interest in drugs that can be used for weight loss.`
         },
         { 
-            text: `Les actions de Berkshire bondissent après une forte hausse des bénéfices, alors que le conglomérat de Buffett approche les 1 000 milliards de dollars de valorisation Les actions de Berkshire Hathaway ont progressé lundi, après que le conglomérat de Warren Buffett a publié de solides résultats pour le quatrième trimestre au cours du week-end. Les actions de catégorie A et B de Berkshire ont chacune bondi de plus de 1,5 %. Les actions de catégorie A ont progressé de plus de 17 % cette année, tandis que celles de catégorie B ont gagné plus de 18 %. La valorisation de Berkshire s'établissait en dernier lieu à 930,1 milliards de dollars, contre 905,5 milliards à la clôture de vendredi, selon FactSet. Berkshire a publié samedi un bénéfice opérationnel de 8,481 milliards de dollars au quatrième trimestre, soit environ 28 % de plus que les 6,625 milliards de la même période l'année précédente, porté par de solides gains dans son activité d'assurance. Le bénéfice opérationnel désigne les profits générés par les activités d'assurance, de chemins de fer et de services aux collectivités. Par ailleurs, les niveaux de trésorerie de Berkshire ont également atteint des records. Le conglomérat détenait 167,6 milliards de dollars de liquidités au quatrième trimestre, dépassant le record de 157,2 milliards enregistré au trimestre précédent.`
+            text: `Berkshire shares jump after big profit gain as Buffetts conglomerate nears $1 trillion valuation Berkshire Hathaway shares rose on Monday after Warren Buffetts conglomerate posted strong earnings for the fourth quarter over the weekend. Berkshires Class A and B shares jumped more than 1.5%, each. Class A shares are higher by more than 17% this year, while Class B has gained more than 18%. Berkshire was last valued at $930.1 billion, up from $905.5 billion where it closed on Friday, according to FactSet. Berkshire on Saturday posted fourth-quarter operating earnings of $8.481 billion, about 28 percent higher than the $6.625 billion from the year-ago period, driven by big gains in its insurance business. Operating earnings refers to profits from businesses across insurance, railroads and utilities. Meanwhile, Berkshires cash levels also swelled to record levels. The conglomerate held $167.6 billion in cash in the fourth quarter, surpassing the $157.2 billion record the conglomerate held in the prior quarter.`
         },
         { 
             text: `Highmark Health says its combining tech from Google and Epic to give doctors easier access to information Highmark Health announced it is integrating technology from Google Cloud and the health-care software company Epic Systems. The integration aims to make it easier for both payers and providers to access key information they need, even if its stored across multiple points and formats, the company said. Highmark is the parent company of a health plan with 7 million members, a provider network of 14 hospitals and other entities`
@@ -746,7 +746,7 @@ Voici le code dans son intégralité.
     });
 
     async function main() {
-        # Set your team and project names
+        # Définissez les noms de votre équipe et de votre projet
         await weave.init('<team-name>/rag-quickstart');
         
         const articleEmbeddings = await docsToEmbeddings(articles);
@@ -767,7 +767,7 @@ Voici le code dans son intégralité.
             )
         });
         
-        console.log('Evaluation results:', results);
+        console.log('Résultats de l\'évaluation :', results);
     }
 
     if (require.main === module) {
@@ -781,10 +781,10 @@ Voici le code dans son intégralité.
   ## Conclusion
 </div>
 
-Ce tutoriel a montré comment intégrer l’observabilité à différentes étapes de vos applications, comme à l’étape de récupération dans cet exemple. Vous avez également appris à créer des fonctions de score plus complexes, comme un juge LLM, pour l’évaluation automatique des réponses de l’application.
+Ce tutoriel vous a montré comment intégrer l’observabilité à différentes étapes de vos applications, comme l’étape de récupération dans cet exemple. Vous avez également appris à créer des fonctions de score plus complexes, comme un juge LLM, pour évaluer automatiquement les réponses de l’application.
 
 <div id="next-steps">
-  ## Étapes suivantes
+  ## Prochaines étapes
 </div>
 
-Consultez le [cours RAG++](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs\&utm_medium=code\&utm_campaign=weave_docs) pour aller plus loin dans les techniques pratiques de RAG destinées aux ingénieurs. Vous y découvrirez des solutions prêtes pour la production proposées par Weights &amp; Biases, Cohere et Weaviate afin d’optimiser les performances, de réduire les coûts et d’améliorer la précision et la pertinence de vos applications.
+Consultez le [cours RAG++](https://www.wandb.courses/courses/rag-in-production?utm_source=wandb_docs\&utm_medium=code\&utm_campaign=weave_docs) pour approfondir les techniques pratiques de RAG destinées aux ingénieurs. Vous y découvrirez des solutions prêtes pour la Production proposées par Weights &amp; Biases, Cohere et Weaviate afin d&#39;optimiser les performances, de réduire les coûts et d&#39;améliorer la précision et la pertinence de vos applications.

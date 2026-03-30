@@ -1,73 +1,73 @@
 ---
-title: "Évaluer avec des Scorers locaux"
-description: "De petits modèles de langage exécutés localement pour évaluer la sécurité et la qualité d’un système d’IA"
+title: "Évaluer avec des évaluateurs locaux"
+description: "De petits modèles de langage qui s’exécutent localement pour évaluer la sécurité et la qualité des systèmes d’IA"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/scorers_local_weave_scorers.ipynb" aria-label="Ouvrir dans Google Colab">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
 </a>
 
-Les Scorers locaux de Weave sont un ensemble de petits modèles de langage qui s’exécutent localement sur votre machine avec une latence minimale. Ces modèles évaluent la sécurité et la qualité des entrées, du contexte et des sorties de votre système d’IA.
+Les évaluateurs locaux de Weave constituent une suite de petits modèles de langage qui s’exécutent localement sur votre machine avec une latence minimale. Ces modèles évaluent la sécurité et la qualité des entrées, du contexte et des sorties de votre système d’IA.
 
-Certains de ces modèles sont affinés par Weights &amp; Biases, tandis que d’autres sont des modèles open source de pointe entraînés par la communauté. Weights &amp; Biases (W&amp;B) Reports a été utilisé pour l’entraînement et l’évaluation. Vous trouverez tous les détails dans cette [liste de W&amp;B Reports](https://wandb.ai/c-metrics/weave-scorers/reports/Weave-Scorers-v1--VmlldzoxMDQ0MDE1OA).
+Certains de ces modèles sont affinés par Weights &amp; Biases, tandis que d’autres sont des modèles open source de pointe entraînés par la communauté. Des Reports Weights &amp; Biases (W&amp;B) ont été utilisés pour l’entraînement et l’évaluation. Vous trouverez tous les détails dans cette [liste de Reports W&amp;B](https://wandb.ai/c-metrics/weave-scorers/reports/Weave-Scorers-v1--VmlldzoxMDQ0MDE1OA).
 
-Les poids des modèles sont disponibles publiquement dans W&amp;B Artifacts et sont automatiquement téléchargés lorsque vous instanciez la classe de Scorer. Vous trouverez ici les chemins des artefacts si vous souhaitez les télécharger vous-même : `weave.scorers.default_models`
+Les poids des modèles sont accessibles publiquement dans W&amp;B Artifacts et sont automatiquement téléchargés lorsque vous instanciez la classe de l’évaluateur. Vous trouverez ici les chemins des Artifacts si vous souhaitez les télécharger vous-même : `weave.scorers.default_models`
 
-L’objet renvoyé par ces Scorers contient un attribut booléen `passed` indiquant si le texte d’entrée est sûr ou de bonne qualité, ainsi qu’un attribut `metadata` contenant davantage de détails, comme le score brut du modèle.
+L’objet renvoyé par ces évaluateurs contient un attribut booléen `passed` indiquant si le texte d’entrée est sûr ou de haute qualité, ainsi qu’un attribut `metadata` fournissant plus de détails, comme le score brut du modèle.
 
-Même si vous pouvez exécuter des Scorers locaux sur CPU, nous recommandons d’utiliser des GPU pour obtenir les meilleures performances.
+Bien que vous puissiez exécuter des évaluateurs locaux sur CPU, nous vous recommandons d’utiliser des GPU pour obtenir les meilleures performances.
 
 <Note>
-  Les Scorers locaux sont disponibles uniquement pour le SDK Python de Weave. Ils ne sont pas encore disponibles pour le SDK TypeScript de Weave.
+  Les évaluateurs locaux sont uniquement disponibles pour le SDK Python de Weave. Ils ne sont pas encore disponibles pour le SDK TypeScript de Weave.
 
-  Pour utiliser les Scorers Weave en TypeScript, voir [function-based scorers](/fr/weave/guides/evaluation/scorers#function-based-scorers).
+  Pour utiliser les évaluateurs Weave en TypeScript, voir les [évaluateurs basés sur des fonctions](/fr/weave/guides/evaluation/scorers#function-based-scorers).
 </Note>
 
 <div id="prerequisites">
   ## Prérequis
 </div>
 
-Avant de pouvoir utiliser les Scorers locaux de Weave, installez des dépendances supplémentaires :
+Avant de pouvoir utiliser les évaluateurs locaux de Weave, installez des dépendances supplémentaires :
 
 ```bash
     pip install weave[scorers]
 ```
 
 <div id="select-a-scorer">
-  ## Sélectionnez un Scorer
+  ## Sélectionner un évaluateur
 </div>
 
-Les Scorers locaux suivants sont disponibles. Sélectionnez un Scorer en fonction de votre cas d&#39;utilisation.
+Les évaluateurs locaux suivants sont disponibles. Sélectionnez un évaluateur selon votre cas d’usage.
 
-| Scorer                                                           | Scénario                                                                                                                                                                |
-| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [WeaveToxicityScorerV1](#weavetoxicityscorerv1)                 | Identifier les contenus toxiques ou nuisibles dans les entrées et sorties de votre système d&#39;IA, y compris les discours haineux ou les menaces.                     |
-| [WeaveBiasScorerV1](#weavebiasscorerv1)                         | Détecter les contenus biaisés ou stéréotypés dans les entrées et sorties de votre système d&#39;IA. Idéal pour réduire les biais nuisibles dans le texte généré.        |
-| [WeaveHallucinationScorerV1](#weavehallucinationscorerv1)       | Identifier si votre système RAG génère des hallucinations dans ses sorties, en se basant sur l&#39;entrée et le contexte fournis.                                       |
-| [WeaveContextRelevanceScorerV1](#weavecontextrelevancescorerv1) | Mesurer si la sortie du système d&#39;IA est pertinente au regard de l&#39;entrée et du contexte fournis.                                                               |
-| [WeaveCoherenceScorerV1](#weavecoherencescorerv1)               | Évaluer la cohérence et la structure logique de la sortie du système d&#39;IA.                                                                                          |
-| [WeaveFluencyScorerV1](#weavefluencyscorerv1)                   | Mesurer si la sortie du système d&#39;IA est fluide.                                                                                                                    |
-| [WeaveTrustScorerV1](#weavetrustscorerv1)                       | Un Scorer agrégé qui s&#39;appuie sur les Scorers de toxicité, d&#39;hallucination, de pertinence du contexte, de fluidité et de cohérence.                     |
-| [PresidioScorer](#presidioscorer)                               | Détecter les informations personnelles identifiables (PII) dans les entrées et sorties de votre système d&#39;IA à l&#39;aide de la bibliothèque Presidio de Microsoft. |
+| Scorer                                                          | Scénario                                                                                                                                                            |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [WeaveToxicityScorerV1](#weavetoxicityscorerv1)                 | Identifier le contenu toxique ou dangereux dans les entrées et les sorties de votre système d’IA, y compris les discours haineux ou les menaces.                    |
+| [WeaveBiasScorerV1](#weavebiasscorerv1)                         | Détecter le contenu biaisé ou stéréotypé dans les entrées et les sorties de votre système d’IA. Idéal pour réduire les biais nocifs dans le texte généré.           |
+| [WeaveHallucinationScorerV1](#weavehallucinationscorerv1)       | Identifier si votre système RAG génère des hallucinations dans sa sortie à partir de l’entrée et du contexte fournis.                                               |
+| [WeaveContextRelevanceScorerV1](#weavecontextrelevancescorerv1) | Mesurer si la sortie du système d’IA est pertinente au regard de l’entrée et du contexte fournis.                                                                   |
+| [WeaveCoherenceScorerV1](#weavecoherencescorerv1)               | Évaluer la cohérence et la structure logique de la sortie du système d’IA.                                                                                          |
+| [WeaveFluencyScorerV1](#weavefluencyscorerv1)                   | Mesurer si la sortie du système d’IA est fluide.                                                                                                                    |
+| [WeaveTrustScorerV1](#weavetrustscorerv1)                       | Un évaluateur agrégé qui s’appuie sur les évaluateurs de toxicité, d’hallucination, de pertinence du contexte, de fluidité et de cohérence.                                 |
+| [PresidioScorer](#presidioscorer)                               | Détecter des informations personnelles identifiables (PII) dans les entrées et les sorties de votre système d’IA à l’aide de la bibliothèque Presidio de Microsoft. |
 
 <div id="weavebiasscorerv1">
   ## `WeaveBiasScorerV1`
 </div>
 
-Ce Scorer évalue les biais liés au genre ainsi qu’à la race et à l’origine selon deux dimensions :
+Ce scorer évalue les biais liés au genre et à la race/à l’origine selon deux dimensions :
 
-* Race et origine : racisme et biais à l’encontre d’un pays ou d’une région d’origine, du statut migratoire, de l’origine ethnique, etc.
+* Race et origine : racisme et biais envers un pays ou une région d’origine, le statut migratoire, l’origine ethnique, etc.
   * Genre et sexualité : sexisme, misogynie, homophobie, transphobie, harcèlement sexuel, etc.
 
-`WeaveBiasScorerV1` utilise un modèle [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) affiné. Pour plus de détails sur le modèle, le jeu de données et le processus de calibration, voir le [W&amp;B Report](https://wandb.ai/c-metrics/bias-benchmark/reports/Bias-Scorer--VmlldzoxMDM2MTgzNw).
+`WeaveBiasScorerV1` utilise un modèle [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) affiné. Pour plus de détails sur le modèle, le jeu de données et le processus d’étalonnage, voir le [rapport W&amp;B WeaveBiasScorerV1](https://wandb.ai/c-metrics/bias-benchmark/reports/Bias-Scorer--VmlldzoxMDM2MTgzNw).
 
 <div id="usage-notes">
   ### Notes d’utilisation
 </div>
 
-* La méthode `score` attend une chaîne de caractères pour le paramètre `output`.
+* La méthode `score` attend une chaîne de caractères dans le paramètre `output`.
   * Un score plus élevé indique une prédiction plus forte de biais dans le texte.
-  * Le paramètre `threshold` est défini, mais peut aussi être redéfini lors de l’initialisation.
+  * Le paramètre `threshold` est défini, mais peut aussi être remplacé lors de l’initialisation.
 
 <div id="usage-example">
   ### Exemple d’utilisation
@@ -90,15 +90,15 @@ Ce Scorer évalue les biais liés au genre ainsi qu’à la race et à l’origi
   ## `WeaveToxicityScorerV1`
 </div>
 
-Ce Scorer évalue la toxicité du texte d&#39;entrée selon cinq dimensions :
+Ce scorer évalue la toxicité du texte fourni en entrée selon cinq dimensions :
 
-* Race et origine : racisme et préjugés envers un pays ou une région d&#39;origine, le statut migratoire, l&#39;origine ethnique, etc.
+* Race et origine : racisme et biais à l&#39;encontre d&#39;un pays ou d&#39;une région d&#39;origine, du statut migratoire, de l&#39;origine ethnique, etc.
   * Genre et sexualité : sexisme, misogynie, homophobie, transphobie, harcèlement sexuel, etc.
-  * Religion : préjugés ou stéréotypes liés à la religion d&#39;une personne.
-  * Capacités : préjugés liés aux capacités physiques, mentales ou intellectuelles d&#39;une personne, ou à un handicap.
-  * Violence et abus : descriptions de violence excessivement explicites, menaces de violence ou incitation à la violence.
+  * Religion : biais ou stéréotypes liés à la religion d&#39;une personne.
+  * Capacité : biais liés aux capacités ou au handicap physique, mental ou intellectuel d&#39;une personne.
+  * Violence et abus : descriptions excessivement explicites de violence, menaces de violence ou incitation à la violence.
 
-Le `WeaveToxicityScorerV1` utilise le modèle open source [Celadon](https://huggingface.co/PleIAs/celadon) de PleIAs. Pour plus d&#39;informations, voir le [W&amp;B Report](https://wandb.ai/c-metrics/toxicity-benchmark/reports/Toxicity-Scorer--VmlldzoxMDMyNjc0NQ).
+Le `WeaveToxicityScorerV1` utilise le modèle open source [Celadon](https://huggingface.co/PleIAs/celadon) de PleIAs. Pour plus d&#39;informations, voir le [W&amp;B rapport WeaveToxicityScorerV1](https://wandb.ai/c-metrics/toxicity-benchmark/reports/Toxicity-Scorer--VmlldzoxMDMyNjc0NQ).
 
 <div id="usage-notes">
   ### Notes d’utilisation
@@ -107,8 +107,8 @@ Le `WeaveToxicityScorerV1` utilise le modèle open source [Celadon](https://hugg
 * La méthode `score` attend qu’une chaîne de caractères soit passée au paramètre `output`.
   * Le modèle renvoie des scores de `0` à `3` dans cinq catégories différentes :
     * Si la somme de ces scores dépasse `total_threshold` (valeur par défaut : `5`), l’entrée est signalée comme toxique.
-    * Si une seule catégorie obtient un score supérieur à `category_threshold` (par défaut : `2`), l’entrée est signalée comme toxique.
-  * Pour rendre le filtrage plus strict, remplacez `category_threshold` ou `total_threshold` lors de l’initialisation.
+    * Si une catégorie obtient à elle seule un score supérieur à `category_threshold` (par défaut : `2`), l’entrée est signalée comme toxique.
+  * Pour rendre le filtrage plus agressif, remplacez `category_threshold` ou `total_threshold` lors de l’initialisation.
 
 <div id="usage-example">
   ### Exemple d’utilisation
@@ -131,18 +131,18 @@ Le `WeaveToxicityScorerV1` utilise le modèle open source [Celadon](https://hugg
   ## `WeaveHallucinationScorerV1`
 </div>
 
-Ce Scorer vérifie si la sortie de votre système d&#39;IA contient des hallucinations à partir des données d&#39;entrée.
+Ce scorer vérifie si la sortie de votre système d&#39;IA contient des hallucinations en fonction des données d&#39;entrée.
 
-Le `WeaveHallucinationScorerV1` utilise le [modèle open source HHEM 2.1](https://huggingface.co/vectara/hallucination_evaluation_model) de Vectara. Pour plus d&#39;informations, voir le [W&amp;B Report](https://wandb.ai/c-metrics/hallucination/reports/Hallucination-Scorer--VmlldzoxMDM3NDA3MA).
+Le `WeaveHallucinationScorerV1` utilise le [modèle HHEM 2.1 open source](https://huggingface.co/vectara/hallucination_evaluation_model) de Vectara. Pour plus d&#39;informations, voir le [rapport W&amp;B WeaveHallucinationScorerV1](https://wandb.ai/c-metrics/hallucination/reports/Hallucination-Scorer--VmlldzoxMDM3NDA3MA).
 
 <div id="usage-notes">
   ### Notes d’utilisation
 </div>
 
 * La méthode `score` attend des valeurs pour les paramètres `query` et `output`.
-  * Le contexte doit être transmis au paramètre `output` (sous forme de chaîne ou de liste de chaînes).
-  * Un score de sortie plus élevé indique une probabilité d’hallucination plus forte dans la sortie.
-  * Le paramètre `threshold` est défini, mais peut être remplacé lors de l’initialisation.
+  * Le contexte doit être passé au paramètre `output` (sous forme de chaîne ou de liste de chaînes).
+  * Un score de sortie plus élevé indique une probabilité plus forte d’hallucination dans la sortie.
+  * Le paramètre `threshold` est défini, mais peut être redéfini lors de l’initialisation.
 
 <div id="usage-example">
   ### Exemple d’utilisation
@@ -170,16 +170,16 @@ Le `WeaveHallucinationScorerV1` utilise le [modèle open source HHEM 2.1](https:
   ## `WeaveContextRelevanceScorerV1`
 </div>
 
-Ce Scorer est conçu pour être utilisé lors de l’évaluation de systèmes RAG. Il évalue la pertinence du contexte par rapport à la requête.
+Ce scorer est conçu pour être utilisé lors de l’évaluation de systèmes RAG. Il évalue la pertinence du contexte par rapport à la requête.
 
-Le `WeaveContextRelevanceScorerV1` utilise un modèle [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) affiné, issu de tasksource. Pour plus de détails, voir le [W&amp;B Report](https://wandb.ai/c-metrics/context-relevance-scorer/reports/Context-Relevance-Scorer--VmlldzoxMDYxNjEyNA).
+Le `WeaveContextRelevanceScorerV1` utilise un modèle [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) affiné sur tasksource. Pour plus de détails, voir le [W&amp;B rapport WeaveContextRelevanceScorerV1](https://wandb.ai/c-metrics/context-relevance-scorer/reports/Context-Relevance-Scorer--VmlldzoxMDYxNjEyNA).
 
 <div id="usage-notes">
   ### Notes d’utilisation
 </div>
 
 * La méthode `score` attend des valeurs pour `query` et `output`.
-  * Le contexte doit être transmis au paramètre `output` (chaîne ou liste de chaînes).
+  * Le contexte doit être transmis dans le paramètre `output` (chaîne ou liste de chaînes).
   * Un score plus élevé indique plus fortement que le contexte est pertinent pour la requête.
   * Vous pouvez passer `verbose=True` à la méthode `score` pour obtenir des scores pour chaque segment.
 
@@ -206,16 +206,16 @@ Le `WeaveContextRelevanceScorerV1` utilise un modèle [deberta-small-long-nli](h
   ## `WeaveCoherenceScorerV1`
 </div>
 
-Ce Scorer vérifie la cohérence du texte d&#39;entrée.
+Ce scorer vérifie si le texte d’entrée est cohérent.
 
-Le `WeaveCoherenceScorerV1` utilise un modèle [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) affiné issu de tasksource. Pour plus d&#39;informations, voir le [W&amp;B Report](https://wandb.ai/c-metrics/coherence_scorer/reports/Coherence-Scorer--VmlldzoxMDI5MjA1MA).
+`WeaveCoherenceScorerV1` utilise un modèle [deberta-small-long-nli](https://huggingface.co/tasksource/deberta-small-long-nli) affiné de tasksource. Pour plus d&#39;informations, voir le [W&amp;B rapport de WeaveCoherenceScorerV1](https://wandb.ai/c-metrics/coherence_scorer/reports/Coherence-Scorer--VmlldzoxMDI5MjA1MA).
 
 <div id="usage-notes">
   ### Notes d’utilisation
 </div>
 
-* La méthode `score` attend que du texte soit transmis aux paramètres `query` et `output`.
-  * Un score de sortie plus élevé indique une prédiction de cohérence plus forte.
+* La méthode `score` attend du texte dans les paramètres `query` et `output`.
+  * Plus le score de sortie est élevé, plus la prédiction de cohérence est forte.
 
 <div id="usage-example">
   ### Exemple d’utilisation
@@ -242,16 +242,16 @@ Le `WeaveCoherenceScorerV1` utilise un modèle [deberta-small-long-nli](https://
   ## `WeaveFluencyScorerV1`
 </div>
 
-Ce Scorer vérifie si le texte d&#39;entrée est fluide, c&#39;est-à-dire facile à lire et à comprendre, et proche du langage humain naturel. Il évalue la grammaire, la syntaxe et la lisibilité globale.
+Ce scorer vérifie si le texte d&#39;entrée est fluide, c&#39;est-à-dire facile à lire et à comprendre, et proche du langage humain naturel. Il évalue la grammaire, la syntaxe et la lisibilité globale.
 
-`WeaveFluencyScorerV1` utilise un modèle [ModernBERT-base](https://huggingface.co/answerdotai/ModernBERT-base) affiné par AnswerDotAI. Pour plus d&#39;informations, voir le [W&amp;B Report](https://wandb.ai/c-metrics/fluency-eval/reports/Fluency-Scorer--VmlldzoxMTA3NzE2Ng).
+Le `WeaveFluencyScorerV1` utilise un modèle [ModernBERT-base](https://huggingface.co/answerdotai/ModernBERT-base) affiné par AnswerDotAI. Pour plus d&#39;informations, voir le [rapport W&amp;B WeaveFluencyScorerV1](https://wandb.ai/c-metrics/fluency-eval/reports/Fluency-Scorer--VmlldzoxMTA3NzE2Ng).
 
 <div id="usage-notes">
   ### Notes d’utilisation
 </div>
 
-* La méthode `score` attend que du texte soit passé au paramètre `output`.
-  * Un score `output` plus élevé indique une meilleure fluidité.
+* La méthode `score` attend qu’un texte soit transmis au paramètre `output`.
+  * Un score plus élevé en sortie indique une meilleure fluidité.
 
 <div id="usage-example">
   ### Exemple d’utilisation
@@ -277,22 +277,22 @@ Ce Scorer vérifie si le texte d&#39;entrée est fluide, c&#39;est-à-dire facil
   ## `WeaveTrustScorerV1`
 </div>
 
-Le `WeaveTrustScorerV1` est un Scorer composite pour les systèmes RAG qui évalue la fiabilité des sorties du modèle en regroupant d’autres Scorers en deux catégories : critique et consultative. Basé sur le score composite, il renvoie un niveau de confiance :
+Le `WeaveTrustScorerV1` est un scorer composite pour les systèmes RAG qui évalue la fiabilité des résultats du modèle en regroupant d&#39;autres évaluateurs en deux catégories : Critical et Advisory. En fonction du score composite, il renvoie un niveau de confiance :
 
-* `high` : aucun problème détecté
-  * `medium` : seuls des problèmes consultatifs sont détectés
-  * `low` : des problèmes critiques sont détectés ou l’entrée est vide
+* `high` : Aucun problème détecté
+  * `medium` : Seuls des problèmes Advisory sont détectés
+  * `low` : Des problèmes Critical sont détectés ou l&#39;entrée est vide
 
-Toute entrée qui échoue à un Scorer critique entraîne un niveau de confiance `low`. L’échec à un Scorer consultatif entraîne `medium`.
+Toute entrée qui ne satisfait pas un évaluateur Critical entraîne un niveau de confiance `low`. Si un évaluateur Advisory n&#39;est pas satisfait, le niveau de confiance est `medium`.
 
-* **Critique :**
+* **Critical:**
   * `WeaveToxicityScorerV1`
 
   * `WeaveHallucinationScorerV1`
 
   * `WeaveContextRelevanceScorerV1`
 
-  * **Consultative :**
+  * **Advisory:**
     * `WeaveFluencyScorerV1`
     * `WeaveCoherenceScorerV1`
 
@@ -300,8 +300,8 @@ Toute entrée qui échoue à un Scorer critique entraîne un niveau de confiance
   ### Notes d’utilisation
 </div>
 
-* Ce Scorer est conçu pour évaluer les pipelines RAG.
-  * Il nécessite les clés `query`, `context` et `output` pour que le score soit correct.
+* Ce scorer est conçu pour évaluer les pipelines RAG.
+  * Il nécessite les clés `query`, `context` et `output` pour calculer correctement le score.
 
 <div id="usage-example">
   ### Exemple d’utilisation
@@ -346,16 +346,16 @@ Toute entrée qui échoue à un Scorer critique entraîne un niveau de confiance
   ## `PresidioScorer`
 </div>
 
-Ce Scorer utilise la [bibliothèque Presidio](https://github.com/microsoft/presidio) pour détecter les information personnelle identifiable dans les entrées et les sorties de votre système d’IA.
+Ce scorer utilise la [bibliothèque Presidio](https://github.com/microsoft/presidio) pour détecter les Personally Identifiable Information (PII) dans les `inputs` et les sorties de votre système d’IA.
 
 <div id="usage-notes">
   ### Notes d’utilisation
 </div>
 
-* Pour spécifier certains types d’entités, comme des adresses e-mail ou des numéros de téléphone, passez une liste d’entités Presidio au paramètre `selected_entities`. Sinon, Presidio détectera tous les types d’entités de sa liste d’entités par défaut.
-  * Pour détecter certains types d’entités, comme des adresses e-mail ou des numéros de téléphone, passez une liste au paramètre `selected_entities`.
+* Pour spécifier certains types d’entités, comme les adresses e-mail ou les numéros de téléphone, passez une liste d’entités Presidio au paramètre `selected_entities`. Sinon, Presidio détectera tous les types d’entités de sa liste par défaut.
+  * Pour détecter certains types d’entités, comme les adresses e-mail ou les numéros de téléphone, passez une liste au paramètre `selected_entities`.
   * Vous pouvez passer des recognizers personnalisés via le paramètre `custom_recognizers`, sous la forme d’une liste d’instances `presidio.EntityRecognizer`.
-  * Pour traiter des entrées dans une langue autre que l’anglais, utilisez le paramètre `language` pour spécifier la langue.
+  * Pour traiter du texte non anglais, utilisez le paramètre `language` pour préciser la langue.
 
 <div id="usage-example">
   ### Exemple d’utilisation

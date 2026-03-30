@@ -13,7 +13,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 엔티티 및 프로젝트와 연관된 단일 run입니다.
 
-### <kbd>방법</kbd> `Run.__init__`
+### <kbd>method</kbd> `Run.__init__`
 
 ```python
 __init__(
@@ -28,10 +28,10 @@ __init__(
 )
 ```
 
-**인자:**
+**매개변수:**
 
 * `client`:  W&amp;B API 클라이언트.
-* `entity`:  run과 연결된 엔티티.
+* `entity`:  run과 연결된 entity.
 * `project`:  run과 연결된 프로젝트.
 * `run_id`:  run의 고유 식별자.
 * `attrs`:  run의 속성.
@@ -49,13 +49,13 @@ __init__(
 * `system_metrics` (dict):  run에 대해 기록된 최신 시스템 메트릭
 * `summary` (dict):  현재 요약 정보를 보관하는 변경 가능한 dict 유사 속성입니다. update를 호출하면 모든 변경 사항이 영구 저장됩니다.
 * `project` (str):  run과 연결된 프로젝트
-* `entity` (str):  run과 연결된 엔티티의 이름
+* `entity` (str):  run과 연결된 entity의 이름
 * `project_internal_id` (int):  프로젝트의 내부 ID
 * `user` (str):  run을 생성한 사용자의 이름
 * `path` (str):  고유 식별자 [entity]/[project]/[run&#95;id]
 * `notes` (str):  run에 대한 메모
 * `read_only` (boolean):  run이 편집 가능한지 여부
-* `history_keys` (str):  `wandb.Run.log({"key": "value"})`로 로깅된 히스토리 메트릭 키
+* `history_keys` (str):  `wandb.Run.log({"key": "value"})`로 로깅된 이력 메트릭 키
 * `metadata` (str):  wandb-metadata.json에서 가져온 run의 메타데이터
 
 Run 객체를 초기화합니다.

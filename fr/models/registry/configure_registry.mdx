@@ -1,83 +1,83 @@
 ---
 title: Configurer l’accès au registre
-description: "Configurer l’accès à W&B Registry en gérant les utilisateurs et les équipes, en attribuant des rôles et en définissant des autorisations en fonction des rôles."
+description: "Configurez l’accès à W&B Registry en gérant les Users et les Teams, en attribuant des rôles et en définissant des autorisations par rôle."
 ---
 
-Un administrateur du registre peut [configurer les rôles du registre](/fr/models/registry/configure_registry/#configure-registry-roles), [ajouter des utilisateurs](/fr/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry) ou [supprimer des utilisateurs](/fr/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry) d’un registre via les paramètres du registre.
+Un administrateur du registre peut [configurer les rôles du registre](/fr/models/registry/configure_registry/#configure-registry-roles), [ajouter des Users](/fr/models/registry/configure_registry/#add-a-user-or-a-team-to-a-registry) ou [supprimer des Users](/fr/models/registry/configure_registry/#remove-a-user-or-team-from-a-registry) d’un registre en configurant les paramètres du registre.
 
 <div id="manage-users">
-  ## Gérer les utilisateurs
+  ## Gérer les Users
 </div>
 
 <div id="add-a-user-or-a-team">
-  ### Ajouter un utilisateur ou une équipe
+  ### Ajouter un User ou une Team
 </div>
 
-Les administrateurs du registre peuvent ajouter des utilisateurs individuels ou des équipes entières à un registre. Pour ajouter un utilisateur ou une équipe à un registre :
+Les administrateurs du registre peuvent ajouter des Users individuels ou des Teams entières à un registre. Pour ajouter un User ou une Team à un registre :
 
 1. Accédez à W&amp;B Registry.
-2. Sélectionnez le registre auquel vous souhaitez ajouter un utilisateur ou une équipe.
+2. Sélectionnez le registre auquel vous souhaitez ajouter un User ou une Team.
 3. Cliquez sur l’icône d’engrenage dans le coin supérieur droit pour accéder aux paramètres du registre.
 4. Dans la section **Accès au registre**, cliquez sur **Ajouter un accès**.
-5. Indiquez un ou plusieurs noms d’utilisateur, adresses e-mail ou noms d’équipes dans le champ **Inclure des utilisateurs et des équipes**.
+5. Saisissez un ou plusieurs noms d’utilisateur, adresses e-mail ou noms d’équipe dans le champ **Inclure des Users et des Teams**.
 6. Cliquez sur **Ajouter un accès**.
 
 <Frame>
-  <img src="/images/registry/add_team_registry.gif" alt="Ajout d’équipes au registre" />
+  <img src="/images/registry/add_team_registry.gif" alt="Ajout de Teams au registre" />
 </Frame>
 
 Pour en savoir plus, consultez [la configuration des rôles utilisateur dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) ou [les autorisations des rôles du registre](/fr/models/registry/configure_registry/#registry-role-permissions).
 
 <div id="remove-a-user-or-team">
-  ### Supprimer un utilisateur ou une équipe
+  ### Supprimer un User ou une Team
 </div>
 
-Un administrateur du registre peut supprimer des utilisateurs individuels ou des équipes entières d’un registre. Pour supprimer un utilisateur ou une équipe d’un registre :
+Un administrateur du registre peut supprimer des Users individuels ou des Teams entières d’un registre. Pour supprimer un User ou une Team d’un registre :
 
 1. Accédez à W&amp;B Registry à l’adresse https://wandb.ai/registry/.
-2. Sélectionnez le registre duquel vous souhaitez supprimer un utilisateur ou une équipe.
+2. Sélectionnez le registre dont vous souhaitez supprimer un User ou une Team.
 3. Cliquez sur l’icône d’engrenage dans le coin supérieur droit pour accéder aux paramètres du registre.
-4. Accédez à la section **Accès au registre** et saisissez le nom d’utilisateur, l’adresse e-mail ou l’équipe que vous souhaitez supprimer.
-5. Cliquez sur le bouton **Delete**.
+4. Accédez à la section **Accès au registre** et saisissez le nom d’utilisateur, l’adresse e-mail ou la Team que vous souhaitez supprimer.
+5. Cliquez sur le bouton **Supprimer**.
 
 <Note>
-  Si vous supprimez un utilisateur d’une équipe, vous lui retirez également l’accès au registre.
+  Supprimer un User d’une Team supprime également son accès au registre.
 </Note>
 
 <div id="change-the-owner-of-a-registry">
   ### Changer le propriétaire d’un registre
 </div>
 
-Un administrateur du registre peut désigner n’importe quel membre comme propriétaire d’un registre, y compris un **Restricted Viewer** ou un **Viewer**. Le statut de propriétaire du registre sert avant tout à identifier la responsabilité associée et n’accorde aucune autorisation supplémentaire au-delà de celles déjà conférées par le rôle attribué à l’utilisateur.
+Un administrateur du registre peut désigner n’importe quel membre comme propriétaire d’un registre, y compris un **Restricted Viewer** ou un **Viewer**. Le statut de propriétaire du registre sert principalement à des fins de responsabilité et n’accorde aucune autorisation supplémentaire au-delà de celles associées au rôle attribué à l’utilisateur.
 
 Pour changer le propriétaire :
 
-1. Accédez au W&amp;B Registry à l’adresse https://wandb.ai/registry/.
+1. Accédez à W&amp;B Registry à l’adresse https://wandb.ai/registry/.
 2. Sélectionnez le registre que vous souhaitez configurer.
 3. Cliquez sur l’icône d’engrenage dans le coin supérieur droit.
-4. Faites défiler jusqu’à la section **Membres et rôles du registre**.
-5. Survolez la ligne du membre concerné.
-6. Cliquez sur le menu d’actions **...** à la fin de la ligne, puis sur **Make owner**.
+4. Faites défiler jusqu’à la section **Registry members and roles**.
+5. Survolez la ligne du membre.
+6. Cliquez sur le menu d’action **...** à la fin de la ligne, puis sur **Make owner**.
 
 <div id="configure-registry-roles">
   ## Configurer les rôles du registre
 </div>
 
-Cette section explique comment configurer les rôles des membres du registre. Pour plus d’informations sur les rôles du registre, notamment les capacités de chaque rôle, l’ordre de priorité, les valeurs par défaut, etc., voir [Détails sur les rôles du registre](#details-about-registry-roles).
+Cette section explique comment configurer les rôles des membres du registre. Pour en savoir plus sur les rôles du registre, notamment les capacités de chaque rôle, l’ordre de priorité, les valeurs par défaut, etc., voir [Détails sur les rôles du registre](#details-about-registry-roles).
 
 1. Accédez à W&amp;B Registry à l’adresse https://wandb.ai/registry/.
 2. Sélectionnez le registre que vous souhaitez configurer.
 3. Cliquez sur l’icône d’engrenage dans le coin supérieur droit.
-4. Faites défiler jusqu’à la section **Membres et rôles du registre**.
-5. Dans le champ **Membre**, recherchez l’utilisateur ou l’équipe dont vous souhaitez modifier les autorisations.
-6. Dans la colonne **Rôle du registre**, cliquez sur le rôle de l’utilisateur.
+4. Faites défiler jusqu’à la section **Registry members and roles**.
+5. Dans le champ **Member**, recherchez l’utilisateur ou l’équipe dont vous souhaitez modifier les autorisations.
+6. Dans la colonne **Registry role**, cliquez sur le rôle de l’utilisateur.
 7. Dans le menu déroulant, sélectionnez le rôle que vous souhaitez attribuer à l’utilisateur.
 
 <div id="details-about-registry-roles">
   ## Détails sur les rôles du registre
 </div>
 
-Les sections suivantes fournissent plus d’informations sur les rôles du registre.
+Les sections suivantes donnent plus d’informations sur les rôles du registre.
 
 <Note>
   Votre [rôle au sein d’une équipe](/fr/platform/app/settings-page/teams/#team-roles-and-permissions) n’a aucune incidence et n’a aucun lien avec votre rôle dans un registre.
@@ -87,105 +87,105 @@ Les sections suivantes fournissent plus d’informations sur les rôles du regis
   ### Rôles par défaut
 </div>
 
-W&amp;B attribue automatiquement un **rôle du registre** par défaut à un utilisateur ou à une équipe lorsqu’un utilisateur ou une équipe est ajouté à un registre. Ce rôle détermine ce qu’ils peuvent faire dans ce registre.
+W&amp;B attribue automatiquement un **rôle de registre** par défaut aux Users ou aux Teams lorsqu’ils sont ajoutés à un registre. Ce rôle détermine ce qu’ils peuvent y faire.
 
-| Entité                                       | Rôle du registre par défaut<br />(Cloud dédié / Autogéré)                                 | Rôle du registre par défaut<br />(Cloud mutualisé)         |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Équipe                                       | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x et versions antérieures) | Restricted Viewer                                          |
-| Utilisateur ou compte de service (non admin) | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x et versions antérieures) | Restricted Viewer                                          |
-| Compte de service (non admin)                | Member<sup><a href="#service_account_footnote">1</a></sup>                                | Member<sup><a href="#service_account_footnote">1</a></sup> |
-| Administrateur de l’organisation             | Admin                                                                                     | Admin                                                      |
+| Entité                                       | Rôle de registre par défaut<br />(Cloud dédié / Autogéré)                   | Rôle de registre par défaut<br />(Cloud mutualisé)         |
+| -------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Team                                         | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
+| User ou compte de service (non admin)        | Restricted Viewer (Server v0.75.0+) <br />Viewer (Server v0.74.x and below) | Restricted Viewer                                          |
+| Compte de service (non admin)                | Member<sup><a href="#service_account_footnote">1</a></sup>                  | Member<sup><a href="#service_account_footnote">1</a></sup> |
+| Administrateur de l’organisation             | Admin                                                                       | Admin                                                      |
 
-<a id="service_account_footnote">1</a>: Les comptes de service ne peuvent pas avoir les rôles **Viewer** ou **Restricted Viewer**.
+<a id="service_account_footnote">1</a> : Les comptes de service ne peuvent pas avoir les rôles **Viewer** ou **Restricted Viewer**.
 
-Un administrateur du registre peut attribuer ou modifier les rôles des utilisateurs et des équipes dans le registre.
-Voir [Configurer les rôles utilisateur dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) pour plus d’informations.
+Un administrateur du registre peut attribuer ou modifier les rôles des Users et des Teams dans le registre.
+Voir [Configurer les rôles des Users dans un registre](/fr/models/registry/configure_registry/#configure-registry-roles) pour en savoir plus.
 
 <div id="role-permissions">
-  ### Autorisations des rôles
+  ### Autorisations par rôle
 </div>
 
-Le tableau suivant répertorie chaque rôle du registre, ainsi que les autorisations associées à chacun :
+Le tableau suivant répertorie chaque rôle du registre ainsi que les autorisations associées à chacun :
 
 | Autorisation                                                                                              | Groupe d&#39;autorisations | Lecteur restreint<br />(Cloud mutualisé, sur invitation) | Lecteur | Membre | Admin |
 | --------------------------------------------------------------------------------------------------------- | -------------------------- | -------------------------------------------------------- | :-----: | :----: | :---: |
 | Voir les détails d&#39;une collection                                                                     | Lire                       | ✓                                                        |    ✓    |    ✓   |   ✓   |
-| Voir les détails d&#39;un artefact lié                                                                    | Lire                       | ✓                                                        |    ✓    |    ✓   |   ✓   |
-| Utilisation : utiliser un artefact dans un registre avec `use_artifact`                                   | Lire                       |                                                          |    ✓    |    ✓   |   ✓   |
-| Télécharger un artefact lié                                                                               | Lire                       |                                                          |    ✓    |    ✓   |   ✓   |
-| Télécharger des fichiers depuis la visionneuse de fichiers d&#39;un artefact                              | Lire                       |                                                          |    ✓    |    ✓   |   ✓   |
-| Effectuer une recherche dans un registre                                                                  | Lire                       | ✓                                                        |    ✓    |    ✓   |   ✓   |
-| Voir les paramètres d&#39;un registre et la liste des utilisateurs                                        | Lire                       | ✓                                                        |    ✓    |    ✓   |   ✓   |
+| Voir les détails d&#39;un artifact lié                                                                    | Lire                       | ✓                                                        |    ✓    |    ✓   |   ✓   |
+| Utilisation : consommer un artifact dans un registre avec `use_artifact`                                  | Lire                       |                                                          |    ✓    |    ✓   |   ✓   |
+| Télécharger un artifact lié                                                                               | Lire                       |                                                          |    ✓    |    ✓   |   ✓   |
+| Télécharger des fichiers depuis la visionneuse de fichiers d&#39;un artifact                              | Lire                       |                                                          |    ✓    |    ✓   |   ✓   |
+| Rechercher dans un registre                                                                               | Lire                       | ✓                                                        |    ✓    |    ✓   |   ✓   |
+| Voir les paramètres d&#39;un registre et sa liste de Users                                                | Lire                       | ✓                                                        |    ✓    |    ✓   |   ✓   |
 | Créer une nouvelle automatisation pour une collection                                                     | Créer                      |                                                          |         |    ✓   |   ✓   |
-| Activer les notifications Slack lorsqu&#39;une nouvelle version est ajoutée                               | Créer                      |                                                          |         |    ✓   |   ✓   |
+| Activer les notifications Slack lors de l&#39;ajout d&#39;une nouvelle version                            | Créer                      |                                                          |         |    ✓   |   ✓   |
 | Créer une nouvelle collection                                                                             | Créer                      |                                                          |         |    ✓   |   ✓   |
 | Créer un nouveau registre                                                                                 | Créer                      |                                                          |         |    ✓   |   ✓   |
-| Modifier la fiche d&#39;une collection (description)                                                      | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
-| Modifier la description d&#39;un artefact lié                                                             | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
+| Modifier la fiche de la collection (description)                                                          | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
+| Modifier la description d&#39;un artifact lié                                                             | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
 | Ajouter ou supprimer un tag d&#39;une collection                                                          | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
-| Ajouter ou supprimer un alias d&#39;un artefact lié                                                       | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
-| Ajouter ou supprimer un [alias protégé](/fr/models/registry/aliases#protected-aliases) d&#39;un artefact lié | Mettre à jour              |                                                          |         |        |   ✓   |
+| Ajouter ou supprimer un alias d&#39;un artifact lié                                                       | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
+| Ajouter ou supprimer un [alias protégé](/fr/models/registry/aliases#protected-aliases) d&#39;un artifact lié | Mettre à jour              |                                                          |         |        |   ✓   |
 | Créer ou supprimer un [alias protégé](/fr/models/registry/aliases#protected-aliases)                         | Mettre à jour              |                                                          |         |        |   ✓   |
-| Lier un nouvel artefact                                                                                   | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
+| Lier un nouvel artifact                                                                                   | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
 | Modifier la liste des types autorisés pour un registre                                                    | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
 | Modifier le nom du registre                                                                               | Mettre à jour              |                                                          |         |    ✓   |   ✓   |
 | Supprimer une collection                                                                                  | Supprimer                  |                                                          |         |    ✓   |   ✓   |
 | Supprimer une automatisation                                                                              | Supprimer                  |                                                          |         |    ✓   |   ✓   |
-| Dissocier un artefact d&#39;un registre                                                                   | Supprimer                  |                                                          |         |    ✓   |   ✓   |
-| Modifier les types d&#39;artefacts acceptés pour un registre                                              | Admin                      |                                                          |         |        |   ✓   |
+| Dissocier un artifact d&#39;un registre                                                                   | Supprimer                  |                                                          |         |    ✓   |   ✓   |
+| Modifier les types d&#39;artifact acceptés pour un registre                                               | Admin                      |                                                          |         |        |   ✓   |
 | Modifier la visibilité du registre (Organisation ou Restreint)                                            | Admin                      |                                                          |         |        |   ✓   |
-| Ajouter des utilisateurs à un registre                                                                    | Admin                      |                                                          |         |        |   ✓   |
-| Attribuer ou modifier le rôle d&#39;un utilisateur dans un registre                                       | Admin                      |                                                          |         |        |   ✓   |
+| Ajouter des Users à un registre                                                                           | Admin                      |                                                          |         |        |   ✓   |
+| Attribuer ou modifier le rôle d&#39;un User dans un registre                                              | Admin                      |                                                          |         |        |   ✓   |
 
 <div id="inherited-registry-role">
   ### Rôle hérité dans le registre
 </div>
 
-La liste des membres du registre affiche, pour chaque utilisateur, son rôle hérité (effectif) dans le registre (en gris clair), à côté du menu déroulant de rôle sur sa ligne.
+La liste des membres du registre affiche, pour chaque utilisateur, son rôle hérité (effectif) dans le registre (en gris clair) à côté du menu déroulant du rôle sur sa ligne.
 
 <Frame>
   <img src="/images/registry/role_conflict.png" alt="Liste des membres du registre affichant le rôle effectif de l'utilisateur dans le registre" />
 </Frame>
 
-Le rôle effectif d&#39;un utilisateur dans un registre donné correspond au rôle *le plus élevé* qu&#39;il possède parmi son rôle dans l&#39;organisation, dans le registre et dans l&#39;équipe propriétaire du registre, qu&#39;il soit hérité ou explicitement attribué. Par exemple :
+Le rôle effectif d&#39;un utilisateur dans un registre donné correspond à son rôle *le plus élevé* parmi son rôle dans l&#39;organisation, dans le registre et dans l&#39;équipe propriétaire du registre, qu&#39;il soit hérité ou explicitement attribué. Par exemple :
 
-* Un **Admin** d&#39;équipe ou un **Admin** d&#39;organisation ayant le rôle **Viewer** dans un registre particulier appartenant à l&#39;équipe est effectivement **Admin** dans ce registre.
-* Un **Viewer** du registre ayant le rôle **Member** dans l&#39;équipe est effectivement **Member** dans le registre.
-* Un **Viewer** d&#39;équipe ayant le rôle **Member** dans un registre particulier est effectivement **Member** dans le registre.
+* Un **Admin** d&#39;équipe ou un **Admin** d&#39;organisation ayant le rôle **Viewer** dans un registre donné appartenant à l&#39;équipe est, en pratique, **Admin** du registre.
+* Un **Viewer** du registre ayant le rôle **Member** dans l&#39;équipe est, en pratique, **Member** du registre.
+* Un **Viewer** d&#39;équipe ayant le rôle **Member** dans un registre donné est, en pratique, **Member** du registre.
 
 <div id="restricted-viewer-role-details">
   ### Détails du rôle Restricted Viewer
 </div>
 
-Le rôle **Restricted Viewer** est généralement disponible (GA). Pour Cloud dédié et Autogéré, Server v0.75.0 ou version ultérieure est requis.
+Le rôle **Restricted Viewer** est en disponibilité générale (GA). Pour Cloud dédié et Autogéré, Server v0.75.0 ou une version ultérieure est requis.
 
-Ce rôle fournit un accès en lecture seule aux artefacts du registre, sans possibilité de créer, mettre à jour ou supprimer des collections, des automatisations ou d&#39;autres ressources du registre.
+Ce rôle fournit un accès en lecture seule aux Artifacts du registre, sans possibilité de créer, mettre à jour ou supprimer des collections, des automatisations ou d&#39;autres ressources du registre.
 
 Contrairement à un **Viewer**, un **Restricted Viewer** :
 
-* Ne peut pas télécharger les fichiers d&#39;artefact ni accéder à leur contenu.
-* Ne peut pas utiliser des artefacts avec `wandb.Run.use_artifact()` dans le SDK W&amp;B.
+* Ne peut pas télécharger les fichiers des Artifacts ni accéder à leur contenu.
+* Ne peut pas utiliser les Artifacts avec `wandb.Run.use_artifact()` dans le SDK W&amp;B.
 
 <div id="sdk-compatibility">
   #### Compatibilité du SDK
 </div>
 
 <Note>
-  **Version requise du SDK**
+  **Version du SDK requise**
 
-  Pour utiliser le SDK W&amp;B afin d&#39;accéder aux artefacts en tant que **Restricted Viewer**, vous devez utiliser la version 0.19.9 ou ultérieure du SDK W&amp;B. Sinon, certaines commandes du SDK entraîneront des erreurs d&#39;autorisation.
+  Pour utiliser le SDK W&amp;B pour accéder aux artifacts en tant que **Restricted Viewer**, vous devez utiliser la version 0.19.9 ou ultérieure du SDK W&amp;B. Sinon, certaines commandes du SDK entraîneront des erreurs d’autorisation.
 </Note>
 
-Lorsqu&#39;un **Restricted Viewer** utilise le SDK, certaines fonctions ne sont pas disponibles ou se comportent différemment.
+Lorsqu’un **Restricted Viewer** utilise le SDK, certaines fonctions ne sont pas disponibles ou se comportent différemment.
 
-Les méthodes suivantes ne sont pas disponibles et entraînent des erreurs d&#39;autorisation :
+Les méthodes suivantes ne sont pas disponibles et entraînent des erreurs d’autorisation :
 
 * [`Run.use_artifact()`](/fr/models/ref/python/experiments/run/#method-runuse_artifact)
 * [`Artifact.download()`](/fr/models/ref/python/experiments/artifact/#method-artifactdownload)
 * [`Artifact.file()`](/fr/models/ref/python/experiments/artifact/#method-artifactfile)
 * [`Artifact.files()`](/fr/models/ref/python/experiments/artifact/#method-artifactfiles)
 
-Les méthodes suivantes se limitent aux métadonnées des artefacts :
+Les méthodes suivantes se limitent aux métadonnées des artifacts :
 
 * [`Artifact.get_entry()`](/fr/models/ref/python/experiments/artifact/#method-artifactget_entry)
 * [`Artifact.get_path()`](/fr/models/ref/python/experiments/artifact/#method-artifactget_path)
@@ -196,9 +196,9 @@ Les méthodes suivantes se limitent aux métadonnées des artefacts :
   ### Autorisations entre registres
 </div>
 
-Un utilisateur peut avoir des rôles différents selon le registre. Par exemple, un utilisateur peut être **Restricted Viewer** dans le registre A, mais **Viewer** dans le registre B. Dans ce cas :
+Un utilisateur peut avoir des rôles différents selon les registres. Par exemple, un utilisateur peut être **Restricted Viewer** dans le registre A, mais **Viewer** dans le registre B. Dans ce cas :
 
-* Le même artefact associé aux deux registres aura des niveaux d&#39;accès différents
-* Dans le registre A, l&#39;utilisateur est **Restricted Viewer** et ne peut ni télécharger de fichiers ni utiliser l&#39;artefact
-* Dans le registre B, l&#39;utilisateur est **Viewer** et peut télécharger des fichiers et utiliser l&#39;artefact
-* En d&#39;autres termes, l&#39;accès est déterminé par le registre depuis lequel l&#39;artefact est consulté
+* Le même artifact lié aux deux registres aura des niveaux d&#39;accès différents
+* Dans le registre A, l&#39;utilisateur est **Restricted Viewer** et ne peut ni télécharger de fichiers ni utiliser l&#39;artifact
+* Dans le registre B, l&#39;utilisateur est **Viewer** et peut télécharger des fichiers et utiliser l&#39;artifact
+* En d&#39;autres termes, le niveau d&#39;accès est déterminé par le registre depuis lequel l&#39;artifact est consulté

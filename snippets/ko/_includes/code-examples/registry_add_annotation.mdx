@@ -1,5 +1,5 @@
 ---
-title: Registry 주석 추가
+title: 레지스트리에 어노테이션 추가
 ---
 
 ```python
@@ -19,13 +19,13 @@ registry_path = f"wandb-registry-{registry_name}/{collection_name}"
 # W&B API 초기화
 api = wandb.Api()
 
-# 아티팩트 컬렉션 가져오기
+# artifact 컬렉션 조회
 collection = api.artifact_collection(
   type_name = collection_type, 
   name = registry_path
   )
 
-# 컬렉션 객체에 설명 추가
+# 컬렉션 객체에 설명 어노테이션 추가
 collection.description = "<description>"
 
 # 업데이트된 컬렉션 저장

@@ -1,15 +1,15 @@
 ---
 title: "Activer les réponses en streaming"
-description: "Activez la sortie en streaming avec W&B Inférence pour recevoir les réponses du modèle de façon incrémentielle, au fur et à mesure de leur génération."
+description: "Activez la sortie en streaming avec W&B Inference pour recevoir les réponses du modèle de façon incrémentielle, au fur et à mesure de leur génération."
 ---
 
 Il arrive que les modèles mettent un certain temps à générer une réponse.
-Définir l&#39;option `stream` sur true vous permet de recevoir la réponse sous forme d&#39;un flux
-de fragments, afin d&#39;afficher les résultats progressivement au lieu d&#39;attendre que la
+Définir l&#39;option `stream` sur `true` vous permet de recevoir la réponse sous forme d&#39;un flux
+de fragments, afin d&#39;afficher les résultats de manière incrémentielle au lieu d&#39;attendre que la
 réponse complète soit générée.
 
-La sortie en streaming est prise en charge pour tous les modèles hébergés. Nous en recommandons tout particulièrement
-l&#39;utilisation avec les [modèles de raisonnement](./reasoning), car les requêtes non diffusées en streaming peuvent expirer si le modèle réfléchit
+La sortie en streaming est prise en charge pour tous les modèles hébergés. Nous encourageons tout particulièrement son
+utilisation avec les [modèles de raisonnement](./reasoning), car les requêtes sans streaming peuvent expirer si le modèle réfléchit
 trop longtemps avant de commencer à produire une sortie.
 
 <Tabs>

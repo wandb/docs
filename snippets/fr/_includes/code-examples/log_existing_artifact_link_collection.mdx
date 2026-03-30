@@ -1,24 +1,24 @@
 ---
-title: Journaliser une collection de liens vers des artefacts existants
+title: Journaliser une collection existante de liens Artifact
 ---
 
 ```python
 """
-Télécharger et journaliser un artefact existant depuis une collection de registre W&B.
+Télécharger et journaliser un artifact existant depuis une collection du registre W&B.
 Remplacez les espaces réservés par le nom du registre, les noms de collection, l'entité,
 le projet et la version réels.
 """
 import wandb
 
-# Construire le nom complet de l'artefact avec la version
+# Construire le nom complet de l'artifact avec la version
 registry_name = "<registry_name>"  # Spécifier le nom du registre
 collection_name = "<collection_name>" # Spécifier le nom de la collection
-version = 0 # Spécifier la version de l'artefact à utiliser
+version = 0 # Spécifier la version de l'artifact à utiliser
 artifact_name_registry = f"wandb-registry-{registry_name}/{collection_name}:v{version}"
 
 # Initialiser un run W&B dans une équipe et un projet différents
 with wandb.init(entity="<entity>", project="<project>") as run:
-    # Utiliser l'artefact de modèle depuis le registre
+    # Utiliser l'artifact du modèle depuis le registre
     registry_model = run.use_artifact(artifact_or_name=artifact_name_registry)
 
     # Télécharger le modèle dans un répertoire local

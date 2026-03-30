@@ -1,5 +1,5 @@
 ---
-title: Fichiers
+title: Files
 namespace: public_apis_namespace
 python_object_type: class
 ---
@@ -8,12 +8,11 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/files.py" />
 
-
 ## <kbd>class</kbd> `Files`
 
-Un itérateur lazy sur une collection d’objets `File`.
+Un itérateur paresseux sur une collection d’objets `File`.
 
-Permet d’accéder aux fichiers téléversés sur W&amp;B pendant un run et de les gérer. Gère automatiquement la pagination lors de l’itération sur de grandes collections de fichiers.
+Permet d’accéder aux fichiers chargés dans W&amp;B pendant un run et de les gérer. Gère automatiquement la pagination lors de l’itération sur de grandes collections de fichiers.
 
 **Exemple :**
 
@@ -51,18 +50,18 @@ __init__(
 )
 ```
 
-Initialise un itérateur lazy sur une collection d’objets `File`.
+Initialise un itérateur paresseux sur une collection d’objets `File`.
 
-Les fichiers sont récupérés page par page depuis le serveur W&amp;B, selon les besoins.
+Les fichiers sont récupérés page par page depuis le serveur W&amp;B selon les besoins.
 
 **Arguments :**
 
 * `client` :  L’objet run qui contient les fichiers
 * `run` :  L’objet run qui contient les fichiers
-* `names` (liste, facultatif) :  Une liste de noms de fichiers permettant de filtrer les fichiers
+* `names` (liste, facultatif) :  Une liste de noms de fichiers servant à filtrer les fichiers
 * `per_page` (int, facultatif) :  Le nombre de fichiers à récupérer par page
-* `upload` (bool, facultatif) :  Si `True`, récupère l’URL de téléversement pour chaque fichier
-* `pattern` (str, facultatif) :  Motif à utiliser pour renvoyer les fichiers depuis W&amp;B  Ce motif utilise la syntaxe LIKE de MySQL. Ainsi, pour faire correspondre tous les fichiers se terminant par .json, utilisez &quot;%.json&quot;.  Si `names` et `pattern` sont tous deux fournis, une ValueError est levée.
+* `upload` (bool, facultatif) :  Si `True`, récupère l’URL d’upload pour chaque fichier
+* `pattern` (str, facultatif) :  Motif à utiliser pour la correspondance lors du renvoi des fichiers depuis W&amp;B  Ce motif utilise la syntaxe LIKE de mySQL. Ainsi, pour faire correspondre tous les fichiers se terminant par .json, utilisez &quot;%.json&quot;. Si `names` et `pattern` sont tous deux fournis, une ValueError est levée.
 
 ***
 

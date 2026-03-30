@@ -1,17 +1,17 @@
 ---
-title: Supprimer une collection d’artefacts
+title: Supprimer une collection d’Artifact
 ---
 
 ```python
 """
-Supprimer une collection d'artifacts de W&B.
+Supprimer une artifact collection de W&B.
 """
 import wandb
 
 # Initialiser l'API W&B
 api = wandb.Api()
 
-# Supprimer une collection d'artifacts par son nom et son type
+# Supprimer une artifact collection par son nom et son type
 # Format du nom : <entity>/<project>/<run_path>
 collection = api.artifact_collection(
     name="<entity>/<project>/<run_path>",

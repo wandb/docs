@@ -1,33 +1,33 @@
 ---
-title: Global Functions 개요
-description: W&B Python SDK의 글로벌 함수
+title: 전역 함수 Overview
+description: W&B Python SDK의 전역 함수
 module: 
 no_list: true
 ---
 
-W&amp;B의 글로벌 함수는 `wandb.init()`이나 `wandb.login()`처럼 직접 호출하는 최상위(top-level) 함수입니다. 특정 클래스에 속하는 메서드와 달리, 이러한 함수는 객체를 먼저 생성할 필요 없이 W&amp;B의 핵심 기능에 바로 접근할 수 있게 해 줍니다.
+W&amp;B의 전역 함수는 `wandb.init()` 또는 `wandb.login()`처럼 직접 호출하는 최상위 함수입니다. 특정 클래스에 속한 메서드와 달리, 이러한 함수는 객체를 먼저 인스턴스화하지 않아도 W&amp;B의 핵심 기능에 직접 접근할 수 있게 해줍니다.
 
 <div id="available-functions">
   ## 사용 가능한 함수
 </div>
 
-| 함수                                                        | 설명                                                                            |
-| --------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| [`init()`](/ko/models/ref/python/functions/init)             | 새로운 run을 시작하고 W&amp;B에 추적 정보와 로그를 기록합니다. 보통 ML 트레이닝 파이프라인에서 가장 먼저 호출하는 함수입니다. |
-| [`login()`](/ko/models/ref/python/functions/login)           | 플랫폼에서 현재 머신을 인증할 수 있도록 W&amp;B 로그인 자격 증명을 설정합니다.                              |
-| [`setup()`](/ko/models/ref/python/functions/setup)           | 현재 프로세스와 하위 프로세스에서 W&amp;B를 사용할 수 있도록 준비합니다. 멀티프로세스 애플리케이션에 유용합니다.            |
-| [`teardown()`](/ko/models/ref/python/functions/teardown)     | W&amp;B 리소스를 정리하고 백엔드 프로세스를 종료합니다.                                            |
-| [`sweep()`](/ko/models/ref/python/functions/sweep)           | 최적의 모델 설정을 찾기 위해 하이퍼파라미터 스윕을 초기화합니다.                                          |
-| [`agent()`](/ko/models/ref/python/functions/agent)           | 하이퍼파라미터 최적화 실험을 실행할 스윕 에이전트를 생성합니다.                                           |
-| [`controller()`](/ko/models/ref/python/functions/controller) | 스윕 에이전트와 그 실행을 관리하고 제어합니다.                                                    |
-| [`restore()`](/ko/models/ref/python/functions/restore)       | 작업을 재개할 수 있도록 이전 run 또는 실험 상태를 복원합니다.                                         |
-| [`finish()`](/ko/models/ref/python/functions/finish)         | 현재 run을 종료하고 리소스를 정리합니다.                                                      |
+| 함수                                                        | 설명                                                                      |
+| --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| [`init()`](/ko/models/ref/python/functions/init)             | W&amp;B에 추적 및 로깅할 새 run을 시작합니다. 일반적으로 ML 트레이닝 파이프라인에서 가장 먼저 호출하는 함수입니다. |
+| [`login()`](/ko/models/ref/python/functions/login)           | 플랫폼에서 머신을 인증할 수 있도록 W&amp;B 로그인 자격 증명을 설정합니다.                           |
+| [`setup()`](/ko/models/ref/python/functions/setup)           | 현재 프로세스와 그 하위 프로세스에서 사용할 수 있도록 W&amp;B를 준비합니다. 다중 프로세스 애플리케이션에 유용합니다.   |
+| [`teardown()`](/ko/models/ref/python/functions/teardown)     | W&amp;B 리소스를 정리하고 백엔드 프로세스를 종료합니다.                                      |
+| [`sweep()`](/ko/models/ref/python/functions/sweep)           | 최적의 모델 설정을 검색하기 위한 하이퍼파라미터 sweep을 초기화합니다.                               |
+| [`agent()`](/ko/models/ref/python/functions/agent)           | 하이퍼파라미터 최적화 실험을 실행할 sweep agent를 생성합니다.                                 |
+| [`controller()`](/ko/models/ref/python/functions/controller) | sweep agent와 해당 실행을 관리하고 제어합니다.                                         |
+| [`restore()`](/ko/models/ref/python/functions/restore)       | 이전 run 또는 실험 상태를 복원해 작업을 재개합니다.                                         |
+| [`finish()`](/ko/models/ref/python/functions/finish)         | run을 종료하고 리소스를 정리합니다.                                                   |
 
 <div id="example">
   ## 예시
 </div>
 
-가장 일반적인 워크플로는 W&amp;B에 인증한 뒤 run을 초기화하고, 트레이닝 루프에서 정확도와 손실과 같은 값을 로깅하는 것부터 시작합니다. 첫 단계로는 `wandb`를 임포트하고 전역 함수 `login()`과 `init()`을 사용하는 것입니다:
+가장 일반적인 워크플로는 W&amp;B에 인증하고 run을 초기화한 다음, 트레이닝 루프에서 값(예: 정확도와 손실)을 로깅하는 것부터 시작합니다. 먼저 `wandb`를 임포트하고 전역 함수 `login()`과 `init()`을 사용합니다:
 
 ```python
 import wandb

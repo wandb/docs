@@ -14,9 +14,9 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 Paramètres du SDK W&amp;B.
 
 Cette classe gère les paramètres de configuration du SDK W&amp;B,
-en garantissant la sécurité des types et la validation de tous les paramètres. Les paramètres sont accessibles
+en garantissant la sécurité de type et la validation de tous les paramètres. Les paramètres sont accessibles
 sous forme d&#39;attributs et peuvent être initialisés par programmation, via des variables
-d&#39;environnement (préfixe `WANDB_`) et à l&#39;aide de fichiers de configuration.
+d&#39;environnement (`WANDB_ prefix`) et à l&#39;aide de fichiers de configuration.
 
 Les paramètres sont organisés en trois catégories :
 
@@ -24,10 +24,10 @@ Les paramètres sont organisés en trois catégories :
    le comportement de W&amp;B en fonction de leurs besoins spécifiques.
 2. Paramètres internes : paramètres préfixés par &#39;x&#95;&#39; qui gèrent le comportement de bas niveau du SDK.
    Ces paramètres sont principalement destinés à un usage interne et au débogage. Bien qu&#39;ils puissent être modifiés,
-   ils ne sont pas considérés comme faisant partie de l&#39;API publique et peuvent changer sans préavis dans les versions
-   futures.
-3. Paramètres calculés : paramètres en lecture seule automatiquement dérivés d&#39;autres paramètres ou de
-   l&#39;environnement.
+   ils ne sont pas considérés comme faisant partie de l&#39;API publique et peuvent changer sans préavis dans de futures
+   versions.
+3. Paramètres calculés : paramètres en lecture seule automatiquement dérivés d&#39;autres paramètres ou
+   de l&#39;environnement.
 
 ### <kbd>méthode</kbd> `Settings.__init__`
 
@@ -184,138 +184,137 @@ __init__(
 
 **Arguments :**
 
-* `allow_offline_artifacts` (bool) : indicateur permettant de synchroniser les artefacts de tableau en mode hors ligne.
-  Pour revenir à l’ancien comportement, définissez cette option sur False.
+* `allow_offline_artifacts` (bool) : option permettant de synchroniser les artifacts de tableau en mode hors ligne.
+  Pour revenir à l’ancien comportement, définissez cette valeur sur False.
 
-* `allow_val_change` (bool): Indicateur autorisant la modification des valeurs de `Config` une fois qu’elles ont été définies.
+* `allow_val_change` (bool): Indicateur autorisant la modification des valeurs de `Config` une fois qu&#39;elles ont été définies.
 
 * `anonymous` (objet) : Obsolète et sera supprimé.
 
-* `api_key` (Optional[str]): La clé API de W&amp;B.
+* `api_key` (Optional[str]) : La clé API W&amp;B.
 
-* `azure_account_url_to_access_key` (Optional[Dict[str, str]]) : Association entre les URL de compte Azure et leurs clés d’accès respectives pour l’intégration Azure.
+* `azure_account_url_to_access_key` (Optional[Dict[str, str]]): Association entre les URL de comptes Azure et leurs clés d’accès correspondantes pour l’intégration Azure.
 
-* `app_url_override` (Optional[str]) : Remplace l’URL &#39;app&#39; de l’interface W&amp;B.
-  `app_url` est normalement calculée à partir de `base_url`, mais ce paramètre peut être
-  utilisé pour la définir explicitement.
-  WANDB&#95;APP&#95;URL est la variable d’environnement correspondante.
+* `app_url_override` (facultatif[str]) : remplace l’URL &#39;app&#39; de l’interface W&amp;B.
+  `app_url` est normalement calculée à partir de `base_url`, mais vous pouvez
+  l’utiliser pour la définir explicitement.
+  WANDB&#95;APP&#95;URL est la variable d&#39;environnement correspondante.
 
-* `base_url` (str) : URL du backend W&amp;B utilisée pour la synchronisation des données.
+* `base_url` (str): L’URL du backend W&amp;B pour la synchronisation des données.
 
-* `code_dir` (Optional[str]) : Répertoire contenant le code que W&amp;B doit suivre.
+* `code_dir` (Optional[str]) : Répertoire contenant le code à suivre par W&amp;B.
 
-* `config_paths` (Optional[Sequence]) : chemins des fichiers à partir desquels charger la configuration dans l’objet `Config`.
+* `config_paths` (Optional[Sequence]) : chemins des fichiers à partir desquels charger la configuration dans l’objet `Config`.
 
-* `console` (Literal[&#39;auto&#39;, &#39;off&#39;, &#39;wrap&#39;, &#39;redirect&#39;, &#39;wrap&#95;raw&#39;, &#39;wrap&#95;emu&#39;]) : Type de capture de console à appliquer.
+* `console` (Literal[&#39;auto&#39;, &#39;off&#39;, &#39;wrap&#39;, &#39;redirect&#39;, &#39;wrap&#95;raw&#39;, &#39;wrap&#95;emu&#39;]) : Le type de capture de la console à utiliser.
   Les valeurs possibles sont :
-  * &quot;auto&quot; - Sélectionne automatiquement la méthode de capture de la console en fonction de
-    l&#39;environnement et des paramètres système.
+  * &quot;auto&quot; - Sélectionne automatiquement la méthode de capture de la console en fonction de l’environnement
+    système et des paramètres.
   * &quot;off&quot; - Désactive la capture de la console.
   * &quot;redirect&quot; - Redirige les descripteurs de fichier de bas niveau pour capturer la sortie.
-  * &quot;wrap&quot; - Remplace les méthodes d&#39;écriture de sys.stdout/sys.stderr. Sera
-    associé à &quot;wrap&#95;raw&quot; ou &quot;wrap&#95;emu&quot; selon l&#39;état du système.
+  * &quot;wrap&quot; - Remplace les méthodes d’écriture de sys.stdout/sys.stderr. Sera
+    converti en &quot;wrap&#95;raw&quot; ou &quot;wrap&#95;emu&quot; selon l’état du système.
   * &quot;wrap&#95;raw&quot; - Identique à &quot;wrap&quot;, mais capture directement la sortie brute au lieu de
     passer par un émulateur. Dérivé du paramètre `wrap`, il ne doit pas être défini manuellement.
   * &quot;wrap&#95;emu&quot; - Identique à &quot;wrap&quot;, mais capture la sortie via un émulateur.
     Dérivé du paramètre `wrap`, il ne doit pas être défini manuellement.
 
-* `console_multipart` (bool): Active la journalisation multipart de la console.
-  Lorsque cette valeur est `True`, le SDK écrit la sortie de la console dans des fichiers horodatés
-  sous le répertoire `logs/` au lieu d’un unique `output.log`.
-  Chaque partie est téléversée dès qu’elle est fermée, ce qui donne aux utilisateurs un accès en temps réel
-  aux journaux tant que le run est actif. La cadence de rotation est
-  contrôlée par `console_chunk_max_bytes` et/ou `console_chunk_max_seconds`.
-  Si les deux limites sont à `0`, tous les journaux sont téléversés à la fin du run.
+* `console_multipart` (bool) : Active la journalisation multipart de la console.
+  Lorsque la valeur est True, le SDK écrit la sortie de la console dans des fichiers horodatés
+  dans le répertoire `logs/` au lieu d’un seul fichier `output.log`.
+  Chaque partie est téléversée dès sa fermeture, ce qui permet aux utilisateurs d’accéder
+  aux journaux en temps réel pendant que le run est actif. La cadence de
+  rotation est contrôlée par `console_chunk_max_bytes` et/ou `console_chunk_max_seconds`.
+  Si les deux limites sont `0`, tous les journaux sont téléversés à la fin du run.
   Remarque : les segments téléversés sont immuables ; les séquences de contrôle du terminal
-  qui modifient des lignes précédentes (par ex., les barres de progression utilisant des retours chariot)
+  qui modifient les lignes précédentes (par ex., les barres de progression utilisant des retours chariot)
   n’affectent que le segment en cours.
 
-* `console_chunk_max_bytes` (int) : Seuil de basculement basé sur la taille pour les journaux de console en plusieurs parties, en octets.
-  Démarre un nouveau fichier journal de console lorsque la partie actuelle atteint cette
+* `console_chunk_max_bytes` (int): Seuil de basculement en fonction de la taille pour les journaux de console en plusieurs parties, en octets.
+  Démarre un nouveau fichier de journal de console lorsque la partie en cours atteint cette
   taille. N’a d’effet que lorsque `console_multipart` vaut `True`.
   Peut être combiné avec `console_chunk_max_seconds` ; la première limite
-  atteinte entraîne le basculement. Une valeur de `0` désactive la
-  limite basée sur la taille.
+  atteinte déclenche le basculement. Une valeur de `0` désactive la
+  limite fondée sur la taille.
 
-* `console_chunk_max_seconds` (int): Seuil de rotation basé sur le temps pour les journaux de console en plusieurs parties, en secondes.
-  Démarre un nouveau fichier de journal de console après l’écoulement de ce nombre de secondes
+* `console_chunk_max_seconds` (int) : Seuil de basculement temporel pour les journaux de console en plusieurs parties, en secondes.
+  Démarre un nouveau fichier journal de console après l’écoulement de ce nombre de secondes
   depuis le début de la partie en cours. Nécessite que `console_multipart` soit
   `True`. Peut être utilisé avec `console_chunk_max_bytes` ; la première limite
-  atteinte clôt la partie. Une valeur de `0` désactive la limite
-  basée sur le temps.
+  atteinte ferme la partie. Une valeur de `0` désactive la limite temporelle.
 
-* `credentials_file` (str) : Chemin du fichier dans lequel écrire les jetons d’accès temporaires.
+* `credentials_file` (str): Chemin du fichier dans lequel écrire des jetons d’accès temporaires.
 
-* `disable_code` (bool) : Indique s’il faut désactiver la capture du code.
+* `disable_code` (bool) : indique s’il faut désactiver la capture du code.
 
-* `disable_git` (bool): Indique s’il faut désactiver l’enregistrement de l’état de Git.
+* `disable_git` (bool) : indique s’il faut désactiver la capture de l’état Git.
 
-* `disable_job_creation` (bool): Indique s’il faut désactiver la création d’un artefact de job pour Launch de W&amp;B.
+* `disable_job_creation` (bool): Indique si la création d’un artifact de job pour W&amp;B Launch doit être désactivée.
 
-* `docker` (Facultatif[str]) : image Docker utilisée pour exécuter le script.
+* `docker` (Optional[str]) : L’image Docker utilisée pour exécuter le script.
 
-* `email` (Optional[str]) : l’adresse e-mail de l’utilisateur.
+* `email` (Optional[str]): L’adresse e-mail de l’utilisateur.
 
-* `entity` (Optional[str]) : l’entité W&amp;B, par exemple un utilisateur ou une équipe.
+* `entity` (Optional[str]) : L&#39;entité W&amp;B, telle qu’un utilisateur ou une équipe.
 
-* `organization` (Optional[str]) : l’organisation W&amp;B.
+* `organization` (Optional[str]): L’organisation W&amp;B.
 
-* `force` (bool) : Indique s’il faut transmettre l’option `force` à `wandb.login()`.
+* `force` (bool): Indique s’il faut passer le paramètre `force` à `wandb.login()`.
 
-* `fork_from` (Optional[RunMoment]) : spécifie un point d’une exécution précédente d’un run à partir duquel bifurquer.
-  Le point est défini par l’ID du run, une métrique et sa valeur.
+* `fork_from` (Optional[RunMoment]) : spécifie un point dans une exécution précédente d’un run à partir duquel bifurquer.
+  Ce point est défini par le run ID, une métrique et sa valeur.
   Actuellement, seule la métrique &#39;&#95;step&#39; est prise en charge.
 
-* `git_commit` (facultatif[str]) : le hachage du commit Git à associer au run.
+* `git_commit` (Facultatif[str]) : le hachage du commit Git à associer au run.
 
-* `git_remote` (str) : Le remote Git à associer au run.
+* `git_remote` (str) : Le dépôt distant Git à associer au run.
 
-* `git_remote_url` (Optional[str]) : l’URL du dépôt Git distant.
+* `git_remote_url` (Optional[str]) : L’URL du dépôt Git distant.
 
 * `git_root` (Optional[str]) : Répertoire racine du dépôt Git.
 
-* `host` (Optional[str]) : Nom d’hôte de la machine sur laquelle le script s’exécute.
+* `host` (Optional[str]) : Nom d’hôte de la machine exécutant le script.
 
 * `http_proxy` (Facultatif[str]) : serveurs proxy personnalisés pour les requêtes HTTP vers W&amp;B.
 
-* `https_proxy` (Optional[str]) : serveurs proxy personnalisés pour les requêtes HTTPS vers W&amp;B.
+* `https_proxy` (Optional[str]) : serveurs proxy personnalisés pour les requêtes HTTPS adressées à W&amp;B.
 
-* `identity_token_file` (Optional[str]) : Chemin du fichier contenant un jeton d’identité (JWT) pour l’authentification.
+* `identity_token_file` (Facultatif[str]) : Chemin du fichier contenant un jeton d’identité (JWT) utilisé pour l’authentification.
 
-* `ignore_globs` (Sequence) : motifs glob Unix relatifs à `files_dir` indiquant les fichiers à exclure du téléversement.
+* `ignore_globs` (Sequence): motifs glob Unix relatifs à `files_dir`, qui indiquent les fichiers à exclure de l&#39;upload.
 
-* `init_timeout` (float) : durée d’attente, en secondes, avant l’expiration du délai pour que l’appel à `wandb.init` se termine.
+* `init_timeout` (float) : durée, en secondes, pendant laquelle attendre que l’appel à `wandb.init` se termine avant l’expiration du délai.
 
-* `insecure_disable_ssl` (bool): Indique s’il faut désactiver la vérification SSL de manière non sécurisée.
+* `insecure_disable_ssl` (bool): Indique si la vérification SSL doit être désactivée de manière non sécurisée.
 
 * `job_name` (facultatif[str]) : nom du job Launch qui exécute le script.
 
-* `job_source` (Facultatif[Literal[&#39;repo&#39;, &#39;artifact&#39;, &#39;image&#39;]]): Type de source pour Launch.
+* `job_source` (Optional[Literal[&#39;repo&#39;, &#39;artifact&#39;, &#39;image&#39;]]): Type de source pour Launch.
 
-* `label_disable` (bool): Indique si les fonctionnalités d’étiquetage automatique doivent être désactivées.
+* `label_disable` (bool): Permet de désactiver les fonctionnalités d’étiquetage automatique.
 
-* `launch_config_path` (Facultatif[str]) : chemin du fichier de configuration Launch.
+* `launch_config_path` (Optional[str]): Chemin du fichier de configuration de Launch.
 
-* `login_timeout` (Optional[float]) : durée d’attente, en secondes, avant expiration des opérations de connexion.
+* `login_timeout` (Optional[float]) : délai d’attente en secondes avant expiration des opérations de connexion.
 
-* `mode` (Literal[&#39;online&#39;, &#39;offline&#39;, &#39;shared&#39;, &#39;disabled&#39;, &#39;dryrun&#39;, &#39;run&#39;]): Le mode de fonctionnement de la journalisation et de la synchronisation dans W&amp;B.
+* `mode` (Literal[&#39;online&#39;, &#39;offline&#39;, &#39;shared&#39;, &#39;disabled&#39;, &#39;dryrun&#39;, &#39;run&#39;]): Le mode de fonctionnement de la journalisation et de la synchronisation W&amp;B.
 
-* `notebook_name` (Optional[str]) : nom du notebook si l’exécution a lieu dans un environnement de type Jupyter.
+* `notebook_name` (Optional[str]) : Nom du notebook si l’exécution s’effectue dans un environnement de type Jupyter.
 
-* `program` (Optional[str]): Chemin du script ayant créé le run, s’il est disponible.
+* `program` (Optional[str]) : Chemin du script ayant créé le run, s’il est disponible.
 
-* `program_abspath` (Optional[str]) : Chemin absolu depuis le répertoire racine du dépôt jusqu’au script qui
+* `program_abspath` (Optional[str]) : chemin absolu entre le répertoire racine du dépôt et le script qui
   a créé le run.
   Le répertoire racine du dépôt est défini comme le répertoire contenant le
   répertoire .git, s’il existe. Sinon, il s’agit du répertoire de travail courant.
 
-* `program_relpath` (Optional[str]) : le chemin relatif du script qui a créé le run.
+* `program_relpath` (Optional[str]) : Le chemin relatif du script ayant créé le run.
 
-* `project` (Optional[str]) : L’identifiant du projet W&amp;B.
+* `project` (Optional[str]) : l’ID du projet W&amp;B.
 
-* `quiet` (bool): Indicateur permettant de masquer les messages non essentiels.
+* `quiet` (bool): Indicateur permettant de supprimer les messages non essentiels.
 
-* `reinit` (Union[Literal[&#39;default&#39;, &#39;return&#95;previous&#39;, &#39;finish&#95;previous&#39;, &#39;create&#95;new&#39;], bool]) : Que faire si `wandb.init()` est appelé alors qu’un run est actif.
+* `reinit` (Union[Literal[&#39;default&#39;, &#39;return&#95;previous&#39;, &#39;finish&#95;previous&#39;, &#39;create&#95;new&#39;], bool]) : Comportement à adopter lorsque `wandb.init()` est appelé alors qu’un run est actif.
   Options :
   * &quot;default&quot;: Utilisez &quot;finish&#95;previous&quot; dans les notebooks et &quot;return&#95;previous&quot;
     dans les autres cas.
@@ -325,181 +324,181 @@ __init__(
   * &quot;finish&#95;previous&quot;: Termine tous les runs actifs, puis renvoie un nouveau run.
   * &quot;create&#95;new&quot;: Crée un nouveau run sans modifier les autres runs actifs.
     Ne met pas à jour `wandb.run` ni les fonctions de niveau supérieur comme `wandb.log`.
-    Par conséquent, certaines intégrations plus anciennes qui reposent sur le run global
+    Par conséquent, certaines intégrations plus anciennes qui s&#39;appuient sur le run global
     ne fonctionneront pas.
-    Peut aussi être une valeur booléenne, mais cette utilisation est obsolète. False équivaut à
+    Peut également être une valeur booléenne, mais cet usage est obsolète. False équivaut à
     &quot;return&#95;previous&quot;, et True équivaut à &quot;finish&#95;previous&quot;.
 
-* `relogin` (bool): Indicateur permettant de forcer une nouvelle tentative de connexion.
+* `relogin` (bool): Option permettant de forcer une nouvelle tentative de connexion.
 
-* `resume` (Optional[Literal[&#39;allow&#39;, &#39;must&#39;, &#39;never&#39;, &#39;auto&#39;]]): Spécifie le comportement de reprise du run.
+* `resume` (Optional[Literal[&#39;allow&#39;, &#39;must&#39;, &#39;never&#39;, &#39;auto&#39;]]): Définit le comportement de reprise du run.
   Options :
   * &quot;must&quot;: Reprend un run existant avec le même ID. Si aucun run correspondant n&#39;existe,
-    cela entraîne un échec.
+    l&#39;opération échoue.
   * &quot;allow&quot;: Tente de reprendre un run existant avec le même ID. Si aucun n&#39;est
     trouvé, un nouveau run est créé.
   * &quot;never&quot;: Démarre toujours un nouveau run. Si un run avec le même ID existe déjà,
-    cela entraîne un échec.
+    l&#39;opération échoue.
   * &quot;auto&quot;: Reprend automatiquement le run en échec le plus récent sur la même
     machine.
 
-* `resume_from` (Optional[RunMoment]) : spécifie un point dans l’exécution précédente d’un run à partir duquel la reprise s’effectue.
-  Ce point est défini par l’ID du run, une métrique et sa valeur.
+* `resume_from` (Optional[RunMoment]) : indique un point d’une exécution précédente d’un run à partir duquel reprendre.
+  Ce point est défini par le run ID, une métrique et sa valeur.
   Actuellement, seule la métrique &#39;&#95;step&#39; est prise en charge.
 
-* `root_dir` (str) : Le répertoire racine à utiliser comme base pour tous les chemins associés au run.
-  Il sert notamment à définir le répertoire wandb et celui du run.
+* `root_dir` (str) : le répertoire racine à utiliser comme base pour tous les chemins associés aux runs.
+  Il sert notamment à déterminer le répertoire wandb et le répertoire du run.
 
-* `run_group` (Optional[str]) : identifiant de groupe pour des runs associés.
+* `run_group` (facultatif[str]) : identifiant de groupe pour les runs associés.
   Utilisé pour regrouper les runs dans l’interface utilisateur.
 
-* `run_id` (Optional[str]) : l’identifiant du run.
+* `run_id` (Optional[str]): L’ID du run.
 
-* `run_job_type` (Optional[str]) : Type de job exécuté (par ex., entraînement, évaluation).
+* `run_job_type` (Optional[str]) : Type de job exécuté (par exemple, entraînement, évaluation).
 
-* `run_name` (Optional[str]) : Nom du run lisible par l’utilisateur.
+* `run_name` (Optional[str]) : Nom du run en clair.
 
-* `run_notes` (Optional[str]) : Notes supplémentaires ou description du run.
+* `run_notes` (Optional[str]): Notes complémentaires ou description du run.
 
-* `run_tags` (Optional[Tuple[str, Ellipsis]]): Étiquettes à associer au run pour l’organisation et le filtrage.
+* `run_tags` (Optional[Tuple[str, Ellipsis]]): tags à associer au run pour l’organisation et le filtrage.
 
-* `sagemaker_disable` (bool) : indicateur permettant de désactiver les fonctionnalités spécifiques à SageMaker.
+* `sagemaker_disable` (bool): Indicateur permettant de désactiver les fonctionnalités spécifiques à SageMaker.
 
-* `save_code` (Optional[bool]) : Indique s’il faut enregistrer le code associé au run.
+* `save_code` (Optional[bool]) : indique s’il faut enregistrer le code associé au run.
 
-* `settings_system` (Optional[str]) : Chemin vers le fichier global de paramètres du système.
+* `settings_system` (Optional[str]): Chemin d’accès au fichier de paramètres global du système.
 
-* `max_end_of_run_history_metrics` (int): Nombre maximal de sparklines de l’historique à afficher à la fin d’un run.
+* `max_end_of_run_history_metrics` (int) : Nombre maximal de mini-graphiques de l’historique à afficher en fin de run.
 
-* `max_end_of_run_summary_metrics` (int): Nombre maximal de métriques récapitulatives à afficher à la fin d’un run.
+* `max_end_of_run_summary_metrics` (int) : nombre maximal de métriques de synthèse à afficher à la fin d’un run.
 
-* `show_errors` (bool) : Indique si les messages d’erreur doivent être affichés.
+* `show_errors` (bool): Indique si les messages d’erreur doivent être affichés.
 
-* `show_info` (bool) : Indique s’il faut afficher des messages d’information.
+* `show_info` (bool): Indique si les messages d’information doivent être affichés.
 
-* `show_warnings` (bool) : indique s’il faut afficher les messages d’avertissement.
+* `show_warnings` (bool): Indique s’il faut afficher les avertissements.
 
-* `silent` (bool) : Indicateur permettant de désactiver toute sortie.
+* `silent` (bool): Indicateur permettant de supprimer toute sortie.
 
-* `strict` (Optional[bool]) : Indique s’il faut activer le mode strict pour la validation et le contrôle des erreurs.
+* `strict` (Optional[bool]) : Permet d’activer le mode strict pour la validation et la vérification des erreurs.
 
-* `summary_timeout` (int): Nombre de secondes à attendre pour les opérations de résumé avant l’expiration du délai.
+* `summary_timeout` (int): Délai d&#39;attente, en secondes, avant expiration pour les opérations de summary.
 
-* `sweep_id` (Optional[str]): Identifiant du balayage auquel ce run appartient.
+* `sweep_id` (Optional[str]) : identifiant du balayage auquel ce run appartient.
 
-* `sweep_param_path` (Optional[str]) : Chemin d’accès à la configuration des paramètres de balayage.
+* `sweep_param_path` (Facultatif[str]) : Chemin d’accès à la configuration des paramètres du balayage.
 
-* `symlink` (bool): Indique s’il faut utiliser des liens symboliques (True par défaut, sauf sous Windows).
+* `symlink` (bool) : Indique s’il faut utiliser des liens symboliques (`True` par défaut, sauf sous Windows).
 
-* `sync_tensorboard` (Optional[bool]) : Indique s’il faut synchroniser les journaux de TensorBoard avec W&amp;B.
+* `sync_tensorboard` (Optional[bool]) : indique s’il faut synchroniser les journaux de TensorBoard avec W&amp;B.
 
 * `table_raise_on_max_row_limit_exceeded` (bool): Indique s’il faut lever une exception lorsque les limites du nombre de lignes du tableau sont dépassées.
 
-* `use_dot_wandb` (Optional[bool]) : indique s’il faut utiliser un répertoire caché `.wandb` ou visible `wandb` pour les données du run.
+* `use_dot_wandb` (Optional[bool]) : détermine s’il faut utiliser le répertoire caché `.wandb` ou le répertoire visible `wandb` pour les données de run.
   Si True, le SDK utilise `.wandb`. Si False, `wandb`.
-  Si cette option n’est pas définie, les valeurs par défaut sont `.wandb` s’il existe déjà, sinon `wandb`.
+  Si cette valeur n’est pas définie, `.wandb` est utilisé par défaut s’il existe déjà, sinon `wandb`.
 
 * `username` (Optional[str]) : Nom d’utilisateur.
 
-* `x_disable_meta` (bool): Indicateur permettant de désactiver la collection des métadonnées système.
+* `x_disable_meta` (bool) : indicateur permettant de désactiver la collection des métadonnées système.
 
-* `x_disable_stats` (bool): Indicateur permettant de désactiver la collecte des métriques système.
+* `x_disable_stats` (bool) : indicateur permettant de désactiver la collecte des métriques système.
 
-* `x_extra_http_headers` (Optional[Dict[str, str]]): En-têtes supplémentaires à ajouter à toutes les requêtes HTTP sortantes.
+* `x_extra_http_headers` (Optional[Dict[str, str]]): En-têtes HTTP supplémentaires à ajouter à toutes les requêtes HTTP sortantes.
 
-* `x_label` (Optional[str]) : libellé à attribuer aux métriques système et aux journaux de la console collectés pour le run.
-  Il sert à regrouper les données dans l&#39;interface et peut être utilisé pour distinguer les données
-  provenant de différents processus dans une tâche d&#39;entraînement distribuée.
+* `x_label` (Optional[str]) : libellé à attribuer aux métriques système et aux journaux de console collectés pour le run.
+  Il sert à regrouper les données dans l&#39;interface utilisateur et peut être utilisé pour distinguer les données
+  issues de différents processus dans une tâche d&#39;entraînement distribuée.
 
-* `x_primary` (bool) : Détermine s’il faut enregistrer les fichiers internes et les métadonnées de wandb.
-  Dans un environnement distribué, cela permet d’éviter l’écrasement des fichiers
+* `x_primary` (bool) : Indique s’il faut enregistrer les fichiers internes et les métadonnées de wandb.
+  Dans un environnement distribué, cela permet d’éviter l’écrasement de fichiers
   par des processus secondaires lorsque seules les métriques système et les journaux sont nécessaires,
-  puisque le processus principal se charge de l’essentiel de la journalisation.
+  car le processus principal prend en charge la journalisation principale.
 
-* `x_save_requirements` (bool) : Indique s&#39;il faut enregistrer le fichier requirements.
+* `x_save_requirements` (bool) : Indicateur permettant d’enregistrer le fichier requirements.
 
-* `x_server_side_derived_summary` (bool) : indicateur permettant de déléguer au serveur le calcul automatique du résumé à partir de l’historique.
-  Cela ne désactive pas les mises à jour du résumé fournies par l’utilisateur.
+* `x_server_side_derived_summary` (bool) : indicateur permettant de déléguer au serveur le calcul automatique du summary à partir de l’historique.
+  Cela ne désactive pas les mises à jour du summary effectuées par l’utilisateur.
 
-* `x_service_wait` (float) : Temps d’attente, en secondes, avant le démarrage du service interne wandb-core.
+* `x_service_wait` (float): Temps d’attente, en secondes, avant le démarrage du service interne wandb-core.
 
-* `x_skip_transaction_log` (bool) : Indique s’il faut omettre l’enregistrement des événements du run dans le journal des transactions.
-  Ce paramètre n’est pertinent que pour les runs en ligne. Il peut être utilisé pour réduire la quantité de
+* `x_skip_transaction_log` (bool) : Indique s’il faut ignorer l’enregistrement des événements du run dans le journal de transactions.
+  Ceci n’est pertinent que pour les runs en ligne. Peut être utilisé pour réduire la quantité de
   données écrites sur le disque.
-  Il doit être utilisé avec prudence, car il supprime les garanties de
+  À utiliser avec prudence, car cela supprime les garanties de
   récupération.
 
-* `x_stats_sampling_interval` (float) : Intervalle d’échantillonnage pour la surveillance du système, en secondes.
+* `x_stats_sampling_interval` (float) : Intervalle d’échantillonnage du moniteur système, en secondes.
 
-* `x_stats_dcgm_exporter` (Optional[str]) : Point de terminaison d’où extraire les métriques DCGM de Nvidia.
+* `x_stats_dcgm_exporter` (Optional[str]) : endpoint d’où extraire les métriques NVIDIA DCGM.
   Options :
-  * Extraire les métriques liées à DCGM à partir d’une requête envoyée au point de terminaison Prometheus `/api/v1/query`.
-    Il est courant d’agréger avec Prometheus les métriques remontées par les instances de DCGM Exporter
-    exécutées sur différents nœuds d’un cluster.
-  * TODO: Analyser les métriques directement à partir du point de terminaison `/metrics` de DCGM Exporter.
+  * Extraire les métriques liées à DCGM à partir d&#39;une requête vers l&#39;endpoint Prometheus `/api/v1/query`.
+    Il est courant d&#39;agréger les métriques renvoyées par les instances de DCGM Exporter
+    exécutées sur différents nœuds d&#39;un cluster à l&#39;aide de Prometheus.
+  * TODO : Analyser les métriques directement depuis l&#39;endpoint `/metrics` de DCGM Exporter.
     Exemples :
   * `http://localhost:9400/api/v1/query?query=DCGM_FI_DEV_GPU_TEMP{node="l1337", cluster="globular"}`.
 
-* `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): points de terminaison OpenMetrics `/metrics` à surveiller pour le suivi des métriques système.
+* `x_stats_open_metrics_endpoints` (Optional[Dict[str, str]]): endpoints OpenMetrics `/metrics` à surveiller pour les métriques système.
 
-* `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]) : Filtre à appliquer aux métriques collectées depuis les points de terminaison OpenMetrics `/metrics`.
+* `x_stats_open_metrics_filters` (Union[Dict[str, Dict[str, str]], Sequence, None]) : Filtre à appliquer aux métriques collectées depuis les endpoints OpenMetrics `/metrics`.
   Prend en charge deux formats :
-  * `{"motif regex de métrique, avec le nom du point de terminaison comme préfixe": {"label": "motif regex de valeur d’étiquette"}}`
+  * `{"motif regex de métrique, y compris le nom d'endpoint comme préfixe": {"label": "motif regex de valeur de label"}}`
   * `("motif regex de métrique 1", "motif regex de métrique 2", ...)`
 
-* `x_stats_open_metrics_http_headers` (Optional[Dict[str, str]]) : en-têtes HTTP à ajouter aux requêtes OpenMetrics.
+* `x_stats_open_metrics_http_headers` (Optional[Dict[str, str]]): les en-têtes HTTP à ajouter aux requêtes OpenMetrics.
 
 * `x_stats_disk_paths` (Optional[Sequence]) : chemins système à surveiller pour l’utilisation du disque.
 
-* `x_stats_cpu_count` (`Optional[int]`) : Nombre de CPU du système.
-  S’il est défini, remplace la valeur détectée automatiquement dans les métadonnées du run.
-
-* `x_stats_cpu_logical_count` (Optional[int]) : Nombre de processeurs logiques.
-  S&#39;il est défini, remplace la valeur détectée automatiquement dans les métadonnées du run.
-
-* `x_stats_gpu_count` (Optional[int]) : nombre d’appareils GPU.
+* `x_stats_cpu_count` (Optional[int]) : Nombre de CPU du système.
   Si cette valeur est définie, elle remplace la valeur détectée automatiquement dans les métadonnées du run.
 
-* `x_stats_gpu_type` (Optional[str]) : type de GPU.
+* `x_stats_cpu_logical_count` (Facultatif[int]) : Nombre de processeurs logiques.
+  S’il est défini, remplace la valeur détectée automatiquement dans les métadonnées du run.
+
+* `x_stats_gpu_count` (Optional[int]) : nombre de GPU.
+  Si cette valeur est définie, elle remplace la valeur détectée automatiquement dans les métadonnées du run.
+
+* `x_stats_gpu_type` (Optional[str]) : Type de GPU.
   S’il est défini, remplace la valeur détectée automatiquement dans les métadonnées du run.
 
 * `x_stats_gpu_device_ids` (Optional[Sequence]) : indices des périphériques GPU à surveiller.
-  S&#39;il n&#39;est pas défini, le moniteur système capture les métriques de tous les GPU.
-  Suppose une indexation à base 0 correspondant à l&#39;énumération des périphériques CUDA/ROCm.
+  Si ce paramètre n’est pas défini, le moniteur système collecte les métriques de tous les GPU.
+  Repose sur une indexation à partir de 0 correspondant à l’énumération des périphériques CUDA/ROCm.
 
-* `x_stats_track_process_tree` (bool) : Surveille l’ensemble de l’arborescence des processus pour mesurer l’utilisation des ressources, à partir de `x_stats_pid`.
-  Lorsque `True`, le moniteur système agrège le RSS, le CPU% et le nombre de threads
-  du processus ayant le PID `x_stats_pid` ainsi que de tous ses descendants.
-  Cela peut entraîner un surcoût en termes de performances et est désactivé par défaut.
+* `x_stats_track_process_tree` (bool) : Surveille l’ensemble de l’arborescence des processus pour suivre l’utilisation des ressources, à partir de `x_stats_pid`.
+  Lorsque `True`, le moniteur système agrège le RSS, le pourcentage d’utilisation du CPU et le nombre de threads
+  du processus ayant le PID `x_stats_pid`, ainsi que de tous ses descendants.
+  Cela peut avoir un impact sur les performances et est désactivé par défaut.
 
-* `x_sync_dir_suffix` (str) : Suffixe à ajouter au nom du répertoire du run (sync&#95;dir).
-  Cette valeur est définie dans wandb.init() pour éviter les conflits de nom.
-  Si elle est définie, elle est ajoutée au nom par défaut à l’aide d’un tiret.
+* `x_sync_dir_suffix` (str): Suffixe à ajouter au nom du répertoire du run (sync&#95;dir).
+  Ce paramètre est défini dans wandb.init() pour éviter les conflits de noms.
+  S&#39;il est défini, il est ajouté au nom par défaut avec un tiret.
 
-* `x_update_finish_state` (bool) : Indicateur précisant si ce processus peut mettre à jour l’état final du run sur le serveur.
-  Définissez-le sur False dans un entraînement distribué lorsque seul le processus principal doit déterminer l’état final.
+* `x_update_finish_state` (bool): Indique si ce processus peut mettre à jour l’état final du run sur le serveur.
+  Définissez cette valeur sur False dans le cadre d’un entraînement distribué, lorsque seul le processus principal doit déterminer l’état final.
 
 **Retourne :**
 Un objet `Settings`.
 
 ### <kbd>propriété</kbd> `Settings.app_url`
 
-L’URL de l’interface utilisateur de W&amp;B, généralement https://wandb.ai.
+L’URL de l’interface W&amp;B, généralement https://wandb.ai.
 
-Elle diffère de `base_url` (par exemple https://api.wandb.ai), qui
-est utilisée pour accéder aux API W&amp;B de manière programmatique.
+Elle se distingue de `base_url` (par exemple https://api.wandb.ai), qui
+sert à accéder aux API W&amp;B par programmation.
 
 **Retourne :**
 
-* `str` : La valeur de propriété `app_url`.
+* `str` : La valeur de la propriété app&#95;url.
 
 ### <kbd>propriété</kbd> `Settings.colab_url`
 
 L’URL du notebook Colab, si l’exécution a lieu dans Colab.
 
-**Retourne :**
+**Retourne :**
 
-* `Optional[str]` : La valeur de propriété `colab_url`.
+* `Optional[str]`: La valeur de la propriété colab&#95;url.
 
 ### <kbd>propriété</kbd> `Settings.deployment`
 
@@ -509,57 +508,57 @@ Chemin absolu du répertoire local où sont stockés les fichiers du run.
 
 **Retourne :**
 
-* `str` : La valeur de propriété `files_dir`.
+* `str` : La valeur de la propriété `files_dir`.
 
 ### <kbd>propriété</kbd> `Settings.is_local`
 
 ### <kbd>propriété</kbd> `Settings.log_dir`
 
-Le répertoire où sont stockés les fichiers de journal.
+Le répertoire où sont stockés les fichiers journal.
 
-**Retourne :**
+**Retourne :**
 
-* `str`: La valeur de propriété `log_dir`.
+* `str` : La valeur de la propriété `log_dir`.
 
 ### <kbd>propriété</kbd> `Settings.log_internal`
 
-Le chemin vers le fichier à utiliser pour les journaux internes.
+Le chemin du fichier à utiliser pour les journaux internes.
 
 **Retourne :**
 
-* `str` : La valeur de propriété `log_internal`.
+* `str` : La valeur de la propriété `log_internal`.
 
 ### <kbd>propriété</kbd> `Settings.log_symlink_internal`
 
-Le chemin vers le lien symbolique vers le fichier de journal interne de l’exécution la plus récente.
-
-**Retourne :**
-
-* `str`: La valeur de propriété `log_symlink_internal`.
-
-### <kbd>propriété</kbd> `Settings.log_symlink_user`
-
-Le chemin vers le lien symbolique vers le fichier journal du processus de l’utilisateur pour l’exécution la plus récente.
-
-**Retourne :**
-
-* `str` : La valeur de propriété `log_symlink_user`.
-
-### <kbd>propriété</kbd> `Settings.log_user`
-
-Le chemin vers le fichier à utiliser pour les journaux du processus utilisateur.
-
-**Retourne :**
-
-* `str` : La valeur de propriété `log_user`.
-
-### <kbd>propriété</kbd> `Settings.project_url`
-
-L’URL W&amp;B à laquelle le projet peut être consulté.
+Le chemin vers le lien symbolique du fichier journal interne de l’exécution la plus récente.
 
 **Retourne :**
 
-* `str` : La valeur de propriété `project_url`.
+* `str` : La valeur de propriété `log_symlink_internal`.
+
+### <kbd>propriété</kbd> `Settings.log_symlink_user`
+
+Le chemin d’accès vers le lien symbolique du fichier journal du processus utilisateur de l’exécution la plus récente.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `log_symlink_user`.
+
+### <kbd>propriété</kbd> `Settings.log_user`
+
+Le chemin d’accès au fichier utilisé pour les journaux du processus utilisateur.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `log_user`.
+
+### <kbd>propriété</kbd> `Settings.project_url`
+
+L’URL W&amp;B permettant de consulter le projet.
+
+**Retourne :**
+
+* `str` : La valeur de la propriété `project_url`.
 
 ### <kbd>propriété</kbd> `Settings.resume_fname`
 
@@ -567,76 +566,76 @@ Le chemin du fichier de reprise.
 
 **Retourne :**
 
-* `str` : La valeur de propriété `resume_fname`.
+* `str`: La valeur de la propriété `resume_fname`.
 
 ### <kbd>propriété</kbd> `Settings.run_mode`
 
-Le mode du run. Peut être soit « run », soit « offline-run ».
+Le mode du run. Peut être « run » ou « offline-run ».
 
-**Retourne :**
+**Retourne :**
 
-* `Literal['run', 'offline-run']`: La valeur de propriété `run_mode`.
+* `Literal['run', 'offline-run']` : La valeur de la propriété `run_mode`.
 
 ### <kbd>propriété</kbd> `Settings.run_url`
 
-L’URL W&amp;B à laquelle le run peut être consulté.
+L’URL W&amp;B où le run peut être affiché.
 
 **Retourne :**
 
-* `str` : La valeur de propriété `run_url`.
+* `str` : La valeur de la propriété run&#95;url.
 
 ### <kbd>propriété</kbd> `Settings.settings_workspace`
 
-Chemin d&#39;accès au fichier des paramètres de l&#39;espace de travail.
+Le chemin vers le fichier de paramètres du Workspace.
 
-**Retourne :**
+**Retourne :**
 
-* `str` : La valeur de propriété `settings_workspace`.
+* `str` : La valeur de la propriété `settings_workspace`.
 
 ### <kbd>propriété</kbd> `Settings.sweep_url`
 
-L’URL W&amp;B permettant de consulter le balayage.
+L’URL W&amp;B où le balayage est consultable.
 
 **Retourne :**
 
-* `str` : La valeur de propriété `sweep_url`.
+* `str` : La valeur de la propriété `sweep_url`.
 
 ### <kbd>propriété</kbd> `Settings.sync_dir`
 
-Le répertoire dans lequel sont stockés les fichiers du run.
+Le répertoire où sont stockés les fichiers du run.
 
 **Retourne :**
 
-* `str`: La valeur de propriété `sync_dir`.
+* `str` : La valeur de la propriété sync&#95;dir.
 
 ### <kbd>propriété</kbd> `Settings.sync_file`
 
-Chemin du fichier journal binaire des transactions, en mode ajout uniquement.
+Chemin vers le fichier binaire de journal des transactions en ajout uniquement.
 
 **Retourne :**
 
-* `str` : La valeur de propriété `sync_file`.
+* `str` : La valeur de la propriété sync&#95;file.
 
 ### <kbd>propriété</kbd> `Settings.sync_symlink_latest`
 
-Le chemin vers le lien symbolique vers le fichier journal de transactions du exécution la plus récente.
+Chemin d’accès vers le lien symbolique pointant vers le fichier de journal des transactions de l’exécution la plus récente.
 
-**Retourne :**
+**Retourne :**
 
-* `str` : La valeur de propriété `sync_symlink_latest`.
+* `str` : La valeur de la propriété `sync_symlink_latest`.
 
 ### <kbd>propriété</kbd> `Settings.timespec`
 
-La spécification temporelle du run.
+La spécification de temps du run.
 
 **Retourne :**
 
-* `str` : La valeur de propriété timespec.
+* `str` : La valeur de la propriété timespec.
 
 ### <kbd>propriété</kbd> `Settings.wandb_dir`
 
-Chemin d’accès complet au répertoire wandb.
+Chemin complet vers le répertoire wandb.
 
 **Retourne :**
 
-* `str` : La valeur de propriété wandb&#95;dir.
+* `str` : La valeur de la propriété wandb&#95;dir.

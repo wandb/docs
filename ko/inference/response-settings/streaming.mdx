@@ -1,16 +1,15 @@
 ---
 title: "스트리밍 응답 활성화"
-description: "W&B Inference에서 스트리밍 출력을 활성화하여 모델 응답이 생성되는 대로 점진적으로 받아보세요."
+description: "W&B Inference에서 스트리밍 출력을 활성화해 생성되는 모델 응답을 점진적으로 받을 수 있습니다."
 ---
 
-때때로 모델이 응답을 생성하는 데 시간이 걸릴 수 있습니다.
-`stream` 옵션을 true로 설정하면 응답을 여러 청크로 이루어진 스트림 형태로
-받을 수 있어, 전체 응답이 생성될 때까지 기다리지 않고 결과를 점진적으로
-표시할 수 있습니다.
+모델이 응답을 생성하는 데 시간이 걸리는 경우가 있습니다.
+`stream` 옵션을 true로 설정하면 응답을 청크 스트림으로 받을 수 있으므로,
+전체 응답이 생성될 때까지 기다리지 않고 결과를 점진적으로 표시할 수 있습니다.
 
-스트리밍 출력은 호스팅되는 모든 모델에서 지원됩니다. 특히 [reasoning models](./reasoning)와
-함께 사용할 것을 권장합니다. 모델이 출력을 시작하기 전에 오랜 시간 생각하는 경우,
-스트리밍을 사용하지 않는 요청은 타임아웃될 수 있습니다.
+스트리밍 출력은 모든 호스팅된 모델에서 지원됩니다. 특히 [추론 모델](./reasoning)과 함께
+사용하는 것을 권장합니다. 스트리밍하지 않는 요청은 출력이 시작되기 전에 모델이
+너무 오래 생각하면 시간 초과될 수 있기 때문입니다.
 
 <Tabs>
   <Tab title="Python">
@@ -34,7 +33,7 @@ description: "W&B Inference에서 스트리밍 출력을 활성화하여 모델 
         if chunk.choices:
             print(chunk.choices[0].delta.content or "", end="", flush=True)
         else:
-            print(chunk) # CompletionUsage 객체를 출력
+            print(chunk) # CompletionUsage 객체 표시
     ```
   </Tab>
 

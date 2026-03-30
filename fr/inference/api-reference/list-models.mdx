@@ -1,9 +1,9 @@
 ---
 title: "Lister les modèles"
-description: "Récupérez la liste de tous les modèles W&B Inférence disponibles et de leurs identifiants à l’aide du point de terminaison de l’API Models."
+description: "Récupérez la liste de tous les modèles W&B Inference disponibles et de leurs ID via l'API endpoint models."
 ---
 
-Obtenez tous les modèles disponibles et leurs identifiants. Utilisez cette liste pour sélectionner dynamiquement des modèles ou vérifier ceux qui sont disponibles.
+Obtenez la liste de tous les modèles disponibles et de leurs ID. Utilisez-la pour sélectionner des modèles dynamiquement ou vérifier ceux qui sont disponibles.
 
 <div id="request-examples">
   ## Exemples de requêtes
@@ -17,7 +17,7 @@ Obtenez tous les modèles disponibles et leurs identifiants. Utilisez cette list
     client = openai.OpenAI(
         base_url="https://api.inference.wandb.ai/v1",
         api_key="<your-api-key>",
-        project="<your-team>/<your-project>"  # Facultatif, pour le suivi de l'utilisation
+        project="<your-team>/<your-project>"  # facultatif, pour le suivi de l’utilisation
     )
 
     response = client.models.list()
@@ -38,10 +38,10 @@ Obtenez tous les modèles disponibles et leurs identifiants. Utilisez cette list
 </Tabs>
 
 <div id="response-format">
-  ## Format de réponse
+  ## Format de la réponse
 </div>
 
-L&#39;API renvoie des réponses dans un format compatible avec celui d&#39;OpenAI :
+L’API renvoie des réponses dans un format compatible avec OpenAI :
 
 ```json
 {
@@ -61,7 +61,7 @@ L&#39;API renvoie des réponses dans un format compatible avec celui d&#39;OpenA
       "owned_by": "system",
       "root": "openai/gpt-oss-20b"
     }
-    // ... autres modèles
+    // ... plus de modèles
   ]
 }
 ```

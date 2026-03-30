@@ -7,9 +7,9 @@ keywords: ["성능"]
   ### `[Errno 24]: 열린 파일 수가 너무 많음`
 </div>
 
-이 오류는 열린 파일 수가 운영 체제에서 설정한 제한을 초과할 때 발생합니다. Weave에서는 대용량 이미지 데이터셋으로 작업할 때 이 문제가 발생할 수 있습니다. Weave는 이미지 처리를 위해 `PIL`을 사용하며, `PIL`은 프로그램이 실행되는 동안 파일 디스크립터를 열린 상태로 유지합니다.
+이 오류는 열려 있는 파일 수가 운영체제에서 설정한 한도를 초과할 때 발생합니다. Weave에서는 대용량 이미지 데이터셋으로 작업할 때 이런 문제가 발생할 수 있습니다. Weave는 이미지 처리를 위해 `PIL`을 사용하며, 이로 인해 프로그램이 실행되는 동안 파일 디스크립터가 열린 상태로 유지됩니다.
 
-이 문제를 해결하려면 `ulimit`을 사용해 열린 파일의 시스템 제한을 `65,536`으로 늘리세요:
+이 문제를 해결하려면 `ulimit`을 사용해 열린 파일 수의 시스템 한도를 `65,536`으로 늘리세요:
 
 ```bash
 ulimit -n 65536
@@ -17,11 +17,11 @@ ulimit -n 65536
 
 ***
 
-{/* ---- 자동 생성: 탭 배지 ----
-  front matter의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 마커 사이의 내용은 직접 수정하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  프런트 매터의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 표시 사이의 내용은 직접 수정하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[성능](/ko/support/weave/tags/performance)</Badge>
 
-{/* ---- 자동 생성: 탭 배지 끝 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

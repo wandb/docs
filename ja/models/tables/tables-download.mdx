@@ -1,9 +1,9 @@
 ---
-description: "W&B 表データを pandas データフレームと CSV ファイルにエクスポートして、オフライン分析とデータ処理を行います。"
-title: 表データのエクスポート
+description: "W&B Table のデータを pandas DataFrames と CSV ファイルにエクスポートして、オフラインで分析やデータ処理を行います。"
+title: テーブル データのエクスポート
 ---
 
-すべての W&amp;B アーティファクトと同様に、表は pandas データフレームに変換できるため、データを簡単にエクスポートできます。
+すべての W&amp;B Artifacts と同様に、Tables は pandas のデータフレームに変換できるため、データを簡単にエクスポートできます。
 
 <div id="convert-table-to-artifact">
   ## `table` を `artifact` に変換する
@@ -42,10 +42,10 @@ df = table.get_dataframe()
   ## データのエクスポート
 </div>
 
-これで、データフレームがサポートする任意の方法を使ってエクスポートできます。
+これで、`データフレーム` がサポートしている任意のエクスポート方法を使用してエクスポートできます。
 
 ```python
-# Converting the table data to .csv
+# テーブルデータを .csv に変換する
 df.to_csv("example.csv", encoding="utf-8")
 ```
 
@@ -53,6 +53,6 @@ df.to_csv("example.csv", encoding="utf-8")
   # 次のステップ
 </div>
 
-* `アーティファクト` の[リファレンス ドキュメント](/ja/models/artifacts/construct-an-artifact/)を確認してください。
-* [Tables Walkthrough](/ja/models/tables/tables-walkthrough/) ガイドを確認してください。
-* [データフレーム](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) のリファレンス ドキュメントを確認してください。
+* `artifacts` については、[リファレンスドキュメント](/ja/models/artifacts/construct-an-artifact/)を参照してください。
+* [Tables Walkthrough](/ja/models/tables/tables-walkthrough/) ガイドをご覧ください。
+* [データフレーム](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html) のリファレンスドキュメントを参照してください。

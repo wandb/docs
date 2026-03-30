@@ -1,62 +1,63 @@
 ---
 description: 클라우드 또는 온프레미스 인프라에 W&B Self-Managed 배포
-title: W&B Self-Managed 배포 개요
-sidebarTitle: 배포 개요
+title: W&B Self-Managed 배포 Overview
+sidebarTitle: 배포 Overview
 ---
 
 <Tip>
-  W&amp;B는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud) 배포 유형과 같은 완전 관리형 배포 옵션을 권장합니다. W&amp;B 완전 관리형 서비스는 설정이 거의 또는 전혀 필요하지 않아 사용이 간편하고 안전합니다.
+  W&amp;B는 [W&amp;B Multi-tenant Cloud](/ko/platform/hosting/hosting-options/multi_tenant_cloud) 또는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)와 같은 완전관리형 배포 옵션을 권장합니다. W&amp;B 완전관리형 서비스는 최소한의 설정만으로도 사용할 수 있으며, 간편하고 안전합니다.
 </Tip>
 
-[AWS, Google Cloud 또는 Azure 클라우드 계정](#deploy-wb-server-within-Self-Managed-cloud-accounts) 혹은 [온프레미스 인프라](#deploy-wb-server-in-on-prem-infrastructure) 내에 W&amp;B Server를 배포하세요.
+[AWS, Google Cloud 또는 Azure 클라우드 계정](#deploy-wb-server-within-Self-Managed-cloud-accounts) 또는 [온프레미스 인프라](#deploy-wb-server-in-on-prem-infrastructure)에 W&amp;B Server를 배포하세요.
 
-귀하의 IT/DevOps/MLOps 팀은 다음 사항에 대한 책임을 집니다:
+귀사의 IT/DevOps/MLOps 팀은 다음을 책임집니다:
 
-* 배포를 위한 인프라 준비.
-* 조직의 정책 및 해당되는 경우 [보안 기술 구현 가이드라인 (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)에 따른 인프라 보안 확보.
-* [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) 및 [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html)와 같은 조직의 규정 준수 요구 사항 유지.
-* 업그레이드 관리 및 패치 적용.
-* W&amp;B Self-Managed 배포의 지속적인 유지 관리.
+* 배포 프로비저닝
+* 해당하는 경우, [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide)를 포함하여 조직의 정책에 따라 인프라를 보호
+* [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2) 및 [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html)와 같은 조직의 규제 요구 사항 준수 유지
+* 업그레이드 관리 및 패치 적용
+* W&amp;B Self-Managed 배포의 지속적인 유지 관리
 
 <Info>
-  조직이 규제 요구 사항을 준수해야 하는 경우, W&amp;B가 유지 관리하는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)에 배포하는 것을 고려해 보세요.
+  조직이 규제 요구 사항의 적용을 받는 경우, W&amp;B가 유지 관리하는 [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud)에 배포하는 것을 고려하세요.
 
   * W&amp;B Dedicated Cloud의 호스팅 플랫폼은 SOC 2 Type 2 요구 사항을 충족합니다.
-  * 적절하게 설정된 경우, W&amp;B Dedicated Cloud 배포는 HIPAA를 준수합니다.
+  * 적절히 설정된 경우 W&amp;B Dedicated Cloud 배포는 HIPAA를 준수합니다.
 
-  더 자세한 정보가 필요하시면 [W&amp;B Security Portal](https://security.wandb.ai/)을 참조하세요.
+  추가 정보가 필요하면 [W&amp;B Security Portal](https://security.wandb.ai/)을 참고하세요.
 </Info>
 
 <div id="about-the-wb-kubernetes-operator">
   ## W&amp;B Kubernetes Operator 소개
 </div>
 
-W&amp;B Self-Managed를 배포하려면 **W&amp;B Kubernetes Operator**를 사용하세요. 이 Operator는 W&amp;B의 배포, 관리, 문제 해결, 확장을 간소화합니다.
+**W&amp;B Kubernetes Operator**를 사용해 W&amp;B Self-Managed를 배포할 수 있습니다. 이 Operator는 W&amp;B의 배포, 관리, 문제 해결, 확장을 간소화합니다.
 
-이 Operator는 중앙 [deploy.wandb.ai](https://deploy.wandb.ai) 서버에 연결해 지정된 릴리스 채널의 최신 사양 변경 사항을 요청하고 이를 적용합니다. 라이선스가 유효한 동안에는 업데이트를 받을 수 있습니다. [Helm](https://helm.sh/)은 Operator를 설치하는 데 사용되며, 동시에 Operator가 W&amp;B Kubernetes 스택을 관리하는 데에도 사용됩니다. 배포는 여러 개의 pod로 구성되며, 서비스마다 pod가 하나씩 있습니다. 각 pod 이름에는 `wandb-` 접두사가 붙습니다.
+이 Operator는 중앙 [deploy.wandb.ai](https://deploy.wandb.ai) 서버에 연결해 지정된 릴리스 채널의 최신 사양 변경을 요청하고 이를 적용합니다. 라이선스가 유효한 동안에는 업데이트를 받을 수 있습니다. [Helm](https://helm.sh/)은 Operator 설치와 Operator의 W&amp;B Kubernetes 스택 관리에 모두 사용됩니다. 배포는 서비스별로 하나의 파드로 이루어진 여러 파드로 구성되며, 각 파드 이름에는 `wandb-` 접두사가 붙습니다.
 
-설정은 **Release Channel Values**(W&amp;B의 기본값), **User Input Values**(System Console을 통한 재정의), **Custom Resource Values**(사용자 spec이 앞의 두 값을 모두 재정의) 순의 계층 구조를 따릅니다. 자세한 내용은 [Deploy W&amp;B with Kubernetes Operator](/ko/platform/hosting/self-managed/operator)를 참조하세요.
+설정은 다음과 같은 계층 구조를 따릅니다: **Release Channel Values**(W&amp;B의 기본값), **User Input Values**(System Console을 통한 재정의), **Custom Resource Values**(사용자 사양이 앞의 두 값을 모두 재정의). 자세한 내용은 [Kubernetes Operator로 W&amp;B 배포](/ko/platform/hosting/self-managed/operator)를 참조하세요.
 
-* 퍼블릭 클라우드 또는 온프레미스 인프라에 W&amp;B Self-Managed를 배포하려면 [Deploy W&amp;B with Kubernetes Operator](/ko/platform/hosting/self-managed/operator)를 참조하세요.
-* AWS가 아닌 커스텀 클라우드 플랫폼에 W&amp;B Self-Managed를 배포하려면 요구 사항은 [on-prem infrastructure](#deploy-wb-server-in-on-prem-infrastructure)에 배포하는 경우의 요구 사항과 유사합니다.
-* 에어갭 환경에 W&amp;B Self-Managed를 배포하려면 [Deploy on Air-Gapped Kubernetes](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped)를 참조하세요.
+* 퍼블릭 클라우드 또는 온프레미스 인프라에 W&amp;B Self-Managed를 배포하려면 [Kubernetes Operator로 W&amp;B 배포](/ko/platform/hosting/self-managed/operator)를 참조하세요.
+* AWS가 아닌 맞춤형 클라우드 플랫폼에 W&amp;B Self-Managed를 배포하는 경우, 요구 사항은 [온프레미스 인프라](#deploy-wb-server-in-on-prem-infrastructure)에 배포할 때와 유사합니다.
+* air-gapped 환경에 W&amp;B Self-Managed를 배포하려면 [Air-Gapped Kubernetes에 배포](/ko/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped)를 참조하세요.
 
-안정성을 유지하기 위해 인스턴스에 [rate limits를 구성](/ko/platform/hosting/self-managed/rate-limits)할 수도 있습니다. 기본값과 알림 동작에 대해서는 [Rate limits](/ko/platform/hosting/self-managed/rate-limits)를 참조하세요.
+안정성을 유지하기 위해 인스턴스에 [요청 속도 제한을 설정](/ko/platform/hosting/self-managed/rate-limits)할 수도 있습니다. 기본값과 알림 동작에 대해서는 [요청 속도 제한](/ko/platform/hosting/self-managed/rate-limits)을 참조하세요.
 
 <div id="required-infrastructure">
+  ## 필수 인프라
+</div>
+
+모든 배포 옵션에는 다음 인프라가 필요합니다:
+
+* Kubernetes
+* MySQL 8 데이터베이스
+* Amazon S3 호환 객체 저장소
+* Redis 캐시
+
+자세한 내용은 [Requirements](/ko/platform/hosting/self-managed/requirements)를 참조하세요. W&amp;B는 각 컴포넌트에 대한 권장 사항을 제공하고 설치 과정 전반에 걸쳐 안내를 제공할 수 있습니다.
+
+<div id="obtain-your-wb-server-license">
   ## W&amp;B Server 라이선스 획득하기
 </div>
 
-W&amp;B 서버 설정을 완료하려면 W&amp;B 트라이얼 라이선스가 필요합니다. [Deploy Manager](https://deploy.wandb.ai/deploy)를 열어 무료 트라이얼 라이선스를 생성하세요.
-
-<Note>
-  W&amp;B 계정이 없는 경우, 계정을 먼저 생성해야 무료 라이선스를 생성할 수 있습니다.
-
-  중요 보안 기능 및 기타 기업용 기능을 지원하는 W&amp;B Server 엔터프라이즈 라이선스가 필요한 경우, [이 양식을 제출](https://wandb.ai/site/for-enterprise/self-hosted-trial)하거나 W&amp;B 팀에 문의하세요.
-</Note>
-
-<div id="obtain-your-wb-server-license">
-  ## W&amp;B Server 라이선스 받기
-</div>
-
-배포 전에 W&amp;B Server 라이선스가 필요합니다. 단계별 안내는 Requirements 페이지의 [라이선스](/ko/platform/hosting/self-managed/requirements#license)를 참조하세요.
+배포 전에 W&amp;B Server 라이선스가 필요합니다. 단계별 지침은 Requirements 페이지의 [License](/ko/platform/hosting/self-managed/requirements#license)를 참조하세요.

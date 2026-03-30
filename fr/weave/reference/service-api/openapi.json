@@ -49,7 +49,7 @@
           "Service"
         ],
         "summary": "Obtenir l’emplacement de l’appelant",
-        "description": "Recherche l’emplacement géographique d’un utilisateur à partir de son adresse IP.\n\nCette API existe à des fins de débogage et pourrait ne plus être disponible à l’avenir.",
+        "description": "Recherche l’emplacement géographique d’un utilisateur à partir de son adresse IP.\n\nCette API est fournie à des fins de débogage et pourrait ne plus être disponible à l’avenir.",
         "operationId": "get_caller_location_geolocate_get",
         "parameters": [
           {
@@ -65,13 +65,13 @@
                   "type": "null"
                 }
               ],
-              "description": "Adresse IP à géolocaliser ; par défaut, l’adresse IP du client",
+              "description": "Adresse IP à géolocaliser ; par défaut, l’adresse IP du client est utilisée",
               "examples": [
                 "1.2.3.4"
               ],
               "title": "Ip"
             },
-            "description": "Adresse IP à géolocaliser ; par défaut, l’adresse IP du client"
+            "description": "Adresse IP à géolocaliser ; par défaut, l’adresse IP du client est utilisée"
           }
         ],
         "responses": {
@@ -235,7 +235,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "Début du lot d’appels",
+        "summary": "Début de lot d’appels",
         "operationId": "call_start_batch_call_upsert_batch_post",
         "requestBody": {
           "content": {
@@ -419,8 +419,8 @@
         "tags": [
           "Inference"
         ],
-        "summary": "Models Openrouter du routeur d’inférence",
-        "description": "Renvoie une liste de modèles disponibles pour être utilisés avec OpenRouter.\n\nCette API est disponible sans authentification.",
+        "summary": "Models OpenRouter du routeur d’inférence",
+        "description": "Renvoie une liste de modèles pouvant être utilisés avec OpenRouter.\n\nCette API est accessible sans authentification.",
         "operationId": "inference_router_openrouter_models_inference_router_openrouter_models_get",
         "responses": {
           "200": {
@@ -485,7 +485,7 @@
         "tags": [
           "Inference"
         ],
-        "summary": "Publier l’inférence",
+        "summary": "Publication de l’inférence",
         "description": "API compatibles avec OpenAI.",
         "operationId": "inference_post_inference_v1_path__post",
         "security": [
@@ -541,7 +541,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "Statistiques de requête sur les appels",
+        "summary": "Statistiques des requêtes d’appels",
         "operationId": "calls_query_stats_calls_query_stats_post",
         "requestBody": {
           "content": {
@@ -587,8 +587,8 @@
         "tags": [
           "Calls"
         ],
-        "summary": "Utilisation des traces",
-        "description": "Calcule l’utilisation par appel pour une trace, avec cumul des descendants.",
+        "summary": "Utilisation de la trace",
+        "description": "Calcule l’utilisation par appel pour une trace, avec agrégation des descendants.",
         "operationId": "trace_usage_trace_usage_post",
         "requestBody": {
           "content": {
@@ -635,7 +635,7 @@
           "Calls"
         ],
         "summary": "Utilisation des appels",
-        "description": "Calcule l’utilisation agrégée pour plusieurs appels racine, avec cumul des descendants.",
+        "description": "Calcule l’utilisation agrégée pour plusieurs appels racine, avec agrégation des descendants.",
         "operationId": "calls_usage_calls_usage_post",
         "requestBody": {
           "content": {
@@ -681,7 +681,7 @@
         "tags": [
           "Calls"
         ],
-        "summary": "Flux de requête sur les appels",
+        "summary": "Flux de requêtes d’appels",
         "operationId": "calls_query_stream_calls_stream_query_post",
         "security": [
           {
@@ -737,7 +737,7 @@
         "tags": [
           "Objects"
         ],
-        "summary": "Créer l’objet",
+        "summary": "Créer un objet",
         "operationId": "obj_create_obj_create_post",
         "requestBody": {
           "content": {
@@ -921,7 +921,7 @@
         "tags": [
           "Tables"
         ],
-        "summary": "Créer le tableau",
+        "summary": "Créer un tableau",
         "operationId": "table_create_table_create_post",
         "requestBody": {
           "content": {
@@ -1013,7 +1013,7 @@
         "tags": [
           "Tables"
         ],
-        "summary": "Créer le tableau à partir des condensés",
+        "summary": "Créer un tableau à partir de condensés",
         "operationId": "table_create_from_digests_table_create_from_digests_post",
         "requestBody": {
           "content": {
@@ -1105,7 +1105,7 @@
         "tags": [
           "Tables"
         ],
-        "summary": "Statistiques de requête sur le tableau",
+        "summary": "Statistiques des requêtes sur le tableau",
         "operationId": "table_query_stats_table_query_stats_post",
         "requestBody": {
           "content": {
@@ -1151,7 +1151,7 @@
         "tags": [
           "Tables"
         ],
-        "summary": "Lot de statistiques de requête sur le tableau",
+        "summary": "Lot de statistiques des requêtes sur le tableau",
         "operationId": "table_query_stats_batch_table_query_stats_batch_post",
         "requestBody": {
           "content": {
@@ -1197,7 +1197,7 @@
         "tags": [
           "Refs"
         ],
-        "summary": "Lire un lot de références",
+        "summary": "Lecture par lot des références",
         "operationId": "refs_read_batch_refs_read_batch_post",
         "requestBody": {
           "content": {
@@ -1243,7 +1243,7 @@
         "tags": [
           "Files"
         ],
-        "summary": "Créer le fichier",
+        "summary": "Créer un fichier",
         "operationId": "file_create_file_create_post",
         "requestBody": {
           "content": {
@@ -1471,7 +1471,7 @@
         "tags": [
           "Costs"
         ],
-        "summary": "Purge des coûts",
+        "summary": "Purge de coût",
         "operationId": "cost_purge_cost_purge_post",
         "requestBody": {
           "content": {
@@ -1518,7 +1518,7 @@
           "Feedback"
         ],
         "summary": "Création de feedback",
-        "description": "Ajouter un feedback à un appel ou à un objet.",
+        "description": "Ajouter un retour à un appel ou à un objet.",
         "operationId": "feedback_create_feedback_create_post",
         "requestBody": {
           "content": {
@@ -1564,8 +1564,8 @@
         "tags": [
           "Feedback"
         ],
-        "summary": "Création par lot de feedbacks",
-        "description": "Ajouter plusieurs éléments de feedback aux appels ou aux objets.",
+        "summary": "Création par lot de feedback",
+        "description": "Ajouter plusieurs éléments de feedback à des appels ou à des objets.",
         "operationId": "feedback_create_batch_feedback_batch_create_post",
         "requestBody": {
           "content": {
@@ -1612,7 +1612,7 @@
           "Feedback"
         ],
         "summary": "Requête de feedback",
-        "description": "Requête sur les feedbacks.",
+        "description": "Interroger le feedback.",
         "operationId": "feedback_query_feedback_query_post",
         "requestBody": {
           "content": {
@@ -1658,8 +1658,8 @@
         "tags": [
           "Feedback"
         ],
-        "summary": "Purge des feedbacks",
-        "description": "Supprimer définitivement les feedbacks.",
+        "summary": "Purge de feedback",
+        "description": "Supprimer définitivement le feedback.",
         "operationId": "feedback_purge_feedback_purge_post",
         "requestBody": {
           "content": {
@@ -1795,8 +1795,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "Création d’une file d’annotation",
-        "description": "Créer une nouvelle file d’annotation.",
+        "summary": "Création de file d'attente d'annotation",
+        "description": "Créer une nouvelle file d'attente d'annotation.",
         "operationId": "annotation_queue_create_annotation_queues_post",
         "requestBody": {
           "content": {
@@ -1842,8 +1842,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "Flux de requête des files d’annotation",
-        "description": "Interroger les files d’annotation d’un projet (réponse NDJSON en streaming).",
+        "summary": "Flux de requête des files d'attente d'annotation",
+        "description": "Interroger les files d'attente d'annotation d'un projet (réponse NDJSON en streaming).",
         "operationId": "annotation_queues_query_stream_annotation_queues_query_post",
         "requestBody": {
           "content": {
@@ -1887,8 +1887,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "Lecture d’une file d’annotation",
-        "description": "Lire une file d’annotation spécifique.",
+        "summary": "Lire la file d'attente d'annotation",
+        "description": "Lire une file d'attente d'annotation spécifique.",
         "operationId": "annotation_queue_read_annotation_queues__queue_id__get",
         "security": [
           {
@@ -1944,8 +1944,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "Ajout d’appels à la file d’annotation",
-        "description": "Ajouter des appels à une file d’annotation.",
+        "summary": "Ajouter des calls à la file d'attente d'annotation",
+        "description": "Ajouter des appels à une file d'attente d'annotation.",
         "operationId": "annotation_queue_add_calls_annotation_queues__queue_id__items_post",
         "security": [
           {
@@ -2002,8 +2002,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "Requête des éléments de la file d’annotation",
-        "description": "Interroger les éléments d’une file d’annotation avec pagination et tri.",
+        "summary": "Requête des éléments de la file d'attente d'annotation",
+        "description": "Interroger les éléments d'une file d'attente d'annotation avec pagination et tri.",
         "operationId": "annotation_queue_items_query_annotation_queues__queue_id__items_query_post",
         "security": [
           {
@@ -2060,8 +2060,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "Statistiques des files d’annotation",
-        "description": "Obtenir les statistiques de plusieurs files d’annotation.",
+        "summary": "Statistiques des files d'attente d'annotation",
+        "description": "Obtenir les statistiques de plusieurs files d'attente d'annotation.",
         "operationId": "annotation_queues_stats_annotation_queues_stats_post",
         "requestBody": {
           "content": {
@@ -2107,8 +2107,8 @@
         "tags": [
           "Annotation Queues"
         ],
-        "summary": "Mise à jour de la progression d’un élément de la file d’annotation",
-        "description": "Mettez à jour le statut d’annotation d’un élément de la file d’attente pour l’annotateur actuel.",
+        "summary": "Mise à jour de la progression d'un élément de la file d'attente d'annotation",
+        "description": "Mettre à jour l'état de l'annotation d'un élément de la file d'attente pour l'annotateur actuel.",
         "operationId": "annotation_queue_item_progress_update_annotation_queues__queue_id__items__item_id__progress_post",
         "security": [
           {
@@ -2220,7 +2220,7 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "Évaluation du modèle",
+        "summary": "Évaluer le modèle",
         "operationId": "evaluate_model_evaluations_evaluate_model_post",
         "requestBody": {
           "content": {
@@ -2266,7 +2266,7 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "Statut de l’évaluation",
+        "summary": "Statut de l'évaluation",
         "operationId": "evaluation_status_evaluations_status_post",
         "requestBody": {
           "content": {
@@ -2312,7 +2312,7 @@
         "tags": [
           "Images"
         ],
-        "summary": "Création d’image",
+        "summary": "Création d'image",
         "operationId": "image_create_image_create_post",
         "requestBody": {
           "content": {
@@ -2358,7 +2358,7 @@
         "tags": [
           "Ops"
         ],
-        "summary": "Création d’une op",
+        "summary": "Création d'op",
         "description": "Créer un objet op.",
         "operationId": "op_create_v2__entity___project__ops_post",
         "security": [
@@ -2423,7 +2423,7 @@
         "tags": [
           "Ops"
         ],
-        "summary": "Liste des ops",
+        "summary": "Liste des op",
         "description": "Lister les objets op.",
         "operationId": "op_list_v2__entity___project__ops_get",
         "security": [
@@ -2463,10 +2463,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Nombre maximal d’ops à renvoyer",
+              "description": "Nombre maximal d'ops à renvoyer",
               "title": "Limit"
             },
-            "description": "Nombre maximal d’ops à renvoyer"
+            "description": "Nombre maximal d'ops à renvoyer"
           },
           {
             "name": "offset",
@@ -2481,10 +2481,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Nombre d’ops à ignorer",
+              "description": "Nombre d'ops à ignorer",
               "title": "Offset"
             },
-            "description": "Nombre d’ops à ignorer"
+            "description": "Nombre d'ops à ignorer"
           }
         ],
         "responses": {
@@ -2514,7 +2514,7 @@
         "tags": [
           "Ops"
         ],
-        "summary": "Lecture d’une op",
+        "summary": "Lire l'op",
         "description": "Obtenir un objet op.",
         "operationId": "op_read_v2__entity___project__ops__object_id__versions__digest__get",
         "security": [
@@ -2565,11 +2565,11 @@
             "required": false,
             "schema": {
               "type": "boolean",
-              "description": "Indique s’il faut charger immédiatement le code de l’op",
+              "description": "Indique s'il faut charger immédiatement le code de l'op",
               "default": false,
               "title": "Eager"
             },
-            "description": "Indique s’il faut charger immédiatement le code de l’op"
+            "description": "Indique s'il faut charger immédiatement le code de l'op"
           }
         ],
         "responses": {
@@ -2601,8 +2601,8 @@
         "tags": [
           "Ops"
         ],
-        "summary": "Suppression d’une op",
-        "description": "Supprime un objet op. Si des empreintes sont fournies, seules ces versions sont supprimées. Sinon, toutes les versions sont supprimées.",
+        "summary": "Suppression de l'op",
+        "description": "Supprimer un objet op. Si des digests sont fournis, seules ces versions sont supprimées. Sinon, toutes les versions sont supprimées.",
         "operationId": "op_delete_v2__entity___project__ops__object_id__delete",
         "security": [
           {
@@ -2653,10 +2653,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Liste des empreintes à supprimer. Si elle n’est pas fournie, toutes les empreintes de l’op seront supprimées.",
+              "description": "Liste des digests à supprimer. S'ils ne sont pas fournis, tous les digests de l'op seront supprimés.",
               "title": "Digests"
             },
-            "description": "Liste des empreintes à supprimer. Si elle n’est pas fournie, toutes les empreintes de l’op seront supprimées."
+            "description": "Liste des digests à supprimer. S'ils ne sont pas fournis, tous les digests de l'op seront supprimés."
           }
         ],
         "responses": {
@@ -2688,7 +2688,7 @@
         "tags": [
           "Datasets"
         ],
-        "summary": "Création d’un jeu de données",
+        "summary": "Création de jeu de données",
         "description": "Créer un objet jeu de données.",
         "operationId": "dataset_create_v2__entity___project__datasets_post",
         "security": [
@@ -2728,7 +2728,7 @@
         },
         "responses": {
           "200": {
-            "description": "Réponse correcte",
+            "description": "Réponse réussie",
             "content": {
               "application/json": {
                 "schema": {
@@ -2793,10 +2793,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Nombre maximal de jeux de données à renvoyer",
+              "description": "Nombre maximal de Datasets à renvoyer",
               "title": "Limit"
             },
-            "description": "Nombre maximal de jeux de données à renvoyer"
+            "description": "Nombre maximal de Datasets à renvoyer"
           },
           {
             "name": "offset",
@@ -2811,15 +2811,15 @@
                   "type": "null"
                 }
               ],
-              "description": "Nombre de jeux de données à ignorer",
+              "description": "Nombre de Datasets à ignorer",
               "title": "Offset"
             },
-            "description": "Nombre de jeux de données à ignorer"
+            "description": "Nombre de Datasets à ignorer"
           }
         ],
         "responses": {
           "200": {
-            "description": "Réponse correcte",
+            "description": "Réponse réussie",
             "content": {
               "application/json": {
                 "schema": {}
@@ -2844,7 +2844,7 @@
         "tags": [
           "Datasets"
         ],
-        "summary": "Lecture d’un jeu de données",
+        "summary": "Lire le jeu de données",
         "description": "Obtenir un objet jeu de données.",
         "operationId": "dataset_read_v2__entity___project__datasets__object_id__versions__digest__get",
         "security": [
@@ -2892,7 +2892,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Réponse correcte",
+            "description": "Réponse réussie",
             "content": {
               "application/json": {
                 "schema": {
@@ -2919,7 +2919,7 @@
         "tags": [
           "Datasets"
         ],
-        "summary": "Suppression d’un jeu de données",
+        "summary": "Suppression du jeu de données",
         "description": "Supprimer un objet jeu de données. Si des digests sont fournis, seules ces versions sont supprimées. Sinon, toutes les versions sont supprimées.",
         "operationId": "dataset_delete_v2__entity___project__datasets__object_id__delete",
         "security": [
@@ -2971,15 +2971,15 @@
                   "type": "null"
                 }
               ],
-              "description": "Liste des digests à supprimer. Si elle n'est pas fournie, tous les digests du jeu de données seront supprimés.",
+              "description": "Liste des digests à supprimer. Si elle n’est pas fournie, tous les digests du jeu de données seront supprimés.",
               "title": "Digests"
             },
-            "description": "Liste des digests à supprimer. Si elle n'est pas fournie, tous les digests du jeu de données seront supprimés."
+            "description": "Liste des digests à supprimer. Si elle n’est pas fournie, tous les digests du jeu de données seront supprimés."
           }
         ],
         "responses": {
           "200": {
-            "description": "Réponse correcte",
+            "description": "Réponse réussie",
             "content": {
               "application/json": {
                 "schema": {
@@ -3006,7 +3006,7 @@
         "tags": [
           "Scorers"
         ],
-        "summary": "Création d’un scorer",
+        "summary": "Création de scorer",
         "description": "Créer un objet scorer.",
         "operationId": "scorer_create_v2__entity___project__scorers_post",
         "security": [
@@ -3046,7 +3046,7 @@
         },
         "responses": {
           "200": {
-            "description": "Réponse correcte",
+            "description": "Réponse réussie",
             "content": {
               "application/json": {
                 "schema": {
@@ -3101,7 +3101,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Réponse correcte",
+            "description": "Réponse réussie",
             "content": {
               "application/json": {
                 "schema": {}
@@ -3126,7 +3126,7 @@
         "tags": [
           "Scorers"
         ],
-        "summary": "Lecture d’un scorer",
+        "summary": "Lire le scorer",
         "description": "Obtenir un objet scorer.",
         "operationId": "scorer_read_v2__entity___project__scorers__object_id__versions__digest__get",
         "security": [
@@ -3174,7 +3174,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Réponse correcte",
+            "description": "Réponse réussie",
             "content": {
               "application/json": {
                 "schema": {
@@ -3201,7 +3201,7 @@
         "tags": [
           "Scorers"
         ],
-        "summary": "Suppression d’un scorer",
+        "summary": "Suppression du scorer",
         "description": "Supprimer un objet scorer.",
         "operationId": "scorer_delete_v2__entity___project__scorers__object_id__delete",
         "security": [
@@ -3253,15 +3253,15 @@
                   "type": "null"
                 }
               ],
-              "description": "Liste des digests à supprimer. Si elle n'est pas fournie, tous les digests du scorer seront supprimés.",
+              "description": "Liste des digests à supprimer. Si elle n’est pas fournie, tous les digests du scorer seront supprimés.",
               "title": "Digests"
             },
-            "description": "Liste des digests à supprimer. Si elle n'est pas fournie, tous les digests du scorer seront supprimés."
+            "description": "Liste des digests à supprimer. Si elle n’est pas fournie, tous les digests du scorer seront supprimés."
           }
         ],
         "responses": {
           "200": {
-            "description": "Réponse correcte",
+            "description": "Réponse réussie",
             "content": {
               "application/json": {
                 "schema": {
@@ -3408,7 +3408,7 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "Lire une évaluation",
+        "summary": "Lire l’évaluation",
         "description": "Obtenir un objet d’évaluation.",
         "operationId": "evaluation_read_v2__entity___project__evaluations__object_id__versions__digest__get",
         "security": [
@@ -3483,7 +3483,7 @@
         "tags": [
           "Evaluations"
         ],
-        "summary": "Supprimer une évaluation",
+        "summary": "Supprimer l’évaluation",
         "description": "Supprimer un objet d’évaluation.",
         "operationId": "evaluation_delete_v2__entity___project__evaluations__object_id__delete",
         "security": [
@@ -3571,7 +3571,7 @@
           "Models"
         ],
         "summary": "Créer un modèle",
-        "description": "Créer un objet modèle.",
+        "description": "Créer un objet de modèle.",
         "operationId": "model_create_v2__entity___project__models_post",
         "security": [
           {
@@ -3636,7 +3636,7 @@
           "Models"
         ],
         "summary": "Lister les modèles",
-        "description": "Lister les objets modèle.",
+        "description": "Lister les objets de modèle.",
         "operationId": "model_list_v2__entity___project__models_get",
         "security": [
           {
@@ -3726,8 +3726,8 @@
         "tags": [
           "Models"
         ],
-        "summary": "Lire un modèle",
-        "description": "Obtenir un objet modèle.",
+        "summary": "Lire le modèle",
+        "description": "Obtenir un objet de modèle.",
         "operationId": "model_read_v2__entity___project__models__object_id__versions__digest__get",
         "security": [
           {
@@ -3801,8 +3801,8 @@
         "tags": [
           "Models"
         ],
-        "summary": "Supprimer un modèle",
-        "description": "Supprimer un objet modèle. Si des digests sont fournis, seules ces versions sont supprimées. Sinon, toutes les versions sont supprimées.",
+        "summary": "Supprimer le modèle",
+        "description": "Supprimer un objet de modèle. Si des digests sont fournis, seules ces versions seront supprimées. Sinon, toutes les versions seront supprimées.",
         "operationId": "model_delete_v2__entity___project__models__object_id__delete",
         "security": [
           {
@@ -4110,7 +4110,7 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "Supprimer un run d’évaluation",
+        "summary": "Supprimer le run d’évaluation",
         "description": "Supprimer des runs d’évaluation.",
         "operationId": "evaluation_run_delete_v2__entity___project__evaluation_runs_delete",
         "security": [
@@ -4146,10 +4146,10 @@
               "items": {
                 "type": "string"
               },
-              "description": "Liste des ID de runs d’évaluation à supprimer",
+              "description": "Liste des ID de run d’évaluation à supprimer",
               "title": "Evaluation Run Ids"
             },
-            "description": "Liste des ID de runs d’évaluation à supprimer"
+            "description": "Liste des ID de run d’évaluation à supprimer"
           }
         ],
         "responses": {
@@ -4181,7 +4181,7 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "Lire un run d’évaluation",
+        "summary": "Lire le run d’évaluation",
         "description": "Lire un run d’évaluation.",
         "operationId": "evaluation_run_read_v2__entity___project__evaluation_runs__evaluation_run_id__get",
         "security": [
@@ -4247,7 +4247,7 @@
         "tags": [
           "Evaluation Runs"
         ],
-        "summary": "Terminer un run d’évaluation",
+        "summary": "Terminer le run d’évaluation",
         "description": "Terminer un run d’évaluation.",
         "operationId": "evaluation_run_finish_v2__entity___project__evaluation_runs__evaluation_run_id__finish_post",
         "security": [
@@ -4428,7 +4428,7 @@
                   "type": "null"
                 }
               ],
-              "description": "Filtre par ID du run d’évaluation",
+              "description": "Filtrer par ID du run d’évaluation",
               "title": "Evaluation Run Id"
             },
             "description": "Filtrer par ID de run d’évaluation"
@@ -4500,8 +4500,8 @@
         "tags": [
           "Predictions"
         ],
-        "summary": "Supprimer une prédiction",
-        "description": "Supprimer des prédictions.",
+        "summary": "Supprimer la prédiction",
+        "description": "Supprimer les prédictions.",
         "operationId": "prediction_delete_v2__entity___project__predictions_delete",
         "security": [
           {
@@ -4536,10 +4536,10 @@
               "items": {
                 "type": "string"
               },
-              "description": "Liste des ID de prédiction à supprimer",
+              "description": "Liste des ID de prédictions à supprimer",
               "title": "Prediction Ids"
             },
-            "description": "Liste des ID de prédiction à supprimer"
+            "description": "Liste des ID de prédictions à supprimer"
           }
         ],
         "responses": {
@@ -4571,7 +4571,7 @@
         "tags": [
           "Predictions"
         ],
-        "summary": "Lire une prédiction",
+        "summary": "Lire la prédiction",
         "description": "Lire une prédiction.",
         "operationId": "prediction_read_v2__entity___project__predictions__prediction_id__get",
         "security": [
@@ -4637,8 +4637,8 @@
         "tags": [
           "Predictions"
         ],
-        "summary": "Terminer une prédiction",
-        "description": "Finaliser une prédiction.",
+        "summary": "Terminer la prédiction",
+        "description": "Terminer une prédiction.",
         "operationId": "prediction_finish_v2__entity___project__predictions__prediction_id__finish_post",
         "security": [
           {
@@ -4808,10 +4808,10 @@
                   "type": "null"
                 }
               ],
-              "description": "Filtre par ID du run d’évaluation",
+              "description": "Filtrer par ID du run d’évaluation",
               "title": "Evaluation Run Id"
             },
-            "description": "Filtre par ID du run d’évaluation"
+            "description": "Filtrer par ID du run d’évaluation"
           },
           {
             "name": "limit",
@@ -4880,8 +4880,8 @@
         "tags": [
           "Scores"
         ],
-        "summary": "Supprimer un score",
-        "description": "Supprimer des scores.",
+        "summary": "Supprimer le score",
+        "description": "Supprimer les scores.",
         "operationId": "score_delete_v2__entity___project__scores_delete",
         "security": [
           {
@@ -4916,10 +4916,10 @@
               "items": {
                 "type": "string"
               },
-              "description": "Liste des ID de score à supprimer",
+              "description": "Liste des ID de scores à supprimer",
               "title": "Score Ids"
             },
-            "description": "Liste des ID de score à supprimer"
+            "description": "Liste des ID de scores à supprimer"
           }
         ],
         "responses": {
@@ -4951,7 +4951,7 @@
         "tags": [
           "Scores"
         ],
-        "summary": "Lire un score",
+        "summary": "Lire le score",
         "description": "Lire un score.",
         "operationId": "score_read_v2__entity___project__scores__score_id__get",
         "security": [
@@ -5082,7 +5082,7 @@
           "$and"
         ],
         "title": "AndOperation",
-        "description": "ET logique. Toutes les conditions doivent être évaluées à true.\n\nExemple :\n    ```\n    {\n        \"$and\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]},\n            {\"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 1000}]}\n        ]\n    }\n    ```"
+        "description": "ET logique. Toutes les conditions doivent être évaluées à true.\n\nExemple :\n    ```\n    {\n        \"$and\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]},\n            {\"$gt\": [{\"$getField\": \"summary.usage.tokens\"}, {\"$literal\": 1000}]}\n        ]\n    }\n    ```"
       },
       "AnnotationQueueAddCallsBody": {
         "properties": {
@@ -5130,7 +5130,7 @@
           "display_fields"
         ],
         "title": "AnnotationQueueAddCallsBody",
-        "description": "Corps de la requête permettant d’ajouter des appels à une file d’annotation (queue_id provient du chemin)."
+        "description": "Corps de la requête pour ajouter des appels à une file d'attente d'annotation (queue_id provient du chemin)."
       },
       "AnnotationQueueAddCallsRes": {
         "properties": {
@@ -5149,7 +5149,7 @@
           "duplicates"
         ],
         "title": "AnnotationQueueAddCallsRes",
-        "description": "Réponse à l’ajout d’appels à une file d’attente."
+        "description": "Réponse à l’ajout d’appels à une file d'attente."
       },
       "AnnotationQueueCreateReq": {
         "properties": {
@@ -5209,7 +5209,7 @@
           "scorer_refs"
         ],
         "title": "AnnotationQueueCreateReq",
-        "description": "Requête visant à créer une nouvelle file d’annotation."
+        "description": "Requête pour créer une nouvelle file d'attente d'annotation."
       },
       "AnnotationQueueCreateRes": {
         "properties": {
@@ -5223,7 +5223,7 @@
           "id"
         ],
         "title": "AnnotationQueueCreateRes",
-        "description": "Réponse à la création d’une file d’annotation."
+        "description": "Réponse à la création d’une file d'attente d'annotation."
       },
       "AnnotationQueueItemProgressUpdateBody": {
         "properties": {
@@ -5237,7 +5237,7 @@
           "annotation_state": {
             "type": "string",
             "title": "Annotation State",
-            "description": "Nouvel état : 'in_progress', 'completed' ou 'skipped'",
+            "description": "Nouvel état : 'in_progress', 'completed' ou 'skipped'",
             "examples": [
               "in_progress",
               "completed",
@@ -5252,7 +5252,7 @@
           "annotation_state"
         ],
         "title": "AnnotationQueueItemProgressUpdateBody",
-        "description": "Corps de la requête pour mettre à jour la progression de l’annotation (queue_id et item_id proviennent du chemin).\n\nRemarque : wb_user_id n’est pas inclus dans le corps de la requête ; il est défini côté serveur à partir de la session authentifiée."
+        "description": "Corps de la requête pour mettre à jour la progression de l’annotation (queue_id et item_id proviennent du chemin).\n\nRemarque : wb_user_id n’est pas inclus dans le corps de la requête ; il est défini côté serveur à partir de la session authentifiée."
       },
       "AnnotationQueueItemSchema": {
         "properties": {
@@ -5390,7 +5390,7 @@
           "updated_at"
         ],
         "title": "AnnotationQueueItemSchema",
-        "description": "Schéma des réponses pour les éléments de la file d’annotation."
+        "description": "Schéma des réponses des éléments de la file d'attente d'annotation."
       },
       "AnnotationQueueItemsFilter": {
         "properties": {
@@ -5404,7 +5404,7 @@
               }
             ],
             "title": "Id",
-            "description": "Filtre par ID exact de l’élément de la file d’attente"
+            "description": "Filtrer par ID exact de l’élément de la file d'attente"
           },
           "call_id": {
             "anyOf": [
@@ -5416,7 +5416,7 @@
               }
             ],
             "title": "Call Id",
-            "description": "Filtre par ID exact de l’appel"
+            "description": "Filtrer par ID exact de l’appel"
           },
           "call_op_name": {
             "anyOf": [
@@ -5428,7 +5428,7 @@
               }
             ],
             "title": "Call Op Name",
-            "description": "Filtre par nom exact de l’opération"
+            "description": "Filtrer par nom exact de l’opération"
           },
           "call_trace_id": {
             "anyOf": [
@@ -5440,7 +5440,7 @@
               }
             ],
             "title": "Call Trace Id",
-            "description": "Filtre par ID exact de la trace"
+            "description": "Filtrer par ID exact de la trace"
           },
           "added_by": {
             "anyOf": [
@@ -5452,7 +5452,7 @@
               }
             ],
             "title": "Added By",
-            "description": "Filtre par ID utilisateur W&B de la personne ayant ajouté l’appel"
+            "description": "Filtrer par ID de l’utilisateur W&B ayant ajouté l’appel"
           },
           "annotation_states": {
             "anyOf": [
@@ -5473,7 +5473,7 @@
               }
             ],
             "title": "Annotation States",
-            "description": "Filtre par états d’annotation (unstarted, in_progress, completed, skipped)",
+            "description": "Filtrer par états d’annotation (unstarted, in_progress, completed, skipped)",
             "examples": [
               [
                 "unstarted",
@@ -5484,7 +5484,7 @@
         },
         "type": "object",
         "title": "AnnotationQueueItemsFilter",
-        "description": "Filtre simple pour les éléments de la file d’annotation.\n\nPrend en charge le filtrage par égalité sur les champs de métadonnées des appels et le filtrage IN sur l’état de l’annotation."
+        "description": "Filtre simple pour les éléments de la file d'attente d'annotation.\n\nPrend en charge le filtrage par égalité sur les champs de métadonnées des appels et le filtrage IN sur l’état de l’annotation."
       },
       "AnnotationQueueItemsQueryBody": {
         "properties": {
@@ -5504,7 +5504,7 @@
                 "type": "null"
               }
             ],
-            "description": "Filtrer les éléments de la file par métadonnées d’appel et état de l’annotation"
+            "description": "Filtrer les éléments de la file d'attente par métadonnées d’appel et état d’annotation"
           },
           "sort_by": {
             "anyOf": [
@@ -5519,7 +5519,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "Trier selon plusieurs champs (par exemple, created_at, updated_at)"
+            "description": "Trier par plusieurs champs (par ex. created_at, updated_at)"
           },
           "limit": {
             "anyOf": [
@@ -5552,7 +5552,7 @@
           "include_position": {
             "type": "boolean",
             "title": "Include Position",
-            "description": "Inclure le champ position_in_queue (index commençant à 1 dans la file complète)",
+            "description": "Inclure le champ position_in_queue (index commençant à 1 dans la file d'attente complète)",
             "default": false
           }
         },
@@ -5562,7 +5562,7 @@
           "project_id"
         ],
         "title": "AnnotationQueueItemsQueryBody",
-        "description": "Corps de la requête pour interroger les éléments d’une file d’annotation (queue_id provient du chemin)."
+        "description": "Corps de la requête pour interroger les éléments d’une file d'attente d'annotation (queue_id provient du chemin)."
       },
       "AnnotationQueueItemsQueryRes": {
         "properties": {
@@ -5579,7 +5579,7 @@
           "items"
         ],
         "title": "AnnotationQueueItemsQueryRes",
-        "description": "Réponse à la requête sur les éléments de la file d’annotation."
+        "description": "Réponse à l’interrogation des éléments de la file d'attente d'annotation."
       },
       "AnnotationQueueReadRes": {
         "properties": {
@@ -5592,7 +5592,7 @@
           "queue"
         ],
         "title": "AnnotationQueueReadRes",
-        "description": "Réponse à la lecture d’une file d’annotation."
+        "description": "Réponse à la lecture d’une file d'attente d'annotation."
       },
       "AnnotationQueueSchema": {
         "properties": {
@@ -5658,14 +5658,14 @@
           "updated_at"
         ],
         "title": "AnnotationQueueSchema",
-        "description": "Schéma des réponses des files d’annotation."
+        "description": "Schéma des réponses de file d'attente d'annotation."
       },
       "AnnotationQueueStatsSchema": {
         "properties": {
           "queue_id": {
             "type": "string",
             "title": "Queue Id",
-            "description": "L’ID de la file d’attente",
+            "description": "L’ID de la file d'attente",
             "examples": [
               "550e8400-e29b-41d4-a716-446655440000"
             ]
@@ -5673,7 +5673,7 @@
           "total_items": {
             "type": "integer",
             "title": "Total Items",
-            "description": "Nombre total d’éléments dans la file d’attente"
+            "description": "Nombre total d’éléments dans la file d'attente"
           },
           "completed_items": {
             "type": "integer",
@@ -5688,7 +5688,7 @@
           "completed_items"
         ],
         "title": "AnnotationQueueStatsSchema",
-        "description": "Statistiques pour une file d’annotation."
+        "description": "Statistiques pour une file d'attente d'annotation."
       },
       "AnnotationQueuesQueryReq": {
         "properties": {
@@ -5709,7 +5709,7 @@
               }
             ],
             "title": "Name",
-            "description": "Filtrer par nom de file d’attente (correspondance partielle insensible à la casse)",
+            "description": "Filtre par nom de file d'attente (correspondance partielle insensible à la casse)",
             "examples": [
               "Error"
             ]
@@ -5727,7 +5727,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "Trier sur plusieurs champs (par ex., created_at, updated_at, name)"
+            "description": "Tri par plusieurs champs (par ex., created_at, updated_at, name)"
           },
           "limit": {
             "anyOf": [
@@ -5764,7 +5764,7 @@
           "project_id"
         ],
         "title": "AnnotationQueuesQueryReq",
-        "description": "Requête pour interroger les files d’annotation d’un projet."
+        "description": "Requête pour interroger les files d'attente d’annotation d’un projet."
       },
       "AnnotationQueuesStatsReq": {
         "properties": {
@@ -5781,7 +5781,7 @@
             },
             "type": "array",
             "title": "Queue Ids",
-            "description": "Liste des ID de files d’attente pour lesquelles obtenir des statistiques",
+            "description": "Liste des ID de files d'attente pour lesquelles obtenir des statistiques",
             "examples": [
               [
                 "550e8400-e29b-41d4-a716-446655440000",
@@ -5797,7 +5797,7 @@
           "queue_ids"
         ],
         "title": "AnnotationQueuesStatsReq",
-        "description": "Requête pour obtenir des statistiques sur plusieurs files d’annotation."
+        "description": "Requête pour obtenir les statistiques de plusieurs files d'attente d’annotation."
       },
       "AnnotationQueuesStatsRes": {
         "properties": {
@@ -5814,7 +5814,7 @@
           "stats"
         ],
         "title": "AnnotationQueuesStatsRes",
-        "description": "Réponse contenant des statistiques sur plusieurs files d’annotation."
+        "description": "Réponse contenant les statistiques de plusieurs files d'attente d’annotation."
       },
       "AnnotatorQueueItemsProgressUpdateRes": {
         "properties": {
@@ -5827,7 +5827,7 @@
           "item"
         ],
         "title": "AnnotatorQueueItemsProgressUpdateRes",
-        "description": "Réponse à la mise à jour de l’état de l’annotation."
+        "description": "Réponse après mise à jour de l’état de l’annotation."
       },
       "BaseModel": {
         "properties": {},
@@ -6311,7 +6311,7 @@
             "type": "string",
             "format": "date-time",
             "title": "Start",
-            "description": "Heure de début incluse (UTC, ISO 8601)."
+            "description": "Heure de début inclusive (UTC, ISO 8601)."
           },
           "end": {
             "anyOf": [
@@ -6324,7 +6324,7 @@
               }
             ],
             "title": "End",
-            "description": "Heure de fin exclue (UTC, ISO 8601). Utilise l’heure actuelle par défaut si elle est omise."
+            "description": "Heure de fin exclusive (UTC, ISO 8601). Utilise l’heure actuelle par défaut si elle est omise."
           },
           "granularity": {
             "anyOf": [
@@ -6336,7 +6336,7 @@
               }
             ],
             "title": "Granularity",
-            "description": "Taille du bucket en secondes (par ex., 3600 pour 1 heure). Si elle est omise, elle est sélectionnée automatiquement en fonction de la plage temporelle. Elle sera ajustée si cela produit plus de 10 000 buckets."
+            "description": "Taille du bucket en secondes (par ex., 3600 pour 1 heure). Si elle est omise, elle est sélectionnée automatiquement en fonction de la plage temporelle. Elle sera ajustée si elle devait produire plus de 10 000 buckets."
           },
           "usage_metrics": {
             "anyOf": [
@@ -6351,7 +6351,7 @@
               }
             ],
             "title": "Usage Metrics",
-            "description": "Métriques d’utilisation (tokens, coût) à calculer. Groupées par horodatage et modèle."
+            "description": "Métriques d’utilisation (tokens, coût) à calculer. Regroupées par horodatage et par modèle."
           },
           "call_metrics": {
             "anyOf": [
@@ -6366,7 +6366,7 @@
               }
             ],
             "title": "Call Metrics",
-            "description": "Métriques au niveau des appels (latence, nombres) à calculer. Groupées par horodatage uniquement."
+            "description": "Métriques au niveau des appels (latence, décomptes) à calculer. Regroupées uniquement par horodatage."
           },
           "filter": {
             "anyOf": [
@@ -6392,7 +6392,7 @@
           "start"
         ],
         "title": "CallStatsReq",
-        "description": "Requête pour des statistiques agrégées sur les appels sur une plage temporelle."
+        "description": "Requête pour obtenir des statistiques d’appels agrégées sur une plage temporelle."
       },
       "CallStatsRes": {
         "properties": {
@@ -6535,7 +6535,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "Nombre d’appels supprimés"
+            "description": "Le nombre d’appels supprimés"
           }
         },
         "type": "object",
@@ -6774,7 +6774,7 @@
               }
             ],
             "title": "Include Costs",
-            "description": "Bêta, susceptible de changer. Si la valeur est true, la réponse inclura les éventuels coûts de modèle pour chaque appel.",
+            "description": "Bêta, susceptible d’être modifié. Si la valeur est true, la réponse inclura les éventuels coûts de modèle pour chaque appel.",
             "default": false
           },
           "include_feedback": {
@@ -6843,7 +6843,7 @@
               }
             ],
             "title": "Expand Columns",
-            "description": "Colonnes à développer, c.-à-d. des refs vers d’autres objets",
+            "description": "Colonnes à développer, c.-à-d. les références à d’autres objets",
             "examples": [
               [
                 "inputs.self.message",
@@ -6861,7 +6861,7 @@
               }
             ],
             "title": "Return Expanded Column Values",
-            "description": "Si la valeur est true, la réponse inclura les valeurs brutes des colonnes développées. Si la valeur est false, le paramètre expand_columns dans la réponse ne sera utilisé que pour le filtrage et le tri. Cela est utile pour les clients qui veulent résoudre eux-mêmes les refs, par exemple pour des raisons de performances.",
+            "description": "Si la valeur est true, la réponse inclura les valeurs brutes des colonnes développées. Si la valeur est false, le champ response expand_columns sera utilisé uniquement pour le filtrage et le tri. Cela est utile pour les clients qui souhaitent résoudre eux-mêmes les références, par exemple pour des raisons de performances.",
             "default": true
           }
         },
@@ -6934,7 +6934,7 @@
               }
             ],
             "title": "Expand Columns",
-            "description": "Colonnes contenant des refs vers des objets ou des lignes de tableau qui doivent être développées lors du filtrage ou du tri.",
+            "description": "Colonnes avec des références à des objets ou à des lignes de tableau qui nécessitent un développement lors du filtrage ou du tri.",
             "examples": [
               [
                 "inputs.self.message",
@@ -6986,7 +6986,7 @@
             },
             "type": "array",
             "title": "Call Ids",
-            "description": "ID des appels racine à agréger. Chaque clé de résultat correspond à un ID d’appel fourni en entrée."
+            "description": "ID des appels racine à agréger. Chaque clé de résultat correspond à un ID d’appel en entrée."
           },
           "include_costs": {
             "type": "boolean",
@@ -6997,7 +6997,7 @@
           "limit": {
             "type": "integer",
             "title": "Limit",
-            "description": "Nombre maximal d’appels à traiter sur l’ensemble des traces. Sert de limite de sécurité pour éviter une utilisation illimitée de la mémoire.",
+            "description": "Nombre maximal d’appels à traiter sur l’ensemble des traces. Sert de limite de sécurité pour éviter une utilisation de mémoire non bornée.",
             "default": 10000
           }
         },
@@ -7008,7 +7008,7 @@
           "call_ids"
         ],
         "title": "CallsUsageReq",
-        "description": "Requête visant à calculer l’utilisation agrégée pour plusieurs appels racine.\n\nCe point de terminaison renvoie les métriques d’utilisation pour chaque appel racine demandé, où les métriques de chaque racine incluent la somme de sa propre utilisation et de celle de tous ses descendants.\n\nRemarque : tous les appels correspondants sont chargés en mémoire pour l’agrégation. Pour de très grands ensembles de résultats (>10k appels), envisagez de traiter les ID d’appels racine par lots ou d’utiliser des filtres plus restrictifs au niveau de l’application."
+        "description": "Requête pour calculer l’utilisation agrégée de plusieurs appels racine.\n\nCet endpoint renvoie les métriques d’utilisation pour chaque appel racine demandé, où les métriques de chaque racine incluent la somme de sa propre utilisation et de celle de tous ses descendants.\n\nRemarque : tous les appels correspondants sont chargés en mémoire pour l’agrégation. Pour des ensembles de résultats très volumineux (>10k appels), envisagez de traiter les ID des appels racine par lots ou d’utiliser des filtres plus restrictifs au niveau de l’application."
       },
       "CallsUsageRes": {
         "properties": {
@@ -7331,7 +7331,7 @@
               }
             ],
             "title": "Prompt",
-            "description": "Référence à un objet Prompt Weave (par exemple, 'weave:///entity/project/object/prompt_name:version'). Si elle est fournie, les messages de ce prompt seront ajoutés au début des messages de cette requête. Les variables de template dans les messages du prompt peuvent être substituées à l’aide du paramètre template_vars."
+            "description": "Référence à un objet Prompt Weave (par exemple, 'weave:///entity/project/object/prompt_name:version'). Si elle est fournie, les messages de ce prompt seront ajoutés au début des messages de cette requête. Les variables de modèle dans les messages du prompt peuvent être remplacées à l’aide du paramètre template_vars."
           },
           "template_vars": {
             "anyOf": [
@@ -7344,7 +7344,7 @@
               }
             ],
             "title": "Template Vars",
-            "description": "Dictionnaire des variables de template à substituer dans les messages du prompt. Les variables dans les messages, comme '{variable_name}', seront remplacées par les valeurs correspondantes. Cela s’applique à la fois aux messages du prompt (si prompt est fourni) et aux messages ordinaires."
+            "description": "Dictionnaire des variables de modèle à remplacer dans les messages du prompt. Les variables présentes dans des messages comme '{variable_name}' seront remplacées par les valeurs correspondantes. S’applique à la fois aux messages du prompt (si un prompt est fourni) et aux messages ordinaires."
           }
         },
         "type": "object",
@@ -7475,7 +7475,7 @@
           "substr"
         ],
         "title": "ContainsSpec",
-        "description": "Spécification de l’opération `$contains`.\n\n- `input` : chaîne dans laquelle effectuer la recherche.\n- `substr` : sous-chaîne à rechercher.\n- `case_insensitive` : si la valeur est true, la correspondance est insensible à la casse."
+        "description": "Spécification de l’opération `$contains`.\n\n- `input` : la chaîne à rechercher.\n- `substr` : la sous-chaîne à rechercher.\n- `case_insensitive` : si la valeur est true, la correspondance est insensible à la casse."
       },
       "ConvertOperation": {
         "properties": {
@@ -7488,7 +7488,7 @@
           "$convert"
         ],
         "title": "ConvertOperation",
-        "description": "Convertit la valeur d'entrée en un type spécifique (par ex. `int`, `bool`, `string`).\n\nExemple :\n    ```\n    {\n        \"$convert\": {\n            \"input\": {\"$getField\": \"inputs.value\"},\n            \"to\": \"int\"\n        }\n    }\n    ```"
+        "description": "Convertit la valeur d'entrée dans un type spécifique (par ex. `int`, `bool`, `string`).\n\nExemple :\n    ```\n    {\n        \"$convert\": {\n            \"input\": {\"$getField\": \"inputs.value\"},\n            \"to\": \"int\"\n        }\n    }\n    ```"
       },
       "ConvertSpec": {
         "properties": {
@@ -7603,7 +7603,7 @@
               }
             ],
             "title": "Effective Date",
-            "description": "La date à partir de laquelle le coût prend effet ; si elle n'est pas fournie, la date du jour sera utilisée par défaut"
+            "description": "La date à partir de laquelle le coût prend effet ; si elle n'est pas fournie, la date actuelle sera utilisée par défaut"
           },
           "provider_id": {
             "anyOf": [
@@ -7615,7 +7615,7 @@
               }
             ],
             "title": "Provider Id",
-            "description": "Le fournisseur du LLM, par ex. « openai » ou « mistral ». S'il n'est pas fourni, `provider_id` sera défini sur « default »"
+            "description": "Le fournisseur du LLM, par ex. `openai` ou `mistral`. S'il n'est pas fourni, `provider_id` sera défini sur `default`"
           }
         },
         "additionalProperties": false,
@@ -7652,7 +7652,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
+            "description": "Ne pas définir directement. Le serveur renseignera automatiquement ce champ."
           }
         },
         "additionalProperties": false,
@@ -7991,7 +7991,7 @@
             },
             "type": "array",
             "title": "Rows",
-            "description": "lignes du jeu de données"
+            "description": "Lignes du jeu de données"
           }
         },
         "type": "object",
@@ -8284,7 +8284,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
+            "description": "Ne pas définir directement. Le serveur renseignera automatiquement ce champ."
           }
         },
         "additionalProperties": false,
@@ -8377,7 +8377,7 @@
               }
             ],
             "title": "Eval Attributes",
-            "description": "Attributs facultatifs de l'évaluation"
+            "description": "Attributs facultatifs pour l'évaluation"
           }
         },
         "type": "object",
@@ -8443,7 +8443,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "Le condensé de l’évaluation"
+            "description": "Le digest de l’évaluation"
           },
           "version_index": {
             "type": "integer",
@@ -8471,7 +8471,7 @@
               }
             ],
             "title": "Description",
-            "description": "Une description de l’évaluation"
+            "description": "Description de l’évaluation"
           },
           "dataset": {
             "type": "string",
@@ -8513,7 +8513,7 @@
               }
             ],
             "title": "Evaluate Op",
-            "description": "Référence de l’op d’évaluation (URI weave://)"
+            "description": "Référence de l’op Evaluate (URI weave://)"
           },
           "predict_and_score_op": {
             "anyOf": [
@@ -8525,7 +8525,7 @@
               }
             ],
             "title": "Predict And Score Op",
-            "description": "Référence de l’op de prédiction et de score (URI weave://)"
+            "description": "Référence de l’op Predict and score (URI weave://)"
           },
           "summarize_op": {
             "anyOf": [
@@ -8537,7 +8537,7 @@
               }
             ],
             "title": "Summarize Op",
-            "description": "Référence de l’op de synthèse (URI weave://)"
+            "description": "Référence de l’op Summarize (URI weave://)"
           }
         },
         "type": "object",
@@ -8558,12 +8558,12 @@
           "evaluation": {
             "type": "string",
             "title": "Evaluation",
-            "description": "Référence de l’évaluation (URI weave://)"
+            "description": "Référence à l’évaluation (URI weave://)"
           },
           "model": {
             "type": "string",
             "title": "Model",
-            "description": "Référence du modèle (URI weave://)"
+            "description": "Référence au modèle (URI weave://)"
           }
         },
         "type": "object",
@@ -8614,12 +8614,12 @@
               }
             ],
             "title": "Summary",
-            "description": "Dictionnaire récapitulatif facultatif pour le run d’évaluation"
+            "description": "Dictionnaire de synthèse facultatif pour le run d’évaluation"
           }
         },
         "type": "object",
         "title": "EvaluationRunFinishBody",
-        "description": "Corps de la requête pour terminer un run d’évaluation via l’API REST.\n\nCe modèle exclut project_id et evaluation_run_id, car ils proviennent du chemin de l’URL dans les points de terminaison RESTful."
+        "description": "Corps de la requête pour terminer un run d’évaluation via l’API REST.\n\nCe modèle exclut project_id et evaluation_run_id, car ils proviennent du chemin d’URL dans les endpoints REST."
       },
       "EvaluationRunFinishRes": {
         "properties": {
@@ -8645,12 +8645,12 @@
           "evaluation": {
             "type": "string",
             "title": "Evaluation",
-            "description": "Référence de l’évaluation (URI weave://)"
+            "description": "Référence à l’évaluation (URI weave://)"
           },
           "model": {
             "type": "string",
             "title": "Model",
-            "description": "Référence du modèle (URI weave://)"
+            "description": "Référence au modèle (URI weave://)"
           },
           "status": {
             "anyOf": [
@@ -8701,7 +8701,7 @@
               }
             ],
             "title": "Summary",
-            "description": "Données récapitulatives du run d’évaluation"
+            "description": "Données de synthèse du run d’évaluation"
           }
         },
         "type": "object",
@@ -9001,7 +9001,7 @@
               }
             ],
             "title": "Queue Id",
-            "description": "ID de la file d’annotation à partir de laquelle ce feedback a été créé. Référence à annotation_queues.id. NULL lorsque le feedback est créé en dehors des files.",
+            "description": "L’ID de la file d’attente d’annotation à partir de laquelle ce feedback a été créé. Référence à annotation_queues.id. NULL lorsque le feedback est créé en dehors des files d’attente.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9016,7 +9016,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne définissez pas ce champ directement. Le serveur renseignera automatiquement ce champ."
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
           }
         },
         "additionalProperties": false,
@@ -9204,7 +9204,7 @@
               }
             ],
             "title": "Id",
-            "description": "Si cet ID est fourni par le client, il sera utilisé pour la ligne de feedback au lieu d’un ID généré par le serveur.",
+            "description": "S'il est fourni par le client, cet ID sera utilisé pour la ligne de feedback au lieu d'un ID généré par le serveur.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9320,7 +9320,7 @@
               }
             ],
             "title": "Queue Id",
-            "description": "ID de la file d’annotation à partir de laquelle ce feedback a été créé. Fait référence à annotation_queues.id. NULL lorsque le feedback est créé en dehors d’une file.",
+            "description": "ID de la file d'attente d'annotation à partir de laquelle ce feedback a été créé. Référence à annotation_queues.id. NULL lorsque le feedback est créé en dehors des files d'attente.",
             "examples": [
               "018f1f2a-9c2b-7d3e-b5a1-8c9d2e4f6a7b"
             ]
@@ -9335,7 +9335,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne définissez pas ce champ directement. Le serveur renseignera automatiquement ce champ."
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
           },
           "feedback_id": {
             "type": "string",
@@ -9447,32 +9447,32 @@
           "file_index": {
             "type": "integer",
             "title": "File Index",
-            "description": "ligne du fichier CSV"
+            "description": "ligne dans le fichier CSV"
           },
           "range_start_int": {
             "type": "integer",
             "title": "Range Start Int",
-            "description": "Début de la plage d’IP sous forme d’entier"
+            "description": "Début de la plage d'adresses IP sous forme d'entier"
           },
           "range_end_int": {
             "type": "integer",
             "title": "Range End Int",
-            "description": "Fin de la plage d’IP sous forme d’entier"
+            "description": "Fin de la plage d'adresses IP sous forme d'entier"
           },
           "range_start_ip": {
             "type": "string",
             "title": "Range Start Ip",
-            "description": "Début de la plage d’IP en notation décimale pointée"
+            "description": "Début de la plage d'adresses IP en notation décimale pointée"
           },
           "range_end_ip": {
             "type": "string",
             "title": "Range End Ip",
-            "description": "Fin de la plage d’IP en notation décimale pointée"
+            "description": "Fin de la plage d'adresses IP en notation décimale pointée"
           },
           "country_code": {
             "type": "string",
             "title": "Country Code",
-            "description": "Code pays à 2 lettres au format ISO 3166-1 alpha-2"
+            "description": "Code pays à 2 lettres au format ISO 3166-1 Alpha 2"
           },
           "country_name": {
             "anyOf": [
@@ -9484,7 +9484,7 @@
               }
             ],
             "title": "Country Name",
-            "description": "Nom du pays, None s’il n’a pas pu être déterminé"
+            "description": "Nom du pays, None s'il n'a pas pu être déterminé"
           }
         },
         "type": "object",
@@ -9514,12 +9514,12 @@
                 "type": "null"
               }
             ],
-            "description": "Informations sur l’emplacement de l’adresse IP, None s’il n’a pas pu être déterminé"
+            "description": "Informations sur l'emplacement de l'adresse IP, None s'il n'a pas pu être déterminé"
           },
           "allowed": {
             "type": "boolean",
             "title": "Allowed",
-            "description": "Indique si l’adresse IP est autorisée pour l’inférence.",
+            "description": "Indique si l'adresse IP peut être utilisée pour l'inférence.",
             "default": false
           }
         },
@@ -9541,7 +9541,7 @@
           "$getField"
         ],
         "title": "GetFieldOperator",
-        "description": "Accéder à un champ de l’appel tracé.\n\nPrend en charge la notation par points pour l’accès imbriqué, par exemple `summary.usage.tokens`.\n\nFonctionne uniquement sur les champs présents dans `CallSchema`, notamment :\n- les champs de niveau supérieur comme `op_name`, `trace_id`, `started_at`\n- les champs imbriqués comme `inputs.input_name`, `summary.usage.tokens`, etc.\n\nExemple :\n    ```\n    {\"$getField\": \"op_name\"}\n    ```"
+        "description": "Accède à un champ de l'appel tracé.\n\nPrend en charge la notation par points pour l'accès aux champs imbriqués, par ex. `summary.usage.tokens`.\n\nFonctionne uniquement avec les champs présents dans `CallSchema`, notamment :\n- Les champs de premier niveau comme `op_name`, `trace_id`, `started_at`\n- Les champs imbriqués comme `inputs.input_name`, `summary.usage.tokens`, etc.\n\nExemple :\n    ```\n    {\"$getField\": \"op_name\"}\n    ```"
       },
       "GtOperation": {
         "properties": {
@@ -9783,7 +9783,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne définissez pas ce champ directement. Le serveur renseignera automatiquement ce champ."
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
           },
           "track_llm_call": {
             "anyOf": [
@@ -9795,7 +9795,7 @@
               }
             ],
             "title": "Track Llm Call",
-            "description": "Indique s’il faut suivre cet appel de génération d’image dans le serveur de trace",
+            "description": "Indique s'il faut suivre cet appel de génération d'image dans le serveur de traces",
             "default": true
           }
         },
@@ -9965,7 +9965,7 @@
           "$in"
         ],
         "title": "InOperation",
-        "description": "Vérification d’appartenance.\n\nRenvoie true si l’opérande de gauche figure dans la liste fournie comme second opérande.\n\nExemple :\n    ```\n    {\n        \"$in\": [\n            {\"$getField\": \"op_name\"},\n            [{\"$literal\": \"predict\"}, {\"$literal\": \"generate\"}]\n        ]\n    }\n    ```"
+        "description": "Vérification d'appartenance.\n\nRenvoie true si l'opérande de gauche figure dans la liste fournie comme second opérande.\n\nExemple :\n    ```\n    {\n        \"$in\": [\n            {\"$getField\": \"op_name\"},\n            [{\"$literal\": \"predict\"}, {\"$literal\": \"generate\"}]\n        ]\n    }\n    ```"
       },
       "LLMAggregatedUsage": {
         "properties": {
@@ -10014,7 +10014,7 @@
         },
         "type": "object",
         "title": "LLMAggregatedUsage",
-        "description": "Métriques d’utilisation agrégées pour un LLM donné."
+        "description": "Métriques d'utilisation agrégées pour un LLM donné."
       },
       "LLMUsageSchema": {
         "properties": {
@@ -10129,7 +10129,7 @@
           "$literal"
         ],
         "title": "LiteralOperation",
-        "description": "Représente une valeur constante dans le langage de requête.\n\nIl peut s’agir de toute valeur JSON standard sérialisable.\n\nExemple :\n    ```\n    {\"$literal\": \"predict\"}\n    ```"
+        "description": "Représente une valeur constante dans le langage de requête.\n\nIl peut s'agir de n'importe quelle valeur standard sérialisable en JSON.\n\nExemple :\n    ```\n    {\"$literal\": \"predict\"}\n    ```"
       },
       "LtOperation": {
         "properties": {
@@ -10361,7 +10361,7 @@
           "source_code": {
             "type": "string",
             "title": "Source Code",
-            "description": "Code source complet de la classe Model, imports inclus"
+            "description": "Le code source complet de la classe Model, y compris les imports"
           },
           "attributes": {
             "anyOf": [
@@ -10389,7 +10389,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "Le digest du modèle créé"
+            "description": "L’empreinte du modèle créé"
           },
           "object_id": {
             "type": "string",
@@ -10440,7 +10440,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "Le digest du modèle"
+            "description": "L’empreinte du modèle"
           },
           "version_index": {
             "type": "integer",
@@ -10621,7 +10621,7 @@
               }
             ],
             "title": "Digests",
-            "description": "Liste des digests à supprimer. Si elle n’est pas fournie, tous les digests de l’objet seront supprimés."
+            "description": "Liste des empreintes à supprimer. Si elle n’est pas fournie, toutes les empreintes de l’objet seront supprimées."
           }
         },
         "additionalProperties": false,
@@ -10699,7 +10699,7 @@
               }
             ],
             "title": "Offset",
-            "description": "Nombre de résultats à ignorer avant le renvoi",
+            "description": "Nombre de résultats à ignorer avant de renvoyer la réponse",
             "examples": [
               0
             ]
@@ -10717,7 +10717,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "Critères de tri des résultats de la requête. Actuellement, prend uniquement en charge « object_id » et « created_at ».",
+            "description": "Critères de tri des résultats de la requête. Prend actuellement en charge uniquement 'object_id' et 'created_at'.",
             "examples": [
               [
                 {
@@ -10904,7 +10904,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne pas définir directement. Le serveur renseigne automatiquement ce champ."
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
           },
           "size_bytes": {
             "anyOf": [
@@ -10978,7 +10978,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne pas définir directement. Le serveur renseigne automatiquement ce champ."
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
           }
         },
         "type": "object",
@@ -11092,7 +11092,7 @@
               }
             ],
             "title": "Is Op",
-            "description": "Filtrer les objets selon qu’ils appartiennent à weave.ops ou non. `True` renvoie uniquement les ops, `False` renvoie les non-ops, et `None` renvoie tous les objets",
+            "description": "Filtrer les objets selon qu’ils sont de type weave.ops ou non. `True` renvoie uniquement les ops, `False` renvoie les non-ops et `None` renvoie tous les objets",
             "examples": [
               true,
               false,
@@ -11109,7 +11109,7 @@
               }
             ],
             "title": "Latest Only",
-            "description": "Si la valeur est `True`, renvoyer uniquement la dernière version de chaque objet. `False` et `None` renvoient toutes les versions",
+            "description": "Si `True`, renvoyer uniquement la dernière version de chaque objet. `False` et `None` renvoient toutes les versions",
             "examples": [
               true,
               false
@@ -11149,7 +11149,7 @@
         },
         "type": "object",
         "title": "OpCreateBody",
-        "description": "Corps de la requête pour créer un objet Op via l’API REST.\n\nCe modèle exclut project_id, car celui-ci provient du chemin de l’URL dans les points de terminaison RESTful."
+        "description": "Corps de la requête pour créer un objet Op via l’API REST.\n\nCe modèle exclut project_id, car il provient du chemin d’URL dans les endpoints REST."
       },
       "OpCreateRes": {
         "properties": {
@@ -11183,7 +11183,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "Nombre de versions d’op supprimées pour cet op"
+            "description": "Nombre de versions supprimées de cet op"
           }
         },
         "type": "object",
@@ -11287,7 +11287,7 @@
           "$or"
         ],
         "title": "OrOperation",
-        "description": "OU logique. Au moins une condition doit être vraie.\n\nExemple :\n    ```\n    {\n        \"$or\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"a\"}]},\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"b\"}]}\n        ]\n    }\n    ```"
+        "description": "OU logique. Au moins une condition doit être vraie.\n\nExemple :\n    ```\n    {\n        \"$or\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"a\"}]},\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"b\"}]}\n        ]\n    }\n    ```"
       },
       "PredictionCreateBody": {
         "properties": {
@@ -11316,7 +11316,7 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "ID facultatif du run d’évaluation pour lier cette prédiction comme appel enfant"
+            "description": "ID de run d’évaluation facultatif permettant de lier cette prédiction en tant qu’appel enfant"
           }
         },
         "type": "object",
@@ -11326,7 +11326,7 @@
           "output"
         ],
         "title": "PredictionCreateBody",
-        "description": "Corps de la requête pour créer une prédiction via l’API REST.\n\nCe modèle exclut project_id, car celui-ci provient du chemin de l’URL dans les points de terminaison RESTful."
+        "description": "Corps de la requête pour créer une prédiction via l’API REST.\n\nCe modèle exclut project_id, car il provient du chemin d’URL dans les endpoints REST."
       },
       "PredictionCreateRes": {
         "properties": {
@@ -11402,7 +11402,7 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "ID du run d’évaluation si cette prédiction y est liée"
+            "description": "ID de run d’évaluation si cette prédiction y est liée"
           },
           "wb_user_id": {
             "anyOf": [
@@ -11414,7 +11414,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne définissez pas directement ce champ. Le serveur le renseignera automatiquement."
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
           }
         },
         "type": "object",
@@ -11463,7 +11463,7 @@
           "input_cache_writes"
         ],
         "title": "Pricing",
-        "description": "Toutes les valeurs de tarification sont en USD pour 1 token.\n\nLes champs de tarification sont au format chaîne de caractères afin d'éviter les problèmes de précision des nombres à virgule flottante."
+        "description": "Toutes les valeurs de tarification sont exprimées en USD par token.\n\nLes champs de tarification sont au format chaîne afin d’éviter les problèmes de précision des nombres à virgule flottante."
       },
       "Query": {
         "properties": {
@@ -11671,7 +11671,7 @@
           "prediction_id": {
             "type": "string",
             "title": "Prediction Id",
-            "description": "L'ID de la prédiction"
+            "description": "L’ID de la prédiction"
           },
           "scorer": {
             "type": "string",
@@ -11693,7 +11693,7 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "ID de run d'évaluation facultatif pour lier ce score en tant qu'appel enfant"
+            "description": "ID de run d’évaluation facultatif pour lier ce score en tant qu’appel enfant"
           }
         },
         "type": "object",
@@ -11703,14 +11703,14 @@
           "value"
         ],
         "title": "ScoreCreateBody",
-        "description": "Corps de requête pour créer un score via l'API REST.\n\nCe modèle exclut project_id, car il provient du chemin d'URL dans les points de terminaison REST."
+        "description": "Corps de requête pour créer un score via l’API REST.\n\nCe modèle exclut project_id, car il provient du chemin d’URL dans les endpoints RESTful."
       },
       "ScoreCreateRes": {
         "properties": {
           "score_id": {
             "type": "string",
             "title": "Score Id",
-            "description": "L'ID du score"
+            "description": "L’ID du score"
           }
         },
         "type": "object",
@@ -11738,7 +11738,7 @@
           "score_id": {
             "type": "string",
             "title": "Score Id",
-            "description": "L'ID du score"
+            "description": "L’ID du score"
           },
           "scorer": {
             "type": "string",
@@ -11760,7 +11760,7 @@
               }
             ],
             "title": "Evaluation Run Id",
-            "description": "ID de run d'évaluation si ce score y est lié"
+            "description": "ID de run d’évaluation si ce score lui est lié"
           },
           "wb_user_id": {
             "anyOf": [
@@ -11772,7 +11772,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne définissez pas directement ce champ. Le serveur le renseignera automatiquement."
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
           }
         },
         "type": "object",
@@ -11800,12 +11800,12 @@
               }
             ],
             "title": "Description",
-            "description": "Une description de ce scorer"
+            "description": "Description de ce scorer"
           },
           "op_source_code": {
             "type": "string",
             "title": "Op Source Code",
-            "description": "Code source complet de l'op Scorer.score, y compris les imports"
+            "description": "Code source complet de l’op Scorer.score, imports compris"
           }
         },
         "type": "object",
@@ -11825,12 +11825,12 @@
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "L'ID du scorer créé"
+            "description": "L’ID du scorer créé"
           },
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "L'index de version du scorer créé"
+            "description": "L’index de version du scorer créé"
           },
           "scorer": {
             "type": "string",
@@ -11852,7 +11852,7 @@
           "num_deleted": {
             "type": "integer",
             "title": "Num Deleted",
-            "description": "Nombre de versions de scorer supprimées"
+            "description": "Nombre de versions du scorer supprimées"
           }
         },
         "type": "object",
@@ -11866,7 +11866,7 @@
           "object_id": {
             "type": "string",
             "title": "Object Id",
-            "description": "L'ID du scorer"
+            "description": "L’ID du scorer"
           },
           "digest": {
             "type": "string",
@@ -11876,7 +11876,7 @@
           "version_index": {
             "type": "integer",
             "title": "Version Index",
-            "description": "L'index de version de l'objet"
+            "description": "L’index de version de l’objet"
           },
           "created_at": {
             "type": "string",
@@ -11904,7 +11904,7 @@
           "score_op": {
             "type": "string",
             "title": "Score Op",
-            "description": "La référence de l'op Scorer.score"
+            "description": "La référence de l’op Scorer.score"
           }
         },
         "type": "object",
@@ -12072,7 +12072,7 @@
               }
             ],
             "title": "Wb User Id",
-            "description": "Ne définissez pas directement ce champ. Le serveur le renseignera automatiquement."
+            "description": "Ne définissez pas ce champ directement. Le serveur le renseignera automatiquement."
           },
           "wb_run_id": {
             "anyOf": [
@@ -12287,7 +12287,7 @@
           "project_id": {
             "type": "string",
             "title": "Project Id",
-            "description": "L'ID du projet",
+            "description": "L’ID du projet",
             "examples": [
               "my_entity/my_project"
             ]
@@ -12295,7 +12295,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "Le digest du tableau à interroger",
+            "description": "L’empreinte du tableau à interroger",
             "examples": [
               "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims"
             ]
@@ -12362,7 +12362,7 @@
               }
             ],
             "title": "Sort By",
-            "description": "Liste des champs à utiliser pour le tri. Les champs peuvent être séparés par des points pour accéder aux valeurs d'un dictionnaire. En l'absence de tri, l'ordre par défaut du tableau est utilisé (ordre d'insertion).",
+            "description": "Liste des champs selon lesquels trier. Les champs peuvent être séparés par des points pour accéder aux valeurs du dictionnaire. Si aucun tri n’est appliqué, l’ordre par défaut du tableau est utilisé (ordre d’insertion).",
             "examples": [
               [
                 {
@@ -12402,7 +12402,7 @@
           "project_id": {
             "type": "string",
             "title": "Project Id",
-            "description": "L'ID du projet",
+            "description": "L’ID du projet",
             "examples": [
               "my_entity/my_project"
             ]
@@ -12420,7 +12420,7 @@
               }
             ],
             "title": "Digests",
-            "description": "Les digests des tableaux à interroger",
+            "description": "Les empreintes des tableaux à interroger",
             "default": [],
             "examples": [
               "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims",
@@ -12469,7 +12469,7 @@
           "project_id": {
             "type": "string",
             "title": "Project Id",
-            "description": "L'ID du projet",
+            "description": "L’ID du projet",
             "examples": [
               "my_entity/my_project"
             ]
@@ -12477,7 +12477,7 @@
           "digest": {
             "type": "string",
             "title": "Digest",
-            "description": "Le digest du tableau à interroger"
+            "description": "L’empreinte du tableau à interroger"
           }
         },
         "additionalProperties": false,
@@ -12516,7 +12516,7 @@
               }
             ],
             "title": "Row Digests",
-            "description": "Liste des digests de lignes sur lesquels filtrer",
+            "description": "Liste des empreintes de lignes à utiliser pour le filtrage",
             "examples": [
               [
                 "aonareimsvtl13apimtalpa4435rpmgnaemrpgmarltarstaorsnte134avrims",
@@ -12657,7 +12657,7 @@
             },
             "type": "array",
             "title": "Updated Row Digests",
-            "description": "Les digests des lignes qui ont été mises à jour"
+            "description": "Les empreintes des lignes qui ont été mises à jour"
           }
         },
         "type": "object",
@@ -12732,7 +12732,7 @@
           "project_id": {
             "type": "string",
             "title": "Project Id",
-            "description": "L'ID du projet",
+            "description": "L’ID du projet",
             "examples": [
               "my_entity/my_project"
             ]
@@ -12746,7 +12746,7 @@
                 "type": "null"
               }
             ],
-            "description": "Critères de filtrage pour la requête de threads"
+            "description": "Critères de filtrage pour la requête sur les threads"
           },
           "limit": {
             "anyOf": [
@@ -12802,7 +12802,7 @@
           "project_id"
         ],
         "title": "ThreadsQueryReq",
-        "description": "Interroger les threads avec des statistiques agrégées basées uniquement sur les appels de tour.\n\nLes appels de tour sont les enfants immédiats des contextes de thread (où `call.id == turn_id`).\nCela fournit des statistiques pertinentes au niveau de la conversation plutôt que d'inclure tous les\ndétails d'implémentation imbriqués."
+        "description": "Interroger les threads avec des statistiques agrégées fondées uniquement sur les appels de tour.\n\nLes appels de tour sont les enfants immédiats des contextes de thread (où call.id == turn_id).\nCela fournit des statistiques pertinentes au niveau de la conversation, plutôt que d’inclure tous\nles détails d’implémentation imbriqués."
       },
       "TraceStatus": {
         "type": "string",
@@ -12829,7 +12829,7 @@
                 "type": "null"
               }
             ],
-            "description": "Filtre permettant de sélectionner les appels. Utilisez généralement `trace_ids` pour obtenir tous les appels d'une trace."
+            "description": "Filtre pour sélectionner les appels. Utilisez généralement `trace_ids` pour obtenir tous les appels d’une trace."
           },
           "query": {
             "anyOf": [
@@ -12845,13 +12845,13 @@
           "include_costs": {
             "type": "boolean",
             "title": "Include Costs",
-            "description": "Si la valeur est true, inclure les calculs de coût dans l'utilisation.",
+            "description": "Si la valeur est true, inclure les calculs de coût dans l’Utilisation.",
             "default": false
           },
           "limit": {
             "type": "integer",
             "title": "Limit",
-            "description": "Nombre maximal d'appels à traiter. Sert de limite de sécurité pour éviter une utilisation mémoire non bornée.",
+            "description": "Nombre maximal d’appels à traiter. Sert de limite de sécurité pour éviter une utilisation de la mémoire sans borne.",
             "default": 10000
           }
         },
@@ -12861,7 +12861,7 @@
           "project_id"
         ],
         "title": "TraceUsageReq",
-        "description": "Requête permettant de calculer l'utilisation par appel pour une trace, avec cumul des descendants.\n\nCe point de terminaison renvoie les métriques d'utilisation pour chaque appel de la trace, où les métriques de chaque\nappel incluent la somme de sa propre utilisation et de celle de tous ses descendants.\nUtilisez-la dans la Vue de trace lorsque vous souhaitez afficher des métriques cumulées par appel.\n\nRemarque : tous les appels correspondants sont chargés en mémoire pour l'agrégation. Pour les jeux de\nrésultats très volumineux (>10k appels), envisagez d'utiliser des filtres plus spécifiques ou une pagination\nau niveau de l'application."
+        "description": "Requête visant à calculer l’Utilisation par appel pour une trace, avec cumul des descendants.\n\nCet Endpoint renvoie des métriques d’Utilisation pour chaque appel de la trace, où les\nmétriques de chaque appel incluent la somme de sa propre Utilisation et de celle de tous ses descendants.\nUtilisez-le pour la Vue de trace lorsque vous souhaitez afficher des métriques cumulées par appel.\n\nRemarque : tous les appels correspondants sont chargés en Mémoire pour l’agrégation. Pour des ensembles de\nrésultats très volumineux (>10k appels), envisagez d’utiliser des filtres plus spécifiques ou une pagination\nau niveau de l’application."
       },
       "TraceUsageRes": {
         "properties": {
@@ -12878,7 +12878,7 @@
         },
         "type": "object",
         "title": "TraceUsageRes",
-        "description": "Réponse contenant les métriques d'utilisation par appel (chacune inclut les contributions des descendants)."
+        "description": "Réponse contenant les métriques d’Utilisation par appel (chacune inclut les contributions des descendants)."
       },
       "UsageMetricSpec": {
         "properties": {
@@ -12893,7 +12893,7 @@
               "total_cost"
             ],
             "title": "Metric",
-            "description": "Métrique à agréger. Les métriques de jetons sont normalisées d'un fournisseur à l'autre."
+            "description": "Métrique à agréger. Les métriques de token sont normalisées entre les fournisseurs."
           },
           "aggregations": {
             "items": {
@@ -12901,7 +12901,7 @@
             },
             "type": "array",
             "title": "Aggregations",
-            "description": "Fonctions d'agrégation de base à appliquer",
+            "description": "Fonctions d’agrégation de base à appliquer",
             "default": [
               "sum"
             ]
@@ -12922,7 +12922,7 @@
           "metric"
         ],
         "title": "UsageMetricSpec",
-        "description": "Spécification d'une métrique d'utilisation à agréger (regroupée par modèle)."
+        "description": "Spécification d’une métrique d’Utilisation à agréger (regroupée par modèle)."
       },
       "ValidationError": {
         "properties": {

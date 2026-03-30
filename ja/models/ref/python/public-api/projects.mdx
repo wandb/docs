@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Projects`
 
-`Project` オブジェクトの遅延イテレーターです。
+`Project` オブジェクトの遅延イテレータ。
 
-entity によって作成および保存されたプロジェクトにアクセスするための、反復可能なインターフェースです。
+entity が作成して保存したプロジェクトにアクセスするためのイテラブルなインターフェース。
 
 ### <kbd>method</kbd> `Projects.__init__`
 
@@ -27,19 +27,19 @@ __init__(
 
 **引数:**
 
-* `client` (`wandb.apis.internal.Api`):  使用する API クライアント インスタンス。
-* `entity` (str):  プロジェクトを取得する対象の entity 名（ユーザー名またはチーム名）。
-* `per_page` (int):  リクエストごとに取得するプロジェクト数（デフォルトは 50）。
+* `client` (`wandb.apis.internal.Api`): 使用する API クライアントのインスタンス。
+* `entity` (str): プロジェクトを取得する対象の entity 名 (ユーザー名またはチーム名) 。
+* `per_page` (int): リクエストごとに取得するプロジェクト数 (デフォルトは 50) 。
 
 **例:**
 
 ```python
 from wandb.apis.public.api import Api
 
-# このエンティティに属するプロジェクトを検索する
+# このentityに属するプロジェクトを検索する
 projects = Api().projects(entity="entity")
 
-# プロジェクトを反復処理する
+# ファイルを反復処理する
 for project in projects:
     print(f"Project: {project.name}")
     print(f"- URL: {project.url}")
@@ -47,19 +47,19 @@ for project in projects:
     print(f"- Is benchmark: {project.is_benchmark}")
 ```
 
-`Project` オブジェクトのイテラブルなコレクション。
+`Project` オブジェクトの反復可能なコレクション。
 
 **引数:**
 
-* `client`:  W&amp;B に対してクエリを実行するために使用される API クライアント。
-* `entity`:  プロジェクトを所有する Entity。
-* `per_page`:  一度の API リクエストで取得するプロジェクト数。
+* `client`:  W&amp;B をクエリする際に使用する API クライアント。
+* `entity`:  プロジェクトを所有する entity。
+* `per_page`:  API へのリクエストごとに取得するプロジェクト数。
 
 ***
 
 
-### <kbd>property</kbd> Projects.cursor
+### <kbd>プロパティ</kbd> Projects.cursor
 
----
+***
 
 ### <kbd>プロパティ</kbd> Projects.more

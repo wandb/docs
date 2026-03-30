@@ -1,59 +1,59 @@
 ---
-description: "wandb.init() の resume パラメーターオプションを使用して、一時停止、停止、またはクラッシュした W&B runs を再開します。"
+description: "`wandb.init()` の `resume` パラメーターオプションを使用して、一時停止、停止、またはクラッシュした W&B run を再開します。"
 title: run を再開する
 ---
 
-`wandb.init()` の `resume` パラメーターを設定して、run が停止またはクラッシュした場合に W&amp;B がどのように動作するかを指定します。run を初期化すると、W&amp;B はその run ID がすでに存在するかどうかを確認し、`resume` の値で定義された動作を適用します。
+`wandb.init()` で `resume` パラメーターを設定すると、run が停止またはクラッシュした場合に W&amp;B がどのように処理するかを指定できます。run を初期化すると、W&amp;B は run ID がすでに存在するかどうかを確認し、`resume` の値で定義された動作を適用します。
 
-次の表は、`resume` パラメーターに渡す引数と、run ID が存在するかどうかに応じた W&amp;B の動作を示しています。
+次の表は、`resume` パラメーターに渡す引数と、run ID の有無に応じた W&amp;B の動作をまとめたものです。
 
-| Argument  | Description                                                                        | Run ID exists                                    | Run ID does not exist                  | Use case                       |
-| --------- | ---------------------------------------------------------------------------------- | ------------------------------------------------ | -------------------------------------- | ------------------------------ |
-| `"must"`  | W&amp;B は、run ID で指定された run を必ず再開します。                                              | W&amp;B は同じ run ID で run を再開します。最後のステップから再開されます。 | W&amp;B はエラーを返します。                     | 同じ run ID を必ず使用する run を再開する場合。 |
-| `"allow"` | run ID が存在する場合、W&amp;B がその run を再開できるようにします。                                       | W&amp;B は同じ run ID で run を再開します。最後のステップから再開されます。 | W&amp;B は指定した run ID で新しい run を初期化します。 | 既存の run を上書きせずに run を再開する場合。   |
-| `"never"` | W&amp;B が、run ID で指定された run を再開しないようにします。                                          | 指定した ID の run がすでに存在する場合はエラーを返します。               | W&amp;B は指定した run ID で新しい run を初期化します。 |                                |
-| `"auto"`  | run ID が存在する場合、W&amp;B が自動的に run の再開を試みるようにします。失敗したプロセスと同じディレクトリから run を再起動してください。 | W&amp;B は同じ run ID で run を再開します。                 | W&amp;B は指定した run ID で新しい run を初期化します。 | run を自動的に再開できるようにする場合。         |
+| Argument  | Description                                                                           | Run ID exists                                     | Run ID does not exist                   | Use case                       |
+| --------- | ------------------------------------------------------------------------------------- | ------------------------------------------------- | --------------------------------------- | ------------------------------ |
+| `"must"`  | W&amp;B は、run ID で指定された run を必ず再開します。                                                 | W&amp;B は同じ run ID で run を再開します。最後の step から再開します。 | W&amp;B はエラーを返します。                      | 同じ run ID を必ず使用する run を再開する場合。 |
+| `"allow"` | run ID が存在する場合、W&amp;B に run の再開を許可します。                                               | W&amp;B は同じ run ID で run を再開します。最後の step から再開します。 | W&amp;B は指定された run ID で新しい run を初期化します。 | 既存の run を上書きせずに run を再開する場合。   |
+| `"never"` | W&amp;B が run ID で指定された run を再開しないようにします。                                             | 指定された ID の run がすでに存在する場合はエラーを返します。               | W&amp;B は指定された run ID で新しい run を初期化します。 |                                |
+| `"auto"`  | run ID が存在する場合、W&amp;B が自動的に run の再開を試みることを許可します。失敗したプロセスと同じディレクトリーから run を再起動してください。 | W&amp;B は同じ run ID で run を再開します。                  | W&amp;B は指定された run ID で新しい run を初期化します。 | Runs を自動的に再開できるようにする場合。        |
 
 <Note>
   **`auto` と `allow` の使い分け**
 
-  W&amp;B では、`resume="allow"` を使用し、再開したい特定の run ID を指定することを推奨しています。
+  W&amp;B では、`resume="allow"` を使用し、再開したい run の run ID を明示的に指定することを推奨しています。
 
-  `resume="auto"` オプションでは run ID を指定する必要はありませんが、同じディレクトリで複数の run が失敗した場合や、ファイルのディレクトリ構造が変わった場合に、予期しない動作につながる可能性があります。また、`resume="auto"` を使用する場合は、失敗したプロセスと同じディレクトリから run を再起動する必要があります。
+  `resume="auto"` オプションでは run ID を指定する必要はありませんが、同じディレクトリーで複数の runs が失敗した場合や、ファイルのディレクトリー構造が変わった場合に、予期しない動作につながることがあります。また、`resume="auto"` を使用する場合は、失敗したプロセスと同じディレクトリーから run を再起動する必要があります。
 </Note>
 
 以下のすべての例では、`<>` で囲まれた値を実際の値に置き換えてください。
-<Tip>[再開した run のライブデモを表示](https://wandb.ai/wandb/resume-run/workspace?nw=nwuserjuliarose).</Tip>
+<Tip>[再開した run のライブデモを見る](https://wandb.ai/wandb/resume-run/workspace?nw=nwuserjuliarose).</Tip>
 
 <div id="resume-a-run-that-must-use-the-same-run-id">
-  ## 同じ run ID を使用する必要がある run を再開する
+  ## 同じ run ID を使用して再開する必要がある run
 </div>
 
-run が停止、クラッシュ、または失敗した場合は、同じ run ID を使って再開できます。これを行うには、run を初期化し、次の内容を指定します。
+run が停止、クラッシュ、または失敗した場合は、同じ run ID を使用して再開できます。そのためには、run を初期化して、次を指定します。
 
-* `resume` パラメーターを `"must"` (`resume="must"`) に設定する
+* `resume` パラメーターを `"must"` に設定する (`resume="must"`)
 * 停止またはクラッシュした run の run ID を指定する
 
-次のコードスニペットは、W&amp;B Python SDK でこれを実現する方法を示しています。
+以下のコードスニペットは、W&amp;B Python SDK でこれを実現する方法を示しています。
 
 ```python
 with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
-        # Your training code here
+        # トレーニングコードをここに記述
 ```
 
 <Warning>
-  同じ `id` を複数のプロセスが同時に使用すると、想定外の結果が発生します。
+  複数のプロセスで同じ `id` を同時に使用すると、予期しない結果が生じます。
 
-  複数のプロセスを管理する方法の詳細については、[分散トレーニング実験のログ記録](/ja/models/track/log/distributed-training/) を参照してください。
+  複数のプロセスを管理する方法について詳しくは、[分散トレーニング実験をログする](/ja/models/track/log/distributed-training/)を参照してください。
 </Warning>
 
 <div id="resume-a-run-without-overriding-the-existing-run">
-  ## 既存の run を上書きせずに再開する
+  ## 既存のrunを上書きせずにrunを再開する
 </div>
 
-停止またはクラッシュした run を、既存の run を上書きせずに再開します。これは、プロセスが正常終了しない場合に特に便利です。次回 W&amp;B を開始したとき、W&amp;B は最後のステップからロギングを再開します。
+既存のrunを上書きせずに、停止またはクラッシュしたrunを再開できます。これは、プロセスが正常に終了しなかった場合に特に役立ちます。次回W&amp;Bを起動すると、W&amp;Bは最後のstepからログを開始します。
 
-W&amp;B で run を初期化する際に、`resume` パラメーターを `"allow"` (`resume="allow"`) に設定します。停止またはクラッシュした run の run ID を指定してください。次のコードスニペットは、W&amp;B Python SDK を使ってこれを実現する方法を示しています。
+W&amp;Bでrunを初期化する際に、`resume` パラメーターを `"allow"` (`resume="allow"`) に設定します。停止またはクラッシュしたrunのrun IDを指定してください。次のコードスニペットは、W&amp;B Python SDKでこれを実現する方法を示しています。
 
 ```python
 import wandb
@@ -63,25 +63,25 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 ```
 
 <div id="enable-runs-to-automatically-resume">
-  ## run を自動再開できるようにする
+  ## run が自動的に自動再開されるようにする
 </div>
 
-次のコードスニペットは、Python SDK または環境変数を使って run を自動的に再開できるようにする方法を示しています。
+次のコードスニペットは、Python SDK または環境変数を使用して、run の自動再開を有効にする方法を示しています。
 
 <Tabs>
   <Tab title="W&B Python SDK">
-    run を初期化するときに、`resume` パラメーターの引数として `auto` を渡します。失敗したプロセスと同じディレクトリから run を再起動するようにしてください。
+    run を初期化するときに、`resume` パラメーターの引数として `auto` を渡します。失敗したプロセスと同じディレクトリから run を再起動してください。
 
-    次のコードスニペットをコピーして貼り付けます。`<>` で囲まれた値は、ご自身の値に置き換えてください:
+    次のコードスニペットをコピー＆ペーストし、`<>` で囲まれた値をご自身の値に置き換えてください。
 
     ```python
     with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="auto") as run:
-            # ここにトレーニングコードを記述
+            # ここにトレーニングコードを記述します
     ```
   </Tab>
 
   <Tab title="Shell script">
-    次の例は、bash スクリプト内で W&amp;B の `WANDB_RUN_ID` 変数を指定する方法を示しています:
+    次の例は、bash スクリプトで W&amp;B の `WANDB_RUN_ID` 変数を指定する方法を示しています。
 
     ```bash title="run_experiment.sh"
     RUN_ID="$1"
@@ -89,7 +89,7 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
     WANDB_RESUME=auto WANDB_RUN_ID="$RUN_ID" python eval.py
     ```
 
-    ターミナルで、このシェルスクリプトを W&amp;B run ID とともに実行できます。次のコードスニペットは run ID `akj172` を渡しています:
+    ターミナルで、W&amp;B run ID を指定してシェルスクリプトを実行できます。次のコードスニペットでは、run ID `akj172` を渡しています。
 
     ```bash
     sh run_experiment.sh akj172 
@@ -101,31 +101,31 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
   自動再開は、失敗したプロセスと同じファイルシステム上でプロセスを再起動した場合にのみ機能します。
 </Warning>
 
-たとえば、`Users/AwesomeEmployee/Desktop/ImageClassify/training/` というディレクトリ内で `train.py` という Python スクリプトを実行したとします。`train.py` 内では、自動再開を有効にする run を作成します。その後、トレーニングスクリプトが停止したとします。この run を再開するには、`Users/AwesomeEmployee/Desktop/ImageClassify/training/` 内で `train.py` スクリプトを再起動する必要があります。
+たとえば、`Users/AwesomeEmployee/Desktop/ImageClassify/training/` というディレクトリで `train.py` という Python スクリプトを実行するとします。`train.py` では、自動再開が有効な run を作成します。その後、トレーニングスクリプトが停止したとします。この run を再開するには、`Users/AwesomeEmployee/Desktop/ImageClassify/training/` 内で `train.py` スクリプトを再起動する必要があります。
 
 <Note>
   ファイルシステムを共有できない場合は、`WANDB_RUN_ID` 環境変数を指定するか、W&amp;B Python SDK で run ID を渡してください。run ID の詳細については、「What are runs?」ページの [Custom run IDs](./#custom-run-ids) セクションを参照してください。
 </Note>
 
 <div id="resume-preemptible-sweeps-runs">
-  ## プリエンプト可能な Sweeps の run を再開する
+  ## プリエンプト可能な Sweeps run を再開する
 </div>
 
-プリエンプションを正しく処理すると、中断された [sweep](/ja/models/sweeps/) の run は自動的にキューに入れ直され、別のエージェントが取得できるようになります。この方法は、sweep エージェントがプリエンプト可能な環境 (たとえば、プリエンプト可能なキュー内の SLURM ジョブ、EC2 Spot インスタンス、Google Cloud のプリエンプト可能 VM) で実行されている場合に特に有効です。
+プリエンプションを正しく処理すると、中断された[sweep](/ja/models/sweeps/) run は自動的にキューに入れ直され、別の agent が取得できるようになります。このパターンは、sweep agent がプリエンプト可能な環境で実行される場合に特に有効です。たとえば、プリエンプト可能なキュー内の SLURM ジョブ、EC2 Spot インスタンス、Google Cloud のプリエンプト可能 VM などです。
 
-以下の動作は、[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI を使って sweep エージェントを実行する場合に適用されます。この場合、トレーニングプログラムは **サブプロセス** として起動されます。一方、Python API の [`wandb.agent()`](/ja/models/ref/python/functions/agent) のみを使用する場合には、完全には当てはまりません。この経路では、トレーニング `function` は別プロセスではなくスレッド内で実行されるため、OS シグナルの配信と転送の動作が CLI エージェントのモデルとは一致しないためです。
+以下の動作は、[`wandb agent`](/ja/models/ref/cli/wandb-agent) CLI で sweep agent を実行する場合に適用されます。この CLI は、トレーニングプログラムを**サブプロセス**として起動します。一方、Python API の [`wandb.agent()`](/ja/models/ref/python/functions/agent) のみを使用する場合には、これは完全には当てはまりません。この経路では、トレーニング関数は別プロセスではなくスレッド内で実行されるため、OS シグナルの配信と転送が CLI agent のモデルと一致しないからです。
 
-**推奨パターン:** スケジューラーまたはプラットフォームが使用するプリエンプションシグナル (たとえば `SIGUSR1` や `SIGTERM`) に対するシグナルハンドラーを登録してください。ハンドラー内では、run がアクティブな場合に [`mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出し、必要なクリーンアップ (チェックポイントの保存など) を行ったうえで、非ゼロのコードで終了します (シグナルによる終了では、`128 + signum` を使うのが一般的な慣例です) 。`wandb.init()` の直後に、無条件で `mark_preempting()` をすぐ呼び出さないでください。そうすると、コードの bug を含むあらゆる失敗がプリエンプションとしてマークされ、run が繰り返しキューに入れ直される可能性があります。
+**推奨パターン:** スケジューラまたはプラットフォームで使われるプリエンプションシグナル (たとえば `SIGUSR1` や `SIGTERM`) のシグナルハンドラーを登録してください。ハンドラーでは、run がアクティブなときに [`mark_preempting()`](/ja/models/ref/python/experiments/run#mark_preempting) を呼び出し、必要なクリーンアップ (checkpoint の保存など) を行ってから、非ゼロのコードで終了します (一般的には、シグナルによる終了時に `128 + signum` を使います) 。`wandb.init()` の直後に、無条件で `mark_preempting()` を呼び出してはいけません。そうすると、コードの bug を含むあらゆる失敗がプリエンプションとしてマークされ、run が繰り返しキューに入れ直される可能性があります。
 
-実行可能な例、CLI エージェントでの `--forward-signals`、および `mark_preempting()` のさまざまな使用方法をまとめた完全な Reference 表については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
+実行可能な例、CLI agent での `--forward-signals`、および `mark_preempting()` のさまざまな使い方をまとめた詳細な表については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
 
-このパターンに従うと、W&amp;B は run の状態をおおむね次のように記録します。
+このパターンに従うと、W&amp;B はおおむね次のように run の状態を記録します。
 
-| シナリオ                                                                                                       | Run の状態                                        |
-| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| run が終了コード 0 で正常に完了する                                                                                      | FINISHED                                       |
-| run が非ゼロの終了コードで失敗する                                                                                        | FAILED                                         |
-| run が未処理のシグナル (たとえば `SIGKILL`) を受信する                                                                       | 約 5 分後に CRASHED                                |
-| run が処理されたプリエンプションシグナル (たとえば `SIGTERM` または `SIGUSR1`) を受信し、ハンドラーが `mark_preempting()` を呼び出して、プロセスが非ゼロで終了する | PREEMPTED。run は次のエージェント request に備えてキューに入れられます |
+| シナリオ                                                                                                      | run の状態                                        |
+| --------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| 終了コード 0 で run が正常に完了する                                                                                    | FINISHED                                       |
+| 非ゼロの終了コードで run が失敗する                                                                                      | FAILED                                         |
+| run が未処理のシグナル (たとえば `SIGKILL`) を受信する                                                                      | 約 5 分後に CRASHED                                |
+| run が処理済みのプリエンプションシグナル (たとえば `SIGTERM` または `SIGUSR1`) を受信し、ハンドラーが `mark_preempting()` を呼び出し、プロセスが非ゼロで終了する | PREEMPTED。run は次の agent request に備えてキューに入れられます |
 
-Sweep エージェントは、sweep が検索アルゴリズムに基づいて新しいハイパーパラメーターの組み合わせを生成する前に、run キューを先に処理します。キューが空になると、sweep は通常のスケジューリングを再開します。
+Sweep agent は、sweep が search アルゴリズムから新しいハイパーパラメーターの組み合わせを生成する前に、run キューを先に消化します。キューが空になると、sweep は通常のスケジューリングを再開します。

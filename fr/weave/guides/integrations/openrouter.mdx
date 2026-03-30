@@ -1,13 +1,13 @@
 ---
 title: "OpenRouter"
-description: "Utilisez l'interface unifiée d'OpenRouter pour de nombreux LLM avec une intégration Weave automatique"
+description: "Utilisez l’interface unifiée d’OpenRouter pour de nombreux LLM avec une intégration automatique à Weave"
 ---
 
-Openrouter.ai est une interface unifiée pour de nombreux LLM, compatible à la fois avec des modèles de base comme OpenAI GPT-4, Anthropic Claude et Google Gemini, mais aussi avec des modèles open source comme LLama-3, Mixtral et [bien d&#39;autres](https://openrouter.ai/models). Certains modèles sont même proposés gratuitement.
+OpenRouter.ai est une interface unifiée pour de nombreux LLM, prenant en charge aussi bien des modèles de fondation comme OpenAI GPT-4, Anthropic Claude et Google Gemini que des modèles open source comme LLama-3, Mixtral et [bien d’autres](https://openrouter.ai/models). Certains modèles sont même proposés gratuitement.
 
-OpenRouter propose une API REST et une compatibilité du SDK OpenAI ([docs](https://docs.together.ai/docs/openai-api-compatibility)) que Weave détecte et intègre automatiquement (voir le [guide de démarrage rapide](https://openrouter.ai/docs/quick-start) d&#39;OpenRouter pour plus de détails).
+OpenRouter propose une API REST et une compatibilité du SDK OpenAI ([docs](https://docs.together.ai/docs/openai-api-compatibility)) que Weave détecte et intègre automatiquement (voir le [guide de démarrage rapide](https://openrouter.ai/docs/quick-start) d’OpenRouter pour plus de détails).
 
-Pour adapter votre code SDK OpenAI à OpenRouter, remplacez votre clé API par votre clé [API OpenRouter](https://openrouter.ai/docs/api-keys), `base_url` par `https://openrouter.ai/api/v1`, et le modèle par l&#39;un de ses nombreux [modèles de chat](https://openrouter.ai/docs/models). Lorsque vous appelez `weave.init()`, fournissez un nom de projet pour vos traces. Si vous n&#39;en indiquez pas, votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous à [Paramètres utilisateur](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) dans la documentation W&amp;B Models.
+Pour faire passer votre code OpenAI SDK à OpenRouter, remplacez la clé API par votre clé [API OpenRouter](https://openrouter.ai/docs/api-keys), `base_url` par `https://openrouter.ai/api/v1` et le modèle par l’un de ses nombreux [modèles de chat](https://openrouter.ai/docs/models). Lorsque vous appelez `weave.init()`, fournissez un nom de projet pour vos traces. S’il n’est pas spécifié, votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous à [Paramètres utilisateur](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) dans la documentation W&amp;B Models.
 
 ```python lines {5,10-12}
 import os
@@ -25,8 +25,8 @@ client = openai.OpenAI(
 )
 chat_completion = client.chat.completions.create(
     extra_headers={
-    "HTTP-Referer": $YOUR_SITE_URL, # Facultatif, pour inclure votre application dans les classements d’openrouter.ai.
-    "X-Title": $YOUR_APP_NAME, # Facultatif. S’affiche dans les classements d’openrouter.ai.
+    "HTTP-Referer": $YOUR_SITE_URL, # Facultatif, pour inclure votre application dans les classements openrouter.ai.
+    "X-Title": $YOUR_APP_NAME, # Facultatif. Apparaît dans les classements sur openrouter.ai.
     },
     model="meta-llama/llama-3.1-8b-instruct:free",
     messages=[
@@ -40,4 +40,4 @@ response = chat_completion.choices[0].message.content
 print("Model response:\n", response)
 ```
 
-Bien qu’il s’agisse d’un exemple simple pour commencer, voir notre guide [OpenAI](/fr/weave/guides/integrations/openai#track-your-own-ops) pour plus de détails sur la façon d’intégrer Weave à vos propres fonctions pour des cas d’usage plus complexes.
+Bien qu’il s’agisse d’un exemple simple pour commencer, consultez notre guide [OpenAI](/fr/weave/guides/integrations/openai#track-your-own-ops) pour plus de détails sur la manière d’intégrer Weave à vos propres fonctions pour des cas d’utilisation plus complexes.

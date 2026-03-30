@@ -1,29 +1,29 @@
 ---
 title: "AutoGen"
-description: "Utilisez Weave pour suivre et surveiller les agents AutoGen et les systèmes multi-agents"
+description: "Utiliser Weave pour suivre et surveiller les agents AutoGen et les systèmes multi-agents"
 ---
 
-{/* TODO : ajouter un notebook Colab à ce guide avec un lien de badge ici. */}
+{/* TODO: Ajouter ici un notebook Colab pour ce guide, avec un badge pointant vers celui-ci. */}
 
-AutoGen est un framework de Microsoft permettant de créer des agents et des applications d’IA. Il simplifie la création de systèmes multi-agents complexes en proposant des composants pour l’IA conversationnelle (`AgentChat`), les fonctionnalités multi-agents de base (`Core`) et des intégrations avec des services externes (`Extensions`). AutoGen fournit également un `Studio` pour le prototypage sans code d’agents. Pour plus de détails, consultez la [documentation officielle d’AutoGen](https://microsoft.github.io/autogen/stable//index.html).
+AutoGen est un framework de Microsoft permettant de créer des agents et des applications d&#39;IA. Il simplifie la création de systèmes multi-agents complexes en proposant des composants pour l&#39;IA conversationnelle (`AgentChat`), les fonctionnalités multi-agents de base (`Core`) et les intégrations avec des services externes (`Extensions`). AutoGen propose également un `Studio` pour le prototypage d&#39;agents sans code. Pour en savoir plus, consultez la [documentation officielle d&#39;AutoGen](https://microsoft.github.io/autogen/stable//index.html).
 
 <Note>
-  Ce guide suppose que vous avez une connaissance de base d’[AutoGen](https://microsoft.github.io/autogen/stable/index.html).
+  Ce guide part du principe que vous avez une compréhension de base d&#39;[AutoGen](https://microsoft.github.io/autogen/stable/index.html).
 </Note>
 
-Weave s’intègre à [AutoGen](https://microsoft.github.io/autogen/stable/index.html) pour vous aider à tracer et à visualiser l’exécution de vos applications multi-agents. En initialisant simplement Weave, vous pouvez suivre automatiquement les interactions dans `autogen_agentchat`, `autogen_core` et `autogen_ext`. Ce guide vous présente différents exemples de comment utiliser Weave avec AutoGen.
+Weave s&#39;intègre à [AutoGen](https://microsoft.github.io/autogen/stable/index.html) pour vous aider à suivre et à visualiser l&#39;exécution de vos applications multi-agents. En initialisant simplement Weave, vous pouvez suivre automatiquement les interactions dans `autogen_agentchat`, `autogen_core` et `autogen_ext`. Ce guide vous présente différents exemples montrant comment utiliser Weave avec AutoGen.
 
 <div id="prerequisites">
   ## Prérequis
 </div>
 
-Avant de commencer, assurez-vous qu’AutoGen et Weave sont installés. Vous aurez également besoin des SDK des fournisseurs de LLM que vous prévoyez d’utiliser (par exemple, OpenAI, Anthropic).
+Avant de commencer, assurez-vous qu’AutoGen et Weave sont installés. Vous aurez également besoin des SDK des fournisseurs de LLM que vous prévoyez d’utiliser (par ex., OpenAI, Anthropic).
 
 ```bash
 pip install autogen_agentchat "autogen_ext[openai,anthropic]" weave 
 ```
 
-Configurez vos clés API comme variables d’environnement :
+Configurez vos clés API sous forme de variables d’environnement :
 
 ```python lines
 import os
@@ -36,7 +36,7 @@ os.environ["ANTHROPIC_API_KEY"] = "<your-anthropic-api-key>"
   ## Configuration de base
 </div>
 
-Initialisez Weave au début de votre script pour commencer à collecter des traces.
+Initialisez Weave au début de votre script pour commencer à enregistrer des traces.
 
 ```python lines {2}
 import weave
@@ -44,16 +44,16 @@ weave.init("autogen-demo")
 ```
 
 <div id="tracing-a-simple-model-client">
-  ## Tracing d’un client de modèle simple
+  ## Trace d’un client de modèle simple
 </div>
 
-Weave peut tracer les appels effectués directement sur des clients de modèle dans AutoGen.
+Weave peut tracer les appels adressés directement aux clients de modèle dans AutoGen.
 
 <div id="tracing-a-client-create-call">
-  ### Tracing d’un appel create du client
+  ### Tracing d’un appel à la méthode `create` du client
 </div>
 
-Cet exemple montre le Tracing d’un appel unique à un `OpenAIChatCompletionClient`.
+Cet exemple montre le tracing d’un seul appel à un `OpenAIChatCompletionClient`.
 
 ```python lines
 import asyncio
@@ -81,7 +81,7 @@ asyncio.run(simple_client_call())
 [![autogen-simple-client.png](/weave/guides/integrations/imgs/autogen/autogen-simple-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee09-8dcf-7b72-8cdc-7699608cd6ef%3FhideTraceTree%3D0)
 
 <div id="tracing-a-client-create-call-with-streaming">
-  ### Tracing d’un appel create du client avec streaming
+  ### Tracing d’un appel `create` du client avec streaming
 </div>
 
 Weave prend également en charge le Tracing des réponses en streaming.
@@ -105,7 +105,7 @@ asyncio.run(simple_client_call_stream())
   ### Weave enregistre les appels mis en cache
 </div>
 
-Vous pouvez utiliser `ChatCompletionCache` d’AutoGen, et Weave trace ces interactions en indiquant si une réponse provient du cache ou d’un nouvel appel.
+Vous pouvez utiliser `ChatCompletionCache` d’AutoGen ; Weave trace ces interactions et indique si une réponse provient du cache ou d’un nouvel appel.
 
 ```python lines
 
@@ -131,10 +131,10 @@ asyncio.run(run_cache_client())
 [![autogen-cached-client.png](/weave/guides/integrations/imgs/autogen/autogen-cached-client.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee11-fded-72c2-baaa-7c0ba2a7cd3b%3FhideTraceTree%3D0)
 
 <div id="tracing-an-agent-with-tool-calls">
-  ## Tracing d’un agent avec des appels d’outil
+  ## Tracing d’un agent avec des appels d’outils
 </div>
 
-Weave assure le Tracing des agents et de leur utilisation des outils, ce qui permet de voir comment les agents sélectionnent et exécutent les outils.
+Weave assure le tracing des agents et de leur utilisation des outils, ce qui permet de voir comment les agents sélectionnent et exécutent les outils.
 
 ```python lines
 from autogen_agentchat.agents import AssistantAgent
@@ -217,14 +217,14 @@ asyncio.run(run_round_robin_group_chat())
   ## Tracing de la mémoire
 </div>
 
-Les composants de mémoire d’AutoGen peuvent être tracés avec Weave. Vous pouvez utiliser `@weave.op()` pour regrouper les opérations de mémoire dans une seule trace afin d’en améliorer la lisibilité.
+Les composants de mémoire d&#39;AutoGen peuvent être tracés avec Weave. Vous pouvez utiliser `@weave.op()` pour regrouper les opérations de mémoire au sein d&#39;une même trace, afin d&#39;en faciliter la lecture.
 
 ```python lines
 
 from autogen_core.memory import ListMemory, MemoryContent, MemoryMimeType
 
-# Nous ajoutons cet op weave ici car nous voulons tracer 
-# les appels d'ajout mémoire ainsi que les appels de récupération mémoire sous une seule trace
+# Nous ajoutons cet op Weave ici car nous voulons tracer 
+# les appels d'ajout en mémoire ainsi que les appels de récupération sous une seule trace
 # c'est entièrement facultatif mais fortement recommandé de l'utiliser
 
 @weave.op
@@ -278,7 +278,7 @@ asyncio.run(run_memory_agent())
   ## Tracing des flux de travail RAG
 </div>
 
-Les flux de travail de génération augmentée par récupération (RAG), y compris l’indexation et la récupération de documents avec des systèmes de mémoire comme `ChromaDBVectorMemory`, peuvent faire l’objet d’un traçage. Ajouter le décorateur `@weave.op()` au processus RAG permet de visualiser l’ensemble du flux de travail.
+Les flux de travail de génération augmentée par récupération (RAG), y compris l’indexation et la récupération de documents avec des systèmes de mémoire comme `ChromaDBVectorMemory`, peuvent être tracés. Appliquer le décorateur `@weave.op()` au processus RAG permet de visualiser l’ensemble du flux.
 
 <Note>
   L’exemple RAG nécessite `chromadb`. Installez-le avec `pip install chromadb`.
@@ -368,11 +368,11 @@ async def run_rag_agent(model_name="gpt-4o"):
             "https://microsoft.github.io/autogen/dev/user-guide/agentchat-user-guide/tutorial/agents.html",
         ]
         chunks: int = await indexer.index_documents(sources)
-        print(f"Indexé {chunks} segments depuis {len(sources)} documents AutoGen")
+        print(f"Indexé {chunks} fragments depuis {len(sources)} documents AutoGen")
     
     # N'indexez que si la collection est vide ou si vous souhaitez réindexer
     # À des fins de démonstration, vous pouvez indexer à chaque fois ou vérifier si c'est déjà fait.
-    # Cet exemple tentera d'indexer à chaque run. Envisagez d'ajouter une vérification.
+    # Cet exemple essaiera d'indexer à chaque run. Envisagez d'ajouter une vérification.
     await index_autogen_docs()
 
     model_client = OpenAIChatCompletionClient(model=model_name)
@@ -382,7 +382,7 @@ async def run_rag_agent(model_name="gpt-4o"):
         memory=[rag_memory],
     )
     
-    # Pour afficher la sortie en streaming dans la console :
+    # Pour une sortie en streaming vers la console :
     # stream = rag_assistant.run_stream(task="What is AgentChat?")
     # await Console(stream)
     result = await rag_assistant.run(task="What is AgentChat?")
@@ -397,10 +397,10 @@ asyncio.run(run_rag_agent())
 [![autogen-rag.png](/weave/guides/integrations/imgs/autogen/autogen-rag.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1b-bac5-7b80-8be7-6e6ea7d1d63d%3FhideTraceTree%3D0)
 
 <div id="tracing-agent-runtimes">
-  ## Tracing des runtimes d’agent
+  ## Trace des runtimes d’agent
 </div>
 
-Weave peut tracer des opérations au sein des runtimes d’agent d’AutoGen, comme `SingleThreadedAgentRuntime`. Utiliser `@weave.op()` autour de la fonction d’exécution du runtime permet de regrouper les traces associées.
+Weave peut tracer les opérations au sein des runtimes d’agent d’AutoGen, comme `SingleThreadedAgentRuntime`. L’utilisation de `@weave.op()` autour de la fonction d’exécution du runtime permet de regrouper les traces associées.
 
 ```python lines {50}
 from dataclasses import dataclass
@@ -450,7 +450,7 @@ class Checker(RoutedAgent):
 
 # nous ajoutons cet op weave ici car nous souhaitons tracer 
 # l'intégralité de l'appel du runtime d'agent sous une seule trace
-# c'est entièrement facultatif mais fortement recommandé de l'utiliser
+# c'est entièrement facultatif mais fortement recommandé
 
 @weave.op
 async def run_agent_runtime() -> None:
@@ -479,10 +479,10 @@ asyncio.run(run_agent_runtime())
 [![autogen-runtime.png](/weave/guides/integrations/imgs/autogen/autogen-runtime.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1d-6246-7f11-afb1-3a1874f79023%3FhideTraceTree%3D0)
 
 <div id="tracing-workflows-sequential">
-  ## Flux de travail de Tracing (séquentiels)
+  ## Flux de travail Tracing (séquentiels)
 </div>
 
-Vous pouvez tracer des flux de travail d&#39;agents complexes qui définissent des séquences d&#39;interactions entre agents. Utilisez `@weave.op()` pour fournir une trace de haut niveau de l&#39;ensemble du flux de travail.
+Vous pouvez tracer des flux de travail d’agents complexes qui définissent des séquences d’interactions entre agents. Utilisez `@weave.op()` pour fournir une trace de haut niveau de l’ensemble du flux de travail.
 
 ```python lines {108}
 from autogen_core import TopicId, type_subscription
@@ -500,13 +500,13 @@ user_topic_type = "User"
 @type_subscription(topic_type=concept_extractor_topic_type)
 class ConceptExtractorAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
-        super().__init__("A concept extractor agent.")
+        super().__init__("Un agent extracteur de concepts.")
         self._system_message = SystemMessage(
             content=(
-                "Vous êtes un analyste marketing. À partir d'une description de produit, identifiez :\n"
-                "- Les fonctionnalités clés\n"
-                "- Le public cible\n"
-                "- Les arguments de vente uniques\n\n"
+                "You are a marketing analyst. Given a product description, identify:\n"
+                "- Fonctionnalités clés\n"
+                "- Public cible\n"
+                "- Points de vente uniques\n\n"
             )
         )
         self._model_client = model_client
@@ -528,12 +528,12 @@ class ConceptExtractorAgent(RoutedAgent):
 @type_subscription(topic_type=writer_topic_type)
 class WriterAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
-        super().__init__("A writer agent.")
+        super().__init__("Un agent rédacteur.")
         self._system_message = SystemMessage(
             content=(
-                "Vous êtes un rédacteur marketing. À partir d'un bloc de texte décrivant les fonctionnalités, le public et les arguments de vente, "
-                "rédigez un texte marketing percutant (comme une section de newsletter) qui met en valeur ces points. "
-                "Le texte doit être court (environ 150 mots) ; fournissez uniquement le texte sous forme d'un seul bloc."
+                "You are a marketing copywriter. Given a block of text describing features, audience, and USPs, "
+                "compose a compelling marketing copy (like a newsletter section) that highlights these points. "
+                "Output should be short (around 150 words), output just the copy as a single text block."
             )
         )
         self._model_client = model_client
@@ -555,11 +555,11 @@ class WriterAgent(RoutedAgent):
 @type_subscription(topic_type=format_proof_topic_type)
 class FormatProofAgent(RoutedAgent):
     def __init__(self, model_client: ChatCompletionClient) -> None:
-        super().__init__("A format & proof agent.")
+        super().__init__("Un agent de mise en forme et de relecture.")
         self._system_message = SystemMessage(
             content=(
-                "Vous êtes un éditeur. À partir du brouillon, corrigez la grammaire, améliorez la clarté, assurez un ton cohérent, "
-                "mettez en forme et peaufinez le texte. Fournissez la version finale améliorée sous forme d'un seul bloc de texte."
+                "You are an editor. Given the draft copy, correct grammar, improve clarity, ensure consistent tone, "
+                "give format and make it polished. Output the final improved copy as a single text block."
             )
         )
         self._model_client = model_client
@@ -581,14 +581,14 @@ class FormatProofAgent(RoutedAgent):
 @type_subscription(topic_type=user_topic_type)
 class UserAgent(RoutedAgent):
     def __init__(self) -> None:
-        super().__init__("Un agent utilisateur qui transmet le texte final à l'utilisateur.")
+        super().__init__("Un agent utilisateur qui transmet la version finale à l'utilisateur.")
 
     @message_handler
     async def handle_final_copy(self, message: WorkflowMessage, ctx: MessageContext) -> None:
-        print(f"\\n{'-'*80}\\n{self.id.type} a reçu le texte final :\\n{message.content}")
+        print(f"\\n{'-'*80}\\n{self.id.type} a reçu la version finale :\\n{message.content}")
 
-# nous ajoutons cet op Weave ici car nous souhaitons tracer
-# l'intégralité du flux de travail de l'agent sous une seule trace
+# nous ajoutons cet op Weave ici car nous voulons tracer
+# l'intégralité du flux de travail des agents sous une seule trace
 # c'est entièrement facultatif, mais fortement recommandé
 
 @weave.op(call_display_name="Sequential Agent Workflow")
@@ -617,15 +617,15 @@ asyncio.run(run_agent_workflow())
 [![autogen-sequential-workflow.png](/weave/guides/integrations/imgs/autogen/autogen-sequential-workflow.png)](https://wandb.ai/parambharat/autogen-demo/weave/traces?view=traces_default\&peekPath=%2Fparambharat%2Fautogen-demo%2Fcalls%2F0196ee1f-dd53-73f2-9119-2a44da92c5ae%3FhideTraceTree%3D0)
 
 <div id="tracing-code-executor">
-  ## Exécuteur de code avec Tracing
+  ## Exécuteur de code pour le Tracing
 </div>
 
 <Warning>
   **Docker requis**
-  Cet exemple implique l’exécution de code à l’aide de Docker et peut ne pas fonctionner dans tous les environnements (par ex. directement dans Colab). Assurez-vous que Docker s’exécute localement si vous souhaitez l’essayer.
+  Cet exemple implique l&#39;exécution de code avec Docker et peut ne pas fonctionner dans tous les environnements (par ex. directement dans Colab). Assurez-vous que Docker est en cours d’exécution en local si vous essayez cet exemple.
 </Warning>
 
-Weave assure le traçage de la génération et de l’exécution du code par les agents AutoGen.
+Weave trace la génération et l’exécution de code par des agents AutoGen.
 
 ````python lines {69}
 
@@ -701,7 +701,7 @@ async def run_codegen(model_name="gpt-4o"): # Modèle mis à jour
     work_dir = tempfile.mkdtemp()
     runtime = SingleThreadedAgentRuntime()
 
-    # S'assurer que Docker est en cours d'exécution pour cet exemple
+    # Vérifier que Docker est en cours d'exécution pour cet exemple
     try:
         async with DockerCommandLineCodeExecutor(work_dir=work_dir) as executor:
             model_client = OpenAIChatCompletionClient(model=model_name)
@@ -716,8 +716,8 @@ async def run_codegen(model_name="gpt-4o"): # Modèle mis à jour
             await runtime.stop_when_idle()
             await model_client.close()
     except Exception as e:
-        print(f"Impossible d'exécuter l'exemple d'exécuteur de code Docker : {e}")
-        print("Veuillez vous assurer que Docker est installé et en cours d'exécution.")
+        print(f"Could not run Docker code executor example: {e}")
+        print("Please ensure Docker is installed and running.")
     finally:
         import shutil
         shutil.rmtree(work_dir)
@@ -733,10 +733,10 @@ asyncio.run(run_codegen())
 </div>
 
 * **Weave**:
-  * [Guide de Tracing](/fr/weave/guides/tracking/tracing)
+  * [Guide du Tracing](/fr/weave/guides/tracking/tracing)
   * [Décorateur op](/fr/weave/guides/tracking/ops)
 * **AutoGen**:
   * [Documentation officielle](https://microsoft.github.io/autogen/stable//index.html)
-  * [GitHub d&#39;AutoGen](https://github.com/microsoft/autogen)
+  * [GitHub AutoGen](https://github.com/microsoft/autogen)
 
-Ce guide constitue un point de départ pour intégrer Weave à AutoGen. Explorez l&#39;interface de Weave pour voir des traces détaillées des interactions de votre agent, des appels au modèle et de l&#39;utilisation des outils.
+Ce guide constitue un point de départ pour intégrer Weave à AutoGen. Explorez le Weave UI pour consulter des traces détaillées des interactions de votre agent, des appels au modèle et de l’utilisation des outils.
