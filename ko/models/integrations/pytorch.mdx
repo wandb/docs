@@ -77,7 +77,7 @@ with wandb.init() as run:
     <img src="/images/integrations/pytorch_example_dashboard.png" alt="PyTorch execution traces"  />
 </Frame>
 
-W&B 는 [PyTorch Kineto](https://github.com/pytorch/kineto)의 [Tensorboard 플러그인](https://github.com/pytorch/kineto/blob/master/tb_plugin/README)과 직접 연동되어 PyTorch 코드를 프로파일링하고, CPU 와 GPU 통신의 세부 사항을 검사하며, 병목 현상 및 최적화 지점을 식별하는 툴을 제공합니다.
+W&B 는 [PyTorch Kineto](https://github.com/pytorch/kineto)의 [Tensorboard 플러그인](https://github.com/pytorch/kineto/blob/main/tb_plugin/README.md)과 직접 연동되어 PyTorch 코드를 프로파일링하고, CPU 와 GPU 통신의 세부 사항을 검사하며, 병목 현상 및 최적화 지점을 식별하는 툴을 제공합니다.
 
 ```python
 profile_dir = "path/to/run/tbprofile/"
