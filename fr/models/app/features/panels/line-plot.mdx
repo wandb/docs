@@ -1,73 +1,73 @@
 ---
-description: Visualisez des métriques, personnalisez les axes et comparez plusieurs courbes sur un graphique
-title: Aperçu des graphiques linéaires
+description: Visualisez les métriques, personnalisez les axes et comparez plusieurs courbes sur un graphique
+title: Aperçu des graphiques en courbes
 ---
 
 import LinePlotCaptureGroups from "/snippets/fr/_includes/line-plot-capture-groups.mdx";
 
-Les graphiques linéaires s’affichent par défaut pour les métriques journalisées avec `wandb.Run.log()` au fil du temps. Les graphiques linéaires permettent de tracer plusieurs métriques, de calculer des axes personnalisés, etc.
+Les graphiques en courbes s’affichent par défaut pour les métriques enregistrées avec `wandb.Run.log()` au fil du temps. Les graphiques en courbes permettent de tracer plusieurs métriques, de calculer des axes personnalisés, et plus encore.
 
-Cette page explique comment créer, configurer et gérer des graphiques linéaires dans un [espace de travail](/fr/models/track/workspaces).
+Cette page explique comment créer, configurer et gérer des graphiques en courbes dans un [Workspace](/fr/models/track/workspaces).
 
 <Frame>
-  <img src="/images/app_ui/line_plot_example.png" alt="Exemple de graphique linéaire" />
+  <img src="/images/app_ui/line_plot_example.png" alt="Exemple de graphique en courbes" />
 </Frame>
 
 <Tip>
-  Pour les [runs](/fr/models/runs) exécutés sur l’infrastructure [CoreWeave](https://coreweave.com), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) surveille votre infrastructure de calcul. Si une erreur se produit, W&amp;B ajoute des informations sur l’infrastructure aux graphiques de votre run dans l’espace de travail de votre projet. Pour plus de détails, voir [Visualiser les alertes d’infrastructure CoreWeave](/fr/models/runs/infrastructure-alerts).
+  Pour les [runs](/fr/models/runs) qui s’exécutent sur l’infrastructure [CoreWeave](https://coreweave.com), [CoreWeave Mission Control](https://www.coreweave.com/mission-control) surveille votre infrastructure de calcul. En cas d’erreur, W&amp;B ajoute des informations sur l’infrastructure aux graphiques de votre run dans le Workspace de votre projet. Pour en savoir plus, voir [Visualiser les alertes d’infrastructure CoreWeave](/fr/models/runs/infrastructure-alerts).
 </Tip>
 
 <div id="add-a-line-plot">
-  ## Ajouter un graphique linéaire
+  ## Ajouter un graphique en courbes
 </div>
 
-Cette section explique comment créer un graphique linéaire pour une seule métrique ou pour plusieurs métriques.
+Cette section explique comment créer un graphique en courbes pour une métrique unique ou plusieurs métriques.
 
 <Tabs>
   <Tab title="Graphique en courbes à métrique unique">
-    Dans un [Workspace automatique](/fr/models/app/features/panels#workspace-modes), un graphique en courbes à métrique unique est créé automatiquement pour chaque métrique enregistrée. Suivez ces étapes pour ajouter de nouveau un graphique en courbes supprimé d’un Workspace automatique, ou pour ajouter un graphique en courbes à un Workspace manuel.
+    Dans un [workspace automatique](/fr/models/app/features/panels#workspace-modes), un graphique en courbes à métrique unique est créé automatiquement pour chaque métrique enregistrée. Suivez ces étapes pour rajouter un graphique en courbes supprimé d’un workspace automatique, ou pour ajouter un graphique en courbes à un workspace manuel.
 
-    1. Accédez à votre espace de travail.
-    2. Pour ajouter un graphique en courbes à l’ensemble de l’espace de travail, cliquez sur **Add panels** dans la barre de contrôle, près du champ de recherche des panneaux.
+    1. Accédez à votre Workspace.
+    2. Pour ajouter un graphique en courbes globalement, cliquez sur **Add panels** dans la barre de contrôle près du champ de recherche des panneaux.
 
        Pour ajouter directement un graphique en courbes à une section, cliquez plutôt sur le menu d’action `...` de la section, puis sur **+ Add panels**.
     3. Pour ajouter un graphique à métrique unique avec les paramètres par défaut, cliquez sur **Quick panel builder**.
        1. Dans l’onglet **Single-key panels**, survolez une métrique, puis cliquez sur **Add**. Répétez cette étape pour chaque panneau que vous souhaitez ajouter.
        2. Cliquez sur **Create &lt;number&gt; panels**.
-    4. Pour ajouter un graphique en courbes personnalisé, cliquez plutôt sur **Line plot**.
-       1. Configurez les préférences de données, de regroupement et d’affichage du graphique en courbes à l’aide des onglets correspondants. Pour plus de détails, voir [Modifier les paramètres du graphique en courbes](#edit-line-plot-settings).
+    4. Pour ajouter à la place un graphique en courbes personnalisé, cliquez sur **Line plot**.
+       1. Configurez les données, le regroupement et les préférences d’affichage du graphique en courbes à l’aide des onglets correspondants. Pour en savoir plus, voir [Edit line plot settings](#edit-line-plot-settings).
        2. Pour ajouter des expressions calculées à l’axe x ou y, cliquez sur **Expressions**. Les [expressions régulières JavaScript](https://www.w3schools.com/js/js_regexp.asp) sont prises en charge.
           Sélectionnez le type de panneau à ajouter, par exemple un graphique. Les détails de configuration du panneau s’affichent avec les valeurs par défaut sélectionnées.
     5. Si vous le souhaitez, personnalisez le panneau et ses préférences d’affichage. Les options de configuration dépendent du type de panneau que vous sélectionnez. Pour en savoir plus sur les options de chaque type de panneau, reportez-vous à la section pertinente ci-dessous, comme [Line plots](/fr/models/app/features/panels/line-plot/) ou [Bar plots](/fr/models/app/features/panels/bar-plot/).
     6. Cliquez sur **Apply**.
   </Tab>
 
-  <Tab title="Graphique en courbes avec plusieurs métriques">
+  <Tab title="Graphique en courbes multi-métriques">
     <Note>
-      Cette fonctionnalité est en préversion et disponible sur invitation uniquement. Pour demander à y accéder, contactez l’[assistance](mailto:support@wandb.com) ou votre AISE.
+      Cette fonctionnalité est en préversion et disponible sur invitation uniquement. Pour demander à y participer, contactez l&#39;[assistance](mailto:support@wandb.com) ou votre AISE.
     </Note>
 
-    Dans un [espace de travail automatique](/fr/models/app/features/panels#workspace-modes), un graphique en courbes à métrique unique est créé automatiquement pour chaque métrique enregistrée. Cette section explique comment créer un graphique en courbes unique affichant plusieurs métriques à la fois, définies par une expression régulière JavaScript. Vous pouvez également regrouper plusieurs graphiques à métrique unique dans un seul graphique multi-métrique. Cela peut améliorer les performances d’un espace de travail contenant de nombreuses métriques enregistrées et vous aider à analyser efficacement les résultats de vos runs.
+    Dans un [Workspace automatique](/fr/models/app/features/panels#workspace-modes), un graphique en courbes à métrique unique est créé automatiquement pour chaque métrique enregistrée. Cette section explique comment créer un graphique en courbes unique affichant plusieurs métriques à la fois, définies par une expression régulière JavaScript. Vous pouvez aussi regrouper plusieurs graphiques à métrique unique en un seul graphique à métriques multiples. Cela peut améliorer les performances d&#39;un Workspace contenant de nombreuses métriques enregistrées et vous aider à analyser efficacement les résultats de vos Runs.
 
-    1. Accédez à votre espace de travail.
-    2. Pour ajouter un graphique en courbes globalement, cliquez sur **Ajouter des panneaux** dans la barre de contrôle près du champ de recherche des panneaux.
+    1. Accédez à votre Workspace.
+    2. Pour ajouter un graphique en courbes de façon globale, cliquez sur **Add panels** dans la barre de contrôle, à côté du champ de recherche des panneaux.
 
-       Pour ajouter un graphique en courbes directement à une section, cliquez plutôt sur le menu d&#39;action `...` de la section, puis sur **+ Ajouter des panneaux**.
-    3. Cliquez sur **Générateur rapide de panneaux**, puis sur l’onglet **Panneaux multi-métriques**.
-    4. Dans **Regex**, saisissez une expression au format [expression régulière JavaScript](https://www.w3schools.com/js/js_regexp.asp). Pendant la saisie, l’interface se met à jour pour indiquer quelles métriques correspondent à l’expression. Par défaut, le nom du graphique affiche l’expression régulière utilisée. Le graphique inclut des courbes pour toutes les métriques qui correspondent à l’expression, y compris celles qui seront enregistrées plus tard.
-    5. Pour supprimer, si vous le souhaitez, les panneaux redondants à métrique unique lors de la création du graphique multi-métrique, activez **Nettoyer les panneaux générés automatiquement**. Un aperçu montre quels panneaux seront supprimés. <Note>Lorsque cette option est activée, un graphique à métrique unique ne sera pas créé pour une nouvelle métrique enregistrée qui correspond à l’expression. Elle sera uniquement incluse dans ce graphique multi-métrique.</Note>
-    6. Cliquez sur **Créer &lt;number&gt; panneaux**.
+       Pour ajouter directement un graphique en courbes à une section, cliquez plutôt sur le menu d&#39;action `...` de la section, puis sur **+ Add panels**.
+    3. Cliquez sur **Quick panel builder**, puis sur l&#39;onglet **Multi-metric panels**.
+    4. Dans **Regex**, saisissez une expression au format [expression régulière JavaScript](https://www.w3schools.com/js/js_regexp.asp). Pendant la saisie, l&#39;UI se met à jour pour indiquer quelles métriques correspondent à l&#39;expression. Par défaut, le nom du graphique affiche l&#39;expression régulière utilisée. Le graphique inclut des courbes pour toutes les métriques correspondant à l&#39;expression, y compris celles enregistrées ultérieurement.
+    5. Pour supprimer facultativement les panneaux à métrique unique en double lors de la création du graphique à métriques multiples, activez **Clean up auto-generated panels**. Un aperçu indique quels panneaux seront supprimés. <Note>Lorsque cette option est activée, aucun graphique à métrique unique n&#39;est créé pour une nouvelle métrique enregistrée qui correspond à l&#39;expression. Elle est incluse uniquement dans ce graphique à métriques multiples.</Note>
+    6. Cliquez sur **Create &lt;number&gt; panels**.
 
     ### En savoir plus sur les expressions régulières multi-métriques
 
-    Les graphiques en courbes multi-métriques utilisent des [expressions régulières JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) pour faire correspondre les noms de métriques. Cette section présente quelques cas d’utilisation courants et donne plus de détails sur le fonctionnement des expressions régulières, notamment sur la manière dont les groupes de capture affectent les panneaux créés.
+    Les graphiques en courbes à métriques multiples utilisent des [expressions régulières JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions) pour faire correspondre les noms de métriques. Cette section présente quelques cas d&#39;usage courants et donne plus de détails sur le fonctionnement des expressions régulières, notamment sur la façon dont les groupes de capture influencent les panneaux créés.
 
-    #### Cas d’utilisation courants
+    #### Cas d&#39;usage courants
 
-    Cette section présente quelques façons d’utiliser les panneaux multi-métriques pour vous aider à analyser les résultats de vos expériences.
+    Cette section présente quelques façons d&#39;utiliser les panneaux multi-métriques pour vous aider à analyser les résultats de vos expériences.
 
     **Comparer les métriques entre les couches ou les composants du modèle**
-    Au lieu de créer des panneaux distincts pour les métriques de chaque couche, vous pouvez les afficher ensemble dans un seul panneau. Par exemple, si vous consignez des métriques avec une convention de nommage cohérente, comme `layer_0_loss`, `layer_1_loss` et `layer_2_loss` dans cet exemple de code Python, vous pouvez utiliser la regex `layer_\d+_loss` pour afficher toutes les pertes des couches sur un seul graphique.
+    Au lieu de créer des panneaux séparés pour les métriques de chaque couche, vous pouvez les afficher ensemble dans un seul panneau. Par exemple, si vous consignez des métriques avec une convention de nommage cohérente, comme `layer_0_loss`, `layer_1_loss` et `layer_2_loss` dans cet exemple de code Python, vous pouvez utiliser la regex `layer_\d+_loss` pour afficher toutes les pertes des couches sur un seul graphique.
 
     ```python
     with wandb.init(project="multi-layer-model") as run:
@@ -80,14 +80,14 @@ Cette section explique comment créer un graphique linéaire pour une seule mét
             })
     ```
 
-    **Regroupez les métriques liées par préfixe ou suffixe**
+    **Regrouper les métriques liées par préfixe ou suffixe**
     Faites correspondre toutes les métriques qui partagent un schéma de nommage commun. Par exemple :
 
-    * `train_.*` correspond à toutes les métriques d’entraînement comme `train_loss`, `train_accuracy`, `train_f1_score`
-    * `.*_accuracy` correspond aux métriques de précision sur différents jeux de données comme `train_accuracy`, `val_accuracy`, `test_accuracy`
+    * `train_.*` correspond à toutes les métriques d&#39;entraînement, comme `train_loss`, `train_accuracy`, `train_f1_score`
+    * `.*_accuracy` correspond aux métriques d&#39;exactitude sur différents jeux de données, comme `train_accuracy`, `val_accuracy`, `test_accuracy`
 
-    **Faire correspondre des variantes de métrique spécifiques**
-    Utilisez l’alternance pour ne faire correspondre que les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes de la première et de la dixième couche, à l’exclusion des couches intermédiaires.
+    **Faire correspondre des variantes de métriques spécifiques**
+    Utilisez l&#39;alternance pour ne faire correspondre que les métriques souhaitées. Par exemple, le groupe non capturant `(?:layer_0|layer_10)_loss` correspond uniquement aux pertes des première et dixième couches, en excluant les couches intermédiaires.
 
     #### Comprendre les groupes de capture
 
@@ -96,78 +96,78 @@ Cette section explique comment créer un graphique linéaire pour une seule mét
 </Tabs>
 
 <div id="edit-line-plot-settings">
-  ## Modifier les paramètres du graphique linéaire
+  ## Modifier les paramètres du graphique en courbes
 </div>
 
-Cette section explique comment modifier les paramètres d’un panneau de graphique linéaire donné, de tous les panneaux de graphique linéaire d’une section ou de tous les panneaux de graphique linéaire d’un espace de travail. Pour plus de détails sur les paramètres du graphique linéaire, voir [Référence du graphique linéaire](/fr/models/app/features/panels/line-plot/reference).
+Cette section explique comment modifier les paramètres d’un panneau de graphique en courbes donné, de tous les panneaux de graphique en courbes d’une section ou de tous les panneaux de graphique en courbes d’un Workspace. Pour plus de détails sur les paramètres du graphique en courbes, voir [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
 
 <div id="individual-line-plot">
-  ### Graphique linéaire individuel
+  ### Graphique en courbes individuel
 </div>
 
-Les paramètres propres à un graphique linéaire remplacent les paramètres du graphique linéaire définis pour la section ou l’espace de travail. Pour personnaliser un graphique linéaire :
+Les paramètres individuels d’un graphique en courbes remplacent ceux définis pour la section ou le Workspace. Pour personnaliser un graphique en courbes :
 
-1. Accédez à votre espace de travail.
+1. Accédez à votre Workspace.
 2. Survolez le panneau avec la souris, puis cliquez sur l’icône d’engrenage.
-3. Dans le volet latéral qui s’ouvre, sélectionnez un onglet pour en modifier les paramètres.
-4. Cliquez sur **Appliquer**.
+3. Dans le volet qui s’affiche, sélectionnez un onglet pour modifier ses paramètres.
+4. Cliquez sur **Apply**.
 
-Les paramètres du graphique linéaire sont organisés en onglets :
+Les paramètres du graphique en courbes sont organisés en onglets :
 
-* **Données** : Configurer l’axe X, l’axe Y, la méthode d’échantillonnage, le lissage, les valeurs aberrantes et le type de graphique.
-* **Regroupement** : Configurer si les runs du graphique doivent être regroupés et agrégés, et de quelle manière.
-* **Graphique** : Indiquer les titres du panneau et des axes, et configurer la visibilité et la position de la légende.
-* **Légende** : Personnaliser l’apparence et le contenu de la légende du panneau.
-* **Expressions** : Ajouter des expressions calculées personnalisées pour les axes.
+* **Data** : Configurez x-axis, y-axis, la méthode d’échantillonnage, le lissage, les valeurs aberrantes et le type de graphique.
+* **Grouping** : Configurez si et comment regrouper et agréger les Runs dans le graphique.
+* **Chart** : Indiquez les titres du panneau et des axes, puis configurez la visibilité et la position de la légende.
+* **Legend** : Personnalisez l’apparence et le contenu de la légende du panneau.
+* **Expressions** : Ajoutez des expressions calculées personnalisées pour les axes.
 
-Pour en savoir plus sur chaque paramètre, voir la [référence du graphique linéaire](/fr/models/app/features/panels/line-plot/reference).
+Pour plus d’informations sur chaque paramètre, voir la [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
 
 <div id="all-line-plots-in-a-section">
-  ### Tous les graphiques linéaires d’une section
+  ### Tous les graphiques en courbes d’une section
 </div>
 
-Pour personnaliser les paramètres par défaut de tous les graphiques linéaires d’une section et remplacer les paramètres de l’espace de travail pour les graphiques linéaires :
+Pour personnaliser les paramètres par défaut de tous les graphiques en courbes d’une section et remplacer les paramètres du Workspace pour les graphiques en courbes :
 
-1. Accédez à votre espace de travail.
+1. Accédez à votre Workspace.
 2. Cliquez sur l’icône d’engrenage de la section pour ouvrir ses paramètres.
-3. Dans le volet latéral qui s’affiche, sélectionnez les onglets **Données** ou **Préférences d’affichage** pour configurer les paramètres par défaut de la section. Pour plus de détails sur chaque paramètre **Données**, voir la [Référence du graphique linéaire](/fr/models/app/features/panels/line-plot/reference). Pour plus de détails sur chaque préférence d’affichage, se référer à [Configurer la mise en page de la section](../#configure-section-layout).
+3. Dans le volet qui s’affiche, sélectionnez les onglets **Data** ou **Display preferences** pour configurer les paramètres par défaut de la section. Pour plus de détails sur chaque paramètre **Data**, voir la [référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference). Pour plus de détails sur chaque préférence d’affichage, consultez [Configurer la mise en page de la section](../#configure-section-layout).
 
 <div id="all-line-plots-in-a-workspace">
-  ### Tous les graphiques linéaires d’un espace de travail
+  ### Tous les graphiques en courbes d’un Workspace
 </div>
 
-Pour personnaliser les paramètres par défaut de tous les graphiques linéaires d’un espace de travail :
+Pour personnaliser les paramètres par défaut de tous les graphiques en courbes d’un Workspace :
 
-1. Accédez à votre espace de travail.
-2. Cliquez sur l’icône des paramètres de l’espace de travail, représentée par un engrenage avec le libellé **Paramètres**.
-3. Cliquez sur **Graphiques linéaires**.
-4. Dans le volet latéral qui apparaît, sélectionnez les onglets **Données** ou **Préférences d’affichage** pour configurer les paramètres par défaut de l’espace de travail.
-   * Pour plus de détails sur chaque paramètre **Données**, voir la [Référence du graphique linéaire](/fr/models/app/features/panels/line-plot/reference).
-   * Pour plus de détails sur chaque section **Préférences d’affichage**, référez-vous à [Préférences d’affichage de l’espace de travail](../#configure-workspace-layout). Au niveau de l’espace de travail, vous pouvez configurer le comportement par défaut du **Zoom** pour les graphiques linéaires. Ce paramètre contrôle si le zoom est synchronisé entre les graphiques linéaires partageant la même clé d’axe x. Désactivé par défaut.
+1. Accédez à votre Workspace.
+2. Cliquez sur l’icône des paramètres du Workspace, représentée par un engrenage avec le libellé **Settings**.
+3. Cliquez sur **Line plots**.
+4. Dans le volet qui s’affiche, sélectionnez les onglets **Data** ou **Display preferences** pour configurer les paramètres par défaut du Workspace.
+   * Pour plus de détails sur chaque paramètre de **Data**, voir la [Référence du graphique en courbes](/fr/models/app/features/panels/line-plot/reference).
+   * Pour plus de détails sur chaque section de **Display preferences**, voir [Préférences d’affichage du Workspace](../#configure-workspace-layout). Au niveau du Workspace, vous pouvez configurer le comportement **Zooming** par défaut des graphiques en courbes. Ce paramètre détermine si le zoom est synchronisé entre les graphiques en courbes qui ont une même clé d’axe x. Désactivé par défaut.
 
 <div id="visualize-average-values-on-a-plot">
-  ## Visualiser les valeurs moyennes sur un graphique
+  ## Visualiser des valeurs moyennes sur un graphique
 </div>
 
-Si vous avez plusieurs expériences et souhaitez voir la moyenne de leurs valeurs sur un graphique, vous pouvez utiliser la fonctionnalité de regroupement du tableau. Cliquez sur &quot;Group&quot; au-dessus du tableau des runs et sélectionnez &quot;All&quot; pour afficher les valeurs moyennes dans vos graphiques.
+Si vous avez plusieurs experiments différents et que vous souhaitez voir la moyenne de leurs valeurs sur un graphique, vous pouvez utiliser la fonctionnalité de regroupement dans le tableau. Cliquez sur &quot;Group&quot; au-dessus du tableau des runs et sélectionnez &quot;All&quot; pour afficher les valeurs moyennes dans vos graphiques.
 
 Voici à quoi ressemble le graphique avant le calcul de la moyenne :
 
 <Frame>
-  <img src="/images/app_ui/demo_precision_lines.png" alt="Lignes de précision individuelles" />
+  <img src="/images/app_ui/demo_precision_lines.png" alt="Courbes de précision individuelles" />
 </Frame>
 
-L’image suivante montre un graphique représentant des valeurs moyennées sur plusieurs runs à l’aide de lignes groupées.
+L&#39;image suivante montre un graphique représentant les valeurs moyennes sur plusieurs runs à l&#39;aide de lignes groupées.
 
 <Frame>
-  <img src="/images/app_ui/demo_average_precision_lines.png" alt="Lignes de précision moyennées" />
+  <img src="/images/app_ui/demo_average_precision_lines.png" alt="Courbes de précision moyennées" />
 </Frame>
 
 <div id="visualize-nan-value-on-a-plot">
-  ## Visualiser des valeurs NaN sur un graphique
+  ## Visualiser une valeur NaN dans un graphique
 </div>
 
-Vous pouvez également tracer des valeurs `NaN`, y compris des tenseurs PyTorch, dans un graphique linéaire avec `wandb.Run.log()`. Par exemple :
+Vous pouvez également tracer des valeurs `NaN`, y compris des tenseurs PyTorch, dans un graphique en courbes avec `wandb.Run.log()`. Par exemple :
 
 ```python
 with wandb.init() as run:
@@ -187,16 +187,16 @@ with wandb.init() as run:
   <img src="/images/app_ui/visualization_add.gif" alt="Ajout de panneaux de visualisation" />
 </Frame>
 
-1. Accédez à votre espace de travail.
+1. Accédez à votre Workspace.
 2. Sélectionnez le bouton **Add panels** dans le coin supérieur droit de la page.
-3. Dans le volet latéral qui s&#39;affiche, développez la liste déroulante Évaluation.
+3. Dans le volet qui s’ouvre, développez le menu déroulant Évaluation.
 4. Sélectionnez **Run comparer**
 
 <div id="change-the-colors-of-the-lines">
   ## Modifier les couleurs des lignes
 </div>
 
-Parfois, la couleur par défaut des runs n&#39;est pas idéale pour les comparer. Pour y remédier, wandb propose deux endroits où vous pouvez modifier manuellement les couleurs.
+Il arrive que la couleur par défaut des runs ne facilite pas la comparaison. Pour y remédier, wandb propose deux façons de modifier manuellement les couleurs.
 
 <Tabs>
   <Tab title="Depuis le tableau des runs">
@@ -206,7 +206,7 @@ Parfois, la couleur par défaut des runs n&#39;est pas idéale pour les comparer
       <img src="/images/app_ui/line_plots_run_table_random_colors.png" alt="Couleurs aléatoires attribuées aux runs" />
     </Frame>
 
-    En cliquant sur l&#39;une des couleurs, une palette de couleurs s&#39;affiche, dans laquelle vous pouvez choisir manuellement la couleur souhaitée.
+    Lorsque vous cliquez sur l&#39;une des couleurs, une palette de couleurs s&#39;affiche, dans laquelle vous pouvez choisir manuellement la couleur souhaitée.
 
     <Frame>
       <img src="/images/app_ui/line_plots_run_table_color_palette.png" alt="La palette de couleurs" />
@@ -214,13 +214,13 @@ Parfois, la couleur par défaut des runs n&#39;est pas idéale pour les comparer
   </Tab>
 
   <Tab title="Depuis les paramètres de la légende du graphique">
-    1. Accédez à votre espace de travail.
+    1. Accédez à votre Workspace.
     2. Survolez le panneau dont vous souhaitez modifier les paramètres.
     3. Sélectionnez l&#39;icône en forme de crayon qui apparaît.
     4. Choisissez l&#39;onglet **Légende**.
 
     <Frame>
-      <img src="/images/app_ui/plot_style_line_plot_legend.png" alt="Paramètres de légende du graphique linéaire" />
+      <img src="/images/app_ui/plot_style_line_plot_legend.png" alt="Paramètres de la légende d'un graphique en courbes" />
     </Frame>
   </Tab>
 </Tabs>
@@ -229,13 +229,13 @@ Parfois, la couleur par défaut des runs n&#39;est pas idéale pour les comparer
   ## Visualiser sur différents axes x
 </div>
 
-Si vous souhaitez voir le temps absolu qu’a pris une expérience, ou savoir quel jour une expérience a été exécutée, vous pouvez changer d’axe X. Voici un exemple de passage des étapes au temps relatif, puis au temps réel.
+Si vous souhaitez voir le temps absolu qu’a pris une expérience, ou le jour où elle s’est exécutée, vous pouvez changer d’axe x. Voici un exemple de passage des étapes au temps relatif, puis au temps réel.
 
 <Frame>
   <img src="/images/app_ui/howto_use_relative_time_or_wall_time.gif" alt="Options de temps de l’axe x" />
 </Frame>
 
-Pour utiliser un axe X personnalisé, journalisez la métrique dans le même appel à `wandb.Run.log()` que celui où vous journalisez l’axe Y. Par exemple :
+Pour utiliser un x-axis personnalisé, journalisez la métrique dans le même appel à `wandb.Run.log()` que celui où vous journalisez le y-axis. Par exemple :
 
 ```python
 with wandb.init() as run:
@@ -243,38 +243,38 @@ with wandb.init() as run:
         run.log({"accuracy": acc, "custom_x": i * 10})
 ```
 
-Pour plus de détails, voir [Personnaliser les axes logarithmiques](/fr/models/track/log/customize-logging-axes#customize-log-axes).
+Pour plus de détails, consultez [Personnaliser les axes du journal](/fr/models/track/log/customize-logging-axes#customize-log-axes).
 
 <div id="zoom">
   ## Zoom
 </div>
 
-Cliquez et faites glisser pour tracer un rectangle afin de zoomer à la fois verticalement et horizontalement. Cela modifie le zoom de l’axe X et de l’axe Y.
+Cliquez puis faites glisser pour tracer un rectangle afin de zoomer à la fois verticalement et horizontalement. Cela modifie le zoom des axes X et Y.
 
 <Frame>
-  <img src="/images/app_ui/line_plots_zoom.gif" alt="Fonctionnalité de zoom du graphique" />
+  <img src="/images/app_ui/line_plots_zoom.gif" alt="Fonction de zoom du graphique" />
 </Frame>
 
 <div id="hide-chart-legend">
   ## Masquer la légende du graphique
 </div>
 
-Désactivez la légende du graphique linéaire à l’aide de ce simple bouton bascule :
+Désactivez la légende du graphique en courbes avec cette simple option :
 
 <Frame>
-  <img src="/images/app_ui/demo_hide_legend.gif" alt="Bouton bascule pour masquer la légende" />
+  <img src="/images/app_ui/demo_hide_legend.gif" alt="Option pour masquer la légende" />
 </Frame>
 
 <div id="create-a-run-metrics-notification">
-  ## Créer une notification sur les métriques d’un run
+  ## Créer une notification de métriques de run
 </div>
 
-Utilisez [Automations](/fr/models/automations/) pour notifier votre équipe lorsqu’une métrique de run remplit une condition que vous définissez. Une automatisation peut publier dans un canal Slack ou exécuter un webhook.
+Utilisez [Automations](/fr/models/automations/) pour notifier votre équipe lorsqu&#39;une métrique de run satisfait à une condition que vous définissez. Une automatisation peut publier dans un canal Slack ou déclencher un webhook.
 
-Depuis un graphique linéaire, vous pouvez rapidement créer une [notification sur les métriques d’un run](/fr/models/automations/automation-events/#run-events) pour la métrique qu’il affiche :
+Depuis un graphique en courbes, vous pouvez rapidement créer une [notification de métriques de run](/fr/models/automations/automation-events/#run-events) pour la métrique qu&#39;il affiche :
 
-1. Accédez à votre espace de travail.
-2. Survolez le panneau, puis cliquez sur l’icône en forme de cloche.
-3. Configurez l’automatisation à l’aide des options de configuration de base ou avancées. Par exemple, appliquez un filtre de run pour limiter la portée de l’automatisation, ou configurez un seuil absolu.
+1. Accédez à votre Workspace.
+2. Survolez le panneau, puis cliquez sur l&#39;icône en forme de cloche.
+3. Configurez l&#39;automatisation à l&#39;aide des options de configuration de base ou avancée. Par exemple, appliquez un filtre de run pour limiter la portée de l&#39;automatisation, ou configurez un seuil absolu.
 
 Pour en savoir plus, consultez [Automations](/fr/models/automations/).

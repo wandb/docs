@@ -1,9 +1,9 @@
 ---
-title: "W&B UI でログしたチャートやメディアを整理するにはどうすればよいですか？"
+title: "W&B UI でログしたチャートとメディアを整理するにはどうすればよいですか？"
 keywords: ["Experiments"]
 ---
 
-`/` 文字は、W&amp;B UI でログされたパネルを区切ります。デフォルトでは、ログされた項目名の `/` より前の部分が、「パネルセクション」と呼ばれるパネルのグループを定義します。
+`/` 文字は、W&amp;B UI でログされたパネルを区切るために使われます。デフォルトでは、ログされた項目の名のうち `/` より前の部分によって、「Panel Section」と呼ばれるパネルのグループが定義されます。
 
 ```python
 import wandb
@@ -14,15 +14,15 @@ with wandb.init() as run:
    run.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-[Workspace](/ja/models/track/project-page#workspace-tab) の設定で、最初のセグメント、または `/` で区切られたすべてのセグメントに基づいて、パネルのグループ化を調整します。
+[Workspace](/ja/models/track/project-page#workspace-tab) の設定で、`/` で区切られた最初のセグメントまたはすべてのセグメントに応じて、パネルのグループ化を調整します。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter 内のキーワードから scripts/knowledgebase-nav/generate_tags.py によって生成されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 
-{/* ---- 自動生成終了: tab badges ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

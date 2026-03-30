@@ -1,19 +1,19 @@
 ---
-title: "La journalisation bloque-t-elle mon entraînement ?"
+title: "Le logging bloque-t-il mon entraînement ?"
 keywords: ["Experiments", "Logs"]
 ---
 
-&quot;La fonction de journalisation est-elle lazy ? Je ne veux pas dépendre du réseau pour envoyer les résultats à vos serveurs pendant l’exécution d’opérations locales.&quot;
+&quot;Le logging fonctionne-t-il en différé ? Je ne veux pas dépendre du réseau pour envoyer les résultats vers vos serveurs pendant l&#39;exécution d&#39;opérations locales.&quot;
 
-La fonction `wandb.log` écrit une ligne dans un fichier local et ne bloque pas les appels réseau. Lors de l’appel à `wandb.init`, un nouveau processus démarre sur la même machine. Ce processus surveille les modifications du système de fichiers et communique avec le service web de manière asynchrone, ce qui permet aux opérations locales de se poursuivre sans interruption.
+La fonction `wandb.log` écrit une ligne dans un fichier local et ne bloque pas les appels réseau. Lors de l&#39;appel à `wandb.init`, un nouveau processus démarre sur la même machine. Ce processus surveille les modifications du système de fichiers et communique de manière asynchrone avec le service web, ce qui permet aux opérations locales de se poursuivre sans interruption.
 
 ***
 
 {/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas ce qui se trouve entre ces marqueurs manuellement.
+  Ne modifiez pas ce qui se trouve entre ces marqueurs à la main.
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Journaux](/fr/support/models/tags/logs)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Logs](/fr/support/models/tags/logs)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}

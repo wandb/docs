@@ -25,21 +25,21 @@ launch(
 ) -> AbstractRun
 ```
 
-| Arguments       | Description                                                                                                                                                                                                                                                                |
-| :-------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `job`           | wandb.Job에 대한 문자열 참조입니다(예: wandb/test/my-job:latest).                                                                                                                                                                                                                      |
-| `api`           | wandb.apis.internal의 wandb API 인스턴스입니다.                                                                                                                                                                                                                                    |
-| `entry_point`   | 프로젝트 내에서 실행할 entry point입니다. wandb URI의 경우 기본값은 원래 run에서 사용된 entry point이고, Git 리포지토리 URI의 경우 기본값은 main.py입니다.                                                                                                                                                             |
-| `version`       | Git 기반 프로젝트의 경우, 커밋 해시 또는 브랜치 이름입니다.                                                                                                                                                                                                                                       |
-| `name`          | run을 실행할 때 사용할 이름입니다.                                                                                                                                                                                                                                                      |
-| `resource`      | run의 실행 백엔드입니다.                                                                                                                                                                                                                                                            |
-| `resource_args` | 원격 백엔드에서 Runs를 실행하기 위한 resource 관련 인자입니다. 생성된 launch 설정의 `resource_args` 키 아래에 저장됩니다.                                                                                                                                                                                      |
-| `project`       | 실행된 run을 전송할 대상 프로젝트입니다.                                                                                                                                                                                                                                                   |
-| `entity`        | 실행된 run을 전송할 대상 entity입니다.                                                                                                                                                                                                                                                 |
-| `config`        | run에 대한 설정을 포함하는 사전입니다. 또한 &quot;resource&#95;args&quot; 키 아래에 resource별 인자를 포함할 수도 있습니다.                                                                                                                                                                                  |
-| `synchronous`   | run이 완료될 때까지 대기할지 여부입니다. 기본값은 True입니다. `synchronous`가 False이고 `backend`가 &quot;local-container&quot;인 경우, 이 메서드는 반환되지만, 현재 프로세스는 로컬 run이 완료될 때까지 종료 시점에 블록됩니다. 현재 프로세스가 중단되면, 이 메서드를 통해 비동기로 실행된 run은 모두 종료됩니다. `synchronous`가 True이고 run이 실패하면, 현재 프로세스도 오류를 발생시키며 종료됩니다. |
-| `run_id`        | run의 ID입니다(최종적으로 :name: 필드를 대체할 값).                                                                                                                                                                                                                                        |
-| `repository`    | 원격 레지스트리를 위한 리포지토리 경로의 문자열 이름입니다.                                                                                                                                                                                                                                          |
+| 매개변수            | 설명                                                                                                                                                                                                                                                                    |
+| :-------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `job`           | wandb.Job을 가리키는 문자열 레퍼런스입니다. 예: wandb/test/my-job:latest                                                                                                                                                                                                              |
+| `api`           | wandb.apis.internal의 wandb Api 인스턴스입니다.                                                                                                                                                                                                                               |
+| `entry_point`   | 프로젝트 내에서 실행할 진입점입니다. 기본적으로 wandb URI에는 원래 run에서 사용된 진입점을 사용하고, Git 저장소 URI에는 main.py를 사용합니다.                                                                                                                                                                          |
+| `version`       | Git 기반 프로젝트의 경우 커밋 해시 또는 브랜치 이름입니다.                                                                                                                                                                                                                                   |
+| `name`          | run을 Launch할 때 사용할 run 이름입니다.                                                                                                                                                                                                                                         |
+| `resource`      | run의 실행 백엔드입니다.                                                                                                                                                                                                                                                       |
+| `resource_args` | 원격 백엔드에서 run을 Launch하기 위한 리소스 관련 매개변수입니다. 생성된 Launch 설정의 `resource_args`에 저장됩니다.                                                                                                                                                                                      |
+| `project`       | Launch된 run을 보낼 대상 프로젝트입니다.                                                                                                                                                                                                                                           |
+| `entity`        | Launch된 run을 보낼 대상 entity입니다.                                                                                                                                                                                                                                         |
+| `config`        | run의 설정을 담은 사전입니다. 키 &quot;resource&#95;args&quot; 아래에 리소스별 매개변수가 포함될 수도 있습니다.                                                                                                                                                                                        |
+| `synchronous`   | run이 완료될 때까지 대기하며 차단할지 여부입니다. 기본값은 True입니다. `synchronous`가 False이고 `backend`가 &quot;local-container&quot;이면 이 메서드는 반환되지만, 현재 프로세스는 종료 시 로컬 run이 완료될 때까지 차단됩니다. 현재 프로세스가 중단되면 이 메서드로 Launch한 모든 비동기 run이 종료됩니다. `synchronous`가 True인데 run이 실패하면 현재 프로세스도 함께 오류로 종료됩니다. |
+| `run_id`        | run의 ID입니다(:name: 필드를 최종적으로 대체할 예정)                                                                                                                                                                                                                                   |
+| `repository`    | 원격 레지스트리용 저장소 경로의 문자열 이름입니다.                                                                                                                                                                                                                                          |
 
 
 <div id="example">
@@ -51,16 +51,16 @@ from wandb.sdk.launch import launch
 
 job = "wandb/jobs/Hello World:latest"
 params = {"epochs": 5}
-# W&B 프로젝트를 실행하고 로컬 호스트에서
-# 재현 가능한 docker 환경 생성
+# W&B 프로젝트를 실행하고 재현 가능한 docker 환경을 생성
+# 로컬 호스트에서
 api = wandb.apis.internal.Api()
 launch(api, job, parameters=params)
 ```
 
-| 반환                                                                | 설명 |
-| :---------------------------------------------------------------- | :- |
-| 실행된 run에 대한 정보(예: run ID)를 제공하는 `wandb.launch.SubmittedRun` 인스턴스. |    |
+| 반환값                                                                   | 설명 |
+| :-------------------------------------------------------------------- | :- |
+| 실행된 run에 대한 정보(예: run ID)를 담고 있는 `wandb.launch.SubmittedRun` 인스턴스입니다. |    |
 
-| 발생 가능 오류                                                    | 설명 |
-| :---------------------------------------------------------- | :- |
-| 블로킹 모드로 실행된 run이 실패한 경우의 `wandb.exceptions.ExecutionError`. |    |
+| 예외                                                           | 설명 |
+| :----------------------------------------------------------- | :- |
+| `wandb.exceptions.ExecutionError` 차단 모드로 실행된 run이 실패한 경우입니다. |    |

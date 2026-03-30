@@ -1,59 +1,59 @@
 ---
-title: "利用状況情報と制限"
-linkTitle: "利用状況と制限"
+title: "利用情報と制限"
+linkTitle: "利用と制限"
 description: >
-  W&B Inference の料金、利用上限、アカウント制限について理解する
+  W&B Inference の料金、利用制限、アカウントの制約について説明します
 ---
 
-W&amp;B Inference を利用する前に、料金、利用制限、その他の重要な利用上の情報について確認してください。
+W&amp;B Inference を使用する前に、料金、制限、その他の重要な利用情報を確認してください。
 
 <div id="pricing">
   ## 料金
 </div>
 
-モデルの詳細な料金情報については、[W&amp;B Inference pricing](https://wandb.ai/site/pricing/inference) を参照してください。
+モデルの詳細な料金については、[W&amp;B Inferenceの料金](https://wandb.ai/site/pricing/inference)をご覧ください。
 
 <div id="purchase-more-credits">
-  ## クレジットを追加購入する
+  ## 追加クレジットを購入する
 </div>
 
-W&amp;B Inference クレジットは、期間限定で Free、Pro、Academic 各プランに含まれています。Enterprise プランでの提供状況は異なる場合があります。クレジットを使い切った場合は、次のようになります。
+W&amp;B Inference クレジットは、期間限定で Free、Pro、Academic プランに含まれています。Enterprise での提供状況は異なる場合があります。クレジットを使い切ると、次のようになります。
 
-* **Free アカウント** は、W&amp;B Inference を継続利用するために、従量課金の Inference (**Billing** タブから) を有効化するか、有料プランにアップグレードする必要があります。[従量課金を有効化するかアップグレードする](https://wandb.ai/subscriptions)
-* **Pro プランのユーザー** は、[モデルごとの料金](https://wandb.ai/site/pricing/inference) に基づき、超過分が毎月請求されます
-* **Enterprise アカウント** は、担当のアカウントエグゼクティブに連絡してください
+* **Free アカウント**は、W&amp;B Inference を引き続き使用するには、従量課金制の Inference を有効にする (**Billing** タブ内) か、有料プランにアップグレードする必要があります。[従量課金制を有効にするか、アップグレードする](https://wandb.ai/subscriptions)
+* **Pro プランのユーザー**は、[モデルごとの料金](https://wandb.ai/site/pricing/inference)に基づき、超過分が毎月請求されます
+* **Enterprise アカウント**は、営業担当者にお問い合わせください
 
 <div id="account-tiers-and-default-usage-caps">
-  ## アカウントプランとデフォルト利用上限
+  ## アカウントティアとデフォルトの使用上限
 </div>
 
-各アカウントプランには、コストを管理し、予期しない請求を防ぐためのデフォルトの支出上限が設定されています。W&amp;B では、有料の Inference アクセスには前払いが必要です。
+各アカウントティアには、コスト管理と予期しない請求の防止に役立つデフォルトの支出上限が設定されています。W&amp;B では、有料の Inference アクセスに前払いが必要です。
 
-上限を変更する必要がある場合は、アカウントエグゼクティブまたはサポートに連絡して上限の調整を依頼してください。
+上限の変更が必要な場合は、営業担当者またはサポートに連絡して上限を調整してください。
 
-| Account Tier | Default Cap | How to Change Limit |
-|--------------|-------------|---------------------|
-| Free | $100/month | Pro または Enterprise にアップグレード |
-| Pro | $6,000/month | アカウントエグゼクティブまたはサポートに連絡して手動レビューを依頼 |
-| Enterprise | $700,000/year | アカウントエグゼクティブまたはサポートに連絡して手動レビューを依頼 |
+| Account Tier | Default Cap   | How to Change Limit         |
+| ------------ | ------------- | --------------------------- |
+| Free         | $100/month    | Pro または Enterprise にアップグレード |
+| Pro          | $6,000/month  | 営業担当者またはサポートに連絡して手動審査を依頼    |
+| Enterprise   | $700,000/year | 営業担当者またはサポートに連絡して手動審査を依頼    |
 
 <div id="concurrency-limits">
-  ## 同時実行数の制限
+  ## 同時実行制限
 </div>
 
-レート制限の上限を超えると、API は `429 Concurrency limit reached for requests` レスポンスを返します。このエラーを解消するには、同時リクエスト数を減らしてください。詳細なトラブルシューティングについては、[同時実行数の制限](#concurrency-limits) を参照してください。
+レート制限を超えると、API は `429 Concurrency limit reached for requests` というレスポンスを返します。このエラーを解消するには、同時に送信するリクエスト数を減らしてください。詳しいトラブルシューティングについては、[同時実行制限](#concurrency-limits)を参照してください。
 
-W&amp;B は W&amp;B プロジェクトごとにレート制限を適用します。たとえば、チームに 3 つのプロジェクトがある場合、各プロジェクトにはそれぞれ独自のレート制限クォータが設定されます。
+W&amp;B では、W&amp;B プロジェクトごとにレート制限が適用されます。たとえば、1 つのチームに 3 つの プロジェクト がある場合、各プロジェクトにはそれぞれ独自のレート制限枠があります。
 
 <div id="geographic-restrictions">
   ## 地理的制限
 </div>
 
-Inference サービスは、サポートされている地域からのみ利用できます。詳細については、[利用規約](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions)を参照してください。
+Inference サービスは、サポート対象の地域からのみ利用できます。詳細は、[Terms of Service](https://docs.coreweave.com/docs/policies/terms-of-service/terms-of-use#geographic-restrictions)を参照してください。
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-* 作業を始める前に [前提条件](/ja/inference/prerequisites/) を確認してください。
-* [利用可能なモデル](/ja/inference/models) とその料金体系を確認してください。
+* 始める前に、[前提条件](/ja/inference/prerequisites/)を確認してください。
+* [利用可能なモデル](/ja/inference/models)と、それぞれの料金を確認してください。

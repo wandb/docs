@@ -1,22 +1,22 @@
 ---
-description: run をグループやその他のプロパティで整理します。
-title: run を整理する
+description: runをグループやその他のプロパティで整理します。
+title: runを整理する
 ---
 
-自分の run を *グループ* にまとめて整理します。グループとは、共通の目的を持つ run の集合です。たとえば、特定のモデルのトレーニング run や、特定のデータセットの評価 run などです。
+*グループ*を使ってrunを整理できます。グループとは、特定のモデルのトレーニング run や特定のデータセットの評価 run など、共通の目的を持つrunの集まりです。
 
-また、*ジョブタイプ* などの他のプロパティごとに run を整理することもできます。[ジョブタイプ](/ja/models/runs/grouping#organize-runs-by-job-type) は、その run の役割を `preprocessing`、`training`、`evaluation` などのように示します。
+また、*ジョブタイプ*などのほかのプロパティでもrunを整理できます。[ジョブタイプ](/ja/models/runs/grouping#organize-runs-by-job-type)は、`preprocessing`、`training`、`evaluation` など、runの役割を示します。
 
 {/* 
   ### 環境変数を使用してグループを定義する
 
-  `WANDB_RUN_GROUP` を使用して、run 用のグループを環境変数として指定します。詳細については、[Environment Variables](/ja/models/track/environment-variables/) に関するドキュメントを参照してください。**Group** はプロジェクト内で一意であり、そのグループ内のすべての run で共有される必要があります。`wandb.util.generate_id()` を使用して、一意の 8 文字の文字列を生成し、すべてのプロセスで使用できます。たとえば、`os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` のように設定します。 */}
+  環境変数として `WANDB_RUN_GROUP` を使用し、run のグループを指定します。詳細については、[環境変数](/models/track/environment-variables/) のドキュメントを参照してください。**グループ** はプロジェクト内で一意であり、グループ内のすべての run で共有される必要があります。`wandb.util.generate_id()` を使用すると、すべてのプロセスで使える一意の 8 文字の文字列を生成できます。たとえば、`os.environ["WANDB_RUN_GROUP"] = "experiment-" + wandb.util.generate_id()` のようにします。 */}
 
 <div id="organize-runs-into-groups">
-  ## run をグループにまとめる
+  ## Runs をグループに整理する
 </div>
 
-W&amp;B Python SDK を使用してプログラム的に、または W&amp;B App 上でインタラクティブに、run をグループに追加できます。
+W&amp;B Python SDK を使用してプログラムから Runs をグループに追加することも、W&amp;B App でインタラクティブに追加することもできます。
 
 <Note>
   W&amp;B はグループ名を run の [`wandb.Run.group`](/ja/models/ref/python/experiments/run#property-run-group) プロパティとして保存します。
@@ -24,9 +24,9 @@ W&amp;B Python SDK を使用してプログラム的に、または W&amp;B App 
 
 <Tabs>
   <Tab title="Python SDK">
-    W&amp;B Python SDK を使用して、1 つ以上の run をプログラム的にグループに追加できます。`wandb.init(group="")` で run を初期化するときに、`group` パラメーターの引数としてグループ名を渡します。グループ名を使うと、W&amp;B App で run を整理およびフィルタリングできます。
+    W&amp;B Python SDK を使用して、1 つ以上の run をプログラムからグループに追加します。`wandb.init(group="")` で run を初期化するときに、`group` パラメーターにグループ名を引数として渡します。グループ名を使用すると、W&amp;B App で run を整理したりフィルターしたりできます。
 
-    次の例では、`A`、`B`、`C` という 3 つのグループを作成します。各グループには 3 つの run が含まれます。
+    次の例では、`A`、`B`、`C` という名前の 3 つのグループを作成します。各グループには 3 つの run が含まれます。
 
     ```python
     import wandb
@@ -45,43 +45,43 @@ W&amp;B Python SDK を使用してプログラム的に、または W&amp;B App 
                     })
     ```
 
-    プロジェクトのワークスペースで、グループごとに整理された run を表示できます。次の画像は、run テーブルをグループ名で整理した様子を示しています。`A`、`B`、`C` という 3 つのグループが run テーブルに表示され、それぞれに 3 つの run が含まれています。
+    プロジェクトの Workspace では、グループごとに整理された run を表示できます。次の画像は、run 表 をグループ名で整理した例を示しています。`A`、`B`、`C` という名前の 3 つのグループが run 表 に表示され、それぞれに 3 つの run が含まれています。
 
     <Frame>
-      <img src="/images/runs/group_name_3_groups.png" alt="グループ名でグループ化された Runs テーブル" />
+      <img src="/images/runs/group_name_3_groups.png" alt="グループ名でグループ化された run 表" />
     </Frame>
   </Tab>
 
   <Tab title="W&B App">
-    1. 対象の W&amp;B プロジェクトに移動します。
-    2. プロジェクトのサイドバーから **Runs** タブを選択します。
-    3. run の一覧の上にある **Group** ボタンをクリックします。
-    4. グループ化したい 1 つ以上の run の横にあるチェックボックスをクリックします。
+    1. W&amp;B のプロジェクトにアクセスします。
+    2. プロジェクトのサイドバーで **Runs** タブを選択します。
+    3. run のリストの上にある **Group** ボタンをクリックします。
+    4. グループ化する 1 つ以上の run の横にあるチェックボックスをクリックします。
     5. **Move to group** を選択します。
     6. ドロワーで既存のグループを選択するか、新しいグループを作成します。
   </Tab>
 </Tabs>
 
 <div id="view-groups">
-  ### グループを表示する
+  ### グループを表示
 </div>
 
-W&amp;B App でグループ別に整理された run を表示するには、次の操作を行います：
+W&amp;B App でグループ別に整理された Runs を表示するには、次の手順に従います。
 
-1. プロジェクトのサイドバーで **Runs** タブを選択します。
-2. run の一覧の上にある **Group** ボタンをクリックします。
+1. プロジェクトのサイドバーで、**Runs** タブを選択します。
+2. Runs の一覧の上にある **Group** ボタンをクリックします。
 3. ドロップダウンから **Group** を選択します。
 
 <div id="move-runs-between-groups">
   ### グループ間で run を移動する
 </div>
 
-run をあるグループから別のグループに移動します。
+run をあるグループから別のグループに移動するには、次の手順に従います。
 
-1. W&amp;B プロジェクトに移動します。
-2. プロジェクト サイドバーから **Runs** タブを選択します。
+1. W&amp;B のプロジェクトにアクセスします。
+2. プロジェクトのサイドバーから **Runs** タブを選択します。
 3. チェックボックスをクリックして、1 つ以上の run を選択します。
-4. テーブルの上部にある **Move to group** をクリックします。
+4. 表の上にある **Move to group** をクリックします。
 5. ドロワー内で、移動先のグループを選択するか、新しいグループを作成します。
 6. **Move** をクリックします。
 
@@ -89,28 +89,28 @@ run をあるグループから別のグループに移動します。
   ### グループから run を削除する
 </div>
 
-1. 対象の W&amp;B プロジェクトを開きます。
+1. W&amp;B のプロジェクトにアクセスします。
 2. プロジェクトのサイドバーから **Runs** タブを選択します。
-3. run の一覧の上にある **Group** ボタンをクリックします。
+3. run の一覧の上部にある **Group** ボタンをクリックします。
 4. ドロップダウンで、削除したいグループ名の横にある **X** をクリックします。
 
 <div id="delete-a-group">
   ### グループを削除する
 </div>
 
-グループを削除するには、そのグループに含まれるすべての run を削除します。これによりグループは自動的に削除されます。
+グループを削除するには、そのグループからすべての run を削除します。これでグループは自動的に削除されます。
 
 <div id="organize-runs-by-job-type">
-  ## ジョブタイプごとに run を整理する
+  ## ジョブタイプ別にrunを整理する
 </div>
 
-run をその *ジョブタイプ* ごとに整理します。ジョブタイプは、`preprocessing`、`training`、`evaluation` など、run の種類や役割を表します。
+runを*ジョブタイプ*別に整理します。ジョブタイプは、`preprocessing`、`training`、`evaluation` など、runの役割を示します。
 
 <Note>
   run のジョブタイプは、run の [`wandb.Run.job_type`](/ja/models/ref/python/experiments/run#property-run-job-type) プロパティにアクセスして確認できます。
 </Note>
 
-`wandb.init(job_type="")` に `job_type` パラメーターを渡すことで、run にジョブタイプを追加できます。たとえば、次のコードスニペットは、`training` または `evaluation` のいずれかのジョブタイプを持つ run を作成します。
+`wandb.init(job_type="")` に `job_type` パラメーターを渡して、run にジョブタイプを追加します。たとえば、次のコードスニペットでは、ジョブタイプが `training` または `evaluation` のrunを作成します。
 
 ```python
 import wandb
@@ -121,7 +121,7 @@ project = "<project>"
 for job_type in ["training", "evaluation"]:
     for i in range(2):
         with wandb.init(entity=entity, project=project, job_type=job_type, name=f"{job_type}_run_{i}") as run:
-            # 何らかの処理をシミュレートする
+            # 処理をシミュレートする
             for step in range(50):
                 run.log({
                     "metric1": 0.2 + (step / 50) * 0.4 + (i * 0.03),
@@ -130,18 +130,18 @@ for job_type in ["training", "evaluation"]:
 
 ```
 
-次の画像は job type ごとに整理された runs を示しています。
+以下の画像は、ジョブタイプ別に整理されたrunsを示しています:
 
 <Frame>
-  <img src="/images/runs/group_job_type.png" alt="Ungrouped runs table" />
+  <img src="/images/runs/group_job_type.png" alt="未グループ化のrun 表" />
 </Frame>
 
 <div id="view-runs-organized-by-job-type">
-  ### ジョブタイプごとに整理された run を表示する
+  ### ジョブタイプ別に整理された runs を表示する
 </div>
 
-W&amp;B App で run をグループごとに表示するには、次の手順に従います：
+W&amp;B App で、グループごとに整理された runs を表示するには、次の手順に従います。
 
-1. プロジェクトのサイドバーで **Runs** タブを選択します。
-2. run の一覧の上にある **Group** ボタンをクリックします。
+1. プロジェクトのサイドバーで、**Runs** タブを選択します。
+2. runs のリストの上にある **Group** ボタンをクリックします。
 3. ドロップダウンから **Job Type** を選択します。

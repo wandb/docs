@@ -1,29 +1,29 @@
 ---
 title: "CrewAI"
-description: "Intégrez CrewAI à Weave pour la surveillance et le traçage des applications multi-agents"
+description: "Intégrez CrewAI à Weave pour surveiller et tracer les applications multi-agents"
 ---
 
 <a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_crewai.ipynb">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
 </a>
 
-CrewAI est un framework Python léger et ultra-rapide, entièrement développé à partir de zéro, totalement indépendant de LangChain ou d&#39;autres frameworks d&#39;agents. CrewAI offre aux développeurs à la fois la simplicité d&#39;une approche de haut niveau ([Crews](https://docs.crewai.com/guides/crews/first-crew)) et un contrôle précis à bas niveau ([Flows](https://docs.crewai.com/guides/flows/first-flow)), ce qui en fait une solution idéale pour créer des agents d&#39;IA autonomes adaptés à tous les scénarios. Pour en savoir plus, consultez la [documentation de CrewAI](https://docs.crewai.com/introduction).
+CrewAI est un framework Python léger et ultra-rapide, entièrement développé from scratch, totalement indépendant de LangChain et des autres frameworks d’agents. CrewAI offre aux développeurs à la fois la simplicité d’abstractions de haut niveau ([Crews](https://docs.crewai.com/guides/crews/first-crew)) et un contrôle précis à bas niveau ([Flows](https://docs.crewai.com/guides/flows/first-flow)), ce qui en fait une solution idéale pour créer des agents d’IA autonomes adaptés à tous les cas d’usage. Pour en savoir plus, consultez la [documentation de CrewAI](https://docs.crewai.com/introduction).
 
-Lorsque vous travaillez avec des agents d&#39;IA, il est essentiel de déboguer et de surveiller leurs interactions. Les applications CrewAI se composent souvent de plusieurs agents qui travaillent ensemble. Il est donc indispensable de comprendre comment ils collaborent et communiquent. Weave simplifie ce processus en capturant automatiquement les traces de vos applications CrewAI, afin que vous puissiez surveiller et analyser les performances et les interactions de vos agents.
+Lorsque vous travaillez avec des agents d’IA, il est crucial de déboguer et de surveiller leurs interactions. Les applications CrewAI se composent souvent de plusieurs agents qui collaborent entre eux ; il est donc essentiel de comprendre comment ils coopèrent et communiquent. Weave simplifie ce processus en capturant automatiquement les traces de vos applications CrewAI, afin que vous puissiez surveiller et analyser les performances et les interactions de vos agents.
 
-L&#39;intégration prend en charge aussi bien les Crews que les Flows.
+L’intégration prend en charge Crews et Flows.
 
 <div id="getting-started-with-crew">
   ## Premiers pas avec Crew
 </div>
 
-Vous devez installer CrewAI ([plus de détails](https://docs.crewai.com/installation)) et Weave pour exécuter cet exemple :
+Vous devez installer CrewAI ([plus de détails](https://docs.crewai.com/installation)) et weave pour exécuter cet exemple :
 
 ```
 pip install crewai weave
 ```
 
-Nous allons maintenant créer un Crew CrewAI et tracer l&#39;exécution avec Weave. Pour commencer, appelez simplement `weave.init()` au début de votre script. L&#39;argument de weave.init() correspond au nom du projet dans lequel les traces seront enregistrées.
+Nous allons maintenant créer un Crew CrewAI et suivre l’exécution à l’aide de Weave. Pour commencer, appelez simplement `weave.init()` au début de votre script. L’argument de `weave.init()` est le nom du projet dans lequel les traces seront enregistrées.
 
 ```python lines {5}
 import weave
@@ -80,20 +80,20 @@ result = crew.kickoff(inputs={"topic": "AI in material science"})
 print(result)
 ```
 
-Weave suivra et consignera tous les appels effectués via la bibliothèque CrewAI, y compris les interactions entre agents, les exécutions de tâches et les appels aux LLM. Vous pouvez consulter les traces dans l’interface web de Weave.
+Weave suit et consigne tous les appels effectués via la bibliothèque CrewAI, y compris les interactions entre agents, les exécutions de tâches et les appels LLM. Vous pouvez consulter les traces dans l’interface web de Weave.
 
 [![crew\_trace.png](/weave/guides/integrations/imgs/crewai/crew.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Crew.kickoff%3A*%22%5D%7D\&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c7ac-bd52-7390-95a7-309370e9e058%3FhideTraceTree%3D0\&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
 
 <Note>
-  CrewAI fournit plusieurs méthodes pour mieux contrôler le processus de lancement : `kickoff()`, `kickoff_for_each()`, `kickoff_async()` et `kickoff_for_each_async()`. L’intégration prend en charge l’enregistrement des traces pour toutes ces méthodes.
+  CrewAI fournit plusieurs méthodes pour mieux contrôler le processus de kickoff : `kickoff()`, `kickoff_for_each()`, `kickoff_async()` et `kickoff_for_each_async()`. L’intégration prend en charge la journalisation des traces pour toutes ces méthodes.
 </Note>
 
 
 <div id="track-tools">
-  ## Suivre des outils
+  ## Suivi des outils
 </div>
 
-Les outils CrewAI donnent aux agents des capacités allant de la recherche sur le Web et de l’analyse de données à la collaboration et à la délégation de tâches entre collègues. L’intégration permet également de les tracer.
+Les outils CrewAI offrent aux agents des capacités allant de la recherche sur le Web et de l’analyse de données à la collaboration et à la délégation de tâches entre collègues. L’intégration peut également en assurer le traçage.
 
 Nous allons améliorer la qualité du rapport généré dans l’exemple ci-dessus en lui donnant accès à un outil capable d’effectuer des recherches sur Internet et de renvoyer les résultats les plus pertinents.
 
@@ -103,10 +103,10 @@ Commençons par installer la dépendance supplémentaire.
 pip install 'crewai[tools]'
 ```
 
-Dans cet exemple, nous utilisons `SerperDevTool` pour permettre à notre agent &#39;Research Analyst&#39; d’effectuer une recherche d’informations pertinentes sur Internet. Pour en savoir plus sur cet outil et sur les exigences de l’API, consultez [cette page](https://docs.crewai.com/tools/serperdevtool).
+Dans cet exemple, nous utilisons `SerperDevTool` pour permettre à notre agent &#39;Research Analyst&#39; d’effectuer des recherches d’informations pertinentes sur Internet. Pour en savoir plus sur cet outil et sur les exigences de l’API, cliquez [ici](https://docs.crewai.com/tools/serperdevtool).
 
 ```python lines {12}
-# .... imports existants ....
+# .... existing imports ....
 from crewai_tools import SerperDevTool
 
 # Nous fournissons l'outil à l'agent.
@@ -120,20 +120,20 @@ researcher = Agent(
     tools=[SerperDevTool()],
 )
 
-# .... code existant ....
+# .... existing code ....
 ```
 
-L’exécution de ce Crew avec un agent ayant accès à Internet produit de meilleurs résultats, plus pertinents. Nous traçons automatiquement l’utilisation des outils, comme indiqué dans l’image ci-dessous.
+Exécuter ce Crew avec un agent ayant accès à Internet produit de meilleurs résultats, plus pertinents. Nous traçons automatiquement l&#39;utilisation des outils, comme illustré dans l&#39;image ci-dessous.
 
 [![crew\_with\_tool\_trace.png](/weave/guides/integrations/imgs/crewai/crew_with_tool.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Crew.kickoff%3A*%22%5D%7D\&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c7c7-0213-7f42-b130-caa93a79316c%3FdescendentCallId%3D0195c7c7-0a16-7f11-8cfd-9dedf1d03b3b\&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
 
 <Note>
-  L’intégration applique automatiquement un patch à tous les outils présents dans le dépôt [`crewAI-tools`](https://github.com/crewAIInc/crewAI-tools).
+  L&#39;intégration applique automatiquement un patch à tous les outils disponibles dans le dépôt [`crewAI-tools`](https://github.com/crewAIInc/crewAI-tools).
 </Note>
 
 
 <div id="getting-started-with-flow">
-  ## premiers pas avec Flow
+  ## Prise en main de Flow
 </div>
 
 ```python lines {3}
@@ -150,7 +150,7 @@ class CustomerFeedbackFlow(Flow):
 
     @start()
     def fetch_feedback(self):
-        print("Récupération des retours clients")
+        print("Fetching customer feedback")
         # Dans un scénario réel, ceci pourrait être remplacé par un appel API.
         # Pour cet exemple, nous simulons des retours clients.
         feedback = (
@@ -213,19 +213,18 @@ print(result)
 [![flow.png](/weave/guides/integrations/imgs/crewai/flow.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Flow.kickoff%3A*%22%5D%7D\&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c7e3-7a63-7283-bef4-9e0eb2f0eab1\&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
 
 <Note>
-  L’intégration instrumente automatiquement le point d’entrée `Flow.kickoff` ainsi que tous les décorateurs disponibles : `@start`, `@listen`, `@router`, `@or_` et `@and_`.
+  L’intégration applique automatiquement un patch au point d’entrée `Flow.kickoff`, ainsi que tous les décorateurs disponibles -- `@start`, `@listen`, `@router`, `@or_` et `@and_`.
 </Note>
 
-
 <div id="crew-guardrail-track-your-own-ops">
-  ## Garde-fou Crew - Suivre vos propres ops
+  ## Garde-fou Crew - Suivez vos propres ops
 </div>
 
-Les garde-fous de tâche permettent de valider et de transformer les sorties d’une tâche avant leur transmission à la tâche suivante. Vous pouvez utiliser une simple fonction Python pour valider à la volée l’exécution de l’agent.
+Les garde-fous de tâche permettent de valider et de transformer les résultats d&#39;une tâche avant de les transmettre à la suivante. Vous pouvez utiliser une simple fonction Python pour valider l&#39;exécution de l&#39;agent à la volée.
 
-En décorant cette fonction avec `@weave.op`, vous commencez à capturer les entrées, les sorties et la logique applicative, ce qui vous permet de déboguer la façon dont les données sont validées par vos agents. Cela active également automatiquement la gestion des versions du code pendant que vous expérimentez, afin de capturer des détails ad hoc qui n’ont pas encore été validés dans Git.
+En décorant cette fonction avec `@weave.op`, vous commencez à capturer les entrées, les sorties et la logique de l&#39;application afin de pouvoir déboguer la manière dont les données sont validées par vos agents. Cela lance également automatiquement la gestion des versions du code pendant que vous expérimentez, afin de capturer des détails ad hoc qui n&#39;ont pas encore été validés dans Git.
 
-Prenons l’exemple d’un analyste de recherche et d’un rédacteur. Nous ajoutons un garde-fou pour valider la longueur du rapport généré.
+Prenons l&#39;exemple d&#39;un analyste de recherche et d&#39;un rédacteur. Nous ajoutons un garde-fou pour valider la longueur du rapport généré.
 
 ```python lines {4,36}
 # .... imports existants et initialisation de weave ....
@@ -233,7 +232,7 @@ Prenons l’exemple d’un analyste de recherche et d’un rédacteur. Nous ajou
 # Décorez votre fonction guardrail avec `@weave.op()`
 @weave.op(name="guardrail-validate_blog_content")
 def validate_blog_content(result: TaskOutput) -> Tuple[bool, Any]:
-    # Obtenir le résultat brut sous forme de chaîne
+    # Récupérer le résultat brut sous forme de chaîne
     result = result.raw
 
     """Valider que le contenu du blog répond aux exigences."""
@@ -261,7 +260,7 @@ def validate_blog_content(result: TaskOutput) -> Tuple[bool, Any]:
 
 writing_task = Task(
     description='Rédiger un rapport détaillé basé sur la recherche en moins de 200 mots',
-    expected_output='Le rapport doit être facile à lire et à comprendre. Utilisez des puces là où c\'est approprié.',
+    expected_output='Le rapport doit être facile à lire et à comprendre. Utilisez des puces le cas échéant.',
     agent=writer,
     guardrail=validate_blog_content,
 )
@@ -269,7 +268,7 @@ writing_task = Task(
 # .... code existant pour exécuter le crew ....
 ```
 
-En décorant simplement la fonction de garde-fou avec `@weave.op`, il devient possible de suivre les entrées et sorties de cette fonction, ainsi que son temps d’exécution, les informations sur les tokens si un LLM est utilisé, la version du code, et bien plus encore.
+En décorant simplement la fonction de garde-fou avec `@weave.op`, nous pouvons suivre les entrées et les sorties de cette fonction, ainsi que le temps d’exécution, les informations sur les tokens si un LLM est utilisé en arrière-plan, la version du code, et bien plus encore.
 
 [![guardrail.png](/weave/guides/integrations/imgs/crewai/crew_with_guardrail.png)](https://wandb.ai/ayut/crewai_demo/weave/traces?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fayut%2Fcrewai_demo%2Fop%2Fcrewai.Crew.kickoff%3A*%22%5D%7D\&peekPath=%2Fayut%2Fcrewai_demo%2Fcalls%2F0195c838-38cb-71a2-8a15-651ecddf9d89%3FdescendentCallId%3D0195c838-8632-7173-846d-f230e7272c20\&cols=%7B%22wb_run_id%22%3Afalse%2C%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
 
@@ -278,6 +277,6 @@ En décorant simplement la fonction de garde-fou avec `@weave.op`, il devient po
   ## Conclusion
 </div>
 
-N’hésitez pas à nous dire ce que nous devrions améliorer dans cette intégration. Si vous rencontrez un problème, veuillez ouvrir une issue [ici](https://github.com/wandb/weave/issues/new/choose).
+N’hésitez pas à nous faire savoir ce que nous devrions améliorer dans cette intégration. Si vous rencontrez un problème, veuillez ouvrir une issue [ici](https://github.com/wandb/weave/issues/new/choose).
 
-Pour en savoir plus sur la manière de build des systèmes multiagents puissants avec CrewAI, consultez leurs [nombreux exemples](https://github.com/crewAIInc/crewAI-examples) et leur [documentation](https://docs.crewai.com/introduction).
+Pour en savoir plus sur la création de puissants systèmes multi-agents avec CrewAI, consultez leurs [nombreux exemples](https://github.com/crewAIInc/crewAI-examples) et leur [documentation](https://docs.crewai.com/introduction).

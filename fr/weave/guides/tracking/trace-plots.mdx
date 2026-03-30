@@ -1,46 +1,46 @@
 ---
-title: "Utiliser les graphiques de trace"
-description: "Visualisez des métriques au niveau des traces avec des graphiques interactifs dans Weave afin d'explorer les tendances de latence, de coût et d'utilisation des tokens pour les applications LLM."
+title: "Utiliser les graphiques de traces"
+description: "Visualisez les métriques de trace à l’aide de graphiques interactifs dans Weave pour explorer les tendances de latence, de coût et d’utilisation des tokens pour les applications LLM."
 ---
 
-L&#39;outil de *graphiques de trace* dans W&amp;B Weave vous permet d&#39;explorer, de visualiser et de déboguer des métriques au niveau des traces (par ex. la latence, le coût et les tokens) à l&#39;aide de graphiques interactifs. Vous pouvez utiliser les graphiques de trace par défaut ou créer les vôtres avec le générateur de graphiques de trace personnalisé.
+L’outil *graphiques de traces* de W&amp;B Weave vous permet d’explorer, de visualiser et de déboguer les métriques de trace (par ex. la latence, le coût, les tokens) à l’aide de graphiques interactifs. Vous pouvez utiliser les graphiques de traces par défaut ou créer les vôtres à l’aide du générateur de graphiques de traces personnalisés.
 
 <Frame>
   ![Graphiques de trace en action](/weave/guides/tracking/imgs/plots-example.png)
 </Frame>
 
 <div id="get-started">
-  ## Prise en main
+  ## Pour commencer
 </div>
 
 1. Accédez à la page **Traces** de votre projet.
-2. (Facultatif) Sélectionnez **Filtre** pour filtrer les traces sélectionnées (par exemple par date et heure ou par opération).
-3. Dans le coin supérieur droit de la vue **Traces**, cliquez sur l’icône **Show Metrics** pour ouvrir le volet latéral des graphiques de trace.
+2. (Facultatif) Sélectionnez **Filtre** pour filtrer les traces sélectionnées (par exemple, par date/heure ou par opération).
+3. Dans le coin supérieur droit de la vue **Traces**, cliquez sur l’icône **Afficher les métriques** pour ouvrir le panneau latéral des graphiques de traces.
 
-   ![L’icône Show Metrics](/weave/guides/tracking/imgs/plots-show-metrics-icon.png)
+   ![L’icône Afficher les métriques](/weave/guides/tracking/imgs/plots-show-metrics-icon.png)
 
-   Vous pouvez ensuite :
+   À partir de là, vous pouvez :
 
-   * Afficher les [graphiques de trace par défaut](#default-trace-plots).
+   * Afficher les [graphiques de traces par défaut](#default-trace-plots).
    * Créer un [graphique de traces personnalisé](#create-a-custom-trace-plot).
-4. Les graphiques se mettent à jour dynamiquement en fonction de vos filtres et sélections de traces.
+4. Les graphiques se mettent à jour dynamiquement en fonction de vos filtres et de vos sélections de traces.
 
 <div id="default-trace-plots">
-  ## Graphiques de trace par défaut
+  ## Graphiques de traces par défaut
 </div>
 
-Lorsque vous ouvrez pour la première fois le panneau des graphiques de trace, Weave génère automatiquement quelques graphiques de trace basés sur les données de trace disponibles dans votre projet :
+Lorsque vous ouvrez pour la première fois le panneau des graphiques de traces, Weave génère automatiquement quelques graphiques de traces à partir des données de trace disponibles dans votre projet :
 
-* Graphique à barres (coût ou latence regroupés par intervalles de temps)
+* Graphique en barres (coût ou latence regroupés par intervalle de temps)
 * Graphique linéaire (latence au fil du temps)
-* Nuage de points (par ex. jetons de prompt vs. jetons de complétion)
+* Nuage de points (par ex. tokens d&#39;invite vs. tokens de complétion)
 
-Chaque graphique de trace est interactif :
+Chaque graphique de traces est interactif :
 
-* Survolez pour afficher des infobulles
+* Survolez pour voir les infobulles
 * Faites glisser pour zoomer
 * Double-cliquez pour réinitialiser
-* Cliquez sur des points dans les nuages de points pour ouvrir une trace spécifique
+* Cliquez sur un point d’un nuage de points pour ouvrir une trace spécifique
 
 <div id="create-a-custom-trace-plot">
   ## Créer un graphique de traces personnalisé
@@ -54,22 +54,22 @@ Vous pouvez également créer un graphique de traces personnalisé. Pour créer 
 
 2. Dans la fenêtre contextuelle, sélectionnez l’un des types de graphiques de trace disponibles :
 
-   ![Types de graphiques de trace personnalisés disponibles](/weave/guides/tracking/imgs/plots-custom-chart-types.png)
+   ![Types de graphiques de traces personnalisés disponibles](/weave/guides/tracking/imgs/plots-custom-chart-types.png)
 
-3. Pour le type de graphique de trace sélectionné, configurez votre graphique de trace. Pour plus d’informations sur les options de configuration selon le type de graphique de trace, voir [Paramètres des graphiques de trace par type de graphique](#trace-plot-settings-by-plot-type).
+3. Pour le type de graphique de traces sélectionné, configurez votre graphique de traces. Pour plus d’informations sur les options de configuration selon le type de graphique de traces, voir [Paramètres des graphiques de trace par type de graphique](#trace-plot-settings-by-plot-type).
 
 4. Cliquez sur **Save chart** pour enregistrer votre graphique.
 
 <div id="trace-plot-settings-by-plot-type">
-  ### Paramètres des graphiques de trace par type de graphique
+  ### Paramètres du graphique de traces par type de graphique
 </div>
 
-Lors de l’ajout ou de la modification d’un graphique de trace personnalisé, les options de configuration disponibles varient légèrement selon le type de graphique de trace sélectionné. Le tableau détaille les options configurables.
+Lors de l’ajout ou de la modification d’un graphique de traces personnalisé, les options de configuration disponibles varient légèrement selon le type de graphique de traces sélectionné. Le tableau ci-dessous détaille les options configurables.
 
-| Paramètre    | Nuage de points  | Graphique linéaire  | graphique à barres |
-| ------------ | ---------------- | ------------------- | ------------------- |
-| Axe Y        | ✅ Requis         | ✅ Requis            | ✅ Requis            |
-| Axe X        | ✅ Sélectionnable | Fixe (`started at`) | Fixe (`started at`) |
-| Regroupement | ✅ Facultatif     | ✅ Facultatif        | ✅ Facultatif        |
-| Binning      | ❌ Non utilisé    | ✅ Utilisé           | ✅ Utilisé           |
-| Agrégation   | ❌ Non utilisée   | ✅ Utilisée          | ✅ Utilisée          |
+| Paramètre               | Nuage de points | Graphique linéaire  | Graphique en barres  |
+| ----------------------- | ----------------------- | ------------------- | ------------------- |
+| Axe Y                   | ✅ Requis                | ✅ Requis            | ✅ Requis            |
+| Axe X                   | ✅ Sélectionnable        | Fixe (`started at`) | Fixe (`started at`) |
+| Regroupement            | ✅ Facultatif            | ✅ Facultatif        | ✅ Facultatif        |
+| Regroupement en classes | ❌ Non utilisé           | ✅ Utilisé           | ✅ Utilisé           |
+| Agrégation              | ❌ Non utilisé           | ✅ Utilisé           | ✅ Utilisé           |

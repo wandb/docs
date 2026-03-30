@@ -1,22 +1,22 @@
 ---
-title: "Comment trouver les artefacts enregistrés ou consommés par un run ? Comment trouver les runs qui ont produit ou consommé un artefact ?"
+title: "Comment trouver les Artifacts enregistrés ou consommés par un run ? Comment trouver les runs qui ont produit ou consommé un artifact ?"
 keywords: ["Artifacts"]
 ---
 
-W&amp;B suit les artefacts enregistrés par chaque run ainsi que ceux utilisés par chaque run afin de construire un graphe d’artefacts. Ce graphe est un graphe biparti, orienté et acyclique, dont les nœuds représentent des runs et des artefacts. Un exemple peut être consulté [ici](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (cliquez sur &quot;Explode&quot; pour développer le graphe).
+W&amp;B suit les Artifacts enregistrés par chaque run ainsi que ceux utilisés par chaque run afin de construire un graphe d’Artifacts. Ce graphe est un graphe biparti orienté acyclique, dont les nœuds représentent des runs et des Artifacts. Vous pouvez en voir un exemple [ici](https://wandb.ai/shawn/detectron2-11/artifacts/dataset/furniture-small-val/06d5ddd4deeb2a6ebdd5/graph) (cliquez sur &quot;Explode&quot; pour déployer le graphe).
 
-Utilisez l’API publique pour parcourir le graphe de manière programmatique, en partant soit d’un artefact, soit d’un run.
+Utilisez l’API publique pour parcourir le graphe par code, à partir d’un artifact ou d’un run.
 
 <Tabs>
-  <Tab title="À partir d’un artefact">
+  <Tab title="À partir d’un artifact">
     ```python
     api = wandb.Api()
 
     artifact = api.artifact("project/artifact:alias")
 
-    # Remonter le graphe à partir d’un artefact :
+    # Remonter le graphe à partir d’un artifact :
     producer_run = artifact.logged_by()
-    # Descendre le graphe à partir d’un artefact :
+    # Descendre le graphe à partir d’un artifact :
     consumer_runs = artifact.used_by()
 
     # Descendre le graphe à partir d’un run :
@@ -37,9 +37,9 @@ Utilisez l’API publique pour parcourir le graphe de manière programmatique, e
     # Remonter le graphe à partir d’un run :
     consumed_artifacts = run.used_artifacts()
 
-    # Remonter le graphe à partir d’un artefact :
+    # Remonter le graphe à partir d’un artifact :
     earlier_run = consumed_artifacts[0].logged_by()
-    # Descendre le graphe à partir d’un artefact :
+    # Descendre le graphe à partir d’un artifact :
     consumer_runs = produced_artifacts[0].used_by()
     ```
   </Tab>
@@ -47,11 +47,11 @@ Utilisez l’API publique pour parcourir le graphe de manière programmatique, e
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas à la main le contenu entre ces marqueurs.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges des onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}

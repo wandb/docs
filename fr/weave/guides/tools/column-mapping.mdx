@@ -1,11 +1,11 @@
 ---
 title: "Mapper les colonnes dans les jeux de données"
-description: "Associez les colonnes de vos jeux de données à des noms différents. Cela vous aide à faire correspondre les noms de colonnes de votre jeu de données à ceux attendus par le scorer."
+description: "Associez les colonnes de vos jeux de données à d'autres noms. Cela vous permet d'aligner les noms de colonnes de votre jeu de données sur ceux attendus par le scorer."
 ---
 
 <Tabs>
   <Tab title="Python">
-    Dans le SDK Python de Weave, utilisez l&#39;attribut `column_map` d&#39;un scorer pour associer les noms de paramètres attendus aux noms de colonnes de votre jeu de données. Le format de mappage est `{scorer_parameter: dataset_column}`.
+    Dans le SDK Python de Weave, utilisez l&#39;attribut `column_map` sur un scorer pour faire correspondre les noms de paramètres attendus aux noms de colonnes de votre jeu de données. Le format de mappage est `{scorer_parameter: dataset_column}`.
 
     L&#39;exemple suivant associe les paramètres `output` et `target` aux colonnes `model_output` et `answer` d&#39;un jeu de données :
 
@@ -20,11 +20,11 @@ description: "Associez les colonnes de vos jeux de données à des noms différe
     }
     ```
 
-    Pour plus de détails sur le mappage des colonnes d&#39;un scorer, voir [Mapping Column Names with `column_map`](../evaluation/scorers#mapping-column-names-with-column_map).
+    Pour en savoir plus sur le mappage de colonnes pour les scorers, voir [Mappage des noms de colonnes avec `column_map`](../evaluation/scorers#mapping-column-names-with-column_map).
   </Tab>
 
   <Tab title="TypeScript">
-    Dans le SDK TypeScript de Weave, le mappage des colonnes se configure sur l&#39;objet `Evaluation` à l&#39;aide de l&#39;option `columnMapping`, et non sur chaque scorer. Le format de mappage est `{scorer_key: dataset_column}`.
+    Dans le SDK TypeScript de Weave, le mappage des colonnes se configure sur l&#39;objet `Evaluation` à l&#39;aide de l&#39;option `columnMapping`, et non sur chaque scorer individuellement. Le format de mappage est `{scorer_key: dataset_column}`.
 
     L&#39;exemple suivant associe `expectedOutputTimesTwo` (utilisé par le scorer) à la colonne `expected` du jeu de données :
 
@@ -46,6 +46,6 @@ description: "Associez les colonnes de vos jeux de données à des noms différe
     });
     ```
 
-    Pour plus de détails sur les arguments des scorers en TypeScript, voir [Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments).
+    Pour en savoir plus sur les arguments des scorers en TypeScript, voir [Arguments nommés du scorer](../evaluation/scorers#scorer-keyword-arguments).
   </Tab>
 </Tabs>

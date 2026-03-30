@@ -25,8 +25,8 @@ __init__(
 
 **Arguments :**
 
-* `integration_id` (str): ID de l’intégration webhook utilisée pour envoyer la requête.
-* `request_payload` (Optional[Annotated]): La charge utile, éventuellement avec des variables de modèle, à envoyer dans la requête webhook.
+* `integration_id` (str): L’ID de l’intégration webhook qui sera utilisée pour envoyer la requête.
+* `request_payload` (Optional[Annotated]): La charge utile, éventuellement avec des variables de template, à envoyer dans la requête webhook.
 * `action_type` (Literal[GENERIC&#95;WEBHOOK]):
 
 **Retourne :**
@@ -42,4 +42,4 @@ from_integration(
 ) → Self
 ```
 
-Définit une action webhook qui envoie à l’intégration (webhook) spécifiée.
+Définissez une action webhook qui envoie à l’intégration (webhook) spécifiée.

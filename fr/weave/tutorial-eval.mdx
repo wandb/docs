@@ -1,6 +1,6 @@
 ---
-title: "Build une évaluation"
-description: "Découvrez comment build un pipeline d’évaluation avec Weave Models et Evaluations"
+title: "Créer une évaluation"
+description: "Découvrez comment créer un pipeline d’évaluation avec Weave Models et Evaluations"
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -13,21 +13,21 @@ import WeaveQuickstartPrereqs from "/snippets/fr/_includes/weave-quickstart-prer
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb" />
 </div>
 
-Les évaluations vous aident à itérer et à améliorer vos applications en les testant sur un ensemble d’exemples après chaque modification. Weave offre une prise en charge native du suivi des évaluations avec les classes [`Model`](/fr/weave/guides/core-types/models) et [`Evaluation`](/fr/weave/guides/core-types/evaluations). Les API sont conçues avec un minimum d’hypothèses, ce qui leur permet de s’adapter à un large éventail de cas d’usage.
+Les évaluations vous aident à itérer sur vos applications et à les améliorer en les testant sur un ensemble d’exemples après chaque modification. Weave offre une prise en charge native du suivi des évaluations avec les classes [`Model`](/fr/weave/guides/core-types/models) et [`Evaluation`](/fr/weave/guides/core-types/evaluations). Les API sont conçues pour faire le moins d’hypothèses possible, ce qui les rend flexibles pour un large éventail de cas d’usage.
 
-![Visuel des évaluations](/images/evals-hero.png)
+![Evals hero](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## Ce que vous apprendrez :
+  ## Ce que vous allez apprendre :
 </div>
 
 Ce guide vous montre comment :
 
 * Configurer un `Model`
-* Créer un jeu de données pour tester les réponses d&#39;un LLM
-* Définir une fonction de score pour comparer les résultats du modèle aux sorties attendues
+* Créer un jeu de données pour évaluer les réponses d&#39;un LLM
+* Définir une fonction de scoring pour comparer les résultats du modèle aux résultats attendus
 * Exécuter une évaluation qui teste le modèle sur le jeu de données à l&#39;aide de la fonction de score et d&#39;un scorer intégré supplémentaire
-* Consulter les résultats de l&#39;évaluation dans l&#39;interface de Weave
+* Consulter les résultats de l&#39;évaluation dans la Weave UI
 
 <WeaveQuickstartPrereqs />
 
@@ -57,16 +57,16 @@ Importez les bibliothèques suivantes dans votre script :
 </Tabs>
 
 <div id="build-a-model">
-  ## Build un `Model`
+  ## Créer un `Model`
 </div>
 
-Dans Weave, les [`Models` sont des objets](/fr/weave/guides/core-types/models) qui capturent à la fois le comportement de votre modèle/agent (logique, prompt, paramètres) et ses métadonnées versionnées (paramètres, code, micro-configuration), afin que vous puissiez le suivre, le comparer, l&#39;évaluer et le faire évoluer de manière fiable.
+Dans Weave, les [`Models` sont des objets](/fr/weave/guides/core-types/models) qui capturent à la fois le comportement de votre modèle/agent (logique, prompt, paramètres) et ses métadonnées versionnées (paramètres, code, micro-config), afin que vous puissiez le suivre, le comparer, l&#39;évaluer et itérer dessus de manière fiable.
 
-Lorsque vous instanciez un `Model`, Weave capture automatiquement sa configuration et son comportement, puis met à jour sa version lorsqu&#39;il y a des changements. Cela vous permet de suivre ses performances au fil du temps à mesure que vous le faites évoluer.
+Lorsque vous instanciez un `Model`, Weave capture automatiquement sa configuration et ses comportements, puis met à jour sa version en cas de modification. Cela vous permet de suivre ses performances au fil du temps, à mesure que vous l&#39;améliorez.
 
 Les `Model` sont déclarés en créant une sous-classe de `Model` et en implémentant une fonction `predict`, qui prend un exemple et renvoie la réponse.
 
-Le modèle d&#39;exemple suivant utilise OpenAI pour extraire les noms, les couleurs et les saveurs de fruits extraterrestres à partir des phrases qui lui sont envoyées.
+L&#39;exemple de modèle suivant utilise OpenAI pour extraire les noms, les couleurs et les saveurs de fruits extraterrestres à partir des phrases qui lui sont envoyées.
 
 <Tabs>
   <Tab title="Python">
@@ -96,7 +96,7 @@ Le modèle d&#39;exemple suivant utilise OpenAI pour extraire les noms, les coul
   <Tab title="TypeScript">
     ```typescript lines {9}
     // Remarque : weave.Model n'est pas encore pris en charge en TypeScript.
-    // À la place, enveloppez votre fonction de type modèle avec weave.op
+    // À la place, encapsulez votre fonction de type modèle avec weave.op
 
     import * as weave from 'weave';
     import OpenAI from 'openai';
@@ -123,7 +123,7 @@ Vous pouvez instancier des objets `Model` comme ceci :
 <Tabs>
   <Tab title="Python">
     ```python lines
-    # Définissez le nom de votre équipe et de votre projet
+    # Définissez le nom de votre team et de votre projet
     weave.init('<team-name>/eval_pipeline_quickstart')
 
     model = ExtractFruitsModel(
@@ -156,11 +156,11 @@ Vous pouvez instancier des objets `Model` comme ceci :
   ## Créer un jeu de données
 </div>
 
-Ensuite, vous avez besoin d&#39;un jeu de données pour évaluer votre modèle. Un [`Dataset` est une collection d&#39;exemples stockée sous forme d&#39;objet Weave](/fr/weave/guides/core-types/datasets).
+Ensuite, vous avez besoin d&#39;un jeu de données sur lequel évaluer votre modèle. Un [`Dataset` est une collection d&#39;exemples stockée comme objet Weave](/fr/weave/guides/core-types/datasets).
 
-Le jeu de données d&#39;exemple suivant définit trois phrases d&#39;entrée et leurs réponses correctes (`labels`), puis les met en forme dans un tableau au format JSON que les fonctions de score peuvent lire.
+L&#39;exemple de jeu de données suivant définit trois phrases d&#39;entrée et leurs réponses correctes (`labels`), puis les met en forme dans un tableau JSON que les fonctions de scoring peuvent lire.
 
-Cet exemple crée une liste d&#39;exemples dans le code, mais vous pouvez aussi les journaliser un par un depuis votre application en cours d&#39;exécution.
+Cet exemple construit une liste d&#39;exemples dans le code, mais vous pouvez aussi les journaliser une par une depuis votre application en cours d&#39;exécution.
 
 <Tabs>
   <Tab title="Python">
@@ -202,7 +202,7 @@ Cet exemple crée une liste d&#39;exemples dans le code, mais vous pouvez aussi 
   </Tab>
 </Tabs>
 
-Créez ensuite votre jeu de données à l&#39;aide de la classe `weave.Dataset()`, puis publiez-le :
+Créez ensuite votre jeu de données avec la classe `weave.Dataset()` et publiez-le :
 
 <Tabs>
   <Tab title="Python">
@@ -227,10 +227,10 @@ Créez ensuite votre jeu de données à l&#39;aide de la classe `weave.Dataset()
 </Tabs>
 
 <div id="define-custom-scoring-functions">
-  ## Définir des fonctions de score personnalisées
+  ## Définir des fonctions de scoring personnalisées
 </div>
 
-Lorsque vous utilisez les évaluations Weave, Weave attend une `target` à comparer à `output`. La fonction de score suivante prend deux dictionnaires (`target` et `output`) et renvoie un dictionnaire de valeurs booléennes indiquant si `output` correspond à `target`. Le décorateur `@weave.op()` permet à Weave de suivre l&#39;exécution de la fonction de score.
+Lorsque vous utilisez les évaluations Weave, Weave s&#39;attend à recevoir une `target` à comparer à `output`. La fonction de scoring suivante prend deux dictionnaires (`target` et `output`) et renvoie un dictionnaire de valeurs booléennes indiquant si la sortie correspond à la cible. Le décorateur `@weave.op()` permet à Weave de suivre l&#39;exécution de la fonction de scoring.
 
 <Tabs>
   <Tab title="Python">
@@ -254,17 +254,17 @@ Lorsque vous utilisez les évaluations Weave, Weave attend une `target` à compa
   </Tab>
 </Tabs>
 
-Pour créer votre propre fonction de score, consultez le guide [Scorers](/fr/weave/guides/evaluation/scorers).
+Pour créer votre propre fonction de scoring, consultez le guide [Scorers](/fr/weave/guides/evaluation/scorers).
 
-Dans certaines applications, vous pouvez avoir besoin de créer des classes `Scorer` personnalisées. Par exemple, vous pouvez créer une classe `LLMJudge` standardisée avec des paramètres spécifiques (comme un modèle de chat ou un prompt), une logique de score par ligne spécifique et un calcul de score agrégé. Voir le tutoriel sur la définition d&#39;une classe `Scorer` dans le chapitre suivant sur l&#39;[Évaluation des applications RAG basée sur un modèle](/fr/weave/tutorial-rag#optional-defining-a-scorer-class) pour plus d&#39;informations.
+Dans certaines applications, vous souhaiterez peut-être créer des classes `Scorer` personnalisées. Par exemple, vous pouvez créer une classe `LLMJudge` standardisée avec des paramètres spécifiques (comme un modèle de chat ou un prompt), une logique de scoring par ligne spécifique et un calcul de score agrégé. Pour en savoir plus, consultez le tutoriel sur la définition d&#39;une classe `Scorer` dans le chapitre suivant sur [l&#39;évaluation des applications RAG basée sur des modèles](/fr/weave/tutorial-rag#optional-defining-a-scorer-class).
 
 <div id="use-a-built-in-scorer-and-run-the-evaluation">
   ## Utiliser un scorer intégré et exécuter l’évaluation
 </div>
 
-En plus des fonctions de score personnalisées, vous pouvez aussi utiliser les [scorers intégrés de Weave](/fr/weave/guides/evaluation/builtin_scorers). Dans l’évaluation suivante, `weave.Evaluation()` utilise la fonction `fruit_name_score` définie dans la section précédente ainsi que le scorer intégré `MultiTaskBinaryClassificationF1`, qui calcule des [scores F1](https://en.wikipedia.org/wiki/F-score).
+En plus des fonctions de scoring personnalisées, vous pouvez aussi utiliser les [évaluateurs intégrés de Weave](/fr/weave/guides/evaluation/builtin_scorers). Dans l’évaluation suivante, `weave.Evaluation()` utilise la fonction `fruit_name_score` définie dans la section précédente ainsi que le scorer intégré `MultiTaskBinaryClassificationF1`, qui calcule les [scores F1](https://en.wikipedia.org/wiki/F-score).
 
-L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu de données `fruits` à l’aide de ces deux fonctions de score et journalise les résultats dans Weave.
+L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu de données `fruits` à l’aide de ces deux fonctions de scoring et enregistre les résultats dans Weave.
 
 <Tabs>
   <Tab title="Python">
@@ -280,7 +280,7 @@ L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu 
         ],
     )
     print(asyncio.run(evaluation.evaluate(model)))
-    # si vous êtes dans un notebook Jupyter, exécutez :
+    # si vous êtes dans un notebook Jupyter, exécutez :
     # await evaluation.evaluate(model)
     ```
   </Tab>
@@ -303,14 +303,14 @@ L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu 
 </Tabs>
 
 <Note>
-  Si vous exécutez ce code depuis un script Python, vous devez utiliser `asyncio.run`. En revanche, si vous l’exécutez depuis un notebook Jupyter, vous pouvez utiliser directement `await`.
+  Si vous exécutez ce code depuis un script Python, vous devrez utiliser `asyncio.run`. En revanche, si vous l’exécutez dans un notebook Jupyter, vous pouvez utiliser directement `await`.
 </Note>
 
 <div id="complete-example">
   ### Exemple complet
 </div>
 
-<Accordion title="Pipeline d’évaluation complet dans un script unique :">
+<Accordion title="Pipeline d’évaluation complet dans un seul script :">
   <Tabs>
     <Tab title="Python">
       ```python lines
@@ -337,7 +337,7 @@ L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu 
               )
               result = response.choices[0].message.content
               if result is None:
-                  raise ValueError("Aucune réponse du modèle")
+                  raise ValueError("No response from model")
               return json.loads(result)
 
       # 2. Instancier le modèle
@@ -428,7 +428,7 @@ L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu 
       });
       await dataset.save();
 
-      // 3. Définir la fonction de scoring
+      // 3. Définir la fonction de score
       const fruitNameScorer = weave.op(
         function fruitNameScore({target, output}) {
           return { correct: target.fruit === output.fruit };
@@ -452,7 +452,7 @@ L’exemple suivant exécute une évaluation de `ExtractFruitsModel` sur le jeu 
   ## Consultez les résultats de votre évaluation
 </div>
 
-Weave capture automatiquement les traces de chaque prédiction et de chaque score. Cliquez sur le lien affiché par l’évaluation pour consulter les résultats dans l’interface Weave.
+Weave capture automatiquement les traces de chaque prédiction et de chaque score. Cliquez sur le lien affiché par l’évaluation pour consulter les résultats dans la Weave UI.
 
 ![Résultats de l’évaluation](/images/evals-hero.png)
 
@@ -460,12 +460,12 @@ Weave capture automatiquement les traces de chaque prédiction et de chaque scor
   ## En savoir plus sur les évaluations Weave
 </div>
 
-* Découvrez comment [build et utiliser des évaluateurs](/fr/weave/guides/evaluation/scorers).
-* Découvrez les [fonctions de score intégrées](/fr/weave/guides/evaluation/builtin_scorers) de Weave.
-* Découvrez l’[Évaluation basée sur un modèle](/fr/weave/guides/evaluation/scorers#model-based-evaluation) pour utiliser des LLM comme juges.
+* Découvrez comment [créer et utiliser des évaluateurs](/fr/weave/guides/evaluation/scorers).
+* Découvrez les [fonctions de scoring intégrées](/fr/weave/guides/evaluation/builtin_scorers) de Weave.
+* Découvrez l’[Évaluation basée sur des modèles](/fr/weave/guides/evaluation/scorers#model-based-evaluation) pour utiliser des LLM comme juges.
 
 <div id="next-steps">
-  ## Prochaines étapes
+  ## Étapes suivantes
 </div>
 
-[Build une application RAG](/fr/weave/tutorial-rag) pour découvrir l’évaluation de la génération augmentée par récupération.
+[Créez une application RAG](/fr/weave/tutorial-rag) pour découvrir l’évaluation de la génération augmentée par récupération.

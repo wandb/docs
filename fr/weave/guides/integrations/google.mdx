@@ -1,6 +1,6 @@
 ---
 title: "Google"
-description: "Utilisez Weave pour capturer les traces et journaliser les appels aux modèles Google GenAI"
+description: "Utilisez Weave pour tracer et journaliser les appels de modèles Google GenAI"
 ---
 
 <a target="_blank" href="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_google.ipynb">
@@ -8,25 +8,25 @@ description: "Utilisez Weave pour capturer les traces et journaliser les appels 
 </a>
 
 <Note>
-  Vous pouvez tester des modèles Google AI sur Weave sans aucune configuration à l&#39;aide du [LLM Playground](../tools/playground).
+  Vous pouvez tester les modèles Google AI dans Weave sans aucune configuration à l’aide du [LLM Playground](../tools/playground).
 </Note>
 
-Cette page explique comment utiliser W&amp;B Weave avec l&#39;API Google Vertex AI et l&#39;API Google Gemini.
+Cette page explique comment utiliser W&amp;B Weave avec l’API Google Vertex AI et l’API Google Gemini.
 
-Vous pouvez utiliser Weave pour évaluer, surveiller et faire évoluer vos applications Google GenAI. Weave capture automatiquement des traces pour :
+Vous pouvez utiliser Weave pour évaluer, surveiller et faire évoluer vos applications Google GenAI. Weave capture automatiquement des traces pour les éléments suivants :
 
-1. Le [SDK Google GenAI](https://github.com/googleapis/python-genai), accessible via les SDK Python, Node.js et Go, ainsi qu&#39;en REST.
-2. L&#39;[API Google Vertex AI](https://cloud.google.com/vertex-ai/docs), qui donne accès aux modèles Gemini de Google et à [divers modèles partenaires](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models).
+1. Le [SDK Google GenAI](https://github.com/googleapis/python-genai), accessible via le SDK Python, le SDK Node.js, le SDK Go et REST.
+2. L’[API Google Vertex AI](https://cloud.google.com/vertex-ai/docs), qui donne accès aux modèles Gemini de Google ainsi qu’à [divers modèles partenaires](https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/use-partner-models).
 
 <Note>
-  Nous prenons également en charge le [SDK Python Google AI pour l&#39;API Gemini](https://github.com/google-gemini/deprecated-generative-ai-python), désormais obsolète. Notez que cette prise en charge est elle aussi obsolète et sera supprimée dans une prochaine version.
+  Nous proposons également une assistance pour le [SDK Python Google AI pour l’API Gemini](https://github.com/google-gemini/deprecated-generative-ai-python), désormais obsolète. Notez que cette assistance est également obsolète et sera supprimée dans une prochaine version.
 </Note>
 
 <div id="get-started">
   ## Pour commencer
 </div>
 
-Weave capturera automatiquement les traces du [SDK Google GenAI](https://github.com/googleapis/python-genai). Pour commencer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` et utilisez la bibliothèque normalement.
+Weave capture automatiquement les traces avec le [SDK Google GenAI](https://github.com/googleapis/python-genai). Pour démarrer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
 
 ```python lines
 import os
@@ -44,7 +44,7 @@ response = google_client.models.generate_content(
 
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-trace.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
-Weave capturera également automatiquement les traces des [API Vertex](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models). Pour commencer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
+Weave capture aussi automatiquement les traces des [API Vertex](https://github.com/googleapis/python-aiplatform/tree/main/vertexai/generative_models). Pour démarrer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
 
 ```python lines
 import vertexai
@@ -63,11 +63,11 @@ response = model.generate_content(
   ## Suivez vos propres ops
 </div>
 
-Envelopper une fonction avec `@weave.op` permet de capturer les entrées, les sorties et la logique de l&#39;application afin que vous puissiez déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et créer un arbre de fonctions que vous souhaitez suivre. Cela lance également automatiquement la gestion des versions du code pendant vos expérimentations afin de capturer des détails ad hoc qui n&#39;ont pas encore été commités dans Git.
+En encapsulant une fonction avec `@weave.op`, vous commencez à capturer les entrées, les sorties et la logique de l&#39;application, afin de pouvoir déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et construire un arbre de fonctions que vous souhaitez suivre. Cela active également automatiquement la gestion des versions du code au fil de vos expériences, afin de capturer des détails ad hoc qui n&#39;ont pas été commités dans Git.
 
 Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tracking/ops).
 
-Dans l&#39;exemple ci-dessous, nous avons la fonction `recommend_places_to_visit`, décorée avec `@weave.op`, qui recommande des lieux à visiter dans une ville.
+Dans l&#39;exemple ci-dessous, la fonction `recommend_places_to_visit`, encapsulée avec `@weave.op`, recommande des lieux à visiter dans une ville.
 
 ```python lines
 import os
@@ -95,12 +95,12 @@ recommend_places_to_visit("Kolkata")
 [![dspy\_trace.png](/weave/guides/integrations/imgs/google-genai-ops.png)](https://wandb.ai/geekyrakshit/google-genai/weave/traces)
 
 <div id="create-a-model-for-easier-experimentation">
-  ## Créer un `Model` pour simplifier l’expérimentation
+  ## Créez un `Model` pour expérimenter plus facilement
 </div>
 
-Il est difficile d’organiser l’expérimentation lorsqu’il y a de nombreux éléments en jeu. En utilisant la classe [`Model`](../core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
+Il est difficile d’organiser une expérimentation lorsqu’il y a de nombreux éléments en jeu. En utilisant la classe [`Model`](../core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
 
-En plus de gérer les versions du code et de capturer les entrées/sorties, les [`Model`](../core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser Weave Models avec `serve` et les [`Évaluation`](../core-types/evaluations)s.
+En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](../core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser les Weave Models avec `serve` et les [`Évaluation`](../core-types/evaluations)s.
 
 Dans l’exemple ci-dessous, vous pouvez expérimenter avec `CityVisitRecommender`. Chaque fois que vous modifiez l’un de ces éléments, vous obtenez une nouvelle *version* de `CityVisitRecommender`.
 
@@ -120,7 +120,7 @@ class CityVisitRecommender(weave.Model):
     def predict(self, city: str) -> str:
         response = google_client.models.generate_content(
             model=self.model,
-            contents="Vous êtes un assistant serviable dont le rôle est de suggérer tous les endroits économiques à visiter dans une ville",
+            contents="Vous êtes un assistant serviable destiné à suggérer tous les endroits économiques à visiter dans une ville",
         )
         return response.text
 

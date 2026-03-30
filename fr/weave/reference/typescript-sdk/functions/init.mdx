@@ -9,16 +9,16 @@ description: "Référence du SDK TypeScript"
 
 ▸ **init**(`project`, `settings?`): `Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
 
-Initialise le client Weave, ce qui est requis pour que le traçage Weave fonctionne.
+Initialise le client Weave, nécessaire au fonctionnement du Tracing Weave.
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom         | Type           | Description                                                                                                                                                                                                                                                                                                                                                               |
-| :---------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `project`   | `string`       | Le nom du projet W&amp;B (peut être `project` ou `entity/project`). Si vous ne spécifiez pas d&#39;équipe W&amp;B (par exemple, `team/project`), votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous à Paramètres utilisateur sur https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team |
-| `settings?` | `SettingsInit` | (Facultatif) Paramètres de traçage Weave                                                                                                                                                                                                                                                                                                                                  |
+| Nom         | Type           | Description                                                                                                                                                                                                                                                                                                                                                                           |
+| :---------- | :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `project`   | `string`       | Le nom du projet W&amp;B (peut être `project` ou `entity/project`). Si vous ne spécifiez pas d&#39;équipe W&amp;B (par exemple, `team/project`), votre entité par défaut est utilisée. Pour trouver ou mettre à jour votre entité par défaut, référez-vous à Paramètres utilisateur à l&#39;adresse https://docs.wandb.ai/guides/models/app/settings-page/user-settings/#default-team |
+| `settings?` | `SettingsInit` | (Facultatif) Paramètres de Tracing Weave                                                                                                                                                                                                                                                                                                                                              |
 
 <div id="returns">
   #### Renvoie
@@ -26,7 +26,7 @@ Initialise le client Weave, ce qui est requis pour que le traçage Weave fonctio
 
 `Promise`&lt;[`WeaveClient`](../classes/weaveclient)&gt;
 
-Une promesse qui se résout en un client Weave initialisé.
+Une promesse qui renvoie le client Weave initialisé.
 
 `Throws`
 

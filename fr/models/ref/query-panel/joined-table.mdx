@@ -1,5 +1,5 @@
 ---
-title: tableau-fusionné
+title: joined-table
 ---
 
 <div id="chainable-ops">
@@ -8,60 +8,62 @@ title: tableau-fusionné
 
 ### <a id="asset-file" />`asset-file`
 
-Renvoie le *fichier* de la ressource
+Renvoie le *fichier* associé à l’asset
 
 | Argument | Description |
 | :------- | :---------- |
-| `asset`  | La ressource   |
+| `asset`  | L’asset     |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Le *fichier* de la ressource
+Le *fichier* de l’asset
 
 ### <a id="joinedtable-file" />`joinedtable-file`
 
-Renvoie le *fichier* d’un *tableau fusionné*
+Renvoie le *fichier* d’un *joined-table*
 
-| Argument      | Description           |
-| :------------ | :-------------------- |
-| `joinedTable` | Le *tableau fusionné* |
+| Argument      | Description       |
+| :------------ | :---------------- |
+| `joinedTable` | Le *joined-table* |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Le *fichier* d’un *tableau fusionné*
+La *fichier* d’une *joined-table*
 
 ### <a id="joinedtable-rows" />`joinedtable-rows`
 
-Renvoie les lignes d’une *tableau fusionné*
+Renvoie les lignes d’une *joined-table*
 
-| Argument      | Description                                                                                                               |
-| :------------ | :------------------------------------------------------------------------------------------------------------------------ |
-| `joinedTable` | La *tableau fusionné*                                                                                                         |
-| `leftOuter`   | Indique s’il faut inclure les lignes du tableau de gauche qui n’ont pas de ligne correspondante dans le tableau de droite |
-| `rightOuter`  | Indique s’il faut inclure les lignes du tableau de droite qui n’ont pas de ligne correspondante dans le tableau de gauche |
+| Argument      | Description                                                                                                         |
+| :------------ | :------------------------------------------------------------------------------------------------------------------ |
+| `joinedTable` | La *joined-table*                                                                                                   |
+| `leftOuter`   | Indique s’il faut inclure les lignes du tableau de gauche qui n’ont pas de correspondance dans le tableau de droite |
+| `rightOuter`  | Indique s’il faut inclure les lignes du tableau de droite qui n’ont pas de correspondance dans le tableau de gauche |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Les lignes du *tableau fusionné*
+Les lignes du *joined-table*
 
 <div id="list-ops">
-  ## Ops sur les listes
+  ## Lister les Ops
 </div>
 
 ### <a id="asset-file" />`asset-file`
 
-Renvoie le *fichier* de la ressource
+Renvoie le *fichier* de l’asset
 
 | Argument | Description |
 | :------- | :---------- |
-| `asset`  | La ressource   |
+| `asset`  | L’asset     |
 
-#### valeur de retour
+<div id="return-value">
+  #### Valeur de retour
+</div>
 
-Le *fichier* de la ressource
+Le *fichier* de l’asset

@@ -1,6 +1,6 @@
 ---
-title: "評価パイプラインを構築する"
-description: "Weave Models と Evaluations を使用して評価パイプラインを構築する方法を学ぶ"
+title: "評価を作成する"
+description: "Weave Models と評価機能を使って、評価パイプラインを構築する方法を学びます"
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
@@ -13,20 +13,20 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
   <GitHubLink url="https://github.com/wandb/docs/blob/main/weave/cookbooks/source/build_an_evaluation_pipeline.ipynb" />
 </div>
 
-評価は、変更を加えたあとに一連のサンプルに対してテストすることで、アプリケーションを反復的に改良するのに役立ちます。Weave は、[`Model`](/ja/weave/guides/core-types/models) と [`Evaluation`](/ja/weave/guides/core-types/evaluations) クラスを使った評価のトラッキングを第一級でサポートしています。これらの API は前提を最小限に抑えて設計されているため、多様なユースケースに対応できる柔軟性があります。
+評価を使うと、変更後に一連のサンプルに対してアプリケーションをテストし、改善を重ねていけます。Weave は、[`Model`](/ja/weave/guides/core-types/models) クラスと [`Evaluation`](/ja/weave/guides/core-types/evaluations) クラスによる評価のトラッキングをネイティブにサポートしています。API は前提を最小限に抑えて設計されているため、幅広いユースケースに柔軟に対応できます。
 
-![Evals ヒーロー](/images/evals-hero.png)
+![Evals hero](/images/evals-hero.png)
 
 <div id="what-youll-learn">
-  ## このガイドで学ぶこと
+  ## 学べること:
 </div>
 
-このガイドでは、次の内容を説明します。
+このガイドでは、以下の方法を説明します。
 
-* `Model` をセットアップする
+* `Model` を設定する
 * LLM の応答をテストするためのデータセットを作成する
-* モデル出力を期待される出力と比較するためのスコアリング関数を定義する
-* スコアリング関数と追加の組み込みスコアラーを使って、データセットに対するモデルの評価を実行する
+* モデルの出力を期待する出力と比較するスコアリング関数を定義する
+* スコアリング関数と追加の組み込み Scorer を使って、データセットに対するモデルの評価を実行する
 * Weave UI で評価結果を確認する
 
 <WeaveQuickstartPrereqs />
@@ -35,7 +35,7 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
   ## 必要なライブラリと関数をインポートする
 </div>
 
-次のライブラリをスクリプトにインポートします。
+以下のライブラリをスクリプトにインポートします。
 
 <Tabs>
   <Tab title="Python">
@@ -57,16 +57,16 @@ import WeaveQuickstartPrereqs from "/snippets/ja/_includes/weave-quickstart-prer
 </Tabs>
 
 <div id="build-a-model">
-  ## `Model` を構築する
+  ## `Model` を作成する
 </div>
 
-Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であり、モデル / エージェントの挙動 (ロジック、プロンプト、パラメーター) と、そのバージョン管理されたメタデータ (パラメーター、コード、マイクロ設定) の両方を保持することで、信頼性の高いトラッキング、比較、評価、反復を可能にします。
+Weave では、[`Models` はオブジェクト](/ja/weave/guides/core-types/models)であり、モデル/エージェントの振る舞い (ロジック、プロンプト、パラメーター) と、そのバージョン管理されたメタデータ (パラメーター、コード、マイクロ設定) の両方を保持します。これにより、確実にトラッキング、比較、評価、反復改善を行えます。
 
-`Model` をインスタンス化すると、Weave はその設定と挙動を自動で取得し、変更があればバージョンを更新します。これにより、反復を重ねる中で、時間経過に伴うパフォーマンスの推移を追跡できます。
+`Model` をインスタンス化すると、Weave はその設定と振る舞いを自動的に取得し、変更があるたびにバージョンを更新します。これにより、反復改善を進めながら、時間の経過に伴うパフォーマンスをトラッキングできます。
 
-独自の `Model` は、基底クラスの `Model` をサブクラス化し、1 つのサンプルを受け取ってレスポンスを返す `predict` 関数定義を実装することで宣言します。
+`Model` は、`Model` をサブクラス化し、1 つのサンプルを受け取ってレスポンスを返す `predict` 関数を実装することで宣言します。
 
-次のサンプルモデルは OpenAI を使用して、渡された文からエイリアンフルーツの名前、色、風味を抽出します。
+次のモデル例では、OpenAI を使用して、入力された文からエイリアンの果物の名前、色、風味を抽出します。
 
 <Tabs>
   <Tab title="Python">
@@ -95,7 +95,7 @@ Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であ
 
   <Tab title="TypeScript">
     ```typescript lines {9}
-    // メモ: weave.Model は TypeScript ではまだサポートされていません。
+    // 注: weave.Model はまだ TypeScript ではサポートされていません。
     // 代わりに、モデルのような関数を weave.op でラップしてください
 
     import * as weave from 'weave';
@@ -116,14 +116,14 @@ Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であ
   </Tab>
 </Tabs>
 
-`ExtractFruitsModel` クラスは `weave.Model` を継承 (サブクラス化) しており、Weave がインスタンス化されたオブジェクトをトラッキングできるようにします。`@weave.op` は predict 関数をデコレートし、その入力と出力をトラッキングします。
+`ExtractFruitsModel` クラスは `weave.Model` を継承しているため、Weave はインスタンス化されたオブジェクトをトラッキングできます。`@weave.op` は、predict 関数の入力と出力をトラッキングするデコレーターです。
 
 `Model` オブジェクトは次のようにインスタンス化できます。
 
 <Tabs>
   <Tab title="Python">
     ```python lines
-    # チーム名とプロジェクト名を設定
+    # チーム名とプロジェクト名を設定します
     weave.init('<team-name>/eval_pipeline_quickstart')
 
     model = ExtractFruitsModel(
@@ -134,7 +134,7 @@ Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であ
     sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy."
 
     print(asyncio.run(model.predict(sentence)))
-    # Jupyter Notebook を使用している場合は次を実行:
+    # Jupyter Notebook 内では、次を実行します:
     # await model.predict(sentence)
     ```
   </Tab>
@@ -156,9 +156,9 @@ Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であ
   ## データセットを作成する
 </div>
 
-次に、モデルを評価するためのデータセットが必要です。[`Dataset` は、Weave オブジェクトとして保存されるサンプルの集合です](/ja/weave/guides/core-types/datasets)。
+次に、モデルを評価するためのデータセットが必要です。[`Dataset` は Weaveオブジェクトとして保存されるサンプルのコレクションです](/ja/weave/guides/core-types/datasets)。
 
-次のサンプルデータセットでは、3 つの入力文とそれぞれの正解ラベル (`labels`) を定義し、それらをスコアリング関数が読み取れる JSON テーブル形式に整えます。
+次のデータセット例では、3 つの入力文のサンプルとそれぞれの正解 (`labels`) を定義し、スコアリング関数が読み取れる JSON の表形式に整形します。
 
 この例では、コード内でサンプルのリストを作成していますが、実行中のアプリケーションから 1 件ずつログすることもできます。
 
@@ -227,10 +227,10 @@ Weave では、[`Models` are objects](/ja/weave/guides/core-types/models) であ
 </Tabs>
 
 <div id="define-custom-scoring-functions">
-  ## カスタムスコアリング関数を定義する
+  ## カスタムのスコアリング関数を定義する
 </div>
 
-Weave 評価を使用する場合、Weave は `output` と比較するための `target` を前提とします。次のスコアリング関数は 2 つの辞書 (`target` と `output`) を受け取り、出力が target と一致しているかどうかを示す真偽値を持つ辞書を返します。`@weave.op()` デコレーターによって、Weave はこのスコアリング関数の実行を追跡できるようになります。
+Weave の評価を使用する場合、Weave では `output` と比較するための `target` が必要です。次のスコアリング関数は 2 つの辞書 (`target` と `output`) を受け取り、出力が `target` と一致するかどうかを示す真偽値の辞書を返します。`@weave.op()` デコレーターを使うと、Weave でスコアリング関数の実行をトラッキングできます。
 
 <Tabs>
   <Tab title="Python">
@@ -256,15 +256,15 @@ Weave 評価を使用する場合、Weave は `output` と比較するための 
 
 独自のスコアリング関数を作成する方法については、[Scorers](/ja/weave/guides/evaluation/scorers) ガイドを参照してください。
 
-一部のアプリケーションでは、カスタムの `Scorer` クラスを作成したい場合があります。たとえば、特定のパラメーター (チャットモデルやプロンプトなど) 、行ごとのスコアリング方法、およびスコアの集計方法を備えた標準化された `LLMJudge` クラスを作成することが考えられます。`Scorer` クラスの定義については、次の章の [RAG アプリケーションのモデルベース評価](/ja/weave/tutorial-rag#optional-defining-a-scorer-class) に関するチュートリアルを参照してください。
+アプリケーションによっては、カスタムの `Scorer` クラスを作成したい場合があります。たとえば、特定のパラメーター (チャットモデルやプロンプトなど) 、特定の行に対するスコアリング、集約スコアの計算を備えた、標準化された `LLMJudge` クラスを作成できます。詳しくは、次の章の [RAG アプリケーションのモデルベース評価](/ja/weave/tutorial-rag#optional-defining-a-scorer-class) にある `Scorer` クラスの定義に関するチュートリアルを参照してください。
 
 <div id="use-a-built-in-scorer-and-run-the-evaluation">
-  ## 組み込みスコアラーを使って評価を実行する
+  ## 組み込み Scorer を使用して評価を実行する
 </div>
 
-カスタムのスコアリング関数に加えて、[Weave の組み込みスコアラー](/ja/weave/guides/evaluation/builtin_scorers) も使用できます。次の評価では、`weave.Evaluation()` が前のセクションで定義した `fruit_name_score` 関数と、[F1 スコア](https://en.wikipedia.org/wiki/F-score) を計算する組み込みの `MultiTaskBinaryClassificationF1` スコアラーを使用します。
+カスタムのスコアリング関数に加えて、[Weave の組み込み Scorer](/ja/weave/guides/evaluation/builtin_scorers)も使用できます。以下の評価では、`weave.Evaluation()` は前のセクションで定義した `fruit_name_score` 関数と、[F1 スコア](https://en.wikipedia.org/wiki/F-score)を計算する組み込みの `MultiTaskBinaryClassificationF1` Scorer を使用します。
 
-次の例では、`ExtractFruitsModel` を `fruits` データセット上で、これら 2 種類のスコアリング関数で評価を行い、その結果を Weave にログします。
+次の例では、2 つの関数によるスコアリングを使用して `fruits` データセット上で `ExtractFruitsModel` を評価し、その結果を Weave にログします。
 
 <Tabs>
   <Tab title="Python">
@@ -280,7 +280,7 @@ Weave 評価を使用する場合、Weave は `output` と比較するための 
         ],
     )
     print(asyncio.run(evaluation.evaluate(model)))
-    # Jupyter Notebook の場合は次を実行します:
+    # Jupyter Notebook で実行している場合は、次を実行します:
     # await evaluation.evaluate(model)
     ```
   </Tab>
@@ -303,14 +303,14 @@ Weave 評価を使用する場合、Weave は `output` と比較するための 
 </Tabs>
 
 <Note>
-  Python スクリプトから実行している場合は、`asyncio.run` を使う必要があります。一方、Jupyter Notebook から実行している場合は、`await` を直接使用できます。
+  Python スクリプトから実行する場合は、`asyncio.run` を使用する必要があります。一方、Jupyter Notebook から実行する場合は、`await` を直接使用できます。
 </Note>
 
 <div id="complete-example">
-  ### 完全なサンプル
+  ### 完全な例
 </div>
 
-<Accordion title="評価パイプラインを 1 つのスクリプトで完結:">
+<Accordion title="1つのスクリプトで完結する評価パイプライン:">
   <Tabs>
     <Tab title="Python">
       ```python lines
@@ -320,7 +320,7 @@ Weave 評価を使用する場合、Weave は `output` と比較するための 
       import weave
       from weave.scorers import MultiTaskBinaryClassificationF1
 
-      # Weave を一度初期化する
+      # Weaveを一度初期化する
       weave.init('eval_pipeline_quickstart')
 
       # 1. モデルを定義する
@@ -392,7 +392,7 @@ Weave 評価を使用する場合、Weave は `output` と比較するための 
 
       // 1. モデルを定義する
       // 注意: weave.Model は TypeScript ではまだサポートされていません。
-      // 代わりに、モデルのような関数を weave.op でラップしてください
+      // 代わりに、モデルに相当する関数を weave.op でラップしてください
       const openaiClient = new OpenAI();
 
       const model = weave.op(async function myModel({datasetRow}) {
@@ -452,20 +452,20 @@ Weave 評価を使用する場合、Weave は `output` と比較するための 
   ## 評価結果を確認する
 </div>
 
-Weave は各予測とスコアのトレースを自動的に記録します。評価時に出力されるリンクをクリックして、Weave UI で結果を確認します。
+Weave は、各予測とスコアのトレースを自動的に記録します。評価の実行時に出力されるリンクをクリックすると、Weave UI で結果を確認できます。
 
-![Evaluation results](/images/evals-hero.png)
+![評価結果](/images/evals-hero.png)
 
 <div id="learn-more-about-weave-evaluations">
-  ## Weave の評価についてさらに学ぶ
+  ## Weave の評価についてさらに詳しく見る
 </div>
 
-* [scorer の構築と利用方法](/ja/weave/guides/evaluation/scorers)について詳しく学びましょう。
-* Weave の[組み込みスコアリング関数](/ja/weave/guides/evaluation/builtin_scorers)を確認しましょう。
-* LLM を評価者として用いるための [Model-Based Evaluation](/ja/weave/guides/evaluation/scorers#model-based-evaluation) について学びましょう。
+* [scorer の構築方法と使用方法](/ja/weave/guides/evaluation/scorers)について詳しく学びます。
+* Weave の[組み込みスコアリング関数](/ja/weave/guides/evaluation/builtin_scorers)を確認します。
+* LLM を判定者として使用する[モデルベース評価](/ja/weave/guides/evaluation/scorers#model-based-evaluation)について学びます。
 
 <div id="next-steps">
   ## 次のステップ
 </div>
 
-[RAG アプリケーションを構築する](/ja/weave/tutorial-rag) チュートリアルを実行して、retrieval-augmented generation の評価について学びましょう。
+[RAG アプリケーションを構築して](/ja/weave/tutorial-rag)、検索拡張生成の評価について学びましょう。

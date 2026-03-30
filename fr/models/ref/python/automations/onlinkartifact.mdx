@@ -11,10 +11,10 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnLinkArtifact`
 
-Un nouvel artefact est associé à une collection.
+Un nouvel artifact est associé à une collection.
 
 Exemples :
-Définissez un événement qui se déclenche lorsqu’un artefact est associé à la
+Définissez un événement qui se déclenche lorsqu’un artifact est associé à la
 collection &quot;my-collection&quot; avec l’alias &quot;prod&quot; :
 
 ```python
@@ -44,8 +44,8 @@ __init__(
 **Arguments :**
 
 * `event_type` (Literal[LINK&#95;ARTIFACT]) :
-* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]) : La portée de l’événement.
-* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]) : Conditions supplémentaires, le cas échéant, nécessaires pour que cet événement se déclenche.
+* `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]) : Portée de l&#39;événement.
+* `filter` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]) : Conditions supplémentaires, le cas échéant, requises pour que cet événement se déclenche.
 
 **Retourne :**
 Un objet `OnLinkArtifact`.

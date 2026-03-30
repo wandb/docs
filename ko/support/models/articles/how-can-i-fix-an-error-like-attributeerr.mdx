@@ -1,9 +1,9 @@
 ---
 title: "`AttributeError: module 'wandb' has no attribute ...`와 같은 오류는 어떻게 해결하나요?"
-keywords: ["Run 비정상 종료"]
+keywords: ["run 충돌"]
 ---
 
-Python에서 `wandb`를 import할 때 `AttributeError: module 'wandb' has no attribute 'init'` 또는 `AttributeError: module 'wandb' has no attribute 'login'` 같은 오류가 발생하면, `wandb`가 설치되지 않았거나 설치가 손상되었고 현재 작업 디렉터리에 `wandb` 디렉터리가 있는 상태일 수 있습니다. 이 오류를 해결하려면 `wandb`를 제거하고 해당 디렉터리를 삭제한 뒤 `wandb`를 다시 설치하세요:
+Python에서 `wandb`를 임포트할 때 `AttributeError: module 'wandb' has no attribute 'init'` 또는 `AttributeError: module 'wandb' has no attribute 'login'`와 같은 오류가 발생한다면, `wandb`가 설치되어 있지 않거나 설치가 손상되었고 현재 작업 디렉터리에 `wandb` 디렉터리가 존재할 가능성이 있습니다. 이 오류를 해결하려면 `wandb`를 제거하고 해당 디렉터리를 삭제한 다음 `wandb`를 다시 설치하세요:
 
 ```bash
 pip uninstall wandb; rm -rI wandb; pip install wandb
@@ -11,11 +11,11 @@ pip uninstall wandb; rm -rI wandb; pip install wandb
 
 ***
 
-{/* ---- AUTO-GENERATED: 탭 배지 ----
-  프런트 매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 수동으로 편집하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  프론트매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 마커 사이의 내용은 수동으로 편집하지 마세요.
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Run 비정상 종료](/ko/support/models/tags/run-crashes)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Run 충돌](/ko/support/models/tags/run-crashes)</Badge>
 
-{/* ---- 자동 생성 끝: 탭 배지 ---- */}
+{/* ---- 끝 AUTO-GENERATED: 탭 배지 ---- */}

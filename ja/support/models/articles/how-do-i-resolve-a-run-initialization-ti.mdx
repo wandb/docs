@@ -1,29 +1,29 @@
 ---
-title: "wandb で run の初期化タイムアウトエラーを解決するには？"
+title: "wandb で run の初期化タイムアウトエラーを解決するにはどうすればよいですか?"
 keywords: ["接続", "run のクラッシュ"]
 ---
 
-run の初期化タイムアウト エラーを解決するには、次の手順に従ってください。
+run の初期化タイムアウトエラーを解決するには、次の step に従ってください。
 
-* **初期化を再試行**: run の再起動を試します。
-* **ネットワーク接続を確認**: インターネット接続が安定していることを確認します。
-* **wandb のバージョンを更新**: wandb の最新バージョンをインストールします。
-* **タイムアウト設定を延長**: `WANDB_INIT_TIMEOUT` 環境変数を変更します。
+* **初期化を再試行する**: run を再起動してみてください。
+* **ネットワーク接続を確認する**: インターネット接続が安定していることを確認してください。
+* **wandb のバージョンを更新する**: wandb の最新バージョンをインストールしてください。
+* **タイムアウト設定を増やす**: `WANDB_INIT_TIMEOUT` 環境変数を変更します。
   ```python
   import os
   os.environ['WANDB_INIT_TIMEOUT'] = '600'
   ```
-* **デバッグを有効化**: 詳細なログを出力するために、`WANDB_DEBUG=true` と `WANDB_CORE_DEBUG=true` を設定します。
-* **設定を確認**: APIキー とプロジェクトの設定が正しいことを確認します。
-* **ログを確認**: `debug.log`、`debug-internal.log`、`debug-core.log`、`output.log` を確認してエラーを調べます。
+* **デバッグを有効にする**: 詳細なログを出力するため、`WANDB_DEBUG=true` と `WANDB_CORE_DEBUG=true` を設定してください。
+* **設定を確認する**: APIキーとプロジェクトの設定が正しいことを確認してください。
+* **ログを確認する**: `debug.log`、`debug-internal.log`、`debug-core.log`、`output.log` を確認し、エラーがないか調べてください。
 
 ***
 
-{/* ---- AUTO-GENERATED: タブ バッジ ----
-  front matter 内のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter 内のキーワードをもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[接続](/ja/support/models/tags/connectivity)</Badge><Badge stroke shape="pill" color="orange" size="md">[run のクラッシュ](/ja/support/models/tags/run-crashes)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[接続](/ja/support/models/tags/connectivity)</Badge><Badge stroke shape="pill" color="orange" size="md">[runのクラッシュ](/ja/support/models/tags/run-crashes)</Badge>
 
-{/* ---- 自動生成ここまで: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

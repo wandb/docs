@@ -1,35 +1,35 @@
 ---
-description: 機械学習実験間の結果を比較する
-title: Parallel coordinates
+description: 機械学習 experiment 間で結果を比較する
+title: 平行座標
 ---
 
-Parallel coordinates チャートは、多数のハイパーパラメーターとモデル メトリクス間の関係を一目で把握できるように可視化します。
+平行座標チャートでは、多数のハイパーパラメーターとモデルのメトリクスの関係をひと目で把握できます。
 
 <Frame>
-  <img src="/images/app_ui/parallel_coordinates.gif" alt="Parallel coordinates plot" />
+  <img src="/images/app_ui/parallel_coordinates.gif" alt="平行座標プロット" />
 </Frame>
 
-* **Axes**: [`wandb.Run.config`](/ja/models/tables/evaluate-models) から取得したさまざまなハイパーパラメーターと、[`wandb.Run.log()`](/ja/models/tables/evaluate-models) から取得したメトリクス。
-* **Lines**: 各線は 1 つの run を表します。線の上にマウスオーバーすると、その run の詳細を含むツールチップが表示されます。現在のフィルターに一致するすべての線が表示されますが、「目」のアイコンをオフにすると、線はグレー表示になります。
+* **Axes**: [`wandb.Run.config`](/ja/models/tables/evaluate-models) のさまざまなハイパーパラメーターと、[`wandb.Run.log()`](/ja/models/tables/evaluate-models) のメトリクス。
+* **Lines**: 各ラインは1つの run を表します。ラインにマウスオーバーすると、run の詳細を示すツールチップが表示されます。現在のフィルターに一致するすべてのラインが表示されますが、目のアイコンをオフにすると、ラインはグレーアウトされます。
 
 <div id="create-a-parallel-coordinates-panel">
-  ## Parallel coordinates パネルを作成する
+  ## 平行座標 パネルを作成する
 </div>
 
-1. ワークスペースのランディングページにアクセスします
+1. Workspace のランディングページにアクセスします
 2. **Add Panels** をクリックします
-3. **Parallel coordinates** を選択します
+3. **平行座標** を選択します
 
 <div id="panel-settings">
   ## パネル設定
 </div>
 
-パネルを設定するには、パネル右上の編集ボタンをクリックします。
+パネルを設定するには、パネルの右上にある編集ボタンをクリックします。
 
-* **Tooltip**: ホバーすると、各 run に関する情報を示す凡例が表示されます
-* **Titles**: 軸タイトルを編集して、より読みやすくします
-* **Gradient**: 任意の色の範囲になるようグラデーションをカスタマイズします
-* **Log scale**: 各軸は個別に対数スケールで表示するよう設定できます
-* **Flip axis**: 軸の方向を切り替えます — 精度と損失の両方を列として表示している場合に便利です
+* **ツールチップ**: ホバーすると、各 run の情報を示す凡例が表示されます
+* **タイトル**: 軸タイトルを編集して、より読みやすくできます
+* **グラデーション**: 好みの色の範囲にグラデーションをカスタマイズできます
+* **対数スケール**: 各軸はそれぞれ個別に対数スケールで表示するよう設定できます
+* **軸の反転**: 軸の向きを切り替えます。精度と損失の両方を列として使用している場合に便利です
 
-[ライブの parallel coordinates パネルを操作する](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)
+[ライブの平行座標パネルを試す](https://app.wandb.ai/example-team/sweep-demo/reports/Zoom-in-on-Parallel-Coordinates-Charts--Vmlldzo5MTQ4Nw)

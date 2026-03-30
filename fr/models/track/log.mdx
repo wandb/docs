@@ -1,22 +1,22 @@
 ---
-description: Suivez les métriques, les vidéos, les graphiques personnalisés, etc.
+description: Suivez les métriques, les vidéos, les graphiques personnalisés et plus encore
 title: Aperçu
 ---
 
 import MetricNamingRules from "/snippets/fr/_includes/metric-naming-rules.mdx";
 import MetricNamingExamples from "/snippets/fr/_includes/metric-naming-examples.mdx";
 
-Journalisez un dictionnaire de métriques, de médias ou d&#39;objets personnalisés pour une étape avec le SDK Python de W&amp;B. W&amp;B collecte les paires clé-valeur à chaque étape et les stocke dans un dictionnaire unifié chaque fois que vous journalisez des données avec `wandb.Run.log()`. Les données journalisées depuis votre script sont sauvegardées localement sur votre machine dans un répertoire nommé `wandb`, puis synchronisées avec le cloud W&amp;B ou votre [serveur privé](/fr/platform/hosting/).
+Enregistrez un dictionnaire de métriques, de médias ou d&#39;objets personnalisés pour une `step` avec le SDK Python W&amp;B. W&amp;B collecte les paires clé-valeur à chaque étape et les stocke dans un dictionnaire unique chaque fois que vous enregistrez des données avec `wandb.Run.log()`. Les données enregistrées depuis votre script sont sauvegardées localement sur votre machine dans un répertoire nommé `wandb`, puis synchronisées avec le cloud W&amp;B ou votre [serveur privé](/fr/platform/hosting/).
 
 <Note>
-  Les paires clé-valeur ne sont stockées dans un dictionnaire unifié que si vous transmettez la même valeur pour chaque étape. W&amp;B écrit toutes les clés et valeurs collectées en mémoire si vous journalisez une valeur différente pour `step`.
+  Les paires clé-valeur ne sont stockées dans un dictionnaire unique que si vous transmettez la même valeur pour chaque étape. W&amp;B écrit en mémoire toutes les clés et valeurs collectées si vous enregistrez une valeur différente pour `step`.
 </Note>
 
-Par défaut, chaque appel à `wandb.Run.log()` correspond à une nouvelle `step`. W&amp;B utilise les étapes comme axe des x par défaut lorsqu&#39;il crée des graphiques et des panneaux. Vous pouvez également créer et utiliser un axe des x personnalisé ou capturer une métrique récapitulative personnalisée. Pour plus d&#39;informations, voir [Personnaliser les axes de journalisation](/fr/models/track/log/customize-logging-axes/).
+Par défaut, chaque appel à `wandb.Run.log()` correspond à une nouvelle `step`. W&amp;B utilise les étapes comme axe X par défaut lorsqu&#39;il crée des graphiques et des panneaux. Vous pouvez aussi créer et utiliser un axe X personnalisé, ou capturer une métrique récapitulative personnalisée. Pour plus d&#39;informations, voir [Personnaliser les axes des logs](/fr/models/track/log/customize-logging-axes/).
 
 {/* [INSÉRER UN EXEMPLE PLUS PERTINENT] */}
 
-{/* Si vous souhaitez journaliser vers une même étape de l’historique depuis de nombreux endroits différents de votre code, vous pouvez passer un index d’étape à `run.log()` comme suit :
+{/* Si vous souhaitez journaliser des données dans une seule étape de l’historique depuis de nombreux endroits de votre code, vous pouvez passer un index d’étape à `run.log()` comme suit :
 
   ```python
   run.log({'loss': 0.2}, step=step)
@@ -25,7 +25,7 @@ Par défaut, chaque appel à `wandb.Run.log()` correspond à une nouvelle `step`
 {/* [INSÉRER UN EXEMPLE] */}
 
 <Warning>
-  Utilisez `wandb.Run.log()` pour journaliser des valeurs successives pour chaque `step` : 0, 1, 2, etc. Il n’est pas possible d’écrire à une étape précise de l’historique. W&amp;B n’écrit qu’aux étapes « actuelle » et « suivante ».
+  Utilisez `wandb.Run.log()` pour journaliser des valeurs successives à chaque `step` : 0, 1, 2, etc. Il n’est pas possible d’écrire dans une étape spécifique de l’historique. W&amp;B n’écrit que dans l’étape « actuelle » et l’étape « suivante ».
 </Warning>
 
 {/* Vous pouvez définir `commit=False` dans `run.log` pour accumuler les métriques. Veillez simplement à appeler ensuite `run.log` avec `commit=True` (par défaut) pour enregistrer les métriques.
@@ -37,42 +37,42 @@ Par défaut, chaque appel à `wandb.Run.log()` correspond à une nouvelle `step`
   ``` */}
 
 <div id="automatically-logged-data">
-  ## Données journalisées automatiquement
+  ## Données enregistrées automatiquement
 </div>
 
-W&amp;B journalise automatiquement les informations suivantes pendant une expérience W&amp;B :
+W&amp;B enregistre automatiquement les informations suivantes pendant une expérience W&amp;B :
 
 * **Métriques système** : utilisation du CPU et du GPU, réseau, etc. Pour le GPU, elles sont récupérées avec [`nvidia-smi`](https://developer.nvidia.com/nvidia-system-management-interface).
-* **Ligne de commande** : stdout et stderr sont capturés et s’affichent dans l’onglet Journaux de la [page du run.](/fr/models/runs/)
+* **Ligne de commande** : stdout et stderr sont capturés et s’affichent dans l’onglet des journaux de la [page du run.](/fr/models/runs/)
 
-Activez [l’enregistrement du code](https://wandb.me/code-save-colab) dans la [page des paramètres](https://wandb.ai/settings) de votre compte pour journaliser :
+Activez l’[enregistrement du code](https://wandb.me/code-save-colab) dans la page [Settings](https://wandb.ai/settings) de votre compte pour enregistrer :
 
-* **Commit Git** : le dernier commit Git est récupéré et visible dans l’onglet Vue d’ensemble de la page du run, ainsi qu’un fichier `diff.patch` s’il y a des modifications non validées.
-* **Dépendances** : le fichier `requirements.txt` sera téléversé et affiché dans l’onglet Fichiers de la page du run, avec tous les fichiers que vous journalisez dans le répertoire `wandb` du run.
+* **Commit Git** : le dernier commit git est récupéré et visible dans l’onglet Vue d’ensemble de la page du run, ainsi qu’un fichier `diff.patch` s’il existe des modifications non validées.
+* **Dépendances** : le fichier `requirements.txt` est téléversé et affiché dans l’onglet des fichiers de la page du run, avec tous les fichiers que vous enregistrez dans le répertoire `wandb` du run.
 
 <div id="what-data-is-logged-with-specific-wb-api-calls">
-  ## Quelles données sont journalisées avec des appels d’API W&amp;B spécifiques ?
+  ## Quelles données sont enregistrées avec des appels d’API W&amp;B spécifiques ?
 </div>
 
-Avec W&amp;B, vous pouvez décider exactement de ce que vous souhaitez journaliser. La liste suivante présente quelques objets couramment journalisés :
+Avec W&amp;B, vous pouvez décider exactement de ce que vous souhaitez enregistrer. La liste suivante présente quelques objets couramment enregistrés :
 
-* **Jeux de données** : vous devez explicitement journaliser des images ou d’autres échantillons de jeu de données pour qu’ils soient transmis à W&amp;B.
-* **Graphiques** : utilisez `wandb.plot()` avec `wandb.Run.log()` pour suivre des graphiques. Voir [Log Plots](/fr/models/track/log/plots/) pour plus d’informations.
-* **Tableaux** : utilisez `wandb.Table` pour journaliser des données que vous pourrez visualiser et interroger avec W&amp;B. Voir [Log Tables](/fr/models/track/log/log-tables/) pour plus d’informations.
-* **Gradients PyTorch** : ajoutez `wandb.Run.watch(model)` pour voir les gradients des poids sous forme d’histogrammes dans l’interface utilisateur.
-* **Informations de configuration** : journalisez des hyperparamètres, un lien vers votre jeu de données ou le nom de l’architecture que vous utilisez en tant que paramètres de configuration, transmis comme ceci : `wandb.init(config=your_config_dictionary)`.
-* **Métriques** : utilisez `wandb.Run.log()` pour voir les métriques de votre modèle. Si vous journalisez des métriques comme la précision et la perte dans votre boucle d’entraînement, vous obtiendrez des graphiques mis à jour en direct dans l’interface utilisateur.
+* **Datasets** : Vous devez enregistrer explicitement des images ou d’autres échantillons de jeu de données pour qu’ils soient envoyés en streaming vers W&amp;B.
+* **Plots** : Utilisez `wandb.plot()` avec `wandb.Run.log()` pour suivre des graphiques. Voir [Consigner des graphiques](/fr/models/track/log/plots/) pour plus d’informations.
+* **Tables** : Utilisez `wandb.Table` pour enregistrer des données afin de les visualiser et de les interroger avec W&amp;B. Voir [Consigner des tableaux](/fr/models/track/log/log-tables/) pour plus d’informations.
+* **Gradients PyTorch** : Ajoutez `wandb.Run.watch(model)` pour voir les gradients des poids sous forme d’histogrammes dans l’UI.
+* **Informations de configuration** : Enregistrez les hyperparamètres, un lien vers votre jeu de données ou le nom de l’architecture que vous utilisez comme paramètres de configuration, transmis comme ceci : `wandb.init(config=your_config_dictionary)`.
+* **Métriques** : Utilisez `wandb.Run.log()` pour voir les métriques de votre modèle. Si vous enregistrez des métriques comme accuracy et loss dans votre boucle d’entraînement, vous obtiendrez des graphiques mis à jour en direct dans l’UI.
 
 <div id="metric-naming-constraints">
-  ## Contraintes de nommage des métriques
+  ## Contraintes de dénomination des métriques
 </div>
 
-En raison des limitations de GraphQL, les noms de métriques dans W&amp;B doivent respecter des règles de nommage spécifiques :
+En raison des limitations de GraphQL, les noms de métriques dans W&amp;B doivent respecter des règles de dénomination spécifiques :
 
 <MetricNamingRules />
 
 <Warning>
-  Évitez de donner aux métriques des noms contenant des caractères non valides (comme des virgules, des espaces ou des symboles spéciaux), car cela peut entraîner des problèmes de tri, de requête ou d’affichage dans l’interface utilisateur de W&amp;B.
+  Évitez de donner aux métriques des noms contenant des caractères non valides (comme des virgules, des espaces ou des symboles spéciaux), car cela peut entraîner des problèmes de tri, de requête ou d’affichage dans l’UI W&amp;B.
 </Warning>
 
 <MetricNamingExamples />
@@ -81,26 +81,26 @@ En raison des limitations de GraphQL, les noms de métriques dans W&amp;B doiven
   ## Flux de travail courants
 </div>
 
-1. **Comparer la meilleure précision** : Pour comparer la meilleure valeur d&#39;une métrique entre plusieurs runs, définissez la valeur de résumé de cette métrique. Par défaut, le résumé correspond à la dernière valeur journalisée pour chaque clé. C&#39;est utile dans le tableau de l&#39;interface utilisateur, où vous pouvez trier et filtrer les runs selon leurs métriques de résumé, afin de comparer les runs dans un tableau ou un graphique à barres à partir de leur *meilleure* précision, plutôt que de leur précision finale. Par exemple : `wandb.run.summary["best_accuracy"] = best_accuracy`
+1. **Comparer la meilleure accuracy** : Pour comparer la meilleure valeur d&#39;une métrique entre plusieurs runs, définissez la valeur summary de cette métrique. Par défaut, summary correspond à la dernière valeur enregistrée pour chaque clé. Cela est utile dans le tableau de l&#39;UI, où vous pouvez trier et filtrer les runs selon leurs métriques summary, afin de comparer les runs dans un tableau ou un graphique en barres en fonction de leur *meilleure* accuracy, plutôt que de leur accuracy finale. Par exemple : `wandb.run.summary["best_accuracy"] = best_accuracy`
 
-2. **Afficher plusieurs métriques sur un même graphique** : Journalisez plusieurs métriques dans le même appel. Par exemple :
+2. **Afficher plusieurs métriques sur un même graphique** : Enregistrez plusieurs métriques dans le même appel. Par exemple :
    ```python
    with wandb.init() as run:
      run.log({"acc": 0.9, "loss": 0.1})
    ```
-   Vous pouvez ensuite afficher les deux métriques dans l&#39;interface utilisateur.
+   Vous pouvez ensuite afficher les deux métriques dans l&#39;UI.
 
-3. **Personnaliser l&#39;axe x** : Ajoutez un axe x personnalisé dans le même appel pour visualiser vos métriques par rapport à un autre axe dans le tableau de bord W&amp;B. Par exemple :
+3. **Personnaliser l&#39;axe X** : Ajoutez un axe X personnalisé au même appel `log` pour visualiser vos métriques par rapport à un autre axe dans le tableau de bord W&amp;B. Par exemple :
    ```python
    with wandb.init() as run:
      run.log({'acc': 0.9, 'epoch': 3, 'batch': 117})
    ```
-   Pour définir l&#39;axe x par défaut d&#39;une métrique donnée, utilisez [Run.define&#95;metric()](/fr/models/ref/python/experiments/run#define_metric).
+   Pour définir l&#39;axe X par défaut pour une métrique donnée, utilisez [Run.define&#95;metric()](/fr/models/ref/python/experiments/run#define_metric).
 
-4. **Journaliser des médias enrichis et des graphiques** : `wandb.Run.log()` prend en charge la journalisation d&#39;un large éventail de types de données, des [médias tels que les images et les vidéos](/fr/models/track/log/media/) aux [tableaux](/fr/models/track/log/log-tables/) et aux [graphiques](/fr/models/app/features/custom-charts/).
+4. **Enregistrer des médias enrichis et des graphiques** : `wandb.Run.log()` prend en charge l&#39;enregistrement d&#39;une grande variété de types de données, des [médias comme les images et les vidéos](/fr/models/track/log/media/) aux [tableaux](/fr/models/track/log/log-tables/) et aux [graphiques](/fr/models/app/features/custom-charts/).
 
 <div id="best-practices-and-tips">
   ## Bonnes pratiques et conseils
 </div>
 
-Pour les bonnes pratiques et conseils concernant Experiments et la journalisation, voir [Bonnes pratiques : Experiments et journalisation](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w\&b-experiments-and-logging).
+Pour connaître les bonnes pratiques et conseils relatifs à Experiments et au logging, voir [Bonnes pratiques : Experiments et Logging](https://wandb.ai/wandb/pytorch-lightning-e2e/reports/W-B-Best-Practices-Guide--VmlldzozNTU1ODY1#w\&b-experiments-and-logging).

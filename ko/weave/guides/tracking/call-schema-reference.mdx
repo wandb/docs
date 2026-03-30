@@ -1,56 +1,55 @@
 ---
 title: "Call 스키마 레퍼런스"
-description: "Call 객체 구조와 속성에 대한 레퍼런스"
+description: "Call 객체의 구조와 속성에 대한 레퍼런스"
 ---
 
-이 페이지는 W&amp;B Weave의 Call 객체 스키마 구조와 속성을 정리한 레퍼런스입니다. Call을 쿼리하는 방법은 [Call 쿼리 및 내보내기](/ko/weave/guides/tracking/querying-calls)를 참고하세요.
+이 페이지에서는 W&amp;B Weave의 Call 객체 스키마에 대한 레퍼런스를 제공합니다. Call를 쿼리하는 방법은 [Call 쿼리 및 내보내기](/ko/weave/guides/tracking/querying-calls)를 참조하세요.
 
 <div id="call-properties">
   ## Call 속성
 </div>
 
-아래 표는 Weave의 Call 주요 속성을 설명합니다. 전체 구현은 다음을 참조하세요:
+아래 표는 Weave에서 Call의 주요 속성을 보여줍니다. 전체 구현은 다음을 참조하세요:
 
-* Python SDK의 [class: CallSchema](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)
-* TypeScript SDK의 [Interface: CallSchema](/ko/weave/reference/typescript-sdk/interfaces/callschema)
+* Python SDK의 [클래스: CallSchema](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema)
+* TypeScript SDK의 [인터페이스: CallSchema](/ko/weave/reference/typescript-sdk/interfaces/callschema)
 
-| Property       | Type                 | Description                                          |
-| -------------- | -------------------- | ---------------------------------------------------- |
-| `id`           | string (uuid)        | Call에 대한 고유 식별자                                      |
-| `project_id`   | string (optional)    | 관련된 프로젝트 식별자                                         |
-| `op_name`      | string               | 연산 이름(참조일 수도 있음)                                     |
-| `display_name` | string (optional)    | Call에 대한 사용자에게 이해하기 쉬운 이름                            |
-| `trace_id`     | string (uuid)        | 이 Call이 속한 trace의 식별자                                |
-| `parent_id`    | string (uuid)        | 상위 Call의 식별자                                         |
-| `started_at`   | datetime             | Call이 시작된 시각의 타임스탬프                                  |
-| `attributes`   | Dict[str, Any]       | Call에 대한 사용자 정의 메타데이터 *(실행 중에는 읽기 전용)*               |
-| `inputs`       | Dict[str, Any]       | Call의 입력 파라미터                                        |
-| `ended_at`     | datetime (optional)  | Call이 종료된 시각의 타임스탬프                                  |
-| `exception`    | string (optional)    | Call이 실패했을 때의 오류 메시지                                 |
-| `output`       | Any (optional)       | Call의 결과                                             |
-| `summary`      | Optional[SummaryMap] | 실행 후 요약 정보입니다. 실행 중에 이를 수정하여 사용자 정의 메트릭을 기록할 수 있습니다. |
-| `wb_user_id`   | Optional[str]        | 관련된 W&amp;B 사용자 ID                                   |
-| `wb_run_id`    | Optional[str]        | 관련된 W&amp;B run ID                                   |
-| `deleted_at`   | datetime (optional)  | Call이 삭제된 시각의 타임스탬프(해당되는 경우)                         |
+| 속성             | 유형                   | 설명                                                  |
+| -------------- | -------------------- | --------------------------------------------------- |
+| `id`           | string (uuid)        | Call의 고유 식별자                                        |
+| `project_id`   | string (선택)          | 연결된 프로젝트 식별자                                        |
+| `op_name`      | string               | 오퍼레이션 이름(레퍼런스일 수 있음)                                |
+| `display_name` | string (선택)          | Call의 사용자 친화적인 이름                                   |
+| `trace_id`     | string (uuid)        | 이 Call이 속한 트레이스의 식별자                                |
+| `parent_id`    | string (uuid)        | 부모 Call의 식별자                                        |
+| `started_at`   | datetime             | Call이 시작된 타임스탬프                                     |
+| `attributes`   | Dict[str, Any]       | Call에 대한 사용자 정의 메타데이터 *(실행 중에는 읽기 전용)*              |
+| `inputs`       | Dict[str, Any]       | Call의 입력 파라미터                                       |
+| `ended_at`     | datetime (선택)        | Call이 종료된 타임스탬프                                     |
+| `exception`    | string (선택)          | Call이 실패한 경우의 오류 메시지                                |
+| `output`       | Any (선택)             | Call의 결과                                            |
+| `summary`      | Optional[SummaryMap] | 실행 후 요약 정보입니다. 실행 중에 이 값을 수정하여 커스텀 메트릭을 기록할 수 있습니다. |
+| `wb_user_id`   | Optional[str]        | 연결된 W&amp;B 사용자 ID                                  |
+| `wb_run_id`    | Optional[str]        | 연결된 W&amp;B run ID                                  |
+| `deleted_at`   | datetime (선택)        | 해당하는 경우 Call이 삭제된 타임스탬프                             |
 
 <div id="property-details">
-  ## 속성 세부정보
+  ## 속성 세부 정보
 </div>
 
-`CallSchema` 속성은 함수 호출을 추적하고 관리하는 데 중요한 역할을 합니다:
+`CallSchema` 속성은 함수 call을 추적하고 관리하는 데 중요한 역할을 합니다.
 
-* `id`, `trace_id`, `parent_id` 속성은 시스템 내에서 호출을 정리하고 서로 연관시키는 데 도움이 됩니다.
+* `id`, `trace_id`, `parent_id` 속성은 시스템 내에서 call을 정리하고 서로 연관시키는 데 도움이 됩니다.
 
-* 타이밍 정보(`started_at`, `ended_at`)는 성능 분석을 지원합니다.
+* 시간 정보(`started_at`, `ended_at`)는 성능 분석을 지원합니다.
 
-* `attributes` 및 `inputs` 속성은 호출에 대한 컨텍스트를 제공합니다. `attributes`는 호출이 시작되면 고정되므로, 호출 전에 `weave.attributes`로 설정해야 합니다. `output`과 `summary`는 결과를 캡처합니다.
-
-* `summary` 속성에는 메트릭이나 호출 이후에 생성된 값들을 저장할 수 있습니다. 실행 중에 `call.summary`를 수정하세요. 추가한 값은 Call이 완료될 때 Weave에서 계산한 summary 데이터와 병합됩니다.
-  * Weave의 계산된 summary 데이터:
-    * `costs`: LLM 모델 사용량 데이터와 토큰 가격 데이터를 기반으로 계산된 호출의 총 비용입니다. 비용 계산에 대한 자세한 내용은 [Track costs](/ko/weave/guides/tracking/costs)를 참조하세요.
-    * `latency_ms`: `started_at`과 `ended_at` 사이에 경과한 시간을 밀리초 단위로 나타냅니다. `status`가 `RUNNING`이면 `null`입니다.
-    * `status`: 실행 상태입니다: `SUCCESS`, `ERROR`, `RUNNING`, `DESCENDANT_ERROR`(호출 자체는 성공했지만 하위 호출에서 오류가 발생했음을 의미합니다). {/* [empty ref](/ko/weave/reference/python-sdk/trace_server/trace_server_interface#class-tracestatus)*/}
+* `attributes` 및 `inputs` 속성은 call의 컨텍스트를 제공합니다. `attributes`는 call이 시작되면 고정되므로 호출 전에 `weave.attributes`로 설정하세요. `output` 및 `summary`는 결과를 캡처합니다.
+  -`summary` 속성에는 메트릭이나 기타 호출 후 값을 저장할 수 있습니다. 실행 중에 `call.summary`를 수정하세요. 추가한 값은 Call이 완료될 때 Weave가 계산한 summary 데이터와 병합됩니다.
+  * Weave가 계산한 summary 데이터:
+    * `costs`: LLM 모델 사용 데이터와 token 가격 데이터를 기반으로 계산된 call의 총비용입니다. 비용 계산에 대한 자세한 내용은 [Track costs](/ko/weave/guides/tracking/costs)를 참조하세요.
+    * `latency_ms`: `started_at`와 `ended_at` 사이의 경과 시간을 밀리초 단위로 나타낸 값입니다. `status`가 `RUNNING`이면 `null`입니다.
+    * `status`: 실행 상태입니다: `SUCCESS`, `ERROR`, `RUNNING`, `DESCENDANT_ERROR`(즉, call 자체는 성공했지만 하위 call에서 오류가 발생했음을 의미). {/* [empty ref](/weave/reference/python-sdk/trace_server/trace_server_interface#class-tracestatus)*/}
 
 * W&amp;B와의 인테그레이션은 `wb_user_id` 및 `wb_run_id`를 통해 이루어집니다.
 
-이와 같이 포괄적인 속성 집합을 통해 프로젝트 전반에 걸친 함수 호출을 상세하게 추적하고 분석할 수 있습니다.
+이 포괄적인 속성 집합을 사용하면 프로젝트 전반에서 함수 call을 상세하게 추적하고 분석할 수 있습니다.

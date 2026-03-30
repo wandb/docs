@@ -10,8 +10,8 @@
         "tags": [
           "chat-completions"
         ],
-        "summary": "チャット補完を作成",
-        "description": "新しい chat completion を作成する",
+        "summary": "Chat Completionを作成",
+        "description": "新しいChat Completionを作成します。",
         "operationId": "create_chat_completion_v1_chat_completions__post",
         "requestBody": {
           "content": {
@@ -25,7 +25,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -57,8 +57,8 @@
         "tags": [
           "chat-completions"
         ],
-        "summary": "チャット補完を作成",
-        "description": "新しい chat completion を作成する",
+        "summary": "Chat Completionを作成",
+        "description": "新しいChat Completionを作成します。",
         "operationId": "create_chat_completion_v1_chat_completions_post",
         "requestBody": {
           "content": {
@@ -72,7 +72,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -105,7 +105,7 @@
           "models"
         ],
         "summary": "モデルを作成",
-        "description": "新しいモデルを作成する",
+        "description": "新しいモデルを作成します。",
         "operationId": "create_model_v1_preview_models_post",
         "requestBody": {
           "content": {
@@ -119,7 +119,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -151,7 +151,7 @@
         "tags": [
           "models"
         ],
-        "summary": "モデルのチェックポイントを一覧表示",
+        "summary": "モデル チェックポイントを一覧表示",
         "operationId": "list_model_checkpoints_v1_preview_models__model_id__checkpoints_get",
         "security": [
           {
@@ -174,10 +174,10 @@
             "required": false,
             "schema": {
               "type": "string",
-              "description": "前ページ最後のアイテムの ID を示すページネーション カーソル",
+              "description": "ページネーション用カーソル - 前のページの最後の項目のID",
               "title": "After"
             },
-            "description": "前ページ最後のアイテムの ID を示すページネーション カーソル"
+            "description": "ページネーション用カーソル - 前のページの最後の項目のID"
           },
           {
             "name": "limit",
@@ -187,11 +187,11 @@
               "type": "integer",
               "maximum": 100,
               "minimum": 1,
-              "description": "返却するアイテム数",
+              "description": "返される項目数",
               "default": 20,
               "title": "Limit"
             },
-            "description": "返却するアイテム数"
+            "description": "返される項目数"
           },
           {
             "name": "order",
@@ -203,16 +203,16 @@
                 "desc"
               ],
               "type": "string",
-              "description": "並び順",
+              "description": "並べ替え順",
               "default": "asc",
               "title": "Order"
             },
-            "description": "並び順"
+            "description": "並べ替え順"
           }
         ],
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -237,8 +237,8 @@
         "tags": [
           "models"
         ],
-        "summary": "モデルのチェックポイントを削除",
-        "description": "モデルの特定の チェックポイントを削除します。",
+        "summary": "モデル チェックポイントを削除",
+        "description": "モデルの特定のチェックポイントを削除します。",
         "operationId": "delete_model_checkpoints_v1_preview_models__model_id__checkpoints_delete",
         "security": [
           {
@@ -268,7 +268,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功応答",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -296,7 +296,7 @@
           "models"
         ],
         "summary": "モデルを削除",
-        "description": "この モデル、そのすべての チェックポイントと Artifacts、ならびに関連する W&B run を削除します。",
+        "description": "モデル、そのすべての checkpoint、Artifacts、および関連する W&B run を削除します。",
         "operationId": "delete_model_v1_preview_models__model_id__delete",
         "security": [
           {
@@ -316,7 +316,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功応答",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -344,7 +344,7 @@
           "models"
         ],
         "summary": "ログ",
-        "description": "トレースをログとして記録し、メトリクスを計算します。",
+        "description": "軌跡をログし、メトリクスを計算します。",
         "operationId": "log_v1_preview_models__model_id__log_post",
         "security": [
           {
@@ -374,7 +374,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功応答",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -399,8 +399,8 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "RL トレーニング ジョブを作成",
-        "description": "新しい RL（強化学習）トレーニング ジョブを作成します。",
+        "summary": "RLトレーニング ジョブを作成",
+        "description": "新しい RL（強化学習）トレーニングジョブを作成します。",
         "operationId": "Create_RL_Training_Job_v1_preview_training_jobs_post",
         "requestBody": {
           "content": {
@@ -414,7 +414,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功応答",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -446,7 +446,7 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "SFT トレーニング ジョブを作成",
+        "summary": "SFTトレーニング ジョブを作成",
         "description": "新しい SFT（教師ありファインチューニング）トレーニングジョブを作成します。",
         "operationId": "Create_SFT_Training_Job_v1_preview_sft_training_jobs_post",
         "requestBody": {
@@ -461,7 +461,7 @@
         },
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -493,7 +493,7 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "トレーニングジョブを取得",
+        "summary": "トレーニング ジョブを取得",
         "description": "ID でトレーニングジョブを取得します。",
         "operationId": "get_training_job_v1_preview_training_jobs__training_job_id__get",
         "security": [
@@ -514,7 +514,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -541,7 +541,7 @@
         "tags": [
           "training-jobs"
         ],
-        "summary": "トレーニング ジョブのイベントを取得する",
+        "summary": "トレーニング ジョブのイベントを取得",
         "description": "トレーニングジョブのイベントを取得します。",
         "operationId": "get_training_job_events_v1_preview_training_jobs__training_job_id__events_get",
         "security": [
@@ -565,10 +565,10 @@
             "required": false,
             "schema": {
               "type": "string",
-              "description": "ページネーション用のカーソル",
+              "description": "ページネーション用カーソル",
               "title": "After"
             },
-            "description": "ページネーション用のカーソル"
+            "description": "ページネーション用カーソル"
           },
           {
             "name": "limit",
@@ -587,7 +587,7 @@
         ],
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {
@@ -618,7 +618,7 @@
         "operationId": "health_check_v1_health_get",
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -634,11 +634,11 @@
           "health"
         ],
         "summary": "システムチェック",
-        "description": "すべてのシステムコンポーネントのヘルスチェックを実行します。\n\n戻り値:\n    次の状態を含む JSON:\n    - api: エンドポイントに到達可能であれば常に true\n    - database: DB 接続が正常に機能しているかどうか\n    - cpu_queue: 成否、処理時間、およびエラー情報\n    - gpu_queue: 成否、処理時間、およびエラー情報\n\nいずれかのチェックが失敗した場合は HTTP 503 を返します。",
+        "description": "すべてのシステム components のヘルスをチェックします。\n\n戻り値:\n    次のステータスを含む JSON:\n    - api: 常に true（エンドポイントに到達可能な場合）\n    - database: DB 接続が機能しているかどうか\n    - cpu_queue: 成功可否、所要時間、エラーがあればその内容\n    - gpu_queue: 成功可否、所要時間、エラーがあればその内容\n\nいずれかのチェックに失敗した場合は HTTP 503 を返します。",
         "operationId": "system_check_v1_system_check_get",
         "responses": {
           "200": {
-            "description": "成功時のレスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
                 "schema": {}
@@ -669,7 +669,7 @@
           "url_citation"
         ],
         "title": "Annotation",
-        "description": "Web 検索を使用する際の URL 出典情報。"
+        "description": "web search を使用する際の URL 引用。"
       },
       "AnnotationURLCitation": {
         "properties": {
@@ -699,7 +699,7 @@
           "url"
         ],
         "title": "AnnotationURLCitation",
-        "description": "Web 検索を使用する際の URL 出典情報。"
+        "description": "web search を使用する際の URL 引用。"
       },
       "Audio": {
         "properties": {
@@ -714,7 +714,7 @@
           "id"
         ],
         "title": "Audio",
-        "description": "モデルからの前回の音声レスポンスに関するデータです。\n[詳細はこちら](https://platform.openai.com/docs/guides/audio)。"
+        "description": "モデルからの過去のオーディオレスポンスに関するデータ。\n[詳細はこちら](https://platform.openai.com/docs/guides/audio)。"
       },
       "AudioURL": {
         "properties": {
@@ -840,7 +840,7 @@
           "role"
         ],
         "title": "ChatCompletionAssistantMessageParam",
-        "description": "ユーザー からのメッセージに対して モデル が返したメッセージです。"
+        "description": "ユーザーメッセージへの応答としてモデルが送信したメッセージ。"
       },
       "ChatCompletionAudio": {
         "properties": {
@@ -870,7 +870,7 @@
           "transcript"
         ],
         "title": "ChatCompletionAudio",
-        "description": "音声の出力モダリティが要求されている場合、このオブジェクトには モデル からの音声応答データが含まれます。\n[詳しくはこちら](https://platform.openai.com/docs/guides/audio)。"
+        "description": "オーディオ出力モダリティが要求された場合、このオブジェクトには\nモデルからのオーディオレスポンスに関するデータが含まれます。[詳細はこちら](https://platform.openai.com/docs/guides/audio)。"
       },
       "ChatCompletionContentPartAudioEmbedsParam": {
         "properties": {
@@ -995,7 +995,7 @@
           "type"
         ],
         "title": "ChatCompletionContentPartImageParam",
-        "description": "[画像入力](https://platform.openai.com/docs/guides/vision)について学ぶ。"
+        "description": "[画像入力](https://platform.openai.com/docs/guides/vision)について詳しくはこちら。"
       },
       "ChatCompletionContentPartInputAudioParam": {
         "properties": {
@@ -1015,7 +1015,7 @@
           "type"
         ],
         "title": "ChatCompletionContentPartInputAudioParam",
-        "description": "[音声入力](https://platform.openai.com/docs/guides/audio)について学ぶ。"
+        "description": "[オーディオ入力](https://platform.openai.com/docs/guides/audio)についてはこちらをご覧ください。"
       },
       "ChatCompletionContentPartRefusalParam": {
         "properties": {
@@ -1056,7 +1056,7 @@
           "type"
         ],
         "title": "ChatCompletionContentPartTextParam",
-        "description": "[テキスト入力](https://platform.openai.com/docs/guides/text-generation)について学ぶ。"
+        "description": "[テキスト入力](https://platform.openai.com/docs/guides/text-generation)についてはこちらをご覧ください。"
       },
       "ChatCompletionContentPartVideoParam": {
         "properties": {
@@ -1110,7 +1110,7 @@
           "role"
         ],
         "title": "ChatCompletionDeveloperMessageParam",
-        "description": "ユーザー から送信されたメッセージに関係なく、モデル が必ず従うべき、開発者が指定する指示です。o1 モデル 以降では、`developer` メッセージが、従来の `system` メッセージに置き換わります。"
+        "description": "ユーザーが送信したメッセージにかかわらず、モデルが従うべき開発者指定の指示です。o1 モデル以降では、`developer` メッセージが従来の `system` メッセージに置き換わります。"
       },
       "ChatCompletionFunctionMessageParam": {
         "properties": {
@@ -1162,7 +1162,7 @@
           "type"
         ],
         "title": "ChatCompletionFunctionToolParam",
-        "description": "応答を生成するために使用できる function ツールです。"
+        "description": "応答の生成に使用できる function tool です。"
       },
       "ChatCompletionLogProb": {
         "properties": {
@@ -1349,7 +1349,7 @@
           "role"
         ],
         "title": "ChatCompletionMessage",
-        "description": "モデル が生成した chat completion メッセージです。"
+        "description": "モデルによって生成された chat completion メッセージです。"
       },
       "ChatCompletionMessageCustomToolCall": {
         "properties": {
@@ -1374,7 +1374,7 @@
           "type"
         ],
         "title": "ChatCompletionMessageCustomToolCall",
-        "description": "モデル が作成したカスタム ツールへの呼び出しです。"
+        "description": "モデルによって作成されたカスタム tool への call です。"
       },
       "ChatCompletionMessageCustomToolCallParam": {
         "properties": {
@@ -1399,7 +1399,7 @@
           "type"
         ],
         "title": "ChatCompletionMessageCustomToolCallParam",
-        "description": "モデル が作成したカスタム ツールへの呼び出しです。"
+        "description": "モデルによって作成されたカスタム tool への call です。"
       },
       "ChatCompletionMessageFunctionToolCall": {
         "properties": {
@@ -1424,7 +1424,7 @@
           "type"
         ],
         "title": "ChatCompletionMessageFunctionToolCall",
-        "description": "モデルによって作成された function ツールの呼び出し。"
+        "description": "モデルによって作成された function tool への call です。"
       },
       "ChatCompletionMessageFunctionToolCallParam": {
         "properties": {
@@ -1449,7 +1449,7 @@
           "type"
         ],
         "title": "ChatCompletionMessageFunctionToolCallParam",
-        "description": "モデルによって作成された function ツールの呼び出し。"
+        "description": "モデルによって作成された function tool への call です。"
       },
       "ChatCompletionNamedFunction": {
         "properties": {
@@ -1931,25 +1931,25 @@
           "echo": {
             "type": "boolean",
             "title": "Echo",
-            "description": "true の場合、新しいメッセージが同じロールに属していれば、直前のメッセージに続けて追加されます。",
+            "description": "true の場合、同じロールに属していれば、新しいメッセージは直前のメッセージの前に追加されます。",
             "default": false
           },
           "add_generation_prompt": {
             "type": "boolean",
             "title": "Add Generation Prompt",
-            "description": "true の場合、生成用のプロンプトがチャットテンプレートに追加されます。これは、モデルの tokenizer 設定の chat template で使用されるパラメーターです。",
+            "description": "true の場合、生成プロンプトが chat template に追加されます。これは、モデルの tokenizer 設定内の chat template で使用されるパラメーターです。",
             "default": true
           },
           "continue_final_message": {
             "type": "boolean",
             "title": "Continue Final Message",
-            "description": "これが設定されている場合、チャット内の最後のメッセージが途中で終わるオープンエンドになり、EOS トークンが付与されないようにチャットがフォーマットされます。モデルは新しいメッセージを開始するのではなく、このメッセージを継続します。これにより、モデルの応答の一部をあらかじめ「prefill（プレフィル）」することができます。`add_generation_prompt` と同時には使用できません。",
+            "description": "これが設定されている場合、チャットは末尾のメッセージが EOS トークンなしの未完了の状態になるように整形されます。モデルは新しいメッセージを開始するのではなく、そのメッセージの続きを生成します。これにより、モデルの応答の一部を事前に埋めておくことができます。`add_generation_prompt` とは同時に使用できません。",
             "default": false
           },
           "add_special_tokens": {
             "type": "boolean",
             "title": "Add Special Tokens",
-            "description": "true の場合、チャットテンプレートによって追加される内容に加え、特別なトークン（例: BOS）がプロンプトに追加されます。ほとんどのモデルでは、チャットテンプレートが特別なトークンの追加を処理するため、この設定は false（デフォルト）のままにしておく必要があります。",
+            "description": "true の場合、chat template によって追加されるものに加えて、特殊トークン（例: BOS）もプロンプトに追加されます。ほとんどのモデルでは、特殊トークンの追加は chat template が処理するため、これは false に設定する必要があります（デフォルト値も false です）。",
             "default": false
           },
           "documents": {
@@ -1968,7 +1968,7 @@
               }
             ],
             "title": "Documents",
-            "description": "RAG（retrieval-augmented generation）を実行する際に、モデル から参照可能なドキュメントを表す dict のリストです。テンプレートが RAG をサポートしていない場合、この引数は効果はありません。各ドキュメントは \"title\" と \"text\" キーを含む dict とすることを推奨します。"
+            "description": "モデルが RAG（検索拡張生成）を実行する場合にアクセスできるドキュメントを表す dict のリストです。テンプレートが RAG をサポートしていない場合、この引数は効果を持ちません。各ドキュメントは、\"title\" キーと \"text\" キーを含む dict にすることを推奨します。"
           },
           "chat_template": {
             "anyOf": [
@@ -1980,7 +1980,7 @@
               }
             ],
             "title": "Chat Template",
-            "description": "この変換に使用する Jinja テンプレートです。transformers v4.44 以降ではデフォルトのチャットテンプレートは使用できないため、tokenizer がチャットテンプレートを定義していない場合は、チャットテンプレートを必ず指定する必要があります。"
+            "description": "この変換に使用する Jinja テンプレートです。transformers v4.44 以降ではデフォルトの chat template は使用できないため、tokenizer で chat template が定義されていない場合は、chat template を指定する必要があります。"
           },
           "chat_template_kwargs": {
             "anyOf": [
@@ -1993,7 +1993,7 @@
               }
             ],
             "title": "Chat Template Kwargs",
-            "description": "テンプレートレンダラーに渡される追加のキーワード引数です。チャットテンプレートから参照可能になります。"
+            "description": "テンプレート renderer に渡す追加のキーワード引数です。chat template からアクセスできます。"
           },
           "mm_processor_kwargs": {
             "anyOf": [
@@ -2006,7 +2006,7 @@
               }
             ],
             "title": "Mm Processor Kwargs",
-            "description": "HF プロセッサーに渡す追加のキーワード引数（kwargs）です。"
+            "description": "HF processor に渡す追加の kwargs です。"
           },
           "structured_outputs": {
             "anyOf": [
@@ -2017,18 +2017,18 @@
                 "type": "null"
               }
             ],
-            "description": "構造化出力用の追加のキーワード引数（kwargs）です。"
+            "description": "structured outputs 用の追加の kwargs です。"
           },
           "priority": {
             "type": "integer",
             "title": "Priority",
-            "description": "リクエストの優先度です（値が小さいほど早く処理されます。デフォルト: 0）。優先度が 0 以外の場合、指定した モデル が優先度付きスケジューリングを使用していなければエラーになります。",
+            "description": "リクエストの優先度です（値が小さいほど先に処理されます。デフォルト: 0）。Serve されたモデルが優先度スケジューリングを使用していない場合、0 以外の優先度を指定するとエラーになります。",
             "default": 0
           },
           "request_id": {
             "type": "string",
             "title": "Request Id",
-            "description": "このリクエストに関連付けられた request_id です。呼び出し元で設定しなかった場合は random_uuid が自動生成されます。この ID は推論処理全体を通して使用され、レスポンスにも含まれます。"
+            "description": "このリクエストに関連する request_id です。呼び出し元が設定しない場合は、random_uuid が生成されます。この ID は Inference プロセス全体を通じて使用され、Response で返されます。"
           },
           "logits_processors": {
             "anyOf": [
@@ -2050,7 +2050,7 @@
               }
             ],
             "title": "Logits Processors",
-            "description": "サンプリング時に適用する logits processor の修飾名、またはそのコンストラクターを表すオブジェクトのリストです。コンストラクターは JSON オブジェクトで、必須フィールドとしてプロセッサークラス／ファクトリの修飾名を指定する 'qualname' を持ち、さらに位置引数を含む 'args' フィールドおよびキーワード引数を含む 'kwargs' フィールドを任意で持ちます。例: {'qualname': 'my_module.MyLogitsProcessor', 'args': [1, 2], 'kwargs': {'param': 'value'}}。"
+            "description": "サンプリング時に適用する logits processor の完全修飾名、またはコンストラクター object の list です。コンストラクターは JSON object で、プロセッサークラスまたはファクトリーの完全修飾名を指定する必須の 'qualname' フィールドと、位置引数およびキーワード引数を含む省略可能な 'args' フィールドと 'kwargs' フィールドを持ちます。例: {'qualname': 'my_module.MyLogitsProcessor', 'args': [1, 2], 'kwargs': {'param': 'value'}}。"
           },
           "return_tokens_as_token_ids": {
             "anyOf": [
@@ -2062,7 +2062,7 @@
               }
             ],
             "title": "Return Tokens As Token Ids",
-            "description": "'logprobs' と一緒に指定した場合、トークンは 'token_id:{token_id}' という形式の文字列として表現されます。この形式により、JSON にエンコードできないトークンを識別できるようになります。"
+            "description": "'logprobs' を指定した場合、JSON にエンコードできない token を識別できるよう、token は 'token_id:{token_id}' 形式の文字列として表されます。"
           },
           "return_token_ids": {
             "anyOf": [
@@ -2074,7 +2074,7 @@
               }
             ],
             "title": "Return Token Ids",
-            "description": "指定した場合、生成されたテキストに加えてトークン ID が結果に含まれます。ストリーミングモードでは、prompt_token_ids は最初のチャンクにのみ含まれ、token_ids には各チャンクの差分トークンのみが含まれます。これはデバッグする際や、生成テキストを入力トークンにマッピングし直す必要がある場合に便利です。"
+            "description": "指定した場合、結果には生成されたテキストに加えて token ID も含まれます。ストリーミングモードでは、prompt_token_ids は最初の chunk にのみ含まれ、token_ids には各 chunk の差分 token が含まれます。これはデバッグ時や、生成テキストを入力 token に対応付ける必要がある場合に役立ちます。"
           },
           "cache_salt": {
             "anyOf": [
@@ -2086,7 +2086,7 @@
               }
             ],
             "title": "Cache Salt",
-            "description": "指定した場合、マルチユーザー環境で攻撃者にプロンプトを推測されないように、指定した文字列でプレフィックスキャッシュにソルトを付与します。ソルトはランダムで、第三者がアクセスできないよう保護され、かつ予測不可能な十分な長さである必要があります（例：256 ビットに相当する、43 文字の base64 エンコード文字列）。"
+            "description": "指定した場合、複数ユーザー環境で攻撃者がプロンプトを推測することを防ぐため、prefix cache に指定した文字列でソルトを追加します。ソルトはランダムで、第三者が access できないよう保護され、かつ予測不能であるのに十分な長さである必要があります（例: 256 bit に相当する、base64 エンコードで 43 文字）。"
           },
           "kv_transfer_params": {
             "anyOf": [
@@ -2099,7 +2099,7 @@
               }
             ],
             "title": "Kv Transfer Params",
-            "description": "分離型サービング用に使用される KVTransfer パラメーター。"
+            "description": "分離サービングに使用される KVTransfer パラメーター。"
           },
           "vllm_xargs": {
             "anyOf": [
@@ -2140,7 +2140,7 @@
               }
             ],
             "title": "Vllm Xargs",
-            "description": "カスタム拡張機能で使用される、値として文字列または数値（のリスト）を取る追加のリクエストパラメーター。"
+            "description": "custom 拡張機能で使用される、文字列または数値の値（またはその list）からなる追加の request パラメーター。"
           }
         },
         "additionalProperties": true,
@@ -2371,7 +2371,7 @@
           "role"
         ],
         "title": "ChatCompletionSystemMessageParam",
-        "description": "ユーザーが送信するメッセージに関わらず、モデルが必ず従うべき、開発者が提供する指示です。o1 系およびそれ以降のモデルでは、この目的には代わりに `developer` メッセージを使用してください。"
+        "description": "ユーザーが送信する messages に関係なく、モデルが従うべき開発者指定の指示です。o1 models 以降では、この用途には代わりに `developer` messages を使用してください。"
       },
       "ChatCompletionTokenLogprob": {
         "properties": {
@@ -2514,7 +2514,7 @@
           "role"
         ],
         "title": "ChatCompletionUserMessageParam",
-        "description": "エンドユーザーから送信される、プロンプトや追加のコンテキスト情報を含むメッセージ。"
+        "description": "プロンプトまたは追加のコンテキスト情報を含む、エンドユーザーが送信する messages。"
       },
       "ChatMessage": {
         "properties": {
@@ -2637,7 +2637,7 @@
           "metrics"
         ],
         "title": "CheckpointResponse",
-        "description": "チェックポイント応答のスキーマ。"
+        "description": "Checkpoint Response のスキーマ。"
       },
       "Choice": {
         "properties": {
@@ -2713,7 +2713,7 @@
         "additionalProperties": true,
         "type": "object",
         "title": "ChoiceLogprobs",
-        "description": "その選択肢に対するログ確率情報。"
+        "description": "この choice の対数確率情報。"
       },
       "Content": {
         "properties": {},
@@ -2730,7 +2730,7 @@
           "training_data_url": {
             "type": "string",
             "title": "Training Data Url",
-            "description": "トレーニングデータ用の W&B Artifacts パス (例: 'wandb-artifact:///entity/project/artifact-name:version')"
+            "description": "トレーニングデータ用の W&B artifact パス（例: 'wandb-artifact:///entity/project/artifact-name:version'）"
           },
           "config": {
             "anyOf": [
@@ -2761,7 +2761,7 @@
           "training_data_url"
         ],
         "title": "CreateSFTTrainingJob",
-        "description": "新しい SFT (Supervised Fine-Tuning) TrainingJob を作成するためのスキーマ。\n\nクライアントはトレーニングデータ (trajectories.jsonl と metadata.json) を W&B Artifacts にアップロードし、そのArtifactsの URL を指定する必要があります。"
+        "description": "新しい SFT（教師ありファインチューニング）TrainingJob を作成するためのスキーマ。\n\nクライアントはトレーニングデータ（trajectories.jsonl と metadata.json）を W&B Artifacts にアップロードし、artifact URL を指定する必要があります。"
       },
       "CreateTrainingJob": {
         "properties": {
@@ -2814,7 +2814,7 @@
           "name"
         ],
         "title": "Custom",
-        "description": "モデルが呼び出したカスタムツール。"
+        "description": "モデルが call した custom tool。"
       },
       "CustomChatCompletionContentSimpleAudioParam": {
         "properties": {
@@ -2833,7 +2833,7 @@
         "additionalProperties": true,
         "type": "object",
         "title": "CustomChatCompletionContentSimpleAudioParam",
-        "description": "単純な audio_url のみを受け付ける、より簡略化されたパラメーター版です。\n\n例:\n{\n    \"audio_url\": \"https://example.com/audio.mp3\"\n}"
+        "description": "プレーンな audio_url のみを accepts する、このパラメーターのよりシンプルなバージョンです。\n\n例:\n{\n    \"audio_url\": \"https://example.com/audio.mp3\"\n}"
       },
       "CustomChatCompletionContentSimpleImageParam": {
         "properties": {
@@ -2863,7 +2863,7 @@
         "additionalProperties": true,
         "type": "object",
         "title": "CustomChatCompletionContentSimpleImageParam",
-        "description": "単純な image_url のみを受け付ける、より簡略化されたパラメーター版です。\nこれは OpenAI API でサポートされていますが、ドキュメント化されていません。\n\n例:\n{\n    \"image_url\": \"https://example.com/image.jpg\"\n}"
+        "description": "プレーンな image_url のみを受け付ける、よりシンプルなパラメーターです。\nこれは OpenAI API でサポートされていますが、ドキュメントには記載されていません。\n\n例:\n{\n    \"image_url\": \"https://example.com/image.jpg\"\n}"
       },
       "CustomChatCompletionContentSimpleVideoParam": {
         "properties": {
@@ -2893,7 +2893,7 @@
         "additionalProperties": true,
         "type": "object",
         "title": "CustomChatCompletionContentSimpleVideoParam",
-        "description": "プレーンな audio_url のみを受け取る、よりシンプルなバージョンのパラメーターです。\n\n例:\n{\n    \"video_url\": \"https://example.com/video.mp4\"\n}"
+        "description": "プレーンな audio_url のみを受け付ける、よりシンプルなパラメーターです。\n\n例:\n{\n    \"video_url\": \"https://example.com/video.mp4\"\n}"
       },
       "CustomChatCompletionMessageParam": {
         "properties": {
@@ -3019,7 +3019,7 @@
           "role"
         ],
         "title": "CustomChatCompletionMessageParam",
-        "description": "Chat Completions API でカスタムロールを有効にします。"
+        "description": "Chat Completion API でカスタムロールを有効にします。"
       },
       "CustomThinkCompletionContentParam": {
         "properties": {
@@ -3044,7 +3044,7 @@
           "type"
         ],
         "title": "CustomThinkCompletionContentParam",
-        "description": "プレーンテキストとブール値を受け取る Think Completion content パラメーターです。\n\n例:\n{\n    \"thinking\": \"I am thinking about the answer\",\n    \"closed\": True,\n    \"type\": \"thinking\"\n}"
+        "description": "プレーンテキストとブール値を受け付ける Think Completion Content パラメーターです。\n\n例:\n{\n    \"thinking\": \"I am thinking about the answer\",\n    \"closed\": True,\n    \"type\": \"thinking\"\n}"
       },
       "DeleteCheckpointsRequest": {
         "properties": {
@@ -3061,7 +3061,7 @@
           "steps"
         ],
         "title": "DeleteCheckpointsRequest",
-        "description": "チェックポイントを削除するためのスキーマです。"
+        "description": "チェックポイント削除用のスキーマ。"
       },
       "DeleteCheckpointsResponse": {
         "properties": {
@@ -3083,7 +3083,7 @@
           "not_found_steps"
         ],
         "title": "DeleteCheckpointsResponse",
-        "description": "チェックポイント削除レスポンス用のスキーマです。"
+        "description": "チェックポイント削除レスポンスのスキーマ。"
       },
       "DeleteModelResponse": {
         "properties": {
@@ -3108,7 +3108,7 @@
           "deleted_run"
         ],
         "title": "DeleteModelResponse",
-        "description": "モデル削除レスポンス用のスキーマです。"
+        "description": "モデル削除レスポンスのスキーマ。"
       },
       "ExperimentalTrainingConfig": {
         "properties": {
@@ -3242,7 +3242,7 @@
         },
         "type": "object",
         "title": "ExperimentalTrainingConfig",
-        "description": "実験的なトレーニング設定用のスキーマです。"
+        "description": "実験的なトレーニング設定のスキーマ。"
       },
       "File": {
         "properties": {
@@ -3262,7 +3262,7 @@
           "type"
         ],
         "title": "File",
-        "description": "テキスト生成のための [file inputs](https://platform.openai.com/docs/guides/text) については、こちらを参照してください。"
+        "description": "テキスト生成の [file inputs](https://platform.openai.com/docs/guides/text) について確認してください。"
       },
       "FileFile": {
         "properties": {
@@ -3301,7 +3301,7 @@
           "name"
         ],
         "title": "Function",
-        "description": "モデルによって呼び出された関数。"
+        "description": "モデルが呼び出した関数。"
       },
       "FunctionCall-Input": {
         "properties": {
@@ -3321,7 +3321,7 @@
           "name"
         ],
         "title": "FunctionCall",
-        "description": "非推奨で、`tool_calls` に置き換えられました。\n\nモデルによって生成される、呼び出すべき関数の名前と引数。"
+        "description": "非推奨となり、`tool_calls` に置き換えられました。\n\nモデルによって生成された、呼び出す関数の名と引数。"
       },
       "FunctionCall-Output": {
         "properties": {
@@ -3583,7 +3583,7 @@
           "trajectory_groups"
         ],
         "title": "LogRequest",
-        "description": "ルートをログするためのスキーマ。"
+        "description": "trajectory をログするためのスキーマ。"
       },
       "LogitsProcessorConstructor": {
         "properties": {
@@ -3722,7 +3722,7 @@
               }
             ],
             "title": "Entity",
-            "description": "使用している W&B API キー に紐づく開発者の Team 名またはユーザー名",
+            "description": "使用している W&B APIキー に対応する開発者の Teams またはユーザー名",
             "examples": [
               "my-team"
             ]
@@ -3730,7 +3730,7 @@
           "project": {
             "type": "string",
             "title": "Project",
-            "description": "モデルを保存する先の W&B 内のプロジェクト名",
+            "description": "モデルの保存先となる W&B のプロジェクト名",
             "examples": [
               "my-awesome-project"
             ]
@@ -3738,7 +3738,7 @@
           "name": {
             "type": "string",
             "title": "Name",
-            "description": "プロジェクト内でのモデルの一意な名前",
+            "description": "プロジェクト内でモデルを一意に識別する名",
             "examples": [
               "my-awesome-model"
             ]
@@ -3746,7 +3746,7 @@
           "base_model": {
             "type": "string",
             "title": "Base Model",
-            "description": "ファインチューニング元となるベースモデルの識別子、または Hugging Face モデルパス",
+            "description": "ファインチューニング元のベースモデル識別子、または HuggingFace モデルパス",
             "examples": [
               "OpenPipe/Qwen3-14B-Instruct"
             ]
@@ -3754,7 +3754,7 @@
           "return_existing": {
             "type": "boolean",
             "title": "Return Existing",
-            "description": "true の場合、同じ名前のモデルがすでに存在していれば新規作成せず、その既存モデルを返します",
+            "description": "true の場合、同じ名のモデルがすでに存在していれば、新規作成する代わりに既存のモデルを返します",
             "default": false
           }
         },
@@ -3811,14 +3811,14 @@
           "base_model"
         ],
         "title": "ModelResponse",
-        "description": "モデル応答用のスキーマ。"
+        "description": "モデルレスポンスのスキーマ。"
       },
       "PaginatedResponse_CheckpointResponse_": {
         "properties": {
           "object": {
             "type": "string",
             "title": "Object",
-            "description": "オブジェクト種別の識別子",
+            "description": "オブジェクトのタイプ識別子",
             "default": "list"
           },
           "data": {
@@ -3827,24 +3827,24 @@
             },
             "type": "array",
             "title": "Data",
-            "description": "要素の配列"
+            "description": "項目の配列"
           },
           "first_id": {
             "type": "string",
             "title": "First Id",
-            "description": "このページでの最初のアイテムの ID",
+            "description": "現在のページの最初の項目の ID",
             "default": ""
           },
           "last_id": {
             "type": "string",
             "title": "Last Id",
-            "description": "このページでの最後のアイテムの ID",
+            "description": "現在のページの最後の項目の ID",
             "default": ""
           },
           "has_more": {
             "type": "boolean",
             "title": "Has More",
-            "description": "さらにアイテムが存在するかどうか"
+            "description": "利用可能な項目がさらにあるかどうか"
           }
         },
         "type": "object",
@@ -3859,7 +3859,7 @@
           "object": {
             "type": "string",
             "title": "Object",
-            "description": "オブジェクトタイプの識別子",
+            "description": "オブジェクトのタイプ識別子",
             "default": "list"
           },
           "data": {
@@ -3868,24 +3868,24 @@
             },
             "type": "array",
             "title": "Data",
-            "description": "アイテムの配列"
+            "description": "項目の配列"
           },
           "first_id": {
             "type": "string",
             "title": "First Id",
-            "description": "このページでの最初のアイテムの ID",
+            "description": "現在のページの最初の項目の ID",
             "default": ""
           },
           "last_id": {
             "type": "string",
             "title": "Last Id",
-            "description": "このページでの最後のアイテムの ID",
+            "description": "現在のページの最後の項目の ID",
             "default": ""
           },
           "has_more": {
             "type": "boolean",
             "title": "Has More",
-            "description": "さらにアイテムが存在するかどうか"
+            "description": "利用可能な項目がさらにあるかどうか"
           }
         },
         "type": "object",
@@ -3952,7 +3952,7 @@
           "tool"
         ],
         "title": "Role",
-        "description": "メッセージ作成者のロール（`chat::Role` を反映）。"
+        "description": "メッセージ作成者のロール（``chat::Role`` を反映）。"
       },
       "SFTTrainingConfig": {
         "properties": {
@@ -3991,7 +3991,7 @@
         },
         "type": "object",
         "title": "SFTTrainingConfig",
-        "description": "SFT トレーニング設定用スキーマ。"
+        "description": "SFT トレーニング設定のスキーマ。"
       },
       "StreamOptions": {
         "properties": {
@@ -4243,7 +4243,7 @@
           "data"
         ],
         "title": "TrainingJobEventResponse",
-        "description": "TrainingJob 応答スキーマ。"
+        "description": "TrainingJobEvent レスポンスのスキーマ。"
       },
       "TrainingJobEventType": {
         "type": "string",
@@ -4254,7 +4254,7 @@
           "training_failed"
         ],
         "title": "TrainingJobEventType",
-        "description": "トレーニング ジョブのイベント種別を表す列挙体。"
+        "description": "TrainingJob のイベントタイプを表す列挙型。"
       },
       "TrainingJobResponse": {
         "properties": {
@@ -4269,7 +4269,7 @@
           "id"
         ],
         "title": "TrainingJobResponse",
-        "description": "TrainingJob 応答スキーマ。"
+        "description": "TrainingJobレスポンスのスキーマ。"
       },
       "Trajectory": {
         "properties": {

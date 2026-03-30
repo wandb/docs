@@ -3,18 +3,18 @@ title: "Perte de données de trace dans les processus worker"
 keywords: ["Données de trace", "Performances"]
 ---
 
-Weave téléverse les données de trace dans des threads d’arrière-plan afin de minimiser l’impact sur les performances de votre application. Cependant, lorsque vous utilisez un système multiprocessus, une file d&#39;attente de tâches ou des processus worker comme Celery, les données de trace seront perdues si le processus worker se termine avant que les threads d’arrière-plan aient fini de téléverser les traces.
+Weave envoie les données de trace dans des threads d&#39;arrière-plan afin de minimiser l&#39;impact sur les performances de votre application. Cependant, lorsque vous utilisez un système multiprocessus, une file d&#39;attente de tâches ou des processus worker comme Celery, Weave perd des données de trace si le processus worker se termine avant que les threads d&#39;arrière-plan n&#39;aient fini d&#39;envoyer les traces.
 
-Pour éviter la perte de données dans les processus worker, vous devez vous assurer que les téléversements en arrière-plan sont terminés en appelant `client.flush()` ou `client.finish()` avant la fin de la tâche worker.
+Pour éviter la perte de données dans les processus worker, vous devez vous assurer que les envois en arrière-plan sont terminés en appelant `client.flush()` ou `client.finish()` avant la fin de la tâche du worker. Cela est utile lorsque vous travaillez dans des environnements éphémères comme [AWS Lambda](https://aws.amazon.com/lambda/), [Google Cloud Run](https://cloud.google.com/run) ou des notebooks qui se ferment juste après l&#39;exécution.
 
 Ces méthodes ont des objectifs différents :
 
-* `weave.flush()` : Vidage simple et silencieux. Recommandé lorsque Weave est intégré à des processus worker ou à des environnements CI.
-* `weave.finish()` : Inclut un indicateur de progression, sous la forme d’une barre de progression ou de callbacks de statut. Recommandé pour les scripts interactifs ou les notebooks.
+* `weave.flush()`: Vidage simple et silencieux. Recommandé lorsque Weave est intégré à des processus worker ou à des environnements CI.
+* `weave.finish()`: Inclut un suivi de progression avec une barre de progression ou des callbacks de statut. Recommandé pour les scripts ou notebooks interactifs.
 
-Les deux méthodes bloquent jusqu’à ce que tous les téléversements en arrière-plan soient terminés, ce qui garantit qu’aucune donnée de trace n’est perdue lorsque le processus worker se termine.
+Les deux méthodes bloquent jusqu&#39;à ce que tous les envois en arrière-plan soient terminés, ce qui garantit qu&#39;aucune donnée de trace n&#39;est perdue lorsque le processus worker se termine.
 
-L’exemple suivant illustre `client.finish()` :
+L&#39;exemple suivant montre `client.finish()` :
 
 ```python
 from celery import Celery
@@ -30,7 +30,7 @@ def process_task(input_data):
         # La logique de votre tâche qui crée des traces
         result = your_processing_function(input_data)
 
-        # S'assurer que toutes les traces sont téléversées avant la fin de la tâche
+        # S'assurer que toutes les traces sont envoyées avant la fin de la tâche
         weave.finish()
 
         return result
@@ -38,7 +38,7 @@ def process_task(input_data):
         pass
 ```
 
-Vous pouvez aussi utiliser le gestionnaire de contexte `with` pour appeler automatiquement `weave.finish()` en quittant le contexte :
+Vous pouvez aussi utiliser le gestionnaire de contexte `with` pour appeler automatiquement `weave.finish()` à la fin du bloc :
 
 ```python
 with weave.init("your-team-name/your-project-name") as client:
@@ -47,15 +47,15 @@ with weave.init("your-team-name/your-project-name") as client:
     return result
 ```
 
-Vous pouvez également améliorer les performances de votre application grâce à `weave.flush()`. Voir [Flushing](/fr/support/weave/articles/long-eval-clean-up-times) pour plus d’informations.
+Vous pouvez également améliorer les performances de votre application grâce à `weave.flush()`. Voir [Flushing](/fr/support/weave/articles/long-eval-clean-up-times) pour en savoir plus.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Données de trace](/fr/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: tab badges ---- */}

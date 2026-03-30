@@ -11,11 +11,11 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Runs`
 
-特定のプロジェクトおよび任意のフィルターに関連付けられた `Run` オブジェクトの遅延評価イテレーターです。
+プロジェクトと任意のフィルターに関連付けられた `Run` オブジェクトを返す遅延イテレーターです。
 
-Runs は必要に応じて W&B サーバーからページごとに取得されます。
+Runs は必要に応じて、W&amp;B サーバーからページ単位で取得されます。
 
-通常は `Api.runs` 名前空間経由で間接的に使用されます。
+通常は、`Api.runs` 名前空間を通じて間接的に使用されます。
 
 ### <kbd>method</kbd> `Runs.__init__`
 
@@ -37,20 +37,20 @@ __init__(
 
 * `client`:  (`wandb.apis.public.RetryingClient`) リクエストに使用する API クライアント。
 * `entity`:  (str) プロジェクトを所有する entity (ユーザー名またはチーム) 。
-* `project`:  (str) run を取得する対象のプロジェクト名。
+* `project`:  (str) run を取得するプロジェクトの名。
 * `filters`:  (Optional[Dict[str, Any]]) run のクエリに適用するフィルターの辞書。
-* `order`:  (str) 並び順。`created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できる。order の前に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になる。デフォルトの並び順は、最も古いものから新しいものへの `run.created&#95;at`。
+* `order`:  (str) `created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できます。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。デフォルトの並び順は `run.created&#95;at` で、古いものから新しいものへ並びます。
 * `per_page`:  (int) リクエストごとに取得する run の数 (デフォルトは 50) 。
-* `include_sweeps`:  (bool) run に sweep 情報を含めるかどうか。デフォルトは True。
+* `include_sweeps`:  (bool) run に sweep 情報を含めるかどうか。デフォルトは True です。
 
 ***
 
 
-### <kbd>property</kbd> Runs.length
+### <kbd>プロパティ</kbd> Runs.length
 
----
+***
 
-### <kbd>メソッド</kbd> `Runs.histories`
+### <kbd>method</kbd> `Runs.histories`
 
 ```python
 histories(
@@ -62,21 +62,21 @@ histories(
 ) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
 ```
 
-フィルター条件を満たすすべての run のサンプリングされた履歴メトリクスを返します。
+フィルター条件に一致するすべての run について、サンプリングされた履歴メトリクスを返します。
 
 **引数:**
 
-* `samples`:  run ごとに返すサンプル数
-* `keys`:  特定のキーに対するメトリクスのみを返します
-* `x_axis`:  このメトリクスを x 軸として使用します。デフォルトは &#95;step です
-* `format`:  返却データの形式。オプションは &quot;default&quot;、&quot;pandas&quot;、&quot;polars&quot; です
+* `samples`:  各 run について返すサンプル数
+* `keys`:  指定したキーのメトリクスのみを返します
+* `x_axis`:  このメトリクスを xAxis として使用します。デフォルトは &#95;step です
+* `format`:  返すデータの形式です。指定できる値は &quot;default&quot;、&quot;pandas&quot;、&quot;polars&quot; です
 * `stream`:  メトリクスには &quot;default&quot;、マシンメトリクスには &quot;system&quot; を指定します
 
 **戻り値:**
 
-* `pandas.DataFrame`:  `format="pandas"` の場合、履歴メトリクスを含む `pandas.DataFrame` を返します。
-* `polars.DataFrame`:  `format="polars"` の場合、履歴メトリクスを含む `polars.DataFrame` を返します。
-* `list of dicts`:  `format="default"` の場合、`run_id` キーを含む履歴メトリクスの dict のリストを返します。
+* `pandas.DataFrame`:  `format="pandas"` の場合、履歴メトリクスを含む `pandas.DataFrame`  を返します。
+* `polars.DataFrame`:  `format="polars"` の場合、履歴メトリクスを含む `polars.DataFrame`  を返します。
+* `list of dicts`:  `format="default"` の場合、`run_id` キーを含む履歴メトリクスを格納した dict のリスト  を返します。
 
 ***
 
@@ -87,6 +87,6 @@ histories(
 upgrade_to_full() → None
 ```
 
-この Runs コレクションを lazy モードから full モードにアップグレードします。
+この Runs コレクションを 遅延 モードから full モードにアップグレードします。
 
-これにより、完全な run データの取得に切り替え、すでに読み込まれている Run オブジェクトも完全なデータを持つようにアップグレードします。複数の run をアップグレードする場合は、パフォーマンス向上のために並列でロードします。
+これにより、完全な run データを取得するように切り替わり、すでに読み込まれている Run オブジェクトも完全なデータを持つようになります。複数の run をアップグレードする場合は、パフォーマンス向上のために並列読み込みを使用します。

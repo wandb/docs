@@ -3,17 +3,17 @@ title: int
 ---
 
 <div id="chainable-ops">
-  ## Ops enchaînables
+  ## Ops chaînables
 </div>
 
 ### <a id="number-notEqual" />`number-notEqual`
 
-Détermine si deux valeurs sont différentes.
+Détermine si deux valeurs sont inégales.
 
 | Argument | Description                    |
 | :------- | :----------------------------- |
 | `lhs`    | La première valeur à comparer. |
-| `rhs`    | La deuxième valeur à comparer.  |
+| `rhs`    | La deuxième valeur à comparer. |
 
 <div id="return-value">
   #### Valeur de retour
@@ -23,12 +23,12 @@ Indique si les deux valeurs sont différentes.
 
 ### <a id="number-modulo" />`number-modulo`
 
-Diviser un nombre par un autre et renvoyer le reste
+Divise un [nombre](/fr/models/ref/query-panel/number/) par un autre et renvoie le reste de la division
 
-| Argument | Description                                                   |
-| :------- | :------------------------------------------------------------ |
-| `lhs`    | nombre à diviser           |
-| `rhs`    | nombre par lequel diviser |
+| Argument | Description                                                  |
+| :------- | :----------------------------------------------------------- |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à diviser          |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) par lequel diviser |
 
 <div id="return-value">
   #### Valeur de retour
@@ -40,10 +40,10 @@ Modulo de deux [nombres](/fr/models/ref/query-panel/number/)
 
 Multiplie deux [nombres](/fr/models/ref/query-panel/number/)
 
-| Argument | Description                                        |
-| :------- | :------------------------------------------------- |
-| `lhs`    | Premier [nombre](/fr/models/ref/query-panel/number/)  |
-| `rhs`    | Deuxième [nombre](/fr/models/ref/query-panel/number/) |
+| Argument | Description                                       |
+| :------- | :------------------------------------------------ |
+| `lhs`    | Premier [nombre](/fr/models/ref/query-panel/number/) |
+| `rhs`    | Second [nombre](/fr/models/ref/query-panel/number/)  |
 
 <div id="return-value">
   #### Valeur de retour
@@ -53,22 +53,22 @@ Produit de deux [nombres](/fr/models/ref/query-panel/number/)
 
 ### <a id="number-powBinary" />`number-powBinary`
 
-Élever un nombre à une puissance
+Élever un [nombre](/fr/models/ref/query-panel/number/) à une puissance
 
 | Argument | Description                                        |
 | :------- | :------------------------------------------------- |
-| `lhs`    | nombre de base  |
-| `rhs`    | Exposant nombre |
+| `lhs`    | Base [nombre](/fr/models/ref/query-panel/number/)     |
+| `rhs`    | Exposant [nombre](/fr/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Les nombres de base élevés à la puissance n
+Le [nombre](/fr/models/ref/query-panel/number/) de base élevé à la puissance n
 
 ### <a id="number-add" />`number-add`
 
-Additionner deux [nombres](/fr/models/ref/query-panel/number/)
+Addition de deux [nombres](/fr/models/ref/query-panel/number/)
 
 | Argument | Description                                        |
 | :------- | :------------------------------------------------- |
@@ -83,12 +83,12 @@ Somme de deux [nombres](/fr/models/ref/query-panel/number/)
 
 ### <a id="number-sub" />`number-sub`
 
-Soustrait un [nombre](/fr/models/ref/query-panel/number/) à un autre
+Soustrait un [nombre](/fr/models/ref/query-panel/number/) d’un autre
 
-| Argument | Description                                                 |
-| :------- | :---------------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) duquel soustraire |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) à soustraire      |
+| Argument | Description                                                   |
+| :------- | :------------------------------------------------------------ |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) duquel on soustrait |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) à soustraire        |
 
 <div id="return-value">
   #### Valeur de retour
@@ -100,10 +100,10 @@ Différence entre deux [nombres](/fr/models/ref/query-panel/number/)
 
 Divise un [nombre](/fr/models/ref/query-panel/number/) par un autre
 
-| Argument | Description                                             |
-| :------- | :------------------------------------------------------ |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à diviser     |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) par lequel diviser |
+| Argument | Description                                                   |
+| :------- | :------------------------------------------------------------ |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à diviser           |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) servant de diviseur |
 
 <div id="return-value">
   #### Valeur de retour
@@ -113,27 +113,27 @@ Quotient de deux [nombres](/fr/models/ref/query-panel/number/)
 
 ### <a id="number-less" />`number-less`
 
-Vérifie si un nombre est inférieur à un autre
+Vérifie si un [nombre](/fr/models/ref/query-panel/number/) est inférieur à un autre
 
-| Argument | Description                                              |
-| :------- | :------------------------------------------------------- |
-| `lhs`    | nombre à comparer     |
-| `rhs`    | nombre auquel le comparer |
+| Argument | Description                                            |
+| :------- | :----------------------------------------------------- |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer   |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) de référence |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Indique si le premier nombre est inférieur au deuxième
+Indique si le premier [nombre](/fr/models/ref/query-panel/number/) est inférieur au deuxième
 
 ### <a id="number-lessEqual" />`number-lessEqual`
 
 Vérifie si un [nombre](/fr/models/ref/query-panel/number/) est inférieur ou égal à un autre
 
-| Argument | Description                                                  |
-| :------- | :----------------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer         |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) auquel le comparer |
+| Argument | Description                                            |
+| :------- | :----------------------------------------------------- |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer   |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) de référence |
 
 <div id="return-value">
   #### Valeur de retour
@@ -154,45 +154,45 @@ Détermine si deux valeurs sont égales.
   #### Valeur de retour
 </div>
 
-Indique si les deux valeurs sont égales.
+Vrai si les deux valeurs sont égales.
 
 ### <a id="number-greater" />`number-greater`
 
 Vérifie si un [nombre](/fr/models/ref/query-panel/number/) est supérieur à un autre
 
-| Argument | Description                                                  |
-| :------- | :----------------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer         |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) auquel le comparer |
+| Argument | Description                                              |
+| :------- | :------------------------------------------------------- |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer     |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) de comparaison |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-indiquer si le premier nombre est supérieur au deuxième
+Indique si le premier [nombre](/fr/models/ref/query-panel/number/) est supérieur au second
 
 ### <a id="number-greaterEqual" />`number-greaterEqual`
 
-Vérifie si un nombre est supérieur ou égal à un autre
+Vérifie si un [nombre](/fr/models/ref/query-panel/number/) est supérieur ou égal à un autre
 
-| Argument | Description                                                  |
-| :------- | :----------------------------------------------------------- |
-| `lhs`    | nombre à comparer         |
-| `rhs`    | nombre auquel le comparer |
+| Argument | Description                                                    |
+| :------- | :------------------------------------------------------------- |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer           |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) avec lequel comparer |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Indique si le premier [nombre](/fr/models/ref/query-panel/number/) est supérieur ou égal au second
+Si le premier [nombre](/fr/models/ref/query-panel/number/) est supérieur ou égal au second
 
 ### <a id="number-negate" />`number-negate`
 
-Inverser le signe d’un [nombre](/fr/models/ref/query-panel/number/)
+Inverse le signe d’un [nombre](/fr/models/ref/query-panel/number/)
 
-| Argument | Description                               |
-| :------- | :---------------------------------------- |
-| `val`    | Nombre dont il faut inverser le signe |
+| Argument | Description       |
+| :------- | :---------------- |
+| `val`    | Nombre à inverser |
 
 <div id="return-value">
   #### Valeur de retour
@@ -202,25 +202,29 @@ Un [nombre](/fr/models/ref/query-panel/number/)
 
 ### <a id="number-toString" />`number-toString`
 
-Convertit un [nombre](/fr/models/ref/query-panel/number/) en chaîne de caractères
+Convertir un [nombre](/fr/models/ref/query-panel/number/) en chaîne de caractères
 
 | Argument | Description        |
 | :------- | :----------------- |
 | `in`     | Nombre à convertir |
 
-#### valeur de retour
+<div id="return-value">
+  #### Valeur de retour
+</div>
 
-représentation textuelle du nombre
+Représentation sous forme de chaîne de [nombre](/fr/models/ref/query-panel/number/)
 
 ### <a id="number-toTimestamp" />`number-toTimestamp`
 
-Convertit un [nombre](/fr/models/ref/query-panel/number/) en *horodatage*. Les valeurs inférieures à 31536000000 sont converties en secondes, celles inférieures à 31536000000000 en millisecondes, celles inférieures à 31536000000000000 en microsecondes et celles inférieures à 31536000000000000000 en nanosecondes.
+Convertit un [nombre](/fr/models/ref/query-panel/number/) en *horodatage*. Les valeurs inférieures à 31536000000 sont converties en secondes, celles inférieures à 31536000000000 en millisecondes, celles inférieures à 31536000000000000 en microsecondes, et celles inférieures à 31536000000000000000 en nanosecondes.
 
-| Argument | Description                      |
-| :------- | :------------------------------- |
+| Argument | Description                     |
+| :------- | :------------------------------ |
 | `val`    | Nombre à convertir en horodatage |
 
-#### valeur de retour
+<div id="return-value">
+  #### Valeur de retour
+</div>
 
 Horodatage
 
@@ -255,16 +259,16 @@ Détermine si deux valeurs sont différentes.
   #### Valeur de retour
 </div>
 
-Indique si les deux valeurs sont différentes.
+Vrai si les deux valeurs sont différentes.
 
 ### <a id="number-modulo" />`number-modulo`
 
 Divise un [nombre](/fr/models/ref/query-panel/number/) par un autre et renvoie le reste
 
-| Argument | Description                                                  |
-| :------- | :----------------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à diviser          |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) par lequel diviser |
+| Argument | Description                                                   |
+| :------- | :------------------------------------------------------------ |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à diviser           |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) servant de diviseur |
 
 <div id="return-value">
   #### Valeur de retour
@@ -293,18 +297,18 @@ Produit de deux [nombres](/fr/models/ref/query-panel/number/)
 
 | Argument | Description                                        |
 | :------- | :------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) de base  |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) exposant |
+| `lhs`    | Base [nombre](/fr/models/ref/query-panel/number/)     |
+| `rhs`    | Exposant [nombre](/fr/models/ref/query-panel/number/) |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Les [nombres](/fr/models/ref/query-panel/number/) de base portés à la puissance n
+Les [nombres](/fr/models/ref/query-panel/number/) de base élevés à la puissance n
 
 ### <a id="number-add" />`number-add`
 
-Additionnez deux [nombres](/fr/models/ref/query-panel/number/)
+Additionne deux [nombres](/fr/models/ref/query-panel/number/)
 
 | Argument | Description                                        |
 | :------- | :------------------------------------------------- |
@@ -323,7 +327,7 @@ Soustrait un [nombre](/fr/models/ref/query-panel/number/) à un autre
 
 | Argument | Description                                                 |
 | :------- | :---------------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) auquel soustraire |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) duquel soustraire |
 | `rhs`    | [nombre](/fr/models/ref/query-panel/number/) à soustraire      |
 
 <div id="return-value">
@@ -334,12 +338,12 @@ Différence entre deux [nombres](/fr/models/ref/query-panel/number/)
 
 ### <a id="number-div" />`number-div`
 
-Divise un [nombre](/fr/models/ref/query-panel/number/) par un autre
+Diviser un [nombre](/fr/models/ref/query-panel/number/) par un autre
 
-| Argument | Description                                                  |
-| :------- | :----------------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à diviser          |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) par lequel diviser |
+| Argument | Description                                                   |
+| :------- | :------------------------------------------------------------ |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à diviser           |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) servant de diviseur |
 
 <div id="return-value">
   #### Valeur de retour
@@ -351,31 +355,31 @@ Quotient de deux [nombres](/fr/models/ref/query-panel/number/)
 
 Vérifie si un [nombre](/fr/models/ref/query-panel/number/) est inférieur à un autre
 
-| Argument | Description                                                   |
-| :------- | :------------------------------------------------------------ |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer          |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) auquel le comparer |
+| Argument | Description                                            |
+| :------- | :----------------------------------------------------- |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer   |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer à |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Indique si le premier [nombre](/fr/models/ref/query-panel/number/) est inférieur au deuxième
+Indique si le premier [nombre](/fr/models/ref/query-panel/number/) est inférieur au second
 
 ### <a id="number-lessEqual" />`number-lessEqual`
 
 Vérifie si un [nombre](/fr/models/ref/query-panel/number/) est inférieur ou égal à un autre
 
-| Argument | Description                                                  |
-| :------- | :----------------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer         |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) auquel le comparer |
+| Argument | Description                                                    |
+| :------- | :------------------------------------------------------------- |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer           |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) avec lequel comparer |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Indique si le premier [nombre](/fr/models/ref/query-panel/number/) est inférieur ou égal au deuxième
+Indique si le premier [nombre](/fr/models/ref/query-panel/number/) est inférieur ou égal au second.
 
 ### <a id="number-equal" />`number-equal`
 
@@ -396,10 +400,10 @@ Indique si les deux valeurs sont égales.
 
 Vérifie si un [nombre](/fr/models/ref/query-panel/number/) est supérieur à un autre
 
-| Argument | Description                                                  |
-| :------- | :----------------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer         |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) auquel le comparer |
+| Argument | Description                                            |
+| :------- | :----------------------------------------------------- |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer   |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) de référence |
 
 <div id="return-value">
   #### Valeur de retour
@@ -411,10 +415,10 @@ Indique si le premier [nombre](/fr/models/ref/query-panel/number/) est supérieu
 
 Vérifie si un [nombre](/fr/models/ref/query-panel/number/) est supérieur ou égal à un autre
 
-| Argument | Description                                                  |
-| :------- | :----------------------------------------------------------- |
-| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer         |
-| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) auquel le comparer |
+| Argument | Description                                              |
+| :------- | :------------------------------------------------------- |
+| `lhs`    | [nombre](/fr/models/ref/query-panel/number/) à comparer     |
+| `rhs`    | [nombre](/fr/models/ref/query-panel/number/) de comparaison |
 
 <div id="return-value">
   #### Valeur de retour
@@ -424,11 +428,11 @@ Indique si le premier [nombre](/fr/models/ref/query-panel/number/) est supérieu
 
 ### <a id="number-negate" />`number-negate`
 
-Inverse le signe d’un [nombre](/fr/models/ref/query-panel/number/)
+Renvoie l’opposé d’un [nombre](/fr/models/ref/query-panel/number/)
 
-| Argument | Description                           |
-| :------- | :------------------------------------ |
-| `val`    | Nombre dont il faut inverser le signe |
+| Argument | Description             |
+| :------- | :---------------------- |
+| `val`    | Nombre à rendre négatif |
 
 <div id="return-value">
   #### Valeur de retour
@@ -438,11 +442,11 @@ Un [nombre](/fr/models/ref/query-panel/number/)
 
 ### <a id="numbers-argmax" />`numbers-argmax`
 
-Trouve l’indice du [nombre](/fr/models/ref/query-panel/number/) maximal
+Renvoie l&#39;indice du [nombre](/fr/models/ref/query-panel/number/) maximal
 
-| Argument  | Description                                                                                                                              |
-| :-------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
-| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) dont il faut trouver l’indice du [nombre](/fr/models/ref/query-panel/number/) maximal |
+| Argument  | Description                                                                                                                                  |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------------------- |
+| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) dont il faut trouver l&#39;indice du [nombre](/fr/models/ref/query-panel/number/) maximal |
 
 <div id="return-value">
   #### Valeur de retour
@@ -452,45 +456,43 @@ Indice du [nombre](/fr/models/ref/query-panel/number/) maximal
 
 ### <a id="numbers-argmin" />`numbers-argmin`
 
-Trouve l’indice du [nombre](/fr/models/ref/query-panel/number/) minimum
+Trouve l’indice du [nombre](/fr/models/ref/query-panel/number/) minimal
 
 | Argument  | Description                                                                                                                              |
 | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
-| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) dont il faut trouver l’indice du [nombre](/fr/models/ref/query-panel/number/) minimum |
+| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) dont on veut trouver l’indice du [nombre](/fr/models/ref/query-panel/number/) minimal |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Indice du [nombre](/fr/models/ref/query-panel/number/) minimum
+Indice du [nombre](/fr/models/ref/query-panel/number/) minimal
 
 ### <a id="numbers-avg" />`numbers-avg`
 
-moyenne des nombres
+Moyenne de [nombres](/fr/models/ref/query-panel/number/)
 
-| Argument  | Description                                                                      |
-| :-------- | :------------------------------------------------------------------------------- |
-| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) dont on calcule la moyenne |
+| Argument  | Description                                                                    |
+| :-------- | :----------------------------------------------------------------------------- |
+| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) dont calculer la moyenne |
 
-<div id="return-value">
-  #### Valeur de retour
-</div>
+#### valeur de retour
 
-moyenne des nombres
+Moyenne de [nombres](/fr/models/ref/query-panel/number/)
 
 ### <a id="numbers-max" />`numbers-max`
 
-Nombre maximal
+Nombre maximum
 
-| Argument  | Description                                                                                                          |
-| :-------- | :------------------------------------------------------------------------------------------------------------------- |
-| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) pour trouver le [nombre](/fr/models/ref/query-panel/number/) maximal |
+| Argument  | Description                                                                                                                     |
+| :-------- | :------------------------------------------------------------------------------------------------------------------------------ |
+| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) dont il faut trouver le [nombre](/fr/models/ref/query-panel/number/) maximum |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Le [nombre](/fr/models/ref/query-panel/number/) maximal
+Maximum [nombre](/fr/models/ref/query-panel/number/)
 
 ### <a id="numbers-min" />`numbers-min`
 
@@ -508,17 +510,17 @@ Minimum [nombre](/fr/models/ref/query-panel/number/)
 
 ### <a id="numbers-stddev" />`numbers-stddev`
 
-Écart type des [nombres](/fr/models/ref/query-panel/number/)
+Écart-type de [nombres](/fr/models/ref/query-panel/number/)
 
-| Argument  | Description                                                                      |
-| :-------- | :------------------------------------------------------------------------------- |
-| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) dont calculer l’écart type |
+| Argument  | Description                                                                               |
+| :-------- | :---------------------------------------------------------------------------------------- |
+| `numbers` | *liste* de [nombres](/fr/models/ref/query-panel/number/) pour lesquels calculer l’écart-type |
 
 <div id="return-value">
   #### Valeur de retour
 </div>
 
-Écart-type de [nombres](/fr/models/ref/query-panel/number/)
+Écart type de [nombres](/fr/models/ref/query-panel/number/)
 
 ### <a id="numbers-sum" />`numbers-sum`
 
@@ -546,17 +548,19 @@ Convertit un [nombre](/fr/models/ref/query-panel/number/) en chaîne de caractè
   #### Valeur de retour
 </div>
 
-Représentation textuelle du [nombre](/fr/models/ref/query-panel/number/)
+Représentation sous forme de chaîne de [nombre](/fr/models/ref/query-panel/number/)
 
 ### <a id="number-toTimestamp" />`number-toTimestamp`
 
-Convertit un [nombre](/fr/models/ref/query-panel/number/) en *horodatage*. Les valeurs inférieures à 31536000000 sont converties en secondes, celles inférieures à 31536000000000 en millisecondes, celles inférieures à 31536000000000000 en microsecondes et celles inférieures à 31536000000000000000 en nanosecondes.
+Convertit un [nombre](/fr/models/ref/query-panel/number/) en *horodatage*. Les valeurs inférieures à 31536000000 sont converties en secondes, celles inférieures à 31536000000000 en millisecondes, celles inférieures à 31536000000000000 en microsecondes, et celles inférieures à 31536000000000000000 en nanosecondes.
 
-| Argument | Description                      |
-| :------- | :------------------------------- |
+| Argument | Description                     |
+| :------- | :------------------------------ |
 | `val`    | Nombre à convertir en horodatage |
 
-#### valeur de retour
+<div id="return-value">
+  #### Valeur de retour
+</div>
 
 Horodatage
 

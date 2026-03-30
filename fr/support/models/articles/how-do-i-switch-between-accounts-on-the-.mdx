@@ -3,7 +3,7 @@ title: "Comment puis-je passer d’un compte à l’autre sur la même machine 
 keywords: ["Variables d’environnement"]
 ---
 
-Pour gérer deux comptes W&amp;B depuis la même machine, stockez les deux clés API dans un fichier. Utilisez le code suivant dans vos dépôts pour passer d’une clé à l’autre en toute sécurité, afin d’éviter que des clés secrètes ne soient incluses dans le contrôle de version.
+Pour gérer deux comptes W&amp;B depuis la même machine, stockez les deux clés API dans un fichier. Utilisez le code suivant dans vos dépôts pour passer d’une clé à l’autre en toute sécurité, afin d’éviter que des clés secrètes ne soient ajoutées au contrôle de version.
 
 ```python
 if os.path.exists("~/keys.json"):
@@ -12,11 +12,11 @@ if os.path.exists("~/keys.json"):
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Variables d&#39;environnement](/fr/support/models/tags/environment-variables)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : tab badges ---- */}

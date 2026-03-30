@@ -1,13 +1,13 @@
 ---
-title: "Afficher les informations sur le raisonnement"
-description: Comment renvoyer et afficher le raisonnement dans vos réponses W&B Inférence
+title: "Afficher les informations de raisonnement"
+description: Comment renvoyer et afficher le raisonnement dans vos réponses W&B Inference
 ---
 
-Les modèles de raisonnement, comme [GPT OSS 20B d&#39;OpenAI](https://huggingface.co/openai/gpt-oss-20b), incluent des informations sur leurs étapes de raisonnement dans le résultat renvoyé, en plus de la réponse finale. Ce comportement est automatique et ne nécessite aucun paramètre d&#39;entrée supplémentaire.
+Les modèles de raisonnement, comme [GPT OSS 20B d’OpenAI](https://huggingface.co/openai/gpt-oss-20b), incluent des informations sur leurs étapes de raisonnement dans la sortie renvoyée, en plus de la réponse finale. Cela est automatique et ne nécessite aucun paramètre d’entrée supplémentaire.
 
-Vous pouvez déterminer si un modèle prend en charge le raisonnement en vérifiant les sections Fonctionnalités prises en charge de sa page du catalogue dans l&#39;UI.
+Vous pouvez déterminer si un modèle prend en charge le raisonnement en consultant la section Fonctionnalités prises en charge de sa page de catalogue dans l’UI.
 
-Vous trouverez les informations de raisonnement dans le champ `reasoning_content` des réponses. Ce champ n&#39;est pas présent dans les résultats des autres modèles.
+Vous trouverez les informations de raisonnement dans le champ `reasoning_content` des réponses. Ce champ n’est pas présent dans les sorties des autres modèles.
 
 <Tabs>
   <Tab title="Python">

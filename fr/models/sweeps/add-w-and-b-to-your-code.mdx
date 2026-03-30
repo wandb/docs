@@ -3,22 +3,22 @@ description: Ajoutez W&B à votre script Python ou à votre notebook Jupyter.
 title: Ajoutez W&B (wandb) à votre code
 ---
 
-Ce guide vous recommande comment intégrer W&amp;B à votre script Python d’entraînement ou à votre notebook afin d’optimiser la recherche d&#39;hyperparamètres.
+Ce guide fournit des recommandations pour intégrer W&amp;B à votre script d’entraînement Python ou à votre notebook afin d’optimiser la recherche d’hyperparamètres.
 
 <div id="original-training-script">
-  ## Script d&#39;entraînement original
+  ## Script d’entraînement original
 </div>
 
-Supposons que vous ayez un script Python qui entraîne un modèle (voir ci-dessous). Votre objectif est de trouver les hyperparamètres qui maximisent la précision de validation (`val_acc`).
+Supposons que vous disposiez d’un script Python qui entraîne un modèle (voir ci-dessous). Votre objectif est de trouver les hyperparamètres qui maximisent la précision de validation (`val_acc`).
 
-Dans votre script Python, vous définissez deux fonctions : `train_one_epoch` et `evaluate_one_epoch`. La fonction `train_one_epoch` simule l&#39;entraînement pendant une époque et renvoie la précision et la perte d&#39;entraînement. La fonction `evaluate_one_epoch` simule l&#39;évaluation du modèle sur le jeu de données de validation et renvoie la précision et la perte de validation.
+Dans votre script Python, vous définissez deux fonctions : `train_one_epoch` et `evaluate_one_epoch`. La fonction `train_one_epoch` simule l’entraînement pendant une époque et renvoie la précision et la perte d’entraînement. La fonction `evaluate_one_epoch` simule l’évaluation du modèle sur le jeu de données de validation et renvoie la précision et la perte de validation.
 
-Vous définissez un dictionnaire de configuration (`config`) qui contient des valeurs d&#39;hyperparamètres telles que le taux d&#39;apprentissage (`lr`), la taille de lot (`batch_size`) et le nombre d&#39;époques (`epochs`). Les valeurs du dictionnaire de configuration contrôlent le processus d&#39;entraînement.
+Vous définissez un dictionnaire de configuration (`config`) qui contient des valeurs d’hyperparamètres telles que le taux d’apprentissage (`lr`), la taille du lot (`batch_size`) et le nombre d’époques (`epochs`). Les valeurs du dictionnaire de configuration contrôlent le processus d’entraînement.
 
-Ensuite, vous définissez une fonction appelée `main` qui reproduit une boucle d&#39;entraînement classique. À chaque époque, la précision et la perte sont calculées sur les jeux de données d&#39;entraînement et de validation.
+Ensuite, vous définissez une fonction appelée `main` qui reproduit une boucle d’entraînement classique. Pour chaque époque, la précision et la perte sont calculées sur les jeux de données d’entraînement et de validation.
 
 <Note>
-  Ce code est un script d&#39;entraînement simulé. Il n&#39;entraîne pas de modèle, mais simule le processus d&#39;entraînement en générant des valeurs aléatoires de précision et de perte. L&#39;objectif de ce code est de montrer comment intégrer W&amp;B à votre script d&#39;entraînement.
+  Ce code est un script d’entraînement factice. Il n’entraîne pas de modèle, mais simule le processus d’entraînement en générant des valeurs aléatoires de précision et de perte. L’objectif de ce code est de montrer comment intégrer W&amp;B à votre script d’entraînement.
 </Note>
 
 ```python
@@ -47,30 +47,30 @@ def main():
         train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
         val_acc, val_loss = evaluate_one_epoch(epoch)
 
-        print("époque : ", epoch)
-        print("précision d'entraînement :", train_acc, "perte d'entraînement :", train_loss)
-        print("précision de validation :", val_acc, "perte de validation :", val_loss)
+        print("epoch: ", epoch)
+        print("training accuracy:", train_acc, "training loss:", train_loss)
+        print("validation accuracy:", val_acc, "validation loss:", val_loss)
 
 if __name__ == "__main__":
     main()
 ```
 
-Dans la section suivante, vous ajouterez W&amp;B à votre script Python pour suivre les hyperparamètres et les métriques pendant l’entraînement. Vous utiliserez W&amp;B pour trouver les meilleurs hyperparamètres afin de maximiser la précision de validation (`val_acc`).
+Dans la section suivante, vous allez ajouter W&amp;B à votre script Python afin de suivre les hyperparamètres et les métriques pendant l&#39;entraînement. Vous allez utiliser W&amp;B pour trouver les meilleurs hyperparamètres afin de maximiser la précision de validation (`val_acc`).
 
 <div id="add-wb-to-your-training-script">
-  ## Ajoutez W&amp;B à votre script d’entraînement
+  ## Ajoutez W&amp;B à votre script d&#39;entraînement
 </div>
 
-Mettez à jour votre script d’entraînement pour y ajouter W&amp;B. La façon d’intégrer W&amp;B à votre script Python ou à votre notebook dépend de la manière dont vous gérez les balayages.
+Mettez à jour votre script d&#39;entraînement pour y intégrer W&amp;B. La manière d&#39;intégrer W&amp;B à votre script Python ou notebook dépend de la façon dont vous gérez les Sweeps.
 
-Pour utiliser le SDK Python de W&amp;B afin de démarrer, d’arrêter et de gérer des balayages, suivez les instructions de l’onglet **Script Python ou notebook**. Si vous préférez utiliser l’interface CLI de W&amp;B, suivez les instructions de l’onglet **CLI**.
+Pour utiliser le W&amp;B Python SDK afin de démarrer, d&#39;arrêter et de gérer les Sweeps, suivez les instructions de l&#39;onglet **Python script or notebook**. Pour utiliser le W&amp;B CLI à la place, suivez les instructions de l&#39;onglet **CLI**.
 
 <Tabs>
   <Tab title="CLI">
-    Créez un fichier de configuration YAML contenant la configuration de votre balayage. Le
-    fichier de configuration contient les hyperparamètres que vous souhaitez faire explorer par le balayage. Dans
-    l&#39;exemple suivant, la taille de lot (`batch_size`), les époques (`epochs`) et
-    le taux d&#39;apprentissage (`lr`) sont les hyperparamètres dont les valeurs varient à chaque balayage.
+    Créez un fichier de configuration YAML avec la configuration de votre balayage. Le
+    fichier de configuration contient les hyperparamètres que vous souhaitez que le balayage explore. Dans
+    l&#39;exemple suivant, les hyperparamètres de taille de lot (`batch_size`), d&#39;époques (`epochs`) et de
+    taux d&#39;apprentissage (`lr`) varient à chaque balayage.
 
     ```yaml
     # config.yaml
@@ -90,7 +90,7 @@ Pour utiliser le SDK Python de W&amp;B afin de démarrer, d’arrêter et de gé
         values: [5, 10, 15]
     ```
 
-    Pour en savoir plus sur la création d’une configuration W&amp;B Sweep, voir [Définir la configuration d’un balayage](/fr/models/sweeps/define-sweep-configuration/).
+    Pour en savoir plus sur la création d’une configuration de balayage W&amp;B, voir [Définir la configuration de balayage](/fr/models/sweeps/define-sweep-configuration/).
 
     Vous devez fournir le nom de votre script Python pour la clé `program`
     dans votre fichier YAML.
@@ -99,9 +99,9 @@ Pour utiliser le SDK Python de W&amp;B afin de démarrer, d’arrêter et de gé
 
     1. Importez le SDK Python de W&amp;B (`wandb`) et PyYAML (`yaml`). PyYAML sert à lire notre fichier de configuration YAML.
     2. Lisez le fichier de configuration.
-    3. Utilisez [`wandb.init()`](/fr/models/ref/python/functions/init) pour démarrer un processus en arrière-plan afin de synchroniser et d’enregistrer les données en tant que [run W&amp;B](/fr/models/ref/python/experiments/run). Passez l’objet de configuration au paramètre `config`.
-    4. Définissez les valeurs d’hyperparamètre à partir de `wandb.Run.config` au lieu d’utiliser des valeurs codées en dur.
-    5. Enregistrez la métrique que vous souhaitez optimiser avec [`wandb.Run.log()`](/fr/models/ref/python/experiments/run.md/#method-runlog). Vous devez enregistrer la métrique définie dans votre configuration. Dans le dictionnaire de configuration (`sweep_configuration` dans cet exemple), vous définissez le balayage de façon à maximiser la valeur `val_acc`.
+    3. Utilisez [`wandb.init()`](/fr/models/ref/python/functions/init) pour démarrer un processus en arrière-plan afin de synchroniser et journaliser les données en tant que [W&amp;B Run](/fr/models/ref/python/experiments/run). Transmettez l’objet de configuration au paramètre `config`.
+    4. Définissez les valeurs des hyperparamètres à partir de `wandb.Run.config` au lieu d’utiliser des valeurs codées en dur.
+    5. Journalisez la métrique que vous souhaitez optimiser avec [`wandb.Run.log()`](/fr/models/ref/python/experiments/run.md/#method-runlog). Vous devez journaliser la métrique définie dans votre configuration. Dans le dictionnaire de configuration (`sweep_configuration` dans cet exemple), vous définissez le balayage pour maximiser la valeur `val_acc`.
 
     ```python
     import wandb
@@ -145,24 +145,24 @@ Pour utiliser le SDK Python de W&amp;B afin de démarrer, d’arrêter et de gé
     main()
     ```
 
-    Dans votre CLI, définissez un nombre maximal de runs que l’agent de
-    balayage peut exécuter. Ce paramètre est facultatif. Dans cet exemple, nous fixons le
+    Dans votre CLI, définissez le nombre maximal de runs que l&#39;agent de
+    balayage doit essayer. C&#39;est facultatif. Dans cet exemple, nous fixons ce
     nombre maximal à 5.
 
     ```bash
     NUM=5
     ```
 
-    Ensuite, initialisez le balayage avec la commande [`wandb sweep`](/fr/models/ref/cli/wandb-sweep). Indiquez le nom du fichier YAML. Vous pouvez également indiquer le nom du projet pour l’indicateur de projet (`--project`) :
+    Ensuite, initialisez le balayage avec la commande [`wandb sweep`](/fr/models/ref/cli/wandb-sweep). Indiquez le nom du fichier YAML. Vous pouvez aussi indiquer le nom du projet avec l’option de projet (`--project`) :
 
     ```bash
     wandb sweep --project sweep-demo-cli config.yaml
     ```
 
-    Renvoie un ID de balayage. Pour en savoir plus sur l’initialisation des balayages, voir
-    [Initialiser des balayages](./initialize-sweeps).
+    Cela renvoie un ID de balayage. Pour en savoir plus sur l’initialisation des balayages, voir
+    [Initialiser les balayages](./initialize-sweeps).
 
-    Copiez l’ID du balayage et remplacez `sweepID` dans l’extrait de code suivant pour lancer
+    Copiez l’ID de balayage et remplacez `sweepID` dans l’extrait de code suivant pour démarrer
     le job de balayage avec la commande [`wandb agent`](/fr/models/ref/cli/wandb-agent) :
 
     ```bash
@@ -175,18 +175,18 @@ Pour utiliser le SDK Python de W&amp;B afin de démarrer, d’arrêter et de gé
   <Tab title="Script Python ou notebook">
     Suivez ces étapes pour ajouter W&amp;B à votre script Python :
 
-    1. Créez un objet dictionnaire dans lequel les paires clé-valeur définissent une [configuration de balayage](/fr/models/sweeps/define-sweep-configuration/). La configuration de balayage définit les hyperparamètres que vous souhaitez que W&amp;B explore, ainsi que la métrique à optimiser. En reprenant l’exemple précédent, la taille de lot (`batch_size`), les époques (`epochs`) et le taux d’apprentissage (`lr`) sont les hyperparamètres à faire varier lors de chaque balayage. Comme vous souhaitez maximiser la précision de validation, définissez `"goal": "maximize"` ainsi que le nom de la variable à optimiser, ici `val_acc` (`"name": "val_acc"`).
-    2. Passez le dictionnaire de configuration du balayage à [`wandb.sweep()`](/fr/models/ref/python/functions/sweep). Cette opération initialise le balayage et renvoie un ID de balayage (`sweep_id`). Pour plus d&#39;informations, voir [Initialiser les balayages](./initialize-sweeps).
-    3. Au début de votre script, importez le SDK Python de W&amp;B (`wandb`).
-    4. Dans votre fonction `main`, utilisez [`wandb.init()`](/fr/models/ref/python/functions/init) pour lancer un processus d’arrière-plan chargé de synchroniser et de journaliser les données dans un [W&amp;B Run](/fr/models/ref/python/experiments/run). Passez le nom du projet comme paramètre à la méthode `wandb.init()`. Si vous ne passez pas de nom de projet, W&amp;B utilise le nom de projet par défaut.
-    5. Récupérez les valeurs des hyperparamètres à partir de l’objet `wandb.Run.config`. Cela vous permet d’utiliser les valeurs des hyperparamètres définies dans le dictionnaire de configuration du balayage plutôt que des valeurs codées en dur.
-    6. Enregistrez dans W&amp;B la métrique que vous optimisez à l’aide de [`wandb.Run.log()`](/fr/models/ref/python/experiments/run.md/#method-runlog). Vous devez enregistrer la métrique définie dans votre configuration. Par exemple, si vous définissez la métrique à optimiser sur `val_acc`, vous devez enregistrer `val_acc`. Si vous n’enregistrez pas la métrique, W&amp;B ne sait pas quoi optimiser. Dans le dictionnaire de configuration (`sweep_configuration` dans cet exemple), vous définissez le balayage de manière à maximiser la valeur `val_acc`.
-    7. Démarrez le balayage avec [`wandb.agent()`](/fr/models/ref/python/functions/agent). Indiquez l’ID du balayage et le nom de la fonction qu’il exécutera (`function=main`), puis fixez à quatre le nombre maximal de runs à essayer (`count=4`).
+    1. Créez un objet de type dictionnaire dans lequel les paires clé-valeur définissent une [configuration de balayage](/fr/models/sweeps/define-sweep-configuration/). La configuration de balayage définit les hyperparamètres que vous souhaitez voir W&amp;B explorer pour vous, ainsi que la métrique à optimiser. En reprenant l’exemple précédent, la taille de lot (`batch_size`), les époques (`epochs`) et le taux d’apprentissage (`lr`) sont les hyperparamètres à faire varier à chaque balayage. Vous voulez maximiser l’accuracy du score de validation ; vous définissez donc `"goal": "maximize"` ainsi que le nom de la variable à optimiser, dans ce cas `val_acc` (`"name": "val_acc"`).
+    2. Passez le dictionnaire de configuration du balayage à [`wandb.sweep()`](/fr/models/ref/python/functions/sweep). Cela initialise le balayage et renvoie l&#39;ID du balayage (`sweep_id`). Pour plus d&#39;informations, voir [Initialiser les balayages](./initialize-sweeps).
+    3. Au début de votre script, importez le SDK Python W&amp;B (`wandb`).
+    4. Dans votre fonction `main`, utilisez [`wandb.init()`](/fr/models/ref/python/functions/init) pour démarrer un processus en arrière-plan qui synchronise et journalise les données en tant que [W&amp;B Run](/fr/models/ref/python/experiments/run). Passez le nom du projet en paramètre de la méthode `wandb.init()`. Si vous ne passez pas de nom de projet, W&amp;B utilise le nom de projet par défaut.
+    5. Récupérez les valeurs des hyperparamètres dans l’objet `wandb.Run.config`. Cela vous permet d’utiliser les valeurs des hyperparamètres définies dans le dictionnaire de configuration du balayage, au lieu de valeurs codées en dur.
+    6. Journalisez dans W&amp;B la métrique que vous optimisez à l’aide de [`wandb.Run.log()`](/fr/models/ref/python/experiments/run.md/#method-runlog). Vous devez journaliser la métrique définie dans votre configuration. Par exemple, si vous définissez `val_acc` comme métrique à optimiser, vous devez journaliser `val_acc`. Si vous ne journalisez pas la métrique, W&amp;B ne sait pas quoi optimiser. Dans le dictionnaire de configuration (`sweep_configuration` dans cet exemple), vous définissez le balayage pour maximiser la valeur `val_acc`.
+    7. Lancez le balayage avec [`wandb.agent()`](/fr/models/ref/python/functions/agent). Fournissez l’ID du balayage et le nom de la fonction à exécuter (`function=main`), puis fixez à quatre le nombre maximal de runs à essayer (`count=4`).
 
-    En combinant tous ces éléments, votre script devrait ressembler à ce qui suit :
+    En combinant tout cela, votre script devrait ressembler à ce qui suit :
 
     ```python
-    import wandb # Importer le SDK Python W&B
+    import wandb # Importer le W&B Python SDK
     import numpy as np
     import random
     import argparse
@@ -212,7 +212,7 @@ Pour utiliser le SDK Python de W&amp;B afin de démarrer, d’arrêter et de gé
             batch_size = run.config["batch_size"]
             epochs = run.config["epochs"]
 
-            # Exécute la boucle d'entraînement et consigne les valeurs de performances dans W&B
+            # Exécute la boucle d'entraînement et enregistre les valeurs de performances dans W&B
             for epoch in np.arange(1, epochs):
                 train_acc, train_loss = train_one_epoch(epoch, lr, batch_size)
                 val_acc, val_loss = evaluate_one_epoch(epoch)
@@ -238,7 +238,7 @@ Pour utiliser le SDK Python de W&amp;B afin de démarrer, d’arrêter et de gé
             # Métrique à optimiser
             # Par exemple, pour maximiser la précision de validation,
             # définissez "goal": "maximize" et le nom de la variable
-            # à optimiser, ici "val_acc"
+            # à optimiser, dans ce cas "val_acc"
             "metric": {
                 "goal": "maximize",
                 "name": "val_acc"
@@ -262,7 +262,7 @@ Pour utiliser le SDK Python de W&amp;B afin de démarrer, d’arrêter et de gé
 <Note>
   **Journalisation des métriques dans W&amp;B lors d’un balayage**
 
-  Vous devez journaliser la métrique que vous définissez et que vous souhaitez optimiser, à la fois dans votre configuration de balayage et avec `wandb.Run.log()`. Par exemple, si vous définissez `val_acc` comme métrique à optimiser dans votre configuration de balayage, vous devez également journaliser `val_acc` dans W&amp;B. Si vous ne journalisez pas cette métrique, W&amp;B ne sait pas quoi optimiser.
+  Vous devez journaliser la métrique que vous définissez et que vous optimisez, à la fois dans votre configuration de balayage et avec `wandb.Run.log()`. Par exemple, si vous définissez `val_acc` comme métrique à optimiser dans votre configuration de balayage, vous devez également journaliser `val_acc` dans W&amp;B. Si vous ne journalisez pas cette métrique, W&amp;B ne saura pas quoi optimiser.
 
   ```python
   with wandb.init() as run:
@@ -275,7 +275,7 @@ Pour utiliser le SDK Python de W&amp;B afin de démarrer, d’arrêter et de gé
           )
   ```
 
-  Voici un exemple incorrect de journalisation de la métrique dans W&amp;B. La métrique à optimiser dans la configuration de balayage est `val_acc`, mais le code journalise `val_acc` dans un dictionnaire imbriqué sous la clé `validation`. Vous devez journaliser la métrique directement, et non dans un dictionnaire imbriqué.
+  L’exemple suivant montre une journalisation incorrecte de la métrique dans W&amp;B. La métrique optimisée dans la configuration de balayage est `val_acc`, mais le code journalise `val_acc` dans un dictionnaire imbriqué sous la clé `validation`. Vous devez journaliser la métrique directement, et non dans un dictionnaire imbriqué.
 
   ```python
   with wandb.init() as run:

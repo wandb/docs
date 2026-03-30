@@ -1,54 +1,54 @@
 ---
-title: run の初期化
-description: "wandb.init() を使用して W&B の run を初期化し、実験の追跡を開始します。これには、1 つのプロセス内で複数の run の同時実行への対応も含まれます。"
+title: run を初期化する
+description: "wandb.init() を使用して W&B run を初期化し、実験のトラッキングを開始します。これには、1 つのプロセス内で同時実行される run の処理も含まれます。"
 ---
 
-[`wandb.init()`](/ja/models/ref/python/functions/init) を使用して W&amp;B の Run を初期化します。
+[`wandb.init()`](/ja/models/ref/python/functions/init) を使用して W&amp;B Run を初期化します。
 
-デフォルトでは、`wandb.init()` を呼び出したときに、各 Python プロセスには同時に 1 つのアクティブな run しかないと W&amp;B は想定します。`wandb.init()` を再度呼び出すと、W&amp;B は同じ run を返すか、古い run を終了してから新しい run を開始します。同一プロセス内で `wandb.init()` を複数回呼び出した場合に W&amp;B がどのように処理するかは、環境 (notebook か非 notebook か) と `reinit` の設定によって異なります。
+デフォルトでは、`wandb.init()` を呼び出すと、W&amp;B は各 Python プロセスに一度に 1 つのアクティブな run だけがあることを前提とします。`wandb.init()` を再度呼び出すと、W&amp;B は同じ run を返すか、新しい run を開始する前に前の run を終了します。同じプロセス内で `wandb.init()` を複数回呼び出した場合の W&amp;B の処理は、環境 (ノートブックか非ノートブックか) と `reinit` 設定によって異なります。
 
-同じプロセス内で複数のアクティブな run を管理する方法については、[1 つのプロセス内で複数の run](/ja/models/runs/initialize-run#multiple-runs-in-one-process) を参照してください。
+同じプロセス内で複数のアクティブな run を管理するには、[1 つのプロセス内での複数の run](/ja/models/runs/initialize-run#multiple-runs-in-one-process) を参照してください。
 
 <Note>
-  W&amp;B は、`wandb.init()` を呼び出す際に `with` ブロックを使用することを推奨します。これにより、ブロックの終了時に W&amp;B が run を適切に終了処理し、すべてのデータをアップロードできるようになります。
+  W&amp;B では、`wandb.init()` を呼び出す際に `with` ブロックを使用することを推奨しています。これにより、ブロックの終了時に W&amp;B が run を適切に終了し、すべてのデータをアップロードできるようになります。
 </Note>
 
 <div id="single-run-per-process">
-  ## 1 プロセスにつき 1 つの run
+  ## プロセスごとに1つのrun
 </div>
 
-次のコードスニペットは、W&amp;B Python SDK をインポートして run を初期化する方法を示します。
+次のコードスニペットでは、W&amp;B Python SDK をインポートして run を初期化する方法を示します。
 
 ```python title="basic.py"
 import wandb
 
 with wandb.init(entity="nico", project="awesome-project") as run:
-    # Your training logic here
+    # トレーニングロジックをここに記述
 ```
 
-このコードスニペットを実行すると、次のような出力が生成されます。
+このコードスニペットを実行すると、次の出力が得られます。
 
 ```bash
-🚀 View run exalted-darkness-6 at: 
+🚀 run exalted-darkness-6 を表示: 
 https://wandb.ai/nico/awesome-project/runs/pgbn9y21
 Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
 ```
 
-この出力は、W&amp;B が entity `nico` 配下の project `awesome-project` に run `exalted-darkness-6` をログしていることを示しています。`pgbn9y21` は、この run に対して W&amp;B が生成する一意の run ID です。
+出力には、W&amp;B が run `exalted-darkness-6` を entity `nico` 配下のプロジェクト `awesome-project` にログしたことが示されます。`pgbn9y21` は、W&amp;B がこの run に対して生成する一意の run ID です。
 
 <div id="multiple-runs-in-one-process">
   ## 1 つのプロセス内で複数の run を扱う
 </div>
 
-1 つの Python プロセス内で複数の run を管理します。これは、メインとなるプロセスを動かし続けながら、副次的なサブタスク用に短時間だけ動作するセカンダリプロセスを作成したいワークフローで有用です。ユースケースの例としては次のようなものがあります。
+1 つの Python プロセス内で複数の run を管理できます。これは、プライマリプロセスをアクティブなまま維持しつつ、サブタスク用に短時間だけ実行されるセカンダリプロセスを作成したいワークフローで便利です。具体的なユースケースには、次のようなものがあります。
 
-* スクリプト全体を通して 1 つの「プライマリ」run をアクティブに保ちながら、評価やサブタスク用に短時間だけ動作する「セカンダリ」run を立ち上げる。
+* スクリプト全体を通して 1 つの「プライマリ」run をアクティブに保ちながら、評価やサブタスクのために短時間だけ実行される「セカンダリ」run を立ち上げる。
 * 1 つのファイル内でサブ実験をオーケストレーションする。
-* 1 つの「メイン」プロセスから、異なるタスクや時間帯を表す複数の run へログを記録する。
+* 1 つの「メイン」プロセスから、異なるタスクや期間を表す複数の run にログする。
 
-デフォルトでは、`wandb.init()` を呼び出すと、W&amp;B は各 Python プロセス内に同時にアクティブな run が 1 つだけ存在すると想定します。`wandb.init()` を再度呼び出すと、W&amp;B は同じ run を返すか、設定に応じて古い run を終了してから新しい run を開始します。
+デフォルトでは、W&amp;B は `wandb.init()` を呼び出すと、各 Python プロセスには同時に 1 つのアクティブな run しかないものとして扱います。`wandb.init()` を再度呼び出すと、W&amp;B は設定に応じて同じ run を返すか、新しい run を開始する前に既存の run を終了します。
 
-このガイドでは、1 つの Python プロセス内で複数の run を有効にするために、`reinit` を使用して `wandb.init()` の動作を変更する方法について説明します。
+このガイドでは、`reinit` を使用して `wandb.init()` の動作を変更し、1 つの Python プロセス内で複数の run を有効にする方法を説明します。
 
 <Note>
   **要件**
@@ -60,32 +60,32 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
   ### `reinit` オプション
 </div>
 
-`reinit` パラメーターを使用して、W&amp;B が `wandb.init()` を複数回呼び出したときの挙動を制御します。次の表は、有効な引数とその効果を示します:
+`reinit` パラメーターを使用すると、`wandb.init()` を複数回呼び出したときの W&amp;B の動作を設定できます。次の表に、有効な引数とその効果を示します。
 
-| | 説明 | run を作成するか? | 利用例 |
-|----------------|----------------|----------------| -----------------|
-| `create_new` | 既存のアクティブな run を終了せずに、`wandb.init()` で新しい run を作成します。W&amp;B はグローバルな `wandb.Run` を自動的に新しい run に切り替えません。各 run オブジェクトは自分で保持する必要があります。詳細は、下記の [1 つのプロセスで複数の run を扱う例](/ja/models/runs/initialize-run/#example-multiple-runs-in-one-process) を参照してください。 | Yes | 同時に動作する複数のプロセスを作成・管理する場合に最適です。たとえば、「プライマリ」run をアクティブなまま保ちながら、「セカンダリ」run を開始・終了するようなケースです。|
-| `finish_previous` | 新しい run を `wandb.init()` で作成する前に、`run.finish()` を使ってすべてのアクティブな run を終了します。ノートブック以外の環境でのデフォルトの挙動です。 | Yes | 逐次的なサブプロセスを、個別の run に分割したい場合に最適です。 |
-| `return_previous` | 直近の未終了の run を返します。ノートブック環境でのデフォルトの挙動です。 | No | |
+|                   | 説明                                                                                                                                                                                                                                             | run が作成されるか? | 使用例                                                                                       |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------- |
+| `create_new`      | 既存のアクティブな run を終了せずに、`wandb.init()` で新しい run を作成します。W&amp;B はグローバルな `wandb.Run` を新しい run に自動的に切り替えません。各 run オブジェクトは自分で保持する必要があります。詳しくは、以下の[1 つのプロセスで複数の run を扱う例](/ja/models/runs/initialize-run/#example-multiple-runs-in-one-process)を参照してください。 | はい           | 並行するプロセスの作成と管理に適しています。たとえば、「primary」の run をアクティブなまま維持しつつ、「secondary」の run を開始または終了する場合です。 |
+| `finish_previous` | 新しい run を `wandb.init()` で作成する前に、すべてのアクティブな run を `run.finish()` で終了します。ノートブック以外の環境でのデフォルトの動作です。                                                                                                                                               | はい           | 順次実行されるサブプロセスを、それぞれ個別の run に分けたい場合に適しています。                                                |
+| `return_previous` | 直近の未終了の run を返します。ノートブック環境でのデフォルトの動作です。                                                                                                                                                                                                        | いいえ          |                                                                                           |
 
 <Note>
-  W&amp;B は、Hugging Face Trainer、Keras のコールバック、PyTorch Lightning など、単一のグローバル run を前提とする [W&amp;B Integrations](/ja/models/integrations) に対して `create_new` モードをサポートしていません。これらのインテグレーションを使用する場合は、各サブ実験を個別のプロセスで実行してください。
+  W&amp;B は、Hugging Face Trainer、Keras コールバック、PyTorch Lightning など、単一のグローバル run を前提とする [W&amp;B Integrations](/ja/models/integrations) では `create_new` モードをサポートしていません。これらのインテグレーションを使用する場合は、各サブ実験を別々のプロセスで実行してください。
 </Note>
 
 <div id="specifying-reinit">
-  ### `reinit` の指定方法
+  ### `reinit` を指定する
 </div>
 
-{/* 単一の Python プロセス内で複数の run を作成・管理する方法はいくつかあります。 */}
+{/* 1 つの Python プロセス内で複数の run を作成・管理する方法はいくつかあります: */}
 
-* `reinit` 引数を指定して、直接 `wandb.init()` を使用します:
+* `reinit` 引数を指定して、`wandb.init()` を直接使用します。
   ```python
   import wandb
   with wandb.init(reinit="<create_new|finish_previous|return_previous>") as run:
       # ここにコードを記述
   ```
 
-* `wandb.init()` を使用し、`settings` パラメーターに `wandb.Settings` オブジェクトを渡します。`Settings` オブジェクト内で `reinit` を指定します:
+* `wandb.init()` を使用し、`wandb.Settings` オブジェクトを `settings` パラメーターに渡します。`Settings` オブジェクト内で `reinit` を指定します。
 
   ```python
   import wandb
@@ -93,7 +93,7 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
       # ここにコードを記述
   ```
 
-* `wandb.setup()` を使用して、現在のプロセス内のすべての run に対して `reinit` オプションをグローバルに設定します。これは、一度だけ動作を設定し、そのプロセス内の後続のすべての `wandb.init()` 呼び出しに適用したい場合に便利です。
+* `wandb.setup()` を使用して、現在のプロセス内のすべての run に対する `reinit` オプションをグローバルに設定します。これは、動作を一度だけ設定し、そのプロセス内で後続のすべての `wandb.init()` call に適用したい場合に便利です。
 
   ```python
   import wandb
@@ -101,13 +101,13 @@ Find logs at: wandb/run-20241106_090747-pgbn9y21/logs
        # ここにコードを記述
   ```
 
-* 環境変数 `WANDB_REINIT` に `reinit` の希望する値を設定します。環境変数を定義すると、`wandb.init()` の呼び出しに `reinit` オプションが適用されます。
+* 環境変数 `WANDB_REINIT` で、`reinit` に設定する値を指定します。環境変数を定義すると、`reinit` オプションが `wandb.init()` call に適用されます。
 
   ```bash
   export WANDB_REINIT="<create_new|finish_previous|return_previous>"
   ```
 
-次のコードスニペットでは、`wandb.init()` を呼び出すたびに新しい run を作成するように W&amp;B を設定する方法の概要を示しています:
+次のコードスニペットは、`wandb.init()` を呼び出すたびに新しい run を作成するように W&amp;B を設定する方法の概要を示しています。
 
 ```python
 import wandb
@@ -115,16 +115,15 @@ import wandb
 wandb.setup(wandb.Settings(reinit="create_new"))
 
 with wandb.init() as experiment_results_run:
-    # この run は各実験の結果をログするために使用されます。
-    # これを結果を収集する親 run と考えることができます。
+    # このrunは各experimentの結果をログするために使用されます。
+    # 結果を収集する親runとして考えることができます。
       with wandb.init() as run:
-         # do_experiment() 関数は詳細なメトリクスを指定された run にログし、
-         # 個別に追跡したい結果のメトリクスを返します。
+         # do_experiment()関数は指定されたrunに詳細なメトリクスをログし、
+         # 個別にトラッキングしたい結果のメトリクスを返します。
          experiment_results = do_experiment(run)
 
-         # 各実験の後、その結果を親 run にログします。
-         # 親 run のチャートの各ポイントは
-         # 1 つの実験の結果に対応します。
+         # 各experimentの後、その結果を親runにログします。
+         # 親runのチャートの各点は、1つのexperimentの結果に対応します。
          experiment_results_run.log(experiment_results)
 ```
 
@@ -132,26 +131,26 @@ with wandb.init() as experiment_results_run:
   ### 例: 並行プロセス
 </div>
 
-スクリプトの実行全体を通して開いたままにしておくメインプロセスを 1 つ用意しつつ、その間に短時間だけ動作するセカンダリプロセスを定期的に生成し、メインプロセス自体は終了させないままにしておきたいとします。たとえば、このパターンはメインの run でモデルをトレーニングしつつ、評価の計算やその他の作業を別の run で実行したい場合に有用です。
+スクリプトの実行中ずっと開いたままのプライマリプロセスを維持しつつ、そのプライマリプロセスを終了せずに、短命なセカンダリプロセスを定期的に生成したいとします。たとえばこのパターンは、プライマリ run でモデルをトレーニングしながら、評価の計算やその他の処理を別の run で行いたい場合に役立ちます。
 
-これを実現するには、`reinit="create_new"` を使って複数の run を初期化します。この例では、「Run A」がスクリプト全体を通して開いたままのメインプロセスで、「Run B1」「Run B2」が評価などのタスク用に短時間だけ動作するセカンダリ run だとします。
+これを実現するには、`reinit="create_new"` を使用して複数の run を初期化します。この例では、&quot;Run A&quot; はスクリプト全体を通して開いたままのプライマリプロセスであり、&quot;Run B1&quot; と &quot;Run B2&quot; は評価などのタスク用の短命なセカンダリ run です。
 
-全体のワークフローは次のようになります:
+大まかなワークフローは次のようになります。
 
-1. メインプロセス Run A を `wandb.init()` で初期化し、トレーニング メトリクスをログします。
-2. Run B1 を初期化し (`wandb.init()` を使用) 、データをログしてから終了します。
+1. `wandb.init()` でプライマリプロセス Run A を初期化し、トレーニングのメトリクスをログします。
+2. Run B1 を (`wandb.init()` で) 初期化し、データをログしてから終了します。
 3. Run A にさらにデータをログします。
 4. Run B2 を初期化し、データをログしてから終了します。
-5. Run A へのログを継続します。
-6. 最後に、スクリプトの終わりで Run A を終了します。
+5. Run A へのログを続けます。
+6. 最後に、最後に Run A を終了します。
 
-次の Python コード例は、このワークフローを示したものです:
+次の Python コード例は、このワークフローを示しています。
 
 ```python
 import wandb
 
 def train(name: str) -> None:
-    """独自の W&B run で1回のトレーニングイテレーションを実行する。
+    """W&B run 内でトレーニングを1回実行する。
 
     `reinit="create_new"` を指定した 'with wandb.init()' ブロックを使用することで、
     別の run（プライマリのトラッキング run など）がすでにアクティブな場合でも、
@@ -166,11 +165,11 @@ def train(name: str) -> None:
         run.log({"train_loss": 0.42})  # 実際のメトリクスに置き換えること
 
 def evaluate_loss_accuracy() -> (float, float):
-    """現在のモデルの loss と accuracy を返す。
+    """現在のモデルの損失と accuracy を返す。
     
     このプレースホルダーを実際の評価ロジックに置き換えること。
     """
-    return 0.27, 0.91  # メトリクスの値の例
+    return 0.27, 0.91  # メトリクスの例
 
 # 複数のトレーニング/評価ステップを通じてアクティブであり続ける「プライマリ」run を作成する。
 with wandb.init(
@@ -188,12 +187,12 @@ with wandb.init(
     loss, accuracy = evaluate_loss_accuracy()
     tracking_run.log({"eval_loss": loss, "eval_accuracy": accuracy})
     
-    # この 'with' ブロックが終了すると、'tracking_run' は自動的に終了する。
+    # 'with' ブロックが終了すると、'tracking_run' は自動的に終了する。
 ```
 
-前の例から次の 3 つの重要なポイントに注意してください。
+前の例では、次の重要な点に注意してください。
 
-1. `reinit="create_new"` は、`wandb.init()` を呼び出すたびに新しい run を作成します。
-2. 各 run への参照を保持しておく必要があります。`wandb.run` は、`reinit="create_new"` で作成された新しい run を自動的には指しません。新しい run は `run_a`、`run_b1` などの変数に保存し、必要に応じてそれらのオブジェクトに対して `.log()` や `.finish()` を呼び出してください。
-3. メインの run を開いたままにしておきつつ、必要なタイミングでサブ run を終了できます。
-4. 対象へのロギングが完了したら、`run.finish()` で run を終了してください。これにより、すべてのデータがアップロードされ、run が正しく終了することが保証されます。
+1. `reinit="create_new"` を指定すると、`wandb.init()` を呼び出すたびに新しい run が作成されます。
+2. 各 run への参照は自分で保持します。`wandb.run` は、`reinit="create_new"` で作成された新しい run を自動では参照しません。新しい run は `run_a`、`run_b1` などの変数に保存し、必要に応じてそれらのオブジェクトに対して `.log()` や `.finish()` を呼び出してください。
+3. メインの run は開いたままにしておきつつ、サブ run は必要なタイミングでいつでも終了できます。
+4. run へのログが完了したら、`run.finish()` を呼び出して終了してください。これにより、すべてのデータがアップロードされ、run が正しくクローズされます。

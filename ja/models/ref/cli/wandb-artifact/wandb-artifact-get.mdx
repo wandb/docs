@@ -3,19 +3,20 @@ title: "wandb artifact get"
 ---
 
 {/*
-  このコマンドの導入コンテンツを追加するには、次の手順を実行します:
-  1. スニペットファイル /snippets/_includes/cli/wandb-artifact-get.mdx を作成する
-  2. そのファイルに導入コンテンツを追加する
-  3. 次の 2 行だけを残し、このコメントブロック全体を削除する:
+  このコマンドに導入用コンテンツを追加するには:
+  1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-artifact-get.mdx
+  2. そのファイルに導入用コンテンツを追加します
+  3. このコメントブロック全体を削除し、以下の2行だけを残します:
 
   import WandbArtifactGet from "/snippets/_includes/cli/wandb-artifact-get.mdx";
 
   <WandbArtifactGet/>
 
-  スニペットは次回の再生成時に自動的に検出されます。
+  次回の再生成時に、このスニペットは自動的に検出されます。
   */}
 
-wandb から Artifacts をダウンロードする
+wandb から artifact をダウンロードする
+
 
 <div id="usage">
   ## 使い方
@@ -25,19 +26,20 @@ wandb から Artifacts をダウンロードする
 wandb artifact get PATH [OPTIONS]
 ```
 
+
 <div id="arguments">
   ## 引数
 </div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `PATH` | 説明は利用できません | はい |
+| 引数     | 説明   | 必須 |
+| :----- | :--- | :- |
+| `PATH` | 説明なし | はい |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--root` | Artifacts をダウンロードするディレクトリ |
-| `--type` | ダウンロードする Artifacts の種類 |
+| オプション    | 説明                         |
+| :------- | :------------------------- |
+| `--root` | artifact のダウンロード先となるディレクトリ |
+| `--type` | ダウンロードする artifact のタイプ     |

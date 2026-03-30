@@ -1,15 +1,15 @@
 ---
-title: "Combien d’espace de stockage chaque version d’artefact utilise-t-elle ?"
+title: "Quel espace de stockage utilise chaque version d'artifact ?"
 keywords: ["Artifacts", "Stockage"]
 ---
 
-Seuls les fichiers qui changent entre deux versions d’artefact entraînent des coûts de stockage.
+Seuls les fichiers qui changent entre deux versions d&#39;artifact entraînent des coûts de stockage.
 
 <Frame>
-  <img src="/images/artifacts/artifacts-dedupe.PNG" alt="Déduplication des artefacts" />
+  <img src="/images/artifacts/artifacts-dedupe.PNG" alt="Déduplication d’un artifact" />
 </Frame>
 
-Prenez l’exemple d’un artefact d’image nommé `animals`, qui contient deux fichiers image, `cat.png` et `dog.png` :
+Prenons un artifact d’image nommé `animals` contenant deux fichiers image, `cat.png` et `dog.png` :
 
 ```
 images
@@ -17,9 +17,9 @@ images
 |-- dog.png (1MB) # Ajouté dans `v0`
 ```
 
-Cet artefact reçoit la version `v0`.
+Cet artifact se voit attribuer la version `v0`.
 
-Lorsque vous ajoutez une nouvelle image, `rat.png`, une nouvelle version de l’artefact, `v1`, est créée avec le contenu suivant :
+Lors de l’ajout d’une nouvelle image, `rat.png`, une nouvelle version de l’artifact, `v1`, est créée avec le contenu suivant :
 
 ```
 images
@@ -28,15 +28,15 @@ images
 |-- rat.png (3MB) # Ajouté dans `v1`
 ```
 
-La version `v1` totalise 6MB, mais n’occupe que 3MB d’espace puisqu’elle partage les 3MB restants avec `v0`. La suppression de `v1` libère les 3MB de stockage associés à `rat.png`. La suppression de `v0` transfère les coûts de stockage de `cat.png` et `dog.png` à `v1`, ce qui augmente sa taille de stockage à 6MB.
+La version `v1` totalise 6MB, mais n&#39;occupe que 3MB d&#39;espace, car elle partage les 3MB restants avec `v0`. La suppression de `v1` libère les 3MB de stockage associés à `rat.png`. La suppression de `v0` reporte les coûts de stockage de `cat.png` et `dog.png` sur `v1`, ce qui porte sa taille de stockage à 6MB.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
-  Géré par le script scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Stockage](/fr/support/models/tags/storage)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- END GÉNÉRÉ AUTOMATIQUEMENT: tab badges ---- */}

@@ -11,33 +11,33 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `ArtifactType`
 
-Un objet artefact qui correspond à une requête basée sur le type spécifié.
+Un objet artifact qui correspond à une requête basée sur le type spécifié.
 
 **Arguments :**
 
 * `client`:  L&#39;instance client à utiliser pour interroger W&amp;B.
 * `entity`:  L&#39;entité (utilisateur ou équipe) propriétaire du projet.
-* `project`:  Le nom du projet dans lequel rechercher des types d&#39;artefact.
-* `type_name`:  Le nom du type d&#39;artefact.
+* `project`:  Le nom du projet à interroger pour les types d&#39;artifact.
+* `type_name`:  Le nom du type d&#39;artifact.
 * `attrs`:  Attributs facultatifs pour initialiser l&#39;ArtifactType.  S&#39;ils sont omis, l&#39;objet chargera ses attributs depuis W&amp;B lors de l&#39;initialisation. 
 
 ### <kbd>propriété</kbd> ArtifactType.id
 
-L’identifiant unique du type d’artefact.
+L’ID unique du type d’artifact.
 
-**Retourne :**
+**Retourne :**
 
-* `str` : La valeur de la propriété `id`.
+* `str` : La valeur de la propriété id.
 
 ***
 
 ### <kbd>propriété</kbd> ArtifactType.name
 
-Le nom du type d&#39;artefact.
+Nom du type d&#39;artifact.
 
-**Retourne :**
+**Retourne :**
 
-* `str` : La valeur de la propriété nom.
+* `str` : La valeur de la propriété nom.
 
 ***
 
@@ -47,11 +47,11 @@ Le nom du type d&#39;artefact.
 collection(name: 'str') → ArtifactCollection
 ```
 
-Obtenir une collection d’artifacts spécifique par son nom.
+Obtenir une collection d&#39;artifacts spécifique à partir de son nom.
 
 **Arguments :**
 
-* `name` (str):  Le nom de la collection d’artifacts à récupérer.
+* `name` (str):  Le nom de la collection d&#39;artifacts à récupérer.
 
 ***
 
@@ -66,12 +66,12 @@ collections(
 ) → ArtifactCollections
 ```
 
-Obtenir toutes les collections d’artifacts associées à ce type d’artefact.
+Obtenir toutes les collections d&#39;artifacts associées à ce type d&#39;artifact.
 
 **Arguments :**
 
-* `filters` (dict):  Mappage facultatif des filtres à appliquer à la requête.
-* `order` (str):  Chaîne facultative permettant de spécifier l’ordre des résultats. Si `order` est précédé d’un `+`, l’ordre est croissant (par défaut). Si `order` est précédé d’un `-`, l’ordre est décroissant. Par défaut, les résultats sont triés par ID de collection dans l’ordre décroissant.
-* `per_page` (int):  Nombre de collections d’artifacts à récupérer par page. La valeur par défaut est 50.
+* `filters` (dict) :  Mappage facultatif des filtres à appliquer à la requête.
+* `order` (str) :  Chaîne facultative permettant de spécifier l’ordre des résultats.  Si vous faites précéder `order` de +, l’ordre est croissant (par défaut).  Si vous faites précéder `order` de -, l’ordre est décroissant.  Par défaut, l’ordre utilisé est l’ID de la collection, par ordre décroissant.
+* `per_page` (int) :  Le nombre de collections d&#39;artifacts à récupérer par page.  La valeur par défaut est 50.
 
 ***

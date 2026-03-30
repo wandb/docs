@@ -3,12 +3,12 @@ title: Agno
 description: "OpenTelemetry を使用して Weave で Agno のマルチエージェントシステムをトレースし、エージェントのインタラクション、ツール呼び出し、およびマルチモーダルなワークフローを取得します。"
 ---
 
-[Agno](https://docs.agno.com/) のエージェントとツール呼び出しは、[OpenTelemetry (OTEL)](https://opentelemetry.io/) を使用して Weave でトレースできます。Agno は、共有メモリ、知識、推論を備えたマルチエージェントシステムを構築するための Python フレームワークです。軽量でモデルに依存せず、高いパフォーマンスを発揮するよう設計されており、テキスト、画像、音声、動画処理を含むマルチモーダル機能をサポートします。
+[Agno](https://docs.agno.com/) エージェントやツール呼び出しは、[OpenTelemetry (OTEL)](https://opentelemetry.io/) を使用して Weave でトレースできます。Agno は、共有メモリ、知識、推論を備えたマルチエージェントシステムを構築するための Python フレームワークです。軽量でモデル非依存かつ高いパフォーマンスを発揮するよう設計されており、テキスト、画像、音声、動画処理を含むマルチモーダル機能をサポートします。
 
-このガイドでは、OTEL を使用して Agno のエージェントとツール呼び出しをトレースし、それらのトレースを Weave で可視化する方法を説明します。必要な依存関係のインストール方法、Weave にデータを送信する OTEL トレーサーの設定方法、そして Agno のエージェントとツールを計装する方法を学びます。
+このガイドでは、OTEL を使用して Agno エージェントとツール呼び出しをトレースし、そのトレースを Weave で可視化する方法を説明します。必要な依存関係のインストール方法、Weave に OTEL トレースを送信するトレーサーの設定方法、そして Agno エージェントとツールの計装方法を学びます。
 
 <Tip>
-  Weave での OTEL トレーシングの詳細については、[OTEL トレースを Weave に送信する](../tracking/otel) を参照してください。
+  Weave における OTEL トレースの詳細については、[Send OTEL Traces to Weave](../tracking/otel) を参照してください。
 </Tip>
 
 <div id="prerequisites">
@@ -267,7 +267,7 @@ agent_team.print_response(
   ## Reasoning Agent の利用
 </div>
 
-Agno には、エージェントが問題を段階的に考え進められるよう支援する組み込みの推論機能が備わっています。これらの推論プロセスは trace にも記録されます。
+Agno には、エージェントが問題を段階的に考え進められるよう支援する組み込みの推論機能が備わっています。これらの推論プロセスは トレース にも記録されます。
 
 ```python lines
 from agno.agent import Agent
@@ -309,10 +309,10 @@ reasoning_agent.print_response(
 )
 ```
 
-推論の各ステップは trace 上に表示され、エージェントが複雑な問題をどのように分解し、どのように意思決定しているかがわかります。
+推論の各ステップは トレース 上に表示され、エージェントが複雑な問題をどのように分解し、どのように意思決定しているかがわかります。
 
 <Frame>
-  ![Agno reasoning agent の trace 可視化](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
+  ![Agno reasoning agent の トレース 可視化](/weave/guides/integrations/imgs/agno/agno_reasoning_trace.png)
 </Frame>
 
 <div id="work-with-memory-and-knowledge">
@@ -368,8 +368,8 @@ memory_agent.print_response("What specific AI companies would you recommend for 
   ## 詳細情報
 </div>
 
-* [Weave ドキュメント: OTEL トレースを Weave に送信する](../tracking/otel)
-* [Agno 公式ドキュメント](https://docs.agno.com/)
-* [OTEL 公式ドキュメント](https://opentelemetry.io/)
-* [Agno GitHub リポジトリ](https://github.com/agno-agi/agno)
-* [OpenInference Agno インストルメンテーション](https://pypi.org/project/openinference-instrumentation-agno/)
+* [Weaveドキュメント: OTELトレースをWeaveに送信](../tracking/otel)
+* [Agno公式ドキュメント](https://docs.agno.com/)
+* [OTEL公式ドキュメント](https://opentelemetry.io/)
+* [Agno GitHubリポジトリ](https://github.com/agno-agi/agno)
+* [OpenInference Agnoインストルメンテーション](https://pypi.org/project/openinference-instrumentation-agno/)

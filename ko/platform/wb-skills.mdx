@@ -1,11 +1,11 @@
 ---
 title: W&B Skills 사용하기
-description: 코딩 에이전트가 모델을 학습하고, 에이전트를 구축하고, W&B의 AI 개발 플랫폼을 사용해 실험을 분석하는 방법을 익히도록 W&B Skills를 설치하세요.
+description: W&B Skills를 설치하여 코딩 에이전트가 W&B의 AI 개발 플랫폼으로 모델을 트레이닝하고, 에이전트를 구축하고, 실험을 분석하는 방법을 익히게 하세요.
 ---
 
-W&amp;B Skills는 코딩 에이전트가 W&amp;B를 효과적으로 사용할 수 있도록 알려 주는 재사용 가능한 지침 세트입니다. W&amp;B API와 모범 사례를 에이전트에 하나하나 직접 안내하는 대신, Skills를 설치하면 에이전트가 실험 추적, 트레이싱, 평가, 모니터링을 스스로 수행할 수 있습니다.
+W&amp;B Skills는 코딩 에이전트가 W&amp;B를 효과적으로 사용할 수 있도록 알려주는 재사용 가능한 지침 세트입니다. 에이전트에 W&amp;B API와 모범 사례를 일일이 안내하는 대신 Skills를 설치하면, 에이전트가 실험 추적, Tracing, 평가, 모니터링을 스스로 수행할 수 있습니다.
 
-Skills는 다음을 포함한 여러 주요 코딩 에이전트와 함께 작동합니다.
+Skills는 다음을 포함한 여러 주요 코딩 에이전트에서 작동합니다.
 
 * Claude Code
 * Codex
@@ -13,34 +13,34 @@ Skills는 다음을 포함한 여러 주요 코딩 에이전트와 함께 작동
 * GitHub Copilot
 * Gemini CLI
 
-지원되는 에이전트의 전체 목록은 [W&amp;B Skills CLI 문서](https://github.com/vercel-labs/skills#supported-agents)를 참조하세요.
+지원되는 에이전트의 전체 목록은 [W&amp;B Skills CLI documentation](https://github.com/vercel-labs/skills#supported-agents)을 참조하세요.
 
 <div id="wb-skills-capabilities">
   ## W&amp;B Skills 기능
 </div>
 
-Skills는 [W&amp;B Models SDK](/ko/models/ref) (트레이닝 run, 메트릭, 아티팩트, 스윕)과 [Weave SDK](/ko/weave/reference/python-sdk) (트레이스, 평가, 스코어러)를 모두 다룹니다. 헬퍼 라이브러리, 참조 문서, 데이터 분석 패턴도 포함됩니다.
+Skills는 [W&amp;B Models SDK](/ko/models/ref) (training runs, 메트릭, artifacts, sweeps)와 [Weave SDK](/ko/weave/reference/python-sdk) (트레이스, 평가, scorers)를 모두 포괄합니다. 헬퍼 라이브러리, 레퍼런스 문서, 데이터 분석 패턴도 포함됩니다.
 
-| 워크플로        | 기능                                                                                                                                                       |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **모델 트레이닝** | <ul><li>트레이닝 및 파인튜닝 중에 메트릭과 리치 미디어를 로그합니다.</li><li>실험을 추적하고 비교합니다.</li><li>손실 곡선과 정확도 점수 등 run과 결과를 분석합니다.</li><li>하이퍼파라미터를 조정합니다.</li></ul>             |
-| **에이전트 구축** | <ul><li>에이전트형 AI 애플리케이션을 추적합니다.</li><li>트레이스를 분석하고 실패 모드를 분류합니다.</li><li>레이블이 지정된 데이터셋으로 모델과 에이전트를 평가합니다.</li><li>프로덕션 모니터링을 위해 온라인 평가를 실행합니다.</li></ul> |
+| 워크플로        | 기능                                                                                                                                                                |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **모델 트레이닝** | <ul><li>트레이닝 및 파인튜닝 중에 메트릭과 리치 미디어를 기록합니다.</li><li>실험를 추적하고 비교합니다.</li><li>run과 결과(예: loss 곡선, accuracy 점수)를 분석합니다.</li><li>하이퍼파라미터를 튜닝합니다.</li></ul>    |
+| **에이전트 구축** | <ul><li>에이전트 기반 AI 애플리케이션을 트레이스합니다.</li><li>트레이스를 분석하고 실패 모드를 분류합니다.</li><li>레이블된 데이터셋으로 모델과 에이전트를 평가합니다.</li><li>프로덕션 모니터링을 위해 온라인 평가를 실행합니다.</li></ul> |
 
 <div id="prerequisites">
   ## 사전 요구 사항
 </div>
 
-Skills를 사용하려면 다음이 필요합니다:
+Skills를 사용하려면 다음이 필요합니다.
 
-* [Node.js](https://nodejs.org/) (`npx` 명령어용).
-* W&amp;B API 키. [wandb.ai/authorize](https://wandb.ai/authorize)에서 생성한 다음 환경 변수로 설정합니다:
+* [Node.js](https://nodejs.org/) (`npx` 명령어용)
+* W&amp;B API 키. [wandb.ai/authorize](https://wandb.ai/authorize)에서 생성한 후 환경 변수로 설정합니다:
   ```shell
   export WANDB_API_KEY=<your-api-key>
   ```
-* (선택) W&amp;B 프로젝트 이름을 `WANDB_PROJECT` 환경 변수로 설정합니다. 이렇게 하면 매번 직접 지정하지 않아도 에이전트가 올바른 W&amp;B 프로젝트를 대상으로 할 수 있습니다.
+* (선택) W&amp;B 프로젝트 이름을 `WANDB_PROJECT` 환경 변수로 설정합니다. 이렇게 하면 매번 따로 지정하지 않아도 에이전트가 올바른 W&amp;B 프로젝트를 대상으로 사용할 수 있습니다.
 
 <div id="install-wb-skills">
-  ## W&amp;B Skills 설치하기
+  ## W&amp;B Skills 설치
 </div>
 
 W&amp;B Skills를 전역으로 설치하려면 `--global` 플래그를 사용해 다음 명령어를 실행하세요:
@@ -49,42 +49,42 @@ W&amp;B Skills를 전역으로 설치하려면 `--global` 플래그를 사용해
 npx skills add wandb/skills --skill '*' --yes --global
 ```
 
-특정 프로젝트에 Skills를 설치하려면 프로젝트 디렉터리에서 다음 명령어를 실행하세요:
+특정 프로젝트에 Skills를 설치하려면 해당 프로젝트 디렉터리에서 다음 명령어를 실행하세요:
 
 ```bash
 npx skills add wandb/skills --skill '*' --yes
 ```
 
-`--agent` 플래그를 사용하면 특정 에이전트에 대해 Skills를 설치할 수도 있습니다:
+`--agent` 플래그를 사용해 특정 에이전트용 Skills도 설치할 수 있습니다:
 
 ```bash
 npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
 ```
 
-`--agent` 및 `--skill` 옵션 목록은 [skills CLI 문서](https://github.com/vercel-labs/skills#supported-agents)에서 확인하세요.
+`--agent` 및 `--skill` 옵션 목록은 [skills CLI 문서](https://github.com/vercel-labs/skills#supported-agents)를 참조하세요.
 
 <div id="use-wb-skills">
   ## W&amp;B Skills 사용하기
 </div>
 
-설치가 완료되면 에이전트에게 프로젝트와 관련된 W&amp;B 작업을 수행하도록 요청할 수 있습니다. 다음 예시 프롬프트는 에이전트가 W&amp;B Skills를 사용해 수행할 수 있는 작업의 일부를 보여줍니다:
+설치가 완료되면 에이전트에게 프로젝트와 관련된 W&amp;B 작업을 수행하도록 요청할 수 있습니다. 다음 예시 프롬프트는 에이전트가 W&amp;B Skills로 수행할 수 있는 작업의 일부를 보여줍니다.
 
 * &quot;내 PyTorch 모델의 트레이닝 메트릭을 W&amp;B에 기록해 줘.&quot;
-* &quot;최근 10개 run의 손실 곡선을 분석하고 가장 성능이 좋은 설정을 찾아줘.&quot;
-* &quot;내 LangChain 에이전트를 추적하고 결과를 Weave에 기록해 줘.&quot;
+* &quot;최근 10개의 run에 대한 loss 곡선을 분석하고 성능이 가장 좋은 설정을 파악해 줘.&quot;
+* &quot;내 LangChain 에이전트를 트레이스하고 결과를 Weave에 기록해 줘.&quot;
 * &quot;테스트 데이터셋을 사용해 내 에이전트를 평가하고 결과를 요약해 줘.&quot;
-* &quot;최근 평가에서 실패 모드를 찾아 분류해 줘.&quot;
-* &quot;run A와 run B의 설정을 비교하고 차이점을 보여줘.&quot;
+* &quot;가장 최근 평가에서 실패 유형을 찾아 분류해 줘.&quot;
+* &quot;run A와 run B의 설정을 비교하고 차이를 보여줘.&quot;
 
 <div id="usage-tips">
   ## 사용 팁
 </div>
 
-Skills는 더 넓고 개방형인 질문보다 더 구체적인 쿼리를 사용할 때 더 잘 작동합니다. 다음 표에는 권장되는 예시 프롬프트와 너무 모호한 프롬프트의 예가 나와 있습니다.
+Skills는 광범위한 개방형 질문보다 구체적인 쿼리를 사용할 때 더 잘 작동합니다. 다음 표에는 권장하는 예시 프롬프트와 지나치게 모호한 프롬프트가 나와 있습니다.
 
-| 권장                                        | 비권장                             |
-| ----------------------------------------- | ------------------------------- |
-| &quot;최근 5개 run의 최종 검증 손실은 무엇인가요?&quot;   | &quot;내 모델 성능이 어떤가요?&quot;      |
-| &quot;최근 10개 트레이스의 토큰 사용량을 요약해 주세요.&quot; | &quot;내 트레이스를 모두 보여 주세요.&quot;  |
-| &quot;run A와 run B의 설정을 비교해 주세요.&quot;    | &quot;가장 좋은 run은 무엇인가요?&quot;   |
-| &quot;가장 높은 F1 점수를 기록한 eval은 무엇인가요?&quot; | &quot;내 평가는 어떻게 진행되고 있나요?&quot; |
+| 권장                                           | 비권장                                    |
+| -------------------------------------------- | -------------------------------------- |
+| &quot;최근 5개 run의 최종 검증 loss는 무엇인가요?&quot;    | &quot;내 모델 상태가 어떤가요?&quot;             |
+| &quot;최근 10개 트레이스의 token 사용량을 요약해 주세요.&quot; | &quot;내 트레이스를 모두 보여 주세요.&quot;         |
+| &quot;run A와 run B의 설정을 비교해 주세요.&quot;       | &quot;가장 좋은 run은 무엇인가요?&quot;          |
+| &quot;어떤 eval의 F1 score가 가장 높았나요?&quot;      | &quot;내 평가는 어떻게 되고 있나요?&quot; |

@@ -11,17 +11,17 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `ArtifactCollections`
 
-Collections d’artefacts d’un type spécifique dans un projet.
+Collections d&#39;artifacts d&#39;un type donné dans un projet.
 
 **Arguments :**
 
-* `client` :  L’instance cliente à utiliser pour effectuer des requêtes sur W&amp;B.
-* `entity` :  L’entité (utilisateur ou équipe) propriétaire du projet.
-* `project` :  Le nom du projet dans lequel rechercher des collections d’artefacts.
-* `type_name` :  Le nom du type d’artefact pour lequel récupérer les collections.
-* `filters` :  Mappage facultatif des filtres à appliquer à la requête.
-* `order` :  Chaîne facultative permettant de spécifier l’ordre des résultats.  Si vous faites précéder `order` de +, l’ordre est croissant (par défaut).  Si vous faites précéder `order` de -, l’ordre est décroissant.
-* `per_page` :  Le nombre de collections d’artefacts à récupérer par page. La valeur par défaut est 50. 
+* `client`:  L&#39;instance cliente à utiliser pour interroger W&amp;B.
+* `entity`:  L&#39;entité (utilisateur ou équipe) propriétaire du projet.
+* `project`:  Le nom du projet dans lequel interroger les collections d&#39;artifacts.
+* `type_name`:  Le nom du type d&#39;artifact dont il faut récupérer les collections.
+* `filters`:  Mapping facultatif des filtres à appliquer à la requête.
+* `order`:  Chaîne facultative permettant de spécifier l&#39;ordre des résultats. Si vous faites précéder l&#39;ordre d&#39;un +, l&#39;ordre est croissant (par défaut). Si vous faites précéder l&#39;ordre d&#39;un -, l&#39;ordre est décroissant.
+* `per_page`:  Le nombre de collections d&#39;artifacts à récupérer par page. La valeur par défaut est de 50. 
 
 ### <kbd>propriété</kbd> ArtifactCollections.cursor
 

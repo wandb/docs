@@ -7,21 +7,21 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/workspaces/internal.py" />
 
 <Note>
-  L’API W&amp;B Report et Workspace est disponible en aperçu public.
+  L&#39;API W&amp;B Report and Workspace est en aperçu public.
 </Note>
 
-Bibliothèque Python permettant d’utiliser l’API Workspace de W&amp;B par programmation.
+Bibliothèque Python pour interagir de manière programmatique avec l&#39;API W&amp;B Workspace.
 
 ```python
 # Comment importer
 import wandb_workspaces.workspaces as ws
 import wandb_workspaces.reports.v2 as wr
 
-# Exemple de création d'un espace de travail
+# Exemple de création d'un workspace
 ws.Workspace(
      name="Example W&B Workspace",
-     entity="entity", # entité propriétaire de l'espace de travail
-     project="project", # projet associé à l'espace de travail
+     entity="entity", # entité propriétaire du workspace
+     project="project", # projet associé au workspace
      sections=[
          ws.Section(
              name="Validation Metrics",
@@ -44,30 +44,30 @@ Paramètres d’un run dans un runset (barre de gauche).
 
 **Attributs :**
 
-* `color` (str):  La couleur du run dans l’UI. Peut être une valeur hexadécimale (#ff0000), une couleur CSS (red) ou une valeur RVB (rgb(255, 0, 0))
-* `disabled` (bool):  Indique si le run est désactivé (œil fermé dans l’UI). La valeur par défaut est `False`.
+* `color` (str):  La couleur du run dans l’interface utilisateur. Peut être au format hexadécimal (#ff0000), une couleur CSS (red) ou au format RGB (rgb(255, 0, 0))
+* `disabled` (bool):  Indique si le run est désactivé (œil fermé dans l’interface utilisateur). La valeur par défaut est `False`.
 
 ***
 
 ## <kbd>class</kbd> `RunsetSettings`
 
-Paramètres du runset (la barre latérale gauche contenant les runs) dans un espace de travail.
+Paramètres du runset (la barre de gauche contenant les runs) dans un Workspace.
 
 **Attributs :**
 
-* `query` (str):  Une requête pour filtrer le runset (peut être une expression regex, voir le paramètre suivant).
-* `regex_query` (bool):  Indique si la requête (ci-dessus) est une expression regex. La valeur par défaut est `False`.
+* `query` (str):  Une requête pour filtrer le runset (peut être une expression régulière, voir le paramètre suivant).
+* `regex_query` (bool):  Indique si la requête (ci-dessus) est une expression régulière. La valeur par défaut est `False`.
 * `filters` (Union[str, LList[expr.FilterExpr]]):  Une liste de filtres à appliquer au runset, ou une expression sous forme de chaîne.
-  * Sous forme de liste : les filtres sont combinés avec AND. Voir FilterExpr pour plus d&#39;informations sur la création de filtres.
+  * Sous forme de liste : les filtres sont combinés avec l’opérateur AND. Voir FilterExpr pour plus d’informations sur la création de filtres.
   * Sous forme de chaîne : utilisez des expressions de type Python, par ex., &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Prend en charge les opérateurs`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+* `Supports operators`:  `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
 * `groupby` (LList[expr.MetricType]):  Une liste de métriques selon lesquelles regrouper les éléments du runset. Définissez-la sur `Metric`, `Summary`, `Config`, `Tags` ou `KeysInfo`.
-* `order` (LList[expr.Ordering]):  Une liste de métriques et l&#39;ordre de tri à appliquer au runset.
-* `run_settings` (Dict[str, RunSettings]):  Un dictionnaire de paramètres de run, où la clé est l&#39;ID du run et la valeur un objet RunSettings.
+* `order` (LList[expr.Ordering]):  Une liste de métriques et d’ordres de tri à appliquer au runset.
+* `run_settings` (Dict[str, RunSettings]):  Un dictionnaire de paramètres de run, où la clé est l’ID du run et la valeur un objet RunSettings.
 * `pinned_columns` (LList[str]):  Liste des noms de colonnes à épingler.
-* `Le format des noms de colonnes est`:  &quot;run:displayName&quot;, &quot;summary:metric&quot;, &quot;config:param&quot;.
-* `run`: displayName est ajouté automatiquement s&#39;il n&#39;est pas présent.
-* `Exemple`:  [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
+* `Column names use format`:  &quot;run:displayName&quot;, &quot;summary:metric&quot;, &quot;config:param&quot;.
+* `run`: displayName est ajouté automatiquement s’il n’est pas déjà présent.
+* `Example`:  [&quot;summary:accuracy&quot;, &quot;summary:loss&quot;]
 
 **Exemple :**
 
@@ -105,48 +105,48 @@ Convertit une liste de FilterExpr en expression sous forme de chaîne (format in
 validate_and_setup_columns()
 ```
 
-Assurez-vous que run:displayName est présent et configurez les champs internes des colonnes.
+Assurez-vous que run:displayName est présent et configurez les champs de colonne internes.
 
 ***
 
 
 ## <kbd>class</kbd> `Section`
 
-Représente une section dans un espace de travail.
+Représente une section dans un Workspace.
 
 **Attributs :**
 
-* `name` (str):  Nom/titre de la section.
-* `panels` (LList[PanelTypes]):  Liste ordonnée des panneaux de la section. Par défaut, le premier se trouve en haut à gauche et le dernier en bas à droite.
+* `name` (str):  Le nom/titre de la section.
+* `panels` (LList[PanelTypes]):  Une liste ordonnée de panneaux dans la section. Par défaut, le premier se trouve en haut à gauche et le dernier en bas à droite.
 * `is_open` (bool):  Indique si la section est ouverte ou fermée. Par défaut, elle est fermée.
-* `pinned` (bool):  Indique si la section est épinglée. Les sections épinglées apparaissent en haut de l&#39;espace de travail. La valeur par défaut est `False`.
+* `pinned` (bool):  Indique si la section est épinglée. Les sections épinglées apparaissent en haut du Workspace. La valeur par défaut est `False`.
 * `layout_settings` (SectionLayoutSettings):  Paramètres de mise en page des panneaux dans la section.
-* `panel_settings`:  Paramètres au niveau du panneau appliqués à tous les panneaux de la section, similaires à `WorkspaceSettings` pour une `Section`.
+* `panel_settings`:  Paramètres au niveau des panneaux appliqués à tous les panneaux de la section, similaires à `WorkspaceSettings` pour une `Section`.
 
 ***
 
 ## <kbd>class</kbd> `SectionLayoutSettings`
 
-Paramètres de mise en page du panneau d’une section, généralement affichés en haut à droite de la section dans l’interface espace de travail de l’application W&amp;B.
+Paramètres de mise en page des panneaux d’une section, généralement visibles en haut à droite de la section dans l’UI Workspace de W&amp;B App.
 
 **Attributs :**
 
-* `columns` (int) :  Le nombre de colonnes de la mise en page. La valeur par défaut est 3.
-* `rows` (int) :  Le nombre de lignes de la mise en page. La valeur par défaut est 2.
+* `columns` (int):  Le nombre de colonnes dans la mise en page. La valeur par défaut est 3.
+* `rows` (int):  Le nombre de lignes dans la mise en page. La valeur par défaut est 2.
 
 ***
 
 ## <kbd>class</kbd> `SectionPanelSettings`
 
-Paramètres du panneau pour une section, similaires à ceux de `WorkspaceSettings` pour une section.
+Paramètres du panneau d’une section, similaires à `WorkspaceSettings` pour une section.
 
-Les paramètres appliqués ici peuvent être remplacés par des Paramètres du panneau plus spécifiques selon cette priorité : Section &lt; Panel.
+Les paramètres appliqués ici peuvent être remplacés par des paramètres de panneau plus précis, selon l’ordre de priorité suivant : Section &lt; Panel.
 
 **Attributs :**
 
-* `x_axis` (str):  Nom de la métrique utilisée pour l&#39;axe X. Par défaut, la valeur est définie sur &quot;Step&quot;.
-* `x_min Optional[float]`:  Valeur minimale pour l&#39;axe X.
-* `x_max Optional[float]`:  Valeur maximale pour l&#39;axe X.
+* `x_axis` (str):  Paramètre du nom de la métrique de l’axe x. Par défaut, la valeur est &quot;Step&quot;.
+* `x_min Optional[float]`:  Valeur minimale de l’axe x.
+* `x_max Optional[float]`:  Valeur maximale de l’axe x.
 * `smoothing_type` (Literal[&#39;exponentialTimeWeighted&#39;, &#39;exponential&#39;, &#39;gaussian&#39;, &#39;average&#39;, &#39;none&#39;]):  Type de lissage appliqué à tous les panneaux.
 * `smoothing_weight` (int):  Poids du lissage appliqué à tous les panneaux.
 
@@ -154,17 +154,17 @@ Les paramètres appliqués ici peuvent être remplacés par des Paramètres du p
 
 ## <kbd>class</kbd> `Workspace`
 
-Représente un espace de travail W&amp;B, y compris les sections, les paramètres et la configuration des ensembles de runs.
+Représente un Workspace W&amp;B, y compris les sections, les paramètres et la configuration des ensembles de runs.
 
 **Attributs :**
 
-* `entity` (str):  L’entité sous laquelle cet espace de travail sera enregistré (généralement le nom d’un utilisateur ou d’une équipe).
-* `project` (str):  Le projet dans lequel cet espace de travail sera enregistré.
-* `name`:  Le nom de l’espace de travail.
-* `sections` (LList[Section]):  Une liste ordonnée de sections dans l’espace de travail.  La première section se trouve en haut de l’espace de travail.
-* `settings` (WorkspaceSettings):  Les paramètres de l’espace de travail, généralement visibles en haut de l’espace de travail dans l’interface utilisateur.
-* `runset_settings` (RunsetSettings):  Les paramètres du runset  (la barre latérale gauche contenant les runs) dans un espace de travail.
-* `auto_generate_panels` (bool):  Indique s’il faut générer automatiquement des panneaux pour toutes les clés enregistrées dans ce projet.  Recommandé si vous souhaitez que toutes les données disponibles soient visualisées par défaut.  Cette option ne peut être définie qu’au moment de la création de l’espace de travail et ne peut pas être modifiée par la suite.
+* `entity` (str):  L’entité dans laquelle ce Workspace sera enregistré (généralement le nom d’un utilisateur ou d’une équipe).
+* `project` (str):  Le projet dans lequel ce Workspace sera enregistré.
+* `name`:  Le nom du Workspace.
+* `sections` (LList[Section]):  Une liste ordonnée des sections du Workspace. La première section se trouve en haut du Workspace.
+* `settings` (WorkspaceSettings):  Les paramètres du Workspace, généralement visibles en haut du Workspace dans l’UI.
+* `runset_settings` (RunsetSettings):  Les paramètres du runset (la barre de gauche contenant les runs) dans un Workspace.
+* `auto_generate_panels` (bool):  Indique s’il faut générer automatiquement des panneaux pour toutes les clés enregistrées dans ce projet. Recommandé si vous souhaitez que toutes les données disponibles soient visualisées par défaut. Ce paramètre ne peut être défini qu’au moment de la création du Workspace et ne peut plus être modifié ensuite.
 
 ***
 
@@ -174,7 +174,7 @@ Représente un espace de travail W&amp;B, y compris les sections, les paramètre
 
 ### <kbd>propriété</kbd> url
 
-L’URL de l’espace de travail dans l’application W&amp;B.
+L’URL du Workspace dans l’application W&amp;B.
 
 ***
 
@@ -184,7 +184,7 @@ L’URL de l’espace de travail dans l’application W&amp;B.
 from_url(url: str)
 ```
 
-Obtenir un espace de travail depuis une URL.
+Obtient un workspace à partir d’une URL.
 
 ***
 
@@ -195,11 +195,11 @@ Obtenir un espace de travail depuis une URL.
 save()
 ```
 
-Enregistre l’espace de travail actuel sur W&amp;B.
+Enregistrez le Workspace actuel dans W&amp;B.
 
-**Retourne :**
+**Retourne :**
 
-* `Workspace`:  L’espace de travail mis à jour avec le nom interne et l’ID enregistrés.
+* `Workspace`:  Le Workspace mis à jour avec le nom interne et l&#39;ID enregistrés.
 
 ***
 
@@ -210,37 +210,37 @@ Enregistre l’espace de travail actuel sur W&amp;B.
 save_as_new_view()
 ```
 
-Enregistrez l’espace de travail actuel comme nouvelle vue dans W&amp;B.
+Enregistrez le Workspace actuel en tant que nouvelle vue dans W&amp;B.
 
-**Retourne :**
+**Retourne :**
 
-* `Workspace` :  L’espace de travail mis à jour avec le nom interne et l’ID enregistrés.
+* `Workspace`:  Le Workspace mis à jour, avec le nom interne et l’ID enregistrés.
 
 ***
 
 
 ## <kbd>class</kbd> `WorkspaceSettings`
 
-Paramètres de l’espace de travail, généralement visibles en haut de l’espace de travail dans l&#39;interface utilisateur.
+Paramètres du Workspace, généralement visibles en haut du Workspace dans l&#39;UI.
 
-Cet objet inclut les paramètres de l&#39;axe X, du lissage, des valeurs aberrantes, des panneaux, des info-bulles, des runs et de la barre de requête des panneaux.
+Cet objet inclut des paramètres pour l&#39;axe x, le lissage, les valeurs aberrantes, les panneaux, les infobulles, les runs et la barre de requête des panneaux.
 
-Les paramètres appliqués ici peuvent être remplacés par des paramètres de Section et de Panel plus précis, selon l&#39;ordre de priorité suivant : espace de travail &lt; Section &lt; Panel
+Les paramètres appliqués ici peuvent être surchargés par des paramètres de Section et de Panel plus spécifiques, selon cet ordre de priorité : Workspace &lt; Section &lt; Panel
 
 **Attributs :**
 
-* `x_axis` (str) :  Paramètre du nom de la métrique de l&#39;axe X.
-* `x_min` (Optional[float]) :  Valeur minimale de l&#39;axe X.
-* `x_max` (Optional[float]) :  Valeur maximale de l&#39;axe X.
-* `smoothing_type` (Literal[&#39;exponentialTimeWeighted&#39;, &#39;exponential&#39;, &#39;gaussian&#39;, &#39;average&#39;, &#39;none&#39;]) :  Type de lissage appliqué à tous les panneaux.
-* `smoothing_weight` (int) :  Poids du lissage appliqué à tous les panneaux.
-* `ignore_outliers` (bool) :  Ignorer les valeurs aberrantes dans tous les panneaux.
-* `sort_panels_alphabetically` (bool) :  Trie les panneaux de toutes les sections par ordre alphabétique.
-* `group_by_prefix` (Literal[&quot;first&quot;, &quot;last&quot;]) :  Regroupe les panneaux selon le premier préfixe ou jusqu&#39;au dernier préfixe (`first` ou `last`). La valeur par défaut est `last`.
-* `remove_legends_from_panels` (bool) :  Supprime les légendes de tous les panneaux.
-* `tooltip_number_of_runs` (Literal[&quot;default&quot;, &quot;all&quot;, &quot;none&quot;]) :  Nombre de runs à afficher dans l&#39;info-bulle.
-* `tooltip_color_run_names` (bool) :  Indique s&#39;il faut colorer les noms de run dans l&#39;info-bulle pour qu&#39;ils correspondent au jeu de runs (`True`) ou non (`False`). La valeur par défaut est `True`.
-* `max_runs` (int) :  Nombre maximal de runs à afficher par panneau (il s&#39;agira des 10 premiers runs du jeu de runs).
-* `point_visualization_method` (Literal[&quot;line&quot;, &quot;point&quot;, &quot;line&#95;point&quot;]) :  Méthode de visualisation des points.
-* `panel_search_query` (str) :  Requête de la barre de recherche des panneaux (peut être une expression régulière).
-* `auto_expand_panel_search_results` (bool) :  Indique s&#39;il faut développer automatiquement les résultats de recherche des panneaux.
+* `x_axis` (str):  Paramètre du nom de la métrique de l&#39;axe x.
+* `x_min` (Optional[float]):  Valeur minimale pour l&#39;axe x.
+* `x_max` (Optional[float]):  Valeur maximale pour l&#39;axe x.
+* `smoothing_type` (Literal[&#39;exponentialTimeWeighted&#39;, &#39;exponential&#39;, &#39;gaussian&#39;, &#39;average&#39;, &#39;none&#39;]):  Type de lissage appliqué à tous les panneaux.
+* `smoothing_weight` (int):  Poids du lissage appliqué à tous les panneaux.
+* `ignore_outliers` (bool):  Ignore les valeurs aberrantes dans tous les panneaux.
+* `sort_panels_alphabetically` (bool):  Trie les panneaux de toutes les sections par ordre alphabétique.
+* `group_by_prefix` (Literal[&quot;first&quot;, &quot;last&quot;]):  Regroupe les panneaux par premier ou dernier préfixe (`first` ou `last`). La valeur par défaut est `last`.
+* `remove_legends_from_panels` (bool):  Supprime les légendes de tous les panneaux.
+* `tooltip_number_of_runs` (Literal[&quot;default&quot;, &quot;all&quot;, &quot;none&quot;]):  Le nombre de runs à afficher dans l&#39;infobulle.
+* `tooltip_color_run_names` (bool):  Indique s&#39;il faut colorer les noms des runs dans l&#39;infobulle pour correspondre au runset (True) ou non (False). La valeur par défaut est `True`.
+* `max_runs` (int):  Le nombre maximal de runs à afficher par panneau (il s&#39;agira des 10 premiers runs du runset).
+* `point_visualization_method` (Literal[&quot;line&quot;, &quot;point&quot;, &quot;line&#95;point&quot;]):  La méthode de visualisation des points.
+* `panel_search_query` (str):  La requête de la barre de recherche des panneaux (peut être une expression regex).
+* `auto_expand_panel_search_results` (bool):  Indique s&#39;il faut développer automatiquement les résultats de recherche des panneaux.

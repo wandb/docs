@@ -1,6 +1,6 @@
 ---
 title: spaCy
-description: "W&B と spaCy v3 を統合して、WandbLogger config を使用し、トレーニング メトリクス を追跡するとともに、モデル とデータセット をバージョン管理します。"
+description: "WandbLogger 設定を使用して、W&B を spaCy v3 と統合し、トレーニング メトリクスを追跡して、モデルとデータセットをバージョン管理します。"
 ---
 
 import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
@@ -91,10 +91,10 @@ model_log_interval = 1000
 | `run_name`             | `Optional str`。指定した場合、run は指定された名前で作成されます。                                                                                                                                        |
 
 <div id="start-training">
-  ## トレーニングを開始
+  ## トレーニングを開始する
 </div>
 
-`WandbLogger` を spaCy のトレーニング config に追加したら、通常どおり `spacy train` を実行できます。
+spaCy のトレーニング設定に `WandbLogger` を追加したら、通常どおり `spacy train` を実行できます。
 
 <Tabs>
   <Tab title="コマンドライン">
@@ -128,4 +128,4 @@ model_log_interval = 1000
   </Tab>
 </Tabs>
 
-トレーニングが開始されると、トレーニング run の [W&amp;B ページ](/ja/models/runs/) へのリンクが出力されます。このリンクを開くと、W&amp;B Web UI のこの run の実験管理 [ダッシュボード](/ja/models/track/workspaces/) に移動できます。
+トレーニングが始まると、トレーニング run の [W&amp;Bページ](/ja/models/runs/) へのリンクが出力されます。このリンクを開くと、W&amp;B Web UI のこの run の実験管理 [ダッシュボード](/ja/models/track/workspaces/) に移動できます。

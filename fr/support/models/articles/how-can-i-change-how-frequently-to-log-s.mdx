@@ -1,9 +1,9 @@
 ---
-title: "Comment puis-je modifier la fréquence de journalisation des métriques système ?"
+title: "Comment modifier la fréquence de journalisation des métriques système ?"
 keywords: ["Métriques", "Runs"]
 ---
 
-Pour configurer la fréquence de journalisation des [métriques système](/fr/models/ref/python/experiments/system-metrics), définissez `_stats_sampling_interval` sur une valeur en secondes, exprimée sous forme de nombre à virgule flottante. Par défaut : `10.0`.
+Pour configurer la fréquence de journalisation des [métriques système](/fr/models/ref/python/experiments/system-metrics), définissez `_stats_sampling_interval` sur un nombre de secondes exprimé sous forme de nombre à virgule flottante. Par défaut : `10.0`.
 
 ```python
 wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
@@ -11,11 +11,11 @@ wandb.init(settings=wandb.Settings(x_stats_sampling_interval=30.0))
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}
