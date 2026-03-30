@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Projects`
 
-Un itérateur lazy sur des objets `Project`.
+Un itérateur paresseux d’objets `Project`.
 
-Une interface itérable pour accéder aux projets créés et enregistrés par l’entité.
+Une interface itérable permettant d’accéder aux projets créés et enregistrés par l’entité.
 
 ### <kbd>méthode</kbd> `Projects.__init__`
 
@@ -27,16 +27,16 @@ __init__(
 
 **Arguments :**
 
-* `client` (`wandb.apis.internal.Api`) :  Instance du client API à utiliser.
-* `entity` (str) :  Le nom de l’entité (nom d’utilisateur ou équipe) pour laquelle récupérer les projets.
-* `per_page` (int) :  Nombre de projets à récupérer par requête (50 par défaut).
+* `client` (`wandb.apis.internal.Api`) :  L’instance du client d’API à utiliser.
+* `entity` (str) :  Le nom de l’entité (nom d’utilisateur ou équipe) pour laquelle récupérer des projets.
+* `per_page` (int) :  Le nombre de projets à récupérer par requête (50 par défaut).
 
 **Exemple :**
 
 ```python
 from wandb.apis.public.api import Api
 
-# Trouver les projets appartenant à cette entité
+# Rechercher les projets appartenant à cette entité
 projects = Api().projects(entity="entity")
 
 # Itérer sur les projets
@@ -51,8 +51,8 @@ Une collection itérable d’objets `Project`.
 
 **Arguments :**
 
-* `client`:  Le client API utilisé pour effectuer des requêtes sur W&amp;B.
-* `entity`:  L’entité à laquelle appartiennent les projets.
+* `client`:  Le client API utilisé pour interroger W&amp;B.
+* `entity`:  L’entité propriétaire des projets.
 * `per_page`:  Le nombre de projets à récupérer à chaque requête à l’API.
 
 ***

@@ -1,11 +1,11 @@
 ---
-title: Aperçu des automatisations
+title: Aperçu d’Automations
 description: Utilisez l’API W&B Automations pour créer et gérer des flux de travail automatisés dans vos pipelines ML
 module: wandb.automations
 no_list: true
 ---
 
-L’API W&amp;B Automations permet de créer et de gérer par programmation des flux de travail automatisés qui réagissent aux événements de votre pipeline ML. Configurez des actions pour qu’elles se déclenchent lorsque des conditions spécifiques sont remplies, par exemple des seuils de performance du modèle ou la création d’un artefact.
+L’API W&amp;B Automations permet de créer et de gérer par programmation des flux de travail automatisés qui réagissent aux événements de votre pipeline ML. Configurez des actions pour qu’elles se déclenchent lorsque des conditions spécifiques sont remplies, comme des seuils de performance du modèle ou la création d’un artifact.
 
 <div id="core-classes">
   ### Classes principales
@@ -17,34 +17,34 @@ L’API W&amp;B Automations permet de créer et de gérer par programmation des 
 | [`NewAutomation`](/fr/models/ref/python/automations/newautomation/) | Classe utilitaire permettant de créer de nouvelles automatisations.         |
 
 <div id="events-triggers">
-  ### Événements (déclencheurs)
+  ### Événements (Déclencheurs)
 </div>
 
-| Événement                                                                  | Description                                                                                     |
-| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| [`OnRunMetric`](/fr/models/ref/python/automations/onrunmetric/)               | Se déclenche lorsqu’une métrique de run remplit une condition définie (seuil, variation, etc.). |
-| [`OnCreateArtifact`](/fr/models/ref/python/automations/oncreateartifact/)     | Se déclenche lorsqu’un nouvel artefact est créé dans une collection.                            |
-| [`OnLinkArtifact`](/fr/models/ref/python/automations/onlinkartifact/)         | Se déclenche lorsqu’un artefact est lié à un registre.                                          |
-| [`OnAddArtifactAlias`](/fr/models/ref/python/automations/onaddartifactalias/) | Se déclenche lorsqu’un alias est ajouté à un artefact.                                          |
+| Événement                                                                  | Description                                                                                           |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| [`OnRunMetric`](/fr/models/ref/python/automations/onrunmetric/)               | Se déclenche lorsqu&#39;une métrique de run satisfait une condition définie (seuil, variation, etc.). |
+| [`OnCreateArtifact`](/fr/models/ref/python/automations/oncreateartifact/)     | Se déclenche lorsqu&#39;un nouvel artifact est créé dans une collection.                              |
+| [`OnLinkArtifact`](/fr/models/ref/python/automations/onlinkartifact/)         | Se déclenche lorsqu&#39;un artifact est lié à un registre.                                            |
+| [`OnAddArtifactAlias`](/fr/models/ref/python/automations/onaddartifactalias/) | Se déclenche lorsqu&#39;un alias est ajouté à un artifact.                                            |
 
 <div id="actions">
   ### Actions
 </div>
 
-| Action                                                                 | Description                                                     |
-| ---------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [`SendNotification`](/fr/models/ref/python/automations/sendnotification/) | Envoie des notifications via Slack ou d’autres canaux intégrés. |
-| [`SendWebhook`](/fr/models/ref/python/automations/sendwebhook/)           | Envoie des requêtes webhook HTTP vers des services externes.    |
-| [`DoNothing`](/fr/models/ref/python/automations/donothing/)               | Action factice pour tester les configurations d’automatisation. |
+| Action                                                                 | Description                                                      |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [`SendNotification`](/fr/models/ref/python/automations/sendnotification/) | Envoyer des notifications via Slack ou d’autres canaux intégrés. |
+| [`SendWebhook`](/fr/models/ref/python/automations/sendwebhook/)           | Envoyer des requêtes webhook HTTP à des services externes.       |
+| [`DoNothing`](/fr/models/ref/python/automations/donothing/)               | Action factice pour tester les configurations d’automatisation.  |
 
 <div id="filters">
   ### Filtres
 </div>
 
-| Filtre                                                                           | Description                                                                    |
-| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| [`MetricThresholdFilter`](/fr/models/ref/python/automations/metricthresholdfilter/) | Filtre les runs selon la comparaison des valeurs de métrique à des seuils.     |
-| [`MetricChangeFilter`](/fr/models/ref/python/automations/metricchangefilter/)       | Filtre les runs selon l&#39;évolution des valeurs de métrique au fil du temps. |
+| Filtre                                                                           | Description                                                                             |
+| -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [`MetricThresholdFilter`](/fr/models/ref/python/automations/metricthresholdfilter/) | Filtre les runs en comparant les valeurs des métriques à des seuils.                    |
+| [`MetricChangeFilter`](/fr/models/ref/python/automations/metricchangefilter/)       | Filtre les runs en fonction de l’évolution de la valeur d’une métrique au fil du temps. |
 
 <div id="common-use-cases">
   ## Cas d’usage courants
@@ -54,39 +54,39 @@ L’API W&amp;B Automations permet de créer et de gérer par programmation des 
   ### Surveillance des performances du modèle
 </div>
 
-* Déclenchez une alerte lorsque la précision du modèle passe sous un seuil
-* Notifiez l’équipe lorsque la perte d’entraînement plafonne
-* Déclenchez des pipelines de réentraînement basés sur des métriques de performance
+* Déclencher une alerte lorsque l’accuracy du modèle passe sous un seuil
+* Notifier l’équipe lorsque la perte d’entraînement plafonne
+* Déclencher des pipelines de réentraînement en fonction des métriques de performance
 
 <div id="artifact-management">
-  ### Gestion des artefacts
+  ### Gestion des Artifacts
 </div>
 
-* Envoyez des notifications lorsque de nouvelles versions de modèle sont créées
-* Déclenchez des flux de travail de déploiement lorsque des artefacts sont tagués
-* Automatisez les traitements en aval lorsque des jeux de données sont mis à jour
+* Envoyer des notifications lorsque de nouvelles versions de modèle sont créées
+* Déclencher des flux de travail de déploiement lorsque des artifacts sont tagués
+* Automatiser les traitements en aval lorsque des jeux de données sont mis à jour
 
 <div id="experiment-tracking">
   ### Suivi des expériences
 </div>
 
-* Alerte en cas d’échec ou d’interruption des runs
-* Être notifié lorsque des expériences de longue durée se terminent
-* Recevoir des résumés quotidiens des métriques des expériences
+* Alertes en cas de runs en échec ou plantés
+* Notifications lorsque des expériences de longue durée se terminent
+* Envoi de résumés quotidiens des métriques des expériences
 
 <div id="integration-workflows">
   ### Flux de travail d’intégration
 </div>
 
-* Mettre à jour les systèmes de suivi externes via des webhooks
-* Synchroniser le registre de modèles avec les plateformes de déploiement
+* Mettre à jour des systèmes de suivi externes via des webhooks
+* Synchroniser le registre de modèles avec des plateformes de déploiement
 * Déclencher des pipelines CI/CD à partir d’événements W&amp;B
 
 <div id="example-usage">
   ## Exemple d’utilisation
 </div>
 
-L’exemple suivant crée une automatisation qui envoie une notification Slack chaque fois qu’une métrique nommée `custom-metric` dépasse 10. `custom-metric` doit être enregistrée pendant l’entraînement à l’aide de `wandb.Run.log({"custom-metric": value })`.
+L’exemple suivant crée une automatisation qui envoie une notification Slack chaque fois qu’une métrique appelée `custom-metric` dépasse 10. La métrique `custom-metric` est censée être enregistrée pendant l’entraînement à l’aide de `wandb.Run.log({"custom-metric": value })`.
 
 ```python
 import wandb
@@ -116,4 +116,4 @@ automation = api.create_automation(
 )
 ```
 
-Pour en savoir plus sur l’utilisation de l’API Automations, voir le [guide Automations](/fr/models/automations/).
+Pour en savoir plus sur l’utilisation de l’API Automations, consultez le [guide Automations](/fr/models/automations/).

@@ -1,17 +1,17 @@
 ---
 title: "Together AI"
-description: "OpenAI SDK 호환성을 사용해 Weave로 Together AI의 오픈 소스 LLM을 추적하여 모델 호출을 원활하게 트레이싱하고 평가할 수 있습니다."
+description: "원활한 Tracing과 모델 call 평가를 위해 OpenAI SDK 호환을 사용해 Weave로 Together AI의 오픈 소스 LLM을 추적하세요."
 ---
 
-Together AI는 오픈 소스 LLM에 중점을 두고 생성형 AI 모델을 구축하고 파인튜닝할 수 있는 플랫폼으로, 고객이 자신만의 모델을 파인튜닝하고 호스팅할 수 있도록 합니다.
+Together AI는 생성형 AI 모델을 구축하고 파인튜닝하는 플랫폼으로, 오픈 소스 LLM에 중점을 두고 고객이 자체 모델을 파인튜닝하고 호스팅할 수 있도록 지원합니다.
 
 <Info>
-  전체 Weave `together` Python 패키지 지원은 현재 개발 중입니다
+  Weave의 `together` Python 패키지 전체 지원은 현재 개발 중입니다.
 </Info>
 
-`together` Python 패키지에 대한 전체 Weave 지원은 현재 개발 중이지만, Together는 OpenAI SDK 호환성([docs](https://docs.together.ai/docs/openai-api-compatibility))을 지원하며 Weave는 이를 자동으로 감지해 연동합니다.
+Weave의 `together` Python 패키지 전체 지원은 현재 개발 중이지만, Together는 OpenAI SDK 호환([docs](https://docs.together.ai/docs/openai-api-compatibility))을 지원하며 Weave는 이를 자동으로 감지해 통합합니다.
 
-Together API를 사용하도록 전환하려면, [Together API](https://docs.together.ai/docs/quickstart)용 API 키로 교체하고 `base_url`을 `https://api.together.xyz/v1`로 설정한 다음, `model`을 해당 서비스의 [chat models](https://docs.together.ai/docs/inference-models#chat-models) 중 하나로 변경하면 됩니다.
+Together API를 사용하려면 [Together API](https://docs.together.ai/docs/quickstart) 키로 API 키를 바꾸고, `base_url`을 `https://api.together.xyz/v1`로 설정한 다음, 모델을 제공되는 [chat models](https://docs.together.ai/docs/inference-models#chat-models) 중 하나로 변경하면 됩니다.
 
 ```python lines {5, 10-13}
 import os
@@ -40,4 +40,4 @@ response = chat_completion.choices[0].message.content
 print("Together response:\n", response)
 ```
 
-이것은 시작을 위한 간단한 예제이지만, 더 복잡한 사용 사례에서 직접 작성한 함수를 Weave와 인테그레이션하는 방법에 대한 자세한 내용은 [OpenAI](/ko/weave/guides/integrations/openai#track-your-own-ops) 가이드를 참고하세요.
+이는 시작을 위한 단순한 예시이지만, 더 복잡한 사용 사례에서 직접 작성한 함수에 Weave를 통합하는 방법에 대한 자세한 내용은 [OpenAI](/ko/weave/guides/integrations/openai#track-your-own-ops) 가이드를 참조하세요.

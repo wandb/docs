@@ -1,17 +1,17 @@
 ---
-title: "Où les artefacts sont-ils téléchargés, et comment puis-je définir cet emplacement ?"
-keywords: ["Artifacts", "Variables d’environnement"]
+title: "Où les Artifacts sont-ils téléchargés et comment puis-je contrôler leur emplacement ?"
+keywords: ["Artifacts", "Variables d'environnement"]
 ---
 
-Par défaut, les artefacts sont téléchargés dans le dossier `artifacts/`. Pour modifier l’emplacement :
+Par défaut, les Artifacts sont téléchargés dans le dossier `artifacts/`. Pour modifier cet emplacement :
 
-* Passez-le à [`wandb.Artifact().download`](/fr/models/ref/python/public-api/api) :
+* Passez le chemin à [`wandb.Artifact().download`](/fr/models/ref/python/public-api/api) :
 
   ```python
   wandb.Artifact().download(root="<path_to_download>")
   ```
 
-* Définissez la variable d’environnement `WANDB_ARTIFACT_DIR` ([variables d’environnement](/fr/models/track/environment-variables)) :
+* Définissez la variable d&#39;environnement `WANDB_ARTIFACT_DIR` [Variables d&#39;environnement](/fr/models/track/environment-variables) :
 
   ```python
   import os
@@ -20,11 +20,11 @@ Par défaut, les artefacts sont téléchargés dans le dossier `artifacts/`. Pou
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas ce qui se trouve entre ces marqueurs à la main.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Variables d’environnement](/fr/support/models/tags/environment-variables)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}

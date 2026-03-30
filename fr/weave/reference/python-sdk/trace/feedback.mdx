@@ -16,7 +16,7 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `FeedbackQuery`
 
-Objet lazy permettant de récupérer les retours depuis le serveur.
+Objet chargé à la demande pour récupérer les retours depuis le serveur.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L97" />
 
@@ -73,7 +73,7 @@ refs() → Refs
 
 ## <kbd>class</kbd> `Feedbacks`
 
-Une collection d’objets Feedback accompagnée de méthodes utilitaires.
+Une collection d’objets Feedback accompagnée d’utilitaires.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L26" />
 
@@ -97,7 +97,7 @@ __init__(
 refs() → Refs
 ```
 
-Renvoie les références uniques associées à ces retours.
+Renvoie les refs uniques associées à ces retours.
 
 ***
 
@@ -135,7 +135,7 @@ add(
 
 Ajoutez un retour à la ref.
 
-feedback&#95;type : Une chaîne qui identifie le type de retour. Le préfixe &quot;wandb.&quot; est réservé. creator : Le nom à afficher pour l’auteur du retour.
+feedback&#95;type : Chaîne qui identifie le type de retour. Le préfixe &quot;wandb.&quot; est réservé. creator : Le nom à afficher pour l&#39;auteur du retour.
 
 ***
 

@@ -11,11 +11,11 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `MetricChangeFilter`
 
-メトリクス値の**変化**を、ユーザー定義のしきい値と比較するフィルタです。
+メトリクス値の**変化**を、ユーザー定義のしきい値と比較するフィルターです。
 
-変化量は「タンブリング」ウィンドウ、つまり現在のウィンドウと、その直前の非重複ウィンドウとの差分として計算されます。
+変化は「タンブリング」ウィンドウで計算されます。つまり、現在のウィンドウと、重複しない1つ前のウィンドウとの差分です。
 
-### <kbd>メソッド</kbd> `MetricChangeFilter.__init__`
+### <kbd>method</kbd> `MetricChangeFilter.__init__`
 
 ```python
 __init__(
@@ -35,10 +35,10 @@ __init__(
 * `name` (str):
 * `agg` (Optional[Agg]):
 * `window` (int):
-* `cmp` (None): この引数は無視されます。
+* `cmp` (None): 無視されます。
 * `threshold` (Union[Annotated, Annotated]):
-* `prior_window` (int): 「prior」メトリクスの集約ウィンドウのサイズ（`agg` が `None` の場合は無視されます）。
-  省略した場合は、現在のウィンドウと同じサイズがデフォルトになります。
+* `prior_window` (int): 「1つ前の」メトリクス集約ウィンドウのサイズ (`agg` が `None` の場合は無視されます) 。
+  省略した場合は、現在のウィンドウと同じサイズがデフォルトで使用されます。
 * `change_type` (ChangeType):
 * `change_dir` (ChangeDir):
 

@@ -1,35 +1,35 @@
 ---
-title: "Code d’erreur de l’API 503 - Le moteur est actuellement surchargé"
+title: "Code d'erreur API 503 - Le moteur est actuellement surchargé"
 keywords: ["Erreurs du serveur"]
 ---
 
-Une erreur 503 accompagnée du message &quot;Le moteur est actuellement surchargé, veuillez réessayer plus tard&quot; signifie que le serveur W&amp;B Inférence fait face à un trafic élevé et ne peut pas traiter votre requête pour le moment.
+Une erreur 503 accompagnée du message &quot;Le moteur est actuellement surchargé, veuillez réessayer plus tard&quot; signifie que le serveur W&amp;B Inference subit actuellement un trafic important et ne peut pas traiter votre requête pour le moment.
 
 <div id="why-this-happens">
-  ## Pourquoi cela se produit
+  ## Pourquoi cela arrive
 </div>
 
-Pendant les périodes de forte demande, le moteur d’inférence peut être temporairement surchargé. Il s’agit d’une situation transitoire qui se résout généralement d’elle-même lorsque le trafic diminue.
+Pendant les périodes de forte demande, le moteur d’inférence peut être temporairement surchargé. Il s’agit d’une situation temporaire qui se résout généralement d’elle-même à mesure que le trafic diminue.
 
 <div id="what-you-can-do">
   ## Ce que vous pouvez faire
 </div>
 
 1. **Réessayez après un court délai**
-   * Attendez quelques secondes avant de renvoyer votre requête
+   * Attendez quelques secondes avant de réessayer
    * Utilisez un backoff exponentiel pour éviter d’accentuer la congestion
 
 2. **Espacez les requêtes**
-   * Si vous envoyez un grand nombre de requêtes, envisagez de les répartir dans le temps
+   * Si vous envoyez de nombreuses requêtes, pensez à les répartir dans le temps
    * Mettez en place une file d’attente des requêtes pour lisser les pics de trafic
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  Ne modifiez pas manuellement entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Erreurs du serveur](/fr/support/inference/tags/server-errors)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

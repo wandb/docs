@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `RunStateFilter`
 
-run 상태 변경을 기반으로 이벤트를 트리거하기 위한 필터를 나타냅니다.
+run 상태 변화에 따라 이벤트를 트리거하는 필터를 나타냅니다.
 
-### <kbd>method</kbd> `RunStateFilter.__init__`
+### <kbd>메서드</kbd> `RunStateFilter.__init__`
 
 ```python
 __init__(
@@ -22,10 +22,10 @@ __init__(
 ) → None
 ```
 
-**인수(Args):**
+**매개변수:**
 
-* `run` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): 이 이벤트를 트리거할 run을 선택하는 필터.
-* `state` (StateFilter): 이 이벤트가 트리거되려면 만족해야 하는 run 상태 조건.
+* `run` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): 이 이벤트를 트리거할 run과 일치해야 하는 필터입니다.
+* `state` (StateFilter): 이 이벤트가 트리거되기 위해 충족되어야 하는 run 상태 조건입니다.
 
-**반환값(Returns):**
-`RunStateFilter` 객체를 반환합니다.
+**반환값:**
+`RunStateFilter` 객체입니다.

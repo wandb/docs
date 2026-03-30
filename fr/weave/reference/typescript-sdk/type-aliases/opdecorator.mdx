@@ -9,17 +9,17 @@ description: "Référence du SDK TypeScript"
 
 Ƭ **OpDecorator**&lt;`T`&gt;: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) =&gt; `T` | `void` &amp; (`target`: `Object`, `propertyKey`: `string` | `symbol`, `descriptor`: `TypedPropertyDescriptor`&lt;`T`&gt;) =&gt; `TypedPropertyDescriptor`&lt;`T`&gt; | `void`
 
-Type utilitaire pour les décorateurs
-Il s&#39;agit d&#39;une fonction décorateur qui peut être utilisée à la fois avec les décorateurs legacy et ceux de Stage 3.
+Type d’assistance pour les décorateurs
+Il s’agit d’une fonction décorateur qui peut être utilisée à la fois avec les décorateurs hérités et les décorateurs Stage 3.
 
 Pour les décorateurs Stage 3 :
-target : La fonction décorée (T)
-context : MethodDecoratorContext
+target: La fonction décorée (T)
+context: MethodDecoratorContext
 
-Pour les décorateurs legacy :
-target : Le prototype (méthodes d&#39;instance) ou le constructeur (méthodes statiques)
-propertyKey : Le nom de la méthode
-descriptor : Le descripteur de propriété contenant la méthode
+Pour les décorateurs hérités :
+target: Le prototype (méthodes d’instance) ou le constructeur (méthodes statiques)
+propertyKey: Le nom de la méthode
+descriptor: Le descripteur de propriété contenant la méthode
 
 <div id="type-parameters">
   #### Paramètres de type

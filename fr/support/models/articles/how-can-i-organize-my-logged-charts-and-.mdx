@@ -1,9 +1,9 @@
 ---
-title: "Comment organiser mes graphiques et médias enregistrés dans l’interface W&B ?"
+title: "Comment puis-je organiser mes graphiques et médias enregistrés dans l’UI de W&B ?"
 keywords: ["Experiments"]
 ---
 
-Le caractère `/` sépare les panneaux enregistrés dans l’interface W&amp;B. Par défaut, la partie du nom de l’élément enregistré située avant le `/` définit un groupe de panneaux appelé « Section de panneaux ».
+Le caractère `/` sépare les panneaux enregistrés dans l’UI de W&amp;B. Par défaut, la partie du nom de l’élément enregistré qui précède le `/` définit un groupe de panneaux appelé « section de panneaux ».
 
 ```python
 import wandb
@@ -14,15 +14,15 @@ with wandb.init() as run:
    run.log({"train/loss": 0.1, "train/acc": 0.94})
 ```
 
-Dans les paramètres du [Workspace](/fr/models/track/project-page#workspace-tab), ajustez le regroupement des panneaux en fonction du premier segment ou de tous les segments séparés par `/`.
+Dans les paramètres de [Workspace](/fr/models/track/project-page#workspace-tab), ajustez le regroupement des panneaux selon le premier segment uniquement ou selon tous les segments séparés par `/`.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas à la main le contenu entre ces marqueurs.
+  Ne modifiez pas ce qui se trouve entre ces marqueurs manuellement.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: tab badges ---- */}

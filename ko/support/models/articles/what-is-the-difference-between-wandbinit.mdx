@@ -1,21 +1,21 @@
 ---
-title: "wandb.init 모드 간 차이점은 무엇인가요?"
+title: "wandb.init 모드의 차이점은 무엇인가요?"
 keywords: ["Experiments"]
 ---
 
-다음 모드를 사용할 수 있습니다:
+다음 모드를 사용할 수 있습니다.
 
-* `online` (기본값): 클라이언트가 wandb 서버로 데이터를 전송합니다.
-* `offline`: 클라이언트가 wandb 서버로 전송하는 대신 머신에 데이터를 로컬에 저장합니다. 나중에 데이터를 동기화하려면 [`wandb sync`](/ko/models/ref/cli/wandb-sync) 명령을 사용하세요.
-* `disabled`: 클라이언트가 모의 객체를 반환해 동작을 시뮬레이션하고 모든 네트워크 통신을 차단합니다. 모든 로깅은 비활성화되지만, 모든 API 방법 스텁은 계속 호출할 수 있습니다. 이 모드는 일반적으로 테스트에 사용됩니다.
+* `online` (기본값): 클라이언트가 데이터를 wandb 서버로 전송합니다.
+* `offline`: 클라이언트가 데이터를 wandb 서버로 전송하는 대신 로컬 머신에 저장합니다. 나중에 [`wandb sync`](/ko/models/ref/cli/wandb-sync) 명령어를 사용해 데이터를 동기화하세요.
+* `disabled`: 클라이언트가 모의 객체를 반환해 오퍼레이션을 시뮬레이션하며, 네트워크 통신을 모두 차단합니다. 모든 logging은 비활성화되지만, 모든 API 방법 스텁은 계속 호출할 수 있습니다. 이 모드는 일반적으로 테스트에 사용됩니다.
 
 ***
 
-{/* ---- 자동 생성됨: 탭 배지 ----
-  프런트 매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 수동으로 편집하지 마세요.
+{/* ---- AUTO-GENERATED: 탭 배지 ----
+  프런트매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리합니다.
+  이 표시 사이의 내용은 직접 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- 끝 AUTO-GENERATED: 탭 배지 ---- */}

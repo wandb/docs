@@ -1,15 +1,15 @@
 ---
 title: MMEngine
-description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使用し、トレーニングメトリクス、設定、可視化データをログします。"
+description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使用し、トレーニングのメトリクス、設定、可視化データをログします。"
 ---
 
-[OpenMMLab](https://github.com/open-mmlab) が提供する MMEngine は、PyTorch ベースでディープラーニングモデルをトレーニングするための基盤ライブラリです。MMEngine は OpenMMLab アルゴリズムライブラリ向けに次世代のトレーニングアーキテクチャを実装しており、OpenMMLab 内の 30 以上のアルゴリズムライブラリに対して統一された実行基盤を提供します。そのコアコンポーネントには、トレーニングエンジン、評価エンジン、モジュール管理機能が含まれます。
+[OpenMMLab](https://github.com/open-mmlab) による MMEngine は、PyTorch ベースのディープラーニングモデルをトレーニングするための基盤ライブラリです。MMEngine は OpenMMLab のアルゴリズムライブラリ向けに次世代のトレーニングアーキテクチャを実装しており、OpenMMLab 内の 30 を超えるアルゴリズムライブラリに対して、統一された実行基盤を提供します。中核となるコンポーネントには、トレーニングエンジン、評価エンジン、モジュール管理が含まれます。
 
-[W&amp;B](https://wandb.ai/site) は、専用の [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) を通じて MMEngine に直接統合されており、次の用途に使用できます。
+[W&amp;B](https://wandb.ai/site) は、専用の [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) を通じて MMEngine に直接統合されており、これを使用して次のことができます。
 
-* トレーニングおよび評価メトリクスをログする。
-* 実験の設定をログおよび管理する。
-* グラフ、画像、スカラーなどの追加情報をログする。
+* トレーニングおよび評価のメトリクスをログする。
+* 実験の設定をログし、管理する。
+* グラフ、画像、スカラーなどの追加データをログする。
 
 <div id="get-started">
   ## はじめに
@@ -31,7 +31,7 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
   </Tab>
 </Tabs>
 
-次に、`mim` コマンドを使って `mmengine` と `mmcv` をインストールします。
+次に、`mim` を使って `mmengine` と `mmcv` をインストールします。
 
 <Tabs>
   <Tab title="コマンドライン">
@@ -48,17 +48,17 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
 </Tabs>
 
 <div id="use-the-wandbvisbackend-with-mmengine-runner">
-  ## `WandbVisBackend` を MMEngine Runner と併用する
+  ## `WandbVisBackend` を MMEngine Runner で使用する
 </div>
 
-このセクションでは、`WandbVisBackend` を [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner) と組み合わせて使用する典型的なワークフローを示します。
+このセクションでは、[`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner) を使って `WandbVisBackend` を利用する一般的なワークフローを説明します。
 
-1. 可視化用の config から `visualizer` を定義します。
+1. 可視化設定から `visualizer` を定義します。
 
    ```python
    from mmengine.visualization import Visualizer
 
-   # 可視化設定を定義
+   # 可視化設定を定義する
    visualization_cfg = dict(
        name="wandb_visualizer",
        vis_backends=[
@@ -70,12 +70,12 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
        save_dir="runs/wandb"
    )
 
-   # 可視化設定から visualizer を取得
+   # 可視化設定から visualizer を取得する
    visualizer = Visualizer.get_instance(**visualization_cfg)
    ```
 
    <Note>
-     `init_kwargs` には、[W&amp;B run initialization](/ja/models/ref/python/functions/init) の入力パラメーターに対応する引数の辞書を渡します。
+     `init_kwargs` には、[W&amp;B run の初期化](/ja/models/ref/python/functions/init)の入力パラメーターとして使用する引数の辞書を渡します。
    </Note>
 
 2. `visualizer` を指定して `runner` を初期化し、`runner.train()` を呼び出します。
@@ -83,7 +83,7 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
    ```python
    from mmengine.runner import Runner
 
-   # PyTorch 用のトレーニングヘルパーである mmengine Runner を構築します
+   # PyTorch 用のトレーニングヘルパーである mmengine Runner を構築する
    runner = Runner(
        model,
        work_dir='runs/gan/',
@@ -93,22 +93,22 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
        visualizer=visualizer, # visualizer を渡す
    )
 
-   # トレーニングを開始します
+   # トレーニングを開始する
    runner.train()
    ```
 
 <div id="use-the-wandbvisbackend-with-openmmlab-computer-vision-libraries">
-  ## OpenMMLab のコンピュータビジョンライブラリで `WandbVisBackend` を使う
+  ## OpenMMLabのコンピュータビジョンライブラリで`WandbVisBackend`を使用する
 </div>
 
-`WandbVisBackend` は、[MMDetection](https://mmdetection.readthedocs.io/) のような OpenMMLab のコンピュータビジョンライブラリを使った実験を簡単に追跡するためにも利用できます。
+`WandbVisBackend`は、[MMDetection](https://mmdetection.readthedocs.io/) などのOpenMMLabのコンピュータビジョンライブラリでExperimentsを管理する際にも、簡単に使用できます。
 
 ```python
 # デフォルトのランタイム設定から基本設定を継承する
 _base_ = ["../_base_/default_runtime.py"]
 
 # 基本設定の `visualizer` の `vis_backends` に
-# `WandbVisBackend` の設定辞書を割り当てる
+# `WandbVisBackend` の設定dictを割り当てる
 _base_.visualizer.vis_backends = [
     dict(
         type='WandbVisBackend',

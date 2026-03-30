@@ -1,36 +1,36 @@
 ---
-title: "Code d’erreur 429 de l’API - Limite de concurrence atteinte pour les requêtes"
+title: "Code d’erreur d’API 429 - Limite de concurrence atteinte pour les requêtes"
 keywords: ["Quotas et limites de débit"]
 ---
 
-Une erreur 429 accompagnée du message &quot;Concurrency limit reached for requests&quot; signifie que vous envoyez trop de requêtes simultanées à l’API Inférence de W&amp;B.
+Une erreur 429 accompagnée du message &quot;Concurrency limit reached for requests&quot; signifie que vous envoyez trop de requêtes simultanées à la W&amp;B Inference API.
 
 <div id="why-this-happens">
-  ## Pourquoi cela se produit
+  ## Pourquoi cela arrive
 </div>
 
-W&amp;B Inférence applique des limites de concurrence afin de garantir une utilisation équitable et la stabilité du service. Lorsque le nombre de requêtes simultanées envoyées depuis votre compte dépasse la limite autorisée, les requêtes supplémentaires sont rejetées avec un code de statut 429.
+W&amp;B Inference applique des limites de concurrence afin de garantir une utilisation équitable et la stabilité du service. Lorsque le nombre de requêtes simultanées émises depuis votre compte dépasse la limite autorisée, les requêtes supplémentaires sont rejetées avec un code de statut 429.
 
 <div id="what-you-can-do">
   ## Ce que vous pouvez faire
 </div>
 
-1. **Réduisez les requêtes simultanées**
+1. **Réduire les requêtes simultanées**
    * Mettez en place une file d&#39;attente des requêtes ou une limitation du débit dans votre application
-   * Utilisez une temporisation exponentielle lorsque vous réessayez des requêtes ayant échoué
+   * Utilisez un backoff exponentiel lorsque vous réessayez des requêtes ayant échoué
 
-2. **Augmentez vos limites**
+2. **Augmenter vos limites**
    * Vérifiez les limites de concurrence de votre plan et passez à une offre supérieure si nécessaire
 
 Pour plus d&#39;informations, voir [Informations sur l&#39;utilisation et les limites](/fr/inference/usage-limits/).
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  Ne modifiez pas ce contenu manuellement entre ces marqueurs.
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Quotas et limites de débit](/fr/support/inference/tags/quotas-rate-limits)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Quotas &amp; limites de débit](/fr/support/inference/tags/quotas-rate-limits)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: tab badges ---- */}

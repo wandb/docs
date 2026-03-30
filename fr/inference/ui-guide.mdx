@@ -1,16 +1,16 @@
 ---
 title: "Guide de l’interface utilisateur"
 description: >
-  Accédez aux modèles du service W&B Inférence via l’interface web
+  Accédez aux modèles W&B Inference via l’interface web
 ---
 
-Découvrez comment utiliser le service W&amp;B Inférence via l’interface web. Avant d’utiliser l’interface, assurez-vous de satisfaire aux [prérequis](/fr/inference/prerequisites/).
+Découvrez comment utiliser le service W&amp;B Inference via l’interface utilisateur web. Avant d’utiliser l’interface utilisateur, consultez les [prérequis](/fr/inference/prerequisites/).
 
 <div id="access-the-inference-service">
-  ## Accéder au service Inférence
+  ## Accéder au service d’inférence
 </div>
 
-Vous pouvez accéder au service Inférence à partir de trois endroits :
+Vous pouvez accéder au service d’inférence depuis trois endroits :
 
 <div id="direct-link">
   ### Lien direct
@@ -22,34 +22,36 @@ Accédez à [https://wandb.ai/inference](https://wandb.ai/inference).
   ### Depuis l’onglet Inférence
 </div>
 
-1. Accédez à votre compte W&amp;B à l’adresse [https://wandb.ai/](https://wandb.ai/)
+1. Accédez à votre compte W&amp;B sur [https://wandb.ai/](https://wandb.ai/)
 2. Sélectionnez **Inférence** dans la barre latérale gauche
-3. La page affiche les modèles disponibles ainsi que des informations sur chaque modèle
+3. Une page s’affiche avec les modèles disponibles et leurs informations
 
 <Frame>
-  <img src="/images/inference/inference-playground-single.png" alt="Utilisation d’un modèle d’inférence dans le Playground" />
+  <img src="/images/inference/inference-playground-single.png" alt="Utilisation d’un modèle d’inférence dans le playground" />
 </Frame>
 
-### Depuis l’onglet Playground
+<div id="from-the-playground-tab">
+  ### Depuis l’onglet Playground
+</div>
 
 1. Sélectionnez **Playground** dans la barre latérale gauche. L’interface de chat du Playground s’affiche
-2. Survolez **W&amp;B Inférence** dans la liste déroulante des LLM. Une liste déroulante affichant les modèles disponibles apparaît à droite
+2. Survolez **W&amp;B Inference** dans le menu déroulant des LLM. Un menu déroulant affichant les modèles disponibles apparaît à droite
 3. Dans la liste déroulante des modèles, vous pouvez :
    * Cliquer sur le nom de n’importe quel modèle pour [l’essayer dans le Playground](#try-a-model-in-the-playground)
    * [Comparer plusieurs modèles](#compare-multiple-models)
 
 <Frame>
-  <img src="/images/inference/inference-playground.png" alt="La liste déroulante des modèles d’Inférence dans le Playground" />
+  <img src="/images/inference/inference-playground.png" alt="La liste déroulante des modèles d’Inférence dans Playground" />
 </Frame>
 
 <div id="try-a-model-in-the-playground">
-  ## Essayer un modèle dans le Playground
+  ## Tester un modèle dans le playground
 </div>
 
-Après avoir [sélectionné un modèle](#access-the-inference-service), vous pouvez l’essayer dans le Playground. Les actions disponibles sont les suivantes :
+Après avoir [sélectionné un modèle](#access-the-inference-service), vous pouvez le tester dans le playground. Les actions disponibles sont les suivantes :
 
 * [Personnaliser les réglages et paramètres du modèle](/fr/weave/guides/tools/playground#customize-playground-settings)
-* [Ajouter, réessayer, modifier et supprimer des messages](/fr/weave/guides/tools/playground#message-controls)
+* [Ajouter, relancer, modifier et supprimer des messages](/fr/weave/guides/tools/playground#message-controls)
 * [Enregistrer et réutiliser un modèle avec des paramètres personnalisés](/fr/weave/guides/tools/playground#saved-models)
 * [Comparer plusieurs modèles](#compare-multiple-models)
 
@@ -57,57 +59,57 @@ Après avoir [sélectionné un modèle](#access-the-inference-service), vous pou
   ## Comparer plusieurs modèles
 </div>
 
-Vous pouvez comparer côte à côte plusieurs modèles d’Inférence dans le Playground. Accédez à la vue Compare à deux endroits :
+Vous pouvez comparer des modèles d’Inférence côte à côte dans le Playground. Accédez à la vue Compare à partir de deux endroits :
 
 <div id="from-the-inference-tab">
   ### Depuis l’onglet Inférence
 </div>
 
-1. Sélectionnez **Inférence** dans la barre latérale gauche. La page des modèles disponibles s’affiche.
-2. Cliquez n’importe où sur la carte de modèle (sauf sur son nom) pour le sélectionner. La bordure de la carte devient bleue.
-3. Répétez l’opération pour chaque modèle que vous souhaitez comparer.
-4. Cliquez sur **Comparer N modèles dans le Playground** sur l’une des cartes sélectionnées. `N` indique le nombre de modèles sélectionnés.
-5. La vue de comparaison s’ouvre.
+1. Sélectionnez **Inférence** dans la barre latérale gauche. La page des modèles disponibles s’affiche
+2. Cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle) pour la sélectionner. La bordure de la carte devient bleue
+3. Répétez l’opération pour chaque modèle que vous souhaitez comparer
+4. Cliquez sur **Comparer N modèles dans le Playground** sur n’importe quelle carte sélectionnée. `N` indique le nombre de modèles sélectionnés
+5. La vue de comparaison s’ouvre
 
-Vous pouvez maintenant comparer des modèles et utiliser toutes les fonctionnalités de [Essayer un modèle dans le Playground](#try-a-model-in-the-playground).
+Vous pouvez maintenant comparer les modèles et utiliser toutes les fonctionnalités de [Essayer un modèle dans le Playground](#try-a-model-in-the-playground).
 
 <Frame>
-  <img src="/images/inference/inference-playground-compare.png" alt="Sélectionnez plusieurs modèles à comparer dans le Playground" />
+  <img src="/images/inference/inference-playground-compare.png" alt="Sélection de plusieurs modèles à comparer dans le Playground" />
 </Frame>
 
 <div id="from-the-playground-tab">
-  ### Depuis l&#39;onglet Playground
+  ### Depuis l’onglet Playground
 </div>
 
-1. Sélectionnez **Playground** dans la barre latérale gauche. L&#39;interface de chat du Playground s&#39;affiche
-2. Survolez **W&amp;B Inférence** dans la liste déroulante des LLM. La liste déroulante des modèles s&#39;affiche à droite
-3. Sélectionnez **Comparer** dans la liste déroulante. L&#39;onglet **Inférence** s&#39;affiche
-4. Cliquez n&#39;importe où sur une carte de modèle (sauf sur le nom du modèle) pour la sélectionner. La bordure de la carte devient bleue
-5. Répétez l&#39;opération pour chaque modèle que vous souhaitez comparer
-6. Cliquez sur **Comparer N modèles dans le Playground** sur l&#39;une des cartes sélectionnées. La vue de comparaison s&#39;ouvre
+1. Sélectionnez **Playground** dans la barre latérale gauche. L’interface de chat du Playground apparaît
+2. Survolez **W&amp;B Inference** dans la liste déroulante LLM. La liste déroulante des modèles apparaît à droite
+3. Sélectionnez **Compare** dans la liste déroulante. L’onglet **Inférence** apparaît
+4. Cliquez n’importe où sur une carte de modèle (sauf sur le nom du modèle) pour la sélectionner. La bordure de la carte devient bleue
+5. Répétez l’opération pour chaque modèle que vous souhaitez comparer
+6. Cliquez sur **Comparer N modèles dans le Playground** sur l’une des cartes sélectionnées. La vue de comparaison s’ouvre
 
 Vous pouvez maintenant comparer des modèles et utiliser toutes les fonctionnalités de [Essayer un modèle dans le Playground](#try-a-model-in-the-playground).
 
 <div id="view-billing-and-usage-information">
-  ## Consulter les informations de facturation et d’utilisation
+  ## Voir les informations de facturation et d’utilisation
 </div>
 
-Les administrateurs de l’organisation peuvent suivre le solde de crédits, l’historique d’utilisation et les factures à venir depuis l’interface W&amp;B :
+Les administrateurs de l’organisation peuvent suivre le solde de crédits, l’historique d’utilisation et les prochaines factures dans l’interface W&amp;B :
 
 1. Accédez à la page **Billing** de W&amp;B dans l’interface
-2. Trouvez la carte de facturation d’Inférence dans le coin inférieur droit
-3. À partir de là, vous pouvez :
-   * Cliquer sur **Voir l’utilisation** pour voir l’évolution de votre utilisation au fil du temps
-   * Consulter les frais d’inférence à venir (pour les plans payants)
+2. Repérez la carte d’informations de facturation pour l’Inférence dans l’angle inférieur droit
+3. Vous pouvez ensuite :
+   * Cliquer sur **View usage** pour voir l’évolution de votre utilisation au fil du temps
+   * Consulter les prochains frais d’inférence (pour les plans payants)
 
 <Tip>
-  Consultez la [page de tarification d’Inférence](https://wandb.ai/site/pricing/inference) pour voir les détails de tarification par modèle.
+  Consultez la [page de tarification de l’inférence](https://wandb.ai/site/pricing/inference) pour connaître le détail des tarifs par modèle.
 </Tip>
 
 <div id="next-steps">
   ## Étapes suivantes
 </div>
 
-* Consultez les [modèles disponibles](/fr/inference/models) pour trouver celui qui répond le mieux à vos besoins
-* Essayez l&#39;[API](/fr/inference/api-reference/) pour un accès programmatique
-* Voir les [exemples d&#39;utilisation](/fr/inference/examples/) pour obtenir des exemples de code
+* Consultez les [modèles disponibles](/fr/inference/models) pour trouver celui qui correspond le mieux à vos besoins
+* Essayez l&#39;[API](/fr/inference/api-reference/) pour y accéder par programmation
+* Consultez les [exemples d&#39;utilisation](/fr/inference/examples/) pour voir des exemples de code

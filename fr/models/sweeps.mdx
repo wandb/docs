@@ -1,6 +1,6 @@
 ---
-description: Recherche d'hyperparamètres et optimisation de modèles avec W&B sweep
-title: Aperçu de sweep
+description: Recherche d'hyperparamètres et optimisation de modèles avec W&B Sweeps
+title: Aperçu de Sweeps
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -12,58 +12,58 @@ import { TryProductLink } from '/snippets/fr/_includes/try-product-link.mdx';
   <TryProductLink url="https://wandb.ai/stacey/deep-drive/workspace?workspace=user-lavanyashukla" />
 </CardGroup>
 
-Utilisez W&amp;B sweep pour automatiser la recherche d&#39;hyperparamètres et visualiser un suivi des expériences riche en éléments interactifs. Choisissez parmi des méthodes de recherche populaires, comme la recherche bayésienne, la recherche sur grille et la recherche aléatoire, pour explorer l&#39;espace des hyperparamètres. Faites évoluer et parallélisez le sweep sur une ou plusieurs machines.
+Utilisez W&amp;B Sweeps pour automatiser la recherche d&#39;hyperparamètres et visualiser un suivi des expériences riche et interactif. Choisissez parmi des méthodes de recherche populaires, comme la recherche bayésienne, la recherche sur grille ou la recherche aléatoire, pour explorer l&#39;espace des hyperparamètres. Exécutez les sweeps à plus grande échelle et en parallèle sur une ou plusieurs machines.
 
 <Frame>
-  <img src="/images/sweeps/intro_what_it_is.png" alt="Informations sur le réglage des hyperparamètres" />
+  <img src="/images/sweeps/intro_what_it_is.png" alt="Aperçus du réglage des hyperparamètres" />
 </Frame>
 
 <div id="how-it-works">
   ## Fonctionnement
 </div>
 
-Créez un sweep à l’aide de deux commandes [W&amp;B CLI](/fr/models/ref/cli/) :
+Créez un balayage avec deux commandes [W&amp;B CLI](/fr/models/ref/cli/) :
 
-1. Initialisez un sweep.
+1. Initialisez un balayage.
 
 ```bash
   wandb sweep --project <project-name> <path-to-config file>
 ```
 
-2. Lancez l’agent de sweep.
+2. Démarrez l’agent de balayage.
 
 ```bash
   wandb agent <sweep-ID>
 ```
 
 <Note>
-  L’extrait de code précédent, ainsi que le notebook Colab lié depuis cette page, montrent comment initialiser et créer un sweep avec la CLI W&amp;B. Voir le [guide pas à pas de sweep](/fr/models/sweeps/walkthrough/) pour utiliser le SDK Python afin de configurer, d’initialiser et d’exécuter un sweep.
+  L’extrait de code ci-dessus, ainsi que le colab indiqué sur cette page, montrent comment initialiser et créer un balayage avec la CLI W&amp;B. Voir le [guide pas à pas sur Sweeps](/fr/models/sweeps/walkthrough/) pour utiliser le SDK Python afin de configurer, d’initialiser et d’exécuter un balayage.
 </Note>
 
 <div id="how-to-get-started">
-  ## Pour commencer
+  ## Comment démarrer
 </div>
 
-Selon votre cas d’usage, explorez les ressources suivantes pour démarrer avec W&amp;B sweep :
+Selon votre cas d’utilisation, consultez les ressources suivantes pour bien démarrer avec W&amp;B Sweeps :
 
-* Lisez le [guide pas à pas des sweep](/fr/models/sweeps/walkthrough/) pour découvrir, étape par étape, les commandes du SDK Python de W&amp;B à utiliser pour définir une configuration de sweep, initialiser un sweep et lancer un sweep.
+* Parcourez le [guide pas à pas de Sweeps](/fr/models/sweeps/walkthrough/) pour suivre, étape par étape, les commandes du SDK Python de W&amp;B à utiliser afin de définir une configuration de balayage, d’initialiser un balayage et de démarrer un balayage.
 * Explorez ce chapitre pour apprendre à :
   * [Ajouter W&amp;B à votre code](/fr/models/sweeps/add-w-and-b-to-your-code/)
-  * [Définir une configuration de sweep](/fr/models/sweeps/define-sweep-configuration/)
-  * [Initialiser des sweep](/fr/models/sweeps/initialize-sweeps/)
-  * [Démarrer des agents de sweep](/fr/models/sweeps/start-sweep-agents/)
-  * [Visualiser les résultats d’un sweep](/fr/models/sweeps/visualize-sweep-results/)
-* Explorez une [liste sélectionnée d’expériences de sweep](/fr/models/sweeps/useful-resources/) sur l’optimisation des hyperparamètres avec W&amp;B sweep. Les résultats sont stockés dans W&amp;B Reports.
+  * [Définir la configuration d’un balayage](/fr/models/sweeps/define-sweep-configuration/)
+  * [Initialiser des balayages](/fr/models/sweeps/initialize-sweeps/)
+  * [Démarrer des agents de balayage](/fr/models/sweeps/start-sweep-agents/)
+  * [Visualiser les résultats d’un balayage](/fr/models/sweeps/visualize-sweep-results/)
+* Consultez une [liste sélectionnée d’expériences Sweep](/fr/models/sweeps/useful-resources/) consacrées à l’optimisation des hyperparamètres avec W&amp;B Sweeps. Les résultats sont stockés dans W&amp;B Reports.
 
-Pour une vidéo pas à pas, voir : [Tune Hyperparameters Easily with W&amp;B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases).
+Pour une vidéo pas à pas, voir : [Ajustez facilement les hyperparamètres avec W&amp;B Sweeps](https://www.youtube.com/watch?v=9zrmUIlScdY\&ab_channel=Weights%26Biases).
 
 {/* {% embed url="https://wandb.me/sweeps-video" %} */}
 
 <div id="notebook-examples">
-  ### Exemples de notebook
+  ### Exemples de notebooks
 </div>
 
-Les exemples de notebook suivants illustrent comment utiliser W&amp;B sweep pour l’optimisation des hyperparamètres dans différents frameworks et cas d’usage :
+Les exemples de notebooks suivants montrent comment utiliser W&amp;B Sweeps pour optimiser les hyperparamètres avec différents frameworks et cas d&#39;utilisation :
 
-* [Optimisation des hyperparamètres avec sweep](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W\&B_Sweeps.ipynb)
-* [Utiliser XGBoost avec W&amp;B sweep](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W\&B_Sweeps_with_XGBoost.ipynb)
+* [Optimisation des hyperparamètres avec Sweeps](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/tensorflow/Hyperparameter_Optimization_in_TensorFlow_using_W\&B_Sweeps.ipynb)
+* [Utiliser XGBoost avec W&amp;B Sweeps](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W\&B_Sweeps_with_XGBoost.ipynb)

@@ -9,24 +9,24 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_run.py" />
 
 
-### <kbd>function</kbd> `finish`
+### <kbd>関数</kbd> `finish`
 
 ```python
 finish(exit_code: 'int | None' = None, quiet: 'bool | None' = None) → None
 ```
 
-run を終了し、残っているデータをすべてアップロードします。
+run を終了し、残りのデータをアップロードします。
 
-W&amp;B run の完了としてマークし、すべてのデータがサーバーに同期されるようにします。run の最終状態は、その終了条件と同期ステータスによって決まります。
+W&amp;B run を完了としてマークし、すべてのデータがサーバーに同期されるようにします。run の最終状態は、終了条件と Sync ステータスによって決まります。
 
 run の状態:
 
-* Running: データのログ記録やハートビート送信を行っているアクティブな run。
-* Crashed: 予期せずハートビートの送信が停止した run。
-* Finished: すべてのデータが同期された状態で (`exit_code=0`) 正常に完了した run。
-* Failed: エラーを伴って完了した run (`exit_code!=0`)。
+* Running: データをログし、またはハートビートを送信しているアクティブな run。
+* Crashed: 予期せずハートビートの送信を停止した run。
+* Finished: すべてのデータが同期された状態で正常に完了した run (`exit_code=0`) 。
+* Failed: エラーありで完了した run (`exit_code!=0`) 。
 
-**Args:**
+**引数:**
 
-* `exit_code`:  run の終了ステータスを示す整数。成功には 0 を使用し、それ以外の値は run が失敗したことを示します。
-* `quiet`:  非推奨。ログ出力の詳細度は `wandb.Settings(quiet=...)` を使って設定してください。
+* `exit_code`:  run の終了ステータスを示す整数。成功時は 0 を使用し、それ以外の値は run が失敗したことを示します。
+* `quiet`:  非推奨です。`wandb.Settings(quiet=...)` を使用してログの詳細度を設定してください。

@@ -1,26 +1,26 @@
 ---
-title: "Comment utiliser wandb avec le multiprocessus, par ex. pour l'entraînement distribué ?"
+title: "Comment utiliser wandb avec le multiprocessing, par exemple pour l'entraînement distribué ?"
 keywords: ["Experiments"]
 ---
 
-Si un programme d&#39;entraînement utilise plusieurs processus, structurez-le de façon à éviter les appels de méthode wandb depuis des processus qui n&#39;exécutent pas `wandb.init()`.
+Si un programme d&#39;entraînement utilise plusieurs processus, structurez-le de façon à éviter d&#39;appeler des méthodes wandb depuis des processus qui n&#39;ont pas exécuté `wandb.init()`.
 
-Gérez l&#39;entraînement multiprocessus à l&#39;aide des approches suivantes :
+Gérez l&#39;entraînement multiprocessus à l&#39;aide des approches suivantes :
 
-1. Appelez `wandb.init` dans tous les processus et utilisez l&#39;argument nommé [group](/fr/models/runs/grouping) pour créer un groupe partagé. Chaque processus aura son propre run wandb, et l&#39;interface utilisateur regroupera les processus d&#39;entraînement.
-2. Appelez `wandb.init` depuis un seul processus et transmettez les données à journaliser via des [files d&#39;attente multiprocessing](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes).
+1. Appelez `wandb.init` dans tous les processus et utilisez l&#39;argument mot-clé [group](/fr/models/runs/grouping) pour créer un groupe partagé. Chaque processus aura son propre run wandb, et l&#39;UI regroupera les processus d&#39;entraînement.
+2. Appelez `wandb.init` dans un seul processus et transmettez les données à journaliser via des [files d&#39;attente multiprocessing](https://docs.python.org/3/library/multiprocessing.html#exchanging-objects-between-processes).
 
 <Note>
-  Référez-vous au [guide de l&#39;entraînement distribué](/fr/models/track/log/distributed-training) pour obtenir des explications détaillées sur ces approches, y compris des exemples de code avec Torch DDP.
+  Consultez le [guide de l&#39;entraînement distribué](/fr/models/track/log/distributed-training) pour une explication détaillée de ces approches, y compris des exemples de code avec Torch DDP.
 </Note>
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

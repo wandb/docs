@@ -1,40 +1,40 @@
 ---
 title: PyTorch Geometric
-description: "幾何学的ディープラーニングにおけるグラフの可視化と実験追跡のために、W&B を PyTorch Geometric と統合します。"
+description: "PyTorch Geometric を W&B と統合して、幾何学的深層学習におけるグラフの可視化と実験管理を行います。"
 ---
 
 import ApiKeyCreateStreamlined from "/snippets/ja/_includes/api-key-create-streamlined.mdx";
 
-[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) または PyG は、幾何学的ディープラーニング向けの最も人気のあるライブラリの 1 つであり、W&B はグラフの可視化や実験追跡においてこれと非常に優れた相性を発揮します。
+[PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric) (PyG) は、幾何学的深層学習向けのライブラリとして特に人気が高く、W&amp;B とはグラフの可視化や実験のトラッキングで非常に相性よく利用できます。
 
-PyTorch Geometric をインストールしたら、次の手順に従って使い始めてください。
+PyTorch Geometric をインストールしたら、使い始めるには次の step に従ってください。
 
 <div id="sign-up-and-create-an-api-key">
-  ## サインアップして API キーを作成する
+  ## サインアップしてAPIキーを発行する
 </div>
 
-API キー は、マシンを W&amp;B に対して認証するためのものです。API キー はユーザープロファイルから生成できます。
+APIキーを使用すると、お使いのマシンをW&amp;Bで認証できます。APIキーはユーザープロフィールから発行できます。
 
 <ApiKeyCreateStreamlined />
 
-1. 右上隅のユーザープロファイルアイコンをクリックします。
-2. **User Settings** を選択し、**API Keys** セクションまでスクロールします。
+1. 右上にあるユーザープロフィールアイコンをクリックします。
+2. **ユーザー設定**を選択し、**API Keys** セクションまでスクロールします。
 
 <div id="install-the-wandb-library-and-log-in">
   ## `wandb` ライブラリをインストールしてログインする
 </div>
 
-ローカル環境に `wandb` ライブラリをインストールしてログインするには、次の手順を実行します。
+`wandb` ライブラリをローカルにインストールしてログインするには、次の手順を実行します。
 
 <Tabs>
-  <Tab title="Command Line">
-    1. `WANDB_API_KEY` [environment variable](/ja/models/track/environment-variables/) 環境変数に API キーを設定します。
+  <Tab title="コマンドライン">
+    1. `WANDB_API_KEY` [環境変数](/ja/models/track/environment-variables/) に APIキー を設定します。
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
        ```
 
-    2. `wandb` ライブラリをインストールしてログインします。
+    2. `wandb` ライブラリをインストールし、ログインします。
 
        ```shell
        pip install wandb
@@ -68,13 +68,13 @@ API キー は、マシンを W&amp;B に対して認証するためのもので
   ## グラフを可視化する
 </div>
 
-入力グラフについて、エッジ数やノード数などの詳細を記録できます。W&amp;B は plotly チャートと HTML パネルのログ記録をサポートしているため、グラフ用に作成したあらゆる可視化を W&amp;B にログとして残すことができます。
+エッジ数やノード数など、入力グラフに関する詳細を保存できます。W&amp;B は Plotly チャートと HTML パネルのログをサポートしているため、グラフ用に作成した可視化も W&amp;B にログできます。
 
 <div id="use-pyvis">
   ### PyVis を使用する
 </div>
 
-次のスニペットは、PyVis と HTML を使ってグラフを可視化する方法を示しています。
+次のスニペットは、PyVis と HTML を使ってこれを実現する方法を示しています。
 
 ```python
 from pyvis.network import Network
@@ -83,7 +83,7 @@ import wandb
 with wandb.init(project=’graph_vis’) as run:
     net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white")
 
-    # PyG グラフのエッジを PyVis ネットワークに追加する
+    # PyGグラフのエッジをPyVisネットワークに追加する
     for e in tqdm(g.edge_index.T):
         src = e[0].item()
         dst = e[1].item()
@@ -93,7 +93,7 @@ with wandb.init(project=’graph_vis’) as run:
         
         net.add_edge(src, dst, value=0.1)
 
-    # PyVis の可視化を HTML ファイルに保存する
+    # PyVisの可視化をHTMLファイルに保存する
     net.show("graph.html")
     run.log({"eda/graph": wandb.Html("graph.html")})
 ```
@@ -103,10 +103,10 @@ with wandb.init(project=’graph_vis’) as run:
 </Frame>
 
 <div id="use-plotly">
-  ### Plotly を使用する
+  ### Plotlyを使用する
 </div>
 
-Plotly を使ってグラフを可視化するには、まず PyG グラフを networkx オブジェクトに変換する必要があります。次に、ノードとエッジ用にそれぞれ Plotly の散布図を作成します。以下のコードスニペットを、この目的で使用できます。
+Plotlyを使用してグラフの可視化を作成するには、まず PyG グラフを networkx オブジェクトに変換する必要があります。次に、ノードとエッジの両方について Plotly の scatter プロットを作成する必要があります。以下のスニペットをこの作業に使用できます。
 
 ```python
 def create_vis(graph):
@@ -156,14 +156,14 @@ with wandb.init(project=’visualize_graph’) as run:
 ```
 
 <Frame>
-  <img src="/images/integrations/pyg_graph_plotly.png" alt="例示用関数で作成し、W&B Table にログした可視化画像。" />
+  <img src="/images/integrations/pyg_graph_plotly.png" alt="サンプル関数を使用して作成し、W&B Table 内にログした可視化。" />
 </Frame>
 
 <div id="log-metrics">
-  ## メトリクスをログに記録する
+  ## メトリクスをログする
 </div>
 
-W&amp;B を使って、実験やそれに関連するメトリクス（損失関数や精度など）を追跡できます。次の行をトレーニング ループに追加します。
+W&amp;B を使用すると、実験と、損失関数や精度などの関連メトリクスをトラッキングできます。次の行をトレーニングループに追加します。
 
 ```python
 with wandb.init(project="my_project", entity="my_entity") as run:
@@ -183,6 +183,6 @@ with wandb.init(project="my_project", entity="my_entity") as run:
   ## その他のリソース
 </div>
 
-* [PyTorch Geometric を使用したグラフニューラルネットワークによる Amazon 製品の推薦](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
-* [PyTorch Geometric を使用したポイントクラウド分類](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)
-* [PyTorch Geometric を使用したポイントクラウドセグメンテーション](https://wandb.ai/wandb/point-cloud-segmentation/reports/Point-Cloud-Segmentation-using-Dynamic-Graph-CNN--VmlldzozMTk5MDcy)
+* [PyTorch Geometricによるグラフニューラルネットワークを用いたAmazon商品の推薦](https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw#what-does-the-data-look-like?)
+* [PyTorch Geometricによる点群分類](https://wandb.ai/geekyrakshit/pyg-point-cloud/reports/Point-Cloud-Classification-using-PyTorch-Geometric--VmlldzozMTExMTE3)
+* [PyTorch Geometricによる点群セグメンテーション](https://wandb.ai/wandb/point-cloud-segmentation/reports/Point-Cloud-Segmentation-using-Dynamic-Graph-CNN--VmlldzozMTk5MDcy)

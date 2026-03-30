@@ -1,8 +1,8 @@
 ---
-title: Je ne veux pas que W&B effectue le build d’un conteneur pour moi, puis-je quand même utiliser Launch ?
+title: "Je ne veux pas que W&B génère un conteneur pour moi : puis-je quand même utiliser Launch ?"
 ---
 
-Pour lancer une image Docker pré-buildée, exécutez la commande suivante. Remplacez les espaces réservés dans les `<>` par vos informations spécifiques :
+Pour lancer une image Docker déjà créée, exécutez la commande suivante. Remplacez les éléments entre `<>` par vos propres informations :
 
 ```bash
 wandb launch -d <docker-image-uri> -q <queue-name> -E <entrypoint>

@@ -1,15 +1,15 @@
 ---
-title: "W&B Inference エラーを処理するためのベストプラクティスは何ですか？"
+title: "W&B Inference エラー処理のベストプラクティスは何ですか？"
 keywords: ["Inference"]
 ---
 
-W&amp;B Inference のエラーを適切に処理し、信頼性の高いアプリケーションを維持するために、以下のベストプラクティスに従ってください。
+W&amp;B Inference のエラーを適切に処理し、アプリケーションの信頼性を維持するには、以下のベストプラクティスに従ってください。
 
 <div id="1-always-implement-error-handling">
-  ## 1. 常にエラー処理を実装する
+  ## 1. 常にエラー処理を実装してください
 </div>
 
-API 呼び出しを try-except ブロックで囲みます:
+API呼び出しは try-except ブロックで囲んでください：
 
 ```python
 import openai
@@ -25,7 +25,7 @@ except Exception as e:
 ```
 
 <div id="2-use-retry-logic-with-exponential-backoff">
-  ## 2. 指数バックオフを用いた再試行ロジックを使用する
+  ## 2. 指数バックオフを使用したリトライロジックを使用する
 </div>
 
 ```python
@@ -52,7 +52,7 @@ def call_inference_with_retry(
             
             # 指数バックオフで遅延を計算する
             delay = base_delay * (2 ** attempt)
-            print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
+            print(f"試行 {attempt + 1} 失敗、{delay}秒後に再試行します...")
             time.sleep(delay)
     
     return None
@@ -62,7 +62,7 @@ def call_inference_with_retry(
   ## 3. 使用状況を監視する
 </div>
 
-* W&amp;B Billing ページでクレジット使用量を確認する
+* W&amp;B Billing ページでクレジットの使用状況をトラッキングする
 * 制限に達する前にアラートを設定する
 * アプリケーションで API の使用状況をログする
 
@@ -75,19 +75,19 @@ def handle_inference_error(error):
     error_str = str(error)
     
     if "401" in error_str:
-        # Invalid authentication
-        raise ValueError("Check your API key and project configuration")
+        # 認証が無効です
+        raise ValueError("APIキーとプロジェクトの設定を確認してください")
     elif "402" in error_str:
-        # Out of credits
-        raise ValueError("Insufficient credits")
+        # クレジット不足
+        raise ValueError("クレジットが不足しています")
     elif "429" in error_str:
-        # Rate limited
+        # レート制限中
         return "retry"
     elif "500" in error_str or "503" in error_str:
-        # Server error
+        # サーバーエラー
         return "retry"
     else:
-        # Unknown error
+        # 不明なエラー
         raise
 ```
 
@@ -95,10 +95,10 @@ def handle_inference_error(error):
   ## 5. 適切なタイムアウトを設定する
 </div>
 
-ユースケースに応じて適切なタイムアウトを設定します：
+用途に応じて適切なタイムアウトを設定します。
 
 ```python
-# レスポンスが長い場合
+# 長いレスポンスの場合
 client = openai.OpenAI(
     base_url='https://api.inference.wandb.ai/v1',
     api_key="your-api-key",
@@ -110,18 +110,18 @@ client = openai.OpenAI(
   ## 追加のヒント
 </div>
 
-* デバッグしやすくするため、タイムスタンプ付きでエラーをログする
-* 並行処理への対応を改善するため、非同期処理を使用する
+* デバッグしやすいよう、タイムスタンプ付きでエラーをログする
+* 並行処理を効率化するため、非同期処理を使用する
 * 本番システムにはサーキットブレーカーを実装する
-* 必要に応じてレスポンスをキャッシュし、API 呼び出しを減らす
+* 必要に応じてレスポンスをキャッシュし、API呼び出しを減らす
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマター内のキーワードをもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Inference](/ja/support/models/tags/inference)</Badge>
 
-{/* ---- 自動生成ここまで: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

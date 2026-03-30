@@ -1,13 +1,13 @@
 ---
-title: "Tracer des fonctions générateur"
-description: "Suivez les fonctions générateur synchrones et asynchrones avec le traçage W&B Weave"
+title: "Tracer les fonctions génératrices"
+description: "Suivez les fonctions génératrices synchrones et asynchrones avec le tracing de W&B Weave"
 ---
 
-W&amp;B Weave prend en charge le traçage des fonctions générateur synchrones et asynchrones, y compris dans des structures fortement imbriquées.
+W&amp;B Weave prend en charge le tracing des fonctions génératrices synchrones et asynchrones, y compris dans des schémas profondément imbriqués.
 
 <Warning>
-  Comme les générateurs produisent leurs valeurs de façon paresseuse, Weave ne capture les sorties que lorsque le générateur est entièrement consommé (par exemple, lorsque vous le convertissez en liste).
-  Pour que Weave capture les sorties dans la trace, consommez entièrement le générateur (par exemple avec `list()`).
+  Comme les générateurs produisent leurs valeurs de façon paresseuse, Weave ne journalise les sorties que lorsque le générateur est entièrement consommé (par exemple, lorsque vous le convertissez en liste).
+  Pour vous assurer que Weave capture les sorties dans la trace, consommez entièrement le générateur (par exemple, avec `list()`).
 </Warning>
 
 <Tabs>
@@ -20,26 +20,26 @@ W&amp;B Weave prend en charge le traçage des fonctions générateur synchrones 
 
     # Cette fonction utilise un générateur synchrone simple.
     # Weave tracera l'appel et son entrée (`x`),
-    # mais les valeurs de sortie ne sont capturées qu'une fois le générateur consommé (par exemple avec `list()`).
+    # mais les valeurs de sortie ne sont capturées qu'une fois le générateur consommé (par exemple, avec `list()`).
     @weave.op
     def basic_gen(x: int) -> Generator[int, None, None]:
         yield from range(x)
 
-    # Fonction synchrone standard utilisée dans le pipeline du générateur.
+    # Une fonction synchrone normale utilisée dans le pipeline du générateur.
     # Ses appels sont également tracés indépendamment par Weave.
     @weave.op
     def inner(x: int) -> int:
         return x + 1
 
-    # Générateur synchrone qui appelle une autre fonction tracée (`inner`).
-    # Chaque valeur produite provient d'un appel distinct à `inner`, lui aussi tracé.
+    # Un générateur synchrone qui appelle une autre fonction tracée (`inner`).
+    # Chaque valeur produite provient d'un appel tracé distinct à `inner`.
     @weave.op
     def nested_generator(x: int) -> Generator[int, None, None]:
         for i in range(x):
             yield inner(i)
 
-    # Générateur plus complexe qui compose le générateur ci-dessus.
-    # Le traçage produit ici une arborescence d'appels hiérarchique :
+    # Un générateur plus complexe qui compose le générateur ci-dessus.
+    # Le tracing produit ici une arborescence d'appels hiérarchique :
     # - `deeply_nested_generator` (parent)
     #   - `nested_generator` (enfant)
     #     - `inner` (petit-enfant)
@@ -52,7 +52,7 @@ W&amp;B Weave prend en charge le traçage des fonctions générateur synchrones 
     # Le générateur doit être *consommé* pour que Weave capture les sorties.
     # Cela vaut pour les générateurs synchrones comme asynchrones.
     res = deeply_nested_generator(4)
-    list(res)  # Déclenche le traçage de tous les appels imbriqués et des valeurs produites
+    list(res)  # Déclenche le tracing de tous les appels imbriqués et des valeurs produites
     ```
   </Tab>
 
@@ -63,13 +63,13 @@ W&amp;B Weave prend en charge le traçage des fonctions générateur synchrones 
   </Tab>
 </Tabs>
 
-La capture d&#39;écran suivante montre la page **Traces** avec une trace sélectionnée du code précédent. Le panneau central affiche l&#39;arborescence de trace de la trace sélectionnée. Cette arborescence montre les ops `deeply_nested_generator`, `nested_generator` et `inner` dans la hiérarchie de la trace.
-![Page Weave Traces montrant une arborescence de trace sélectionnée illustrant des ops fortement imbriquées](/weave/guides/tracking/imgs/generators.png)
+La capture d&#39;écran suivante montre la page **Traces** avec une trace sélectionnée du code précédent. Le panneau central affiche l&#39;arborescence de trace de la trace sélectionnée. Cette arborescence montre les Ops `deeply_nested_generator`, `nested_generator` et `inner` dans la hiérarchie des traces.
+![Page Weave Traces montrant une arborescence de trace sélectionnée illustrant des Ops profondément imbriquées](/weave/guides/tracking/imgs/generators.png)
 
 <div id="consuming-generators">
   ## Consommer des générateurs
 </div>
 
-Weave ne capture les sorties d’un générateur qu’une fois celui-ci entièrement consommé. Consommez le générateur en le parcourant (par exemple avec `list()`, une boucle `for` ou `next()` jusqu’à épuisement). Il en va de même pour les générateurs asynchrones lorsque vous utilisez `async for` ou un mode de consommation équivalent.
+Weave ne capture les sorties d’un générateur qu’après sa consommation complète. Consommez le générateur en itérant dessus (par exemple avec `list()`, une boucle `for` ou `next()` jusqu’à épuisement). Il en va de même pour les générateurs asynchrones lorsque vous utilisez `async for` ou tout autre mode de consommation équivalent.
 
-Pour en savoir plus sur la décoration des fonctions et des méthodes avec `@weave.op`, voir [Créer des appels](/fr/weave/guides/tracking/create-call).
+Pour en savoir plus sur la décoration de fonctions et de méthodes avec `@weave.op`, voir [Créer des appels](/fr/weave/guides/tracking/create-call).

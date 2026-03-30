@@ -1,17 +1,17 @@
 ---
 title: Configurer la file d'attente Launch
-description: "Configurez les options avancées de la file d'attente Launch, y compris les modèles de configuration de file d'attente avec des valeurs par défaut, des minimums et des maximums."
+description: "Configurer les options avancées de la file d'attente Launch, y compris les modèles de configuration de file d'attente avec des valeurs par défaut, minimales et maximales."
 ---
 
-La page suivante explique comment configurer les options de la file d&#39;attente Launch.
+La page suivante décrit comment configurer les options de la file d&#39;attente Launch.
 
 <div id="set-up-queue-config-templates">
   ## Configurer les modèles de configuration de file d&#39;attente
 </div>
 
-Administrez et contrôlez la consommation des ressources de calcul à l’aide des modèles de configuration de file d’attente. Définissez les valeurs par défaut, les minimums et les maximums pour des champs tels que la consommation de mémoire, les GPU et la durée d’exécution.
+Administrez et gérez des garde-fous pour la consommation des ressources de calcul à l’aide des modèles de configuration de file d&#39;attente. Définissez des valeurs par défaut, minimales et maximales pour des champs tels que la consommation de mémoire, le GPU et la durée d’exécution.
 
-Après avoir configuré une file d’attente avec des modèles de configuration, les membres de votre équipe ne peuvent modifier les champs que vous avez définis que dans les limites spécifiées.
+Après avoir configuré une file d&#39;attente avec des modèles de configuration, les membres de votre équipe ne peuvent modifier les champs que vous avez définis que dans la plage que vous avez spécifiée.
 
 <div id="configure-queue-template">
   ### Configurer un modèle de file d&#39;attente
@@ -21,16 +21,16 @@ Vous pouvez configurer un modèle de file d&#39;attente sur une file d&#39;atten
 
 1. Accédez à la [W&amp;B Launch App](https://wandb.ai/launch).
 2. Sélectionnez **View queue** à côté du nom de la file d&#39;attente à laquelle vous souhaitez ajouter un modèle.
-3. Sélectionnez l&#39;onglet **Config**. Vous y verrez des informations sur votre file d&#39;attente, comme sa date de création, sa configuration et les remplacements existants au lancement.
-4. Accédez à la section **Queue config**.
+3. Sélectionnez l&#39;onglet **Config**. Il affiche des informations sur votre file d&#39;attente, notamment sa date de création, sa configuration et les remplacements existants au moment du lancement.
+4. Accédez à la section **configuration de la file d'attente**.
 5. Identifiez les paires clé-valeur de configuration pour lesquelles vous souhaitez créer un modèle.
-6. Remplacez la valeur dans la configuration par un champ de modèle. Les champs de modèle se présentent sous la forme `{{variable-name}}`.
-7. Cliquez sur le bouton **Parse configuration**. Lorsque vous analysez votre configuration, W&amp;B crée automatiquement des cartes sous la configuration de la file d&#39;attente pour chaque modèle créé.
-8. Pour chaque carte générée, vous devez d&#39;abord spécifier le type de données autorisé par la configuration de la file d&#39;attente (chaîne, entier ou flottant). Pour ce faire, sélectionnez le type de données dans le menu déroulant **Type**.
-9. En fonction du type de données, renseignez les champs qui apparaissent dans chaque carte.
+6. Remplacez la valeur dans la configuration par un champ de modèle. Les champs de modèle prennent la forme `{{variable-name}}`.
+7. Cliquez sur le bouton **Parse configuration**. Lorsque vous analysez votre configuration, W&amp;B crée automatiquement des vignettes sous la configuration de la file d&#39;attente pour chaque modèle créé.
+8. Pour chaque vignette générée, vous devez d&#39;abord spécifier le type de données (chaîne, entier ou nombre à virgule flottante) autorisé par la configuration de la file d&#39;attente. Pour ce faire, sélectionnez le type de données dans le menu déroulant **Type**.
+9. Selon le type de données, renseignez les champs qui apparaissent dans chaque vignette.
 10. Cliquez sur **Save config**.
 
-Par exemple, supposons que vous souhaitiez créer un modèle qui limite les instances AWS que votre équipe peut utiliser. Avant d&#39;ajouter un champ de modèle, la configuration de votre file d&#39;attente peut ressembler à ceci :
+Par exemple, supposons que vous souhaitiez créer un modèle pour limiter les instances AWS que votre équipe peut utiliser. Avant d&#39;ajouter un champ de modèle, la configuration de votre file d&#39;attente peut ressembler à ceci :
 
 ```yaml title="launch config"
 RoleArn: arn:aws:iam:region:account-id:resource-type/resource-id
@@ -44,7 +44,7 @@ StoppingCondition:
   MaxRuntimeInSeconds: 3600
 ```
 
-Lorsque vous ajoutez un champ de modèle pour `InstanceType`, votre configuration aura la forme suivante :
+Si vous ajoutez un champ de modèle pour `InstanceType`, votre configuration ressemblera à ceci :
 
 ```yaml title="launch config"
 RoleArn: arn:aws:iam:region:account-id:resource-type/resource-id
@@ -58,56 +58,57 @@ StoppingCondition:
   MaxRuntimeInSeconds: 3600
 ```
 
-Ensuite, cliquez sur **Parse configuration**. Une nouvelle tuile intitulée `aws-instance` apparaît sous la **Queue config**.
+Ensuite, cliquez sur **Parse configuration**. Une nouvelle vignette intitulée `aws-instance` apparaît sous **configuration de la file d'attente**.
 
-Sélectionnez ensuite String comme type de données dans le menu déroulant **Type**. Des champs s’affichent alors, dans lesquels vous pouvez spécifier les valeurs parmi lesquelles un utilisateur peut choisir. Par exemple, dans l’image suivante, l’administrateur de l’équipe a configuré deux types d’instances AWS différents parmi lesquels les utilisateurs peuvent choisir (`ml.m4.xlarge` et `ml.p3.xlarge`) :
+À partir de là, sélectionnez String comme type de données dans le menu déroulant **Type**. Des champs s’affichent alors, dans lesquels vous pouvez spécifier les valeurs parmi lesquelles un utilisateur pourra choisir. Par exemple, dans l’image suivante, l’administrateur de l’équipe a configuré deux types d’instances AWS différents parmi lesquels les utilisateurs peuvent choisir (`ml.m4.xlarge` et `ml.p3.xlarge`) :
 
 <Frame>
   <img src="/images/launch/aws_template_example.png" alt="Modèle AWS CloudFormation" />
 </Frame>
 
+
 <div id="dynamically-configure-launch-jobs">
   ## Configurer dynamiquement les jobs Launch
 </div>
 
-Les configurations de la file d&#39;attente peuvent être définies dynamiquement à l&#39;aide de macros évaluées lorsque l&#39;agent extrait un job de la file d&#39;attente. Vous pouvez définir les macros suivantes :
+Les configurations de la file d'attente peuvent être définies dynamiquement à l&#39;aide de macros évaluées lorsque l&#39;agent extrait un job de la file d&#39;attente. Vous pouvez définir les macros suivantes :
 
 | Macro             | Description                                             |
 | ----------------- | ------------------------------------------------------- |
 | `${project_name}` | Le nom du projet dans lequel le run est lancé.          |
 | `${entity_name}`  | Le propriétaire du projet dans lequel le run est lancé. |
-| `${run_id}`       | L&#39;identifiant du run en cours de lancement.         |
+| `${run_id}`       | L&#39;ID du run en cours de lancement.                  |
 | `${run_name}`     | Le nom du run en cours de lancement.                    |
-| `${image_uri}`    | L&#39;URI de l&#39;image de conteneur pour ce run.      |
+| `${image_uri}`    | L&#39;URI de l&#39;image de conteneur de ce run.        |
 
 <Note>
-  Toute macro personnalisée ne figurant pas dans le tableau ci-dessus (par exemple `${MY_ENV_VAR}`) est remplacée par une variable d&#39;environnement de l&#39;agent.
+  Toute macro personnalisée ne figurant pas dans le tableau ci-dessus (par exemple `${MY_ENV_VAR}`) est remplacée par une variable d&#39;environnement issue de l&#39;environnement de l&#39;agent.
 </Note>
 
 <div id="use-the-launch-agent-to-build-images-that-execute-on-accelerators-gpus">
-  ## Utiliser l&#39;agent de lancement pour builder des images qui s&#39;exécutent sur des accélérateurs (GPU)
+  ## Utiliser l’agent Launch pour créer des images qui s’exécutent sur des accélérateurs (GPU)
 </div>
 
-Vous devrez peut-être spécifier une image de base pour accélérateur si vous utilisez Launch pour builder des images destinées à être exécutées dans un environnement avec accélérateur.
+Vous devrez peut-être spécifier une image de base pour accélérateur si vous utilisez Launch pour créer des images qui s’exécutent dans un environnement avec accélérateur.
 
-Cette image de base pour accélérateur doit respecter les exigences suivantes :
+Cette image de base pour accélérateur doit répondre aux exigences suivantes :
 
 * Compatibilité avec Debian (le Dockerfile de Launch utilise `apt-get` pour récupérer Python)
-* Compatibilité entre les jeux d&#39;instructions matériels du CPU et du GPU (assurez-vous que votre version de CUDA est prise en charge par le GPU que vous prévoyez d&#39;utiliser)
-* Compatibilité entre la version de l&#39;accélérateur que vous fournissez et les paquets installés dans votre algorithme de ML
-* Paquets installés nécessitant des étapes supplémentaires pour configurer la compatibilité avec le matériel
+* Compatibilité des jeux d’instructions matériels CPU et GPU (assurez-vous que votre version de CUDA est prise en charge par le GPU que vous prévoyez d’utiliser)
+* Compatibilité entre la version d’accélérateur que vous fournissez et les packages installés dans votre algorithme de ML
+* Packages installés nécessitant des étapes supplémentaires pour assurer la compatibilité avec le matériel
 
 <div id="how-to-use-gpus-with-tensorflow">
   ### Comment utiliser des GPU avec TensorFlow
 </div>
 
-Assurez-vous que TensorFlow utilise correctement votre GPU. Pour ce faire, spécifiez une image Docker et son tag d’image pour la clé `builder.accelerator.base_image` dans la configuration des ressources de la file d&#39;attente.
+Assurez-vous que TensorFlow utilise correctement votre GPU. Pour cela, spécifiez une image Docker ainsi que son tag pour la clé `builder.accelerator.base_image` dans la configuration des ressources de la file d&#39;attente.
 
-Par exemple, l’image de base `tensorflow/tensorflow:latest-gpu` garantit que TensorFlow utilise correctement votre GPU. Vous pouvez définir ce paramètre via la configuration des ressources de la file d&#39;attente.
+Par exemple, l&#39;image de base `tensorflow/tensorflow:latest-gpu` garantit que TensorFlow utilise correctement votre GPU. Vous pouvez la configurer dans la configuration des ressources de la file d&#39;attente.
 
-L’extrait JSON suivant montre comment spécifier l’image de base TensorFlow dans la configuration de votre file d&#39;attente :
+L&#39;extrait JSON suivant montre comment spécifier l&#39;image de base TensorFlow dans la configuration de votre file d&#39;attente :
 
-```json title="Queue config"
+```json title="configuration de la file d'attente"
 {
     "builder": {
         "accelerator": {

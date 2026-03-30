@@ -1,21 +1,21 @@
 ---
-title: セルフマネージド環境向けオブジェクトストレージ要件
+title: セルフマネージド向けオブジェクトストレージの要件
 ---
 
-W&amp;B では、事前署名付き URL および CORS をサポートするオブジェクトストレージが必要です。
+W&amp;B では、事前署名付き URL と CORS をサポートするオブジェクトストレージが必要です。
 
-**推奨ストレージプロバイダー：**
+**推奨されるストレージプロバイダー:**
 
-* [Amazon S3](https://aws.amazon.com/s3/): 業界をリードするスケーラビリティ、データ可用性、セキュリティ、およびパフォーマンスを備えたオブジェクトストレージサービス。
+* [Amazon S3](https://aws.amazon.com/s3/): 業界トップクラスのスケーラビリティ、データ可用性、セキュリティ、パフォーマンスを備えたオブジェクトストレージサービス。
 * [Google Cloud Storage](https://cloud.google.com/storage): 非構造化データを大規模に保存するためのマネージドサービス。
-* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs): 大量の非構造化データの保存に対応したクラウドベースのオブジェクトストレージソリューション。
-* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage): AI ワークロード向けに最適化された、高性能な S3 互換オブジェクトストレージサービス。
-* エンタープライズ向け S3 互換ストレージ: [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)、[NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)、その他のエンタープライズグレードのソリューション
+* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs): 大量の非構造化データを保存するためのクラウドベースのオブジェクトストレージソリューション。
+* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage): AI ワークロード向けに最適化された高パフォーマンスの S3 互換オブジェクトストレージサービス。
+* エンタープライズ向け S3 互換ストレージ: [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor)、[NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/)、またはその他のエンタープライズグレードのソリューション
 
 <Note>
-  MinIO Open Source は現在 [メンテナンスモード](https://github.com/minio/minio)であり、アクティブな開発は行われておらず、事前コンパイル済みバイナリも提供されていません。本番環境へのデプロイには、W&amp;B はマネージドオブジェクトストレージサービス、または MinIO Enterprise (AIStor) のようなエンタープライズ向け S3 互換ソリューションの利用を推奨します。
+  MinIO Open Source は、アクティブな開発や事前コンパイル済みバイナリの提供がない [maintenance mode](https://github.com/minio/minio) です。本番デプロイでは、W&amp;B はマネージドオブジェクトストレージサービス、または MinIO Enterprise (AIStor) などのエンタープライズ向け S3 互換ソリューションの使用を推奨しています。
 </Note>
 
-IAM ポリシーや CORS 設定、アクセス設定などを含むバケットの詳細なプロビジョニング手順については、[Bring Your Own Bucket (BYOB) ガイド](/ja/platform/hosting/data-security/secure-storage-connector)を参照してください。
+IAM ポリシー、CORS 設定、アクセス設定を含む詳細なバケットプロビジョニング手順については、[Bring Your Own Bucket (BYOB) ガイド](/ja/platform/hosting/data-security/secure-storage-connector)を参照してください。
 
-すべての要件については、[リファレンスアーキテクチャのオブジェクトストレージのセクション](/ja/platform/hosting/self-managed/ref-arch/#object-storage)を参照してください。
+完全な要件については、[リファレンスアーキテクチャのオブジェクトストレージセクション](/ja/platform/hosting/self-managed/ref-arch/#object-storage)を参照してください。

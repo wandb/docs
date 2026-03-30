@@ -1,9 +1,9 @@
 ---
-title: "既存の run にアーティファクトをログするには、どうすればよいですか？"
+title: "既存のrunにartifactをログするにはどうすればよいですか？"
 keywords: ["Artifacts"]
 ---
 
-場合によっては、以前にログした run の出力としてアーティファクトをマークする必要があります。この場合は、以前の run を再初期化し、次のように新しいアーティファクトをログします：
+場合によっては、artifactを過去にログしたrunの出力としてマークする必要があります。この場合は、そのrunを再初期化し、次のように新しいartifactをログします。
 
 ```python
 with wandb.init(id="existing_run_id", resume="allow") as run:
@@ -14,11 +14,11 @@ with wandb.init(id="existing_run_id", resume="allow") as run:
 
 ***
 
-{/* ---- AUTO-GENERATED: タブバッジ ----
-  front matter 内の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって自動管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

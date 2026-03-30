@@ -1,6 +1,6 @@
 ---
-title: Événements et portées des automatisations
-description: "Découvrez les événements et les portées qui déclenchent les automatisations W&B, notamment les modifications d’artefacts, le statut des runs et les conditions sur les métriques."
+title: Événements et champs d’application des Automations
+description: "Découvrez les événements et les champs d’application qui déclenchent les Automations W&B, notamment les changements d’artifact, le statut du run et les conditions sur les métriques."
 ---
 
 import EnterpriseCloudOnly from "/snippets/fr/_includes/enterprise-cloud-only.mdx";
@@ -10,71 +10,69 @@ import MultiTenantCloudOnly from "/snippets/fr/_includes/multi-tenant-cloud-only
   <EnterpriseCloudOnly />
 </Info>
 
-Une automatisation peut démarrer lorsqu’un événement spécifique se produit dans un projet ou un registre. Cette page décrit les événements qui peuvent déclencher une automatisation dans chaque portée. Pour en savoir plus sur les automatisations, consultez l’[Aperçu des automatisations](/fr/models/automations) ou [Créer une automatisation](/fr/models/automations/create-automations).
+Une automatisation peut démarrer lorsqu’un événement spécifique se produit dans un projet ou un registre. Cette page décrit les événements pouvant déclencher une automatisation dans chacun de ces contextes. Pour en savoir plus sur les automatisations, consultez l’[Aperçu des automatisations](/fr/models/automations) ou [Créer une automatisation](/fr/models/automations/create-automations).
 
 <div id="registry">
   ## Registre
 </div>
 
-Cette section décrit les portées et les événements d&#39;une automatisation dans un [registre](/fr/models/registry).
+Cette section décrit les périmètres et les événements d’une automatisation dans un [registre](/fr/models/registry).
 
 <div id="scopes">
-  ### Portées
+  ### Périmètres
 </div>
 
-Une automatisation du [registre](/fr/models/registry) surveille l’événement sur toute collection d’un registre donné, y compris sur les collections ajoutées ultérieurement.
+Une automatisation de [registre](/fr/models/registry) surveille l’événement qui se produit dans n’importe quelle collection d’un registre donné, y compris les collections ajoutées ultérieurement.
 
 ### Événements <a id="registry-events" aria-label="Événements du registre" />
 
-Une automatisation du registre peut surveiller les événements suivants :
+Une automatisation du registre peut surveiller ces événements :
 
-* **Une nouvelle version est liée à une collection** : testez et validez de nouveaux modèles ou jeux de données lorsqu’ils sont ajoutés à un registre.
-* **Un alias d’artefact est ajouté** : déclenchez une étape spécifique de votre flux de travail lorsqu’une nouvelle version d’artefact reçoit un alias spécifique. Par exemple, déployez un modèle lorsque l’alias `production` lui est attribué.
+* **Une nouvelle version est liée à une collection** : testez et validez de nouveaux modèles ou jeux de données lorsqu&#39;ils sont ajoutés au registre.
+* **Un alias d&#39;artifact est ajouté** : déclenchez une étape spécifique de votre flux de travail lorsqu&#39;une nouvelle version d&#39;artifact se voit attribuer un alias spécifique. Par exemple, déployez un modèle lorsque l&#39;alias `production` lui est appliqué.
 
 <div id="project">
   ## Projet
 </div>
 
-Cette section décrit les portées et les événements d’une automatisation dans un [projet](/fr/models/track/project-page).
+Cette section décrit les périmètres et les événements d’une automatisation dans un [projet](/fr/models/track/project-page).
 
-<div id="scopes">
-  ### Portées
-</div>
+### Portées
 
-Une automatisation au niveau du projet surveille l&#39;événement survenant dans n&#39;importe quelle collection du projet. Selon l&#39;événement que vous spécifiez, vous pouvez restreindre davantage la portée de l&#39;automatisation.
+Une automatisation au niveau du projet surveille l’événement qui se produit sur n’importe quelle collection du projet. Selon l’événement que vous spécifiez, vous pouvez encore restreindre le périmètre de l’automatisation.
 
 <div id="artifact-events">
-  ### Événements d&#39;artefact
+  ### Événements d&#39;artifact
 </div>
 
-Cette section décrit les événements liés à un artefact qui peuvent déclencher une automatisation.
+Cette section décrit les événements liés à un artifact qui peuvent déclencher une automatisation.
 
-* **Une nouvelle version est ajoutée à un artefact** : appliquez des actions récurrentes à chaque version d&#39;un artefact. Par exemple, démarrez une tâche d&#39;entraînement lorsqu&#39;une nouvelle version d&#39;un artefact de jeu de données est créée.
-* **Un alias d&#39;artefact est ajouté** : déclenchez une étape spécifique de votre flux de travail lorsqu&#39;une nouvelle version d&#39;artefact dans un projet se voit attribuer un alias correspondant à l&#39;**Alias regex** que vous spécifiez. Par exemple, exécutez une série d&#39;étapes de traitement en aval lorsqu&#39;un artefact se voit attribuer l&#39;alias `test-set-quality-check`, ou lancez un flux de travail chaque fois qu&#39;une nouvelle version d&#39;artefact se voit attribuer l&#39;alias `latest`. Une seule version d&#39;artefact peut avoir un alias donné à un instant donné.
-* **Une balise d&#39;artefact est ajoutée** : déclenchez une étape spécifique de votre flux de travail lorsqu&#39;une version d&#39;artefact dans un projet se voit attribuer une balise correspondant au **Tag regex** que vous spécifiez. Par exemple, spécifiez `^europe.*` pour déclencher un flux de travail propre à une zone géographique lorsqu&#39;une balise commençant par la chaîne `europe` est ajoutée à une version d&#39;artefact. Les balises d&#39;artefact servent au regroupement et au filtrage, et une balise donnée peut être attribuée simultanément à plusieurs versions d&#39;artefact.
+* **Une nouvelle version est ajoutée à un artifact** : appliquez des actions récurrentes à chaque version d&#39;un artifact. Par exemple, lancez une tâche d&#39;entraînement lorsqu&#39;une nouvelle version d&#39;un artifact de jeu de données est créée.
+* **Un alias d&#39;artifact est ajouté** : déclenchez une étape spécifique de votre flux de travail lorsqu&#39;une nouvelle version d&#39;artifact dans un projet se voit attribuer un alias correspondant à la **regex d&#39;alias** que vous spécifiez. Par exemple, exécutez une série d&#39;étapes de traitement en aval lorsqu&#39;un artifact se voit attribuer l&#39;alias `test-set-quality-check`, ou exécutez un flux de travail chaque fois qu&#39;une nouvelle version d&#39;artifact reçoit l&#39;alias `latest`. Une seule version d&#39;artifact peut avoir un alias donné à un instant donné.
+* **Un tag d&#39;artifact est ajouté** : déclenchez une étape spécifique de votre flux de travail lorsqu&#39;une version d&#39;artifact dans un projet se voit attribuer un tag correspondant à la **regex de tag** que vous spécifiez. Par exemple, spécifiez `^europe.*` pour déclencher un flux de travail géospécifique lorsqu&#39;un tag commençant par la chaîne `europe` est ajouté à une version d&#39;artifact. Les tags d&#39;artifact sont utilisés pour le regroupement et le filtrage, et un tag donné peut être attribué simultanément à plusieurs versions d&#39;artifact.
 
 <div id="run-events">
   ### Événements de run
 </div>
 
-Une automatisation peut être déclenchée par une modification du [statut d’un run](/fr/models/runs/run-states) ou de la [valeur d’une métrique](/fr/models/track/log#what-data-is-logged-with-specific-wb-api-calls).
+Une automatisation peut être déclenchée par une modification du [statut d&#39;un run](/fr/models/runs/run-states) ou par une modification de la [valeur d&#39;une métrique](/fr/models/track/log#what-data-is-logged-with-specific-wb-api-calls).
 
 <div id="run-status-change">
-  #### Changement du statut d’un run
+  #### Changement du statut d&#39;un run
 </div>
 
 <Note>
   * <MultiTenantCloudOnly />
-  * Un run ayant le statut **Killed** ne peut pas déclencher d’automatisation. Ce statut indique que le run a été arrêté de force par un administrateur.
+  * Un run ayant le statut **Killed** ne peut pas déclencher d&#39;automatisation. Ce statut indique que le run a été arrêté de force par un administrateur.
 </Note>
 
-Déclenchez un flux de travail lorsqu’un run change de [statut](/fr/models/runs/run-states) pour passer à **Running**, **Finished** ou **Failed**. Vous pouvez également restreindre davantage les runs pouvant déclencher une automatisation en spécifiant un filtre sur l’utilisateur ou le nom de l’exécution.
+Déclenchez un flux de travail lorsqu&#39;un run change de [statut](/fr/models/runs/run-states) et passe à **Running**, **Finished** ou **Failed**. Vous pouvez également restreindre les runs susceptibles de déclencher une automatisation en spécifiant un filtre sur l&#39;utilisateur ou le nom de l&#39;exécution.
 
 <Frame>
-  ![Capture d'écran montrant une automatisation de changement du statut d’un run](/images/automations/run_status_change.png)
+  ![Capture d'écran montrant une automatisation de changement du statut d'un run](/images/automations/run_status_change.png)
 </Frame>
 
-Comme le statut est une propriété du run dans son ensemble, vous pouvez créer une automatisation de statut de run uniquement depuis la page **Automations**, et non depuis un espace de travail.
+Comme le statut d&#39;un run est une propriété du run dans son ensemble, vous ne pouvez créer une automatisation de statut de run que depuis la page **Automations**, et non depuis un workspace.
 
 <div id="run-metrics-change">
   #### Changement des métriques de run
@@ -84,22 +82,22 @@ Comme le statut est une propriété du run dans son ensemble, vous pouvez créer
   <MultiTenantCloudOnly />
 </Note>
 
-Déclenchez un flux de travail basé sur une valeur enregistrée pour une métrique, qu&#39;il s&#39;agisse d&#39;une métrique dans l&#39;historique d&#39;un run ou d&#39;une [métrique système](/fr/models/ref/python/experiments/system-metrics) telle que `cpu`, qui suit le pourcentage d&#39;utilisation du processeur. W&amp;B enregistre automatiquement les métriques système toutes les 15 secondes.
+Déclenchez un flux de travail en fonction d&#39;une valeur enregistrée pour une métrique, qu&#39;il s&#39;agisse d&#39;une métrique de l&#39;historique d&#39;un run ou d&#39;une [métrique système](/fr/models/ref/python/experiments/system-metrics) telle que `cpu`, qui indique le pourcentage d&#39;utilisation du CPU. W&amp;B enregistre automatiquement les métriques système toutes les 15 secondes.
 
-Vous pouvez créer une automatisation de métriques de run depuis l&#39;onglet **Automations** du projet ou directement depuis un panneau de graphique linéaire dans un espace de travail.
+Vous pouvez créer une automatisation de métriques de run depuis l&#39;onglet **Automations** du projet ou directement depuis un panneau de graphique en courbes dans un Workspace.
 
-Pour configurer une automatisation de métrique de run, définissez comment comparer la valeur de la métrique au seuil que vous indiquez. Les options disponibles dépendent du type d&#39;événement et des filtres que vous spécifiez.
+Pour configurer une automatisation de métrique de run, définissez comment comparer la valeur de la métrique au seuil que vous spécifiez. Les options proposées dépendent du type d&#39;événement et des filtres que vous définissez.
 
-Vous pouvez également limiter davantage les runs susceptibles de déclencher une automatisation en spécifiant un filtre sur l&#39;utilisateur ou le nom de l&#39;exécution.
+Vous pouvez également limiter davantage les runs susceptibles de déclencher une automatisation en spécifiant un filtre sur l&#39;utilisateur ou sur le nom de l&#39;exécution.
 
 <div id="threshold">
   ##### Seuil
 </div>
 
-Pour les événements **Seuil des métriques de run atteint**, vous configurez les éléments suivants :
+Pour les événements **Seuil des métriques du run atteint**, vous configurez :
 
 1. La fenêtre des valeurs enregistrées les plus récentes à prendre en compte (5 par défaut).
-2. S&#39;il faut évaluer la valeur **moyenne**, **minimale** ou **maximale** dans la fenêtre.
+2. La valeur **Average**, **Min** ou **Max** à évaluer dans la fenêtre.
 3. La comparaison à effectuer :
    * Supérieur à
    * Supérieur ou égal à
@@ -108,37 +106,37 @@ Pour les événements **Seuil des métriques de run atteint**, vous configurez l
    * Différent de
    * Égal à
 
-Par exemple, déclenchez une automatisation lorsque la moyenne de `accuracy` est supérieure à `.6`.
+Par exemple, déclenchez une automation lorsque la moyenne de `accuracy` est supérieure à `.6`.
 
 <Frame>
-  ![Capture d’écran montrant une automatisation de seuil de métriques de run](/images/automations/run_metrics_threshold_automation.png)
+  ![Capture d'écran montrant une automation de seuil des métriques du run](/images/automations/run_metrics_threshold_automation.png)
 </Frame>
 
 <div id="change-threshold">
   ##### Seuil de variation
 </div>
 
-Pour les événements **Seuil de variation des métriques du run atteint**, l&#39;automatisation utilise deux « fenêtres » de valeurs pour déterminer si elle doit se déclencher :
+Pour les événements **Seuil de variation des métriques de run atteint**, l’automatisation utilise deux « fenêtres » de valeurs pour déterminer si elle doit se déclencher :
 
-* la *fenêtre actuelle* des valeurs récemment enregistrées à prendre en compte (valeurs par défaut : 10).
-* la *fenêtre précédente* des valeurs récemment enregistrées à prendre en compte (valeurs par défaut : 50).
+* La *fenêtre actuelle* des valeurs récemment enregistrées à prendre en compte (10 par défaut).
+* La *fenêtre précédente* des valeurs récemment enregistrées à prendre en compte (50 par défaut).
 
 Les fenêtres actuelle et précédente sont consécutives et ne se chevauchent pas.
 
-Pour créer l&#39;automatisation, vous configurez :
+Pour créer l’automatisation, vous configurez :
 
-1. la fenêtre actuelle des valeurs enregistrées (valeurs par défaut : 10).
-2. la fenêtre précédente des valeurs enregistrées (valeurs par défaut : 50).
-3. si les valeurs doivent être évaluées en relatif ou en absolu (valeurs par défaut : **Relatif**).
-4. la comparaison à effectuer :
-   * Augmente d&#39;au moins
-   * Diminue d&#39;au moins
-   * Augmente ou diminue d&#39;au moins
+1. La fenêtre actuelle des valeurs enregistrées (10 par défaut).
+2. La fenêtre précédente des valeurs enregistrées (50 par défaut).
+3. Si les valeurs doivent être évaluées de façon relative ou absolue (**Relative** par défaut).
+4. La comparaison à effectuer :
+   * Augmente d’au moins
+   * Diminue d’au moins
+   * Augmente ou diminue d’au moins
 
-Par exemple, déclenchez une automatisation lorsque la moyenne de `loss` diminue d&#39;au moins `.25`.
+Par exemple, déclenchez une automatisation lorsque la moyenne de `loss` diminue d’au moins `.25`.
 
 <Frame>
-  ![Capture d'écran montrant une automatisation de seuil de variation des métriques du run](/images/automations/run_metrics_change_threshold_automation.png)
+  ![Capture d’écran montrant une automatisation de seuil de variation des métriques de run](/images/automations/run_metrics_change_threshold_automation.png)
 </Frame>
 
 <div id="run-metrics-z-score-change">
@@ -149,47 +147,47 @@ Par exemple, déclenchez une automatisation lorsque la moyenne de `loss` diminue
   <MultiTenantCloudOnly />
 </Note>
 
-W&amp;B peut déclencher une automatisation lorsque le z-score (score standard) d’une métrique dépasse un seuil spécifié. Un z-score mesure le nombre d’écarts-types entre une valeur et la moyenne de cette métrique sur une fenêtre configurable de runs du projet (30 runs par défaut).
+W&amp;B peut déclencher une automatisation lorsque le z-score (score standard) d’une métrique dépasse un seuil spécifié. Un z-score mesure de combien d’écarts types une valeur s’écarte de la moyenne de cette métrique sur une fenêtre configurable de runs dans le projet (30 runs par défaut).
 
-Pour utiliser un z-score comme déclencheur d’événement, sélectionnez l’événement **seuil de z-score des métriques de run atteint**.
+Pour utiliser un z-score comme déclencheur d’événement, sélectionnez l’événement **Run metrics z-score threshold met**.
 
-Les automatisations basées sur le z-score permettent à votre équipe d’être informée des performances inhabituelles sans avoir à vérifier des seuils absolus, qui peuvent varier à mesure que votre modèle ou votre processus d’entraînement évolue.
+Les Automations basées sur le z-score permettent à votre équipe d’être alertée en cas de performances inhabituelles, sans avoir à vérifier des seuils absolus, qui peuvent varier à mesure que votre modèle ou votre processus d’entraînement évolue.
 
-Vous pouvez créer une automatisation de z-score pour les métriques de run depuis l’onglet **Automations** du projet ou directement depuis un panneau de graphique linéaire dans un espace de travail.
+Vous pouvez créer une automatisation de z-score pour les métriques de run depuis l’onglet **Automations** du projet ou directement depuis un panneau de graphique linéaire dans un Workspace.
 
 Pour créer une automatisation de z-score, vous configurez :
 
-1. Le seuil cible du z-score, exprimé sous la forme d’un nombre à virgule flottante positif (par exemple, 2.0).
-2. La fenêtre de valeurs enregistrées qui détermine la moyenne (30 par défaut).
+1. Le seuil cible de z-score, exprimé sous forme de valeur flottante positive (par exemple, 2.0).
+2. La fenêtre de valeurs enregistrées qui sert à déterminer la moyenne (30 par défaut).
 3. La comparaison à effectuer :
-   * Au-dessus (déclenchement lorsque les performances sont inhabituellement élevées)
-   * En dessous (déclenchement lorsque les performances sont inhabituellement faibles)
+   * Au-dessus (déclencher lorsque les performances sont inhabituellement élevées)
+   * En dessous (déclencher lorsque les performances sont inhabituellement faibles)
    * Au-dessus ou en dessous
 
-Par exemple, déclenchez une automatisation lorsque `accuracy` a un z-score supérieur à 2, ce qui signifie que le run obtient des performances nettement meilleures que les autres runs du projet.
+Par exemple, déclenchez une automatisation lorsque `accuracy` a un z-score supérieur à 2, ce qui signifie que le run obtient des performances nettement supérieures à celles des autres runs du projet.
 
 **Comprendre les valeurs de z-score :**
 
-* Un z-score de 0 signifie que la métrique correspond à la moyenne.
-* Un z-score de +2.0 signifie que la métrique se situe à 2 écarts-types au-dessus de la moyenne.
-* Un z-score de -2.0 signifie que la métrique se situe à 2 écarts-types en dessous de la moyenne.
+* Un z-score de 0 signifie que la métrique est dans la moyenne.
+* Un z-score de +2.0 signifie que la métrique se situe à 2 écarts types au-dessus de la moyenne.
+* Un z-score de -2.0 signifie que la métrique se situe à 2 écarts types en dessous de la moyenne.
 * Les valeurs au-delà de ±2 sont souvent considérées comme des valeurs aberrantes statistiquement significatives.
 
 <div id="run-filters">
-  #### Filtres de runs
+  #### Filtres des runs
 </div>
 
 Cette section décrit comment l&#39;automatisation sélectionne les runs à évaluer.
 
-* Par défaut, tout run du projet déclenche l&#39;automatisation lorsque l&#39;événement se produit. Vous pouvez limiter les runs qui déclenchent une automatisation en configurant l&#39;un des filtres suivants :
+* Par défaut, n&#39;importe quel run du projet déclenche l&#39;automatisation lorsque l&#39;événement se produit. Vous pouvez limiter les runs qui déclenchent une automatisation en configurant l&#39;un des filtres suivants :
 
-  * **Filtrer les runs d&#39;un seul utilisateur** : inclure uniquement les runs créés par l&#39;utilisateur spécifié.
-  * **Filtrer par nom de l&#39;exécution** : inclure uniquement les runs dont le nom correspond à l&#39;expression régulière indiquée.
+  * **Filtre sur les runs d&#39;un seul utilisateur** : inclure uniquement les runs créés par l&#39;utilisateur spécifié.
+  * **Filtre sur le nom du run** : inclure uniquement les runs dont le nom correspond à l&#39;expression régulière fournie.
 
   Pour plus de détails, voir [Créer des automatisations](/fr/models/automations/create-automations).
-* Chaque run est traité individuellement et peut potentiellement déclencher l&#39;automatisation.
+* Chaque run est considéré individuellement et peut déclencher l&#39;automatisation.
 * Les valeurs de chaque run sont placées dans une fenêtre distincte et comparées séparément au seuil.
-* Sur une période de 24 heures, une automatisation donnée ne peut se déclencher qu&#39;une seule fois par run.
+* Sur une période de 24 heures, une automatisation donnée ne peut se déclencher qu&#39;une seule fois par run.
 
 <div id="next-steps">
   ## Prochaines étapes

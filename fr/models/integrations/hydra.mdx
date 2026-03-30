@@ -1,9 +1,9 @@
 ---
-description: "Intégrez W&B à Hydra pour gérer des configurations complexes pour des expériences de ML et journaliser automatiquement les hyperparamètres."
+description: "Intégrez W&B à Hydra pour gérer des configurations complexes pour les expériences de machine learning et journaliser automatiquement les hyperparamètres."
 title: Hydra
 ---
 
-> [Hydra](https://hydra.cc) est un framework Python open source qui simplifie le développement d’applications de recherche et d’autres applications complexes. Sa fonctionnalité clé est la possibilité de créer dynamiquement une configuration hiérarchique par composition et de la surcharger via des fichiers de configuration et la ligne de commande.
+> [Hydra](https://hydra.cc) est un framework Python open source qui simplifie le développement d&#39;applications de recherche et d&#39;autres applications complexes. Sa principale fonctionnalité est de permettre la création dynamique d&#39;une configuration hiérarchique par composition, puis sa surcharge via des fichiers de configuration et la ligne de commande.
 
 Vous pouvez continuer à utiliser Hydra pour gérer la configuration tout en tirant parti de la puissance de W&amp;B.
 
@@ -11,7 +11,7 @@ Vous pouvez continuer à utiliser Hydra pour gérer la configuration tout en tir
   ## Suivre les métriques
 </div>
 
-Suivez vos métriques comme d’habitude avec `wandb.init()` et `wandb.Run.log()`. Ici, `wandb.entity` et `wandb.project` sont définis dans un fichier de configuration Hydra.
+Suivez vos métriques normalement avec `wandb.init()` et `wandb.Run.log()`. Ici, `wandb.entity` et `wandb.project` sont définis dans un fichier de configuration Hydra.
 
 ```python
 import wandb
@@ -28,7 +28,7 @@ def run_experiment(cfg):
   ## Suivre les hyperparamètres
 </div>
 
-Hydra utilise [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) comme interface par défaut avec les dictionnaires de configuration. Les dictionnaires d&#39;`OmegaConf` ne sont pas une sous-classe des dictionnaires primitifs. Par conséquent, passer directement le `Config` de Hydra à `wandb.Run.config` entraîne des résultats inattendus dans le tableau de bord. Il est nécessaire de convertir `omegaconf.DictConfig` en type primitif `dict` avant de le passer à `wandb.Run.config`.
+Hydra utilise [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) comme interface par défaut pour les dictionnaires de configuration. Les dictionnaires d’`OmegaConf` ne sont pas une sous-classe des dictionnaires primitifs. Par conséquent, passer directement le `Config` de Hydra à `wandb.Run.config` peut produire des résultats inattendus dans le tableau de bord. Vous devez convertir `omegaconf.DictConfig` en type primitif `dict` avant de le transmettre à `wandb.Run.config`.
 
 ```python
 @hydra.main(config_path="configs/", config_name="defaults")
@@ -46,7 +46,7 @@ def run_experiment(cfg):
   ## Résoudre les problèmes liés au multiprocessing
 </div>
 
-Si votre processus se bloque au démarrage, cela peut être dû à [ce problème connu](/fr/models/track/log/distributed-training). Pour y remédier, essayez de modifier le protocole de multiprocessing de wandb en ajoutant un paramètre `settings` supplémentaire à `wandb.init()`, comme suit :
+Si votre processus se bloque au démarrage, cela peut être dû à [ce problème connu](/fr/models/track/log/distributed-training). Pour y remédier, essayez de modifier le protocole de multiprocessing de wandb, en ajoutant par exemple un paramètre de configuration supplémentaire à `wandb.init()` comme suit :
 
 ```python
 wandb.init(settings=wandb.Settings(start_method="thread"))
@@ -62,7 +62,7 @@ $ export WANDB_START_METHOD=thread
   ## Optimiser les hyperparamètres
 </div>
 
-[W&amp;B Sweeps](/fr/models/sweeps) est une plateforme de recherche d&#39;hyperparamètres hautement évolutive qui fournit, avec un minimum de code, des visualisations et des informations utiles sur les expériences W&amp;B. Sweeps s&#39;intègre de manière transparente aux projets Hydra, sans nécessiter de code. Il suffit d&#39;un fichier de configuration décrivant, comme d&#39;habitude, les différents paramètres à balayer.
+[W&amp;B Sweeps](/fr/models/sweeps) est une plateforme de recherche d&#39;hyperparamètres très évolutive, qui fournit des insights et des visualisations sur les expériences W&amp;B avec un minimum de code. Sweeps s&#39;intègre parfaitement aux projets Hydra sans nécessiter d&#39;écrire de code. La seule chose requise est un fichier de configuration décrivant, comme d&#39;habitude, les différents paramètres à balayer.
 
 Un exemple simple de fichier `sweep.yaml` serait :
 
@@ -83,24 +83,24 @@ command:
   - ${args_no_hyphens}
 ```
 
-Lancez le balayage :
+Exécutez le balayage :
 
 ```bash
 wandb sweep sweep.yaml
 ```
 
-W&amp;B crée automatiquement un balayage dans votre projet et renvoie une commande `wandb agent` à exécuter sur chaque machine où vous souhaitez lancer votre balayage.
+W&amp;B crée automatiquement un balayage dans votre projet et renvoie une commande `wandb agent` à exécuter sur chaque machine où vous souhaitez lancer ce balayage.
 
 <div id="pass-parameters-not-present-in-hydra-defaults">
-  ### Passer des paramètres absents des valeurs par défaut d’Hydra
+  ### Passer des paramètres non présents dans les valeurs par défaut d’Hydra
 </div>
 
-<a id="pitfall-3-sweep-passing-parameters-not-present-in-defaults" aria-label="Passer des paramètres absents des valeurs par défaut d’Hydra" />
+<a id="pitfall-3-sweep-passing-parameters-not-present-in-defaults" aria-label="Passer des paramètres non présents dans les valeurs par défaut d’Hydra" />
 
-Hydra prend en charge le passage de paramètres supplémentaires via la ligne de commande qui ne figurent pas dans le fichier de configuration par défaut, en utilisant un `+` devant la commande. Par exemple, vous pouvez transmettre un paramètre supplémentaire avec une valeur donnée en appelant simplement :
+Hydra prend en charge le passage de paramètres supplémentaires via la ligne de commande qui ne figurent pas dans le fichier de configuration par défaut, en utilisant un `+` avant la commande. Par exemple, vous pouvez passer un paramètre supplémentaire avec une certaine valeur en appelant simplement :
 
 ```bash
 $ python program.py +experiment=some_experiment
 ```
 
-Vous ne pouvez pas effectuer de balayage sur ce type de configurations `+`, comme on peut le faire lors de la configuration de [Hydra Experiments](https://hydra.cc/docs/patterns/configuring_experiments/). Pour contourner ce problème, vous pouvez initialiser le paramètre d&#39;expérience avec un fichier vide par défaut, puis utiliser W&amp;B Sweep pour remplacer ces configurations vides à chaque appel. Pour plus d&#39;informations, lisez [ce rapport W&amp;B](https://wandb.ai/adrishd/hydra-example/reports/Configuring-W-B-Projects-with-Hydra--VmlldzoxNTA2MzQw?galleryTag=posts\&utm_source=fully_connected\&utm_medium=blog\&utm_campaign=hydra).
+Vous ne pouvez pas exécuter de balayage sur de telles configurations `+`, comme on le fait lors de la configuration des [Hydra Expériences](https://hydra.cc/docs/patterns/configuring_experiments/). Pour contourner ce problème, vous pouvez initialiser le paramètre d&#39;expérience avec un fichier vide par défaut, puis utiliser W&amp;B Sweep pour remplacer ces configurations vides à chaque appel. Pour plus d&#39;informations, consultez [ce Reports W&amp;B](https://wandb.ai/adrishd/hydra-example/reports/Configuring-W-B-Projects-with-Hydra--VmlldzoxNTA2MzQw?galleryTag=posts\&utm_source=fully_connected\&utm_medium=blog\&utm_campaign=hydra).

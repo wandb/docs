@@ -7,30 +7,30 @@ description: "TypeScript SDK リファレンス"
   # OpDecorator
 </div>
 
-Ƭ **OpDecorator**\<`T`\>: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) => `T` \| `void` & (`target`: `Object`, `propertyKey`: `string` \| `symbol`, `descriptor`: `TypedPropertyDescriptor`\<`T`\>) => `TypedPropertyDescriptor`\<`T`\> \| `void`
+Ƭ **OpDecorator**&lt;`T`&gt;: (`value`: `T`, `context`: `ClassMethodDecoratorContext`) =&gt; `T` | `void` &amp; (`target`: `Object`, `propertyKey`: `string` | `symbol`, `descriptor`: `TypedPropertyDescriptor`&lt;`T`&gt;) =&gt; `TypedPropertyDescriptor`&lt;`T`&gt; | `void`
 
-デコレーターのためのヘルパー型です。  
-これは、従来のデコレーターと Stage 3 デコレーターの両方で使用できるデコレーター関数を表します。
+デコレータ用のヘルパータイプです。
+これは、従来のデコレータと Stage 3 デコレータの両方で使用できるデコレータ関数を表します。
 
-Stage 3 デコレーターの場合:
-  target: デコレートされる関数 (T)
-  context: MethodDecoratorContext
+Stage 3 デコレータの場合:
+target: デコレート対象の関数 (T)
+context: MethodDecoratorContext
 
-従来のデコレーターの場合:
-  target: プロトタイプ (インスタンス メソッド) またはコンストラクター (静的メソッド)
-  propertyKey: メソッド名
-  descriptor: メソッドを含むプロパティディスクリプター
+従来のデコレータの場合:
+target: プロトタイプ (インスタンスmethod) またはコンストラクタ (static method) 
+propertyKey: method名
+descriptor: method を含むプロパティディスクリプタ
 
 <div id="type-parameters">
-  #### 型パラメータ
+  #### 型パラメーター
 </div>
 
-| 名前 | 型 |
-| :------ | :------ |
-| `T` | extends (...`args`: `any`[]) => `any` |
+| 名   | タイプ                                      |
+| :-- | :--------------------------------------- |
+| `T` | extends (...`args`: `any`[]) =&gt; `any` |
 
 <div id="defined-in">
-  #### 定義場所
+  #### 定義箇所
 </div>
 
 [opType.ts:41](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/opType.ts#L41)

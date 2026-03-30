@@ -1,9 +1,9 @@
 ---
-title: "로깅을 어떻게 비활성화하나요?"
+title: "logging을 끄려면 어떻게 하나요?"
 keywords: ["로그"]
 ---
 
-명령어 `wandb offline`은 환경 변수 `WANDB_MODE=offline`를 설정하여 데이터가 원격 W&amp;B 서버에 동기화되지 않도록 합니다. 이 액션은 모든 프로젝트에 영향을 미치며, W&amp;B 서버로의 데이터 로깅을 중지합니다.
+`wandb offline` 명령은 환경 변수 `WANDB_MODE=offline`을 설정하여 데이터가 원격 W&amp;B 서버와 동기화되지 않도록 합니다. 이 설정은 모든 Projects에 적용되며, W&amp;B 서버로 데이터 logging이 전송되지 않게 합니다.
 
 경고 메시지를 숨기려면 다음 코드를 사용하세요:
 
@@ -16,11 +16,11 @@ logger.setLevel(logging.WARNING)
 
 ***
 
-{/* ---- AUTO-GENERATED: 탭 배지 ----
+{/* ---- AUTO-GENERATED: tab badges ----
   front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 수동으로 편집하지 마세요.
+  이 마커 사이의 내용은 직접 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[로그](/ko/support/models/tags/logs)</Badge>
 
-{/* ---- 자동 생성 끝: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: 탭 배지 ---- */}

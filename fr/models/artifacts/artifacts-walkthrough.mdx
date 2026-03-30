@@ -1,16 +1,16 @@
 ---
 description:
-  Créer, suivre et utiliser un artefact de jeu de données avec W&B.
-title: "Tutoriel : Créer, suivre et utiliser un artefact de jeu de données"
+  Créez, suivez et utilisez un artifact de jeu de données avec W&B.
+title: "Tutoriel : créer, suivre et utiliser un artifact de jeu de données"
 ---
 
-Ce guide pas à pas explique comment créer, suivre et utiliser un artefact de jeu de données.
+Ce guide pas à pas explique comment créer, suivre et utiliser un artifact de jeu de données.
 
 <div id="1-log-into-wb">
   ## 1. Connectez-vous à W&amp;B
 </div>
 
-Importez la bibliothèque W&amp;B et connectez-vous à W&amp;B. Vous devrez créer un compte W&amp;B gratuit si ce n’est pas déjà fait.
+Importez la bibliothèque W&amp;B, puis connectez-vous à W&amp;B. Vous devrez créer un compte W&amp;B gratuit si ce n’est pas déjà fait.
 
 ```python
 import wandb
@@ -22,57 +22,57 @@ wandb.login()
   ## 2. Initialiser un run
 </div>
 
-Utilisez [`wandb.init()`](/fr/models/ref/python/functions/init) pour initialiser un run. Cela crée un processus en arrière-plan chargé de synchroniser et de journaliser les données. Fournissez un nom de projet et un type de job :
+Utilisez [`wandb.init()`](/fr/models/ref/python/functions/init) pour initialiser un run. Cela lance un processus en arrière-plan pour synchroniser et journaliser les données. Indiquez un nom de projet et un type de job :
 
 ```python
 # Créer un run W&B. Ici, nous spécifions 'dataset' comme type de job car cet exemple
-# montre comment créer un artefact de jeu de données.
+# montre comment créer un artifact de jeu de données.
 with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
     # Votre code ici
 ```
 
 <div id="3-create-an-artifact-object">
-  ## 3. Créer un objet artefact
+  ## 3. Créer un objet artifact
 </div>
 
-Créez un objet artefact avec [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact). Indiquez un nom pour l’artefact et une description du type de fichier dans les paramètres `name` et `type`, respectivement.
+Créez un objet artifact à l’aide de [`wandb.Artifact()`](/fr/models/ref/python/experiments/artifact). Indiquez un nom pour l&#39;artifact et une description du type de fichier pour les paramètres `name` et `type`, respectivement.
 
-Par exemple, l’extrait de code suivant montre comment créer un artefact appelé `‘bicycle-dataset’` avec le libellé `‘dataset’` :
+Par exemple, l’extrait de code suivant montre comment créer un artifact appelé `‘bicycle-dataset’` avec le libellé `‘dataset’` :
 
 ```python
 artifact = wandb.Artifact(name="bicycle-dataset", type="dataset")
 ```
 
-Pour en savoir plus sur la création d’un artefact, voir [Construire des artefacts](./construct-an-artifact).
+Pour en savoir plus sur la création d’un artifact, voir [Créer des artifacts](./construct-an-artifact).
 
 <div id="4-add-the-dataset-to-the-artifact">
-  ## 4. Ajouter le jeu de données à l’artefact
+  ## 4. Ajoutez le jeu de données à l&#39;artifact
 </div>
 
-Ajoutez un fichier à l’artefact. Les types de fichiers courants comprennent les modèles et les jeux de données. L’exemple suivant ajoute à l’artefact un jeu de données nommé `dataset.h5`, enregistré localement sur votre machine :
+Ajoutez un fichier à l&#39;artifact. Parmi les types de fichiers courants figurent les modèles et les jeux de données. L&#39;exemple suivant ajoute à l&#39;artifact un jeu de données nommé `dataset.h5`, enregistré localement sur votre machine :
 
 ```python
-# Ajouter un fichier au contenu de l'artefact
+# Ajouter un fichier au contenu de l'artifact
 artifact.add_file(local_path="dataset.h5")
 ```
 
-Remplacez le nom de fichier `dataset.h5` dans l’extrait de code précédent par le chemin du fichier que vous souhaitez ajouter à l’artefact.
+Remplacez le nom de fichier `dataset.h5` dans l’extrait de code précédent par le chemin d’accès du fichier que vous souhaitez ajouter à l’artifact.
 
 <div id="5-log-the-dataset">
-  ## 5. Journaliser le jeu de données
+  ## 5. Consigner le jeu de données
 </div>
 
-Utilisez la méthode `wandb.Run.log_artifact()` des objets run de W&amp;B pour enregistrer votre version d&#39;artefact et déclarer l&#39;artefact comme [sortie du run](/fr/models/artifacts/explore-and-traverse-an-artifact-graph).
+Utilisez la méthode `wandb.Run.log_artifact()` des objets run de W&amp;B pour enregistrer la version de votre artifact et déclarer cet artifact comme [sortie du run](/fr/models/artifacts/explore-and-traverse-an-artifact-graph).
 
 ```python
-# Enregistrer la version de l'artefact dans W&B et la marquer
+# Enregistrer la version de l'artifact dans W&B et la marquer
 # comme sortie de ce run
 run.log_artifact(artifact)
 ```
 
-Un [alias](/fr/models/artifacts/create-a-custom-alias) `'latest'` est créé par défaut lorsque vous journalisez un artefact. Pour en savoir plus sur les alias et les versions d’artefact, voir respectivement [Créer un alias personnalisé](./create-a-custom-alias) et [Créer de nouvelles versions d’artefact](./create-a-new-artifact-version).
+Un [alias](/fr/models/artifacts/create-a-custom-alias) `'latest'` est créé par défaut lorsque vous journalisez un artifact. Pour en savoir plus sur les alias et les versions d’artifact, voir [Créer un alias personnalisé](./create-a-custom-alias) et [Créer de nouvelles versions d’artifact](./create-a-new-artifact-version), respectivement.
 
-En rassemblant tout cela, votre script devrait maintenant ressembler à ceci :
+Au final, votre script devrait ressembler à ceci :
 
 ```python
 import wandb
@@ -86,25 +86,25 @@ with wandb.init(project="artifacts-example", job_type="upload-dataset") as run:
 ```
 
 <div id="6-download-and-use-the-artifact">
-  ## 6. Télécharger et utiliser l&#39;artefact
+  ## 6. Télécharger et utiliser l&#39;artifact
 </div>
 
-L&#39;exemple de code suivant illustre les étapes à suivre pour utiliser un artefact que vous avez journalisé et enregistré sur les serveurs de W&amp;B.
+L&#39;exemple de code suivant montre les étapes à suivre pour utiliser un artifact que vous avez enregistré et sauvegardé sur les serveurs W&amp;B.
 
 1. Commencez par initialiser un nouvel objet run avec **`wandb.init()`.**
-2. Ensuite, utilisez la méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact) de l&#39;objet run pour indiquer à W&amp;B quel artefact utiliser. Cette méthode renvoie un objet artefact.
-3. Enfin, utilisez la méthode [`wandb.Artifact.download()`](/fr/models/ref/python/experiments/artifact#download) de l&#39;artefact pour télécharger le contenu de l&#39;artefact.
+2. Ensuite, utilisez la méthode [`wandb.Run.use_artifact()`](/fr/models/ref/python/experiments/run#use_artifact) de l&#39;objet run pour indiquer à W&amp;B quel artifact utiliser. Cette méthode renvoie un objet artifact.
+3. Enfin, utilisez la méthode [`wandb.Artifact.download()`](/fr/models/ref/python/experiments/artifact#download) de l&#39;artifact pour télécharger son contenu.
 
 ```python
 # Créer un run W&B. Ici, nous spécifions 'training' pour 'type'
 # car nous utiliserons ce run pour suivre l'entraînement.
 with wandb.init(project="artifacts-example", job_type="training") as run:
 
-  # Interroger W&B pour récupérer un artefact et le marquer comme entrée de ce run
+  # Envoyer une requête à W&B pour un artifact et le marquer comme entrée de ce run
   artifact = run.use_artifact("bicycle-dataset:latest")
 
-  # Télécharger le contenu de l'artefact
+  # Télécharger le contenu de l'artifact
   artifact_dir = artifact.download()
 ```
 
-Vous pouvez également utiliser l’API publique (`wandb.Api`) pour exporter des données — ou mettre à jour des données déjà enregistrées — dans W&amp;B, en dehors d’un run. Voir [Suivre les fichiers externes](./track-external-files) pour plus d’informations.
+Vous pouvez aussi utiliser l’API publique (`wandb.Api`) pour exporter des données (ou les mettre à jour) déjà enregistrées dans W&amp;B en dehors d’un Run. Voir [Track external files](./track-external-files) pour plus d’informations.

@@ -1,5 +1,5 @@
 ---
-description: "Intégrez W&B à PaddleDetection pour suivre l'entraînement d'un modèle de détection d'objets, journaliser des métriques et visualiser les résultats."
+description: "Intégrez W&B à PaddleDetection pour suivre l’entraînement de modèles de détection d’objets, consigner des métriques et visualiser les résultats."
 title: PaddleDetection
 ---
 
@@ -8,34 +8,34 @@ import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-strea
 
 <ColabLink url="https://colab.research.google.com/drive/1ywdzcZKPmynih1GuGyCWB4Brf5Jj7xRY?usp=sharing" />
 
-[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) est un kit de développement de détection d’objets de bout en bout basé sur [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). Il détecte divers objets courants, segmente les instances et assure le suivi et la détection des points clés à l’aide de modules configurables tels que des composants réseau, des augmentations de données et des pertes.
+[PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) est un kit de développement de détection d’objets de bout en bout basé sur [PaddlePaddle](https://github.com/PaddlePaddle/Paddle). Il détecte divers objets courants, segmente les instances, et suit et détecte les points clés à l’aide de modules configurables tels que les composants du réseau, les augmentations de données et les pertes.
 
-PaddleDetection inclut désormais une intégration W&amp;B native qui journalise toutes vos métriques d’entraînement et de validation, ainsi que les points de contrôle de votre modèle et les métadonnées associées.
+PaddleDetection comprend désormais une intégration W&amp;B native qui enregistre toutes vos métriques d’entraînement et de validation, ainsi que les points de contrôle de votre modèle et leurs métadonnées associées.
 
-Le `WandbLogger` de PaddleDetection journalise vos métriques d’entraînement et d’évaluation dans W&amp;B, ainsi que les points de contrôle de votre modèle pendant l’entraînement.
+Le `WandbLogger` de PaddleDetection enregistre vos métriques d’entraînement et d’évaluation dans W&amp;B, ainsi que les points de contrôle de votre modèle pendant l’entraînement.
 
-[Lire un article de blog W&amp;B](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) qui montre comment intégrer un modèle YOLOX à PaddleDetection sur un sous-ensemble du jeu de données `COCO2017`.
+[Lire un article de blog de W&amp;B](https://wandb.ai/manan-goel/PaddleDetectionYOLOX/reports/Object-Detection-with-PaddleDetection-and-W-B--VmlldzoyMDU4MjY0) qui montre comment intégrer un modèle YOLOX à PaddleDetection sur un sous-ensemble du jeu de données `COCO2017`.
 
 <div id="sign-up-and-create-an-api-key">
-  ## Inscrivez-vous et générez une clé API
+  ## Inscrivez-vous et créez une clé API
 </div>
 
-Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil utilisateur.
+Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer une clé API à partir de votre profil.
 
 <ApiKeyCreateStreamlined />
 
-1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
+1. Cliquez sur l’icône de votre profil en haut à droite.
 2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **Clés API**.
 
 <div id="install-the-wandb-library-and-log-in">
   ## Installez la bibliothèque `wandb` et connectez-vous
 </div>
 
-Pour installer localement la bibliothèque `wandb` et vous connecter :
+Pour installer la bibliothèque `wandb` en local et vous connecter :
 
 <Tabs>
   <Tab title="Ligne de commande">
-    1. Définissez la [variable d’environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -61,7 +61,7 @@ Pour installer localement la bibliothèque `wandb` et vous connecter :
     ```
   </Tab>
 
-  <Tab title="Notebook Python">
+  <Tab title="Python notebook">
     ```notebook
     !pip install wandb
 
@@ -72,16 +72,16 @@ Pour installer localement la bibliothèque `wandb` et vous connecter :
 </Tabs>
 
 <div id="activate-the-wandblogger-in-your-training-script">
-  ## Activez le `WandbLogger` dans votre script d’entraînement
+  ## Activez le `WandbLogger` dans votre script d&#39;entraînement
 </div>
 
 <Tabs>
   <Tab title="Ligne de commande">
-    Pour utiliser wandb via des arguments passés à `train.py` dans [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/) :
+    Pour utiliser wandb via des arguments transmis à `train.py` dans [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection/) :
 
-    * Ajoutez l’indicateur `--use_wandb`
-    * Le premier argument wandb doit être précédé de `-o` (vous ne devez l’ajouter qu’une seule fois)
-    * Chaque argument doit contenir le préfixe `"wandb-"`. Par exemple, tout argument transmis à [`wandb.init()`](/fr/models/ref/python/functions/init) doit être préfixé par `wandb-`
+    * Ajoutez l&#39;option `--use_wandb`
+    * Les premiers arguments wandb doivent être précédés de `-o` (vous ne devez le passer qu&#39;une seule fois)
+    * Chaque argument doit contenir le préfixe `"wandb-"` . Par exemple, tout argument transmis à [`wandb.init()`](/fr/models/ref/python/functions/init) recevra le préfixe `wandb-`
 
     ```shell
     python tools/train.py 
@@ -95,7 +95,7 @@ Pour installer localement la bibliothèque `wandb` et vous connecter :
   </Tab>
 
   <Tab title="`config.yml`">
-    Ajoutez les arguments wandb au fichier `config.yml` sous la clé `wandb` :
+    Ajoutez les arguments wandb au fichier config.yml sous la clé `wandb` :
 
     ```
     wandb:
@@ -113,7 +113,7 @@ Pour installer localement la bibliothèque `wandb` et vous connecter :
 </Tabs>
 
 <div id="feedback-or-issues">
-  ## Commentaires ou problèmes
+  ## Retours ou problèmes
 </div>
 
-Si vous avez des commentaires ou rencontrez des problèmes concernant l’intégration W&amp;B, ouvrez une issue sur le [GitHub de PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection) ou envoyez un e-mail à <a href="mailto:support@wandb.com">support@wandb.com</a>.
+Si vous avez des retours ou rencontrez des problèmes avec l’intégration W&amp;B, ouvrez une issue sur le [PaddleDetection GitHub](https://github.com/PaddlePaddle/PaddleDetection) ou envoyez un e-mail à <a href="mailto:support@wandb.com">support@wandb.com</a>.

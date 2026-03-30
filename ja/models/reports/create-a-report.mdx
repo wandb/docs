@@ -1,69 +1,69 @@
 ---
-description: W&B App から、またはプログラムで W&B Report を作成します。
-title: レポートを作成する
+description: W&B App またはプログラムで W&B レポートを作成します。
+title: レポートを作成
 ---
 
 <Note>
-  W&amp;B Report および Workspace API は Public Preview 段階です。
+  W&amp;B Report and Workspace API はパブリックプレビューです。
 </Note>
 
-以下のタブを選択して、W&amp;B App でレポートを作成する方法、または W&amp;B Report および Workspace API を使ってプログラムでレポートを作成する方法を確認してください。
+以下のタブから、W&amp;B App で、または W&amp;B Report and Workspace API を使ってプログラムからレポートを作成する方法を確認できます。
 
-プログラムでレポートを作成する例については、この [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) を参照してください。
+プログラムからレポートを作成する方法の例については、この [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb) を参照してください。
 
 <Tabs>
   <Tab title="W&B App">
-    1. W&amp;B App でプロジェクトのワークスペースに移動します。
+    1. W&amp;B App でプロジェクトのワークスペースにアクセスします。
 
-    2. ワークスペース右上の **Create report** をクリックします。
-
-       <Frame>
-         <img src="/images/reports/create_a_report_button.png" alt="Create report ボタン" />
-       </Frame>
-
-    3. モーダルが表示されます。開始時に使用するチャートを選択します。チャートは後からレポートインターフェースで追加・削除できます。
+    2. ワークスペースの右上にある **Create report** をクリックします。
 
        <Frame>
-         <img src="/images/reports/create_a_report_modal.png" alt="Create report モーダル" />
+         <img src="/images/reports/create_a_report_button.png" alt="レポート作成ボタン" />
        </Frame>
 
-    4. **Filter run sets** オプションを選択して、新しい run がレポートに追加されないようにします。このオプションはオン・オフを切り替えられます。**Create report** をクリックすると、レポートタブに下書きレポートが作成され、引き続き編集できます。
+    3. モーダルが表示されます。最初に追加するチャートを選択します。チャートは後からレポートのインターフェースで追加または削除できます。
+
+       <Frame>
+         <img src="/images/reports/create_a_report_modal.png" alt="レポート作成モーダル" />
+       </Frame>
+
+    4. 新しい Runs がレポートに追加されないようにするには、**Filter run sets** オプションを選択します。このオプションはオンとオフを切り替えられます。**Create report** をクリックすると、下書きのレポートがレポートタブに作成され、引き続き編集できます。
   </Tab>
 
   <Tab title="Report tab">
-    1. W&amp;B App でプロジェクトのワークスペースに移動します。
+    1. W&amp;B App でプロジェクトのワークスペースにアクセスします。
     2. プロジェクト内の **Reports** タブ (クリップボードのアイコン) を選択します。
     3. レポートページで **Create Report** ボタンを選択します。
 
        <Frame>
-         <img src="/images/reports/create_report_button.png" alt="Create report ボタン" />
+         <img src="/images/reports/create_report_button.png" alt="レポート作成ボタン" />
        </Frame>
   </Tab>
 
   <Tab title="Report and Workspace API">
-    レポートをプログラムで作成します:
+    プログラムでレポートを作成します。
 
-    1. W&amp;B SDK (`wandb`) と Report および Workspace API (`wandb-workspaces`) をインストールします:
+    1. W&amp;B SDK (`wandb`) と Report and Workspace API (`wandb-workspaces`) をインストールします。
        ```bash
        pip install wandb wandb-workspaces
        ```
 
-    2. 次に workspaces をインポートします:
+    2. 次に、workspaces を import します。
        ```python
        import wandb
        import wandb_workspaces.reports.v2 as wr
        ```
 
-    3. `wandb_workspaces.reports.v2.Report` でレポートを作成します。Report Class Public API ([`wandb.apis.reports`](/ja/models/ref/python/public-api/api#reports)) を使ってレポートインスタンスを作成します。プロジェクト名を指定します。
+    3. `wandb_workspaces.reports.v2.Report` を使ってレポートを作成します。Report Class Public API ([`wandb.apis.reports`](/ja/models/ref/python/public-api/api#reports)) でレポートインスタンスを作成します。プロジェクト名を指定します。
        ```python
        report = wr.Report(project="report_standard")
        ```
 
-    4. レポートを保存します。`.save()` メソッドを呼び出すまで、レポートは W&amp;B サーバーにアップロードされません:
+    4. レポートを保存します。`.save()` method を call するまで、Reports は W&amp;B Server に upload されません。
        ```python
        report.save()
        ```
 
-    App UI で対話的に、またはプログラムでレポートを編集する方法については、[Edit a report](/ja/models/reports/edit-a-report/) を参照してください。
+    App UI を使ってインタラクティブに、またはプログラムからレポートを編集する方法については、[レポートを編集する](/ja/models/reports/edit-a-report/) を参照してください。
   </Tab>
 </Tabs>

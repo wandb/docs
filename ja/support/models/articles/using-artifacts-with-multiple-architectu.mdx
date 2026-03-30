@@ -1,20 +1,20 @@
 ---
-title: "複数のアーキテクチャや run でアーティファクトを使用するには？"
+title: "複数のアーキテクチャとrunでArtifactsを使用するには？"
 keywords: ["Artifacts"]
 ---
 
-モデルをバージョン管理するには、さまざまな method があります。Artifacts には、特定のニーズに合わせてモデルをバージョン管理するためのツールがあります。複数のモデルアーキテクチャを試すプロジェクトで一般的な方法は、アーキテクチャごとにアーティファクトを分けることです。次の step を検討してください。
+モデルをバージョン管理する方法はいくつかあります。Artifacts は、特定のニーズに合わせたモデルのバージョン管理のためのツールを提供します。複数のモデルアーキテクチャを検討するプロジェクトで一般的な方法は、アーキテクチャごとにartifactを分けることです。以下の手順を検討してください。
 
-1. 異なるモデルアーキテクチャごとに新しいアーティファクトを作成します。アーティファクトの `metadata` 属性を使用して、run の `config` と同様に、アーキテクチャの詳細な説明を追加します。
-2. 各モデルについて、`log_artifact` を使用してチェックポイントを定期的にログします。W&amp;B はこれらのチェックポイントの履歴を作成し、最新のものに `latest` エイリアスを付けます。任意のモデルアーキテクチャの最新のチェックポイントは、`architecture-name:latest` を使用して参照します。
+1. モデルアーキテクチャごとに、個別のartifactを作成します。artifact の `metadata` 属性を使用して、run の `config` と同様に、アーキテクチャの詳細な説明を追加します。
+2. 各モデルについて、`log_artifact` を使用してcheckpointを定期的にログします。W&amp;B はこれらのcheckpointの履歴を作成し、最新のものに `latest` alias を付けます。どのモデルアーキテクチャでも、`architecture-name:latest` を使用して最新のcheckpointを参照できます。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py により管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  これらのマーカーの間は手作業で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -11,11 +11,11 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Runs`
 
-Un itérateur lazy d’objets `Run` associé à un projet et, éventuellement, à un filtre.
+Un itérateur paresseux d’objets `Run` associés à un projet et à un filtre facultatif.
 
 Les Runs sont récupérés par pages depuis le serveur W&amp;B selon les besoins.
 
-Cette classe est généralement utilisée indirectement via l’espace de noms `Api.runs`.
+Cette classe s’utilise généralement de manière indirecte via l’espace de noms `Api.runs`.
 
 ### <kbd>méthode</kbd> `Runs.__init__`
 
@@ -35,13 +35,13 @@ __init__(
 
 **Arguments :**
 
-* `client`:  (`wandb.apis.public.RetryingClient`) Le client d’API à utiliser pour les requêtes.
+* `client`:  (`wandb.apis.public.RetryingClient`) Le client API à utiliser pour les requêtes.
 * `entity`:  (str) L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
-* `project`:  (str) Le nom du projet dont il faut récupérer les runs.
+* `project`:  (str) Le nom du projet depuis lequel récupérer les runs.
 * `filters`:  (Optional[Dict[str, Any]]) Un dictionnaire de filtres à appliquer à la requête de runs.
-* `order`:  (str) L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`.  Si vous faites précéder l’ordre d’un `+`, le tri est croissant (valeur par défaut).  Si vous faites précéder l’ordre d’un `-`, le tri est décroissant.  Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
-* `per_page`:  (int) Le nombre de runs à récupérer par requête (la valeur par défaut est 50).
-* `include_sweeps`:  (bool) Indique s’il faut inclure les informations de balayage d’hyperparamètres dans les runs. La valeur par défaut est `True`.
+* `order`:  (str) L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`.  Si l’ordre est précédé de `+`, le tri est croissant (par défaut).  Si l’ordre est précédé de `-`, le tri est décroissant.  Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
+* `per_page`:  (int) Le nombre de runs à récupérer par requête (50 par défaut).
+* `include_sweeps`:  (bool) Indique s’il faut inclure les informations sur les Sweeps dans les runs. La valeur par défaut est `True`.
 
 ***
 
@@ -62,7 +62,7 @@ histories(
 ) → list[dict[str, Any]] | pd.DataFrame | pl.DataFrame
 ```
 
-Renvoie des métriques d’historique échantillonnées pour tous les runs qui correspondent aux conditions de filtrage.
+Renvoie des métriques d’historique échantillonnées pour tous les runs qui satisfont aux conditions des filtres.
 
 **Arguments :**
 
@@ -87,6 +87,6 @@ Renvoie des métriques d’historique échantillonnées pour tous les runs qui c
 upgrade_to_full() → None
 ```
 
-Mettez à niveau cette collection de Runs du mode lazy vers le mode complet.
+Met à niveau cette collection de Runs du mode paresseux au mode complet.
 
-Cela active la récupération des données complètes des runs et met à niveau tous les objets Run déjà chargés pour qu’ils disposent de données complètes. Cette opération utilise le chargement en parallèle pour de meilleures performances lors de la mise à niveau de plusieurs runs.
+Bascule vers la récupération des données complètes des runs et met à niveau tous les objets Run déjà chargés afin qu&#39;ils contiennent l&#39;ensemble des données. Utilise le chargement en parallèle pour de meilleures performances lors de la mise à niveau de plusieurs runs.

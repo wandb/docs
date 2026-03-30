@@ -1,9 +1,9 @@
 ---
-title: "ローカルで sweep がログする先のディレクトリを変更するにはどうすればよいですか？"
+title: "sweep がローカルにログを保存するディレクトリはどう変更できますか？"
 keywords: ["Sweeps"]
 ---
 
-環境変数 `WANDB_DIR` を設定して、W&amp;B run データのログ保存ディレクトリを指定します。たとえば次のとおりです。
+環境変数 `WANDB_DIR` を設定すると、W&amp;B の run データのログ保存先ディレクトリを指定できます。例:
 
 ```python
 os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
@@ -11,11 +11,11 @@ os.environ["WANDB_DIR"] = os.path.abspath("your/directory")
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: タブバッジ ----
+  front matter のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  このマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
 
-{/* ---- 自動生成: タブバッジ終了 ---- */}
+{/* ---- END AUTO-GENERATED: タブバッジ ---- */}

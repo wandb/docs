@@ -1,19 +1,19 @@
 ---
-title: "Weave affectera-t-il la vitesse d’exécution de ma fonction ?"
+title: "Weave a-t-il un impact sur la vitesse d'exécution de ma fonction ?"
 keywords: ["Performances"]
 ---
 
-La surcharge liée à la journalisation de Weave est généralement négligeable par rapport à un appel à un LLM.
-Pour minimiser l’impact de Weave sur la vitesse d’exécution de votre op, son activité réseau s’effectue dans un thread d’arrière-plan.
-Lorsque votre programme se termine, il peut sembler se mettre en pause pendant que les données restantes en file d’attente sont enregistrées.
+La surcharge liée au logging de Weave est généralement négligeable par rapport au coût d&#39;un appel à un LLM.
+Pour minimiser l&#39;impact de Weave sur la vitesse d&#39;exécution de votre op, son activité réseau s&#39;effectue sur un thread d&#39;arrière-plan.
+À la fermeture de votre programme, celui-ci peut sembler marquer une pause pendant que les données restantes dans la file d&#39;attente sont enregistrées.
 
 ***
 
 {/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
-  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  Géré par le script scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
+  Ne modifiez pas à la main entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: tab badges ---- */}

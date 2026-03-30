@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
 
-## <kbd>classe</kbd> `Project`
+## <kbd>class</kbd> `Project`
 
 Un projet est un espace de noms pour les runs.
 
@@ -26,7 +26,7 @@ __init__(
 
 **Arguments :**
 
-* `client` :  Instance du client de l’API W&amp;B.
+* `client` :  Instance du client d’API W&amp;B.
 * `name` (str) :  Le nom du projet.
 * `entity` (str) :  Le nom de l’entité propriétaire du projet.
 
@@ -34,7 +34,7 @@ Un projet unique associé à une entité.
 
 **Arguments :**
 
-* `client` :  Le client de l’API utilisé pour interroger W&amp;B.
+* `client` :  Le client d’API utilisé pour effectuer des requêtes sur W&amp;B.
 * `entity` :  L’entité propriétaire du projet.
 * `project` :  Le nom du projet à interroger.
 * `attrs` :  Les attributs du projet.
@@ -48,25 +48,25 @@ Un projet unique associé à une entité.
 
 ### <kbd>propriété</kbd> Project.owner
 
-Renvoie le propriétaire du projet en tant qu’objet User.
+Retourne le propriétaire du projet sous la forme d’un objet User.
 
 **Exceptions levées :**
 
-* `ValueError` : si aucune information sur l’utilisateur n’est trouvée pour le projet.
+* `ValueError`: si aucune information sur l’utilisateur n’est trouvée pour le projet.
 
 **Retourne :**
 
-* `public.User` : La valeur de la propriété owner.
+* `public.User`: La valeur de la propriété owner.
 
 ***
 
 ### <kbd>propriété</kbd> Project.path
 
-Renvoie le chemin du projet. Ce chemin est une liste contenant l’entité et le nom du projet.
+Renvoie le chemin du projet. Ce chemin est une liste contenant l&#39;entité et le nom du projet.
 
 **Retourne :**
 
-* `list[str]` : La valeur de la propriété `path`.
+* `list[str]` : La valeur de la propriété de chemin.
 
 ***
 
@@ -76,7 +76,7 @@ Renvoie l’URL du projet.
 
 **Retourne :**
 
-* `str` : La valeur de la propriété `url`.
+* `str` : La valeur de la propriété url.
 
 ***
 
@@ -86,7 +86,7 @@ Renvoie l’URL du projet.
 artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
-Renvoie tous les types d&#39;artefact associés à ce projet.
+Renvoie tous les types d&#39;artifact associés à ce projet.
 
 ***
 
@@ -101,13 +101,13 @@ collections(
 ) → public.ProjectArtifactCollections
 ```
 
-Renvoie toutes les collections d’artefacts associées à ce projet.
+Renvoie toutes les collections d’artifacts associées à ce projet.
 
 **Arguments :**
 
-* `filters` :  Mappage facultatif des filtres à appliquer à la requête.
-* `order` :  Chaîne facultative permettant de spécifier l’ordre des résultats. Si vous faites précéder `order` d’un `+`, l’ordre est croissant (par défaut). Si vous faites précéder `order` d’un `-`, l’ordre est décroissant.
-* `per_page` :  Nombre de collections d’artefacts à récupérer par page. La valeur par défaut est 50.
+* `filters`:  Dictionnaire facultatif de filtres à appliquer à la requête.
+* `order`:  Chaîne facultative permettant de spécifier l’ordre des résultats. Si vous faites précéder `order` d’un +, l’ordre est croissant (par défaut). Si vous faites précéder `order` d’un -, l’ordre est décroissant.
+* `per_page`:  Le nombre de collections d’artifacts à récupérer par page. La valeur par défaut est 50.
 
 ***
 
@@ -118,13 +118,13 @@ Renvoie toutes les collections d’artefacts associées à ce projet.
 sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
-Renvoie une collection paginée de sweeps dans ce projet.
+Renvoie une collection paginée de Sweeps pour ce projet.
 
 **Arguments :**
 
-* `per_page`:  Le nombre de sweeps à récupérer à chaque requête adressée à l’API.
+* `per_page` :  Le nombre de Sweeps à récupérer par requête à l&#39;API.
 
 **Retourne :**
-Un objet `Sweeps`, qui est une collection itérable d’objets `Sweep`.
+Un objet `Sweeps`, qui est une collection itérable d&#39;objets `Sweep`.
 
 ***

@@ -1,5 +1,5 @@
 ---
-title: GABARIT
+title: Modèle
 ---
 
 <div id="agent-prompt-task-title">
@@ -7,49 +7,49 @@ title: GABARIT
 </div>
 
 <div id="requirements">
-  ## Exigences
+  ## Prérequis
 </div>
 
-Indiquez les exigences d&#39;accès ou les prérequis à satisfaire avant de commencer cette tâche :
+Indiquez les exigences d’accès ou les prérequis à remplir avant de commencer cette tâche :
 
-* [ ] Accès système requis (par exemple, accès employé W&amp;B).
+* [ ] Accès système requis (par exemple, accès réservé aux employés W&amp;B).
 * [ ] Autorisations requises (par exemple, accès en écriture au dépôt).
 * [ ] Outils ou dépendances requis.
 
 <div id="agent-prerequisites">
-  ## Prérequis de l&#39;agent
+  ## Prérequis de l’agent
 </div>
 
-Informations à recueillir auprès de l&#39;utilisateur avant de commencer :
+Informations à recueillir auprès de l’utilisateur avant de commencer :
 
-1. **[Informations requises 1]** - Pourquoi elles sont nécessaires
-2. **[Informations requises 2]** - Pourquoi elles sont nécessaires
-3. **[Informations facultatives]** - Quand/pourquoi elles peuvent être nécessaires
+1. **[Informations requises 1]** - Pourquoi ces informations sont nécessaires
+2. **[Informations requises 2]** - Pourquoi ces informations sont nécessaires
+3. **[Informations facultatives]** - Quand et pourquoi elles peuvent être nécessaires
 
 <div id="task-overview">
-  ## Vue d’ensemble de la tâche
+  ## Aperçu de la tâche
 </div>
 
-Brève description de ce que cette procédure permet d’accomplir et des situations dans lesquelles l’utiliser.
+Brève description de ce que ce runbook permet de faire et des situations dans lesquelles l’utiliser.
 
-> **Remarque** : tout contexte important ou toute limitation que les utilisateurs doivent connaître dès le départ.
+> **Remarque** : tout contexte important ou toute limitation que les utilisateurs doivent connaître au préalable.
 
 <div id="context-and-constraints">
   ## Contexte et contraintes
 </div>
 
 <div id="systemtool-limitations">
-  ### Limitations du système ou des outils
+  ### Limitations du système/de l’outil
 </div>
 
-* Limitation 1 et son incidence sur la tâche
+* Limitation 1 et son impact sur la tâche
 * Limitation 2 et solutions de contournement, le cas échéant
 
 <div id="important-context">
   ### Contexte important
 </div>
 
-* Informations contextuelles essentielles
+* Informations de base essentielles
 * Pièges courants ou cas limites
 * Considérations de sécurité
 
@@ -58,29 +58,29 @@ Brève description de ce que cette procédure permet d’accomplir et des situat
 </div>
 
 <div id="1-first-major-step">
-  ### 1. [Première étape importante]
+  ### 1. [Première étape principale]
 </div>
 
-Description de l’objectif de cette étape.
+Description de ce que permet cette étape.
 
 ```bash
 # Exemples de commandes
 command --with-flags
 ```
 
-**Résultat attendu** : Ce qui doit se passer après cette étape.
+**Résultat attendu** : Ce qui devrait se passer après cette étape.
 
 
 <div id="2-second-major-step">
-  ### 2. [Deuxième étape principale]
+  ### 2. [Deuxième étape majeure]
 </div>
 
 Description et points de décision éventuels.
 
-**Note pour l&#39;agent** : Instructions particulières pour les agents d&#39;IA, par exemple :
+**Note pour l’agent** : Instructions spéciales pour les agents IA, telles que :
 
-* Quand demander des précisions à l&#39;utilisateur
-* Procédures de repli si vous ne disposez pas des autorisations nécessaires
+* Quand demander des précisions à l’utilisateur
+* Procédures de secours en cas de droits insuffisants
 * Comment gérer les variantes courantes
 
 <div id="3-continue-with-remaining-steps">
@@ -93,12 +93,12 @@ Description et points de décision éventuels.
 
 Résultats attendus :
 
-* ✓ Indicateur de réussite 1
-* ✓ Indicateur de réussite 2
+* ✓ Indicateur de succès 1
+* ✓ Indicateur de succès 2
 * ✗ Indicateur d’échec courant et ce qu’il signifie
 
 <div id="how-to-verify-success">
-  ### Vérifier que l’opération a réussi
+  ### Comment vérifier que l’opération a réussi
 </div>
 
 1. Vérifiez que...
@@ -110,12 +110,12 @@ Résultats attendus :
 </div>
 
 <div id="issue-common-problem-1">
-  ### Problème : [Problème courant 1]
+  ### Problème : [Problème courant 1]
 </div>
 
-* **Symptômes** : Comment ce problème se présente
+* **Symptômes** : Comment ce problème se manifeste
 * **Cause** : Pourquoi cela se produit
-* **Solution** : Procédure de résolution étape par étape
+* **Solution** : Résolution étape par étape
 
 <div id="issue-common-problem-2">
   ### Problème : [Problème courant 2]
@@ -126,12 +126,12 @@ Résultats attendus :
 * **Solution** : 
 
 <div id="cleanup-instructions">
-  ## Instructions de nettoyage
+  ## Consignes de nettoyage
 </div>
 
 Après avoir terminé la tâche :
 
-1. Supprimez tous les fichiers et branches temporaires.
+1. Supprimez tous les fichiers/branches temporaires.
 2. Réinitialisez toutes les configurations modifiées.
 3. Documentez toutes les modifications permanentes apportées.
 
@@ -143,23 +143,23 @@ rm -f temporary-files
 
 
 <div id="checklist">
-  ## Checklist
+  ## Liste de vérification
 </div>
 
-Liste de contrôle récapitulative pour l’ensemble du processus :
+Liste de vérification récapitulative pour l’ensemble du processus :
 
-* [ ] Toutes les exigences ont été respectées.
+* [ ] Toutes les exigences sont satisfaites.
 * [ ] Les informations nécessaires ont été recueillies auprès de l’utilisateur.
-* [ ] L’étape 1 a été terminée : [Brève description].
-* [ ] L’étape 2 a été terminée : [Brève description].
+* [ ] L’étape 1 : [Brève description] est terminée.
+* [ ] L’étape 2 : [Brève description] est terminée.
 * [ ] Les résultats ont été vérifiés.
-* [ ] Les ressources temporaires ont été supprimées.
+* [ ] Les ressources temporaires ont été nettoyées.
 * [ ] Toute modification permanente a été documentée.
 
 <div id="notes">
-  ## Remarques
+  ## Notes
 </div>
 
-* Conseils supplémentaires ou éléments de contexte.
+* Conseils supplémentaires ou informations de contexte.
 * Liens vers la documentation associée.
-* Cas où il convient d’utiliser d’autres approches.
+* Cas où utiliser d&#39;autres approches.

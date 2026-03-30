@@ -1,12 +1,12 @@
 ---
-title: "Comment puis-je lancer plusieurs runs à partir d’un script ?"
+title: "Comment puis-je lancer plusieurs runs depuis un seul script ?"
 keywords: ["Experiments"]
 ---
 
-Terminez les runs précédents avant d’en démarrer de nouveaux afin de journaliser plusieurs runs dans
+Terminez les runs précédents avant d&#39;en démarrer de nouveaux pour journaliser plusieurs runs dans
 un même script.
 
-La méthode recommandée est d’utiliser `wandb.init()` comme gestionnaire de contexte,
+La méthode recommandée consiste à utiliser `wandb.init()` comme gestionnaire de contexte,
 car cela termine le run et le marque comme ayant échoué si votre script lève une
 exception :
 
@@ -19,7 +19,7 @@ for x in range(10):
             run.log({"metric": x + y})
 ```
 
-Vous pouvez aussi appeler explicitement `run.finish()` :
+Vous pouvez également appeler explicitement `run.finish()` :
 
 ```python
 import wandb
@@ -44,7 +44,7 @@ for x in range(10):
 </div>
 
 À partir de wandb 0.19.10, vous pouvez définir le paramètre `reinit` sur `"create_new"`
-pour créer plusieurs runs actifs en même temps.
+afin de créer plusieurs runs actifs simultanément.
 
 ```python
 import wandb
@@ -59,16 +59,16 @@ with wandb.init(reinit="create_new") as tracking_run:
 ```
 
 Voir [Plusieurs runs par processus](/fr/models/runs/initialize-run)
-pour en savoir plus sur `reinit="create_new"`, y compris les mises en garde concernant les
-intégrations W&amp;B.
+pour en savoir plus sur `reinit="create_new"`, y compris les points à prendre en compte concernant les intégrations
+W&amp;B.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}
+{/* ---- END GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}

@@ -1,9 +1,9 @@
 ---
-title: "Pourquoi ne puis-je pas trier ou filtrer les métriques avec certains caractères ?"
+title: "Pourquoi ne puis-je pas trier ou filtrer les métriques comportant certains caractères ?"
 keywords: ["Experiments", "Métriques"]
 ---
 
-Les noms de métriques dans W&amp;B doivent respecter les conventions de nommage GraphQL afin qu’ils puissent être triés et filtrés correctement dans l’interface utilisateur.
+Dans W&amp;B, les noms de métriques doivent respecter les règles de nommage GraphQL afin de pouvoir être correctement triés et filtrés dans l’UI.
 
 <div id="valid-metric-names">
   ## Noms de métriques valides
@@ -13,7 +13,7 @@ Les noms de métriques dans W&amp;B doivent respecter les conventions de nommage
 * **Caractère initial** : les noms doivent commencer par une lettre ou un underscore
 * **Motif** : les noms de métriques doivent correspondre à `/^[_a-zA-Z][_a-zA-Z0-9]*$/`
 
-Les métriques qui ne respectent pas ces règles risquent de ne pas pouvoir être triées ou filtrées dans l’interface de W&amp;B.
+Les métriques qui ne respectent pas ces règles peuvent ne pas pouvoir être triées ou filtrées dans l’UI W&amp;B.
 
 <div id="examples">
   ## Exemples
@@ -41,21 +41,21 @@ with wandb.init() as run:
   ## Solution recommandée
 </div>
 
-Remplacez les caractères non valides par des caractères valides, comme des underscore :
+Remplacez les caractères non valides par des caractères valides, comme des underscores (`_`) :
 
 * Au lieu de `"test acc"`, utilisez `"test_acc"`
 * Au lieu de `"loss-train"`, utilisez `"loss_train"`
 * Au lieu de `"acc,val"`, utilisez `"acc_val"`
 
-Pour plus d&#39;informations, voir [Contraintes de nommage des métriques](/fr/models/track/log/#metric-naming-constraints).
+Pour plus d&#39;informations, voir [Contraintes de dénomination des métriques](/fr/models/track/log/#metric-naming-constraints).
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badge d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement le contenu entre ces marqueurs.
+  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet ---- */}
+{/* ---- END GÉNÉRÉ AUTOMATIQUEMENT: tab badges ---- */}

@@ -21,19 +21,19 @@ bar(
 ) → CustomChart
 ```
 
-Construit un graphique en barres à partir de données contenues dans un `wandb.Table`.
+Crée un graphique à barres à partir d’un `wandb.Table` de données.
 
 **Arguments :**
 
-* `table`:  Un tableau contenant les données du graphique en barres.
+* `table`:  Un tableau contenant les données du graphique à barres.
 * `label`:  Le nom de la colonne à utiliser pour les libellés de chaque barre.
 * `value`:  Le nom de la colonne à utiliser pour les valeurs de chaque barre.
-* `title`:  Le titre du graphique en barres.
-* `split_table`:  Indique si le tableau doit être affiché dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+* `title`:  Le titre du graphique à barres.
+* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l’UI W&amp;B. Si `True`, le tableau s’affiche dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 
 **Retourne :**
 
-* `CustomChart`:  Un objet de graphique personnalisé pouvant être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
+* `CustomChart`:  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, transmettez-le à `wandb.log()`.
 
 **Exemple :**
 

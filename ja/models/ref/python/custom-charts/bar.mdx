@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py" />
 
 
-### <kbd>function</kbd> `bar`
+### <kbd>関数</kbd> `bar`
 
 ```python
 bar(
@@ -25,15 +25,15 @@ wandb.Table のデータから棒グラフを作成します。
 
 **引数:**
 
-* `table`:  棒グラフ用のデータを含むテーブル。
-* `label`:  各バーのラベルとして使用する列名。
-* `value`:  各バーの値として使用する列名。
+* `table`:  棒グラフ用のデータを含む表。
+* `label`:  各棒のラベルに使用する列名。
+* `value`:  各棒の値に使用する列名。
 * `title`:  棒グラフのタイトル。
-* `split_table`:  テーブルを W&amp;B UI 内で別セクションに分割するかどうか。`True` の場合、テーブルは「Custom Chart Tables」という名前のセクションに表示されます。デフォルトは `False` です。
+* `split_table`:  表を W&amp;B UI の別セクションに分けて表示するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
 
 **戻り値:**
 
-* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、`wandb.log()` に渡します。
+* `CustomChart`:  W&amp;B にログできるカスタムチャートのオブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
 
 **例:**
 
@@ -41,7 +41,7 @@ wandb.Table のデータから棒グラフを作成します。
 import random
 import wandb
 
-# テーブル用のランダムデータを生成する
+# 表用のランダムデータを生成する
 data = [
     ["car", random.uniform(0, 1)],
     ["bus", random.uniform(0, 1)],
@@ -49,12 +49,12 @@ data = [
     ["person", random.uniform(0, 1)],
 ]
 
-# データを使ってテーブルを作成する
+# データを使って表を作成する
 table = wandb.Table(data=data, columns=["class", "accuracy"])
 
-# W&B の run を初期化して棒グラフをログする
+# W&B の run を初期化し、棒グラフをログする
 with wandb.init(project="bar_chart") as run:
-    # テーブルから棒グラフを作成する
+    # 表から棒グラフを作成する
     bar_plot = wandb.plot.bar(
          table=table,
          label="class",

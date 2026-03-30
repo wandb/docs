@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `RunStateFilter`
 
-run の状態変化に基づいてイベントを発火させるためのフィルターを表します。
+run の状態変化に応じてイベントをトリガーするためのフィルターです。
 
 ### <kbd>method</kbd> `RunStateFilter.__init__`
 
@@ -24,8 +24,8 @@ __init__(
 
 **引数:**
 
-* `run` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントをトリガーしうる run に適用されるフィルター条件。
-* `state` (StateFilter): このイベントがトリガーされるために run が満たす必要がある状態条件。
+* `run` (Union[And, Or, Nor, Not, Lt, Gt, Lte, Gte, Eq, Ne, In, NotIn, Exists, Regex, Contains, FilterExpr, Dict[str, Any]]): このイベントをトリガーする runs のいずれかに一致する必要があるフィルター。
+* `state` (StateFilter): このイベントがトリガーされるために満たす必要がある Run の状態条件。
 
 **戻り値:**
 `RunStateFilter` オブジェクト。

@@ -1,9 +1,9 @@
 ---
-title: "W&B でこれらの Version ID と ETag を取得するにはどうすればよいですか？"
+title: "W&B でこれらのバージョン ID と ETag を取得するにはどうすればよいですか？"
 keywords: ["Artifacts"]
 ---
 
-W&amp;B でアーティファクト参照がログされ、バケットでバージョニングが有効になっている場合、バージョン ID が Amazon S3 UI に表示されます。W&amp;B でこれらのバージョン ID と ETag を取得するには、アーティファクトを取得して、対応するマニフェスト エントリにアクセスします。たとえば、次のとおりです。
+artifact の参照が W&amp;B にログされており、バケットでバージョン管理が有効になっている場合、バージョン ID は Amazon S3 UI に表示されます。W&amp;B でこれらのバージョン ID と ETag を取得するには、artifact を取得し、対応するマニフェストエントリにアクセスします。たとえば、次のようになります。
 
 ```python
 artifact = run.use_artifact("my_table:latest")
@@ -14,11 +14,11 @@ for entry in artifact.manifest.entries.values():
 
 ***
 
-{/* ---- AUTO-GENERATED: タブバッジ ----
-  フロントマター内のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ja/support/models/tags/artifacts)</Badge>
 
-{/* ---- END AUTO-GENERATED: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}
