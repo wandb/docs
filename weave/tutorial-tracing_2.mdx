@@ -3,7 +3,7 @@ title: "Trace nested functions"
 description: "Learn how to track deeply nested Call structures with W&B tracing"
 ---
 
-LLM-powered applications can contain multiple LLMs calls, additional data processing, and validation logic that is important to monitor. You can track these nested functions and their parent-child in Weave using the  `@weave.op()` decorator (Python), or wrap it with `weave.op()` (TypeScript).
+LLM-powered applications can contain multiple LLMs calls, additional data processing, and validation logic that is important to monitor. You can track these nested functions and their parent-child relationships in Weave using the  `@weave.op()` decorator (Python), or wrap it with `weave.op()` (TypeScript).
 
 We recommend decorating functions and sub-functions as granularly as possible to capture the application's complete execution flow. This can help you better understand and shape your application's behavior.
 

@@ -177,7 +177,7 @@ The available `color` values are:
 
     While we recommend collecting all traces during agent development to help you better shape and understand its behavior, we recommend configuring trace sampling in production to help lower rate costs while still maintaining observability into your agent's behavior.
 
-    Weave applies sampling rates only to root calls. If an Op has a sample rate but another Op calls it first, that sampling rate is ignored.
+    Weave applies sampling rates only to outer-most Ops. If a nested Op has a sample rate but a parent Op calls it first, the sampling rate of the nested Op is ignored.
 
     ```python lines
     @weave.op(tracing_sample_rate=0.1)  # Only trace ~10% of calls
