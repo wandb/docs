@@ -85,7 +85,7 @@ run_config_overrides = launch.load_wandb_config()
 
 ## ファイルの再設定
 
-Launch SDK はまた、ジョブ コードで設定ファイルに格納された入力値を管理する方法も提供します。これは、多くのディープラーニングや大規模な言語モデルのユースケースで一般的なパターンであり、例えばこの [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例やこの [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml) などがあります。
+Launch SDK はまた、ジョブ コードで設定ファイルに格納された入力値を管理する方法も提供します。これは、多くのディープラーニングや大規模な言語モデルのユースケースで一般的なパターンであり、例えばこの [torchtune](https://github.com/meta-pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) の例やこの [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml) などがあります。
 
 <Note>
 [Sweeps on Launch](/ja/launch/sweeps-on-launch) は、sweep パラメーターとしての設定ファイル入力の使用をサポートしていません。sweep パラメーターは `Run.config` オブジェクトで制御する必要があります。
