@@ -5,7 +5,7 @@ description: >
   W&B Inference 모델 라이프사이클과 서비스 종료 정책을 알아보세요
 ---
 
-새로운 모델은 W&B Inference 카탈로그에 포함된 항목으로서 수시로 평가되고 릴리스됩니다.
+새로운 모델은 W&amp;B Inference 카탈로그의 일부로 수시로 평가되고 릴리스됩니다.
 
 기존 모델은 정기적으로 검토되며, 수요와 품질이 가장 높은 모델을 우선적으로 제공하기 위해 서비스가 종료될 수 있습니다.
 
@@ -13,38 +13,39 @@ description: >
   ## 모델 라이프사이클 단계
 </div>
 
-W&B Inference의 모델은 라이프사이클 단계에 대해 다음과 같은 용어를 사용합니다:
+W&amp;B Inference의 모델은 라이프사이클 단계에 대해 다음 용어를 사용합니다:
 
 * **Generally Available**: 모델이 완전히 지원되며 사용이 권장됩니다.
-* **Deprecated**: 모델이 서비스에서 제거될 예정입니다. 고객은 가능한 한 빨리 권장되는 대체 모델로 업데이트해야 합니다.
-* **Retired**: 모델이 더 이상 제공되지 않습니다. 서비스 종료된 모델에 대한 모든 요청은 실패하며, 모든 요청에 대해 `HTTP 404` 상태 코드를 반환합니다.
+* **사용 중단**: 모델이 제거 예정입니다. 고객은 가능한 한 빨리 권장 대체 모델로 업데이트해야 합니다.
+* **서비스 종료**: 모델을 더 이상 사용할 수 없습니다. 서비스 종료된 모델에 대한 모든 Request는 실패하며 모든 Request에 대해 `HTTP 404` 상태 코드를 반환합니다.
 
 <div id="deprecation-process">
   ## 사용 중단 프로세스
 </div>
 
-모델을 사용 중단(deprecate)할 때, W&amp;B는 해당 모델을 완전히 사용 중단하기 최소 2주 전에 이 페이지를 통해 사전 공지합니다.
+모델을 사용 중단(deprecate)할 때, W&amp;B는 해당 모델이 서비스 종료되기 최소 2주 전에 이 페이지를 통해 사전 공지합니다.
 
 또한 최근에 해당 사용 중단 모델을 사용한 사용자에게 이메일로 알림을 보내고,
 대체 모델에 대한 추천을 제공합니다.
 
-**사용 중단(deprecated)** 단계에 있는 모델은 계속해서 요청을 처리합니다.
+**사용 중단(deprecated)** 단계에 있는 모델은 계속해서 Request를 처리합니다.
 
 <div id="deprecated-models">
   ## 사용 중단 모델
 </div>
 
-다음 W&B Inference 모델은 **사용 중단**되었습니다:
+다음 W&amp;B Inference 모델은 **사용 중단**되었습니다:
 
-{/* takeru lifecycle-deprecated - This table is automatically generated, do not edit manually. */}
+{/* takeru lifecycle-deprecated - 이 표는 자동으로 생성되므로 수동으로 편집하지 마십시오. */}
 
-_None currently_
+*현재 없음*
+
 
 <div id="retired-models">
-  ## 지원 종료된 모델
+  ## 서비스 종료된 모델
 </div>
 
-다음 W&amp;B Inference 모델은 **지원이 종료되었습니다**:
+다음 W&amp;B Inference 모델은 **서비스 종료**되었습니다:
 
 {/* takeru lifecycle-retired - 이 표는 자동으로 생성되므로 수동으로 편집하지 마세요. */}
 

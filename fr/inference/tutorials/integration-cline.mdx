@@ -6,7 +6,7 @@ description: >
 
 [Cline](https://cline.bot) est un assistant de codage basé sur l&#39;IA. Ce tutoriel explique comment configurer Cline pour utiliser des modèles fournis par W&amp;B Inference.
 
-L&#39;agent Cline est disponible sous forme d&#39;outil en ligne de commande ou d&#39;intégration à de nombreux IDE. Cette page montre comment le configurer avec la CLI Cline et comme extension Visual Studio Code, mais la configuration devrait être similaire dans d&#39;autres IDE.
+L&#39;agent Cline est disponible sous forme d&#39;outil en ligne de commande ou d&#39;intégration à de nombreux IDE. Cette page montre comment le configurer avec la CLI Cline et comme extension Visual Studio Code, mais la configuration dans d&#39;autres IDE devrait être similaire.
 
 <div id="prerequisites">
   ## Prérequis
@@ -18,15 +18,15 @@ Vous aurez besoin de votre [clé API W&amp;B](../prerequisites#set-up-your-wb-ac
   ## Configurer Cline en ligne de commande
 </div>
 
-Installez la [CLI Cline](https://docs.cline.bot/cline-cli/installation).
+Installez la [CLI de Cline](https://docs.cline.bot/cline-cli/installation).
 
 ```
 npm install -g cline
 ```
 
-Voir [les instructions d’installation de Cline](https://docs.cline.bot/cline-cli/installation) pour résoudre les problèmes.
+Voir [les instructions d’installation de Cline](https://docs.cline.bot/cline-cli/installation) en cas de problème.
 
-Ces instructions ont été testées avec la version `2.5.1` de Cline CLI. Vous pouvez exécuter `cline version` pour vérifier la version installée.
+Ces instructions ont été testées avec la version `2.5.1` de CLI Cline. Vous pouvez exécuter `cline version` pour vérifier la version installée.
 
 Exécutez la commande suivante en remplaçant `<your_api_key>` par votre clé API W&amp;B.
 
@@ -34,7 +34,7 @@ Exécutez la commande suivante en remplaçant `<your_api_key>` par votre clé AP
 cline auth -k <your_api_key> -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
 ```
 
-Cela configurera Cline pour utiliser le point de terminaison compatible OpenAI de W&amp;B Inference ainsi que le modèle Kimi K2.5. Pour connaître la disponibilité des modèles et leur tarification, voir [notre catalogue de modèles](https://wandb.ai/inference).
+Cela configure Cline pour utiliser le point de terminaison compatible OpenAI de W&amp;B Inference ainsi que le modèle Kimi K2.5. Pour connaître la disponibilité des modèles et leur tarification, voir [notre catalogue de modèles](https://wandb.ai/inference).
 
 Exécutez un test simple pour vérifier que tout fonctionne :
 
@@ -42,22 +42,21 @@ Exécutez un test simple pour vérifier que tout fonctionne :
 cline "What is 2 + 2?"
 ```
 
-Si Cline renvoie une réponse, votre installation et votre authentification sont terminées.
+Si Cline répond, votre installation et votre authentification sont terminées.
 
-Pour plus d’informations sur l’utilisation de l’interface en ligne de commande Cline, voir le [Démarrage rapide de Cline](https://docs.cline.bot/cline-cli/installation#quick-start).
-
+Pour plus d’informations sur l’utilisation de la CLI Cline, voir le [Démarrage rapide de Cline](https://docs.cline.bot/cline-cli/installation#quick-start).
 
 <div id="set-up-cline-in-visual-studio-code">
   ## Configurer Cline dans Visual Studio Code
 </div>
 
-Vous pouvez également installer Cline comme extension Visual Studio Code. Recherchez **Cline** dans la Marketplace des extensions de VS Code, ou installez-le depuis la [Marketplace Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev).
+Vous pouvez également installer Cline en tant qu’extension Visual Studio Code. Recherchez **Cline** dans la Marketplace des extensions de VS Code, ou installez-la depuis la [Marketplace Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev).
 
 Cliquez sur le bouton `Install`.
 
 <Frame>![Installation de l’extension VS Code](/images/inference/inference-tutorial-cline-install.png)</Frame>
 
-Cliquez sur l’icône Cline qui vient d’être ajoutée dans votre barre d’activité pour ouvrir le panneau latéral de Cline. Si l’icône Cline n’apparaît pas dans la barre d’activité, cliquez sur le menu déroulant pour afficher plus d’options.
+Cliquez sur l’icône Cline nouvellement ajoutée dans votre barre d’activité pour ouvrir le volet latéral Cline. Si l’icône Cline ne s’affiche pas dans la barre d’activité, cliquez sur le menu déroulant pour voir plus d’options.
 
 <img src="/images/inference/inference-tutorial-cline-activity-bar.png" alt="Installation de l’extension VS Code" style={{width: "60px"}} />
 
@@ -78,7 +77,7 @@ Renseignez la tarification en développant Model Configuration. Pour la disponib
 
 Cliquez sur le bouton `Continue`.
 
-Essayez de soumettre un prompt tel que &quot;Écrivez un programme Python pour calculer les 10 premiers nombres de Fibonacci&quot;.
+Essayez de soumettre un prompt comme &quot;Écrivez un programme Python pour calculer les 10 premiers nombres de Fibonacci&quot;.
 
 <img src="/images/inference/inference-tutorial-cline-act.png" alt="Soumettre votre tâche de codage à l’agent" style={{width: "300px"}} />
 

@@ -5,7 +5,7 @@ module: wandb
 no_list: true
 ---
 
-Ces classes constituent les principaux éléments de base pour suivre les expériences de machine learning, gérer les artefacts et configurer le comportement du SDK. Elles vous permettent de journaliser des métriques, de stocker des points de contrôle du modèle, de versionner des jeux de données et de gérer les configurations d&#39;expérience avec des fonctionnalités complètes de reproductibilité et de collaboration.
+Ces classes constituent les principaux éléments de base pour suivre les expériences de machine learning, gérer les artefacts et configurer le comportement du SDK. Elles vous permettent de consigner des métriques, de stocker des points de contrôle du modèle, de versionner des jeux de données et de gérer les configurations d&#39;expérience avec des fonctionnalités complètes de reproductibilité et de collaboration.
 
 > Pour plus de détails sur l&#39;utilisation de ces classes dans des expériences de ML, consultez la documentation [Experiments](/fr/models/ref/python/experiments/) et [Artifacts](/fr/models/artifacts/).
 
@@ -15,12 +15,12 @@ Ces classes constituent les principaux éléments de base pour suivre les expér
 
 | Classe                                                 | Description                                                                                                                                             |
 | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`Run`](/fr/models/ref/python/experiments/run/)           | L’unité de calcul principale journalisée par W&amp;B, représentant une expérience de ML unique avec des métriques, des configurations et des résultats. |
-| [`Artifact`](/fr/models/ref/python/experiments/artifact/) | Élément de base flexible et léger pour la gestion des versions des jeux de données et des modèles, avec déduplication automatique et suivi.       |
+| [`Run`](/fr/models/ref/python/experiments/run/)           | L’unité de calcul principale enregistrée par W&amp;B, représentant une expérience de ML unique avec des métriques, des configurations et des résultats. |
+| [`Artifact`](/fr/models/ref/python/experiments/artifact/) | Élément de base flexible et léger pour la gestion des versions des jeux de données et des modèles, avec déduplication automatique et traçabilité.             |
 | [`Settings`](/fr/models/ref/python/experiments/settings/) | Gestion de la configuration du SDK W&amp;B, qui contrôle le comportement, de la journalisation aux interactions avec l’API.                             |
 
 <div id="getting-started">
-  ## Prise en main
+  ## Premiers pas
 </div>
 
 <div id="track-an-experiment">
@@ -37,7 +37,7 @@ with wandb.init(project="my-experiments", config={"learning_rate": 0.001}) as ru
     # Accéder à la configuration
     config = run.config
     
-    # Journaliser des métriques pendant l'entraînement
+    # Consigner des métriques pendant l'entraînement
     for epoch in range(10):
         metrics = train_one_epoch()  # Votre logique d'entraînement
         run.log({
@@ -46,7 +46,7 @@ with wandb.init(project="my-experiments", config={"learning_rate": 0.001}) as ru
             "epoch": epoch
         })
     
-    # Journaliser les métriques récapitulatives
+    # Consigner les métriques de synthèse
     run.summary["best_accuracy"] = max_accuracy
 ```
 
@@ -79,7 +79,7 @@ with wandb.init(project="my-models") as run:
     model_artifact.add_file("model.pt")
     model_artifact.add_dir("model_configs/")
     
-    # Journalisez l'artefact dans W&B
+    # Enregistrez l'artefact dans W&B
     run.log_artifact(model_artifact)
 ```
 
@@ -87,7 +87,7 @@ with wandb.init(project="my-models") as run:
   ### Configurer les paramètres du SDK
 </div>
 
-Personnalisez le comportement du SDK W&amp;B en fonction de vos besoins spécifiques :
+Personnalisez le comportement du SDK W&amp;B selon vos besoins spécifiques :
 
 ```python
 import wandb
@@ -112,7 +112,7 @@ with wandb.init() as run:
 ```
 
 <div id="link-artifacts-for-lineage-tracking">
-  ### Lier des artefacts pour assurer le suivi
+  ### Lier des artefacts pour assurer la traçabilité
 </div>
 
 Suivez les relations entre les jeux de données, les modèles et les évaluations :
@@ -128,13 +128,13 @@ with wandb.init(project="ml-pipeline") as run:
     # Entraîner le modèle avec le jeu de données
     model = train_on_dataset(dataset_dir)
     
-    # Créer un artefact de modèle avec le suivi du jeu de données
+    # Créer un artefact de modèle avec la traçabilité du jeu de données
     model_artifact = wandb.Artifact(
         name="trained-model",
         type="model"
     )
     model_artifact.add_file("model.pt")
     
-    # Journaliser avec suivi automatique
+    # Journaliser avec suivi automatique de la traçabilité
     run.log_artifact(model_artifact)
 ```

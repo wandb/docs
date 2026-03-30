@@ -1,27 +1,27 @@
 ---
-title: Options de configuration du balayage
-description: "Référence pour toutes les clés de configuration de balayage de W&B, y compris la méthode, la métrique, les paramètres, l'arrêt anticipé et la commande."
+title: Options de configuration de balayage
+description: "Référence pour toutes les clés de configuration de balayage de W&B, y compris la méthode, la métrique, les paramètres, l’arrêt anticipé et la commande."
 ---
 
-Une configuration de balayage consiste en paires clé-valeur imbriquées. Utilisez les clés de niveau supérieur de votre configuration de balayage pour définir les caractéristiques de votre recherche par balayage, comme les paramètres à explorer (clé [`parameter`](./sweep-config-keys#parameters)), la méthode de recherche dans l&#39;espace des paramètres (clé [`method`](./sweep-config-keys#method)), entre autres.
+Une configuration de balayage consiste en paires clé-valeur imbriquées. Utilisez les clés de niveau supérieur de votre configuration de balayage pour définir les propriétés de votre balayage telles que les paramètres à explorer (clé [`parameter`](./sweep-config-keys#parameters)), la méthodologie pour explorer l’espace des paramètres (clé [`method`](./sweep-config-keys#method)), et bien d’autres.
 
-Le tableau suivant répertorie les clés de configuration de balayage de niveau supérieur ainsi qu&#39;une brève description. Voir les sections correspondantes pour plus d&#39;informations sur chaque clé.
+Le tableau suivant répertorie les clés de configuration de balayage de niveau supérieur ainsi qu’une brève description. Voir les sections correspondantes pour plus d’informations sur chaque clé.
 
-| Clés de niveau supérieur              | Description                                                                                                          |
-| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `program`                             | (requis) Script d&#39;entraînement à exécuter                                                                        |
-| `entity`                              | L&#39;entité de ce balayage                                                                                          |
-| `project`                             | Le projet de ce balayage                                                                                             |
-| `description`                         | Description textuelle du balayage                                                                                    |
-| `name`                                | Le nom du balayage, affiché dans l&#39;interface W&amp;B.                                                            |
-| [`method`](#method)                   | (requis) La stratégie de recherche                                                                                   |
-| [`metric`](#metric)                   | La métrique à optimiser (utilisée uniquement par certaines stratégies de recherche et certains critères d&#39;arrêt) |
-| [`parameters`](#parameters)           | (requis) Bornes des paramètres à explorer                                                                            |
-| [`early_terminate`](#early_terminate) | Tout critère d&#39;arrêt anticipé                                                                                    |
-| [`command`](#command)                 | Structure de commande pour appeler le script d&#39;entraînement et lui transmettre des arguments                     |
-| `run_cap`                             | Nombre maximal de runs pour ce balayage                                                                              |
+| Clés de niveau supérieur              | Description                                                                                                      |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `program`                             | (requis) Script d’entraînement à exécuter                                                                        |
+| `entity`                              | L’entité de ce balayage                                                                                          |
+| `project`                             | Le projet de ce balayage                                                                                         |
+| `description`                         | Description textuelle du balayage                                                                                |
+| `name`                                | Le nom du balayage, affiché dans l’interface utilisateur W&amp;B.                                                |
+| [`method`](#method)                   | (requis) La stratégie de recherche                                                                               |
+| [`metric`](#metric)                   | La métrique à optimiser (utilisée uniquement par certaines stratégies de recherche et certains critères d’arrêt) |
+| [`parameters`](#parameters)           | (requis) Bornes des paramètres à explorer                                                                        |
+| [`early_terminate`](#early_terminate) | Critères d’arrêt anticipé                                                                                        |
+| [`command`](#command)                 | Structure de commande pour appeler le script d’entraînement et lui transmettre des arguments                     |
+| `run_cap`                             | Nombre maximal de runs pour ce balayage                                                                          |
 
-Voir la structure de [configuration de balayage](./sweep-config-keys) pour plus d&#39;informations sur la façon de structurer votre configuration de balayage.
+Voir la structure de la [Configuration de balayage](./sweep-config-keys) pour plus d’informations sur la façon de structurer votre configuration de balayage.
 
 {/* ## `program`
 
@@ -49,7 +49,7 @@ Utilisez la clé `metric` de configuration de balayage de niveau supérieur pour
   ## `parameters`
 </div>
 
-Dans votre fichier YAML ou votre script Python, spécifiez `parameters` comme clé de niveau supérieur. Dans la clé `parameters`, indiquez le nom d&#39;un hyperparamètre à optimiser. Les hyperparamètres courants incluent notamment le taux d&#39;apprentissage, la taille de lot, les époques, les optimiseurs, etc. Pour chaque hyperparamètre défini dans votre configuration de balayage, spécifiez une ou plusieurs contraintes de recherche.
+Dans votre fichier YAML ou votre script Python, spécifiez `parameters` comme clé de niveau supérieur. Dans la clé `parameters`, fournissez le nom d&#39;un hyperparamètre à optimiser. Les hyperparamètres courants incluent notamment le taux d&#39;apprentissage, la taille de lot, les époques, les optimiseurs, etc. Pour chaque hyperparamètre défini dans votre configuration de balayage, spécifiez une ou plusieurs contraintes de recherche.
 
 Le tableau suivant présente les contraintes de recherche d&#39;hyperparamètres prises en charge. En fonction de votre hyperparamètre et de votre cas d&#39;utilisation, utilisez l&#39;une des contraintes de recherche ci-dessous pour indiquer à votre agent de balayage où chercher (dans le cas d&#39;une distribution) ou quoi utiliser (`value`, `values`, etc.).
 
@@ -59,19 +59,19 @@ Le tableau suivant présente les contraintes de recherche d&#39;hyperparamètres
 | `value`                 | Spécifie l&#39;unique valeur valide pour cet hyperparamètre. Compatible avec `grid`.                                                                                                     |
 | `distribution`          | Spécifiez une [distribution](#distribution-options-for-random-and-bayesian-search) de probabilité. Voir la note sous ce tableau pour plus d&#39;informations sur les valeurs par défaut. |
 | `probabilities`         | Spécifiez la probabilité de sélection de chaque élément de `values` lors de l&#39;utilisation de `random`.                                                                               |
-| `min`, `max`            | (`int`or `float`) Valeurs minimale et maximale. Si `int`, pour les hyperparamètres distribués selon `int_uniform`. Si `float`, pour les hyperparamètres distribués selon `uniform`.      |
+| `min`, `max`            | (`int` or `float`) Valeurs minimale et maximale. Si `int`, pour les hyperparamètres distribués selon `int_uniform`. Si `float`, pour les hyperparamètres distribués selon `uniform`.     |
 | `mu`                    | (`float`) Paramètre de moyenne pour les hyperparamètres distribués selon `normal` ou `lognormal`.                                                                                        |
 | `sigma`                 | (`float`) Paramètre d&#39;écart-type pour les hyperparamètres distribués selon `normal` ou `lognormal`.                                                                                  |
 | `q`                     | (`float`) Pas de quantification pour les hyperparamètres quantifiés.                                                                                                                     |
 | `parameters`            | Imbrique d&#39;autres paramètres dans un paramètre de niveau racine.                                                                                                                     |
 
 <Note>
-  W&amp;B définit les distributions suivantes selon les conditions ci-dessous si aucune [distribution](#distribution-options-for-random-and-bayesian-search) n&#39;est spécifiée :
+  W&amp;B définit les distributions suivantes selon les conditions ci-dessous si aucune [distribution](#distribution-options-for-random-and-bayesian-search) n&#39;est spécifiée :
 
   * `categorical` si vous spécifiez `values`
   * `int_uniform` si vous spécifiez `max` et `min` comme entiers
   * `uniform` si vous spécifiez `max` et `min` comme nombres à virgule flottante
-  * `constant` si vous attribuez un ensemble à `value`
+  * `constant` si vous fournissez un ensemble à `value`
 </Note>
 
 <div id="method">
@@ -92,45 +92,45 @@ La recherche sur grille s’exécute indéfiniment si elle porte sur un espace d
   #### Recherche aléatoire
 </div>
 
-Choisissez à chaque itération un ensemble aléatoire de valeurs d’hyperparamètres, sans a priori, basé sur une distribution. La recherche aléatoire s’exécute indéfiniment à moins que vous n’arrêtiez le processus depuis la ligne de commande, dans votre script python ou dans [the W&amp;B App](/fr/models/sweeps/visualize-sweep-results/).
+À chaque itération, choisissez un ensemble aléatoire de valeurs d’hyperparamètres, tiré d’une distribution et sans information préalable. La recherche aléatoire s’exécute indéfiniment, sauf si vous arrêtez le processus depuis la Ligne de commande, dans votre script Python ou dans [la W&amp;B App](/fr/models/sweeps/visualize-sweep-results/).
 
-Spécifiez l’espace de distribution avec la clé de métrique si vous choisissez une recherche aléatoire (`method: random`).
+Spécifiez l’espace de distribution avec la clé de métrique si vous choisissez la recherche aléatoire (`method: random`).
 
 <div id="bayesian-search">
   #### Recherche bayésienne
 </div>
 
-Contrairement à la [recherche aléatoire](#random-search) et à la [recherche sur grille](#grid-search), les modèles bayésiens prennent des décisions éclairées. L’optimisation bayésienne utilise un modèle probabiliste pour déterminer les valeurs à utiliser dans le cadre d’un processus itératif consistant à tester des valeurs sur une fonction de substitution avant d’évaluer la fonction objectif. La recherche bayésienne fonctionne bien avec un petit nombre de paramètres continus, mais passe difficilement à l’échelle. Pour plus d’informations sur la recherche bayésienne, voir le document [Bayesian Optimization Primer](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf).
+Contrairement à la [recherche aléatoire](#random-search) et à la [recherche sur grille](#grid-search), les modèles bayésiens font des choix éclairés. L’optimisation bayésienne utilise un modèle probabiliste pour déterminer les valeurs à utiliser au moyen d’un processus itératif qui consiste à tester des valeurs sur une fonction de substitution avant d’évaluer la fonction objectif. La recherche bayésienne fonctionne bien avec un petit nombre de paramètres continus, mais passe difficilement à l’échelle. Pour plus d’informations sur la recherche bayésienne, voir l’[article Bayesian Optimization Primer](https://web.archive.org/web/20240209053347/https://static.sigopt.com/b/20a144d208ef255d3b981ce419667ec25d8412e2/static/pdf/SigOpt_Bayesian_Optimization_Primer.pdf).
 
 {/* Il existe différentes méthodes d'optimisation bayésienne. W&B utilise un processus gaussien pour modéliser la relation entre les hyperparamètres et la métrique du modèle. Pour plus d'informations, voir cet article. [LINK] */}
 
-La recherche bayésienne s’exécute indéfiniment à moins que vous n’arrêtiez le processus depuis la ligne de commande, dans votre script python ou dans [the W&amp;B App](/fr/models/sweeps/visualize-sweep-results/).
+La recherche bayésienne s’exécute indéfiniment à moins que vous n’arrêtiez le processus depuis la ligne de commande, dans votre script python ou dans [W&amp;B App](/fr/models/sweeps/visualize-sweep-results/).
 
 <div id="distribution-options-for-random-and-bayesian-search">
   ### Options de distribution pour la recherche aléatoire et bayésienne
 </div>
 
-Dans la clé `parameter`, imbriquez le nom de l’hyperparamètre. Ensuite, spécifiez la clé `distribution` et indiquez une distribution pour la valeur.
+Dans la clé `parameter`, imbriquez le nom de l&#39;hyperparamètre. Ensuite, spécifiez la clé `distribution` et indiquez une distribution pour la valeur.
 
 Le tableau suivant répertorie les distributions prises en charge par W&amp;B.
 
-| Valeur de la clé `distribution` | Description                                                                                                                                                                                          |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `constant`                      | Distribution constante. Vous devez spécifier la valeur constante (`value`) à utiliser.                                                                                                               |
-| `categorical`                   | Distribution catégorielle. Vous devez spécifier toutes les valeurs valides (`values`) pour cet hyperparamètre.                                                                                       |
-| `int_uniform`                   | Distribution uniforme discrète sur les entiers. Vous devez spécifier `max` et `min` sous forme d’entiers.                                                                                            |
-| `uniform`                       | Distribution uniforme continue. Vous devez spécifier `max` et `min` sous forme de nombres à virgule flottante.                                                                                       |
-| `q_uniform`                     | Distribution uniforme quantifiée. Renvoie `round(X / q) * q`, où `X` suit une distribution uniforme. `q` vaut `1` par défaut.                                                                        |
-| `log_uniform`                   | Distribution log-uniforme. Renvoie une valeur `X` comprise entre `exp(min)` et `exp(max)` telle que le logarithme népérien soit uniformément distribué entre `min` et `max`.                         |
-| `log_uniform_values`            | Distribution log-uniforme. Renvoie une valeur `X` comprise entre `min` et `max` telle que `log(`X`)` soit uniformément distribué entre `log(min)` et `log(max)`.                                     |
-| `q_log_uniform`                 | Distribution log-uniforme quantifiée. Renvoie `round(X / q) * q`, où `X` est `log_uniform`. `q` vaut `1` par défaut.                                                                                 |
-| `q_log_uniform_values`          | Distribution log-uniforme quantifiée. Renvoie `round(X / q) * q`, où `X` est `log_uniform_values`. `q` vaut `1` par défaut.                                                                          |
-| `inv_log_uniform`               | Distribution log-uniforme inverse. Renvoie `X`, où `log(1/X)` est uniformément distribué entre `min` et `max`.                                                                                       |
-| `inv_log_uniform_values`        | Distribution log-uniforme inverse. Renvoie `X`, où `log(1/X)` est uniformément distribué entre `log(1/max)` et `log(1/min)`.                                                                         |
-| `normal`                        | Distribution normale. La valeur renvoyée suit une distribution normale de moyenne `mu` (par défaut `0`) et d’écart type `sigma` (par défaut `1`).                                                    |
-| `q_normal`                      | Distribution normale quantifiée. Renvoie `round(X / q) * q`, où `X` est `normal`. `q` vaut `1` par défaut.                                                                                           |
-| `log_normal`                    | Distribution log-normale. Renvoie une valeur `X` telle que le logarithme népérien `log(X)` suive une distribution normale de moyenne `mu` (par défaut `0`) et d’écart type `sigma` (par défaut `1`). |
-| `q_log_normal`                  | Distribution log-normale quantifiée. Renvoie `round(X / q) * q`, où `X` est `log_normal`. `q` vaut `1` par défaut.                                                                                   |
+| Valeur de la clé `distribution` | Description                                                                                                                                                                                              |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `constant`                      | Distribution constante. Vous devez spécifier la valeur constante (`value`) à utiliser.                                                                                                                   |
+| `categorical`                   | Distribution catégorielle. Vous devez spécifier toutes les valeurs valides (`values`) pour cet hyperparamètre.                                                                                           |
+| `int_uniform`                   | Distribution uniforme discrète sur les entiers. Vous devez spécifier `max` et `min` sous forme d&#39;entiers.                                                                                            |
+| `uniform`                       | Distribution uniforme continue. Vous devez spécifier `max` et `min` sous forme de nombres à virgule flottante.                                                                                           |
+| `q_uniform`                     | Distribution uniforme quantifiée. Renvoie `round(X / q) * q`, où `X` suit une distribution uniforme. `q` vaut `1` par défaut.                                                                            |
+| `log_uniform`                   | Distribution log-uniforme. Renvoie une valeur `X` comprise entre `exp(min)` et `exp(max)` telle que le logarithme népérien soit uniformément distribué entre `min` et `max`.                             |
+| `log_uniform_values`            | Distribution log-uniforme. Renvoie une valeur `X` comprise entre `min` et `max` telle que `log(`X`)` soit uniformément distribué entre `log(min)` et `log(max)`.                                         |
+| `q_log_uniform`                 | Distribution log-uniforme quantifiée. Renvoie `round(X / q) * q`, où `X` est `log_uniform`. `q` vaut `1` par défaut.                                                                                     |
+| `q_log_uniform_values`          | Distribution log-uniforme quantifiée. Renvoie `round(X / q) * q`, où `X` est `log_uniform_values`. `q` vaut `1` par défaut.                                                                              |
+| `inv_log_uniform`               | Distribution log-uniforme inverse. Renvoie `X`, où `log(1/X)` est uniformément distribué entre `min` et `max`.                                                                                           |
+| `inv_log_uniform_values`        | Distribution log-uniforme inverse. Renvoie `X`, où `log(1/X)` est uniformément distribué entre `log(1/max)` et `log(1/min)`.                                                                             |
+| `normal`                        | Distribution normale. La valeur de retour suit une distribution normale de moyenne `mu` (par défaut `0`) et d&#39;écart type `sigma` (par défaut `1`).                                                   |
+| `q_normal`                      | Distribution normale quantifiée. Renvoie `round(X / q) * q`, où `X` est `normal`. `q` vaut `1` par défaut.                                                                                               |
+| `log_normal`                    | Distribution log-normale. Renvoie une valeur `X` telle que le logarithme népérien `log(X)` suive une distribution normale de moyenne `mu` (par défaut `0`) et d&#39;écart type `sigma` (par défaut `1`). |
+| `q_log_normal`                  | Distribution log-normale quantifiée. Renvoie `round(X / q) * q`, où `X` est `log_normal`. `q` vaut `1` par défaut.                                                                                       |
 
 <div id="early_terminate">
   ## `early_terminate`
@@ -150,50 +150,50 @@ Utilisez l’arrêt anticipé (`early_terminate`) pour interrompre les runs peu 
   W&amp;B prend actuellement en charge l’algorithme d’arrêt [Hyperband](https://arxiv.org/abs/1603.06560).
 </Note>
 
-L’optimisation des hyperparamètres [Hyperband](https://arxiv.org/abs/1603.06560) détermine si un programme doit s’arrêter ou continuer à un ou plusieurs seuils d’itération prédéfinis, appelés *brackets*.
+L’optimisation des hyperparamètres [Hyperband](https://arxiv.org/abs/1603.06560) détermine si un programme doit s’arrêter ou continuer à un ou plusieurs nombres d’itérations prédéfinis, appelés *brackets*.
 
 Lorsqu’un run W&amp;B atteint un bracket, le balayage compare la métrique de ce run à toutes les valeurs de métrique précédemment enregistrées. Le balayage met fin au run si la valeur de sa métrique est trop élevée (lorsque l’objectif est la minimisation) ou si sa métrique est trop faible (lorsque l’objectif est la maximisation).
 
-Les brackets sont basés sur le nombre d’itérations journalisées. Le nombre de brackets correspond au nombre de fois où vous journalisez la métrique que vous optimisez. Les itérations peuvent correspondre à des étapes, à des époques ou à une valeur intermédiaire. La valeur numérique du compteur d’étapes n’est pas utilisée dans les calculs des brackets.
+Les brackets sont basés sur le nombre d’itérations enregistrées. Le nombre de brackets correspond au nombre de fois où vous enregistrez la métrique que vous optimisez. Les itérations peuvent correspondre à des step, à des époques ou à quelque chose entre les deux. La valeur numérique du compteur de step n’est pas utilisée dans les calculs des brackets.
 
 <Note>
   Spécifiez soit `min_iter`, soit `max_iter` pour créer une planification de brackets.
 </Note>
 
-| Clé        | Description                                                                                                                                                       |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `min_iter` | Spécifiez l’itération du premier bracket                                                                                                                          |
-| `max_iter` | Spécifiez le nombre maximal d’itérations.                                                                                                                         |
-| `s`        | Spécifiez le nombre total de brackets (requis pour `max_iter`)                                                                                                    |
-| `eta`      | Spécifiez le facteur multiplicateur de la planification des brackets (valeur par défaut : `3`).                                                                   |
-| `strict`   | Activez le mode « strict », qui élague les runs de manière agressive, en suivant de plus près l’article original sur Hyperband. La valeur par défaut est `false`. |
+| Clé        | Description                                                                                                                                                          |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `min_iter` | Spécifiez l’itération du premier bracket                                                                                                                             |
+| `max_iter` | Spécifiez le nombre maximal d’itérations.                                                                                                                            |
+| `s`        | Spécifiez le nombre total de brackets (Requis pour `max_iter`)                                                                                                       |
+| `eta`      | Spécifiez le facteur multiplicateur de la planification des brackets (valeurs par défaut : `3`).                                                                     |
+| `strict`   | Activez le mode « strict », qui élague les runs de manière agressive, en suivant de plus près l’article original sur Hyperband. Les valeurs par défaut sont `false`. |
 
 <Note>
-  Hyperband vérifie quels [runs](/fr/models/ref/python/experiments/run) arrêter toutes les quelques minutes. L’horodatage de fin du run peut différer des brackets spécifiés si votre run ou votre itération est de courte durée.
+  Hyperband vérifie quels [Runs](/fr/models/ref/python/experiments/run) arrêter toutes les quelques minutes. L’horodatage de fin du run peut différer des brackets spécifiés si votre run ou votre itération est de courte durée.
 </Note>
 
 <div id="command">
   ## `commande`
 </div>
 
-{/* Par défaut, les agents créés avec [`wandb agent`](/models/ref/cli/wandb-agent) reçoivent une commande au format suivant : */}
+{/* Les agents créés avec [`wandb agent`](/models/ref/cli/wandb-agent) reçoivent par défaut une commande au format suivant : */}
 
-Modifiez le format et le contenu avec des valeurs imbriquées dans la clé `command`. Vous pouvez également inclure directement des composants fixes, tels que des noms de fichiers.
+Modifiez le format et le contenu avec des valeurs imbriquées dans la clé `command`. Vous pouvez inclure directement des composants fixes tels que des noms de fichiers.
 
 <Note>
-  Sur les systèmes Unix, `/usr/bin/env` garantit que le système d’exploitation choisit l’interpréteur Python approprié en fonction de l’environnement.
+  Sur les systèmes Unix, `/usr/bin/env` garantit que le système d’exploitation choisit l’interpréteur Python correct en fonction de l’environnement.
 </Note>
 
 W&amp;B prend en charge les macros suivantes pour les composants variables de la commande :
 
-| Macro de commande          | Description                                                                                                                                                                                                  |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `${env}`                   | `/usr/bin/env` sur les systèmes Unix, omis sous Windows.                                                                                                                                                     |
-| `${interpreter}`           | Est remplacé par `python`.                                                                                                                                                                                   |
-| `${program}`               | Nom de fichier du script d’entraînement spécifié par la clé `program` de la configuration du balayage.                                                                                                       |
-| `${args}`                  | Hyperparamètres et leurs valeurs sous la forme `--param1=value1 --param2=value2`.                                                                                                                            |
-| `${args_no_boolean_flags}` | Hyperparamètres et leurs valeurs sous la forme `--param1=value1`, sauf que les paramètres booléens prennent la forme `--boolean_flag_param` lorsqu’ils valent `True` et sont omis lorsqu’ils valent `False`. |
-| `${args_no_hyphens}`       | Hyperparamètres et leurs valeurs sous la forme `param1=value1 param2=value2`.                                                                                                                                |
-| `${args_json}`             | Hyperparamètres et leurs valeurs encodés au format JSON.                                                                                                                                                     |
-| `${args_json_file}`        | Chemin vers un fichier contenant les hyperparamètres et leurs valeurs encodés au format JSON.                                                                                                                |
-| `${envvar}`                | Permet de transmettre des variables d’environnement. `${envvar:MYENVVAR}` &#95;&#95; est remplacé par la valeur de la variable d’environnement MYENVVAR. &#95;&#95;                                          |
+| Macro de commande          | Description                                                                                                                                                                                                   |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `${env}`                   | `/usr/bin/env` sur les systèmes Unix, omis sous Windows.                                                                                                                                                      |
+| `${interpreter}`           | Se développe en `python`.                                                                                                                                                                                     |
+| `${program}`               | Nom de fichier du script d’entraînement spécifié par la clé `program` de la configuration du balayage.                                                                                                        |
+| `${args}`                  | Hyperparamètres et leurs valeurs sous la forme `--param1=value1 --param2=value2`.                                                                                                                             |
+| `${args_no_boolean_flags}` | Hyperparamètres et leurs valeurs sous la forme `--param1=value1`, sauf que les paramètres booléens sont sous la forme `--boolean_flag_param` lorsqu’ils valent `True` et sont omis lorsqu’ils valent `False`. |
+| `${args_no_hyphens}`       | Hyperparamètres et leurs valeurs sous la forme `param1=value1 param2=value2`.                                                                                                                                 |
+| `${args_json}`             | Hyperparamètres et leurs valeurs encodés en JSON.                                                                                                                                                             |
+| `${args_json_file}`        | Le chemin vers un fichier contenant les hyperparamètres et leurs valeurs encodés en JSON.                                                                                                                     |
+| `${envvar}`                | Une manière de transmettre des variables d’environnement. `${envvar:MYENVVAR}` &#95;&#95; se développe en la valeur de la variable d’environnement MYENVVAR. &#95;&#95;                                       |

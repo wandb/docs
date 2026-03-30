@@ -3,10 +3,10 @@ title: "wandb sweep"
 ---
 
 {/*
-  Pour ajouter un contenu d’introduction pour cette commande :
+  Pour ajouter un contenu introductif pour cette commande :
   1. Créez le fichier de snippet : /snippets/_includes/cli/wandb-sweep.mdx
-  2. Ajoutez votre contenu d’introduction dans ce fichier
-  3. Supprimez l’intégralité de ce bloc de commentaires et ne conservez que les deux lignes ci-dessous :
+  2. Ajoutez votre contenu introductif dans ce fichier
+  3. Supprimez entièrement ce bloc de commentaires et ne conservez que les deux lignes ci-dessous :
 
   import WandbSweep from "/snippets/_includes/cli/wandb-sweep.mdx";
 
@@ -45,7 +45,7 @@ wandb sweep CONFIG_YAML_OR_SWEEP_ID [OPTIONS]
 | `--entity`, `-e`    | Le nom d&#39;utilisateur ou d&#39;équipe auquel vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l&#39;entité indiquée existe déjà. Si vous ne spécifiez pas d&#39;entité, le run sera envoyé à votre entité par défaut, qui correspond généralement à votre nom d&#39;utilisateur. |
 | `--controller`      | Exécuter le contrôleur local (par défaut : False)                                                                                                                                                                                                                                                                  |
 | `--verbose`         | Afficher une sortie détaillée (par défaut : False)                                                                                                                                                                                                                                                                 |
-| `--name`            | Le nom du balayage. L&#39;ID du balayage est utilisé si aucun nom n&#39;est spécifié.                                                                                                                                                                                                                              |
+| `--name`            | Le nom du balayage. L&#39;ID du sweep est utilisé si aucun nom n&#39;est spécifié.                                                                                                                                                                                                                                 |
 | `--program`         | Définir le programme du balayage                                                                                                                                                                                                                                                                                   |
 | `--update`          | Mettre à jour le balayage en attente                                                                                                                                                                                                                                                                               |
 | `--stop`            | Terminer un balayage pour arrêter le lancement de nouveaux runs et laisser se terminer les runs en cours. (par défaut : False)                                                                                                                                                                                     |

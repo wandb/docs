@@ -44,10 +44,10 @@ Weave va désormais suivre et consigner tous les appels LLM effectués via LiteL
 
 
 <div id="wrapping-with-your-own-ops">
-  ## Encapsuler avec vos propres ops
+  ## Encapsuler avec vos propres opérations
 </div>
 
-Les ops Weave rendent les résultats reproductibles en gérant automatiquement les versions du code au fil de vos expérimentations, et elles capturent leurs entrées et leurs sorties. Créez simplement une fonction décorée avec `@weave.op()` qui appelle la fonction de complétion de LiteLLM, et Weave suivra les entrées et les sorties pour vous. Voici un exemple :
+Les opérations Weave rendent les résultats reproductibles grâce à la gestion automatique des versions du code au fil de vos expériences, et elles capturent leurs entrées et leurs sorties. Créez simplement une fonction décorée avec `@weave.op()` qui appelle la fonction de complétion de LiteLLM, et Weave suivra les entrées et les sorties pour vous. Voici un exemple :
 
 ```python lines {4,6}
 import litellm
@@ -73,9 +73,9 @@ print(translate("Hello, how are you?", "Spanish", "claude-3-5-sonnet-20240620"))
   ## Créer un `Model` pour faciliter l’expérimentation
 </div>
 
-Il est difficile d’organiser l’expérimentation lorsqu’il y a de nombreux éléments à gérer. En utilisant la classe `Model`, vous pouvez capturer et structurer les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela vous aide à organiser et à comparer les différentes itérations de votre application.
+Il est difficile d’organiser l’expérimentation lorsqu’il y a de nombreux éléments à prendre en compte. En utilisant la classe `Model`, vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela vous aide à organiser et à comparer les différentes itérations de votre application.
 
-En plus de gérer les versions du code et de capturer les entrées/sorties, Models capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet de trouver facilement les paramètres les plus efficaces. Vous pouvez également utiliser les Models Weave avec `serve` et les évaluations.
+En plus de la gestion des versions du code et de capturer les entrées/sorties, les modèles Weave capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet de trouver facilement quels paramètres ont donné les meilleurs résultats. Vous pouvez également utiliser les modèles Weave avec `serve` et Evaluations.
 
 Dans l’exemple ci-dessous, vous pouvez expérimenter avec différents modèles et différentes températures :
 
@@ -116,12 +116,11 @@ print("\nTraduction Claude-3.5 Sonnet en espagnol :")
 print(claude_translator.predict(english_text, "Spanish"))
 ```
 
-
 <div id="function-calling">
   ## Appels de fonction
 </div>
 
-LiteLLM prend en charge les appels de fonction pour les modèles compatibles. Weave suivra automatiquement ces appels.
+LiteLLM prend en charge les appels de fonction pour les modèles compatibles. Weave suit automatiquement ces appels de fonction.
 
 ```python lines {4}
 import litellm

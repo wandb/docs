@@ -1,6 +1,6 @@
 ---
 title: "OpenAI"
-description: "Intégrer OpenAI avec Weave pour le traçage, l’évaluation et la surveillance"
+description: "Intégrer OpenAI avec Weave pour le Tracing, l’évaluation et la surveillance"
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_openai.ipynb" aria-label="Ouvrir dans Google Colab">
@@ -15,9 +15,9 @@ description: "Intégrer OpenAI avec Weave pour le traçage, l’évaluation et l
   ## Tracing
 </div>
 
-Il est important de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu&#39;en production. Vous utiliserez ces traces pour le débogage et pour constituer un jeu de données d&#39;exemples complexes à évaluer pendant que vous améliorez votre application.
+Il est important de stocker les traces des applications LLM dans une base de données centrale, aussi bien pendant le développement qu&#39;en production. Vous utiliserez ces traces pour le débogage et pour constituer un jeu de données d&#39;exemples complexes à évaluer à mesure que vous améliorez votre application.
 
-Weave peut automatiquement capturer les traces de la [bibliothèque Python openai](https://developers.openai.com/api/docs/libraries).
+Weave peut automatiquement capturer les traces de la [bibliothèque Python OpenAI](https://developers.openai.com/api/docs/libraries).
 
 Commencez à capturer les traces en appelant `weave.init(<project-name>)` avec le nom de projet de votre choix. OpenAI sera patché automatiquement, quel que soit le moment où vous l&#39;importez.
 
@@ -25,14 +25,14 @@ Si vous ne spécifiez pas d&#39;équipe W&amp;B lorsque vous appelez `weave.init
 
 **Patching automatique**
 
-Weave patche automatiquement OpenAI, qu&#39;il soit importé avant ou après `weave.init()` :
+Weave patche automatiquement OpenAI, qu&#39;il soit importé avant ou après `weave.init()` :
 
 <CodeGroup>
   ```python Python lines {4}
   from openai import OpenAI
   import weave
 
-  weave.init('emoji-bot')  # OpenAI est automatiquement patché !
+  weave.init('emoji-bot')  # OpenAI est automatiquement patché !
 
   client = OpenAI()
   response = client.chat.completions.create(
@@ -56,7 +56,7 @@ Weave patche automatiquement OpenAI, qu&#39;il soit importé avant ou après `we
 
   const openai = wrapOpenAI(new OpenAI());
 
-  // Cela permettra désormais de tracer tous les appels à OpenAI
+  // Cela tracera désormais tous les appels à OpenAI
   openai.chat.completions.create(
     {
       model: "gpt-4",
@@ -77,13 +77,13 @@ Weave patche automatiquement OpenAI, qu&#39;il soit importé avant ou après `we
 
 **Patching explicite (facultatif)**
 
-Vous pouvez toujours appliquer explicitement un patch si vous souhaitez un contrôle plus fin :
+Vous pouvez toujours appliquer explicitement un patch si vous souhaitez un contrôle plus fin :
 
 ```python lines {3,4}
 import weave
 
 weave.init('emoji-bot')
-weave.integrations.patch_openai()  # Activer le traçage OpenAI
+weave.integrations.patch_openai()  # Activer le Tracing OpenAI
 
 from openai import OpenAI
 client = OpenAI()
@@ -98,9 +98,8 @@ response = client.chat.completions.create(
 [Voir une trace en temps réel](https://wandb.ai/capecape/emoji-bot/weave/calls/01928a78-6d8a-7e20-9b8c-0cbc8318a0c8)
 
 <Tip>
-  Nous capturons également les appels d’outils via le function calling pour [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) et [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview).
+  Nous capturons également les outils de function calling pour [OpenAI Functions](https://platform.openai.com/docs/guides/function-calling) et [OpenAI Assistants](https://platform.openai.com/docs/assistants/overview).
 </Tip>
-
 
 <div id="structured-outputs">
   ## Sorties structurées
@@ -171,10 +170,10 @@ Weave prend également en charge les fonctions asynchrones avec OpenAI.
 </CodeGroup>
 
 <div id="streaming-support">
-  ## Prise en charge des flux de réponses
+  ## Prise en charge des réponses en Flux
 </div>
 
-Weave prend également en charge les réponses en flux provenant d’OpenAI.
+Weave prend également en charge les réponses en Flux provenant d’OpenAI.
 
 <CodeGroup>
   ```python Python
@@ -205,7 +204,7 @@ Weave prend également en charge les réponses en flux provenant d’OpenAI.
 </CodeGroup>
 
 <div id="tracing-function-calls">
-  ## Traçage des appels de fonction
+  ## Tracing des appels de fonction
 </div>
 
 Weave trace également les appels de fonction effectués par OpenAI lors de l’utilisation d’outils.
@@ -355,11 +354,11 @@ Weave prend également en charge l&#39;API Assistants d&#39;OpenAI pour créer d
 Weave suit automatiquement le coût de vos appels à l’API OpenAI. Vous pouvez consulter le détail des coûts dans l’interface Weave.
 
 <Note>
-  Le suivi des coûts est disponible pour tous les modèles OpenAI et est calculé à partir de la tarification OpenAI la plus récente.
+  Le suivi des coûts est disponible pour tous les modèles OpenAI et est calculé basé sur la tarification OpenAI la plus récente.
 </Note>
 
 <div id="tracing-custom-functions">
-  ## Traçage de fonctions personnalisées
+  ## Tracing de fonctions personnalisées
 </div>
 
 Vous pouvez également tracer des fonctions personnalisées qui utilisent OpenAI à l’aide du décorateur `@weave.op`.
@@ -394,7 +393,7 @@ Vous pouvez également tracer des fonctions personnalisées qui utilisent OpenAI
   ## Prochaines étapes
 </div>
 
-Maintenant que vous avez configuré le traçage pour OpenAI, vous pouvez :
+Maintenant que vous avez configuré le Tracing pour OpenAI, vous pouvez :
 
 1. **Voir les traces dans l’interface Weave** : accédez à votre projet Weave pour voir les traces de vos appels OpenAI
 2. **Créer des évaluations** : utilisez vos traces pour créer des jeux de données d’évaluation

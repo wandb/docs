@@ -5,7 +5,7 @@ keywords: ["Runs", "Sécurité"]
 
 Pour résoudre les erreurs d’autorisation lors de l’enregistrement d’un run dans une entité W&amp;B, suivez ces étapes :
 
-* **Vérifier les noms de l’entité et du projet** : assurez-vous que l’orthographe des noms de l’entité W&amp;B et du projet est correcte, y compris la casse, dans votre code.
+* **Vérifier les noms de l’entité et du projet** : assurez-vous que les noms de l’entité W&amp;B et du projet sont correctement orthographiés et respectent la casse dans votre code.
 * **Confirmer les autorisations** : assurez-vous que les autorisations nécessaires ont bien été accordées par l’administrateur.
 * **Vérifier les identifiants de connexion** : assurez-vous d’être connecté au bon compte W&amp;B. Testez en créant un run avec le code suivant :
   ```python
@@ -19,7 +19,7 @@ Pour résoudre les erreurs d’autorisation lors de l’enregistrement d’un ru
   ```bash
   export WANDB_API_KEY='your_api_key'
   ```
-* **Confirmer les informations sur l’hôte** : pour les déploiements personnalisés, définissez l’URL de l’hôte :
+* **Confirmer les informations de l’hôte** : pour les déploiements personnalisés, définissez l’URL de l’hôte :
   ```bash
   wandb login --relogin --host=<host-url>
   export WANDB_BASE_URL=<host-url>
@@ -34,4 +34,4 @@ Pour résoudre les erreurs d’autorisation lors de l’enregistrement d’un ru
 
 <Badge stroke shape="pill" color="orange" size="md">[Runs](/fr/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sécurité](/fr/support/models/tags/security)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

@@ -1,4 +1,4 @@
-Les limites par défaut suivantes contribuent à maintenir la stabilité de la plateforme :
+Les limites par défaut suivantes permettent de maintenir la stabilité de la plateforme :
 
 | Limite                                  | Par défaut | Portée |
 | --------------------------------------- | ---------- | ------ |
@@ -7,9 +7,9 @@ Les limites par défaut suivantes contribuent à maintenir la stabilité de la p
 | Requêtes Filestream par seconde         | 2          | Run    |
 | Requêtes de création de run par seconde | 80         | Projet |
 
-Lorsqu&#39;une limite est dépassée, le SDK W&amp;B renvoie la réponse HTTP `429`, et le message `HTTP 429: rate limited exceeded` apparaît dans les journaux du SDK.
+Lorsqu&#39;une limite est dépassée, le SDK W&amp;B renvoie une réponse HTTP `429` et le message `HTTP 429: rate limited exceeded` apparaît dans les journaux du SDK.
 
-* Les limites de débit du système de fichiers ne provoquent jamais de plantage ni d&#39;échec de la journalisation. Lorsque le SDK reçoit une réponse `429` à une requête Filestream, il temporise puis réessaie telle quelle la requête soumise à une limite de débit, tandis que les mises à jour suivantes s&#39;accumulent.
+* Les limites de débit de Filesystem ne provoquent jamais de plantage ni d&#39;échec de la journalisation. Lorsque le SDK reçoit une réponse `429` pour une requête Filestream, il réduit le rythme puis réessaie telle quelle la requête soumise à une limite de débit, tandis que les mises à jour suivantes s&#39;accumulent.
 
 * Les limites de débit de création de run bloquent la poursuite de l&#39;entraînement.
 

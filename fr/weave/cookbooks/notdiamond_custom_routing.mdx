@@ -1,6 +1,6 @@
 ---
 title: "Routage personnalisé avec NotDiamond"
-description: "Découvrez comment utiliser le routage personnalisé avec notdiamond dans W&B Weave"
+description: "Découvrez comment utiliser le routage personnalisé de NotDiamond avec W&B Weave"
 ---
 
 <Note>
@@ -11,10 +11,10 @@ description: "Découvrez comment utiliser le routage personnalisé avec notdiamo
 </Note>
 
 <div id="custom-routing-for-llm-prompts-with-not-diamond">
-  # Acheminement personnalisé des prompts LLM avec Not Diamond
+  # Routage personnalisé des prompts LLM avec Not Diamond
 </div>
 
-Ce notebook montre comment utiliser Weave avec l’acheminement personnalisé de Not Diamond](https://docs.notdiamond.ai/docs/router-training-quickstart) pour acheminer les prompts LLM vers le modèle le plus adapté en fonction des résultats de l’évaluation.
+Ce notebook montre comment utiliser Weave avec [le routage personnalisé de Not Diamond](https://docs.notdiamond.ai/docs/router-training-quickstart) pour acheminer les prompts LLM vers le modèle le plus approprié en fonction des résultats de l’Évaluation.
 
 <div id="routing-prompts">
   ## Routage des prompts
@@ -38,10 +38,10 @@ Vous avez besoin de trois éléments pour entraîner un routeur personnalisé po
 En les soumettant à l’API Not Diamond, vous pourrez ensuite entraîner un routeur personnalisé adapté à chacun de vos flux de travail.
 
 <div id="setting-up-the-training-data">
-  ## Configuration des données d’entraînement
+  ## Préparation des données d’entraînement
 </div>
 
-En pratique, vous utiliserez vos propres évaluations pour entraîner un routeur personnalisé. Dans ce notebook d’exemple, cependant, vous utiliserez des réponses de LLM
+En pratique, vous utiliserez vos propres évaluations pour entraîner un routeur personnalisé. Dans ce notebook d’exemple, toutefois, vous utiliserez des réponses de LLM
 pour [le jeu de données HumanEval](https://github.com/openai/human-eval) afin d’entraîner un routeur personnalisé pour des tâches de programmation.
 
 Nous commençons par télécharger le jeu de données que nous avons préparé pour cet exemple, puis par convertir les réponses de LLM en EvaluationResults pour chaque modèle.
@@ -86,7 +86,7 @@ for model, evaluation_results in model_evals.items():
   ## Entraîner un routeur personnalisé
 </div>
 
-Maintenant que vous disposez de EvaluationResults, vous pouvez entraîner un routeur personnalisé. Assurez-vous d’avoir [créé un compte](https://app.notdiamond.ai/keys) et
+Maintenant que vous avez EvaluationResults, vous pouvez entraîner un routeur personnalisé. Assurez-vous d’avoir [créé un compte](https://app.notdiamond.ai/keys) et
 [généré une clé API](https://app.notdiamond.ai/keys), puis saisissez votre clé API ci-dessous.
 
 <Frame>
@@ -113,13 +113,13 @@ preference_id = train_router(
 )
 ```
 
-Vous pouvez ensuite suivre le processus d’entraînement de votre routeur personnalisé dans l’application Not Diamond.
+Vous pouvez ensuite suivre le processus d’entraînement de votre routeur personnalisé via l’application Not Diamond.
 
 <Frame>
-  ![Suivre la progression de l’entraînement du routeur](/weave/guides/integrations/imgs/notdiamond/router-preferences.png)
+  ![Vérifier la progression de l’entraînement du routeur](/weave/guides/integrations/imgs/notdiamond/router-preferences.png)
 </Frame>
 
-Une fois l’entraînement de votre routeur personnalisé terminé, vous pouvez l’utiliser pour acheminer vos prompts.
+Une fois votre routeur personnalisé entraîné, vous pouvez l’utiliser pour acheminer vos prompts.
 
 ```python lines
 from notdiamond import NotDiamond
@@ -169,14 +169,15 @@ Cet exemple a également tiré parti de la compatibilité de Not Diamond avec le
 
 ![interface Weave pour le routage personnalisé](/weave/guides/integrations/imgs/notdiamond/weave-trace.png)
 
+
 <div id="evaluating-your-custom-router">
-  ## Évaluer votre routeur personnalisé
+  ## Évaluez votre routeur personnalisé
 </div>
 
-Une fois que vous avez entraîné votre routeur personnalisé, vous pouvez évaluer soit ses
+Une fois que vous avez entraîné votre routeur personnalisé, vous pouvez évaluer :
 
-* performances sur l’échantillon en soumettant les prompts d’entraînement,
-* performances hors échantillon en soumettant de nouveaux prompts ou des prompts mis de côté
+* ses performances sur l’échantillon, en soumettant les prompts d’entraînement, ou
+* ses performances hors échantillon, en soumettant de nouveaux prompts ou des prompts de validation
 
 Ci-dessous, nous soumettons l’ensemble de test au routeur personnalisé pour évaluer ses performances.
 
@@ -215,7 +216,7 @@ Dans ce cas, le &quot;méta-modèle&quot; Not Diamond achemine les prompts vers 
 
 L’entraînement du routeur personnalisé via Weave lance également des évaluations et téléverse les résultats dans l’interface Weave. Une fois le processus d’entraînement du routeur personnalisé terminé, vous pouvez consulter les résultats dans l’interface Weave.
 
-Dans l’interface, on constate que le &quot;méta-modèle&quot; Not Diamond surpasse le modèle le plus performant en acheminant les prompts vers d’autres modèles plus susceptibles de répondre correctement au prompt.
+Dans l’interface utilisateur, on constate que le &quot;méta-modèle&quot; Not Diamond surpasse le modèle le plus performant en acheminant les prompts vers d’autres modèles plus susceptibles de répondre correctement au prompt.
 
 <Frame>
   ![Évaluation de Not Diamond](/weave/guides/integrations/imgs/notdiamond/evaluations.png)

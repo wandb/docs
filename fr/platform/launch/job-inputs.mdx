@@ -17,7 +17,7 @@ Par défaut, les jobs W&amp;B capturent l’intégralité de `Run.config` comme 
   ## Reconfigurer l’objet `Run`
 </div>
 
-Par défaut, l’objet `Run` renvoyé par `wandb.init` dans un job peut être reconfiguré. Le SDK Launch permet de personnaliser les parties de l’objet `Run.config` qui peuvent être reconfigurées lors du lancement du job.
+Par défaut, l’objet `Run` renvoyé par `wandb.init` dans un job peut être reconfiguré. Le SDK Launch permet de personnaliser les parties de l’objet `Run.config` qui peuvent être reconfigurées au lancement du job.
 
 ```python
 import wandb
@@ -48,14 +48,14 @@ with wandb.init(config=config):
     # Etc.
 ```
 
-La fonction `launch.manage_wandb_config` configure le job pour qu’il accepte des valeurs d’entrée pour l’objet `Run.config`. Les options facultatives `include` et `exclude` prennent des préfixes de chemin au sein de l’objet de configuration imbriqué. Cela peut être utile si, par exemple, un job utilise une bibliothèque dont vous ne souhaitez pas exposer les options aux utilisateurs finaux.
+La fonction `launch.manage_wandb_config` configure le job pour qu’il accepte des valeurs d’entrée pour l’objet `Run.config`. Les options facultatives `include` et `exclude` acceptent des préfixes de chemin au sein de l’objet de configuration imbriqué. Cela peut être utile si, par exemple, un job utilise une bibliothèque dont vous ne souhaitez pas exposer les options aux utilisateurs finaux.
 
-Si des préfixes `include` sont fournis, seuls les chemins de la configuration qui correspondent à un préfixe `include` accepteront des valeurs d’entrée. Si des préfixes `exclude` sont fournis, les chemins correspondant à la liste `exclude` seront exclus des valeurs d’entrée. Si un chemin correspond à la fois à un préfixe `include` et à un préfixe `exclude`, le préfixe `exclude` sera prioritaire.
+Si des préfixes `include` sont fournis, seuls les chemins au sein de la configuration qui correspondent à un préfixe `include` accepteront des valeurs d’entrée. Si des préfixes `exclude` sont fournis, les chemins qui correspondent à la liste `exclude` seront exclus des valeurs d’entrée. Si un chemin correspond à la fois à un préfixe `include` et à un préfixe `exclude`, le préfixe `exclude` aura la priorité.
 
-Dans l’exemple précédent, le chemin `["trainer.private"]` exclura la clé `private` de l’objet `trainer`, et le chemin `["trainer"]` exclura toutes les clés qui ne se trouvent pas sous l’objet `trainer`.
+Dans l’exemple précédent, le chemin `["trainer.private"]` exclura la clé `private` de l’objet `trainer`, et le chemin `["trainer"]` exclura toutes les clés ne se trouvant pas sous l’objet `trainer`.
 
 <Note>
-  Utilisez un `.` précédé d’un caractère d’échappement `\` pour exclure les clés contenant un `.` dans leur nom.
+  Utilisez un `.` échappé par `\` pour exclure les clés contenant un `.` dans leur nom.
 
   Par exemple, `r"trainer\.private"` exclut la clé `trainer.private` plutôt que la clé `private` sous l’objet `trainer`.
 
@@ -75,7 +75,7 @@ Si le code ci-dessus est empaqueté et exécuté comme un job, les types d’ent
 }
 ```
 
-Lors du lancement du job depuis la CLI ou l’interface utilisateur de W&amp;B, l’utilisateur pourra uniquement surcharger les quatre paramètres `trainer`.
+Lors du lancement du job depuis la CLI ou l’interface utilisateur de W&amp;B, l’utilisateur pourra uniquement redéfinir les quatre paramètres `trainer`.
 
 <div id="access-run-config-inputs">
   ### Accéder aux entrées de configuration du run
@@ -98,14 +98,14 @@ pour charger, n’importe où dans le code du job, les valeurs d’entrée de la
 Le SDK Launch permet également de gérer les valeurs d&#39;entrée stockées dans des fichiers de configuration au sein du code du job. Il s&#39;agit d&#39;une pratique courante dans de nombreux cas d&#39;utilisation du deep learning et des grands modèles de langage, comme dans cet [exemple torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) ou cette [configuration Axolotl](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml).
 
 <Note>
-  [sweeps sur Launch](/fr/platform/launch/sweeps-on-launch/) ne prend pas en charge l&#39;utilisation d&#39;entrées de fichier de configuration comme paramètres de sweep. Les paramètres de sweep doivent être contrôlés via l&#39;objet `Run.config`.
+  [Sweeps sur Launch](/fr/platform/launch/sweeps-on-launch/) ne prend pas en charge l&#39;utilisation d&#39;entrées de fichier de configuration comme paramètres de balayage. Les paramètres de balayage doivent être contrôlés via l&#39;objet `Run.config`.
 </Note>
 
-La fonction `launch.manage_config_file` permet d&#39;ajouter un fichier de configuration comme entrée au job Launch, ce qui vous permet de modifier les valeurs du fichier de configuration lors du lancement du job.
+La fonction `launch.manage_config_file` peut être utilisée pour ajouter un fichier de configuration comme entrée au job Launch, ce qui vous permet de modifier les valeurs du fichier de configuration lors du lancement du job.
 
-Par défaut, aucune entrée de configuration du run n&#39;est capturée si `launch.manage_config_file` est utilisé. L&#39;appel à `launch.manage_wandb_config` remplace ce comportement.
+Par défaut, aucune entrée de configuration du run n&#39;est capturée si `launch.manage_config_file` est utilisé. L&#39;appel à `launch.manage_wandb_config` redéfinit ce comportement.
 
-Prenez l&#39;exemple suivant :
+Prenez l&#39;exemple suivant :
 
 ```python
 import yaml
@@ -125,7 +125,7 @@ with wandb.init(config=config):
     pass
 ```
 
-Imaginez que le code soit exécuté avec un fichier `config.yaml` situé dans le même répertoire :
+Supposons que le code soit exécuté avec un fichier `config.yaml` situé dans le même répertoire :
 
 ```yaml
 learning_rate: 0.01
@@ -149,13 +149,13 @@ Lorsque `launch.manage_config_file` est appelé dans un run créé par Launch, `
 </Warning>
 
 <div id="customize-a-jobs-launch-drawer-ui">
-  ### Personnaliser l’interface du volet latéral de lancement d’un job
+  ### Personnaliser l’interface utilisateur du volet latéral de lancement d’un job
 </div>
 
-Définir un schéma pour les entrées d’un job vous permet de créer une interface personnalisée pour lancer ce job. Pour définir le schéma d’un job, incluez-le dans l’appel à `launch.manage_wandb_config` ou `launch.manage_config_file`. Le schéma peut être soit un dict Python au format [schéma JSON](https://json-schema.org/understanding-json-schema/reference), soit une classe Pydantic.
+Définir un schéma pour les entrées d’un job vous permet de créer une interface utilisateur personnalisée pour lancer ce job. Pour définir le schéma d’un job, incluez-le dans l’appel à `launch.manage_wandb_config` ou `launch.manage_config_file`. Le schéma peut être soit un dict Python au format [schéma JSON](https://json-schema.org/understanding-json-schema/reference), soit une classe Pydantic.
 
 <Warning>
-  Les schémas d’entrée des jobs ne servent pas à valider les entrées. Ils sont uniquement utilisés pour définir l’interface du volet latéral de lancement.
+  Les schémas d’entrée des jobs ne servent pas à valider les entrées. Ils sont uniquement utilisés pour définir l’interface utilisateur du volet latéral de lancement.
 </Warning>
 
 <Tabs>
@@ -210,7 +210,7 @@ Définir un schéma pour les entrées d’un job vous permet de créer une inter
     | Attribut           | Requis | Notes                                                                   |
     | ------------------ | ------ | ----------------------------------------------------------------------- |
     | `type`             | Oui    | Doit être l’une des valeurs `number`, `integer`, `string` ou `object`   |
-    | `title`            | Non    | Remplace le nom d’affichage de la propriété                             |
+    | `title`            | Non    | Remplace le Display name de la propriété                                |
     | `description`      | Non    | Fournit le texte d’aide de la propriété                                 |
     | `enum`             | Non    | Crée une liste déroulante au lieu d’un champ de texte libre             |
     | `minimum`          | Non    | Autorisé uniquement si `type` est `number` ou `integer`                 |

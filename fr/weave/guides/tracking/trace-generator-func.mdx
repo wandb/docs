@@ -39,7 +39,7 @@ W&amp;B Weave prend en charge le traçage des fonctions générateur synchrones 
             yield inner(i)
 
     # Générateur plus complexe qui compose le générateur ci-dessus.
-    # Le traçage produit ici une arborescence d'appels hiérarchique :
+    # Le traçage produit ici une arborescence d'appels hiérarchique :
     # - `deeply_nested_generator` (parent)
     #   - `nested_generator` (enfant)
     #     - `inner` (petit-enfant)
@@ -70,6 +70,6 @@ La capture d&#39;écran suivante montre la page **Traces** avec une trace sélec
   ## Consommer des générateurs
 </div>
 
-Weave ne capture les sorties d’un générateur qu’une fois celui-ci entièrement consommé. Consommez le générateur en le parcourant (par exemple avec `list()`, une boucle `for` ou `next()` jusqu’à épuisement). Il en va de même pour les générateurs asynchrones lorsque vous utilisez `async for` ou un mode de consommation équivalent.
+Weave ne capture les sorties d&#39;un générateur qu&#39;une fois celui-ci entièrement consommé. Consommez le générateur en le parcourant (par exemple avec `list()`, une boucle `for` ou `next()` jusqu&#39;à épuisement). Il en va de même pour les générateurs asynchrones lorsque vous utilisez `async for` ou un mode de consommation équivalent.
 
 Pour en savoir plus sur la décoration des fonctions et des méthodes avec `@weave.op`, voir [Créer des appels](/fr/weave/guides/tracking/create-call).

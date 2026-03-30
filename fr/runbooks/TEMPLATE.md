@@ -10,7 +10,7 @@ title: GABARIT
   ## Exigences
 </div>
 
-Indiquez les exigences d&#39;accès ou les prérequis à satisfaire avant de commencer cette tâche :
+Indiquez les exigences d&#39;accès ou les prérequis à satisfaire avant de commencer cette tâche :
 
 * [ ] Accès système requis (par exemple, accès employé W&amp;B).
 * [ ] Autorisations requises (par exemple, accès en écriture au dépôt).
@@ -27,7 +27,7 @@ Informations à recueillir auprès de l&#39;utilisateur avant de commencer :
 3. **[Informations facultatives]** - Quand/pourquoi elles peuvent être nécessaires
 
 <div id="task-overview">
-  ## Vue d’ensemble de la tâche
+  ## Aperçu de la tâche
 </div>
 
 Brève description de ce que cette procédure permet d’accomplir et des situations dans lesquelles l’utiliser.
@@ -39,7 +39,7 @@ Brève description de ce que cette procédure permet d’accomplir et des situat
 </div>
 
 <div id="systemtool-limitations">
-  ### Limitations du système ou des outils
+  ### Limitations du système ou de l’outil
 </div>
 
 * Limitation 1 et son incidence sur la tâche
@@ -75,7 +75,7 @@ command --with-flags
   ### 2. [Deuxième étape principale]
 </div>
 
-Description et points de décision éventuels.
+Description et éventuels points de décision.
 
 **Note pour l&#39;agent** : Instructions particulières pour les agents d&#39;IA, par exemple :
 
@@ -126,7 +126,7 @@ Résultats attendus :
 * **Solution** : 
 
 <div id="cleanup-instructions">
-  ## Instructions de nettoyage
+  ## Instructions de Nettoyage
 </div>
 
 Après avoir terminé la tâche :
@@ -157,7 +157,7 @@ Liste de contrôle récapitulative pour l’ensemble du processus :
 * [ ] Toute modification permanente a été documentée.
 
 <div id="notes">
-  ## Remarques
+  ## Notes
 </div>
 
 * Conseils supplémentaires ou éléments de contexte.

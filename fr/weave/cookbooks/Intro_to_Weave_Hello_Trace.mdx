@@ -14,10 +14,10 @@ description: "Découvrez comment utiliser les traces avec W&B Weave"
   ## 🔑 Prérequis
 </div>
 
-Avant de commencer le traçage dans Weave, assurez-vous de remplir les prérequis suivants.
+Avant de commencer à utiliser Tracing dans Weave, assurez-vous d’avoir rempli les prérequis suivants.
 
-1. Installez le SDK W&amp;B Weave et connectez-vous avec votre [clé API](https://wandb.ai/settings#apikeys).
-2. Installez le SDK OpenAI et connectez-vous avec votre [clé API](https://platform.openai.com/api-keys).
+1. Installez le SDK Weave de W&amp;B et connectez-vous avec votre [clé API](https://wandb.ai/settings#apikeys).
+2. Installez le SDK d’OpenAI et connectez-vous avec votre [clé API](https://platform.openai.com/api-keys).
 3. Initialisez votre projet W&amp;B.
 
 ```python lines
@@ -54,7 +54,7 @@ weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Le nom de votre projet W&B
   ## 🐝 Exécutez votre première trace
 </div>
 
-L’exemple de code suivant montre comment capturer et visualiser une trace dans Weave à l’aide du décorateur `@weave.op`. Il définit une fonction appelée `extract_fruit` qui envoie une requête à GPT-4o d’OpenAI pour extraire des données structurées (fruit, couleur et saveur) d’une phrase. En décorant la fonction avec `@weave.op`, Weave suit automatiquement l’exécution de la fonction, y compris les entrées, les sorties et les étapes intermédiaires. Lorsque la fonction est appelée avec une phrase d’exemple, la trace complète est enregistrée et consultable dans l’interface utilisateur de Weave.
+L’exemple de code suivant montre comment capturer et visualiser une trace dans Weave à l’aide du décorateur `@weave.op`. Il définit une fonction appelée `extract_fruit` qui envoie un prompt à GPT-4o d’OpenAI pour extraire des données structurées (fruit, couleur et saveur) à partir d’une phrase. En décorant la fonction avec `@weave.op`, Weave suit automatiquement son exécution, y compris les entrées, les sorties et les étapes intermédiaires. Lorsque la fonction est appelée avec une phrase d’exemple, la trace complète est enregistrée et peut être consultée dans l’interface utilisateur de Weave.
 
 ```python lines
 @weave.op()  # 🐝 Décorateur pour suivre les requêtes
@@ -84,5 +84,5 @@ extract_fruit(sentence)
 </div>
 
 * Consultez le guide de [Démarrage rapide](/fr/weave/quickstart).
-* Découvrez-en plus sur les [rubriques avancées du traçage](/fr/weave/tutorial-tracing_2).
-* Découvrez-en plus sur le [traçage dans Weave](/fr/weave/guides/tracking/tracing)
+* Découvrez-en plus sur les [rubriques avancées du Tracing](/fr/weave/tutorial-tracing_2).
+* Découvrez-en plus sur le [Tracing dans Weave](/fr/weave/guides/tracking/tracing)

@@ -1,18 +1,18 @@
 ---
-title: "wandb.init는 내 트레이닝 프로세스에 어떤 영향을 미치나요?"
+title: "wandb.init()는 내 트레이닝 프로세스에 어떤 영향을 주나요?"
 keywords: ["환경 변수", "Experiments"]
 featured: true
 ---
 
-트레이닝 스크립트에서 `wandb.init()`가 실행되면 API 호출을 통해 서버에 run 객체가 생성됩니다. 새 프로세스가 시작되어 메트릭을 스트리밍하고 수집하므로, 주 프로세스는 정상적으로 계속 실행될 수 있습니다. 스크립트는 로컬 파일에 기록하고, 별도 프로세스는 시스템 메트릭을 포함한 데이터를 서버로 스트리밍합니다. 스트리밍을 끄려면 트레이닝 디렉터리에서 `wandb off`를 실행하거나 `WANDB_MODE` 환경 변수를 `offline`으로 설정하세요.
+트레이닝 스크립트에서 `wandb.init()`를 실행하면 API 호출이 서버에 run 객체를 생성합니다. 메트릭을 스트리밍하고 수집하는 새 프로세스가 시작되므로, 주 프로세스는 정상적으로 계속 실행될 수 있습니다. 스크립트는 로컬 파일에 데이터를 기록하고, 별도 프로세스는 시스템 메트릭을 포함한 데이터를 서버로 스트리밍합니다. 스트리밍을 끄려면 트레이닝 디렉터리에서 `wandb off`를 실행하거나 `WANDB_MODE` 환경 변수를 `offline`으로 설정하세요.
 
 ***
 
-{/* ---- 자동 생성됨: 탭 배지 ----
+{/* ---- AUTO-GENERATED: tab badges ----
   프런트 매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
   이 마커 사이의 내용은 수동으로 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 
-{/* ---- 자동 생성 끝: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: 탭 배지 ---- */}

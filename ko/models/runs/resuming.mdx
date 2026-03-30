@@ -5,14 +5,14 @@ title: run 재개
 
 `wandb.init()`에서 `resume` 파라미터를 설정해 run이 중지되거나 크래시될 경우 W&amp;B가 어떻게 응답할지 지정합니다. run을 초기화하면 W&amp;B는 run ID가 이미 존재하는지 확인하고, `resume` 값에 따라 정의된 동작을 적용합니다.
 
-다음 표는 `resume` 파라미터에 전달된 인수와 run ID의 존재 여부에 따라 W&amp;B의 동작을 보여줍니다.
+다음 표는 `resume` 파라미터에 전달된 인수와 run ID의 존재 여부를 기준으로 W&amp;B의 동작을 보여줍니다.
 
-|Argument | Description | Run ID exists| Run ID does not exist | Use case |
-| --- | --- | -- | --| -- |
-| `"must"` | W&amp;B는 run ID로 지정된 run을 반드시 재개해야 합니다. | W&amp;B는 동일한 run ID로 run을 재개합니다. 마지막 step부터 재개합니다. | W&amp;B는 오류를 발생시킵니다. | 반드시 동일한 run ID를 사용해야 하는 run을 재개할 때. |
-| `"allow"`| run ID가 존재하면 W&amp;B가 run을 재개하도록 허용합니다. | W&amp;B는 동일한 run ID로 run을 재개합니다. 마지막 step부터 재개합니다. | W&amp;B는 지정된 run ID로 새 run을 초기화합니다. | 기존 run을 덮어쓰지 않고 run을 재개할 때. |
-| `"never"`| W&amp;B가 run ID로 지정된 run을 절대 재개하지 않도록 합니다. | 지정된 ID를 가진 run이 이미 존재하면 오류를 발생시킵니다. | W&amp;B는 지정된 run ID로 새 run을 초기화합니다. | |
-| `"auto"`| run ID가 존재하면 W&amp;B가 자동으로 run 재개를 시도하도록 허용합니다. 실패한 프로세스와 동일한 디렉터리에서 run을 다시 시작합니다. | W&amp;B는 동일한 run ID로 run을 재개합니다. | W&amp;B는 지정된 run ID로 새 run을 초기화합니다. | run이 자동으로 재개되도록 설정할 때. |
+| Argument  | Description                                                                         | Run ID exists                                      | Run ID does not exist               | Use case                            |
+| --------- | ----------------------------------------------------------------------------------- | -------------------------------------------------- | ----------------------------------- | ----------------------------------- |
+| `"must"`  | W&amp;B는 run ID로 지정된 run을 반드시 재개해야 합니다.                                             | W&amp;B는 동일한 run ID로 run을 재개합니다. 마지막 step부터 재개합니다. | W&amp;B는 오류를 발생시킵니다.                | 반드시 동일한 run ID를 사용해야 하는 run을 재개할 때. |
+| `"allow"` | run ID가 존재하면 W&amp;B가 run을 재개하도록 허용합니다.                                             | W&amp;B는 동일한 run ID로 run을 재개합니다. 마지막 step부터 재개합니다. | W&amp;B는 지정된 run ID로 새 run을 초기화합니다. | 기존 run을 덮어쓰지 않고 run을 재개할 때.         |
+| `"never"` | W&amp;B가 run ID로 지정된 run을 절대 재개하지 않도록 합니다.                                          | 지정된 ID를 가진 run이 이미 존재하면 오류를 발생시킵니다.                | W&amp;B는 지정된 run ID로 새 run을 초기화합니다. |                                     |
+| `"auto"`  | run ID가 존재하면 W&amp;B가 자동으로 run 재개를 시도하도록 허용합니다. 실패한 프로세스와 동일한 디렉터리에서 run을 다시 시작합니다. | W&amp;B는 동일한 run ID로 run을 재개합니다.                   | W&amp;B는 지정된 run ID로 새 run을 초기화합니다. | run이 자동으로 재개되도록 설정할 때.              |
 
 <Note>
   **`auto`와 `allow`를 언제 사용해야 하나요?**
@@ -26,23 +26,23 @@ title: run 재개
 <Tip>[재개된 run의 라이브 데모 보기](https://wandb.ai/wandb/resume-run/workspace?nw=nwuserjuliarose).</Tip>
 
 <div id="resume-a-run-that-must-use-the-same-run-id">
-  ## 동일한 run ID를 사용해야 하는 run 재개하기
+  ## 동일한 run ID를 사용해 run 재개하기
 </div>
 
-run이 중지되거나 크래시가 발생하거나 실패한 경우, 동일한 run ID를 사용해 이를 재개할 수 있습니다. 그러려면 run을 초기화하고 다음을 지정하세요:
+run이 중지되거나 크래시가 발생하거나 실패한 경우, 동일한 run ID를 사용해 재개할 수 있습니다. 이렇게 하려면 run을 초기화하고 다음을 지정하세요:
 
 * `resume` 파라미터를 `"must"`로 설정합니다 (`resume="must"`)
-* 중단되었거나 크래시된 run의 run ID를 제공합니다
+* 중단되었거나 크래시된 run의 run ID를 지정합니다
 
-다음 코드 스니펫은 W&amp;B Python SDK로 이를 수행하는 방법을 보여 줍니다:
+다음 코드 스니펫은 W&amp;B Python SDK로 이를 수행하는 방법을 보여줍니다:
 
 ```python
 with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
-        # Your training code here
+        # 트레이닝 코드를 여기에 작성하세요
 ```
 
 <Warning>
-  여러 프로세스가 동시에 동일한 `id`를 사용하면 예기치 않은 결과가 발생할 수 있습니다.
+  여러 프로세스가 동시에 동일한 `id`를 사용하면 예기치 않은 결과가 발생합니다.
 
   여러 프로세스를 관리하는 방법에 대한 자세한 내용은 [분산 트레이닝 실험 로깅](/ko/models/track/log/distributed-training/)을 참조하세요.
 </Warning>
@@ -51,7 +51,7 @@ with wandb.init(entity="<entity>", project="<project>", resume="must") as run:
   ## 기존 run을 덮어쓰지 않고 재개하기
 </div>
 
-중단되었거나 크래시된 run을 기존 run을 덮어쓰지 않고 재개할 수 있습니다. 이는 프로세스가 정상적으로 종료되지 않았을 때 특히 유용합니다. 다음 번에 W&amp;B를 시작하면 W&amp;B는 마지막 스텝부터 로깅을 다시 시작합니다.
+중단되었거나 크래시된 run을 기존 run을 덮어쓰지 않고 재개할 수 있습니다. 이는 프로세스가 정상적으로 종료되지 않았을 때 특히 유용합니다. 다음 번에 W&amp;B를 시작하면 W&amp;B는 마지막 step부터 로깅을 다시 시작합니다.
 
 W&amp;B에서 run을 초기화할 때 `resume` 파라미터를 `"allow"` (`resume="allow"`)로 설정하세요. 중단되었거나 크래시된 run의 run ID를 제공해야 합니다. 다음 코드 스니펫은 W&amp;B Python SDK로 이를 수행하는 방법을 보여 줍니다:
 
@@ -70,9 +70,9 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 
 <Tabs>
   <Tab title="W&B Python SDK">
-    run을 초기화할 때 `resume` 매개변수에 `auto`를 인수로 전달하십시오. 실패한 프로세스와 동일한 디렉터리에서 run을 다시 시작해야 합니다.
+    run을 초기화할 때 `resume` 파라미터에 `auto`를 인수로 전달하십시오. 실패한 프로세스와 동일한 디렉터리에서 run을 다시 시작해야 합니다.
 
-    다음 코드 예시를 복사하여 붙여넣으십시오. `<>`로 둘러싸인 값을 모두 사용자 환경에 맞게 바꾸십시오:
+    다음 코드 예시를 복사하여 붙여넣으십시오. `<>`로 둘러싸인 값을 사용자 환경에 맞게 바꾸십시오:
 
     ```python
     with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="auto") as run:
@@ -113,19 +113,19 @@ with wandb.init(entity="<entity>", project="<project>", id="<run ID>", resume="a
 
 선점을 올바르게 처리하면 중단된 [스윕](/ko/models/sweeps/) Runs를 자동으로 다시 큐에 넣어 다른 에이전트가 이어서 처리하도록 할 수 있습니다. 이 패턴은 스윕 에이전트가 선점형 환경(예: 선점형 큐의 SLURM 작업, EC2 Spot 인스턴스 또는 Google Cloud 선점형 VM)에서 실행될 때 특히 유용합니다.
 
-아래 동작은 [`wandb agent`](/ko/models/ref/cli/wandb-agent) CLI로 sweep 에이전트를 실행할 때 적용됩니다. 이 방식은 트레이닝 프로그램을 **subprocess**로 시작합니다. 반면 Python API [`wandb.agent()`](/ko/models/ref/python/functions/agent)만 사용하는 경우에는 완전히 적용되지 않습니다. 이 경로에서는 트레이닝 함수가 별도 프로세스가 아니라 스레드에서 실행되므로, OS 신호 전달 및 포워딩 방식이 CLI 에이전트 모델과 일치하지 않기 때문입니다.
+아래 동작은 [`wandb agent`](/ko/models/ref/cli/wandb-agent) CLI로 sweep 에이전트를 실행할 때 적용됩니다. 이 방식은 트레이닝 프로그램을 **subprocess**로 시작합니다. 반면 Python API [`wandb.agent()`](/ko/models/ref/python/functions/agent)만 사용하는 경우에는 완전히 적용되지 않습니다. 이 경로에서는 트레이닝 함수가 별도 프로세스가 아니라 스레드에서 실행되므로, OS 시그널 전달 및 포워딩 방식이 CLI 에이전트 모델과 일치하지 않기 때문입니다.
 
-**권장 패턴:** 스케줄러나 플랫폼에서 사용하는 선점 신호(예: `SIGUSR1` 또는 `SIGTERM`)에 대한 signal handler를 등록하세요. 핸들러에서 Run이 활성 상태일 때 [`mark_preempting()`](/ko/models/ref/python/experiments/run#mark_preempting)을 호출하고, 필요한 cleanup(예: 체크포인트 저장)을 수행한 뒤 0이 아닌 종료 코드로 프로세스를 종료하세요(일반적으로 신호로 종료될 때는 `128 + signum` 규칙을 사용합니다). `wandb.init()` 직후에 조건 없이 `mark_preempting()`을 호출하지 **마세요**. 그렇게 하면 코드 bug를 포함한 모든 실패가 선점으로 표시되어 Run이 반복해서 다시 큐에 들어갈 수 있습니다.
+**권장 패턴:** 스케줄러나 플랫폼에서 사용하는 선점 시그널(예: `SIGUSR1` 또는 `SIGTERM`)에 대한 signal handler를 등록하세요. 핸들러에서 Run이 활성 상태일 때 [`mark_preempting()`](/ko/models/ref/python/experiments/run#mark_preempting)을 호출하고, 필요한 cleanup(예: 체크포인트 저장)을 수행한 뒤 0이 아닌 종료 코드로 프로세스를 종료하세요(일반적으로 시그널로 종료될 때는 `128 + signum` 규칙을 사용합니다). `wandb.init()` 직후에 조건 없이 `mark_preempting()`을 호출하지 **마세요**. 그렇게 하면 코드 bug를 포함한 모든 실패가 선점으로 표시되어 Run이 반복해서 다시 큐에 들어갈 수 있습니다.
 
 실행 가능한 예제, CLI 에이전트의 `--forward-signals`, 그리고 `mark_preempting()`의 다양한 사용 방식에 대한 전체 레퍼런스 표는 [Signal handling and sweep runs](/ko/models/sweeps/signal-handling-sweep-runs)을 참조하세요.
 
 이 패턴을 따르면 W&amp;B는 대략 다음과 같이 Run 상태를 기록합니다.
 
-| Scenario                                                                                           | Run state                                  |
-| -------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| Run이 종료 코드 0으로 정상 완료됨                                                                              | FINISHED                                   |
-| Run이 0이 아닌 종료 코드로 실패함                                                                              | FAILED                                     |
-| Run이 처리되지 않은 신호(예: `SIGKILL`)를 받음                                                                  | 약 5분 후 CRASHED                             |
-| Run이 처리된 선점 신호(예: `SIGTERM` 또는 `SIGUSR1`)를 받고, 핸들러가 `mark_preempting()`을 호출한 뒤 프로세스가 0이 아닌 코드로 종료됨 | PREEMPTED; Run이 다음 에이전트 Request를 위해 큐에 들어감 |
+| Scenario                                                                                            | Run state                                  |
+| --------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Run이 종료 코드 0으로 정상 완료됨                                                                               | FINISHED                                   |
+| Run이 0이 아닌 종료 코드로 실패함                                                                               | FAILED                                     |
+| Run이 처리되지 않은 시그널(예: `SIGKILL`)를 받음                                                                  | 약 5분 후 CRASHED                             |
+| Run이 처리된 선점 시그널(예: `SIGTERM` 또는 `SIGUSR1`)를 받고, 핸들러가 `mark_preempting()`을 호출한 뒤 프로세스가 0이 아닌 코드로 종료됨 | PREEMPTED; Run이 다음 에이전트 Request를 위해 큐에 들어감 |
 
 Sweep 에이전트는 스윕이 검색 알고리즘에서 새 하이퍼파라미터 조합을 생성하기 전에 먼저 Run 큐를 비웁니다. 큐가 비면 스윕은 정상 스케줄링을 재개합니다.

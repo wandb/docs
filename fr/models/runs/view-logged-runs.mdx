@@ -1,37 +1,37 @@
 ---
-title: Afficher un run spécifique dans un projet
-description: Découvrez comment afficher un run enregistré spécifique et ses propriétés à l’aide de la W&B App ou de l’interface de terminal LEET.
+title: Voir un run spécifique dans un projet
+description: Découvrez comment afficher un run enregistré spécifique et ses propriétés à l'aide de W&B App ou de l'interface utilisateur de terminal LEET.
 ---
 
-Affichez les informations d’un run spécifique, comme son état actuel, ses artefacts, ses métriques, etc. Vous pouvez afficher et surveiller des runs à l’aide de la W&amp;B App ou de l’interface de terminal `wandb beta leet`.
+Affichez les informations d&#39;un run spécifique, telles que son état actuel, ses artefacts, ses métriques, et plus encore. Vous pouvez afficher et surveiller les runs à l&#39;aide de W&amp;B App ou de l&#39;interface utilisateur de terminal `wandb beta leet`.
 
 <Tabs>
-  <Tab title="WA&B App">
-    Pour afficher un run spécifique dans la W&amp;B App :
+  <Tab title="W&B App">
+    Pour afficher un run spécifique dans W&amp;B App :
 
     1. Accédez à la [W&amp;B App](https://wandb.ai/home).
-    2. Accédez au projet W&amp;B que vous avez indiqué lors de l’initialisation du run.
-    3. Dans la barre latérale du projet, sélectionnez l’onglet **Workspace**.
-    4. Dans le sélecteur de runs, cliquez sur le run que vous souhaitez afficher, ou saisissez une partie du nom du run pour filtrer les runs correspondants.
+    2. Accédez au projet W&amp;B que vous avez spécifié lorsque vous avez initialisé le run.
+    3. Dans la barre latérale du projet, sélectionnez l&#39;onglet **Workspace**.
+    4. Dans le sélecteur de runs, cliquez sur le run que vous souhaitez afficher, ou saisissez un nom de run partiel pour filtrer les runs correspondants.
 
-    Vous pouvez également accéder directement à l’espace de travail d’un run spécifique en saisissant son URL dans votre navigateur. Le chemin d’URL d’un run spécifique suit le format suivant :
+    Vous pouvez également accéder directement au Workspace d&#39;un run spécifique en saisissant son URL dans votre navigateur. Le chemin d&#39;URL d&#39;un run spécifique a le format suivant :
 
     ```text
     https://wandb.ai/<team-name>/<project-name>/runs/<run-id>
     ```
 
-    Remplacez les valeurs entre chevrons (`< >`) par les valeurs réelles du nom de l’équipe, du nom du projet et de l’[ID du run](/fr/models/runs/run-identifiers#run-id).
+    Remplacez les valeurs entre chevrons (`< >`) par les valeurs réelles du nom de l&#39;équipe, du nom du projet et de l&#39;[ID du run](/fr/models/runs/run-identifiers#run-id).
 
-    Explorez les propriétés du run en parcourant les onglets : [Aperçu](/fr/models/runs/view-logged-runs#overview), [Journaux](/fr/models/runs/view-logged-runs#logs), [Fichiers](/fr/models/runs/view-logged-runs#files), [Code](/fr/models/runs/view-logged-runs#code) et [Artifacts](/fr/models/runs/view-logged-runs#artifacts).
+    Explorez les propriétés du run en naviguant dans les onglets : [Aperçu](/fr/models/runs/view-logged-runs#overview), [Logs](/fr/models/runs/view-logged-runs#logs), [Files](/fr/models/runs/view-logged-runs#files), [Code](/fr/models/runs/view-logged-runs#code) et [Artifacts](/fr/models/runs/view-logged-runs#artifacts).
   </Tab>
 
   <Tab title="LEET">
-    Pour afficher un run localement dans votre terminal à l’aide de l’interface de terminal `wandb beta leet` :
+    Pour afficher un run localement dans votre terminal à l&#39;aide de l&#39;interface utilisateur de terminal `wandb beta leet` :
 
-    1. Si vous avez démarré le run localement à partir d’un script, accédez au répertoire dans lequel vous avez exécuté votre code. Il contient un répertoire `wandb/` avec un sous-répertoire par run et un lien symbolique `latest-run/`. Chaque répertoire de run contient un journal de transactions nommé au format `run-<run-ID>.wandb`.
+    1. Si vous avez démarré le run localement à partir d&#39;un script, accédez au répertoire dans lequel vous avez exécuté votre code. Il contient un répertoire `wandb/` avec un sous-répertoire par run et un lien symbolique `latest-run/`. Chaque répertoire de run contient un journal de transactions nommé au format `run-<run-ID>.wandb`.
 
-       Si vous n’avez pas démarré le run localement, mais que vous avez téléchargé un fichier journal de transactions `.wandb`, notez son emplacement.
-    2. Démarrez `wandb beta leet` à l’aide de l’une de ces commandes :
+       Si vous n&#39;avez pas démarré le run localement mais avez téléchargé à la place un fichier journal de transactions `.wandb`, notez son emplacement.
+    2. Démarrez `wandb beta leet` à l&#39;aide de l&#39;une de ces commandes :
 
        ```bash
        # Afficher le dernier run, stocké dans ./wandb/latest-run/
@@ -44,15 +44,15 @@ Affichez les informations d’un run spécifique, comme son état actuel, ses ar
        wandb beta leet ./wandb/run-20250813_124246-n67z9ude/run-n67z9ude.wandb
        ```
 
-    ![Capture d’écran montrant l’affichage d’un run dans l’interface de terminal LEET](/images/leet/leet-tui.png)
+    ![Capture d'écran montrant l'affichage d'un run dans l'interface utilisateur de terminal LEET](/images/leet/leet-tui.png)
 
     LEET affiche une interface à trois panneaux :
 
-    * **Panneau de gauche** : aperçu du run avec les variables d’environnement, la configuration et les statistiques récapitulatives
+    * **Panneau de gauche** : aperçu du run avec variables d&#39;environnement, configuration et statistiques de synthèse
     * **Panneau central** : grille de métriques avec des graphiques linéaires de style Braille montrant vos métriques enregistrées
-    * **Panneau de droite** : métriques système, notamment l’utilisation du GPU, du CPU et de la RAM
+    * **Panneau de droite** : métriques système, notamment l&#39;utilisation du GPU/CPU/de la RAM
 
-    Voici quelques raccourcis clavier pour commencer :
+    Commencez avec ces raccourcis clavier :
 
     * `h` ou `?` - Afficher tous les raccourcis clavier
     * `/` - Filtrer les métriques par motif
@@ -68,40 +68,40 @@ Affichez les informations d’un run spécifique, comme son état actuel, ses ar
   ## Aperçu
 </div>
 
-Utilisez l’onglet **Aperçu** pour consulter des informations spécifiques sur un run dans un projet, notamment :
+Utilisez l’onglet **Aperçu** pour consulter des informations spécifiques sur un run dans un projet, telles que :
 
-* **Auteur** : l’entité W&amp;B qui crée le run.
-* **Commande** : la commande qui initialise le run.
-* **Description** : la description du run que vous avez fournie. Ce champ reste vide si vous ne renseignez pas de description lors de la création du run. Vous pouvez ajouter une description à un run dans W&amp;B App ou par programmation avec le SDK Python.
-* **Tracked Hours** : le temps pendant lequel le run calcule activement ou enregistre des données, à l’exclusion des pauses et des périodes d’attente. Cette métrique vous aide à comprendre le temps de calcul réellement consacré à votre run.
-* **Runtime** : mesure la durée totale entre le début et la fin du run. Il s’agit du temps d’horloge du run, y compris les périodes pendant lesquelles le run est en pause ou en attente de ressources. Cette métrique indique le temps écoulé total de votre run.
-* **Dépôt Git** : le dépôt git associé au run. Vous devez [activer git](/fr/platform/app/settings-page/user-settings/#personal-github-integration) pour afficher ce champ.
-* **Nom d’hôte** : l’emplacement où W&amp;B exécute le run. W&amp;B affiche le nom de votre machine si vous initialisez le run localement sur celle-ci.
-* **Nom** : le nom du run.
+* **Author** : l’entité W&amp;B qui crée le run.
+* **Command** : la commande qui initialise le run.
+* **Description** : une description du run que vous avez fournie. Ce champ est vide si vous ne spécifiez pas de description lorsque vous créez le run. Vous pouvez ajouter une description à un run avec W&amp;B App ou par programmation avec le SDK Python.
+* **Tracked Hours** : le temps pendant lequel le run effectue activement des calculs ou enregistre des données, à l’exclusion des pauses ou des périodes d’attente. Cette métrique vous aide à comprendre le temps de calcul réellement consacré à votre run.
+* **Runtime** : mesure la durée totale entre le début et la fin du run. Il s’agit du temps écoulé réel du run, y compris toute période pendant laquelle le run est en pause ou en attente de ressources. Cette métrique fournit le temps écoulé complet de votre run.
+* **Git repository** : le dépôt git associé au run. Vous devez [activer git](/fr/platform/app/settings-page/user-settings/#personal-github-integration) pour afficher ce champ.
+* **Host name** : l’hôte sur lequel W&amp;B exécute le run. W&amp;B affiche le nom de votre machine si vous initialisez le run localement sur votre machine.
+* **Name** : le nom du run.
 * **OS** : le système d’exploitation qui initialise le run.
-* **Exécutable Python** : la commande qui lance le run.
-* **Version de Python** : indique la version de Python qui crée le run.
-* **Chemin du run** : identifie l’identifiant unique du run sous la forme `entity/project/run-ID`.
-* **Heure de début** : l’horodatage auquel vous initialisez le run.
-* **État** : l’[état du run](/fr/models/runs/run-states).
-* **Matériel système** : le matériel utilisé par W&amp;B pour exécuter le run.
-* **Étiquettes** : une liste de chaînes. Les étiquettes sont utiles pour regrouper des runs liés ou appliquer des libellés temporaires comme `baseline` ou `production`.
-* **Version de W&amp;B CLI** : la version de W&amp;B CLI installée sur la machine qui a hébergé la commande du run.
-* **État Git** : le SHA du commit git le plus récent d’un dépôt ou d’un répertoire de travail où le run est initialisé. Ce champ est vide si vous n’activez pas Git lors de la création du run ou si les informations git ne sont pas disponibles.
+* **Python executable** : la commande qui démarre le run.
+* **Python version** : spécifie la version de Python qui crée le run.
+* **Run path** : identifie l’identifiant unique du run au format `entity/project/run-ID`.
+* **Start time** : l’horodatage auquel vous initialisez le run.
+* **State** : l’[état du run](/fr/models/runs/run-states).
+* **System hardware** : le matériel que W&amp;B utilise pour exécuter le run.
+* **Tags** : une liste de chaînes de caractères. Les tags sont utiles pour regrouper des runs associés ou appliquer des libellés temporaires comme `baseline` ou `production`.
+* **W&amp;B CLI version** : la version de la CLI W&amp;B installée sur la machine qui a hébergé la commande du run.
+* **Git state** : le SHA du commit git le plus récent d’un dépôt ou d’un répertoire de travail où le run est initialisé. Ce champ est vide si vous n’activez pas Git lorsque vous créez le run ou si les informations git ne sont pas disponibles.
 
 W&amp;B stocke les informations suivantes sous la section d’aperçu :
 
-* **Sorties d’artefact** : les sorties d’artefact produites par le run.
+* **Artifact Outputs** : sorties d’artefact produites par le run.
 * **Config** : liste des paramètres de configuration enregistrés avec [`wandb.Run.config`](/fr/models/track/config/).
-* **Summary** : liste des paramètres récapitulatifs enregistrés avec [`wandb.Run.log()`](/fr/models/track/log/). Par défaut, W&amp;B définit cette valeur sur la dernière valeur enregistrée.
+* **Summary** : liste des paramètres de synthèse enregistrés avec [`wandb.Run.log()`](/fr/models/track/log/). Par défaut, W&amp;B définit cette valeur sur la dernière valeur enregistrée.
 
 Vous pouvez utiliser la zone de recherche au-dessus des sections Config et Summary pour filtrer des paramètres spécifiques. Par exemple, si vous saisissez `acc` dans la zone de recherche, W&amp;B filtre tous les paramètres dont le nom contient `acc`, comme `accuracy` et `val_acc`.
 
 <Note>
-  W&amp;B ne recherche pas dans les paramètres de configuration ou de résumé imbriqués. Par exemple, si vous enregistrez un paramètre de configuration imbriqué avec `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`, W&amp;B ne renvoie pas le paramètre `learning_rate` si vous recherchez `learning_rate` dans la zone de recherche. Vous ne pouvez trouver le paramètre `learning_rate` qu’en recherchant `model`.
+  W&amp;B ne recherche pas les paramètres imbriqués de configuration ou de synthèse. Par exemple, si vous enregistrez un paramètre de configuration imbriqué avec `wandb.Run.config.update({"model": {"learning_rate": 0.01}})`, W&amp;B ne renvoie pas le paramètre `learning_rate` si vous recherchez `learning_rate` dans la zone de recherche. Vous pouvez uniquement trouver le paramètre `learning_rate` en recherchant `model`.
 </Note>
 
-Voir un exemple d’aperçu de projet [ici](https://wandb.ai/stacey/deep-drive/overview).
+Consultez un exemple d’aperçu de projet [ici](https://wandb.ai/stacey/deep-drive/overview).
 
 <div id="logs">
   ## Logs
@@ -118,7 +118,7 @@ Cliquez sur le bouton **Download** dans le coin supérieur droit pour téléchar
 Voir un exemple d’onglet Logs [ici](https://app.wandb.ai/stacey/deep-drive/runs/pr0os44x/logs).
 
 <div id="files">
-  ## Fichiers
+  ## Files
 </div>
 
 Utilisez l’onglet **Files** pour afficher les fichiers associés à un run spécifique, comme les points de contrôle du modèle, des exemples de l’ensemble de validation, etc.

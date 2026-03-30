@@ -1,15 +1,15 @@
 ---
 title: MMEngine
-description: "Utilisez W&B avec le MMEngine d'OpenMMLab via WandbVisBackend pour journaliser les métriques d'entraînement, les configurations et les données visuelles."
+description: "Utilisez W&B avec le MMEngine d'OpenMMLab via le WandbVisBackend pour journaliser les métriques d'entraînement, les configurations et les enregistrements visuels."
 ---
 
-MMEngine d&#39;[OpenMMLab](https://github.com/open-mmlab) est une bibliothèque de base pour entraîner des modèles d&#39;apprentissage profond basés sur PyTorch. MMEngine implémente une architecture d&#39;entraînement de nouvelle génération pour la bibliothèque d&#39;algorithmes OpenMMLab, offrant un socle d&#39;exécution unifié à plus de 30 bibliothèques d&#39;algorithmes au sein d&#39;OpenMMLab. Ses composants principaux comprennent le moteur d&#39;entraînement, le moteur d&#39;évaluation et la gestion des modules.
+MMEngine d&#39;[OpenMMLab](https://github.com/open-mmlab) est une bibliothèque fondamentale pour l&#39;entraînement de modèles d&#39;apprentissage profond basés sur PyTorch. MMEngine implémente une architecture d&#39;entraînement de nouvelle génération pour la bibliothèque d&#39;algorithmes OpenMMLab, offrant une base d&#39;exécution unifiée pour plus de 30 bibliothèques d&#39;algorithmes au sein d&#39;OpenMMLab. Ses composants principaux comprennent le moteur d&#39;entraînement, le moteur d&#39;évaluation et la gestion des modules.
 
-[W&amp;B](https://wandb.ai/site) est directement intégré à MMEngine via un [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) dédié, qui peut être utilisé pour
+[W&amp;B](https://wandb.ai/site) est directement intégré dans MMEngine via un [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) dédié qui peut être utilisé pour
 
 * journaliser les métriques d&#39;entraînement et d&#39;évaluation.
 * journaliser et gérer les configurations d&#39;expérience.
-* journaliser des éléments supplémentaires tels que des graphes, des images, des scalaires, etc.
+* journaliser des enregistrements supplémentaires tels que des graphes, des images, des scalaires, etc.
 
 <div id="get-started">
   ## Pour commencer
@@ -48,12 +48,12 @@ Installez ensuite `mmengine` et `mmcv` avec `mim`.
 </Tabs>
 
 <div id="use-the-wandbvisbackend-with-mmengine-runner">
-  ## Utiliser `WandbVisBackend` avec MMEngine Runner
+  ## Utiliser le `WandbVisBackend` avec le Runner de MMEngine
 </div>
 
-Cette section montre un flux de travail typique utilisant `WandbVisBackend` avec [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner).
+Cette section démontre un flux de travail typique en utilisant `WandbVisBackend` avec [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner).
 
-1. Définissez un `visualizer` à partir d&#39;une configuration de visualisation.
+1. Définir un `visualizer` à partir d&#39;une configuration de visualisation.
 
    ```python
    from mmengine.visualization import Visualizer
@@ -75,15 +75,15 @@ Cette section montre un flux de travail typique utilisant `WandbVisBackend` avec
    ```
 
    <Note>
-     Passez à `init_kwargs` un dictionnaire d&#39;arguments correspondant aux paramètres d&#39;entrée de [l&#39;initialisation d&#39;un run W&amp;B](/fr/models/ref/python/functions/init).
+     Vous transmettez un dictionnaire d&#39;arguments pour les paramètres d&#39;entrée de l&#39;initialisation d&#39;une [run W&amp;B](/fr/models/ref/python/functions/init) à `init_kwargs`.
    </Note>
 
-2. Initialisez un `runner` avec le `visualizer`, puis appelez `runner.train()`.
+2. Initialiser un `runner` avec le `visualizer`, et appeler `runner.train()`.
 
    ```python
    from mmengine.runner import Runner
 
-   # build le Runner mmengine, un utilitaire d'entraînement pour PyTorch
+   # construire le Runner de mmengine qui est un assistant d'entraînement pour PyTorch
    runner = Runner(
        model,
        work_dir='runs/gan/',
@@ -93,22 +93,22 @@ Cette section montre un flux de travail typique utilisant `WandbVisBackend` avec
        visualizer=visualizer, # passer le visualizer
    )
 
-   # démarrer l'entraînement
+   # commencer l'entraînement
    runner.train()
    ```
 
 <div id="use-the-wandbvisbackend-with-openmmlab-computer-vision-libraries">
-  ## Utiliser `WandbVisBackend` avec les bibliothèques de vision par ordinateur d’OpenMMLab
+  ## Utiliser `WandbVisBackend` avec les bibliothèques de vision par ordinateur d&#39;OpenMMLab
 </div>
 
-`WandbVisBackend` peut également être utilisé facilement pour suivre les expériences avec des bibliothèques de vision par ordinateur d’OpenMMLab comme [MMDetection](https://mmdetection.readthedocs.io/).
+Le `WandbVisBackend` peut également être utilisé facilement pour suivre les expériences avec des bibliothèques de vision par ordinateur d&#39;OpenMMLab comme [MMDetection](https://mmdetection.readthedocs.io/).
 
 ```python
-# hériter des configurations de base des configurations d'exécution par défaut
+# hériter des configurations de base à partir des configurations d'exécution par défaut
 _base_ = ["../_base_/default_runtime.py"]
 
-# Attribuer le dictionnaire de configuration `WandbVisBackend` à
-# `vis_backends` du `visualizer` depuis les configurations de base
+# Attribuer le dictionnaire de configuration `WandbVisBackend` à la
+# `vis_backends` du `visualizer` des configurations de base
 _base_.visualizer.vis_backends = [
     dict(
         type='WandbVisBackend',

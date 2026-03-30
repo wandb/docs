@@ -5,30 +5,30 @@ generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
-<Card title="ログ記録でトレーニングは止まりますか？" href="/ja/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
-  &quot;ログ関数は lazy ですか？ 実行中に結果をサーバーに送信するために、ネットワークに依存したくありません ...
+<Card title="logging はトレーニングをブロックしますか？" href="/ja/support/models/articles/does-logging-block-my-training" arrow="true" horizontal>
+  &quot;logging 関数は lazy ですか？ 実行中に結果をサーバーへ送信するためにネットワークへ依存したくありません loc ...
 </Card>
 
 <Card title="前の step のログを上書きするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-overwrite-the-logs-from-previo" arrow="true" horizontal>
-  前の step のログを上書きするには、forking と巻き戻しを使用します。
+  前の step のログを上書きするには、forking と rewind を使用します。
 </Card>
 
-<Card title="値のリストをログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
-  これらの例では、wandb.Run.log() を使用して損失をいくつかの異なる方法でログする方法を示します。詳細は、ドキュメントを参照してください ...
+<Card title="値の list をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-a-list-of-values" arrow="true" horizontal>
+  これらの例では、wandb.Run.log() を使用して loss をいくつかの異なる方法でログする方法を示します。詳細については、 ... に関するドキュメントを参照してください
 </Card>
 
-<Card title="継続的インテグレーションや内部ツールで起動した Runs をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
-  W&amp;B にログする自動テストや内部ツールを起動するには、チーム設定ページでサービスアカウントを作成します。このアカ ...
+<Card title="継続的インテグレーションまたは内部ツールによって起動された Runs をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
+  W&amp;B にログする自動テストまたは内部ツールを起動するには、Team settings ページでサービスアカウントを作成します。これにより ac ...
 </Card>
 
-<Card title="共有マシンで適切な wandb ユーザーにログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-to-the-right-wandb-user-on-" arrow="true" horizontal>
-  共有マシンを使用する場合は、WANDB&#95;API&#95;KEY 環境変数を設定して、run が正しい wandb アカウントにログされるようにしてください ...
+<Card title="共有マシンで正しい wandb ユーザーにログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-to-the-right-wandb-user-on-" arrow="true" horizontal>
+  共有マシンを使用する場合は、WANDB&#95;API&#95;KEY 環境  ... を設定して、Runs が正しい WandB アカウントにログされるようにしてください
 </Card>
 
-<Card title="ログ記録をオフにするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-turn-off-logging" arrow="true" horizontal>
-  `wandb offline` コマンドは環境変数 WANDB&#95;MODE=offline を設定し、データがリモートの W ...
+<Card title="logging をオフにするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-turn-off-logging" arrow="true" horizontal>
+  コマンド wandb offline は環境変数 WANDB&#95;MODE=offline を設定し、データがリモート W ... に Sync されるのを防ぎます
 </Card>
 
 <Card title="コードがクラッシュしたときはどのファイルを確認すべきですか？" href="/ja/support/models/articles/which-files-should-i-check-when-my-code-" arrow="true" horizontal>
-  影響を受けた run については、コードがあるディレクトリ内の wandb/run- &#95; - /logs にある debug.log と debug-internal.log を確認してください ...
+  影響を受けた run について、コードが存在するディレクトリ内の wandb/run- &#95; - /logs にある debug.log と debug-internal.log を確認してください ...
 </Card>

@@ -1,12 +1,12 @@
 ---
 title: "Tracer et évaluer un pipeline de vision par ordinateur avec Weave"
-description: "Découvrez comment tracer et évaluer un pipeline de vision par ordinateur avec W&B Weave"
+description: "Découvrez comment utiliser la trace et évaluer un pipeline de vision par ordinateur avec Weave avec W&B Weave"
 ---
 
 <Note>
-  Ceci est un notebook interactif. Vous pouvez l’exécuter localement ou utiliser les liens ci-dessous :
+  Ceci est un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
 
-  * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/ocr-pipeline.ipynb)
+  * [Open dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/ocr-pipeline.ipynb)
   * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/ocr-pipeline.ipynb)
 </Note>
 
@@ -46,7 +46,7 @@ weave.init(PROJECT)
   ## 1. Créer et affiner des prompts avec Weave
 </div>
 
-Une bonne ingénierie des prompts est essentielle pour guider le modèle afin qu’il extraie correctement les entités. Vous allez d’abord créer un prompt de base qui indique au modèle ce qu’il doit extraire de nos données d’image et comment le formater. Ensuite, vous enregistrerez le prompt dans Weave pour en assurer le suivi et l’itérer.
+Une bonne ingénierie des prompts est essentielle pour guider le modèle afin qu&#39;il extraie correctement les entités. Vous allez d&#39;abord créer un prompt de base qui indique au modèle ce qu&#39;il doit extraire de nos données d&#39;image et comment le formater. Ensuite, vous enregistrerez le prompt dans Weave pour en assurer le suivi et l&#39;itération.
 
 ````python lines
 # Créez votre objet prompt avec Weave
@@ -61,7 +61,7 @@ system_prompt = weave.StringPrompt(prompt)
 weave.publish(system_prompt, name="NER-prompt")
 ````
 
-Ensuite, améliorez le prompt en ajoutant davantage d’instructions et de règles de validation afin de réduire les erreurs dans le résultat.
+Ensuite, améliorez le prompt en ajoutant davantage d&#39;instructions et de règles de validation pour réduire les erreurs dans la sortie.
 
 ````python lines
 better_prompt = """
@@ -93,9 +93,9 @@ weave.publish(system_prompt, name="NER-prompt")
   ## 2. Obtenir le jeu de données
 </div>
 
-Ensuite, récupérez le jeu de données de notes manuscrites qui servira d’entrée au pipeline d’OCR.
+Ensuite, récupérez le jeu de données de notes manuscrites pour servir d&#39;entrée au pipeline d&#39;OCR.
 
-Les images du jeu de données sont déjà encodées en `base64`, ce qui signifie que les données peuvent être utilisées par le LLM sans prétraitement.
+Les images du jeu de données sont déjà encodées en `base64`, ce qui signifie que les données peuvent être utilisées par le LLM sans aucun prétraitement.
 
 ```python lines
 # Récupérer le jeu de données depuis le projet Weave suivant
@@ -114,22 +114,22 @@ display(HTML(html))
 ```
 
 <div id="3-build-the-ner-pipeline">
-  ## 3. Build du pipeline NER
+  ## 3. Construire le pipeline NER
 </div>
 
-Ensuite, effectuez le build du pipeline NER. Le pipeline se composera de deux fonctions :
+Ensuite, construisez le pipeline NER. Le pipeline sera composé de deux fonctions :
 
-1. Une fonction `encode_image` qui prend une image PIL du jeu de données et renvoie une représentation de l&#39;image sous forme de chaîne encodée en `base64`, pouvant être transmise au VLM
-2. Une fonction `extract_named_entities_from_image` qui prend une image et un prompt système, puis renvoie les entités extraites de cette image telles que décrites par le prompt système
+1. Une fonction `encode_image` qui prend une image PIL du jeu de données et renvoie une représentation sous forme de chaîne encodée en `base64` de l&#39;image, pouvant être transmise au VLM
+2. Une fonction `extract_named_entities_from_image` qui prend une image et un prompt système, et renvoie les entités extraites de cette image telles que décrites par le prompt système
 
 ```python lines
 # Fonction traçable utilisant GPT-4-Vision
 def extract_named_entities_from_image(image_base64) -> dict:
-    # Initialisation du client LLM
+    # initialisation du client LLM
     client = OpenAI()
 
     # Configuration du prompt d'instruction
-    # Vous pouvez également utiliser un prompt stocké dans Weave avec weave.ref("weave://wandb-smle/vlm-handwritten-ner/object/NER-prompt:FmCv4xS3RFU21wmNHsIYUFal3cxjtAkegz2ylM25iB8").get().content.strip()
+    # Vous pouvez également utiliser un prompt stocké dans Weave avecweave.ref("weave://wandb-smle/vlm-handwritten-ner/object/NER-prompt:FmCv4xS3RFU21wmNHsIYUFal3cxjtAkegz2ylM25iB8").get().content.strip()
     prompt = better_prompt
 
     response = client.responses.create(
@@ -151,14 +151,14 @@ def extract_named_entities_from_image(image_base64) -> dict:
     return response.output_text
 ```
 
-Créez maintenant une fonction appelée `named_entity_recognation` qui :
+Créez maintenant une fonction appelée `named_entity_recognation` qui :
 
-* Transmet les données de l&#39;image au pipeline NER
+* Transmet les données d&#39;image au pipeline NER
 * Renvoie un JSON correctement formaté avec les résultats
 
-Utilisez le [décorateur `@weave.op()`](/fr/weave/reference/python-sdk/trace/op) pour suivre et tracer automatiquement l&#39;exécution de la fonction dans l&#39;interface W&amp;B.
+Utilisez le décorateur [`@weave.op()`](/fr/weave/reference/python-sdk/trace/op) pour suivre et tracer automatiquement l&#39;exécution de la fonction dans l&#39;interface utilisateur W&amp;B.
 
-À chaque exécution de `named_entity_recognation`, les résultats complets de la trace sont visibles dans l&#39;interface Weave. Pour voir les traces, accédez à l&#39;onglet **Traces** de votre projet Weave.
+À chaque exécution de `named_entity_recognation`, les résultats complets de la trace sont visibles dans l&#39;interface Weave. Pour consulter les traces, accédez à l&#39;onglet **Traces** de votre projet Weave.
 
 ```python lines
 # Fonction NER pour les évaluations
@@ -169,24 +169,24 @@ def named_entity_recognation(image_base64, id):
         # 1) appeler l'op de vision, récupérer une chaîne JSON
         output_text = extract_named_entities_from_image(image_base64)
 
-        # 2) parser le JSON une seule fois
+        # 2) analyser le JSON une seule fois
         result = json.loads(output_text)
 
-        print(f"Processed: {str(id)}")
+        print(f"Traité : {str(id)}")
     except Exception as e:
-        print(f"Failed to process {str(id)}: {e}")
+        print(f"Échec du traitement de {str(id)} : {e}")
     return result
 ```
 
-Enfin, exécutez le pipeline sur le jeu de données et affichez les résultats.
+Enfin, exécutez le pipeline sur le jeu de données et consultez les résultats.
 
-Le code suivant parcourt le jeu de données et enregistre les résultats dans un fichier local `processing_results.json`. Les résultats sont également visibles dans l’interface Weave.
+Le code suivant itère sur le jeu de données et stocke les résultats dans un fichier local `processing_results.json`. Les résultats sont également consultables dans l&#39;interface Weave.
 
 ```python lines
-# Résultats de sortie
+# Résultats en sortie
 results = []
 
-# parcourir toutes les images du jeu de données
+# boucle sur toutes les images du jeu de données
 for row in dataset.rows:
     result = named_entity_recognation(row["image_base64"], str(row["id"]))
     result["image_id"] = str(row["id"])
@@ -200,7 +200,7 @@ with open(output_file, "w") as f:
 print(f"Results saved to: {output_file}")
 ```
 
-Vous verrez un résultat semblable à ce qui suit dans le tableau **Traces** de l’interface Weave.
+Vous verrez quelque chose de similaire à ce qui suit dans le tableau **Traces** de l&#39;interface Weave.
 
 <Frame>
   ![Screenshot 2025-05-02 at 12.03.00 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pm.png)
@@ -210,22 +210,22 @@ Vous verrez un résultat semblable à ce qui suit dans le tableau **Traces** de 
   ## 4. Évaluer le pipeline avec Weave
 </div>
 
-Maintenant que vous avez créé un pipeline pour effectuer de la NER à l’aide d’un VLM, vous pouvez utiliser Weave pour l’évaluer de manière systématique et déterminer son niveau de performance. Pour en savoir plus sur les évaluations dans Weave, consultez [Aperçu des évaluations](/fr/weave/guides/core-types/evaluations).
+Maintenant que vous avez créé un pipeline pour effectuer la NER à l&#39;aide d&#39;un VLM, vous pouvez utiliser Weave pour l&#39;évaluer de manière systématique et déterminer ses performances. Vous pouvez en apprendre davantage sur les évaluations dans Weave dans [Aperçu des Évaluations](/fr/weave/guides/core-types/evaluations).
 
-Les [Scorers](/fr/weave/guides/evaluation/scorers) constituent un élément fondamental d’une Évaluation dans Weave. Les Scorers servent à évaluer les sorties de l’IA et à renvoyer des métriques d’évaluation. Ils prennent la sortie de l’IA, l’analysent et renvoient un dictionnaire de résultats. Si nécessaire, les Scorers peuvent utiliser vos données d’entrée comme référence et produire aussi des informations supplémentaires, telles que des explications ou des justifications de l’évaluation.
+Les [Évaluateurs](/fr/weave/guides/evaluation/scorers) constituent un élément fondamental d&#39;une Évaluation Weave. Les évaluateurs sont utilisés pour évaluer les sorties de l&#39;IA et retourner des métriques d&#39;évaluation. Ils prennent la sortie de l&#39;IA, l&#39;analysent et retournent un dict de résultats. Les évaluateurs peuvent utiliser vos données d&#39;entrée comme référence si nécessaire et peuvent également produire des informations supplémentaires, telles que des explications ou des raisonnements issus de l&#39;évaluation.
 
-Dans cette section, vous allez créer deux Scorers pour évaluer le pipeline :
+Dans cette section, vous allez créer deux évaluateurs pour évaluer le pipeline :
 
-1. Scorer programmatique
-2. Scorer LLM-as-a-judge
+1. Évaluateur programmatique
+2. Évaluateur LLM-as-a-judge
 
 <div id="programatic-scorer">
   ### Scorer programmatique
 </div>
 
-Le scorer programmatique, `check_for_missing_fields_programatically`, prend la sortie du modèle (celle de la fonction `named_entity_recognition`) et identifie quelles `keys` manquent ou sont vides dans les résultats.
+Le scorer programmatique, `check_for_missing_fields_programatically`, prend en entrée la sortie du modèle (celle de la fonction `named_entity_recognition`) et identifie les `clés` manquantes ou vides dans les résultats.
 
-Cette vérification est particulièrement utile pour repérer les échantillons pour lesquels le modèle n’a capturé aucun champ.
+Cette vérification est particulièrement utile pour repérer les échantillons pour lesquels le modèle n&#39;a capturé aucun champ.
 
 ```python lines
 # Ajouter weave.op() pour suivre l'exécution du scorer
@@ -249,9 +249,9 @@ def check_for_missing_fields_programatically(model_output):
   ### Scorer LLM-as-a-judge
 </div>
 
-À l’étape suivante de l’évaluation, les données de l’image et la sortie du modèle sont toutes deux fournies afin de garantir que l’évaluation reflète les performances réelles de la NER. Le contenu de l’image est explicitement pris en référence, et pas seulement la sortie du modèle.
+À l&#39;étape suivante de l&#39;évaluation, les données de l&#39;image et la sortie du modèle sont toutes deux fournies afin de garantir que l&#39;évaluation reflète les performances réelles de la NER. Le contenu de l&#39;image est explicitement pris en référence, et pas seulement la sortie du modèle.
 
-Le Scorer utilisé pour cette étape, `check_for_missing_fields_with_llm`, utilise un LLM pour effectuer le scoring (plus précisément le `gpt-4o` d’OpenAI). Comme indiqué dans le contenu de `eval_prompt`, `check_for_missing_fields_with_llm` produit une valeur `Boolean`. Si tous les champs correspondent aux informations de l’image et que le formatage est correct, le Scorer renvoie `true`. Si un champ est manquant, vide, incorrect ou ne correspond pas, le résultat est `false`, et le Scorer renvoie également un message expliquant le problème.
+Le Scorer utilisé pour cette étape, `check_for_missing_fields_with_llm`, utilise un LLM pour effectuer le calcul du score (plus précisément le `gpt-4o` d&#39;OpenAI). Comme indiqué dans le contenu de `eval_prompt`, `check_for_missing_fields_with_llm` produit une valeur `Boolean`. Si tous les champs correspondent aux informations de l&#39;image et que le formatage est correct, le Scorer renvoie `true`. Si un champ est manquant, vide, incorrect ou ne correspond pas, le résultat est `false`, et le scorer renvoie également un message expliquant le problème.
 
 ```python lines
 # Le prompt système pour le LLM-as-a-judge
@@ -312,12 +312,12 @@ def check_for_missing_fields_with_llm(model_output, image_base64):
 ```
 
 <div id="5-run-the-evaluation">
-  ## 5. Lancez l’Évaluation
+  ## 5. Lancez l&#39;Évaluation
 </div>
 
-Enfin, définissez un appel d’évaluation qui parcourra automatiquement le `dataset` fourni et journalisera les résultats dans l’interface Weave.
+Enfin, définissez un appel d&#39;évaluation qui parcourra automatiquement le `dataset` fourni et enregistrera les résultats dans l&#39;interface Weave.
 
-Le code suivant lance l’évaluation et applique les deux Scorers à chaque sortie du pipeline NER. Les résultats sont visibles dans l’onglet **Evals** de l’interface Weave.
+Le code suivant lance l&#39;évaluation et applique les deux évaluateurs à chaque sortie du pipeline NER. Les résultats sont visibles dans l&#39;onglet **Evals** de l&#39;interface Weave.
 
 ```python lines
 evaluation = weave.Evaluation(
@@ -332,7 +332,7 @@ evaluation = weave.Evaluation(
 print(await evaluation.evaluate(named_entity_recognation))
 ```
 
-Une fois le code ci-dessus exécuté, un lien vers le tableau d’Évaluation dans l’interface Weave est généré. Suivez ce lien pour afficher les résultats et comparer différentes itérations du pipeline selon les modèles, les prompts et les jeux de données de votre choix. L’interface Weave crée automatiquement une visualisation comme celle présentée ci-dessous pour votre équipe.
+Une fois le code ci-dessus exécuté, un lien vers le tableau d&#39;Évaluation dans l&#39;interface Weave est généré. Suivez ce lien pour consulter les résultats et comparer différentes itérations du pipeline entre les modèles, les prompts et les jeux de données de votre choix. L&#39;interface Weave crée automatiquement une visualisation comme celle ci-dessous pour votre équipe.
 
 <Frame>
   ![Screenshot 2025-05-02 at 12.26.15 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-122615-pm.png)

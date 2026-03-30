@@ -1,9 +1,9 @@
 ---
-title: "W&B Organisation에서 사용자 목록을 내보내려면 어떻게 해야 하나요?"
-keywords: ["관리자", "사용자 관리"]
+title: "내 W&B 조직에서 사용자 목록을 어떻게 내보내나요?"
+keywords: ["관리자", "Gestion des utilisateurs"]
 ---
 
-W&amp;B 조직에서 사용자 목록을 내보내려면 관리자가 다음 코드를 사용해 SCIM API를 호출합니다:
+W&amp;B 조직에서 사용자 목록을 내보내려면 관리자는 다음 코드로 SCIM API를 사용합니다:
 
 ```python
 import base64
@@ -28,15 +28,15 @@ for user in response.json()['Resources']:
     users.append([user['userName'], user['emails']['Value']])
 ```
 
-필요에 따라 출력이 저장되도록 스크립트를 수정하세요.
+필요에 따라 스크립트를 수정하여 출력을 저장하세요.
 
 ***
 
 {/* ---- AUTO-GENERATED: tab badges ----
-  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 직접 수정하지 마세요.
+  프론트매터의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py에서 관리합니다.
+  이 마커 사이의 내용은 수동으로 편집하지 마세요.
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[관리자](/ko/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[사용자 관리](/ko/support/models/tags/user-management)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[관리자](/ko/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion des utilisateurs](/ko/support/models/tags/user-management)</Badge>
 
-{/* ---- 종료 AUTO-GENERATED: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

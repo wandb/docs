@@ -1,5 +1,5 @@
 ---
-title: Audio
+title: オーディオ
 namespace: python_sdk_data_type
 python_object_type: class
 ---
@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Audio`
 
-音声クリップを扱う W&B クラスです。 
+オーディオクリップを扱う W&amp;B クラスです。 
 
 ### <kbd>method</kbd> `Audio.__init__`
 
@@ -23,13 +23,13 @@ __init__(
 )
 ```
 
-音声ファイルへのパスまたは音声データの NumPy 配列を受け取ります。
+オーディオファイルへのパスまたはオーディオデータの NumPy 配列を受け取ります。
 
 **引数:**
 
-* `data_or_path`:  音声ファイルへのパス、または音声データの NumPy 配列。
-* `sample_rate`:  サンプリングレート。生の NumPy 配列の音声データを渡す場合は必須。
-* `caption`:  音声と一緒に表示するキャプション。
+* `data_or_path`:  オーディオファイルへのパス、またはオーディオデータの NumPy 配列。
+* `sample_rate`:  サンプリングレート。生の NumPy 配列のオーディオデータを渡す場合は必須。
+* `caption`:  オーディオと一緒に表示するキャプション。
 
 ***
 
@@ -40,12 +40,12 @@ __init__(
 durations(audio_list)
 ```
 
-音声ファイルの再生時間を計算します。
+オーディオファイルの再生時間を計算します。
 
 ***
 
 
-### <kbd>classmethod</kbd> `Audio.sample_rates`
+### <kbd>クラスメソッド</kbd> `Audio.sample_rates`
 
 ```python
 sample_rates(audio_list)

@@ -6,7 +6,7 @@ description: "Utilisez Weave pour tracer et journaliser les appels LLM effectué
 Weave assure automatiquement le suivi et la journalisation des appels LLM effectués via la bibliothèque [ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/), une fois `weave.init()` appelé.
 
 <Tip>
-  Pour les tutoriels les plus récents, consultez [Weights &amp; Biases sur NVIDIA](https://wandb.ai/site/partners/nvidia).
+  Pour les tutoriels les plus récents, visitez [Weights &amp; Biases sur NVIDIA](https://wandb.ai/site/partners/nvidia).
 </Tip>
 
 <div id="tracing">
@@ -108,7 +108,7 @@ Il est important de stocker les traces des applications LLM dans une base de don
     pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
     ```
 
-    Accédez à Weave, puis cliquez sur `get_pokemon_data` dans l&#39;interface pour voir les entrées et les sorties de cette étape.
+    Accédez à Weave, puis cliquez sur `get_pokemon_data` dans l&#39;interface utilisateur pour voir les entrées et les sorties de cette étape.
   </Tab>
 
   <Tab title="TypeScript">
@@ -128,11 +128,11 @@ Il est important de stocker les traces des applications LLM dans une base de don
 
 <Tabs>
   <Tab title="Python">
-    Organiser l’expérimentation devient difficile lorsqu’il y a de nombreux éléments à prendre en compte. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et structurer les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
+    Organiser l&#39;expérimentation devient difficile lorsqu&#39;il y a de nombreux éléments à prendre en compte. En utilisant la classe [`Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et structurer les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l&#39;organisation et la comparaison des différentes itérations de votre application.
 
-    En plus de gérer les versions du code et de capturer les entrées/sorties, les [`Model`](/fr/weave/guides/core-types/models) capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d’identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser les Models Weave avec `serve` et les [`Evaluation`](/fr/weave/guides/core-types/evaluations).
+    En plus de gérer les versions du code et de capturer les entrées/sorties, les [`Model`](/fr/weave/guides/core-types/models) capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet d&#39;identifier facilement les paramètres les plus efficaces. Vous pouvez également utiliser les modèles Weave avec `serve` et les [`Evaluation`](/fr/weave/guides/core-types/evaluations).
 
-    Dans l’exemple ci-dessous, vous pouvez expérimenter avec `model` et `system_message`. Chaque fois que vous en modifiez un, vous obtenez une nouvelle *version* de `GrammarCorrectorModel`.
+    Dans l&#39;exemple ci-dessous, vous pouvez expérimenter avec `model` et `system_message`. Chaque fois que vous en modifiez un, vous obtenez une nouvelle *version* de `GrammarCorrectorModel`.
 
     ```python lines
     import weave
@@ -170,7 +170,7 @@ Il est important de stocker les traces des applications LLM dans une base de don
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript, car cette bibliothèque existe uniquement en Python.
+    Cette fonctionnalité n'est pas encore disponible en TypeScript, car cette bibliothèque existe uniquement en Python.
     ```
   </Tab>
 </Tabs>

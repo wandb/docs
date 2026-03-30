@@ -1,11 +1,11 @@
 ---
 title: Verifiers
-description: "Suivez les environnements RL Verifiers et l'entraînement d'agents LLM avec Weave, en capturant les conversations multi-tours et les rollouts d'évaluation."
+description: "Suivez les environnements RL Verifiers et l'entraînement d'agents LLM avec Weave, en capturant les conversations à plusieurs tours et les rollouts d'évaluation."
 ---
 
-[Verifiers](https://github.com/willccbb/verifiers) est une bibliothèque de composants modulaires permettant de créer des environnements d&#39;apprentissage par renforcement (RL) et d&#39;entraîner des agents LLM. Les environnements créés avec Verifiers peuvent servir d&#39;évaluations LLM, de pipelines de données synthétiques, de bancs d&#39;essai d&#39;agents pour tout point de terminaison compatible avec OpenAI, ainsi que de cadres pour l&#39;entraînement RL.
+[Verifiers](https://github.com/willccbb/verifiers) est une bibliothèque de composants modulaires pour créer des environnements d&#39;apprentissage par renforcement (RL) et entraîner des agents LLM. Les environnements créés avec Verifiers peuvent servir d&#39;évaluations LLM, de pipelines de données synthétiques, de bancs d&#39;essai d&#39;agents pour tout point de terminaison compatible avec OpenAI, ainsi que de cadres d&#39;entraînement RL.
 
-En plus d&#39;utiliser W&amp;B pour enregistrer vos métriques d&#39;entraînement, vous pouvez intégrer Weave à vos flux de travail RL Verifiers afin de mieux comprendre les performances de votre modèle pendant l&#39;entraînement. Weave enregistre les entrées, les sorties et les horodatages pour chaque étape afin que vous puissiez examiner comment les données se transforment à chaque tour, déboguer des conversations complexes multi-tours et optimiser les résultats de l&#39;entraînement.
+En plus d&#39;utiliser W&amp;B pour enregistrer vos métriques d&#39;entraînement, vous pouvez intégrer Weave à vos flux de travail RL Verifiers afin de mieux comprendre les performances de votre modèle pendant l&#39;entraînement. Weave enregistre les entrées, les sorties et les horodatages pour chaque étape afin que vous puissiez examiner comment les données se transforment à chaque échange, déboguer des conversations complexes à plusieurs tours et optimiser les résultats de l&#39;entraînement.
 
 Vous pouvez également utiliser Weave et Verifiers ensemble pour effectuer des évaluations.
 
@@ -17,7 +17,7 @@ Ce guide vous montre comment installer Verifiers, W&amp;B et Weave, et propose d
   ## Premiers pas
 </div>
 
-Pour intégrer Verifiers avec Weave, commencez par installer la bibliothèque Verifiers avec `uv` ([comme le recommandent les auteurs de la bibliothèque](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)). Utilisez l’une des commandes suivantes pour installer la bibliothèque :
+Pour intégrer Verifiers avec Weave, commencez par installer la bibliothèque Verifiers à l’aide de `uv` ([comme le recommandent les auteurs de la bibliothèque](https://github.com/willccbb/verifiers?tab=readme-ov-file#setup)). Utilisez l’une des commandes suivantes pour installer la bibliothèque :
 
 ```bash
 # Installe la bibliothèque principale pour le développement local et les modèles basés sur API
@@ -36,15 +36,15 @@ Ensuite, installez Weave et W&amp;B :
 uv pip install weave wandb
 ```
 
-Weave active par défaut le [patching implicite](/fr/weave/guides/integrations#automatic-implicit-patching) pour la bibliothèque. Cela vous permet d’utiliser Weave avec Verifiers sans avoir à recourir à des fonctions explicites de patch des appels.
+Weave active par défaut le [patching implicite](/fr/weave/guides/integrations#automatic-implicit-patching) pour la bibliothèque. Vous pouvez ainsi utiliser Weave avec Verifiers sans avoir à appeler explicitement des fonctions de patch d’appel.
 
 <div id="trace-rollouts-and-evaluate">
   ### Tracer les rollouts et évaluer
 </div>
 
-Une fois les bibliothèques nécessaires installées, vous pouvez utiliser Weave et Verifiers ensemble pour tracer les appels et exécuter des évaluations.
+Une fois que vous avez installé les bibliothèques nécessaires, vous pouvez utiliser Weave et Verifiers ensemble pour tracer les appels et exécuter des évaluations.
 
-L&#39;exemple de script suivant montre comment exécuter une évaluation avec Verifiers et journaliser les résultats dans Weave. Le script teste la capacité du LLM à résoudre des problèmes de mathématiques à l&#39;aide du [jeu de données GSM8K](https://huggingface.co/datasets/openai/gsm8k). Il demande à GPT-4 de résoudre deux problèmes de mathématiques, extrait la valeur numérique de chaque réponse, puis évalue la tentative à l&#39;aide de Verifiers comme framework d&#39;évaluation.
+L&#39;exemple de script suivant montre comment exécuter une évaluation avec Verifiers et enregistrer les résultats dans Weave. Le script teste la capacité du LLM à résoudre des problèmes de mathématiques à l&#39;aide du [jeu de données GSM8K](https://huggingface.co/datasets/openai/gsm8k). Il demande à GPT-4 de résoudre deux problèmes de mathématiques, extrait la valeur numérique de chaque réponse, puis évalue la tentative en utilisant Verifiers comme framework d&#39;évaluation.
 
 Exécutez l&#39;exemple et examinez les résultats dans Weave :
 
@@ -83,14 +83,14 @@ results = env.evaluate(
 ```
 
 <div id="fine-tune-a-model-with-experiment-tracking-and-tracing">
-  ### Affiner un modèle avec le suivi des expériences et le traçage
+  ### Affiner un modèle avec le suivi des expériences et le Tracing
 </div>
 
-Weave peut être un outil puissant dans vos flux de travail de réglage fin par RL, en vous offrant une meilleure visibilité sur les performances de vos modèles pendant l’entraînement. Utilisé avec W&amp;B, il fournit une observabilité complète : W&amp;B suit les métriques d’entraînement et les graphiques de performances, tandis que Weave capture des traces détaillées de chaque interaction au cours du processus d’entraînement.
+Weave peut être un outil puissant dans vos flux de travail de fine-tuning RL, en vous offrant une meilleure visibilité sur les performances de vos modèles pendant l’entraînement. Utilisé avec W&amp;B, vous bénéficiez d’une observabilité complète : W&amp;B suit les métriques d’entraînement et les graphiques de performances, tandis que Weave capture des traces détaillées de chaque interaction au cours du processus d’entraînement.
 
 Le dépôt `verifiers` inclut des [exemples](https://github.com/PrimeIntellect-ai/verifiers) prêts à l’emploi pour vous aider à démarrer.
 
-L’exemple suivant de pipeline d’entraînement RL exécute un serveur d’inférence local et entraîne un modèle à l’aide du jeu de données GSM8K. Le modèle répond aux problèmes de mathématiques, et la boucle d’entraînement attribue un score à la sortie puis met à jour le modèle en conséquence. W&amp;B journalise les métriques d’entraînement, comme la perte, la récompense et la précision, tandis que Weave capture l’entrée, la sortie, le raisonnement et le score.
+L’exemple suivant de pipeline d’entraînement RL exécute un serveur d’inférence local et entraîne un modèle à l’aide du jeu de données GSM8K. Le modèle répond aux problèmes de mathématiques, et la boucle d’entraînement attribue un score à la sortie puis met à jour le modèle en conséquence. W&amp;B journalise les métriques d’entraînement, comme la perte, la récompense et la précision, tandis que Weave capture l’entrée, la sortie, le raisonnement et le calcul du score.
 
 Pour utiliser ce pipeline :
 
@@ -108,7 +108,7 @@ uv sync --all-extras && uv pip install flash-attn --no-build-isolation
 vf-install gsm8k --from-repo
 ```
 
-3. Entraînez votre modèle. Les commandes suivantes lancent respectivement le serveur d’inférence et la boucle d’entraînement. Cet exemple de flux de travail définit `report_to=wandb` par défaut, vous n’avez donc pas besoin d’appeler `wandb.init` séparément. Vous serez invité à authentifier cette machine afin de consigner des métriques dans W&amp;B.
+3. Entraînez votre modèle. Les commandes suivantes lancent respectivement le serveur d’inférence et la boucle d’entraînement. Cet exemple de flux de travail définit `report_to=wandb` par défaut, vous n’avez donc pas besoin d’appeler `wandb.init` séparément. Vous serez invité à authentifier cette machine auprès de W&amp;B afin de consigner des métriques.
 
 ```bash
 # Lance le serveur d'inférence
@@ -130,7 +130,7 @@ CUDA_VISIBLE_DEVICES=1 accelerate launch --num-processes 1 --config-file configs
   Ces variables désactivent la mémoire unifiée CUDA (CuMem) pour les allocations de mémoire sur le périphérique.
 </Note>
 
-Une fois l’entraînement lancé, vous pouvez [consulter les traces](/fr/weave/guides/tools/weave-in-workspaces) enregistrées pendant votre run dans l’interface.
+Une fois l’entraînement lancé, vous pouvez [consulter les traces](/fr/weave/guides/tools/weave-in-workspaces) enregistrées pendant votre run dans l’interface utilisateur.
 
 Les traces omettent `logprobs` pour les méthodes `Environment.a_generate` et `Rubric.score_rollouts`. Cela permet de garder des payloads légers tout en conservant les données originales intactes pour l’entraînement.
 

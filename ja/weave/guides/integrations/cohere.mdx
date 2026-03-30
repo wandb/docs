@@ -1,21 +1,21 @@
 ---
 title: "Cohere"
-description: "Weave を使用して、Cohere Python ライブラリ経由で行われた LLM 呼び出しを自動で追跡およびログ記録します"
+description: "Weave を使用して、Cohere Python ライブラリ経由の LLM 呼び出しを自動的にトラッキングしてログします"
 ---
 
-<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_cohere.ipynb" aria-label="Open in Google Colab">
+<a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_cohere.ipynb" aria-label="Google Colab で開く">
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Colab で開く" />
 </a>
 
-Weave は、`weave.init()` が呼び出された後に、[Cohere Python ライブラリ](https://github.com/cohere-ai/cohere-python) 経由で行われた LLM 呼び出しを自動的に追跡およびログ記録します。
+Weave は、`weave.init()` を呼び出すと、[Cohere Python ライブラリ](https://github.com/cohere-ai/cohere-python) 経由の LLM 呼び出しを自動的にトラッキングしてログします。
 
 <div id="traces">
   ## トレース
 </div>
 
-開発中と本番環境の両方で、LLM アプリケーションのトレースを中央のデータベースに保存しておくことは重要です。これらのトレースはデバッグや、アプリケーションを改善するためのデータセットとして活用します。
+開発中と本番環境の両方で、LLM アプリケーションのトレースを中央のデータベースに保存しておくことは重要です。これらのトレースは、デバッグやアプリケーション改善に役立つデータセットとして活用します。
 
-Weave は [cohere-python](https://github.com/cohere-ai/cohere-python) のトレースを自動的に取得します。ライブラリは通常どおり利用でき、まずは `weave.init()` を呼び出すところから始めます。
+Weave は [cohere-python](https://github.com/cohere-ai/cohere-python) のトレースを自動的に取得します。ライブラリは通常どおり使用できます。まずは `weave.init()` を呼び出します。
 
 ```python lines {8}
 import cohere
@@ -35,21 +35,21 @@ response = co.chat(
 print(response.text)
 ```
 
-`weave.init()` を呼び出すときに W&amp;B team を指定しない場合は、デフォルト entity が使用されます。デフォルト entity を確認または更新するには、W&amp;B Models ドキュメントの [User Settings](/ja/platform/app/settings-page/user-settings/#default-team) を参照してください。
+`weave.init()` を呼び出す際に W&amp;B チームを指定しない場合は、デフォルトの entity が使用されます。デフォルトの entity を確認または更新するには、W&amp;B Models ドキュメントの [User Settings](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team) を参照してください。
 
-cohere モデルの強力な機能の 1 つに [connectors](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations) があり、これを使うとエンドポイント側で他の API へのリクエストを行えるようになります。レスポンスには、connector から返されたドキュメントへのリンクとなる引用情報付きで、生成されたテキストが含まれます。
+Cohere モデルの強力な機能の 1 つが、[connectors](https://docs.cohere.com/docs/overview-rag-connectors#using-connectors-to-create-grounded-generations) を使用してエンドポイント側から他の API にリクエストを送信できることです。レスポンスには、コネクターから返されたドキュメントへのリンクを含む引用情報付きの生成テキストが含まれます。
 
 [![cohere\_trace.png](/weave/guides/integrations/imgs/cohere_trace.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 <Note>
-  LLM 呼び出しを追跡できるように、Cohere の `Client.chat`、`AsyncClient.chat`、`Client.chat_stream`、`AsyncClient.chat_stream` メソッドには自動的にパッチを適用します。
+  LLM 呼び出しをトラッキングできるように、Cohere の `Client.chat`、`AsyncClient.chat`、`Client.chat_stream`、`AsyncClient.chat_stream` method に自動的にパッチを適用します。
 </Note>
 
 <div id="wrapping-with-your-own-ops">
   ## 自分の ops でラップする
 </div>
 
-Weave ops は、実験を行う際にコードを自動でバージョン管理し、その入力と出力を記録することで、結果を *再現可能* にします。Cohere の chat メソッドを呼び出す関数を作成し、その関数に [`@weave.op()`](/ja/weave/guides/tracking/ops) デコレータを付けるだけで、Weave が入力と出力を自動的に追跡します。以下に例を示します。
+Weave ops は、実験中のコードを自動的にバージョン管理し、入力と出力を取得することで、結果を *再現可能* にします。Cohere の chat メソッドを呼び出す [`@weave.op()`](/ja/weave/guides/tracking/ops) デコレータ付きの関数を作成するだけで、Weave が入力と出力をトラッキングします。以下に例を示します。
 
 ```python lines {9}
 import cohere
@@ -76,14 +76,14 @@ print(weather("Boston", "command"))
 [![cohere\_ops.png](/weave/guides/integrations/imgs/cohere_ops.png)](https://wandb.ai/capecape/cohere_dev/weave/calls)
 
 <div id="create-a-model-for-easier-experimentation">
-  ## 実験を簡単に行うための `Model` の作成
+  ## 実験をより簡単に行うための `Model` の作成
 </div>
 
-多くの要素が絡んでいると、実験を整理するのは難しくなります。[`Model`](/ja/weave/guides/core-types/models) クラスを使うことで、システムプロンプトや使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまなイテレーションを体系的に整理・比較しやすくなります。
+多数の要素が関わる場合、実験を整理するのは簡単ではありません。[`Model`](/ja/weave/guides/core-types/models) クラスを使用すると、system prompt や使用中のモデルなど、アプリケーションの実験に関する詳細を取得して整理できます。これにより、アプリケーションのさまざまなイテレーションを整理し、比較しやすくなります。
 
-コードのバージョン管理や入力/出力の記録に加えて、[`Model`](/ja/weave/guides/core-types/models) はアプリケーションの動作を制御する構造化されたパラメーターも記録し、どのパラメーターが最も有効だったかを簡単に特定できるようにします。また、Weave Models を `serve` や [`Evaluation`](/ja/weave/guides/core-types/evaluations) と組み合わせて使用することもできます。
+コードのバージョン管理や入力/出力の取得に加えて、[`Model`](/ja/weave/guides/core-types/models) はアプリケーションの動作を制御する構造化されたパラメーターも取得するため、どのパラメーターが最も効果的だったかを簡単に特定できます。また、Weave Models は `serve` や [`Evaluation`](/ja/weave/guides/core-types/evaluations) と組み合わせて使用することもできます。
 
-次の例では、`model` と `temperature` を変更して実験できます。これらのいずれかを変更するたびに、`WeatherModel` の新しい *version* が作成されます。
+次の例では、`model` と `temperature` を変えながら実験できます。これらのいずれかを変更するたびに、`WeatherModel` の新しい *version* が作成されます。
 
 ```python lines
 import weave

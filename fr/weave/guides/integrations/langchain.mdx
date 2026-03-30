@@ -7,7 +7,7 @@ description: "Utilisez Weave pour suivre et consigner tous les appels effectués
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
 </a>
 
-Weave est conçu pour faciliter le suivi et la consignation de tous les appels effectués via la [bibliothèque Python LangChain](https://github.com/langchain-ai/langchain).
+Weave est conçu pour faciliter le suivi et la journalisation de tous les appels effectués via la [bibliothèque Python LangChain](https://github.com/langchain-ai/langchain).
 
 Lorsque vous travaillez avec des LLM, le débogage est inévitable. Qu&#39;un appel au modèle échoue, qu&#39;une sortie soit mal formatée ou que des appels au modèle imbriqués sèment la confusion, il peut être difficile d&#39;identifier précisément les problèmes. Les applications LangChain se composent souvent de multiples étapes et d&#39;appels à des LLM, ce qui rend essentiel de comprendre le fonctionnement interne de vos chaînes et de vos agents.
 
@@ -62,7 +62,7 @@ with weave.attributes({"my_awesome_attribute": "value"}):
 print(output)
 ```
 
-Weave suit automatiquement les métadonnées de la trace de l’appel LangChain. Vous pouvez consulter les métadonnées dans l’interface web de Weave, comme illustré ci-dessous :
+Weave suit automatiquement les métadonnées associées à la trace de l’appel LangChain. Vous pouvez consulter les métadonnées dans l’interface web de Weave, comme illustré ci-dessous :
 
 [![langchain\_attributes.png](/weave/guides/integrations/imgs/langchain_attributes.png)](https://wandb.ai/parambharat/langchain_demo/weave/traces?cols=%7B%22attributes.weave.client_version%22%3Afalse%2C%22attributes.weave.os_name%22%3Afalse%2C%22attributes.weave.os_release%22%3Afalse%2C%22attributes.weave.os_version%22%3Afalse%2C%22attributes.weave.source%22%3Afalse%2C%22attributes.weave.sys_version%22%3Afalse%7D)
 
@@ -77,18 +77,18 @@ Weave capture automatiquement les traces de vos applications LangChain. Il suit 
 [![langchain\_trace.png](/weave/guides/integrations/imgs/langchain_trace.png)](https://wandb.ai/parambharat/langchain_demo/weave/calls)
 
 <div id="manually-tracing-calls">
-  ## Traçage manuel des appels
+  ## Tracing manuel des appels
 </div>
 
-En plus du traçage automatique, vous pouvez tracer manuellement les appels à l’aide du callback `WeaveTracer` ou du gestionnaire de contexte `weave_tracing_enabled`. Ces méthodes reviennent à utiliser des callbacks de requête dans des parties spécifiques d’une application LangChain.
+En plus du Tracing automatique, vous pouvez tracer manuellement les appels à l’aide du callback `WeaveTracer` ou du gestionnaire de contexte `weave_tracing_enabled`. Ces méthodes reviennent à utiliser des callbacks de requête dans des parties spécifiques d’une application LangChain.
 
-**Remarque :** Weave trace les Runnables de LangChain par défaut, et ce comportement est activé lorsque vous appelez `weave.init()`. Vous pouvez désactiver ce comportement en définissant la variable d’environnement `WEAVE_TRACE_LANGCHAIN` sur `"false"` avant d’appeler `weave.init()`. Cela vous permet de contrôler le comportement de traçage de chaînes spécifiques, voire de requêtes individuelles dans votre application.
+**Remarque :** Weave trace les Runnables de LangChain par défaut, et ce comportement est activé lorsque vous appelez `weave.init()`. Vous pouvez désactiver ce comportement en définissant la variable d’environnement `WEAVE_TRACE_LANGCHAIN` sur `"false"` avant d’appeler `weave.init()`. Cela vous permet de contrôler le comportement de Tracing de chaînes spécifiques, voire de requêtes individuelles dans votre application.
 
 <div id="using-weavetracer">
   ### Utiliser `WeaveTracer`
 </div>
 
-Vous pouvez transmettre le callback `WeaveTracer` à des composants LangChain spécifiques afin de tracer des requêtes spécifiques.
+Vous pouvez passer le callback `WeaveTracer` à certains composants LangChain pour tracer des requêtes spécifiques.
 
 ```python lines {11,13,15,22}
 import os
@@ -121,7 +121,7 @@ llm_chain.invoke({"number": 4})  # <-- le traçage ne sera pas activé pour les 
   ### Utilisation du gestionnaire de contexte `weave_tracing_enabled`
 </div>
 
-Vous pouvez également utiliser le gestionnaire de contexte `weave_tracing_enabled` pour activer le traçage sur des blocs de code spécifiques.
+Vous pouvez également utiliser le gestionnaire de contexte `weave_tracing_enabled` pour activer le traçage pour des blocs de code spécifiques.
 
 ```python lines {11,18}
 import os
@@ -181,7 +181,7 @@ Pour plus d’informations, référez-vous à la [documentation LangChain](https
   ## Models et évaluations
 </div>
 
-Organiser et évaluer des LLM dans des applications pour divers cas d’usage est complexe en raison de la multiplicité des composants, tels que les prompts, les configurations de modèle et les paramètres d’inférence. En utilisant [`weave.Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser des détails expérimentaux, comme les prompts système ou les modèles que vous utilisez, ce qui facilite la comparaison des différentes itérations.
+Organiser et évaluer des LLM dans des applications pour différents cas d’usage est complexe en raison des multiples composants en jeu, tels que les prompts, les configurations de modèle et les paramètres d’inférence. En utilisant [`weave.Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser des détails expérimentaux, comme les prompts système ou les modèles que vous utilisez, ce qui facilite la comparaison entre différentes itérations.
 
 L’exemple suivant montre comment encapsuler une chaîne Langchain dans un `WeaveModel` :
 
@@ -229,7 +229,7 @@ prediction = asyncio.run(model.predict(sentence))
 print(prediction)
 ```
 
-Ce code crée un modèle qui peut être visualisé dans l’interface utilisateur de Weave :
+Ce code crée un modèle qui peut être visualisé dans l’interface Weave :
 
 [![langchain\_model.png](/weave/guides/integrations/imgs/langchain_model.png)](https://wandb.ai/parambharat/langchain_demo/weave/object-versions?filter=%7B%22baseObjectClass%22%3A%22Model%22%7D\&peekPath=%2Fparambharat%2Flangchain_demo%2Fobjects%2FExtractFruitsModel%2Fversions%2FBeoL6WuCH8wgjy6HfmuBMyKzArETg1oAFpYaXZSq1hw%3F%26)
 
@@ -239,7 +239,7 @@ Vous pouvez également utiliser Weave Models avec `serve` et les [`Évaluations`
   ### Évaluations
 </div>
 
-Les évaluations vous aident à mesurer les performances de vos modèles. En utilisant la classe [`weave.Evaluation`](/fr/weave/guides/core-types/evaluations), vous pouvez évaluer les performances de votre modèle sur des tâches ou des jeux de données spécifiques, ce qui facilite la comparaison entre différents modèles et versions de votre application. L&#39;exemple suivant montre comment évaluer le modèle que nous avons créé :
+Les évaluations vous aident à mesurer les performances de vos modèles. En utilisant la classe [`weave.Evaluation`](/fr/weave/guides/core-types/evaluations), vous pouvez capturer les performances de votre modèle sur des tâches ou des jeux de données spécifiques, ce qui facilite la comparaison entre différents modèles et versions de votre application. L&#39;exemple suivant montre comment évaluer le modèle que nous avons créé :
 
 ```python lines
 
@@ -280,14 +280,14 @@ scores = asyncio.run(evaluation.evaluate(model)))
 print(scores)
 ```
 
-Ce code génère une trace d’évaluation qui peut être visualisée dans l’interface utilisateur de Weave :
+Ce code génère une trace d’évaluation qui peut être visualisée dans l’interface Weave :
 
 [![langchain\_evaluation.png](/weave/guides/integrations/imgs/langchain_eval.png)](https://wandb.ai/parambharat/langchain_demo/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fparambharat%2Flangchain_demo%2Fcalls%2F44c3f26c-d9d3-423e-b434-651ea5174be3)
 
-En intégrant Weave à LangChain, vous bénéficiez d’une journalisation et d’une surveillance complètes de vos applications LLM, ce qui facilite le débogage et l’optimisation des performances.
+En intégrant Weave à LangChain, vous pouvez assurer une journalisation et une surveillance complètes de vos applications LLM, ce qui facilite le débogage et l’optimisation des performances.
 
 <div id="known-issues">
   ## Problèmes connus
 </div>
 
-* **Traçage des appels asynchrones** - Un bug dans l’implémentation de `AsyncCallbackManager` dans LangChain fait que les appels asynchrones ne sont pas tracés dans le bon ordre. Nous avons soumis une [PR](https://github.com/langchain-ai/langchain/pull/23909) pour corriger ce problème. Par conséquent, l’ordre des appels dans la trace peut être inexact lors de l’utilisation des méthodes `ainvoke`, `astream` et `abatch` dans les Runnables LangChain.
+* **Tracing des appels asynchrones** - Un bug dans l&#39;implémentation de `AsyncCallbackManager` dans LangChain fait que les appels asynchrones ne sont pas tracés dans le bon ordre. Nous avons soumis une [PR](https://github.com/langchain-ai/langchain/pull/23909) pour corriger ce problème. Par conséquent, l&#39;ordre des appels dans la trace peut être inexact lors de l&#39;utilisation des méthodes `ainvoke`, `astream` et `abatch` dans les Runnables LangChain.

@@ -3,7 +3,7 @@ title: "同じマシンでアカウントを切り替えるにはどうすれば
 keywords: ["環境変数"]
 ---
 
-同じマシンで 2 つの W&amp;B アカウントを管理するには、両方の APIキー をファイルに保存します。リポジトリでは、次のコードを使用してキーを安全に切り替え、シークレットキーがソース管理にチェックインされないようにします。
+同じマシンで 2 つの W&amp;B アカウントを管理するには、両方の APIキー をファイルに保存します。リポジトリでは、次のコードを使用してキーを安全に切り替え、secret キーがソース管理にチェックインされないようにします。
 
 ```python
 if os.path.exists("~/keys.json"):
@@ -19,4 +19,4 @@ if os.path.exists("~/keys.json"):
 
 <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge>
 
-{/* ---- 自動生成: タブバッジの終了 ---- */}
+{{/* ---- 自動生成終了: タブバッジ ---- */}}

@@ -3,7 +3,7 @@ description: "Intégrez W&B à Hydra pour gérer des configurations complexes po
 title: Hydra
 ---
 
-> [Hydra](https://hydra.cc) est un framework Python open source qui simplifie le développement d’applications de recherche et d’autres applications complexes. Sa fonctionnalité clé est la possibilité de créer dynamiquement une configuration hiérarchique par composition et de la surcharger via des fichiers de configuration et la ligne de commande.
+> [Hydra](https://hydra.cc) est un framework Python open source qui simplifie le développement d’applications de recherche et d’autres applications complexes. Sa fonctionnalité clé est la possibilité de créer dynamiquement une configuration hiérarchique par composition et de la redéfinir via des fichiers de configuration et la ligne de commande.
 
 Vous pouvez continuer à utiliser Hydra pour gérer la configuration tout en tirant parti de la puissance de W&amp;B.
 
@@ -52,7 +52,7 @@ Si votre processus se bloque au démarrage, cela peut être dû à [ce problème
 wandb.init(settings=wandb.Settings(start_method="thread"))
 ```
 
-ou en définissant une variable d’environnement globale dans votre shell :
+ou en définissant une variable d’environnement globale depuis votre shell :
 
 ```bash
 $ export WANDB_START_METHOD=thread
@@ -62,7 +62,7 @@ $ export WANDB_START_METHOD=thread
   ## Optimiser les hyperparamètres
 </div>
 
-[W&amp;B Sweeps](/fr/models/sweeps) est une plateforme de recherche d&#39;hyperparamètres hautement évolutive qui fournit, avec un minimum de code, des visualisations et des informations utiles sur les expériences W&amp;B. Sweeps s&#39;intègre de manière transparente aux projets Hydra, sans nécessiter de code. Il suffit d&#39;un fichier de configuration décrivant, comme d&#39;habitude, les différents paramètres à balayer.
+[W&amp;B Sweeps](/fr/models/sweeps) est une plateforme de recherche d&#39;hyperparamètres très évolutive qui fournit, avec un minimum de code, des visualisations et des informations utiles sur les expériences W&amp;B. Sweeps s&#39;intègre de manière transparente aux projets Hydra, sans nécessiter de code. Il suffit d&#39;un fichier de configuration décrivant, de manière classique, les différents paramètres à balayer.
 
 Un exemple simple de fichier `sweep.yaml` serait :
 
@@ -89,7 +89,7 @@ Lancez le balayage :
 wandb sweep sweep.yaml
 ```
 
-W&amp;B crée automatiquement un balayage dans votre projet et renvoie une commande `wandb agent` à exécuter sur chaque machine où vous souhaitez lancer votre balayage.
+W&amp;B crée automatiquement un balayage dans votre projet et renvoie la commande `wandb agent` à exécuter sur chaque machine sur laquelle vous souhaitez lancer votre balayage.
 
 <div id="pass-parameters-not-present-in-hydra-defaults">
   ### Passer des paramètres absents des valeurs par défaut d’Hydra
@@ -103,4 +103,4 @@ Hydra prend en charge le passage de paramètres supplémentaires via la ligne de
 $ python program.py +experiment=some_experiment
 ```
 
-Vous ne pouvez pas effectuer de balayage sur ce type de configurations `+`, comme on peut le faire lors de la configuration de [Hydra Experiments](https://hydra.cc/docs/patterns/configuring_experiments/). Pour contourner ce problème, vous pouvez initialiser le paramètre d&#39;expérience avec un fichier vide par défaut, puis utiliser W&amp;B Sweep pour remplacer ces configurations vides à chaque appel. Pour plus d&#39;informations, lisez [ce rapport W&amp;B](https://wandb.ai/adrishd/hydra-example/reports/Configuring-W-B-Projects-with-Hydra--VmlldzoxNTA2MzQw?galleryTag=posts\&utm_source=fully_connected\&utm_medium=blog\&utm_campaign=hydra).
+Vous ne pouvez pas effectuer un balayage sur ce type de configurations `+`, comme on peut le faire lors de la configuration de [Hydra Experiments](https://hydra.cc/docs/patterns/configuring_experiments/). Pour contourner ce problème, vous pouvez initialiser le paramètre d&#39;expérience avec un fichier vide par défaut, puis utiliser W&amp;B Sweep pour redéfinir ces configurations vides à chaque appel. Pour plus d&#39;informations, lisez [ce rapport W&amp;B](https://wandb.ai/adrishd/hydra-example/reports/Configuring-W-B-Projects-with-Hydra--VmlldzoxNTA2MzQw?galleryTag=posts\&utm_source=fully_connected\&utm_medium=blog\&utm_campaign=hydra).

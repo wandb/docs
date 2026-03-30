@@ -1,11 +1,11 @@
 ---
-description: "Attribuez des couleurs aux runs W&B en fonction de métriques ou de paramètres de configuration afin de créer des légendes de graphique visuellement explicites."
+description: "Attribuez des couleurs aux runs W&B en fonction de métriques ou de paramètres de configuration pour créer des légendes de graphique visuellement parlantes."
 title: Légendes sémantiques des graphiques de runs
 ---
 
-Créez des graphiques en courbes et des légendes de graphique visuellement explicites en attribuant des couleurs à vos runs W&amp;B selon des métriques ou des paramètres de configuration. Identifiez des tendances et des schémas entre les expériences en colorant les runs en fonction de leurs métriques de performances (valeurs les plus élevées, les plus basses ou les plus récentes). W&amp;B regroupe automatiquement vos runs dans des buckets codés par couleur en fonction des valeurs du paramètre sélectionné.
+Créez des graphiques en courbes et des légendes de graphique visuellement parlantes en attribuant des couleurs à vos runs W&amp;B selon des métriques ou des paramètres de configuration. Identifiez des tendances et des motifs entre les expériences en colorant les runs en fonction de leurs métriques de performance (valeurs les plus élevées, les plus basses ou les plus récentes). W&amp;B regroupe automatiquement vos runs dans des buckets codés par couleur en fonction des valeurs du paramètre sélectionné.
 
-Pour utiliser pour vos runs des couleurs basées sur des métriques ou sur la configuration, vous devez configurer deux paramètres :
+Pour utiliser des couleurs basées sur des métriques ou sur la configuration pour vos runs, vous devez configurer deux paramètres :
 
 <div id="turn-on-key-based-colors">
   ### Activer les couleurs basées sur des clés
@@ -13,33 +13,33 @@ Pour utiliser pour vos runs des couleurs basées sur des métriques ou sur la co
 
 1. Accédez à votre projet W&amp;B.
 2. Sélectionnez l’onglet **Workspace** dans la barre latérale du projet.
-3. Cliquez sur l’icône **Settings** dans le coin supérieur droit.
+3. Cliquez sur l’icône **Paramètres** dans le coin supérieur droit.
 4. Dans le volet latéral, sélectionnez **Runs**.
-5. Dans la section **Run colors**, sélectionnez **Key-based colors**.
+5. Dans la section **Run colors**, sélectionnez **Couleurs basées sur des clés**.
 6. Configurez les options suivantes :
    * Dans la liste déroulante **Clé**, sélectionnez la métrique à utiliser pour attribuer des couleurs aux runs.
-   * Dans la liste déroulante **valeur Y**, sélectionnez la valeur Y à utiliser pour attribuer des couleurs aux runs.
+   * Dans la liste déroulante **Valeur Y**, sélectionnez la valeur Y à utiliser pour attribuer des couleurs aux runs.
    * Définissez le nombre de buckets sur une valeur comprise entre 2 et 8.
 
 <Note>
-  Lorsque vous utilisez des couleurs basées sur des clés, l’option permettant de [personnaliser les couleurs des runs](/fr/models/runs/run-colors) n’est pas disponible.
+  Lorsque vous utilisez les couleurs basées sur des clés, l’option permettant de [personnaliser les couleurs des runs](/fr/models/runs/run-colors) n’est pas disponible.
 </Note>
 
-Les sections suivantes décrivent comment définir la métrique et la valeur Y, ainsi que personnaliser les buckets utilisés pour attribuer des couleurs aux runs.
+Les sections suivantes décrivent comment définir la métrique et la valeur Y, ainsi que comment personnaliser les buckets utilisés pour attribuer des couleurs aux runs.
 
 <div id="example-key-based-coloring-with-loss-metric">
   ### Exemple : coloration basée sur des clés avec la métrique de perte
 </div>
 
-Dans cet exemple de graphique, les runs sont colorés à l’aide d’un gradient : les couleurs les plus foncées représentent des valeurs de perte plus élevées, et les plus claires des valeurs de perte plus faibles. La valeur Y est définie sur `latest` afin d’utiliser la valeur de perte la plus récente pour chaque run.
+Dans ce graphique d&#39;exemple, les runs sont colorés avec un gradient dans lequel les couleurs plus foncées représentent des valeurs de perte plus élevées et les couleurs plus claires représentent des valeurs de perte plus faibles. La valeur Y est définie sur `latest` pour utiliser la valeur de perte la plus récente pour chaque run.
 
-<Image src="/images/app_ui/run-colors-key-based.png" alt="Workspace W&B montrant des runs colorés en fonction de leurs valeurs de perte à l’aide d’une coloration basée sur des clés." />
+<Image src="/images/app_ui/run-colors-key-based.png" alt="Workspace W&B montrant des runs colorés basés sur leurs valeurs de perte à l'aide d'une coloration basée sur des clés." />
 
 <div id="set-a-metric">
   ## Définir une métrique
 </div>
 
-Les options de métrique de votre menu déroulant **Clé** sont issues des paires clé-valeur [que vous journalisez dans W&amp;B](/fr/models/runs/color-code-runs/#custom-metrics), ainsi que des [métriques par défaut](/fr/models/runs/color-code-runs/#default-metrics) définies par W&amp;B.
+Les options de métrique de votre menu déroulant **Clé** proviennent des paires clé-valeur [que vous consignez dans W&amp;B](/fr/models/runs/color-code-runs/#custom-metrics) et des [métriques par défaut](/fr/models/runs/color-code-runs/#default-metrics) définies par W&amp;B.
 
 <div id="default-metrics">
   ### Métriques par défaut
@@ -54,7 +54,7 @@ Les options de métrique de votre menu déroulant **Clé** sont issues des paire
   ### Métriques personnalisées
 </div>
 
-Attribuez une couleur aux runs et créez des légendes de graphique pertinentes à partir des métriques personnalisées enregistrées par vos scripts d&#39;entraînement ou d&#39;évaluation. Les métriques personnalisées sont enregistrées sous forme de paires clé-valeur, où la clé correspond au nom de la métrique et la valeur à sa valeur.
+Attribuez une couleur aux runs et créez des légendes de graphique parlantes à partir des métriques personnalisées enregistrées par vos scripts d&#39;entraînement ou d&#39;évaluation. Les métriques personnalisées sont enregistrées sous forme de paires clé-valeur, où la clé correspond au nom de la métrique et la valeur à celle de la métrique.
 
 Par exemple, l&#39;extrait de code suivant enregistre la précision (clé `"acc"`) et la perte (clé `"loss"`) pendant une boucle d&#39;entraînement :
 
@@ -75,13 +75,13 @@ with wandb.init(project="basic-intro") as run:
       run.log({"acc": acc, "loss": loss})
 ```
 
-Dans le menu déroulant **Clé**, `"acc"` et `"loss"` sont deux options disponibles.
+Dans le menu déroulant **Clé**, `"acc"` et `"loss"` sont disponibles.
 
 <div id="set-a-configuration-key">
   ## Définir une clé de configuration
 </div>
 
-Les options de configuration du menu déroulant **Clé** proviennent des paires clé-valeur que vous transmettez au paramètre `config` lorsque vous initialisez un run W&amp;B. Les clés de configuration servent généralement à journaliser des hyperparamètres ou d&#39;autres paramètres utilisés dans vos scripts d&#39;entraînement ou d&#39;évaluation.
+Les options de configuration du menu déroulant **Clé** sont issues des paires clé-valeur que vous transmettez au paramètre `config` lorsque vous initialisez un run W&amp;B. Les clés de configuration servent généralement à journaliser des hyperparamètres ou d&#39;autres paramètres utilisés dans vos scripts d&#39;entraînement ou d&#39;évaluation.
 
 ```python
 import wandb
@@ -105,9 +105,9 @@ Dans le menu déroulant **Clé**, `"learning_rate"`, `"batch_size"` et `"optimiz
 
 Vous pouvez choisir parmi les options suivantes :
 
-* **Dernière** : Détermine la couleur en fonction de la valeur Y à la dernière étape enregistrée pour chaque ligne.
-* **Max** : Détermine la couleur en fonction de la valeur Y la plus élevée enregistrée pour la métrique.
-* **Min** : Détermine la couleur en fonction de la valeur Y la plus basse enregistrée pour la métrique.
+* **Dernière** : Déterminer la couleur basée sur la valeur Y à la dernière étape enregistrée pour chaque ligne.
+* **Max** : Déterminer la couleur basée sur la valeur Y la plus élevée enregistrée pour la métrique.
+* **Min** : Déterminer la couleur basée sur la valeur Y la plus basse enregistrée pour la métrique.
 
 <div id="customize-buckets">
   ## Personnaliser les buckets

@@ -3,7 +3,7 @@ description: "sweep の設定を使用してハイパーパラメーター探索
 title: Sweep を初期化する
 ---
 
-W&amp;B は *Sweep Controller* を使って、クラウド上 (standard) やローカル (local) の 1 台以上のマシンにまたがる sweep を管理します。1 つの run が完了すると、Sweep Controller は次に実行する新しい run を記述した新しい指示セットを発行します。これらの指示は、実際に run を実行する *agents* によって取得されます。一般的な W&amp;B Sweep では、controller は W&amp;B サーバー上で動作し、agent は *あなたの* マシン上で動作します。
+W&amp;B は *Sweep Controller* を使って、クラウド上 (standard) やローカル (local) の 1 台以上のマシンにまたがる sweep を管理します。1 つの run が完了すると、Sweep Controller は次に実行する新しい run を記述した新しい指示セットを発行します。これらの指示は、実際に run を実行する *agents* によって取得されます。一般的な W&amp;B Sweep では、controller は W&amp;B サーバー上で動作し、エージェントは *あなたの* マシン上で動作します。
 
 次のコードスニペットは、CLI および Jupyter Notebook や Python スクリプト内で sweep を初期化する方法を示します。
 

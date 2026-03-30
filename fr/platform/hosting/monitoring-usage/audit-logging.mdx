@@ -3,15 +3,15 @@ title: Suivre l’activité des utilisateurs avec les journaux d’audit
 description: "Accédez aux journaux d’audit W&B, récupérez-les et analysez-les pour tous les types de déploiement, y compris le schéma des journaux d’audit et les actions suivies."
 ---
 
-Utilisez les journaux d’audit W&amp;B pour suivre l’activité des utilisateurs au sein de votre organisation et répondre à vos exigences de gouvernance d’entreprise. Les journaux d’audit sont disponibles au format JSON. Se référer à [Schéma du journal d’audit](#audit-log-schema).
+Utilisez les journaux d’audit W&amp;B pour suivre l’activité des utilisateurs au sein de votre organisation et répondre à vos exigences de gouvernance d’entreprise. Les journaux d’audit sont disponibles au format JSON. Voir [Schéma du journal d’audit](#audit-log-schema).
 
 La méthode d’accès aux journaux d’audit dépend du type de déploiement de votre plateforme W&amp;B :
 
 | Type de déploiement de la plateforme W&amp;B                            | Mécanisme d’accès aux journaux d’audit                                                                                                                                                                                                                                                                                                                                     |
 | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud)        | <ul><li>[BYOB au niveau de l’instance](/fr/platform/hosting/data-security/secure-storage-connector) : synchronisés vers le bucket de l’instance (BYOB) toutes les 10 minutes. Également disponibles via [l’API](#fetch-audit-logs-using-api).</li><li>Stockage par défaut au niveau de l’instance : disponible uniquement via [l’API](#fetch-audit-logs-using-api).</li></ul> |
+| [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud)        | <ul><li>[BYOB au niveau de l’instance](/fr/platform/hosting/data-security/secure-storage-connector) : synchronisés vers le bucket au niveau de l’instance (BYOB) toutes les 10 minutes. Également disponibles via [l’API](#fetch-audit-logs-using-api).</li><li>Stockage par défaut au niveau de l’instance : disponible uniquement via [l’API](#fetch-audit-logs-using-api).</li></ul> |
 | [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud) | Disponible uniquement pour les plans Enterprise. Disponible uniquement via [l’API](#fetch-audit-logs-using-api).                                                                                                                                                                                                                                                           |
-| [Autogéré](/fr/platform/hosting/hosting-options/self-managed)              | Synchronisés vers le bucket de l’instance toutes les 10 minutes. Également disponibles via [l’API](#fetch-audit-logs-using-api).                                                                                                                                                                                                                                           |
+| [Autogéré](/fr/platform/hosting/hosting-options/self-managed)              | Synchronisés vers le bucket au niveau de l’instance toutes les 10 minutes. Également disponibles via [l’API](#fetch-audit-logs-using-api).                                                                                                                                                                                                                                           |
 
 Après avoir récupéré les journaux d’audit, vous pouvez les analyser à l’aide d’outils tels que [Pandas](https://pandas.pydata.org/docs/index.html), [Amazon Redshift](https://aws.amazon.com/redshift/), [Google BigQuery](https://cloud.google.com/bigquery) ou [Microsoft Fabric](https://www.microsoft.com/microsoft-fabric). Certains outils d’analyse des journaux d’audit ne prennent pas en charge le format JSON ; consultez la documentation de votre outil d’analyse pour connaître les recommandations et les exigences relatives à la transformation des journaux d’audit au format JSON avant l’analyse.
 
@@ -37,9 +37,9 @@ Ce tableau présente toutes les clés susceptibles d&#39;apparaître dans une en
 | `actor_ip`                | L&#39;adresse IP de l&#39;utilisateur qui a initié l&#39;action.                                                                                                                         |
 | `actor_user_id`           | L&#39;ID de l&#39;utilisateur connecté qui a effectué l&#39;action, le cas échéant.                                                                                                      |
 | `artifact_asset`          | L&#39;ID de l&#39;artefact associé à l&#39;action, le cas échéant.                                                                                                                       |
-| `artifact_digest`         | Le condensé de l&#39;artefact associé à l&#39;action, le cas échéant.                                                                                                                    |
+| `artifact_digest`         | L&#39;empreinte de l&#39;artefact associée à l&#39;action, le cas échéant.                                                                                                               |
 | `artifact_qualified_name` | Le nom complet de l&#39;artefact associé à l&#39;action, le cas échéant.                                                                                                                 |
-| `artifact_sequence_asset` | L&#39;ID de la séquence d&#39;artefacts associé à l&#39;action, le cas échéant.                                                                                                          |
+| `artifact_sequence_asset` | L&#39;ID de la séquence d&#39;artefacts associée à l&#39;action, le cas échéant.                                                                                                         |
 | `cli_version`             | La version du SDK Python qui a initié l&#39;action, le cas échéant.                                                                                                                      |
 | `entity_asset`            | L&#39;ID de l&#39;entité ou de l&#39;équipe associé à l&#39;action, le cas échéant.                                                                                                      |
 | `entity_name`             | Le nom de l&#39;entité ou de l&#39;équipe associé à l&#39;action, le cas échéant.                                                                                                        |
@@ -49,14 +49,14 @@ Ce tableau présente toutes les clés susceptibles d&#39;apparaître dans une en
 | `report_name`             | Le nom du rapport associé à l&#39;action, le cas échéant.                                                                                                                                |
 | `response_code`           | Le code de réponse HTTP renvoyé pour l&#39;action, le cas échéant.                                                                                                                       |
 | `timestamp`               | La date et l&#39;heure de l&#39;événement au [format RFC3339](https://www.rfc-editor.org/rfc/rfc3339). Par exemple, `2023-01-23T12:34:56Z` représente le 23 janvier 2023 à 12:34:56 UTC. |
-| `user_asset`              | L&#39;asset utilisateur affecté par l&#39;action (plutôt que l&#39;utilisateur qui effectue l&#39;action), le cas échéant.                                                               |
+| `user_asset`              | La ressource utilisateur affectée par l&#39;action (plutôt que l&#39;utilisateur qui effectue l&#39;action), le cas échéant.                                                             |
 | `user_email`              | L&#39;adresse e-mail de l&#39;utilisateur affecté par l&#39;action (plutôt que l&#39;adresse e-mail de l&#39;utilisateur qui effectue l&#39;action), le cas échéant.                     |
 
 <div id="personally-identifiable-information-pii">
-  ### Informations personnelles identifiables (PII)
+  ### Information personnelle identifiable (PII)
 </div>
 
-Les informations personnelles identifiables (PII), telles que les adresses e-mail et les noms des projets, des équipes et des rapports, sont disponibles uniquement via l’option du point de terminaison API.
+L’information personnelle identifiable (PII), telle que les adresses e-mail et les noms des projets, des équipes et des rapports, est disponible uniquement via l’option du point de terminaison API.
 
 * Pour [Autogéré](/fr/platform/hosting/hosting-options/self-managed) et
   [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud), un administrateur d’organisation peut [exclure les PII](#exclude-pii) lors de la récupération des journaux d’audit.
@@ -160,6 +160,6 @@ Ce tableau décrit les actions possibles pouvant être enregistrées par W&amp;B
 
 <a id="1">1</a>: Sur [Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), les journaux d’audit ne sont pas collectés pour :
 
-* Les projets ouverts ou publics.
+* Les projets Open ou publics.
 * L’action `report:read`.
 * Les actions `User` qui ne sont pas liées à une organisation spécifique.

@@ -4,14 +4,14 @@ keywords: ["Experiments", "환경 변수", "메트릭"]
 featured: true
 ---
 
-기본적으로 `wandb.init`는 메트릭을 클라우드에 실시간으로 동기화하는 프로세스를 시작합니다. 오프라인으로 사용하려면 두 개의 환경 변수를 설정해 오프라인 모드를 활성화한 다음, 나중에 동기화하세요.
+기본적으로 `wandb.init`는 메트릭을 클라우드에 실시간으로 동기화하는 프로세스를 시작합니다. 오프라인으로 사용하려면 두 개의 환경 변수를 설정하여 오프라인 모드를 활성화한 다음, 나중에 동기화하세요.
 
 다음 환경 변수를 설정하세요:
 
-1. `WANDB_API_KEY=$KEY` (`$KEY`는 [사용자 설정](https://wandb.ai/settings)에서 생성한 API 키)
+1. `WANDB_API_KEY=$KEY` (`$KEY`는 [User Settings](https://wandb.ai/settings)에서 생성한 API 키)
 2. `WANDB_MODE="offline"`.
 
-다음은 이를 스크립트에 적용하는 예시입니다:
+다음은 이를 스크립트에 구현하는 예시입니다:
 
 ```python
 import wandb
@@ -39,7 +39,7 @@ with wandb.init(project="offline-demo") as run:
   <img src="/images/experiments/sample_terminal_output.png" alt="오프라인 모드 터미널 출력" />
 </Frame>
 
-작업을 완료한 후 데이터를 클라우드와 동기화하려면 다음 명령어를 실행하세요:
+작업을 완료한 후 데이터를 클라우드에 동기화하려면 다음 명령어를 실행하세요:
 
 ```shell
 wandb sync wandb/dryrun-folder-name
@@ -51,11 +51,11 @@ wandb sync wandb/dryrun-folder-name
 
 ***
 
-{/* ---- AUTO-GENERATED: 탭 배지 ----
-  프론트 매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 수동으로 편집하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  프론트매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 표시 사이의 내용은 직접 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

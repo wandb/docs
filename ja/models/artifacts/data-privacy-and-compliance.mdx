@@ -1,19 +1,19 @@
 ---
-description: 既定で W&B のファイルがどこに保存されるか、機密情報を保存・管理する方法について説明します。
+description: 既定で W&B のファイルがどこに保存されるか、および機密情報を安全に保存・管理する方法について説明します。
 title: Artifacts のデータプライバシーとコンプライアンス
 ---
 
-ファイルは、 Artifacts をログするときに W&amp;B が管理する Google Cloud バケットにアップロードされます。バケットの内容は、保存時および転送中の両方で暗号化されます。 Artifacts ファイルは、対応するプロジェクトにアクセス権を持つユーザーにのみ表示されます。
+ファイルは、Artifacts をログするときに W&amp;B が管理する Google Cloud バケットにアップロードされます。バケットの内容は、保存時と転送時の両方で暗号化されます。Artifacts のファイルは、対応するプロジェクトへのアクセス権を持つユーザーにのみ表示されます。
 
 <Frame>
   <img src="/images/artifacts/data_and_privacy_compliance_1.png" alt="GCS W&B クライアントサーバー図" />
 </Frame>
 
-Artifacts のバージョンを削除すると、それは W&amp;B のデータベースでソフト削除としてマークされ、ストレージコストからは除外されます。 Artifacts 全体を削除すると、完全削除の対象としてキューに登録され、その内容はすべて W&amp;B バケットから削除されます。ファイル削除に関して特別な要件がある場合は、[Customer Support](mailto:support@wandb.com) までお問い合わせください。
+Artifacts のバージョンを削除すると、W&amp;B のデータベースでソフト削除としてマークされ、ストレージコストの対象から除外されます。Artifact 全体を削除すると、完全削除のキューに追加され、含まれるすべての内容が W&amp;B のバケットから削除されます。ファイル削除に関して特別な要件がある場合は、[Customer Support](mailto:support@wandb.com) までお問い合わせください。
 
-既定では、削除された Artifacts は 7 日間保持され、この期間中であれば復元できます。この保持期間は Dedicated Cloud では設定可能です。[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy) のデータ保持について詳しくはそれぞれのページを参照してください。
+既定では、削除された Artifacts は 7 日間保持され、この期間中であれば復元できます。この保持期間は Dedicated Cloud では設定可能です。データ保持の詳細については、[Multi-tenant Cloud](/ja/platform/hosting/hosting-options/multi_tenant_cloud#data-retention-policy) または [Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy) を参照してください。
 
-マルチテナント環境に配置できない機密性の高いデータセットについては、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) または [reference artifacts](/ja/models/artifacts/track-external-files) を使用できます。reference artifacts は、ファイルの内容を W&amp;B に送信することなく、プライベートバケットへの参照を追跡します。reference artifacts は、お使いのバケットまたはサーバー上のファイルへのリンクを保持します。W&amp;B はファイルそのものではなく、ファイルに関連付けられたメタデータのみを追跡します。
+マルチテナント環境に保存できない機密性の高いデータセットについては、[W&amp;B Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) または [reference artifacts](/ja/models/artifacts/track-external-files) を使用できます。reference artifacts は、ファイルの内容を W&amp;B に送信することなく、プライベートバケットへの参照を追跡します。reference artifacts は、お使いのバケットまたはサーバー上のファイルへのリンクを保持します。W&amp;B が追跡するのはファイルそのものではなく、ファイルに関連付けられたメタデータのみです。
 
 <Frame>
   <img src="/images/artifacts/data_and_privacy_compliance_2.png" alt="W&B クライアントサーバークラウド図" />

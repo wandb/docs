@@ -1,17 +1,17 @@
 ---
 description: Comment intégrer W&B à la bibliothèque Transformers de Hugging Face.
-title: Simple Transformers de Hugging Face
+title: Hugging Face Simple Transformers
 ---
 
-Cette bibliothèque s&#39;appuie sur la bibliothèque Transformers de Hugging Face. Simple Transformers vous permet d&#39;entraîner et d&#39;évaluer rapidement des modèles Transformer. Trois lignes de code suffisent pour initialiser un modèle, entraîner le modèle et évaluer un modèle. Elle prend en charge la classification de séquences, la classification de tokens (NER), les questions-réponses, le Fine-tuning de modèles de langage, l&#39;entraînement de modèles de langage, la génération de langage, le modèle T5, les tâches Seq2Seq, la classification multimodale et l&#39;IA conversationnelle.
+Cette bibliothèque s’appuie sur la bibliothèque Transformers de Hugging Face. Simple Transformers vous permet d’entraîner et d’évaluer rapidement des modèles Transformer. Trois lignes de code suffisent pour initialiser un modèle, entraîner le modèle et évaluer un modèle. Elle prend en charge la classification de séquences, la classification de tokens (NER), les questions-réponses, le Fine-tuning de modèles de langage, l’entraînement de modèles de langage, la génération de langage, le modèle T5, les tâches Seq2Seq, la classification multimodale et l’IA conversationnelle.
 
-Pour utiliser W&amp;B pour visualiser l&#39;entraînement du modèle, définissez un nom de projet pour W&amp;B dans l&#39;attribut `wandb_project` du dictionnaire `args`. Cela consigne toutes les valeurs d&#39;hyperparamètres, les pertes d&#39;entraînement et les métriques d&#39;évaluation dans le projet indiqué.
+Pour visualiser l’entraînement du modèle avec W&amp;B, définissez un nom de projet pour W&amp;B dans l’attribut `wandb_project` du dictionnaire `args`. Cela consigne toutes les valeurs d’hyperparamètres, les pertes d’entraînement et les métriques d’évaluation dans le projet indiqué.
 
 ```python
 model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
 ```
 
-Tout argument supplémentaire à transmettre à `wandb.init` peut être passé via `wandb_kwargs`.
+Tout argument supplémentaire à passer à `wandb.init` peut être fourni via `wandb_kwargs`.
 
 
 <div id="structure">
@@ -31,7 +31,7 @@ La bibliothèque est conçue avec une classe distincte pour chaque tâche de NLP
 Voici quelques exemples de base
 
 <div id="multilabel-classification">
-  ## Classification multi-étiquettes
+  ## Classification multi-étiquette
 </div>
 
 ```text
@@ -125,6 +125,6 @@ global_args = {
 }
 ```
 
-Référez-vous à [simpletransformers sur GitHub](https://github.com/ThilinaRajapakse/simpletransformers) pour une documentation plus détaillée.
+Consultez [simpletransformers sur GitHub](https://github.com/ThilinaRajapakse/simpletransformers) pour une documentation plus détaillée.
 
-Consultez [ce rapport W&amp;B](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) qui couvre l&#39;entraînement de transformers sur quelques-uns des jeux de données de référence GLUE les plus populaires. [Essayez-le vous-même sur Colab](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).
+Consultez [ce rapport W&amp;B](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) sur l&#39;entraînement de transformers sur certains des jeux de données de référence GLUE les plus populaires. [Essayez-le vous-même sur Colab](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).

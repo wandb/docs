@@ -13,7 +13,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 メトリクスの z スコアをユーザー定義のしきい値と比較するフィルターです。
 
-### <kbd>メソッド</kbd> `MetricZScoreFilter.__init__`
+### <kbd>method</kbd> `MetricZScoreFilter.__init__`
 
 ```python
 __init__(
@@ -26,10 +26,10 @@ __init__(
 
 **引数:**
 
-* `name` (str): 観測するメトリクス名。
-* `window` (int): メトリクスの平均値と標準偏差を計算する際のウィンドウ サイズ。
+* `name` (str): 観測対象のメトリクス名。
+* `window` (int): メトリクスの平均値と標準偏差を計算するウィンドウサイズ。
 * `threshold` (Union[Annotated, Annotated]): z スコアのしきい値。
 * `change_dir` (ChangeDir): 監視する z スコアの変化方向。
 
 **戻り値:**
-`MetricZScoreFilter` オブジェクトを返す。
+`MetricZScoreFilter` オブジェクト。

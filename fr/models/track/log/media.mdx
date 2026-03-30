@@ -21,7 +21,7 @@ Nous prenons en charge les images, la vidéo, l’audio, et bien plus encore. Jo
   ## Prérequis
 </div>
 
-Pour journaliser des objets média avec le SDK W&amp;B, vous devrez peut-être installer des dépendances supplémentaires.
+Pour journaliser des objets multimédias avec le SDK W&amp;B, vous devrez peut-être installer des dépendances supplémentaires.
 Vous pouvez installer ces dépendances en exécutant la commande suivante :
 
 ```bash
@@ -116,7 +116,7 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
       <img src="/images/track/semantic_segmentation.gif" alt="Visualisation interactive des masques" />
     </Frame>
 
-    Pour enregistrer une superposition, fournissez un dictionnaire avec les clés et valeurs suivantes à l’argument nommé `masks` de `wandb.Image` :
+    Pour enregistrer une superposition, fournissez à l’argument nommé `masks` de `wandb.Image` un dictionnaire contenant les clés et valeurs suivantes :
 
     * l’une des deux clés représentant le masque d’image :
       * `"mask_data"`: un tableau NumPy 2D contenant une étiquette de classe entière pour chaque pixel
@@ -149,11 +149,11 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
     Les masques de segmentation pour une clé sont définis à chaque étape (à chaque appel à `run.log()`).
 
     * Si des étapes fournissent des valeurs différentes pour une même clé de masque, seule la valeur la plus récente de cette clé est appliquée à l&#39;image.
-    * Si des étapes fournissent des clés de masque différentes, toutes les valeurs de chaque clé sont affichées, mais seules celles définies dans l&#39;étape en cours de consultation sont appliquées à l&#39;image. Activer ou désactiver la visibilité des masques qui ne sont pas définis dans cette étape ne modifie pas l&#39;image.
+    * Si des étapes fournissent des clés de masque différentes, toutes les valeurs de chaque clé sont affichées, mais seules celles définies dans l&#39;étape affichée sont appliquées à l&#39;image. Activer ou désactiver la visibilité des masques qui ne sont pas définis dans cette étape ne modifie pas l&#39;image.
   </Tab>
 
   <Tab title="Boîtes englobantes">
-    Journalisez des boîtes englobantes avec des images, puis utilisez des filtres et des options de bascule pour visualiser dynamiquement différents ensembles de boîtes dans l’interface utilisateur.
+    Enregistrez des boîtes englobantes avec des images, puis utilisez des filtres et des options de bascule pour visualiser dynamiquement différents ensembles de boîtes dans l’interface utilisateur.
 
     <Frame>
       <img src="/images/track/bb-docs.jpeg" alt="Exemple de boîte englobante" />
@@ -161,15 +161,15 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
 
     [Voir un exemple en direct](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
-    Pour journaliser une boîte englobante, vous devez fournir à l’argument mot-clé `boxes` de `wandb.Image` un dictionnaire contenant les clés et valeurs suivantes :
+    Pour enregistrer une boîte englobante, vous devez fournir à l’argument mot-clé `boxes` de `wandb.Image` un dictionnaire contenant les clés et valeurs suivantes :
 
-    * `box_data` : une liste de dictionnaires, un pour chaque boîte. Le format du dictionnaire de boîte est décrit ci-dessous.
+    * `box_data` : une liste de dictionnaires, un pour chaque boîte. Le format de ce dictionnaire est décrit ci-dessous.
       * `position` : un dictionnaire représentant la position et la taille de la boîte dans l’un des deux formats suivants, comme décrit ci-dessous. Les boîtes ne doivent pas nécessairement toutes utiliser le même format.
-        * *Option 1:* `{"minX", "maxX", "minY", "maxY"}`. Fournissez un ensemble de coordonnées définissant les bornes supérieure et inférieure de chaque dimension de la boîte.
+        * *Option 1:* `{"minX", "maxX", "minY", "maxY"}`. Fournissez un ensemble de coordonnées définissant les bornes minimales et maximales de chaque dimension de la boîte.
         * *Option 2:* `{"middle", "width", "height"}`. Fournissez un ensemble de coordonnées indiquant les coordonnées `middle` sous la forme `[x,y]`, et `width` et `height` sous forme de scalaires.
-      * `class_id` : un entier représentant l’identité de classe de la boîte. Voir la clé `class_labels` ci-dessous.
+      * `class_id` : un entier représentant la classe de la boîte. Voir la clé `class_labels` ci-dessous.
       * `scores` : un dictionnaire d’étiquettes de chaîne et de valeurs numériques pour les scores. Peut être utilisé pour filtrer les boîtes dans l’interface utilisateur.
-      * `domain` : spécifiez les unités/le format des coordonnées de la boîte. **Définissez cette valeur sur &quot;pixel&quot;** si les coordonnées de la boîte sont exprimées dans l’espace des pixels, par exemple sous forme d’entiers compris dans les limites des dimensions de l’image. Par défaut, le domaine est supposé être une fraction/un pourcentage de l’image, exprimé sous forme de nombre à virgule flottante entre 0 et 1.
+      * `domain` : spécifiez les unités/le format des coordonnées de la boîte. **Définissez cette valeur sur &quot;pixel&quot;** si les coordonnées de la boîte sont exprimées en pixels, par exemple sous forme d’entiers compris dans les limites des dimensions de l’image. Par défaut, le domaine est supposé être une fraction/un pourcentage de l’image, exprimé sous forme de nombre à virgule flottante entre 0 et 1.
       * `box_caption` : (facultatif) une chaîne à afficher comme texte d’étiquette sur cette boîte
     * `class_labels` : (facultatif) un dictionnaire qui associe les `class_id` à des chaînes. Par défaut, nous générerons les étiquettes de classe `class_0`, `class_1`, etc.
 
@@ -224,7 +224,7 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
 </Tabs>
 
 <div id="image-overlays-in-tables">
-  ## Superpositions d’images dans les tableaux
+  ## Superposition d’images dans les tableaux
 </div>
 
 <Tabs>
@@ -303,7 +303,7 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
   <Tab title="Journalisation de base des histogrammes">
     Si une séquence de nombres, comme une liste, un tableau ou un tenseur, est fournie en premier argument, nous construisons automatiquement l’histogramme en appelant `np.histogram`. Tous les tableaux et tenseurs sont aplatis. Vous pouvez utiliser l’argument nommé facultatif `num_bins` pour remplacer la valeur par défaut de `64` classes. Le nombre maximal de classes prises en charge est de `512`.
 
-    Dans l’interface utilisateur, les histogrammes sont représentés avec l’étape d’entraînement sur l’axe X, la valeur de la métrique sur l’axe Y, et le nombre d’éléments indiqué par la couleur, afin de faciliter la comparaison des histogrammes journalisés tout au long de l’entraînement. Voir l’onglet « Histogrammes dans le résumé » de ce panneau pour plus de détails sur la journalisation d’histogrammes uniques.
+    Dans l’interface utilisateur, les histogrammes sont représentés avec l’étape d’entraînement sur l’axe des x, la valeur de la métrique sur l’axe Y, et le nombre d’éléments indiqué par la couleur, afin de faciliter la comparaison des histogrammes enregistrés tout au long de l’entraînement. Voir l’onglet « Histogrammes dans la synthèse » de ce panneau pour plus de détails sur la journalisation d’histogrammes uniques.
 
     ```python
     run.log({"gradients": wandb.Histogram(grads)})
@@ -324,7 +324,7 @@ Pour comparer des images ou des vidéos de différents runs, étapes ou indices 
   </Tab>
 </Tabs>
 
-Si des histogrammes figurent dans votre résumé, ils apparaissent dans l’onglet Vue d’ensemble de la [page de run](/fr/models/runs/). S’ils figurent dans votre historique, nous affichons une carte thermique des classes au fil du temps dans l’onglet Graphiques.
+Si des histogrammes figurent dans votre synthèse, ils apparaissent dans l’onglet Vue d’ensemble de la [page de run](/fr/models/runs/). S’ils figurent dans votre historique, nous affichons une carte thermique des classes au fil du temps dans l’onglet Graphiques.
 
 <div id="3d-visualizations">
   ## Visualisations 3D
@@ -339,7 +339,7 @@ run.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
 <Note>
-  L’interface W&amp;B tronque les données à 300 000 points.
+  L’interface utilisateur W&amp;B tronque les données à 300 000 points.
 </Note>
 
 <div id="numpy-array-formats">
@@ -358,11 +358,11 @@ Trois formats différents de tableaux NumPy sont pris en charge pour permettre d
 
 À l’aide de ce schéma, vous pouvez définir un objet Python et le transmettre à [la méthode `from_point_cloud`](/fr/models/ref/python/#from_point_cloud).
 
-* `points` est un tableau NumPy contenant les coordonnées et les couleurs des points à afficher en utilisant [les mêmes formats que le rendu simple de nuage de points présenté ci-dessus](#python-object).
+* `points` est un tableau NumPy contenant les coordonnées et les couleurs des points à afficher, en utilisant [les mêmes formats que le rendu simple de nuage de points présenté ci-dessus](#python-object).
 * `boxes` est un tableau NumPy de dictionnaires Python avec trois attributs :
-  * `corners` - une liste de huit coins
+  * `corners` - une liste de huit sommets
   * `label` - une chaîne représentant l’étiquette à afficher sur la boîte (facultatif)
-  * `color` - des valeurs RGB représentant la couleur de la boîte
+  * `color` - des valeurs RVB représentant la couleur de la boîte
   * `score` - une valeur numérique qui sera affichée sur la boîte englobante et qui peut être utilisée pour filtrer les boîtes englobantes affichées (par exemple, pour afficher uniquement les boîtes englobantes où `score` &gt; `0.75`). (facultatif)
 * `type` est une chaîne représentant le type de scène à afficher. Actuellement, la seule valeur prise en charge est `lidar/beta`
 
@@ -409,13 +409,13 @@ run.log({"my_first_point_cloud": wandb.Object3D.from_point_cloud(
 )})
 ```
 
-Lorsque vous visualisez un nuage de points, vous pouvez maintenir la touche Ctrl enfoncée et utiliser la souris pour vous déplacer dans l’espace.
+Lorsque vous affichez un nuage de points, maintenez la touche Ctrl enfoncée et utilisez la souris pour vous déplacer dans l’espace.
 
 <div id="point-cloud-files">
   #### Fichiers de nuages de points
 </div>
 
-Vous pouvez utiliser [la méthode `from_file`](/fr/models/ref/python/#from_file) pour charger un fichier JSON contenant des données de nuage de points.
+Vous pouvez utiliser [la méthode `from_file`](/fr/models/ref/python/#from_file) pour charger un fichier JSON contenant des données de nuages de points.
 
 ```python
 run.log({"my_cloud_from_file": wandb.Object3D.from_file(
@@ -423,7 +423,7 @@ run.log({"my_cloud_from_file": wandb.Object3D.from_file(
 )})
 ```
 
-Un exemple de mise en forme des données du nuage de points est présenté ci-dessous.
+Un exemple du format des données de nuage de points est présenté ci-dessous.
 
 ```json
 {
@@ -514,7 +514,7 @@ Un exemple de mise en forme des données du nuage de points est présenté ci-de
   #### Tableaux NumPy
 </div>
 
-En utilisant [les mêmes formats de tableaux définis ci-dessus](#numpy-array-formats), vous pouvez utiliser directement des tableaux `numpy` avec [la méthode `from_numpy`](/fr/models/ref/python/#from_numpy) pour définir un nuage de points.
+À l’aide [des mêmes formats de tableaux définis ci-dessus](#numpy-array-formats), vous pouvez définir directement un nuage de points à partir de tableaux `numpy` avec [la méthode `from_numpy`](/fr/models/ref/python/#from_numpy).
 
 ```python
 run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
@@ -605,13 +605,13 @@ run.log({"example": [wandb.Image(...) for img in images]})
   ### Vidéo
 </div>
 
-Les vidéos sont journalisées avec le type de données [`wandb.Video`](/fr/models/ref/python/) :
+Les vidéos sont enregistrées avec le type de données [`wandb.Video`](/fr/models/ref/python/) :
 
 ```python
 run.log({"example": wandb.Video("myvideo.mp4")})
 ```
 
-Vous pouvez désormais consulter des vidéos dans le navigateur multimédia. Accédez à l’espace de travail de votre projet, à l’espace de travail du run ou à votre rapport, puis cliquez sur **Ajouter une visualisation** pour ajouter un panneau de médias enrichis.
+Vous pouvez désormais consulter des vidéos dans le navigateur multimédia. Accédez à l’espace de travail du projet, à l’espace de travail du run ou à votre rapport, puis cliquez sur **Ajouter une visualisation** pour ajouter un panneau de médias enrichis.
 
 <div id="2d-view-of-a-molecule">
   ## Vue 2D d’une molécule
@@ -642,7 +642,7 @@ W&amp;B prend également en charge la journalisation de nombreux autres types de
 run.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-Vous pouvez journaliser jusqu’à 100 clips audio par étape. Pour plus d&#39;informations sur l&#39;utilisation, voir [`audio-file`](/fr/models/ref/query-panel/audio-file).
+Vous pouvez enregistrer jusqu’à 100 clips audio par étape. Pour plus d’informations sur l’utilisation, voir [`audio-file`](/fr/models/ref/query-panel/audio-file).
 
 <div id="video">
   ### Vidéo
@@ -652,17 +652,17 @@ Vous pouvez journaliser jusqu’à 100 clips audio par étape. Pour plus d&#39;i
 run.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
 ```
 
-Si un tableau numpy est fourni, nous supposons que les dimensions sont, dans l&#39;ordre : temps, canaux, largeur, hauteur. Par défaut, nous créons un GIF animé à 4 fps ([`ffmpeg`](https://www.ffmpeg.org) et la bibliothèque Python [`moviepy`](https://pypi.org/project/moviepy/) sont requis lorsque vous passez des objets numpy). Les formats pris en charge sont `"gif"`, `"mp4"`, `"webm"` et `"ogg"`. Si vous passez une chaîne de caractères à `wandb.Video`, nous vérifions que le fichier existe et que son format est pris en charge avant de le téléverser vers wandb. Le passage d&#39;un objet `BytesIO` crée un fichier temporaire avec le format spécifié comme extension.
+Si un tableau numpy est fourni, nous supposons que les dimensions sont, dans l’ordre : temps, canaux, largeur, hauteur. Par défaut, nous créons un GIF animé à 4 fps ([`ffmpeg`](https://www.ffmpeg.org) et la bibliothèque Python [`moviepy`](https://pypi.org/project/moviepy/) sont requis lorsque vous passez des objets numpy). Les formats pris en charge sont `"gif"`, `"mp4"`, `"webm"` et `"ogg"`. Si vous passez une chaîne de caractères à `wandb.Video`, nous vérifions que le fichier existe et que son format est pris en charge avant de le téléverser vers wandb. Le passage d’un objet `BytesIO` crée un fichier temporaire avec le format spécifié comme extension.
 
 Sur les pages W&amp;B [Run](/fr/models/runs/) et [Projet](/fr/models/track/project-page/), vous verrez vos vidéos dans la section Media.
 
-Pour plus d&#39;informations sur l&#39;utilisation, voir [`video-file`](/fr/models/ref/query-panel/video-file).
+Pour plus d’informations sur l’utilisation, voir [`video-file`](/fr/models/ref/query-panel/video-file).
 
 <div id="text">
   ### Texte
 </div>
 
-Utilisez `wandb.Table` pour journaliser du texte dans des tableaux afin de l’afficher dans l’interface utilisateur. Par défaut, les en-têtes de colonne sont `["Input", "Output", "Expected"]`. Pour garantir des performances optimales de l’interface utilisateur, le nombre maximal de lignes est, par défaut, défini sur 10 000. Cependant, vous pouvez remplacer explicitement cette limite avec `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
+Utilisez `wandb.Table` pour journaliser du texte dans des tableaux afin de les afficher dans l’interface utilisateur. Par défaut, les en-têtes de colonne sont `["Input", "Output", "Expected"]`. Pour garantir des performances optimales de l’interface utilisateur, le nombre maximal de lignes est défini par défaut sur 10 000. Cependant, vous pouvez explicitement redéfinir cette limite avec `wandb.Table.MAX_ROWS = {DESIRED_MAX}`.
 
 ```python
 with wandb.init(project="my_project") as run:
@@ -679,13 +679,13 @@ with wandb.init(project="my_project") as run:
     run.log({"examples": table})
 ```
 
-Vous pouvez également transmettre un objet `DataFrame` pandas.
+Vous pouvez également passer un objet pandas `DataFrame`.
 
 ```python
 table = wandb.Table(dataframe=my_dataframe)
 ```
 
-Pour plus d&#39;informations sur l&#39;utilisation, voir [`string`](/fr/models/ref/query-panel/).
+Pour plus d’informations sur l’utilisation, voir [`string`](/fr/models/ref/query-panel/).
 
 <div id="html">
   ### HTML
@@ -696,10 +696,10 @@ run.log({"custom_file": wandb.Html(open("some.html"))})
 run.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 ```
 
-Journalisez du HTML personnalisé avec n’importe quelle clé pour afficher un panneau HTML sur la page du run. Par défaut, nous injectons des styles ; vous pouvez les désactiver en passant `inject=False`.
+Journalisez du HTML personnalisé avec n’importe quelle clé afin d’afficher un panneau HTML sur la page du run. Par défaut, nous injectons les styles par défaut ; vous pouvez les désactiver en passant `inject=False`.
 
 ```python
 run.log({"custom_file": wandb.Html(open("some.html"), inject=False)})
 ```
 
-Pour plus d&#39;informations sur l&#39;utilisation, voir [`html-file`](/fr/models/ref/query-panel/html-file).
+Pour plus d’informations sur l’utilisation, voir [`html-file`](/fr/models/ref/query-panel/html-file).

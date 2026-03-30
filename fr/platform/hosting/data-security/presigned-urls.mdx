@@ -1,9 +1,9 @@
 ---
 title: Accéder à BYOB à l’aide d’URL pré-signées
-description: "Découvrez comment W&B utilise des URL pré-signées pour accéder au stockage de blobs, notamment pour le contrôle d’accès au niveau de l’équipe et la journalisation d’audit."
+description: "Découvrez comment W&B utilise des URL pré-signées pour accéder au stockage de blobs, notamment pour le contrôle d’accès au niveau des équipes et la journalisation d’audit."
 ---
 
-W&amp;B utilise des URL pré-signées pour simplifier l’accès au stockage de blobs depuis vos charges de travail d’IA ou les navigateurs des utilisateurs. Pour obtenir des informations de base sur les URL pré-signées, se référer à la documentation du fournisseur de cloud :
+W&amp;B utilise des URL pré-signées pour simplifier l’accès au stockage de blobs depuis vos charges de travail d’IA ou les navigateurs des utilisateurs. Pour obtenir des informations de base sur les URL pré-signées, référez-vous à la documentation du fournisseur de cloud :
 
 * [URL pré-signées pour AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html), qui s’appliquent également au stockage compatible S3 comme [CoreWeave AI Object Storage](https://docs.coreweave.com/docs/products/storage/object-storage).
 * [URL signées pour Google Cloud Storage](https://cloud.google.com/storage/docs/access-control/signed-urls)
@@ -11,7 +11,7 @@ W&amp;B utilise des URL pré-signées pour simplifier l’accès au stockage de 
 
 Fonctionnement :
 
-1. Si nécessaire, les charges de travail d’IA ou les navigateurs des utilisateurs au sein de votre réseau demandent des URL pré-signées à W&amp;B.
+1. Au besoin, les charges de travail d’IA ou les navigateurs des utilisateurs au sein de votre réseau demandent des URL pré-signées à W&amp;B.
 2. W&amp;B répond à la requête en accédant au stockage de blobs pour générer l’URL pré-signée avec les autorisations requises.
 3. W&amp;B renvoie l’URL pré-signée au client.
 4. Le client utilise l’URL pré-signée pour lire ou écrire dans le stockage de blobs.
@@ -44,14 +44,14 @@ W&amp;B recommande d’utiliser des politiques IAM pour restreindre les réseaux
   ## Journaux d’audit
 </div>
 
-W&amp;B recommande d’utiliser les [journaux d’audit W&amp;B](../monitoring-usage/audit-logging) conjointement avec les journaux d’audit spécifiques au stockage de blobs. Pour les journaux d’audit du stockage de blobs, référez-vous à la documentation de chaque fournisseur de cloud :
+W&amp;B recommande d’utiliser les [journaux d’audit W&amp;B](../monitoring-usage/audit-logging) conjointement avec les journaux d’audit propres au stockage de blobs. Pour les journaux d’audit du stockage de blobs, reportez-vous à la documentation de chaque fournisseur de cloud :
 
 * [Journaux d’audit CoreWeave](https://docs.coreweave.com/docs/products/storage/object-storage/concepts/audit-logging#audit-logging-policies)
 * [Journaux d’accès AWS S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)
 * [Journaux d’audit Google Cloud Storage](https://cloud.google.com/storage/docs/audit-logging)
 * [Surveiller le stockage Blob Azure](https://learn.microsoft.com/azure/storage/blobs/monitor-blob-storage).
 
-Les équipes d’administration et de sécurité peuvent utiliser les journaux d’audit pour suivre les actions de chaque utilisateur dans le produit W&amp;B et prendre les mesures nécessaires si elles déterminent que certaines opérations doivent être limitées pour certains utilisateurs.
+Les équipes d’administration et de sécurité peuvent utiliser les journaux d’audit pour suivre les actions de chaque utilisateur dans W&amp;B et prendre les mesures nécessaires si elles déterminent que certaines opérations doivent être limitées pour certains utilisateurs.
 
 <Note>
   Les URL pré-signées sont le seul mécanisme d’accès au stockage de blobs pris en charge dans W&amp;B. W&amp;B recommande de configurer une partie ou l’ensemble des contrôles de sécurité ci-dessus en fonction des besoins de votre organisation.
@@ -63,9 +63,9 @@ Les équipes d’administration et de sécurité peuvent utiliser les journaux d
 
 Lorsque W&amp;B renvoie une URL pré-signée, un paramètre de requête de l’URL contient le nom d’utilisateur de l’émetteur de la requête :
 
-| Fournisseur de stockage     | Paramètre de requête de l’URL signée |
-| --------------------------- | ------------------------------------ |
+| Fournisseur de stockage        | Paramètre de requête de l’URL signée |
+| ------------------------------ | ------------------------------------ |
 | CoreWeave AI Object Storage | `X-User`                             |
-| stockage AWS S3             | `X-User`                             |
-| stockage Google Cloud       | `X-User`                             |
-| stockage de blobs Azure     | `scid`                               |
+| stockage AWS S3                | `X-User`                             |
+| stockage Google Cloud          | `X-User`                             |
+| stockage de blobs Azure        | `scid`                               |

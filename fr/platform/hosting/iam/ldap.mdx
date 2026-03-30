@@ -1,26 +1,26 @@
 ---
 title: Configurer le SSO avec LDAP
-description: "Configurez l’authentification SSO basée sur LDAP pour W&B Server, y compris les paramètres de connexion et les variables d’environnement."
+description: "Configurez l'authentification SSO basée sur LDAP pour le serveur W&B, y compris les paramètres de connexion et les variables d'environnement."
 ---
 
-Authentifiez-vous via le serveur LDAP de W&amp;B Server. Le guide suivant explique comment configurer les paramètres de W&amp;B Server. Il couvre les configurations obligatoires et facultatives, ainsi que les instructions pour configurer la connexion LDAP depuis l’interface des paramètres système. Il fournit également des informations sur les différents champs de la configuration LDAP, tels que l’adresse, le nom distinctif de base et les attributs. Vous pouvez spécifier ces attributs depuis l’interface de l’application W&amp;B ou à l’aide de variables d’environnement. Vous pouvez configurer soit une liaison anonyme, soit une liaison avec un DN administrateur et un mot de passe.
+Authentifiez vos identifiants auprès du serveur LDAP du serveur W&amp;B. Le guide suivant explique comment configurer les paramètres du serveur W&amp;B. Il couvre les configurations obligatoires et facultatives, ainsi que les instructions pour configurer la connexion LDAP depuis l&#39;interface utilisateur des paramètres système. Il fournit également des informations sur les différents champs de la configuration LDAP, tels que l&#39;adresse, le nom distinctif de base et les attributs. Vous pouvez spécifier ces attributs depuis l&#39;interface utilisateur de l&#39;application W&amp;B ou à l&#39;aide de variables d&#39;environnement. Vous pouvez configurer soit une liaison anonyme, soit une liaison avec un DN et un mot de passe administrateur.
 
 {/* <Note>
-  En tant qu’administrateur d’équipe W&B, vous pouvez configurer soit une liaison anonyme, soit une liaison à l’aide d’un DN administrateur et d’un mot de passe.
+  En tant qu’administrateur de l’équipe W&B, vous pouvez configurer soit une liaison anonyme, soit une liaison avec un DN d’administrateur et un mot de passe.
   </Note> */}
 
 <Note>
-  Seuls les administrateurs W&amp;B peuvent activer et configurer l’authentification LDAP.
+  Seuls les utilisateurs disposant du rôle Admin dans W&amp;B peuvent activer et configurer l’authentification LDAP.
 </Note>
-
+"
 
 <div id="configure-ldap-connection">
   ## Configurer la connexion LDAP
 </div>
 
 <Tabs>
-  <Tab title="Application W&B">
-    1. Accédez à l’application W&amp;B.
+  <Tab title="W&B App">
+    1. Accédez à W&amp;B App.
     2. Sélectionnez votre icône de profil en haut à droite. Dans le menu déroulant, sélectionnez **System Settings**.
     3. Basculez **Configure LDAP Client**.
     4. Renseignez les champs du formulaire. Référez-vous à la section **Configuration des paramètres** pour plus de détails sur chaque champ.
@@ -33,11 +33,11 @@ Authentifiez-vous via le serveur LDAP de W&amp;B Server. Le guide suivant expliq
 
     | Variable d&#39;environnement  | Requis | Exemple                         |
     | ----------------------------- | ------ | ------------------------------- |
-    | `LOCAL_LDAP_ADDRESS`          | Oui    | `ldaps://ldap.example.com:636`  |
-    | `LOCAL_LDAP_BASE_DN`          | Oui    | `email=mail,group=gidNumber`    |
+    | `LOCAL_LDAP_ADDRESS`          | oui    | `ldaps://ldap.example.com:636`  |
+    | `LOCAL_LDAP_BASE_DN`          | oui    | `email=mail,group=gidNumber`    |
     | `LOCAL_LDAP_BIND_DN`          | Non    | `cn=admin`, `dc=example,dc=org` |
     | `LOCAL_LDAP_BIND_PW`          | Non    |                                 |
-    | `LOCAL_LDAP_ATTRIBUTES`       | Oui    | `email=mail`, `group=gidNumber` |
+    | `LOCAL_LDAP_ATTRIBUTES`       | oui    | `email=mail`, `group=gidNumber` |
     | `LOCAL_LDAP_TLS_ENABLE`       | Non    |                                 |
     | `LOCAL_LDAP_GROUP_ALLOW_LIST` | Non    |                                 |
     | `LOCAL_LDAP_LOGIN`            | Non    |                                 |
@@ -52,13 +52,13 @@ Authentifiez-vous via le serveur LDAP de W&amp;B Server. Le guide suivant expliq
 
 Le tableau suivant répertorie et décrit les configurations LDAP requises et facultatives.
 
-| Variable d&#39;environnement | Définition                                                                                                                                                                                                                                                                                                                         | Requis |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| `ADDRESS`                    | Adresse de votre serveur LDAP au sein du VPC qui héberge W&amp;B Server.                                                                                                                                                                                                                                                           | Oui    |
-| `BASE_DN`                    | Chemin racine à partir duquel démarrent les recherches, requis pour effectuer toute requête dans cet annuaire.                                                                                                                                                                                                                     | Oui    |
-| `BIND_DN`                    | Chemin de l&#39;utilisateur administratif enregistré sur le serveur LDAP. Ce paramètre est requis si le serveur LDAP ne prend pas en charge la liaison non authentifiée. S&#39;il est spécifié, W&amp;B Server se connecte au serveur LDAP en tant que cet utilisateur. Sinon, W&amp;B Server se connecte via une liaison anonyme. | Non    |
-| `BIND_PW`                    | Mot de passe de l&#39;utilisateur administratif, utilisé pour authentifier la liaison. S&#39;il est laissé vide, W&amp;B Server se connecte via une liaison anonyme.                                                                                                                                                               | Non    |
-| `ATTRIBUTES`                 | Noms des attributs d&#39;adresse e-mail et d&#39;ID de groupe, fournis sous forme de chaînes de caractères séparées par des virgules.                                                                                                                                                                                              | Oui    |
-| `TLS_ENABLE`                 | Active TLS.                                                                                                                                                                                                                                                                                                                        | Non    |
-| `GROUP_ALLOW_LIST`           | Liste d&#39;autorisation des groupes.                                                                                                                                                                                                                                                                                              | Non    |
-| `LOGIN`                      | Indique à W&amp;B Server d&#39;utiliser LDAP pour l&#39;authentification. Définissez ce paramètre sur `True` ou `False`. Vous pouvez éventuellement le définir sur `False` pour tester la configuration LDAP. Définissez-le sur `True` pour activer l&#39;authentification LDAP.                                                   | Non    |
+| Variable d’environnement | Définition                                                                                                                                                                                                                                                                                                                                | Requis |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| `ADDRESS`                | Il s’agit de l’adresse de votre serveur LDAP dans le VPC qui héberge le serveur W&amp;B.                                                                                                                                                                                                                                                  | oui    |
+| `BASE_DN`                | Chemin racine à partir duquel les recherches commencent, requis pour effectuer des requêtes dans ce répertoire.                                                                                                                                                                                                                           | oui    |
+| `BIND_DN`                | Chemin de l’utilisateur administratif enregistré sur le serveur LDAP. Ce paramètre est requis si le serveur LDAP ne prend pas en charge la liaison non authentifiée. S’il est spécifié, le serveur W&amp;B se connecte au serveur LDAP en tant que cet utilisateur. Sinon, le serveur W&amp;B se connecte à l’aide d’une liaison anonyme. | non    |
+| `BIND_PW`                | Mot de passe de l’utilisateur administratif, utilisé pour authentifier la liaison. S’il est laissé vide, le serveur W&amp;B se connecte à l’aide d’une liaison anonyme.                                                                                                                                                                   | non    |
+| `ATTRIBUTES`             | Fournir les noms des attributs d’adresse e-mail et d’ID de groupe sous forme de chaînes de caractères séparées par des virgules.                                                                                                                                                                                                          | oui    |
+| `TLS_ENABLE`             | Active TLS.                                                                                                                                                                                                                                                                                                                               | non    |
+| `GROUP_ALLOW_LIST`       | Liste d’autorisation des groupes.                                                                                                                                                                                                                                                                                                         | non    |
+| `LOGIN`                  | Indique au serveur W&amp;B d’utiliser LDAP pour l’authentification. Définissez ce paramètre sur `True` ou `False`. Vous pouvez le définir sur `False` pour tester la configuration LDAP. Définissez-le sur `True` pour démarrer l’authentification LDAP.                                                                                  | non    |

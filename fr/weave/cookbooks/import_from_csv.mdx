@@ -1,6 +1,6 @@
 ---
 title: "Importer depuis un fichier CSV"
-description: "Importez des jeux de données à partir de fichiers CSV dans W&B Weave afin de les utiliser dans des évaluations, le traçage et des flux de travail de comparaison de modèles."
+description: "Importez des jeux de données à partir de fichiers CSV dans W&B Weave afin de les utiliser dans des évaluations, le Tracing et des flux de travail de comparaison de modèles."
 ---
 
 <Note>
@@ -14,9 +14,9 @@ description: "Importez des jeux de données à partir de fichiers CSV dans W&B W
   # Importer des traces depuis des systèmes tiers
 </div>
 
-Il n’est parfois pas possible d’instrumenter votre code Python ou JavaScript avec l’intégration simple de Weave pour obtenir des traces en temps réel de votre application GenAI. Il arrive souvent que ces traces vous soient ensuite disponibles au format `csv` ou `json`.
+Il n’est parfois pas possible d’instrumenter votre code Python ou JavaScript avec l’intégration simple de Weave pour obtenir des traces en temps réel de votre application GenAI. Il arrive souvent que vous disposiez ensuite de ces traces au format `csv` ou `json`.
 
-Dans ce cookbook, nous explorons l’API Python de bas niveau de Weave pour extraire des données d’un fichier CSV et les importer dans Weave afin d’en tirer des informations utiles et de mener des évaluations rigoureuses.
+Dans ce cookbook, nous explorons l’API Python de bas niveau de Weave pour extraire des données d’un fichier CSV et les importer vers Weave afin d’en tirer des enseignements et de mener des évaluations rigoureuses.
 
 Le jeu de données d’exemple utilisé dans ce cookbook a la structure suivante :
 
@@ -33,7 +33,7 @@ conversation_id,turn_index,start_time,user_input,ground_truth,answer_text
 
 Pour comprendre les choix d’import dans ce cookbook, il faut savoir que les traces Weave ont des relations parent-enfant de type 1:Many et continues. Autrement dit, un même parent peut avoir plusieurs enfants, mais ce parent peut lui-même être l’enfant d’un autre parent.
 
-Nous utilisons donc `conversation_id` comme identifiant parent, et `turn_index` comme identifiant enfant, afin d’obtenir un journal complet des conversations.
+Nous utilisons donc `conversation_id` comme identifiant parent, et `turn_index` comme identifiant enfant, afin d’obtenir une journalisation complète des conversations.
 
 Veillez à modifier les variables selon vos besoins.
 
@@ -96,7 +96,7 @@ weave_client = weave.init(name_of_wandb_project)
   # Chargement des données
 </div>
 
-Nous chargeons les données dans un dataframe Pandas et veillons à les trier par `conversation_id` et `turn_index` afin de garantir que les parents et les enfants sont correctement ordonnés.
+Nous chargeons les données dans un dataframe Pandas et veillons à les trier par `conversation_id` et `turn_index` afin de garantir que les éléments parents et enfants sont correctement ordonnés.
 
 On obtient ainsi un dataframe Pandas à deux colonnes, avec les tours de conversation sous forme de tableau dans `conversation_data`.
 
@@ -129,15 +129,15 @@ result_df.head()
 Nous parcourons maintenant notre DataFrame pandas :
 
 * Nous créons un appel parent pour chaque `conversation_id`
-* Nous parcourons le tableau des tours pour créer des appels enfants triés selon leur `turn_index`
+* Nous parcourons la liste des tours pour créer des appels enfants triés selon leur `turn_index`
 
-Concepts importants de l&#39;API Python de bas niveau :
+Concepts importants de l’API Python de bas niveau :
 
 * Un appel Weave est équivalent à une trace Weave ; cet appel peut avoir un parent ou des enfants qui lui sont associés
-* Un appel Weave peut avoir d&#39;autres éléments qui lui sont associés : feedback, métadonnées, etc. Ici, nous ne lui associons que des entrées et des sorties, mais vous pouvez vouloir ajouter ces éléments lors de votre import si les données les fournissent.
-* Un appel Weave est `created` puis `finished`, car ces appels sont conçus pour être suivis en temps réel. Comme il s&#39;agit ici d&#39;un import a posteriori, nous créons et terminons l&#39;appel une fois que nos objets sont définis et liés entre eux.
-* La valeur `op` d&#39;un appel correspond à la manière dont Weave catégorise les appels de même nature. Dans cet exemple, tous les appels parents sont de type `Conversation`, et tous les appels enfants sont de type `Turn`. Vous pouvez modifier cela comme bon vous semble.
-* Un appel peut avoir des `inputs` et un `output`. Les `inputs` sont définis lors de la création, et l&#39;`output` est défini lorsque l&#39;appel est terminé.
+* Un appel Weave peut avoir d’autres éléments qui lui sont associés : Feedback, métadonnées, etc. Ici, nous ne lui associons que des entrées et des sorties, mais vous pouvez ajouter ces éléments lors de l’import si les données les fournissent.
+* Un appel Weave est `created` puis `finished`, car ces appels sont conçus pour être suivis en temps réel. Comme il s’agit ici d’un import a posteriori, nous créons et terminons l’appel une fois que nos objets sont définis et liés entre eux.
+* La valeur `op` d’un appel correspond à la manière dont Weave catégorise les appels de même structure. Dans cet exemple, tous les appels parents sont de type `Conversation`, et tous les appels enfants sont de type `Turn`. Vous pouvez modifier cela comme bon vous semble.
+* Un appel peut avoir des `inputs` et un `output`. Les `inputs` sont définis à la création, et l’`output` est défini lorsque l’appel est terminé.
 
 ```python lines
 <div id="log-the-traces-to-weave">
@@ -159,7 +159,7 @@ for _, row in result_df.iterrows():
         },
         # Le parent Conversation n'a pas de parent supplémentaire
         parent=None,
-        # Le nom sous lequel cette conversation apparaîtra dans l'interface
+        # Le nom sous lequel cette conversation apparaîtra dans l'interface utilisateur
         display_name=f"conversation-{row['conversation_id']}",
     )
 
@@ -200,7 +200,7 @@ for _, row in result_df.iterrows():
 ```
 
 <div id="result-traces-are-logged-to-weave">
-  # Résultat : les traces sont journalisées dans Weave
+  # Résultat : les traces sont enregistrées vers Weave
 </div>
 
 Traces :
@@ -216,16 +216,16 @@ Opérations :
 </Frame>
 
 <div id="bonus-export-your-traces-to-run-rigorous-evaluations">
-  # Bonus : exportez vos traces pour effectuer des évaluations rigoureuses !
+  # Bonus : exportez vos traces pour réaliser des évaluations rigoureuses !
 </div>
 
-Une fois que nos traces sont dans Weave et que nous avons compris à quoi ressemblent les conversations, nous pouvons vouloir les exporter ensuite vers un autre processus pour exécuter des évaluations Weave.
+Une fois nos traces dans Weave et après avoir compris à quoi ressemblent les conversations, nous pourrons vouloir les exporter vers un autre processus afin d’exécuter des évaluations dans Weave.
 
 <Frame>
   ![image.png](/images/screenshots/csv-3.png)
 </Frame>
 
-Pour ce faire, nous récupérons toutes les conversations depuis W&amp;B via notre API de requête simple et créons un jeu de données à partir de celles-ci.
+Pour ce faire, nous récupérons toutes les conversations depuis W&amp;B via notre API de requête simple et en créons un jeu de données.
 
 ```python lines
 ## Cette cellule ne s'exécute pas par défaut, commentez la ligne ci-dessous pour exécuter ce script
@@ -234,7 +234,7 @@ Pour ce faire, nous récupérons toutes les conversations depuis W&amp;B via not
 
 # Nous créons un filtre de requête qui récupère tous nos objets Conversation
 # La référence indiquée ci-dessous est propre à votre projet ; vous pouvez l'obtenir en
-# accédant aux Opérations de votre projet dans l'interface, en cliquant sur l'objet
+# accédant aux Opérations de votre projet dans l'interface utilisateur, en cliquant sur l'objet
 # "Conversations", puis sur l'onglet "Use" dans le panneau latéral.
 weave_ref_for_conversation_op = "weave://wandb-smle/import-weave-traces-cookbook/op/Conversation:tzUhDyzVm5bqQsuqh5RT4axEXSosyLIYZn9zbRyenaw"
 filter = weave.trace_server.trace_server_interface.CallsFilter(

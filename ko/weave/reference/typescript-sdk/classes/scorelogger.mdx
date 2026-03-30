@@ -5,7 +5,7 @@ description: "TypeScript SDK 레퍼런스"
 
 [weave](../) / ScoreLogger
 
-ScoreLogger는 하나의 예측에 대한 점수(스코어) 기록을 관리합니다.
+ScoreLogger는 단일 예측에 대한 점수 기록을 관리합니다.
 EvaluationLogger.logPrediction()에서 반환됩니다.
 
 `예시`
@@ -50,11 +50,11 @@ await pred.finish(); // 예측을 완료합니다
 • **new ScoreLogger**(`evalLogger`): [`ScoreLogger`](./scorelogger)
 
 <div id="parameters">
-  #### 매개변수
+  #### 파라미터
 </div>
 
-| 이름 | 유형 |
-| :------ | :------ |
+| 이름           | 유형                                       |
+| :----------- | :--------------------------------------- |
 | `evalLogger` | [`EvaluationLogger`](./evaluationlogger) |
 
 <div id="returns">
@@ -98,17 +98,17 @@ finish()가 호출되었는지 여부를 확인합니다.
   ### finish
 </div>
 
-▸ **finish**(): `Promise`\<`void`\>
+▸ **finish**(): `Promise`&lt;`void`&gt;
 
 예측 스코어링 프로세스를 마무리합니다.
-누적된 점수로 predict_and_score 호출을 최종 확정합니다.
+누적된 점수로 predict&#95;and&#95;score 호출을 최종 확정합니다.
 증분 집계를 업데이트하고 메모리를 해제합니다.
 
 <div id="returns">
   #### 반환값
 </div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
 <div id="defined-in">
   #### 정의된 위치
@@ -116,34 +116,32 @@ finish()가 호출되었는지 여부를 확인합니다.
 
 [evaluationLogger.ts:451](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L451)
 
-___
+***
 
 <div id="logscore">
   ### logScore
 </div>
 
-▸ **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
+▸ **logScore**(`scorerName`, `score`): `Promise`&lt;`void`&gt;
 
 이 예측에 대한 점수를 로그합니다.
 `predict_and_score`의 자식으로 scorer 호출을 생성합니다.
 
 <div id="parameters">
-  #### 매개변수
+  #### 파라미터
 </div>
 
-| 이름 | 타입 | 설명 |
-| :------ | :------ | :------ |
-| `scorerName` | `string` | 스코어러 이름 (예: "accuracy", "f1_score") |
-| `score` | `any` | 점수 값 |
+| 이름           | 유형       | 설명                                                     |
+| :----------- | :------- | :----------------------------------------------------- |
+| `scorerName` | `string` | 스코어러 이름 (예: &quot;정확도&quot;, &quot;f1&#95;score&quot;) |
+| `score`      | `any`    | 점수 값                                                   |
 
 <div id="returns">
   #### 반환값
 </div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
-<div id="defined-in">
-  #### 정의된 위치
-</div>
+#### 정의 위치
 
 [evaluationLogger.ts:360](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L360)

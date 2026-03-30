@@ -27,7 +27,7 @@ L’identifiant unique du type d’artefact.
 
 **Retourne :**
 
-* `str` : La valeur de la propriété `id`.
+* `str` : La valeur de propriété `id`.
 
 ***
 
@@ -47,11 +47,11 @@ Le nom du type d&#39;artefact.
 collection(name: 'str') → ArtifactCollection
 ```
 
-Obtenir une collection d’artifacts spécifique par son nom.
+Obtenir une collection d’artefacts spécifique par son nom.
 
 **Arguments :**
 
-* `name` (str):  Le nom de la collection d’artifacts à récupérer.
+* `name` (str):  Le nom de la collection d’artefacts à récupérer.
 
 ***
 
@@ -66,12 +66,12 @@ collections(
 ) → ArtifactCollections
 ```
 
-Obtenir toutes les collections d’artifacts associées à ce type d’artefact.
+Obtenir toutes les collections d’artefacts associées à ce type d’artefact.
 
 **Arguments :**
 
 * `filters` (dict):  Mappage facultatif des filtres à appliquer à la requête.
 * `order` (str):  Chaîne facultative permettant de spécifier l’ordre des résultats. Si `order` est précédé d’un `+`, l’ordre est croissant (par défaut). Si `order` est précédé d’un `-`, l’ordre est décroissant. Par défaut, les résultats sont triés par ID de collection dans l’ordre décroissant.
-* `per_page` (int):  Nombre de collections d’artifacts à récupérer par page. La valeur par défaut est 50.
+* `per_page` (int):  Nombre de collections d’artefacts à récupérer par page. La valeur par défaut est 50.
 
 ***

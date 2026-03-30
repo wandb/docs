@@ -1,9 +1,9 @@
 ---
-title: "범례가 포함된 플롯에 여러 개의 선을 그리려면 어떻게 해야 하나요?"
+title: "범례가 있는 플롯에 여러 개의 선을 그리려면 어떻게 해야 하나요?"
 keywords: ["Experiments"]
 ---
 
-`wandb.plot.line_series()`를 사용해 여러 개의 선이 있는 사용자 지정 차트를 생성합니다. 선 차트를 보려면 [프로젝트 페이지](/ko/models/track/project-page)로 이동하세요. 범례를 추가하려면 `wandb.plot.line_series()`에 `keys` 인수를 지정하세요. 예시:
+`wandb.plot.line_series()`를 사용해 여러 개의 선이 있는 사용자 지정 차트를 생성하세요. 선 차트를 보려면 [프로젝트 페이지](/ko/models/track/project-page)로 이동하세요. 범례를 추가하려면 `wandb.plot.line_series()`에 `keys` 인수를 포함하세요. 예를 들면 다음과 같습니다:
 
 ```python
 
@@ -18,15 +18,15 @@ with wandb.init(project="my_project") as run:
     )
 ```
 
-다중 선 플롯에 관한 자세한 내용은 **Multi-line** 탭 아래의 [여기](/ko/models/track/log/plots#basic-charts)를 참고하세요.
+다중 선형 플롯에 대한 자세한 내용은 **Multi-line** 탭 아래 [여기](/ko/models/track/log/plots#basic-charts)를 참고하세요.
 
 ***
 
-{/* ---- 자동 생성: 탭 배지 ----
+{/* ---- AUTO-GENERATED: tab badges ----
   프런트매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
   이 표시 사이의 내용은 직접 수정하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ko/support/models/tags/experiments)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- AUTO-GENERATED 종료: tab badges ---- */}

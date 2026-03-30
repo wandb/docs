@@ -1,9 +1,9 @@
 ---
-description: "Découvrez les fonctionnalités de déploiement du Cloud dédié de W&B, notamment la conformité, la sécurité des données, l’IAM et les politiques de maintenance."
+description: "Découvrez les fonctionnalités de déploiement du Cloud dédié de W&B, notamment la conformité, la sécurité des données, l'IAM et les politiques de maintenance."
 title: Cloud dédié
 ---
 
-Le Cloud dédié de W&amp;B est une plateforme à locataire unique, entièrement gérée, déployée dans les comptes cloud AWS, Google Cloud ou Azure de W&amp;B. Chaque instance de Cloud dédié dispose de son propre réseau isolé, ainsi que de ressources de calcul et de stockage isolées de celles des autres instances de Cloud dédié de W&amp;B. Vos métadonnées et données spécifiques à W&amp;B sont stockées dans un stockage cloud isolé et traitées à l’aide de services de calcul cloud isolés.
+Le Cloud dédié de W&amp;B est une plateforme mono-tenant, entièrement gérée, déployée dans les comptes cloud AWS, Google Cloud ou Azure de W&amp;B. Chaque instance de Cloud dédié dispose de son propre réseau isolé, ainsi que de ressources de calcul et de stockage isolées de celles des autres instances de Cloud dédié de W&amp;B. Vos métadonnées et données propres à W&amp;B sont stockées dans un stockage cloud isolé et traitées à l&#39;aide de services de calcul cloud isolés.
 
 Le Cloud dédié de W&amp;B est disponible dans [de multiples régions mondiales pour chaque fournisseur de cloud](./dedicated-cloud/regions)
 
@@ -11,14 +11,14 @@ Le Cloud dédié de W&amp;B est disponible dans [de multiples régions mondiales
   ## Limites de débit
 </div>
 
-W&amp;B applique des limites de débit par défaut sur Cloud dédié afin de maintenir la stabilité de l’instance. Voir [Limites de débit](/fr/platform/hosting/hosting-options/dedicated-cloud/rate-limits) pour connaître les valeurs par défaut, la façon dont les limites sont appliquées et comment demander des limites plus élevées lorsque vous augmentez l’échelle de l’entraînement.
+W&amp;B applique des limites de débit par défaut sur le Cloud dédié afin de maintenir la stabilité de l&#39;instance. Voir [Limites de débit](/fr/platform/hosting/hosting-options/dedicated-cloud/rate-limits) pour connaître les valeurs par défaut, la façon dont les limites sont appliquées et comment demander des limites plus élevées lorsque vous augmentez la charge d&#39;entraînement.
 
 <div id="compliance">
   ## Conformité
 </div>
 
-* **SOC 2** : la plateforme d’hébergement du Cloud dédié de W&amp;B répond aux exigences du [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), publié par l’[Auditing Standards Board of the American Institute of Certified Public Accountants (AICPA)](https://www.aicpa-cima.com/home). Un rapport SOC 2 évalue les contrôles d’une organisation de services en matière de sécurité, de disponibilité, d’intégrité du traitement, de confidentialité et de respect de la vie privée. Le Cloud dédié de W&amp;B fait l’objet d’audits internes et externes périodiques afin de vérifier le maintien de sa conformité. Se référer au [W&amp;B Security Portal](https://security.wandb.ai/) pour demander le rapport SOC 2 et d’autres documents relatifs à la sécurité et à la conformité.
-* **HIPAA** : lorsqu’il est correctement configuré, le Cloud dédié de W&amp;B répond aux exigences du [Health Insurance Portability and Accountability Act of 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). La conformité à l’HIPAA est une responsabilité partagée entre W&amp;B, le client et tout service tiers impliqué dans le déploiement. Les organisations soumises à l’HIPAA doivent disposer d’un **Business Associate Agreement** enregistré auprès de W&amp;B. Se référer au [W&amp;B Security Portal](https://security.wandb.ai/) pour demander plus d’informations.
+* **SOC 2** : La plateforme d&#39;hébergement du Cloud dédié de W&amp;B répond aux exigences du [Service and Organization Controls (SOC) 2 Type 2](https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2), publié par l&#39;[Auditing Standards Board of the American Institute of Certified Public Accountants (AICPA)](https://www.aicpa-cima.com/home). Un rapport SOC 2 évalue les contrôles d&#39;une organisation de services en matière de sécurité, de disponibilité, d&#39;intégrité du traitement, de confidentialité et de protection de la vie privée. Le Cloud dédié de W&amp;B fait l&#39;objet d&#39;audits internes et externes périodiques afin de vérifier la conformité continue. Consultez le [portail de sécurité W&amp;B](https://security.wandb.ai/) pour demander le rapport SOC 2 ainsi que d&#39;autres documents relatifs à la sécurité et à la conformité.
+* **HIPAA** : Lorsqu&#39;il est configuré de manière appropriée, le Cloud dédié de W&amp;B répond aux exigences du [Health Insurance Portability and Accountability Act de 1996 (HIPAA)](https://www.hhs.gov/hipaa/for-professionals/index.html). La conformité à la HIPAA est une responsabilité partagée qui implique W&amp;B, le client et tout service tiers intervenant dans le déploiement. Les organisations soumises à la HIPAA doivent disposer d&#39;un **Business Associate Agreement** enregistré auprès de W&amp;B. Consultez le [portail de sécurité W&amp;B](https://security.wandb.ai/) pour demander des informations complémentaires.
 
 <div id="data-security">
   ## Sécurité des données
@@ -42,50 +42,50 @@ Il vous incombe de vous assurer que votre déploiement est conforme aux politiqu
   ## Gestion des identités et des accès (IAM)
 </div>
 
-Utilisez les fonctionnalités de gestion des identités et des accès pour assurer une authentification sécurisée et une autorisation efficace dans votre organisation W&amp;B. Les fonctionnalités suivantes sont disponibles pour l’IAM dans les instances de Cloud dédié :
+Utilisez les fonctionnalités de gestion des identités et des accès pour assurer une authentification sécurisée et une autorisation efficace dans votre organisation W&amp;B. Les fonctionnalités suivantes sont disponibles pour l&#39;IAM dans les instances Dedicated Cloud :
 
 * Authentifiez-vous avec le [SSO via OpenID Connect (OIDC)](/fr/platform/hosting/iam/sso) ou avec [LDAP](/fr/platform/hosting/iam/ldap).
-* [Configurez les rôles utilisateur appropriés](/fr/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role) à l’échelle de l’organisation et au sein d’une équipe.
-* Définissez le périmètre d’un projet W&amp;B afin de limiter les personnes autorisées à le consulter, le modifier et y soumettre des runs W&amp;B à l’aide des [projets restreints](/fr/platform/hosting/iam/access-management/restricted-projects).
-* Utilisez des JSON Web Tokens avec la [fédération d’identités](/fr/platform/hosting/iam/identity_federation) pour accéder aux API W&amp;B.
+* [Configurez les rôles utilisateur appropriés](/fr/platform/hosting/iam/access-management/manage-organization#assign-or-update-a-users-role) à l&#39;échelle de l&#39;organisation et au sein d&#39;une équipe.
+* Définissez le périmètre d&#39;un projet W&amp;B afin de limiter les personnes autorisées à le consulter, le modifier et y soumettre des runs W&amp;B à l&#39;aide des [projets restreints](/fr/platform/hosting/iam/access-management/restricted-projects).
+* Utilisez des JSON Web Tokens avec la [fédération d&#39;identités](/fr/platform/hosting/iam/identity_federation) pour accéder aux API W&amp;B.
 
 <div id="monitor">
   ## Surveillance
 </div>
 
-Utilisez les [journaux d’audit](/fr/platform/hosting/monitoring-usage/audit-logging) pour suivre l’activité des utilisateurs au sein de vos équipes et respecter les exigences de gouvernance de votre entreprise. Vous pouvez également consulter l’utilisation de votre organisation dans notre instance de Cloud dédié avec le [tableau de bord d’organisation W&amp;B](/fr/platform/hosting/monitoring-usage/org_dashboard).
+Utilisez les [journaux d&#39;audit](/fr/platform/hosting/monitoring-usage/audit-logging) pour suivre l&#39;activité des utilisateurs au sein de vos équipes et respecter les exigences de gouvernance de votre entreprise. Vous pouvez également consulter l&#39;utilisation de votre organisation dans notre instance de Cloud dédié avec le [tableau de bord de l&#39;organisation W&amp;B](/fr/platform/hosting/monitoring-usage/org_dashboard).
 
 <div id="maintenance">
   ## Maintenance
 </div>
 
-Comme avec le Cloud mutualisé de W&amp;B, vous n’avez pas à assumer la charge ni les coûts liés au provisionnement et à la maintenance de la plateforme W&amp;B avec le Cloud dédié.
+Comme avec le Cloud mutualisé de W&amp;B, vous n&#39;avez pas à supporter la charge opérationnelle ni les coûts liés au provisionnement et à la maintenance de la plateforme W&amp;B avec le Cloud dédié.
 
-Pour comprendre comment W&amp;B gère les mises à jour sur le Cloud dédié, se référer au [processus de publication des versions du serveur](/fr/platform/hosting/server-upgrade-process).
+Pour comprendre comment W&amp;B gère les mises à jour sur le Cloud dédié, référez-vous au [processus de publication des versions du serveur](/fr/platform/hosting/server-upgrade-process).
 
 <div id="compliance">
   ## Conformité
 </div>
 
-Les contrôles de sécurité du Cloud dédié de W&amp;B font l’objet d’audits périodiques, internes comme externes. Référez-vous au [W&amp;B Security Portal](https://security.wandb.ai/) pour demander les documents de sécurité et de conformité nécessaires à votre évaluation du produit.
+Les contrôles de sécurité du Cloud dédié de W&amp;B font l&#39;objet d&#39;audits périodiques, internes comme externes. Référez-vous au [W&amp;B Security Portal](https://security.wandb.ai/) pour demander les documents de sécurité et de conformité nécessaires à votre évaluation du produit.
 
 <div id="data-retention-policy">
   ## Politique de conservation des données
 </div>
 
-Par défaut, une instance de Cloud dédié conserve les éléments suivants pendant 7 jours après leur suppression :
+Par défaut, une instance de Cloud dédié conserve les éléments suivants pendant 7 jours après leur suppression :
 
 * Runs et historique
-* Fichiers de run non liés aux artefacts, tels que les médias, les fichiers de configuration et les fichiers journaux
-* Artifacts et références d’artefacts
+* Fichiers de run hors artefacts, tels que les médias, les fichiers de configuration et les fichiers de journal
+* Artifacts et références d&#39;artefacts
 
-Tant que cette période n’est pas écoulée, ces éléments peuvent être restaurés. Contactez l’[assistance](mailto:support@wandb.ai) ou votre AISE.
+Jusqu&#39;à l&#39;expiration de cette période, ces éléments peuvent être restaurés. Contactez l&#39;[assistance](mailto:support@wandb.ai) ou votre AISE.
 
-Pour répondre à vos exigences de conservation des données, vous pouvez modifier la durée de conservation des données de votre instance de Cloud dédié. Selon votre cas d’usage, sélectionnez l’onglet **Variable d’environnement** ou **Helm** pour plus de détails.
+Pour répondre à vos exigences en matière de conservation des données, vous pouvez modifier la durée de conservation des données de votre instance de Cloud dédié. Selon votre cas d&#39;usage, sélectionnez l&#39;onglet **Variable d&#39;environnement** ou **Helm** pour plus de détails.
 
 <Tabs>
-  <Tab title="Variable d’environnement">
-    Pour modifier la politique de conservation des données, définissez la variable d’environnement `GORILLA_DATA_RETENTION_PERIOD` sur un nombre d’heures. Par exemple, pour conserver les données supprimées pendant 14 jours (336 heures) :
+  <Tab title="Variable d'environnement">
+    Pour modifier la politique de conservation des données, définissez la variable d&#39;environnement `GORILLA_DATA_RETENTION_PERIOD` sur un nombre d&#39;heures. Par exemple, pour conserver les données supprimées pendant 14 jours (336 heures) :
 
     ```bash
     export GORILLA_DATA_RETENTION_PERIOD="336h"
@@ -93,7 +93,7 @@ Pour répondre à vos exigences de conservation des données, vous pouvez modifi
   </Tab>
 
   <Tab title="Helm">
-    Pour modifier la politique de conservation des données, définissez la valeur Helm `env.dataRetentionPeriod` sur un nombre d’heures. Par exemple, pour conserver les données supprimées pendant 14 jours (336 heures) :
+    Pour modifier la politique de conservation des données, définissez la valeur Helm `env.dataRetentionPeriod` sur un nombre d&#39;heures. Par exemple, pour conserver les données supprimées pendant 14 jours (336 heures) :
 
     ```helm
     env: dataRetentionPeriod: "336h"

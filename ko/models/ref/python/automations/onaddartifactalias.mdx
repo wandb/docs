@@ -11,11 +11,11 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnAddArtifactAlias`
 
-새 별칭이 아티팩트에 할당됩니다.
+새 별칭이 아티팩트에 부여됩니다.
 
 예시:
 컬렉션 &quot;my-collection&quot; 내의 임의의 아티팩트에 별칭 &quot;prod&quot;가
-할당될 때마다 트리거되는 이벤트를 정의합니다:
+부여될 때마다 트리거되는 이벤트를 정의합니다:
 
 ```python
 from wandb import Api
@@ -41,7 +41,7 @@ __init__(
 ) → None
 ```
 
-**인자:**
+**매개변수:**
 
 * `event_type` (Literal[ADD&#95;ARTIFACT&#95;ALIAS]):
 * `scope` (Union[&#95;ArtifactSequenceScope, &#95;ArtifactPortfolioScope, ProjectScope]): 이벤트의 범위입니다.

@@ -1,5 +1,5 @@
 ---
-description: "Intégrez W&B à Kubeflow Pipelines pour suivre les expériences et visualiser les métriques dans les différents composants du pipeline de ML."
+description: "Intégrez W&B à Kubeflow Pipelines pour suivre les expériences et visualiser les métriques au sein des composants du pipeline ML."
 title: Kubeflow Pipelines (kfp)
 ---
 
@@ -7,15 +7,15 @@ import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-strea
 
 [Kubeflow Pipelines (kfp) ](https://www.kubeflow.org/docs/components/pipelines/overview/)est une plateforme permettant de créer et de déployer des flux de travail de machine learning (ML) portables et évolutifs, basés sur des conteneurs Docker.
 
-Cette intégration permet aux utilisateurs d’appliquer des décorateurs aux composants fonctionnels Python de kfp afin de journaliser automatiquement les paramètres et les artefacts dans W&amp;B.
+Cette intégration permet aux utilisateurs d’appliquer des décorateurs aux composants fonctionnels Python kfp afin de journaliser automatiquement les paramètres et les artefacts dans W&amp;B.
 
-Cette fonctionnalité est disponible à partir de `wandb==0.12.11` et nécessite `kfp<2.0.0`
+Cette fonctionnalité a été introduite dans `wandb==0.12.11` et nécessite `kfp<2.0.0`
 
 <div id="sign-up-and-create-an-api-key">
   ## Inscrivez-vous et créez une clé API
 </div>
 
-Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil utilisateur.
+Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil utilisateur.
 
 <ApiKeyCreateStreamlined />
 
@@ -26,11 +26,11 @@ Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouv
   ## Installez la bibliothèque `wandb` et connectez-vous
 </div>
 
-Pour installer la bibliothèque `wandb` localement et vous connecter :
+Pour installer la bibliothèque `wandb` en local et vous connecter :
 
 <Tabs>
   <Tab title="Ligne de commande">
-    1. Définissez la [variable d’environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+    1. Définissez la [variable d’environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` sur votre clé API.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -86,10 +86,10 @@ add = components.create_component_from_func(add)
 ```
 
 <div id="pass-environment-variables-to-containers">
-  ## Transmettez des variables d&#39;environnement aux conteneurs
+  ## Transmettre des variables d&#39;environnement aux conteneurs
 </div>
 
-Il se peut que vous deviez transmettre explicitement des [variables d&#39;environnement](/fr/models/track/environment-variables/) à vos conteneurs. Pour la liaison bidirectionnelle, vous devez également définir la variable d&#39;environnement `WANDB_KUBEFLOW_URL` sur l&#39;URL de base de votre instance Kubeflow Pipelines. Par exemple, `https://kubeflow.mysite.com`.
+Il se peut que vous deviez transmettre explicitement des [variables d&#39;environnement](/fr/models/track/environment-variables/) à vos conteneurs. Pour la liaison bidirectionnelle, vous devez également définir la variable d&#39;environnement `WANDB_KUBEFLOW_URL` avec l&#39;URL de base de votre instance Kubeflow Pipelines. Par exemple, `https://kubeflow.mysite.com`.
 
 ```python
 import os
@@ -118,23 +118,23 @@ def example_pipeline(param1: str, param2: int):
 </div>
 
 <div id="via-the-kubeflow-pipelines-ui">
-  ### Via l’interface de Kubeflow Pipelines
+  ### Via l’interface utilisateur de Kubeflow Pipelines
 </div>
 
-Cliquez sur n’importe quel run dans l’interface de Kubeflow Pipelines qui a été journalisé avec W&amp;B.
+Cliquez sur n’importe quel run dans l’interface utilisateur de Kubeflow Pipelines qui a été enregistré avec W&amp;B.
 
 * Trouvez des détails sur les entrées et les sorties dans les onglets `Input/Output` et `ML Metadata`.
 * Affichez l’application web W&amp;B depuis l’onglet `Visualizations`.
 
 <Frame>
-  <img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="W&B dans l’interface de Kubeflow" />
+  <img src="/images/integrations/kubeflow_app_pipelines_ui.png" alt="W&B dans l’interface utilisateur de Kubeflow" />
 </Frame>
 
 <div id="via-the-web-app-ui">
-  ### Via l’interface de l’application web
+  ### Via l’interface utilisateur de l’application web
 </div>
 
-L’interface de l’application web affiche le même contenu que l’onglet `Visualizations` dans Kubeflow Pipelines, mais avec plus d’espace. Pour en savoir [plus sur l’interface de l’application web, cliquez ici](/fr/models/app).
+L’interface utilisateur de l’application web affiche le même contenu que l’onglet `Visualizations` dans Kubeflow Pipelines, mais avec plus d’espace. Pour en savoir [plus sur l’interface utilisateur de l’application web, cliquez ici](/fr/models/app).
 
 <Frame>
   <img src="/images/integrations/kubeflow_pipelines.png" alt="Détails du run" />
@@ -173,7 +173,7 @@ Si vous souhaitez un contrôle plus précis de la journalisation, vous pouvez in
   ### Avec des appels explicites à `wandb.log_artifacts`
 </div>
 
-Dans l’exemple ci-dessous, nous entraînons un modèle. Le décorateur `@wandb_log` suivra automatiquement les entrées et sorties pertinentes. Si vous souhaitez journaliser le processus d’entraînement dans le journal, vous pouvez l’ajouter explicitement comme suit :
+Dans l’exemple ci-dessous, nous entraînons un modèle. Le décorateur `@wandb_log` suivra automatiquement les entrées et sorties pertinentes. Si vous souhaitez ajouter explicitement cette journalisation du processus d’entraînement comme suit :
 
 ```python
 @wandb_log

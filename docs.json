@@ -2279,7 +2279,7 @@
                   {
                     "group": "API de service",
                     "openapi": {
-                      "source": "weave/reference/service-api/openapi.json",
+                      "source": "fr/weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     },
                     "pages": [
@@ -2362,7 +2362,7 @@
               },
               {
                 "group": "Référence de l’API",
-                "openapi": "training/api-reference/openapi.json",
+                "openapi": "fr/training/api-reference/openapi.json",
                 "pages": [
                   "fr/training/api-reference"
                 ]
@@ -3508,7 +3508,7 @@
                   {
                     "group": "Service API",
                     "openapi": {
-                      "source": "weave/reference/service-api/openapi.json",
+                      "source": "ja/weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     },
                     "pages": [
@@ -4737,7 +4737,7 @@
                   {
                     "group": "Service API",
                     "openapi": {
-                      "source": "weave/reference/service-api/openapi.json",
+                      "source": "ko/weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     },
                     "pages": [
@@ -4820,7 +4820,7 @@
               },
               {
                 "group": "API Reference",
-                "openapi": "training/api-reference/openapi.json",
+                "openapi": "ko/training/api-reference/openapi.json",
                 "pages": [
                   "ko/training/api-reference"
                 ]

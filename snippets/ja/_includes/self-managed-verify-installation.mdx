@@ -5,10 +5,10 @@ title: セルフマネージド環境のインストール検証
 インストールを検証するには、W&amp;B は [W&amp;B CLI](/ja/models/ref/cli/) の使用を推奨します。verify コマンドは、すべてのコンポーネントと設定を確認するための複数のテストを実行します。
 
 <Note>
-  この手順では、最初の管理者ユーザーアカウントがブラウザーで作成されていることを前提としています。
+  この step では、最初の管理者ユーザーアカウントがブラウザーで作成されていることを想定しています。
 </Note>
 
-次の手順に従ってインストールを検証します。
+次の step に従ってインストールを検証します。
 
 1. W&amp;B CLI をインストールします：
 
@@ -22,7 +22,7 @@ pip install wandb
 wandb login --host=https://YOUR_DNS_DOMAIN
 ```
 
-例えば、
+例えば：
 
 ```bash
 wandb login --host=https://wandb.company-name.com
@@ -34,7 +34,7 @@ wandb login --host=https://wandb.company-name.com
 wandb verify
 ```
 
-インストールが正常に完了し、W&amp;B のデプロイメントが問題なく動作している場合、次のような出力が表示されます。
+インストールが正常に完了し、W&amp;B のデプロイが問題なく動作している場合、次のような出力が表示されます。
 
 ```console
 Default host selected:  https://wandb.company-name.com
@@ -50,4 +50,4 @@ Checking logged metrics, saving and downloading a file..................✅
 Checking artifact save and download workflows...........................✅
 ```
 
-エラーが発生した場合は W&amp;B Support までお問い合わせください。
+エラーが発生した場合は W&amp;B サポートまでお問い合わせください。

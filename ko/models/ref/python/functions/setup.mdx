@@ -1,7 +1,7 @@
 ---
 title: setup()
 namespace: python_sdk_actions
-python_object_type: function
+python_object_type: 함수
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/wandb_setup.py" />
 
 
-### <kbd>function</kbd> `setup`
+### <kbd>함수</kbd> `setup`
 
 ```python
 setup(settings: 'Settings | None' = None) → _WandbSetup
@@ -19,13 +19,13 @@ setup(settings: 'Settings | None' = None) → _WandbSetup
 
 일반적으로는 `wandb.init()`에서 암묵적으로 호출되므로 별도로 호출할 필요는 없습니다.
 
-여러 프로세스에서 wandb를 사용할 때는, 자식 프로세스를 시작하기 전에 부모 프로세스에서 `wandb.setup()`을 호출하면 성능과 리소스 활용이 개선될 수 있습니다.
+여러 프로세스에서 wandb를 사용할 때는 자식 프로세스를 시작하기 전에 부모 프로세스에서 `wandb.setup()`을 호출하면 성능이 향상되고 리소스 사용량이 개선될 수 있습니다.
 
 `wandb.setup()`은 `os.environ`을 수정하며, 수정된 환경 변수를 자식 프로세스가 상속받는 것이 중요합니다.
 
-`wandb.teardown()`도 참고하세요.
+`wandb.teardown()`도 참조하세요.
 
-**Args:**
+**매개변수:**
 
 * `settings`: 전역적으로 적용할 설정. 이후에 호출되는 `wandb.init()`에서 재정의될 수 있습니다.
 

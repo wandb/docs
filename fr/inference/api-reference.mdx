@@ -1,6 +1,6 @@
 ---
 title: "Aperçu de l'API"
-description: "Explorez la référence complète de l'API REST du service W&B Inférence, y compris les endpoints et l'authentification."
+description: "Explorez la référence complète de l'API REST du service W&B Inférence, y compris les points de terminaison et l'authentification."
 ---
 
 Découvrez comment utiliser l&#39;API W&amp;B Inférence pour accéder par programmation aux modèles de fondation.
@@ -23,17 +23,17 @@ https://api.inference.wandb.ai/v1
   * Un compte W&amp;B avec des crédits d’Inférence
   * Une clé API W&amp;B valide
 
-  Si vous appartenez à plus d’une équipe ou si vous souhaitez associer votre utilisation à un projet, vous aurez également besoin des identifiants d’équipe et de projet. Dans les exemples de code, ils apparaissent sous la forme `<your-team>/<your-project>`. À défaut, votre entité par défaut et le nom de projet `inference` seront utilisés.
+  Si vous appartenez à plus d’une équipe ou si vous souhaitez associer votre utilisation à un projet, vous aurez également besoin des ID d’équipe et de projet. Dans les exemples de code, ils apparaissent sous la forme `<your-team>/<your-project>`. À défaut, votre entité par défaut et le nom de projet `inference` seront utilisés.
 </Note>
 
 <div id="available-methods">
   ## Méthodes disponibles
 </div>
 
-L’API W&amp;B Inférence fournit des points de terminaison compatibles avec OpenAI pour interagir avec des modèles de fondation :
+L&#39;API W&amp;B Inférence fournit des points de terminaison compatibles avec OpenAI pour interagir avec des modèles de fondation :
 
-* **[Chat Completions](/fr/inference/api-reference/chat-completions)** - Créer des complétions de chat à l’aide de différents modèles de fondation
-* **[List Models](/fr/inference/api-reference/list-models)** - Obtenir tous les modèles disponibles et leurs identifiants
+* **[Chat Completions](/fr/inference/api-reference/chat-completions)** - Créer des complétions de chat à l&#39;aide de différents modèles de fondation
+* **[List Models](/fr/inference/api-reference/list-models)** - Obtenir tous les modèles disponibles et leurs ID
 
 <div id="authentication">
   ## Authentification
@@ -43,19 +43,19 @@ Toutes les requêtes API nécessitent une authentification à l’aide de votre 
 
 Incluez votre clé API dans les en-têtes de requête :
 
-* Pour le SDK OpenAI : définissez le paramètre `api_key`
+* Pour le SDK d’OpenAI : définissez le paramètre `api_key`
 * Pour les appels API directs : utilisez `Authorization: Bearer <your-api-key>`
 
 <div id="error-handling">
   ## Gestion des erreurs
 </div>
 
-Voir [Erreurs de l’API](/fr/support/inference) pour obtenir la liste complète des codes d’erreur et savoir comment les résoudre.
+Voir [Erreurs de l’API](/fr/inference/api-reference/errors) pour obtenir la liste complète des codes d’erreur et savoir comment les résoudre.
 
 <div id="next-steps">
-  ## Étapes suivantes
+  ## Prochaines étapes
 </div>
 
 * Essayez les [exemples d&#39;utilisation](/fr/inference/examples) pour voir l&#39;API en action
 * Explorez les modèles dans l&#39;[interface utilisateur](/fr/inference/ui-guide)
-* Consultez les [limites d&#39;utilisation](/fr/inference/usage-limits) de votre compte
+* Consultez les [limites d&#39;utilisation](/fr/inference/usage-limits) pour votre compte

@@ -16,16 +16,16 @@ Utilisez Run Comparer pour voir les différences et les similitudes entre les ru
   ## Utiliser Run Comparer
 </div>
 
-Run Comparer affiche la configuration et les métriques enregistrées des 10 premiers runs visibles dans le projet, avec une colonne par run.
+Run Comparer affiche la configuration et les métriques enregistrées pour les 10 premiers runs visibles du projet, avec une colonne par run.
 
-* Pour modifier les runs à comparer, vous pouvez rechercher, filtrer, regrouper ou trier la liste des runs dans la partie gauche. Run Comparer se met à jour automatiquement.
+* Pour modifier les runs à comparer, vous pouvez rechercher, filtrer, regrouper ou trier la liste des runs à gauche. Run Comparer se met à jour automatiquement.
 * Utilisez le champ de recherche en haut de Run Comparer pour filtrer ou rechercher une clé de configuration ou de métadonnées, comme la version de Python ou la date de création du run.
-* Pour voir rapidement les différences et masquer les valeurs identiques, basculez **Diff only** en haut du panneau.
+* Pour voir rapidement les différences et masquer les valeurs identiques, activez **Diff only** en haut du panneau.
 * Pour ajuster la largeur des colonnes ou la hauteur des lignes, utilisez les boutons de mise en forme en haut du panneau.
-* Pour copier la valeur de n&#39;importe quelle configuration ou métrique, survolez la valeur avec la souris, puis cliquez sur le bouton de copie. La valeur entière est copiée, même si elle est trop longue pour s&#39;afficher à l&#39;écran.
+* Pour copier une valeur de configuration ou de métrique, survolez-la avec la souris, puis cliquez sur le bouton de copie. La valeur complète est copiée, même si elle est trop longue pour s&#39;afficher à l&#39;écran.
 
 <Note>
-  Par défaut, Run Comparer ne fait pas la distinction entre les runs ayant des valeurs différentes pour [`job_type`](/fr/models/ref/python/functions/init). Cela signifie qu&#39;il est possible de comparer des runs qui ne sont pas comparables au sein d&#39;un projet. Par exemple, vous pouvez comparer un run d&#39;entraînement à un run d&#39;évaluation de modèle. Un run d&#39;entraînement peut contenir les journaux du run, des hyperparamètres, des métriques de perte d&#39;entraînement et le modèle lui-même. Un run d&#39;évaluation peut utiliser le modèle pour vérifier les performances du modèle sur de nouvelles données d&#39;entraînement.
+  Par défaut, Run Comparer ne fait pas de distinction entre les runs qui ont des valeurs différentes pour [`job_type`](/fr/models/ref/python/functions/init). Cela signifie qu&#39;il est possible de comparer des runs qui ne sont pas comparables au sein d&#39;un projet. Par exemple, vous pouvez comparer un run d&#39;entraînement à un run d&#39;évaluation de modèle. Un run d&#39;entraînement peut contenir les journaux du run, des hyperparamètres, des métriques de perte d&#39;entraînement et le modèle lui-même. Un run d&#39;évaluation peut utiliser le modèle pour vérifier les performances du modèle sur de nouvelles données d&#39;entraînement.
 
-  Lorsque vous recherchez, filtrez, regroupez ou triez la liste des runs dans le tableau Runs, Run Comparer se met automatiquement à jour pour comparer les 10 premiers runs. Filtrez ou recherchez dans le tableau Runs pour comparer des runs similaires, par exemple en filtrant ou en triant la liste par `job_type`. Pour en savoir plus, voir [le filtrage des runs](/fr/models/runs/filter-runs/).
+  Lorsque vous recherchez, filtrez, regroupez ou triez la liste des runs dans le tableau des runs, Run Comparer se met automatiquement à jour pour comparer les 10 premiers runs. Filtrez ou recherchez dans le tableau des runs pour comparer des runs similaires, par exemple en filtrant ou en triant la liste par `job_type`. Pour en savoir plus, voir [le filtrage des runs](/fr/models/runs/filter-runs/).
 </Note>

@@ -10,7 +10,7 @@ W&amp;B のメトリクス名は、UI で適切に並べ替えやフィルター
 </div>
 
 * **使用できる文字**: 英字 (A-Z, a-z)、数字 (0-9)、およびアンダースコア (&#95;)
-* **先頭文字**: 名前は英字またはアンダースコアで始まる必要があります
+* **先頭文字**: 名は英字またはアンダースコアで始まる必要があります
 * **パターン**: メトリクス名は `/^[_a-zA-Z][_a-zA-Z0-9]*$/` に一致する必要があります
 
 これらのルールに従わないメトリクスは、W&amp;B UI で並べ替えやフィルターができない場合があります。
@@ -27,7 +27,7 @@ with wandb.init() as run:
   run.log({"modelAccuracy": 0.95, "learning_rate": 0.001})
 ```
 
-**無効なメトリクス名 (避けてください) ：**
+**無効なメトリクス名 (避けてください)：**
 
 ```python
 with wandb.init() as run:
@@ -51,9 +51,9 @@ with wandb.init() as run:
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  このマーカーの間は手動で編集しないでください。
+{/* ---- 自動生成: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>

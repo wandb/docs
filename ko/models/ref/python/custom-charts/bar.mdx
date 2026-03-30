@@ -1,7 +1,7 @@
 ---
 title: bar()
 namespace: python_sdk_custom_charts
-python_object_type: function
+python_object_type: 함수
 ---
 
 import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/bar.py" />
 
 
-### <kbd>function</kbd> `bar`
+### <kbd>함수</kbd> `bar`
 
 ```python
 bar(
@@ -21,19 +21,19 @@ bar(
 ) → CustomChart
 ```
 
-wandb.Table 데이터를 기반으로 막대 차트를 생성합니다.
+wandb.Table의 데이터로 막대 차트를 생성합니다.
 
-**Args:**
+**매개변수:**
 
-* `table`:  막대 차트에 사용할 데이터를 포함한 테이블입니다.
-* `label`:  각 막대의 레이블로 사용할 열의 이름입니다.
-* `value`:  각 막대의 값으로 사용할 열의 이름입니다.
-* `title`:  막대 차트의 제목입니다.
-* `split_table`:  테이블을 W&amp;B UI에서 별도의 섹션으로 분할할지 여부입니다. `True`이면 테이블은 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
+* `table`:  막대 차트용 데이터가 포함된 테이블입니다.
+* `label`:  각 막대의 레이블에 사용할 열 이름입니다.
+* `value`:  각 막대의 값에 사용할 열 이름입니다.
+* `title`:  막대 차트 제목입니다.
+* `split_table`:  테이블을 W&amp;B UI에서 별도 섹션으로 분리할지 여부입니다. `True`이면 테이블이 &quot;Custom Chart Tables&quot;라는 이름의 섹션에 표시됩니다. 기본값은 `False`입니다.
 
-**Returns:**
+**반환값:**
 
-* `CustomChart`:  W&amp;B에 로그할 수 있는 사용자 지정 차트 객체입니다. 차트를 로그하려면 `wandb.log()`에 전달합니다.
+* `CustomChart`:  W&amp;B에 로깅할 수 있는 맞춤형 차트 객체입니다. 차트를 로깅하려면 `wandb.log()`에 전달하세요.
 
 **Example:**
 

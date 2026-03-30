@@ -1,65 +1,66 @@
 ---
-title: Vue des jobs Launch
-description: "Vue des détails des jobs Launch, lister les jobs disponibles et vérifier le statut des jobs dans l’application W&B et en CLI."
+title: Voir les jobs Launch
+description: "Voir les détails des jobs Launch, lister les jobs disponibles et vérifier le statut des jobs dans W&B App et la CLI."
 ---
 
-Cette page explique comment afficher des informations sur les jobs Launch ajoutés aux files d’attente.
+La page suivante décrit comment voir les informations sur les jobs Launch ajoutés aux files d&#39;attente.
 
 <div id="view-jobs">
-  ## Vue des jobs
+  ## Voir les jobs
 </div>
 
-Affichez les jobs ajoutés à une file d&#39;attente dans l&#39;application W&amp;B.
+Consultez les jobs ajoutés à une file d&#39;attente avec la W&amp;B App.
 
-1. Accédez à l&#39;application W&amp;B à l&#39;adresse https://wandb.ai/home.
+1. Accédez à la W&amp;B App à l&#39;adresse https://wandb.ai/home.
 2. Sélectionnez **Launch** dans la section **Applications** de la barre latérale gauche.
-3. Sélectionnez le menu déroulant **All entities**, puis l&#39;entité à laquelle appartient le job Launch.
-4. Développez le panneau rétractable sur la page de l&#39;application Launch pour afficher la liste des jobs ajoutés à cette file d&#39;attente.
+3. Sélectionnez le menu déroulant **All entities** et sélectionnez l&#39;entité à laquelle appartient le job Launch.
+4. Développez l&#39;interface utilisateur repliable depuis la page de l&#39;application Launch pour voir une liste des jobs ajoutés à cette file d&#39;attente spécifique.
 
 <Note>
-  Un run est créé lorsque l&#39;agent de lancement exécute un job Launch. En d&#39;autres termes, chaque run répertorié correspond à un job spécifique ajouté à cette file d&#39;attente.
+  Un run est créé lorsque l&#39;agent Launch exécute un job Launch. En d&#39;autres termes, chaque run répertorié correspond à un job spécifique qui a été ajouté à cette file d&#39;attente.
 </Note>
 
-Par exemple, l&#39;image suivante montre deux runs créés à partir d&#39;un job appelé `job-source-launch_demo-canonical`. Le job a été ajouté à une file d&#39;attente appelée `Start queue`. Le premier run répertorié dans la file d&#39;attente s&#39;appelle `resilient-snowball` et le second s&#39;appelle `earthy-energy-165`.
+Par exemple, l&#39;image suivante montre deux runs créés à partir d&#39;un job appelé `job-source-launch_demo-canonical`. Le job a été ajouté à une file d&#39;attente appelée `Start queue`. Le premier run répertorié dans la file d&#39;attente s&#39;appelle `resilient-snowball` et le deuxième run répertorié s&#39;appelle `earthy-energy-165`.
 
 <Frame>
   <img src="/images/launch/launch_jobs_status.png" alt="Vue du statut des jobs Launch" />
 </Frame>
 
-Dans l&#39;interface de l&#39;application W&amp;B, vous pouvez trouver des informations supplémentaires sur les runs créés à partir de jobs Launch, notamment :
+Dans l&#39;interface de l’application W&amp;B, vous pouvez trouver des informations supplémentaires sur les runs créés à partir de jobs Launch, telles que :
 
 * **Run** : Le nom du run W&amp;B attribué à ce job.
   * **Job ID** : Le nom du job.
-  * **Projet** : Le nom du projet auquel appartient le run.
+  * **Projet** : Le nom du projet auquel le run appartient.
   * **Statut** : Le statut du run dans la file d&#39;attente.
-  * **Auteur** : L&#39;entité W&amp;B qui a créé le run.
-  * **Date de création** : L&#39;horodatage auquel la file d&#39;attente a été créée.
-  * **Heure de début** : L&#39;horodatage du démarrage du job.
-  * **Durée** : Le temps, en secondes, nécessaire pour terminer le run du job.
+  * **Author** : L&#39;entité W&amp;B qui a créé le run.
+  * **Creation date** : L&#39;horodatage de création de la file d&#39;attente.
+  * **Start time** : L&#39;horodatage du démarrage du job.
+  * **Duration** : Le temps, en secondes, nécessaire pour terminer le run du job.
 
 <div id="list-jobs">
   ## Lister les jobs
 </div>
 
-Vue de la liste des jobs existant dans un projet avec l’interface en ligne de commande W&amp;B. Utilisez la commande W&amp;B `job list` et indiquez, via les options `--project` et `--entity` respectivement, le nom du projet et de l’entité auxquels appartient le job Launch.
+Affichez la liste des jobs présents dans un projet avec la CLI W&amp;B. Utilisez la commande W&amp;B job list et fournissez le nom du projet et de l’entité auxquels appartient le job Launch aux options `--project` et `--entity`, respectivement.
 
 ```bash
  wandb job list --entity your-entity --project project-name
 ```
 
+
 <div id="check-the-status-of-a-job">
-  ## Vérifier le statut d&#39;un job
+  ## Vérifier le statut d’un job
 </div>
 
-Le tableau suivant définit les différents statuts qu&#39;un run en file d&#39;attente peut avoir :
+Le tableau suivant définit le statut qu’un run en file d&#39;attente peut avoir :
 
-| Statut       | Description                                                                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Idle**     | Le run se trouve dans une file d&#39;attente sans agent actif.                                                                                         |
-| **Queued**   | Le run se trouve dans une file d&#39;attente et attend qu&#39;un agent le traite.                                                                      |
-| **Pending**  | Le run a été pris en charge par un agent, mais n&#39;a pas encore démarré. Cela peut être dû à l&#39;absence de ressources disponibles sur le cluster. |
-| **Running**  | Le run est actuellement en cours d&#39;exécution.                                                                                                      |
-| **Killed**   | Le job a été arrêté par l&#39;utilisateur.                                                                                                             |
-| **Crashed**  | Le run a cessé d&#39;envoyer des données ou n&#39;a pas démarré correctement.                                                                          |
-| **Failed**   | Le run s&#39;est terminé avec un code de sortie non nul ou n&#39;a pas pu démarrer.                                                                    |
-| **Finished** | Le job s&#39;est terminé avec succès.                                                                                                                  |
+| Statut                    | Description                                                                                                                             |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **Inactif**               | Le run se trouve dans une file d&#39;attente sans agents actifs.                                                                        |
+| **En file d&#39;attente** | Le run se trouve dans une file d&#39;attente et attend qu’un agent le traite.                                                           |
+| **En attente**            | Le run a été pris en charge par un agent, mais n’a pas encore démarré. Cela peut être dû à des ressources indisponibles sur le cluster. |
+| **En cours**              | Le run est actuellement en cours d’exécution.                                                                                           |
+| **Tué**                   | Le job a été arrêté par l’utilisateur.                                                                                                  |
+| **Planté**                | Le run a cessé d’envoyer des données ou n’a pas démarré correctement.                                                                   |
+| **Échoué**                | Le run s’est terminé avec un code de sortie non nul ou n’a pas réussi à démarrer.                                                       |
+| **Terminé**               | Le job s’est terminé avec succès.                                                                                                       |

@@ -1,14 +1,14 @@
 ---
-title: "메트릭 기록하기"
+title: 메트릭 기록
 ---
 
 ```python
-"""W&B run을 초기화하고 메트릭을 기록합니다."""
+"""W&B run을 초기화하고 metric을 로깅합니다."""
 import wandb
 
 with wandb.init(project="<project>") as run:
     # 트레이닝 및 로깅 코드를 여기에 작성하세요
 
-    # 메트릭 기록 예시
+    # metric 로깅 예시
     run.log({"accuracy": 0.95})
 ```

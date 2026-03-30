@@ -1,23 +1,23 @@
 ---
 title: "Chat Completions"
-description: "OpenAI 互換エンドポイントを使用して chat completion を作成する"
+description: "OpenAI互換のEndpointを使用してChat Completionを作成する"
 ---
 
-`/chat/completions` エンドポイントを使用して chat completion を作成します。このエンドポイントは、メッセージを送信してレスポンスを受信する際に、OpenAI 互換の形式に従います。
+`/chat/completions` Endpointを使用してChat Completionを作成します。このEndpointは、メッセージの送信とResponseの受信にOpenAI形式に従っています。
 
 <div id="requirements">
   ## 要件
 </div>
 
-チャット補完を作成するには、以下を用意します:
+Chat Completion を作成するには、以下を用意します:
 
 * Inference サービスのベース URL：`https://api.inference.wandb.ai/v1`
-* お使いの W&amp;B の API キー：`<your-api-key>`
-* 任意 (オプション) ：お使いの W&amp;B チームとプロジェクト：`<your-team>/<your-project>`
+* W&amp;B APIキー：`<your-api-key>`
+* オプション：W&amp;B チームとプロジェクト：`<your-team>/<your-project>`
 * [利用可能なモデル](/ja/inference/models) のいずれかのモデル ID
 
 <div id="request-examples">
-  ## リクエスト例
+  ## リクエストの例
 </div>
 
 <Tabs>
@@ -26,18 +26,18 @@ description: "OpenAI 互換エンドポイントを使用して chat completion 
     import openai
 
     client = openai.OpenAI(
-        # カスタム base URL は W&B Inference を指します
+        # カスタムベースURLはW&B Inferenceを指しています
         base_url='https://api.inference.wandb.ai/v1',
 
-        # https://wandb.ai/settings で API キーを作成します
-        # 安全のため、代わりに環境変数 OPENAI_API_KEY として設定することを検討してください
+        # https://wandb.ai/settings でAPIキーを作成してください
+        # セキュリティのため、環境変数OPENAI_API_KEYに設定することをご検討ください
         api_key="<your-api-key>",
 
-        # オプション: 利用状況トラッキング用の Team と project
+        # オプション: 使用状況のトラッキング用のチームとプロジェクト
         project="<your-team>/<your-project>",
     )
 
-    # 利用可能なモデル一覧のいずれかのモデル ID に <model-id> を置き換えます
+    # <model-id>を利用可能なモデルリストの任意のモデルIDに置き換えてください
     response = client.chat.completions.create(
         model="<model-id>",
         messages=[

@@ -15,7 +15,7 @@ Accédez à votre page de profil utilisateur et sélectionnez votre icône utili
   ## Profil
 </div>
 
-Dans la section **Profil**, vous pouvez gérer et modifier le nom de votre compte ainsi que votre établissement. Vous pouvez aussi ajouter, facultativement, une biographie, un emplacement, un lien vers votre site web personnel ou celui de votre établissement, et importer une image de profil.
+Dans la section **Profil**, vous pouvez gérer et modifier le nom de votre Account ainsi que votre établissement. Vous pouvez aussi ajouter, facultativement, une biographie, un emplacement, un lien vers votre site web personnel ou celui de votre établissement, et téléverser une image de profil.
 
 <div id="edit-your-intro">
   ## Modifiez votre présentation
@@ -25,20 +25,20 @@ Pour modifier votre présentation, cliquez sur **Edit** en haut de votre profil.
 
 1. Pour modifier une ligne, cliquez dessus. Pour gagner du temps, vous pouvez taper `/`, puis choisir Markdown dans la liste.
 2. Utilisez les poignées de déplacement d’un élément pour le déplacer.
-3. Pour supprimer un bloc, cliquez sur la poignée de déplacement, puis sur **Delete**.
+3. Pour supprimer un bloc, cliquez sur la poignée de déplacement, puis sur **supprimer**.
 4. Pour enregistrer vos modifications, cliquez sur **Save**.
 
 <div id="add-social-badges">
   ### Ajouter des badges de réseaux sociaux
 </div>
 
-Pour ajouter un badge d’abonnement au compte `@weights_biases` sur X, vous pouvez insérer un lien au format Markdown avec une balise HTML `<img>` pointant vers l’image du badge :
+Pour ajouter un badge de suivi pour le compte `@weights_biases` sur X, vous pouvez ajouter un lien de style Markdown avec une balise HTML `<img>` pointant vers l’image du badge :
 
 ```markdown
 [![X: @weights_biases](https://img.shields.io/twitter/follow/weights_biases?style=social)](https://x.com/intent/follow?screen_name=weights_biases)
 ```
 
-Dans une balise `<img>`, vous pouvez spécifier `width`, `height` ou les deux. Si vous n’en spécifiez qu’un seul, les proportions de l’image sont préservées.
+Dans une balise `<img>`, vous pouvez spécifier `width`, `height` ou les deux. Si vous n’en spécifiez qu’un seul, les proportions de l’image sont conservées.
 
 <div id="default-team">
   ## Équipe par défaut
@@ -55,8 +55,8 @@ Sélectionnez un onglet pour continuer.
 
   <Tab title="Cloud dédié / Autogéré">
     1. À côté de **Emplacement par défaut pour créer de nouveaux projets**, cliquez sur le menu déroulant, puis sélectionnez votre équipe par défaut ou votre entité personnelle.
-    2. (**Facultatif**) Si un administrateur a activé les projets publics dans **Compte** &gt; **Paramètres** &gt; **Confidentialité**, configurez la visibilité par défaut de vos nouveaux projets. Cliquez sur le bouton à côté de **Confidentialité par défaut des projets dans votre compte personnel**, puis sélectionnez **Privé** (par défaut) ou **Public**.
-    3. (**Facultatif**) Si un administrateur a activé l’[enregistrement et la comparaison du code par défaut](/fr/models/app/features/panels/code/) dans **Compte** &gt; **Paramètres** &gt; **Confidentialité**, cliquez sur **Activer l’enregistrement du code dans votre compte personnel** pour l’activer pour vos runs.
+    2. (**Facultatif**) Si un administrateur a activé les projets publics dans **Account** &gt; **Paramètre** &gt; **Confidentialité**, configurez la visibilité par défaut de vos nouveaux projets. Cliquez sur le bouton à côté de **Confidentialité par défaut des projets dans votre compte personnel**, puis sélectionnez **Privé** (par défaut) ou **Public**.
+    3. (**Facultatif**) Si un administrateur a activé l’[enregistrement et la comparaison du code par défaut](/fr/models/app/features/panels/code/) dans **Account** &gt; **Paramètre** &gt; **Confidentialité**, cliquez sur **Activer l’enregistrement du code dans votre compte personnel** pour l’activer pour vos runs.
   </Tab>
 </Tabs>
 
@@ -75,7 +75,7 @@ La section **Teams** répertorie toutes vos équipes.
 3. Facultativement, activez **Masquer les équipes dans le profil public**.
 
 <Note>
-  Pour créer ou gérer une équipe, consultez [Gérer les équipes](/fr/platform/app/settings-page/teams/).
+  Pour créer ou gérer une équipe, voir [Gérer les équipes](/fr/platform/app/settings-page/teams/).
 </Note>
 
 <div id="api-keys">
@@ -85,12 +85,12 @@ La section **Teams** répertorie toutes vos équipes.
 La section **Clés API** vous permet de gérer vos clés API personnelles afin de vous authentifier auprès des services W&amp;B.
 
 <div id="view-your-api-keys">
-  ### Affichez vos clés API
+  ### Consultez vos clés API
 </div>
 
 Le tableau des clés API affiche :
 
-* **ID de la clé** : la première partie de chaque clé API, utilisée à des fins d’identification
+* **ID de la clé** : la première partie de chaque clé API, utilisée pour l’identification
 * **Nom** : le nom descriptif que vous avez fourni lors de la création de la clé
 * **Créée le** : la date de création de la clé
 * **Dernière utilisation** : l’horodatage de l’utilisation la plus récente
@@ -99,7 +99,7 @@ Le tableau des clés API affiche :
   Pour des raisons de sécurité, le tableau n’affiche que l’ID de la clé (la première partie de la clé). La clé API secrète complète n’est affichée qu’une seule fois, au moment de sa création.
 </Note>
 
-Saisissez une partie du nom ou de l’ID de la clé pour rechercher et filtrer la liste des clés API.
+Saisissez une partie du nom ou de l’ID de la clé pour rechercher dans la liste des clés API et la filtrer.
 
 <div id="create-a-new-api-key">
   ### Créer une nouvelle clé API
@@ -147,14 +147,14 @@ Pour plus d’informations sur la configuration et la gestion des alertes, voir 
 Connectez un compte GitHub personnel. Pour connecter un compte GitHub :
 
 1. Sélectionnez le bouton **Connect Github**. Vous serez redirigé vers une page d’autorisation (OAuth).
-2. Sélectionnez l’organisation à laquelle accorder l’accès dans la section **Organization access**.
+2. Sélectionnez l’organisation à laquelle accorder l’accès dans la section **Accès à l’organisation**.
 3. Sélectionnez **Authorize** **wandb**.
 
 <div id="delete-your-account">
   ## Supprimez votre compte
 </div>
 
-Sélectionnez le bouton **Delete Account** pour supprimer votre compte.
+Sélectionnez le bouton **Supprimer Account** pour supprimer votre compte.
 
 <Warning>
   La suppression de votre compte est irréversible.

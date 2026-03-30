@@ -7,9 +7,9 @@ description: "TypeScript SDK リファレンス"
   # login
 </div>
 
-▸ **login**(`apiKey`, `host?`): `Promise`\<`void`\>
+▸ **login**(`apiKey`, `host?`): `Promise`&lt;`void`&gt;
 
-指定された API キーを使用して Weights & Biases (W&B) にログインします。
+指定された APIキーを使用して Weights &amp; Biases (W&amp;B) にログインします。
 この関数は、今後の利用のために認証情報を netrc ファイルに保存しようとしますが、
 ファイルシステムに書き込めない場合でも処理は継続されます。
 
@@ -17,20 +17,20 @@ description: "TypeScript SDK リファレンス"
   #### パラメーター
 </div>
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `apiKey` | `string` | あなたの W&B API キー。 |
-| `host?` | `string` | （オプション）ホスト名（通常はカスタム W&B サーバーを使用している場合にのみ必要です）。 |
+| Name     | Type     | Description                                            |
+| :------- | :------- | :----------------------------------------------------- |
+| `apiKey` | `string` | あなたの W&amp;B APIキー。                                    |
+| `host?`  | `string` |  (オプション) ホスト名 (通常はカスタム W&amp;B サーバーを使用している場合にのみ必要です) 。 |
 
 <div id="returns">
   #### 戻り値
 </div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
 `Throws`
 
-API キー が指定されていないか、Weave trace サーバーへの接続を検証できない場合にスローされます。
+APIキーが指定されていないか、Weave trace サーバーへの接続を検証できない場合にスローされます。
 
 <div id="defined-in">
   #### 定義場所
@@ -38,4 +38,4 @@ API キー が指定されていないか、Weave trace サーバーへの接続
 
 [clientApi.ts:23](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/clientApi.ts#L23)
 
-___
+***

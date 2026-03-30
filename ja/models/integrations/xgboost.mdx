@@ -1,5 +1,5 @@
 ---
-description: "W&B を XGBoost と統合して、勾配ブースティングのメトリクス、特徴量重要度、モデル性能を自動的にログする。"
+description: "W&B を XGBoost と統合し、勾配ブースティングのメトリクス、特徴量重要度、モデル性能を自動的にログします。"
 title: XGBoost
 ---
 
@@ -7,17 +7,17 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Credit_Scorecards_with_XGBoost_and_W%26B.ipynb" />
 
-`wandb` ライブラリには、XGBoost でのトレーニングからメトリクス、設定、および保存された booster をログするための `WandbCallback` コールバックがあります。ここでは、XGBoost の `WandbCallback` からの出力を含む [ライブ W&amp;B ダッシュボード](https://wandb.ai/morg/credit_scorecard) を確認できます。
+`wandb` ライブラリには、XGBoost を使ったトレーニングで得られるメトリクス、設定、および保存された 부스터 をログするための `WandbCallback` コールバックがあります。ここでは、XGBoost の `WandbCallback` からの出力を含む [ライブ W&amp;B ダッシュボード](https://wandb.ai/morg/credit_scorecard) を確認できます。
 
 <Frame>
   <img src="/images/integrations/xgb_dashboard.png" alt="W&B Dashboard using XGBoost" />
 </Frame>
 
 <div id="get-started">
-  ## はじめに
+  ## 使い始める
 </div>
 
-XGBoost のメトリクス、設定、booster モデルを W&amp;B にログするには、`WandbCallback` を XGBoost に渡すだけで済みます。
+XGBoost のメトリクス、設定、부스터 モデルを W&amp;B にログするには、`WandbCallback` を XGBoost に渡すだけです。
 
 ```python
 from wandb.integration.xgboost import WandbCallback
@@ -31,7 +31,7 @@ with wandb.init() as run:
   bst.fit(X_train, y_train, callbacks=[WandbCallback(log_model=True)])
 ```
 
-XGBoost と W&amp;B によるログの記録方法を包括的に確認するには、[このノートブック](https://wandb.me/xgboost) を開いてください。
+XGBoost と W&amp;B でログする方法を包括的に確認するには、[このノートブック](https://wandb.me/xgboost)を開いてください
 
 <div id="wandbcallback-reference">
   ## `WandbCallback` リファレンス
@@ -43,40 +43,40 @@ XGBoost と W&amp;B によるログの記録方法を包括的に確認するに
 
 `WandbCallback` を XGBoost モデルに渡すと、次のことが実行されます:
 
-* booster モデルの設定を W&amp;B にログします
+* 부스터 モデルの設定を W&amp;B にログします
 * XGBoost が収集する rmse、accuracy などの評価メトリクスを W&amp;B にログします
-* XGBoost が収集するトレーニングメトリクスをログします (`eval_set` にデータを指定した場合) 
+* XGBoost が収集するトレーニングメトリクスをログします (`eval_set` にデータを指定した場合)
 * 最良スコアと最良イテレーションをログします
-* 学習済みモデルを保存し、 W&amp;B Artifacts にアップロードします (`log_model = True` の場合) 
+* 学習済みモデルを保存し、 W&amp;B Artifacts にアップロードします (`log_model = True` の場合)
 * `log_feature_importance=True` (デフォルト) のときに、特徴量重要度のプロットをログします
 * `define_metric=True` (デフォルト) のときに、`wandb.Run.summary` に最良の評価メトリクスを記録します
 
 <div id="arguments">
-  ### Arguments
+  ### 引数
 </div>
 
 * `log_model`: (boolean) True の場合、モデルを保存して W&amp;B Artifacts にアップロードします
 
-* `log_feature_importance`: (boolean) True の場合、特徴量重要度の棒グラフをログします
+* `log_feature_importance`: (boolean) True の場合、特徴量重要度の棒プロットをログします
 
-* `importance_type`: (str) 木ベースのモデルの場合は `{weight, gain, cover, total_gain, total_cover}` のいずれかを指定します。線形モデルでは weight を指定します。
+* `importance_type`: (str) ツリーモデルでは `{weight, gain, cover, total_gain, total_cover}` のいずれかを指定します。線形モデルでは `weight` を使用します。
 
-* `define_metric`: (boolean) True (デフォルト) の場合、`run.summary` にはトレーニングの最後のステップではなく、最も性能が良いステップでのモデル性能を記録します。
+* `define_metric`: (boolean) True の場合、`run.summary` には、トレーニングの最後の step ではなく最良の step におけるモデル性能を取得します (デフォルト) 。
 
-[WandbCallback のソースコード](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)を参照できます。
+[WandbCallback のソースコード](https://github.com/wandb/wandb/blob/main/wandb/integration/xgboost/xgboost.py)を確認できます。
 
-追加の例については、[GitHub 上のサンプルリポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)を確認してください。
+さらに例を確認するには、[GitHub の examples リポジトリ](https://github.com/wandb/examples/tree/master/examples/boosting-algorithms)をご覧ください。
 
 <div id="tune-your-hyperparameters-with-sweeps">
   ## Sweeps でハイパーパラメーターをチューニングする
 </div>
 
-モデルの性能を最大限に引き出すには、木の深さや学習率のようなハイパーパラメーターをチューニングする必要があります。W&amp;B [Sweeps](/ja/models/sweeps/) は、大規模なハイパーパラメーター探索実験を設定・オーケストレーション・解析するための強力なツールキットです。
+モデルのパフォーマンスを最大限に引き出すには、木の深さや学習率のようなハイパーパラメーターをチューニングする必要があります。W&amp;B [Sweeps](/ja/models/sweeps/) は、大規模なハイパーパラメーター探索実験を設定・オーケストレーション・解析するための強力なツールキットです。
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
 
 こちらの [XGBoost &amp; Sweeps の Python スクリプト](https://github.com/wandb/examples/blob/master/examples/wandb-sweeps/sweeps-xgboost/xgboost_tune.py)も試してみてください。
 
 <Frame>
-  <img src="/images/integrations/xgboost_sweeps_example.png" alt="XGBoost の性能比較" />
+  <img src="/images/integrations/xgboost_sweeps_example.png" alt="XGBoost のパフォーマンス比較" />
 </Frame>

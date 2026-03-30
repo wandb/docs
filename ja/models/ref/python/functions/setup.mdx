@@ -15,21 +15,21 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 setup(settings: 'Settings | None' = None) → _WandbSetup
 ```
 
-現在のプロセスとその子プロセスで W&amp;B を利用できるように準備します。
+現在のプロセスとその子プロセスで使用するために W&amp;B を準備します。
 
-通常は `wandb.init()` によって暗黙的に呼び出されるため、明示的に呼び出す必要はありません。
+これは `wandb.init()` によって暗黙的に呼び出されるため、通常は無視しても問題ありません。
 
-複数のプロセスで wandb を使用する場合、子プロセスを開始する前に親プロセスで `wandb.setup()` を呼び出すと、パフォーマンスやリソース利用効率が向上する場合があります。
+複数のプロセスで wandb を使用する場合、子プロセスを起動する前に親プロセスで `wandb.setup()` を呼び出すと、パフォーマンスとリソースの利用効率が向上する場合があります。
 
-`wandb.setup()` は `os.environ` を変更することに注意してください。子プロセスが変更済みの環境変数を継承することが重要です。
+`wandb.setup()` は `os.environ` を変更するため、子プロセスが変更された環境変数を継承することが重要です。
 
 `wandb.teardown()` も参照してください。
 
-**Args:**
+**引数:**
 
-* `settings`:  グローバルに適用する設定。これらは、その後の `wandb.init()` の呼び出しによって上書きされる可能性があります。
+* `settings`:  グローバルに適用する設定。これらは後続の `wandb.init()` 呼び出しによって上書きできます。
 
-**Example:**
+**例:**
 
 ```python
 import multiprocessing
@@ -39,7 +39,7 @@ import wandb
 
 def run_experiment(params):
     with wandb.init(config=params):
-         # 実験を実行
+         # 実験を実行する
          pass
 
 
@@ -53,17 +53,17 @@ if __name__ == "__main__":
          {"learning_rate": 0.001, "epochs": 20},
     ]
 
-    # 複数のプロセスを起動し、それぞれ別の実験を実行する
+    # 複数のプロセスを起動し、それぞれ個別の実験を実行する
     processes = []
     for params in experiment_params:
          p = multiprocessing.Process(target=run_experiment, args=(params,))
          p.start()
          processes.append(p)
 
-    # すべてのプロセスの完了を待つ
+    # すべてのプロセスが完了するまで待機する
     for p in processes:
          p.join()
 
-    # オプション: バックエンドを明示的にシャットダウンする
+    # 省略可能: バックエンドを明示的にシャットダウンする
     wandb.teardown()
 ```

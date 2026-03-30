@@ -1,6 +1,6 @@
 ---
 title: "각 아티팩트 버전은 저장소를 얼마나 사용하나요?"
-keywords: ["Artifacts", "저장소"]
+keywords: ["Artifacts", "Storage"]
 ---
 
 두 아티팩트 버전 간에 변경된 파일에만 저장소 비용이 발생합니다.
@@ -28,15 +28,15 @@ images
 |-- rat.png (3MB) # `v1`에서 추가됨
 ```
 
-버전 `v1`은 총 6MB를 추적하지만, 그중 3MB를 `v0`와 공유하므로 실제로는 3MB의 공간만 차지합니다. `v1`을 삭제하면 `rat.png`에 해당하는 3MB의 저장소가 회수됩니다. `v0`를 삭제하면 `cat.png`와 `dog.png`의 저장소 비용이 `v1`로 이전되어 `v1`의 저장소 크기가 6MB로 늘어납니다.
+버전 `v1`은 총 6MB를 추적하지만, 그중 3MB를 `v0`와 공유하므로 실제로는 3MB의 공간만 차지합니다. `v1`을 삭제하면 `rat.png`에 연결된 3MB의 저장소가 회수됩니다. `v0`를 삭제하면 `cat.png`와 `dog.png`의 저장소 비용이 `v1`로 이전되어 `v1`의 저장소 크기가 6MB로 늘어납니다.
 
 ***
 
-{/* ---- AUTO-GENERATED: 탭 배지 ----
-  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 마커 사이의 내용은 직접 수정하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[저장소](/ko/support/models/tags/storage)</Badge>
 
-{/* ---- AUTO-GENERATED: 탭 배지 끝 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

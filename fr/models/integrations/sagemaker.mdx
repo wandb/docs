@@ -1,9 +1,9 @@
 ---
-description: "Intégrez W&B à Amazon SageMaker pour le suivi des expériences, la journalisation des métriques et la gestion des modèles sur l’infrastructure AWS."
+description: "Intégrez W&B à Amazon SageMaker pour le suivi des expériences, la journalisation des métriques et la gestion des modèles sur l'infrastructure AWS."
 title: SageMaker
 ---
 
-W&amp;B s’intègre à [Amazon SageMaker](https://aws.amazon.com/sagemaker/), lit automatiquement les hyperparamètres, regroupe les runs distribués et permet de reprendre les runs à partir de points de contrôle.
+W&amp;B s&#39;intègre à [Amazon SageMaker](https://aws.amazon.com/sagemaker/), lit automatiquement les hyperparamètres, regroupe les runs distribués et permet de reprendre les runs à partir de points de contrôle.
 
 <div id="authentication">
   ## Authentification
@@ -15,13 +15,13 @@ W&amp;B recherche un fichier nommé `secrets.env` par rapport au script d’entr
   ## Estimateurs existants
 </div>
 
-Si vous utilisez l’un des estimateurs préconfigurés de SageMaker, vous devez ajouter un fichier `requirements.txt` à votre répertoire source contenant wandb
+Si vous utilisez l’un des estimateurs préconfigurés de SageMaker, vous devez ajouter un fichier `requirements.txt` à votre répertoire source qui inclut wandb
 
 ```text
 wandb
 ```
 
-Si vous utilisez un estimateur sous Python 2, vous devez installer `psutil` directement depuis ce [wheel](https://pythonwheels.com) avant d’installer wandb :
+Si vous utilisez un estimateur exécuté avec Python 2, vous devez installer `psutil` directement à partir de ce fichier wheel [wheel](https://pythonwheels.com) avant d’installer wandb :
 
 ```text
 https://wheels.galaxyproject.org/packages/psutil-5.4.8-cp27-cp27mu-manylinux1_x86_64.whl

@@ -1,19 +1,19 @@
 ---
-description: "Python SDK API を使用して、W&B Dedicated Cloud インスタンスから runs、メトリクス、アーティファクト、レポートをエクスポートします。"
+description: "Python SDK API を使用して、W&B Dedicated Cloud インスタンスから Runs、メトリクス、Artifacts、レポートをエクスポートします。"
 title: Dedicated Cloud からデータをエクスポートする
 ---
 
-Dedicated Cloud インスタンスで管理されているすべてのデータをエクスポートするには、W&amp;B SDK API を使用して、[Import and Export API](/ja/models/ref/python/public-api/) から runs、メトリクス、アーティファクト などを取得できます。以下の表では、主なエクスポートのユースケースをいくつか紹介します。
+W&amp;B Dedicated Cloud インスタンスで管理されているすべてのデータをエクスポートするには、W&amp;B SDK API を使用して、[Import and Export API](/ja/models/ref/python/public-api/) から Runs、メトリクス、Artifacts などを取得できます。以下の表では、主なエクスポートのユースケースをいくつか紹介します。
 
 | 目的                      | ドキュメント                                                                                                                                                                                             |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | プロジェクトのメタデータをエクスポートする   | [Projects API](/ja/models/ref/python/public-api/projects)                                                                                                                                             |
-| プロジェクト内の runs をエクスポートする | [Runs API](/ja/models/ref/python/public-api/runs)                                                                                                                                                     |
+| プロジェクト内の Runs をエクスポートする | [Runs API](/ja/models/ref/python/public-api/runs)                                                                                                                                                     |
 | レポートをエクスポートする           | [Report and Workspace API](/ja/models/reports/clone-and-export-reports/)                                                                                                                              |
-| アーティファクトをエクスポートする       | [アーティファクト グラフを探索する](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/), [アーティファクトをダウンロードして使用する](/ja/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
+| Artifacts をエクスポートする     | [アーティファクト グラフを探索する](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/), [アーティファクトをダウンロードして使用する](/ja/models/artifacts/download-and-use-an-artifact/#download-and-use-an-artifact-stored-on-wb) |
 
-[Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) を使用して Dedicated Cloud に保存されたアーティファクトを管理している場合は、W&amp;B SDK API を使用してアーティファクトをエクスポートする必要がないこともあります。
+[Secure Storage Connector](/ja/platform/app/settings-page/teams/#secure-storage-connector) を使用して Dedicated Cloud に保存された Artifacts を管理している場合は、W&amp;B SDK API を使用して Artifacts をエクスポートする必要がないこともあります。
 
 <Note>
-  W&amp;B SDK API を使用してすべてのデータをエクスポートすると、runs やアーティファクト などの数が多い場合は時間がかかることがあります。W&amp;B では、Dedicated Cloud インスタンスに過度な負荷をかけないよう、適切なサイズのバッチに分けてエクスポートを実行することを推奨しています。
+  W&amp;B SDK API を使用してすべてのデータをエクスポートする場合、Runs や Artifacts などが大量にあると時間がかかることがあります。W&amp;B は、Dedicated Cloud インスタンスに過度な負荷をかけないよう、適切なサイズのバッチに分けてエクスポート プロセスを実行することを推奨しています。
 </Note>

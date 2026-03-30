@@ -1,14 +1,14 @@
 ---
 title: Utiliser des identités fédérées avec le SDK
-description: "Utilisez la fédération d’identités avec des JSON Web Tokens (JWT) pour vous authentifier auprès du SDK et de la CLI W&B sans clés API."
+description: "Utilisez la fédération d’identités avec des JSON Web Tokens (JWT) pour vous authentifier auprès du SDK et de la CLI W&B sans clé API."
 ---
 
 Utilisez la fédération d’identités pour vous connecter avec les identifiants de votre organisation via le SDK W&amp;B. Si l’administrateur de votre organisation W&amp;B a configuré le SSO pour votre organisation, vous utilisez déjà les identifiants de votre organisation pour vous connecter à l’interface de l’application W&amp;B. En ce sens, la fédération d’identités s’apparente au SSO pour le SDK W&amp;B, mais en utilisant directement des JSON Web Tokens (JWT). Vous pouvez utiliser la fédération d’identités comme alternative aux clés API.
 
-Le [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523) constitue le fondement de la fédération d’identités avec le SDK.
+La [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523) constitue le fondement de la fédération d’identités avec le SDK.
 
 <Note>
-  La fédération d’identités est disponible en `Preview` pour les plans `Enterprise` sur tous les types de plateforme : SaaS Cloud, Cloud dédié et instances autogérées. Contactez votre équipe W&amp;B pour toute question.
+  La fédération d’identités est disponible en `Preview` pour les plans `Enterprise` sur tous les types de plateforme : SaaS Cloud, Cloud dédié et instances Autogéré. Contactez votre équipe W&amp;B pour toute question.
 </Note>
 
 <Note>
@@ -16,16 +16,16 @@ Le [RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523) constitue le fondem
 </Note>
 
 <div id="jwt-issuer-setup">
-  ## Configuration de l’émetteur JWT
+  ## Configuration de l&#39;émetteur JWT
 </div>
 
-Dans un premier temps, un administrateur de l’organisation doit configurer une fédération entre votre organisation W&amp;B et un émetteur JWT accessible publiquement.
+Dans un premier temps, un administrateur de l&#39;organisation doit configurer une fédération entre votre organisation W&amp;B et un émetteur JWT accessible publiquement.
 
-* Accédez à l’onglet **Paramètres** du tableau de bord de votre organisation
-* Dans la section **Authentification**, cliquez sur **Configurer l’émetteur JWT**
-* Ajoutez l’URL de l’émetteur JWT dans la zone de texte, puis cliquez sur **Créer**
+* Accédez à l&#39;onglet **Paramètres** du tableau de bord de votre organisation
+* Dans la section **Authentification**, cliquez sur **Configurer l&#39;émetteur JWT**
+* Ajoutez l&#39;URL de l&#39;émetteur JWT dans la zone de texte, puis cliquez sur **Créer**
 
-W&amp;B recherchera automatiquement un document de découverte OIDC à l’emplacement `${ISSUER_URL}/.well-known/openid-configuration`, puis essaiera de trouver le JSON Web Key Set (JWKS) à une URL appropriée dans le document de découverte. Le JWKS est utilisé pour la validation en temps réel des JWT afin de garantir qu’ils ont bien été émis par le fournisseur d’identité concerné.
+W&amp;B recherchera automatiquement un document de découverte OIDC à l&#39;emplacement `${ISSUER_URL}/.well-known/openid-configuration`, puis essaiera de trouver le JSON Web Key Set (JWKS) à une URL appropriée dans le document de découverte. Le JWKS est utilisé pour la validation en temps réel des JWT afin de garantir qu&#39;ils ont bien été émis par le fournisseur d&#39;identité concerné.
 
 <div id="using-the-jwt-to-access-wb">
   ## Utiliser le JWT pour accéder à W&amp;B

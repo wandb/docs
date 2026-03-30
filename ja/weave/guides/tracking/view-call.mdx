@@ -10,7 +10,7 @@ W&amp;B Weave で Call を作成した後、その入力、出力、メタデー
     UI で Call を表示するには、次の手順を実行します。
 
     1. [wandb.ai](https://wandb.ai/) に移動し、自分のプロジェクトを選択します。
-    2. Weave プロジェクトのサイドバーで **Traces** をクリックします。
+    2. Weave のプロジェクトのサイドバーで **Traces** をクリックします。
     3. テーブル内で表示したい Call を探します。
     4. Call をクリックして詳細ページを開きます。
 
@@ -18,7 +18,7 @@ W&amp;B Weave で Call を作成した後、その入力、出力、メタデー
   </Tab>
 
   <Tab title="Python">
-    W&amp;B Weave Python SDK を使用して Call を表示するには、[`get_call`](/ja/weave/reference/python-sdk/trace/weave_client#method-get_call) メソッドを使用します:
+    W&amp;B Weave Python SDK を使用して Call を表示するには、[`get_call`](/ja/weave/reference/python-sdk/trace/weave_client#method-get_call) method を使用します:
 
     ```python lines
     import weave
@@ -48,7 +48,7 @@ W&amp;B Weave で Call を作成した後、その入力、出力、メタデー
   </Tab>
 
   <Tab title="HTTP API">
-    Service API を使用して Call を表示するには、[`/call/read`](https://docs.wandb.ai/ja/weave/reference/service-api/calls/call-read) エンドポイントにリクエストを送信します。
+    Service API を使用して Call を表示するには、[`/call/read`](https://docs.wandb.ai/weave/reference/service-api/calls/call-read) エンドポイントにリクエストを送信します。
 
     ```bash
     curl -L 'https://trace.wandb.ai/call/read' \
@@ -63,14 +63,14 @@ W&amp;B Weave で Call を作成した後、その入力、出力、メタデー
 </Tabs>
 
 <div id="customize-rendered-traces-with-weavemarkdown">
-  ## `weave.Markdown` でレンダリングされた trace をカスタマイズする
+  ## `weave.Markdown` でレンダリングされたトレースをカスタマイズする
 </div>
 
-`weave.Markdown` を使うと、元のデータを失うことなく trace 情報の表示方法をカスタマイズできます。これにより、基盤となるデータ構造を保持しつつ、入力と出力を読みやすい整形コンテンツのブロックとしてレンダリングできます。
+`weave.Markdown` を使うと、元のデータを失うことなく、トレース情報の表示方法をカスタマイズできます。これにより、基盤となるデータ構造を保持したまま、入力と出力を読みやすい整形済みコンテンツのブロックとして表示できます。
 
 <Tabs>
   <Tab title="Python">
-    `@weave.op` デコレーターで `postprocess_inputs` と `postprocess_output` 関数を使用して trace データを整形します。次のコードサンプルでは、postprocessor を使って、Weave 内のコールを絵文字とより読みやすい書式でレンダリングしています。
+    `@weave.op` デコレーターで `postprocess_inputs` 関数と `postprocess_output` 関数を使用して、トレースデータを整形します。次のコードサンプルでは、postprocessor を使って、Weave 内の Call を絵文字とより読みやすい形式で表示しています。
 
     ```python lines
     import weave
@@ -108,7 +108,7 @@ W&amp;B Weave で Call を作成した後、その入力、出力、メタデー
         postprocess_output=postprocess_output,
     )
     def rag_step(query):
-        # S&P 500 掲載企業に関する新聞記事の例
+        # S&P 500 の企業に関する新聞記事の例
         docs = [
             {
                 "title": "OpenAI",
@@ -136,6 +136,6 @@ W&amp;B Weave で Call を作成した後、その入力、出力、メタデー
   </Tab>
 </Tabs>
 
-次のスクリーンショットでは、整形前と整形後の出力を並べて確認できます。
+次のスクリーンショットでは、未整形の出力と整形済みの出力を並べて確認できます。
 
-![コードサンプルを使用して Weave UI でレンダーされた呼び出し。](/weave/guides/tracking/imgs/md-call-render.png)
+![コードサンプルを使用して Weave UI で表示された Call。](/weave/guides/tracking/imgs/md-call-render.png)

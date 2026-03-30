@@ -3,18 +3,18 @@ description: "Initialisez un balayage W&B à l'aide du SDK Python ou de la CLI p
 title: Initialiser un balayage
 ---
 
-W&amp;B utilise un *Sweep Controller* pour gérer les balayages dans le cloud (standard) ou localement (local), sur une ou plusieurs machines. Une fois un run terminé, le contrôleur de balayage génère un nouvel ensemble d&#39;instructions décrivant un nouveau run à exécuter. Ces instructions sont prises en charge par des *agents* qui exécutent réellement les runs. Dans un W&amp;B Sweep classique, le contrôleur se trouve sur le serveur W&amp;B. Les agents s&#39;exécutent sur *vos* machines.
+W&amp;B utilise un *Sweep Controller* pour gérer les balayages dans le cloud (standard) ou localement (local), sur une ou plusieurs machines. Une fois un run terminé, le contrôleur du balayage émet un nouvel ensemble d&#39;instructions décrivant un nouveau run à exécuter. Ces instructions sont récupérées par des *agents* qui exécutent réellement les runs. Dans un W&amp;B Sweep classique, le contrôleur se trouve sur le serveur W&amp;B. Les agents s&#39;exécutent sur *vos* machines.
 
 Les extraits de code suivants montrent comment initialiser des balayages avec la CLI ainsi que dans un notebook Jupyter ou un script Python.
 
 <Warning>
-  1. Avant d&#39;initialiser un balayage, assurez-vous d&#39;avoir défini une configuration de balayage, soit dans un fichier YAML, soit dans un dictionnaire Python imbriqué dans votre script. Pour plus d&#39;informations, voir [Définir la configuration du balayage](/fr/models/sweeps/define-sweep-configuration/).
+  1. Avant d&#39;initialiser un balayage, assurez-vous d&#39;avoir défini une configuration de balayage, soit dans un fichier YAML, soit dans un objet dictionnaire Python imbriqué dans votre script. Pour plus d&#39;informations, voir [Définir la configuration du balayage](/fr/models/sweeps/define-sweep-configuration/).
   2. Le W&amp;B Sweep et le W&amp;B Run doivent tous deux appartenir au même projet. Par conséquent, le nom que vous fournissez lors de l&#39;initialisation de W&amp;B ([`wandb.init()`](/fr/models/ref/python/functions/init)) doit correspondre au nom du projet que vous fournissez lors de l&#39;initialisation d&#39;un W&amp;B Sweep ([`wandb.sweep()`](/fr/models/ref/python/functions/sweep)).
 </Warning>
 
 <Tabs>
   <Tab title="Python script or notebook">
-    Utilisez le SDK W&amp;B pour initialiser un balayage. Passez le dictionnaire de configuration du balayage au paramètre `sweep`. Vous pouvez facultativement fournir le nom du projet pour le paramètre de projet (`project`) dans lequel vous souhaitez stocker la sortie du W&amp;B Run. Si le projet n&#39;est pas spécifié, le run est placé dans un projet « Uncategorized ».
+    Utilisez le SDK W&amp;B pour initialiser un balayage. Passez le dictionnaire de configuration du balayage au paramètre `sweep`. Vous pouvez facultativement fournir le nom du projet pour le paramètre de projet (`project`) dans lequel vous souhaitez stocker la sortie du W&amp;B Run. Si le projet n&#39;est pas spécifié, le run est placé dans un projet « Uncategorized ».
 
     ```python
     import wandb
@@ -38,7 +38,7 @@ Les extraits de code suivants montrent comment initialiser des balayages avec la
   </Tab>
 
   <Tab title="CLI">
-    Utilisez la CLI W&amp;B pour initialiser un balayage. Fournissez le nom de votre fichier de configuration. Vous pouvez facultativement fournir le nom du projet avec l&#39;option `project`. Si le projet n&#39;est pas spécifié, le W&amp;B Run est placé dans un projet « Uncategorized ».
+    Utilisez la CLI W&amp;B pour initialiser un balayage. Fournissez le nom de votre fichier de configuration. Vous pouvez facultativement fournir le nom du projet avec l&#39;option `project`. Si le projet n&#39;est pas spécifié, le W&amp;B Run est placé dans un projet « Uncategorized ».
 
     Utilisez la commande [`wandb sweep`](/fr/models/ref/cli/wandb-sweep) pour initialiser un balayage. L&#39;exemple de code suivant initialise un balayage pour un projet `sweeps_demo` et utilise un fichier `config.yaml` comme configuration.
 

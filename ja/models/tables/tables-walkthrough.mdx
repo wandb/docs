@@ -1,42 +1,42 @@
 ---
-description: この 5 分間のクイックスタートで W&B Tables の使い方を学びましょう。
-title: 'チュートリアル: テーブルをログし、データを可視化およびクエリする'
+description: この5分間のクイックスタートで、W&B Tables の使い方をご確認ください。
+title: 'チュートリアル: 表のログ、データの可視化とクエリ'
 ---
 
-次のクイックスタートでは、データテーブルをログし、データを可視化し、データをクエリする方法を説明します。
+以下のクイックスタートでは、データ表のログ、データの可視化、およびデータのクエリ方法を説明します。
 
-下のボタンをクリックして、MNIST データを使った PyTorch クイックスタートのサンプルプロジェクトを試します。
+以下のボタンを選択して、MNISTデータを使用したPyTorchクイックスタートのサンプルプロジェクトをお試しください。
 
 <div id="1-log-a-table">
-  ## 1. テーブルをログに記録する
+  ## 1. 表をログする
 </div>
 
-W&amp;B でテーブルをログに記録します。新しいテーブルを作成するか、Pandas DataFrame を渡すことができます。
+W&amp;B を使用して表をログします。新しい表を作成するか、Pandas Dataframe を渡すことができます。
 
 <Tabs>
-  <Tab title="テーブルを作成する">
-    新しいテーブルを作成してログに記録するには、次を使用します。
+  <Tab title="表を作成する">
+    新しい表を作成してログするには、以下を使用します。
 
-    * [`wandb.init()`](/ja/models/ref/python/functions/init): 結果を追跡するための [run](/ja/models/runs/) を作成します。
-    * [`wandb.Table()`](/ja/models/ref/python/data-types/table): 新しいテーブルオブジェクトを作成します。
+    * [`wandb.init()`](/ja/models/ref/python/functions/init): 結果をトラッキングするための [run](/ja/models/runs/) を作成します。
+    * [`wandb.Table()`](/ja/models/ref/python/data-types/table): 新しい表オブジェクトを作成します。
       * `columns`: 列名を設定します。
       * `data`: 各行の内容を設定します。
-    * [`wandb.Run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog): テーブルをログに記録し、W&amp;B に保存します。
+    * [`wandb.Run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog): 表をログして W&amp;B に保存します。
 
-    次に例を示します。
+    以下に例を示します。
 
     ```python
     import wandb
 
     with wandb.init(project="table-test") as run:
-        # 新しいテーブルを作成してログに記録する
+        # 新しい表を作成してログします。
         my_table = wandb.Table(columns=["a", "b"], data=[["a1", "b1"], ["a2", "b2"]])
         run.log({"Table Name": my_table})
     ```
   </Tab>
 
-  <Tab title="Pandas DataFrame">
-    `wandb.Table()` に Pandas DataFrame を渡して、新しいテーブルを作成します。
+  <Tab title="Pandas Dataframe">
+    Pandas Dataframe を `wandb.Table()` に渡して新しい表を作成します。
 
     ```python
     import wandb
@@ -45,43 +45,43 @@ W&amp;B でテーブルをログに記録します。新しいテーブルを作
     df = pd.read_csv("my_data.csv")
 
     with wandb.init(project="df-table") as run:
-        # DataFrame から新しいテーブルを作成し、
-        # それを W&B にログとして記録する
+        # DataFrame から新しい表を作成し、
+        # W&B にログします。
       my_table = wandb.Table(dataframe=df)
       run.log({"Table Name": my_table})
     ```
 
-    サポートされているデータ型の詳細については、W&amp;B API Reference Guide の [`wandb.Table`](/ja/models/ref/python/data-types/table) を参照してください。
+    サポートされるデータタイプの詳細については、W&amp;B API リファレンスガイドの [`wandb.Table`](/ja/models/ref/python/data-types/table) を参照してください。
   </Tab>
 </Tabs>
 
 <div id="2-visualize-tables-in-your-project-workspace">
-  ## 2. プロジェクト ワークスペースでテーブルを可視化する
+  ## 2. プロジェクトのワークスペースで表を可視化する
 </div>
 
-ワークスペースで作成されたテーブルを表示します。
+ワークスペースで結果の表を確認します。
 
-1. W&amp;B App で自分のプロジェクトに移動します。
-2. プロジェクト ワークスペースで自分の run の名前を選択します。テーブルキーが一意であるごとに新しいパネルが追加されます。
+1. W&amp;B App でプロジェクトにアクセスします。
+2. プロジェクトのワークスペースで run の名前を選択します。一意の表キーごとに新しいパネルが追加されます。
 
 <Frame>
   <img src="/images/data_vis/wandb_demo_logged_sample_table.png" alt="Sample table logged" />
 </Frame>
 
-この例では、`my_table` はキー `"Table Name"` としてログされています。
+この例では、`my_table` がキー `"Table Name"` の下にログされています。
 
 <div id="3-compare-across-model-versions">
-  ## 3. モデルバージョン間で比較する
+  ## 3. モデルバージョン間の比較
 </div>
 
-複数の W&amp;B Runs からサンプルテーブルをログし、プロジェクト Workspace 内で結果を比較します。この [サンプル Workspace](https://wandb.ai/carey/table-test?workspace=user-carey) では、同じテーブル内で異なる複数のバージョンからの行を結合する方法を示します。
+複数の W&amp;B Runs からサンプル表をログして、プロジェクトのワークスペースで結果を比較します。この[サンプルワークスペース](https://wandb.ai/carey/table-test?workspace=user-carey)では、異なる複数のバージョンの行を同じ表にまとめる方法を紹介しています。
 
 <Frame>
-  <img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="run 間テーブル比較" />
+  <img src="/images/data_vis/wandb_demo_toggle_on_and_off_cross_run_comparisons_in_tables.gif" alt="Cross-run table comparison" />
 </Frame>
 
-テーブルのフィルター、ソート、グルーピング機能を使って、モデルの結果を探索・評価します。
+表のフィルター、並べ替え、グループ化機能を使用して、モデルの結果を探索・評価します。
 
 <Frame>
-  <img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="テーブルフィルタリング" />
+  <img src="/images/data_vis/wandb_demo_filter_on_a_table.png" alt="Table filtering" />
 </Frame>

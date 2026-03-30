@@ -7,7 +7,7 @@ import { ColabLink } from '/snippets/ko/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Simple_LightGBM_Integration.ipynb" />
 
-`wandb` 라이브러리에는 [LightGBM](https://lightgbm.readthedocs.io/en/latest/) 전용 콜백이 포함되어 있습니다. 또한 W&amp;B의 범용 로깅 기능을 사용해 하이퍼파라미터 스윕과 같은 대규모 실험을 손쉽게 추적할 수 있습니다.
+`wandb` 라이브러리에는 [LightGBM](https://lightgbm.readthedocs.io/en/latest/)용 특수 콜백이 포함되어 있습니다. 또한 W&amp;B의 범용 로깅 기능을 사용하면 하이퍼파라미터 스윕과 같은 대규모 실험도 쉽게 추적할 수 있습니다.
 
 ```python
 from wandb.integration.lightgbm import wandb_callback, log_summary
@@ -28,9 +28,9 @@ log_summary(gbm, save_model_checkpoint=True)
   ## Sweeps로 하이퍼파라미터 튜닝하기
 </div>
 
-모델의 성능을 최대한 끌어내기 위해서는 트리 깊이, 학습률 같은 하이퍼파라미터를 튜닝해야 합니다. W&amp;B [Sweeps](/ko/models/sweeps/)는 대규모 하이퍼파라미터 실험을 구성하고, 실행을 관리하며, 분석할 수 있는 강력한 도구 모음입니다.
+모델에서 최고의 성능을 끌어내려면 트리 깊이와 학습률 같은 하이퍼파라미터를 튜닝해야 합니다. W&amp;B [Sweeps](/ko/models/sweeps/)는 대규모 하이퍼파라미터 테스트 실험을 구성하고, 오케스트레이션하고, 분석할 수 있는 강력한 도구 모음입니다.
 
-이 도구들에 대해 더 자세히 알아보고 XGBoost와 함께 Sweeps를 사용하는 예제를 보려면, 이 인터랙티브 Colab 노트북을 확인하세요.
+이 도구들에 대해 더 자세히 알아보고 XGBoost와 함께 Sweeps를 사용하는 예제를 보려면, 이 대화형 Colab 노트북을 확인하세요.
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/boosting/Using_W%26B_Sweeps_with_XGBoost.ipynb" />
 

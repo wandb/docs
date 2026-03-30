@@ -1,6 +1,6 @@
 ---
 title: Groq
-description: "Suivez et surveillez l’inférence LPU de Groq avec Weave, en capturant les appels de modèle, les métriques de performances et les chaînes de fonctions pour les applications LLM."
+description: "Suivez et surveillez l'inférence LPU de Groq avec Weave, en capturant les appels de modèle, les métriques de performances et les chaînes de fonctions pour les applications LLM."
 ---
 
 <a target="_blank" href="https://colab.research.google.com/github/wandb/examples/blob/master/weave/docs/quickstart_groq.ipynb" aria-label="Ouvrir dans Google Colab">
@@ -8,18 +8,18 @@ description: "Suivez et surveillez l’inférence LPU de Groq avec Weave, en cap
 </a>
 
 <Note>
-  Vous voulez tester les modèles Groq dans Weave sans aucune configuration ? Essayez le [LLM Playground](../tools/playground).
+  Vous voulez tester les modèles Groq dans Weave sans aucune configuration ? Essayez le [LLM Playground](../tools/playground).
 </Note>
 
-[Groq](https://groq.com/) est une entreprise d’infrastructure d’IA qui fournit une inférence IA rapide. Le LPU™ Inference Engine de Groq est une plateforme matérielle et logicielle qui offre une vitesse de calcul, une qualité et une efficacité énergétique exceptionnelles. Weave suit automatiquement et consigne les appels de complétion de chat effectués avec Groq.
+[Groq](https://groq.com/) est une entreprise d&#39;infrastructure d&#39;IA qui fournit une inférence IA rapide. Le LPU™ Inference Engine de Groq est une plateforme matérielle et logicielle qui offre une vitesse de calcul, une qualité et une efficacité énergétique exceptionnelles. Weave suit automatiquement et consigne les appels de complétion de chat effectués avec Groq.
 
 <div id="tracing">
   ## Tracing
 </div>
 
-Il est important de stocker les traces des applications basées sur des modèles de langage dans un emplacement central, aussi bien pendant le développement qu’en production. Ces traces peuvent être utiles pour le débogage et servir de jeu de données pour vous aider à améliorer votre application.
+Il est important de stocker les traces des applications basées sur des modèles de langage dans un emplacement centralisé, aussi bien pendant le développement qu’en production. Ces traces peuvent être utiles pour le débogage et servir de jeu de données pour vous aider à améliorer votre application.
 
-Weave capturera automatiquement les traces pour [Groq](https://groq.com/). Pour commencer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
+Weave capturera automatiquement les traces avec [Groq](https://groq.com/). Pour commencer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
 
 ```python lines
 import os
@@ -47,14 +47,14 @@ chat_completion = client.chat.completions.create(
 | Weave va désormais suivre et consigner tous les appels LLM effectués via la bibliothèque Groq. Vous pouvez consulter les traces dans l’interface web de Weave.                        |
 
 <div id="track-your-own-ops">
-  ## Suivre vos propres ops
+  ## Suivez vos propres ops
 </div>
 
-En enveloppant une fonction avec `@weave.op`, vous commencez à capturer les entrées, les sorties et la logique de l&#39;application afin de pouvoir déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer des ops en profondeur et construire un arbre de fonctions que vous souhaitez suivre. Cela lance également automatiquement la gestion des versions du code pendant vos expérimentations afin de capturer des détails ad hoc qui n&#39;ont pas été commités dans git.
+Lorsque vous décorez une fonction avec `@weave.op`, les entrées, les sorties et la logique de l’application sont capturées afin que vous puissiez déboguer la façon dont les données circulent dans votre application. Vous pouvez imbriquer profondément des ops et créer un arbre de fonctions que vous souhaitez suivre. Cela active également automatiquement la gestion des versions du code pendant vos expérimentations afin de capturer des détails ad hoc qui n&#39;ont pas été commités dans Git.
 
 Créez simplement une fonction décorée avec [`@weave.op`](/fr/weave/guides/tracking/ops).
 
-Dans l&#39;exemple ci-dessous, la fonction `recommend_places_to_visit`, enveloppée avec `@weave.op`, recommande des lieux à visiter dans une ville.
+Dans l&#39;exemple ci-dessous, la fonction `recommend_places_to_visit`, décorée avec `@weave.op`, recommande des lieux à visiter dans une ville.
 
 ```python lines
 import os
@@ -96,14 +96,14 @@ recommend_places_to_visit("Kolkata")
 | Décorer la fonction `recommend_places_to_visit` avec `@weave.op` permet de tracer ses entrées, ses sorties et tous les appels LM internes effectués dans la fonction.                  |
 
 <div id="create-a-model-for-easier-experimentation">
-  ## Créer un `Model` pour faciliter l’expérimentation
+  ## Créer un `modèle` pour faciliter l&#39;expérimentation
 </div>
 
-Il est difficile d’organiser l’expérimentation lorsqu’il y a de nombreux éléments à coordonner. En utilisant la classe [`Model`](../core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l’organisation et la comparaison des différentes itérations de votre application.
+Il est difficile d&#39;organiser l&#39;expérimentation lorsqu&#39;il y a de nombreux éléments à coordonner. En utilisant la classe [`modèle`](../core-types/models), vous pouvez capturer et organiser les détails expérimentaux de votre application, comme votre prompt système ou le modèle que vous utilisez. Cela facilite l&#39;organisation et la comparaison des différentes itérations de votre application.
 
-En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`Model`](../core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet de trouver facilement quels paramètres donnent les meilleurs résultats. Vous pouvez également utiliser les Models Weave avec `serve` et les [`Evaluation`](../core-types/evaluations)s.
+En plus de la gestion des versions du code et de la capture des entrées/sorties, les [`modèle`](../core-types/models)s capturent des paramètres structurés qui contrôlent le comportement de votre application, ce qui permet de trouver facilement quels paramètres donnent les meilleurs résultats. Vous pouvez également utiliser les modèles Weave avec `serve` et les [`Evaluation`](../core-types/evaluations)s.
 
-Dans l’exemple ci-dessous, vous pouvez expérimenter avec `GroqCityVisitRecommender`. Chaque fois que vous en modifiez un, vous obtenez une nouvelle *version* de `GroqCityVisitRecommender`.
+Dans l&#39;exemple ci-dessous, vous pouvez expérimenter avec `GroqCityVisitRecommender`. Chaque fois que vous en modifiez un, vous obtenez une nouvelle *version* de `GroqCityVisitRecommender`.
 
 ```python lines
 import os
@@ -140,15 +140,15 @@ print(city_recommender.predict("San Francisco"))
 print(city_recommender.predict("Los Angeles"))
 ```
 
-| ![Interface de traçage et de gestion des versions du modèle Groq Weave, avec versions du modèle, historique des traces et métriques de performances](/weave/guides/integrations/imgs/groq/groq_weave_model.png) |
+| ![Interface de Tracing et de gestion des versions du modèle Groq Weave, avec versions de modèle, historique des traces et métriques de performances](/weave/guides/integrations/imgs/groq/groq_weave_model.png) |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Traçage et gestion des versions de vos appels à l’aide d’un [`Model`](../core-types/models)                                                                                                                     |
+| Tracing et gestion des versions de vos appels à l&#39;aide d&#39;un [`modèle`](../core-types/models)                                                                                                             |
 
 <div id="serving-a-weave-model">
   ### Servir un modèle Weave
 </div>
 
-À partir d’une référence Weave vers n’importe quel objet `weave.Model`, vous pouvez démarrer un serveur FastAPI et l’[servir](https://docs.wandb.ai/weave/guides/tools/serve).
+À partir d’une référence Weave vers un objet `weave.Model`, vous pouvez démarrer un serveur FastAPI et l’[servir](https://docs.wandb.ai/weave/guides/tools/serve).
 
 | [![dspy\_weave\_model\_serve.png](/weave/guides/integrations/imgs/groq/groq_weave_model_version.png)](https://wandb.ai/geekyrakshit/groq-test/weave/objects/GroqCityVisitRecommender/versions/6O1xPTJ9yFx8uuCjJAlI7KgcVYxXKn7JxfmVD9AQT5Q) |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |

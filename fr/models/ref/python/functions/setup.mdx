@@ -15,13 +15,13 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 setup(settings: 'Settings | None' = None) → _WandbSetup
 ```
 
-Prépare W&amp;B pour une utilisation dans le processus actuel et ses processus enfants.
+Prépare W&amp;B pour son utilisation dans le processus actuel et ses processus enfants.
 
-Vous pouvez généralement l’ignorer, car il est appelé implicitement par `wandb.init()`.
+Vous pouvez généralement l’ignorer, car cette fonction est appelée implicitement par `wandb.init()`.
 
-Lorsque vous utilisez wandb dans plusieurs processus, l’appel de `wandb.setup()` dans le processus parent avant le démarrage des processus enfants peut améliorer les performances et l’utilisation des ressources.
+Lorsque vous utilisez wandb dans plusieurs processus, appeler `wandb.setup()` dans le processus parent avant de démarrer les processus enfants peut améliorer les performances et l’utilisation des ressources.
 
-Notez que `wandb.setup()` modifie `os.environ` et qu’il est important que les processus enfants héritent des variables d’environnement modifiées.
+Notez que `wandb.setup()` modifie `os.environ`, et il est important que les processus enfants héritent des variables d’environnement modifiées.
 
 Voir aussi `wandb.teardown()`.
 

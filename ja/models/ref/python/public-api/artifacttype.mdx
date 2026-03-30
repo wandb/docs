@@ -8,37 +8,38 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/artifacts.py" />
 
-## <kbd>class</kbd> `ArtifactType`
 
-指定したタイプに基づくクエリを満たすアーティファクト オブジェクト。
+## <kbd>クラス</kbd> `ArtifactType`
+
+指定されたタイプを条件とするクエリに一致するアーティファクト オブジェクトです。
 
 **引数:**
 
-* `client`:  W&amp;B のクエリに使用する `client` インスタンス。
+* `client`:  W&amp;B をクエリするために使用するクライアント インスタンス。
 * `entity`:  プロジェクトを所有する entity (ユーザーまたはチーム) 。
-* `project`:  アーティファクト タイプをクエリする対象のプロジェクト名。
-* `type_name`:  アーティファクト タイプの名前。
-* `attrs`:  ArtifactType を初期化するための省略可能な属性です。省略した場合、オブジェクトは初期化時に W&amp;B から属性を読み込みます。 
+* `project`:  アーティファクト 유형をクエリする対象のプロジェクト名。
+* `type_name`:  アーティファクト 유형の名。
+* `attrs`:  ArtifactType を初期化するためのオプション属性です。省略した場合、オブジェクトは初期化時に W&amp;B からその属性を読み込みます。 
 
 ### <kbd>property</kbd> ArtifactType.id
 
-Artifacts タイプの一意の識別子。
+アーティファクト 유형の一意の ID。
 
 **戻り値:**
 
-- `str`: id プロパティの値。
+* `str`: id プロパティの値。
 
----
+***
 
 ### <kbd>property</kbd> ArtifactType.name
 
-Artifacts タイプの名前。
+유형の名。
 
 **戻り値:**
 
-- `str`: `name` プロパティの値。
+* `str`: `name` プロパティの値。
 
----
+***
 
 ### <kbd>method</kbd> `ArtifactType.collection`
 
@@ -46,13 +47,14 @@ Artifacts タイプの名前。
 collection(name: 'str') → ArtifactCollection
 ```
 
-指定した名前の Artifacts コレクションを取得します。
+指定した名のアーティファクト コレクションを取得します。
 
 **引数:**
 
-* `name` (str):  取得する Artifacts コレクションの名前。
+* `name` (str):  取得するアーティファクト コレクションの名。
 
 ***
+
 
 ### <kbd>method</kbd> `ArtifactType.collections`
 
@@ -64,12 +66,12 @@ collections(
 ) → ArtifactCollections
 ```
 
-このアーティファクト タイプに関連付けられているすべてのアーティファクト コレクションを取得します。
+この유형に関連付けられているすべてのアーティファクト コレクションを取得します。
 
 **引数:**
 
-- `filters` (dict): クエリに適用するフィルターのマッピング（省略可能）。
- - `order` (str): 結果の並び順を指定する文字列（省略可能）。`order` の先頭に `+` を付けると昇順（デフォルト）になり、`-` を付けると降順になります。デフォルトの並び順は、アーティファクト コレクション ID の降順です。
- - `per_page` (int): 1 ページあたりに取得するアーティファクト コレクション数。デフォルトは 50 です。
+* `filters` (dict):  クエリに適用するフィルターのマッピング (省略可能) 。
+* `order` (str):  結果の並び順を指定する文字列 (省略可能) 。`order` の先頭に `+` を付けると昇順 (デフォルト) になり、`-` を付けると降順になります。デフォルトの並び順は、コレクション ID の降順です。
+* `per_page` (int):  1 ページあたりに取得するアーティファクト コレクションの数。デフォルトは 50 です。
 
----
+***

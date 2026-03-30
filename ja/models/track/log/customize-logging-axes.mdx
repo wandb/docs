@@ -1,11 +1,11 @@
 ---
-title: ログの軸をカスタマイズする
-description: "デフォルトの W&B step カウンターの代わりに、define_metric() を使用して、ログしたメトリクスのカスタム x 軸を設定します。"
+title: ログ軸をカスタマイズする
+description: "デフォルトの W&B の step カウンターではなく、define_metric() を使用して、ログしたメトリクス用のカスタム x 軸を設定します。"
 ---
 
-W&amp;B にメトリクスをログするとき、カスタム x 軸を設定できます。デフォルトでは、W&amp;B はメトリクスを *steps* としてログします。各ステップは `wandb.Run.log()` API 呼び出しに対応します。
+W&amp;B にメトリクスをログする際に、カスタム x 軸を設定できます。デフォルトでは、W&amp;B はメトリクスを *steps* としてログします。各 step は `wandb.Run.log()` API 呼び出し 1 回に対応します。
 
-たとえば、次のスクリプトには 10 回繰り返す `for` ループがあります。各ステップごとに、スクリプトは `validation_loss` というメトリクスをログし、ステップ番号を 1 ずつ増加させます。
+たとえば、次のスクリプトには 10 回反復する `for` ループがあります。各反復で、スクリプトは `validation_loss` というメトリクスをログし、step 番号を 1 ずつ増やします。
 
 ```python
 import wandb
@@ -19,7 +19,7 @@ with wandb.init() as run:
     run.log(log_dict)
 ```
 
-プロジェクトのワークスペースでは、`validation_loss` メトリクスが `step` x 軸に対してプロットされます。`wandb.Run.log()` が呼び出されるたびに x 軸は 1 ずつ増加します。前述のコードでは、x 軸にはステップ番号 0, 1, 2, ..., 9 が表示されます。
+プロジェクトのWorkspaceでは、`validation_loss` メトリクスが `step` x 軸に対してプロットされます。`wandb.Run.log()` が呼び出されるたびに x 軸は 1 ずつ増加します。前述のコードでは、x 軸にはstep番号 0, 1, 2, ..., 9 が表示されます。
 
 <Frame>
   <img src="/images/experiments/standard_axes.png" alt="x 軸として `step` を使用する折れ線グラフパネル。" />
@@ -38,7 +38,7 @@ custom_step = "<custom_step>"  # カスタム x 軸の名前
 metric_name = "<metric>"  # y 軸メトリクスの名前
 
 with wandb.init() as run:
-    # ステップメトリクス（x 軸）とそれに対してログするメトリクス（y 軸）を指定する
+    # stepメトリクス（x 軸）とそれに対してログするメトリクス（y 軸）を指定する
     run.define_metric(step_metric = custom_step, name = metric_name)
 
     for i in range(10):
@@ -49,7 +49,7 @@ with wandb.init() as run:
         run.log(log_dict)
 ```
 
-例として、次のコードスニペットは `x_axis_squared` というカスタム x 軸を作成します。カスタム x 軸の値は、for ループのインデックス `i` の二乗 (`i**2`) です。y 軸は、Python の組み込み `random` モジュールを使って生成した検証損失 (`"validation_loss"`) のモック値で構成されています。
+例として、次のコードスニペットは `x_axis_squared` というカスタム x 軸を作成します。カスタム x 軸の値は、for ループのインデックス `i` の二乗 (`i**2`) です。y 軸は、Python の組み込み `random` モジュールを使って生成した検証損失 (`"validation_loss"`) のモック値で構成されています:
 
 ```python
 import wandb
@@ -79,15 +79,15 @@ import wandb
 
 with wandb.init() as run:
 
-    # 他のすべての train/ メトリクスがこのステップを使用するように設定
+    # 他のすべての train/ メトリクスがこのstepを使用するように設定
     run.define_metric("train/*", step_metric="train/step")
 
     for i in range(10):
         log_dict = {
-            "train/step": 2**i,  # W&B 内部ステップによる指数的増加
+            "train/step": 2**i,  # W&B 内部stepによる指数的増加
             "train/loss": 1 / (i + 1),  # x 軸は train/step
             "train/accuracy": 1 - (1 / (1 + i)),  # x 軸は train/step
-            "val/loss": 1 / (1 + i),  # x 軸は wandb 内部ステップ
+            "val/loss": 1 / (1 + i),  # x 軸は wandb 内部step
         }
         run.log(log_dict)
 ```

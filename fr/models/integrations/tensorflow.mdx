@@ -7,6 +7,7 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/drive/1JCpAbjkCFhYMT7LCQ399y35TS3jlMpvM" />
 
+
 <div id="get-started">
   ## Premiers pas
 </div>
@@ -23,7 +24,7 @@ import wandb
   ## Journaliser des métriques personnalisées
 </div>
 
-Si vous devez journaliser des métriques personnalisées supplémentaires qui ne sont pas journalisées dans TensorBoard, vous pouvez appeler `run.log()` dans votre code `run.log({"custom": 0.8}) `
+Si vous devez journaliser des métriques personnalisées supplémentaires qui ne sont pas enregistrées dans TensorBoard, vous pouvez appeler `run.log()` dans votre code `run.log({"custom": 0.8}) `
 
 La définition de l’argument étape dans `run.log()` est désactivée lors de la synchronisation avec TensorBoard. Si vous souhaitez définir un nombre d’étapes différent, vous pouvez journaliser les métriques avec une métrique d’étape comme suit :
 
@@ -32,11 +33,12 @@ with wandb.init(config=tf.flags.FLAGS, sync_tensorboard=True) as run:
     run.log({"custom": 0.8, "global_step":global_step}, step=global_step)
 ```
 
+
 <div id="tensorflow-estimators-hook">
   ## Hook pour les estimateurs TensorFlow
 </div>
 
-Si vous souhaitez mieux contrôler ce qui est journalisé, wandb propose également un hook pour les estimateurs TensorFlow. Il journalise toutes les valeurs `tf.summary` du graphe.
+Si vous souhaitez mieux contrôler ce qui est enregistré, wandb propose également un hook pour les estimateurs TensorFlow. Il enregistrera toutes les valeurs `tf.summary` du graphe.
 
 ```python
 import tensorflow as tf
@@ -48,11 +50,12 @@ estimator.train(hooks=[wandb.tensorflow.WandbHook(steps_per_log=1000)])
 run.finish()
 ```
 
+
 <div id="log-manually">
   ## Journaliser manuellement
 </div>
 
-Le moyen le plus simple de journaliser des métriques dans TensorFlow consiste à utiliser `tf.summary` avec le journaliseur TensorFlow :
+Le moyen le plus simple de consigner des métriques dans TensorFlow consiste à utiliser `tf.summary` avec le système de journalisation de TensorFlow :
 
 ```python
 import wandb
@@ -62,7 +65,7 @@ with tf.Session() as sess:
     wandb.tensorflow.log(tf.summary.merge_all())
 ```
 
-Avec TensorFlow 2, la méthode recommandée pour entraîner un modèle avec une boucle personnalisée consiste à utiliser `tf.GradientTape`. Pour en savoir plus, consultez le [guide pas à pas de TensorFlow sur l&#39;entraînement personnalisé](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough). Si vous souhaitez intégrer `wandb` pour journaliser des métriques dans vos boucles d&#39;entraînement TensorFlow personnalisées, vous pouvez vous appuyer sur cet extrait :
+Avec TensorFlow 2, la méthode recommandée pour entraîner un modèle avec une boucle personnalisée est d’utiliser `tf.GradientTape`. Pour en savoir plus, consultez le [guide pas à pas TensorFlow sur l’entraînement personnalisé](https://www.tensorflow.org/tutorials/customization/custom_training_walkthrough). Si vous souhaitez intégrer `wandb` pour consigner des métriques dans vos boucles d’entraînement TensorFlow personnalisées, vous pouvez vous appuyer sur cet extrait :
 
 ```python
     with tf.GradientTape() as tape:
@@ -71,7 +74,7 @@ Avec TensorFlow 2, la méthode recommandée pour entraîner un modèle avec une 
         # Calculer la perte
         loss = loss_func(labels, predictions)
 
-    # Enregistrer vos métriques
+    # Journaliser vos métriques
     run.log("loss": loss.numpy())
     # Obtenir les gradients
     gradients = tape.gradient(loss, model.trainable_variables)
@@ -79,7 +82,8 @@ Avec TensorFlow 2, la méthode recommandée pour entraîner un modèle avec une 
     optimizer.apply_gradients(zip(gradients, model.trainable_variables))
 ```
 
-Un [exemple complet pour personnaliser les boucles d’entraînement dans TensorFlow 2](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) est disponible.
+Un [exemple complet de personnalisation des boucles d’entraînement dans TensorFlow 2](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) est disponible.
+
 
 <div id="how-is-wb-different-from-tensorboard">
   ## En quoi W&amp;B se distingue-t-il de TensorBoard ?
@@ -104,5 +108,5 @@ Nous avons créé quelques exemples pour vous montrer comment l’intégration f
 
 * [Exemple sur GitHub](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-estimator-mnist/mnist.py) : exemple MNIST utilisant les estimateurs TensorFlow
 * [Exemple sur GitHub](https://github.com/wandb/examples/blob/master/examples/tensorflow/tf-cnn-fashion/train.py) : exemple Fashion MNIST utilisant TensorFlow brut
-* [Tableau de bord W&amp;B](https://app.wandb.ai/l2k2/examples-tf-estimator-mnist/runs/p0ifowcb) : voir le résultat sur W&amp;B
-* Personnalisation des boucles d’entraînement dans TensorFlow 2 - [Article](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) | [Tableau de bord](https://app.wandb.ai/sayakpaul/custom_training_loops_tf)
+* [tableau de bord W&amp;B](https://app.wandb.ai/l2k2/examples-tf-estimator-mnist/runs/p0ifowcb) : voir le résultat sur W&amp;B
+* Personnalisation des boucles d’entraînement dans TensorFlow 2 - [Article](https://www.wandb.com/articles/wandb-customizing-training-loops-in-tensorflow-2) | [tableau de bord](https://app.wandb.ai/sayakpaul/custom_training_loops_tf)

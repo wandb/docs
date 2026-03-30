@@ -3,7 +3,7 @@ description: "Intégrez W&B à Skorch pour journaliser les métriques et hyperpa
 title: Skorch
 ---
 
-Vous pouvez utiliser W&amp;B avec Skorch pour journaliser automatiquement le modèle le plus performant, ainsi que toutes les métriques de performance du modèle, sa topologie et les ressources de calcul après chaque époque. Chaque fichier enregistré dans `wandb_run.dir` est automatiquement journalisé dans W&amp;B.
+Vous pouvez utiliser W&amp;B avec Skorch pour journaliser automatiquement le modèle le plus performant, ainsi que toutes les métriques de performance du modèle, sa topologie et les ressources de calcul après chaque époque. Chaque fichier enregistré dans `wandb_run.dir` est automatiquement consigné dans W&amp;B.
 
 Voir [exemple de run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspace=user-borisd13).
 
@@ -14,14 +14,14 @@ Voir [exemple de run](https://app.wandb.ai/borisd13/skorch/runs/s20or4ct?workspa
 | Paramètre      | Type                              | Description                                                                                                                                                                                                                      |
 | :------------- | :-------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `wandb_run`    | `wandb.wandb_run`. Run            | run wandb utilisé pour journaliser des données.                                                                                                                                                                                  |
-| `save_model`   | bool (default=True)               | Indique s&#39;il faut enregistrer un point de contrôle du meilleur modèle et l&#39;importer dans votre run sur W&amp;B.                                                                                                          |
+| `save_model`   | bool (default=True)               | Indique s&#39;il faut enregistrer un point de contrôle du meilleur modèle et le téléverser dans votre run sur W&amp;B.                                                                                                           |
 | `keys_ignored` | str or list of str (default=None) | Clé ou liste de clés qui ne doivent pas être journalisées dans TensorBoard. Notez qu&#39;en plus des clés fournies par l&#39;utilisateur, les clés commençant par `event_` ou se terminant par `_best` sont ignorées par défaut. |
 
 <div id="example-code">
   ## Exemples de code
 </div>
 
-Nous avons créé quelques exemples pour vous montrer comment l’intégration fonctionne :
+Nous avons préparé quelques exemples pour vous montrer comment fonctionne l’intégration :
 
 * [Colab](https://colab.research.google.com/drive/1Bo8SqN1wNPMKv5Bn9NjwGecBxzFlaNZn?usp=sharing) : une démonstration simple pour essayer l’intégration
 * [Un guide étape par étape](https://app.wandb.ai/cayush/uncategorized/reports/Automate-Kaggle-model-training-with-Skorch-and-W%26B--Vmlldzo4NTQ1NQ) : pour suivre les performances de votre modèle Skorch

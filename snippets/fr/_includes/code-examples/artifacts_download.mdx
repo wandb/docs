@@ -1,5 +1,5 @@
 ---
-title: Téléchargement des Artifacts
+title: Téléchargement d'Artifacts
 ---
 
 ```python
@@ -11,7 +11,7 @@ logique s'applique aux artefacts externes.
 import wandb    
 
 with wandb.init(project="<project>") as run:
-    # Indiquer l'artefact à utiliser. Le format est "nom:alias"
+    # Indiquer l'artefact à utiliser. Le format est "name:alias"
     artifact = run.use_artifact("<artifact_name>:<alias>")
 
     # Télécharge le fichier depuis l'artefact au chemin spécifié

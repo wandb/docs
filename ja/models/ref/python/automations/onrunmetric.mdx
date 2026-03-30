@@ -11,10 +11,10 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnRunMetric`
 
-run に対するメトリクスが、ユーザー定義の条件を満たしているかどうかを表します。
+run のメトリクスがユーザー定義の条件を満たす場合です。
 
 例:
-プロジェクト &quot;my-project&quot; 内の任意の run に対して、メトリクス &quot;my-metric&quot; の直近 5 個の値の平均が 123.45 を超えたときにトリガーされるイベントを定義します:
+プロジェクト &quot;my-project&quot; 内の任意の run について、メトリクス &quot;my-metric&quot; の直近 5 個の値の平均が 123.45 を超えたときにトリガーされるイベントを定義します:
 
 ```python
 from wandb import Api

@@ -3,18 +3,18 @@ title: "Perte de données de trace dans les processus worker"
 keywords: ["Données de trace", "Performances"]
 ---
 
-Weave téléverse les données de trace dans des threads d’arrière-plan afin de minimiser l’impact sur les performances de votre application. Cependant, lorsque vous utilisez un système multiprocessus, une file d&#39;attente de tâches ou des processus worker comme Celery, les données de trace seront perdues si le processus worker se termine avant que les threads d’arrière-plan aient fini de téléverser les traces.
+Weave téléverse les données de trace dans des threads d’arrière-plan afin de minimiser l’impact sur les performances de votre application. Cependant, lorsque vous utilisez un système de multiprocessing, de file d’attente de tâches ou des processus worker comme Celery, les données de trace seront perdues si le processus worker se termine avant que les threads d’arrière-plan aient fini de téléverser les traces.
 
-Pour éviter la perte de données dans les processus worker, vous devez vous assurer que les téléversements en arrière-plan sont terminés en appelant `client.flush()` ou `client.finish()` avant la fin de la tâche worker.
+Pour éviter toute perte de données dans les processus worker, vous devez vous assurer que les téléversements en arrière-plan se terminent en appelant `client.flush()` ou `client.finish()` avant la fin de la tâche worker.
 
 Ces méthodes ont des objectifs différents :
 
 * `weave.flush()` : Vidage simple et silencieux. Recommandé lorsque Weave est intégré à des processus worker ou à des environnements CI.
-* `weave.finish()` : Inclut un indicateur de progression, sous la forme d’une barre de progression ou de callbacks de statut. Recommandé pour les scripts interactifs ou les notebooks.
+* `weave.finish()` : Inclut un retour de progression avec une barre de progression ou des rappels de statut. Recommandé pour les scripts ou notebooks interactifs.
 
-Les deux méthodes bloquent jusqu’à ce que tous les téléversements en arrière-plan soient terminés, ce qui garantit qu’aucune donnée de trace n’est perdue lorsque le processus worker se termine.
+Les deux méthodes bloquent jusqu’à ce que tous les téléversements en arrière-plan soient terminés, garantissant qu’aucune donnée de trace n’est perdue lorsque le processus worker se termine.
 
-L’exemple suivant illustre `client.finish()` :
+L’exemple suivant montre `client.finish()` :
 
 ```python
 from celery import Celery
@@ -38,7 +38,7 @@ def process_task(input_data):
         pass
 ```
 
-Vous pouvez aussi utiliser le gestionnaire de contexte `with` pour appeler automatiquement `weave.finish()` en quittant le contexte :
+Vous pouvez également utiliser le gestionnaire de contexte `with` pour appeler automatiquement `weave.finish()` à la sortie :
 
 ```python
 with weave.init("your-team-name/your-project-name") as client:
@@ -47,7 +47,7 @@ with weave.init("your-team-name/your-project-name") as client:
     return result
 ```
 
-Vous pouvez également améliorer les performances de votre application grâce à `weave.flush()`. Voir [Flushing](/fr/support/weave/articles/long-eval-clean-up-times) pour plus d’informations.
+Vous pouvez également améliorer les performances de votre application à l’aide de `weave.flush()`. Voir [Flushing](/fr/support/weave/articles/long-eval-clean-up-times) pour plus d’informations.
 
 ***
 
@@ -58,4 +58,4 @@ Vous pouvez également améliorer les performances de votre application grâce �
 
 <Badge stroke shape="pill" color="orange" size="md">[Données de trace](/fr/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badge d’onglet ---- */}

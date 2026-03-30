@@ -3,23 +3,23 @@ title: "wandb init"
 ---
 
 {/*
-  이 명령어에 대한 소개 내용을 추가하려면:
+  이 명령에 대한 소개 콘텐츠를 추가하려면:
   1. 스니펫 파일을 생성합니다: /snippets/_includes/cli/wandb-init.mdx
-  2. 해당 파일에 소개 내용을 추가합니다
-  3. 이 전체 주석 블록을 삭제하고 아래 두 줄만 남겨 두세요:
+  2. 해당 파일에 소개 콘텐츠를 추가합니다
+  3. 이 주석 블록 전체를 삭제하고 아래 두 줄만 남겨 두세요:
 
   import WandbInit from "/snippets/_includes/cli/wandb-init.mdx";
 
   <WandbInit/>
 
-  스니펫은 다음에 재생성할 때 자동으로 감지됩니다.
+  다음번 재생성 시 스니펫이 자동으로 감지됩니다.
   */}
 
-Weights &amp; Biases를 사용해 디렉터리 구성하기
+Weights &amp; Biases를 사용해 디렉터리 설정하기
 
 
 <div id="usage">
-  ## 사용 방법
+  ## 사용
 </div>
 
 ```bash
@@ -31,9 +31,9 @@ wandb init [OPTIONS]
   ## 옵션
 </div>
 
-| 옵션 | 설명 |
-| :--- | :--- |
-| `--project`, `-p` | 사용할 프로젝트. |
-| `--entity`, `-e` | 프로젝트 범위를 지정할 엔티티. |
-| `--reset` | 설정을 초기화합니다(기본값: False). |
-| `--mode`, `-m` | "online", "offline" 또는 "disabled"일 수 있습니다. 기본값은 "online"입니다. |
+| 옵션                | 설명                                                                                                   |
+| :---------------- | :--------------------------------------------------------------------------------------------------- |
+| `--project`, `-p` | 사용할 프로젝트.                                                                                            |
+| `--entity`, `-e`  | 프로젝트 범위를 지정할 entity.                                                                                 |
+| `--reset`         | 설정을 재설정합니다(기본값: False).                                                                              |
+| `--mode`, `-m`    | &quot;online&quot;, &quot;offline&quot; 또는 &quot;disabled&quot;일 수 있습니다. 기본값은 &quot;online&quot;입니다. |

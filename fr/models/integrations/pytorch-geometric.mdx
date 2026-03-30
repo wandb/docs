@@ -13,22 +13,22 @@ Après avoir installé PyTorch Geometric, suivez ces étapes pour démarrer.
   ## Inscrivez-vous et créez une clé API
 </div>
 
-Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil utilisateur.
+Une clé API permet d’authentifier votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil.
 
 <ApiKeyCreateStreamlined />
 
-1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
-2. Sélectionnez **Paramètres utilisateur**, puis faites défiler la page jusqu’à la section **Clés API**.
+1. Cliquez sur l’icône de votre profil dans le coin supérieur droit.
+2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **Clés API**.
 
 <div id="install-the-wandb-library-and-log-in">
   ## Installez la bibliothèque `wandb` et connectez-vous
 </div>
 
-Pour installer la bibliothèque `wandb` en local et vous connecter :
+Pour installer la bibliothèque `wandb` localement et vous connecter :
 
 <Tabs>
   <Tab title="Ligne de commande">
-    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+    1. Définissez la [variable d’environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` sur votre clé API.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -74,7 +74,7 @@ Vous pouvez enregistrer des détails sur les graphes d’entrée, notamment le n
   ### Utiliser PyVis
 </div>
 
-L’extrait suivant montre comment procéder avec PyVis et HTML.
+L’extrait suivant montre comment faire avec PyVis et HTML.
 
 ```python
 from pyvis.network import Network
@@ -106,7 +106,7 @@ with wandb.init(project=’graph_vis’) as run:
   ### Utiliser Plotly
 </div>
 
-Pour utiliser Plotly afin de créer une visualisation de graphe, vous devez d&#39;abord convertir le graphe PyG en objet NetworkX. Vous devrez ensuite créer des graphiques de dispersion Plotly pour les nœuds et les arêtes. L&#39;extrait ci-dessous peut être utilisé pour cette tâche.
+Pour utiliser Plotly afin de créer une visualisation de graphe, vous devez d&#39;abord convertir le graphe PyG en objet NetworkX. Vous devrez ensuite créer des graphiques de dispersion Plotly pour les nœuds et les arêtes. L&#39;extrait ci-dessous peut servir à cette tâche.
 
 ```python
 def create_vis(graph):
@@ -163,7 +163,7 @@ with wandb.init(project=’visualize_graph’) as run:
   ## Consigner des métriques
 </div>
 
-Vous pouvez utiliser W&amp;B pour suivre vos expériences et les métriques associées, comme les fonctions de perte, la précision et bien d’autres. Ajoutez la ligne suivante à votre boucle d&#39;entraînement :
+Vous pouvez utiliser W&amp;B pour suivre vos expériences et les métriques associées, comme les fonctions de perte, la précision, entre autres. Ajoutez la ligne suivante à votre boucle d&#39;entraînement :
 
 ```python
 with wandb.init(project="my_project", entity="my_entity") as run:

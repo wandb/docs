@@ -11,11 +11,12 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `MetricChangeFilter`
 
-메트릭 값의 **변화량**을 사용자가 설정한 임계값과 비교하는 필터입니다.
+메트릭 값의 **변화**를 사용자 정의 임곗값과 비교하는 필터입니다.
 
-변화량은 "tumbling" 윈도우, 즉 현재 윈도우와 겹치지 않는 바로 이전 윈도우와의 차이로 계산됩니다.
+변화는 &quot;텀블링&quot; 윈도우를 기준으로 계산됩니다. 즉, 현재 윈도우와
+겹치지 않는 이전 윈도우 사이의 차이입니다.
 
-### <kbd>method</kbd> `MetricChangeFilter.__init__`
+### <kbd>방법</kbd> `MetricChangeFilter.__init__`
 
 ```python
 __init__(
@@ -30,17 +31,17 @@ __init__(
 ) → None
 ```
 
-**인수:**
+**매개변수:**
 
 * `name` (str):
 * `agg` (Optional[Agg]):
 * `window` (int):
-* `cmp` (None): 사용되지 않습니다.
+* `cmp` (None): 무시됩니다.
 * `threshold` (Union[Annotated, Annotated]):
-* `prior_window` (int): &quot;prior&quot; 메트릭 집계 윈도우의 크기입니다 (`agg`가 `None`이면 사용되지 않음).
-  지정하지 않으면 현재 윈도우 크기가 기본값입니다.
+* `prior_window` (int): &quot;이전&quot; 메트릭 집계 윈도우의 크기(`agg`가 `None`이면 무시됨)입니다.
+  생략하면 현재 윈도우의 크기가 기본값으로 사용됩니다.
 * `change_type` (ChangeType):
 * `change_dir` (ChangeDir):
 
 **반환값:**
-`MetricChangeFilter` 객체.
+`MetricChangeFilter` 객체입니다.

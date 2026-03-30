@@ -5,9 +5,9 @@ description: "データセット内のカラム名を別の名前に対応付け
 
 <Tabs>
   <Tab title="Python">
-    Weave Python SDK では、スコアラーの `column_map` 属性を使って、スコアラーが想定するパラメーター名をデータセットのカラム名に対応付けます。マッピング形式は `{scorer_parameter: dataset_column}` です。
+    Weave Python SDK では、スコアラーの `column_map` 属性を使用して、スコアラーが想定するパラメーター名をデータセットのカラム名に対応付けます。マッピング形式は `{scorer_parameter: dataset_column}` です。
 
-    次の例では、`output` と `target` パラメーターを、データセットの `model_output` と `answer` カラムに対応付けています:
+    次の例では、`output` パラメーターと `target` パラメーターを、データセットの `model_output` カラムと `answer` カラムに対応付けています。
 
     ```python
     from weave.scorers import EmbeddingSimilarityScorer
@@ -22,10 +22,11 @@ description: "データセット内のカラム名を別の名前に対応付け
 
     スコアラーのカラムマッピングの詳細については、[Mapping Column Names with `column_map`](../evaluation/scorers#mapping-column-names-with-column_map) を参照してください。
   </Tab>
-  <Tab title="TypeScript">
-    Weave TypeScript SDK では、カラムマッピングは個々のスコアラーではなく、`Evaluation` オブジェクトの `columnMapping` オプションとして設定します。マッピング形式は `{scorer_key: dataset_column}` です。
 
-    次の例では、スコアラーで使用される `expectedOutputTimesTwo` を、データセット内の `expected` カラムに対応付けています:
+  <Tab title="TypeScript">
+    Weave TypeScript SDK では、カラムマッピングは個々のスコアラーではなく、`Evaluation` オブジェクトの `columnMapping` オプションで設定します。マッピング形式は `{scorer_key: dataset_column}` です。
+
+    次の例では、スコアラーで使用される `expectedOutputTimesTwo` を、データセットの `expected` カラムに対応付けています。
 
     ```typescript
     import * as weave from 'weave';
@@ -45,6 +46,6 @@ description: "データセット内のカラム名を別の名前に対応付け
     });
     ```
 
-    TypeScript の scorer のキーワード引数の詳細は、[Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments) を参照してください。
+    TypeScript の scorer のキーワード引数の詳細については、[Scorer Keyword Arguments](../evaluation/scorers#scorer-keyword-arguments) を参照してください。
   </Tab>
 </Tabs>

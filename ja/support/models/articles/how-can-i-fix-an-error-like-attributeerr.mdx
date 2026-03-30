@@ -1,9 +1,9 @@
 ---
-title: "`AttributeError: module 'wandb' has no attribute ...` のようなエラーはどうすれば修正できますか？"
+title: "`AttributeError: module 'wandb' has no attribute ...` のようなエラーを修正するにはどうすればよいですか？"
 keywords: ["run のクラッシュ"]
 ---
 
-Python で `wandb` をインポートしたときに、`AttributeError: module 'wandb' has no attribute 'init'` または `AttributeError: module 'wandb' has no attribute 'login'` のようなエラーが発生する場合は、`wandb` がインストールされていないか、インストールが破損している一方で、現在の作業ディレクトリに `wandb` ディレクトリが存在している可能性があります。このエラーを修正するには、`wandb` をアンインストールし、ディレクトリを削除してから、`wandb` をインストールしてください。
+Python で `wandb` をインポートしたときに、`AttributeError: module 'wandb' has no attribute 'init'` または `AttributeError: module 'wandb' has no attribute 'login'` のようなエラーが発生する場合、`wandb` がインストールされていないか、インストールが破損しており、現在の作業ディレクトリに `wandb` ディレクトリが存在している可能性があります。このエラーを修正するには、`wandb` をアンインストールし、ディレクトリを削除してから、`wandb` をインストールしてください。
 
 ```bash
 pip uninstall wandb; rm -rI wandb; pip install wandb
@@ -12,10 +12,10 @@ pip uninstall wandb; rm -rI wandb; pip install wandb
 ***
 
 {/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py で管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[run のクラッシュ](/ja/support/models/tags/run-crashes)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

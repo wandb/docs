@@ -13,10 +13,10 @@ Weave prend en charge l’ingestion de données de trace compatibles OpenTelemet
   ## Détails du point de terminaison
 </div>
 
-**Chemin**: `/otel/v1/traces`
-**Méthode**: POST
-**Type de contenu**: `application/x-protobuf`
-**URL de base**: l&#39;URL de base du point de terminaison de trace OTel dépend de votre type de déploiement W&amp;B :
+**Chemin** : `/otel/v1/traces`
+**Méthode** : POST
+**Type de contenu** : `application/x-protobuf`
+**URL de base** : l’URL de base du point de terminaison de trace OTel dépend de votre type de déploiement W&amp;B :
 
 * Cloud mutualisé :
   `https://trace.wandb.ai/otel/v1/traces`
@@ -101,7 +101,7 @@ Les exemples suivants montrent comment envoyer des traces OpenTelemetry vers Wea
 Avant d’exécuter les exemples de code ci-dessous, définissez les champs suivants :
 
 1. `WANDB_API_KEY` : Vous pouvez l’obtenir dans les [Paramètres utilisateur](https://wandb.ai/settings).
-2. Entité : Vous pouvez uniquement journaliser des traces dans un projet relevant d’une entité à laquelle vous avez accès. Vous pouvez trouver le nom de votre entité en consultant votre tableau de bord W&amp;B à l’adresse [https://wandb.ai/home], puis en vérifiant le champ **Teams** dans la barre latérale gauche.
+2. Entité : Vous pouvez uniquement journaliser des traces dans le projet relevant d’une entité à laquelle vous avez accès. Vous pouvez trouver le nom de votre entité en consultant votre tableau de bord W&amp;B à l’adresse [https://wandb.ai/home], puis en vérifiant le champ **Teams** dans la barre latérale gauche.
 3. Nom du projet : Choisissez un nom sympa !
 4. `OPENAI_API_KEY` : Vous pouvez l’obtenir depuis le [tableau de bord OpenAI](https://platform.openai.com/api-keys).
 
@@ -197,9 +197,9 @@ Commencez par installer les dépendances requises :
   <Tab title="TypeScript">
     L’implémentation TypeScript de cet exemple présente les principales différences suivantes par rapport à l’implémentation Python :
 
-    * OpenAI doit être importé avant l’enregistrement de l’instrumentation (les modules ESM l’exigent).
+    * OpenAI doit être importé avant d’enregistrer l’instrumentation (les modules ESM l’exigent).
     * Utilise `@opentelemetry/exporter-trace-otlp-proto` (format protobuf) au lieu de l’exportateur HTTP, car le point de terminaison de W&amp;B n’accepte que le protobuf.
-    * Nécessite un `provider.shutdown()` explicite avec un délai avant l’arrêt pour garantir que les spans sont bien envoyées, car `BatchSpanProcessor` les vide de façon asynchrone.
+    * Nécessite d’appeler explicitement `provider.shutdown()` avec un délai avant l’arrêt pour garantir que les spans sont bien exportés, car `BatchSpanProcessor` effectue le vidage de façon asynchrone.
 
     Collez le code suivant dans un fichier TypeScript tel que `openinference_example.ts` :
 
@@ -306,7 +306,7 @@ Commencez par installer les dépendances requises :
 
 <Tabs>
   <Tab title="Python">
-    Collez le code suivant dans un fichier Python, par exemple `openllmetry_example.py`. Notez qu’il s’agit du même code que ci-dessus, sauf que `OpenAIInstrumentor` est importé depuis `opentelemetry.instrumentation.openai` au lieu de `openinference.instrumentation.openai` :
+    Collez le code suivant dans un fichier Python, par exemple `openllmetry_example.py`. Notez qu’il s’agit du même code que ci-dessus, à ceci près que `OpenAIInstrumentor` est importé depuis `opentelemetry.instrumentation.openai` au lieu de `openinference.instrumentation.openai` :
 
     ```python lines
     import os
@@ -368,7 +368,7 @@ Commencez par installer les dépendances requises :
   </Tab>
 
   <Tab title="TypeScript">
-    Collez le code suivant dans un fichier TypeScript tel que `openllmetry_example.ts`. Notez que ce code utilise le package d’instrumentation OpenAI de Traceloop :
+    Collez le code suivant dans un fichier TypeScript, par exemple `openllmetry_example.ts`. Notez que ce code utilise le package d’instrumentation OpenAI de Traceloop :
 
     ```typescript lines
     import OpenAI from "openai";
@@ -401,7 +401,7 @@ Commencez par installer les dépendances requises :
       }),
       spanProcessors: [
         new BatchSpanProcessor(exporter),
-        // Facultativement, afficher les spans dans la console.
+        // Facultatif : afficher les spans dans la console.
         new BatchSpanProcessor(new ConsoleSpanExporter()),
       ],
     });
@@ -478,7 +478,7 @@ Commencez par installer les dépendances requises :
 
 <Tabs>
   <Tab title="Python">
-    Collez le code suivant dans un fichier Python comme `opentelemetry_example.py` :
+    Collez le code suivant dans un fichier Python, par exemple `opentelemetry_example.py` :
 
     ```python lines
     import json
@@ -642,7 +642,7 @@ Commencez par installer les dépendances requises :
   </Tab>
 </Tabs>
 
-Les préfixes d’attributs de span `gen_ai` et `openinference` servent à déterminer, le cas échéant, la convention à utiliser pour interpréter la trace. Si aucune de ces deux clés n’est détectée, tous les attributs de span sont visibles dans la vue de trace. Le span complet est disponible dans le panneau latéral lorsque vous sélectionnez une trace.
+Les préfixes d’attributs de span `gen_ai` et `openinference` servent à déterminer, le cas échéant, la convention à utiliser pour interpréter la trace. Si aucune de ces deux clés n’est détectée, tous les attributs de span sont visibles dans la Vue de trace. Le span complet est disponible dans le panneau latéral lorsque vous sélectionnez une trace.
 
 <div id="use-an-opentelemetry-collector">
   ## Utiliser un collecteur OpenTelemetry
@@ -654,13 +654,13 @@ Les exemples ci-dessus exportent les traces directement de votre application ver
   ### Configurer un collecteur
 </div>
 
-L&#39;exemple suivant montre comment :
+L’exemple suivant montre comment :
 
-* Configurer un fichier de configuration pour Docker qui déploie un serveur local (collecteur) à l&#39;écoute des traces OTLP, les regroupe par lots et les transmet à Weave.
+* Configurer un fichier de configuration Docker qui déploie un serveur local (collecteur) à l’écoute des traces OTLP, les regroupe par lots et les transmet vers Weave.
 * Exécuter localement le collecteur avec Docker.
-* Envoyer un appel OpenAI de base qui transmet les traces au collecteur exécuté dans le conteneur Docker.
+* Envoyer un appel de base à OpenAI qui transmet les traces au collecteur exécuté dans le conteneur Docker.
 
-Pour utiliser un collecteur, créez d&#39;abord un fichier `collector-config.yaml` qui configure le collecteur pour recevoir des traces OTLP et les exporter vers Weave :
+Pour utiliser un collecteur, créez d’abord un fichier `collector-config.yaml` qui configure le collecteur pour recevoir des traces OTLP et les exporter vers Weave :
 
 ```yaml lines {23,26} collector-config.yaml title="collector-config.yaml" 
 receivers:
@@ -682,7 +682,7 @@ processors:
     attributes:
       - key: wandb.entity # Champ des attributs de ressource
         value: ${env:DEFAULT_WANDB_ENTITY}  # Valeur à injecter
-        action: insert # Injecter uniquement si non défini
+        action: insert # Injecter uniquement si absent
       - key: wandb.project
         value: ${env:DEFAULT_WANDB_PROJECT}
         action: insert 
@@ -698,9 +698,9 @@ service:
 Ce fichier de configuration :
 
 * Écoute les traces OTLP sur le port `4318` (HTTP).
-* Exporte les traces vers le point de terminaison OTLP de Weave à l’aide de l’en-tête `wandb-api-key`, en lisant l’URL du point de terminaison depuis `WANDB_OTLP_ENDPOINT` et la clé API depuis `WANDB_API_KEY`.
-* Définit `wandb.entity` et `wandb.project` comme attributs de ressource à l’aide du processeur `resource`, en lisant les valeurs depuis `DEFAULT_WANDB_ENTITY` et `DEFAULT_WANDB_PROJECT`. L’action `insert` n’injecte ces attributs que si le code de votre application ne les définit pas déjà.
-* Active la `sending_queue` intégrée de l’exportateur avec un traitement par lots afin de réduire la surcharge réseau.
+* Exporte les traces vers le point de terminaison OTLP de Weave à l’aide de l’en-tête `wandb-api-key`, en lisant l’URL du point de terminaison à partir de `WANDB_OTLP_ENDPOINT` et la clé API à partir de `WANDB_API_KEY`.
+* Définit `wandb.entity` et `wandb.project` comme attributs de ressource à l’aide du processeur `resource`, en lisant les valeurs à partir de `DEFAULT_WANDB_ENTITY` et `DEFAULT_WANDB_PROJECT`. L’action `insert` n’injecte ces attributs que si le code de votre application ne les définit pas déjà.
+* Active la `sending_queue` intégrée de l’exportateur avec traitement par lots afin de réduire la charge réseau.
 
 Après avoir configuré les paramètres du collecteur, mettez à jour les valeurs de la clé API et de l’entité dans la commande Docker suivante, puis exécutez-la :
 
@@ -715,9 +715,9 @@ docker run \
   otel/opentelemetry-collector-contrib:latest
 ```
 
-Une fois le collecteur en cours d’exécution, configurez votre application pour y exporter des traces en définissant la variable d’environnement `OTEL_EXPORTER_OTLP_ENDPOINT`. Le SDK OTel lit automatiquement cette variable, vous n’avez donc pas besoin de transmettre le point de terminaison à l’exportateur.
+Une fois le collecteur démarré, configurez votre application pour y exporter des traces en définissant la variable d’environnement `OTEL_EXPORTER_OTLP_ENDPOINT`. Le SDK OTel lit automatiquement cette variable, vous n’avez donc pas besoin de fournir le point de terminaison à l’exportateur.
 
-Si vous définissez `wandb.entity` ou `wandb.project` comme attributs de ressource dans le `TracerProvider` de votre application, ils remplacent les valeurs par défaut définies dans la configuration du collecteur.
+Si vous définissez `wandb.entity` ou `wandb.project` comme attributs de ressource dans le `TracerProvider` de votre application, ils priment sur les valeurs par défaut définies dans la configuration du collecteur.
 
 <CodeGroup>
   ```python Python lines
@@ -792,17 +792,17 @@ Si vous définissez `wandb.entity` ou `wandb.project` comme attributs de ressour
   ```
 </CodeGroup>
 
-`OpenAIInstrumentor` intercepte automatiquement les appels OpenAI, crée des traces et les exporte vers le collecteur. Le collecteur gère l’authentification et le routage vers Weave.
+`OpenAIInstrumentor` intercepte automatiquement les appels OpenAI, crée des traces et les exporte vers le collecteur. Le collecteur gère l’authentification et l’acheminement vers Weave.
 
-Après avoir exécuté le script, vous pouvez [afficher les traces](/fr/weave/guides/tracking/trace-tree) dans l’interface Weave.
+Après avoir exécuté le script, vous pouvez [consulter les traces](/fr/weave/guides/tracking/trace-tree) dans l’interface Weave.
 
-Pour envoyer des traces vers d’autres backends, ajoutez des exportateurs supplémentaires et incluez-les dans la liste `service.pipelines.traces.exporters`. Par exemple, vous pouvez exporter vers Weave et Jaeger depuis la même instance du collecteur.
+Pour envoyer des traces vers d’autres backends, ajoutez des exportateurs supplémentaires et incluez-les dans la liste `service.pipelines.traces.exporters`. Par exemple, vous pouvez exporter vers Weave et Jaeger depuis une même instance du collecteur.
 
 <div id="organize-otel-traces-into-threads">
   ## Organiser les traces OTel en threads
 </div>
 
-Ajoutez des attributs de span spécifiques pour organiser vos traces OpenTelemetry en [threads Weave](/fr/weave/guides/tracking/threads), puis utilisez l&#39;interface des threads de Weave pour analyser des opérations liées, comme des conversations à plusieurs tours ou des sessions utilisateur.
+Ajoutez des attributs de span spécifiques pour organiser vos traces OpenTelemetry en [threads Weave](/fr/weave/guides/tracking/threads), puis utilisez l&#39;interface utilisateur des threads de Weave pour analyser des opérations liées, comme des conversations à plusieurs tours ou des sessions utilisateur.
 
 Ajoutez les attributs suivants à vos spans OTel pour activer le regroupement en threads :
 
@@ -843,7 +843,7 @@ Les exemples suivants montrent comment organiser les traces OTel en threads Weav
       }))
       tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
 
-      # Facultativement, affichez les spans dans la console
+      # Facultatif : affichez les spans dans la console
       tracer_provider.add_span_processor(BatchSpanProcessor(ConsoleSpanExporter()))
 
       trace.set_tracer_provider(tracer_provider)
@@ -910,7 +910,7 @@ Les exemples suivants montrent comment organiser les traces OTel en threads Weav
     <Tab title="Python">
       ```python lines
       def example_1_basic_thread_and_turn():
-          """Exemple 1 : thread de base avec un seul tour"""
+          """Exemple 1 : thread de base avec un seul tour"""
           print("\n=== Exemple 1 : Thread et tour de base ===")
 
           # Créer un contexte de thread
@@ -996,8 +996,8 @@ Les exemples suivants montrent comment organiser les traces OTel en threads Weav
     <Tab title="Python">
       ```python lines
       def example_2_multiple_turns():
-          """Exemple 2 : plusieurs tours dans un seul thread"""
-          print("\n=== Exemple 2 : plusieurs tours dans le thread ===")
+          """Exemple 2 : plusieurs tours dans un même thread"""
+          print("\n=== Exemple 2 : plusieurs tours dans un même thread ===")
 
           thread_id = "thread_conversation_123"
 
@@ -1020,7 +1020,7 @@ Les exemples suivants montrent comment organiser les traces OTel en threads Weav
           with tracer.start_as_current_span("process_message_turn2") as turn2_span:
               turn2_span.set_attribute("wandb.thread_id", thread_id)
               turn2_span.set_attribute("wandb.is_turn", True)
-              turn2_span.set_attribute("input.value", "Pouvez-vous expliquer Python vs JavaScript ?")
+              turn2_span.set_attribute("input.value", "Pouvez-vous expliquer les différences entre Python et JavaScript ?")
 
               # Opérations imbriquées
               with tracer.start_as_current_span("comparison_analysis") as compare_span:
@@ -1042,7 +1042,7 @@ Les exemples suivants montrent comment organiser les traces OTel en threads Weav
     <Tab title="TypeScript">
       ```typescript lines
       function example_2_multiple_turns() {
-        console.log("\n=== Exemple 2 : plusieurs tours dans le thread ===");
+        console.log("\n=== Exemple 2 : plusieurs tours dans un même thread ===");
 
         const threadId = "thread_conversation_123";
 
@@ -1073,7 +1073,7 @@ Les exemples suivants montrent comment organiser les traces OTel en threads Weav
         tracer.startActiveSpan("process_message_turn2", (turn2Span) => {
           turn2Span.setAttribute("wandb.thread_id", threadId);
           turn2Span.setAttribute("wandb.is_turn", true);
-          turn2Span.setAttribute("input.value", "Pouvez-vous expliquer Python vs JavaScript ?");
+          turn2Span.setAttribute("input.value", "Pouvez-vous expliquer les différences entre Python et JavaScript ?");
 
           // Opérations imbriquées
           tracer.startActiveSpan("comparison_analysis", (compareSpan) => {
@@ -1100,7 +1100,7 @@ Les exemples suivants montrent comment organiser les traces OTel en threads Weav
   </Tabs>
 </Accordion>
 
-<Accordion title="Tracer des opérations profondément imbriquées et marquer uniquement le span le plus externe comme un tour">
+<Accordion title="Tracer des opérations profondément imbriquées et marquer uniquement le span le plus externe comme tour">
   <Tabs>
     <Tab title="Python">
       ```python lines
@@ -1110,7 +1110,7 @@ Les exemples suivants montrent comment organiser les traces OTel en threads Weav
 
           thread_id = "thread_complex_456"
 
-          # Turn avec plusieurs niveaux d'imbrication
+          # Tour avec plusieurs niveaux d'imbrication
           with tracer.start_as_current_span("handle_complex_request") as turn_span:
               turn_span.set_attribute("wandb.thread_id", thread_id)
               turn_span.set_attribute("wandb.is_turn", True)
@@ -1155,7 +1155,7 @@ Les exemples suivants montrent comment organiser les traces OTel en threads Weav
 
         const threadId = "thread_complex_456";
 
-        // Turn avec plusieurs niveaux d'imbrication
+        // Tour avec plusieurs niveaux d'imbrication
         tracer.startActiveSpan("handle_complex_request", (turnSpan) => {
           turnSpan.setAttribute("wandb.thread_id", threadId);
           turnSpan.setAttribute("wandb.is_turn", true);
@@ -1291,7 +1291,7 @@ Après avoir envoyé ces traces, vous pouvez les consulter dans l’interface We
   ## Mappages d’attributs
 </div>
 
-Weave associe automatiquement les attributs de span OpenTelemetry issus de différents frameworks d’instrumentation à son modèle de données interne. Lorsque plusieurs noms d’attributs correspondent au même champ, Weave les applique par ordre de priorité, ce qui permet à plusieurs frameworks de coexister dans les mêmes traces.
+Weave associe automatiquement les attributs de span OpenTelemetry issus de différents frameworks d’instrumentation à son modèle de données interne. Lorsque de multiples noms d’attributs correspondent au même champ, Weave les applique par ordre de priorité, ce qui permet à plusieurs frameworks de coexister dans les mêmes traces.
 
 <div id="supported-frameworks">
   ### Frameworks pris en charge
@@ -1301,68 +1301,68 @@ Weave prend en charge les conventions d’attributs des frameworks et SDK d’ob
 
 * **OpenTelemetry GenAI** : conventions sémantiques standard pour l’IA générative (`gen_ai.*`)
 * **OpenInference** : bibliothèque d’instrumentation d’Arize AI (`input.value`, `output.value`, `llm.*`, `openinference.*`)
-* **Vercel AI SDK** : attributs du SDK IA de Vercel (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`)
+* **Vercel AI SDK** : attributs du SDK d’IA de Vercel (`ai.prompt`, `ai.response`, `ai.model.*`, `ai.usage.*`)
 * **MLflow** : attributs de suivi de MLflow (`mlflow.spanInputs`, `mlflow.spanOutputs`)
 * **Traceloop** : instrumentation OpenLLMetry (`traceloop.entity.*`, `traceloop.span.kind`)
 * **Google Vertex AI** : attributs d’agent de Vertex AI (`gcp.vertex.agent.*`)
 * **OpenLit** : attributs d’observabilité d’OpenLit (`gen_ai.content.completion`)
-* **Langfuse** : attributs de traçage de Langfuse (`langfuse.startTime`, `langfuse.endTime`)
+* **Langfuse** : attributs de tracing de Langfuse (`langfuse.startTime`, `langfuse.endTime`)
 
 <div id="attribute-reference">
   ### Référence des attributs
 </div>
 
-| Nom du champ d’attribut           | Correspondance W&amp;B        | Description                                                | Type                              | Exemple                                        |
-| :-------------------------------- | :---------------------------- | :--------------------------------------------------------- | :-------------------------------- | :--------------------------------------------- |
-| `ai.prompt`                       | `inputs`                      | Texte du prompt utilisateur ou messages.                   | Chaîne de caractères, liste, dict | `"Écris un court haïku sur l’été."`            |
-| `gen_ai.prompt`                   | `inputs`                      | Prompt du modèle d’IA ou liste de messages.                | Liste, dict, chaîne               | `[{"role":"user","content":"abc"}]`            |
-| `input.value`                     | `inputs`                      | Valeur d’entrée pour l’appel du modèle.                    | Chaîne, liste, dict               | `{"text":"Raconte une blague"}`                |
-| `mlflow.spanInputs`               | `inputs`                      | Données d’entrée du span.                                  | Chaîne, liste, dict               | `["texte du prompt"]`                          |
-| `traceloop.entity.input`          | `inputs`                      | Données d’entrée de l’entité.                              | Chaîne, liste, dict               | `"Traduisez ceci en français"`                 |
-| `gcp.vertex.agent.tool_call_args` | `inputs`                      | Arguments d’appel de l’outil.                              | Dict                              | `{"args":{"query":"météo à SF"}}`              |
-| `gcp.vertex.agent.llm_request`    | `inputs`                      | Corps de la requête LLM.                                   | Dict                              | `{"contents":[{"role":"user","parts":[...]}]}` |
-| `input`                           | `inputs`                      | Valeur d’entrée générique.                                 | Chaîne, liste, dict               | `"Résume ce texte"`                            |
-| `inputs`                          | `inputs`                      | Liste d’entrée générique.                                  | Liste, dict, chaîne               | `["Résume ce texte"]`                          |
-| `ai.response`                     | `outputs`                     | Texte ou données de la réponse du modèle.                  | Chaîne, liste, dict               | `"Voici un haïku..."`                          |
-| `gen_ai.completion`               | `outputs`                     | Résultat de la complétion de l’IA.                         | Chaîne, liste, dict               | `"Texte généré"`                               |
-| `output.value`                    | `outputs`                     | Valeur de sortie du modèle.                                | Chaîne, liste, dict               | `{"text":"Texte de réponse"}`                  |
-| `mlflow.spanOutputs`              | `outputs`                     | Données de sortie du span.                                 | String, liste, dict               | `["answer"]`                                   |
-| `gen_ai.content.completion`       | `outputs`                     | Résultat de la complétion de contenu.                      | String                            | `"Texte de réponse"`                           |
-| `traceloop.entity.output`         | `outputs`                     | Données de sortie de l’entité.                             | String, liste, dict               | `"Texte de réponse"`                           |
-| `gcp.vertex.agent.tool_response`  | `outputs`                     | Réponse d’exécution de l’outil.                            | dict, chaîne de caractères        | `{"toolResponse":"ok"}`                        |
-| `gcp.vertex.agent.llm_response`   | `outputs`                     | Payload de réponse du LLM.                                 | dict, chaîne de caractères        | `{"candidates":[...]}`                         |
-| `output`                          | `outputs`                     | Valeur de sortie générique.                                | Chaîne de caractères, liste, dict | `"Texte de réponse"`                           |
-| `outputs`                         | `outputs`                     | Tableau générique de sortie.                               | liste, dict, chaîne de caractères | `["Texte de réponse"]`                         |
-| `gen_ai.usage.input_tokens`       | `usage.input_tokens`          | Nombre de jetons d’entrée consommés.                       | Int                               | `42`                                           |
-| `gen_ai.usage.prompt_tokens`      | `usage.prompt_tokens`         | Nombre de jetons de prompt consommés.                      | Int                               | `30`                                           |
-| `llm.token_count.prompt`          | `usage.prompt_tokens`         | Nombre de jetons de prompt.                                | Int                               | `30`                                           |
-| `ai.usage.promptTokens`           | `usage.prompt_tokens`         | Tokens de prompt consommés.                                | Int                               | `30`                                           |
-| `gen_ai.usage.completion_tokens`  | `usage.completion_tokens`     | Nombre de tokens de complétion générés.                    | Int                               | `40`                                           |
-| `llm.token_count.completion`      | `usage.completion_tokens`     | Nombre de tokens de complétion.                            | Int                               | `40`                                           |
-| `ai.usage.completionTokens`       | `usage.completion_tokens`     | Jetons de complétion générés.                              | Int                               | `40`                                           |
-| `llm.usage.total_tokens`          | `usage.total_tokens`          | Nombre total de jetons utilisés dans la requête.           | Int                               | `70`                                           |
-| `llm.token_count.total`           | `usage.total_tokens`          | Nombre total de jetons.                                    | Entier                            | `70`                                           |
-| `gen_ai.system`                   | `attributes.system`           | Prompt système ou instructions.                            | Chaîne                            | `"Vous êtes un assistant utile."`              |
-| `llm.system`                      | `attributes.system`           | Prompt système ou instructions.                            | Chaîne                            | `"Vous êtes un assistant serviable."`          |
-| `weave.span.kind`                 | `attributes.kind`             | Type ou catégorie de span.                                 | Chaîne                            | `"llm"`                                        |
-| `traceloop.span.kind`             | `attributes.kind`             | Type ou catégorie de span.                                 | Chaîne de caractères              | `"llm"`                                        |
-| `openinference.span.kind`         | `attributes.kind`             | Type ou catégorie de span.                                 | Chaîne de caractères              | `"llm"`                                        |
-| `gen_ai.response.model`           | `attributes.model`            | Identifiant du modèle.                                     | Chaîne de caractères              | `"gpt-4o"`                                     |
-| `llm.model_name`                  | `attributes.model`            | Identifiant de modèle.                                     | String                            | `"gpt-4o-mini"`                                |
-| `ai.model.id`                     | `attributes.model`            | Identifiant de modèle.                                     | String                            | `"gpt-4o"`                                     |
-| `llm.provider`                    | `attributes.provider`         | Nom du fournisseur de modèle.                              | String                            | `"openai"`                                     |
-| `ai.model.provider`               | `attributes.provider`         | Nom du fournisseur de modèle.                              | Chaîne                            | `"openai"`                                     |
-| `gen_ai.request`                  | `attributes.model_parameters` | Paramètres de génération du modèle.                        | dict                              | `{"temperature":0.7,"max_tokens":256}`         |
-| `llm.invocation_parameters`       | `attributes.model_parameters` | Paramètres d’invocation du modèle.                         | dict                              | `{"temperature":0.2}`                          |
-| `wandb.display_name`              | `display_name`                | Nom d’affichage personnalisé pour l’interface utilisateur. | String                            | `"Message utilisateur"`                        |
-| `gcp.vertex.agent.session_id`     | `thread_id`                   | Identifiant de session ou de fil de discussion.            | String                            | `"thread_123"`                                 |
-| `wandb.thread_id`                 | `thread_id`                   | Identifiant de fil de discussion pour les conversations.   | String                            | `"thread_123"`                                 |
-| `wb_run_id`                       | `wb_run_id`                   | Identifiant du run W&amp;B associé.                        | Chaîne de caractères              | `"abc123"`                                     |
-| `wandb.wb_run_id`                 | `wb_run_id`                   | Identifiant du run W&amp;B associé.                        | Chaîne de caractères              | `"abc123"`                                     |
-| `gcp.vertex.agent.session_id`     | `is_turn`                     | Indique que le span correspond à un tour de conversation.  | Booléen                           | `true`                                         |
-| `wandb.is_turn`                   | `is_turn`                     | Indique que le span correspond à un tour de conversation.  | Booléen                           | `true`                                         |
-| `langfuse.startTime`              | `start_time` (surcharge)      | Remplace l’horodatage de début de la span.                 | Horodatage (ISO8601/unix ns)      | `"2024-01-01T12:00:00Z"`                       |
-| `langfuse.endTime`                | `end_time` (surcharge)        | Remplace l’horodatage de fin de la span.                   | Horodatage (ISO8601/unix ns)      | `"2024-01-01T12:00:01Z"`                       |
+| Nom du champ d’attribut           | Correspondance W&amp;B        | Description                                               | Type                              | Exemple                                        |
+| :-------------------------------- | :---------------------------- | :-------------------------------------------------------- | :-------------------------------- | :--------------------------------------------- |
+| `ai.prompt`                       | `inputs`                      | Texte du prompt utilisateur ou messages.                  | Chaîne de caractères, liste, dict | `"Écrivez un court haïku sur l’été."`          |
+| `gen_ai.prompt`                   | `entrée`                      | Prompt du modèle d’IA ou liste de messages.               | Liste, dict, chaîne               | `[{"role":"user","content":"abc"}]`            |
+| `input.value`                     | `inputs`                      | Valeur d’entrée pour l’appel du modèle.                   | Chaîne, liste, dict               | `{"text":"Raconte une blague"}`                |
+| `mlflow.spanInputs`               | `entrée`                      | Données d’entrée du span.                                 | Chaîne, liste, dict               | `["texte du prompt"]`                          |
+| `traceloop.entity.input`          | `entrée`                      | Données d’entrée de l’entité.                             | Chaîne, liste, dict               | `"Traduisez ceci en français"`                 |
+| `gcp.vertex.agent.tool_call_args` | `entrée`                      | Arguments d’appel de l’outil.                             | Dict                              | `{"args":{"query":"météo à SF"}}`              |
+| `gcp.vertex.agent.llm_request`    | `inputs`                      | Corps de la requête LLM.                                  | Dict                              | `{"contents":[{"role":"user","parts":[...]}]}` |
+| `input`                           | `inputs`                      | Valeur d’entrée générique.                                | Chaîne, liste, dict               | `"Résume ce texte"`                            |
+| `inputs`                          | `inputs`                      | Liste d’entrée générique.                                 | Liste, dict, chaîne               | `["Résume ce texte"]`                          |
+| `ai.response`                     | `outputs`                     | Texte ou données de la réponse du modèle.                 | Chaîne, liste, dict               | `"Voici un haïku..."`                          |
+| `gen_ai.completion`               | `outputs`                     | Résultat de la complétion de l’IA.                        | Chaîne, liste, dict               | `"Texte de complétion"`                        |
+| `output.value`                    | `outputs`                     | Valeur de sortie du modèle.                               | Chaîne, liste, dict               | `{"text":"Texte de réponse"}`                  |
+| `mlflow.spanOutputs`              | `outputs`                     | Données de sortie du span.                                | String, liste, dict               | `["answer"]`                                   |
+| `gen_ai.content.completion`       | `outputs`                     | Résultat de la complétion de contenu.                     | String                            | `"Texte de réponse"`                           |
+| `traceloop.entity.output`         | `outputs`                     | Données de sortie de l’entité.                            | String, liste, dict               | `"Texte de réponse"`                           |
+| `gcp.vertex.agent.tool_response`  | `outputs`                     | Réponse d’exécution de l’outil.                           | dict, chaîne de caractères        | `{"toolResponse":"ok"}`                        |
+| `gcp.vertex.agent.llm_response`   | `outputs`                     | Payload de réponse du LLM.                                | dict, chaîne de caractères        | `{"candidates":[...]}`                         |
+| `output`                          | `outputs`                     | Valeur de sortie générique.                               | Chaîne de caractères, liste, dict | `"Texte de réponse"`                           |
+| `outputs`                         | `outputs`                     | Tableau générique de sortie.                              | Liste, dict, chaîne de caractères | `["Texte de réponse"]`                         |
+| `gen_ai.usage.input_tokens`       | `usage.input_tokens`          | Nombre de jetons d’entrée consommés.                      | Int                               | `42`                                           |
+| `gen_ai.usage.prompt_tokens`      | `usage.prompt_tokens`         | Nombre de jetons de prompt consommés.                     | Int                               | `30`                                           |
+| `llm.token_count.prompt`          | `usage.prompt_tokens`         | Nombre de jetons de prompt.                               | Int                               | `30`                                           |
+| `ai.usage.promptTokens`           | `usage.prompt_tokens`         | Jetons de prompt consommés.                               | Int                               | `30`                                           |
+| `gen_ai.usage.completion_tokens`  | `usage.completion_tokens`     | Nombre de jetons de complétion générés.                   | Int                               | `40`                                           |
+| `llm.token_count.completion`      | `usage.completion_tokens`     | Nombre de jetons de complétion.                           | Int                               | `40`                                           |
+| `ai.usage.completionTokens`       | `usage.completion_tokens`     | Jetons de complétion générés.                             | Int                               | `40`                                           |
+| `llm.usage.total_tokens`          | `usage.total_tokens`          | Nombre total de jetons utilisés dans la requête.          | Int                               | `70`                                           |
+| `llm.token_count.total`           | `usage.total_tokens`          | Nombre total de jetons.                                   | Entier                            | `70`                                           |
+| `gen_ai.system`                   | `attributes.system`           | Prompt système ou instructions.                           | Chaîne                            | `"Vous êtes un assistant serviable."`          |
+| `llm.system`                      | `attributes.system`           | Prompt système ou instructions.                           | Chaîne                            | `"Vous êtes un assistant utile."`              |
+| `weave.span.kind`                 | `attributes.kind`             | Type ou catégorie du span.                                | Chaîne                            | `"llm"`                                        |
+| `traceloop.span.kind`             | `attributes.kind`             | Type ou catégorie de span.                                | Chaîne de caractères              | `"llm"`                                        |
+| `openinference.span.kind`         | `attributes.kind`             | Type ou catégorie de span.                                | Chaîne de caractères              | `"llm"`                                        |
+| `gen_ai.response.model`           | `attributes.model`            | Identifiant du modèle.                                    | Chaîne de caractères              | `"gpt-4o"`                                     |
+| `llm.model_name`                  | `attributes.model`            | Identifiant de modèle.                                    | String                            | `"gpt-4o-mini"`                                |
+| `ai.model.id`                     | `attributes.model`            | Identifiant de modèle.                                    | String                            | `"gpt-4o"`                                     |
+| `llm.provider`                    | `attributes.provider`         | Nom du fournisseur de modèle.                             | String                            | `"openai"`                                     |
+| `ai.model.provider`               | `attributes.provider`         | Nom du fournisseur de modèle.                             | Chaîne                            | `"openai"`                                     |
+| `gen_ai.request`                  | `attributes.model_parameters` | Paramètres de génération du modèle.                       | Dict                              | `{"temperature":0.7,"max_tokens":256}`         |
+| `llm.invocation_parameters`       | `attributes.model_parameters` | Paramètres d’invocation du modèle.                        | Dict                              | `{"temperature":0.2}`                          |
+| `wandb.display_name`              | `display_name`                | Display name personnalisé pour l’interface utilisateur.   | String                            | `"Message utilisateur"`                        |
+| `gcp.vertex.agent.session_id`     | `thread_id`                   | Identifiant de session ou de fil de discussion.           | String                            | `"thread_123"`                                 |
+| `wandb.thread_id`                 | `thread_id`                   | Identifiant de fil de discussion pour les conversations.  | String                            | `"thread_123"`                                 |
+| `wb_run_id`                       | `wb_run_id`                   | Identifiant du run W&amp;B associé.                       | Chaîne de caractères              | `"abc123"`                                     |
+| `wandb.wb_run_id`                 | `wb_run_id`                   | Identifiant du run W&amp;B associé.                       | Chaîne de caractères              | `"abc123"`                                     |
+| `gcp.vertex.agent.session_id`     | `is_turn`                     | Indique que le span correspond à un tour de conversation. | Booléen                           | `true`                                         |
+| `wandb.is_turn`                   | `is_turn`                     | Indique que le span correspond à un tour de conversation. | Booléen                           | `true`                                         |
+| `langfuse.startTime`              | `start_time` (redéfinit)      | Remplace l’horodatage de début du span.                   | Horodatage (ISO8601/unix ns)      | `"2024-01-01T12:00:00Z"`                       |
+| `langfuse.endTime`                | `end_time` (redéfinit)        | Remplace l’horodatage de fin du span.                     | Horodatage (ISO8601/unix ns)      | `"2024-01-01T12:00:01Z"`                       |
 
 <div id="limitations">
   ## Limites

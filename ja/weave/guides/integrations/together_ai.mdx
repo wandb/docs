@@ -1,17 +1,17 @@
 ---
 title: "Together AI"
-description: "OpenAI SDK 互換機能を使用して Weave で Together AI のオープンソース LLM をトラッキングし、モデル呼び出しをシームレスにトレースして評価します。"
+description: "Weave で OpenAI SDK との互換性を活用して、Together AI のオープンソース LLM のモデル呼び出しのシームレスなトレースと評価をトラッキングします。"
 ---
 
-Together AI は、オープンソースの LLM にフォーカスし、生成 AI モデルの構築とファインチューニングを行うためのプラットフォームです。これにより、顧客は独自のモデルをファインチューニングしてホストできます。
+Together AI は、生成 AI モデルを構築およびファインチューニングするためのプラットフォームで、オープンソース LLM に焦点を当て、顧客が独自のモデルをファインチューニングおよびホストできるようにします。
 
 <Info>
-  Weave による `together` Python パッケージの完全サポートは現在開発中です
+  完全な Weave `together` python パッケージのサポートは現在開発中です
 </Info>
 
-`together` Python パッケージに対する Weave の完全なサポートは現在開発中ですが、Together は OpenAI SDK 互換機能 ([docs](https://docs.together.ai/docs/openai-api-compatibility)) をサポートしており、Weave はこれを自動的に検出してインテグレーションします。
+`together` python パッケージに対する完全な Weave のサポートは現在開発中ですが、Together は OpenAI SDK との互換性 ([docs](https://docs.together.ai/docs/openai-api-compatibility)) をサポートしており、Weave がこれを自動的に検出して統合します。
 
-Together API を使用するには、単に API キーを自分の [Together API](https://docs.together.ai/docs/quickstart) のキーに差し替え、`base_url` を `https://api.together.xyz/v1` に設定し、モデルを Together の [チャットモデル](https://docs.together.ai/docs/inference-models#chat-models) のいずれかに変更します。
+Together API を使用するように切り替えるには、単に APIキーを [Together API](https://docs.together.ai/docs/quickstart) のキー、`base_url` を `https://api.together.xyz/v1` に、モデルを [チャットモデル](https://docs.together.ai/docs/inference-models#chat-models) の一つに切り替えるだけです。
 
 ```python lines {5, 10-13}
 import os
@@ -40,4 +40,4 @@ response = chat_completion.choices[0].message.content
 print("Together response:\n", response)
 ```
 
-これは入門用のシンプルな例ですが、より複雑なユースケースで独自の関数と Weave をインテグレーションする方法については、[OpenAI](/ja/weave/guides/integrations/openai#track-your-own-ops) ガイドを参照してください。
+これは簡単な例ですが、Weave を独自の関数と統合してより複雑なユースケースに対応する方法の詳細については、[OpenAI](/ja/weave/guides/integrations/openai#track-your-own-ops) ガイドを参照してください。

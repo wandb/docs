@@ -1,30 +1,30 @@
 ---
-description: 線グラフでは、スムージングを使ってノイズの多いデータの傾向を可視化できます。
-title: 線グラフのスムージング
+description: 折れ線グラフでは、ノイズの多いデータの傾向を確認するためにスムージングを使用します。
+title: 折れ線グラフをスムージングする
 ---
 
-W&B は、次のようないくつかの種類のスムージングをサポートしています。
+W&amp;Bは複数のタイプのスムージングをサポートしています:
 
-- [時間重み付き指数移動平均 (TWEMA) スムージング](#time-weighted-exponential-moving-average-twema-smoothing-default) 
-- [ガウシアン・スムージング](#gaussian-smoothing)
-- [移動平均](#running-average-smoothing)
-- [指数移動平均 (EMA) スムージング](#exponential-moving-average-ema-smoothing)
+* [時間加重指数移動平均 (TWEMA) スムージング](#time-weighted-exponential-moving-average-twema-smoothing-default)
+* [ガウシアンスムージング](#gaussian-smoothing)
+* [移動平均のスムージング](#running-average-smoothing)
+* [指数移動平均 (EMA) スムージング](#exponential-moving-average-ema-smoothing)
 
-これらの手法は、[対話的な W&B レポート](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc)で実際に確認できます。
+これらが実際に動作する様子は、[対話型のW&amp;Bレポート](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc)で確認できます。
 
 <Frame>
-    <img src="/images/app_ui/beamer_smoothing.gif" alt="さまざまなスムージングアルゴリズムのデモ"  />
+  <img src="/images/app_ui/beamer_smoothing.gif" alt="さまざまなスムージング アルゴリズムのデモ" />
 </Frame>
 
 <div id="time-weighted-exponential-moving-average-twema-smoothing-default">
-  ## 時間重み付き指数移動平均 (TWEMA) スムージング（デフォルト）
+  ## 時間加重指数移動平均 (TWEMA) スムージング (デフォルト)
 </div>
 
-時間重み付き指数移動平均 (TWEMA) スムージングアルゴリズムは、過去のデータポイントの重みを指数関数的に減衰させることで時系列データを平滑化する手法です。この手法の詳細については、[Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) を参照してください。範囲は 0 から 1 です。時系列の初期の値が 0 に偏らないように、バイアス補正項が追加されています。
+時間加重指数移動平均 (TWEMA) スムージング アルゴリズムは、以前の点の重みを指数関数的に減衰させることで時系列データを平滑化する手法です。この手法の詳細については、[Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing)を参照してください。範囲は 0 から 1 です。また、時系列の初期の値が 0 に偏らないように、バイアス補正項が追加されています。
 
-TWEMA アルゴリズムは、線上の点の密度（x 軸上の単位範囲あたりの `y` 値の数）を考慮に入れます。これにより、特性の異なる複数の線を同時に表示する場合でも、一貫したスムージングが可能になります。
+TWEMA アルゴリズムは、線上の点の密度 (x-axis の範囲の単位あたりの `y` 値の数) を考慮します。これにより、異なる特性を持つ複数の線を同時に表示する場合でも、一貫したスムージングが可能になります。
 
-以下は、この仕組みが内部的にどのように動作するかを示すサンプルコードです。
+この仕組みが内部でどのように動作するかを示すサンプル コードを以下に示します。
 
 ```javascript
 const smoothingWeight = Math.min(Math.sqrt(smoothingParam || 0), 0.999);
@@ -33,7 +33,7 @@ let debiasWeight = 0;
 
 return yValues.map((yPoint, index) => {
   const prevX = index > 0 ? index - 1 : 0;
-  // VIEWPORT_SCALE は結果をチャートの x 軸の範囲にスケールする
+  // VIEWPORT_SCALE は結果をチャートのx軸の範囲にスケーリングします
   const changeInX =
     ((xValues[index] - xValues[prevX]) / rangeOfX) * VIEWPORT_SCALE;
   const smoothingWeightAdj = Math.pow(smoothingWeight, changeInX);
@@ -44,56 +44,56 @@ return yValues.map((yPoint, index) => {
 });
 ```
 
-アプリ内では[このように表示されます](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc)。
+アプリでは[次のように表示されます](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
 <Frame>
-  <img src="/images/app_ui/weighted_exponential_moving_average.png" alt="TWEMA 平滑化のデモ" />
+  <img src="/images/app_ui/weighted_exponential_moving_average.png" alt="TWEMA スムージングのデモ" />
 </Frame>
 
 
 <div id="gaussian-smoothing">
-  ## ガウシアン平滑化
+  ## ガウシアンスムージング
 </div>
 
-ガウシアン平滑化（またはガウシアンカーネル平滑化）は、各点の加重平均を計算する手法であり、その重みが、平滑化パラメーターとして指定された標準偏差を持つガウス分布に従うようになっています。平滑化された値は、各入力 x の値ごとに、その前後に存在する点に基づいて計算されます。
+ガウシアンスムージング (またはガウシアンカーネルスムージング) は、各点の加重平均を計算します。重みは、スムージングパラメーターとして指定した標準偏差を持つガウス分布に対応します。スムージング後の値は、すべての入力 x 値について、その前後にある点に基づいて計算されます。
 
-実際の表示は [アプリ内のこちら](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing)を参照してください。
+これは[アプリ内](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#3.-gaussian-smoothing)では次のように表示されます。
 
 <Frame>
-    <img src="/images/app_ui/gaussian_smoothing.png" alt="ガウシアン平滑化のデモ"  />
+  <img src="/images/app_ui/gaussian_smoothing.png" alt="ガウシアンスムージングのデモ" />
 </Frame>
 
 <div id="running-average-smoothing">
-  ## 移動平均スムージング
+  ## 移動平均のスムージング
 </div>
 
-移動平均は、ある点を、その点の前後のウィンドウ内にある点の平均値で置き換えるスムージングアルゴリズムです。詳しくは Wikipedia の「[Boxcar Filter](https://en.wikipedia.org/wiki/Moving_average)」を参照してください。移動平均のために選択したパラメーターは、Weights & Biases に、この移動平均で考慮する点の数を指定します。
+移動平均は、指定した x 値の前後にあるウィンドウ内の点の平均値でその点を置き換えるスムージング アルゴリズムです。詳しくは、[Wikipedia の「Boxcar Filter」](https://en.wikipedia.org/wiki/Moving_average)を参照してください。移動平均で選択したパラメーターは、移動平均の計算で考慮する点の数を Weights &amp; Biases に伝えます。
 
-x 軸上の点の間隔が不均一な場合は、代わりに Gaussian Smoothing を使用することを検討してください。
+点の間隔が x-axis 上で均一でない場合は、代わりにガウシアンスムージングの使用を検討してください。
 
-[アプリ内での表示例はこちら](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average) です。
+これが[アプリ内](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc#4.-running-average)での表示です。
 
 <Frame>
-    <img src="/images/app_ui/running_average.png" alt="移動平均スムージングのデモ"  />
+  <img src="/images/app_ui/running_average.png" alt="移動平均スムージングのデモ" />
 </Frame>
 
 <div id="exponential-moving-average-ema-smoothing">
   ## 指数移動平均 (EMA) スムージング
 </div>
 
-指数移動平均 (EMA) スムージングアルゴリズムは、指数ウィンドウ関数を用いて時系列データを平滑化するための経験的な手法です。手法の詳細については [Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing) を参照してください。設定可能な範囲は 0 ～ 1 です。時系列の初期値が 0 に偏らないように、バイアス補正項が追加されています。
+指数移動平均 (EMA) スムージング アルゴリズムは、指数ウィンドウ関数を使用して時系列データをスムージングするための経験則的な手法です。この手法の詳細については、[Exponential Smoothing](https://www.wikiwand.com/en/Exponential_smoothing)を参照してください。範囲は 0 から 1 です。時系列の初期値が 0 に偏らないように、debias 項が追加されます。
 
-多くの場合、EMA スムージングは、先にバケット分割してからスムージングするのではなく、履歴全体を対象にそのまま適用します。この方が、より正確に平滑化できることがよくあります。
+多くの状況では、EMA スムージングは、最初に 버킷化してからスムージングするのではなく、history 全体を full スキャンして適用されます。これにより、より正確なスムージングが得られることがよくあります。
 
-次のような場合は、代わりにバケット分割の後に EMA スムージングが行われます:
+代わりに、次の状況では EMA スムージングは 버킷化の後に行われます。
 
 * サンプリング
-* グルーピング
-* Expressions
+* グループ化
+* 式
 * 非単調な x 軸
 * 時間ベースの x 軸
 
-以下は、内部的な動作を示すサンプルコードです:
+内部でこれがどのように動作するかを示すサンプル コードを次に示します。
 
 ```javascript
   data.forEach(d => {
@@ -104,10 +104,10 @@ x 軸上の点の間隔が不均一な場合は、代わりに Gaussian Smoothin
     smoothedData.push(last / debiasWeight);
 ```
 
-アプリ上では[このように表示されます](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
+アプリでは[このように表示されます](https://wandb.ai/carey/smoothing-example/reports/W-B-Smoothing-Features--Vmlldzo1MzY3OTc):
 
 <Frame>
-  <img src="/images/app_ui/exponential_moving_average.png" alt="EMA smoothing のデモ" />
+  <img src="/images/app_ui/exponential_moving_average.png" alt="EMAスムージングのデモ" />
 </Frame>
 
 
@@ -115,8 +115,8 @@ x 軸上の点の間隔が不均一な場合は、代わりに Gaussian Smoothin
   ## 元のデータを非表示にする
 </div>
 
-デフォルトでは、平滑化されていない元のデータが、背景の淡い線としてプロットに表示されます。これをオフにするには、**Show Original** をクリックします。
+デフォルトでは、スムージングされていない元のデータが背景に薄い線としてプロットに表示されます。これをオフにするには、**Show Original** をクリックします。
 
 <Frame>
-    <img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif" alt="元のデータの表示／非表示を切り替える"  />
+  <img src="/images/app_ui/demo_wandb_smoothing_turn_on_and_off_original_data.gif" alt="元のデータの表示/非表示を切り替える" />
 </Frame>

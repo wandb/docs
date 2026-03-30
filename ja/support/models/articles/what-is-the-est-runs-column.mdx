@@ -3,21 +3,21 @@ title: "`Est. Runs` 列とは何ですか？"
 keywords: ["Sweeps", "ハイパーパラメーター"]
 ---
 
-W&amp;B は、離散的な探索空間を持つ W&amp;B Sweep を作成するときに、生成される Runs の推定数を表示します。この合計は、探索空間のデカルト積を表しています。
+W&amp;B では、離散的な search space を持つ W&amp;B sweep を作成するときに、生成される Runs の推定数を提供します。この合計は、search space のデカルト積を反映したものです。
 
-たとえば、次の探索空間について考えてみましょう。
-
-<Frame>
-  <img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="推定 Runs 列" />
-</Frame>
-
-この場合、デカルト積は 9 になります。W&amp;B はこの値を App UI に推定 run 数 (**Est. Runs**) として表示します。
+たとえば、次の search space を考えてみます。
 
 <Frame>
-  <img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="Sweep の run 推定" />
+  <img src="/images/sweeps/sweeps_faq_whatisestruns_1.png" alt="推定 run 数の列" />
 </Frame>
 
-推定 Run 数をプログラムから取得するには、W&amp;B SDK 内の Sweep オブジェクトの `expected_run_count` 属性を使用します。
+この場合、デカルト積は 9 です。W&amp;B はこの値を App UI に推定 run 数 (**Est. Runs**) として表示します。
+
+<Frame>
+  <img src="/images/sweeps/spaces_sweeps_faq_whatisestruns_2.webp" alt="sweep の run 数推定" />
+</Frame>
+
+推定 Run 数をプログラムで取得するには、W&amp;B SDK 内の Sweep object の `expected_run_count` 属性を使用します。
 
 ```python
 sweep_id = wandb.sweep(
@@ -31,10 +31,10 @@ print(f"EXPECTED RUN COUNT = {sweep.expected_run_count}")
 ***
 
 {/* ---- AUTO-GENERATED: tab badges ----
-  フロントマターのキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge><Badge stroke shape="pill" color="orange" size="md">[ハイパーパラメーター](/ja/support/models/tags/hyperparameter)</Badge>
 
-{/* ---- 自動生成: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

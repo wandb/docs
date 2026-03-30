@@ -11,9 +11,9 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Runs`
 
-特定のプロジェクトおよび任意のフィルターに関連付けられた `Run` オブジェクトの遅延評価イテレーターです。
+特定のプロジェクトおよび任意のフィルターに연결된 `Run` オブジェクトの遅延評価イテレーターです。
 
-Runs は必要に応じて W&B サーバーからページごとに取得されます。
+Runs は必要に応じて W&amp;B サーバーからページごとに取得されます。
 
 通常は `Api.runs` 名前空間経由で間接的に使用されます。
 
@@ -37,20 +37,20 @@ __init__(
 
 * `client`:  (`wandb.apis.public.RetryingClient`) リクエストに使用する API クライアント。
 * `entity`:  (str) プロジェクトを所有する entity (ユーザー名またはチーム) 。
-* `project`:  (str) run を取得する対象のプロジェクト名。
-* `filters`:  (Optional[Dict[str, Any]]) run のクエリに適用するフィルターの辞書。
-* `order`:  (str) 並び順。`created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できる。order の前に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になる。デフォルトの並び順は、最も古いものから新しいものへの `run.created&#95;at`。
-* `per_page`:  (int) リクエストごとに取得する run の数 (デフォルトは 50) 。
-* `include_sweeps`:  (bool) run に sweep 情報を含めるかどうか。デフォルトは True。
+* `project`:  (str) runs を取得するプロジェクトの名前。
+* `filters`:  (Optional[Dict[str, Any]]) runs のクエリに適用するフィルターの辞書。
+* `order`:  (str) order には、`created_at`、`heartbeat_at`、`config.*.value`、または `summary_metrics.*` を指定できます。order の先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。デフォルトの並び順は、`run.created&#95;at` による古い順から新しい順です。
+* `per_page`:  (int) リクエストごとに取得する runs の数 (デフォルトは 50) 。
+* `include_sweeps`:  (bool) runs に sweep 情報を含めるかどうか。デフォルトは True。
 
 ***
 
 
-### <kbd>property</kbd> Runs.length
+### <kbd>プロパティ</kbd> Runs.length
 
----
+***
 
-### <kbd>メソッド</kbd> `Runs.histories`
+### <kbd>method</kbd> `Runs.histories`
 
 ```python
 histories(

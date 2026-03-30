@@ -1,32 +1,32 @@
 ---
-title: "run"
+title: "Runs"
 tag: "18"
 generator: "knowledgebase-nav"
 template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="ハイパーパラメーター探索を整理するためのベストプラクティス" href="/ja/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
-  `wandb.init(tags='your_tag')` を使って一意のタグを設定します。これにより、適切な ... を選択してプロジェクトの run を効率的にフィルタリングできます
+  `wandb.init(tags='your_tag')` を使って一意の tags を設定します。これにより、適切な ... を選択してプロジェクトの run を効率的にフィルタリングできます
 </Card>
 
 <Card title="'Group' 機能を使わずに run をグループ化できますか？" href="/ja/support/models/articles/can-i-group-runs-without-using-the-group" arrow="true" horizontal>
-  はい。タグやカスタムメタデータを使って run を分類することもできます。これは、利用可能な Group ボタンを使って実行でき ...
+  はい。tags や custom メタデータを使って run を分類することもできます。これは、利用可能な Group ボタンを使って実行でき ...
 </Card>
 
 <Card title="グリッドサーチを再実行できますか？" href="/ja/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
   グリッドサーチが完了しても、クラッシュにより一部の W&amp;B run を再実行する必要がある場合は、該当する W&amp;B run を削除して再実行します。T ...
 </Card>
 
-<Card title="タグで run をグループ化できますか？" href="/ja/support/models/articles/can-you-group-runs-by-tags" arrow="true" horizontal>
-  1 つの run には複数のタグを付けられるため、タグによるグループ化はサポートされていません。これらの run には config オブジェクトに値を追加し、 ...
+<Card title="tags で run をグループ化できますか？" href="/ja/support/models/articles/can-you-group-runs-by-tags" arrow="true" horizontal>
+  1 つの run には複数の tags を付けられるため、tags によるグループ化はサポートされていません。これらの run には config オブジェクトに値を追加し、 ...
 </Card>
 
 <Card title="システムメトリクスをログする頻度を変更するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
   システムメトリクスをログする頻度を設定するには、`_stats_sampling_interval` を秒数を表す数値 (float) に設定 ...
 </Card>
 
-<Card title="同じグループ内の各 run の色を変更するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-change-the-colors-of-each-run-" arrow="true" horizontal>
-  グループ内の個々の run の色を変更することはできません。同じグループ内のすべての run は共通の色になります。
+<Card title="同じグループ内の各 run のカラーを変更するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-change-the-colors-of-each-run-" arrow="true" horizontal>
+  グループ内の個々の run のカラーを変更することはできません。同じグループ内のすべての run は共通の色になります。
 </Card>
 
 <Card title="複数の run を 1 つずつではなく一括削除するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-delete-multiple-runs-in-bulk-i" arrow="true" horizontal>
@@ -42,11 +42,11 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="run の完了後に追加のメトリクスをログするにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-log-additional-metrics-after-a" arrow="true" horizontal>
-  experiments を管理する方法はいくつかあります。複雑な workflow の場合は、複数の run を使用し、w ... で group パラメーターを設定します
+  Experiments を管理する方法はいくつかあります。複雑な workflow の場合は、複数の run を使用し、w ... で group パラメーターを設定します
 </Card>
 
 <Card title="削除した run を復元するにはどうすればよいですか？" href="/ja/support/models/articles/how-can-i-recover-deleted-runs" arrow="true" horizontal>
-  削除した run を復元するには、次の手順を実行します。Project Overview ページに移動します。th ... の 3 点メニューをクリックします
+  削除した run を復元するには、次の step に従います。Project Overview ページにアクセスします。th ... の 3 点メニューをクリックします
 </Card>
 
 <Card title="`resume='must' but run (<run_id>) doesn't exist` というエラーを修正するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-fix-the-error-resumemust-but-ru" arrow="true" horizontal>
@@ -54,19 +54,19 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="継続的インテグレーションや内部ツールによって起動された run をログするにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
-  W&amp;B にログする自動テストや内部ツールを起動するには、チーム設定ページでサービスアカウントを作成します。この ac ...
+  W&amp;B にログする自動テストや内部ツールを起動するには、Team settings ページでサービスアカウントを作成します。この ac ...
 </Card>
 
 <Card title="run のログ時に発生する権限エラーを解決するにはどうすればよいですか？" href="/ja/support/models/articles/how-do-i-resolve-permission-errors-when-" arrow="true" horizontal>
-  W&amp;B entity への run のログ時に発生する権限エラーを解決するには、次の手順に従います。entity 名とプロジェクト名を確認します: En ...
+  W&amp;B entity への run のログ時に発生する権限エラーを解決するには、次の step に従います。entity 名とプロジェクト名を確認します: En ...
 </Card>
 
 <Card title="プロジェクトごとに作成できる run の数はいくつですか？" href="/ja/support/models/articles/how-many-runs-can-i-create-per-project" arrow="true" horizontal>
   最適なパフォーマンスのため、各プロジェクトはおよそ 10,000 run までに抑えてください。
 </Card>
 
-<Card title="完了後に run に割り当てられたグループを変更できますか？" href="/ja/support/models/articles/is-it-possible-to-change-the-group-assig" arrow="true" horizontal>
-  API を使用して、完了した run に割り当てられたグループを変更できます。この機能は Web UI には表示されません。使用する ...
+<Card title="完了後に run に부여されたグループを変更できますか？" href="/ja/support/models/articles/is-it-possible-to-change-the-group-assig" arrow="true" horizontal>
+  API を使用して、完了した run に부여されたグループを変更できます。この機能は Web UI には表示されません。使用する ...
 </Card>
 
 <Card title="run をあるプロジェクトから別のプロジェクトへ移動できますか？" href="/ja/support/models/articles/is-it-possible-to-move-a-run-from-one-pr" arrow="true" horizontal>
@@ -74,5 +74,5 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="CSV メトリクスのエクスポートで step が欠落するのはなぜですか？" href="/ja/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
-  エクスポートの制限により、run の履歴全体を CSV としてエクスポートしたり、run.history API を使用して取得したりできない場合があります。これらにアクセスするには ...
+  エクスポートの制限により、run の履歴全体を CSV としてエクスポートしたり、run.history API を使用して取得したりできない場合があります。これらに액세스するには ...
 </Card>

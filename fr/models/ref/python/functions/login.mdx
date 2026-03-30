@@ -26,7 +26,7 @@ login(
 
 Se connecter à W&amp;B.
 
-En général, vous n&#39;avez pas besoin d&#39;utiliser cette fonction, car la plupart des méthodes W&amp;B qui nécessitent une authentification peuvent s&#39;authentifier implicitement. Il s&#39;agit de l&#39;équivalent programmatique de la commande CLI `wandb login`.
+En général, vous n&#39;avez pas besoin d&#39;utiliser cette fonction, car la plupart des méthodes W&amp;B qui nécessitent une authentification peuvent se connecter implicitement. Il s&#39;agit de l&#39;équivalent programmatique de la commande CLI `wandb login`.
 
 Cette fonction met à jour les identifiants globaux de la session (ce qui affecte toute utilisation de wandb dans le processus Python en cours après cet appel) et, éventuellement, le fichier .netrc.
 
@@ -37,25 +37,25 @@ Sinon, si une clé API explicite est fournie, elle est utilisée et écrite dans
 Si aucun des cas ci-dessus ne s&#39;applique, la clé API est obtenue à partir de la première des sources suivantes :
 
 * La variable d&#39;environnement WANDB&#95;API&#95;KEY
-* Le paramètre `api_key` dans un fichier de paramètres système ou dans les paramètres de l&#39;espace de travail
+* Le paramètre `api_key` dans un fichier de configuration système ou dans les paramètres de l&#39;espace de travail
 * Le fichier .netrc (soit ~/.netrc, ~/&#95;netrc, soit le chemin spécifié par la variable d&#39;environnement NETRC)
 * Une invite interactive (si disponible)
 
 **Arguments :**
 
-* `key`:  La clé API à utiliser.
-* `relogin`:  Si vrai, obtient la clé API via une invite interactive, sans lire .netrc, les variables d&#39;environnement, etc.
-* `host`:  L&#39;URL du serveur W&amp;B auquel se connecter.
-* `force`:  Si vrai, empêche de sélectionner le mode hors ligne dans l&#39;invite interactive.
-* `timeout`:  Nombre de secondes à attendre pour une saisie de l&#39;utilisateur dans l&#39;invite interactive. Cela peut servir de garde-fou si une invite interactive s&#39;affiche par erreur dans un environnement non interactif.
-* `verify`:  Vérifie les identifiants auprès du serveur W&amp;B et lève une `AuthenticationError` en cas d&#39;échec.
-* `referrer`:  Le référent à utiliser dans la requête de connexion par URL à des fins d&#39;analyse.
+* `key` :  La clé API à utiliser.
+* `relogin` :  Si vrai, obtient la clé API via une invite interactive, sans  lire .netrc, les variables d&#39;environnement, etc.
+* `host` :  L&#39;URL du serveur W&amp;B auquel se connecter.
+* `force` :  Si vrai, empêche de sélectionner le mode hors ligne dans l&#39;invite  interactive.
+* `timeout` :  Nombre de secondes à attendre pour une saisie de l&#39;utilisateur dans l&#39;invite  interactive. Cela peut servir de garde-fou si une invite interactive  s&#39;affiche par erreur dans un environnement non interactif.
+* `verify` :  Vérifie les identifiants auprès du serveur W&amp;B et lève une  `AuthenticationError` en cas d&#39;échec.
+* `referrer` :  Le référent à utiliser dans la requête de connexion par URL à des fins d&#39;analyse.
 
-**Retourne :**
+**Renvoie :**
 
-* `bool`:  Indique si `key` est configurée.
+* `bool` :  True si `key` est configurée.
 
 **Exceptions levées :**
 
-* `AuthenticationError`:  Si `api_key` échoue à la vérification auprès du serveur.
-* `UsageError`:  Si `api_key` ne peut pas être configurée et qu&#39;aucun tty n&#39;est disponible.
+* `AuthenticationError` :  Si `api_key` échoue à la vérification auprès du serveur.
+* `UsageError` :  Si `api_key` ne peut pas être configurée et qu&#39;aucun tty n&#39;est disponible.

@@ -11,11 +11,11 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `OnRunState`
 
-run의 상태 변경을 나타냅니다.
+Run 상태가 변경됩니다.
 
-예시:
-프로젝트 &quot;my-project&quot; 내의 모든 run에 대해,
-상태가 &quot;finished&quot;(즉, 성공) 또는 &quot;failed&quot;로 변경될 때 트리거되는 이벤트를 정의합니다:
+예제:
+프로젝트 &quot;my-project&quot; 내의 모든 런에 대해
+상태가 &quot;finished&quot; (즉, 성공) 또는 &quot;failed&quot;로 변경될 때 트리거되는 이벤트를 정의합니다:
 
 ```python
 from wandb import Api
@@ -31,7 +31,7 @@ event = OnRunState(
 ```
 
 
-### <kbd>method</kbd> `OnRunState.__init__`
+### <kbd>메서드</kbd> `OnRunState.__init__`
 
 ```python
 __init__(
@@ -41,11 +41,11 @@ __init__(
 ) → None
 ```
 
-**인자:**
+**매개변수:**
 
 * `event_type` (Literal[RUN&#95;STATE]):
-* `scope` (ProjectScope): 이벤트의 범위입니다. 반드시 프로젝트여야 합니다.
-* `filter` (RunStateFilter): 이 이벤트가 트리거되기 위해 만족해야 하는 run 상태 조건입니다.
+* `scope` (ProjectScope): 이벤트의 스코프: 프로젝트여야 합니다.
+* `filter` (RunStateFilter): 이 이벤트가 트리거되기 위해 만족해야 하는 Run 상태 조건입니다.
 
 **반환값:**
-`OnRunState` 객체입니다.
+`OnRunState` 객체.

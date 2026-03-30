@@ -1,6 +1,6 @@
 ---
 title: Architecture de référence
-description: "Consultez l’architecture de référence pour les déploiements W&B autogérés couvrant Kubernetes, MySQL, le stockage d’objets et le réseau."
+description: "Consultez l’architecture de référence pour les déploiements W&B autogérés, qui couvrent Kubernetes, MySQL, le stockage d’objets et le réseau."
 ---
 
 import SelfManagedVersionRequirements from "/snippets/fr/_includes/self-managed-version-requirements.mdx";
@@ -21,11 +21,11 @@ Cette architecture de référence couvre certains scénarios de déploiement cou
 
 L’exécution de toute application en production s’accompagne de son lot de défis, et W&amp;B ne fait pas exception. Bien que nous cherchions à simplifier le processus, certaines complexités peuvent survenir selon votre architecture et vos choix de conception. En règle générale, la gestion d’un déploiement en production implique de superviser divers composants, notamment le matériel, les systèmes d’exploitation, le réseau, le stockage, la sécurité, la plateforme W&amp;B elle-même, ainsi que d’autres dépendances. Cette responsabilité couvre à la fois la configuration initiale de l’environnement et sa maintenance continue.
 
-Déterminez soigneusement si une approche autogérée avec W&amp;B convient à votre équipe et à vos besoins spécifiques.
+Déterminez avec soin si une approche Autogéré avec W&amp;B convient à votre équipe et à vos besoins spécifiques.
 
-Une solide compréhension de l’exploitation et de la maintenance d’une application de production est un prérequis important avant de déployer W&amp;B Autogéré. Si votre équipe a besoin d’assistance, notre équipe Professional Services et nos partenaires proposent une assistance pour la mise en œuvre et l’optimisation.
+Une solide compréhension de l’exploitation et de la maintenance d’applications de niveau production constitue un prérequis important avant de déployer W&amp;B Autogéré. Si votre équipe a besoin d’assistance, notre équipe Professional Services et nos partenaires proposent un accompagnement pour la mise en œuvre et l’optimisation.
 
-Pour en savoir plus sur les solutions gérées permettant d’exécuter W&amp;B au lieu de le gérer vous-même, se référer à [W&amp;B Multi-tenant Cloud](/fr/platform/hosting/hosting-options/multi_tenant_cloud) et [W&amp;B Dedicated Cloud](/fr/platform/hosting/hosting-options/dedicated-cloud).
+Pour en savoir plus sur les solutions gérées permettant d’exécuter W&amp;B au lieu de le gérer vous-même, consultez [Cloud mutualisé de W&amp;B](/fr/platform/hosting/hosting-options/multi_tenant_cloud) et [Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud).
 
 <div id="infrastructure">
   ## Infrastructure
@@ -39,13 +39,13 @@ Pour en savoir plus sur les solutions gérées permettant d’exécuter W&amp;B 
   ### Couche application
 </div>
 
-La couche application se compose d’un cluster Kubernetes multinœud, résistant aux défaillances de nœuds. Le cluster Kubernetes exécute et gère les pods de W&amp;B.
+La couche application se compose d’un cluster Kubernetes à plusieurs nœuds, tolérant aux pannes de nœuds. Le cluster Kubernetes exécute et gère les pods de W&amp;B.
 
 <div id="storage-layer">
   ### Couche de stockage
 </div>
 
-La couche de stockage se compose d’une base de données MySQL et d’un stockage d’objets. La base de données MySQL stocke les métadonnées, tandis que le stockage d’objets stocke des artefacts tels que des modèles et des jeux de données.
+La couche de stockage se compose d’une base de données MySQL et d’un stockage d’objets. La base de données MySQL stocke les métadonnées, tandis que le stockage d’objets contient des artefacts tels que des modèles et des jeux de données.
 
 <div id="infrastructure-requirements">
   ## Exigences en matière d’infrastructure
@@ -53,31 +53,31 @@ La couche de stockage se compose d’une base de données MySQL et d’un stocka
 
 ### Kubernetes
 
-L’application W&amp;B Server est déployée sous la forme d’un [opérateur Kubernetes](/fr/platform/hosting/self-managed/operator/) qui déploie plusieurs pods. C’est pourquoi W&amp;B nécessite un cluster Kubernetes avec :
+L’application serveur W&amp;B est déployée sous la forme d’un [opérateur Kubernetes](/fr/platform/hosting/operator/) qui déploie plusieurs pods. C’est pourquoi W&amp;B nécessite un cluster Kubernetes avec :
 
 * Un contrôleur d’ingress entièrement configuré et opérationnel.
 * La capacité à provisionner des volumes persistants.
 
-W&amp;B prend en charge le déploiement sur des [clusters Kubernetes OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) dans des environnements cloud, sur site et isolés du réseau. Pour obtenir des instructions de configuration spécifiques, voir la [section OpenShift](/fr/platform/hosting/self-managed/operator/#openshift-kubernetes-clusters) du guide de l’opérateur.
+W&amp;B prend en charge le déploiement sur des [clusters Kubernetes OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) dans des environnements cloud, sur site et isolés du réseau. Pour obtenir des instructions de configuration spécifiques, voir la [section OpenShift](/fr/platform/hosting/operator/#openshift-kubernetes-clusters) du guide de l’opérateur.
 
 ### MySQL
 
-W&amp;B stocke les métadonnées dans une base de données MySQL. Les exigences de performances et de stockage de la base de données dépendent de la structure des paramètres du modèle et des métadonnées associées. Par exemple, la taille de la base de données augmente à mesure que vous suivez davantage de runs d&#39;entraînement, et sa charge augmente en fonction des requêtes exécutées dans les tables de runs, les espaces de travail des utilisateurs et les rapports.
+W&amp;B stocke les métadonnées dans une base de données MySQL. Les exigences de performances et de stockage de la base de données dépendent de la structure des paramètres du modèle et des métadonnées associées. Par exemple, la taille de la base de données augmente à mesure que vous suivez davantage de runs d&#39;entraînement, et sa charge augmente en fonction des requêtes exécutées dans les tableaux de runs, les Workspaces des utilisateurs et les rapports.
 
-**W&amp;B recommande fortement d&#39;utiliser des services de base de données gérés** (tels que AWS RDS Aurora MySQL, Google Cloud SQL for MySQL ou Azure Database for MySQL) pour les déploiements en production. Les services gérés assurent les sauvegardes automatisées, la surveillance, la haute disponibilité et l&#39;application des correctifs, tout en réduisant considérablement la complexité opérationnelle. Voir la section [Recommandations d&#39;instances des fournisseurs de cloud](#cloud-provider-instance-recommendations) ci-dessous pour des recommandations de services spécifiques.
+**W&amp;B recommande fortement d&#39;utiliser des services de base de données gérés** (tels que AWS RDS Aurora MySQL, Google Cloud SQL for MySQL ou Azure Database for MySQL) pour les déploiements en Production. Les services gérés assurent les sauvegardes automatisées, la surveillance, la haute disponibilité et l&#39;application des correctifs, tout en réduisant considérablement la complexité opérationnelle. Voir la section [Recommandations d&#39;instances des fournisseurs de cloud](#cloud-provider-instance-recommendations) ci-dessous pour des recommandations de services spécifiques.
 
-Si vous choisissez de déployer une base de données MySQL autogérée, tenez compte des points suivants :
+Si vous choisissez de déployer une base de données MySQL autogérée, tenez compte des points suivants :
 
-* **Sauvegardes** : vous devez sauvegarder périodiquement la base de données sur un site distinct. W&amp;B recommande des sauvegardes quotidiennes avec au moins 1 semaine de rétention.
-* **Performances** : la base de données nécessite un matériel de stockage rapide, tel que des SSD ou un NAS accéléré.
-* **Surveillance** : la base de données nécessite des ressources CPU suffisantes. Surveillez la charge CPU du serveur de base de données. Si l&#39;utilisation CPU reste supérieure à 90 % du système pendant plus de 5 minutes, envisagez d&#39;ajouter de la capacité CPU.
-* **Disponibilité** : pour répondre à vos exigences de disponibilité et de durabilité, W&amp;B recommande de configurer un déploiement Server de secours à chaud sur une machine distincte, qui réplique toutes les mises à jour en temps réel depuis le déploiement principal et peut prendre le relais si le serveur principal tombe en panne, se corrompt ou connaît une indisponibilité prolongée. Notez que W&amp;B ne prend pas en charge une topologie multi-maître ni les réplicas en lecture seule.
+* **Sauvegardes** : vous devez sauvegarder périodiquement la base de données sur un site distinct. W&amp;B recommande des sauvegardes quotidiennes avec au moins 1 semaine de rétention.
+* **Performances** : la base de données nécessite un matériel de stockage rapide, tel que des SSD ou un NAS accéléré.
+* **Surveillance** : la base de données nécessite des ressources CPU suffisantes. Surveillez la charge CPU du serveur de base de données. Si l&#39;utilisation CPU reste supérieure à 90 % du système pendant plus de 5 minutes, envisagez d&#39;ajouter de la capacité CPU.
+* **Disponibilité** : pour répondre à vos exigences de disponibilité et de durabilité, W&amp;B recommande de configurer un déploiement Server de secours à chaud sur une machine distincte, qui réplique toutes les mises à jour en temps réel depuis le déploiement principal et peut prendre le relais si le serveur principal tombe en panne, se corrompt ou connaît une indisponibilité prolongée. Notez que W&amp;B ne prend pas en charge une topologie multi-maître ni les réplicas en lecture seule.
 
 <div id="mysql-database-creation">
   #### Création de la base de données MySQL
 </div>
 
-Pour savoir comment créer manuellement la base de données MySQL et l’utilisateur, voir la [section MySQL du guide bare metal](/fr/platform/hosting/self-managed/operator/#mysql-database).
+Pour obtenir des instructions sur la création manuelle de la base de données MySQL et de l’utilisateur, voir la [section sur la base de données MySQL du guide bare metal](/fr/platform/hosting/self-managed/bare-metal/#mysql-database).
 
 <div id="mysql-configuration-parameters">
   #### Paramètres de configuration de MySQL
@@ -101,26 +101,26 @@ Ces paramètres ont été validés par W&amp;B pour garantir des performances op
   ### Redis
 </div>
 
-W&amp;B dépend d’un déploiement Redis 7.x sur nœud unique, utilisé par les composants de W&amp;B pour la mise en file d’attente des jobs et la mise en cache des données. Pour faciliter les tests et le développement de preuves de concept, W&amp;B Autogéré inclut un déploiement Redis local qui ne convient pas aux déploiements de production.
+W&amp;B dépend d’un déploiement Redis 7.x à nœud unique, utilisé par les composants de W&amp;B pour la mise en file d’attente des jobs et la mise en cache des données. Pour faciliter les tests et le développement de preuves de concept, W&amp;B Autogéré inclut un déploiement Redis local qui ne convient pas aux déploiements de production.
 
 W&amp;B peut se connecter à une instance Redis dans les environnements suivants :
 
 * [AWS Elasticache](https://aws.amazon.com/elasticache/)
 * [Google Cloud Memory Store](https://cloud.google.com/memorystore?hl=en)
 * [Azure Cache for Redis](https://azure.microsoft.com/en-us/products/cache)
-* Déploiement Redis hébergé dans votre cloud ou sur votre infrastructure sur site
+* Déploiement Redis hébergé dans votre cloud ou sur site
 
 <div id="object-storage">
-  ### Stockage d’objets
+  ### Stockage d&#39;objets
 </div>
 
-W&amp;B nécessite un stockage d’objets prenant en charge les URL pré-signées et CORS, déployé dans l’un des environnements suivants :
+W&amp;B nécessite un stockage d&#39;objets prenant en charge les URL pré-signées et CORS, déployé dans l&#39;un des environnements suivants :
 
-* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage) est un service de stockage d’objets à hautes performances, compatible S3, optimisé pour les charges de travail d’IA.
-* [Amazon S3](https://aws.amazon.com/s3/) est un service de stockage d’objets offrant une évolutivité, une disponibilité des données, une sécurité et des performances de pointe.
+* [CoreWeave AI Object Storage](https://docs.coreweave.com/products/storage/object-storage) est un service de stockage d&#39;objets à hautes performances, compatible S3, optimisé pour les charges de travail d&#39;IA.
+* [Amazon S3](https://aws.amazon.com/s3/) est un service de stockage d&#39;objets offrant une évolutivité, une disponibilité des données, une sécurité et des performances de pointe.
 * [Google Cloud Storage](https://cloud.google.com/storage) est un service géré permettant de stocker des données non structurées à grande échelle.
-* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) est une solution de stockage d’objets dans le cloud conçue pour stocker de très grands volumes de données non structurées, telles que du texte, des données binaires, des images, des vidéos et des journaux.
-* Un stockage compatible S3 tel que [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/) ou d’autres solutions de niveau entreprise hébergées dans votre cloud ou sur votre infrastructure sur site.
+* [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) est une solution de stockage d&#39;objets dans le cloud conçue pour stocker de très grands volumes de données non structurées, telles que du texte, des données binaires, des images, des vidéos et des journaux.
+* Un stockage compatible S3 tel que [MinIO Enterprise (AIStor)](https://www.min.io/product/aistor), [NetApp StorageGRID](https://www.netapp.com/data-storage/storagegrid/) ou d&#39;autres solutions de niveau entreprise hébergées dans votre cloud ou sur votre infrastructure sur site.
 
 <div id="versions">
   ### Versions
@@ -144,33 +144,33 @@ Le nom de domaine complet (FQDN) du déploiement W&amp;B doit résoudre vers l�
   ### Équilibreur de charge et ingress
 </div>
 
-L’opérateur Kubernetes W&amp;B peut exposer des services à l’aide d’un contrôleur d’ingress Kubernetes, qui achemine le trafic vers des points de terminaison de service en fonction des chemins d’URL et de différents ports. Le contrôleur d’ingress doit être accessible depuis toutes les machines qui exécutent des charges de travail de machine learning ou qui accèdent au service via un navigateur web.
+L’opérateur Kubernetes W&amp;B peut exposer des services à l’aide d’un contrôleur d’ingress Kubernetes, qui achemine le trafic vers des points de terminaison de service en fonction des chemins d’URL et des différents ports. Le contrôleur d’ingress doit être accessible depuis toutes les machines qui exécutent des charges de travail de machine learning ou qui accèdent au service via un navigateur web.
 
 <div id="ingress-controller-requirements">
   #### Exigences relatives au contrôleur d’ingress
 </div>
 
-Votre cluster Kubernetes doit disposer d’une `IngressClass`. Les options courantes de contrôleur d’ingress incluent :
+Votre cluster Kubernetes doit disposer d’une `IngressClass`. Parmi les contrôleurs d’ingress courants, on peut citer :
 
 * [Nginx Ingress Controller](https://kubernetes.github.io/ingress-nginx/)
 * [Istio](https://istio.io)
 * [Traefik](https://traefik.io/)
-* Contrôleurs d’ingress du fournisseur de cloud (AWS ALB, GCP Ingress, Azure Application Gateway)
+* Contrôleurs d’ingress des fournisseurs de cloud (AWS ALB, GCP Ingress, Azure Application Gateway)
 
 <div id="wb-service-routing">
   #### Routage des services W&amp;B
 </div>
 
-L’opérateur W&amp;B achemine automatiquement les requêtes vers plusieurs services back-end selon le chemin :
+L’opérateur W&amp;B achemine automatiquement les requêtes vers plusieurs services backend basé sur le chemin :
 
 | Chemin      | Service             | Port par défaut | Utilité                                               |
 | ----------- | ------------------- | --------------- | ----------------------------------------------------- |
 | `/`         | `wandb-app`         | 8080            | Interface utilisateur principale de l’application web |
-| `/api`      | `wandb-api`         | 8081            | Service d’API                                         |
-| `/graphql`  | `wandb-api`         | 8081            | Point de terminaison de l’API GraphQL                 |
-| `/graphql2` | `wandb-api`         | 8081            | Point de terminaison v2 de l’API GraphQL              |
+| `/api`      | `wandb-api`         | 8081            | Service API                                           |
+| `/graphql`  | `wandb-api`         | 8081            | Point de terminaison API GraphQL                      |
+| `/graphql2` | `wandb-api`         | 8081            | Point de terminaison API GraphQL v2                   |
 | `/console`  | `wandb-console`     | 8082            | Console système                                       |
-| `/traces`   | `wandb-weave-trace` | 8722            | Service de traçage Weave (si activé)                  |
+| `/traces`   | `wandb-weave-trace` | 8722            | Service de tracing Weave (si activé)                  |
 
 <div id="example-ingress-configuration">
   #### Exemple de configuration d’ingress
@@ -259,21 +259,21 @@ W&amp;B fonctionne sur les architectures 64 bits Intel et AMD. ARM n&#39;est pas
 
 La méthode d’installation recommandée pour W&amp;B Autogéré consiste à utiliser l’**opérateur Kubernetes W&amp;B**, déployé via Helm. Cette approche offre :
 
-* Des mises à jour automatisées et une gestion des composants W&amp;B
+* Des mises à jour et une gestion automatisées des composants W&amp;B
 * Une configuration et un déploiement simplifiés
 * Une assistance pour tous les scénarios de déploiement (cloud, sur site, isolé du réseau)
 
 Pour obtenir des instructions d’installation détaillées, voir :
 
-* [Exécuter le serveur W&amp;B sur Kubernetes (Operator)](/fr/platform/hosting/self-managed/operator/) - Guide d’installation principal
-* [Déployer la plateforme W&amp;B sur site](/fr/platform/hosting/self-managed/operator/) - Pour les considérations spécifiques aux centres de données/bare metal
-* [Opérateur Kubernetes pour les instances isolées du réseau](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/) - Pour les environnements déconnectés
+* [Exécuter le serveur W&amp;B sur Kubernetes (Operator)](/fr/platform/hosting/operator/) - Guide d’installation principal
+* [Déployer la plateforme W&amp;B sur site](/fr/platform/hosting/self-managed/bare-metal/) - Pour les considérations propres aux centres de données/au bare metal
+* [Opérateur Kubernetes pour les instances isolées du réseau](/fr/platform/hosting/self-managed/operator-airgapped/) - Pour les environnements déconnectés
 
 <div id="infrastructure-provisioning">
   ### Provisionnement de l’infrastructure
 </div>
 
-Terraform est la méthode recommandée pour provisionner l’infrastructure des déploiements W&amp;B en production. Avec Terraform, vous définissez les ressources requises, leurs références à d’autres ressources et leurs dépendances. W&amp;B fournit des modules Terraform pour les principaux fournisseurs de cloud. Pour plus de détails, se référer à [Déployer W&amp;B Server au sein de comptes cloud Autogéré](/fr/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts).
+Terraform est la méthode recommandée pour provisionner l’infrastructure des déploiements W&amp;B en Production. Avec Terraform, vous définissez les ressources requises, leurs références à d’autres ressources et leurs dépendances. W&amp;B fournit des modules Terraform pour les principaux fournisseurs de cloud. Pour plus de détails, se référer à [Déployer le serveur W&amp;B dans des comptes cloud Autogéré](/fr/platform/hosting/hosting-options/self-managed#deploy-wb-server-within-Self-Managed-cloud-accounts).
 
 <div id="sizing">
   ## Dimensionnement
@@ -302,7 +302,7 @@ Les nombres sont donnés par nœud worker Kubernetes.
 
 | Environnement | CPU     | Mémoire | Disque |
 | ------------- | ------- | ------- | ------ |
-| Test/Dev     | 2 cœurs | 16 GB   | 100 GB |
+| Test/Dev      | 2 cœurs | 16 GB   | 100 GB |
 | Production    | 8 cœurs | 64 GB   | 500 GB |
 
 Les nombres sont donnés par nœud MySQL.
@@ -320,7 +320,7 @@ Les nombres sont donnés par nœud MySQL.
 | Test/Dev      | 4 cœurs  | 32 GB   | 100 GB |
 | Production    | 12 cœurs | 96 GB   | 100 GB |
 
-Les nombres sont donnés par nœud worker Kubernetes.
+Les valeurs sont indiquées par nœud worker Kubernetes.
 
 <div id="mysql">
   #### MySQL
@@ -328,7 +328,7 @@ Les nombres sont donnés par nœud worker Kubernetes.
 
 | Environnement | CPU     | Mémoire | Disque |
 | ------------- | ------- | ------- | ------ |
-| Test/Dev     | 2 cœurs | 16 GB   | 100 GB |
+| Test/Dev      | 2 cœurs | 16 GB   | 100 GB |
 | Production    | 8 cœurs | 64 GB   | 500 GB |
 
 Les nombres sont donnés par nœud MySQL.
@@ -343,7 +343,7 @@ Les nombres sont donnés par nœud MySQL.
 
 | Environnement | CPU      | Mémoire | Disque |
 | ------------- | -------- | ------- | ------ |
-| Test/Dev     | 4 cœurs  | 32 GB   | 100 GB |
+| Test/Dev      | 4 cœurs  | 32 GB   | 100 GB |
 | Production    | 16 cœurs | 128 GB  | 100 GB |
 
 Les nombres sont donnés par nœud worker Kubernetes.
@@ -360,7 +360,7 @@ Les nombres sont donnés par nœud worker Kubernetes.
 Les nombres sont donnés par nœud MySQL.
 
 <div id="cloud-provider-instance-recommendations">
-  ## Recommandations d’instances par fournisseur de cloud
+  ## Recommandations d&#39;instances par fournisseur de cloud
 </div>
 
 <div id="services">
@@ -370,14 +370,14 @@ Les nombres sont donnés par nœud MySQL.
 | Cloud        | Kubernetes | MySQL                    | stockage d’objets          |
 | ------------ | ---------- | ------------------------ | -------------------------- |
 | AWS          | EKS        | RDS Aurora               | S3                         |
-| Google Cloud | GKE        | Google Cloud SQL - MySQL | Google Cloud Storage (GCS) |
-| Azure        | AKS        | Azure Database for MySQL | Azure Blob Storage         |
+| Google Cloud | GKE        | Google Cloud SQL - Mysql | Google Cloud Storage (GCS) |
+| Azure        | AKS        | Azure Database for Mysql | Azure Blob Storage         |
 
 <div id="machine-types">
   ### Types de machines
 </div>
 
-Ces recommandations s&#39;appliquent à chaque nœud d&#39;un déploiement autogéré de W&amp;B dans une infrastructure cloud.
+Ces recommandations s&#39;appliquent à chaque nœud d&#39;un déploiement Autogéré de W&amp;B dans une infrastructure cloud.
 
 <div id="aws">
   #### AWS

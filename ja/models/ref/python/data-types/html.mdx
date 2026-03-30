@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Html`
 
-HTML コンテンツを W&B にログするための W&B クラスです。 
+HTML コンテンツを W&amp;B にログするための W&amp;B クラスです。 
 
 ### <kbd>method</kbd> `Html.__init__`
 
@@ -26,9 +26,9 @@ __init__(
 W&amp;B の HTML オブジェクトを作成します。
 
 **引数:**
-data: 拡張子が &quot;.html&quot; のファイルへのパスを表す文字列、または HTML リテラルを含む文字列もしくは IO オブジェクト。
+data: 拡張子が &quot;.html&quot; のファイルへのパスを表す文字列、または生の HTML を含む文字列もしくは IO オブジェクト。
 
-* `inject`: HTML オブジェクトにスタイルシートを追加します。False に設定すると、HTML は変更されずそのまま出力されます。
+* `inject`: HTML オブジェクトにスタイルシートを追加します。False に設定すると、HTML は変更されずそのまま渡されます。
 * `data_is_not_path`: False に設定すると、data はファイルへのパスとして扱われます。
 
 **例:**
@@ -39,7 +39,7 @@ with wandb.init() as run:
     run.log({"html": wandb.Html("./index.html")})
 ```
 
-別の方法として、文字列または IO オブジェクトとしてリテラルな HTML を渡して初期化することもできます。
+別の方法として、文字列または IO オブジェクトで HTML リテラルを指定して初期化することもできます。
 
 ```python
 with wandb.init() as run:

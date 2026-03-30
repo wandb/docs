@@ -1,16 +1,16 @@
 ---
 title: "Créer et gérer les vues enregistrées"
-description: "Personnalisez votre interaction avec les appels de fonction tracés et les évaluations"
+description: "Personnalisez la manière dont vous interagissez avec les appels de fonction tracés et les évaluations"
 ---
 
-Dans Weave, les *vues enregistrées* vous permettent de personnaliser votre interaction avec les appels de fonction tracés et les évaluations. En définissant une vue enregistrée, vous pouvez configurer des filtres, le tri et la visibilité des colonnes afin d&#39;accéder rapidement aux données pertinentes.
+Dans Weave, les *vues enregistrées* vous permettent de personnaliser la manière dont vous interagissez avec les appels de fonction tracés et les évaluations. En définissant une vue enregistrée, vous pouvez configurer des filtres, le tri et la visibilité des colonnes afin d&#39;accéder rapidement aux données pertinentes.
 
-Vous pouvez créer, modifier et enregistrer des vues directement dans le SDK Python de Weave ou via l&#39;interface utilisateur. Le SDK Python offre un contrôle précis du filtrage et des requêtes par programmation, tandis que l&#39;interface utilisateur permet d&#39;explorer et d&#39;enregistrer facilement différentes configurations de tableau dans les onglets **Traces** et **Evals**.
+Vous pouvez créer, modifier et enregistrer des vues directement dans le SDK Python de Weave ou via l&#39;interface utilisateur. Le SDK Python offre un contrôle précis du filtrage et des requêtes par programmation, tandis que l&#39;interface utilisateur facilite l&#39;exploration et l&#39;enregistrement de différentes configurations de tableau dans les onglets **Traces** et **Evals**.
 
 Ce guide couvre :
 
 * [Comment créer et modifier des vues enregistrées dans le SDK Python](#saved-views-in-the-python-sdk).
-* [Comment créer des vues enregistrées et interagir avec elles dans l&#39;interface utilisateur de Weave](#saved-views-in-the-ui).
+* [Comment créer des vues enregistrées et interagir avec elles dans l&#39;interface Weave](#saved-views-in-the-ui).
 
 <div id="saved-views-in-the-python-sdk">
   ## Vues enregistrées dans le SDK Python
@@ -64,7 +64,7 @@ view.set_columns("id", "op_name")
   ### Ajouter des colonnes
 </div>
 
-Utilisez `.add_column()` pour ajouter une ou plusieurs colonnes à la vue. Indiquez la ou les colonnes à ajouter.
+Utilisez `.add_column()` pour ajouter une ou plusieurs nouvelles colonnes à la vue. Indiquez une ou plusieurs colonnes à ajouter.
 
 ```python lines
 # Ajouter une colonne avec le spécificateur de champ et le libellé "Created"
@@ -149,7 +149,7 @@ view.remove_filters()
   ### Enregistrez la `SavedView`
 </div>
 
-Utilisez `.save()` pour publier la vue enregistrée sur Weave.
+Utilisez `.save()` pour publier la vue enregistrée vers Weave.
 
 ```python lines
 view.save()
@@ -194,7 +194,7 @@ Vous pouvez créer, charger, renommer et modifier des vues enregistrées dans l�
 
 1. Accédez à l’onglet **Traces** ou **Evals**.
 2. Cliquez sur le menu hamburger à gauche du titre de l’onglet. Un menu déroulant affichant toutes les vues enregistrées apparaît.
-3. Cliquez sur la vue que vous souhaitez ouvrir. La vue enregistrée s’affiche dans l’onglet **Traces** ou **Evals**. 
+3. Cliquez sur la vue à laquelle vous souhaitez accéder. La vue enregistrée s’affiche dans l’onglet **Traces** ou **Evals**. 
 
 <div id="rename-a-saved-view">
   ### Renommer une vue enregistrée
@@ -218,14 +218,14 @@ Vous pouvez créer, charger, renommer et modifier des vues enregistrées dans l�
 </div>
 
 <Warning>
-  Vous pouvez supprimer une vue si vous estimez qu’elle n’est plus utile pour vous et votre équipe. Cette action est irréversible.
+  Vous pouvez supprimer une vue si vous estimez qu&#39;elle n&#39;est plus utile pour vous et votre équipe. Cette action est irréversible.
 </Warning>
 
-1. Accédez à l’onglet **Traces** ou **Evals**.
+1. Accédez à l&#39;onglet **Traces** ou **Evals**.
 2. [Chargez la vue](#load-a-saved-view) que vous souhaitez supprimer.
 3. Cliquez sur le menu hamburger à gauche de **Enregistrer la vue**.
-4. Dans le menu déroulant, cliquez sur **Supprimer la vue**.
-5. Dans la fenêtre modale, confirmez en cliquant sur **Supprimer la vue**. Vous pouvez également cliquer sur **Annuler** pour interrompre la suppression.
+4. Dans le menu déroulant, cliquez sur **Delete view**.
+5. Dans la fenêtre modale, confirmez en cliquant sur **Delete view**. Vous pouvez également cliquer sur **Cancel** pour interrompre la suppression.
 
 <div id="return-to-the-default-view">
   ### Revenir à la vue par défaut

@@ -12,7 +12,7 @@ Cette page explique comment automatiser la gestion des utilisateurs et des équi
 Utilisez l’API SCIM de W&amp;B pour gérer à grande échelle les utilisateurs et les équipes de votre organisation W&amp;B à l’aide d’un fournisseur d’identité (IdP) comme Okta ou Microsoft Entra.
 
 <Tip>
-  L’implémentation de W&amp;B comprend des points de terminaison permettant d’attribuer des rôles, ainsi que de créer et de gérer des rôles personnalisés, et d’attribuer des rôles intégrés et personnalisés. Les points de terminaison liés aux rôles ne font pas partie du schéma SCIM officiel. W&amp;B ajoute ces points de terminaison pour prendre en charge la gestion automatisée des rôles personnalisés.
+  L’implémentation de W&amp;B comprend des points de terminaison pour l’attribution de rôles, ainsi que pour la création et la gestion de rôles personnalisés, et pour l’attribution de rôles intégrés et personnalisés. Les points de terminaison liés aux rôles ne font pas partie du schéma SCIM officiel. W&amp;B ajoute ces points de terminaison pour prendre en charge la gestion automatisée des rôles personnalisés.
 </Tip>
 
 Les sections suivantes décrivent chaque catégorie de l’API SCIM.
@@ -24,7 +24,7 @@ Les sections suivantes décrivent chaque catégorie de l’API SCIM.
 L’[API SCIM des utilisateurs](./scim#user-resource) vous permet de créer, désactiver, récupérer et lister des utilisateurs dans une organisation W&amp;B, ainsi que d’attribuer des rôles prédéfinis ou personnalisés. Pour des exemples complets de requêtes et de réponses, utilisez la [référence SCIM](./scim#user-management).
 
 <Note>
-  Désactivez un utilisateur avec `PATCH /scim/Users/{id}` et définissez `{"active": false}`. L’option d’hébergement détermine le résultat : les déploiements Cloud dédié et autogéré conservent l’enregistrement de l’utilisateur, tandis que le Cloud mutualisé supprime l’utilisateur de l’organisation. La réactivation n’est pas disponible dans le Cloud mutualisé ; ajoutez de nouveau l’utilisateur à la place. Voir [Désactiver un utilisateur](./scim#deactivate-user) et [Réactiver un utilisateur](./scim#reactivate-user).
+  Désactivez un utilisateur avec `PATCH /scim/Users/{id}` et définissez `{"active": false}`. L’option d’hébergement détermine le résultat : les déploiements Cloud dédié et Autogéré conservent l’enregistrement de l’utilisateur, tandis que le Cloud mutualisé supprime l’utilisateur de l’organisation. La réactivation n’est pas disponible dans le Cloud mutualisé ; ajoutez de nouveau l’utilisateur à la place. Voir [Désactiver un utilisateur](./scim#deactivate-user) et [Réactiver un utilisateur](./scim#reactivate-user).
 </Note>
 
 <div id="group-scim-api">
@@ -34,7 +34,7 @@ L’[API SCIM des utilisateurs](./scim#user-resource) vous permet de créer, dé
 L&#39;[API SCIM des groupes](./scim#group-resource) permet de gérer les équipes W&amp;B, notamment de créer ou de supprimer des équipes dans une organisation. Utilisez `PATCH Group` pour ajouter ou supprimer des utilisateurs dans une équipe existante.
 
 <Note>
-  Il n&#39;existe pas dans W&amp;B de notion de `group of users having the same role`. Une équipe W&amp;B ressemble beaucoup à un groupe et permet à différents profils, avec des rôles distincts, de collaborer sur un ensemble de projets liés. Les équipes peuvent être composées de différents groupes d&#39;utilisateurs. Attribuez à chaque utilisateur d&#39;une équipe un rôle : administrateur d&#39;équipe, membre, observateur ou rôle personnalisé.
+  Il n&#39;existe pas dans W&amp;B de notion de `group of users having the same role`. Une équipe W&amp;B ressemble beaucoup à un groupe et permet à différents profils, avec des rôles distincts, de collaborer sur un ensemble de projets liés. Les équipes peuvent être composées de différents groupes d&#39;utilisateurs. Attribuez à chaque utilisateur d&#39;une équipe un rôle : administrateur d&#39;équipe, membre, viewer ou rôle personnalisé.
 
   W&amp;B mappe les points de terminaison de l&#39;API SCIM des groupes aux équipes W&amp;B en raison de la ressemblance entre les groupes et les équipes W&amp;B.
 </Note>
@@ -54,10 +54,10 @@ L&#39;[API SCIM des rôles personnalisés](./scim#role-resource) permet de gére
 </Warning>
 
 <div id="wb-python-sdk-api">
-  ## API du SDK Python de W&amp;B
+  ## API du SDK Python W&amp;B
 </div>
 
-Utilisez l’[API du SDK Python de W&amp;B](/fr/models/ref/python/public-api/api) pour gérer les utilisateurs de l’organisation, les équipes et les membres des équipes.
+Utilisez l&#39;[API du SDK Python W&amp;B](/fr/models/ref/python/public-api/api) pour gérer les utilisateurs de l&#39;organisation, les équipes et les membres des équipes.
 
 * [`User`](/fr/models/ref/python/public-api/user)
 * [`Team`](/fr/models/ref/python/public-api/team)

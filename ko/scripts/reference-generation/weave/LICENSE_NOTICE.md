@@ -3,11 +3,11 @@ title: 라이선스 고지
 ---
 
 <div id="license-notice-for-reference-documentation-generation">
-  # 레퍼런스 문서 생성을 위한 라이선스 안내
+  # 레퍼런스 문서 생성을 위한 라이선스 고지
 </div>
 
 <div id="overview">
-  ## 개요
+  ## Overview
 </div>
 
 이 디렉터리에 있는 스크립트는 개발/CI 과정에서 레퍼런스 문서를 생성하는 용도로만 사용됩니다. 이 스크립트는 Weave 라이브러리와 함께 배포되지 않으며, 어떠한 프로덕션 코드에도 포함되지 않습니다.
@@ -20,15 +20,15 @@ title: 라이선스 고지
   ### 직접 의존성
 </div>
 
-- **requests** (Apache-2.0): HTTP 요청을 보내는 데 사용
-- **lazydocs** (MIT): W&B에서 관리하는 문서 생성 도구
+* **requests** (Apache-2.0): HTTP 요청에 사용됨
+* **lazydocs** (MIT): W&amp;B에서 유지 관리하는 문서 생성기
 
 <div id="transitive-dependencies-via-lazydocs">
   ### 전이적 의존성(lazydocs를 통해)
 </div>
 
-- **setuptools** (일부 포함된 컴포넌트는 LGPL-3.0인 MIT 라이선스): 빌드 시스템
-- 기타 여러 의존성(혼합 라이선스)
+* **setuptools** (내장된 LGPL-3.0 컴포넌트를 포함한 MIT 라이선스): 빌드 시스템
+* 기타 여러 의존성(혼합 라이선스)
 
 <div id="important-notes">
   ## 중요 안내
@@ -50,25 +50,25 @@ title: 라이선스 고지
 
 1. GitHub Action을 사용해 클라우드에서 문서를 생성합니다(권장)
 2. lazydocs를 사용하지 않는 최소한의 Python 문서 생성기를 사용합니다
-3. Docker 컨테이너에서 문서를 생성합니다
+3. 도커 컨테이너에서 문서를 생성합니다
 4. 개발 전용 도구에 대해 예외 승인을 요청합니다
 
 <div id="socket-security">
-  ## 소켓 보안
+  ## Socket Security
 </div>
 
 저장소 루트에 있는 `.socketignore` 파일은 이 스크립트들이 프로덕션 코드가 아닌 개발 도구이므로 보안 검사 대상에서 제외합니다.
 
 <div id="known-socket-security-warnings">
-  ### 알려진 소켓 보안 경고
+  ### 알려진 Socket Security 경고
 </div>
 
-- **wheel 안의 네이티브 코드**: `wheel` 패키지에는 네이티브 코드가 포함되어 있으며, 이는 Python 패키징 도구에서는 정상적인 현상입니다.
-- **라이선스 위반**: 일부 전이적 의존성에 LGPL 등 정책 경고를 유발하는 라이선스가 포함되어 있을 수 있습니다.
+* **wheel의 네이티브 코드**: `wheel` 패키지에는 네이티브 코드가 포함되어 있으며, 이는 Python 패키징 도구에서 정상입니다.
+* **라이선스 위반**: 일부 간접 의존성에는 LGPL 또는 정책 경고를 트리거하는 기타 라이선스가 포함될 수 있습니다.
 
 이러한 경고는 다음과 같은 이유로 허용됩니다.
 
-1. 해당 도구들은 문서 생성 과정에서만 사용됩니다.
-2. 격리된 CI 환경에서만 실행됩니다.
+1. 해당 도구는 문서 생성 중에만 사용됩니다.
+2. 격리된 CI 환경에서 실행됩니다.
 3. Weave와 함께 배포되지 않습니다.
-4. 생성된 문서에는 실행 가능한 코드가 포함되지 않습니다.
+4. 생성된 문서에는 실행 가능한 코드가 없습니다.

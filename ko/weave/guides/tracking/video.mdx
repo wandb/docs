@@ -10,11 +10,11 @@ Weave는 [`moviepy`](https://zulko.github.io/moviepy/)를 사용해 비디오를
 </Note>
 
 <div id="usage-prerequisites">
-  ## 사용을 위한 사전 준비 사항
+  ## 사용을 위한 사전 요구 사항
 </div>
 
 1. `weave`와 `moviepy==1.0.3`를 설치합니다.
-2. W&B 계정을 만듭니다.
+2. W&amp;B 계정을 만듭니다.
 
 <div id="supported-video-types">
   ## 지원되는 비디오 유형
@@ -22,8 +22,8 @@ Weave는 [`moviepy`](https://zulko.github.io/moviepy/)를 사용해 비디오를
 
 Weave는 다음과 같은 `moviepy` 비디오 클립 객체를 인식합니다:
 
-- 비디오 파일에서 로드한 `VideoFileClip`
-- `ImageClip`, `ColorClip`, `TextClip` 같은 메모리 기반 클립
+* 비디오 파일에서 로드한 `VideoFileClip`
+* `ImageClip`, `ColorClip`, `TextClip` 같은 메모리 내 클립
 
 <div id="direct-upload-of-file-based-clips">
   ### 파일 기반 클립 직접 업로드
@@ -33,36 +33,36 @@ Weave는 다음과 같은 `moviepy` 비디오 클립 객체를 인식합니다:
 
 **지원되는 파일 확장자:**
 
-- `.mp4`
-- `.webm`
-- `.gif`
+* `.mp4`
+* `.webm`
+* `.gif`
 
 <div id="in-memory-clip-support">
   ### 메모리 내 클립 지원
 </div>
 
-비디오 객체가 메모리에만 있고(디스크에 파일이 없는 경우) Weave가 이를 `.mp4` 파일로 인코딩하고 업로드를 자동으로 처리합니다. 이는 다음 종류의 클립에 적용됩니다:
+비디오 객체가 메모리 내에 있고(디스크에 파일이 없는 경우) Weave가 이를 `.mp4` 파일로 인코딩하고 업로드를 자동으로 처리합니다. 이는 다음 유형의 클립에 적용됩니다:
 
-- `ImageClip`
-- `ColorClip`
-- `TextClip`
+* `ImageClip`
+* `ColorClip`
+* `TextClip`
 
 <div id="example-trace-a-video-function">
   ## 예시: 비디오 함수 트레이싱
 </div>
 
-다음 코드 예시는 Weave에서 비디오 처리 함수를 트레이싱(추적)하는 방법을 보여준다. 이 코드 예시는 다음 작업을 수행한다:
+다음 코드 예시는 Weave에서 비디오 처리 함수를 트레이싱하는 방법을 보여줍니다. 이 코드 예시는 다음 작업을 수행합니다:
 
-1. Weave 프로젝트 `video-test`를 초기화한다.
-2. 로드된 `VideoFileClip`에서 1초 길이의 서브클립을 추출해 `VideoClip`으로 만드는 함수 `get_video`를 정의하고, 이를 `weave.op`으로 추적한다.
-3. 해당 클립을 Weave에 업로드하고 추적한다.
-4. 비디오를 찾을 수 없을 경우, 더미 MP4 비디오를 자동으로 생성한다.
+1. Weave 프로젝트 `video-test`를 초기화합니다.
+2. 로드된 `VideoFileClip`에서 1초 길이의 서브클립을 추출해 `VideoClip`으로 반환하는 `get_video` 함수를 정의하고, 이를 `weave.op`으로 추적합니다.
+3. 해당 클립을 Weave에 업로드하고 추적합니다.
+4. 비디오를 찾지 못하면 더미 MP4 비디오를 자동으로 생성합니다.
 
 <Warning>
-  스레드 안전성 문제를 피하려면 Weave `op` 외부에서 `VideoFileClip` 객체를 생성하지 말고, 항상 `VideoFileClip` 객체에 경로만 전달하라.
+  스레드 안전성 문제를 방지하려면 Weave `op` 외부에서 `VideoFileClip` 객체를 생성하지 말고, 항상 `VideoFileClip` 객체의 경로를 전달하세요.
 </Warning>
 
-다음 코드 스니펫을 사용하기 전에, [사용 사전 요구 사항](#usage-prerequisites)을 먼저 완료하라.
+다음 코드 스니펫을 사용하기 전에 [사용을 위한 사전 요구 사항](#usage-prerequisites)을 완료하세요.
 
 ```python lines
 import os
@@ -99,12 +99,12 @@ if __name__ == "__main__":
     get_video(clip) 
 ```
 
-코드 예시가 성공적으로 실행되면, 프로젝트의 **Traces** 테이블에서 링크를 클릭해 동영상을 확인할 수 있습니다.
+코드 예시가 성공적으로 실행되면, 프로젝트의 **트레이스** 테이블에서 링크를 클릭해 비디오를 확인할 수 있습니다.
 
 <Frame>
-  ![Traces 테이블의 비디오 처리 함수 트레이스.](/weave/guides/tracking/imgs/video-trace.png)
+  ![트레이스 테이블의 비디오 처리 함수 트레이스.](/weave/guides/tracking/imgs/video-trace.png)
 </Frame>
 
 <Frame>
-  ![Traces 팝업에서 보는 Weave에 업로드된 MP4 동영상.](/weave/guides/tracking/imgs/video-trace-popout.png)
+  ![트레이스 팝업에서 보는 Weave에 업로드된 MP4 비디오.](/weave/guides/tracking/imgs/video-trace-popout.png)
 </Frame>

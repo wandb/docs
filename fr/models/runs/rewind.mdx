@@ -3,30 +3,30 @@ description: Rembobiner un run pour corriger ou modifier son historique sans per
 title: Rembobiner un run
 ---
 
-Rembobinez un run pour modifier l&#39;historique d&#39;un run. Lorsque vous rembobinez un run, W&amp;B réinitialise l&#39;état du run à l&#39;étape spécifiée tout en conservant le même ID de run.
+Rembobinez un run pour modifier l&#39;historique d&#39;un run. Lorsque vous rembobinez un run, W&amp;B réinitialise l&#39;état du run à l&#39;étape spécifiée tout en conservant le même ID du run.
 
 <Warning>
   L&#39;option permettant de rembobiner un run est en aperçu privé et en cours de développement actif. En raison de limitations de performances connues avec Rewind, W&amp;B recommande généralement [Forking](./forking) comme alternative.
 
-  W&amp;B ne prend actuellement pas en charge :
+  W&amp;B ne prend actuellement pas en charge :
 
-  * **Rembobinage des journaux** : les journaux sont réinitialisés dans le nouveau segment du run.
-  * **Rembobinage des métriques système** : W&amp;B journalise uniquement les nouvelles métriques système après le point de rembobinage.
-  * **Association d&#39;artefacts** : W&amp;B associe les artefacts au run source qui les produit.
+  * **Rembobinage des journaux** : les journaux sont réinitialisés dans le nouveau segment du run.
+  * **Rembobinage des métriques système** : W&amp;B journalise uniquement les nouvelles métriques système après le point de rembobinage.
+  * **Association d&#39;artefacts** : W&amp;B associe les artefacts au run source qui les produit.
 
   Contactez l&#39;assistance W&amp;B à l&#39;adresse support@wandb.com pour demander l&#39;accès à cette fonctionnalité.
 </Warning>
 
-W&amp;B recalcule les métriques récapitulatives du run que vous rembobinez à partir de l&#39;historique nouvellement journalisé. Cela implique ce qui suit :
+W&amp;B recalcule les métriques de synthèse du run que vous rembobinez à partir de l&#39;historique nouvellement enregistré. Cela implique le comportement suivant :
 
-* **Troncature de l&#39;historique** : W&amp;B tronque l&#39;historique jusqu&#39;au point de rembobinage, ce qui permet de journaliser de nouvelles données.
-* **Métriques récapitulatives** : recalculées à partir de l&#39;historique nouvellement journalisé.
-* **Préservation de la configuration** : W&amp;B conserve les configurations d&#39;origine et vous pouvez fusionner de nouvelles configurations.
+* **Troncature de l&#39;historique** : W&amp;B tronque l&#39;historique jusqu&#39;au point de rembobinage, ce qui permet d&#39;enregistrer de nouvelles données.
+* **Métriques de synthèse** : recalculées à partir de l&#39;historique nouvellement enregistré.
+* **Préservation de la configuration** : W&amp;B conserve les configurations d&#39;origine et vous pouvez fusionner de nouvelles configurations.
 
-{/* Lorsque vous rembobinez un run, W&B réinitialise l’état du run à l’étape spécifiée, tout en préservant les données d’origine et en conservant le même ID de run. Cela signifie que :
+{/* Lorsque vous rembobinez un run, W&B réinitialise l’état du run à l’étape spécifiée, tout en préservant les données d’origine et en conservant le même ID du run. Cela signifie que :
 
-  - **Archivage des runs** : W&B archive les runs d’origine. Les Runs sont accessibles depuis l’onglet [Aperçu du run](./#overview-tab).
-  - **Association des artefacts** : associe les artefacts au run qui les produit. */}
+  - **Archivage des runs** : W&B archive les runs d’origine. Les runs sont accessibles depuis l’onglet [Aperçu du run](./#overview-tab).
+  - **Association des artefacts** : W&B associe les artefacts au run qui les produit. */}
 
 <Note>
   **Compatibilité entre le rembobinage et le fork**
@@ -51,9 +51,9 @@ Avant de rembobiner un run, assurez-vous de respecter les prérequis suivants :
   ## Rembobiner un run
 </div>
 
-Rembobinez un run à partir d&#39;une étape spécifique et journalisez de nouvelles données à partir de ce point. Passez l&#39;ID du run ainsi que l&#39;étape à partir de laquelle vous souhaitez rembobiner comme arguments du paramètre `resume_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init). Le paramètre `resume_from` accepte une chaîne au format `<run ID>?_step=<step>`, où `<run ID>` est l&#39;ID du run que vous souhaitez rembobiner et `<step>` est l&#39;étape à partir de laquelle vous souhaitez rembobiner.
+Rembobinez un run à partir d’une étape spécifique et journalisez de nouvelles données à partir de ce moment-là. Passez à `resume_from` dans [`wandb.init()`](/fr/models/ref/python/functions/init) l’ID du run ainsi que l’étape à partir de laquelle vous souhaitez rembobiner, sous forme d’arguments. Le paramètre `resume_from` accepte une chaîne au format `<run ID>?_step=<step>`, où `<run ID>` est l’ID du run que vous souhaitez rembobiner et `<step>` est l’étape à partir de laquelle vous souhaitez rembobiner.
 
-Supposons que vous journalisiez une ligne linéaire pendant 300 étapes :
+Supposons que vous journalisiez une ligne droite pendant 300 étapes :
 
 ```python
 import wandb
@@ -67,9 +67,9 @@ with wandb.init(project="<project>", entity="wandb") as run:
 
 Dans l’espace de travail de votre projet, vous voyez un graphique en courbes de l’étape 0 à l’étape 300 :
 
-<img src="/images/runs/rewind_run_original.png" alt="Graphique en courbes du run original" />
+<img src="/images/runs/rewind_run_original.png" alt="Graphique en courbes du run d’origine" />
 
-Plus tard, vous voulez rembobiner le run à partir de l’étape 200 et journaliser une nouvelle métrique appelée `additional_metric`, avec la valeur `i*1.1` de l’étape 200 à l’étape 300. À partir de l’étape 250, vous voulez journaliser un nouveau motif ondulé subtil (`i**2 + 2*sin(i/3)`) au lieu d’une ligne droite :
+Plus tard, vous voulez rembobiner le run à partir de l’étape 200 et journaliser une nouvelle métrique appelée `additional_metric`, avec la valeur `i*1.1` de l’étape 200 à l’étape 300. À partir de l’étape 250, vous voulez journaliser un nouveau léger motif ondulé (`i**2 + 2*sin(i/3)`) au lieu d’une ligne droite :
 
 ```python
 import math
@@ -92,18 +92,18 @@ with wandb.init(project="<project>", entity="wandb", resume_from=f"{run_ID}?_ste
         run.log({"additional_metric": i * 1.1, "step": i})
 ```
 
-L’image suivante montre l’espace de travail du projet après sa mise à jour. Notez les modifications suivantes dans le graphique après le rembobinage :
+L&#39;image suivante montre le Workspace du projet mis à jour. Notez les modifications suivantes dans le graphique après le rembobinage :
 
-* Le graphique en courbes montre la ligne linéaire d’origine de l’étape 0 à l’étape 200, et le nouveau léger motif ondulé commence à l’étape 250 (image de gauche).
-* W&amp;B a créé un nouveau graphique (graphique de droite) intitulé `additional_metric`, qui commence à l’étape 200.
+* Le graphique en courbes montre la ligne linéaire d&#39;origine de l&#39;étape 0 à l&#39;étape 200, et le nouveau motif ondulé subtil commence à l&#39;étape 250 (image de gauche).
+* W&amp;B a créé un nouveau graphique (graphique de droite) intitulé `additional_metric`, qui commence à l&#39;étape 200.
 
-<img src="/images/runs/rewind_run_step200_wmetric.png" alt="De gauche à droite : ligne linéaire d’origine et métrique supplémentaire" />
+<img src="/images/runs/rewind_run_step200_wmetric.png" alt="De gauche à droite : ligne linéaire d'origine et métrique supplémentaire" />
 
 <div id="view-an-archived-run">
   ## Voir un run archivé
 </div>
 
-Après avoir rembobiné un run, vous pouvez explorer le run archivé original dans l’application W&amp;B. Suivez ces étapes pour voir un run archivé :
+Après avoir rembobiné un run, vous pouvez explorer le run archivé original dans W&amp;B App. Suivez ces étapes pour voir un run archivé :
 
 1. **Accédez à l’onglet Vue d’ensemble :** Accédez à l’[**onglet Vue d’ensemble**](./#overview-tab) sur la page du run. Cet onglet fournit une vue complète des détails et de l’historique du run.
 2. **Repérez le champ Forked From :** Dans l’**onglet Vue d’ensemble**, trouvez le champ `Forked From`. Ce champ consigne l’historique des reprises. Le champ **Forked From** inclut un lien vers le run source, ce qui vous permet de remonter jusqu’au run original et de comprendre l’ensemble de l’historique des rembobinages.
@@ -111,10 +111,10 @@ Après avoir rembobiné un run, vous pouvez explorer le run archivé original da
 En utilisant le champ `Forked From`, vous pouvez facilement parcourir l’arborescence des reprises archivées et mieux comprendre la séquence et l’origine de chaque rembobinage.
 
 <div id="fork-from-a-run-that-you-rewind">
-  ## Créer un fork à partir d’un run que vous rembobinez
+  ## Forker à partir d’un run que vous rembobinez
 </div>
 
-Pour créer un fork à partir d’un run rembobiné, utilisez l’argument [`fork_from`](/fr/models/runs/forking/) dans `wandb.init()` et indiquez l’ID du run source ainsi que l’étape du run source à partir de laquelle créer le fork :
+Pour forker à partir d’un run rembobiné, utilisez l’argument [`fork_from`](/fr/models/runs/forking/) dans `wandb.init()` et indiquez l’ID du run source ainsi que l’étape du run source à partir de laquelle forker :
 
 ```python
 import wandb

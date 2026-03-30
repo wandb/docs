@@ -1,16 +1,16 @@
 ---
-description: "Julia プログラムから実験を追跡し、メトリクスをログして、モデルのパフォーマンスを可視化できるように、W&B を Julia と統合します。"
+description: "W&B を Julia と統合して、Julia プログラムから実験を管理し、メトリクスをログし、モデル性能を可視化します。"
 title: Julia 向け W&B
 ---
 
-Julia プログラミング言語で機械学習の実験を行っている方のために、コミュニティのコントリビューターが [wandb.jl](https://github.com/avik-pal/Wandb.jl) という非公式の Julia 向けバインディングを作成しており、これを利用できます。
+Julia プログラミング言語で機械学習の実験を実行している方向けに、コミュニティのコントリビューターが [wandb.jl](https://github.com/avik-pal/Wandb.jl) という非公式の Julia バインディングを作成しており、使用することができます。
 
-wandb.jl リポジトリの [ドキュメント内](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples) にサンプルがあります。「Getting Started」のサンプルはこちらです：
+サンプルは wandb.jl リポジトリの[ドキュメント](https://github.com/avik-pal/Wandb.jl/tree/main/docs/src/examples)で確認できます。「Getting Started」のサンプルはこちらです：
 
 ```julia
 using Wandb, Dates, Logging
 
-# 新しい run を開始し、config でハイパーパラメーターを追跡する
+# 新しい run を開始し、ハイパーパラメーターを設定でトラッキングする
 lg = WandbLogger(project = "Wandb.jl",
                  name = "wandbjl-demo-$(now())",
                  config = Dict("learning_rate" => 0.01,
@@ -18,7 +18,7 @@ lg = WandbLogger(project = "Wandb.jl",
                                "architecture" => "CNN",
                                "dataset" => "CIFAR-100"))
 
-# LoggingExtras.jl を使用して複数のロガーに同時にログを記録する
+# LoggingExtras.jl を使用して複数のロガーにまとめてログする
 global_logger(lg)
 
 # トレーニングまたは評価ループのシミュレーション

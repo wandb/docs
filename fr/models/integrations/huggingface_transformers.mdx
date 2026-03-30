@@ -1,6 +1,6 @@
 ---
 title: Hugging Face Transformers
-description: "Utilisez W&B avec le Trainer de Hugging Face Transformers pour le suivi des expériences, les points de contrôle du modèle et la gestion des versions des jeux de données."
+description: "Utilisez W&B avec le Trainer d’Hugging Face Transformers pour le suivi des expériences, les points de contrôle du modèle et la gestion des versions des jeux de données."
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -51,11 +51,11 @@ Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer
   ### Installez la bibliothèque `wandb` et connectez-vous
 </div>
 
-Pour installer la bibliothèque `wandb` en local et vous connecter :
+Pour installer la bibliothèque `wandb` sur votre machine et vous connecter :
 
 <Tabs>
   <Tab title="Ligne de commande">
-    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+    1. Définissez la [variable d’environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -81,7 +81,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
     ```
   </Tab>
 
-  <Tab title="Notebook Python">
+  <Tab title="notebook Python">
     ```notebook
     !pip install wandb
 
@@ -91,7 +91,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
   </Tab>
 </Tabs>
 
-Si vous utilisez W&amp;B pour la première fois, vous pouvez consulter notre [guide de démarrage rapide](/fr/models/quickstart/)
+Si vous utilisez W&amp;B pour la première fois, vous pouvez consulter notre [démarrage rapide](/fr/models/quickstart/)
 
 <div id="name-the-project">
   ### Nommez le projet
@@ -129,14 +129,14 @@ Pour ajouter un run à un projet, définissez simplement la variable d’environ
 Si aucun nom de projet n’est spécifié, le nom du projet prend par défaut la valeur `huggingface`.
 
 <div id="log-your-training-runs-to-wb">
-  ### Journalisez vos runs d&#39;entraînement dans W&amp;B
+  ### Journalisez vos runs d’entraînement dans W&amp;B
 </div>
 
-Lorsque vous définissez les arguments d&#39;entraînement de votre `Trainer`, dans votre code ou depuis la ligne de commande, **l&#39;étape la plus importante** consiste à définir `report_to` sur `"wandb"` afin d&#39;activer la journalisation avec W&amp;B.
+Lorsque vous définissez les arguments d’entraînement de votre `Trainer`, dans votre code ou en ligne de commande, **l’étape la plus importante** consiste à définir `report_to` sur `"wandb"` afin d’activer la journalisation avec W&amp;B.
 
-L&#39;argument `logging_steps` dans `TrainingArguments` contrôle la fréquence à laquelle les métriques d&#39;entraînement sont envoyées à W&amp;B pendant l&#39;entraînement. Vous pouvez également donner un nom au run d&#39;entraînement dans W&amp;B à l&#39;aide de l&#39;argument `run_name`.
+L’argument `logging_steps` dans `TrainingArguments` contrôle la fréquence à laquelle les métriques d’entraînement sont envoyées à W&amp;B pendant l’entraînement. Vous pouvez également donner un nom au run d’entraînement dans W&amp;B à l’aide de l’argument `run_name`.
 
-C&#39;est tout. Vos modèles journaliseront désormais les pertes, les métriques d&#39;évaluation, l&#39;architecture du modèle et les gradients dans W&amp;B pendant l&#39;entraînement.
+C’est tout. Vos modèles journaliseront désormais les pertes, les métriques d’évaluation, l’architecture du modèle et les gradients dans W&amp;B pendant l’entraînement.
 
 <Tabs>
   <Tab title="Ligne de commande">
@@ -177,7 +177,7 @@ C&#39;est tout. Vos modèles journaliseront désormais les pertes, les métrique
   ### Activer l’enregistrement des points de contrôle du modèle
 </div>
 
-Avec [Artifacts](/fr/models/artifacts/), vous pouvez stocker gratuitement jusqu’à 100 Go de modèles et de jeux de données, puis utiliser le [registre](/fr/models/registry/) W&amp;B. Avec registre, vous pouvez enregistrer des modèles pour les explorer et les évaluer, les préparer pour la préproduction ou les déployer dans votre environnement de production.
+Avec [Artifacts](/fr/models/artifacts/), vous pouvez stocker gratuitement jusqu’à 100 Go de modèles et de jeux de données, puis utiliser le [registre](/fr/models/registry/) de W&amp;B. Avec registre, vous pouvez enregistrer des modèles pour les explorer et les évaluer, les préparer pour la préproduction ou les déployer dans votre environnement de production.
 
 Pour journaliser les points de contrôle de votre modèle Hugging Face dans Artifacts, définissez la variable d’environnement `WANDB_LOG_MODEL` sur *l’une* des valeurs suivantes :
 
@@ -200,14 +200,14 @@ Pour journaliser les points de contrôle de votre modèle Hugging Face dans Arti
     ```
   </Tab>
 
-  <Tab title="Notebook Python">
+  <Tab title="notebook Python">
     ```notebook
     %env WANDB_LOG_MODEL="checkpoint"
     ```
   </Tab>
 </Tabs>
 
-Tous les `Trainer` Transformers que vous initialisez à partir de maintenant téléverseront des modèles dans votre projet W&amp;B. Les points de contrôle du modèle que vous journalisez seront visibles dans l’interface [Artifacts](/fr/models/artifacts/) et incluront la traçabilité complète du modèle (voir un exemple de point de contrôle du modèle dans l’interface [ici](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
+Tous les `Trainer` de Transformers que vous initialisez à partir de maintenant téléverseront des modèles dans votre projet W&amp;B. Les points de contrôle du modèle que vous journalisez seront visibles dans l’interface utilisateur d’[Artifacts](/fr/models/artifacts/) et incluront la traçabilité complète du modèle (voir un exemple de point de contrôle du modèle dans l’interface utilisateur [ici](https://wandb.ai/wandb/arttest/artifacts/model/iv3_trained/5334ab69740f9dda4fed/lineage?_gl=1*yyql5q*_ga*MTQxOTYyNzExOS4xNjg0NDYyNzk1*_ga_JH1SJHJQXJ*MTY5MjMwNzI2Mi4yNjkuMS4xNjkyMzA5NjM2LjM3LjAuMA..)).
 
 <Note>
   Par défaut, votre modèle sera enregistré dans W&amp;B Artifacts sous la forme `model-{run_id}` lorsque `WANDB_LOG_MODEL` est défini sur `end`, ou `checkpoint-{run_id}` lorsque `WANDB_LOG_MODEL` est défini sur `checkpoint`.
@@ -218,9 +218,9 @@ Tous les `Trainer` Transformers que vous initialisez à partir de maintenant té
   #### W&amp;B registre
 </div>
 
-Une fois vos points de contrôle journalisés dans Artifacts, vous pouvez enregistrer vos meilleurs points de contrôle de modèle et les centraliser pour votre équipe avec [registre](/fr/models/registry/). Avec registre, vous pouvez organiser vos meilleurs modèles par tâche, gérer le cycle de vie des modèles, suivre et auditer l’ensemble du cycle de vie du ML, et [automatiser](/fr/models/automations/) les actions en aval.
+Une fois vos points de contrôle enregistrés dans Artifacts, vous pouvez enregistrer vos meilleurs points de contrôle de modèle et les centraliser au sein de votre équipe avec [registre](/fr/models/registry/). Avec registre, vous pouvez organiser vos meilleurs modèles par tâche, gérer le cycle de vie des modèles, suivre et auditer l’ensemble du cycle de vie du ML, et [automatiser](/fr/models/automations/) les actions en aval.
 
-Pour lier un artefact de modèle, se référer à [registre](/fr/models/registry/).
+Pour lier un artefact de modèle, reportez-vous à [registre](/fr/models/registry/).
 
 <div id="visualise-evaluation-outputs-during-training">
   ### Visualiser les sorties d’évaluation pendant l’entraînement
@@ -248,7 +248,7 @@ Si vous utilisez un notebook Jupyter ou Google Colab, vous devrez nous indiquer 
 run = wandb.init()
 trainer.train()  # démarrer l'entraînement et la journalisation vers W&B
 
-# analyse post-entraînement, tests, autre code journalisé
+# analyse post-entraînement, tests, autre code enregistré
 
 run.finish()
 ```
@@ -257,7 +257,7 @@ run.finish()
   ### Visualisez vos résultats
 </div>
 
-Une fois les résultats de votre entraînement journalisés, vous pouvez les explorer de manière dynamique dans le [tableau de bord W&amp;B](/fr/models/track/workspaces/). Vous pouvez facilement comparer des dizaines de runs à la fois, zoomer sur les résultats intéressants et extraire des informations de données complexes grâce à des visualisations flexibles et interactives.
+Une fois les résultats de votre entraînement enregistrés, vous pouvez les explorer de manière dynamique dans le [tableau de bord W&amp;B](/fr/models/track/workspaces/). Vous pouvez facilement comparer des dizaines de runs à la fois, zoomer sur les résultats intéressants et extraire des informations de données complexes grâce à des visualisations flexibles et interactives.
 
 <div id="advanced-features-and-faqs">
   ## Fonctionnalités avancées et FAQ
@@ -305,7 +305,7 @@ with wandb.init(project="amazon_sentiment_analysis") as run:
   ### Comment puis-je reprendre l’entraînement à partir d’un point de contrôle ?
 </div>
 
-Si vous avez défini `WANDB_LOG_MODEL='checkpoint'`, vous pouvez également reprendre l’entraînement en utilisant `model_dir` comme argument `model_name_or_path` dans `TrainingArguments` et en passant `resume_from_checkpoint=True` à `Trainer`.
+Si vous avez défini `WANDB_LOG_MODEL='checkpoint'`, vous pouvez également reprendre l’entraînement en utilisant `model_dir` comme valeur de l’argument `model_name_or_path` dans vos `TrainingArguments`, puis en passant `resume_from_checkpoint=True` à `Trainer`.
 
 ```python
 last_run_id = "xxxxxxxx"  # récupérez le run_id depuis votre espace de travail wandb
@@ -362,16 +362,16 @@ trainer.train()
   #### Afficher des échantillons d’évaluation pendant l’entraînement
 </div>
 
-La section suivante montre comment personnaliser `WandbCallback` pour exécuter des prédictions du modèle et journaliser des échantillons d’évaluation dans un tableau W&amp;B pendant l’entraînement. Nous effectuerons cette opération toutes les `eval_steps` à l’aide de la méthode `on_evaluate` du callback du Trainer.
+La section suivante montre comment personnaliser `WandbCallback` pour exécuter des prédictions du modèle et consigner des échantillons d’évaluation dans un tableau W&amp;B pendant l’entraînement. Nous effectuerons cette opération toutes les `eval_steps` à l’aide de la méthode `on_evaluate` du callback `Trainer`.
 
-Ici, nous avons écrit une fonction `decode_predictions` pour décoder les prédictions et les étiquettes à partir de la sortie du modèle à l’aide du tokenizer.
+Ici, nous avons écrit une fonction `decode_predictions` pour décoder les prédictions et les libellés à partir de la sortie du modèle à l’aide du tokenizer.
 
-Ensuite, nous créons un dataframe pandas à partir des prédictions et des étiquettes, puis nous ajoutons une colonne `epoch` au dataframe.
+Ensuite, nous créons un dataframe pandas à partir des prédictions et des libellés, puis nous ajoutons une colonne `epoch` au dataframe.
 
-Enfin, nous créons un `wandb.Table` à partir du dataframe et le journalisons dans wandb.
-De plus, nous pouvons contrôler la fréquence de journalisation en journalisant les prédictions toutes les `freq` époques.
+Enfin, nous créons un `wandb.Table` à partir du dataframe et le consignons dans wandb.
+De plus, nous pouvons contrôler la fréquence de journalisation en consignant les prédictions toutes les `freq` époques.
 
-**Remarque** : Contrairement au `WandbCallback` standard, ce callback personnalisé doit être ajouté au trainer **après** l’instanciation du `Trainer`, et non lors de l’initialisation du `Trainer`.
+**Remarque** : Contrairement au `WandbCallback` standard, ce callback personnalisé doit être ajouté au Trainer **après** l’instanciation du `Trainer`, et non lors de l’initialisation du `Trainer`.
 En effet, l’instance de `Trainer` est transmise au callback lors de son initialisation.
 
 ```python
@@ -472,8 +472,8 @@ Vous pouvez affiner la configuration de ce qui est journalisé avec `Trainer` en
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `WANDB_PROJECT`          | Donnez un nom à votre projet (`huggingface` par défaut)                                                                                                                                                                                                                                                                                                                                                                                                |
 | `WANDB_LOG_MODEL`        | <p>Journalisez le point de contrôle du modèle comme artefact W&amp;B (`false` par défaut) </p><ul><li><code>false</code> (par défaut) : aucun point de contrôle du modèle </li><li><code>checkpoint</code> : un point de contrôle sera téléversé tous les `args.save_steps` (définis dans les `TrainingArguments` du `Trainer`). </li><li><code>end</code> : le point de contrôle final du modèle sera téléversé à la fin de l’entraînement.</li></ul> |
-| `WANDB_WATCH`            | <p>Indiquez si vous souhaitez journaliser les gradients de vos modèles, leurs paramètres, ou ni l’un ni l’autre</p><ul><li><code>false</code> (par défaut) : aucune journalisation des gradients ni des paramètres </li><li><code>gradients</code> : journalise des histogrammes des gradients </li><li><code>all</code> : journalise des histogrammes des gradients et des paramètres</li></ul>                                                        |
-| `WANDB_DISABLED`         | Définissez cette variable sur `true` pour désactiver complètement la journalisation (`false` par défaut)                                                                                                                                                                                                                                                                                                                                                |
+| `WANDB_WATCH`            | <p>Indiquez si vous souhaitez journaliser les gradients de vos modèles, leurs paramètres, ou ni l’un ni l’autre</p><ul><li><code>false</code> (par défaut) : aucune journalisation des gradients ni des paramètres </li><li><code>gradients</code> : journalise des histogrammes des gradients </li><li><code>all</code> : journalise des histogrammes des gradients et des paramètres</li></ul>                                                       |
+| `WANDB_DISABLED`         | Définissez cette variable sur `true` pour désactiver complètement la journalisation (`false` par défaut)                                                                                                                                                                                                                                                                                                                                               |
 | `WANDB_QUIET`.           | Définissez cette variable sur `true` pour limiter aux seuls messages critiques ceux journalisés dans la sortie standard (`false` par défaut)                                                                                                                                                                                                                                                                                                           |
 | `WANDB_SILENT`           | Définissez cette variable sur `true` pour supprimer la sortie affichée par wandb (`false` par défaut)                                                                                                                                                                                                                                                                                                                                                  |
 
@@ -523,7 +523,7 @@ Vous trouverez ci-dessous 6 articles sur Transformers et W&amp;B susceptibles de
   * Nous utilisons un modèle BERT standard en minuscules de Hugging Face Transformers, et nous voulons effectuer un Fine-tuning sur le jeu de données RTE du benchmark SuperGLUE.
   * Les résultats montrent que l&#39;entraînement basé sur la population est l&#39;approche la plus efficace pour optimiser les hyperparamètres de notre modèle Transformer Hugging Face.
 
-  Lisez le [rapport Hyperparameter Optimization for Hugging Face Transformers](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI).
+  Lire le [rapport Hyperparameter Optimization for Hugging Face Transformers](https://wandb.ai/amogkam/transformers/reports/Hyperparameter-Optimization-for-Hugging-Face-Transformers--VmlldzoyMTc2ODI).
 </details>
 
 <details>
@@ -532,17 +532,17 @@ Vous trouverez ci-dessous 6 articles sur Transformers et W&amp;B susceptibles de
   * Dans cet article, l&#39;auteur montre comment effectuer le Fine-tuning d&#39;un modèle Transformer GPT2 Hugging Face préentraîné sur les tweets de n&#39;importe quelle personne en cinq minutes.
   * Le modèle suit le pipeline suivant : téléchargement des tweets, optimisation du jeu de données, expériences initiales, comparaison des pertes entre utilisateurs, Fine-tuning du modèle.
 
-  Lisez le rapport complet [ici](https://wandb.ai/wandb/huggingtweets/reports/HuggingTweets-Train-a-Model-to-Generate-Tweets--VmlldzoxMTY5MjI).
+  Lire le rapport complet [ici](https://wandb.ai/wandb/huggingtweets/reports/HuggingTweets-Train-a-Model-to-Generate-Tweets--VmlldzoxMTY5MjI).
 </details>
 
 <details>
-  <summary>Classification de phrases avec Hugging Face BERT et WB</summary>
+  <summary>Classification de phrases avec Hugging Face BERT et W&amp;B</summary>
 
   * Dans cet article, nous allons créer un classifieur de phrases en tirant parti des récentes avancées du traitement automatique du langage naturel, en nous concentrant sur une application de l&#39;apprentissage par transfert au NLP.
   * Nous utiliserons le jeu de données The Corpus of Linguistic Acceptability (CoLA) pour la classification de phrases isolées. Il s&#39;agit d&#39;un ensemble de phrases étiquetées comme grammaticalement correctes ou incorrectes, publié pour la première fois en mai 2018.
   * Nous utiliserons BERT de Google pour créer des modèles très performants avec un minimum d&#39;effort sur toute une série de tâches de NLP.
 
-  Lisez le rapport complet [ici](https://wandb.ai/cayush/bert-finetuning/reports/Sentence-Classification-With-Huggingface-BERT-and-W-B--Vmlldzo4MDMwNA).
+  Lire le rapport complet [ici](https://wandb.ai/cayush/bert-finetuning/reports/Sentence-Classification-With-Huggingface-BERT-and-W-B--Vmlldzo4MDMwNA).
 </details>
 
 <details>
@@ -551,7 +551,7 @@ Vous trouverez ci-dessous 6 articles sur Transformers et W&amp;B susceptibles de
   * Nous utilisons W&amp;B et Hugging Face Transformers pour entraîner DistilBERT, un Transformer 40 % plus petit que BERT, mais qui conserve 97 % de la précision de BERT, sur le benchmark GLUE.
   * Le benchmark GLUE est une collection de neuf jeux de données et tâches pour l&#39;entraînement de modèles de NLP.
 
-  Lisez le rapport complet [ici](https://wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-HuggingFace-Model-Performance--VmlldzoxMDE2MTU).
+  Lire le rapport complet [ici](https://wandb.ai/jxmorris12/huggingface-demo/reports/A-Step-by-Step-Guide-to-Tracking-HuggingFace-Model-Performance--VmlldzoxMDE2MTU).
 </details>
 
 <details>
@@ -561,7 +561,7 @@ Vous trouverez ci-dessous 6 articles sur Transformers et W&amp;B susceptibles de
   * L&#39;utilisation du callback EarlyStopping dans TensorFlow est simple avec le callback `tf.keras.callbacks.EarlyStopping`.
   * Dans PyTorch, il n&#39;existe pas de méthode d&#39;arrêt anticipé prête à l&#39;emploi, mais un hook d&#39;arrêt anticipé fonctionnel est disponible sur GitHub Gist.
 
-  Lisez le rapport complet [ici](https://wandb.ai/ayush-thakur/huggingface/reports/Early-Stopping-in-HuggingFace-Examples--Vmlldzo0MzE2MTM).
+  Lire le rapport complet [ici](https://wandb.ai/ayush-thakur/huggingface/reports/Early-Stopping-in-HuggingFace-Examples--Vmlldzo0MzE2MTM).
 </details>
 
 <details>
@@ -569,11 +569,11 @@ Vous trouverez ci-dessous 6 articles sur Transformers et W&amp;B susceptibles de
 
   Nous effectuons le Fine-tuning d&#39;un Transformer DistilBERT pour l&#39;analyse de sentiment (classification binaire) sur un jeu de données IMDB personnalisé.
 
-  Lisez le rapport complet [ici](https://wandb.ai/ayush-thakur/huggingface/reports/How-to-Fine-Tune-HuggingFace-Transformers-on-a-Custom-Dataset--Vmlldzo0MzQ2MDc).
+  Lire le rapport complet [ici](https://wandb.ai/ayush-thakur/huggingface/reports/How-to-Fine-Tune-HuggingFace-Transformers-on-a-Custom-Dataset--Vmlldzo0MzQ2MDc).
 </details>
 
 <div id="get-help-or-request-features">
-  ## Obtenir de l’aide ou demander de nouvelles fonctionnalités
+  ## Obtenir de l’aide ou faire une demande de fonctionnalité
 </div>
 
-Pour tout problème, toute question ou toute demande de fonctionnalité concernant l’intégration Hugging Face W&amp;B, n’hésitez pas à publier un message sur [ce fil des forums Hugging Face](https://discuss.huggingface.co/t/logging-experiment-tracking-with-w-b/498) ou à ouvrir une issue sur le dépôt GitHub [Transformers](https://github.com/huggingface/transformers) de Hugging Face.
+Pour tout problème, toute question ou toute demande de fonctionnalité concernant l’intégration W&amp;B de Hugging Face, n’hésitez pas à publier un message dans [ce fil sur les forums Hugging Face](https://discuss.huggingface.co/t/logging-experiment-tracking-with-w-b/498) ou à ouvrir une issue sur le dépôt GitHub [Transformers](https://github.com/huggingface/transformers) de Hugging Face.

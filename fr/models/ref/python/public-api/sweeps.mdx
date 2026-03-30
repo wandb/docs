@@ -20,7 +20,7 @@ from wandb.apis.public import Api
 
 sweeps = Api().project(name="project_name", entity="entity").sweeps()
 
-# Itérer sur les Sweeps et afficher les détails
+# Parcourir les balayages et afficher les détails
 for sweep in sweeps:
      print(f"Sweep name: {sweep.name}")
      print(f"Sweep ID: {sweep.id}")
@@ -40,14 +40,14 @@ __init__(
 ) → Sweeps
 ```
 
-Une collection itérable d’objets `Sweep`.
+Une collection itérable d&#39;objets `Sweep`.
 
-**Arguments :**
+**Arguments :**
 
-* `client` :  Le client API utilisé pour interroger W&amp;B.
-* `entity` :  L’entité à laquelle appartiennent les Sweeps.
-* `project` :  Le projet qui contient les Sweeps.
-* `per_page` :  Le nombre de Sweeps à récupérer par requête API.
+* `client` :  Le client API utilisé pour interroger W&amp;B.
+* `entity` :  L&#39;entité à laquelle appartiennent les Sweeps.
+* `project` :  Le projet qui contient les Sweeps.
+* `per_page` :  Le nombre de Sweeps à récupérer par requête à l&#39;API.
 
 ***
 

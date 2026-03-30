@@ -28,7 +28,7 @@ L&#39;agent de balayage utilise le `sweep_id` pour savoir de quel balayage il fa
 
 **Arguments :**
 
-* `sweep_id`:  L&#39;identifiant unique d&#39;un balayage. Un ID de balayage est généré par l&#39;interface de ligne de commande W&amp;B ou le SDK Python.
+* `sweep_id`:  L&#39;identifiant unique d&#39;un balayage. Un ID du sweep est généré par l&#39;interface de ligne de commande W&amp;B ou le SDK Python.
 * `function`:  Une fonction à appeler à la place du « programme » spécifié dans la configuration du balayage.
 * `entity`:  Le nom d&#39;utilisateur ou le nom de l&#39;équipe vers lequel vous souhaitez envoyer les runs W&amp;B créés par le balayage. Assurez-vous que l&#39;entité que vous spécifiez existe déjà. Si vous ne spécifiez pas d&#39;entité, le run sera envoyé à votre entité par défaut, généralement votre nom d&#39;utilisateur.
 * `project`:  Le nom du projet auquel sont envoyés les runs W&amp;B créés à partir du balayage. Si le projet n&#39;est pas spécifié, le run est envoyé à un projet intitulé « Uncategorized ».

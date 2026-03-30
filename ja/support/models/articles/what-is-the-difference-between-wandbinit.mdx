@@ -3,19 +3,19 @@ title: "wandb.init の各モードの違いは何ですか？"
 keywords: ["Experiments"]
 ---
 
-次のモードを利用できます。
+次のモードを使用できます。
 
 * `online` (default): クライアントはデータを wandb サーバーに送信します。
-* `offline`: クライアントは、データを wandb サーバーに送信する代わりに、マシン上にローカルに保存します。後でデータを同期するには、[`wandb sync`](/ja/models/ref/cli/wandb-sync) コマンドを使用します。
-* `disabled`: クライアントはモック オブジェクトを返して動作をシミュレートし、あらゆるネットワーク通信を防止します。ログ記録はすべて無効になりますが、すべての API method スタブは引き続き呼び出せます。このモードは通常、テストで使用されます。
+* `offline`: クライアントは、データを wandb サーバーに送信する代わりに、マシン上にローカル保存します。後でデータを同期するには、[`wandb sync`](/ja/models/ref/cli/wandb-sync) コマンドを使用します。
+* `disabled`: クライアントはモック オブジェクトを返して動作をシミュレートし、ネットワーク通信を一切行いません。すべての logging は無効になりますが、すべての API method スタブは引き続き呼び出せます。このモードは通常、テストに使用されます。
 
 ***
 
-{/* ---- AUTO-GENERATED: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py で管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter の keywords に基づき、scripts/knowledgebase-nav/generate_tags.py で管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 
-{/* ---- 自動生成ここまで: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

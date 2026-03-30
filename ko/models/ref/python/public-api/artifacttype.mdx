@@ -11,35 +11,35 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `ArtifactType`
 
-지정된 타입을 기준으로 하는 쿼리에 의해 반환되는 아티팩트 객체입니다. 
+지정된 유형을 기준으로 하는 쿼리에 의해 반환되는 아티팩트 객체입니다.
 
-**인자:**
+**매개변수:**
 
-- `client`:  W&B에 쿼리를 실행할 때 사용할 클라이언트 인스턴스입니다. 
- - `entity`:  프로젝트를 소유한 엔티티(사용자 또는 팀)입니다. 
- - `project`:  아티팩트 타입을 조회할 프로젝트의 이름입니다. 
- - `type_name`:  아티팩트 타입의 이름입니다. 
- - `attrs`:  ArtifactType을 초기화할 때 사용할 선택적 속성입니다. 생략하면, 객체는 초기화 시점에 W&B에서 해당 속성을 로드합니다. 
+* `client`:  W&amp;B에 쿼리를 실행할 때 사용할 클라이언트 인스턴스입니다.
+* `entity`:  프로젝트를 소유한 entity(사용자 또는 팀)입니다.
+* `project`:  아티팩트 유형을 조회할 프로젝트의 이름입니다.
+* `type_name`:  아티팩트 유형의 이름입니다.
+* `attrs`:  ArtifactType을 초기화할 때 사용할 선택적 속성입니다. 생략하면, 객체는 초기화 시점에 W&amp;B에서 해당 속성을 로드합니다. 
 
 ### <kbd>property</kbd> ArtifactType.id
 
-아티팩트 타입의 고유 식별자입니다. 
+아티팩트 유형의 고유 식별자입니다.
 
 **반환값:**
 
-- `str`: id 속성의 값입니다.
+* `str`: id 속성 값입니다.
 
----
+***
 
 ### <kbd>property</kbd> ArtifactType.name
 
-아티팩트 타입의 이름입니다. 
+아티팩트 유형의 이름입니다.
 
 **반환값:**
 
-- `str`: name 프로퍼티의 값입니다.
+* `str`: name 속성 값입니다.
 
----
+***
 
 ### <kbd>method</kbd> `ArtifactType.collection`
 
@@ -47,11 +47,11 @@ import { GitHubLink } from '/snippets/ko/_includes/github-source-link.mdx';
 collection(name: 'str') → ArtifactCollection
 ```
 
-이름으로 특정 아티팩트 컬렉션을 가져옵니다.
+이름으로 특정 아티팩트 컬렉션을 조회합니다.
 
-**매개변수(Args):**
+**매개변수:**
 
-* `name` (str):  가져올 아티팩트 컬렉션의 이름입니다.
+* `name` (str):  조회할 아티팩트 컬렉션의 이름입니다.
 
 ***
 
@@ -66,12 +66,12 @@ collections(
 ) → ArtifactCollections
 ```
 
-이 아티팩트 유형과 연결된 모든 아티팩트 컬렉션을 가져옵니다. 
+이 아티팩트 유형과 연결된 모든 아티팩트 컬렉션을 가져옵니다.
 
-**인자:**
+**매개변수:**
 
-- `filters` (dict):  쿼리에 적용할 필터의 선택적 매핑입니다. 
- - `order` (str):  결과의 정렬 순서를 지정하는 선택적 문자열입니다. `order` 앞에 `+`를 붙이면 오름차순(기본값)으로 정렬됩니다. `order` 앞에 `-`를 붙이면 내림차순으로 정렬됩니다. 기본 정렬 순서는 컬렉션 ID 기준 내림차순입니다. 
- - `per_page` (int):  페이지당 가져올 아티팩트 컬렉션 수입니다. 기본값은 50입니다. 
+* `filters` (dict):  쿼리에 적용할 필터의 선택적 매핑입니다.
+* `order` (str):  결과의 정렬 순서를 지정하는 선택적 문자열입니다. `order` 앞에 `+`를 붙이면 오름차순(기본값)으로 정렬됩니다. `order` 앞에 `-`를 붙이면 내림차순으로 정렬됩니다. 기본 정렬 순서는 컬렉션 ID 기준 내림차순입니다.
+* `per_page` (int):  페이지당 가져올 아티팩트 컬렉션 수입니다. 기본값은 50입니다.
 
----
+***

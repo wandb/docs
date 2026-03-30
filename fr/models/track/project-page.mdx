@@ -1,5 +1,5 @@
 ---
-description: Comparez les versions de votre modèle, explorez les résultats dans un espace de travail provisoire,
+description: Comparez les versions de votre modèle, explorez les résultats dans un Workspace temporaire,
   et exportez vos observations dans un rapport pour conserver des notes et des visualisations
 title: Projects
 ---
@@ -23,12 +23,12 @@ Chaque projet contient les onglets suivants :
 * [Artifacts](#artifacts-tab) : contient tous les runs et les artefacts qui leur sont associés
 
 <div id="overview-tab">
-  ## onglet Vue d’ensemble
+  ## onglet Aperçu
 </div>
 
-W&amp;B crée un projet pour vous lorsque vous initialisez un run avec le nom indiqué dans le champ projet.
+W&amp;B crée un projet pour vous lorsque vous initialisez un run avec le nom indiqué dans le champ du projet.
 
-Depuis l’onglet **Vue d’ensemble**, vous pouvez trouver le nom du projet et gérer ce projet.
+Depuis l’onglet **Aperçu**, vous pouvez trouver le nom du projet et le gérer.
 
 * Pour modifier le nom, la description ou l’équipe du projet, cliquez sur **Edit** dans le coin supérieur droit.
 * Pour restaurer des runs récemment supprimés, cliquez sur **...** dans le coin supérieur droit, puis sur **Undelete recently deleted runs**.
@@ -43,7 +43,7 @@ Le reste de la page **Aperçu** est divisé en onglets **Détails** et **Rôles 
 Les détails du projet comprennent :
 
 * **Visibilité du projet** : la visibilité du projet, c’est-à-dire le paramètre qui détermine qui peut y accéder. Voir [la visibilité du projet](/fr/platform/hosting/iam/access-management/restricted-projects) pour plus d’informations.
-* **Dernière activité** : horodatage de la dernière fois où des données ont été enregistrées dans ce projet
+* **Dernière activité** : Horodatage de la dernière fois où des données ont été enregistrées dans ce projet
 * **Contributeurs** : le nombre d’utilisateurs qui contribuent à ce projet
 * **Total des runs** : le nombre total de runs dans ce projet
 * **Temps de calcul total** : nous additionnons tous les temps d’exécution des runs de votre projet pour obtenir ce total
@@ -53,10 +53,10 @@ L’onglet **Détails** inclut également des instructions pour accéder aux don
 [Voir un exemple de projet en direct](https://wandb.ai/example-team/sweep-demo/overview)
 
 <Frame>
-  <img src="/images/track/overview_tab_image.png" alt="Onglet Vue d’ensemble du projet" />
+  <img src="/images/track/overview_tab_image.png" alt="Onglet Aperçu du projet" />
 </Frame>
 
-Pour modifier la confidentialité d’un projet depuis l’**onglet Vue d’ensemble** :
+Pour modifier la confidentialité d’un projet depuis l’**onglet Aperçu** :
 
 <ProjectVisibilitySettings />
 
@@ -70,29 +70,29 @@ L’onglet **Rôles du projet** n’est visible que par le propriétaire du proj
   ## Onglet Workspace
 </div>
 
-L’*espace de travail* d’un projet vous offre un espace personnel pour comparer des expériences. Utilisez les projets pour organiser des modèles comparables, qui traitent le même problème avec des architectures, hyperparamètres, jeux de données, prétraitements, etc. différents.
+L&#39;*Workspace* d&#39;un projet vous offre un espace personnel pour comparer des expériences. Utilisez les projets pour organiser des modèles comparables, qui traitent le même problème avec des architectures, hyperparamètres, jeux de données, prétraitements, etc. différents.
 
-**Barre latérale Runs** : liste de tous les runs de votre projet.
+**Barre latérale Runs** : liste de tous les runs de votre projet.
 
-* **Menu à points** : survolez une ligne dans la barre latérale pour faire apparaître le menu sur la gauche. Utilisez ce menu pour renommer un run, supprimer un run ou arrêter un run actif.
-* **Icône de visibilité** : cliquez sur l’œil pour afficher ou masquer des runs sur les graphiques
-* **Couleur** : modifiez la couleur du run en choisissant l’un de nos préréglages ou une couleur personnalisée
-* **Recherche** : recherchez des runs par nom. Cela filtre également les runs visibles dans les graphiques.
-* **Filtre** : utilisez le filtre de la barre latérale pour restreindre l’ensemble des runs visibles
-* **Grouper** : sélectionnez une colonne de configuration pour regrouper dynamiquement vos runs, par exemple par architecture. Le regroupement ajoute aux graphiques une ligne représentant la valeur moyenne, ainsi qu’une zone ombrée correspondant à la variance des points du graphique.
-* **Trier** : choisissez une valeur selon laquelle trier vos runs, par exemple les runs avec la perte la plus faible ou la précision la plus élevée. Le tri affecte les runs affichés sur les graphiques.
-* **Bouton d’extension** : développez la barre latérale pour afficher le tableau complet
-* **Réduire** : appuyez sur **Cmd+.** (macOS) ou **Ctrl+.** (Windows/Linux) pour réduire ou restaurer le sélecteur de Runs. Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts) pour plus de détails.
-* **Nombre de runs** : le nombre entre parenthèses en haut correspond au nombre total de runs dans le projet. Le nombre (N visualisés) correspond au nombre de runs dont l’œil est activé et qui peuvent être visualisés dans chaque graphique. Dans l’exemple ci-dessous, les graphiques n’affichent que les 10 premiers runs sur 183. Modifiez un graphique pour augmenter le nombre maximal de runs visibles.
+* **Menu à points** : survolez une ligne dans la barre latérale pour faire apparaître le menu sur la gauche. Utilisez ce menu pour renommer un run, supprimer un run ou arrêter un run actif.
+* **Icône de visibilité** : cliquez sur l&#39;œil pour afficher ou masquer des runs sur les graphiques
+* **Couleur** : modifiez la couleur du run en choisissant l&#39;un de nos préréglages ou une couleur personnalisée
+* **Recherche** : recherchez des runs par nom. Cela filtre également les runs visibles dans les graphiques.
+* **Filtre** : utilisez le filtre de la barre latérale pour restreindre l&#39;ensemble des runs visibles
+* **Grouper** : sélectionnez une colonne de configuration pour regrouper dynamiquement vos runs, par exemple par architecture. Le regroupement ajoute aux graphiques une ligne représentant la valeur moyenne, ainsi qu&#39;une zone ombrée correspondant à la variance des points du graphique.
+* **Trier** : choisissez une valeur selon laquelle trier vos runs, par exemple les runs avec la perte la plus faible ou la précision la plus élevée. Le tri affecte les runs affichés sur les graphiques.
+* **Bouton d&#39;extension** : développez la barre latérale pour afficher le tableau complet
+* **Réduire** : appuyez sur **Cmd+.** (macOS) ou **Ctrl+.** (Windows/Linux) pour réduire ou restaurer le sélecteur de Runs. Voir [Raccourcis clavier](/fr/models/app/keyboard-shortcuts) pour plus de détails.
+* **Nombre de runs** : le nombre entre parenthèses en haut correspond au nombre total de runs dans le projet. Le nombre (N visualisés) correspond au nombre de runs dont l&#39;œil est activé et qui peuvent être visualisés dans chaque graphique. Dans l&#39;exemple ci-dessous, les graphiques n&#39;affichent que les 10 premiers runs sur 183. Modifiez un graphique pour augmenter le nombre maximal de runs visibles.
 
-Si vous épinglez, masquez ou modifiez l’ordre des colonnes dans l’[onglet Runs](#runs-tab), la barre latérale Runs reflète ces personnalisations.
+Si vous épinglez, masquez ou modifiez l&#39;ordre des colonnes dans l&#39;[onglet Runs](#runs-tab), la barre latérale Runs reflète ces personnalisations.
 
-**Disposition des panneaux** : utilisez cet espace pour explorer les résultats, ajouter et supprimer des graphiques, et comparer des versions de vos modèles en fonction de différentes métriques
+**Mise en page des panneaux** : utilisez cet espace pour explorer les résultats, ajouter et supprimer des graphiques, et comparer des versions de vos modèles en fonction de différentes métriques
 
 [Voir un exemple en direct](https://wandb.ai/example-team/sweep-demo)
 
 <Frame>
-  <img src="/images/app_ui/workspace_tab_example.png" alt="Espace de travail du projet" />
+  <img src="/images/app_ui/workspace_tab_example.png" alt="Workspace du projet" />
 </Frame>
 
 <div id="add-a-section-of-panels">
@@ -106,7 +106,7 @@ Chaque section comporte des options dans le coin supérieur droit :
 * **Ajouter une section** : ajoutez une section au-dessus ou en dessous à partir du menu déroulant, ou cliquez sur le bouton en bas de la page pour ajouter une nouvelle section.
 * **Renommer la section** : modifiez le titre de votre section.
 * **Exporter la section vers un rapport** : enregistrez cette section de panneaux dans un nouveau rapport.
-* **Supprimer la section** : supprimez toute la section et tous les graphiques. Vous pouvez annuler cette action avec le bouton Annuler en bas de la page, dans la barre de l’espace de travail.
+* **Supprimer la section** : supprimez toute la section et tous les graphiques. Vous pouvez annuler cette action avec le bouton Annuler en bas de la page, dans la barre du Workspace.
 * **Ajouter un panneau** : cliquez sur le bouton + pour ajouter un panneau à la section.
 
 <div id="move-panels-between-sections">
@@ -134,22 +134,22 @@ Redimensionnez la section en cliquant sur son coin inférieur droit et en le fai
   ### Rechercher des métriques
 </div>
 
-Utilisez la zone de recherche dans l’espace de travail pour filtrer les panneaux. La recherche s’effectue sur les titres des panneaux, qui correspondent par défaut au nom des métriques visualisées.
+Utilisez la zone de recherche dans le Workspace pour filtrer les panneaux. La recherche s’effectue sur les titres des panneaux, qui correspondent par défaut au nom des métriques visualisées.
 
 <Frame>
-  <img src="/images/app_ui/search_in_the_workspace.png" alt="Recherche dans l’espace de travail" />
+  <img src="/images/app_ui/search_in_the_workspace.png" alt="Recherche dans le Workspace" />
 </Frame>
 
 <div id="runs-tab">
   ## Onglet Runs
 </div>
 
-{/* Gardez ceci synchronisé avec /guide/models/track/runs/_index.md */}
+{/* Maintenez ceci synchronisé avec /guide/models/track/runs/_index.md */}
 
 Utilisez l’onglet Runs pour filtrer, regrouper et trier vos runs.
 
 <Frame>
-  <img src="/images/runs/run-table-example.png" alt="Tableau des Runs" />
+  <img src="/images/runs/run-table-example.png" alt="Tableau des runs" />
 </Frame>
 
 Les onglets suivants illustrent quelques actions courantes que vous pouvez effectuer dans l’onglet Runs.
@@ -164,7 +164,7 @@ Les onglets suivants illustrent quelques actions courantes que vous pouvez effec
 
     * Pour voir toutes les colonnes visibles, faites défiler la page horizontalement.
     * Pour modifier l’ordre des colonnes, faites glisser une colonne vers la gauche ou vers la droite.
-    * Pour épingler une colonne, survolez son nom, cliquez sur le menu d’actions `...` qui apparaît, puis cliquez sur **Pin column**. Les colonnes épinglées apparaissent à gauche de la page, après la colonne **Name**. Pour désépingler une colonne épinglée, choisissez **Unpin column**.
+    * Pour épingler une colonne, survolez son nom, cliquez sur le menu d’actions `...` qui apparaît, puis cliquez sur **Pin column**. Les colonnes épinglées apparaissent à gauche de la page, après la colonne **Nom**. Pour désépingler une colonne épinglée, choisissez **Unpin column**.
     * Pour masquer une colonne, survolez son nom, cliquez sur le menu d’actions `...` qui apparaît, puis cliquez sur **Hide column**. Pour voir toutes les colonnes actuellement masquées, cliquez sur **Columns**.
     * Pour afficher, masquer, épingler et désépingler plusieurs colonnes à la fois, cliquez sur **Columns**.
       * Cliquez sur le nom d’une colonne masquée pour l’afficher.
@@ -186,7 +186,7 @@ Les onglets suivants illustrent quelques actions courantes que vous pouvez effec
   </Tab>
 
   <Tab title="Filtre">
-    Filtrez toutes les lignes à l’aide d’une expression avec le bouton **Filter** en haut à gauche du tableau de bord.
+    Filtrez toutes les lignes à l’aide d’une expression avec le bouton **Filtre** en haut à gauche du tableau de bord.
 
     Cliquez sur **New filter** pour ajouter un ou plusieurs filtres à vos lignes.
     Trois menus déroulants apparaissent pour configurer un filtre.
@@ -202,13 +202,13 @@ Les onglets suivants illustrent quelques actions courantes que vous pouvez effec
   </Tab>
 </Tabs>
 
-{/* ## Onglet Automatisations */}
+{/* ## Onglet Automations */}
 
 <div id="automations-tab">
-  ## Onglet Automatisations
+  ## Onglet Automations
 </div>
 
-Automatisez les actions en aval liées à la gestion des versions des artefacts. Pour créer une automatisation, définissez les événements déclencheurs et les actions associées. Les actions incluent l&#39;exécution d&#39;un webhook ou le lancement d&#39;un job W&amp;B. Pour plus d&#39;informations, voir [Automatisations](/fr/models/automations).
+Automatisez les actions en aval liées à la gestion des versions des artefacts. Pour créer une automatisation, définissez les événements déclencheurs et les actions associées. Les actions incluent l&#39;exécution d&#39;un webhook ou le lancement d&#39;un job W&amp;B. Pour plus d&#39;informations, voir [Automations](/fr/models/automations).
 
 <div id="sweeps-tab">
   ## Onglet Sweeps
@@ -230,13 +230,13 @@ Consultez tous les instantanés des résultats au même endroit et partagez vos 
   <img src="/images/app_ui/reports-tab.png" alt="Onglet Reports" />
 </Frame>
 
-Pour consulter un rapport, sélectionnez l&#39;onglet **Reports** dans la barre latérale du projet, puis choisissez un rapport dans la liste.
+Pour consulter un rapport, sélectionnez l&#39;onglet **Reports** dans la barre latérale du projet, puis sélectionnez un rapport dans la liste.
 
 <div id="artifacts-tab">
   ## Onglet Artifacts
 </div>
 
-Affichez tous les [artefacts](/fr/models/artifacts) associés à un projet, des jeux de données d&#39;entraînement aux [modèles affinés](/fr/models/registry), ainsi que les [tableaux de métriques et de médias](/fr/models/tables/tables-walkthrough).
+Affichez tous les [Artifacts](/fr/models/artifacts) associés à un projet, des jeux de données d&#39;entraînement aux [modèles affinés](/fr/models/registry), ainsi que les [tableaux de métriques et de médias](/fr/models/tables/tables-walkthrough).
 
 <div id="metadata-panel">
   ### Panneau de métadonnées
@@ -372,12 +372,12 @@ Par exemple, l’image suivante montre deux projets marqués comme importants, `
   <img src="/images/track/star-projects.png" alt="Section Projets favoris" />
 </Frame>
 
-Il existe deux façons de marquer un projet comme important : dans l’onglet Vue d’ensemble du projet ou sur la page de profil de votre équipe.
+Il existe deux façons de marquer un projet comme important : dans l’onglet Aperçu du projet ou sur la page de profil de votre équipe.
 
 <Tabs>
   <Tab title="Aperçu du projet">
-    1. Accédez à votre projet W&amp;B dans l’application W&amp;B à l’adresse `https://wandb.ai/<team>/<project-name>`.
-    2. Sélectionnez l’onglet **Vue d’ensemble** dans la barre latérale du projet.
+    1. Accédez à votre projet W&amp;B dans W&amp;B App à l’adresse `https://wandb.ai/<team>/<project-name>`.
+    2. Sélectionnez l’onglet **Aperçu** dans la barre latérale du projet.
     3. Cliquez sur l’icône en forme d’étoile dans le coin supérieur droit, à côté du bouton **Edit**.
 
     <Frame>
@@ -407,7 +407,7 @@ Confirmez que votre projet apparaît sur la page d’accueil de votre organisati
 Vous pouvez supprimer votre projet en cliquant sur les trois points à droite de l’onglet Vue d’ensemble.
 
 1. Accédez à votre projet W&amp;B
-2. Sélectionnez l’onglet **Vue d’ensemble** dans la barre latérale du projet.
+2. Sélectionnez l’onglet **Aperçu** dans la barre latérale du projet.
 3. Cliquez sur le menu à trois points dans le coin supérieur droit.
 4. Sélectionnez **Supprimer le projet** dans le menu déroulant.
 
@@ -423,16 +423,16 @@ Vous pouvez supprimer votre projet en cliquant sur les trois points à droite de
   ## Ajouter des notes à un projet
 </div>
 
-Ajoutez des notes à votre projet, soit sous la forme d’un aperçu de la description, soit sous la forme d’un panneau Markdown dans votre espace de travail.
+Ajoutez des notes à votre projet, soit sous la forme d’un aperçu de la description, soit sous la forme d’un panneau Markdown dans votre Workspace.
 
 <div id="add-description-overview-to-a-project">
-  ### Ajouter une description dans l’aperçu d’un projet
+  ### Ajouter une description dans l&#39;aperçu d&#39;un projet
 </div>
 
-Les descriptions que vous ajoutez à votre page apparaissent dans l’onglet **Vue d’ensemble** de votre profil.
+Les descriptions que vous ajoutez à votre page apparaissent dans l&#39;onglet **Aperçu** de votre profil.
 
 1. Accédez à votre projet W&amp;B
-2. Sélectionnez l’onglet **Vue d’ensemble** dans la barre latérale du projet
+2. Sélectionnez l&#39;onglet **Aperçu** dans la barre latérale du projet
 3. Cliquez sur **Edit** dans le coin supérieur droit
 4. Ajoutez vos notes dans le champ **Description**
 5. Sélectionnez le bouton **Save**
@@ -444,12 +444,12 @@ Les descriptions que vous ajoutez à votre page apparaissent dans l’onglet **V
 </Note>
 
 <div id="add-notes-to-run-workspace">
-  ### Ajouter des notes dans l’espace de travail du run
+  ### Ajouter des notes dans le Workspace du run
 </div>
 
 1. Accédez à votre projet W&amp;B
 2. Sélectionnez l’onglet **Workspace** dans la barre latérale du projet
-3. Cliquez sur le bouton **Add panels** dans le coin supérieur droit
+3. Cliquez sur le bouton **Ajouter des panneaux** dans le coin supérieur droit
 4. Sélectionnez le menu déroulant **TEXT AND CODE** dans la fenêtre modale qui s’affiche
 5. Sélectionnez **Markdown**
-6. Ajoutez vos notes dans le panneau Markdown qui s’affiche dans votre espace de travail
+6. Ajoutez vos notes dans le panneau Markdown qui s’affiche dans votre Workspace

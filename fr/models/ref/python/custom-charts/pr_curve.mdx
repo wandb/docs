@@ -25,19 +25,19 @@ pr_curve(
 
 Construit une courbe précision-rappel (PR).
 
-La courbe précision-rappel est particulièrement utile pour évaluer des classificateurs sur des jeux de données déséquilibrés. Une aire élevée sous la courbe PR indique à la fois une précision élevée (un faible taux de faux positifs) et un rappel élevé (un faible taux de faux négatifs). La courbe fournit des indications sur l’équilibre entre faux positifs et faux négatifs à différents niveaux de seuil, ce qui aide à évaluer les performances d’un modèle.
+La courbe précision-rappel est particulièrement utile pour évaluer des classificateurs sur des jeux de données déséquilibrés. Une aire élevée sous la courbe PR indique à la fois une précision élevée (un faible taux de faux positifs) et un rappel élevé (un faible taux de faux négatifs). La courbe permet de mieux comprendre l’équilibre entre faux positifs et faux négatifs à différents niveaux de seuil, ce qui aide à évaluer les performances d’un modèle.
 
 **Arguments :**
 
-* `y_true`:  Étiquettes binaires réelles. La forme doit être (`num_samples`,).
-* `y_probas`:  Scores ou probabilités prédits pour chaque classe.  Il peut s’agir d’estimations de probabilité, de scores de confiance ou de valeurs de décision non seuillées. La forme doit être (`num_samples`, `num_classes`).
-* `labels`:  liste facultative de noms de classes pour remplacer les valeurs numériques dans `y_true` afin de faciliter l’interprétation du graphique.  Par exemple, `labels = ['dog', 'cat', 'owl']` remplacera 0 par &#39;dog&#39;, 1 par &#39;cat&#39; et 2 par &#39;owl&#39; dans le graphique. Si elle n’est pas fournie,  les valeurs numériques de `y_true` seront utilisées.
-* `classes_to_plot`:  liste facultative de valeurs de classe uniques de  y&#95;true à inclure dans le graphique. Si elle n’est pas spécifiée, toutes les classes uniques de y&#95;true seront représentées.
+* `y_true`:  Véritables étiquettes binaires. La forme doit être (`num_samples`,).
+* `y_probas`:  Scores prédits ou probabilités pour chaque classe.  Il peut s’agir d’estimations de probabilité, de scores de confiance ou de valeurs de décision non seuillées. La forme doit être (`num_samples`, `num_classes`).
+* `labels`:  Liste facultative de noms de classes pour remplacer les valeurs numériques dans `y_true` et faciliter l’interprétation du graphique.  Par exemple, `labels = ['dog', 'cat', 'owl']` remplacera 0 par &#39;dog&#39;, 1 par &#39;cat&#39; et 2 par &#39;owl&#39; dans le graphique. Si elle n’est pas fournie,  les valeurs numériques de `y_true` seront utilisées.
+* `classes_to_plot`:  Liste facultative des valeurs de classe uniques de  y&#95;true à inclure dans le graphique. Si elle n’est pas spécifiée, toutes les classes uniques de y&#95;true seront représentées.
 * `interp_size`:  Nombre de points pour interpoler les valeurs de rappel. Les  valeurs de rappel seront fixées à `interp_size` points uniformément répartis  dans l’intervalle [0, 1], et la précision sera interpolée  en conséquence.
 * `title`:  Titre du graphique. La valeur par défaut est &quot;Courbe précision-rappel&quot;.
-* `split_table`:  Indique si le tableau doit être scindé dans une section séparée  de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section intitulée  &quot;Tableaux de graphiques personnalisés&quot;. La valeur par défaut est `False`.
+* `split_table`:  Indique si le tableau doit être placé dans une section distincte  de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée  &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 
-**Retourne :**
+**Renvoie :**
 
 * `CustomChart`:  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le  graphique, passez-le à `wandb.log()`.
 

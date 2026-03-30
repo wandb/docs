@@ -3,7 +3,7 @@ title: "Les données de trace sont tronquées"
 keywords: ["Données de trace"]
 ---
 
-Il arrive que des données de trace volumineuses soient partiellement tronquées dans l’interface Weave. Ce problème se produit, car la sortie de trace par défaut est un objet Python brut personnalisé que Weave ne sait pas sérialiser.
+Parfois, des données de trace volumineuses sont partiellement tronquées dans l’interface Weave. Ce problème survient parce que la sortie de trace par défaut est un objet Python brut et personnalisé que Weave ne sait pas sérialiser.
 
 Pour éviter que des données de trace volumineuses ne soient tronquées, définissez un dictionnaire de chaînes comme valeur de retour afin de renvoyer l’ensemble des données de trace.
 
@@ -28,11 +28,11 @@ def make_my_obj():
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d'onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Données de trace](/fr/support/weave/tags/trace-data)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d'onglet ---- */}

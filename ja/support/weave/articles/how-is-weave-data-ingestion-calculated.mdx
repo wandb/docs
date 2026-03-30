@@ -1,17 +1,17 @@
 ---
-title: "Weave のデータ取り込み量はどのように計算されますか？"
-keywords: ["Data Capture"]
+title: "Weave のデータ取り込みはどのように計算されますか？"
+keywords: ["データ取得"]
 ---
 
-取り込みバイト数とは、お客様に代わって当社が受信、処理、保存するバイト数を指します。これには、trace メタデータ、LLM の入力/出力、およびお客様が明示的に Weave にログするその他のあらゆる情報が含まれますが、通信オーバーヘッド (例: HTTP ヘッダー) や、長期 storage に保存されないその他のデータは含まれません。バイトが「取り込み済み」としてカウントされるのは、受信されて保存された時点の 1 回のみです。
+取り込みバイト数は、お客様に代わって W&amp;B が受信、処理、保存するバイト数として定義しています。これには、trace のメタデータ、LLM の inputs/outputs、およびお客様が明示的に Weave にログするその他のあらゆる情報が含まれますが、通信オーバーヘッド (例: HTTP ヘッダー) や、長期 storage に保存されないその他のデータは含まれません。バイト数は、受信されて保存された時点でのみ、一度だけ「取り込み済み」として計上されます。
 
 ***
 
-{/* ---- AUTO-GENERATED: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
-  このマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードから scripts/knowledgebase-nav/generate_tags.py によって管理されます。
+  これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Data Capture](/ja/support/weave/tags/data-capture)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[データ取得](/ja/support/weave/tags/data-capture)</Badge>
 
 {/* ---- END AUTO-GENERATED: tab badges ---- */}

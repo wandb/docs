@@ -8,10 +8,10 @@ title: Hydra
 W&amp;B の強力な機能を活用しつつ、設定管理には引き続き Hydra を使用できます。
 
 <div id="track-metrics">
-  ## メトリクスを記録する
+  ## メトリクスをトラッキングする
 </div>
 
-`wandb.init()` と `wandb.Run.log()` を使用して、通常どおりメトリクスを記録します。ここでは、`wandb.entity` と `wandb.project` は Hydra の設定ファイル内で定義されています。
+`wandb.init()` と `wandb.Run.log()` を使用して、通常どおりメトリクスをログします。ここでは、`wandb.entity` と `wandb.project` は Hydra の設定ファイル内で定義されています。
 
 ```python
 import wandb
@@ -28,7 +28,7 @@ def run_experiment(cfg):
   ## ハイパーパラメーターをトラッキングする
 </div>
 
-Hydra は [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) を、設定辞書とやり取りするためのデフォルトのインターフェースとして使用します。`OmegaConf` の辞書はプリミティブな辞書のサブクラスではないため、Hydra の `Config` をそのまま `wandb.Run.config` に渡すと、ダッシュボード上で予期しない結果につながります。`wandb.Run.config` に渡す前に、`omegaconf.DictConfig` をプリミティブな `dict` 型に変換する必要があります。
+Hydra は、設定辞書を扱うためのデフォルトの方法として [omegaconf](https://omegaconf.readthedocs.io/en/2.1_branch/) を使用します。`OmegaConf` の辞書はプリミティブな辞書のサブクラスではないため、Hydra の `Config` をそのまま `wandb.Run.config` に渡すと、ダッシュボードで予期しない結果になることがあります。`wandb.Run.config` に渡す前に、`omegaconf.DictConfig` をプリミティブな `dict` タイプに変換する必要があります。
 
 ```python
 @hydra.main(config_path="configs/", config_name="defaults")
@@ -62,9 +62,9 @@ $ export WANDB_START_METHOD=thread
   ## ハイパーパラメーターを最適化する
 </div>
 
-[W&amp;B Sweeps](/ja/models/sweeps) は高いスケーラビリティを持つハイパーパラメーター探索プラットフォームで、最小限のコード変更で W&amp;B Experiments に関する有用なインサイトと可視化機能を提供します。Sweeps はコーディング不要で Hydra プロジェクトとシームレスに統合できます。必要なのは、通常どおり sweep 対象とするさまざまなパラメーターを記述した設定ファイルだけです。
+[W&amp;B Sweeps](/ja/models/sweeps) は、非常に高いスケーラビリティを備えたハイパーパラメーター探索プラットフォームで、最小限のコード記述で W&amp;B Experiments に関する有益なインサイトと可視化を提供します。Sweeps は、コードを書くことなく Hydra プロジェクトとシームレスに統合できます。必要なのは、sweep の対象となるさまざまなパラメーターを通常どおり記述した設定ファイルだけです。
 
-単純な例として、`sweep.yaml` ファイルは次のようになります。
+簡単な `sweep.yaml` ファイルの例を次に示します。
 
 ```yaml
 program: main.py
@@ -89,7 +89,7 @@ sweep を実行します：
 wandb sweep sweep.yaml
 ```
 
-W&amp;B は、使用している プロジェクト 内に自動的に sweep を作成し、sweep を実行したい各マシンで実行するための `wandb agent` コマンドを返します。
+W&amp;B は、プロジェクト内に自動的に sweep を作成し、sweep を実行する各マシンで使用する `wandb agent` コマンドを返します。
 
 <div id="pass-parameters-not-present-in-hydra-defaults">
   ### Hydra のデフォルトに存在しないパラメーターを渡す
@@ -97,10 +97,10 @@ W&amp;B は、使用している プロジェクト 内に自動的に sweep を
 
 <a id="pitfall-3-sweep-passing-parameters-not-present-in-defaults" aria-label="Hydra のデフォルトに存在しないパラメーターを渡す" />
 
-Hydra は、コマンド名の前に `+` を付けて実行することで、デフォルトの設定ファイルに存在しない追加パラメーターをコマンドライン経由で渡すことをサポートしています。たとえば、次のように呼び出すだけで、任意の値を設定した追加パラメーターを渡すことができます。
+Hydra では、コマンドの前に `+` を付けることで、デフォルトの設定ファイルに存在しない追加のパラメーターをコマンドラインから渡せます。たとえば、次のように呼び出すだけで、任意の値を持つ追加パラメーターを渡せます。
 
 ```bash
 $ python program.py +experiment=some_experiment
 ```
 
-`+` 設定に対しては、[Hydra Experiments](https://hydra.cc/docs/patterns/configuring_experiments/) を設定するときに行うような sweep は実行できません。これを回避するには、実験パラメーターをデフォルトの空ファイルで初期化し、各呼び出し時にその空の設定を上書きするために W&amp;B Sweep を使用します。詳しくは、[この W&amp;B Report](https://wandb.ai/adrishd/hydra-example/reports/Configuring-W-B-Projects-with-Hydra--VmlldzoxNTA2MzQw?galleryTag=posts\&utm_source=fully_connected\&utm_medium=blog\&utm_campaign=hydra) を参照してください。
+`+` 設定では、[Hydra Experiments](https://hydra.cc/docs/patterns/configuring_experiments/) を設定するときのように sweep を実行することはできません。これを回避するには、experiment パラメーターをデフォルトの空ファイルで初期化し、各呼び出しで W&amp;B Sweep を使ってその空の設定を上書きします。詳しくは、[この W&amp;B Report](https://wandb.ai/adrishd/hydra-example/reports/Configuring-W-B-Projects-with-Hydra--VmlldzoxNTA2MzQw?galleryTag=posts\&utm_source=fully_connected\&utm_medium=blog\&utm_campaign=hydra) を参照してください。
