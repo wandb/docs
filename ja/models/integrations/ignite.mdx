@@ -59,11 +59,11 @@ def get_data_loaders(train_batch_size, val_batch_size):
     return train_loader, val_loader
 ```
 
-ignite で `WandBLogger` を使用する手順はモジュール式です。まず、`WandBLogger` オブジェクトを作成します。次に、それを trainer または evaluator にアタッチしてメトリクスを自動的に記録します。次の例では、以下を行います:
+ignite で `WandBLogger` を使用する手順はモジュール式です。まず、`WandBLogger` オブジェクトを作成します。次に、それを trainer または evaluator にアタッチして、メトリクスを自動的にログします。この例では、以下を示します:
 
-* trainer オブジェクトにアタッチしてトレーニング損失を記録します。
-* evaluator にアタッチして検証損失を記録します。
-* 学習率などの任意のパラメーターを記録します。
+* trainer オブジェクトにアタッチして、トレーニング損失をログします。
+* evaluator にアタッチして、検証損失をログします。
+* 学習率などの任意のパラメーターをログします。
 * モデルを監視します。
 
 ```python
@@ -121,7 +121,7 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
     wandb_logger.watch(model)
 ```
 
-オプションとして ignite の `EVENTS` を利用して、メトリクスをターミナルに直接ログとして出力できます
+必要に応じて、ignite の `EVENTS` を使用してメトリクスをターミナルに直接ログ出力できます
 
 
 ```python
@@ -177,10 +177,10 @@ if __name__ == "__main__":
     run(args.batch_size, args.val_batch_size, args.epochs, args.lr, args.momentum, args.log_interval)
 ```
 
-このコードは次のような可視化を生成します::
+このコードを実行すると、次の可視化が生成されます::
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-1.png" alt="PyTorch Ignite トレーニング ダッシュボード" />
+  <img src="/images/integrations/pytorch-ignite-1.png" alt="PyTorch Ignite トレーニングダッシュボード" />
 </Frame>
 
 <Frame>
@@ -188,11 +188,11 @@ if __name__ == "__main__":
 </Frame>
 
 <Frame>
-  <img src="/images/integrations/pytorch-ignite-3.png" alt="PyTorch Ignite ハイパーパラメーター調整結果" />
+  <img src="/images/integrations/pytorch-ignite-3.png" alt="PyTorch Ignite ハイパーパラメーターチューニング結果" />
 </Frame>
 
 <Frame>
   <img src="/images/integrations/pytorch-ignite-4.png" alt="PyTorch Ignite モデル比較ダッシュボード" />
 </Frame>
 
-詳細については、[Ignite のドキュメント](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger)を参照してください。
+詳しくは、[Ignite Docs](https://pytorch.org/ignite/contrib/handlers.html#module-ignite.contrib.handlers.wandb_logger)を参照してください。

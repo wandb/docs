@@ -3,10 +3,10 @@ title: "wandb artifact put"
 ---
 
 {/*
-  このコマンドの導入用コンテンツを追加するには:
+  このコマンドの導入コンテンツを追加するには:
   1. スニペットファイルを作成します: /snippets/_includes/cli/wandb-artifact-put.mdx
   2. そのファイルに導入コンテンツを追加します
-  3. 次の 2 行だけを残し、このコメントブロック全体を削除します:
+  3. このコメントブロック全体を削除し、以下の 2 行だけを残します:
 
   import WandbArtifactPut from "/snippets/_includes/cli/wandb-artifact-put.mdx";
 
@@ -15,35 +15,37 @@ title: "wandb artifact put"
   スニペットは次回の再生成時に自動検出されます。
   */}
 
-wandb に Artifacts をアップロードする
+wandb にアーティファクトをアップロードする
+
 
 <div id="usage">
-  ## 使用方法
+  ## 使用法
 </div>
 
 ```bash
 wandb artifact put PATH [OPTIONS]
 ```
 
+
 <div id="arguments">
-  ## 引数
+  ## 인수
 </div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
-| `PATH` | 説明はありません | はい |
+| 인수     | 説明       | 必須  |
+| :----- | :------- | :-- |
+| `PATH` | 説明はありません | Yes |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--name`, `-n` | プッシュする Artifacts の名前: project/artifact_name |
-| `--description`, `-d` | この Artifacts の説明 |
-| `--type`, `-t` | Artifacts の種類 (デフォルト: データセット) |
-| `--alias`, `-a` | この Artifacts に適用するエイリアス (デフォルト: ['latest']) |
-| `--id` | アップロード先の run |
-| `--resume` | 現在のディレクトリで最後の run を再開します |
-| `--skip_cache` | Artifacts ファイルをアップロードする際にキャッシュをスキップします (デフォルト: False) |
-| `--policy` | Artifacts ファイルをアップロードする際のストレージポリシーを設定します (デフォルト: mutable) |
+| Option                | Description                                             |
+| :-------------------- | :------------------------------------------------------ |
+| `--name`, `-n`        | プッシュするアーティファクトの名: プロジェクト/artifact&#95;name              |
+| `--description`, `-d` | このアーティファクトの説明                                           |
+| `--type`, `-t`        | アーティファクトのタイプ (デフォルト: データセット)                            |
+| `--alias`, `-a`       | このアーティファクトに適用する별칭 (デフォルト: [&#39;latest&#39;])           |
+| `--id`                | アップロード先のrun。                                            |
+| `--resume`            | 現在のディレクトリから最後のrunを再開します。                                |
+| `--skip_cache`        | アーティファクトファイルのアップロード中は캐싱をスキップします。 (デフォルト: False)         |
+| `--policy`            | アーティファクトファイルのアップロード中にストレージポリシーを設定します。 (デフォルト: mutable)  |

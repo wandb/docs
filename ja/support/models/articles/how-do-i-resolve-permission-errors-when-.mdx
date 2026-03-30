@@ -1,13 +1,13 @@
 ---
-title: "run をログするときに権限エラーが発生する場合はどうすればよいですか?"
+title: "run のログ時に権限エラーを解決するにはどうすればよいですか？"
 keywords: ["Runs", "セキュリティ"]
 ---
 
-W&amp;B entity に run をログする際の権限エラーを解決するには、次の手順に従ってください。
+W&amp;B entity に run をログする際の権限エラーを解決するには、次の step に従ってください。
 
-* **entity とプロジェクト名を確認する**: コード内の W&amp;B entity 名とプロジェクト名のスペルおよび大文字・小文字の区別が正しいことを確認してください。
-* **権限を確認する**: 管理者から必要な権限が付与されていることを確認してください。
-* **ログイン認証情報を確認する**: 正しい W&amp;B アカウントにログインしていることを確認してください。次のコードを使用して run を作成し、テストしてください。
+* **entity とプロジェクト名をVerify**: コード内の W&amp;B entity とプロジェクト名のスペルおよび大文字と小文字の区別が正しいことを確認してください。
+* **権限を確認**: 管理者によって必要な権限が付与されていることを確認してください。
+* **ログイン資格情報を確認**: 正しい W&amp;B Account にログインしていることを確認してください。次のコードで run を作成してテストしてください。
   ```python
   import wandb
 
@@ -15,11 +15,11 @@ W&amp;B entity に run をログする際の権限エラーを解決するには
   run.log({'example_metric': 1})
   run.finish()
   ```
-* **APIキーを設定する**: `WANDB_API_KEY` 環境変数を使用してください。
+* **APIキーを設定**: `WANDB_API_KEY` 環境変数を使用します。
   ```bash
   export WANDB_API_KEY='your_api_key'
   ```
-* **ホスト情報を確認する**: カスタム デプロイの場合は、ホスト URL を設定してください。
+* **ホスト情報を確認**: custom デプロイでは、ホスト URL を設定します。
   ```bash
   wandb login --relogin --host=<host-url>
   export WANDB_BASE_URL=<host-url>
@@ -27,11 +27,11 @@ W&amp;B entity に run をログする際の権限エラーを解決するには
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマター内のキーワードから scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[セキュリティ](/ja/support/models/tags/security)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- 終了 AUTO-GENERATED: tab Badge ---- */}

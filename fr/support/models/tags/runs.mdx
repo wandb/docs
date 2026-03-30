@@ -6,19 +6,19 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 ---
 
 <Card title="Bonnes pratiques pour organiser les recherches d'hyperparamètres" href="/fr/support/models/articles/best-practices-to-organize-hyperparamete" arrow="true" horizontal>
-  Définissez des balises uniques avec wandb.init(tags=&#39;your&#95;tag&#39;). Cela permet de filtrer efficacement les runs du projet en sélectionnant la balise corre ...
+  Définissez des tags uniques avec wandb.init(tags=&#39;your&#95;tag&#39;). Cela permet de filtrer efficacement les runs du projet en sélectionnant le tag corre ...
 </Card>
 
 <Card title="Puis-je regrouper des runs sans utiliser la fonctionnalité 'Group' ?" href="/fr/support/models/articles/can-i-group-runs-without-using-the-group" arrow="true" horizontal>
-  Oui, vous pouvez également utiliser des balises ou des métadonnées personnalisées pour catégoriser les runs. Cela peut se faire à l&#39;aide du bouton Group, qui est disp ...
+  Oui, vous pouvez également utiliser des tags ou des métadonnées personnalisées pour catégoriser les runs. Cela peut se faire à l&#39;aide du bouton Group, qui est disp ...
 </Card>
 
 <Card title="Puis-je relancer une recherche sur grille ?" href="/fr/support/models/articles/can-i-rerun-a-grid-search" arrow="true" horizontal>
   Si une recherche sur grille est terminée mais que certains W&amp;B Runs doivent être réexécutés en raison de plantages, supprimez les W&amp;B Runs concernés pour les relancer. T ...
 </Card>
 
-<Card title="Pouvez-vous regrouper des runs par balises ?" href="/fr/support/models/articles/can-you-group-runs-by-tags" arrow="true" horizontal>
-  Un run peut avoir plusieurs balises, le regroupement par balises n&#39;est donc pas pris en charge. Ajoutez une valeur à l&#39;objet configuration pour ces runs et ...
+<Card title="Peut-on regrouper des runs par tags ?" href="/fr/support/models/articles/can-you-group-runs-by-tags" arrow="true" horizontal>
+  Un run peut avoir plusieurs tags, le regroupement par tags n&#39;est donc pas pris en charge. Ajoutez une valeur à l&#39;objet configuration pour ces runs et ...
 </Card>
 
 <Card title="Comment puis-je modifier la fréquence de journalisation des métriques système ?" href="/fr/support/models/articles/how-can-i-change-how-frequently-to-log-s" arrow="true" horizontal>
@@ -26,7 +26,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Comment puis-je modifier les couleurs de chaque run dans le même groupe ?" href="/fr/support/models/articles/how-can-i-change-the-colors-of-each-run-" arrow="true" horizontal>
-  Il n&#39;est pas possible de modifier les couleurs des runs individuels au sein d&#39;un groupe. Tous les runs d&#39;un même groupe partagent une couleur commune.
+  Il n&#39;est pas possible de modifier les couleurs de runs individuels au sein d&#39;un groupe. Tous les runs d&#39;un même groupe partagent une couleur commune.
 </Card>
 
 <Card title="Comment puis-je supprimer plusieurs runs en masse au lieu d'un par un ?" href="/fr/support/models/articles/how-can-i-delete-multiple-runs-in-bulk-i" arrow="true" horizontal>
@@ -54,7 +54,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Comment puis-je journaliser les runs lancés par l'intégration continue ou des outils internes ?" href="/fr/support/models/articles/how-do-i-log-runs-launched-by-continuous" arrow="true" horizontal>
-  Pour lancer des tests automatisés ou des outils internes qui journalisent dans W&amp;B, créez un compte de service sur la page des paramètres de l&#39;équipe. Ce co ...
+  Pour lancer des tests automatisés ou des outils internes qui journalisent dans W&amp;B, créez un compte de service sur la page Team settings. Ce co ...
 </Card>
 
 <Card title="Comment puis-je résoudre les erreurs d'autorisation lors de la journalisation d'un run ?" href="/fr/support/models/articles/how-do-i-resolve-permission-errors-when-" arrow="true" horizontal>
@@ -66,7 +66,7 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Est-il possible de modifier le groupe attribué à un run une fois terminé ?" href="/fr/support/models/articles/is-it-possible-to-change-the-group-assig" arrow="true" horizontal>
-  Vous pouvez modifier via l&#39;API le groupe attribué à un run terminé. Cette fonctionnalité n&#39;est pas disponible dans l&#39;interface web. Utilisez le  ...
+  Vous pouvez modifier à l&#39;aide de l&#39;API le groupe attribué à un run terminé. Cette fonctionnalité n&#39;est pas disponible dans l&#39;interface web. Utilisez le  ...
 </Card>
 
 <Card title="Est-il possible de déplacer un run d'un projet à un autre ?" href="/fr/support/models/articles/is-it-possible-to-move-a-run-from-one-pr" arrow="true" horizontal>
@@ -74,5 +74,5 @@ template: "scripts/knowledgebase-nav/templates/support_tag.mdx.j2"
 </Card>
 
 <Card title="Pourquoi manque-t-il des étapes dans une exportation CSV de métrique ?" href="/fr/support/models/articles/why-are-steps-missing-from-a-csv-metric-" arrow="true" horizontal>
-  Les limites d&#39;exportation peuvent empêcher d&#39;exporter l&#39;historique complet d&#39;un run au format CSV ou via l&#39;API `run.history`. Pour accéder à l&#39; ...
+  Les limites d&#39;exportation peuvent empêcher d&#39;exporter l&#39;historique complet d&#39;un run au format CSV ou à l&#39;aide de l&#39;API `run.history`. Pour accéder à l&#39; ...
 </Card>

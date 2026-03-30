@@ -50,11 +50,11 @@ Pour plus d&#39;informations sur les types de machines et d&#39;accélérateurs 
 Créez une file d&#39;attente dans l&#39;application W&amp;B en utilisant Vertex AI comme ressource de calcul :
 
 1. Accédez à la [page Launch](https://wandb.ai/launch).
-2. Cliquez sur le bouton **créer la file d’attente**.
-3. Sélectionnez l&#39;**entité** dans laquelle vous souhaitez créer la file d&#39;attente.
+2. Cliquez sur le bouton **Créer la file d’attente**.
+3. Sélectionnez l&#39;**Entity** dans laquelle vous souhaitez créer la file d&#39;attente.
 4. Saisissez un nom pour votre file d&#39;attente dans le champ **Name**.
 5. Sélectionnez **Google Cloud Vertex AI** comme **Resource**.
-6. Dans le champ **Configuration**, indiquez les informations relatives au `CustomJob` Vertex AI que vous avez défini dans la section précédente. Par défaut, W&amp;B renseigne un corps de requête au format YAML et JSON semblable à ce qui suit :
+6. Dans le champ **Configuration**, indiquez les informations relatives au `CustomJob` Vertex AI que vous avez défini dans la section précédente. Par défaut, W&amp;B préremplit un corps de requête YAML et JSON semblable à celui-ci :
 
 ```yaml
 spec:
@@ -84,12 +84,11 @@ Vous devez au minimum spécifier :
   Chaque clé de la configuration de la file d’attente Launch doit utiliser le snake case.
 </Warning>
 
-
 <div id="configure-a-launch-agent">
-  ## Configurer un agent de lancement
+  ## Configurer un agent Launch
 </div>
 
-L’agent de lancement se configure à l’aide d’un fichier de configuration situé, par défaut, à l’emplacement `~/.config/wandb/launch-config.yaml`.
+L’agent Launch se configure à l’aide d’un fichier de configuration situé, par défaut, à l’emplacement `~/.config/wandb/launch-config.yaml`.
 
 ```yaml
 max_jobs: <n-concurrent-jobs>
@@ -97,11 +96,11 @@ queues:
   - <queue-name>
 ```
 
-Si vous souhaitez que l’agent de lancement build des images pour vous afin qu’elles soient exécutées dans Vertex AI, voir [configuration avancée de l’agent](./setup-agent-advanced).
+Si vous souhaitez que l’agent Launch build des images pour vous et qu’elles soient exécutées dans Vertex AI, voir [configuration avancée de l’agent](./setup-agent-advanced).
 
 
 <div id="set-up-agent-permissions">
   ## Configurer les autorisations de l’agent
 </div>
 
-Il existe plusieurs méthodes pour vous authentifier avec ce compte de service. Vous pouvez le faire via Workload Identity, un fichier JSON de compte de service téléchargé, des variables d’environnement, l’outil en ligne de commande de Google Cloud Platform, ou une combinaison de ces méthodes.
+Il existe de multiples méthodes pour vous authentifier avec ce compte de service. Vous pouvez le faire via Workload Identity, un fichier JSON de compte de service téléchargé, des variables d’environnement, l’outil en ligne de commande de Google Cloud Platform, ou une combinaison de ces méthodes.

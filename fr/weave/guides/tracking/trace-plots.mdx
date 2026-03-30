@@ -1,9 +1,9 @@
 ---
 title: "Utiliser les graphiques de trace"
-description: "Visualisez des métriques au niveau des traces avec des graphiques interactifs dans Weave afin d'explorer les tendances de latence, de coût et d'utilisation des tokens pour les applications LLM."
+description: "Visualisez les métriques au niveau des traces avec des graphiques interactifs dans Weave pour explorer les modèles de latence, de coût et d'utilisation des jetons pour les applications LLM."
 ---
 
-L&#39;outil de *graphiques de trace* dans W&amp;B Weave vous permet d&#39;explorer, de visualiser et de déboguer des métriques au niveau des traces (par ex. la latence, le coût et les tokens) à l&#39;aide de graphiques interactifs. Vous pouvez utiliser les graphiques de trace par défaut ou créer les vôtres avec le générateur de graphiques de trace personnalisé.
+L&#39;outil de *graphiques de trace* dans W&amp;B Weave vous permet d&#39;explorer, de visualiser et de déboguer les métriques au niveau des traces (par ex. latence, coût, jetons) à l&#39;aide de graphiques interactifs. Vous pouvez utiliser les graphiques de trace par défaut ou créer les vôtres via le générateur de graphique de traces personnalisé.
 
 <Frame>
   ![Graphiques de trace en action](/weave/guides/tracking/imgs/plots-example.png)
@@ -23,19 +23,19 @@ L&#39;outil de *graphiques de trace* dans W&amp;B Weave vous permet d&#39;explor
 
    * Afficher les [graphiques de trace par défaut](#default-trace-plots).
    * Créer un [graphique de traces personnalisé](#create-a-custom-trace-plot).
-4. Les graphiques se mettent à jour dynamiquement en fonction de vos filtres et sélections de traces.
+4. Les graphiques se mettent à jour dynamiquement en fonction de vos filtres de traces et de vos sélections.
 
 <div id="default-trace-plots">
   ## Graphiques de trace par défaut
 </div>
 
-Lorsque vous ouvrez pour la première fois le panneau des graphiques de trace, Weave génère automatiquement quelques graphiques de trace basés sur les données de trace disponibles dans votre projet :
+Lorsque vous ouvrez pour la première fois le panneau des graphiques de trace, Weave génère automatiquement quelques graphiques de trace basés sur les données de trace disponibles dans votre projet :
 
 * Graphique à barres (coût ou latence regroupés par intervalles de temps)
 * Graphique linéaire (latence au fil du temps)
 * Nuage de points (par ex. jetons de prompt vs. jetons de complétion)
 
-Chaque graphique de trace est interactif :
+Chaque graphique de trace est interactif :
 
 * Survolez pour afficher des infobulles
 * Faites glisser pour zoomer
@@ -64,12 +64,12 @@ Vous pouvez également créer un graphique de traces personnalisé. Pour créer 
   ### Paramètres des graphiques de trace par type de graphique
 </div>
 
-Lors de l’ajout ou de la modification d’un graphique de trace personnalisé, les options de configuration disponibles varient légèrement selon le type de graphique de trace sélectionné. Le tableau détaille les options configurables.
+Lors de l’ajout ou de la modification d’un graphique de traces personnalisé, les options de configuration disponibles varient légèrement selon le type de graphique de trace sélectionné. Le tableau détaille les options configurables.
 
-| Paramètre    | Nuage de points  | Graphique linéaire  | graphique à barres |
+| Paramètre    | Nuage de points  | Graphique linéaire  | graphique à barres  |
 | ------------ | ---------------- | ------------------- | ------------------- |
 | Axe Y        | ✅ Requis         | ✅ Requis            | ✅ Requis            |
-| Axe X        | ✅ Sélectionnable | Fixe (`started at`) | Fixe (`started at`) |
+| Axe des x    | ✅ Sélectionnable | Fixe (`started at`) | Fixe (`started at`) |
 | Regroupement | ✅ Facultatif     | ✅ Facultatif        | ✅ Facultatif        |
 | Binning      | ❌ Non utilisé    | ✅ Utilisé           | ✅ Utilisé           |
 | Agrégation   | ❌ Non utilisée   | ✅ Utilisée          | ✅ Utilisée          |

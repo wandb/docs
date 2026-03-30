@@ -1,160 +1,164 @@
 ---
-description: "分析のために、W&B Tables のデータを比較、フィルタリング、グループ化、並べ替えし、マージ ビューまたは並列ビューで可視化します。"
+description: "分析のために、W&B Tables のデータをマージ ビューまたは並列ビューで比較、フィルター、グループ化、並べ替え、可視化します。"
 title: 表を可視化して分析する
 ---
 
-W&B Tables をカスタマイズして、機械学習モデルの性能に関する疑問に答えたり、データを分析したりできます。 
+W&amp;B Tables をカスタマイズして、機械学習モデルのモデル性能に関する疑問に答えたり、データを分析したりできます。
 
-データを対話的に探索して、次のことができます:
+データをインタラクティブに探索して、次のことを行えます。
 
-* [2 つの W&B Tables を比較](#table-comparison-options)して、アーティファクト バージョンとしてログされた表のデータやモデル性能の変化を分析する。
-* データ内のより高いレベルのパターンを理解する
-* [表にログした値が run 全体でどのように変化するかを確認](#visualize-how-values-change-throughout-your-runs)する。
+* データやモデル性能の変化を分析するために、アーティファクト バージョンとしてログされた [2 つの W&amp;B Tables を比較](#table-comparison-options)します。
+* データ内のより高次のパターンを理解します
+* [表にログした値が Runs 全体でどのように変化するかを表示](#visualize-how-values-change-throughout-your-runs)します。
 
 <Note>
-W&B Tables は次のような動作をします:
-1. **アーティファクト コンテキストではステートレス**: アーティファクト バージョンとともにログされた表は、ブラウザー ウィンドウを閉じるとデフォルトの状態にリセットされます
-2. **ワークスペースまたはレポート コンテキストではステートフル**: 単一 run ワークスペース、複数 run プロジェクト ワークスペース、またはレポートで表に加えた変更は保持されます。
+  W&amp;B Tables には次の動作があります。
 
-現在の W&B Table ビューを保存する方法については、[ビューを保存](#save-your-view)を参照してください。
+  1. **アーティファクト コンテキストではステートレス**: アーティファクト バージョンと一緒にログされた表は、ブラウザーウィンドウを閉じると既定の状態にリセットされます
+  2. **Workspace またはレポート コンテキストでは状態を保持**: 単一 run の Workspace、複数 run の Workspace、またはレポートで表に加えた変更は保持されます。
+
+  現在の W&amp;B Table ビューを保存する方法については、[ビューを保存する](#save-your-view)を参照してください。
 </Note>
 
 <div id="table-comparison-options">
-  ## テーブル比較オプション
+  ## 表の比較オプション
 </div>
 
-2 つのテーブルを、[マージビュー](#merged-view) または [左右比較ビュー](#side-by-side-view) で比較できます。たとえば、下の画像は MNIST データのテーブル比較を示しています。
+2 つの表は、[マージ ビュー](#merged-view) または [並列ビュー](#side-by-side-view) で比較できます。たとえば、以下の画像は MNIST データの表比較を示しています。
 
 <Frame>
-    <img src="/images/data_vis/table_comparison.png" alt="トレーニング エポックの比較" max-width="90%"  />
+  <img src="/images/data_vis/table_comparison.png" alt="トレーニング エポックの比較" max-width="90%" />
 </Frame>
 
-2 つのテーブルを比較するには、次の手順に従います。
+2 つの表を比較するには、次の step に従います。
 
-1. W&B App で自分の プロジェクト に移動します。
-2. プロジェクト サイドバーで Artifacts アイコンを選択します。
-2. Artifacts のバージョンを選択します。 
+1. W&amp;B App で対象のプロジェクトに移動します。
+2. プロジェクトのサイドバーで Artifacts アイコンを Select します。
+3. アーティファクト バージョンを Select します。
 
-次の画像では、5 回の各エポック後に、MNIST 検証データに対する モデル の予測を示しています（[インタラクティブな例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json) を参照）。
+次の画像では、5 つのエポックそれぞれの後の MNIST 検証データに対するモデルの予測を示しています ([インタラクティブな例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json)) 。
 
 <Frame>
-    <img src="/images/data_vis/preds_mnist.png" alt="「predictions」をクリックして Table を表示" max-width="90%"  />
+  <img src="/images/data_vis/preds_mnist.png" alt="'predictions' をクリックして表を表示" max-width="90%" />
 </Frame>
 
-3. サイドバーで、比較したい 2 つ目の Artifacts バージョンにカーソルを合わせ、表示される **Compare** をクリックします。たとえば、下の画像では、「v4」とラベル付けされたバージョンを選択し、同じ モデル が 5 エポックのトレーニング 後に行った MNIST 予測と比較しています。 
+3. サイドバーで、比較したい 2 つ目のアーティファクト バージョンにカーソルを合わせ、表示されたら **Compare** をクリックします。たとえば、以下の画像では、トレーニングの 5 エポック後に同じモデルによって行われた MNIST 予測と比較するために、&quot;v4&quot; というラベルの付いたバージョンを Select しています。
 
 <Frame>
-    <img src="/images/data_vis/preds_2.png" alt="モデル予測の比較" max-width="90%"  />
+  <img src="/images/data_vis/preds_2.png" alt="モデル予測の比較" max-width="90%" />
 </Frame>
 
 <div id="merged-view">
-  ### マージ表示
+  ### マージ ビュー
 </div>
 
-{/* TODO: 手順を追加 */}
+{/* TODO: step を追加 */}
 
-最初は、2 つのテーブルがマージされた状態で表示されます。最初に選択されたテーブルはインデックス 0 で青色のハイライト、2 つ目のテーブルはインデックス 1 で黄色のハイライトが付きます。[マージ済みテーブルのライブ例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)。
+最初は、2 つの表がマージされた状態で表示されます。最初に選択した表はインデックス 0 で青色にハイライト表示され、2 つ目の表はインデックス 1 で黄色にハイライト表示されます。[マージされた表のライブ例はこちら](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#7dd0cd845c0edb469dec)。
 
 <Frame>
   <img src="/images/data_vis/merged_view.png" alt="Merged view" max-width="90%" />
 </Frame>
 
-マージ ビューから、次のことができます。
+マージ ビューでは、次のことができます。
 
-* **結合キーを選択する**: 左上のドロップダウンを使って、2 つのテーブルの結合キーとして使用する列を設定します。通常、これは各行の一意な識別子であり、データセット内の特定のサンプルのファイル名や、生成されたサンプルに対する増分インデックスなどです。現在は *任意の* 列を選択できるため、判読しづらいテーブルになったり、クエリの遅延を招いたりする可能性がある点に注意してください。
-* **結合ではなく連結する**: このドロップダウンで &quot;concatenating all tables&quot; を選択すると、両方のテーブルのすべての行を 1 つの大きな Table に *UNION（行方向に結合）* します。
-* **各 Table を明示的に参照する**: フィルター式で 0、1、* を使って、片方または両方のテーブルインスタンス内の列を明示的に指定します。
-* **詳細な数値の差分をヒストグラムとして可視化する**: 任意のセル内の値を一目で比較します。
+* **結合キーを選択する**: 左上のドロップダウンを使用して、2 つの表の結合キーとして使用する列を設定します。通常、これは各行の一意の識別子です。たとえば、データセット内の特定のサンプルのファイル名や、生成したサンプルに付与された連番インデックスなどが該当します。現在は *任意の* 列を選択できるため、表が読みにくくなったり、クエリが遅くなったりする可能性がある点に注意してください。
+* **結合ではなく連結する**: このドロップダウンで &quot;concatenating all tables&quot; を選択すると、列で結合する代わりに、両方の表の *すべての行を結合* して 1 つの大きな Table にまとめます
+* **各 Table を明示的に参照する**: フィルター式で 0、1、* を使用して、片方または両方の表インスタンス内の列を明示的に指定します
+* **詳細な数値の差分をヒストグラムとして可視化する**: 任意のセルの値をひと目で比較できます
+
 
 <div id="side-by-side-view">
   ### 並列ビュー
 </div>
 
-{/* To do */}
+{/* TODO */}
 
-2 つの表を並列ビューで表示するには、最初のドロップダウンを "Merge Tables: Table" から "List of: Table" に変更し、その後それぞれの "Page size" を更新します。ここでは、最初に選択した表が左側に、2 つ目の表が右側に表示されます。また、"Vertical" チェックボックスをクリックすると、これらの表を縦方向に並べて比較することもできます。
+2 つの表を横並びで表示するには、最初のドロップダウンを &quot;Merge Tables: Table&quot; から &quot;List of: Table&quot; に変更し、その後それぞれの &quot;Page size&quot; を更新します。ここでは、最初に選択した表が左側に、2 つ目の表が右側に表示されます。また、&quot;Vertical&quot; チェックボックスをクリックすると、これらの表を縦に並べて比較することもできます。
 
 <Frame>
-    <img src="/images/data_vis/side_by_side.png" alt="Side-by-side table view" max-width="90%"  />
+  <img src="/images/data_vis/side_by_side.png" alt="表の横並びビュー" max-width="90%" />
 </Frame>
 
-* **表をひと目で比較する**: 任意の操作（並べ替え、フィルタリング、グループ化）を両方の表に同時に適用し、変更点や違いをすばやく見つけられます。たとえば、予測ラベルごとにグループ化した誤予測、全体で最も難しいネガティブ例、正解ラベルごとの信頼度スコア分布などを表示できます。
-* **2 つの表を個別に確認する**: スクロールしながら、注目したい側や行に集中できます
+* **表を一目で比較する**: 両方の表に対して並べ替え、フィルタリング、グループ化などの操作を同時に適用し、変更点や違いを素早く発見できます。たとえば、予測ラベルごとにグループ化された誤予測、全体で最も難しいネガティブ例、正解ラベルごとの信頼度スコア分布などを表示できます。
+* **2 つの表を独立して探索する**: スクロールしながら、関心のある列や行に集中できます
+
 
 <div id="compare-artifacts">
   ## アーティファクトを比較する
 </div>
 
-アーティファクト バージョンとしてログされた 2 つの W&B Tables を比較して、データやモデル性能の変化を分析します。マージ ビューまたは並列ビューを使用して、表を比較します。
+アーティファクト バージョンとしてログされた 2 つの W&amp;B Tables を比較して、データやモデル性能の変化を分析します。マージ ビューまたは並列ビューを使用して、表を比較します。
 
 <div id="compare-tables-across-time">
-  ### 時系列でテーブルを比較する
+  ### 時系列で表を比較する
 </div>
 
-トレーニングの各重要なステップごとに Artifacts 内にテーブルをログして、トレーニング期間を通じた モデル の性能を分析します。たとえば、すべての 検証 ステップの最後にテーブルをログしたり、トレーニングの 50 エポック ごとにログしたり、あるいはパイプラインにとって適切な任意の頻度でログできます。サイドバイサイド ビューを使用して、 モデル の予測の変化を可視化します。
+トレーニングの各重要なステップごとにアーティファクトに表をログして、トレーニングの進行に伴うモデル性能を分析します。たとえば、各検証ステップの終了時、トレーニング 50 エポックごと、またはパイプラインに適した任意の頻度で表をログできます。並列ビューを使用して、モデル予測の変化を可視化します。
 
 <Frame>
-    <img src="/images/data_vis/compare_across_time.png" alt="Training progress comparison" max-width="90%"  />
+  <img src="/images/data_vis/compare_across_time.png" alt="Training progress comparison" max-width="90%" />
 </Frame>
 
-トレーニング時間にわたる予測の可視化の詳細な手順については、[predictions over time report](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) と、こちらのインタラクティブな [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..) を参照してください。
+トレーニングの進行に伴う予測の可視化についてより詳しい手順は、[predictions over time レポート](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk) と、このインタラクティブな [notebook example](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/datasets-predictions/W%26B_Tables_Quickstart.ipynb?_gl=1*kf20ui*_gcl_au*OTI3ODM1OTcyLjE3MzE0MzU1NjU.*_ga*ODEyMjQ4MjkyLjE3MzE0MzU1NjU.*_ga_JH1SJHJQXJ*MTczMTcwNTMwNS45LjEuMTczMTcwNTM5My4zMy4wLjA.*_ga_GMYDGNGKDT*MTczMTcwNTMwNS44LjEuMTczMTcwNTM5My4wLjAuMA..) を参照してください。
 
 <div id="compare-tables-across-model-variants">
   ### モデル バリアント間でテーブルを比較する
 </div>
 
-同じ step でログされた 2 つの Artifacts のバージョンを、異なる 2 つのモデル間で比較して、異なる設定（ハイパーパラメーター、ベースアーキテクチャなど）におけるモデルのパフォーマンスを分析します。
+同じ step でログされた 2 つのアーティファクト バージョンを、異なる 2 つのモデル間で比較して、異なる設定 (ハイパーパラメーター、ベースアーキテクチャなど) におけるモデル性能を分析します。
 
-たとえば、`baseline` と新しいモデル バリアント `2x_layers_2x_lr` の予測を比較します。このバリアントでは、最初の畳み込み層のチャネル数が 32 から 64 に、2 番目が 128 から 256 に、学習率が 0.001 から 0.002 にそれぞれ 2 倍になります。[このライブ例](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr)では、サイドバイサイド ビューを使用して、1 エポックのトレーニング後（左タブ）と 5 エポックのトレーニング後（右タブ）の誤った予測に絞り込んで比較します。
+たとえば、`baseline` と新しいモデル バリアント `2x_layers_2x_lr` の予測を比較します。このバリアントでは、最初の畳み込み層のチャネル数が 32 から 64 に、2 番目が 128 から 256 に、学習率が 0.001 から 0.002 にそれぞれ 2 倍になります。[このライブ例](https://wandb.ai/stacey/mnist-viz/artifacts/predictions/baseline/d888bc05719667811b23/files/predictions.table.json#2bb3b1d40aa777496b5d$2x_layers_2x_lr)では、並列ビューを使用して、1 エポックのトレーニング後 (左タブ) と 5 エポックのトレーニング後 (右タブ) の誤った予測に絞り込んで比較します。
 
 <Tabs>
-<Tab title="1 training epoch">
-<Frame>
-    <img src="/images/data_vis/compare_across_variants.png" alt="パフォーマンス比較"  />
-</Frame>
-</Tab>
-<Tab title="5 training epochs">
-<Frame>
-    <img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="バリアント間のパフォーマンス比較"  />
-</Frame>
-</Tab>
+  <Tab title="1 training epoch">
+    <Frame>
+      <img src="/images/data_vis/compare_across_variants.png" alt="パフォーマンス比較" />
+    </Frame>
+  </Tab>
+
+  <Tab title="5 training epochs">
+    <Frame>
+      <img src="/images/data_vis/compare_across_variants_after_5_epochs.png" alt="バリアント間のパフォーマンス比較" />
+    </Frame>
+  </Tab>
 </Tabs>
 
 <div id="visualize-how-values-change-throughout-your-runs">
-  ## run 全体で値がどのように変化するかを可視化する
+  ## Runs 全体で値がどのように変化するかを可視化する
 </div>
 
-ステップスライダーを使って、テーブルにログした値が run 全体でどのように変化するかを確認できます。ステップスライダーを動かして、異なるステップでログされた値を表示します。たとえば、各 run の後に loss、accuracy、その他のメトリクスがどのように変化するかを確認できます。
+ステップスライダーを使うと、表にログした値が Runs 全体でどのように変化するかを確認できます。ステップスライダーを動かして、異なる step でログされた値を表示します。たとえば、loss、accuracy、そのほかのメトリクスが各 step でどのように変化するかを確認できます。
 
-スライダーはキーを使ってステップ値を決定します。スライダーのデフォルトキーは `_step` で、これは W&B が自動的にログする特別なキーです。`_step` キーは、コード内で `wandb.Run.log()` を呼び出すたびに 1 ずつ増加する整数です。
+スライダーはキーを使って step 値を決定します。スライダーのデフォルトキーは `_step` で、これは W&amp;B が自動的にログする特別なキーです。`_step` キーは、コード内で `wandb.Run.log()` を呼び出すたびに 1 ずつ増加する整数です。
 
-W&B Table にステップスライダーを追加するには、次の手順に従います。
+W&amp;B Table にステップスライダーを追加するには、次の手順に従います。
 
-1. プロジェクトの Workspace に移動します。
-2. Workspace 右上の **Add panel** をクリックします。
+1. プロジェクトの Workspace にアクセスします。
+2. Workspace の画面右上にある **Add panel** をクリックします。
 3. **Query panel** を選択します。
-4. Query expression editor 内で `runs` を選択し、キーボードの **Enter** を押します。
+4. クエリ式エディタ内で `runs` を選択し、キーボードの **Enter** を押します。
 5. 歯車アイコンをクリックして、パネルの設定を表示します。
 6. **Render As** セレクターを **Stepper** に設定します。
 7. **Stepper Key** を `_step`、またはステップスライダーの[単位として使用するキー](#custom-step-keys) に設定します。
 
-次の画像は、3 つの W&B run と、それらがステップ 295 でログした値を示す query パネルを表しています。
+次の画像は、3 つの W&amp;B Runs と、それらが step 295 でログした値を示す Query panel を表しています。
 
 <Frame>
-    <img src="/images/data_vis/stepper_key.png" alt="ステップスライダー機能"  />
+  <img src="/images/data_vis/stepper_key.png" alt="ステップスライダー機能" />
 </Frame>
 
-W&B App の UI 内では、複数のステップで重複した値が表示されることがあります。これは、複数の run が異なるステップで同じ値をログした場合や、run がすべてのステップで値をログしていない場合に発生します。特定のステップで値が欠落している場合、W&B はスライダーのキーとして最後にログされた値を使用します。
+W&amp;B App UI では、複数の step で同じ値が重複して表示されることがあります。これは、複数の run が異なる step で同じ値をログした場合や、run がすべての step で値をログしていない場合に発生します。特定の step の値が欠落している場合、W&amp;B はスライダーキーとして最後にログされた値を使用します。
 
 <div id="custom-step-key">
   ### カスタム step キー
 </div>
 
-step キーには、`epoch` や `global_step` のように、run で step キーとしてログした任意の数値メトリクスを使用できます。カスタム step キーを使用すると、W&amp;B はそのキーの各値を run 内の step（`_step`）にマッピングします。
+step キーには、`epoch` や `global_step` のように、Runs で step キーとしてログする任意の数値メトリクスを使用できます。カスタム step キーを使用すると、W&amp;B はそのキーの各値を run 内の step (`_step`) にマッピングします。
 
-次の表は、カスタム step キー `epoch` が 3 つの異なる run（`serene-sponge`、`lively-frog`、`vague-cloud`）で `_step` の値にどのようにマッピングされるかを示しています。各行は、特定の run におけるある `_step` での `wandb.Run.log()` の呼び出し 1 回分を表します。列には、その step でログされた対応するエポック値（存在する場合）が示されています。スペースを節約するため、`_step` の一部の値は省略されています。
+次の表は、カスタム step キー `epoch` が、3 つの異なる Runs (`serene-sponge`、`lively-frog`、`vague-cloud`) において `_step` の値にどのようにマッピングされるかを示しています。各行は、run 内の特定の `_step` における `wandb.Run.log()` の呼び出し 1 回分を表します。各列には、その step でログされた対応するエポック値 (存在する場合) を示しています。スペースの都合上、`_step` の一部の値は省略しています。
 
-`wandb.Run.log()` が最初に呼び出されたときには、どの run も `epoch` の値をログしていなかったため、表の `epoch` の値は空になっています。
+`wandb.Run.log()` が最初に呼び出された時点では、どの Runs も `epoch` の値をログしていなかったため、表の `epoch` の値は空欄になっています。
 
 | `_step` | vague-cloud (`epoch`) | lively-frog(`epoch`) | serene-sponge (`epoch`) |
 | ------- | --------------------- | -------------------- | ----------------------- |
@@ -172,52 +176,53 @@ step キーには、`epoch` や `global_step` のように、run で step キー
 | 18      |                       |                      | 9                       |
 | 20      | 3                     | 5                    | 10                      |
 
-ここで、スライダーが `epoch = 1` に設定されている場合は、次のようになります。
+ここで、スライダーが `epoch = 1` に設定されている場合、次のようになります。
 
-* `vague-cloud` は `epoch = 1` を見つけ、`_step = 5` でログされた値を返します
-* `lively-frog` は `epoch = 1` を見つけ、`_step = 4` でログされた値を返します
-* `serene-sponge` は `epoch = 1` を見つけ、`_step = 2` でログされた値を返します
+* `vague-cloud` は `epoch = 1` を検索し、`_step = 5` でログされた値を返します
+* `lively-frog` は `epoch = 1` を検索し、`_step = 4` でログされた値を返します
+* `serene-sponge` は `epoch = 1` を検索し、`_step = 2` でログされた値を返します
 
-スライダーが `epoch = 9` に設定されている場合は、次のようになります。
+スライダーが `epoch = 9` に設定されている場合:
 
-* `vague-cloud` は `epoch = 9` もログしていないため、W&amp;B は直前の最新値である `epoch = 3` を使用し、`_step = 20` でログされた値を返します
-* `lively-frog` は `epoch = 9` をログしていませんが、直前の最新値は `epoch = 5` なので、`_step = 20` でログされた値を返します
-* `serene-sponge` は `epoch = 9` を見つけ、`_step = 18` でログされた値を返します
+* `vague-cloud` は `epoch = 9` をログしていないため、W&amp;B はそれ以前で最新の値である `epoch = 3` を使用し、`_step = 20` でログされた値を返します
+* `lively-frog` は `epoch = 9` をログしていませんが、それ以前で最新の値は `epoch = 5` なので、`_step = 20` でログされた値を返します
+* `serene-sponge` は `epoch = 9` を検索し、`_step = 18` でログされた値を返します
 
 {/* | | |
   | ---- | ---- |
   | Run History Tables ステッパー | |
-  | Run History Plots ステッパー | |
+  | Run History プロット ステッパー | |
   | ステッパー | | */}
+
 
 <div id="save-your-view">
   ## ビューを保存
 </div>
 
-run ワークスペース、プロジェクト ワークスペース、またはレポート内で操作した Tables では、ビューの状態が自動的に保存されます。表に何らかの操作を適用したあとでブラウザーを閉じても、次回その表を開いたときに最後に表示していた設定が保持されます。 
+run Workspace、Workspace、またはレポート内で操作した Tables では、ビューの状態が自動的に保存されます。表に何らかの操作を適用したあとでブラウザーを閉じても、次回その表にアクセスしたときに最後に表示していた設定が保持されます。
 
 <Note>
-アーティファクト コンテキストで操作した Tables は、ステートレスのままです。
+  アーティファクト コンテキストで操作した Tables は、ステートレスのままです。
 </Note>
 
-ワークスペース内の表を特定の状態で保存するには、W&B レポートにエクスポートします。表をレポートにエクスポートするには、次の手順に従います:
+Workspace内の表を特定の状態で保存するには、W&amp;B レポートにエクスポートします。表をレポートにエクスポートするには、次の手順に従います:
 
-1. ワークスペースの可視化パネルの右上隅にある kebab アイコン（縦に並んだ 3 つの点）を選択します。
+1. Workspaceの可視化パネルの画面右上にある kebab アイコン (三つの点) を選択します。
 2. **Share panel** または **Add to report** を選択します。
 
 <Frame>
-    <img src="/images/data_vis/share_your_view.png" alt="Report sharing options" max-width="90%"  />
+  <img src="/images/data_vis/share_your_view.png" alt="Report sharing options" max-width="90%" />
 </Frame>
 
 <div id="examples">
   ## 例
 </div>
 
-これらのレポートでは、W&B Tables のさまざまなユースケースを取り上げています。
+これらのレポートでは、W&amp;B Tablesのさまざまな使用例を紹介しています。
 
-* [時間経過に伴う予測の可視化](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
-* [Workspace 内で Tables を比較する方法](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)
-* [画像 & クラス分類モデル](https://wandb.ai/stacey/mendeleev/reports/Tables-Tutorial-Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)
-* [テキスト & 生成系言語モデル](https://wandb.ai/stacey/nlg/reports/Tables-Tutorial-Visualize-Text-Data-Predictions---Vmlldzo1NzcwNzY)
-* [固有表現認識 (Named Entity Recognition)](https://wandb.ai/stacey/ner_spacy/reports/Named-Entity-Recognition--Vmlldzo3MDE3NzQ)
-* [AlphaFold タンパク質](https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc)
+* [時間の経過に伴う予測の可視化](https://wandb.ai/stacey/mnist-viz/reports/Visualize-Predictions-over-Time--Vmlldzo1OTQxMTk)
+* [WorkspaceでTablesを比較する方法](https://wandb.ai/stacey/xtable/reports/How-to-Compare-Tables-in-Workspaces--Vmlldzo4MTc0MTA)
+* [画像と分類モデル](https://wandb.ai/stacey/mendeleev/reports/Tables-Tutorial-Visualize-Data-for-Image-Classification--VmlldzozNjE3NjA)
+* [テキストと言語生成モデル](https://wandb.ai/stacey/nlg/reports/Tables-Tutorial-Visualize-Text-Data-Predictions---Vmlldzo1NzcwNzY)
+* [固有表現認識](https://wandb.ai/stacey/ner_spacy/reports/Named-Entity-Recognition--Vmlldzo3MDE3NzQ)
+* [AlphaFoldタンパク質](https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc)

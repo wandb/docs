@@ -3,10 +3,10 @@ title: "Comment puis-je lancer plusieurs runs à partir d’un script ?"
 keywords: ["Experiments"]
 ---
 
-Terminez les runs précédents avant d’en démarrer de nouveaux afin de journaliser plusieurs runs dans
+Terminez les runs précédents avant d’en démarrer de nouveaux afin d’enregistrer plusieurs runs dans
 un même script.
 
-La méthode recommandée est d’utiliser `wandb.init()` comme gestionnaire de contexte,
+La méthode recommandée consiste à utiliser `wandb.init()` comme gestionnaire de contexte,
 car cela termine le run et le marque comme ayant échoué si votre script lève une
 exception :
 
@@ -44,7 +44,7 @@ for x in range(10):
 </div>
 
 À partir de wandb 0.19.10, vous pouvez définir le paramètre `reinit` sur `"create_new"`
-pour créer plusieurs runs actifs en même temps.
+pour créer plusieurs runs actifs simultanément.
 
 ```python
 import wandb
@@ -64,11 +64,11 @@ intégrations W&amp;B.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d'onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

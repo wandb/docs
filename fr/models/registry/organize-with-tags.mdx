@@ -4,7 +4,7 @@ description: Utilisez des tags pour organiser les collections ou les versions d'
 title: Organiser les versions avec des tags
 ---
 
-Créez et ajoutez des tags pour organiser vos collections ou les versions d&#39;artefact dans votre registre. Ajoutez, modifiez, consultez ou supprimez des tags sur une collection  ou une version d&#39;artefact avec l&#39;interface de l&#39;application W&amp;B ou le SDK Python de W&amp;B.
+Créez et ajoutez des tags pour organiser vos collections ou les versions d&#39;artefact dans votre registre. Ajoutez, modifiez, consultez ou supprimez des tags sur une collection  ou une version d&#39;artefact avec l&#39;interface de l&#39;application W&amp;B ou le SDK Python W&amp;B.
 
 <Note>
   **Quand utiliser un tag plutôt qu&#39;un alias**
@@ -27,7 +27,7 @@ Utilisez l’interface de l’application W&amp;B ou le SDK Python pour ajouter 
     1. Accédez à [W&amp;B Registry](https://wandb.ai/registry).
     2. Cliquez sur une carte du registre.
     3. Cliquez sur **Voir les détails** à côté du nom d’une collection.
-    4. Dans la carte de la collection, cliquez sur l’icône plus (**+**) à côté du champ **Tags**, puis saisissez le nom du tag.
+    4. Dans la carte de la collection, cliquez sur l’icône plus (**+**) à côté du champ **Tags** et saisissez le nom du tag.
     5. Appuyez sur **Entrée** sur votre clavier.
 
     <Frame>
@@ -57,10 +57,10 @@ Utilisez l’interface de l’application W&amp;B ou le SDK Python pour ajouter 
 </Tabs>
 
 <div id="update-tags-that-belong-to-a-collection">
-  ## Mettre à jour les tags appartenant à une collection
+  ## Mettre à jour les tags d’une collection
 </div>
 
-Mettez à jour un tag par programmation en réattribuant l’attribut `tags` ou en modifiant cet attribut. W&amp;B recommande — et c’est une bonne pratique en Python — de réattribuer l’attribut `tags` plutôt que de le modifier en place.
+Mettez à jour un tag par programmation en réattribuant l’attribut `tags` ou en modifiant cet attribut. W&amp;B recommande — et c’est une bonne pratique en Python — de réattribuer l’attribut `tags` plutôt que d’effectuer une mutation en place.
 
 Par exemple, l’extrait de code suivant montre des méthodes courantes pour mettre à jour une liste par réattribution. Par souci de concision, nous reprenons l’exemple de code de la [section Ajouter un tag à une collection](#add-a-tag-to-a-collection) :
 
@@ -72,7 +72,7 @@ collection.tags = set(collection.tags) - set(tags_to_delete)
 collection.tags = []  # supprime tous les tags
 ```
 
-L&#39;extrait de code suivant montre comment utiliser une mutation sur place pour mettre à jour les tags associés à une version d&#39;artefact :
+L&#39;extrait de code suivant montre comment vous pouvez utiliser une mutation en place pour mettre à jour les tags associés à une version d&#39;artefact :
 
 ```python
 collection.tags += ["new-tag", "other-tag"]
@@ -90,11 +90,11 @@ collection.tags.clear()
   ## Voir les tags associés à une collection
 </div>
 
-Utilisez l&#39;interface de l&#39;application W&amp;B pour voir les tags ajoutés à une collection :
+Utilisez l’interface de l’application W&amp;B pour voir les tags ajoutés à une collection :
 
 1. Accédez à [W&amp;B Registry](https://wandb.ai/registry).
 2. Cliquez sur une carte du registre.
-3. Cliquez sur **Voir les détails** à côté du nom d&#39;une collection.
+3. Cliquez sur **Voir les détails** à côté du nom d’une collection.
 
 Si une collection comporte un ou plusieurs tags, vous pouvez les voir sur la carte de la collection, à côté du champ **Tags**.
 
@@ -104,21 +104,21 @@ Si une collection comporte un ou plusieurs tags, vous pouvez les voir sur la car
 
 Les tags ajoutés à une collection apparaissent également à côté du nom de cette collection.
 
-Par exemple, dans l&#39;image suivante, un tag nommé &quot;tag1&quot; a été ajouté à la collection &quot;zoo-dataset-tensors&quot;.
+Par exemple, dans l’image suivante, un tag nommé &quot;tag1&quot; a été ajouté à la collection &quot;zoo-dataset-tensors&quot;.
 
 <Frame>
   <img src="/images/registry/tag_collection.png" alt="Gestion des tags" />
 </Frame>
 
 <div id="remove-a-tag-from-a-collection">
-  ## Supprimer un tag d&#39;une collection
+  ## Supprimer un tag d’une collection
 </div>
 
-Utilisez l&#39;interface de l&#39;application W&amp;B pour supprimer un tag d&#39;une collection :
+Utilisez l’interface de l’application W&amp;B pour supprimer un tag d’une collection :
 
 1. Accédez à [W&amp;B Registry](https://wandb.ai/registry).
-2. Cliquez sur la carte d&#39;un registre.
-3. Cliquez sur **Voir les détails** à côté du nom d&#39;une collection.
+2. Cliquez sur une carte du registre.
+3. Cliquez sur **Voir les détails** à côté du nom d’une collection.
 4. Dans la carte de la collection, survolez le nom du tag que vous souhaitez supprimer.
 5. Cliquez sur le bouton de fermeture (icône **X**).
 
@@ -129,7 +129,7 @@ Utilisez l&#39;interface de l&#39;application W&amp;B pour supprimer un tag d&#3
 Ajoutez un tag à une version d’artefact liée à une collection à l’aide de l’interface de l’application W&amp;B ou du SDK Python.
 
 <Tabs>
-  <Tab title="Application W&B">
+  <Tab title="W&B App">
     1. Accédez au W&amp;B Registry à l’adresse https://wandb.ai/registry
     2. Cliquez sur une carte du registre.
     3. Cliquez sur **Voir les détails** à côté du nom de la collection à laquelle vous souhaitez ajouter un tag.
@@ -143,7 +143,7 @@ Ajoutez un tag à une version d’artefact liée à une collection à l’aide d
     </Frame>
   </Tab>
 
-  <Tab title="SDK Python">
+  <Tab title="Python SDK">
     Récupérez la version d’artefact à laquelle vous souhaitez ajouter ou mettre à jour un tag. Une fois que vous avez récupéré la version d’artefact, vous pouvez accéder à l’attribut `tags` de l’objet artefact pour ajouter ou modifier les tags de cet artefact. Passez un ou plusieurs tags sous forme de liste à l’attribut `tags` de l’artefact.
 
     Comme pour les autres artefacts, vous pouvez récupérer un artefact depuis W&amp;B sans créer de run, ou créer un run puis récupérer l’artefact dans ce run. Dans les deux cas, veillez à appeler la méthode `save` de l’objet artefact pour mettre à jour l’artefact sur les serveurs W&amp;B.
@@ -191,9 +191,9 @@ Ajoutez un tag à une version d’artefact liée à une collection à l’aide d
   ## Mettre à jour les tags d&#39;une version d&#39;artefact
 </div>
 
-Mettez à jour un tag de manière programmatique en réattribuant l&#39;attribut `tags` ou en le modifiant. W&amp;B recommande — et c&#39;est une bonne pratique en Python — de réattribuer l&#39;attribut `tags` plutôt que de le modifier sur place.
+Mettez à jour un tag par programmation en réattribuant l&#39;attribut `tags` ou en le modifiant. W&amp;B recommande — et c&#39;est une bonne pratique en Python — de réattribuer l&#39;attribut `tags` plutôt que d&#39;effectuer une mutation en place.
 
-Par exemple, l&#39;extrait de code suivant montre des méthodes courantes pour mettre à jour une liste par réattribution. Par souci de brièveté, nous reprenons l&#39;exemple de code de la [section Ajouter un tag à une version d&#39;artefact](#add-a-tag-to-an-artifact-version) :
+Par exemple, l&#39;extrait de code suivant présente des méthodes courantes pour mettre à jour une liste par réattribution. Par souci de brièveté, nous reprenons l&#39;exemple de code de la [section Ajouter un tag à une version d&#39;artefact](#add-a-tag-to-an-artifact-version) :
 
 ```python
 artifact.tags = [*artifact.tags, "new-tag", "other-tag"]
@@ -203,7 +203,7 @@ artifact.tags = set(artifact.tags) - set(tags_to_delete)
 artifact.tags = []  # supprime tous les tags
 ```
 
-L’extrait de code suivant montre comment utiliser une mutation en place pour mettre à jour les tags associés à une version d’artefact :
+L’extrait de code suivant montre comment utiliser une mutation en place pour mettre à jour les tags d’une version d’artefact :
 
 ```python
 artifact.tags += ["new-tag", "other-tag"]
@@ -218,35 +218,35 @@ artifact.tags.clear()
 
 
 <div id="view-tags-that-belong-to-an-artifact-version">
-  ## Voir les tags associées à une version d&#39;artefact
+  ## Voir les tags associés à une version d&#39;artefact
 </div>
 
-Consultez les tags associées à une version d&#39;artefact liée à un registre dans l&#39;interface de l&#39;application W&amp;B ou avec le SDK Python.
+Consultez les tags associés à une version d&#39;artefact liée à un registre dans l&#39;interface de l&#39;application W&amp;B ou avec le SDK Python.
 
 <Tabs>
-  <Tab title="Application W&B">
+  <Tab title="W&B App">
     1. Accédez à [W&amp;B Registry](https://wandb.ai/registry).
     2. Cliquez sur une carte du registre.
-    3. Cliquez sur **Voir les détails** à côté du nom de la collection à laquelle vous souhaitez ajouter une balise.
+    3. Cliquez sur **Voir les détails** à côté du nom de la collection à laquelle vous souhaitez ajouter un tag.
     4. Faites défiler la page jusqu&#39;à la section **Versions**.
 
-    Si une version d&#39;artefact possède une ou plusieurs tags, vous pouvez les voir dans la colonne **Tags**.
+    Si une version d&#39;artefact possède un ou plusieurs tags, vous pouvez les voir dans la colonne **Tags**.
 
     <Frame>
-      <img src="/images/registry/tag_artifact_version.png" alt="Version d'artefact avec des balises" />
+      <img src="/images/registry/tag_artifact_version.png" alt="Version d'artefact avec des tags" />
     </Frame>
   </Tab>
 
   <Tab title="Python SDK">
-    Récupérez la version d&#39;artefact pour voir ses tags. Une fois la version d&#39;artefact récupérée, vous pouvez afficher les tags associées à cet artefact en consultant l&#39;attribut `tags` de l&#39;objet artefact.
+    Récupérez la version d&#39;artefact pour voir ses tags. Une fois la version d&#39;artefact récupérée, vous pouvez afficher les tags associés à cet artefact en consultant l&#39;attribut `tag` de l&#39;objet artefact.
 
     Comme pour les autres artefacts, vous pouvez récupérer un artefact depuis W&amp;B sans créer de run, ou créer un run et récupérer l&#39;artefact dans ce run.
 
-    Copiez-collez l&#39;un des extraits de code ci-dessous pour ajouter ou modifier la balise d&#39;une version d&#39;artefact. Remplacez les valeurs entre `<>` par les vôtres.
+    Copiez-collez l&#39;un des extraits de code ci-dessous pour ajouter ou modifier le tag d&#39;une version d&#39;artefact. Remplacez les valeurs entre `<>` par les vôtres.
 
-    L&#39;extrait de code suivant montre comment récupérer et afficher les tags d&#39;une version d&#39;artefact sans créer de nouveau run :
+    L&#39;extrait de code suivant montre comment récupérer et afficher les tags d&#39;une version d&#39;artefact sans créer de nouveau run :
 
-    ```python title="Ajouter une balise à une version d'artefact sans créer de nouveau run"
+    ```python title="Ajouter un tag à une version d'artefact sans créer de nouveau run"
     import wandb
 
     ARTIFACT_TYPE = "<TYPE>"
@@ -260,9 +260,9 @@ Consultez les tags associées à une version d&#39;artefact liée à un registre
     print(artifact.tags)
     ```
 
-    L&#39;extrait de code suivant montre comment récupérer et afficher les tags d&#39;une version d&#39;artefact en créant un nouveau run :
+    L&#39;extrait de code suivant montre comment récupérer et afficher les tags d&#39;une version d&#39;artefact en créant un nouveau run :
 
-    ```python title="Ajouter une balise à une version d'artefact pendant un run"
+    ```python title="Ajouter un tag à une version d'artefact pendant un run"
     import wandb
 
     REGISTRY_NAME = "<registry_name>"
@@ -287,7 +287,7 @@ Consultez les tags associées à une version d&#39;artefact liée à un registre
 2. Cliquez sur une carte du registre.
 3. Cliquez sur **Voir les détails** à côté du nom de la collection à laquelle vous souhaitez ajouter un tag
 4. Faites défiler jusqu’à **Versions**
-5. Cliquez sur **Vue** à côté d’une version d’artefact
+5. Cliquez sur **vue** à côté d’une version d’artefact
 6. Dans l’onglet **Version**, survolez le nom du tag avec la souris
 7. Cliquez sur le bouton d’annulation (icône **X**)
 
@@ -309,7 +309,7 @@ Utilisez l’interface de l’application W&amp;B pour rechercher des tags exist
   ## Trouver des versions d&#39;artefact avec un tag spécifique
 </div>
 
-Utilisez le SDK Python de W&amp;B pour trouver les versions d&#39;artefact associées à un ensemble de tags :
+Utilisez le SDK Python W&amp;B pour trouver les versions d&#39;artefact qui ont un ensemble de tags :
 
 ```python
 import wandb

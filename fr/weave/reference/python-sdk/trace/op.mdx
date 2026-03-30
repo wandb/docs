@@ -93,7 +93,7 @@ call(
 
 Exécute l’op et renvoie à la fois le résultat et un Appel représentant l’exécution.
 
-Cette fonction ne lèvera jamais d’exception. Toute erreur est capturée dans l’objet Appel.
+Cette fonction ne lève jamais d’exception. Toute erreur est capturée dans l’objet Appel.
 
 Cette méthode est automatiquement associée à toute fonction décorée avec `@weave.op`, ce qui permet une utilisation comme suit :
 
@@ -195,7 +195,7 @@ maybe_bind_method(func: 'Callable', self: 'Any' = None) → Callable | MethodTyp
 
 Associe une fonction à n’importe quel objet (même s’il ne s’agit pas d’une classe).
 
-Si self vaut None, renvoyez la fonction telle quelle.
+Si self est None, renvoyez la fonction telle quelle.
 
 ***
 
@@ -266,9 +266,9 @@ Configure un dict &#95;&#95;weave utilisé pour transmettre des WeaveKwargs aux 
 **Arguments :**
 
 * <b>`d`</b> : dict WeaveKwargs existant facultatif à mettre à jour.
-* <b>`op`</b> : op à partir duquel extraire kind et color.
+* <b>`op`</b> : op à partir duquel extraire kind et couleur.
   **Retourne :**
-  dict WeaveKwargs avec attributes, display&#95;name et, facultativement, kind/color renseignés.
+  dict WeaveKwargs avec attributes, display&#95;name et, facultativement, kind/couleur renseignés.
 
 ***
 

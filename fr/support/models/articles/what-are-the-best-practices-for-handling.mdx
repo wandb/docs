@@ -1,9 +1,9 @@
 ---
-title: "Quelles sont les bonnes pratiques pour gérer les erreurs de W&B Inférence ?"
+title: "Quelles sont les bonnes pratiques pour gérer les erreurs de W&B Inference ?"
 keywords: ["Inférence"]
 ---
 
-Suivez ces bonnes pratiques pour gérer correctement les erreurs de W&amp;B Inférence et garantir la fiabilité de vos applications.
+Suivez ces bonnes pratiques pour gérer correctement les erreurs de W&amp;B Inference et garantir la fiabilité de vos applications.
 
 <div id="1-always-implement-error-handling">
   ## 1. Mettez toujours en place une gestion des erreurs
@@ -25,7 +25,7 @@ except Exception as e:
 ```
 
 <div id="2-use-retry-logic-with-exponential-backoff">
-  ## 2. Utiliser une logique de réessai avec backoff exponentiel
+  ## 2. Utiliser une stratégie de réessai avec backoff exponentiel
 </div>
 
 ```python
@@ -50,9 +50,9 @@ def call_inference_with_retry(
             if attempt == max_retries - 1:
                 raise
             
-            # Calculer le délai avec un backoff exponentiel
+            # Calcul du délai avec un backoff exponentiel
             delay = base_delay * (2 ** attempt)
-            print(f"Tentative {attempt + 1} échouée, nouvelle tentative dans {delay}s...")
+            print(f"Attempt {attempt + 1} failed, retrying in {delay}s...")
             time.sleep(delay)
     
     return None
@@ -117,11 +117,11 @@ client = openai.OpenAI(
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Inférence](/fr/support/models/tags/inference)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badge d’onglet ---- */}

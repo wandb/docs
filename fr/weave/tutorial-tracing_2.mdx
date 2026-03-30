@@ -1,11 +1,11 @@
 ---
 title: "Tracer les fonctions imbriquées"
-description: "Découvrez comment suivre des structures d’appel profondément imbriquées avec le traçage W&B"
+description: "Découvrez comment suivre des structures d'appel profondément imbriquées avec le Tracing W&B"
 ---
 
-Les applications basées sur des LLM peuvent contenir plusieurs appels à des LLM, ainsi qu’une logique supplémentaire de traitement des données et de validation qu’il est important de surveiller. Même dans des structures d’appel profondément imbriquées, fréquentes dans de nombreuses applications, Weave suit les relations parent-enfant entre les fonctions imbriquées, à condition d’ajouter `weave.op()` à chaque fonction que vous souhaitez tracer.
+Les applications basées sur des LLM peuvent contenir plusieurs appels à des LLM, ainsi qu&#39;une logique supplémentaire de traitement des données et de validation qu&#39;il est important de surveiller. Même dans des structures d&#39;appel profondément imbriquées, fréquentes dans de nombreuses applications, Weave suit les relations parent-enfant entre les fonctions imbriquées, à condition d&#39;ajouter `weave.op()` à chaque fonction que vous souhaitez tracer.
 
-Le code suivant s’appuie sur l’[exemple de démarrage rapide](/fr/weave/quickstart) et ajoute une logique pour compter les éléments renvoyés par le LLM et les encapsuler dans une fonction de niveau supérieur. De plus, l’exemple utilise `weave.op()` pour tracer chaque fonction, son ordre d’appel et sa relation parent-enfant :
+Le code suivant s&#39;appuie sur l&#39;[exemple de Démarrage rapide](/fr/weave/quickstart) et ajoute une logique pour compter les éléments renvoyés par le LLM et les encapsuler dans une fonction de niveau supérieur. De plus, l&#39;exemple utilise `weave.op()` pour tracer chaque fonction, son ordre d&#39;appel et sa relation parent-enfant :
 
 <Tabs>
   <Tab title="Python">
@@ -131,9 +131,9 @@ Le code suivant s’appuie sur l’[exemple de démarrage rapide](/fr/weave/quic
   ## Suivi des métadonnées
 </div>
 
-Vous pouvez suivre les métadonnées à l’aide du gestionnaire de contexte `weave.attributes`, en lui passant un dictionnaire des métadonnées à suivre au moment de l’appel.
+Vous pouvez suivre les métadonnées en utilisant le gestionnaire de contexte `weave.attributes` et en lui transmettant un dictionnaire des métadonnées à suivre au moment de l&#39;appel.
 
-En reprenant notre exemple précédent :
+Pour continuer notre exemple ci-dessus :
 
 <Tabs>
   <Tab title="Python">
@@ -154,21 +154,21 @@ En reprenant notre exemple précédent :
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.
+    Cette fonctionnalité n'est pas encore disponible en TypeScript.
     ```
   </Tab>
 </Tabs>
 
 <Note>
-  Nous vous recommandons de suivre les métadonnées au moment de l’exécution, comme les ID utilisateur et le statut de l’environnement de votre code (développement, préproduction ou production).
+  Nous vous recommandons de suivre les métadonnées au moment de l&#39;exécution, comme vos ID utilisateur et le statut d&#39;environnement de votre code (développement, staging ou Production).
 
-  Pour suivre les paramètres système, comme un prompt système, nous vous recommandons d’utiliser [Weave Models](/fr/weave/guides/core-types/models).
+  Nous vous recommandons, pour suivre les paramètres système, tels qu&#39;un prompt système, d&#39;utiliser les [modèles Weave](/fr/weave/guides/core-types/models).
 </Note>
 
-Pour plus d’informations sur l’utilisation des attributs, voir [Définir et journaliser des attributs](/fr/weave/guides/tools/attributes).
+Pour plus d&#39;informations sur l&#39;utilisation des attributs, voir [Définir et journaliser des attributs](/fr/weave/guides/tools/attributes).
 
 <div id="whats-next">
-  ## Et ensuite ?
+  ## Et ensuite ?
 </div>
 
 * Suivez le [tutoriel sur la gestion des versions des applications](/fr/weave/tutorial-weave_models) pour capturer, gérer les versions et organiser les modifications ponctuelles des prompts, des modèles et des applications.

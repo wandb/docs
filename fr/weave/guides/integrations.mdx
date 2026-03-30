@@ -1,19 +1,19 @@
 ---
 title: Aperçu des intégrations
-description: "Tracez et surveillez les appels LLM sur plus de 30 fournisseurs et frameworks grâce au patching automatique de Weave pour OpenAI, Anthropic, et bien d'autres."
+description: "Tracez et surveillez les appels LLM sur plus de 30 fournisseurs et frameworks grâce au patching automatique de Weave pour OpenAI, Anthropic et bien d'autres."
 ---
 
 W&amp;B Weave fournit des intégrations de journalisation pour les fournisseurs de LLM et les frameworks d&#39;orchestration les plus répandus. Ces intégrations vous permettent de tracer en toute transparence les appels effectués via différentes bibliothèques, afin de mieux surveiller et analyser vos applications d&#39;IA.
 
-Si vous utilisez dans votre application des bibliothèques de fournisseurs de LLM (comme OpenAI, Anthropic, Cohere ou Mistral), vous souhaitez que ces appels d&#39;API apparaissent dans W&amp;B Weave sous forme d&#39;Appels tracés : entrées, sorties, latence, utilisation des tokens et coût. Sans cela, vous devriez encapsuler chaque `client.chat.completions.create()` (ou équivalent) dans `@weave.op` ou recourir à une instrumentation manuelle, ce qui est fastidieux et rend les oublis faciles.
+Si vous utilisez dans votre application des bibliothèques de fournisseurs de LLM (comme OpenAI, Anthropic, Cohere ou Mistral), vous souhaitez que ces appels d&#39;API apparaissent dans W&amp;B Weave sous forme d&#39;Appels tracés : entrées, sorties, latence, utilisation des jetons et coût. Sans cela, vous devriez encapsuler chaque `client.chat.completions.create()` (ou équivalent) dans `@weave.op` ou recourir à une instrumentation manuelle, ce qui est fastidieux et rend les oublis faciles.
 
-Weave intercepte automatiquement (applique un patch à) les bibliothèques clientes LLM prises en charge. Le code de votre application reste inchangé : vous utilisez le SDK du fournisseur comme d&#39;habitude, et chaque requête est enregistrée comme un Appel Weave. Vous bénéficiez d&#39;un traçage complet avec une configuration minimale.
+Weave intercepte automatiquement (applique un patch à) les bibliothèques clientes LLM prises en charge. Le code de votre application reste inchangé : vous utilisez le SDK du fournisseur comme d&#39;habitude, et chaque requête est enregistrée comme un Appel Weave. Vous bénéficiez d&#39;un traçage complet avec une configuration minimale.
 
 <div id="llm-providers">
   ## Fournisseurs de LLM
 </div>
 
-Les fournisseurs de LLM sont les fournisseurs qui donnent accès à des grands modèles de langage pour générer des prédictions. Weave s&#39;intègre à ces fournisseurs pour la journalisation et le traçage des interactions avec leurs API :
+Les fournisseurs de LLM sont des prestataires qui donnent accès à de grands modèles de langage pour générer des prédictions. Weave s&#39;intègre à ces fournisseurs pour journaliser et tracer les interactions avec leurs API :
 
 * **[W&amp;B Inference Service](https://docs.wandb.ai/inference/)**
 * **[Amazon Bedrock](/fr/weave/guides/integrations/bedrock)**
@@ -31,7 +31,7 @@ Les fournisseurs de LLM sont les fournisseurs qui donnent accès à des grands m
 * **[OpenRouter](/fr/weave/guides/integrations/openrouter)**
 * **[Together AI](/fr/weave/guides/integrations/together_ai)**
 
-**[Modèles locaux](/fr/weave/guides/integrations/local_models)** : Pour exécuter des modèles sur votre propre infrastructure.
+**[Modèles locaux](/fr/weave/guides/integrations/local_models)** : Lorsque vous exécutez des modèles sur votre propre infrastructure.
 
 <div id="frameworks">
   ## Frameworks

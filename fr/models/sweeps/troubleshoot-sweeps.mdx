@@ -6,10 +6,10 @@ title: Résolution des problèmes de Sweeps
 Suivez les recommandations ci-dessous pour résoudre les messages d’erreur courants.
 
 <div id="commerror-run-does-not-exist-and-error-error-uploading">
-  ### `CommError, Run does not exist` and `ERROR Error uploading`
+  ### `CommError, Run does not exist` et `ERROR Error uploading`
 </div>
 
-L&#39;ID de votre run W&amp;B est peut-être défini si ces deux messages d&#39;erreur s&#39;affichent. Par exemple, vous avez peut-être un extrait de code similaire défini quelque part dans l&#39;un de vos notebooks Jupyter ou dans votre script Python :
+Il est possible que l’ID du run W&amp;B soit défini si ces deux messages d’erreur s’affichent. Par exemple, vous avez peut-être un extrait de code similaire quelque part dans l’un de vos notebooks Jupyter ou dans votre script Python :
 
 ```python
 wandb.init(id="some-string")
@@ -19,7 +19,7 @@ Vous ne pouvez pas définir d’ID de run pour W&amp;B Sweeps, car W&amp;B gén�
 
 Les ID de run W&amp;B doivent être uniques au sein d’un projet.
 
-Nous vous recommandons de fournir un nom au paramètre `name` lors de l’initialisation de W&amp;B si vous souhaitez définir un nom personnalisé qui apparaîtra dans les tableaux et les graphiques. Par exemple :
+Nous vous recommandons d’attribuer une valeur au paramètre `name` lors de l’initialisation de W&amp;B si vous souhaitez définir un nom personnalisé qui apparaîtra dans les tableaux et les graphiques. Par exemple :
 
 ```python
 wandb.init(name="a helpful readable run name")
@@ -29,9 +29,9 @@ wandb.init(name="a helpful readable run name")
   ### `Cuda out of memory`
 </div>
 
-Remaniez votre code pour utiliser des exécutions dans des processus distincts si ce message d&#39;erreur s&#39;affiche. Plus précisément, réécrivez votre code sous la forme d&#39;un script Python. De plus, appelez le W&amp;B Sweep Agent depuis la CLI, plutôt que depuis le SDK Python de W&amp;B.
+Refactorisez votre code pour utiliser des exécutions basées sur des processus si ce message d’erreur s’affiche. Plus précisément, réécrivez votre code sous forme de script Python. De plus, appelez le W&amp;B balayage Agent depuis la CLI plutôt que depuis le SDK Python de W&amp;B.
 
-Par exemple, supposons que vous réécriviez votre code dans un script Python nommé `train.py`. Ajoutez le nom du script d&#39;entraînement (`train.py`) à votre fichier de configuration YAML du sweep (`config.yaml` dans cet exemple) :
+Par exemple, supposons que vous réécriviez votre code dans un script Python nommé `train.py`. Ajoutez le nom du script d’entraînement (`train.py`) à votre fichier de configuration YAML du balayage (`config.yaml` dans cet exemple) :
 
 ```yaml
 program: train.py
@@ -47,20 +47,20 @@ parameters:
     values: ["adam", "sgd"]
 ```
 
-Ensuite, ajoutez ce qui suit dans votre script Python `train.py` :
+Ensuite, ajoutez ce qui suit à votre script Python `train.py` :
 
 ```python
 if _name_ == "_main_":
     train()
 ```
 
-Ouvrez votre CLI et initialisez un W&amp;B sweep avec wandb sweep :
+Accédez à votre CLI et initialisez un balayage W&amp;B avec wandb sweep :
 
 ```shell
 wandb sweep config.yaml
 ```
 
-Notez l’ID du sweep W&amp;B renvoyé. Ensuite, démarrez le job de sweep avec [`wandb agent`](/fr/models/ref/cli/wandb-agent) depuis la CLI plutôt qu’avec le SDK Python ([`wandb.agent`](/fr/models/ref/python/functions/agent)). Remplacez `sweep_ID` dans l’extrait de code ci-dessous par l’ID du sweep renvoyé à l’étape précédente :
+Notez l’ID du balayage W&amp;B renvoyé. Ensuite, démarrez le job de balayage avec [`wandb agent`](/fr/models/ref/cli/wandb-agent), avec la CLI plutôt qu’avec le SDK Python ([`wandb.agent`](/fr/models/ref/python/functions/agent)). Remplacez `sweep_ID` dans l’extrait de code ci-dessous par l’ID du balayage renvoyé à l’étape précédente :
 
 ```shell
 wandb agent sweep_ID
@@ -70,11 +70,11 @@ wandb agent sweep_ID
   ### `anaconda 400 error`
 </div>
 
-L’erreur suivante se produit généralement lorsque vous n’ajoutez pas au journal la métrique que vous optimisez :
+L’erreur suivante se produit généralement lorsque vous n’enregistrez pas dans le journal la métrique que vous optimisez :
 
 ```shell
 wandb: ERROR Error while calling W&B API: anaconda 400 error: 
 {"code": 400, "message": "TypeError: bad operand type for unary -: 'NoneType'"}
 ```
 
-Dans votre fichier YAML ou votre dictionnaire imbriqué, spécifiez une clé nommée &quot;metric&quot; à optimiser. Assurez-vous d&#39;enregistrer (`wandb.log`) cette métrique. Assurez-vous également d&#39;utiliser le nom *exact* de la métrique que vous avez défini pour le sweep à optimiser dans votre script Python ou votre notebook Jupyter. Pour plus d&#39;informations sur les fichiers de configuration, voir [Définir la configuration du sweep](/fr/models/sweeps/define-sweep-configuration/).
+Dans votre fichier YAML ou votre dictionnaire imbriqué, spécifiez une clé nommée « metric » à optimiser. Assurez-vous de journaliser (`wandb.log`) cette métrique. Assurez-vous également d&#39;utiliser le nom *exact* de la métrique que vous avez défini pour le balayage à optimiser dans votre script Python ou votre notebook Jupyter. Pour plus d&#39;informations sur les fichiers de configuration, voir [Définir la configuration du balayage](/fr/models/sweeps/define-sweep-configuration/).

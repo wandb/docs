@@ -14,13 +14,13 @@ description: "Configurer la surveillance en ligne des applications LLM en produc
   # Intégration avec Weave : tableau de bord de production
 </div>
 
-L&#39;écosystème des outils GenAI évolue rapidement : de nouveaux frameworks, outils et applications apparaissent en permanence. Weave a pour objectif de servir de solution centralisée pour tous vos besoins en surveillance et en évaluation GenAI. Cela signifie aussi qu&#39;il est parfois nécessaire de l&#39;intégrer à des plateformes existantes ou d&#39;étendre Weave pour répondre aux besoins spécifiques de votre projet ou de votre organisation.
+L’écosystème des outils GenAI évolue rapidement : de nouveaux frameworks, outils et applications apparaissent en permanence. Weave vise à offrir une solution centralisée pour tous vos besoins de surveillance et d’évaluation GenAI. Cela signifie aussi qu’il est parfois nécessaire de l’intégrer à des plateformes existantes ou d’étendre Weave afin de répondre aux besoins spécifiques de votre projet ou de votre organisation.
 
-Dans ce cookbook, nous allons montrer comment exploiter les API et fonctions puissantes de Weave pour créer un tableau de bord personnalisé de surveillance en production, en extension de la vue Traces dans Weave. Nous nous concentrerons sur :
+Dans ce cookbook, nous allons montrer comment exploiter les puissantes API et fonctions de Weave pour créer un tableau de bord personnalisé de surveillance en production, comme extension de la vue Traces dans Weave. Nous nous concentrerons sur :
 
-* La récupération des traces, des coûts, des retours utilisateurs et d&#39;autres métriques depuis Weave
-* La création de vues agrégées pour les retours utilisateurs et la répartition des coûts
-* La création de visualisations pour l&#39;utilisation des tokens et la latence dans le temps
+* la récupération des traces, des coûts, des retours utilisateur et d’autres métriques depuis Weave
+* la création de vues agrégées pour les retours utilisateur et la répartition des coûts
+* la création de visualisations pour l’utilisation des jetons et la latence au fil du temps
 
 Vous pouvez essayer ce tableau de bord avec votre propre projet Weave en installant streamlit et en exécutant [ce script de tableau de bord de production](https://github.com/NiWaRe/agent-dev-collection) !
 
@@ -46,8 +46,8 @@ Pour suivre ce tutoriel, il vous suffit d’installer les paquets suivants :
 
 Commencez par configurer une fonction pour initialiser le client Weave et ajouter des coûts pour chaque modèle.
 
-* Nous avons inclus les coûts standard pour de nombreux modèles, mais vous pouvez aussi facilement ajouter vos propres coûts personnalisés et modèles personnalisés. Nous allons voir comment ajouter des coûts personnalisés pour quelques modèles et utiliser les coûts standard pour les autres.
-* Les coûts sont calculés à partir des jetons suivis pour chaque appel dans Weave. Pour de nombreuses bibliothèques de fournisseurs de LLM, nous suivons automatiquement l’utilisation des jetons, mais vous pouvez aussi renvoyer un nombre de jetons personnalisé pour n’importe quel appel. Voir ce cookbook pour savoir comment définir le nombre de jetons et le calcul du coût pour un modèle personnalisé - [cookbook sur les coûts personnalisés](/fr/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave).
+* Nous avons inclus les coûts standard pour de nombreux modèles, mais vous pouvez aussi facilement ajouter vos propres coûts et modèles personnalisés. Dans la suite, nous allons montrer comment ajouter des coûts personnalisés pour quelques modèles et utiliser les coûts standard pour les autres.
+* Les coûts sont calculés en fonction des jetons suivis pour chaque appel dans Weave. Pour de nombreuses bibliothèques de fournisseurs de LLM, nous suivons automatiquement l’utilisation des jetons, mais vous pouvez aussi renvoyer un nombre de jetons personnalisé pour n’importe quel appel. Voir ce cookbook pour savoir comment définir le nombre de jetons et le calcul du coût pour un modèle personnalisé - [cookbook sur les coûts personnalisés](/fr/weave/cookbooks/custom_model_cost#setting-up-a-model-with-weave).
 
 ```python lines
 PROJECT_NAME = "wandb-smle/weave-cookboook-demo"
@@ -100,7 +100,7 @@ La première option pour accéder aux données de Weave consiste à récupérer 
 
 * API `calls_query_stream` : cette API permet de récupérer les données d&#39;appels depuis Weave.
 * dictionnaire `filter` : ce dictionnaire contient les paramètres de filtre pour récupérer les données d&#39;appels — voir [ici](/fr/weave/reference/python-sdk/trace_server/trace_server_interface#class-callschema) pour plus de détails.
-* liste `expand_columns` : cette liste contient les colonnes à développer dans les données d&#39;appels.
+* liste `expand_columns` : cette liste contient les colonnes à étendre dans les données d&#39;appels.
 * liste `sort_by` : cette liste contient les paramètres de tri des données d&#39;appels.
 * booléen `include_costs` : ce booléen indique s&#39;il faut inclure les coûts dans les données d&#39;appels.
 * booléen `include_feedback` : ce booléen indique s&#39;il faut inclure les retours dans les données d&#39;appels.
@@ -138,7 +138,7 @@ python
 pd.DataFrame([call.dict() for call in calls]).head(3)
 ```
 
-Traiter les appels est très simple avec la valeur de retour de Weave : nous allons extraire les informations pertinentes et les stocker dans une liste de dictionnaires. Nous convertirons ensuite cette liste de dictionnaires en dataframe pandas et la renverrons.
+Traiter les appels est très simple à partir de ce que renvoie Weave : nous allons extraire les informations pertinentes et les stocker dans une liste de dictionnaires. Nous convertirons ensuite cette liste de dictionnaires en DataFrame pandas et la renverrons.
 
 ```python lines
 import json
@@ -165,8 +165,8 @@ def process_calls(calls):
         records.append(
             {
                 "Call ID": call.id,
-                "Trace ID": call.trace_id,  # ID unique de la trace, utilisable pour la récupérer
-                "Display Name": call.display_name,  # nom facultatif que vous pouvez définir dans l'interface ou par programmation
+                "Trace ID": call.trace_id,  # ID unique de la trace, que vous pouvez utiliser pour la récupérer
+                "Display Name": call.display_name,  # nom facultatif que vous pouvez définir dans l’interface utilisateur ou par programmation
                 "Latency (ms)": latency,
                 "Thumbs Up": thumbs_up,
                 "Thumbs Down": thumbs_down,
@@ -185,8 +185,8 @@ df_calls.head(3)
   ### 2.2.2 Utilisation des API de haut niveau
 </div>
 
-Au lieu de passer en revue chaque appel, Weave fournit également des API de haut niveau pour accéder directement aux coûts des modèles, aux retours et à d&#39;autres métriques.
-Par exemple, pour le coût, nous utiliserons l&#39;API `query_costs` pour récupérer les coûts de tous les LLM utilisés dans le projet :
+Au lieu d’examiner chaque appel en détail, Weave fournit également des API de haut niveau pour accéder directement aux coûts des modèles, au retour et à d’autres métriques.
+Par exemple, pour le coût, nous utiliserons l’API `query_costs` pour récupérer les coûts de tous les LLM utilisés dans le projet :
 
 ```python lines
 # Utiliser l'API de coût pour obtenir les coûts
@@ -204,7 +204,7 @@ df_costs
   ## 2.4 Collecte des données d’entrée et génération des visualisations
 </div>
 
-Ensuite, vous pouvez générer les visualisations avec plotly. Il s’agit d’un tableau de bord de base, mais vous pouvez le personnaliser à votre guise ! Pour un exemple plus complexe, consultez un exemple Streamlit [ici](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py).
+Ensuite, vous pouvez générer les visualisations avec plotly. Il s’agit du tableau de bord le plus basique, mais vous pouvez le personnaliser comme vous le souhaitez ! Pour un exemple plus complexe, consultez un exemple Streamlit [ici](https://github.com/NiWaRe/knowledge-worker-weave/blob/master/prod_dashboard.py).
 
 ```python lines
 import plotly.express as px
@@ -250,7 +250,7 @@ plot_model_cost_distribution(df_costs)
 Dans ce cookbook, nous avons montré comment créer un tableau de bord personnalisé de surveillance en production à l’aide des API et des fonctions de Weave. Weave se concentre actuellement sur des intégrations rapides pour faciliter l’ingestion des données ainsi que l’extraction de ces données pour des processus personnalisés.
 
 * **Entrée des données :**
-  * Traçage indépendant du framework avec le décorateur [@weave-op()](/fr/weave/quickstart#2-log-a-trace-to-a-new-project) et possibilité d’importer des appels à partir d’un fichier CSV (voir le [cookbook d’import](/fr/weave/cookbooks/import_from_csv) associé)
+  * Tracing indépendant du framework avec le décorateur [@weave-op()](/fr/weave/quickstart#2-log-a-trace-to-a-new-project) et possibilité d’importer des appels à partir d’un fichier CSV (voir le [cookbook d’import](/fr/weave/cookbooks/import_from_csv) associé)
   * Points de terminaison de l’API de service permettant de journaliser dans Weave depuis différents frameworks et langages de programmation ; voir [ici](https://docs.wandb.ai/weave/reference/service-api/calls/call-start) pour plus de détails.
 * **Sortie des données :**
   * Téléchargement facile des données aux formats CSV, TSV, JSONL et JSON - voir [ici](/fr/weave/reference/service-api) pour plus de détails.

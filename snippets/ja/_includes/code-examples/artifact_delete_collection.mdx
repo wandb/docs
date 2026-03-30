@@ -4,14 +4,14 @@ title: Artifacts コレクションの削除
 
 ```python
 """
-W&B から Artifacts コレクションを削除する。
+W&B からアーティファクト コレクションを削除する。
 """
 import wandb
 
 # W&B API を初期化する
 api = wandb.Api()
 
-# 名前とタイプで Artifacts コレクションを削除する
+# 名前とタイプでアーティファクト コレクションを削除する
 # 名前の形式: <entity>/<project>/<run_path>
 collection = api.artifact_collection(
     name="<entity>/<project>/<run_path>",

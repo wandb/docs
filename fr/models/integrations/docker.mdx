@@ -19,7 +19,7 @@ W&amp;B peut stocker une référence à l’image Docker dans laquelle votre cod
   ### Production
 </div>
 
-La commande `wandb docker-run` est fournie pour les charges de travail de production. Elle est conçue pour remplacer directement `nvidia-docker`. Il s&#39;agit d&#39;un simple wrapper autour de la commande `docker run` qui ajoute vos identifiants et la variable d&#39;environnement **WANDB&#95;DOCKER** à l&#39;appel. Si vous ne spécifiez pas l&#39;indicateur &quot;--runtime&quot; et que `nvidia-docker` est disponible sur la machine, cela garantit également que le runtime est défini sur nvidia.
+La commande `wandb docker-run` est fournie pour les charges de travail de production. Elle est conçue pour remplacer directement `nvidia-docker`. Il s&#39;agit d&#39;un simple wrapper autour de la commande `docker run` qui ajoute vos identifiants ainsi que la variable d&#39;environnement **WANDB&#95;DOCKER** à la commande. Si vous ne spécifiez pas l&#39;option &quot;--runtime&quot; et que `nvidia-docker` est disponible sur la machine, cela garantit également que le runtime est défini sur nvidia.
 
 <div id="kubernetes">
   ### Kubernetes
@@ -31,4 +31,4 @@ Si vous exécutez vos charges de travail d’entraînement dans Kubernetes et qu
   ## Restauration
 </div>
 
-Si un run a été instrumenté avec la variable d&#39;environnement **WANDB&#95;DOCKER**, l&#39;appel à `wandb restore username/project:run_id` créera une nouvelle branche pour restaurer votre code, puis lancera l&#39;image Docker exacte utilisée pour l&#39;entraînement, préremplie avec la commande d&#39;origine.
+Si un run a été instrumenté avec la variable d&#39;environnement **WANDB&#95;DOCKER**, l&#39;appel à `wandb restore username/project:run_id` créera une nouvelle branche pour restaurer votre code, puis lancera l&#39;image Docker exacte utilisée pour l&#39;entraînement, préremplie avec la commande originale.

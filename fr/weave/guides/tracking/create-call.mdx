@@ -9,8 +9,8 @@ Pour afficher votre code en cours d’exécution sous forme de traces détaillé
   ## 1. Suivi automatique des appels aux bibliothèques LLM
 </div>
 
-Weave s’intègre automatiquement à de nombreuses intégrations et frameworks courants, comme `openai`, `anthropic`, `cohere`, `mistral` et `LangChain`.
-Importez la bibliothèque LLM ou le framework, initialisez votre projet Weave, puis Weave trace automatiquement tous les appels effectués au LLM ou à la plateforme dans votre projet,
+Weave s’intègre automatiquement à de nombreuses intégrations et à de nombreux frameworks courants, comme `openai`, `anthropic`, `cohere`, `mistral` et `LangChain`.
+Importez la bibliothèque LLM ou le framework, initialisez votre projet Weave, puis Weave trace automatiquement tous les appels effectués vers le LLM ou la plateforme dans votre projet,
 sans aucune modification supplémentaire du code. Pour obtenir la liste complète des intégrations de bibliothèques prises en charge, voir [Aperçu des intégrations](/fr/weave/guides/integrations/).
 
 <Tabs>
@@ -21,7 +21,7 @@ sans aucune modification supplémentaire du code. Pour obtenir la liste complèt
     from openai import OpenAI
     client = OpenAI()
 
-    # initialiser Weave Tracing
+    # Initialiser Weave Tracing
     weave.init('intro-example')
 
     response = client.chat.completions.create(
@@ -46,7 +46,7 @@ sans aucune modification supplémentaire du code. Pour obtenir la liste complèt
 
     const client = new OpenAI()
 
-    // initialiser Weave Tracing
+    // Initialiser Weave Tracing
     await weave.init('intro-example')
 
     const response = await client.chat.completions.create({
@@ -63,17 +63,17 @@ sans aucune modification supplémentaire du code. Pour obtenir la liste complèt
     });
     ```
 
-    Pour obtenir un guide complet de configuration pour les projets JS / TS, voir le [SDK TypeScript : guide d’intégration tiers](/fr/weave/guides/integrations/js).
+    Pour obtenir un guide complet de configuration pour les projets JS / TS, voir le [SDK TypeScript : guide d’intégration tierce](/fr/weave/guides/integrations/js).
   </Tab>
 </Tabs>
 
-Si vous souhaitez mieux contrôler le comportement automatique, voir [Configurer le suivi automatique des appels LLM](/fr/weave/guides/integrations/autopatching).
+Si vous souhaitez avoir plus de contrôle sur le comportement automatique, voir [Configurer le suivi automatique des appels LLM](/fr/weave/guides/integrations/autopatching).
 
 <div id="2-tracking-of-custom-functions">
   ## 2. Suivi des fonctions personnalisées
 </div>
 
-Les applications LLM incluent souvent une logique supplémentaire (comme le pré-/post-traitement, les prompts, etc.) que vous souhaitez suivre.
+Les applications LLM comportent souvent une logique supplémentaire (telle que le pré- et post-traitement, les prompts, etc.) que vous souhaitez suivre.
 
 <Tabs>
   <Tab title="Python">
@@ -94,7 +94,7 @@ Les applications LLM incluent souvent une logique supplémentaire (comme le pré
     print(my_function("World"))
     ```
 
-    Vous pouvez également suivre les [méthodes définies dans des classes](#track-class-and-object-methods).
+    Vous pouvez également suivre les [méthodes de classes](#track-class-and-object-methods).
   </Tab>
 
   <Tab title="TypeScript">
@@ -112,13 +112,13 @@ Les applications LLM incluent souvent une logique supplémentaire (comme le pré
     const myFunctionOp = weave.op(myFunction)
     ```
 
-    Vous pouvez également définir l’encapsulation en ligne :
+    Vous pouvez également définir l’enveloppement en ligne :
 
     ```typescript lines
     const myFunctionOp = weave.op((name: string) => `Hello, ${name}!`)
     ```
 
-    Cela fonctionne aussi bien pour les fonctions que pour les méthodes définies dans des classes :
+    Cela fonctionne aussi bien pour les fonctions que pour les méthodes de classes :
 
     ```typescript lines
     class MyClass {
@@ -196,16 +196,16 @@ Vous pouvez également suivre les méthodes de classe et d’instance. Vous pouv
 </Tabs>
 
 <div id="trace-parallel-multi-threaded-function-calls">
-  ### Tracer des appels de fonction parallèles (multithread)
+  ### Tracer les appels de fonction parallèles (multithread)
 </div>
 
-Par défaut, les appels parallèles apparaissent tous dans Weave comme des appels racine distincts. Pour obtenir un imbrication correcte sous la même op parent, utilisez un `ThreadPoolExecutor`.
+Par défaut, les Appels parallèles apparaissent tous dans Weave comme des Appels racine distincts. Pour obtenir un imbrication correcte sous le même Op parent, utilisez un `ThreadPoolExecutor`.
 
 <Tabs>
   <Tab title="Python">
-    L’exemple de code suivant illustre l’utilisation de [`ThreadPoolExecutor`](/fr/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor).
-    La première fonction, `func`, est une op simple qui prend `x` et renvoie `x+1`. La deuxième fonction, `outer`, est une autre op qui accepte une liste d’entrées.
-    Dans `outer`, l’utilisation de `ThreadPoolExecutor` et de `exc.map(func, inputs)` signifie que chaque appel à `func` conserve le même contexte de trace parent.
+    L&#39;exemple de code suivant montre l&#39;utilisation de [`ThreadPoolExecutor`](/fr/weave/reference/python-sdk/trace/util#class-contextawarethreadpoolexecutor).
+    La première fonction, `func`, est un op simple qui prend `x` et renvoie `x+1`. La deuxième fonction, `outer`, est un autre op qui accepte une liste d&#39;entrées.
+    Dans `outer`, l&#39;utilisation de `ThreadPoolExecutor` et de `exc.map(func, inputs)` signifie que chaque appel à `func` conserve le même contexte de trace parent.
 
     ```python lines
     import weave
@@ -227,20 +227,20 @@ Par défaut, les appels parallèles apparaissent tous dans Weave comme des appel
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n'est pas encore disponible dans le SDK TypeScript.
+    This feature is not available in the SDK TypeScript yet.
     ```
   </Tab>
 </Tabs>
 
-Dans l’interface Weave, cela produit un seul appel parent avec cinq appels enfants imbriqués, ce qui vous donne une trace entièrement hiérarchique même si les incréments s’exécutent en parallèle.
+Dans l&#39;interface Weave, cela produit un seul Appel parent avec cinq Appels enfants imbriqués, ce qui vous donne une trace entièrement hiérarchique même si les incréments s&#39;exécutent en parallèle.
 
-![L’interface Trace, montrant un seul appel parent pour outer, avec cinq appels enfants imbriqués.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
+![L'interface de trace, montrant un seul Appel parent pour outer, avec cinq Appels enfants imbriqués.](/weave/guides/tracking/imgs/threadpoolexecutor.png)
 
 <div id="3-manual-call-tracking">
   ## 3. Suivi manuel des Appels
 </div>
 
-Vous pouvez aussi créer manuellement des Appels en utilisant directement l’API.
+Vous pouvez aussi créer manuellement des Appels directement à l’aide de l’API.
 
 <Tabs>
   <Tab title="Python">

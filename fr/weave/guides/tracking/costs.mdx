@@ -3,7 +3,7 @@ title: "Suivre les coûts personnalisés"
 description: "Suivre et gérer les coûts des opérations LLM dans Weave"
 ---
 
-W&amp;B Weave calcule automatiquement le coût de chaque appel LLM en suivant l’utilisation des tokens et en appliquant la tarification du modèle utilisé, ce qui vous permet de surveiller et d’analyser les dépenses de votre application directement dans vos traces et évaluations.
+W&amp;B Weave calcule automatiquement le coût de chaque appel LLM en suivant l’utilisation des jetons et en appliquant la tarification du modèle utilisé, ce qui vous permet de surveiller et d’analyser les dépenses de votre application directement dans vos traces et évaluations.
 
 Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin d’une tarification différente, de modèles de coûts internes ou de coûts pour des opérations dont Weave ne calcule pas automatiquement le coût.
 
@@ -80,7 +80,7 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
 
 <Tabs>
   <Tab title="Python">
-    Vous pouvez purger un coût personnalisé à l’aide de la méthode [`purge_costs`](/fr/weave/reference/python-sdk/trace/weave_client#method-purge-costs). Passez une liste d’identifiants de coût ; les coûts correspondants sont alors purgés.
+    Vous pouvez purger un coût personnalisé à l’aide de la méthode [`purge_costs`](/fr/weave/reference/python-sdk/trace/weave_client#method-purge-costs). Passez une liste d’ID de coût ; les coûts correspondants sont alors purgés.
 
     ```python lines
     import weave
@@ -100,12 +100,12 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
 </Tabs>
 
 <div id="calculating-costs-for-a-project">
-  ## Calcul des coûts d’un projet
+  ## Calcul des coûts d&#39;un projet
 </div>
 
 <Tabs>
   <Tab title="Python">
-    Vous pouvez calculer les coûts d’un projet à l’aide de notre `calls_query` en ajoutant `include_costs=True`, avec un peu de configuration.
+    Vous pouvez calculer les coûts d&#39;un projet à l&#39;aide de notre `calls_query` en ajoutant `include_costs=True`, avec un peu de configuration.
 
     ```python lines
     import weave
@@ -123,7 +123,7 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
         )
 
         for call in calls:
-            # Si l’appel comporte des coûts, les ajouter au coût total
+            # Si l'appel comporte des coûts, les ajouter au coût total
             if call.summary["weave"] is not None and call.summary["weave"].get("costs", None) is not None:
                 for k, cost in call.summary["weave"]["costs"].items():
                     requests += cost["requests"]
@@ -145,7 +145,7 @@ Vous pouvez également suivre des coûts personnalisés lorsque vous avez besoin
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
+    Cette fonctionnalité n'est pas encore disponible en TypeScript.  Restez à l'écoute !
     ```
   </Tab>
 </Tabs>

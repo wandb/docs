@@ -3,33 +3,33 @@ title: "Threads de trace"
 description: "Tracez et analysez les conversations à plusieurs tours dans vos applications LLM à l’aide des threads."
 ---
 
-Avec les *Threads* de W&amp;B Weave, vous pouvez suivre et analyser les conversations à plusieurs tours dans vos applications LLM. Les threads regroupent les appels liés sous un `thread_id` commun, afin que vous puissiez visualiser des sessions complètes et suivre des métriques au niveau de la conversation d’un tour à l’autre. Vous pouvez créer des threads par code et les visualiser dans l’interface Weave.
+Avec les *Threads* de W&amp;B Weave, vous pouvez suivre et analyser les conversations à plusieurs tours dans vos applications LLM. Les threads regroupent les appels liés sous un `thread_id` commun, afin que vous puissiez visualiser des sessions complètes et suivre des métriques au niveau de la conversation d’un tour à l’autre. Vous pouvez créer des threads programmatiquement et les visualiser dans l’interface Weave.
 
 Pour bien démarrer avec les Threads, procédez comme suit :
 
 1. Familiarisez-vous avec les notions de base des Threads.
-   * [Cas d&#39;utilisation](#use-cases)
+   * [Cas d&#39;usage](#use-cases)
    * [Définitions](#definitions)
    * [Aperçu de l’interface](#ui-overview)
    * [Spécification de l’API](#api-specification)
 2. Essayez les exemples de code, qui montrent des schémas d’utilisation courants et des cas d’utilisation concrets.
-   * [Exemples d&#39;utilisation de base](#basic-thread-creation)
+   * [Exemples d’utilisation de base](#basic-thread-creation)
 
-* [Exemples d&#39;utilisation avancée](#manual-agent-loop-implementation)
+* [Exemples d’utilisation avancée](#manual-agent-loop-implementation)
 
 <div id="use-cases">
-  ## Cas d&#39;utilisation
+  ## Cas d’utilisation
 </div>
 
 Les threads sont utiles lorsque vous souhaitez organiser et analyser :
 
-* Des conversations à plusieurs tours
+* Des conversations à plusieurs échanges
 * Des flux de travail basés sur des sessions
-* Toute séquence d&#39;opérations liées.
+* Toute séquence d’opérations liées.
 
-Les threads vous permettent de regrouper les appels par contexte, ce qui facilite la compréhension de la façon dont votre système répond au fil de plusieurs étapes. Par exemple, vous pouvez suivre la session d&#39;un utilisateur, la chaîne de décisions d&#39;un agent ou une requête complexe couvrant les couches d&#39;infrastructure et de logique métier.
+Les threads vous permettent de regrouper les Appels par contexte, ce qui facilite la compréhension de la manière dont votre système répond au fil des étapes. Par exemple, vous pouvez suivre la session d’un utilisateur, la chaîne de décisions d’un agent ou une requête complexe couvrant les couches d’infrastructure et de logique métier.
 
-En structurant votre application avec des threads et des tours, vous obtenez des métriques plus claires et une meilleure visibilité dans l&#39;interface Weave. Au lieu de voir chaque Op de bas niveau, vous pouvez vous concentrer sur les étapes de haut niveau qui comptent.
+En structurant votre application avec des threads et des tours, vous obtenez des métriques plus claires et une meilleure visibilité dans l’interface Weave. Au lieu de voir chaque op de bas niveau, vous pouvez vous concentrer sur les étapes de haut niveau qui comptent.
 
 <div id="definitions">
   ## Définitions
@@ -39,7 +39,7 @@ En structurant votre application avec des threads et des tours, vous obtenez des
   ### Thread
 </div>
 
-Un *Thread* est un regroupement logique d’Appels liés qui partagent un même contexte conversationnel. Un *Thread* :
+Un *Thread* est un regroupement logique d’Appels liés qui partagent un même contexte conversationnel. Un Thread :
 
 * Possède un `thread_id` unique
 * Contient un ou plusieurs *tours*
@@ -71,25 +71,25 @@ Un *Appel* correspond à toute exécution d’une fonction décorée avec `@weav
 Une *Trace* capture la pile complète des appels pour une seule opération. Les threads regroupent les traces qui appartiennent à la même conversation ou session logique. Autrement dit, un thread se compose de plusieurs tours, chacun correspondant à un échange de la conversation. Pour plus d’informations sur les traces, voir l’[Aperçu du Tracing](/fr/weave/guides/tracking/tracing).
 
 <div id="ui-overview">
-  ## Aperçu de l’interface utilisateur
+  ## Aperçu de l&#39;interface utilisateur
 </div>
 
-Dans la barre latérale de Weave, sélectionnez **Threads** pour accéder à la [vue en liste des threads](#threads-list-view).
+Dans la barre latérale de Weave, sélectionnez **Threads** pour accéder à la [vue en liste des Threads](#threads-list-view).
 
 <Frame>
-  ![L’icône Threads dans la barre latérale de Weave](/weave/guides/tracking/imgs/threads-sidebar.png)
+  ![L'icône Threads dans la barre latérale de Weave](/weave/guides/tracking/imgs/threads-sidebar.png)
 </Frame>
 
 <div id="threads-list-view">
   ### vue en liste des Threads
 </div>
 
-* Affiche les Thread récents de votre projet
-* Les colonnes incluent le nombre de tours, l&#39;heure de début et la date de dernière mise à jour
+* Affiche les Threads récents de votre projet
+* Les colonnes incluent le nombre de tours, l’heure de début et la date de dernière mise à jour
 * Cliquez sur une ligne pour ouvrir son [volet latéral de détail](#threads-detail-drawer)
 
 <Frame>
-  ![Vue liste des threads](/weave/guides/tracking/imgs/threads-list.png)
+  ![Vue en liste des Threads](/weave/guides/tracking/imgs/threads-list.png)
 </Frame>
 
 <div id="threads-detail-drawer">
@@ -99,7 +99,7 @@ Dans la barre latérale de Weave, sélectionnez **Threads** pour accéder à la 
 * Cliquez sur n&#39;importe quelle ligne pour ouvrir le volet latéral de détail correspondant.
 * Affiche tous les tours d&#39;un thread.
 * Les tours sont listés dans l&#39;ordre de début (selon leur heure de début, et non leur durée ou leur heure de fin).
-* Inclut des métadonnées au niveau de l&#39;appel (latence, entrées, sorties).
+* Inclut des métadonnées au niveau de l&#39;Appel (latence, entrées, sorties).
 * Affiche facultativement le contenu des messages ou des données structurées si elles ont été enregistrées.
 * Pour voir l&#39;exécution complète d&#39;un tour, vous pouvez l&#39;ouvrir depuis le volet latéral de détail du thread. Vous pourrez ainsi explorer toutes les opérations imbriquées qui se sont produites pendant ce tour.
 * Si un tour inclut des messages extraits d&#39;appels LLM, ils s&#39;affichent dans le panneau de chat de droite. Ces messages proviennent généralement d&#39;appels effectués par des intégrations prises en charge (par exemple, `openai.ChatCompletion.create`) et doivent répondre à des critères précis pour être affichés. Pour plus d&#39;informations, voir [Comportement de la vue Chat](#chat-view-behavior).
@@ -157,7 +157,7 @@ Un bouton Retour apparaît en haut à gauche pour revenir à la vue détaillée 
 Chaque exemple de cette section illustre une stratégie différente pour organiser les tours et les threads dans votre application. Dans la plupart des exemples, vous devez fournir votre propre appel à un LLM ou votre propre comportement système dans les fonctions factices.
 
 * Pour suivre une session ou une conversation, utilisez le gestionnaire de contexte `weave.thread()`.
-* Décorez les opérations logiques avec `@weave.op` pour les suivre comme des tours ou des `Appels` imbriqués.
+* Décorez les opérations logiques avec `@weave.op` pour les suivre comme des tours ou des appels imbriqués.
 * Si vous transmettez un `thread_id`, Weave l&#39;utilise pour regrouper toutes les opérations de ce bloc dans le même thread. Si vous omettez le `thread_id`, Weave en génère automatiquement un unique pour vous.
 
 La valeur de retour de `weave.thread()` est un objet `ThreadContext` avec une propriété `thread_id`, que vous pouvez consigner dans le journal, réutiliser ou transmettre à d&#39;autres systèmes.
@@ -187,7 +187,7 @@ with weave.thread() as thread_ctx:
   ### Implémentation manuelle d’une boucle d’agent
 </div>
 
-Cet exemple montre comment définir manuellement un agent conversationnel à l’aide des décorateurs `@weave.op` et de la gestion de contexte `weave.thread()`. Chaque appel à `process_user_message` crée un nouveau tour de conversation dans le thread. Vous pouvez utiliser ce modèle lorsque vous créez votre propre boucle d’agent et souhaitez garder un contrôle complet sur la manière dont le contexte et l’imbrication sont gérés.
+Cet exemple montre comment définir manuellement un agent conversationnel à l’aide des décorateurs `@weave.op` et de la gestion du contexte `weave.thread()`. Chaque appel à `process_user_message` crée un nouveau tour dans le thread. Vous pouvez utiliser ce modèle lorsque vous créez votre propre boucle d’agent et que vous souhaitez garder un contrôle complet sur la gestion du contexte et de l’imbrication.
 
 Utilisez l’ID de thread généré automatiquement pour les interactions de courte durée, ou fournissez un ID de session personnalisé (comme `user_session_123`) afin de conserver le contexte du thread d’une session à l’autre.
 
@@ -259,12 +259,12 @@ with weave.thread(session_id) as thread_ctx:
 ```
 
 <div id="manual-agent-with-unbalanced-call-depth">
-  ### Agent manuel avec profondeur d&#39;appels déséquilibrée
+  ### Agent manuel avec profondeur d&#39;appel déséquilibrée
 </div>
 
-Cet exemple montre que les tours peuvent être définis à différentes profondeurs dans la pile d&#39;appels, selon la manière dont le contexte du thread est appliqué. L&#39;exemple utilise deux fournisseurs (OpenAI et Anthropic), chacun avec une profondeur d&#39;appel différente avant d&#39;atteindre le point de délimitation du tour.
+Cet exemple montre que les tours peuvent être définis à différentes profondeurs dans la pile d&#39;appels, selon la façon dont le contexte de thread est appliqué. L&#39;exemple utilise deux fournisseurs (OpenAI et Anthropic), chacun avec une profondeur d&#39;appel différente avant d&#39;atteindre la limite du tour.
 
-Tous les tours partagent le même `thread_id`, mais le point de délimitation du tour apparaît à différents niveaux de la pile selon la logique du fournisseur. Cela est utile lorsque les appels doivent être tracés différemment selon les backends, tout en étant regroupés dans le même thread.
+Tous les tours partagent le même `thread_id`, mais la limite du tour apparaît à différents niveaux de la pile selon la logique du fournisseur. Cela est utile lorsque les appels doivent être tracés différemment selon les backends, tout en étant regroupés dans le même thread.
 
 ```python lines 
 import weave
@@ -327,7 +327,7 @@ class AnthropicProvider:
 
 
 class MultiProviderAgent:
-    """Agent principal qui route entre les fournisseurs avec différentes profondeurs de chaîne d'appels"""
+    """Agent principal qui achemine les requêtes entre les fournisseurs avec différentes profondeurs de chaîne d'appels"""
 
     def __init__(self):
         self.openai_provider = OpenAIProvider()
@@ -335,7 +335,7 @@ class MultiProviderAgent:
 
     def handle_conversation_turn(self, user_input: str, thread_id: str) -> str:
         """
-        Route vers différents fournisseurs avec des profondeurs de chaîne d'appels déséquilibrées.
+        Achemine vers différents fournisseurs avec des profondeurs de chaîne d'appels déséquilibrées.
         Le contexte de thread est appliqué à différents niveaux d'imbrication dans chaque chaîne.
         """
         # Sélection aléatoire du fournisseur à des fins de démonstration
@@ -393,11 +393,11 @@ if __name__ == "__main__":
   ### Reprendre une session précédente
 </div>
 
-Il est parfois nécessaire de reprendre une session déjà démarrée et de continuer à ajouter des Appels au même thread. Dans d’autres cas, il peut être impossible de reprendre une session existante, et vous devez alors démarrer un nouveau thread à la place.
+Il est parfois nécessaire de reprendre une session déjà démarrée et de continuer à ajouter des Appels au même thread. Dans d’autres cas, il se peut que vous ne puissiez pas reprendre une session existante et que vous deviez à la place démarrer un nouveau thread.
 
-Lors de l’implémentation de la reprise facultative d’un thread, ne laissez **jamais** le paramètre `thread_id` à `None`, car cela désactiverait entièrement le regroupement des threads. Fournissez toujours un ID de thread valide. Si vous devez créer un nouveau thread, générez un identifiant unique à l’aide d’une fonction comme `generate_id()`.
+Lors de l’implémentation de la reprise facultative d’un thread, ne laissez **jamais** le paramètre `thread_id` à `None`, car cela désactivera entièrement le regroupement des threads. Fournissez toujours un ID de thread valide. Si vous devez créer un nouveau thread, générez un ID unique à l’aide d’une fonction comme `generate_id()`.
 
-Lorsqu’aucun `thread_id` n’est spécifié, l’implémentation interne de Weave génère automatiquement un UUID v7 aléatoire. Vous pouvez reproduire ce comportement dans votre propre fonction `generate_id()` ou utiliser n’importe quelle chaîne unique de votre choix.
+Lorsqu’aucun `thread_id` n’est spécifié, l’implémentation interne de Weave génère automatiquement un UUID v7 aléatoire. Vous pouvez reproduire ce comportement dans votre propre fonction `generate_id()` ou utiliser n’importe quelle valeur de chaîne unique de votre choix.
 
 ```python lines
 import weave
@@ -442,7 +442,7 @@ with weave.thread(thread_id) as thread_ctx:
 
 Cet exemple illustre comment structurer des applications complexes à l’aide de multiples threads coordonnés.
 
-Chaque couche s’exécute dans son propre contexte de thread, ce qui permet de bien séparer les responsabilités. Le thread parent de l’application coordonne ces couches en définissant des identifiants de thread à l’aide d’un `ThreadContext` partagé. Utilisez ce modèle lorsque vous souhaitez analyser ou surveiller différentes parties du système indépendamment, tout en les rattachant à une session partagée.
+Chaque couche s’exécute dans son propre contexte de thread, ce qui permet de bien séparer les responsabilités. Le thread parent de l’application coordonne ces couches en définissant des ID de thread à l’aide d’un `ThreadContext` partagé. Utilisez ce modèle lorsque vous souhaitez analyser ou surveiller différentes parties du système indépendamment, tout en les rattachant à une session partagée.
 
 ```python lines
 import weave
@@ -461,7 +461,7 @@ class ThreadContext:
         self.infra_thread_id = f"{self.app_thread_id}_infra"
         self.logic_thread_id = f"{self.app_thread_id}_logic"
 
-# Global instance
+# Instance globale
 thread_ctx = ThreadContext()
 
 class InfrastructureLayer:
@@ -583,7 +583,7 @@ order_result = handle_order_request(
 #
 # Avantages :
 # - Séparation claire des responsabilités entre les threads
-# - Pas de passage des identifiants de thread par paramètre
+# - Pas de passage des ID de thread par paramètre
 # - Surveillance indépendante des couches application/infrastructure/logique
 # - Coordination globale via le contexte de thread
 ```
@@ -628,10 +628,10 @@ class ThreadsQueryRes:
 ```
 
 <div id="query-recent-active-threads">
-  ### Interroger les Thread récemment actifs
+  ### Interroger les Threads actifs récents
 </div>
 
-Cet exemple récupère les 50 Thread mis à jour le plus récemment. Remplacez `my-project` par l’ID réel de votre projet.
+Cet exemple récupère les 50 Threads dont la mise à jour est la plus récente. Remplacez `my-project` par l’ID réel de votre projet.
 
 ```python lines
 # Obtenir les fils de discussion les plus récemment actifs
@@ -642,14 +642,14 @@ response = client.threads_query(ThreadsQueryReq(
 ))
 
 for thread in response.threads:
-    print(f"Thread {thread.thread_id}: {thread.turn_count} turns, last active {thread.last_updated}")
+    print(f"Thread {thread.thread_id}: {thread.turn_count} tours, dernier actif {thread.last_updated}")
 ```
 
 <div id="query-threads-by-activity-level">
-  ### Interroger les Thread selon leur niveau d’activité
+  ### Interroger les threads selon leur niveau d’activité
 </div>
 
-Cet exemple récupère les 20 Thread les plus actifs, classés par nombre de tour.
+Cet exemple récupère les 20 threads les plus actifs, triés par nombre de tours.
 
 ```python lines
 # Obtenir les threads avec le plus d'activité (le plus de tours)

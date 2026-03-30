@@ -3,11 +3,11 @@ title: Launch prend-il en charge la parallélisation ? Comment puis-je limiter 
   par un job ?
 ---
 
-Launch prend en charge l’exécution de jobs sur plusieurs GPU et nœuds. Voir le [guide d’intégration Volcano](/fr/models/integrations) pour plus de détails.
+Launch prend en charge la mise à l&#39;échelle des jobs sur plusieurs GPU et nœuds. Voir le [guide d’intégration Volcano](/fr/models/integrations) pour plus de détails.
 
-Chaque agent de lancement est configuré avec un paramètre `max_jobs`, qui détermine le nombre maximal de jobs simultanés qu’il peut exécuter. Plusieurs agents peuvent pointer vers une seule file d&#39;attente, à condition qu’ils se connectent à une infrastructure de lancement appropriée.
+Chaque agent Launch est configuré avec un paramètre `max_jobs`, qui détermine le nombre maximal de jobs simultanés qu’il peut exécuter. Plusieurs agents peuvent pointer vers une seule file d’attente, à condition qu’ils se connectent à une infrastructure de lancement appropriée.
 
-Vous pouvez définir des limites sur le CPU, le GPU, la mémoire et d’autres ressources dans la configuration des ressources, au niveau de la file d&#39;attente ou de l’exécution du job. Pour savoir comment configurer des files d&#39;attente avec des limites de ressources sur Kubernetes, voir le [guide de configuration Kubernetes](/fr/platform/launch/setup-launch-kubernetes/).
+Vous pouvez définir des limites sur le CPU, le GPU, la mémoire et d’autres ressources au niveau de la file d’attente ou de l’exécution du job dans la configuration des ressources. Pour des informations sur la configuration de files d’attente avec des limites de ressources sur Kubernetes, voir le [guide de configuration Kubernetes](/fr/platform/launch/setup-launch-kubernetes/).
 
 Pour les balayages, incluez le bloc suivant dans la configuration de la file d’attente afin de limiter le nombre de runs simultanés :
 

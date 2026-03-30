@@ -1,9 +1,9 @@
 ---
-title: "CSV メトリクスのエクスポートで step が表示されないのはなぜですか？"
+title: "CSVメトリクスのエクスポートで step が欠落するのはなぜですか？"
 keywords: ["Experiments", "Runs"]
 ---
 
-エクスポートの制限により、CSV としてエクスポートする場合や `run.history` API を使用する場合に、run 履歴全体を出力できないことがあります。完全な run 履歴にアクセスするには、Parquet 形式の run 履歴アーティファクトをダウンロードします：
+エクスポートの制限により、CSV として、または `run.history` API を使用して run history 全体をエクスポートできない場合があります。完全な run history に 액세스するには、Parquet 形式を使用して run history アーティファクトをダウンロードしてください。
 
 ```python
 import wandb
@@ -17,11 +17,11 @@ df = pd.read_parquet('<path to .parquet file>')
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  これらのマーカーの間は手作業で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマター内のキーワードから scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

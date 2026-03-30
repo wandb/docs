@@ -24,24 +24,24 @@ roc_curve(
 
 Construit un graphique de courbe ROC (Receiver Operating Characteristic).
 
-**Arguments :**
+**Arguments :**
 
-* `y_true` :  Les étiquettes de classe réelles (vérité de terrain) pour la variable cible. La forme doit être `(num&#95;samples,)`.
-* `y_probas` :  Les probabilités prédites ou les scores de décision pour chaque classe. La forme doit être `(num&#95;samples, num&#95;classes)`.
-* `labels` :  Étiquettes lisibles par l’humain correspondant aux indices de classe dans `y_true`. Par exemple, si `labels=['dog', 'cat']`, la classe 0 sera affichée comme &#39;dog&#39; et la classe 1 comme &#39;cat&#39; dans le graphique. Si `None`, les indices de classe bruts de `y_true` seront utilisés. La valeur par défaut est `None`.
-* `classes_to_plot` :  Un sous-ensemble d’étiquettes de classe uniques à inclure dans la courbe ROC. Si `None`, toutes les classes de `y_true` seront représentées. La valeur par défaut est `None`.
-* `title` :  Titre du graphique de la courbe ROC. La valeur par défaut est &quot;ROC Curve&quot;.
-* `split_table` :  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+* `y_true` : Les étiquettes de classe réelles (vérité terrain) pour la variable cible. La forme doit être `(num&#95;samples,)` .
+* `y_probas` : Les probabilités prédites ou les scores de décision pour chaque classe. La forme doit être `(num&#95;samples, num&#95;classes)` .
+* `labels` : Étiquettes lisibles par l’homme correspondant aux indices de classe dans `y_true`. Par exemple, si `labels=['dog', 'cat']`, la classe 0 sera affichée comme &#39;dog&#39; et la classe 1 comme &#39;cat&#39; dans le graphique. Si `None`, les indices de classe bruts de `y_true` seront utilisés. La valeur par défaut est `None` .
+* `classes_to_plot` : Un sous-ensemble d’étiquettes de classe uniques à inclure dans la courbe ROC. Si `None`, toutes les classes de `y_true` seront tracées. La valeur par défaut est `None` .
+* `title` : Titre du graphique de la courbe ROC. La valeur par défaut est « ROC Curve » .
+* `split_table` : Si le tableau doit être divisé en une section séparée dans l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée « Custom Chart Tables ». La valeur par défaut est `False` .
 
-**Retourne :**
+**Renvoie :**
 
-* `CustomChart` :  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
+* `CustomChart` : Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()` .
 
-**Exceptions levées :**
+**Exceptions levées :**
 
-* `wandb.Error` :  Si numpy, pandas ou scikit-learn sont introuvables.
+* `wandb.Error` : Si numpy, pandas ou scikit-learn sont introuvables .
 
-**Exemple :**
+**Exemple :**
 
 ```python
 import numpy as np
@@ -61,10 +61,10 @@ y_true = np.random.choice([0, 1, 2], size=n_samples)
 # pour chaque échantillon
 y_probas = np.random.dirichlet(np.ones(n_classes), size=n_samples)
 
-# Spécifier les classes à tracer (tracé des trois maladies)
+# Spécifier les classes à représenter (représentation des trois maladies)
 classes_to_plot = [0, 1, 2]
 
-# Initialiser un run W&B et journaliser un graphique de courbe ROC pour la classification des maladies
+# Initialiser un run W&B et enregistrer un graphique de courbe ROC pour la classification des maladies
 with wandb.init(project="medical_diagnosis") as run:
     roc_plot = wandb.plot.roc_curve(
          y_true=y_true,

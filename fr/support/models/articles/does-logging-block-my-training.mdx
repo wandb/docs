@@ -3,13 +3,13 @@ title: "La journalisation bloque-t-elle mon entraînement ?"
 keywords: ["Experiments", "Logs"]
 ---
 
-&quot;La fonction de journalisation est-elle lazy ? Je ne veux pas dépendre du réseau pour envoyer les résultats à vos serveurs pendant l’exécution d’opérations locales.&quot;
+&quot;La fonction de journalisation est-elle lazy ? Je ne veux pas dépendre du réseau pour envoyer les résultats à vos serveurs pendant l’exécution d’opérations en local.&quot;
 
 La fonction `wandb.log` écrit une ligne dans un fichier local et ne bloque pas les appels réseau. Lors de l’appel à `wandb.init`, un nouveau processus démarre sur la même machine. Ce processus surveille les modifications du système de fichiers et communique avec le service web de manière asynchrone, ce qui permet aux opérations locales de se poursuivre sans interruption.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badge d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas ce qui se trouve entre ces marqueurs manuellement.
   ---- */}

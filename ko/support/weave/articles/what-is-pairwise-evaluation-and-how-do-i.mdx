@@ -3,10 +3,10 @@ title: "쌍대 비교 평가란 무엇이며 어떻게 하나요?"
 keywords: ["평가"]
 ---
 
-Weave [evaluation](/ko/weave/guides/core-types/evaluations)에서 모델을 [scoring](/ko/weave/guides/evaluation/scorers)할 때, 절대값 메트릭(예: Model A는 `9/10`, Model B는 `8/10`)은 일반적으로 상대 메트릭(예: Model A가 Model B보다 성능이 더 좋음)보다 평가하기가 더 어렵습니다. *쌍대 평가*를 사용하면 두 모델의 출력을 서로 비교해 상대적인 순위를 매길 수 있습니다. 이 방식은 텍스트 생성, 요약, 질의응답처럼 주관적인 작업에서 어떤 모델의 성능이 더 좋은지 확인하려는 경우 특히 유용합니다. 쌍대 평가를 사용하면 특정 입력에 대해 어떤 모델이 가장 적합한지 보여주는 상대적 선호 순위를 획득할 수 있습니다.
+Weave [evaluation](/ko/weave/guides/core-types/evaluations)에서 모델을 [scoring](/ko/weave/guides/evaluation/scorers)할 때는 절대값 메트릭(예: Model A는 `9/10`, Model B는 `8/10`)을 매기는 것이 일반적으로 상대 메트릭(예: Model A가 Model B보다 더 우수함)을 매기는 것보다 더 어렵습니다. *쌍대 평가*를 사용하면 두 모델의 출력을 서로 비교해 상대적인 순위를 매길 수 있습니다. 이 접근 방식은 텍스트 생성, 요약, 질의응답처럼 주관적인 작업에서 어떤 모델이 더 뛰어난지 확인하려는 경우 특히 유용합니다. 쌍대 평가를 사용하면 특정 입력에 대해 어떤 모델이 가장 적합한지 보여주는 상대적 선호 순위를 얻을 수 있습니다.
 
 <Warning>
-  이 방식은 우회 방법이며 향후 릴리스에서 변경될 수 있습니다. 현재 쌍대 evaluations을 지원하기 위한 더 안정적인 API를 적극적으로 개발하고 있습니다. 업데이트를 기다려 주세요!
+  이 방식은 임시 우회책이며 향후 릴리스에서 변경될 수 있습니다. 현재 쌍대 평가를 지원하는 더 견고한 API를 적극적으로 개발하고 있습니다. 업데이트를 기다려 주세요!
 </Warning>
 
 다음 코드 샘플은 `PreferenceScorer`라는 [class-based scorer](/ko/weave/guides/evaluation/scorers#class-based-scorers)를 만들어 Weave에서 쌍대 평가를 구현하는 방법을 보여줍니다. `PreferenceScorer`는 `ModelA`와 `ModelB` 두 모델을 비교하고, 입력 텍스트의 명시적인 힌트를 기준으로 모델 출력의 상대 점수를 반환합니다.
@@ -92,11 +92,11 @@ evaluation.evaluate(model_a)
 
 ***
 
-{/* ---- AUTO-GENERATED: 탭 배지 ----
-  front matter의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py에서 관리합니다.
-  이 마커 사이의 내용은 수동으로 편집하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[평가](/ko/support/weave/tags/evaluation)</Badge>
 
-{/* ---- END AUTO-GENERATED: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -1,20 +1,20 @@
 ---
-title: "sweep の実行中に Python ファイルを編集した場合はどうなりますか？"
+title: "sweep の実行中に Python ファイルを編集するとどうなりますか？"
 keywords: ["Sweeps"]
 ---
 
-sweep の実行中は:
+sweep の実行中:
 
-* sweep で使用している `train.py` スクリプトが変更されても、sweep は引き続き元の `train.py` を使用します
-* `train.py` スクリプトが参照するファイル (`helper.py` スクリプト内のヘルパー関数など) が変更されると、sweep は更新後の `helper.py` を使用し始めます。
+* sweep が使用する `train.py` スクリプトが変更された場合、sweep は引き続き元の `train.py` を使用します
+* `train.py` スクリプトが参照するファイル (たとえば `helper.py` スクリプト内のヘルパー関数など) が変更された場合、sweep は更新後の `helper.py` を使用し始めます。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  scripts/knowledgebase-nav/generate_tags.py により、front matter 内のキーワードに基づいて管理されています。
-  このマーカー間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマター内の keywords を基に、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

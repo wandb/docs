@@ -3,13 +3,13 @@ title: "모니터 설정"
 description: "프로덕션 트래픽을 자동으로 점수화해 추세와 문제를 파악합니다"
 ---
 
-Monitors는 LLM 평가자를 사용해 프로덕션 트래픽을 수동 개입 없이 점수화하고, LLM 애플리케이션의 추세와 문제를 파악합니다. 예를 들어 애플리케이션 응답의 정확성이나 유용성을 모니터링할 수 있고, 에이전트에게 사용자가 무엇을 묻고 있는지에 대한 추세를 파악하기 위해 사용자 입력을 모니터링할 수도 있습니다. Monitors는 모든 평가 결과를 Weave의 데이터베이스에 자동으로 저장하여, 과거 추세와 패턴을 분석할 수 있게 합니다.
+Monitors는 LLM 기반 평가자를 사용해 프로덕션 트래픽을 수동 개입 없이 점수화하고, LLM 애플리케이션의 추세와 문제를 파악합니다. 예를 들어 애플리케이션 응답의 정확성이나 유용성을 모니터링할 수 있고, 에이전트에게 사용자가 무엇을 묻고 있는지에 대한 추세를 파악하기 위해 사용자 입력을 모니터링할 수도 있습니다. Monitors는 모든 평가 결과를 Weave의 데이터베이스에 자동으로 저장하여, 과거 추세와 패턴을 분석할 수 있게 합니다.
 
 애플리케이션의 입력과 출력에서 텍스트, 이미지, 오디오를 모니터링할 수 있습니다.
 
 Monitors를 사용하려면 애플리케이션 코드를 변경할 필요가 없습니다. W&amp;B Weave UI에서 설정하세요.
 
-점수를 기반으로 애플리케이션 동작에 적극적으로 개입해야 한다면, 대신 [guardrails](/ko/weave/guides/evaluation/guardrails)를 사용하세요.
+점수를 기준으로 애플리케이션 동작에 적극적으로 개입해야 한다면, 대신 [guardrails](/ko/weave/guides/evaluation/guardrails)를 사용하세요.
 
 <div id="how-to-create-a-monitor-in-weave">
   ## Weave에서 모니터를 생성하는 방법
@@ -34,8 +34,8 @@ Weave에서 모니터를 생성하려면:
        </Tip>
    * **LLM-as-a-judge configuration**:
      * **Scorer name**: 문자 또는 숫자로 시작해야 합니다. 문자, 숫자, 하이픈, 밑줄만 포함할 수 있습니다.
-     * **Score Audio**: 사용할 수 있는 LLM 모델을 오디오 지원 모델만 표시하도록 필터링하고, Media Scoring JSON Paths 필드를 표시합니다.
-     * **Score Images**: 사용할 수 있는 LLM 모델을 이미지 지원 모델만 표시하도록 필터링하고, Media Scoring JSON Paths 필드를 표시합니다.
+     * **Score Audio**: 사용 가능한 LLM 모델을 오디오 지원 모델만 표시하도록 필터링하고, Media Scoring JSON Paths 필드를 표시합니다.
+     * **Score Images**: 사용 가능한 LLM 모델을 이미지 지원 모델만 표시하도록 필터링하고, Media Scoring JSON Paths 필드를 표시합니다.
      * **Judge model**: op에 점수를 매길 모델을 선택합니다. 메뉴에는 W&amp;B 계정에서 설정한 상용 LLM 모델과 [W&amp;B Inference models](/ko/inference/models)가 포함됩니다. 오디오를 지원하는 모델에는 이름 옆에 **Audio Input** 레이블이 표시됩니다. 선택한 모델에 대해 다음 설정을 구성합니다:
        * **Configuration name**: 이 모델 설정의 이름입니다.
        * **System prompt**: 예를 들어 &quot;You are an impartial AI judge.&quot;처럼, 평가 모델의 역할과 페르소나를 정의합니다.
@@ -124,7 +124,7 @@ Weave는 모든 스코어러 결과를 [Call](/ko/weave/guides/tracking/tracing#
 
 4. Create new monitor 메뉴에서 다음 값으로 필드를 구성합니다:
    * **Name**: `truthfulness-monitor`
-   * **Description**: `Evaluates the truthfulness of generated statements.`
+   * **설명**: `Evaluates the truthfulness of generated statements.`
    * **Active monitor**: **on**으로 토글합니다.
    * **Operations**: `generate_statement`를 선택합니다.
    * **Sampling rate**: 모든 호출을 스코어링하도록 `100%`로 설정합니다.

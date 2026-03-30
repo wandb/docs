@@ -8,7 +8,7 @@ Vous pouvez tracer dans Weave les appels d&#39;agents et d&#39;outils d&#39;[Agn
 Ce guide explique comment tracer les appels d&#39;agents et d&#39;outils d&#39;Agno avec OTEL, puis visualiser ces traces dans Weave. Vous apprendrez à installer les dépendances requises, à configurer un traceur OTEL pour envoyer des données vers Weave et à instrumenter vos agents et outils Agno.
 
 <Tip>
-  Pour plus d&#39;informations sur le traçage OTEL dans Weave, voir [Envoyer les traces OTEL vers Weave](../tracking/otel).
+  Pour plus d&#39;informations sur le traçage OTEL dans Weave, Voir [Envoyer les traces OTEL vers Weave](../tracking/otel).
 </Tip>
 
 <div id="prerequisites">
@@ -27,16 +27,16 @@ Ce guide explique comment tracer les appels d&#39;agents et d&#39;outils d&#39;A
    export OPENAI_API_KEY=your_api_key_here
    ```
 
-3. [Configurer le traçage OTEL dans Weave](#configure-otel-tracing-in-weave).
+3. [Configurer le Tracing OTEL dans Weave](#configure-otel-tracing-in-weave).
 
 <div id="configure-otel-tracing-in-weave">
   ### Configurer le traçage OTEL dans Weave
 </div>
 
-Pour envoyer des traces d’Agno vers Weave, configurez OTEL avec un `TracerProvider` et un `OTLPSpanExporter`. Configurez l’exportateur avec le [point de terminaison et les en-têtes HTTP appropriés pour l’authentification et l’identification du projet](#required-configuration).
+Pour envoyer des traces d&#39;Agno vers Weave, configurez OTEL avec un `TracerProvider` et un `OTLPSpanExporter`. Configurez l&#39;exportateur avec le [point de terminaison et les en-têtes HTTP appropriés pour l&#39;authentification et l&#39;identification du projet](#required-configuration).
 
 <note>
-  Nous vous recommandons de stocker les variables d’environnement sensibles, comme votre clé API et les informations sur le projet, dans un fichier d’environnement (par exemple `.env`), puis de les charger à l’aide de `os.environ`. Cela permet de protéger vos identifiants et de les garder hors de votre code source.
+  Nous vous recommandons de stocker les variables d&#39;environnement sensibles, comme votre clé API et les informations sur le projet, dans un fichier d&#39;environnement (par exemple `.env`), puis de les charger à l&#39;aide de `os.environ`. Cela permet de protéger vos identifiants et de les garder hors de votre code source.
 </note>
 
 <div id="required-configuration">
@@ -52,10 +52,10 @@ Pour envoyer des traces d’Agno vers Weave, configurez OTEL avec un `TracerProv
   ## Envoyer des traces OTEL d’Agno vers Weave
 </div>
 
-Une fois les [prérequis](#prerequisites) remplis, vous pouvez envoyer des traces OTEL d’Agno vers Weave. L’extrait de code suivant montre comment configurer un exportateur de spans OTLP et un fournisseur de traceurs afin d’envoyer des traces OTEL depuis une application Agno vers Weave.
+Une fois les [prérequis](#prerequisites) terminés, vous pouvez envoyer des traces OTEL d’Agno vers Weave. L’extrait de code suivant montre comment configurer un exportateur de spans OTLP et un fournisseur de traceur afin d’envoyer des traces OTEL depuis une application Agno vers Weave.
 
 <Warning>
-  Pour que Weave trace correctement Agno, définissez le fournisseur de traceurs global *avant* d’utiliser des composants Agno dans votre code.
+  Pour que Weave capture correctement les traces d’Agno, définissez le fournisseur de traceur global *avant* d’utiliser des composants Agno dans votre code.
 </Warning>
 
 ```python lines
@@ -102,7 +102,7 @@ trace.set_tracer_provider(tracer_provider)
   ## Tracez les agents Agno avec OTEL
 </div>
 
-Après avoir configuré le fournisseur de traceur, vous pouvez créer et exécuter des agents Agno avec un traçage automatique. L&#39;exemple suivant montre comment créer un agent simple avec des outils :
+Après avoir configuré le fournisseur de traceur, vous pouvez créer et exécuter des agents Agno avec le traçage automatique. L’exemple suivant montre comment créer un agent simple avec des outils :
 
 ```python lines
 from agno.agent import Agent
@@ -142,19 +142,19 @@ finance_agent.print_response(
 )
 ```
 
-Toutes les opérations de l’agent sont automatiquement tracées et envoyées à Weave, ce qui vous permet de visualiser le flux d’exécution, les appels au modèle, les étapes de raisonnement et les appels d’outils.
+Toutes les opérations de l’agent sont automatiquement tracées et envoyées vers Weave, ce qui vous permet de visualiser le flux d’exécution, les appels au modèle, les étapes de raisonnement et les invocations d’outils.
 
 <Frame>
-  ![Visualisation d’une trace d’un agent Agno](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)
+  ![Visualisation de la trace d’un agent Agno](/weave/guides/integrations/imgs/agno/agno_agent_trace.png)
 </Frame>
 
 <div id="trace-agno-tools-with-otel">
   ## Tracez les outils Agno avec OTEL
 </div>
 
-Lorsque vous définissez et utilisez des outils avec Agno, leurs appels sont également capturés dans la trace. L’intégration OTEL instrumente automatiquement à la fois le processus de raisonnement de l’agent et l’exécution de chaque outil, offrant une vue d’ensemble complète du comportement de votre agent.
+Lorsque vous définissez et utilisez des outils avec Agno, ces appels d’outil sont également capturés dans la trace. L’intégration OTEL instrumente automatiquement à la fois le processus de raisonnement de l’agent et l’exécution de chaque outil, offrant une vue d’ensemble complète du comportement de votre agent.
 
-Voici un exemple avec plusieurs outils :
+Voici un exemple avec de multiples outils :
 
 ```python lines
 from agno.agent import Agent
@@ -203,7 +203,7 @@ research_agent.print_response(
   ## Tracez des équipes multi-agents avec OTEL
 </div>
 
-La puissante architecture multi-agent d’Agno vous permet de créer des équipes d’agents capables de collaborer et de partager leur contexte. Ces interactions au sein de l’équipe sont également entièrement tracées :
+La puissante architecture multi-agent d’Agno vous permet de créer des équipes d’agents capables de collaborer et de partager un contexte. Ces interactions d’équipe sont également intégralement tracées :
 
 ```python lines
 from agno.agent import Agent
@@ -257,17 +257,17 @@ agent_team.print_response(
 )
 ```
 
-Cette trace multi-agent montre la coordination entre différents agents dans Weave et offre une visibilité sur la façon dont les tâches sont réparties et exécutées au sein de votre équipe d&#39;agents.
+Cette trace multi-agent montre la coordination entre différents agents dans Weave, offrant une vue claire de la manière dont les tâches sont réparties et exécutées au sein de votre équipe d’agents.
 
 <Frame>
-  ![Visualisation d'une trace de l'équipe multi-agent Agno](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
+  ![Visualisation de la trace de l’équipe multi-agent Agno](/weave/guides/integrations/imgs/agno/agno_team_trace.png)
 </Frame>
 
 <div id="work-with-reasoning-agents">
   ## Travailler avec des agents de raisonnement
 </div>
 
-Agno fournit des capacités de raisonnement intégrées qui aident les agents à résoudre les problèmes étape par étape. Ces processus de raisonnement sont également capturés dans les traces :
+Agno fournit des capacités de raisonnement intégrées qui aident les agents à réfléchir aux problèmes étape par étape. Ces processus de raisonnement sont également capturés dans les traces :
 
 ```python lines
 from agno.agent import Agent
@@ -319,7 +319,7 @@ Les étapes du raisonnement seront visibles dans la trace, montrant comment l’
   ## Utiliser la mémoire et les bases de connaissances
 </div>
 
-Les agents Agno peuvent conserver une mémoire et accéder à des bases de connaissances. Ces opérations font également l’objet d’une trace :
+Les agents Agno peuvent conserver une mémoire et accéder à des bases de connaissances. Ces opérations sont également tracées :
 
 ```python lines
 from agno.agent import Agent
@@ -368,8 +368,8 @@ Les opérations liées à la mémoire, notamment le stockage et la récupératio
   ## Pour en savoir plus
 </div>
 
-* [Documentation Weave : Envoyer les traces OTEL vers Weave](../tracking/otel)
-* [Documentation officielle d’Agno](https://docs.agno.com/)
-* [Documentation officielle d’OTEL](https://opentelemetry.io/)
-* [Dépôt GitHub d’Agno](https://github.com/agno-agi/agno)
+* [Documentation Weave : Envoyer les traces OTEL vers Weave](../tracking/otel)
+* [Documentation officielle d&#39;Agno](https://docs.agno.com/)
+* [Documentation officielle d&#39;OTEL](https://opentelemetry.io/)
+* [Dépôt GitHub d&#39;Agno](https://github.com/agno-agi/agno)
 * [Instrumentation OpenInference pour Agno](https://pypi.org/project/openinference-instrumentation-agno/)

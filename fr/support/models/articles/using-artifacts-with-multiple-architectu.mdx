@@ -1,20 +1,20 @@
 ---
-title: "Utiliser des artefacts avec plusieurs architectures et runs ?"
+title: "Utiliser des artefacts avec plusieurs architectures et runs ?"
 keywords: ["Artifacts"]
 ---
 
-Il existe plusieurs méthodes pour assurer la gestion des versions d’un modèle. Artifacts fournit un outil de gestion des versions de modèles adapté à des besoins spécifiques. Une approche courante pour les projets qui explorent plusieurs architectures de modèle consiste à séparer les artefacts par architecture. Suivez les étapes suivantes :
+Il existe diverses méthodes pour la gestion des versions d’un modèle. Les Artifacts fournissent un outil de gestion des versions du modèle adapté à des besoins spécifiques. Une approche courante pour les projets qui explorent plusieurs architectures de modèles consiste à séparer les artefacts par architecture. Suivez les étapes suivantes :
 
-1. Créez un nouvel artefact pour chaque architecture de modèle distincte. Utilisez l’attribut `metadata` des artefacts pour fournir des descriptions détaillées de l’architecture, de la même manière que `config` pour un run.
-2. Pour chaque modèle, enregistrez périodiquement des points de contrôle avec `log_artifact`. W&amp;B crée un historique de ces points de contrôle et attribue au plus récent l’alias `latest`. Pour faire référence au dernier point de contrôle d’une architecture de modèle, utilisez `architecture-name:latest`.
+1. Créez un nouvel artefact pour chaque architecture de modèle distincte. Utilisez l’attribut `metadata` des artefacts pour fournir des descriptions détaillées de l’architecture, de la même manière que l’utilisation de `config` pour un run.
+2. Pour chaque modèle, enregistrez périodiquement des points de contrôle avec `log_artifact`. W&amp;B crée un historique de ces points de contrôle et attribue au plus récent l’alias `latest`. Référez-vous au point de contrôle le plus récent pour n’importe quelle architecture de modèle en utilisant `architecture-name:latest`.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas ce contenu manuellement entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/fr/support/models/tags/artifacts)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglet ---- */}

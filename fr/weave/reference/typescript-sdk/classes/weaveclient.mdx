@@ -6,7 +6,7 @@ description: "Référence du SDK TypeScript"
 [weave](../) / WeaveClient
 
 <div id="table-of-contents">
-  ## Table des matières
+  ## Tableau des matières
 </div>
 
 <div id="constructors">
@@ -20,7 +20,7 @@ description: "Référence du SDK TypeScript"
 </div>
 
 * [projectId](./weaveclient#projectid)
-* [settings](./weaveclient#settings)
+* [paramètre](./weaveclient#settings)
 * [traceServerApi](./weaveclient#traceserverapi)
 
 <div id="methods">
@@ -57,12 +57,12 @@ description: "Référence du SDK TypeScript"
   #### Paramètres
 </div>
 
-| Nom              | Type               |
-| :--------------- | :----------------- |
-| `traceServerApi` | `Api`&lt;`any`&gt; |
-| `wandbServerApi` | `WandbServerApi`   |
-| `projectId`      | `string`           |
-| `settings`       | `Settings`         |
+| Nom              | Type                   |
+| :--------------- | :--------------------- |
+| `traceServerApi` | `Api`&lt;`any`&gt;     |
+| `wandbServerApi` | `WandbServerApi`       |
+| `projectId`      | `chaîne de caractères` |
+| `settings`       | `Settings`             |
 
 <div id="returns">
   #### Renvoie
@@ -93,10 +93,10 @@ description: "Référence du SDK TypeScript"
 ***
 
 <div id="settings">
-  ### settings
+  ### paramètre
 </div>
 
-• **settings**: `Settings`
+• **paramètre**: `Settings`
 
 <div id="defined-in">
   #### Défini dans
@@ -124,27 +124,27 @@ description: "Référence du SDK TypeScript"
   ### addScore
 </div>
 
-▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`&lt;`string`&gt;
+▸ **addScore**(`predictCallId`, `scorerCallId`, `runnableRefUri`, `scorerOutput`): `Promise`&lt;`chaîne de caractères`&gt;
 
-Ajoute un résultat de scorer (par exemple, la sortie du scorer) à un appel.
-Utilisé dans l’évaluation impérative pour associer les résultats du scorer aux appels de prédiction.
+Ajoute un résultat du scorer (par exemple, la sortie du scorer) à un appel.
+Utilisé dans l’Évaluation impérative pour associer les résultats du scorer aux appels de prédiction.
 
 <div id="parameters">
   #### Paramètres
 </div>
 
-| Nom              | Type     | Description                                           |
-| :--------------- | :------- | :---------------------------------------------------- |
-| `predictCallId`  | `string` | ID de l&#39;appel predict auquel associer le feedback |
-| `scorerCallId`   | `string` | ID de l&#39;appel scorer qui a généré le feedback     |
-| `runnableRefUri` | `string` | URI du scorer (Op ou réf. d&#39;objet)                |
-| `scorerOutput`   | `any`    | Sortie du scorer                                      |
+| Nom              | Type     | Description                                         |
+| :--------------- | :------- | :-------------------------------------------------- |
+| `predictCallId`  | `chaîne de caractères` | ID de l&#39;Appel predict auquel associer le retour |
+| `scorerCallId`   | `chaîne de caractères` | ID de l&#39;Appel scorer qui a généré le retour     |
+| `runnableRefUri` | `chaîne de caractères` | URI du scorer (Op ou réf. d&#39;objet)              |
+| `scorerOutput`   | `any`    | Sortie du scorer                                    |
 
 <div id="returns">
   #### Renvoie
 </div>
 
-`Promise`&lt;`string`&gt;
+`Promise`&lt;`chaîne de caractères`&gt;
 
 <div id="defined-in">
   #### Défini dans
@@ -164,18 +164,18 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Paramètres
 </div>
 
-| Nom              | Type                            |
-| :--------------- | :------------------------------ |
-| `internalCall`   | `InternalCall`                  |
-| `opRef`          | `any`                           |
-| `params`         | `any`[]                         |
-| `parameterNames` | `ParameterNamesOption`          |
-| `thisArg`        | `any`                           |
-| `currentCall`    | `CallStackEntry`                |
-| `parentCall`     | `undefined` | `CallStackEntry`  |
-| `startTime`      | `Date`                          |
-| `displayName?`   | `string`                        |
-| `attributes?`    | `Record`&lt;`string`, `any`&gt; |
+| Nom              | Type                                          |                  |
+| :--------------- | :-------------------------------------------- | ---------------- |
+| `internalCall`   | `InternalCall`                                |                  |
+| `opRef`          | `any`                                         |                  |
+| `params`         | `any`[]                                       |                  |
+| `parameterNames` | `ParameterNamesOption`                        |                  |
+| `thisArg`        | `any`                                         |                  |
+| `currentCall`    | `CallStackEntry`                              |                  |
+| `parentCall`     | `undefined`                                   | `CallStackEntry` |
+| `startTime`      | `Date`                                        |                  |
+| `displayName?`   | `chaîne de caractères`                        |                  |
+| `attributes?`    | `Record`&lt;`chaîne de caractères`, `any`&gt; |                  |
 
 <div id="returns">
   #### Renvoie
@@ -296,10 +296,10 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Paramètres
 </div>
 
-| Nom            | Type      | Valeur par défaut |
-| :------------- | :-------- | :---------------- |
-| `callId`       | `string`  | `undefined`       |
-| `includeCosts` | `boolean` | `false`           |
+| Nom            | Type                   | Valeur par défaut |
+| :------------- | :--------------------- | :---------------- |
+| `callId`       | `chaîne de caractères` | `undefined`       |
+| `includeCosts` | `boolean`              | `false`           |
 
 <div id="returns">
   #### Renvoie
@@ -349,7 +349,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
 | :------------- | :----------------------------------------- | :---------------- |
 | `filter`       | [`CallsFilter`](../interfaces/callsfilter) | `{}`              |
 | `includeCosts` | `boolean`                                  | `false`           |
-| `limit`        | `number`                                   | `1000`            |
+| `limit`        | `nombre`                                   | `1000`            |
 
 <div id="returns">
   #### Renvoie
@@ -379,7 +379,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
 | :------------- | :----------------------------------------- | :---------------- |
 | `filter`       | [`CallsFilter`](../interfaces/callsfilter) | `{}`              |
 | `includeCosts` | `boolean`                                  | `false`           |
-| `limit`        | `number`                                   | `1000`            |
+| `limit`        | `nombre`                                   | `1000`            |
 
 <div id="returns">
   #### Renvoie
@@ -405,7 +405,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Renvoie
 </div>
 
-`Record`&lt;`string`, `any`&gt;
+`Record`&lt;`chaîne de caractères`, `any`&gt;
 
 <div id="defined-in">
   #### Défini dans
@@ -425,10 +425,10 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Paramètres
 </div>
 
-| Nom      | Type     |
-| :------- | :------- |
-| `obj`    | `any`    |
-| `objId?` | `string` |
+| Nom      | Type                   |
+| :------- | :--------------------- |
+| `obj`    | `any`                  |
+| `objId?` | `chaîne de caractères` |
 
 <div id="returns">
   #### Renvoie
@@ -448,13 +448,13 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   ### pushNewCall
 </div>
 
-▸ **pushNewCall**(): `Object`
+▸ **pushNewCall**(): `Objet`
 
 <div id="returns">
   #### Renvoie
 </div>
 
-`Objet`
+`objet`
 
 | Nom           | Type             |
 | :------------ | :--------------- |
@@ -557,7 +557,7 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
 | Nom      | Type                                                   |
 | :------- | :----------------------------------------------------- |
 | `op`     | [`Op`](../#op)&lt;(...`args`: `any`[]) =&gt; `any`&gt; |
-| `objId?` | `string`                                               |
+| `objId?` | `chaîne de caractères`                                 |
 
 <div id="returns">
   #### Renvoie
@@ -583,10 +583,10 @@ Utilisé dans l’évaluation impérative pour associer les résultats du scorer
   #### Paramètres
 </div>
 
-| Nom           | Type     |
-| :------------ | :------- |
-| `callId`      | `string` |
-| `displayName` | `string` |
+| Nom           | Type                   |
+| :------------ | :--------------------- |
+| `callId`      | `chaîne de caractères` |
+| `displayName` | `chaîne de caractères` |
 
 <div id="returns">
   #### Renvoie

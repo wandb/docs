@@ -58,14 +58,14 @@ La couche de sérialisation de Weave enregistre les objets et en gère les versi
 Lorsque vous enregistrez un objet avec un nom, Weave crée la première version de cet objet s’il n’existe pas encore.
 
 <div id="get-an-object-back">
-  ## Récupérer un objet
+  ## Obtenir un objet
 </div>
 
 <Tabs>
   <Tab title="Python">
-    `weave.publish` renvoie une réf. d'objet. Vous pouvez appeler `.get()` sur n’importe quelle réf. d'objet pour récupérer l’objet.
+    `weave.publish` renvoie une réf. d&#39;objet. Vous pouvez appeler `.get()` sur n’importe quelle réf. d&#39;objet pour récupérer l’objet.
 
-    Vous pouvez construire une réf. d'objet, puis récupérer l’objet associé.
+    Vous pouvez construire une réf. d&#39;objet, puis récupérer l’objet associé.
 
     ```python lines
     weave.init("your-team-name/your-project-name")
@@ -105,10 +105,10 @@ Lorsque vous enregistrez un objet avec un nom, Weave crée la première version 
 </Tabs>
 
 <div id="constructing-object-refs">
-  ## Construction des réf. d&#39;objet
+  ## Construire des réf. d&#39;objet
 </div>
 
-Dans Weave, l&#39;URI d&#39;une réf. d&#39;objet entièrement qualifiée se présente comme suit :
+Dans Weave, une URI de réf. d&#39;objet pleinement qualifiée se présente comme suit :
 
 ```text
 weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
@@ -119,8 +119,8 @@ weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_versi
 * *object&#95;name*: nom de l&#39;objet
 * *object&#95;version*: soit un hachage de version, une chaîne comme `v0` ou `v1`, soit un alias comme `:latest`. Tous les objets ont l&#39;alias `:latest`.
 
-Vous pouvez construire des réf. d&#39;objet de plusieurs manières :
+Vous pouvez construire des réf. d&#39;objet de plusieurs façons :
 
 * `weave.ref(<name>)`: Récupère la version `:latest` d&#39;un objet. Nécessite d&#39;appeler `weave.init(...)`.
 * `weave.ref(<name>:<version>)`:  Récupère la version spécifiée d&#39;un objet. Nécessite d&#39;appeler `weave.init(...)`.
-* `weave.ref(<fully_qualified_ref_uri>)`: Récupère l&#39;objet situé à l&#39;URI complète de réf. d&#39;objet spécifiée.  Ne nécessite pas d&#39;appeler `weave.init`.
+* `weave.ref(<fully_qualified_ref_uri>)`: Récupère l&#39;objet situé à l&#39;URI de réf. d&#39;objet complète spécifiée.  Ne nécessite pas d&#39;appeler `weave.init`.

@@ -7,7 +7,7 @@ description: "Apprenez à utiliser la sortie structurée multi-agent avec W&B We
   Il s&#39;agit d&#39;un notebook interactif. Vous pouvez l&#39;exécuter localement ou utiliser les liens ci-dessous :
 
   * [Ouvrir dans Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
-  * [Voir le fichier source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
+  * [Voir la source sur GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/multi-agent-structured-output.ipynb)
 </Note>
 
 ##
@@ -25,7 +25,7 @@ L’utilisation des sorties structurées dans un système multi-agent améliore 
 Ce tutoriel montre comment utiliser les sorties structurées dans un système multi-agent et les tracer avec [Weave](/fr/weave).
 
 <Tip>
-  **Source** : Ce cookbook est basé sur le [code d’exemple d’OpenAI sur les sorties structurées](https://cookbook.openai.com/examples/structured_outputs_multi_agent), avec quelques modifications pour améliorer la visualisation à l’aide de Weave.
+  **Source** : Ce cookbook est basé sur le [code d’exemple d’OpenAI sur les sorties structurées](https://cookbook.openai.com/examples/structured_outputs_multi_agent), avec quelques modifications visant à améliorer la visualisation à l’aide de Weave.
 </Tip>
 
 <div id="installing-the-dependencies">
@@ -47,14 +47,14 @@ python
 !pip install "httpx<0.28"
 ```
 
-Nous définissons `WANDB_API_KEY` dans notre environnement afin de pouvoir nous connecter facilement avec wandb.login() (cela doit être transmis à Colab en tant que secret).
+Nous définissons `WANDB_API_KEY` dans notre environnement afin de pouvoir nous connecter facilement avec wandb.login() (cela doit être fourni à Colab comme secret).
 
-Nous définissons dans `name_of_wandb_project` le projet W&amp;B dans lequel nous voulons enregistrer ceci.
+Nous définissons dans `name_of_wandb_project` le projet W&amp;B dans lequel nous voulons consigner ces données.
 
-**REMARQUE** : `name_of_wandb_project` peut aussi être au format `{team_name}/{project_name}` pour préciser une équipe dans laquelle enregistrer les traces.
+**REMARQUE** : `name_of_wandb_project` peut aussi être au format `{team_name}/{project_name}` pour indiquer l’équipe dans laquelle enregistrer les traces.
 Nous récupérons ensuite un client Weave en appelant weave.init()
 
-Comme nous utiliserons l’[API OpenAI](https://openai.com/index/openai-api/), nous aurons également besoin d’une clé API OpenAI. Vous pouvez vous [inscrire](https://platform.openai.com/signup) sur la plateforme OpenAI pour obtenir votre propre clé API. (cela doit aussi être transmis à Colab en tant que secret.)
+Comme nous utiliserons l’[API OpenAI](https://openai.com/index/openai-api/), nous aurons également besoin d’une clé API OpenAI. Vous pouvez vous [s’inscrire](https://platform.openai.com/signup) sur la plateforme OpenAI pour obtenir votre propre clé API. (cela doit aussi être fourni à Colab comme secret.)
 
 ```python lines
 import base64
@@ -92,7 +92,7 @@ Commençons par configurer notre système à 4 agents :
 * Agent de triage : décide quel(s) agent(s) appeler
 * Agent de prétraitement des données : prépare les données pour l&#39;analyse, par exemple en les nettoyant
 * Agent d&#39;analyse des données : effectue l&#39;analyse des données
-* agent de visualisation des données : visualise le résultat de l&#39;analyse pour en extraire des informations
+* Agent de visualisation des données : visualise le résultat de l&#39;analyse pour en extraire des enseignements
   Nous allons commencer par définir les prompts système de chacun de ces agents.
 
 ```python lines
@@ -127,7 +127,7 @@ Nous définirons ensuite les outils de chaque agent.
 
 **Agent d&#39;analyse des données** : 1. Analyse statistique, 2. Analyse de corrélation, 3. Analyse de régression
 
-**Agent de visualisation des données** : 1. Créer un graphique à barres, 2. Créer un graphique en courbes, 3. Créer un graphique circulaire
+**Agent de visualisation des données** : 1. Créer un graphique à barres, 2. Créer un graphique linéaire, 3. Créer un graphique circulaire
 
 ```python lines
 triage_tools = [
@@ -382,9 +382,9 @@ visualization_tools = [
 
 Nous devons écrire la logique du code pour :
 
-* gérer la transmission de la requête utilisateur au système multi-agent
+* transmettre la requête utilisateur au système multi-agent
 * gérer le fonctionnement interne du système multi-agent
-* exécuter les appels d’outil
+* exécuter les appels aux outils
 
 ```python lines
 # Exemple de requête
@@ -404,9 +404,9 @@ house_size (m3), house_price ($)
 
 Nous commencerons par définir la fonction d’exécution chargée de lancer les appels d’outil.
 
-En décorant des fonctions Python avec `@weave.op()`, vous pouvez journaliser et déboguer les entrées, les sorties et les traces du modèle de langage.
+En décorant des fonctions Python avec `@weave.op()`, nous pouvons journaliser et déboguer les entrées, les sorties et les traces du modèle de langage.
 
-Lors de la création d’un système multi-agent, de nombreuses fonctions peuvent apparaître, mais il suffit simplement d’ajouter `@weave.op()` au-dessus.
+Lors de la création d’un système multi-agent, de nombreuses fonctions peuvent apparaître, mais il suffit simplement d’ajouter `@weave.op()` au-dessus de chacune d’elles.
 
 ```python lines
 @weave.op()
@@ -539,7 +539,7 @@ def execute_tool(tool_calls, messages):
     return messages
 ```
 
-Ensuite, nous allons créer les gestionnaires d’outils pour chacun des sous-agents. Pour chacun, un prompt et un ensemble d’outils qui lui sont propres sont transmis au modèle. La sortie est ensuite transmise à une fonction d’exécution qui exécute les appels d’outils.
+Ensuite, nous allons créer les gestionnaires d’outils pour chacun des sous-agents. Chacun dispose d’un prompt et d’un ensemble d’outils qui lui sont propres, transmis au modèle. La sortie est ensuite transmise à une fonction d’exécution qui lance les appels d’outils.
 
 ```python lines
 # Définir les fonctions pour gérer le traitement de chaque agent
@@ -595,7 +595,7 @@ def handle_visualization_agent(query, conversation_messages):
     execute_tool(response.choices[0].message.tool_calls, conversation_messages)
 ```
 
-Enfin, nous créons l’outil principal chargé de traiter la requête utilisateur. Cette fonction reçoit la requête utilisateur, obtient une réponse du modèle et la transmet aux autres agents pour exécution.
+Enfin, nous créons l’outil principal chargé de traiter la requête de l’utilisateur. Cette fonction prend la requête de l’utilisateur, récupère une réponse du modèle et la transmet aux autres agents pour exécution.
 
 ```python lines
 # Fonction pour gérer les entrées utilisateur et le triage
@@ -680,10 +680,10 @@ def extract_tool_contents(data):
 ```
 
 <div id="execute-multi-agent-systems-and-visualization-in-weave">
-  ## Exécuter des systèmes multi-agents et la visualisation dans Weave
+  ## Exécuter des systèmes multi-agents et les visualiser dans Weave
 </div>
 
-Enfin, nous exécutons la fonction principale `handle_user_message` à l’aide de l’entrée de l’utilisateur et observons les résultats.
+Enfin, nous exécutons la fonction principale `handle_user_message` à partir de l’entrée de l’utilisateur et observons les résultats.
 
 ```python lines
 handle_user_message(user_query)
@@ -698,7 +698,7 @@ En cliquant sur une ligne, nous pouvons voir les processus intermédiaires exéc
   ![3.png](/media/multi-agent-structured-output/3.png)
 </Frame>
 
-Examinez de plus près la manière dont le traçage est géré dans Weave !
+Examinez de plus près la manière dont le Tracing est géré dans Weave !
 
 <div id="conclusion">
   ## Conclusion

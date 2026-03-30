@@ -1,9 +1,9 @@
 ---
-title: "Comment puis-je au mieux enregistrer les modèles issus de runs dans un sweep ?"
+title: "Comment puis-je enregistrer au mieux les modèles de runs dans un sweep ?"
 keywords: ["Artifacts", "Sweeps"]
 ---
 
-Une approche efficace pour enregistrer des modèles dans un [sweep](/fr/models/sweeps/) consiste à créer un artefact de modèle pour le sweep. Chaque version représente un run différent du sweep. Procédez comme suit :
+Une approche efficace pour enregistrer des modèles dans un [sweep](/fr/models/sweeps/) consiste à créer un artefact de modèle pour ce sweep. Chaque version correspond à un run différent du sweep. Procédez comme suit :
 
 ```python
 wandb.Artifact(name="sweep_name", type="model")

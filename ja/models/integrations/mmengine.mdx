@@ -1,15 +1,15 @@
 ---
 title: MMEngine
-description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使用し、トレーニングメトリクス、設定、可視化データをログします。"
+description: "WandbVisBackend を使用して OpenMMLab の MMEngine で W&B を活用し、トレーニングのメトリクス、設定、可視化記録をログします。"
 ---
 
-[OpenMMLab](https://github.com/open-mmlab) が提供する MMEngine は、PyTorch ベースでディープラーニングモデルをトレーニングするための基盤ライブラリです。MMEngine は OpenMMLab アルゴリズムライブラリ向けに次世代のトレーニングアーキテクチャを実装しており、OpenMMLab 内の 30 以上のアルゴリズムライブラリに対して統一された実行基盤を提供します。そのコアコンポーネントには、トレーニングエンジン、評価エンジン、モジュール管理機能が含まれます。
+[OpenMMLab](https://github.com/open-mmlab) が提供する MMEngine は、PyTorch を基盤としたディープラーニングモデルのトレーニングのための基盤ライブラリです。MMEngine は OpenMMLab アルゴリズムライブラリ向けに次世代のトレーニングアーキテクチャを実装しており、OpenMMLab 内の 30 以上のアルゴリズムライブラリに対して統一された実行基盤を提供します。そのコアコンポーネントには、トレーニングエンジン、評価エンジン、およびモジュール管理が含まれます。
 
-[W&amp;B](https://wandb.ai/site) は、専用の [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) を通じて MMEngine に直接統合されており、次の用途に使用できます。
+[W&amp;B](https://wandb.ai/site) は、専用の [`WandbVisBackend`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.visualization.WandbVisBackend.html#mmengine.visualization.WandbVisBackend) を通じて MMEngine に直接統合されており、次のように使用できます。
 
 * トレーニングおよび評価メトリクスをログする。
 * 実験の設定をログおよび管理する。
-* グラフ、画像、スカラーなどの追加情報をログする。
+* グラフ、画像、スカラーなどの追加の記録をログする。
 
 <div id="get-started">
   ## はじめに
@@ -18,13 +18,13 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
 `openmim` と `wandb` をインストールします。
 
 <Tabs>
-  <Tab title="コマンドライン">
+  <Tab title="Command Line">
     ```bash
     pip install -q -U openmim wandb
     ```
   </Tab>
 
-  <Tab title="ノートブック">
+  <Tab title="Notebook">
     ```bash
     !pip install -q -U openmim wandb
     ```
@@ -34,13 +34,13 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
 次に、`mim` コマンドを使って `mmengine` と `mmcv` をインストールします。
 
 <Tabs>
-  <Tab title="コマンドライン">
+  <Tab title="Command Line">
     ```bash
     mim install -q mmengine mmcv
     ```
   </Tab>
 
-  <Tab title="ノートブック">
+  <Tab title="Notebook">
     ```bash
     !mim install -q mmengine mmcv
     ```
@@ -53,7 +53,7 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
 
 このセクションでは、`WandbVisBackend` を [`mmengine.runner.Runner`](https://mmengine.readthedocs.io/en/latest/api/generated/mmengine.runner.Runner.html#mmengine.runner.Runner) と組み合わせて使用する典型的なワークフローを示します。
 
-1. 可視化用の config から `visualizer` を定義します。
+1. 可視化用の設定から `visualizer` を定義します。
 
    ```python
    from mmengine.visualization import Visualizer
@@ -75,7 +75,7 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
    ```
 
    <Note>
-     `init_kwargs` には、[W&amp;B run initialization](/ja/models/ref/python/functions/init) の入力パラメーターに対応する引数の辞書を渡します。
+     `init_kwargs` には、[W&amp;B run initialization](/ja/models/ref/python/functions/init) の入力パラメーターに対する引数の辞書を渡します。
    </Note>
 
 2. `visualizer` を指定して `runner` を初期化し、`runner.train()` を呼び出します。
@@ -98,10 +98,10 @@ description: "WandbVisBackend を通じて OpenMMLab の MMEngine で W&B を使
    ```
 
 <div id="use-the-wandbvisbackend-with-openmmlab-computer-vision-libraries">
-  ## OpenMMLab のコンピュータビジョンライブラリで `WandbVisBackend` を使う
+  ## OpenMMLab のコンピュータビジョンライブラリで `WandbVisBackend` を使用する
 </div>
 
-`WandbVisBackend` は、[MMDetection](https://mmdetection.readthedocs.io/) のような OpenMMLab のコンピュータビジョンライブラリを使った実験を簡単に追跡するためにも利用できます。
+`WandbVisBackend` は、[MMDetection](https://mmdetection.readthedocs.io/) のような OpenMMLab のコンピュータビジョンライブラリを使った実験を簡単に管理するためにも使用できます。
 
 ```python
 # デフォルトのランタイム設定から基本設定を継承する

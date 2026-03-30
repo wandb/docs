@@ -6,7 +6,7 @@ title: Exporter des données de tableau
 Comme tous les W&amp;B Artifacts, les tableaux peuvent être convertis en dataframes pandas afin de faciliter l&#39;exportation des données.
 
 <div id="convert-table-to-artifact">
-  ## Convertir `table` en `artifact`
+  ## Convertir `table` en `artefact`
 </div>
 
 Vous devez d’abord convertir le tableau en artefact. La façon la plus simple de procéder consiste à utiliser `artifact.get(table, "table_name")` :
@@ -28,7 +28,7 @@ with wandb.init() as r:
 ```
 
 <div id="convert-artifact-to-dataframe">
-  ## Convertir `artifact` en dataframe
+  ## Convertir `artefact` en dataframe
 </div>
 
 Ensuite, convertissez le tableau en dataframe :
@@ -42,7 +42,7 @@ df = table.get_dataframe()
   ## Exporter les données
 </div>
 
-Vous pouvez désormais exporter avec n’importe quelle méthode prise en charge par dataframe :
+Vous pouvez désormais exporter avec n’importe quelle méthode que le dataframe prend en charge :
 
 ```python
 # Conversion des données du tableau en .csv
@@ -53,6 +53,6 @@ df.to_csv("example.csv", encoding="utf-8")
   # Étapes suivantes
 </div>
 
-* Consultez la [documentation de référence](/fr/models/artifacts/construct-an-artifact/) sur les `artifacts`.
+* Consultez la [documentation de référence](/fr/models/artifacts/construct-an-artifact/) sur les `artefacts`.
 * Parcourez notre [guide pas à pas sur les tableaux](/fr/models/tables/tables-walkthrough/).
-* Consultez la documentation de référence [Dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).
+* Consultez la documentation de référence [dataframe](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html).

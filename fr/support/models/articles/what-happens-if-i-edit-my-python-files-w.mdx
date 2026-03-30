@@ -1,20 +1,20 @@
 ---
-title: "Que se passe-t-il si je modifie mes fichiers Python pendant l’exécution d’un sweep ?"
+title: "Que se passe-t-il si je modifie mes fichiers Python pendant qu’un balayage est en cours d’exécution ?"
 keywords: ["Sweeps"]
 ---
 
-Pendant l’exécution d’un sweep :
+Pendant qu’un balayage est en cours d’exécution :
 
-* Si le script `train.py` utilisé par le sweep est modifié, le sweep continue d’utiliser le fichier `train.py` original
-* Si des fichiers référencés par le script `train.py` sont modifiés, par exemple des fonctions utilitaires dans le script `helper.py`, le sweep se met à utiliser la version mise à jour de `helper.py`.
+* Si le script `train.py` qu’utilise le balayage change, le balayage continue d’utiliser le `train.py` original
+* Si les fichiers auxquels le script `train.py` fait référence changent, comme les fonctions d’assistance dans le script `helper.py`, le balayage commence à utiliser le `helper.py` mis à jour.
 
 ***
 
 {/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
-  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas à la main le contenu entre ces marqueurs.
+  Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés dans le front matter.
+  Ne modifiez pas à la main entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badge d’onglet ---- */}

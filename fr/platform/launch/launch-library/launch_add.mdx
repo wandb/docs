@@ -4,7 +4,7 @@ title: launch_add
 
 <Card title="Voir le code source" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch_add.py#L34-L131" icon="github" />
 
-Ajoutez une expérience Launch W&amp;B à la file d&#39;attente, avec un URI source, un job ou `docker_image`.
+Ajoutez une expérience Launch W&amp;B à la file d&#39;attente, avec un URI source, un job ou docker&#95;image.
 
 ```python
 launch_add(
@@ -34,27 +34,27 @@ launch_add(
 | Arguments            | Description                                                                                                                                                                                                                 |
 | :------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `uri`                | URI de l&#39;expérience à exécuter. URI d&#39;un run wandb ou d&#39;un dépôt Git.                                                                                                                                           |
-| `job`                | référence de chaîne vers un wandb.Job, par ex. : wandb/test/my-job:latest                                                                                                                                                   |
+| `job`                | référence de chaîne vers un wandb.Job, par ex. : wandb/test/my-job:latest                                                                                                                                                   |
 | `config`             | Un dictionnaire contenant la configuration du run. Peut également contenir des arguments spécifiques aux ressources sous la clé &quot;resource&#95;args&quot;                                                               |
-| `template_variables` | Un dictionnaire contenant les valeurs des variables de modèle pour une file d&#39;attente de run. Format attendu : `{"VAR_NAME": VAR_VALUE}`                                                                                |
+| `template_variables` | Un dictionnaire contenant les valeurs des variables de modèle pour une file d&#39;attente de run. Format attendu : `{"VAR_NAME": VAR_VALUE}`                                                                                |
 | `project`            | projet cible auquel envoyer le run lancé                                                                                                                                                                                    |
 | `entity`             | entité cible à laquelle envoyer le run lancé                                                                                                                                                                                |
 | `queue`              | le nom de la file d&#39;attente dans laquelle placer le run                                                                                                                                                                 |
 | `priority`           | le niveau de priorité du job, où 1 correspond à la priorité la plus élevée                                                                                                                                                  |
-| `resource`           | backend d&#39;exécution du run : W&amp;B prend en charge nativement le backend &quot;local-container&quot;                                                                                                                  |
+| `resource`           | backend d&#39;exécution du run : W&amp;B prend en charge nativement le backend &quot;local-container&quot;                                                                                                                  |
 | `entry_point`        | Point d&#39;entrée à exécuter dans le projet. Utilise par défaut le point d&#39;entrée du run original pour les URI wandb, ou `main.py` pour les URI de dépôt Git.                                                          |
 | `name`               | Nom sous lequel lancer le run.                                                                                                                                                                                              |
 | `version`            | Pour les projets basés sur Git, hash de commit ou nom de branche.                                                                                                                                                           |
 | `docker_image`       | Le nom de l&#39;image Docker à utiliser pour le run.                                                                                                                                                                        |
-| `resource_args`      | Arguments liés aux ressources pour lancer des Runs sur un backend distant. Sont stockés dans la configuration Launch générée sous `resource_args`.                                                                          |
+| `resource_args`      | Arguments liés aux ressources pour lancer des runs sur un backend distant. Sont stockés dans la configuration Launch générée sous `resource_args`.                                                                          |
 | `run_id`             | chaîne facultative indiquant l&#39;identifiant du run lancé                                                                                                                                                                 |
-| `build`              | indicateur facultatif dont la valeur par défaut est false ; nécessite que `queue` soit défini si `build` est activé, crée une image, crée un artefact de job et ajoute à la file d&#39;attente une référence à cet artefact |
+| `build`              | indicateur facultatif dont la valeur par défaut est false ; nécessite que `queue` soit défini si `build` est activé, crée une image, crée un artefact de job et ajoute à la file d&#39;attente une référence à cet artefact |
 | `repository`         | chaîne facultative permettant de contrôler le nom du dépôt distant, utilisée lors du push d&#39;images vers un registre                                                                                                     |
 | `project_queue`      | chaîne facultative permettant de contrôler le nom du projet pour la file d&#39;attente. Principalement utilisée pour la rétrocompatibilité avec les files d&#39;attente limitées au projet                                  |
 
 
 <div id="example">
-  #### Exemple:
+  #### Exemple :
 </div>
 
 ```python

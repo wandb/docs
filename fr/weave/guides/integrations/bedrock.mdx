@@ -1,11 +1,11 @@
 ---
 title: Bedrock
-description: "Suivez et surveillez les appels LLM Amazon Bedrock avec Weave, en capturant les interactions avec les modèles fondamentaux et l’utilisation de l’API Converse."
+description: "Suivez et surveillez les appels LLM Amazon Bedrock avec Weave, en capturant les interactions avec les modèles de fondation et l’utilisation de l’API Converse."
 ---
 
-Weave suit et journalise automatiquement les appels LLM effectués via Amazon Bedrock, le service entièrement géré d’AWS qui propose des modèles fondamentaux de grandes entreprises d’IA via une API unifiée.
+Weave suit et journalise automatiquement les appels LLM effectués via Amazon Bedrock, le service entièrement géré d’AWS qui propose des modèles de fondation issus des principales entreprises d’IA via une API unifiée.
 
-Il existe plusieurs façons de journaliser les appels LLM dans Weave depuis Amazon Bedrock. Vous pouvez utiliser `weave.op` pour créer des opérations réutilisables afin de suivre tous les appels à un modèle Bedrock. Si vous utilisez des modèles Anthropic, vous pouvez également utiliser l’intégration native de Weave avec Anthropic.
+Il existe plusieurs façons de journaliser les appels LLM d’Amazon Bedrock dans Weave. Vous pouvez utiliser `weave.op` pour créer des opérations réutilisables afin de suivre tous les appels vers un modèle Bedrock. Si vous utilisez des modèles Anthropic, vous pouvez également utiliser l’intégration native de Weave avec Anthropic.
 
 <Tip>
   Pour les derniers tutoriels, consultez [Weights &amp; Biases on Amazon Web Services](https://wandb.ai/site/partners/aws/).
@@ -15,7 +15,7 @@ Il existe plusieurs façons de journaliser les appels LLM dans Weave depuis Amaz
   ## Traces
 </div>
 
-Weave capturera automatiquement les traces des appels à l’API Bedrock. Vous pouvez utiliser le client Bedrock comme d’habitude après avoir initialisé Weave et patché le client :
+Weave capture automatiquement les traces des appels à l’API Bedrock. Vous pouvez utiliser le client Bedrock comme d’habitude après avoir initialisé Weave et patché le client :
 
 ```python lines
 import weave
@@ -62,10 +62,10 @@ print(response["output"]["message"]["content"][0]["text"])
 ```
 
 <div id="wrapping-with-your-own-ops">
-  ## Encapsuler dans vos propres ops
+  ## Encapsuler avec vos propres opérations
 </div>
 
-Vous pouvez créer des opérations réutilisables à l’aide du décorateur `@weave.op()`. Voici un exemple utilisant les API `invoke_model` et `converse` :
+Vous pouvez créer des opérations réutilisables à l’aide du décorateur `@weave.op()`. Voici un exemple illustrant les API `invoke_model` et `converse` :
 
 ```python lines
 @weave.op
@@ -109,14 +109,14 @@ def call_model_converse(
 ```
 
 <Frame>
-  ![Intégration de Bedrock Converse avec Weave, traces des appels API et données de réponse](/weave/guides/integrations/imgs/bedrock_converse.png)
+  ![Intégration de Bedrock Converse avec Weave, traces d'appels API et données de réponse](/weave/guides/integrations/imgs/bedrock_converse.png)
 </Frame>
 
 <div id="create-a-model-for-easier-experimentation">
-  ## Créer un `Model` pour expérimenter plus facilement
+  ## Créer un `Model` pour faciliter l’expérimentation
 </div>
 
-Vous pouvez créer un modèle Weave pour mieux organiser vos expériences et capturer des paramètres. Voici un exemple utilisant l’API `converse` :
+Vous pouvez créer un modèle Weave afin de mieux organiser vos expériences et de capturer les paramètres. Voici un exemple utilisant l’API `converse` :
 
 ```python lines
 class BedrockLLM(weave.Model):
@@ -151,7 +151,7 @@ result = model.predict("What is the best way to handle errors in Python?")
 print(result)
 ```
 
-Cette approche vous permet de versionner vos expériences et de suivre facilement les différentes configurations de votre application basée sur Bedrock.
+Cette approche vous permet de versionner vos expériences et de suivre facilement les différentes configurations de votre application reposant sur Bedrock.
 
 <div id="learn-more">
   ## En savoir plus
@@ -163,7 +163,7 @@ En savoir plus sur l’utilisation d’Amazon Bedrock avec Weave
   ### Essayez Bedrock dans le playground Weave
 </div>
 
-Vous souhaitez tester des modèles Amazon Bedrock dans l&#39;interface Weave sans aucune configuration ? Essayez le [playground LLM](../tools/playground).
+Vous souhaitez expérimenter avec des modèles Amazon Bedrock dans l&#39;interface Weave sans aucune configuration ? Essayez le [playground LLM](../tools/playground).
 
 <div id="report-compare-llms-on-bedrock-for-text-summarization-with-weave">
   ### Rapport : comparer des LLM sur Bedrock pour la synthèse de texte avec Weave

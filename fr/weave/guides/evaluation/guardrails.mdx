@@ -1,19 +1,19 @@
 ---
 title: "Configurer des garde-fous"
-description: "Assurez la sécurité des LLM et mesurez la qualité des sorties dans les applications de Production"
+description: "Garantissez la sécurité des LLM et mesurez la qualité des sorties dans les applications de production"
 ---
 
-Les garde-fous interviennent activement dans le comportement de votre application LLM sur la base des scores des juges LLM. Ils s’exécutent en temps réel avant que les sorties générées n’atteignent les utilisateurs et peuvent bloquer ou modifier les réponses lorsque les scores dépassent certains seuils. Vous pouvez utiliser des garde-fous pour bloquer le contenu toxique, filtrer les réponses afin d’y détecter des informations personnelles identifiables (PII) ou bloquer les entrées abusives des utilisateurs.
+Les garde-fous interviennent activement dans le comportement de votre application LLM en se basant sur les scores des juges LLM. Ils s’exécutent en temps réel avant que les sorties n’atteignent les utilisateurs et peuvent bloquer ou modifier les réponses lorsque les scores dépassent les seuils. Vous pouvez utiliser des garde-fous pour bloquer le contenu toxique, filtrer les réponses pour détecter les informations personnelles identifiables (PII), ou bloquer les entrées abusives des utilisateurs.
 
 <div id="how-weave-guardrails-work">
   ## Comment fonctionnent les garde-fous de Weave
 </div>
 
-Les garde-fous de Weave utilisent des [Weave Scorers](/fr/weave/guides/evaluation/scorers) intégrés directement pour évaluer l&#39;entrée fournie par un utilisateur ou la sortie d&#39;un LLM, et ajuster les réponses du LLM en temps réel. Vous pouvez configurer des évaluateurs personnalisés ou utiliser des [évaluateurs intégrés](/fr/weave/guides/evaluation/builtin_scorers) pour évaluer le contenu à diverses fins. Ce guide montre comment utiliser ces deux types d&#39;évaluateurs comme garde-fous.
+Les garde-fous de Weave utilisent des [Weave Scorers](/fr/weave/guides/evaluation/scorers) intégrés directement pour évaluer les entrées d’un utilisateur ou les sorties d’un LLM, et adapter les réponses du LLM en temps réel. Vous pouvez configurer des scorers personnalisés ou utiliser des [scorers intégrés](/fr/weave/guides/evaluation/builtin_scorers) pour évaluer le contenu à diverses fins. Ce guide montre comment utiliser ces deux types de scorers comme garde-fous.
 
 Si vous souhaitez évaluer passivement le trafic de production sans modifier le flux de contrôle de votre application, utilisez plutôt des [moniteurs](/fr/weave/guides/evaluation/monitors).
 
-Contrairement aux moniteurs, les garde-fous nécessitent des modifications du code, car ils ont une incidence sur le flux de contrôle de votre application. Cependant, chaque résultat d&#39;évaluateur produit par les garde-fous est automatiquement stocké dans la base de données de Weave ; vos garde-fous font donc aussi office de moniteurs, sans configuration supplémentaire. Vous pouvez analyser les résultats historiques des évaluateurs, quelle que soit la manière dont ils ont été utilisés à l&#39;origine.
+Contrairement aux moniteurs, les garde-fous nécessitent des modifications du code, car ils influencent le flux de contrôle de votre application. Cependant, chaque résultat de scorer produit par les garde-fous est automatiquement stocké dans la base de données de Weave ; vos garde-fous font donc aussi office de moniteurs, sans configuration supplémentaire. Vous pouvez analyser les résultats historiques des scorers, quelle que soit la manière dont ils ont été utilisés à l’origine.
 
 <Note>
   Le SDK TypeScript de Weave ne prend pas en charge les outils requis pour configurer des garde-fous.
@@ -23,25 +23,25 @@ Contrairement aux moniteurs, les garde-fous nécessitent des modifications du co
   ### Optimisez les performances de vos garde-fous Weave
 </div>
 
-Comme les garde-fous peuvent interrompre le flux de contrôle de votre application et influer sur ses réponses, ils peuvent dégrader les performances s’ils sont trop complexes. Pour des performances optimales, nous vous recommandons de :
+Comme les garde-fous peuvent interrompre le flux de contrôle de votre application et modifier le cours de ses réponses, ils peuvent dégrader les performances s’ils sont trop complexes. Pour des performances optimales, nous vous recommandons :
 
 * Garder une logique de garde-fou simple et rapide
-* Mettre en cache les résultats fréquents
-* Éviter les appels à des API externes coûteux
+* Mettre en cache les résultats courants
+* Éviter les appels à des API externes lourds
 * Initialiser les garde-fous en dehors de vos fonctions principales pour éviter des coûts d’initialisation répétés
 
-Il est particulièrement important d’initialiser vos garde-fous en dehors de la fonction principale dans les cas suivants :
+Il est particulièrement important d’initialiser vos garde-fous en dehors de la fonction principale lorsque :
 
-* Vos évaluateurs chargent des modèles de ML
-* Vous utilisez des LLM locaux, pour lesquels la latence est critique
+* Vos évaluateurs chargent des modèles ML
+* Vous utilisez des LLM locaux où la latence est critique
 * Vos évaluateurs maintiennent des connexions réseau
 * Vous avez des applications à fort trafic
 
 <div id="example-create-a-guardrail-using-a-built-in-moderation-scorer">
-  ### Exemple : Créer un garde-fou à l’aide d’un scorer de modération intégré
+  ### Exemple : créer un garde-fou à l’aide d’un scorer de modération intégré
 </div>
 
-L’exemple suivant envoie les prompts utilisateur au modèle GPT-4o mini d’OpenAI. La réponse du modèle est ensuite transmise à l’[API de modération d’OpenAI](https://platform.openai.com/docs/guides/moderation) via Weave afin d’évaluer si la réponse du LLM contient un contenu nuisible ou toxique. La réponse du modèle est ensuite transmise à la fonction de garde-fou (`generate_safe_response()`), qui utilise `OpenAIModerationScorer` pour vérifier la réponse originale du LLM. La logique de la fonction vérifie alors la présence d’une valeur booléenne dans le champ `passed` de la réponse d’évaluation d’OpenAI, ce qui détermine la manière dont l’application répond.
+L’exemple suivant envoie les invites utilisateur au modèle GPT-4o mini d’OpenAI. La réponse du modèle est ensuite transmise à l’[API de modération d’OpenAI](https://platform.openai.com/docs/guides/moderation) de Weave afin d’évaluer si la réponse du LLM contient du contenu nuisible ou toxique. La réponse du modèle est transmise à la fonction de garde-fou (`generate_safe_response()`), où le `OpenAIModerationScorer` est utilisé pour vérifier la réponse originale du LLM. La logique de la fonction vérifie ensuite la réponse d’évaluation d’OpenAI pour une valeur booléenne dans le champ `passed`, ce qui détermine la manière dont l’application répond.
 
 ```python lines {28-45}
 import weave
@@ -53,12 +53,12 @@ import asyncio
 weave.init("your-team-name/your-project-name")
 
 # Initialiser le client OpenAI
-client = openai.OpenAI()  # Utilise la variable d'environnement OPENAI_API_KEY
+client = openai.OpenAI()  # Uses OPENAI_API_KEY env var
 
 # Initialiser le scorer de modération
 moderation_scorer = OpenAIModerationScorer()
 
-# Envoyer les prompts à OpenAI
+# Envoyer des prompts à OpenAI
 @weave.op
 def generate_response(prompt: str) -> str:
     response = client.chat.completions.create(
@@ -71,22 +71,22 @@ def generate_response(prompt: str) -> str:
     )
     return response.choices[0].message.content
 
-# La fonction garde-fou vérifie la toxicité des réponses
+# La fonction garde-fou vérifie les réponses pour détecter la toxicité
 async def generate_safe_response(prompt: str) -> str:
-    """Génère une réponse avec un garde-fou de modération de contenu."""
-    # Récupérer à la fois le résultat et l'objet Call
+    """Générer une réponse avec un garde-fou de modération de contenu."""
+    # Obtenir le résultat et l'objet Call
     result, call = generate_response.call(prompt)
     
-    # Appliquer le scorer de modération avant de renvoyer la réponse à l'utilisateur
+    # Appliquer le scorer de modération avant de retourner le résultat à l'utilisateur
     score = await call.apply_scorer(moderation_scorer)
-    print("This is the score object:", score)
+    print("Voici l'objet score :", score)
     
     # Vérifier si le contenu a été signalé
     if not score.result.get("passed", True): 
         categories = score.result.get("categories", {})
         flagged_categories = list(categories.keys()) if categories else []
-        print(f"Content blocked. Flagged categories: {flagged_categories}")
-        return "I'm sorry, I can't provide that response due to content policy restrictions."
+        print(f"Contenu bloqué. Catégories signalées : {flagged_categories}")
+        return "Je suis désolé, je ne peux pas fournir cette réponse en raison des restrictions de la politique de contenu."
     
     return result
 
@@ -94,23 +94,23 @@ async def generate_safe_response(prompt: str) -> str:
 if __name__ == "__main__":
     
     prompts = [
-        "What's the capital of France?",
-        "Tell me a funny fact about dogs.",
+        "Quelle est la capitale de la France ?",
+        "Dis-moi un fait amusant sur les chiens.",
     ]
     
     for prompt in prompts:
-        print(f"\nPrompt: {prompt}")
+        print(f"\nPrompt : {prompt}")
         response = asyncio.run(generate_safe_response(prompt))
-        print(f"Response: {response}")
+        print(f"Réponse : {response}")
 ```
 
-Lorsque vous utilisez des évaluateurs LLM-as-a-juge, vous pouvez faire référence aux variables de vos ops dans vos prompts de score. Par exemple, &quot;Évaluez si `{output}` est correct au regard de `{ground_truth}`.&quot; Voir [les variables de prompt](/fr/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) pour plus d&#39;informations.
+Lorsque vous utilisez des scorers LLM-as-a-judge, vous pouvez référencer des variables de vos opérations dans vos prompts de calcul du score. Par exemple, &quot;Évaluez si `{output}` est exact basé sur `{ground_truth}`.&quot; Voir [variables de prompt](/fr/weave/guides/evaluation/scorers#access-variables-from-your-ops-in-scoring-prompts) pour plus d’informations.
 
 <div id="example-create-a-guardrail-using-a-custom-scorer">
   ### Exemple : Créer un garde-fou à l’aide d’un scorer personnalisé
 </div>
 
-L’exemple suivant crée un garde-fou personnalisé qui détecte les informations personnelles identifiables dans les réponses d’un LLM, comme les adresses e-mail, les numéros de téléphone ou les numéros de sécurité sociale. Cela évite d’exposer des informations sensibles dans le contenu généré. La fonction generate&#95;safe&#95;response applique le scorer personnalisé PIIDetectionScorer.
+L’exemple suivant crée un garde-fou personnalisé qui détecte les informations personnelles identifiables (PII) dans les réponses d’un LLM, comme les adresses e-mail, les numéros de téléphone ou les numéros de sécurité sociale. Cela empêche l’exposition d’informations sensibles dans le contenu généré. La fonction generate&#95;safe&#95;response applique le scorer personnalisé PIIDetectionScorer.
 
 ```python lines {14-39, 57-69}
 import weave
@@ -129,7 +129,7 @@ class PIIDetectionScorer(Scorer):
     @weave.op
     def score(self, output: str) -> dict:
         """
-        Vérifie la présence de motifs d’informations personnelles identifiables courants dans la sortie.
+        Vérifie la présence de motifs d'informations personnelles identifiables courants dans la sortie.
         
         Returns:
             dict: Contient 'passed' (bool) et 'detected_types' (list)
@@ -198,20 +198,20 @@ if __name__ == "__main__":
 ```
 
 <div id="integrate-weave-with-aws-bedrock-guardrails">
-  ### Intégrer Weave aux garde-fous AWS Bedrock
+  ### Intégrer Weave avec les garde-fous AWS Bedrock
 </div>
 
-Le `BedrockGuardrailScorer` utilise les garde-fous AWS Bedrock pour détecter et filtrer le contenu selon les politiques configurées.
+Le `BedrockGuardrailScorer` utilise les garde-fous AWS Bedrock pour détecter et filtrer le contenu en fonction des politiques configurées.
 
-Avant de configurer une intégration avec les garde-fous Bedrock, il vous faut :
+Avant de configurer une intégration de garde-fous Bedrock, vous avez besoin de :
 
 * Un compte AWS avec accès à Bedrock
 * Un [garde-fou configuré dans la console AWS Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-components.html)
-* Le package Python [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html)
+* Le [package Python](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html) `boto3`
 
-Vous n&#39;avez pas besoin de créer votre propre client Bedrock. Weave le crée pour vous. Pour spécifier une région, indiquez la valeur de région dans le paramètre `bedrock_runtime_kwargs` du scorer.
+Vous n&#39;avez pas besoin de créer votre propre client Bedrock. Weave le crée pour vous. Pour spécifier une région, transmettez la valeur de région dans le paramètre `bedrock_runtime_kwargs` du scorer.
 
-Pour voir un exemple de création d&#39;un garde-fou dans AWS Bedrock, voir le [notebook Bedrock garde-fous](https://github.com/aws-samples/amazon-bedrock-samples/blob/main/responsible_ai/bedrock-guardrails/guardrails-api.ipynb).
+Pour obtenir un exemple de création d&#39;un garde-fou dans AWS Bedrock, voir le [notebook Bedrock garde-fous](https://github.com/aws-samples/amazon-bedrock-samples/blob/main/responsible_ai/bedrock-guardrails/guardrails-api.ipynb).
 
 L&#39;exemple suivant vérifie la génération de texte par rapport aux politiques des garde-fous AWS Bedrock avant de renvoyer les résultats aux utilisateurs :
 

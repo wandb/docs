@@ -51,8 +51,8 @@ await pred.finish(); // 予測を確定する
 
 #### パラメータ
 
-| 名前 | 型 |
-| :------ | :------ |
+| 名            | タイプ                                      |
+| :----------- | :--------------------------------------- |
 | `evalLogger` | [`EvaluationLogger`](./evaluationlogger) |
 
 <div id="returns">
@@ -61,9 +61,7 @@ await pred.finish(); // 予測を確定する
 
 [`ScoreLogger`](./scorelogger)
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [evaluationLogger.ts:319](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L319)
 
@@ -94,17 +92,17 @@ finish() が呼び出されたかどうかを確認します。
   ### finish
 </div>
 
-▸ **finish**(): `Promise`\<`void`\>
+▸ **finish**(): `Promise`&lt;`void`&gt;
 
 予測に対するスコアリング処理を終了します。
 蓄積されたスコアを用いて `predict_and_score` 呼び出しを最終確定します。
-逐次的な集計を更新し、メモリを解放します。
+段階的な集計を更新し、メモリを解放します。
 
 <div id="returns">
   #### 戻り値
 </div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
 <div id="defined-in">
   #### 定義場所
@@ -112,34 +110,32 @@ finish() が呼び出されたかどうかを確認します。
 
 [evaluationLogger.ts:451](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L451)
 
-___
+***
 
 <div id="logscore">
   ### logScore
 </div>
 
-▸ **logScore**(`scorerName`, `score`): `Promise`\<`void`\>
+▸ **logScore**(`scorerName`, `score`): `Promise`&lt;`void`&gt;
 
 この予測のスコアをログに記録します。
-`predict_and_score` の子として scorer の呼び出しを作成します。
+`predict_and_score` の子として Scorer の Call を作成します。
 
 <div id="parameters">
   #### パラメーター
 </div>
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `scorerName` | `string` | スコアラー名（例: "accuracy", "f1_score"） |
-| `score` | `any` | スコアの値 |
+| Name         | Type     | Description                                                  |
+| :----------- | :------- | :----------------------------------------------------------- |
+| `scorerName` | `string` | Scorer名 (例: &quot;accuracy&quot;, &quot;f1&#95;score&quot;)  |
+| `score`      | `any`    | スコアの値                                                        |
 
 <div id="returns">
   #### 戻り値
 </div>
 
-`Promise`\<`void`\>
+`Promise`&lt;`void`&gt;
 
-<div id="defined-in">
-  #### 定義場所
-</div>
+#### 定義元
 
 [evaluationLogger.ts:360](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L360)

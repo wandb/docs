@@ -57,11 +57,11 @@ import wandb
 
 registry = wandb.Api().create_registry()
 registry.artifact_types.append("model")
-registry.save()  # une fois sauvegardé, le type d'artefact `model` ne peut plus être supprimé
+registry.save()  # une fois enregistré, le type d'artefact `model` ne peut plus être supprimé
 registry.artifact_types.append("accidentally_added")
 registry.artifact_types.remove(
      "accidentally_added"
-)  # Les types ne peuvent être supprimés que s'ils n'ont pas encore été sauvegardés
+)  # Les types ne peuvent être supprimés que s'ils n'ont pas encore été enregistrés
 ```
 
 **Retourne :**
@@ -87,7 +87,7 @@ Description du registre.
 
 **Retourne :**
 
-* `str | None` : La valeur de propriété description.
+* `str | None`: La valeur de propriété description.
 
 ***
 
@@ -97,7 +97,7 @@ Entité de l’organisation du registre.
 
 **Retourne :**
 
-* `str`: La valeur de propriété entity.
+* `str` : La valeur de propriété `entity`.
 
 ***
 
@@ -162,8 +162,8 @@ Visibilité du registre.
 **Retourne :**
 
 * `Literal["organization", "restricted"]`:  Le niveau de visibilité.
-  * &quot;organization&quot; : Tous les membres de l’organisation peuvent consulter ce registre. Vous pouvez modifier leurs rôles plus tard dans les paramètres de l’interface utilisateur.
-  * &quot;restricted&quot; : Seuls les membres invités via l’interface utilisateur peuvent accéder à ce registre. Le partage public est désactivé.
+  * &quot;organization&quot;: Tous les membres de l’organisation peuvent consulter ce registre. Vous pouvez modifier leurs rôles plus tard dans les paramètres de l’interface utilisateur.
+  * &quot;restricted&quot;: Seuls les membres invités via l’interface utilisateur peuvent accéder à ce registre. Le partage public est désactivé.
 
 **Retourne :**
 
@@ -255,7 +255,7 @@ Le nom du registre doit être unique au sein de l’organisation. Cette fonction
 * `description` :  Une description facultative du registre.
 * `artifact_types` :  Une liste facultative des types d’artefact autorisés.
 
-**Retourne :**
+**Retourne :**
 
 * `Registry` :  L’objet `Registry` nouvellement créé.
 
@@ -264,7 +264,6 @@ Le nom du registre doit être unique au sein de l’organisation. Cette fonction
 * `ValueError` :  Si un registre portant le même nom existe déjà dans l’organisation ou si sa création échoue.
 
 ***
-
 
 ### <kbd>méthode</kbd> `Registry.delete`
 
@@ -312,12 +311,12 @@ Supprime des utilisateurs ou des équipes de ce registre.
 * `members` :  Les utilisateurs ou les équipes à retirer du registre. Accepte les objets `User`, les objets `Team` ou leurs ID sous forme de chaîne.
 
 **Retourne :**
-Ce registre, pour permettre d’enchaîner d’autres méthodes si nécessaire.
+Ce registre, afin de pouvoir enchaîner d’autres méthodes si nécessaire.
 
 **Exceptions levées :**
 
-* `TypeError` :  Si aucun membre n’est passé en argument.
-* `ValueError` :  S’il est impossible de déduire ou d’analyser les ID de l’utilisateur ou de l’équipe.
+* `TypeError` :  Si aucun membre n’est fourni en argument.
+* `ValueError` :  S’il est impossible de déduire ou d’analyser des ID d’utilisateur ou d’équipe.
 
 **Exemples :**
 
@@ -374,26 +373,26 @@ update_member(
 ) → Self
 ```
 
-Met à jour le rôle d’un membre (utilisateur ou équipe) dans ce registre.
+Met à jour le rôle d&#39;un membre (utilisateur ou équipe) dans ce registre.
 
-**Arguments :**
+**Arguments :**
 
-* `member`:  L’utilisateur ou l’équipe dont le rôle doit être mis à jour.  Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
-* `role`:  Le nouveau rôle à attribuer au membre. Peut être l’un des suivants :
+* `member`:  L&#39;utilisateur ou l&#39;équipe dont le rôle doit être mis à jour.  Accepte un objet `User`, un objet `Team` ou leur ID sous forme de chaîne.
+* `role`:  Le nouveau rôle à attribuer au membre. Peut être l&#39;un des suivants :
   * &quot;admin&quot;
   * &quot;member&quot;
   * &quot;viewer&quot;
   * &quot;restricted&#95;viewer&quot; (si pris en charge par le serveur W&amp;B)
 
-**Retourne :**
-Ce registre, pour permettre d’enchaîner d’autres méthodes si nécessaire.
+**Retourne :**
+Ce registre, pour permettre d&#39;enchaîner d&#39;autres méthodes si nécessaire.
 
-**Exceptions levées :**
+**Exceptions levées :**
 
-* `ValueError`:  S’il est impossible de déterminer l’ID de l’utilisateur ou de l’équipe.
+* `ValueError`:  S&#39;il est impossible de déterminer l&#39;ID de l&#39;utilisateur ou de l&#39;équipe.
 
-**Exemples :**
-Attribuez le rôle d’administrateur à tous les utilisateurs du registre ```python
+**Exemples :**
+Attribuez le rôle d&#39;administrateur à tous les utilisateurs du registre ```python
 import wandb
 
 api = wandb.Api()
@@ -412,7 +411,7 @@ registry.update&#95;member(member.user, role=&quot;admin&quot;)
 
 ---
 
-### <kbd>method</kbd> `Registry.user_members`
+### <kbd>méthode</kbd> `Registry.user_members`
 
 ```python
 user_members() → list[UserMember]

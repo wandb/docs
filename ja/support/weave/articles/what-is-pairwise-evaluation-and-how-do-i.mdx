@@ -3,7 +3,7 @@ title: "ペアワイズ評価とは何ですか？どうすればよいですか
 keywords: ["評価"]
 ---
 
-Weave の [evaluation](/ja/weave/guides/core-types/evaluations) でモデルを [scoring](/ja/weave/guides/evaluation/scorers) する際、絶対値のメトリクス (例: Model A が `9/10`、Model B が `8/10`) は、相対的なメトリクス (例: Model A は Model B より高性能) に比べて、一般に付与しにくい傾向があります。*ペアワイズ評価* を使うと、2 つのモデルの出力を相対的に順位付けして比較できます。この手法は、テキスト生成、要約、質問応答のような主観的なタスクで、どちらのモデルのほうが優れているかを判断したい場合に特に有効です。ペアワイズ評価では、特定の入力に対してどのモデルが最適かを明らかにする、相対的な選好順位を取得できます。
+Weave の [evaluation](/ja/weave/guides/core-types/evaluations) でモデルを [scoring](/ja/weave/guides/evaluation/scorers) する際、絶対評価のメトリクス (例: Model A が `9/10`、Model B が `8/10`) は、相対的なメトリクス (例: Model A は Model B より優れている) よりも、通常は割り当てが難しくなります。*ペアワイズ評価* を使うと、2 つのモデルの出力を相互に比較しながら順位付けできます。このアプローチは、テキスト生成、要約、質問応答のような主観的なタスクで、どのモデルの性能がより高いかを判断したい場合に特に有効です。ペアワイズ評価では、特定の入力に対してどのモデルが最適かを明らかにする、相対的な選好順位を取得できます。
 
 <Warning>
   このアプローチはあくまで回避策であり、今後のリリースで変更される可能性があります。現在、ペアワイズ評価をサポートする、より堅牢な API を積極的に開発しています。今後の更新をお待ちください。
@@ -92,11 +92,11 @@ evaluation.evaluate(model_a)
 
 ***
 
-{/* ---- AUTO-GENERATED: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py で管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[評価](/ja/support/weave/tags/evaluation)</Badge>
 
-{/* ---- END AUTO-GENERATED: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

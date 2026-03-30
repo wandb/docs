@@ -4,13 +4,13 @@ description: "Prévisualisez et testez localement les modifications de la docume
 ---
 
 <Info>
-  **Prérequis** : veuillez installer Node.js (version 19 ou ultérieure) avant de continuer. <br />
-  Veuillez migrer vers `docs.json` avant de continuer et supprimer l’ancien fichier `mint.json`.
+  **Prérequis** : veuillez installer Node.js (version 19 ou ultérieure) avant de continuer. <br />
+  Veuillez migrer vers `docs.json` avant de continuer et supprimer l&#39;ancien fichier `mint.json`.
 </Info>
 
-Suivez ces étapes pour installer et run Mintlify sur votre système d’exploitation :
+Suivez ces étapes pour installer et exécuter Mintlify sur votre système d&#39;exploitation :
 
-**Étape 1** : installez Mintlify :
+**Étape 1** : installez Mintlify :
 
 <CodeGroup>
   ```bash npm
@@ -22,7 +22,7 @@ Suivez ces étapes pour installer et run Mintlify sur votre système d’exploit
   ```
 </CodeGroup>
 
-**Étape 2** : accédez au répertoire docs (où se trouve le fichier `docs.json`) et exécutez la commande suivante :
+**Étape 2** : accédez au répertoire docs (où se trouve le fichier `docs.json`) et exécutez la commande suivante :
 
 ```bash
 mintlify dev
@@ -35,13 +35,13 @@ Un aperçu local de votre documentation sera disponible à l’adresse `http://l
   ### Ports personnalisés
 </div>
 
-Par défaut, Mintlify utilise le port 3000. Vous pouvez personnaliser le port sur lequel Mintlify run à l’aide de l’option `--port`. Pour run Mintlify sur le port 3333, par exemple, utilisez cette commande :
+Par défaut, Mintlify utilise le port 3000. Vous pouvez personnaliser le port sur lequel Mintlify s’exécute à l’aide de l’option `--port`. Pour exécuter Mintlify sur le port 3333, par exemple, utilisez cette commande :
 
 ```bash
 mintlify dev --port 3333
 ```
 
-Si vous essayez de run Mintlify sur un port déjà utilisé, il utilisera le prochain port disponible :
+Si vous essayez d’exécuter Mintlify sur un port déjà utilisé, il utilisera le port disponible suivant :
 
 ```md
 Le port 3000 est déjà utilisé. Essai du port 3001 à la place.
@@ -68,11 +68,12 @@ Notez que chaque version de la CLI est associée à une version spécifique de M
   ## Vérification des liens
 </div>
 
-L’interface en ligne de commande peut vous aider à vérifier les liens de référence dans votre documentation. Pour identifier les liens rompus, utilisez la commande suivante :
+Le CLI peut vous aider à vérifier les liens de référence dans votre documentation. Pour identifier les liens rompus, utilisez la commande suivante :
 
 ```bash
 mintlify broken-links
 ```
+
 
 <div id="deployment">
   ## Déploiement
@@ -96,17 +97,17 @@ Nous vous recommandons d’utiliser des extensions dans votre IDE pour reconnaî
 </div>
 
 <AccordionGroup>
-  <Accordion title="Erreur : impossible de charger le module &#x22;sharp&#x22; avec le runtime darwin-arm64">
-    Cela peut être dû à une version obsolète de Node. Essayez ce qui suit :
+  <Accordion title="Erreur : impossible de charger le module &#x22;sharp&#x22; avec le runtime darwin-arm64">
+    Cela peut être dû à une version obsolète de Node. Essayez ce qui suit :
 
-    1. Supprimez la version actuellement installée de mintlify : `npm remove -g mintlify`
+    1. Supprimez la version actuellement installée de mintlify : `npm remove -g mintlify`
     2. Passez à Node v19 ou à une version ultérieure.
-    3. Réinstallez mintlify : `npm install -g mintlify`
+    3. Réinstallez mintlify : `npm install -g mintlify`
   </Accordion>
 
-  <Accordion title="Problème : vous rencontrez une erreur inconnue">
-    Solution : accédez au répertoire racine de votre appareil et supprimez le dossier ~/.mintlify. Ensuite, run à nouveau `mintlify dev`.
+  <Accordion title="Problème : vous rencontrez une erreur inconnue">
+    Solution : accédez au répertoire racine de votre appareil et supprimez le dossier ~/.mintlify. Ensuite, exécutez à nouveau `mintlify dev`.
   </Accordion>
 </AccordionGroup>
 
-Vous vous demandez ce qui a changé dans la version CLI ? [Consultez le journal des modifications de la CLI.](https://www.npmjs.com/package/mintlify?activeTab=versions)
+Vous vous demandez ce qui a changé dans la version CLI ? [Consultez le journal des modifications de la CLI.](https://www.npmjs.com/package/mintlify?activeTab=versions)

@@ -11,31 +11,31 @@ Lorsque vous publiez un prompt avec `weave.publish`, W&amp;B Weave crée une ver
   # Versions des prompts
 </div>
 
-Dans Weave, les prompts sont stockés sous forme d&#39;**objets versionnés**. Cela vous permet de faire évoluer vos prompts en toute sécurité, tout en garantissant que les évaluations, Experiments et systèmes de production peuvent faire référence à la version exacte du prompt utilisée.
+Dans Weave, les prompts sont stockés sous forme d&#39;**objets versionnés**. Cela vous permet d&#39;itérer en toute sécurité sur vos prompts, tout en garantissant que les évaluations, les expériences et les systèmes de production puissent référencer la version exacte du prompt avec laquelle ils ont été exécutés.
 
-Les versions des prompts sont accessibles à l&#39;aide de références d&#39;objet Weave. Cette page explique comment les versions des prompts sont créées, comment récupérer une version spécifique dans le code, et comment inspecter et comparer les versions dans l&#39;interface Weave.
+Les versions des prompts sont accessibles à l&#39;aide de références d&#39;objets Weave. Cette page explique comment les versions des prompts sont créées, comment récupérer une version spécifique dans le code, et comment inspecter et comparer les versions dans l&#39;interface Weave.
 
 <div id="how-prompt-versions-are-created">
   ## Comment les versions des prompts sont créées
 </div>
 
-Weave suit automatiquement chaque version de vos prompts et crée un historique complet de leur évolution. Ce système de gestion des versions est essentiel pour les flux de travail d’ingénierie de prompts, car il vous permet d’expérimenter en toute sécurité, d’identifier quelles modifications ont amélioré ou dégradé les performances et de revenir facilement à des versions antérieures si nécessaire. Chaque fois que vous publiez un prompt portant le même nom mais avec un contenu différent, Weave crée une nouvelle version tout en conservant toutes les versions précédentes.
+Weave suit automatiquement chaque version de vos prompts et crée un historique complet de leur évolution. Ce système de gestion des versions est essentiel pour les flux de travail d&#39;ingénierie de prompts, car il vous permet d&#39;expérimenter en toute sécurité, d&#39;identifier quelles modifications ont amélioré ou dégradé les performances et de revenir facilement à des versions antérieures si nécessaire. Chaque fois que vous publiez un prompt portant le même nom mais avec un contenu différent, Weave crée une nouvelle version tout en conservant toutes les versions précédentes.
 
 Chaque version est immuable. Une fois créée, le contenu de cette version ne peut plus être modifié. Si vous mettez à jour un prompt et le publiez à nouveau, Weave crée une nouvelle version tout en conservant les versions précédentes.
 
-La gestion des versions vous permet de :
+La gestion des versions vous permet de :
 
-* Reproduire des Experiments passés.
+* Reproduire des expériences passées.
 * Itérer en toute sécurité sur les modifications apportées aux prompts.
 * Déployer les mises à jour de prompts de manière contrôlée.
 
 <div id="construct-a-fully-qualified-ref-uri">
-  ## Créer une URI de référence pleinement qualifié
+  ## Créer une URI de référence pleinement qualifiée
 </div>
 
-Les objets Weave peuvent être identifiés de manière unique à l’aide d’une URI de référence pleinement qualifié.
+Les objets Weave peuvent être identifiés de manière unique à l’aide d’une URI de référence pleinement qualifiée.
 
-Une URI de réf. d&#39;objet Weave pleinement qualifié se présente comme suit :
+Une URI de réf. d&#39;objet Weave pleinement qualifiée se présente comme suit :
 
 ```text
 weave:///<your-team-name>/<your-project-name>/object/<object_name>:<object_version>
@@ -61,8 +61,8 @@ Pour récupérer un prompt, créez une référence à son nom et à sa version, 
 Vous pouvez construire des références de plusieurs façons :
 
 * `weave.ref(<name>)` : récupère la version `:latest` d’un prompt. Nécessite d’appeler `weave.init(...)`.
-* `weave.ref(<name>:<version>)` : récupère la version spécifiée d’un prompt. Nécessite d’appeler `weave.init(...)`.
-* `weave.ref(<fully_qualified_ref_uri>)` : récupère le prompt situé à l’[URI de référence pleinement qualifiée](#construct-a-fully-qualified-ref-uri) indiquée. Ne nécessite pas d’appeler `weave.init(...)`.
+* `weave.ref(<name>:<version>)` :  récupère la version spécifiée d’un prompt. Nécessite d’appeler `weave.init(...)`.
+* `weave.ref(<fully_qualified_ref_uri>)` : récupère le prompt situé à l’[URI de référence pleinement qualifié](#construct-a-fully-qualified-ref-uri) indiquée. Ne nécessite pas d’appeler `weave.init(...)`.
 
 L’exemple suivant charge la version `support_prompt:v3` pour que vous puissiez l’utiliser dans votre application :
 
@@ -82,7 +82,7 @@ Lorsque vous déployez des prompts dans des systèmes de production, fixez une v
 
 Le fait de fixer une version garantit que le comportement en production reste stable, même si de nouvelles versions de prompt sont publiées par la suite.
 
-Un flux de travail courant ressemble à ceci :
+Un flux de travail courant ressemble à ceci :
 
 1. Développez et testez une nouvelle version de prompt.
 2. Évaluez le nouveau prompt à l&#39;aide de jeux de données ou de suites d&#39;évaluation.
@@ -97,11 +97,11 @@ Pour afficher les versions du prompt dans l’interface utilisateur :
 1. Accédez à [wandb.ai](https://wandb.ai/) et sélectionnez votre projet.
 2. Dans la barre latérale du projet Weave, cliquez sur **Assets**. La page Assets s’ouvre.
 3. Sur la page Assets, cliquez sur **Prompts**. La page Prompts s’ouvre et affiche les prompts de votre projet.
-4. Dans la colonne **Versions**, cliquez sur **(x) Versions** pour le prompt que vous voulez afficher. Une liste des versions du prompt s’ouvre.
+4. Dans la colonne **Versions**, cliquez sur **(x) Versions** pour le prompt que vous souhaitez afficher. Une liste des versions du prompt s’ouvre.
 
 ![Interface utilisateur de Prompt Assets, montrant les versions du prompt sélectionné.](/weave/guides/core-types/imgs/prompt-object.png)
 
-5. (Facultatif) Vous pouvez comparer des versions de prompts en cochant les cases à côté des prompts listés, puis en cliquant sur le bouton **Compare** dans la barre d’outils du tableau. Cela vous permet de voir les différences entre vos prompts.
+5. (Facultatif) Vous pouvez comparer différentes versions de prompts en cochant les cases à côté des prompts listés, puis en cliquant sur le bouton **Compare** dans la barre d’outils du tableau. Cela vous permet de voir les différences entre vos prompts.
 
 ![Interface utilisateur de Compare prompts montrant les différences entre deux versions de prompt.](/weave/guides/core-types/imgs/prompt-comparison.png)
 
@@ -128,7 +128,7 @@ Pour définir des alias et des tags pour vos prompts dans l’interface utilisat
   ### Modifier les tags et les alias dans le code
 </div>
 
-Les tags et les alias peuvent aussi être gérés dans le code pour des tâches telles que :
+Les tags et les alias peuvent aussi être gérés dans le code pour des tâches telles que :
 
 * Publier des prompts avec des tags et des alias directement lors de la publication.
 * Associer des alias à des versions spécifiques et les résoudre pour charger des prompts.
@@ -153,7 +153,7 @@ L&#39;exemple de code suivant ajoute à votre projet un prompt `my-prompt` avec 
       name="my-prompt",
   )
 
-  # --- Alias : pointeurs nommés vers une version spécifique. ---
+  # --- Alias : pointeurs nommés vers une version spécifique. ---
 
   # Faites pointer des alias vers une version.
   client.set_aliases(v0_ref, "staging")
@@ -174,7 +174,7 @@ L&#39;exemple de code suivant ajoute à votre projet un prompt `my-prompt` avec 
   # Supprimez un alias.
   client.remove_aliases(v0_ref, "production")
 
-  # --- Tags : tags appliqués à une version spécifique. ---
+  # --- Tags : tags appliqués à une version spécifique. ---
 
   # Ajoutez des tags à une version.
   client.add_tags(v0_ref, ["reviewed", "passed-eval"])
@@ -189,7 +189,7 @@ L&#39;exemple de code suivant ajoute à votre projet un prompt `my-prompt` avec 
   # Supprimez des tags d'une version.
   client.remove_tags(v1_ref, ["needs-improvement"])
 
-  # --- Combinaison : récupérez les deux en un appel unique. ---
+  # --- Combinaison : récupérez les deux en un appel unique. ---
 
   tags, aliases = client.get_tags_and_aliases(v0_ref)
 

@@ -1,80 +1,80 @@
 ---
-description: "Comprendre le processus de version de W&B Server, y compris la gestion des versions, les périodes de prise en charge et les politiques de mise à niveau."
-title: Politiques et processus de version
+description: "Comprendre le processus des versions du serveur W&B, y compris la gestion des versions, les périodes d’assistance et les politiques de mise à niveau."
+title: Politiques et processus des versions
 date: 2025-05-01
 ---
 
-Cette page fournit des détails sur les versions de W&amp;B Server et les politiques de version de W&amp;B. Cette page concerne les déploiements [W&amp;B Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud/) et [Autogéré](/fr/platform/hosting/hosting-options/self-managed/). Pour en savoir plus sur une version individuelle de W&amp;B Server, se référer aux [notes de version de W&amp;B](/fr/release-notes/).
+Cette page fournit des informations sur les versions du serveur W&amp;B et les politiques de version de W&amp;B. Cette page concerne les déploiements [Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud/) et [Autogéré](/fr/platform/hosting/hosting-options/self-managed/). Pour en savoir plus sur une version spécifique du serveur W&amp;B, référez-vous aux [notes de version de W&amp;B](/fr/release-notes/).
 
-W&amp;B gère entièrement [W&amp;B Cloud mutualisé](/fr/platform/hosting/hosting-options/multi_tenant_cloud), et les informations de cette page ne s&#39;appliquent pas.
+W&amp;B gère entièrement le [Cloud mutualisé de W&amp;B](/fr/platform/hosting/hosting-options/multi_tenant_cloud), et les informations de cette page ne s’y appliquent pas.
 
 <div id="release-support-and-end-of-life-policy">
-  ## Politique de prise en charge des versions et de fin de vie (EOL)
+  ## Politique d&#39;assistance et de fin de vie des versions
 </div>
 
-W&amp;B prend en charge une version majeure de W&amp;B Server pendant 12 mois à compter de sa date de sortie initiale.
+W&amp;B assure l&#39;assistance d&#39;une version majeure du serveur W&amp;B pendant 12 mois à compter de sa date de version initiale.
 
-* Les instances **Cloud dédié** sont automatiquement mises à jour afin de conserver l’assistance.
-* Les clients disposant d’instances **Autogérées** doivent effectuer la mise à niveau à temps pour conserver l’assistance. Évitez de rester sur une version qui n’est plus prise en charge.
+* Les instances **Cloud dédié** sont automatiquement mises à jour pour maintenir l&#39;assistance.
+* Les clients disposant d&#39;instances **Autogéré** sont responsables d&#39;effectuer la mise à niveau à temps pour maintenir l&#39;assistance. Évitez de rester sur une version non prise en charge.
 
   <Note>
-    W&amp;B recommande vivement aux clients disposant d’instances **Autogérées** de mettre à jour leurs déploiements vers la version la plus récente au moins une fois par trimestre afin de conserver l’assistance et de bénéficier des dernières fonctionnalités, des améliorations des performances et des correctifs.
+    W&amp;B recommande vivement aux clients disposant d&#39;instances **Autogéré** de mettre à jour leurs déploiements avec la dernière version au minimum une fois par trimestre afin de maintenir l&#39;assistance et de recevoir les dernières fonctionnalités, améliorations des performances et correctifs.
   </Note>
 
 <div id="release-types-and-frequencies">
-  ## Types de versions et fréquences
+  ## Types et fréquences des versions
 </div>
 
-* Les **versions majeures** sont publiées chaque mois et peuvent inclure de nouvelles fonctionnalités, des améliorations, des améliorations des performances, des correctifs de bugs de gravité moyenne ou faible, ainsi que des dépréciations. Un exemple de version majeure est `0.68.0`.
-* Les **versions correctives** au sein d&#39;une version majeure sont publiées selon les besoins et incluent des correctifs de bugs de gravité critique ou élevée. Un exemple de version corrective est `0.67.1`.
+* Les **versions majeures** sont publiées chaque mois et peuvent inclure de nouvelles fonctionnalités, des améliorations, des améliorations des performances, des corrections de bug de gravité moyenne et faible, ainsi que des dépréciations. Un exemple de version majeure est `0.68.0`.
+* Les **versions correctives** au sein d’une version majeure sont publiées selon les besoins et incluent des corrections de bug de gravité critique et élevée. Un exemple de version corrective est `0.67.1`.
 
 <div id="release-rollout">
-  ## Déploiement des versions
+  ## Déploiement de la version
 </div>
 
-1. Une fois les tests et la validation terminés, une version est d’abord déployée sur toutes les instances **Cloud dédié** afin qu’elles restent parfaitement à jour.
-2. Après une période d’observation supplémentaire, la version est publiée, et les déploiements **Autogérés** peuvent effectuer la mise à niveau selon leur propre calendrier. Ils sont également responsables de l’effectuer à temps pour respecter la [politique de prise en charge des versions et de fin de vie (EOL)](#release-support-and-end-of-life-policy). Pour en savoir plus, consultez [la mise à niveau de W&amp;B Server](/fr/platform/hosting/server-upgrade-process/).
+1. Une fois les tests et la validation terminés, une version est d&#39;abord déployée sur toutes les instances **Cloud dédié** afin de les maintenir entièrement à jour.
+2. Après une période d&#39;observation supplémentaire, la version est publiée, et les déploiements **Autogérés** peuvent effectuer la mise à niveau selon leur propre calendrier, et sont responsables d&#39;effectuer la mise à niveau à temps pour respecter la [politique d&#39;assistance de la version et de fin de vie (EOL)](#release-support-and-end-of-life-policy). Pour en savoir plus, consultez la page sur la [mise à niveau du serveur W&amp;B](/fr/platform/hosting/server-upgrade-process/).
 
 <div id="downtime-during-upgrades">
-  ## Indisponibilité pendant les mises à niveau
+  ## Temps d’arrêt pendant les mises à niveau
 </div>
 
-* Lorsqu’une instance **Cloud dédié** est mise à niveau, aucune indisponibilité n’est généralement à prévoir, mais elle peut survenir dans certaines situations :
-  * Si une nouvelle fonctionnalité ou amélioration nécessite des modifications de l’infrastructure sous-jacente, comme la capacité de calcul, le stockage ou le réseau.
-  * Pour déployer une modification critique de l’infrastructure, comme un correctif de sécurité.
-  * Si la version actuelle de l’instance a atteint sa [fin de vie (EOL)](/fr/platform/hosting/server-upgrade-process/) et que W&amp;B la met à niveau afin de maintenir l’assistance.
-* Pour les déploiements **Autogérés**, le client est responsable de la mise en œuvre d’un processus de mise à jour progressive conforme à ses objectifs de niveau de service (SLO), par exemple en [exécutant W&amp;B Server sur Kubernetes](/fr/platform/hosting/self-managed/on-premises-deployments/kubernetes-airgapped/).
+* Lorsqu’une instance **Cloud dédié** est mise à niveau, un temps d’arrêt n’est généralement pas attendu, mais peut se produire dans certaines situations :
+  * Si une nouvelle fonctionnalité ou amélioration nécessite des modifications de l’infrastructure sous-jacente, comme le calcul, le stockage ou le réseau.
+  * Pour déployer un changement d’infrastructure critique, tel qu’un correctif de sécurité.
+  * Si la version actuelle de l’instance a atteint sa [fin de vie (EOL)](/fr/platform/hosting/server-upgrade-process/) et qu’elle est mise à niveau par W&amp;B afin de maintenir l’assistance.
+* Pour les déploiements **Autogérés**, le client est responsable de la mise en œuvre d’un processus de mise à jour progressive qui répond à ses objectifs de niveau de service (SLO), par exemple en [exécutant le serveur W&amp;B sur Kubernetes](/fr/platform/hosting/self-managed/operator-airgapped/).
 
 <div id="feature-availability">
   ## Disponibilité des fonctionnalités
 </div>
 
-Après l’installation ou la mise à niveau, il se peut que certaines fonctionnalités ne soient pas immédiatement disponibles.
+Après l’installation ou la mise à niveau, certaines fonctionnalités peuvent ne pas être immédiatement disponibles.
 
 <div id="enterprise-features">
-  ### Fonctionnalités Enterprise
+  ### Enterprise features
 </div>
 
-Une licence Enterprise inclut d’importantes fonctionnalités de sécurité ainsi que d’autres fonctionnalités adaptées aux entreprises. Certaines fonctionnalités avancées nécessitent une licence Enterprise.
+Une Enterprise license inclut l&#39;assistance pour d&#39;importantes capacités de sécurité et d&#39;autres fonctionnalités adaptées aux entreprises. Certaines fonctionnalités avancées nécessitent une Enterprise license.
 
-* **Cloud dédié** inclut une licence Enterprise et aucune action n’est requise.
-* Sur les déploiements **Autogéré**, les fonctionnalités qui nécessitent une licence Enterprise ne sont pas disponibles tant que celle-ci n’est pas configurée. Pour en savoir plus ou obtenir une licence Enterprise, référez-vous à la section [Licence](/fr/platform/hosting/self-managed/requirements#license) de la page des exigences d’Autogéré.
+* **Cloud dédié** inclut une Enterprise license et aucune action n&#39;est requise.
+* Dans les déploiements **Autogéré**, les fonctionnalités qui nécessitent une Enterprise license ne sont pas disponibles tant qu&#39;elle n&#39;est pas définie. Pour en savoir plus ou obtenir une Enterprise license, se référer à la section [License](/fr/platform/hosting/self-managed/requirements#license) sur la page des exigences Autogéré.
 
 <div id="private-preview-and-opt-in-features">
-  ### Aperçu privé et fonctionnalités sur inscription
+  ### Fonctionnalités en aperçu privé et à activation sur demande
 </div>
 
-La plupart des fonctionnalités sont disponibles immédiatement après l’installation ou la mise à niveau de W&amp;B Server. L’équipe W&amp;B doit activer certaines fonctionnalités avant que vous puissiez les utiliser dans votre instance.
+La plupart des fonctionnalités sont disponibles immédiatement après l&#39;installation ou la mise à niveau du serveur W&amp;B. L&#39;équipe W&amp;B doit activer certaines fonctionnalités avant que vous puissiez les utiliser dans votre instance.
 
 <Warning>
-  Toute fonctionnalité en phase d’aperçu est susceptible d’évoluer. Une fonctionnalité en aperçu n’est pas garantie d’être disponible de façon générale.
+  Toute fonctionnalité en phase d&#39;aperçu est susceptible d&#39;évoluer. Il n&#39;est pas garanti qu&#39;une fonctionnalité en aperçu devienne généralement disponible.
 </Warning>
 
-* **Aperçu privé** : W&amp;B invite des partenaires de conception et des utilisateurs précoces à tester ces fonctionnalités et à faire part de leurs retours. Les fonctionnalités en aperçu privé ne sont pas recommandées pour les environnements de production.
+* **Aperçu privé** : W&amp;B invite des partenaires de conception et des adopteurs précoces à tester ces fonctionnalités et à fournir leur retour. Les fonctionnalités en aperçu privé ne sont pas recommandées pour les environnements de production.
 
-  L’équipe W&amp;B doit activer une fonctionnalité en aperçu privé pour votre instance avant que vous puissquiez l’utiliser. La documentation publique n’est pas disponible ; les instructions sont fournies directement. Les interfaces et les API peuvent évoluer, et la fonctionnalité peut ne pas être entièrement implémentée.
-* **Aperçu public** : contactez W&amp;B pour vous inscrire à un aperçu public afin de l’essayer avant sa disponibilité générale.
+  L&#39;équipe W&amp;B doit activer une fonctionnalité en aperçu privé pour votre instance avant que vous puissiez l&#39;utiliser. La documentation publique n&#39;est pas disponible ; les instructions sont fournies directement. Les interfaces et les API peuvent évoluer, et la fonctionnalité peut ne pas être entièrement implémentée.
+* **Aperçu public** : Contactez W&amp;B pour activer un aperçu public afin de l&#39;essayer avant sa disponibilité générale.
 
-  L’équipe W&amp;B doit activer une fonctionnalité en aperçu public avant que vous puissiez l’utiliser dans votre instance. La documentation peut ne pas être complète, les interfaces et les API peuvent évoluer, et la fonctionnalité peut ne pas être entièrement implémentée.
+  L&#39;équipe W&amp;B doit activer une fonctionnalité en aperçu public avant que vous puissiez l&#39;utiliser dans votre instance. La documentation peut ne pas être complète, les interfaces et les API peuvent évoluer, et la fonctionnalité peut ne pas être entièrement implémentée.
 
-Pour en savoir plus sur une version individuelle de W&amp;B Server, y compris ses éventuelles limitations, référez-vous aux [notes de version de W&amp;B](/fr/release-notes/).
+Pour en savoir plus sur une version donnée du serveur W&amp;B, y compris ses éventuelles limitations, se référer aux [notes de version W&amp;B](/fr/release-notes/).

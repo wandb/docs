@@ -4,7 +4,7 @@ title: launch_add
 
 <Card title="ソースコードを表示" href="https://www.github.com/wandb/wandb/tree/v0.20.1/wandb/sdk/launch/_launch_add.py#L34-L131" icon="github" />
 
-W&amp;B Launch 実験をキューに投入します。source URI、job、または docker&#95;image のいずれかを指定します。
+W&amp;B Launch の実験をキューに追加します。ソース URI、ジョブ、または docker&#95;image のいずれかを指定します。
 
 ```python
 launch_add(
@@ -48,12 +48,13 @@ launch_add(
 | `docker_image`       | run に使用する Docker イメージの名前。                                                                                    |
 | `resource_args`      | リモートバックエンド上で run を起動するためのリソース関連引数。構築される Launch 設定上の `resource_args` に保存される。                                  |
 | `run_id`             | 起動された run の ID を示す任意の文字列。                                                                                    |
-| `build`              | 省略可能なフラグでデフォルトは false。build する場合は queue の指定が必須。イメージを作成し、job Artifacts を作成し、その job Artifacts への参照を queue にプッシュする。 |
+| `build`              | 省略可能なフラグでデフォルトは false。build する場合は queue の指定が必須。イメージを作成し、job アーティファクトを作成し、その job アーティファクトへの参照を queue にプッシュする。 |
 | `repository`         | レジストリにイメージをプッシュする際に使用される、リモートリポジトリ名を制御するための任意の文字列。                                                           |
 | `project_queue`      | queue 用のプロジェクト名を制御するための任意の文字列。主にプロジェクトスコープ queue との後方互換性のために使用。                                              |
 
+
 <div id="example">
-  #### 例：
+  #### 例:
 </div>
 
 ```python
@@ -61,15 +62,15 @@ from wandb.sdk.launch import launch_add
 
 project_uri = "https://github.com/wandb/examples"
 params = {"alpha": 0.5, "l1_ratio": 0.01}
-# W&B プロジェクトを実行し、ローカルホスト上に再現可能な docker 環境を作成する
+# W&B プロジェクトを実行し、ローカルホスト上に再現可能な Docker 環境を作成する
 api = wandb.apis.internal.Api()
 launch_add(uri=project_uri, parameters=params)
 ```
 
-| 返り値                                                                                                                                             | 説明 |
-| :---------------------------------------------------------------------------------------------------------------------------------------------- | :- |
-| `wandb.api.public.QueuedRun` のインスタンス。キューに入れられた run に関する情報を返します。`wait_until_started` または `wait_until_finished` が呼び出された場合は、基になる run の情報へアクセスできます。 |    |
+| 戻り値                                                                                                                                                   | 説明 |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------- | :- |
+| キューに入れられた run に関する情報を提供する`wandb.api.public.QueuedRun`のインスタンス、または `wait_until_started` もしくは `wait_until_finished` が呼び出された場合は、基になる Run 情報への 액세스 を提供します。 |    |
 
-| 例外                                              | 説明 |
-| :---------------------------------------------- | :- |
-| 失敗した場合は `wandb.exceptions.LaunchError` がスローされます |    |
+| 発生する例外                                 | 説明 |
+| :------------------------------------- | :- |
+| 失敗した場合は `wandb.exceptions.LaunchError` |    |

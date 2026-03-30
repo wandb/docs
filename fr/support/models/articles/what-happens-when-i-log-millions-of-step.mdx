@@ -1,19 +1,19 @@
 ---
-title: "Que se passe-t-il lorsque je journalise des millions d’étapes dans W&B ? Comment le rendu se fait-il dans le navigateur ?"
+title: "Que se passe-t-il lorsque je journalise des millions d’étapes dans W&B ? Comment cela est-il affiché dans le navigateur ?"
 keywords: ["Experiments", "Métriques"]
 ---
 
-Le nombre de points envoyés influe sur le temps de chargement des graphiques dans l’interface utilisateur. Pour les courbes de plus de 1 000 points, le backend échantillonne les données à 1 000 points avant de les envoyer au navigateur. Cet échantillonnage n’est pas déterministe, si bien que les points échantillonnés peuvent varier d’un rafraîchissement de page à l’autre.
+Le nombre de points envoyés influe sur le temps de chargement des graphiques dans l’interface utilisateur. Pour les courbes de plus de 1 000 points, le backend échantillonne les données pour les ramener à 1 000 points avant de les envoyer au navigateur. Cet échantillonnage n’est pas déterministe, si bien que les points retenus peuvent varier d’un rafraîchissement de page à l’autre.
 
-Journalisez moins de 10 000 points par métrique. Journaliser plus d’un million de points sur une courbe augmente considérablement le temps de chargement de la page. Explorez des stratégies pour réduire l’empreinte de journalisation sans sacrifier la précision dans ce [Colab](https://wandb.me/log-hf-colab). S’il y a plus de 500 colonnes de configuration et de métriques de résumé, seules 500 s’affichent dans le tableau.
+Journalisez moins de 10 000 points par métrique. Journaliser plus d’un million de points sur une courbe augmente considérablement le temps de chargement de la page. Explorez des stratégies pour réduire le volume de journalisation sans sacrifier la précision dans ce [Colab](https://wandb.me/log-hf-colab). S’il y a plus de 500 colonnes de configuration et de métriques de synthèse, seules 500 s’affichent dans le tableau.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d'onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/fr/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[Métriques](/fr/support/models/tags/metrics)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges des onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d'onglet ---- */}

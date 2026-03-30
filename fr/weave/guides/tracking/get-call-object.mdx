@@ -1,9 +1,9 @@
 ---
 title: "Obtenir une référence à l'objet Call pendant l'exécution"
-description: "Accédez à l'objet Call de W&B Weave au moment de l'exécution pour les retours, les noms d'affichage et d'autres métadonnées"
+description: "Accédez à l'objet Call de W&B Weave en temps d'exécution pour du feedback, des noms d'affichage et d'autres métadonnées"
 ---
 
-Dans Weave, lorsque vous utilisez une op, vous pouvez appeler les fonctions directement, comme n&#39;importe quelle autre fonction :
+Dans Weave, lorsque vous utilisez une op, vous pouvez appeler les fonctions directement comme vous le feriez avec n&#39;importe quelle fonction :
 
 <CodeGroup>
   ```python Python lines
@@ -23,7 +23,7 @@ Dans Weave, lorsque vous utilisez une op, vous pouvez appeler les fonctions dire
   ```
 </CodeGroup>
 
-Cependant, vous pouvez aussi accéder directement à l&#39;objet Call en invoquant la méthode `op.call`, qui renvoie à la fois le résultat et l&#39;objet `Call`.
+Cependant, vous pouvez au lieu de cela accéder directement à l&#39;objet Call en appelant la méthode `op.call`, qui renvoie à la fois le résultat et l&#39;objet `Call`.
 
 <Tabs>
   <Tab title="Python">
@@ -35,9 +35,9 @@ Cependant, vous pouvez aussi accéder directement à l&#39;objet Call en invoqua
     output, call = my_op.call()
     ```
 
-    À partir de là, l&#39;objet `call` contient toutes les informations sur le Call, y compris les entrées, les sorties et d&#39;autres métadonnées. Vous pouvez utiliser `call` pour définir ou mettre à jour des propriétés, récupérer des propriétés supplémentaires ou ajouter des retours.
+    À partir de là, l&#39;objet `call` contient toutes les informations relatives au Call, y compris les entrées, les sorties et d&#39;autres métadonnées. Vous pouvez utiliser `call` pour définir, mettre à jour, récupérer des propriétés supplémentaires ou ajouter du feedback.
 
-    Si votre op est une méthode d&#39;une classe, vous devez passer l&#39;instance de la classe comme premier argument à `call`. L&#39;exemple suivant montre comment obtenir une référence à un objet Call correspondant à une méthode de classe :
+    Si votre op est une méthode d&#39;une classe, vous devez passer l&#39;instance de la classe comme premier argument à `call`. L&#39;exemple suivant montre comment obtenir une référence à un objet Call qui est une méthode d&#39;une classe :
 
     ```python lines
     import weave

@@ -7,9 +7,9 @@ import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb" />
 
-DeepChecks は、機械学習モデルやデータを検証するのに役立つツールで、データの整合性の検証、分布の確認、データ分割の検証、モデルの評価や複数モデル間の比較などを、最小限の手間で実行できます。
+DeepChecks は、機械学習モデルやデータの検証に役立つツールです。データの整合性の確認、分布の調査、データ分割の検証、モデルの評価や複数のモデルの比較などを、最小限の手間で行えます。
 
-[DeepChecks と wandb インテグレーションの詳細はこちら -&gt;](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
+[DeepChecks と wandb インテグレーションの詳細を読む -&gt;](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
 
 
 <div id="getting-started">
@@ -33,7 +33,7 @@ result = ModelErrorAnalysis()
 result.to_wandb()
 ```
 
-W&amp;B に DeepChecks のテストスイート全体をログとして記録することもできます。
+DeepChecks のテストスイート全体を W&amp;B にログすることもできます。
 
 ```python
 import wandb
@@ -56,10 +56,10 @@ suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-su
   ## 例
 </div>
 
-[This Report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) は、DeepChecks と W&B を組み合わせたときの威力を示しています。
+[This Report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) は、DeepChecks と W&amp;B を組み合わせたときの威力を示しています。
 
 <Frame>
-    <img src="/images/integrations/deepchecks_example.png" alt="Deepchecks データ検証結果"  />
+  <img src="/images/integrations/deepchecks_example.png" alt="Deepchecks データ検証結果" />
 </Frame>
 
-この W&B インテグレーションについてご質問や問題がある場合は、[DeepChecks GitHub リポジトリ](https://github.com/deepchecks/deepchecks) に issue を作成してください。こちらで確認して回答します。
+この W&amp;B インテグレーションについてご質問や問題がある場合は、[DeepChecks GitHub リポジトリ](https://github.com/deepchecks/deepchecks) に issue を作成してください。こちらで確認して回答します。

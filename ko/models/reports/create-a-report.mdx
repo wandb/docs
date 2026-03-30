@@ -4,10 +4,10 @@ title: 리포트 생성
 ---
 
 <Note>
-  W&amp;B Report 및 Workspace API는 Public Preview 단계입니다.
+  W&amp;B Report and Workspace API는 Public Preview 단계입니다.
 </Note>
 
-아래 탭을 선택해 W&amp;B App에서 또는 W&amp;B Report 및 Workspace API를 사용해 프로그래밍 방식으로 리포트를 생성하는 방법을 확인하세요.
+아래 탭을 선택해 W&amp;B App에서 또는 W&amp;B Report and Workspace API를 사용해 프로그래밍 방식으로 리포트를 생성하는 방법을 확인하세요.
 
 리포트를 프로그래밍 방식으로 생성하는 예시는 이 [Google Colab](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/Report_API_Quickstart.ipynb)을 참고하세요.
 
@@ -43,7 +43,7 @@ title: 리포트 생성
   <Tab title="Report and Workspace API">
     다음과 같이 프로그래밍 방식으로 리포트를 생성할 수 있습니다:
 
-    1. W&amp;B SDK (`wandb`)와 Report 및 Workspace API (`wandb-workspaces`)를 설치합니다:
+    1. W&amp;B SDK (`wandb`)와 Report and Workspace API (`wandb-workspaces`)를 설치합니다:
        ```bash
        pip install wandb wandb-workspaces
        ```
@@ -59,7 +59,7 @@ title: 리포트 생성
        report = wr.Report(project="report_standard")
        ```
 
-    4. 리포트를 저장합니다. `.save()` 메서드를 호출하기 전까지는 리포트가 W&amp;B 서버에 업로드되지 않습니다:
+    4. 리포트를 저장합니다. `.save()` 메서드를 호출하기 전까지는 리포트가 W&amp;B Server에 업로드되지 않습니다:
        ```python
        report.save()
        ```

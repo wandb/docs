@@ -1,9 +1,9 @@
 ---
-description: "実験の run からの構造化データを可視化してクエリするために、W&B 表を作成し、データを追加してログします。"
+description: "実験の run からの構造化データを可視化してクエリするために、W&B Tables を作成し、データを追加してログします。"
 title: 表をログする
 ---
 
-`wandb.Table` を使用して、W&B で可視化やクエリを行うためのデータをログします。このガイドでは、次の内容について説明します。
+`wandb.Table` を使用して、W&amp;B で可視化やクエリを行うためのデータをログします。このガイドでは、次の内容について説明します。
 
 1. [表を作成](./log-tables#create-tables)
 2. [データを追加](./log-tables#add-data)
@@ -14,22 +14,22 @@ title: 表をログする
   ## テーブルを作成する
 </div>
 
-Table を定義するには、各データ行に対して表示したいカラムを指定します。各行は、トレーニング データセット中の 1 つのアイテム、トレーニング中の特定のステップまたはエポック、テストアイテムに対してモデルが行った予測、モデルが生成したオブジェクトなどを表すことができます。各カラムには数値、テキスト、ブール値、画像、動画、音声などの固定された型があります。型をあらかじめ指定する必要はありません。各カラムに名前を付け、そのカラムインデックスにはその型のデータのみを渡すようにしてください。より詳しい例については、[W&amp;B Tables ガイド](https://wandb.ai/stacey/mnist-viz/reports/Guide-to-W-B-Tables--Vmlldzo2NTAzOTk#1.-how-to-log-a-wandb.table)を参照してください。
+Table を定義するには、各データ行に対して表示したい列を指定します。各行は、トレーニング データセット中の 1 つのアイテム、トレーニング中の特定の step またはエポック、テストアイテムに対してモデルが行った予測、モデルが生成したオブジェクトなどを表すことができます。各列には、数値、テキスト、ブール値、画像、動画、オーディオなどの固定されたタイプがあります。タイプをあらかじめ指定する必要はありません。各列に名を付け、その列インデックスにはそのタイプのデータのみを渡すようにしてください。より詳しい例については、[W&amp;B Tables ガイド](https://wandb.ai/stacey/mnist-viz/reports/Guide-to-W-B-Tables--Vmlldzo2NTAzOTk#1.-how-to-log-a-wandb.table)を参照してください。
 
 `wandb.Table` コンストラクタは、次の 2 通りの方法で使用できます。
 
 1. **行のリスト:**
 
-   名前付きカラムとデータ行をログします。例えば、次のコードスニペットは 2 行 3 カラムのテーブルを生成します。
+   名前付き列とデータ行をログします。例えば、次のコード スニペットは 2 行 3 列のテーブルを生成します。
 
    ```python
    wandb.Table(columns=["a", "b", "c"], data=[["1a", "1b", "1c"], ["2a", "2b", "2c"]])
    ```
 
-2. **Pandas DataFrame:** `wandb.Table(dataframe=my_df)` を使って DataFrame をログします。カラム名は DataFrame から自動的に抽出されます。
+2. **Pandas DataFrame:** `wandb.Table(dataframe=my_df)` を使って DataFrame をログします。列名は DataFrame から自動的に抽出されます。
 
 <div id="from-an-existing-array-or-dataframe">
-  #### 既存の配列やデータフレームから
+  #### 既存の配列またはデータフレームから
 </div>
 
 ```python
@@ -46,7 +46,7 @@ my_data = [
     [3, wandb.Image("img_3.jpg"), 1, 1],
 ]
 
-# 対応するカラムで wandb.Table() を作成します
+# 対応する列で wandb.Table() を作成します
 columns = ["id", "image", "prediction", "truth"]
 test_table = wandb.Table(data=my_data, columns=columns)
 ```
@@ -55,16 +55,16 @@ test_table = wandb.Table(data=my_data, columns=columns)
   ## データを追加する
 </div>
 
-Table はミュータブルなオブジェクトです。スクリプトの実行中に、最大 200,000 行までテーブルにデータを追加できます。テーブルにデータを追加する方法は 2 つあります。
+表はミュータブルなオブジェクトです。スクリプトの実行中に、最大 200,000 行まで表にデータを追加できます。表にデータを追加する方法は 2 つあります。
 
-1. **行を追加する**: `table.add_data("3a", "3b", "3c")`。新しい行はリストとして表現されない点に注意してください。行がリスト形式になっている場合は、スター表記 `*` を使ってそのリストを位置引数に展開します: `table.add_data(*my_row_list)`。行には、テーブル内の列数と同じ数の要素が含まれている必要があります。
-2. **列を追加する**: `table.add_column(name="col_name", data=col_data)`。`col_data` の長さは、テーブルの現在の行数と同じである必要がある点に注意してください。ここで `col_data` には list または NumPy の NDArray を指定できます。
+1. **行を追加する**: `table.add_data("3a", "3b", "3c")`。新しい行はリストとして表現されない点に注意してください。行がリスト形式になっている場合は、スター表記 `*` を使用してそのリストを位置引数に展開します: `table.add_data(*my_row_list)`。行には、表内の列数と同じ数の要素が含まれている必要があります。
+2. **列を追加する**: `table.add_column(name="col_name", data=col_data)`。`col_data` の長さは、表の現在の行数と同じである必要がある点に注意してください。ここで `col_data` には list または NumPy の NDArray を指定できます。
 
 <div id="adding-data-incrementally">
   ### データを段階的に追加する
 </div>
 
-次のコードサンプルでは、W&amp;B テーブルを段階的に作成・更新する方法を示します。あらかじめ、すべてのラベルに対する信頼度スコアなどの列を定義しておき、推論時に 1 行ずつデータを追加していきます。run を再開したときに [テーブルにデータを段階的に追加する](#adding-data-to-resumed-runs) こともできます。
+このコードサンプルでは、W&amp;B の表を作成し、データを段階的に追加していく方法を示します。考えられるすべてのラベルの信頼スコアを含む列をあらかじめ定義し、推論中に 1 行ずつデータを追加します。Runs を再開する際に [表にデータを段階的に追加する](#adding-data-to-resumed-runs) こともできます。
 
 ```python
 # テーブルの列を定義する（各ラベルの信頼スコアを含む）
@@ -86,10 +86,10 @@ for img_id, img in enumerate(mnist_test_data):
 ```
 
 <div id="adding-data-to-resumed-runs">
-  #### 再開した run へのデータ追加
+  #### 再開した run にデータを追加する
 </div>
 
-再開した run では、 Artifacts から既存のテーブルを読み込み、最後の行のデータを取得して更新されたメトリクスを追加することで、W&amp;B テーブルを増分的に更新できます。その後、互換性を保つためにテーブルを再初期化し、更新後のバージョンを再度 W&amp;B にログとして記録します。
+再開した run では、アーティファクトから既存の表を読み込み、最後の行のデータを取得して更新したメトリクスを追加することで、W&amp;B の表を段階的に更新できます。その後、互換性のために表を再初期化し、更新後のバージョンを W&amp;B に再度ログします。
 
 ```python
 import wandb
@@ -97,7 +97,7 @@ import wandb
 # run を初期化する 
 with wandb.init(project="my_project") as run:
 
-    # Artifacts から既存のテーブルを読み込む
+    # アーティファクトから既存のテーブルを読み込む
     best_checkpt_table = run.use_artifact(table_tag).get(table_name)
 
     # 再開用にテーブルの最終行データを取得する
@@ -124,22 +124,22 @@ with wandb.init(project="my_project") as run:
   ## データを取得する
 </div>
 
-データが表に入ったら、列または行単位でアクセスできます。
+データが表に入ったら、列または行単位で액세スできます。
 
-1. **Row Iterator**: `for ndx, row in table.iterrows(): ...` などの表の行イテレータを使って、データの各行を効率的に反復処理できます。
-2. **Get a Column**: `table.get_column("col_name")` を使って、データの 1 列を取得できます。便利な機能として、`convert_to="numpy"` を渡すと、その列をプリミティブ型の NumPy NDArray に変換できます。これは列に `wandb.Image` などのメディア型が含まれている場合に、基になるデータへ直接アクセスするのに役立ちます。
+1. **Row Iterator**: `for ndx, row in table.iterrows(): ...` などの表の行イテレータを使用して、データの各行を効率的に反復処理できます。
+2. **Get a Column**: `table.get_column("col_name")` を使用して、データの 1 列を取得できます。便利な機能として、`convert_to="numpy"` を渡すと、その列をプリミティブ型の NumPy NDArray に変換できます。これは列に `wandb.Image` などのメディアタイプが含まれている場合に、基になるデータへ直接액세スするのに役立ちます。
 
 <div id="save-tables">
-  ## テーブルを保存する
+  ## 表を保存する
 </div>
 
-スクリプト内でデータのテーブル（たとえば モデル の予測結果のテーブルなど）を生成したら、そのテーブルを W&amp;B に保存して結果をリアルタイムに可視化します。
+スクリプトでデータの表 (たとえばモデルの予測結果をまとめた表) を生成したら、その表を W&amp;B に保存して、結果をリアルタイムで可視化できます。
 
 <div id="log-a-table-to-a-run">
-  ### run にテーブルをログする
+  ### run に表をログする
 </div>
 
-`wandb.Run.log()` を使用して、次のようにテーブルを run にログします。
+`wandb.Run.log()` を使用して、次のように表を run にログします。
 
 ```python
 with wandb.init() as run:
@@ -147,7 +147,7 @@ with wandb.init() as run:
     run.log({"table_key": my_table})
 ```
 
-同じキーにテーブルをログするたびに、そのテーブルの新しいバージョンが作成され、バックエンドに保存されます。これは、同じキーにログしている限り、複数のトレーニング ステップにわたって同じテーブルをログしてモデルの予測が時間とともにどのように改善するかを確認したり、異なる run 間でテーブルを比較したりできることを意味します。最大 200,000 行までログできます。
+同じキーに表をログするたびに、その表の新しいバージョンが作成され、バックエンドに保存されます。これは、同じキーにログしている限り、複数のトレーニング step にわたって同じ表をログしてモデルの予測が時間とともにどのように改善するかを確認したり、異なる run 間で表を比較したりできることを意味します。最大 200,000 行までログできます。
 
 <Note>
   200,000 行を超えてログするには、次のようにして上限を上書きできます:
@@ -158,10 +158,10 @@ with wandb.init() as run:
 </Note>
 
 <div id="access-tables-programmatically">
-  ### プログラムからテーブルにアクセスする
+  ### プログラムから表にアクセスする
 </div>
 
-バックエンドでは、Tables は Artifacts として保存されます。特定のバージョンにアクセスしたい場合は、artifact API を使用できます。
+バックエンドでは、表は Artifacts として保存されます。特定のバージョンにアクセスしたい場合は、アーティファクト API を使用できます。
 
 ```python
 with wandb.init() as run:
@@ -171,20 +171,20 @@ with wandb.init() as run:
 Artifacts の詳細については、Developer Guide の [Artifacts 章](/ja/models/artifacts/) を参照してください。
 
 <div id="visualize-tables">
-  ### テーブルを可視化する
+  ### 表を可視化する
 </div>
 
-この方法で記録したテーブルは、Run Page と Project Page の両方の Workspace に表示されます。詳細については、[テーブルを可視化して分析する](/ja/models/tables/visualize-tables/) を参照してください。
+この方法でログした表は、Run Page と Project Page の両方の Workspace に表示されます。詳細は、[表を可視化して分析する](/ja/models/tables/visualize-tables/) を参照してください。
 
 <div id="artifact-tables">
-  ## Artifact tables
+  ## Artifact表
 </div>
 
-`artifact.add()` を使用して、テーブルを Workspace ではなく自分の run の Artifacts セクションにログします。これは、一度だけデータセットをログしておき、その後の run から参照したい場合に便利です。
+Workspace ではなく run の Artifacts セクションに表をログするには、`artifact.add()` を使用します。これは、データセットを一度だけログし、後続の run で参照したい場合に便利です。
 
 ```python
 with wandb.init(project="my_project") as run:
-    # 意味のある各ステップに対して wandb Artifact を作成する
+    # 意味のある各stepに対して wandb Artifact を作成する
     test_predictions = wandb.Artifact("mnist_test_preds", type="predictions")
 
     # [上記と同様に予測データを構築する]
@@ -193,44 +193,44 @@ with wandb.init(project="my_project") as run:
     run.log_artifact(test_predictions)
 ```
 
-image データを用いた `artifact.add()` の[詳細な例についてはこの Colab](https://wandb.me/dsviz-nature-colab) を、 Artifacts と Tables を使って[表形式データをバージョン管理し、重複を除去する方法の例についてはこの Report](https://wandb.me/TBV-Dedup) を参照してください。
+画像データを用いた `artifact.add()` の[詳細な例についてはこの Colab](https://wandb.me/dsviz-nature-colab) を、Artifacts と 表を使って[表形式データのバージョン管理と重複排除を行う例についてはこのレポート](https://wandb.me/TBV-Dedup) を参照してください。
 
 <div id="join-artifact-tables">
-  ### Artifact テーブルを結合する
+  ### Artifact 表を結合する
 </div>
 
-ローカルで作成したテーブルや、他の Artifacts から取得したテーブルを `wandb.JoinedTable(table_1, table_2, join_key)` を使って結合できます。
+ローカルで構築した表、または他のアーティファクトから取得した表は、`wandb.JoinedTable(table_1, table_2, join_key)` を使用して結合できます。
 
-| Args         | Description                                                                                    |
-| ------------ | ---------------------------------------------------------------------------------------------- |
-| table&#95;1  | (str, `wandb.Table`, ArtifactEntry) Artifacts 内の `wandb.Table` へのパス、テーブルオブジェクト、または ArtifactEntry |
-| table&#95;2  | (str, `wandb.Table`, ArtifactEntry) Artifacts 内の `wandb.Table` へのパス、テーブルオブジェクト、または ArtifactEntry |
-| join&#95;key | (str, [str, str]) 結合を行うキー、またはキーのリスト                                                            |
+| 引数           | 説明                                                                                          |
+| ------------ | ------------------------------------------------------------------------------------------- |
+| table&#95;1  | (str, `wandb.Table`, ArtifactEntry) アーティファクト内の `wandb.Table` へのパス、表オブジェクト、または ArtifactEntry |
+| table&#95;2  | (str, `wandb.Table`, ArtifactEntry) アーティファクト内の `wandb.Table` へのパス、表オブジェクト、または ArtifactEntry |
+| join&#95;key | (str, [str, str]) 結合を実行するキー、またはキーの組                                                         |
 
-Artifacts コンテキストでこれまでにログした 2 つの Table を結合するには、 Artifacts からそれらを取得し、その結果を新しい Table に結合します。
+以前にアーティファクトのコンテキストでログした 2 つの表を結合するには、それらをアーティファクトから取得し、その結果を新しい表に結合します。
 
-例えば、次のコード例では、`'original_songs'` という名前のオリジナル曲の Table と、同じ曲の合成バージョンを格納した `'synth_songs'` という別の Table を読み込みます。コードは 2 つのテーブルを `"song_id"` で結合し、その結果のテーブルを新しい W&amp;B Table としてアップロードします。
+たとえば、次のコード例は、`'original_songs'` という名前の元の曲の表 1 つと、`'synth_songs'` という名前の同じ曲の合成版の別の表 1 つを読み取る方法を示しています。このコードは 2 つの表を `"song_id"` で結合し、結果の表を新しい W&amp;B Table としてアップロードします。
 
 ```python
 import wandb
 
 with wandb.init(project="my_project") as run:
 
-    # オリジナル曲のテーブルを取得
+    # 元の曲の表を取得する
     orig_songs = run.use_artifact("original_songs:latest")
     orig_table = orig_songs.get("original_samples")
 
-    # 合成曲のテーブルを取得
+    # 合成された曲の表を取得する
     synth_songs = run.use_artifact("synth_songs:latest")
     synth_table = synth_songs.get("synth_samples")
 
-    # "song_id" でテーブルを結合
+    # "song_id" で表を結合する
     join_table = wandb.JoinedTable(orig_table, synth_table, "song_id")
     join_at = wandb.Artifact("synth_summary", "analysis")
 
-    # テーブルを Artifacts に追加して W&B にログ
+    # 表をアーティファクトに追加し、W&B にログする
     join_at.add(join_table, "synth_explore")
     run.log_artifact(join_at)
 ```
 
-[このチュートリアル](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)では、異なる Artifact オブジェクトに保存されている 2 つの既存のテーブルを結合する方法の一例を紹介しています。
+[このチュートリアルをお読みください](https://wandb.ai/stacey/cshanty/reports/Whale2Song-W-B-Tables-for-Audio--Vmlldzo4NDI3NzM)。異なるアーティファクト オブジェクトに以前保存された 2 つの表を結合する方法の例を確認できます。

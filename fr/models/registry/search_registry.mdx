@@ -3,7 +3,7 @@ title: Trouver des éléments du registre
 description: "Découvrez comment rechercher des registres, des collections et des versions d’artefact dans W&B Registry à l’aide de la barre de recherche globale ou de requêtes."
 ---
 
-Utilisez la [barre de recherche globale dans W&amp;B Registry](./search_registry#search-for-registry-items) pour trouver un registre, une collection, un tag de version d’artefact, un tag de collection ou un alias. Vous pouvez utiliser des requêtes pour [filtrer les registres, les collections et les versions d’artefact](/fr/models/registry/search_registry#query-registry-items) selon des critères spécifiques à l’aide du SDK Python de W&amp;B.
+Utilisez la [barre de recherche globale dans W&amp;B Registry](./search_registry#search-for-registry-items) pour trouver un registre, une collection, un tag de version d’artefact, un tag de collection ou un alias. Vous pouvez utiliser des requêtes pour [filtrer les registres, les collections et les versions d’artefact](/fr/models/registry/search_registry#query-registry-items) selon des critères spécifiques à l’aide du SDK Python W&amp;B.
 
 <Info>
   La syntaxe et les opérateurs disponibles pour interroger W&amp;B Registry sont similaires aux requêtes MongoDB, sans toutefois être identiques.
@@ -15,7 +15,7 @@ Seuls les éléments que vous êtes autorisé à voir apparaissent dans les rés
   ## Rechercher des éléments du registre
 </div>
 
-Utilisez l’application W&amp;B pour rechercher un élément du registre :
+Utilisez W&amp;B App pour rechercher un élément du registre :
 
 1. Accédez au W&amp;B Registry.
 2. Saisissez le terme recherché dans la barre de recherche en haut de la page. Appuyez sur Entrée pour lancer la recherche.
@@ -30,9 +30,9 @@ Les résultats de recherche s’affichent sous la barre de recherche si le terme
   ## Interroger les éléments du registre
 </div>
 
-Utilisez [`wandb.Api().registries()`](/fr/models/ref/python/public-api/api#registries) et des *prédicats de requête* pour filtrer les registres, les collections et les versions d’artefact. Un prédicat de requête est une condition qui définit les critères auxquels doivent répondre les éléments renvoyés.
+Utilisez [`wandb.Api().registries()`](/fr/models/ref/python/public-api/api#registries) et des *prédicats de requête* pour filtrer les registres, les collections et les versions d’artefacts. Un prédicat de requête est une condition qui précise les critères auxquels doivent répondre les éléments retournés.
 
-Pour créer un prédicat de requête, utilisez un dictionnaire au format JSON composé d’un [nom de requête](/fr/models/registry/search_registry#filterable-fields), d’un ou plusieurs [opérateurs](/fr/models/registry/search_registry#supported-operators) et de valeurs. L’extrait de code suivant montre la structure générale d’un prédicat de requête :
+Pour créer un prédicat de requête, utilisez un dictionnaire de type JSON composé d’un [nom de requête](/fr/models/registry/search_registry#filterable-fields), d’un ou plusieurs [opérateurs](/fr/models/registry/search_registry#supported-operators) et de valeurs. L’extrait de code suivant montre la structure générale d’un prédicat de requête :
 
 ```python
 {
@@ -42,7 +42,7 @@ Pour créer un prédicat de requête, utilisez un dictionnaire au format JSON co
 }
 ```
 
-Les sections suivantes décrivent les [noms de requête](/fr/models/registry/search_registry#filterable-fields) du registre disponibles, les [opérateurs pris en charge](/fr/models/registry/search_registry#supported-operators) et les [exemples de requêtes](/fr/models/registry/search_registry#example-queries).
+Les sections suivantes décrivent les [noms de requête de registre](/fr/models/registry/search_registry#filterable-fields) disponibles, les [opérateurs pris en charge](/fr/models/registry/search_registry#supported-operators) et les [exemples de requêtes](/fr/models/registry/search_registry#example-queries).
 
 <div id="filterable-fields">
   ### Champs filtrables
@@ -100,9 +100,9 @@ W&amp;B prend en charge les opérateurs de comparaison et les opérateurs logiqu
   ### Exemples de requêtes
 </div>
 
-Les exemples de code suivants présentent quelques scénarios de recherche courants.
+Les exemples de code suivants illustrent quelques scénarios de recherche courants.
 
-Pour utiliser la méthode `wandb.Api().registries()`, commencez par importer la bibliothèque du SDK Python de W&amp;B ([`wandb`](/fr/models/ref/python/)) :
+Pour utiliser la méthode `wandb.Api().registries()`, commencez par importer la bibliothèque du SDK Python W&amp;B ([`wandb`](/fr/models/ref/python/)) :
 
 ```python
 import wandb
@@ -123,7 +123,7 @@ registry_filters = {
 registries = api.registries(filter=registry_filters)
 ```
 
-Filtrez toutes les collections, quel que soit le registre, qui contiennent la chaîne `yolo` dans le nom de la collection :
+Filtrez toutes les collections, indépendamment du registre, dont le nom contient la chaîne `yolo` :
 
 ```python
 # Filtre toutes les collections, indépendamment du registre, qui
@@ -136,7 +136,7 @@ collection_filters = {
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-Filtrez toutes les collections, quel que soit le registre, dont le nom contient la chaîne `yolo` et qui ont l’étiquette `cnn` :
+Filtrez toutes les collections, quel que soit le registre, dont le nom contient la chaîne `yolo` et qui possèdent `cnn` comme tag :
 
 ```python
 # Filtre toutes les collections, indépendamment du registre, qui contiennent
@@ -150,7 +150,7 @@ collection_filters = {
 collections = api.registries().collections(filter=collection_filters)
 ```
 
-Trouvez toutes les versions d’artefact qui contiennent la chaîne `model` et qui ont soit le tag `image-classification`, soit l’alias `latest` :
+Trouvez toutes les versions d’artefact contenant la chaîne `model` et ayant soit le tag `image-classification`, soit l’alias `latest` :
 
 ```python
 # Trouve toutes les versions d'artefact contenant la chaîne `model` et 
@@ -171,7 +171,7 @@ version_filters = {
 artifacts = api.registries(filter=registry_filters).collections().versions(filter=version_filters)
 ```
 
-Chaque élément de l’itérable `artifacts` dans l’extrait de code précédent est une instance de la classe `Artifact`. Cela signifie que vous pouvez accéder aux attributs de chaque artefact, tels que `name`, `collection`, `aliases`, `tags`, `created_at`, et bien plus encore :
+Chaque élément de l’itérable `artifacts` de l’extrait de code précédent est une instance de la classe `Artifact`. Cela signifie que vous pouvez accéder aux attributs de chaque artefact, tels que `name`, `collection`, `aliases`, `tags`, `created_at`, et bien plus encore :
 
 ```python
 for art in artifacts:
@@ -184,7 +184,7 @@ for art in artifacts:
 
 Pour obtenir la liste complète des attributs d’un objet artefact, voir la [classe Artifacts](/fr/models/ref/python/experiments/artifact/) dans la documentation de référence de l’API.
 
-Filtrez toutes les versions d’artefact, quel que soit le registre ou la collection, créées entre 2024-01-08 et 2025-03-04 à 13:10 UTC :
+Filtrez toutes les versions d’artefact, indépendamment du registre ou de la collection, créées entre 2024-01-08 et 2025-03-04 à 13:10 UTC :
 
 ```python
 # Trouver toutes les versions d'artefact créées entre le 2024-01-08 et le 2025-03-04 à 13:10 UTC. 
@@ -199,5 +199,5 @@ artifacts = api.registries().collections().versions(filter=artifact_filters)
 ```
 
 <Note>
-  Indiquez la date et l’heure au format `YYYY-MM-DD HH:MM:SS` pour les requêtes `created_at` et `updated_at`. Vous pouvez omettre les heures, les minutes et les secondes si vous voulez filtrer uniquement par date.
+  Indiquez la date et l’heure au format `YYYY-MM-DD HH:MM:SS` pour les requêtes `created_at` et `updated_at`. Vous pouvez omettre les heures, les minutes et les secondes si vous souhaitez filtrer uniquement par date.
 </Note>

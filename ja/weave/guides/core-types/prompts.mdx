@@ -3,11 +3,11 @@ title: "プロンプト オブジェクトを作成する"
 description: "LLM アプリケーション向けのプロンプト オブジェクトを作成、公開、使用する"
 ---
 
-プロンプトの作成、評価、改良は、AI エンジニアにとって重要な作業です。
-プロンプトに対する小さな変更でも、アプリケーションの挙動に大きな影響を与える可能性があります。
-W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の経過とともに発展させることができます。
+プロンプトの作成、評価、改良は AI エンジニアの中心的な活動です。
+プロンプトに小さな変更を加えるだけで、アプリケーションの動作に大きな影響を及ぼすことがあります。
+W&amp;B Weave を使用すると、プロンプトを作成し、公開し、時間の経過とともに進化させることができます。
 
-このページでは、プロンプト オブジェクトを作成して公開する方法を説明します。公開済みプロンプトの参照、取得、バージョン管理については、[プロンプトのバージョンを保存して追跡する](/ja/weave/guides/core-types/prompts-version.mdx) を参照してください。
+このページでは、プロンプト オブジェクトを作成して公開する方法を説明します。公開済みプロンプトの参照、取得、バージョン管理については、[プロンプトのバージョンを保存してトラッキングする](/ja/weave/guides/core-types/prompts-version.mdx) を参照してください。
 
 プロンプトの要件がシンプルな場合は、組み込みの `weave.StringPrompt` や `weave.MessagesPrompt` クラスを使用できます。より複雑な要件がある場合は、それらやベースクラスである `weave.Prompt` を継承し、`format` メソッドをオーバーライドできます。
 
@@ -17,7 +17,7 @@ W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の
   ## StringPrompt
 </div>
 
-`StringPrompt` は、system メッセージ、ユーザー クエリ、または LLM への単独のテキスト入力などに使う 1 つの文字列から成るプロンプトをログするためのクラスです。複数メッセージで構成される会話ほどの複雑さが不要な、個々のプロンプト文字列を管理する場合には、`StringPrompt` を使用することを推奨します。
+`StringPrompt` は、システムメッセージ、ユーザークエリ、または LLM への単独のテキスト入力として使用される単一の文字列プロンプトをログします。複数メッセージの会話のような複雑さが不要な個別のプロンプト文字列を管理する際には、`StringPrompt` を使用することをおすすめします。
 
 <Tabs>
   <Tab title="Python">
@@ -53,7 +53,7 @@ W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の
     import OpenAI from 'openai';
 
     async function main() {
-      // weave.init はクライアント インスタンスを返します
+      // weave.init returns a client instance
       const weaveClient = await weave.init('wandb/prompt-examples');
 
       const systemPrompt = new weave.StringPrompt({
@@ -62,10 +62,10 @@ W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の
         description: 'A helpful description of your prompt',
       });
       
-      // init から返されたクライアントを使用します
+      // Use the client returned from init
       await weaveClient.publish(systemPrompt, 'pirate_prompt');
 
-      // Weave で呼び出しを追跡するために OpenAI クライアントをラップします
+      // Wrap OpenAI client to track calls in Weave
       const client = weave.wrapOpenAI(new OpenAI());
 
       const response = await client.chat.completions.create({
@@ -92,7 +92,7 @@ W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の
   ## MessagesPrompt
 </div>
 
-`MessagesPrompt` を使うと、複数ターンの会話やチャットベースのプロンプトをログとして記録できます。完全な会話フローを表すメッセージ オブジェクト (&quot;system&quot;、&quot;user&quot;、&quot;assistant&quot; などのロールを持つ) の配列を保持します。複数のメッセージ間でコンテキストを維持する必要があるチャットベースの LLM や、特定の会話パターンを定義したい場合、再利用可能な会話テンプレートを作成したい場合には、これを使用することを推奨します。
+`MessagesPrompt` を使用すると、多ターン会話やチャットベースのプロンプトをログできます。これは、「system」、「user」、「assistant」などの役割を持つメッセージオブジェクトの配列を格納し、完全な会話の流れを表します。チャットベースの LLM で複数のメッセージ間でコンテキストを維持する必要がある場合、特定の会話パターンを定義する場合、または再利用可能な会話テンプレートを作成する場合に、このプロンプトを使用することをおすすめします。
 
 <Tabs>
   <Tab title="Python">
@@ -128,7 +128,7 @@ W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の
     import OpenAI from 'openai';
 
     async function main() {
-      // weave.init はクライアント インスタンスを返します
+      // weave.init returns a client instance
       const weaveClient = await weave.init('wandb/prompt-examples');
 
       const prompt = new weave.MessagesPrompt({
@@ -144,10 +144,10 @@ W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の
         ],
       });
       
-      // init から返されたクライアントを使用します
+      // Use the client returned from init
       await weaveClient.publish(prompt, 'dino_prompt');
 
-      // Weave で呼び出しをトラッキングするために OpenAI クライアントをラップします
+      // Wrap OpenAI client to track calls in Weave
       const client = weave.wrapOpenAI(new OpenAI());
 
       const response = await client.chat.completions.create({
@@ -165,7 +165,7 @@ W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の
   ## プロンプトのパラメーター化
 </div>
 
-`StringPrompt` と `MessagesPrompt` の両方は、パラメーター化によって動的なコンテンツを扱えます。これにより、`{variable}` 構文のプレースホルダーを含む柔軟で再利用可能なプロンプト テンプレートを作成し、実行時にさまざまな値で差し替えられます。これは、プロンプトが一貫した構造を保ちながら、さまざまな入力やユーザーデータ、コンテキストに適応する必要があるスケーラブルなアプリケーションを構築する際に有用です。`format()` メソッドは、これらのプレースホルダーを実際の値に置き換えるためのキーと値のペアを受け取ります。
+`StringPrompt` と `MessagesPrompt` の両方とも、パラメーター化により動的なコンテンツをサポートします。これにより、`{variable}` 構文を使用したプレースホルダーを含む柔軟で再利用可能なプロンプトテンプレートを作成でき、実行時に異なる値で埋め替えることができます。これは、プロンプトが一貫した構造を維持しつつ、さまざまな入力、ユーザーデータ、またはコンテキストに適応する必要があるスケーラブルなアプリケーションの構築に役立ちます。`format()` メソッドは、これらのプレースホルダーを実際の値に置き換えるためのキーと値のペアを受け入れます。
 
 <Tabs>
   <Tab title="Python">
@@ -226,7 +226,7 @@ W&amp;B Weave を使うと、プロンプトを作成し、公開し、時間の
   </Tab>
 </Tabs>
 
-これは `MessagesPrompt` に対しても同様に利用できます。
+`MessagesPrompt` でも同様に利用できます。
 
 <Tabs>
   <Tab title="Python">

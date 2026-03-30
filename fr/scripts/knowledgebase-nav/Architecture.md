@@ -2,19 +2,19 @@
   # Architecture du générateur de navigation de la base de connaissances
 </div>
 
-Ce document décrit le système **Knowledgebase Nav** du dépôt `wandb-docs` : ce qu’il génère, les fichiers et fonctions qui le font fonctionner, et la manière dont l’automatisation relie l’ensemble. Pour connaître les étapes destinées aux auteurs et la configuration locale, consultez [README.md](./README.md).
+Ce document décrit le système **Knowledgebase Nav** du dépôt `wandb-docs` : ce qu’il génère, les fichiers et fonctions qui le font fonctionner, et la manière dont l’automatisation relie l’ensemble. Pour connaître les étapes destinées aux auteurs et la configuration locale, voir [README.md](./README.md).
 
 <div id="purpose">
   ## Objectif
 </div>
 
-Le générateur assure la cohérence entre la navigation du support (base de connaissances) et le contenu des articles. Il s’exécute sur les produits configurés (par exemple models, weave, inference), lit les articles MDX dans `support/<product>/articles/` et met à jour les pages MDX générées, les décomptes du fichier racine `support.mdx`, ainsi que les onglets de support en anglais dans `docs.json`.
+Le générateur assure la cohérence entre la navigation du support (base de connaissances) et le contenu des articles. Il s&#39;exécute sur les produits configurés (par exemple models, weave, inference), lit les articles MDX dans `support/<product>/articles/` et met à jour les pages MDX générées, les décomptes du fichier racine `support.mdx`, ainsi que les onglets d&#39;assistance en anglais dans `docs.json`.
 
 <div id="high-level-context">
   ## Contexte général
 </div>
 
-Le système se trouve entièrement dans `wandb-docs`. Il n’effectue aucun appel à des API externes. Il lit et écrit des fichiers dans l’arborescence de travail du dépôt.
+Le système réside entièrement dans `wandb-docs`. Il n’effectue aucun appel à des API externes. Il lit et écrit des fichiers dans l’arborescence de travail du dépôt.
 
 ```mermaid
 flowchart LR
@@ -42,10 +42,10 @@ La flèche de retour vers **articles** indique que la phase 4 met à jour uniqu
 
 
 <div id="automation-workflow">
-  ## Workflow d’automatisation
+  ## Flux de travail d’automatisation
 </div>
 
-Les pull requests déclenchent le workflow **Knowledgebase Nav** lorsque des fichiers sous `support/**` ou `scripts/knowledgebase-nav/**` sont modifiés (y compris lors de nouveaux pushes vers une PR ouverte). Il installe les dépendances Python, exécute le générateur et effectue un commit des chemins correspondants lorsqu’il y a des différences. Les pull requests provenant de **forks** récupèrent le commit HEAD du fork et exécutent tout de même le générateur, mais l’étape d’auto-commit est ignorée, car le jeton par défaut ne peut pas effectuer de push vers des forks.
+Les pull requests déclenchent le flux de travail **Knowledgebase Nav** lorsque des fichiers sous `support/**` ou `scripts/knowledgebase-nav/**` sont modifiés (y compris lors de nouveaux pushes sur une PR ouverte). Il installe les dépendances Python, exécute le générateur et crée un commit pour les chemins correspondants lorsqu’il y a des différences. Les pull requests provenant de **forks** récupèrent le commit HEAD du fork et exécutent tout de même le générateur, mais l’étape d’auto-commit est ignorée, car le jeton par défaut ne peut pas effectuer de push vers des forks.
 
 ```mermaid
 flowchart TD
@@ -64,7 +64,7 @@ Les motifs de chemin inclus dans le commit sont `support.mdx`, `support/*/articl
   ## Orchestration du pipeline
 </div>
 
-`run_pipeline(repo_root, config_path)` est le point d’entrée unique utilisé par la CLI et les tests. Il charge `config.yaml`, crée un environnement Jinja2 commun à tous les produits, puis parcourt chaque produit. Après la boucle, il met à jour `docs.json` une seule fois et `support.mdx` une seule fois.
+`run_pipeline(repo_root, config_path)` sert de point d’entrée unique pour la CLI et les tests. Il charge `config.yaml`, crée un environnement Jinja2 partagé par tous les produits, puis parcourt chaque produit. Une fois la boucle terminée, il met à jour `docs.json` une seule fois et `support.mdx` une seule fois.
 
 ```mermaid
 flowchart TD
@@ -90,7 +90,7 @@ flowchart TD
   ## Flux de données par produit
 </div>
 
-Au sein d’un même produit, les données passent des fichiers bruts à des structures en mémoire, puis sont reconverties en MDX et en structures agrégées pour les étapes suivantes.
+Au sein d’un produit, les données passent des fichiers bruts à des structures en mémoire, puis à nouveau au format MDX et à des structures agrégées pour les étapes suivantes.
 
 ```mermaid
 flowchart LR
@@ -117,7 +117,7 @@ flowchart LR
   PATHS --> TAGS
 ```
 
-`render_tag_pages` renvoie des chaînes d’ID de page triées (par exemple `support/models/tags/security`) que `update_docs_json` intègre à l’onglet de navigation en anglais pour ce produit.
+`render_tag_pages` renvoie des chaînes d’ID de page triées (par exemple `support/models/tags/security`), que `update_docs_json` fusionne dans l’onglet de navigation en anglais de ce produit.
 
 
 <div id="components-and-files">
@@ -135,20 +135,20 @@ flowchart LR
 | Tests d&#39;intégration           | `tests/test_golden_output.py`             | Pipeline complet sur une copie temporaire du dépôt réel                      |
 | Marqueurs Pytest                  | `tests/conftest.py`                       | Enregistre le marqueur `integration` pour la suite de tests golden           |
 | CI                                | `.github/workflows/knowledgebase-nav.yml` | Déclencheurs, script d’exécution, commit automatique                         |
-| Documentation auteur              | `README.md`                               | Workflows pour les rédacteurs et les développeurs                            |
+| Documentation auteur              | `README.md`                               | Flux de travail pour les rédacteurs et les développeurs                      |
 | Notes d&#39;architecture          | `Architecture.md`                         | Diagrammes et vue d’ensemble des modules pour les développeurs               |
 
 <div id="functional-areas-inside-generate_tagspy">
   ## Sections fonctionnelles de `generate_tags.py`
 </div>
 
-Les fonctions sont regroupées ci-dessous dans l’ordre où elles apparaissent dans le fichier source. Les noms renvoient à l’API Python.
+Les fonctions sont regroupées ci-dessous dans l’ordre où elles apparaissent dans le fichier source. Les noms se réfèrent à l’API Python.
 
 <div id="configuration">
   ### Configuration
 </div>
 
-* **`load_config`** lit et valide `config.yaml` (clés obligatoires pour chaque produit).
+* **`load_config`** lit et valide `config.yaml` (clés requises pour chaque produit).
 
 <div id="article-structure-and-footers">
   ### Structure de l’article et pieds de page
@@ -158,28 +158,28 @@ Les fonctions sont regroupées ci-dessous dans l’ordre où elles apparaissent 
 * **`_split_frontmatter_raw`** divise le MDX brut en bloc de front matter et en contenu restant pour la réécriture du pied de page.
 * **`_normalize_keywords`** convertit le front matter `keywords` en liste de chaînes de caractères (liste YAML ; une seule chaîne devient un tag avec un avertissement ; les autres types déclenchent un avertissement et deviennent une liste vide).
 * **`_keywords_list_for_footer`** renvoie les `keywords` normalisés pour générer le pied de page (délègue à **`_normalize_keywords`**).
-* **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`** implémentent une synchronisation ciblée des badges d’onglet. Les Badge gérés sont entourés par les commentaires marqueurs `_BADGE_START` / `_BADGE_END` ; la fonction fait correspondre les marqueurs lorsqu’ils sont présents et, sinon, utilise une regex pour les articles antérieurs à l’ajout des marqueurs. Les nouveaux pieds de page ajoutent une ligne vide, les marqueurs et les Badge.
-* **`sync_support_article_footer`**, **`sync_all_support_article_footers`** écrivent les fichiers d’article lorsque les badges d’onglet ne sont plus synchronisés avec `keywords`.
+* **`_tab_badge_pattern`**, **`build_tab_badges_mdx`**, **`build_keyword_footer_mdx`**, **`_replace_tab_badges_in_body`** implémentent une synchronisation ciblée des Badge d’onglet. Les Badge gérés sont entourés par les commentaires marqueurs `_BADGE_START` / `_BADGE_END` ; la fonction fait correspondre les marqueurs lorsqu’ils sont présents et, sinon, utilise une regex pour les articles antérieurs à l’ajout des marqueurs. Les nouveaux pieds de page ajoutent une ligne vide, les marqueurs et les Badge.
+* **`sync_support_article_footer`**, **`sync_all_support_article_footers`** écrivent les fichiers des articles d’assistance lorsque les Badge d’onglet ne sont plus synchronisés avec `keywords`.
 
 <div id="body-previews-card-snippets">
   ### Aperçus du corps (extraits de carte)
 </div>
 
-* **`plain_text`** supprime le Markdown (y compris les lignes horizontales), les liens, les URL, les balises HTML ou MDX et autres éléments similaires afin que les aperçus restent en texte brut (U+00A0 remplacé par une espace après le décodage des entités, guillemets typographiques convertis en ASCII, la liste d’autorisation conserve `_` et `=` pour les identifiants).
+* **`plain_text`** supprime le Markdown (y compris les lignes horizontales), les liens, les URL, les balises HTML ou MDX et autres éléments similaires afin que les aperçus restent en texte brut (U+00A0 remplacé par un espace après le décodage des entités, guillemets typographiques convertis en ASCII, la liste d’autorisation conserve `_` et `=` pour les identifiants).
 * **`extract_body_preview`** applique `plain_text`, tronque à `BODY_PREVIEW_MAX_LENGTH` et ajoute `BODY_PREVIEW_SUFFIX` si nécessaire.
 
 <div id="slugs-and-crawling">
-  ### Slugs et parcours
+  ### Slugs et exploration
 </div>
 
 * **`tag_slug`** associe un mot-clé affiché à un nom de fichier ou à un segment d’URL (en minuscules, avec des traits d’union).
-* **`crawl_articles`** parcourt `support/<slug>/articles/*.mdx` et construit des dictionnaires d’articles (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, entre autres).
+* **`crawl_articles`** parcourt `support/<slug>/articles/*.mdx` et construit des dicts d’articles (`title`, `keywords`, `featured`, `body_preview`, `page_path`, `tag_links`, entre autres).
 
 <div id="tag-aggregation-and-featured-content">
   ### Agrégation des tags et contenu mis en avant
 </div>
 
-* **`get_featured_articles`** filtre et trie les articles mis en avant pour l’index produit.
+* **`get_featured_articles`** filtre et trie les Articles à la une pour l’index produit.
 * **`build_tag_index`** regroupe les articles par mot-clé, les trie par titre au sein de chaque tag et signale les mots-clés inconnus qui ne figurent pas dans `allowed_keywords`.
 
 <div id="rendering">
@@ -188,7 +188,7 @@ Les fonctions sont regroupées ci-dessous dans l’ordre où elles apparaissent 
 
 * **`tojson_unicode`**, **`create_template_env`** configurent Jinja2 pour MDX (les modèles utilisent le filtre `tojson_unicode` pour les valeurs du front matter YAML).
 * **`render_tag_pages`** écrit `support/<product>/tags/<tag-slug>.mdx`.
-* **`cleanup_stale_tag_pages`** supprime les fichiers `.mdx` du répertoire des tags qui viennent d’être générés, afin que le répertoire et `docs.json` ne contiennent pas d’entrées obsolètes.
+* **`cleanup_stale_tag_pages`** supprime les fichiers `.mdx` du répertoire des tags qui n’ont pas été générés, afin que le répertoire et `docs.json` ne contiennent pas d’entrées obsolètes.
 * **`render_product_index`** écrit `support/<product>.mdx`.
 
 <div id="site-wide-updates">
@@ -196,34 +196,34 @@ Les fonctions sont regroupées ci-dessous dans l’ordre où elles apparaissent 
 </div>
 
 * **`update_docs_json`** met à jour ou crée des onglets masqués `Support: <display_name>` sous `navigation.languages` lorsque `language` vaut `en`, en définissant `pages` sur l’index du produit ainsi que sur les chemins de tags triés.
-* **`update_support_index`** met à jour les lignes de comptage sur les cartes produit dans le `support.mdx` racine. Privilégie les marqueurs `{/* auto-generated counts */}` ; utilise une regex comme solution de secours pour la migration.
-* **`update_support_featured`** régénère la section des articles mis en avant entre les marqueurs `_FEATURED_START` / `_FEATURED_END` dans le `support.mdx` racine.
+* **`update_support_index`** met à jour les lignes de comptage sur les cartes produit dans le `support.mdx` racine. Privilégie les marqueurs `{/* GÉNÉRÉ AUTOMATIQUEMENT counts */}` ; utilise une regex comme solution de secours pour la migration.
+* **`update_support_featured`** régénère la section des Articles à la une entre les marqueurs `_FEATURED_START` / `_FEATURED_END` dans le `support.mdx` racine.
 
 <div id="cli">
   ### CLI
 </div>
 
-* **`main`** analyse `--repo-root` et éventuellement `--config`, puis appelle **`run_pipeline`**.
+* **`main`** analyse `--repo-root` et le paramètre facultatif `--config`, puis appelle **`run_pipeline`**.
 
 <div id="constants">
   ## Constantes
 </div>
 
-* **`BODY_PREVIEW_MAX_LENGTH`** et **`BODY_PREVIEW_SUFFIX`** contrôlent la longueur de l’aperçu de la carte et l’ellipse.
-* **`DOCS_JSON_NAV_LANGUAGE`** vaut `"en"` et limite les modifications de navigation à l’arborescence anglaise uniquement.
-* **`_BADGE_START`** / **`_BADGE_END`** sont les marqueurs de commentaire MDX qui encadrent les badges d’onglet gérés sur chaque page d’article.
+* **`BODY_PREVIEW_MAX_LENGTH`** et **`BODY_PREVIEW_SUFFIX`** contrôlent la longueur de l&#39;aperçu de la carte et l&#39;ellipse.
+* **`DOCS_JSON_NAV_LANGUAGE`** vaut `"en"` et limite les modifications de navigation à l&#39;arborescence anglaise uniquement.
+* **`_BADGE_START`** / **`_BADGE_END`** sont les marqueurs de commentaire MDX qui encadrent les Badge d&#39;onglet gérés sur chaque page d&#39;article.
 * **`_FEATURED_START`** / **`_FEATURED_END`** sont les marqueurs de commentaire MDX qui encadrent la section des articles mis en avant dans le fichier racine `support.mdx`.
 
 <div id="design-choices">
   ## Choix de conception
 </div>
 
-* **Script monolithique** : un seul fichier regroupe toute la logique, afin que le flux de travail et les contributeurs disposent d’un point d’entrée unique pour lire et modifier le comportement.
-* **Mots-clés autorisés** : `config.yaml` répertorie les tags valides par produit ; les tags inconnus génèrent tout de même des pages, mais produisent des avertissements afin que du contenu ne soit jamais omis silencieusement.
-* **Gestion des Badge d’onglet** : seuls les éléments `<Badge>` liés à `/support/<product>/tags/...` sont dérivés de `keywords`. Ils sont entourés de commentaires marqueurs afin que le générateur n’ait pas besoin de faire des correspondances par regex après la migration. La ligne `---` entre le corps et les badges est purement cosmétique ; `_extract_body` utilise `_BADGE_START` comme délimitation et ne supprime un `---` final que pour le nettoyage.
-* **Nettoyage des tags obsolètes** : les pages de tags qui ne correspondent plus à aucun mot-clé d’article sont supprimées après la génération, avant la mise à jour de `docs.json`. Cela permet de conserver un répertoire de tags et une navigation sans entrées orphelines.
-* **Édition basée sur des marqueurs** : toutes les sections générées automatiquement (badges d’onglet des articles, lignes de comptage de `support.mdx` et articles mis en avant) utilisent des commentaires marqueurs MDX. Cela rend les zones gérées visibles pour les rédacteurs et permet au générateur de remplacer le contenu précisément, sans dépendre d’ancres regex fragiles. Chaque paire de marqueurs dispose d’un chemin de migration qui entoure le contenu non balisé lors de la première exécution.
-* **Tests Golden** : comparent les pages de tags générées, les pages d’index de produit, les fichiers d’article (y compris les marqueurs de pied de page), les onglets de support dans `docs.json` et le `support.mdx` racine à l’arborescence versionnée, afin que toute dérive de sortie soit visible sous forme de diff unifié.
+* **Script monolithique** : un seul fichier regroupe toute la logique, afin que le flux de travail et les contributeurs disposent d&#39;un point d&#39;entrée unique pour lire et modifier le comportement.
+* **Mots-clés autorisés** : `config.yaml` répertorie les tags valides par produit ; les tags inconnus génèrent tout de même des pages, mais produisent des avertissements afin que du contenu ne soit jamais omis silencieusement.
+* **Gestion des Badge d&#39;onglet** : seuls les éléments `<Badge>` liés à `/support/<product>/tags/...` sont dérivés de `keywords`. Ils sont entourés de commentaires marqueurs afin que le générateur n&#39;ait pas besoin de faire des correspondances par regex après la migration. La ligne `---` entre le corps et les Badge est purement cosmétique ; `_extract_body` utilise `_BADGE_START` comme délimitation et ne supprime un `---` final que pour le nettoyage.
+* **Nettoyage des tags obsolètes** : les pages de tags qui ne correspondent plus à aucun mot-clé d&#39;article sont supprimées après la génération, avant la mise à jour de `docs.json`. Cela permet de conserver un répertoire de tags et une navigation sans entrées orphelines.
+* **Édition basée sur des marqueurs** : toutes les sections générées automatiquement (Badge d&#39;onglet des articles, lignes de comptage de `support.mdx` et Articles à la une) utilisent des commentaires marqueurs MDX. Cela rend les zones gérées visibles pour les rédacteurs et permet au générateur de remplacer le contenu précisément, sans dépendre d&#39;ancres regex fragiles. Chaque paire de marqueurs dispose d&#39;un chemin de migration qui entoure le contenu non balisé lors de la première exécution.
+* **Tests Golden** : comparent les pages de tags générées, les pages d&#39;index de produit, les fichiers d&#39;article (y compris les marqueurs de pied de page), les onglets d&#39;assistance dans `docs.json` et le `support.mdx` racine à l&#39;arborescence versionnée, afin que toute dérive de sortie soit visible sous forme de diff unifié.
 
 <div id="related-reading">
   ## Lectures complémentaires

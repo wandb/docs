@@ -92,7 +92,7 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
   ## MessagesPrompt
 </div>
 
-`MessagesPrompt` vous permet de journaliser des conversations à plusieurs tours et des prompts basés sur le chat. Il stocke un tableau d&#39;objets de message (avec des rôles comme &quot;system&quot;, &quot;user&quot; et &quot;assistant&quot;) représentant le déroulé complet d&#39;une conversation. Nous vous recommandons de l&#39;utiliser pour les LLM basés sur le chat lorsque vous devez conserver le contexte sur plusieurs messages, définir des modèles de conversation spécifiques ou créer des modèles de conversation réutilisables.
+`MessagesPrompt` vous permet de journaliser des conversations à plusieurs tours et des prompts de type chat. Il stocke un tableau d’objets message (avec des rôles comme &quot;system&quot;, &quot;user&quot; et &quot;assistant&quot;) représentant l’intégralité du déroulé d’une conversation. Nous vous recommandons de l’utiliser pour les LLM basés sur le chat lorsque vous devez conserver le contexte sur plusieurs messages, définir des schémas de conversation spécifiques ou créer des modèles de conversation réutilisables.
 
 <Tabs>
   <Tab title="Python">
@@ -128,7 +128,7 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
     import OpenAI from 'openai';
 
     async function main() {
-      // weave.init renvoyer une instance cliente
+      // weave.init renvoie une instance cliente
       const weaveClient = await weave.init('wandb/prompt-examples');
 
       const prompt = new weave.MessagesPrompt({
@@ -144,10 +144,10 @@ Lorsque vous publiez un prompt avec `weave.publish`, il apparaît dans votre pro
         ],
       });
       
-      // Utiliser le client renvoyé par init
+      // Utilisez le client renvoyé par init
       await weaveClient.publish(prompt, 'dino_prompt');
 
-      // Encapsuler le client OpenAI pour suivre les appels dans Weave
+      // Encapsulez le client OpenAI pour suivre les appels dans Weave
       const client = weave.wrapOpenAI(new OpenAI());
 
       const response = await client.chat.completions.create({

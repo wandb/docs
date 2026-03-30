@@ -15,7 +15,7 @@ Dans l’exemple ci-dessous, l’extrait de code montre un terminal bash dans le
     --lr 0.00001
 ```
 
-Pour mettre en place des commandes personnalisées, modifiez la clé `command` dans le fichier YAML. D’après l’exemple précédent, la configuration se présente comme suit :
+Pour implémenter des commandes personnalisées, modifiez la clé `command` dans le fichier YAML. D’après l’exemple précédent, la configuration se présente comme suit :
 
 ```yaml
 program:
@@ -35,7 +35,7 @@ command:
   - ${args}
 ```
 
-La clé `${args}` se développe pour inclure tous les paramètres de la configuration de balayage, au format `argparse`, sous la forme `--param1 value1 --param2 value2`.
+La clé `${args}` inclut tous les paramètres de la configuration du balayage, au format `argparse`, sous la forme `--param1 value1 --param2 value2`.
 
 Pour ajouter des arguments supplémentaires en dehors de `argparse`, implémentez ce qui suit :
 
@@ -45,7 +45,7 @@ args, unknown = parser.parse_known_args()
 ```
 
 <Note>
-  Selon l’environnement, `python` peut faire référence à Python 2. Pour vous assurer d’utiliser Python 3, utilisez `python3` dans la configuration de la commande :
+  Selon l’environnement, `python` peut désigner Python 2. Pour garantir l’utilisation de Python 3, utilisez `python3` dans la configuration de la commande :
 
   ```yaml
   program:
@@ -67,4 +67,4 @@ args, unknown = parser.parse_known_args()
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/fr/support/models/tags/sweeps)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: tab badges ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

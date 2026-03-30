@@ -13,7 +13,7 @@ keywords: ["Inference"]
   ### 500 - 내부 서버 오류
 </div>
 
-**메시지:** &quot;요청을 처리하는 동안 서버에 오류가 발생했습니다&quot;
+**메시지:** &quot;Request를 처리하는 동안 서버에 오류가 발생했습니다&quot;
 
 이 오류는 서버 측의 일시적인 내부 오류입니다.
 
@@ -21,15 +21,15 @@ keywords: ["Inference"]
   ### 503 - 서비스 과부하
 </div>
 
-**메시지:** &quot;엔진이 현재 과부하 상태입니다. 잠시 후 다시 시도해 주세요&quot;
+**메시지:** &quot;현재 엔진에 과부하가 걸렸습니다. 나중에 다시 사용해 보세요&quot;
 
-서비스에 트래픽이 몰려 있습니다.
+서비스에 많은 트래픽이 발생하고 있습니다.
 
 <div id="how-to-handle-server-errors">
   ## 서버 오류를 처리하는 방법
 </div>
 
-1. **재시도하기 전에 잠시 기다리기**
+1. **재시도 전에 기다리기**
    * 500 오류: 30~60초 대기
    * 503 오류: 60~120초 대기
 
@@ -58,7 +58,7 @@ keywords: ["Inference"]
 
 3. **적절한 타임아웃 설정**
    * HTTP 클라이언트의 타임아웃 값을 늘리기
-   * 더 안정적으로 처리할 수 있도록 비동기 작업 고려
+   * 더 나은 처리를 위해 비동기 작업을 고려하세요
 
 <div id="when-to-contact-support">
   ## 지원팀에 문의해야 하는 경우
@@ -67,21 +67,21 @@ keywords: ["Inference"]
 다음과 같은 경우 지원팀에 문의하세요:
 
 * 오류가 10분 이상 지속되는 경우
-* 특정 시간대에 실패 패턴이 나타나는 경우
+* 특정 시간대에 실패 패턴이 보이는 경우
 * 오류 메시지에 추가 세부 정보가 포함된 경우
 
-다음 정보를 제공하세요:
+다음을 제공하세요:
 
-* 오류 메시지 및 코드
+* 오류 메시지와 코드
 * 오류가 발생한 시간
-* 코드 스니펫(API 키 제거)
+* 코드 스니펫(API 키는 제거)
 * W&amp;B entity 및 프로젝트 이름
 
 ***
 
 {/* ---- AUTO-GENERATED: tab badges ----
-  front matter의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 마커 사이의 내용은 직접 수정하지 마세요.
+  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리합니다.
+  이 마커 사이의 내용은 수동으로 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Inference](/ko/support/models/tags/inference)</Badge>

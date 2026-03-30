@@ -1,9 +1,9 @@
 ---
 title: "NVIDIA NIM"
-description: "Weave を使用して ChatNVIDIA ライブラリ経由で行われる LLM 呼び出しをトレースおよびログに記録する"
+description: "Weave を使用して ChatNVIDIA ライブラリ経由で行われる LLM calls をトレースおよびログに記録する"
 ---
 
-Weave は、`weave.init()` が呼び出された後、[ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) ライブラリ経由で行われる LLM 呼び出しを自動的にトレースし、ログに記録します。
+Weave は、`weave.init()` が呼び出された後、[ChatNVIDIA](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) ライブラリ経由で行われる LLM calls を自動的にトラッキングし、ログに記録します。
 
 <Tip>
   最新のチュートリアルは、[Weights &amp; Biases on NVIDIA](https://wandb.ai/site/partners/nvidia) を参照してください。
@@ -17,9 +17,9 @@ Weave は、`weave.init()` が呼び出された後、[ChatNVIDIA](https://pytho
 
 <Tabs>
   <Tab title="Python">
-    Weave は [ChatNVIDIA Python ライブラリ](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) のトレースを自動的にキャプチャできます。
+    Weave は [ChatNVIDIA Python ライブラリ](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) のトレースを自動的に取得できます。
 
-    任意のプロジェクト名を指定して `weave.init(<project-name>)` を呼び出し、キャプチャを開始します。
+    任意のプロジェクト名を指定して `weave.init(<project-name>)` を呼び出し、取得を開始します。
 
     ```python lines {4}
     from langchain_nvidia_ai_endpoints import ChatNVIDIA
@@ -54,11 +54,11 @@ Weave は、`weave.init()` が呼び出された後、[ChatNVIDIA](https://pytho
 
 <Tabs>
   <Tab title="Python">
-    `@weave.op` で関数をラップすると、入力・出力・アプリ ロジックの記録が始まり、アプリ内でデータがどのように流れているかをデバッグできるようになります。op を深くネストして、トラッキングしたい関数のツリーを構築できます。また、git にコミットしていないアドホックな変更も含めて、実験中のコードのバージョン管理が自動的に行われます。
+    `@weave.op` で関数をラップすると、入力・出力・アプリ ロジックの取得が始まり、アプリ内でデータがどのように流れているかをデバッグできるようになります。op を深くネストして、トラッキングしたい関数のツリーを 구축できます。また、git にコミットしていないアドホックな変更も含めて、実験中のコードのバージョン管理が自動的に行われます。
 
     [`@weave.op`](/ja/weave/guides/tracking/ops) でデコレートされた関数を作成し、その中から [ChatNVIDIA Python ライブラリ](https://python.langchain.com/docs/integrations/chat/nvidia_ai_endpoints/) を呼び出すだけです。
 
-    以下の例では、op でラップされた関数が 2 つあります。これにより、RAG アプリの取得ステップのような中間ステップが、アプリの挙動にどのように影響しているかを確認できます。
+    以下の例では、op でラップされた関数が 2 つあります。これにより、RAG アプリの取得 step のような中間 step が、アプリの挙動にどのように影響しているかを確認できます。
 
     ```python lines {1,9,11,29,31,33}
     import weave
@@ -71,7 +71,7 @@ Weave は、`weave.init()` が呼び出された後、[ChatNVIDIA](https://pytho
 
     @weave.op
     def get_pokemon_data(pokemon_name):
-        # これはアプリケーション内の 1 ステップであり、RAG アプリ内の取得ステップのようなものです
+        # これはアプリケーション内の 1 step であり、RAG アプリ内の取得 step のようなものです
         url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}"
         response = requests.get(url)
         if response.status_code == 200:
@@ -108,12 +108,12 @@ Weave は、`weave.init()` が呼び出された後、[ChatNVIDIA](https://pytho
     pokemon_data = pokedex(random.choice(POKEMON), PROMPT)
     ```
 
-    Weave に移動し、UI で `get_pokemon_data` をクリックすると、そのステップの入力と出力を確認できます。
+    Weave にアクセスし、UI で `get_pokemon_data` をクリックすると、その step の入力と出力を確認できます。
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext
-    このライブラリは Python にしか用意されていないため、この機能は現時点では TypeScript では利用できません。
+    このライブラリは Python にしか用意されていないため、この機能は現時点では TypeScript では 사용 가능하지 않습니다。
     ```
   </Tab>
 </Tabs>
@@ -128,9 +128,9 @@ Weave は、`weave.init()` が呼び出された後、[ChatNVIDIA](https://pytho
 
 <Tabs>
   <Tab title="Python">
-    関係する要素が多いと、実験を整理するのは難しくなります。[`Model`](/ja/weave/guides/core-types/models) クラスを使うことで、システムプロンプトや使用しているモデルなど、アプリの実験に関する詳細を記録して整理できます。これにより、アプリのさまざまなイテレーションを整理・比較しやすくなります。
+    関係する要素が多いと、実験を整理するのは難しくなります。[`Model`](/ja/weave/guides/core-types/models) クラスを使うことで、system prompt や使用しているモデルなど、アプリの実験に関する詳細を取得して整理できます。これにより、アプリのさまざまなイテレーションを整理・比較しやすくなります。
 
-    コードのバージョン管理や入出力の記録に加えて、[`Model`](/ja/weave/guides/core-types/models) はアプリケーションの挙動を制御する構造化されたパラメーターも記録できるため、どのパラメーターが最も効果的だったかを簡単に見つけることができます。Weave Models を `serve` や [`Evaluation`](/ja/weave/guides/core-types/evaluations) と組み合わせて使用することもできます。
+    コードのバージョン管理や入出力の取得に加えて、[`Model`](/ja/weave/guides/core-types/models) はアプリケーションの動作を制御する構造化されたパラメーターも取得できるため、どのパラメーターが最も効果的だったかを簡単に検索できます。Weave Models を `serve` や [`Evaluation`](/ja/weave/guides/core-types/evaluations) と組み合わせて使用することもできます。
 
     次の例では、`model` と `system_message` を変えながら実験できます。これらのどちらかを変更するたびに、`GrammarCorrectorModel` の新しい *version* が作成されます。
 
@@ -184,4 +184,4 @@ Weave は、`weave.init()` が呼び出された後、[ChatNVIDIA](https://pytho
 </div>
 
 ChatNVIDIA インテグレーションは `invoke`、`stream` およびそれらの非同期版をサポートします。ツールの使用にも対応しています。
-ChatNVIDIA は多様な種類のモデルで使用することを想定しているため、function calling 機能はサポートしていません。
+ChatNVIDIA はさまざまなタイプのモデルでの使用を想定しているため、function calling 機能はサポートしていません。

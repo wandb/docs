@@ -1,15 +1,15 @@
 ---
-description: Supprimez des artefacts de manière interactive avec l'interface de
-  l'application ou par programmation avec le SDK Python de W&B.
+description: Supprimez des artefacts de manière interactive avec l'interface
+  utilisateur de l'application ou par programmation avec le SDK Python W&B.
 title: Supprimer un artefact
 ---
 
-Supprimez des artefacts de manière interactive avec l&#39;application W&amp;B ou par programmation avec le SDK Python de W&amp;B. Lorsque vous supprimez un artefact, W&amp;B le marque comme *soft-delete*. En d&#39;autres termes, l&#39;artefact est marqué pour suppression, mais les fichiers ne sont pas immédiatement supprimés du stockage.
+Supprimez des artefacts de manière interactive avec la W&amp;B App ou par programmation avec le SDK Python W&amp;B. Lorsque vous supprimez un artefact, W&amp;B le marque comme *soft-delete*. En d&#39;autres termes, l&#39;artefact est marqué pour suppression, mais les fichiers ne sont pas immédiatement supprimés du stockage.
 
 Le contenu de l&#39;artefact reste à l&#39;état de *soft-delete*, ou en attente de suppression, jusqu&#39;à ce qu&#39;un processus régulier de garbage collection examine tous les artefacts marqués pour suppression. Le processus de garbage collection supprime les fichiers associés du stockage si l&#39;artefact et les fichiers qui lui sont associés ne sont utilisés par aucune version antérieure ou ultérieure de l&#39;artefact.
 
 <div id="artifact-garbage-collection-workflow">
-  ## Flux de travail de garbage collection des artefacts
+  ## Flux de travail du garbage collection des artefacts
 </div>
 
 Le schéma suivant illustre le processus complet de garbage collection des artefacts :
@@ -18,7 +18,7 @@ Le schéma suivant illustre le processus complet de garbage collection des artef
 graph TB
     Start([Suppression d'artefact initiée]) --> DeleteMethod{Méthode de suppression}
     
-    DeleteMethod -->|UI| UIDelete[Suppression via l'application W&B]
+    DeleteMethod -->|UI| UIDelete[Suppression via W&B App]
     DeleteMethod -->|SDK| SDKDelete[Suppression via le SDK Python W&B]
     DeleteMethod -->|TTL| TTLDelete[Politique TTL expirée]
     
@@ -46,24 +46,24 @@ graph TB
     style End fill:#e0e0e0,stroke:#333,stroke-width:2px,color:#000
 ```
 
-Vous pouvez planifier la suppression des artefacts de W&amp;B à l’aide de politiques TTL. Pour plus d&#39;informations, voir [Gérer la conservation des données avec la politique TTL des artefacts](./ttl).
+Vous pouvez planifier la suppression des artefacts de W&amp;B à l&#39;aide de politiques TTL. Pour plus d&#39;informations, voir [Gérer la conservation des données avec la politique TTL des artefacts](./ttl).
 
 <Note>
-  Les artefacts supprimés par une politique TTL, le SDK Python W&amp;B ou l’application W&amp;B sont d’abord en soft-delete. Ils sont ensuite collectés par le garbage collection avant d’être supprimés définitivement.
+  Les artefacts supprimés par une politique TTL, le SDK Python W&amp;B ou l&#39;application W&amp;B sont d&#39;abord en soft-delete. Ils sont ensuite collectés par le garbage collection avant d&#39;être supprimés définitivement.
 </Note>
 
 <Note>
-  La suppression d’une entité, d’un projet ou d’une collection d’artifacts déclenche le processus de suppression des artefacts décrit sur cette page. Lorsque vous supprimez un run et choisissez de supprimer les artefacts qui lui sont associés, ces artefacts suivent le même processus de soft-delete et de garbage collection.
+  La suppression d&#39;une entité, d&#39;un projet ou d&#39;une collection d&#39;artefacts déclenche le processus de suppression des artefacts décrit sur cette page. Lorsque vous supprimez un run et choisissez de supprimer les artefacts qui lui sont associés, ces artefacts suivent le même flux de travail de soft-delete et de garbage collection.
 </Note>
 
 <div id="delete-an-artifact-version">
   ## Supprimer une version d&#39;artefact
 </div>
 
-Supprimez une version d&#39;artefact de manière interactive avec l&#39;application W&amp;B ou par programmation avec le SDK Python de W&amp;B.
+Supprimez une version d&#39;artefact de manière interactive avec W&amp;B App ou par programmation avec le SDK Python W&amp;B.
 
 <Tabs>
-  <Tab title="Application W&B" value="ui">
+  <Tab title="W&B App" value="ui">
     Pour supprimer une version d&#39;artefact :
 
     1. Accédez au projet qui contient la version d&#39;artefact que vous souhaitez supprimer.
@@ -94,7 +94,7 @@ Supprimez une version d&#39;artefact de manière interactive avec l&#39;applicat
   ## Supprimer plusieurs versions d’artefact
 </div>
 
-L’exemple de code suivant montre comment supprimer plusieurs versions d’artefact. Fournissez l’entité, le nom du projet et l’ID du run ayant créé l’artefact comme arguments de `wandb.Api.run()`. Cela renvoie un objet run que vous pouvez utiliser pour accéder à toutes les versions d’artefact créées par ce run. Parcourez ensuite les versions d’artefact et supprimez celles qui correspondent à vos critères.
+L’exemple de code suivant montre comment supprimer plusieurs versions d’artefact. Fournissez en arguments à `wandb.Api.run()` l’entité, le nom du projet et l’ID du run qui a créé l’artefact. Cette méthode renvoie un objet run que vous pouvez utiliser pour accéder à toutes les versions d’artefact créées par ce run. Parcourez ensuite les versions d’artefact et supprimez celles qui correspondent à vos critères.
 
 <Tip>
   Définissez le paramètre `delete_aliases` sur `True` (`wandb.Artifact.delete(delete_aliases=True)`) pour supprimer une version d’artefact et tous les alias qui lui sont associés.
@@ -127,7 +127,7 @@ for artifact in run.logged_artifacts():
   ## Supprimer plusieurs versions d’artefact avec un alias spécifique
 </div>
 
-Le code suivant montre comment supprimer plusieurs versions d’artefact ayant un alias spécifique.
+Le code suivant illustre comment supprimer plusieurs versions d’artefact associées à un alias spécifique.
 
 Remplacez les espaces réservés `<entity>`, `<project>`, `<run_id>`, `<artifact_name>` et `<alias>` par vos propres valeurs :
 
@@ -154,22 +154,22 @@ for artifact in run.logged_artifacts():
 ```
 
 <div id="delete-an-artifact-collection">
-  ## Supprimer une collection d’artifacts
+  ## Supprimer une collection d’artefacts
 </div>
 
 <Tabs>
-  <Tab title="Application W&B" value="ui">
-    Pour supprimer une collection d’artifacts :
+  <Tab title="W&B App" value="ui">
+    Pour supprimer une collection d’artefacts :
 
-    1. Accédez à la collection d’artifacts que vous souhaitez supprimer.
-    2. Sélectionnez les trois points horizontaux (`...`) à côté du nom de la collection d’artifacts.
+    1. Accédez à la collection d’artefacts que vous souhaitez supprimer.
+    2. Sélectionnez les trois points horizontaux (`...`) à côté du nom de la collection d’artefacts.
     3. Dans le menu déroulant, sélectionnez **Supprimer**.
   </Tab>
 
   <Tab title="SDK Python W&B" value="sdk">
-    Supprimez une collection d’artifacts par programmation à l’aide de la méthode [wandb.Artifact.delete()](/fr/models/ref/python/experiments/artifact#delete).
+    Supprimez une collection d’artefacts par programmation à l’aide de la méthode [wandb.Artifact.delete()](/fr/models/ref/python/experiments/artifact#delete).
 
-    Indiquez le chemin complet de la collection d’artifacts dans `wandb.Api.artifact_collection(name="")`. Le chemin complet est au format `<entity>/<project>/<artifact_collection_name>`.
+    Indiquez le chemin complet de la collection d’artefacts dans `wandb.Api.artifact_collection(name="")`. Le chemin complet est au format `<entity>/<project>/<artifact_collection_name>`.
 
     ```python
     import wandb
@@ -177,8 +177,8 @@ for artifact in run.logged_artifacts():
     # Initialiser l'API W&B
     api = wandb.Api()
 
-    # Obtenir la collection d’artifacts à partir de son chemin.
-    # Format : <entity>/<project>/<artifact_collection_name>
+    # Obtenir la collection d’artefacts à partir de son chemin. Format :
+    # <entity>/<project>/<artifact_collection_name>
     collection = api.artifact_collection(
         type_name = "<artifact_type>",
         name = "<entity>/<project>/<artifact_collection_name>"
@@ -215,9 +215,9 @@ La garbage collection est activée par défaut si vous utilisez le cloud partag�
     La suppression réversible dans Azure est équivalente à la gestion des versions du bucket chez les autres fournisseurs de stockage.
   </Note>
 
-Le tableau suivant décrit les conditions à remplir pour activer la garbage collection selon votre type de déploiement.
+Le tableau suivant décrit les exigences à remplir pour activer la garbage collection selon votre type de déploiement.
 
-Le `X` indique que vous devez remplir la condition :
+Le `X` indique que vous devez remplir l’exigence :
 
 |                                                                                                                | Variable d’environnement | Activer la gestion des versions |
 | -------------------------------------------------------------------------------------------------------------- | ------------------------ | ------------------------------- |

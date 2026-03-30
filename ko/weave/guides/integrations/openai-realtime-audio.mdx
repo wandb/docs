@@ -3,13 +3,13 @@ title: OpenAI Realtime API
 description: Weave를 사용해 OpenAI Realtime API 호출을 자동으로 트레이스하세요.
 ---
 
-Weave와 [OpenAI의 Realtime API](https://developers.openai.com/api/docs/guides/realtime/) 인테그레이션을 사용하면 애플리케이션의 음성-음성 상호작용이 발생하는 즉시 자동으로 트레이스할 수 있습니다. 이를 통해 에이전트와 사용자 간의 대화를 캡처하여 에이전트 성능을 검토하고 평가할 수 있습니다.
+Weave의 [OpenAI Realtime API](https://developers.openai.com/api/docs/guides/realtime/)와의 인테그레이션을 통해 애플리케이션의 음성-음성 상호작용을 발생하는 즉시 자동으로 트레이스할 수 있습니다. 이를 통해 에이전트와 사용자 간 대화를 캡처하여 에이전트 성능을 검토하고 평가할 수 있습니다.
 
 <div id="integrate-realtime-traces">
-  ## 실시간 트레이스 인테그레이션
+  ## 실시간 트레이스 통합하기
 </div>
 
-Weave는 OpenAI Realtime API에 자동으로 패치되며, 애플리케이션의 오디오 상호작용 캡처를 시작하려면 몇 줄의 코드만 추가하면 됩니다. 다음 코드는 Weave와 Realtime API 인테그레이션을 임포트합니다:
+Weave는 OpenAI Realtime API에 자동으로 패치되므로, 애플리케이션의 오디오 상호작용을 캡처하기 시작하려면 코드 몇 줄만 추가하면 됩니다. 다음 코드는 Weave와 Realtime API 인테그레이션을 임포트합니다:
 
 ```python lines {2,5}
 import weave
@@ -21,18 +21,18 @@ patch_openai_realtime()
 # 애플리케이션 로직
 ```
 
-코드에 임포트해 실행하면 Weave는 사용자와 OpenAI Realtime API 간의 상호작용을 자동으로 트레이스합니다.
+코드에 임포트하여 실행하면 Weave가 사용자와 OpenAI Realtime API 간의 상호작용을 자동으로 트레이스합니다.
 
 
 <div id="run-a-realtime-voice-assistant-with-the-openai-agents-sdk">
   ### OpenAI Agents SDK로 실시간 음성 어시스턴트 실행하기
 </div>
 
-이 예제는 마이크 오디오를 OpenAI의 Realtime API로 스트리밍하고, AI의 음성 응답을 로컬 머신의 스피커를 통해 재생하는 실시간 음성 어시스턴트를 실행합니다. 이 애플리케이션은 `RealtimeAgent` 및 `RealtimeRunner`와 함께 OpenAI Agents SDK를 사용하며, `patch_openai_realtime()`를 적용해 Weave 트레이싱을 활성화합니다.
+이 예제는 마이크 Audio를 OpenAI의 Realtime API로 스트리밍하고, AI의 음성 Response를 로컬 머신의 스피커를 통해 재생하는 실시간 음성 어시스턴트를 실행합니다. 이 애플리케이션은 `RealtimeAgent` 및 `RealtimeRunner`와 함께 OpenAI Agents SDK를 사용하며, `patch_openai_realtime()` 패치를 통해 Weave 트레이싱을 활성화합니다.
 
 예제를 실행하려면:
 
-1. Python 환경을 실행하고 다음 라이브러리를 설치하세요:
+1. Python 환경을 시작하고 다음 라이브러리를 설치하세요:
 
    <Tabs>
      <Tab title="uv">
@@ -48,9 +48,9 @@ patch_openai_realtime()
      </Tab>
    </Tabs>
 
-2. `weave_voice_assistant.py`라는 제목의 파일을 생성하고 다음 코드를 추가합니다.
+2. `weave_voice_assistant.py`라는 이름의 ファイル을 만들고 여기에 다음 코드를 추가하세요.
 
-   강조 표시된 줄은 애플리케이션에 Weave가 인테그레이션된 부분을 나타냅니다. 나머지 코드는 기본 음성 비서 앱을 생성합니다.
+   강조 표시된 줄은 애플리케이션에서 Weave의 인테그레이션을 나타냅니다. 나머지 코드는 기본 음성 비서 앱을 생성합니다.
 
    <Accordion title="weave_voice_assistant.py">
      ```python lines {8,11,14,51-55}
@@ -70,7 +70,7 @@ patch_openai_realtime()
      DEFAULT_WEAVE_PROJECT = "<your-team-name/your-project-name>"
 
      FORMAT = pyaudio.paInt16
-     RATE = 24000  # OpenAI Realtime API에서 요구하는 값입니다.
+     RATE = 24000  # Required by the OpenAI Realtime API.
      CHUNK = 1024
      MAX_INPUT_CHANNELS = 1
      MAX_OUTPUT_CHANNELS = 1
@@ -125,14 +125,14 @@ patch_openai_realtime()
                  if ch.lower() == 't':
                      mic_enabled = not mic_enabled
                      state = "ON" if mic_enabled else "OFF"
-                     print(f"\n🎙  마이크 {state} (t를 눌러 전환)")
+                     print(f"\n🎙  마이크 {state} (t 키를 눌러 켜기/끄기)")
                  elif ch == '\x03':  # Ctrl-C
                      break
          finally:
              termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 
 
-     # 오디오 큐를 비우고 백그라운드 스레드에서 스피커에 출력합니다.
+     # 오디오 큐를 비우고 백그라운드 스레드에서 스피커에 씁니다.
      def play_audio(output_stream: pyaudio.Stream, audio_output_queue: queue.Queue):
          while True:
              data = audio_output_queue.get()
@@ -180,7 +180,7 @@ patch_openai_realtime()
          mic.start_stream()
          speaker.start_stream()
 
-         # 인터럽트 시 재생 중인 오디오를 플러시할 수 있도록 큐를 통해 오디오를 버퍼링합니다.
+         # 인터럽트 발생 시 재생 중인 오디오를 플러시할 수 있도록 큐를 통해 오디오를 버퍼링합니다.
          audio_output_queue = queue.Queue()
          threading.Thread(
              target=play_audio, args=(speaker, audio_output_queue), daemon=True
@@ -209,7 +209,7 @@ patch_openai_realtime()
              }
          })
          print("--- 세션 활성화됨 (마이크에 대고 말하세요) ---")
-         print("🎙  마이크 ON (t를 눌러 전환)")
+         print("🎙  마이크 ON (t 키를 눌러 켜기/끄기)")
 
          threading.Thread(target=start_keylistener, daemon=True).start()
 
@@ -255,7 +255,7 @@ patch_openai_realtime()
                  mic_task.cancel()
 
          # 정리
-         audio_output_queue.put(None)  # 재생 스레드에 종료 신호를 보냅니다.
+         audio_output_queue.put(None)  # 재생 스레드에 종료 시그널을 보냅니다.
          mic.close()
          speaker.close()
          p.terminate()
@@ -272,28 +272,28 @@ patch_openai_realtime()
      ```
    </Accordion>
 
-3. `DEFAULT_WEAVE_PROJECT` 값을 사용 중인 팀 및 프로젝트 이름으로 업데이트하세요.
+3. `DEFAULT_WEAVE_PROJECT` 값을 팀 이름과 프로젝트 이름으로 업데이트하세요.
 
 4. `OPENAI_API_KEY` 환경 변수를 설정하세요.
 
-5. 다음 코드를 실행하세요:
+5. 코드를 실행하세요:
    ```
    python weave_voice_assistant.py
    ```
 
-실행되면 키보드에서 **T**를 눌러 마이크를 음소거하거나 음소거를 해제합니다. 어시스턴트는 서버 측 음성 활동 감지를 사용해 차례 전환과 끼어들기를 처리합니다.
+실행되면 키보드에서 **T**를 눌러 마이크를 음소거하거나 음소거를 해제하세요. 어시스턴트는 서버 측 음성 활동 감지를 사용해 차례 전환과 끼어들기를 처리합니다.
 
-어시스턴트와 대화하는 동안 Weave는 세션의 오디오를 포함한 트레이스를 캡처하며, 이를 Weave UI에서 탐색할 수 있습니다.
+어시스턴트와 대화하는 동안 Weave가 세션의 오디오를 포함한 트레이스를 캡처하며, 이를 Weave UI에서 탐색할 수 있습니다.
 
 <div id="run-a-realtime-voice-assistant-using-websockets">
   ### WebSockets를 사용해 실시간 음성 어시스턴트 실행하기
 </div>
 
-다음 예제는 WebSockets를 통해 OpenAI Realtime API에 직접 연결합니다. 마이크 오디오를 API로 스트리밍하고, 음성 응답을 재생하며, 도구 호출(날씨 조회, 수학 계산, 코드 실행, 파일 쓰기)을 지원합니다. Weave는 `weave.init()`과 `patch_openai_realtime()`을 사용해 세션을 트레이스합니다.
+다음 예시는 WebSockets를 통해 OpenAI Realtime API에 직접 연결합니다. 마이크 오디오를 API로 스트리밍하고, 음성 Response를 재생하며, 도구 호출(날씨 조회, 수학 평가, 코드 실행, 파일 쓰기)을 지원합니다. Weave는 `weave.init()`과 `patch_openai_realtime()`을 사용해 세션을 트레이스합니다.
 
-예제를 실행하려면:
+예시를 실행하려면:
 
-1. Python 환경을 실행하고 다음 라이브러리를 설치합니다:
+1. Python 환경을 실행하고 다음 라이브러리를 설치하세요:
 
    <Tabs>
      <Tab title="uv">
@@ -309,7 +309,7 @@ patch_openai_realtime()
      </Tab>
    </Tabs>
 
-2. `tool_definitions.py`라는 이름의 파일을 생성하고 여기에 다음 도구 정의를 추가하세요. 메인 애플리케이션은 이 모듈에서 임포트합니다.
+2. `tool_definitions.py`라는 제목의 파일을 만들고 여기에 다음 도구 정의를 추가하세요. 기본 애플리케이션은 이 모듈에서 임포트합니다.
 
    <Accordion title="tool_definitions.py">
      ```python lines
@@ -333,10 +333,10 @@ patch_openai_realtime()
 
      @weave.op
      def calculate(expression: str) -> str:
-         """수식을 계산하고 결과를 반환합니다.
+         """수식을 평가하고 결과를 반환합니다.
 
          매개변수:
-             expression: 계산할 수식입니다. 예: '2 + 2'.
+             expression: 평가할 수식입니다. 예: '2 + 2'.
          """
          try:
              result = eval(expression)
@@ -347,7 +347,7 @@ patch_openai_realtime()
 
      @weave.op
      def run_python_code(code: str) -> str:
-         """Python 스크립트를 작성해 실행하고 stdout/stderr를 반환합니다.
+         """Python 스크립트를 작성하고 실행한 뒤 stdout/stderr를 반환합니다.
 
          매개변수:
              code: 실행할 Python 소스 코드입니다.
@@ -372,18 +372,18 @@ patch_openai_realtime()
                  output += f"\n(exit code {result.returncode})"
              return output or "(no output)"
          except subprocess.TimeoutExpired:
-             return "Error: script timed out after 30 seconds."
+             return "오류: 스크립트가 30초 후 시간 초과되었습니다."
          finally:
              script_path.unlink(missing_ok=True)
 
 
      @weave.op
      async def write_file(file_path: str, content: str) -> str:
-         """디스크의 파일에 콘텐츠를 씁니다.
+         """디스크의 파일에 내용을 씁니다.
 
          매개변수:
              file_path: 파일을 쓸 경로입니다.
-             content: 파일에 쓸 콘텐츠입니다.
+             content: 파일에 쓸 내용입니다.
          """
          try:
              path = Path(file_path)
@@ -395,7 +395,7 @@ patch_openai_realtime()
      ```
    </Accordion>
 
-3. 같은 디렉터리에 `weave_ws_voice_assistant.py`라는 이름의 파일을 생성하고, 그 파일에 다음 코드를 추가합니다.
+3. 같은 디렉터리에 `weave_ws_voice_assistant.py`라는 이름의 파일을 만들고 다음 코드를 추가하세요.
 
    <Accordion title="weave_ws_voice_assistant.py">
      ```python
@@ -448,7 +448,7 @@ patch_openai_realtime()
          {
              "type": "function",
              "name": "get_weather",
-             "description": "도시의 현재 날씨를 가져옵니다.",
+             "description": "도시의 현재 날씨를 조회합니다.",
              "parameters": {
                  "type": "object",
                  "properties": {
@@ -525,7 +525,7 @@ patch_openai_realtime()
                  "output_modalities": ["audio"],
                  "instructions": (
                      "당신은 도구를 사용할 수 있는 유용한 AI 어시스턴트입니다. "
-                     "가능한 한 도구를 활용하여 작업을 수행하세요. "
+                     "가능한 한 도구를 사용하여 작업을 수행하세요. "
                      "명확하고 간결하게 말하세요."
                  ),
                  "tools": TOOL_DEFINITIONS,
@@ -558,7 +558,7 @@ patch_openai_realtime()
          print(f"\n[함수 호출] {name}({arguments})")
          tool_fn = TOOL_REGISTRY.get(name)
          if tool_fn is None:
-             result = json.dumps({"error": f"Unknown function: {name}"})
+             result = json.dumps({"error": f"알 수 없는 함수: {name}"})
          else:
              try:
                  args = json.loads(arguments)
@@ -570,7 +570,7 @@ patch_openai_realtime()
 
          print(f"[함수 결과] {result}")
 
-         # 함수 호출 결과를 모델에 다시 전송합니다.
+         # 함수 호출 출력을 모델에 다시 전송합니다.
          await send_event(ws, {
              "type": "conversation.item.create",
              "item": {
@@ -587,7 +587,7 @@ patch_openai_realtime()
      def play_audio(output_stream: pyaudio.Stream, audio_output_queue: queue.Queue):
          """pyaudio의 write()는 사운드 카드가 샘플을 소비할 때까지 블로킹되므로
          별도의 스레드에서 실행됩니다. 재생을 비동기 이벤트 루프에서 분리하면
-         진행 중인 쓰기 완료를 기다리지 않고 인터럽트 시 큐를 비울 수 있습니다."""
+         진행 중인 쓰기가 완료될 때까지 기다리지 않고 인터럽트 시 큐를 비울 수 있습니다."""
          while True:
              data = audio_output_queue.get()
              if data is None:
@@ -619,7 +619,7 @@ patch_openai_realtime()
 
 
      async def receive_events(ws, audio_output_queue: queue.Queue) -> None:
-         # 델타 이벤트에 걸쳐 함수 호출 인수를 누적합니다.
+         # 델타 이벤트 전반에 걸쳐 함수 호출 인수를 누적합니다.
          pending_calls: dict[str, dict] = {}
          async for raw_message in ws:
              if DEBUG_WRITE_LOG:
@@ -639,7 +639,7 @@ patch_openai_realtime()
                  print(f"\n[오류] {event}")
 
              elif event_type == "input_audio_buffer.speech_started":
-                 # 사용자 발화에 AI 오디오가 겹치지 않도록 큐에 쌓인 오디오를 비웁니다.
+                 # 사용자의 말을 덮어쓰지 않도록 대기 중인 AI 오디오를 비웁니다.
                  while not audio_output_queue.empty():
                      try:
                          audio_output_queue.get_nowait()
@@ -682,7 +682,7 @@ patch_openai_realtime()
                          "name": item.get("name", ""),
                          "arguments": "",
                      }
-                     print(f"\n[함수 호출 시작됨] {item.get('name', '')}")
+                     print(f"\n[함수 호출 시작] {item.get('name', '')}")
 
              # 함수 호출 인수 델타 - 누적합니다.
              elif event_type == "response.function_call_arguments.delta":
@@ -694,7 +694,7 @@ patch_openai_realtime()
                  item_id = event.get("item_id", "")
                  call_info = pending_calls.pop(item_id, None)
                  if call_info is None:
-                     # 폴백: done 이벤트에서 직접 데이터를 사용합니다.
+                     # Fallback: use data directly from the done event.
                      call_info = {
                          "call_id": event.get("call_id"),
                          "name": event.get("name"),
@@ -760,7 +760,7 @@ patch_openai_realtime()
          speaker.start_stream()
 
          # 오디오는 큐를 통해 전달되므로 사용자가 중단할 때 플러시할 수 있습니다.
-         # 스피커에 직접 쓰면 진행 중인 오디오를 취소할 수 없습니다.
+         # 스피커에 직접 쓰면 전송 중인 오디오를 취소할 수 없습니다.
          audio_output_queue = queue.Queue()
          threading.Thread(
              target=play_audio, args=(speaker, audio_output_queue), daemon=True
@@ -792,7 +792,7 @@ patch_openai_realtime()
                      pass
 
          # 정리
-         audio_output_queue.put(None)  # 재생 스레드에 종료 신호를 보냅니다.
+         audio_output_queue.put(None)  # 재생 스레드에 종료 시그널을 보냅니다.
          mic.close()
          speaker.close()
          p.terminate()
@@ -804,11 +804,11 @@ patch_openai_realtime()
      ```
    </Accordion>
 
-4. `weave.init()` 호출에서 팀 이름과 프로젝트 이름을 업데이트하세요.
+4. `weave.init()` 호출을 팀 이름과 프로젝트 이름으로 업데이트하세요.
 
 5. `OPENAI_API_KEY` 환경 변수를 설정하세요.
 
-6. 다음 코드를 실행하세요:
+6. 코드를 실행하세요:
 
    ```bash
    python weave_ws_voice_assistant.py

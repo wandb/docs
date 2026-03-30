@@ -1,26 +1,26 @@
 ---
-title: "feedback"
-description: "weave.trace.feedback에 대한 Python SDK 참고 문서"
+title: "retour"
+description: "weave.trace.feedback에 대한 Python SDK 레퍼런스"
 ---
 
 import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 
 <div id="api-overview">
-  # API 개요
+  # API Overview
 </div>
 
----
+***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L84" />
 
 ## <kbd>class</kbd> `FeedbackQuery`
 
-서버에서 피드백을 가져오는 데 사용되는 지연 로딩 객체입니다. 
+서버에서 retour를 가져오기 위한 지연 로딩 객체입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L97" />
 
-### <kbd>method</kbd> `__init__`
+### <kbd>방법</kbd> `__init__`
 
 ```python
 __init__(
@@ -60,7 +60,7 @@ refresh() → Feedbacks
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L151" />
 
 
-### <kbd>method</kbd> `refs`
+### <kbd>방법</kbd> `refs`
 
 ```python
 refs() → Refs
@@ -73,7 +73,7 @@ refs() → Refs
 
 ## <kbd>class</kbd> `Feedbacks`
 
-다양한 유틸리티를 제공하는 Feedback 객체 컬렉션입니다. 
+다양한 유틸리티를 제공하는 retour 객체 컬렉션입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L26" />
 
@@ -97,7 +97,7 @@ __init__(
 refs() → Refs
 ```
 
-이 피드백과 연관된 고유 ref를 반환합니다.
+이 피드백들에 연결된 고유 ref를 반환합니다.
 
 ***
 
@@ -106,7 +106,7 @@ refs() → Refs
 
 ## <kbd>class</kbd> `RefFeedbackQuery`
 
-특정 ref에 연관된 피드백과 상호작용하기 위한 객체입니다. 
+특정 ref에 연결된 retour와 상호 작용하기 위한 객체입니다.
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L173" />
 
@@ -121,7 +121,7 @@ __init__(ref: 'str') → None
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L219" />
 
 
-### <kbd>method</kbd> `add`
+### <kbd>방법</kbd> `add`
 
 ```python
 add(
@@ -133,16 +133,16 @@ add(
 ) → str
 ```
 
-ref에 대한 피드백을 추가합니다.
+ref에 retour를 추가합니다.
 
-feedback&#95;type: 피드백 유형을 식별하는 문자열입니다. &quot;wandb.&quot; 접두사는 예약되어 있습니다. creator: 피드백 작성자로 표시할 이름입니다.
+feedback&#95;type: retour의 유형을 파악하는 문자열입니다. &quot;wandb.&quot; 접두사는 예약되어 있습니다. creator: retour 작성자의 표시 이름입니다.
 
 ***
 
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L247" />
 
 
-### <kbd>메서드</kbd> `add_note`
+### <kbd>방법</kbd> `add_note`
 
 ```python
 add_note(note: 'str', creator: 'str | None' = None) → str
@@ -164,7 +164,7 @@ add_reaction(emoji: 'str', creator: 'str | None' = None) → str
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L145" />
 
 
-### <kbd>method</kbd> `execute`
+### <kbd>방법</kbd> `execute`
 
 ```python
 execute() → Feedbacks
@@ -186,7 +186,7 @@ purge(feedback_id: 'str') → None
 <SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/feedback.py#L126" />
 
 
-### <kbd>method</kbd> `refresh`
+### <kbd>방법</kbd> `refresh`
 
 ```python
 refresh() → Feedbacks

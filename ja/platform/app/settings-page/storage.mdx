@@ -1,24 +1,24 @@
 ---
-description: "reference artifacts、external cloud storage bucket、TTL ポリシーを使用して W&B データストレージ使用量を管理します。"
-title: ストレージの管理
+description: "reference artifacts、external cloud storage 버킷、TTL 削除ポリシーを使用して、W&B データのストレージ消費量を管理します。"
+title: ストレージを管理する
 ---
 
-ストレージ上限に近づいている、または上限を超えている場合、データを管理するための複数の方法があります。どの方法が最適かは、アカウントの種類や現在のプロジェクト構成によって異なります。
+ストレージ上限に近づいている場合、または超過している場合は、データを管理するための複数の方法があります。どの方法が最適かは、アカウントタイプと現在のプロジェクト設定によって異なります。
 
 <div id="manage-storage-consumption">
-  ## ストレージ使用量を管理する
+  ## ストレージ消費量を管理する
 </div>
 
-W&amp;B は、ストレージ使用量を最適化するためのさまざまな方法を提供しています。
+W&amp;B では、ストレージ消費量を最適化するためのさまざまな方法を提供しています。
 
-* W&amp;B ストレージにアップロードする代わりに、W&amp;B システム外に保存したファイルを追跡するには、[reference artifacts](/ja/models/artifacts/track-external-files/) を使用します。
-* ストレージには [external cloud storage bucket](/ja/platform/app/settings-page/teams/) を使用します。*(Enterprise のみ)*
+* W&amp;B storage にアップロードする代わりに、[reference artifacts](/ja/models/artifacts/track-external-files/) を使用して、W&amp;B system の外部に保存されたファイルをトラッキングします。
+* ストレージには [external cloud storage 버킷](/ja/platform/app/settings-page/teams/) を使用します。*(Enterprise のみ)*
 
 <div id="delete-data">
   ## データを削除する
 </div>
 
-ストレージ上限を下回るように、データを削除することもできます。これを行う方法はいくつかあります。
+ストレージ制限内に収まるよう、データを削除することもできます。これを行う方法はいくつかあります。
 
-* アプリの UI を使って対話的にデータを削除します。
+* アプリの UI を使ってインタラクティブにデータを削除します。
 * Artifacts に [TTL ポリシー](/ja/models/artifacts/ttl/) を設定して、自動的に削除されるようにします。

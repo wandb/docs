@@ -3,13 +3,13 @@ title: "Qu’est-ce que l’évaluation par paires et comment puis-je la réalis
 keywords: ["Évaluation"]
 ---
 
-Lorsque vous [attribuez un score](/fr/weave/guides/evaluation/scorers) à des modèles dans une [évaluation](/fr/weave/guides/core-types/evaluations) Weave, les métriques à valeur absolue (par ex. `9/10` pour Model A et `8/10` pour Model B) sont généralement plus difficiles à attribuer que les métriques relatives (par ex. Model A est plus performant que Model B). L’*évaluation par paires* vous permet de comparer les sorties de deux modèles en établissant un classement relatif entre elles. Cette approche est particulièrement utile lorsque vous voulez déterminer quel modèle est le plus performant pour des tâches subjectives comme la génération de texte, le résumé ou les questions-réponses. Avec l’évaluation par paires, vous pouvez obtenir un classement de préférence relatif qui montre quel modèle est le plus adapté à des entrées données.
+Lorsque vous [évaluez](/fr/weave/guides/evaluation/scorers) des modèles dans une [évaluation](/fr/weave/guides/core-types/evaluations) Weave, les métriques à valeur absolue (par ex. `9/10` pour Model A et `8/10` pour Model B) sont généralement plus difficiles à attribuer que les métriques relatives (par ex. Model A est plus performant que Model B). L’*évaluation par paires* vous permet de comparer les sorties de deux modèles en les classant l’une par rapport à l’autre. Cette approche est particulièrement utile lorsque vous souhaitez déterminer quel modèle est le plus performant pour des tâches subjectives comme la génération de texte, la synthèse ou les questions-réponses. Avec l’évaluation par paires, vous pouvez obtenir un classement relatif des préférences qui indique quel modèle est le plus adapté à des entrées données.
 
 <Warning>
-  Cette approche est une solution provisoire et pourra évoluer dans de prochaines versions. Nous travaillons activement sur une API plus robuste pour prendre en charge les évaluations par paires. Consultez les prochaines mises à jour !
+  Cette approche est une solution de contournement et pourra évoluer dans de prochaines versions. Nous travaillons activement sur une API plus robuste pour prendre en charge les évaluations par paires. Restez à l’écoute des prochaines mises à jour !
 </Warning>
 
-L’exemple de code suivant montre comment implémenter une évaluation par paires dans Weave en créant un [scorer basé sur une classe](/fr/weave/guides/evaluation/scorers#class-based-scorers) appelé `PreferenceScorer`. Le `PreferenceScorer` compare deux modèles, `ModelA` et `ModelB`, et renvoie un score relatif pour les sorties des modèles, basé sur des indications explicites dans le texte d’entrée.
+L’exemple de code suivant montre comment implémenter une évaluation par paires dans Weave en créant un [scorer basé sur une classe](/fr/weave/guides/evaluation/scorers#class-based-scorers) appelé `PreferenceScorer`. Le `PreferenceScorer` compare deux modèles, `ModelA` et `ModelB`, et renvoie un score relatif des sorties du modèle en fonction d’indices explicites dans le texte d’entrée.
 
 ```python lines
 from weave import Model, Evaluation, Scorer, Dataset
@@ -92,11 +92,11 @@ evaluation.evaluate(model_a)
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas manuellement ce qui se trouve entre ces marqueurs.
+  Ne modifiez pas à la main entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Évaluation](/fr/support/weave/tags/evaluation)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

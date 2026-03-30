@@ -6,24 +6,24 @@ description: "Choisissez parmi les types de déploiement W&B : Cloud mutualisé
 Cette section décrit les différentes façons de déployer W&amp;B.
 
 <div id="wb-multi-tenant-cloud">
-  ## Cloud mutualisé W&amp;B
+  ## Cloud mutualisé de W&amp;B
 </div>
 
-Le [W&amp;B Cloud mutualisé](/fr/platform/hosting/#wb-multi-tenant-cloud) est entièrement géré par W&amp;B, y compris les mises à niveau, la maintenance, la sécurité de la plateforme et la planification des capacités. Cloud mutualisé est déployé sur le compte Google Cloud de W&amp;B dans les [régions nord-américaines de Google Cloud](https://cloud.google.com/compute/docs/regions-zones). [Bring your own bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector) vous permet facultativement de stocker W&amp;B Artifacts et d&#39;autres données sensibles associées dans votre propre cloud ou votre infrastructure sur site.
+Le [Cloud mutualisé de W&amp;B](/fr/platform/hosting/#wb-multi-tenant-cloud) est entièrement géré par W&amp;B, y compris les mises à niveau, la maintenance, la sécurité de la plateforme et la planification des capacités. Le Cloud mutualisé est déployé sur le compte Google Cloud de W&amp;B dans les [régions nord-américaines de Google Cloud](https://cloud.google.com/compute/docs/regions-zones). [Bring your own bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector) vous permet facultativement de stocker W&amp;B Artifacts et d&#39;autres données sensibles associées dans votre propre cloud ou votre infrastructure sur site.
 
-Voir [W&amp;B Cloud mutualisé](/fr/platform/hosting/#wb-multi-tenant-cloud) ou [démarrer gratuitement](https://app.wandb.ai/login?signup=true).
+Voir [Cloud mutualisé de W&amp;B](/fr/platform/hosting/#wb-multi-tenant-cloud) ou [démarrer gratuitement](https://app.wandb.ai/login?signup=true).
 
 <div id="wb-dedicated-cloud">
   ## W&amp;B Cloud dédié
 </div>
 
-[W&amp;B Cloud dédié](/fr/platform/hosting/#wb-dedicated-cloud) est une plateforme mono-locataire, entièrement gérée, conçue pour les organisations d’entreprise. W&amp;B Cloud dédié est déployé dans le compte AWS, Google Cloud ou Azure de W&amp;B. Le Cloud dédié offre plus de flexibilité que le Cloud mutualisé, mais moins de complexité que W&amp;B Autogéré. Les mises à niveau, la maintenance, la sécurité de la plateforme et la planification des capacités sont gérées par W&amp;B. Chaque instance de Cloud dédié dispose de son propre réseau isolé, ainsi que de ressources de calcul et de stockage isolées des autres instances W&amp;B Cloud dédié.
+[W&amp;B Cloud dédié](/fr/platform/hosting/#wb-dedicated-cloud) est une plateforme mono-locataire, entièrement gérée, conçue pour les organisations d&#39;entreprise. W&amp;B Cloud dédié est déployé dans le compte AWS, Google Cloud ou Azure de W&amp;B. Le Cloud dédié offre plus de flexibilité que le Cloud mutualisé, mais moins de complexité que W&amp;B Autogéré. Les mises à niveau, la maintenance, la sécurité de la plateforme et la planification des capacités sont gérées par W&amp;B. Chaque instance de Cloud dédié dispose de son propre réseau isolé, ainsi que de ressources de calcul et de stockage isolées des autres instances W&amp;B Cloud dédié.
 
-Vos métadonnées et données propres à W&amp;B sont stockées dans un stockage cloud isolé et traitées à l’aide de services de calcul cloud isolés. [Bring your own bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector) vous permet facultativement de stocker des artefacts et d’autres données sensibles associées dans votre propre cloud ou votre infrastructure sur site.
+Vos métadonnées et données propres à W&amp;B sont stockées dans un stockage cloud isolé et traitées à l&#39;aide de services de calcul cloud isolés. [Bring your own bucket (BYOB)](/fr/platform/hosting/data-security/secure-storage-connector) vous permet facultativement de stocker des artefacts et d&#39;autres données sensibles associées dans votre propre cloud ou votre infrastructure sur site.
 
-W&amp;B Cloud dédié inclut une [licence d’entreprise](/fr/platform/hosting/hosting-options/self-managed/) avec une assistance pour des fonctionnalités de sécurité importantes et d’autres capacités adaptées aux entreprises.
+W&amp;B Cloud dédié inclut une [licence d&#39;entreprise](/fr/platform/hosting/hosting-options/self-managed/) avec une assistance pour des fonctionnalités de sécurité importantes et d&#39;autres capacités adaptées aux entreprises.
 
-Pour les organisations ayant des exigences avancées en matière de sécurité ou de conformité, des fonctionnalités telles que la conformité HIPAA, l’authentification unique ou les clés de chiffrement gérées par le client (CMEK) sont disponibles avec l’assistance **Enterprise**. [Demander plus d’informations](https://wandb.ai/site/contact).
+Pour les organisations ayant des exigences avancées en matière de sécurité ou de conformité, des fonctionnalités telles que la conformité HIPAA, l&#39;authentification unique ou les clés de chiffrement gérées par le client (CMEK) sont disponibles avec l&#39;assistance **Enterprise**. [Demander plus d&#39;informations](https://wandb.ai/site/contact).
 
 Voir [W&amp;B Cloud dédié](/fr/platform/hosting/#wb-dedicated-cloud) ou [démarrer gratuitement](https://app.wandb.ai/login?signup=true).
 
@@ -31,13 +31,13 @@ Voir [W&amp;B Cloud dédié](/fr/platform/hosting/#wb-dedicated-cloud) ou [déma
   ## W&amp;B Autogéré
 </div>
 
-[W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed/) est entièrement géré par vos soins, soit sur site, soit dans une infrastructure cloud que vous gérez. Votre équipe IT/DevOps/MLOps est responsable de :
+[W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed/) est entièrement géré par vos soins, soit sur site, soit dans une infrastructure cloud que vous gérez. Votre équipe IT/DevOps/MLOps est responsable de :
 
 * Provisionner votre déploiement.
 * Sécuriser votre infrastructure conformément aux politiques de votre organisation et aux [Security Technical Implementation Guidelines (STIG)](https://en.wikipedia.org/wiki/Security_Technical_Implementation_Guide), le cas échéant.
 * Gérer les mises à niveau et appliquer les correctifs.
-* Assurer en continu la maintenance de votre instance autogérée de W&amp;B Server.
+* Assurer en continu la maintenance de votre instance autogérée de serveur W&amp;B.
 
-Vous pouvez facultativement obtenir une licence d’entreprise pour W&amp;B Autogéré. Une licence d’entreprise inclut une assistance pour des fonctionnalités de sécurité importantes, ainsi que pour d&#39;autres capacités adaptées aux entreprises.
+Vous pouvez facultativement obtenir une licence d&#39;entreprise pour W&amp;B Autogéré. Une licence d&#39;entreprise inclut une assistance pour des fonctionnalités de sécurité importantes, ainsi que pour d&#39;autres capacités adaptées aux entreprises.
 
 Voir [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed/) ou consultez les recommandations de l&#39;[architecture de référence](/fr/platform/hosting/self-managed/ref-arch/).

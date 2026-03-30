@@ -3,9 +3,9 @@ title: "Comment puis-je désactiver la journalisation ?"
 keywords: ["Journaux"]
 ---
 
-La commande `wandb offline` définit la variable d&#39;environnement `WANDB_MODE=offline`, ce qui empêche la synchronisation des données avec le serveur W&amp;B distant. Cette action s&#39;applique à tous les projets et empêche l&#39;envoi des données de journalisation aux serveurs W&amp;B.
+La commande `wandb offline` définit la variable d’environnement `WANDB_MODE=offline`, ce qui empêche la synchronisation des données avec le serveur W&amp;B distant. Cette action s’applique à tous les projets et interrompt la journalisation des données vers les serveurs W&amp;B.
 
-Pour supprimer les messages d&#39;avertissement, utilisez le code suivant :
+Pour supprimer les messages d’avertissement, utilisez le code suivant :
 
 ```python
 import logging
@@ -16,11 +16,11 @@ logger.setLevel(logging.WARNING)
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d'onglet ----
   Géré par le script scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Journaux](/fr/support/models/tags/logs)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

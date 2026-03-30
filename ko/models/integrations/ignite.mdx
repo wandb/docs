@@ -6,7 +6,7 @@ title: PyTorch Ignite
 * 이 [예시 W&amp;B 리포트에서 →](https://app.wandb.ai/example-team/pytorch-ignite-example/reports/PyTorch-Ignite-with-W%26B--Vmlldzo0NzkwMg) 결과 시각화를 확인하세요.
 * 이 [예시 호스팅 노트북에서 →](https://colab.research.google.com/drive/15e-yGOvboTzXU4pe91Jg-Yr7sae3zBOJ#scrollTo=ztVifsYAmnRr) 코드를 직접 실행해 보세요.
 
-Ignite는 W&amp;B 핸들러를 지원하여 트레이닝 및 검증 중에 메트릭, 모델 및 옵티마이저 파라미터, 그래디언트를 로깅할 수 있습니다. 또한 모델 체크포인트를 W&amp;B 클라우드에 로깅하는 데도 사용할 수 있습니다. 이 클래스는 wandb 모듈의 래퍼이기도 합니다. 즉, 이 래퍼를 사용해 어떤 wandb 함수든 호출할 수 있습니다. 모델 파라미터와 그래디언트를 저장하는 방법에 대한 예시는 아래를 참고하세요.
+Ignite는 트레이닝 및 검증 중에 메트릭, 모델/옵티마이저 파라미터, 그라디언트를 로깅할 수 있는 W&amp;B 핸들러를 지원합니다. 또한 모델 체크포인트를 W&amp;B 클라우드에 로깅하는 데도 사용할 수 있습니다. 이 클래스는 wandb 모듈의 래퍼이기도 합니다. 즉, 이 래퍼를 통해 모든 wandb 함수를 호출할 수 있습니다. 모델 파라미터와 그라디언트를 저장하는 방법은 아래 예시를 참조하세요.
 
 <div id="basic-setup">
   ## 기본 설정
@@ -121,7 +121,7 @@ def run(train_batch_size, val_batch_size, epochs, lr, momentum, log_interval):
     wandb_logger.watch(model)
 ```
 
-선택적으로 ignite의 `EVENTS`를 사용해 메트릭을 터미널에 직접 기록할 수 있습니다
+원하면 ignite의 `EVENTS`를 사용해 메트릭을 터미널에 직접 로깅할 수 있습니다
 
 
 ```python

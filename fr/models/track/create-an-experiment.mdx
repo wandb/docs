@@ -1,9 +1,9 @@
 ---
-description: "Créez une expérience W&B à l’aide du SDK Python pour suivre l’initialisation du run, les hyperparamètres et les métriques."
+description: "Créez une expérience W&B à l'aide du SDK Python pour suivre l'initialisation du run, les hyperparamètres et la journalisation des métriques."
 title: Créer une expérience
 ---
 
-Utilisez le SDK Python de W&amp;B pour suivre vos expériences de machine learning. Vous pouvez ensuite consulter les résultats dans un tableau de bord interactif ou exporter vos données vers Python pour y accéder par programmation avec l’[API publique W&amp;B](/fr/models/ref/python/public-api/).
+Utilisez le SDK Python W&amp;B pour suivre vos Experiments de machine learning. Vous pouvez ensuite consulter les résultats dans un tableau de bord interactif ou exporter vos données vers Python pour y accéder par programmation avec l&#39;[API publique W&amp;B](/fr/models/ref/python/public-api/).
 
 Ce guide explique comment utiliser les éléments de base de W&amp;B pour créer une expérience W&amp;B.
 
@@ -16,7 +16,7 @@ Créez une expérience W&amp;B en quatre étapes :
 1. [Initialiser un run W&amp;B](#initialize-a-wb-run)
 2. [Capturer un dictionnaire d’hyperparamètres](#capture-a-dictionary-of-hyperparameters)
 3. [Consigner des métriques dans votre boucle d’entraînement](#log-metrics-inside-your-training-loop)
-4. [Journaliser un artefact dans W&amp;B](#log-an-artifact-to-wb)
+4. [Consigner un artefact à W&amp;B](#log-an-artifact-to-wb)
 
 <div id="initialize-a-wb-run">
   ### Initialiser un run W&amp;B
@@ -24,7 +24,7 @@ Créez une expérience W&amp;B en quatre étapes :
 
 Utilisez [`wandb.init()`](/fr/models/ref/python/functions/init) pour créer un run W&amp;B.
 
-L’extrait suivant crée un run dans un projet W&amp;B nommé `“cat-classification”`, avec la description `“My first experiment”`, pour mieux identifier ce run. Les tags `“baseline”` et `“paper1”` sont inclus pour rappeler que ce run est une expérience de référence destinée à la publication d’un futur article.
+L&#39;extrait suivant crée un run dans un projet W&amp;B nommé `"cat-classification"`, avec la description `"My first experiment"`, pour mieux identifier ce run. Les tags `"baseline"` et `"paper1"` sont inclus pour rappeler que ce run est une expérience de référence destinée à la publication d&#39;un futur article.
 
 ```python
 import wandb
@@ -40,14 +40,14 @@ with wandb.init(
 `wandb.init()` renvoie un objet [Run](/fr/models/ref/python/experiments/run).
 
 <Note>
-  Remarque : les Runs sont ajoutés à des projets existants si le projet existe déjà lorsque vous appelez `wandb.init()`. Par exemple, si vous avez déjà un projet appelé `“cat-classification”`, ce projet continue d’exister et n’est pas supprimé. À la place, un nouveau run est ajouté à ce projet.
+  Remarque : les Runs sont ajoutés à des projets existants si le projet existe déjà lorsque vous appelez `wandb.init()`. Par exemple, si vous avez déjà un projet appelé `"cat-classification"`, ce projet continue d&#39;exister et n&#39;est pas supprimé. À la place, un nouveau run est ajouté à ce projet.
 </Note>
 
 <div id="capture-a-dictionary-of-hyperparameters">
-  ### Capturer un dictionnaire d’hyperparamètres
+  ### Capturer un dictionnaire d&#39;hyperparamètres
 </div>
 
-Enregistrez un dictionnaire d’hyperparamètres, comme le taux d’apprentissage ou le type de modèle. Les paramètres du modèle que vous capturez dans la configuration vous seront utiles par la suite pour organiser vos résultats et y effectuer des requêtes.
+Enregistrez un dictionnaire d&#39;hyperparamètres, comme le taux d&#39;apprentissage ou le type de modèle. Les paramètres du modèle que vous capturez dans la configuration vous seront utiles par la suite pour organiser vos résultats et y effectuer des requêtes.
 
 ```python
 with wandb.init(
@@ -63,7 +63,7 @@ Pour plus d’informations sur la manière de configurer une expérience, voir [
   ### Consigner des métriques dans votre boucle d’entraînement
 </div>
 
-Appelez [`run.log()`](/fr/models/ref/python/experiments/run/#method-runlog) pour consigner les métriques de chaque étape d’entraînement, telles que la précision et la perte.
+Appelez [`run.log()`](/fr/models/ref/python/experiments/run/#method-runlog) pour consigner des métriques à chaque étape d’entraînement, comme la précision et la perte.
 
 ```python
 model, dataloader = get_model(), get_data()
@@ -74,7 +74,7 @@ for epoch in range(run.config.epochs):
         run.log({"accuracy": accuracy, "loss": loss})
 ```
 
-Pour plus d&#39;informations, voir les différents types de données que vous pouvez journaliser avec W&amp;B, voir [Journaliser des données pendant les Experiments](/fr/models/track/log/).
+Pour plus d’informations sur les différents types de données que vous pouvez consigner avec W&amp;B, voir [Consigner des données pendant les Experiments](/fr/models/track/log/).
 
 <div id="log-an-artifact-to-wb">
   ### Journaliser un artefact dans W&amp;B
@@ -110,7 +110,7 @@ with wandb.init(
     # Configurer le modèle et les données.
     model, dataloader = get_model(), get_data()
 
-    # Lancez l'entraînement en journalisant les métriques pour visualiser les performances du modèle.
+    # Lancez l'entraînement en consignant les métriques pour visualiser les performances du modèle.
     for epoch in range(run.config["epochs"]):
         for batch in dataloader:
             loss, accuracy = model.training_step()
@@ -122,25 +122,25 @@ with wandb.init(
 ```
 
 <div id="next-steps-visualize-your-experiment">
-  ## Étapes suivantes : visualisez votre expérience
+  ## Étapes suivantes : visualisez votre expérience
 </div>
 
-Utilisez le tableau de bord W&amp;B comme point central pour organiser et visualiser les résultats de vos modèles de machine learning. En quelques clics, créez des graphiques interactifs riches, comme des [graphiques de coordonnées parallèles](/fr/models/app/features/panels/parallel-coordinates/), des [analyses d&#39;importance des paramètres](/fr/models/app/features/panels/parameter-importance/) et [d&#39;autres types de graphiques](/fr/models/app/features/panels/).
+Utilisez le tableau de bord W&amp;B comme point central pour organiser et visualiser les résultats de vos modèles d&#39;apprentissage automatique. En quelques clics, créez des graphiques riches et interactifs comme des [graphiques en coordonnées parallèles](/fr/models/app/features/panels/parallel-coordinates/), des [analyses d&#39;importance des paramètres](/fr/models/app/features/panels/parameter-importance/) et [d&#39;autres types de graphiques](/fr/models/app/features/panels/).
 
 <Frame>
   <img src="/images/sweeps/quickstart_dashboard_example.png" alt="Exemple de tableau de bord Sweeps pour le démarrage rapide" />
 </Frame>
 
-Pour plus d&#39;informations sur l&#39;affichage des expériences et de runs spécifiques, voir [Visualiser les résultats des expériences](/fr/models/track/workspaces/).
+Pour plus d&#39;informations sur la façon de visualiser les Experiments et les runs spécifiques, voir [Visualiser les résultats des Experiments](/fr/models/track/workspaces/).
 
 <div id="best-practices">
   ## Bonnes pratiques
 </div>
 
-Voici quelques recommandations à suivre lorsque vous créez des expériences :
+Voici quelques recommandations à suivre lorsque vous créez des Experiments :
 
-1. **Terminez vos runs** : utilisez `wandb.init()` dans une instruction `with` afin que le run soit automatiquement marqué comme terminé lorsque le code s&#39;achève ou lève une exception.
-   * Dans les notebooks Jupyter, il peut être plus pratique de gérer vous-même l&#39;objet Run. Dans ce cas, vous pouvez appeler explicitement `finish()` sur l&#39;objet Run pour le marquer comme terminé :
+1. **Terminez vos runs** : utilisez `wandb.init()` dans un bloc `with` pour marquer automatiquement le run comme terminé lorsque le code s’achève ou lève une exception.
+   * Dans les notebooks Jupyter, il peut être plus pratique de gérer vous-même l’objet Run. Dans ce cas, vous pouvez appeler explicitement `finish()` sur l’objet Run pour le marquer comme terminé :
 
      ```python
      # Dans une cellule de notebook :
@@ -149,13 +149,13 @@ Voici quelques recommandations à suivre lorsque vous créez des expériences :
      # Dans une autre cellule :
      run.finish()
      ```
-2. **Configuration** : suivez les hyperparamètres, l&#39;architecture, le jeu de données et tout autre élément utile pour reproduire votre modèle. Ils apparaîtront dans des colonnes ; utilisez les colonnes de configuration pour regrouper, trier et filtrer dynamiquement les runs dans l&#39;application.
-3. **Projet** : un projet est un ensemble d&#39;expériences que vous pouvez comparer entre elles. Chaque projet dispose d&#39;une page de tableau de bord dédiée, et vous pouvez facilement activer ou désactiver différents groupes de runs afin de comparer différentes versions de modèle.
-4. **Notes** : définissez un court message de commit directement depuis votre script. Modifiez et consultez les notes dans la section Aperçu d&#39;un run dans l&#39;application W&amp;B.
-5. **Tags** : identifiez les runs de référence et vos runs favoris. Vous pouvez filtrer les runs à l&#39;aide de tags. Vous pouvez modifier les tags ultérieurement dans la section Aperçu du tableau de bord de votre projet dans l&#39;application W&amp;B.
-6. **Créez plusieurs ensembles de runs pour comparer les expériences** : lorsque vous comparez des expériences, créez plusieurs ensembles de runs pour faciliter la comparaison des métriques. Vous pouvez activer ou désactiver les ensembles de runs sur un même graphique ou groupe de graphiques.
+2. **Configuration** : suivez les hyperparamètres, l’architecture, le jeu de données et tout autre élément que vous souhaiteriez utiliser pour reproduire votre modèle. Ces éléments apparaîtront dans des colonnes ; utilisez les colonnes de configuration pour regrouper, trier et filtrer dynamiquement les runs dans l’application.
+3. **Projet** : un projet est un ensemble d’Experiments que vous pouvez comparer entre elles. Chaque projet dispose d’une page de tableau de bord dédiée, et vous pouvez facilement activer ou désactiver différents groupes de runs pour comparer différentes versions de modèle.
+4. **Notes** : définissez un court message directement depuis votre script. Modifiez et consultez les notes dans la section Aperçu d’un run dans l’application W&amp;B.
+5. **Tags** : identifiez les runs de référence et vos runs favoris. Vous pouvez filtrer les runs à l’aide de tags. Vous pouvez modifier les tags ultérieurement dans la section Aperçu du tableau de bord de votre projet dans l’application W&amp;B.
+6. **Créez plusieurs ensembles de runs pour comparer les Experiments** : lorsque vous comparez des Experiments, créez plusieurs ensembles de runs pour faciliter la comparaison des métriques. Vous pouvez activer ou désactiver les ensembles de runs sur le même graphique ou groupe de graphiques.
 
-L&#39;extrait de code suivant montre comment définir une expérience W&amp;B en appliquant les bonnes pratiques ci-dessus :
+L’extrait de code suivant montre comment définir une expérience W&amp;B en appliquant les bonnes pratiques listées ci-dessus :
 
 ```python
 import wandb
@@ -176,4 +176,4 @@ with wandb.init(
     ...
 ```
 
-Pour plus d&#39;informations, voir les paramètres disponibles lors de la définition d’une expérience W&amp;B, voir la documentation de l’API [`wandb.init()`](/fr/models/ref/python/functions/init) dans le [Guide de référence de l’API](/fr/models/ref/python/).
+Pour plus d’informations sur les paramètres disponibles pour définir une expérience W&amp;B, consultez la documentation de l’API [`wandb.init()`](/fr/models/ref/python/functions/init) dans le [Guide de référence de l’API](/fr/models/ref/python/).

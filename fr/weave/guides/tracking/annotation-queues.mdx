@@ -1,6 +1,6 @@
 ---
-title: "Configurer les files d'attente d’annotation"
-description: "Créez des files d'attente d’annotation, acheminez les traces vers des experts métier et exportez des retours structurés."
+title: "Configurer les files d’annotation"
+description: "Créez des files d’annotation, acheminez les traces vers des experts métier et exportez des commentaires structurés."
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -10,134 +10,134 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
   ## Aperçu
 </div>
 
-Les files d&#39;attente d’annotation vous permettent d’acheminer des traces sélectionnées vers des experts métier pour une revue structurée, sans qu’ils aient à naviguer dans l’interface complète de Weave. Vous définissez les retours à collecter, sélectionnez les traces à examiner, puis pouvez exporter les annotations terminées pour analyse ou pour créer un jeu de données. Les cas d’utilisation incluent notamment :
+Les files d’annotation vous permettent d’acheminer les traces sélectionnées vers des experts métier pour un examen structuré sans leur demander de naviguer dans l’interface Weave complète. Vous définissez les retours collectés, sélectionnez les traces qui nécessitent une revue, puis pouvez exporter plus tard les annotations terminées pour analyse ou création de jeu de données. Les cas d’usage peuvent inclure :
 
-* **Notation manuelle des traces** : demandez à des experts métier d’évaluer les sorties du modèle en termes d’exactitude, de qualité ou de style.
-* **Analyse des défaillances** : annotez les modes de défaillance (hallucinations, refus, boucles) pour comprendre où votre modèle échoue.
-* **Revue par des experts métier** : permettez à des experts médicaux, juridiques ou de la sécurité d’examiner le contenu via une interface centrée sur la tâche.
-* **Création de jeux de données** : transformez des traces annotées en jeux de données d’évaluation ou d’entraînement.
+* **Calcul manuel du score des traces** : demandez à des experts métier d’évaluer les sorties du modèle en termes d’exactitude, de qualité ou de style.
+* **Analyse des échecs** : annotez les modes d’échec (hallucinations, refus, boucles) pour comprendre où votre modèle échoue.
+* **Revue par des experts métier** : permettez à des experts médicaux, juridiques ou en sécurité de revoir le contenu avec une interface centrée sur la tâche.
+* **Création de jeu de données** : transformez des traces annotées en jeux de données d’évaluation ou d’entraînement.
 
 <div id="end-to-end-workflow">
   ## Flux de travail de bout en bout
 </div>
 
-Le flux de travail suivant résume comment utiliser les files d&#39;attente d’annotation pour obtenir des revues :
+Le flux de travail suivant résume comment utiliser les files d’annotation pour obtenir des revues :
 
 1. Définissez les champs d’annotation.
-2. Créez une file d&#39;attente d’annotation.
-3. Chargez des traces dans la file d&#39;attente d’annotation pour revue.
+2. Créez une file d’annotation.
+3. Chargez des traces dans la file d’annotation pour revue.
 4. Suivez la progression pendant que les experts métier effectuent les revues.
 5. Filtrez et exportez les annotations terminées.
 
 <div id="define-annotation-fields">
-  ## Définir les champs d’annotation
+  ## Définir les champs d&#39;annotation
 </div>
 
-Pour commencer à créer une file d&#39;attente d’annotation, vous devez d’abord définir vos champs d’annotation afin qu’ils puissent être sélectionnés lors de la configuration de la file d&#39;attente. Les champs d’annotation définissent les retours que l’annotateur fournit pour chaque élément de trace. Les champs sont réutilisables d’une file d&#39;attente à l’autre et d’un projet à l’autre.
+Pour commencer à créer une file d&#39;annotation, vous devez d&#39;abord définir vos champs d&#39;annotation afin qu&#39;ils puissent être sélectionnés lors de la configuration de la file d&#39;attente. Les champs d&#39;annotation définissent les retours que l&#39;annotateur fournit pour chaque élément de trace. Les champs sont réutilisables d&#39;une file d&#39;attente à l&#39;autre et d&#39;un projet à l&#39;autre.
 
-Les types de champs incluent :
+Les types de champs incluent :
 
-* Des jugements booléens, comme la justesse ou l’acceptabilité.
+* Des jugements booléens, comme la justesse ou l&#39;acceptabilité.
 * Des valeurs numériques ou entières, comme la qualité ou le niveau de confiance.
-* Des étiquettes catégorielles, comme le mode d’échec ou l’intention.
+* Des étiquettes catégorielles, comme le mode d&#39;échec ou l&#39;intention.
 * Du texte libre pour des retours qualitatifs.
 
-Pour créer un champ d’annotation :
+Pour créer un champ d&#39;annotation :
 
 1. Accédez à [wandb.ai](https://wandb.ai) et sélectionnez votre projet.
 2. Dans la barre latérale du projet Weave, cliquez sur **Annotate**. Si vous ne voyez pas **Annotate**, il se trouve peut-être dans le menu **More**.
-3. Dans la barre d’onglets, cliquez sur l’onglet **Fields**.
-4. Dans la barre d’outils du tableau **Fields**, cliquez sur **New Field**.
-5. Dans la boîte de dialogue modale **Create annotation field**, configurez :
-   * **Type** : Booléen, entier, nombre, chaîne ou options catégorielles.
-   * **Name** : Nom du champ affiché à l’annotateur.
-   * **Description** (facultatif) : Précisions sur la manière d’évaluer ce champ, affichées à l’annotateur.
+3. Dans la barre d&#39;onglets, cliquez sur l&#39;onglet **Fields**.
+4. Dans la barre d&#39;outils du tableau **Fields**, cliquez sur **New Field**.
+5. Dans la boîte de dialogue modale **Create annotation field**, configurez :
+   * **Type** : Booléen, entier, nombre, chaîne de caractères ou options catégorielles.
+   * **Name** : Nom du champ affiché à l&#39;annotateur.
+   * **Description** (facultatif) : Précisions sur la manière d&#39;évaluer ce champ, affichées à l&#39;annotateur.
 6. Cliquez sur **Create annotation field** pour enregistrer le champ.
 
 <Frame>
-  ![Boîte de dialogue de création de champ d’annotation avec des champs de saisie pour le nom, la description et le type de champ, utilisée pour définir le schéma que les annotateurs remplissent lors de l’examen des éléments de trace.](/weave/guides/tracking/imgs/AnnotationCreateField.png)
+  ![Boîte de dialogue de création de champ d'annotation avec des champs de saisie pour le nom, la description et le type de champ, utilisée pour définir le schéma que les annotateurs remplissent lors de l'examen des éléments de trace.](/weave/guides/tracking/imgs/AnnotationCreateField.png)
 </Frame>
 
 Les champs ne peuvent pas être modifiés après leur création afin de garantir la cohérence des annotations.
 
 <div id="create-an-annotation-queue">
-  ## Créer une file d&#39;attente d’annotation
+  ## Créer une file d’annotation
 </div>
 
-Une file d&#39;attente d’annotation comprend :
+Une file d’annotation se compose des éléments suivants :
 
 * Un ensemble de champs d’annotation.
-* Des directives fournissant des instructions aux annotateurs.
-* Une collection d’éléments de trace en attente de revue.
+* Des consignes qui fournissent aux annotateurs des instructions sur la tâche.
+* Une collection d’éléments de trace en attente de révision.
 
-Pour créer une file d&#39;attente d’annotation :
+Pour créer une file d’annotation :
 
 1. Dans la barre latérale du projet Weave, cliquez sur **Annotate**.
 2. Dans la barre d’onglets, cliquez sur l’onglet **Queues**.
-3. Dans la barre d’outils du tableau Queues, cliquez sur **Create Queue**.
-4. Dans la boîte de dialogue modale **Create Annotation Queue**, configurez :
-   * **Nom de la file d’attente** : il s’agit du nom de la file d’attente que l’annotateur sélectionne pour effectuer son travail.
-   * **Directives** (Facultatif) : toute instruction supplémentaire à destination de l’annotateur.
+3. Dans la barre d’outils du tableau **Queues**, cliquez sur **Créer la file d’attente**.
+4. Dans la boîte de dialogue modale **Create Annotation Queue**, configurez les éléments suivants :
+   * **Queue name** : nom de la file que l’annotateur sélectionne pour effectuer son travail.
+   * **Guidelines** (facultatif) : toute instruction complémentaire destinée à l’annotateur.
 5. Cliquez sur **Next**.
-6. Cliquez sur **Manage fields** et choisissez les champs d’annotation à inclure dans cette tâche de revue. Tous les champs d’annotation existants du projet sont disponibles à la sélection.
-7. Après avoir sélectionné tous les champs de la file d’attente, cliquez sur **Create Queue** pour l’enregistrer.
+6. Cliquez sur **Manage fields** et choisissez les Annotation Fields à inclure dans cette tâche de révision. Tous les Annotation Fields existants pour le projet peuvent être sélectionnés.
+7. Une fois tous les Fields de la file sélectionnés, cliquez sur **Créer la file d’attente** pour enregistrer la file.
 
-Toutes les files d&#39;attente d’annotation du projet sont répertoriées sur la page Annotation Queues.
+Toutes les files d’annotation du projet sont répertoriées sur la page Annotation Queues.
 
 <Frame>
-  ![Page Annotation Queues affichant un tableau des files d’attente du projet, y compris les noms des files d’attente, les descriptions et l’avancement de la revue pour suivre les flux de travail d’annotation.](/weave/guides/tracking/imgs/AnnotationQueues.png)
+  ![Page Annotation Queues affichant un tableau des files du projet, y compris les noms des files, les descriptions et la progression de la révision pour suivre les flux de travail d’annotation.](/weave/guides/tracking/imgs/AnnotationQueues.png)
 </Frame>
 
-La création d’une file d&#39;attente d’annotation définit les champs et les directives pour l’évaluation, mais vous devez encore ajouter des traces à la file d’attente pour identifier les données à évaluer.
+La création d’une file d’annotation définit les champs et les consignes pour l’évaluation, mais vous devez encore ajouter des traces à la file afin d’identifier quelles données doivent être évaluées.
 
 <div id="add-traces-to-a-queue">
-  ### Ajouter des traces à une file d’attente
+  ### Ajouter des traces à une file d&#39;attente
 </div>
 
-Ajoutez des traces à une file d&#39;attente d’annotation directement depuis la page **Traces**.
+Ajoutez des traces à une file d’annotation directement depuis la page **Traces**.
 
-Pour ajouter des traces à une file d&#39;attente d’annotation :
+Pour ajouter des traces à une file d’annotation :
 
 1. Dans la barre latérale du projet Weave, cliquez sur **Traces**.
-2. Dans la barre d’outils du tableau **Traces**, filtrez les traces selon vos besoins (par exemple, par scores d’hallucination, modes d’échec ou ops spécifiques).
+2. Dans la barre d&#39;outils du tableau **Traces**, filtrez les traces selon vos besoins (par exemple, par scores d&#39;hallucination, modes d&#39;échec ou ops spécifiques).
 3. Dans le tableau, sélectionnez les traces à annoter.
-4. Dans la barre d’action du tableau, cliquez sur **Ajouter à la file d’attente** pour ajouter les lignes sélectionnées à une file d&#39;attente d’annotation.
+4. Dans la barre d&#39;action du tableau, cliquez sur **Ajouter à la file d&#39;attente** pour ajouter les lignes sélectionnées à une file d’annotation.
 
 <Frame>
-  ![Tableau Traces avec plusieurs lignes sélectionnées et une barre d’action affichant les actions applicables aux lignes sélectionnées, comme Ajouter à la file d’attente et Ajouter au jeu de données.](/weave/guides/tracking/imgs/AnnotationAddTraces.png)
+  ![Tableau Traces avec plusieurs lignes sélectionnées et une barre d'action affichant les actions applicables aux lignes sélectionnées, comme Ajouter à la file d'attente et Ajouter au jeu de données.](/weave/guides/tracking/imgs/AnnotationAddTraces.png)
 </Frame>
 
-5. Dans la boîte de dialogue modale **Ajouter à la file d&#39;attente d’annotation**, configurez :
-   * **Nom de la file d’attente** : dans la liste, sélectionnez le nom de la file d’attente existante à laquelle ajouter ces traces.
-   * **Sélectionner les données de trace à afficher** : sélectionnez les éléments de données de trace Weave à afficher à l’annotateur pendant l’évaluation des résultats.
-     * **Entrées** : sélectionnez les champs d’entrée de trace à afficher pendant l’annotation.
-     * **Sorties** : sélectionnez les champs de sortie de trace à afficher pendant l’annotation.
-6. Cliquez sur **Ajouter *[Count]* traces à la file d&#39;attente d’annotation** pour affecter ces traces au processus de revue de la file d&#39;attente d’annotation.
+5. Dans la boîte de dialogue modale **Ajouter à la file d’annotation**, configurez :
+   * **Nom de la file d&#39;attente** : dans la liste, sélectionnez le nom de la file d&#39;attente existante à laquelle ajouter ces traces.
+   * **Sélectionner les données de trace à afficher** : sélectionnez les éléments de données de trace Weave à afficher à l&#39;annotateur lors de l&#39;évaluation des résultats.
+     * **Entrées** : sélectionnez les champs d&#39;entrée de trace à afficher pendant l&#39;annotation.
+     * **Sorties** : sélectionnez les champs de sortie de trace à afficher pendant l&#39;annotation.
+6. Cliquez sur **Ajouter *[Count]* traces à la file d’annotation** pour attribuer ces traces au processus de revue de la file d’annotation.
 
-Lorsque vous ajoutez des traces, vous contrôlez quelles entrées de trace et quelles sorties ou réponses du modèle sont examinées. Vous pouvez ainsi ne présenter aux annotateurs que le contexte nécessaire pour porter des jugements précis.
+Lorsque vous ajoutez des traces, vous contrôlez quelles entrées de trace et quelles sorties ou réponses du modèle sont examinées. Vous pouvez ainsi ne présenter aux annotateurs que le contexte nécessaire pour formuler des jugements précis.
 
 <div id="monitor-review-progress">
-  ## Suivre la progression de la revue
+  ## Surveillez la progression de la révision
 </div>
 
-Une fois la file d&#39;attente d’annotation créée et les traces ajoutées, partagez le nom de la file avec votre annotateur afin qu’il puisse commencer la revue. Voir [Réviser des éléments dans une file d&#39;attente d’annotation](/fr/weave/guides/tracking/annotation-review) pour plus de détails sur le processus de revue.
+Une fois que vous avez créé la file d’annotation et y avez ajouté des traces, partagez le nom de la file avec votre annotateur pour qu’il commence sa révision. Voir [Réviser des éléments dans une file d’annotation](/fr/weave/guides/tracking/annotation-review) pour plus de détails sur le processus de révision.
 
-Pour partager un lien direct vers la file d&#39;attente d’annotation avec un annotateur :
+Pour partager un lien direct vers la file d’annotation avec un annotateur :
 
 1. Dans la barre latérale du projet Weave, cliquez sur **Annotate**.
 2. Dans la barre d’onglets, cliquez sur l’onglet **Queues**.
-3. Dans le tableau des files d&#39;attente d’annotation, cliquez sur le nom de votre file pour ouvrir les éléments qu’elle contient.
+3. Dans le tableau **Annotation Queues**, cliquez sur le nom de votre file pour ouvrir les éléments de la file.
 4. Dans la barre d’en-tête de la file, cliquez sur le bouton de lien pour copier un lien direct vers cette file. Vous pouvez également copier l’URL depuis la barre d’adresse du navigateur.
 
-![Copier le lien vers la file d'attente d’annotation dans la barre d’en-tête de la file d'attente d’annotation](/weave/guides/tracking/imgs/AnnotationLinkToQueue.png)
+![Copier le lien vers la file d’annotation dans la barre d’en-tête d’Annotation Queue](/weave/guides/tracking/imgs/AnnotationLinkToQueue.png)
 
-Dans le tableau des files d&#39;attente d’annotation, la colonne **État** indique la progression de la revue :
+Dans le tableau **Annotation Queues**, la colonne **État** indique la progression de la révision :
 
-* **Non démarrée** : la file contient des éléments, mais aucune annotation n’a été soumise.
-* **En cours** : au moins un élément a fait l’objet d’une revue.
-* **Terminée** : tous les éléments ont fait l’objet d’une revue.
+* **Non commencée** : la file contient des éléments mais aucune annotation n’a été soumise.
+* **En cours** : au moins un élément a été révisé.
+* **Terminée** : tous les éléments ont été révisés.
 
-Dans le tableau des files d&#39;attente d’annotation, la colonne **Appels avec réponses** indique le pourcentage d’éléments (sur le nombre total d’**Appels**) pour lesquels au moins une revue a été soumise.
+Dans le tableau **Annotation Queues**, la colonne **Appels avec réponses** indique le pourcentage d’éléments (sur le nombre total d’**Appels**) qui ont au moins une révision soumise.
 
 <div id="filter-and-export-annotations">
   ## Filtrer et exporter les annotations
@@ -145,38 +145,38 @@ Dans le tableau des files d&#39;attente d’annotation, la colonne **Appels avec
 
 Weave stocke les annotations terminées sous forme de métadonnées structurées associées aux traces.
 
-Vous pouvez :
+Vous pouvez :
 
-* Filtrer les traces selon leur attribution à une file d&#39;attente et l’état d’avancement des annotations.
+* Filtrer les traces selon leur attribution à une file d&#39;attente et l&#39;état d&#39;avancement des annotations.
 * Enregistrer des vues filtrées pour les réutiliser.
-* Exporter les traces annotées vers des jeux de données pour des flux de travail d’évaluation ou d’entraînement.
+* Exporter les traces annotées vers des jeux de données pour des flux de travail d&#39;évaluation ou d&#39;entraînement.
 
-Cela relie directement les retours d’experts humains à l’évaluation et à l’itération du modèle.
+Cela relie directement le retour d&#39;experts humains à l&#39;évaluation et à l&#39;itération du modèle.
 
 <div id="filter-annotated-traces">
   ### Filtrer les traces annotées
 </div>
 
-Vous pouvez utiliser les commandes de filtre de la page **Traces** pour n’afficher que les traces comportant des annotations.
+Vous pouvez utiliser les commandes de filtre de la page **Traces** pour n’afficher que les traces avec des annotations.
 
-Pour n’afficher que les traces comportant des annotations :
+Pour n’afficher que les traces avec des annotations :
 
 1. Dans la barre latérale du projet Weave, cliquez sur **Traces**.
-2. Dans la barre d’outils du tableau Traces, cliquez sur **Filter**.
+2. Dans la barre d’outils du tableau Traces, cliquez sur **Filtre**.
 3. Ajoutez trois valeurs à une ligne de filtre :
-   * Pour **Column**, saisissez &quot;Queue&quot;, puis appuyez sur **Entrée**.
+   * Pour **Colonne**, saisissez &quot;Queue&quot;, puis appuyez sur **Entrée**.
    * Dans la deuxième liste, choisissez **Text: &quot;is&quot;**.
-   * Pour **Select a queue**, choisissez le nom de votre file d&#39;attente d’annotation.
-4. Pour filtrer également uniquement les éléments de file d’attente marqués « completed », cliquez sur **+ Add Filter** :
-   * Pour **Column**, saisissez &quot;feedback&quot;. Une boîte de dialogue affiche Annotations et inclut les noms de vos champs d’annotation. Choisissez un champ requis dans votre file d’attente.
+   * Pour **Select a queue**, choisissez le nom de votre file d’annotation.
+4. Pour filtrer également uniquement les éléments de file d’attente « completed », cliquez sur **+ Add Filter** :
+   * Pour **Colonne**, saisissez &quot;feedback&quot;. Une boîte de dialogue se remplit avec Annotations et inclut les noms de vos champs d’annotation. Choisissez un champ requis dans votre file d’attente.
    * Dans la deuxième liste, choisissez **Other: &quot;is not empty&quot;**.
 
 <Frame>
-  ![Tableau Traces configurant un filtre pour sélectionner les traces appartenant à une file d'attente d’annotation spécifique.](/weave/guides/tracking/imgs/AnnotationTracesFilter.png)
+  ![Tableau Traces configurant un filtre pour sélectionner les traces appartenant à une file d’annotation spécifique.](/weave/guides/tracking/imgs/AnnotationTracesFilter.png)
 </Frame>
 
 4. Les lignes de filtre sont appliquées automatiquement ; cliquez ailleurs sur la page pour fermer l’entrée de filtre.
-5. (Facultatif) Enregistrez-la comme vue pour y accéder rapidement. Dans l’en-tête du tableau Traces, cliquez sur **Save View**.
+5. (Facultatif) Enregistrez-la comme vue pour y accéder rapidement. Dans l’en-tête du tableau Traces, cliquez sur **Enregistrer la vue**.
 
 <div id="export-annotated-traces-to-datasets">
   ### Exporter des traces annotées vers des jeux de données
@@ -188,29 +188,29 @@ Vous pouvez exporter des traces annotées soit via l’interface utilisateur, so
   #### Ajouter des traces annotées à un jeu de données
 </div>
 
-Sélectionnez des traces annotées et cliquez sur **Ajouter au jeu de données** pour inclure des étiquettes d’expert dans vos données d’évaluation ou d’entraînement.
+Sélectionnez des traces annotées et cliquez sur **Ajouter au jeu de données** pour inclure des étiquettes d&#39;expert dans vos données d&#39;évaluation ou d&#39;entraînement.
 
-Pour ajouter des traces annotées à un jeu de données :
+Pour ajouter des traces annotées à un jeu de données :
 
 1. Dans la barre latérale du projet Weave, cliquez sur **Traces**.
 2. Dans le tableau Traces, sélectionnez les traces que vous souhaitez exporter.
-3. Dans la barre d’outils du tableau, cliquez sur **Ajouter au jeu de données**. Suivez les instructions à l’écran pour terminer l’ajout.
+3. Dans la barre d&#39;outils du tableau, cliquez sur **Ajouter au jeu de données**. Suivez les instructions à l&#39;écran pour terminer l&#39;ajout.
 
-Pour en savoir plus sur l’utilisation des jeux de données, voir [Collecter et suivre des jeux de données](/fr/weave/guides/core-types/datasets).
+Pour en savoir plus sur l&#39;utilisation des jeux de données, voir [Collecter et suivre des jeux de données](/fr/weave/guides/core-types/datasets).
 
 <div id="access-annotations-programmatically">
-  ## Accéder aux annotations de manière programmatique
+  ## Accéder aux annotations par programmation
 </div>
 
-Si vous souhaitez intégrer des annotations de manière programmatique, vous devez connaître le nom de votre projet et l’ID de votre file d’attente :
+Si vous souhaitez intégrer des annotations par programmation, vous devez connaître le nom de votre projet et l&#39;ID de la file d&#39;annotation :
 
-* **Projet** : le nom du projet W&amp;B (peut être `project` ou `team/project`). Si vous ne spécifiez pas d’équipe W&amp;B (par exemple `team/project`), votre équipe par défaut est utilisée.
-* **ID de la file d’attente** : l’identifiant unique de la file d&#39;attente d’annotation.
+* **Projet** : le nom du projet W&amp;B (peut être `project` ou `team/project`). Si vous ne spécifiez pas d&#39;équipe W&amp;B (par exemple `team/project`), votre équipe par défaut est utilisée.
+* **ID de la file d&#39;attente** : l&#39;identifiant unique de la file d&#39;annotation.
 
-Pour trouver l’ID de la file d’attente :
+Pour trouver l&#39;ID de la file d&#39;attente :
 
-1. Dans le tableau **Annotation Queues**, sélectionnez le nom de la file d’attente pour afficher ses éléments.
-2. Copiez l’ID à la fin de l’URL de la page.
+1. Dans le tableau **Annotation Queues**, sélectionnez le nom de la file d&#39;attente pour ouvrir ses éléments.
+2. Copiez l&#39;ID à la fin de l&#39;URL de la page.
 
 **Exemple**
 
@@ -218,11 +218,11 @@ Pour trouver l’ID de la file d’attente :
 https://wandb.ai/.../annotation-queues/019c0f63-7acb-7497-8f87-08873368fcd4
 ```
 
-Dans cet exemple, l’ID de la file d’attente est :
+Dans cet exemple, l&#39;ID de la file d&#39;attente est :
 
 019c0f63-7acb-7497-8f87-08873368fcd4
 
-Vous pouvez parcourir les traces (appels) de votre file d’attente à l’aide du code suivant.
+Vous pouvez parcourir les traces (appels) dans votre file d&#39;attente à l&#39;aide du code suivant.
 
 ```python lines
 import weave
@@ -265,7 +265,7 @@ for i, item in enumerate(calls.items):
     print(f"  {field_name}: {field_value}")
 ```
 
-Le notebook Google Colab suivant fournit un exemple détaillé de l&#39;accès programmatique aux données d&#39;annotation et de la génération d&#39;un rapport d&#39;analyse :
+Le notebook Google Colab suivant fournit un exemple détaillé d’accès programmatique aux données d’annotation et de collecte d’un rapport d’analyse :
 
 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
   <ColabLink url="https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/weave_annotations_v2.ipynb" />

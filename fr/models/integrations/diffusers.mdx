@@ -13,7 +13,7 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
   ## Journalisation avancée en seulement deux lignes
 </div>
 
-Consignez dans le journal tous les prompts, les prompts négatifs, les médias générés et les configurations associées à votre expérience en ajoutant simplement 2 lignes de code. Voici les 2 lignes de code pour commencer la journalisation :
+Journalisez tous les prompts, les prompts négatifs, les médias générés et les configurations associées à votre expérience en ajoutant simplement 2 lignes de code. Voici les 2 lignes de code pour commencer la journalisation :
 
 ```python
 # importer la fonction autolog
@@ -45,15 +45,15 @@ autolog(init=dict(project="diffusers_logging"))
      !pip install --upgrade diffusers transformers accelerate wandb
      ```
 
-2. Utilisez `autolog` pour initialiser un run W&amp;B et suivre automatiquement les entrées et les sorties de [tous les appels de pipeline pris en charge](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
+2. Utilisez `autolog` pour initialiser un Run W&amp;B et suivre automatiquement les entrées et les sorties de [tous les appels de pipeline pris en charge](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
    Vous pouvez appeler la fonction `autolog()` avec le paramètre `init`, qui accepte un dictionnaire de paramètres requis par [`wandb.init()`](/fr/models/ref/python/functions/init).
 
-   Lorsque vous appelez `autolog()`, cela initialise un run W&amp;B et suit automatiquement les entrées et les sorties de [tous les appels de pipeline pris en charge](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
+   Lorsque vous appelez `autolog()`, cela initialise un Run W&amp;B et suit automatiquement les entrées et les sorties de [tous les appels de pipeline pris en charge](https://github.com/wandb/wandb/blob/main/wandb/integration/diffusers/autologger.py#L12-L72).
 
-   * Chaque appel de pipeline est suivi dans son propre [tableau](/fr/models/tables/) dans l&#39;espace de travail, et les configurations associées à cet appel sont ajoutées à la liste des flux de travail dans les configurations de ce run.
+   * Chaque appel de pipeline est suivi dans son propre [tableau](/fr/models/tables/) dans le Workspace, et les configurations associées à cet appel sont ajoutées à la liste des flux de travail dans les configurations de ce run.
    * Les prompts, les prompts négatifs et les médias générés sont enregistrés dans un [`wandb.Table`](/fr/models/tables/).
-   * Toutes les autres configurations associées à l&#39;expérience, y compris la graine et l&#39;architecture du pipeline, sont stockées dans la section de configuration du run.
+   * Toutes les autres configurations associées à l&#39;expérience, y compris le `seed` et l&#39;architecture du pipeline, sont stockées dans la section de configuration du run.
    * Les médias générés pour chaque appel de pipeline sont également enregistrés dans les [panneaux multimédias](/fr/models/track/log/media/) du run.
 
    <Note>
@@ -65,10 +65,10 @@ autolog(init=dict(project="diffusers_logging"))
 </div>
 
 <div id="autologging">
-  ### Journalisation automatique
+  ### Autolog
 </div>
 
-Voici un bref exemple de journalisation automatique de bout en bout :
+Voici un bref exemple d&#39;autolog de bout en bout :
 
 <Tabs>
   <Tab title="Script">

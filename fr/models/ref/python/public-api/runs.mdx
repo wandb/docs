@@ -11,7 +11,7 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Runs`
 
-Un itérateur lazy d’objets `Run` associé à un projet et, éventuellement, à un filtre.
+Un itérateur lazy d’objets `Run` associé à un projet et à un filtre facultatif.
 
 Les Runs sont récupérés par pages depuis le serveur W&amp;B selon les besoins.
 
@@ -37,11 +37,11 @@ __init__(
 
 * `client`:  (`wandb.apis.public.RetryingClient`) Le client d’API à utiliser pour les requêtes.
 * `entity`:  (str) L’entité (nom d’utilisateur ou équipe) propriétaire du projet.
-* `project`:  (str) Le nom du projet dont il faut récupérer les runs.
-* `filters`:  (Optional[Dict[str, Any]]) Un dictionnaire de filtres à appliquer à la requête de runs.
+* `project`:  (str) Le nom du projet dont il faut récupérer les Runs.
+* `filters`:  (Optional[Dict[str, Any]]) Un dictionnaire de filtres à appliquer à la requête de Runs.
 * `order`:  (str) L’ordre peut être `created_at`, `heartbeat_at`, `config.*.value` ou `summary_metrics.*`.  Si vous faites précéder l’ordre d’un `+`, le tri est croissant (valeur par défaut).  Si vous faites précéder l’ordre d’un `-`, le tri est décroissant.  Par défaut, l’ordre est `run.created&#95;at`, du plus ancien au plus récent.
-* `per_page`:  (int) Le nombre de runs à récupérer par requête (la valeur par défaut est 50).
-* `include_sweeps`:  (bool) Indique s’il faut inclure les informations de balayage d’hyperparamètres dans les runs. La valeur par défaut est `True`.
+* `per_page`:  (int) Le nombre de Runs à récupérer par requête (la valeur par défaut est 50).
+* `include_sweeps`:  (bool) Indique s’il faut inclure les informations de balayage d’hyperparamètres dans les Runs. La valeur par défaut est `True`.
 
 ***
 
@@ -76,7 +76,7 @@ Renvoie des métriques d’historique échantillonnées pour tous les runs qui c
 
 * `pandas.DataFrame` :  Si `format="pandas"`, renvoie un `pandas.DataFrame`  de métriques d’historique.
 * `polars.DataFrame` :  Si `format="polars"`, renvoie un `polars.DataFrame`  de métriques d’historique.
-* `list of dicts` :  Si `format="default"`, renvoie une liste de dicts  contenant des métriques d’historique avec une clé `run_id`.
+* `liste de dicts` :  Si `format="default"`, renvoie une liste de dicts  contenant des métriques d’historique avec une clé `run_id`.
 
 ***
 

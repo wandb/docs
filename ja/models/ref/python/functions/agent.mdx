@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/wandb_agent.py" />
 
 
-### <kbd>function</kbd> `agent`
+### <kbd>関数</kbd> `agent`
 
 ```python
 agent(
@@ -22,15 +22,15 @@ agent(
 ) → None
 ```
 
-1 つ以上の sweep エージェントを起動します。
+1 つ以上の sweep エージェントを開始します。
 
-sweep エージェントは `sweep_id` を使用して、自分がどの sweep に属しているか、どの関数を実行するか、そして (オプションで) いくつのエージェントを実行するかを判断します。
+sweep エージェントは `sweep_id` を使用して、どの sweep の一部であるか、どの function を実行するか、また (省略可能で) いくつのエージェントを実行するかを把握します。
 
-**Args:**
+**引数:**
 
-* `sweep_id`:  sweep の一意な識別子。sweep ID は W&amp;B CLI または Python SDK によって生成されます。
-* `function`:  sweep 設定で指定された「program」の代わりに呼び出す関数。
-* `entity`:  sweep によって作成された W&amp;B run を送信したいユーザー名またはチーム名。指定した entity が既に存在していることを確認してください。entity を指定しない場合、run は通常あなたのユーザー名であるデフォルトの entity に送信されます。
-* `project`:  sweep から作成された W&amp;B run が送信されるプロジェクト名。project が指定されていない場合、run は「Uncategorized」というラベルの付いたプロジェクトに送信されます。
-* `count`:  実行する sweep の試行回数。
-* `forward_signals`:  エージェントが受信したシグナルを子プロセスに転送するかどうか。CLI エージェントでのみサポートされます。
+* `sweep_id`:  sweep の一意の ID です。sweep ID は W&amp;B CLI または Python SDK によって生成されます。
+* `function`:  sweep 設定で指定された &quot;program&quot; の代わりに呼び出す function です。
+* `entity`:  sweep によって作成された W&amp;B run の送信先となるユーザー名またはチーム名です。指定する entity がすでに存在していることを確認してください。entity を指定しない場合、run は通常はユーザー名であるデフォルトの entity に送信されます。
+* `project`:  sweep から作成された W&amp;B run の送信先となるプロジェクトの名前です。project が指定されていない場合、run は &quot;Uncategorized&quot; というラベルの付いたプロジェクトに送信されます。
+* `count`:  試行する sweep 設定の試行回数です。
+* `forward_signals`:  エージェントが受信したシグナルを子プロセスに転送するかどうかです。CLI エージェントでのみサポートされます。

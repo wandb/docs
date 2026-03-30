@@ -1,18 +1,18 @@
 ---
-title: "ワーカープロセスにおける trace データの損失"
-keywords: ["トレースデータ", "パフォーマンス"]
+title: "ワーカープロセスにおける Trace Data の損失"
+keywords: ["Trace Data", "パフォーマンス"]
 ---
 
-Weave は、アプリケーションのパフォーマンスへの影響を最小限に抑えるため、バックグラウンドスレッドでトレース データをアップロードします。ただし、マルチプロセッシングやタスク キュー システム、または Celery のようなワーカープロセスを使用している場合、バックグラウンドスレッドによるトレースのアップロードが完了する前にワーカープロセスが終了すると、トレース データは失われます。
+Weave は、アプリケーションのパフォーマンスへの影響を最小限に抑えるため、バックグラウンドスレッドでトレースデータをアップロードします。ただし、マルチプロセッシング、タスクキューシステム、または Celery のようなワーカープロセスを使用している場合、バックグラウンドスレッドによるトレースのアップロードが完了する前にワーカープロセスが終了すると、トレースデータは失われます。
 
-ワーカープロセスでのデータ損失を防ぐには、ワーカー タスクが完了する前に `client.flush()` または `client.finish()` を呼び出して、バックグラウンドアップロードが完了するようにする必要があります。
+ワーカープロセスでのデータ損失を防ぐには、ワーカータスクが完了する前に `client.flush()` または `client.finish()` を呼び出して、バックグラウンドアップロードを完了させる必要があります。
 
-これらの method には、それぞれ異なる目的があります。
+これらの method は、それぞれ用途が異なります。
 
-* `weave.flush()`: シンプルで、進捗表示なしにフラッシュします。Weave をワーカープロセスや CI 環境に組み込んでいる場合に推奨されます。
-* `weave.finish()`: 進捗バーやステータス コールバックによる進捗フィードバックが含まれます。対話的なスクリプトやノートブックに推奨されます。
+* `weave.flush()`: シンプルに、進捗表示なしでフラッシュします。Weave をワーカープロセスや CI 環境に統合している場合に推奨されます。
+* `weave.finish()`: 進捗バーやステータスコールバックによる進捗フィードバックが含まれます。対話的なスクリプトやノートブックに推奨されます。
 
-どちらの method も、すべてのバックグラウンドアップロードが完了するまで処理をブロックするため、ワーカープロセスの終了時にトレース データが失われることはありません。
+どちらの method も、すべてのバックグラウンドアップロードが完了するまでブロックされるため、ワーカープロセスの終了時にトレースデータが失われることはありません。
 
 次の例では `client.finish()` を示します。
 
@@ -38,7 +38,7 @@ def process_task(input_data):
         pass
 ```
 
-`with` コンテキストマネージャーを使用すると、終了時に `weave.finish()` が自動的に呼び出されます：
+`with` コンテキストマネージャーを使用すると、ブロックを抜ける際に `weave.finish()` が自動的に呼び出されます：
 
 ```python
 with weave.init("your-team-name/your-project-name") as client:
@@ -47,15 +47,15 @@ with weave.init("your-team-name/your-project-name") as client:
     return result
 ```
 
-`weave.flush()` を使用すると、アプリケーションのパフォーマンスを改善することもできます。詳しくは [Flushing](/ja/support/weave/articles/long-eval-clean-up-times) を参照してください。
+`weave.flush()` を使用すると、アプリケーションのパフォーマンスを向上させることもできます。詳細については、[Flushing](/ja/support/weave/articles/long-eval-clean-up-times) をご覧ください。
 
 ***
 
-{/* ---- AUTO-GENERATED: タブバッジ ----
-  front matter 内の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py で管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[トレースデータ](/ja/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[パフォーマンス](/ja/support/weave/tags/performance)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Trace Data](/ja/support/weave/tags/trace-data)</Badge><Badge stroke shape="pill" color="orange" size="md">[パフォーマンス](/ja/support/weave/tags/performance)</Badge>
 
-{/* ---- END AUTO-GENERATED: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -1,21 +1,21 @@
 ---
-title: "Cline と W&B Inference"
+title: "W&B Inference を使用する Cline"
 description: >
-  Cline コーディングエージェントが W&B Inference を使用するように設定する方法を学びます。
+  W&B Inference を使用するように Cline コーディングエージェントを設定する方法を学びます。
 ---
 
-[Cline](https://cline.bot) は AI を活用したコーディングアシスタントです。このチュートリアルでは、W&B Inference が提供するモデルを Cline で使用するように設定する方法を説明します。
+[Cline](https://cline.bot) は AI 搭載のコーディングアシスタントです。このチュートリアルでは、W&amp;B Inference が提供するモデルを使用するように Cline を設定する方法を説明します。
 
-Cline エージェントは、コマンドラインツールとしても、さまざまな IDE とのインテグレーションとしても利用できます。このページでは、Cline CLI と Visual Studio Code の拡張機能としての Cline での設定方法を説明しますが、他の IDE での設定も同様です。
+Cline エージェントは、コマンドラインツールとして、または多くの IDE とのインテグレーションとして使用可能です。このページでは、Cline CLI を使用する設定と、Visual Studio Code 拡張機能としての Cline の設定を示しますが、他の IDE での設定も同様です。
 
 <div id="prerequisites">
   ## 前提条件
 </div>
 
-[W&B API キー](../prerequisites#set-up-your-wb-account-and-project) が必要になります。
+[W&amp;B APIキー](../prerequisites#set-up-your-wb-account-and-project)が必要です。
 
 <div id="set-up-cline-in-the-command-line">
-  ## コマンドラインで Cline をセットアップする
+  ## コマンドラインで Cline を設定する
 </div>
 
 [Cline CLI](https://docs.cline.bot/cline-cli/installation) をインストールします。
@@ -28,15 +28,15 @@ npm install -g cline
 
 これらの手順は、Cline CLI バージョン `2.5.1` でテスト済みです。インストールされているバージョンを確認するには、`cline version` を実行してください。
 
-次のコマンドを実行し、`<your_api_key>` を W&amp;B の API キーに置き換えてください。
+次のコマンドを実行し、`<your_api_key>` を W&amp;B APIキーに置き換えてください。
 
 ```
 cline auth -k <your_api_key> -p openai -b https://api.inference.wandb.ai/v1 -m moonshotai/Kimi-K2.5
 ```
 
-これにより、Cline が W&amp;B Inference の OpenAI 互換エンドポイントと Kimi K2.5 モデルを使用するように構成されます。モデルの提供状況と料金については、[モデルカタログ](https://wandb.ai/inference) を参照してください。
+これにより、Cline は W&amp;B Inference の OpenAI 互換エンドポイントと Kimi K2.5 モデルを使用するように設定されます。モデルの提供状況と料金については、[モデルカタログ](https://wandb.ai/inference) を参照してください。
 
-すべてが正しく動作していることを確認するために、簡単なテストを実行してください。
+すべてが正しく動作していることを確認するため、簡単なテストを実行してください:
 
 ```
 cline "What is 2 + 2?"
@@ -44,10 +44,11 @@ cline "What is 2 + 2?"
 
 Cline が応答を返したら、インストールと認証は完了です。
 
-Cline CLI の使い方の詳細については、[Cline クイックスタート](https://docs.cline.bot/cline-cli/installation#quick-start) を参照してください。
+Cline CLI の使い方の詳細については、[Cline クイックスタート](https://docs.cline.bot/cline-cli/installation#quick-start) を参照してください.
+
 
 <div id="set-up-cline-in-visual-studio-code">
-  ## Visual Studio Code で Cline をセットアップする
+  ## Visual Studio Code で Cline を設定する
 </div>
 
 Cline は Visual Studio Code の拡張機能としてインストールすることもできます。VS Code Extensions Marketplace で **Cline** を検索するか、[Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) からインストールします。
@@ -64,7 +65,7 @@ Cline は Visual Studio Code の拡張機能としてインストールするこ
 
 <img src="/images/inference/inference-tutorial-cline-byok.png" alt="Select Bring Your Own Key" style={{width: "300px"}} />
 
-以下の値を指定し、`<your_api_key>` を自分の W&amp;B の API キー に置き換えます。
+以下の値を指定し、`<your_api_key>` を自分の W&amp;B APIキーに置き換えます。
 
 | Setting                   | Value                             |
 | ------------------------- | --------------------------------- |
@@ -73,7 +74,7 @@ Cline は Visual Studio Code の拡張機能としてインストールするこ
 | OpenAI Compatible API Key | `<your_api_key>`                  |
 | Model ID                  | moonshotai/Kimi-K2.5              |
 
-料金は Model Configuration を展開して設定できます。モデルの利用可能性および価格については、[model catalog](https://wandb.ai/inference) を参照してください。
+料金は Model Configuration を展開して設定できます。モデルの利用可能性および価格については、[モデルカタログ](https://wandb.ai/inference) を参照してください。
 
 `Continue` ボタンをクリックします。
 

@@ -21,7 +21,7 @@ W&amp;B s’intègre à [Databricks](https://www.databricks.com/) via une person
    # installer Databricks CLI
    pip install databricks-cli
 
-   # Générer un jeton depuis l’interface Databricks
+   # Générer un jeton depuis l’interface utilisateur Databricks
    databricks configure --token
 
    # Créer un scope avec l’une des deux commandes (selon que les fonctionnalités de sécurité sont activées ou non sur Databricks) :
@@ -58,7 +58,7 @@ with wandb.init() as run:
   ### Sweeps
 </div>
 
-Configuration requise (temporairement) pour les notebooks qui tentent d&#39;utiliser wandb.sweep() ou wandb.agent() :
+Configuration requise (temporaire) pour les notebooks qui essaient d’utiliser wandb.sweep() ou wandb.agent() :
 
 ```python
 import os

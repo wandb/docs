@@ -26,7 +26,7 @@ Ce démarrage rapide est également disponible sous forme de notebook Colab :
 <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
   <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
 
-  <GitHubLink url="https://github.com/wandb/examples/blob/master/colabs/intro/run_quickstart.ipynb" />
+  <GitHubLink url="https://github.com/wandb/examples/blob/master/colabs/intro/run_qustart.ipynb" />
 </div>
 
 <div id="install-the-wandb-library-and-log-in">
@@ -35,7 +35,7 @@ Ce démarrage rapide est également disponible sous forme de notebook Colab :
 
 <Tabs>
   <Tab title="Ligne de commande">
-    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY`.
+    1. Définissez la [variable d’environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY`.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -75,14 +75,14 @@ Ce démarrage rapide est également disponible sous forme de notebook Colab :
 </div>
 
 Dans votre script Python ou notebook, initialisez un objet run W&amp;B avec [`wandb.init()`](/fr/models/ref/python/experiments/run/). Utilisez un dictionnaire pour le paramètre `config`
-afin de spécifier le nom et la valeur des hyperparamètres. Dans l’instruction `with`, vous pouvez consigner des métriques et d’autres informations dans W&amp;B.
+afin de spécifier les noms et les valeurs des hyperparamètres. Dans le bloc `with`, vous pouvez consigner des métriques et d’autres informations dans W&amp;B.
 
 ```python
 import wandb
 
 wandb.login()
 
-# projet dans lequel le run est enregistré
+# Projet dans lequel le run est enregistré
 project = "my-awesome-project"
 
 # Dictionnaire des hyperparamètres
@@ -107,7 +107,7 @@ Voir la section suivante pour un exemple complet qui simule un run d&#39;entraî
   ## Créer une expérience d’entraînement en machine learning
 </div>
 
-Ce script d’entraînement fictif consigne des métriques simulées de précision et de perte dans W&amp;B. Faites un copier-coller du code suivant dans un script Python ou une cellule de notebook, puis exécutez-le :
+Ce script d’entraînement fictif consigne des métriques simulées de précision et de perte dans W&amp;B. Copiez-collez le code suivant dans un script Python ou une cellule de notebook, puis exécutez-le :
 
 ```python
 import wandb
@@ -136,7 +136,7 @@ with wandb.init(project=project, config=config) as run:
         run.log({"accuracy": acc, "loss": loss})
 ```
 
-Visitez [wandb.ai/home](https://wandb.ai/home) pour afficher les métriques enregistrées, comme la précision et la perte, et voir comment elles évoluent à chaque étape de l’entraînement. L’image suivante montre la perte et la précision suivies pour chaque run. Chaque objet run apparaît dans la colonne **Runs**, avec un nom généré automatiquement.
+Visitez [wandb.ai/home](https://wandb.ai/home) pour afficher les métriques enregistrées, comme la précision et la perte, et voir comment elles évoluent à chaque étape de l&#39;entraînement. L&#39;image suivante montre la perte et la précision suivies pour chaque run. Chaque objet run apparaît dans la colonne **Runs**, avec un nom généré automatiquement.
 
 <Frame>
   <img src="/images/quickstart/quickstart_image.png" alt="Montre la perte et la précision suivies pour chaque run." />
@@ -146,12 +146,12 @@ Visitez [wandb.ai/home](https://wandb.ai/home) pour afficher les métriques enre
   ## Prochaines étapes
 </div>
 
-Découvrez d’autres fonctionnalités de l’écosystème W&amp;B :
+Découvrez d’autres fonctionnalités de l’écosystème W&amp;B :
 
 1. Lisez les [tutoriels d’intégration W&amp;B](/fr/models/integrations), qui combinent W&amp;B avec des frameworks comme PyTorch, des bibliothèques comme Hugging Face et des services comme SageMaker.
-2. Organisez les runs, automatisez les visualisations, synthétisez vos conclusions et partagez des mises à jour avec vos collaborateurs à l’aide de [W&amp;B Reports](/fr/models/reports).
+2. Organisez les runs, automatisez les visualisations, résumez vos résultats et partagez des mises à jour avec vos collaborateurs à l’aide de [W&amp;B Reports](/fr/models/reports).
 3. Créez des [W&amp;B Artifacts](/fr/models/artifacts) pour suivre les jeux de données, les modèles, les dépendances et les résultats tout au long de votre pipeline de machine learning.
 4. Automatisez la recherche d’hyperparamètres et optimisez les modèles avec [W&amp;B Sweeps](/fr/models/sweeps).
-5. Analysez les runs, visualisez les prédictions des modèles et partagez vos observations dans un [tableau de bord central](/fr/models/tables).
-6. Visitez [W&amp;B AI Academy](https://wandb.ai/site/courses/) pour découvrir les LLM, le MLOps et W&amp;B Models grâce à des cours pratiques.
-7. Visitez [weave-docs.wandb.ai](/fr/weave) pour apprendre à suivre, expérimenter, évaluer, déployer et améliorer vos applications basées sur les LLM à l’aide de Weave.
+5. Analysez les runs, visualisez les prédictions des modèles et partagez vos analyses sur un [tableau de bord central](/fr/models/tables).
+6. Visitez [W&amp;B AI Academy](https://wandb.ai/site/courses/) pour en apprendre davantage sur les LLM, le MLOps et W&amp;B Models grâce à des cours pratiques.
+7. Visitez [weave-docs.wandb.ai](/fr/weave) pour apprendre à suivre, expérimenter avec, évaluer, déployer et améliorer vos applications basées sur les LLM à l’aide de Weave.

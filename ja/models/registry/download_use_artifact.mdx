@@ -1,31 +1,31 @@
 ---
-title: レジストリからアーティファクトをダウンロードする
-description: "パスを構築して Python SDK を使用し、W&B Registry コレクションにリンクされたアーティファクトをダウンロードします。"
+title: Registry からアーティファクトをダウンロードする
+description: "パスを構築し、Python SDK を使用して W&B Registry のコレクションにリンクされたアーティファクトをダウンロードします。"
 ---
 
-W&B Python SDK を使用して、レジストリにリンクされたアーティファクトをダウンロードします。アーティファクトをダウンロードして使用するには、レジストリの名前、コレクションの名前、そしてダウンロードしたいアーティファクト バージョンのエイリアスまたはインデックスを知っている必要があります。
+W&amp;B Python SDK を使用して、Registry にリンクされたアーティファクトをダウンロードします。アーティファクトをダウンロードして使用するには、Registry の名前、コレクションの名前、およびダウンロードするアーティファクト バージョンの 별칭 またはインデックスを把握している必要があります。
 
-アーティファクトのプロパティが分かったら、[リンクされたアーティファクトへのパスを構築](#construct-path-to-linked-artifact)してアーティファクトをダウンロードできます。あるいは、W&B App UI から [事前生成されたコードスニペットをコピー＆ペースト](#copy-and-paste-pre-generated-code-snippet)して、レジストリにリンクされたアーティファクトをダウンロードすることもできます。
+アーティファクトのプロパティがわかれば、[リンクされたアーティファクトへのパスを構築](#construct-path-to-linked-artifact)してアーティファクトをダウンロードできます。あるいは、W&amp;B App UI から [事前生成された코드 스니펫をコピー＆ペースト](#copy-and-paste-pre-generated-code-snippet)して、Registry にリンクされたアーティファクトをダウンロードすることもできます。
 
 <div id="construct-path-to-linked-artifact">
-  ## リンクされた Artifacts へのパスを作成する
+  ## リンクされたアーティファクトへのパスを作成する
 </div>
 
-レジストリにリンクされた Artifacts をダウンロードするには、そのリンクされた Artifacts のパスを知っておく必要があります。パスは、レジストリ名、コレクション名、およびアクセスしたい Artifacts バージョンのエイリアスまたはインデックスで構成されます。
+Registry にリンクされたアーティファクトをダウンロードするには、そのリンク先アーティファクトのパスを把握しておく必要があります。パスは、Registry 名、コレクション名、およびアクセスしたいアーティファクトバージョンの 별칭 またはインデックスで構成されます。
 
-レジストリ、コレクション、および Artifacts バージョンのエイリアスまたはインデックスがわかったら、次の文字列テンプレートを使用して、リンクされた Artifacts へのパスを作成できます。
+Registry、コレクション、およびアーティファクトバージョンの 별칭 またはインデックスが分かったら、次の文字列テンプレートを使用してリンクされたアーティファクトへのパスを作成できます。
 
 ```python
-# バージョンインデックスを指定した Artifacts 名
+# バージョンインデックスを指定したアーティファクト名
 f"wandb-registry-{REGISTRY}/{COLLECTION}:v{INDEX}"
 
-# エイリアスを指定した Artifacts 名
+# エイリアスを指定したアーティファクト名
 f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 ```
 
-中かっこ `{}` 内の値を、アクセスしたい Artifacts バージョンの Registry 名、collection 名、およびそのエイリアスまたはインデックスに置き換えてください。
+中かっこ `{}` 内の値を、액세스 したいアーティファクト バージョンの Registry の名、コレクション、および 별칭 またはインデックスに置き換えてください。
 
-リンクされた Artifacts のパスが分かったら、`wandb.Run.use_artifact()` メソッドを使って Artifacts にアクセスし、その内容をダウンロードします。以下のコードスニペットでは、W&amp;B Registry にリンクされた Artifacts を使用してダウンロードする方法を示しています。`<>` 内の値は必ずご自身の値に置き換えてください。
+リンクされたアーティファクトのパスを取得したら、`wandb.Run.use_artifact()` method を使用してアーティファクトに 액세스 し、その内容をダウンロードします。次の 코드 스니펫 は、W&amp;B Registry にリンクされたアーティファクトの使い方とダウンロード方法を示しています。`<>` 内の値はご自身のものに置き換えてください。
 
 ```python
 import wandb
@@ -36,15 +36,15 @@ ALIAS = '<artifact_alias>'
 
 with wandb.init(entity = '<team_name>', project = '<project_name>')  as run:
     artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
-    # artifact_name = '<artifact_name>' # W&B Registry UI で指定されたフルネームをコピーして貼り付ける
+    # artifact_name = '<artifact_name>' # W&B Registry UIで指定されたフル名前をコピー＆ペースト
     fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
     download_path = fetched_artifact.download()  
 ```
 
-The `wandb.Run.use_artifact()` メソッドは [run](/ja/models/runs) を作成すると同時に、ダウンロードした Artifacts をその run の入力としてマークします。
-Artifacts を run の入力としてマークすると、W&amp;B がその Artifacts のリネージを追跡できるようになります。
+`wandb.Run.use_artifact()` method は、[run](/ja/models/runs) を作成すると同時に、ダウンロードしたアーティファクトをその run への入力としてマークします。
+アーティファクトを run への入力としてマークすると、W&amp;B はそのアーティファクトのリネージをトラッキングできます。
 
-run を作成したくない場合は、`wandb.Api()` オブジェクトを使用して Artifacts にアクセスできます。
+run を作成したくない場合は、`wandb.Api()` object を使用してアーティファクトに 액세スできます。
 
 ```python
 import wandb
@@ -59,9 +59,9 @@ artifact = api.artifact(name = artifact_name)
 ```
 
 <details>
-  <summary>例: W&amp;B Registry にリンクされた artifact の使用とダウンロード</summary>
+  <summary>例: W&amp;B Registry にリンクされたアーティファクトを使用してダウンロードする</summary>
 
-  次のコード例は、**Fine-tuned Models** レジストリ内の `phi3-finetuned` というコレクションにリンクされた Artifacts をダウンロードする方法を示しています。 Artifacts バージョンのエイリアスは `production` に設定されています。
+  次のコード例は、ユーザーが **Fine-tuned Models** Registry 内の `phi3-finetuned` というコレクションにリンクされたアーティファクトをダウンロードする方法を示しています。アーティファクトバージョンの별칭は `production` に設定されています。
 
   ```python
   import wandb
@@ -73,25 +73,25 @@ artifact = api.artifact(name = artifact_name)
   COLLECTION = "phi3-finetuned"
   ALIAS = 'production'
 
-  # 指定したチームとプロジェクト内で run を初期化
+  # 指定したチームとプロジェクト内で run を初期化します
   with wandb.init(entity=TEAM_ENTITY, project = PROJECT_NAME) as run:
 
       artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{ALIAS}"
 
-      # Artifacts へアクセスし、リネージ追跡のために run の入力としてマーク
+      # アーティファクトに액세스し、リネージ追跡のために run への入力としてマークします
       fetched_artifact = run.use_artifact(artifact_or_name = artifact_name)  
 
-      # Artifacts をダウンロード。ダウンロードされたコンテンツへのパスを返す
+      # アーティファクトをダウンロードします。ダウンロードされた内容へのパスを返します
       downloaded_path = fetched_artifact.download()  
   ```
 </details>
 
-パラメーターと戻り値の型については、API リファレンスの [`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) および [`Artifact.download()`](/ja/models/ref/python/experiments/artifact#download) を参照してください。
+パラメーターと戻り値の型については、API Reference の [`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#use_artifact) と [`Artifact.download()`](/ja/models/ref/python/experiments/artifact#download) を参照してください。
 
 <Note>
-  **複数の組織に所属する個人の entity を持つ Users**
+  **複数の組織に所属する個人 entity を持つ Users**
 
-  複数の組織に所属する個人の entity を持つユーザーは、レジストリにリンクされた Artifacts へアクセスする際に、自分の組織名を指定するか、team entity を使用する必要があります。
+  複数の組織に所属する個人 entity を持つ Users は、Registry にリンクされたアーティファクトに액세스するときに、組織名を指定するか、チーム entity を使用する必要もあります。
 
   ```python
   import wandb
@@ -100,12 +100,12 @@ artifact = api.artifact(name = artifact_name)
   COLLECTION = "<collection_name>"
   VERSION = "<version>"
 
-  # API をインスタンス化する際に team entity を使用していることを確認
+  # API を初期化する際は、チーム entity を使用していることを確認します
   api = wandb.Api(overrides={"entity": "<team-entity>"})
   artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
   artifact = api.artifact(name = artifact_name)
 
-  # パスを構築
+  # パスを構築します
   api = wandb.Api()
   artifact_name = f"wandb-registry-{REGISTRY}/{COLLECTION}:{VERSION}"
   artifact = api.artifact(name = artifact_name)
@@ -113,19 +113,19 @@ artifact = api.artifact(name = artifact_name)
 </Note>
 
 <div id="copy-and-paste-pre-generated-code-snippet">
-  ## 事前生成されたコードスニペットをコピー＆ペーストする
+  ## 事前生成されたコード 스니펫をコピー＆ペーストする
 </div>
 
-W&amp;B は、レジストリにリンクされた Artifacts をダウンロードするために、Python スクリプト、ノートブック、またはターミナルにコピー＆ペーストできるコードスニペットを作成します。
+W&amp;B は、Registry にリンクされたアーティファクトをダウンロードするために、Python スクリプト、ノートブック、またはターミナルにコピー＆ペーストできるコード 스니펫を作成します。
 
-1. W&amp;B Registry に移動します。
-2. Artifacts を含むレジストリ名を選択します。
+1. W&amp;B Registry にアクセスします。
+2. アーティファクトを含む Registry 名を選択します。
 3. コレクション名を選択します。
-4. Artifacts バージョンの一覧から、利用したいバージョンを選択します。
+4. アーティファクト バージョンの一覧から、액세스したいバージョンを選択します。
 5. **Usage** タブを選択します。
-6. **Usage API** セクションに表示されているコードスニペットをコピーします。
-7. コピーしたコードスニペットを Python スクリプト、ノートブック、またはターミナルにペーストします。
+6. **Usage API** セクションに表示されているコード 스니펫をコピーします。
+7. コピーしたコード 스니펫を Python スクリプト、ノートブック、またはターミナルにペーストします。
 
 <Frame>
-  <img src="/images/registry/find_usage_in_registry_ui.gif" alt="レジストリ UI から Usage 用コードスニペットを探してコピーする手順" />
+  <img src="/images/registry/find_usage_in_registry_ui.gif" alt="Registry UI から Usage 用コード 스니펫を探してコピーする手順" />
 </Frame>

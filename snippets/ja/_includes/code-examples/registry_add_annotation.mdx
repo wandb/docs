@@ -1,5 +1,5 @@
 ---
-title: "Registry にアノテーションを追加"
+title: Registry にアノテーションを追加
 ---
 
 ```python
@@ -19,13 +19,13 @@ registry_path = f"wandb-registry-{registry_name}/{collection_name}"
 # W&B API を初期化する
 api = wandb.Api()
 
-# Artifacts コレクションを取得する
+# アーティファクト コレクションを取得する
 collection = api.artifact_collection(
   type_name = collection_type, 
   name = registry_path
   )
 
-# コレクションオブジェクトに説明を追加する
+# コレクションオブジェクトに説明アノテーションを追加する
 collection.description = "<description>"
 
 # 更新されたコレクションを保存する

@@ -1,20 +1,20 @@
 ---
-description: 3D ポイントクラウドや分子から、HTML やヒストグラムまで、リッチなメディアをログする
-title: メディアやオブジェクトをログする
+description: 3D ポイントクラウドや分子、HTML、ヒストグラムなどのリッチメディアをログする
+title: メディアとオブジェクトをログする
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_(Almost)_Anything_with_W%26B_Media.ipynb" />
 
-画像、動画、音声など、さまざまなメディアをサポートしています。リッチメディアをログに記録して、結果を探索し、Runs、モデル、データセットを視覚的に比較できます。以下で、例とハウツーガイドを紹介します。
+画像、動画、オーディオなど、さまざまなメディアをサポートしています。リッチメディアをログして結果を詳しく確認し、Runs、モデル、データセットを視覚的に比較できます。以下では、例とハウツーガイドを紹介します。
 
 <Note>
   詳細については、[Data types reference](/ja/models/ref/python/data-types/) を参照してください。
 </Note>
 
 <Note>
-  さらに詳しく知りたい場合は、[モデル予測の可視化に関するデモ レポート](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA) や [解説動画](https://www.youtube.com/watch?v=96MxRvx15Ts) をご覧ください。
+  さらに詳しくは、[モデル予測を可視化するデモレポート](https://wandb.ai/lavanyashukla/visualize-predictions/reports/Visualize-Model-Predictions--Vmlldzo1NjM4OA) や [解説動画](https://www.youtube.com/watch?v=96MxRvx15Ts) をご覧ください。
 </Note>
 
 <div id="pre-requisites">
@@ -32,7 +32,7 @@ pip install wandb[media]
   ## 画像
 </div>
 
-入力、出力、フィルターの重み、活性化などを追跡するために画像をログします。
+入力、出力、フィルターの重み、活性化などをトラッキングするために画像をログします。
 
 <Frame>
   <img src="/images/track/log_images.png" alt="オートエンコーダーの入力と出力" />
@@ -40,12 +40,12 @@ pip install wandb[media]
 
 画像は NumPy 配列から直接、PIL 画像として、またはファイルシステムからログできます。
 
-ステップから画像をログするたびに、それらを UI で確認できます。画像パネルを展開し、次にステップスライダーを使って異なるステップでの画像を確認できます。これにより、トレーニング中にモデルの出力がどのように変化するかを簡単に比較できます。メディアパネルをクリックすると、画像を全画面モードで表示できます。全画面モードでは、[キーボードショートカット](/ja/models/app/keyboard-shortcuts#media-panels) を使った操作を含め、ズームやパンを行えます。
+step から画像をログするたびに、それらを UI で確認できます。画像パネルを展開し、次に step スライダーを使って異なる step での画像を確認できます。これにより、トレーニング中にモデルの出力がどのように変化するかを簡単に比較できます。メディアパネルをクリックすると、画像を全画面モードで表示できます。全画面モードでは、[キーボードショートカット](/ja/models/app/keyboard-shortcuts#media-panels) を使った操作を含め、ズームやパンを行えます。
 
 異なる run、step、またはインデックスの画像や動画を 1 つのビューで比較するには、メディアパネルの [Compare mode](/ja/models/app/features/panels/media#compare-mode) を使用します。
 
 <Note>
-  トレーニング中のログ処理がボトルネックになったり、結果を閲覧するときの画像読み込みがボトルネックになったりするのを防ぐために、1 ステップあたり 50 枚未満の画像をログすることを推奨します。
+  トレーニング中のログ処理がボトルネックになったり、結果を閲覧するときの画像読み込みがボトルネックになったりするのを防ぐために、1 step あたり 50 枚未満の画像をログすることを推奨します。
 </Note>
 
 <Tabs>
@@ -110,22 +110,22 @@ pip install wandb[media]
 
 <Tabs>
   <Tab title="セグメンテーションマスク">
-    W&amp;B UI 経由でセマンティックセグメンテーションマスクをログし、透過度の変更や時間変化の確認などの操作を行えます。
+    セマンティックセグメンテーションマスクをログし、W&amp;B UI を介してそれらを操作できます (不透明度の変更、経時的な変化の表示など) 。
 
     <Frame>
       <img src="/images/track/semantic_segmentation.gif" alt="インタラクティブなマスク表示" />
     </Frame>
 
-    オーバーレイをログするには、以下のキーと値を持つ辞書を `wandb.Image` の `masks` キーワード引数に渡します。
+    オーバーレイをログするには、次のキーと値を含む辞書を `wandb.Image` の `masks` キーワード인수に指定します。
 
-    * 画像マスクを表す次の 2 つのキーのうちいずれか 1 つ:
-      * `"mask_data"`: 各ピクセルに整数クラスラベルが入った 2 次元 NumPy 配列
-      * `"path"`:  (文字列) 保存済み画像マスクファイルへのパス
-    * `"class_labels"`:  (オプション) 画像マスク内の整数クラスラベルから、人間が読めるクラス名へのマッピングを表す辞書
+    * 画像マスクを表す 2 つのキーのいずれか:
+      * `"mask_data"`: 各ピクセルの整数クラスラベルを含む 2D NumPy 配列
+      * `"path"`:  (文字列) 保存済みの画像マスクファイルへのパス
+    * `"class_labels"`:  (optional) 画像マスク内の整数クラスラベルを、可読なクラス名に対応付ける辞書
 
-    複数のマスクをログするには、以下のコードスニペットのように、複数のキーを持つマスク辞書をログします。
+    複数のマスクをログするには、以下の코드 스니펫のように、複数のキーを持つマスク辞書をログします。
 
-    [動作中のサンプルを見る](https://app.wandb.ai/stacey/deep-drive/reports/Image-Masks-for-Semantic-Segmentation--Vmlldzo4MTUwMw)
+    [ライブ例を見る](https://app.wandb.ai/stacey/deep-drive/reports/Image-Masks-for-Semantic-Segmentation--Vmlldzo4MTUwMw)
 
     [サンプルコード](https://colab.research.google.com/drive/1SOVl3EvW82Q4QKJXX6JtHye4wFix_P4J)
 
@@ -146,34 +146,34 @@ pip install wandb[media]
     )
     ```
 
-    あるキーに対するセグメンテーションマスクは、各ステップ (`run.log()` を呼び出すたび) で定義されます。
+    キーのセグメンテーション マスクは、各 step (`run.log()` の各呼び出し) で定義されます。
 
-    * 各ステップで同じマスクキーに対して異なる値が指定された場合、そのキーについては最新の値のみが画像に適用されます。
-    * 各ステップで異なるマスクキーが指定された場合、各キーのすべての値が表示されますが、表示中のステップで定義されているものだけが画像に適用されます。表示中のステップで定義されていないマスクの表示のオン／オフを切り替えても、画像は変化しません。
+    * step ごとに同じマスク キーに異なる値が指定されている場合、キーの最新の値のみが画像に適用されます。
+    * step ごとに異なるマスク キーが指定されている場合、各キーのすべての値が表示されますが、画像に適用されるのは表示中の step で定義されたものだけです。その step で定義されていないマスクの表示を切り替えても、画像は変化しません。
   </Tab>
 
   <Tab title="バウンディングボックス">
-    画像と一緒にバウンディングボックスをログし、フィルタやトグルを使って UI で異なるボックスの集合を動的に可視化できます。
+    画像とともにバウンディングボックスをログし、フィルターやトグルを使用して、UI で異なるボックスのセットを動的に可視化できます。
 
     <Frame>
-      <img src="/images/track/bb-docs.jpeg" alt="Bounding box example" />
+      <img src="/images/track/bb-docs.jpeg" alt="バウンディングボックスの例" />
     </Frame>
 
     [ライブの例を見る](https://app.wandb.ai/stacey/yolo-drive/reports/Bounding-Boxes-for-Object-Detection--Vmlldzo4Nzg4MQ)
 
-    バウンディングボックスをログするには、`wandb.Image` の boxes キーワード引数に、次のキーと値を持つ辞書を渡す必要があります。
+    バウンディングボックスをログするには、`wandb.Image` の `boxes` キーワード引数に、次のキーと値を持つ辞書を指定する必要があります。
 
-    * `box_data`: 各ボックスごとに 1 つの辞書からなるリスト。ボックス辞書の形式は以下のとおりです。
-      * `position`: ボックスの位置とサイズを表す辞書で、以下の 2 つの形式のうちいずれか 1 つを使用します。ボックスごとに同じ形式である必要はありません。
-        * *オプション 1:* `{"minX", "maxX", "minY", "maxY"}`。各次元に対して、ボックスの上下・左右の境界を定義する座標を指定します。
-        * *オプション 2:* `{"middle", "width", "height"}`。`middle` 座標を `[x,y]` で指定し、`width` と `height` をスカラーとして指定します。
-      * `class_id`: ボックスのクラス ID を表す整数。下記の `class_labels` キーを参照してください。
-      * `scores`: スコア用の文字列ラベルと数値からなる辞書。UI でボックスをフィルタリングするのに使用できます。
-      * `domain`: ボックス座標の単位・形式を指定します。ボックス座標が画像のピクセル空間 (画像サイズの範囲内の整数など) で表されている場合は、**これを &quot;pixel&quot; に設定してください**。デフォルトでは、座標は画像に対する割合 (0〜1 の浮動小数点数) で表されているとみなされます。
-      * `box_caption`:  (任意) このボックスにラベルとして表示する文字列
-    * `class_labels`:  (任意) `class_id` を文字列にマッピングする辞書。デフォルトでは `class_0`、`class_1` などのクラスラベルを自動生成します。
+    * `box_data`: 各ボックスに対して 1 つずつの辞書からなるリストです。ボックス辞書の形式は以下で説明します。
+      * `position`: 以下で説明する 2 つの形式のいずれかで、ボックスの位置とサイズを表す辞書です。すべてのボックスで同じ形式を使用する必要はありません。
+        * *Option 1:* `{"minX", "maxX", "minY", "maxY"}`。各ボックス次元の上限と下限を定義する座標のセットを指定します。
+        * *Option 2:* `{"middle", "width", "height"}`。`middle` 座標を `[x,y]` として、`width` と `height` をスカラーとして指定する座標のセットを指定します。
+      * `class_id`: ボックスのクラス アイデンティティを表す整数です。以下の `class_labels` キーを参照してください。
+      * `scores`: スコア用の文字列ラベルと数値からなる辞書です。UI でボックスをフィルタリングするために使用できます。
+      * `domain`: ボックス座標の単位/形式を指定します。ボックス座標が画像サイズの範囲内の整数など、ピクセル空間で表される場合は、**これを &quot;pixel&quot; に設定してください**。デフォルトでは、domain は画像に対する比率/パーセンテージであるとみなされ、0 から 1 の間の浮動小数点数で表されます。
+      * `box_caption`:  (optional) このボックスのラベルテキストとして表示される文字列
+    * `class_labels`:  (optional) `class_id` を文字列に対応付ける辞書です。デフォルトでは、`class_0`、`class_1` などのクラスラベルが生成されます。
 
-    この例を参照してください。
+    この例をご覧ください。
 
     ```python
     import wandb
@@ -191,14 +191,14 @@ pip install wandb[media]
             "predictions": {
                 "box_data": [
                     {
-                        # デフォルトの相対（分数）ドメインで表現された1つのボックス
+                        # デフォルトの相対/分数ドメインで表現された1つのボックス
                         "position": {"minX": 0.1, "maxX": 0.2, "minY": 0.3, "maxY": 0.4},
                         "class_id": 2,
                         "box_caption": class_id_to_label[2],
                         "scores": {"acc": 0.1, "loss": 1.2},
                         # ピクセルドメインで表現された別のボックス
-                        # （説明のみを目的としており、実際にはすべてのボックスが
-                        # 同じドメイン/フォーマットになる可能性が高い）
+                        # (説明目的のみ。実際にはすべてのボックスが
+                        # 同じドメイン/フォーマットになる可能性が高い)
                         "position": {"middle": [150, 20], "width": 68, "height": 112},
                         "domain": "pixel",
                         "class_id": 3,
@@ -224,18 +224,18 @@ pip install wandb[media]
 </Tabs>
 
 <div id="image-overlays-in-tables">
-  ## Tables における画像オーバーレイ
+  ## 表 の画像オーバーレイ
 </div>
 
 <Tabs>
   <Tab title="セグメンテーションマスク">
     <Frame>
-      <img src="/images/track/Segmentation_Masks.gif" alt="Tables におけるインタラクティブなセグメンテーションマスク" />
+      <img src="/images/track/Segmentation_Masks.gif" alt="表 内のインタラクティブなセグメンテーションマスク" />
     </Frame>
 
-    Tables に Segmentation Masks をログするには、テーブルの各行に対して `wandb.Image` オブジェクトを指定する必要があります。
+    表 にセグメンテーションマスクをログするには、表の各行に `wandb.Image` オブジェクトを指定する必要があります。
 
-    以下のコードスニペットはその一例です。
+    以下のコードスニペットに例を示します。
 
     ```python
     table = wandb.Table(columns=["ID", "Image"])
@@ -245,7 +245,7 @@ pip install wandb[media]
             img,
             masks={
                 "prediction": {"mask_data": label, "class_labels": class_labels}
-                # 省略
+                # ...
             },
         )
 
@@ -258,12 +258,12 @@ pip install wandb[media]
 
   <Tab title="バウンディングボックス">
     <Frame>
-      <img src="/images/track/Bounding_Boxes.gif" alt="Tables におけるインタラクティブなバウンディングボックス" />
+      <img src="/images/track/Bounding_Boxes.gif" alt="表 内のインタラクティブなバウンディングボックス" />
     </Frame>
 
-    Tables に バウンディングボックス付きの画像をログするには、テーブルの各行に対して `wandb.Image` オブジェクトを指定する必要があります。
+    表 にバウンディングボックス付き画像をログするには、表の各行に `wandb.Image` オブジェクトを指定する必要があります。
 
-    以下のコードスニペットはその一例です。
+    以下のコードスニペットに例を示します。
 
     ```python
     table = wandb.Table(columns=["ID", "Image"])
@@ -300,10 +300,10 @@ pip install wandb[media]
 </div>
 
 <Tabs>
-  <Tab title="Basic Histogram Logging">
-    リスト、配列、テンソルなどの数値のシーケンスが最初の引数として渡された場合、`np.histogram` を呼び出して自動的にヒストグラムを構築します。すべての配列 / テンソルはフラット化されます。オプションの `num_bins` キーワード引数を使用すると、デフォルトの `64` ビンを上書きできます。サポートされるビンの最大数は `512` です。
+  <Tab title="基本的なヒストグラムのログ記録">
+    最初の引数として、リスト、配列、テンソルなどの数値シーケンスが指定されている場合、`np.histogram` を呼び出してヒストグラムを自動的に作成します。すべての配列/テンソルはフラット化されます。省略可能な `num_bins` キーワード引数を使用して、デフォルトの `64` bins を上書きできます。サポートされる bins の最大数は `512` です。
 
-    UI では、ヒストグラムは x 軸にトレーニング ステップ、y 軸にメトリクス値、色でカウントを表してプロットされ、トレーニング全体でログしたヒストグラム同士を比較しやすくなっています。このパネルの「Histograms in Summary」タブで、単発のヒストグラムをログする方法の詳細を参照できます。
+    UI では、トレーニング全体を通してログされたヒストグラムを比較しやすくするために、x-axis にトレーニング step、Y 軸にメトリクス値、色でカウントを表す形でヒストグラムがプロットされます。単発のヒストグラムをログする方法の詳細については、このパネルの「Summary のヒストグラム」タブを参照してください。
 
     ```python
     run.log({"gradients": wandb.Histogram(grads)})
@@ -314,7 +314,7 @@ pip install wandb[media]
     </Frame>
   </Tab>
 
-  <Tab title="Flexible Histogram Logging">
+  <Tab title="柔軟なヒストグラムのログ記録">
     より細かく制御したい場合は、`np.histogram` を呼び出し、返されたタプルを `np_histogram` キーワード引数に渡します。
 
     ```python
@@ -324,13 +324,13 @@ pip install wandb[media]
   </Tab>
 </Tabs>
 
-ヒストグラムが summary に含まれている場合は、[Run Page](/ja/models/runs/) の Overview タブに表示されます。history に含まれている場合は、Charts タブに時間経過に伴うビンのヒートマップがプロットされます。
+ヒストグラムが summary にある場合は、[Run ページ](/ja/models/runs/) の Overview タブに表示されます。history にある場合は、Charts タブで時間経過に伴う bins のヒートマップがプロットされます。
 
 <div id="3d-visualizations">
   ## 3D 可視化
 </div>
 
-3D ポイントクラウドやバウンディングボックス付きの LiDAR シーンをログします。描画する各ポイントの座標と色を含む NumPy 配列を渡します。
+3D ポイントクラウドやバウンディングボックス付きの LiDAR シーンをログします。表示する各ポイントの座標と色を含む NumPy 配列を渡します。
 
 ```python
 point_cloud = np.array([[0, 0, 0, COLOR]])
@@ -339,32 +339,32 @@ run.log({"point_cloud": wandb.Object3D(point_cloud)})
 ```
 
 <Note>
-  W&amp;B UI はデータを最大 300,000 個のデータポイントまでに制限します。
+  W&amp;B UI では、データは 300,000 ポイントで切り捨てられます。
 </Note>
 
 <div id="numpy-array-formats">
   #### NumPy 配列フォーマット
 </div>
 
-柔軟なカラースキームを指定できるように、3 種類の NumPy 配列フォーマットがサポートされています。
+柔軟な色スキームを指定できるように、3 種類の NumPy 配列フォーマットがサポートされています。
 
 * `[[x, y, z], ...]` `nx3`
-* `[[x, y, z, c], ...]` `nx4` `| c is a category` `[1, 14]` の範囲のカテゴリ (セグメンテーションに有用)
-* `[[x, y, z, r, g, b], ...]` `nx6 | r, g, b` は `[0,255]` の範囲の値で、赤、緑、青の各カラーチャンネルを表します。
+* `[[x, y, z, c], ...]` `nx4` `| c はカテゴリです` `[1, 14]` の範囲のカテゴリ (セグメンテーションに有用)
+* `[[x, y, z, r, g, b], ...]` `nx6 | r, g, b` は `[0,255]` の範囲の値で、赤、緑、青の各色チャンネルを表します。
 
 <div id="python-object">
   #### Python オブジェクト
 </div>
 
-このスキーマを使用すると、Python オブジェクトを定義して、それを [`from_point_cloud` メソッド](/ja/models/ref/python/#from_point_cloud) に渡すことができます。
+このスキーマを使用すると、Python オブジェクトを定義し、それを [`from_point_cloud` method](/ja/models/ref/python/#from_point_cloud) に渡せます。
 
-* `points` は、レンダリングする点の座標と色を含む NumPy 配列で、[上記のシンプルなポイントクラウドレンダラーと同じフォーマット](#python-object) を使用します。
-* `boxes` は、3 つの属性を持つ Python 辞書の NumPy 配列です:
+* `points` は、表示する点の座標とカラーを含む NumPy 配列で、[上記のシンプルなポイントクラウドレンダラーと同じ形式](#python-object) を使用します。
+* `boxes` は、3 つの属性を持つ Python の辞書の NumPy 配列です:
   * `corners` - 8 つの頂点のリスト
-  * `label` - ボックス上にレンダリングされるラベルを表す文字列 (省略可) 
+  * `label` - ボックス上に表示するラベルを表す文字列 (省略可)
   * `color` - ボックスの色を表す RGB 値
-  * `score` - バウンディングボックスに表示される数値で、表示するバウンディングボックスをフィルタリングするために使用できます (たとえば、`score` &gt; `0.75` のバウンディングボックスのみを表示するなど)  (省略可) 
-* `type` はレンダリングするシーンの種類を表す文字列です。現在サポートされている値は `lidar/beta` のみです。
+  * `score` - バウンディングボックスに表示される数値で、表示するバウンディングボックスをフィルターするために使用できます (たとえば、`score` &gt; `0.75` のバウンディングボックスのみを表示する場合)。 (省略可)
+* `type` は、表示するシーンのタイプを表す文字列です。現在サポートされる値は `lidar/beta` のみです。
 
 ```python
 point_list = [
@@ -409,13 +409,13 @@ run.log({"my_first_point_cloud": wandb.Object3D.from_point_cloud(
 )})
 ```
 
-ポイントクラウドを表示しているときは、Ctrl キーを押しながらマウスを操作することで、空間内の視点を移動できます。
+ポイントクラウドを表示しているときは、Ctrl キーを押しながらマウスを使うと、空間内を移動できます。
 
 <div id="point-cloud-files">
   #### ポイントクラウドファイル
 </div>
 
-ポイントクラウド データを含む JSON ファイルを読み込むには、[`from_file` メソッド](/ja/models/ref/python/#from_file) を使用できます。
+ポイントクラウドデータを含む JSON ファイルを読み込むには、[`from_file` method](/ja/models/ref/python/#from_file) を使用できます。
 
 ```python
 run.log({"my_cloud_from_file": wandb.Object3D.from_file(
@@ -423,7 +423,7 @@ run.log({"my_cloud_from_file": wandb.Object3D.from_file(
 )})
 ```
 
-点群データのフォーマット例を以下に示します。
+ポイントクラウドデータのフォーマット例を以下に示します。
 
 ```json
 {
@@ -514,7 +514,7 @@ run.log({"my_cloud_from_file": wandb.Object3D.from_file(
   #### NumPy 配列
 </div>
 
-[上で定義した同じ配列フォーマット](#numpy-array-formats) を利用すると、`numpy` 配列を [`from_numpy` メソッド](/ja/models/ref/python/#from_numpy) で直接ポイントクラウドとして定義できます。
+[上で定義したものと同じ配列形式](#numpy-array-formats)を使用して、[`from_numpy` method](/ja/models/ref/python/#from_numpy) を使うと、`numpy` 配列から直接ポイントクラウドを定義できます。
 
 ```python
 run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
@@ -532,7 +532,7 @@ run.log({"my_cloud_from_numpy_xyz": wandb.Object3D.from_numpy(
 run.log({"my_cloud_from_numpy_cat": wandb.Object3D.from_numpy(
      np.array(  
         [
-            [0.4, 1, 1.3, 1], # x, y, z, category 
+            [0.4, 1, 1.3, 1], # x, y, z, カテゴリ 
             [1, 1, 1, 1], 
             [1.2, 1, 1.2, 12], 
             [1.2, 1, 1.3, 12], 
@@ -565,9 +565,9 @@ run.log({"my_cloud_from_numpy_rgb": wandb.Object3D.from_numpy(
 run.log({"protein": wandb.Molecule("6lu7.pdb")})
 ```
 
-分子データを次の 10 種類のファイル形式のいずれかとしてログできます：`pdb`、`pqr`、`mmcif`、`mcif`、`cif`、`sdf`、`sd`、`gro`、`mol2`、`mmtf`。
+分子データは、次の 10 種類のファイル形式のいずれかでログできます：`pdb`、`pqr`、`mmcif`、`mcif`、`cif`、`sdf`、`sd`、`gro`、`mol2`、`mmtf`。
 
-W&amp;B は SMILES 文字列、[`rdkit`](https://www.rdkit.org/docs/index.html) の `mol` ファイル、および `rdkit.Chem.rdchem.Mol` オブジェクトに含まれる分子データのロギングにも対応しています。
+W&amp;B は、SMILES 文字列、[`rdkit`](https://www.rdkit.org/docs/index.html) の `mol` ファイル、および `rdkit.Chem.rdchem.Mol` オブジェクトから分子データをログすることもサポートしています。
 
 ```python
 resveratrol = rdkit.Chem.MolFromSmiles("Oc1ccc(cc1)C=Cc1cc(O)cc(c1)O")
@@ -581,7 +581,7 @@ run.log(
 )
 ```
 
-run が完了すると、UI 上で分子の 3D 可視化をインタラクティブに操作できるようになります。
+run が完了すると、UI で分子の 3D 可視化をインタラクティブに操作できるようになります。
 
 [AlphaFold を使ったライブ例を見る](https://wandb.me/alphafold-workspace)
 
@@ -605,19 +605,19 @@ run.log({"example": [wandb.Image(...) for img in images]})
   ### 動画
 </div>
 
-動画は [`wandb.Video`](/ja/models/ref/python/) データ型でログに記録します。
+動画をログするには、[`wandb.Video`](/ja/models/ref/python/) データ型を使用します。
 
 ```python
 run.log({"example": wandb.Video("myvideo.mp4")})
 ```
 
-これでメディアブラウザーで動画を表示できるようになりました。プロジェクトのワークスペース、run のワークスペース、またはレポートに移動し、**Add visualization** をクリックしてリッチメディアパネルを追加します。
+これで、メディアブラウザーで動画を表示できるようになりました。ワークスペース、run ワークスペース、またはレポートに移動し、**Add visualization** をクリックしてリッチメディアパネルを追加します。
 
 <div id="2d-view-of-a-molecule">
   ## 分子の 2D ビュー
 </div>
 
-[`wandb.Image`](/ja/models/ref/python/data-types/image) データ型と [`rdkit`](https://www.rdkit.org/docs/index.html) を使用して、分子の 2D ビューをログできます。
+[`wandb.Image`](/ja/models/ref/python/data-types/image) データタイプと [`rdkit`](https://www.rdkit.org/docs/index.html) を使用して、分子の 2D ビューをログできます。
 
 ```python
 molecule = rdkit.Chem.MolFromSmiles("CC(=O)O")
@@ -632,17 +632,17 @@ run.log({"acetic_acid": wandb.Image(pil_image)})
   ## その他のメディア
 </div>
 
-W&amp;B では、その他さまざまな種類のメディアもログとして記録できます。
+W&amp;B は、そのほかにもさまざまなタイプのメディアのログ記録をサポートしています。
 
 <div id="audio">
-  ### 音声
+  ### オーディオ
 </div>
 
 ```python
 run.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)})
 ```
 
-1 ステップあたり最大 100 個の音声クリップをログに記録できます。詳しい使用方法については [`audio-file`](/ja/models/ref/query-panel/audio-file) を参照してください。
+1 step あたり最大 100 個の音声クリップをログに記録できます。詳しい使用方法については [`audio-file`](/ja/models/ref/query-panel/audio-file) を参照してください。
 
 <div id="video">
   ### 動画
@@ -652,9 +652,9 @@ run.log({"whale songs": wandb.Audio(np_array, caption="OooOoo", sample_rate=32)}
 run.log({"video": wandb.Video(numpy_array_or_path_to_video, fps=4, format="gif")})
 ```
 
-numpy 配列が渡された場合、次元は時間、チャンネル、幅、高さの順であるとみなします。デフォルトでは 4 fps の gif 画像を作成します (numpy オブジェクトを渡す場合は、[`ffmpeg`](https://www.ffmpeg.org) と [`moviepy`](https://pypi.org/project/moviepy/) Python ライブラリが必要です) 。サポートされている形式は `"gif"`、`"mp4"`、`"webm"`、`"ogg"` です。`wandb.Video` に文字列を渡すと、wandb にアップロードする前に、そのファイルが存在し、かつサポートされている形式であることを確認します。`BytesIO` オブジェクトを渡すと、指定された形式を拡張子とする一時ファイルが作成されます。
+numpy 配列が渡された場合、次元は時間、チャンネル、幅、高さの順であるとみなします。デフォルトでは 4 fps の gif 画像を作成します (numpy オブジェクトを渡す場合は、[`ffmpeg`](https://www.ffmpeg.org) と [`moviepy`](https://pypi.org/project/moviepy/) Python ライブラリが必要です) 。サポートされる形式は `"gif"`、`"mp4"`、`"webm"`、`"ogg"` です。`wandb.Video` に文字列を渡すと、wandb にアップロードする前に、そのファイルが存在し、かつサポートされる形式であることを確認します。`BytesIO` オブジェクトを渡すと、指定された形式を拡張子とする一時ファイルが作成されます。
 
-W&amp;B の [Run](/ja/models/runs/) ページと [Project](/ja/models/track/project-page/) ページにある Media セクションで、アップロードした動画を確認できます。
+W&amp;B の [Run](/ja/models/runs/) ページと [プロジェクト](/ja/models/track/project-page/) ページにある Media セクションで、アップロードした動画を確認できます。
 
 使い方の詳細については、[`video-file`](/ja/models/ref/query-panel/video-file) を参照してください。
 
@@ -662,7 +662,7 @@ W&amp;B の [Run](/ja/models/runs/) ページと [Project](/ja/models/track/proj
   ### テキスト
 </div>
 
-テキストを UI に表示されるテーブルとしてログするには `wandb.Table` を使用します。デフォルトでは、列ヘッダーは `["Input", "Output", "Expected"]` です。UI のパフォーマンスを最適化するため、デフォルトの最大行数は 10,000 に設定されています。ただし、`wandb.Table.MAX_ROWS = {DESIRED_MAX}` を設定することで、この最大値を明示的に上書きできます。
+UI に表示される表にテキストをログするには、`wandb.Table` を使用します。デフォルトでは、列ヘッダーは `["Input", "Output", "Expected"]` です。UI のパフォーマンスを最適化するため、デフォルトの最大行数は 10,000 に設定されています。ただし、`wandb.Table.MAX_ROWS = {DESIRED_MAX}` を設定すると、この最大値を明示的に上書きできます。
 
 ```python
 with wandb.init(project="my_project") as run:
@@ -685,7 +685,7 @@ pandas の `DataFrame` オブジェクトも渡せます。
 table = wandb.Table(dataframe=my_dataframe)
 ```
 
-詳細な使い方については、[`string`](/ja/models/ref/query-panel/) を参照してください。
+使い方の詳細は、[`string`](/ja/models/ref/query-panel/) を参照してください。
 
 <div id="html">
   ### HTML
@@ -696,7 +696,7 @@ run.log({"custom_file": wandb.Html(open("some.html"))})
 run.log({"custom_string": wandb.Html('<a href="https://mysite">Link</a>')})
 ```
 
-任意のキーでカスタム HTML をログすると、run ページに HTML パネルが表示されます。デフォルトでは、デフォルトのスタイルが挿入されますが、`inject=False` を渡すことでデフォルトのスタイルを無効にできます。
+任意のキーにカスタム HTML をログすると、run ページ上に HTML パネルが表示されます。デフォルトではデフォルトのスタイルを挿入しますが、`inject=False` を渡すとデフォルトのスタイルを無効にできます。
 
 ```python
 run.log({"custom_file": wandb.Html(open("some.html"), inject=False)})

@@ -34,9 +34,9 @@ Un projet unique associé à une entité.
 
 **Arguments :**
 
-* `client` :  Le client de l’API utilisé pour interroger W&amp;B.
+* `client` :  Le client de l’API utilisé pour les requêtes W&amp;B.
 * `entity` :  L’entité propriétaire du projet.
-* `project` :  Le nom du projet à interroger.
+* `project` :  Le nom du projet faisant l’objet de la requête.
 * `attrs` :  Les attributs du projet.
 
 ***
@@ -52,21 +52,21 @@ Renvoie le propriétaire du projet en tant qu’objet User.
 
 **Exceptions levées :**
 
-* `ValueError` : si aucune information sur l’utilisateur n’est trouvée pour le projet.
+* `ValueError` :  si aucune information sur l’utilisateur n’est trouvée pour le projet.
 
 **Retourne :**
 
-* `public.User` : La valeur de la propriété owner.
+* `public.User` : La valeur de propriété owner.
 
 ***
 
 ### <kbd>propriété</kbd> Project.path
 
-Renvoie le chemin du projet. Ce chemin est une liste contenant l’entité et le nom du projet.
+Renvoie le chemin du projet. Le chemin est une liste contenant l’entité et le nom du projet.
 
 **Retourne :**
 
-* `list[str]` : La valeur de la propriété `path`.
+* `list[str]` : La valeur de la valeur de propriété `path`.
 
 ***
 
@@ -76,7 +76,7 @@ Renvoie l’URL du projet.
 
 **Retourne :**
 
-* `str` : La valeur de la propriété `url`.
+* `str` : La valeur de propriété `url`.
 
 ***
 
@@ -118,11 +118,11 @@ Renvoie toutes les collections d’artefacts associées à ce projet.
 sweeps(per_page: 'int' = 50) → Sweeps
 ```
 
-Renvoie une collection paginée de sweeps dans ce projet.
+Renvoie une collection paginée de Sweeps dans ce projet.
 
 **Arguments :**
 
-* `per_page`:  Le nombre de sweeps à récupérer à chaque requête adressée à l’API.
+* `per_page`:  Le nombre de Sweeps à récupérer à chaque requête adressée à l’API.
 
 **Retourne :**
 Un objet `Sweeps`, qui est une collection itérable d’objets `Sweep`.

@@ -4,14 +4,14 @@ title: Ajouter un tag à un artefact
 
 ```python
 """
-Ajouter un tag à un artefact lors de son enregistrement dans W&B.
+Ajouter un tag à un artefact lors de sa journalisation dans W&B.
 """
 import wandb
 
 # Créer un artefact
 artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
 
-# Enregistrer l'artefact avec des tags
+# Journaliser l'artefact avec des tags
 with wandb.init(project="<project>") as run:
     run.log_artifact(artifact, tags=["<tag1>", "<tag2>"])
 ```

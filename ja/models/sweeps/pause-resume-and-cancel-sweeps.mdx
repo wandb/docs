@@ -5,10 +5,10 @@ title: Sweep の管理
 
 [W&amp;B CLI](/ja/models/ref/cli/wandb-sweep) を使用して、sweep を一時停止、再開、キャンセルします。CLI の `sweep` コマンドは、`--pause` や `--resume` などのフラグを使用して、新しい W&amp;B run を作成する sweep の挙動を制御します。既存の run に対しては、それぞれ次のような影響があります。
 
-* `--pause`: sweep を一時停止すると、sweep を再開するまで agent は新しい run を作成しません。既存の run は通常どおり実行され続けます。
-* `--resume`: sweep を再開すると、agent は探索戦略に従って新しい run の作成を再開します。
-* `--stop`: sweep を停止すると、agent は新しい run の作成を停止します。既存の run は完了まで実行されます。
-* `--cancel`: sweep をキャンセルすると、agent は現在実行中のすべての run を即座に強制終了し、新しい run の作成も停止します。
+* `--pause`: sweep を一時停止すると、sweep を再開するまでエージェントは新しい run を作成しません。既存の run は通常どおり実行され続けます。
+* `--resume`: sweep を再開すると、エージェントは探索戦略に従って新しい run の作成を再開します。
+* `--stop`: sweep を停止すると、エージェントは新しい run の作成を停止します。既存の run は完了まで実行されます。
+* `--cancel`: sweep をキャンセルすると、エージェントは現在実行中のすべての run を即座に強制終了し、新しい run の作成も停止します。
 
 以下の説明に従って、sweep を一時停止、再開、キャンセルします。いずれの場合も、sweep を初期化したときに生成された sweep ID を指定します。
 
@@ -36,30 +36,30 @@ wandb sweep --resume entity/project/sweep_ID
   ### sweep を停止する
 </div>
 
-現在実行中の run が正常に完了するのを待ちながら、新しい run の作成を停止するには、sweep を終了します。[`wandb sweep --stop`](/ja/models/ref/cli/wandb-sweep) コマンドを実行します。
+sweep を終了すると、新しい run の作成を停止しつつ、現在実行中の run は正常に完了させることができます。[`wandb sweep --stop`](/ja/models/ref/cli/wandb-sweep) コマンドを使用します。
 
 ```bash
 wandb sweep --stop entity/project/sweep_ID
 ```
 
 <Warning>
-  W&amp;B は、プロジェクトを削除しても実行中の [sweeps](/ja/models/sweeps) やエージェントを自動的に終了しません。
+  プロジェクトを削除しても、W&amp;B はアクティブな[sweeps](/ja/models/sweeps)やエージェントを終了しません。
 </Warning>
 
 <div id="cancel-a-sweep">
   ### sweep をキャンセルする
 </div>
 
-sweep をキャンセルすると、実行中のすべての run が即座に強制終了され、新しい run の作成も停止します。これは既存の run を強制終了する唯一の sweep コマンドです。Runs は突然終了されるため、実行中のプロセスはユーザー定義のシグナル ハンドラーを実行する機会がありません。sweep をキャンセルするには [`wandb sweep --cancel`](/ja/models/ref/cli/wandb-sweep) コマンドを使用します。キャンセルしたい sweep の ID を指定してください。シグナルと sweep run の詳細については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
+sweep をキャンセルすると、実行中のすべての run を直ちに強制終了し、新しい run の作成を停止します。これは、既存の run を強制終了する唯一の sweep コマンドです。Runs は即座に終了されるため、実行中のプロセスはユーザー定義のシグナル ハンドラーを実行する機会がありません。sweep をキャンセルするには、[`wandb sweep --cancel`](/ja/models/ref/cli/wandb-sweep) コマンドを使用します。キャンセルする sweep ID を指定してください。シグナル と sweep run の詳細については、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
 
 ```bash
 wandb sweep --cancel entity/project/sweep_ID
 ```
 
-すべての CLI コマンドオプションの一覧については、[wandb sweep](/ja/models/ref/cli/wandb-sweep) CLI リファレンス ガイドを参照してください。
+CLI コマンド オプションの完全な一覧については、[wandb sweep](/ja/models/ref/cli/wandb-sweep) CLI Reference Guideを参照してください。
 
 <Warning>
-  プロジェクトを削除しても、W&amp;B はアクティブな [sweeps](/ja/models/sweeps) やエージェントを停止しません。
+  プロジェクトを削除しても、W&amp;B はアクティブな[Sweeps](/ja/models/sweeps)やエージェントを終了しません。
 </Warning>
 
 <div id="understanding-sweep-and-run-statuses">
@@ -72,8 +72,8 @@ sweep は、複数の run をオーケストレーションして、ハイパー
   ### 主な違い
 </div>
 
-* **Sweep ステータス** は、新しい run を作成するかどうかを管理します (Running、Paused、Stopped、Cancelled、Finished、Failed、Crashed) 
-* **Run ステータス** は、個々の run の実行状態を表します (Pending、Running、Finished、Failed、Crashed、Killed) 
+* **Sweep のステータス** は、新しい run が作成されるかどうかを制御します (Running、Paused、Stopped、Cancelled、Finished、Failed、Crashed)
+* **Run のステータス** は、個々の run の実行状態を表します (Pending、Running、Finished、Failed、Crashed、Killed)
 
 <div id="stop-an-individual-run">
   ### 個々の run を停止する

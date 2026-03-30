@@ -16,9 +16,9 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `ContextAwareThread`
 
-Thread qui exécute des fonctions avec le contexte de l&#39;appelant.
+Thread qui exécute des fonctions dans le contexte de l&#39;appelant.
 
-Il s&#39;agit d&#39;un remplacement direct de threading.Thread qui garantit que les appels se comportent comme prévu dans le thread.  Weave exige que certaines contextvars soient définies (voir call&#95;context.py), mais les nouveaux threads ne recopient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d&#39;appel -- ce n’est pas idéal !  Cette classe automatise la copie des contextvars afin que l&#39;utilisation de ce thread « fonctionne tout simplement », comme l&#39;utilisateur s&#39;y attend probablement.
+Il s&#39;agit d&#39;un substitut direct à threading.Thread qui garantit que les appels se comportent comme prévu dans le thread.  Weave exige que certaines contextvars soient définies (voir call&#95;context.py), mais les nouveaux threads ne recopient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d&#39;appel -- ce n’est pas souhaitable !  Cette classe automatise la copie des contextvars afin que l&#39;utilisation de ce thread « fonctionne tout simplement », comme l&#39;utilisateur s&#39;y attend probablement.
 
 Vous pouvez obtenir le même effet sans cette classe en écrivant plutôt :
 
@@ -49,7 +49,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 Une valeur booléenne indiquant si ce thread est un thread daemon.
 
-Cette valeur doit être définie avant l’appel à `start()`, sinon une `RuntimeError` est levée. Sa valeur initiale est héritée du thread qui l’a créé ; le thread principal n’est pas un thread daemon et, par conséquent, tous les threads créés dans le thread principal ont par défaut `daemon = False`.
+Cette valeur doit être définie avant l’appel à `start()`, sinon une `RuntimeError` est levée. Sa valeur initiale est héritée du thread qui l’a créé ; le thread principal n’est pas un thread daemon et, par conséquent, tous les threads créés dans le thread principal ont par défaut `daemon = False`.
 
 L’ensemble du programme Python se termine lorsqu’il ne reste plus que des threads daemon.
 
@@ -94,9 +94,9 @@ run() → None
 
 ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
 
-Un ThreadPoolExecutor qui exécute des fonctions avec le contexte de l&#39;appelant.
+Un ThreadPoolExecutor qui exécute des fonctions avec le contexte de l’appelant.
 
-Il s&#39;agit d&#39;un remplacement direct de concurrent.futures.ThreadPoolExecutor qui garantit que les appels Weave se comportent comme prévu dans l&#39;exécuteur. Weave exige que certaines `contextvars` soient définies (voir call&#95;context.py), mais les nouveaux threads ne recopient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d&#39;appel — ce n&#39;est pas idéal ! Cette classe automatise la copie des `contextvars`, de sorte que l&#39;utilisation de cet exécuteur « fonctionne tout simplement », comme l&#39;utilisateur s&#39;y attend probablement.
+Il s’agit d’un remplacement direct de concurrent.futures.ThreadPoolExecutor qui garantit que les appels Weave se comportent comme prévu au sein de l’exécuteur.  Weave exige que certaines `contextvars` soient définies (voir call&#95;context.py), mais les nouveaux threads n’héritent pas automatiquement du contexte du parent, ce qui peut entraîner la perte du contexte d’appel -- ce n’est pas idéal !  Cette classe automatise la copie des `contextvars`, de sorte que l’utilisation de cet exécuteur « fonctionne tout simplement », comme l’utilisateur s’y attend probablement.
 
 Vous pouvez obtenir le même effet sans cette classe en écrivant plutôt :
 

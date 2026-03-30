@@ -3,7 +3,7 @@ title: Reproduire des expériences
 description: "Reproduisez l'expérience W&B d'un membre de votre équipe en téléchargeant le code, les dépendances et la configuration associés à partir d'un run."
 ---
 
-Reproduisez une expérience créée par un membre de l&#39;équipe afin de vérifier et de valider ses résultats.
+Reproduisez une expérience créée par un membre de l’équipe afin de vérifier et de valider ses résultats.
 
 Avant de reproduire une expérience, notez les éléments suivants :
 
@@ -36,7 +36,7 @@ Pour continuer, téléchargez le code de l&#39;expérience pour un hachage donn�
        ```bash
        git clone https://github.com/your-repo.git && cd your-repo
        ```
-    4. Copiez-collez le champ **État Git** dans votre terminal. L&#39;état Git est un ensemble de commandes Git qui récupère exactement le commit utilisé par votre coéquipier pour créer l&#39;expérience. Remplacez les valeurs indiquées dans l&#39;extrait de code suivant par les vôtres :
+    4. Copiez-collez le champ **État Git** dans votre terminal. L&#39;état Git est un ensemble de commandes Git qui extrait exactement le commit utilisé par votre coéquipier pour créer l&#39;expérience. Remplacez les valeurs indiquées dans l&#39;extrait de code suivant par les vôtres :
        ```bash
        git checkout -b "<run-name>" 0123456789012345678901234567890123456789
        ```
@@ -54,7 +54,7 @@ Pour continuer, téléchargez le code de l&#39;expérience pour un hachage donn�
    pip install -r requirements.txt
    ```
 
-9. Maintenant que vous disposez du code et des dépendances, vous pouvez exécuter le script ou le notebook pour reproduire l&#39;expérience. Si vous avez cloné un dépôt, vous devrez peut-être accéder au répertoire où se trouvent le script ou le notebook. Sinon, vous pouvez exécuter le script ou le notebook depuis votre répertoire de travail.
+9. Maintenant que vous disposez du code et des dépendances, vous pouvez exécuter le script ou le notebook pour reproduire l&#39;expérience. Si vous avez cloné un dépôt, vous devrez peut-être accéder au répertoire où se trouve le script ou le notebook. Sinon, vous pouvez exécuter le script ou le notebook depuis votre répertoire de travail.
 
 <Tabs>
   <Tab title="Notebook Python">

@@ -29,7 +29,7 @@ line(
 * `table`:   グラフ用のデータを含むテーブル。
 * `x`:  x 軸の値の列名。
 * `y`:  y 軸の値の列名。
-* `stroke`:  線を区別するための列名（例: 複数の線をグループ化する場合）。
+* `stroke`:  線を区別するための列名 (例: 複数の線をグループ化する場合) 。
 * `title`:  グラフのタイトル。
 * `split_table`:  テーブルを W&amp;B UI の別セクションとして表示するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False`。
 
@@ -57,7 +57,7 @@ for i in range(100):
 # テーブルの列を定義する
 table = wandb.Table(data=data, columns=["step", "value", "series"])
 
-# wandb の run を初期化して折れ線グラフをログに記録する
+# wandb の run を初期化して折れ線グラフをログする
 with wandb.init(project="line_chart_example") as run:
      line_chart = wandb.plot.line(
          table=table,

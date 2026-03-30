@@ -2,9 +2,9 @@
 title: Wandb Docker
 ---
 
-コードを Docker コンテナ内で実行します。
+Docker コンテナ内でコードを実行します。
 
-W&amp;B Docker を使うと、wandb が適切に設定された状態で、コードを Docker イメージ内で実行できます。コンテナには環境変数 WANDB&#95;DOCKER と WANDB&#95;API&#95;KEY が追加され、現在のディレクトリがデフォルトで /app にマウントされます。追加の引数を指定すると、これらはイメージ名が指定される前に `docker run` に渡されます。イメージが指定されない場合は、W&amp;B 側でデフォルトのイメージを選択します。
+W&amp;B Docker を使用すると、wandb が適切に設定された状態で、コードを Docker イメージ内で実行できます。コンテナには環境変数 WANDB&#95;DOCKER と WANDB&#95;API&#95;KEY が追加され、現在のディレクトリがデフォルトで /app にマウントされます。追加の引数を指定すると、これらの引数はイメージ名が指定される前に `docker run` に追加されます。イメージが指定されない場合は、デフォルトのイメージを自動的に選択します：
 
 ```sh
 wandb docker -v /mnt/dataset:/app/data

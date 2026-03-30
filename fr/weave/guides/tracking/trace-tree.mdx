@@ -21,43 +21,43 @@ Pour accéder à la Vue de trace :
   ## Aperçu de la page Traces
 </div>
 
-La page Traces se compose de trois panneaux principaux :
+La page Traces se compose de trois panneaux principaux :
 
-* **Panneau de gauche** : une liste triable et paginée de toutes les traces du projet.
-  * Ce tableau des traces inclut des données supplémentaires, comme les tokens, le coût et la latence.
-* **Panneau central** : vue de trace interactive de la trace sélectionnée. L’arborescence de trace affiche une hiérarchie de toutes les méthodes suivies dans la trace.
-  * L’arborescence de trace affiche les [ops](/fr/weave/guides/tracking/ops#automatically-track-function-calls-using-ops), c’est-à-dire les fonctions décorées avec `@weave.op()`, qui ont été appelées pendant la trace.
-* **Panneau de droite** : détails de l’op sélectionnée dans la trace sélectionnée.
+* **Panneau de gauche** : une liste triable et paginée de toutes les traces du projet.
+  * Ce tableau des traces inclut des données supplémentaires, comme les jetons, le coût et la latence.
+* **Panneau central** : vue de trace interactive de la trace sélectionnée. L&#39;arborescence de trace affiche une hiérarchie de toutes les méthodes suivies dans la trace.
+  * L&#39;arborescence de trace affiche les [opérations](/fr/weave/guides/tracking/ops#automatically-track-function-calls-using-ops), c&#39;est-à-dire les fonctions décorées avec `@weave.op()`, qui ont été appelées pendant la trace.
+* **Panneau de droite** : détails de l&#39;opération sélectionnée dans la trace sélectionnée.
 
 <Frame>
-  ![Page Traces affichant une trace sélectionnée et les détails de l’op sélectionnée ](/weave/guides/tracking/imgs/trace-tree-full.png)
+  ![Page Traces affichant une trace sélectionnée et les détails de l'op sélectionné ](/weave/guides/tracking/imgs/trace-tree-full.png)
 </Frame>
 
 <div id="filter-within-a-trace">
   ### Filtrer dans une trace
 </div>
 
-* **Filtre regex par nom(s)** : utilisez le champ de texte au-dessus de l’arborescence de trace pour filtrer les ops par nom ou par type, par exemple `tool`, `openai.response.create`.
-* **Métriques** : choisissez d’afficher ou non les métriques suivantes lorsqu’elles sont disponibles : coût, tokens et latence.
+* **Filtre regex par nom(s)** : utilisez le champ de texte au-dessus de l’arborescence de trace pour filtrer les opérations par nom ou par type, par exemple `tool`, `openai.response.create`.
+* **Métriques** : choisissez d’afficher ou non les métriques suivantes lorsqu’elles sont disponibles : coût, jetons et latence.
 
 <div id="navigate-a-trace">
   ### Naviguer dans une trace
 </div>
 
-L’arborescence de trace affiche une hiérarchie de toutes les méthodes suivies dans la trace. Pour vous déplacer vers le haut ou vers le bas dans l’arborescence, utilisez `Cmd` (macOS) ou `Alt` (Windows/Linux) + Flèche haut (↑) / Flèche bas (↓).
+L&#39;arborescence de trace affiche une hiérarchie de toutes les méthodes suivies dans la trace. Pour vous déplacer vers le haut ou vers le bas dans l&#39;arborescence, utilisez `Cmd` (macOS) ou `Alt` (Windows/Linux) + Flèche haut (↑) / Flèche bas (↓).
 
-Plusieurs curseurs se trouvent sous l’arborescence de trace et permettent de naviguer rapidement entre ses différents états. Vous pouvez les utiliser pour parcourir votre trace de manière ciblée.
+Plusieurs curseurs se trouvent sous l&#39;arborescence de trace et permettent de naviguer rapidement entre ses différents états. Vous pouvez les utiliser pour parcourir votre trace de manière ciblée.
 
-Développez le panneau pour voir tous les curseurs disponibles :
+Développez le panneau pour voir tous les curseurs disponibles :
 
-* **Chronologie** : ordre chronologique des événements dans la trace.
-* **Pairs** : op partageant le même type. Par exemple, si vous examinez les détails d’une fonction appelée `predict`, vous pouvez utiliser ce curseur pour passer immédiatement à l’exécution suivante de `predict` dans la trace.
-* **Frères et sœurs** : op ayant le même parent. Utilisez ce curseur pour parcourir les op imbriquées sous l’appel de la fonction parente.
-* **Pile** : parcourez la pile d’appels vers le haut ou vers le bas.
-* **Chemin** : (Disponible uniquement dans la Vue de composition du code) parcourez tous les appels ayant le même chemin de code que l’appel sélectionné.
+* **Chronologie** : ordre chronologique des événements dans la trace.
+* **Pairs** : opération partageant le même type. Par exemple, si vous examinez les détails d&#39;une fonction appelée `predict`, vous pouvez utiliser ce curseur pour passer immédiatement à l&#39;exécution suivante de `predict` dans la trace.
+* **Frères et sœurs** : opérations ayant le même parent. Utilisez ce curseur pour parcourir les opérations imbriquées sous l&#39;appel de la fonction parente.
+* **Pile** : parcourez la pile d&#39;appels vers le haut ou vers le bas.
+* **Chemin** : (Disponible uniquement dans la Vue de composition du code) parcourez tous les appels ayant le même chemin de code que l&#39;appel sélectionné.
 
 <Frame>
-  ![Panneau de l’arborescence de trace montrant le filtre de recherche et les curseurs](/weave/guides/tracking/imgs/trace-tree-scrubbers.png)
+  ![Panneau de l'arborescence de trace montrant le filtre de recherche et les curseurs](/weave/guides/tracking/imgs/trace-tree-scrubbers.png)
 </Frame>
 
 <div id="alternative-trace-tree-views">
@@ -76,7 +76,7 @@ La vue par défaut de l’arborescence de trace affiche la hiérarchie des appel
   #### Vue de composition du code
 </div>
 
-Dans la vue de composition du code, les boîtes représentent les ops et leurs appels imbriqués. Cela permet de visualiser le flux des appels de fonction. Dans cette vue, vous pouvez sélectionner une boîte pour explorer cette op plus en détail et filtrer le chemin d&#39;appel.
+Dans la vue de composition du code, les boîtes représentent les opérations et leurs appels imbriqués. Cela permet de visualiser le flux des appels de fonction. Dans cette vue, vous pouvez sélectionner une boîte pour explorer cette op plus en détail et filtrer le chemin d&#39;appel.
 
 <Frame>
   ![Vue de trace montrant la vue du code d'une trace](/weave/guides/tracking/imgs/trace-tree-code-view.png)
@@ -89,28 +89,28 @@ Dans la vue de composition du code, les boîtes représentent les ops et leurs a
 La vue flame graph fournit une visualisation chronologique de la profondeur et de la durée d’exécution. Elle est utile pour comprendre les diagnostics de performances dans le temps. Vous pouvez sélectionner des frames pour isoler des sous-traces.
 
 <Frame>
-  ![Vue de trace montrant un flame graph des ops au sein d’une trace](/weave/guides/tracking/imgs/trace-tree-flame-view.png)
+  ![Vue de trace montrant un flame graph des opérations au sein d’une trace](/weave/guides/tracking/imgs/trace-tree-flame-view.png)
 </Frame>
 
 <div id="graph-view">
   #### Vue graphique
 </div>
 
-La vue graphique affiche les relations hiérarchiques entre les ops. C’est utile pour comprendre les relations parent-enfant.
+La vue graphique affiche les relations hiérarchiques entre les opérations. C’est utile pour comprendre les relations parent-enfant.
 
 <Frame>
-  ![Vue de trace montrant une vue graphique fonctionnelle des ops et des relations au sein d’une trace](/weave/guides/tracking/imgs/trace-tree-graph-view.png)
+  ![Vue de trace montrant une vue graphique fonctionnelle des opérations et des relations au sein d’une trace](/weave/guides/tracking/imgs/trace-tree-graph-view.png)
 </Frame>
 
 <div id="view-details-for-a-trace-op">
-  ### Afficher les détails d’une op de trace
+  ### Voir les détails d’une op de trace
 </div>
 
 Après avoir sélectionné une op dans l’arborescence de trace, les détails de cette op s’affichent dans le panneau suivant. Ces détails sont regroupés dans les onglets suivants :
 
-* **Appel** : Les entrées et les sorties de l’exécution de l’op.
+* **Appel** : Les entrées et sorties de l’exécution de l’op.
 * **Code** : Le code utilisé au moment de l’appel.
 * **Feedback** : Le [feedback](/fr/weave/guides/tracking/feedback) disponible pour l’op. Vous pouvez fournir un feedback directement dans Weave ou via l’API.
-* **Scores** : Les [scores](/fr/weave/guides/evaluation/scorers) disponibles pour l’op. Les appels reçoivent des scores lors de l’exécution d’Évaluations.
-* **Résumé** :  Informations générales sur l’op.
-* **Utiliser :** Extraits de code que vous pouvez utiliser pour récupérer l’appel de manière programmatique et ajouter des réactions, des notes ou du feedback.
+* **Scores** : Les [scores](/fr/weave/guides/evaluation/scorers) disponibles pour l’op. Les appels obtiennent des scores en exécutant des Évaluations.
+* **Synthèse** : Informations générales sur l’op.
+* **Utiliser :** Extraits de code que vous pouvez utiliser pour récupérer l’appel par programmation et ajouter des réactions, des notes ou du feedback.

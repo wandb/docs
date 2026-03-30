@@ -8,6 +8,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/apis/public/projects.py" />
 
+
 ## <kbd>class</kbd> `Project`
 
 プロジェクトは run の名前空間です。
@@ -25,32 +26,33 @@ __init__(
 
 **引数:**
 
-* `client`:  W&amp;B API クライアント インスタンス。
-* `name` (str):  プロジェクトの名前。
-* `entity` (str):  プロジェクトを所有するエンティティ名。
+* `client`:  W&amp;B API client インスタンス。
+* `name` (str):  プロジェクトの名。
+* `entity` (str):  プロジェクトを所有する entity の名。
 
-エンティティに関連付けられた単一のプロジェクト。
+entity に関連付けられた単一のプロジェクト。
 
 **引数:**
 
-* `client`:  W&amp;B をクエリするために使用される API クライアント。
-* `entity`:  プロジェクトを所有するエンティティ。
-* `project`:  クエリ対象のプロジェクトの名前。
+* `client`:  W&amp;B のクエリに使用する API client。
+* `entity`:  プロジェクトを所有する entity。
+* `project`:  クエリするプロジェクトの名。
 * `attrs`:  プロジェクトの属性。
 
 ***
+
 
 ### <kbd>プロパティ</kbd> Project.id
 
 ***
 
-### <kbd>property</kbd> Project.owner
+### <kbd>プロパティ</kbd> Project.owner
 
-プロジェクトの所有者を User オブジェクトとして返します。
+プロジェクトオーナーを User オブジェクトとして返します。
 
-**例外:**
+**発生する例外:**
 
-* `ValueError`:  プロジェクトのユーザー情報が見つからない場合に送出されます。
+* `ValueError`:  プロジェクトのユーザー情報が見つからない場合。
 
 **戻り値:**
 
@@ -58,25 +60,25 @@ __init__(
 
 ***
 
-### <kbd>property</kbd> Project.path
+### <kbd>プロパティ</kbd> Project.path
 
-プロジェクトのパスを返します。パスは entity 名とプロジェクト名からなるリストです。
-
-**Returns:**
-
-- `list[str]`: path プロパティの値。
-
----
-
-### <kbd>property</kbd> Project.url
-
-プロジェクトの URL を返します。 
+プロジェクトのパスを返します。パスは entity とプロジェクト名を含むリストです。
 
 **戻り値:**
 
-- `str`: URL プロパティの値。
+* `list[str]`: path プロパティの値。
 
----
+***
+
+### <kbd>プロパティ</kbd> Project.url
+
+プロジェクトの URL を返します。
+
+**戻り値:**
+
+* `str`: URL プロパティの値。
+
+***
 
 ### <kbd>method</kbd> `Project.artifacts_types`
 
@@ -84,9 +86,10 @@ __init__(
 artifacts_types(per_page: 'int' = 50) → public.ArtifactTypes
 ```
 
-このプロジェクトに関連するすべての Artifacts タイプを返します。
+このプロジェクトに関連付けられたすべてのアーティファクトタイプを返します。
 
 ***
+
 
 ### <kbd>method</kbd> `Project.collections`
 
@@ -98,15 +101,16 @@ collections(
 ) → public.ProjectArtifactCollections
 ```
 
-このプロジェクトに関連するすべてのアーティファクト コレクションを返します。
+このプロジェクトに関連付けられているすべてのアーティファクト コレクションを返します。
 
 **引数:**
 
-* `filters`:  クエリに適用するフィルターのマッピング (省略可) 。
+* `filters`:  クエリに適用するフィルターを指定するマッピング (省略可) 。
 * `order`:  結果の並び順を指定する文字列 (省略可) 。先頭に `+` を付けると昇順 (デフォルト) 、`-` を付けると降順になります。
 * `per_page`:  1 ページあたりに取得するアーティファクト コレクションの数。デフォルトは 50 です。
 
----
+***
+
 
 ### <kbd>method</kbd> `Project.sweeps`
 

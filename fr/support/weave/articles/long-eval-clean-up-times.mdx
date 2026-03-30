@@ -26,11 +26,11 @@ client.flush()
   ### Augmenter le parallélisme du client
 </div>
 
-Le parallélisme du client est automatiquement déterminé en fonction de l&#39;environnement, mais vous pouvez aussi le définir manuellement à l&#39;aide de la variable d&#39;environnement suivante :
+Le parallélisme du client est automatiquement déterminé en fonction de l’environnement, mais vous pouvez aussi le configurer manuellement à l’aide de la variable d’environnement suivante :
 
-* `WEAVE_CLIENT_PARALLELISM` : le nombre de threads disponibles pour le traitement parallèle. Augmenter cette valeur accroît le nombre de threads disponibles pour le traitement parallèle, ce qui peut améliorer les performances des tâches en arrière-plan, comme le téléversement de jeux de données.
+* `WEAVE_CLIENT_PARALLELISM` : le nombre de threads disponibles pour le traitement parallèle. Augmenter cette valeur augmente le nombre de threads disponibles pour le traitement parallèle, ce qui peut améliorer les performances des tâches en arrière-plan, comme le téléversement de jeux de données.
 
-Vous pouvez aussi le définir par programmation à l&#39;aide de l&#39;argument `settings` de `weave.init()` :
+Vous pouvez aussi le configurer par programmation à l’aide de l’argument `settings` de `weave.init()` :
 
 ```python
 client = weave.init("fast-upload", settings={"client_parallelism": 100})
@@ -45,4 +45,4 @@ client = weave.init("fast-upload", settings={"client_parallelism": 100})
 
 <Badge stroke shape="pill" color="orange" size="md">[Performances](/fr/support/weave/tags/performance)</Badge><Badge stroke shape="pill" color="orange" size="md">[Évaluation](/fr/support/weave/tags/evaluation)</Badge>
 
-{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT: badges d’onglets ---- */}
+{/* ---- FIN GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ---- */}

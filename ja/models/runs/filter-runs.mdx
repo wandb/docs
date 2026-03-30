@@ -1,69 +1,69 @@
 ---
-description: Expression editor を使って Runs table 内の run をフィルターする方法を学びます。
-title: run をフィルターする
+description: Expression editor を使って Runs テーブル内の Runs をフィルターする方法を学びます。
+title: Runs をフィルターする
 ---
 
-Runs table の Expression editor を使って、name、state、[tags](#filter-runs-with-tags)、その他のプロパティに基づいて run をフィルターします。
+Runs テーブル の Expression editor を使って、名、state、[tags](#filter-runs-with-tags)、その他のプロパティ기준으로 Runs をフィルターします。
 
-フィルターを追加するときは、まずフィールド（例: tags、timestamp、entity）を選択します。各フィールドには、text、time、ID などの基となる型があります。
+フィルターを追加するときは、まずフィールド (例: tags、timestamp、entity) を選択します。各フィールドには、text、time、ID などの基となるタイプがあります。
 
-表示される演算子の一覧（例: is、in、&ge;、within last）は、その型によって異なります。フィールドを選択すると、そのフィールドの型に対して有効な演算子だけが UI に表示されます。
+表示される演算子の一覧 (例: is、in、≥、within last) は、そのタイプによって異なります。フィールドを選択すると、そのフィールドのタイプに対して有効な演算子だけが UI に表示されます。
 
 <div id="common-operators-by-type">
-  ## 型ごとの一般的な演算子
+  ## タイプごとの一般的な演算子
 </div>
 
-| フィルターの種類 | フィールド例 | 一般的な演算子 | 使用例 |
-| ----------- | -------------- | ---------------- | ------------- |
-| Tags        | `tags`           | is, is not, in, not in  | `tags is "baseline"` |
-| Time        | `created timestamp`      | &le;, &ge;, within last | `created timestamp` &ge; `01/16/2026` |
-| String      | `state`         | &equals;, &ne;, IN, NOT IN | `state = "finished"` |
+| フィルターの種類 | フィールド例              | 一般的な演算子                | 使用例                                |
+| -------- | ------------------- | ---------------------- | ---------------------------------- |
+| Tags     | `tags`              | is, is not, in, not in | `tags is "baseline"`               |
+| Time     | `created timestamp` | ≤, ≥, within last      | `created timestamp` ≥ `01/16/2026` |
+| String   | `state`             | =, ≠, IN, NOT IN       | `state = "finished"`               |
 
 <Note>
-上の表では、利用可能なフィールドと演算子の一部のみを示しています。Expression editor には、利用可能なすべてのフィールドと演算子が表示されます。
+  上の表では、利用可能なフィールドと演算子の一部のみを示しています。Expression editor には、利用可能なすべてのフィールドと演算子が表示されます。
 </Note>
 
 <div id="create-a-filter-expression">
   ## フィルター式を作成する
 </div>
 
-1. プロジェクトのサイドバーから **Runs** タブに移動します。
-2. Runs テーブル上部にある、じょうごのアイコンの **Filter** ボタンをクリックします。
-3. 左から順に、列名、論理演算子、フィルター値を選択して、フィルター式を作成します。
-4. 必要に応じて **New Filter** を選択し、追加のフィルターを適用します。
+1. プロジェクトのサイドバーから **Runs** タブにアクセスします。
+2. Runs テーブル上部の、じょうごの形をした **Filter** ボタンを選択します。
+3. 左から右へ、列名、論理演算子、フィルター値を選択してフィルター式を作成します。
+4. 任意で **New Filter** を選択して、追加のフィルターを適用します。
 
-次の画像は、`1` 以下の loss 値に基づいて run をフィルタリングした例です:
+次の画像は、loss 値が `1` 以下の Runs をフィルタリングした例です：
 
 <Frame>
-    <img src="/images/data_vis/filter.png" alt="誤った予測のフィルター"  />
+  <img src="/images/data_vis/filter.png" alt="誤った予測のフィルター" />
 </Frame>
 
-次のセクションでは、Runs テーブルで run をフィルタリングする例をいくつか紹介します。
+以下のセクションでは、Runs テーブルで Runs をフィルタリングする方法のいくつかの例を示します。
 
 <div id="example-filter-runs-with-tags">
-  ### 例：タグで run をフィルタリングする
+  ### 例：タグで Runs をフィルタリングする
 </div>
 
-タグに基づいて run をフィルタリングします。
+タグに基づいて Runs をフィルタリングします。
 
 1. プロジェクトのサイドバーから **Runs** タブをクリックします。
-2. run テーブル上部にある、じょうごのアイコンの **Filter** ボタンをクリックします。
+2. Runs テーブル上部にある、じょうごのアイコンの **Filter** ボタンをクリックします。
 3. 左から右に向かって、最初のドロップダウン メニューで `"Tags"` を選択し、続いて論理演算子を選択します。
 4. 2 つ目のドロップダウン メニューから is、is not、in、not in のいずれかを選択します。
 5. 3 つ目のドロップダウン メニューで、フィルタリングに使いたいタグ名を入力します。
 
 <Frame>
-    <img src="/images/app_ui/filter_runs.gif" alt="タグで run をフィルタリングする" />
+  <img src="/images/app_ui/filter_runs.gif" alt="タグで Runs をフィルタリングする" />
 </Frame>
 
 <div id="default-filters">
   ## デフォルトフィルター
 </div>
 
-デフォルトでは、W&B は次のフィルターを提供します。
+デフォルトでは、W&amp;B は次のフィルターを提供します。
 
-* **自分の run のみを表示**: 現在のユーザーによって作成された run のみを表示します。
-* **クラッシュした run を非表示**: `crashed` 状態の run を非表示にします。
+* **自分の Runs のみを表示**: 現在のユーザーが作成した Runs のみを表示します。
+* **クラッシュした Runs を非表示**: `crashed` 状態の Runs を非表示にします。
 
 デフォルトフィルターは、フィルター式エディター内の **New filter** ボタンの下にトグルとして表示されます。
 
@@ -77,19 +77,19 @@ Runs テーブルからフィルターを削除するには、次の手順を実
 2. 削除したいフィルターの横にある `x` アイコンをクリックします。
 
 {/*
-  ## run の色を編集する
+  ## Runs の色を編集する
 
-  新しい run が作成されると、デフォルトの色が割り当てられます。色のプレビュー部分をクリックすると、該当する run の色を編集できます。
+  新しい Runs が作成されると、デフォルトの色が割り当てられます。色のプレビュー部分をクリックすると、該当する Runs の色を編集できます。
   */}
 
 {/*
-  runs の名前の横にある緑色のドットを確認してください。テーブル内およびグラフ凡例でアクティブな runs であることを示します。
+  Runs の名の横にある緑色のドットを探してください。これは、表とグラフの凡例でその Runs がアクティブであることを示します。
   */}
 
 {/*
-  ## Bulk select runs
+  ## Bulk select Runs
 
-  複数の run をまとめて削除したり、run のグループにタグを付けたりできます。一括選択機能を使うと、Runs テーブルを整理しやすくなります。
+  複数の Runs をまとめて削除したり、Runs のグループにタグを付けたりできます。一括選択機能を使うと、Runs テーブルを整理しやすくなります。
 
   <Frame>
     <img src="/images/app_ui/howto_bulk_select.gif"  />
@@ -97,9 +97,9 @@ Runs テーブルからフィルターを削除するには、次の手順を実
   */}
 
 {/*
-  ## テーブル内のすべての runs を選択
+  ## 表内のすべての Runs を選択
 
-  テーブル左上のチェックボックスをクリックし、「Select all runs」をクリックすると、現在のフィルター条件に一致するすべての run が選択されます。
+  テーブル左上のチェックボックスをクリックし、「Select all Runs」をクリックすると、現在のフィルター条件に一致するすべての Runs が選択されます。
 
   <Frame>
     <img src="/images/app_ui/all_runs_select.gif"  />
@@ -107,9 +107,9 @@ Runs テーブルからフィルターを削除するには、次の手順を実
   */}
 
 {/*
-  ## テーブル内の列を検索する
+  ## 表内の列を検索する
 
-  テーブル内の列を検索するには、**Columns** ボタンを使用します。
+  表内の列を検索するには、**Columns** ボタンを使用します。
 
   <Frame>
     <img src="/images/app_ui/search_columns.gif"  />

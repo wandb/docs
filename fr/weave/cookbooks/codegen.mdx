@@ -1,6 +1,6 @@
 ---
 title: "Génération de code"
-description: "Créez et évaluez des pipelines de génération de code avec W&B Weave pour tracer les prompts, les sorties et les métriques de qualité."
+description: "Build et évaluez des pipelines de génération de code avec W&B Weave pour tracer les prompts, les sorties et les métriques de qualité."
 ---
 
 <Note>
@@ -31,7 +31,7 @@ Nous utiliserons Weave pour comparer les évaluations et assurer le suivi, ainsi
 Dans ce tutoriel, nous utiliserons Weave pour implémenter et évaluer un pipeline de génération de code. Vous apprendrez à :
 
 1. **Suivre votre pipeline LLM** : Journalisez les entrées, les sorties et les étapes intermédiaires de votre processus de génération de code.
-2. **Évaluer les sorties du LLM** : Créez et comparez des évaluations de votre code généré à l’aide d’outils de débogage riches et de visualisations.
+2. **Évaluez les sorties du LLM** : Créez et comparez des évaluations de votre code généré à l’aide d’outils de débogage riches et de visualisations.
 
 <div id="set-up-the-environment">
   ## Configurer l’environnement
@@ -79,20 +79,20 @@ selected_examples = human_eval["test"][:3]
 ```
 
 <Note>
-  Weave assure automatiquement le suivi des appels à l’API OpenAI, y compris les entrées, les sorties et les métadonnées. Cela signifie que vous n’avez pas besoin d’ajouter de code de journalisation supplémentaire pour vos interactions avec OpenAI – Weave s’en charge de manière transparente en arrière-plan.
+  Weave suit automatiquement les appels à l’API OpenAI, y compris les entrées, les sorties et les métadonnées. Cela signifie que vous n’avez pas besoin d’ajouter de code de journalisation supplémentaire pour vos interactions avec OpenAI – Weave s’en charge en toute transparence en arrière-plan.
 </Note>
 
 <div id="leveraging-structured-outputs-and-pydantic-models">
   ## Tirer parti des sorties structurées et des modèles Pydantic
 </div>
 
-Dans ce pipeline de génération de code, nous utilisons le [mode de sorties structurées](https://platform.openai.com/docs/guides/structured-outputs) d’OpenAI et des modèles Pydantic pour garantir des réponses cohérentes et correctement formatées de la part du modèle de langage. Cette approche offre plusieurs avantages :
+Dans ce pipeline de génération de code, nous utilisons le [mode de sorties structurées](https://platform.openai.com/docs/guides/structured-outputs) d’OpenAI ainsi que des modèles Pydantic pour garantir des réponses cohérentes et bien formatées du modèle de langage. Cette approche offre plusieurs avantages :
 
-1. **Sécurité des types** : en définissant des modèles Pydantic pour nos sorties attendues, nous appliquons une structure stricte au code généré, aux exécuteurs de programme et aux tests unitaires.
-2. **Analyse simplifiée** : le mode de sortie structurée nous permet d’analyser directement la réponse du modèle dans nos modèles Pydantic prédéfinis, ce qui réduit le besoin de post-traitements complexes.
+1. **Sécurité des types** : en définissant des modèles Pydantic pour les sorties attendues, nous appliquons une structure stricte au code généré, aux exécuteurs de programme et aux tests unitaires.
+2. **Analyse simplifiée** : le mode de sortie structurée nous permet d’analyser directement la Réponse du modèle dans nos modèles Pydantic prédéfinis, ce qui réduit le besoin de post-traitements complexes.
 3. **Fiabilité accrue** : en spécifiant précisément le format attendu, nous réduisons le risque d’obtenir des sorties inattendues ou mal formées du modèle de langage.
 
-Voici un exemple de la manière dont nous définissons nos modèles Pydantic et les utilisons avec les sorties structurées d’OpenAI :
+Voici un exemple de la façon dont nous définissons nos modèles Pydantic et les utilisons avec les sorties structurées d’OpenAI :
 
 ```python lines
 class GeneratedCode(BaseModel):
@@ -108,7 +108,7 @@ class FormattedGeneratedCode(BaseModel):
   ## Mise en œuvre d’un formateur de code
 </div>
 
-Pour garantir un code généré cohérent et propre, nous implémentons une classe `CodeFormatter` à l’aide des opérations Weave. Ce formateur applique diverses règles de linting et de style au code généré, au moteur d’exécution du programme et aux tests unitaires.
+Pour garantir un code généré homogène et propre, nous implémentons une classe `CodeFormatter` à l’aide des opérations Weave. Ce formateur applique diverses règles de linting et de style au code généré, au moteur d’exécution du programme et aux tests unitaires.
 
 ```python lines
 class CodeFormatter(BaseModel):
@@ -199,9 +199,9 @@ class CodeFormatter(BaseModel):
         return FormattedGeneratedCode(full_code=cleaned_code)
 ```
 
-Cette classe `CodeFormatter` fournit plusieurs opérations Weave pour nettoyer et formater le code généré :
+Cette classe `CodeFormatter` propose plusieurs opérations Weave pour nettoyer et mettre en forme le code généré :
 
-* Remplacement des sauts de ligne échappés par de véritables sauts de ligne
+* Remplacement des sauts de ligne échappés par de vrais sauts de ligne
 * Suppression des imports et variables inutilisés
 * Tri des imports
 * Application du formatage PEP 8
@@ -217,7 +217,7 @@ Cette classe `CodeFormatter` fournit plusieurs opérations Weave pour nettoyer e
 
 Implémentons maintenant la logique centrale de génération de code :
 
-Nous utilisons un `weave.Model` afin qu’il soit automatiquement versionné à chaque modification. Nous conservons également `model_name` comme attribut afin de pouvoir expérimenter avec et voir facilement les différences, puis le comparer dans Weave. Nous suivons les appels de fonction avec `@weave.op` afin que les entrées et les sorties soient journalisées pour faciliter le suivi des erreurs et le débogage.
+Nous utilisons un `weave.Model` afin qu’il soit automatiquement versionné lorsqu’il change. Nous conservons également `model_name` comme attribut afin de pouvoir expérimenter facilement avec lui, voir les différences et le comparer dans Weave. Nous suivons les appels de fonction avec `@weave.op` afin que les entrées et les sorties soient journalisées pour faciliter le suivi des erreurs et le débogage.
 
 ```python lines
 class CodeGenerationPipeline(weave.Model):
@@ -260,19 +260,19 @@ class CodeGenerationPipeline(weave.Model):
             raise ValueError(message.refusal)
 ```
 
-Cette classe `CodeGenerationPipeline` encapsule notre logique de génération de code dans un modèle Weave, offrant plusieurs avantages clés :
+Cette classe `CodeGenerationPipeline` encapsule notre logique de génération de code sous la forme d’un modèle Weave, offrant plusieurs avantages clés :
 
 1. Suivi automatique des expériences : Weave capture les entrées, les sorties et les paramètres pour chaque run du modèle.
 2. Gestion des versions : les modifications apportées aux attributs ou au code du modèle sont automatiquement versionnées, ce qui crée un historique clair de l’évolution de votre pipeline de génération de code au fil du temps.
 3. Reproductibilité : la gestion des versions et le suivi permettent de reproduire facilement tout résultat ou toute configuration antérieurs de votre pipeline de génération de code.
 4. Gestion des hyperparamètres : les attributs du modèle (comme `model_name`) sont clairement définis et suivis sur différents runs, ce qui facilite l’expérimentation.
-5. Intégration avec l’écosystème Weave : l’utilisation de `weave.Model` permet une intégration transparente avec d’autres outils Weave, comme les évaluations et les fonctionnalités de serving.
+5. Intégration avec l’écosystème Weave : l’utilisation de `weave.Model` permet une intégration fluide avec d’autres outils Weave, comme les évaluations et les capacités de serving.
 
 <div id="implement-evaluation-metrics">
   ## Implémenter des métriques d&#39;évaluation
 </div>
 
-Pour évaluer la qualité du code généré, nous allons implémenter des métriques d&#39;évaluation simples à l&#39;aide d&#39;une sous-classe de `weave.Scorer`. Cette sous-classe exécutera `score` sur chaque `model_output` de notre jeu de données. `model_output` provient de la sortie de la fonction `predict` de notre `weave.Model`. `prompt` est extrait de notre jeu de données `human-eval`.
+Pour évaluer la qualité du code généré, nous allons implémenter de simples métriques d&#39;évaluation à l&#39;aide d&#39;une sous-classe de `weave.Scorer`. Cela exécutera `score` sur chaque `model_output` de notre jeu de données. `model_output` provient de la sortie de la fonction `predict` de notre `weave.Model`. `prompt` est extrait de notre jeu de données `human-eval`.
 
 ```python lines
 CODE_TEMPLATE = """
@@ -330,7 +330,7 @@ async def score_humaneval_test(test: str, entry_point: str, output: str):
         os.remove(tmp_file_path)
 ```
 
-Ces fonctions d’évaluation exécutent le code généré et renvoient une valeur booléenne indiquant si le code a réussi le test fourni dans le jeu de données.
+Ces fonctions d’évaluation exécutent le code généré et renvoient une valeur booléenne indiquant si le code réussit le test fourni par le jeu de données.
 
 <Frame>
   ![Évaluation](/media/codegen/eval_trace.png)
@@ -392,7 +392,7 @@ for model_name in ["gpt-4o-2024-08-06"]:
         results = await evaluation.evaluate(pipeline)
 ```
 
-Ce code crée un jeu de données à partir de nos exemples de prompts, définit notre scorer de test HumanEval et lance une évaluation de notre pipeline de génération de code.
+Ce code crée un jeu de données à partir de nos exemples de prompts, définit notre scorer HumanEval pour les tests et lance une évaluation de notre pipeline de génération de code.
 
 <Frame>
   ![Évaluation finale](/media/codegen/eval_dash.png)
@@ -411,4 +411,4 @@ Dans cet exemple, nous avons montré comment implémenter un pipeline de génér
 
 L’intégration fluide de Weave nous permet de suivre les entrées, les sorties et les étapes intermédiaires tout au long du processus de génération de code, ce qui facilite le débogage, l’optimisation et l’évaluation de notre application LLM.
 
-Pour en savoir plus sur Weave et ses fonctionnalités, consultez la [documentation Weave](/fr/weave). Vous pouvez étendre cet exemple pour gérer des jeux de données plus volumineux, implémenter des métriques d’évaluation plus sophistiquées ou intégrer d’autres flux de travail LLM.
+Pour plus d’informations sur Weave et ses fonctionnalités, consultez la [documentation Weave](/fr/weave). Vous pouvez étendre cet exemple pour gérer des jeux de données plus volumineux, implémenter des métriques d’évaluation plus sophistiquées ou intégrer d’autres flux de travail LLM.

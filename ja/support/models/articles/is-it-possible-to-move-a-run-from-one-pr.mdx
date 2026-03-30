@@ -1,25 +1,25 @@
 ---
-title: "run をあるプロジェクトから別のプロジェクトに移動できますか？"
+title: "あるプロジェクトから別のプロジェクトへ run を移動できますか？"
 keywords: ["Runs"]
 ---
 
-次の手順で、run をあるプロジェクトから別のプロジェクトに移動できます。
+以下の手順に従うと、あるプロジェクトから別のプロジェクトへ run を移動できます。
 
-* 移動する run が含まれているプロジェクト ページに移動します。
-* **Runs** タブをクリックして run の一覧表を開きます。
-* 移動する run を選択します。
+* 移動する run があるプロジェクトページにアクセスします。
+* **Runs** タブをクリックして Runs table を開きます。
+* 移動する runs を選択します。
 * **Move** ボタンをクリックします。
-* 移動先のプロジェクトを選択し、操作を確定します。
+* 移動先のプロジェクトを選択し、액션を確認します。
 
-W&amp;B では UI から run を移動できますが、run のコピーはサポートしていません。run とともにログされた Artifacts は新しいプロジェクトには移動されません。アーティファクトを run の移動先に手動で移動するには、[`wandb artifact get`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK コマンドまたは [`Api.artifact` API](/ja/models/ref/python/public-api/api/#artifact) を使用してアーティファクトをダウンロードし、その後 [wandb artifact put](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put/) または `Api.artifact` API を使用して run の移動先にアップロードできます。
+W&amp;B は UI を介した run の移動をサポートしますが、run のコピーはサポートしていません。run とともにログされたアーティファクトは、新しいプロジェクトには移動されません。アーティファクトを run の新しい場所へ手動で移動するには、[`wandb artifact get`](/ja/models/ref/cli/wandb-artifact/wandb-artifact-get/) SDK コマンドまたは [`Api.artifact` API](/ja/models/ref/python/public-api/api/#artifact) を使用してアーティファクトをダウンロードし、その後 [wandb artifact put](/ja/models/ref/cli/wandb-artifact/wandb-artifact-put/) または `Api.artifact` API を使用して run の新しい場所にアップロードできます。
 
 ***
 
-{/* ---- 自動生成: タブ バッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py で管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されます。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge>
 
-{/* ---- 自動生成終了: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

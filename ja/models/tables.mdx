@@ -1,6 +1,6 @@
 ---
-description: データセットを継続的に改善し、モデルの予測を理解する
-title: Tables の概要
+description: データセットを改善しながら、モデルの予測を理解する
+title: 表 の概要
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
@@ -12,36 +12,36 @@ import { TryProductLink } from '/snippets/ja/_includes/try-product-link.mdx';
   <TryProductLink url="https://wandb.ai/wandb/examples/reports/AlphaFold-ed-Proteins-in-W-B-Tables--Vmlldzo4ODc0MDc" />
 </CardGroup>
 
-W&amp;B Tables を使って表形式データを可視化したり、クエリを実行したりできます。例えば次のようなことが可能です。
+W&amp;B 表 を使用して表形式データを可視化したり、クエリを実行したりできます。例えば次のようなことが可能です。
 
 * 異なるモデルが同じテストセット上でどのように性能を発揮するかを比較できる
 * データ内のパターンを特定できる
 * モデルによるサンプル予測を視覚的に確認できる
-* よく誤分類されるサンプルを見つけるためのクエリを実行できる
+* よく誤分類されるサンプルを見つけるためにクエリできる
 
 <Frame>
-  <img src="/images/data_vis/tables_sample_predictions.png" alt="セマンティックセグメンテーション予測のテーブル" />
+  <img src="/images/data_vis/tables_sample_predictions.png" alt="セマンティックセグメンテーション予測の表" />
 </Frame>
 
-上の画像は、セマンティックセグメンテーションとカスタムメトリクスを含むテーブルを示しています。このテーブルは W&amp;B ML Course の [サンプル プロジェクト](https://wandb.ai/av-team/mlops-course-001)で確認できます。
+上の画像は、セマンティックセグメンテーションとカスタムメトリクスを含む表を示しています。この表は W&amp;B ML Course の [サンプル プロジェクト](https://wandb.ai/av-team/mlops-course-001)で確認できます。
 
 <div id="how-it-works">
   ## 仕組み
 </div>
 
-Table は、各列が 1 つの型のデータのみを持つ 2 次元のデータグリッドです。Table はプリミティブ型や数値型に加えて、ネストされたリストや辞書、リッチメディア型もサポートします。
+表は、各列が 1 つのタイプのデータのみを持つ 2 次元のデータグリッドです。表はプリミティブタイプや数値タイプに加えて、ネストされたリストや辞書、リッチメディアタイプもサポートします。
 
 <div id="log-a-table">
-  ## Table をログに記録する
+  ## 表をログする
 </div>
 
-数行のコードで Table をログに記録できます:
+数行のコードで表をログします。
 
-* [`wandb.init()`](/ja/models/ref/python/functions/init): 結果を追跡する [run](/ja/models/runs/) を作成します。
-* [`wandb.Table()`](/ja/models/ref/python/data-types/table): 新しい Table オブジェクトを作成します。
-  * `columns`: 列名を指定します。
-  * `data`: テーブルの内容を指定します。
-* [`run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog): Table をログに記録して W&amp;B に保存します。
+* [`wandb.init()`](/ja/models/ref/python/functions/init): 結果をトラッキングするための [run](/ja/models/runs/) を作成します。
+* [`wandb.Table()`](/ja/models/ref/python/data-types/table): 新しい表 object を作成します。
+  * `columns`: 列名を設定します。
+  * `data`: 表の内容を設定します。
+* [`run.log()`](/ja/models/ref/python/experiments/run.md/#method-runlog): 表をログして W&amp;B に保存します。
 
 ```python
 import wandb
@@ -55,5 +55,5 @@ with wandb.init(project="table-test") as run:
   ## はじめに
 </div>
 
-* [クイックスタート](/ja/models/tables/tables-walkthrough/): データテーブルのロギング、データの可視化、データのクエリ実行方法を学びます。
-* [Tables Gallery](/ja/models/tables/tables-gallery/): Tables のユースケース例を確認します。
+* [クイックスタート](/ja/models/tables/tables-walkthrough/): データの表をログする方法、データの可視化、データをクエリする方法を学びます。
+* [表 Gallery](/ja/models/tables/tables-gallery/): 表 のユースケース例を確認します。

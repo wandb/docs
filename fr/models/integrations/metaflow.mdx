@@ -11,7 +11,7 @@ import ApiKeyCreateStreamlined from "/snippets/fr/_includes/api-key-create-strea
 
 [Metaflow](https://docs.metaflow.org) est un framework créé par Netflix pour créer et exécuter des flux de travail de ML.
 
-Cette intégration permet aux utilisateurs d’appliquer des décorateurs aux [étapes et flux](https://docs.metaflow.org/metaflow/basics) de Metaflow afin de journaliser automatiquement les paramètres et les artefacts dans W&amp;B.
+Cette intégration permet aux utilisateurs d&#39;appliquer des décorateurs aux [étapes et flux](https://docs.metaflow.org/metaflow/basics) de Metaflow afin de journaliser automatiquement les paramètres et les artefacts dans W&amp;B.
 
 * Décorer une étape active ou désactive la journalisation pour certains types dans cette étape.
 * Décorer le flux active ou désactive la journalisation pour toutes les étapes du flux.
@@ -24,11 +24,11 @@ Cette intégration permet aux utilisateurs d’appliquer des décorateurs aux [�
   ### Inscrivez-vous et créez une clé API
 </div>
 
-Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer une clé API à partir de votre profil utilisateur.
+Une clé API authentifie votre machine auprès de W&amp;B. Vous pouvez générer une clé API depuis votre profil.
 
 <ApiKeyCreateStreamlined />
 
-1. Cliquez sur l’icône de votre profil utilisateur dans le coin supérieur droit.
+1. Cliquez sur l’icône de votre profil dans le coin supérieur droit.
 2. Sélectionnez **Paramètres utilisateur**, puis faites défiler jusqu’à la section **API Keys**.
 
 <div id="install-the-wandb-library-and-log-in">
@@ -43,7 +43,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
 
 <Tabs>
   <Tab title="Ligne de commande">
-    1. Définissez la [variable d&#39;environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
+    1. Définissez la [variable d’environnement](/fr/models/track/environment-variables/) `WANDB_API_KEY` avec votre clé API.
 
        ```bash
        export WANDB_API_KEY=<your_api_key>
@@ -69,7 +69,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
     ```
   </Tab>
 
-  <Tab title="Python notebook">
+  <Tab title="notebook Python">
     ```notebook
     !pip install -Uqqq metaflow "plum-dispatch<3.0.0" wandb
 
@@ -87,7 +87,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
   <Tab title="Étape">
     Décorer une étape active ou désactive la journalisation pour certains types au sein de cette étape.
 
-    Dans cet exemple, tous les jeux de données et modèles de `start` seront journalisés.
+    Dans cet exemple, tous les jeux de données et modèles dans `start` seront enregistrés.
 
     ```python
     from wandb.integration.metaflow import wandb_log
@@ -105,7 +105,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
   <Tab title="Flux">
     Décorer un flux revient à décorer toutes les étapes qui le composent avec des valeurs par défaut.
 
-    Dans ce cas, toutes les étapes de `WandbExampleFlow` journalisent par défaut les jeux de données et les modèles, comme si chaque étape était décorée avec `@wandb_log(datasets=True, models=True)`.
+    Dans ce cas, toutes les étapes de `WandbExampleFlow` enregistrent par défaut les jeux de données et les modèles, comme si chaque étape était décorée avec `@wandb_log(datasets=True, models=True)`.
 
     ```python
     from wandb.integration.metaflow import wandb_log
@@ -121,12 +121,12 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
   </Tab>
 
   <Tab title="Flux et étapes">
-    Décorer le flux revient à décorer toutes les étapes avec des valeurs par défaut. Cela signifie que si vous décorez ensuite une étape avec un autre `@wandb_log`, celui-ci remplace la décoration définie au niveau du flux.
+    Décorer le flux revient à décorer toutes les étapes avec des valeurs par défaut. Cela signifie que si vous décorez ensuite une étape avec un autre `@wandb_log`, celui-ci redéfinit la décoration définie au niveau du flux.
 
     Dans cet exemple :
 
-    * `start` et `mid` journalisent à la fois les jeux de données et les modèles.
-    * `end` ne journalise ni jeux de données ni modèles.
+    * `start` et `mid` enregistrent à la fois les jeux de données et les modèles.
+    * `end` n’enregistre ni jeux de données ni modèles.
 
     ```python
     from wandb.integration.metaflow import wandb_log
@@ -147,7 +147,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
         self.model_file = torch.load(...)  # nn.Module    -> téléversé comme modèle
         self.next(self.end)
 
-      # cette étape remplace ce comportement et n’enregistrera PAS de jeux de données NI de modèles
+      # cette étape redéfinit ce comportement et n’enregistrera PAS les jeux de données NI les modèles
       @wandb_log(datasets=False, models=False)
       @step
       def end(self):
@@ -161,7 +161,7 @@ Pour installer la bibliothèque `wandb` en local et vous connecter :
   ## Accédez à vos données par programmation
 </div>
 
-Vous pouvez accéder aux informations que nous avons capturées de trois façons : dans le processus Python d’origine où elles sont journalisées à l’aide de la [bibliothèque cliente `wandb`](/fr/models/ref/python/), via l’[interface de l’application web](/fr/models/track/workspaces/), ou par programmation à l’aide de [notre API publique](/fr/models/ref/python/public-api/). Les `Parameter`s sont enregistrés dans la [`config`](/fr/models/) de W&amp;B et se trouvent dans l’[onglet Vue d’ensemble](/fr/models/runs/#overview-tab). Les `datasets`, `models` et `others` sont enregistrés dans les [Artifacts de W&amp;B](/fr/models/artifacts/) et se trouvent dans l’[onglet Artifacts](/fr/models/runs/#artifacts-tab). Les types Python de base sont enregistrés dans le dict [`summary`](/fr/models/) de W&amp;B et se trouvent dans l’onglet Vue d’ensemble. Voir notre [guide de l’API publique](/fr/models/track/public-api-guide/) pour plus de détails sur l’utilisation de l’API afin d’obtenir ces informations par programmation depuis l’extérieur.
+Vous pouvez accéder aux informations que nous avons capturées de trois façons : depuis le processus Python d’origine qui les enregistre à l’aide de la [bibliothèque cliente `wandb`](/fr/models/ref/python/), via l’[interface de l’application web](/fr/models/track/workspaces/), ou par programmation à l’aide de [notre API publique](/fr/models/ref/python/public-api/). Les `Paramètre`s sont enregistrés dans la [`config`](/fr/models/) de W&amp;B et se trouvent dans l’[onglet Vue d’ensemble](/fr/models/runs/#overview-tab). Les `datasets`, `models` et `others` sont enregistrés dans les [W&amp;B Artifacts](/fr/models/artifacts/) et se trouvent dans l’[onglet Artifacts](/fr/models/runs/#artifacts-tab). Les types Python de base sont enregistrés dans le dict [`summary`](/fr/models/) de W&amp;B et se trouvent dans l’onglet Vue d’ensemble. Voir notre [guide de l’API publique](/fr/models/track/public-api-guide/) pour savoir comment utiliser l’API afin d’obtenir ces informations par programmation depuis l’extérieur.
 
 <div id="quick-reference">
   ### Référence rapide
@@ -171,7 +171,7 @@ Vous pouvez accéder aux informations que nous avons capturées de trois façons
 | -------------------------------------------------- | --------------------------------------------- | ------------------------------------ |
 | `Parameter(...)`                                   | `wandb.Run.config`                            | onglet Vue d’ensemble, Configuration |
 | `datasets`, `models`, `others`                     | `wandb.Run.use_artifact("{var_name}:latest")` | onglet Artifacts                     |
-| Types Python de base (`dict`, `list`, `str`, etc.) | `wandb.Run.summary`                           | onglet Vue d’ensemble, Résumé        |
+| Types Python de base (`dict`, `list`, `str`, etc.) | `wandb.Run.summary`                           | onglet Vue d’ensemble, Synthèse      |
 
 <div id="wandb_log-kwargs">
   ### kwargs de `wandb_log`
@@ -179,23 +179,23 @@ Vous pouvez accéder aux informations que nous avons capturées de trois façons
 
 | kwarg      | Options                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `datasets` | <ul><li><code>True</code> : Journaliser les variables d’instance de type jeu de données</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `models`   | <ul><li><code>True</code> : Journaliser les variables d’instance de type modèle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| `others`   | <ul><li><code>True</code> : Journaliser tout autre élément sérialisable avec pickle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `settings` | <ul><li><code>wandb.Settings(...)</code> : Spécifiez vos propres paramètres <code>wandb</code> pour cette étape ou ce flux</li><li><code>None</code> : Équivaut à passer <code>wandb.Settings()</code></li></ul><p>Par défaut, si :</p><ul><li><code>settings.run&#95;group</code> est <code>None</code>, il sera défini sur <code>&#123;flow&#95;name&#125;/&#123;run&#95;id&#125;</code></li><li><code>settings.run&#95;job&#95;type</code> est <code>None</code>, il sera défini sur <code>&#123;run&#95;job&#95;type&#125;/&#123;step&#95;name&#125;</code></li></ul> |
+| `datasets` | <ul><li><code>True</code>: Journaliser les variables d&#39;instance qui sont un jeu de données</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `models`   | <ul><li><code>True</code>: Journaliser les variables d&#39;instance qui sont un modèle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `others`   | <ul><li><code>True</code>: Journaliser tout autre élément sérialisable en pickle</li><li><code>False</code></li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `settings` | <ul><li><code>wandb.Settings(...)</code>: Spécifiez vos propres paramètres <code>wandb</code> pour cette étape ou ce flux</li><li><code>None</code>: Équivalent à passer <code>wandb.Settings()</code></li></ul><p>Par défaut, si :</p><ul><li><code>settings.run&#95;group</code> est <code>None</code>, il sera défini sur <code>&#123;flow&#95;name&#125;/&#123;run&#95;id&#125;</code></li><li><code>settings.run&#95;job&#95;type</code> est <code>None</code>, il sera défini sur <code>&#123;run&#95;job&#95;type&#125;/&#123;step&#95;name&#125;</code></li></ul> |
 
 <div id="frequently-asked-questions">
   ## Questions fréquentes
 </div>
 
 <div id="what-exactly-do-you-log-do-you-log-all-instance-and-local-variables">
-  ### Que journalisez-vous exactement ? Journalisez-vous toutes les variables d’instance et les variables locales ?
+  ### Qu’enregistrez-vous exactement ? Enregistrez-vous toutes les variables d’instance et les variables locales ?
 </div>
 
-`wandb_log` ne journalise que les variables d’instance. Les variables locales ne sont JAMAIS journalisées. Cela permet d’éviter de journaliser des données inutiles.
+`wandb_log` n’enregistre que les variables d’instance. Les variables locales ne sont JAMAIS enregistrées. Cela permet d’éviter d’enregistrer des données inutiles.
 
 <div id="which-data-types-get-logged">
-  ### Quels types de données sont journalisés ?
+  ### Quels types de données sont enregistrés ?
 </div>
 
 Nous prenons actuellement en charge les types suivants :
@@ -213,16 +213,16 @@ Nous prenons actuellement en charge les types suivants :
 
 | Type de variable | comportement                       | Exemple         | Type de données |
 | ---------------- | ---------------------------------- | --------------- | --------------- |
-| Instance         | Journalisé automatiquement         | `self.accuracy` | `float`         |
-| Instance         | Journalisé si `datasets=True`      | `self.df`       | `pd.DataFrame`  |
-| Instance         | Non journalisé si `datasets=False` | `self.df`       | `pd.DataFrame`  |
-| Locale           | Jamais journalisé                  | `accuracy`      | `float`         |
-| Locale           | Jamais journalisé                  | `df`            | `pd.DataFrame`  |
+| Instance         | Enregistré automatiquement         | `self.accuracy` | `float`         |
+| Instance         | Enregistré si `datasets=True`      | `self.df`       | `pd.DataFrame`  |
+| Instance         | Non enregistré si `datasets=False` | `self.df`       | `pd.DataFrame`  |
+| Locale           | Jamais enregistré                  | `accuracy`      | `float`         |
+| Locale           | Jamais enregistré                  | `df`            | `pd.DataFrame`  |
 
 <div id="is-artifact-lineage-tracked">
-  ### La traçabilité des artefacts est-elle prise en charge ?
+  ### La traçabilité des artefacts est-elle prise en charge ?
 </div>
 
-Oui. Si vous avez un artefact qui est une sortie de l’étape A et une entrée de l’étape B, nous construisons automatiquement pour vous le DAG de traçabilité.
+Oui. Si vous avez un artefact qui est une sortie de l&#39;étape A et une entrée de l&#39;étape B, nous construisons automatiquement pour vous le DAG de traçabilité.
 
 Pour voir un exemple de ce comportement, consultez ce [notebook](https://colab.research.google.com/drive/1wZG-jYzPelk8Rs2gIM3a71uEoG46u_nG#scrollTo=DQQVaKS0TmDU) ainsi que sa [page W&amp;B Artifacts correspondante](https://wandb.ai/megatruong/metaflow_integration/artifacts/dataset/raw_df/7d14e6578d3f1cfc72fe/graph)

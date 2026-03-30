@@ -1,21 +1,21 @@
 ---
-title: "run が完了した後で追加のメトリクスをログするにはどうすればよいですか？"
-keywords: ["Runs", "Metrics"]
+title: "run の完了後に追加のメトリクスをログするにはどうすればよいですか？"
+keywords: ["Runs", "メトリクス"]
 ---
 
-実験を管理する方法はいくつかあります。
+experiment を管理する方法はいくつかあります。
 
-複雑なワークフローでは、複数の run を使用し、単一の実験内のすべてのプロセスに対して [`wandb.init()`](/ja/models/track/create-an-experiment) の group パラメーターに共通の一意の値を設定します。[**Runs** タブ](/ja/models/track/project-page#runs-tab) では、表が group ID ごとにグループ化されるため、可視化が適切に機能します。この方法により、結果を 1 か所にログしながら、並行する実験やトレーニング run を実行できます。
+複雑なworkflowでは、複数のrunを使用し、単一のexperiment内のすべてのプロセスに対して [`wandb.init()`](/ja/models/track/create-an-experiment) の `group` パラメーターを一意の値に設定してください。[**Runs** タブ](/ja/models/track/project-page#runs-tab) では、表がグループ ID ごとにグループ化されるため、可視化が適切に機能します。このアプローチにより、結果を1か所にログしながら、並行するexperimentとtraining runsが可能になります。
 
-よりシンプルなワークフローでは、`resume=True` と `id=UNIQUE_ID` を指定して `wandb.init()` を呼び出し、その後、同じ `id=UNIQUE_ID` で再度 `wandb.init()` を呼び出します。[`run.log()`](/ja/models/track/log/) または `run.summary()` で通常どおりログすると、run の値はそれに応じて更新されます。
+より単純なworkflowでは、`resume=True` と `id=UNIQUE_ID` を指定して `wandb.init()` を呼び出し、その後、同じ `id=UNIQUE_ID` を使って再度 `wandb.init()` を呼び出します。[`run.log()`](/ja/models/track/log/) または `run.summary()` で通常どおりログすると、run の値がそれに応じて更新されます。
 
 ***
 
-{/* ---- AUTO-GENERATED: タブバッジ ----
-  front matter のキーワードをもとに、scripts/knowledgebase-nav/generate_tags.py で管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter のキーワードから scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Metrics](/ja/support/models/tags/metrics)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/ja/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
 
 {/* ---- END AUTO-GENERATED: tab badges ---- */}

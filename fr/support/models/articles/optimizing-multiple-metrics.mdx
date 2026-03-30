@@ -1,9 +1,9 @@
 ---
-title: "Optimisation de métriques multiples"
+title: "Optimiser plusieurs métriques"
 keywords: ["Sweeps", "Métriques"]
 ---
 
-Pour optimiser plusieurs métriques dans un seul run, utilisez la somme pondérée des métriques individuelles.
+Pour optimiser plusieurs métriques dans un seul run, utilisez une somme pondérée des différentes métriques.
 
 ```python
 with wandb.init() as run:
@@ -20,7 +20,7 @@ with wandb.init() as run:
   run.log({"metric_combined": metric_combined})
 ```
 
-Journalisez la nouvelle métrique combinée et définissez-la comme objectif d’optimisation :
+Consignez la nouvelle métrique combinée et définissez-la comme objectif d’optimisation :
 
 ```yaml
 metric:
@@ -30,7 +30,7 @@ metric:
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
   Ne modifiez pas à la main le contenu entre ces marqueurs.
   ---- */}

@@ -1,36 +1,36 @@
 ---
-title: "Mettre à jour et supprimer des appels"
-description: "Modifier les noms d’affichage, ajouter des retours et supprimer des appels dans W&B Weave"
+title: "Mettre à jour et supprimer des Appels"
+description: "Modifiez les Display name, ajoutez des retours et supprimez des Appels dans W&B Weave"
 ---
 
-La plupart des propriétés d’un appel sont immuables après sa création. Les modifications suivantes sont prises en charge :
+La plupart des propriétés d’un Appel sont immuables après sa création. Les modifications suivantes sont prises en charge :
 
-* [Définir le nom d’affichage](#set-display-name)
+* [Définir le Display name](#set-display-name)
 * [Ajouter un retour](#add-feedback)
-* [Supprimer un appel](#delete-a-call)
+* [Supprimer un Appel](#delete-a-call)
 
-Vous pouvez effectuer toutes ces modifications depuis l’interface utilisateur en accédant à la page de détails de l’appel.
-Pour mettre à jour un appel dans l’application web :
+Vous pouvez effectuer toutes ces modifications depuis l’interface utilisateur en accédant à la page de détails de l’Appel :
+Pour mettre à jour un Appel dans l’application web :
 
 1. Accédez à [wandb.ai](https://wandb.ai/) et sélectionnez votre projet.
 2. Dans la barre latérale du projet Weave, cliquez sur **Traces**.
-3. Trouvez l’appel que vous souhaitez afficher dans le tableau.
-4. Cliquez sur l’appel pour ouvrir sa page de détails.
-5. Cliquez sur l’onglet `Feedback` dans la barre d’onglets de la page de détails de l’appel.
+3. Trouvez l’Appel que vous souhaitez afficher dans le tableau.
+4. Cliquez sur l’Appel pour ouvrir sa page de détails.
+5. Cliquez sur l’onglet `Feedback` dans la barre d’onglets des détails de l’Appel.
 
-Vous pouvez alors modifier le nom d’affichage de l’appel, ajouter un retour ou supprimer l’appel.
+Ici, vous pouvez modifier le Display name de l’Appel, ajouter un retour ou supprimer l’Appel.
 
 <Frame>
-  ![Extrait de la page Weave Traces montrant le panneau des détails d’un appel sélectionné et comment le renommer ou le supprimer](/images/call_edit_screenshot.png)
+  ![Extrait de la page Weave Traces du panneau des détails d’un Appel sélectionné montrant comment renommer ou supprimer un Appel](/images/call_edit_screenshot.png)
 </Frame>
 
 <div id="set-display-name">
-  ### Définir le nom d’affichage
+  ### Définir le Display name
 </div>
 
 <Tabs>
   <Tab title="Python">
-    Pour définir le nom d’affichage d’un Appel, utilisez la méthode [`Call.set_display_name()`](/fr/weave/reference/python-sdk/trace/weave_client#method-set-display-name).
+    Pour définir le Display name d’un Appel, utilisez la méthode [`Call.set_display_name()`](/fr/weave/reference/python-sdk/trace/weave_client#method-set-display-name).
 
     ```python lines
     import weave
@@ -41,13 +41,13 @@ Vous pouvez alors modifier le nom d’affichage de l’appel, ajouter un retour 
     # Obtenir un Appel spécifique par son ID
     call = client.get_call("call-uuid-here")
 
-    # Définir le nom d’affichage de l’Appel
+    # Définir le Display name de l'Appel
     call.set_display_name("My Custom Display Name")
     ```
   </Tab>
 
   <Tab title="TypeScript">
-    Pour définir le nom d’affichage d’un Appel, utilisez [`client.updateCall`](/fr/weave/reference/typescript-sdk/classes/weaveclient#updatecall) pour le mettre à jour directement à partir de son ID :
+    Pour définir le Display name d’un Appel, utilisez [`client.updateCall`](/fr/weave/reference/typescript-sdk/classes/weaveclient#updatecall) pour effectuer la mise à jour directement par ID d’appel :
 
     ```typescript lines
     import * as weave from 'weave'
@@ -55,13 +55,13 @@ Vous pouvez alors modifier le nom d’affichage de l’appel, ajouter un retour 
     // Initialiser le client
     const client = await weave.init('your-project-name')
 
-    // Mettre à jour le nom d’affichage d’un Appel par son ID
+    // Mettre à jour le Display name d'un Appel par son ID
     await client.updateCall('call-uuid-here', 'My Custom Display Name')
     ```
   </Tab>
 
   <Tab title="HTTP API">
-    Pour définir le nom d’affichage d’un Appel à l’aide de l’API de service, envoyez une requête au point de terminaison [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update).
+    Pour définir le Display name d’un Appel à l’aide de l’API de service, effectuez une requête vers le point de terminaison [`/call/update`](https://docs.wandb.ai/weave/reference/service-api/calls/call-update).
 
     ```bash lines
     curl -L 'https://trace.wandb.ai/call/update' \
@@ -76,7 +76,7 @@ Vous pouvez alors modifier le nom d’affichage de l’appel, ajouter un retour 
   </Tab>
 </Tabs>
 
-Vous pouvez également [définir le nom d’affichage d’un Appel au moment de l’exécution](/fr/weave/guides/tracking/get-call-object).
+Vous pouvez également [définir le Display name d’un Appel au moment de l’exécution](/fr/weave/guides/tracking/get-call-object).
 
 <div id="add-feedback">
   ### Ajouter un retour
@@ -85,12 +85,12 @@ Vous pouvez également [définir le nom d’affichage d’un Appel au moment de 
 Voir la [documentation sur les retours](/fr/weave/guides/tracking/feedback) pour plus de détails.
 
 <div id="delete-a-call">
-  ### Supprimer un appel
+  ### Supprimer un Appel
 </div>
 
 <Tabs>
   <Tab title="Python">
-    Pour supprimer un appel avec l’API Python, utilisez la méthode [`Call.delete`](/fr/weave/reference/python-sdk/trace/weave_client#method-delete).
+    Pour supprimer un Appel à l’aide de l’API Python, utilisez la méthode [`Call.delete`](/fr/weave/reference/python-sdk/trace/weave_client#method-delete).
 
     ```python lines
     import weave
@@ -98,10 +98,10 @@ Voir la [documentation sur les retours](/fr/weave/guides/tracking/feedback) pour
     # Initialiser le client
     client = weave.init("your-project-name")
 
-    # Obtenir un appel spécifique par son identifiant
+    # Obtenir un Appel spécifique à partir de son ID
     call = client.get_call("call-uuid-here")
 
-    # Supprimer l’appel
+    # Supprimer l’Appel
     call.delete()
     ```
   </Tab>
@@ -113,7 +113,7 @@ Voir la [documentation sur les retours](/fr/weave/guides/tracking/feedback) pour
   </Tab>
 
   <Tab title="HTTP API">
-    Pour supprimer un appel à l’aide de l’API de service, envoyez une requête au point de terminaison [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete).
+    Pour supprimer un Appel à l’aide de l’API de service, envoyez une requête au point de terminaison [`/calls/delete`](https://docs.wandb.ai/weave/reference/service-api/calls/calls-delete).
 
     ```bash lines
     curl -L 'https://trace.wandb.ai/calls/delete' \
@@ -130,16 +130,16 @@ Voir la [documentation sur les retours](/fr/weave/guides/tracking/feedback) pour
 </Tabs>
 
 <div id="delete-multiple-calls">
-  ### Supprimer plusieurs Appels
+  ### Supprimer plusieurs appels
 </div>
 
 <Tabs>
   <Tab title="Python">
-    Pour supprimer des lots d’Appels avec l’API Python, transmettez une liste d’ID d’Appel à `delete_calls()`.
+    Pour supprimer des lots d’appels à l’aide de l’API Python, transmettez une liste d’ID d’appel à `delete_calls()`.
 
     <Important>
-      * Le nombre maximal d’Appels pouvant être supprimés est de `1000`.
-      * La suppression d’un Appel supprime également tous ses enfants.
+      * Le nombre maximal d’appels pouvant être supprimés est de `1000`.
+      * La suppression d’un appel supprime également tous ses enfants.
     </Important>
 
     ```python lines
@@ -148,23 +148,23 @@ Voir la [documentation sur les retours](/fr/weave/guides/tracking/feedback) pour
     # Initialiser le client
     client = weave.init("my-project")
 
-    # Obtenir tous les Appels du client
+    # Obtenir tous les appels du client
     all_calls = client.get_calls()
 
     # Obtenir la liste des 1000 premiers objets Appel
     first_1000_calls = all_calls[:1000]
 
-    # Obtenir la liste des ID des 1000 premiers Appels
+    # Obtenir la liste des ID des 1000 premiers appels
     first_1000_calls_ids = [c.id for c in first_1000_calls]
 
-    # Supprimer les 1000 premiers Appels par ID
+    # Supprimer les 1000 premiers appels par ID
     client.delete_calls(call_ids=first_1000_calls_ids)
     ```
   </Tab>
 
   <Tab title="TypeScript">
     ```plaintext lines
-    Cette fonctionnalité n’est pas encore disponible dans le SDK TypeScript.
+    This feature is not disponible in the TypeScript SDK yet.
     ```
   </Tab>
 </Tabs>

@@ -31,9 +31,9 @@ __init__(
 
 **Arguments :**
 
-* `name` (str):  Nom explicite de l’artefact. Utilisez ce nom pour identifier un artefact spécifique dans l’interface de l’application W&amp;B ou par programmation. Vous pouvez également référencer un artefact de manière interactive avec l’API publique `use_artifact`. Un nom peut contenir des lettres, des chiffres, des tirets bas, des traits d’union et des points. Le nom doit être unique à l’échelle d’un projet.
+* `name` (str):  Nom explicite de l’artefact. Utilisez ce nom pour identifier un artefact spécifique dans l’interface utilisateur de l’application W&amp;B ou par programmation. Vous pouvez également référencer un artefact de manière interactive avec l’API publique `use_artifact`. Un nom peut contenir des lettres, des chiffres, des tirets bas, des traits d’union et des points. Le nom doit être unique à l’échelle d’un projet.
 * `type` (str):  Le type de l’artefact. Utilisez le type d’un artefact à la fois pour organiser et distinguer les artefacts. Vous pouvez utiliser n’importe quelle chaîne contenant des lettres, des chiffres, des tirets bas, des traits d’union et des points. Les types courants incluent `dataset` ou `model`. Incluez `model` dans votre chaîne de type si vous souhaitez lier l’artefact au registre de modèles W&amp;B. Notez que certains types sont réservés à un usage interne et ne peuvent pas être définis par les utilisateurs. Ces types incluent `job` et les types qui commencent par `wandb-`.
-* `description (str | None) = None`:  Description de l’artefact. Pour les Artifacts de modèle ou de jeu de données, ajoutez la documentation correspondant à votre fiche de modèle ou de jeu de données standardisée au sein de l’équipe. Consultez la description d’un artefact par programmation avec l’attribut `Artifact.description` ou dans l’interface de l’application W&amp;B. W&amp;B affiche la description au format Markdown dans l’application W&amp;B.
+* `description (str | None) = None`:  Description de l’artefact. Pour les Artifacts de modèle ou de jeu de données, ajoutez la documentation correspondant à votre fiche de modèle ou de jeu de données standardisée au sein de l’équipe. Consultez la description d’un artefact par programmation avec l’attribut `Artifact.description` ou dans l’interface utilisateur de l’application W&amp;B. W&amp;B affiche la description au format Markdown dans l’application W&amp;B.
 * `metadata (dict[str, Any] | None) = None`:  Informations supplémentaires sur un artefact. Spécifiez les métadonnées sous la forme d’un dictionnaire de paires clé-valeur. Vous ne pouvez pas définir plus de 100 clés au total.
 * `incremental`:  Utilisez plutôt la méthode `Artifact.new_draft()` pour modifier un artefact existant.
 * `use_as`:  Obsolète.
@@ -46,11 +46,11 @@ Un objet `Artifact`.
 
 ### <kbd>propriété</kbd> Artifact.aliases
 
-Liste d&#39;une ou plusieurs références explicites sur le plan sémantique, ou de « surnoms » d&#39;identification, attribués à une version d&#39;artefact.
+Liste d’une ou plusieurs références sémantiquement explicites, ou de « surnoms » d’identification, attribués à une version d’artefact.
 
-Les alias sont des références modifiables auxquelles vous pouvez accéder par programmation. Modifiez l&#39;alias d&#39;un artefact dans l&#39;interface de l&#39;application W&amp;B ou par programmation. Voir [Créer de nouvelles versions d&#39;artefact](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) pour plus d&#39;informations.
+Les alias sont des références modifiables que vous pouvez utiliser par programmation. Modifiez l’alias d’un artefact dans l’interface de l’application W&amp;B ou par programmation. Voir [Créer de nouvelles versions d’artefact](https://docs.wandb.ai/guides/artifacts/create-a-new-artifact-version) pour plus d’informations.
 
-**Retourne :**
+**Retourne :**
 
 * `list[str]`: La valeur de la propriété aliases.
 
@@ -84,9 +84,9 @@ Le hachage renvoyé lors de l’enregistrement de cet artefact.
 
 Horodatage indiquant quand l’artefact a été créé.
 
-**Retourne :**
+**Retourne :**
 
-* `str` : La valeur de la propriété `created_at`.
+* `str` : La valeur de propriété `created_at`.
 
 ***
 
@@ -96,7 +96,7 @@ Une description de l’artefact.
 
 **Retourne :**
 
-* `str | None` : La valeur de la propriété description.
+* `str | None` : La valeur de propriété description.
 
 ***
 
@@ -120,7 +120,7 @@ Si l’artefact est un lien, l’entité sera celle de l’artefact lié.
 
 **Retourne :**
 
-* `str` : La valeur de la propriété de l’entité.
+* `str` : La valeur de la propriété `entity`.
 
 ***
 
@@ -159,11 +159,11 @@ if run and (artifact.history_step is not None):
 
 ### <kbd>propriété</kbd> Artifact.id
 
-L’identifiant de l’artefact.
+L’ID de l’artefact.
 
 **Retourne :**
 
-* `str | None` : La valeur de la propriété `id`.
+* `str | None` : La valeur de propriété `id`.
 
 ***
 
@@ -225,7 +225,7 @@ Une chaîne au format `{collection}:{alias}`. Si cette valeur est récupérée a
 
 **Retourne :**
 
-* `str` : La valeur de la propriété name.
+* `str` : La valeur de la propriété nom.
 
 ***
 
@@ -269,7 +269,7 @@ Inclut toutes les références suivies par cet artefact.
 
 Renvoie l’artefact source, c’est-à-dire l’artefact original enregistré.
 
-Si cet artefact est un artefact source (`artifact.is_link == False`), il se renvoie lui-même.
+Si cet artefact est un artefact source (`artifact.is_link == False`), cette propriété renvoie l’artefact lui-même.
 
 **Retourne :**
 
@@ -295,7 +295,7 @@ Le nom de l’entité de l’artefact source.
 
 **Retourne :**
 
-* `str`: La valeur de propriété `source_entity`.
+* `str` : La valeur de propriété `source_entity`.
 
 ***
 
@@ -453,7 +453,7 @@ Ajoute l’objet wandb.WBValue `obj` à l’artefact.
 * `name` :  Le chemin au sein de l’artefact où ajouter l’objet.
 * `overwrite` :  Si `True`, remplace les objets existants ayant le même chemin  de fichier, le cas échéant.
 
-**Retourne :**
+**Renvoie :**
 L’entrée de manifeste ajoutée
 
 **Exceptions levées :**
@@ -480,7 +480,7 @@ Ajoute un répertoire local à l’artefact.
 **Arguments :**
 
 * `local_path` :  Le chemin du répertoire local.
-* `name` :  Le nom du sous-répertoire dans un artefact. Le nom que vous  indiquez apparaît dans l’interface de l’application W&amp;B, sous le `type` de l’artefact.  Par défaut, il s’agit de la racine de l’artefact.
+* `name` :  Le nom du sous-répertoire dans un artefact. Le nom que vous  indiquez apparaît dans l’interface utilisateur de l’application W&amp;B, sous le `type` de l’artefact.  Par défaut, il s’agit de la racine de l’artefact.
 * `skip_cache` :  Si défini sur `True`, W&amp;B ne copiera ni ne déplacera les fichiers vers  le cache pendant le téléversement
 * `policy` :  Par défaut, &quot;mutable&quot;.
   * mutable: Créer une copie temporaire du fichier pour éviter  toute corruption pendant le téléversement.
@@ -519,7 +519,7 @@ Ajoutez un fichier local à l’artefact.
 * `policy`:  Par défaut, la valeur est &quot;mutable&quot;. Si la valeur est &quot;mutable&quot;,  créez une copie temporaire du fichier pour éviter toute corruption  pendant le téléversement. Si la valeur est &quot;immutable&quot;, désactivez  cette protection et comptez sur l’utilisateur pour ne pas supprimer ni modifier le  fichier.
 * `overwrite`:  Si `True`, remplacez le fichier s’il existe déjà.
 
-**Retourne :**
+**Renvoie :**
 L’entrée du manifeste ajoutée.
 
 **Exceptions levées :**
@@ -560,7 +560,7 @@ Pour tout autre schéma, l’empreinte est simplement un hachage de l’URI et l
 
 * `uri` : chemin URI de la référence à ajouter. Le chemin URI peut être un objet renvoyé par `Artifact.get_entry` pour stocker une référence vers l’entrée d’un autre artefact.
 * `name` : le chemin à l’intérieur de l’artefact où placer le contenu de cette référence.
-* `checksum` : indique s’il faut ou non calculer une somme de contrôle pour la ou les ressources situées à l’URI de référence. Le calcul d’une somme de contrôle est fortement recommandé, car il permet une validation automatique de l’intégrité. Désactiver ce calcul accélère la création de l’artefact, mais les répertoires de référence ne seront pas parcourus ; les objets qu’ils contiennent ne seront donc pas enregistrés dans l’artefact. Nous recommandons de définir `checksum=False` lors de l’ajout d’objets de référence. Dans ce cas, une nouvelle version ne sera créée que si l’URI de référence change.
+* `checksum` : indique s’il faut ou non calculer une somme de contrôle pour la ou les ressources situées à l’URI de référence. Le calcul d’une somme de contrôle est fortement recommandé, car il permet une validation automatique de l’intégrité. Désactiver ce calcul accélère la création de l’artefact, mais les répertoires de référence ne seront pas parcourus ; les objets qu’ils contiennent ne seront donc pas enregistrés dans l’artefact. Nous recommandons de définir `checksum=False` lors de l’ajout d’objets de référence. Dans ce cas, une nouvelle version ne sera créée que si l’URI de référence change.
 * `max_objects` : le nombre maximal d’objets à prendre en compte lors de l’ajout d’une référence qui pointe vers un répertoire ou un préfixe de stockage dans un bucket. Par défaut, le nombre maximal d’objets autorisé pour Amazon S3, GCS, Azure et les fichiers locaux est de 10,000,000. Les autres schémas d’URI n’ont pas de maximum.
 
 **Retourne :**
@@ -568,7 +568,7 @@ Les entrées de manifeste ajoutées.
 
 **Exceptions levées :**
 
-* `ArtifactFinalizedError` : vous ne pouvez pas modifier la version actuelle de l’artefact, car elle est finalisée. Journalisez plutôt une nouvelle version de l’artefact.
+* `ArtifactFinalizedError` : vous ne pouvez pas modifier la version actuelle de l’artefact, car elle est finalisée. Consignez plutôt une nouvelle version de l’artefact.
 
 ***
 
@@ -587,7 +587,7 @@ AVERTISSEMENT : cette opération supprime tous les fichiers dans `root` qui ne 
 
 * `root` :  Le répertoire à remplacer par les fichiers de cet artefact.
 
-**Retourne :**
+**Renvoie**
 Le chemin vers le contenu extrait.
 
 **Exceptions levées :**
@@ -632,9 +632,9 @@ download(
 ) → FilePathStr
 ```
 
-Télécharge le contenu de l’artefact dans le répertoire racine spécifié.
+Téléchargez le contenu de l’artefact dans le répertoire racine spécifié.
 
-Les fichiers existants dans `root` ne sont pas modifiés. Supprime explicitement `root` avant d’appeler `download` si tu veux que son contenu corresponde exactement à celui de l’artefact.
+Les fichiers existants dans `root` ne sont pas modifiés. Supprimez explicitement `root` avant d’appeler `download` si vous voulez que son contenu corresponde exactement à celui de l’artefact.
 
 **Arguments :**
 
@@ -687,7 +687,7 @@ Parcourez tous les fichiers stockés dans cet artefact.
 
 **Arguments :**
 
-* `names` :  Les chemins de fichiers relatifs à la racine de l’artefact que vous souhaitez répertorier.
+* `names` :  Les chemins de fichiers relatifs à la racine de l’artefact que vous souhaitez lister.
 * `per_page` :  Le nombre de fichiers à renvoyer par requête.
 
 **Retourne :**
@@ -725,7 +725,7 @@ Obtenir l’objet WBValue associé au nom relatif `name` dans l’artefact.
 
 * `name`:  Le nom relatif de l’artefact à récupérer.
 
-**Retourne :**
+**Renvoie :**
 Objet W&amp;B pouvant être enregistré avec `run.log()` et visualisé dans l’interface W&amp;B.
 
 **Exceptions levées :**
@@ -864,7 +864,7 @@ new_draft() → Artifact
 
 Créer un nouvel artefact brouillon avec le même contenu que cet artefact validé.
 
-Modifier un artefact existant crée une nouvelle version d’artefact appelée « artefact incrémentiel ». L’artefact renvoyé peut être enrichi ou modifié, puis enregistré comme nouvelle version.
+Modifier un artefact existant crée une nouvelle version d’artefact appelée &quot;artefact incrémentiel&quot;. L’artefact renvoyé peut être enrichi ou modifié, puis enregistré comme nouvelle version.
 
 **Retourne :**
 Un objet `Artifact`.
@@ -894,7 +894,7 @@ Ouvrez un nouveau fichier temporaire et ajoutez-le à l’artefact.
 * `mode` :  Le mode d’accès à utiliser pour ouvrir le nouveau fichier.
 * `encoding` :  L’encodage utilisé pour ouvrir le nouveau fichier.
 
-**Retourne :**
+**Renvoie :**
 Un nouvel objet fichier dans lequel vous pouvez écrire. À sa fermeture, le fichier est automatiquement ajouté à l’artefact.
 
 **Exceptions levées :**

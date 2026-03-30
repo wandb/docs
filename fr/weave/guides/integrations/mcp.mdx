@@ -7,19 +7,19 @@ description: "Tracez l'activité entre votre client MCP et votre serveur MCP ave
   <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Ouvrir dans Colab" />
 </a>
 
-Le Model Context Protocol (MCP) est un protocole de communication standardisé qui permet aux applications d&#39;IA d&#39;échanger des informations avec des grands modèles de langage (LLM). À l&#39;image des connecteurs universels qui ont transformé la compatibilité matérielle, MCP fournit une interface permettant aux LLM d&#39;accéder à diverses sources de données et d&#39;interagir avec des outils externes, sans nécessiter d&#39;intégrations personnalisées pour chaque nouveau service.
+Le Model Context Protocol (MCP) est un protocole de communication standardisé qui permet aux applications d&#39;IA d&#39;échanger des informations avec des grands modèles de langage (LLMs). À l&#39;image des connecteurs universels qui ont transformé la compatibilité matérielle, le MCP fournit une interface permettant aux LLMs d&#39;accéder à diverses sources de données et d&#39;interagir avec des outils externes, sans nécessiter d&#39;intégrations personnalisées pour chaque nouveau service.
 
 L&#39;intégration Weave vous permet de tracer l&#39;activité entre votre client MCP et votre serveur MCP. Elle vous offre une visibilité détaillée sur les appels d&#39;outils, l&#39;accès aux ressources et la génération de prompts dans les systèmes basés sur MCP.
 
 <div id="how-it-works">
-  ## Fonctionnement
+  ## Comment cela fonctionne
 </div>
 
 <Warning>
-  Actuellement, l&#39;intégration capture séparément les opérations côté client et côté serveur, mais n&#39;offre pas de visibilité de bout en bout sur leur interaction. Une proposition est en cours pour ajouter la prise en charge des traces OpenTelemetry à MCP afin de permettre une observabilité de bout en bout. Pour plus d&#39;informations, voir [la discussion GitHub #269](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269).
+  Actuellement, l&#39;intégration capture les opérations côté client et côté serveur séparément, mais ne fournit pas de visibilité de bout en bout sur leur interaction. Il existe une proposition en cours pour ajouter le support des traces OpenTelemetry à MCP afin d&#39;activer l&#39;observabilité de bout en bout. Pour plus d&#39;informations, voir [GitHub discussion #269](https://github.com/modelcontextprotocol/modelcontextprotocol/discussions/269).
 </Warning>
 
-L&#39;intégration Weave trace automatiquement les composants clés du Model Context Protocol (MCP) en patchant les méthodes principales avec le décorateur [`weave.op()`](../tracking/ops). Plus précisément, elle patche les méthodes des classes [`mcp.server.fastmcp.FastMCP`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/server/fastmcp/server.py#L109) et [`mcp.ClientSession`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/client/session.py#L84).
+L&#39;intégration Weave trace automatiquement les composants clés du Model Context Protocol (MCP) en patchant les méthodes principales avec le décorateur [`weave.op()`](../tracking/ops). Plus précisément, elle patche les méthodes dans les classes [`mcp.server.fastmcp.FastMCP`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/server/fastmcp/server.py#L109) et [`mcp.ClientSession`](https://github.com/modelcontextprotocol/python-sdk/blob/b4c7db6a50a5c88bae1db5c1f7fba44d16eebc6e/src/mcp/client/session.py#L84).
 
 Grâce à cette intégration, Weave trace les composants MCP suivants :
 
@@ -33,7 +33,7 @@ Grâce à cette intégration, Weave trace les composants MCP suivants :
   ## Utilisez l’intégration
 </div>
 
-L’intégration Weave fonctionne aussi bien avec le serveur MCP qu’avec le client. Une fois installée, vous pouvez activer le traçage avec seulement deux lignes de code supplémentaires : l’une pour importer `weave`, l’autre pour l’initialiser.
+L’intégration Weave fonctionne aussi bien avec le serveur MCP qu’avec le client. Une fois installée, vous pouvez activer Tracing avec seulement deux lignes de code supplémentaires : l’une pour importer `weave`, l’autre pour l’initialiser.
 
 <div id="prerequisites">
   ### Prérequis
@@ -52,16 +52,16 @@ pip install -qq "mcp[cli]" weave
 
 Configurez l’intégration MCP à l’aide de variables d’environnement :
 
-* `MCP_TRACE_LIST_OPERATIONS` : définissez cette variable sur `true` pour activer la trace des opérations de liste (`list_tools`, `list_resources` et `list_prompts`) côté serveur comme côté client.
+* `MCP_TRACE_LIST_OPERATIONS` : Définissez cette variable sur `true` pour tracer les opérations de liste (`list_tools`, `list_resources` et `list_prompts`) côté serveur et côté client.
 
 <div id="server-side-integration">
   ### Intégration côté serveur
 </div>
 
-Pour tracer un serveur MCP, ajoutez deux lignes à votre configuration `FastMCP` existante : une pour importer Weave et une pour initialiser le client. Une fois ces lignes ajoutées, les opérations sur les outils, les ressources et les prompts seront automatiquement tracées.
+Pour tracer un serveur MCP, ajoutez deux lignes à votre configuration `FastMCP` existante : une pour importer Weave et une pour initialiser le client. Une fois ces lignes ajoutées, les opérations des outils, des ressources et des prompts seront automatiquement tracées.
 
 ```python lines
-# Importer Weave (requis pour le traçage)
+# Importer Weave (requis pour le tracing)
 import weave
 from mcp.server.fastmcp import FastMCP
 
@@ -80,13 +80,13 @@ def add(a: int, b: int) -> int:
 # Définir une ressource (cet appel sera tracé)
 @mcp.resource("greeting://{name}")
 def get_greeting(name: str) -> str:
-    """Retourner un message de salutation personnalisé."""
+    """Retourner une salutation personnalisée."""
     return f"Hello, {name}!"
 
 # Définir un prompt (cet appel sera tracé)
 @mcp.prompt()
 def review_code(code: str) -> str:
-    """Retourner un prompt pour la révision de code."""
+    """Retourner un prompt pour la revue de code."""
     return f"Please review this code:\n\n{code}"
 
 # Démarrer le serveur
@@ -98,10 +98,10 @@ mcp.run(transport="stdio")
   ### Intégration côté client
 </div>
 
-Côté client, le traçage ne nécessite lui aussi que deux changements : importer Weave et l’initialiser. Tous les appels d’outil, les accès aux ressources et les requêtes de prompt seront automatiquement tracés.
+Côté client, le Tracing ne nécessite lui aussi que deux modifications : importer Weave et l&#39;initialiser. Tous les appels d&#39;outil, les accès aux ressources et les requêtes de prompt seront automatiquement tracés.
 
 ```python lines
-# Importer Weave (requis pour le traçage)
+# Importer Weave (requis pour le Tracing)
 import weave
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
@@ -115,38 +115,38 @@ async with stdio_client(server_params) as (read, write):
         # Initialiser la session
         await session.initialize()
         
-        # Appeler un outil (sera tracé)
+        # Appeler un outil (cela sera tracé)
         result = await session.call_tool("add", arguments={"a": 1, "b": 2})
         
-        # Lire une ressource (sera tracé)
+        # Lire une ressource (cela sera tracé)
         resource = await session.read_resource("greeting://user")
         
-        # Obtenir un prompt (sera tracé)
+        # Obtenir un prompt (cela sera tracé)
         prompt = await session.get_prompt("review_code", arguments={"code": "print('Hello')"})
 ```
 
 
 <div id="tutorial-mcp_demo-example">
-  ## Tutoriel : exemple `mcp_demo`
+  ## Tutoriel : exemple `mcp_demo`
 </div>
 
-L’exemple `mcp_demo` illustre une intégration entre le Model Context Protocol (MCP) et Weave pour le traçage. Il montre comment instrumenter à la fois les composants client et serveur afin de capturer des traces détaillées de leurs interactions. 
+L’exemple `mcp_demo` illustre une intégration entre le Model Context Protocol (MCP) et Weave pour Tracing. Il montre comment instrumenter à la fois les composants client et serveur afin de capturer des traces détaillées de leurs interactions. 
 
 <div id="run-the-example">
-  ### Exécuter l&#39;exemple
+  ### Exécutez l&#39;exemple
 </div>
 
-1. Clonez le dépôt de documentation, puis accédez à l&#39;exemple `mcp_demo` :
+1. Clonez le dépôt de documentation et accédez à l&#39;exemple `mcp_demo` :
 
    ```bash
    git clone https://github.com/wandb/docs
    cd docs/weave/examples/mcp_demo
    ```
 
-   L&#39;exemple comprend deux fichiers principaux :
+   L&#39;exemple inclut deux fichiers principaux :
 
-   * `example_server.py` : un serveur MCP de démonstration créé avec `FastMCP`. Il définit des outils, des ressources et des prompts.
-   * `example_client.py` : un client qui se connecte au serveur et interagit avec ses composants.
+   * `example_server.py` : Un serveur MCP de démonstration construit avec `FastMCP`. Il définit des outils, des ressources et des prompts.
+   * `example_client.py` : Un client qui se connecte au serveur et interagit avec ses composants.
 
 2. Installez manuellement les dépendances requises :
 
@@ -160,29 +160,29 @@ L’exemple `mcp_demo` illustre une intégration entre le Model Context Protocol
    python example_client.py example_server.py
    ```
 
-   Cette commande lance à la fois le client et le serveur. Le client démarre une CLI interactive dans laquelle vous pouvez tester différentes fonctionnalités.
+   Cette commande lance à la fois le client et le serveur. Le client démarre une CLI interactive où vous pouvez tester diverses fonctionnalités.
 
 <div id="client-cli-commands">
   ### Commandes CLI du client
 </div>
 
-L&#39;interface client prend en charge les commandes suivantes :
+L&#39;interface client prend en charge les commandes suivantes :
 
-| Commande                | Description                                                                                                                                                                                                           |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `tools`                 | Lister les outils disponibles                                                                                                                                                                                         |
-| `resources`             | Lister les ressources disponibles                                                                                                                                                                                     |
-| `prompts`               | Lister les prompts disponibles                                                                                                                                                                                        |
-| `add <a> <b>`           | Additionner deux nombres                                                                                                                                                                                              |
-| `bmi <weight> <height>` | Calculer l’indice de masse corporelle                                                                                                                                                                                 |
-| `weather <city>`        | Obtenir les données météo pour une ville                                                                                                                                                                              |
-| `greeting <name>`       | Obtenir un message de bienvenue personnalisé                                                                                                                                                                          |
-| `user <id>`             | Récupérer le profil d’un utilisateur                                                                                                                                                                                  |
-| `config`                | Récupérer la configuration de l’application                                                                                                                                                                           |
-| `code-review <code>`    | Générer un prompt de revue de code                                                                                                                                                                                    |
-| `debug <error>`         | Générer un prompt de débogage                                                                                                                                                                                         |
-| `demo`                  | Exécuter une démonstration complète de toutes les fonctionnalités disponibles. Cela exécute chaque fonctionnalité successivement et produit une chronologie complète des traces d’interaction dans l’interface Weave. |
-| `q`                     | Quitter la session                                                                                                                                                                                                    |
+| Commande                | Description                                                                                                                                                                                                               |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tools`                 | Lister les outils disponibles                                                                                                                                                                                             |
+| `resources`             | Lister les ressources disponibles                                                                                                                                                                                         |
+| `prompts`               | Lister les prompts disponibles                                                                                                                                                                                            |
+| `add <a> <b>`           | Additionner deux nombres                                                                                                                                                                                                  |
+| `bmi <weight> <height>` | Calculer l’indice de masse corporelle                                                                                                                                                                                     |
+| `weather <city>`        | Obtenir les données météo pour une ville                                                                                                                                                                                  |
+| `greeting <name>`       | Obtenir un message de bienvenue personnalisé                                                                                                                                                                              |
+| `user <id>`             | Récupérer le profil d’un utilisateur                                                                                                                                                                                      |
+| `config`                | Récupérer la configuration de l’application                                                                                                                                                                               |
+| `code-review <code>`    | Générer un prompt de revue de code                                                                                                                                                                                        |
+| `debug <error>`         | Générer un prompt de débogage                                                                                                                                                                                             |
+| `demo`                  | Exécuter une démonstration complète de toutes les fonctionnalités disponibles. Cela exécute chaque fonctionnalité successivement et produit une chronologie complète de la trace des interactions dans l’interface Weave. |
+| `q`                     | Quitter la session                                                                                                                                                                                                        |
 
 <div id="understanding-the-example">
   ### Comprendre l’exemple
@@ -201,9 +201,9 @@ Le client `example_client.py` montre comment :
 * Se connecter à un serveur MCP
 * Découvrir les outils, les ressources et les prompts disponibles
 * Appeler des outils avec des paramètres
-* Lire des URI de ressources
+* Lire à partir des URI de ressources
 * Générer des prompts avec des arguments
-* Illustrer l’utilisation de [`weave.op()`](../tracking/ops) avec des méthodes/fonctions personnalisées.
+* Montrer l’utilisation de [`weave.op()`](../tracking/ops) avec des méthodes/fonctions personnalisées.
 
 Weave trace tous les appels côté client afin de fournir une vue complète des interactions entre le client et le serveur.
 
@@ -212,18 +212,18 @@ Weave trace tous les appels côté client afin de fournir une vue complète des 
 </div>
 
 <div id="why-is-mcp-tracing-needed">
-  ### Pourquoi le traçage MCP est-il nécessaire ?
+  ### Pourquoi le Tracing MCP est-il nécessaire ?
 </div>
 
 En tant que développeur d’applications LLM, vous appartenez à l’une des trois catégories suivantes :
 
-* *Développeur côté serveur MCP* : vous souhaitez exposer plusieurs outils, ressources et prompts au client MCP. Vous exposez les outils, les ressources, etc. de votre application existante, ou vous avez créé des agents, voire plusieurs agents orchestrés par un agent orchestrateur.
+* *Développeur côté serveur MCP* : Vous souhaitez exposer plusieurs outils, ressources et prompts au client MCP. Vous exposez les outils, les ressources, etc., de votre application existante, ou vous avez créé des agents, voire plusieurs agents orchestrés par un agent orchestrateur.
 
-* *Développeur côté client MCP* : vous souhaitez connecter votre application côté client à plusieurs serveurs MCP. Une part essentielle de votre logique côté client consiste à effectuer des appels à un LLM pour décider quel outil appeler ou quelle ressource récupérer.
+* *Développeur côté client MCP* : Vous souhaitez connecter votre application côté client à plusieurs serveurs MCP. Une partie essentielle de votre logique côté client consiste à effectuer des appels LLM pour décider quel outil appeler ou quelle ressource récupérer.
 
-* *Développeur serveur et client MCP* : vous développez à la fois le serveur et le client.
+* *Développeur serveur et client MCP* : Vous développez à la fois le serveur et le client.
 
-Si vous appartenez à l’une des deux premières catégories, vous voulez savoir quand chaque outil est appelé, à quoi ressemble le flux d’exécution, ainsi que le nombre de jetons et la latence des différents composants de votre logique côté serveur ou côté client.
+Si vous appartenez à l’une des deux premières catégories, vous voulez savoir quand chaque outil est appelé, à quoi ressemble le flux d’exécution, le nombre de jetons et la latence des différents composants de votre logique côté serveur ou côté client.
 
 Si vous développez à la fois le serveur et le client, la possibilité de voir une chronologie de trace unifiée peut vous aider à itérer rapidement sur la logique côté serveur et côté client.
 

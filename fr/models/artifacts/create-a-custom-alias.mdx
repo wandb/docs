@@ -1,13 +1,13 @@
 ---
-description: "Créez et gérez des alias personnalisés pour faire référence à des versions spécifiques d’artefacts W&B à l’aide de noms explicites comme best ou production."
+description: "Créez et gérez des alias personnalisés pour référencer des versions spécifiques d’artefacts W&B par des noms significatifs comme best ou production."
 title: Créer un alias d’artefact
 ---
 
 Utilisez les alias comme pointeurs vers des versions spécifiques. Par défaut, `wandb.Run.log_artifact()` ajoute l’alias `latest` à la version enregistrée.
 
-W&amp;B crée une version d’artefact `v0` et l’associe à votre artefact lorsque vous enregistrez celui-ci pour la première fois. W&amp;B calcule une somme de contrôle du contenu lorsque vous l’enregistrez à nouveau dans le même artefact. Si l’artefact a changé, W&amp;B enregistre une nouvelle version `v1`.
+W&amp;B crée une version d’artefact `v0` et l’attache à votre artefact lorsque vous enregistrez cet artefact pour la première fois. W&amp;B calcule la somme de contrôle des contenus lorsque vous l’enregistrez à nouveau pour le même artefact. Si l’artefact a changé, W&amp;B enregistre une nouvelle version `v1`.
 
-Par exemple, si vous voulez que votre script d’entraînement récupère la version la plus récente d’un jeu de données, spécifiez `latest` lorsque vous utilisez cet artefact. L’exemple de code suivant montre comment télécharger un artefact de jeu de données récent nommé `bike-dataset` auquel est associé l’alias `latest` :
+Par exemple, si vous voulez que votre script d’entraînement récupère la version la plus récente d’un jeu de données, spécifiez `latest` lorsque vous utilisez cet artefact. L’exemple de code suivant démontre comment télécharger un artefact de jeu de données récent nommé `bike-dataset` associé à l’alias `latest` :
 
 ```python
 import wandb
@@ -17,7 +17,7 @@ with wandb.init(project="<project>") as run:
     artifact.download()
 ```
 
-Vous pouvez également attribuer un alias personnalisé à une version d’artefact. Par exemple, si vous souhaitez indiquer que ce point de contrôle du modèle est le meilleur selon la métrique AP-50, vous pouvez ajouter la chaîne `'best-ap50'` comme alias lors de la journalisation de l’artefact du modèle.
+Vous pouvez également attribuer un alias personnalisé à une version d&#39;artefact. Par exemple, si vous souhaitez indiquer que ce point de contrôle du modèle est le meilleur selon la métrique AP-50, vous pouvez ajouter la chaîne `'best-ap50'` comme alias lors de la journalisation de l&#39;artefact du modèle.
 
 ```python
 with wandb.init(project="<project>") as run:

@@ -1,9 +1,9 @@
 ---
-description: 머신러닝 실험에서 플롯을 생성하고 추적합니다.
+description: 머신 러닝 실험에서 플롯을 생성하고 추적합니다.
 title: 실험에서 플롯 생성 및 추적
 ---
 
-W&amp;B Models에서 `wandb.plot`의 메서드를 사용하면 트레이닝 중 시간에 따라 변화하는 차트를 포함해 `wandb.Run.log()`로 차트를 추적할 수 있습니다. 사용자 지정 차트 프레임워크에 대해 자세히 알아보려면 [custom charts walkthrough](/ko/models/app/features/custom-charts/walkthrough/)를 참조하세요.
+W&amp;B Models에서 `wandb.plot`의 메서드를 사용하면 트레이닝 중 시간에 따라 변화하는 차트를 포함해 `wandb.Run.log()`로 차트를 추적할 수 있습니다. 맞춤형 차트 프레임워크에 대해 자세히 알아보려면 [맞춤형 차트 워크스루](/ko/models/app/features/custom-charts/walkthrough/)를 참조하세요.
 
 <div id="basic-charts">
   ### 기본 차트
@@ -11,15 +11,15 @@ W&amp;B Models에서 `wandb.plot`의 메서드를 사용하면 트레이닝 중 
 
 W&amp;B 차트를 생성하려면 다음과 같이 하세요.
 
-1. `wandb.Table` 객체를 생성하고 시각화할 데이터를 추가합니다.
-2. W&amp;B의 기본 제공 [도우미 함수](/ko/models/ref/python/custom-charts) 중 하나를 사용해 플롯을 생성합니다.
-3. `wandb.Run.log()`로 플롯을 로깅합니다.
+1. `wandb.Table` 객체를 생성하고 시각화할 데이터를 추가하세요.
+2. W&amp;B의 내장 [헬퍼 함수](/ko/models/ref/python/custom-charts) 중 하나를 사용해 플롯을 생성하세요.
+3. `wandb.Run.log()`로 플롯을 로깅하세요.
 
 다음 기본 차트는 메트릭과 결과를 기본적으로 시각화하는 데 사용할 수 있습니다.
 
 <Tabs>
-  <Tab title="라인">
-    임의의 축에 연결되고 순서가 있는 점 목록으로 이루어진 맞춤형 선형 플롯을 기록합니다.
+  <Tab title="선">
+    임의의 축에 표시되는, 서로 연결되고 순서가 있는 점 목록으로 구성된 맞춤형 선형 플롯을 기록합니다.
 
     ```python
     import wandb
@@ -36,7 +36,7 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
         )
     ```
 
-    이를 사용해 임의의 두 차원에 대한 곡선을 로깅할 수 있습니다. 두 값 목록을 서로 대응시켜 플로팅하는 경우에는 목록의 값 개수가 정확히 일치해야 합니다. 예를 들어, 각 점에는 x와 y가 모두 있어야 합니다.
+    이를 사용하면 임의의 두 차원에 대한 곡선을 로깅할 수 있습니다. 두 값 목록을 서로 대응시켜 플로팅하는 경우에는 각 목록의 값 개수가 정확히 일치해야 합니다. 예를 들어, 각 점에는 x와 y가 모두 있어야 합니다.
 
     <Frame>
       <img src="/images/track/line_plot.png" alt="맞춤형 선형 플롯" />
@@ -48,7 +48,7 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
   </Tab>
 
   <Tab title="산점도">
-    임의의 x축과 y축 한 쌍에서 점 (x, y) 목록으로 구성된 맞춤형 산점도를 기록합니다.
+    임의의 x축과 y축에 대한 점 (x, y) 목록으로 맞춤형 산점도를 로깅합니다.
 
     ```python
     import wandb
@@ -59,7 +59,7 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
         run.log({"my_custom_id": wandb.plot.scatter(table, "class_x", "class_y")})
     ```
 
-    이를 사용해 임의의 두 차원에 대한 산점도 포인트를 로깅할 수 있습니다. 두 값 목록을 서로 대응시켜 그리는 경우에는 두 목록의 값 개수가 정확히 일치해야 합니다. 예를 들어, 각 점에는 x값과 y값이 모두 있어야 합니다.
+    이를 사용해 임의의 두 차원에서 산점도 점을 로깅할 수 있습니다. 두 값 목록을 서로 대응시켜 그리는 경우에는 두 목록의 값 개수가 정확히 일치해야 합니다. 예를 들어, 각 점에는 x와 y가 모두 있어야 합니다.
 
     <Frame>
       <img src="/images/track/demo_scatter_plot.png" alt="맞춤형 산점도" />
@@ -71,7 +71,7 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
   </Tab>
 
   <Tab title="막대">
-    몇 줄만으로 기본 지원되는 맞춤형 막대 차트(레이블이 있는 값 목록을 막대로 표시)를 기록합니다:
+    몇 줄만으로 기본 제공되는 맞춤형 막대 차트(레이블이 있는 값 목록을 막대로 표시)를 기록합니다:
 
     ```python
     import wandb
@@ -96,11 +96,11 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
 
     자세한 내용은 [Custom Bar Charts](https://wandb.ai/wandb/plots/reports/Custom-Bar-Charts--VmlldzoyNzExNzk) 리포트를 참조하세요.
 
-    [코드 실행하기](https://tiny.cc/custom-charts)
+    [코드 실행](https://tiny.cc/custom-charts)
   </Tab>
 
-  <Tab title="히스토그램">
-    몇 줄의 코드만으로 기본 기능을 사용해 맞춤형 히스토그램을 기록할 수 있습니다(값 목록을 개수 또는 발생 빈도에 따라 구간으로 나눔). 예측 신뢰도 점수 목록(`scores`)이 있다면, 다음과 같이 분포를 시각화할 수 있습니다:
+  <Tab title="Histogram">
+    몇 줄만으로 기본 지원되는 맞춤형 히스토그램(값 목록을 개수 또는 발생 빈도에 따라 빈으로 분류)을 기록합니다. 예측 신뢰도 점수 목록(`scores`)이 있다면, 다음과 같이 분포를 시각화할 수 있습니다:
 
     ```python
     import wandb
@@ -111,19 +111,19 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
         run.log({"my_histogram": wandb.plot.histogram(table, "scores", title="Histogram")})
     ```
 
-    이를 사용해 임의의 히스토그램을 기록할 수 있습니다. `data`는 목록의 목록이며, 행과 열로 구성된 2D 배열을 지원하기 위한 것임에 유의하세요.
+    이를 사용해 임의의 히스토그램을 기록할 수 있습니다. `data`는 목록의 목록으로, 행과 열로 이루어진 2차원 배열을 지원하기 위한 형식입니다.
 
     <Frame>
       <img src="/images/track/demo_custom_chart_histogram.png" alt="맞춤형 히스토그램" />
     </Frame>
 
-    자세한 내용은 [W&amp;B로 맞춤형 히스토그램 만들기](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM) 리포트를 참조하세요.
+    자세한 내용은 [Creating Custom Histograms With W&amp;B](https://wandb.ai/wandb/plots/reports/Custom-Histograms--VmlldzoyNzE0NzM) 리포트를 참조하세요.
 
     [코드 실행](https://tiny.cc/custom-charts)
   </Tab>
 
   <Tab title="멀티라인">
-    하나의 공유 x-y 축에 여러 선 또는 x-y 좌표 쌍으로 이루어진 여러 목록을 그립니다:
+    하나의 x-y 축에 여러 선이나 서로 다른 x-y 좌표 쌍 목록 여러 개를 그립니다:
 
     ```python
     import wandb
@@ -142,13 +142,13 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
         )
     ```
 
-    x와 y 포인트의 개수는 정확히 일치해야 합니다. 여러 y 값 목록에 대응하는 하나의 x 값 목록을 제공하거나, 각 y 값 목록마다 별도의 x 값 목록을 제공할 수 있습니다.
+    x와 y 점의 개수는 정확히 일치해야 합니다. 여러 y 값 목록에 맞춰 하나의 x 값 목록을 제공하거나, 각 y 값 목록에 대해 별도의 x 값 목록을 제공할 수 있습니다.
 
     <Frame>
-      <img src="/images/track/basic_charts_histogram.png" alt="다중 선 플롯" />
+      <img src="/images/track/basic_charts_histogram.png" alt="멀티라인 플롯" />
     </Frame>
 
-    자세한 내용은 [맞춤형 다중 선 플롯](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU) 리포트를 참조하세요.
+    자세한 내용은 [Custom Multi-Line Plots](https://wandb.ai/wandb/plots/reports/Custom-Multi-Line-Plots--VmlldzozOTMwMjU) 리포트를 참조하세요.
   </Tab>
 </Tabs>
 
@@ -156,28 +156,28 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
   ### 모델 평가 차트
 </div>
 
-이러한 프리셋 차트에는 `wandb.plot()` 메서드가 내장되어 있어, 스크립트에서 차트를 바로 로깅하고 UI에서 원하는 정보를 정확하고 빠르게 확인할 수 있습니다.
+이러한 프리셋 차트에는 `wandb.plot()` 메서드가 내장되어 있어, 스크립트에서 차트를 바로 로깅하고 UI에서 원하는 정보를 정확하게 확인할 수 있습니다.
 
 <Tabs>
   <Tab title="정밀도-재현율 곡선">
-    한 줄로 [Precision-Recall curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve)를 생성하세요:
+    한 줄로 [정밀도-재현율 곡선](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html#sklearn.metrics.precision_recall_curve)을 생성하세요:
 
     ```python
     import wandb
     with wandb.init() as run:
-        # ground_truth는 실제 레이블의 목록이고, predictions는 예측 점수의 목록입니다.
-        # 예제: ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
+        # ground_truth는 정답 레이블 목록이고, predictions는 예측 점수 목록입니다.
+        # 예를 들어, ground_truth = [0, 1, 1, 0]이고 predictions = [0.1, 0.4, 0.35, 0.8]입니다.
         ground_truth = [0, 1, 1, 0]
         predictions = [0.1, 0.4, 0.35, 0.8]
         run.log({"pr": wandb.plot.pr_curve(ground_truth, predictions)})
     ```
 
-    코드에서 다음 항목에 액세스할 수 있을 때마다 이를 기록할 수 있습니다:
+    코드에서 다음 항목에 액세스할 수 있을 때마다 이를 log할 수 있습니다:
 
-    * 예제 세트에 대한 모델의 예측 점수(`predictions`).
-    * 해당 예제의 정답 레이블(`ground_truth`).
-    * (선택) 레이블 또는 클래스 이름의 목록. 예를 들어 레이블 인덱스 0이 cat, 1이 dog, 2가 bird를 의미하는 경우 `labels=["cat", "dog", "bird"]`.
-    * (선택) 플롯에 시각화할 레이블의 일부 집합(여전히 목록 형식).
+    * 예시 집합에 대한 모델의 예측 점수(`predictions`)
+    * 해당 예시들에 대응하는 정답 레이블(`ground_truth`)
+    * (선택) 레이블 또는 클래스 이름의 list. 예를 들어, 레이블 인덱스 0이 cat, 1이 dog, 2가 bird를 의미하는 경우 `labels=["cat", "dog", "bird"]`
+    * (선택) plot에서 시각화할 레이블의 하위 집합(여전히 list 형식)
 
     <Frame>
       <img src="/images/track/model_eval_charts_precision_recall.png" alt="정밀도-재현율 곡선" />
@@ -185,29 +185,29 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
 
     자세한 내용은 [Plot Precision Recall Curves With W&amp;B](https://wandb.ai/wandb/plots/reports/Plot-Precision-Recall-Curves--VmlldzoyNjk1ODY) 리포트를 참조하세요.
 
-    [코드 실행하기](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
+    [코드 실행](https://colab.research.google.com/drive/1mS8ogA3LcZWOXchfJoMrboW3opY1A8BY?usp=sharing)
   </Tab>
 
   <Tab title="ROC 곡선">
-    한 줄로 [ROC 곡선](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve)을 생성하세요:
+    한 줄로 [ROC curve](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve)를 생성하세요:
 
     ```python
     import wandb
 
     with wandb.init() as run:
-        # ground_truth는 실제 레이블의 목록이고, predictions는 예측 점수의 목록입니다.
-        # 예제: ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
+        # ground_truth는 실제 레이블 목록이고, predictions는 예측 점수 목록입니다.
+        # 예시: ground_truth = [0, 1, 1, 0], predictions = [0.1, 0.4, 0.35, 0.8]
         ground_truth = [0, 1, 1, 0]
         predictions = [0.1, 0.4, 0.35, 0.8]
         run.log({"roc": wandb.plot.roc_curve(ground_truth, predictions)})
     ```
 
-    코드에서 다음 항목에 액세스할 수 있을 때마다 이를 log할 수 있습니다.
+    코드에서 다음 항목에 액세스할 수 있을 때마다 이를 로그할 수 있습니다:
 
-    * 예제 집합에 대한 모델의 예측 점수(`predictions`)
-    * 해당 예제의 정답 레이블(`ground_truth`)
-    * (선택) 레이블 또는 클래스 이름 목록. 예를 들어 레이블 인덱스 0이 cat, 1이 dog, 2가 bird를 의미하는 경우 `labels=["cat", "dog", "bird"]`
-    * (선택) 플롯에 시각화할 레이블의 일부 집합(여전히 목록 형식)
+    * 예시 집합에 대한 모델의 예측 점수(`predictions`)
+    * 해당 예시에 대응하는 실제 정답 레이블(`ground_truth`)
+    * (선택) 레이블 또는 클래스 이름의 목록. 예를 들어, 레이블 인덱스 0이 cat, 1이 dog, 2가 bird를 의미한다면 `labels=["cat", "dog", "bird"]`입니다.
+    * (선택) 플롯에 시각화할 이러한 레이블의 하위 집합(여전히 목록 형식)
 
     <Frame>
       <img src="/images/track/demo_custom_chart_roc_curve.png" alt="ROC 곡선" />
@@ -219,7 +219,7 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
   </Tab>
 
   <Tab title="혼동 행렬">
-    한 줄로 다중 클래스 [혼동 행렬](https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html)을 생성할 수 있습니다:
+    한 줄로 다중 클래스 [혼동 행렬](https://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html)을 생성하세요:
 
     ```python
     import wandb
@@ -232,27 +232,27 @@ W&amp;B 차트를 생성하려면 다음과 같이 하세요.
         run.log({"conf_mat": cm})
     ```
 
-    코드에서 다음 항목에 액세스할 수 있는 위치라면 어디서든 이를 기록할 수 있습니다:
+    코드에서 다음 항목에 액세스할 수 있는 곳이라면 어디에서나 이를 log할 수 있습니다:
 
-    * 예제 세트에 대한 모델의 예측 레이블(`preds`) 또는 정규화된 확률 점수(`probs`). 확률의 shape은 (예제 수, 클래스 수)여야 합니다. 확률이나 예측 중 하나만 제공할 수 있으며, 둘 다 제공할 수는 없습니다.
-    * 해당 예제에 대응하는 정답 레이블(`y_true`).
-    * `class_names`에 문자열로 된 레이블 또는 클래스 이름의 전체 목록. 예를 들어 인덱스 0이 `cat`, 1이 `dog`, 2가 `bird`이면 `class_names=["cat", "dog", "bird"]`입니다.
+    * 예시 집합에 대한 모델의 예측 레이블(`preds`) 또는 정규화된 확률 점수(`probs`). 확률의 shape은 (예시 수, 클래스 수)여야 합니다. 확률이나 예측 중 하나만 제공할 수 있으며, 둘 다 제공할 수는 없습니다.
+    * 해당 예시들에 대응하는 실제 정답 레이블(`y_true`).
+    * `class_names`에 string으로 된 레이블 또는 클래스 이름의 전체 목록. 예를 들어 인덱스 0이 `cat`, 1이 `dog`, 2가 `bird`인 경우 `class_names=["cat", "dog", "bird"]`입니다.
 
     <Frame>
       <img src="/images/experiments/confusion_matrix.png" alt="혼동 행렬" />
     </Frame>
 
-    자세한 내용은 [Confusion Matrix: 사용 및 예제](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM) 리포트를 참조하세요.
+    자세한 내용은 [Confusion Matrix: 사용 및 예시](https://wandb.ai/wandb/plots/reports/Confusion-Matrix--VmlldzozMDg1NTM) 리포트를 참조하세요.
 
     [코드 실행](https://colab.research.google.com/github/wandb/examples/blob/master/colabs/wandb-log/Log_a_Confusion_Matrix_with_W%26B.ipynb)
   </Tab>
 </Tabs>
 
 <div id="interactive-custom-charts">
-  ### 대화형 사용자 지정 차트
+  ### 대화형 맞춤형 차트
 </div>
 
-완전히 사용자 지정하려면 기본 제공 [사용자 지정 차트 프리셋](/ko/models/app/features/custom-charts/walkthrough/)을 조정하거나 새 프리셋을 생성한 다음 차트를 저장하세요. 차트 ID를 사용하면 스크립트에서 해당 사용자 지정 프리셋으로 데이터를 바로 로깅할 수 있습니다.
+완전히 맞춤 설정하려면 기본 제공 [맞춤형 차트 프리셋](/ko/models/app/features/custom-charts/walkthrough/)을 조정하거나 새 프리셋을 생성한 다음 차트를 저장하세요. 차트 ID를 사용하면 스크립트에서 해당 맞춤형 프리셋으로 데이터를 바로 로깅할 수 있습니다.
 
 ```python
 import wandb
@@ -283,19 +283,19 @@ with wandb.init() as run:
   ### Matplotlib 및 Plotly 플롯
 </div>
 
-`wandb.plot()`과 함께 W&amp;B [Custom Charts](/ko/models/app/features/custom-charts/walkthrough/)를 사용하는 대신 [matplotlib](https://matplotlib.org/) 및 [Plotly](https://plotly.com/)로 생성한 차트를 W&amp;B에 로깅할 수 있습니다.
+`wandb.plot()`으로 W&amp;B [맞춤형 차트](/ko/models/app/features/custom-charts/walkthrough/)를 사용하는 대신 [matplotlib](https://matplotlib.org/)와 [Plotly](https://plotly.com/)로 생성한 차트를 W&amp;B에 로깅할 수 있습니다.
 
 ```python
 import wandb
 import matplotlib.pyplot as plt
 
 with wandb.init() as run:
-    # 간단한 matplotlib 플롯 생성.
+    # 간단한 matplotlib 플롯을 생성합니다.
     plt.figure()
     plt.plot([1, 2, 3, 4])
     plt.ylabel("some interesting numbers")
 
-    # W&B에 플롯 기록.
+    # W&B에 플롯을 로깅합니다.
     run.log({"chart": plt})
 ```
 
@@ -306,50 +306,50 @@ with wandb.init() as run:
 </Note>
 
 <div id="log-custom-html-to-wb-tables">
-  ### 커스텀 HTML을 W&amp;B Tables에 로깅하기
+  ### 맞춤형 HTML을 W&amp;B 테이블에 로깅하기
 </div>
 
-W&amp;B는 Plotly와 Bokeh에서 생성한 대화형 차트를 HTML로 로깅하고 Tables에 추가하는 기능을 지원합니다.
+W&amp;B는 Plotly와 Bokeh에서 생성한 대화형 차트를 HTML로 로깅하고 테이블에 추가하는 기능을 지원합니다.
 
 <div id="log-plotly-figures-to-tables-as-html">
-  #### Plotly figure를 HTML로 Tables에 로깅하기
+  #### HTML로 Plotly figure를 테이블에 로깅하기
 </div>
 
-Plotly의 대화형 차트를 HTML로 변환하여 W&amp;B Tables에 로깅할 수 있습니다.
+Plotly의 대화형 차트를 HTML로 변환한 다음 W&amp;B 테이블에 로깅할 수 있습니다.
 
 ```python
 import wandb
 import plotly.express as px
 
-# Initialize a new run.
+# 새 run을 초기화합니다.
 with wandb.init(project="log-plotly-fig-tables", name="plotly_html") as run:
 
-    # Create a table.
+    # 테이블을 생성합니다.
     table = wandb.Table(columns=["plotly_figure"])
 
-    # Create path for Plotly figure.
+    # Plotly figure의 경로를 생성합니다.
     path_to_plotly_html = "./plotly_figure.html"
 
-    # Example Plotly figure.
+    # Plotly figure 예시입니다.
     fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
 
-    # Write Plotly figure to HTML.
-    # Set auto_play to False prevents animated Plotly charts
-    # from playing in the table automatically.
+    # Plotly figure를 HTML로 저장합니다.
+    # auto_play를 False로 설정하면 애니메이션 Plotly 차트가
+    # 테이블에서 자동으로 재생되지 않습니다.
     fig.write_html(path_to_plotly_html, auto_play=False)
 
-    # Add Plotly figure as HTML file into Table.
+    # Plotly figure를 HTML 파일로 테이블에 추가합니다.
     table.add_data(wandb.Html(path_to_plotly_html))
 
-    # Log table.
+    # 테이블을 로깅합니다.
     run.log({"test_table": table})
 ```
 
 <div id="log-bokeh-figures-to-tables-as-html">
-  #### Bokeh 피겨를 HTML로 Tables에 로깅하기
+  #### Bokeh figure를 HTML로 변환해 테이블에 로깅하기
 </div>
 
-Bokeh의 대화형 차트를 HTML로 변환하여 W&amp;B Tables에 로깅할 수 있습니다.
+대화형 Bokeh 차트를 HTML로 변환해 W&amp;B 테이블에 로깅할 수 있습니다.
 
 ```python
 from scipy.signal import spectrogram

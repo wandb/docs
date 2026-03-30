@@ -1,58 +1,58 @@
 ---
 title: "Utiliser le Playground pour tester des prompts"
-description: "Simplifiez l’itération sur les prompts et les réponses de LLM"
+description: "Simplifiez le processus d’itération sur les prompts et les réponses des LLM"
 ---
 
 <Tip>
-  Pendant une durée limitée, W&amp;B Inference est inclus dans votre offre gratuite. W&amp;B Inference vous donne accès à des modèles fondamentaux open source de premier plan via l’API et le Playground de Weave.
+  Pendant une durée limitée, W&amp;B Inference est inclus dans votre offre gratuite. W&amp;B Inference vous donne accès à des modèles de fondation open source de premier plan via l’API et le Playground de Weave.
 
   * [Documentation développeur](../integrations/inference)
   * [Page produit](https://wandb.ai/site/inference)
 </Tip>
 
-L’évaluation des prompts et des réponses de LLM peut s’avérer complexe. Le Playground de Weave est conçu pour simplifier l’itération sur les prompts et les réponses de LLM, afin de faciliter les expérimentations avec différents modèles et prompts. Grâce à des fonctionnalités comme la modification des prompts, la relance des messages et la comparaison de modèles, Playground vous aide à tester et à améliorer rapidement vos applications LLM. Playground prend actuellement en charge des modèles de fournisseurs tels qu’OpenAI, Anthropic et Google, ainsi que des [fournisseurs personnalisés](#add-a-custom-provider).
+Évaluer des prompts et des réponses de LLM peut s’avérer complexe. Le Playground de Weave est conçu pour simplifier le processus d’itération sur les prompts et les réponses des LLM, et ainsi faciliter l’expérimentation avec différents modèles et prompts. Grâce à des fonctionnalités telles que l’édition des prompts, la relance des messages et la comparaison de modèles, Playground vous aide à tester et à améliorer rapidement vos applications LLM. Playground prend actuellement en charge des modèles proposés par des fournisseurs comme OpenAI, Anthropic et Google, ainsi que des [fournisseurs personnalisés](#add-a-custom-provider).
 
-* **Accès rapide :** Ouvrez le « Playground » depuis le menu latéral de Weave pour démarrer une nouvelle session, ou depuis la page appel pour tester un projet existant.
-* **contrôle des messages :** Modifiez, relancez ou supprimez des messages directement dans le chat.
-* **Messagerie flexible :** Ajoutez de nouveaux messages comme entrées utilisateur ou système, puis envoyez-les au LLM.
+* **Accès rapide :** Ouvrez le « Playground » depuis le menu latéral de Weave pour démarrer une nouvelle session, ou depuis la page Appel pour tester un projet existant.
+* **Contrôle des messages :** Modifiez, relancez ou supprimez des messages directement dans le chat.
+* **Messagerie flexible :** Ajoutez de nouveaux messages en tant qu’entrées utilisateur ou système, puis envoyez-les au LLM.
 * **Paramètres personnalisables :** Configurez votre fournisseur LLM préféré et ajustez les paramètres du modèle.
 * **Prise en charge de plusieurs LLM :** Basculez entre les modèles, avec une gestion des clés API au niveau de l’équipe.
-* **Comparaison de modèles :** Comparez la manière dont différents modèles répondent aux prompts.
-* **Fournisseurs personnalisés :** Testez des points de terminaison d’API compatibles OpenAI pour des modèles personnalisés.
+* **Comparer les modèles :** Comparez la façon dont différents modèles répondent aux prompts.
+* **Fournisseurs personnalisés :** Testez des points de terminaison API compatibles OpenAI pour des modèles personnalisés.
 * **Modèles enregistrés :** Créez et configurez un préréglage de modèle réutilisable pour votre flux de travail
 
-Commencez à utiliser le Playground pour optimiser vos interactions avec les LLM et simplifier votre processus d’ingénierie des prompts ainsi que le développement d’applications LLM.
+Commencez à utiliser le Playground pour optimiser vos interactions avec les LLM et rationaliser votre processus de prompt engineering ainsi que le développement d’applications LLM.
 
 * [Ajouter les identifiants et informations du fournisseur](#add-provider-credentials-and-information)
 * [Accéder au Playground](#access-the-playground)
 * [Sélectionner un LLM](#select-an-llm)
 * [Personnaliser les paramètres du Playground](#customize-playground-settings)
-* [contrôle des messages](#message-controls)
-* [Comparer des LLM](#compare-llms)
+* [Contrôle des messages](#message-controls)
+* [Comparer les LLM](#compare-llms)
 * [Fournisseurs personnalisés](#custom-providers)
 * [Modèles enregistrés](#saved-models) 
 
 <div id="add-provider-credentials-and-information">
-  ## Ajouter les identifiants et informations du fournisseur
+  ## Ajouter les identifiants et les informations du fournisseur
 </div>
 
 Avant d’utiliser Playground, vous devez ajouter les identifiants du fournisseur. Playground prend actuellement en charge les modèles de nombreux fournisseurs. Pour utiliser l’un des modèles disponibles, ajoutez les informations appropriées aux secrets de votre équipe dans les paramètres de W&amp;B.
 
-* Amazon Bedrock:
+* Amazon Bedrock :
   * `AWS_ACCESS_KEY_ID`
   * `AWS_SECRET_ACCESS_KEY`
   * `AWS_REGION_NAME`
-* Anthropic: `ANTHROPIC_API_KEY`
-* Azure:
+* Anthropic : `ANTHROPIC_API_KEY`
+* Azure :
   * `AZURE_API_KEY`
   * `AZURE_API_BASE`
   * `AZURE_API_VERSION`
-* Deepseek: `DEEPSEEK_API_KEY`
-* Google: `GEMINI_API_KEY`
-* Groq: `GROQ_API_KEY`
-* Mistral: `MISTRAL_API_KEY`
-* OpenAI: `OPENAI_API_KEY`
-* X.AI: `XAI_API_KEY`
+* Deepseek : `DEEPSEEK_API_KEY`
+* Google : `GEMINI_API_KEY`
+* Groq : `GROQ_API_KEY`
+* Mistral : `MISTRAL_API_KEY`
+* OpenAI : `OPENAI_API_KEY`
+* X.AI : `XAI_API_KEY`
 
 <div id="access-the-playground">
   ## Accéder au Playground
@@ -74,7 +74,7 @@ Il existe deux façons d&#39;accéder au Playground :
   ## Sélectionnez un LLM
 </div>
 
-Vous pouvez changer de LLM à l’aide du menu déroulant **Sélectionner un modèle** dans l’en-tête du prompt (en haut du panneau principal du playground). Les modèles disponibles proposés par différents fournisseurs sont listés ci-dessous :
+Vous pouvez changer de LLM à l'aide du menu déroulant **Sélectionner un modèle** dans l'en-tête du prompt (en haut du panneau principal du playground). Les modèles disponibles proposés par différents fournisseurs sont listés ci-dessous :
 
 * Amazon Bedrock
 * Anthropic
@@ -118,22 +118,22 @@ Le Playground vous permet de générer plusieurs sorties pour une même entrée 
 Vous pouvez tester la manière dont différents modèles utilisent des fonctions selon les entrées fournies par l’utilisateur. Pour ajouter une fonction à tester dans Playground, dans le panneau **Paramètres du chat**, cliquez sur **+ Ajouter une fonction**. Suivez les instructions à l’écran pour définir la fonction et enregistrer vos modifications.
 
 <div id="message-controls">
-  ## Contrôles des messages
+  ## Contrôle des messages
 </div>
 
 <div id="prompt-definition-area">
   ### Zone de définition du prompt
 </div>
 
-La **zone de définition du prompt** vous permet de définir les instructions qui façonnent le comportement du modèle tout au long d&#39;une interaction.
+La **zone de définition du prompt** vous permet de définir les instructions qui déterminent le comportement du modèle tout au long d&#39;une interaction.
 
-Utilisez cette zone pour fournir un contexte qui s&#39;applique de façon cohérente avant tout échange de messages. Cela inclut la définition du rôle, les consignes de ton et de style, les contraintes de comportement et les exigences de sortie. Les modifications apportées ici affectent toutes les interactions suivantes, sauf modification ultérieure.
+Utilisez cette zone pour fournir un contexte qui s&#39;applique de manière cohérente avant tout échange de messages. Cela inclut la définition du rôle, les consignes de ton et de style, les contraintes de comportement et les exigences de sortie. Les modifications apportées ici affectent toutes les interactions suivantes jusqu&#39;à ce qu&#39;elles soient modifiées.
 
 Elle comprend :
 
 * **Sélecteur de prompt** : sélectionnez un prompt enregistré existant ou créez-en un nouveau.
 * **Sélecteur de rôle du message** : spécifiez le rôle du message en cours de définition (rôle **System**, **Assistant** ou **User**).
-* **Texte du prompt** : saisissez le texte d&#39;instruction qui définit la manière dont le modèle doit répondre.
+* **Texte du prompt** : saisissez le texte d&#39;instruction qui définit la façon dont le modèle doit répondre.
 * Bouton **Add message** : vous permet d&#39;inclure des messages supplémentaires dans le contexte du prompt avant l&#39;exécution.
 
 Ces messages sont envoyés ensemble au modèle et peuvent servir à :
@@ -162,7 +162,7 @@ Vous pouvez également **Copier**, **Supprimer**, **Modifier** et **Réessayer**
 
 Utilisez la **zone de rédaction des messages** pour envoyer de nouveaux messages au modèle.
 
-Elle permet de sélectionner le rôle du message et de soumettre des messages à l&#39;exécution. La plupart des interactions sont rédigées sous forme de messages **Utilisateur**. Vous pouvez ajouter des messages **Système** ou **Assistant** lorsque vous testez des modifications d&#39;instructions.
+Elle prend en charge la sélection du rôle du message et la soumission de messages à l&#39;exécution. La plupart des interactions sont rédigées sous forme de messages **Utilisateur**. Vous pouvez ajouter des messages **Système** ou **Assistant** lorsque vous testez des modifications d&#39;instructions.
 
 <Frame>
   ![Playground Weave affichant la zone de définition du prompt en haut, l'historique des messages au milieu et une zone de rédaction des messages en bas pour envoyer de nouveaux messages.](/weave/guides/tools/imgs/playground_chat_input.png)
@@ -180,8 +180,8 @@ La sélection d’un élément de l’historique le charge automatiquement dans 
   ## Comparer des LLM
 </div>
 
-Playground vous permet de comparer des LLM. Pour effectuer une comparaison, cliquez sur le bouton **Add Chat (<Icon icon="plus" iconType="solid" />)** dans la barre d’outils de droite du Playground. Une deuxième conversation s’ouvre à côté de la conversation d’origine.
-Dans cette deuxième conversation, vous disposez des mêmes fonctionnalités que dans la conversation d’origine, comme le choix du modèle, le réglage des paramètres et l’ajout de fonctions.
+Playground vous permet de comparer des LLM. Pour effectuer une comparaison, cliquez sur le bouton **Add Chat (<Icon icon="plus" iconType="solid" />)** dans la barre d’outils de droite du Playground. Une deuxième conversation s’ouvre à côté de la conversation originale.
+Dans cette deuxième conversation, vous disposez des mêmes fonctionnalités que dans la conversation originale, comme le choix du modèle, le réglage des paramètres et l’ajout de fonctions.
 
 <div id="custom-providers">
   ## Fournisseurs personnalisés
@@ -191,7 +191,7 @@ Dans cette deuxième conversation, vous disposez des mêmes fonctionnalités que
   ### Ajouter un fournisseur personnalisé
 </div>
 
-En plus des fournisseurs intégrés, vous pouvez utiliser le Playground pour tester des endpoints d’API compatibles OpenAI pour des modèles personnalisés. Par exemple :
+En plus des fournisseurs intégrés, vous pouvez utiliser le Playground pour tester des points de terminaison API compatibles avec OpenAI pour des modèles personnalisés. Par exemple :
 
 * D’anciennes versions de fournisseurs de modèles pris en charge
 * Des modèles locaux
@@ -203,18 +203,18 @@ Pour ajouter un fournisseur personnalisé au Playground, procédez comme suit :
 3. Sélectionnez **Custom Provider**.
 4. Dans la fenêtre modale, saisissez les informations du fournisseur :
 
-* **Provider name** : Un nom pour le fournisseur, tel que `openai` ou `ollama`.
-* **API key** : La clé API du fournisseur, par exemple une clé API OpenAI.
-* **Base URL** : L’endpoint de base du fournisseur, tel que `https://api.openai.com/v1/` ou une URL ngrok comme `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`.
-* **Headers** : (Facultatif) Une ou plusieurs paires clé-valeur d’en-têtes HTTP personnalisés.
-* **Models** : Un ou plusieurs modèles pour le fournisseur, tels que `deepseek-r1` ou `qwq`.
-* **Max tokens** : (Facultatif) Pour chaque modèle, le nombre maximal de tokens que le modèle peut générer dans une réponse.
+* **Provider name** : nom du fournisseur, par exemple `openai` ou `ollama`.
+* **API key** : la clé API du fournisseur, par exemple une clé API OpenAI.
+* **Base URL** : le point de terminaison de base du fournisseur, par exemple `https://api.openai.com/v1/` ou une URL ngrok comme `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`.
+* **Headers** : (Facultatif) une ou plusieurs paires clé-valeur d’en-têtes HTTP personnalisés.
+* **Models** : un ou plusieurs modèles pour le fournisseur, par exemple `deepseek-r1` ou `qwq`.
+* **Max tokens** : (Facultatif) pour chaque modèle, le nombre maximal de jetons que le modèle peut générer dans une réponse.
 
 5. Une fois les informations du fournisseur saisies, cliquez sur **Add provider**.
 6. Sélectionnez votre nouveau fournisseur et le ou les modèles disponibles dans le menu déroulant **Sélectionner un modèle**.
 
 <Warning>
-  En raison des restrictions CORS, vous ne pouvez pas appeler directement des URL localhost ou 127.0.0.1 depuis le Playground. Si vous exécutez un serveur de modèles local (comme Ollama), utilisez un service de tunneling comme ngrok pour l’exposer de manière sécurisée. Pour plus de détails, voir [Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider).
+  En raison des restrictions CORS, vous ne pouvez pas appeler directement des URL localhost ou 127.0.0.1 depuis le Playground. Si vous exécutez un serveur de modèles local (comme Ollama), utilisez un service de tunneling comme ngrok pour l’exposer de manière sécurisée. Pour en savoir plus, voir [Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider).
 </Warning>
 
 Vous pouvez maintenant tester le ou les modèles du fournisseur personnalisé à l’aide des fonctionnalités standard du Playground. Vous pouvez également [modifier](#edit-a-custom-provider) ou [supprimer](#remove-a-custom-provider) le fournisseur personnalisé.
@@ -223,14 +223,14 @@ Vous pouvez maintenant tester le ou les modèles du fournisseur personnalisé à
   ### Modifier un fournisseur personnalisé
 </div>
 
-Pour modifier les informations d’un [fournisseur personnalisé créé précédemment](#add-a-custom-provider), procédez comme suit :
+Pour modifier les informations d'un [fournisseur personnalisé créé précédemment](#add-a-custom-provider), procédez comme suit :
 
-1. Dans l’en-tête du prompt, cliquez sur la liste déroulante **Sélectionner un modèle**. Sélectionnez ensuite **+Configure providers**.
+1. Dans l'en-tête du prompt, cliquez sur la liste déroulante **Sélectionner un modèle**. Sélectionnez ensuite **+Configure providers**.
 
-* Vous pouvez aussi sélectionner **projet** dans le menu latéral, puis l’onglet **fournisseur d’IA**.
+* Vous pouvez aussi sélectionner **projet** dans le menu latéral, puis l'onglet **fournisseur d'IA**.
 
 2. Dans le tableau **fournisseurs personnalisés**, trouvez le fournisseur personnalisé que vous souhaitez modifier.
-3. Dans la colonne **Last Updated** de l’entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton de modification (l’icône en forme de crayon).
+3. Dans la colonne **Last Updated** de l'entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton de modification (l'icône en forme de crayon).
 4. Dans la fenêtre modale, modifiez les informations du fournisseur.
 5. Cliquez sur **Save**.
 
@@ -238,14 +238,14 @@ Pour modifier les informations d’un [fournisseur personnalisé créé précéd
   ### Supprimer un fournisseur personnalisé
 </div>
 
-Pour supprimer un [fournisseur personnalisé créé précédemment](#add-a-custom-provider), procédez comme suit :
+Pour supprimer un [fournisseur personnalisé créé précédemment](#add-a-custom-provider), procédez comme suit :
 
-1. Dans l’en-tête du prompt, cliquez sur la liste déroulante **Sélectionner un modèle**. Sélectionnez ensuite **+Configurer les fournisseurs**.
+1. Dans l'en-tête du prompt, cliquez sur la liste déroulante **Sélectionner un modèle**. Sélectionnez ensuite **+Configurer les fournisseurs**.
 
-* Vous pouvez aussi, dans le menu latéral, sélectionner **Projet**, puis l’onglet **Fournisseurs d’IA**.
+* Vous pouvez aussi, dans le menu latéral, sélectionner **Projet**, puis l'onglet **fournisseur d'IA**.
 
 2. Dans le tableau **Fournisseurs personnalisés**, trouvez le fournisseur personnalisé que vous souhaitez supprimer.
-3. Dans la colonne **Dernière mise à jour** de l’entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton de suppression (l’icône de corbeille).
+3. Dans la colonne **Dernière mise à jour** de l'entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton de suppression (l'icône de corbeille).
 4. Dans la fenêtre modale, confirmez que vous souhaitez supprimer le fournisseur. Cette action est irréversible.
 5. Cliquez sur **Supprimer**.
 
@@ -350,7 +350,7 @@ Vous pouvez créer et configurer un préréglage de modèle réutilisable pour v
 Basculez rapidement vers un [modèle enregistré](#save-a-model) pour maintenir la cohérence entre les expériences ou les sessions. Vous pouvez ainsi reprendre exactement là où vous en étiez.
 
 1. Dans l’en-tête du prompt, dans le menu déroulant **Sélectionner un modèle**, sélectionnez **Modèles enregistrés**.
-2. Dans la liste des modèles enregistrés, sélectionnez le modèle enregistré que vous souhaitez charger. Le modèle se charge et est prêt à être utilisé dans le Playground.
+2. Dans la liste des modèles enregistrés, sélectionnez le modèle enregistré que vous souhaitez charger. Le modèle se charge et est prêt à être utilisé dans le playground.
 
 <div id="update-a-saved-model">
   ### Mettre à jour un modèle enregistré

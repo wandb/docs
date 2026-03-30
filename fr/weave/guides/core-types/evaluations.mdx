@@ -7,7 +7,7 @@ description: "Développement d'applications LLM piloté par l'évaluation pour a
 
 <Tabs>
   <Tab title="Python">
-    Dans Weave, le cœur du flux de travail est l&#39;objet *`Evaluation`*, qui définit :
+    Dans Weave, le cœur du flux de travail est l&#39;objet *`Evaluation`*, qui définit :
 
     * Un [`Dataset`](../core-types/datasets) ou une liste de dictionnaires pour les exemples de test.
     * Une ou plusieurs [fonctions de score](../evaluation/scorers).
@@ -17,7 +17,7 @@ description: "Développement d'applications LLM piloté par l'évaluation pour a
   </Tab>
 
   <Tab title="TypeScript">
-    Dans Weave, le cœur du flux de travail est l&#39;objet *`Evaluation`*, qui définit :
+    Dans Weave, le cœur du flux de travail est l&#39;objet *`Evaluation`*, qui définit :
 
     * Un [`Dataset`](../core-types/datasets) ou un tableau d&#39;objets pour les exemples de test.
     * Une ou plusieurs [fonctions de score](../evaluation/scorers).
@@ -30,7 +30,7 @@ description: "Développement d'applications LLM piloté par l'évaluation pour a
   </Tab>
 </Tabs>
 
-Pour vous lancer avec les évaluations, suivez les étapes suivantes :
+Pour vous lancer avec les évaluations, suivez les étapes suivantes :
 
 1. [Créer un objet `Evaluation`](#1-create-an-evaluation-object)
 2. [Définir un jeu de données d&#39;exemples](#2-define-a-dataset-of-test-examples)
@@ -44,9 +44,9 @@ Vous trouverez un exemple complet de code d&#39;évaluation [ici](#full-evaluati
   ## 1. Créer un objet `Evaluation`
 </div>
 
-La création d’un objet `Evaluation` est la première étape de la mise en place de votre configuration d’évaluation. Une `Evaluation` se compose de données d’exemple, d’une logique de score et d’un prétraitement facultatif. Vous l’utiliserez ensuite pour exécuter une ou plusieurs évaluations.
+La création d&#39;un objet `Evaluation` est la première étape de la mise en place de votre configuration d&#39;évaluation. Une `Evaluation` se compose de données d&#39;exemple, d&#39;une logique de score et d&#39;un prétraitement facultatif. Vous l&#39;utiliserez ensuite pour exécuter une ou plusieurs évaluations.
 
-Weave prendra chaque exemple, le fera passer par votre application et évaluera le résultat à l’aide de fonctions de score personnalisées multiples. Vous aurez ainsi une vue des performances de votre application, ainsi qu’une interface riche pour examiner en détail les sorties et les scores individuels.
+Weave prendra chaque exemple, le fera passer par votre application et évaluera le résultat à l&#39;aide de fonctions de score personnalisées multiples. Vous aurez ainsi une vue des performances de votre application, ainsi qu&#39;une interface utilisateur riche pour examiner en détail les sorties et les scores individuels.
 
 <div id="optional-custom-naming">
   ### (Facultatif) Nommage personnalisé
@@ -54,10 +54,10 @@ Weave prendra chaque exemple, le fera passer par votre application et évaluera 
 
 <Tabs>
   <Tab title="Python">
-    Il existe deux types de noms personnalisables dans le processus d’évaluation :
+    Il existe deux types de noms personnalisables dans le flux d’évaluation :
 
-    * [*Nom de l’objet Evaluation* (`evaluation_name`)](#name-the-evaluation-object) : libellé persistant pour votre objet `Evaluation` configuré.
-    * [*Nom d’affichage du run d’évaluation* (`__weave["display_name"]`)](#name-individual-evaluation-runs) : libellé d’une exécution d’évaluation spécifique, affiché dans l’interface utilisateur.
+    * [*Nom de l’objet `Evaluation`* (`evaluation_name`)](#name-the-evaluation-object) : libellé persistant pour votre objet `Evaluation` configuré.
+    * [*Display name du run d’évaluation* (`__weave["display_name"]`)](#name-individual-evaluation-runs) : libellé d’une exécution d’évaluation spécifique, affiché dans l’interface utilisateur.
 
     #### Nommer l’objet `Evaluation`
 
@@ -137,15 +137,15 @@ Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). El
 
 <Tabs>
   <Tab title="Python">
-    Chaque fonction de score doit avoir un paramètre `output` et renvoyer un dictionnaire contenant les scores. Facultativement, vous pouvez inclure d&#39;autres entrées issues de vos exemples.
+    Chaque fonction de score doit avoir un paramètre `output` et renvoyer un dictionnaire contenant les scores. Vous pouvez également inclure d&#39;autres entrées issues de vos exemples.
 
-    Les fonctions de score doivent accepter un argument nommé `output`, mais les autres arguments sont définis par l&#39;utilisateur et proviennent des exemples du jeu de données. Seules les clés nécessaires seront utilisées, en se basant sur le nom des arguments dans le dictionnaire.
+    Les fonctions de score doivent accepter un argument nommé `output`, mais les autres arguments sont définis par l&#39;utilisateur et proviennent des exemples du jeu de données. Seules les clés nécessaires seront utilisées, en fonction du nom des arguments dans le dictionnaire.
 
     <Tip>
       Si votre scorer attend un argument `output` mais ne le reçoit pas, vérifiez s&#39;il utilise encore l&#39;ancienne clé `model_output`. Pour corriger cela, mettez à jour votre fonction de scorer afin d&#39;utiliser `output` comme argument nommé.
     </Tip>
 
-    La fonction de scorer d&#39;exemple suivante, `match_score1`, utilise la valeur `expected` du dictionnaire `examples` pour effectuer le score.
+    La fonction de scorer d&#39;exemple suivante, `match_score1`, utilise la valeur `expected` du dictionnaire `examples` pour calculer le score.
 
     ```python lines
     import weave
@@ -166,7 +166,7 @@ Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). El
 
     ### (Facultatif) Définir une classe `Scorer` personnalisée
 
-    Dans certaines applications, vous pouvez vouloir créer des classes `Scorer` personnalisées, par exemple lorsqu&#39;une classe `LLMJudge` standardisée doit être créée avec des paramètres spécifiques (comme un modèle de chat ou un prompt), une logique de score propre à chaque ligne et un calcul spécifique du score agrégé.
+    Dans certaines applications, il peut être utile de créer des classes `Scorer` personnalisées, par exemple lorsqu&#39;une classe `LLMJudge` standardisée doit être créée avec des paramètres spécifiques (comme un modèle de chat ou un prompt), une logique de score propre à chaque ligne et un calcul spécifique du score agrégé.
 
     Voir le tutoriel sur la définition d&#39;une classe `Scorer` dans [l&#39;évaluation basée sur le modèle des applications RAG](/fr/weave/tutorial-rag#optional-defining-a-scorer-class) pour plus d&#39;informations.
   </Tab>
@@ -229,7 +229,7 @@ Ensuite, créez une ou plusieurs [fonctions de score](../evaluation/scorers). El
     evaluation = Evaluation(
         dataset=examples, scorers=[match_score1]
     )
-    weave.init('intro-example') # commencer à suivre les résultats avec weave
+    weave.init('intro-example') # commencer à suivre les résultats avec Weave
     asyncio.run(evaluation.evaluate(model))
     ```
 
@@ -332,12 +332,12 @@ Pour exécuter une évaluation, appelez `.evaluate()` sur l’objet `Evaluation`
 Le run transmet chaque exemple au modèle trois fois, et chaque run est évalué et affiché indépendamment dans Weave.
 
 <div id="full-evaluation-code-example">
-  ## Exemple complet de code d’évaluation
+  ## Exemple complet de code d&#39;évaluation
 </div>
 
 <Tabs>
   <Tab title="Python">
-    L’exemple de code suivant montre une évaluation complète, du début à la fin. La variable `examples` est utilisée par les fonctions de score `match_score1` et `match_score2` pour évaluer `MyModel` à partir de la valeur de `prompt`, ainsi qu’une fonction personnalisée `function_to_evaluate`. Les évaluations du `Model` et de la fonction sont lancées avec `asyncio.run(evaluation.evaluate())`.
+    L&#39;exemple de code suivant montre une évaluation complète, du début à la fin. La variable `examples` est utilisée par les fonctions de score `match_score1` et `match_score2` pour évaluer `MyModel` à partir de la valeur de `prompt`, ainsi qu&#39;une fonction personnalisée `function_to_evaluate`. Les évaluations du `Model` et de la fonction sont lancées avec `asyncio.run(evaluation.evaluate())`.
 
     ```python lines
     from weave import Evaluation, Model
@@ -381,7 +381,7 @@ Le run transmet chaque exemple au modèle trois fois, et chaque run est évalué
   </Tab>
 
   <Tab title="TypeScript">
-    L’exemple de code suivant montre une évaluation complète, du début à la fin. Les lignes du jeu de données sont utilisées par la fonction de score `matchScore` pour évaluer `myModel`.
+    L&#39;exemple de code suivant montre une évaluation complète, du début à la fin. Les lignes du jeu de données sont utilisées par la fonction de score `matchScore` pour évaluer `myModel`.
 
     ```typescript lines
     import * as weave from 'weave';
@@ -507,7 +507,7 @@ Le run transmet chaque exemple au modèle trois fois, et chaque run est évalué
   </Tab>
 
   <Tab title="TypeScript">
-    En TypeScript, vous pouvez utiliser `columnMapping` sur l’objet `Evaluation` pour faire correspondre les noms de colonnes du jeu de données aux noms attendus par vos scorers. Cela est utile lorsque votre jeu de données utilise des noms de champs différents de ceux attendus par vos fonctions de scorer.
+    En TypeScript, vous pouvez utiliser `columnMapping` sur l’objet `Evaluation` pour faire correspondre les noms de colonnes du jeu de données aux noms attendus par vos évaluateurs. Cela est utile lorsque votre jeu de données utilise des noms de champs différents de ceux attendus par vos fonctions de scorer.
 
     L’exemple suivant mappe la colonne `expectedOutputTimesTwo` sur la colonne `expected` :
 
@@ -534,7 +534,7 @@ Le run transmet chaque exemple au modèle trois fois, et chaque run est évalué
 </Tabs>
 
 <div id="use-huggingface-datasets-with-evaluations">
-  ### Utiliser les jeux de données HuggingFace avec les évaluations
+  ### Utiliser HuggingFace Datasets avec les évaluations
 </div>
 
 <Tabs>
@@ -543,7 +543,7 @@ Le run transmet chaque exemple au modèle trois fois, et chaque run est évalué
 
     En attendant des intégrations plus fluides, vous pouvez utiliser `preprocess_model_input` comme solution de contournement temporaire pour utiliser HuggingFace Datasets dans les évaluations Weave.
 
-    Voir notre [cookbook sur l’utilisation des jeux de données HuggingFace dans les évaluations](/fr/weave/cookbooks/hf_dataset_evals) pour connaître l’approche actuelle.
+    Voir notre [cookbook sur l’utilisation de HuggingFace Datasets dans les évaluations](/fr/weave/cookbooks/hf_dataset_evals) pour connaître l’approche actuelle.
   </Tab>
 
   <Tab title="TypeScript">
