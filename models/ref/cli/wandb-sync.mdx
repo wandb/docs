@@ -5,7 +5,7 @@ title: wandb sync
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L533" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L543" />
 
 
 
@@ -49,13 +49,15 @@ Show a summary of local runs and their sync status
 wandb sync
 ```
 
-    Sync run ID abcd1234 that is locally saved locally in the ./wandb/run-20170617_000000-abcd1234 directory
+    Sync run ID abcd1234 that is locally saved locally in
+    the ./wandb/run-20170617_000000-abcd1234 directory
 
 ```bash
 wandb sync ./wandb/run-20170617_000000-abcd1234
 ```
 
-    Sync run abcd1234 by its local .wandb filepath (./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb)
+    Sync run abcd1234 by its local .wandb
+    filepath (./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb)
 
 ```bash
 wandb sync ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
@@ -67,7 +69,8 @@ wandb sync ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb
 wandb sync --sync-all
 ```
 
-    Sync a run in the "foobar-project" project and "team-awesome" entity by its .wandb filepath
+    Sync a run in the "foobar-project" project and "team-awesome"
+    entity by its .wandb filepath
 
 ```bash
 wandb sync --project foobar-project --entity team-awesome ./wandb/run-20170617_000000-abcd1234/run-abcd1234.wandb

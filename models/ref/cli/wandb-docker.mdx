@@ -5,7 +5,7 @@ title: wandb docker
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2414" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2474" />
 
 
 
@@ -69,13 +69,13 @@ wandb docker wandb/deepo:keras-gpu --no-tty --cmd "python train.py --epochs=5"
 
 | Flag | Type | Description |
 |------|------|-------------|
-| `--nvidia` | BOOL Flag | Use the nvidia runtime, defaults to nvidia if nvidia-docker is present **Default**: False |
-| `--digest` | BOOL Flag | Output the image digest and exit **Default**: False |
-| `--jupyter` | BOOL Flag | Run jupyter lab in the container **Default**: False |
-| `--dir` | STR | Which directory to mount the code in the container **Default**: /app |
-| `--no-dir` | BOOL Flag | Don't mount the current directory **Default**: False |
-| `--shell` | STR | The shell to start the container with **Default**: /bin/bash |
-| `--port` | STR | The host port to bind jupyter on **Default**: 8888 |
-| `--cmd` | STR | The command to run in the container **Default**: None |
-| `--no-tty` | BOOL Flag | Run the command without a tty **Default**: False |
+| `--nvidia` | BOOL Flag | Use the nvidia runtime, defaults to nvidia if nvidia-docker is present. **Default**: False |
+| `--digest` | BOOL Flag | Output the image digest and exit. **Default**: False |
+| `--jupyter` | BOOL Flag | Run jupyter lab in the container. **Default**: False |
+| `--dir` | STR | Which directory to mount the code in the container. **Default**: /app |
+| `--no-dir` | BOOL Flag | Don't mount the current directory. **Default**: False |
+| `--shell` | STR | The shell to start the container with. **Default**: /bin/bash |
+| `--port` | STR | The host port to bind jupyter on. **Default**: 8888 |
+| `--cmd` | STR | The command to run in the container. **Default**: None |
+| `--no-tty` | BOOL Flag | Run the command without a tty. **Default**: False |
 

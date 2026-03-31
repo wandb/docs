@@ -5,7 +5,7 @@ title: wandb launch-agent
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1847" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L1903" />
 
 
 
@@ -27,7 +27,7 @@ Run a W&B launch agent.
 
 | Flag | Type | Description |
 |------|------|-------------|
-| `--queue, -q` | STR | The name of a queue for the agent to watch. Multiple -q flags supported. **Default**: None |
+| `--queue, -q` | STR | The name of a queue for the agent to watch. Multiple -q flags are supported. **Default**: None |
 | `--entity, -e` | STR | The entity to use. Defaults to current logged-in user **Default**: None |
 | `--log-file, -l` | STR | Destination for internal agent logs. Use - for stdout. By default all agents logs will go to debug.log in your wandb/ subdirectory or WANDB_DIR if set. **Default**: None |
 | `--max-jobs, -j` | STR | The maximum number of launch jobs this agent can run in parallel. Defaults to 1. Set to -1 for no upper limit **Default**: None |

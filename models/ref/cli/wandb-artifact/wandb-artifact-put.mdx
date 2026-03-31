@@ -5,7 +5,7 @@ title: wandb artifact put
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2754" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L2858" />
 
 
 
@@ -30,31 +30,36 @@ Upload an artifact to W&B.
 
 ## Examples
 
-Upload all files in a local directory ./data/training as a dataset artifact in W&B.
+Upload all files in a local directory ./data/training as a
+    dataset artifact in W&B.
 
 ```bash
 wandb artifact put --type dataset ./data/training
 ```
 
-    Upload model.pt to the "foobar" project and assign "trained-model" as the artifact name.
+    Upload model.pt to the "foobar" project and assign "trained-model" as
+    the artifact name.
 
 ```bash
 wandb artifact put --name foobar/trained-model --type model ./model.pt
 ```
 
-    Tag the artifact with both "latest" and "v2.0" so it can be referenced by either alias.
+    Tag the artifact with both "latest" and "v2.0" so it can be
+    referenced by either alias.
 
 ```bash
 wandb artifact put --alias latest --alias v2.0 --type model ./model.pt
 ```
 
-    Record an Amazon S3 path as a reference without downloading or re-uploading the data.
+    Record an Amazon S3 path as a reference without downloading
+    or re-uploading the data.
 
 ```bash
 wandb artifact put --type dataset s3://my-bucket/datasets/training
 ```
 
-    Attach a human-readable description to a dataset artifact for documentation.
+    Attach a human-readable description to a dataset artifact
+    for documentation.
 
 ```bash
 wandb artifact put --type dataset --description "Training data, Jan 2025" ./data/training

@@ -5,7 +5,7 @@ title: wandb sweep
 import { GitHubLink } from '/snippets/en/_includes/github-source-link.mdx';
 
 
-<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L894" />
+<GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/cli/cli.py#L919" />
 
 
 
@@ -56,7 +56,8 @@ wandb sweep -p foobar-project -e team-awesome sweep_config.yaml
 wandb sweep --update abcd1234 sweep_config.yaml
 ```
 
-    Stop sweep abcd1234 under the "team-awesome" entity and "foobar-project" project.
+    Stop sweep abcd1234 under the "team-awesome" entity
+    and "foobar-project" project.
 
 ```bash
 wandb sweep --stop team-awesome/foobar-project/abcd1234
