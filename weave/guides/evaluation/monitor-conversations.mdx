@@ -29,7 +29,7 @@ Use the **Last message** method when each Call in the conversation contains the 
 
 Set the **Aggregation field** to **Trace Id** and the **Aggregation method** to **Last message**. After the timeout elapses, Weave scores only the most recent Call in the trace, which already contains the full conversation.
 
-This method uses fewer resources because only one Call per group is scored.
+This method uses fewer resources because the scorer only processes one Call per group.
 
 ### All messages
 
