@@ -1,17 +1,17 @@
 ---
-title: "아티팩트는 어디에 다운로드되며, 이를 어떻게 제어하나요?"
+title: "artifact는 어디에 다운로드되며, 이를 어떻게 제어하나요?"
 keywords: ["Artifacts", "환경 변수"]
 ---
 
-기본적으로 아티팩트는 `artifacts/` 폴더에 다운로드됩니다. 위치를 변경하려면 다음 방법 중 하나를 사용하세요.
+기본적으로 artifact는 `artifacts/` 폴더에 다운로드됩니다. 위치를 변경하려면 다음 방법 중 하나를 사용하세요.
 
-* [`wandb.Artifact().download`](/ko/models/ref/python/public-api/api)에 경로를 전달합니다.
+* [`wandb.Artifact().download`](/ko/models/ref/python/public-api/api)에 경로를 전달합니다:
 
   ```python
   wandb.Artifact().download(root="<path_to_download>")
   ```
 
-* `WANDB_ARTIFACT_DIR` [환경 변수](/ko/models/track/environment-variables)를 설정합니다.
+* `WANDB_ARTIFACT_DIR` [환경 변수](/ko/models/track/environment-variables)를 설정합니다:
 
   ```python
   import os
@@ -20,11 +20,11 @@ keywords: ["Artifacts", "환경 변수"]
 
 ***
 
-{/* ---- 자동 생성됨: 탭 배지 ----
-  프런트 매터의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 마커 사이의 내용은 직접 편집하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  프런트매터의 키워드를 바탕으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 마커 사이의 내용은 직접 수정하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Artifacts](/ko/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[환경 변수](/ko/support/models/tags/environment-variables)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

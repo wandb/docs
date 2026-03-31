@@ -1,5 +1,5 @@
 ---
-description: "Intégrez W&B à Deepchecks pour valider les modèles de machine learning et les jeux de données à l’aide de tests automatisés et du suivi des expériences."
+description: "Intégrez W&B à Deepchecks pour valider des modèles de machine learning et des jeux de données grâce à des tests automatisés et au suivi des expériences."
 title: DeepChecks
 ---
 
@@ -7,12 +7,13 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/deepchecks/deepchecks/blob/0.5.0-1-g5380093/docs/source/examples/guides/export_outputs_to_wandb.ipynb" />
 
-DeepChecks vous aide à valider vos modèles de machine learning et vos données, par exemple en vérifiant l’intégrité de vos données, en analysant leurs distributions, en validant les découpages des données, en évaluant votre modèle et en comparant différents modèles, le tout avec un minimum d’effort.
+DeepChecks vous aide à valider vos modèles de machine learning et vos données, par exemple en vérifiant l’intégrité de vos données, en examinant leurs distributions, en validant les découpages des données, en évaluant votre modèle et en comparant différents modèles, le tout avec un minimum d’effort.
 
-[En savoir plus sur DeepChecks et l’intégration W&B -&gt;](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
+[En savoir plus sur DeepChecks et l’intégration à wandb -&gt;](https://docs.deepchecks.com/stable/general/usage/exporting_results/auto_examples/plot_exports_output_to_wandb.html)
+
 
 <div id="getting-started">
-  ## Prise en main
+  ## Premiers pas
 </div>
 
 Pour utiliser DeepChecks avec W&amp;B, vous devez d’abord créer un [compte W&amp;B](https://wandb.ai/site). Grâce à l’intégration W&amp;B dans DeepChecks, vous pouvez démarrer rapidement comme suit :
@@ -39,13 +40,13 @@ import wandb
 
 wandb.login()
 
-# importez vos tests full_suite depuis deepchecks
+# importer vos tests full_suite depuis deepchecks
 from deepchecks.suites import full_suite
 
-# créez et exécutez une suite de tests DeepChecks
+# créer et exécuter une suite de tests DeepChecks
 suite_result = full_suite().run(...)
 
-# envoyez ces résultats vers wandb
+# envoyer ces résultats à wandb
 # vous pouvez passer ici toutes les configurations et arguments wandb.init dont vous avez besoin
 suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-suite"})
 ```
@@ -55,10 +56,10 @@ suite_result.to_wandb(project="my-suite-project", config={"suite-name": "full-su
   ## Exemple
 </div>
 
-[Ce rapport](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) illustre la puissance de DeepChecks avec W&amp;B.
+[Ce Report](https://wandb.ai/cayush/deepchecks/reports/Validate-your-Data-and-Models-with-Deepchecks-and-W-B--VmlldzoxNjY0ODc5) illustre la puissance de DeepChecks et de W&amp;B.
 
 <Frame>
   <img src="/images/integrations/deepchecks_example.png" alt="Résultats de validation des données avec DeepChecks" />
 </Frame>
 
-Des questions ou des problèmes concernant cette intégration W&amp;B ? Ouvrez une issue dans le [dépôt GitHub de DeepChecks](https://github.com/deepchecks/deepchecks), et nous vous répondrons.
+Des questions ou des problèmes avec cette intégration W&amp;B ? Ouvrez une issue dans le [dépôt GitHub de DeepChecks](https://github.com/deepchecks/deepchecks), et nous vous répondrons.

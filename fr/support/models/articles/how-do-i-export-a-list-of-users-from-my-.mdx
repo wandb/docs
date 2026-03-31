@@ -1,9 +1,9 @@
 ---
-title: "Comment puis-je exporter une liste d’utilisateurs de mon organisation W&B ?"
+title: "Comment puis-je exporter une liste d'utilisateurs de mon organisation W&B ?"
 keywords: ["Administrateur", "Gestion des utilisateurs"]
 ---
 
-Pour exporter une liste d’utilisateurs d’une organisation W&amp;B, un administrateur utilise l’API SCIM avec le code suivant :
+Pour exporter une liste d&#39;utilisateurs à partir d&#39;une organisation W&amp;B, un administrateur utilise l&#39;API SCIM avec le code suivant :
 
 ```python
 import base64
@@ -28,13 +28,13 @@ for user in response.json()['Resources']:
     users.append([user['userName'], user['emails']['Value']])
 ```
 
-Modifiez le script pour enregistrer la sortie selon vos besoins.
+Modifiez le script pour enregistrer la sortie si nécessaire.
 
 ***
 
-{/* ---- GÉNÉRÉ AUTOMATIQUEMENT : badges d’onglet ----
+{/* ---- GÉNÉRÉ AUTOMATIQUEMENT: tab badges ----
   Géré par scripts/knowledgebase-nav/generate_tags.py à partir des mots-clés du front matter.
-  Ne modifiez pas le contenu entre ces marqueurs manuellement.
+  Ne modifiez pas manuellement le contenu entre ces marqueurs.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Administrateur](/fr/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Gestion des utilisateurs](/fr/support/models/tags/user-management)</Badge>

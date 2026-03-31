@@ -7,8 +7,8 @@ description: "Référence du SDK TypeScript"
 
 EvaluationLogger permet la journalisation incrémentielle des prédictions et des scores.
 
-Contrairement à la classe Evaluation traditionnelle, qui nécessite un jeu de données défini à l’avance et un traitement par lot,
-EvaluationLogger vous permet de journaliser les prédictions au fur et à mesure qu’elles sont produites, avec des scores flexibles.
+Contrairement à la classe Evaluation traditionnelle, qui nécessite un jeu de données défini à l’avance et un traitement par lots,
+EvaluationLogger vous permet d’enregistrer les prédictions au fur et à mesure, avec une attribution flexible des scores.
 
 `Exemple`
 
@@ -28,6 +28,7 @@ for (const example of streamingData) {
 await ev.logSummary();
 ```
 
+
 <div id="table-of-contents">
   ## Table des matières
 </div>
@@ -36,7 +37,7 @@ await ev.logSummary();
   ### Constructeurs
 </div>
 
-* [constructor](./evaluationlogger#constructor)
+* [constructeur](./evaluationlogger#constructor)
 
 <div id="methods">
   ### Méthodes
@@ -49,7 +50,7 @@ await ev.logSummary();
 ## Constructeurs
 
 <div id="constructor">
-  ### constructeur
+  ### constructor
 </div>
 
 • **new EvaluationLogger**(`options`): [`EvaluationLogger`](./evaluationlogger)
@@ -69,7 +70,7 @@ await ev.logSummary();
 [`EvaluationLogger`](./evaluationlogger)
 
 <div id="defined-in">
-  #### défini dans
+  #### Défini dans
 </div>
 
 [evaluationLogger.ts:554](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L554)
@@ -83,11 +84,11 @@ await ev.logSummary();
 ▸ **logPrediction**(`inputs`, `output`): [`ScoreLogger`](./scorelogger)
 
 Journalise une prédiction avec son entrée et sa sortie (version synchrone).
-Crée un appel `predict_and_score` (avec l&#39;appel enfant `predict`).
+Crée un appel `predict_and_score` (avec un appel enfant `predict`).
 Renvoie immédiatement un `ScoreLogger` pour ajouter des scores.
 
 Cette méthode renvoie le `ScoreLogger` de façon synchrone. Les opérations sur le
-`ScoreLogger` (`logScore`, `finish`) sont mises en file d&#39;attente et exécutées une fois l&#39;initialisation terminée.
+`ScoreLogger` (`logScore`, `finish`) seront placées dans la file d&#39;attente et exécutées une fois l&#39;initialisation terminée.
 
 <div id="parameters">
   #### Paramètres
@@ -115,7 +116,9 @@ await evalLogger.logSummary(); // Attend la fin de toutes les opérations
 ```
 
 
-#### Défini dans
+<div id="defined-in">
+  #### Défini dans
+</div>
 
 [evaluationLogger.ts:641](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L641)
 
@@ -128,10 +131,10 @@ await evalLogger.logSummary(); // Attend la fin de toutes les opérations
 ▸ **logPredictionAsync**(`inputs`, `output`): `Promise`&lt;[`ScoreLogger`](./scorelogger)&gt;
 
 Journalise une prédiction avec son entrée et sa sortie (version asynchrone).
-Comme `logPrediction()`, mais renvoie une Promise qui se résout lorsque
+Comme logPrediction(), mais renvoie une Promise qui se résout lorsque
 l&#39;appel de prédiction est entièrement initialisé.
 
-Utilisez ceci si vous devez attendre l&#39;initialisation avant de continuer.
+Utilisez cette méthode si vous devez attendre l&#39;initialisation avant de continuer.
 
 <div id="parameters">
   #### Paramètres
@@ -158,7 +161,9 @@ await scoreLogger.finish();
 ```
 
 
-#### Défini dans
+<div id="defined-in">
+  #### Défini dans
+</div>
 
 [evaluationLogger.ts:666](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L666)
 
@@ -170,10 +175,10 @@ await scoreLogger.finish();
 
 ▸ **logSummary**(`summary?`): `Promise`&lt;`void`&gt;
 
-Journalise un résumé et finalise l’évaluation.
+Journalise un summary et finalise l’évaluation.
 Crée un appel summarize et termine l’appel evaluate.
 
-Cette méthode peut être appelée sans `await` (fire-and-forget), mais en interne,
+Cette méthode peut être appelée sans await (fire-and-forget), mais en interne
 elle attendra que toutes les opérations en attente soient terminées.
 
 <div id="parameters">
@@ -191,7 +196,7 @@ elle attendra que toutes les opérations en attente soient terminées.
 `Promise`&lt;`void`&gt;
 
 <div id="defined-in">
-  #### défini dans
+  #### Défini dans
 </div>
 
 [evaluationLogger.ts:767](https://github.com/wandb/weave/blob/1aee4006a95d913addb45881dfc950de7ce7b0bd/sdks/node/src/evaluationLogger.ts#L767)

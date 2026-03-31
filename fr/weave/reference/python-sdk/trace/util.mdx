@@ -16,9 +16,9 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 ## <kbd>class</kbd> `ContextAwareThread`
 
-Thread qui exécute des fonctions avec le contexte de l&#39;appelant.
+Un thread qui exécute des fonctions avec le contexte de l&#39;appelant.
 
-Il s&#39;agit d&#39;un remplacement direct de threading.Thread qui garantit que les appels se comportent comme prévu dans le thread.  Weave exige que certaines contextvars soient définies (voir call&#95;context.py), mais les nouveaux threads ne recopient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d&#39;appel -- ce n’est pas idéal !  Cette classe automatise la copie des contextvars afin que l&#39;utilisation de ce thread « fonctionne tout simplement », comme l&#39;utilisateur s&#39;y attend probablement.
+Il s&#39;agit d&#39;un remplacement direct de threading.Thread qui garantit que les appels se comportent comme prévu à l&#39;intérieur du thread.  Weave exige que certaines contextvars soient définies (voir call&#95;context.py), mais les nouveaux threads ne recopient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d&#39;appel — ce qui n&#39;est pas idéal.  Cette classe automatise la copie des contextvars afin que l&#39;utilisation de ce thread &quot;fonctionne tout simplement&quot;, comme l&#39;utilisateur s&#39;y attend probablement.
 
 Vous pouvez obtenir le même effet sans cette classe en écrivant plutôt :
 
@@ -45,11 +45,11 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 ***
 
 
-#### <kbd>propriété</kbd> daemon
+#### <kbd>propriété</kbd> `daemon`
 
-Une valeur booléenne indiquant si ce thread est un thread daemon.
+Valeur booléenne indiquant si ce thread est un thread daemon.
 
-Cette valeur doit être définie avant l’appel à `start()`, sinon une `RuntimeError` est levée. Sa valeur initiale est héritée du thread qui l’a créé ; le thread principal n’est pas un thread daemon et, par conséquent, tous les threads créés dans le thread principal ont par défaut `daemon = False`.
+Cette propriété doit être définie avant l’appel à `start()`, sinon une exception `RuntimeError` est levée. Sa valeur initiale est héritée du thread qui l’a créé ; le thread principal n’est pas un thread daemon et, par conséquent, tous les threads créés dans le thread principal ont par défaut `daemon = False`.
 
 L’ensemble du programme Python se termine lorsqu’il ne reste plus que des threads daemon.
 
@@ -57,25 +57,25 @@ L’ensemble du programme Python se termine lorsqu’il ne reste plus que des th
 
 #### <kbd>propriété</kbd> ident
 
-Identifiant de ce thread, ou None s’il n’a pas encore été démarré.
+Identifiant de ce thread, ou None s’il n’a pas été démarré.
 
-Il s’agit d’un entier non nul. Voir la fonction get&#95;ident(). Les identifiants de thread peuvent être réutilisés lorsqu’un thread se termine et qu’un autre thread est créé. Cet identifiant reste disponible même après la fin du thread.
+Il s’agit d’un entier non nul. Voir la fonction `get_ident()`. Les identifiants de thread peuvent être réutilisés lorsqu’un thread se termine et qu’un autre thread est créé. L’identifiant reste disponible même après la fin du thread.
 
 ***
 
 #### <kbd>propriété</kbd> nom
 
-Une chaîne utilisée uniquement à des fins d’identification.
+Chaîne utilisée uniquement à des fins d’identification.
 
-Cette chaîne n’a aucune signification particulière. Plusieurs threads peuvent avoir le même nom. Le nom initial est défini par le constructeur.
+Elle n’a pas de signification particulière. Plusieurs threads peuvent avoir le même nom. Le nom initial est défini par le constructeur.
 
 ***
 
 #### <kbd>propriété</kbd> native_id
 
-Identifiant natif entier de ce thread, ou None s’il n’a pas encore été démarré.
+Identifiant natif entier de ce thread, ou None s&#39;il n&#39;a pas encore été démarré.
 
-Il s’agit d’un entier non négatif. Voir la fonction get&#95;native&#95;id(). Il correspond à l’identifiant du thread tel que renvoyé par le noyau.
+Il s&#39;agit d&#39;un entier non négatif. Voir la fonction `get_native_id()`. Il correspond à l&#39;ID du thread tel que renvoyé par le noyau.
 
 ***
 
@@ -94,9 +94,9 @@ run() → None
 
 ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
 
-Un ThreadPoolExecutor qui exécute des fonctions avec le contexte de l&#39;appelant.
+Un ThreadPoolExecutor qui exécute des fonctions avec le contexte de l’appelant.
 
-Il s&#39;agit d&#39;un remplacement direct de concurrent.futures.ThreadPoolExecutor qui garantit que les appels Weave se comportent comme prévu dans l&#39;exécuteur. Weave exige que certaines `contextvars` soient définies (voir call&#95;context.py), mais les nouveaux threads ne recopient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d&#39;appel — ce n&#39;est pas idéal ! Cette classe automatise la copie des `contextvars`, de sorte que l&#39;utilisation de cet exécuteur « fonctionne tout simplement », comme l&#39;utilisateur s&#39;y attend probablement.
+Il s’agit d’un remplacement direct de concurrent.futures.ThreadPoolExecutor qui garantit que les appels Weave se comportent comme prévu au sein de l’exécuteur.  Weave nécessite que certaines `contextvars` soient définies (voir call&#95;context.py), mais les nouveaux threads ne copient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d’appel -- ce n’est pas idéal !  Cette classe automatise la copie des `contextvars`, de sorte que l’utilisation de cet exécuteur « fonctionne tout simplement », comme l’utilisateur s’y attend probablement.
 
 Vous pouvez obtenir le même effet sans cette classe en écrivant plutôt :
 
@@ -157,7 +157,7 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 deprecated(new_name: 'str') → Callable[[Callable[, Any]], Callable[, Any]]
 ```
 
-Décorateur qui marque une fonction comme obsolète et redirige les utilisateurs vers `new_name`.
+Décorateur permettant de signaler qu’une fonction est obsolète et de rediriger les utilisateurs vers `new_name`.
 
 ***
 
@@ -192,14 +192,14 @@ is_notebook() → bool
 log_once(log_method: 'Callable[[str], None]', message: 'str') → None
 ```
 
-Journalise un message une seule fois et supprime les messages suivants du même type. Cela permet de notifier l’utilisateur des erreurs sans saturer les journaux.
+Consigne un message une seule fois, en supprimant les messages suivants du même type. Cela permet de notifier l’utilisateur des erreurs sans saturer les logs.
 
-Ceci est particulièrement utile lorsque le même message d’erreur risque de se produire de nombreuses fois. Par exemple, si une op ne parvient pas à s’enregistrer, cela se produira probablement chaque fois que cette op est appelée. Ou, si nous avons une erreur dans notre itérateur patché, elle se produira probablement chaque fois que nous itérons sur le résultat. Cela nous permet d’informer l’utilisateur de l’erreur sans encombrer ses journaux.
+C’est surtout utile lorsque le même message d’erreur risque de se produire de nombreuses fois. Par exemple, si une op ne parvient pas à être enregistrée, cela se produira probablement chaque fois que cette op sera appelée. Ou, si une erreur se produit dans notre itérateur patché, elle se produira probablement chaque fois que nous itérerons sur le résultat. Cela nous permet d’informer l’utilisateur de l’erreur sans encombrer ses logs.
 
 **Arguments :**
 
-* <b>`log_method`</b> : La méthode à utiliser pour journaliser le message. Elle doit accepter un argument de type chaîne.
-* <b>`message`</b> : Le message à journaliser.
+* <b>`log_method`</b>: La méthode à utiliser pour consigner le message. Elle doit accepter un argument de type chaîne de caractères.
+* <b>`message`</b>: Le message à consigner.
   **Exemple :**
 
 ```python

@@ -3,7 +3,7 @@ title: "Journaliser des médias"
 description: "Journalisez les médias renvoyés dans vos traces, comme les images et les vidéos."
 ---
 
-W&amp;B Weave prend en charge la journalisation et l’affichage de nombreux types de contenu, avec des fonctions dédiées pour afficher des vidéos, des images, des clips audio, des PDF, des données CSV et du HTML. Ce guide fournit des exemples de base et avancés pour journaliser et afficher chaque type de média.
+W&amp;B Weave prend en charge la journalisation et l&#39;affichage de nombreux types de contenu, avec des fonctions dédiées pour les vidéos, les images, les extraits audio, les PDF, les données CSV et le HTML. Ce guide propose des exemples de base et avancés pour journaliser et afficher chaque type de média.
 
 * **[Images](#log-images)**
 * **[Vidéo](#log-video)**
@@ -17,24 +17,24 @@ W&amp;B Weave prend en charge la journalisation et l’affichage de nombreux typ
 
 <Tabs>
   <Tab title="Python">
-    Les exemples de ce guide utilisent des annotations. Nous vous recommandons d’utiliser des annotations, car c’est le moyen le plus simple de commencer à journaliser vos médias. Pour des configurations plus avancées, voir la [section Content API](#using-the-contents-api).
+    Les exemples de ce guide utilisent des annotations. Nous recommandons d’utiliser des annotations, car c’est la manière la plus simple de commencer à enregistrer vos médias. Pour des configurations plus avancées, voir la [section Content API](#using-the-contents-api).
 
-    Pour journaliser des médias dans Weave, ajoutez des annotations de type comme `Annotated[bytes, Content]` ou `Annotated[str, Content]` comme types d’entrée ou de retour dans vos ops. Si vous annotez des arguments de chemin d’accès avec `Annotated[str, Content]`, Weave ouvre, détecte et affiche automatiquement le média dans votre trace.
+    Pour enregistrer des médias dans Weave, ajoutez des annotations de type comme `Annotated[bytes, Content]` ou `Annotated[str, Content]` comme types d’entrée ou de retour dans vos ops. Si vous annotez des arguments de chemin avec `Annotated[str, Content]`, Weave ouvre, détecte et affiche automatiquement le média dans votre trace.
   </Tab>
 
   <Tab title="TypeScript">
-    Le SDK TypeScript fournit des fonctions dédiées à la journalisation des médias :
+    Le SDK TypeScript fournit des fonctions dédiées pour enregistrer des médias :
 
     * `weave.weaveImage({ data: Buffer })` - pour les images (format PNG)
     * `weave.weaveAudio({ data: Buffer })` - pour l’audio (format WAV)
 
     <Note>
-      Le SDK TypeScript prend actuellement en charge la journalisation des images et de l’audio. Pour journaliser des vidéos, des documents ou du HTML, utilisez plutôt le SDK Python de Weave.
+      Le SDK TypeScript prend actuellement en charge l’enregistrement d’images et d’audio. Pour enregistrer des vidéos, des documents ou du HTML, utilisez plutôt le SDK Python de Weave.
     </Note>
   </Tab>
 </Tabs>
 
-Les sections suivantes fournissent des exemples pratiques de journalisation de chaque type de média.
+Les sections suivantes proposent des exemples pratiques d’enregistrement pour chaque type de média.
 
 <div id="log-images">
   ## Journaliser des images
@@ -43,14 +43,14 @@ Les sections suivantes fournissent des exemples pratiques de journalisation de c
 Les exemples suivants montrent comment générer des images et les journaliser dans l’interface de Weave.
 
 <Frame>
-  ![Capture d’écran de la vue de trace du chat à la citrouille](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
+  ![Capture d’écran de la vue de trace du chat citrouille](/weave/guides/core-types/imgs/cat-pumpkin-trace.png)
 </Frame>
 
 <Tabs>
   <Tab title="Python">
-    Ajoutez des images au journal en annotant des fonctions avec les types `Annotated[bytes, Content]` ou des chemins de fichier avec `Annotated[str, Content]`.
+    Journalisez des images en annotant les fonctions avec des types `Annotated[bytes, Content]` ou les chemins de fichier avec `Annotated[str, Content]`.
 
-    L&#39;exemple suivant dessine une image de base, puis l&#39;ajoute au journal dans Weave à l&#39;aide de l&#39;annotation `Content` :
+    L&#39;exemple suivant crée une image simple, puis l&#39;ajoute au journal dans Weave à l&#39;aide de l&#39;annotation `Content` :
 
     ```python lines {16,23}
     import weave
@@ -81,11 +81,11 @@ Les exemples suivants montrent comment générer des images et les journaliser d
     result2 = load_image_pil("sample_image.png")
     ```
 
-    Weave journalise l&#39;image et renvoie un lien vers la trace où vous pouvez afficher l&#39;image.
+    Weave journalise l’image et renvoie un lien vers la trace où vous pouvez consulter l’image.
 
     ### Exemple avancé : générer une image avec DALL-E et la journaliser dans Weave
 
-    L&#39;exemple suivant génère une image de chat et la journalise dans Weave :
+    L’exemple suivant génère une image de chat et la journalise dans Weave :
 
     ```python lines
     import weave
@@ -113,9 +113,9 @@ Les exemples suivants montrent comment générer des images et les journaliser d
     generate_image("a cat with a pumpkin hat")
     ```
 
-    ### Exemple avancé : redimensionner les grandes images avant leur journalisation
+    ### Exemple avancé : redimensionner les grandes images avant de les enregistrer
 
-    Il peut être utile de redimensionner les images avant leur journalisation afin de réduire le coût de rendu de l’interface utilisateur et l’impact sur le stockage. Vous pouvez utiliser `postprocess_output` dans votre `@weave.op` pour redimensionner une image.
+    Il peut être utile de redimensionner les images avant de les enregistrer afin de réduire le coût de rendu de l’UI et l’impact sur le stockage. Vous pouvez utiliser `postprocess_output` dans votre `@weave.op` pour redimensionner une image.
 
     ```python lines
     from dataclasses import dataclass
@@ -137,7 +137,7 @@ Les exemples suivants montrent comment générer des images et les journaliser d
         image.thumbnail(max_size, Image.Resampling.LANCZOS)
         return image
 
-    # Post-traitement de la sortie pour redimensionner l'image avant journalisation
+    # Post-traitement de la sortie pour redimensionner l'image avant la journalisation
     def postprocess_output(output: ImageResult) -> ImageResult:
         resized = resize_image(output.image)
         return ImageResult(label=output.label, image=resized)
@@ -151,11 +151,11 @@ Les exemples suivants montrent comment générer des images et les journaliser d
     generate_large_image()
     ```
 
-    Weave consigne l’image redimensionnée dans le journal et renvoie un lien vers la trace, où vous pouvez voir l’image.
+    Weave journalise l’image redimensionnée et renvoie un lien vers la trace dans laquelle vous pouvez afficher l’image.
   </Tab>
 
   <Tab title="TypeScript">
-    L’exemple suivant ajoute une image au journal à l’aide de la fonction `weaveImage` :
+    L&#39;exemple suivant enregistre une image dans le journal à l&#39;aide de la fonction `weaveImage` :
 
     ```typescript
     import * as weave from 'weave';
@@ -177,11 +177,11 @@ Les exemples suivants montrent comment générer des images et les journaliser d
     main();
     ```
 
-    Weave journalise l’image et renvoie un lien vers la trace dans laquelle vous pouvez voir l’image.
+    Weave journalise l’image et renvoie un lien vers la trace, où vous pouvez consulter l’image.
 
-    ### Exemple avancé : Journaliser une image générée via l’API OpenAI DALL-E
+    ### Exemple avancé : journaliser une image générée via l’API DALL-E d’OpenAI
 
-    L’exemple suivant journalise une image générée via l’API OpenAI DALL-E à l’aide de la fonction `weaveImage` :
+    L’exemple suivant journalise une image générée via l’API DALL-E d’OpenAI à l’aide de la fonction `weaveImage` :
 
     ```typescript lines
     import {OpenAI} from 'openai';
@@ -221,12 +221,12 @@ Les exemples suivants montrent comment générer des images et les journaliser d
 Les exemples suivants montrent comment générer et journaliser des vidéos dans l&#39;interface utilisateur de Weave.
 
 <Frame>
-  ![Journalisation d’une vidéo dans Weave](/images/weave/video.png)
+  ![Journalisation de vidéos dans Weave](/images/weave/video.png)
 </Frame>
 
 <Tabs>
   <Tab title="Python">
-    Journalisez des vidéos en annotant des fonctions avec les types `Annotated[bytes, Content]`. Weave gère automatiquement les vidéos `mp4`. Voici un exemple simple :
+    Journalisez des vidéos en annotant les fonctions avec des types `Annotated[bytes, Content]`. Weave prend automatiquement en charge les vidéos `mp4`. Voici un exemple simple :
 
     ```python lines {15}
     import weave
@@ -237,7 +237,7 @@ Les exemples suivants montrent comment générer et journaliser des vidéos dans
     weave.init('your-team-name/your-project-name')
 
     def download_big_buck_bunny():
-        """Download Big Buck Bunny sample video"""
+        """Télécharge l'exemple de vidéo Big Buck Bunny"""
         url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
         response = requests.get(url)
         with open("big_buck_bunny.mp4", "wb") as f:
@@ -245,7 +245,7 @@ Les exemples suivants montrent comment générer et journaliser des vidéos dans
 
     @weave.op
     def load_video_content(path: Annotated[str, Content]) -> Annotated[bytes, Content]:
-        """Load a video file from disk"""
+        """Charge un fichier vidéo depuis le disque"""
         with open(path, 'rb') as f:
             return f.read()
 
@@ -253,11 +253,11 @@ Les exemples suivants montrent comment générer et journaliser des vidéos dans
     bunny_video = load_video_content("big_buck_bunny.mp4")
     ```
 
-    Weave journalise la vidéo et renvoie un lien vers la trace, où vous pouvez la consulter.
+    Weave journalise la vidéo et renvoie un lien vers la trace, où vous pouvez la visionner.
 
-    ### Exemple avancé : journaliser une vidéo dans un projet d’analyse vidéo
+    ### Exemple avancé : journaliser une vidéo dans un projet d&#39;analyse vidéo
 
-    L’exemple suivant montre comment journaliser une vidéo dans un projet de compréhension vidéo :
+    L&#39;exemple suivant montre comment journaliser une vidéo dans un projet de compréhension vidéo :
 
     ```python lines {25}
     import weave
@@ -309,7 +309,7 @@ Les exemples suivants montrent comment générer et journaliser des vidéos dans
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible dans le SDK TypeScript de Weave.
+    Cette fonctionnalité n'est pas encore disponible dans le SDK TypeScript de Weave.
     ```
   </Tab>
 </Tabs>
@@ -318,7 +318,7 @@ Les exemples suivants montrent comment générer et journaliser des vidéos dans
   ## Journaliser des documents
 </div>
 
-Les exemples suivants génèrent des documents et les journalisent dans l&#39;interface de Weave.
+Les exemples suivants génèrent des documents et les journalisent dans l&#39;UI de Weave.
 
 <Frame>
   ![Journalisation de documents PDF dans Weave](/images/weave/pdf.png)
@@ -326,11 +326,11 @@ Les exemples suivants génèrent des documents et les journalisent dans l&#39;in
 
 <Tabs>
   <Tab title="Python">
-    Journalisez des documents en annotant les fonctions avec les types `Annotated[bytes, Content]`, ou en spécifiant le type de document avec `Annotated[str, Content[Literal['text']]`.
+    Journalisez des documents en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type de document avec `Annotated[str, Content[Literal['text']]`.
 
-    Weave prend automatiquement en charge les types de fichiers `pdf`, `csv`, `md`, `text`, `json`, `xml`. Vous pouvez également journaliser des documents à l&#39;aide de chemins de fichier avec `Annotated[str, Content]`.
+    Weave gère automatiquement les types de fichiers `pdf`, `csv`, `md`, `text`, `json` et `xml`. Vous pouvez également journaliser des fichiers en utilisant leurs chemins avec `Annotated[str, Content]`.
 
-    L&#39;exemple suivant montre comment stocker des copies des fichiers PDF et CSV d&#39;entrée, puis enregistrer le contenu des fichiers renvoyé par la fonction :
+    L&#39;exemple suivant montre comment stocker des copies des fichiers PDF et CSV en entrée, puis stocker le contenu des fichiers renvoyé par la fonction :
 
     ```python lines {25}
     import weave
@@ -370,7 +370,7 @@ Les exemples suivants génèrent des documents et les journalisent dans l&#39;in
 
     ### Exemple avancé : journaliser des documents dans un système RAG
 
-    Cet exemple montre comment journaliser des documents dans un système de Retrieval-Augmented Generation (RAG) :
+    Cet exemple montre comment journaliser des documents dans un système de génération augmentée par récupération (RAG) :
 
     ```python lines {27}
     import weave
@@ -385,7 +385,7 @@ Les exemples suivants génèrent des documents et les journalisent dans l&#39;in
     weave.init('your-team-name/your-project-name')
 
     def create_absurd_company_handbook():
-        """Créer un manuel fictif d'entreprise avec des politiques ridicules"""
+        """Créer un manuel d'entreprise fictif avec des politiques ridicules"""
         c = canvas.Canvas("company_handbook.pdf", pagesize=letter)
         
         c.drawString(100, 750, "ACME Corp Employee Handbook")
@@ -447,11 +447,11 @@ Les exemples suivants montrent comment journaliser de l’audio dans Weave.
 
 <Tabs>
   <Tab title="Python">
-    Journalisez de l’audio dans Weave en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type audio avec `Annotated[str, Content[Literal['mp3']]]`.
+    Journalisez l’audio dans Weave en annotant les fonctions avec des types `Annotated[bytes, Content]`, ou en spécifiant le type audio avec `Annotated[str, Content[Literal['mp3']]]`.
 
-    Weave gère automatiquement les types de fichiers `mp3`, `wav`, `flac`, `ogg` et `m4a`. Vous pouvez également journaliser à l’aide de chemins de fichier avec `Annotated[str, Content]`.
+    Weave gère automatiquement les types de fichiers `mp3`, `wav`, `flac`, `ogg` et `m4a`. Vous pouvez également journaliser à partir de chemins de fichiers avec `Annotated[str, Content]`.
 
-    L’extrait de code suivant génère une onde sinusoïdale, l’enregistre, puis journalise l’audio dans Weave :
+    Le code suivant génère une onde sinusoïdale, l’enregistre, puis journalise l’audio dans Weave :
 
     ```python lines {20}
     import weave
@@ -480,9 +480,9 @@ Les exemples suivants montrent comment journaliser de l’audio dans Weave.
     result = load_audio("beep.wav")
     ```
 
-    ### Exemple avancé : générer et journaliser un audio créé par l’IA
+    ### Exemple avancé : générer et journaliser de l’audio généré par l’IA
 
-    Cet exemple génère et journalise un audio créé par l’IA à l’aide de l’annotation `Content` :
+    Cet exemple génère et journalise de l’audio généré par l’IA à l’aide de l’annotation `Content` :
 
     ```python lines {11}
     import weave
@@ -517,13 +517,13 @@ Les exemples suivants montrent comment journaliser de l’audio dans Weave.
     demo1 = generate_demo("machine learning best practices")
     ```
 
-    Cet audio est enregistré dans Weave et s’affiche automatiquement dans l’interface utilisateur, avec un lecteur audio. Dans ce lecteur, vous pouvez consulter et télécharger la forme d’onde audio brute.
+    Cet audio est enregistré dans Weave et automatiquement affiché dans l’interface utilisateur, accompagné d’un lecteur audio. Dans ce lecteur, vous pouvez afficher et télécharger la forme d’onde audio brute.
 
     <Frame>
       ![Enregistrement audio dans Weave](/images/weave/audio.png)
     </Frame>
 
-    L’exemple suivant montre comment enregistrer de l’audio à l’aide d’une réponse en flux continu de l’API OpenAI :
+    L’exemple suivant montre comment enregistrer de l’audio à l’aide d’une réponse en streaming de l’API OpenAI :
 
     ```python lines
     import weave
@@ -551,7 +551,7 @@ Les exemples suivants montrent comment journaliser de l’audio dans Weave.
   </Tab>
 
   <Tab title="TypeScript">
-    L’exemple suivant charge un fichier audio existant et l’enregistre dans le journal de Weave :
+    L’exemple suivant charge un fichier audio existant et l’enregistre dans Weave :
 
     ```typescript
     import * as weave from 'weave';
@@ -609,17 +609,17 @@ Les exemples suivants montrent comment journaliser de l’audio dans Weave.
 </Tabs>
 
 <Tip>
-  Essayez notre cookbook sur la [journalisation audio](/fr/weave/cookbooks/audio_with_weave). Le cookbook comprend également un exemple avancé d’assistant basé sur une API audio en temps réel et intégré à Weave.
+  Consultez notre cookbook sur la [journalisation audio](/fr/weave/cookbooks/audio_with_weave). Il inclut également un exemple avancé d’assistant basé sur une API audio en temps réel et intégré à Weave.
 </Tip>
 
 <div id="log-html">
   ## Journaliser du HTML
 </div>
 
-Les exemples suivants montrent comment générer du HTML et le journaliser dans l’interface de Weave.
+Les exemples suivants montrent comment générer et journaliser du HTML dans l’UI de Weave.
 
 <Frame>
-  ![Journalisation HTML dans Weave](/images/weave/html.png)
+  ![Journalisation de HTML dans Weave](/images/weave/html.png)
 </Frame>
 
 <Tabs>
@@ -706,16 +706,16 @@ Les exemples suivants montrent comment générer du HTML et le journaliser dans 
   </Tab>
 </Tabs>
 
-Ce HTML est journalisé dans Weave et affiché automatiquement dans l’interface. Cliquez sur la cellule `file_name.html` du tableau pour l’ouvrir en plein écran. Vous pouvez également télécharger le fichier `.html` brut.
+Ce HTML est journalisé dans Weave et automatiquement affiché dans l’UI. Cliquez sur la cellule `file_name.html` dans le tableau pour l’ouvrir en plein écran. Vous pouvez également télécharger le fichier `.html` brut.
 
 <div id="using-the-contents-api">
-  ## Utiliser la Content API
+  ## Utiliser la Contents API
 </div>
 
-La Content API gère les objets multimédias dans Weave. Elle vous permet d’importer du contenu dans Weave sous forme de données Base64, de chemins de fichiers, d’octets bruts ou de texte.
+La Content API gère les objets multimédias dans Weave. Elle vous permet d’importer du contenu dans Weave sous forme de données base64, de chemins de fichiers, d’octets bruts ou de texte.
 
 <Note>
-  La Content API est disponible uniquement en Python.
+  La Content API n’est disponible qu’en Python.
 </Note>
 
 <div id="usage">
@@ -724,13 +724,13 @@ La Content API gère les objets multimédias dans Weave. Elle vous permet d’im
 
 Il existe deux principales façons d’utiliser la Content API : les annotations de type et l’initialisation directe.
 
-Les annotations de type détectent automatiquement le constructeur approprié, tandis que l’initialisation directe offre un contrôle plus fin et vous permet de tirer parti, dans votre code, des fonctionnalités de la Content API disponibles à l’exécution.
+Les annotations de type détectent automatiquement le constructeur approprié, tandis que l’initialisation directe offre un contrôle plus fin et vous permet de tirer parti des fonctionnalités de la Content API disponibles à l’exécution dans votre code.
 
 <div id="type-annotations">
   ### Annotations de type
 </div>
 
-La Content API de Weave est conçue pour être utilisée principalement via des annotations de type, qui indiquent à Weave que les entrées et sorties tracées doivent être traitées et stockées sous forme de blobs de contenu.
+L’API Content de Weave est conçue pour être utilisée principalement via des annotations de type, qui indiquent à Weave que les entrées et sorties tracées doivent être traitées et stockées sous forme de blobs de contenu.
 
 ```python lines {7}
 import weave
@@ -744,7 +744,7 @@ def content_annotation(path: Annotated[str, Content]) -> Annotated[bytes, Conten
     return data
 
 # L'entrée et la sortie s'afficheront toutes deux comme un fichier MP4 dans Weave
-# L'entrée est une chaîne de caractères et la valeur de retour est des octets
+# L'entrée est une chaîne et la valeur de retour est des octets
 bytes_data = content_annotation('./path/to/your/file.mp4')
 ```
 
@@ -754,8 +754,8 @@ bytes_data = content_annotation('./path/to/your/file.mp4')
 
 Si vous souhaitez profiter de fonctionnalités telles que :
 
-* Ouvrir un fichier avec une application par défaut (comme un lecteur PDF)
-* Exporter le modèle au format JSON pour le téléverser vers votre propre stockage blob (comme S3)
+* Ouvrir un fichier avec l’application par défaut (comme un lecteur PDF)
+* Sérialiser le modèle en JSON pour l’envoyer vers votre propre stockage d’objets (comme S3)
 * Transmettre des métadonnées personnalisées à associer au blob `Content` (comme le modèle utilisé pour le générer)
 
 Vous pouvez initialiser le contenu directement à partir de votre type cible à l’aide de l’une des méthodes suivantes :
@@ -784,10 +784,10 @@ content.model_dump()  # Exporte les attributs du modèle en JSON
   ### Types MIME personnalisés
 </div>
 
-Weave peut détecter la plupart des types MIME binaires, mais les types MIME personnalisés et les documents texte, comme le Markdown, peuvent ne pas être détectés automatiquement. Vous devez alors spécifier manuellement le type MIME ou l’extension de votre fichier.
+Weave peut détecter la plupart des types MIME binaires, mais les types MIME personnalisés et les documents texte comme le Markdown peuvent ne pas être détectés automatiquement. Vous devrez alors spécifier manuellement le type MIME ou l’extension de votre fichier.
 
 <div id="custom-mimetypes-with-type-annotations">
-  #### Types MIME personnalisés avec des annotations de type
+  #### Types MIME personnalisés avec annotations de type
 </div>
 
 ```python lines {7}
@@ -806,7 +806,7 @@ markdown_content('path/to/your/document.md')
 ```
 
 <div id="custom-mimetypes-with-direct-initialization">
-  #### Initialisation directe de types MIME personnalisés
+  #### Types MIME personnalisés avec initialisation directe
 </div>
 
 ```python lines
@@ -824,7 +824,7 @@ content = Content.from_bytes(video_bytes, mimetype='video/mp4')
   ### Propriétés de Content
 </div>
 
-Pour obtenir la liste complète des attributs et des méthodes de la classe, consultez la [référence de Content](/fr/weave/reference/python-sdk#class-content)
+Pour consulter la liste complète des attributs et des méthodes de la classe, consultez la [documentation de référence de Content](/fr/weave/reference/python-sdk#class-content)
 
 <div id="attributes">
   #### Attributs
@@ -835,19 +835,19 @@ Pour obtenir la liste complète des attributs et des méthodes de la classe, con
 | `data`      | `bytes`          | Contenu binaire brut                            |
 | `metadata`  | `dict[str, Any]` | Dictionnaire de métadonnées personnalisé        |
 | `size`      | `int`            | Taille du contenu en octets                     |
-| `filename`  | `str`            | Nom de fichier extrait ou fourni                |
-| `extension` | `str`            | Extension du fichier (par ex. `"jpg"`, `"mp3"`) |
-| `mimetype`  | `str`            | Type MIME (par ex. `"image/jpeg"`)              |
+| `filename`  | `str`            | Nom du fichier extrait ou fourni                |
+| `extension` | `str`            | Extension du fichier (p. ex., `"jpg"`, `"mp3"`) |
+| `mimetype`  | `str`            | Type MIME (p. ex., `"image/jpeg"`)              |
 | `path`      | `str \| None`    | Chemin du fichier source, le cas échéant        |
-| `digest`    | `str`            | Empreinte SHA256 du contenu                     |
+| `digest`    | `str`            | Hachage SHA256 du contenu                       |
 
 <div id="utility-methods">
   #### Méthodes utilitaires
 </div>
 
-* `save(dest: str | Path) -> None`: Enregistre le contenu dans un fichier
-* `open() -> bool`: Ouvre le fichier avec l’application par défaut du système (le contenu doit avoir été enregistré ou chargé depuis un chemin)
-* `as_string() -> str`: Affiche les données sous forme de chaîne de caractères (les octets sont décodés à l’aide de l’attribut d’encodage)
+* `save(dest: str | Path) -> None`: Enregistrer le contenu dans un fichier
+* `open() -> bool`: Ouvrir le fichier avec l’application par défaut du système (nécessite que le contenu ait déjà été enregistré ou chargé depuis un chemin)
+* `as_string() -> str`: Afficher les données sous forme de chaîne de caractères (les octets sont décodés à l’aide de l’attribut d’encodage)
 
 <div id="initialization-methods">
   #### Méthodes d’initialisation
@@ -860,7 +860,7 @@ content = Content.from_path("assets/photo.jpg")
 print(content.mimetype, content.size)
 ```
 
-Créer l’objet `content` à partir d’octets bruts :
+Créez l’objet `content` à partir d’octets bruts :
 
 ```python lines
 content = Content.from_bytes(
@@ -871,14 +871,14 @@ content = Content.from_bytes(
 content.save("output.mp3")
 ```
 
-Créer un objet `content` à partir d’un texte :
+Créez l’objet `content` à partir du texte :
 
 ```python lines
 content = Content.from_text("Hello, World!", mimetype="text/plain")
 print(content.as_string())
 ```
 
-Créer l’objet `content` à partir de données encodées en base64 :
+Créez l’objet `content` à partir de données encodées en base64 :
 
 ```python lines
 content = Content.from_base64(base64_string)

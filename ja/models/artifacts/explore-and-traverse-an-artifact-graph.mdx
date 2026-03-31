@@ -1,79 +1,80 @@
 ---
-description: "リネージ グラフを表示してたどり、W&B の run の入力と出力を有向非巡回グラフとして追跡します。"
-title: リネージ グラフを探索する
+description: "artifact リネージ グラフを表示してたどり、W&B の run の入力と出力を有向非巡回グラフとしてトラッキングします。"
+title: artifact リネージ グラフを確認する
 ---
 
-W&amp;B は、*リネージ グラフ* と呼ばれる有向非巡回グラフ (DAG) を使用して、run の入力と出力を追跡します。リネージ グラフは、ML 実験における artifacts と run の関係を視覚的に表現したものです。生データの取り込みからモデルのトレーニングや評価に至るまで、データやモデルが ML ライフサイクルのさまざまな段階をどのように流れていくかを示します。
+W&amp;B は、*lineage graphs* と呼ばれる有向非巡回グラフ (DAG) を使って、run の入力と出力をトラッキングします。リネージ グラフは、ML 実験における artifact と run の関係を視覚的に表したものです。これにより、生データの取り込みからモデル トレーニング、評価に至るまで、ML のライフサイクルのさまざまな段階をデータやモデルがどのように
+流れていくかを確認できます。
 
-artifact のリネージを追跡することには、次のような主な利点があります。
+artifact リネージをトラッキングすると、次のような重要な利点があります。
 
-* **再現性**: デバッグ、実験、検証のために、実験、モデル、結果を再現できるようにします。
-* **バージョン管理**: artifact の経時的な変更を追跡し、必要に応じて過去のデータやモデルのバージョンに戻せるようにします。
-* **監査**: コンプライアンスとガバナンスを支援するために、artifact とその変換の詳細な記録を維持します。
-* **コラボレーション**: 実験履歴を可視化することでチームワークの向上に役立ち、重複作業を減らし、開発を加速します。
+* **再現性**: デバッグ、実験、検証のために、チームが実験、モデル、結果を再現できるようにします。
+* **バージョン管理**: artifact の変更を時系列でトラッキングし、必要に応じてチームが以前のデータやモデル バージョンに戻せるようにします。
+* **監査**: artifact とその変換の詳細な記録を維持し、コンプライアンスとガバナンスをサポートします。
+* **コラボレーション**: 実験の履歴を可視化することでチームでの連携を改善し、重複作業を減らして開発を加速します。
 
 <div id="view-an-artifacts-lineage-graph">
-  ## Artifacts のリネージ グラフを表示する
+  ## artifact のリネージグラフを表示する
 </div>
 
-Artifacts のリネージ グラフを表示するには、次の手順に従います。
+artifact のリネージグラフを表示するには、次の手順に従います。
 
-1. W&amp;B App で対象のプロジェクトのワークスペースにアクセスします。
-2. プロジェクト サイドバーで **Artifacts** タブをクリックします。
-3. アーティファクトを選択し、**Lineage** タブをクリックします。
+1. W&amp;B App でプロジェクトの Workspace にアクセスします。
+2. プロジェクトのサイドバーで **Artifacts** タブをクリックします。
+3. artifact を選択し、**Lineage** タブをクリックします。
 
 <div id="navigate-lineage-graphs">
-  ## リネージ グラフをたどる
+  ## リネージグラフをたどる
 </div>
 
-リネージ グラフは、ML 実験におけるアーティファクトと run の関係を視覚的に表したものです。W&amp;B App UI または Python SDK を使用して、アーティファクトのリネージ グラフを探索し、たどることができます。
+リネージグラフは、ML 実験における Artifacts と Runs の関係を視覚的に表したものです。W&amp;B App UI または Python SDK を使用して、artifact のリネージグラフを探索し、たどることができます。
 
 <Tabs>
   <Tab title="W&B App UI">
-    緑色のアイコンのノードは run を表します。青色のアイコンのノードはアーティファクトを表します。ノード間の矢印は、run またはアーティファクトの入力と出力を示します。
+    緑色のアイコンが付いたノードは Runs を表します。青色のアイコンが付いたノードは Artifacts を表します。ノード間の矢印は、run または artifact の入力と出力を示します。
 
-    アーティファクト ノードには、`<artifact_name>:<version>` の形式でアーティファクトの名とバージョンが表示されます。アーティファクトのタイプは、アーティファクト名の上に表示されます。
+    artifact ノードには、`<artifact_name>:<version>` の形式で、artifact 名とそのバージョンが表示されます。artifact のタイプは、artifact 名の上に表示されます。
 
     <Note>
-      アーティファクトのタイプと名は、左サイドバーとリネージ グラフのノードの両方で確認できます。
+      artifact のタイプと名は、左サイドバーとリネージグラフのノードの両方で確認できます。
     </Note>
 
     run ノードには、run の名が表示されます。
 
     <Frame>
-      <img src="/images/artifacts/lineage2.png" alt="run とアーティファクトのノード" />
+      <img src="/images/artifacts/lineage2.png" alt="run ノードと artifact ノード" />
     </Frame>
 
-    個々の run をクリックすると、その run の詳細情報 (開始時刻、実行時間、作成者、ジョブ タイプなど) を確認できます。個々のアーティファクトをクリックすると、そのアーティファクトの詳細情報 (alias、作成時刻、タイプ、バージョン、説明、そのアーティファクトをログした run、ファイル サイズなど) を確認できます。
+    個々の run をクリックすると、その run に関する詳細情報 (開始時刻、実行時間、作成者、ジョブタイプなど) が表示されます。個々の artifact をクリックすると、その artifact に関する詳細情報 (aliases、creation time、type、version、description、その artifact をログした run、ファイルサイズなど) が表示されます。
 
     <Frame>
       <img src="/images/artifacts/lineage3a.gif" alt="run のプレビュー" />
     </Frame>
 
-    同じアーティファクトの複数バージョンを作成する Runs は、クラスターとしてまとめて表示されます。クラスター内に表示されている特定のアーティファクト バージョンをクリックすると、そのバージョン固有の情報を確認できます。
+    同じ artifact の複数のバージョンを作成する Runs は、クラスターにまとめられます。クラスター 内に一覧表示された特定の artifact バージョンをクリックすると、その artifact バージョン固有の情報を確認できます。
 
     <Frame>
-      <img src="/images/artifacts/lineage_multiple_artifact_versions.png" alt="リネージ グラフ内のアーティファクト バージョンのクラスター" />
+      <img src="/images/artifacts/lineage_multiple_artifact_versions.png" alt="リネージグラフ内の artifact バージョンの クラスター" />
     </Frame>
 
-    ノードをクリックしてドラッグすると、グラフを並べ替えて Layout を custom できます。ノードとその関係を見やすくするために、グラフをズーム インまたはズーム アウトすることもできます。
+    ノードをクリックしてドラッグすると、グラフを並べ替えて Layout をカスタマイズできます。グラフを拡大または縮小して、ノードとその関係を見やすくすることもできます。
 
     <Frame>
-      <img src="/images/artifacts/lineage_rearrange_nodes.gif" alt="リネージ グラフ内でノードを並べ替える" />
+      <img src="/images/artifacts/lineage_rearrange_nodes.gif" alt="リネージグラフ内のノードの並べ替え" />
     </Frame>
 
-    ノードにマウス カーソルを合わせて目のアイコンをクリックすると、グラフ内でそのノードの表示と非表示を切り替えられます。これは、特定のノードとその関係に注目できるように、グラフの煩雑さを減らすのに役立ちます。
+    ノードにマウスカーソルを合わせて目のアイコンをクリックすると、グラフ内でノードの表示と非表示を切り替えられます。これは、グラフを整理して特定のノードとその関係に集中するのに役立ちます。
   </Tab>
 
   <Tab title="W&B Python SDK">
-    W&amp;B Python SDK を使用して、プログラムからグラフをたどることができます。アーティファクト オブジェクトの
+    W&amp;B Python SDK を使用して、プログラムからグラフをたどることもできます。artifact object の
     [`logged_by()`](/ja/models/ref/python/experiments/artifact#method-artifact-logged-by) と [`used_by()`](/ja/models/ref/python/experiments/artifact#method-artifact-used-by) method を使用して、グラフをたどります。
 
     ```python
     with wandb.init() as run:
         artifact = run.use_artifact("artifact_name:latest")
 
-        # アーティファクトからグラフを上下にたどる:
+        # artifact からグラフを上下にたどる:
         producer_run = artifact.logged_by()
         consumer_runs = artifact.used_by()
     ```
@@ -81,51 +82,52 @@ Artifacts のリネージ グラフを表示するには、次の手順に従い
 </Tabs>
 
 <div id="enable-lineage-graph-tracking">
-  ## リネージ グラフの追跡を有効化する
+  ## リネージグラフのトラッキングを有効にする
 </div>
 
-リネージ グラフの追跡を有効化するには、W&amp;B Python SDK を使用して Artifacts を run の [入力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph)または
-[出力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run)として指定する必要があります。
+リネージグラフのトラッキングを有効にするには、W&amp;B Python SDK を使用して、artifact を run の [入力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph) または
+[出力](/ja/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run) としてマークする必要があります。
 
 <div id="track-the-input-of-a-run">
-  ### run の入力を追跡する
+  ### run への入力をトラッキングする
 </div>
 
 [`wandb.Run.use_artifact()`](/ja/models/ref/python/experiments/run#method-runuse_artifact)
-メソッドを使って、 Artifacts を run の入力 (または依存関係) として設定します。 Artifacts 名と、その Artifacts の特定のバージョンを参照するための任意のエイリアスを指定します。 Artifacts の名前は `<artifact_name>:<version>` または `<artifact_name>:<alias>` という形式です。
+method を使用して、artifact を run への入力 (または依存関係) としてマークします。artifact の名と、その artifact の特定バージョンを参照するための任意の alias を指定します。artifact の
+名は `<artifact_name>:<version>` または `<artifact_name>:<alias>` の形式です。
 
-山かっこ (`< >`) で囲まれた値を、自分の値に置き換えてください。
+山かっこ (`< >`) で囲まれた値は、実際の値に置き換えてください。
 
 ```python
 import wandb
 
-# run を初期化する
+# runを初期化する
 with wandb.init(entity="<entity>", project="<project>") as run:
-  # Artifacts を取得し、依存関係としてマークする
+  # artifactを取得し、依存関係としてマークする
   artifact = run.use_artifact(artifact_or_name="<name>", aliases="<alias>")
 ```
 
 <div id="track-the-output-of-a-run">
-  ### run の出力を追跡する
+  ### run の出力をトラッキングする
 </div>
 
-[`wandb.Run.log_artifact()`](/ja/models/ref/python/experiments/run#log_artifact) を使用して、ある run の出力として Artifacts を指定します。まず、
-[`wandb.Artifact()`](/ja/models/ref/python/experiments/artifact#wandb.Artifact) コンストラクターで Artifacts を作成します。次に、`wandb.Run.log_artifact()` を使って
-その Artifacts を run の出力として記録します。
+[`wandb.Run.log_artifact()`](/ja/models/ref/python/experiments/run#log_artifact) を使用して、artifact を run の出力として宣言します。まず、
+[`wandb.Artifact()`](/ja/models/ref/python/experiments/artifact#wandb.Artifact) コンストラクタを使用して artifact を作成します。次に、`wandb.Run.log_artifact()` を使用して、
+artifact を run の出力としてログします。
 
-山かっこ (`< >`) で囲まれた値を、実際の値に置き換えてください。
+山括弧 (`< >`) で囲まれた値は、実際の値に置き換えてください。
 
 ```python
 import wandb
 
-# run を初期化する
+# runを初期化する
 with wandb.init(entity="<entity>", project="<project>") as run:
   
-  # Artifacts を作成する
+  # artifactを作成する
   artifact = wandb.Artifact(name = "<artifact_name>", type = "<artifact_type>")
   artifact.add_file(local_path = "<local_filepath>", name="<optional-name>")
 
-  # Artifacts を run の出力としてログに記録する
+  # artifactをrunの出力としてログする
   run.log_artifact(artifact_or_path = artifact)
 ```
 
@@ -133,10 +135,10 @@ with wandb.init(entity="<entity>", project="<project>") as run:
   ## Artifact クラスター
 </div>
 
-グラフのあるレベルに run または Artifacts が 5 つ以上ある場合、そのレベルにはクラスターが作成されます。クラスターには、特定のバージョンの run や Artifacts を検索できる検索バーがあり、クラスターから個々のノードを取り出して、そのノードの lineage を引き続き調査できます。
+グラフ内のあるレベルに 5 つ以上の run または artifact がある場合、クラスターが作成されます。クラスターには、特定のバージョンの run や artifact を検索するための検索バーがあり、クラスター内のノードをさらに調べるために、個々のノードをクラスターから取り出すことができます。
 
-ノードをクリックすると、そのノードの概要を示すプレビューが開きます。矢印をクリックすると、個々の run または Artifacts がクラスターから取り出され、取り出したノードの lineage を確認できます。
+ノードをクリックすると、そのノードの概要を表示するプレビューが開きます。矢印をクリックすると、個々の run または artifact が取り出され、取り出したノードのリネージを確認できます。
 
 <Frame>
-  <img src="/images/artifacts/lineage3b.gif" alt="run クラスターを検索する" />
+  <img src="/images/artifacts/lineage3b.gif" alt="run クラスター内を検索する" />
 </Frame>

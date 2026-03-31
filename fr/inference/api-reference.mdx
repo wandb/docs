@@ -1,15 +1,15 @@
 ---
-title: "Aperçu de l'API"
-description: "Explorez la référence complète de l'API REST du service W&B Inférence, y compris les endpoints et l'authentification."
+title: "Aperçu de l’API"
+description: "Consultez la référence complète de l’API REST du service W&B Inference, y compris les endpoints et l’authentification."
 ---
 
-Découvrez comment utiliser l&#39;API W&amp;B Inférence pour accéder par programmation aux modèles de fondation.
+Découvrez comment utiliser la API W&amp;B Inference pour accéder par programmation à des modèles fondamentaux.
 
 <div id="base-url">
   ## URL de base
 </div>
 
-Accédez au service d’inférence à :
+Accédez au service d’Inférence à :
 
 ```plaintext
 https://api.inference.wandb.ai/v1
@@ -18,22 +18,22 @@ https://api.inference.wandb.ai/v1
 <Note>
   **Important**
 
-  Pour utiliser ce point de terminaison, vous devez disposer de :
+  Pour utiliser cet endpoint, il vous faut :
 
-  * Un compte W&amp;B avec des crédits d’Inférence
+  * Un compte W&amp;B avec des crédits Inference
   * Une clé API W&amp;B valide
 
-  Si vous appartenez à plus d’une équipe ou si vous souhaitez associer votre utilisation à un projet, vous aurez également besoin des identifiants d’équipe et de projet. Dans les exemples de code, ils apparaissent sous la forme `<your-team>/<your-project>`. À défaut, votre entité par défaut et le nom de projet `inference` seront utilisés.
+  Si vous appartenez à plus d’une team ou souhaitez associer votre utilisation à un projet, vous aurez également besoin des ID de la team et du projet. Dans les exemples de code, ils apparaissent sous la forme `<your-team>/<your-project>`. À défaut, votre entité par défaut et le projet `inference` seront utilisés.
 </Note>
 
 <div id="available-methods">
   ## Méthodes disponibles
 </div>
 
-L’API W&amp;B Inférence fournit des points de terminaison compatibles avec OpenAI pour interagir avec des modèles de fondation :
+L’API W&amp;B Inference fournit des endpoints compatibles avec OpenAI pour interagir avec des modèles fondamentaux :
 
-* **[Chat Completions](/fr/inference/api-reference/chat-completions)** - Créer des complétions de chat à l’aide de différents modèles de fondation
-* **[List Models](/fr/inference/api-reference/list-models)** - Obtenir tous les modèles disponibles et leurs identifiants
+* **[Chat Completions](/fr/inference/api-reference/chat-completions)** - Créez des complétions de chat à l’aide de divers modèles fondamentaux
+* **[List Models](/fr/inference/api-reference/list-models)** - Obtenez tous les modèles disponibles et leurs ID
 
 <div id="authentication">
   ## Authentification
@@ -41,9 +41,9 @@ L’API W&amp;B Inférence fournit des points de terminaison compatibles avec Op
 
 Toutes les requêtes API nécessitent une authentification à l’aide de votre clé API W&amp;B. Créez une clé API sur [wandb.ai/settings](https://wandb.ai/settings).
 
-Incluez votre clé API dans les en-têtes de requête :
+Incluez votre clé API dans les en-têtes de la requête :
 
-* Pour le SDK OpenAI : définissez le paramètre `api_key`
+* Pour OpenAI SDK : définissez-la via le paramètre `api_key`
 * Pour les appels API directs : utilisez `Authorization: Bearer <your-api-key>`
 
 <div id="error-handling">
@@ -56,6 +56,6 @@ Voir [Erreurs de l’API](/fr/support/inference) pour obtenir la liste complète
   ## Étapes suivantes
 </div>
 
-* Essayez les [exemples d&#39;utilisation](/fr/inference/examples) pour voir l&#39;API en action
-* Explorez les modèles dans l&#39;[interface utilisateur](/fr/inference/ui-guide)
+* Essayez les [exemples d&#39;utilisation](/fr/inference/examples) pour voir l&#39;API à l&#39;œuvre
+* Explorez les modèles dans l&#39;[UI](/fr/inference/ui-guide)
 * Consultez les [limites d&#39;utilisation](/fr/inference/usage-limits) de votre compte

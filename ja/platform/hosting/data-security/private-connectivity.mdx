@@ -1,24 +1,24 @@
 ---
-title: Dedicated Cloud へのプライベート接続を構成する
+title: 専用クラウドへのプライベート接続を設定する
 description: "AWS PrivateLink、GCP、または Azure Private Link を使用して、プライベートネットワーク経由で W&B Dedicated Cloud インスタンスに接続します。"
 ---
 
-クラウドプロバイダーの安全なプライベートネットワーク経由で、[Dedicated Cloud](/ja/platform/hosting/hosting-options/dedicated-cloud) インスタンスに接続できます。これは、AI ワークロードから W&amp;B API へのアクセスに適用され、オプションでユーザーのブラウザから W&amp;B アプリ UI へのアクセスにも適用されます。プライベート接続を使用すると、該当するリクエストとレスポンスはパブリックネットワークやインターネットを経由しません。
+クラウドプロバイダーのセキュアなプライベートネットワーク経由で、[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) インスタンスに接続できます。これは、AI ワークロードから W&amp;B API へのアクセスに適用され、必要に応じてユーザーのブラウザーから W&amp;B App UI へのアクセスにも適用されます。プライベート接続を使用すると、該当するリクエストとレスポンスはパブリックネットワークやインターネットを経由しません。
 
 <Note>
-  Secure private connectivity は、Dedicated Cloud 向けの高度なセキュリティオプションとして近日提供予定です。
+  セキュアなプライベート接続は、Dedicated Cloud の高度なセキュリティオプションとして近日提供予定です。
 </Note>
 
-Secure private connectivity は、AWS、Google Cloud、Azure 上の Dedicated Cloud インスタンスで利用できます。
+セキュアなプライベート接続は、AWS、Google Cloud、Azure 上の Dedicated Cloud インスタンスで利用できます。
 
-* AWS 上では [AWS Privatelink](https://aws.amazon.com/privatelink/) を使用
-* Google Cloud 上では [Google Cloud Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) を使用
-* Azure 上では [Azure Private Link](https://azure.microsoft.com/products/private-link) を使用
+* AWS では [AWS Privatelink](https://aws.amazon.com/privatelink/) を使用
+* Google Cloud では [Google Cloud Private Service Connect](https://cloud.google.com/vpc/docs/private-service-connect) を使用
+* Azure では [Azure Private Link](https://azure.microsoft.com/products/private-link) を使用
 
-有効化すると、W&amp;B はインスタンス向けにプライベートエンドポイントサービスを作成し、接続に使用する DNS URI を提供します。これにより、クラウドアカウント内にプライベートエンドポイントを作成し、該当トラフィックをプライベートエンドポイントサービスにルーティングできます。プライベートエンドポイントは、クラウド VPC や VNet 内で動作する AI トレーニングワークロード向けには、セットアップが容易です。ユーザーのブラウザから W&amp;B アプリ UI へのトラフィックにも同じ仕組みを利用する場合は、社内ネットワークからクラウドアカウント内のプライベートエンドポイントへの適切な DNS ベースのルーティングを構成する必要があります。
+有効化すると、W&amp;B はお使いのインスタンス用のプライベートエンドポイントサービスを作成し、接続先の DNS URI を提供します。これにより、クラウドアカウント内にプライベートエンドポイントを作成して、該当するトラフィックをプライベートエンドポイントサービスにルーティングできます。プライベートエンドポイントは、クラウド VPC または VNet 内で実行される AI トレーニングワークロード向けに比較的簡単に設定できます。ユーザーのブラウザーから W&amp;B App UI へのトラフィックにも同じ仕組みを使用するには、社内ネットワークからクラウドアカウント内のプライベートエンドポイントへの適切な DNS ベースのルーティングを設定する必要があります。
 
 <Note>
-  この機能の利用を希望する場合は、W&amp;B チームにお問い合わせください。
+  この機能を利用したい場合は、担当の W&amp;B チームにお問い合わせください。
 </Note>
 
-Secure private connectivity は [IP allowlisting](./ip-allowlisting) と併用できます。IP allowlisting のために Secure private connectivity を使用する場合、W&amp;B では、AI ワークロードからのすべてのトラフィックと、可能であればユーザーのブラウザからのトラフィックの大部分を Secure private connectivity で保護しつつ、特権的な場所からのインスタンス管理には IP allowlisting を使用することを推奨します。
+セキュアなプライベート接続は [IP allowlisting](./ip-allowlisting) と併用できます。IP allowlisting にセキュアなプライベート接続を使用する場合、W&amp;B では、可能であれば AI ワークロードからのすべてのトラフィックと、ユーザーのブラウザーからのトラフィックの大部分をセキュアなプライベート接続経由にし、特権的な場所からのインスタンス管理には IP allowlisting を使用することを推奨しています。

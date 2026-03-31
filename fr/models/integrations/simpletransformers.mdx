@@ -1,11 +1,11 @@
 ---
 description: Comment intégrer W&B à la bibliothèque Transformers de Hugging Face.
-title: Simple Transformers de Hugging Face
+title: Hugging Face Simple Transformers
 ---
 
-Cette bibliothèque s&#39;appuie sur la bibliothèque Transformers de Hugging Face. Simple Transformers vous permet d&#39;entraîner et d&#39;évaluer rapidement des modèles Transformer. Trois lignes de code suffisent pour initialiser un modèle, entraîner le modèle et évaluer un modèle. Elle prend en charge la classification de séquences, la classification de tokens (NER), les questions-réponses, le Fine-tuning de modèles de langage, l&#39;entraînement de modèles de langage, la génération de langage, le modèle T5, les tâches Seq2Seq, la classification multimodale et l&#39;IA conversationnelle.
+Cette bibliothèque s’appuie sur la bibliothèque Transformers de Hugging Face. Simple Transformers vous permet d’entraîner et d’évaluer rapidement des modèles Transformer. Seules 3 lignes de code suffisent pour initialiser un modèle, l’entraîner et l’évaluer. Elle prend en charge la Classification de séquences, la Classification de tokens (NER), les Questions-réponses, le Fine-tuning de modèles de langage, l’entraînement de modèles de langage, la génération de langage, le modèle T5, les tâches Seq2Seq, la Classification multimodale et l’IA conversationnelle.
 
-Pour utiliser W&amp;B pour visualiser l&#39;entraînement du modèle, définissez un nom de projet pour W&amp;B dans l&#39;attribut `wandb_project` du dictionnaire `args`. Cela consigne toutes les valeurs d&#39;hyperparamètres, les pertes d&#39;entraînement et les métriques d&#39;évaluation dans le projet indiqué.
+Pour utiliser W&amp;B afin de visualiser l’entraînement du modèle, définissez un nom de projet W&amp;B dans l’attribut `wandb_project` du dictionnaire `args`. Cela consigne toutes les valeurs d’hyperparamètres, les pertes d’entraînement et les métriques d’évaluation dans le projet indiqué.
 
 ```python
 model = ClassificationModel('roberta', 'roberta-base', args={'wandb_project': 'project-name'})
@@ -28,10 +28,10 @@ La bibliothèque est conçue avec une classe distincte pour chaque tâche de NLP
 * `simpletransformers.question_answering` - Comprend tous les modèles de Questions-réponses.
   * `QuestionAnsweringModel`
 
-Voici quelques exemples de base
+Voici quelques exemples simples
 
 <div id="multilabel-classification">
-  ## Classification multi-étiquettes
+  ## Classification multi-étiquette
 </div>
 
 ```text
@@ -68,7 +68,7 @@ model = QuestionAnsweringModel('distilbert', 'distilbert-base-cased', args=train
 model.train_model(train_data)
 ```
 
-SimpleTransformers fournit des classes ainsi que des scripts d’entraînement pour toutes les tâches courantes de traitement du langage naturel. Voici la liste complète des arguments globaux pris en charge par la bibliothèque, avec leurs valeurs par défaut.
+SimpleTransformers fournit des classes ainsi que des scripts d’entraînement pour toutes les tâches courantes de traitement du langage naturel. Voici la liste complète des arguments globaux pris en charge par la bibliothèque, ainsi que leurs valeurs par défaut.
 
 ```text
 global_args = {
@@ -125,6 +125,6 @@ global_args = {
 }
 ```
 
-Référez-vous à [simpletransformers sur GitHub](https://github.com/ThilinaRajapakse/simpletransformers) pour une documentation plus détaillée.
+Consultez la documentation plus détaillée sur [simpletransformers sur GitHub](https://github.com/ThilinaRajapakse/simpletransformers).
 
-Consultez [ce rapport W&amp;B](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA) qui couvre l&#39;entraînement de transformers sur quelques-uns des jeux de données de référence GLUE les plus populaires. [Essayez-le vous-même sur Colab](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).
+Consultez [ce rapport W&amp;B](https://app.wandb.ai/cayush/simpletransformers/reports/Using-simpleTransformer-on-common-NLP-applications---Vmlldzo4Njk2NA), qui présente l’entraînement de transformers sur quelques-uns des jeux de données de référence GLUE les plus populaires. [Essayez-le vous-même sur Colab](https://colab.research.google.com/drive/1oXROllqMqVvBFcPgTKJRboTq96uWuqSz?usp=sharing).

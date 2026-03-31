@@ -9,14 +9,14 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/" />
 
 
-### <kbd>function</kbd> `teardown`
+### <kbd>関数</kbd> `teardown`
 
 ```python
 teardown(exit_code: 'int | None' = None) → None
 ```
 
-W&amp;B が処理を完了するのを待ち、リソースを解放します。
+W&amp;B の処理が完了するまで待機し、リソースを解放します。
 
-`run.finish()` を使って明示的に終了されなかった run をすべて完了し、すべてのデータがアップロードされるまで待機します。
+`run.finish()` で明示的に終了されなかった Runs を完了し、すべてのデータがアップロードされるまで待機します。
 
-`wandb.setup()` を使用したセッションの最後で、この関数を呼び出すことを推奨します。これは `atexit` フック内で自動的に呼び出されますが、Python の `multiprocessing` モジュールを使用している場合など、特定の環境では信頼できない場合があります。
+`wandb.setup()` を使用したセッションの最後にこれを呼び出すことを推奨します。これは `atexit` フックで自動的に呼び出されますが、Python&#39;s `multiprocessing` モジュールを使用している場合など、一部の環境では確実に動作しません。

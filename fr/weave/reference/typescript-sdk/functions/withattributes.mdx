@@ -9,10 +9,10 @@ description: "Référence du SDK TypeScript"
 
 ▸ **withAttributes**&lt;`T`&gt;(`attrs`, `fn`): `Promise`&lt;`T`&gt; | `T`
 
-Ajoute des attributs au contexte d’exécution actuel afin que tous les appels créés
-dans `fn` en héritent automatiquement. Les attributs sont écrits dans l’enregistrement d’appel
-sur le serveur de trace et sont visibles dans l’interface utilisateur et le filtrage de Weave, ce qui les rend
-idéaux pour étiqueter des runs avec des ID de requête, des tenants, des expériences, etc.
+Associe des attributs au contexte d’exécution actuel afin que tous les appels créés
+dans `fn` en héritent automatiquement. Les attributs sont écrits dans l’enregistrement de l’appel
+sur le serveur de trace et apparaissent dans Weave UI/le filtrage. Ils sont donc
+idéaux pour étiqueter des Runs avec des ID de requête, des tenants, des Experiments, etc.
 
 Exemple :
 

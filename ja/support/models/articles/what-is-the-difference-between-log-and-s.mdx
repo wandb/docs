@@ -1,23 +1,23 @@
 ---
 title: "`.log()` と `.summary` の違いは何ですか？"
-keywords: ["チャート"]
+keywords: ["グラフ"]
 ---
 
-サマリーは表に表示され、ログには後でプロットするためのすべての値が保存されます。
+`.summary` は表に表示され、`.log()` は後でプロットできるようにすべての値を保存します。
 
-たとえば、精度が変化するたびに `run.log()` を呼び出します。デフォルトでは、そのメトリクスに対して手動設定がない限り、`run.log()` によってサマリー値が更新されます。
+たとえば、accuracy が変化するたびに `run.log()` を呼び出します。デフォルトでは、そのメトリクスに対して手動で設定していない限り、`run.log()` は `.summary` の値を更新します。
 
-散布図と平行座標プロットはサマリー値を使用し、折れ線プロットには `run.log` によって記録されたすべての値が表示されます。
+散布図と平行座標プロットは `.summary` の値を使用し、折れ線グラフは `run.log()` で記録されたすべての値を表示します。
 
-一部のユーザーは、ログされた最新の精度ではなく最適な精度を反映するために、サマリーを手動で設定することを好みます。
+一部のユーザーは、最後にログされた accuracy ではなく、最適な accuracy を反映するように `.summary` を手動で設定することを好みます。
 
 ***
 
 {/* ---- AUTO-GENERATED: tab badges ----
-  front matter のキーワードを基に、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  front matter のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py により管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[チャート](/ja/support/models/tags/charts)</Badge>
 
-{/* ---- 自動生成ここまで: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -1,5 +1,5 @@
 ---
-title: ヒストグラム
+title: Histogram
 namespace: python_sdk_data_type
 python_object_type: class
 ---
@@ -11,14 +11,14 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 
 ## <kbd>class</kbd> `Histogram`
 
-ヒストグラム用の W&amp;B クラスです。
+ヒストグラム用の W&amp;B クラス。
 
-このオブジェクトは numpy の `histogram` 関数 https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html と同様に動作します。
+このオブジェクトは、numpy の histogram 関数 https://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html とまったく同じように動作します。
 
 **属性:**
 
 * `bins` ([float]):  ビンの境界
-* `histogram` ([int]):  各ビンに入る要素数。 
+* `histogram` ([int]):  各ビンに含まれる要素数。 
 
 ### <kbd>method</kbd> `Histogram.__init__`
 
@@ -30,10 +30,10 @@ __init__(
 ) → None
 ```
 
-Histogram オブジェクトを初期化します。
+Histogramオブジェクトを初期化します。
 
 **引数:**
-sequence: ヒストグラム用の入力データ。 np&#95;histogram: 事前に計算済みヒストグラムを入力として指定します。 num&#95;bins: ヒストグラムのビン数。デフォルトのビン数は 64 で、最大ビン数は 512 です。
+sequence: ヒストグラムの入力データ。 np&#95;histogram: 事前計算済みヒストグラムの代替入力。 num&#95;bins: ヒストグラムのビン数。デフォルトのビン数は 64 です。ビン数の最大値は 512 です。
 
 **例:**
 シーケンスからヒストグラムを生成します。
@@ -44,7 +44,7 @@ import wandb
 wandb.Histogram([1, 2, 3])
 ```
 
-np.histogram の結果から効率的に初期化します。
+np.histogramから効率的に初期化します。
 
 ```python
 import numpy as np

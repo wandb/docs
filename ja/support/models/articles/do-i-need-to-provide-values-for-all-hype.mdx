@@ -1,50 +1,50 @@
 ---
-title: "W&B Sweep では、すべてのハイパーパラメーターに値を指定する必要がありますか？ デフォルトを設定できますか？"
+title: "W&B sweep では、すべてのハイパーパラメーターに値を指定する必要がありますか？デフォルトを設定できますか？"
 keywords: ["Sweeps"]
 ---
 
-`(run.config())` を使用して sweep の設定からハイパーパラメーター名と値にアクセスします。これは辞書のように機能します。
+`(run.config())` を使用すると、sweep の設定からハイパーパラメーター名と値にアクセスできます。これは辞書のように動作します。
 
-sweep の外部の run では、`wandb.init()` の `config` 引数に辞書を渡して `wandb.Run.config()` の値を設定します。sweep では、`wandb.init()` に指定した設定はデフォルト値として機能し、sweep で上書きできます。
+sweep の外で実行する runs では、`wandb.init()` の `config` 引数に辞書を渡して `wandb.Run.config()` の値を設定します。sweep では、`wandb.init()` に渡した設定はデフォルト値として扱われ、sweep で上書きできます。
 
-動作を明示的に指定するには `rwandb.Run.config.setdefaults()` を使用します。以下のコード スニペットは両方の method を示しています。
+動作を明示的に指定するには、`rwandb.Run.config.setdefaults()` を使用します。以下のコード例は、両方の方法を示しています。
 
 <Tabs>
   <Tab title="wandb.init()">
     ```python
-    # ハイパーパラメーターのデフォルト値を設定
+    # ハイパーパラメーターのデフォルト値を設定する
     config_defaults = {"lr": 0.1, "batch_size": 256}
 
-    # run を開始し、デフォルト値を指定
-    # これらは sweep で上書きできます
+    # run を開始し、sweep で上書き可能な
+    # デフォルト値を指定する
     with wandb.init(config=config_defaults) as run:
-        # ここにトレーニング コードを追加
+        # ここにトレーニングコードを追加する
         ...
     ```
   </Tab>
 
   <Tab title="config.setdefaults()">
     ```python
-    # ハイパーパラメーターのデフォルト値を設定
+    # ハイパーパラメーターのデフォルト値を設定する
     config_defaults = {"lr": 0.1, "batch_size": 256}
 
-    # run を開始
+    # run を開始する
     with wandb.init() as run:
-        # sweep で設定されていない値を更新
+        # sweep で設定されていない値を更新する
         run.config.setdefaults(config_defaults)
 
-        # ここにトレーニング コードを追加
+        # ここにトレーニングコードを追加する
     ```
   </Tab>
 </Tabs>
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  scripts/knowledgebase-nav/generate_tags.py により、front matter のキーワードから生成されます。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter内のキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ja/support/models/tags/sweeps)</Badge>
 
-{/* ---- 自動生成終了: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

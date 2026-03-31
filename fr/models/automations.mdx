@@ -1,6 +1,6 @@
 ---
 title: Aperçu des automatisations
-description: Utilisez les automatisations W&B pour déclencher des flux de travail basés sur des événements dans W&B
+description: Utilisez les automatisations de W&B pour déclencher des flux de travail à partir d’événements dans W&B
 ---
 
 import EnterpriseCloudOnly from "/snippets/fr/_includes/enterprise-cloud-only.mdx";
@@ -11,12 +11,12 @@ import EnterpriseCloudOnly from "/snippets/fr/_includes/enterprise-cloud-only.md
 
 Cette page décrit les *automatisations* dans W&amp;B. [Créez une automatisation](/fr/models/automations/create-automations/) pour déclencher des étapes de flux de travail, comme des tests et des déploiements automatisés de modèles, en fonction d&#39;un événement dans W&amp;B.
 
-Par exemple, une automatisation peut notifier un canal Slack lorsqu&#39;une nouvelle version est créée, déclencher un webhook de test automatisé lorsque l&#39;alias `production` est ajouté à un artefact, ou démarrer un job de validation uniquement lorsque la `loss` d&#39;un run se situe dans des limites acceptables.
+Par exemple, une automatisation peut notifier un canal Slack lorsqu&#39;une nouvelle version est créée, déclencher un webhook de test automatisé lorsque l&#39;alias `production` est ajouté à un artifact, ou démarrer un job de validation uniquement lorsque la `loss` d&#39;un run reste dans des limites acceptables.
 
 <Info>
   Vous cherchez des tutoriels complémentaires sur les automatisations ?
 
-  * [Découvrez comment déclencher automatiquement une GitHub Action pour l&#39;évaluation et le déploiement d&#39;un modèle](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
+  * [Découvrez comment déclencher automatiquement une GitHub Action pour l&#39;évaluation et le déploiement de modèles](https://wandb.ai/wandb/wandb-model-cicd/reports/Model-CI-CD-with-W-B--Vmlldzo0OTcwNDQw).
   * [Regardez une vidéo montrant comment déployer automatiquement un modèle vers un endpoint SageMaker](https://www.youtube.com/watch?v=s5CMj_w3DaQ).
   * [Regardez une série de vidéos présentant les automatisations](https://youtube.com/playlist?list=PLD80i8An1OEGECFPgY-HPCNjXgGu-qGO6\&feature=shared).
 </Info>
@@ -25,33 +25,33 @@ Par exemple, une automatisation peut notifier un canal Slack lorsqu&#39;une nouv
   ## Événements d&#39;automatisation
 </div>
 
-Les automatisations peuvent être déclenchées par des événements liés aux runs ou aux artefacts d&#39;une collection, d&#39;un projet ou d&#39;un registre. Une automatisation peut être lancée :
+Les automatisations peuvent être déclenchées par des événements liés à des runs ou à des artifacts dans une collection, un projet ou un registre. Une automatisation peut être lancée :
 
-* Lorsqu&#39;une métrique de run atteint un seuil absolu ou relatif défini. Par exemple, déclenchez-la lorsque la `loss` d&#39;un run est inférieure à 0.01 ou lorsque l&#39;`accuracy` d&#39;un run s&#39;améliore de 5 %.
-* Lorsque le z-score (score standard) d&#39;un run s&#39;écarte de la moyenne d&#39;une valeur donnée. Un z-score de 0 indique que le résultat correspond à la moyenne. Un z-score de +2 signifie que le résultat est supérieur de deux écarts types à la moyenne, et un z-score de -2 signifie que le résultat est inférieur de deux écarts types à la moyenne.
-* Lorsqu&#39;un événement se produit dans un projet ou un registre. Par exemple, déclenchez-la lorsqu&#39;une nouvelle version d&#39;un artefact de modèle est créée ou lorsque l&#39;alias `production` est ajouté à un artefact de modèle.
+* Lorsqu&#39;une métrique de run atteint un seuil absolu ou relatif défini. Par exemple, lorsqu&#39;un `loss` de run est inférieur à 0.01 ou lorsqu&#39;une `accuracy` de run s&#39;améliore de 5 %.
+* Lorsque le z-score (score standard) d&#39;un run s&#39;écarte de la moyenne d&#39;un certain montant. Un z-score de 0 indique que le résultat correspond à la moyenne. Un z-score de +2 signifie que le résultat est supérieur de deux écarts types à la moyenne, et un z-score de -2 signifie que le résultat est inférieur de deux écarts types à la moyenne.
+* Lorsqu&#39;un événement se produit dans un projet ou un registre. Par exemple, lorsqu&#39;une nouvelle version d&#39;un artifact de modèle est créée ou lorsque l&#39;alias `production` est ajouté à un artifact de modèle.
 
-Pour plus de détails, voir [Événements et portées des automatisations](/fr/models/automations/automation-events/).
+Pour plus de détails, voir [Automation events and scopes](/fr/models/automations/automation-events/).
 
 <div id="automation-actions">
   ## Actions d’automatisation
 </div>
 
-Lorsqu’un événement déclenche une automatisation, elle peut effectuer l’une de ces actions :
+Lorsqu’un événement déclenche une automatisation, celle-ci peut exécuter l’une des actions suivantes :
 
 <div id="slack-notification">
   ### Notification Slack
 </div>
 
-Envoyez un message dans un canal Slack avec des détails sur l’événement qui a déclenché la notification. Le message résume l’événement et inclut un lien pour afficher plus de détails dans W&amp;B.
+Envoyez un message sur un canal Slack avec des détails sur l’événement qui a déclenché l’action. Le message résume l’événement et inclut un lien pour afficher plus de détails dans W&amp;B.
 
 <div id="webhook">
   ### Webhook
 </div>
 
-Appelez une URL de webhook avec un payload JSON contenant des informations sur l’événement qui a déclenché l’action. Cela permet l’intégration avec des systèmes externes tels que des pipelines CI/CD, des services de déploiement de modèles ou des flux de travail personnalisés. Le corps de la requête webhook peut contenir n’importe quel payload sérialisable en JSON.
+Appelez l’URL d’un webhook avec une charge utile JSON contenant des informations sur l’événement déclencheur. Cela permet une intégration avec des systèmes externes comme des pipelines CI/CD, des services de déploiement de modèles ou des flux de travail personnalisés. Le corps de la requête webhook peut contenir n’importe quelle charge utile sérialisable en JSON.
 
-Pour plus de détails sur l’implémentation, voir :
+Pour en savoir plus sur l’implémentation, voir :
 
 * [Créer une automatisation Slack](/fr/models/automations/create-automations/slack/)
 * [Créer une automatisation webhook](/fr/models/automations/create-automations/webhook/)
@@ -62,22 +62,22 @@ Pour plus de détails sur l’implémentation, voir :
 
 Pour [créer une automatisation](/fr/models/automations/create-automations/), vous devez :
 
-1. Si nécessaire, configurer les [secrets](/fr/platform/secrets/) pour les chaînes de caractères sensibles requises par l’automatisation, comme les jetons d’accès, les mots de passe ou les détails de configuration sensibles. Les secrets sont définis dans vos **Team Settings**. Ils sont le plus souvent utilisés dans les automatisations par webhook pour transmettre en toute sécurité des identifiants ou des jetons au service externe du webhook, sans les exposer en clair ni les coder en dur dans son payload.
-2. Configurer des intégrations webhook ou Slack au niveau de l’équipe afin d’autoriser W&amp;B à publier sur Slack ou à exécuter le webhook en votre nom. Une même action d’automatisation (webhook ou notification Slack) peut être utilisée par plusieurs automatisations. Ces actions sont définies dans vos **Team Settings**.
-3. Dans le projet ou le registre, créer l’automatisation :
-   1. Définir l’[événement](#automation-events) à surveiller, par exemple lorsqu’une nouvelle version d’artefact est ajoutée.
-   2. Définir l’action à exécuter lorsque l’événement se produit (publication dans un canal Slack ou exécution d’un webhook). Pour un webhook, spécifier un secret à utiliser pour le jeton d’accès et/ou un secret à envoyer avec le payload, si nécessaire.
+1. Si nécessaire, configurez des [secrets](/fr/platform/secrets/) pour les chaînes sensibles dont l’automatisation a besoin, comme des jetons d’accès, des mots de passe ou des détails de configuration sensibles. Les secrets sont définis dans **Team Settings**. Ils sont le plus souvent utilisés dans les automatisations webhook pour transmettre en toute sécurité des identifiants ou des jetons au service externe du webhook, sans les exposer en clair ni les coder en dur dans la charge utile du webhook.
+2. Configurez des intégrations webhook ou Slack au niveau de l’équipe afin d’autoriser W&amp;B à publier dans Slack ou à exécuter le webhook en votre nom. Une même action d’automatisation (webhook ou notification Slack) peut être utilisée par plusieurs automatisations. Ces actions sont définies dans **Team Settings**.
+3. Dans le projet ou le registre, créez l’automatisation :
+   1. Définissez l’[événement](#automation-events) à surveiller, par exemple l’ajout d’une nouvelle version d’artifact.
+   2. Définissez l’action à effectuer lorsque l’événement se produit (publier dans un canal Slack ou exécuter un webhook). Pour un webhook, indiquez un secret à utiliser pour le jeton d’accès et/ou un secret à envoyer avec la charge utile, si nécessaire.
 
 <div id="limitations">
   ## Limites
 </div>
 
-Les [automatisations de métriques de run](/fr/models/automations/automation-events/#run-metrics-events) et les [automatisations de variation du z-score des métriques de run](/fr/models/automations/automation-events/#run-metrics-z-score-change-automations) ne sont actuellement prises en charge que dans le [Cloud mutualisé W&amp;B](/fr/platform/hosting/#wb-multi-tenant-cloud).
+Les [automatisations des métriques de run](/fr/models/automations/automation-events/#run-metrics-events) et les [automatisations de changement du z-score des métriques de run](/fr/models/automations/automation-events/#run-metrics-z-score-change-automations) sont actuellement prises en charge uniquement dans [W&amp;B Multi-tenant Cloud](/fr/platform/hosting/#wb-multi-tenant-cloud).
 
 <div id="next-steps">
   ## Étapes suivantes
 </div>
 
 * [Créer une automatisation](/fr/models/automations/create-automations/).
-* Découvrez [les événements et la portée des automatisations](/fr/models/automations/automation-events/).
+* Découvrez les [événements et périmètres des automatisations](/fr/models/automations/automation-events/).
 * [Créer un secret](/fr/platform/secrets/).

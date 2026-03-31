@@ -1,11 +1,11 @@
 ---
 title: Utiliser W&B Skills
-description: Installez W&B Skills pour apprendre à votre agent de programmation à entraîner des modèles, à build des agents et à analyser des expériences à l'aide de la plateforme de développement d'IA de W&B.
+description: Installez W&B Skills pour apprendre à votre agent de code à entraîner des modèles, créer des agents et analyser des expériences à l’aide de la plateforme de développement IA de W&B.
 ---
 
-W&amp;B Skills sont des ensembles d&#39;instructions réutilisables qui apprennent aux agents de programmation à utiliser W&amp;B efficacement. Au lieu de guider manuellement votre agent dans l&#39;utilisation des API W&amp;B et des bonnes pratiques, installez Skills afin qu&#39;il puisse travailler de façon autonome avec le suivi des expériences, le traçage, les évaluations et la surveillance.
+Les W&amp;B Skills sont des ensembles d’instructions réutilisables qui apprennent aux agents de code à utiliser efficacement W&amp;B. Au lieu de guider manuellement votre agent dans les API W&amp;B et les bonnes pratiques, installez des Skills afin qu’il puisse gérer de manière autonome le suivi des expériences, Tracing, les évaluations et le monitoring.
 
-Skills fonctionnent avec plusieurs agents de programmation majeurs, notamment :
+Les Skills fonctionnent avec plusieurs agents de code majeurs, notamment :
 
 * Claude Code
 * Codex
@@ -13,18 +13,18 @@ Skills fonctionnent avec plusieurs agents de programmation majeurs, notamment :
 * GitHub Copilot
 * Gemini CLI
 
-Pour obtenir une liste complète des agents pris en charge, voir la [documentation CLI de W&amp;B Skills](https://github.com/vercel-labs/skills#supported-agents).
+Pour obtenir la liste complète des agents pris en charge, consultez la [documentation CLI de W&amp;B Skills](https://github.com/vercel-labs/skills#supported-agents).
 
 <div id="wb-skills-capabilities">
   ## Capacités de W&amp;B Skills
 </div>
 
-Skills couvre à la fois le [SDK W&amp;B Models](/fr/models/ref) (runs d’entraînement, métriques, artefacts, balayages) et le [SDK Weave](/fr/weave/reference/python-sdk) (traces, évaluations, évaluateurs). Cela comprend des bibliothèques utilitaires, de la documentation de référence et des approches d’analyse des données.
+Skills couvre à la fois le [SDK W&amp;B Models](/fr/models/ref) (runs d&#39;entraînement, métriques, Artifacts, Sweeps) et le [SDK Weave](/fr/weave/reference/python-sdk) (traces, évaluations, évaluateurs). Inclut des bibliothèques utilitaires, de la documentation de référence et des approches d&#39;analyse de données.
 
-| Flux de travail            | Capacités                                                                                                                                                                                                                                                                                      |
-| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Entraînement du modèle** | <ul><li>Journalisez des métriques et des médias enrichis pendant l’entraînement et le fine-tuning.</li><li>Suivez et comparez les expériences.</li><li>Analysez les runs et les résultats, comme les courbes de perte et les scores de précision.</li><li>Ajustez les hyperparamètres.</li></ul> |
-| **Création d’agents**      | <ul><li>Tracez les applications d’IA agentique.</li><li>Analysez les traces et classez les modes de défaillance.</li><li>Évaluez les modèles et les agents à l’aide de jeux de données étiquetés.</li><li>Exécutez des évaluations en ligne pour la surveillance en production.</li></ul>      |
+| Flux de travail            | Capacités                                                                                                                                                                                                                                                                                          |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Entraînement du modèle** | <ul><li>Journalisez des métriques et des médias enrichis pendant l&#39;entraînement et le fine-tuning.</li><li>Suivez et comparez les expériences.</li><li>Analysez les Runs et les résultats, comme les courbes de perte et les scores de précision.</li><li>Ajustez les hyperparamètres.</li></ul> |
+| **Création d&#39;agents**  | <ul><li>Tracez les applications d&#39;IA agentique.</li><li>Analysez les traces et classez les modes de défaillance.</li><li>Évaluez les modèles et les agents à l&#39;aide de jeux de données étiquetés.</li><li>Exécutez des évaluations en ligne pour le monitoring en production.</li></ul>    |
 
 <div id="prerequisites">
   ## Prérequis
@@ -37,7 +37,7 @@ Skills requiert les éléments suivants :
   ```shell
   export WANDB_API_KEY=<your-api-key>
   ```
-* (Facultatif) Définissez le nom du projet W&amp;B comme variable d&#39;environnement `WANDB_PROJECT`. Cela permet à votre agent de cibler le bon projet W&amp;B sans avoir à le préciser à chaque fois.
+* (Facultatif) Définissez le nom de votre projet W&amp;B comme variable d&#39;environnement `WANDB_PROJECT`. Cela permet à votre agent de cibler le bon projet W&amp;B sans avoir à le préciser à chaque fois.
 
 <div id="install-wb-skills">
   ## Installer W&amp;B Skills
@@ -49,7 +49,7 @@ Pour installer W&amp;B Skills globalement, exécutez la commande suivante avec l
 npx skills add wandb/skills --skill '*' --yes --global
 ```
 
-Pour installer Skills pour un projet spécifique, exécutez la commande suivante depuis le répertoire de votre projet :
+Pour installer Skills pour un projet spécifique, exécutez la commande suivante dans le répertoire de votre projet :
 
 ```bash
 npx skills add wandb/skills --skill '*' --yes
@@ -61,30 +61,30 @@ Vous pouvez également installer des Skills pour des agents spécifiques à l’
 npx skills add wandb/skills --agent claude-code --skill '*' --yes --global
 ```
 
-Pour la liste des options `--agent` et `--skill`, voir la [documentation CLI de Skills](https://github.com/vercel-labs/skills#supported-agents).
+Pour consulter la liste des options `--agent` et `--skill`, voir la [documentation CLI de skills](https://github.com/vercel-labs/skills#supported-agents).
 
 <div id="use-wb-skills">
-  ## Utiliser les compétences W&amp;B
+  ## Utiliser W&amp;B Skills
 </div>
 
-Une fois l’installation terminée, vous pouvez demander à l’agent d’effectuer des tâches liées à W&amp;B pour votre projet. Les prompts d’exemple suivants montrent certaines des tâches que votre agent peut accomplir avec les compétences W&amp;B :
+Une fois installé, vous pouvez demander à l&#39;agent d&#39;effectuer des tâches liées à W&amp;B pour votre projet. Les prompts d’exemple suivants illustrent certaines des tâches que votre agent peut accomplir avec W&amp;B Skills :
 
-* &quot;Journalisez les métriques d’entraînement de mon modèle PyTorch dans W&amp;B.&quot;
-* &quot;Analysez les courbes de perte de mes 10 derniers runs et identifiez la configuration la plus performante.&quot;
-* &quot;Tracez mon agent LangChain et journalisez les résultats dans Weave.&quot;
-* &quot;Lancez une évaluation de mon agent à l’aide du jeu de données de test et résumez les résultats.&quot;
-* &quot;Identifiez les modes d’échec dans ma dernière évaluation et classez-les.&quot;
-* &quot;Comparez les configurations du run A et du run B et montrez-moi les différences.&quot;
+* &quot;Journalise les métriques d&#39;entraînement de mon modèle PyTorch dans W&amp;B.&quot;
+* &quot;Analyse les courbes de perte de mes 10 derniers runs et identifie la configuration la plus performante.&quot;
+* &quot;Trace mon agent LangChain et journalise les résultats dans Weave.&quot;
+* &quot;Exécute une évaluation sur mon agent à l&#39;aide du jeu de données de test et résume les résultats.&quot;
+* &quot;Trouve les modes de défaillance dans ma dernière évaluation et classe-les.&quot;
+* &quot;Compare les configurations du run A et du run B et montre-moi les différences.&quot;
 
 <div id="usage-tips">
   ## Conseils d’utilisation
 </div>
 
-Skills est plus performant lorsque vous utilisez des requêtes plus précises plutôt que des questions ouvertes trop générales. Le tableau suivant présente quelques exemples de prompts recommandés, par opposition à des prompts trop vagues.
+Skills fonctionne mieux lorsque vous utilisez des requêtes plus précises plutôt que des questions larges et ouvertes. Le tableau suivant présente quelques exemples de prompts recommandés, ainsi que des prompts trop vagues.
 
 | Recommandé                                                                    | Non recommandé                                   |
 | ----------------------------------------------------------------------------- | ------------------------------------------------ |
 | &quot;Quelle est la perte de validation finale de mes 5 derniers runs ?&quot; | &quot;Comment se comporte mon modèle ?&quot;     |
-| &quot;Résumez l’utilisation des tokens sur mes 10 dernières traces.&quot;     | &quot;Montrez-moi toutes mes traces.&quot;       |
-| &quot;Comparez les configurations du run A et du run B.&quot;                 | &quot;Quels sont mes meilleurs runs ?&quot;      |
+| &quot;Résume l’utilisation des tokens sur mes 10 dernières traces.&quot;      | &quot;Montre-moi toutes mes traces.&quot;        |
+| &quot;Compare les configurations du run A et du run B.&quot;                  | &quot;Quels sont mes meilleurs runs ?&quot;      |
 | &quot;Quelle évaluation avait le score F1 le plus élevé ?&quot;               | &quot;Comment se passent mes évaluations ?&quot; |

@@ -1,19 +1,19 @@
 ---
-title: "ログするとトレーニングがブロックされますか？"
+title: "logging によってトレーニングはブロックされますか？"
 keywords: ["Experiments", "ログ"]
 ---
 
-&quot;logging 関数は遅延的に動作しますか？ローカル操作の実行中に、結果をサーバーへ送信するためのネットワーク通信に依存したくありません。&quot;
+&quot;logging 関数は lazy ですか？ ローカルの処理を実行している間に、結果をサーバーに送信するためネットワークに依存したくありません。&quot;
 
-`wandb.log` 関数はローカル ファイルに 1 行を書き込み、ネットワーク通信でブロックされることはありません。`wandb.init` を呼び出すと、同じマシン上で新しいプロセスが開始されます。このプロセスはファイルシステムの変更を監視し、Web サービスと非同期に通信するため、ローカル操作を中断せずに継続できます。
+`wandb.log` 関数はローカルファイルに1行書き込み、ネットワーク通信をブロックしません。`wandb.init` を呼び出すと、同じマシン上で新しいプロセスが起動します。このプロセスはファイルシステムの変更を監視し、非同期でウェブサービスと通信するため、ローカルの処理は中断されることなく継続できます。
 
 ***
 
-{/* ---- 自動生成: タブ バッジ ----
-  front matter 内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[ログ](/ja/support/models/tags/logs)</Badge>
 
-{/* ---- 自動生成終了: タブ バッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

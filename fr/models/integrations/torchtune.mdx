@@ -7,10 +7,10 @@ import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/torchtune/torchtune_and_wandb.ipynb" />
 
-[torchtune](https://meta-pytorch.org/torchtune/stable/index.html) est une bibliothèque basée sur PyTorch conçue pour simplifier la création, le Fine-tuning et l’expérimentation pour les grands modèles de langage (LLM). De plus, torchtune inclut une prise en charge intégrée de la journalisation avec [W&amp;B](https://meta-pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), ce qui améliore le suivi et la visualisation des processus d’entraînement.
+[torchtune](https://meta-pytorch.org/torchtune/stable/index.html) est une bibliothèque basée sur PyTorch conçue pour simplifier le développement, le Fine-tuning et l’expérimentation pour les grands modèles de langage (LLM). De plus, torchtune intègre une prise en charge native du [logging avec W&amp;B](https://meta-pytorch.org/torchtune/stable/deep_dives/wandb_logging.html), ce qui améliore le suivi et la visualisation des processus d’entraînement.
 
 <Frame>
-  <img src="/images/integrations/torchtune_dashboard.png" alt="tableau de bord d’entraînement TorchTune" />
+  <img src="/images/integrations/torchtune_dashboard.png" alt="tableau de bord d’entraînement de TorchTune" />
 </Frame>
 
 Consultez l’article de blog de W&amp;B sur le [Fine-tuning de Mistral 7B avec torchtune](https://wandb.ai/capecape/torchtune-mistral/reports/torchtune-The-new-PyTorch-LLM-fine-tuning-library---Vmlldzo3NTUwNjM0).
@@ -21,7 +21,7 @@ Consultez l’article de blog de W&amp;B sur le [Fine-tuning de Mistral 7B avec 
 
 <Tabs>
   <Tab title="Ligne de commande">
-    Remplacez les arguments de la ligne de commande au lancement :
+    Redéfinissez les arguments de ligne de commande au lancement :
 
     ```bash
     tune run lora_finetune_single_device --config llama3/8B_lora_single_device \
@@ -45,12 +45,12 @@ Consultez l’article de blog de W&amp;B sur le [Fine-tuning de Mistral 7B avec 
 </Tabs>
 
 <div id="use-the-wb-metric-logger">
-  ## Utilisez le logger de métriques W&amp;B
+  ## Utiliser le logger de métriques W&amp;B
 </div>
 
-Activez la journalisation W&amp;B dans le fichier de configuration de la recette en modifiant la section `metric_logger`. Remplacez `_component_` par la classe `torchtune.utils.metric_logging.WandBLogger`. Vous pouvez également définir un nom de `project` et `log_every_n_steps` pour personnaliser le comportement de journalisation.
+Activez la journalisation W&amp;B dans le fichier de configuration de la recette en modifiant la section `metric_logger`. Remplacez `_component_` par la classe `torchtune.utils.metric_logging.WandBLogger`. Vous pouvez également fournir un nom de `project` ainsi que `log_every_n_steps` pour personnaliser le comportement de journalisation.
 
-Vous pouvez aussi transmettre n’importe quels autres `kwargs`, comme vous le feriez avec la méthode [wandb.init()](/fr/models/ref/python/functions/init). Par exemple, si vous travaillez au sein d’une équipe, vous pouvez transmettre l’argument `entity` à la classe `WandBLogger` pour spécifier le nom de l’équipe.
+Vous pouvez aussi transmettre n’importe quels autres `kwargs`, comme vous le feriez avec la méthode [wandb.init()](/fr/models/ref/python/functions/init). Par exemple, si vous travaillez au sein d’une équipe, vous pouvez passer l’argument `entity` à la classe `WandBLogger` pour indiquer le nom de l’équipe.
 
 <Tabs>
   <Tab title="Recette">
@@ -83,7 +83,7 @@ Vous pouvez aussi transmettre n’importe quels autres `kwargs`, comme vous le f
   ## Qu’est-ce qui est enregistré ?
 </div>
 
-Vous pouvez explorer le tableau de bord W&amp;B pour voir les métriques enregistrées. Par défaut, W&amp;B enregistre tous les hyperparamètres du fichier de configuration ainsi que les remplacements définis au lancement.
+Vous pouvez explorer le tableau de bord W&amp;B pour consulter les métriques enregistrées. Par défaut, W&amp;B enregistre tous les hyperparamètres du fichier de configuration ainsi que les paramètres remplacés au lancement.
 
 W&amp;B capture la configuration résolue dans l’onglet **Aperçu**. W&amp;B stocke également la configuration au format YAML dans l’[onglet Files](https://wandb.ai/capecape/torchtune/runs/joyknwwa/files).
 
@@ -95,21 +95,21 @@ W&amp;B capture la configuration résolue dans l’onglet **Aperçu**. W&amp;B s
   ### Métriques enregistrées
 </div>
 
-Chaque recette possède sa propre boucle d&#39;entraînement. Consultez chaque recette pour voir les métriques enregistrées, qui incluent par défaut les suivantes :
+Chaque recette a sa propre boucle d’entraînement. Consultez chaque recette pour voir ses métriques enregistrées, qui incluent par défaut les suivantes :
 
-| Métrique            | Description                                                                                                                                                                                                                                                                                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `loss`              | La perte du modèle                                                                                                                                                                                                                                                                                                                                     |
-| `lr`                | Le taux d&#39;apprentissage                                                                                                                                                                                                                                                                                                                            |
-| `tokens_per_second` | Le nombre de tokens par seconde du modèle                                                                                                                                                                                                                                                                                                              |
-| `grad_norm`         | La norme du gradient du modèle                                                                                                                                                                                                                                                                                                                         |
-| `global_step`       | Correspond à l&#39;étape actuelle de la boucle d&#39;entraînement. Tient compte de l&#39;accumulation de gradients : en pratique, chaque fois qu&#39;une étape de l&#39;optimiseur est effectuée, le modèle est mis à jour, les gradients s&#39;accumulent, et le modèle n&#39;est mis à jour qu&#39;une fois toutes les `gradient_accumulation_steps` |
+| Metric              | Description                                                                                                                                                                                                                                                           |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `loss`              | La perte du modèle                                                                                                                                                                                                                                                    |
+| `lr`                | Le taux d’apprentissage                                                                                                                                                                                                                                               |
+| `tokens_per_second` | Le nombre de tokens par seconde du modèle                                                                                                                                                                                                                             |
+| `grad_norm`         | La norme du gradient du modèle                                                                                                                                                                                                                                        |
+| `global_step`       | Correspond à l’étape actuelle dans la boucle d’entraînement. Tient compte de l’accumulation des gradients : en pratique, `global_step` est incrémenté à chaque pas de l’optimiseur, et le modèle n’est mis à jour qu’une fois tous les `gradient_accumulation_steps`. |
 
 <Note>
-  `global_step` n&#39;est pas identique au nombre d&#39;étapes d&#39;entraînement. Il correspond à l&#39;étape actuelle de la boucle d&#39;entraînement. Tient compte de l&#39;accumulation de gradients : en pratique, chaque fois qu&#39;une étape de l&#39;optimiseur est effectuée, le `global_step` est incrémenté de 1. Par exemple, si le chargeur de données comporte 10 lots, que le nombre d&#39;étapes d&#39;accumulation de gradients est de 2 et que l&#39;entraînement s&#39;exécute pendant 3 époques, l&#39;optimiseur effectuera 15 étapes ; dans ce cas, `global_step` ira de 1 à 15.
+  `global_step` n’est pas identique au nombre d’étapes d’entraînement. Il correspond à l’étape actuelle dans la boucle d’entraînement. Il tient compte de l’accumulation des gradients : en pratique, chaque fois qu’un pas de l’optimiseur est effectué, `global_step` est incrémenté de 1. Par exemple, si le dataloader contient 10 lots, que le nombre d’étapes d’accumulation des gradients est de 2 et que l’entraînement s’exécute pendant 3 époques, l’optimiseur effectuera 15 pas ; dans ce cas, `global_step` ira de 1 à 15.
 </Note>
 
-La conception épurée de torchtune permet d&#39;ajouter facilement des métriques personnalisées ou de modifier les métriques existantes. Il suffit de modifier le [fichier de recette](https://github.com/meta-pytorch/torchtune/tree/main/recipes) correspondant. Par exemple, on pourrait enregistrer `current_epoch` comme pourcentage du nombre total d&#39;époques, comme suit :
+La conception épurée de torchtune permet d’ajouter facilement des métriques personnalisées ou de modifier les métriques existantes. Il suffit de modifier le [fichier de recette](https://github.com/meta-pytorch/torchtune/tree/main/recipes) correspondant. Par exemple, vous pouvez enregistrer `current_epoch` comme pourcentage du nombre total d’époques, comme suit :
 
 ```python
 # dans la fonction `train.py` du fichier de recette
@@ -120,18 +120,18 @@ self._metric_logger.log_dict(
 ```
 
 <Note>
-  Cette bibliothèque évolue rapidement, et les métriques actuelles sont donc susceptibles de changer. Si vous souhaitez ajouter une métrique personnalisée, vous devez modifier la recette et appeler la fonction `self._metric_logger.*` correspondante.
+  Cette bibliothèque évolue rapidement, et les métriques actuelles peuvent changer. Si vous souhaitez ajouter une métrique personnalisée, vous devez modifier la recette et appeler la fonction correspondante de `self._metric_logger.*`.
 </Note>
 
 <div id="save-and-load-checkpoints">
   ## Enregistrer et charger des points de contrôle
 </div>
 
-La bibliothèque torchtune prend en charge différents [formats de points de contrôle](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Selon l’origine du modèle que vous utilisez, vous devez utiliser la [classe checkpointer](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html) appropriée.
+La bibliothèque torchtune prend en charge différents [formats de point de contrôle](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html). Selon l’origine du modèle que vous utilisez, vous devez utiliser la [classe de checkpointer](https://meta-pytorch.org/torchtune/stable/deep_dives/checkpointer.html) appropriée.
 
-Si vous souhaitez enregistrer les points de contrôle du modèle dans les [W&amp;B Artifacts](/fr/models/artifacts/), la solution la plus simple consiste à redéfinir la fonction `save_checkpoint` dans la recette correspondante.
+Si vous souhaitez enregistrer les points de contrôle du modèle dans les [W&amp;B Artifacts](/fr/models/artifacts/), la solution la plus simple consiste à surcharger les fonctions `save_checkpoint` dans la recette correspondante.
 
-Voici un exemple montrant comment redéfinir la fonction `save_checkpoint` afin d’enregistrer les points de contrôle du modèle dans W&amp;B Artifacts.
+Voici un exemple montrant comment surcharger la fonction `save_checkpoint` pour enregistrer les points de contrôle du modèle dans W&amp;B Artifacts.
 
 ```python
 def save_checkpoint(self, epoch: int) -> None:
@@ -146,7 +146,7 @@ def save_checkpoint(self, epoch: int) -> None:
         name=f"torchtune_model_{epoch}",
         type="model",
         # description du point de contrôle du modèle
-        description="Point de contrôle du modèle",
+        description="Model checkpoint",
         # vous pouvez ajouter toutes les métadonnées souhaitées sous forme de dict
         metadata={
             utils.SEED_KEY: self.seed,

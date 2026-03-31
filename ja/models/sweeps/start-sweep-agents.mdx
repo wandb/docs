@@ -1,93 +1,93 @@
 ---
-description: 1 台以上のマシンで W&B Sweep Agent を起動または停止します。
-title: sweep エージェントを開始する
+description: 1 台以上のマシンで 1 つ以上の W&B Sweep Agent を起動または停止します。
+title: sweep エージェントを起動する
 ---
 
-1 台以上のマシンで 1 つ以上のエージェントを実行して sweep を開始します。Sweep エージェントは、[sweep を初期化](/ja/models/sweeps/initialize-sweeps)するときに定義した sweep 設定を使用して、さまざまなハイパーパラメーターの組み合わせを探索します。W&amp;B は、sweep エージェントが試すそれぞれのハイパーパラメーターの組み合わせごとに新しい run を作成します。
+1 台以上のマシン上の 1 つ以上のエージェントで sweep を開始します。sweep エージェントは、[sweep を初期化](/ja/models/sweeps/initialize-sweeps)した際に定義した sweep 設定を使用して、さまざまなハイパーパラメーターの組み合わせを探索します。W&amp;B は、sweep エージェントが試行するハイパーパラメーターの組み合わせごとに、新しい run を作成します。
 
-sweep を一時停止、再開、停止、またはキャンセルする方法については、[Manage sweeps](/ja/models/sweeps/pause-resume-and-cancel-sweeps) を参照してください。
+sweep の一時停止、再開、停止、キャンセルの方法については、[sweep を管理する](/ja/models/sweeps/pause-resume-and-cancel-sweeps)を参照してください。
 
 <Note>
-  続行する前に、次の点を確認してください。
+  続行する前に、次のことを確認してください。
 
-  * トレーニング スクリプトを設定して、W&amp;B でハイパーパラメーターの組み合わせを作成および追跡できるようにします。詳しくは、[W&amp;B をコードに追加する](./add-w-and-b-to-your-code#training-script-with-w%26b-python-sdk) を参照してください。
-  * sweep 用の [設定ファイル](./define-sweep-configuration) が定義されていること。
+  * トレーニングスクリプトを設定し、W&amp;B でハイパーパラメーターの組み合わせを作成してトラッキングするようにします。詳細は、[コードに W&amp;B を追加する](./add-w-and-b-to-your-code#training-script-with-w%26b-python-sdk)を参照してください。
+  * sweep 用の[設定ファイル](./define-sweep-configuration)が定義されていること。
 </Note>
 
-次のコード スニペットは、CLI と Jupyter Notebook または Python スクリプト内でエージェントを開始する方法を示しています。どちらの方法でも、sweep を初期化したときに W&amp;B が返す sweep ID を指定します。sweep ID の形式は次のとおりです。
+以下のコードスニペットは、CLI、Jupyter Notebook、または Python スクリプト内でエージェントを起動する方法を示しています。どちらの方法でも、sweep を初期化したときに W&amp;B が返す sweep ID を指定します。sweep ID の形式は次のとおりです。
 
 ```bash
 entity/project/sweep_ID
 ```
 
-ここでは次のように指定します:
+各項目の意味は次のとおりです。
 
 * `entity`: あなたの W&amp;B ユーザー名またはチーム名。
-* `project`: W&amp;B が run の出力を保存するプロジェクト名。プロジェクトが指定されていない場合、W&amp;B は run を &quot;Uncategorized&quot; というプロジェクトに配置します。
-* `sweep_ID`: W&amp;B によって生成される疑似ランダムな一意の ID。
+* `project`: W&amp;B が run の出力を保存するプロジェクト名です。プロジェクトを指定しない場合、W&amp;B は run を &quot;Uncategorized&quot; という名前のプロジェクトに保存します。
+* `sweep_ID`: W&amp;B が生成する疑似乱数の一意の ID です。
 
 <Tabs>
   <Tab title="CLI">
-    `wandb agent` コマンドを使って sweep を開始します。sweep を初期化したときに W&amp;B が返した sweep ID を指定します。
+    sweep を開始するには、`wandb agent` コマンドを使用します。sweep の初期化時に W&amp;B から返された sweep ID を指定してください。
 
-    以下のコードスニペットをコピー＆ペーストし、`sweep_id` を自分の sweep ID に置き換えてください:
+    以下のコードスニペットをコピー＆ペーストし、`sweep_id` を自分の sweep ID に置き換えてください。
 
     ```bash
     wandb agent sweep_id
     ```
 
-    エージェントを中断したとき (たとえば Ctrl+C) に正常にシャットダウンするには、`wandb agent --forward-signals sweep_id` を使用して、現在の run がシグナルを受け取り正常にシャットダウンできるようにします。詳細は [Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
+    エージェントを中断したとき (たとえば Ctrl+C) に正常にシャットダウンするには、`wandb agent --forward-signals sweep_id` を使用します。これにより、現在の run がシグナルを受け取り、正常に終了できます。詳しくは、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
   </Tab>
 
   <Tab title="Python script or notebook">
-    [`wandb.agent()`](/ja/models/ref/python/functions/agent) を使って sweep を開始します。sweep を初期化したときに W&amp;B が返した sweep ID と、トレーニングスクリプトへのエントリーポイントとなる関数名を指定します。
+    sweep を開始するには、[`wandb.agent()`](/ja/models/ref/python/functions/agent) を使用します。sweep の初期化時に W&amp;B から返された sweep ID と、トレーニングスクリプトのエントリポイントとなる関数名を指定してください。
 
-    以下のコードスニペットをコピー＆ペーストし、`<sweep_id>` を自分の sweep ID に、`<function_name>` を自分のトレーニング関数名に置き換えてください:
+    以下のコードスニペットをコピー＆ペーストし、`<sweep_id>` を自分の sweep ID に、`<function_name>` をトレーニング関数の名前に置き換えてください。
 
     ```python
     wandb.agent(sweep_id="<sweep_id>", function="<function_name>")
     ```
 
-    エージェントからトレーニング run へのシグナル転送は、CLI (`wandb agent --forward-signals`) を使用する場合にのみサポートされます。Python の `wandb.agent()` では、トレーニング関数が子プロセスではなくスレッドで実行されるため、サポートされていません。詳細は [Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
+    エージェントからトレーニング run へのシグナル転送は、CLI (`wandb agent --forward-signals`) を使用する場合にのみサポートされます。Python の `wandb.agent()` では、トレーニング関数は子プロセスではなくスレッド内で実行されるため、サポートされません。詳しくは、[Signal handling and sweep runs](/ja/models/sweeps/signal-handling-sweep-runs) を参照してください。
 
-    この方法を使う場合のトレーニングスクリプトのセットアップ例については、「Add W&amp;B to your code」の [Python script or notebook タブ](/ja/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) を参照してください。
+    この方法を使用する場合のトレーニングスクリプトの設定例については、Add W&amp;B to your code の [Python script or notebook tab](/ja/models/sweeps/add-w-and-b-to-your-code#python-script-or-notebook) を参照してください。
 
     <Warning>
-      **Multiprocessing**
+      **マルチプロセッシング**
 
-      Python 標準ライブラリの `multiprocessing` や PyTorch の `pytorch.multiprocessing` パッケージを使用する場合は、`wandb.agent()` および `wandb.sweep()` の呼び出しを `if __name__ == '__main__':` で囲む必要があります。例えば次のようになります:
+      Python 標準ライブラリの `multiprocessing` または PyTorch の `pytorch.multiprocessing` パッケージを使用する場合は、`wandb.agent()` と `wandb.sweep()` の呼び出しを `if __name__ == '__main__':` でラップする必要があります。例:
 
       ```python
       if __name__ == '__main__':
           wandb.agent(sweep_id="<sweep_id>", function="<function>", count="<count>")
       ```
 
-      この形式でコードをラップすると、スクリプトがワーカープロセスでモジュールとしてインポートされたときではなく、スクリプトが直接実行されたときにのみコードが実行されるようになります。
+      この規約でコードをラップすると、スクリプトが直接実行されたときにのみコードが実行され、ワーカープロセス内でモジュールとして import されたときには実行されないことが保証されます。
 
-      multiprocessing についての詳細は [Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) または [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。`if __name__ == '__main__':` という慣習については https://realpython.com/if-name-main-python/ を参照してください。
+      マルチプロセッシングの詳細については、[Python standard library `multiprocessing`](https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods) または [PyTorch `multiprocessing`](https://docs.pytorch.org/docs/stable/notes/multiprocessing.html#asynchronous-multiprocess-training-e-g-hogwild) を参照してください。`if __name__ == '__main__':` 規約については https://realpython.com/if-name-main-python/ を参照してください。
     </Warning>
   </Tab>
 </Tabs>
 
 <div id="limit-the-number-of-runs-a-sweep-agent-tries">
-  ### sweep エージェントが試行する run 数を制限する
+  ### sweep エージェント が試行する run 数を制限する
 </div>
 
 <Warning>
-  ランダム探索とベイズ探索は、停止しない限り実行され続けます。コマンドライン、Python スクリプト内、または [Sweeps UI](./visualize-sweep-results) からプロセスを停止する必要があります。
+  ランダム探索とベイズ探索は停止するまで実行され続けます。コマンドライン、Python スクリプト内、または [Sweeps UI](./visualize-sweep-results) からプロセスを停止する必要があります。
 </Warning>
 
-sweep エージェントが試行する run の数を指定します。次のコードスニペットは、CLI と Jupyter Notebook や Python スクリプト内で、最大 [W&amp;B Runs](/ja/models/ref/python/experiments/run) 数を設定する方法を示します。
+sweep エージェント が試行する run 数を指定します。以下のコードスニペットは、CLI、Jupyter Notebook、Python スクリプトで [W&amp;B Runs](/ja/models/ref/python/experiments/run) の最大数を設定する方法を示しています。
 
 <Tabs>
   <Tab title="CLI">
-    まず、[`wandb sweep`](/ja/models/ref/cli/wandb-sweep) コマンドで sweep を初期化します。詳細については、[sweep を初期化する](./initialize-sweeps) を参照してください。
+    まず、[`wandb sweep`](/ja/models/ref/cli/wandb-sweep) コマンドで sweep を初期化します。詳細は [Initialize sweeps](./initialize-sweeps) を参照してください。
 
     ```
     wandb sweep config.yaml
     ```
 
-    次に、`count` フラグに整数値を渡して、試行する run の最大数を設定します。
+    次に、count フラグに整数値を渡して、試行する run の最大数を設定します。
 
     ```python
     NUM=10
@@ -97,13 +97,13 @@ sweep エージェントが試行する run の数を指定します。次のコ
   </Tab>
 
   <Tab title="Python script or notebook">
-    まず、sweep を初期化します。詳細については、[sweep を初期化する](./initialize-sweeps) を参照してください。
+    まず、sweep を初期化します。詳細は [Initialize sweeps](./initialize-sweeps) を参照してください。
 
     ```
     sweep_id = wandb.sweep(sweep_config)
     ```
 
-    次に、sweep ジョブを開始します。sweep の開始時に生成された sweep ID を指定します。`count` パラメーターに整数値を渡して、試行する run の最大数を設定します。
+    次に、sweep ジョブを開始します。sweep の初期化時に生成された sweep ID を指定します。count パラメーターに整数値を渡して、試行する run の最大数を設定します。
 
     ```python
     sweep_id, count = "dtzl1o7u", 10
@@ -111,7 +111,7 @@ sweep エージェントが試行する run の数を指定します。次のコ
     ```
 
     <Warning>
-      同じスクリプトまたは notebook 内で、sweep エージェントが終了した後に新しい run を開始する場合は、新しい run を開始する前に `wandb.teardown()` を呼び出す必要があります。
+      sweep エージェント の完了後に、同じスクリプトまたはノートブック内で新しい run を開始する場合は、その前に `wandb.teardown()` を呼び出してください。
     </Warning>
   </Tab>
 </Tabs>

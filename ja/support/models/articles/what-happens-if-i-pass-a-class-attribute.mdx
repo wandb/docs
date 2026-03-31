@@ -1,17 +1,17 @@
 ---
-title: "wandb.Run.log() にクラス属性を渡すとどうなりますか？"
+title: "クラス属性を wandb.Run.log() に渡すとどうなりますか？"
 keywords: ["Experiments"]
 ---
 
-`wandb.Run.log()` にクラス属性を渡さないでください。ネットワーク呼び出しが実行される前に、属性の値が変わる可能性があります。メトリクスをクラス属性として保存する場合は、`wandb.Run.log()` の呼び出し時点の属性値とログされるメトリクスが一致するよう、ディープコピーを使用してください。
+クラス属性を `wandb.Run.log()` に渡すのは避けてください。ネットワーク call が実行される前に、属性が変更される可能性があります。メトリクスをクラス属性として保存する場合は、`wandb.Run.log()` の call 時点での属性の値とログされたメトリクスが一致するよう、ディープコピーを使用してください。
 
 ***
 
 {/* ---- 自動生成: タブバッジ ----
-  フロントマター内のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されます。
-  このマーカーの間は手動で編集しないでください。
+  フロントマターのキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 
-{/* ---- 自動生成ここまで: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

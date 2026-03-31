@@ -20,18 +20,18 @@ histogram(
 ) → CustomChart
 ```
 
-Construit un graphique d&#39;histogramme à partir d&#39;un tableau W&amp;B.
+Construit un histogramme à partir d&#39;un tableau W&amp;B.
 
 **Arguments :**
 
 * `table`:  Le tableau W&amp;B contenant les données de l&#39;histogramme.
-* `value`:  Le libellé de l&#39;axe des classes (axe x).
-* `title`:  Le titre du graphique d&#39;histogramme.
+* `value`:  Le libellé de l&#39;axe des classes (x-axis).
+* `title`:  Le titre de l&#39;histogramme.
 * `split_table`:  Indique si le tableau doit être placé dans une section distincte de l&#39;interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée  &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 
 **Retourne :**
 
-* `CustomChart`:  Un objet de graphique personnalisé pouvant être enregistré dans W&amp;B. Pour enregistrer le  graphique, transmettez-le à `wandb.log()`.
+* `CustomChart`:  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le  graphique, transmettez-le à `wandb.log()`.
 
 **Exemple :**
 

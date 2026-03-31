@@ -1,9 +1,9 @@
 ---
-title: "一部のメトリクスはバッチごとに、別のメトリクスはエポックごとにのみログしたい場合はどうすればよいですか？"
+title: "バッチごとに一部のメトリクスをログし、他のメトリクスはエポックごとにのみログしたい場合はどうすればよいですか？"
 keywords: ["Experiments", "メトリクス"]
 ---
 
-各バッチで特定のメトリクスをログし、プロットを統一するには、目的の x 軸の値もメトリクスと一緒にログします。カスタム プロットでは、[編集] をクリックしてカスタム x 軸を選択します。
+各バッチで特定のメトリクスをログし、プロットを統一するには、必要な x-axis の値もメトリクスとあわせてログします。カスタムプロットで Edit をクリックし、カスタムの x-axis を選択します。
 
 ```python
 import wandb
@@ -15,11 +15,11 @@ with wandb.init() as run:
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter 内のキーワードに基づいて scripts/knowledgebase-nav/generate_tags.py により管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマターの keywords をもとに、scripts/knowledgebase-nav/generate_tags.py によって生成されます。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge><Badge stroke shape="pill" color="orange" size="md">[メトリクス](/ja/support/models/tags/metrics)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

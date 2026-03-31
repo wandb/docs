@@ -1,6 +1,6 @@
 ---
 title: "DSPy"
-description: "Utilisez Weave pour suivre et journaliser automatiquement les appels effectués à l’aide des modules et fonctions DSPy"
+description: "Utilisez Weave pour suivre et consigner automatiquement les appels effectués avec les modules et fonctions DSPy"
 ---
 
 import { ColabLink } from '/snippets/fr/_includes/colab-link.mdx';
@@ -12,16 +12,16 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
   <GitHubLink url="https://github.com/wandb/examples/blob/master/weave/docs/quickstart_dspy.ipynb" />
 </div>
 
-[DSPy](https://dspy.ai) est un framework permettant d’optimiser algorithmiquement les prompts et les pondérations des LM, en particulier lorsque les LM sont utilisés une ou plusieurs fois dans un pipeline. Weave suit automatiquement les appels effectués à l’aide des modules et fonctions DSPy et les journalise.
+[DSPy](https://dspy.ai) est un framework permettant d’optimiser algorithmiquement les prompts et les poids des LM, en particulier lorsque les LM sont utilisés une ou plusieurs fois dans un pipeline. Weave suit et journalise automatiquement les appels effectués à l’aide des modules et fonctions DSPy.
 
 
 <div id="tracing">
   ## Tracing
 </div>
 
-Il est important de stocker les traces des applications basées sur des modèles de langage dans un emplacement central, aussi bien pendant le développement qu’en production. Ces traces peuvent être utiles pour le débogage et servir de jeu de données pour vous aider à améliorer votre application.
+Il est important de stocker les traces des applications basées sur des modèles de langage dans un emplacement centralisé, à la fois pendant le développement et en Production. Ces traces peuvent être utiles pour le débogage, et constituer un jeu de données qui vous aidera à améliorer votre application.
 
-Weave capturera automatiquement les traces pour [DSPy](https://dspy.ai). Pour commencer le suivi, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")`, puis utilisez la bibliothèque normalement.
+Weave capturera automatiquement les traces de [DSPy](https://dspy.ai). Pour commencer à suivre, appelez `weave.init(project_name="<YOUR-WANDB-PROJECT-NAME>")` et utilisez la bibliothèque normalement.
 
 ```python lines
 import os
@@ -40,14 +40,14 @@ classify(sentence="it's a charming and often affecting journey.")
 
 [![dspy\_trace.png](/weave/guides/integrations/imgs/dspy/dspy_trace.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
-Weave journalise tous les appels au LM dans votre programme DSPy et fournit des détails sur les entrées, les sorties et les métadonnées.
+Weave enregistre tous les appels au modèle de langage dans votre programme DSPy, avec des détails sur les entrées, les sorties et les métadonnées.
 
 
 <div id="track-your-own-dspy-modules-and-signatures">
   ## Suivez vos propres modules et signatures DSPy
 </div>
 
-Un `Module` est l’élément de base d’un programme DSPy, doté de paramètres apprenables, qui encapsule une technique de prompting. Une `Signature` est une spécification déclarative du comportement d’entrée/sortie d’un module DSPy. Weave suit automatiquement toutes les `Signatures` et tous les `Modules` intégrés et personnalisés dans vos programmes DSPy.
+Un `Module` est l’élément de base des programmes DSPy : il contient des paramètres apprenables et encapsule une technique de prompting. Une `Signature` est une spécification déclarative du comportement d’entrée/sortie d’un module DSPy. Weave suit automatiquement toutes les `Signatures` et tous les `Modules` intégrés et personnalisés dans vos programmes DSPy.
 
 ```python lines
 import os
@@ -104,14 +104,14 @@ draft_article = DraftArticle()
 article = draft_article(topic="World Cup 2002")
 ```
 
-[![trace d’un module DSPy personnalisé dans Weave avec le flux d’exécution du module et les détails de la trace](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![Trace d’un module DSPy personnalisé dans Weave avec le flux d’exécution du module et les détails de la trace](/weave/guides/integrations/imgs/dspy/dspy_custom_module.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
 
 
 <div id="optimization-and-evaluation-of-your-dspy-program">
   ## Optimisation et évaluation de votre programme DSPy
 </div>
 
-Weave capture également automatiquement des traces pour les optimiseurs DSPy et les appels d’Évaluation, que vous pouvez utiliser pour améliorer et évaluer les performances de votre programme DSPy sur un jeu de développement.
+Weave capture aussi automatiquement les traces des optimiseurs DSPy et des appels d’Évaluation, que vous pouvez utiliser pour améliorer et évaluer les performances de votre programme DSPy sur un jeu de développement.
 
 ```python lines
 import os
@@ -132,4 +132,4 @@ optimized_module = optimizer.compile(
 )
 ```
 
-[![trace de l’optimiseur DSPy dans Weave avec le processus d’optimisation et des améliorations de performances](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)
+[![Trace de l’optimiseur DSPy dans Weave, avec le processus d’optimisation et les améliorations des performances](/weave/guides/integrations/imgs/dspy/dspy_optimizer.png)](https://wandb.ai/geekyrakshit/dspy-project/weave/calls)

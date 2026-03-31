@@ -20,32 +20,32 @@ wandb sync [PATH] [OPTIONS]
   ## 引数
 </div>
 
-| 引数 | 説明 | 必須 |
-| :--- | :--- | :--- |
+| 引数     | 説明       | 必須  |
+| :----- | :------- | :-- |
 | `PATH` | 説明はありません | いいえ |
 
 <div id="options">
   ## オプション
 </div>
 
-| オプション | 説明 |
-| :--- | :--- |
-| `--id` | アップロード先の run。 |
-| `--project`, `-p` | アップロード先のプロジェクト。 |
-| `--entity`, `-e` | 対象とする entity。 |
-| `--job_type` | 関連する run をまとめるための run の種類を指定します。 |
-| `--sync-tensorboard` | tfevent ファイルを wandb にストリーミングします。 |
-| `--include-globs` | 含める glob パターンをカンマ区切りで指定します。 |
-| `--exclude-globs` | 除外する glob パターンをカンマ区切りで指定します。 |
-| `--include-online` | オンライン run を含めます。 |
-| `--include-offline` | オフライン run を含めます。 |
-| `--include-synced` | 同期済みの run を含めます。 |
-| `--mark-synced` | run を同期済みとしてマークします (デフォルト: True)。 |
-| `--sync-all` | すべての run を同期します (デフォルト: False)。 |
-| `--clean` | 同期済みの run を削除します (デフォルト: False)。 |
-| `--clean-old-hours` | 指定した時間より前に作成された run を削除します。`--clean` フラグと併用します (デフォルト: 24)。 |
-| `--clean-force` | 確認プロンプトなしで削除します (デフォルト: False)。 |
-| `--show` | 表示する run の数 (デフォルト: 5)。 |
-| `--append` | run に追記します (デフォルト: False)。 |
-| `--skip-console` | コンソールログをスキップします (デフォルト: False)。 |
-| `--replace-tags` | 'old_tag1=new_tag1,old_tag2=new_tag2' の形式でタグを置き換えます。 |
+| オプション                | 説明                                                               |
+| :------------------- | :--------------------------------------------------------------- |
+| `--id`               | アップロード先の run。                                                    |
+| `--project`, `-p`    | アップロード先のプロジェクト。                                                  |
+| `--entity`, `-e`     | 対象の entity。                                                      |
+| `--job_type`         | 関連する run をまとめるための run のタイプを指定します。                                |
+| `--sync-tensorboard` | tfevent ファイルを wandb にストリーミングします。                                 |
+| `--include-globs`    | 含める glob のカンマ区切りリスト。                                             |
+| `--exclude-globs`    | 除外する glob のカンマ区切りリスト。                                            |
+| `--include-online`   | オンラインの run を含めます                                                 |
+| `--include-offline`  | オフラインの run を含めます                                                 |
+| `--include-synced`   | 同期済みの run を含めます                                                  |
+| `--mark-synced`      | run を同期済みとしてマークします (デフォルト: True)                                 |
+| `--sync-all`         | すべての run を同期します (デフォルト: False)                                   |
+| `--clean`            | 同期済みの run を削除します (デフォルト: False)                                  |
+| `--clean-old-hours`  | 指定した時間数より前に作成された run を削除します。`--clean` フラグと併用してください。 (デフォルト: 24)  |
+| `--clean-force`      | 確認プロンプトなしでクリーンアップします。 (デフォルト: False)                             |
+| `--show`             | 表示する run 数 (デフォルト: 5)                                            |
+| `--append`           | run を追加します (デフォルト: False)                                        |
+| `--skip-console`     | コンソールログをスキップします (デフォルト: False)                                   |
+| `--replace-tags`     | `'old_tag1=new_tag1,old_tag2=new_tag2'` の形式でタグを置き換えます            |

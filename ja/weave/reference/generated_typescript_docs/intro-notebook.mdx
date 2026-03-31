@@ -3,26 +3,26 @@ title: イントロノートブック
 ---
 
 <div id="weave-with-typescript-quickstart-guide">
-  # TypeScript で使う Weave クイックスタートガイド
+  # TypeScript で始める Weave クイックスタートガイド
 </div>
 
-W&amp;B Weave を TypeScript で使用すると、次のことができます。
+TypeScript で W&amp;B Weave を使用すると、次のことができます。
 
-* 言語モデルの入力・出力およびトレースを記録してデバッグする
-* 言語モデルのユースケースに対して、公平かつ厳密な評価を構築する
-* 実験から評価、本番運用まで、LLM ワークフロー全体で生成されるあらゆる情報を整理する
+* 言語モデルの入力、出力、トレースをログし、デバッグする
+* 言語モデルのユースケース向けに、厳密で同一条件の評価を構築する
+* 実験から評価、本番まで、LLM ワークフロー全体で生成されるあらゆる情報を整理する
 
-詳細については、[Weave ドキュメント](/ja/) を参照してください。
+詳細は、[Weave ドキュメント](/ja/)を参照してください。
 
 <div id="function-tracking">
   ## 関数のトラッキング
 </div>
 
-TypeScript コードで Weave を使うには、新しい Weave プロジェクトを初期化し、トラッキングしたい関数に `weave.op` ラッパーを追加します。
+TypeScriptコードでWeaveを使用するには、新しいWeaveプロジェクトを初期化し、トラッキングしたい関数に `weave.op` ラッパーを追加します。
 
-`weave.op` を追加して関数を呼び出したら、W&amp;B ダッシュボードにアクセスして、プロジェクト内でどのようにトラッキングされているかを確認します。
+`weave.op` を追加して関数を呼び出したら、W&amp;Bダッシュボードを開き、プロジェクト内でその関数がトラッキングされていることを確認します。
 
-コードは自動的にトラッキングされます。UI の Code タブを確認してください。
+コードは自動的にトラッキングされます。UI のコードタブを確認してください！
 
 ```typescript lines
 async function initializeWeaveProject() {
@@ -37,7 +37,7 @@ const stripUserInput = weave.op(function stripUserInput(userInput: string): stri
 });
 ```
 
-次の例では、基本的な関数トラッキングの仕組みを示します。
+次の例は、基本的な関数トラッキングの仕組みを示しています。
 
 ```typescript lines
 async function demonstrateBasicTracking() {
@@ -47,18 +47,18 @@ async function demonstrateBasicTracking() {
 ```
 
 <div id="openai-integration">
-  ## OpenAI とのインテグレーション
+  ## OpenAI インテグレーション
 </div>
 
-Weave は、すべての OpenAI 呼び出しを自動的に追跡し、次の情報を記録します。
+Weave は、以下を含む OpenAI のすべての呼び出しを自動的にトラッキングします。
 
 * トークン使用量
 * API コスト
-* リクエストとレスポンスのペア
+* リクエスト/レスポンスのペア
 * モデル設定
 
 <Note>
-  OpenAI に加えて、Weave は Anthropic や Mistral など他の LLM プロバイダーの自動ロギングにも対応しています。対応プロバイダーの一覧は [Integrations ドキュメントの LLM Providers](../../guides/integrations#llm-providers) を参照してください。
+  Weave は OpenAI に加えて、Anthropic や Mistral など、他の LLM プロバイダの自動ログ記録もサポートしています。一覧は、[インテグレーションのドキュメントの LLM Providers](../../guides/integrations#llm-providers) を参照してください。
 </Note>
 
 ```typescript lines
@@ -81,14 +81,15 @@ async function demonstrateOpenAITracking() {
 ```
 
 <div id="nested-function-tracking">
-  ## ネストされた関数のトラッキング
+  ## ネストした関数のトラッキング
 </div>
 
-Weave では、複数のトラッキング対象の関数や LLM 呼び出しを組み合わせて、複雑なワークフローを追跡しつつ、実行トレース全体を保持できます。これにより、次のような利点があります。
+Weave では、複数のトラッキング対象の関数
+と LLM 呼び出しを組み合わせることで、実行トレース全体を保持したまま複雑なワークフローをトラッキングできます。主な利点は次のとおりです。
 
-* アプリケーションのロジックフローを完全に把握できる
-* 複雑な処理チェーンのデバッグが容易になる
-* パフォーマンス最適化の余地を見つけやすくなる
+* アプリケーションのロジックフローを完全に可視化できる
+* 複雑な一連の処理を簡単にデバッグできる
+* パフォーマンス最適化の機会が得られる
 
 ```typescript lines
 async function demonstrateNestedTracking() {
@@ -119,12 +120,12 @@ async function demonstrateNestedTracking() {
   ## データセット管理
 </div>
 
-[`weave.Dataset`](/ja/weave/guides/core-types/datasets) クラスを使うことで、Weave でデータセットを作成して管理できます。[Weave `Models`](/ja/weave/guides/core-types/models) と同様に、`weave.Dataset` は次のことに役立ちます。
+[`weave.Dataset`](/ja/weave/guides/core-types/datasets) クラスを使うと、Weave でデータセットを作成・管理できます。[Weave `Models`](/ja/weave/guides/core-types/models) と同様に、`weave.Dataset` は次のような用途に役立ちます。
 
-* データの追跡とバージョン管理
-* テストケースの整理
-* チームメンバー間でのデータセット共有
-* 体系的な評価の実行
+* データをトラッキングし、バージョン管理する
+* テストケースを整理する
+* チームメンバー間でデータセットを共有する
+* 体系的な評価を行う
 
 ```typescript lines
 interface GrammarExample {
@@ -159,14 +160,14 @@ function createGrammarDataset(): weave.Dataset<GrammarExample> {
   ## 評価フレームワーク
 </div>
 
-Weave は、[`Evaluation` クラス](/ja/weave/guides/core-types/evaluations) を用いた評価駆動開発をサポートします。この `Evaluation` クラスは、GenAI アプリケーションを着実に改善していくのに役立ちます。`Evaluation` クラスは次のことを行います。
+Weave は、[`Evaluation` クラス](/ja/weave/guides/core-types/evaluations) を使って評価駆動開発をサポートします。評価を行うことで、GenAI アプリケーションを確実に反復改善できます。`Evaluation` クラスでは、次のことができます。
 
-* `Dataset` 上で `Model` の性能を評価する
-* カスタムスコアリング関数を適用する
-* 詳細な性能レポートを生成する
-* モデル バージョン間の比較を可能にする
+* `Dataset` に対する `Model` のパフォーマンスを評価する
+* カスタムのスコアリング関数を適用する
+* 詳細なパフォーマンスレポートを生成する
+* モデルのバージョン間を比較できるようにする
 
-完全な評価チュートリアルは [http://wandb.me/weave&#95;eval&#95;tut](http://wandb.me/weave_eval_tut) で確認できます。
+評価の完全なチュートリアルは、[http://wandb.me/weave&#95;eval&#95;tut](http://wandb.me/weave_eval_tut) を参照してください
 
 ```typescript lines
 class OpenAIGrammarCorrector {
@@ -225,7 +226,7 @@ async function runEvaluation() {
 }
 ```
 
-以下の `main` 関数は、すべてのデモを実行します。
+次の`main`関数で、すべてのデモを実行します。
 
 ```typescript lines
 async function main() {
@@ -236,7 +237,7 @@ async function main() {
         await demonstrateNestedTracking();
         await runEvaluation();
     } catch (error) {
-        console.error('Error running demonstrations:', error);
+        console.error('デモの実行中にエラーが発生しました:', error);
     }
 }
 ```

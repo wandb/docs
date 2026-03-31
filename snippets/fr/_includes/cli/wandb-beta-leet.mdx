@@ -4,24 +4,24 @@ title: Wandb Beta Leet
 
 import LEETShortcuts from "/snippets/fr/_includes/leet-keyboard-shortcuts.mdx";
 
-LEET est une interface terminal locale permettant de consulter les statistiques, les métriques et l’état de santé du système d’un run W&amp;B. LEET est une interface pilotée au clavier, conçue pour les utilisateurs qui travaillent sur des systèmes distants ou dans des environnements HPC avec des outils comme SSH ou `tmux`.
+LEET est une interface terminal locale permettant d’afficher les statistiques, les métriques et l’état du système d’un run W&amp;B. LEET est une interface pilotée au clavier, conçue pour les utilisateurs qui travaillent sur des systèmes distants ou dans des environnements HPC avec des outils comme SSH ou `tmux`.
 
 ![Capture d’écran montrant l’affichage d’un run dans l’interface terminal LEET](/images/leet/leet-tui.png)
 
 Les principales fonctionnalités incluent :
 
-* **Navigation au clavier** : toutes les fonctionnalités sont accessibles via des raccourcis clavier
-* **Mises à jour en temps réel** : surveille le fichier `.wandb` en temps réel à mesure que votre run progresse
-* **Filtrage des métriques** : filtrez les métriques à l’aide de motifs glob ou d’une correspondance par sous-chaîne
-* **Zoom intelligent** : le zoom à la molette garde les points de données les plus récents visibles
+* **Navigation axée sur le clavier** : toutes les fonctionnalités sont accessibles via des raccourcis clavier
+* **Mises à jour en direct** : surveille le fichier `.wandb` en temps réel à mesure que votre run avance
+* **Filtrage des métriques** : filtrez les métriques à l’aide de motifs glob ou de correspondances par sous-chaîne
+* **Zoom intelligent** : le zoom à la molette conserve les derniers points de données dans le champ de vision
 * **Grilles personnalisables** : configurez le nombre de lignes et de colonnes pour les affichages des métriques et du système
 * **Formatage lisible** : les métriques système affichent des unités faciles à lire (par ex., &quot;Utilisation GPU (%)&quot;, &quot;RAM utilisée (GB)&quot;)
 
-LEET propose une mise en page en trois panneaux :
+LEET propose une mise en page à trois panneaux :
 
-* **Barre latérale gauche** : aperçu du run affichant les variables d’environnement, la configuration et les statistiques récapitulatives
-* **Panneau central** : grille de métriques avec graphiques linéaires de style Braille pour les métriques enregistrées
-* **Barre latérale droite** : métriques système affichant l’utilisation du GPU, la RAM, le CPU et d’autres indicateurs de l’état du système
+* **Barre latérale gauche** : Aperçu du run affichant les variables d’environnement, la configuration et les statistiques récapitulatives
+* **Panneau central** : grille de métriques avec graphiques linéaires en style Braille pour les métriques enregistrées
+* **Barre latérale droite** : Métriques système affichant l’utilisation du GPU, la RAM, le CPU et d’autres indicateurs de l’état du système
 
 
 <div id="keyboard-shortcuts">

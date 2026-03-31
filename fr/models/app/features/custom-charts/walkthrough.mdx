@@ -1,33 +1,33 @@
 ---
 description: Tutoriel sur l’utilisation de la fonctionnalité de graphiques personnalisés dans l’interface W&B
-title: 'Tutoriel : utiliser les graphiques personnalisés'
+title: 'Tutoriel : Utiliser des graphiques personnalisés'
 ---
 
-Utilisez des graphiques personnalisés pour contrôler les données chargées dans un panneau ainsi que leur visualisation.
+Utilisez des graphiques personnalisés pour contrôler les données chargées dans un panneau et la manière dont elles sont visualisées.
 
 <div id="1-log-data-to-wb">
-  ## 1. Journalisez des données dans W&amp;B
+  ## 1. Enregistrez des données dans W&amp;B
 </div>
 
-Commencez par journaliser des données dans votre script. Utilisez [wandb.Run.config](/fr/models/track/config/) pour des valeurs uniques définies au début de l’entraînement, comme les hyperparamètres. Utilisez [wandb.Run.log()](/fr/models/track/log/) pour journaliser plusieurs points au fil du temps, et consignez des tableaux 2D personnalisés avec `wandb.Table()`. Nous vous recommandons de journaliser jusqu’à 10 000 points de données par clé journalisée.
+Commencez par enregistrer des données dans votre script. Utilisez [wandb.Run.config](/fr/models/track/config/) pour des valeurs uniques définies au début de l’entraînement, comme les hyperparamètres. Utilisez [wandb.Run.log()](/fr/models/track/log/) pour plusieurs points au fil du temps, et enregistrez des tableaux 2D personnalisés avec `wandb.Table()`. Nous vous recommandons d’enregistrer jusqu’à 10 000 points de données par clé enregistrée.
 
 ```python
 with wandb.init() as run: 
 
-  # Journal d'un tableau personnalisé de données
+  # Journalisation d'un tableau de données personnalisé
   my_custom_data = [[x1, y1, z1], [x2, y2, z2]]
   run.log(
     {"custom_data_table": wandb.Table(data=my_custom_data, columns=["x", "y", "z"])}
   )
 ```
 
-[Essayez un notebook d’exemple rapide](https://bit.ly/custom-charts-colab) pour journaliser les tableaux de données, puis, à l’étape suivante, nous configurerons des graphiques personnalisés. Voir à quoi ressemblent les graphiques obtenus dans le [rapport en direct](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc).
+[Essayez un notebook d’exemple rapide](https://bit.ly/custom-charts-colab) pour journaliser les tableaux de données, puis, à l’étape suivante, nous configurerons des graphiques personnalisés. Voyez le rendu des graphiques obtenus dans le [rapport en direct](https://app.wandb.ai/demo-team/custom-charts/reports/Custom-Charts--VmlldzoyMTk5MDc).
 
 <div id="2-create-a-query">
   ## 2. Créer une requête
 </div>
 
-Une fois que vous avez journalisé les données à visualiser, accédez à la page de votre projet et cliquez sur le bouton **`+`** pour ajouter un nouveau panneau, puis sélectionnez **Graphique personnalisé**. Vous pouvez suivre l’exemple dans l’[espace de travail de démonstration des graphiques personnalisés](https://app.wandb.ai/demo-team/custom-charts).
+Une fois que vous avez enregistré des données à visualiser, accédez à la page de votre projet et cliquez sur le bouton **`+`** pour ajouter un nouveau panneau, puis sélectionnez **Graphique personnalisé**. Vous pouvez suivre les étapes dans l’[espace de travail de démonstration des graphiques personnalisés](https://app.wandb.ai/demo-team/custom-charts).
 
 <Frame>
   <img src="/images/app_ui/create_a_query.png" alt="Graphique personnalisé vide" />
@@ -37,17 +37,17 @@ Une fois que vous avez journalisé les données à visualiser, accédez à la pa
   ### Ajouter une requête
 </div>
 
-1. Cliquez sur `summary`, puis sélectionnez `historyTable` pour configurer une nouvelle requête qui récupère les données de l’historique du run.
-2. Saisissez la clé sous laquelle vous avez journalisé le `wandb.Table()`. Dans l’extrait de code ci-dessus, il s’agissait de `my_custom_table` . Dans le [notebook d’exemple](https://bit.ly/custom-charts-colab), les clés sont `pr_curve` et `roc_curve`.
+1. Cliquez sur `summary` et sélectionnez `historyTable` pour configurer une nouvelle requête qui extrait des données de l’historique du run.
+2. Saisissez la clé sous laquelle vous avez enregistré le `wandb.Table()`. Dans le code snippet ci-dessus, c’était `my_custom_table` . Dans le [notebook d’exemple](https://bit.ly/custom-charts-colab), les clés sont `pr_curve` et `roc_curve`.
 
 <div id="set-vega-fields">
   ### Définir les champs Vega
 </div>
 
-Maintenant que les données de la requête sont chargées dans ces colonnes, elles sont disponibles comme options dans les menus déroulants des champs Vega :
+Maintenant que les résultats de la requête sont chargés dans ces colonnes, vous pouvez les sélectionner dans les menus déroulants des champs Vega :
 
 <Frame>
-  <img src="/images/app_ui/set_vega_fields.png" alt="Utilisation des colonnes des résultats de la requête pour définir les champs Vega" />
+  <img src="/images/app_ui/set_vega_fields.png" alt="Chargement des colonnes à partir des résultats de la requête pour définir les champs Vega" />
 </Frame>
 
 * **axe x :** runSets&#95;historyTable&#95;r (rappel)
@@ -58,33 +58,33 @@ Maintenant que les données de la requête sont chargées dans ces colonnes, ell
   ## 3. Personnaliser le graphique
 </div>
 
-Le résultat est déjà plutôt bon, mais je voudrais passer d&#39;un nuage de points à un graphique en courbes. Cliquez sur **Edit** pour modifier la spécification Vega de ce graphique intégré. Suivez les étapes dans l&#39;[espace de travail de démonstration des graphiques personnalisés](https://app.wandb.ai/demo-team/custom-charts).
+Le résultat est déjà plutôt bon, mais je voudrais passer d’un nuage de points à un graphique en courbes. Cliquez sur **Edit** pour modifier la spécification Vega de ce graphique intégré. Suivez les étapes dans l’[espace de travail de démonstration des graphiques personnalisés](https://app.wandb.ai/demo-team/custom-charts).
 
 <Frame>
   <img src="/images/general/custom-charts-1.png" alt="Sélection d’un graphique personnalisé" />
 </Frame>
 
-J&#39;ai mis à jour la spécification Vega pour personnaliser la visualisation :
+J’ai mis à jour la spécification Vega pour personnaliser la visualisation :
 
-* ajouter des titres pour le graphique, la légende, l&#39;axe X et l&#39;axe Y (définir “title” pour chaque champ)
-* remplacer la valeur de “mark” de “point” par “line”
-* supprimer le champ “size” inutilisé
+* ajouter des titres pour le graphique, la légende, l’axe des x et l’axe des y (définissez « title » pour chaque champ)
+* remplacer la valeur de « mark » de « point » par « line »
+* supprimer le champ « size » inutilisé
 
 <Frame>
   <img src="/images/app_ui/customize_vega_spec_for_pr_curve.png" alt="Spécification Vega de la courbe PR" />
 </Frame>
 
-Pour l&#39;enregistrer en tant que préréglage que vous pourrez réutiliser ailleurs dans ce projet, cliquez sur **Save as** en haut de la page. Voici le résultat, avec une courbe ROC :
+Pour enregistrer cela en tant que préréglage que vous pourrez réutiliser ailleurs dans ce projet, cliquez sur **Save as** en haut de la page. Voici à quoi ressemble le résultat, avec une courbe ROC :
 
 <Frame>
-  <img src="/images/general/custom-charts-2.png" alt="Graphique de courbe PR" />
+  <img src="/images/general/custom-charts-2.png" alt="Graphique de la courbe PR" />
 </Frame>
 
 <div id="bonus-composite-histograms">
   ## Bonus : histogrammes composites
 </div>
 
-Les histogrammes permettent de visualiser des distributions numériques pour mieux comprendre des jeux de données volumineux. Les histogrammes composites affichent plusieurs distributions dans les mêmes intervalles, ce qui permet de comparer deux métriques ou plus entre différents modèles ou entre différentes classes au sein d’un même modèle. Pour un modèle de segmentation sémantique qui détecte des objets dans des scènes de conduite, on peut par exemple comparer l’efficacité d’une optimisation pour la précision par rapport à l’intersection over union (IOU), ou chercher à savoir dans quelle mesure différents modèles détectent les voitures (zones larges et fréquentes dans les données) par rapport aux panneaux de signalisation (zones beaucoup plus petites et moins fréquentes). Dans le [Colab de démonstration](https://bit.ly/custom-charts-colab), vous pouvez comparer les scores de confiance de deux des dix classes d’êtres vivants.
+Les histogrammes permettent de visualiser des distributions numériques pour nous aider à comprendre des jeux de données plus volumineux. Les histogrammes composites présentent plusieurs distributions sur les mêmes bins, ce qui permet de comparer deux métriques ou plus entre différents modèles, ou différentes classes au sein d’un même modèle. Pour un modèle de segmentation sémantique qui détecte des objets dans des scènes de conduite, on peut par exemple comparer l’efficacité d’une optimisation pour l’accuracy par rapport à l’intersection over union (IOU), ou chercher à savoir dans quelle mesure différents modèles détectent les voitures (régions grandes et fréquentes dans les données) par rapport aux panneaux de signalisation (régions bien plus petites et moins fréquentes). Dans [la démo Colab](https://bit.ly/custom-charts-colab), vous pouvez comparer les scores de confiance de deux des dix classes d’êtres vivants.
 
 <Frame>
   <img src="/images/app_ui/composite_histograms.png" alt="Histogramme composite" />
@@ -92,12 +92,12 @@ Les histogrammes permettent de visualiser des distributions numériques pour mie
 
 Pour créer votre propre version du panneau d’histogramme composite personnalisé :
 
-1. Créez un nouveau panneau Graphique personnalisé dans votre Workspace ou votre rapport (en ajoutant une visualisation « Graphique personnalisé »). Cliquez sur le bouton « Edit » en haut à droite pour modifier la spécification Vega à partir de n’importe quel type de panneau intégré.
-2. Remplacez cette spécification Vega intégrée par mon [code MVP pour un histogramme composite en Vega](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21). Vous pouvez modifier directement dans cette spécification Vega [à l’aide de la syntaxe Vega](https://vega.github.io/) le titre principal, les titres des axes, le domaine d’entrée et tout autre détail (vous pouvez changer les couleurs ou même ajouter un troisième histogramme :)
-3. Modifiez la requête dans le panneau de droite pour charger les bonnes données à partir de votre journalisation wandb. Ajoutez le champ `summaryTable` et définissez la valeur de `tableKey` sur `class_scores` pour récupérer le `wandb.Table` journalisé par votre run. Cela vous permettra d’alimenter les deux ensembles d’intervalles de l’histogramme (`red_bins` et `blue_bins`) via les menus déroulants avec les colonnes du `wandb.Table` journalisé sous `class_scores`. Dans mon exemple, j’ai choisi les scores de prédiction de la classe `animal` pour les intervalles rouges et `plant` pour les intervalles bleus.
-4. Vous pouvez continuer à modifier la spécification Vega et la requête jusqu’à obtenir un aperçu du graphique qui vous convient. Une fois terminé, cliquez sur **Save as** en haut et donnez un nom à votre graphique personnalisé pour pouvoir le réutiliser. Cliquez ensuite sur **Apply from panel library** pour finaliser votre graphique.
+1. Créez un nouveau panneau Graphique personnalisé dans votre Workspace ou rapport (en ajoutant une visualisation « Graphique personnalisé »). Cliquez sur le bouton « Edit » en haut à droite pour modifier la spécification Vega à partir de n’importe quel type de panneau intégré.
+2. Remplacez cette spécification Vega intégrée par mon [code MVP pour un histogramme composite en Vega](https://gist.github.com/staceysv/9bed36a2c0c2a427365991403611ce21). Vous pouvez modifier directement dans cette spécification Vega, [avec la syntaxe Vega](https://vega.github.io/), le titre principal, les titres des axes, le domaine d’entrée et tout autre détail (vous pouvez changer les couleurs ou même ajouter un troisième histogramme :)).
+3. Modifiez la requête à droite pour charger les bonnes données depuis vos logs wandb. Ajoutez le champ `summaryTable` et définissez le `tableKey` correspondant sur `class_scores` pour récupérer le `wandb.Table` enregistré par votre run. Cela vous permettra d’alimenter les deux ensembles de bins de l’histogramme (`red_bins` et `blue_bins`) via les menus déroulants avec les colonnes du `wandb.Table` enregistré sous `class_scores`. Dans mon exemple, j’ai choisi les scores de prédiction de la classe `animal` pour les bins rouges et `plant` pour les bins bleus.
+4. Vous pouvez continuer à modifier la spécification Vega et la requête jusqu’à ce que le graphique affiché dans l’aperçu vous convienne. Une fois terminé, cliquez sur **Save as** en haut et donnez un nom à votre graphique personnalisé pour pouvoir le réutiliser. Cliquez ensuite sur **Apply from panel library** pour finaliser votre graphique.
 
-Voici à quoi ressemblent mes résultats après une expérience très brève : un entraînement sur seulement 1000 exemples pendant une époque produit un modèle très sûr que la plupart des images ne sont pas des plantes, et très incertain quant aux images qui pourraient être des animaux.
+Voici à quoi ressemblent mes résultats après une expérience très brève : un entraînement sur seulement 1 000 exemples pendant une époque produit un modèle très confiant dans le fait que la plupart des images ne sont pas des plantes, et très incertain quant aux images qui pourraient être des animaux.
 
 <Frame>
   <img src="/images/general/custom-charts-3.png" alt="Configuration du graphique" />

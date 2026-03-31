@@ -1,14 +1,14 @@
 ---
-title: "Tutoriel : gestion des versions de l’application"
-description: "Découvrez comment utiliser Weave Model pour suivre votre application et ses paramètres, et en gérer les versions"
+title: "Tutoriel : gestion des versions d’application"
+description: "Découvrez comment utiliser Weave Model pour suivre votre application et ses paramètres et en gérer les versions"
 ---
 
-Suivre les [entrées, sorties et métadonnées](/fr/weave/quickstart), ainsi que [les données circulant dans votre application](/fr/weave/tutorial-tracing_2), est essentiel pour comprendre les performances de votre système. Cependant, **gérer les versions de votre application au fil du temps** est tout aussi essentiel pour comprendre comment les modifications apportées à votre code ou aux paramètres de l’application influent sur vos sorties. La classe `Model` de Weave permet de suivre ces changements dans Weave.
+Le suivi des [entrées, sorties et métadonnées](/fr/weave/quickstart), ainsi que des [données circulant dans votre application](/fr/weave/tutorial-tracing_2), est essentiel pour comprendre les performances de votre système. Cependant, **la gestion des versions de votre application au fil du temps** est tout aussi essentielle pour comprendre l’impact des modifications apportées à votre code ou aux paramètres de votre application sur vos sorties. La classe `Model` de Weave vous permet de suivre ces changements dans Weave.
 
-Dans ce tutoriel, vous apprendrez :
+Dans ce tutoriel, vous apprendrez à :
 
-* Comment utiliser Weave `Model` pour suivre votre application et ses paramètres, et en gérer les versions.
-* Comment exporter, modifier et réutiliser un Weave `Model` déjà enregistré.
+* utiliser le `Model` de Weave pour suivre votre application et ses paramètres, et en gérer les versions.
+* exporter, modifier et réutiliser un `Model` de Weave déjà enregistré.
 
 <div id="using-weavemodel">
   ## Utiliser `weave.Model`
@@ -18,17 +18,17 @@ Dans ce tutoriel, vous apprendrez :
   La classe `weave.Model` n’est actuellement prise en charge qu’en Python.
 </Warning>
 
-Utiliser des `Model` dans Weave signifie que les paramètres tels que les identifiants du fournisseur de modèle, les prompts, la température, etc. sont stockés et versionnés lorsqu’ils changent.
+Avec les `Model` de Weave, les paramètres tels que les identifiants du fournisseur du modèle, les prompts, la température, etc. sont stockés et versionnés lorsqu’ils changent.
 
 Pour créer un `Model` dans Weave, vous avez besoin des éléments suivants :
 
 * une classe qui hérite de `weave.Model`
-* des définitions de type sur tous les champs de la classe
+* des définitions de type pour tous les champs de la classe
 * une fonction `invoke` typée avec le décorateur `@weave.op()`
 
-Lorsque vous modifiez les champs de la classe ou le code qui définit votre modèle, **ces changements sont enregistrés et la version est mise à jour**. Cela vous permet de comparer les générations entre différentes versions de votre application.
+Lorsque vous modifiez les champs de la classe ou le code qui définit votre modèle, **ces modifications seront enregistrées et la version sera mise à jour**. Vous pouvez ainsi comparer les générations entre différentes versions de votre application.
 
-Dans l’exemple ci-dessous, le **nom du modèle, la température et le prompt système seront suivis et versionnés** :
+Dans l’exemple ci-dessous, **le nom du modèle, la température et le prompt système seront suivis et versionnés** :
 
 <Tabs>
   <Tab title="Python">
@@ -74,7 +74,7 @@ Dans l’exemple ci-dessous, le **nom du modèle, la température et le prompt s
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
+    Cette fonctionnalité n'est pas encore disponible en TypeScript.  Restez à l’écoute !
     ```
   </Tab>
 </Tabs>
@@ -108,43 +108,43 @@ Vous pouvez maintenant instancier le modèle et l’appeler avec `invoke` :
 
   <Tab title="TypeScript">
     ```plaintext
-    Cette fonctionnalité n’est pas encore disponible en TypeScript.  Restez à l’écoute !
+    Cette fonctionnalité n'est pas encore disponible en TypeScript.  Restez à l’écoute !
     ```
   </Tab>
 </Tabs>
 
-Après avoir appelé `.invoke`, vous verrez que la trace dans Weave **suit désormais les paramètres du modèle ainsi que le code** des fonctions du modèle décorées avec `weave.op()`. Vous pouvez aussi voir que le modèle est versionné, « v21 » dans ce cas, et si vous cliquez sur le modèle, **vous pouvez voir tous les appels** qui ont utilisé cette version du modèle.
+Après avoir appelé `.invoke`, vous pouvez voir que la trace dans Weave **suit désormais les paramètres du modèle ainsi que le code** des fonctions du modèle décorées avec `weave.op()`. Vous pouvez également voir que le modèle est lui aussi versionné, « v21 » dans ce cas. Si vous cliquez sur le modèle, **vous pouvez voir tous les appels** qui ont utilisé cette version du modèle
 
-![Re-using a weave model](/images/tutorial-model_invoke3.png)
+![Réutilisation d’un modèle Weave](/images/tutorial-model_invoke3.png)
 
 **Remarque sur l’utilisation de `weave.Model` :**
 
-* Vous pouvez utiliser `predict` au lieu de `invoke` comme nom de fonction dans votre `Model` Weave, si vous préférez.
-* Si vous voulez que d’autres méthodes de classe soient suivies par Weave, elles doivent être encapsulées dans `weave.op()`.
-* Les paramètres commençant par un trait de soulignement sont ignorés par Weave et ne seront pas enregistrés.
+* Si vous le préférez, vous pouvez utiliser `predict` au lieu de `invoke` comme nom de fonction dans votre `Model` Weave.
+* Si vous souhaitez que d’autres méthodes de classe soient suivies par weave, elles doivent être décorées avec `weave.op()`
+* Les paramètres commençant par un trait de soulignement sont ignorés par weave et ne seront pas enregistrés
 
 <div id="exporting-and-re-using-a-logged-weavemodel">
   ## Exporter et réutiliser un `weave.Model` enregistré
 </div>
 
-Comme Weave stocke et versionne les modèles qui ont été invoqués, vous pouvez les exporter et les réutiliser.
+Comme Weave stocke et versionne les Models qui ont été invoqués, il est possible de les exporter et de les réutiliser.
 
-**Obtenir la référence du modèle**
-Dans l’interface Weave, vous pouvez obtenir la référence du modèle pour une version donnée.
+**Obtenir la référence du Model**
+Dans la Weave UI, vous pouvez obtenir la référence du Model pour une version donnée.
 
-**Utiliser le modèle**
-Une fois que vous avez l’URI de l’objet modèle, vous pouvez l’exporter et le réutiliser. Notez que le modèle exporté est déjà initialisé et prêt à l’emploi :
+**Utiliser le Model**
+Une fois que vous avez l’URI de l’objet Model, vous pouvez l’exporter et le réutiliser. Notez que le modèle exporté est déjà initialisé et prêt à être utilisé :
 
 <Tabs>
   <Tab title="Python">
     ```python lines {2}
-    # le modèle Weave exporté est déjà initialisé et prêt à l’emploi
+    # le modèle Weave exporté est déjà initialisé et prêt à être invoqué
     new_dinos = weave.ref("weave://morgan/jurassic-park/object/ExtractDinos:ey4udBU2MU23heQFJenkVxLBX4bmDsFk7vsGcOWPjY4").get()
 
-    # réattribuer le client OpenAI
+    # réattribuez au client le client OpenAI
     new_dinos.client = client
 
-    new_sentence = """J’ai aussi vu un Ankylosaurus brouter des fougères géantes"""
+    new_sentence = """I also saw an Ankylosaurus grazing on giant ferns"""
     new_result = new_dinos.invoke(new_sentence)
     print(new_result)
     ```
@@ -157,12 +157,12 @@ Une fois que vous avez l’URI de l’objet modèle, vous pouvez l’exporter et
   </Tab>
 </Tabs>
 
-Vous pouvez maintenant voir ici que la version du modèle (v21) a été utilisée avec la nouvelle entrée :
+Ici, vous pouvez maintenant voir que la version du Model (v21) a été utilisée avec la nouvelle entrée :
 
 ![Réutilisation d’un modèle Weave](/images/tutorial-model_re-use.png)
 
 <div id="whats-next">
-  ## Et maintenant ?
+  ## Et ensuite ?
 </div>
 
-* Suivez le tutoriel [Build d’un pipeline d’Évaluation](/fr/weave/tutorial-eval) pour commencer à améliorer vos applications de façon itérative.
+* Suivez le tutoriel [Créer un pipeline d’évaluation](/fr/weave/tutorial-eval) pour commencer à améliorer vos applications de façon itérative.

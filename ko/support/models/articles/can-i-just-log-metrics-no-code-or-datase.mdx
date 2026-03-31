@@ -1,28 +1,28 @@
 ---
-title: "메트릭만 로깅할 수 있나요? 코드나 데이터셋 예시 없이요?"
+title: "코드나 데이터셋 예제 없이 메트릭만 기록할 수 있나요?"
 keywords: ["관리자", "팀 관리", "메트릭"]
 ---
 
-기본적으로 W&amp;B는 데이터셋 예시를 기록하지 않습니다. 기본적으로 W&amp;B는 코드와 시스템 메트릭을 기록합니다.
+기본적으로 W&amp;B는 데이터셋 예제를 기록하지 않습니다. 기본적으로 W&amp;B는 코드와 시스템 메트릭을 기록합니다.
 
-환경 변수를 사용해 코드 로깅을 끄는 방법은 두 가지가 있습니다:
+환경 변수를 사용해 코드 로깅을 끄는 방법은 두 가지입니다:
 
-1. 모든 코드 추적을 끄려면 `WANDB_DISABLE_CODE`를 `true`로 설정합니다. 이렇게 하면 git SHA와 diff patch를 가져오지 않습니다.
-2. `WANDB_IGNORE_GLOBS`를 `*.patch`로 설정하면 diff patch가 서버에 동기화되지 않도록 하면서, `wandb restore`로 적용할 수 있게 로컬에는 계속 유지할 수 있습니다.
+1. `WANDB_DISABLE_CODE`를 `true`로 설정하면 모든 코드 추적이 비활성화됩니다. 이렇게 하면 git SHA와 diff patch를 가져오지 않습니다.
+2. `WANDB_IGNORE_GLOBS`를 `*.patch`로 설정하면 diff patch가 서버에 동기화되지 않지만, 로컬에는 남아 있어 `wandb restore`로 계속 적용할 수 있습니다.
 
-관리자인 경우 팀 설정에서 팀의 코드 저장도 끌 수 있습니다:
+관리자인 경우 팀 Settings에서 팀의 코드 저장을 끌 수도 있습니다:
 
-1. `https://wandb.ai/<team>/settings`에서 팀 설정으로 이동합니다. 여기서 `<team>`은 팀 이름입니다.
-2. Privacy 섹션까지 스크롤합니다.
-3. **Enable code saving by default**를 끕니다.
+1. `https://wandb.ai/<team>/settings`에서 팀 Settings로 이동합니다. 여기서 `<team>`은 팀 이름입니다.
+2. Privacy 섹션으로 스크롤합니다.
+3. **Enable code saving by default**를 표시/숨기기합니다.
 
 ***
 
-{/* ---- 자동 생성: 탭 배지 ----
-  프런트 매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
-  이 표시 사이의 내용은 수동으로 편집하지 마세요.
+{/* ---- AUTO-GENERATED: 탭 배지 ----
+  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 마커 사이의 내용은 직접 편집하지 마세요.
   ---- */}
 
-<Badge stroke shape="pill" color="orange" size="md">[관리자](/ko/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[팀 관리](/ko/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
+<Badge stroke shape="pill" color="orange" size="md">[관리자](/ko/support/models/tags/administrator)</Badge><Badge stroke shape="pill" color="orange" size="md">[Teams 관리](/ko/support/models/tags/team-management)</Badge><Badge stroke shape="pill" color="orange" size="md">[메트릭](/ko/support/models/tags/metrics)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- AUTO-GENERATED 종료: 탭 배지 ---- */}

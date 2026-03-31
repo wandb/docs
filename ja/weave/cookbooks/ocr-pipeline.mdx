@@ -1,10 +1,10 @@
 ---
-title: "Weave を使ってコンピュータビジョン パイプラインをトレースして評価する"
-description: "Weave と W&B Weave を使ってコンピュータビジョン パイプラインをトレースおよび評価する方法を学びます"
+title: "Weave でコンピュータビジョンパイプラインをトレースして Evaluate する"
+description: "W&B Weave を使って、コンピュータビジョンパイプラインをトレースして Evaluate する方法を学びます"
 ---
 
 <Note>
-  これはインタラクティブなノートブックです。ローカルで実行するか、以下のリンクから利用できます。
+  これはインタラクティブなノートブックです。ローカルで実行することも、以下のリンクを使用することもできます。
 
   * [Google Colab で開く](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/ocr-pipeline.ipynb)
   * [GitHub でソースを表示](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/ocr-pipeline.ipynb)
@@ -14,7 +14,7 @@ description: "Weave と W&B Weave を使ってコンピュータビジョン パ
   ## 前提条件
 </div>
 
-開始する前に、必要なライブラリをインストールしてインポートし、W&amp;B API キーを取得し、Weave プロジェクトを初期化します。
+始める前に、必要なライブラリをインストールして `import` し、W&amp;B APIキーを取得し、Weaveプロジェクトを初期化してください。
 
 ```python lines
 # 必要な依存関係をインストールする
@@ -28,10 +28,10 @@ from openai import OpenAI
 
 import weave
 python
-# API キーを取得する
+# APIキーを取得する
 os.environ["OPENAI_API_KEY"] = userdata.get(
     "OPENAI_API_KEY"
-)  # 左側のメニューから Colab の環境シークレットとしてキーを設定してください
+)  # 左側のメニューからColabの環境シークレットとしてキーを設定してください
 os.environ["WANDB_API_KEY"] = userdata.get("WANDB_API_KEY")
 
 # プロジェクト名を設定する
@@ -43,10 +43,10 @@ weave.init(PROJECT)
 ```
 
 <div id="1-create-and-iterate-on-prompts-with-weave">
-  ## 1. Weave でプロンプトを作成し、反復的に改善する
+  ## 1. Weave でプロンプトを作成し、改善を重ねる
 </div>
 
-適切なプロンプトエンジニアリングは、モデル に正しくエンティティを抽出させるために不可欠です。まず、画像データから何を抽出し、どのような形式で出力するかをモデル に指示する基本的なプロンプトを作成します。次に、そのプロンプトを追跡と反復改善のために Weave に保存します。
+適切なプロンプトエンジニアリングは、モデルがEntitiesを正しく抽出できるようにするうえで重要です。まず、画像データから何を抽出するかと、その出力形式をモデルに指示する基本的なプロンプトを作成します。次に、そのプロンプトを Weave に保存して、トラッキングと改善に活用します。
 
 ````python lines
 # Weave でプロンプトオブジェクトを作成する
@@ -61,7 +61,7 @@ system_prompt = weave.StringPrompt(prompt)
 weave.publish(system_prompt, name="NER-prompt")
 ````
 
-次に、出力の誤りを減らせるよう、より詳細な指示と検証ルールを追加してプロンプトを改善します。
+次に、出力の誤りを減らすため、指示と検証ルールをさらに追加してプロンプトを改善します。
 
 ````python lines
 better_prompt = """
@@ -85,7 +85,7 @@ Example output:
 """
 # プロンプトを編集する
 system_prompt = weave.StringPrompt(better_prompt)
-# 編集したプロンプトを Weave に公開する
+# 編集したプロンプトをWeaveに公開する
 weave.publish(system_prompt, name="NER-prompt")
 ````
 
@@ -93,12 +93,12 @@ weave.publish(system_prompt, name="NER-prompt")
   ## 2. データセットを取得する
 </div>
 
-次に、OCR パイプラインへの入力として使用する手書きノートのデータセットを取得します。
+次に、OCR パイプラインの入力として使用する、手書きメモのデータセットを取得します。
 
-このデータセットの画像はすでに `base64` エンコードされているため、LLM は事前処理を行うことなくデータを利用できます。
+データセット内の画像はすでに `base64` でエンコードされているため、前処理なしでそのまま LLM で使用できます。
 
 ```python lines
-# 以下の Weave プロジェクトからデータセットを取得する
+# 以下のWeaveプロジェクトからデータセットを取得する
 dataset = weave.ref(
     "weave://wandb-smle/vlm-handwritten-ner/object/NER-eval-dataset:G8MEkqWBtvIxPYAY23sXLvqp8JKZ37Cj0PgcG19dGjw"
 ).get()
@@ -106,7 +106,7 @@ dataset = weave.ref(
 # データセット内の特定のサンプルにアクセスする
 example_image = dataset.rows[3]["image_base64"]
 
-# example_image を表示する
+# example_imageを表示する
 from IPython.display import HTML, display
 
 html = f'<img src="{example_image}" style="max-width: 100%; height: auto;">'
@@ -117,19 +117,19 @@ display(HTML(html))
   ## 3. NER パイプラインを構築する
 </div>
 
-次に、NER パイプラインを構築します。パイプラインは次の 2 つの関数で構成されます。
+次に、NER パイプラインを構築します。このパイプラインは、次の 2 つの関数で構成されます。
 
-1. データセットからの PIL 画像を受け取り、VLM に渡すことができる画像の `base64` エンコード文字列表現を返す `encode_image` 関数
-2. 画像と system prompt を受け取り、その system prompt の指示どおりにその画像から抽出されたエンティティを返す `extract_named_entities_from_image` 関数
+1. データセット内の PIL 画像を受け取り、VLM に渡せる画像の `base64` エンコード済み文字列を返す `encode_image` 関数
+2. 画像と system prompt を受け取り、system prompt に記述されたとおりにその画像から抽出した Entities を返す `extract_named_entities_from_image` 関数
 
 ```python lines
-# GPT-4-Vision を使用したトレース可能な関数
+# GPT-4-Visionを使用したトレース可能な関数
 def extract_named_entities_from_image(image_base64) -> dict:
-    # LLM クライアントの初期化
+    # LLMクライアントの初期化
     client = OpenAI()
 
     # 指示プロンプトの設定
-    # Weave に保存されたプロンプトを使用することもできます: weave.ref("weave://wandb-smle/vlm-handwritten-ner/object/NER-prompt:FmCv4xS3RFU21wmNHsIYUFal3cxjtAkegz2ylM25iB8").get().content.strip()
+    # Weaveに保存されたプロンプトをweave.ref("weave://wandb-smle/vlm-handwritten-ner/object/NER-prompt:FmCv4xS3RFU21wmNHsIYUFal3cxjtAkegz2ylM25iB8").get().content.strip()で使用することも可能です
     prompt = better_prompt
 
     response = client.responses.create(
@@ -151,25 +151,25 @@ def extract_named_entities_from_image(image_base64) -> dict:
     return response.output_text
 ```
 
-ここでは、`named_entity_recognation` という関数を作成します。この関数は次のことを行います。
+次に、`named_entity_recognation` という関数を作成します。これには次の処理を実装します。
 
 * 画像データを NER パイプラインに渡す
-* 結果を正しくフォーマットされた JSON で返す
+* 結果を正しい形式の JSON で返す
 
-W&amp;B UI で関数実行を自動的にトラッキングおよびトレースするには、[`@weave.op()` decorator](/ja/weave/reference/python-sdk/trace/op) デコレータを使用します。
+W&amp;B UI で関数の実行を自動的にトラッキングおよびトレースするには、[`@weave.op()` decorator](/ja/weave/reference/python-sdk/trace/op) デコレータを使用します。
 
-`named_entity_recognation` 関数を実行するたびに、完全なトレース結果を Weave UI で確認できます。トレースを表示するには、Weave プロジェクトの **Traces** タブに移動します。
+`named_entity_recognation` を実行するたびに、完全なトレース結果が Weave UI に表示されます。トレースを表示するには、Weave プロジェクトの **トレース** タブにアクセスします。
 
 ```python lines
-# 評価用 NER 関数
+# 評価用NER関数
 @weave.op()
 def named_entity_recognation(image_base64, id):
     result = {}
     try:
-        # 1) vision op を呼び出し、JSON 文字列を取得する
+        # 1) vision opを呼び出し、JSON文字列を取得する
         output_text = extract_named_entities_from_image(image_base64)
 
-        # 2) JSON を一度だけパースする
+        # 2) JSONを一度だけパースする
         result = json.loads(output_text)
 
         print(f"Processed: {str(id)}")
@@ -178,12 +178,12 @@ def named_entity_recognation(image_base64, id):
     return result
 ```
 
-最後に、パイプラインをデータセット全体に対して実行し、結果を確認します。
+最後に、データセットに対してパイプラインを実行し、結果を確認します。
 
-次のコードはデータセットをループ処理し、結果をローカルファイル `processing_results.json` に保存します。結果は Weave UI からも確認できます。
+次のコードはデータセットの各項目を順に処理し、その結果をローカルファイル `processing_results.json` に保存します。結果は Weave UI でも確認できます。
 
 ```python lines
-# 出力結果
+# 結果を出力
 results = []
 
 # データセット内のすべての画像をループ処理
@@ -192,7 +192,7 @@ for row in dataset.rows:
     result["image_id"] = str(row["id"])
     results.append(result)
 
-# すべての結果を JSON ファイルに保存
+# すべての結果をJSONファイルに保存
 output_file = "processing_results.json"
 with open(output_file, "w") as f:
     json.dump(results, f, indent=2)
@@ -200,38 +200,38 @@ with open(output_file, "w") as f:
 print(f"Results saved to: {output_file}")
 ```
 
-Weave UI の **Traces** テーブルには、次のような内容が表示されます。
+Weave UI の**トレース**表に、以下のような内容が表示されます。
 
 <Frame>
   ![Screenshot 2025-05-02 at 12.03.00 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-120300-pm.png)
 </Frame>
 
 <div id="4-evaluate-the-pipeline-using-weave">
-  ## 4. Weave を使用してパイプラインを評価する
+  ## 4. Weave を使ってパイプラインを評価する
 </div>
 
-VLM を使って NER を実行するパイプラインを作成したので、Weave を使用してそのパイプラインを体系的に評価し、どの程度の性能かを確認できます。Weave における Evaluations の詳細は [Evaluations Overview](/ja/weave/guides/core-types/evaluations) を参照してください。
+VLM を使用して NER を実行するパイプラインを作成したので、次は Weave を使ってこれを体系的に評価し、どの程度うまく機能するかを確認できます。Weave の評価について詳しくは、[Evaluations Overview](/ja/weave/guides/core-types/evaluations) を参照してください。
 
-Weave Evaluation の基本的な構成要素が [Scorers](/ja/weave/guides/evaluation/scorers) です。Scorer は AI の出力を評価し、評価用のメトリクスを返すために使用されます。AI の出力を受け取り、それを分析して、結果を格納した辞書を返します。必要に応じて入力データを参照として利用できるほか、評価から得られる説明や推論といった追加情報を出力することもできます。
+Weave の評価を構成する基本要素の 1 つが [Scorers](/ja/weave/guides/evaluation/scorers) です。Scorers は AI の出力を評価し、評価メトリクスを返すために使用されます。AI の出力を受け取り、それを分析して、結果を dict として返します。Scorers は必要に応じて入力データを参照として使用できるほか、評価に関する説明や推論などの追加情報を出力することもできます。
 
-このセクションでは、パイプラインを評価するために 2 つの Scorer を作成します。
+このセクションでは、パイプラインを評価するために 2 つの Scorers を作成します。
 
 1. プログラムによる Scorer
 2. LLM-as-a-judge Scorer
 
 <div id="programatic-scorer">
-  ### プログラムによるスコアラー
+  ### プログラムベースのスコアラー
 </div>
 
-プログラムによるスコアラー `check_for_missing_fields_programatically` は、モデルの出力（`named_entity_recognition` 関数の出力）を受け取り、結果の中で `keys` が欠落している、または空のものを特定します。
+プログラムベースのスコアラー `check_for_missing_fields_programatically` は、モデルの出力 (`named_entity_recognition` 関数の出力) を受け取り、結果内で欠けている、または空の `keys` を特定します。
 
-このチェックは、モデル がどのフィールドも取得できなかったサンプルを特定するのに非常に有効です。
+このチェックは、モデルがいずれかのフィールドを取りこぼしたサンプルを特定するのに非常に役立ちます。
 
 ```python lines
-# スコアラーの実行を追跡するために weave.op() を追加する
+# スコアラーの実行をトラッキングするために weave.op() を追加する
 @weave.op()
 def check_for_missing_fields_programatically(model_output):
-    # すべてのエントリに必要なキー
+    # すべてのエントリに必須のキー
     required_fields = {"Patient Name", "Date", "Patient ID", "Group Number"}
 
     for key in required_fields:
@@ -240,21 +240,21 @@ def check_for_missing_fields_programatically(model_output):
             or model_output[key] is None
             or str(model_output[key]).strip() == ""
         ):
-            return False  # このエントリには欠落または空のフィールドがある
+            return False  # このエントリにはフィールドの欠損または空白がある
 
-    return True  # すべての必須フィールドが存在し、空でない
+    return True  # すべての必須フィールドが存在し、かつ空でない
 ```
 
 <div id="llm-as-a-judge-scorer">
-  ### LLM-as-a-judge スコアラー
+  ### LLM-as-a-judge scorer
 </div>
 
-評価の次のステップでは、実際の NER パフォーマンスが正しく反映されるように、画像データとモデルの出力の両方を使用します。モデルの出力だけでなく、画像の内容が明示的に参照されます。
+評価の次のstepでは、評価結果が実際のNERパフォーマンスを反映するように、画像データとモデルの出力の両方が提供されます。参照されるのはモデルの出力だけでなく、画像の内容そのものです。
 
-このステップで使用する Scorer `check_for_missing_fields_with_llm` は、LLM（具体的には OpenAI の `gpt-4o`）を用いてスコアリングを行います。`eval_prompt` の内容で指定されているように、`check_for_missing_fields_with_llm` は `Boolean` 値を出力します。すべてのフィールドが画像内の情報と一致し、フォーマットも正しければ、Scorer は `true` を返します。いずれかのフィールドが欠落している、空である、不正確である、または不一致である場合は、結果は `false` となり、問題を説明するメッセージも併せて返されます。
+このstepで使用されるScorer `check_for_missing_fields_with_llm` は、LLM (具体的にはOpenAIの`gpt-4o`) を使用してスコアリングを行います。`eval_prompt`の内容で指定されているとおり、`check_for_missing_fields_with_llm`は`Boolean`値を出力します。すべてのフィールドが画像内の情報と一致し、フォーマットが正しければ、Scorerは`true`を返します。いずれかのフィールドが欠落している、空である、誤っている、または一致していない場合、結果は`false`となり、scorerは問題を説明するメッセージも返します。
 
 ```python lines
-# LLM-as-a-judge のシステムプロンプト
+# LLM-as-a-judge の system prompt
 
 eval_prompt = """
 You are an OCR validation system. Your role is to assess whether the structured text extracted from an image accurately reflects the information in that image.
@@ -284,7 +284,7 @@ OR
 {"Correct": false, "Reason": "EXPLANATION_HERE"}
 """
 
-# Scorer の実行を追跡するために weave.op() を追加する
+# weave.op() を追加して Scorer の実行をトラッキングする
 @weave.op()
 def check_for_missing_fields_with_llm(model_output, image_base64):
     client = OpenAI()
@@ -315,9 +315,9 @@ def check_for_missing_fields_with_llm(model_output, image_base64):
   ## 5. 評価を実行する
 </div>
 
-最後に、渡された `dataset` を自動的に繰り返し処理し、その結果を Weave UI 内にまとめてログする評価用の呼び出しを定義します。
+最後に、渡された `dataset` を自動的に反復処理し、結果をまとめて Weave UI にログする評価 call を定義します。
 
-次のコードは評価を開始し、2 つの Scorer を NER パイプラインからのすべての出力に適用します。結果は Weave UI の **Evals** タブで確認できます。
+次のコードは評価を開始し、NER パイプラインの各出力に 2 つの Scorers を適用します。結果は Weave UI の **Evals** タブで確認できます。
 
 ```python lines
 evaluation = weave.Evaluation(
@@ -332,7 +332,7 @@ evaluation = weave.Evaluation(
 print(await evaluation.evaluate(named_entity_recognation))
 ```
 
-上記のコードを実行すると、Weave UI の Evaluation テーブルへのリンクが生成されます。リンクを開いて結果を確認し、任意の モデル、プロンプト、データセット に対するパイプラインのさまざまなイテレーションを比較してください。Weave UI は、チーム向けに以下のような可視化を自動的に生成します。
+上記のコードを実行すると、Weave UI の評価表へのリンクが生成されます。リンクを開いて結果を確認し、任意のモデル、プロンプト、データセット間でパイプラインの異なる反復を比較してください。Weave UI は、以下に示すような可視化をチーム用に自動的に作成します。
 
 <Frame>
   ![Screenshot 2025-05-02 at 12.26.15 PM.png](/media/ocr-pipeline/screenshot-2025-05-02-at-122615-pm.png)

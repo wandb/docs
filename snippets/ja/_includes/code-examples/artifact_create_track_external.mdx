@@ -1,23 +1,23 @@
 ---
-title: Artifacts の作成と外部データのトラッキング
+title: 外部 Artifact の作成とトラッキング
 ---
 
 ```python
 """
-クラウドストレージバケットパスへの参照を追加することで、外部 Artifacts を追跡します。
+クラウドストレージのバケットパスへの参照を追加することで、外部artifactをトラッキングします。
 """
 
 import wandb
 
-# Artifacts オブジェクトを作成する
+# artifactオブジェクトを作成する
 artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
 
 # バケットパスへの参照を追加する
 artifact.add_reference(uri = "uri/to/your/bucket/path")
 
-# W&B の run を初期化する
+# W&B runを初期化する
 with wandb.init(project="<project>") as run:
 
-  # Artifacts のメタデータをログに記録する
+  # artifactのメタデータをログする
   run.log_artifact(artifact)
 ```

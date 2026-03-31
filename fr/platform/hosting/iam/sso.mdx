@@ -3,7 +3,7 @@ title: Configurer le SSO avec OIDC
 description: "Configurez le SSO à l’aide d’OpenID Connect avec des fournisseurs d’identité comme Okta, Azure AD et AWS Cognito pour les instances W&B."
 ---
 
-La prise en charge par W&amp;B des fournisseurs d’identité compatibles avec OpenID Connect (OIDC) vous permet de gérer les identités des utilisateurs et leur appartenance à des groupes via des fournisseurs d’identité externes tels qu’Okta, Keycloak, Auth0, Google et Entra.
+La prise en charge par W&amp;B des fournisseurs d’identité compatibles avec OpenID Connect (OIDC) permet de gérer les identités des utilisateurs et leur appartenance à des groupes via des fournisseurs d’identité externes comme Okta, Keycloak, Auth0, Google et Entra.
 
 <div id="openid-connect-oidc">
   ## OpenID Connect (OIDC)
@@ -11,39 +11,39 @@ La prise en charge par W&amp;B des fournisseurs d’identité compatibles avec O
 
 W&amp;B prend en charge les flux d’authentification OIDC suivants pour l’intégration avec des fournisseurs d’identité (IdP) externes.
 
-1. Flux implicite avec envoi de formulaire
+1. Flux implicite avec Form Post
 2. Flux de code d’autorisation avec Proof Key for Code Exchange (PKCE)
 
-Ces flux authentifient les utilisateurs et fournissent à W&amp;B les informations d’identité nécessaires (sous la forme de jetons d’identité) pour gérer le contrôle d’accès.
+Ces flux authentifient les utilisateurs et fournissent à W&amp;B les informations d’identité nécessaires (sous forme de jetons ID) pour gérer le contrôle d’accès.
 
-Le jeton d’identité est un JWT qui contient les informations d’identité de l’utilisateur, telles que son nom, son nom d’utilisateur, son adresse e-mail et les groupes auxquels il appartient. W&amp;B utilise ce jeton pour authentifier l’utilisateur et l’associer aux rôles ou groupes appropriés dans le système.
+Le jeton ID est un JWT qui contient les informations d’identité de l’utilisateur, telles que son nom, son nom d’utilisateur, son adresse e-mail et son appartenance à des groupes. W&amp;B utilise ce jeton pour authentifier l’utilisateur et l’associer aux rôles ou groupes appropriés dans le système.
 
-Dans le contexte de W&amp;B, les jetons d’accès autorisent les requêtes vers les API au nom de l’utilisateur, mais comme W&amp;B se concentre principalement sur l’authentification des utilisateurs et l’identité, seul le jeton d’identité est nécessaire.
+Dans le contexte de W&amp;B, les jetons d’accès autorisent les requêtes aux API au nom de l’utilisateur, mais comme W&amp;B s’intéresse avant tout à l’authentification et à l’identité de l’utilisateur, seul le jeton ID est nécessaire.
 
-Vous pouvez utiliser des variables d’environnement pour [configurer les options IAM](/fr/platform/hosting/iam/advanced_env_vars) pour votre instance [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed).
+Vous pouvez utiliser des variables d’environnement pour [configurer les options IAM](/fr/platform/hosting/iam/advanced_env_vars) de votre instance [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed).
 
-Pour vous aider à configurer des fournisseurs d’identité pour des installations W&amp;B [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed), suivez les recommandations ci-dessous pour les différents IdP. Si vous utilisez la version SaaS de W&amp;B, contactez [support@wandb.com](mailto:support@wandb.com) pour obtenir de l’assistance dans la configuration d’un tenant Auth0 pour votre organisation.
+Pour vous aider à configurer des fournisseurs d’identité pour des installations W&amp;B [Cloud dédié](/fr/platform/hosting/hosting-options/dedicated-cloud) ou [Autogéré](/fr/platform/hosting/hosting-options/self-managed), suivez les recommandations ci-dessous pour différents IdP. Si vous utilisez la version SaaS de W&amp;B, contactez [support@wandb.com](mailto:support@wandb.com) pour obtenir de l’assistance dans la configuration d’un tenant Auth0 pour votre organisation.
 
 <div id="configure-your-idp">
-  ## Configurer votre IdP
+  ## Configurez votre IdP
 </div>
 
-Cette section explique comment configurer votre fournisseur d’identité (IdP) pour OIDC. Sélectionnez l’onglet de votre IdP pour plus de détails.
+Cette section explique comment configurer votre fournisseur d’identité (IdP) pour OIDC. Sélectionnez l’onglet correspondant à votre IdP pour plus de détails.
 
 <Tabs>
   <Tab title="Cognito">
     Suivez la procédure ci-dessous pour configurer AWS Cognito pour l’autorisation :
 
-    1. Connectez-vous d’abord à votre compte AWS, puis accédez à l’application [AWS Cognito](https://aws.amazon.com/cognito/).
+    1. Commencez par vous connecter à votre compte AWS, puis accédez à l’application [AWS Cognito](https://aws.amazon.com/cognito/).
 
        <Frame>
          <img src="/images/hosting/setup_aws_cognito.png" alt="Configuration d’AWS Cognito" />
        </Frame>
 
     2. Indiquez une URL de rappel autorisée pour configurer l’application dans votre IdP :
-       * Ajoutez `http(s)://YOUR-W&B-HOST/oidc/callback` comme URL de rappel. Remplacez `YOUR-W&B-HOST` par l’hôte de votre instance W&amp;B.
+       * Ajoutez `http(s)://YOUR-W&B-HOST/oidc/callback` comme URL de rappel. Remplacez `YOUR-W&B-HOST` par le chemin d’hôte de votre instance W&amp;B.
 
-    3. Si votre IdP prend en charge la déconnexion universelle, définissez l’URL de déconnexion sur `http(s)://YOUR-W&B-HOST`. Remplacez `YOUR-W&B-HOST` par l’hôte de votre instance W&amp;B.
+    3. Si votre IdP prend en charge la déconnexion universelle, définissez l’URL de déconnexion sur `http(s)://YOUR-W&B-HOST`. Remplacez `YOUR-W&B-HOST` par le chemin d’hôte de votre instance W&amp;B.
 
        Par exemple, si votre application s’exécute à l’adresse `https://wandb.mycompany.com`, remplacez `YOUR-W&B-HOST` par `wandb.mycompany.com`.
 
@@ -53,39 +53,39 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
          <img src="/images/hosting/setup_aws_cognito_ui_settings.png" alt="Configuration de l’hôte" />
        </Frame>
 
-       Par défaut, *wandb/local* utilise le flux d’autorisation [`implicit` avec le type de réponse `form_post`](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post).
+       Par défaut, *wandb/local* utilise l’grant [`implicit` avec le type de réponse `form_post`](https://auth0.com/docs/get-started/authentication-and-authorization-flow/implicit-flow-with-form-post).
 
-       Vous pouvez également configurer *wandb/local* pour utiliser une autorisation `authorization_code` avec le flux [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/).
+       Vous pouvez également configurer *wandb/local* pour utiliser un grant `authorization_code` avec le flux [PKCE Code Exchange](https://www.oauth.com/oauth2-servers/pkce/).
 
-    4. Sélectionnez un ou plusieurs types de subvention OAuth afin de configurer la manière dont AWS Cognito transmet les jetons à votre application.
+    4. Sélectionnez un ou plusieurs types de grant OAuth pour configurer la manière dont AWS Cognito transmet les jetons à votre application.
 
-    5. W&amp;B requiert des portées OpenID Connect (OIDC) spécifiques. Sélectionnez les éléments suivants dans l’application AWS Cognito :
+    5. W&amp;B exige des scopes OpenID Connect (OIDC) spécifiques. Sélectionnez les éléments suivants dans l’application AWS Cognito :
 
        * &quot;openid&quot;
        * &quot;profile&quot;
        * &quot;email&quot;
 
-       Par exemple, l’interface de votre application AWS Cognito doit ressembler à l’image suivante :
+       Par exemple, l’interface de votre application AWS Cognito devrait ressembler à l’image suivante :
 
        <Frame>
          <img src="/images/hosting/setup_aws_required_fields.png" alt="Champs requis" />
        </Frame>
 
-       Sélectionnez la **méthode d’authentification** dans la page des paramètres ou définissez la variable d’environnement OIDC&#95;AUTH&#95;METHOD pour indiquer à *wandb/local* quelle autorisation utiliser.
+       Sélectionnez la **méthode d’authentification** dans la page des paramètres ou définissez la variable d’environnement OIDC&#95;AUTH&#95;METHOD pour indiquer à *wandb/local* quel grant utiliser.
 
        Vous devez définir la méthode d’authentification sur `pkce`.
 
     6. Vous avez besoin d’un ID client et de l’URL de votre émetteur OIDC. Le document de découverte OpenID doit être disponible à l’adresse `$OIDC_ISSUER/.well-known/openid-configuration`
 
-       Par exemple, vous pouvez générer l’URL de votre émetteur en ajoutant votre ID de pool d’utilisateurs à l’URL IdP Cognito depuis l’onglet **App Integration** de la section **User Pools** :
+       Par exemple, vous pouvez générer l’URL de votre émetteur en ajoutant l’ID de votre pool d’utilisateurs à l’URL de l’IdP Cognito depuis l’onglet **App Integration** de la section **User Pools** :
 
        <Frame>
          <img src="/images/hosting/setup_aws_cognito_issuer_url.png" alt="URL de l’émetteur AWS Cognito" />
        </Frame>
 
-       N’utilisez pas le &quot;domaine Cognito&quot; comme URL d’IdP. Cognito fournit son document de découverte à l’adresse `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
+       N’utilisez pas le &quot;domaine Cognito&quot; pour l’URL de l’IdP. Cognito fournit son document de découverte à l’adresse `https://cognito-idp.$REGION.amazonaws.com/$USER_POOL_ID`
 
-    Ensuite, [Configurer le SSO dans W&amp;B](#set-up-sso-in-w%26b).
+    Ensuite, [Configurez le SSO dans W&amp;B](#set-up-sso-in-w%26b).
   </Tab>
 
   <Tab title="Okta">
@@ -93,38 +93,38 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
 
     1. Connectez-vous au [portail Okta](https://login.okta.com/).
 
-    2. Dans le volet de gauche, sélectionnez **Applications**, puis de nouveau **Applications**.
+    2. Dans le menu de gauche, sélectionnez **Applications**, puis de nouveau **Applications**.
        <Frame>
          <img src="/images/hosting/okta_select_applications.png" alt="Menu Applications d’Okta" />
        </Frame>
 
-    3. Cliquez sur &quot;Create App integration&quot;.
+    3. Cliquez sur &quot;Create App integration.&quot;
        <Frame>
          <img src="/images/hosting/okta_create_new_app_integration.png" alt="Bouton Create App integration" />
        </Frame>
 
-    4. Dans l’écran &quot;Create a new app integration&quot;, sélectionnez **OIDC - OpenID Connect** et **Single-Page Application**. Cliquez ensuite sur &quot;Next&quot;.
+    4. Sur l’écran intitulé &quot;Create a new app integration,&quot; sélectionnez **OIDC - OpenID Connect** et **Single-Page Application**. Cliquez ensuite sur &quot;Next.&quot;
        <Frame>
-         <img src="/images/hosting/okta_create_a_new_app_integration.png" alt="Sélection OIDC Single-Page Application" />
+         <img src="/images/hosting/okta_create_a_new_app_integration.png" alt="Sélection de l’application OIDC Single-Page" />
        </Frame>
 
-    5. Dans l’écran &quot;New Single-Page App Integration&quot;, renseignez les valeurs suivantes, puis cliquez sur **Save** :
-       * App integration name : par exemple &quot;W&amp;B&quot;
-       * Grant type : sélectionnez **Authorization Code** et **Implicit (hybrid)**
-       * Sign-in redirect URIs : https://YOUR&#95;W&#95;AND&#95;B&#95;URL/oidc/callback
-       * Sign-out redirect URIs : https://YOUR&#95;W&#95;AND&#95;B&#95;URL/logout
-       * Assignments : sélectionnez **Skip group assignment for now**
+    5. Sur l’écran intitulé &quot;New Single-Page App Integration,&quot; renseignez les champs comme suit, puis cliquez sur **Save** :
+       * Nom de l’intégration d’application, par exemple &quot;W&amp;B&quot;
+       * Type d’autorisation : sélectionnez **Authorization Code** et **Implicit (hybrid)**
+       * URI de redirection de connexion : https://YOUR&#95;W&#95;AND&#95;B&#95;URL/oidc/callback
+       * URI de redirection de déconnexion : https://YOUR&#95;W&#95;AND&#95;B&#95;URL/logout
+       * Attributions : sélectionnez **Skip group assignment for now**
        <Frame>
-         <img src="/images/hosting/okta_new_single_page_app_integration.png" alt="Configuration de Single-Page App" />
+         <img src="/images/hosting/okta_new_single_page_app_integration.png" alt="Configuration de l’application Single-Page" />
        </Frame>
 
-    6. Dans l’écran d’aperçu de l’application Okta que vous venez de créer, notez le **Client ID** sous **Client Credentials**, dans l’onglet **General** :
+    6. Sur l’écran d’aperçu de l’application Okta que vous venez de créer, notez le **Client ID** sous **Client Credentials**, dans l’onglet **General** :
        <Frame>
          <img src="/images/hosting/okta_make_note_of_client_id.png" alt="Emplacement du Client ID Okta" />
        </Frame>
 
-    7. Pour identifier l’URL de l’émetteur OIDC Okta, sélectionnez **Settings**, puis **Account** dans le volet de gauche.
-       L’interface Okta affiche le nom de l’entreprise sous **Organization Contact**.
+    7. Pour identifier l’URL de l’émetteur OIDC d’Okta, sélectionnez **Settings**, puis **Account** dans le menu de gauche.
+       L’interface utilisateur d’Okta affiche le nom de l’entreprise sous **Organization Contact**.
        <Frame>
          <img src="/images/hosting/okta_identify_oidc_issuer_url.png" alt="Paramètres de l’organisation Okta" />
        </Frame>
@@ -137,37 +137,37 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
   <Tab title="Entra">
     Azure AD (Entra ID) prend en charge deux modes de configuration OIDC pour W&amp;B. Choisissez la configuration qui correspond à vos exigences de sécurité :
 
-    * [Client public](#public-client) : utilise PKCE sans secret client. Plus simple à configurer, il convient à la plupart des déploiements.
-    * [Client confidentiel](#confidential-client) : utilise PKCE avec un secret client pour renforcer la sécurité. Requis si vous devez définir la variable d’environnement `GORILLA_OIDC_SECRET`.
+    * [Client public](#public-client) : Utilise PKCE sans secret du client. Plus simple à configurer, il convient à la plupart des déploiements.
+    * [Client confidentiel](#confidential-client) : utilise PKCE avec un secret du client pour une sécurité renforcée. Requis si vous devez définir la variable d&#39;environnement `GORILLA_OIDC_SECRET`.
 
     <Warning>
-      Ne mélangez pas les configurations. Si vous sélectionnez &quot;Single-page application&quot; dans Azure AD, ne renseignez pas de secret client. Si vous avez besoin d’un secret client, vous devez sélectionner &quot;Web&quot; comme type de plateforme.
+      Ne mélangez pas les configurations. Si vous sélectionnez &quot;Single-page application&quot; dans Azure AD, n’indiquez pas de secret client. Si vous avez besoin d’un secret client, vous devez sélectionner &quot;Web&quot; comme type de plateforme.
     </Warning>
 
     <AccordionGroup>
       <Accordion title="Client public" defaultOpen="true">
-        Utilisez cette configuration si vous n’avez pas besoin d’indiquer un secret client. Elle convient aux déploiements qui n’ont pas d’exigences de sécurité avancées.
+        Utilisez cette configuration si vous n’avez pas besoin d’indiquer de secret client. Cette configuration convient aux déploiements sans exigences de sécurité avancées.
 
         1. Connectez-vous au [portail Azure](https://portal.azure.com/).
-        2. Accédez au service **Microsoft Entra ID** et sélectionnez **Inscriptions d’applications** dans la barre latérale gauche.
-        3. Cliquez sur **Nouvelle inscription** en haut de la page.
-        4. Sur l’écran &quot;Enregistrer une application&quot;, configurez les éléments suivants :
-           * **Nom** : saisissez un nom descriptif.
-           * **Types de comptes pris en charge** : conservez la valeur par défaut &quot;Locataire unique&quot; ou modifiez-la selon vos besoins.
-           * **URI de redirection** : sélectionnez le type de plateforme **Application monopage** et saisissez `https://YOUR_W_AND_B_URL/oidc/callback`.
-           * Cliquez sur **Enregistrer**.
-        5. Après l’inscription, notez les valeurs suivantes sur la page Aperçu :
+        2. Accédez au service **Microsoft Entra ID** et sélectionnez **App registrations** dans la barre latérale gauche.
+        3. Cliquez sur **New registration** en haut de la page.
+        4. Sur l’écran &quot;Register an application&quot;, configurez les éléments suivants :
+           * **Nom** : saisissez un nom explicite.
+           * **Types de comptes pris en charge** : conservez la valeur par défaut &quot;Single tenant&quot; ou modifiez-la selon vos besoins.
+           * **URI de redirection** : sélectionnez le type de plateforme **Single-page application** et saisissez `https://YOUR_W_AND_B_URL/oidc/callback`.
+           * Cliquez sur **Register**.
+        5. Après l’enregistrement, notez les valeurs suivantes sur la page Aperçu :
            * **ID d’application (client)** : votre ID client OIDC.
            * **ID de répertoire (locataire)** : votre URL d’émetteur OIDC.
            <Frame>
-             <img src="/images/hosting/entra_app_overview_make_note.png" alt="ID de l’application et du répertoire" />
+             <img src="/images/hosting/entra_app_overview_make_note.png" alt="ID d’application et de répertoire" />
            </Frame>
         6. Configurez les paramètres d’authentification :
-           * Sélectionnez **Authentification** dans la barre latérale gauche.
-           * Sous **URL de déconnexion du canal frontal**, saisissez `https://YOUR_W_AND_B_URL/logout`.
-           * Cliquez sur **Enregistrer**.
+           * Sélectionnez **Authentication** dans la barre latérale gauche.
+           * Sous **Front-channel logout URL**, saisissez `https://YOUR_W_AND_B_URL/logout`.
+           * Cliquez sur **Save**.
 
-        Notez les détails suivants :
+        Notez les informations suivantes :
 
         * **ID client OIDC** : l’ID d’application (client) de l’étape 5
         * **URL d’émetteur OIDC** : `https://login.microsoftonline.com/{TenantID}/v2.0` (remplacez {TenantID} par votre ID de répertoire de l’étape 5)
@@ -175,27 +175,27 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
         Lors de la configuration de W&amp;B, utilisez :
 
         * **Méthode d’authentification** : `pkce`
-        * **Secret client OIDC** : laissez ce champ vide (ne définissez pas `GORILLA_OIDC_SECRET`)
+        * **Secret client OIDC** : laissez vide (ne définissez pas `GORILLA_OIDC_SECRET`)
 
-        Ensuite, [Configurer le SSO dans W&amp;B](#set-up-sso-in-w%26b).
+        Ensuite, [configurez le SSO dans W&amp;B](#set-up-sso-in-w%26b).
       </Accordion>
 
       <Accordion title="Client confidentiel">
         Utilisez cette configuration si vous devez vous authentifier à l’aide d’un secret client.
 
-        1. Connectez-vous à l’[Azure Portal](https://portal.azure.com/).
+        1. Connectez-vous au [portail Azure](https://portal.azure.com/).
         2. Accédez au service **Microsoft Entra ID** et sélectionnez **App registrations** dans la barre latérale gauche.
         3. Cliquez sur **New registration** en haut de la page.
-        4. Sur l’écran &quot;Register an application&quot;, configurez les éléments suivants :
+        4. Dans l’écran &quot;Register an application&quot;, configurez les éléments suivants :
            * **Name** : saisissez un nom explicite.
            * **Supported account types** : conservez la valeur par défaut &quot;Single tenant&quot; ou modifiez-la selon vos besoins.
            * **Redirect URI** : sélectionnez le type de plateforme **Web** et saisissez `https://YOUR_W_AND_B_URL/oidc/callback`.
            * Cliquez sur **Register**.
-        5. Une fois l’enregistrement terminé, notez les valeurs suivantes sur la page **Overview** :
+        5. Après l’enregistrement, relevez les valeurs suivantes sur la page Aperçu :
            * **Application (client) ID** : votre ID client OIDC.
            * **Directory (tenant) ID** : votre URL d’émetteur OIDC.
            <Frame>
-             <img src="/images/hosting/entra_app_overview_make_note.png" alt="ID d’application et de répertoire" />
+             <img src="/images/hosting/entra_app_overview_make_note.png" alt="ID d’application et ID de répertoire" />
            </Frame>
         6. Configurez les paramètres d’authentification :
            * Sélectionnez **Authentication** dans la barre latérale gauche.
@@ -204,7 +204,7 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
         7. Créez un secret client :
            * Sélectionnez **Certificates &amp; secrets** dans la barre latérale gauche.
            * Cliquez sur **New client secret**.
-           * Ajoutez une description au secret.
+           * Ajoutez une description pour le secret.
            * Choisissez une durée d’expiration.
            * Cliquez sur **Add**. <Warning>Copiez et enregistrez immédiatement la **Value** du secret (et non le Secret ID)</Warning>.
            <Frame>
@@ -213,9 +213,9 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
 
         Notez les informations suivantes :
 
-        * **OIDC Client ID** : l’**Application (client) ID** de l’étape 5.
+        * **OIDC Client ID** : l’Application (client) ID de l’étape 5.
         * **OIDC Client Secret** : la valeur du secret de l’étape 7.
-        * **OIDC Issuer URL** : `https://login.microsoftonline.com/{TenantID}/v2.0` (remplacez {TenantID} par votre **Directory ID** de l’étape 5).
+        * **OIDC Issuer URL** : `https://login.microsoftonline.com/{TenantID}/v2.0` (remplacez {TenantID} par votre Directory ID de l’étape 5).
 
         Lors de la configuration de W&amp;B, utilisez :
 
@@ -223,10 +223,10 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
         * **OIDC Client Secret** : définissez la variable d’environnement `GORILLA_OIDC_SECRET` sur la valeur du secret de l’étape 7
 
         <Note>
-          Le point de terminaison v2.0 prend en charge à la fois les comptes Microsoft personnels et les comptes professionnels ou scolaires. Si votre organisation exige le point de terminaison v1.0, utilisez plutôt `https://login.microsoftonline.com/{TenantID}`.
+          Le point de terminaison v2.0 prend en charge à la fois les comptes Microsoft personnels et les comptes professionnels ou scolaires. Si votre organisation exige le point de terminaison v1.0, utilisez `https://login.microsoftonline.com/{TenantID}` à la place.
         </Note>
 
-        Ensuite, [configurez le SSO dans W&amp;B](#set-up-sso-in-w%26b).
+        Ensuite, [Configurez le SSO dans W&amp;B](#set-up-sso-in-w%26b).
       </Accordion>
     </AccordionGroup>
   </Tab>
@@ -236,16 +236,16 @@ Cette section explique comment configurer votre fournisseur d’identité (IdP) 
   ## Configurer le SSO dans W&amp;B
 </div>
 
-Pour configurer le SSO, vous devez disposer des privilèges d’administrateur et des informations suivantes :
+Pour configurer le SSO, vous devez disposer de privilèges d’administrateur et des informations suivantes :
 
 * ID client OIDC
 * Méthode d’authentification OIDC (`implicit` ou `pkce`)
 * URL de l’émetteur OIDC
-* Secret client OIDC (facultatif ; dépend de la façon dont vous avez configuré votre IdP)
+* Secret client OIDC (facultatif ; dépend de la façon dont votre IdP est configuré)
 
-Si votre IdP requiert un secret client OIDC, spécifiez-le via la [variable d’environnement](/fr/platform/hosting/env-vars) `GORILLA_OIDC_SECRET`.
+Si votre IdP exige un secret client OIDC, indiquez-le en définissant la [variable d’environnement](/fr/platform/hosting/env-vars) `GORILLA_OIDC_SECRET`.
 
-* Dans l’application W&amp;B, accédez à **System Console** &gt; **Settings** &gt; **Advanced** &gt; **User Spec** et ajoutez `GORILLA_OIDC_SECRET` à la section `extraENV`, comme indiqué ci-dessous.
+* Dans W&amp;B App, accédez à **System Console** &gt; **Settings** &gt; **Advanced** &gt; **User Spec** et ajoutez `GORILLA_OIDC_SECRET` à la section `extraENV`, comme indiqué ci-dessous.
 * Dans Helm, configurez `values.global.extraEnv` comme indiqué ci-dessous.
   ```yaml
   values:
@@ -255,14 +255,14 @@ Si votre IdP requiert un secret client OIDC, spécifiez-le via la [variable d’
   ```
 
 <Note>
-  Si vous ne parvenez pas à vous connecter à votre instance après avoir configuré le SSO, vous pouvez redémarrer l’instance avec la variable d’environnement `LOCAL_RESTORE=true` définie. Cela génère un mot de passe temporaire dans les journaux des conteneurs et désactive le SSO. Une fois les problèmes liés au SSO résolus, vous devez supprimer cette variable d’environnement pour réactiver le SSO.
+  Si vous ne parvenez pas à vous connecter à votre instance après avoir configuré le SSO, vous pouvez redémarrer l’instance avec la variable d’environnement `LOCAL_RESTORE=true` définie. Cela génère un mot de passe temporaire dans les logs des conteneurs et désactive le SSO. Une fois les problèmes de SSO résolus, vous devez supprimer cette variable d’environnement pour réactiver le SSO.
 </Note>
 
 <Tabs>
   <Tab title="System Console">
-    System Console remplace la page System Settings. Elle est disponible avec le déploiement basé sur l’[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator/).
+    System Console remplace la page System Settings. Elle est disponible dans les déploiements basés sur l’[opérateur Kubernetes W&amp;B](/fr/platform/hosting/self-managed/operator).
 
-    1. Reportez-vous à [Accéder à la console de gestion W&amp;B](/fr/platform/hosting/self-managed/operator/#access-the-wb-management-console).
+    1. Reportez-vous à [Accéder à la console de gestion W&amp;B](/fr/platform/hosting/self-managed/operator#access-the-wb-management-console).
 
     2. Accédez à **Settings**, puis à **Authentication**. Sélectionnez **OIDC** dans la liste déroulante **Type**.
        <Frame>
@@ -275,9 +275,9 @@ Si votre IdP requiert un secret client OIDC, spécifiez-le via la [variable d’
 
     5. Déconnectez-vous, puis reconnectez-vous, cette fois via l’écran de connexion de l’IdP.
 
-    ## Trouver votre espace de noms client
+    ## Trouvez votre espace de noms client
 
-    Avant de pouvoir configurer le BYOB au niveau de l’équipe avec le stockage CoreWeave sur W&amp;B Cloud dédié ou Autogéré, vous devez obtenir le **Customer Namespace** de votre organisation. Vous pouvez l’afficher et le copier en bas de l’onglet **Authentication**.
+    Avant de pouvoir configurer BYOB au niveau de l’équipe avec le stockage CoreWeave sur W&amp;B Cloud dédié ou Autogéré, vous devez obtenir le **Customer Namespace** de votre organisation. Vous pouvez l’afficher et le copier en bas de l’onglet **Authentication**.
 
     Pour obtenir des instructions détaillées sur la configuration du stockage CoreWeave avec votre Customer Namespace, voir [Exigences CoreWeave pour Cloud dédié / Autogéré](/fr/platform/hosting/data-security/secure-storage-connector#coreweave-customer-namespace).
   </Tab>
@@ -285,10 +285,10 @@ Si votre IdP requiert un secret client OIDC, spécifiez-le via la [variable d’
   <Tab title="System Settings">
     1. Connectez-vous à votre instance Weights &amp; Biases.
 
-    2. Accédez à l’application W&amp;B.
+    2. Accédez à W&amp;B App.
 
        <Frame>
-         <img src="/images/hosting/system_settings.png" alt="Navigation dans l’application W&B" />
+         <img src="/images/hosting/system_settings.png" alt="Navigation dans W&B App" />
        </Frame>
 
     3. Dans la liste déroulante, sélectionnez **System Settings** :
@@ -308,11 +308,11 @@ Si votre IdP requiert un secret client OIDC, spécifiez-le via la [variable d’
 </Tabs>
 
 <Note>
-  Si vous ne parvenez pas à vous connecter à votre instance après avoir configuré le SSO, vous pouvez redémarrer l’instance avec la variable d’environnement `LOCAL_RESTORE=true` définie. Cela génère un mot de passe temporaire dans les journaux des conteneurs et désactive le SSO. Une fois les problèmes liés au SSO résolus, vous devez supprimer cette variable d’environnement pour réactiver le SSO.
+  Si vous ne parvenez pas à vous connecter à votre instance après avoir configuré le SSO, vous pouvez redémarrer l’instance avec la variable d’environnement `LOCAL_RESTORE=true` définie. Cela génère un mot de passe temporaire dans les logs des conteneurs et désactive le SSO. Une fois les problèmes de SSO résolus, vous devez supprimer cette variable d’environnement pour réactiver le SSO.
 </Note>
 
 <div id="security-assertion-markup-language-saml">
   ## Security Assertion Markup Language (SAML)
 </div>
 
-W&amp;B ne prend pas en charge SAML.
+W&amp;B ne prend pas en charge le protocole SAML.

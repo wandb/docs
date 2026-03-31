@@ -1,52 +1,52 @@
 ---
 title: "PydanticAI"
-description: "OpenTelemetry を使用して Weave で PydanticAI エージェントとツールの呼び出しをトレースする"
+description: "OpenTelemetry を使用して Weave で PydanticAI のエージェントとツールの call をトレースする"
 ---
 
-[OpenTelemetry (OTEL)](https://opentelemetry.io/) を使用して Weave で [PydanticAI](https://ai.pydantic.dev/) エージェントとツールの呼び出しをトレースできます。PydanticAI は Pydantic チームによって開発された Python エージェント フレームワークであり、生成 AI を用いた本番グレードのアプリケーションを、簡単かつ型安全に構築できるようにします。PydanticAI は、すべてのエージェントとツールの呼び出しをトレースするために OTEL を使用します。
+[OpenTelemetry (OTEL)](https://opentelemetry.io/) を使用すると、Weave で [PydanticAI](https://ai.pydantic.dev/) のエージェントとツールの call をトレースできます。PydanticAI は、生成 AI を使った本番環境向けのアプリケーションを簡単かつ型安全に構築できるように、Pydantic チームが開発した Python のエージェントフレームワークです。すべてのエージェントとツールの call をトレースするために OTEL を使用します。
 
 <Tip>
-  Weave での OTEL トレースの詳細については、[Send OTEL Traces to Weave](../tracking/otel) を参照してください。
+  Weave における OTEL トレースの詳細については、[Send OTEL Traces to Weave](../tracking/otel) を参照してください。
 </Tip>
 
-このガイドでは、OTEL を使用して PydanticAI エージェントとツールの呼び出しをトレースし、そのトレースを Weave で可視化する方法を説明します。必要な依存関係のインストール方法、Weave にデータを送信する OTEL トレーサーの設定方法、および PydanticAI エージェントとツールを計測する方法を学びます。また、アプリケーション内のすべてのエージェントで、デフォルトでトレースを有効にする方法も示します。
+このガイドでは、OTEL を使用して PydanticAI のエージェントとツールの call をトレースし、それらのトレースを Weave で可視化する方法を説明します。必要な依存関係をインストールし、Weave にデータを送信する OTEL トレーサーを設定し、PydanticAI のエージェントとツールを計装する方法を学びます。また、アプリケーション内のすべてのエージェントでデフォルトでトレースを有効にする方法も紹介します.
 
 <div id="prerequisites">
   ## 前提条件
 </div>
 
-開始する前に、必要な OTEL 依存関係をインストールしてください。
+始める前に、必要なOTELの依存関係をインストールしてください。
 
 ```bash
 pip install opentelemetry-sdk OTELemetry-exporter-otlp-proto-http
 ```
 
-次に、[Weave で OTEL トレーシングを設定します](#configure-otel-tracing-in-weave)。
+次に、[WeaveでOTELトレースを設定します](#configure-otel-tracing-in-weave)。
 
 <div id="configure-otel-tracing-in-weave">
   ### Weave で OTEL トレースを設定する
 </div>
 
-PydanticAI から Weave にトレースを送信するには、`TracerProvider` と `OTLPSpanExporter` を使って OTEL を設定します。エクスポーターの送信先として、[認証およびプロジェクト識別のための正しいエンドポイントと HTTP ヘッダー](#required-configuration) を指定します。
+PydanticAI から Weave にトレースを送信するには、`TracerProvider` と `OTLPSpanExporter` を使用して OTEL を設定します。エクスポーターには、[認証とプロジェクト識別に必要な正しいエンドポイントと HTTP ヘッダー](#required-configuration)を設定してください。
 
 <Warning>
-  API キーやプロジェクト情報などの機密性の高い環境変数は、`.env` などの環境ファイルに保存し、`os.environ` を使用して読み込むことを推奨します。これにより、認証情報を安全に保ち、コードベースから切り離しておくことができます。
+  APIキーやプロジェクト情報などの機密性の高い環境変数は、環境ファイル (例: `.env`) に保存し、`os.environ` を使って読み込むことをおすすめします。こうすることで、認証情報を安全に保ち、コードベースに含めずに済みます。
 </Warning>
 
 <div id="required-configuration">
-  ### 必要な設定
+  ### 必須設定
 </div>
 
-* **Endpoint:** `https://trace.wandb.ai/otel/v1/traces`
-* **Headers:**
-  * `Authorization`: W&amp;B の API キーを使用した Basic 認証
-  * `project_id`: W&amp;B Entities/Projects の名前 (例: `myteam/myproject`)
+* **エンドポイント:** `https://trace.wandb.ai/otel/v1/traces`
+* **ヘッダー:**
+  * `Authorization`: W&amp;B APIキーを使用するBasic認証
+  * `project_id`: W&amp;B の entity/プロジェクト名 (例: `myteam/myproject`)
 
 <div id="example-set-up">
-  ### セットアップ例
+  ### 設定例
 </div>
 
-次のコードスニペットは、OTLP span exporter と tracer provider を設定し、PydanticAI アプリケーションから Weave へ OTEL トレースを送信する方法を示します。
+次のコード例では、PydanticAI アプリケーションから Weave に OTEL トレースを送信するために、OTLP span exporter と トレーサープロバイダー を設定する方法を示します。
 
 ```python lines
 import base64
@@ -57,8 +57,8 @@ from opentelemetry.sdk.trace.export import SimpleSpanProcessor
 
 # 環境変数から機密情報を読み込む
 WANDB_BASE_URL = "https://trace.wandb.ai"
-PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  # W&B の entity/project 名（例: "myteam/myproject"）
-WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  # W&B の API キー
+PROJECT_ID = os.environ.get("WANDB_PROJECT_ID")  # W&B entity/プロジェクト名 例: "myteam/myproject"
+WANDB_API_KEY = os.environ.get("WANDB_API_KEY")  # W&B APIキー
 
 OTEL_EXPORTER_OTLP_ENDPOINT = f"{WANDB_BASE_URL}/otel/v1/traces"
 AUTH = base64.b64encode(f"api:{WANDB_API_KEY}".encode()).decode()
@@ -68,7 +68,7 @@ OTEL_EXPORTER_OTLP_HEADERS = {
     "project_id": PROJECT_ID,
 }
 
-# エンドポイントとヘッダーを指定して OTLP スパンエクスポーターを作成する
+# エンドポイントとヘッダーを指定してOTLPスパンエクスポーターを作成する
 exporter = OTLPSpanExporter(
     endpoint=OTEL_EXPORTER_OTLP_ENDPOINT,
     headers=OTEL_EXPORTER_OTLP_HEADERS,
@@ -80,18 +80,18 @@ tracer_provider.add_span_processor(SimpleSpanProcessor(exporter))
 ```
 
 <div id="trace-pydanticai-agents-with-otel">
-  ## OTEL を使用して PydanticAI エージェントをトレースする
+  ## OTEL で PydanticAI Agents をトレースする
 </div>
 
-PydanticAI エージェントをトレースしてトレースデータを Weave に送信するには、tracer provider を設定した `InstrumentationSettings` オブジェクトを `Agent constructor` に渡します。これにより、すべてのエージェントとツールの呼び出しが OTEL の設定に従ってトレースされます。
+PydanticAI エージェントをトレースし、トレースデータを Weave に送信するには、トレーサープロバイダーで設定した `InstrumentationSettings` オブジェクトを `Agent` コンストラクタに渡します。これにより、すべてのエージェントとツールの call が、OTEL の設定に従ってトレースされます。
 
-次の例は、トレースを有効にしたシンプルなエージェントを作成する方法を示しています。重要なステップは、エージェントを初期化するときに instrument 引数を設定することです。
+次の例では、トレースを有効にしたシンプルなエージェントを作成する方法を示します。重要な step は、エージェントの初期化時に `instrument` 引数を設定することです。
 
 ```python lines
 from pydantic_ai import Agent
 from pydantic_ai.models.instrumented import InstrumentationSettings
 
-# OTEL トレーシングを使用して PydanticAI エージェントを作成する
+# OTELトレースを使用してPydanticAIエージェントを作成する
 agent = Agent(
     "openai:gpt-4o",
     instrument=InstrumentationSettings(tracer_provider=tracer_provider),
@@ -101,25 +101,25 @@ result = agent.run_sync("What is the capital of France?")
 print(result.output)
 ```
 
-エージェントへのすべての呼び出しはトレースされ、Weave に送信されます。
+エージェントへのすべてのcallはトレースされ、Weave に送信されます。
 
 <Frame>
-  ![シンプルな PydanticAI エージェントのトレース可視化](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png)
+  ![シンプルなPydanticAIエージェントのトレースの可視化](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_agent_trace.png)
 </Frame>
 
 <div id="trace-pydanticai-tools-with-otel">
-  ## OTEL を使用して PydanticAI のツールをトレースする
+  ## OTEL で PydanticAI のツールをトレースする
 </div>
 
-Weave は、エージェント呼び出しとツール呼び出しの両方を含め、OTEL でインストルメントされたあらゆる PydanticAI の処理をトレースできます。つまり、エージェントがツール（例: `@agent.tool_plain` でデコレートされた関数）を呼び出すと、そのやり取り全体が Weave によってキャプチャおよび可視化され、ツールの入力・出力に加えてモデルの推論過程も確認できます。
+Weave では、エージェント と ツール の call を含む、OTEL でインストルメントされたあらゆる PydanticAI の operation をトレースできます。つまり、エージェント がツール (たとえば `@agent.tool_plain` でデコレートされた関数) を呼び出すと、ツールの inputs、outputs、そしてモデルの推論を含むやり取り全体が Weave でキャプチャされ、可視化されます。
 
-次の例では、system prompt と ツールを持つエージェントの作成方法を示します。トレースはエージェントとツールの両方に対して自動的に有効になります。
+次の例では、system prompt とツールを備えた エージェント を作成する方法を示します。トレースは エージェント とツールの両方で自動的に有効になります。
 
 ```python lines
 from pydantic_ai import Agent
 from pydantic_ai.models.instrumented import InstrumentationSettings
 
-# システムプロンプトと OTEL トレーシングを使用して PydanticAI エージェントを作成する
+# system promptとOTELトレースを使用してPydanticAIエージェントを作成する
 agent = Agent(
     "openai:gpt-4o",
     system_prompt=(
@@ -141,16 +141,16 @@ print(result.output)
 ```
 
 <Frame>
-  ![ツール呼び出しのトレース可視化](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png)
+  ![ツール call のトレース可視化](/weave/guides/integrations/imgs/pydantic_ai/pydanticai_tool_call.png)
 </Frame>
 
-エージェント呼び出しとツール呼び出しの両方が Weave でトレースされるため、アプリケーションの推論プロセスと実行経路を完全に確認できます。
+エージェント call と ツール call はどちらも Weave でトレースされるため、アプリケーションの推論から実行までの全経路を確認できます.
 
 <div id="instrument-all-agents-by-default">
-  ## すべてのエージェントをデフォルトでインストルメント化する
+  ## デフォルトですべてのエージェントにインストルメンテーションを適用する
 </div>
 
-アプリケーション内のすべての PydanticAI エージェントに OTEL トレーシングを適用するには、`Agent.instrument_all()` メソッドを使用します。これにより、`instrument` パラメーターを明示的に指定していないすべてのエージェントに対して、デフォルトの `InstrumentationSettings` インスタンスが設定されます。
+アプリケーション内のすべての PydanticAI エージェントに OTEL トレースを適用するには、`Agent.instrument_all()` method を使用します。これにより、`instrument` パラメーターを明示的に指定していないエージェントに対して、デフォルトの `InstrumentationSettings` インスタンスが設定されます。
 
 ```python lines
 from pydantic_ai import Agent
@@ -167,13 +167,13 @@ result = agent1.run_sync("What is the capital of France?")
 print(result.output)
 ```
 
-これは、すべてのエージェント間で設定を繰り返すことなく一貫したトレーシングを行いたい、大規模なアプリケーションにおいて有用です。詳細については、[PydanticAI OTEL ドキュメント](https://ai.pydantic.dev/logfire/#using-logfire) を参照してください。
+これは、設定を繰り返し記述することなく、すべてのエージェントで一貫したトレースを実現したい大規模なアプリケーションで役立ちます。詳細については、[PydanticAI OTEL ドキュメント](https://ai.pydantic.dev/logfire/#using-logfire)を参照してください。
 
 <div id="learn-more">
-  ## 参考情報
+  ## さらに詳しく
 </div>
 
 * [Weave ドキュメント: OTEL トレースを Weave に送信する](../tracking/otel)
-* [OTEL の公式ドキュメント](https://opentelemetry.io/)
-* [PydanticAI の公式ドキュメント](https://ai.pydantic.dev/)
-* [PydanticAI の GitHub リポジトリ](https://github.com/pydantic/pydantic-ai)
+* [OpenTelemetry 公式ドキュメント](https://opentelemetry.io/)
+* [PydanticAI 公式ドキュメント](https://ai.pydantic.dev/)
+* [PydanticAI GitHub リポジトリ](https://github.com/pydantic/pydantic-ai)

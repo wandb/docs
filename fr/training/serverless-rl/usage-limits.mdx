@@ -1,38 +1,38 @@
 ---
 title: Informations sur l’utilisation et les limites
-description: Comprenez la tarification, les limites d’utilisation et les restrictions du compte pour W&B Serverless RL
+description: Découvrez la tarification, les limites d’utilisation et les restrictions de compte de W&B Serverless RL
 ---
 
 <div id="pricing">
   ## Tarification
 </div>
 
-La tarification comprend trois composants : l’inférence, l’entraînement et le stockage. Pour connaître les tarifs de facturation applicables, consultez notre [page de tarification](https://site.wandb.ai/pricing/training).
+La tarification comporte trois composants : l’inférence, l’entraînement et le stockage. Pour consulter les tarifs de facturation détaillés, consultez notre [page de tarification](https://site.wandb.ai/pricing/training).
 
 <div id="inference">
   ### Inférence
 </div>
 
-La tarification des requêtes d’inférence RL serverless est identique à celle de W&amp;B Inference. Voir les [coûts spécifiques aux modèles](https://site.wandb.ai/pricing/reinforcement-learning) pour plus de détails. Pour en savoir plus sur l’achat de crédits, les niveaux de compte et les plafonds d’utilisation, consultez la [documentation W&amp;B Inference](/fr/inference/usage-limits#purchase-more-credits).
+La tarification des requêtes d’inférence RL sans serveur correspond à celle de W&amp;B Inference. Voir les [coûts spécifiques au modèle](https://site.wandb.ai/pricing/reinforcement-learning) pour plus de détails. Pour en savoir plus sur l’achat de crédits, les niveaux de compte et les plafonds d’utilisation, consultez la [documentation W&amp;B Inference](/fr/inference/usage-limits#purchase-more-credits).
 
 <div id="training">
   ### Entraînement
 </div>
 
-À chaque étape d&#39;entraînement, Serverless RL collecte des lots de trajectoires qui incluent les sorties de votre agent et les récompenses associées (calculées par votre fonction de récompense). Ces trajectoires, regroupées en lots, sont ensuite utilisées pour mettre à jour les poids d&#39;un adaptateur LoRA qui spécialise un modèle de base pour votre tâche. Les tâches d&#39;entraînement destinées à mettre à jour ces adaptateurs LoRA s&#39;exécutent sur des clusters GPU dédiés gérés par Serverless RL.
+À chaque étape d&#39;entraînement, Serverless RL collecte des lots de trajectoires comprenant les sorties de votre agent et les récompenses associées (calculées par votre fonction de récompense). Ces trajectoires, regroupées en lots, servent ensuite à mettre à jour les poids d&#39;un adaptateur LoRA qui spécialise un modèle de base pour votre tâche. Les tâches d&#39;entraînement qui mettent à jour ces LoRA s&#39;exécutent sur des clusters GPU dédiés gérés par Serverless RL.
 
-L&#39;entraînement est gratuit pendant la période de préversion publique.
+L&#39;entraînement est gratuit pendant la phase de préversion publique.
 
 <div id="model-storage">
   ### Stockage des modèles
 </div>
 
-Serverless RL stocke les points de contrôle de vos LoRA entraînés afin que vous puissiez les évaluer, les déployer ou poursuivre leur entraînement à tout moment. Le stockage est facturé mensuellement en fonction de la taille totale des points de contrôle et de votre [plan tarifaire](https://wandb.ai/site/pricing). Chaque plan inclut au moins 5 Go de stockage gratuit, ce qui suffit pour environ 30 LoRA. Nous vous recommandons de supprimer les LoRA les moins performants pour économiser de l’espace. Voir l’[ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) pour obtenir des instructions.
+Serverless RL stocke les checkpoints de vos LoRA entraînés afin que vous puissiez les évaluer, les mettre en service avec Serve ou reprendre leur entraînement à tout moment. Le stockage est facturé mensuellement en fonction de la taille totale des checkpoints et de votre [plan de tarification](https://wandb.ai/site/pricing). Chaque plan inclut au moins 5 Go de stockage gratuit, ce qui suffit pour environ 30 LoRA. Nous vous recommandons de supprimer les LoRA les moins performants pour économiser de l’espace. Voir le [ART SDK](https://art.openpipe.ai/features/checkpoint-deletion) pour savoir comment procéder.
 
 <div id="limits">
   ## Limites
 </div>
 
-* **Limites de simultanéité de l’Inférence** : Par défaut, Serverless RL prend actuellement en charge jusqu’à 2 000 requêtes simultanées par utilisateur et 6 000 par projet. Si vous dépassez votre limite de débit, l’API d’inférence renvoie une réponse `429 Concurrency limit reached for requests`. Pour éviter cette erreur, réduisez le nombre de requêtes simultanées envoyées par votre tâche d’entraînement ou votre charge de travail de production. Si vous avez besoin d’une limite de débit plus élevée, vous pouvez en demander une à support@wandb.com.
+* **Limites de concurrence d&#39;Inférence** : Par défaut, Serverless RL prend actuellement en charge jusqu&#39;à 2 000 requêtes simultanées par utilisateur et 6 000 par projet. Si vous dépassez votre limite de débit, l&#39;API Inférence renvoie une réponse `429 Concurrency limit reached for requests`. Pour éviter cette erreur, réduisez le nombre de requêtes simultanées envoyées par votre tâche d&#39;entraînement ou votre charge de travail de Production. Si vous avez besoin d&#39;une limite de débit plus élevée, vous pouvez en demander une à support@wandb.com.
 
 * **Restrictions géographiques** : Serverless RL est disponible uniquement dans les zones géographiques prises en charge. Pour plus d&#39;informations, voir les [Conditions d&#39;utilisation](https://site.wandb.ai/terms/).

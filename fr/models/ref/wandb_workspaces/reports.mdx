@@ -7,10 +7,10 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb-workspaces/blob/main/wandb_workspaces/reports/v2/internal.py" />
 
 <Note>
-  L’API Reports et Workspace de W&amp;B est en préversion publique.
+  L’API W&amp;B Report and Workspace API est en préversion publique.
 </Note>
 
-Bibliothèque Python pour utiliser l’API Reports de W&amp;B par programmation.
+Bibliothèque Python permettant de travailler par programmation avec l’API W&amp;B Reports.
 
 ```python
 import wandb_workspaces.reports.v2 as wr
@@ -38,32 +38,32 @@ report.save()
 
 ## <kbd>class</kbd> `BarPlot`
 
-Un objet de panneau qui affiche un graphique à barres en 2D.
+Un objet de panneau qui affiche un graphique en barres 2D.
 
 **Attributs :**
 
-* `title` (Optional[str]) :  Le texte affiché en haut du graphique.
-* `metrics` (LList[MetricType]) :  orientation Literal[&quot;v&quot;, &quot;h&quot;] : L’orientation du graphique à barres. Définissez-la sur verticale (&quot;v&quot;) ou horizontale (&quot;h&quot;). La valeur par défaut est l’horizontale (&quot;h&quot;).
+* `title` (Optional[str]) :  Le texte qui s&#39;affiche en haut du graphique.
+* `metrics` (LList[MetricType]) :  orientation Literal[&quot;v&quot;, &quot;h&quot;] : L’orientation du graphique en barres. Définissez-la sur verticale (&quot;v&quot;) ou horizontale (&quot;h&quot;). La valeur par défaut est l’orientation horizontale (&quot;h&quot;).
 * `range_x` (Tuple[float | None, float | None]) :  Tuple qui spécifie la plage de l’axe x.
 * `title_x` (Optional[str]) :  Le libellé de l’axe x.
 * `title_y` (Optional[str]) :  Le libellé de l’axe y.
-* `groupby` (Optional[str]) :  Regroupe les runs en fonction d'une métrique enregistrée dans votre projet W&amp;B, à partir de laquelle le rapport extrait des informations.
-* `groupby_aggfunc` (Optional[GroupAgg]) :  Agrège les runs à l’aide de la fonction spécifiée. Les options incluent &quot;mean&quot;, &quot;min&quot;, &quot;max&quot;, &quot;median&quot;, &quot;sum&quot;, &quot;samples&quot; ou `None`.
-* `groupby_rangefunc` (Optional[GroupArea]) :   Regroupe les runs selon une plage. Les options incluent &quot;minmax&quot;, &quot;stddev&quot;, &quot;stderr&quot;, &quot;none&quot;, &quot;samples&quot; ou `None`.
+* `groupby` (Optional[str]) :  Regroupez les runs selon une métrique enregistrée dans votre projet W&amp;B, à partir duquel le rapport extrait les informations.
+* `groupby_aggfunc` (Optional[GroupAgg]) :  Agrégez les runs à l’aide de la fonction spécifiée. Les options incluent &quot;mean&quot;, &quot;min&quot;, &quot;max&quot;, &quot;median&quot;, &quot;sum&quot;, &quot;samples&quot; ou `None`.
+* `groupby_rangefunc` (Optional[GroupArea]) :   Regroupez les runs selon une plage. Les options incluent &quot;minmax&quot;, &quot;stddev&quot;, &quot;stderr&quot;, &quot;none&quot;, &quot;samples&quot; ou `None`.
 * `max_runs_to_show` (Optional[int]) :  Le nombre maximal de runs à afficher sur le graphique.
-* `max_bars_to_show` (Optional[int]) :  Le nombre maximal de barres à afficher sur le graphique à barres.
-* `custom_expressions` (Optional[LList[str]]) :  Une liste d’expressions personnalisées à utiliser dans le graphique à barres.
+* `max_bars_to_show` (Optional[int]) :  Le nombre maximal de barres à afficher sur le graphique en barres.
+* `custom_expressions` (Optional[LList[str]]) :  Une liste d’expressions personnalisées à utiliser dans le graphique en barres.
 * `legend_template` (Optional[str]) :  Le modèle de la légende.
 * `font_size` ( Optional[FontSize]) :  La taille de police du graphique en courbes. Les options incluent &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
-* `line_titles` (Optional[dict]) :  Les titres des lignes. Les clés sont les noms des lignes et les valeurs sont les titres.
-* `line_colors` (Optional[dict]) :  Les couleurs des lignes. Les clés sont les noms des lignes et les valeurs sont les couleurs.
-* `aggregate` (Optional[bool]) :  Si défini sur `True`, agrège les données.
+* `line_titles` (Optional[dict]) :  Les titres des lignes. Les clés correspondent aux noms des lignes et les valeurs aux titres.
+* `line_colors` (Optional[dict]) :  Les couleurs des lignes. Les clés correspondent aux noms des lignes et les valeurs aux couleurs.
+* `aggregate` (Optional[bool]) :  Si défini sur `True`, les données sont agrégées.
 
 ***
 
 ## <kbd>class</kbd> `BlockQuote`
 
-Un bloc de texte en citation.
+Un bloc de citation.
 
 **Attributs :**
 
@@ -73,11 +73,11 @@ Un bloc de texte en citation.
 
 ## <kbd>class</kbd> `CalloutBlock`
 
-Bloc de texte d’encadré.
+Un bloc de texte d’encadré.
 
 **Attributs :**
 
-* `text` (str):  Le texte de l’encadré.
+* `text` (str):  Le texte d’encadré.
 
 ***
 
@@ -87,18 +87,18 @@ Une liste d’éléments avec cases à cocher. Ajoutez un ou plusieurs `CheckedL
 
 **Attributs :**
 
-* `items` (LList[CheckedListItem]) :  Une liste d’un ou plusieurs objets `CheckedListItem`.
+* `items` (LList[CheckedListItem]) : une liste d’un ou plusieurs objets `CheckedListItem`.
 
 ***
 
 ## <kbd>class</kbd> `CheckedListItem`
 
-Élément de liste avec une case à cocher. Ajoutez un ou plusieurs `CheckedListItem` dans `CheckedList`.
+Un élément de liste avec une case à cocher. Ajoutez un ou plusieurs `CheckedListItem` à `CheckedList`.
 
 **Attributs :**
 
-* `text` (str):  Texte de l’élément de liste.
-* `checked` (bool):  Indique si la case est cochée. La valeur par défaut est `False`.
+* `text` (str):  Le texte de l’élément de liste.
+* `checked` (bool):  Indique si la case à cocher est cochée. Par défaut, la valeur est `False`.
 
 ***
 
@@ -108,24 +108,24 @@ Un bloc de code.
 
 **Attributs :**
 
-* `code` (str):  Le code du bloc.
-* `language` (Optional[Language]):  Le langage du code. Le langage spécifié est utilisé pour la coloration syntaxique. Par défaut, la valeur est définie sur &quot;python&quot;. Les options incluent &#39;javascript&#39;, &#39;python&#39;, &#39;css&#39;, &#39;json&#39;, &#39;html&#39;, &#39;markdown&#39;, &#39;yaml&#39;.
+* `code` (str):  Le code contenu dans le bloc.
+* `language` (Optional[Language]):  Le langage du code. Le langage indiqué est utilisé pour la coloration syntaxique. Par défaut, il est défini sur &quot;python&quot;. Les options incluent &#39;javascript&#39;, &#39;python&#39;, &#39;css&#39;, &#39;json&#39;, &#39;html&#39;, &#39;markdown&#39;, &#39;yaml&#39;.
 
 ***
 
 ## <kbd>class</kbd> `CodeComparer`
 
-Objet de panneau qui compare le code entre deux runs différents.
+Un objet de panneau qui compare le code entre deux runs distincts.
 
 **Attributs :**
 
-* `diff` (Literal[&#39;split&#39;, &#39;unified&#39;]) :  Mode d’affichage des différences de code. Les options sont &quot;split&quot; et &quot;unified&quot;.
+* `diff` (Literal[&#39;split&#39;, &#39;unified&#39;]) :  Définit comment afficher les différences de code. Les options disponibles sont &quot;split&quot; et &quot;unified&quot;.
 
 ***
 
 ## <kbd>class</kbd> `Config`
 
-Métriques enregistrées dans l’objet de configuration d’un run. Les objets de configuration sont généralement enregistrés à l’aide de `run.config[name] = ...` ou en passant une configuration sous la forme d’un dictionnaire de paires clé-valeur, où la clé est le nom de la métrique et la valeur, celle de cette métrique.
+Métriques enregistrées dans l&#39;objet de configuration d&#39;un run. Les objets de configuration sont généralement enregistrés à l&#39;aide de `run.config[name] = ...` ou en passant une configuration sous forme de dictionnaire de paires clé-valeur, où la clé correspond au nom de la métrique et la valeur à sa valeur.
 
 **Attributs :**
 
@@ -135,18 +135,18 @@ Métriques enregistrées dans l’objet de configuration d’un run. Les objets 
 
 ## <kbd>class</kbd> `CustomChart`
 
-Panneau qui affiche un graphique personnalisé. Le graphique est défini par une requête Weave.
+Un panneau affichant un graphique personnalisé. Le graphique est défini par une requête Weave.
 
 **Attributs :**
 
-* `query` (dict) :  Requête qui définit le graphique personnalisé. La clé est le nom du champ et la valeur est la requête.
-* `chart_name` (str) :  Le titre du graphique personnalisé.
-* `chart_fields` (dict) :  Paires clé-valeur qui définissent les axes du graphique. La clé correspond au libellé et la valeur à la métrique.
-* `chart_strings` (dict) :  Paires clé-valeur qui définissent les chaînes de caractères du graphique.
+* `query` (dict):  La requête qui définit le graphique personnalisé. La clé est le nom du champ et la valeur est la requête.
+* `chart_name` (str):  Le titre du graphique personnalisé.
+* `chart_fields` (dict):  Paires clé-valeur qui définissent les axes du graphique, où la clé correspond au libellé et la valeur à la métrique.
+* `chart_strings` (dict):  Paires clé-valeur qui définissent les chaînes du graphique.
 
 ***
 
-### <kbd>classmethod</kbd> `from_table`
+### <kbd>méthode de classe</kbd> `from_table`
 
 ```python
 from_table(
@@ -156,13 +156,13 @@ from_table(
 )
 ```
 
-Créer un graphique personnalisé à partir d’un tableau.
+Créer un graphique personnalisé à partir d&#39;un tableau.
 
 **Arguments :**
 
-* `table_name` (str) :  Le nom du tableau.
-* `chart_fields` (dict) :  Les champs à afficher dans le graphique.
-* `chart_strings` (dict) :  Les chaînes de caractères à afficher dans le graphique.
+* `table_name` (str):  Le nom du tableau.
+* `chart_fields` (dict):  Les champs à afficher dans le graphique.
+* `chart_strings` (dict):  Les chaînes de caractères à afficher dans le graphique.
 
 ***
 
@@ -183,7 +183,7 @@ Une référence à un rapport de la galerie.
 
 **Attributs :**
 
-* `report_id` (str):  L’identifiant du rapport.
+* `report_id` (str):  L’ID du rapport.
 
 ***
 
@@ -202,7 +202,7 @@ URL d’une ressource externe.
 
 ## <kbd>class</kbd> `GradientPoint`
 
-Point d’un gradient.
+Un point d’un gradient.
 
 **Attributs :**
 
@@ -224,7 +224,7 @@ Un titre H1 avec le texte spécifié.
 
 ## <kbd>class</kbd> `H2`
 
-Un titre H2 avec le texte spécifié.
+Un titre H2 avec le texte indiqué.
 
 **Attributs :**
 
@@ -235,7 +235,7 @@ Un titre H2 avec le texte spécifié.
 
 ## <kbd>class</kbd> `H3`
 
-Un titre H3 avec le texte spécifié.
+Un titre H3 dont le texte est spécifié.
 
 **Attributs :**
 
@@ -250,7 +250,7 @@ Un titre H3 avec le texte spécifié.
 
 ## <kbd>class</kbd> `HorizontalRule`
 
-Ligne horizontale en HTML.
+Trait horizontal HTML.
 
 ***
 
@@ -261,7 +261,7 @@ Un bloc qui affiche une image.
 **Attributs :**
 
 * `url` (str):  L’URL de l’image.
-* `caption` (str):  La légende de l’image.  La légende s’affiche sous l’image.
+* `caption` (str):  La légende de l’image.  Elle apparaît sous l’image.
 
 ***
 
@@ -277,11 +277,11 @@ Code en ligne. N’ajoute pas de saut de ligne après le code.
 
 ## <kbd>class</kbd> `InlineLatex`
 
-Markdown LaTeX en ligne. N’ajoute pas de saut de ligne après le markdown LaTeX.
+Markdown LaTeX en ligne. N’ajoute pas de retour à la ligne après le markdown LaTeX.
 
 **Attributs :**
 
-* `text` (str):  Le markdown LaTeX que vous souhaitez voir apparaître dans le rapport.
+* `text` (str):  Le markdown LaTeX que vous souhaitez voir apparaître dans Reports.
 
 ***
 
@@ -295,9 +295,9 @@ Un bloc de texte en LaTeX.
 
 ***
 
-## <kbd>class</kbd> `Mise en page`
+## <kbd>class</kbd> `Layout`
 
-La mise en page d&#39;un panneau dans un rapport. Définit la taille et la position du panneau.
+La mise en page d’un panneau dans un rapport. Ajuste la taille et la position du panneau.
 
 **Attributs :**
 
@@ -310,38 +310,38 @@ La mise en page d&#39;un panneau dans un rapport. Définit la taille et la posit
 
 ## <kbd>class</kbd> `LinePlot`
 
-Un objet de panneau contenant des graphiques en courbes 2D.
+Un objet de panneau avec des graphiques en courbes 2D.
 
 **Attributs :**
 
-* `title` (Optional[str]) :  Le texte affiché en haut du graphique.
-* `x` (Optional[MetricType]) :  Le nom d&#39;une métrique enregistrée dans votre projet W&amp;B, à partir de laquelle le rapport extrait des informations. La métrique spécifiée est utilisée pour l&#39;axe x.
-* `y` (LList[MetricType]) :  Une ou plusieurs métriques enregistrées dans votre projet W&amp;B, à partir desquelles le rapport extrait des informations. La métrique spécifiée est utilisée pour l&#39;axe y.
-* `range_x` (Tuple[float | `None`, float | `None`]) :  Tuple spécifiant la plage de l&#39;axe x.
-* `range_y` (Tuple[float | `None`, float | `None`]) :  Tuple spécifiant la plage de l&#39;axe y.
-* `log_x` (Optional[bool]) :  Trace les coordonnées x sur une échelle logarithmique en base 10.
-* `log_y` (Optional[bool]) :  Trace les coordonnées y sur une échelle logarithmique en base 10.
-* `title_x` (Optional[str]) :  Le libellé de l&#39;axe x.
-* `title_y` (Optional[str]) :  Le libellé de l&#39;axe y.
-* `ignore_outliers` (Optional[bool]) :  Si défini sur `True`, n&#39;affiche pas les valeurs aberrantes.
-* `groupby` (Optional[str]) :  Regroupe les runs en fonction d&#39;une métrique enregistrée dans votre projet W&amp;B, à partir de laquelle le rapport extrait des informations.
-* `groupby_aggfunc` (Optional[GroupAgg]) :  Agrège les runs à l&#39;aide de la fonction spécifiée. Les options incluent &quot;mean&quot;, &quot;min&quot;, &quot;max&quot;, &quot;median&quot;, &quot;sum&quot;, &quot;samples&quot; ou `None`.
-* `groupby_rangefunc` (Optional[GroupArea]) :   Regroupe les runs selon une plage. Les options incluent &quot;minmax&quot;, &quot;stddev&quot;, &quot;stderr&quot;, &quot;none&quot;, &quot;samples&quot; ou `None`.
-* `smoothing_factor` (Optional[float]) :  Le facteur de lissage à appliquer au type de lissage. Les valeurs acceptées sont comprises entre 0 et 1.
-* `smoothing_type Optional[SmoothingType]` :  Applique un filtre basé sur la distribution spécifiée. Les options incluent &quot;exponentialTimeWeighted&quot;, &quot;exponential&quot;,  &quot;gaussian&quot;, &quot;average&quot; ou &quot;none&quot;.
-* `smoothing_show_original` (Optional[bool]) :    Si défini sur `True`, affiche les données d&#39;origine.
-* `max_runs_to_show` (Optional[int]) :  Le nombre maximal de runs à afficher sur le graphique en courbes.
-* `custom_expressions` (Optional[LList[str]]) :  Expressions personnalisées à appliquer aux données.
-* `plot_type Optional[LinePlotStyle]` :  Le type de graphique en courbes à générer.  Les options incluent &quot;line&quot;, &quot;stacked-area&quot; ou &quot;pct-area&quot;.
-* `font_size Optional[FontSize]` :  La taille de police du graphique en courbes.  Les options incluent &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
-* `legend_position Optional[LegendPosition]` :  Emplacement de la légende.  Les options incluent &quot;north&quot;, &quot;south&quot;, &quot;east&quot;, &quot;west&quot; ou `None`.
-* `legend_template` (Optional[str]) :  Le modèle de la légende.
-* `aggregate` (Optional[bool]) :  Si défini sur `True`, agrège les données.
-* `xaxis_expression` (Optional[str]) :  L&#39;expression de l&#39;axe x.
-* `xaxis_format` (Optional[str]) :  Le format de l&#39;axe x. Cette option apparaît si vous définissez une métrique personnalisée. Par exemple, vous pouvez spécifier &#39;datetime&#39; pour formater l&#39;axe x en date et heure.
-* `legend_fields` (Optional[LList[str]]) :  Les champs à inclure dans la légende.
-* `metric_regex` (Optional[str]) :  Motif d&#39;expression régulière permettant de faire correspondre les métriques de l&#39;axe y. Le backend utilisera ce motif pour sélectionner les métriques correspondantes.
-* `point_visualization_method` (Optional[PointVizMethod]) :  La méthode utilisée pour agréger les points lorsqu&#39;ils sont trop nombreux pour être affichés. Les options incluent &quot;bucketing-gorilla&quot; (regroupe les points de données dans des buckets et affiche les valeurs min, max et avg par bucket afin de préserver les valeurs aberrantes et les pics) ou &quot;sampling&quot; (échantillonne aléatoirement des points pour un rendu plus rapide, mais peut manquer certaines valeurs aberrantes).
+* `title` (Optional[str]):  Le texte qui apparaît en haut du graphique.
+* `x` (Optional[MetricType]):  Le nom d&#39;une métrique enregistrée dans votre projet W&amp;B, à partir de laquelle le rapport extrait des informations. La métrique spécifiée est utilisée pour l&#39;axe des x.
+* `y` (LList[MetricType]):  Une ou plusieurs métriques enregistrées dans votre projet W&amp;B, à partir desquelles le rapport extrait des informations. La métrique spécifiée est utilisée pour l&#39;axe des y.
+* `range_x` (Tuple[float | `None`, float | `None`]):  Tuple qui spécifie la plage de l&#39;axe des x.
+* `range_y` (Tuple[float | `None`, float | `None`]):  Tuple qui spécifie la plage de l&#39;axe des y.
+* `log_x` (Optional[bool]):  Représente les coordonnées x sur une échelle logarithmique en base 10.
+* `log_y` (Optional[bool]):  Représente les coordonnées y sur une échelle logarithmique en base 10.
+* `title_x` (Optional[str]):  Le libellé de l&#39;axe des x.
+* `title_y` (Optional[str]):  Le libellé de l&#39;axe des y.
+* `ignore_outliers` (Optional[bool]):  Si défini sur `True`, n&#39;affiche pas les valeurs aberrantes.
+* `groupby` (Optional[str]):  Regroupe les runs en fonction d&#39;une métrique enregistrée dans votre projet W&amp;B, à partir de laquelle le rapport extrait des informations.
+* `groupby_aggfunc` (Optional[GroupAgg]):  Agrège les runs avec la fonction spécifiée. Les options incluent &quot;mean&quot;, &quot;min&quot;, &quot;max&quot;, &quot;median&quot;, &quot;sum&quot;, &quot;samples&quot; ou `None`.
+* `groupby_rangefunc` (Optional[GroupArea]):   Regroupe les runs selon une plage. Les options incluent &quot;minmax&quot;, &quot;stddev&quot;, &quot;stderr&quot;, &quot;none&quot;, &quot;samples&quot; ou `None`.
+* `smoothing_factor` (Optional[float]):  Le facteur de lissage à appliquer au type de lissage. Les valeurs acceptées vont de 0 à 1.
+* `smoothing_type Optional[SmoothingType]`:  Applique un filtre selon la distribution spécifiée. Les options incluent &quot;exponentialTimeWeighted&quot;, &quot;exponential&quot;,  &quot;gaussian&quot;, &quot;average&quot; ou &quot;none&quot;.
+* `smoothing_show_original` (Optional[bool]):    Si défini sur `True`, affiche les données d&#39;origine.
+* `max_runs_to_show` (Optional[int]):  Le nombre maximal de runs à afficher sur le graphique en courbes.
+* `custom_expressions` (Optional[LList[str]]):  Expressions personnalisées à appliquer aux données.
+* `plot_type Optional[LinePlotStyle]`:  Le type de graphique en courbes à générer. Les options incluent &quot;line&quot;, &quot;stacked-area&quot; ou &quot;pct-area&quot;.
+* `font_size Optional[FontSize]`:  La taille de police du graphique en courbes. Les options incluent &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
+* `legend_position Optional[LegendPosition]`:  L&#39;emplacement de la légende. Les options incluent &quot;north&quot;, &quot;south&quot;, &quot;east&quot;, &quot;west&quot; ou `None`.
+* `legend_template` (Optional[str]):  Le modèle de la légende.
+* `aggregate` (Optional[bool]):  Si défini sur `True`, agrège les données.
+* `xaxis_expression` (Optional[str]):  L&#39;expression pour l&#39;axe des x.
+* `xaxis_format` (Optional[str]):  Le format de l&#39;axe des x. Cette option apparaît si vous définissez une métrique personnalisée. Par exemple, vous pouvez spécifier &#39;datetime&#39; pour formater l&#39;axe des x comme une date et une heure.
+* `legend_fields` (Optional[LList[str]]):  Les champs à inclure dans la légende.
+* `metric_regex` (Optional[str]):  Motif d&#39;expression régulière pour faire correspondre les métriques de l&#39;axe des y. Le backend utilisera ce motif pour sélectionner les métriques correspondantes.
+* `point_visualization_method` (Optional[PointVizMethod]):  La méthode utilisée pour agréger les points lorsqu&#39;il y en a trop à afficher. Les options incluent &quot;bucketing-gorilla&quot; (regroupe les points de données dans des buckets et affiche les valeurs min, max et avg par bucket afin de préserver les valeurs aberrantes et les pics) ou &quot;sampling&quot; (échantillonne aléatoirement les points pour un rendu plus rapide, mais peut manquer certaines valeurs aberrantes).
 
 ***
 
@@ -351,18 +351,18 @@ Un lien vers une URL.
 
 **Attributs :**
 
-* `text` (Union[str, TextWithInlineComments]) : Texte du lien.
-* `url` (str) : URL vers laquelle le lien renvoie.
+* `text` (Union[str, TextWithInlineComments]) :  Le texte du lien.
+* `url` (str) :  L’URL vers laquelle renvoie le lien.
 
 ***
 
 ## <kbd>class</kbd> `MarkdownBlock`
 
-Un bloc de texte en markdown. Utile si vous souhaitez écrire du texte utilisant la syntaxe markdown standard.
+Un bloc de texte au format Markdown. Utile si vous souhaitez écrire du texte utilisant la syntaxe Markdown courante.
 
 **Attributs :**
 
-* `text` (str):  Le texte en markdown.
+* `text` (str):  Le texte au format Markdown.
 
 ***
 
@@ -372,29 +372,29 @@ Un panneau qui affiche du markdown.
 
 **Attributs :**
 
-* `markdown` (str):  Le texte que vous souhaitez faire apparaître dans le panneau markdown.
+* `markdown` (str):  Le texte à afficher dans le panneau markdown.
 
 ***
 
 ## <kbd>class</kbd> `MediaBrowser`
 
-Panneau qui affiche des fichiers multimédias sous forme de galerie ou de grille.
+Un panneau qui affiche des fichiers multimédias sous forme de galerie ou de grille.
 
 **Attributs :**
 
 * `title` (Optional[str]):  Le titre du panneau.
-* `num_columns` (Optional[int]):  Le nombre de colonnes dans la grille.
+* `num_columns` (Optional[int]):  Le nombre de colonnes de la grille.
 * `media_keys` (LList[str]):  Une liste de clés de médias correspondant aux fichiers multimédias.
-* `mode` (Optional[Literal[&quot;gallery&quot;, &quot;grid&quot;]]):  Le mode d’affichage du panneau.  S’il n’est pas spécifié, il est déduit des axes fournis. Requis si `gallery_axis` et les axes de grille sont tous deux spécifiés.
+* `mode` (Optional[Literal[&quot;gallery&quot;, &quot;grid&quot;]]):  Le mode d’affichage du panneau.  S’il n’est pas spécifié, il sera déduit des axes fournis. Requis si `gallery_axis` et les axes de la grille sont tous deux spécifiés.
 * `gallery_axis` (Optional[Literal[&quot;step&quot;, &quot;index&quot;, &quot;run&quot;]]):  Le champ à utiliser pour l’axe en mode galerie.
-* `grid_x_axis` (Optional[Literal[&quot;step&quot;, &quot;index&quot;, &quot;run&quot;]]):  Le champ à utiliser pour l’axe X en mode grille.
-* `grid_y_axis` (Optional[Literal[&quot;step&quot;, &quot;index&quot;, &quot;run&quot;]]):  Le champ à utiliser pour l’axe Y en mode grille.
+* `grid_x_axis` (Optional[Literal[&quot;step&quot;, &quot;index&quot;, &quot;run&quot;]]):  Le champ à utiliser pour l’axe x en mode grille.
+* `grid_y_axis` (Optional[Literal[&quot;step&quot;, &quot;index&quot;, &quot;run&quot;]]):  Le champ à utiliser pour l’axe y en mode grille.
 
 ***
 
 ## <kbd>class</kbd> `Metric`
 
-Une métrique enregistrée dans votre projet à afficher dans un rapport.
+Une métrique à afficher dans les rapports, enregistrée dans votre projet.
 
 **Attributs :**
 
@@ -404,22 +404,22 @@ Une métrique enregistrée dans votre projet à afficher dans un rapport.
 
 ## <kbd>class</kbd> `OrderBy`
 
-Une métrique servant au tri.
+Une métrique servant de critère de tri.
 
 **Attributs :**
 
 * `name` (str):  Le nom de la métrique.
-* `ascending` (bool):  Indique si le tri doit être effectué par ordre croissant. Par défaut, cette valeur est définie sur `False`.
+* `ascending` (bool):  Indique si le tri doit s’effectuer par ordre croissant. Par défaut, la valeur est `False`.
 
 ***
 
 ## <kbd>class</kbd> `OrderedList`
 
-Une liste d’éléments sous forme de liste numérotée.
+Une liste d’éléments présentés dans une liste numérotée.
 
 **Attributs :**
 
-* `items` (LList[TextLikeField]) :  Une liste d’un ou de plusieurs objets `OrderedListItem`.  Chaque élément peut être une chaîne de caractères ou une liste d’objets TextLike.
+* `items` (LList[TextLikeField]) :  Une liste d’un ou plusieurs objets `OrderedListItem`. Chaque élément peut être une chaîne ou une liste d’objets TextLike.
 
 ***
 
@@ -439,7 +439,7 @@ Un paragraphe de texte.
 
 **Attributs :**
 
-* `text` (str):  Le texte du paragraphe.
+* `text` (str) : Le texte du paragraphe.
 
 ***
 
@@ -449,7 +449,7 @@ Panneau qui affiche une visualisation dans une grille de panneaux.
 
 **Attributs :**
 
-* `layout` (Mise en page):  Un objet `Mise en page`.
+* `layout` (Mise en page) :  Un objet `Layout`.
 
 ***
 
@@ -462,60 +462,60 @@ Les panneaux disponibles incluent : `LinePlot`, `ScatterPlot`, `BarPlot`, `Scal
 **Attributs :**
 
 * `runsets` (LList[&quot;Runset&quot;]):  Une liste d’un ou plusieurs objets `Runset`.
-* `hide_run_sets` (bool):  Indique s’il faut masquer les runsets de la grille de panneaux pour les lecteurs du rapport.
+* `hide_run_sets` (bool):  Indique s’il faut masquer les ensembles de runs de la grille de panneaux pour les lecteurs du rapport.
 * `panels` (LList[&quot;PanelTypes&quot;]):  Une liste d’un ou plusieurs objets `Panel`.
 * `active_runset` (Optional[int]):  L’index de l’onglet du runset actif. Par défaut, il est défini sur 0.
-* `custom_run_colors` (dict):  Paires clé-valeur où la clé correspond au nom d’un run et la valeur à une couleur spécifiée sous forme de valeur hexadécimale.
+* `custom_run_colors` (dict):  Paires clé-valeur où la clé est le nom d’un run et la valeur une couleur spécifiée sous forme de valeur hexadécimale.
 
 ***
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlot`
 
-Un objet de panneau qui affiche un graphique en coordonnées parallèles.
+Objet de panneau affichant un graphique en coordonnées parallèles.
 
 **Attributs :**
 
 * `columns` (LList[ParallelCoordinatesPlotColumn]) :  Une liste d’un ou de plusieurs objets `ParallelCoordinatesPlotColumn`.
 * `title` (Optional[str]) :  Le texte affiché en haut du graphique.
-* `gradient` (Optional[LList[GradientPoint]]) :  Une liste de points de gradient.
-* `font_size` (Optional[FontSize]) :  La taille de police du graphique en courbes. Les options sont &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
+* `gradient` (Optional[LList[GradientPoint]]) :  Une liste de points du gradient.
+* `font_size` (Optional[FontSize]) :  La taille de police du graphique en courbes.  Les options incluent &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
 
 ***
 
 ## <kbd>class</kbd> `ParallelCoordinatesPlotColumn`
 
-Une colonne d’un graphique en coordonnées parallèles. L’ordre des `metric`s spécifiées détermine l’ordre des axes parallèles (sur l’axe des x) dans le graphique en coordonnées parallèles.
+Une colonne dans un graphique en coordonnées parallèles. L’ordre des `metric`s spécifiées détermine l’ordre des axes parallèles (axe des x) dans le graphique en coordonnées parallèles.
 
 **Attributs :**
 
-* `metric` (str | Config | SummaryMetric):  Le nom de la métrique enregistrée dans votre projet W&amp;B à partir de laquelle le rapport extrait des informations.
-* `display_name` (Optional[str]):  Le nom de la métrique
-* `inverted` (Optional[bool]):  Indique s’il faut inverser la métrique.
-* `log` (Optional[bool]):  Indique s’il faut appliquer une transformation logarithmique à la métrique.
+* `metric` (str | Config | SummaryMetric) : Le nom de la métrique enregistrée dans votre projet W&amp;B dont le Report extrait les informations.
+* `display_name` (Optional[str]) : Le nom de la métrique
+* `inverted` (Optional[bool]) : Indique s’il faut inverser la métrique.
+* `log` (Optional[bool]) : Indique s’il faut appliquer une transformation logarithmique à la métrique.
 
 ***
 
 ## <kbd>class</kbd> `ParameterImportancePlot`
 
-Panneau qui affiche l’importance de chaque hyperparamètre pour prédire la métrique choisie.
+Un panneau affichant l&#39;importance de chaque hyperparamètre dans la prédiction de la métrique choisie.
 
 **Attributs :**
 
-* `with_respect_to` (str):  La métrique par rapport à laquelle vous souhaitez comparer l’importance des paramètres. Les métriques courantes incluent notamment la perte, la précision, etc. La métrique que vous spécifiez doit être enregistrée dans le projet à partir duquel le rapport extrait les informations.
+* `with_respect_to` (str):  La métrique par rapport à laquelle vous souhaitez comparer l&#39;importance des  hyperparamètres. Les métriques courantes peuvent inclure la perte, la précision,  etc. La métrique que vous spécifiez doit être enregistrée dans le projet  à partir duquel le Report extrait les informations.
 
 ***
 
 ## <kbd>class</kbd> `Report`
 
-Un objet qui représente un rapport W&amp;B. Utilisez l&#39;attribut `blocks` de l&#39;objet renvoyé pour personnaliser votre rapport. Les objets Report ne sont pas enregistrés automatiquement. Utilisez la méthode `save()` pour enregistrer les modifications.
+Objet représentant un rapport W&amp;B. Utilisez l&#39;attribut `blocks` de l&#39;objet renvoyé pour personnaliser votre rapport. Les objets rapport ne sont pas enregistrés automatiquement. Utilisez la méthode `save()` pour enregistrer les modifications.
 
 **Attributs :**
 
 * `project` (str):  Le nom du projet W&amp;B que vous souhaitez charger. Le projet spécifié apparaît dans l&#39;URL du rapport.
-* `entity` (str):  L&#39;entité W&amp;B propriétaire du rapport. L&#39;entité apparaît dans l&#39;URL du rapport.
+* `entity` (str):  L&#39;entité W&amp;B à laquelle appartient le rapport. L&#39;entité apparaît dans l&#39;URL du rapport.
 * `title` (str):  Le titre du rapport. Le titre apparaît en haut du rapport sous forme d&#39;en-tête H1.
 * `description` (str):  Une description du rapport. La description apparaît sous le titre du rapport.
-* `blocks` (LList[BlockTypes]):  Une liste d&#39;une ou plusieurs balises HTML, graphiques, grilles, ensembles de runs, etc.
+* `blocks` (LList[BlockTypes]):  Une liste d&#39;une ou plusieurs balises HTML, graphiques, grilles, runsets, etc.
 * `width` (Literal[&#39;readable&#39;, &#39;fixed&#39;, &#39;fluid&#39;]):  La largeur du rapport. Les options incluent &#39;readable&#39;, &#39;fixed&#39; et &#39;fluid&#39;.
 
 ***
@@ -532,13 +532,13 @@ L’URL où le rapport est hébergé. L’URL du rapport est de la forme `https:
 delete() → bool
 ```
 
-Supprime ce rapport de W&amp;B.
+Supprimez ce rapport de W&amp;B.
 
-Cela supprimera également toutes les vues de brouillon faisant référence à ce rapport.
+Cela supprimera également toutes les vues de brouillon qui font référence à ce rapport.
 
 **Retourne :**
 
-* `bool`:  `True` si l’opération de suppression a été confirmée comme réussie par le backend, `False` sinon.
+* `bool` : `True` si l’opération de suppression a été confirmée comme réussie par le backend, `False` sinon.
 
 ***
 
@@ -549,13 +549,13 @@ Cela supprimera également toutes les vues de brouillon faisant référence à c
 disable_share_link() → bool
 ```
 
-Désactivez le lien de partage « toute personne disposant du lien peut consulter » pour ce rapport.
+Désactive le lien de partage « toute personne disposant du lien peut voir » pour ce rapport.
 
-Révoque tous les jetons d’accès public actifs de ce rapport.
+Révoque tous les jetons d’accès public actifs pour le rapport.
 
-**Retourne :**
+**Retourne :**
 
-* `bool`:  True si le ou les liens ont été révoqués, False si aucun lien actif n’existait.
+* `bool`:  `True` si le ou les liens ont été révoqués, `False` si aucun lien actif n’existait.
 
 ***
 
@@ -566,13 +566,13 @@ Révoque tous les jetons d’accès public actifs de ce rapport.
 enable_share_link() → str
 ```
 
-Active le partage « toute personne disposant du lien peut consulter » pour ce rapport.
+Active le partage &quot;toute personne disposant du lien peut voir&quot; pour ce rapport.
 
-Crée un jeton d’accès public pour le rapport. Si un lien de partage existe déjà, renvoie le lien existant.
+Crée un token d&#39;accès public pour le rapport. Si un lien de partage existe déjà, renvoie le lien existant.
 
-**Retourne :**
+**Retourne :**
 
-* `str` : l’URL du lien magique qui peut être partagée.
+* `str`:  L&#39;URL du lien magique à partager.
 
 ***
 
@@ -583,12 +583,12 @@ Crée un jeton d’accès public pour le rapport. Si un lien de partage existe d
 from_url(url: str, as_model: bool = False)
 ```
 
-Chargez le rapport dans l’environnement actuel. Indiquez l’URL où le rapport est hébergé.
+Chargez le rapport dans l’environnement actuel. Fournissez l’URL où le rapport est hébergé.
 
 **Arguments :**
 
 * `url` (str):  L’URL où le rapport est hébergé.
-* `as_model` (bool):  Si True, renvoie l’objet modèle au lieu de l’objet Report.  Par défaut, cette valeur est `False`.
+* `as_model` (bool):  Si `True`, renvoie l’objet modèle plutôt que l’objet rapport.  Par défaut, la valeur est `False`.
 
 ***
 
@@ -599,9 +599,9 @@ Chargez le rapport dans l’environnement actuel. Indiquez l’URL où le rappor
 get_share_url() → Optional[str]
 ```
 
-Récupère l’URL du lien magique pour ce rapport, ou None si le partage n’est pas activé.
+Récupère l’URL du lien magique pour ce rapport, ou `None` si le partage n’est pas activé.
 
-Effectue un appel réseau pour vérifier la présence de jetons d’accès actifs. Renvoie l’URL du rapport avec un jeton d’accès ajouté, ce qui permet à toute personne disposant du lien de consulter le rapport, même si le projet est privé.
+Effectue un appel réseau pour vérifier les tokens d’accès actifs. Renvoie l’URL du rapport avec un token d’accès ajouté, permettant à toute personne disposant du lien de consulter le rapport même si le projet est privé.
 
 ***
 
@@ -612,7 +612,7 @@ Effectue un appel réseau pour vérifier la présence de jetons d’accès actif
 save(draft: bool = False, clone: bool = False)
 ```
 
-Enregistre les modifications apportées à un objet de rapport.
+Enregistre les modifications apportées à un objet rapport.
 
 ***
 
@@ -623,7 +623,7 @@ Enregistre les modifications apportées à un objet de rapport.
 to_html(height: int = 1024, hidden: bool = False) → str
 ```
 
-Génère du HTML contenant une iframe affichant ce rapport. Généralement utilisé dans un notebook Python.
+Génère le HTML contenant une iframe qui affiche ce rapport. Généralement utilisé dans un Python notebook.
 
 **Arguments :**
 
@@ -635,24 +635,24 @@ Génère du HTML contenant une iframe affichant ce rapport. Généralement utili
 
 ## <kbd>class</kbd> `RunComparer`
 
-Un panneau qui compare les métriques entre différents runs du projet dont le rapport extrait les informations.
+Panneau qui compare les métriques entre différents runs du projet dont le rapport extrait les informations.
 
 **Attributs :**
 
-* `diff_only` (Optional[Literal[&quot;split&quot;, `True`]]):  Affiche uniquement les différences entre les runs d’un projet. Vous pouvez activer ou désactiver cette fonctionnalité dans l’interface des rapports W&amp;B.
+* `diff_only` (Optional[Literal[&quot;split&quot;, `True`]]):  Affiche uniquement les différences entre les runs d’un projet. Vous pouvez activer ou désactiver cette fonctionnalité dans l’interface Reports de W&amp;B.
 
 ***
 
 ## <kbd>class</kbd> `RunSettings`
 
-Configurer l’apparence et la visibilité d’un run individuel dans une grille de panneaux de rapport.
+Configure l’apparence et la visibilité d’un run donné dans une grille de panneaux de rapport.
 
-Utilisez `RunSettings` pour personnaliser l’affichage d’un run spécifique au sein d’un `Runset`, y compris sa couleur de ligne et sa visibilité dans les graphiques.
+Utilisez `RunSettings` pour personnaliser le rendu d’un run spécifique dans un `Runset`, notamment la couleur de sa ligne et sa visibilité dans les graphiques.
 
 **Attributs :**
 
-* `color`:  Couleur d’affichage du run. Accepte le format hexadécimal (`#ff0000`), un nom de couleur CSS (red) ou une chaîne RGB (&quot;rgb(255,0,0)&quot;).
-* `disabled`:  Si True, masque le run dans les graphiques. Cela équivaut à cliquer sur l’icône en forme d’œil fermé dans l’interface utilisateur.
+* `color` :  Couleur d’affichage du run. Accepte le format hexadécimal (`#ff0000`), un nom de couleur CSS (red) ou une chaîne RGB (&quot;rgb(255,0,0)&quot;).
+* `disabled` :  Si True, masque le run dans les graphiques. Cela équivaut à cliquer sur l’icône en forme d’œil fermé dans l’UI.
 
 ***
 
@@ -662,21 +662,21 @@ Un ensemble de runs à afficher dans une grille de panneaux.
 
 **Attributs :**
 
-* `entity` (str):  Une entité qui possède le projet où les runs sont stockés, ou qui dispose des autorisations nécessaires pour y accéder.
+* `entity` (str):  Une entité qui possède le projet dans lequel les runs sont stockés, ou qui dispose des autorisations appropriées sur ce projet.
 * `project` (str):  Le nom du projet où les runs sont stockés.
-* `name` (str):  Le nom de l’ensemble de runs. Défini sur `Run set` par défaut.
+* `name` (str):  Le nom de l’ensemble de runs. La valeur par défaut est `Run set`.
 * `query` (str):  Une chaîne de requête pour filtrer les runs.
-* `filters` (Union[str, LList[expr.FilterExpr]]):  Les filtres à appliquer aux runs. Peut être :
+* `filters` (Union[str, LList[expr.FilterExpr]]):  Filtres à appliquer aux runs. Peut être :
   * Une expression sous forme de chaîne : par exemple, &quot;Config(&#39;lr&#39;) = 0.001 and State = &#39;finished&#39;&quot;
-* `Supports operators`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
+* `Opérateurs pris en charge`: `=`, `==`, `!=`, `<`, `>`, `<=`, `>=`, `in`, `not in`
   * Une liste d’objets FilterExpr : par exemple, [expr.Config(&#39;lr&#39;) == 0.001]
 * `groupby` (LList[str]):  Une liste de noms de métriques à utiliser pour le regroupement. Les formats pris en charge sont :
   * &quot;group&quot; ou &quot;run.group&quot; pour regrouper par attribut de run
   * &quot;config.param&quot; pour regrouper par paramètre de configuration
-  * &quot;summary.metric&quot; pour regrouper par métrique de synthèse
+  * &quot;summary.metric&quot; pour regrouper par métrique de résumé
 * `order` (LList[OrderBy]):  Une liste d’objets `OrderBy` à utiliser pour le tri.
-* `custom_run_colors` (dict):  Un dictionnaire qui associe les ID de run (ou les clés `RunsetGroup` pour les runs groupés) à des couleurs. Pour définir simplement une couleur par run, préférez `run_settings`.
-* `run_settings` (Dict[str, RunSettings]):  Paramètres d’affichage par run, indexés par ID de run.  Utilisez-les pour définir des couleurs et/ou masquer des runs individuels. Voir `RunSettings`.
+* `custom_run_colors` (dict):  Un dictionnaire qui associe les ID de run (ou les clés `RunsetGroup` pour les runs groupés) à des couleurs. Pour des couleurs simples par run, préférez utiliser `run_settings`.
+* `run_settings` (Dict[str, RunSettings]):  Paramètres d’affichage par run, indexés par ID de run.  Utilisez-le pour définir des couleurs et/ou masquer des runs individuels. Voir `RunSettings`.
 
 **Exemple :**
 
@@ -705,7 +705,7 @@ Un ensemble de runs à afficher dans une grille de panneaux.
 convert_filterexpr_list_to_string()
 ```
 
-Convertit la liste de FilterExpr en une expression sous forme de chaîne pour le traitement interne.
+Convertit une liste de FilterExpr en expression de chaîne pour le traitement interne.
 
 ***
 
@@ -716,7 +716,7 @@ Convertit la liste de FilterExpr en une expression sous forme de chaîne pour le
 merge_custom_run_colors_into_run_settings()
 ```
 
-Fusion de custom&#95;run&#95;colors, indexé par de simples chaînes, dans run&#95;settings pour assurer la rétrocompatibilité.
+Fusionnez les custom&#95;run&#95;colors utilisant des clés de chaîne simples dans run&#95;settings pour assurer la rétrocompatibilité.
 
 ***
 
@@ -728,59 +728,59 @@ Fusion de custom&#95;run&#95;colors, indexé par de simples chaînes, dans run&#
 **Attributs :**
 
 * `runset_name` (str):  Le nom du runset.
-* `keys` (Tuple[RunsetGroupKey, ...]):  Les clés de regroupement.  Passez un ou plusieurs objets `RunsetGroupKey` pour regrouper.
+* `keys` (Tuple[RunsetGroupKey, ...]):  Les clés selon lesquelles effectuer le regroupement.  Passez un ou plusieurs objets `RunsetGroupKey` pour regrouper.
 
 ***
 
 ## <kbd>class</kbd> `RunsetGroupKey`
 
-Regroupe les runsets par type et valeur de métrique. Fait partie d’un `RunsetGroup`. Spécifiez, sous forme de paires clé-valeur, le type et la valeur de métrique à utiliser pour le regroupement.
+Regroupe les runsets par type et valeur de métrique. Fait partie d’un `RunsetGroup`. Spécifiez le type et la valeur de métrique à utiliser pour le regroupement sous forme de paires clé-valeur.
 
 **Attributs :**
 
-* `key` (Type[str] | Type[Config] | Type[SummaryMetric] | Type[Metric]) :  Le type de métrique selon lequel regrouper.
-* `value` (str) :  La valeur de la métrique selon laquelle regrouper.
+* `key` (Type[str] | Type[Config] | Type[SummaryMetric] | Type[Metric]):  Le type de métrique à utiliser pour le regroupement.
+* `value` (str):  La valeur de la métrique à utiliser pour le regroupement.
 
 ***
 
 ## <kbd>class</kbd> `ScalarChart`
 
-Objet de panneau qui affiche un graphique scalaire.
+Un objet de panneau qui affiche un graphique scalaire.
 
 **Attributs :**
 
-* `title` (Optional[str]) :  Le texte affiché en haut du graphique.
-* `metric` (MetricType) :  Le nom d&#39;une métrique enregistré dans votre projet W&amp;B à partir duquel le rapport extrait des informations.
-* `groupby_aggfunc` (Optional[GroupAgg]) :  Agrège les runs avec la fonction spécifiée. Les options incluent &quot;mean&quot;, &quot;min&quot;, &quot;max&quot;, &quot;median&quot;, &quot;sum&quot;, &quot;samples&quot; ou `None`.
-* `groupby_rangefunc` (Optional[GroupArea]) :   Regroupe les runs en fonction d&#39;un intervalle. Les options incluent &quot;minmax&quot;, &quot;stddev&quot;, &quot;stderr&quot;, &quot;none&quot;, &quot;samples&quot; ou `None`.
+* `title` (Optional[str]) :  Le texte qui apparaît en haut du graphique.
+* `metric` (MetricType) :  Le nom d&#39;une métrique enregistrée dans votre projet W&amp;B, à partir de laquelle le rapport extrait des informations.
+* `groupby_aggfunc` (Optional[GroupAgg]) :  Agrège les runs à l&#39;aide de la fonction spécifiée. Les options incluent &quot;mean&quot;, &quot;min&quot;, &quot;max&quot;, &quot;median&quot;, &quot;sum&quot;, &quot;samples&quot; ou `None`.
+* `groupby_rangefunc` (Optional[GroupArea]) :   Regroupe les runs en fonction d&#39;une plage. Les options incluent &quot;minmax&quot;, &quot;stddev&quot;, &quot;stderr&quot;, &quot;none&quot;, &quot;samples&quot; ou `None`.
 * `custom_expressions` (Optional[LList[str]]) :  Une liste d&#39;expressions personnalisées à utiliser dans le graphique scalaire.
-* `legend_template` (Optional[str]) :  Le modèle de légende.
-* `font_size Optional[FontSize]` :  La taille de police du graphique en courbes.  Les options incluent &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
+* `legend_template` (Optional[str]) :  Le modèle utilisé pour la légende.
+* `font_size Optional[FontSize]` :  La taille de police du graphique en courbes. Les options incluent &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
 
 ***
 
 ## <kbd>class</kbd> `ScatterPlot`
 
-Un objet de panneau qui affiche un graphique de dispersion en 2D ou 3D.
+Objet de panneau qui affiche un nuage de points en 2D ou 3D.
 
 **Arguments :**
 
-* `title` (Optional[str]):  Le texte affiché en haut du graphique.
-* `x Optional[SummaryOrConfigOnlyMetric]`:  Le nom d&#39;une métrique enregistrée dans votre projet W&amp;B à partir de laquelle le rapport extrait des informations. La métrique spécifiée est utilisée pour l&#39;axe X.
-* `y Optional[SummaryOrConfigOnlyMetric]`:   Une ou plusieurs métriques enregistrées dans votre projet W&amp;B à partir desquelles le rapport extrait des informations. Les métriques spécifiées sont tracées sur l&#39;axe Y. z Optional[SummaryOrConfigOnlyMetric]:
-* `range_x` (Tuple[float | `None`, float | `None`]):  Tuple qui spécifie la plage de l&#39;axe X.
-* `range_y` (Tuple[float | `None`, float | `None`]):  Tuple qui spécifie la plage de l&#39;axe Y.
-* `range_z` (Tuple[float | `None`, float | `None`]):  Tuple qui spécifie la plage de l&#39;axe Z.
-* `log_x` (Optional[bool]):  Trace les coordonnées x à l&#39;aide d&#39;une échelle logarithmique en base 10.
-* `log_y` (Optional[bool]):  Trace les coordonnées y à l&#39;aide d&#39;une échelle logarithmique en base 10.
-* `log_z` (Optional[bool]):  Trace les coordonnées z à l&#39;aide d&#39;une échelle logarithmique en base 10.
-* `running_ymin` (Optional[bool]):   Applique une moyenne mobile.
-* `running_ymax` (Optional[bool]):  Applique une moyenne mobile.
-* `running_ymean` (Optional[bool]):  Applique une moyenne mobile.
-* `legend_template` (Optional[str]):   Chaîne qui spécifie le format de la légende.
-* `gradient` (Optional[LList[GradientPoint]]):   Une liste de points de gradient qui définit le dégradé de couleur du graphique.
-* `font_size` (Optional[FontSize]):  La taille de police du graphique en courbes.  Les options incluent &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
-* `regression` (Optional[bool]):  Si `True`, une ligne de régression est tracée sur le graphique de dispersion.
+* `title` (Optional[str]) :  Le texte affiché en haut du graphique.
+* `x Optional[SummaryOrConfigOnlyMetric]` :  Le nom d&#39;une métrique enregistrée dans votre projet W&amp;B à partir de laquelle le report extrait des informations. La métrique spécifiée est utilisée pour l&#39;axe x.
+* `y Optional[SummaryOrConfigOnlyMetric]` :   Une ou plusieurs métriques enregistrées dans votre projet W&amp;B à partir desquelles le report extrait des informations. Les métriques spécifiées sont tracées sur l&#39;axe y. z Optional[SummaryOrConfigOnlyMetric] :
+* `range_x` (Tuple[float | `None`, float | `None`]) :  Tuple qui spécifie la plage de l&#39;axe x.
+* `range_y` (Tuple[float | `None`, float | `None`]) :  Tuple qui spécifie la plage de l&#39;axe y.
+* `range_z` (Tuple[float | `None`, float | `None`]) :  Tuple qui spécifie la plage de l&#39;axe z.
+* `log_x` (Optional[bool]) :  Trace les coordonnées x à l&#39;aide d&#39;une échelle logarithmique en base 10.
+* `log_y` (Optional[bool]) :  Trace les coordonnées y à l&#39;aide d&#39;une échelle logarithmique en base 10.
+* `log_z` (Optional[bool]) :  Trace les coordonnées z à l&#39;aide d&#39;une échelle logarithmique en base 10.
+* `running_ymin` (Optional[bool]) :   Applique une moyenne mobile.
+* `running_ymax` (Optional[bool]) :  Applique une moyenne mobile.
+* `running_ymean` (Optional[bool]) :  Applique une moyenne mobile.
+* `legend_template` (Optional[str]) :   Chaîne qui spécifie le format de la légende.
+* `gradient` (Optional[LList[GradientPoint]]) :   Liste de points de gradient qui spécifie le dégradé de couleurs du graphique.
+* `font_size` (Optional[FontSize]) :  La taille de police du graphique en courbes.  Les options incluent &quot;small&quot;, &quot;medium&quot;, &quot;large&quot;, &quot;auto&quot; ou `None`.
+* `regression` (Optional[bool]) :  Si `True`, une droite de régression est tracée sur le nuage de points.
 
 ***
 
@@ -800,7 +800,7 @@ Un bloc qui affiche un lecteur Spotify.
 
 **Attributs :**
 
-* `spotify_id` (str):  L’ID Spotify du morceau ou de la liste de lecture.
+* `spotify_id` (str):  L’ID Spotify du morceau ou de la playlist.
 
 ***
 
@@ -810,19 +810,19 @@ Une métrique de synthèse à afficher dans un rapport.
 
 **Attributs :**
 
-* `name` (str) :  Le nom de la métrique.
+* `name` (str):  Le nom de la métrique.
 
 ***
 
 ## <kbd>class</kbd> `TableOfContents`
 
-Bloc contenant une liste de sections et de sous-sections à l’aide des blocs HTML H1, H2 et H3 spécifiés dans un rapport.
+Bloc contenant une liste de sections et de sous-sections à l’aide de blocs HTML de niveaux H1, H2 et H3 définis dans un rapport.
 
 ***
 
 ## <kbd>class</kbd> `TextWithInlineComments`
 
-Bloc de texte avec des commentaires intégrés.
+Un bloc de texte avec des commentaires intégrés.
 
 **Attributs :**
 
@@ -832,7 +832,7 @@ Bloc de texte avec des commentaires intégrés.
 
 ## <kbd>class</kbd> `Twitter`
 
-Un bloc qui affiche un fil Twitter.
+Bloc qui affiche un fil Twitter.
 
 **Attributs :**
 
@@ -842,11 +842,11 @@ Un bloc qui affiche un fil Twitter.
 
 ## <kbd>class</kbd> `UnorderedList`
 
-Une liste d&#39;éléments présentés sous forme de liste à puces.
+Une liste d’éléments présentés sous forme de liste à puces.
 
 **Attributs :**
 
-* `items` (LList[TextLikeField]) :  Une liste d&#39;un ou plusieurs objets `UnorderedListItem`.  Chaque élément peut être une chaîne ou une liste d&#39;objets TextLike.
+* `items` (LList[TextLikeField]):  Une liste d’un ou de plusieurs objets `UnorderedListItem`.  Chaque élément peut être une chaîne ou une liste d’objets TextLike.
 
 ***
 
@@ -872,59 +872,59 @@ Un bloc qui affiche une vidéo.
 
 ## <kbd>class</kbd> `WeaveBlockArtifact`
 
-Bloc qui affiche un artefact consigné dans W&amp;B. La requête se présente sous la forme de
+Bloc qui affiche un artifact enregistré dans W&amp;B. La requête prend la forme de
 
 ```python
 project('entity', 'project').artifact('artifact-name')
 ```
 
-Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence à la boîte à outils W&amp;B Weave utilisée pour le suivi et l’évaluation des LLM.
+Le terme &quot;Weave&quot; dans le nom de l&#39;API ne fait pas référence à la boîte à outils W&amp;B Weave utilisée pour suivre et évaluer les LLM.
 
 **Attributs :**
 
-* `entity` (str):  L’entité qui possède le projet où l’artefact est stocké ou qui dispose des autorisations appropriées sur ce projet.
-* `project` (str):  Le projet où l’artefact est stocké.
-* `artifact` (str):  Le nom de l’artefact à récupérer.
-* `tab Literal["overview", "metadata", "usage", "files", "lineage"]`:  L’onglet à afficher dans le panneau de l’artefact.
+* `entity` (str):  L&#39;entité propriétaire du projet, ou disposant des autorisations appropriées sur celui-ci, où l&#39;artifact est stocké.
+* `project` (str):  Le projet où l&#39;artifact est stocké.
+* `artifact` (str):  Le nom de l&#39;artifact à récupérer.
+* `tab Literal["overview", "metadata", "usage", "files", "lineage"]`:  L&#39;onglet à afficher dans le panneau de l&#39;artifact.
 
 ***
 
 
 ## <kbd>class</kbd> `WeaveBlockArtifactVersionedFile`
 
-Bloc affichant un fichier versionné enregistré dans un artefact W&amp;B. La requête se présente sous la forme de
+Bloc qui affiche un fichier versionné enregistré dans un artifact W&amp;B. La requête se présente sous la forme suivante :
 
 ```python
 project('entity', 'project').artifactVersion('name', 'version').file('file-name')
 ```
 
-Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence à la boîte à outils W&amp;B Weave utilisée pour le suivi et l’évaluation des LLM.
+Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence à la boîte à outils W&amp;B Weave utilisé pour le suivi et l’évaluation des LLM.
 
 **Attributs :**
 
-* `entity` (str):  L’entité propriétaire du projet, ou qui dispose des autorisations appropriées sur le projet où l’artefact est stocké.
-* `project` (str):  Le projet dans lequel l’artefact est stocké.
-* `artifact` (str):  Le nom de l’artefact à récupérer.
-* `version` (str):  La version de l’artefact à récupérer.
-* `file` (str):  Le nom du fichier à récupérer, stocké dans l’artefact.
+* `entity` (str):  L’entité propriétaire du projet, ou celle qui dispose des autorisations appropriées sur le projet où l’artifact est stocké.
+* `project` (str):  Le projet où l’artifact est stocké.
+* `artifact` (str):  Le nom de l’artifact à récupérer.
+* `version` (str):  La version de l’artifact à récupérer.
+* `file` (str):  Le nom du fichier stocké dans l’artifact à récupérer.
 
 ***
 
 
 ## <kbd>class</kbd> `WeaveBlockSummaryTable`
 
-Bloc qui affiche un tableau W&amp;B, un dataframe pandas, un graphique ou une autre valeur enregistrée dans W&amp;B. La requête se présente sous la forme de
+Bloc qui affiche un tableau W&amp;B, un dataframe pandas, un graphique ou une autre valeur enregistrée dans W&amp;B. La requête se présente sous la forme suivante :
 
 ```python
 project('entity', 'project').runs.summary['value']
 ```
 
-Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence à la boîte à outils W&amp;B Weave utilisée pour le suivi et l’évaluation des LLM.
+Le terme &quot;Weave&quot; dans le nom de l’API ne désigne pas la boîte à outils W&amp;B Weave utilisé pour le suivi et l’évaluation des LLM.
 
 **Attributs :**
 
-* `entity` (str):  L’entité propriétaire du projet ou disposant des autorisations appropriées sur le projet dans lequel les valeurs sont enregistrées.
-* `project` (str):  Le projet où la valeur est enregistrée.
+* `entity` (str):  L’entité qui possède le projet, ou qui dispose des autorisations appropriées sur le projet dans lequel les valeurs sont enregistrées.
+* `project` (str):  Le projet dans lequel la valeur est enregistrée.
 * `table_name` (str):  Le nom du tableau, de la dataframe, du graphique ou de la valeur.
 
 ***
@@ -932,61 +932,61 @@ Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence à la 
 
 ## <kbd>class</kbd> `WeavePanel`
 
-Panneau de requête vide pouvant être utilisé pour afficher du contenu personnalisé à l’aide de requêtes.
+Un panneau de requête vide qui peut être utilisé pour afficher du contenu personnalisé à l’aide de requêtes.
 
-Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence à la boîte à outils W&amp;B Weave utilisée pour le suivi et l’évaluation des LLM.
+Le terme « Weave » dans le nom de l’API ne fait pas référence à la boîte à outils W&amp;B Weave utilisé pour le suivi et l’évaluation des LLM.
 
 ***
 
 ## <kbd>class</kbd> `WeavePanelArtifact`
 
-Un panneau qui affiche un artefact consigné dans W&amp;B.
+Un panneau qui affiche un artifact enregistré dans W&amp;B.
 
-Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence à la boîte à outils W&amp;B Weave utilisée pour le suivi et l’évaluation des LLM.
+Le terme « Weave » dans le nom de l’API ne fait pas référence à la boîte à outils W&amp;B Weave utilisée pour le suivi et l’évaluation des LLM.
 
 **Attributs :**
 
-* `artifact` (str):  Le nom de l’artefact à récupérer.
-* `tab Literal["overview", "metadata", "usage", "files", "lineage"]`:  L’onglet à afficher dans le panneau de l’artefact.
+* `artifact` (str):  Le nom de l’artifact à récupérer.
+* `tab Literal["overview", "metadata", "usage", "files", "lineage"]`:  L’onglet à afficher dans le panneau de l’artifact.
 
 ***
 
 ## <kbd>class</kbd> `WeavePanelArtifactVersionedFile`
 
-Panneau qui affiche un fichier versionné enregistré dans un artefact W&amp;B.
+Panneau affichant un fichier versionné enregistré dans un artifact W&amp;B.
 
 ```python
 project('entity', 'project').artifactVersion('name', 'version').file('file-name')
 ```
 
-Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence à la boîte à outils W&amp;B Weave utilisée pour le suivi et l’évaluation des LLM.
+Le terme &quot;Weave&quot; dans le nom de l&#39;API ne fait pas référence à la boîte à outils W&amp;B Weave utilisée pour suivre et évaluer les LLM.
 
 **Attributs :**
 
-* `artifact` (str) :  Le nom de l’artefact à récupérer.
-* `version` (str) :  La version de l’artefact à récupérer.
-* `file` (str) :  Le nom du fichier à récupérer, stocké dans l’artefact.
+* `artifact` (str):  Le nom de l&#39;artifact à récupérer.
+* `version` (str):  La version de l&#39;artifact à récupérer.
+* `file` (str):  Le nom du fichier stocké dans l&#39;artifact à récupérer.
 
 ***
 
 
 ## <kbd>class</kbd> `WeavePanelSummaryTable`
 
-Un panneau qui affiche un tableau W&amp;B, un dataframe pandas, un graphique ou toute autre valeur enregistrée dans W&amp;B. La requête se présente sous la forme de
+Panneau affichant un tableau W&amp;B, un dataframe pandas, un graphique ou toute autre valeur enregistrée dans W&amp;B. La requête prend la forme de
 
 ```python
 runs.summary['value']
 ```
 
-Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence à l’outil W&amp;B Weave utilisé pour le suivi et l’évaluation des LLM.
+Le terme &quot;Weave&quot; dans le nom de l’API ne fait pas référence au boîte à outils W&amp;B Weave utilisé pour le suivi et l’évaluation des LLM.
 
 **Attributs :**
 
 * `table_name` (str):  Le nom du tableau, du dataframe, du graphique ou de la valeur.
-* `layout` (Layout):  La configuration de mise en page du panneau, y compris sa position et sa taille.  Héritée de la classe de base Panel. Permet d’ajuster la largeur (w) et la hauteur (h).
+* `layout` (Layout):  La configuration de mise en page du panneau, y compris sa position et sa taille. Hérité de la classe de base Panel. À utiliser pour ajuster la largeur (w) et la hauteur (h).
 
 **Exemple :**
-Créer un rapport avec un panneau de tableau de synthèse qui affiche un tableau avec des dimensions personnalisées :
+Créez un Report avec un panneau de tableau récapitulatif qui affiche un tableau avec des dimensions personnalisées :
 
 ```python
     import wandb_workspaces.reports as wr
@@ -1014,7 +1014,7 @@ Créer un rapport avec un panneau de tableau de synthèse qui affiche un tableau
 
 Les paramètres de mise en page contrôlent les dimensions du panneau :
 
-* w (largeur) : largeur en unités de grille (par défaut : 8, max : 24)
+* w (largeur) : largeur en unités de grille (par défaut : 8, max. : 24)
   * h (hauteur) : hauteur en unités de grille (par défaut : 6)
   * x (position x) : position horizontale dans la grille (par défaut : 0)
   * y (position y) : position verticale dans la grille (par défaut : 0)

@@ -1,23 +1,23 @@
 ---
-title: Ajouter un job à la file d'attente
-description: "Ajoutez des jobs Launch à une file d'attente W&B Launch à l'aide de l'interface utilisateur de l'application ou de la CLI afin de planifier des charges de travail ML sur des ressources cibles."
+title: Ajouter un job à une file d'attente
+description: "Ajoutez des jobs Launch à une Launch queue W&B à l'aide de l'interface de l'application ou du CLI pour planifier des charges de travail ML sur des ressources cibles."
 ---
 
-Cette page explique comment ajouter des jobs Launch à une file d&#39;attente Launch.
+La page suivante décrit comment ajouter des jobs Launch à une Launch queue.
 
 <Note>
-  Assurez-vous que vous-même, ou un membre de votre équipe, avez déjà configuré une file d&#39;attente Launch. Pour plus d&#39;informations, voir la page [Configurer Launch](/fr/platform/launch/set-up-launch/).
+  Assurez-vous que vous, ou un membre de votre équipe, avez déjà configuré une Launch queue. Pour plus d&#39;informations, voir la page [Configurer Launch](/platform/launch/set-up-launch/).
 </Note>
 
 <div id="add-jobs-to-your-queue">
-  ## Ajouter des jobs à votre file d&#39;attente
+  ## Ajoutez des jobs à votre file d&#39;attente
 </div>
 
-Ajoutez des jobs à votre file d&#39;attente de manière interactive avec l’application W&amp;B ou par programmation avec la CLI W&amp;B.
+Ajoutez des jobs à votre file d&#39;attente de manière interactive avec la W&amp;B App ou en ligne de commande avec le W&amp;B CLI.
 
 <Tabs>
-  <Tab title="application W&B">
-    Ajoutez un job à votre file d&#39;attente avec l’application W&amp;B.
+  <Tab title="W&B app">
+    Ajoutez un job à votre file d&#39;attente depuis la W&amp;B App.
 
     1. Accédez à la page de votre projet W&amp;B.
     2. Sélectionnez l’icône **Jobs** dans la barre latérale du projet :
@@ -26,37 +26,37 @@ Ajoutez des jobs à votre file d&#39;attente de manière interactive avec l’ap
       <img src="/images/launch/project_jobs_tab_gs.png" alt="Onglet Jobs du projet" />
     </Frame>
 
-    3. La page **Jobs** affiche une liste des jobs W&amp;B Launch créés à partir de runs W&amp;B exécutés précédemment.
+    3. La page **Jobs** affiche la liste des jobs Launch W&amp;B créés à partir de Runs W&amp;B précédemment exécutés.
 
     <Frame>
-      <img src="/images/launch/view_jobs.png" alt="Liste des jobs" />
+      <img src="/images/launch/view_jobs.png" alt="Liste des Jobs" />
     </Frame>
 
     4. Sélectionnez le bouton **Launch** à côté du nom du job. Une fenêtre modale s’affiche sur le côté droit de la page.
-    5. Dans la liste déroulante **Job version**, sélectionnez la version du job Launch que vous souhaitez utiliser. Les jobs Launch sont versionnés comme n’importe quel autre [W&amp;B Artifact](/fr/models/artifacts/create-a-new-artifact-version/). Différentes versions d’un même job Launch sont créées si vous modifiez les dépendances logicielles ou le code source utilisés pour exécuter le job.
-    6. Dans la section **Overrides**, indiquez de nouvelles valeurs pour toutes les entrées configurées pour votre job Launch. Les remplacements courants incluent une nouvelle commande de point d’entrée, des arguments ou des valeurs dans `wandb.Run.config` de votre nouveau run W&amp;B.
+    5. Dans la liste déroulante **Job version**, sélectionnez la version du job Launch que vous souhaitez utiliser. Les jobs Launch sont versionnés comme n’importe quel autre [W&amp;B Artifact](/models/artifacts/create-a-new-artifact-version/). Différentes versions d’un même job Launch sont créées si vous modifiez les dépendances logicielles ou le code source utilisés pour exécuter le job.
+    6. Dans la section **Overrides**, indiquez de nouvelles valeurs pour toutes les entrées configurées pour votre job Launch. Les remplacements courants incluent une nouvelle commande de point d’entrée, des arguments ou des valeurs dans le `wandb.Run.config` de votre nouveau W&amp;B run.
 
     <Frame>
-      <img src="/images/launch/create_starter_queue_gs.png" alt="Configuration de la file d'attente" />
+      <img src="/images/launch/create_starter_queue_gs.png" alt="Configuration de la file d’attente" />
     </Frame>
 
-    Vous pouvez copier-coller des valeurs depuis d’autres runs W&amp;B ayant utilisé votre job Launch en cliquant sur le bouton **Paste from...**.
-    7. Dans la liste déroulante **Queue**, sélectionnez le nom de la file d’attente Launch à laquelle vous souhaitez ajouter votre job Launch.
-    8. Utilisez la liste déroulante **Job Priority** pour définir la priorité de votre job Launch. La priorité d’un job Launch est définie sur &quot;Medium&quot; si la file d’attente Launch ne prend pas en charge la priorisation.
-    9. **(Facultatif) Suivez cette étape uniquement si un modèle de configuration de file d’attente a été créé par l’administrateur de votre équipe**
-    Dans le champ **Queue Configurations**, indiquez les valeurs des options de configuration créées par l’administrateur de votre équipe.
-    Par exemple, dans l’exemple suivant, l’administrateur de l’équipe a configuré les types d’instances AWS que l’équipe peut utiliser. Dans ce cas, les membres de l’équipe peuvent choisir le type d’instance de calcul `ml.m4.xlarge` ou `ml.p3.xlarge` pour entraîner leur modèle.
+    Vous pouvez copier-coller des valeurs depuis d’autres Runs W&amp;B ayant utilisé votre job Launch en cliquant sur le bouton **Paste from...**.
+    7. Dans la liste déroulante **Queue**, sélectionnez le nom de la launch queue à laquelle vous souhaitez ajouter votre job Launch.
+    8. Utilisez la liste déroulante **Job Priority** pour définir la priorité de votre job Launch. La priorité d’un job Launch est définie sur &quot;Medium&quot; si la launch queue ne prend pas en charge la priorisation.
+    9. **(Facultatif) Suivez cette étape uniquement si un modèle de configuration de file d’attente a été créé par votre Team Admin**
+    Dans le champ **Queue Configurations**, indiquez des valeurs pour les options de configuration créées par l’administrateur de votre équipe.
+    Par exemple, dans l’exemple suivant, le Team Admin a configuré des types d’instances AWS que l’équipe peut utiliser. Dans ce cas, les membres de l’équipe peuvent choisir le type d’instance de calcul `ml.m4.xlarge` ou `ml.p3.xlarge` pour entraîner leur modèle.
 
     <Frame>
       <img src="/images/launch/team_member_use_config_template.png" alt="Sélection du modèle de configuration" />
     </Frame>
 
-    10. Sélectionnez le **Destination project**, où le run résultant apparaîtra. Ce projet doit appartenir à la même entité que la file d’attente.
+    10. Sélectionnez le **Destination project** dans lequel apparaîtra le run résultant. Ce projet doit appartenir à la même entité que la file d’attente.
     11. Sélectionnez le bouton **Launch now**.
   </Tab>
 
-  <Tab title="CLI W&B">
-    Utilisez la commande `wandb launch` pour ajouter des jobs à une file d’attente. Créez une configuration JSON avec des remplacements d’hyperparamètres. Par exemple, en utilisant le script du guide [Démarrage rapide](/fr/platform/launch/walkthrough/), nous créons un fichier JSON avec les remplacements suivants :
+  <Tab title="W&B CLI">
+    Utilisez la commande `wandb launch` pour ajouter des jobs à une file d’attente. Créez une configuration JSON avec des remplacements d’hyperparamètres. Par exemple, en utilisant le script du guide [Démarrage rapide](/platform/launch/walkthrough/), nous créons un fichier JSON avec les remplacements suivants :
 
     ```json title="config.json"
     {
@@ -75,7 +75,7 @@ Ajoutez des jobs à votre file d&#39;attente de manière interactive avec l’ap
       W&amp;B Launch utilisera les paramètres par défaut si vous ne fournissez pas de fichier de configuration JSON.
     </Note>
 
-    Si vous souhaitez remplacer la configuration de la file d’attente, ou si votre file d’attente Launch n’a pas de ressource de configuration définie, vous pouvez spécifier la clé `resource_args` dans votre fichier config.json. Par exemple, en poursuivant l’exemple ci-dessus, votre fichier config.json pourrait ressembler à ceci :
+    Si vous souhaitez remplacer la configuration de la file d’attente, ou si votre launch queue n’a pas de ressource de configuration définie, vous pouvez spécifier la clé `resource_args` dans votre fichier config.json. Par exemple, en poursuivant l’exemple ci-dessus, votre fichier config.json pourrait ressembler à ceci :
 
     ```json title="config.json"
     {
@@ -95,7 +95,7 @@ Ajoutez des jobs à votre file d&#39;attente de manière interactive avec l’ap
     }
     ```
 
-    Remplacez les valeurs entre `<>` par vos propres valeurs.
+    Remplacez les valeurs entre `<>` par les vôtres.
 
     Indiquez le nom de la file d’attente pour l’indicateur `queue`(`-q`), le nom du job pour l’indicateur `job`(`-j`) et le chemin vers le fichier de configuration pour l’indicateur `config`(`-c`).
 
@@ -104,6 +104,6 @@ Ajoutez des jobs à votre file d&#39;attente de manière interactive avec l’ap
     -e <entity-name> -c path/to/config.json
     ```
 
-    Si vous travaillez au sein d’une équipe W&amp;B, nous vous suggérons de spécifier l’indicateur `entity` (`-e`) pour indiquer quelle entité la file d’attente utilisera.
+    Si vous travaillez au sein d’une Team W&amp;B, nous vous suggérons de spécifier l’indicateur `entity` (`-e`) afin d’indiquer l’entité que la file d’attente utilisera.
   </Tab>
 </Tabs>

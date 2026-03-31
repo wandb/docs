@@ -1,5 +1,5 @@
 ---
-description: "APIキー、環境変数、ローカルファイルストレージを設定して、Docker コンテナー内で W&B を実行します。"
+description: "APIキー、環境変数、ローカルファイルストレージを設定して、Dockerコンテナー内でW&Bを実行する方法。"
 title: Docker
 ---
 
@@ -7,28 +7,28 @@ title: Docker
   ## Docker インテグレーション
 </div>
 
-W&amp;B は、コードを実行した Docker イメージへの参照情報を保存できるため、過去の実験を、その run が実行されたのとまったく同じ環境で復元できます。wandb ライブラリは、この状態を保持するために **WANDB&#95;DOCKER** 環境変数を参照します。W&amp;B では、この状態を自動的に設定するためのヘルパーをいくつか提供しています。
+W&amp;B は、コードの実行に使用された Docker image への参照を保存できます。これにより、以前の実験を実行時とまったく同じ環境で復元できます。wandb ライブラリは、この状態を保持するために **WANDB&#95;DOCKER** 環境変数を参照します。この状態を自動的に設定するヘルパーもいくつか用意されています。
 
 <div id="local-development">
   ### ローカル開発
 </div>
 
-`wandb docker` は、Docker コンテナーを起動し、wandb の環境変数を渡し、ローカルのコードをマウントし、wandb がインストールされていることを保証するためのコマンドです。デフォルトでは、このコマンドは TensorFlow、PyTorch、Keras、Jupyter がインストールされた Docker イメージを使用します。同じコマンドを使って、自分の Docker イメージを起動することもできます: `wandb docker my/image:latest`。このコマンドは、現在のディレクトリをコンテナー内の &quot;/app&quot; ディレクトリにマウントしますが、これは &quot;--dir&quot; フラグで変更できます。
+`wandb docker` は、Dockerコンテナーを起動し、wandb の環境変数を渡してコードをマウントし、wandb がインストールされている状態を確保するコマンドです。デフォルトでは、このコマンドは TensorFlow、PyTorch、Keras、Jupyter がインストールされた Docker image を使用します。同じコマンドで独自の Docker image を起動することもできます: `wandb docker my/image:latest`。このコマンドは現在のディレクトリーをコンテナー内の &quot;/app&quot; ディレクトリーにマウントします。これは `--dir` フラグで変更できます。
 
 <div id="production">
-  ### 本番環境
+  ### 本番
 </div>
 
-`wandb docker-run` コマンドは本番ワークロード向けに提供されています。これは `nvidia-docker` の代替としてそのまま置き換えて使用できるように設計されています。`docker run` コマンドへのシンプルなラッパーであり、呼び出しに認証情報と **WANDB_DOCKER** 環境変数を追加します。`--runtime` フラグを指定せず、かつマシン上で `nvidia-docker` が利用可能な場合には、ランタイムが自動的に nvidia に設定されます。
+`wandb docker-run` コマンドは、本番ワークロード向けに提供されています。これは `nvidia-docker` をそのまま置き換えて使えるように設計されています。`docker run` コマンドのシンプルなラッパーで、認証情報と **WANDB&#95;DOCKER** 環境変数をコマンド呼び出しに追加します。`"--runtime"` フラグを渡さず、マシン上で `nvidia-docker` が利用可能な場合は、ランタイムが nvidia に設定されることも保証されます。
 
 <div id="kubernetes">
   ### Kubernetes
 </div>
 
-Kubernetes でトレーニング ワークロードを実行しており、k8s API が pod に公開されている場合（これはデフォルトの挙動です）、wandb は Docker イメージのダイジェストを取得するために API に問い合わせ、自動的に **WANDB_DOCKER** 環境変数を設定します。
+Kubernetes でトレーニングのワークロードを実行しており、k8s API が pod に公開されている場合 (これはデフォルトです) 、wandb は API に対して Docker image のダイジェストをクエリし、**WANDB&#95;DOCKER** 環境変数を自動的に設定します。
 
 <div id="restoring">
   ## 復元
 </div>
 
-run に対して **WANDB_DOCKER** 環境変数を指定して実行している場合、`wandb restore username/project:run_id` を実行すると、コードを復元した状態の新しいブランチをチェックアウトし、その後、元のコマンドがあらかじめ設定された、トレーニングに使用されたのと全く同じ Docker イメージを起動します。
+run が **WANDB&#95;DOCKER** 環境変数を使って記録されている場合、`wandb restore username/project:run_id` を実行すると、コードを復元した新しいブランチがチェックアウトされ、続いて元のコマンドがあらかじめ設定された、トレーニングに使用されたものとまったく同じ Docker image が起動します。

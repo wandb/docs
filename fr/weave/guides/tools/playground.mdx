@@ -1,33 +1,33 @@
 ---
 title: "Utiliser le Playground pour tester des prompts"
-description: "Simplifiez l’itération sur les prompts et les réponses de LLM"
+description: "Simplifiez l'itération sur les prompts et les réponses de LLM"
 ---
 
 <Tip>
-  Pendant une durée limitée, W&amp;B Inference est inclus dans votre offre gratuite. W&amp;B Inference vous donne accès à des modèles fondamentaux open source de premier plan via l’API et le Playground de Weave.
+  Pendant une durée limitée, W&amp;B Inference est inclus dans votre offre gratuite. W&amp;B Inference vous donne accès à des modèles de fondation open source de premier plan via l&#39;API et le Weave Playground.
 
-  * [Documentation développeur](../integrations/inference)
+  * [Documentation pour les développeurs](../integrations/inference)
   * [Page produit](https://wandb.ai/site/inference)
 </Tip>
 
-L’évaluation des prompts et des réponses de LLM peut s’avérer complexe. Le Playground de Weave est conçu pour simplifier l’itération sur les prompts et les réponses de LLM, afin de faciliter les expérimentations avec différents modèles et prompts. Grâce à des fonctionnalités comme la modification des prompts, la relance des messages et la comparaison de modèles, Playground vous aide à tester et à améliorer rapidement vos applications LLM. Playground prend actuellement en charge des modèles de fournisseurs tels qu’OpenAI, Anthropic et Google, ainsi que des [fournisseurs personnalisés](#add-a-custom-provider).
+Évaluer les prompts et les réponses de LLM est complexe. Le Weave Playground est conçu pour simplifier l&#39;itération sur les prompts et les réponses de LLM, et ainsi faciliter l&#39;expérimentation avec différents modèles et prompts. Grâce à des fonctionnalités comme la modification des prompts, le réessai des messages et la comparaison de modèles, Playground vous aide à tester et à améliorer rapidement vos applications LLM. Playground prend actuellement en charge des modèles de fournisseurs tels qu&#39;OpenAI, Anthropic et Google, ainsi que des [fournisseurs personnalisés](#add-a-custom-provider).
 
-* **Accès rapide :** Ouvrez le « Playground » depuis le menu latéral de Weave pour démarrer une nouvelle session, ou depuis la page appel pour tester un projet existant.
-* **contrôle des messages :** Modifiez, relancez ou supprimez des messages directement dans le chat.
+* **Accès rapide :** Ouvrez le &#39;Playground&#39; depuis le menu latéral de Weave pour démarrer une nouvelle session, ou depuis la page Appel pour tester un projet existant.
+* **Contrôles des messages :** Modifiez, réessayez ou supprimez des messages directement dans le chat.
 * **Messagerie flexible :** Ajoutez de nouveaux messages comme entrées utilisateur ou système, puis envoyez-les au LLM.
 * **Paramètres personnalisables :** Configurez votre fournisseur LLM préféré et ajustez les paramètres du modèle.
-* **Prise en charge de plusieurs LLM :** Basculez entre les modèles, avec une gestion des clés API au niveau de l’équipe.
-* **Comparaison de modèles :** Comparez la manière dont différents modèles répondent aux prompts.
-* **Fournisseurs personnalisés :** Testez des points de terminaison d’API compatibles OpenAI pour des modèles personnalisés.
+* **Prise en charge de plusieurs LLM :** Passez d&#39;un modèle à l&#39;autre, avec une gestion des clés API au niveau de l&#39;équipe.
+* **Comparer les modèles :** Comparez la manière dont différents modèles répondent aux prompts.
+* **Fournisseurs personnalisés :** Testez des API endpoints compatibles OpenAI pour des modèles personnalisés.
 * **Modèles enregistrés :** Créez et configurez un préréglage de modèle réutilisable pour votre flux de travail
 
-Commencez à utiliser le Playground pour optimiser vos interactions avec les LLM et simplifier votre processus d’ingénierie des prompts ainsi que le développement d’applications LLM.
+Commencez avec le Playground pour optimiser vos interactions avec les LLM et rationaliser votre processus de prompt engineering ainsi que le développement d&#39;applications LLM.
 
-* [Ajouter les identifiants et informations du fournisseur](#add-provider-credentials-and-information)
+* [Ajouter les identifiants et les informations du fournisseur](#add-provider-credentials-and-information)
 * [Accéder au Playground](#access-the-playground)
 * [Sélectionner un LLM](#select-an-llm)
 * [Personnaliser les paramètres du Playground](#customize-playground-settings)
-* [contrôle des messages](#message-controls)
+* [Contrôles des messages](#message-controls)
 * [Comparer des LLM](#compare-llms)
 * [Fournisseurs personnalisés](#custom-providers)
 * [Modèles enregistrés](#saved-models) 
@@ -36,7 +36,7 @@ Commencez à utiliser le Playground pour optimiser vos interactions avec les LLM
   ## Ajouter les identifiants et informations du fournisseur
 </div>
 
-Avant d’utiliser Playground, vous devez ajouter les identifiants du fournisseur. Playground prend actuellement en charge les modèles de nombreux fournisseurs. Pour utiliser l’un des modèles disponibles, ajoutez les informations appropriées aux secrets de votre équipe dans les paramètres de W&amp;B.
+Avant de pouvoir utiliser Playground, vous devez ajouter les identifiants du fournisseur. Playground prend actuellement en charge des modèles de nombreux fournisseurs. Pour utiliser l’un des modèles disponibles, ajoutez les informations appropriées aux secrets de votre équipe dans les paramètres de W&amp;B.
 
 * Amazon Bedrock:
   * `AWS_ACCESS_KEY_ID`
@@ -58,23 +58,23 @@ Avant d’utiliser Playground, vous devez ajouter les identifiants du fournisseu
   ## Accéder au Playground
 </div>
 
-Il existe deux façons d&#39;accéder au Playground :
+Il existe deux façons d’accéder au Playground :
 
-1. *Ouvrir une nouvelle page Playground avec un prompt système simple* : dans la barre latérale d&#39;un projet Weave, sélectionnez **Playground**. Playground s&#39;ouvre dans le même onglet.
-2. *Ouvrir Playground pour un appel spécifique* :
-   1. Dans la barre latérale, sélectionnez l&#39;onglet **Traces**. Une liste de traces s&#39;affiche.
-   2. Dans la liste des traces, cliquez sur le nom de l&#39;appel que vous souhaitez consulter. La page de détails de l&#39;appel s&#39;ouvre.
-   3. Cliquez sur **Open chat in Playground**. Playground s&#39;ouvre dans un nouvel onglet.
+1. *Ouvrir une nouvelle page Playground avec un prompt système simple* : dans la barre latérale d’un projet Weave, sélectionnez **Playground**. Playground s’ouvre dans le même onglet.
+2. *Ouvrir Playground pour un Appel spécifique* :
+   1. Dans la barre latérale, sélectionnez l’onglet **Traces**. Une liste de traces s’affiche.
+   2. Dans la liste des traces, cliquez sur le nom de l’Appel que vous souhaitez afficher. La page de détails de l’Appel s’ouvre.
+   3. Cliquez sur **Open chat in Playground**. Playground s’ouvre dans un nouvel onglet.
 
 <Frame>
-  ![Capture d'écran du bouton Open in Playground](/weave/guides/tools/imgs/open_chat_in_playground.png)
+  ![Capture d’écran du bouton Open in Playground](/weave/guides/tools/imgs/open_chat_in_playground.png)
 </Frame>
 
 <div id="select-an-llm">
-  ## Sélectionnez un LLM
+  ## Sélectionner un LLM
 </div>
 
-Vous pouvez changer de LLM à l’aide du menu déroulant **Sélectionner un modèle** dans l’en-tête du prompt (en haut du panneau principal du playground). Les modèles disponibles proposés par différents fournisseurs sont listés ci-dessous :
+Vous pouvez changer de LLM à l’aide du menu déroulant **Sélectionner un modèle** dans l’en-tête du prompt (en haut du panneau principal du Playground). Les modèles disponibles auprès de différents fournisseurs sont répertoriés ci-dessous :
 
 * Amazon Bedrock
 * Anthropic
@@ -96,92 +96,92 @@ Les modèles disponibles dépendent des fournisseurs configurés pour votre équ
   ### Ajuster les paramètres du LLM
 </div>
 
-Vous pouvez expérimenter avec différentes valeurs de paramètres pour le modèle sélectionné. Pour ajuster les paramètres dans le Playground, procédez comme suit :
+Vous pouvez tester différentes valeurs de paramètres pour le modèle sélectionné. Pour ajuster les paramètres dans le playground, procédez comme suit :
 
-1. Dans l’en-tête du prompt (en haut du panneau principal), cliquez sur le bouton **Paramètres du chat (<Icon icon="sliders" iconType="regular" />)** pour ouvrir le panneau **Paramètres du chat**.
-2. Dans le panneau **Paramètres du chat**, ajustez les paramètres selon vos besoins. Vous pouvez également activer ou désactiver le suivi des appels Weave, et [ajouter une fonction](#add-a-function).
-3. Les modifications sont appliquées automatiquement. Cliquez de nouveau sur **Paramètres du chat**, ou sur le **x** dans l’angle supérieur droit, pour fermer le panneau. Le texte d’infobulle du bouton **Paramètres du chat** se met à jour pour afficher les paramètres que vous avez modifiés.
+1. Dans le en-tête du prompt (en haut du panneau principal), cliquez sur le bouton **Chat settings (<Icon icon="sliders" iconType="regular" />)** pour ouvrir le panneau **Chat settings**.
+2. Dans le panneau **Chat settings**, ajustez les paramètres selon vos besoins. Vous pouvez également activer ou désactiver le suivi des appels Weave, et [ajouter une fonction](#add-a-function).
+3. Les modifications sont appliquées automatiquement. Cliquez de nouveau sur **Chat settings**, ou sur le **x** dans l’angle supérieur droit, pour fermer le panneau. Le texte au survol du bouton **Chat settings** se met à jour pour afficher les paramètres que vous avez modifiés.
 
 Si vous quittez la page, vos paramètres seront perdus. Pour enregistrer vos paramètres, [enregistrez votre modèle](#save-a-model).
-Si vous souhaitez ignorer vos modifications et recommencer, actualisez la page.
+Si vous souhaitez annuler les paramètres modifiés et repartir de zéro, actualisez la page.
 
 <Frame>
-  ![Le Playground Weave affichant la liste déroulante « Sélectionner un modèle » ouverte et le panneau Paramètres du chat ouvert à droite.](/weave/guides/tools/imgs/playground_settings.png)
+  ![Le playground Weave montrant la liste déroulante « Select a model » ouverte et le panneau Chat settings ouvert à droite.](/weave/guides/tools/imgs/playground_settings.png)
 </Frame>
 
-Le Playground vous permet de générer plusieurs sorties pour une même entrée en définissant le nombre d’essais. Le paramètre par défaut est `1`. Pour ajuster le nombre d’essais, ouvrez le panneau **Paramètres du chat** et modifiez le paramètre **Number of trials**.
+Le playground vous permet de générer plusieurs sorties pour une même entrée en définissant le nombre d’essais. La valeur par défaut est `1`. Pour ajuster le nombre d’essais, ouvrez le panneau **Chat settings** et modifiez le paramètre **Number of trials**.
 
 <div id="add-a-function">
   ### Ajouter une fonction
 </div>
 
-Vous pouvez tester la manière dont différents modèles utilisent des fonctions selon les entrées fournies par l’utilisateur. Pour ajouter une fonction à tester dans Playground, dans le panneau **Paramètres du chat**, cliquez sur **+ Ajouter une fonction**. Suivez les instructions à l’écran pour définir la fonction et enregistrer vos modifications.
+Vous pouvez tester comment différents modèles utilisent des fonctions en fonction des entrées reçues de l’utilisateur. Pour ajouter une fonction à tester dans Playground, dans le panneau **Chat settings**, cliquez sur **+ Add function**. Suivez les instructions à l’écran pour définir la fonction et enregistrer vos modifications.
 
 <div id="message-controls">
-  ## Contrôles des messages
+  ## Options des messages
 </div>
 
 <div id="prompt-definition-area">
   ### Zone de définition du prompt
 </div>
 
-La **zone de définition du prompt** vous permet de définir les instructions qui façonnent le comportement du modèle tout au long d&#39;une interaction.
+La **zone de définition du prompt** vous permet de définir les instructions qui déterminent le comportement du modèle tout au long d&#39;une interaction.
 
-Utilisez cette zone pour fournir un contexte qui s&#39;applique de façon cohérente avant tout échange de messages. Cela inclut la définition du rôle, les consignes de ton et de style, les contraintes de comportement et les exigences de sortie. Les modifications apportées ici affectent toutes les interactions suivantes, sauf modification ultérieure.
+Utilisez cette zone pour fournir un contexte qui s&#39;applique de façon uniforme avant tout échange de messages. Cela inclut la définition du rôle, les consignes de ton et de style, les contraintes de comportement et les exigences de sortie. Les modifications apportées ici s&#39;appliquent à toutes les interactions suivantes, sauf si elles sont modifiées.
 
 Elle comprend :
 
 * **Sélecteur de prompt** : sélectionnez un prompt enregistré existant ou créez-en un nouveau.
-* **Sélecteur de rôle du message** : spécifiez le rôle du message en cours de définition (rôle **System**, **Assistant** ou **User**).
-* **Texte du prompt** : saisissez le texte d&#39;instruction qui définit la manière dont le modèle doit répondre.
+* **Sélecteur de rôle du message** : spécifiez le rôle du message que vous définissez (rôle **System**, **Assistant** ou **User**).
+* **Texte du prompt** : saisissez le texte d&#39;instruction qui définit la façon dont le modèle doit répondre.
 * Bouton **Add message** : vous permet d&#39;inclure des messages supplémentaires dans le contexte du prompt avant l&#39;exécution.
 
-Ces messages sont envoyés ensemble au modèle et peuvent servir à :
+Ces messages sont envoyés ensemble au modèle et peuvent être utilisés pour :
 
-* Ajouter des instructions supplémentaires au niveau système.
-* Fournir des exemples de messages d&#39;assistant pour guider les réponses (par exemple avec du few-shot prompting).
-* Prédéfinir des messages utilisateur pour tester des scénarios spécifiques.
+* Ajouter des instructions système complémentaires.
+* Fournir des exemples de messages de l&#39;assistant pour orienter les réponses (par exemple avec le few-shot prompting).
+* Prédéfinir des messages utilisateur afin de tester des scénarios spécifiques.
 
 <div id="messages-panel">
-  ### Panneau des messages
+  ### Panneau Messages
 </div>
 
-Le **panneau des messages** affiche la conversation générée pendant l&#39;exécution.
+Le **panneau Messages** affiche la conversation générée pendant l’exécution.
 
-Il comprend :
+Il inclut :
 
-* Tous les messages prédéfinis inclus dans la configuration du prompt.
-* Les messages envoyés depuis le composeur de messages.
+* Tous les messages prédéfinis inclus dans la configuration de l’invite.
+* Les messages envoyés depuis le champ de saisie des messages.
 * Les réponses renvoyées par le modèle.
 
-Vous pouvez également **Copier**, **Supprimer**, **Modifier** et **Réessayer** des messages dans ce panneau.
+Vous pouvez également utiliser **Copy**, **Delete**, **Edit** et **Retry** sur les messages dans le panneau.
 
 <div id="message-composer-input-field">
-  ### Zone de rédaction des messages (champ de saisie)
+  ### Zone de composition des messages (champ de saisie)
 </div>
 
-Utilisez la **zone de rédaction des messages** pour envoyer de nouveaux messages au modèle.
+Utilisez la **zone de composition des messages** pour envoyer de nouveaux messages au modèle.
 
-Elle permet de sélectionner le rôle du message et de soumettre des messages à l&#39;exécution. La plupart des interactions sont rédigées sous forme de messages **Utilisateur**. Vous pouvez ajouter des messages **Système** ou **Assistant** lorsque vous testez des modifications d&#39;instructions.
+Elle permet de sélectionner le rôle du message et de soumettre des messages à l’exécution. La plupart des interactions sont rédigées sous forme de messages **User**. Vous pouvez ajouter des messages **System** ou **Assistant** lorsque vous testez des modifications d’instructions.
 
 <Frame>
-  ![Playground Weave affichant la zone de définition du prompt en haut, l'historique des messages au milieu et une zone de rédaction des messages en bas pour envoyer de nouveaux messages.](/weave/guides/tools/imgs/playground_chat_input.png)
+  ![Weave Playground montrant la zone de définition du prompt en haut, l’historique des messages au centre et une zone de composition des messages en bas pour envoyer de nouveaux messages.](/weave/guides/tools/imgs/playground_chat_input.png)
 </Frame>
 
 <div id="view-message-history">
-  ## Afficher l’historique des messages
+  ## Voir l’historique des messages
 </div>
 
-Pour afficher l’historique des messages, cliquez sur le bouton **Historique (<Icon icon="clock-rotate-left" iconType="light" />)** dans la barre d’outils du playground, à droite.  Cela ouvre un panneau Historique affichant tous les messages envoyés pour le projet actuel.
+Pour voir l’historique des messages, cliquez sur le bouton **Historique (<Icon icon="clock-rotate-left" iconType="light" />)** dans la barre d’outils de droite du playground. Cela ouvre un panneau Historique affichant tous les messages envoyés pour le projet en cours.
 
-La sélection d’un élément de l’historique le charge automatiquement dans un panneau de chat supplémentaire pour faciliter la comparaison. 
+Lorsque vous sélectionnez un élément dans l’historique, il se charge automatiquement dans un panneau de chat supplémentaire pour comparaison. 
 
 <div id="compare-llms">
   ## Comparer des LLM
 </div>
 
-Playground vous permet de comparer des LLM. Pour effectuer une comparaison, cliquez sur le bouton **Add Chat (<Icon icon="plus" iconType="solid" />)** dans la barre d’outils de droite du Playground. Une deuxième conversation s’ouvre à côté de la conversation d’origine.
-Dans cette deuxième conversation, vous disposez des mêmes fonctionnalités que dans la conversation d’origine, comme le choix du modèle, le réglage des paramètres et l’ajout de fonctions.
+Playground vous permet de comparer des LLM. Pour effectuer une comparaison, cliquez sur le bouton **Add Chat (<Icon icon="plus" iconType="solid" />)** dans la barre d’outils de Playground, à droite. Une deuxième fenêtre de chat s’ouvre à côté du chat original.
+Dans cette deuxième fenêtre de chat, vous disposez des mêmes fonctionnalités que dans le chat original, comme choisir le modèle, ajuster les paramètres et ajouter des fonctions.
 
 <div id="custom-providers">
   ## Fournisseurs personnalisés
@@ -191,33 +191,33 @@ Dans cette deuxième conversation, vous disposez des mêmes fonctionnalités que
   ### Ajouter un fournisseur personnalisé
 </div>
 
-En plus des fournisseurs intégrés, vous pouvez utiliser le Playground pour tester des endpoints d’API compatibles OpenAI pour des modèles personnalisés. Par exemple :
+En plus des fournisseurs intégrés, vous pouvez utiliser le playground pour tester des endpoints d’API compatibles OpenAI pour des modèles personnalisés. Par exemple :
 
 * D’anciennes versions de fournisseurs de modèles pris en charge
 * Des modèles locaux
 
-Pour ajouter un fournisseur personnalisé au Playground, procédez comme suit :
+Pour ajouter un fournisseur personnalisé au playground, procédez comme suit :
 
-1. Dans l’en-tête du prompt (en haut du panneau principal), cliquez sur le menu déroulant **Sélectionner un modèle**.
+1. Dans le en-tête du prompt (en haut du panneau principal), cliquez sur la liste déroulante **Select a model**.
 2. Sélectionnez **+ Add AI provider**.
 3. Sélectionnez **Custom Provider**.
 4. Dans la fenêtre modale, saisissez les informations du fournisseur :
 
-* **Provider name** : Un nom pour le fournisseur, tel que `openai` ou `ollama`.
-* **API key** : La clé API du fournisseur, par exemple une clé API OpenAI.
-* **Base URL** : L’endpoint de base du fournisseur, tel que `https://api.openai.com/v1/` ou une URL ngrok comme `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`.
-* **Headers** : (Facultatif) Une ou plusieurs paires clé-valeur d’en-têtes HTTP personnalisés.
-* **Models** : Un ou plusieurs modèles pour le fournisseur, tels que `deepseek-r1` ou `qwq`.
-* **Max tokens** : (Facultatif) Pour chaque modèle, le nombre maximal de tokens que le modèle peut générer dans une réponse.
+* **Provider name** : un nom pour le fournisseur, comme `openai` ou `ollama`.
+* **clé API** : la clé API du fournisseur, par exemple une clé API OpenAI.
+* **Base URL** : l’endpoint de base du fournisseur, comme `https://api.openai.com/v1/` ou une URL ngrok telle que `https://e452-2600-1700-45f0-3e10-2d3f-796b-d6f2-8ba7.ngrok-free.app`.
+* **Headers** : (facultatif) une ou plusieurs paires clé-valeur d’en-têtes HTTP personnalisés.
+* **Models** : un ou plusieurs modèles pour le fournisseur, comme `deepseek-r1` ou `qwq`.
+* **Max tokens** : (facultatif) pour chaque modèle, le nombre maximal de tokens que le modèle peut générer dans une réponse.
 
 5. Une fois les informations du fournisseur saisies, cliquez sur **Add provider**.
-6. Sélectionnez votre nouveau fournisseur et le ou les modèles disponibles dans le menu déroulant **Sélectionner un modèle**.
+6. Sélectionnez votre nouveau fournisseur et le ou les modèles disponibles dans la liste déroulante **Select a model**.
 
 <Warning>
-  En raison des restrictions CORS, vous ne pouvez pas appeler directement des URL localhost ou 127.0.0.1 depuis le Playground. Si vous exécutez un serveur de modèles local (comme Ollama), utilisez un service de tunneling comme ngrok pour l’exposer de manière sécurisée. Pour plus de détails, voir [Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider).
+  En raison des restrictions CORS, vous ne pouvez pas appeler directement des URL localhost ou 127.0.0.1 depuis le playground. Si vous exécutez un serveur de modèle local (comme Ollama), utilisez un service de tunneling comme ngrok pour l’exposer de manière sécurisée. Pour plus d’informations, voir [Use ngrok with Ollama](#use-a-local-model-as-a-custom-provider).
 </Warning>
 
-Vous pouvez maintenant tester le ou les modèles du fournisseur personnalisé à l’aide des fonctionnalités standard du Playground. Vous pouvez également [modifier](#edit-a-custom-provider) ou [supprimer](#remove-a-custom-provider) le fournisseur personnalisé.
+Vous pouvez maintenant tester le ou les modèles du fournisseur personnalisé à l’aide des fonctionnalités standard du playground. Vous pouvez également [modifier](#edit-a-custom-provider) ou [supprimer](#remove-a-custom-provider) le fournisseur personnalisé.
 
 <div id="edit-a-custom-provider">
   ### Modifier un fournisseur personnalisé
@@ -225,14 +225,14 @@ Vous pouvez maintenant tester le ou les modèles du fournisseur personnalisé à
 
 Pour modifier les informations d’un [fournisseur personnalisé créé précédemment](#add-a-custom-provider), procédez comme suit :
 
-1. Dans l’en-tête du prompt, cliquez sur la liste déroulante **Sélectionner un modèle**. Sélectionnez ensuite **+Configure providers**.
+1. Dans l’en-tête du prompt, cliquez sur la liste déroulante **Select a model**. Sélectionnez ensuite **+Configurer les fournisseurs**.
 
-* Vous pouvez aussi sélectionner **projet** dans le menu latéral, puis l’onglet **fournisseur d’IA**.
+* Vous pouvez également sélectionner **Project** dans le menu latéral, puis l’onglet **Fournisseurs d’IA**.
 
-2. Dans le tableau **fournisseurs personnalisés**, trouvez le fournisseur personnalisé que vous souhaitez modifier.
-3. Dans la colonne **Last Updated** de l’entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton de modification (l’icône en forme de crayon).
+2. Dans le tableau **Fournisseurs personnalisés**, repérez le fournisseur personnalisé que vous souhaitez mettre à jour.
+3. Dans la colonne **Last Updated** de l’entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton Modifier (l’icône en forme de crayon).
 4. Dans la fenêtre modale, modifiez les informations du fournisseur.
-5. Cliquez sur **Save**.
+5. Cliquez sur **Enregistrer**.
 
 <div id="remove-a-custom-provider">
   ### Supprimer un fournisseur personnalisé
@@ -240,22 +240,22 @@ Pour modifier les informations d’un [fournisseur personnalisé créé précéd
 
 Pour supprimer un [fournisseur personnalisé créé précédemment](#add-a-custom-provider), procédez comme suit :
 
-1. Dans l’en-tête du prompt, cliquez sur la liste déroulante **Sélectionner un modèle**. Sélectionnez ensuite **+Configurer les fournisseurs**.
+1. Dans le en-tête du prompt, cliquez sur la liste déroulante **Select a model**. Sélectionnez ensuite **+Configure providers**.
 
-* Vous pouvez aussi, dans le menu latéral, sélectionner **Projet**, puis l’onglet **Fournisseurs d’IA**.
+* Vous pouvez également, dans le menu latéral, sélectionner **Project**, puis l’onglet **Fournisseurs d’IA**.
 
-2. Dans le tableau **Fournisseurs personnalisés**, trouvez le fournisseur personnalisé que vous souhaitez supprimer.
-3. Dans la colonne **Dernière mise à jour** de l’entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton de suppression (l’icône de corbeille).
+2. Dans le tableau **Fournisseurs personnalisés**, repérez le fournisseur personnalisé que vous souhaitez supprimer.
+3. Dans la colonne **Last Updated** de l’entrée correspondant à votre fournisseur personnalisé, cliquez sur le bouton de suppression (l’icône de corbeille).
 4. Dans la fenêtre modale, confirmez que vous souhaitez supprimer le fournisseur. Cette action est irréversible.
-5. Cliquez sur **Supprimer**.
+5. Cliquez sur **Delete**.
 
 <div id="use-a-local-model-as-a-custom-provider">
   ### Utiliser un modèle local comme fournisseur personnalisé
 </div>
 
-Pour tester dans le Playground un modèle exécuté localement, utilisez ngrok et Ollama pour créer une URL publique temporaire qui contourne les restrictions CORS.
+Pour tester un modèle qui s’exécute en local dans le Playground, utilisez ngrok et Ollama pour créer une URL publique temporaire qui contourne les restrictions CORS.
 
-Pour le configurer, procédez comme suit :
+Pour le mettre en place, procédez comme suit :
 
 1. [Installez ngrok](https://ngrok.com/docs/getting-started/#step-1-install) pour votre système d’exploitation.
 
@@ -265,15 +265,15 @@ Pour le configurer, procédez comme suit :
    ollama run <model>
    ```
 
-3. Dans un terminal séparé, créez un tunnel ngrok avec les en-têtes CORS requis :
+3. Dans un autre terminal, créez un tunnel ngrok avec les en-têtes CORS requis :
 
    ```bash
    ngrok http 11434 --response-header-add "Access-Control-Allow-Origin: *" --host-header rewrite
    ```
 
-4. Une fois ngrok démarré, une URL publique s’affiche, par exemple `https://xxxx-xxxx.ngrok-free.app`. Utilisez cette URL comme **Base URL** lorsque vous [ajoutez un fournisseur personnalisé](#add-a-custom-provider) dans le Playground.
+4. Une fois ngrok lancé, une URL publique s’affiche, par exemple `https://xxxx-xxxx.ngrok-free.app`. Utilisez cette URL comme **Base URL** lorsque vous [ajoutez un fournisseur personnalisé](#add-a-custom-provider) dans le Playground.
 
-Le schéma suivant illustre le flux de données entre votre environnement local, le proxy ngrok et les services cloud W&amp;B :
+Le schéma suivant illustre le flux de données entre votre environnement local, le proxy ngrok et les services cloud de W&amp;B :
 
 ```mermaid
 flowchart LR
@@ -285,20 +285,20 @@ flowchart LR
 
     %% Sous-graphes
     subgraph Client_Machine
-        browser[Browser]
-        llm_local[Local LLM Provider]
+        browser[Navigateur]
+        llm_local[Fournisseur LLM local]
     end
 
     subgraph Proxy
-        ngrok[Ngrok Proxy]
+        ngrok[Proxy Ngrok]
     end
 
     subgraph WandB_Cloud
-        trace_server[Trace Server]
+        trace_server[Serveur de traces]
     end
 
     subgraph Public_Cloud
-        llm_cloud[Public LLM Provider]
+        llm_cloud[Fournisseur LLM public]
     end
 
     %% Appliquer les styles aux sous-graphes
@@ -320,7 +320,7 @@ flowchart LR
     %% Connexion future possible
     browser -.->|Futur : Appel direct au LLM local| llm_local
 
-    %% Styles de liens
+    %% Styles des liens
     linkStyle default stroke:#454B52,stroke-width:2px
     linkStyle 8 stroke:#454B52,stroke-width:2px,stroke-dasharray:5
 ```
@@ -336,30 +336,30 @@ flowchart LR
 
 Vous pouvez créer et configurer un préréglage de modèle réutilisable pour votre flux de travail. Enregistrer un modèle vous permet de le charger rapidement avec vos réglages, paramètres et hooks de fonction préférés.
 
-1. Dans l’en-tête du prompt (en haut du panneau principal), dans la liste déroulante **Sélectionner un modèle**, sélectionnez un fournisseur et un modèle.
-2. Dans l’en-tête du prompt, cliquez sur le bouton **Paramètres du chat (<Icon icon="sliders" iconType="regular" />)** pour ouvrir le panneau **Paramètres du chat**.
-3. Dans le panneau **Paramètres du chat** :
-   * **Nom du modèle** (requis) : saisissez un nom pour votre modèle enregistré.
-   * Ajustez les paramètres selon vos besoins. Vous pouvez aussi activer ou désactiver le suivi des appels Weave et [ajouter une fonction](#add-a-function).
-4. Cliquez sur **Publier le modèle**. Le modèle est enregistré et accessible depuis **Modèles enregistrés** dans la liste déroulante **Sélectionner un modèle**. Vous pouvez maintenant [utiliser](#use-a-saved-model) et [mettre à jour](#update-a-saved-model) le modèle enregistré.
+1. Dans l’en-tête du prompt (en haut du panneau principal), dans la liste déroulante **Select a model**, sélectionnez un fournisseur et un modèle.
+2. Dans l’en-tête du prompt, cliquez sur le bouton **Chat settings (<Icon icon="sliders" iconType="regular" />)** pour ouvrir le panneau **Chat settings**.
+3. Dans le panneau **Chat settings** :
+   * **Model Name** (requis) : saisissez un nom pour votre modèle enregistré.
+   * Ajustez les paramètres selon vos besoins. Vous pouvez aussi activer ou désactiver le suivi des appels Weave, et [ajouter une fonction](#add-a-function).
+4. Cliquez sur **Publish model**. Le modèle est enregistré et accessible depuis **Modèles enregistrés** dans la liste déroulante **Select a model**. Vous pouvez maintenant [utiliser](#use-a-saved-model) et [mettre à jour](#update-a-saved-model) le modèle enregistré.
 
 <div id="use-a-saved-model">
   ### Utiliser un modèle enregistré
 </div>
 
-Basculez rapidement vers un [modèle enregistré](#save-a-model) pour maintenir la cohérence entre les expériences ou les sessions. Vous pouvez ainsi reprendre exactement là où vous en étiez.
+Basculez rapidement vers un [modèle enregistré](#save-a-model) pour conserver une cohérence entre les expériences ou les sessions. Vous pouvez ainsi reprendre exactement là où vous vous étiez arrêté.
 
-1. Dans l’en-tête du prompt, dans le menu déroulant **Sélectionner un modèle**, sélectionnez **Modèles enregistrés**.
+1. Dans le en-tête du prompt, dans le menu déroulant **Select a model**, sélectionnez **Modèles enregistrés**.
 2. Dans la liste des modèles enregistrés, sélectionnez le modèle enregistré que vous souhaitez charger. Le modèle se charge et est prêt à être utilisé dans le Playground.
 
 <div id="update-a-saved-model">
   ### Mettre à jour un modèle enregistré
 </div>
 
-Modifiez un [modèle enregistré](#save-a-model) existant pour affiner ses paramètres ou actualiser sa configuration. Cela garantit que vos modèles enregistrés évoluent avec vos cas d’usage.
+Modifiez un [modèle enregistré](#save-a-model) existant pour affiner ses paramètres ou actualiser sa configuration. Ainsi, vos modèles enregistrés évoluent avec vos cas d’usage.
 
-1. Dans l’en-tête du prompt, ouvrez le menu déroulant **Sélectionner un modèle**, puis sélectionnez **Modèles enregistrés**.
+1. Dans l’en-tête du prompt, dans le menu déroulant **Select a model**, sélectionnez **Modèles enregistrés**.
 2. Dans la liste des modèles enregistrés, sélectionnez le modèle enregistré que vous souhaitez mettre à jour.
-3. Dans l’en-tête du prompt, cliquez sur le bouton **Paramètres du chat (<Icon icon="sliders" iconType="regular" />)** pour ouvrir le panneau **Paramètres du chat**.
-4. Dans le panneau **Paramètres du chat**, ajustez les paramètres selon vos besoins. Vous pouvez également activer ou désactiver le suivi des appels Weave et [ajouter une fonction](#add-a-function).
-5. Cliquez sur **Mettre à jour le modèle**. Le modèle est alors mis à jour et devient accessible depuis **Modèles enregistrés** dans le menu déroulant **Sélectionner un modèle**. La version de votre modèle enregistré est automatiquement incrémentée.
+3. Dans l’en-tête du prompt, cliquez sur le bouton **Chat settings (<Icon icon="sliders" iconType="regular" />)** pour ouvrir le panneau **Chat settings**.
+4. Dans le panneau **Chat settings**, ajustez les paramètres selon vos besoins. Vous pouvez également activer ou désactiver le suivi des appels Weave, et [ajouter une fonction](#add-a-function).
+5. Cliquez sur **Mettre à jour le modèle**. Cela met à jour le modèle et le rend accessible depuis **Modèles enregistrés** dans le menu déroulant **Select a model**. La version de votre modèle enregistré augmente automatiquement.

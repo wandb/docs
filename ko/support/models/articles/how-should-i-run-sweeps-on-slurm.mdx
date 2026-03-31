@@ -1,17 +1,17 @@
 ---
-title: "SLURM에서 스윕을 실행하려면 어떻게 해야 하나요?"
+title: "SLURM에서 Sweeps를 어떻게 실행해야 하나요?"
 keywords: ["Sweeps"]
 ---
 
-[SLURM 스케줄링 시스템](https://slurm.schedmd.com/documentation.html)과 함께 스윕을 사용하는 경우, 예약된 각 작업에서 `wandb agent --count 1 SWEEP_ID`를 실행하세요. 이 명령은 단일 트레이닝 작업을 실행한 후 종료하므로, 하이퍼파라미터 탐색의 병렬성을 활용하면서도 리소스 요청에 필요한 런타임 예측을 더 쉽게 할 수 있습니다.
+[SLURM scheduling system](https://slurm.schedmd.com/documentation.html)과 함께 Sweeps를 사용할 때는 예약된 각 작업에서 `wandb agent --count 1 SWEEP_ID`를 실행하세요. 이 명령은 단일 트레이닝 작업을 실행한 뒤 종료하므로, 하이퍼파라미터 검색의 병렬성을 활용하면서 리소스 요청에 필요한 실행 시간 예측을 더 쉽게 할 수 있습니다.
 
 ***
 
-{/* ---- 자동 생성: 탭 배지 ----
-  프런트 매터의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py 스크립트에서 관리됩니다.
-  이 표시 사이의 내용은 직접 수정하지 마세요.
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter의 키워드를 기반으로 scripts/knowledgebase-nav/generate_tags.py에서 관리됩니다.
+  이 표시 사이의 내용은 수동으로 편집하지 마세요.
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Sweeps](/ko/support/models/tags/sweeps)</Badge>
 
-{/* ---- 자동 생성 종료: 탭 배지 ---- */}
+{/* ---- END AUTO-GENERATED: 탭 배지 ---- */}

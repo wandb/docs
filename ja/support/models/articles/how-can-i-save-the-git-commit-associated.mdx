@@ -1,19 +1,19 @@
 ---
-title: "run に関連付けられた git commit を保存するにはどうすればよいですか？"
+title: "自分のrunに関連付けられたgitコミットを保存するにはどうすればよいですか？"
 keywords: ["Experiments"]
 ---
 
-`wandb.init` が呼び出されると、システムはリモート リポジトリへのリンクや最新コミットの SHA などの Git 情報を自動的に収集します。この情報は [run ページ](/ja/models/runs/#view-logged-runs) に表示されます。この情報を表示するには、スクリプトの実行時の現在の作業ディレクトリが Git 管理下のフォルダー内にあることを確認してください。
+`wandb.init` が呼び出されると、システムはリモートrepositoryへのlinkや最新コミットのSHAを含むgit情報を自動的に収集します。この情報は [runページ](/ja/models/runs/#view-logged-runs) に表示されます。この情報を表示するには、スクリプト実行時のカレントワーキングディレクトリが git 管理下のフォルダー内にあることを確認してください。
 
-Git コミットと実験の実行に使用したコマンドはユーザーには表示されますが、外部ユーザーには表示されません。公開プロジェクトでも、これらの詳細は非公開のままです。
+gitコミットと実験の実行に使用したコマンドはユーザーには表示されますが、外部ユーザーには非表示です。公開プロジェクトでも、これらの詳細は非公開のままです。
 
 ***
 
 {/* ---- AUTO-GENERATED: tab badges ----
-  front matter の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+  front matter の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py によって生成されます。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[Experiments](/ja/support/models/tags/experiments)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

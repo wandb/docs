@@ -1,7 +1,7 @@
 ---
 title: box3d()
 namespace: python_sdk_data_type
-python_object_type: function
+python_object_type: 関数
 ---
 
 import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/sdk/data_types/object_3d.py" />
 
 
-### <kbd>function</kbd> `box3d`
+### <kbd>関数</kbd> `box3d`
 
 ```python
 box3d(
@@ -22,22 +22,22 @@ box3d(
 ) → Box3D
 ```
 
-3D バウンディングボックス。ボックスは中心、サイズ、向きで指定します。
+3D バウンディングボックスです。ボックスは、中心、サイズ、向きによって指定されます。
 
 **引数:**
 
-* `center`:  ボックスの中心点。長さ 3 の ndarray。
-* `size`:  ボックスの X, Y, Z 方向の寸法。長さ 3 の ndarray。
-* `orientation`:  グローバル XYZ 座標をボックスのローカル XYZ 座標に変換する回転。長さ 4 の ndarray [r, x, y, z] で与えられ、非ゼロの四元数 r + xi + yj + zk に対応します。
-* `color`:  ボックスの色。`0 <= r,g,b <= 1` を満たす (r, g, b) タプル。
-* `label`:  ボックスの任意のラベル。
-* `score`:  ボックスの任意のスコア。通常は検出の信頼度を表すために使用します。
+* `center`:  長さ 3 の ndarray で表されるボックスの中心点。
+* `size`:  長さ 3 の ndarray で表されるボックスの X、Y、Z 方向の寸法。
+* `orientation`:  グローバル XYZ 座標をボックスのローカル XYZ 座標に変換する回転です。非ゼロのクォータニオン `r + xi + yj + zk` に対応する、長さ 4 の ndarray `[r, x, y, z]` で指定します。
+* `color`:  `0 <= r,g,b <= 1` を満たす `(r, g, b)` タプルで表されるボックスの色。
+* `label`:  ボックスに付ける任意のラベル。
+* `score`:  ボックスの任意のスコア。通常は検出の信頼度を示すために使用します。
 
 **戻り値:**
-Box3D オブジェクトを返します。
+Box3D オブジェクト。
 
 **例:**
-次の例では、X, Y, Z 軸周りに回転する 60 個のボックスを含む点群を作成します。
+次の例では、X、Y、Z 軸の周りを回転する 60 個のボックスを含むポイントクラウドを作成します。
 
 ```python
 import wandb

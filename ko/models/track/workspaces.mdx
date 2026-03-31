@@ -1,265 +1,265 @@
 ---
-description: 대화형 시각화를 통해 run 데이터를 탐색하는 플레이그라운드
-title: 실험 결과 보기
+description: 대화형 시각화로 run 데이터를 탐색하는 플레이그라운드
+title: 실험 결과 확인하기
 ---
 
-W&amp;B Workspace는 차트를 사용자 지정하고 모델 결과를 탐색할 수 있는 개인용 샌드박스입니다. W&amp;B Workspace는 *Tables*와 *Panel sections*로 구성됩니다.
+W&amp;B workspace는 차트를 사용자 지정하고 모델 결과를 탐색할 수 있는 개인용 샌드박스입니다. W&amp;B workspace는 *Tables*와 *Panel sections*로 구성됩니다:
 
-* **Tables**: 프로젝트에 로깅된 모든 run은 해당 프로젝트의 테이블에 나열됩니다. run을 켜고 끄거나 색상을 변경하고, 테이블을 확장하여 각 run의 노트, config, 요약 메트릭을 확인할 수 있습니다.
-* **Panel sections**: 하나 이상의 [패널](/ko/models/app/features/panels/)을 포함하는 섹션입니다. 새 패널을 만들고 구성한 다음, 워크스페이스 스냅샷을 저장하기 위해 리포트로 내보낼 수 있습니다.
+* **Tables**: 프로젝트에 로깅된 모든 run이 프로젝트 테이블에 나열됩니다. run을 켜고 끄고, 색상을 변경하고, 테이블을 확장해 각 run의 notes, 설정, summary 메트릭을 확인하세요.
+* **Panel sections**: 하나 이상의 [panels](/ko/models/app/features/panels/)를 포함하는 섹션입니다. 새 패널을 만들고 정리한 다음, Reports로 내보내 workspace의 스냅샷을 저장하세요.
 
 <Frame>
-  <img src="/images/app_ui/workspace_table_and_panels.png" alt="Workspace 테이블과 패널" />
+  <img src="/images/app_ui/workspace_table_and_panels.png" alt="Workspace 테이블 및 패널" />
 </Frame>
 
 <div id="workspace-types">
   ## Workspace 유형
 </div>
 
-워크스페이스는 크게 두 가지 범주로 나뉩니다: **Personal workspaces**와 **Saved views**.
+Workspace에는 두 가지 주요 범주가 있습니다: **개인 Workspace**와 **저장된 뷰**입니다.
 
-* **Personal workspaces:**  모델과 Data Visualization을 심층 분석하기 위한 사용자 지정 가능한 워크스페이스입니다. 워크스페이스의 소유자만 편집하고 변경 사항을 저장할 수 있습니다. 팀원들은 Personal workspace를 볼 수는 있지만, 다른 사람의 Personal workspace를 수정할 수는 없습니다.
-* **Saved views:** Saved views는 워크스페이스의 협업용 스냅샷입니다. 팀의 모든 사람이 Saved workspace views를 보고, 편집하고, 변경 사항을 저장할 수 있습니다. Saved workspace views를 사용해 실험, run 등을 검토하고 논의하세요.
+* **개인 Workspace:**  모델과 데이터 시각화를 심층적으로 분석할 수 있도록 맞춤 설정 가능한 Workspace입니다. Workspace 소유자만 변경 사항을 편집하고 저장할 수 있습니다. 팀원은 개인 Workspace를 볼 수 있지만, 다른 사람의 개인 Workspace는 변경할 수 없습니다.
+* **저장된 뷰:** 저장된 뷰는 Workspace의 협업용 스냅샷입니다. 팀의 누구나 저장된 Workspace 뷰를 보고, 편집하고, 변경 사항을 저장할 수 있습니다. 저장된 Workspace 뷰를 사용해 실험, Runs 등을 검토하고 논의하세요.
 
-다음 이미지는 Cécile-parker의 팀원들이 생성한 여러 Personal workspaces를 보여줍니다. 이 프로젝트에는 Saved views가 없습니다:
+다음 이미지는 Cécile-parker의 팀원들이 만든 여러 개인 Workspace를 보여줍니다. 이 프로젝트에는 저장된 뷰가 없습니다:
 
 <Frame>
-  <img src="/images/app_ui/Menu_No_views.jpg" alt="No saved views" />
+  <img src="/images/app_ui/Menu_No_views.jpg" alt="저장된 뷰 없음" />
 </Frame>
 
 <div id="saved-workspace-views">
-  ## 저장된 워크스페이스 보기
+  ## 저장된 Workspace 뷰
 </div>
 
-맞춤형 워크스페이스 보기를 통해 팀 협업을 강화하세요. 차트와 데이터를 선호하는 구성으로 정리할 수 있도록 Saved Views를 생성하세요.
+맞춤형 Workspace 뷰로 팀 협업을 향상하세요. 저장된 뷰를 만들어 원하는 차트와 데이터 설정을 정리하세요.
 
 <div id="create-a-new-saved-workspace-view">
-  ### 새로 저장된 워크스페이스 뷰 만들기
+  ### 새 저장된 Workspace 뷰 만들기
 </div>
 
-1. 개인 워크스페이스나 저장된 뷰로 이동합니다.
-2. 워크스페이스를 원하는 대로 편집합니다.
-3. 워크스페이스 오른쪽 상단의 점 세 개 아이콘(미트볼 메뉴)을 클릭한 다음 **Save as a new view**를 클릭합니다.
+1. 개인 Workspace 또는 저장된 뷰로 이동합니다.
+2. Workspace를 편집합니다.
+3. Workspace 오른쪽 상단의 점 3개 메뉴를 클릭합니다. 그런 다음 **Save as a new view**를 클릭합니다.
 
-새로 저장된 뷰는 워크스페이스 탐색 메뉴에 표시됩니다.
+새로 저장한 뷰는 Workspace 내비게이션 메뉴에 표시됩니다.
 
 <Frame>
-  <img src="/images/app_ui/Menu_Views.jpg" alt="Saved views menu" />
+  <img src="/images/app_ui/Menu_Views.jpg" alt="저장된 뷰 메뉴" />
 </Frame>
 
 <div id="update-a-saved-workspace-view">
-  ### 저장된 Workspace 뷰 업데이트하기
+  ### 저장된 워크스페이스 뷰 업데이트하기
 </div>
 
-저장된 변경 사항은 이전에 저장된 뷰의 상태를 덮어씁니다. 저장되지 않은 변경 사항은 유지되지 않습니다. W&amp;B에서 저장된 Workspace 뷰를 업데이트하려면:
+저장된 변경 사항은 저장된 뷰의 이전 상태를 덮어씁니다. 저장하지 않은 변경 사항은 유지되지 않습니다. W&amp;B에서 저장된 워크스페이스 뷰를 업데이트하려면 다음 단계를 따르세요:
 
 1. 저장된 뷰로 이동합니다.
-2. Workspace 내에서 차트와 데이터에 원하는 변경을 가합니다.
-3. 변경 사항을 확정하려면 **Save** 버튼을 클릭합니다.
+2. 워크스페이스 내 차트와 데이터에 원하는 대로 변경합니다.
+3. 변경 사항을 확정하려면 **저장** 버튼을 클릭합니다.
 
 <Note>
-  Workspace 뷰에 대한 업데이트를 저장하면 확인 대화상자가 표시됩니다. 앞으로 이 안내를 다시 보고 싶지 않다면, 저장을 확정하기 전에 **Do not show this modal next time** 옵션을 선택합니다.
+  워크스페이스 뷰 업데이트를 저장하면 확인 대화상자가 표시됩니다. 앞으로 이 안내를 표시하지 않으려면 저장을 확인하기 전에 **다음부터 이 모달을 표시하지 않기** 옵션을 선택하세요.
 </Note>
 
 <div id="delete-a-saved-workspace-view">
   ### 저장된 Workspace 뷰 삭제
 </div>
 
-더 이상 필요하지 않은 저장된 뷰를 삭제합니다.
+더 이상 필요 없는 저장된 뷰를 삭제합니다.
 
 1. 삭제하려는 저장된 뷰로 이동합니다.
-2. 뷰 오른쪽 상단에서 더보기 아이콘(**...**)을 선택합니다.
+2. 뷰 오른쪽 상단의 점 세 개(**...**)를 선택합니다.
 3. **Delete view**를 선택합니다.
-4. 삭제를 확인하여 워크스페이스 메뉴에서 해당 뷰를 제거합니다.
+4. 삭제를 확인하여 Workspace 메뉴에서 해당 뷰를 제거합니다.
 
 <div id="share-a-workspace-view">
-  ### 워크스페이스 보기 공유하기
+  ### Workspace 뷰 공유하기
 </div>
 
-워크스페이스 URL을 직접 공유해 사용자 지정 워크스페이스를 팀과 공유하세요. 해당 워크스페이스 프로젝트에 액세스 권한이 있는 모든 사용자는 그 워크스페이스에 저장된 보기를 볼 수 있습니다.
+Workspace URL을 직접 공유해 사용자 지정한 Workspace를 팀과 공유하세요. Workspace 프로젝트에 액세스할 수 있는 모든 사용자는 해당 Workspace의 저장된 뷰를 볼 수 있습니다.
 
 <div id="workspace-templates">
-  ## Workspace 템플릿
+  ## 워크스페이스 템플릿
 </div>
 
 <Note>
   이 기능을 사용하려면 [Enterprise](https://wandb.ai/site/pricing/) 라이선스가 필요합니다.
 </Note>
 
-&#95;워크스페이스 템플릿&#95;을 사용하면 [새 워크스페이스에 대한 기본 설정](#default-workspace-settings) 대신 기존 워크스페이스와 동일한 설정을 가진 워크스페이스를 만들 수 있습니다.
+[새 워크스페이스의 기본 설정](#default-workspace-settings) 대신 기존 워크스페이스와 동일한 설정으로 워크스페이스를 만들려면 &#95;워크스페이스 템플릿&#95;을 사용하세요.
 
 <div id="default-workspace-settings">
   ### 기본 Workspace 설정
 </div>
 
-W&amp;B에서는 Workspace에 대해 다음 기본 설정을 사용합니다:
+W&amp;B는 Workspace에 다음 기본 설정을 적용합니다:
 
 <div id="hide-empty-sections-during-search">
-  #### 검색 시 빈 섹션 숨기기
+  #### 검색 중 빈 섹션 숨기기
 </div>
 
-기본적으로 W&amp;B는 Workspace에서 빈 섹션을 표시하지 않습니다. 이 설정을 변경하여 Workspace에서 빈 섹션을 표시할 수 있습니다.
+기본적으로 W&amp;B에서는 워크스페이스에 빈 섹션을 표시하지 않습니다. 이 설정을 변경하면 워크스페이스에 빈 섹션을 표시할 수 있습니다.
 
 <div id="sort-panels-alphabetically">
   #### 패널을 알파벳순으로 정렬
 </div>
 
-기본적으로 W&amp;B는 패널을 플롯 제목을 기준으로 알파벳순으로 정렬하지 않습니다. 이 설정을 변경하면 패널을 플롯 제목을 기준으로 알파벳순으로 정렬할 수 있습니다.
+기본적으로 W&amp;B는 plot 제목을 기준으로 패널을 알파벳순으로 정렬하지 않습니다. 이 설정을 바꾸면 plot 제목을 기준으로 패널을 알파벳순으로 정렬할 수 있습니다.
 
 <div id="section-organization">
   #### 섹션 구성
 </div>
 
-기본적으로 W&amp;B는 메트릭 이름의 첫 번째 접두사를 기준으로 패널을 섹션으로 구성합니다. 예를 들어, 워크스페이스에 메트릭 `a/b/c/d`와 `a/e/f`가 포함되어 있으면 W&amp;B는 이러한 메트릭을 `a`라는 섹션으로 구성합니다. 워크스페이스에 메트릭 `a/b/c/d`와 `e/f/g`가 포함되어 있으면 W&amp;B는 이러한 메트릭을 `a`와 `e`라는 섹션으로 구성합니다.
+기본적으로 W&amp;B는 메트릭 이름의 첫 번째 접두사를 기준으로 패널을 섹션으로 구성합니다. 예를 들어 Workspace에 메트릭 `a/b/c/d`와 `a/e/f`가 포함되어 있으면 W&amp;B는 이 메트릭들을 `a`라는 섹션으로 구성합니다. Workspace에 메트릭 `a/b/c/d`와 `e/f/g`가 포함되어 있으면 W&amp;B는 이 메트릭들을 `a` 및 `e`라는 섹션으로 구성합니다.
 
-마지막 접두사를 기준으로 그룹화하도록 기본 섹션 구성을 변경할 수 있습니다. 예를 들어, 워크스페이스에 메트릭 `a/b/c/d`와 `a/e/f`가 포함되어 있으면 W&amp;B는 이러한 메트릭을 `d`와 `f`라는 섹션으로 구성합니다. 워크스페이스에 메트릭 `a/b/c/d`와 `e/f/g`가 포함되어 있으면 W&amp;B는 이러한 메트릭을 `d`와 `g`라는 섹션으로 구성합니다.
+기본 섹션 구성을 마지막 접두사를 기준으로 그룹화하도록 변경할 수도 있습니다. 예를 들어 Workspace에 메트릭 `a/b/c/d`와 `a/e/f`가 포함되어 있으면 W&amp;B는 이 메트릭들을 `d` 및 `f`라는 섹션으로 구성합니다. Workspace에 메트릭 `a/b/c/d`와 `e/f/g`가 포함되어 있으면 W&amp;B는 이 메트릭들을 `d` 및 `g`라는 섹션으로 구성합니다.
 
 <div id="line-plot-settings">
-  #### 라인 플롯 설정
+  #### 선형 플롯 설정
 </div>
 
-기본적으로 새 워크스페이스에서는 라인 플롯에 대해 다음 기본 설정을 사용합니다.
+기본적으로 새 Workspace에서는 선형 플롯에 다음 기본 설정을 사용합니다:
 
-| X axis    | 기본값   |
-| --------- | ----- |
-| Value     | Step  |
-| Log scale | false |
+| X축     | 기본값   |
+| ------ | ----- |
+| 값      | step  |
+| 로그 스케일 | false |
 
-| Y axis    | 기본값   |
-| --------- | ----- |
-| Log scale | false |
+| Y축     | 기본값   |
+| ------ | ----- |
+| 로그 스케일 | false |
 
-| Smoothing                     | 기본값             |
-| ----------------------------- | --------------- |
-| Type                          | Time weight EMA |
-| Weight                        | 0               |
-| Show original after smoothing | 꺼짐              |
+| 스무딩         | 기본값             |
+| ----------- | --------------- |
+| 유형          | Time weight EMA |
+| 가중치         | 0               |
+| 스무딩 후 원본 표시 | 끔               |
 
-| Max number of runs | 기본값 |
-| ------------------ | --- |
-| Max runs           | 10  |
+| 최대 run 수 | 기본값 |
+| -------- | --- |
+| 최대 run 수 | 10  |
 
-| Data              | 기본값   |
-| ----------------- | ----- |
-| Point aggregation | 원본 유지 |
+| 데이터    | 기본값           |
+| ------ | ------------- |
+| 포인트 집계 | full fidelity |
 
-| Grouping               | 기본값  |
-| ---------------------- | ---- |
-| Use grouping in charts | 켜짐   |
-| Group aggregation      | Mean |
+| 그룹화         | 기본값 |
+| ----------- | --- |
+| 차트에서 그룹화 사용 | 켬   |
+| 그룹 집계       | 평균  |
 
-| Display preferences       | 기본값 |
-| ------------------------- | --- |
-| Color run names           | 켜짐  |
-| Display full run name     | 꺼짐  |
-| Show X range in tooltip   | 꺼짐  |
-| Tooltip runs              | 기본값 |
-| Sync zoom across charts   | 꺼짐  |
-| Show highlighted run only | 꺼짐  |
+| 표시 환경설정        | 기본값 |
+| -------------- | --- |
+| run 이름에 색상 적용  | 켬   |
+| 전체 run 이름 표시   | 끔   |
+| 툴팁에 X 범위 표시    | 끔   |
+| 툴팁 run         | 기본값 |
+| 차트 간 확대/축소 동기화 | 끔   |
+| 강조 표시된 run만 표시 | 끔   |
 
 <div id="configure-your-workspace-template">
-  ### 워크스페이스 템플릿 구성
+  ### Workspace 템플릿 구성하기
 </div>
 
-1. 워크스페이스를 열거나 새로 생성합니다.
-2. 워크스페이스 오른쪽 상단의 **Settings** 버튼을 클릭합니다.
+1. 아무 Workspace나 열거나 새 Workspace를 만듭니다.
+2. Workspace 오른쪽 상단에서 **Settings** 버튼을 클릭합니다.
 3. 패널에서 **Workspace layout**을 선택합니다.
-4. 선호에 맞게 워크스페이스 설정을 구성합니다.
+4. 원하는 대로 Workspace 설정을 구성합니다.
 
 <div id="save-your-workspace-template">
   ### 워크스페이스 템플릿 저장하기
 </div>
 
-1. 워크스페이스 상단에서 **Undo** 및 **Redo** 화살표 아이콘 근처의 작업 메뉴 `...`를 클릭합니다.
-2. **Save personal workspace template**를 클릭합니다.
-3. 템플릿 설정을 확인한 다음 **Save**를 클릭합니다.
+1. 워크스페이스 상단에서 **Undo** 및 **Redo** 화살표 아이콘 옆의 action menu `...`를 클릭합니다.
+2. **개인 워크스페이스 템플릿 저장**을 클릭합니다.
+3. 템플릿 설정을 검토한 다음 **저장**을 클릭합니다.
 
-새 워크스페이스는 기본값 대신 이 설정을 사용합니다.
+새 워크스페이스는 기본 설정 대신 이 설정을 사용합니다.
 
 <div id="view-your-workspace-template">
   ### 워크스페이스 템플릿 보기
 </div>
 
-워크스페이스 템플릿의 현재 설정을 보려면:
+워크스페이스 템플릿의 현재 설정을 확인하려면 다음 단계를 따르세요.
 
-1. 어느 페이지에서든 오른쪽 상단의 사용자 아이콘을 선택합니다. 드롭다운에서 **User Settings**를 선택합니다.
-2. **Personal workspace template** 섹션으로 이동합니다. 워크스페이스 템플릿을 사용 중인 경우 해당 설정이 표시됩니다. 그렇지 않으면 이 섹션에는 세부 정보가 표시되지 않습니다.
+1. 아무 페이지에서나 오른쪽 상단의 사용자 아이콘을 선택합니다. 드롭다운에서 **User Settings**를 선택합니다.
+2. **개인 워크스페이스 템플릿** 섹션으로 이동합니다. 워크스페이스 템플릿을 사용 중이면 해당 설정이 표시됩니다. 그렇지 않으면 이 섹션에는 아무 정보도 표시되지 않습니다.
 
 <div id="update-your-workspace-template">
-  ### 워크스페이스 템플릿 업데이트하기
+  ### 워크스페이스 템플릿 업데이트
 </div>
 
-워크스페이스 템플릿을 업데이트하려면 다음을 수행하세요.
+워크스페이스 템플릿을 업데이트하려면 다음과 같이 하세요.
 
 1. 아무 워크스페이스나 엽니다.
-2. 워크스페이스 설정을 수정합니다. 예를 들어, 포함할 run 수를 `11`로 설정합니다.
-3. 템플릿에 변경 내용을 저장하려면 **Undo** 및 **Redo** 화살표 아이콘 근처의 작업 메뉴 `...`를 클릭한 다음 **Update personal workspace template**을 클릭합니다.
-4. 설정을 확인한 다음 **Update**를 클릭합니다. 템플릿이 업데이트되며, 이 템플릿을 사용하는 모든 워크스페이스에 다시 적용됩니다.
+2. 워크스페이스 설정을 수정합니다. 예를 들어, 포함할 run 개수를 `11`로 설정합니다.
+3. 변경 사항을 템플릿에 저장하려면 **Undo** 및 **Redo** 화살표 아이콘 근처의 작업 메뉴 `...`를 클릭한 다음 **개인 워크스페이스 템플릿 업데이트**를 클릭합니다.
+4. 설정을 확인한 다음 **업데이트**를 클릭합니다. 템플릿이 업데이트되고, 이를 사용하는 모든 워크스페이스에 다시 적용됩니다.
 
 <div id="delete-your-workspace-template">
-  ### 워크스페이스 템플릿 삭제하기
+  ### 워크스페이스 템플릿 삭제
 </div>
 
-워크스페이스 템플릿을 삭제하고 기본 설정으로 되돌리려면 다음을 수행하세요.
+워크스페이스 템플릿을 삭제하고 기본 설정으로 되돌리려면 다음 단계를 따르세요.
 
-1. 어느 페이지에서든 오른쪽 상단의 사용자 아이콘을 선택합니다. 드롭다운에서 **사용자 설정**을 선택합니다.
+1. 아무 페이지에서나 오른쪽 상단의 사용자 아이콘을 선택합니다. 드롭다운에서 **User Settings**를 선택합니다.
 2. **개인 워크스페이스 템플릿** 섹션으로 이동합니다. 워크스페이스 템플릿 설정이 표시됩니다.
-3. **설정** 옆의 휴지통 아이콘을 클릭합니다.
+3. **Settings** 옆의 휴지통 아이콘을 클릭합니다.
 
 <Note>
-  Dedicated Cloud 및 Self-Managed의 경우 워크스페이스 템플릿 삭제는 v0.70 이상에서 지원됩니다. 더 이전 Server 버전에서는 워크스페이스 템플릿을 [기본 설정](#default-workspace-settings)을 사용하도록 대신 업데이트하세요.
+  Dedicated Cloud 및 Self-Managed에서는 v0.70 이상에서 워크스페이스 템플릿 삭제를 지원합니다. 이전 Server 버전에서는 대신 [기본 설정](#default-workspace-settings)을 사용하도록 워크스페이스 템플릿을 업데이트하세요.
 </Note>
 
 <div id="programmatically-create-workspaces">
-  ## 프로그래밍 방식으로 워크스페이스 생성
+  ## 프로그래밍 방식으로 워크스페이스 만들기
 </div>
 
 <Tip>
-  엔드투엔드 예시는 [Programmatic Workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) 노트북을 참고하세요.
+  전체 과정을 보여주는 예시는 [Programmatic Workspaces](https://colab.research.google.com/github/wandb/wandb-workspaces/blob/Update-wandb-workspaces-tuturial/Workspace_tutorial.ipynb) 노트북을 참조하세요.
 </Tip>
 
-[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main)는 [W&amp;B](https://wandb.ai/) 워크스페이스와 리포트를 프로그래밍 방식으로 다루기 위한 Python 라이브러리입니다.
+[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main)는 [W&amp;B](https://wandb.ai/) 워크스페이스와 Reports를 프로그래밍 방식으로 다루기 위한 Python 라이브러리입니다.
 
-[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main)를 사용해 워크스페이스를 프로그래밍 방식으로 정의하세요. [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main)는 [W&amp;B](https://wandb.ai/) 워크스페이스와 리포트를 프로그래밍 방식으로 다루기 위한 Python 라이브러리입니다.
+[`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main)를 사용해 워크스페이스를 프로그래밍 방식으로 정의할 수 있습니다. [`wandb-workspaces`](https://github.com/wandb/wandb-workspaces/tree/main)는 [W&amp;B](https://wandb.ai/) 워크스페이스와 Reports를 프로그래밍 방식으로 다루기 위한 Python 라이브러리입니다.
 
-워크스페이스의 속성은 다음과 같이 정의할 수 있습니다:
+다음과 같은 워크스페이스 속성을 정의할 수 있습니다:
 
 * 패널 레이아웃, 색상, 섹션 순서를 설정합니다.
-* 기본 x축, 섹션 순서, 접기 상태와 같은 워크스페이스 설정을 구성합니다.
-* 섹션 내에 패널을 추가하고 커스터마이즈하여 워크스페이스 뷰를 구성합니다.
-* URL을 사용하여 기존 워크스페이스를 불러오고 수정합니다.
-* 기존 워크스페이스에 대한 변경 사항을 저장하거나 새로운 뷰로 저장합니다.
-* 간단한 표현식을 사용해 runs를 프로그래밍 방식으로 필터링, 그룹화, 정렬합니다.
-* 색상 및 가시성과 같은 설정으로 run의 표시 방식을 커스터마이즈합니다.
-* 인테그레이션 및 재사용을 위해 한 워크스페이스에서 다른 워크스페이스로 뷰를 복사합니다.
+* 기본 x축, 섹션 순서, 접힘 상태 등의 워크스페이스 설정을 구성합니다.
+* 섹션 내 패널을 추가하고 사용자 지정해 워크스페이스 뷰를 정리합니다.
+* URL을 사용해 기존 워크스페이스를 불러오고 수정합니다.
+* 기존 워크스페이스의 변경 사항을 저장하거나 새 뷰로 저장합니다.
+* 단순한 표현식을 사용해 run을 프로그래밍 방식으로 필터링, 그룹화, 정렬합니다.
+* 색상, 표시 여부 등의 설정으로 run의 모양을 사용자 지정합니다.
+* 한 워크스페이스의 뷰를 다른 워크스페이스로 복사해 인테그레이션 및 재사용에 활용합니다.
 
-{/* - **프로그래밍 방식 워크스페이스 생성:**
-  - 특정 설정을 지정해 워크스페이스를 정의하고 생성합니다.
+{/* - **프로그래밍 방식의 워크스페이스 생성:**
+  - 특정 설정으로 워크스페이스를 정의하고 생성합니다.
   - 패널 레이아웃, 색상, 섹션 순서를 설정합니다.
-  - **워크스페이스 커스터마이징:**
-  - 기본 x축, 섹션 순서, 접기 상태와 같은 워크스페이스 설정을 구성합니다.
-  - 워크스페이스 뷰를 체계적으로 구성하기 위해 섹션 내 패널을 추가하고 커스터마이징합니다.
-  - **기존 워크스페이스 `saved views` 편집:**
+  - **워크스페이스 사용자 지정:**
+  - 기본 x축, 섹션 순서, 접힘 상태와 같은 워크스페이스 설정을 지정합니다.
+  - 워크스페이스 뷰를 정리할 수 있도록 섹션 내 패널을 추가하고 사용자 지정합니다.
+  - **기존 워크스페이스 `저장된 뷰` 편집:**
   - URL을 사용해 기존 워크스페이스를 불러오고 수정합니다.
-  - 기존 워크스페이스에 대한 변경 사항을 저장하거나 새 뷰로 저장합니다.
+  - 기존 워크스페이스의 변경 사항을 저장하거나 새 뷰로 저장합니다.
   - **run 필터링 및 그룹화:**
-  - 간단한 표현식을 사용해 run을 프로그래밍 방식으로 필터링, 그룹화, 정렬합니다.
-  - 색상, 가시성 등의 설정으로 run의 표시 방식을 커스터마이징합니다.
+  - 단순한 표현식을 사용해 프로그래밍 방식으로 run을 필터링, 그룹화, 정렬합니다.
+  - 색상, 표시 여부 등의 설정으로 run 표시 방식을 사용자 지정합니다.
   - **워크스페이스 간 인테그레이션:**
-  - 원활한 인테그레이션과 재사용을 위해 한 워크스페이스에서 다른 워크스페이스로 뷰를 복사합니다. */}
+  - 원활한 인테그레이션과 재사용을 위해 한 워크스페이스의 뷰를 다른 워크스페이스로 복사합니다. */}
 
 <div id="install-workspace-api">
   ### Workspace API 설치
 </div>
 
-`wandb` 이외에도 `wandb-workspaces`를 설치해야 합니다:
+`wandb` 외에 `wandb-workspaces`도 설치해야 합니다:
 
 ```bash
 pip install wandb wandb-workspaces
 ```
 
 <div id="define-and-save-a-workspace-view-programmatically">
-  ### Workspace 뷰를 프로그래밍 방식으로 정의하고 저장하기
+  ### 프로그래밍 방식으로 Workspace 뷰를 정의하고 저장하기
 </div>
 
 ```python
@@ -280,7 +280,7 @@ existing_workspace.save()
 ```
 
 <div id="copy-a-workspace-saved-view-to-another-workspace">
-  ### 워크스페이스의 `saved view`를 다른 워크스페이스로 복사하기
+  ### 한 Workspace의 `저장된 뷰`를 다른 Workspace로 복사하기
 </div>
 
 ```python
@@ -291,4 +291,4 @@ new_workspace = ws.Workspace(entity="new-entity", project="new-project", views=[
 new_workspace.save()
 ```
 
-자세한 워크스페이스 API 예시는 [`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces)를 참고하세요.
+[`wandb-workspace examples`](https://github.com/wandb/wandb-workspaces/tree/main/examples/workspaces)에서 다양한 workspace API 예제를 참조하세요.

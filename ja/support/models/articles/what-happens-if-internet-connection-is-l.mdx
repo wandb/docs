@@ -1,19 +1,19 @@
 ---
-title: "モデルのトレーニング中にインターネット接続が切れるとどうなりますか？"
+title: "モデルのトレーニング中にインターネット接続が失われるとどうなりますか？"
 keywords: ["環境変数", "障害"]
 ---
 
-ライブラリがインターネットに接続できない場合、再試行ループに入り、ネットワークが復旧するまでメトリクスのストリーミングを試み続けます。この間もプログラムは実行を続けます。
+ライブラリがインターネットに接続できない場合、再試行ループに入り、ネットワークが復旧するまでメトリクスのストリーミングを継続的に試みます。この間もプログラムの実行は継続されます。
 
-インターネットに接続できないマシンで実行するには、`WANDB_MODE=offline` を設定します。この設定では、メトリクスはハードドライブにローカルに保存されます。後で `wandb sync DIRECTORY` を実行して、データをサーバーにストリーミングします。
+インターネットに接続できないマシンで実行するには、`WANDB_MODE=offline` を設定します。この設定では、メトリクスはハードドライブにローカル保存されます。後で `wandb sync DIRECTORY` を実行して、データをサーバーにストリーミングします。
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
-  これらのマーカーの間は手動で編集しないでください。
+{/* ---- AUTO-GENERATED: tab badges ----
+  front matter の keywords をもとに、scripts/knowledgebase-nav/generate_tags.py で管理されています。
+  これらのマーカーの間は手作業で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[環境変数](/ja/support/models/tags/environment-variables)</Badge><Badge stroke shape="pill" color="orange" size="md">[障害](/ja/support/models/tags/outage)</Badge>
 
-{/* ---- 自動生成終了: タブバッジ ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

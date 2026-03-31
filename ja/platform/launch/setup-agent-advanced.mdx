@@ -1,60 +1,60 @@
 ---
-title: Launch エージェントをセットアップする
-description: "Docker および Kaniko ビルダー、コンテナレジストリの設定など、W&B Launch の高度なエージェントオプションを設定します。"
+title: Launch エージェントを設定する
+description: "Docker および Kaniko ビルダー、コンテナーの Registry 設定など、W&B Launch の高度なエージェントオプションを設定します。"
 ---
 
 <div id="advanced-agent-setup">
-  # 高度なエージェントのセットアップ
+  # 高度なエージェント設定
 </div>
 
-このガイドでは、さまざまな環境でコンテナイメージをビルドできるように W&amp;B Launch エージェントをセットアップする方法を説明します。
+このガイドでは、さまざまな環境でコンテナーイメージをビルドするための W&amp;B Launch エージェントの設定方法について説明します。
 
 <Note>
-  ビルドが必要なのは Git ジョブおよび Code artifact ジョブのみです。イメージ ジョブではビルドは不要です。
+  ビルドが必要なのは、git ジョブと code artifact ジョブのみです。Image jobs ではビルドは不要です。
 
-  ジョブの種類の詳細については、[Launch ジョブを作成する](/ja/platform/launch/create-launch-job/) を参照してください。
+  ジョブのタイプの詳細については、[launch job を作成する](/ja/platform/launch/create-launch-job/)を参照してください。
 </Note>
 
 <div id="builders">
   ## ビルダー
 </div>
 
-Launch エージェントは、[Docker](https://docs.docker.com/) または [Kaniko](https://github.com/GoogleContainerTools/kaniko) を使ってイメージをビルドできます。
+Launch エージェントは、[Docker](https://docs.docker.com/) または [Kaniko](https://github.com/GoogleContainerTools/kaniko) を使用してイメージをビルドできます。
 
-* Kaniko: Kubernetes 上で、特権コンテナとしてビルドを実行することなくコンテナイメージをビルドします。
-* Docker: ローカルで `docker build` コマンドを実行してコンテナイメージをビルドします。
+* Kaniko: ビルドを特権コンテナーとして実行せずに、Kubernetes 上でコンテナーイメージをビルドします。
+* Docker: ローカルで `docker build` コマンドを実行してコンテナーイメージをビルドします。
 
-ビルダーのタイプは、Launch エージェントの設定ファイル内の `builder.type` キーで制御できます。`docker`、`kaniko`、またはビルドを無効化する `noop` を指定できます。デフォルトでは、エージェントの Helm チャートは `builder.type` を `noop` に設定します。`builder` セクション内の追加のキーは、ビルドプロセスの設定に使用されます。
+ビルダーのタイプは、Launch エージェントの設定内の `builder.type` キーで制御でき、`docker`、`kaniko`、またはビルドを無効化する `noop` を指定できます。デフォルトでは、エージェントの Helm チャートで `builder.type` は `noop` に設定されています。`builder` セクション内の追加キーは、ビルドプロセスの設定に使用されます。
 
-エージェント設定でビルダーが指定されておらず、動作する `docker` CLI が見つかった場合、エージェントはデフォルトで Docker を使用します。Docker が利用できない場合、エージェントはデフォルトで `noop` を使用します。
+エージェントの設定でビルダーが指定されておらず、動作する `docker` CLI が見つかった場合、エージェントはデフォルトで Docker を使用します。Docker を利用できない場合、エージェントはデフォルトで `noop` を使用します。
 
 <Note>
-  Kubernetes クラスター内でイメージをビルドする場合は Kaniko を使用してください。それ以外のケースでは Docker を使用してください。
+  Kubernetes クラスターでイメージをビルドする場合は Kaniko を使用してください。それ以外の場合は Docker を使用してください。
 </Note>
 
 <div id="pushing-to-a-container-registry">
-  ## コンテナレジストリへのプッシュ
+  ## コンテナーレジストリへのプッシュ
 </div>
 
-Launch エージェントは、ビルドしたすべてのイメージに一意のソースハッシュをタグとして付与します。エージェントは、`builder.destination` キーで指定されたレジストリにイメージをプッシュします。
+Launch エージェントは、ビルドしたすべてのイメージに一意のソースハッシュをタグとして付与します。エージェントは、`builder.destination` キーで指定されたレジストリにそのイメージをプッシュします。
 
-たとえば、`builder.destination` キーが `my-registry.example.com/my-repository` に設定されている場合、エージェントはイメージに `my-registry.example.com/my-repository:<source-hash>` というタグを付けてプッシュします。イメージがすでにレジストリ内に存在する場合、そのビルドはスキップされます。
+たとえば、`builder.destination` キーが `my-registry.example.com/my-repository` に設定されている場合、エージェントはイメージにタグを付け、`my-registry.example.com/my-repository:<source-hash>` にプッシュします。イメージがレジストリにすでに存在する場合、ビルドはスキップされます。
 
 <div id="agent-configuration">
-  ### エージェントの設定
+  ### エージェント設定
 </div>
 
-Helm chart を使ってエージェントをデプロイしている場合、エージェントの設定は `values.yaml` ファイル内の `agentConfig` キーで指定する必要があります。
+Helm チャート経由でエージェントをデプロイする場合は、`values.yaml` ファイルの `agentConfig` キーでエージェント設定を指定します。
 
-`wandb launch-agent` でエージェントを直接起動する場合、`--config` フラグを使って YAML ファイルへのパスとしてエージェントの設定を指定できます。デフォルトでは、設定は `~/.config/wandb/launch-config.yaml` から読み込まれます。
+`wandb launch-agent` を使って自分でエージェントを起動する場合は、`--config` フラグで YAML ファイルのパスを指定してエージェント設定を渡せます。デフォルトでは、設定は `~/.config/wandb/launch-config.yaml` から読み込まれます。
 
-Launch エージェントの設定ファイル (`launch-config.yaml`) 内で、`environment` キーと `registry` キーにそれぞれ、対象のリソース環境名とコンテナレジストリを指定します。
+Launch エージェント設定 (`launch-config.yaml`) では、`environment` キーと `registry` キーに、それぞれターゲットリソースの環境名とコンテナー レジストリを指定します。
 
-以下のタブでは、環境とレジストリに応じて Launch エージェントをどのように設定するかを示します。
+以下のタブでは、環境とレジストリに応じた Launch エージェントの設定方法を示します。
 
 <Tabs>
   <Tab title="AWS">
-    AWS 環境の設定には `region` キーが必要です。`region` にはエージェントが実行される AWS リージョンを指定します。
+    AWS 環境の設定には `region` キーが必要です。`region` には、エージェントを実行する AWS リージョンを指定します。
 
     ```yaml title="launch-config.yaml"
     environment:
@@ -62,20 +62,20 @@ Launch エージェントの設定ファイル (`launch-config.yaml`) 内で、`
       region: <aws-region>
     builder:
       type: <kaniko|docker>
-      # URI of the ECR repository where the agent will store images.
-      # Make sure the region matches what you have configured in your
-      # environment.
+      # エージェントがイメージを保存する ECR リポジトリーの URI。
+      # リージョンが環境で設定したものと一致していることを
+      # 確認してください。
       destination: <account-id>.ecr.<aws-region>.amazonaws.com/<repository-name>
-      # If using Kaniko, specify the S3 bucket where the agent will store the
-      # build context.
+      # Kaniko を使用する場合は、エージェントが
+      # ビルドコンテキストを保存する S3 バケットを指定します。
       build-context-store: s3://<bucket-name>/<path>
     ```
 
-    エージェントは `boto3` を使用してデフォルトの AWS 認証情報を読み込みます。デフォルトの AWS 認証情報を設定する方法については、[boto3 ドキュメント](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) を参照してください。
+    エージェントは `boto3` を使用してデフォルトの AWS 認証情報を読み込みます。デフォルトの AWS 認証情報の設定方法について詳しくは、[`boto3 documentation`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) を参照してください。
   </Tab>
 
   <Tab title="Google Cloud">
-    Google Cloud 環境では `region` と `project` キーが必要です。`region` にはエージェントが実行されるリージョンを指定します。`project` にはエージェントが実行される Google Cloud プロジェクトを指定します。エージェントは Python で `google.auth.default()` を使用してデフォルトの認証情報を読み込みます。
+    Google Cloud 環境には `region` キーと `project` キーが必要です。`region` にはエージェントを実行するリージョンを設定します。`project` にはエージェントを実行する Google Cloud プロジェクトを設定します。エージェントは Python の `google.auth.default()` を使用してデフォルトの認証情報を読み込みます。
 
     ```yaml title="launch-config.yaml"
     environment:
@@ -84,16 +84,16 @@ Launch エージェントの設定ファイル (`launch-config.yaml`) 内で、`
       project: <gcp-project-id>
     builder:
       type: <kaniko|docker>
-      # URI of the Artifact Registry repository and image name where the agent
-      # will store images. Make sure the region and project match what you have
-      # configured in your environment.
+      # エージェントがイメージを保存する Artifact Registry リポジトリーと
+      # イメージ名の URI。リージョンとプロジェクトが
+      # 環境で設定したものと一致していることを確認してください。
       uri: <region>-docker.pkg.dev/<project-id>/<repository-name>/<image-name>
-      # If using Kaniko, specify the GCS bucket where the agent will store the
-      # build context.
+      # Kaniko を使用する場合は、エージェントが
+      # ビルドコンテキストを保存する GCS バケットを指定します。
       build-context-store: gs://<bucket-name>/<path>
     ```
 
-    エージェントで利用できるようにデフォルトの Google Cloud 認証情報を設定する方法については、[`google-auth` ドキュメント](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) を参照してください。
+    エージェントから利用できるようにデフォルトの Google Cloud 認証情報を設定する方法について詳しくは、[`google-auth` documentation](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#google.auth.default) を参照してください。
   </Tab>
 
   <Tab title="Azure">
@@ -104,14 +104,14 @@ Launch エージェントの設定ファイル (`launch-config.yaml`) 内で、`
       type: azure
     builder:
       type: <kaniko|docker>
-      # URI of the Azure Container Registry repository where the agent will store images.
+      # エージェントがイメージを保存する Azure Container Registry リポジトリーの URI。
       destination: https://<registry-name>.azurecr.io/<repository-name>
-      # If using Kaniko, specify the Azure Blob Storage container where the agent
-      # will store the build context.
+      # Kaniko を使用する場合は、エージェントが
+      # ビルドコンテキストを保存する Azure Blob Storage コンテナーを指定します。
       build-context-store: https://<storage-account-name>.blob.core.windows.net/<container-name>
     ```
 
-    デフォルトの Azure 認証情報を設定する方法については、[`azure-identity` ドキュメント](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) を参照してください。
+    デフォルトの Azure 認証情報の設定方法について詳しくは、[`azure-identity` documentation](https://learn.microsoft.com/python/api/azure-identity/azure.identity.defaultazurecredential?view=azure-python) を参照してください。
   </Tab>
 </Tabs>
 
@@ -119,13 +119,13 @@ Launch エージェントの設定ファイル (`launch-config.yaml`) 内で、`
   ## エージェントの権限
 </div>
 
-必要となる権限はユースケースによって異なります。
+必要なエージェント権限は、ユースケースによって異なります。
 
 <div id="cloud-registry-permissions">
   ### クラウドレジストリの権限
 </div>
 
-以下は、Launch エージェントがクラウドレジストリとやり取りする際に一般的に必要となる権限です。
+以下は、Launch エージェントがクラウドレジストリを操作する際に通常必要となる権限です。
 
 <Tabs>
   <Tab title="AWS">
@@ -170,19 +170,19 @@ Launch エージェントの設定ファイル (`launch-config.yaml`) 内で、`
   </Tab>
 
   <Tab title="Azure">
-    Kaniko ビルダーを使用する場合は、[`AcrPush` ロール](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/containers#acrpush) を追加します。
+    Kaniko ビルダーを使用する場合は、[`AcrPush` ロール](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/containers#acrpush)を追加してください。
   </Tab>
 </Tabs>
 
 <div id="storage-permissions-for-kaniko">
-  ### Kaniko 用のストレージ権限
+  ### Kaniko のストレージ権限
 </div>
 
-エージェントが Kaniko ビルダーを使用する場合、Launch エージェントにはクラウド ストレージに push する権限が必要です。Kaniko は、ビルドジョブを実行している Pod の外側にあるコンテキスト ストアを使用します。
+エージェントが Kaniko ビルダーを使用する場合、Launch エージェントにはクラウドストレージにプッシュする権限が必要です。Kaniko は、ビルドジョブを実行する pod の外部にあるコンテキストストアを使用します。
 
 <Tabs>
   <Tab title="AWS">
-    AWS 上で Kaniko ビルダーに推奨されるコンテキスト ストアは Amazon S3 です。次のポリシーを使用して、エージェントに S3 バケットへのアクセス権を付与できます。
+    AWS 上の Kaniko ビルダーで推奨されるコンテキストストアは Amazon S3 です。次のポリシーを使用して、エージェントに S3 バケットへのアクセス権を付与できます。
 
     ```json
     {
@@ -206,7 +206,7 @@ Launch エージェントの設定ファイル (`launch-config.yaml`) 内で、`
   </Tab>
 
   <Tab title="Google Cloud">
-    Google Cloud では、エージェントがビルドコンテキストを GCS にアップロードできるようにするために、次の IAM 権限が必要です。
+    Google Cloud では、エージェントがビルドコンテキストを GCS にアップロードするために、次の IAM 権限が必要です。
 
     ```js
     storage.buckets.get;
@@ -217,7 +217,7 @@ Launch エージェントの設定ファイル (`launch-config.yaml`) 内で、`
   </Tab>
 
   <Tab title="Azure">
-    エージェントがビルドコンテキストを Azure Blob Storage にアップロードできるようにするには、[Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) ロールが必要です。
+    エージェントがビルドコンテキストを Azure Blob Storage にアップロードするには、[Storage Blob Data Contributor](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#storage-blob-data-contributor) ロールが必要です。
   </Tab>
 </Tabs>
 
@@ -225,7 +225,7 @@ Launch エージェントの設定ファイル (`launch-config.yaml`) 内で、`
   ## Kaniko ビルドのカスタマイズ
 </div>
 
-Kaniko ジョブが使用する Kubernetes Job の spec を、エージェント設定の `builder.kaniko-config` キーに指定します。例えば次のようにします。
+Kaniko ジョブで使用する Kubernetes Job spec は、agent の設定にある `builder.kaniko-config` キーで指定します。たとえば次のとおりです。
 
 ```yaml title="launch-config.yaml"
 builder:
@@ -239,20 +239,20 @@ builder:
         spec:
           containers:
           - args:
-            - "--cache=false" # 引数は "key=value" の形式で指定する必要があります
+            - "--cache=false" # 引数は "key=value" の形式で指定してください
             env:
             - name: "MY_ENV_VAR"
               value: "my-env-var-value"
 ```
 
 <div id="deploy-launch-agent-into-coreweave">
-  ## CoreWeave への Launch agent のデプロイ
+  ## Launch エージェントを CoreWeave にデプロイする
 </div>
 
-必要に応じて W&amp;B Launch agent を CoreWeave Cloud インフラストラクチャにデプロイできます。CoreWeave は GPU アクセラレーションされたワークロード向けに特化して構築されたクラウド インフラストラクチャです。
+必要に応じて、W&amp;B Launch エージェントを CoreWeave Cloud のインフラストラクチャーにデプロイできます。CoreWeave は、GPU アクセラレーション ワークロード向けに特化して構築されたクラウド インフラストラクチャーです。
 
-CoreWeave への Launch agent のデプロイ方法については、[CoreWeave のドキュメント](https://docs.coreweave.com/partners/weights-and-biases#integration) を参照してください。
+Launch エージェントを CoreWeave にデプロイする方法については、[CoreWeave のドキュメント](https://docs.coreweave.com/partners/weights-and-biases#integration)を参照してください。
 
 <Note>
-  CoreWeave インフラストラクチャに Launch agent をデプロイするには、[CoreWeave account](https://cloud.coreweave.com/login) を作成する必要があります。
+  CoreWeave のインフラストラクチャーに Launch エージェントをデプロイするには、[CoreWeave アカウント](https://cloud.coreweave.com/login)を作成する必要があります。
 </Note>

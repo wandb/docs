@@ -1,9 +1,9 @@
 ---
-title: "ログをオフにするにはどうすればよいですか？"
+title: "ログ記録をオフにするにはどうすればよいですか?"
 keywords: ["ログ"]
 ---
 
-コマンド `wandb offline` は環境変数 `WANDB_MODE=offline` を設定し、データがリモートの W&amp;B サーバーに同期されるのを防ぎます。この操作はすべてのプロジェクトに影響し、W&amp;B サーバーにデータがログされなくなります。
+`wandb offline` コマンドは環境変数 `WANDB_MODE=offline` を設定し、データがリモートの W&amp;B サーバーに同期されないようにします。これにより、すべてのプロジェクトに影響し、W&amp;B サーバーへのデータのログ記録が停止します。
 
 警告メッセージを抑制するには、次のコードを使用します。
 
@@ -16,11 +16,11 @@ logger.setLevel(logging.WARNING)
 
 ***
 
-{/* ---- 自動生成: タブバッジ ----
-  front matter のキーワードに基づき、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
+{/* ---- AUTO-GENERATED: tab badges ----
+  フロントマターのキーワードに基づいて、scripts/knowledgebase-nav/generate_tags.py によって管理されています。
   これらのマーカーの間は手動で編集しないでください。
   ---- */}
 
 <Badge stroke shape="pill" color="orange" size="md">[ログ](/ja/support/models/tags/logs)</Badge>
 
-{/* ---- 自動生成: タブバッジここまで ---- */}
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

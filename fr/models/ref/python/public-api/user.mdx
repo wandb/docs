@@ -1,5 +1,5 @@
 ---
-title: Utilisateur
+title: User
 namespace: public_apis_namespace
 python_object_type: class
 ---
@@ -13,46 +13,46 @@ import { GitHubLink } from '/snippets/fr/_includes/github-source-link.mdx';
 
 Un utilisateur sur une instance W&amp;B.
 
-Cette classe permet de gérer les clés API d’un utilisateur et d’accéder à des informations telles que ses appartenances à des équipes. La méthode de classe `create` peut être utilisée pour créer un nouvel utilisateur.
+Cette classe permet de gérer les clés API d’un utilisateur et d’accéder à des informations telles que les Teams auxquelles il appartient. La méthode de classe `create` peut être utilisée pour créer un nouvel utilisateur.
 
 **Arguments :**
 
 * `client`:  Le client GraphQL à utiliser pour les opérations réseau.
-* `attrs`:  Un sous-ensemble du type `User` dans le schéma GraphQL. 
+* `attrs`:  Un sous-ensemble du type User dans le schéma GraphQL. 
 
 ### <kbd>propriété</kbd> User.api_keys
 
-Noms des clés API de l’utilisateur.
+Noms des clés API de l&#39;utilisateur.
 
-Cette propriété renvoie les noms des clés API, et *non* le secret associé à la clé. Le nom de la clé ne peut pas être utilisé comme clé API.
+Cette propriété renvoie les noms des clés API, *et non* le secret associé à chaque clé. Le nom d&#39;une clé ne peut pas être utilisé comme clé API.
 
-La liste est vide si l’utilisateur n’a pas de clés API ou si les clés API n’ont pas été chargées.
+La liste est vide si l&#39;utilisateur n&#39;a pas de clés API ou si celles-ci n&#39;ont pas été chargées.
 
 **Retourne :**
 
-* `list[str]`: La valeur de propriété api&#95;keys.
+* `list[str]`: La valeur de propriété `api_keys`.
 
 ***
 
 ### <kbd>propriété</kbd> User.teams
 
-Noms des équipes auxquelles l’utilisateur appartient.
+Noms des Teams auxquelles l’utilisateur appartient.
 
-Il s’agit d’une liste vide si l’utilisateur n’appartient à aucune équipe ou si les données des équipes n’ont pas été chargées.
+Il s’agit d’une liste vide si l’utilisateur n’appartient à aucune équipe ou si les données des Teams n’ont pas été chargées.
 
 **Retourne :**
 
-* `list[str]`: La valeur de propriété teams.
+* `list[str]`: La valeur de la propriété Teams.
 
 ***
 
 ### <kbd>propriété</kbd> User.user_api
 
-Une instance de `wandb.Api` qui utilise les identifiants de l’utilisateur.
+Une instance `wandb.Api` qui utilise les identifiants de l’utilisateur.
 
-**Retourne :**
+**Retourne :**
 
-* `Api | None` : La valeur de propriété `user_api`.
+* `Api | None` : La valeur de la propriété `user_api`.
 
 ***
 
@@ -62,7 +62,7 @@ Une instance de `wandb.Api` qui utilise les identifiants de l’utilisateur.
 delete_api_key(api_key: 'str') → bool
 ```
 
-Supprime la clé API d’un utilisateur.
+Supprime une clé API d’un utilisateur.
 
 Seul le propriétaire de la clé ou un administrateur peut la supprimer.
 
@@ -82,11 +82,11 @@ True en cas de succès, false en cas d’échec.
 generate_api_key(description: 'str | None' = None) → str | None
 ```
 
-Génère une nouvelle clé API.
+Générez une nouvelle clé API.
 
 **Arguments :**
 
 * `description` :  Une description de la nouvelle clé API. Elle peut être utilisée pour identifier l’usage de la clé API.
 
 **Retourne :**
-La clé API générée (le secret complet, et pas seulement son nom), ou `None` en cas d’échec.
+La clé API générée (le secret complet, pas seulement le nom), ou None en cas d’échec.

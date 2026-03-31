@@ -21,19 +21,19 @@ scatter(
 ) → CustomChart
 ```
 
-Crée un graphique de dispersion à partir d’un `wandb.Table` de données.
+Construit un graphique de dispersion à partir d’un wandb.Table de données.
 
 **Arguments :**
 
-* `table`:  Le tableau W&amp;B contenant les données à visualiser.
-* `x`:  Le nom de la colonne utilisée pour l’axe X.
-* `y`:  Le nom de la colonne utilisée pour l’axe Y.
-* `title`:  Le titre du graphique de dispersion.
-* `split_table`:  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section nommée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
+* `table` :  Le tableau W&amp;B contenant les données à visualiser.
+* `x` :  Le nom de la colonne utilisée pour l’axe des x.
+* `y` :  Le nom de la colonne utilisée pour l’axe des y.
+* `title` :  Le titre du nuage de points.
+* `split_table` :  Indique si le tableau doit être placé dans une section distincte de l’interface W&amp;B. Si `True`, le tableau sera affiché dans une section intitulée &quot;Custom Chart Tables&quot;. La valeur par défaut est `False`.
 
 **Retourne :**
 
-* `CustomChart`:  Un objet de graphique personnalisé pouvant être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
+* `CustomChart` :  Un objet de graphique personnalisé qui peut être enregistré dans W&amp;B. Pour enregistrer le graphique, passez-le à `wandb.log()`.
 
 **Exemple :**
 

@@ -9,7 +9,7 @@ import { GitHubLink } from '/snippets/ja/_includes/github-source-link.mdx';
 <GitHubLink url="https://github.com/wandb/wandb/blob/main/wandb/plot/scatter.py" />
 
 
-### <kbd>function</kbd> `scatter`
+### <kbd>関数</kbd> `scatter`
 
 ```python
 scatter(
@@ -26,14 +26,14 @@ wandb.Table のデータから散布図を作成します。
 **引数:**
 
 * `table`:  可視化するデータを含む W&amp;B Table。
-* `x`:  x 軸に使用する列名。
-* `y`:  y 軸に使用する列名。
+* `x`:  x軸に使用する列の名。
+* `y`:  y軸に使用する列の名。
 * `title`:  散布図のタイトル。
-* `split_table`:  W&amp;B UI 内でテーブルを別のセクションに分割して表示するかどうか。`True` の場合、テーブルは &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False`。
+* `split_table`:  表を W&amp;B UI の別のセクションに分けて表示するかどうか。`True` の場合、表は &quot;Custom Chart Tables&quot; という名前のセクションに表示されます。デフォルトは `False` です。
 
 **戻り値:**
 
-* `CustomChart`:  W&amp;B にログできるカスタム チャート オブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
+* `CustomChart`:  W&amp;B にログできるカスタムチャートオブジェクト。チャートをログするには、これを `wandb.log()` に渡します。
 
 **例:**
 
@@ -42,18 +42,18 @@ import math
 import random
 import wandb
 
-# 時間の経過に伴う異なる高度での気温変化をシミュレート
+# 時間経過に伴う異なる高度での気温変化をシミュレート
 data = [
     [i, random.uniform(-10, 20) - 0.005 * i + 5 * math.sin(i / 50)]
     for i in range(300)
 ]
 
-# 高度 (m) と気温 (°C) の列を持つ W&B テーブルを作成
+# 高度 (m) と気温 (°C) の列を持つ W&B の表を作成
 table = wandb.Table(data=data, columns=["altitude (m)", "temperature (°C)"])
 
-# W&B の run を初期化し、散布図をログに記録
+# W&B の run を初期化し、散布図をログする
 with wandb.init(project="temperature-altitude-scatter") as run:
-    # 散布図を作成してログに記録
+    # 散布図を作成してログする
     scatter_plot = wandb.plot.scatter(
          table=table,
          x="altitude (m)",

@@ -1,40 +1,39 @@
 ---
-description: "W&B アーティファクトに time-to-live (TTL) ポリシーを設定し、自動削除をスケジュールして、ストレージ消費を管理します。"
-title: Artifacts データの保持を管理する
+description: "W&B Artifacts に有効期限（TTL）ポリシーを設定して、自動削除をスケジュールし、ストレージ使用量を管理します。"
+title: Artifacts のデータ保持を管理する
 ---
 
 import { ColabLink } from '/snippets/ja/_includes/colab-link.mdx';
 
 <ColabLink url="https://colab.research.google.com/github/wandb/examples/blob/kas-artifacts-ttl-colab/colabs/wandb-artifacts/WandB_Artifacts_Time_to_live_TTL_Walkthrough.ipynb" />
 
-W&amp;B Artifact の time-to-live (TTL) ポリシーを使って、W&amp;B から Artifacts が削除されるタイミングをスケジュールできます。 Artifacts を削除すると、W&amp;B はその Artifacts を *ソフト削除 (soft delete)* としてマークします。つまり、その Artifacts は削除対象としてマークされますが、ストレージからファイルがすぐに削除されるわけではありません。W&amp;B が Artifacts をどのように削除するかの詳細は、[Delete artifacts](./delete-artifacts) ページを参照してください。
+W&amp;B Artifact の Time-to-Live (TTL) ポリシーを使用すると、W&amp;B で artifact が削除されるタイミングをスケジュールできます。artifact を削除すると、W&amp;B はその artifact を *ソフト削除* としてマークします。つまり、artifact は削除対象としてマークされますが、ファイルは storage からすぐには削除されません。W&amp;B が artifact をどのように削除するかについて詳しくは、[Delete artifacts](./delete-artifacts) ページを参照してください。
 
-W&amp;B App で Artifacts TTL を使ってデータ保持を管理する方法を学ぶには、[Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) の動画チュートリアルを視聴してください。
+W&amp;B App で Artifacts TTL を使ってデータ保持を管理する方法については、動画チュートリアルの [Managing data retention with Artifacts TTL](https://www.youtube.com/watch?v=hQ9J6BoVmnc) をご覧ください。
 
 <Note>
-  W&amp;B は Registry にリンクされた Artifacts に対して TTL ポリシーを設定するオプションを無効にします。これは、本番ワークフローで使用されているリンク済み Artifacts が誤って期限切れにならないようにするためです。
+  W&amp;B は、Registry にリンクされた artifact に対して TTL ポリシーを設定するオプションを無効化します。これは、本番ワークフローで使用されるリンク済み artifact が誤って期限切れにならないようにするためです。
 </Note>
 
 <Note>
-  * [team&#39;s settings](/ja/platform/app/settings-page/teams) を閲覧し、(1) 誰が TTL ポリシーを設定または編集できるかの許可、(2) チームのデフォルト TTL の設定といったチームレベルの TTL 設定にアクセスできるのは、チーム管理者のみです。
-  * W&amp;B App UI の Artifacts の詳細に TTL ポリシーを設定または編集するオプションが表示されない場合、あるいはプログラムで TTL を設定しても Artifacts の TTL プロパティが正常に変更されない場合は、チーム管理者からその操作の権限が付与されていません。
+  * [チームの設定](/ja/platform/app/settings-page/teams) を表示し、(1) TTL ポリシーを設定または編集できるユーザーの許可や、(2) チームのデフォルト TTL の設定など、チームレベルの TTL 設定にアクセスできるのはチーム管理者のみです。
+  * W&amp;B App UI で artifact の詳細に TTL ポリシーを設定または編集するオプションが表示されない場合、またはプログラムで TTL を設定しても artifact の TTL プロパティが正常に変更されない場合は、チーム管理者から必要な権限が付与されていません。
 </Note>
-
 
 <div id="auto-generated-artifacts">
-  ## 自動生成された Artifacts
+  ## 自動生成されたArtifacts
 </div>
 
-TTL ポリシーを使用できるのは、ユーザーが生成した Artifacts のみです。W&amp;B によって自動生成された Artifacts には TTL ポリシーを設定できません。
+TTL ポリシーを使用できるのは、ユーザーが生成した Artifact のみです。W&amp;B によって自動生成された Artifacts には、TTL ポリシーを設定できません。
 
-次の Artifacts の type は、自動生成された Artifacts であることを示します。
+次の Artifact タイプは、自動生成された Artifact であることを示します。
 
 * `run_table`
 * `code`
 * `job`
-* `wandb-*` で始まる任意の Artifacts type
+* `wandb-*` で始まる任意の Artifact タイプ
 
-[W&amp;B プラットフォーム](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/) 上で、またはプログラムから Artifacts の type を確認できます。
+Artifact のタイプは、[W&amp;B プラットフォーム](/ja/models/artifacts/explore-and-traverse-an-artifact-graph/) 上で確認するか、プログラムから確認できます。
 
 ```python
 import wandb
@@ -44,55 +43,55 @@ with wandb.init(project="<my-project-name>") as run:
     print(artifact.type)
 ```
 
-`<>` で囲まれている値をご自身の値に置き換えてください。
+`<>` で囲まれた値は、ご自身の値に置き換えてください。
 
 <div id="define-who-can-edit-and-set-ttl-policies">
-  ## TTL ポリシーを編集・設定できるメンバーを定義する
+  ## TTL ポリシーを設定・編集できるユーザーを指定する
 </div>
 
-チーム内で誰が TTL ポリシーを設定および編集できるかを定義します。TTL の権限をチーム管理者のみに付与するか、チーム管理者とチームメンバーの両方に付与するかを選択できます。
+チーム内で TTL ポリシーを設定・編集できるユーザーを指定します。TTL 権限はチーム管理者のみに付与することも、チーム管理者とチームメンバーの両方に付与することもできます。
 
 <Note>
-  TTL ポリシーを設定・編集できるメンバーを定義できるのはチーム管理者のみです。
+  TTL ポリシーを設定または編集できるユーザーを指定できるのは、チーム管理者のみです。
 </Note>
 
-1. チームのプロフィールページに移動します。
+1. チームのプロフィールページにアクセスします。
 2. **Settings** タブを選択します。
-3. **Artifacts time-to-live (TTL) section** に移動します。
-4. **TTL permissions dropdown** から、誰が TTL ポリシーを設定および編集できるかを選択します。
+3. **Artifacts time-to-live (TTL) section** にアクセスします。
+4. **TTL permissions** ドロップダウンから、TTL ポリシーを設定・編集できるユーザーを選択します。
 5. **Review and save settings** をクリックします。
 6. 変更内容を確認し、**Save settings** を選択します。
 
 <Frame>
-  <img src="/images/artifacts/define_who_sets_ttl.gif" alt="TTL 権限を設定する" />
+  <img src="/images/artifacts/define_who_sets_ttl.gif" alt="TTL 権限の設定" />
 </Frame>
 
 <div id="create-a-ttl-policy">
   ## TTL ポリシーを作成する
 </div>
 
-Artifacts の TTL ポリシーは、 Artifacts を作成する際にも、作成後に遡って設定することもできます。
+artifact の作成時、または作成後に、artifact に TTL ポリシーを設定できます。
 
-以下のすべてのコードスニペットでは、`<>` で囲まれている内容を、ご自身の情報に置き換えてから使用してください。
+以下のすべてのコード スニペットでは、コード スニペットを使用する前に、`<>` で囲まれた内容を実際の情報に置き換えてください。
 
 <div id="set-a-ttl-policy-when-you-create-an-artifact">
-  ### Artifacts 作成時に TTL ポリシーを設定する
+  ### artifact の作成時に TTL ポリシーを設定する
 </div>
 
-Artifacts を作成するときに TTL ポリシーを定義するには、W&amp;B Python SDK を使用します。TTL ポリシーは通常、日数単位で定義します。
+W&amp;B Python SDK を使用して、artifact の作成時に TTL ポリシーを定義します。TTL ポリシーは通常、日単位で定義します。
 
 <Note>
-  Artifacts 作成時に TTL ポリシーを定義する手順は、通常の [Artifacts の作成](/ja/models/artifacts/construct-an-artifact/) とほぼ同じです。唯一の違いは、 Artifacts の `ttl` 属性に time delta を渡す点です。
+  artifact の作成時に TTL ポリシーを定義する方法は、通常の [artifact の作成](/ja/models/artifacts/construct-an-artifact/) とほぼ同じです。異なるのは、artifact の `ttl` 属性に time delta を渡す点だけです。
 </Note>
 
 手順は次のとおりです。
 
-1. [Artifacts を作成する](/ja/models/artifacts/construct-an-artifact/)。
-2. ファイル、ディレクトリ、または参照などの [内容を Artifacts に追加する](/ja/models/artifacts/construct-an-artifact/#add-files-to-an-artifact)。
-3. Python の標準ライブラリの一部である [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) データ型を使って TTL の制限時間を定義する。
-4. [Artifacts をログする](/ja/models/artifacts/construct-an-artifact/#3-save-your-artifact-to-the-wb-server)。
+1. [artifact を作成します](/ja/models/artifacts/construct-an-artifact/)。
+2. ファイル、ディレクトリ、参照などの[内容を artifact に追加します](/ja/models/artifacts/construct-an-artifact/#add-files-to-an-artifact)。
+3. Python の標準ライブラリに含まれる [`datetime.timedelta`](https://docs.python.org/3/library/datetime.html) データ型を使用して、TTL の有効期間を定義します。
+4. [artifact をログします](/ja/models/artifacts/construct-an-artifact/#3-save-your-artifact-to-the-wb-server)。
 
-次のコードスニペットは、 Artifacts を作成して TTL ポリシーを設定する方法を示しています。
+次の code snippet は、artifact を作成して TTL ポリシーを設定する方法を示しています。
 
 ```python
 import wandb
@@ -106,25 +105,25 @@ with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
     run.log_artifact(artifact)
 ```
 
-直前のコードスニペットは、 Artifacts の TTL ポリシーを 30 日に設定します。つまり、W&amp;B は 30 日後にその Artifacts を削除します。
+前述のコードスニペットでは、artifact の TTL ポリシーを 30 日に設定しています。つまり、W&amp;B は 30 日後に artifact を削除します。
 
 <div id="set-or-edit-a-ttl-policy-after-you-create-an-artifact">
-  ### Artifacts 作成後に TTL ポリシーを設定または編集する
+  ### artifact の作成後に TTL ポリシーを設定または編集する
 </div>
 
-既に存在する Artifacts に対して TTL ポリシーを定義するには、W&amp;B App UI または W&amp;B Python SDK を使用します。
+W&amp;B App UI または W&amp;B Python SDK を使用して、既存の artifact に TTL ポリシーを設定します。
 
 <Note>
-  Artifacts の TTL を変更しても、有効期限までの時間は、引き続き Artifacts の `createdAt` タイムスタンプを基準に計算されます。
+  artifact の TTL を変更しても、artifact が期限切れになるまでの時間は、artifact の `createdAt` timestamp に基づいて計算されます。
 </Note>
 
 <Tabs>
   <Tab title="Python SDK">
-    1. [Artifacts を取得します](/ja/models/artifacts/download-and-use-an-artifact/)。
-    2. Artifacts の `ttl` 属性に time delta を渡します。
-    3. [`save`](/ja/models/ref/python/experiments/run#save) メソッドで Artifacts を更新します。
+    1. [artifact を取得します](/ja/models/artifacts/download-and-use-an-artifact/)。
+    2. artifact の `ttl` 属性に time delta を渡します。
+    3. [`save`](/ja/models/ref/python/experiments/run#save) method で artifact を更新します。
 
-    次のコードスニペットは、 Artifacts に TTL ポリシーを設定する方法を示します。
+    次の code snippet は、artifact に TTL ポリシーを設定する方法を示しています。
 
     ```python
     import wandb
@@ -135,17 +134,17 @@ with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
     artifact.save()
     ```
 
-    上記のコード例では、TTL ポリシーを 2 年に設定しています。
+    このコード例では、TTL ポリシーを 2 年に設定しています。
   </Tab>
 
   <Tab title="W&B App">
-    1. W&amp;B App UI で自分の W&amp;B プロジェクトに移動します。
-    2. プロジェクトのサイドバーで Artifacts のアイコンを選択します。
-    3. Artifacts の一覧から、展開したい Artifacts タイプを選択します。
-    4. TTL ポリシーを編集したい Artifacts バージョンを選択します。
+    1. W&amp;B App UI で W&amp;B のプロジェクトにアクセスします。
+    2. プロジェクトのサイドバーで artifact アイコンを選択します。
+    3. artifact の一覧から、対象の artifact type を展開します。
+    4. TTL ポリシーを編集する artifact バージョンを選択します。
     5. **Version** タブをクリックします。
     6. ドロップダウンから **Edit TTL policy** を選択します。
-    7. 表示されるモーダル内の TTL ポリシーのドロップダウンで **Custom** を選択します。
+    7. 表示されたモーダルで、TTL ポリシーのドロップダウンから **Custom** を選択します。
     8. **TTL duration** フィールドで、TTL ポリシーを日数単位で設定します。
     9. **Update TTL** ボタンを選択して変更を保存します。
 
@@ -160,30 +159,30 @@ with wandb.init(project="<my-project-name>", entity="<my-entity>") as run:
 </div>
 
 <Note>
-  チームのデフォルト TTL ポリシーを設定できるのはチーム管理者のみです。
+  チームのデフォルト TTL ポリシーを設定できるのは、チーム管理者のみです。
 </Note>
 
-チームにデフォルトの TTL ポリシーを設定します。デフォルト TTL ポリシーは、それぞれの作成日に基づいて、既存および将来のすべての Artifacts に適用されます。すでにバージョンレベルの TTL ポリシーが設定されている Artifacts は、チームのデフォルト TTL の影響を受けません。
+チームのデフォルト TTL ポリシーを設定します。デフォルト TTL ポリシーは、それぞれの作成日を基準に、既存および今後作成されるすべての artifact に適用されます。すでにバージョンレベルの TTL ポリシーが設定されている artifact には、チームのデフォルト TTL は適用されません。
 
-1. チームのプロフィール ページに移動します。
+1. チームのプロフィールページにアクセスします。
 2. **Settings** タブを選択します。
-3. **Artifacts time-to-live (TTL) セクション** に移動します。
+3. **Artifacts time-to-live (TTL) section** にアクセスします。
 4. **Set team&#39;s default TTL policy** をクリックします。
 5. **Duration** フィールドで、TTL ポリシーを日数単位で設定します。
 6. **Review and save settings** をクリックします。
    7/ 変更内容を確認し、**Save settings** を選択します。
 
 <Frame>
-  <img src="/images/artifacts/set_default_ttl.gif" alt="Setting default TTL policy" />
+  <img src="/images/artifacts/set_default_ttl.gif" alt="デフォルト TTL ポリシーの設定" />
 </Frame>
 
 <div id="set-a-ttl-policy-outside-of-a-run">
-  ### run の外で TTL ポリシーを設定する
+  ### run を介さずに TTL ポリシーを設定する
 </div>
 
-パブリック API を使用して run を取得せずに Artifacts を取得し、TTL ポリシーを設定します。TTL ポリシーは通常、日数で指定します。
+Public API を使用して、run を取得せずに artifact を取得し、TTL ポリシーを設定できます。TTL ポリシーは通常、日数単位で定義されます。
 
-次のコード サンプルは、パブリック API を使用して Artifacts を取得し、TTL ポリシーを設定する方法を示しています。
+次のコード例は、Public API を使用して artifact を取得し、TTL ポリシーを設定する方法を示しています。
 
 ```python
 api = wandb.Api()
@@ -196,22 +195,22 @@ artifact.save()
 ```
 
 <div id="deactivate-a-ttl-policy">
-  ## TTL ポリシーを無効化する
+  ## TTL ポリシーを無効にする
 </div>
 
-特定の Artifacts バージョンに対する TTL ポリシーを無効化するには、W&amp;B Python SDK または W&amp;B App UI を使用します。
+W&amp;B Python SDK または W&amp;B App UI を使用して、特定の artifact バージョンに設定された TTL ポリシーを無効にします。
 
 {/* <Note>
-  TTL を無効にした Artifacts は、 Artifacts コレクションの TTL を継承しません。 Artifacts の TTL を削除し、コレクション レベルの TTL を継承させる方法については、「## Inherit TTL Policy」セクションを参照してください。
+  TTL が無効になっている Artifacts は、artifact collection の TTL を継承しません。artifact の TTL を削除して collection レベルの TTL を継承する方法については、(## TTL ポリシーを継承) を参照してください。
   </Note> */}
 
 <Tabs>
   <Tab title="Python SDK">
-    1. [Artifacts を取得します](/ja/models/artifacts/download-and-use-an-artifact/)。
-    2. Artifacts の `ttl` 属性を `None` に設定します。
-    3. [`save`](/ja/models/ref/python/experiments/run#save) メソッドで Artifacts を更新します。
+    1. [artifact を取得します](/ja/models/artifacts/download-and-use-an-artifact/).
+    2. artifact の `ttl` 属性を `None` に設定します。
+    3. [`save`](/ja/models/ref/python/experiments/run#save) method を使用して artifact を更新します。
 
-    次のコードスニペットは、 Artifacts の TTL ポリシーを無効化する方法を示しています。
+    次の code snippet は、artifact の TTL ポリシーを無効化する方法を示しています。
 
     ```python
     artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
@@ -221,49 +220,50 @@ artifact.save()
   </Tab>
 
   <Tab title="W&B App">
-    1. W&amp;B App UI で自分の W&amp;B プロジェクトに移動します。
-    2. プロジェクトのサイドバーで Artifacts アイコンを選択します。
-    3. Artifacts の一覧から、展開したい Artifacts タイプをクリックして展開します。
-    4. TTL ポリシーを編集したい Artifacts バージョンを選択します。
-    5. Version タブをクリックします。
+    1. W&amp;B App の UI で W&amp;B のプロジェクトにアクセスします。
+    2. プロジェクトのサイドバーで artifact アイコンを選択します。
+    3. artifact のリストから、対象の artifact type を展開します。
+    4. TTL ポリシーを編集する artifact バージョンを選択します。
+    5. **Version** タブをクリックします。
     6. **Link to registry** ボタンの横にあるミートボール UI アイコンをクリックします。
     7. ドロップダウンから **Edit TTL policy** を選択します。
     8. 表示されるモーダルで、TTL ポリシーのドロップダウンから **Deactivate** を選択します。
-    9. **Update TTL** ボタンをクリックして変更を保存します。
+    9. **Update TTL** ボタンを選択して変更を保存します。
 
     <Frame>
-      <img src="/images/artifacts/remove_ttl_polilcy.gif" alt="TTL ポリシーを削除する" />
+      <img src="/images/artifacts/remove_ttl_polilcy.gif" alt="TTL ポリシーの削除" />
     </Frame>
   </Tab>
 </Tabs>
 
 <div id="view-ttl-policies">
-  ## TTL ポリシーを表示する
+  ## TTL ポリシーを確認する
 </div>
 
-Python SDK または W&B App UI を使用して、artifact の TTL ポリシーを表示します。
+Python SDK または W&amp;B App UI を使用して、artifact の TTL ポリシーを確認できます。
 
 <Tabs>
-<Tab title="Python SDK">
-`print` 文を使用して、artifact の TTL ポリシーを表示します。次の例は、artifact を取得してその TTL ポリシーを表示する方法を示しています。
+  <Tab title="Python SDK">
+    print 文を使って artifact の TTL ポリシーを確認します。次の例は、artifact を取得して TTL ポリシーを確認する方法を示しています。
 
-```python
-artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
-print(artifact.ttl)
-```
-</Tab>
-<Tab title="W&B App">
-W&B App UI を使用して artifact の TTL ポリシーを表示します。
+    ```python
+    artifact = run.use_artifact("<my-entity/my-project/my-artifact:alias>")
+    print(artifact.ttl)
+    ```
+  </Tab>
 
-1. [W&B App](https://wandb.ai) に移動します。
-2. 自分の W&B Project に移動します。
-3. プロジェクト内で、プロジェクトサイドバーの Artifacts タブを選択します。
-4. コレクションをクリックします。
+  <Tab title="W&B App">
+    W&amp;B App UI を使用して artifact の TTL ポリシーを確認します。
 
-コレクションビューでは、選択したコレクション内のすべての artifact を確認できます。`Time to Live` 列には、その artifact に割り当てられている TTL ポリシーが表示されます。
+    1. [W&amp;B App](https://wandb.ai) にアクセスします。
+    2. W&amp;B のプロジェクトにアクセスします。
+    3. プロジェクト内で、プロジェクトのサイドバーにある Artifacts タブを選択します。
+    4. collection をクリックします。
 
-<Frame>
-    <img src="/images/artifacts/ttl_collection_panel_ui.png" alt="TTL collection view"  />
-</Frame>
-</Tab>
+    collection ビューでは、選択した collection 内のすべての artifact を確認できます。`Time to Live` 列には、その artifact に割り当てられている TTL ポリシーが表示されます。
+
+    <Frame>
+      <img src="/images/artifacts/ttl_collection_panel_ui.png" alt="TTL collection view" />
+    </Frame>
+  </Tab>
 </Tabs>

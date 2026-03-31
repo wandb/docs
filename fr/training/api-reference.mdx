@@ -1,17 +1,17 @@
 ---
 title: Aperçu de l'API
-description: "Parcourez les points de terminaison de l'API W&B Training pour les complétions de chat, les modèles, les tâches d'entraînement et les contrôles de santé, avec les informations d'authentification."
+description: "Parcourez les API endpoints de W&B Training pour les Chat Completions, les modèles, les tâches d'entraînement et les contrôles de santé, ainsi que les détails d'authentification."
 ---
 
 <Note>
-  L&#39;API W&amp;B Training fournit des points de terminaison pour gérer les tâches d&#39;entraînement et interagir avec celles-ci, y compris l&#39;apprentissage par renforcement (RL) serverless et le fine-tuning supervisé (SFT). L&#39;API est compatible avec OpenAI pour les complétions de chat.
+  L&#39;API W&amp;B Training propose des endpoints permettant de gérer les tâches d&#39;entraînement et d&#39;interagir avec elles, y compris pour l&#39;apprentissage par renforcement (RL) serverless et le fine-tuning supervisé (SFT). L&#39;API est compatible avec OpenAI pour les Chat Completions.
 </Note>
 
 <div id="authentication">
   ## Authentification
 </div>
 
-Toutes les requêtes API nécessitent une authentification à l’aide de votre clé API W&amp;B. Créez une clé API à l’adresse [wandb.ai/settings](https://wandb.ai/settings).
+Toutes les requêtes API nécessitent une authentification à l’aide de votre clé API W&amp;B. Créez une clé API sur [wandb.ai/settings](https://wandb.ai/settings).
 
 Incluez votre clé API dans l’en-tête `Authorization` :
 
@@ -28,41 +28,41 @@ https://api.training.wandb.ai/v1
 ```
 
 <div id="available-endpoints">
-  ## Points de terminaison disponibles
+  ## Endpoints disponibles
 </div>
 
 <div id="chat-completions">
   ### chat-completions
 </div>
 
-* **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Créer une complétion de conversation
-* **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Créer une complétion de conversation
+* **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Créer un Chat Completion
+* **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Créer un Chat Completion
 
 <div id="models">
-  ### modèles
+  ### Models
 </div>
 
 * **[POST /v1/preview/models](https://docs.wandb.ai/training/api-reference/models/create-model)** - Créer un modèle
-* **[DELETE /v1/preview/models/{model_id}](https://docs.wandb.ai/training/api-reference/models/delete-model)** - Supprimer un modèle
+* **[DELETE /v1/preview/models/{model_id}](https://docs.wandb.ai/training/api-reference/models/delete-model)** - Supprimer le modèle
 * **[DELETE /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/delete-model-checkpoints)** - Supprimer les points de contrôle du modèle
-* **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/list-model-checkpoints)** - Lister les points de contrôle du modèle
-* **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log)** - Journal
+* **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/list-model-checkpoints)** - Obtenir la liste des points de contrôle du modèle
+* **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log)** - Journaliser
 
 <div id="training-jobs">
-  ### tâches-d&#39;entraînement
+  ### training-jobs
 </div>
 
 * **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - Créer une tâche d&#39;entraînement SFT
 * **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - Créer une tâche d&#39;entraînement RL
-* **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - Obtenir une tâche d&#39;entraînement
+* **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - Obtenir la tâche d&#39;entraînement
 * **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - Obtenir les événements de la tâche d&#39;entraînement
 
 <div id="health">
-  ### santé
+  ### état de santé
 </div>
 
 * **[GET /v1/health](https://docs.wandb.ai/training/api-reference/health/health-check)** - Contrôle de santé
-* **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/health/system-check)** - Vérification du système
+* **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/health/system-check)** - Contrôle du système
 
 <div id="related-resources">
   ## Ressources connexes
@@ -71,41 +71,43 @@ https://api.training.wandb.ai/v1
 * [Aperçu de W&amp;B Training](/fr/training)
 * [Prérequis](/fr/training/prerequisites)
 * [SFT sans serveur](/fr/training/sft-training)
-* [Utiliser vos modèles entraînés](/fr/training/serverless-rl/use-trained-models)
+* [Utilisez vos modèles entraînés](/fr/training/serverless-rl/use-trained-models)
 * [Modèles disponibles](/fr/training/serverless-rl/available-models)
 * [Limites d’utilisation](/fr/training/serverless-rl/usage-limits)
 
-## points de terminaison disponibles
+<div id="available-endpoints">
+  ## Endpoints disponibles
+</div>
 
 <div id="chat-completions">
   ### chat-completions
 </div>
 
-* **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Créer une complétion de conversation
-* **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Créer une complétion de conversation
+* **[POST /v1/chat/completions](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Créer une Chat Completion
+* **[POST /v1/chat/completions/](https://docs.wandb.ai/training/api-reference/chat-completions/create-chat-completion)** - Créer une Chat Completion
 
 <div id="models">
-  ### modèles
+  ### Models
 </div>
 
 * **[POST /v1/preview/models](https://docs.wandb.ai/training/api-reference/models/create-model)** - Créer un modèle
-* **[DELETE /v1/preview/models/{model_id}](https://docs.wandb.ai/training/api-reference/models/delete-model)** - Supprimer un modèle
+* **[DELETE /v1/preview/models/{model_id}](https://docs.wandb.ai/training/api-reference/models/delete-model)** - Supprimer le modèle
 * **[DELETE /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/delete-model-checkpoints)** - Supprimer les points de contrôle du modèle
 * **[GET /v1/preview/models/{model_id}/checkpoints](https://docs.wandb.ai/training/api-reference/models/list-model-checkpoints)** - Lister les points de contrôle du modèle
-* **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log)** - Journal
+* **[POST /v1/preview/models/{model_id}/log](https://docs.wandb.ai/training/api-reference/models/log)** - Journaliser
 
 <div id="training-jobs">
-  ### tâches-d&#39;entraînement
+  ### training-jobs
 </div>
 
 * **[POST /v1/preview/sft-training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-sft-training-job)** - Créer une tâche d&#39;entraînement SFT
 * **[POST /v1/preview/training-jobs](https://docs.wandb.ai/training/api-reference/training-jobs/create-rl-training-job)** - Créer une tâche d&#39;entraînement RL
-* **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - Obtenir une tâche d&#39;entraînement
+* **[GET /v1/preview/training-jobs/{training_job_id}](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job)** - Obtenir la tâche d&#39;entraînement
 * **[GET /v1/preview/training-jobs/{training_job_id}/events](https://docs.wandb.ai/training/api-reference/training-jobs/get-training-job-events)** - Obtenir les événements de la tâche d&#39;entraînement
 
 <div id="health">
-  ### santé
+  ### état de santé
 </div>
 
 * **[GET /v1/health](https://docs.wandb.ai/training/api-reference/health/health-check)** - Contrôle de santé
-* **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/health/system-check)** - Vérification du système
+* **[GET /v1/system-check](https://docs.wandb.ai/training/api-reference/health/system-check)** - contrôle du système

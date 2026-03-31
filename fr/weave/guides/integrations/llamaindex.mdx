@@ -5,15 +5,15 @@ description: "Tracez et déboguez les applications LlamaIndex avec Weave, en cap
 
 Weave est conçu pour simplifier le suivi et la journalisation de tous les appels effectués via la [bibliothèque Python LlamaIndex](https://github.com/run-llama/llama_index).
 
-Lorsque vous travaillez avec des LLM, le débogage est inévitable. Qu’un appel de modèle échoue, qu’une sortie soit mal formatée ou que des appels de modèle imbriqués prêtent à confusion, il peut être difficile d’identifier précisément les problèmes. Les applications [LlamaIndex](https://docs.llamaindex.ai/en/stable/) se composent souvent de multiples étapes et d’appels à des LLM, ce qui rend essentielle la compréhension du fonctionnement interne de vos chaînes et de vos agents.
+Lorsque vous travaillez avec des LLM, le débogage est inévitable. Qu&#39;un appel au modèle échoue, qu&#39;une sortie soit mal formatée ou que des appels de modèle imbriqués sèment la confusion, il peut être difficile d&#39;identifier précisément les problèmes. Les applications [LlamaIndex](https://docs.llamaindex.ai/en/stable/) comportent souvent plusieurs étapes et appels LLM, ce qui rend essentiel de comprendre le fonctionnement interne de vos chaînes et de vos agents.
 
-Weave simplifie ce processus en capturant automatiquement les traces de vos applications LlamaIndex. Cela vous permet de surveiller et d’analyser les performances de votre application, ce qui facilite le débogage et l’optimisation de vos flux de travail LLM. Weave vous aide également dans vos flux de travail d’évaluation.
+Weave simplifie ce processus en capturant automatiquement les traces de vos applications LlamaIndex. Cela vous permet de surveiller et d&#39;analyser les performances de votre application, afin de faciliter le débogage et l&#39;optimisation de vos flux de travail LLM. Weave vous aide également dans vos flux de travail d&#39;évaluation.
 
 <div id="getting-started">
   ## Premiers pas
 </div>
 
-Pour commencer, appelez simplement `weave.init()` au début de votre script. L&#39;argument passé à `weave.init()` est un nom de projet qui vous aidera à organiser vos traces.
+Pour commencer, il vous suffit d’appeler `weave.init()` au début de votre script. L’argument de `weave.init()` est un nom de projet qui vous aidera à organiser vos traces.
 
 ```python lines {5}
 import weave
@@ -29,7 +29,7 @@ response = chat_engine.chat(
 print(response)
 ```
 
-Dans l’exemple ci-dessus, nous créons un moteur de chat LlamaIndex simple qui, en arrière-plan, effectue un appel à OpenAI. Consultez la trace ci-dessous :
+Dans l’exemple ci-dessus, nous créons un moteur de chat LlamaIndex simple qui, en coulisses, effectue un appel à OpenAI. Consultez la trace ci-dessous :
 
 [![simple\_llamaindex.png](/weave/guides/integrations/imgs/simple_llamaindex.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls/b6b5d898-2df8-4e14-b553-66ce84661e74)
 
@@ -37,9 +37,9 @@ Dans l’exemple ci-dessus, nous créons un moteur de chat LlamaIndex simple qui
   ## Tracing
 </div>
 
-LlamaIndex est connu pour sa facilité à relier des données à un LLM. Une application RAG simple nécessite une étape d’embedding, une étape de récupération et une étape de synthèse de la réponse. À mesure que la complexité augmente, il devient important de stocker les traces de chaque étape dans une base de données centrale, aussi bien pendant le développement qu’en production.
+LlamaIndex est connu pour sa facilité à connecter des données à des LLM. Une application RAG simple nécessite une étape d&#39;embedding, une étape de récupération et une étape de synthèse de la réponse. À mesure que la complexité augmente, il devient important de stocker, dans une base de données centrale, les traces de chaque étape, aussi bien en développement qu&#39;en production.
 
-Ces traces sont essentielles pour déboguer et améliorer votre application. Weave suit automatiquement tous les appels effectués via la bibliothèque LlamaIndex, y compris les modèles de prompt, les appels LLM, les outils et les étapes de l’agent. Vous pouvez consulter les traces dans l’interface web de Weave.
+Ces traces sont essentielles pour déboguer et améliorer votre application. Weave suit automatiquement tous les appels effectués via la bibliothèque LlamaIndex, y compris les modèles de prompt, les appels LLM, les outils et les étapes de l&#39;agent. Vous pouvez consulter les traces dans l&#39;interface web de Weave.
 
 Vous trouverez ci-dessous un exemple de pipeline RAG simple tiré du [Tutoriel de démarrage (OpenAI)](https://docs.llamaindex.ai/en/stable/getting_started/starter_example/) de LlamaIndex :
 
@@ -47,7 +47,7 @@ Vous trouverez ci-dessous un exemple de pipeline RAG simple tiré du [Tutoriel d
 import weave
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 
-# initialisez Weave avec le nom de votre projet
+# Initialiser Weave avec le nom de votre projet
 weave.init("llamaindex_demo")
 
 # En supposant que vous ayez un fichier `.txt` dans le répertoire `data`
@@ -59,7 +59,7 @@ response = query_engine.query("What did the author do growing up?")
 print(response)
 ```
 
-La chronologie de la trace ne se contente pas de capturer les « événements » : elle enregistre aussi le temps d’exécution, le coût et le nombre de jetons, le cas échéant. Explorez la trace en détail pour voir les entrées et les sorties de chaque étape.
+La chronologie de la trace capture non seulement les &quot;événements&quot;, mais aussi le temps d&#39;exécution, le coût et le nombre de tokens, le cas échéant. Développez la trace pour voir les entrées et les sorties de chaque étape.
 
 [![llamaindex\_rag.png](/weave/guides/integrations/imgs/llamaindex_rag.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2F6ac53407-1bb7-4c38-b5a3-c302bd877a11%3Ftracetree%3D1)
 
@@ -67,17 +67,17 @@ La chronologie de la trace ne se contente pas de capturer les « événements 
   ## Observabilité en un clic 🔭
 </div>
 
-LlamaIndex fournit une [observabilité en un clic 🔭](https://docs.llamaindex.ai/en/stable/module_guides/observability/) pour vous permettre de créer des applications LLM fiables dans un environnement de production.
+LlamaIndex propose une [observabilité en un clic 🔭](https://docs.llamaindex.ai/en/stable/module_guides/observability/) pour vous permettre de créer des applications LLM rigoureuses en production.
 
-Notre intégration exploite cette fonctionnalité de LlamaIndex et configure automatiquement [`WeaveCallbackHandler()`](https://github.com/wandb/weave/blob/master/weave/integrations/llamaindex/llamaindex.py) comme `llama_index.core.global_handler`. Ainsi, en tant qu’utilisateur de LlamaIndex et de Weave, il vous suffit d’initialiser un run Weave : `weave.init(<name-of-project>)`
+Notre intégration exploite cette fonctionnalité de LlamaIndex et affecte automatiquement [`WeaveCallbackHandler()`](https://github.com/wandb/weave/blob/master/weave/integrations/llamaindex/llamaindex.py) à `llama_index.core.global_handler`. Ainsi, si vous utilisez LlamaIndex et Weave, il vous suffit d’initialiser un run Weave - `weave.init(<name-of-project>)`
 
 <div id="create-a-model-for-easier-experimentation">
-  ## Créer un `Model` pour faciliter l&#39;expérimentation
+  ## Créer un `Model` pour faciliter l’expérimentation
 </div>
 
-Organiser et évaluer des LLM dans des applications pour divers cas d&#39;usage est complexe, car cela implique de multiples composants, comme les prompts, les configurations de modèle et les paramètres d&#39;inférence. En utilisant [`weave.Model`](/fr/weave/guides/core-types/models), vous pouvez capturer et organiser des détails expérimentaux, comme les prompts système ou les modèles que vous utilisez, ce qui facilite la comparaison des différentes itérations.
+Organiser et évaluer des LLM dans des applications pour différents cas d’usage est complexe, car cela implique plusieurs composants, comme les prompts, les configurations de modèles et les paramètres d’inférence. Avec [`weave.Model`](/fr/weave/guides/core-types/models), vous pouvez consigner et organiser des détails expérimentaux, comme les prompts système ou les modèles que vous utilisez, ce qui facilite la comparaison des différentes itérations.
 
-L&#39;exemple suivant montre comment créer un moteur de requête LlamaIndex dans un `WeaveModel`, à l&#39;aide de données disponibles dans le dossier [weave/data](https://github.com/wandb/weave/tree/master/data) :
+L’exemple suivant montre comment créer un moteur de requête LlamaIndex dans un `WeaveModel`, à partir de données disponibles dans le dossier [weave/data](https://github.com/wandb/weave/tree/master/data) :
 
 ```python lines {16,52,61}
 import weave
@@ -89,7 +89,7 @@ from llama_index.core import PromptTemplate
 
 
 PROMPT_TEMPLATE = """
-Des informations pertinentes sur Paul Graham vous sont fournies. Répondez à la requête de l'utilisateur uniquement en vous basant sur les informations fournies. N'inventez rien.
+You are given with relevant information about Paul Graham. Answer the user query only based on the information provided. Don't make up stuff.
 
 User Query: {query_str}
 Context: {context_str}
@@ -135,7 +135,7 @@ class SimpleRAGPipeline(weave.Model):
     @weave.op()
     def predict(self, query: str):
         query_engine = self.get_query_engine(
-            # Ces données se trouvent dans le dépôt weave sous data/paul_graham
+            # Ces données sont disponibles dans le dépôt weave sous data/paul_graham
             "data/paul_graham",
         )
         response = query_engine.query(query)
@@ -148,7 +148,7 @@ response = rag_pipeline.predict("What did the author do growing up?")
 print(response)
 ```
 
-Cette classe `SimpleRAGPipeline`, qui hérite de `weave.Model`, regroupe les paramètres importants de ce pipeline RAG. Le fait de décorer la méthode `query` avec `weave.op()` permet le traçage.
+Cette classe `SimpleRAGPipeline`, une sous-classe de `weave.Model`, regroupe les paramètres importants de ce pipeline RAG. Décorer la méthode `query` avec `weave.op()` permet d&#39;activer le Tracing.
 
 [![llamaindex\_model.png](/weave/guides/integrations/imgs/llamaindex_model.png)](https://wandb.ai/wandbot/test-llamaindex-weave/weave/calls?filter=%7B%22traceRootsOnly%22%3Atrue%7D\&peekPath=%2Fwandbot%2Ftest-llamaindex-weave%2Fcalls%2Fa82afbf4-29a5-43cd-8c51-603350abeafd%3Ftracetree%3D1)
 
@@ -156,7 +156,7 @@ Cette classe `SimpleRAGPipeline`, qui hérite de `weave.Model`, regroupe les par
   ## Effectuer une évaluation avec `weave.Evaluation`
 </div>
 
-Les évaluations vous aident à mesurer les performances de vos applications. En utilisant la classe [`weave.Evaluation`](/fr/weave/guides/core-types/evaluations), vous pouvez voir dans quelle mesure votre modèle est performant sur des tâches ou des jeux de données spécifiques, ce qui facilite la comparaison de différents modèles et des différentes itérations de votre application. L&#39;exemple suivant montre comment évaluer le modèle que nous avons créé :
+Les évaluations vous aident à mesurer les performances de vos applications. En utilisant la classe [`weave.Evaluation`](/fr/weave/guides/core-types/evaluations), vous pouvez mesurer les performances de votre modèle sur des tâches ou des jeux de données spécifiques, ce qui facilite la comparaison entre différents modèles et différentes itérations de votre application. L&#39;exemple suivant montre comment évaluer le modèle que nous avons créé :
 
 ```python lines {25,32,36}
 import asyncio
@@ -197,12 +197,12 @@ rag_pipeline = SimpleRAGPipeline()
 asyncio.run(evaluation.evaluate(rag_pipeline))
 ```
 
-Cette évaluation s’appuie sur l’exemple de la section précédente. L’évaluation avec `weave.Evaluation` nécessite un jeu de données d’évaluation, une fonction scorer et un `weave.Model`. Voici quelques points à noter concernant les trois composants clés :
+Cette évaluation s’appuie sur l’exemple de la section précédente. Pour évaluer avec `weave.Evaluation`, vous avez besoin d’un jeu de données d’évaluation, d’une fonction de scorer et d’un `weave.Model`. Voici quelques points à noter sur ces trois composants clés :
 
-* Assurez-vous que les clés des dicts d’échantillons d’évaluation correspondent aux arguments de la fonction scorer et à ceux de la méthode `predict` du `weave.Model`.
-* Le `weave.Model` doit avoir une méthode nommée `predict`, `infer` ou `forward`. Décorez cette méthode avec `weave.op()` pour le traçage.
-* La fonction scorer doit être décorée avec `weave.op()` et avoir `output` comme argument nommé.
+* Assurez-vous que les clés des `dict` d’échantillons d’évaluation correspondent aux arguments de la fonction de scorer et de la méthode `predict` du `weave.Model`.
+* Le `weave.Model` doit avoir une méthode nommée `predict`, `infer` ou `forward`. Décorez cette méthode avec `weave.op()` pour le Tracing.
+* La fonction de scorer doit être décorée avec `weave.op()` et doit avoir `output` comme argument nommé.
 
 [![llamaindex\_evaluation.png](/weave/guides/integrations/imgs/llamaindex_evaluation.png)](https://wandb.ai/wandbot/llamaindex-weave/weave/calls?filter=%7B%22opVersionRefs%22%3A%5B%22weave%3A%2F%2F%2Fwandbot%2Fllamaindex-weave%2Fop%2FEvaluation.predict_and_score%3ANmwfShfFmgAhDGLXrF6Xn02T9MIAsCXBUcifCjyKpOM%22%5D%2C%22parentId%22%3A%2233491e66-b580-47fa-9d43-0cd6f1dc572a%22%7D\&peekPath=%2Fwandbot%2Fllamaindex-weave%2Fcalls%2F33491e66-b580-47fa-9d43-0cd6f1dc572a%3Ftracetree%3D1)
 
-En intégrant Weave à LlamaIndex, vous pouvez garantir une journalisation et une surveillance complètes de vos applications LLM, ce qui facilite le débogage et l’optimisation des performances grâce à l’évaluation.
+En intégrant Weave à LlamaIndex, vous pouvez assurer une journalisation et une surveillance complètes de vos applications LLM, ce qui facilite le débogage et l’optimisation des performances à l’aide de l’évaluation.

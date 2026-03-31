@@ -1,9 +1,9 @@
 ---
-title: "Obtenir une référence à l'objet Call pendant l'exécution"
-description: "Accédez à l'objet Call de W&B Weave au moment de l'exécution pour les retours, les noms d'affichage et d'autres métadonnées"
+title: "Obtenir une référence vers l'objet Call pendant l'exécution"
+description: "Accédez à l'objet Call de W&B Weave à l'exécution pour le feedback, les noms d'affichage et d'autres métadonnées"
 ---
 
-Dans Weave, lorsque vous utilisez une op, vous pouvez appeler les fonctions directement, comme n&#39;importe quelle autre fonction :
+Dans Weave, lorsque vous utilisez un Op, vous pouvez appeler les fonctions directement, comme vous le feriez pour n&#39;importe quelle autre fonction :
 
 <CodeGroup>
   ```python Python lines
@@ -35,9 +35,9 @@ Cependant, vous pouvez aussi accéder directement à l&#39;objet Call en invoqua
     output, call = my_op.call()
     ```
 
-    À partir de là, l&#39;objet `call` contient toutes les informations sur le Call, y compris les entrées, les sorties et d&#39;autres métadonnées. Vous pouvez utiliser `call` pour définir ou mettre à jour des propriétés, récupérer des propriétés supplémentaires ou ajouter des retours.
+    À ce stade, l&#39;objet `call` contient toutes les informations sur le `Call`, y compris les entrées, les sorties et d&#39;autres métadonnées. Vous pouvez utiliser `call` pour définir, mettre à jour, récupérer des propriétés supplémentaires ou ajouter du feedback.
 
-    Si votre op est une méthode d&#39;une classe, vous devez passer l&#39;instance de la classe comme premier argument à `call`. L&#39;exemple suivant montre comment obtenir une référence à un objet Call correspondant à une méthode de classe :
+    Si votre Op est une méthode d&#39;une classe, vous devez passer l&#39;instance de la classe comme premier argument à `call`. L&#39;exemple suivant montre comment obtenir une référence à un objet Call associé à une méthode d&#39;une classe :
 
     ```python lines
     import weave
@@ -46,14 +46,14 @@ Cependant, vous pouvez aussi accéder directement à l&#39;objet Call en invoqua
     weave.init("intro-example")
 
     class MyClass:
-        # Décorer votre méthode
+        # Décorez votre méthode
         @weave.op
         def my_method(self, name: str):
             return f"Hello, {name}!"
 
     instance = MyClass()
 
-    # Passer `instance` comme premier argument à `call`.
+    # Passez `instance` comme premier argument à `call`.
     result, call = instance.my_method.call(instance, "World")
     ```
   </Tab>
