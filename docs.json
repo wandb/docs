@@ -784,7 +784,8 @@
                           "weave/guides/tools/attributes",
                           "weave/guides/core-types/media",
                           "weave/guides/tracking/view-call",
-                          "weave/guides/tracking/trace-disable"
+                          "weave/guides/tracking/trace-disable",
+                          "weave/guides/tracking/write-ahead-log"
                         ]
                       },
                       {
