@@ -616,7 +616,8 @@
                             "pages": [
                               "models/ref/cli/wandb-beta/wandb-beta-leet",
                               "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-config",
-                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run"
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-run",
+                              "models/ref/cli/wandb-beta/wandb-beta-leet/wandb-beta-leet-symon"
                             ]
                           },
                           "models/ref/cli/wandb-beta/wandb-beta-sync"
