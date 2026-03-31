@@ -12,6 +12,8 @@
  * AUTO-GENERATED: Do not edit manually. Run sync_code_examples.sh to regenerate.
  */
 
+import React from 'react';
+
 // Import all MDX-wrapped code examples
 import ArtifactAddAlias from '/snippets/en/_includes/code-examples/artifact_add_alias.mdx';
 import ArtifactAddAliasExisting from '/snippets/en/_includes/code-examples/artifact_add_alias_existing.mdx';
@@ -28,10 +30,16 @@ import ArtifactUpdate from '/snippets/en/_includes/code-examples/artifact_update
 import ArtifactUpdateExisting from '/snippets/en/_includes/code-examples/artifact_update_existing.mdx';
 import ArtifactsDownload from '/snippets/en/_includes/code-examples/artifacts_download.mdx';
 import ExperimentsCreate from '/snippets/en/_includes/code-examples/experiments_create.mdx';
+import LogCsvFiles from '/snippets/en/_includes/code-examples/log_csv_files.mdx';
 import LogCustomSummaryMetric from '/snippets/en/_includes/code-examples/log_custom_summary_metric.mdx';
+import LogCustomSummatyMetric from '/snippets/en/_includes/code-examples/log_custom_summaty_metric.mdx';
 import LogExistingArtifactLinkCollection from '/snippets/en/_includes/code-examples/log_existing_artifact_link_collection.mdx';
+import LogHistogramPlot from '/snippets/en/_includes/code-examples/log_histogram_plot.mdx';
 import LogHyperparameter from '/snippets/en/_includes/code-examples/log_hyperparameter.mdx';
+import LogLinePlot from '/snippets/en/_includes/code-examples/log_line_plot.mdx';
 import LogMetric from '/snippets/en/_includes/code-examples/log_metric.mdx';
+import LogScatterPlot from '/snippets/en/_includes/code-examples/log_scatter_plot.mdx';
+import LogSummaryMetric from '/snippets/en/_includes/code-examples/log_summary_metric.mdx';
 import LogTable from '/snippets/en/_includes/code-examples/log_table.mdx';
 import RegistryAddAnnotation from '/snippets/en/_includes/code-examples/registry_add_annotation.mdx';
 import RegistryCollectionCreate from '/snippets/en/_includes/code-examples/registry_collection_create.mdx';
@@ -41,8 +49,19 @@ import RegistryCreate from '/snippets/en/_includes/code-examples/registry_create
 import RegistryDelete from '/snippets/en/_includes/code-examples/registry_delete.mdx';
 import RegistryLinkArtifactExisting from '/snippets/en/_includes/code-examples/registry_link_artifact_existing.mdx';
 import RegistryUseLinkedArtifact from '/snippets/en/_includes/code-examples/registry_use_linked_artifact.mdx';
+import ResumeRun from '/snippets/en/_includes/code-examples/resume_run.mdx';
+import RewindRun from '/snippets/en/_includes/code-examples/rewind_run.mdx';
 import RunFork from '/snippets/en/_includes/code-examples/run_fork.mdx';
 import RunInit from '/snippets/en/_includes/code-examples/run_init.mdx';
+import RunsAddTags from '/snippets/en/_includes/code-examples/runs_add_tags.mdx';
+import RunsGroup from '/snippets/en/_includes/code-examples/runs_group.mdx';
+import RunsOrganizeByType from '/snippets/en/_includes/code-examples/runs_organize_by_type.mdx';
+import RunsUpdateTag from '/snippets/en/_includes/code-examples/runs_update_tag.mdx';
+import RunsUpdateTagPublicApi from '/snippets/en/_includes/code-examples/runs_update_tag_public_api.mdx';
+import SweepConfig from '/snippets/en/_includes/code-examples/sweep_config.mdx';
+import SweepCreate from '/snippets/en/_includes/code-examples/sweep_create.mdx';
+import SweepInitialize from '/snippets/en/_includes/code-examples/sweep_initialize.mdx';
+import SweepStart from '/snippets/en/_includes/code-examples/sweep_start.mdx';
 
 // Map filenames to imported content
 const snippets = {
@@ -61,10 +80,16 @@ const snippets = {
   'artifact_update_existing.py': ArtifactUpdateExisting,
   'artifacts_download.py': ArtifactsDownload,
   'experiments_create.py': ExperimentsCreate,
+  'log_csv_files.py': LogCsvFiles,
   'log_custom_summary_metric.py': LogCustomSummaryMetric,
+  'log_custom_summaty_metric.py': LogCustomSummatyMetric,
   'log_existing_artifact_link_collection.py': LogExistingArtifactLinkCollection,
+  'log_histogram_plot.py': LogHistogramPlot,
   'log_hyperparameter.py': LogHyperparameter,
+  'log_line_plot.py': LogLinePlot,
   'log_metric.py': LogMetric,
+  'log_scatter_plot.py': LogScatterPlot,
+  'log_summary_metric.py': LogSummaryMetric,
   'log_table.py': LogTable,
   'registry_add_annotation.py': RegistryAddAnnotation,
   'registry_collection_create.py': RegistryCollectionCreate,
@@ -74,13 +99,24 @@ const snippets = {
   'registry_delete.py': RegistryDelete,
   'registry_link_artifact_existing.py': RegistryLinkArtifactExisting,
   'registry_use_linked_artifact.py': RegistryUseLinkedArtifact,
+  'resume_run.py': ResumeRun,
+  'rewind_run.py': RewindRun,
   'run_fork.py': RunFork,
   'run_init.py': RunInit,
+  'runs_add_tags.py': RunsAddTags,
+  'runs_group.py': RunsGroup,
+  'runs_organize_by_type.py': RunsOrganizeByType,
+  'runs_update_tag.py': RunsUpdateTag,
+  'runs_update_tag_public_api.py': RunsUpdateTagPublicApi,
+  'sweep_config.py': SweepConfig,
+  'sweep_create.py': SweepCreate,
+  'sweep_initialize.py': SweepInitialize,
+  'sweep_start.py': SweepStart,
 };
 
 export const CodeSnippet = ({ file }) => {
   const Component = snippets[file];
-
+  
   if (!Component) {
     return (
       <div style={{ padding: '1rem', background: '#fee', border: '1px solid #fcc', borderRadius: '4px' }}>
@@ -88,7 +124,7 @@ export const CodeSnippet = ({ file }) => {
       </div>
     );
   }
-
+  
   return <Component />;
 };
 
