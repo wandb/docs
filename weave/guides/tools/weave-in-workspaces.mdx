@@ -89,7 +89,7 @@ For more information about workspaces, see [View experiments results](https://do
 
 ## Associate traces with a specific W&B run
 
-By default, Weave automatically detects and associates traces with the active `wandb.run`. If you need to associate traces with a specific run that is not the global `wandb.run`, use `set_wandb_run_context` on the Weave client:
+By default, Weave automatically detects and associates traces with the active `wandb.run`. If you need to associate traces with a specific run that is not the global `wandb.run`, use `set_wandb_run_context`. You can associate traces with a specific run and run step by defining values for the method's `run_id` and `step` arguments:
 
 ```python lines highlight={6}
 import weave
@@ -97,7 +97,7 @@ import weave
 client = weave.init("<your-team-name>/<your-project-name>")
 
 # Associate all subsequent traces with a specific run
-client.set_wandb_run_context(run_id="<your-run-ID>", step=5)
+client.set_wandb_run_context(run_id="<your-run-ID>", step=<integer>)
 
 @weave.op
 def my_function(x):
