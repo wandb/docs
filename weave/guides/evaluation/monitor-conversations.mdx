@@ -3,7 +3,7 @@ title: "Monitor conversations"
 description: "Score grouped Calls after a conversation goes idle using debounced scoring"
 ---
 
-When your application handles multi-turn conversations, such as audio calls or chat threads, you might need to score the entire conversation rather than individual Calls. Debounced scoring in W&B Weave lets you group related Calls and score them after the conversation goes idle, so your scorer has access to the full context.
+When your application handles multi-turn conversations, such as audio calls or chat threads, you can use debounced scoring to score entire conversations rather than individual Calls. Debounced scoring in W&B Weave lets you group related Calls and score them after the conversation goes idle, so your scorer has access to the full context.
 
 For example, if your application uses OpenAI's Realtime APIs, each trace contains multiple `realtime.response` Calls. Debounced scoring waits for the conversation to go idle, then scores the relevant Calls as a group.
 
