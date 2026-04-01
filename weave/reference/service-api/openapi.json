@@ -414,6 +414,29 @@
         ]
       }
     },
+    "/inference/analysis/artificialanalysis/models": {
+      "get": {
+        "tags": [
+          "Inference"
+        ],
+        "summary": "Inference Analysis Artificialanalysis Models",
+        "description": "Returns a list of available models for Artificial Analysis.\n\nThis API is available without authentication.",
+        "operationId": "inference_analysis_artificialanalysis_models_inference_analysis_artificialanalysis_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouterOpenRouterModelsRes"
+                }
+              }
+            }
+          }
+        },
+        "x-exclude": true
+      }
+    },
     "/inference/router/openrouter/models": {
       "get": {
         "tags": [
@@ -433,17 +456,18 @@
               }
             }
           }
-        }
+        },
+        "x-exclude": true
       }
     },
-    "/inference/v1{path}": {
+    "/inference/nvidia/v2/hardware": {
       "get": {
         "tags": [
           "Inference"
         ],
-        "summary": "Inference Get",
-        "description": "OpenAI-compatible APIs.",
-        "operationId": "inference_get_inference_v1_path__get",
+        "summary": "Nvidia Hardware",
+        "description": "Returns available hardware and pricing for a given model.\n\nCalled by NVIDIA to show users their options and redirect them\nbased on what we support.  Only serverless options are returned.",
+        "operationId": "nvidia_hardware_inference_nvidia_v2_hardware_get",
         "security": [
           {
             "HTTPBearer": []
@@ -451,13 +475,15 @@
         ],
         "parameters": [
           {
-            "name": "path",
-            "in": "path",
+            "name": "model",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Path"
-            }
+              "description": "Model name without the publisher prefix",
+              "title": "Model"
+            },
+            "description": "Model name without the publisher prefix"
           }
         ],
         "responses": {
@@ -465,7 +491,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/NvidiaHardwareRes"
+                }
               }
             }
           },
@@ -476,64 +504,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Inference"
-        ],
-        "summary": "Inference Post",
-        "description": "OpenAI-compatible APIs.",
-        "operationId": "inference_post_inference_v1_path__post",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CompletionsCreateRequestInputs"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
+        "x-exclude": true
       }
     },
     "/calls/query_stats": {
@@ -914,6 +889,352 @@
             "HTTPBasic": []
           }
         ]
+      }
+    },
+    "/objs/{object_id}/versions/{digest}/tags": {
+      "put": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "Obj Add Tags",
+        "description": "Add tags to an object version.",
+        "operationId": "obj_add_tags_objs__object_id__versions__digest__tags_put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          },
+          {
+            "name": "digest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Digest"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjTagsBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjAddTagsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objs/{object_id}/versions/{digest}/tags/remove": {
+      "post": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "Obj Remove Tags",
+        "description": "Remove tags from an object version.",
+        "operationId": "obj_remove_tags_objs__object_id__versions__digest__tags_remove_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          },
+          {
+            "name": "digest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Digest"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjTagsBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjRemoveTagsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objs/{object_id}/aliases": {
+      "put": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "Obj Set Aliases",
+        "description": "Set aliases for an object version.",
+        "operationId": "obj_set_aliases_objs__object_id__aliases_put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjSetAliasesBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjSetAliasesRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objs/{object_id}/aliases/remove": {
+      "post": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "Obj Remove Aliases",
+        "description": "Remove aliases from an object.",
+        "operationId": "obj_remove_aliases_objs__object_id__aliases_remove_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjRemoveAliasesBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjRemoveAliasesRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags": {
+      "get": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "Tags List",
+        "description": "List all tags in a project.",
+        "operationId": "tags_list_tags_get",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagsListRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/aliases": {
+      "get": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "Aliases List",
+        "description": "List all aliases in a project.",
+        "operationId": "aliases_list_aliases_get",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AliasesListRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/table/create": {
@@ -1746,6 +2067,150 @@
         ]
       }
     },
+    "/feedback/stats": {
+      "post": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Feedback Stats",
+        "description": "Return aggregated feedback statistics over time buckets.",
+        "operationId": "feedback_stats_feedback_stats_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackStatsReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackStatsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/feedback/payload_schema": {
+      "post": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "Feedback Payload Schema",
+        "description": "Discover feedback payload schema (paths and types) from sample rows.",
+        "operationId": "feedback_payload_schema_feedback_payload_schema_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackPayloadSchemaReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackPayloadSchemaRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/service/projects_info": {
+      "post": {
+        "tags": [
+          "Service"
+        ],
+        "summary": "Projects Info",
+        "operationId": "projects_info_service_projects_info_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectsInfoReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectsInfoRes"
+                  },
+                  "type": "array",
+                  "title": "Response Projects Info Service Projects Info Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
     "/threads/stream_query": {
       "post": {
         "tags": [
@@ -1922,6 +2387,117 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AnnotationQueueReadRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Annotation Queues"
+        ],
+        "summary": "Annotation Queue Delete",
+        "description": "Delete (soft-delete) an annotation queue.",
+        "operationId": "annotation_queue_delete_annotation_queues__queue_id__delete",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Queue Id"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationQueueDeleteRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Annotation Queues"
+        ],
+        "summary": "Annotation Queue Update",
+        "description": "Update an annotation queue's metadata (name, description, scorer_refs).",
+        "operationId": "annotation_queue_update_annotation_queues__queue_id__put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Queue Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnnotationQueueUpdateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationQueueUpdateRes"
                 }
               }
             }
@@ -2285,6 +2861,52 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/EvaluationStatusRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/calls/score": {
+      "post": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Calls Score",
+        "operationId": "calls_score_calls_score_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CallsScoreReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CallsScoreRes"
                 }
               }
             }
@@ -5011,6 +5633,73 @@
           }
         }
       }
+    },
+    "/v2/{entity}/{project}/eval_results/query": {
+      "post": {
+        "tags": [
+          "Eval Results"
+        ],
+        "summary": "Eval Results Query",
+        "description": "Read grouped evaluation result rows for one or more evaluations.",
+        "operationId": "eval_results_query_v2__entity___project__eval_results_query_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Entity"
+            }
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvalResultsQueryBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvalResultsQueryRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -5022,10 +5711,28 @@
           "avg",
           "min",
           "max",
-          "count"
+          "count",
+          "count_true",
+          "count_false"
         ],
         "title": "AggregationType",
-        "description": "Basic aggregation functions for metrics."
+        "description": "Aggregation functions supported by feedback and call stats metrics."
+      },
+      "AliasesListRes": {
+        "properties": {
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases"
+          }
+        },
+        "type": "object",
+        "required": [
+          "aliases"
+        ],
+        "title": "AliasesListRes"
       },
       "AndOperation": {
         "properties": {
@@ -5224,6 +5931,19 @@
         ],
         "title": "AnnotationQueueCreateRes",
         "description": "Response from creating an annotation queue."
+      },
+      "AnnotationQueueDeleteRes": {
+        "properties": {
+          "queue": {
+            "$ref": "#/components/schemas/AnnotationQueueSchema"
+          }
+        },
+        "type": "object",
+        "required": [
+          "queue"
+        ],
+        "title": "AnnotationQueueDeleteRes",
+        "description": "Response from deleting an annotation queue."
       },
       "AnnotationQueueItemProgressUpdateBody": {
         "properties": {
@@ -5690,6 +6410,85 @@
         "title": "AnnotationQueueStatsSchema",
         "description": "Statistics for a single annotation queue."
       },
+      "AnnotationQueueUpdateBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "examples": [
+              "Updated Queue Name"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "examples": [
+              "Updated description"
+            ]
+          },
+          "scorer_refs": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scorer Refs",
+            "examples": [
+              [
+                "weave:///entity/project/scorer/error_severity:abc123",
+                "weave:///entity/project/scorer/resolution_quality:def456"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "title": "AnnotationQueueUpdateBody",
+        "description": "Request body for updating an annotation queue (queue_id comes from path).\n\nAll fields except project_id are optional - only provided fields will be updated."
+      },
+      "AnnotationQueueUpdateRes": {
+        "properties": {
+          "queue": {
+            "$ref": "#/components/schemas/AnnotationQueueSchema"
+          }
+        },
+        "type": "object",
+        "required": [
+          "queue"
+        ],
+        "title": "AnnotationQueueUpdateRes",
+        "description": "Response from updating an annotation queue."
+      },
       "AnnotationQueuesQueryReq": {
         "properties": {
           "project_id": {
@@ -5828,11 +6627,6 @@
         ],
         "title": "AnnotatorQueueItemsProgressUpdateRes",
         "description": "Response from updating annotation state."
-      },
-      "BaseModel": {
-        "properties": {},
-        "type": "object",
-        "title": "BaseModel"
       },
       "Body_file_create_file_create_post": {
         "properties": {
@@ -6189,6 +6983,17 @@
               }
             ],
             "title": "Wb User Id"
+          },
+          "wb_username": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Username"
           },
           "wb_run_id": {
             "anyOf": [
@@ -6816,6 +7621,19 @@
             "description": "Beta, subject to change. If true, the response will include the total storage size for a trace.",
             "default": false
           },
+          "include_usernames": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Usernames",
+            "description": "If true, the response will attempt to resolve each call's wb_user_id to a username for the duration of this request.",
+            "default": false
+          },
           "columns": {
             "anyOf": [
               {
@@ -6974,6 +7792,57 @@
         ],
         "title": "CallsQueryStatsRes"
       },
+      "CallsScoreReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Call Ids",
+            "description": "List of call IDs to score"
+          },
+          "scorer_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scorer Refs",
+            "description": "List of scorer refs to apply"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id",
+            "description": "Do not set directly. Server will automatically populate this field."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "call_ids",
+          "scorer_refs"
+        ],
+        "title": "CallsScoreReq",
+        "description": "Request to enqueue scoring jobs for a list of calls.\n\nScoring is performed asynchronously by the call_scoring_worker, which\nconsumes messages from Kafka and applies each scorer_ref to each call_id."
+      },
+      "CallsScoreRes": {
+        "properties": {},
+        "type": "object",
+        "title": "CallsScoreRes",
+        "description": "Empty response for calls_score.\n\nDefined as a model (rather than returning None) to follow the convention\nused throughout this interface and to allow fields to be added later\nwithout a breaking change."
+      },
       "CallsUsageReq": {
         "properties": {
           "project_id": {
@@ -7021,337 +7890,18 @@
             },
             "type": "object",
             "title": "Call Usage"
+          },
+          "unfinished_call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unfinished Call Ids"
           }
         },
         "type": "object",
         "title": "CallsUsageRes",
         "description": "Response with aggregated usage metrics per root call."
-      },
-      "CompletionsCreateRequestInputs": {
-        "properties": {
-          "model": {
-            "type": "string",
-            "title": "Model"
-          },
-          "messages": {
-            "items": {},
-            "type": "array",
-            "title": "Messages",
-            "default": []
-          },
-          "timeout": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Timeout"
-          },
-          "temperature": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Temperature"
-          },
-          "top_p": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Top P"
-          },
-          "n": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "N"
-          },
-          "stop": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stop"
-          },
-          "max_completion_tokens": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Max Completion Tokens"
-          },
-          "max_tokens": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Max Tokens"
-          },
-          "modalities": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Modalities"
-          },
-          "presence_penalty": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Presence Penalty"
-          },
-          "frequency_penalty": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Frequency Penalty"
-          },
-          "stream": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stream"
-          },
-          "logit_bias": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Logit Bias"
-          },
-          "user": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "User"
-          },
-          "response_format": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Response Format"
-          },
-          "seed": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Seed"
-          },
-          "tools": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tools"
-          },
-          "tool_choice": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tool Choice"
-          },
-          "logprobs": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Logprobs"
-          },
-          "top_logprobs": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Top Logprobs"
-          },
-          "parallel_tool_calls": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Parallel Tool Calls"
-          },
-          "extra_headers": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Extra Headers"
-          },
-          "functions": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Functions"
-          },
-          "function_call": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Function Call"
-          },
-          "api_version": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Api Version"
-          },
-          "prompt": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Prompt",
-            "description": "Reference to a Weave Prompt object (e.g., 'weave:///entity/project/object/prompt_name:version'). If provided, the messages from this prompt will be prepended to the messages in this request. Template variables in the prompt messages can be substituted using the template_vars parameter."
-          },
-          "template_vars": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Template Vars",
-            "description": "Dictionary of template variables to substitute in prompt messages. Variables in messages like '{variable_name}' will be replaced with the corresponding values. Applied to both prompt messages (if prompt is provided) and regular messages."
-          }
-        },
-        "type": "object",
-        "required": [
-          "model"
-        ],
-        "title": "CompletionsCreateRequestInputs"
       },
       "ContainsOperation": {
         "properties": {
@@ -8260,6 +8810,452 @@
         "title": "EqOperation",
         "description": "Equality check between two operands.\n\nExample:\n    ```\n    {\n        \"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]\n    }\n    ```"
       },
+      "EvalResultsEvaluationSummary": {
+        "properties": {
+          "evaluation_call_id": {
+            "type": "string",
+            "title": "Evaluation Call Id"
+          },
+          "trial_count": {
+            "type": "integer",
+            "title": "Trial Count",
+            "default": 0
+          },
+          "scorer_stats": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsScorerStats"
+            },
+            "type": "array",
+            "title": "Scorer Stats"
+          },
+          "evaluation_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Ref"
+          },
+          "model_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Ref"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_call_id"
+        ],
+        "title": "EvalResultsEvaluationSummary"
+      },
+      "EvalResultsQueryBody": {
+        "properties": {
+          "evaluation_call_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Call Ids",
+            "description": "Evaluation root call IDs to include."
+          },
+          "evaluation_run_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Run Ids",
+            "description": "Alias for evaluation call IDs from the Evaluation Runs API."
+          },
+          "require_intersection": {
+            "type": "boolean",
+            "title": "Require Intersection",
+            "description": "When true, only include rows present in all requested evaluations.",
+            "default": false
+          },
+          "include_raw_data_rows": {
+            "type": "boolean",
+            "title": "Include Raw Data Rows",
+            "description": "When true, populate raw_data_row on each result row. Inline rows are returned as their dict value; dataset-referenced rows are returned as the ref string unless resolve_row_refs is also true.",
+            "default": false
+          },
+          "resolve_row_refs": {
+            "type": "boolean",
+            "title": "Resolve Row Refs",
+            "description": "When true (requires include_raw_data_rows=True), resolve dataset-row reference strings to actual row data via a table lookup. When false, dataset-row refs are returned as-is.",
+            "default": false
+          },
+          "include_rows": {
+            "type": "boolean",
+            "title": "Include Rows",
+            "description": "When true, include grouped row/trial data in `rows` and compute `total_rows` for the requested row-level view.",
+            "default": true
+          },
+          "include_summary": {
+            "type": "boolean",
+            "title": "Include Summary",
+            "description": "When true, include aggregated scorer/evaluation summary data in `summary`.",
+            "default": false
+          },
+          "summary_require_intersection": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary Require Intersection",
+            "description": "Optional intersection behavior for the summary section. When null, the value of `require_intersection` is used."
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limit",
+            "description": "Optional row-level page size applied after grouping and intersection."
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "Optional row-level page offset applied after grouping and intersection.",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "EvalResultsQueryBody"
+      },
+      "EvalResultsQueryRes": {
+        "properties": {
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsRow"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "total_rows": {
+            "type": "integer",
+            "title": "Total Rows"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvalResultsSummaryRes"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings",
+            "description": "Non-fatal warnings (e.g. failed to resolve dataset row refs)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "rows",
+          "total_rows"
+        ],
+        "title": "EvalResultsQueryRes"
+      },
+      "EvalResultsRow": {
+        "properties": {
+          "row_digest": {
+            "type": "string",
+            "title": "Row Digest"
+          },
+          "raw_data_row": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Data Row"
+          },
+          "evaluations": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsRowEvaluation"
+            },
+            "type": "array",
+            "title": "Evaluations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "row_digest"
+        ],
+        "title": "EvalResultsRow"
+      },
+      "EvalResultsRowEvaluation": {
+        "properties": {
+          "evaluation_call_id": {
+            "type": "string",
+            "title": "Evaluation Call Id"
+          },
+          "trials": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsTrial"
+            },
+            "type": "array",
+            "title": "Trials"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_call_id"
+        ],
+        "title": "EvalResultsRowEvaluation"
+      },
+      "EvalResultsScorerStats": {
+        "properties": {
+          "scorer_key": {
+            "type": "string",
+            "title": "Scorer Key"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path",
+            "description": "Dot-joined subpath for nested dimensions, e.g. 'passed' for token_distance.passed. None for root-level scalar scorers."
+          },
+          "value_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "binary",
+                  "continuous",
+                  "text"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Type",
+            "description": "Type of the leaf value: binary (bool), continuous (number), or text (string)."
+          },
+          "trial_count": {
+            "type": "integer",
+            "title": "Trial Count",
+            "default": 0
+          },
+          "numeric_count": {
+            "type": "integer",
+            "title": "Numeric Count",
+            "default": 0
+          },
+          "numeric_mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Numeric Mean"
+          },
+          "pass_true_count": {
+            "type": "integer",
+            "title": "Pass True Count",
+            "default": 0
+          },
+          "pass_known_count": {
+            "type": "integer",
+            "title": "Pass Known Count",
+            "default": 0
+          },
+          "pass_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pass Rate"
+          },
+          "pass_signal_coverage": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pass Signal Coverage"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scorer_key"
+        ],
+        "title": "EvalResultsScorerStats",
+        "description": "Stats for a single flattened score dimension (scorer_key or scorer_key.path.to.leaf)."
+      },
+      "EvalResultsSummaryRes": {
+        "properties": {
+          "row_count": {
+            "type": "integer",
+            "title": "Row Count",
+            "default": 0
+          },
+          "evaluations": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsEvaluationSummary"
+            },
+            "type": "array",
+            "title": "Evaluations"
+          }
+        },
+        "type": "object",
+        "title": "EvalResultsSummaryRes"
+      },
+      "EvalResultsTrial": {
+        "properties": {
+          "predict_and_score_call_id": {
+            "type": "string",
+            "title": "Predict And Score Call Id"
+          },
+          "predict_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Predict Call Id"
+          },
+          "model_output": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Output"
+          },
+          "scores": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Scores"
+          },
+          "model_latency_seconds": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Latency Seconds"
+          },
+          "total_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Tokens"
+          },
+          "scorer_call_ids": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Call Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "predict_and_score_call_id"
+        ],
+        "title": "EvalResultsTrial"
+      },
       "EvaluateModelReq": {
         "properties": {
           "project_id": {
@@ -9059,6 +10055,158 @@
         ],
         "title": "FeedbackCreateRes"
       },
+      "FeedbackMetricSpec": {
+        "properties": {
+          "json_path": {
+            "type": "string",
+            "title": "Json Path",
+            "description": "Dot path into payload_dump (e.g. 'output', 'output.score')."
+          },
+          "value_type": {
+            "type": "string",
+            "enum": [
+              "numeric",
+              "boolean",
+              "categorical"
+            ],
+            "title": "Value Type",
+            "description": "Type of value at path. numeric: avg/min/max; boolean: count_true/count_false.",
+            "default": "numeric"
+          },
+          "aggregations": {
+            "items": {
+              "$ref": "#/components/schemas/AggregationType"
+            },
+            "type": "array",
+            "title": "Aggregations",
+            "description": "Aggregation functions to compute. If empty, defaults are chosen based on value_type: numeric->avg/min/max, boolean->count_true/count_false."
+          },
+          "percentiles": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Percentiles",
+            "description": "Percentile values to compute (0\u2013100), e.g. [5, 50, 95]. Only applicable for numeric value_type fields; ignored for boolean/categorical."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "json_path"
+        ],
+        "title": "FeedbackMetricSpec",
+        "description": "Specification for a feedback payload metric to aggregate."
+      },
+      "FeedbackPayloadPath": {
+        "properties": {
+          "json_path": {
+            "type": "string",
+            "title": "Json Path",
+            "description": "Dot path into payload (e.g. 'output.score')."
+          },
+          "value_type": {
+            "type": "string",
+            "enum": [
+              "numeric",
+              "boolean",
+              "categorical"
+            ],
+            "title": "Value Type",
+            "description": "Inferred type of value at path.",
+            "default": "numeric"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "json_path"
+        ],
+        "title": "FeedbackPayloadPath",
+        "description": "Discovered path in feedback payload with inferred type."
+      },
+      "FeedbackPayloadSchemaReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "Inclusive start time (UTC, ISO 8601)."
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End",
+            "description": "Exclusive end time (UTC, ISO 8601). Defaults to now if omitted."
+          },
+          "feedback_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback Type",
+            "description": "Filter by feedback_type."
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref",
+            "description": "Filter by trigger_ref (exact or prefix match for all-versions)."
+          },
+          "sample_limit": {
+            "type": "integer",
+            "maximum": 5000.0,
+            "minimum": 1.0,
+            "title": "Sample Limit",
+            "description": "Max distinct trigger_refs to sample when discovering the payload schema. Each distinct trigger_ref (monitor/source) typically has a fixed payload structure, so sampling one payload per ref is usually enough to see the full schema. 2 000 covers virtually all real-world projects while keeping the query fast; the hard cap of 5 000 prevents runaway scans.",
+            "default": 2000
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "start"
+        ],
+        "title": "FeedbackPayloadSchemaReq",
+        "description": "Request for feedback payload schema discovery."
+      },
+      "FeedbackPayloadSchemaRes": {
+        "properties": {
+          "paths": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackPayloadPath"
+            },
+            "type": "array",
+            "title": "Paths",
+            "description": "Discovered leaf paths with inferred value types."
+          }
+        },
+        "type": "object",
+        "title": "FeedbackPayloadSchemaRes",
+        "description": "Response with discovered feedback payload paths and types."
+      },
       "FeedbackPurgeReq": {
         "properties": {
           "project_id": {
@@ -9382,6 +10530,160 @@
           "payload"
         ],
         "title": "FeedbackReplaceRes"
+      },
+      "FeedbackStatsReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "Inclusive start time (UTC, ISO 8601)."
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End",
+            "description": "Exclusive end time (UTC, ISO 8601). Defaults to now if omitted."
+          },
+          "feedback_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback Type",
+            "description": "Filter by feedback_type."
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref",
+            "description": "Filter by trigger_ref (exact or prefix match for all-versions)."
+          },
+          "granularity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Granularity",
+            "description": "Bucket size in seconds. If omitted, auto-selected based on time range."
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "description": "IANA timezone for bucket alignment.",
+            "default": "UTC"
+          },
+          "metrics": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackMetricSpec"
+            },
+            "type": "array",
+            "title": "Metrics",
+            "description": "Metrics to aggregate from payload_dump."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "start"
+        ],
+        "title": "FeedbackStatsReq",
+        "description": "Request for aggregated feedback statistics over time buckets."
+      },
+      "FeedbackStatsRes": {
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "Resolved start time (always UTC, regardless of the requested timezone)."
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End",
+            "description": "Resolved end time (always UTC, regardless of the requested timezone)."
+          },
+          "granularity": {
+            "type": "integer",
+            "title": "Granularity",
+            "description": "Bucket size used (in seconds)"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "description": "Timezone used for bucket alignment"
+          },
+          "buckets": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Buckets",
+            "description": "Time-bucketed aggregations. Each dict has 'timestamp' (ISO string), 'count' (int), and '{agg}_{slug}' keys for each requested metric+aggregation."
+          },
+          "window_stats": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "type": "object"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Stats",
+            "description": "Aggregations over the full query window, keyed by metric slug (e.g. 'output_score'). Each value maps agg name to result."
+          }
+        },
+        "type": "object",
+        "required": [
+          "start",
+          "end",
+          "granularity",
+          "timezone"
+        ],
+        "title": "FeedbackStatsRes",
+        "description": "Response with time-series feedback statistics."
       },
       "FileContentReadReq": {
         "properties": {
@@ -10561,6 +11863,86 @@
         "title": "NotOperation",
         "description": "Logical NOT. Inverts the condition.\n\nExample:\n    ```\n    {\n        \"$not\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"debug\"}]}\n        ]\n    }\n    ```"
       },
+      "NvidiaHardwareOption": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/NvidiaServerlessPricing"
+          },
+          "specs": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Specs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "type",
+          "pricing"
+        ],
+        "title": "NvidiaHardwareOption"
+      },
+      "NvidiaHardwareRes": {
+        "properties": {
+          "hardware": {
+            "items": {
+              "$ref": "#/components/schemas/NvidiaHardwareOption"
+            },
+            "type": "array",
+            "title": "Hardware"
+          }
+        },
+        "type": "object",
+        "required": [
+          "hardware"
+        ],
+        "title": "NvidiaHardwareRes"
+      },
+      "NvidiaServerlessPricing": {
+        "properties": {
+          "cents_per_million_input_tokens": {
+            "type": "number",
+            "title": "Cents Per Million Input Tokens"
+          },
+          "cents_per_million_output_tokens": {
+            "type": "number",
+            "title": "Cents Per Million Output Tokens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cents_per_million_input_tokens",
+          "cents_per_million_output_tokens"
+        ],
+        "title": "NvidiaServerlessPricing"
+      },
+      "ObjAddTagsRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjAddTagsRes"
+      },
       "ObjCreateReq": {
         "properties": {
           "obj": {
@@ -10752,6 +12134,19 @@
             "title": "Include Storage Size",
             "description": "If true, the `size_bytes` column is returned.",
             "default": false
+          },
+          "include_tags_and_aliases": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Tags And Aliases",
+            "description": "If true, tags and aliases are fetched and included in the response.",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -10803,6 +12198,19 @@
             "title": "Metadata Only",
             "description": "If true, the `val` column is not read from the database and is empty.All other fields are returned.",
             "default": false
+          },
+          "include_tags_and_aliases": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Tags And Aliases",
+            "description": "If true, tags and aliases are fetched and included in the response.",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -10825,6 +12233,47 @@
           "obj"
         ],
         "title": "ObjReadRes"
+      },
+      "ObjRemoveAliasesBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases",
+            "examples": [
+              [
+                "staging"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "aliases"
+        ],
+        "title": "ObjRemoveAliasesBody",
+        "description": "Request body for removing aliases (object_id comes from path)."
+      },
+      "ObjRemoveAliasesRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjRemoveAliasesRes"
+      },
+      "ObjRemoveTagsRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjRemoveTagsRes"
       },
       "ObjSchema": {
         "properties": {
@@ -10916,6 +12365,34 @@
               }
             ],
             "title": "Size Bytes"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags"
+          },
+          "aliases": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aliases"
           }
         },
         "type": "object",
@@ -10968,6 +12445,18 @@
             "title": "Set Base Object Class",
             "deprecated": true
           },
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest",
+            "description": "Client-computed digest for server-side validation. If provided, the server will verify it matches the server-computed digest."
+          },
           "wb_user_id": {
             "anyOf": [
               {
@@ -10988,6 +12477,83 @@
           "val"
         ],
         "title": "ObjSchemaForInsert"
+      },
+      "ObjSetAliasesBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "examples": [
+              "abc123def"
+            ]
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases",
+            "examples": [
+              [
+                "staging",
+                "v1-candidate"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "digest",
+          "aliases"
+        ],
+        "title": "ObjSetAliasesBody",
+        "description": "Request body for setting aliases (object_id comes from path)."
+      },
+      "ObjSetAliasesRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjSetAliasesRes"
+      },
+      "ObjTagsBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags",
+            "examples": [
+              [
+                "production",
+                "reviewed"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "tags"
+        ],
+        "title": "ObjTagsBody",
+        "description": "Request body for adding/removing tags (object_id and digest come from path)."
       },
       "ObjectVersionFilter": {
         "properties": {
@@ -11114,6 +12680,36 @@
               true,
               false
             ]
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "Filter object versions that have any of the specified tags"
+          },
+          "aliases": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aliases",
+            "description": "Filter objects that have any of the specified aliases"
           }
         },
         "additionalProperties": false,
@@ -11444,13 +13040,9 @@
             "type": "string",
             "title": "Request"
           },
-          "input_cache_reads": {
+          "input_cache_read": {
             "type": "string",
-            "title": "Input Cache Reads"
-          },
-          "input_cache_writes": {
-            "type": "string",
-            "title": "Input Cache Writes"
+            "title": "Input Cache Read"
           }
         },
         "type": "object",
@@ -11459,11 +13051,54 @@
           "completion",
           "image",
           "request",
-          "input_cache_reads",
-          "input_cache_writes"
+          "input_cache_read"
         ],
         "title": "Pricing",
         "description": "All pricing values are in USD per 1 token.\n\nPricing fields are in string format to avoid floating point precision issues."
+      },
+      "ProjectsInfoReq": {
+        "properties": {
+          "project_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Project Ids",
+            "description": "External project IDs in 'entity/project' format.",
+            "examples": [
+              [
+                "entity-a/project-a",
+                "entity-b/project-b"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_ids"
+        ],
+        "title": "ProjectsInfoReq"
+      },
+      "ProjectsInfoRes": {
+        "properties": {
+          "external_project_id": {
+            "type": "string",
+            "title": "External Project Id",
+            "description": "External project ID in 'entity/project' format."
+          },
+          "internal_project_id": {
+            "type": "string",
+            "title": "Internal Project Id",
+            "description": "Internal project ID."
+          }
+        },
+        "type": "object",
+        "required": [
+          "external_project_id",
+          "internal_project_id"
+        ],
+        "title": "ProjectsInfoRes"
       },
       "Query": {
         "properties": {
@@ -11631,6 +13266,18 @@
             },
             "type": "array",
             "title": "Datacenters"
+          },
+          "deprecation_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deprecation Date",
+            "description": "Date when the model is deprecated (YYYY-MM-DD). Omitted from output if not set."
           }
         },
         "type": "object",
@@ -12169,6 +13816,18 @@
             },
             "type": "array",
             "title": "Row Digests"
+          },
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest",
+            "description": "Client-computed table digest for server-side validation."
           }
         },
         "additionalProperties": false,
@@ -12570,6 +14229,18 @@
             },
             "type": "array",
             "title": "Rows"
+          },
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest",
+            "description": "Client-computed table digest for server-side validation."
           }
         },
         "type": "object",
@@ -12665,6 +14336,22 @@
           "digest"
         ],
         "title": "TableUpdateRes"
+      },
+      "TagsListRes": {
+        "properties": {
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tags"
+        ],
+        "title": "TagsListRes"
       },
       "ThreadsQueryFilter": {
         "properties": {
@@ -12874,6 +14561,13 @@
             },
             "type": "object",
             "title": "Call Usage"
+          },
+          "unfinished_call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unfinished Call Ids"
           }
         },
         "type": "object",
