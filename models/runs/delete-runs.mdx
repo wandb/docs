@@ -32,7 +32,9 @@ for run in runs:
 
 For the full method signature and behavior, see the [`Run.delete` reference](/models/ref/python/public-api/run#method-run-delete).
 
-Individual files attached to a run (for example logged media) can be removed with [`File.delete()`](/models/ref/python/public-api/file#method-file-delete) after you obtain file handles from [`Run.files()`](/models/ref/python/public-api/run#method-run-files).
+To remove individual files attached to a run, like logged media:
+1. Obtain the relevant file handles with [`Run.files()`](/models/ref/python/public-api/run#method-run-files).
+1. Use [`File.delete()`](/models/ref/python/public-api/file#method-file-delete) to delete individual files.
 
 </Tab>
 </Tabs>

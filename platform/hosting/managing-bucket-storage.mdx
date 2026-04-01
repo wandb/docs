@@ -23,7 +23,7 @@ After runs or run-associated files are deleted, permanent removal of the underly
 
 ## What to expect from background cleanup
 
-Garbage collection and related jobs that free object storage are **best-effort**. W&B does **not** guarantee that a given object disappears from your bucket within a specific time after you delete content in the UI or API. Projects with very large numbers of files (for example many media files per run) can see **longer delays** before storage usage falls.
+Garbage collection and related jobs that free object storage are **best-effort**. W&B does **not** guarantee that a given object disappears from your bucket within a specific time after you delete content in the UI or API. For projects with a large number of files per run, such as when logging many media files per run, expect **longer delays** before storage usage is released.
 
 Monitor your bucket in your cloud provider and contact [W&B Support](mailto:support@wandb.ai) or your account team if cleanup appears stuck relative to your expectations.
 
