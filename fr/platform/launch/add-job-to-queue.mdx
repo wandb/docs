@@ -6,7 +6,7 @@ description: "Ajoutez des jobs Launch à une Launch queue W&B à l'aide de l'int
 La page suivante décrit comment ajouter des jobs Launch à une Launch queue.
 
 <Note>
-  Assurez-vous que vous, ou un membre de votre équipe, avez déjà configuré une Launch queue. Pour plus d&#39;informations, voir la page [Configurer Launch](/platform/launch/set-up-launch/).
+  Assurez-vous que vous, ou un membre de votre équipe, avez déjà configuré une Launch queue. Pour plus d&#39;informations, voir la page [Configurer Launch](/fr/platform/launch/set-up-launch/).
 </Note>
 
 <div id="add-jobs-to-your-queue">
@@ -33,7 +33,7 @@ Ajoutez des jobs à votre file d&#39;attente de manière interactive avec la W&a
     </Frame>
 
     4. Sélectionnez le bouton **Launch** à côté du nom du job. Une fenêtre modale s’affiche sur le côté droit de la page.
-    5. Dans la liste déroulante **Job version**, sélectionnez la version du job Launch que vous souhaitez utiliser. Les jobs Launch sont versionnés comme n’importe quel autre [W&amp;B Artifact](/models/artifacts/create-a-new-artifact-version/). Différentes versions d’un même job Launch sont créées si vous modifiez les dépendances logicielles ou le code source utilisés pour exécuter le job.
+    5. Dans la liste déroulante **Job version**, sélectionnez la version du job Launch que vous souhaitez utiliser. Les jobs Launch sont versionnés comme n’importe quel autre [W&amp;B Artifact](/fr/models/artifacts/create-a-new-artifact-version/). Différentes versions d’un même job Launch sont créées si vous modifiez les dépendances logicielles ou le code source utilisés pour exécuter le job.
     6. Dans la section **Overrides**, indiquez de nouvelles valeurs pour toutes les entrées configurées pour votre job Launch. Les remplacements courants incluent une nouvelle commande de point d’entrée, des arguments ou des valeurs dans le `wandb.Run.config` de votre nouveau W&amp;B run.
 
     <Frame>
@@ -56,7 +56,7 @@ Ajoutez des jobs à votre file d&#39;attente de manière interactive avec la W&a
   </Tab>
 
   <Tab title="W&B CLI">
-    Utilisez la commande `wandb launch` pour ajouter des jobs à une file d’attente. Créez une configuration JSON avec des remplacements d’hyperparamètres. Par exemple, en utilisant le script du guide [Démarrage rapide](/platform/launch/walkthrough/), nous créons un fichier JSON avec les remplacements suivants :
+    Utilisez la commande `wandb launch` pour ajouter des jobs à une file d’attente. Créez une configuration JSON avec des remplacements d’hyperparamètres. Par exemple, en utilisant le script du guide [Démarrage rapide](/fr/platform/launch/walkthrough/), nous créons un fichier JSON avec les remplacements suivants :
 
     ```json title="config.json"
     {
