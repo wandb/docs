@@ -23,9 +23,8 @@ The snippets on this page use the following endpoints from the [v2 Evaluation RE
 
 Authentication uses HTTP Basic with `api` as the username and your W&B API key as the password.
 
-The examples on this page use Python, but the Evaluation REST API is language-agnostic: you can call the same endpoints from TypeScript or any HTTP client.
-
 ## Prerequisites
+The examples on this page use Python, but the Evaluation REST API is language-agnostic: you can call the same endpoints from TypeScript or any HTTP client.
 
 - Python 3.7 or later.
 - The `requests` library. Install it with `pip install requests`.
