@@ -821,6 +821,7 @@
                       "weave/guides/evaluation/builtin_scorers",
                       "weave/guides/evaluation/weave_local_scorers",
                       "weave/guides/evaluation/evaluation_logger",
+                      "weave/guides/evaluation/export_eval",
                       "weave/guides/core-types/leaderboards",
                       "weave/guides/tools/column-mapping",
                       "weave/guides/evaluation/dynamic_leaderboards"
@@ -1028,14 +1029,18 @@
                       {
                         "group": "Functions",
                         "pages": [
+                          "weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "weave/reference/typescript-sdk/functions/init",
+                          "weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "weave/reference/typescript-sdk/functions/login",
                           "weave/reference/typescript-sdk/functions/op",
+                          "weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "weave/reference/typescript-sdk/functions/weaveaudio",
                           "weave/reference/typescript-sdk/functions/weaveimage",
                           "weave/reference/typescript-sdk/functions/withattributes",
+                          "weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
