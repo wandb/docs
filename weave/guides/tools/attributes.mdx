@@ -5,6 +5,11 @@ description: "Use attributes to add meta data to your traces and evaluations."
 
 Attributes in Weave allow you to attach custom metadata to your traces and evaluations. This metadata can include information like environment names, model versions, experiment IDs, user IDs, or other contextual information to help you organize, filter, and analyze your Weave data.
 
+Attributes are especially helpful when you need to group or filter traces by:
+* Deployments
+* Tenants
+* Experiments
+
 Weave provides two ways to add attributes:
 
 * **Per-call attributes**: Use the `weave.attributes()` to add metadata to specific operations or code blocks
@@ -26,7 +31,7 @@ The `weave.attributes()` context manager allows you to add metadata to specific 
 ```python lines
 import weave
 
-weave.init("attribute-check")
+weave.init("<your-team-name/your-project-name>")
 
 @weave.op
 def my_function(name: str):

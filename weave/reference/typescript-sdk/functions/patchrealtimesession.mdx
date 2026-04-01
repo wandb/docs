@@ -1,0 +1,37 @@
+---
+title: "patchRealtimeSession"
+description: "TypeScript SDK reference"
+---
+
+# patchRealtimeSession
+
+▸ **patchRealtimeSession**(): `void`
+
+Manually patch the `RealtimeSession` class from `@openai/agents-realtime` so that
+every new instance is automatically traced by Weave.
+
+**Note: You typically don't need to call this function!** `@openai/agents-realtime` is
+automatically instrumented via module loader hooks when you import Weave. This function
+is provided for edge cases where automatic instrumentation doesn't work (e.g. dynamic
+imports, bundlers that bypass hooks).
+
+Call this **once** at app startup, before any `RealtimeSession` is constructed.
+The function is idempotent — safe to call multiple times.
+
+#### Returns
+
+`void`
+
+`Example`
+
+```typescript
+import { patchRealtimeSession } from 'weave';
+patchRealtimeSession();
+// Every new RealtimeSession(...) is now auto-instrumented
+```
+
+#### Defined in
+
+[integrations/openai.realtime.agent.ts:797](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.realtime.agent.ts#L797)
+
+___

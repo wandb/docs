@@ -85,7 +85,7 @@ run_config_overrides = launch.load_wandb_config()
 
 ## 파일 재구성
 
-Launch SDK는 작업 코드의 config 파일에 저장된 입력 값을 관리하는 방법도 제공합니다. 이것은 이 [torchtune](https://github.com/pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) 예제 또는 이 [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)와 같은 많은 딥러닝 및 대규모 언어 모델 유스 케이스에서 일반적인 패턴입니다.
+Launch SDK는 작업 코드의 config 파일에 저장된 입력 값을 관리하는 방법도 제공합니다. 이것은 이 [torchtune](https://github.com/meta-pytorch/torchtune/blob/main/recipes/configs/llama3/8B_lora.yaml) 예제 또는 이 [Axolotl config](https://github.com/OpenAccess-AI-Collective/axolotl/blob/main/examples/llama-3/qlora-fsdp-70b.yaml)와 같은 많은 딥러닝 및 대규모 언어 모델 유스 케이스에서 일반적인 패턴입니다.
 
 <Note>
 [Launch에서의 Sweeps](/ko/launch/sweeps-on-launch)는 config 파일 입력을 스윕 파라미터로 사용하는 것을 지원하지 않습니다. 스윕 파라미터는 `Run.config` 오브젝트를 통해 제어되어야 합니다.
