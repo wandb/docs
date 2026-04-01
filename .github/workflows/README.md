@@ -41,6 +41,7 @@ Automatically syncs ground truth code examples from the [docs-code-eval](https:/
 
 If changes are detected:
 - Creates a draft PR named: `🔄 Sync code examples from docs-code-eval`
+- **Base branch**: the repository default branch (for example `main`), even if you ran the workflow from another branch
 - Branch name: `sync-code-examples-{run_number}`
 - Status: Draft (must be marked ready for review)
 - Labels: `documentation`, `automated`, `code-examples`
@@ -67,7 +68,17 @@ When the draft PR is created:
 The workflow uses:
 - **Python**: 3.11
 - **Permissions**: `contents: write`, `pull-requests: write`
-- **Action**: `peter-evans/create-pull-request@v6`
+- **Action**: `peter-evans/create-pull-request@v8`
+
+**Authentication and `docs-code-eval`**
+
+The automatic `GITHUB_TOKEN` is scoped to this repository (`wandb/docs`) only. It does not grant read access to other private repositories in the org, so it cannot replace a PAT for cloning `wandb/docs-code-eval` when that repo is private.
+
+To sync from a **private** `docs-code-eval`, add a repository secret named `DOCS_CODE_EVAL_READ_PAT`: a fine-grained personal access token (or classic PAT) with **Contents** read access to `wandb/docs-code-eval`. The sync script uses it only for `git clone`. If the secret is not set and `docs-code-eval` is public, the workflow clones without a token.
+
+**Clone fails with `could not read Username for 'https://github.com'`**
+
+That usually means Git tried to prompt for credentials (no TTY in Actions) or a credential helper failed. The sync script clears `credential.helper` for the clone and uses HTTPS with `x-access-token` when `DOCS_CODE_EVAL_READ_PAT` is set. If the log shows **anonymous** clone but the repo is private, the secret is missing, misnamed, or not available to this workflow (for example some fork contexts). Re-check the secret name `DOCS_CODE_EVAL_READ_PAT` and that the job log line above the clone says **PAT over HTTPS**.
 
 ### Troubleshooting
 
