@@ -176,11 +176,11 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
 
 ### Evaluation Runs
 
-- **[DELETE /v2/{entity}/{project}/evaluation_runs](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-delete-v2--entity---project--evaluation-runs)** - Evaluation Run Delete
-- **[GET /v2/{entity}/{project}/evaluation_runs](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-list-v2--entity---project--evaluation-runs)** - Evaluation Run List
-- **[POST /v2/{entity}/{project}/evaluation_runs](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-create-v2--entity---project--evaluation-runs)** - Evaluation Run Create
-- **[GET /v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-read-v2--entity---project--evaluation-runs--evaluation-run-id-)** - Evaluation Run Read
-- **[POST /v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}/finish](https://docs.wandb.ai/weave/reference/service-api/evaluation runs/evaluation-run-finish-v2--entity---project--evaluation-runs--evaluation-run-id--finish)** - Evaluation Run Finish
+- **[DELETE /v2/{entity}/{project}/evaluation_runs](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-delete)** - Evaluation Run Delete
+- **[GET /v2/{entity}/{project}/evaluation_runs](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-list)** - Evaluation Run List
+- **[POST /v2/{entity}/{project}/evaluation_runs](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-create)** - Evaluation Run Create
+- **[GET /v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-read)** - Evaluation Run Read
+- **[POST /v2/{entity}/{project}/evaluation_runs/{evaluation_run_id}/finish](https://docs.wandb.ai/weave/reference/service-api/evaluation-runs/evaluation-run-finish)** - Evaluation Run Finish
 
 ### Predictions
 
@@ -193,8 +193,3 @@ curl -H "Authorization: Bearer YOUR_API_KEY" https://trace.wandb.ai/...
 ### Eval Results
 
 - **[POST /v2/{entity}/{project}/eval_results/query](https://docs.wandb.ai/weave/reference/service-api/eval-results/eval-results-query)** - Eval Results Query
-
-### Completions
-
-- **[POST /completions/create](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create)** - Completions Create
-- **[POST /completions/create_stream](https://docs.wandb.ai/weave/reference/service-api/completions/completions-create-stream)** - Completions Create Stream
