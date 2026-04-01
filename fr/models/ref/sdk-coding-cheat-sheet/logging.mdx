@@ -1,22 +1,38 @@
 ---
 title: Journalisation
-description: Journaliser des métriques, des hyperparamètres, des tableaux et des données personnalisées dans W&B.
+description: Journalisez des métriques, des hyperparamètres, des tableaux et des données personnalisées dans W&B.
 ---
 
-import LogCustomSummaryMetric from '/snippets/fr/_includes/code-examples/log_custom_summary_metric.mdx';
-import LogExistingArtifactLinkCollection from '/snippets/fr/_includes/code-examples/log_existing_artifact_link_collection.mdx';
-import LogHyperparameter from '/snippets/fr/_includes/code-examples/log_hyperparameter.mdx';
-import LogMetric from '/snippets/fr/_includes/code-examples/log_metric.mdx';
-import LogTable from '/snippets/fr/_includes/code-examples/log_table.mdx';
+import LogCsvFiles from '/snippets/en/_includes/code-examples/log_csv_files.mdx';
+import LogCustomSummaryMetric from '/snippets/en/_includes/code-examples/log_custom_summary_metric.mdx';
+import LogCustomSummatyMetric from '/snippets/en/_includes/code-examples/log_custom_summaty_metric.mdx';
+import LogExistingArtifactLinkCollection from '/snippets/en/_includes/code-examples/log_existing_artifact_link_collection.mdx';
+import LogHistogramPlot from '/snippets/en/_includes/code-examples/log_histogram_plot.mdx';
+import LogHyperparameter from '/snippets/en/_includes/code-examples/log_hyperparameter.mdx';
+import LogLinePlot from '/snippets/en/_includes/code-examples/log_line_plot.mdx';
+import LogMetric from '/snippets/en/_includes/code-examples/log_metric.mdx';
+import LogScatterPlot from '/snippets/en/_includes/code-examples/log_scatter_plot.mdx';
+import LogSummaryMetric from '/snippets/en/_includes/code-examples/log_summary_metric.mdx';
+import LogTable from '/snippets/en/_includes/code-examples/log_table.mdx';
 
-Journalisez des métriques, des hyperparamètres, des tableaux et des données personnalisées sur W&amp;B.
+Journalisez des métriques, des hyperparamètres, des tableaux et des données personnalisées dans W&amp;B.
 
 
-<div id="log-a-custom-summary-metric">
-  ## Journaliser une métrique Summary personnalisée
+<div id="log-a-csv-file-to-as-a-table">
+  ## Journaliser un fichier CSV sous forme de tableau
 </div>
 
+<LogCsvFiles />
+
+## Journaliser une métrique Summary personnalisée
+
 <LogCustomSummaryMetric />
+
+<div id="log-a-custom-summary-metric">
+  ## Journaliser une métrique de synthèse personnalisée
+</div>
+
+<LogCustomSummatyMetric />
 
 <div id="download-and-log-an-existing-artifact-from-a-registry-collection">
   ## Télécharger et journaliser un artifact existant à partir d’une collection du registre
@@ -24,17 +40,41 @@ Journalisez des métriques, des hyperparamètres, des tableaux et des données p
 
 <LogExistingArtifactLinkCollection />
 
+<div id="log-a-histogram-plot">
+  ## Journaliser un graphique en histogramme
+</div>
+
+<LogHistogramPlot />
+
 <div id="initialize-a-run-and-log-hyperparameters">
   ## Initialiser un run et journaliser des hyperparamètres
 </div>
 
 <LogHyperparameter />
 
+<div id="log-a-line-plot">
+  ## Journaliser un graphique en courbes
+</div>
+
+<LogLinePlot />
+
 <div id="initialize-a-run-and-log-a-metric">
   ## Initialisez un run et journalisez une métrique
 </div>
 
 <LogMetric />
+
+<div id="log-a-scatter-plot">
+  ## Journaliser un graphique de dispersion
+</div>
+
+<LogScatterPlot />
+
+<div id="explicitly-log-a-summary-metric">
+  ## Journaliser explicitement une métrique de synthèse
+</div>
+
+<LogSummaryMetric />
 
 <div id="log-a-table">
   ## Journaliser un tableau

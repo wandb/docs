@@ -1,0 +1,16 @@
+```python
+"""
+Ajouter un ou plusieurs tags à un run actif.
+
+La propriété `tags` d'un objet run est un tuple. Pour ajouter un nouveau tag à un run existant,
+mettez à jour la propriété `tags` avec un nouveau tuple incluant les tags existants et le(s) nouveau(x) tag(s).
+"""
+
+import wandb
+
+with wandb.init(entity="<entity>", project="<project>", tags=["<tag1>", "<tag2>"]) as run:
+    # Le code d'entraînement et de journalisation va ici
+
+    # Ajouter un nouveau tag aux tags existants en créant un nouveau tuple qui inclut les tags existants et le nouveau tag.
+    run.tags += ("<tag3>",)
+```

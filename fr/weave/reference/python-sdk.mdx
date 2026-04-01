@@ -1,6 +1,6 @@
 ---
 title: "weave"
-description: "Consultez la documentation de référence complète du SDK Python de W&B Weave, avec tous les modules et toutes les classes."
+description: "Référence du SDK Python pour Weave"
 ---
 
 import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
@@ -12,7 +12,7 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/agent/agent.py#L17" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/agent/agent.py#L17" />
 
 ## <kbd>classe</kbd> `Agent`
 
@@ -26,7 +26,7 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 * `system_message`: `<class 'str'>`
 * `tools`: `list[typing.Any]`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L23" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L23" />
 
 ### <kbd>méthode</kbd> `step`
 
@@ -45,7 +45,7 @@ Exécute une étape de l’agent.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/agent/agent.py#L12" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/agent/agent.py#L12" />
 
 
 ## <kbd>classe</kbd> `AgentState`
@@ -59,7 +59,7 @@ Exécute une étape de l’agent.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L12" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L12" />
 
 ## <kbd>classe</kbd> `AnnotationSpec`
 
@@ -71,7 +71,7 @@ Exécute une étape de l’agent.
 * `unique_among_creators`: `<class 'bool'>`
 * `op_scope`: `list[str] | None`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L47" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L47" />
 
 ### <kbd>méthode de classe</kbd> `preprocess_field_schema`
 
@@ -81,7 +81,7 @@ preprocess_field_schema(data: dict[str, Any]) → dict[str, Any]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L92" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L92" />
 
 
 ### <kbd>méthode de classe</kbd> `validate_field_schema`
@@ -92,7 +92,7 @@ validate_field_schema(schema: dict[str, Any]) → dict[str, Any]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L103" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace_server/interface/builtin_object_classes/annotation_spec.py#L103" />
 
 
 ### <kbd>méthode</kbd> `value_is_valid`
@@ -112,7 +112,7 @@ Valide un payload par rapport au schéma de cette spécification d’annotation.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/Audio/audio.py#L81" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_handlers/Audio/audio.py#L81" />
 
 
 ## <kbd>classe</kbd> `Audio`
@@ -137,7 +137,7 @@ Cette classe gère le stockage des données audio et fournit des méthodes pour 
 
 * <b>`ValueError`</b>:  Si les données audio sont vides ou si le format n’est pas pris en charge
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/Audio/audio.py#L106" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_handlers/Audio/audio.py#L106" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -151,7 +151,7 @@ __init__(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/Audio/audio.py#L174" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_handlers/Audio/audio.py#L174" />
 
 
 ### <kbd>méthode</kbd> `export`
@@ -166,7 +166,7 @@ Exporte les données audio vers un fichier.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/Audio/audio.py#L121" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_handlers/Audio/audio.py#L121" />
 
 
 ### <kbd>méthode de classe</kbd> `from_data`
@@ -193,7 +193,7 @@ Crée un objet Audio à partir de données brutes et du format spécifié.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/Audio/audio.py#L146" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_handlers/Audio/audio.py#L146" />
 
 
 ### <kbd>méthode de classe</kbd> `from_path`
@@ -217,7 +217,7 @@ Crée un objet Audio à partir du chemin d’un fichier.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L42" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L42" />
 
 
 ## <kbd>classe</kbd> `Content`
@@ -233,7 +233,7 @@ Cette classe doit être instanciée à l’aide de l’une de ses méthodes de c
 * from&#95;base64()
 * from&#95;data&#95;url()
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L87" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L87" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -265,7 +265,7 @@ L’initialisation directe est désactivée. Veuillez utiliser une méthode de c
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L531" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L543" />
 
 ### <kbd>méthode</kbd> `as_string`
 
@@ -280,7 +280,7 @@ str.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L246" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L258" />
 
 
 ### <kbd>méthode de classe</kbd> `from_base64`
@@ -298,7 +298,7 @@ Initialise Content à partir d’une chaîne ou d’octets encodés en base64.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L156" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L168" />
 
 
 ### <kbd>méthode de classe</kbd> `from_bytes`
@@ -313,11 +313,11 @@ from_bytes(
 ) → Self
 ```
 
-Initialise un objet Content à partir d’octets bruts.
+Initialise Content à partir d’octets bruts.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L345" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L357" />
 
 
 ### <kbd>méthode de classe</kbd> `from_data_url`
@@ -330,7 +330,7 @@ Initialise Content à partir d’une URL de données.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L297" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L309" />
 
 
 ### <kbd>méthode de classe</kbd> `from_path`
@@ -348,7 +348,7 @@ Initialise Content à partir du chemin d’un fichier local.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L197" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L209" />
 
 
 ### <kbd>méthode de classe</kbd> `from_text`
@@ -363,11 +363,11 @@ from_text(
 ) → Self
 ```
 
-Initialise un objet Content à partir d’une chaîne de texte.
+Initialise Content à partir d’une chaîne de texte.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L387" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L399" />
 
 
 ### <kbd>méthode de classe</kbd> `from_url`
@@ -387,7 +387,7 @@ Télécharge le contenu, détermine le type MIME et l’extension à partir des 
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L97" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L97" />
 
 
 ### <kbd>méthode de classe</kbd> `model_validate`
@@ -397,7 +397,10 @@ model_validate(
     obj: 'Any',
     strict: 'bool | None' = None,
     from_attributes: 'bool | None' = None,
-    context: 'dict[str, Any] | None' = None
+    context: 'dict[str, Any] | None' = None,
+    extra: 'str | None' = None,
+    by_alias: 'bool | None' = None,
+    by_name: 'bool | None' = None
 ) → Self
 ```
 
@@ -405,7 +408,7 @@ Redéfinissez model&#95;validate pour prendre en charge la reconstruction de Con
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L139" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L148" />
 
 
 ### <kbd>méthode de classe</kbd> `model_validate_json`
@@ -414,7 +417,10 @@ Redéfinissez model&#95;validate pour prendre en charge la reconstruction de Con
 model_validate_json(
     json_data: 'str | bytes | bytearray',
     strict: 'bool | None' = None,
-    context: 'dict[str, Any] | None' = None
+    context: 'dict[str, Any] | None' = None,
+    extra: 'str | None' = None,
+    by_alias: 'bool | None' = None,
+    by_name: 'bool | None' = None
 ) → Self
 ```
 
@@ -422,7 +428,7 @@ Redéfinissez model&#95;validate&#95;json pour gérer la reconstruction de Conte
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L541" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L553" />
 
 
 ### <kbd>méthode</kbd> `open`
@@ -441,7 +447,7 @@ Cette méthode utilise le mécanisme propre à la plateforme pour ouvrir le fich
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L571" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L583" />
 
 
 ### <kbd>méthode</kbd> `save`
@@ -456,7 +462,7 @@ Copiez le fichier dans le chemin de destination spécifié. Met à jour le nom d
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L523" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L535" />
 
 
 ### <kbd>méthode</kbd> `serialize_data`
@@ -469,7 +475,7 @@ Lors de la sérialisation du modèle en mode JSON
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_wrappers/Content/content.py#L498" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_wrappers/Content/content.py#L510" />
 
 
 ### <kbd>méthode</kbd> `to_data_url`
@@ -489,7 +495,7 @@ Construit une URL de données à partir du contenu.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L26" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L26" />
 
 
 ## <kbd>classe</kbd> `Dataset`
@@ -523,7 +529,7 @@ example_label = dataset_ref.rows[2]['sentence']
 * `ref`: `trace.refs.ObjectRef | None`
 * `rows`: `trace.table.Table | trace.vals.WeaveTable`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L129" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L129" />
 
 
 ### <kbd>méthode</kbd> `add_rows`
@@ -544,7 +550,7 @@ C’est utile pour ajouter des exemples à de grands jeux de données sans avoir
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L173" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L173" />
 
 
 ### <kbd>méthode de classe</kbd> `convert_to_table`
@@ -555,7 +561,7 @@ convert_to_table(rows: Any) → Table | WeaveTable
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L61" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L61" />
 
 
 ### <kbd>méthode de classe</kbd> `from_calls`
@@ -566,7 +572,7 @@ from_calls(calls: Iterable[Call]) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L71" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L71" />
 
 
 ### <kbd>méthode de classe</kbd> `from_hf`
@@ -579,7 +585,7 @@ from_hf(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L52" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L52" />
 
 
 ### <kbd>méthode de classe</kbd> `from_obj`
@@ -590,7 +596,7 @@ from_obj(obj: WeaveObject) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L66" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L66" />
 
 
 ### <kbd>méthode de classe</kbd> `from_pandas`
@@ -601,7 +607,7 @@ from_pandas(df: 'DataFrame') → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L220" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L220" />
 
 
 ### <kbd>méthode</kbd> `select`
@@ -620,7 +626,7 @@ Sélectionnez des lignes du jeu de données à partir des indices fournis.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L115" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L115" />
 
 
 ### <kbd>méthode</kbd> `to_hf`
@@ -631,7 +637,7 @@ to_hf() → HFDataset
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/dataset/dataset.py#L107" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/dataset/dataset.py#L107" />
 
 
 ### <kbd>méthode</kbd> `to_pandas`
@@ -642,12 +648,12 @@ to_pandas() → DataFrame
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L192" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L192" />
 
 
 ## <kbd>classe</kbd> `EasyPrompt`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L200" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L200" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -704,7 +710,7 @@ Regroupe tous les messages en un objet de prompt système.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L230" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L230" />
 
 ### <kbd>méthode</kbd> `append`
 
@@ -714,7 +720,7 @@ append(item: Any, role: str | None = None, dedent: bool = False) → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L484" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L489" />
 
 
 ### <kbd>méthode</kbd> `as_dict`
@@ -725,7 +731,7 @@ as_dict() → dict[str, Any]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L481" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L486" />
 
 
 ### <kbd>méthode</kbd> `as_pydantic_dict`
@@ -736,7 +742,7 @@ as_pydantic_dict() → dict[str, Any]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L321" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L321" />
 
 
 ### <kbd>méthode</kbd> `bind`
@@ -747,7 +753,7 @@ bind(*args: Any, **kwargs: Any) → Prompt
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L341" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L341" />
 
 
 ### <kbd>méthode</kbd> `bind_rows`
@@ -758,7 +764,7 @@ bind_rows(dataset: list[dict] | Any) → list['Prompt']
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L442" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L447" />
 
 
 ### <kbd>méthode</kbd> `config_table`
@@ -769,7 +775,7 @@ config_table(title: str | None = None) → Table
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L411" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L411" />
 
 
 ### <kbd>méthode</kbd> `configure`
@@ -780,7 +786,7 @@ configure(config: dict | None = None, **kwargs: Any) → Prompt
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L522" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L527" />
 
 
 ### <kbd>méthode</kbd> `dump`
@@ -791,7 +797,7 @@ dump(fp: <class 'IO'>) → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L525" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L530" />
 
 
 ### <kbd>méthode</kbd> `dump_file`
@@ -802,7 +808,7 @@ dump_file(filepath: str | Path) → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L84" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L84" />
 
 
 ### <kbd>méthode</kbd> `format`
@@ -813,10 +819,10 @@ format(**kwargs: Any) → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L491" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L496" />
 
 
-### <kbd>classmethod</kbd> `from_obj`
+### <kbd>méthode de classe</kbd> `from_obj`
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -824,10 +830,10 @@ from_obj(obj: WeaveObject) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L506" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L511" />
 
 
-### <kbd>classmethod</kbd> `load`
+### <kbd>méthode de classe</kbd> `load`
 
 ```python
 load(fp: <class 'IO'>) → Self
@@ -835,10 +841,10 @@ load(fp: <class 'IO'>) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L516" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L521" />
 
 
-### <kbd>classmethod</kbd> `load_file`
+### <kbd>méthode de classe</kbd> `load_file`
 
 ```python
 load_file(filepath: str | Path) → Self
@@ -846,7 +852,7 @@ load_file(filepath: str | Path) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L422" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L427" />
 
 
 ### <kbd>méthode</kbd> `messages_table`
@@ -857,7 +863,7 @@ messages_table(title: str | None = None) → Table
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L450" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L455" />
 
 
 ### <kbd>méthode</kbd> `print`
@@ -868,18 +874,22 @@ print() → str
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L417" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L417" />
 
 
 ### <kbd>méthode</kbd> `publish`
 
 ```python
-publish(name: str | None = None) → ObjectRef
+publish(
+    name: str | None = None,
+    tags: list[str] | None = None,
+    aliases: list[str] | None = None
+) → ObjectRef
 ```
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L407" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L407" />
 
 
 ### <kbd>méthode</kbd> `require`
@@ -890,7 +900,7 @@ require(param_name: str, **kwargs: Any) → Prompt
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L535" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L540" />
 
 
 ### <kbd>méthode</kbd> `run`
@@ -901,7 +911,7 @@ run() → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L298" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L298" />
 
 
 ### <kbd>méthode</kbd> `validate_requirement`
@@ -912,7 +922,7 @@ validate_requirement(key: str, value: Any) → list
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L315" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L315" />
 
 
 ### <kbd>méthode</kbd> `validate_requirements`
@@ -923,7 +933,7 @@ validate_requirements(values: dict[str, Any]) → list
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L434" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L439" />
 
 
 ### <kbd>méthode</kbd> `values_table`
@@ -934,7 +944,7 @@ values_table(title: str | None = None) → Table
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval.py#L61" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L61" />
 
 
 ## <kbd>class</kbd> `Evaluation`
@@ -985,13 +995,13 @@ asyncio.run(evaluation.evaluate(function_to_evaluate))
 * `description`: `str | None`
 * `ref`: `trace.refs.ObjectRef | None`
 * `dataset`: `<class 'dataset.dataset.Dataset'>`
-* `scorers`: `list[typing.Annotated[trace.op_protocol.Op | flow.scorer.Scorer, BeforeValidator(func=<function cast_to_scorer at 0x110ab76a0>, json_schema_input_type=PydanticUndefined)]] | None`
+* `scorers`: `list[typing.Annotated[trace.op_protocol.Op | flow.scorer.Scorer, BeforeValidator(func=<function cast_to_scorer at 0x7f97165532e0>, json_schema_input_type=PydanticUndefined)]] | None`
 * `preprocess_model_input`: `collections.abc.Callable[[dict], dict] | None`
 * `trials`: `<class 'int'>`
 * `metadata`: `dict[str, typing.Any] | None`
 * `evaluation_name`: `str | collections.abc.Callable[trace.call.Call, str] | None`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L282" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L295" />
 
 
 ### <kbd>méthode</kbd> `evaluate`
@@ -1002,10 +1012,10 @@ evaluate(model: Op | Model) → dict
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval.py#L119" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L119" />
 
 
-### <kbd>classmethod</kbd> `from_obj`
+### <kbd>méthode de classe</kbd> `from_obj`
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -1013,7 +1023,7 @@ from_obj(obj: WeaveObject) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval.py#L240" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L243" />
 
 
 ### <kbd>méthode</kbd> `get_eval_results`
@@ -1024,7 +1034,7 @@ get_eval_results(model: Op | Model) → EvaluationResults
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval.py#L293" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L306" />
 
 
 ### <kbd>méthode</kbd> `get_evaluate_calls`
@@ -1039,7 +1049,7 @@ Notez que cette méthode renvoie un `CallsIter` plutôt qu’un appel unique, ca
 
 **Retourne :**
 
-* <b>`CallsIter`</b>:  Un itérateur sur des objets Appel représentant des exécutions d’évaluation.
+* <b>`CallsIter`</b>:  Un itérateur sur des objets Appel représentant des Runs d’évaluation.
 
 **Exceptions levées :**
 
@@ -1057,7 +1067,7 @@ for call in calls:
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval.py#L329" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L342" />
 
 
 ### <kbd>méthode</kbd> `get_score_calls`
@@ -1066,11 +1076,11 @@ for call in calls:
 get_score_calls() → dict[str, list[Call]]
 ```
 
-Récupère les appels du scorer pour chaque run d&#39;Évaluation, regroupés par ID de trace.
+Récupère les appels du scorer pour chaque Run d&#39;Évaluation, regroupés par ID de trace.
 
 **Retourne :**
 
-* <b>`dict[str, list[Call]]`</b> :  Un dictionnaire qui associe les ID de trace à des listes d&#39;objets Appel du scorer. Chaque ID de trace représente un run d&#39;Évaluation, et la liste contient tous les appels du scorer exécutés pendant ce run.
+* <b>`dict[str, list[Call]]`</b> :  Un dictionnaire qui associe les ID de trace à des listes d&#39;objets Appel du scorer. Chaque ID de trace représente un Run d&#39;Évaluation, et la liste contient tous les appels du scorer exécutés pendant ce Run.
 
 **Exemples :**
 
@@ -1087,7 +1097,7 @@ for trace_id, calls in score_calls.items():
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval.py#L368" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval.py#L381" />
 
 
 ### <kbd>méthode</kbd> `get_scores`
@@ -1096,14 +1106,14 @@ for trace_id, calls in score_calls.items():
 get_scores() → dict[str, dict[str, list[Any]]]
 ```
 
-Extrait et organise les résultats des scorers à partir des runs d’évaluation.
+Extrait et organise les résultats des scorers à partir des Runs d’évaluation.
 
 **Retourne :**
 
 * <b>`dict[str, dict[str, list[Any]]]`</b>:  Une structure de dictionnaire imbriquée où :
-  * Les clés du premier niveau sont les ID de trace (runs d’évaluation)
+  * Les clés du premier niveau sont les ID de trace (Runs d’évaluation)
   * Les clés du deuxième niveau sont les noms des scorers
-  * Les valeurs sont des listes de résultats de scorer pour ce run et ce scorer
+  * Les valeurs sont des listes de résultats de scorer pour ce Run et ce scorer
 
 **Exemples :**
 
@@ -1131,7 +1141,7 @@ Sortie attendue :
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/pydantic/_internal/_model_construction.py#L160" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/pydantic/_internal/_model_construction.py#L163" />
 
 
 ### <kbd>méthode</kbd> `model_post_init`
@@ -1142,7 +1152,7 @@ model_post_init(_Evaluation__context: Any) → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L177" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L180" />
 
 
 ### <kbd>méthode</kbd> `predict_and_score`
@@ -1153,7 +1163,7 @@ predict_and_score(model: Op | Model, example: dict) → dict
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L217" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L220" />
 
 
 ### <kbd>méthode</kbd> `summarize`
@@ -1164,7 +1174,7 @@ summarize(eval_table: EvaluationResults) → dict
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval_imperative.py#L597" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L604" />
 
 
 ## <kbd>class</kbd> `EvaluationLogger`
@@ -1205,7 +1215,7 @@ with ev.log_prediction(inputs={'q': 'Hello'}) as pred:
 ev.log_summary({"avg_score": 0.9})
 ```
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval_imperative.py#L639" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L646" />
 
 
 ### <kbd>méthode</kbd> `__init__`
@@ -1231,7 +1241,7 @@ __init__(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval_imperative.py#L1019" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L1024" />
 
 ### <kbd>méthode</kbd> `fail`
 
@@ -1243,7 +1253,7 @@ Méthode utilitaire qui fait échouer l’Évaluation en levant une exception.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval_imperative.py#L1003" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L1008" />
 
 
 ### <kbd>méthode</kbd> `finish`
@@ -1258,7 +1268,7 @@ Garantit que tous les appels de prédiction ainsi que l’appel d’évaluation 
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval_imperative.py#L863" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L868" />
 
 
 ### <kbd>méthode</kbd> `log_example`
@@ -1293,7 +1303,7 @@ ev.log_example(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval_imperative.py#L791" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L796" />
 
 
 ### <kbd>méthode</kbd> `log_prediction`
@@ -1323,7 +1333,7 @@ Exemple (gestionnaire de contexte) :
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval_imperative.py#L902" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L907" />
 
 
 ### <kbd>méthode</kbd> `log_summary`
@@ -1338,7 +1348,7 @@ Cela calcule le summary, appelle l’op summarize, puis clôt l’évaluation, c
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/evaluation/eval_imperative.py#L951" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/evaluation/eval_imperative.py#L956" />
 
 
 ### <kbd>méthode</kbd> `set_view`
@@ -1377,14 +1387,14 @@ Enregistre le contenu fourni comme objet dans le projet et inscrit son URI de r�
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/File/file.py#L30" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_handlers/File/file.py#L30" />
 
 
 ## <kbd>class</kbd> `File`
 
 Classe représentant un fichier avec son chemin, son type MIME et sa taille.
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/File/file.py#L34" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_handlers/File/file.py#L34" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -1412,7 +1422,7 @@ Obtient le nom du fichier.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/File/file.py#L60" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_handlers/File/file.py#L60" />
 
 ### <kbd>méthode</kbd> `open`
 
@@ -1430,7 +1440,7 @@ Cette méthode utilise le mécanisme propre à la plateforme pour ouvrir le fich
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/type_handlers/File/file.py#L81" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/type_handlers/File/file.py#L81" />
 
 
 ### <kbd>méthode</kbd> `save`
@@ -1445,7 +1455,7 @@ Copiez le fichier dans le chemin de destination spécifié.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/rich/markdown.py#L512" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/rich/markdown.py#L512" />
 
 
 ## <kbd>class</kbd> `Markdown`
@@ -1465,7 +1475,7 @@ Un objet Markdown affichable.
 
 * <b>`hyperlinks`</b> (bool, facultatif):  Active les liens hypertexte. La valeur par défaut est `True`.
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/rich/markdown.py#L548" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/rich/markdown.py#L548" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -1483,12 +1493,12 @@ __init__(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L164" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L164" />
 
 
 ## <kbd>class</kbd> `MessagesPrompt`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L168" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L168" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -1509,7 +1519,7 @@ __init__(messages: list[dict])
 
 * `messages`: `list[dict]`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L180" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L180" />
 
 
 ### <kbd>méthode</kbd> `format`
@@ -1520,7 +1530,7 @@ format(**kwargs: Any) → list
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L172" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L172" />
 
 
 ### <kbd>méthode</kbd> `format_message`
@@ -1535,10 +1545,10 @@ Cette méthode délègue la logique de mise en forme proprement dite à la fonct
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L183" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L183" />
 
 
-### <kbd>classmethod</kbd> `from_obj`
+### <kbd>méthode de classe</kbd> `from_obj`
 
 ```python
 from_obj(obj: WeaveObject) → Self
@@ -1546,7 +1556,7 @@ from_obj(obj: WeaveObject) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/model.py#L25" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/model.py#L25" />
 
 
 ## <kbd>class</kbd> `Model`
@@ -1575,7 +1585,7 @@ class YourModel(Model):
 * `description`: `str | None`
 * `ref`: `trace.refs.ObjectRef | None`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/model.py#L51" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/model.py#L51" />
 
 
 ### <kbd>méthode</kbd> `get_infer_method`
@@ -1586,7 +1596,7 @@ get_infer_method() → Callable
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/monitor.py#L12" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/monitor.py#L39" />
 
 
 ## <kbd>class</kbd> `Monitor`
@@ -1634,9 +1644,11 @@ my_monitor.activate()
 * `scorers`: `list[flow.scorer.Scorer]`
 * `op_names`: `list[str]`
 * `query`: `trace_server.interface.query.Query | None`
+* `is_traced`: `<class 'bool'>`
 * `active`: `<class 'bool'>`
+* `scorer_debounce_config`: `flow.monitor.ScorerDebounceConfig | None`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/monitor.py#L54" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/monitor.py#L88" />
 
 
 ### <kbd>méthode</kbd> `activate`
@@ -1652,7 +1664,7 @@ Une référence au moniteur.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/monitor.py#L64" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/monitor.py#L98" />
 
 
 ### <kbd>méthode</kbd> `deactivate`
@@ -1668,7 +1680,7 @@ Une référence au moniteur.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/monitor.py#L74" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/monitor.py#L108" />
 
 
 ### <kbd>méthode de classe</kbd> `from_obj`
@@ -1679,7 +1691,7 @@ from_obj(obj: WeaveObject) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/object/obj.py#L75" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/object/obj.py#L21" />
 
 
 ## <kbd>class</kbd> `Object`
@@ -1710,7 +1722,7 @@ obj = Object.from_uri("weave:///entity/project/object:digest")
 * `description`: `str | None`
 * `ref`: `trace.refs.ObjectRef | None`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/object/obj.py#L114" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/object/obj.py#L60" />
 
 
 ### <kbd>méthode de classe</kbd> `from_uri`
@@ -1742,7 +1754,7 @@ obj = MyObject.from_uri("weave:///entity/project/object:digest")
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/object/obj.py#L140" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/object/obj.py#L86" />
 
 
 ### <kbd>méthode de classe</kbd> `handle_relocatable_object`
@@ -1789,14 +1801,14 @@ obj = MyObject(some&#95;weave&#95;object)
 
 ---
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L159" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L162" />
 
 ## <kbd>class</kbd> `ObjectRef`
 ObjectRef(entity: 'str', project: 'str', name: 'str', _digest: 'str | Future[str]', _extra: 'tuple[str | Future[str], ...]' = ()) 
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/../../../../weave/trace/refs/__init__" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/../../../../weave/trace/refs/__init__" />
 
-### <kbd>method</kbd> `__init__`
+### <kbd>méthode</kbd> `__init__`
 
 ```python
 __init__(
@@ -1819,7 +1831,7 @@ __init__(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L167" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L170" />
 
 ### <kbd>méthode</kbd> `as_param_dict`
 
@@ -1829,7 +1841,7 @@ as_param_dict() → dict
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L258" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L262" />
 
 
 ### <kbd>méthode</kbd> `delete`
@@ -1840,7 +1852,7 @@ delete() → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L214" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L218" />
 
 
 ### <kbd>méthode</kbd> `get`
@@ -1851,7 +1863,7 @@ get(objectify: 'bool' = True) → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L242" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L246" />
 
 
 ### <kbd>méthode</kbd> `is_descended_from`
@@ -1862,7 +1874,7 @@ is_descended_from(potential_ancestor: 'ObjectRef') → bool
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L70" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L72" />
 
 
 ### <kbd>méthode</kbd> `maybe_parse_uri`
@@ -1873,7 +1885,7 @@ maybe_parse_uri(s: 'str') → AnyRef | None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L265" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L269" />
 
 
 ### <kbd>méthode</kbd> `parse_uri`
@@ -1884,18 +1896,7 @@ parse_uri(uri: 'str') → ObjectRef
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L208" />
-
-
-### <kbd>méthode</kbd> `uri`
-
-```python
-uri() → str
-```
-
-***
-
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L149" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L152" />
 
 
 ### <kbd>méthode</kbd> `with_attr`
@@ -1906,7 +1907,7 @@ with_attr(attr: 'str') → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L141" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L144" />
 
 
 ### <kbd>méthode</kbd> `with_extra`
@@ -1917,7 +1918,7 @@ with_extra(extra: 'tuple[str | Future[str], ]') → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L152" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L155" />
 
 
 ### <kbd>méthode</kbd> `with_index`
@@ -1928,7 +1929,7 @@ with_index(index: 'int') → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L155" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L158" />
 
 
 ### <kbd>méthode</kbd> `with_item`
@@ -1939,7 +1940,7 @@ with_item(item_digest: 'str | Future[str]') → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/refs.py#L146" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/refs.py#L149" />
 
 
 ### <kbd>méthode</kbd> `with_key`
@@ -1950,7 +1951,7 @@ with_key(key: 'str') → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L83" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L83" />
 
 
 ## <kbd>class</kbd> `Prompt`
@@ -1961,7 +1962,7 @@ with_key(key: 'str') → Self
 * `description`: `str | None`
 * `ref`: `trace.refs.ObjectRef | None`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L84" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L84" />
 
 ### <kbd>méthode</kbd> `format`
 
@@ -1971,14 +1972,14 @@ format(**kwargs: Any) → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L493" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L496" />
 
 
 ## <kbd>class</kbd> `SavedView`
 
 Une classe à l’API fluide permettant de manipuler des objets SavedView.
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L499" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L502" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -2005,7 +2006,7 @@ __init__(view_type: 'str' = 'traces', label: 'str' = 'SavedView') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L623" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L626" />
 
 ### <kbd>méthode</kbd> `add_column`
 
@@ -2015,7 +2016,7 @@ add_column(path: 'str | ObjectPath', label: 'str | None' = None) → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L632" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L635" />
 
 
 ### <kbd>méthode</kbd> `add_columns`
@@ -2028,7 +2029,7 @@ Méthode utilitaire pour ajouter plusieurs colonnes à la grille.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L524" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L527" />
 
 
 ### <kbd>méthode</kbd> `add_filter`
@@ -2043,7 +2044,7 @@ add_filter(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L598" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L601" />
 
 
 ### <kbd>méthode</kbd> `add_sort`
@@ -2054,7 +2055,7 @@ add_sort(field: 'str', direction: 'SortDirection') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L663" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L666" />
 
 
 ### <kbd>méthode</kbd> `column_index`
@@ -2065,7 +2066,7 @@ column_index(path: 'int | str | ObjectPath') → int
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L578" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L581" />
 
 
 ### <kbd>méthode</kbd> `filter_op`
@@ -2076,7 +2077,7 @@ filter_op(op_name: 'str | None') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L848" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L851" />
 
 
 ### <kbd>méthode</kbd> `get_calls`
@@ -2095,7 +2096,7 @@ Obtenir les appels qui correspondent aux filtres et aux paramètres de cette vue
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L906" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L909" />
 
 
 ### <kbd>méthode</kbd> `get_known_columns`
@@ -2108,7 +2109,7 @@ Obtenir l’ensemble des colonnes connues.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L916" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L919" />
 
 
 ### <kbd>méthode</kbd> `get_table_columns`
@@ -2119,7 +2120,7 @@ get_table_columns() → list[TableColumn]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L617" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L620" />
 
 
 ### <kbd>méthode</kbd> `hide_column`
@@ -2130,7 +2131,7 @@ hide_column(col_name: 'str') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L638" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L641" />
 
 
 ### <kbd>méthode</kbd> `insert_column`
@@ -2145,7 +2146,7 @@ insert_column(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L976" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L979" />
 
 
 ### <kbd>méthode de classe</kbd> `load`
@@ -2156,7 +2157,7 @@ load(ref: 'str') → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L741" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L744" />
 
 
 ### <kbd>méthode</kbd> `page_size`
@@ -2167,7 +2168,7 @@ page_size(page_size: 'int') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L711" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L714" />
 
 
 ### <kbd>méthode</kbd> `pin_column_left`
@@ -2178,7 +2179,7 @@ pin_column_left(col_name: 'str') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L721" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L724" />
 
 
 ### <kbd>méthode</kbd> `pin_column_right`
@@ -2189,7 +2190,7 @@ pin_column_right(col_name: 'str') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L683" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L686" />
 
 
 ### <kbd>méthode</kbd> `remove_column`
@@ -2200,7 +2201,7 @@ remove_column(path: 'int | str | ObjectPath') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L702" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L705" />
 
 
 ### <kbd>méthode</kbd> `remove_columns`
@@ -2213,7 +2214,7 @@ Supprime des colonnes de la vue enregistrée.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L547" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L550" />
 
 
 ### <kbd>méthode</kbd> `remove_filter`
@@ -2224,7 +2225,7 @@ remove_filter(index_or_field: 'int | str') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L562" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L565" />
 
 
 ### <kbd>méthode</kbd> `remove_filters`
@@ -2237,7 +2238,7 @@ Supprime tous les filtres de la vue enregistrée.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L520" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L523" />
 
 
 ### <kbd>méthode</kbd> `rename`
@@ -2248,7 +2249,7 @@ rename(label: 'str') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L677" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L680" />
 
 
 ### <kbd>méthode</kbd> `rename_column`
@@ -2259,7 +2260,7 @@ rename_column(path: 'int | str | ObjectPath', label: 'str') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L833" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L836" />
 
 
 ### <kbd>méthode</kbd> `save`
@@ -2272,7 +2273,7 @@ Publier la vue enregistrée sur le serveur.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L657" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L660" />
 
 
 ### <kbd>méthode</kbd> `set_columns`
@@ -2285,7 +2286,7 @@ Définissez les colonnes à afficher dans la grille.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L611" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L614" />
 
 
 ### <kbd>méthode</kbd> `show_column`
@@ -2296,7 +2297,7 @@ show_column(col_name: 'str') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L605" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L608" />
 
 
 ### <kbd>méthode</kbd> `sort_by`
@@ -2307,7 +2308,7 @@ sort_by(field: 'str', direction: 'SortDirection') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L889" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L892" />
 
 
 ### <kbd>méthode</kbd> `to_grid`
@@ -2318,7 +2319,7 @@ to_grid(limit: 'int | None' = None) → Grid
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L770" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L773" />
 
 
 ### <kbd>méthode</kbd> `to_rich_table_str`
@@ -2329,7 +2330,7 @@ to_rich_table_str() → str
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L753" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L756" />
 
 
 ### <kbd>méthode</kbd> `ui_url`
@@ -2344,7 +2345,7 @@ Notez qu’il s’agit de la page de « résultat » avec les traces, etc., et
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/saved_view.py#L731" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/saved_view.py#L734" />
 
 
 ### <kbd>méthode</kbd> `unpin_column`
@@ -2355,7 +2356,7 @@ unpin_column(col_name: 'str') → SavedView
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/scorer.py#L30" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/scorer.py#L30" />
 
 
 ## <kbd>classe</kbd> `Scorer`
@@ -2367,7 +2368,11 @@ unpin_column(col_name: 'str') → SavedView
 * `ref`: `trace.refs.ObjectRef | None`
 * `column_map`: `dict[str, str] | None`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/scorer.py#L48" />
+***
+
+#### <kbd>propriété</kbd> display_name
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/scorer.py#L52" />
 
 ### <kbd>méthode de classe</kbd> `from_obj`
 
@@ -2377,7 +2382,7 @@ from_obj(obj: WeaveObject) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/flow/scorer.py#L36" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/flow/scorer.py#L36" />
 
 
 ### <kbd>méthode</kbd> `model_post_init`
@@ -2388,7 +2393,7 @@ model_post_init(_Scorer__context: Any) → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L40" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L44" />
 
 
 ### <kbd>méthode</kbd> `score`
@@ -2399,7 +2404,7 @@ score(output: Any, **kwargs: Any) → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L44" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L48" />
 
 
 ### <kbd>méthode</kbd> `summarize`
@@ -2410,12 +2415,12 @@ summarize(score_rows: list) → dict | None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L88" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L88" />
 
 
 ## <kbd>classe</kbd> `StringPrompt`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L92" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L92" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -2430,7 +2435,7 @@ __init__(content: str)
 * `ref`: `trace.refs.ObjectRef | None`
 * `content`: `<class 'str'>`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L96" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L96" />
 
 
 ### <kbd>méthode</kbd> `format`
@@ -2441,7 +2446,7 @@ format(**kwargs: Any) → str
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/prompt/prompt.py#L99" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/prompt/prompt.py#L99" />
 
 
 ### <kbd>méthode de classe</kbd> `from_obj`
@@ -2452,12 +2457,12 @@ from_obj(obj: WeaveObject) → Self
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/table.py#L9" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/table.py#L9" />
 
 
 ## <kbd>classe</kbd> `Table`
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/table.py#L12" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/table.py#L12" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -2472,7 +2477,7 @@ __init__(rows: 'list[dict]') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/table.py#L50" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/table.py#L50" />
 
 ### <kbd>méthode</kbd> `append`
 
@@ -2484,7 +2489,7 @@ Ajoutez une ligne au tableau.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/table.py#L56" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/table.py#L56" />
 
 
 ### <kbd>méthode</kbd> `pop`
@@ -2497,7 +2502,7 @@ Supprimez du tableau la ligne située à l’index donné.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L100" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L105" />
 
 
 ## <kbd>classe</kbd> `ContextAwareThread`
@@ -2519,7 +2524,7 @@ thread = threading.Thread(target=run_with_context(your_func, *args, **kwargs))
 thread.start()
 ```
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L124" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L129" />
 
 
 ### <kbd>méthode</kbd> `__init__`
@@ -2565,7 +2570,7 @@ Il s&#39;agit d&#39;un entier non négatif. Voir la fonction get&#95;native&#95;
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L128" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L133" />
 
 ### <kbd>méthode</kbd> `run`
 
@@ -2575,14 +2580,14 @@ run() → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L309" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L438" />
 
 
 ## <kbd>classe</kbd> `ThreadContext`
 
 Objet de contexte donnant accès aux informations sur le thread et le tour en cours.
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L312" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L441" />
 
 ### <kbd>méthode</kbd> `__init__`
 
@@ -2616,13 +2621,13 @@ Le turn&#95;id actuel s’il est défini, sinon None.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L40" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L45" />
 
 ## <kbd>classe</kbd> `ContextAwareThreadPoolExecutor`
 
 Un ThreadPoolExecutor qui exécute des fonctions avec le contexte de l’appelant.
 
-Il s’agit d’un remplacement direct de concurrent.futures.ThreadPoolExecutor qui garantit que les appels Weave se comportent comme prévu au sein de l’exécuteur.  Weave exige que certaines contextvars soient définies (voir call&#95;context.py), mais les nouveaux threads ne copient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d’appel -- ce n’est pas souhaitable !  Cette classe automatise la copie des contextvars, de sorte que l’utilisation de cet exécuteur « fonctionne tout simplement », comme l’utilisateur s’y attend probablement.
+Il s’agit d’un remplacement direct de concurrent.futures.ThreadPoolExecutor qui garantit que les appels Weave se comportent comme prévu au sein de l’exécuteur.  Weave exige que certaines contextvars soient définies (voir call&#95;context.py), mais les nouveaux threads ne copient pas automatiquement le contexte du parent, ce qui peut entraîner la perte du contexte d’appel -- ce n’est pas souhaitable !  Cette classe automatise la copie des contextvars, de sorte que l’utilisation de cet exécuteur &quot;fonctionne tout simplement&quot;, comme l’utilisateur s’y attend probablement.
 
 Vous pouvez obtenir le même effet sans cette classe en écrivant plutôt :
 
@@ -2636,7 +2641,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
      executor.map(_wrapped_fn, vals)
 ```
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L63" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L68" />
 
 
 ### <kbd>méthode</kbd> `__init__`
@@ -2647,7 +2652,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L72" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L77" />
 
 
 ### <kbd>méthode</kbd> `map`
@@ -2663,7 +2668,7 @@ map(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L68" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L73" />
 
 
 ### <kbd>méthode</kbd> `submit`
@@ -2674,7 +2679,22 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1388" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L200" />
+
+
+### <kbd>fonction</kbd> `add_tags`
+
+```python
+add_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
+```
+
+Ajoutez des tags à une version d’objet.
+
+**Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1421" />
 
 
 ### <kbd>fonction</kbd> `as_op`
@@ -2685,9 +2705,12 @@ as_op(fn: 'Callable[P, R]') → Op[P, R]
 
 Étant donnée une fonction décorée avec @weave.op, renvoie son Op.
 
-Les fonctions décorées avec @weave.op sont déjà des instances d’Op. Cette fonction ne devrait donc avoir aucun effet à l’exécution. Vous pouvez toutefois l’utiliser pour satisfaire les vérificateurs de type si vous devez accéder aux attributs d’OpDef de manière sûre au niveau des types.
+Les fonctions décorées avec @weave.op sont déjà des instances d’Op. Cette fonction ne devrait donc avoir aucun effet à l’exécution. Vous pouvez toutefois l’utiliser pour satisfaire les vérificateurs de type si vous devez accéder aux attributs d’OpDef de manière sûre du point de vue du typage.
 
-**Arguments :**
+* <b>`obj_ref`</b>: Référence à la version de l’objet, soit un ObjectRef (renvoyé par weave.publish()), soit une chaîne d’URI weave ///.
+
+* <b>`tags`</b>: Liste des chaînes de tag à ajouter.
+  **Arguments :**
 
 * <b>`fn`</b>: Une fonction décorée avec @weave.op.
   **Retourne :**
@@ -2695,7 +2718,7 @@ Les fonctions décorées avec @weave.op sont déjà des instances d’Op. Cette 
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/../../../../weave/trace/api/attributes#L236" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/../../../../weave/trace/api/attributes#L365" />
 
 
 ### <kbd>fonction</kbd> `attributes`
@@ -2715,7 +2738,7 @@ with weave.attributes({'env': 'production'}):
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L386" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L515" />
 
 
 ### <kbd>fonction</kbd> `finish`
@@ -2730,7 +2753,7 @@ Après l’appel à finish, les appels des fonctions décorées avec `weave.op` 
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L210" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L339" />
 
 
 ### <kbd>fonction</kbd> `get`
@@ -2761,7 +2784,26 @@ dataset2 = weave.get(ref)  # identique à dataset !
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L114" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L262" />
+
+
+### <kbd>fonction</kbd> `get_aliases`
+
+```python
+get_aliases(obj_ref: 'ObjectRef | str') → list[str]
+```
+
+Obtenir les alias d’une version d’objet.
+
+**Arguments :**
+
+* <b>`obj_ref`</b> : Référence de la version de l’objet, sous la forme d’un ObjectRef ou d’une chaîne d’URI weave ///.
+  **Retourne :**
+  Liste de chaînes d’alias.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L114" />
 
 
 ### <kbd>fonction</kbd> `get_client`
@@ -2772,7 +2814,7 @@ get_client() → WeaveClient | None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/context/call_context.py#L118" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/context/call_context.py#L119" />
 
 
 ### <kbd>fonction</kbd> `get_current_call`
@@ -2784,7 +2826,7 @@ get_current_call() → Call | None
 Obtenir l’objet Appel de l’Op en cours d’exécution, au sein de cet Op.
 
 **Retourne :**
-L’objet Appel de l’Op en cours d’exécution, ou None si le tracking n’a pas été initialisé ou si cette méthode est appelée en dehors d’un Op.
+L’objet Appel de l’Op en cours d’exécution, ou None si le suivi n’a pas été initialisé ou si cette méthode est appelée en dehors d’un Op.
 
 **Remarque :**
 
@@ -2792,7 +2834,45 @@ L’objet Appel de l’Op en cours d’exécution, ou None si le tracking n’a 
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L43" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L224" />
+
+
+### <kbd>fonction</kbd> `get_tags`
+
+```python
+get_tags(obj_ref: 'ObjectRef | str') → list[str]
+```
+
+Obtenir les tags d’une version d’objet.
+
+**Arguments :**
+
+* <b>`obj_ref`</b> : Référence à la version de l’objet, soit un `ObjectRef`, soit une chaîne URI `weave:///`.
+  **Retourne :**
+  Liste de chaînes de tags.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L276" />
+
+
+### <kbd>fonction</kbd> `get_tags_and_aliases`
+
+```python
+get_tags_and_aliases(obj_ref: 'ObjectRef | str') → tuple[list[str], list[str]]
+```
+
+Obtenir à la fois les tags et les alias d’une version d’objet en un appel unique.
+
+**Arguments :**
+
+* <b>`obj_ref`</b>: Référence à la version de l’objet, soit un ObjectRef, soit une chaîne d’URI weave ///.
+  **Retourne :**
+  Un tuple (tags, alias). Chacun est une liste de chaînes.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L42" />
 
 
 ### <kbd>fonction</kbd> `init`
@@ -2829,7 +2909,39 @@ REMARQUE : Les paramètres de post-traitement globaux sont appliqués à toutes
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/log_call.py#L18" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L300" />
+
+
+### <kbd>fonction</kbd> `list_aliases`
+
+```python
+list_aliases() → list[str]
+```
+
+Répertoriez tous les alias distincts du projet.
+
+**Retourne :**
+Liste triée de tous les alias du projet.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L290" />
+
+
+### <kbd>fonction</kbd> `list_tags`
+
+```python
+list_tags() → list[str]
+```
+
+Listez tous les tags distincts du projet.
+
+**Retourne :**
+Liste triée de tous les tags du projet, sous forme de chaînes de caractères.
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/log_call.py#L18" />
 
 
 ### <kbd>fonction</kbd> `log_call`
@@ -2918,7 +3030,7 @@ import weave
 
 ---
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1202" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1220" />
 
 ### <kbd>fonction</kbd> `op`
 
@@ -2933,38 +3045,67 @@ op(
     enable_code_capture: 'bool' = True,
     accumulator: 'Callable[[Any | None, Any], Any] | None' = None,
     kind: 'OpKind | None' = None,
-    color: 'OpColor | None' = None
+    color: 'OpColor | None' = None,
+    eager_call_start: 'bool' = False
 ) → Callable[[Callable[P, R]], Op[P, R]] | Op[P, R]
 ````
 
 Un décorateur pour transformer une fonction ou une méthode en op Weave. Compatible avec le synchrone comme avec l’asynchrone. Détecte automatiquement les fonctions itératrices et applique le comportement approprié.
 
+**Arguments :**
+
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L118" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L118" />
 
 
 ### <kbd>fonction</kbd> `publish`
 
 ```python
-publish(obj: 'Any', name: 'str | None' = None) → ObjectRef
+publish(
+    obj: 'Any',
+    name: 'str | None' = None,
+    tags: 'list[str] | None' = None,
+    aliases: 'list[str] | None' = None
+) → ObjectRef
 ```
 
-Enregistrez et créez une version d’un objet Python.
+Enregistrer et versionner un objet Python.
 
-Weave crée une nouvelle version de l’objet si un objet portant ce nom existe déjà et que son empreinte de contenu ne correspond pas à celle de sa dernière version.
+Weave crée une nouvelle version de l’objet si son nom existe déjà et que son hachage de contenu ne correspond pas à la dernière version de cet objet.
 
-**Arguments :**
+* <b>`func`</b> : La fonction à décorer.
 
-* <b>`obj`</b>: L’objet à enregistrer et à versionner.
-* <b>`name`</b>: Le nom sous lequel enregistrer l’objet.
+* <b>`name`</b> : Nom personnalisé de l’op. Par défaut, le nom de la fonction.
+
+* <b>`call_display_name`</b> : Nom d’affichage des appels ; peut être une chaîne ou un callable.
+
+* <b>`postprocess_inputs`</b> : Fonction qui transforme les entrées avant la journalisation.
+
+* <b>`postprocess_output`</b> : Fonction qui transforme la sortie avant la journalisation.
+
+* <b>`tracing_sample_rate`</b> : Fraction des appels à tracer (de 0.0 à 1.0).
+
+* <b>`enable_code_capture`</b> : Indique s’il faut capturer le code source pour cet op.
+
+* <b>`accumulator`</b> : Fonction qui accumule les résultats pour les ops en flux.
+
+* <b>`eager_call_start`</b> : Si True, les démarrages d’appel sont envoyés immédiatement au lieu d’être regroupés par lots. Utile pour les opérations de longue durée, comme les évaluations, qui doivent être visibles immédiatement dans l’interface utilisateur.
+  **Arguments :**
+
+* <b>`obj`</b> : L’objet à enregistrer et à versionner.
+
+* <b>`name`</b> : Le nom sous lequel enregistrer l’objet.
+
+* <b>`tags`</b> : Liste facultative de tags à ajouter à la version publiée de l’objet.
+
+* <b>`aliases`</b> : Liste facultative d’alias à définir sur la version publiée de l’objet.
   **Retourne :**
-  Une référence Weave vers l’objet enregistré.
+  Une Ref Weave vers l’objet enregistré.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L181" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L310" />
 
 ### <kbd>fonction</kbd> `ref`
 
@@ -2982,7 +3123,39 @@ Crée une Ref vers un objet Weave existant. Cela ne récupère pas directement l
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/context/call_context.py#L69" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L250" />
+
+
+### <kbd>fonction</kbd> `remove_aliases`
+
+```python
+remove_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
+```
+
+Supprime un ou plusieurs alias d’un objet.
+
+**Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L212" />
+
+
+### <kbd>fonction</kbd> `remove_tags`
+
+```python
+remove_tags(obj_ref: 'ObjectRef | str', tags: 'list[str]') → None
+```
+
+Supprimez les tags d’une version d’objet.
+
+* <b>`obj_ref`</b> : Référence à l’objet, soit un ObjectRef, soit une chaîne d’URI Weave.
+* <b>`alias`</b> : Un nom d’alias ou une liste de noms d’alias à supprimer.
+  **Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/context/call_context.py#L70" />
 
 
 ### <kbd>fonction</kbd> `require_current_call`
@@ -3005,7 +3178,7 @@ def hello(name: str) -> None:
 
 Il est également possible d’accéder à un Appel une fois que l’op a renvoyé son résultat.
 
-Si vous avez l’ID de l’Appel, par exemple via l’UI, vous pouvez utiliser la méthode `get_call` sur le `WeaveClient` renvoyé par `weave.init` pour récupérer l’objet Appel correspondant.
+Si vous avez l’ID de l’Appel, par exemple via l’interface utilisateur, vous pouvez utiliser la méthode `get_call` sur le `WeaveClient` renvoyé par `weave.init` pour récupérer l’objet Appel correspondant.
 
 ```python
 client = weave.init("<project>")
@@ -3023,16 +3196,32 @@ result, call = add.call(1, 2)
 print(call.id)
 ```
 
-**Retourne :**
-L’objet Appel de l’Op en cours d’exécution
+* <b>`obj_ref`</b>: Référence à la version de l’objet, soit un ObjectRef, soit une chaîne d’URI `weave:///`.
+* <b>`tags`</b>: Liste des tags à supprimer.
+  **Retourne :**
+  L’objet Appel de l’Op en cours d’exécution
 
 **Exceptions levées :**
 
-* <b>`NoCurrentCallError`</b>:  Si tracking n’a pas été initialisé ou si cette méthode est appelée en dehors d’un Op.
+* <b>`NoCurrentCallError`</b>:  Si suivi n’a pas été initialisé ou si cette méthode est appelée en dehors d’un Op.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/api.py#L256" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L238" />
+
+### <kbd>fonction</kbd> `set_aliases`
+
+```python
+set_aliases(obj_ref: 'ObjectRef | str', alias: 'str | list[str]') → None
+```
+
+Définit un ou plusieurs alias pour une version d’objet.
+
+**Arguments :**
+
+***
+
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/api.py#L385" />
 
 
 ### <kbd>fonction</kbd> `set_view`
@@ -3050,13 +3239,21 @@ set_view(
 
 Associez une vue personnalisée au résumé de l’appel en cours dans `_weave.views.<name>`.
 
-**Arguments :**
+* <b>`obj_ref`</b>: Référence à la version de l’objet, soit un `ObjectRef`, soit une chaîne d’URI `weave:///`.
+
+* <b>`alias`</b>: Un nom d’alias ou une liste de noms d’alias à définir (par ex., &quot;production&quot;).
+  **Arguments :**
 
 * <b>`name`</b>: Le nom de la vue (clé dans `summary._weave.views`).
+
 * <b>`content`</b>: Une instance de `weave.Content` ou une chaîne brute. Les chaînes sont encapsulées via `Content.from_text` à l’aide de l’extension ou du type MIME fourni.
+
 * <b>`extension`</b>: Extension de fichier facultative à utiliser lorsque `content` est une chaîne.
+
 * <b>`mimetype`</b>: Type MIME facultatif à utiliser lorsque `content` est une chaîne.
+
 * <b>`metadata`</b>: Métadonnées facultatives à joindre lors de la création de `Content` à partir de texte.
+
 * <b>`encoding`</b>: Encodage de texte à appliquer lors de la création de `Content` à partir de texte.
   **Retourne :**
   None
@@ -3073,14 +3270,14 @@ Associez une vue personnalisée au résumé de l’appel en cours dans `_weave.v
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/../../../../weave/trace/api/thread#L339" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/../../../../weave/trace/api/thread#L468" />
 
 
 ### <kbd>fonction</kbd> `thread`
 
 ```python
 thread(
-    thread_id: 'str | None | object' = <object object at 0x1105c49a0>
+    thread_id: 'str | None | object' = <object object at 0x7f9716a290d0>
 ) → Iterator[ThreadContext]
 ```
 
@@ -3113,7 +3310,7 @@ with weave.thread(None) as t:
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/integrations/wandb/wandb.py#L9" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/integrations/wandb/wandb.py#L9" />
 
 
 ### <kbd>fonction</kbd> `wandb_init_hook`

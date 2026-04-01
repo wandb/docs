@@ -1,0 +1,23 @@
+```python
+"""
+保存済みのrunに1つ以上のタグを追加します。
+
+runが終了した後、またはrunプロセスの外で作業している場合に、
+Public APIを使用して保存済みデータのタグを更新します。
+
+runに新しいタグを追加するには、既存のタグと新しいタグを含む
+新しいリストで "tags" プロパティを更新してください。
+runのパスはentity/project/run_idで構成されます。
+タグを更新した後、runの `update()` methodを呼び出して変更を保存してください。
+"""
+import wandb
+
+entity = "<entity>"
+project = "<project>"
+run_id = "<run-id>"  # 更新したいrunのIDに置き換えてください
+
+# パスはentity/project/run_idで構成されます
+with wandb.Api().run(f"{entity}/{project}/{run_id}") as run:
+  run.tags.append("<tag>")
+  run.update()
+```

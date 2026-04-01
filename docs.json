@@ -2045,6 +2045,7 @@
                       "fr/weave/guides/evaluation/builtin_scorers",
                       "fr/weave/guides/evaluation/weave_local_scorers",
                       "fr/weave/guides/evaluation/evaluation_logger",
+                      "fr/weave/guides/evaluation/export_eval",
                       "fr/weave/guides/core-types/leaderboards",
                       "fr/weave/guides/tools/column-mapping",
                       "fr/weave/guides/evaluation/dynamic_leaderboards"
@@ -2252,14 +2253,18 @@
                       {
                         "group": "Fonctions",
                         "pages": [
+                          "fr/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "fr/weave/reference/typescript-sdk/functions/init",
+                          "fr/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "fr/weave/reference/typescript-sdk/functions/login",
                           "fr/weave/reference/typescript-sdk/functions/op",
+                          "fr/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "fr/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "fr/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "fr/weave/reference/typescript-sdk/functions/weaveaudio",
                           "fr/weave/reference/typescript-sdk/functions/weaveimage",
                           "fr/weave/reference/typescript-sdk/functions/withattributes",
+                          "fr/weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "fr/weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
@@ -2284,7 +2289,7 @@
                   {
                     "group": "API de service",
                     "openapi": {
-                      "source": "fr/weave/reference/service-api/openapi.json",
+                      "source": "weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     },
                     "pages": [
@@ -2367,7 +2372,7 @@
               },
               {
                 "group": "Référence de l’API",
-                "openapi": "fr/training/api-reference/openapi.json",
+                "openapi": "training/api-reference/openapi.json",
                 "pages": [
                   "fr/training/api-reference"
                 ]
@@ -3274,6 +3279,7 @@
                       "ja/weave/guides/evaluation/builtin_scorers",
                       "ja/weave/guides/evaluation/weave_local_scorers",
                       "ja/weave/guides/evaluation/evaluation_logger",
+                      "ja/weave/guides/evaluation/export_eval",
                       "ja/weave/guides/core-types/leaderboards",
                       "ja/weave/guides/tools/column-mapping",
                       "ja/weave/guides/evaluation/dynamic_leaderboards"
@@ -3481,14 +3487,18 @@
                       {
                         "group": "Functions",
                         "pages": [
+                          "ja/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "ja/weave/reference/typescript-sdk/functions/init",
+                          "ja/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ja/weave/reference/typescript-sdk/functions/login",
                           "ja/weave/reference/typescript-sdk/functions/op",
+                          "ja/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "ja/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "ja/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "ja/weave/reference/typescript-sdk/functions/weaveaudio",
                           "ja/weave/reference/typescript-sdk/functions/weaveimage",
                           "ja/weave/reference/typescript-sdk/functions/withattributes",
+                          "ja/weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "ja/weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
@@ -3513,7 +3523,7 @@
                   {
                     "group": "Service API",
                     "openapi": {
-                      "source": "ja/weave/reference/service-api/openapi.json",
+                      "source": "weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     },
                     "pages": [
@@ -3596,7 +3606,7 @@
               },
               {
                 "group": "API Reference",
-                "openapi": "ja/training/api-reference/openapi.json",
+                "openapi": "training/api-reference/openapi.json",
                 "pages": [
                   "ja/training/api-reference"
                 ]
@@ -4503,6 +4513,7 @@
                       "ko/weave/guides/evaluation/builtin_scorers",
                       "ko/weave/guides/evaluation/weave_local_scorers",
                       "ko/weave/guides/evaluation/evaluation_logger",
+                      "ko/weave/guides/evaluation/export_eval",
                       "ko/weave/guides/core-types/leaderboards",
                       "ko/weave/guides/tools/column-mapping",
                       "ko/weave/guides/evaluation/dynamic_leaderboards"
@@ -4710,14 +4721,18 @@
                       {
                         "group": "Functions",
                         "pages": [
+                          "ko/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "ko/weave/reference/typescript-sdk/functions/init",
+                          "ko/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ko/weave/reference/typescript-sdk/functions/login",
                           "ko/weave/reference/typescript-sdk/functions/op",
+                          "ko/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "ko/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "ko/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "ko/weave/reference/typescript-sdk/functions/weaveaudio",
                           "ko/weave/reference/typescript-sdk/functions/weaveimage",
                           "ko/weave/reference/typescript-sdk/functions/withattributes",
+                          "ko/weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "ko/weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
@@ -4742,7 +4757,7 @@
                   {
                     "group": "Service API",
                     "openapi": {
-                      "source": "ko/weave/reference/service-api/openapi.json",
+                      "source": "weave/reference/service-api/openapi.json",
                       "directory": "weave/reference/service-api"
                     },
                     "pages": [
@@ -4825,7 +4840,7 @@
               },
               {
                 "group": "API Reference",
-                "openapi": "ko/training/api-reference/openapi.json",
+                "openapi": "training/api-reference/openapi.json",
                 "pages": [
                   "ko/training/api-reference"
                 ]

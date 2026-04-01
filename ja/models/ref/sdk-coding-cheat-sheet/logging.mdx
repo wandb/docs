@@ -1,16 +1,27 @@
 ---
-title: ロギング
+title: ログ記録
 description: メトリクス、ハイパーパラメーター、表、カスタムデータを W&B にログします。
 ---
 
-import LogCustomSummaryMetric from '/snippets/ja/_includes/code-examples/log_custom_summary_metric.mdx';
-import LogExistingArtifactLinkCollection from '/snippets/ja/_includes/code-examples/log_existing_artifact_link_collection.mdx';
-import LogHyperparameter from '/snippets/ja/_includes/code-examples/log_hyperparameter.mdx';
-import LogMetric from '/snippets/ja/_includes/code-examples/log_metric.mdx';
-import LogTable from '/snippets/ja/_includes/code-examples/log_table.mdx';
+import LogCsvFiles from '/snippets/en/_includes/code-examples/log_csv_files.mdx';
+import LogCustomSummaryMetric from '/snippets/en/_includes/code-examples/log_custom_summary_metric.mdx';
+import LogCustomSummatyMetric from '/snippets/en/_includes/code-examples/log_custom_summaty_metric.mdx';
+import LogExistingArtifactLinkCollection from '/snippets/en/_includes/code-examples/log_existing_artifact_link_collection.mdx';
+import LogHistogramPlot from '/snippets/en/_includes/code-examples/log_histogram_plot.mdx';
+import LogHyperparameter from '/snippets/en/_includes/code-examples/log_hyperparameter.mdx';
+import LogLinePlot from '/snippets/en/_includes/code-examples/log_line_plot.mdx';
+import LogMetric from '/snippets/en/_includes/code-examples/log_metric.mdx';
+import LogScatterPlot from '/snippets/en/_includes/code-examples/log_scatter_plot.mdx';
+import LogSummaryMetric from '/snippets/en/_includes/code-examples/log_summary_metric.mdx';
+import LogTable from '/snippets/en/_includes/code-examples/log_table.mdx';
 
 メトリクス、ハイパーパラメーター、表、カスタムデータをW&amp;Bにログします。
 
+<div id="log-a-csv-file-to-as-a-table">
+  ## CSVファイルを表としてログする
+</div>
+
+<LogCsvFiles />
 
 <div id="log-a-custom-summary-metric">
   ## カスタム Summary メトリクスをログする
@@ -18,11 +29,23 @@ import LogTable from '/snippets/ja/_includes/code-examples/log_table.mdx';
 
 <LogCustomSummaryMetric />
 
+<div id="log-a-custom-summary-metric">
+  ## カスタム Summary メトリクスをログする
+</div>
+
+<LogCustomSummatyMetric />
+
 <div id="download-and-log-an-existing-artifact-from-a-registry-collection">
   ## レジストリコレクションから既存のartifactをダウンロードしてログする
 </div>
 
 <LogExistingArtifactLinkCollection />
+
+<div id="log-a-histogram-plot">
+  ## ヒストグラムプロットをログする
+</div>
+
+<LogHistogramPlot />
 
 <div id="initialize-a-run-and-log-hyperparameters">
   ## runを初期化し、ハイパーパラメーターをログする
@@ -30,11 +53,29 @@ import LogTable from '/snippets/ja/_includes/code-examples/log_table.mdx';
 
 <LogHyperparameter />
 
+<div id="log-a-line-plot">
+  ## 折れ線グラフをログする
+</div>
+
+<LogLinePlot />
+
 <div id="initialize-a-run-and-log-a-metric">
   ## run を初期化し、メトリクスをログする
 </div>
 
 <LogMetric />
+
+<div id="log-a-scatter-plot">
+  ## 散布図をログする
+</div>
+
+<LogScatterPlot />
+
+<div id="explicitly-log-a-summary-metric">
+  ## summary メトリクスを明示的にログする
+</div>
+
+<LogSummaryMetric />
 
 <div id="log-a-table">
   ## 表をログする

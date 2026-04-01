@@ -1,0 +1,44 @@
+---
+title: "patchRealtimeSession"
+description: "Référence du SDK TypeScript"
+---
+
+<div id="patchrealtimesession">
+  # patchRealtimeSession
+</div>
+
+▸ **patchRealtimeSession**(): `void`
+
+Appliquez manuellement un correctif à la classe `RealtimeSession` de `@openai/agents-realtime` afin que
+chaque nouvelle instance soit automatiquement tracée par Weave.
+
+**Remarque : vous n’avez généralement pas besoin d’appeler cette fonction !** `@openai/agents-realtime` est
+automatiquement instrumenté via des hooks du chargeur de modules lorsque vous importez Weave. Cette fonction
+est fournie pour les cas limites où l’instrumentation automatique ne fonctionne pas (par ex. importations
+dynamiques, bundlers qui contournent les hooks).
+
+Appelez cette fonction **une seule fois** au démarrage de l’application, avant qu’une `RealtimeSession` ne soit créée.
+La fonction est idempotente : vous pouvez l’appeler en toute sécurité à plusieurs reprises.
+
+<div id="returns">
+  #### Renvoie
+</div>
+
+`void`
+
+`Exemple`
+
+```typescript
+import { patchRealtimeSession } from 'weave';
+patchRealtimeSession();
+// Chaque nouvelle RealtimeSession(...) est désormais instrumentée automatiquement
+```
+
+
+<div id="defined-in">
+  #### Défini dans
+</div>
+
+[integrations/openai.realtime.agent.ts:797](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.realtime.agent.ts#L797)
+
+***
