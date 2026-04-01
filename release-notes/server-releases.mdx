@@ -12,6 +12,13 @@ This page includes release notes for supported releases of W&B Server.
 
 <EolReminder/>
 
+<Update label="v0.79.1" description="April 1, 2026">
+## Fixes
+
+- fixed a bug where new runs, especially on new projects, would result in a 404 `run not found` error.
+- Fixed a bug that could prevent querying audit logs for a deployment that had more than 1000 days of audit logs.
+</Update>
+
 <Update label="v0.79.0" description="March 24, 2026">
 
 W&B Server 0.79.0 adds zooming and panning for images, improved management of service accounts and API keys, and performance improvements. Inference adds models MiniMax M2.5 and MiniMaxAI M2.5. Weave monitors now support scoring all operations, and the Weave UI adds enhanced management of prompt tags and aliases, chat view for Claude agents, filtering by emoji feedback reactions or note contents, and more.
