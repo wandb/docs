@@ -107,6 +107,12 @@ a.molab-link:hover {
   opacity: 0.85;
 }
 
+/* Cookbook molab block: h2 for "Try in marimo" + badge (see MolabLink embed) */
+.cookbook-molab-heading {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
 /* "New" badge next to cookbook h2: raised like superscript */
 .cookbook-try-badge {
   display: inline-block;
