@@ -1,22 +1,22 @@
----
-title: 로그 테이블
----
-
 ```python
 """
-W&B에 테이블을 기록합니다.
+Log a table to W&B.
+
+Replace: 
+- values enclosed in angle brackets with your own
+- [[1, 2], [2, 3]] in wandb.Table(data=) with your own 2D row-oriented array of values to log
 """
 import wandb
 
-# 두 개의 열과 두 행의 데이터로 테이블 객체를 생성합니다
+# 두 개의 column과 두 행의 데이터로 table 객체 생성
 my_table = wandb.Table(
-    columns=["a", "b"],
-    data=[["a1", "b1"], ["a2", "b2"]],
+    columns=["<a_column>", "<b_column>"],
+    data=[[1, 2], [2, 3]],
     log_mode="<log_mode>"
     )
 
-# 새 run을 시작합니다
-with wandb.init(project="<project>") as run:
-    # W&B에 테이블을 기록합니다
+# 새 run 시작
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # W&B에 table log
     run.log({"<table_name>": my_table})
 ```

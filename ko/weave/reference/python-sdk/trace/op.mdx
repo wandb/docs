@@ -12,19 +12,19 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L80" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L85" />
 
 ## <kbd>클래스</kbd> `DisplayNameFuncError`
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L83" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L88" />
 
 ## <kbd>클래스</kbd> `OpCallError`
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L188" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L204" />
 
 ## <kbd>클래스</kbd> `OpKwargs`
 
@@ -32,13 +32,13 @@ op()의 키워드 인수를 위한 TypedDict.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L93" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L109" />
 
 ## <kbd>클래스</kbd> `Sentinel`
 
 Sentinel(package: &#39;str&#39;, path: &#39;str&#39;, name: &#39;str&#39;)
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/../../../../weave/trace/op/__init__" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/../../../../weave/trace/op/__init__" />
 
 ### <kbd>방법</kbd> `__init__`
 
@@ -48,14 +48,14 @@ __init__(package: 'str', path: 'str', name: 'str') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L182" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L198" />
 
 
 ## <kbd>클래스</kbd> `WeaveKwargs`
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1388" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1421" />
 
 ### <kbd>함수</kbd> `as_op`
 
@@ -67,7 +67,7 @@ as_op(fn: 'Callable[P, R]') → Op[P, R]
 
 `@weave.op`로 데코레이트된 함수는 이미 Op 인스턴스이므로, 이 함수는 런타임에서 사실상 no-op입니다. 하지만 OpDef 속성에 타입 안전하게 접근해야 할 때 타입 검사기를 만족시키는 용도로 사용할 수 있습니다.
 
-**매개변수:**
+**인수:**
 
 * <b>`fn`</b>: `weave.op`로 데코레이트된 함수입니다.
   **반환값:**
@@ -75,7 +75,7 @@ as_op(fn: 'Callable[P, R]') → Op[P, R]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1132" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1150" />
 
 
 ### <kbd>함수</kbd> `call`
@@ -107,7 +107,7 @@ result, call = add.call(1, 2)
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1178" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1196" />
 
 
 ### <kbd>함수</kbd> `calls`
@@ -132,7 +132,7 @@ for call in calls:
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1334" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1367" />
 
 
 ### <kbd>함수</kbd> `get_captured_code`
@@ -149,7 +149,7 @@ ref = weave.publish(func) op = ref.get() captured&#95;code = op.get&#95;captured
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1380" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1413" />
 
 
 ### <kbd>함수</kbd> `is_op`
@@ -162,7 +162,7 @@ is_op(obj: 'Any') → TypeIs[Op]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L406" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L423" />
 
 
 ### <kbd>함수</kbd> `is_placeholder_call`
@@ -173,7 +173,7 @@ is_placeholder_call(call: 'Call') → TypeIs[NoOpCall]
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L374" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L391" />
 
 
 ### <kbd>함수</kbd> `is_tracing_setting_disabled`
@@ -184,7 +184,7 @@ is_tracing_setting_disabled() → bool
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1351" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1384" />
 
 
 ### <kbd>함수</kbd> `maybe_bind_method`
@@ -199,7 +199,7 @@ self가 None이면 함수를 그대로 반환합니다.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1363" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1396" />
 
 
 ### <kbd>함수</kbd> `maybe_unbind_method`
@@ -217,7 +217,7 @@ Op와 유사한 메서드 또는 partial의 바인딩을 해제해 일반 Op 함
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L1202" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L1220" />
 
 
 ### <kbd>함수</kbd> `op`
@@ -233,15 +233,18 @@ op(
     enable_code_capture: 'bool' = True,
     accumulator: 'Callable[[Any | None, Any], Any] | None' = None,
     kind: 'OpKind | None' = None,
-    color: 'OpColor | None' = None
+    color: 'OpColor | None' = None,
+    eager_call_start: 'bool' = False
 ) → Callable[[Callable[P, R]], Op[P, R]] | Op[P, R]
 ```
 
 함수나 메서드를 weave op로 변환하는 데코레이터입니다. 동기와 비동기 모두 지원합니다. 이터레이터 함수를 자동으로 감지해 적절한 동작을 적용합니다.
 
+**인수:**
+
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L399" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L416" />
 
 
 ### <kbd>함수</kbd> `placeholder_call`
@@ -252,7 +255,7 @@ placeholder_call() → Call
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L202" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L219" />
 
 
 ### <kbd>함수</kbd> `setup_dunder_weave_dict`
@@ -263,16 +266,34 @@ setup_dunder_weave_dict(op: 'Op', d: 'WeaveKwargs | None' = None) → WeaveKwarg
 
 ops에 WeaveKwargs를 전달하는 데 사용하는 &#95;&#95;weave dict를 설정합니다.
 
-**매개변수:**
+* <b>`func`</b>: 데코레이트할 함수.
+
+* <b>`name`</b>: op의 맞춤형 이름입니다. 기본값은 함수 이름입니다.
+
+* <b>`call_display_name`</b>: Call의 표시 이름이며, 문자열 또는 callable일 수 있습니다.
+
+* <b>`postprocess_inputs`</b>: 로깅 전에 입력값을 변환하는 함수.
+
+* <b>`postprocess_output`</b>: 로깅 전에 출력을 변환하는 함수.
+
+* <b>`tracing_sample_rate`</b>: 트레이스할 Call의 비율입니다(0.0~1.0).
+
+* <b>`enable_code_capture`</b>: 이 op의 소스 코드를 캡처할지 여부입니다.
+
+* <b>`accumulator`</b>: 스트리밍 op의 결과를 누적하는 함수.
+
+* <b>`eager_call_start`</b>: True이면 call 시작이 배치 처리되지 않고 즉시 전송됩니다. evaluations와 같은 장시간 실행 오퍼레이션이 즉시 UI에 표시되어야 할 때 유용합니다.
+  **인수:**
 
 * <b>`d`</b>: 업데이트할 기존 WeaveKwargs dict(선택 사항).
+
 * <b>`op`</b>: kind와 color를 추출할 Op.
   **반환값:**
   attributes와 display&#95;name이 포함되고, 필요에 따라 kind/color도 설정된 WeaveKwargs dict입니다.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/op.py#L385" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/op.py#L402" />
 
 
 ### <kbd>함수</kbd> `should_skip_tracing_for_op`

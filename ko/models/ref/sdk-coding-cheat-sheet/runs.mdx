@@ -1,13 +1,20 @@
 ---
 title: Runs
-description: 실험을 정리하고 작업을 추적할 수 있도록 W&B run을 초기화하고 관리합니다.
+description: 실험을 체계적으로 정리하고 작업 내역을 추적할 수 있도록 W&B Runs를 초기화하고 관리하세요.
 ---
 
 import ExperimentsCreate from '/snippets/ko/_includes/code-examples/experiments_create.mdx';
 import RunFork from '/snippets/ko/_includes/code-examples/run_fork.mdx';
 import RunInit from '/snippets/ko/_includes/code-examples/run_init.mdx';
+import RunResume from '/snippets/ko/_includes/code-examples/run_resume.mdx';
+import RunRewind from '/snippets/ko/_includes/code-examples/run_rewind.mdx';
+import RunsAddTags from '/snippets/ko/_includes/code-examples/runs_add_tags.mdx';
+import RunsGroup from '/snippets/ko/_includes/code-examples/runs_group.mdx';
+import RunsOrganizeByType from '/snippets/ko/_includes/code-examples/runs_organize_by_type.mdx';
+import RunsUpdateTag from '/snippets/ko/_includes/code-examples/runs_update_tag.mdx';
+import RunsUpdateTagPublicApi from '/snippets/ko/_includes/code-examples/runs_update_tag_public_api.mdx';
 
-실험을 체계적으로 정리하고 작업을 추적할 수 있도록 W&amp;B run을 초기화하고 관리하세요.
+실험을 체계적으로 관리하고 작업을 추적하려면 W&amp;B Runs를 초기화하고 관리하세요.
 
 
 <div id="create-an-experiment">
@@ -27,3 +34,45 @@ import RunInit from '/snippets/ko/_includes/code-examples/run_init.mdx';
 </div>
 
 <RunInit />
+
+<div id="set-resume-behaviour-for-a-run-if-it-is-paused-stops-or-fails">
+  ## run이 일시 중지되거나 중단되거나 실패한 경우 재개 동작 설정
+</div>
+
+<RunResume />
+
+<div id="rewind-a-run-to-modify-the-history-of-a-run">
+  ## run을 Rewind해 run 이력 수정하기
+</div>
+
+<RunRewind />
+
+<div id="add-one-or-more-tags-to-a-run">
+  ## run에 태그를 하나 이상 추가하기
+</div>
+
+<RunsAddTags />
+
+<div id="add-one-or-more-runs-to-a-group">
+  ## 그룹에 하나 이상의 Runs 추가
+</div>
+
+<RunsGroup />
+
+<div id="organize-runs-by-their-job-type">
+  ## run을 작업 유형별로 정리하기
+</div>
+
+<RunsOrganizeByType />
+
+<div id="add-one-or-more-tags-to-an-active-run">
+  ## 활성 run에 태그 하나 이상 추가하기
+</div>
+
+<RunsUpdateTag />
+
+<div id="add-one-or-more-tags-to-previously-saved-runs">
+  ## 이전에 저장한 Runs에 하나 이상의 태그 추가하기
+</div>
+
+<RunsUpdateTagPublicApi />

@@ -12,13 +12,13 @@ import { SourceLink } from '/snippets/ko/_includes/source-link.mdx';
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L100" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L105" />
 
 ## <kbd>class</kbd> `ContextAwareThread`
 
 호출자의 컨텍스트에서 함수를 실행하는 스레드입니다.
 
-이것은 `threading.Thread`를 바로 대체해 사용할 수 있는 구현으로, 스레드 내부에서 call이 예상대로 동작하도록 보장합니다. Weave는 특정 contextvars가 설정되어 있어야 하지만(`call&#95;context.py` 참조), 새 스레드는 부모의 컨텍스트를 자동으로 복사하지 않기 때문에 call 컨텍스트가 사라질 수 있습니다 -- 이는 바람직하지 않습니다! 이 클래스는 contextvar 복사를 자동화하므로, 이 스레드를 사용하면 사용자가 기대하는 대로 &quot;그냥 동작합니다&quot;.
+이것은 `threading.Thread`를 드롭인 대체 구현으로, 스레드 내부에서 call이 예상대로 동작하도록 보장합니다. Weave는 특정 contextvars가 설정되어 있어야 하지만(`call&#95;context.py` 참조), 새 스레드는 부모의 컨텍스트를 자동으로 복사하지 않기 때문에 call 컨텍스트가 사라질 수 있습니다 -- 이는 바람직하지 않습니다! 이 클래스는 contextvar 복사를 자동화하므로, 이 스레드를 사용하면 사용자가 기대하는 대로 &quot;그냥 동작합니다&quot;.
 
 이 클래스 없이도 대신 다음과 같이 작성하면 같은 효과를 얻을 수 있습니다:
 
@@ -33,8 +33,7 @@ thread = threading.Thread(target=run_with_context(your_func, *args, **kwargs))
 thread.start()
 ```
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L124" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L129" />
 
 ### <kbd>방법</kbd> `__init__`
 
@@ -79,7 +78,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L128" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L133" />
 
 ### <kbd>방법</kbd> `run`
 
@@ -89,7 +88,7 @@ run() → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L40" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L45" />
 
 
 ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
@@ -110,7 +109,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
      executor.map(_wrapped_fn, vals)
 ```
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L63" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L68" />
 
 
 ### <kbd>방법</kbd> `__init__`
@@ -121,7 +120,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L72" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L77" />
 
 
 ### <kbd>방법</kbd> `map`
@@ -137,7 +136,7 @@ map(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L68" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L73" />
 
 
 ### <kbd>방법</kbd> `submit`
@@ -148,20 +147,20 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L159" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L164" />
 
 
 ### <kbd>함수</kbd> `deprecated`
 
 ```python
-deprecated(new_name: 'str') → Callable[[Callable[, Any]], Callable[, Any]]
+deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
 ```
 
 함수를 사용 중단된 것으로 표시하고 사용자를 `new_name`으로 리디렉션하는 데코레이터입니다.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L132" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L137" />
 
 
 ### <kbd>함수</kbd> `is_colab`
@@ -172,7 +171,7 @@ is_colab()
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L141" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L146" />
 
 
 ### <kbd>함수</kbd> `is_notebook`
@@ -183,7 +182,7 @@ is_notebook() → bool
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L16" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L21" />
 
 
 ### <kbd>함수</kbd> `log_once`

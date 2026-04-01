@@ -414,6 +414,29 @@
         ]
       }
     },
+    "/inference/analysis/artificialanalysis/models": {
+      "get": {
+        "tags": [
+          "Inference"
+        ],
+        "summary": "Inference Analysis Artificialanalysis Models",
+        "description": "Artificial Analysis で利用可能なモデルの一覧を返します。\n\nこの API は認証なしで利用できます。",
+        "operationId": "inference_analysis_artificialanalysis_models_inference_analysis_artificialanalysis_models_get",
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouterOpenRouterModelsRes"
+                }
+              }
+            }
+          }
+        },
+        "x-exclude": true
+      }
+    },
     "/inference/router/openrouter/models": {
       "get": {
         "tags": [
@@ -433,17 +456,18 @@
               }
             }
           }
-        }
+        },
+        "x-exclude": true
       }
     },
-    "/inference/v1{path}": {
+    "/inference/nvidia/v2/hardware": {
       "get": {
         "tags": [
           "Inference"
         ],
-        "summary": "推論の取得",
-        "description": "OpenAI互換 API。",
-        "operationId": "inference_get_inference_v1_path__get",
+        "summary": "NVIDIA ハードウェア",
+        "description": "指定したモデルで利用可能なハードウェアと料金を返します。\n\nこの API は NVIDIA によって呼び出され、ユーザーに利用可能な選択肢を表示し、\n当社でサポートしている内容に基づいてリダイレクトします。返されるのはサーバーレスのオプションのみです。",
+        "operationId": "nvidia_hardware_inference_nvidia_v2_hardware_get",
         "security": [
           {
             "HTTPBearer": []
@@ -451,21 +475,25 @@
         ],
         "parameters": [
           {
-            "name": "path",
-            "in": "path",
+            "name": "model",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Path"
-            }
+              "description": "パブリッシャープレフィックスを含まないモデル名",
+              "title": "Model"
+            },
+            "description": "パブリッシャープレフィックスを含まないモデル名"
           }
         ],
         "responses": {
           "200": {
-            "description": "成功レスポンス",
+            "description": "正常なレスポンス",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/NvidiaHardwareRes"
+                }
               }
             }
           },
@@ -476,64 +504,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Inference"
-        ],
-        "summary": "推論のPOST",
-        "description": "OpenAI互換 API。",
-        "operationId": "inference_post_inference_v1_path__post",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CompletionsCreateRequestInputs"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "成功レスポンス",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "検証エラー",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
+        "x-exclude": true
       }
     },
     "/calls/query_stats": {
@@ -914,6 +889,352 @@
             "HTTPBasic": []
           }
         ]
+      }
+    },
+    "/objs/{object_id}/versions/{digest}/tags": {
+      "put": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "オブジェクトにタグを追加",
+        "description": "オブジェクトバージョンにタグを追加します。",
+        "operationId": "obj_add_tags_objs__object_id__versions__digest__tags_put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          },
+          {
+            "name": "digest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Digest"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjTagsBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjAddTagsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objs/{object_id}/versions/{digest}/tags/remove": {
+      "post": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "オブジェクトからタグを削除",
+        "description": "オブジェクトバージョンからタグを削除します。",
+        "operationId": "obj_remove_tags_objs__object_id__versions__digest__tags_remove_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          },
+          {
+            "name": "digest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Digest"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjTagsBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjRemoveTagsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objs/{object_id}/aliases": {
+      "put": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "オブジェクトのエイリアスを設定",
+        "description": "オブジェクトバージョンのエイリアスを設定します。",
+        "operationId": "obj_set_aliases_objs__object_id__aliases_put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjSetAliasesBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjSetAliasesRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objs/{object_id}/aliases/remove": {
+      "post": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "オブジェクトからエイリアスを削除",
+        "description": "オブジェクトからエイリアスを削除します。",
+        "operationId": "obj_remove_aliases_objs__object_id__aliases_remove_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjRemoveAliasesBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjRemoveAliasesRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags": {
+      "get": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "タグ一覧",
+        "description": "プロジェクト内のすべてのタグを一覧表示します。",
+        "operationId": "tags_list_tags_get",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagsListRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/aliases": {
+      "get": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "エイリアス一覧",
+        "description": "プロジェクト内のすべてのエイリアスを一覧表示します。",
+        "operationId": "aliases_list_aliases_get",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AliasesListRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/table/create": {
@@ -1746,6 +2067,150 @@
         ]
       }
     },
+    "/feedback/stats": {
+      "post": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "フィードバック統計",
+        "description": "時間バケットごとの集約済みフィードバック統計を返します。",
+        "operationId": "feedback_stats_feedback_stats_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackStatsReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackStatsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/feedback/payload_schema": {
+      "post": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "フィードバックのペイロードスキーマ",
+        "description": "サンプル行からフィードバックペイロードのスキーマ（パスとタイプ）を特定します。",
+        "operationId": "feedback_payload_schema_feedback_payload_schema_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackPayloadSchemaReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackPayloadSchemaRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/service/projects_info": {
+      "post": {
+        "tags": [
+          "Service"
+        ],
+        "summary": "Projects の情報",
+        "operationId": "projects_info_service_projects_info_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectsInfoReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectsInfoRes"
+                  },
+                  "type": "array",
+                  "title": "Response Projects Info Service Projects Info Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
     "/threads/stream_query": {
       "post": {
         "tags": [
@@ -1922,6 +2387,117 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AnnotationQueueReadRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Annotation Queues"
+        ],
+        "summary": "アノテーションキューの削除",
+        "description": "アノテーションキューを削除（論理削除）します。",
+        "operationId": "annotation_queue_delete_annotation_queues__queue_id__delete",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Queue Id"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationQueueDeleteRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Annotation Queues"
+        ],
+        "summary": "アノテーションキューの更新",
+        "description": "アノテーションキューのメタデータ（name、description、scorer_refs）を更新します。",
+        "operationId": "annotation_queue_update_annotation_queues__queue_id__put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Queue Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnnotationQueueUpdateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationQueueUpdateRes"
                 }
               }
             }
@@ -2285,6 +2861,52 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/EvaluationStatusRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/calls/score": {
+      "post": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "Call スコア",
+        "operationId": "calls_score_calls_score_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CallsScoreReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CallsScoreRes"
                 }
               }
             }
@@ -5011,6 +5633,73 @@
           }
         }
       }
+    },
+    "/v2/{entity}/{project}/eval_results/query": {
+      "post": {
+        "tags": [
+          "Eval Results"
+        ],
+        "summary": "Eval 結果クエリ",
+        "description": "1 つ以上の評価について、グループ化された評価結果行を取得します。",
+        "operationId": "eval_results_query_v2__entity___project__eval_results_query_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Entity"
+            }
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvalResultsQueryBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "正常なレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvalResultsQueryRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "検証エラー",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -5022,10 +5711,28 @@
           "avg",
           "min",
           "max",
-          "count"
+          "count",
+          "count_true",
+          "count_false"
         ],
         "title": "AggregationType",
-        "description": "メトリクスの基本的な集計関数。"
+        "description": "フィードバックおよび Call 統計メトリクスでサポートされる集約関数。"
+      },
+      "AliasesListRes": {
+        "properties": {
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases"
+          }
+        },
+        "type": "object",
+        "required": [
+          "aliases"
+        ],
+        "title": "AliasesListRes"
       },
       "AndOperation": {
         "properties": {
@@ -5224,6 +5931,19 @@
         ],
         "title": "AnnotationQueueCreateRes",
         "description": "アノテーションキューの作成時のレスポンス。"
+      },
+      "AnnotationQueueDeleteRes": {
+        "properties": {
+          "queue": {
+            "$ref": "#/components/schemas/AnnotationQueueSchema"
+          }
+        },
+        "type": "object",
+        "required": [
+          "queue"
+        ],
+        "title": "AnnotationQueueDeleteRes",
+        "description": "アノテーションキューの削除に対するレスポンス。"
       },
       "AnnotationQueueItemProgressUpdateBody": {
         "properties": {
@@ -5690,6 +6410,85 @@
         "title": "AnnotationQueueStatsSchema",
         "description": "単一のアノテーションキューの統計。"
       },
+      "AnnotationQueueUpdateBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "examples": [
+              "Updated Queue Name"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "examples": [
+              "Updated description"
+            ]
+          },
+          "scorer_refs": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scorer Refs",
+            "examples": [
+              [
+                "weave:///entity/project/scorer/error_severity:abc123",
+                "weave:///entity/project/scorer/resolution_quality:def456"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "title": "AnnotationQueueUpdateBody",
+        "description": "アノテーションキューを更新するためのリクエスト本文（queue_id はパスから取得します）。\n\nproject_id を除くすべてのフィールドは任意で、指定されたフィールドのみ更新されます。"
+      },
+      "AnnotationQueueUpdateRes": {
+        "properties": {
+          "queue": {
+            "$ref": "#/components/schemas/AnnotationQueueSchema"
+          }
+        },
+        "type": "object",
+        "required": [
+          "queue"
+        ],
+        "title": "AnnotationQueueUpdateRes",
+        "description": "アノテーションキューの更新に対するレスポンス。"
+      },
       "AnnotationQueuesQueryReq": {
         "properties": {
           "project_id": {
@@ -5828,11 +6627,6 @@
         ],
         "title": "AnnotatorQueueItemsProgressUpdateRes",
         "description": "annotation状態の更新に対するレスポンス。"
-      },
-      "BaseModel": {
-        "properties": {},
-        "type": "object",
-        "title": "BaseModel"
       },
       "Body_file_create_file_create_post": {
         "properties": {
@@ -6189,6 +6983,17 @@
               }
             ],
             "title": "Wb User Id"
+          },
+          "wb_username": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Username"
           },
           "wb_run_id": {
             "anyOf": [
@@ -6816,6 +7621,19 @@
             "description": "ベータ版のため、変更される可能性があります。true の場合、レスポンスにはトレースの合計ストレージサイズが含まれます。",
             "default": false
           },
+          "include_usernames": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Usernames",
+            "description": "true の場合、レスポンスはこのリクエストの期間中、各 Call の wb_user_id をユーザー名に解決しようとします。",
+            "default": false
+          },
           "columns": {
             "anyOf": [
               {
@@ -6974,6 +7792,57 @@
         ],
         "title": "CallsQueryStatsRes"
       },
+      "CallsScoreReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Call Ids",
+            "description": "スコアリングする Call ID のリスト"
+          },
+          "scorer_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scorer Refs",
+            "description": "適用する scorer ref のリスト"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id",
+            "description": "直接設定しないでください。サーバーがこのフィールドを自動的に自動入力します。"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "call_ids",
+          "scorer_refs"
+        ],
+        "title": "CallsScoreReq",
+        "description": "Call のリストに対するスコアリング ジョブをキューに追加するリクエスト。\n\nスコアリングは call_scoring_worker によって非同期に実行されます。call_scoring_worker は Kafka からメッセージを受信し、各 call_id に各 scorer_ref を適用します。"
+      },
+      "CallsScoreRes": {
+        "properties": {},
+        "type": "object",
+        "title": "CallsScoreRes",
+        "description": "calls_score の空のレスポンス。\n\nこのインターフェース全体で使用されている規約に従い、また将来的に破壊的変更なしでフィールドを追加できるようにするため、None を返すのではなくモデルとして定義されています。"
+      },
       "CallsUsageReq": {
         "properties": {
           "project_id": {
@@ -7021,337 +7890,18 @@
             },
             "type": "object",
             "title": "Call Usage"
+          },
+          "unfinished_call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unfinished Call Ids"
           }
         },
         "type": "object",
         "title": "CallsUsageRes",
         "description": "ルート call ごとの集計された使用状況メトリクスを含むレスポンス。"
-      },
-      "CompletionsCreateRequestInputs": {
-        "properties": {
-          "model": {
-            "type": "string",
-            "title": "Model"
-          },
-          "messages": {
-            "items": {},
-            "type": "array",
-            "title": "Messages",
-            "default": []
-          },
-          "timeout": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Timeout"
-          },
-          "temperature": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Temperature"
-          },
-          "top_p": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Top P"
-          },
-          "n": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "N"
-          },
-          "stop": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stop"
-          },
-          "max_completion_tokens": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Max Completion Tokens"
-          },
-          "max_tokens": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Max Tokens"
-          },
-          "modalities": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Modalities"
-          },
-          "presence_penalty": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Presence Penalty"
-          },
-          "frequency_penalty": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Frequency Penalty"
-          },
-          "stream": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stream"
-          },
-          "logit_bias": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Logit Bias"
-          },
-          "user": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "User"
-          },
-          "response_format": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Response Format"
-          },
-          "seed": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Seed"
-          },
-          "tools": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tools"
-          },
-          "tool_choice": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tool Choice"
-          },
-          "logprobs": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Logprobs"
-          },
-          "top_logprobs": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Top Logprobs"
-          },
-          "parallel_tool_calls": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Parallel Tool Calls"
-          },
-          "extra_headers": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Extra Headers"
-          },
-          "functions": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Functions"
-          },
-          "function_call": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Function Call"
-          },
-          "api_version": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Api Version"
-          },
-          "prompt": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Prompt",
-            "description": "Weave Prompt オブジェクトへの参照（例: 'weave:///entity/project/object/prompt_name:version'）。指定した場合、このプロンプトのメッセージはこのリクエストのメッセージの先頭に追加されます。プロンプトメッセージ内のテンプレート変数は、template_vars パラメーターを使用して置換できます。"
-          },
-          "template_vars": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Template Vars",
-            "description": "プロンプトメッセージ内で置換するテンプレート変数の辞書。'{variable_name}' のようなメッセージ内の変数は、対応する値に置き換えられます。prompt メッセージ（prompt が指定されている場合）と通常のメッセージの両方に適用されます。"
-          }
-        },
-        "type": "object",
-        "required": [
-          "model"
-        ],
-        "title": "CompletionsCreateRequestInputs"
       },
       "ContainsOperation": {
         "properties": {
@@ -8260,6 +8810,452 @@
         "title": "EqOperation",
         "description": "2 つのオペランドが等しいかどうかを確認します。\n\n例:\n    ```\n    {\n        \"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]\n    }\n    ```"
       },
+      "EvalResultsEvaluationSummary": {
+        "properties": {
+          "evaluation_call_id": {
+            "type": "string",
+            "title": "Evaluation Call Id"
+          },
+          "trial_count": {
+            "type": "integer",
+            "title": "Trial Count",
+            "default": 0
+          },
+          "scorer_stats": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsScorerStats"
+            },
+            "type": "array",
+            "title": "Scorer Stats"
+          },
+          "evaluation_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Ref"
+          },
+          "model_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Ref"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_call_id"
+        ],
+        "title": "EvalResultsEvaluationSummary"
+      },
+      "EvalResultsQueryBody": {
+        "properties": {
+          "evaluation_call_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Call Ids",
+            "description": "含める評価ルート Call ID。"
+          },
+          "evaluation_run_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Run Ids",
+            "description": "Evaluation Runs API の評価 Call ID のエイリアス。"
+          },
+          "require_intersection": {
+            "type": "boolean",
+            "title": "Require Intersection",
+            "description": "true の場合、要求されたすべての評価に存在する行のみを含めます。",
+            "default": false
+          },
+          "include_raw_data_rows": {
+            "type": "boolean",
+            "title": "Include Raw Data Rows",
+            "description": "true の場合、各結果行の raw_data_row を設定します。インライン行は dict 値として返され、データセット参照行は、resolve_row_refs も true の場合を除き、ref 文字列として返されます。",
+            "default": false
+          },
+          "resolve_row_refs": {
+            "type": "boolean",
+            "title": "Resolve Row Refs",
+            "description": "true の場合（include_raw_data_rows=True が必要）、表のルックアップによってデータセット行の参照文字列を実際の行データに解決します。false の場合、データセット行 ref はそのまま返されます。",
+            "default": false
+          },
+          "include_rows": {
+            "type": "boolean",
+            "title": "Include Rows",
+            "description": "true の場合、グループ化された行/試行データを `rows` に含め、要求された行レベル view の `total_rows` を計算します。",
+            "default": true
+          },
+          "include_summary": {
+            "type": "boolean",
+            "title": "Include Summary",
+            "description": "true の場合、集約された Scorer/評価の summary データを `summary` に含めます。",
+            "default": false
+          },
+          "summary_require_intersection": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary Require Intersection",
+            "description": "summary セクションに対するオプションの積集合動作です。null の場合は、`require_intersection` の値が使用されます。"
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limit",
+            "description": "グループ化と積集合の後に適用されるオプションの行レベルのページ サイズ。"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "グループ化と積集合の後に適用されるオプションの行レベルのページ オフセット。",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "EvalResultsQueryBody"
+      },
+      "EvalResultsQueryRes": {
+        "properties": {
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsRow"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "total_rows": {
+            "type": "integer",
+            "title": "Total Rows"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvalResultsSummaryRes"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings",
+            "description": "致命的ではない警告（例: データセット行 ref の解決失敗）。"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rows",
+          "total_rows"
+        ],
+        "title": "EvalResultsQueryRes"
+      },
+      "EvalResultsRow": {
+        "properties": {
+          "row_digest": {
+            "type": "string",
+            "title": "Row Digest"
+          },
+          "raw_data_row": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Data Row"
+          },
+          "evaluations": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsRowEvaluation"
+            },
+            "type": "array",
+            "title": "Evaluations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "row_digest"
+        ],
+        "title": "EvalResultsRow"
+      },
+      "EvalResultsRowEvaluation": {
+        "properties": {
+          "evaluation_call_id": {
+            "type": "string",
+            "title": "Evaluation Call Id"
+          },
+          "trials": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsTrial"
+            },
+            "type": "array",
+            "title": "Trials"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_call_id"
+        ],
+        "title": "EvalResultsRowEvaluation"
+      },
+      "EvalResultsScorerStats": {
+        "properties": {
+          "scorer_key": {
+            "type": "string",
+            "title": "Scorer Key"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path",
+            "description": "ネストされた次元のドット区切りのサブパス。たとえば、token_distance.passed に対する 'passed' です。ルートレベルのスカラー Scorer の場合は None です。"
+          },
+          "value_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "binary",
+                  "continuous",
+                  "text"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Type",
+            "description": "リーフ値のタイプ: binary（bool）、continuous（number）、または text（string）。"
+          },
+          "trial_count": {
+            "type": "integer",
+            "title": "Trial Count",
+            "default": 0
+          },
+          "numeric_count": {
+            "type": "integer",
+            "title": "Numeric Count",
+            "default": 0
+          },
+          "numeric_mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Numeric Mean"
+          },
+          "pass_true_count": {
+            "type": "integer",
+            "title": "Pass True Count",
+            "default": 0
+          },
+          "pass_known_count": {
+            "type": "integer",
+            "title": "Pass Known Count",
+            "default": 0
+          },
+          "pass_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pass Rate"
+          },
+          "pass_signal_coverage": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pass Signal Coverage"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scorer_key"
+        ],
+        "title": "EvalResultsScorerStats",
+        "description": "単一のフラット化されたスコア次元（scorer_key または scorer_key.path.to.leaf）の統計。"
+      },
+      "EvalResultsSummaryRes": {
+        "properties": {
+          "row_count": {
+            "type": "integer",
+            "title": "Row Count",
+            "default": 0
+          },
+          "evaluations": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsEvaluationSummary"
+            },
+            "type": "array",
+            "title": "Evaluations"
+          }
+        },
+        "type": "object",
+        "title": "EvalResultsSummaryRes"
+      },
+      "EvalResultsTrial": {
+        "properties": {
+          "predict_and_score_call_id": {
+            "type": "string",
+            "title": "Predict And Score Call Id"
+          },
+          "predict_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Predict Call Id"
+          },
+          "model_output": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Output"
+          },
+          "scores": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Scores"
+          },
+          "model_latency_seconds": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Latency Seconds"
+          },
+          "total_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Tokens"
+          },
+          "scorer_call_ids": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Call Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "predict_and_score_call_id"
+        ],
+        "title": "EvalResultsTrial"
+      },
       "EvaluateModelReq": {
         "properties": {
           "project_id": {
@@ -9059,6 +10055,158 @@
         ],
         "title": "FeedbackCreateRes"
       },
+      "FeedbackMetricSpec": {
+        "properties": {
+          "json_path": {
+            "type": "string",
+            "title": "Json Path",
+            "description": "payload_dump 内のドット パス（例: 'output'、'output.score'）。"
+          },
+          "value_type": {
+            "type": "string",
+            "enum": [
+              "numeric",
+              "boolean",
+              "categorical"
+            ],
+            "title": "Value Type",
+            "description": "パス上の値のタイプ。numeric: avg/min/max、boolean: count_true/count_false。",
+            "default": "numeric"
+          },
+          "aggregations": {
+            "items": {
+              "$ref": "#/components/schemas/AggregationType"
+            },
+            "type": "array",
+            "title": "Aggregations",
+            "description": "計算する集約関数。空の場合、デフォルトは value_type に基づいて選択されます: numeric->avg/min/max、boolean->count_true/count_false。"
+          },
+          "percentiles": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Percentiles",
+            "description": "計算するパーセンタイル値（0～100）。例: [5, 50, 95]。numeric の value_type フィールドにのみ適用され、boolean/categorical では無視されます。"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "json_path"
+        ],
+        "title": "FeedbackMetricSpec",
+        "description": "集約するフィードバックペイロードメトリクスの仕様。"
+      },
+      "FeedbackPayloadPath": {
+        "properties": {
+          "json_path": {
+            "type": "string",
+            "title": "Json Path",
+            "description": "ペイロード内のドット パス（例: 'output.score'）。"
+          },
+          "value_type": {
+            "type": "string",
+            "enum": [
+              "numeric",
+              "boolean",
+              "categorical"
+            ],
+            "title": "Value Type",
+            "description": "パス上の値の推定タイプ。",
+            "default": "numeric"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "json_path"
+        ],
+        "title": "FeedbackPayloadPath",
+        "description": "推定された型を持つ、フィードバック ペイロード内で検出されたパス。"
+      },
+      "FeedbackPayloadSchemaReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "開始時刻（UTC、ISO 8601、含む）。"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End",
+            "description": "終了時刻（UTC、ISO 8601、含まない）。省略した場合は現在時刻がデフォルトです。"
+          },
+          "feedback_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback Type",
+            "description": "feedback_type でフィルターします。"
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref",
+            "description": "trigger_ref でフィルターします（all-versions では完全一致またはプレフィックス一致）。"
+          },
+          "sample_limit": {
+            "type": "integer",
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Sample Limit",
+            "description": "ペイロード スキーマの検出時にサンプリングする、重複のない trigger_ref の最大数です。通常、各 trigger_ref（monitor/source）ではペイロード構造は固定されているため、ref ごとに 1 つのペイロードをサンプリングすれば、完全なスキーマを確認するには十分です。2,000 で実運用のほぼすべてのプロジェクトをカバーしつつ、クエリを高速に保てます。5,000 のハード上限により、過剰なスキャンを防止します。",
+            "default": 2000
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "start"
+        ],
+        "title": "FeedbackPayloadSchemaReq",
+        "description": "フィードバックのペイロード スキーマを検出するためのリクエスト。"
+      },
+      "FeedbackPayloadSchemaRes": {
+        "properties": {
+          "paths": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackPayloadPath"
+            },
+            "type": "array",
+            "title": "Paths",
+            "description": "推定された値のタイプを持つ、検出済みのリーフ パス。"
+          }
+        },
+        "type": "object",
+        "title": "FeedbackPayloadSchemaRes",
+        "description": "検出されたフィードバック ペイロードのパスとタイプを含むResponse。"
+      },
       "FeedbackPurgeReq": {
         "properties": {
           "project_id": {
@@ -9382,6 +10530,160 @@
           "payload"
         ],
         "title": "FeedbackReplaceRes"
+      },
+      "FeedbackStatsReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "開始時刻（UTC、ISO 8601、含む）。"
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End",
+            "description": "終了時刻（UTC、ISO 8601、含まない）。省略した場合は現在時刻がデフォルトです。"
+          },
+          "feedback_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback Type",
+            "description": "feedback_type でフィルターします。"
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref",
+            "description": "trigger_ref でフィルターします（all-versions では完全一致またはプレフィックス一致）。"
+          },
+          "granularity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Granularity",
+            "description": "バケット サイズ（秒単位）。省略した場合は、時間範囲に基づいて自動選択されます。"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "description": "バケットの位置合わせに使用する IANA タイムゾーン。",
+            "default": "UTC"
+          },
+          "metrics": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackMetricSpec"
+            },
+            "type": "array",
+            "title": "Metrics",
+            "description": "payload_dump から集約するメトリクス。"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "start"
+        ],
+        "title": "FeedbackStatsReq",
+        "description": "時間バケットごとの集約フィードバック統計のリクエスト。"
+      },
+      "FeedbackStatsRes": {
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "確定した開始時刻（要求したタイムゾーンに関係なく、常に UTC）。"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End",
+            "description": "確定した終了時刻（要求したタイムゾーンに関係なく、常に UTC）。"
+          },
+          "granularity": {
+            "type": "integer",
+            "title": "Granularity",
+            "description": "使用されたバケット サイズ（秒単位）"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "description": "バケットの位置合わせに使用されたタイムゾーン"
+          },
+          "buckets": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Buckets",
+            "description": "時間バケットごとの集約。各dict には、'timestamp'（ISO 文字列）、'count'（int）、およびリクエストされた各メトリクス+集約に対応する '{agg}_{slug}' キーが含まれます。"
+          },
+          "window_stats": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "type": "object"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Stats",
+            "description": "クエリ期間全体に対する集約。メトリクス slug（例: 'output_score'）をキーにします。各値は agg 名から結果へのマッピングです。"
+          }
+        },
+        "type": "object",
+        "required": [
+          "start",
+          "end",
+          "granularity",
+          "timezone"
+        ],
+        "title": "FeedbackStatsRes",
+        "description": "時系列フィードバック統計を含むResponse。"
       },
       "FileContentReadReq": {
         "properties": {
@@ -10561,6 +11863,86 @@
         "title": "NotOperation",
         "description": "論理NOT。条件を反転します。\n\n例:\n    ```\n    {\n        \"$not\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"debug\"}]}\n        ]\n    }\n    ```"
       },
+      "NvidiaHardwareOption": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/NvidiaServerlessPricing"
+          },
+          "specs": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Specs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "type",
+          "pricing"
+        ],
+        "title": "NvidiaHardwareOption"
+      },
+      "NvidiaHardwareRes": {
+        "properties": {
+          "hardware": {
+            "items": {
+              "$ref": "#/components/schemas/NvidiaHardwareOption"
+            },
+            "type": "array",
+            "title": "Hardware"
+          }
+        },
+        "type": "object",
+        "required": [
+          "hardware"
+        ],
+        "title": "NvidiaHardwareRes"
+      },
+      "NvidiaServerlessPricing": {
+        "properties": {
+          "cents_per_million_input_tokens": {
+            "type": "number",
+            "title": "Cents Per Million Input Tokens"
+          },
+          "cents_per_million_output_tokens": {
+            "type": "number",
+            "title": "Cents Per Million Output Tokens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cents_per_million_input_tokens",
+          "cents_per_million_output_tokens"
+        ],
+        "title": "NvidiaServerlessPricing"
+      },
+      "ObjAddTagsRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjAddTagsRes"
+      },
       "ObjCreateReq": {
         "properties": {
           "obj": {
@@ -10752,6 +12134,19 @@
             "title": "Include Storage Size",
             "description": "true の場合、`size_bytes` 列が返されます。",
             "default": false
+          },
+          "include_tags_and_aliases": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Tags And Aliases",
+            "description": "true の場合、タグとエイリアスを取得してレスポンスに含めます。",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -10803,6 +12198,19 @@
             "title": "Metadata Only",
             "description": "true の場合、`val` 列はデータベースから読み取られず、空になります。その他のフィールドはすべて返されます。",
             "default": false
+          },
+          "include_tags_and_aliases": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Tags And Aliases",
+            "description": "true の場合、タグとエイリアスを取得してレスポンスに含めます。",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -10825,6 +12233,47 @@
           "obj"
         ],
         "title": "ObjReadRes"
+      },
+      "ObjRemoveAliasesBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases",
+            "examples": [
+              [
+                "staging"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "aliases"
+        ],
+        "title": "ObjRemoveAliasesBody",
+        "description": "エイリアスを削除するためのリクエストボディです（object_id はパスから取得されます）。"
+      },
+      "ObjRemoveAliasesRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjRemoveAliasesRes"
+      },
+      "ObjRemoveTagsRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjRemoveTagsRes"
       },
       "ObjSchema": {
         "properties": {
@@ -10916,6 +12365,34 @@
               }
             ],
             "title": "Size Bytes"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags"
+          },
+          "aliases": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aliases"
           }
         },
         "type": "object",
@@ -10968,6 +12445,18 @@
             "title": "Set Base Object Class",
             "deprecated": true
           },
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest",
+            "description": "サーバー側の検証用にクライアントで計算されたダイジェストです。指定した場合、サーバーはそれがサーバーで計算されたダイジェストと一致することをVerifyします。"
+          },
           "wb_user_id": {
             "anyOf": [
               {
@@ -10988,6 +12477,83 @@
           "val"
         ],
         "title": "ObjSchemaForInsert"
+      },
+      "ObjSetAliasesBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "examples": [
+              "abc123def"
+            ]
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases",
+            "examples": [
+              [
+                "staging",
+                "v1-candidate"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "digest",
+          "aliases"
+        ],
+        "title": "ObjSetAliasesBody",
+        "description": "エイリアスを設定するためのリクエストボディです（object_id はパスから取得されます）。"
+      },
+      "ObjSetAliasesRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjSetAliasesRes"
+      },
+      "ObjTagsBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags",
+            "examples": [
+              [
+                "production",
+                "reviewed"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "tags"
+        ],
+        "title": "ObjTagsBody",
+        "description": "タグを追加または削除するためのリクエストボディです（object_id と digest はパスから取得されます）。"
       },
       "ObjectVersionFilter": {
         "properties": {
@@ -11114,6 +12680,36 @@
               true,
               false
             ]
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "指定したタグのいずれかを持つオブジェクトバージョンでフィルターします"
+          },
+          "aliases": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aliases",
+            "description": "指定したエイリアスのいずれかを持つオブジェクトでフィルターします"
           }
         },
         "additionalProperties": false,
@@ -11444,13 +13040,9 @@
             "type": "string",
             "title": "Request"
           },
-          "input_cache_reads": {
+          "input_cache_read": {
             "type": "string",
-            "title": "Input Cache Reads"
-          },
-          "input_cache_writes": {
-            "type": "string",
-            "title": "Input Cache Writes"
+            "title": "Input Cache Read"
           }
         },
         "type": "object",
@@ -11459,11 +13051,54 @@
           "completion",
           "image",
           "request",
-          "input_cache_reads",
-          "input_cache_writes"
+          "input_cache_read"
         ],
         "title": "Pricing",
         "description": "pricing の値はすべて、1 token あたりの USD です。\n\n浮動小数点精度の問題を避けるため、pricing フィールドは文字列形式になっています。"
+      },
+      "ProjectsInfoReq": {
+        "properties": {
+          "project_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Project Ids",
+            "description": "'entity/project' 形式の外部プロジェクト ID。",
+            "examples": [
+              [
+                "entity-a/project-a",
+                "entity-b/project-b"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_ids"
+        ],
+        "title": "ProjectsInfoReq"
+      },
+      "ProjectsInfoRes": {
+        "properties": {
+          "external_project_id": {
+            "type": "string",
+            "title": "External Project Id",
+            "description": "'entity/project' 形式の外部プロジェクト ID。"
+          },
+          "internal_project_id": {
+            "type": "string",
+            "title": "Internal Project Id",
+            "description": "内部プロジェクト ID。"
+          }
+        },
+        "type": "object",
+        "required": [
+          "external_project_id",
+          "internal_project_id"
+        ],
+        "title": "ProjectsInfoRes"
       },
       "Query": {
         "properties": {
@@ -11631,6 +13266,18 @@
             },
             "type": "array",
             "title": "Datacenters"
+          },
+          "deprecation_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deprecation Date",
+            "description": "モデルが非推奨となる日付（YYYY-MM-DD）。設定されていない場合、出力には含まれません。"
           }
         },
         "type": "object",
@@ -12169,6 +13816,18 @@
             },
             "type": "array",
             "title": "Row Digests"
+          },
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest",
+            "description": "サーバー側での検証用にクライアントで計算された表のダイジェスト。"
           }
         },
         "additionalProperties": false,
@@ -12570,6 +14229,18 @@
             },
             "type": "array",
             "title": "Rows"
+          },
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest",
+            "description": "サーバー側での検証用にクライアントで計算された表のダイジェスト。"
           }
         },
         "type": "object",
@@ -12665,6 +14336,22 @@
           "digest"
         ],
         "title": "TableUpdateRes"
+      },
+      "TagsListRes": {
+        "properties": {
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tags"
+        ],
+        "title": "TagsListRes"
       },
       "ThreadsQueryFilter": {
         "properties": {
@@ -12874,6 +14561,13 @@
             },
             "type": "object",
             "title": "Call Usage"
+          },
+          "unfinished_call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unfinished Call Ids"
           }
         },
         "type": "object",

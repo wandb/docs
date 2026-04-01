@@ -1,13 +1,20 @@
 ---
 title: Runs
-description: Initialisez et gérez les runs W&B pour organiser vos expériences et suivre vos travaux.
+description: Initialisez et gérez les runs W&B pour organiser vos expériences et suivre votre travail.
 ---
 
 import ExperimentsCreate from '/snippets/fr/_includes/code-examples/experiments_create.mdx';
 import RunFork from '/snippets/fr/_includes/code-examples/run_fork.mdx';
 import RunInit from '/snippets/fr/_includes/code-examples/run_init.mdx';
+import RunResume from '/snippets/fr/_includes/code-examples/run_resume.mdx';
+import RunRewind from '/snippets/fr/_includes/code-examples/run_rewind.mdx';
+import RunsAddTags from '/snippets/fr/_includes/code-examples/runs_add_tags.mdx';
+import RunsGroup from '/snippets/fr/_includes/code-examples/runs_group.mdx';
+import RunsOrganizeByType from '/snippets/fr/_includes/code-examples/runs_organize_by_type.mdx';
+import RunsUpdateTag from '/snippets/fr/_includes/code-examples/runs_update_tag.mdx';
+import RunsUpdateTagPublicApi from '/snippets/fr/_includes/code-examples/runs_update_tag_public_api.mdx';
 
-Initialisez et gérez les runs W&amp;B afin d’organiser vos expériences et de suivre votre travail.
+Initialisez et gérez les runs W&amp;B pour organiser vos expériences et suivre votre travail.
 
 
 <div id="create-an-experiment">
@@ -27,3 +34,45 @@ Initialisez et gérez les runs W&amp;B afin d’organiser vos expériences et de
 </div>
 
 <RunInit />
+
+<div id="set-resume-behaviour-for-a-run-if-it-is-paused-stops-or-fails">
+  ## Définissez le comportement de reprise d’un run s’il est mis en pause, s’arrête ou échoue
+</div>
+
+<RunResume />
+
+<div id="rewind-a-run-to-modify-the-history-of-a-run">
+  ## Rembobiner un run pour modifier son historique
+</div>
+
+<RunRewind />
+
+<div id="add-one-or-more-tags-to-a-run">
+  ## Ajouter un ou plusieurs tags à un run
+</div>
+
+<RunsAddTags />
+
+<div id="add-one-or-more-runs-to-a-group">
+  ## Ajouter un ou plusieurs runs à un groupe
+</div>
+
+<RunsGroup />
+
+<div id="organize-runs-by-their-job-type">
+  ## Organiser les Runs par type de job
+</div>
+
+<RunsOrganizeByType />
+
+<div id="add-one-or-more-tags-to-an-active-run">
+  ## Ajoutez un ou plusieurs tags à un run actif
+</div>
+
+<RunsUpdateTag />
+
+<div id="add-one-or-more-tags-to-previously-saved-runs">
+  ## Ajouter un ou plusieurs tags à des Runs déjà enregistrés
+</div>
+
+<RunsUpdateTagPublicApi />
