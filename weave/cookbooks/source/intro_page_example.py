@@ -20,7 +20,7 @@ def _(mo):
     mo.md(r"""
     # Parallel Evaluation with W&B Weave
 
-    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/parallel_evaluation_example.ipynb)
+    [![Run in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/wandb/docs/blob/main/weave/cookbooks/source/intro_page_example.py)
 
     This notebook demonstrates how to use W&B Weave to send math questions to OpenAI and evaluate the responses for correctness in parallel.
     """)
