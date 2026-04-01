@@ -14,14 +14,26 @@ jobs:
       - name: Checkout docs repository
         uses: actions/checkout@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      
+          # Do not persist GITHUB_TOKEN as http.https://github.com/.extraheader:
+          # a later `git clone` of docs-code-eval would reuse it and often exit 128.
+          persist-credentials: false
+
+      # Do not use actions/checkout for wandb/docs-code-eval. GITHUB_TOKEN is scoped
+      # to this repository only, so the REST get-repository call for another repo returns
+      # Not Found for a private docs-code-eval. Clone in the script instead.
+      #
+      # For a private docs-code-eval, add repository secret DOCS_CODE_EVAL_READ_PAT
+      # (PAT with contents:read on wandb/docs-code-eval). Optional if the eval repo is public.
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       
       - name: Run sync script
+        env:
+          DOCS_CODE_EVAL_READ_TOKEN: ${{ secrets.DOCS_CODE_EVAL_READ_PAT }}
+          GIT_TERMINAL_PROMPT: "0"
         run: |
           chmod +x scripts/sync_code_examples.sh
           ./scripts/sync_code_examples.sh
@@ -60,6 +72,9 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          # workflow_dispatch checks out the branch you pick; without this, the PR base
+          # would be that branch instead of the repo default (for example main).
+          base: ${{ github.event.repository.default_branch }}
           commit-message: |
             Sync code examples from docs-code-eval
             

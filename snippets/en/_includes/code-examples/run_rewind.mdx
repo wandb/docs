@@ -1,0 +1,22 @@
+```python
+"""
+Rewind a run to modify the history of a run.
+
+Specify the run ID and step to rewind to with the `resume_from` parameter in `wandb.init()`.
+"""
+import wandb
+import math
+
+# Initialize a run and log some metrics
+with wandb.init(project="<project>", entity="<entity>") as run:
+    # Training and logging code goes here
+    pass
+
+run_ID = "<run_id>" # Replace with run ID of the original run
+step = int("<step>") # Specify the step to rewind to
+
+# Start a new run that resumes from the specified step of the original run
+with wandb.init(project="<project>", entity="<entity>", resume_from=f"{run_ID}?_step={step}") as run:
+    # Training and logging code goes here
+    pass    
+```
