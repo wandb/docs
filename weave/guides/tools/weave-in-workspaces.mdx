@@ -96,14 +96,14 @@ import weave
 
 client = weave.init("<your-team-name>/<your-project-name>")
 
-# Associate all subsequent traces with a specific run
+# Associate all subsequent traces with a specific run.
 client.set_wandb_run_context(run_id="<your-run-ID>", step=<integer>)
 
 @weave.op
 def my_function(x):
     return x * 2
 
-my_function(10)  # This trace is linked to "my-run-id" at step 5
+my_function(10)  # This trace is linked to "my-run-id" at step 5.
 ```
 
 The `run_id` is the run's short ID (for example, `38m4t5ja`), not the full `entity/project/run_id` path. You can find a run's short ID in the run URL (`https://wandb.ai/team/project/runs/<run_id>`) or by [accessing `wandb.run.id` in code](/models/runs/run-identifiers#find-and-customize-a-runs-id-or-name).
@@ -113,7 +113,7 @@ To stop the override and fall back to the global `wandb.run`, call `clear_wandb_
 ```python lines
 client.clear_wandb_run_context()
 
-my_function(20)  # This trace uses the global wandb.run (if any)
+my_function(20)  # This trace uses the global wandb.run (if any).
 ```
 
 ## Reference W&B artifacts in a Weave trace
