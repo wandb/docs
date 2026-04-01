@@ -1,0 +1,17 @@
+"""
+Tracks an external artifact by adding a reference to a cloud storage bucket path.
+"""
+
+import wandb
+
+# Create an artifact object
+artifact = wandb.Artifact(name="<artifact_name>", type="<artifact_type>")
+
+# Add a reference to the bucket path
+artifact.add_reference(uri = "uri/to/your/bucket/path")
+
+# Initialize a W&B run
+with wandb.init(project="<project>") as run:
+
+  # Log the artifact's metadata
+  run.log_artifact(artifact)

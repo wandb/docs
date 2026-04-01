@@ -1,0 +1,20 @@
+"""
+Log a table to W&B.
+
+Replace: 
+- values enclosed in angle brackets with your own
+- [[1, 2], [2, 3]] in wandb.Table(data=) with your own 2D row-oriented array of values to log
+"""
+import wandb
+
+# Create a table object with two columns and two rows of data
+my_table = wandb.Table(
+    columns=["<a_column>", "<b_column>"],
+    data=[[1, 2], [2, 3]],
+    log_mode="<log_mode>"
+    )
+
+# Start a new run
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # Log the table to W&B
+    run.log({"<table_name>": my_table})
