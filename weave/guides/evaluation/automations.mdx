@@ -5,10 +5,10 @@ description: "Create event-driven automations that trigger actions based on moni
 
 Automations let you define event-driven rules that trigger actions when specific conditions are met in your project. Instead of manually watching dashboards for metric changes, you configure an automation once, and W&B Weave runs an action for you when the event occurs. Use cases include:
 
-- **Threshold alerts**: Send a Slack notification when a monitor's average score crosses a threshold.
-- **Regression detection**: Alert your team when a scorer detects a drop in accuracy or an increase in toxicity.
-- **Deployment gates**: Trigger a webhook when a quality metric exceeds a confidence threshold over a rolling window.
-- **Operational monitoring**: Notify on-call engineers when error rates or latency metrics change.
+- **Threshold alert**: Send a Slack notification when a monitor's average score crosses a threshold.
+- **Regression detection**: Send an alert when a scorer detects a drop in accuracy or an increase in toxicity.
+- **Deployment gate**: Trigger a webhook when a quality metric exceeds a confidence threshold over a rolling window.
+- **Operational monitoring**: Send an alert when error rates or latency metrics change.
 
 You manage automations in the Weave UI, with no code changes required.
 
@@ -19,12 +19,10 @@ Create an automation in three steps: configure the triggering event, select the 
 
 ### Prerequisites
 
-Automations can be sourced from either Ops or Monitors. If you want to alert on a monitor, your [monitor](/weave/guides/evaluation/monitors) should be created prior to creating the automation.
+The triggering event (such as an Op or a monitor) and the action (such as a Slack integration) should exist prior to creating the automation that connects them.
 
-If you want to trigger a Slack notification or webhook when the threshold is met, those should be created prior to creating the automation.
-
-- For more details on setting up Slack automations, see [Create a Slack automation](/models/automations/create-automations/slack).
-- For more details on setting up webhooks, see [Create a webhook automation](/models/automations/create-automations/webhook).
+- In Weave, set up an [Op](/weave/guides/tracking/create-call) or a [monitor](/weave/guides/evaluation/monitors) of interest.
+- In your Team Settings, set up a [Slack integration](models/automations/create-automations/slack#add-a-slack-integration) or a [webhook](/models/automations/create-automations/webhook#create-a-webhook).
 
 ### Step 1: Event configuration
 
@@ -73,7 +71,7 @@ The new automation appears in the Automations table on the Automations page.
 
 ## Create an automation from a monitor
 
-You can also create automations directly from a monitor's detail view. This approach pre-fills the event configuration with the monitor's context, which makes the setup faster.
+You can also create automations directly from a monitor's detail view. This approach pre-fills the event configuration with the monitor's context, which makes the setup faster.  Before you create the automation, set up a [Slack integration](models/automations/create-automations/slack#add-a-slack-integration) or a [webhook](/models/automations/create-automations/webhook#create-a-webhook) that you want to use as your selected action.
 
 To create an automation from a monitor:
 1. In the Weave project sidebar, click **Monitors**.
