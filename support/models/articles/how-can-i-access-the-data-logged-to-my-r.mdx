@@ -1,0 +1,21 @@
+---
+title: "How can I access the data logged to my runs directly and programmatically?"
+keywords: ["Experiments"]
+---
+
+The history object tracks metrics logged with `wandb.log`. Access the history object using the API:
+
+```python
+api = wandb.Api()
+run = api.run("username/project/run_id")
+print(run.history())
+```
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -1,0 +1,24 @@
+---
+title: "How do I turn off logging?"
+keywords: ["Logs"]
+---
+
+The command `wandb offline` sets the environment variable `WANDB_MODE=offline`, preventing data from syncing to the remote W&B server. This action affects all projects, stopping the logging of data to W&B servers.
+
+To suppress warning messages, use the following code:
+
+```python
+import logging
+
+logger = logging.getLogger("wandb")
+logger.setLevel(logging.WARNING)
+```
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Logs](/support/models/tags/logs)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

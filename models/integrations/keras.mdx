@@ -1,5 +1,6 @@
 ---
 title: Keras
+description: "Use W&B Keras callbacks to track experiments, checkpoint models, and visualize predictions during training."
 ---
 import { ColabLink } from '/snippets/en/_includes/colab-link.mdx';
 
@@ -303,7 +304,7 @@ The `WandbCallback`
 | `infer_missing_processors` | (Boolean) Determines whether to infer `validation_row_processor` and `output_row_processor` if they are missing. Defaults to True. If you provide `labels`, W&B attempts to infer classification-type processors where appropriate.      |
 | `log_evaluation_frequency` | (int) Determines how often to log evaluation results. Defaults to `0` to log only at the end of training. Set to 1 to log every epoch, 2 to log every other epoch, and so on. Has no effect when `log_evaluation` is False.    |
 
-## Frequently Asked Questions
+## Frequently asked questions
 
 ### How do I use `Keras` multiprocessing with `wandb`?
 

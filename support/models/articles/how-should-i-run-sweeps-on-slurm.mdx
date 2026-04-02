@@ -1,0 +1,15 @@
+---
+title: "How should I run sweeps on SLURM?"
+keywords: ["Sweeps"]
+---
+
+When using sweeps with the [SLURM scheduling system](https://slurm.schedmd.com/documentation.html), run `wandb agent --count 1 SWEEP_ID` in each scheduled job. This command executes a single training job and then exits, facilitating runtime predictions for resource requests while leveraging the parallelism of hyperparameter searches.
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

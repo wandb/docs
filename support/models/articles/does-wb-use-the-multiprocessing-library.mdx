@@ -1,0 +1,22 @@
+---
+title: "Does W&B use the `multiprocessing` library?"
+keywords: ["Experiments"]
+---
+
+Yes, W&B uses the `multiprocessing` library. An error message like the following indicates a possible issue:
+
+```
+An attempt has been made to start a new process before the current process 
+has finished its bootstrapping phase.
+```
+
+To resolve this, add an entry point protection with `if __name__ == "__main__":`. This protection is necessary when running W&B directly from the script.
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Experiments](/support/models/tags/experiments)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

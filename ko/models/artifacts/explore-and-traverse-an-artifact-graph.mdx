@@ -21,10 +21,6 @@ Artifact 의 계보 그래프를 보려면 다음 단계를 따르세요:
 3. 왼쪽 사이드바에서 **Artifacts** 탭을 클릭합니다.
 4. **Lineage** 탭을 선택합니다.
 
-<Frame>
-    <img src="/images/artifacts/lineage1.gif" alt="Getting to the Lineage tab"  />
-</Frame>
-
 ## 계보 그래프 추적 활성화하기
 
 계보 그래프 추적을 활성화하려면, W&B Python SDK를 사용하여 Artifact 를 run 의 [입력](/models/artifacts/explore-and-traverse-an-artifact-graph) 또는 [출력](/models/artifacts/explore-and-traverse-an-artifact-graph#track-the-output-of-a-run)으로 표시해야 합니다.
@@ -75,10 +71,6 @@ with wandb.init(entity="<entity>", project="<project>") as run:
 <Note>
 왼쪽 사이드바와 **Lineage** 탭 모두에서 Artifact 의 유형과 이름을 확인할 수 있습니다.
 </Note>
-
-<Frame>
-    <img src="/images/artifacts/lineage2a.gif" alt="Inputs and outputs"  />
-</Frame>
 
 더 자세한 보기를 원하시면, 특정 Artifact 나 run 을 클릭하여 해당 오브젝트에 대한 상세 정보를 확인하세요.
 

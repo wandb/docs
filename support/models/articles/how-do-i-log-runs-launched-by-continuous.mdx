@@ -1,0 +1,19 @@
+---
+title: "How do I log runs launched by continuous integration or internal tools?"
+keywords: ["Runs", "Logs"]
+---
+
+To launch automated tests or internal tools that log to W&B, create a **Service Account** on the team settings page. This action allows the use of a service API key for automated jobs, including those running through continuous integration. To attribute service account jobs to a specific user, set the `WANDB_USERNAME` or `WANDB_USER_EMAIL` environment variables.
+
+<Frame>
+<img src="/images/track/common_questions_automate_runs.png" alt="Creating service account" />
+</Frame>
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge><Badge stroke shape="pill" color="orange" size="md">[Logs](/support/models/tags/logs)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

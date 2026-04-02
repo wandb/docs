@@ -1,0 +1,19 @@
+---
+title: "How can I disable logging of system metrics to W&B?"
+keywords: ["Metrics", "Runs"]
+---
+
+To disable logging of [system metrics](/models/ref/python/experiments/system-metrics), set `_disable_stats` to `True`:
+
+```python
+wandb.init(settings=wandb.Settings(x_disable_stats=True))
+```
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Metrics](/support/models/tags/metrics)</Badge><Badge stroke shape="pill" color="orange" size="md">[Runs](/support/models/tags/runs)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

@@ -1,0 +1,28 @@
+---
+title: "Where are artifacts downloaded, and how can I control that?"
+keywords: ["Artifacts", "Environment Variables"]
+---
+
+By default, artifacts download to the `artifacts/` folder. To change the location:
+
+- Pass it to [`wandb.Artifact().download`](/models/ref/python/public-api/api):
+
+    ```python
+    wandb.Artifact().download(root="<path_to_download>")
+    ```
+
+- Set the `WANDB_ARTIFACT_DIR` [environment variable](/models/track/environment-variables):
+
+    ```python
+    import os
+    os.environ["WANDB_ARTIFACT_DIR"] = "<path_to_download>"
+    ```
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Environment Variables](/support/models/tags/environment-variables)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

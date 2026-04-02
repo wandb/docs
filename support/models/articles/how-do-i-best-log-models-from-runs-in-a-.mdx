@@ -1,0 +1,19 @@
+---
+title: "How do I best log models from runs in a sweep?"
+keywords: ["Artifacts", "Sweeps"]
+---
+
+One effective approach for logging models in a [sweep](/models/sweeps/) involves creating a model artifact for the sweep. Each version represents a different run from the sweep. Implement it as follows:
+
+```python
+wandb.Artifact(name="sweep_name", type="model")
+```
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Artifacts](/support/models/tags/artifacts)</Badge><Badge stroke shape="pill" color="orange" size="md">[Sweeps](/support/models/tags/sweeps)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

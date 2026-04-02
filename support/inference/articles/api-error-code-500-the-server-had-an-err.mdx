@@ -1,0 +1,28 @@
+---
+title: "API error code 500 - The server had an error while processing your request"
+keywords: ["Server Errors"]
+---
+
+A 500 error with the message "The server had an error while processing your request" indicates an internal server error on the W&B Inference side.
+
+## Why this happens
+
+Internal server errors are typically transient issues caused by temporary problems on the server side. These are not caused by your request or configuration.
+
+## What you can do
+
+1. **Retry after a brief wait**
+   - Wait a few seconds and retry your request
+   - Use exponential backoff for automated retries
+
+2. **Contact support if it persists**
+   - If you continue to see 500 errors after multiple retries, contact [W&B support](mailto:support@wandb.com) with details about your request
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Server Errors](/support/inference/tags/server-errors)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}

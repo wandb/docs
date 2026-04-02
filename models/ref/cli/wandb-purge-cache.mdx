@@ -1,0 +1,30 @@
+---
+title: "wandb purge-cache"
+---
+{/*
+  To add introductory content for this command:
+  1. Create the snippet file: /snippets/en/_includes/cli/wandb-purge-cache.mdx
+  2. Add your intro content to that file
+  3. Delete this entire comment block and keep only the two lines below:
+
+import WandbPurgeCache from "/snippets/en/_includes/cli/wandb-purge-cache.mdx";
+
+<WandbPurgeCache/>
+
+  The snippet will be auto-detected on the next regeneration.
+*/}
+
+Purges cached logs, run history, and artifacts from the local W&B cache.
+
+## Usage
+
+```bash
+wandb purge-cache [OPTIONS]
+```
+
+## Options
+
+| Option | Description |
+| :--- | :--- |
+| `--age` | Removes items older than the specified time period (e.g., '10s', '5m', '8h', '7d', '6M', '1y') (default: 0d) |
+| `--force` | Do not prompt for confirmation when deleting files. (default: False) |

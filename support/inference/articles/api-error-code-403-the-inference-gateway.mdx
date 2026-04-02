@@ -1,0 +1,27 @@
+---
+title: "API error code 403 - The inference gateway is not enabled for your organization"
+keywords: ["Authentication & Access", "Administrator"]
+---
+
+A 403 error with the message "The inference gateway is not enabled for your organization" means your organization doesn't have the inference gateway enabled, which is required to use W&B Inference.
+
+## Why this happens
+
+W&B Inference requires the inference gateway to be enabled at the organization level. If your organization hasn't enabled this feature, all API requests will be rejected with a 403 error.
+
+## What you can do
+
+1. **Contact your W&B administrator**
+   - Ask your organization's W&B administrator to enable the inference gateway
+
+2. **Reach out to W&B support**
+   - If you're unsure who your administrator is, or need help enabling the gateway, contact [W&B support](mailto:support@wandb.com) for assistance
+
+---
+
+{/* ---- AUTO-GENERATED: tab badges ----
+  Managed by scripts/knowledgebase-nav/generate_tags.py from keywords in front matter.
+  Do not edit between these markers by hand.
+---- */}
+<Badge stroke shape="pill" color="orange" size="md">[Authentication & Access](/support/inference/tags/authentication-access)</Badge><Badge stroke shape="pill" color="orange" size="md">[Administrator](/support/inference/tags/administrator)</Badge>
+{/* ---- END AUTO-GENERATED: tab badges ---- */}
