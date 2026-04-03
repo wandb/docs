@@ -44,9 +44,7 @@ Traces are full trees of Calls that share the same execution context. Each Trace
 
 ## Threads
 
-Threads are collections of traces related to a single session or conversation with an agent, and they share he same `thread_id`. 
-
-In a conversation with an agent, each input and response produces a trace tree that is called a "turn". Weave collects all of a conversation's turns under a single thread ID.
+Threads are collections of traces related to a single session or conversation.  Threads can be used to do analysis or scoring on the [entire conversation] as a whole instead of individual Calls.
 
 The following diagram illustrates the relationships between threads, traces, and calls:
 
