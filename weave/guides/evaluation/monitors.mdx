@@ -20,7 +20,7 @@ By using signals within production, you can:
 
 ## Available signals
 
-Signals are preset monitors that automatically evaluate production traces for common quality issues and errors. Each signal uses a benchmarked LLM prompt to classify traces and saves the results as comma-delimited tags representing the detected issues.
+W&B Weave offers monitors with built-in signals: preset scorers that evaluate production traces for common quality issues and errors out of the box, with no custom setup. Each built-in signal uses a benchmarked LLM prompt to classify traces and saves the results as comma-delimited tags representing the detected issues.
 
 To start classifying traces immediately, enable signals from the Monitors page. Signals don't require prompt engineering or scorer configuration.
 
@@ -68,23 +68,26 @@ To enable signals:
 
 After enabling signals, Weave scores incoming traces and stores the results as feedback on each Call object.
 
-View signal results in the **Traces** tab by selecting a trace and reviewing the feedback panel. For each signal group, open the classifiers Call that the signal generates, then under **Output** review `classifier_meta` for the reasoning.  For example, the following screenshot shows a high confidence (0.95) that Hallucination didn't occur and includes a reason for this rating.
-![Weave Traces view with a quality-classifier trace selected. The details panel shows Inputs, Outputs, and Hallucination classifier metadata including a confidence score and reasoning that explains why the trace was classified that way.](/weave/guides/evaluation/img/weave_signals_trace_reasoning.png)
-
 ## Manage active signals
 
 To view or remove active signals:
 
-1. From the Monitors page, select the **Manage signals** button (gear icon). This opens a drawer listing all currently active signals grouped by category.
-2. Hover over a signal and select the **Remove signal** button (trash icon) to disable the signal.
+1. From the Monitors page, select the **Manage signals** (<Icon icon="gear" iconType="light" />) button. This opens a drawer listing all currently active signals grouped by category.
+2. Hover over a signal and select the **Remove signal** (<Icon icon="trash-can" iconType="light" />) button to disable the signal.
 
 Removing a signal stops scoring new traces. Existing scores from the signal are preserved.
 
 ## Use built-in signals
 
+### See tagged traces in the Traces table 
 You can quickly scan your traces for certain behavior in the **Traces** tab using the **Signals** column.  The Signals column is populated with tags when their criteria is met, and you can hover-over these tags to see the confidence in the score and the reasoning. 
 ![Weave Traces view with hover-over of a Signals tag in the Signals column showing confidence and reasoning.](/weave/guides/evaluation/img/weave_signals_trace_hover.png)
+Using the trace table toolbar, you can filter the trace table to only show traces that have triggered certain signals.
 
+You can also view signal results in the Traces tab by selecting a trace and reviewing the **Trace Details view**. Open the classifiers Call that the signal generates, then under **Output** review `classifier_meta` for the reasoning.  For example, the following screenshot shows a `Quality-classifiers` signal with a high confidence (0.95) that Hallucination didn't occur and includes a reason for this rating.
+![Weave Traces view with a quality-classifier trace selected. The details panel shows Inputs, Outputs, and Hallucination classifier metadata including a confidence score and reasoning.](/weave/guides/evaluation/img/weave_signals_trace_reasoning.png)
+
+### See signals in the project dashboard
 You can also review signals at a project level:
 1. In the project sidebar, select **Project**.
 1. At the top of the Project dashboard, select the **Weave** tab.
@@ -93,13 +96,15 @@ You can also review signals at a project level:
 In the Monitor Scores project panel, you can see time-based graphs of signals that occurred for the project. 
 ![Weave project dashboard Monitor Scores panel showing signal graphs from project activity.](/weave/guides/evaluation/img/weave_signals_project_dash.png)
 
+
+
 ## How signals work
 
 Each signal uses an LLM-as-a-judge approach to classify traces:
 
 1. **Trace selection**: Quality signals evaluate successful root-level traces. Error signals evaluate failed traces. Child spans and intermediate calls are not scored.
 2. **Prompt construction**: Weave constructs a prompt that includes the trace metadata, inputs, outputs, exception details (if any), and the operation's source code. The signal's classifier prompt is appended with instructions for the specific issue to detect.
-3. **LLM scoring**: A W&B Inference model evaluates the trace and returns the names of detected issues as comma-delimited string tags (for example, `"Low-quality, User-frustration, Forgetful"`).
+3. **LLM scoring**: For each signal, a W&B Inference model performs a binary classification (whether that issue is present on the trace). Detected issues are returned as comma-delimited string tags (for example, `"Low-quality, User-frustration, Forgetful"`).
 4. **Result storage**: Results are stored as feedback on the Call object and are queryable from the Traces tab.
 
 When multiple signals from the same group (Quality or Error) are active, Weave batches the signals into a single LLM call for efficiency. The model evaluates all active classifiers in one pass and returns results for each.
