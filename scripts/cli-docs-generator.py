@@ -261,7 +261,7 @@ def generate_markdown(cmd_info: Dict[str, Any], file_dir_path: str = "", project
     
     # Check if there's a snippet file for this command
     command_name = cmd_info['full_name'].replace('cli', 'wandb').replace(' ', '-')
-    snippet_path = project_root / "snippets/en/_includes/cli" / f"{command_name}.mdx" if project_root else None
+    snippet_path = project_root / "snippets/_includes/cli" / f"{command_name}.mdx" if project_root else None
     
     if snippet_path and snippet_path.exists():
         # Add import and include the snippet
@@ -410,7 +410,7 @@ def generate_index_markdown(cmd_info: Dict[str, Any], subcommands_only: bool = F
     
     # Check if there's a snippet file for this command/index
     command_name = cmd_info['full_name'].replace('cli', 'wandb').replace(' ', '-')
-    snippet_path = project_root / "snippets/en/_includes/cli" / f"{command_name}.mdx" if project_root else None
+    snippet_path = project_root / "snippets/_includes/cli" / f"{command_name}.mdx" if project_root else None
     
     # Add snippet or template for manual content
     has_snippet = snippet_path and snippet_path.exists()
