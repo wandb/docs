@@ -84,8 +84,8 @@ You can quickly scan your traces for certain behavior in the **Traces** tab usin
 ![Weave Traces view with hover-over of a Signals tag in the Signals column showing confidence and reasoning.](/weave/guides/evaluation/img/weave_signals_trace_hover.png)
 Using the trace table toolbar, you can filter the trace table to only show traces that have triggered certain signals.
 
-You can also view signal results in the Traces tab by selecting a trace and reviewing the **Trace Details view**. Open the classifiers Call that the signal generates, then under **Output** review `classifier_meta` for the reasoning.  For example, the following screenshot shows a `Quality-classifiers` signal with a high confidence (0.95) that Hallucination didn't occur and includes a reason for this rating.
-![Weave Traces view with a quality-classifier trace selected. The details panel shows Inputs, Outputs, and Hallucination classifier metadata including a confidence score and reasoning.](/weave/guides/evaluation/img/weave_signals_trace_reasoning.png)
+You can view additional signal details in the Traces tab by selecting the classifiers Call that the signal generates and reviewing the **Trace Details view**. Under Call **Output**, review `classifier_meta` for the reasoning.  For example, the following screenshot shows a `Quality-classifiers` signal with `Low-quaility` match and confidence (0.9) with a reason for this rating.
+![Weave Traces view with a quality-classifier trace selected. The details panel shows Call details with classifiers metadata including a confidence score and reason.](/weave/guides/evaluation/img/weave_signals_trace_reasoning.png)
 
 ### See signals in the project dashboard
 You can also review signals at a project level:
@@ -96,6 +96,8 @@ You can also review signals at a project level:
 In the Monitor Scores project panel, you can see time-based graphs of signals that occurred for the project. 
 ![Weave project dashboard Monitor Scores panel showing signal graphs from project activity.](/weave/guides/evaluation/img/weave_signals_project_dash.png)
 
+### Alert on signals
+To get notified when a signal is triggered, set up an [automation](/weave/guides/evaluation/automations).
 
 
 ## How signals work
