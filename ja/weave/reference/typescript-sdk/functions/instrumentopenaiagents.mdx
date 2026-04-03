@@ -1,0 +1,78 @@
+---
+title: "instrumentOpenAIAgents"
+description: "TypeScript SDK リファレンス"
+---
+
+<div id="instrumentopenaiagents">
+  # instrumentOpenAIAgents
+</div>
+
+▸ **instrumentOpenAIAgents**(): `Promise`&lt;`boolean`&gt;
+
+パッケージが利用可能な場合、OpenAI Agents に Weave のトレースを手動で登録します。
+
+**注: 通常、この関数を呼び出す必要はありません。** Weave を import すると、OpenAI Agents はモジュールローダーフックを通じて自動的にインストルメンテーションされます。この関数は、自動インストルメンテーションが機能しないエッジケース (例: 動的 import や、フックをバイパスするバンドラー) のために用意されています。
+
+この関数は、利用側の node&#95;modules から @openai/agents を動的に import し、TracingProcessor の登録を試みます。パッケージがインストールされていない場合は、エラーをスローせずに false を返します。
+
+<div id="returns">
+  #### 戻り値
+</div>
+
+`Promise`&lt;`boolean`&gt;
+
+Promise&lt;`boolean`&gt; - 登録に成功した場合は true、@openai/agents を利用できない場合は false
+
+`例`
+
+```typescript
+// ✅ 推奨: Weave をインポートするだけで、インストルメンテーションが自動的に行われます！
+import * as weave from 'weave';
+await weave.init('my-project');
+
+// OpenAI Agents はフック経由で既にインストルメンテーションされています。手動セットアップは不要です
+import { Agent } from '@openai/agents';
+const agent = new Agent({ ... });
+await agent.run(input); // Weave で自動的にトレースされます
+```
+
+`例`
+
+```typescript
+// ⚠️ 自動フックが機能しないエッジケースでのみ必要
+import { instrumentOpenAIAgents } from 'weave';
+
+const registered = await instrumentOpenAIAgents();
+if (!registered) {
+  console.log('OpenAI Agents が見つかりません - トレースを有効にするには @openai/agents をインストールしてください');
+}
+```
+
+`Remarks`
+
+**自動インストルメンテーションの仕組み**: Weave を import すると、`addCJSInstrumentation()` と `addESMInstrumentation()` を通じてモジュールローダーのフックが登録されます。その後、コードで `@openai/agents` を import すると、これらのフックが import を捕捉し、Weave のトレースを追加するためのパッチをモジュールに自動的に適用します。これは透過的に行われるため、特別な対応は不要です。
+
+**この関数を使用するタイミング**: 自動インストルメンテーションが機能しない場合にのみ使用してください。たとえば、次のようなケースです。
+
+* モジュールフックをバイパスする動的 import を使用している
+* import-in-the-middle をサポートしていないバンドラーを使用している
+* インストルメンテーションを実行するタイミングを明示的に制御する必要がある
+
+**カスタム processor ロジックの代替手段**: カスタムのトレース動作が必要な場合は、
+`createOpenAIAgentsTracingProcessor()` を使用して手動で登録してください。
+
+```typescript
+import { addTraceProcessor } from '@openai/agents';
+import { createOpenAIAgentsTracingProcessor } from 'weave';
+
+const processor = createOpenAIAgentsTracingProcessor();
+addTraceProcessor(processor);
+```
+
+<div id="defined-in">
+  #### 定義元
+</div>
+
+[integrations/openai.agent.ts:674](https://github.com/wandb/weave/blob/62f1e46098095776ee29b730ad10b3b3d1a68307/sdks/node/src/integrations/openai.agent.ts#L674)
+
+***

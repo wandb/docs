@@ -1,0 +1,22 @@
+```python
+"""
+run의 이력을 수정하기 위해 run을 되감습니다.
+
+`wandb.init()`의 `resume_from` 파라미터에 되감을 run ID와 step을 지정하세요.
+"""
+import wandb
+import math
+
+# run을 초기화하고 메트릭을 로깅합니다
+with wandb.init(project="<project>", entity="<entity>") as run:
+    # 트레이닝 및 로깅 코드를 여기에 작성하세요
+    pass
+
+run_ID = "<run_id>" # 원본 run의 run ID로 교체하세요
+step = int("<step>") # 되감을 step을 지정하세요
+
+# 원본 run의 지정된 step부터 재개하는 새 run을 시작합니다
+with wandb.init(project="<project>", entity="<entity>", resume_from=f"{run_ID}?_step={step}") as run:
+    # 트레이닝 및 로깅 코드를 여기에 작성하세요
+    pass    
+```

@@ -1,12 +1,16 @@
 ---
 description: Supprimez des artefacts de manière interactive avec l'interface utilisateur de la W&B App ou par programmation avec
-  le W&B Python SDK.
+  le SDK Python W&B.
 title: Supprimer un artefact
 ---
 
-Supprimez des artefacts de manière interactive avec la W&amp;B App ou par programmation avec le W&amp;B Python SDK. Lorsque vous supprimez un artefact, W&amp;B marque cet artefact comme étant en *soft-delete*. En d&#39;autres termes, l&#39;artefact est marqué comme devant être supprimé, mais les fichiers ne sont pas immédiatement supprimés du stockage.
+Supprimez des artefacts de manière interactive avec la W&amp;B App ou par programmation avec le SDK Python W&amp;B. Lorsque vous supprimez un artefact, W&amp;B marque cet artefact comme étant en *soft-delete*. En d&#39;autres termes, l&#39;artefact est marqué comme devant être supprimé, mais les fichiers ne sont pas immédiatement supprimés du stockage.
 
 Le contenu de l&#39;artefact reste en état de *soft-delete*, c&#39;est-à-dire en attente de suppression, jusqu&#39;à ce qu&#39;un processus de garbage collection exécuté régulièrement examine tous les artefacts marqués pour suppression. Le processus de garbage collection supprime les fichiers associés du stockage si l&#39;artefact et ses fichiers associés ne sont utilisés par aucune version antérieure ou ultérieure de l&#39;artefact.
+
+<Note>
+  La garbage collection est effectuée au mieux. W&amp;B ne garantit pas le délai d&#39;apparition de l&#39;espace libéré dans votre stockage d’objets après la suppression d&#39;un artefact. Les déploiements volumineux ou les files d&#39;attente importantes peuvent prendre plus de temps que prévu. Pour savoir comment cela s&#39;articule avec les données d’exécution, les paramètres de rétention et les actions facultatives de l’opérateur, voir [Gérer le stockage du bucket et les coûts](/fr/platform/hosting/managing-bucket-storage).
+</Note>
 
 <div id="artifact-garbage-collection-workflow">
   ## Flux de travail de garbage collection des artefacts
@@ -16,24 +20,24 @@ Le schéma suivant illustre l’ensemble du processus de garbage collection des 
 
 ```mermaid
 graph TB
-    Start([Suppression d'Artifact Initiée]) --> DeleteMethod{Méthode de Suppression}
+    Start([Suppression d'artefact initiée]) --> DeleteMethod{Méthode de suppression}
     
-    DeleteMethod -->|UI| UIDelete[Suppression via W&B App]
-    DeleteMethod -->|SDK| SDKDelete[Suppression via W&B Python SDK]
-    DeleteMethod -->|TTL| TTLDelete[Politique TTL Expirée]
+    DeleteMethod -->|UI| UIDelete[Supprimer via la W&B App]
+    DeleteMethod -->|SDK| SDKDelete[Supprimer via le SDK Python W&B]
+    DeleteMethod -->|TTL| TTLDelete[Expiration de la politique TTL]
     
-    UIDelete --> SoftDelete[Artifact Marqué comme<br/>'Soft Delete']
+    UIDelete --> SoftDelete[Artefact marqué comme<br/>'soft-delete']
     SDKDelete --> SoftDelete
     TTLDelete --> SoftDelete
     
-    SoftDelete --> GCWait[(Attente du<br/>Processus de<br/>Nettoyage)]
+    SoftDelete --> GCWait[(Attente de la<br/>Garbage Collection<br/>au mieux)]
     
-    GCWait --> GCRun[Exécution du<br/>Processus de Nettoyage<br/><br/>- Examine tous les artifacts en soft delete<br/>- Vérifie les dépendances des fichiers]
+    GCWait --> GCRun[Garbage Collection<br/>Processus en cours<br/><br/>- Examine tous les artefacts soft-delete<br/>- Vérifie les dépendances de fichiers]
     
-    GCRun --> CheckUsage{Les fichiers sont-ils utilisés par<br/>d'autres versions d'artifact ?}
+    GCRun --> CheckUsage{Les fichiers sont-ils utilisés par<br/>d'autres versions d'artefacts ?}
     
-    CheckUsage -->|Oui| KeepFiles[Fichiers Conservés en Stockage<br/><br/>- Artifact marqué comme supprimé<br/>- Fichiers conservés pour d'autres versions]
-    CheckUsage -->|Non| DeleteFiles[Fichiers Supprimés du Stockage<br/><br/>- Artifact entièrement supprimé<br/>- Espace de stockage récupéré]
+    CheckUsage -->|Oui| KeepFiles[Fichiers conservés dans le stockage<br/><br/>- Artefact marqué comme supprimé<br/>- Fichiers conservés pour d'autres versions]
+    CheckUsage -->|Non| DeleteFiles[Fichiers supprimés du stockage<br/><br/>- Artefact entièrement supprimé<br/>- Espace de stockage récupéré]
     
     KeepFiles --> End([Fin])
     DeleteFiles --> End
@@ -49,7 +53,7 @@ graph TB
 Vous pouvez planifier la suppression des artefacts de W&amp;B à l’aide de politiques TTL. Pour plus d&#39;informations, voir [Gérer la rétention des données avec la politique TTL des artefacts](./ttl).
 
 <Note>
-  Les artefacts supprimés par une politique TTL, le SDK Python de W&amp;B ou l’application W&amp;B sont d’abord en soft-delete. Les artefacts en soft-delete sont ensuite soumis à la garbage collection avant d’être définitivement supprimés.
+  Les artefacts supprimés par une politique TTL, le SDK Python de W&amp;B ou la W&amp;B App sont d’abord en soft-delete. Les artefacts en soft-delete sont ensuite soumis à la garbage collection avant d’être définitivement supprimés.
 </Note>
 
 <Note>
@@ -207,26 +211,25 @@ Les Artefacts avec des alias protégés sont soumis à des restrictions de suppr
   ## Activer le garbage collection selon le mode d’hébergement de W&amp;B
 </div>
 
-Le garbage collection est activé par défaut si vous utilisez le cloud partagé de W&amp;B. Selon la manière dont vous hébergez W&amp;B, vous devrez peut-être effectuer des étapes supplémentaires pour activer le garbage collection, notamment :
+<Note>Le déclenchement du garbage collection n’est pas garanti. Voir [Gérer le stockage des buckets et les coûts](/fr/platform/hosting/managing-bucket-storage) pour plus de détails.</Note>
 
-* Définissez la variable d’environnement `GORILLA_ARTIFACT_GC_ENABLED` sur true : `GORILLA_ARTIFACT_GC_ENABLED=true`
-* Activez la gestion des versions du bucket si vous utilisez [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/object-versioning) ou tout autre fournisseur de stockage comme [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). Si vous utilisez Azure, [activez la suppression réversible](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview).
-  <Note>
-    La suppression réversible dans Azure est l’équivalent de la gestion des versions du bucket chez les autres fournisseurs de stockage.
-  </Note>
+Le garbage collection est actif par défaut si vous utilisez le Cloud mutualisé de W&amp;B. Dans W&amp;B Dedicated et W&amp;B Autogéré, vous devrez peut-être effectuer les étapes supplémentaires suivantes pour activer le garbage collection.
+
+1. **W&amp;B Autogéré** : définissez `GORILLA_ARTIFACT_GC_ENABLED=true`.
+2. **Cloud dédié** : contactez l’assistance pour vérifier que le garbage collection est actif.
+3. Activez la gestion des versions du bucket si vous utilisez [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/object-versioning) ou tout autre fournisseur de stockage comme [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). Si vous utilisez Azure, [activez la suppression réversible](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview), qui est l’équivalent de la gestion des versions du bucket.
 
 Le tableau suivant indique comment remplir les conditions requises pour activer le garbage collection en fonction de votre type de déploiement.
 
 Le `X` indique que vous devez remplir cette condition :
 
-|                                                                                                                | Variable d’environnement | Activer la gestion des versions |
-| -------------------------------------------------------------------------------------------------------------- | ------------------------ | ------------------------------- |
-| Cloud partagé                                                                                                  |                          |                                 |
-| Cloud partagé avec [connecteur de stockage sécurisé](/fr/platform/hosting/data-security/secure-storage-connector) |                          | X                               |
-| Cloud dédié                                                                                                    |                          |                                 |
-| Cloud dédié avec [connecteur de stockage sécurisé](/fr/platform/hosting/data-security/secure-storage-connector)   |                          | X                               |
-| Cloud autogéré                                                                                                 | X                        | X                               |
-| Autogéré sur site                                                                                              | X                        | X                               |
+|                                                                                                           | Variable d’environnement | Activer la gestion des versions |
+| --------------------------------------------------------------------------------------------------------- | ------------------------ | ------------------------------- |
+| Cloud mutualisé de W&amp;B                                                                                |                          |                                 |
+| Cloud mutualisé de W&amp;B avec [stockage BYOB](/fr/platform/hosting/data-security/secure-storage-connector) |                          | X                               |
+| Cloud dédié                                                                                               |                          |                                 |
+| Cloud dédié avec [stockage BYOB](/fr/platform/hosting/data-security/secure-storage-connector)                |                          | X                               |
+| W&amp;B Autogéré                                                                                          | X                        | X                               |
 
 <Note>
   remarque

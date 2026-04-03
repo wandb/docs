@@ -1,7 +1,3 @@
----
-title: Fork d’un run
----
-
 ```python
 """Forker un run W&B existant à partir d'une étape spécifique."""
 
@@ -12,7 +8,7 @@ with wandb.init(project="<project>", entity="<entity>") as original_run:
     # Le code d'entraînement et de journalisation va ici.
     pass
 
-# Forker le run à partir d'une étape spécifique
+# Forker le run à partir d'une étape spécifique. Dans cet exemple, nous forkerons à partir de l'étape 200. Vous pouvez ajuster le numéro d'étape selon vos besoins.
 with wandb.init(project="<project>",entity="<entity>", fork_from=f"{original_run.id}?_step=200") as forked_run:
     # Le code d'entraînement et de journalisation va ici.
     pass

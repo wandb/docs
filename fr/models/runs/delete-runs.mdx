@@ -1,52 +1,81 @@
 ---
 title: Supprimer des runs
-description: Découvrez comment supprimer des runs d’un projet W&B à l’aide de la W&B App.
+description: Supprimez des runs d’un projet W&B à l’aide de la W&B App ou de l’API publique, et découvrez comment les données des runs supprimés sont supprimées du stockage sur les déploiements Cloud dédié et Autogéré.
 ---
 
-Supprimez un ou plusieurs runs d’un projet à l’aide de la W&amp;B App.
-
-1. Accédez au projet qui contient les runs que vous souhaitez supprimer.
-2. Sélectionnez l’onglet **Runs**.
-3. Cochez la case à côté des runs que vous souhaitez supprimer.
-4. Cliquez sur le bouton **Supprimer** (icône de corbeille) au-dessus du tableau.
-5. Dans le panneau qui s’affiche, cliquez sur **Supprimer**.
-
-<Note>
-  Un ID de run ne peut pas être réutilisé, même après la suppression du run. Toute tentative de réutilisation échouera avec une erreur.
-</Note>
-
-<Note>
-  Pour les projets qui contiennent un grand nombre de runs, vous pouvez utiliser soit la barre de recherche pour filtrer les runs que vous souhaitez supprimer à l’aide de Regex, soit le bouton **Filtre** pour filtrer les runs en fonction de leur statut, de leurs tags ou d’autres propriétés.
-</Note>
-
-<div id="run-deletion-flowchart">
-  ### Organigramme de suppression des runs
+<div id="delete-runs">
+  ## Supprimer des runs
 </div>
 
-Le diagramme suivant illustre l’ensemble du processus de suppression d’un run, y compris la gestion des artifacts associés et des liens du registre :
+Supprimez des runs d&#39;un projet depuis la W&amp;B App ou l&#39;API Python.
+
+<Tabs>
+  <Tab title="W&B App" value="ui">
+    1. Accédez au projet qui contient les runs que vous souhaitez supprimer.
+    2. Sélectionnez l&#39;onglet **Runs**.
+    3. Cochez la case à côté des runs que vous souhaitez supprimer.
+    4. Cliquez sur le bouton **Delete** (icône de corbeille) au-dessus du tableau.
+    5. Dans le volet latéral qui s&#39;ouvre, choisissez **Delete**.
+
+    Pour les projets contenant un grand nombre de runs, vous pouvez utiliser soit la barre de recherche pour filtrer les runs à supprimer à l&#39;aide d&#39;expressions régulières, soit le bouton de filtre pour filtrer les runs selon leur statut, leurs tags ou d&#39;autres propriétés.
+  </Tab>
+
+  <Tab title="Python" value="python">
+    Vous pouvez supprimer des runs par programmation avec [`Run.delete()`](/fr/models/ref/python/public-api/run#method-run-delete). Définissez `delete_artifacts=True` si vous souhaitez également supprimer les artefacts associés au run.
+
+    ```python
+    import wandb
+
+    api = wandb.Api()
+    runs = api.runs("<entity>/<project>")
+    for run in runs:
+        if run.state == "finished":  # Remplacez par votre propre condition
+            run.delete(delete_artifacts=False)
+    ```
+
+    Pour la signature complète de la méthode et son comportement, consultez la [référence `Run.delete`](/fr/models/ref/python/public-api/run#method-run-delete).
+
+    Pour supprimer des fichiers individuels associés à un run, comme des médias enregistrés :
+
+    1. Obtenez les références des fichiers concernés avec [`Run.files()`](/fr/models/ref/python/public-api/run#method-run-files).
+    2. Utilisez [`File.delete()`](/fr/models/ref/python/public-api/file#method-file-delete) pour supprimer des fichiers individuels.
+  </Tab>
+</Tabs>
+
+Un ID de run ne peut pas être réutilisé, même après la suppression du run. À la place, une erreur sera renvoyée.
+
+<Warning>
+  Lorsque vous supprimez un run et choisissez de supprimer les artefacts associés, les artefacts sont supprimés définitivement et ne peuvent pas être récupérés, même si le run est restauré ultérieurement. Cela inclut les artefacts liés au Registry.
+</Warning>
+
+<div id="run-deletion-flowchart">
+  ## Organigramme de suppression des runs
+</div>
+
+Le diagramme suivant illustre l’ensemble du processus de suppression d’un run, y compris la gestion des artefacts associés et des liens du Registry :
 
 ```mermaid
 graph TB
     Start([L'utilisateur initie<br/>la suppression du run]) --> RunSelect[Sélectionner les Runs<br/>à supprimer]
     
-    RunSelect --> DeletePrompt{Supprimer les Artifacts<br/>associés ?}
+    RunSelect --> DeletePrompt{Supprimer les artefacts<br/>associés ?}
     
-    DeletePrompt -->|Non| DeleteRunOnly[Supprimer le run uniquement<br/><br/>- Métadonnées du run supprimées<br/>- Artifacts toujours disponibles<br/>- Accès aux artifacts conservé]
+    DeletePrompt -->|Non| DeleteRunOnly[Supprimer le run uniquement<br/><br/>- Métadonnées du run supprimées<br/>- artefacts toujours disponibles<br/>- Accès aux artefacts conservé]
     
-    DeletePrompt -->|Oui| CheckArtifacts[Vérifier les<br/>Artifacts associés]
+    DeletePrompt -->|Oui| CheckArtifacts[Vérifier les<br/>artefacts associés]
     
-    CheckArtifacts --> HasRegistry{Artifacts liés au<br/>registre de modèles ?}
+    CheckArtifacts --> HasRegistry{artefacts liés au<br/>Registry de modèles ?}
     
-    HasRegistry -->|Oui| RegistryWarning[⚠️ Avertissement<br/><br/>Les modèles du registre seront supprimés<br/>Les alias Production seront affectés]
+    HasRegistry -->|Oui| RegistryWarning[⚠️ Avertissement<br/><br/>Les modèles du Registry seront supprimés<br/>Les alias Production seront affectés]
     HasRegistry -->|Non| DirectDelete
     
-    RegistryWarning --> ConfirmRegistry{Confirmer la suppression<br/>du modèle du registre ?}
+    RegistryWarning --> ConfirmRegistry{Confirmer la suppression<br/>du modèle du Registry ?}
     
     ConfirmRegistry -->|Non| DeleteRunOnly
-    ConfirmRegistry -->|Oui| DirectDelete[Supprimer le run + Artifacts<br/><br/>- Métadonnées du run supprimées<br/>- Artifacts supprimés définitivement<br/>- Liens du registre supprimés<br/>- Impossible à récupérer]
+    ConfirmRegistry -->|Oui| DirectDelete[Supprimer le run + artefacts<br/><br/>- Métadonnées du run supprimées<br/>- artefacts supprimés définitivement<br/>- Liens du Registry supprimés<br/>- Impossible à récupérer]
     
-    DeleteRunOnly --> PartialEnd([Run supprimé<br/>Artifacts conservés])
-    DirectDelete --> FullEnd([Run + Artifacts<br/>supprimés définitivement])
+    DeleteRunOnly --> PartialEnd([Run supprimé<br/>artefacts conservés])
+    DirectDelete --> FullEnd([Run + artefacts<br/>supprimés définitivement])
     
     style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
     style DeletePrompt fill:#fff3e0,stroke:#333,stroke-width:2px,color:#000
@@ -57,6 +86,16 @@ graph TB
     style FullEnd fill:#ffcdd2,stroke:#333,stroke-width:2px,color:#000
 ```
 
-<Warning>
-  Lorsque vous supprimez un run et choisissez de supprimer les artifacts associés, ceux-ci sont définitivement supprimés et ne peuvent plus être récupérés, même si le run est restauré ultérieurement. Cela inclut les artifacts liés au registre.
-</Warning>
+<div id="when-deleted-run-data-is-removed-from-storage">
+  ## Quand les données de run supprimées sont retirées du stockage
+</div>
+
+Sur [Cloud dédié de W&amp;B](/fr/platform/hosting/hosting-options/dedicated-cloud) et [W&amp;B Autogéré](/fr/platform/hosting/hosting-options/self-managed), la variable d’environnement `GORILLA_DATA_RETENTION_PERIOD` détermine pendant combien de temps les **données de run supprimées** sont conservées avant de pouvoir être supprimées définitivement du stockage d’objets. **Les artefacts ne sont pas supprimés par ce paramètre** ; ils suivent le processus de suppression et de garbage collection des artefacts décrit dans [Supprimer un artefact](/fr/models/artifacts/delete-artifacts).
+
+Définir ou modifier `GORILLA_DATA_RETENTION_PERIOD` est irréversible pour les données au-delà de la période de rétention. Sauvegardez votre base de données et votre bucket avant d’activer la rétention ou d’en réduire la durée. Voir [Configurer les variables d’environnement](/fr/platform/hosting/env-vars) pour le tableau de référence et les avertissements.
+
+Même après la suppression d’un run ou d’un fichier et le traitement de la rétention, **l’utilisation du bucket peut être mise à jour avec retard** pendant que les tâches en arrière-plan se terminent. W&amp;B ne garantit pas la libération immédiate de l’espace dans le stockage d’objets. Pour un aperçu complet des artefacts par rapport aux données de run, des délais attendus et des actions facultatives pour l’administrateur, voir [Gérer le stockage et les coûts du bucket](/fr/platform/hosting/managing-bucket-storage).
+
+<Note>
+  Si les suppressions n’apparaissent pas comme prévu dans la W&amp;B App lorsque vous utilisez l’API publique, mettez à niveau le SDK Python W&amp;B vers une version récente, puis réessayez.
+</Note>
