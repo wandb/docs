@@ -5,7 +5,11 @@ title: アーティファクト を削除する
 
 W&amp;B App を使ってインタラクティブに、または W&amp;B Python SDK を使ってプログラムから アーティファクト を削除できます。アーティファクト を削除すると、W&amp;B はその アーティファクト を *ソフト削除* としてマークします。つまり、アーティファクト は削除対象としてマークされますが、ファイルが storage からすぐに削除されるわけではありません。
 
-アーティファクト の内容は、定期的に実行されるガベージコレクションプロセスが、削除対象としてマークされたすべての アーティファクト を確認するまで、ソフト削除、つまり削除保留の状態で保持されます。ガベージコレクションプロセスは、その アーティファクト と関連ファイルが以前または後続の アーティファクト バージョンで使用されていない場合、関連ファイルを storage から削除します.
+アーティファクト の内容は、定期的に実行されるガベージコレクションプロセスが、削除対象としてマークされたすべての アーティファクト を確認するまで、ソフト削除、つまり削除保留の状態で保持されます。ガベージコレクションプロセスは、その アーティファクト と関連ファイルが以前または後続の アーティファクトバージョン で使用されていない場合、関連ファイルを storage から削除します.
+
+<Note>
+  ガベージコレクションは **ベストエフォート** です。アーティファクト を削除したあと、解放された容量がオブジェクトストレージにどのくらい早く反映されるかについて、W&amp;B は保証しません。大規模な deployment やバックログがある場合は、想定より時間がかかることがあります。これが run データ、保持設定、およびオペレーターによる任意の操作とどのように関係するかについては、[バケット storage とコストを管理する](/ja/platform/hosting/managing-bucket-storage) を参照してください。
+</Note>
 
 <div id="artifact-garbage-collection-workflow">
   ## アーティファクトのガベージコレクションのワークフロー
@@ -15,26 +19,26 @@ W&amp;B App を使ってインタラクティブに、または W&amp;B Python S
 
 ```mermaid
 graph TB
-    Start([Artifact 削除開始]) --> DeleteMethod{削除方法}
+    Start([Artifact Deletion Initiated]) --> DeleteMethod{Deletion Method}
     
-    DeleteMethod -->|UI| UIDelete[W&B App 経由で削除]
-    DeleteMethod -->|SDK| SDKDelete[W&B Python SDK 経由で削除]
-    DeleteMethod -->|TTL| TTLDelete[TTL ポリシーの期限切れ]
+    DeleteMethod -->|UI| UIDelete[Delete via W&B App]
+    DeleteMethod -->|SDK| SDKDelete[Delete via W&B Python SDK]
+    DeleteMethod -->|TTL| TTLDelete[TTL Policy Expires]
     
-    UIDelete --> SoftDelete[Artifact に<br/>'ソフト削除' のマークが付く]
+    UIDelete --> SoftDelete[Artifact Marked as<br/>'Soft Delete']
     SDKDelete --> SoftDelete
     TTLDelete --> SoftDelete
     
-    SoftDelete --> GCWait[(ガベージコレクション<br/>プロセスの<br/>待機)]
+    SoftDelete --> GCWait[(ベストエフォートの<br/>ガベージコレクションを<br/>待機)]
     
-    GCWait --> GCRun[ガベージコレクション<br/>プロセス実行<br/><br/>- ソフト削除済み artifacts をすべて確認<br/>- ファイルの依存関係を確認]
+    GCWait --> GCRun[Garbage Collection<br/>Process Runs<br/><br/>- Reviews all soft-deleted artifacts<br/>- Checks file dependencies]
     
-    GCRun --> CheckUsage{ファイルは他の<br/>アーティファクトバージョンで使用されているか？}
+    GCRun --> CheckUsage{Are files used by<br/>other artifact versions?}
     
-    CheckUsage -->|Yes| KeepFiles[ファイルをストレージに保持<br/><br/>- Artifact に削除済みのマークが付く<br/>- ファイルは他のバージョン用に残る]
-    CheckUsage -->|No| DeleteFiles[ファイルをストレージから削除<br/><br/>- Artifact が完全に削除される<br/>- ストレージ容量が解放される]
+    CheckUsage -->|Yes| KeepFiles[Files Kept in Storage<br/><br/>- Artifact marked deleted<br/>- Files remain for other versions]
+    CheckUsage -->|No| DeleteFiles[Files Deleted from Storage<br/><br/>- Artifact fully removed<br/>- Storage space reclaimed]
     
-    KeepFiles --> End([終了])
+    KeepFiles --> End([End])
     DeleteFiles --> End
     
     style Start fill:#e1f5fe,stroke:#333,stroke-width:2px,color:#000
@@ -206,26 +210,25 @@ for artifact in run.logged_artifacts():
   ## W&amp;B のホスティング形態に応じてガベージコレクションを有効にする
 </div>
 
-W&amp;B の共有クラウドを使用している場合、ガベージコレクションはデフォルトで有効です。W&amp;B のホスティング形態によっては、ガベージコレクションを有効にするために追加の手順が必要になる場合があります。具体的には、次の対応が必要です。
+<Note>ガベージコレクションの実行タイミングは保証されません。詳細については、[バケットストレージとコストを管理する](/ja/platform/hosting/managing-bucket-storage) を参照してください。</Note>
 
-* `GORILLA_ARTIFACT_GC_ENABLED` 環境変数を true に設定します: `GORILLA_ARTIFACT_GC_ENABLED=true`
-* [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html)、[Google Cloud](https://cloud.google.com/storage/docs/object-versioning)、または [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning) などのその他のストレージプロバイダを使用している場合は、バケットのバージョン管理を有効にします。Azure を使用している場合は、[ソフト削除を有効にします](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview)。
-  <Note>
-    Azure のソフト削除は、他のストレージプロバイダにおけるバケットのバージョン管理に相当します。
-  </Note>
+W&amp;B Multi-tenant Cloud を使用している場合、ガベージコレクションはデフォルトで有効です。W&amp;B Dedicated および Self-Managed では、ガベージコレクションを有効にするために、次の追加手順が必要になる場合があります。
+
+1. **W&amp;B Self-Managed**: `GORILLA_ARTIFACT_GC_ENABLED=true` を設定します。
+2. **Dedicated Cloud**: ガベージコレクションが有効になっていることを確認するため、サポートにお問い合わせください。
+3. [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html)、[Google Cloud](https://cloud.google.com/storage/docs/object-versioning)、または [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning) などのその他のストレージプロバイダを使用している場合は、バケットのバージョン管理を有効にします。Azure を使用している場合は、バケットのバージョン管理に相当する [ソフト削除を有効にします](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview)。
 
 次の表は、デプロイタイプごとにガベージコレクションを有効にするための要件を示しています。
 
 `X` は、その要件を満たす必要があることを示します。
 
-|                                                                                       | 環境変数 | バージョン管理を有効にする |
-| ------------------------------------------------------------------------------------- | ---- | ------------- |
-| 共有クラウド                                                                                |      |               |
-| [セキュアストレージコネクタ](/ja/platform/hosting/data-security/secure-storage-connector) を使用する共有クラウド |      | X             |
-| 専用クラウド                                                                                |      |               |
-| [セキュアストレージコネクタ](/ja/platform/hosting/data-security/secure-storage-connector) を使用する専用クラウド |      | X             |
-| セルフマネージドクラウド                                                                          | X    | X             |
-| オンプレミスのセルフマネージド                                                                       | X    | X             |
+|                                                                                                  | 環境変数 | バージョン管理を有効にする |
+| ------------------------------------------------------------------------------------------------ | ---- | ------------- |
+| Multi-tenant Cloud                                                                               |      |               |
+| Multi-tenant Cloud with [BYOB storage](/ja/platform/hosting/data-security/secure-storage-connector) |      | X             |
+| Dedicated Cloud                                                                                  |      |               |
+| Dedicated Cloud with [BYOB storage](/ja/platform/hosting/data-security/secure-storage-connector)    |      | X             |
+| セルフマネージド                                                                                         | X    | X             |
 
 <Note>
   note

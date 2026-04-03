@@ -38,7 +38,9 @@ System Settings 管理 UI でインスタンスレベルの設定を行うだけ
 | `WANDB_IDENTITY_TOKEN_FILE`            | [アイデンティティ フェデレーション](/ja/platform/hosting/iam/identity_federation/) で使用する、Java Web Tokens (JWTs) が保存されるローカルディレクトリへの絶対パスです。                                                                                                                                                                                                                                                           |
 
 <Note>
-  GORILLA&#95;DATA&#95;RETENTION&#95;PERIOD 環境変数の使用には十分注意してください。この環境変数を設定すると、データは即座に削除されます。また、このフラグを有効にする前に、データベースとストレージバケットの両方をバックアップしておくことを推奨します。
+  `GORILLA_DATA_RETENTION_PERIOD` 環境変数は、慎重に使用してください。これは**削除された run データ** (削除フロー後のメディアなど、run に関連付けられたファイルを含む) に適用されます。Artifacts は削除されません。Artifacts の削除については、[Delete an artifact](/ja/models/artifacts/delete-artifacts) で説明しているように、Artifacts の削除と `GORILLA_ARTIFACT_GC_ENABLED` を使用してください。run とファイルの削除が storage およびこの設定にどのように関係するかについては、**Delete runs** の [When deleted run data is removed from storage](/ja/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage) を参照してください。この変数を設定すると、保持期間のウィンドウに従ってデータが削除されます。この値を有効にするまたは変更する前に、データベースと storage バケット の両方をバックアップしてください。
+
+  バケット からの object のバックグラウンド削除は**ベストエフォート**で実行されるため、特定の時間内に完了する保証はありません。想定される動作、トラブルシューティング、および storage コストとの関係については、[Manage bucket storage and costs](/ja/platform/hosting/managing-bucket-storage) を参照してください。
 </Note>
 
 <div id="advanced-reliability-settings">

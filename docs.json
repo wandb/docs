@@ -1403,6 +1403,7 @@
                           "fr/platform/hosting/data-security/data-encryption"
                         ]
                       },
+                      "fr/platform/hosting/managing-bucket-storage",
                       "fr/platform/hosting/env-vars"
                     ]
                   },
@@ -2047,6 +2048,7 @@
                       "fr/weave/guides/evaluation/builtin_scorers",
                       "fr/weave/guides/evaluation/weave_local_scorers",
                       "fr/weave/guides/evaluation/evaluation_logger",
+                      "fr/weave/guides/evaluation/export_eval",
                       "fr/weave/guides/core-types/leaderboards",
                       "fr/weave/guides/tools/column-mapping",
                       "fr/weave/guides/evaluation/dynamic_leaderboards"
@@ -2083,6 +2085,7 @@
                       },
                       "fr/weave/guides/tracking/redact-pii",
                       "fr/weave/guides/evaluation/monitors",
+                      "fr/weave/guides/evaluation/automations",
                       "fr/weave/guides/evaluation/guardrails",
                       "fr/weave/guides/tracking/otel"
                     ]
@@ -2254,14 +2257,18 @@
                       {
                         "group": "Fonctions",
                         "pages": [
+                          "fr/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "fr/weave/reference/typescript-sdk/functions/init",
+                          "fr/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "fr/weave/reference/typescript-sdk/functions/login",
                           "fr/weave/reference/typescript-sdk/functions/op",
+                          "fr/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "fr/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "fr/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "fr/weave/reference/typescript-sdk/functions/weaveaudio",
                           "fr/weave/reference/typescript-sdk/functions/weaveimage",
                           "fr/weave/reference/typescript-sdk/functions/withattributes",
+                          "fr/weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "fr/weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
@@ -2632,6 +2639,7 @@
                           "ja/platform/hosting/data-security/data-encryption"
                         ]
                       },
+                      "ja/platform/hosting/managing-bucket-storage",
                       "ja/platform/hosting/env-vars"
                     ]
                   },
@@ -3276,6 +3284,7 @@
                       "ja/weave/guides/evaluation/builtin_scorers",
                       "ja/weave/guides/evaluation/weave_local_scorers",
                       "ja/weave/guides/evaluation/evaluation_logger",
+                      "ja/weave/guides/evaluation/export_eval",
                       "ja/weave/guides/core-types/leaderboards",
                       "ja/weave/guides/tools/column-mapping",
                       "ja/weave/guides/evaluation/dynamic_leaderboards"
@@ -3312,6 +3321,7 @@
                       },
                       "ja/weave/guides/tracking/redact-pii",
                       "ja/weave/guides/evaluation/monitors",
+                      "ja/weave/guides/evaluation/automations",
                       "ja/weave/guides/evaluation/guardrails",
                       "ja/weave/guides/tracking/otel"
                     ]
@@ -3483,14 +3493,18 @@
                       {
                         "group": "Functions",
                         "pages": [
+                          "ja/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "ja/weave/reference/typescript-sdk/functions/init",
+                          "ja/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ja/weave/reference/typescript-sdk/functions/login",
                           "ja/weave/reference/typescript-sdk/functions/op",
+                          "ja/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "ja/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "ja/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "ja/weave/reference/typescript-sdk/functions/weaveaudio",
                           "ja/weave/reference/typescript-sdk/functions/weaveimage",
                           "ja/weave/reference/typescript-sdk/functions/withattributes",
+                          "ja/weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "ja/weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },
@@ -3861,6 +3875,7 @@
                           "ko/platform/hosting/data-security/data-encryption"
                         ]
                       },
+                      "ko/platform/hosting/managing-bucket-storage",
                       "ko/platform/hosting/env-vars"
                     ]
                   },
@@ -4505,6 +4520,7 @@
                       "ko/weave/guides/evaluation/builtin_scorers",
                       "ko/weave/guides/evaluation/weave_local_scorers",
                       "ko/weave/guides/evaluation/evaluation_logger",
+                      "ko/weave/guides/evaluation/export_eval",
                       "ko/weave/guides/core-types/leaderboards",
                       "ko/weave/guides/tools/column-mapping",
                       "ko/weave/guides/evaluation/dynamic_leaderboards"
@@ -4541,6 +4557,7 @@
                       },
                       "ko/weave/guides/tracking/redact-pii",
                       "ko/weave/guides/evaluation/monitors",
+                      "ko/weave/guides/evaluation/automations",
                       "ko/weave/guides/evaluation/guardrails",
                       "ko/weave/guides/tracking/otel"
                     ]
@@ -4712,14 +4729,18 @@
                       {
                         "group": "Functions",
                         "pages": [
+                          "ko/weave/reference/typescript-sdk/functions/createopenaiagentstracingprocessor",
                           "ko/weave/reference/typescript-sdk/functions/init",
+                          "ko/weave/reference/typescript-sdk/functions/instrumentopenaiagents",
                           "ko/weave/reference/typescript-sdk/functions/login",
                           "ko/weave/reference/typescript-sdk/functions/op",
+                          "ko/weave/reference/typescript-sdk/functions/patchrealtimesession",
                           "ko/weave/reference/typescript-sdk/functions/requirecurrentcallstackentry",
                           "ko/weave/reference/typescript-sdk/functions/requirecurrentchildsummary",
                           "ko/weave/reference/typescript-sdk/functions/weaveaudio",
                           "ko/weave/reference/typescript-sdk/functions/weaveimage",
                           "ko/weave/reference/typescript-sdk/functions/withattributes",
+                          "ko/weave/reference/typescript-sdk/functions/wrapgooglegenai",
                           "ko/weave/reference/typescript-sdk/functions/wrapopenai"
                         ]
                       },

@@ -1,0 +1,103 @@
+```python
+"""
+W&B Sweeps의 스윕 설정 예시입니다.
+
+sweep_configuration은 단일 중첩 스윕 설정의 예시입니다.
+sweep_configuration_nested는 이중 중첩 스윕 설정의 예시입니다.
+
+다음 항목을 교체하세요:
+- 꺾쇠 괄호로 묶인 값을 사용자 고유의 값으로 교체
+- 정수 값, 부동 소수점 값, 값 목록을 사용자 고유의 하이퍼파라미터 검색 공간으로 교체
+"""
+
+sweep_configuration = {
+    "program": "<program_name>",
+    "name": "<sweep_name>",
+    "method": "<sweep_method>",
+    "metric": {
+        "name": "<metric_name>",
+        "goal": "<goal_type>"
+        },
+    "parameters": {
+        "hyperparameter_1": {
+            "search_constraint_1": 0.0001, 
+            "search_constraint_2": 0.1
+            },
+        "hyperparameter_2": {
+            "values": [16, 32, 64]
+            },
+        "hyperparameter_3": {
+            "values": [5, 10, 15]
+            },
+        "hyperparameter_4": {
+            "values": ["value_1", "value_2"]
+            },
+    },
+}
+
+## 이중 중첩 스윕 설정 예시
+sweep_configuration_nested = {
+  "program": "<program_name>",
+  "name": "<sweep_name>",
+  "method": "<sweep_method>",
+  "metric": {
+    "name": "<metric_name>",
+    "goal": "<goal_type>"
+  },
+  "parameters": {
+    "hyperparameter_1": {
+      "values": ["<value_1>", "<value_2>"]
+    },
+    "hyperparameter_2": {
+      "values": [128, 256, 512]
+    },
+    "hyperparameter_3": {
+      "values": [0.3, 0.4, 0.5]
+    },
+    "hyperparameter_4": {
+      "value": 1
+    },
+    "hyperparameter_5": {
+      "distribution": "<distribution_type>",
+      "search_constraint_1": 0,
+      "search_constraint_2": 0.1
+    },
+    "nested_category_1": {
+      "parameters": {
+        "nested_hyperparameter_1": {
+          "distribution": "<distribution_type>",
+          "search_constraint_1": 0.0,
+          "search_constraint_2": 0.9
+        },
+        "nested_hyperparameter_2": {
+          "values": [0.0001, 0.0005, 0.001]
+        }
+      }
+    },
+    "nested_category_2": {
+      "parameters": {
+        "nested_hyperparameter_1": {
+          "distribution": "<distribution_type>",
+          "search_constraint_1": 0.0,
+          "search_constraint_2": 0.9
+        },
+        "nested_hyperparameter_2": {
+          "values": [0.1, 0.2, 0.3]
+        }
+      }
+    },
+    "nested_category_3": {
+      "parameters": {
+        "nested_hyperparameter_1": {
+          "distribution": "<distribution_type>",
+          "search_constraint_1": 0.5,
+          "search_constraint_2": 0.7
+        },
+        "nested_hyperparameter_2": {
+          "values": [0.2, 0.3, 0.4]
+        }
+      }
+    }
+  }
+}
+```

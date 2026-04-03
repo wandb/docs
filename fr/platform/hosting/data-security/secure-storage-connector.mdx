@@ -15,7 +15,7 @@ Le modèle Bring Your Own Bucket (BYOB) vous permet de stocker les Artifacts W&a
 
 <Note>
   * La communication entre le SDK / CLI / UI de W&amp;B et vos buckets s&#39;effectue au moyen d&#39;[URL pré-signées](./presigned-urls).
-  * W&amp;B utilise un processus de nettoyage pour supprimer les W&amp;B Artifacts. Pour plus d&#39;informations, voir [Deleting Artifacts](/fr/models/artifacts/delete-artifacts).
+  * W&amp;B utilise un mécanisme de récupération de place et des processus associés pour supprimer au fil du temps les **artifacts** et les **données d&#39;exécution** supprimés de votre bucket. La suppression d&#39;un artifact est décrite dans [Supprimer un artifact](/fr/models/artifacts/delete-artifacts). La suppression des données d&#39;exécution sur les déploiements Cloud dédié et Autogéré dépend également de `GORILLA_DATA_RETENTION_PERIOD`, comme décrit dans [Configurer les variables d&#39;environnement](/fr/platform/hosting/env-vars). Le délai de nettoyage n&#39;est pas garanti. Pour une vue d&#39;ensemble de l&#39;utilisation et des coûts du bucket, voir [Gérer le stockage et les coûts du bucket](/fr/platform/hosting/managing-bucket-storage).
   * Vous pouvez spécifier un sous-chemin lors de la configuration d&#39;un bucket afin de garantir que W&amp;B ne stocke aucun fichier dans un dossier situé à la racine du bucket. Cela peut vous aider à mieux respecter la politique de gouvernance des buckets de votre organisation.
 </Note>
 

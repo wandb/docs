@@ -91,6 +91,37 @@ UI から Workspace にアクセスするには、次の手順に従います。
 
 Workspace の詳細については、[実験結果を表示する](https://docs.wandb.ai/models/track/workspaces)を参照してください。
 
+<div id="associate-traces-with-a-specific-wb-run">
+  ## 特定の W&amp;B run にトレースを関連付ける
+</div>
+
+デフォルトでは、Weave はアクティブな `wandb.run` を自動的に検出し、トレースを関連付けます。グローバルな `wandb.run` ではない特定の run にトレースを関連付ける必要がある場合は、`set_wandb_run_context` を使用してください。method の `run_id` 引数と `step` 引数に値を指定すると、トレースを特定の run および run step に関連付けることができます。
+
+```python lines highlight={6}
+import weave
+
+client = weave.init("<your-team-name>/<your-project-name>")
+
+# 以降のすべてのトレースを特定のrunに関連付けます。
+client.set_wandb_run_context(run_id="<your-run-ID>", step=<integer>)
+
+@weave.op
+def my_function(x):
+    return x * 2
+
+my_function(10)  # このトレースは step 5 の "my-run-id" に関連付けられています。
+```
+
+`run_id` は run の短縮 ID (例: `38m4t5ja`) であり、完全な `entity/project/run_id` パスではありません。run の短縮 ID は、run の URL (`https://wandb.ai/team/project/runs/<run_id>`) または [コードで `wandb.run.id` にアクセスする](/ja/models/runs/run-identifiers#find-and-customize-a-runs-id-or-name) ことで確認できます。
+
+オーバーライドを解除してグローバルな `wandb.run` に戻すには、`clear_wandb_run_context` を呼び出します:
+
+```python lines
+client.clear_wandb_run_context()
+
+my_function(20)  # このトレースはグローバルの wandb.run を使用します（存在する場合）。
+```
+
 <div id="reference-wb-artifacts-in-a-weave-trace">
   ## Weave トレースで W&amp;B artifacts を参照する
 </div>

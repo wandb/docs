@@ -1,22 +1,22 @@
----
-title: 表をログする
----
-
 ```python
 """
-W&Bに表をログする。
+Log a table to W&B.
+
+Replace: 
+- values enclosed in angle brackets with your own
+- [[1, 2], [2, 3]] in wandb.Table(data=) with your own 2D row-oriented array of values to log
 """
 import wandb
 
 # 2列2行のデータを持つ表オブジェクトを作成する
 my_table = wandb.Table(
-    columns=["a", "b"],
-    data=[["a1", "b1"], ["a2", "b2"]],
+    columns=["<a_column>", "<b_column>"],
+    data=[[1, 2], [2, 3]],
     log_mode="<log_mode>"
     )
 
-# 新しいrunを開始する
-with wandb.init(project="<project>") as run:
-    # W&Bに表をログする
+# 新しい run を開始する
+with wandb.init(entity="<entity>", project="<project>") as run:
+    # 表を W&B にログする
     run.log({"<table_name>": my_table})
 ```

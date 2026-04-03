@@ -12,7 +12,7 @@ import { SourceLink } from '/snippets/fr/_includes/source-link.mdx';
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L100" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L105" />
 
 ## <kbd>class</kbd> `ContextAwareThread`
 
@@ -33,7 +33,7 @@ thread = threading.Thread(target=run_with_context(your_func, *args, **kwargs))
 thread.start()
 ```
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L124" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L129" />
 
 
 ### <kbd>méthode</kbd> `__init__`
@@ -79,7 +79,7 @@ Il s&#39;agit d&#39;un entier non négatif. Voir la fonction `get_native_id()`. 
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L128" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L133" />
 
 ### <kbd>méthode</kbd> `run`
 
@@ -89,7 +89,7 @@ run() → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L40" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L45" />
 
 
 ## <kbd>class</kbd> `ContextAwareThreadPoolExecutor`
@@ -110,7 +110,7 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
      executor.map(_wrapped_fn, vals)
 ```
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L63" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L68" />
 
 
 ### <kbd>méthode</kbd> `__init__`
@@ -121,7 +121,7 @@ __init__(*args: 'Any', **kwargs: 'Any') → None
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L72" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L77" />
 
 
 ### <kbd>méthode</kbd> `map`
@@ -137,7 +137,7 @@ map(
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L68" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L73" />
 
 
 ### <kbd>méthode</kbd> `submit`
@@ -148,21 +148,20 @@ submit(fn: 'Callable', *args: 'Any', **kwargs: 'Any') → Any
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L159" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L164" />
 
 
 ### <kbd>fonction</kbd> `obsolète`
 
 ```python
-deprecated(new_name: 'str') → Callable[[Callable[, Any]], Callable[, Any]]
+deprecated(new_name: 'str') → Callable[[Callable[P, R]], Callable[P, R]]
 ```
 
 Décorateur permettant de signaler qu’une fonction est obsolète et de rediriger les utilisateurs vers `new_name`.
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L132" />
-
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L137" />
 
 ### <kbd>fonction</kbd> `is_colab`
 
@@ -172,7 +171,7 @@ is_colab()
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L141" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L146" />
 
 
 ### <kbd>fonction</kbd> `is_notebook`
@@ -183,7 +182,7 @@ is_notebook() → bool
 
 ***
 
-<SourceLink url="https://github.com/wandb/weave/blob/v0.52.24/weave/trace/util.py#L16" />
+<SourceLink url="https://github.com/wandb/weave/blob/v0.52.35/weave/trace/util.py#L21" />
 
 
 ### <kbd>fonction</kbd> `log_once`

@@ -11,11 +11,11 @@ import ByobContextNote from "/snippets/ja/_includes/byob-context-note.mdx";
   ## 概要
 </div>
 
-Bring your own bucket (BYOB) を使用すると、W&amp;B Artifacts やその他の関連する機密データを、お使いのクラウドまたはオンプレミスのインフラストラクチャーに保存できます。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [マルチテナントクラウド](/ja/platform/hosting/hosting-options/multi_tenant_cloud) の場合、バケットに保存したデータが W&amp;B 管理のインフラストラクチャーにコピーされることはありません。
+独自のバケットを使用する (BYOB) を使用すると、W&amp;B Artifacts やその他の関連する機密データを、お使いのクラウドまたはオンプレミスのインフラストラクチャーに保存できます。[専用クラウド](/ja/platform/hosting/hosting-options/dedicated-cloud) または [マルチテナントクラウド](/ja/platform/hosting/hosting-options/multi_tenant_cloud) の場合、バケットに保存したデータが W&amp;B 管理のインフラストラクチャーにコピーされることはありません。
 
 <Note>
   * W&amp;B SDK / CLI / UI とお客様のバケット間の通信は、[事前署名付き URL](./presigned-urls) を使用して行われます。
-  * W&amp;B Artifacts の削除には、ガベージコレクション プロセスが使用されます。詳細は、[Deleting Artifacts](/ja/models/artifacts/delete-artifacts) を参照してください。
+  * W&amp;B は、ガベージコレクションおよび関連プロセスを使用して、削除済みの **アーティファクト** と **run データ** を時間の経過とともにお客様のバケットから削除します。アーティファクトの削除については、[アーティファクトを削除する](/ja/models/artifacts/delete-artifacts) で説明しています。専用クラウドおよびセルフマネージドのデプロイで削除された run データは、[環境変数を設定する](/ja/platform/hosting/env-vars) で説明されている `GORILLA_DATA_RETENTION_PERIOD` にも依存します。クリーンアップのタイミングは保証されません。バケットの使用状況とコストの概要については、[バケット ストレージとコストを管理する](/ja/platform/hosting/managing-bucket-storage) を参照してください。
   * バケットの設定時にサブパスを指定すると、W&amp;B がバケットのルート直下のフォルダにファイルを保存しないようにできます。これにより、組織のバケットガバナンスポリシーに準拠しやすくなります。
 </Note>
 
