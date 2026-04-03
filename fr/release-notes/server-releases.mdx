@@ -14,8 +14,15 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 
 <EolReminder />
 
+<Update label="v0.79.1" description="1 avril 2026">
+  ## Correctifs
+
+  * Correction d’un bug où de nouveaux runs, en particulier dans de nouveaux projets, entraînaient une erreur 404 `run not found`.
+  * Correction d’un bug qui pouvait empêcher l’interrogation des journaux d’audit pour un déploiement disposant de plus de 1 000 jours de journaux d’audit.
+</Update>
+
 <Update label="v0.79.0" description="24 mars 2026">
-  W&amp;B Server 0.79.0 ajoute le zoom et le déplacement sur les images, une gestion améliorée des comptes de service et des clés API, ainsi que des améliorations des performances. Inférence ajoute les modèles MiniMax M2.5 et MiniMaxAI M2.5. Les moniteurs Weave prennent désormais en charge l’évaluation de toutes les opérations, et la Weave UI ajoute une gestion améliorée des tags et alias de prompts, une vue de chat pour les agents Claude, le filtrage par réactions emoji ou contenu des notes, et plus encore.
+  W&amp;B Server 0.79.0 ajoute le zoom et le déplacement sur les images, une gestion améliorée des comptes de service et des clés API, ainsi que des améliorations des performances. Inférence ajoute les modèles MiniMax M2.5 et MiniMaxAI M2.5. Les moniteurs Weave prennent désormais en charge l’évaluation de toutes les opérations, et l’interface utilisateur Weave ajoute une gestion améliorée des tags et alias de prompts, une vue de chat pour les agents Claude, le filtrage par réactions emoji ou contenu des notes, et plus encore.
 
   ## Assistance et fin de vie
 
@@ -34,7 +41,7 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 
   * **Déplacez-vous et zoomez sur une image** pour inspecter les détails fins directement dans la fenêtre modale d’image en plein écran de W&amp;B. Ouvrez n’importe quelle image en plein écran, puis :
 
-    * Utilisez les contrôles de l’UI ou les raccourcis clavier pour définir votre niveau de zoom, réinitialiser à 100 % ou ajuster le zoom à la fenêtre.
+    * Utilisez les contrôles de l’interface utilisateur ou les raccourcis clavier pour définir votre niveau de zoom, réinitialiser à 100 % ou ajuster le zoom à la fenêtre.
     * Cliquez et faites glisser pour vous déplacer lorsque vous êtes zoomé.
 
     <Frame>
@@ -68,7 +75,7 @@ Cette page présente les notes de version des versions prises en charge de W&amp
   * Correction des erreurs d’arrondi en virgule flottante dans le lissage côté backend.
   * Correction d’un bug où la saisie dans les champs d’expression faisait sauter le curseur.
   * Correction d’un bug où les images à taille réelle pouvaient se chevaucher en mode galerie.
-  * Correction d’un mauvais alignement des cadres de délimitation avec de longues légendes.
+  * Correction d’un mauvais alignement des boîtes englobantes avec de longues légendes.
   * Suppression des ombres portées des panneaux et des superpositions au survol.
   * Les résultats de recherche des panneaux incluent désormais les graphiques personnalisés.
 </Update>
@@ -78,18 +85,18 @@ Cette page présente les notes de version des versions prises en charge de W&amp
 
   ## Correctifs
 
-  Corrige une régression d’un correctif de sécurité critique précédemment apporté, qui autorise un accès non autorisé à un artifact. Cette régression est présente dans les versions v0.78.0 et v0.78.1. N’installez pas ces versions et n’effectuez pas de mise à niveau vers celles-ci. Installez plutôt la version v0.78.2, qui inclut le correctif.
+  Corrige une régression d’un correctif de sécurité critique précédemment apporté, qui permet un accès non autorisé à un artefact. Cette régression est présente dans v0.78.0 et v0.78.1. N’installez pas ces versions et n’effectuez pas de mise à niveau vers celles-ci. Installez plutôt v0.78.2, qui contient le correctif.
 </Update>
 
 <Update label="v0.78.1" description="5 mars 2026">
   <Warning>
-    Cette version est affectée par un problème de sécurité critique qui permet un accès non autorisé à un artifact. Ne l’installez pas et ne la mettez pas à niveau. Installez plutôt [v0.78.2](#v0-78-2), qui contient le correctif.
+    Cette version est affectée par un problème de sécurité critique qui permet un accès non autorisé à un artefact. Ne l’installez pas et ne la mettez pas à niveau. Installez plutôt [v0.78.2](#v0-78-2), qui contient le correctif.
   </Warning>
 
   ## Correctifs
 
   * Correction d’un bug pouvant faire échouer un fork depuis un run parent n’ayant enregistré aucune donnée.
-  * Correction d’un bug de l’UI où la préférence de l’utilisateur pour le mode clair ou sombre n’était pas prise en compte.
+  * Correction d’un bug de l’interface utilisateur où la préférence de l’utilisateur pour le mode clair ou sombre n’était pas prise en compte.
   * Améliorations des performances et corrections de bugs pour la lecture de l’historique depuis Parquet.
 </Update>
 

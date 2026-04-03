@@ -1,16 +1,28 @@
 ---
 title: 로깅
-description: 메트릭, 하이퍼파라미터, 테이블, 맞춤형 데이터를 W&B에 로깅합니다.
+description: 메트릭, 하이퍼파라미터, 테이블, 맞춤형 데이터를 W&B에 로깅하세요.
 ---
 
+import LogCsvFiles from '/snippets/ko/_includes/code-examples/log_csv_files.mdx';
 import LogCustomSummaryMetric from '/snippets/ko/_includes/code-examples/log_custom_summary_metric.mdx';
+import LogCustomSummatyMetric from '/snippets/ko/_includes/code-examples/log_custom_summaty_metric.mdx';
 import LogExistingArtifactLinkCollection from '/snippets/ko/_includes/code-examples/log_existing_artifact_link_collection.mdx';
+import LogHistogramPlot from '/snippets/ko/_includes/code-examples/log_histogram_plot.mdx';
 import LogHyperparameter from '/snippets/ko/_includes/code-examples/log_hyperparameter.mdx';
+import LogLinePlot from '/snippets/ko/_includes/code-examples/log_line_plot.mdx';
 import LogMetric from '/snippets/ko/_includes/code-examples/log_metric.mdx';
+import LogScatterPlot from '/snippets/ko/_includes/code-examples/log_scatter_plot.mdx';
+import LogSummaryMetric from '/snippets/ko/_includes/code-examples/log_summary_metric.mdx';
 import LogTable from '/snippets/ko/_includes/code-examples/log_table.mdx';
 
-메트릭, 하이퍼파라미터, 테이블, 맞춤형 데이터를 W&amp;B에 로깅합니다.
+W&amp;B에 메트릭, 하이퍼파라미터, 테이블, 맞춤형 데이터를 로깅하세요.
 
+
+<div id="log-a-csv-file-to-as-a-table">
+  ## CSV 파일을 테이블로 로깅하기
+</div>
+
+<LogCsvFiles />
 
 <div id="log-a-custom-summary-metric">
   ## 맞춤형 summary metric 로깅
@@ -18,11 +30,21 @@ import LogTable from '/snippets/ko/_includes/code-examples/log_table.mdx';
 
 <LogCustomSummaryMetric />
 
+## 맞춤형 summary 메트릭 로깅
+
+<LogCustomSummatyMetric />
+
 <div id="download-and-log-an-existing-artifact-from-a-registry-collection">
   ## 레지스트리 컬렉션에서 기존 artifact를 다운로드하고 로깅하기
 </div>
 
 <LogExistingArtifactLinkCollection />
+
+<div id="log-a-histogram-plot">
+  ## 히스토그램 플롯 로깅하기
+</div>
+
+<LogHistogramPlot />
 
 <div id="initialize-a-run-and-log-hyperparameters">
   ## run을 초기화하고 하이퍼파라미터를 로깅합니다
@@ -30,11 +52,29 @@ import LogTable from '/snippets/ko/_includes/code-examples/log_table.mdx';
 
 <LogHyperparameter />
 
+<div id="log-a-line-plot">
+  ## 선형 플롯 로깅하기
+</div>
+
+<LogLinePlot />
+
 <div id="initialize-a-run-and-log-a-metric">
   ## run을 초기화하고 메트릭을 로깅합니다
 </div>
 
 <LogMetric />
+
+<div id="log-a-scatter-plot">
+  ## 산점도 로깅하기
+</div>
+
+<LogScatterPlot />
+
+<div id="explicitly-log-a-summary-metric">
+  ## Summary 메트릭을 명시적으로 로깅하기
+</div>
+
+<LogSummaryMetric />
 
 <div id="log-a-table">
   ## 테이블 로깅하기

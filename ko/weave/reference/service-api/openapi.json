@@ -414,6 +414,29 @@
         ]
       }
     },
+    "/inference/analysis/artificialanalysis/models": {
+      "get": {
+        "tags": [
+          "Inference"
+        ],
+        "summary": "Inference Analysis Artificial Analysis 모델",
+        "description": "Artificial Analysis에서 사용 가능한 모델 목록을 반환합니다.\n\n이 API는 인증 없이 사용할 수 있습니다.",
+        "operationId": "inference_analysis_artificialanalysis_models_inference_analysis_artificialanalysis_models_get",
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RouterOpenRouterModelsRes"
+                }
+              }
+            }
+          }
+        },
+        "x-exclude": true
+      }
+    },
     "/inference/router/openrouter/models": {
       "get": {
         "tags": [
@@ -433,17 +456,18 @@
               }
             }
           }
-        }
+        },
+        "x-exclude": true
       }
     },
-    "/inference/v1{path}": {
+    "/inference/nvidia/v2/hardware": {
       "get": {
         "tags": [
           "Inference"
         ],
-        "summary": "Inference GET",
-        "description": "OpenAI 호환 API입니다.",
-        "operationId": "inference_get_inference_v1_path__get",
+        "summary": "NVIDIA 하드웨어",
+        "description": "지정된 모델에 대해 사용 가능한 하드웨어와 가격을 반환합니다.\n\nNVIDIA가 사용자에게 사용 가능한 옵션을 보여 주고, 당사가 지원하는 항목에 따라 리디렉션할 수 있도록 호출하는 API입니다. 서버리스 옵션만 반환됩니다.",
+        "operationId": "nvidia_hardware_inference_nvidia_v2_hardware_get",
         "security": [
           {
             "HTTPBearer": []
@@ -451,21 +475,25 @@
         ],
         "parameters": [
           {
-            "name": "path",
-            "in": "path",
+            "name": "model",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Path"
-            }
+              "description": "퍼블리셔 접두사를 제외한 모델 이름",
+              "title": "Model"
+            },
+            "description": "퍼블리셔 접두사를 제외한 모델 이름"
           }
         ],
         "responses": {
           "200": {
-            "description": "성공적인 응답",
+            "description": "성공 응답",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/NvidiaHardwareRes"
+                }
               }
             }
           },
@@ -476,64 +504,11 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Inference"
-        ],
-        "summary": "Inference POST",
-        "description": "OpenAI 호환 API입니다.",
-        "operationId": "inference_post_inference_v1_path__post",
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "path",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Path"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CompletionsCreateRequestInputs"
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "성공적인 응답",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "검증 오류",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
+        "x-exclude": true
       }
     },
     "/calls/query_stats": {
@@ -914,6 +889,352 @@
             "HTTPBasic": []
           }
         ]
+      }
+    },
+    "/objs/{object_id}/versions/{digest}/tags": {
+      "put": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "객체 태그 추가",
+        "description": "객체 버전에 태그를 추가합니다.",
+        "operationId": "obj_add_tags_objs__object_id__versions__digest__tags_put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          },
+          {
+            "name": "digest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Digest"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjTagsBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjAddTagsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objs/{object_id}/versions/{digest}/tags/remove": {
+      "post": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "객체 태그 제거",
+        "description": "객체 버전에서 태그를 제거합니다.",
+        "operationId": "obj_remove_tags_objs__object_id__versions__digest__tags_remove_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          },
+          {
+            "name": "digest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Digest"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjTagsBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjRemoveTagsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objs/{object_id}/aliases": {
+      "put": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "객체 별칭 설정",
+        "description": "객체 버전의 별칭을 설정합니다.",
+        "operationId": "obj_set_aliases_objs__object_id__aliases_put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjSetAliasesBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjSetAliasesRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/objs/{object_id}/aliases/remove": {
+      "post": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "객체 별칭 제거",
+        "description": "객체에서 별칭을 제거합니다.",
+        "operationId": "obj_remove_aliases_objs__object_id__aliases_remove_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Object Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObjRemoveAliasesBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjRemoveAliasesRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tags": {
+      "get": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "태그 목록",
+        "description": "프로젝트의 모든 태그를 나열합니다.",
+        "operationId": "tags_list_tags_get",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TagsListRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/aliases": {
+      "get": {
+        "tags": [
+          "Objects"
+        ],
+        "summary": "별칭 목록",
+        "description": "프로젝트의 모든 별칭을 나열합니다.",
+        "operationId": "aliases_list_aliases_get",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공적인 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AliasesListRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/table/create": {
@@ -1746,6 +2067,150 @@
         ]
       }
     },
+    "/feedback/stats": {
+      "post": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "피드백 통계",
+        "description": "시간 버킷별로 집계된 피드백 통계를 반환합니다.",
+        "operationId": "feedback_stats_feedback_stats_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackStatsReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackStatsRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/feedback/payload_schema": {
+      "post": {
+        "tags": [
+          "Feedback"
+        ],
+        "summary": "피드백 페이로드 스키마",
+        "description": "샘플 행에서 피드백 페이로드 스키마(경로 및 유형)를 검색합니다.",
+        "operationId": "feedback_payload_schema_feedback_payload_schema_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackPayloadSchemaReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackPayloadSchemaRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/service/projects_info": {
+      "post": {
+        "tags": [
+          "Service"
+        ],
+        "summary": "Projects 정보",
+        "operationId": "projects_info_service_projects_info_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectsInfoReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectsInfoRes"
+                  },
+                  "type": "array",
+                  "title": "Response Projects Info Service Projects Info Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
     "/threads/stream_query": {
       "post": {
         "tags": [
@@ -1922,6 +2387,117 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AnnotationQueueReadRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Annotation Queues"
+        ],
+        "summary": "어노테이션 큐 삭제",
+        "description": "어노테이션 큐를 삭제합니다(소프트 삭제).",
+        "operationId": "annotation_queue_delete_annotation_queues__queue_id__delete",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Queue Id"
+            }
+          },
+          {
+            "name": "project_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationQueueDeleteRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Annotation Queues"
+        ],
+        "summary": "어노테이션 큐 업데이트",
+        "description": "어노테이션 큐의 메타데이터(name, description, scorer_refs)를 업데이트합니다.",
+        "operationId": "annotation_queue_update_annotation_queues__queue_id__put",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "queue_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Queue Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnnotationQueueUpdateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnnotationQueueUpdateRes"
                 }
               }
             }
@@ -2285,6 +2861,52 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/EvaluationStatusRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ]
+      }
+    },
+    "/calls/score": {
+      "post": {
+        "tags": [
+          "Scores"
+        ],
+        "summary": "호출 점수",
+        "operationId": "calls_score_calls_score_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CallsScoreReq"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CallsScoreRes"
                 }
               }
             }
@@ -5011,6 +5633,73 @@
           }
         }
       }
+    },
+    "/v2/{entity}/{project}/eval_results/query": {
+      "post": {
+        "tags": [
+          "Eval Results"
+        ],
+        "summary": "평가 결과 쿼리",
+        "description": "하나 이상의 evaluations에 대한 그룹화된 평가 결과 행을 조회합니다.",
+        "operationId": "eval_results_query_v2__entity___project__eval_results_query_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Entity"
+            }
+          },
+          {
+            "name": "project",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Project"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvalResultsQueryBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "성공 응답",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvalResultsQueryRes"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "검증 오류",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -5022,10 +5711,28 @@
           "avg",
           "min",
           "max",
-          "count"
+          "count",
+          "count_true",
+          "count_false"
         ],
         "title": "AggregationType",
-        "description": "메트릭을 위한 기본 집계 함수입니다."
+        "description": "피드백 및 호출 통계 메트릭에서 지원되는 집계 함수입니다."
+      },
+      "AliasesListRes": {
+        "properties": {
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases"
+          }
+        },
+        "type": "object",
+        "required": [
+          "aliases"
+        ],
+        "title": "AliasesListRes"
       },
       "AndOperation": {
         "properties": {
@@ -5224,6 +5931,19 @@
         ],
         "title": "AnnotationQueueCreateRes",
         "description": "annotation queue 생성에 대한 응답입니다."
+      },
+      "AnnotationQueueDeleteRes": {
+        "properties": {
+          "queue": {
+            "$ref": "#/components/schemas/AnnotationQueueSchema"
+          }
+        },
+        "type": "object",
+        "required": [
+          "queue"
+        ],
+        "title": "AnnotationQueueDeleteRes",
+        "description": "어노테이션 큐 삭제에 대한 응답입니다."
       },
       "AnnotationQueueItemProgressUpdateBody": {
         "properties": {
@@ -5690,6 +6410,85 @@
         "title": "AnnotationQueueStatsSchema",
         "description": "단일 annotation queue의 통계입니다."
       },
+      "AnnotationQueueUpdateBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name",
+            "examples": [
+              "Updated Queue Name"
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description",
+            "examples": [
+              "Updated description"
+            ]
+          },
+          "scorer_refs": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scorer Refs",
+            "examples": [
+              [
+                "weave:///entity/project/scorer/error_severity:abc123",
+                "weave:///entity/project/scorer/resolution_quality:def456"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "title": "AnnotationQueueUpdateBody",
+        "description": "어노테이션 큐를 업데이트하기 위한 요청 본문입니다(queue_id는 경로에서 가져옵니다).\n\nproject_id를 제외한 모든 필드는 선택 사항이며, 제공된 필드만 업데이트됩니다."
+      },
+      "AnnotationQueueUpdateRes": {
+        "properties": {
+          "queue": {
+            "$ref": "#/components/schemas/AnnotationQueueSchema"
+          }
+        },
+        "type": "object",
+        "required": [
+          "queue"
+        ],
+        "title": "AnnotationQueueUpdateRes",
+        "description": "어노테이션 큐 업데이트에 대한 응답입니다."
+      },
       "AnnotationQueuesQueryReq": {
         "properties": {
           "project_id": {
@@ -5828,11 +6627,6 @@
         ],
         "title": "AnnotatorQueueItemsProgressUpdateRes",
         "description": "annotation 상태 업데이트에 대한 응답입니다."
-      },
-      "BaseModel": {
-        "properties": {},
-        "type": "object",
-        "title": "BaseModel"
       },
       "Body_file_create_file_create_post": {
         "properties": {
@@ -6189,6 +6983,17 @@
               }
             ],
             "title": "Wb User Id"
+          },
+          "wb_username": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb Username"
           },
           "wb_run_id": {
             "anyOf": [
@@ -6816,6 +7621,19 @@
             "description": "베타 기능으로, 변경될 수 있습니다. true이면 응답에 트레이스의 총 저장소 크기가 포함됩니다.",
             "default": false
           },
+          "include_usernames": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Usernames",
+            "description": "true이면 응답은 이 요청이 처리되는 동안 각 호출의 wb_user_id를 사용자 이름으로 확인하려고 시도합니다.",
+            "default": false
+          },
           "columns": {
             "anyOf": [
               {
@@ -6974,6 +7792,57 @@
         ],
         "title": "CallsQueryStatsRes"
       },
+      "CallsScoreReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Call Ids",
+            "description": "스코어링할 호출 ID 목록"
+          },
+          "scorer_refs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scorer Refs",
+            "description": "적용할 scorer ref 목록"
+          },
+          "wb_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wb User Id",
+            "description": "직접 설정하지 마세요. 서버가 이 필드를 자동으로 채웁니다."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "call_ids",
+          "scorer_refs"
+        ],
+        "title": "CallsScoreReq",
+        "description": "호출 목록에 대한 스코어링 작업을 큐에 추가하도록 요청합니다.\n\n스코어링은 call_scoring_worker가 비동기적으로 수행하며, 이 워커는 Kafka에서 메시지를 가져와 각 call_id에 각 scorer_ref를 적용합니다."
+      },
+      "CallsScoreRes": {
+        "properties": {},
+        "type": "object",
+        "title": "CallsScoreRes",
+        "description": "calls_score에 대한 빈 응답입니다.\n\n이 인터페이스 전반에서 사용하는 규칙을 따르고, 나중에 호환성이 깨지는 변경 없이 필드를 추가할 수 있도록 None을 반환하는 대신 모델로 정의했습니다."
+      },
       "CallsUsageReq": {
         "properties": {
           "project_id": {
@@ -7021,337 +7890,18 @@
             },
             "type": "object",
             "title": "Call Usage"
+          },
+          "unfinished_call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unfinished Call Ids"
           }
         },
         "type": "object",
         "title": "CallsUsageRes",
         "description": "루트 call별 집계된 사용 메트릭이 포함된 응답입니다."
-      },
-      "CompletionsCreateRequestInputs": {
-        "properties": {
-          "model": {
-            "type": "string",
-            "title": "Model"
-          },
-          "messages": {
-            "items": {},
-            "type": "array",
-            "title": "Messages",
-            "default": []
-          },
-          "timeout": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Timeout"
-          },
-          "temperature": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Temperature"
-          },
-          "top_p": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Top P"
-          },
-          "n": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "N"
-          },
-          "stop": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stop"
-          },
-          "max_completion_tokens": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Max Completion Tokens"
-          },
-          "max_tokens": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Max Tokens"
-          },
-          "modalities": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Modalities"
-          },
-          "presence_penalty": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Presence Penalty"
-          },
-          "frequency_penalty": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Frequency Penalty"
-          },
-          "stream": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stream"
-          },
-          "logit_bias": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Logit Bias"
-          },
-          "user": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "User"
-          },
-          "response_format": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {},
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Response Format"
-          },
-          "seed": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Seed"
-          },
-          "tools": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tools"
-          },
-          "tool_choice": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tool Choice"
-          },
-          "logprobs": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Logprobs"
-          },
-          "top_logprobs": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Top Logprobs"
-          },
-          "parallel_tool_calls": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Parallel Tool Calls"
-          },
-          "extra_headers": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Extra Headers"
-          },
-          "functions": {
-            "anyOf": [
-              {
-                "items": {},
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Functions"
-          },
-          "function_call": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Function Call"
-          },
-          "api_version": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Api Version"
-          },
-          "prompt": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Prompt",
-            "description": "Weave Prompt 객체에 대한 레퍼런스입니다(예: 'weave:///entity/project/object/prompt_name:version'). 제공되면 이 프롬프트의 메시지가 이 요청의 메시지 앞에 추가됩니다. 프롬프트 메시지의 템플릿 변수는 template_vars 매개변수를 사용해 대체할 수 있습니다."
-          },
-          "template_vars": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Template Vars",
-            "description": "프롬프트 메시지에서 대체할 템플릿 변수의 사전입니다. '{variable_name}'와 같은 메시지 내 변수는 해당 값으로 대체됩니다. 프롬프트 메시지(prompt가 제공된 경우)와 일반 메시지 모두에 적용됩니다."
-          }
-        },
-        "type": "object",
-        "required": [
-          "model"
-        ],
-        "title": "CompletionsCreateRequestInputs"
       },
       "ContainsOperation": {
         "properties": {
@@ -8260,6 +8810,452 @@
         "title": "EqOperation",
         "description": "두 피연산자가 같은지 확인합니다.\n\n예:\n    ```\n    {\n        \"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"predict\"}]\n    }\n    ```"
       },
+      "EvalResultsEvaluationSummary": {
+        "properties": {
+          "evaluation_call_id": {
+            "type": "string",
+            "title": "Evaluation Call Id"
+          },
+          "trial_count": {
+            "type": "integer",
+            "title": "Trial Count",
+            "default": 0
+          },
+          "scorer_stats": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsScorerStats"
+            },
+            "type": "array",
+            "title": "Scorer Stats"
+          },
+          "evaluation_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Ref"
+          },
+          "model_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Ref"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Display Name"
+          },
+          "trace_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trace Id"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_call_id"
+        ],
+        "title": "EvalResultsEvaluationSummary"
+      },
+      "EvalResultsQueryBody": {
+        "properties": {
+          "evaluation_call_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Call Ids",
+            "description": "포함할 Evaluation 루트 호출 ID입니다."
+          },
+          "evaluation_run_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Run Ids",
+            "description": "Evaluation Runs API의 evaluation 호출 ID에 대한 별칭입니다."
+          },
+          "require_intersection": {
+            "type": "boolean",
+            "title": "Require Intersection",
+            "description": "true이면 요청된 모든 evaluation에 있는 행만 포함합니다.",
+            "default": false
+          },
+          "include_raw_data_rows": {
+            "type": "boolean",
+            "title": "Include Raw Data Rows",
+            "description": "true이면 각 결과 행의 raw_data_row를 채웁니다. 인라인 행은 해당 dict 값으로 반환되며, dataset를 참조하는 행은 resolve_row_refs도 true가 아닌 한 ref 문자열로 반환됩니다.",
+            "default": false
+          },
+          "resolve_row_refs": {
+            "type": "boolean",
+            "title": "Resolve Row Refs",
+            "description": "true이면(include_raw_data_rows=True 필요) 테이블 조회를 통해 dataset 행 참조 문자열을 실제 행 데이터로 해석합니다. false이면 dataset 행 ref를 있는 그대로 반환합니다.",
+            "default": false
+          },
+          "include_rows": {
+            "type": "boolean",
+            "title": "Include Rows",
+            "description": "true이면 그룹화된 행/트라이얼 데이터를 `rows`에 포함하고, 요청된 행 수준 뷰에 대해 `total_rows`를 계산합니다.",
+            "default": true
+          },
+          "include_summary": {
+            "type": "boolean",
+            "title": "Include Summary",
+            "description": "true이면 집계된 scorer/evaluation summary 데이터를 `summary`에 포함합니다.",
+            "default": false
+          },
+          "summary_require_intersection": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary Require Intersection",
+            "description": "summary 섹션에 대한 선택적 교집합 동작입니다. null이면 `require_intersection` 값을 사용합니다."
+          },
+          "limit": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limit",
+            "description": "그룹화와 교집합 적용 후 적용되는 선택적 행 수준 페이지 크기입니다."
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset",
+            "description": "그룹화와 교집합 적용 후 적용되는 선택적 행 수준 페이지 오프셋입니다.",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "EvalResultsQueryBody"
+      },
+      "EvalResultsQueryRes": {
+        "properties": {
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsRow"
+            },
+            "type": "array",
+            "title": "Rows"
+          },
+          "total_rows": {
+            "type": "integer",
+            "title": "Total Rows"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EvalResultsSummaryRes"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings",
+            "description": "치명적이지 않은 경고입니다(예: dataset 행 ref를 해석하지 못한 경우)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "rows",
+          "total_rows"
+        ],
+        "title": "EvalResultsQueryRes"
+      },
+      "EvalResultsRow": {
+        "properties": {
+          "row_digest": {
+            "type": "string",
+            "title": "Row Digest"
+          },
+          "raw_data_row": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Data Row"
+          },
+          "evaluations": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsRowEvaluation"
+            },
+            "type": "array",
+            "title": "Evaluations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "row_digest"
+        ],
+        "title": "EvalResultsRow"
+      },
+      "EvalResultsRowEvaluation": {
+        "properties": {
+          "evaluation_call_id": {
+            "type": "string",
+            "title": "Evaluation Call Id"
+          },
+          "trials": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsTrial"
+            },
+            "type": "array",
+            "title": "Trials"
+          }
+        },
+        "type": "object",
+        "required": [
+          "evaluation_call_id"
+        ],
+        "title": "EvalResultsRowEvaluation"
+      },
+      "EvalResultsScorerStats": {
+        "properties": {
+          "scorer_key": {
+            "type": "string",
+            "title": "Scorer Key"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path",
+            "description": "중첩된 차원에 대한 점으로 연결된 하위 경로입니다. 예를 들어 token_distance.passed의 경우 'passed'입니다. 루트 수준 스칼라 scorer의 경우 None입니다."
+          },
+          "value_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "binary",
+                  "continuous",
+                  "text"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Type",
+            "description": "리프 값의 유형입니다: binary(bool), continuous(number), 또는 text(string)."
+          },
+          "trial_count": {
+            "type": "integer",
+            "title": "Trial Count",
+            "default": 0
+          },
+          "numeric_count": {
+            "type": "integer",
+            "title": "Numeric Count",
+            "default": 0
+          },
+          "numeric_mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Numeric Mean"
+          },
+          "pass_true_count": {
+            "type": "integer",
+            "title": "Pass True Count",
+            "default": 0
+          },
+          "pass_known_count": {
+            "type": "integer",
+            "title": "Pass Known Count",
+            "default": 0
+          },
+          "pass_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pass Rate"
+          },
+          "pass_signal_coverage": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pass Signal Coverage"
+          }
+        },
+        "type": "object",
+        "required": [
+          "scorer_key"
+        ],
+        "title": "EvalResultsScorerStats",
+        "description": "단일 평탄화 점수 차원(scorer_key 또는 scorer_key.path.to.leaf)에 대한 통계입니다."
+      },
+      "EvalResultsSummaryRes": {
+        "properties": {
+          "row_count": {
+            "type": "integer",
+            "title": "Row Count",
+            "default": 0
+          },
+          "evaluations": {
+            "items": {
+              "$ref": "#/components/schemas/EvalResultsEvaluationSummary"
+            },
+            "type": "array",
+            "title": "Evaluations"
+          }
+        },
+        "type": "object",
+        "title": "EvalResultsSummaryRes"
+      },
+      "EvalResultsTrial": {
+        "properties": {
+          "predict_and_score_call_id": {
+            "type": "string",
+            "title": "Predict And Score Call Id"
+          },
+          "predict_call_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Predict Call Id"
+          },
+          "model_output": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Output"
+          },
+          "scores": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Scores"
+          },
+          "model_latency_seconds": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Latency Seconds"
+          },
+          "total_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Tokens"
+          },
+          "scorer_call_ids": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Scorer Call Ids"
+          }
+        },
+        "type": "object",
+        "required": [
+          "predict_and_score_call_id"
+        ],
+        "title": "EvalResultsTrial"
+      },
       "EvaluateModelReq": {
         "properties": {
           "project_id": {
@@ -9059,6 +10055,158 @@
         ],
         "title": "FeedbackCreateRes"
       },
+      "FeedbackMetricSpec": {
+        "properties": {
+          "json_path": {
+            "type": "string",
+            "title": "Json Path",
+            "description": "payload_dump 내의 점 경로입니다(예: 'output', 'output.score')."
+          },
+          "value_type": {
+            "type": "string",
+            "enum": [
+              "numeric",
+              "boolean",
+              "categorical"
+            ],
+            "title": "Value Type",
+            "description": "경로에 있는 값의 유형입니다. numeric: avg/min/max, boolean: count_true/count_false.",
+            "default": "numeric"
+          },
+          "aggregations": {
+            "items": {
+              "$ref": "#/components/schemas/AggregationType"
+            },
+            "type": "array",
+            "title": "Aggregations",
+            "description": "계산할 집계 함수입니다. 비어 있으면 value_type을 기준으로 기본값이 선택됩니다: numeric->avg/min/max, boolean->count_true/count_false."
+          },
+          "percentiles": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Percentiles",
+            "description": "계산할 백분위수 값(0–100)입니다(예: [5, 50, 95]). numeric value_type 필드에만 적용되며 boolean/categorical에는 무시됩니다."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "json_path"
+        ],
+        "title": "FeedbackMetricSpec",
+        "description": "집계할 피드백 페이로드 metric의 사양입니다."
+      },
+      "FeedbackPayloadPath": {
+        "properties": {
+          "json_path": {
+            "type": "string",
+            "title": "Json Path",
+            "description": "payload 내의 점 경로입니다(예: 'output.score')."
+          },
+          "value_type": {
+            "type": "string",
+            "enum": [
+              "numeric",
+              "boolean",
+              "categorical"
+            ],
+            "title": "Value Type",
+            "description": "경로에 있는 값의 추론된 유형입니다.",
+            "default": "numeric"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "json_path"
+        ],
+        "title": "FeedbackPayloadPath",
+        "description": "추론된 유형과 함께 피드백 페이로드에서 발견된 경로입니다."
+      },
+      "FeedbackPayloadSchemaReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "시작 시간(포함, UTC, ISO 8601)입니다."
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End",
+            "description": "종료 시간(미포함, UTC, ISO 8601)입니다. 생략하면 현재 시간이 기본값으로 사용됩니다."
+          },
+          "feedback_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback Type",
+            "description": "feedback_type으로 필터링합니다."
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref",
+            "description": "trigger_ref로 필터링합니다(all-versions의 경우 정확히 일치 또는 접두사 일치)."
+          },
+          "sample_limit": {
+            "type": "integer",
+            "maximum": 5000,
+            "minimum": 1,
+            "title": "Sample Limit",
+            "description": "페이로드 스키마를 탐색할 때 샘플링할 최대 고유 trigger_ref 수입니다. 각 고유 trigger_ref(monitor/source)는 일반적으로 고정된 페이로드 구조를 가지므로, 보통 ref당 페이로드 하나만 샘플링해도 전체 스키마를 확인하기에 충분합니다. 2,000이면 쿼리 속도를 유지하면서 사실상 대부분의 실제 프로젝트를 포괄할 수 있고, 5,000의 하드 상한은 과도한 스캔을 방지합니다.",
+            "default": 2000
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "start"
+        ],
+        "title": "FeedbackPayloadSchemaReq",
+        "description": "피드백 페이로드 스키마 탐색 요청입니다."
+      },
+      "FeedbackPayloadSchemaRes": {
+        "properties": {
+          "paths": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackPayloadPath"
+            },
+            "type": "array",
+            "title": "Paths",
+            "description": "추론된 값 유형이 포함된 탐색된 리프 경로입니다."
+          }
+        },
+        "type": "object",
+        "title": "FeedbackPayloadSchemaRes",
+        "description": "탐색된 피드백 페이로드 경로와 유형을 포함한 응답입니다."
+      },
       "FeedbackPurgeReq": {
         "properties": {
           "project_id": {
@@ -9382,6 +10530,160 @@
           "payload"
         ],
         "title": "FeedbackReplaceRes"
+      },
+      "FeedbackStatsReq": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "시작 시간(포함, UTC, ISO 8601)입니다."
+          },
+          "end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "End",
+            "description": "종료 시간(미포함, UTC, ISO 8601)입니다. 생략하면 현재 시간이 기본값으로 사용됩니다."
+          },
+          "feedback_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Feedback Type",
+            "description": "feedback_type으로 필터링합니다."
+          },
+          "trigger_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trigger Ref",
+            "description": "trigger_ref로 필터링합니다(all-versions의 경우 정확히 일치 또는 접두사 일치)."
+          },
+          "granularity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Granularity",
+            "description": "버킷 크기(초 단위)입니다. 생략하면 시간 범위를 기준으로 자동 선택됩니다."
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "description": "버킷 정렬에 사용할 IANA 시간대입니다.",
+            "default": "UTC"
+          },
+          "metrics": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackMetricSpec"
+            },
+            "type": "array",
+            "title": "Metrics",
+            "description": "payload_dump에서 집계할 메트릭입니다."
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "start"
+        ],
+        "title": "FeedbackStatsReq",
+        "description": "시간 버킷별로 집계된 피드백 통계 요청입니다."
+      },
+      "FeedbackStatsRes": {
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start",
+            "description": "확정된 시작 시간입니다(요청한 시간대와 관계없이 항상 UTC)."
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End",
+            "description": "확정된 종료 시간입니다(요청한 시간대와 관계없이 항상 UTC)."
+          },
+          "granularity": {
+            "type": "integer",
+            "title": "Granularity",
+            "description": "사용된 버킷 크기(초 단위)입니다."
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "description": "버킷 정렬에 사용된 시간대입니다."
+          },
+          "buckets": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Buckets",
+            "description": "시간 버킷별 집계입니다. 각 dict에는 'timestamp'(ISO 문자열), 'count'(int), 그리고 요청된 각 메트릭+집계에 대한 '{agg}_{slug}' 키가 포함됩니다."
+          },
+          "window_stats": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": {
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "type": "object"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Window Stats",
+            "description": "전체 쿼리 기간에 대한 집계이며, 메트릭 슬러그(예: 'output_score')를 키로 사용합니다. 각 값은 agg 이름을 결과에 매핑합니다."
+          }
+        },
+        "type": "object",
+        "required": [
+          "start",
+          "end",
+          "granularity",
+          "timezone"
+        ],
+        "title": "FeedbackStatsRes",
+        "description": "시계열 피드백 통계를 포함한 응답입니다."
       },
       "FileContentReadReq": {
         "properties": {
@@ -10561,6 +11863,86 @@
         "title": "NotOperation",
         "description": "논리 NOT입니다. 조건을 반전합니다.\n\n예:\n    ```\n    {\n        \"$not\": [\n            {\"$eq\": [{\"$getField\": \"op_name\"}, {\"$literal\": \"debug\"}]}\n        ]\n    }\n    ```"
       },
+      "NvidiaHardwareOption": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/NvidiaServerlessPricing"
+          },
+          "specs": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Specs"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "type",
+          "pricing"
+        ],
+        "title": "NvidiaHardwareOption"
+      },
+      "NvidiaHardwareRes": {
+        "properties": {
+          "hardware": {
+            "items": {
+              "$ref": "#/components/schemas/NvidiaHardwareOption"
+            },
+            "type": "array",
+            "title": "Hardware"
+          }
+        },
+        "type": "object",
+        "required": [
+          "hardware"
+        ],
+        "title": "NvidiaHardwareRes"
+      },
+      "NvidiaServerlessPricing": {
+        "properties": {
+          "cents_per_million_input_tokens": {
+            "type": "number",
+            "title": "Cents Per Million Input Tokens"
+          },
+          "cents_per_million_output_tokens": {
+            "type": "number",
+            "title": "Cents Per Million Output Tokens"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cents_per_million_input_tokens",
+          "cents_per_million_output_tokens"
+        ],
+        "title": "NvidiaServerlessPricing"
+      },
+      "ObjAddTagsRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjAddTagsRes"
+      },
       "ObjCreateReq": {
         "properties": {
           "obj": {
@@ -10752,6 +12134,19 @@
             "title": "Include Storage Size",
             "description": "true이면 `size_bytes` 열이 반환됩니다.",
             "default": false
+          },
+          "include_tags_and_aliases": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Tags And Aliases",
+            "description": "true이면 태그와 별칭을 가져와 응답에 포함합니다.",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -10803,6 +12198,19 @@
             "title": "Metadata Only",
             "description": "true이면 `val` 열은 데이터베이스에서 읽지 않으며 비어 있게 됩니다. 그 외의 모든 필드는 반환됩니다.",
             "default": false
+          },
+          "include_tags_and_aliases": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Include Tags And Aliases",
+            "description": "true이면 태그와 별칭을 가져와 응답에 포함합니다.",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -10825,6 +12233,47 @@
           "obj"
         ],
         "title": "ObjReadRes"
+      },
+      "ObjRemoveAliasesBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases",
+            "examples": [
+              [
+                "staging"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "aliases"
+        ],
+        "title": "ObjRemoveAliasesBody",
+        "description": "별칭을 제거하기 위한 요청 본문입니다(object_id는 경로에서 가져옵니다)."
+      },
+      "ObjRemoveAliasesRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjRemoveAliasesRes"
+      },
+      "ObjRemoveTagsRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjRemoveTagsRes"
       },
       "ObjSchema": {
         "properties": {
@@ -10916,6 +12365,34 @@
               }
             ],
             "title": "Size Bytes"
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags"
+          },
+          "aliases": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aliases"
           }
         },
         "type": "object",
@@ -10968,6 +12445,18 @@
             "title": "Set Base Object Class",
             "deprecated": true
           },
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest",
+            "description": "서버 측 검증을 위한 클라이언트 계산 다이제스트입니다. 제공되면 서버는 이 값이 서버에서 계산한 다이제스트와 일치하는지 확인합니다."
+          },
           "wb_user_id": {
             "anyOf": [
               {
@@ -10988,6 +12477,83 @@
           "val"
         ],
         "title": "ObjSchemaForInsert"
+      },
+      "ObjSetAliasesBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "digest": {
+            "type": "string",
+            "title": "Digest",
+            "examples": [
+              "abc123def"
+            ]
+          },
+          "aliases": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Aliases",
+            "examples": [
+              [
+                "staging",
+                "v1-candidate"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "digest",
+          "aliases"
+        ],
+        "title": "ObjSetAliasesBody",
+        "description": "별칭을 설정하기 위한 요청 본문입니다(object_id는 경로에서 가져옵니다)."
+      },
+      "ObjSetAliasesRes": {
+        "properties": {},
+        "type": "object",
+        "title": "ObjSetAliasesRes"
+      },
+      "ObjTagsBody": {
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "title": "Project Id",
+            "examples": [
+              "entity/project"
+            ]
+          },
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags",
+            "examples": [
+              [
+                "production",
+                "reviewed"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_id",
+          "tags"
+        ],
+        "title": "ObjTagsBody",
+        "description": "태그를 추가하거나 제거하기 위한 요청 본문입니다(object_id와 digest는 경로에서 가져옵니다)."
       },
       "ObjectVersionFilter": {
         "properties": {
@@ -11114,6 +12680,36 @@
               true,
               false
             ]
+          },
+          "tags": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tags",
+            "description": "지정된 태그 중 하나라도 가진 객체 버전을 필터링합니다."
+          },
+          "aliases": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aliases",
+            "description": "지정된 별칭 중 하나라도 가진 객체를 필터링합니다."
           }
         },
         "additionalProperties": false,
@@ -11444,13 +13040,9 @@
             "type": "string",
             "title": "Request"
           },
-          "input_cache_reads": {
+          "input_cache_read": {
             "type": "string",
-            "title": "Input Cache Reads"
-          },
-          "input_cache_writes": {
-            "type": "string",
-            "title": "Input Cache Writes"
+            "title": "Input Cache Read"
           }
         },
         "type": "object",
@@ -11459,11 +13051,54 @@
           "completion",
           "image",
           "request",
-          "input_cache_reads",
-          "input_cache_writes"
+          "input_cache_read"
         ],
         "title": "Pricing",
         "description": "모든 가격 값은 토큰 1개당 USD 기준입니다.\n\n부동소수점 정밀도 문제를 방지하기 위해 가격 필드는 문자열 형식입니다."
+      },
+      "ProjectsInfoReq": {
+        "properties": {
+          "project_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Project Ids",
+            "description": "'entity/project' 형식의 외부 프로젝트 ID입니다.",
+            "examples": [
+              [
+                "entity-a/project-a",
+                "entity-b/project-b"
+              ]
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "project_ids"
+        ],
+        "title": "ProjectsInfoReq"
+      },
+      "ProjectsInfoRes": {
+        "properties": {
+          "external_project_id": {
+            "type": "string",
+            "title": "External Project Id",
+            "description": "'entity/project' 형식의 외부 프로젝트 ID입니다."
+          },
+          "internal_project_id": {
+            "type": "string",
+            "title": "Internal Project Id",
+            "description": "내부 프로젝트 ID입니다."
+          }
+        },
+        "type": "object",
+        "required": [
+          "external_project_id",
+          "internal_project_id"
+        ],
+        "title": "ProjectsInfoRes"
       },
       "Query": {
         "properties": {
@@ -11631,6 +13266,18 @@
             },
             "type": "array",
             "title": "Datacenters"
+          },
+          "deprecation_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deprecation Date",
+            "description": "모델이 사용 중단되는 날짜(YYYY-MM-DD)입니다. 설정되지 않은 경우 출력에 포함되지 않습니다."
           }
         },
         "type": "object",
@@ -12169,6 +13816,18 @@
             },
             "type": "array",
             "title": "Row Digests"
+          },
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest",
+            "description": "서버 측 검증을 위한 클라이언트 계산 table 다이제스트입니다."
           }
         },
         "additionalProperties": false,
@@ -12570,6 +14229,18 @@
             },
             "type": "array",
             "title": "Rows"
+          },
+          "expected_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Digest",
+            "description": "서버 측 검증을 위한 클라이언트 계산 table 다이제스트입니다."
           }
         },
         "type": "object",
@@ -12665,6 +14336,22 @@
           "digest"
         ],
         "title": "TableUpdateRes"
+      },
+      "TagsListRes": {
+        "properties": {
+          "tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Tags"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tags"
+        ],
+        "title": "TagsListRes"
       },
       "ThreadsQueryFilter": {
         "properties": {
@@ -12874,6 +14561,13 @@
             },
             "type": "object",
             "title": "Call Usage"
+          },
+          "unfinished_call_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Unfinished Call Ids"
           }
         },
         "type": "object",

@@ -1,0 +1,72 @@
+---
+title: 버킷 저장소 및 비용 관리
+description: W&B가 객체 저장소를 어떻게 사용하는지, 삭제가 버킷 바이트 사용량에 어떻게 반영되는지, 그리고 Self-Managed, Dedicated Cloud, BYOB 배포에서 사용량을 줄이는 방법을 알아보세요.
+---
+
+[자체 버킷 사용 (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector), [W&amp;B Dedicated Cloud](/ko/platform/hosting/hosting-options/dedicated-cloud), 또는 [W&amp;B Self-Managed](/ko/platform/hosting/hosting-options/self-managed)를 사용하는 경우, 팀이 클라우드 저장소 제공업체에 비용을 직접 지불하는 일이 많습니다. 이 페이지에서는 어떤 항목이 버킷 공간을 차지하는지, 앱 또는 API에서 삭제한 뒤 W&amp;B가 객체를 어떻게 제거하는지, 그리고 실제로 어떤 동작을 기대할 수 있는지 설명합니다.
+
+<div id="what-uses-bucket-space">
+  ## 버킷 공간을 차지하는 항목
+</div>
+
+W&amp;B는 설정된 객체 저장소에 여러 범주의 데이터를 저장합니다. [BYOB 개요](/ko/platform/hosting/data-security/secure-storage-connector#data-stored-in-the-central-database-vs-buckets)에는 실험 파일과 메트릭, 아티팩트 파일, 미디어 파일, run 파일, Parquet 형식으로 내보낸 이력 등의 예시가 나와 있습니다. 이러한 항목들이 합쳐져 버킷 크기와 비용을 좌우합니다.
+
+<div id="how-wb-removes-data-from-storage">
+  ## W&amp;B가 저장소에서 데이터를 제거하는 방법
+</div>
+
+W&amp;B App 또는 [Public API](/ko/models/ref/python/public-api/api)에서 삭제를 수행하면 먼저 W&amp;B 메타데이터가 업데이트됩니다. **W&amp;B 제품에서 run, 아티팩트 또는 파일을 제거하더라도 보고된 버킷 사용량이 즉시 감소한다고 보장할 수는 없습니다.** 객체 저장소 정리는 백그라운드 작업으로 실행되므로, 특히 사용량이 많은 인스턴스에서는 지연될 수 있습니다.
+
+<div id="artifacts">
+  ### Artifacts
+</div>
+
+삭제된 아티팩트는 소프트 삭제된 다음 아티팩트 가비지 컬렉션을 통해 처리됩니다. Self-Managed 배포에서는 `GORILLA_ARTIFACT_GC_ENABLED`를 설정하고 버전 관리나 소프트 삭제와 같은 공급자 요구 사항을 충족해야 합니다. 자세한 내용은 [아티팩트 삭제](/ko/models/artifacts/delete-artifacts) 및 [환경 변수 구성](/ko/platform/hosting/env-vars)을 참고하세요.
+
+<div id="run-data-and-run-files">
+  ### 런 데이터 및 런 파일
+</div>
+
+런 또는 런에 연결된 파일이 삭제된 후, 기본 저장 객체의 영구 제거는 아티팩트와 별도로 제어됩니다. Dedicated Cloud 및 Self-Managed 배포에서는 `GORILLA_DATA_RETENTION_PERIOD`로 **삭제된 런 데이터**를 저장소에서 제거할 수 있게 되기 전까지 보존할 기간을 설정합니다. **이 설정은 아티팩트를 삭제하지 않습니다.** 런 및 파일 삭제가 저장소와 어떤 관련이 있는지 알아보려면 [환경 변수 구성](/ko/platform/hosting/env-vars), Dedicated Cloud의 [데이터 보존 정책](/ko/platform/hosting/hosting-options/dedicated-cloud#data-retention-policy), 그리고 [런 삭제](/ko/models/runs/delete-runs#when-deleted-run-data-is-removed-from-storage)를 참조하세요.
+
+<div id="what-to-expect-from-background-cleanup">
+  ## 백그라운드 정리 시 예상할 사항
+</div>
+
+가비지 컬렉션과 객체 저장소 공간을 확보하는 관련 작업은 **최선 노력 방식**으로 수행됩니다. W&amp;B는 UI 또는 API에서 콘텐츠를 삭제한 후 특정 시간 내에 해당 객체가 버킷에서 사라진다고 **보장하지 않습니다**. run당 파일 수가 많은 Projects, 예를 들어 run마다 많은 미디어 파일을 로깅하는 경우에는 저장소 사용량이 반환되기까지 **더 오래 걸릴 수 있습니다**.
+
+클라우드 제공업체에서 버킷을 모니터링하고, 정리가 예상보다 오래 걸리거나 멈춘 것처럼 보이면 [W&amp;B 지원팀](mailto:support@wandb.ai) 또는 담당 계정 팀에 문의하세요.
+
+<div id="reduce-bucket-usage">
+  ## 버킷 사용량 줄이기
+</div>
+
+먼저 제품에서 지원하는 방법을 사용하세요:
+
+* 더 이상 필요하지 않은 경우 [W&amp;B App에서 Run 삭제](/ko/models/runs/delete-runs#ui) 또는 [Python으로 삭제](/ko/models/runs/delete-runs#python)하세요.
+* 더 이상 필요하지 않은 [아티팩트 삭제](/ko/models/artifacts/delete-artifacts)하고, 워크플로에 적합하다면 [아티팩트 TTL](/ko/models/artifacts/ttl)을 사용하세요.
+
+**즉시 공간을 확보해야 하는 경우**, 버킷에 액세스할 수 있는 운영자는 클라우드 저장소에서 특정 객체 키를 직접 삭제할 수 있습니다. 다음 사항에 유의하세요:
+
+* 삭제한 객체는 W&amp;B를 통해 **더 이상 다운로드할 수 없습니다**.
+* 삭제하려는 키만 **반드시** 삭제해야 합니다. 잘못 삭제하면 앱이 여전히 참조하는 데이터에 대한 액세스가 중단될 수 있습니다.
+* 버킷에서 **객체 버전 관리** 또는 **클라우드 공급자의 soft delete**(예: Google Cloud Storage)를 사용하는 경우, 현재 버전이 아닌 항목이나 soft delete된 객체가 클라우드 수명 주기 규칙에 따라 만료될 때까지 저장소 요금이 계속 청구될 수 있습니다.
+
+W&amp;B Multi-tenant Cloud의 전체 사용량은 organization admins가 조직 설정에서 저장소 관련 사용량을 검토할 수 있습니다. 자세한 내용은 [Billing settings](/ko/platform/app/settings-page/billing-settings)를 참조하세요.
+
+<div id="troubleshooting">
+  ## 문제 해결
+</div>
+
+Public API를 사용한 후 W&amp;B App에서 삭제 내용이 올바르게 표시되지 않으면 **W&amp;B Python SDK를 최신 릴리스로 업그레이드한 다음** 다시 시도하세요. 각 run의 파일 수가 매우 많으면 인스턴스 전체에서 백그라운드 정리에 더 오랜 시간이 걸릴 수 있습니다.
+
+배포 환경에 맞는 스크립트 기반 정리 방식이 필요하면 [W&amp;B 지원팀](mailto:support@wandb.ai) 또는 계정 팀에 문의하세요.
+
+<div id="related-documentation">
+  ## 관련 문서
+</div>
+
+* [런 삭제](/ko/models/runs/delete-runs#delete-runs)
+* [아티팩트 삭제](/ko/models/artifacts/delete-artifacts)
+* [환경 변수 구성](/ko/platform/hosting/env-vars)
+* [자체 버킷 사용 (BYOB)](/ko/platform/hosting/data-security/secure-storage-connector)
