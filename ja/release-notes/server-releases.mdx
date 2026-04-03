@@ -14,6 +14,13 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
 <EolReminder />
 
+<Update label="v0.79.1" description="2026年4月1日">
+  ## 修正
+
+  * 新しい run、特に新しいプロジェクトで、404 `run not found` エラーが発生する bug を修正しました。
+  * 1000 日を超える監査ログがあるデプロイで、監査ログをクエリできなくなる可能性がある bug を修正しました。
+</Update>
+
 <Update label="v0.79.0" description="2026年3月24日">
   W&amp;B Server 0.79.0 では、画像のズームとパン、サービスアカウントとAPIキーの管理機能の改善、パフォーマンス改善が追加されました。Inference には MiniMax M2.5 と MiniMaxAI M2.5 モデルが追加されました。Weave monitors はすべての operation のスコアリングをサポートするようになり、Weave UI には、prompt の tags と aliases の管理強化、Claude agents 向けの chat view、絵文字フィードバックリアクションやメモ内容によるフィルタリングなどが追加されました。
 
@@ -51,7 +58,7 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 
   ### Registry
 
-  * システム過負荷のリスクを減らすため、artifact 作成に新しい rate limits を追加しました。
+  * システム過負荷のリスクを減らすため、アーティファクト 作成に新しい rate limits を追加しました。
 
   ### Weave
 
@@ -74,16 +81,16 @@ import EolReminder from '/snippets/ja/_includes/release-notes-support-eol-remind
 </Update>
 
 <Update label="v0.78.2" description="2026年3月10日">
-  <Note>Weave を使用するデプロイでは、v0.78 へアップグレードする前に Clickhouse v0.25.8+ が必要です。</Note>
+  <Note>Weaveを使用するデプロイでは、v0.78にアップグレードする前にClickhouse v0.25.8以降が必須です。</Note>
 
   ## 修正
 
-  以前に対処された重大なセキュリティ修正のリグレッションを修正しました。この問題により、artifact への未承認アクセスが可能になります。このリグレッションは v0.78.0 および v0.78.1 に存在します。これらのバージョンはインストールまたはアップグレードしないでください。代わりに、この修正を含む v0.78.2 をインストールしてください。
+  アーティファクトへの不正アクセスを許してしまう、以前に対処済みの重大なセキュリティ問題の修正に関するリグレッションを修正しました。このリグレッションはv0.78.0およびv0.78.1に存在します。これらのversionはインストールまたはアップグレードしないでください。代わりに、修正が含まれるv0.78.2をインストールしてください。
 </Update>
 
 <Update label="v0.78.1" description="2026年3月5日">
   <Warning>
-    このversionには、認可されていないアクセスによってartifactにアクセスできてしまう重大なセキュリティ上の問題があります。このversionのインストールやアップグレードは行わないでください。代わりに、修正が含まれる[v0.78.2](#v0-78-2)をインストールしてください。
+    このversionには、認可されていないアクセスによってアーティファクトにアクセスできてしまう重大なセキュリティ上の問題があります。このversionのインストールやアップグレードは行わないでください。代わりに、修正が含まれる[v0.78.2](#v0-78-2)をインストールしてください。
   </Warning>
 
   ## 修正

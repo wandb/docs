@@ -91,6 +91,37 @@ UI에서 워크스페이스로 이동하려면 다음 단계를 따르세요:
 
 워크스페이스에 대한 자세한 내용은 [실험 결과 보기](https://docs.wandb.ai/models/track/workspaces)를 참조하세요.
 
+<div id="associate-traces-with-a-specific-wb-run">
+  ## 트레이스를 특정 W&amp;B run에 연결하기
+</div>
+
+기본적으로 Weave는 활성 상태인 `wandb.run`을 자동으로 감지하고 해당 run에 트레이스를 연결합니다. 전역 `wandb.run`이 아닌 특정 run에 트레이스를 연결해야 하는 경우 `set_wandb_run_context`를 사용하세요. `run_id` 및 `step` 인수에 값을 지정하여 트레이스를 특정 run과 run step에 연결할 수 있습니다:
+
+```python lines highlight={6}
+import weave
+
+client = weave.init("<your-team-name>/<your-project-name>")
+
+# 이후의 모든 트레이스를 특정 run에 연결합니다.
+client.set_wandb_run_context(run_id="<your-run-ID>", step=<integer>)
+
+@weave.op
+def my_function(x):
+    return x * 2
+
+my_function(10)  # 이 트레이스는 step 5의 "my-run-id"에 연결됩니다.
+```
+
+`run_id`는 전체 `entity/project/run_id` 경로가 아니라 run의 짧은 ID(예: `38m4t5ja`)입니다. run의 짧은 ID는 run URL(`https://wandb.ai/team/project/runs/<run_id>`)에서 확인하거나 [코드에서 `wandb.run.id`에 액세스해](/ko/models/runs/run-identifiers#find-and-customize-a-runs-id-or-name) 찾을 수 있습니다.
+
+override를 해제하고 전역 `wandb.run`을 다시 사용하려면 `clear_wandb_run_context`를 호출하세요:
+
+```python lines
+client.clear_wandb_run_context()
+
+my_function(20)  # 이 트레이스는 전역 wandb.run을 사용합니다(있는 경우).
+```
+
 <div id="reference-wb-artifacts-in-a-weave-trace">
   ## Weave 트레이스에서 W&amp;B artifact 레퍼런스하기
 </div>
