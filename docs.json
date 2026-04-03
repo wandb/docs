@@ -1151,7 +1151,9 @@
           {
             "tab": "Support",
             "icon": "/icons/cropped-reports.svg",
-            "href": "https://docs.wandb.ai/support?assistant"
+            "pages": [
+              "support"
+            ]
           },
           {
             "tab": "W&B Launch",
