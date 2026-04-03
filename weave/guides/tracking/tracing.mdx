@@ -1,6 +1,6 @@
 ---
-title: "Understand Ops and Calls"
-description: "Learn how Ops and Calls create the foundation of W&B Weave's tracing system."
+title: "Understand Ops, Calls, and Traces"
+description: "Learn how Ops, Calls, and Traces create the foundation of W&B Weave's tracing system."
 ---
 
 
@@ -44,5 +44,6 @@ Calls are similar to spans in the [OpenTelemetry](https://opentelemetry.io) data
 - Belong to a Trace (a collection of calls in the same execution context)
 - Have parent and child Calls, forming a tree structure
 
+## Traces
 
-
+Traces are full trees of Calls that share the same execution context. Each Trace contains an ID (`trace_id`) you can use to retrieve the entire tree of Calls. Retrieving Call information using the Call's id only returns data about the specified Call and none of its child Calls.
