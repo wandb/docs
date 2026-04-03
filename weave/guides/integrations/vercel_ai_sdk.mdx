@@ -98,10 +98,6 @@ For standalone Node.js applications (without Next.js), configure the tracer prov
 
 After meeting the prerequisites, you can run this example and generate spans without any additional configuration.
 
-```bash
-npm install ai @ai-sdk/openai @opentelemetry/api @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/exporter-trace-otlp-proto @opentelemetry/resources zod
-```
-
 ```typescript lines {11-14,18-19,31} title="test-app.ts"
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
