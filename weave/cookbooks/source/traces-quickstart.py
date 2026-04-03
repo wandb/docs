@@ -1,0 +1,143 @@
+import marimo
+
+__generated_with = "0.22.0"
+app = marimo.App()
+
+
+@app.cell
+def _():
+    import marimo as mo
+
+    return (mo,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Track LLM apps
+
+    Learn how to track LLM calls with Weave by adding tracing to your code. This quickstart walks you through tracing a request to OpenAI and viewing the results in the Weave UI.
+
+    ## What you'll learn:
+
+    This guide shows you how to:
+
+    * Import and configure Weave in your code
+    * Use `weave.op` decorator to track your code
+    * View traces in the Weave UI
+
+    ## Install packages
+    """)
+    return
+
+
+app._unparsable_cell(
+    r"""
+    pip install weave openai
+    """,
+    name="_"
+)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Set OpenAI API key and W&B team
+
+    The following cell prompts you to enter your OpenAI API key and the name of the W&B team you want to send output to. If you do not have a W&B team, [create one](https://docs.wandb.ai/platform/hosting/iam/access-management/manage-organization#create-a-team).
+
+    The notebook also prompts you to enter you to enter your W&B API key when you run `weave.init()` the first time.
+    """)
+    return
+
+
+@app.cell
+def _():
+    OPENAI_API_KEY = input("Enter your OpenAI API key: ")
+    WB_TEAM_NAME = input("Enter your W&B team name: ")
+    return OPENAI_API_KEY, WB_TEAM_NAME
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Log a trace to a new project
+
+    To begin tracking your code and logging traces to Weave:
+
+    1. Import the `weave` library into your code.
+    2. Call `weave.init('your_wb_team/project_name')` in your code to send tracking information to your W&B [team](https://docs.wandb.ai/platform/app/settings-page/teams) and [project](https://docs.wandb.ai/platform/hosting/iam/org_team_struct#project). If you do not set a team, the traces are sent to your [default team](https://docs.wandb.ai/platform/app/settings-page/user-settings/#default-team). If the specified project does not exist in your team, Weave creates it.
+    3. Add the [`@weave.op()` decorator](https://docs.wandb.ai/weave/guides/tracking/ops) to specific functions you want to track. While Weave automatically tracks calls to supported LLMs, adding the Weave decorator allows you to track the inputs, outputs, and code of specific functions. The decorator uses the following syntax in TypeScript: `weave.op(your_function)`
+
+    The following example code sends a request to OpenAI (requires [OpenAI API key](https://platform.openai.com/docs/quickstart/step-2-setup-your-api-key)) and Weave records the request's tracing information. The request asks the OpenAI model to extract dinosaur names from the input and identify each dinosaur's diet (herbivore or carnivore).
+
+    Run the following example code to track your first project with Weave:
+    """)
+    return
+
+
+@app.cell
+def _(OPENAI_API_KEY, WB_TEAM_NAME):
+    # Imports the Weave library
+    import weave
+    from openai import OpenAI
+
+    client = OpenAI(api_key=OPENAI_API_KEY)
+
+    # Weave automatically tracks the inputs, outputs and code of this function
+    @weave.op()
+    def extract_dinos(sentence: str) -> dict:
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """In JSON format extract a list of `dinosaurs`, with their `name`,
+    their `common_name`, and whether its `diet` is a herbivore or carnivore"""
+                },
+                {
+                    "role": "user",
+                    "content": sentence
+                }
+                ],
+                response_format={ "type": "json_object" }
+            )
+        return response.choices[0].message.content
+
+    # Initializes Weave, and sets the team and project to log data to
+    weave.init(WB_TEAM_NAME + '/traces-quickstart')
+
+    sentence = """I watched as a Tyrannosaurus rex (T. rex) chased after a Triceratops (Trike), \
+    both carnivore and herbivore locked in an ancient dance. Meanwhile, a gentle giant \
+    Brachiosaurus (Brachi) calmly munched on treetops, blissfully unaware of the chaos below."""
+
+    result = extract_dinos(sentence)
+    print(result)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    When you call the `extract_dinos` function, Weave outputs links to view your traces in the terminal.
+
+    ## See traces of your application in your project
+
+    Click the link in your terminal or paste it into your browser to open the Weave UI. In the **Traces** panel of the Weave UI, you can click on the trace to see its data, such as its input, output, latency, and token usage.
+
+    ## Learn more about Traces
+
+    - Learn how to [decorate your functions and retrieve call information](https://docs.wandb.ai/weave/tracing).
+    - Try the [Playground](https://docs.wandb.ai/weave/guides/tools/playground) to test different models on logged traces.
+    - [Explore integrations](https://docs.wandb.ai/weave/guides/integrations/). Weave automatically tracks calls made to OpenAI, Anthropic and many more LLM libraries. If your LLM library isn't currently one of our integrations you can track calls to other LLMs libraries or frameworks easily by wrapping them with `@weave.op()`.
+
+    ## Next Steps
+
+    [Get started evaluating your app](https://docs.wandb.ai/weave/tutorial-eval) and then see how to [evaluate a RAG application](https://docs.wandb.ai/weave/tutorial-rag).
+    """)
+    return
+
+
+if __name__ == "__main__":
+    app.run()
+

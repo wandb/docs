@@ -44,6 +44,85 @@
   border-color: rgba(63, 63, 70, 1);
 }
 
+/*
+ * Molab: same neutral surfaces as Colab links; green comes from marimo-icon.svg only.
+ * Prose styles (e.g. .prose a { line-height: …; min-height: … }) override plain .class on
+ * anchors. Use .prose a.molab-link so these rules win over .prose a.
+ */
+.prose a.molab-link,
+a.molab-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: fit-content;
+  min-height: 0;
+  max-height: 50px;
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(230, 228, 224, 0.7);
+  font-size: 15px;
+  font-weight: 400;
+  font-family: Inter, "Inter Fallback";
+  line-height: 1.2;
+  color: rgb(87, 85, 81);
+  background-color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.prose a.molab-link:hover,
+a.molab-link:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(230, 228, 224, 1);
+}
+
+.dark .prose a.molab-link,
+.dark a.molab-link {
+  color: rgb(214, 211, 209);
+  background-color: rgba(39, 39, 42, 0.5);
+  border: 1px solid rgba(63, 63, 70, 0.7);
+}
+
+.dark .prose a.molab-link:hover,
+.dark a.molab-link:hover {
+  background-color: rgba(39, 39, 42, 0.8);
+  border-color: rgba(63, 63, 70, 1);
+}
+
+.molab-link__logo {
+  flex-shrink: 0;
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.molab-link__external {
+  flex-shrink: 0;
+  display: block;
+  opacity: 0.85;
+}
+
+/* Cookbook molab block: h2 for "Try in marimo" + badge (see MolabLink embed) */
+.cookbook-molab-heading {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+/* "New" badge next to cookbook h2: raised like superscript */
+.cookbook-try-badge {
+  display: inline-block;
+  vertical-align: super;
+  margin-left: 0.35rem;
+  line-height: 0;
+  position: relative;
+  top: -0.15em;
+}
+
 /* Compact source link for SDK reference docs */
 .source-link {
   float: right;

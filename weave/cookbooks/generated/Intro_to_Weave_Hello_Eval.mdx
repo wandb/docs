@@ -1,0 +1,109 @@
+# Introduction to Evaluations
+
+<img src="https://cdn.prod.website-files.com/62ba1fb86485b6d5029975c4/69b1b3d9c77f6e5294374be1_Endorsed_primary_goldblack.png" width="400" alt="Weights & Biases" />
+
+Weave is a toolkit for developing AI-powered applications.
+
+This notebook demonstrates how to evaluate a model or function using Weave’s Evaluation API.
+
+In Weave, you evaluate your application by running it against a dataset of examples and scoring the outputs using custom-defined functions. This helps you to measure and improve your application's performance.
+
+In this notebook, you define a simple model, create a labeled dataset, track scoring functions with `@weave.op`, run an evaluation, and review the results in the Weave UI.
+This workflow forms the foundation for more advanced workflows like fine tuning an LLM model, detecting regressions, and comparing models.
+
+To get started, complete the prerequisites. Then, define a Weave `Model` with a `predict` method, create a labeled dataset and scoring function, and run an evaluation using `weave.Evaluation.evaluate()`.
+## Run your first evaluation
+
+In this example, we're using W&B Inference or OpenAI. [Learn more](https://docs.wandb.ai/inference) about our inference API.\
+Using another provider? [We support all major clients and frameworks](https://docs.wandb.ai/weave/guides/integrations).
+
+```python
+# Ensure your dependencies are installed with:
+# packages added via marimo's package management: jedi openai pandas weave !pip install --quiet jedi openai pandas weave
+```
+
+```python
+import os
+import getpass
+
+#@title Set up your evaluation credentials
+inference_provider = "W&B Inference" #@param ["W&B Inference", "OpenAI"]
+
+# Set up your W&B project and credentials
+os.environ["WANDB_ENTITY_PROJECT"] = input("Set up your W&B project (team name/project name): ")
+os.environ["WANDB_API_KEY"] = getpass.getpass("Set up your W&B API key (Create an API key at https://wandb.ai/settings): ")
+
+# Set up your OpenAI API key
+if inference_provider == "OpenAI":
+  os.environ["OPENAI_API_KEY"] = getpass.getpass("Enter your OpenAI API Key (Find it at https://platform.openai.com/api-keys): ")
+```
+
+```python
+import re
+from textwrap import dedent
+
+from openai import OpenAI
+
+import weave
+
+class JsonModel(weave.Model):
+    prompt: weave.Prompt = weave.StringPrompt(
+        dedent("""
+You are an assistant that answers questions about JSON data provided by the user. The JSON data represents structured information of various kinds, and may be deeply nested. In the first user message, you will receive the JSON data under a label called 'context', and a question under a label called 'question'. Your job is to answer the question with as much accuracy and brevity as possible. Give only the answer with no preamble. You must output the answer in XML format, between <answer> and </answer> tags.
+""")
+    )
+    if inference_provider == "W&B Inference":
+      model: str = "OpenPipe/Qwen3-14B-Instruct"
+    if inference_provider == "OpenAI":
+      model: str = "gpt-4.1-nano"
+
+    _client: OpenAI
+
+    def __init__(self):
+        super().__init__()
+        if inference_provider == "W&B Inference":
+          self._client = OpenAI(
+              base_url="https://api.inference.wandb.ai/v1",
+              api_key=os.environ["WANDB_API_KEY"],
+              project=os.environ["WANDB_ENTITY_PROJECT"],
+          )
+        if inference_provider == "OpenAI":
+          self._client = OpenAI()
+
+    @weave.op
+    def predict(self, context: str, question: str) -> str:
+        response = self._client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": self.prompt.format()},
+                {
+                    "role": "user",
+                    "content": f"Context: {context}\nQuestion: {question}",
+                },
+            ],
+        )
+        return response.choices[0].message.content
+
+@weave.op
+def correct_answer_format(answer: str, output: str) -> dict[str, bool]:
+    parsed_output = re.search(r"<answer>(.*?)</answer>", output, re.DOTALL)
+    if parsed_output is None:
+        return {"correct_answer": False, "correct_format": False}
+    return {"correct_answer": parsed_output.group(1) == answer, "correct_format": True}
+
+if __name__ == "__main__":
+    weave.init(os.environ["WANDB_ENTITY_PROJECT"])
+    model = JsonModel()
+
+    jsonqa = weave.Dataset.from_uri(
+        "weave:///wandb/json-qa/object/json-qa:v3"
+    ).to_pandas()
+
+    eval = weave.Evaluation(
+        name="json-qa-eval",
+        dataset=weave.Dataset.from_pandas(jsonqa),
+        scorers=[correct_answer_format],
+    )
+
+    await eval.evaluate(model)
+```

@@ -1,80 +1,12 @@
 ---
 title: "Introduction to Traces"
 description: "Learn how to use introduction to traces with W&B Weave"
+mode: wide
 ---
 
-<Note>
-This is an interactive notebook. You can run it locally or use the links below:
-- [Open in Google Colab](https://colab.research.google.com/github/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.ipynb)
-- [View source on GitHub](https://github.com/wandb/docs/blob/main/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.ipynb)
-</Note>
+import { MolabLink } from '/snippets/en/_includes/molab-link.mdx';
+import ExportedNotebook from './generated/Intro_to_Weave_Hello_Trace.mdx';
 
-## 🔑 Prerequisites
+<MolabLink url="https://molab.marimo.io/github/wandb/docs/blob/marimo-cookibooks/weave/cookbooks/source/Intro_to_Weave_Hello_Trace.py" embed />
 
-Before you can begin tracing in Weave, complete the following prerequisites.
-
-1. Install the W&B Weave SDK and log in with your [API key](https://wandb.ai/settings#apikeys).
-2. Install the OpenAI SDK and log in with your [API key](https://platform.openai.com/api-keys).
-3. Initialize your W&B project.
-
-```python lines
-# Install dependancies and imports
-!pip install wandb weave openai -q
-
-import json
-import os
-from getpass import getpass
-
-from openai import OpenAI
-
-import weave
-
-# 🔑 Setup your API keys
-# Running this cell will prompt you for your API key with `getpass` and will not echo to the terminal.
-#####
-print("---")
-print(
-    "Create a W&B API key at: https://wandb.ai/settings#apikeys"
-)
-os.environ["WANDB_API_KEY"] = getpass("Enter your W&B API key: ")
-print("---")
-print("You can generate your OpenAI API key here: https://platform.openai.com/api-keys")
-os.environ["OPENAI_API_KEY"] = getpass("Enter your OpenAI API key: ")
-print("---")
-#####
-
-# 🏠 Enter your W&B project name
-weave_client = weave.init("MY_PROJECT_NAME")  # 🐝 Your W&B project name
-```
-
-## 🐝 Run your first trace
-
-The following code sample shows how to capture and visualize a trace in Weave using the `@weave.op` decorator. It defines a function called `extract_fruit` that sends a prompt to OpenAI's GPT-4o to extract structured data (fruit, color, and flavor) from a sentence. By decorating the function with `@weave.op`, Weave automatically tracks the function execution, including inputs, outputs, and intermediate steps. When the function is called with a sample sentence, the full trace is saved and viewable in the Weave UI.
-
-```python lines
-@weave.op()  # 🐝 Decorator to track requests
-def extract_fruit(sentence: str) -> dict:
-    client = OpenAI()
-    system_prompt = (
-        "Parse sentences into a JSON dict with keys: fruit, color and flavor."
-    )
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": sentence},
-        ],
-        temperature=0.7,
-        response_format={"type": "json_object"},
-    )
-    extracted = response.choices[0].message.content
-    return json.loads(extracted)
-
-sentence = "There are many fruits that were found on the recently discovered planet Goocrux. There are neoskizzles that grow there, which are purple and taste like candy."
-extract_fruit(sentence)
-```
-
-## 🚀 Looking for more examples?
-- Check out the [Quickstart guide](/weave/quickstart).
-- Learn more about [advanced tracing topics](/weave/tutorial-tracing_2).
-- Learn more about [tracing in Weave](/weave/guides/tracking/tracing)
+<ExportedNotebook />
