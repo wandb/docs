@@ -88,7 +88,7 @@ SDK を使用して Weave プロジェクトのフィードバックをクエリ
 - `payload`: フィードバックのペイロード。
 
 <Tabs>
-  <Tab header="Python">
+  <Tab title="Python">
     ```python lines
     import weave
     client = weave.init('intro-example')
@@ -112,7 +112,7 @@ SDK を使用して Weave プロジェクトのフィードバックをクエリ
     ```
 
   </Tab>
-  <Tab header="TypeScript">
+  <Tab title="TypeScript">
     ```plaintext
     この機能は TypeScript ではまだ利用できません。
     ```
@@ -132,7 +132,7 @@ SDK を使用して Weave プロジェクトのフィードバックをクエリ
 </Warning>
 
 <Tabs>
-  <Tab header="Python">
+  <Tab title="Python">
     ```python lines
     import weave
     client = weave.init('intro-example')
@@ -152,7 +152,7 @@ SDK を使用して Weave プロジェクトのフィードバックをクエリ
     ```
 
   </Tab>
-  <Tab header="TypeScript">
+  <Tab title="TypeScript">
     ```plaintext
     この機能は TypeScript ではまだ利用できません。
     ```
@@ -171,7 +171,7 @@ SDK を使用して Weave プロジェクトのフィードバックをクエリ
 実行中に UUID を取得するには、現在のコールを取得して ID を返します。
 
 <Tabs>
-  <Tab header="Python">
+  <Tab title="Python">
     ```python lines
 
     import weave
@@ -188,7 +188,7 @@ SDK を使用して Weave プロジェクトのフィードバックをクエリ
     ```
 
   </Tab>
-  <Tab header="TypeScript">
+  <Tab title="TypeScript">
     ```plaintext
     この機能は TypeScript ではまだ利用できません。
     ```
@@ -200,7 +200,7 @@ SDK を使用して Weave プロジェクトのフィードバックをクエリ
 あるいは、`call()` メソッドを使用して操作を実行し、実行後に ID を取得することもできます。
 
 <Tabs>
-  <Tab header="Python">
+  <Tab title="Python">
     ```python lines
     import weave
     weave.init("uuid")
@@ -215,7 +215,7 @@ SDK を使用して Weave プロジェクトのフィードバックをクエリ
     ```
 
   </Tab>
-  <Tab header="TypeScript">
+  <Tab title="TypeScript">
     ```plaintext
     この機能は TypeScript ではまだ利用できません。
     ```
@@ -227,12 +227,12 @@ SDK を使用して Weave プロジェクトのフィードバックをクエリ
 UUID を指定することで、特定のコールからフィードバックを削除できます。
 
 <Tabs>
-  <Tab header="Python">
+  <Tab title="Python">
     ```python lines
     call.feedback.purge("<feedback_uuid>")
     ```
   </Tab>
-  <Tab header="TypeScript">
+  <Tab title="TypeScript">
     ```plaintext
     この機能は TypeScript ではまだ利用できません。
     ```
@@ -297,7 +297,7 @@ UI で人間によるアノテーションの scorer を作成するには、以
 次の例では、2 つの scorer が作成されます。最初の scorer `Temperature` は、LLM コールの知覚温度をスコアリングするために使用されます。2 番目の scorer `Tone` は、LLM のレスポンスのトーンをスコアリングするために使用されます。各 scorer は、関連付けられたオブジェクト ID (`temperature-scorer` および `tone-scorer`) を使用して `save` で作成されます。
 
 <Tabs>
-  <Tab header="Python">
+  <Tab title="Python">
     ```python lines
     import weave
     from weave.flow.annotation_spec import AnnotationSpec
@@ -326,7 +326,7 @@ UI で人間によるアノテーションの scorer を作成するには、以
     ```
 
   </Tab>
-  <Tab header="TypeScript">
+  <Tab title="TypeScript">
     ```plaintext
     この機能は TypeScript ではまだ利用できません。
     ```
@@ -340,7 +340,7 @@ UI で人間によるアノテーションの scorer を作成するには、以
 > 人間によるアノテーションの scorer のオブジェクト履歴は、**Scorers** タブの **Human annotations** で確認できます。
 
 <Tabs>
-  <Tab header="Python">
+  <Tab title="Python">
     ```python lines
     import weave
     from weave.flow.annotation_spec import AnnotationSpec
@@ -361,7 +361,7 @@ UI で人間によるアノテーションの scorer を作成するには、以
     ```
 
   </Tab>
-  <Tab header="TypeScript">
+  <Tab title="TypeScript">
     ```plaintext
     この機能は TypeScript ではまだ利用できません。
     ```
@@ -377,7 +377,7 @@ UI で人間によるアノテーションの scorer を作成するには、以
 フィードバック API では、特別に構築された名前と `annotation_ref` フィールドを指定することで、人間によるアノテーションの scorer を使用できます。`annotation_spec_ref` は、UI で適切なタブを選択するか、`AnnotationSpec` の作成中に取得できます。
 
 <Tabs>
-  <Tab header="Python">
+  <Tab title="Python">
     ```python lines
     import weave
 
