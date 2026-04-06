@@ -68,7 +68,7 @@ prompt = weave.ref("support_prompt:v3").get()
 
 When deploying prompts in production systems, use an [alias](#add-prompt-tags-and-aliases) like `production` rather than a version index or latest version. In your production application, load the prompt with `weave.ref(<name>:<alias>).get()`.
 
-Using an alias ensures that production behavior remains stable and predictable. When you're ready to promote a new version, move the alias and all consumers automatically pick up the change.
+Using an alias ensures that production behavior remains stable and predictable. When you're ready to promote a new version, move the alias to that version and then all consumers automatically pick up the change.
 
 A common workflow looks like this:
 
