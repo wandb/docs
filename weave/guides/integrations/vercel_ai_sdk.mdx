@@ -141,5 +141,4 @@ async function main() {
 main();
 ```
 
-Call `provider.shutdown()` before the process exits to flush any pending spans.
-
+`BatchSpanProcessor` flushes spans asynchronously. In short-lived processes like standalone scripts, serverless functions, or CLI tools, call `provider.shutdown()` before the process exits to ensure all spans are sent to Weave. For long-running servers (like a Next.js dev server started through `instrumentation.ts`), this is not necessary.
