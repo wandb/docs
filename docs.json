@@ -168,6 +168,7 @@
                           "platform/hosting/data-security/data-encryption"
                         ]
                       },
+                      "platform/hosting/managing-bucket-storage",
                       "platform/hosting/env-vars"
                     ]
                   },
@@ -849,6 +850,7 @@
                       },
                       "weave/guides/tracking/redact-pii",
                       "weave/guides/evaluation/monitors",
+                      "weave/guides/evaluation/automations",
                       "weave/guides/evaluation/guardrails",
                       "weave/guides/tracking/otel"
                     ]

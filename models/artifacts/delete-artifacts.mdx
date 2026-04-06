@@ -8,6 +8,10 @@ Delete artifacts interactively with the W&B App or programmatically with the W&B
 
 The contents of the artifact remain as a soft-delete, or pending deletion state, until a regularly run garbage collection process reviews all artifacts marked for deletion. The garbage collection process deletes associated files from storage if the artifact and its associated files are not used by a previous or subsequent artifact versions.
 
+<Note>
+Garbage collection is **best-effort**. W&B does not guarantee how quickly freed space appears in your object storage after you delete an artifact. Large deployments or backlogs can take longer than expected. For how this fits with run data, retention settings, and optional operator actions, see [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage).
+</Note>
+
 ## Artifact garbage collection workflow
 
 The following diagram illustrates the complete artifact garbage collection process:
@@ -24,7 +28,7 @@ graph TB
     SDKDelete --> SoftDelete
     TTLDelete --> SoftDelete
     
-    SoftDelete --> GCWait[(Wait for<br/>Garbage Collection<br/>Process)]
+    SoftDelete --> GCWait[(Wait for<br/>best-effort<br/>Garbage Collection)]
     
     GCWait --> GCRun[Garbage Collection<br/>Process Runs<br/><br/>- Reviews all soft-deleted artifacts<br/>- Checks file dependencies]
     
@@ -196,14 +200,16 @@ Artifacts with protected aliases have special deletion restrictions. [Protected 
 
 
 ## Enable garbage collection based on how W&B is hosted
-Garbage collection is enabled by default if you use W&B's shared cloud. Based on how you host W&B, you might need to take additional steps to enable garbage collection, this includes:
+
+<Note>Garbage collection timing is not guaranteed. See [Manage bucket storage and costs](/platform/hosting/managing-bucket-storage) for details.</Note>
+
+Garbage collection is active by default if you use W&B Multi-tenant Cloud. In W&B Dedicated and Self-Managed, you might need to take these additional steps to activate garbage collection.
 
 
-* Set the `GORILLA_ARTIFACT_GC_ENABLED` environment variable to true: `GORILLA_ARTIFACT_GC_ENABLED=true`
-* Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/object-versioning) or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview).
-    <Note>
-    Soft deletion in Azure is equivalent to bucket versioning in other storage providers.
-    </Note>
+1. **W&B Self-Managed**: Set `GORILLA_ARTIFACT_GC_ENABLED=true`.
+1. **Dedicated Cloud**: Contact support to verify that garbage collection is active.
+1. Enable bucket versioning if you use [AWS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html), [Google Cloud](https://cloud.google.com/storage/docs/object-versioning) or any other storage provider such as [Minio](https://min.io/docs/minio/linux/administration/object-management/object-versioning.html#enable-bucket-versioning). If you use Azure, [enable soft deletion](https://learn.microsoft.com/azure/storage/blobs/soft-delete-blob-overview), which is equivalent to bucket versioning.
+
 
 The following table describes how to satisfy requirements to enable garbage collection based on your deployment type. 
 
@@ -211,13 +217,11 @@ The `X` indicates you must satisfy the requirement:
 
 |                                                | Environment variable    | Enable versioning | 
 | -----------------------------------------------| ------------------------| ----------------- | 
-| Shared cloud                                   |                         |                   | 
-| Shared cloud with [secure storage connector](/platform/hosting/data-security/secure-storage-connector)|                         | X                 | 
+| Multi-tenant Cloud                                   |                         |                   | 
+| Multi-tenant Cloud with [BYOB storage](/platform/hosting/data-security/secure-storage-connector)|                         | X                 | 
 | Dedicated Cloud                                |                         |                   | 
-| Dedicated Cloud with [secure storage connector](/platform/hosting/data-security/secure-storage-connector)|                         | X                 | 
-| Self-Managed cloud                             | X                       | X                 | 
-| Self-Managed on-prem                           | X                       | X                 |
- 
+| Dedicated Cloud with [BYOB storage](/platform/hosting/data-security/secure-storage-connector)|                         | X                 | 
+| Self-Managed                                   | X                       | X                 |  
 
 
 <Note>
